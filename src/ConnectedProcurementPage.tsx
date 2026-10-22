@@ -11,6 +11,7 @@ import PurchaseInvoicePanel from './PurchaseInvoicePanel'
 import SupplierReturnPanel from './SupplierReturnPanel'
 import ReceiptCorrectionPanel from './ReceiptCorrectionPanel'
 import SupplierPaymentPanel from './SupplierPaymentPanel'
+import SupplierTransferPanel from './SupplierTransferPanel'
 import { formatReceiptDecimal as numberText, parseProcurementOptions, parseProcurementOutcome, parseProcurementUom, parseProcurementWorkspace, procurementObject, receiptDecimal, moneyDecimal, ambiguousThousands, thousandsWarning, receiptEditable, type OptionKind, type ProcurementOption, type ProcurementOptions, type ProcurementUom, type ProcurementWorkspace, type ReceiptDetail } from './procurementContract'
 import type { Json } from './types/database.preconnect'
 import './procurement-connected.css'
@@ -99,6 +100,7 @@ function ProcurementWorkspace({initialPurchaseId}:{initialPurchaseId:string|null
   const client = useMemo(() => getUatSupabaseClient(runtime), [runtime]), valueAccess = identity.permissions.includes('finance.ap.view')
   const mutation = useProductionMutation('PROCUREMENT'), { beginRead, finishRead, isReadCurrent, run, reconcile } = mutation
   const [data, setData] = useState<ProcurementWorkspace | null>(null), [loading, setLoading] = useState(false), [error, setError] = useState('')
+  const [transferFocus, setTransferFocus] = useState<string | null>(null)
   const [query, setQuery] = useState(''), [status, setStatus] = useState('ALL'), [draft, setDraft] = useState<Draft | null>(null), [postReason, setPostReason] = useState('Penerimaan barang telah diperiksa')
   const [reverseReview, setReverseReview] = useState<{ id: string; version: string; readAt: string; reason: string; checked: boolean } | null>(null)
   const [listOrder,setListOrder]=useState<RecordPageOrder>('SOURCE')
@@ -219,6 +221,7 @@ function ProcurementWorkspace({initialPurchaseId}:{initialPurchaseId:string|null
     <PurchaseInvoicePanel purchaseId={current?.id ?? null} receiptRevision={`${current?.row_version ?? ''}:${data?.read_at ?? ''}`} onReceiptUpdated={async purchaseId => { requested.current.purchase_id = purchaseId; return load() }}/>
     <SupplierReturnPanel purchaseId={current?.id ?? null} receiptRevision={`${current?.row_version ?? ''}:${data?.read_at ?? ''}`} onReceiptUpdated={async purchaseId => { requested.current.purchase_id = purchaseId; return load() }}/>
     <ReceiptCorrectionPanel purchaseId={current && current.status !== 'DRAFT' ? current.id : null} receiptRevision={`${current?.row_version ?? ''}:${data?.read_at ?? ''}`} onReceiptUpdated={async purchaseId => { requested.current.purchase_id = purchaseId; return load() }}/>
-    {valueAccess ? <SupplierPaymentPanel purchaseId={current?.id ?? null} parentReady={!loading && data !== null} receiptRevision={`${current?.row_version ?? ''}:${data?.read_at ?? ''}`} onReceiptUpdated={async purchaseId => { requested.current.purchase_id = purchaseId; return load() }}/> : null}
+    {valueAccess ? <SupplierPaymentPanel purchaseId={current?.id ?? null} parentReady={!loading && data !== null} receiptRevision={`${current?.row_version ?? ''}:${data?.read_at ?? ''}`} onReceiptUpdated={async purchaseId => { requested.current.purchase_id = purchaseId; return load() }} onOpenTransfer={setTransferFocus}/> : null}
+    {valueAccess ? <SupplierTransferPanel supplierId={current && current.status === 'POSTED' ? current.supplier_id ?? null : null} currentPurchaseId={current?.id ?? null} parentReady={!loading && data !== null} receiptRevision={`${current?.row_version ?? ''}:${data?.read_at ?? ''}`} focusTransferId={transferFocus} onReceiptUpdated={async purchaseId => { requested.current.purchase_id = purchaseId; return load() }}/> : null}
   </section>
 }

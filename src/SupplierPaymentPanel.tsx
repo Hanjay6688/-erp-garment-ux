@@ -31,7 +31,7 @@ function pendingPayment(payload: Json | undefined) {
   const d = payload.document
   return d && typeof d === 'object' && !Array.isArray(d) && typeof d.payment_id === 'string' ? d.payment_id : null
 }
-type Props = { purchaseId: string | null; parentReady: boolean; receiptRevision: string; onReceiptUpdated: (id: string) => Promise<boolean> }
+type Props = { purchaseId: string | null; parentReady: boolean; receiptRevision: string; onReceiptUpdated: (id: string) => Promise<boolean>; onOpenTransfer?: (transferId: string) => void }
 type Review = { id: string; token: string; capturedAt: string; checked: boolean }
 export default function SupplierPaymentPanel(props: Props) {
   const { runtime, identity } = useAuth()
@@ -40,7 +40,7 @@ export default function SupplierPaymentPanel(props: Props) {
     identity.profile.rowVersion, identity.profile.roleRowVersion, identity.permissions])
   return <SupplierPaymentWorkspace key={key} {...props}/>
 }
-function SupplierPaymentWorkspace({ purchaseId, parentReady, receiptRevision, onReceiptUpdated }: Props) {
+function SupplierPaymentWorkspace({ purchaseId, parentReady, receiptRevision, onReceiptUpdated, onOpenTransfer }: Props) {
   const { runtime, identity } = useAuth()
   if (!isConnectedRuntime(runtime) || identity.status !== 'AUTHORIZED') throw Error('Sesi pembayaran supplier belum siap.')
   const source = useTransactionSource('RECEIPT')
@@ -157,11 +157,16 @@ function SupplierPaymentWorkspace({ purchaseId, parentReady, receiptRevision, on
         <p>{p.cash_code && p.cash_name ? `${p.cash_code} · ${p.cash_name}` : 'Nama sumber kas belum tercatat'}</p>
         {p.journal ? <p>{p.journal.number} · Tanggal pembukuan {p.journal.accounting_date}{p.journal.period_shifted ? ' · Beralih ke periode terbuka' : ''}</p> : null}
         {p.inverse ? <p>Pembalik {p.inverse.number} · Tanggal pembukuan {p.inverse.accounting_date}. Catatan dan tanggal pembayaran asli tetap disimpan.</p> : null}
+        {p.transfer ? <>
+          <p>Bagian dari transfer {p.transfer.number} · total transfer {money(p.transfer.amount)} untuk {p.transfer.allocations_count} penerimaan. Batal atau koreksi hanya lewat transfernya.</p>
+          {onOpenTransfer ? <button disabled={locked} onClick={() => onOpenTransfer(p.transfer!.id)}>Buka transfer {p.transfer.number}</button> : null}
+        </> : <>
         <button disabled={locked} onClick={() => { setReview(null); setCreating(false); setCorrection({ id: p.id, edit: false }) }}>Lihat perubahan pembayaran supplier {p.number}</button>
         {data.capabilities.reverse && data.purchase.status === 'POSTED' && p.status === 'POSTED'
           ? <button disabled={locked} onClick={() => { setReview(null); setCorrection({ id: p.id, edit: true }) }}>Edit pembayaran supplier {p.number}</button> : null}
         {data.capabilities.reverse && data.purchase.status === 'POSTED' && p.status === 'POSTED'
           ? <button disabled={locked} onClick={() => setReview({ id: p.id, token: p.review_token, capturedAt: data.captured_at, checked: false })}>Tinjau pembatalan {p.number}</button> : null}
+        </>}
       </article>)}
       {!data.page.rows.length ? <p>Belum ada pembayaran sesuai pencarian.</p> : null}
       <div className="cproc-pagination"><span>Total {data.page.total} pembayaran</span>

@@ -30,6 +30,14 @@ describe('exact transaction source boundaries',()=>{
   expect(parseTransactionSource(r,r.source,actor).document).toMatchObject({id:parent,focus:{kind:'SUPPLIER_PAYMENT',id:source,page_offset:25}})
   for(const bad of [{route:'finance-ap'},{focus:null},{focus:{kind:'SUPPLIER_PAYMENT',id:parent,page_offset:25}},{focus:{kind:'PURCHASE_INVOICE',id:source,page_offset:25}}]){const copy=structuredClone(r);Object.assign(copy.document,bad);expect(()=>parseTransactionSource(copy,r.source,actor)).toThrow()}
  })
+ it('opens a supplier transfer journal at one of its receipt allocations on the procurement page',()=>{
+  const child='44444444-4444-4444-8444-444444444444'
+  for(const type of ['CP7_SUPPLIER_TRANSFER','CP7_SUPPLIER_TRANSFER_TIME_NEUTRAL','CP7_SUPPLIER_TRANSFER_EFFECTIVE']){
+   const r=receipt();r.source={source_type:type,source_id:source};Object.assign(r.document,{domain:'RECEIPT',route:'procurement',focus:{kind:'SUPPLIER_PAYMENT',id:child,page_offset:0}})
+   expect(parseTransactionSource(r,r.source,actor).document).toMatchObject({id:parent,focus:{kind:'SUPPLIER_PAYMENT',id:child}})
+   for(const bad of [{route:'finance-ap'},{focus:null},{domain:'SALE',route:'sales-payments'}]){const copy=structuredClone(r);Object.assign(copy.document,bad);expect(()=>parseTransactionSource(copy,r.source,actor)).toThrow()}
+  }
+ })
  it('keeps the exact Native rework child and its BS parent on the owning 50-row page',()=>{
   for(const kind of ['REWORK_ORDER','REWORK_COMPLETION']){
    const r=receipt();r.source={source_type:kind,source_id:source};Object.assign(r.document,{domain:'BS_REWORK',route:'bs-rework',focus:{kind:'REWORK_ORDER',id:source,page_offset:50}})

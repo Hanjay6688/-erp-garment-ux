@@ -9,7 +9,10 @@ export type SupplierPayment = {
   id: string; number: string; status: 'DRAFT' | 'POSTED' | 'REVERSED'; payment_date: string; amount: string
   cash_account_id: string | null; cash_code: string | null; cash_name: string | null
   journal: SupplierPaymentJournal | null; inverse: SupplierPaymentJournal | null; review_token: string
+  /** Present only when this payment is one receipt allocation of a supplier transfer (OW06). */
+  transfer?: SupplierPaymentTransferLink
 }
+export type SupplierPaymentTransferLink = { id: string; number: string; amount: string; status: 'DRAFT' | 'POSTED' | 'REVERSED'; allocations_count: string }
 export type SupplierPaymentRead = {
   contract_version: 'cp7.supplier-payment-read.v1'; captured_at: string; query: string; selected_payment_id: string | null
   purchase: { id: string; number: string; status: 'DRAFT' | 'POSTED' | 'REVERSED'; supplier_id: string; supplier_name: string }
@@ -38,16 +41,26 @@ function journal(v: unknown): SupplierPaymentJournal {
     || !date(r.economic_date) || !date(r.accounting_date) || !time(r.posting_at) || typeof r.period_shifted !== 'boolean') fail()
   return r as unknown as SupplierPaymentJournal
 }
+function transferLink(v: unknown, status: unknown): SupplierPaymentTransferLink {
+  const t = closed(v, ['id', 'number', 'amount', 'status', 'allocations_count'])
+  if (!uuid(t.id) || !text(t.number) || cents(t.amount) <= 0n || t.status !== status
+    || typeof t.allocations_count !== 'string' || !/^[1-9][0-9]{0,5}$/.test(t.allocations_count)) fail()
+  return t as unknown as SupplierPaymentTransferLink
+}
 export function parseSupplierPayment(v: unknown): SupplierPayment {
-  const r = closed(v, ['id', 'number', 'status', 'payment_date', 'amount', 'cash_account_id', 'cash_code', 'cash_name', 'journal', 'inverse', 'review_token'])
+  const base = ['id', 'number', 'status', 'payment_date', 'amount', 'cash_account_id', 'cash_code', 'cash_name', 'journal', 'inverse', 'review_token']
+  const grouped = Boolean(v && typeof v === 'object' && !Array.isArray(v) && Object.hasOwn(v, 'transfer'))
+  const r = closed(v, grouped ? [...base, 'transfer'] : base)
   if (!uuid(r.id) || !text(r.number) || !['DRAFT', 'POSTED', 'REVERSED'].includes(String(r.status))
     || !(date(r.payment_date) || time(r.payment_date)) || cents(r.amount) <= 0n || !token(r.review_token)
     || !(r.cash_account_id === null || uuid(r.cash_account_id)) || ![r.cash_code, r.cash_name].every(x => x === null || text(x))) fail()
+  const link = grouped ? transferLink(r.transfer, r.status) : undefined
+  if (link && cents(r.amount) > cents(link.amount)) fail()
   const j = r.journal === null ? null : journal(r.journal), inverse = r.inverse === null ? null : journal(r.inverse)
   if (r.status === 'DRAFT' && (j || inverse) || r.status === 'POSTED' && (!j || j.status !== 'POSTED' || inverse)
     || r.status === 'REVERSED' && (!j || j.status !== 'REVERSED' || !inverse || inverse.status !== 'POSTED')
     || j && inverse && j.id === inverse.id) fail()
-  return { ...r, journal: j, inverse } as unknown as SupplierPayment
+  return { ...r, journal: j, inverse, ...(link ? { transfer: link } : {}) } as unknown as SupplierPayment
 }
 export function parseSupplierPaymentRead(value: unknown, purchaseId: string, query: string, offset: number | null, selectedPayment: string | null = null): SupplierPaymentRead {
   const r = closed(value, ['contract_version', 'captured_at', 'query', 'selected_payment_id', 'purchase', 'Native_AP', 'capabilities', 'page'])
