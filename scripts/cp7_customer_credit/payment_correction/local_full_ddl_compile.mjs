@@ -34,7 +34,7 @@ if(catalogInput){
 }
 for(const[name,sql]of paymentFragments)await exec('PAYMENT_SOURCE_'+name,sql);
 for(const[name,sql]of Object.entries(paymentDerived))await exec('PAYMENT_SOURCE_DERIVED_'+name,sql);
-assert.equal(Object.keys(paymentDerived).length,23);
+assert.equal(Object.keys(paymentDerived).length,24);
 if(catalogInput){
  const rows=(await db.query("select p.oid::regprocedure::text as signature,n.nspname||'.'||p.proname as name from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname||'.'||p.proname=any($1::text[])",[catalogInput.new_function_names])).rows;
  assert.equal(rows.length,catalogInput.new_function_names.length);
@@ -46,6 +46,10 @@ if(catalogInput){
  const{writeFileSync}=await import('node:fs');
  writeFileSync(process.env.OW04_LOCAL_PAYMENT_CATALOG_OUTPUT,JSON.stringify({classification:'LOCAL_POSTGRES_DDL_CATALOG_TRANSITION_NOT_NATIVE_FINANCE',before:catalogBefore,after:catalogAfter,new_signatures:rows.map(row=>row.signature)}));
  console.log(JSON.stringify({classification:'LOCAL_ACTUAL_DDL_CATALOG_CAPTURE',groups:Object.keys(catalogAfter).length,new_functions:rows.length,financial_execution:false}));
+}
+if(process.env.OW04_LOCAL_BINDING_EQUIVALENCE_SQL){
+ const checks=await db.exec(readFileSync(process.env.OW04_LOCAL_BINDING_EQUIVALENCE_SQL,'utf8'));
+ console.log(JSON.stringify({classification:'LOCAL_BINDING_PROJECTION_EQUIVALENCE_NOT_NATIVE_FINANCE',result:checks.at(-1).rows}));
 }
 console.log(JSON.stringify({classification:'LOCAL_PAYMENT_SOURCE_DDL_ONLY_NOT_NATIVE_EXECUTION',compiled_fragments:paymentFragments.length,compiled_derivations:Object.keys(paymentDerived).length,check_function_bodies_enabled:true}));
 `+anchor);

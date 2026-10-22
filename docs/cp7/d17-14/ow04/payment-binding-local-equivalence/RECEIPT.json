@@ -1,0 +1,14 @@
+{
+  "classification": "LOCAL_PURE_BINDING_PROJECTION_EQUIVALENCE_NOT_NATIVE_FINANCE",
+  "old_approved_definition_sha256": "24c35d0b3caa8272a31f2593eb45a7a4e75081cac4e204c4b0d79fa3191ff4e6",
+  "new_derived_definition_sha256": "a89966a0e6c6d054bc99a195e93aeaa3b3cf6e7bf0c59dbac8ce494e65e61646",
+  "exact_field_count": 25,
+  "equivalence_checks": 33,
+  "identical_values_and_original_refusal_SQLSTATE_message": true,
+  "complete_catalog_groups": 22,
+  "catalog_admission": "PASS",
+  "derived_functions": 24,
+  "new_private_functions": 26,
+  "actual_Native_financial_execution": false,
+  "actual_performance_improvement_proved": false
+}

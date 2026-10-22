@@ -24,6 +24,7 @@ CHANGED = (
  'cp7_credit.source_completion_manifest_v1(uuid)', 'cp7_credit.assert_source_operation_closed_v1(uuid)',
  'cp7_credit.consumer_execute_v1(uuid)', 'cp7_credit.assert_reconciled_source_profile_v1(uuid,jsonb)',
  'cp7_credit.validate_source_adjustment_component_v1(uuid)',
+ 'cp7_credit.source_operation_binding_payload_v1(uuid)',
 )
 
 
@@ -96,6 +97,27 @@ def derive(captures):
     if set(captures) != set(CHANGED):
         raise ValueError('OW04_PAYMENT_SOURCE_CAPTURE_SET_CHANGED')
     result = {sig: row['definition'] for sig, row in captures.items()}
+    sig = 'cp7_credit.source_operation_binding_payload_v1(uuid)'
+    fields = ('operation_id','operation_ordinal','predecessor_operation_id','backend_pid','transaction_id',
+        'actor','request_id','action','sale_id','source_id','expected_version','payload','payload_sha256','authority_snapshot',
+        'before_source','before_ordinal_input','before_ordinal_result','before_financial_profile','account_facts','period_snapshot',
+        'actual_source','actual_source_proof','actual_ordinal_input','actual_ordinal_result','plan_manifest')
+    captured_fields = re.search(r'fields text\[\]:=array\[([\s\S]*?)\];', result[sig])
+    if captured_fields is None or tuple(re.findall(r"'([a-z0-9_]+)'", captured_fields.group(1))) != fields:
+        raise ValueError('OW04_PAYMENT_BINDING_FIELD_CONTRACT_CHANGED')
+    # Same complete closed input object; omit unrelated mutable/output columns
+    # at the relational projection rather than materializing then discarding
+    # them. All absent/null/live-versus-saved guards remain byte-for-byte.
+    for alias, target, table in (('w','live','source_operation_work_v1'),('m','saved','source_operation_materializations_v1')):
+        projection = ','.join("'"+name+"',"+alias+'.'+name for name in fields)
+        result[sig] = once(result[sig], 'select to_jsonb('+alias+')into '+target+' from cp7_credit.'+table,
+            'select jsonb_build_object('+projection+')into '+target+' from cp7_credit.'+table)
+    result[sig] = once(result[sig],
+        'select jsonb_object_agg(key,value)into answer from jsonb_each(coalesce(saved,live))where key=any(fields);',
+        'answer:=coalesce(saved,live);')
+    result[sig] = once(result[sig],
+        'select jsonb_object_agg(key,value)into other from jsonb_each(live)where key=any(fields);',
+        'other:=live;')
     sig = 'cp7_payment_correction.apply(jsonb,uuid,text)'
     result[sig] = once(result[sig], 'perform cp7_credit.consumer_payment_restatement_preflight_v1(p,p_request,p_expected);',
         'perform cp7_credit.payment_source_enter_v1(p,p_request,p_expected);')
