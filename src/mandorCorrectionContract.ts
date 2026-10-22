@@ -4,7 +4,7 @@ import type { ProductionEnvelope } from './productionRecovery'
 export type MandorCorrectionWorkspace = {
   poId: string; poNumber: string; contractorId: string
   contractors: { id: string; name: string }[]; groupCount: number; pickupCount: number
-  blockers: { order: number; kind: string; id: string; number: string | null; step: string }[]
+  blockers: { order: number; kind: string; id: string; number: string | null; status: string | null; step: string }[]
   eligible: boolean; reviewToken: string; afterStep: string
 }
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/
@@ -29,7 +29,8 @@ export function parseMandorCorrection(value: unknown, poId: string): MandorCorre
   if (new Set(contractors.map(c => c.id)).size !== contractors.length) fail()
   const blockers = r.blockers.map(v => {
     const b = object(v)
-    return { order: count(b.order), kind: text(b.kind), id: id(b.id), number: b.number == null ? null : text(b.number), step: text(b.step) }
+    return { order: count(b.order), kind: text(b.kind), id: id(b.id), number: b.number == null ? null : text(b.number),
+      status: b.status == null ? null : text(b.status), step: text(b.step) }
   })
   if (r.eligible !== (blockers.length === 0)) fail()
   const reviewToken = text(r.review_token)

@@ -1,0 +1,124 @@
+{
+  "classification": "COMPACT_ACTUAL_AUTH4_PASS_NOT_RAW_LOG",
+  "status": "PASS",
+  "candidate_commit": "347a1baf56f07b110e44c003cce837794f89fee7",
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "original_report": {
+    "name": "CP7_OW05_REAL_AUTH4.json",
+    "bytes": 262222,
+    "sha256": "f688cb465113539c838d7681c8be22032cf2fee3ca08b3d3431e5f6801fa2a2a"
+  },
+  "artifact": {
+    "id": 12432541685,
+    "zip_bytes": 1632882,
+    "zip_sha256": "1b8c37a0fbff079df86776bbb26cdfaba5fd7ca86314ebdca67fb915640531c3"
+  },
+  "OW05_complete": false,
+  "production_go": false,
+  "run_id": 39792851198,
+  "job_id": 119872918589,
+  "counts": {
+    "PASS": 4
+  },
+  "cases": {
+    "OW05_REAL_AUTH_UNDO_CORRECT_NEW_RATE_AND_NOTA24": {
+      "status": "PASS",
+      "real_Auth": true,
+      "actual_PostgREST_inverse_correction_repost_and_nota": true,
+      "old_mandor_payable": "0.00",
+      "new_mandor_payable": "24.00",
+      "new_nota_payroll": "24.00",
+      "correction_stock_HPP_unchanged": true,
+      "old_history_retained": true,
+      "winner_replay_zero_effect": true,
+      "fixture_master_data_created_in_browser": false,
+      "product_budgets_unchanged": true,
+      "production_go": false,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-22",
+        "before": "2026-10-22",
+        "after": "2026-10-22"
+      }
+    },
+    "OW05_TWO_DISTINCT_AUTH_USERS_SAME_PO_ONE_EFFECT": {
+      "status": "PASS",
+      "two_distinct_real_Auth_users": true,
+      "both_actual_PostgREST_backends_waited": [
+        [
+          276,
+          "Lock",
+          "advisory"
+        ],
+        [
+          335,
+          "Lock",
+          "advisory"
+        ]
+      ],
+      "one_success_one_stale_review": true,
+      "one_history_request_and_posted_pickup_only": true,
+      "winner_replay_zero_effect": true,
+      "loser_replay_zero_effect": true,
+      "stock_HPP_and_old_payments_unchanged": true,
+      "product_budgets_unchanged": true,
+      "production_go": false,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-22",
+        "before": "2026-10-22",
+        "after": "2026-10-22"
+      }
+    },
+    "OW05_REAL_AUTH_RIGHT_REVOKED_AFTER_WAIT_AND_BEFORE_REPLAY": {
+      "status": "PASS",
+      "actual_wait": [
+        [
+          335,
+          "Lock",
+          "advisory"
+        ]
+      ],
+      "seventh_permission": "production.distribution.create",
+      "revoked_after_wait_refused": true,
+      "cached_reply_refused_while_revoked": true,
+      "restored_right_same_UUID_one_effect": true,
+      "stock_HPP_unchanged": true,
+      "production_go": false,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-22",
+        "before": "2026-10-22",
+        "after": "2026-10-22"
+      }
+    },
+    "OW05_REAL_SEWING_FLOW_AND_PO_ROW_CONTENTION_REFUSED_ATOMICALLY": {
+      "status": "PASS",
+      "actual_existing_sewing_writer_wait": [
+        [
+          335,
+          "Lock",
+          "advisory"
+        ]
+      ],
+      "correction_busy_elapsed_seconds": 0.004,
+      "actual_sewing_completes_after_busy_refusal": true,
+      "stale_review_refused": true,
+      "PO_row_nowait_refusal": true,
+      "fresh_same_UUID_retry_one_effect": true,
+      "all_failed_attempts_atomic": true,
+      "private_contexts": 0,
+      "production_go": false,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-22",
+        "before": "2026-10-22",
+        "after": "2026-10-22"
+      }
+    }
+  },
+  "auth_counts_restored": true,
+  "cleanup_failures": false,
+  "database_remaining": 0
+}

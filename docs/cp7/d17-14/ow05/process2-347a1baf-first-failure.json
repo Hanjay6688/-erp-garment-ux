@@ -1,0 +1,31 @@
+{
+  "classification": "COMPACT_ACTUAL_PROCESS2_FIRST_FAILURE_NOT_RAW_LOG",
+  "status": "INCOMPLETE",
+  "candidate_commit": "347a1baf56f07b110e44c003cce837794f89fee7",
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "original_report": {
+    "name": "CP7_OW05_PROCESS_NATIVE2.json",
+    "bytes": 922852,
+    "sha256": "f216bc66b4a11554bd36515ad9dbce70abc243bfce8662231b9df9fff860eacc"
+  },
+  "artifact": {
+    "id": 12432795914,
+    "zip_bytes": 1702781,
+    "zip_sha256": "d4b7f4ca32bb2cf3612d98e83bf688761810159608c11aeb2c35ff8ca4abde01"
+  },
+  "OW05_complete": false,
+  "production_go": false,
+  "run_id": 39792851329,
+  "job_id": 119872918777,
+  "counts": {
+    "INCOMPLETE": 2
+  },
+  "case_errors": {
+    "OW05_LAUNDRY_RECEIPT_DELIVERY_AND_SEWING_INVERSES": "permission denied for function reverse_laundry_receipt",
+    "OW05_FINISHED_PO_QC_VOIDED_FG_AND_LAUNDRY_INVERSES": "('FINISHED', 'permission denied for function reverse_qc')"
+  },
+  "failure": "Qualifier called private ERP inverse functions as App user; current product correctly denies direct EXECUTE",
+  "fix": "Use existing public erp_save_laundry_qc_action_v1 owning facade with current row_version, and existing public PO reopen command; do not grant private EXECUTE or weaken any business oracle",
+  "all_boundaries_restored": true
+}

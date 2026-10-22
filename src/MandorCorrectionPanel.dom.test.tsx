@@ -73,6 +73,15 @@ describe('koreksi mandor sesudah jahit', () => {
     expect(container.textContent).toContain('Catat ulang hasil jahit')
     expect(container.textContent).toContain('Riwayat upah dan nota lama tetap tersimpan')
   })
+  it('explains that existing FG use must be undone before a finished PO can reopen', async () => {
+    serve(workspace({ eligible: false, blockers: [
+      { order: 10, kind: 'PO_STATE', id: po, number: 'PO-9', status: 'FINISHED', step: 'Buka kembali PO selesai.' },
+      { order: 40, kind: 'FG_LOT', id: next, number: 'LOT-9', step: 'Balik pemakaian barang jadi lalu QC asalnya.' },
+    ] }))
+    await mount(); await click('Koreksi mandor sesudah jahit')
+    expect(container.textContent).toContain('melalui dokumen pemakaiannya sebelum membuka kembali PO')
+    expect(button('Ganti pembagian ke mandor yang benar').disabled).toBe(true)
+  })
   it('refuses a response bound to another PO without claiming success', async () => {
     serve(workspace(), args => result(args, { po_id: target }))
     await mount(); await click('Koreksi mandor sesudah jahit'); await fill(); await click('Ganti pembagian ke mandor yang benar')

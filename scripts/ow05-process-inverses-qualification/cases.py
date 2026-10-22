@@ -9,7 +9,13 @@ IDS=('OW05_LAUNDRY_RECEIPT_DELIVERY_AND_SEWING_INVERSES',
      'OW05_FINISHED_PO_QC_VOIDED_FG_AND_LAUNDRY_INVERSES')
 REASON='OW05 mandor salah, balik dokumen asal berurutan'
 
-def native(cur,sql,args):return n.old.s.native(cur,sql,args)
+def inverse(cur,action,field,ident,table):
+    # The raw ERP inverse functions are intentionally not executable by App
+    # users. Use the same permission-checked public owner as the real screen.
+    n.auth.b.api.admin(cur)
+    assert table in('qc_inspections','laundry_receipts','laundry_deliveries')
+    version=n.one(cur,'select row_version from erp.'+table+' where id=%s',(ident,))
+    return n.old.bd.chain.laundry_action(cur,action,{field:ident,'reason':REASON},version)
 
 def prepared(cur,today,finished):
     g=n.fixture(cur,today,False)
@@ -46,16 +52,16 @@ def journey(cur,today,finished):
         assert {'QC','FG_LOT','LAUNDRY'}<=set(initial)
         # Native requires reopening before QC reversal. The workspace's
         # PO_STATE-first instruction agrees with that actual business rule.
-        n.auth.refused(cur,lambda:native(cur,'select erp.reverse_qc(%s,%s)',(g['qc'],REASON)),'FINISHED')
-        native(cur,'select erp.reopen_production_order(%s,%s)',(g['po'],REASON))
-        native(cur,'select erp.reverse_qc(%s,%s)',(g['qc'],REASON))
+        n.auth.refused(cur,lambda:inverse(cur,'REVERSE_FINAL_SKU','qc_inspection_id',g['qc'],'qc_inspections'),'FINISHED')
+        n.old.reopen_command(cur,n.old.reopen_workspace(cur,g['po']),reason=REASON)
+        inverse(cur,'REVERSE_FINAL_SKU','qc_inspection_id',g['qc'],'qc_inspections')
         assert n.one(cur,'select lot_origin from erp.fg_lots where id=%s',(g['lot'],))=='VOIDED_PRODUCTION'
         assert n.one(cur,'select coalesce(sum(qty_signed),0)from erp.fg_stock_movements where lot_id=%s',(g['lot'],))==0
     # An active receipt keeps its delivery locked. Both exact originals and
     # their append-only Native WIP reversals must survive this process.
-    native(cur,'select erp.reverse_laundry_receipt(%s,%s)',(g['receipt'],REASON))
+    inverse(cur,'REVERSE_RECEIPT','receipt_id',g['receipt'],'laundry_receipts')
     refused(cur,g,'LAUNDRY')
-    native(cur,'select erp.reverse_laundry_delivery(%s,%s)',(g['delivery'],REASON))
+    inverse(cur,'REVERSE_DELIVERY','delivery_id',g['delivery'],'laundry_deliveries')
     assert n.one(cur,'select status from erp.cutting_groups where id=%s',(g['group'],))=='PICKED_UP'
     assert n.one(cur,'select cp7_contractor_correction.wip_closed_v1(%s)',(g['po'],))is True
     for event in g['events']:n.old.sewing_command(cur,n.old.sewing_workspace(cur,g),event=event)
