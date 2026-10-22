@@ -6,7 +6,8 @@ A. cp7_transaction_source.resolve(jsonb), as left by the kasbon stage: an FG inv
    FG families (product conversion, opening, unsourced receipt, import) keep UNSUPPORTED_SOURCE.
 B. erp.reverse_qc(uuid,text) and erp.get_laundry_qc_workspace_v1(text,text): every refusal keeps its condition and its
    first sentence; the sentence gets the blocking document numbers and the real menu where each is undone
-   (cp7_fg_correction_source.qc_blocker_text_v1) and the refusal a JSON DETAIL with the same list.
+   (cp7_fg_correction_source.qc_blocker_text_v1) and the refusal a JSON DETAIL with the same list. The workspace keeps
+   its blocker CASE and evaluates the names only for the QC history rows it returns (at most 201).
 """
 from hashlib import sha256
 import re
@@ -61,19 +62,17 @@ REVERSE_STEPS=(
 )
 
 
-def named(old):
-    return ("          ) then '"+old+"'\n","          ) then '"+old+"'||"+TEXT+"(q.id)\n")
-
-
+# The QC history keeps its blocker CASE byte-for-byte. A POSTED row with a blocker carries one of its four downstream
+# sentences (PO, BS, FG, accessory); only those rows, and only the at most 201 rows returned, get the names appended.
 WORKSPACE_STEPS=(
- ('po-finished',
-  "          when q.status<>'POSTED' then 'Finalisasi QC bukan POSTED aktif.'\n"
-  "          when po.status='FINISHED' then 'PO sudah FINISHED; reopen downstream terlebih dahulu.'\n",
-  "          when q.status<>'POSTED' then 'Finalisasi QC bukan POSTED aktif.'\n"
-  "          when po.status='FINISHED' then 'PO sudah FINISHED; reopen downstream terlebih dahulu.'||"+TEXT+"(q.id)\n"),
- ('bs',)+named('BS hasil QC sudah diproses; reverse downstream BS terlebih dahulu.'),
- ('fg',)+named('FG hasil QC masih dipakai transaksi downstream aktif.'),
- ('accessory',)+named('Reimbursement aksesori sudah masuk payroll; reverse payroll terlebih dahulu.'),
+ ('history',
+  "    select coalesce(jsonb_agg(to_jsonb(z) order by z.physical_at desc,z.qc_inspection_id desc),'[]'::jsonb)\n"
+  "      into v_qc_history\n",
+  "    -- OW-08b (D17-13 2.21): a blocked reversal names its blockers, read only for the rows returned.\n"
+  "    select coalesce(jsonb_agg(case when z.status='POSTED'and z.reversal_blocker is not null\n"
+  "        then to_jsonb(z)||jsonb_build_object('reversal_blocker',z.reversal_blocker||"+TEXT+"(z.qc_inspection_id))\n"
+  "        else to_jsonb(z)end order by z.physical_at desc,z.qc_inspection_id desc),'[]'::jsonb)\n"
+  "      into v_qc_history\n"),
 )
 STEPS={SOURCE:SOURCE_STEPS,REVERSE:REVERSE_STEPS,WORKSPACE:WORKSPACE_STEPS}
 
