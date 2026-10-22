@@ -16,6 +16,7 @@ const id=(n:number)=>`11111111-1111-4111-8111-${String(n).padStart(12,'0')}`,sha
 const sale=id(1),allocation=id(3),creditAccount=id(4),cashAccount=id(5),destination=id(6),payment=id(8)
 const version='9007199254740993',afterVersion='9007199254740994',reviewToken='a'.repeat(32),afterReview='b'.repeat(32)
 let committed:boolean,unpaid:boolean,loseReply:boolean,lost:boolean,replayDenied:boolean,wrongReceipt:boolean,reloadFails:boolean,quoteDenied:boolean,accountFacts:number
+let quoteRefusal:unknown,settleRefusal:unknown
 function source(){return{sale_id:sale,sale_number:'INV-PAID',customer_id:id(2),customer_name:'Toko pemilik invoice',row_version:version,review_token:reviewToken}}
 function workspace(selected=true){
   // The reviewed reader03 server transform supplies E. This fixture never
@@ -50,12 +51,12 @@ const paymentList=(q:Record<string,unknown>)=>'payment_order' in q?{list:{q:q.pa
 let root:Root,container:HTMLDivElement
 beforeEach(()=>{
   Object.assign(globalThis,{IS_REACT_ACT_ENVIRONMENT:true});localStorage.clear();Object.defineProperty(navigator,'locks',{configurable:true,value:{request:async(_name:string,_options:unknown,callback:(lock:unknown)=>Promise<unknown>)=>callback({})}})
-  committed=unpaid=loseReply=lost=replayDenied=wrongReceipt=reloadFails=quoteDenied=false;accountFacts=5;allow();client.rpc.mockReset()
+  committed=unpaid=loseReply=lost=replayDenied=wrongReceipt=reloadFails=quoteDenied=false;accountFacts=5;quoteRefusal=settleRefusal=null;allow();client.rpc.mockReset()
   client.rpc.mockImplementation(async(name,args)=>{
     if(name==='erp_cp7_get_sales_v1')return reloadFails&&committed?{data:null,error:{message:'Authoritative read unavailable'}}:{data:workspace(Boolean(args.p_query.sale_id)),error:null}
     if(name==='erp_cp7_get_sales_returns_v1')return{data:historyList(returns(args.p_query.kind),args.p_query),error:null}
-    if(name==='erp_cp7_get_sales_return_settlement_quote_v1'){if(quoteDenied)return{data:null,error:{status:403,code:'42501',message:'PRIVATE source revoked'}};return{data:args.p_query.kind==='ACCOUNT_OPTIONS'?options(args.p_query):quote(args.p_query),error:null}}
-    if(name==='erp_cp7_settle_sales_return_v1'){if(replayDenied)return{data:null,error:{code:'42501',message:'CP7_CREDIT_ACCESS_CHANGED'}};committed=true;if(loseReply&&!lost){lost=true;throw Error('Declared lost response after committed settlement')}return{data:receipt(args.p_request,args.p_payload),error:null}}
+    if(name==='erp_cp7_get_sales_return_settlement_quote_v1'){if(quoteRefusal)return{data:null,error:quoteRefusal};if(quoteDenied)return{data:null,error:{status:403,code:'42501',message:'PRIVATE source revoked'}};return{data:args.p_query.kind==='ACCOUNT_OPTIONS'?options(args.p_query):quote(args.p_query),error:null}}
+    if(name==='erp_cp7_settle_sales_return_v1'){if(settleRefusal)return{data:null,error:settleRefusal};if(replayDenied)return{data:null,error:{code:'42501',message:'CP7_CREDIT_ACCESS_CHANGED'}};committed=true;if(loseReply&&!lost){lost=true;throw Error('Declared lost response after committed settlement')}return{data:receipt(args.p_request,args.p_payload),error:null}}
     if(name==='erp_cp7_get_sales_cash_v1')return{data:{contract_version:'cp7.sales-cash.v1',sale_id:sale,row_version:committed?afterVersion:version,review_token:committed?afterReview:reviewToken,payments:{rows:[structuredClone(originalPayment)],total:'1',offset:0,limit:25,next_offset:null,...paymentList(args.p_query)},cash_accounts:{rows:[],total:'0',offset:0,limit:25,next_offset:null}},error:null}
     throw Error(`Unowned test route ${name}`)
   })
@@ -121,5 +122,26 @@ describe('OW04 real parent/section/recovery wiring with explicit mocked server c
   })
   it('retires source facts on a current quote403 and never falls back to the legacy RETURN route',async()=>{
     await open();quoteDenied=true;await click(button('Periksa penyelesaian retur'));expect(sends()).toHaveLength(0);expect(client.rpc.mock.calls.some(([n])=>n==='erp_cp7_save_sale_v1')).toBe(false);expect(container.querySelector('[aria-label="Retur fisik invoice"]')).toBeNull();expect(container.textContent).not.toContain('Toko pemilik invoice');expect(container.textContent).not.toContain('PRIVATE source revoked')
+  })
+})
+
+// OW-04b (retest 23 Oct 2026) parts 3 and 4 on the real sales page: a refusal names its reason and next step; a cash
+// refund refused by the dated cash guard records nothing and says which bank and date. Server stand-ins, not Native.
+describe('OW04b refused return settlement on the sales page',()=>{
+  it('names why a second return on a credit invoice cannot be settled yet and what to do next',async()=>{
+    quoteRefusal={code:'P0001',message:'CP7_CREDIT_INITIAL_SOURCE_FAMILY_UNSUPPORTED',hint:null,
+      details:'{"action": null, "reasons": ["PRIOR_CREDIT_RETURN"], "refusal": "INITIAL_SOURCE_FAMILY", "contract": "cp7.credit-followups.refusal.v1", "source_blockers": []}'}
+    await open();await click(button('Periksa penyelesaian retur'))
+    expect(container.textContent).toContain('Retur ini belum bisa dicatat dan diselesaikan (uang kembali atau saldo kredit) pada invoice ini.')
+    expect(container.textContent).toContain('Alasannya: invoice ini sudah punya retur yang menjadi saldo kredit pelanggan atau uang kembali.')
+    expect(container.textContent).toContain('Langkah berikutnya:');expect(container.textContent).not.toContain('belum dapat diperiksa')
+    expect(sends()).toHaveLength(0);expect(client.rpc.mock.calls.some(([n])=>n==='erp_cp7_save_sale_v1')).toBe(false);expect(summary()).toBeNull()
+  })
+  it('shows the bank, shortfall and date when a refund is refused for lack of cash, and records nothing',async()=>{
+    settleRefusal={code:'P0001',message:'CP7_CASH_NEGATIVE: saldo Bank pengembalian (1102) menjadi minus -200.00 pada tanggal 2026-10-20 atau sesudahnya (tanggal ekonomi). Kas/bank tidak boleh minus; catat dulu uang masuk atau pilih rekening lain.'}
+    await ready('REFUND');await click(button('Catat retur dan penyelesaian'));expect(sends()).toHaveLength(1);expect(committed).toBe(false)
+    expect(container.textContent).toContain('Saldo Bank pengembalian (1102) menjadi minus -200.00 pada tanggal 2026-10-20 atau sesudahnya (tanggal ekonomi). Kas/bank tidak boleh minus; catat dulu uang masuk atau pilih rekening lain.')
+    expect(readProductionRecovery(scope()).pending.SALES).toBeUndefined();expect(container.textContent).not.toContain('Pelunasan efektif invoice Rp800')
+    expect(client.rpc.mock.calls.some(([n])=>n==='erp_cp7_save_sale_v1')).toBe(false)
   })
 })

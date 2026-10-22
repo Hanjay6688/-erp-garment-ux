@@ -203,3 +203,65 @@ describe('OW04 uninstalled controlled React settlement section, real jsdom event
     getQuote.mockImplementation(async q=>({...quoteFor(q),private_debug:'SECRET journal rows'})); await render(); await click(button('Periksa penyelesaian retur')); expect(onInvalid).toHaveBeenCalledOnce(); expect(summary()).toBeNull(); expect(container.textContent).not.toContain('SECRET journal rows'); expect(save().disabled).toBe(true)
   })
 })
+
+// OW-04b part 3 (retest 23 Oct 2026): the server keeps refusing these states, so the screen must say why and what to
+// do next instead of "Sumber penyelesaian retur belum dapat diperiksa". Details are the exact jsonb::text the stage sends.
+describe('OW-04b refused settlement reads name the reason and the next step', () => {
+  const pgDetail = (refusal: string, action: string | null, reasons: string[], blockers: string[] = []) =>
+    `{"action": ${action === null ? 'null' : `"${action}"`}, "reasons": [${reasons.map(x => `"${x}"`).join(', ')}], "refusal": "${refusal}", `
+    + `"contract": "cp7.credit-followups.refusal.v1", "source_blockers": [${blockers.map(x => `"${x}"`).join(', ')}]}`
+  const family = (reasons: string[], blockers: string[] = []) => ({code:'P0001', message:'CP7_CREDIT_INITIAL_SOURCE_FAMILY_UNSUPPORTED', details:pgDetail('INITIAL_SOURCE_FAMILY', null, reasons, blockers), hint:null})
+  const alerts = () => [...container.querySelectorAll('[role="alert"]')].map(e => e.textContent ?? '').join(' ')
+  async function refusedQuote(error: unknown) {
+    getQuote.mockRejectedValue(error); await render({choice:choice(), input:input(choice())}); await click(button('Periksa penyelesaian retur'))
+    expect(onInvalid).toHaveBeenCalledOnce(); expect(alerts()).toBe(onInvalid.mock.calls[0][0])
+    expect(summary()).toBeNull(); expect(review().disabled).toBe(true); expect(save().disabled).toBe(true); await click(save()); expect(onIntent).not.toHaveBeenCalled()
+    expect(container.textContent).not.toContain('belum dapat diperiksa')
+    return alerts()
+  }
+  it.each([
+    ['PRIOR_CREDIT_RETURN', 'invoice ini sudah punya retur yang menjadi saldo kredit pelanggan atau uang kembali'],
+    ['CREDIT_APPLIED_TO_INVOICE', 'invoice ini pernah dibayar memakai saldo kredit pelanggan'],
+    ['NOTE_REVISED', 'invoice ini pernah dibetulkan lewat Benerin nota'],
+    ['RETURN_CORRECTED', 'ada retur pada invoice ini yang pernah dibetulkan lewat Edit retur'],
+  ])('DOM19 a second or follow-up return refused for %s shows that reason and the next step', async (reason, why) => {
+    const text = await refusedQuote(family([reason]))
+    expect(text).toContain('Retur ini belum bisa dicatat dan diselesaikan (uang kembali atau saldo kredit) pada invoice ini.')
+    expect(text).toContain(`Alasannya: ${why}`); expect(text).toContain('Langkah berikutnya:'); expect(text).toContain('beri tahu admin')
+    expect(text).not.toContain('CP7_CREDIT_INITIAL_SOURCE_FAMILY_UNSUPPORTED')
+  })
+  it('DOM19b lists two reasons and the admin check codes of a blocked history', async () => {
+    const text = await refusedQuote(family(['SOURCE_HISTORY_BLOCKED', 'CREDIT_APPLIED_TO_INVOICE'], ['IMMUTABLE_RETURN_FAMILY_OR_ORDER_MISSING']))
+    expect(text).toContain('riwayat jurnal invoice ini belum lengkap atau tidak cocok dengan dokumennya; invoice ini pernah dibayar memakai saldo kredit pelanggan')
+    expect(text).toContain('kode pemeriksaan IMMUTABLE_RETURN_FAMILY_OR_ORDER_MISSING')
+  })
+  it('DOM19c never guesses a reason from an unreadable detail; it names the code to report', async () => {
+    const text = await refusedQuote({...family(['PRIOR_CREDIT_RETURN']), details:'{"reasons":["PRIOR_CREDIT_RETURN"]}'})
+    expect(text).toContain('Alasan rinci dari server tidak dapat dibaca.'); expect(text).toContain('beri tahu admin dengan kode CP7_CREDIT_INITIAL_SOURCE_FAMILY_UNSUPPORTED')
+    expect(text).not.toContain('Alasannya:')
+  })
+  it.each([
+    [{code:'P0001', message:'CP7_SALES_REVIEW_CHANGED'}, 'Invoice berubah sejak dibuka. Muat ulang invoice, lalu periksa lagi.'],
+    [{code:'P0001', message:'CP7_CREDIT_RETURN_PHYSICAL_DATE_INVALID'}, 'Betulkan waktu retur (WIB)'],
+    [{code:'P0001', message:'CP7_SALES_RETURN_SOMETHING'}, 'Pemeriksaan retur ditolak server (kode CP7_SALES_RETURN_SOMETHING).'],
+    [{code:'P0001', message:'PRIVATE SQL secret customer data'}, 'Pemeriksaan retur ditolak server tanpa kode yang dapat dibaca.'],
+    [new TypeError('Failed to fetch'), 'Server belum menjawab pemeriksaan retur.'],
+  ])('DOM19d other quote refusals still name a cause and a next step (%#)', async (error, expected) => {
+    const text = await refusedQuote(error)
+    expect(text).toContain(expected); expect(text).not.toContain('PRIVATE SQL')
+  })
+  it('DOM19e a malformed quote reply says it was not shown and what to do', async () => {
+    getQuote.mockImplementation(async q => ({...quoteFor(q), private_debug:'SECRET'})); await render(); await click(button('Periksa penyelesaian retur'))
+    expect(alerts()).toContain('Jawaban pemeriksaan retur dari server tidak lengkap atau tidak sesuai, jadi tidak ditampilkan.'); expect(container.textContent).not.toContain('belum dapat diperiksa')
+  })
+  it.each([
+    [{code:'P0001', message:'CP7_SALES_REVIEW_CHANGED'}, 'Invoice berubah sejak dibuka.'],
+    [new TypeError('Failed to fetch'), 'Server belum menjawab pencarian akun retur.'],
+    ['MALFORMED', 'Daftar akun dari server tidak lengkap atau tidak sesuai, jadi tidak ditampilkan.'],
+  ])('DOM19f account search refusals name the cause (%#)', async (error, expected) => {
+    if (error === 'MALFORMED') getAccountOptions.mockImplementation(async q => ({...optionsFor(q), extra:true})); else getAccountOptions.mockRejectedValue(error)
+    await render(); await select('CREDIT'); await click(button('Cari akun saldo kredit pelanggan'))
+    expect(onInvalid).toHaveBeenCalledOnce(); expect(alerts()).toContain(expected); expect(container.textContent).not.toContain('belum dapat diperiksa')
+    expect(container.querySelector('[data-account-id]')).toBeNull()
+  })
+})
