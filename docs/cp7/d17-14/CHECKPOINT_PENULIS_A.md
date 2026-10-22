@@ -54,7 +54,8 @@ Diperbarui: 22 Okt 2026, 21.00 UTC (23 Okt 04.00 WIB), mode hemat.
 
 Semua run baru berhenti di "Start disposable database" (ghcr.io `toomanyrequests`, public.ecr.aws `Data limit exceeded`):
 OW12a Native7 (39847548230 dua kali), wash Native11 (39849752268), fgqc Native9 (39850804753), OW06 Browser2 (39850343966).
-Antrean dihentikan supaya jatah unduh tidak makin habis. Sesudah reset: (1) login `docker login ghcr.io` dengan token run di
+Antrean dihentikan supaya jatah unduh tidak makin habis. Uji coba login ghcr.io di workflow OW-12a dikirim di `ab63c4c1`
+(skrip `scratchpad/ghcr_login.py`: sisip satu langkah login, memastikan isi workflow lain sama). Bila lulus start database: (1) login `docker login ghcr.io` dengan token run di
 langkah start database pada workflow tahap yang BELUM lulus (OW12a, wash, fgqc, OW04b; workflow tahap yang sudah lulus jangan
 diedit karena dikunci); (2) kirim ulang berurutan: OW12a, wash, fgqc, OW04b (daftarkan dengan push non-skip), OW06 browser,
 OW05b browser bila run 39851046496 juga gagal.
