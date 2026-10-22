@@ -23,3 +23,10 @@ Owner: "RULE BUAT CLAUDE KASIH REPORT AFTER WORK itu jelas bahasa manusia."
 - Saat menulis atau mengubah kode ERP, ikuti `docs/ERP_BEST_PRACTICES.md` (disusun dari temuan audit Fable, Astra, Sol).
 - Jalankan daftar periksa di akhir berkas itu sebelum menyerahkan kandidat ke auditor.
 - Temuan audit baru yang mengajarkan pelajaran umum ditambahkan ke berkas itu dengan ID temuannya.
+
+## Kuota dan pembantu (owner 23 Okt 2026)
+
+- Kerja bertahap dengan checkpoint: setiap langkah selesai langsung di-commit dan di-push, catatan posisi kerja diperbarui.
+- Selama kuota sesi 5 jam masih banyak, jalan normal dan boleh banyak pembantu. Bila mulai tipis (patokan sekitar 80% terpakai),
+  masuk mode hemat: jangan mulai pekerjaan baru, gabung dan push hasil yang ada. Sesudah reset, jalan normal lagi.
+- Pembantu yang sudah jalan jangan dihentikan tiba-tiba ("jangan stop tiba tiba pembantu yg udah jalan"), termasuk saat mode hemat.
