@@ -1,0 +1,618 @@
+{
+  "branches": [
+    {
+      "branch": "codex/ow04-closure-queue-20261022",
+      "sha": "58dde7d5ec3db99fbc054d1cbecfac230b78f90b",
+      "status": "diverged",
+      "ahead_by": 4,
+      "behind_by": 1,
+      "total_commits": 4,
+      "merge_base": "c3faae84140134456cd1c727bf30ca61c332c2f6"
+    },
+    {
+      "branch": "codex/ow04-composed-20261022",
+      "sha": "36309f8fbf5c0281ae51749f11ab9017a5875ef7",
+      "status": "ahead",
+      "ahead_by": 25,
+      "behind_by": 0,
+      "total_commits": 25,
+      "merge_base": "36309f8fbf5c0281ae51749f11ab9017a5875ef7"
+    },
+    {
+      "branch": "codex/ow04-consumer-races-20261022",
+      "sha": "cd664389ca46a65d7917ac2176d3800df52765b9",
+      "status": "ahead",
+      "ahead_by": 31,
+      "behind_by": 0,
+      "total_commits": 31,
+      "merge_base": "cd664389ca46a65d7917ac2176d3800df52765b9"
+    },
+    {
+      "branch": "codex/ow04-consumer-ui-20261022",
+      "sha": "41fc164b8c435eaeb5b60735e1d710d3097b3278",
+      "status": "ahead",
+      "ahead_by": 27,
+      "behind_by": 0,
+      "total_commits": 27,
+      "merge_base": "41fc164b8c435eaeb5b60735e1d710d3097b3278"
+    },
+    {
+      "branch": "codex/ow04-consumer-work-20261021",
+      "sha": "f48b76a68f9607caca47c83d590f7d0a0190e23e",
+      "status": "ahead",
+      "ahead_by": 33,
+      "behind_by": 0,
+      "total_commits": 33,
+      "merge_base": "f48b76a68f9607caca47c83d590f7d0a0190e23e"
+    },
+    {
+      "branch": "codex/ow04-credit-dependencies-20261021",
+      "sha": "d11bcab6854bb4c2156d13fc030f81d8ce1e51da",
+      "status": "ahead",
+      "ahead_by": 57,
+      "behind_by": 0,
+      "total_commits": 57,
+      "merge_base": "d11bcab6854bb4c2156d13fc030f81d8ce1e51da"
+    },
+    {
+      "branch": "codex/ow04-lifecycle-20261021",
+      "sha": "f5e11dc4c559f89c428bda83df7338823bad2a8f",
+      "status": "diverged",
+      "ahead_by": 47,
+      "behind_by": 1,
+      "total_commits": 47,
+      "merge_base": "a45084cee8bf4740c5a9399876397578b31a52e5"
+    },
+    {
+      "branch": "codex/ow04-payment-binding-20261022",
+      "sha": "1e8e1b0dec6451f064f0cfcf75ca5a43610943cf",
+      "status": "identical",
+      "ahead_by": 0,
+      "behind_by": 0,
+      "total_commits": 0,
+      "merge_base": "1e8e1b0dec6451f064f0cfcf75ca5a43610943cf"
+    },
+    {
+      "branch": "codex/ow04-payment-correction-20261022",
+      "sha": "ceedfb9c4feecd0a7219ffe308f3c75fb8b88bf5",
+      "status": "diverged",
+      "ahead_by": 12,
+      "behind_by": 3,
+      "total_commits": 12,
+      "merge_base": "127099ac1e0f74d15e802fd5b0e0d4caa5db4db5"
+    },
+    {
+      "branch": "codex/ow04-payment-positive-20261022",
+      "sha": "d96bb1011f584fbb200560fdbfec52692bcd75bb",
+      "status": "ahead",
+      "ahead_by": 11,
+      "behind_by": 0,
+      "total_commits": 11,
+      "merge_base": "d96bb1011f584fbb200560fdbfec52692bcd75bb"
+    },
+    {
+      "branch": "codex/ow04-reconciliation-20261021",
+      "sha": "052d5b4958ff0f74b998e9cc4d312baeafc0d82a",
+      "status": "ahead",
+      "ahead_by": 74,
+      "behind_by": 0,
+      "total_commits": 74,
+      "merge_base": "052d5b4958ff0f74b998e9cc4d312baeafc0d82a"
+    },
+    {
+      "branch": "codex/ow04-source-inverse-ui-20261022",
+      "sha": "922a874d366105b27e3e75c64965e88fc3063e87",
+      "status": "ahead",
+      "ahead_by": 22,
+      "behind_by": 0,
+      "total_commits": 22,
+      "merge_base": "922a874d366105b27e3e75c64965e88fc3063e87"
+    },
+    {
+      "branch": "codex/writer-takeover-20261021",
+      "sha": "4d5f9990e3985a49767dec74d4103642c9ba9790",
+      "status": "ahead",
+      "ahead_by": 64,
+      "behind_by": 0,
+      "total_commits": 64,
+      "merge_base": "4d5f9990e3985a49767dec74d4103642c9ba9790"
+    }
+  ],
+  "archive": {
+    "filename": "ow04_unintegrated_history_20261022.zip",
+    "bytes": 3444802,
+    "sha256": "299efc79e2321bb6d88f9889ffb69a1c37e7f2589742f18f18d74088d0144c5c"
+  },
+  "files": [
+    {
+      "branch": "codex/ow04-closure-queue-20261022",
+      "commit": "58dde7d5ec3db99fbc054d1cbecfac230b78f90b",
+      "path": "scripts/ow04-consumer-closure-qualification/EXPECTED.json",
+      "archive_path": "58dde7d5/scripts/ow04-consumer-closure-qualification/EXPECTED.json",
+      "bytes": 3512,
+      "sha256": "29baa7ae2ebf4a72e798614ec71ddebcd37176935e43770771826179722d0e1c"
+    },
+    {
+      "branch": "codex/ow04-closure-queue-20261022",
+      "commit": "58dde7d5ec3db99fbc054d1cbecfac230b78f90b",
+      "path": "scripts/ow04-consumer-closure-qualification/PLAN.md",
+      "archive_path": "58dde7d5/scripts/ow04-consumer-closure-qualification/PLAN.md",
+      "bytes": 2164,
+      "sha256": "18fef20898c4ea91df53a586786b5fa46b0404ef5bb1387a4547bfbfc2568024"
+    },
+    {
+      "branch": "codex/ow04-lifecycle-20261021",
+      "commit": "f5e11dc4c559f89c428bda83df7338823bad2a8f",
+      "path": "docs/cp7/d17-14/ow04/native87-restore-transport-a45084ce-pass/README.md",
+      "archive_path": "f5e11dc4/docs/cp7/d17-14/ow04/native87-restore-transport-a45084ce-pass/README.md",
+      "bytes": 2190,
+      "sha256": "e7763887470cab04a5dfa0d060741aaa19dee6e1ba49e3164ac95fa1c3925e0b"
+    },
+    {
+      "branch": "codex/ow04-lifecycle-20261021",
+      "commit": "f5e11dc4c559f89c428bda83df7338823bad2a8f",
+      "path": "docs/cp7/d17-14/ow04/native87-restore-transport-a45084ce-pass/RECEIPT.json",
+      "archive_path": "f5e11dc4/docs/cp7/d17-14/ow04/native87-restore-transport-a45084ce-pass/RECEIPT.json",
+      "bytes": 2002,
+      "sha256": "76cca294cdbe2206fecccfc1ecba1a3fb37867ce8bf14459fb992a66e11ebf5e"
+    },
+    {
+      "branch": "codex/ow04-lifecycle-20261021",
+      "commit": "f5e11dc4c559f89c428bda83df7338823bad2a8f",
+      "path": "docs/cp7/d17-14/ow04/native87-restore-transport-a45084ce-pass/browser/ALIGNED_CHAIN.json.gz",
+      "archive_path": "f5e11dc4/docs/cp7/d17-14/ow04/native87-restore-transport-a45084ce-pass/browser/ALIGNED_CHAIN.json.gz",
+      "bytes": 4768,
+      "sha256": "50b6faabc978bed534a8489174702a0c73a288a5614b300e218d7a2fdf719f75"
+    },
+    {
+      "branch": "codex/ow04-lifecycle-20261021",
+      "commit": "f5e11dc4c559f89c428bda83df7338823bad2a8f",
+      "path": "docs/cp7/d17-14/ow04/native87-restore-transport-a45084ce-pass/browser/CP7_OW04_BROWSER.json.gz",
+      "archive_path": "f5e11dc4/docs/cp7/d17-14/ow04/native87-restore-transport-a45084ce-pass/browser/CP7_OW04_BROWSER.json.gz",
+      "bytes": 34230,
+      "sha256": "71ab01ac6fd399bc54e0d5b91aaba6a2faa9a1ca4efe03d184924179752b8e55"
+    },
+    {
+      "branch": "codex/ow04-lifecycle-20261021",
+      "commit": "f5e11dc4c559f89c428bda83df7338823bad2a8f",
+      "path": "docs/cp7/d17-14/ow04/native87-restore-transport-a45084ce-pass/browser/OW04_BROWSER_HOST_1.json.gz",
+      "archive_path": "f5e11dc4/docs/cp7/d17-14/ow04/native87-restore-transport-a45084ce-pass/browser/OW04_BROWSER_HOST_1.json.gz",
+      "bytes": 6390,
+      "sha256": "7ddddd38ceeb35fbdc2a2b63cebc0f57186b9cf2234d3408906b70ff9feaee37"
+    },
+    {
+      "branch": "codex/ow04-lifecycle-20261021",
+      "commit": "f5e11dc4c559f89c428bda83df7338823bad2a8f",
+      "path": "docs/cp7/d17-14/ow04/native87-restore-transport-a45084ce-pass/browser/RECEIPT.json",
+      "archive_path": "f5e11dc4/docs/cp7/d17-14/ow04/native87-restore-transport-a45084ce-pass/browser/RECEIPT.json",
+      "bytes": 5532,
+      "sha256": "53f7f4237736a11e5736ab0d6eb2c3b6acae80dfd0f1976b73fb730d9c7a851d"
+    },
+    {
+      "branch": "codex/ow04-lifecycle-20261021",
+      "commit": "f5e11dc4c559f89c428bda83df7338823bad2a8f",
+      "path": "docs/cp7/d17-14/ow04/native87-restore-transport-a45084ce-pass/browser/T3_BACKUP_RESTORE_DRILL.json.gz",
+      "archive_path": "f5e11dc4/docs/cp7/d17-14/ow04/native87-restore-transport-a45084ce-pass/browser/T3_BACKUP_RESTORE_DRILL.json.gz",
+      "bytes": 1809,
+      "sha256": "554664946fca90303b5ebb49e89634a6c2473dde46565148134f736551774973"
+    },
+    {
+      "branch": "codex/ow04-lifecycle-20261021",
+      "commit": "f5e11dc4c559f89c428bda83df7338823bad2a8f",
+      "path": "docs/cp7/d17-14/ow04/native87-restore-transport-a45084ce-pass/browser/T3_PACKAGE_FILES_INSTALL.json.gz",
+      "archive_path": "f5e11dc4/docs/cp7/d17-14/ow04/native87-restore-transport-a45084ce-pass/browser/T3_PACKAGE_FILES_INSTALL.json.gz",
+      "bytes": 255,
+      "sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7"
+    },
+    {
+      "branch": "codex/ow04-lifecycle-20261021",
+      "commit": "f5e11dc4c559f89c428bda83df7338823bad2a8f",
+      "path": "docs/cp7/d17-14/ow04/native87-restore-transport-a45084ce-pass/browser/T3_PACKAGE_INSTALL.json.gz",
+      "archive_path": "f5e11dc4/docs/cp7/d17-14/ow04/native87-restore-transport-a45084ce-pass/browser/T3_PACKAGE_INSTALL.json.gz",
+      "bytes": 11410,
+      "sha256": "8855b678e3dec12e94f1458000530addb91029456bc3cabec5e980e52bfbb48b"
+    },
+    {
+      "branch": "codex/ow04-lifecycle-20261021",
+      "commit": "f5e11dc4c559f89c428bda83df7338823bad2a8f",
+      "path": "docs/cp7/d17-14/ow04/native87-restore-transport-a45084ce-pass/http/RECEIPT.json",
+      "archive_path": "f5e11dc4/docs/cp7/d17-14/ow04/native87-restore-transport-a45084ce-pass/http/RECEIPT.json",
+      "bytes": 6820,
+      "sha256": "7eab60fbfe7267a3a46e1867ce1222b463940b7c0ea95bfef28b05cf21e19d9a"
+    },
+    {
+      "branch": "codex/ow04-lifecycle-20261021",
+      "commit": "f5e11dc4c559f89c428bda83df7338823bad2a8f",
+      "path": "docs/cp7/d17-14/ow04/native87-restore-transport-a45084ce-pass/http/ow04-http-completed/ALIGNED_CHAIN.json.gz",
+      "archive_path": "f5e11dc4/docs/cp7/d17-14/ow04/native87-restore-transport-a45084ce-pass/http/ow04-http-completed/ALIGNED_CHAIN.json.gz",
+      "bytes": 4768,
+      "sha256": "50b6faabc978bed534a8489174702a0c73a288a5614b300e218d7a2fdf719f75"
+    },
+    {
+      "branch": "codex/ow04-lifecycle-20261021",
+      "commit": "f5e11dc4c559f89c428bda83df7338823bad2a8f",
+      "path": "docs/cp7/d17-14/ow04/native87-restore-transport-a45084ce-pass/http/ow04-http-completed/CP7_OW04_HTTP.json.gz",
+      "archive_path": "f5e11dc4/docs/cp7/d17-14/ow04/native87-restore-transport-a45084ce-pass/http/ow04-http-completed/CP7_OW04_HTTP.json.gz",
+      "bytes": 80142,
+      "sha256": "88c6e556ff590687a5c5217201cafed1cf7569f938e0ce55ebc3a642a660650a"
+    },
+    {
+      "branch": "codex/ow04-lifecycle-20261021",
+      "commit": "f5e11dc4c559f89c428bda83df7338823bad2a8f",
+      "path": "docs/cp7/d17-14/ow04/native87-restore-transport-a45084ce-pass/http/ow04-http-completed/T3_BACKUP_RESTORE_DRILL.json.gz",
+      "archive_path": "f5e11dc4/docs/cp7/d17-14/ow04/native87-restore-transport-a45084ce-pass/http/ow04-http-completed/T3_BACKUP_RESTORE_DRILL.json.gz",
+      "bytes": 1809,
+      "sha256": "a34587e307813a8c14ec91e07431f0aa02fe36b764589559de119894622313ac"
+    },
+    {
+      "branch": "codex/ow04-lifecycle-20261021",
+      "commit": "f5e11dc4c559f89c428bda83df7338823bad2a8f",
+      "path": "docs/cp7/d17-14/ow04/native87-restore-transport-a45084ce-pass/http/ow04-http-completed/T3_PACKAGE_FILES_INSTALL.json.gz",
+      "archive_path": "f5e11dc4/docs/cp7/d17-14/ow04/native87-restore-transport-a45084ce-pass/http/ow04-http-completed/T3_PACKAGE_FILES_INSTALL.json.gz",
+      "bytes": 255,
+      "sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7"
+    },
+    {
+      "branch": "codex/ow04-lifecycle-20261021",
+      "commit": "f5e11dc4c559f89c428bda83df7338823bad2a8f",
+      "path": "docs/cp7/d17-14/ow04/native87-restore-transport-a45084ce-pass/http/ow04-http-completed/T3_PACKAGE_INSTALL.json.gz",
+      "archive_path": "f5e11dc4/docs/cp7/d17-14/ow04/native87-restore-transport-a45084ce-pass/http/ow04-http-completed/T3_PACKAGE_INSTALL.json.gz",
+      "bytes": 11410,
+      "sha256": "887e2f35909eaafee0b8126a45d7e579fd59f67f6b99d5eee8204e08e6936e5a"
+    },
+    {
+      "branch": "codex/ow04-lifecycle-20261021",
+      "commit": "f5e11dc4c559f89c428bda83df7338823bad2a8f",
+      "path": "docs/cp7/d17-14/ow04/native87-restore-transport-a45084ce-pass/http/t3/ALIGNED_CHAIN.json.gz",
+      "archive_path": "f5e11dc4/docs/cp7/d17-14/ow04/native87-restore-transport-a45084ce-pass/http/t3/ALIGNED_CHAIN.json.gz",
+      "bytes": 4768,
+      "sha256": "50b6faabc978bed534a8489174702a0c73a288a5614b300e218d7a2fdf719f75"
+    },
+    {
+      "branch": "codex/ow04-lifecycle-20261021",
+      "commit": "f5e11dc4c559f89c428bda83df7338823bad2a8f",
+      "path": "docs/cp7/d17-14/ow04/native87-restore-transport-a45084ce-pass/http/t3/CP7_OW04_HTTP.json.gz",
+      "archive_path": "f5e11dc4/docs/cp7/d17-14/ow04/native87-restore-transport-a45084ce-pass/http/t3/CP7_OW04_HTTP.json.gz",
+      "bytes": 80142,
+      "sha256": "88c6e556ff590687a5c5217201cafed1cf7569f938e0ce55ebc3a642a660650a"
+    },
+    {
+      "branch": "codex/ow04-lifecycle-20261021",
+      "commit": "f5e11dc4c559f89c428bda83df7338823bad2a8f",
+      "path": "docs/cp7/d17-14/ow04/native87-restore-transport-a45084ce-pass/http/t3/CP7_OW04_RACES.json.gz",
+      "archive_path": "f5e11dc4/docs/cp7/d17-14/ow04/native87-restore-transport-a45084ce-pass/http/t3/CP7_OW04_RACES.json.gz",
+      "bytes": 28589,
+      "sha256": "df44c653229d872e123db380582cfdd1f487cc8184a97383bf0ebf3034182a38"
+    },
+    {
+      "branch": "codex/ow04-lifecycle-20261021",
+      "commit": "f5e11dc4c559f89c428bda83df7338823bad2a8f",
+      "path": "docs/cp7/d17-14/ow04/native87-restore-transport-a45084ce-pass/http/t3/OW04_HTTP_RACE_FINAL.json.gz",
+      "archive_path": "f5e11dc4/docs/cp7/d17-14/ow04/native87-restore-transport-a45084ce-pass/http/t3/OW04_HTTP_RACE_FINAL.json.gz",
+      "bytes": 483,
+      "sha256": "c3ccc75d9b8ab9c9ce0354f3ecb507315b10d9af1bf5e54482150cb07345d515"
+    },
+    {
+      "branch": "codex/ow04-lifecycle-20261021",
+      "commit": "f5e11dc4c559f89c428bda83df7338823bad2a8f",
+      "path": "docs/cp7/d17-14/ow04/native87-restore-transport-a45084ce-pass/http/t3/T3_BACKUP_RESTORE_DRILL.json.gz",
+      "archive_path": "f5e11dc4/docs/cp7/d17-14/ow04/native87-restore-transport-a45084ce-pass/http/t3/T3_BACKUP_RESTORE_DRILL.json.gz",
+      "bytes": 1810,
+      "sha256": "0ccb23d25118637cd485ad0bd067a16df3762860494f96493a019ce42c7acb3a"
+    },
+    {
+      "branch": "codex/ow04-lifecycle-20261021",
+      "commit": "f5e11dc4c559f89c428bda83df7338823bad2a8f",
+      "path": "docs/cp7/d17-14/ow04/native87-restore-transport-a45084ce-pass/http/t3/T3_PACKAGE_FILES_INSTALL.json.gz",
+      "archive_path": "f5e11dc4/docs/cp7/d17-14/ow04/native87-restore-transport-a45084ce-pass/http/t3/T3_PACKAGE_FILES_INSTALL.json.gz",
+      "bytes": 255,
+      "sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7"
+    },
+    {
+      "branch": "codex/ow04-lifecycle-20261021",
+      "commit": "f5e11dc4c559f89c428bda83df7338823bad2a8f",
+      "path": "docs/cp7/d17-14/ow04/native87-restore-transport-a45084ce-pass/http/t3/T3_PACKAGE_INSTALL.json.gz",
+      "archive_path": "f5e11dc4/docs/cp7/d17-14/ow04/native87-restore-transport-a45084ce-pass/http/t3/T3_PACKAGE_INSTALL.json.gz",
+      "bytes": 11410,
+      "sha256": "887e2f35909eaafee0b8126a45d7e579fd59f67f6b99d5eee8204e08e6936e5a"
+    },
+    {
+      "branch": "codex/ow04-lifecycle-20261021",
+      "commit": "f5e11dc4c559f89c428bda83df7338823bad2a8f",
+      "path": "docs/cp7/d17-14/ow04/native87-restore-transport-a45084ce-pass/used-restore/ALIGNED_CHAIN.json.gz",
+      "archive_path": "f5e11dc4/docs/cp7/d17-14/ow04/native87-restore-transport-a45084ce-pass/used-restore/ALIGNED_CHAIN.json.gz",
+      "bytes": 4768,
+      "sha256": "50b6faabc978bed534a8489174702a0c73a288a5614b300e218d7a2fdf719f75"
+    },
+    {
+      "branch": "codex/ow04-lifecycle-20261021",
+      "commit": "f5e11dc4c559f89c428bda83df7338823bad2a8f",
+      "path": "docs/cp7/d17-14/ow04/native87-restore-transport-a45084ce-pass/used-restore/CP7_OW04_USED_RESTORE.json.gz",
+      "archive_path": "f5e11dc4/docs/cp7/d17-14/ow04/native87-restore-transport-a45084ce-pass/used-restore/CP7_OW04_USED_RESTORE.json.gz",
+      "bytes": 16724,
+      "sha256": "5a9cbb192f90777a72c84b37c0ec46a314783b83039ec95ee12471f3c4b593a3"
+    },
+    {
+      "branch": "codex/ow04-lifecycle-20261021",
+      "commit": "f5e11dc4c559f89c428bda83df7338823bad2a8f",
+      "path": "docs/cp7/d17-14/ow04/native87-restore-transport-a45084ce-pass/used-restore/OW04_USED_RESTORE_MANIFEST.json.gz",
+      "archive_path": "f5e11dc4/docs/cp7/d17-14/ow04/native87-restore-transport-a45084ce-pass/used-restore/OW04_USED_RESTORE_MANIFEST.json.gz",
+      "bytes": 1699833,
+      "sha256": "e7245e394a6875c7b82e837cb574a4c93092d2bc745360d391d46f39f2352f02"
+    },
+    {
+      "branch": "codex/ow04-lifecycle-20261021",
+      "commit": "f5e11dc4c559f89c428bda83df7338823bad2a8f",
+      "path": "docs/cp7/d17-14/ow04/native87-restore-transport-a45084ce-pass/used-restore/RECEIPT.json",
+      "archive_path": "f5e11dc4/docs/cp7/d17-14/ow04/native87-restore-transport-a45084ce-pass/used-restore/RECEIPT.json",
+      "bytes": 4058,
+      "sha256": "f3efd16685e1266950022a234b673e44ff68416147d0fc2359f5127d3d6ef960"
+    },
+    {
+      "branch": "codex/ow04-lifecycle-20261021",
+      "commit": "f5e11dc4c559f89c428bda83df7338823bad2a8f",
+      "path": "docs/cp7/d17-14/ow04/native87-restore-transport-a45084ce-pass/used-restore/T3_BACKUP_RESTORE_DRILL.json.gz",
+      "archive_path": "f5e11dc4/docs/cp7/d17-14/ow04/native87-restore-transport-a45084ce-pass/used-restore/T3_BACKUP_RESTORE_DRILL.json.gz",
+      "bytes": 645,
+      "sha256": "a90636ed8d917052ccd30896f08fc5d278006a89fdf0ddce150414002456ae96"
+    },
+    {
+      "branch": "codex/ow04-lifecycle-20261021",
+      "commit": "f5e11dc4c559f89c428bda83df7338823bad2a8f",
+      "path": "docs/cp7/d17-14/ow04/native87-restore-transport-a45084ce-pass/used-restore/T3_PACKAGE_FILES_INSTALL.json.gz",
+      "archive_path": "f5e11dc4/docs/cp7/d17-14/ow04/native87-restore-transport-a45084ce-pass/used-restore/T3_PACKAGE_FILES_INSTALL.json.gz",
+      "bytes": 255,
+      "sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7"
+    },
+    {
+      "branch": "codex/ow04-lifecycle-20261021",
+      "commit": "f5e11dc4c559f89c428bda83df7338823bad2a8f",
+      "path": "docs/cp7/d17-14/ow04/native87-restore-transport-a45084ce-pass/used-restore/T3_PACKAGE_INSTALL.json.gz",
+      "archive_path": "f5e11dc4/docs/cp7/d17-14/ow04/native87-restore-transport-a45084ce-pass/used-restore/T3_PACKAGE_INSTALL.json.gz",
+      "bytes": 11389,
+      "sha256": "da52d58a976d98717dc53a55d67e5e8460074daecf2c6e4adeb3d71395ba623b"
+    },
+    {
+      "branch": "codex/ow04-payment-correction-20261022",
+      "commit": "ceedfb9c4feecd0a7219ffe308f3c75fb8b88bf5",
+      "path": ".github/workflows/cp7-ow04-payment-browser-only.yml",
+      "archive_path": "ceedfb9c/.github/workflows/cp7-ow04-payment-browser-only.yml",
+      "bytes": 10811,
+      "sha256": "d1bc1f17bdbd37bf94a9eab414cad60d90dd47ec3212e2eca4c4cbb4eee22caa"
+    },
+    {
+      "branch": "codex/ow04-payment-correction-20261022",
+      "commit": "ceedfb9c4feecd0a7219ffe308f3c75fb8b88bf5",
+      "path": "docs/cp7/OPEN_WORK_D17_14_20261020.md",
+      "archive_path": "ceedfb9c/docs/cp7/OPEN_WORK_D17_14_20261020.md",
+      "bytes": 17101,
+      "sha256": "9102a3cd36bbedc67d67d92a47e599b83a9107db760ed3d7ef93de9024d25d68"
+    },
+    {
+      "branch": "codex/ow04-payment-correction-20261022",
+      "commit": "ceedfb9c4feecd0a7219ffe308f3c75fb8b88bf5",
+      "path": "docs/cp7/d17-14/ow04/payment-browser7-127099ac-first-result/ALL_ORIGINAL_JSON.tar.xz",
+      "archive_path": "ceedfb9c/docs/cp7/d17-14/ow04/payment-browser7-127099ac-first-result/ALL_ORIGINAL_JSON.tar.xz",
+      "bytes": 640344,
+      "sha256": "da1d3ef48b7b585dd0031417ea9b45293b0a7bfa4c63ea7cdfff852ca2f304c1"
+    },
+    {
+      "branch": "codex/ow04-payment-correction-20261022",
+      "commit": "ceedfb9c4feecd0a7219ffe308f3c75fb8b88bf5",
+      "path": "docs/cp7/d17-14/ow04/payment-browser7-127099ac-first-result/CP7_OW04_PAYMENT_CURRENT_BROWSER7_SYNC.json.xz",
+      "archive_path": "ceedfb9c/docs/cp7/d17-14/ow04/payment-browser7-127099ac-first-result/CP7_OW04_PAYMENT_CURRENT_BROWSER7_SYNC.json.xz",
+      "bytes": 15824,
+      "sha256": "76834a993eec874793f963521e9eb699ddf6a4ac67734a2c8ef8cdd203c0e959"
+    },
+    {
+      "branch": "codex/ow04-payment-correction-20261022",
+      "commit": "ceedfb9c4feecd0a7219ffe308f3c75fb8b88bf5",
+      "path": "docs/cp7/d17-14/ow04/payment-browser7-127099ac-first-result/EXTRACTION_RECEIPT.json",
+      "archive_path": "ceedfb9c/docs/cp7/d17-14/ow04/payment-browser7-127099ac-first-result/EXTRACTION_RECEIPT.json",
+      "bytes": 8630,
+      "sha256": "fb6ced2c24778b0957d3faaee934b607890d506ddad29d7c9d67c10ae948c601"
+    },
+    {
+      "branch": "codex/ow04-payment-correction-20261022",
+      "commit": "ceedfb9c4feecd0a7219ffe308f3c75fb8b88bf5",
+      "path": "docs/cp7/d17-14/ow04/payment-browser7-127099ac-first-result/PAYMENT_CURRENT_APPLY_FAILURE.json.xz",
+      "archive_path": "ceedfb9c/docs/cp7/d17-14/ow04/payment-browser7-127099ac-first-result/PAYMENT_CURRENT_APPLY_FAILURE.json.xz",
+      "bytes": 2008,
+      "sha256": "1d0289242aa6d06485000b3ec212745ca5128393920dd0d04ca321ee0c83d950"
+    },
+    {
+      "branch": "codex/ow04-payment-correction-20261022",
+      "commit": "ceedfb9c4feecd0a7219ffe308f3c75fb8b88bf5",
+      "path": "docs/cp7/d17-14/ow04/payment-browser7-127099ac-first-result/PAYMENT_CURRENT_HOST_0.json.xz",
+      "archive_path": "ceedfb9c/docs/cp7/d17-14/ow04/payment-browser7-127099ac-first-result/PAYMENT_CURRENT_HOST_0.json.xz",
+      "bytes": 2692,
+      "sha256": "8f1c53ee84426ff74248bb68f0ed7835ecedaf441d20d27a51889386c4c7694c"
+    },
+    {
+      "branch": "codex/ow04-payment-correction-20261022",
+      "commit": "ceedfb9c4feecd0a7219ffe308f3c75fb8b88bf5",
+      "path": "docs/cp7/d17-14/ow04/payment-browser7-127099ac-first-result/README.md",
+      "archive_path": "ceedfb9c/docs/cp7/d17-14/ow04/payment-browser7-127099ac-first-result/README.md",
+      "bytes": 1736,
+      "sha256": "6ecf3347ef10865da2616e727201476ec10bb07dea6788d8f124d2a0eb2905de"
+    },
+    {
+      "branch": "codex/ow04-payment-correction-20261022",
+      "commit": "ceedfb9c4feecd0a7219ffe308f3c75fb8b88bf5",
+      "path": "docs/cp7/d17-14/ow04/payment-browser7-127099ac-first-result/RETENTION_RECEIPT.json",
+      "archive_path": "ceedfb9c/docs/cp7/d17-14/ow04/payment-browser7-127099ac-first-result/RETENTION_RECEIPT.json",
+      "bytes": 5751,
+      "sha256": "a69bf2a5e8e19cf3bea5afb5e382e74e4bcfad93a72d88662ce3396b4058de4b"
+    },
+    {
+      "branch": "codex/ow04-payment-correction-20261022",
+      "commit": "ceedfb9c4feecd0a7219ffe308f3c75fb8b88bf5",
+      "path": "docs/cp7/d17-14/ow04/payment-browser7-b813599c-pass/ALL_ORIGINAL_JSON.tar.xz",
+      "archive_path": "ceedfb9c/docs/cp7/d17-14/ow04/payment-browser7-b813599c-pass/ALL_ORIGINAL_JSON.tar.xz",
+      "bytes": 643168,
+      "sha256": "023cfcb2a52ada4cec5f8dabe91742c11503b50489462b1ed56bf824e46d0e85"
+    },
+    {
+      "branch": "codex/ow04-payment-correction-20261022",
+      "commit": "ceedfb9c4feecd0a7219ffe308f3c75fb8b88bf5",
+      "path": "docs/cp7/d17-14/ow04/payment-browser7-b813599c-pass/CP7_OW04_PAYMENT_CURRENT_BROWSER7_RECOVERY.json.xz",
+      "archive_path": "ceedfb9c/docs/cp7/d17-14/ow04/payment-browser7-b813599c-pass/CP7_OW04_PAYMENT_CURRENT_BROWSER7_RECOVERY.json.xz",
+      "bytes": 18188,
+      "sha256": "eda221e8ef81db5ec187929e9a869172b6abd0263575b997a1956894401972ab"
+    },
+    {
+      "branch": "codex/ow04-payment-correction-20261022",
+      "commit": "ceedfb9c4feecd0a7219ffe308f3c75fb8b88bf5",
+      "path": "docs/cp7/d17-14/ow04/payment-browser7-b813599c-pass/EXTRACTION_RECEIPT.json",
+      "archive_path": "ceedfb9c/docs/cp7/d17-14/ow04/payment-browser7-b813599c-pass/EXTRACTION_RECEIPT.json",
+      "bytes": 8163,
+      "sha256": "6028c6c647d73d97bafde68cc5e72f2b3d608704cb342a0b0b1e2dce886670d8"
+    },
+    {
+      "branch": "codex/ow04-payment-correction-20261022",
+      "commit": "ceedfb9c4feecd0a7219ffe308f3c75fb8b88bf5",
+      "path": "docs/cp7/d17-14/ow04/payment-browser7-b813599c-pass/FUNCTION_TIMING_SUMMARY.json",
+      "archive_path": "ceedfb9c/docs/cp7/d17-14/ow04/payment-browser7-b813599c-pass/FUNCTION_TIMING_SUMMARY.json",
+      "bytes": 11252,
+      "sha256": "eff48e14b5f7b8aec871343c83bd47a7302499ee5fead2d1576dece293e87443"
+    },
+    {
+      "branch": "codex/ow04-payment-correction-20261022",
+      "commit": "ceedfb9c4feecd0a7219ffe308f3c75fb8b88bf5",
+      "path": "docs/cp7/d17-14/ow04/payment-browser7-b813599c-pass/PAYMENT_CURRENT_HOST_0.json.xz",
+      "archive_path": "ceedfb9c/docs/cp7/d17-14/ow04/payment-browser7-b813599c-pass/PAYMENT_CURRENT_HOST_0.json.xz",
+      "bytes": 4264,
+      "sha256": "6e065c9687bd905a1c220d3b03e83e390b9a08c985e5745781a2bc40734d7e39"
+    },
+    {
+      "branch": "codex/ow04-payment-correction-20261022",
+      "commit": "ceedfb9c4feecd0a7219ffe308f3c75fb8b88bf5",
+      "path": "docs/cp7/d17-14/ow04/payment-browser7-b813599c-pass/README.md",
+      "archive_path": "ceedfb9c/docs/cp7/d17-14/ow04/payment-browser7-b813599c-pass/README.md",
+      "bytes": 3123,
+      "sha256": "5e73857d5d7e070cacb15ce6c449583215ee5bdcabfc4dd968278b643f329207"
+    },
+    {
+      "branch": "codex/ow04-payment-correction-20261022",
+      "commit": "ceedfb9c4feecd0a7219ffe308f3c75fb8b88bf5",
+      "path": "docs/cp7/d17-14/ow04/payment-browser7-b813599c-pass/RETENTION_RECEIPT.json",
+      "archive_path": "ceedfb9c/docs/cp7/d17-14/ow04/payment-browser7-b813599c-pass/RETENTION_RECEIPT.json",
+      "bytes": 5578,
+      "sha256": "1d0118dc2260489bf9b8f43efbf14ba875505dbb9747fa115eddd36a9b44df32"
+    },
+    {
+      "branch": "codex/ow04-payment-correction-20261022",
+      "commit": "ceedfb9c4feecd0a7219ffe308f3c75fb8b88bf5",
+      "path": "docs/cp7/d17-14/ow04/payment-native26-d96bb101-pass/ALIGNED_CHAIN.json.gz",
+      "archive_path": "ceedfb9c/docs/cp7/d17-14/ow04/payment-native26-d96bb101-pass/ALIGNED_CHAIN.json.gz",
+      "bytes": 4768,
+      "sha256": "50b6faabc978bed534a8489174702a0c73a288a5614b300e218d7a2fdf719f75"
+    },
+    {
+      "branch": "codex/ow04-payment-correction-20261022",
+      "commit": "ceedfb9c4feecd0a7219ffe308f3c75fb8b88bf5",
+      "path": "docs/cp7/d17-14/ow04/payment-native26-d96bb101-pass/CP7_OW04_PAYMENT_SOURCE_NATIVE26_POSITIVE.json.xz",
+      "archive_path": "ceedfb9c/docs/cp7/d17-14/ow04/payment-native26-d96bb101-pass/CP7_OW04_PAYMENT_SOURCE_NATIVE26_POSITIVE.json.xz",
+      "bytes": 32164,
+      "sha256": "c3bdac05a495426818171082e552be4e7a85e1531ff38edb50d8a6b16e3ae1ef"
+    },
+    {
+      "branch": "codex/ow04-payment-correction-20261022",
+      "commit": "ceedfb9c4feecd0a7219ffe308f3c75fb8b88bf5",
+      "path": "docs/cp7/d17-14/ow04/payment-native26-d96bb101-pass/EXTRACTION_RECEIPT.json",
+      "archive_path": "ceedfb9c/docs/cp7/d17-14/ow04/payment-native26-d96bb101-pass/EXTRACTION_RECEIPT.json",
+      "bytes": 2983,
+      "sha256": "fbd352b3d7a5690f2616feb5fdffad7a7fd313660df43d03a36b58fbbc6adda9"
+    },
+    {
+      "branch": "codex/ow04-payment-correction-20261022",
+      "commit": "ceedfb9c4feecd0a7219ffe308f3c75fb8b88bf5",
+      "path": "docs/cp7/d17-14/ow04/payment-native26-d96bb101-pass/README.md",
+      "archive_path": "ceedfb9c/docs/cp7/d17-14/ow04/payment-native26-d96bb101-pass/README.md",
+      "bytes": 2467,
+      "sha256": "81463fbaf345b6183af26ffddbe1101bdab70eb72d40505188ffe669cddc4e80"
+    },
+    {
+      "branch": "codex/ow04-payment-correction-20261022",
+      "commit": "ceedfb9c4feecd0a7219ffe308f3c75fb8b88bf5",
+      "path": "docs/cp7/d17-14/ow04/payment-native26-d96bb101-pass/RETENTION_RECEIPT.json",
+      "archive_path": "ceedfb9c/docs/cp7/d17-14/ow04/payment-native26-d96bb101-pass/RETENTION_RECEIPT.json",
+      "bytes": 1582,
+      "sha256": "ba7cfb63d6a3ea3484ab8a9c02bb20160df2a80ba08618f9ceb5faf5a96142b8"
+    },
+    {
+      "branch": "codex/ow04-payment-correction-20261022",
+      "commit": "ceedfb9c4feecd0a7219ffe308f3c75fb8b88bf5",
+      "path": "docs/cp7/d17-14/ow04/payment-native26-d96bb101-pass/T3_BACKUP_RESTORE_DRILL.json.gz",
+      "archive_path": "ceedfb9c/docs/cp7/d17-14/ow04/payment-native26-d96bb101-pass/T3_BACKUP_RESTORE_DRILL.json.gz",
+      "bytes": 1809,
+      "sha256": "4fda9d41031149f76041aea132a9049c36729d678d76c27231da18d2f23077f8"
+    },
+    {
+      "branch": "codex/ow04-payment-correction-20261022",
+      "commit": "ceedfb9c4feecd0a7219ffe308f3c75fb8b88bf5",
+      "path": "docs/cp7/d17-14/ow04/payment-native26-d96bb101-pass/T3_PACKAGE_FILES_INSTALL.json.gz",
+      "archive_path": "ceedfb9c/docs/cp7/d17-14/ow04/payment-native26-d96bb101-pass/T3_PACKAGE_FILES_INSTALL.json.gz",
+      "bytes": 255,
+      "sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7"
+    },
+    {
+      "branch": "codex/ow04-payment-correction-20261022",
+      "commit": "ceedfb9c4feecd0a7219ffe308f3c75fb8b88bf5",
+      "path": "docs/cp7/d17-14/ow04/payment-native26-d96bb101-pass/T3_PACKAGE_INSTALL.json.gz",
+      "archive_path": "ceedfb9c/docs/cp7/d17-14/ow04/payment-native26-d96bb101-pass/T3_PACKAGE_INSTALL.json.gz",
+      "bytes": 11411,
+      "sha256": "150ff4c8b194d6c96a43b5ea908b1d9bad1326eb0339ec8a84197ef2ca5db05c"
+    },
+    {
+      "branch": "codex/ow04-payment-correction-20261022",
+      "commit": "ceedfb9c4feecd0a7219ffe308f3c75fb8b88bf5",
+      "path": "scripts/ow04-payment-browser-only-qualification/README.md",
+      "archive_path": "ceedfb9c/scripts/ow04-payment-browser-only-qualification/README.md",
+      "bytes": 2587,
+      "sha256": "527c67212aae95e05b95f4778c0b3918bc62c97d99e0efefee30e62a3ba85975"
+    },
+    {
+      "branch": "codex/ow04-payment-correction-20261022",
+      "commit": "ceedfb9c4feecd0a7219ffe308f3c75fb8b88bf5",
+      "path": "scripts/ow04-payment-browser-only-qualification/SOURCE.json",
+      "archive_path": "ceedfb9c/scripts/ow04-payment-browser-only-qualification/SOURCE.json",
+      "bytes": 11796,
+      "sha256": "16a6b4149cc30d74a4840d050848ae54217d73e9048230e18d0d08bfc795b75f"
+    },
+    {
+      "branch": "codex/ow04-payment-correction-20261022",
+      "commit": "ceedfb9c4feecd0a7219ffe308f3c75fb8b88bf5",
+      "path": "scripts/ow04-payment-browser-only-qualification/browser_cases.mjs",
+      "archive_path": "ceedfb9c/scripts/ow04-payment-browser-only-qualification/browser_cases.mjs",
+      "bytes": 12847,
+      "sha256": "9dc8d6f3eea604f078716b1f99d8084b9dff4e2f9fc50ac46af010c3c80f548f"
+    },
+    {
+      "branch": "codex/ow04-payment-correction-20261022",
+      "commit": "ceedfb9c4feecd0a7219ffe308f3c75fb8b88bf5",
+      "path": "scripts/ow04-payment-browser-only-qualification/function_stats.py",
+      "archive_path": "ceedfb9c/scripts/ow04-payment-browser-only-qualification/function_stats.py",
+      "bytes": 997,
+      "sha256": "ee4e4306b644876d9100e96a8ef6576b7e062dd08b543d4066ab8d829840df61"
+    },
+    {
+      "branch": "codex/ow04-payment-correction-20261022",
+      "commit": "ceedfb9c4feecd0a7219ffe308f3c75fb8b88bf5",
+      "path": "scripts/ow04-payment-browser-only-qualification/probe.py",
+      "archive_path": "ceedfb9c/scripts/ow04-payment-browser-only-qualification/probe.py",
+      "bytes": 11271,
+      "sha256": "4ebad597dae015687ca6c5196ec113cb1a8231aae870ec2046f9633581845cab"
+    }
+  ],
+  "active_writer_branch": "codex/ow04-payment-binding-20261022",
+  "product_source_at_review": "527ed740647724abc06368b29744ed721193599a",
+  "additional_feature_product_code_in_divergent_commits": false,
+  "pending_branch_disposition": {
+    "closure-queue": "copy unchanged frozen EXPECTED/PLAN; implement on active writer branch",
+    "lifecycle": "retain exact original files in private archive and immutable historical parent",
+    "payment-correction": "retain exact first failure and old helper; current9 browser qualifier supersedes historical7; current source/status supersede older qualified helper"
+  },
+  "public_history_not_rewritten": true,
+  "main_frozen_auditor_hosted_untouched": true
+}

@@ -1,0 +1,120 @@
+{
+  "classification": "PREIMPLEMENTATION_CLOSURE_SCHEDULING_GOLD_NOT_NATIVE_OR_PERFORMANCE_ACCEPTANCE",
+  "retained_native26_must_actually_rerun": true,
+  "expected_native_count": 32,
+  "expected_protocol_count": 6,
+  "cases": [
+    {
+      "id": "OW04_CLOSURE_QUEUE_ONE_OPERATION_ONE_DEFERRED_CLOSE",
+      "pending_before": 1,
+      "drains": 1,
+      "expected": {
+        "source_net": "800.00",
+        "source_P": "1000.00",
+        "I": "200.00",
+        "C": "80.00",
+        "available": "120.00",
+        "source_AR": "0.00",
+        "target_P": "0.00",
+        "target_U": "80.00",
+        "target_AR": "420.00",
+        "cash": "1000.00"
+      }
+    },
+    {
+      "id": "OW04_CLOSURE_QUEUE_TWO_OPERATIONS_ONE_TRANSACTION",
+      "pending_before": 2,
+      "drains": 2,
+      "expected": {
+        "source_net": "800.00",
+        "source_P": "1000.00",
+        "I": "200.00",
+        "C": "100.00",
+        "available": "100.00",
+        "source_AR": "0.00",
+        "target_P": "0.00",
+        "target_U": "100.00",
+        "target_AR": "400.00",
+        "cash": "1000.00"
+      }
+    },
+    {
+      "id": "OW04_CLOSURE_QUEUE_DELETED_PENDING_ROW_ATOMIC_REFUSAL",
+      "error": "CP7_CREDIT_CONSUMER_VALIDATION_QUEUE_CHANGED",
+      "expected_after_refused": {
+        "source_net": "800.00",
+        "source_P": "1000.00",
+        "I": "200.00",
+        "C": "0.00",
+        "available": "200.00",
+        "source_AR": "0.00",
+        "target_P": "0.00",
+        "target_U": "0.00",
+        "target_AR": "500.00",
+        "cash": "1000.00"
+      }
+    },
+    {
+      "id": "OW04_CLOSURE_QUEUE_MUTATED_PENDING_IDENTITY_ATOMIC_REFUSAL",
+      "error": "CP7_CREDIT_CONSUMER_VALIDATION_QUEUE_CHANGED",
+      "expected_after_refused": {
+        "source_net": "800.00",
+        "source_P": "1000.00",
+        "I": "200.00",
+        "C": "0.00",
+        "available": "200.00",
+        "source_AR": "0.00",
+        "target_P": "0.00",
+        "target_U": "0.00",
+        "target_AR": "500.00",
+        "cash": "1000.00"
+      }
+    },
+    {
+      "id": "OW04_CLOSURE_QUEUE_REQUEUE_AFTER_SET_CONSTRAINTS",
+      "pending_after_first_drain": 0,
+      "pending_after_actual_request_update": 1,
+      "drains": 2,
+      "expected": {
+        "source_net": "800.00",
+        "source_P": "1000.00",
+        "I": "200.00",
+        "C": "80.00",
+        "available": "120.00",
+        "source_AR": "0.00",
+        "target_P": "0.00",
+        "target_U": "80.00",
+        "target_AR": "420.00",
+        "cash": "1000.00"
+      }
+    },
+    {
+      "id": "OW04_CLOSURE_QUEUE_LATE_RECEIPT_CHANGE_ATOMIC_REFUSAL",
+      "error": "CP7_CREDIT_CONSUMER_HISTORICAL_COMPLETION_CHANGED",
+      "expected_after_refused": {
+        "source_net": "800.00",
+        "source_P": "1000.00",
+        "I": "200.00",
+        "C": "0.00",
+        "available": "200.00",
+        "source_AR": "0.00",
+        "target_P": "0.00",
+        "target_U": "0.00",
+        "target_AR": "500.00",
+        "cash": "1000.00"
+      }
+    }
+  ],
+  "requirements": [
+    "all_current_facts_verified_before_commit",
+    "queued_validation_is_not_cached_truth",
+    "no_ordinary_role_queue_DML_or_function_execute",
+    "every_insert_or_update_in_original_five_tables_enqueues",
+    "no_queue_bypass_after_SET_CONSTRAINTS",
+    "queue_empty_after_success",
+    "all_original_money_and_source_UUID_oracles_unchanged",
+    "no_Native_FK_or_existing_Native_trigger_change",
+    "preuse_removal_and_full22_restore_must_pass"
+  ],
+  "production_go": false
+}

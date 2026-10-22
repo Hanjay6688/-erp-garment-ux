@@ -1,0 +1,197 @@
+{
+  "label": "CP7_OW04_PAYMENT_CURRENT_USED_RESTORE",
+  "status": "PASS",
+  "candidate_commit": "1e8e1b0dec6451f064f0cfcf75ca5a43610943cf",
+  "scenario_id": "OW04_CURRENT_COMMITTED_APPLY_REFUND_PAYMENT_CHAIN_RESTORE",
+  "expected_scenario_count": 1,
+  "required_steps_pass": true,
+  "steps": [
+    {
+      "step": "COMMITTED_CURRENT_APPLY_REFUND_CORRECTION_CHAINS",
+      "status": "PASS",
+      "actual_committed_business_chains": 2,
+      "fixture_modes": [
+        "APPLY",
+        "REFUND"
+      ],
+      "before_restore_profiles": [
+        {
+          "source_net": "800.00",
+          "source_P": "1000.00",
+          "I": "200.00",
+          "C": "100.00",
+          "available": "100.00",
+          "source_AR": "0.00",
+          "target_P": "0.00",
+          "target_U": "100.00",
+          "target_AR": "400.00",
+          "cash": "1000.00"
+        },
+        {
+          "source_net": "800.00",
+          "source_P": "1000.00",
+          "I": "200.00",
+          "C": "100.00",
+          "available": "100.00",
+          "source_AR": "0.00",
+          "target_P": "0.00",
+          "target_U": "0.00",
+          "target_AR": "500.00",
+          "cash": "900.00"
+        }
+      ],
+      "used_removal_refused_before_mutation": true,
+      "administrative_fixture_seeded": true,
+      "test_usage_grant_revoked": false
+    },
+    {
+      "step": "EXACT_FULL_DUMP_AND_FRESH_RESTORE",
+      "status": "PASS",
+      "restore": {
+        "exit": 1,
+        "error_count": 19,
+        "unexplained": [],
+        "only_pg_cron_errors": true,
+        "database_owner_acl_and_settings_preserved": true,
+        "platform_schema_authority_restored": [
+          "graphql",
+          "graphql_public"
+        ]
+      },
+      "every_table_hash_equal": true,
+      "table_count": 649,
+      "every_catalog_data_and_sequence_bound": true
+    },
+    {
+      "step": "RESTORE_BINDING_REFUSAL_CONTROLS",
+      "status": "PASS",
+      "original_raw_oid_guard_refused": true,
+      "controls": [
+        {
+          "id": "WRONG_TRUSTED_HASH",
+          "status": "PASS",
+          "error": "PAYMENT_RESTORE_TRUSTED_BACKUP_HASH_REQUIRED"
+        },
+        {
+          "id": "CHANGED_FINANCIAL_SOURCE",
+          "status": "PASS",
+          "error": "PAYMENT_RESTORE_SOURCE_OR_CONTRACT_CHANGED"
+        },
+        {
+          "id": "WRONG_TARGET_DATABASE",
+          "status": "PASS",
+          "error": "PAYMENT_RESTORE_FRESH_EXPECTED_DATABASE_REQUIRED"
+        },
+        {
+          "id": "ACTUAL_FUNCTION_METADATA_DRIFT",
+          "status": "PASS",
+          "error": "PAYMENT_RESTORE_CATALOG_CHANGED"
+        },
+        {
+          "id": "ACTUAL_BUSINESS_ROW_DRIFT",
+          "status": "PASS",
+          "error": "PAYMENT_RESTORE_BUSINESS_ROWS_OR_SEQUENCE_CHANGED"
+        }
+      ]
+    },
+    {
+      "step": "VERIFIED_CURRENT_CENSUS_REBIND",
+      "status": "PASS",
+      "binding": {
+        "contract_version": "ow04.payment-source.verified-restore-binding.v1",
+        "trusted_backup_sha256": "edb4db444aa947c374792a38f5e98867945e9663429a1bf307bbba354f7022f8",
+        "fresh_database_verified": true,
+        "all_rows_and_sequences_equal": true,
+        "all22_portable_catalog_groups_equal": true,
+        "changed_functions": [
+          "cp7_credit.assert_source_native_trigger_census_v1()"
+        ],
+        "local_raw_oid_census_enforced": true,
+        "runtime_capture_sha256_pg": "1dccca0bd7bee4abd97103cb70de2d94d3dbcd66b949660388036af2d4c29024",
+        "production_go": false
+      }
+    },
+    {
+      "step": "EXACT_RESTORED_READS_AND_OLD_RECEIPT_REPLAYS",
+      "status": "PASS",
+      "exact_authoritative_reads": true,
+      "original_P1000_P900_facts_unchanged": true,
+      "old_and_current_eight_receipts_replayed": true,
+      "every_table_and_sequence_unchanged": true
+    },
+    {
+      "step": "RESTORED_NAMED_UNDOS_AND_RETURN_INVERSES",
+      "status": "PASS",
+      "both_actual_inverse_outcomes": [
+        {
+          "observed": {
+            "source_net": "1000.00",
+            "source_P": "1000.00",
+            "I": "0.00",
+            "C": "0.00",
+            "available": "0.00",
+            "source_AR": "0.00",
+            "target_P": "0.00",
+            "target_U": "0.00",
+            "target_AR": "500.00",
+            "cash": "1000.00"
+          },
+          "expected": {
+            "source_net": "1000.00",
+            "source_P": "1000.00",
+            "I": "0.00",
+            "C": "0.00",
+            "available": "0.00",
+            "source_AR": "0.00",
+            "target_P": "0.00",
+            "target_U": "0.00",
+            "target_AR": "500.00",
+            "cash": "1000.00"
+          }
+        },
+        {
+          "observed": {
+            "source_net": "1000.00",
+            "source_P": "1000.00",
+            "I": "0.00",
+            "C": "0.00",
+            "available": "0.00",
+            "source_AR": "0.00",
+            "target_P": "0.00",
+            "target_U": "0.00",
+            "target_AR": "500.00",
+            "cash": "1000.00"
+          },
+          "expected": {
+            "source_net": "1000.00",
+            "source_P": "1000.00",
+            "I": "0.00",
+            "C": "0.00",
+            "available": "0.00",
+            "source_AR": "0.00",
+            "target_P": "0.00",
+            "target_U": "0.00",
+            "target_AR": "500.00",
+            "cash": "1000.00"
+          }
+        }
+      ],
+      "exact_named_undos": true,
+      "source_operations_closed": true,
+      "old_payments_and_consumer_journals_retained": true,
+      "source_inverse_replay_one_effect": true
+    }
+  ],
+  "cp6_restored": true,
+  "baseline_advisors_equal": true,
+  "trusted_backup_manifest_sha256": "edb4db444aa947c374792a38f5e98867945e9663429a1bf307bbba354f7022f8",
+  "formal_CP7C_started": false,
+  "production_go": false,
+  "raw_bytes": 235753,
+  "raw_sha256": "71b4b116bded763b5bb02b2aa003236873cf3362b2c11bda0d7e49357bb7c273",
+  "run_id": 39730341474,
+  "job_id": 119663686362,
+  "raw_evidence_retention": "private owner archive; immutable original six JSON files",
+  "artifact_zip_sha256": "40670f0bffc40736ccf02e00fd62db66cb50362a8f2a2dcaaac3007493af0254",
+  "previous_attempts_preserved": true
+}
