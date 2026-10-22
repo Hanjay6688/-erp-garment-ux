@@ -1,0 +1,23 @@
+{
+  "classification": "LOCAL_CLIENT_TYPESCRIPT_AND_DOM_QUALIFICATION_NOT_REAL_AUTH_BROWSER",
+  "status": "PASS",
+  "test_files": 5,
+  "passed_tests": 75,
+  "new_OW05_DOM_tests": 6,
+  "retained_related_tests": 69,
+  "typescript_no_emit": "PASS",
+  "command": "vitest run src/MandorCorrectionPanel.dom.test.tsx src/ConnectedWipStatusPage.dom.test.tsx src/SewingCompletionPanel.dom.test.tsx src/productionRecovery.test.ts src/lib/clientError.test.ts",
+  "after_workspace_recovery": true,
+  "duration_seconds": 1.16,
+  "source_sha256": {
+    "src/MandorCorrectionPanel.tsx": "f3d6207495aa34f0734c0d85b82be0b01560224e51c449bf62947df19ff48002",
+    "src/mandorCorrectionContract.ts": "9aa14c184dfe3609ecdd8970e48c99d559f0b03787d7ea9d3f805b41aa0f38f4",
+    "src/productionRecovery.ts": "01968f866ea59b30caad33c5ebbb0201fe9cf7f69c923e985ae80da1fd44b24f",
+    "src/ConnectedWipStatusPage.tsx": "a2c4b3814ef04a4bce172e00f8fdf47f619e2e60279a3deffde431bf8fe27924",
+    "src/lib/clientError.ts": "a5037d31f570a778b393006c3ce750a1b49b1ccdd92a41463d0280d2c24525a0",
+    "src/lib/mandorCorrectionMessages.ts": "908144ed8a6207a30d7dfe48ca834894cba0a8f43b341ce873699392bea8b284",
+    "src/MandorCorrectionPanel.dom.test.tsx": "4d892272a72c975138fa09f1e7fecbdbed4b161a7a0d97e308b9f0668c386418"
+  },
+  "OW05_complete": false,
+  "production_go": false
+}

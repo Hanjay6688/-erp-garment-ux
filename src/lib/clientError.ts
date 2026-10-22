@@ -4,6 +4,7 @@ import { reportV2Message } from './reportV2Messages'
 import { reminderV2Message } from './reminderV2Messages'
 import { analysisRetentionMessage } from './analysisRetentionMessages'
 import { masterMessage } from './masterMessages'
+import { mandorCorrectionMessage } from './mandorCorrectionMessages'
 
 export type ClientErrorCode =
   | 'AUTH_FAILED'
@@ -71,6 +72,8 @@ export function normalizeClientError(error: unknown): ClientAppError {
     return new ClientAppError('DATA_CONFLICT', 'Data bertabrakan dengan catatan yang sudah ada. Muat ulang dan periksa data sebelum menyimpan lagi.')
   }
   const planV2 = planV2Message(candidate.message, candidate.details)
+  const mandor = mandorCorrectionMessage(candidate.message)
+  if (mandor) return new ClientAppError('REJECTED', mandor)
   if (planV2) return new ClientAppError('REJECTED', planV2)
   const reportV2 = reportV2Message(candidate.message)
   if (reportV2) return new ClientAppError('REJECTED', reportV2)

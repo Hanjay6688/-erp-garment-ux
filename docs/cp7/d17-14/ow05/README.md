@@ -1,6 +1,6 @@
 # Koreksi mandor sesudah jahit — OW-05
 
-Belum selesai. Jalur pengganti per PO sudah ditulis; kualifikasi Native10, dua penulis, Auth nyata, layar dan pemulihan masih harus dibuktikan.
+Belum selesai. Sepuluh uji Native awal lulus dan layar sudah tersambung; nota/payroll lengkap, dua penulis, Auth nyata, browser dan pemulihan masih dituntaskan.
 
 Dasar: keputusan owner D17-14 butir4 dan arahan22 Oktober; urutan tetap OW-05→OW-06→OW-07/08.
 
@@ -17,8 +17,10 @@ Katalog22 kelompok diperiksa penuh; pembatalan pemasangan sesudah dipakai harus 
 
 [Pemeriksaan lokal](local-compile-controls.json) lulus parse/kompilasi8 fungsi privat,2 fasad publik dan satu perubahan Native; tujuh kontrol pasangan WIP lulus. Ini pemeriksaan PGlite dengan tipe kolom Native, bukan pemasangan atau eksekusi penulis keuangan Native.
 
-Sepuluh kasus Native awal mencakup upah aktif ditolak dengan petunjuk, pembalikan→pengganti→catat ulang pada tarif16,00/24,00, replay, UUID berubah, ulasan basi, mandor tidak aktif, kegagalan posting terakhir, kapabilitas privat dan sejarah immutable. Belum ada klaim kasus Native ini lulus.
+Sepuluh kasus Native awal mencakup upah aktif ditolak dengan petunjuk, pembalikan→pengganti→catat ulang pada tarif16,00/24,00, replay, UUID berubah, ulasan basi, mandor tidak aktif, kegagalan posting terakhir, kapabilitas privat dan sejarah immutable. [Native10 sudah lulus](native10-60cbf04d-pass.json), produk60cbf04d, run39765975641/job119781398868. Upah mandor lama0,00; catat ulang empat pcs pada tarif PO menghasilkan16,00 atau tarif mandor baru24,00, dengan WIP/jurnal tepat; CP6 dan advisor pulih sama. Ini belum menyatakan OW-05 selesai.
 
 Masih harus dituntaskan: uji nota/payroll dibayar dan belum dibayar, pool/nota aksesori, riwayat laundry/FG, beberapa potongan satu PO, pergantian berulang, hak dan dua penulis, Auth/layar komputer/HP, pemasangan/pemulihan bawaan serta integrasi pemasangan akhir.
 
 Tidak mengubah main, kandidat audit55c885d1, Enteng, database hosted/produksi atau WA nyata; CP7C formal belum dimulai.
+
+Layar baru tersedia dari WIP & Jahit (termasuk baris riwayat selesai): satu panel per PO, pengunci berurutan, mandor pengganti, alasan, konfirmasi dan petunjuk catat ulang. Pemulihan respons hilang memakai UUID yang sama. [Uji klien75](client75-recovered-pass.json) mencakup6 kasus baru dan69 uji terkait yang lama; ini DOM tiruan, bukan Auth/browser nyata.

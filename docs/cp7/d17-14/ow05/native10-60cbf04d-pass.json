@@ -1,0 +1,96 @@
+{
+  "classification": "COMPACT_ACTUAL_NATIVE10_RECEIPT_NOT_RAW_LOG",
+  "status": "PASS",
+  "candidate_commit": "60cbf04d8e2aba8a1399357e914638809c78b1cb",
+  "run_id": 39765975641,
+  "job_id": 119781398868,
+  "counts": {
+    "PASS": 10
+  },
+  "case_results": {
+    "OW05_ACTIVE_WAGE_GUIDANCE": {
+      "status": "PASS",
+      "active_wage_not_reassigned": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true
+    },
+    "OW05_NATIVE_SUCCESSOR_OLD_RATE": {
+      "status": "PASS",
+      "Native_old_mandor_payable": "0.00",
+      "Native_new_mandor_payable": "16.00",
+      "WIP_increment": "16.00",
+      "four_pcs_original_physical_time": true,
+      "old_history_retained": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true
+    },
+    "OW05_NATIVE_SUCCESSOR_NEW_RATE": {
+      "status": "PASS",
+      "Native_old_mandor_payable": "0.00",
+      "Native_new_mandor_payable": "24.00",
+      "WIP_increment": "24.00",
+      "four_pcs_original_physical_time": true,
+      "old_history_retained": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true
+    },
+    "OW05_LOST_REPLY_REPLAY": {
+      "status": "PASS",
+      "zero_repeat_effect": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true
+    },
+    "OW05_CHANGED_UUID_REFUSED": {
+      "status": "PASS",
+      "zero_repeat_effect": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true
+    },
+    "OW05_STALE_REVIEW_REFUSED": {
+      "status": "PASS",
+      "changed_target_cancels_review": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true
+    },
+    "OW05_INACTIVE_TARGET_REFUSED": {
+      "status": "PASS",
+      "inactive_mandor_refused": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true
+    },
+    "OW05_LATE_NATIVE_POST_ATOMIC": {
+      "status": "PASS",
+      "PO_old_pickup_group_and_new_drafts_all_rolled_back": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true
+    },
+    "OW05_PRIVATE_CAPABILITY_DENIED": {
+      "status": "PASS",
+      "authenticated_cannot_create_or_read_capability": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true
+    },
+    "OW05_HISTORY_IMMUTABLE": {
+      "status": "PASS",
+      "history_update_delete_truncate_refused": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "complete_preuse_removal": "OW05_PREUSE_EXACT_RESTORE",
+  "raw_report": {
+    "bytes": 2679586,
+    "sha256": "958a2028430a15fbecdec960554203c6735e83bc7bc9605ecb14470d9677299f"
+  },
+  "artifact": {
+    "id": 12420247795,
+    "bytes": 1885541,
+    "sha256": "7381e1caa6dd7f11812e4ad0acd35097c59f444c16e7ea28769b4b9377dd6187"
+  },
+  "OW05_complete": false,
+  "formal_CP7C_started": false,
+  "production_go": false,
+  "independent_acceptance": false
+}
