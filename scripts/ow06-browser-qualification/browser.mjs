@@ -50,10 +50,14 @@ async function journey(ui,today,mobile){
    await sahkan.click();await expect.poll(()=>intercepted!==undefined).toBe(true);assert.equal(intercepted.status,200,JSON.stringify(intercepted))
    await expect(panel().getByRole('button',{name:'Periksa status transfer supplier',exact:true})).toBeEnabled()
    assert.equal(observe().transfers.length,1)
-   const request=structuredClone(requests[0]);await page.unroute(endpoint);await page.reload();await open()
+   // While the reply is unknown every writer, the receipt list included, stays locked; the transfer panel offers
+   // the reconcile button on the page itself, without opening a receipt.
+   const request=structuredClone(requests[0]);await page.unroute(endpoint);await page.reload();await procurementMenu(page)
+   await expect(page.locator('button.cproc-receipt').first()).toBeDisabled()
    const reconcile=panel().getByRole('button',{name:'Periksa status transfer supplier',exact:true});await expect(reconcile).toBeEnabled()
    const again=page.waitForResponse(isSave);await reconcile.click();const replay=await response(again)
    assert.deepEqual(replay,made);assert.deepEqual(requests[1],request)
+   await open()
   }else{const waiting=page.waitForResponse(isSave);await sahkan.click();made=await response(waiting)}
   const created=observe()
   assert.equal(Number(created.cash_delta),-1000);assert.deepEqual(f.receipts.map(id=>Number(created.paid[id])),[400,600])

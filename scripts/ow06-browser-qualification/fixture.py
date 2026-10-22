@@ -46,12 +46,15 @@ def main():
         for key in('supplier','cash'):uuid.UUID(f[key])
         result=dict(cash_delta=str(t.single.misc.cash_balance(cur,f['cash'])-t.D(f['bank_start'])),
             paid={pid:str(one(cur,"select coalesce(sum(amount),0)from erp.supplier_payments where purchase_id=%s and status='POSTED'",(pid,)))for pid in f['receipts']},
-            transfers=[[str(x)for x in r]for r in cur.execute("""select number,status,amount from cp7_supplier_transfer.transfers_v1
-                where supplier_id=%s order by recorded_at,id""",(f['supplier'],)).fetchall()],
+            # The retained fixture reuses one supplier, so only transfers allocated to this journey's own receipts count.
+            transfers=[[str(x)for x in r]for r in cur.execute("""select number,status,amount from cp7_supplier_transfer.transfers_v1 x
+                where x.supplier_id=%s and exists(select 1 from cp7_supplier_transfer.allocations_v1 a where a.transfer_id=x.id and a.purchase_id=any(%s::uuid[]))
+                order by recorded_at,id""",(f['supplier'],f['receipts'])).fetchall()],
             journals=[[str(x)for x in r]for r in cur.execute("""select j.status,sum(l.debit),sum(l.credit),count(*)from erp.journal_entries j
                 join erp.journal_lines l on l.journal_entry_id=j.id join cp7_supplier_transfer.transfers_v1 x on x.id=j.source_id
-                where j.source_type='CP7_SUPPLIER_TRANSFER'and x.supplier_id=%s group by j.id,j.status order by j.status,j.id""",(f['supplier'],)).fetchall()],
-            requests=one(cur,"select count(*)from cp7_supplier_transfer.requests_v1 where payload->>'supplier_id'=%s",(f['supplier'],)),
+                where j.source_type='CP7_SUPPLIER_TRANSFER'and x.supplier_id=%s
+                 and exists(select 1 from cp7_supplier_transfer.allocations_v1 a where a.transfer_id=x.id and a.purchase_id=any(%s::uuid[]))
+                group by j.id,j.status order by j.status,j.id""",(f['supplier'],f['receipts'])).fetchall()],
             contexts=one(cur,'select count(*)from cp7_supplier_transfer.context_v1'))
         conn.rollback();return result
 
