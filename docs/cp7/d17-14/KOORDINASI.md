@@ -16,7 +16,7 @@ Penulis B = Astra (`astra/d17-14-produksi`). Cabang gabungan `astra/d17-14-integ
 
 | Tanggal | Kontrak | Pemilik | Pemakai | Isi |
 |---|---|---|---|---|
-| 23 Okt 2026 | Modul angka keuangan/HPP untuk analisis (OW-12a) | A | B (OW-12b) | Belum ditulis; akan diisi sebelum B memasang panggilannya |
+| 23 Okt 2026 | Modul angka keuangan/HPP untuk analisis (OW-12a) | A | B (OW-12b) | [`ow12/KONTRAK_OW12A.md`](ow12/KONTRAK_OW12A.md) (`cp7.finance-capture.v1`): start/step/status/result, hak OWNER/ADMIN + `finance.reports.view`, angka dari pembaca laporan resmi yang sama |
 
 ## Permintaan
 
