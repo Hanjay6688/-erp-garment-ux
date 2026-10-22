@@ -6,7 +6,8 @@ RPCs. Figures are compared with the accepted owner report reader and the direct 
 the book signature is recomputed independently here from the same rows.
 """
 from contextlib import contextmanager
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
+from decimal import Decimal
 import hashlib
 import json
 import uuid
@@ -26,7 +27,8 @@ IDS=('OW12A_CAPTURE_SAME_FIGURES_AS_FINANCE_REPORT',
      'OW12A_CAPTURE_ACCESS_AND_PRIVACY',
      'OW12A_REPORT_V2_FINANCE_THROUGH_CAPTURE',
      'OW12A_REPORT_V2_DEFERRED_UNCHANGED',
-     'OW12A_RUNNER_STEPS_CAPTURE_AS_ITS_ACTOR')
+     'OW12A_RUNNER_STEPS_CAPTURE_AS_ITS_ACTOR',
+     'OW12A_REPORT_V2_PERIOD_COMPARISON')
 CHUNK=10000
 FAMILIES=('journal','line','book','cash')
 
@@ -110,6 +112,22 @@ def official(cur,dates):
     auth.actor(cur)
     r=cur.execute('select public.erp_cp7_get_finance_report_v1(%s)',(json.dumps(dates),)).fetchone()[0]
     b.api.admin(cur);return r
+
+
+def publish_finance(cur,r,subject=None):
+    """A finance report v2 driven to DONE through its public step (ACTUALS waits on the capture; rv2.drive expects a unit per step)."""
+    key=uuid.uuid4();last=rv2.publish(cur,rv2.payload(r,finance='INCLUDED'),key,subject)
+    for _ in range(800):
+        if last['state']!='RUNNING':break
+        last=rv2.step(cur,key,subject)
+    assert last['state']=='DONE',last
+    return key,last['publication_id']
+
+
+def compare(cur,before,after,subject=None):
+    auth.actor(cur,subject)
+    try:return cur.execute('select public.erp_cp7_compare_reports_v2(%s,%s)',(before,after)).fetchone()[0]
+    finally:b.api.admin(cur)
 
 
 def cases(cur,today):
@@ -242,6 +260,36 @@ def cases(cur,today):
         assert r['book_signature']==signature
         return dict(status='PASS',runner_units=len(outcomes),result_contract=r['contract_version'],independent_book_signature=True)
 
-    operations=(same_figures,refuses_change,access_privacy,report_through_capture,deferred_unchanged,runner)
+    def period_comparison():
+        load.real_workload(cur,today)
+        base=rv2.staged.query(today);f0,t0=date.fromisoformat(base['from_date']),date.fromisoformat(base['through_date'])
+        prev=dict(base,from_date=str(f0-timedelta(days=(t0-f0).days+1)),through_date=str(f0-timedelta(days=1)))
+        earlier,now=rv2.staged_run(cur,today,q=prev),rv2.staged_run(cur,today)
+        k1,p1=publish_finance(cur,earlier);k2,p2=publish_finance(cur,now)
+        _,ops,_=rv2.published(cur,now)
+        c=compare(cur,p1,p2)
+        assert c['contract_version']=='cp7.report-comparison.v2'and c['before']['id']==p1 and c['after']['id']==p2 and 'summary'not in c['before'],c.keys()
+        m1,_=metrics(cur,rv2.actuals(cur,k1)['finance']);m2,_=metrics(cur,rv2.actuals(cur,k2)['finance'])
+        assert {row['metric_id']for row in c['rows']}==set(m1)|set(m2)
+        known=0
+        for row in c['rows']:
+            x,y=m1.get(row['metric_id']),m2.get(row['metric_id']);d=row['difference']
+            assert row['before']['value']==x and row['after']['value']==y,row
+            if x['state']in('KNOWN','ASSUMED')and y['state']in('KNOWN','ASSUMED')and x.get('value')is not None and y.get('value')is not None:
+                assert d['state']in('KNOWN','ASSUMED')and Decimal(d['value'])==Decimal(y['value'])-Decimal(x['value']),(row,x,y);known+=1
+            else:
+                assert d=={'state':'UNKNOWN','unit':'IDR','reason':'ONE_OR_BOTH_VALUES_UNKNOWN'},row
+        assert known>0,'OW12A_NO_KNOWN_METRIC_COMPARED'
+        bp=[r['before']['period_start']for r in c['rows']if r['metric_id'].startswith('NATIVE_FINANCE:performance:')]
+        assert bp and set(bp)=={prev['from_date']},bp
+        half=compare(cur,p1,ops['publication_id'])
+        assert half['rows']and all(r['difference']=={'state':'UNKNOWN','unit':'IDR','reason':'FINANCE_NOT_IN_BOTH_REPORTS'}and r['after']is None for r in half['rows']),half['rows'][:2]
+        same=auth.refused(cur,lambda:compare(cur,p2,p2),'CP7_REPORT_COMPARE_PAIR')
+        staff,_=auth.custom_actor(cur)
+        other=auth.refused(cur,lambda:compare(cur,p1,p2,staff),'CP7_REPORT_UNAVAILABLE')
+        return dict(status='PASS',metrics_compared=len(c['rows']),known_differences=known,previous_period=[prev['from_date'],prev['through_date']],
+            finance_vs_operations_only='FINANCE_NOT_IN_BOTH_REPORTS',same_report=same,other_actor=other)
+
+    operations=(same_figures,refuses_change,access_privacy,report_through_capture,deferred_unchanged,runner,period_comparison)
     assert len(operations)==len(IDS)
     return list(zip(IDS,operations))

@@ -23,6 +23,9 @@ READS=('cp7_finance_capture.report_unit(jsonb)',
        'cp7_finance_capture.book_chunk(text,date,text,integer,pg_snapshot)',
        'cp7_finance_capture.seal_hash(jsonb,text)')
 ROLES=('anon','authenticated','service_role')
+COMPARE='cp7_analysis_stage.report_compare(uuid,uuid)'
+PUBLIC_COMPARE='public.erp_cp7_compare_reports_v2(uuid,uuid)'
+SQL_FILES=('finance_capture.sql','report_compare.sql')
 OWNER='cp7_capture'
 DDL_ROLES={'postgres',OWNER}
 catalog=predecessor.predecessor.catalog
@@ -33,7 +36,7 @@ CAPTURED={}
 def sources():
     return dict(predecessor=predecessor.sources(),
         files={name:sha256((ROOT/name).read_bytes()).hexdigest()
-               for name in('finance_capture.sql','native_delta.py','composition.py')})
+               for name in(*SQL_FILES,'native_delta.py','composition.py')})
 
 
 @contextmanager
@@ -66,7 +69,7 @@ def admit_catalog(before,after,definitions,new_functions):
             if old==new:continue
             if group=='functions'and key in definitions and new[0]==definitions[key]and old[1:]==new[1:]:continue
             if old is not None or new is None:raise ValueError('OW12A_UNDECLARED_EXISTING_DELTA: '+group+':'+key)
-            if group=='functions'and key in new_functions:continue
+            if group=='functions'and(key in new_functions or key in(COMPARE,PUBLIC_COMPARE)):continue
             if group=='schemas'and key==SCHEMA:continue
             if group in('relations','columns','constraints','indexes','policies','types','type_implementation')and key.startswith(SCHEMA+'.'):continue
             raise ValueError('OW12A_UNDECLARED_NEW_OBJECT: '+group+':'+key)
@@ -81,13 +84,15 @@ def install(cur):
         originals={sig:before['functions'][sig][0]for sig in native_delta.SIGNATURES}
         CAPTURED.clear();CAPTURED.update(originals)  # diagnostic copy if an anchor no longer matches
         definitions=native_delta.patched(originals)
-        text=(ROOT/'finance_capture.sql').read_text()
+        text=(ROOT/'finance_capture.sql').read_text();compare=(ROOT/'report_compare.sql').read_text()
         with as_role(cur,'postgres'):
-            cur.execute(text,prepare=False)
+            cur.execute(text,prepare=False);cur.execute(compare,prepare=False)
             for signature,definition in definitions.items():
                 with function_ddl(cur,signature,before):cur.execute(definition,prepare=False)
         after=catalog._catalog_rows(cur)
-        functions=set(after['functions'])-set(before['functions'])
+        functions=set(after['functions'])-set(before['functions'])-{COMPARE,PUBLIC_COMPARE}
+        if not{COMPARE,PUBLIC_COMPARE}<=set(after['functions'])-set(before['functions'])or re.findall(r'create function ([a-z_0-9.]+)\(',compare)!=[COMPARE.split('(')[0],PUBLIC_COMPARE.split('(')[0]]:
+            raise ValueError('OW12A_COMPARE_FUNCTION_SET_CHANGED')
         names=set(re.findall(r'create function ([a-z_0-9.]+)\(',text))
         if {s.split('(')[0]for s in functions}!=names or len(names)!=len(functions)or set(READS)-functions:
             raise ValueError('OW12A_NEW_FUNCTION_SET_CHANGED')
@@ -119,8 +124,13 @@ def verify(cur,state):
                 raise ValueError('OW12A_PRIVATE_TABLE_EXPOSED: '+role+':'+table)
     for sig in READS:
         if not cur.execute("select has_function_privilege(%s,%s,'EXECUTE')",(OWNER,sig)).fetchone()[0]:raise ValueError('OW12A_CAPTURE_CANNOT_READ: '+sig)
+    for sig,definer in((COMPARE,False),(PUBLIC_COMPARE,True)):
+        owner,secdef,config=cur.execute('select pg_get_userbyid(proowner),prosecdef,proconfig from pg_proc where oid=%s::regprocedure',(sig,)).fetchone()
+        if owner!=OWNER or secdef!=definer or 'search_path=""'not in(config or()):raise ValueError('OW12A_COMPARE_AUTHORITY_CHANGED: '+sig)
+    allowed={(r,sig):cur.execute("select has_function_privilege(%s,%s,'EXECUTE')",(r,sig)).fetchone()[0]for r in ROLES for sig in(COMPARE,PUBLIC_COMPARE)}
+    if allowed!={(r,sig):(r=='authenticated'and sig==PUBLIC_COMPARE)for r in ROLES for sig in(COMPARE,PUBLIC_COMPARE)}:raise ValueError('OW12A_COMPARE_EXPOSURE_CHANGED')
     return dict(status='OW12A_FINANCE_CAPTURE_EXACT_SOURCE_AND_ALL22_CATALOG_GROUPS_VERIFIED',
-        changed_functions=list(native_delta.SIGNATURES),new_functions=state['new_functions'],
+        changed_functions=list(native_delta.SIGNATURES),new_functions=state['new_functions'],comparison=[COMPARE,PUBLIC_COMPARE],
         reads_owned_by=FINANCE_READER,figures_from='cp7_finance.workspace (accepted owner report, one statement)',
         business_rows_or_writers_changed=False,OW12a_complete=False,production_go=False,independent_acceptance=False)
 
@@ -133,6 +143,7 @@ def rollback_preuse(cur,state):
         with as_role(cur,'postgres'):
             for signature,original in state['originals'].items():
                 with function_ddl(cur,signature,state['before']):cur.execute(original,prepare=False)
+            cur.execute('drop function '+PUBLIC_COMPARE);cur.execute('drop function '+COMPARE)
             cur.execute('drop schema '+SCHEMA+' cascade')
         if catalog._catalog_rows(cur)!=state['before']:raise ValueError('OW12A_PREDECESSOR_NOT_EXACTLY_RESTORED')
         previous=predecessor.verify(cur,state['predecessor'])

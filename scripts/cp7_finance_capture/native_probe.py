@@ -14,7 +14,7 @@ from cp7_catalog_state import exact_public_catalog
 control=setup.control
 previous,native,package,core,p09=setup.previous,setup.native,setup.package,setup.core,setup.p09
 IDS=business.IDS
-LABEL='CP7_OW12A_FINANCE_CAPTURE_NATIVE6'
+LABEL='CP7_OW12A_FINANCE_CAPTURE_NATIVE7'
 OUT=REPO/'cp6-proof/t3'/f'{LABEL}.json'
 STATE=None
 
@@ -28,7 +28,7 @@ def admitted():
     actual=json.loads(raw)
     assert actual['status']=='PASS'and actual['native']['counts']=={'PASS':28}and actual['required_case_ids_pass']and actual['cp6_restored']and actual['advisor_gate']
     assert actual['source_declaration']['declared_source']==old['declared_source']
-    assert pins['case_ids']==list(IDS)and len(IDS)==6
+    assert pins['case_ids']==list(IDS)and len(IDS)==7
     assert not subprocess.check_output(['git','-C',str(REPO),'status','--porcelain','--',str(HERE)],text=True).strip()
     return dict(qualified_predecessor=proof,predecessor_source_declaration=old,OW12a_declared_source=pins)
 
