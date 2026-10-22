@@ -1,0 +1,35 @@
+{
+ "classification": "OW08B_FAILED_WASH_UNKNOWN_VENDOR_PRICE_NATIVE_STAGE",
+ "files": {
+  ".github/workflows/cp7-ow08b-wash-native.yml": "1c34c64c0db9672c7799d9ccb115bbf7bd4e94250cd3b7175e23ec81d912a194",
+  "scripts/cp7_laundry_unknown_wash/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "scripts/cp7_laundry_unknown_wash/cases.py": "18a445e1863e735f5f9cd6c569fd8b41cc10f1525f049cac5b78973491c55f37",
+  "scripts/cp7_laundry_unknown_wash/composition.py": "d69c207accacb52c976805c329ce6e3eaa0f86c969c0cde3cdc7d1c74982205a",
+  "scripts/cp7_laundry_unknown_wash/native_delta.py": "27a51b988e18e44757bc893889b7b2afbe268337ca74d135c98c11e45cdff3d3",
+  "scripts/cp7_laundry_unknown_wash/native_probe.py": "80471a74eb8895523ff2a4f5a362c57916a077c35900d8b6d59a9ca5ae84802f",
+  "scripts/cp7_laundry_unknown_wash/ow07_original.py": "1955f12090b68955be9055deaf5378c0c517409055f268a14b5057f9b51bb8fa",
+  "scripts/cp7_laundry_unknown_wash/unknown_wash.sql": "2ce98f49e746e53e58821c2cbbfcd1faf982a263f8ac7698d4d919604eccfe8b"
+ },
+ "case_ids": [
+  "OW08B_WASH_UNKNOWN_RECORDED_NOT_ZERO_HPP_NOT_FINAL",
+  "OW08B_WASH_WITHOUT_FLAG_REFUSED_AS_BEFORE",
+  "OW08B_WASH_TWO_EFFECTIVE_RATES_REFUSED",
+  "OW08B_WASH_CLOSE_BLOCKED_UNTIL_PRICED_EQUALS_KNOWN_TWIN",
+  "OW08B_WASH_RETURN_UNPROCESSED_UNKNOWN_PRICE",
+  "OW08B_WASH_PRICE_SET_ONCE_OWNER_ADMIN_ONLY",
+  "OW08B_WASH_REVERSE_UNKNOWN_NO_MONEY_EFFECT",
+  "OW08B_WASH_SALE_FOLLOWS_LAU_DEC04",
+  "OW08B_WASH_INVOICE_REFUSED_UNTIL_PRICED",
+  "OW08B_WASH_OTHER_LAUNDRY_COMMANDS_UNCHANGED",
+  "OW08B_WASH_STATE_DETECTOR_AND_PRIVATE_SCHEMA"
+ ],
+ "ow07_native_original": {
+  "run_id": 39828046424,
+  "job_id": 119996487794,
+  "artifact_name": "cp7-ow07-hpp-close-native7",
+  "bytes": 1818707,
+  "sha256": "65a67db78a76802acc2c22840c7441e64bcb74bd5008b076b3ed33d241d1f82f",
+  "source": "docs/cp7/d17-14/ow07/PROGRESS.md"
+ },
+ "OW08b_complete": false
+}
