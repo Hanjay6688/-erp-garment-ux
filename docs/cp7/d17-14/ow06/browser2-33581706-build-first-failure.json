@@ -1,0 +1,11 @@
+{
+  "label": "CP7_OW06_REAL_BROWSER2",
+  "run": 39823855819,
+  "job": 119981817189,
+  "head": "33581706",
+  "failed_step": "Install pinned browser dependencies (npx tsc -b)",
+  "error": "src/SupplierTransferPanel.dom.test.tsx(179,139): error TS2339: Property 'amount' does not exist on type 'SupplierTransferPayload' (REVERSE variant)",
+  "journeys_run": 0,
+  "fix_commit": "cc940d14",
+  "fix": "unit test narrows the payload to the CREATE variant before reading amount; same asserted value"
+}

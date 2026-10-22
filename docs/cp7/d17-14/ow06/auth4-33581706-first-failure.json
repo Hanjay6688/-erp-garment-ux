@@ -1,0 +1,30 @@
+{
+  "label": "CP7_OW06_REAL_AUTH4",
+  "run": 39823855586,
+  "job": 119981817129,
+  "head": "33581706",
+  "status": "INCOMPLETE",
+  "observed_case_count": 4,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "cases": {
+    "OW06_REAL_AUTH_CREATE_REPLAY_CORRECT_REVERSE_EXACT_CASH": {
+      "status": "INCOMPLETE",
+      "error_summary": "test compared paid amounts as text: expected '400' / '600', Native returned '400.00' / '600.00'; bank -1000.00, one POSTED journal 1000.00/1000.00 with 2 lines, 1 transfer and 2 allocations were already correct"
+    },
+    "OW06_REAL_AUTH_RIGHT_REVOKED_WHILE_WAITING_REFUSED_ATOMICALLY": {
+      "status": "INCOMPLETE",
+      "error": "{'status': 403, 'body': {'code': '42501', 'details': None, 'hint': None, 'message': 'CP7_SUPPLIER_TRANSFER_DENIED'}}",
+      "error_summary": "refused with 403 after the observed wait, as required; the test expected the code CP7_SUPPLIER_TRANSFER_ACCESS_CHANGED, but the post-wait re-check access_now_v1(true) itself raises CP7_SUPPLIER_TRANSFER_DENIED when the write right is gone"
+    },
+    "OW06_TWO_DISTINCT_AUTH_USERS_SAME_RECEIPTS_ONE_EFFECT": {"status": "PASS"},
+    "OW06_REAL_AUTH_ROLE_WITHOUT_PAY_RIGHT_DENIED_NO_EFFECT": {
+      "status": "INCOMPLETE",
+      "error": "('AUDITOR_HTTP_UNKNOWN_OR_INACTIVE_ROLE', 'STAFF')",
+      "error_summary": "STAFF is an inactive legacy role; the case now uses the active KEUANGAN role (outside OWNER/ADMIN, so no pay right)"
+    }
+  },
+  "fix_commit": "b9456b5a",
+  "money_defect_found": false,
+  "note": "Test expectations only; no product file changed. Raw log kept outside the public repo (job log on GitHub)."
+}
