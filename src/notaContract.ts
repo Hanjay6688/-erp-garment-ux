@@ -1,11 +1,14 @@
 import type {MaterialPage} from './materialContract'
+import {sameRecordList,type RecordList} from './recordList'
 import type {Json} from './types/database.preconnect'
 export type NotaLine={source_type:string;source_id:string;component_id:string;component_code:string;component_name:string;source_qty:string;eligible_qty:string;allocated_qty:string;remaining_qty:string;held_qty:string;eligible_at:string;eligibility_reason:string;rate?:string;amount?:string}
 export type NotaCard={card_key:string;source_type:'PRODUCTION'|'REWORK'|'FG_REPAIR';origin_id:string;origin_number:string;contractor_id:string;contractor_name:string;contractor_active:boolean;po_id:string|null;po_number:string|null;cutting_group_id:string|null;group_number:string|null;bs_case_id:string|null;eligible_at:string;line_count:string;source_token:string;lines:NotaLine[];basis:'NATIVE_REMAINING_COMPONENT_ENTITLEMENT';remaining_amount?:string;claimed_by_note?:string|null}
 export type NotaDocument={id:string;note_number:string;contractor_id:string;contractor_name:string;note_date:string;period_start:string;period_end:string;notes:string;status:'DRAFT'|'POSTED'|'VOID';row_version:string;target_payroll_id:string|null;target_version:string|null;posted_payroll_id:string|null;payroll_number:string|null;payroll_status:string|null;posted_at:string|null;void_reason:string|null;created_at:string;updated_at:string;cards:NotaCard[];amount?:string}
 export type NotaPayroll={id:string;payroll_number:string;contractor_id:string;period_start:string;period_end:string;status:'DRAFT'|'CALCULATED'|'REVIEW';row_version:string}
 export type NotaSection='SOURCES'|'NOTES'|'PAYROLLS'
-export type NotaWorkspace<T>={contract_version:'cp7.nota-workspace.v1';section:NotaSection;read_at:string;financial_captured:boolean;can_post:boolean;page:MaterialPage<T>}
+export type NotaWorkspace<T>={contract_version:'cp7.nota-workspace.v1';section:NotaSection;read_at:string;financial_captured:boolean;can_post:boolean;page:MaterialPage<T>&{list?:NotaNoteList}}
+/** OW-09: saved notes searched (number, Mandor, notes), filtered by status and ordered over the whole list before paging. */
+export type NotaNoteList=RecordList<NotaDocument['status']>
 const fail=():never=>{throw Error('Data nota belum lengkap atau hasilnya tidak cocok. Muat ulang nota.')}
 const text=(v:unknown):v is string=>typeof v==='string'
 // Accepted legacy masters contain canonical PostgreSQL UUIDs without RFC version
@@ -47,13 +50,15 @@ function payroll(v:unknown):string{
  if(!id(p.id)||!id(p.contractor_id)||!text(p.payroll_number)||!date(p.period_start)||!date(p.period_end)||!version(p.row_version)||!text(p.status)||!['DRAFT','CALCULATED','REVIEW'].includes(p.status))return fail();return p.id
 }
 export function parseNotaWorkspace(v:unknown,section:'SOURCES'):NotaWorkspace<NotaCard>
-export function parseNotaWorkspace(v:unknown,section:'NOTES'):NotaWorkspace<NotaDocument>
+export function parseNotaWorkspace(v:unknown,section:'NOTES',list?:NotaNoteList):NotaWorkspace<NotaDocument>
 export function parseNotaWorkspace(v:unknown,section:'PAYROLLS'):NotaWorkspace<NotaPayroll>
-export function parseNotaWorkspace(v:unknown,section:NotaSection):NotaWorkspace<NotaCard|NotaDocument|NotaPayroll>{
+export function parseNotaWorkspace(v:unknown,section:NotaSection,list?:NotaNoteList):NotaWorkspace<NotaCard|NotaDocument|NotaPayroll>{
  const w=closed(v,['contract_version','section','read_at','financial_captured','can_post','page'])
  if(w.contract_version!=='cp7.nota-workspace.v1'||w.section!==section||!instant(w.read_at)||typeof w.financial_captured!=='boolean'||typeof w.can_post!=='boolean')fail()
- const p=closed(w.page,['rows','total','offset','limit','next_offset'])
+ if(list&&section!=='NOTES')fail()
+ const p=closed(w.page,['rows','total','offset','limit','next_offset',...(list?['list']:[])])
  if(!Array.isArray(p.rows)||!whole(p.total)||!Number.isSafeInteger(p.offset)||Number(p.offset)<0||!Number.isSafeInteger(p.limit)||Number(p.limit)<1||Number(p.limit)>100||p.rows.length>Number(p.limit))return fail()
+ if(list&&(!sameRecordList(p.list,list)||list.status&&p.rows.some(r=>notaObject(r).status!==list.status)))fail()
  const end=BigInt(Number(p.offset))+BigInt(p.rows.length),total=BigInt(p.total)
  if(p.rows.length&&end>total||end<total&&p.next_offset===null||p.next_offset!==null&&(p.next_offset!==Number(p.offset)+p.rows.length||!p.rows.length||end>=total))fail()
  const financial=w.financial_captured as boolean,keys=p.rows.map(v=>section==='SOURCES'?card(v,financial,true):section==='NOTES'?document(v,financial):payroll(v));if(new Set(keys).size!==keys.length)fail()
