@@ -1,0 +1,267 @@
+{
+  "classification": "COMPACT_ACTUAL_NATIVE25_RECEIPT_NOT_RAW_LOG",
+  "status": "PASS",
+  "candidate_commit": "48813d8bd685e960a6fb10070de8c0971d174753",
+  "run_id": 39775272404,
+  "job_id": 119812507098,
+  "counts": {
+    "PASS": 25
+  },
+  "own_cases": 14,
+  "retained_R3_rate_oracles_unchanged": 11,
+  "case_results": {
+    "OW05_ACTIVE_WAGE_GUIDANCE": {
+      "status": "PASS",
+      "active_wage_not_reassigned": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true
+    },
+    "OW05_NATIVE_SUCCESSOR_OLD_RATE": {
+      "status": "PASS",
+      "Native_old_mandor_payable": "0.00",
+      "Native_new_mandor_payable": "16.00",
+      "WIP_increment": "16.00",
+      "four_pcs_original_physical_time": true,
+      "old_history_retained": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true
+    },
+    "OW05_NATIVE_SUCCESSOR_NEW_RATE": {
+      "status": "PASS",
+      "Native_old_mandor_payable": "0.00",
+      "Native_new_mandor_payable": "24.00",
+      "WIP_increment": "24.00",
+      "four_pcs_original_physical_time": true,
+      "old_history_retained": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true
+    },
+    "OW05_LOST_REPLY_REPLAY": {
+      "status": "PASS",
+      "zero_repeat_effect": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true
+    },
+    "OW05_CHANGED_UUID_REFUSED": {
+      "status": "PASS",
+      "zero_repeat_effect": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true
+    },
+    "OW05_STALE_REVIEW_REFUSED": {
+      "status": "PASS",
+      "changed_target_cancels_review": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true
+    },
+    "OW05_INACTIVE_TARGET_REFUSED": {
+      "status": "PASS",
+      "inactive_mandor_refused": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true
+    },
+    "OW05_LATE_NATIVE_POST_ATOMIC": {
+      "status": "PASS",
+      "PO_old_pickup_group_and_new_drafts_all_rolled_back": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true
+    },
+    "OW05_PRIVATE_CAPABILITY_DENIED": {
+      "status": "PASS",
+      "authenticated_cannot_create_or_read_capability": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true
+    },
+    "OW05_HISTORY_IMMUTABLE": {
+      "status": "PASS",
+      "history_update_delete_truncate_refused": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true
+    },
+    "OW05_SECOND_MANDOR_NEW_RATE_SAME_PHYSICAL_TIME": {
+      "status": "PASS",
+      "corrections": 2,
+      "original_physical_time_unchanged": true,
+      "old_two_mandors_payable": "0.00",
+      "current_mandor_payable": "32.00",
+      "explicit_rate_choice": "NEW",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true
+    },
+    "OW05_SECOND_MANDOR_OLD_RATE_SAME_PHYSICAL_TIME": {
+      "status": "PASS",
+      "corrections": 2,
+      "original_physical_time_unchanged": true,
+      "old_two_mandors_payable": "0.00",
+      "current_mandor_payable": "16.00",
+      "explicit_rate_choice": "OLD",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true
+    },
+    "OW05_UNPAID_NOTA_CANCEL_CORRECT_REPOST": {
+      "status": "PASS",
+      "old_nota_and_payroll_retained": true,
+      "new_nota": "16.00",
+      "old_mandor_payable": "0.00",
+      "original_paid_then_reversed": false,
+      "cash_after_old_reversal": "16.00",
+      "cash_final": "16.00",
+      "net_cash_paid": "0.00",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true
+    },
+    "OW05_PAID_NOTA_REVERSE_CASH_CORRECT_REPAY": {
+      "status": "PASS",
+      "old_nota_and_payroll_retained": true,
+      "new_nota": "16.00",
+      "old_mandor_payable": "0.00",
+      "original_paid_then_reversed": true,
+      "cash_after_old_reversal": "16.00",
+      "cash_final": "0.00",
+      "net_cash_paid": "16.00",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true
+    },
+    "CP17_R3_09_SAME_RATE_NO_CHOICE": {
+      "status": "PASS",
+      "first_record_choice_refused": "CP7_SEWING_RATE_CHOICE_UNEXPECTED",
+      "equal_rates_choice_refused": "CP7_SEWING_RATE_CHOICE_UNEXPECTED",
+      "locked_rates": [
+        3,
+        1
+      ],
+      "revisions": 0,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true
+    },
+    "CP17_R3_09_CHANGED_RATE_NEEDS_CHOICE": {
+      "status": "PASS",
+      "shown_locked": [
+        "3.0",
+        "1.0"
+      ],
+      "shown_new_at_sewing_time": [
+        "5.0",
+        "1.0"
+      ],
+      "no_choice_refused": "CP7_SEWING_RATE_CHOICE_REQUIRED",
+      "unknown_choice_refused": "CP7_SEWING_FIELDS",
+      "non_string_choice_refused": "CP7_SEWING_FIELDS",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true
+    },
+    "CP17_R3_09_CHOOSE_OLD_PAYS_LOCKED_RATE": {
+      "status": "PASS",
+      "paid": "Jahit 3 + Obras 1 (locked)",
+      "wage": "WIP 8 / CONTRACTOR_PAYABLE 8",
+      "revisions": 0,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true
+    },
+    "CP17_R3_09_CHOOSE_NEW_PAYS_THROUGH_REVISION": {
+      "status": "PASS",
+      "paid": "Jahit 5 (revision) + Obras 1 (locked row)",
+      "wage": "WIP 12 / CONTRACTOR_PAYABLE 12",
+      "same_uuid_same_answer": true,
+      "revision_reused_same_time": true,
+      "revision_per_sewing_time": 2,
+      "first_wage_unchanged": true,
+      "native_detectors_unchanged": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true
+    },
+    "CP17_R3_09_ALWAYS_NEW_SWITCH": {
+      "status": "PASS",
+      "switch_same_uuid_same_answer": true,
+      "choice_after_switch_refused": "CP7_SEWING_RATE_CHOICE_UNEXPECTED",
+      "switch_twice_refused": "CP7_SEWING_RATE_MODE_ALREADY",
+      "after_switch_new_rate_without_asking": 12,
+      "before_new_version_locked_rate": true,
+      "old_wages_unchanged": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true
+    },
+    "CP17_R3_09_SWITCH_REFUSALS_AND_ACCESS": {
+      "status": "PASS",
+      "before_lock": "CP7_SEWING_RATE_MODE_NOT_LOCKED",
+      "extra_key": "CP7_SEWING_FIELDS",
+      "short_reason": "CP7_SEWING_FIELDS",
+      "stale_review": "CP7_SEWING_STALE_REVIEW",
+      "non_owner_admin": {
+        "read": "CP7_SEWING_DENIED",
+        "switch": "CP7_SEWING_DENIED",
+        "new_rate": "CP7_SEWING_DENIED"
+      },
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true
+    },
+    "CP17_R3_09_CANCEL_NEW_RATE_RECORD": {
+      "status": "PASS",
+      "cancelled": "REVERSED with its WORK_COMPLETION journal",
+      "revision_kept": true,
+      "later_choice_free": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true
+    },
+    "CP17_R3_09_NEW_RATE_WAGE_TO_PAYROLL_AND_DETECTORS": {
+      "status": "PASS",
+      "payroll_pipeline_lines": 2,
+      "payable_pieces": 12,
+      "wage": "6 pcs x (5 + 1) = 36",
+      "native_detectors_unchanged": true,
+      "hpp_completeness_reads": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true
+    },
+    "CP17_R3_09_WAVE_CHOICE_PER_SKU": {
+      "status": "PASS",
+      "new_obras_rate_per_sku": 2,
+      "choice_required": "CP7_SEWING_RATE_CHOICE_REQUIRED",
+      "revisions_per_sku": 2,
+      "first_wave_wage_unchanged": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true
+    },
+    "CP17_R3_09_DECLARED_NATIVE_DELTAS_AND_RESTORE_REFUSAL": {
+      "status": "PASS",
+      "deltas": [
+        "erp.bf_ensure_work_v1(uuid,timestamp with time zone)",
+        "erp.prepare_rework_component_line()",
+        "erp.seed_bs_case_component_baseline()",
+        "erp.po_work_component_snapshots#bf_work_snapshot_scope"
+      ],
+      "restore_refused_with_revision": "CP7_RATE_REVISIONS_IN_USE: restore the database backup taken before the CP7 install",
+      "original_rows_unique": true,
+      "used_rate_guard_md5": "118cd5017e96ff9e2f3abb42ca1547dc",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true
+    },
+    "CP17_R3_09_REVISIONS_IMMUTABLE_AND_PRIVATE": {
+      "status": "PASS",
+      "revision_update_refused": "CP7_CUTTING_CORRECTION_HISTORY_IMMUTABLE",
+      "switch_delete_refused": "CP7_CUTTING_CORRECTION_HISTORY_IMMUTABLE",
+      "tables_private": true,
+      "helpers_not_executable": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "complete_preuse_removal": "OW05_PREUSE_EXACT_RESTORE",
+  "raw_report": {
+    "bytes": 5985156,
+    "sha256": "2a8e3c0e87e957077b2cf0f83c09cf79502f4c15e6a97cf651b550cbb948b9ab"
+  },
+  "artifact": {
+    "id": 12424642000,
+    "bytes": 2230758,
+    "sha256": "2d5966c42c53e77afa3ece1d2215ef2a1563462b7b1735d92ff9bec48e544f3a"
+  },
+  "previous_failures_not_reclassified": true,
+  "Auth_HTTP_browser_used_restore_not_run_here": true,
+  "OW05_complete": false,
+  "formal_CP7C_started": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

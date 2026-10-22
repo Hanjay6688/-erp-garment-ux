@@ -1,0 +1,20 @@
+{
+  "contract_version": "ow05.real-auth2-source.v1",
+  "case_ids": [
+    "OW05_REAL_AUTH_UNDO_CORRECT_NEW_RATE_AND_NOTA24",
+    "OW05_TWO_DISTINCT_AUTH_USERS_SAME_PO_ONE_EFFECT"
+  ],
+  "files": {
+    "scripts/ow05-auth-qualification/cases.py": "63a48d1e10551fc255232bfe4da94b15bb5916a5bb03d1f504613f0e0006b40a",
+    "scripts/ow05-auth-qualification/probe.py": "1de75f59707d18c6660bf79c50114793edd3ccc088c6123073b54a306aab7d2c",
+    "scripts/ow04-payment-current-qualification/copy_authority.py": "cfdc3b899e335dd13a9456242ed5158b718ac5c56d9b1ebf06c4571eda2cc7a2",
+    ".github/workflows/cp7-ow05-auth.yml": "457ec67b2296665020123ed5f6e85c08b51bc4a2d821a63761622bf1cc1df104"
+  },
+  "money_gold": {
+    "old_mandor_payable": "0.00",
+    "new_wage_and_nota": "24.00"
+  },
+  "product_budgets_unchanged": true,
+  "OW05_complete": false,
+  "production_go": false
+}
