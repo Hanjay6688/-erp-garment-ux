@@ -13,7 +13,7 @@ jendela berikutnya sekitar 2 jam 20 menit sebelum reset (pengingat 03.50 UTC). K
 Pengingat terjadwal: 20.58 UTC mode hemat (tidak memulai pekerjaan besar baru, gabung dan push semua commit
 pembantu, perbarui berkas ini), 01.10 UTC jalan normal lagi.
 
-Diperbarui: 22 Okt 2026, 20.50 UTC (23 Okt 03.50 WIB).
+Diperbarui: 22 Okt 2026, 21.00 UTC (23 Okt 04.00 WIB), mode hemat.
 
 ## Sudah terbukti (uji database penuh atau browser lulus)
 
@@ -58,6 +58,19 @@ Antrean dihentikan supaya jatah unduh tidak makin habis. Sesudah reset: (1) logi
 langkah start database pada workflow tahap yang BELUM lulus (OW12a, wash, fgqc, OW04b; workflow tahap yang sudah lulus jangan
 diedit karena dikunci); (2) kirim ulang berurutan: OW12a, wash, fgqc, OW04b (daftarkan dengan push non-skip), OW06 browser,
 OW05b browser bila run 39851046496 juga gagal.
+
+## Serah terima untuk Astra (keadaan 23 Okt 04.00 WIB)
+
+- Terbukti di database penuh/browser: OW-05b (Native6 6/6, browser 2/2), OW-06 hak akses (Auth4 4/4) dan mesin (Native10),
+  OW-07 (Native7 7/7), OW-08a (Native6 6/6), OW-08b 2.18 kasbon (Native4 lulus `6c8be6f6`).
+- Dibuat, belum lulus karena registry image menolak unduhan (bukan kode): OW-12a, OW-08b 2.20 cuci gagal, OW-08b 2.21 koreksi QC,
+  OW-06 browser, OW-05b browser ulang. OW-04b bagian 3–4 dibuat, workflow belum pernah jalan.
+- Belum: OW-04b bagian 1–2 (multi-kohort kredit); OW-09 (dibangun ulang sebagai tahap, cabang lokal `claude/d17-14-ow09`);
+  2.19 piutang vendor laundry (menunggu Bos); OW-15 rantai (rencana `ow15/RENCANA_OW15.md`).
+- Untuk B: 9 berkas `scripts/cp7-src` di `astra/d17-14-produksi` harus kembali ke byte beku dan perubahannya jadi tahap
+  (permintaan di `KOORDINASI.md`, E25j2). Sampai itu cabang B tidak digabung ke integrasi apa adanya.
+- Cabang lokal pembantu yang belum di-push (hanya di mesin ini): `claude/d17-14-ow09` (OW-09 tahap, sedang dirapikan).
+  Semua cabang pembantu lain sudah digabung ke `claude/d17-14-uang`.
 
 ## Menunggu Bos
 
