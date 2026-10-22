@@ -1,0 +1,14 @@
+{
+  "status": "FAIL",
+  "origin": "LOCAL_SOURCE_CHECK",
+  "finding": "Two new runtime files were not discovered by the import graph scanner because imports omitted whitespace required by the existing scanner.",
+  "files": [
+    "src/NativeAnalysisFinancePanel.tsx",
+    "src/nativeAnalysisFinanceSidecar.ts"
+  ],
+  "fix": "Format B imports using the established import/from syntax. Do not weaken shared scanner.",
+  "after": "No orphan runtime files; only the six previously recorded A-owned MandorCorrection/NativeCuttingStatus RPC registration gaps remain.",
+  "first_log_sha256": "4c1b255bef1ac08f63b30f714f5bf55fbe486d3f0410b28ccc400194834a28a8",
+  "after_log_sha256": "1f08db40a6e51eb1e29056b86ad661979e904d0e5a9910a4c68ff91c89f3155c",
+  "full_build_green": false
+}

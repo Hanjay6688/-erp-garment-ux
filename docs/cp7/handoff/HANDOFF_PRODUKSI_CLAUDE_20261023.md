@@ -4,6 +4,20 @@ Pembagian tetap D17-16 versi2: Claude/A uang, stok, HPP, laporan dan integrator;
 Cabang A `claude/d17-14-uang`, B `astra/d17-14-produksi`, integrasi hanya dipegang A. Main/frozen/Enteng tidak diubah.
 Konteks personal tetap privat. Slogan: VENI. VIDI. VICI. ERP. Reliable data adalah dewa; keuangan/stok/HPP adalah raja.
 
+## Titik ambil terbaru
+
+Perbaikan pembacaan desimal Native sudah di5113c133. Uji server gabungan pengganti dipin ke
+**4eaf6bce69ddcb52b89c8d24446ce5466825ac78**, run39865429494; hasil masih menunggu Original.
+Sumber beku tetap tepat. Jangan menganggap Native286 lulus dari109/113 pada kandidat sebelumnya.
+
+OW12b sekarang memiliki caller dan layar, belum Native atau bukti±3.600 barang. Baca
+[README OW12b](../d17-14/ow12b/README.md) dan kontraknya. A memasang `cp7_analysis_finance_bridge`
+di atas module OW12a miliknya, dengan envelope lock/global use guard/admission22/invers/pemulihan.
+Module keuangan A, report-staged, bundle/install bersama dan registry tidak diedit B.
+Pilihan STAGED eksplisit disimpan bersama UUID; angka keuangan datang dari finance_apply resmi,
+terpisah dari halaman operasional tersegel.114 uji klien/DOM dan7 kelompok SQL adapter lulus;
+angka ini tidak menutup kualifikasi Native/gabungan/kecepatan.
+
 Bukti bundle terisolasi lama (belum tahap rantai A): **3f0e545cc6d6948ac5d0f1052bb55cc971ab530a**.
 
 | Bagian | Bukti yang sudah dibaca dari Original |

@@ -18,7 +18,7 @@ import {stagedRangeLabel,stagedNumber,type StagedAnalysis,type AnalysisPage,type
 // only how it compared with the data at the check's own time.
 type Props={staged:StagedAnalysis;page:AnalysisPage|null;loading:number|null;blocked:boolean;sourceCheck:StagedFullCheck|null;checking:boolean
  freshness:StagedFreshness|null;freshnessLoading:boolean;freshnessError:string;onPage:(index:number)=>void;onCheckSource:()=>void;onPlan?:(targetKey:string)=>void
- aiSelected?:readonly string[];onAiToggle?:(targetKey:string)=>void}
+ financeLinked?:boolean;aiSelected?:readonly string[];onAiToggle?:(targetKey:string)=>void}
 const stateLabel=(s:string)=>s==='ACTIVE'?'Aktif':s==='PAUSED'?'Ditunda':s==='STOPPED'?'Dihentikan':'Status lain'
 export const STAGED_CHANGE_LABELS:Record<StagedChangeCategory,string>={SALES:'Penjualan & retur',FG_STOCK:'Stok barang jadi',MATERIAL_STOCK:'Stok bahan',
  PRODUCTION:'Produksi (potong, jahit, QC, laundry, BS)',PRODUCTION_ORDERS:'PO produksi',MASTER_DATA:'Data induk (produk, SKU, pola, bahan, lokasi)',
@@ -30,14 +30,14 @@ export function stagedFreshnessText(f:StagedFreshness):string{
  if(f.state==='CHANGES_RECORDED')return f.lastCheck?`Cek sumber ${t(f.lastCheck.checkedAt)}: sama. Sesudah itu ada ${n(f.lastCheck.changesAfterCheck)} perubahan tercatat; ${asOf}.`:`Sudah ada ${n(f.changesTotal)} perubahan tercatat sejak data diambil; ${asOf}.`
  return'Belum ada perubahan tercatat sejak data diambil. Belum dicek penuh; tekan Cek sumber untuk memastikan.'
 }
-export default function NativeStagedAnalysisView({staged,page,loading,blocked,sourceCheck,checking,freshness,freshnessLoading,freshnessError,onPage,onCheckSource,onPlan,aiSelected,onAiToggle}:Props){
+export default function NativeStagedAnalysisView({staged,page,loading,blocked,sourceCheck,checking,freshness,freshnessLoading,freshnessError,onPage,onCheckSource,onPlan,aiSelected,onAiToggle,financeLinked=false}:Props){
  const m=staged.set,h=staged.header,x=h.analysisHeader,t=m.totals,n=stagedNumber
  const current=loading??page?.index??0,range=(i:number)=>stagedRangeLabel(m.pages[i].targetLo,m.pages[i].targetHi,m.targetsTotal)
  const labels=useMemo(()=>new Map(h.labels.map(l=>[l.key,`${l.sku} · ${l.name}`])),[h.labels])
  const label=(key:string)=>labels.get(key)??key
  return<section className="native-analysis-staged native-analysis-result" role="region" aria-label="Hasil analisis bertahap" data-run-id={m.runId} data-identity-hash={m.identityHash}>
   <p className="native-analysis-run">Run <span>{m.runId}</span></p>
-  <p>{n(m.targetsTotal)} target dalam {n(m.pageCount)} halaman. Data per {formatCp6WibDateTime(m.reference.capturedAt)}; jadwal versi {x.scenario.version}. Angka keuangan tidak termasuk analisis bertahap.</p>
+  <p>{n(m.targetsTotal)} target dalam {n(m.pageCount)} halaman. Data per {formatCp6WibDateTime(m.reference.capturedAt)}; jadwal versi {x.scenario.version}. {financeLinked?'Kemajuan dan angka keuangan dari laporan resmi ditampilkan terpisah di bawah.':'Angka keuangan tidak termasuk analisis bertahap.'}</p>
   <section aria-label="Kesegaran data" data-freshness-state={freshness?.state??''}>
    {freshness?<p className={freshness.state==='VERIFIED_SAME'?'native-demand-current':freshness.state==='NO_RECORDED_CHANGE'?undefined:'native-demand-stale'}>{stagedFreshnessText(freshness)}</p>:null}
    {freshness&&freshness.changesTotal>0?<ul aria-label="Perubahan sejak data diambil">{freshness.changes.filter(c=>c.rows>0).map(c=><li key={c.category} data-change-category={c.category}>{STAGED_CHANGE_LABELS[c.category]}: {n(c.rows)} perubahan{c.deleted?` (${n(c.deleted)} dihapus)`:''}{c.lastRecordedAt?`, terakhir ${formatCp6WibDateTime(c.lastRecordedAt)}`:''}</li>)}</ul>:null}
@@ -58,7 +58,7 @@ export default function NativeStagedAnalysisView({staged,page,loading,blocked,so
     <li data-total="POLICY_UNREVIEWED">Status produksi belum diperiksa: {n(t.policyUnreviewed)} target</li>
     <li data-total="TIMELINE">Baris linimasa seluruh target: {n(t.items.timeline??0)} · kebutuhan bahan seluruh target: {n(t.items.material_needs??0)}</li>
    </ul>
-   <p>Bahan dan produksi baru belum dipastikan. Keuangan dan HPP tidak tercakup pada analisis bertahap dan tidak dianggap nol. Angka belum diketahui tetap ditampilkan apa adanya.</p>
+   <p>Bahan dan produksi baru belum dipastikan. {financeLinked?'Keuangan dan HPP menunggu laporan resmi di bagian terpisah; belum siap tidak berarti nol.':'Keuangan dan HPP tidak tercakup pada analisis bertahap dan tidak dianggap nol.'} Angka belum diketahui tetap ditampilkan apa adanya.</p>
    <p>Laporan, Tanya AI dan pengingat dibuat dari analisis ini di bagian bawah, memakai data per waktu yang sama. Rincian stok, ruang kerja kain dan arsip memakai seluruh hasil sekaligus, jadi belum tersedia untuk analisis bertahap. Rincian per target dibaca per halaman di bawah.</p>
    <p>Rencana Potongan dibuat per target dari halaman di bawah memakai data per {formatCp6WibDateTime(m.reference.capturedAt)}; saat draf Potongan dibuat, server memeriksa ulang stok, barang dalam proses, kebijakan dan kapasitas pada saat itu.</p>
   </section>

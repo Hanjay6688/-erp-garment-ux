@@ -9,6 +9,7 @@ import {readStagedRequest,stagedRequestKey,stagedCompletedScope} from './nativeS
 import {readNativeDemandRequest} from './nativeDemandHistory'
 import {formatCp6WibDateTime} from './cp6BusinessTime'
 import type {NativeDemandQuery} from './nativeDemandHistory'
+import financeFixture from '../tests/fixtures/analysisFinanceSidecar.json'
 const state=vi.hoisted(()=>({auth:null as unknown}))
 const client=vi.hoisted(()=>({rpc:vi.fn()}))
 vi.mock('./auth/AuthProvider',()=>({useAuth:()=>state.auth}));vi.mock('./lib/supabase',()=>({getUatSupabaseClient:()=>client}))
@@ -198,14 +199,39 @@ it('drops the staged view when the access epoch is refused for a page or the sou
  expect(region()).toBeNull();expect(rows()).toBe(0)
 },30000)
 
-it('states that financial figures are not part of a staged run when the finance choice is ticked, and still runs the operational job',async()=>{
+it('finishes the sealed operational pages while the explicitly selected official finance capture progresses separately and survives reopening',async()=>{
  const auth=state.auth as typeof recoveryIdentity;auth.identity.permissions.push('finance.reports.view')
- client.rpc.mockImplementation(server())
+ let ready=false;const base=server()
+ const finance=()=>{
+  const f=structuredClone(financeFixture)as Record<string,any>,dates={from:q().from_date,to:q().through_date,as_of:'2026-10-07'}
+  Object.assign(f,{request_id:s.pageSet.request_id,reference:s.reference,query:q()});f.capture.dates=dates;f.result.dates=dates
+  f.capture.report_read_at=f.result.report_read_at='2026-10-07T09:03:00Z'
+  for(const m of f.result.metrics){m.period_start=m.metric_id.startsWith('NATIVE_FINANCE:performance:')?dates.from:dates.as_of;m.period_end=m.metric_id.startsWith('NATIVE_FINANCE:performance:')?dates.to:dates.as_of}
+  if(!ready){f.state=f.capture.state='RUNNING';Object.assign(f.capture,{units_done:0,units_total:null,readiness:null,report_read_at:null});f.result=null}
+  return f
+ }
+ client.rpc.mockImplementation(async(name:string,args:Args)=>{
+  let input=args
+  if(name==='erp_cp7_request_staged_analysis_v1'){
+   expect(args.p_query).toEqual({...q(),finance_mode:'STAGED'});input={...args,p_query:q()}
+  }
+  const r=await base(name,input)as{data:Record<string,any>;error:null}
+  return ['erp_cp7_request_staged_analysis_v1','erp_cp7_step_staged_analysis_v1','erp_cp7_get_staged_analysis_v1'].includes(name)?{...r,data:{...r.data,finance_capture:finance()}}:r
+ })
  await render();expect(container.textContent).not.toContain('Angka keuangan tidak termasuk analisis bertahap')
- await tick('Sertakan angka keuangan (menunggu buku besar)');expect(container.textContent).toContain('Angka keuangan tidak termasuk analisis bertahap.')
+ await tick('Sertakan angka keuangan (menunggu buku besar)');expect(container.textContent).toContain('laporan keuangan dikerjakan terpisah')
  await click(STAGED);await until(()=>Boolean(region())&&rows()>0)
- expect(names()[0]).toBe('erp_cp7_request_staged_analysis_v1');expect(Object.keys(client.rpc.mock.calls[0][1]).sort()).toEqual(['p_query','p_request']);expect(region()!.textContent).toContain('Angka keuangan tidak termasuk analisis bertahap')
- expect(region()!.textContent).not.toContain('Rp');expect(button('Muat angka keuangan')).toBeUndefined()
+ expect(names()[0]).toBe('erp_cp7_request_staged_analysis_v1');expect(Object.keys(client.rpc.mock.calls[0][1]).sort()).toEqual(['p_query','p_request'])
+ expect(region()!.textContent).toContain('angka keuangan dari laporan resmi ditampilkan terpisah');expect(region()!.textContent).not.toContain('Rp')
+ expect(s.headerDoc.financial_source).toBeNull();expect(s.headerDoc.analysis_header.metrics).toEqual([])
+ expect(readStagedRequest(scope).pending).toBeNull();expect(readStagedRequest(stagedCompletedScope(scope)).pending).toEqual({id:s.pageSet.request_id,q:q(),finance:'STAGED'})
+ await until(()=>Boolean(button('Muat ulang status keuangan'))&&!button('Muat ulang status keuangan')!.disabled)
+ expect(container.textContent).toContain('jumlah langkah total belum diketahui');expect(container.textContent).not.toContain('Rp')
+ ready=true;await click('Muat ulang status keuangan');await until(()=>container.textContent!.includes('Rp9.007.199.254.740.993,01'))
+ const identity=s.identityHash,requests=names().filter(n=>n==='erp_cp7_request_staged_analysis_v1').length
+ await act(async()=>root.unmount());root=createRoot(container);await render();await until(()=>rows()>0&&container.textContent!.includes('Rp123,45'))
+ expect(names().filter(n=>n==='erp_cp7_request_staged_analysis_v1')).toHaveLength(requests)
+ expect(s.identityHash).toBe(identity);expect(region()!.textContent).not.toContain('Rp')
 },30000)
 
 it('abandons the loop on unmount: a late step reply drives nothing further and the request stays for a resume',async()=>{

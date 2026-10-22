@@ -180,3 +180,17 @@ klien/server dan pin privat kini mempertahankan6 angka tanpa pembulatan (manual_
 masuk admisi/invers). Pesan minimum terpilih mempertahankan angkanya. Form tanpa pilihan eksplisit mempertahankan
 penjelasan Master lama ditambah keterangan referensi/aturan aktif; assertion browser lama tidak dihapus.
 Lokal8 kelompok SQL bahan/pemulihan plus5 kelompok kernel lulus; pemeriksaan server tahap baru masih menunggu.
+
+## 08 — pemakai angka OW12a (B, 23 Okt WIB)
+
+Kontrak caller ditulis lebih dulu di ow12b/CONTRACT.md. B menambah tahap terpisah cp7_analysis_finance_bridge,
+patch hanya request/status analisis bertahap milik B, tanpa mengubah dasar beku maupun module/runner/report A.
+Pilihan STAGED tersimpan di reference job; status job menautkan id capture A dan hasil terpisah, header halaman
+operasional tetap disegel. Status_of A mengandalkan caller: B memeriksa actor/finance.reports.view sebelum panggilan
+serta akses saat jawaban selesai. A memasang tahap caller di atas OW12a dan tahap produksi B; Native tetap pending.
+
+Caller/layar OW12b sudah tersedia:114 uji klien/DOM +7 kelompok SQL adapter lulus, belum Native.
+API tahap, delta1schema/1reader/2body, invers dan batas bukti di ow12b/README.md. A tetap wajib
+memakai penjaga setelah-pakai global (capture dapat bertahan setelah job dipurge). Enam gap registry
+sebelumnya tetap permintaan A; tidak ada pasangan RPC baru dari caller ini. Kontrak OW12a di A16bf8e56
+sama dengan b91a60b. Native286 pengganti4eaf6bce/run39865429494 sedang berjalan secara terpisah.
