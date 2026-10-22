@@ -1,0 +1,74 @@
+{
+  "candidate": "5359767befe09fb54bf421ff0eef07c26d6560f0",
+  "tree": "ea8f15e9f2d8569b3aeb327b4595d2a873b29ba9",
+  "run_id": 39718548008,
+  "job_id": 119626408939,
+  "artifact_id": 12400825872,
+  "zip_bytes": 3432015,
+  "zip_sha256": "9e6ae0779215b9ca7876713dea7c2339cd9017b205d2f3d99a038737944448c6",
+  "overall_status": "INCOMPLETE",
+  "completed_steps": [
+    "COMMITTED_CURRENT_APPLY_REFUND_CORRECTION_CHAINS",
+    "EXACT_FULL_DUMP_AND_FRESH_RESTORE"
+  ],
+  "actual_table_count": 649,
+  "first_error": "LAST_ACTIVE_OWNER_PROTECTED\nCONTEXT:  PL/pgSQL function erp.guard_last_active_owner() line 27 at RAISE",
+  "all_six_originals_preserved": true,
+  "records": [
+    {
+      "original_name": "ALIGNED_CHAIN.json",
+      "file": "ALIGNED_CHAIN.json.gz",
+      "raw_bytes": 17536,
+      "raw_sha256": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b",
+      "stored_bytes": 4768,
+      "stored_sha256": "50b6faabc978bed534a8489174702a0c73a288a5614b300e218d7a2fdf719f75",
+      "exact_raw_roundtrip_verified": true
+    },
+    {
+      "original_name": "CP7_OW04_PAYMENT_CURRENT_USED_RESTORE.json",
+      "file": "CP7_OW04_PAYMENT_CURRENT_USED_RESTORE.json.gz",
+      "raw_bytes": 193535,
+      "raw_sha256": "944e3a87be886f09835a32e4d95fc51662f2461056c8e4242f447d3b5721decd",
+      "stored_bytes": 11810,
+      "stored_sha256": "1faf15bfab46b1ab6d73f6381cf05933799952cd82bbe6b6128b537a8058baee",
+      "exact_raw_roundtrip_verified": true
+    },
+    {
+      "original_name": "PAYMENT_USED_RESTORE_MANIFEST.json",
+      "file": "PAYMENT_USED_RESTORE_MANIFEST.json.xz",
+      "raw_bytes": 18912887,
+      "raw_sha256": "579fa93c1e2a29e8651788630e69587d8305019722f026230a15cb6cf4256b08",
+      "stored_bytes": 1171248,
+      "stored_sha256": "b6e206988de6b0e3bfb715836cbbfbf5b9cfa9b503b8768e814398167b4294a1",
+      "exact_raw_roundtrip_verified": true
+    },
+    {
+      "original_name": "T3_BACKUP_RESTORE_DRILL.json",
+      "file": "T3_BACKUP_RESTORE_DRILL.json.gz",
+      "raw_bytes": 1470,
+      "raw_sha256": "64ee6f4c52d55ad4fba890a9c46be401e125dfed60233f6a8c20495d10e82e06",
+      "stored_bytes": 646,
+      "stored_sha256": "160962e96972dea5fd951b9ca0de4b69813600871c3423cd1e04ee6f78ea3a14",
+      "exact_raw_roundtrip_verified": true
+    },
+    {
+      "original_name": "T3_PACKAGE_FILES_INSTALL.json",
+      "file": "T3_PACKAGE_FILES_INSTALL.json.gz",
+      "raw_bytes": 1806,
+      "raw_sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "stored_bytes": 255,
+      "stored_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7",
+      "exact_raw_roundtrip_verified": true
+    },
+    {
+      "original_name": "T3_PACKAGE_INSTALL.json",
+      "file": "T3_PACKAGE_INSTALL.json.gz",
+      "raw_bytes": 360449,
+      "raw_sha256": "49c8f9338fb8b86806e6325caed95732e7bd6d5da3bc882b50987a5ad2b32bf0",
+      "stored_bytes": 11417,
+      "stored_sha256": "26b871691d6bcb60c154a1ea16e663232f4a802dcd76ad0070511675bfcf2090",
+      "exact_raw_roundtrip_verified": true
+    }
+  ],
+  "production_go": false
+}

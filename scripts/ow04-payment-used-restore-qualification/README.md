@@ -30,3 +30,10 @@ These are authenticated SQL fixtures with an explicitly revoked temporary
 fixture schema grant, not real Auth/browser or a performance qualification.
 Multiple/wider cohorts, incominghistory/HPP, defaultP21, wholeOW04 and other
 original backlog items remain open until separately completed.
+
+The original5359767b attempt is retained with all6 raw JSON reports and its
+trusted manifest. It stopped when the row-drift fixture tried deactivating
+the last active owner. The follow-up changes full_name inside the same
+rolled-back fault-control savepoint. Native owner protection stays active;
+the original literal money, full-table drift refusal and six-step oracle are
+unchanged. Partial control outcomes are now retained immediately on failure.

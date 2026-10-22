@@ -2,7 +2,7 @@
 from copy import deepcopy
 from hashlib import sha256
 from pathlib import Path
-import importlib.util,json,lzma,subprocess,sys,traceback,uuid
+import gzip,importlib.util,json,lzma,subprocess,sys,traceback,uuid
 sys.dont_write_bytecode=True
 if sys.argv[1:]:raise SystemExit('Current used-state restore accepts no arguments')
 HERE=Path(__file__).resolve().parent
@@ -32,7 +32,7 @@ EXPECTED_SHA256='643081adcec37ffd3c4d83c25e7522522da634e81cb8af551796202c16bc2cf
 
 def admitted():
     declaration=json.loads((HERE/'SOURCE.json').read_bytes())
-    assert declaration['base_candidate']=='e6ba59d0db6988a4b6a687e753fa4a5a3161d60d'
+    assert declaration['base_candidate']=='642d7a00981e3a57f0c660e3df9de1c26e701988'
     assert declaration['product_sources']==product.sources()
     assert declaration['restore_sources']==restore.sources()
     for path,digest in declaration['files'].items():
@@ -48,6 +48,11 @@ def admitted():
     assert native['status']=='PASS'and native['native']['counts']=={'PASS':26}
     assert native['required_case_ids_pass']and native['cp6_restored']and native['advisor_gate']
     assert native['actual_financial_sources']==product.sources()
+    first_raw=gzip.decompress((REPO/'docs/cp7/d17-14/ow04/payment-used-restore-5359767b-first/CP7_OW04_PAYMENT_CURRENT_USED_RESTORE.json.gz').read_bytes())
+    assert sha256(first_raw).hexdigest()=='944e3a87be886f09835a32e4d95fc51662f2461056c8e4242f447d3b5721decd'
+    first=json.loads(first_raw)
+    assert first['status']=='INCOMPLETE'and 'LAST_ACTIVE_OWNER_PROTECTED'in first['error']
+    assert first['cp6_restored']and first['baseline_advisors_equal']
     gold=(HERE/'EXPECTED.json').read_bytes();assert sha256(gold).hexdigest()==EXPECTED_SHA256
     return dict(candidate=native['candidate_commit'],raw_sha256=sha256(raw).hexdigest(),
         actual_counts=native['native']['counts'],financial_source_equal=True),json.loads(gold)
@@ -85,8 +90,7 @@ def prepare(cur,today,index,gold):
     return item
 
 
-def refusal_controls(cur,backup,digest):
-    controls=[]
+def refusal_controls(cur,backup,digest,controls):
     def refused(name,call,message):
         cur.execute('savepoint restore_control')
         try:call()
@@ -104,7 +108,7 @@ def refusal_controls(cur,backup,digest):
         restore.rebind_restored(cur,backup,digest,expected_database=database.RESTORED)
     refused('ACTUAL_FUNCTION_METADATA_DRIFT',metadata,'PAYMENT_RESTORE_CATALOG_CHANGED')
     def rows():
-        cur.execute('update erp.app_users set is_active=not is_active where auth_user_id=%s',(basic.native.auth.base.OPERATOR_AUTH,));assert cur.rowcount==1
+        cur.execute("update erp.app_users set full_name=case when full_name='OW04_RESTORE_DRIFT'then'OW04_RESTORE_DRIFT_2'else'OW04_RESTORE_DRIFT'end where auth_user_id=%s",(basic.native.auth.base.OPERATOR_AUTH,));assert cur.rowcount==1
         restore.rebind_restored(cur,backup,digest,expected_database=database.RESTORED)
     refused('ACTUAL_BUSINESS_ROW_DRIFT',rows,'PAYMENT_RESTORE_BUSINESS_ROWS_OR_SEQUENCE_CHANGED')
     assert restore.catalog._data(cur)==backup['data']
@@ -164,7 +168,7 @@ def run():
                 assert error.diag.message_primary=='CP7_CREDIT_SOURCE_NATIVE_TRIGGER_CENSUS_CHANGED';cur.execute('rollback to savepoint raw_oid_guard')
             else:raise AssertionError('CURRENT_RESTORE_OLD_LOCAL_OID_SEAL_UNEXPECTEDLY_ACCEPTED')
             cur.execute('release savepoint raw_oid_guard')
-            controls=refusal_controls(cur,backup,digest)
+            controls=refusal_controls(cur,backup,digest,report.setdefault('restore_controls',[]))
             report['steps'].append(dict(step=gold['required_steps'][2],status='PASS',original_raw_oid_guard_refused=True,controls=controls))
             rebound=restore.rebind_restored(cur,backup,digest,expected_database=database.RESTORED);conn.commit()
             report['steps'].append(dict(step=gold['required_steps'][3],status='PASS',binding=rebound))
