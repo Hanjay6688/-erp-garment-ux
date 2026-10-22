@@ -1,0 +1,23 @@
+{
+  "classification": "COMPACT_ORIGINAL_FIRST_OW06_INSTALL_FAILURE_NOT_RAW_LOG",
+  "status": "INCOMPLETE",
+  "candidate_commit": "0fd3e781f65394d7284e406f1f3bf9fc825e0516",
+  "run_id": 39803289633,
+  "job_id": 119909685371,
+  "observed_case_count": 0,
+  "error": "permission denied for schema cp7_invoice",
+  "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/cp7_supplier_transfer/native_probe.py\", line 61, in run\n    STATE=product.install(cur)\n          ^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_supplier_transfer/composition.py\", line 54, in install\n    for definition in definitions.values():cur.execute(definition,prepare=False)\n                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.InsufficientPrivilege: permission denied for schema cp7_invoice\n",
+  "original_report": {
+    "name": "ow06-native10-0fd3e781-first-failure.json",
+    "bytes": 7550,
+    "sha256": "3b7713ad8a89b932daa60595661c74740d4a702af6dcde8903d9eeb66d31b70c"
+  },
+  "artifact": {
+    "id": 12436098911,
+    "zip_bytes": 1622969,
+    "zip_sha256": "0a06ca648afefb7f98699671277565f94ab0cc3cfdc5482d0fa54000a3b15758"
+  },
+  "disposition": "Installer replaced every function as postgres. cp7_invoice is read-role owned and postgres lacks CREATE; exact old function ownership and temporary installer CREATE must be respected, with original ACL restored inside the atomic install. No App grant.",
+  "OW06_complete": false,
+  "production_go": false
+}

@@ -20,7 +20,7 @@ IDS=('OW06_ONE_TRANSFER_TWO_RECEIPTS_EXACT_CASH',
 RETAINED=('CP7_SUPPLIER_PAYMENT_CREATE_EXACT_REPLAY_SETTLE','CP7_SUPPLIER_PAYMENT_CREATE_REFUSALS_ZERO_EFFECT',
           'CP7_SUPPLIER_PAYMENT_CREATE_CURRENT_ACCESS','CP7_SUPPLIER_PAYMENT_CREATE_PRIVATE_BOUNDARY')
 REASON='Satu transfer supplier dibagi ke penerimaan'
-STATE_FOR_ROLLBACK=None
+CHECK_USED_ROLLBACK=None
 
 
 def read(cur,f,transfer=None):
@@ -77,6 +77,11 @@ def observe(cur,f,transfer,amounts,status='POSTED'):
     assert single.supplier.physical_state(cur)==f['physical'],'OW06_CHANGED_STOCK_HPP'
     assert cur.execute('select cp7_supplier_transfer.valid_transfer_v1(%s)',(transfer,)).fetchone()[0]is True
     assert cur.execute('select count(*)from cp7_supplier_transfer.context_v1').fetchone()[0]==0
+    # The retained runner rolls each case back. Force the exact deferred commit
+    # guards here so a green case cannot conceal a failure at real COMMIT.
+    guards=', '.join('cp7_supplier_transfer.'+name for name in('final_transfer','final_allocation','final_correction','closed_context'))
+    cur.execute('set constraints '+guards+' immediate')
+    cur.execute('set constraints '+guards+' deferred')
     return t
 
 
@@ -142,11 +147,9 @@ def cases(cur,today):
         assert count()==0
         cur.execute('savepoint detector_tamper');cur.execute('update erp.supplier_payments set amount=amount+0.01 where id=%s',(t['allocations'][0]['payment_id'],));assert count()==1
         cur.execute('rollback to savepoint detector_tamper');cur.execute('release savepoint detector_tamper');assert count()==0
-        from cp7_supplier_transfer import composition as product
         before=snapshot(cur)
-        try:product.rollback_preuse(cur,STATE_FOR_ROLLBACK)
-        except ValueError as error:assert str(error)=='CP7_FULL_ROLLBACK_AFTER_USE_REQUIRES_BACKUP_RESTORE',str(error)
-        else:raise AssertionError('USED_INSTALLATION_WAS_REMOVED')
+        assert CHECK_USED_ROLLBACK is not None
+        CHECK_USED_ROLLBACK(cur)
         assert snapshot(cur)==before
         return dict(status='PASS',read_only_detector_counts=[0,1,0],actual_one_cent_Native_child_corruption_detected=True,used_rollback_refused_before_DDL_no_facts_deleted=True)
 

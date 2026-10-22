@@ -6,7 +6,9 @@ real-user screens and used-state restore have also been qualified.
 from hashlib import sha256
 from pathlib import Path
 import re
+from contextlib import contextmanager
 from psycopg import sql
+from psycopg.pq import TransactionStatus
 
 from cp7_contractor_correction import composition as predecessor
 from cp7_supplier_transfer import native_delta
@@ -26,6 +28,33 @@ def sources():
     return dict(predecessor=predecessor.sources(),
         files={name:sha256((ROOT/name).read_bytes()).hexdigest()
                for name in('transfer.sql','correction.sql','read.sql','native_delta.py','composition.py')})
+
+
+@contextmanager
+def function_ddl(cur,signature,captured):
+    """Replace as the exact old owner, restoring any temporary installer CREATE.
+
+    postgres owns some functions in read-role-owned schemas without CREATE.
+    Other functions belong to the read role itself. Neither installing as
+    postgres universally nor changing function ownership is correct.
+    """
+    namespace=signature.split('.',1)[0]
+    function_owner=captured['functions'][signature][1]
+    schema_owner,acl,allowed=cur.execute("select pg_get_userbyid(nspowner),nspacl::text,has_schema_privilege(%s,oid,'CREATE')from pg_namespace where nspname=%s",
+        (function_owner,namespace)).fetchone()
+    as_owner=predecessor.predecessor.payment.consumer.as_owner
+    if not allowed:
+        with as_owner(cur,schema_owner):
+            cur.execute(sql.SQL('grant create on schema {} to {}').format(sql.Identifier(namespace),sql.Identifier(function_owner)))
+    try:
+        with as_owner(cur,function_owner):yield
+    finally:
+        if cur.connection.info.transaction_status!=TransactionStatus.INERROR:
+            if not allowed:
+                with as_owner(cur,schema_owner):
+                    cur.execute(sql.SQL('revoke create on schema {} from {}').format(sql.Identifier(namespace),sql.Identifier(function_owner)))
+            if cur.execute('select nspacl::text from pg_namespace where nspname=%s',(namespace,)).fetchone()[0]!=acl:
+                raise ValueError('OW06_ORIGINAL_SCHEMA_ACL_NOT_RESTORED: '+namespace)
 
 
 def admit_catalog(before,after,definitions,new_functions):
@@ -51,7 +80,8 @@ def install(cur):
         definitions=native_delta.patched(originals)
         with predecessor.predecessor.payment.consumer.as_owner(cur,'postgres'):
             for filename in('transfer.sql','correction.sql','read.sql'):cur.execute((ROOT/filename).read_text(),prepare=False)
-            for definition in definitions.values():cur.execute(definition,prepare=False)
+            for signature,definition in definitions.items():
+                with function_ddl(cur,signature,before):cur.execute(definition,prepare=False)
         after=catalog._catalog_rows(cur)
         functions=set(after['functions'])-set(before['functions'])
         names=set(re.findall(r'create function ([a-z_0-9.]+)\(',''.join((ROOT/f).read_text()for f in('transfer.sql','correction.sql','read.sql'))))
@@ -92,7 +122,8 @@ def rollback_preuse(cur,state):
         if predecessor.predecessor.base.private_rows(cur)!=state['seeded_private_rows']:
             raise ValueError('CP7_FULL_ROLLBACK_AFTER_USE_REQUIRES_BACKUP_RESTORE')
         with predecessor.predecessor.payment.consumer.as_owner(cur,'postgres'):
-            for definition in state['originals'].values():cur.execute(definition,prepare=False)
+            for signature,definition in state['originals'].items():
+                with function_ddl(cur,signature,state['before']):cur.execute(definition,prepare=False)
             for sig in PUBLIC:cur.execute('drop function '+sig)
             cur.execute('drop schema '+SCHEMA+' cascade')
         if catalog._catalog_rows(cur)!=state['before']:raise ValueError('OW06_PREDECESSOR_NOT_EXACTLY_RESTORED')

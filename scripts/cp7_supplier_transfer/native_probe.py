@@ -38,6 +38,16 @@ def cases(cur,today):
  assert tuple(key for key,_ in result)==IDS
  return result
 
+def check_used_rollback(cur):
+ # Remove only the retained SQL runner's temporary ERP USAGE while comparing
+ # product catalogs, exactly as the standard verify callback does. The
+ # product's complete 22-group comparison itself is never projected/relaxed.
+ with control.product_catalog(cur):
+  try:product.rollback_preuse(cur,STATE)
+  except ValueError as error:assert str(error)=='CP7_FULL_ROLLBACK_AFTER_USE_REQUIRES_BACKUP_RESTORE',str(error)
+  else:raise AssertionError('USED_INSTALLATION_WAS_REMOVED')
+  product.verify(cur,STATE)
+
 def verify(cur):
     if STATE is None:
         raise ValueError('OW06_INSTALLATION_REQUIRED')
@@ -60,7 +70,7 @@ def run():
             conn.rollback()
             STATE=product.install(cur)
             control.STATE=dict(installed_catalog=STATE['after'])
-            business.STATE_FOR_ROLLBACK=STATE
+            business.CHECK_USED_ROLLBACK=check_used_rollback
             report['complete_installed_verification']=product.verify(cur,STATE)
             report['verified_predecessor_info_manifest']=core.predecessor_info_manifest(cur)
             conn.commit();installed=True
