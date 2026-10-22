@@ -55,6 +55,8 @@ Kegagalan awal Native28, browser, Auth dan laundry/FG tetap tersimpan dan tidak 
 
 ## Checkpoint OW06 yang diserahkan
 
+Dasar bisnis tetap D17-14 butir5 pada register keputusan owner: satu transfer ke beberapa penerimaan/tagihan, jumlah alokasi sama dengan pembayaran, kas keluar sekali, pembatalan/koreksi konsisten.
+
 Status/run/hash akhir ditulis di `docs/cp7/d17-14/ow06/CHECKPOINT.json` setelah uji selesai. **OW06_complete=false; hitungan tetap5/16.** Baca README folder itu untuk cakupan yang dibatasi.
 
 Produk terpisah di `scripts/cp7_supplier_transfer/`; workflow `.github/workflows/cp7-ow06-native.yml`. Pemasang bawaan dan UI belum diubah, sehingga kode ini belum aktif pada aplikasi yang diwariskan. Tidak ada pemasangan hosted.

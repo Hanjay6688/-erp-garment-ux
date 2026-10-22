@@ -1,0 +1,28 @@
+{
+  "classification": "LOCAL_SOURCE_TYPE_AND_INPUT_CONTROLS_NOT_NATIVE_FINANCIAL_PROOF",
+  "status": "PASS",
+  "candidate": "bef6b7823f87996355b00f3e1b78a3ff0116837b",
+  "checks": {
+    "exact_Native_definition_derivations": 9,
+    "private_function_compilation_in_PGlite": true,
+    "contract_controls": [
+      "400.00+600.00=1000.00",
+      "mismatched_total_refused",
+      "duplicate_receipt_refused",
+      "subcent_refused",
+      "unknown_field_refused",
+      "private_draft_without_context_refused"
+    ],
+    "source_admission_used_actual_original_Native32_and_Native28": true,
+    "source_admission_had_psycopg_connect_throw_if_called": true
+  },
+  "retained_oracle": {
+    "file": "scripts/cp7_supplier_payment_create_cases.py",
+    "bytes": 17794,
+    "sha256": "ac07bfdb55751b5e8da86e599eec1bf97e870768c39c930af3a76d871a19c292",
+    "byte_equal_to_qualified_OW05": true
+  },
+  "Native_financial_postings_executed": false,
+  "OW06_complete": false,
+  "production_go": false
+}

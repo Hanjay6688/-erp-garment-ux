@@ -66,18 +66,23 @@ jobs:
     - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
       with:
         python-version: '3.12'
-    - name: Install pinned disposable runtime
+    - name: Prepare exact PG17 runtime with bounded installation
       shell: bash
-      run: "set -euo pipefail\npython -m pip install --quiet 'psycopg[binary]==3.2.10' 'PyYAML==6.0.2' 'jsonschema==4.25.1'\nsudo apt-get\
-        \ update -qq\nsudo apt-get install -y -qq ca-certificates curl gnupg\nsudo install -d /usr/share/postgresql-common/pgdg\nsudo\
-        \ curl --fail --silent --show-error \\\n  -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc \\\n  https://www.postgresql.org/media/keys/ACCC4CF8.asc\n\
-        key_fingerprint=\"$(gpg --show-keys --with-colons \\\n  /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc \\\n  | awk\
-        \ -F: '$1 == \"fpr\" { print $10; exit }')\"\ntest \"$key_fingerprint\" = 'B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8'\n. /etc/os-release\n\
-        architecture=\"$(dpkg --print-architecture)\"\nsudo tee /etc/apt/sources.list.d/pgdg.sources >/dev/null <<EOF\nTypes: deb\n\
-        URIs: https://apt.postgresql.org/pub/repos/apt\nSuites: ${VERSION_CODENAME}-pgdg\nArchitectures: ${architecture}\nComponents:\
-        \ main\nSigned-By: /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc\nEOF\nsudo apt-get update -qq\nsudo apt-get install\
-        \ -y -qq postgresql-client-17\ntest -x /usr/lib/postgresql/17/bin/psql\necho '/usr/lib/postgresql/17/bin' >> \"$GITHUB_PATH\"\
-        \n"
+      run: "set -euo pipefail\ntimeout 120 python -m pip install --quiet 'psycopg[binary]==3.2.10' 'PyYAML==6.0.2' 'jsonschema==4.25.1'\n\
+        pg17_bin=/usr/lib/postgresql/17/bin\nif ! test -x \"$pg17_bin/psql\" || ! test -x \"$pg17_bin/pg_dump\" || ! test -x \"$pg17_bin/pg_restore\"\
+        ; then\n  sudo install -d /usr/share/postgresql-common/pgdg\n  curl --fail --silent --show-error --connect-timeout 15 --max-time\
+        \ 45 --retry 2 \\\n    https://www.postgresql.org/media/keys/ACCC4CF8.asc \\\n    -o \"$RUNNER_TEMP/ow06-postgresql-signing-key.asc\"\
+        \n  pg17_fingerprint=\"$(gpg --show-keys --with-colons \"$RUNNER_TEMP/ow06-postgresql-signing-key.asc\" | awk -F: '$1 == \"\
+        fpr\" { print $10; exit }')\"\n  test \"$pg17_fingerprint\" = 'B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8'\n  sudo install -m\
+        \ 644 \"$RUNNER_TEMP/ow06-postgresql-signing-key.asc\" /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc\n  . /etc/os-release\n\
+        \  pg17_architecture=\"$(dpkg --print-architecture)\"\n  sudo tee /etc/apt/sources.list.d/pgdg.sources >/dev/null <<EOF\nTypes:\
+        \ deb\nURIs: https://apt.postgresql.org/pub/repos/apt\nSuites: ${VERSION_CODENAME}-pgdg\nArchitectures: ${pg17_architecture}\n\
+        Components: main\nSigned-By: /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc\nEOF\n  timeout 120 sudo apt-get -o DPkg::Lock::Timeout=45\
+        \ -o Acquire::Retries=2 -o Acquire::https::Timeout=30 -o Acquire::http::Timeout=30 update -qq\n  timeout 180 sudo apt-get -o\
+        \ DPkg::Lock::Timeout=45 -o Acquire::Retries=2 -o Acquire::https::Timeout=30 -o Acquire::http::Timeout=30 install -y -qq postgresql-client-17\n\
+        fi\nfor pg17_tool in psql pg_dump pg_restore; do\n  test -x \"$pg17_bin/$pg17_tool\"\n  \"$pg17_bin/$pg17_tool\" --version |\
+        \ grep -Eq 'PostgreSQL\\) 17[.]'\ndone\necho \"$pg17_bin\" >> \"$GITHUB_PATH\"\n"
+      timeout-minutes: 8
     - name: Fetch and verify immutable actual Native32 original before DB
       env:
         GH_TOKEN: ${{ github.token }}

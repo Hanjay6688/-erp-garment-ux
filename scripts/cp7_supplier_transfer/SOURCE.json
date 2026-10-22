@@ -1,7 +1,7 @@
 {
   "classification": "ISOLATED_OW06_BACKEND_CHECKPOINT_NOT_COMPLETE_UI_OR_RESTORE",
   "files": {
-    ".github/workflows/cp7-ow06-native.yml": "8d2b22563bd01bd90c629d34e50e0c9940ff6ac9caf182230144515009e187cc",
+    ".github/workflows/cp7-ow06-native.yml": "b3f3ef11fcf5e95a9222da968b970ae9402739730bfdd7abef117d226a2f1be1",
     "scripts/cp7_supplier_transfer/cases.py": "0d3f8c697ec14dd0a1dcde44cafb066f7da796f805c43040b443ce0162af83e7",
     "scripts/cp7_supplier_transfer/composition.py": "b8e945f29b19c8f1e345a17a566e773730b9604aa40489e2dd4d6436e00817af",
     "scripts/cp7_supplier_transfer/correction.sql": "86bc7ac571bc38441c6a6d1f548973599aebacbbbb0984fc70f786b9ab2ce9f0",
