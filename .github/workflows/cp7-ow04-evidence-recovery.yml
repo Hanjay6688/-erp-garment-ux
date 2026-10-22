@@ -1,0 +1,91 @@
+name: CP7 OW04 preserve exact completed evidence after workspace disconnect
+'on':
+  push:
+    branches:
+    - codex/ow04-payment-binding-20261022
+    paths:
+    - .github/workflows/cp7-ow04-evidence-recovery.yml
+  workflow_dispatch: {}
+permissions:
+  contents: read
+  actions: read
+jobs:
+  retain:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+    - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+      with:
+        python-version: '3.12'
+    - name: Verify original ZIP digests and retain every original JSON byte
+      shell: bash
+      run: |
+        python - <<'PY'
+        from pathlib import Path,PurePosixPath
+        from hashlib import sha256
+        from zipfile import ZipFile
+        import base64,gzip,io,json,os,subprocess,tarfile
+        root=Path('retained-evidence');root.mkdir()
+        specs=[
+         dict(label='browser9',artifact=12401416470,zip_sha='f587aef67c2aa190b98b74eb63fbd3928a905eef4eb656f792c05c5ff4bafbd8',candidate='642d7a00981e3a57f0c660e3df9de1c26e701988',run=39719948511,job=119630861332,target='docs/cp7/d17-14/ow04/payment-browser9-642d7a00-pass',main='CP7_OW04_PAYMENT_CURRENT_BROWSER9_READY.json',raw_sha='4e9638bd4fada8ca36522412f4c78c05fab501cd743c7859751030bd28b9269f',expected_count=23),
+         dict(label='restore_second',artifact=12400299468,zip_sha='af687df50fb9b2f268bd86972ecb754426d1ce1eda4f8ee91a504de03bbac8b2',candidate='c3faae84140134456cd1c727bf30ca61c332c2f6',run=39720763287,job=119633422445,target='docs/cp7/d17-14/ow04/payment-used-restore-c3faae84-second',main='CP7_OW04_PAYMENT_CURRENT_USED_RESTORE.json',raw_sha='c60c186c567b107d36354ceebed84ed804e638c0f38070533262d37e7ee416d5',expected_count=6)]
+        all_files=[]
+        for spec in specs:
+         zip_path=root/(spec['label']+'.zip')
+         with zip_path.open('wb')as out:subprocess.run(['gh','api','repos/'+os.environ['GITHUB_REPOSITORY']+'/actions/artifacts/'+str(spec['artifact'])+'/zip'],stdout=out,check=True)
+         assert sha256(zip_path.read_bytes()).hexdigest()==spec['zip_sha']
+         target=root/spec['target'];target.mkdir(parents=True)
+         records=[];raws={}
+         with ZipFile(zip_path)as z:
+          for info in z.infolist():
+           if info.is_dir()or not info.filename.endswith('.json'):continue
+           name=PurePosixPath(info.filename);assert not name.is_absolute()and'..'not in name.parts
+           assert info.file_size<100_000_000 and info.filename not in raws
+           raw=z.read(info);json.loads(raw);raws[info.filename]=raw
+           records.append(dict(name=info.filename,raw_bytes=len(raw),raw_sha256=sha256(raw).hexdigest()))
+         assert len(raws)==spec['expected_count']
+         assert sha256(raws[spec['main']]).hexdigest()==spec['raw_sha']
+         report=json.loads(raws[spec['main']]);assert report['candidate_commit']==spec['candidate']
+         if spec['label']=='browser9':
+          assert report['status']=='PASS'and report['browser']['counts']=={'PASS':9}and report['isolated_diagnostics']['counts']=={'PASS':2}
+          assert report['cp6_restored']and report['advisor_gate']and report['required_case_ids_pass']
+          summary={key:{'status':row['status'],'observed_jit':row['observed_jit'],'timings':row['timings']}for key,row in report['isolated_diagnostics']['cases'].items()}
+          (target/'ISOLATED_TIMING_SUMMARY.json').write_text(json.dumps(dict(derived_not_original=True,raw_main_sha256=spec['raw_sha'],single_session_transaction_counters=True,performance_acceptance=False,observations=summary),indent=2)+'\n')
+         else:
+          assert report['status']=='INCOMPLETE'and report['cp6_restored']and report['baseline_advisors_equal']
+          assert len(report['restore_controls'])==5 and all(x['status']=='PASS'for x in report['restore_controls'])
+          print(json.dumps(dict(erp_restore_second_summary=True,traceback=report['traceback'],steps=[x['step']for x in report['steps']],controls=report['restore_controls'])),flush=True)
+          manifest=json.loads(raws['PAYMENT_USED_RESTORE_MANIFEST.json'])
+          triggers={k:v for k,v in manifest['catalog']['triggers'].items()if k.startswith('erp.app_users:')and not v[0]}
+          names={v[8]for v in triggers.values()}
+          functions={k:v[0]for k,v in manifest['catalog']['functions'].items()if k in names}
+          print(json.dumps(dict(erp_actual_appuser_trigger_sources=True,triggers=triggers,functions=functions)),flush=True)
+         archive=target/'ALL_ORIGINAL_JSON.tar.xz'
+         with tarfile.open(archive,'w:xz',preset=6)as t:
+          for name,raw in sorted(raws.items()):
+           info=tarfile.TarInfo(name);info.size=len(raw);info.mode=0o644;info.mtime=0;t.addfile(info,io.BytesIO(raw))
+         with tarfile.open(archive,'r:xz')as t:
+          assert len(t.getmembers())==len(raws)
+          for name,raw in raws.items():assert t.extractfile(name).read()==raw
+         for name in (spec['main'],'CURRENT_BROWSER_HOST_0.json'):
+          if name in raws:
+           packed=gzip.compress(raws[name],mtime=0);assert gzip.decompress(packed)==raws[name];(target/(name+'.gz')).write_bytes(packed)
+         receipt=dict(classification='VERIFIED_EXACT_ORIGINAL_JSON_RETENTION_NOT_NEW_BUSINESS_EXECUTION',source=spec,zip_bytes=zip_path.stat().st_size,original_json_count=len(raws),raw_original_bytes=sum(map(len,raws.values())),all_raw_roundtrips_verified=True,records=records,archive=dict(file=archive.name,bytes=archive.stat().st_size,sha256=sha256(archive.read_bytes()).hexdigest()))
+         (target/'RETENTION_RECEIPT.json').write_text(json.dumps(receipt,indent=2)+'\n')
+         for path in sorted(target.iterdir()):
+          data=path.read_bytes();relative=str(path.relative_to(root));chunks=(len(data)+11999)//12000
+          metadata=dict(path=relative,bytes=len(data),sha256=sha256(data).hexdigest(),chunks=chunks)
+          all_files.append(metadata);print(json.dumps(dict(erp_evidence_file=True,**metadata)),flush=True)
+          for i in range(chunks):print(json.dumps(dict(erp_evidence_chunk=True,path=relative,index=i,base64=base64.b64encode(data[i*12000:(i+1)*12000]).decode())),flush=True)
+        print(json.dumps(dict(erp_evidence_complete=True,files=all_files,not_business_rerun=True)),flush=True)
+        
+        PY
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      if: always()
+      with:
+        name: cp7-ow04-verified-original-evidence-recovery
+        path: retained-evidence/docs
+        retention-days: 30
+        if-no-files-found: error
