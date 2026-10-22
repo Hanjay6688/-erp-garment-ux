@@ -1,0 +1,27 @@
+{
+ "classification": "OW05B_MANDOR_CORRECTION_GUIDANCE_AND_HISTORY_NATIVE_STAGE",
+ "files": {
+  ".github/workflows/cp7-ow05b-native.yml": "dc33eec317e5778f9fc2c8b3f8d85df9c6c49d3420b5b0c13f982d8b3a57e421",
+  "scripts/cp7_contractor_guidance/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "scripts/cp7_contractor_guidance/cases.py": "98ae8b4feb6c653c7e193904a95e7317b797ceb5b0d7ea17ef76a2e22ebfbe83",
+  "scripts/cp7_contractor_guidance/composition.py": "188addd7e2b732d9d4b019ccd55ec5622cdd645ba83b8a6b83596fef7ba17dd6",
+  "scripts/cp7_contractor_guidance/native_delta.py": "6115124ddd9e9a41a36d8aaa2e5a6f0447daeb39e0b790a91dd00a5b183024a9",
+  "scripts/cp7_contractor_guidance/native_probe.py": "b5d86b036da0f2ca6e58c21a500f387e51dfc00acbb8bed11ba7620f3f08322f",
+  "scripts/cp7_contractor_guidance/guidance.sql": "2b05d2070ce39cf8794d4c6301a37f095cce9d482f615b30fe073d8e1df7e60f",
+  "src/App.tsx": "0bca1e95f69c51d3fb394028b41d9df1d5829858c185f0df008202dbaf1c08c4"
+ },
+ "case_ids": [
+  "OW05B_REAL_CHAIN_BLOCKERS_NAME_REAL_MENUS_AND_OPEN",
+  "OW05B_EVERY_KIND_AND_BRANCH_GUIDED",
+  "OW05B_AFTER_STEPS_COMPLETE_IN_ORDER",
+  "OW05B_HISTORY_TWO_CORRECTIONS_VISIBLE",
+  "OW05B_CORRECTION_COMMAND_UNCHANGED",
+  "OW05B_GUIDANCE_READERS_PRIVATE"
+ ],
+ "native_original": {
+  "name": "CP7_OW05_NATIVE28_GUIDANCE_WHOLE_PO_WAVE.json",
+  "bytes": 6646642,
+  "sha256": "9e4732a171faff7175a03b895daca09bcb1dc54a53003cb300d979c858d1143c"
+ },
+ "OW05b_complete": false
+}
