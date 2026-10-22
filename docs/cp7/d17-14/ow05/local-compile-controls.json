@@ -1,0 +1,20 @@
+{
+  "classification": "LOCAL_PGLITE_PARSE_COMPILE_AND_PAIRWISE_WIP_CONTROLS_ONLY_NOT_NATIVE_INSTALL",
+  "status": "PASS",
+  "private_functions_compiled": 8,
+  "public_facades_compiled": 2,
+  "Native_pickup_forward_delta_compiled": true,
+  "actual_Native_table_column_types": 35,
+  "controls": [
+    "empty",
+    "unreversed",
+    "exact_inverse",
+    "wrong_qty",
+    "unrelated_source",
+    "restored_pair",
+    "duplicate_inverse"
+  ],
+  "Native_financial_cases_added": 0,
+  "OW05_complete": false,
+  "production_go": false
+}

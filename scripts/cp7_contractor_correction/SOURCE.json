@@ -1,0 +1,33 @@
+{
+  "contract_version": "ow05.initial-native-source.v1",
+  "predecessor_integration": "2668af3268bebf0c1a2d79d8574511676805ec66",
+  "case_ids": [
+    "OW05_ACTIVE_WAGE_GUIDANCE",
+    "OW05_NATIVE_SUCCESSOR_OLD_RATE",
+    "OW05_NATIVE_SUCCESSOR_NEW_RATE",
+    "OW05_LOST_REPLY_REPLAY",
+    "OW05_CHANGED_UUID_REFUSED",
+    "OW05_STALE_REVIEW_REFUSED",
+    "OW05_INACTIVE_TARGET_REFUSED",
+    "OW05_LATE_NATIVE_POST_ATOMIC",
+    "OW05_PRIVATE_CAPABILITY_DENIED",
+    "OW05_HISTORY_IMMUTABLE"
+  ],
+  "files": {
+    "scripts/cp7_contractor_correction/__init__.py": "d83608911c079a8d5e0d7278d1a766b947644ed1f8eda1cfc02d9e7c62883202",
+    "scripts/cp7_contractor_correction/contractor.sql": "bd2a99709bdbf911c3086e88f6c5be9e8f65358153f51e34e28b794474b7ecc3",
+    "scripts/cp7_contractor_correction/composition.py": "c2765270391394a689af6bd6c27baf1394e07a1928484bf8e349804491c1f2c2",
+    "scripts/cp7_contractor_correction/native_cases.py": "7ff93d61d8bc7f0a9c788c63351a8309146d86a4f5dc20d493abaad91836628c",
+    "scripts/cp7_contractor_correction/native_probe.py": "a1d0eec3a10063a07d97985911fd7afb689129fa0c7707e374de651150dff02f",
+    ".github/workflows/cp7-ow05-native.yml": "8be34d8a25c56efdefa334813263eeabb310ac0be93db382dd55a1af07ef0a33"
+  },
+  "literal_money": {
+    "old_wage_four_pcs": "16.00",
+    "after_named_inverse_old_payable": "0.00",
+    "repost_locked_rate_four_pcs": "16.00",
+    "repost_new_mandor_rate_four_pcs": "24.00"
+  },
+  "Native32_rerun": false,
+  "OW05_complete": false,
+  "production_go": false
+}
