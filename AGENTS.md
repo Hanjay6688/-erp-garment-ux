@@ -36,10 +36,15 @@ pemeriksaan yang secara khusus ditugaskan kepada reviewer.
 
 ## Integrasi, bukti, dan batas peran
 
-- Arahan owner terbaru21 Okt2026: default bekerja sendiri; bila diperlukan,
-  gunakan paling banyak satu pemeriksa untuk langsung mengecek pekerjaan
-  integrator. Jangan menambah tim besar hanya untuk mempercepat secara dugaan.
-- Satu writer/integrator mengubah produk; pembantu diberi scope terbatas.
+- Arahan owner terbaru22 Okt2026: siapkan pembagian kerja Codex dan Claude
+  supaya perubahan tidak bertabrakan dan mudah digabung; dua jalur penulisan
+  terpisah diizinkan. Batas file, cabang dan urutan integrasi ada di
+  `docs/cp7/handoff/PEMBAGIAN_KERJA_20261022.md`. Baca sebelum mengubah produk.
+  Ini menggantikan aturan satu writer untuk seluruh repo pada handoff sebelumnya.
+  Jangan otomatis menambah agent; orang ketiga opsional untuk pemeriksaan.
+- Satu integrator mengubah cabang integrasi dan file bersama; masing-masing
+  writer hanya mengubah scope yang dialokasikan di cabang dan worktree sendiri.
+  Scope yang belum dibagi tidak diambil sepihak. Pemeriksa diberi scope terbatas.
   Penilaian awal pemeriksa dikunci sebelum menerima kesimpulan pemeriksa lain,
   lalu saling counter memakai skenario, expected kontrak, observed dan bukti.
   Selesaikan perbedaan lewat sumber/tes, bukan voting atau pelonggaran oracle.

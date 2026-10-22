@@ -860,3 +860,13 @@ Owner (persis): "nomor 2 emang dari total tapi dia harus lihat dari range ukuran
 Akibat untuk penulis (ringkasan penulis, bukan kata-kata owner): yang dinilai tetap total pcs hasil potong, tetapi rentang
 wajarnya dibedakan menurut rentang ukuran pola (pola ukuran jumbo dan pola ukuran kecil punya rentang wajar sendiri), di
 dalam kelompok jenis bahan + pola. Ini mengoreksi ringkasan lanjutan pertama di atas ("bukan satu angka total").
+
+### Arahan kerja paralel (owner ke Codex, 22 Okt 2026 WIB)
+
+Owner (persis): "siap kan diri lu abis ini lu akan bagi tugas sama claude pastikan lu bikin kerjaannya jangan tabrak tabrak ya biar nanti mergenya gampang, lu liat poin poin itu mungkin kan buat kerjaan dibagi 2 atau bahkan di bagi 3 masih oke?"
+
+Pembagian pelaksanaan oleh penulis, bukan keputusan bisnis baru owner: siapkan dua jalur dengan batas file/cabang yang
+jelas, Claude OW06 sekaligus integrator tunggal, Codex OW07; orang ketiga opsional untuk pengujian tanpa mengubah kode
+produk. Rincian dan urutan gabung di `docs/cp7/handoff/PEMBAGIAN_KERJA_20261022.md`. Ini menggantikan aturan satu writer
+untuk seluruh repo pada handoff awal22 Oktober. Tidak mengizinkan perubahan main/kandidat auditor/Enteng/hosted/produksi,
+pengiriman WA nyata, pelonggaran tes, atau menganggap salah satu pekerja telah mulai sebelum ada pekerjaan nyata.
