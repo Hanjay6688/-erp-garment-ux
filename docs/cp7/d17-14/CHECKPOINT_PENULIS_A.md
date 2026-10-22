@@ -5,10 +5,12 @@ ya lu pake banyak orang gapapa, kalo udah tipis lu baru slowing down ... jangan 
 langsung di-commit dan di-push dan berkas ini diperbarui; selama kuota banyak boleh banyak pembantu; pembantu yang sudah jalan
 tidak dihentikan; baru diperlambat bila kuota menipis. Owner: yang dilihat kuota 5 jam (bila habis semua langsung berhenti).
 Sisa kuota tidak terlihat dari sesi, jadi patokannya jam: jendela sekarang mulai sekitar 20.00 UTC 22 Okt, habis sekitar
-01.00 UTC 23 Okt. Pengingat terjadwal: 00.10 UTC mode hemat (tidak memulai pekerjaan besar baru, gabung dan push semua commit
+01.00 UTC 23 Okt. Hitungan dari layar Usage Bos (03.35 WIB): sesi 47% terpakai, reset 4 jam 25 menit lagi (01.00 UTC);
+laju sekitar 1,3% per menit dengan 4–5 pembantu, jadi habis sekitar 21.15 UTC. Patokan mode hemat: sekitar 80% terpakai.
+Pengingat terjadwal: 20.58 UTC mode hemat (tidak memulai pekerjaan besar baru, gabung dan push semua commit
 pembantu, perbarui berkas ini), 01.10 UTC jalan normal lagi.
 
-Diperbarui: 22 Okt 2026, 20.45 UTC (23 Okt 03.45 WIB).
+Diperbarui: 22 Okt 2026, 20.50 UTC (23 Okt 03.50 WIB).
 
 ## Sudah terbukti (uji database penuh atau browser lulus)
 
@@ -23,7 +25,7 @@ Diperbarui: 22 Okt 2026, 20.45 UTC (23 Okt 03.45 WIB).
 
 | Butir | Keadaan |
 |---|---|
-| OW-12a modul angka keuangan | Native7 `47688e63` run 39847548230 berhenti di "Start disposable database" (server CI); dijalankan ulang sekali |
+| OW-12a modul angka keuangan | Native7 `47688e63` run 39847548230 berhenti dua kali di "Start disposable database"; log sedang dibaca (server CI atau workflow) |
 | OW-08b 2.20 cuci gagal tanpa tarif | Native11 `3c3dea91` ditolak di penerimaan sumber karena OW-09 mengubah SQL dasar yang dibekukan (`ow08/wash-native11-3c3dea91-admission-failure.json`); diulang di `03242502` (run 39849752268) |
 | OW-06 layar transfer supplier | Browser2 `3c3dea91` berhenti di pin `src/productionRecovery.ts`; pin diperbarui `ed4818b3`; diantrekan ulang sesudah cuci gagal |
 | OW-09 urut/saring seluruh hasil | Gabungan pertama dibatalkan (`43452c27`): mengedit `scripts/cp7-src` yang dibekukan (E25j2). Pembantu membangun ulang sebagai satu tahap Native (7 pembaca + aksesori) di `claude/d17-14-ow09`; F03 combined run 39849124506 masih menguji versi lama, hasilnya hanya info |
@@ -31,7 +33,8 @@ Diperbarui: 22 Okt 2026, 20.45 UTC (23 Okt 03.45 WIB).
 ## Belum selesai / berikutnya (urutan kerja)
 
 1. Catat hasil tiga run di atas (lulus: berkas bukti; gagal: simpan kegagalan pertama, betulkan).
-2. OW-08b 2.21 koreksi barang jadi di QC: pembantu sedang bekerja di `claude/d17-14-ow08b-qc` (lokal).
+2. OW-08b 2.21 koreksi barang jadi di QC: digabung (`5be35e60`), Native9 dikirim di `2927dd25`; browser OW-05b dan OW-06 diulang
+   karena `src/transactionSource.ts` berubah (diantrekan).
 3. OW-04b retur berulang dengan kredit: pembantu sedang bekerja di `claude/d17-14-ow04b` (lokal). Pin UI OW-04 lama
    (`scripts/ow04-*/SOURCE.json`, `ACTIVE_UI_SOURCE.json`) terikat ke kandidat OW-04 yang dibekukan, jadi tidak diubah; OW-04b
    butuh kualifikasi sendiri.
