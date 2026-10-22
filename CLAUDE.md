@@ -27,10 +27,11 @@ Owner: "RULE BUAT CLAUDE KASIH REPORT AFTER WORK itu jelas bahasa manusia."
 ## Kuota dan pembantu (owner 23 Okt 2026)
 
 - Kerja bertahap dengan checkpoint: setiap langkah selesai langsung di-commit dan di-push, catatan posisi kerja diperbarui.
-- Selama kuota sesi 5 jam masih banyak, jalan normal dan boleh banyak pembantu. Bila mulai tipis (patokan sekitar 80% terpakai),
-  masuk mode hemat: jangan mulai pekerjaan baru, gabung dan push hasil yang ada. Sesudah reset, jalan normal lagi.
+- Selama kuota sesi 5 jam masih banyak, jalan normal dan boleh banyak pembantu. Bila mulai tipis, masuk mode hemat: jangan mulai pekerjaan baru, gabung dan push hasil yang ada. Sesudah reset, jalan normal lagi.
 - Pembantu yang sudah jalan jangan dihentikan tiba-tiba ("jangan stop tiba tiba pembantu yg udah jalan"), termasuk saat mode hemat.
-- Jangan mulai pembantu baru bila sudah mode hemat, atau bila diperkirakan pekerjaannya tidak selesai sebelum mode hemat;
-  hindari token percuma yang terpotong kuota 5 jam. Saat mode hemat, pembantu yang jalan diminta merapikan diri (selesaikan
-  langkah, commit, berhenti dengan laporan), bukan dihentikan paksa.
+- Jangan mulai pembantu baru bila tidak yakin pekerjaannya selesai sebelum kuota 5 jam habis. Pembantu boleh berlanjut ke mode
+  hemat dan selesai di sana (mode hemat masih punya kuota); yang dihindari pembantu kerja keras lalu terpotong kuota. Saat
+  mode hemat, pembantu yang jalan diminta merapikan diri (selesaikan langkah, commit, berhenti dengan laporan), bukan dihentikan paksa.
+- Mode hemat mulai di tengah rentang 1 jam 40 menit sampai 3 jam sebelum reset (sekitar 2 jam 20 menit), lebih awal bila
+  pemakaian sedang sangat cepat.
 - Kuota mingguan: boleh dipakai sampai habis sebelum reset Kamis; menjelang habis, serah terima ke Astra.
