@@ -41,6 +41,29 @@ describe('exact transaction source boundaries',()=>{
    if(kind==='QC_INSPECTION'){r.document.id=parent;expect(()=>parseTransactionSource(r,r.source,actor)).toThrow()}
   }
  })
+ it('opens an FG inverse where its original movement opens and nowhere else (OW-08b)',()=>{
+  const child='44444444-4444-4444-8444-444444444444',fg=(document:Record<string,unknown>)=>{const r=receipt();r.source={source_type:'FG_MOVEMENT_REVERSAL',source_id:source};Object.assign(r.document,{status:'POSTED',revision:null},document);return r}
+  const accepted=[{domain:'QC',route:'qc',focus:null},{domain:'SALE',route:'sales-invoice',focus:null},
+   {domain:'SALE',route:'sales-returns',focus:{kind:'SALES_RETURN',id:child,page_offset:0}},
+   {domain:'FG_ADJUSTMENT',route:'stock-adjustment',focus:null},{domain:'BS_REWORK',route:'bs-rework',focus:{kind:'REWORK_ORDER',id:child,page_offset:50}}]
+  for(const shape of accepted){const r=fg(shape);expect(parseTransactionSource(r,r.source,actor).document).toMatchObject({...shape,id:parent})}
+  // A corrected sales return was answered by the server before and rejected here; it opens its return now.
+  expect(parseTransactionSource(fg(accepted[2]),fg(accepted[2]).source,actor).document?.focus).toMatchObject({kind:'SALES_RETURN',id:child})
+  const rejected=[{domain:'SALE',route:'sales-payments',focus:{kind:'SALES_PAYMENT',id:child,page_offset:0}},
+   {domain:'SALE',route:'sales-invoice',focus:{kind:'SALES_PAYMENT',id:child,page_offset:0}},{domain:'SALE',route:'sales-invoice',focus:{kind:'SALES_RETURN',id:child,page_offset:0}},
+   {domain:'SALE',route:'sales-returns',focus:null},{domain:'FG_ADJUSTMENT',route:'stock-adjustment',focus:{kind:'SALES_RETURN',id:child,page_offset:0}},
+   {domain:'BS_REWORK',route:'bs-rework',focus:null},{domain:'QC',route:'qc',focus:{kind:'REWORK_ORDER',id:child,page_offset:0}},
+   {domain:'RECEIPT',route:'procurement',focus:null},{domain:'MATERIAL_COUNT',route:'stock-adjustment',focus:null},{domain:'MATERIAL_TRANSFER',route:'materials-rolls',focus:null},
+   {domain:'MISC_FINANCE',route:'finance-journal',focus:null},{domain:'PAYROLL',route:'finance-payroll',focus:null},{domain:'ACCESSORY_ISSUE',route:'contractor-issue',focus:null},
+   {domain:'LAUNDRY',route:'laundry',focus:null},{domain:'CUTTING',route:'mandor-wip',revision:'3',focus:{kind:'CUTTING_GROUP',id:parent,parent_id:child,page_offset:0}},
+   {domain:'KASBON',route:'finance-payroll',focus:{kind:'KASBON',id:parent,parent_id:child,page_offset:0}},{domain:'FG_ADJUSTMENT',route:'qc',focus:null}]
+  for(const shape of rejected){const r=fg(shape);expect(()=>parseTransactionSource(r,r.source,actor)).toThrow()}
+  // The same documents stay valid for their own direct sources; only the FG inverse is narrowed.
+  const direct=receipt();direct.source={source_type:'MATERIAL_ADJUSTMENT_ITEM',source_id:source};Object.assign(direct.document,{domain:'MATERIAL_COUNT',route:'stock-adjustment',focus:null})
+  expect(parseTransactionSource(direct,direct.source,actor).document?.domain).toBe('MATERIAL_COUNT')
+  const unsupported={...receipt(),source:{source_type:'FG_MOVEMENT_REVERSAL',source_id:source},status:'UNSUPPORTED_SOURCE',document:null}
+  expect(parseTransactionSource(unsupported,unsupported.source,actor).document).toBeNull()
+ })
  it('binds a supplier payment to its receipt, exact child and owning25-row page',()=>{
   const r=receipt();r.source={source_type:'SUPPLIER_PAYMENT',source_id:source};Object.assign(r.document,{domain:'RECEIPT',route:'procurement',focus:{kind:'SUPPLIER_PAYMENT',id:source,page_offset:25}})
   expect(parseTransactionSource(r,r.source,actor).document).toMatchObject({id:parent,focus:{kind:'SUPPLIER_PAYMENT',id:source,page_offset:25}})
