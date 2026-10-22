@@ -17,6 +17,7 @@ Penulis B = Astra (`astra/d17-14-produksi`). Cabang gabungan `astra/d17-14-integ
 | Tanggal | Kontrak | Pemilik | Pemakai | Isi |
 |---|---|---|---|---|
 | 23 Okt 2026 | Modul angka keuangan/HPP untuk analisis (OW-12a) | A | B (OW-12b) | Belum ditulis; akan diisi sebelum B memasang panggilannya |
+| 22 Okt 2026 | OW-09 urut/saring seluruh hasil (cabang `claude/d17-14-ow09`) | A | B (layar Nota, aksesori, barang jadi, hitung fisik untuk hal lain) | Hanya A mengubah bagian daftar/urut/saring di 8 layar OW-09 dan `src/RecordTools.tsx`. Pembaca CP7 mendapat kunci opsional (urutan, status/jenis, cari) yang dipakai sebelum halaman dipotong; panggilan lama tanpa kunci itu menerima jawaban yang sama persis. Rincian: `docs/cp7/d17-14/ow09/README.md` |
 
 ## Permintaan
 
