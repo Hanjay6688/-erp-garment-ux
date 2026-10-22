@@ -32,3 +32,15 @@ harus persis yang diharapkan dan tidak ada baris lama yang hilang. Hasil CI dica
 
 Dampak saat digabung ke pemasang bawaan: uji CP7 lain yang menutup buku dengan kain kantong atau payroll absen yang belum
 dibagi akan tertahan; datanya harus dibagi dulu (bukan pemeriksa dilonggarkan). Uji CP6 lama tidak memakai tahap ini.
+
+## Hasil CI
+
+| Percobaan | Kepala | Run/job | Hasil |
+|---|---|---|---|
+| 1–2 | `70c8e91d` | 39822642176 | 6/7. Uji mengira hanya ada satu periode absen; data awal punya 5 periode lain yang juga belum dibagi, jadi baris penghalang tidak tunggal. Bukti: `native7-70c8e91d-first-case-failure.json`. Uji dibetulkan dengan mencocokkan baris milik payroll uji itu (pemeriksa tidak diubah) |
+| 3 | `3a044782` (tahap sama, hanya uji) | 39828046424 / 119996487794 | **7/7 PASS**. Artefak `cp7-ow07-hpp-close-native7`, 1.818.707 byte, sha256 `65a67db78a76802acc2c22840c7441e64bcb74bd5008b076b3ed33d241d1f82f` |
+
+Masih terbuka:
+- Tahap ini belum masuk pemasang bawaan; disambung berantai saat penggabungan (OW-15).
+- Biaya absen periode tanpa jahitan (`ATTENDANCE_POOL_ZERO_OUTPUT`) hanya dilaporkan, tidak menahan. Aturan lama menyimpan
+  biaya itu di WIP tanpa PO dan tidak ada pool yang bisa membaginya. Perlu keputusan owner ke mana biaya itu dibebankan.
