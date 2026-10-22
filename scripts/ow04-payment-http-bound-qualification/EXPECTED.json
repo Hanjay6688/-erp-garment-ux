@@ -1,0 +1,41 @@
+{
+  "classification": "PREDECLARED_REAL_AUTH_HTTP16_CASES_NOT_EXECUTED",
+  "expected_count": 16,
+  "required_case_ids": [
+    "OW04_CONSUMER_HTTP_APPLY_COMMIT_REPLAY",
+    "OW04_CONSUMER_HTTP_REFUND_COMMIT_REPLAY",
+    "OW04_CONSUMER_HTTP_APPLY_NAMED_UNDO_REPLAY",
+    "OW04_CONSUMER_HTTP_REFUND_NAMED_UNDO_REPLAY",
+    "OW04_CONSUMER_HTTP_CHANGED_REQUEST_REFUSAL",
+    "OW04_CONSUMER_HTTP_STALE_REVIEW_REFUSAL",
+    "OW04_CONSUMER_HTTP_ANON_REFUSAL",
+    "OW04_CONSUMER_HTTP_REVOKED_FRESH_REPLAY_REFUSAL",
+    "OW04_CONSUMER_HTTP_RESERVED_BOOK_DATE_REFUSAL",
+    "OW04_CONSUMER_HTTP_UNDO_AMOUNT_REFUSAL",
+    "OW04_CONSUMER_HTTP_SECOND_UNDO_REFUSAL",
+    "OW04_CONSUMER_HTTP_NON_OWNER_REFUND_REFUSAL",
+    "OW04_CONSUMER_HTTP_OVERDRAW_ATOMIC_REFUSAL",
+    "OW04_CONSUMER_HTTP_INITIAL_REFUND_NAMED_UNDO_REPLAY",
+    "OW04_PAYMENT_SOURCE_HTTP_ACTIVE_APPLY80_CORRECT_REPLAY_REVOKE",
+    "OW04_PAYMENT_SOURCE_HTTP_ACTIVE_REFUND80_CORRECT_REPLAY_REVOKE"
+  ],
+  "retained_HTTP14_expected_sha256": "92778955ab1ac7d6947797f01a3abe366437918bc1b0dfb0477dbd54982b5081",
+  "Native20_gold_sha256": "92c411cf225d7c54a53445f603fedfac8102ac6cbdce9fd9558b45d701f8d38c",
+  "monetary_expectations": "Exact already-frozen Native20 positive APPLY80/REFUND80, same-bank/method/physical1000 to900 with I100/C80/available20/cash900or820 and targetP0",
+  "required_controls": [
+    "actual_Auth_login_owns_request_and_source_operation",
+    "read_only_public_correction_review",
+    "exact_committed_replay_one_effect",
+    "old_consumer_receipt_replay_after_correction_one_effect",
+    "changed_same_UUID_payload_refused",
+    "distinct_UUID_stale_version_refused",
+    "anon_reader_and_command_denied",
+    "actual_ERP_membership_revoked_fresh_and_replay_denied",
+    "membership_restored_replay_one_effect",
+    "auth_users_and_DB_cleaned"
+  ],
+  "Native20_rerun": false,
+  "browser_or_races_qualified": false,
+  "formal_CP7C_started": false,
+  "production_go": false
+}
