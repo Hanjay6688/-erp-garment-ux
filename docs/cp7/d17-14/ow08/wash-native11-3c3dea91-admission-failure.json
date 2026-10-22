@@ -1,0 +1,13 @@
+{
+ "run": 39848501244,
+ "attempt": 1,
+ "job": 120068082244,
+ "head": "3c3dea91",
+ "label": "CP7_OW08B_WASH (Native11)",
+ "failed_step": "Admit exact OW08b failed-wash source and qualified unchanged OW07 predecessor before DB",
+ "cases_run": 0,
+ "error": "CP7_FULL_PREDECESSOR_SQL_SOURCE_CHANGED (cp7_full_owning_install.source_manifest, reached from cp7_contractor_correction/native_probe.py:35 through the OW07 and wash admissions)",
+ "ow07_original_check": "passed: recorded pair is the archive, 1818707 bytes, sha256 65a67db7...",
+ "cause": "Not the wash stage: the OW-09 merge (24149f41) edited seven scripts/cp7-src readers that feed the predecessor SQL bundle pinned as PREDECESSOR_SQL_SHA256 e7701eaa...; at 3c3dea91 the bundle hashes fa2d75ab... (2e923918 is the first commit with that hash, a0b64d59 still e7701eaa). Every stage chain is admitted against that pin.",
+ "fix": "The OW-09 merge is reverted on claude/d17-14-uang (43452c27; bundle hash e7701eaa again, checked locally) and OW-09 is rebuilt as a Native delta stage. The wash stage itself is unchanged and re-runs."
+}

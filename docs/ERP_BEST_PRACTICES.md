@@ -214,6 +214,12 @@ Disusun 16 Okt 2026. Tambahkan aturan baru di bagian yang sesuai, dengan ID temu
     alat uji Native, karena peran itu dibuat `supabase_admin`: beri `postgres` keanggotaan SET+INHERIT atas peran itu hanya
     di dalam transaksi pasang, cabut sebelum katalog dibaca lagi, dan biarkan DDL tetap berjalan sebagai `postgres`.
     (OW-12a, CI 39845868506 di `176dcf38`)
+25j2. **SQL dasar CP7 dibekukan; pembaca diubah lewat tahap, bukan di `scripts/cp7-src/`.** Semua rantai tahap (OW04 → OW05 →
+    OW06/07/08/12) diterima terhadap sidik bundle pendahulu `PREDECESSOR_SQL_SHA256` di `scripts/cp7_full_owning_install.py`.
+    Mengedit satu berkas `scripts/cp7-src/**` (walau panggilan lama tetap sama persis) membuat setiap uji tahap berhenti di
+    `CP7_FULL_PREDECESSOR_SQL_SOURCE_CHANGED` sebelum database; mengganti pin berarti mengulang kualifikasi seluruh rantai.
+    Ubah fungsi yang sudah terpasang dengan penggantian terhitung di tahap Native di atas pendahulu yang lulus. (OW-09,
+    CI 39848501244 di `3c3dea91`)
 25k. **Server palsu dan alat uji juga tidak boleh mencetak kunci, walau kuncinya palsu.** Server CallMeBot palsu WA-3
     mencetak `apikey` ke log; gerbang CodeQL menolaknya (`py/clear-text-logging-sensitive-data`). Jangan longgarkan
     gerbang: server palsu menerima kunci uji yang diharapkan lewat variabel lingkungan dan hanya mencetak `key_ok`
