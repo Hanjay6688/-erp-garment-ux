@@ -1,0 +1,17 @@
+{
+ "run": 39831356564,
+ "job": 120008038103,
+ "head": "eda58db5",
+ "label": "CP7_OW08B_KASBON_SOURCE_NATIVE4",
+ "status": "INCOMPLETE",
+ "cases": {
+  "OW08B_KASBON_GIVE_JOURNAL_OPENS_KASBON": "INCOMPLETE: OW06_UNTRUSTED_INSTALLER_ROLE",
+  "OW08B_KASBON_CANCEL_INVERSE_OPENS_SAME_KASBON": "INCOMPLETE: OW06_UNTRUSTED_INSTALLER_ROLE",
+  "OW08B_KASBON_SOURCE_RIGHTS_AND_UNKNOWN_REFUSED": "PASS",
+  "OW08B_OTHER_SOURCE_FAMILIES_UNCHANGED": "INCOMPLETE: OW06_UNTRUSTED_INSTALLER_ROLE"
+ },
+ "cp6_restored": true,
+ "advisor_gate": true,
+ "cause": "Test harness, not product: cases.original() reinstalled the exact OW06 reader through OW06's function_ddl while the case ran as the harness admin role; that helper admits only postgres or the verified owners. The install itself passed and the stage was removed exactly (cp6_restored true).",
+ "fix": "original() first switches to postgres with the same verified installer switch the stage install uses (payment.consumer.as_owner), as the OW07 cases do; no oracle, expectation or product line changed."
+}

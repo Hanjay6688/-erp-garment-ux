@@ -20,6 +20,7 @@ IDS=('OW08B_KASBON_GIVE_JOURNAL_OPENS_KASBON',
      'OW08B_OTHER_SOURCE_FAMILIES_UNCHANGED')
 ORIGINALS=None  # set by the probe: the exact OW06 reader this stage replaced
 AS_OWNER=None   # set by the probe: OW06's verified function_ddl (replace as the reader's own owner)
+AS_POSTGRES=None  # set by the probe: the verified installer switch to postgres (the harness admin role cannot run DDL)
 BEFORE=None     # set by the probe: the captured catalog the DDL owner check reads
 
 
@@ -38,8 +39,9 @@ def original(cur,fn):
     name='ow08b_original_'+uuid.uuid4().hex
     cur.execute('savepoint '+name)
     try:
-        for sig in native_delta.SIGNATURES:
-            with AS_OWNER(cur,sig,BEFORE):cur.execute(ORIGINALS[sig],prepare=False)
+        with AS_POSTGRES(cur,'postgres'):
+            for sig in native_delta.SIGNATURES:
+                with AS_OWNER(cur,sig,BEFORE):cur.execute(ORIGINALS[sig],prepare=False)
         b.api.admin(cur)
         return fn()
     finally:

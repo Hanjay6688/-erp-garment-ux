@@ -34,7 +34,7 @@ def admitted():
 
 
 def cases(cur,today):
-    business.ORIGINALS=STATE['originals'];business.AS_OWNER=product.predecessor.function_ddl;business.BEFORE=STATE['before']
+    business.ORIGINALS=STATE['originals'];business.AS_OWNER=product.predecessor.function_ddl;business.AS_POSTGRES=product.predecessor.predecessor.predecessor.payment.consumer.as_owner;business.BEFORE=STATE['before']
     result=business.cases(cur,today)
     assert tuple(key for key,_ in result)==IDS
     return result
