@@ -168,6 +168,8 @@ export type PreconnectDatabase = {
       erp_cp7_reverse_pickup_v1: { Args: { p_payload: Json; p_request: string; p_expected: string }; Returns: Json }
       erp_cp7_get_sewing_completion_v1: { Args: { p_group: string }; Returns: Json }
       erp_cp7_save_sewing_completion_v1: { Args: { p_payload: Json; p_request: string; p_expected: string }; Returns: Json }
+      erp_cp7_get_mandor_correction_v1: { Args: { p_po: string }; Returns: Json }
+      erp_cp7_correct_mandor_v1: { Args: { p_payload: Json; p_request: string }; Returns: Json }
       erp_cp7_list_po_finish_v1: { Args: { p_query: string; p_offset: number }; Returns: Json }
       erp_cp7_get_po_finish_v1: { Args: { p_po: string }; Returns: Json }
       erp_cp7_finish_po_v1: { Args: { p_payload: Json; p_request: string }; Returns: Json }

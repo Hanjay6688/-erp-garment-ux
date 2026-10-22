@@ -9,7 +9,8 @@
     "scripts/ow05-browser-qualification/browser.mjs": "e27ca50e3be678acafed2e8146bfdad974433f4aeb833f6f614b2c7361d0e537",
     "scripts/ow05-browser-qualification/probe.py": "08288b062a1b40c79dbc87837192bd3c112a18bf4b9528f2a39d0af0d3efd6e1",
     "scripts/ow04-payment-current-qualification/copy_authority.py": "cfdc3b899e335dd13a9456242ed5158b718ac5c56d9b1ebf06c4571eda2cc7a2",
-    ".github/workflows/cp7-ow05-browser.yml": "484cf847ea077daea920f95f2872e29233ebd296f5a8b1bf029791e124aba3e9"
+    ".github/workflows/cp7-ow05-browser.yml": "125e8c976694337a95ccb296ec676e03c5d2c1f69455614291632c3ef08108be",
+    "src/types/database.preconnect.ts": "10e34d4fb1e17a41824e0b04e9b27898cc1f125fc6001df30680ca5fb8641190"
   },
   "fixture_creation": "Native SQL on cp6_auditor_browser only",
   "journey_writes": "actual UI -> actual GoTrue/PostgREST",

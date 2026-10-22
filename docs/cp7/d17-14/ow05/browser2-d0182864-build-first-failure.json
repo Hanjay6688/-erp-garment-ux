@@ -1,0 +1,27 @@
+{
+  "classification": "COMPACT_ACTUAL_BROWSER_BUILD_FIRST_FAILURE_NOT_UI_PASS",
+  "status": "INCOMPLETE",
+  "candidate_commit": "d0182864c7881be9aff312b42cefa516242344ed",
+  "run_id": 39779561275,
+  "job_id": 119827011993,
+  "observed_case_count": 0,
+  "users_created": 0,
+  "failed_stage": "START",
+  "failure": "npm run build:cp6-disposable; TypeScript RPC name declarations missing for the two OW05 public facades",
+  "local_exact_reproduction": "tsc -b: TS2345 at MandorCorrectionPanel.tsx52,62",
+  "product_fix": "Declare the exact existing public RPC args/Json returns in database.preconnect.ts; preserve actual public signatures and all rights",
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "original_report": {
+    "name": "CP7_OW05_REAL_BROWSER2.json",
+    "bytes": 259481,
+    "sha256": "4919a139b5d54d4eff4e6b5aa3e6472e57a76a999ef1661343494a050abf63da"
+  },
+  "artifact": {
+    "id": 12427125406,
+    "zip_bytes": 1632138,
+    "zip_sha256": "d6699b68749ad04c1dd4cac6ce8da64af8fccb1220d8eb7076857c2de4af0241"
+  },
+  "OW05_complete": false,
+  "production_go": false
+}
