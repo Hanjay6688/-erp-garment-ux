@@ -49,12 +49,17 @@ def cases(cur,today):
   assert x['raw_gap_pcs']=='100'and x['directed_on_time_good_pcs']=='7'and x['base_gap_pcs']=='93',x
   m=next(x for x in n['match_results']if x['position_key']==p['config']['positions'][0]['position_key']and x['target_key'].split(':')[0]==root)
   assert m['result']['match']=='CONFIRMED_TARGET'and n['apply_enabled']is False
+  net=x['net'];assert net['inputs']['contract_version']=='cp7.net-input.v2'and x['target']['reorder_point_pcs']=='30'
+  assert net['lead_position_base_pcs']=='7'and net['base_reorder_state']=='AT_OR_BELOW'
+  assert net['lead_net']['inputs']['supplies']==net['inputs']['supplies']and net['lead_net']['directed_on_time_pcs']=='7'
   assert b.boundary.snapshot(cur)==before
-  return dict(status='PASS',native_opening_product_binds_exact_root_size=True,selected_native8_yield7_target100_FG0_gap93=True,no_business_DML=True)
+  return dict(status='PASS',native_opening_product_binds_exact_root_size=True,selected_native8_yield7_target100_FG0_gap93=True,
+   lead_point30_position7_same_supply_not_a_second_allocation=True,no_business_DML=True)
  def unknown():
   f,root,r,p=setup(cur,today);n=capture(cur,today);x=row(n,root)
   assert x['raw_gap_pcs']=='100'and x['base_gap_pcs']is None and x['net']['status']=='UNKNOWN',x
   assert x['net']['reason']=='TARGET_FG_OR_ELIGIBLE_SUPPLY_UNKNOWN'
+  assert x['net']['base_reorder_state']=='UNKNOWN'and x['net']['lead_position_base_pcs']is None
   return dict(status='PASS',native_bound8_without_selected_yield_or_ETA_not_zero_supply=True)
  def global_allocation():
   f,root,r,p=setup(cur,today,True);schedule.save(cur,p);before=b.boundary.snapshot(cur);n=capture(cur,today)
@@ -77,7 +82,17 @@ def cases(cur,today):
   schedule.save(cur,p);n=capture(cur,today);x=row(n,root)
   assert x['base_gap_pcs']=='100'and x['directed_on_time_good_pcs']=='0'and not n['allocation']['allocation']['edges'],x
   assert x['net']['excluded'][0]['reason']=='AFTER_DEADLINE'and x['timeline']['first_known_gap']is not None
-  return dict(status='PASS',native8_projected7_after_target_horizon_not_deducted_late_supply_never_erases_prior_gap=True)
+  # Same Native work, second explicit schedule revision: day5 is after lead3
+  # but before target10. Preserve the original beyond-horizon assertions above.
+  p['expected_revision']='1';p['config']['windows'][0]['starts_at']=schedule.stamp(at+timedelta(days=5))
+  p['config']['windows'][0]['ends_at']=schedule.stamp(at+timedelta(days=5,hours=2));schedule.save(cur,p)
+  n2=capture(cur,today);x2=row(n2,root);net=x2['net']
+  assert x2['base_gap_pcs']=='93'and x2['directed_on_time_good_pcs']=='7',x2
+  assert net['lead_position_base_pcs']=='0'and net['base_reorder_state']=='AT_OR_BELOW'
+  assert net['lead_net']['directed_on_time_pcs']=='0'and net['lead_net']['excluded'][0]['reason']=='AFTER_DEADLINE'
+  assert net['lead_net']['inputs']['supplies']==net['inputs']['supplies']
+  return dict(status='PASS',native8_projected7_after_target_horizon_not_deducted_late_supply_never_erases_prior_gap=True,
+   same_work_day5_reduces_target100_to93_but_does_not_cover_lead3=True)
  def unbound():
   f=production.cut.fixture(cur,today);n=capture(cur,today)
   matches=[x for x in n['match_results']if x['target_key'].split(':')[0]==f['product']]

@@ -1,5 +1,5 @@
 // SYNTHETIC_CLIENT_WIRE. Native/Auth qualifications live in retained CI reports.
-import {baselineWire,planningQuery,planningId} from './nativePlanningProfile'
+import {baselineWire,unifiedBaselineWire,planningQuery,planningId} from './nativePlanningProfile'
 import {demandRoot,demandSize,demandRun,demandRequest} from './nativeDemandHistory'
 export const workKey='OPEN:'+demandRoot+':SEWING'
 export const customerKey='OPEN:'+planningId+':SEWING'
@@ -12,3 +12,21 @@ export function scheduleOutcome(request:string,revision='1'){return{contract_ver
 export function nettingWire(request=demandRequest,unknown=false){const supply=supplyWire(request),hash='d'.repeat(64),row=supply.baseline_run_result.rows[0],capacity={status:unknown?'UNKNOWN':'SCENARIO',capacity_pcs:unknown?null:'15'},net={status:unknown?'UNKNOWN':'SCENARIO',q_base_pcs:unknown?null:'17',q_conditional_pcs:unknown?null:'17',directed_on_time_pcs:unknown?null:'7',inputs:{snapshot_id:supply.captured_at,scope_id:'GLOBAL_NATIVE_PLANNING',target_key:row.target_key,size_id:row.size_id,available_fg_pcs:row.available_fg_pcs,target_pcs:row.target.target_pcs}}
  return{contract_version:'cp7.native-netting.v1',run_id:demandRun,request_id:request,source_hash:hash,captured_at:supply.captured_at,source_state:'UNCHANGED',status:unknown?'PARTIAL':'SCENARIO',apply_enabled:false,production_go:false,material_state:'UNKNOWN',schedule_run_result:{contract_version:'cp7.native-planning-scenario.v1',captured_at:supply.captured_at,source_hash:'e'.repeat(64),supply_run_result:supply,schedule_state:'SELECTED_ASSUMPTIONS',apply_enabled:false,production_go:false,wip:supply.wip,capacity,etas:supply.wip.positions.map(p=>({position_key:p.key,result:{status:unknown?'UNKNOWN':'CONDITIONAL',eta:unknown?null:'2026-10-01T01:45:00.123456Z'}}))},allocation:{status:unknown?'UNKNOWN':'SCENARIO'},rows:[{...row,raw_gap_pcs:'24',directed_on_time_good_pcs:unknown?null:'7',base_gap_pcs:unknown?null:'17',conditional_gap_pcs:unknown?null:'17',candidate_allocated_good_pcs:unknown?null:'0',net,timeline:{status:unknown?'UNKNOWN':'SCENARIO',first_known_gap:unknown?null:{at:'2026-10-03T12:00:00.123456Z'}},new_start_capacity:capacity,material_state:'UNKNOWN',apply_enabled:false,reason:'SELECTED_SCENARIO_ONLY'}]}}
 export {planningQuery}
+
+/** Explicit manual10/day, lead8 + review2: point80, target100. A directed7
+ * arrives on day9: it reduces target need24->17, but cannot cover lead stock76. */
+export function dualHorizonNettingWire(request=demandRequest){
+ const value=nettingWire(request),baseline=unifiedBaselineWire(request),row=baseline.rows[0]
+ Object.assign(row.profile.config!,{lead_days:'8',review_days:'2'})
+ Object.assign(row.target.inputs,{lead_days:'8',review_days:'2'})
+ Object.assign(row.target,{lead_demand_pcs:'80',review_demand_pcs:'20',reorder_point_pcs:'80'})
+ const deadline='2026-10-10T12:00:00.000001Z',leadDeadline='2026-10-08T12:00:00.000001Z'
+ const supply={physical_key:workKey,snapshot_id:value.captured_at,target_key:row.target_key,size_id:row.size_id,kind:'DIRECTED',qty_pcs:'7',eta:'2026-10-09T12:00:00.000001Z',eligible:true,refs:row.refs}
+ const inputs={contract_version:'cp7.net-input.v2',snapshot_id:value.captured_at,scope_id:'GLOBAL_NATIVE_PLANNING',scenario_id:'synthetic-scenario',target_key:row.target_key,size_id:row.size_id,
+  deadline,lead_deadline:leadDeadline,target_pcs:'100',reorder_point_pcs:'80',available_fg_pcs:'76',supplies:[supply],refs:row.refs}
+ const leadInputs={...inputs,contract_version:'cp7.net-input.v1',deadline:leadDeadline,target_pcs:'80'} as Record<string,unknown>
+ delete leadInputs.lead_deadline;delete leadInputs.reorder_point_pcs
+ const net={...value.rows[0].net,kernel_version:'net-dual-horizon-2',inputs,lead_net:{status:'SCENARIO',q_base_pcs:'4',q_conditional_pcs:'4',directed_on_time_pcs:'0',incoming_on_time_pcs:'0',candidate_on_time_pcs:'0',inputs:leadInputs},
+  lead_position_base_pcs:'76',lead_position_conditional_pcs:'76',base_reorder_state:'AT_OR_BELOW',conditional_reorder_state:'AT_OR_BELOW'}
+ return {...value,schedule_run_result:{...value.schedule_run_result,supply_run_result:{...value.schedule_run_result.supply_run_result,baseline_run_result:baseline}},rows:[{...value.rows[0],...row,net}]}
+}

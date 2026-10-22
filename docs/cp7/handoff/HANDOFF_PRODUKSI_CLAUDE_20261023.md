@@ -22,11 +22,20 @@ baseline sebelum OW16. TypeScript/CSS lulus; build penuh tetap tertahan registry
 Lalu jalankan pemasangan/pemulihan dan pemeriksaan gabungan pada satu commit. Angka cakupan/minimum OW16 diisi owner
 melalui form eksplisit, tanpa default aktif dari penulis. Nilai fixture bukan keputusan owner.
 
-OW10 sedang ditulis sesudah versi teruji di atas. Inti kernel, pemanggil langsung/bertahap/ROP dan rincian layar
-tersedia di head cabang B;129 jawaban lama identik,162 pembanding independen dan49 uji klien lokal lulus.
-Workflow Native38/analisis bertahap15 dan stock formula99 pada commit OW10 baru harus dibaca sebelum mengambilnya.
-OW10 belum selesai: aturan/sumber permintaan lintas jalur, kapan mulai pada horizon suplai yang tepat dan alokasi
-WIP/rencana ke beberapa varian masih terbuka. Lihat `ow10/README.md`; angka target bukan izin mulai produksi.
+Inti OW10 pada **b6c041157f0f5888f8d0d50081de25f7538fb594** sudah diperiksa dari Original: target38/38,
+analisis bertahap15/15, stock formula/WA99/99; exact case IDs, restore dan gerbang advisor lulus.
+Receipt di `ow10/b6c0411-pass.json`. Hasil sebelumnya tetap tercatat menurut commit masing-masing.
+
+Sesudah b6, B menambah pembacaan suplai pada dua horizon dari satu pembagian global yang sama: L menentukan status
+titik pesan ulang, L+R menentukan jumlah target. Kontrak privat cp7.net-input.v2, tanpa fungsi/endpoint/role/tabel
+baru. Rencana langsung/bertahap dan panelnya tersambung;129 jawaban target lama/12 jawaban netting lama identik,
+168 pembanding independen dan82 uji klien lulus. Uji SQL aktual membuktikan pool20 terbagi15+5 ke dua varian;
+suplai datang setelah L tidak menghapus pemicu meski mengurangi jumlah target. v2 juga membedakan lama0 dari unknown.
+Kegagalan pertama lokal disimpan. Kandidat baru masih memerlukan38/15/84/99; jangan memakai bukti b6 untuk menutupnya.
+
+OW10 belum selesai: aturan/sumber permintaan lintas jalur dan penggantian WIP mentah per-model pada pengingat dengan
+suplai relevan dari mesin yang sama masih terbuka. Jangan menyebut pengingat sudah bebas hitung ganda dari uji allocator
+saja. Lihat `ow10/README.md` dan koordinasi bagian05; angka target/status tetap bukan izin mulai produksi.
 
 Sisa B sesudah OW10: OW11a pemilihan metode/uji mundur; OW11b kandidat produk pembanding dan konfirmasi; OW12b waktu
 analisis serta sambungan ke modul angka resmi A; OW13a otomatis saat siap, sekali per perubahan; OW13c saran potong

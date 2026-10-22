@@ -11,6 +11,7 @@ name: CP7 OW14a Warehouse Fabric and Retained WA Controls
     - src/materialReorderContract.ts
     - scripts/cp7_wa_forward_browser.mjs
     - scripts/cp7-src/stock-formula/**
+    - scripts/cp7-src/baseline/target.sql
     - scripts/cp7-src/warehouse-summary/**
     - .github/workflows/cp7-ow14-warehouse.yml
   workflow_dispatch: {}

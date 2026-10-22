@@ -108,3 +108,15 @@ kernel tetap22, tidak perlu penambahan daftar sumber bundle. Panel target membac
 OW10 belum selesai: konsistensi aturan permintaan, kapan mulai dengan suplai tepat waktu, alokasi WIP/rencana ke varian
 masih terbuka.162 pembanding independen/129 jawaban lama/49 uji klien lokal lulus; Native38/analisis bertahap15 dan
 stock formula99 pada commit baru belum boleh diasumsikan lulus. Modul angka/laporan A, uang/HPP dan Enteng tidak diubah.
+
+## B/20261023-05 — dua horizon dari pembagian suplai yang sama
+
+Sebelum pemanggil diubah: `cp7_baseline.net(jsonb)` menerima kontrak privat tambahan `cp7.net-input.v2` dengan
+dua field tambahan `reorder_point_pcs` dan `lead_deadline`. Field v1 lainnya tetap. Kontrak v1 dan hasil arsipnya
+tetap sama; v2 memanggil kernel v1 untuk batas target serta batas lead memakai **daftar suplai yang sama**.
+Tidak mengalokasikan ulang, menyalin kapasitas, menganggap WIP mentah sebagai barang jadi, atau menambah cadangan.
+Hasil menambah `lead_net`, posisi suplai pada lead dan status titik pesan ulang dasar/bersyarat; unknown tetap null.
+Pemanggil: planning/netting.sql dan pasangan bertahap planning/analysis-stages.sql; klien nativeProductionPlanning
+dan panelnya membaca angka server. Tidak ada fungsi/endpoint/role/tabel/grant baru; pemilik pemasang tetap A.
+Ini melengkapi pemisahan kapan/berapa pada mesin rencana, belum menutup OW10: sumber aturan permintaan serta
+penggantian kredit WIP per-model pada pengingat masih harus disatukan. Satu potongan tidak boleh menutup beberapa SKU.

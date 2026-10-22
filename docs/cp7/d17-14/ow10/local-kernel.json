@@ -1,7 +1,7 @@
 {
   "classification": "LOCAL_ACTUAL_KERNEL_SQL_NOT_NATIVE_OR_HTTP",
   "status": "PASS",
-  "source_sha256": "69ddf72c8212550cc4a5ef52eac2df11bcac7aef8432b897758d15cc4ab93f18",
+  "source_sha256": "a03090297b6dbfe2f61c72b1a59340a168603277a11747e4910246f8a85cb344",
   "cases": [
     {
       "id": "OW10_LEGACY_DAYS_EXACT_EQUIVALENCE",
@@ -21,7 +21,7 @@
       "id": "OW10_INDEPENDENT_RATIONAL_AND_DECIMAL_ORACLE",
       "status": "PASS",
       "observed": {
-        "independent_cases": 162,
+        "independent_cases": 168,
         "exact_repeating_mean_whole_PCS": true,
         "separate_reorder_and_target": true
       }
@@ -32,6 +32,24 @@
       "observed": {
         "unknown_not_zero": 4,
         "invalid_or_double_buffer_refused": 4
+      }
+    },
+    {
+      "id": "OW10_ONE_GLOBAL_ALLOCATION_TWO_VARIANTS_TWO_HORIZONS",
+      "status": "PASS",
+      "observed": {
+        "physical_pool_pcs": "20",
+        "global_candidate_allocation": {
+          "SKU-A": "15",
+          "SKU-B": "5"
+        },
+        "late_supply_does_not_cover_lead": true,
+        "at_lead_boundary_included": true,
+        "equality_still_at_point": true,
+        "confirmed_other_variant_excluded": true,
+        "unknown_not_safe": true,
+        "identical_replay_not_double_counted": true,
+        "legacy_net_identical_full_JSON": 12
       }
     }
   ],

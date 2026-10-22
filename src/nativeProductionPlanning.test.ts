@@ -1,9 +1,30 @@
 // @vitest-environment jsdom
 import {beforeEach,it,expect} from 'vitest'
 import {parseNativeSupply,parseScheduleWorkspace,parseNativeNetting,schedulePayload,checkScheduleOutcome,persistScheduleRequest,readScheduleRequest,clearScheduleRequest,scheduleRequestKey,instantToWibInput,wibInputToInstant} from './nativeProductionPlanning'
-import {supplyWire,workspaceWire,nettingWire,scheduleConfig,scheduleOutcome,planningQuery,workKey} from '../tests/fixtures/nativeProductionPlanning'
+import {supplyWire,workspaceWire,nettingWire,dualHorizonNettingWire,scheduleConfig,scheduleOutcome,planningQuery,workKey} from '../tests/fixtures/nativeProductionPlanning'
 import {demandRequest} from '../tests/fixtures/nativeDemandHistory'
 beforeEach(()=>localStorage.clear())
+it('retains the lead trigger separately when later supply reduces the target quantity',()=>{
+ const n=parseNativeNetting(dualHorizonNettingWire(),planningQuery)
+ expect(n.rows[0]).toMatchObject({reorderPoint:'80',target:'100',directed:'7',baseGap:'17',timing:{basePosition:'76',baseState:'AT_OR_BELOW',conditionalPosition:'76',conditionalState:'AT_OR_BELOW',deadline:'2026-10-08T12:00:00.000001Z'}})
+ expect(parseNativeNetting(nettingWire(),planningQuery).rows[0].timing).toBeNull()
+})
+it.each(['point','snapshot','deadline','available','different-supplies','unknown-with-position','partial-position','version'])('refuses misbound lead timing: %s',kind=>{
+ const value=dualHorizonNettingWire(),n=value.rows[0].net
+ if(kind==='point')n.inputs.reorder_point_pcs='79'
+ if(kind==='snapshot')n.lead_net.inputs.snapshot_id='other'
+ if(kind==='deadline')n.lead_net.inputs.deadline='2026-10-09T12:00:00Z'
+ if(kind==='available')n.lead_net.inputs.available_fg_pcs='77'
+ if(kind==='different-supplies')n.lead_net.inputs.supplies=[]
+ if(kind==='unknown-with-position')n.lead_net.status='UNKNOWN'
+ if(kind==='partial-position')Object.assign(n,{lead_position_conditional_pcs:null})
+ if(kind==='version')n.inputs.contract_version='cp7.net-input.v3'
+ expect(()=>parseNativeNetting(value,planningQuery)).toThrow()
+})
+it('does not show a conditional trigger while the global allocation remains unknown',()=>{
+ const v=dualHorizonNettingWire();v.allocation.status='UNKNOWN';Object.assign(v.rows[0],{conditional_gap_pcs:null,candidate_allocated_good_pcs:null})
+ expect(parseNativeNetting(v,planningQuery).rows[0].timing).toMatchObject({baseState:'AT_OR_BELOW',basePosition:'76',conditionalState:'UNKNOWN',conditionalPosition:null})
+})
 it('retains physical quantities, customer work, selected good, signed shortage and capacity as separate server values',()=>{const s=parseNativeSupply(supplyWire(),planningQuery),w=parseScheduleWorkspace(workspaceWire(),s),n=parseNativeNetting(nettingWire(),planningQuery);expect(s.positions.map(x=>[x.remaining,x.eligible])).toEqual([['8',true],['8',false]]);expect(w.requirements[1].targets).toEqual([]);expect(n.rows[0]).toMatchObject({available:'76',rawGap:'24',directed:'7',baseGap:'17',conditionalGap:'17'});expect(n.capacity).toBe('15');expect(n.positions).toHaveLength(2)})
 it('preserves unknown yield, shared time and global allocation as unknown values',()=>{const n=parseNativeNetting(nettingWire(demandRequest,true),planningQuery);expect(n.rows[0].baseGap).toBeNull();expect(n.rows[0].directed).toBeNull();expect(n.rows[0].conditionalGap).toBeNull();expect(n.capacity).toBeNull();expect(n.etas.every(x=>x.at===null)).toBe(true)})
 it('reads the PL-8 v2 supply contract and runs archived as v1, never another version',()=>{const v1=supplyWire();v1.contract_version='cp7.native-supply.v1';expect(parseNativeSupply(v1,planningQuery).positions).toHaveLength(2);const v3=supplyWire();v3.contract_version='cp7.native-supply.v3';expect(()=>parseNativeSupply(v3,planningQuery)).toThrow()})

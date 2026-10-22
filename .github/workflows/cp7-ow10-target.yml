@@ -8,8 +8,14 @@ name: CP7 OW10 Unified Target and Retained Analysis
     - scripts/cp7-src/planning/baseline-source.sql
     - scripts/cp7-src/planning/analysis-stages.sql
     - scripts/cp7-src/planning/supply-source.sql
+    - scripts/cp7-src/planning/netting.sql
+    - scripts/cp7_planning_netting_cases.py
+    - scripts/cp7_ow10_target_local.mjs
+    - scripts/cp7_ow10_target_oracle.py
     - src/nativePlanningProfile.ts
     - src/NativePlanningProfilePanel.tsx
+    - src/nativeProductionPlanning.ts
+    - src/NativeProductionPlanningPanel.tsx
     - .github/workflows/cp7-ow10-target.yml
   workflow_dispatch: {}
 permissions:
@@ -33,6 +39,9 @@ jobs:
           timeout: 180
         - suite: ow10-retained-staged15
           probe: cp7_p19_staged_probe.py
+          timeout: 180
+        - suite: ow10-native-netting84
+          probe: cp7_f04_netting_probe.py
           timeout: 180
     env:
       PGURL: postgresql://postgres:postgres@127.0.0.1:54322/postgres

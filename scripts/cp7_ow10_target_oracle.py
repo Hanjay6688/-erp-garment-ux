@@ -37,6 +37,15 @@ def cases():
     rows.append(dict(input=value, expected=dict(reorder_point_pcs='23', target_pcs='23')))
     value = dict(rows[0]['input'], daily_total_pcs='1', counted_days='3', lead_days='3.000000000001', review_days='0', buffer_days='0')
     rows.append(dict(input=value, expected=dict(reorder_point_pcs='2', target_pcs='2')))
+    # A measured lead can legitimately round to zero days. A zero horizon is
+    # known, unlike a missing lead; DAYS still retains its one explicit buffer.
+    for buffer, review, low, high in [('0', '0', '0', '0'), ('2', '0', '20', '20'), ('2', '7', '20', '90')]:
+        value = dict(rows[0]['input'], daily_total_pcs='30', counted_days='3', lead_days='0', review_days=review, buffer_days=buffer)
+        rows.append(dict(input=value, expected=dict(reorder_point_pcs=low, target_pcs=high)))
+    for level in ['0.90', '0.95', '0.99']:
+        value = dict(rows[1]['input'], daily_total_pcs='300', counted_days='30', lead_days='0', review_days='0',
+                     daily_sd='10', service_level=level)
+        rows.append(dict(input=value, expected=dict(reorder_point_pcs='0', target_pcs='0')))
     return rows
 
 

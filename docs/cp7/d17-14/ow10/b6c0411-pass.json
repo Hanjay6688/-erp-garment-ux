@@ -1,0 +1,319 @@
+{
+  "classification": "WRITER_QUALIFIED_NOT_PRODUCTION_GO",
+  "head": "b6c041157f0f5888f8d0d50081de25f7538fb594",
+  "tree": "eaab43b95740a8316b28813b5bbc02e40243eb46",
+  "scope": "OW10 initial unified target/reorder kernel, before the dual-horizon supply change",
+  "suites": [
+    {
+      "suite": "baseline38",
+      "status": "PASS",
+      "run": 39836034246,
+      "job": 120024504404,
+      "expected_case_count": 38,
+      "observed_case_count": 38,
+      "source_sha256": "80bbc276ceae9c77cca8272f23f4132f6fe0db09b4bcbde09a513978a3124ade",
+      "groups": {
+        "native": {
+          "counts": {
+            "PASS": 27
+          },
+          "case_ids": [
+            "P05_NATIVE_DRAFT_ONCE",
+            "P05_NATIVE_POSTED_ONCE",
+            "P05_NATIVE_RETURN_SEPARATE",
+            "P05_NATIVE_NATIVE_INVERSES",
+            "P05_NATIVE_IMMUTABLE_REPLAY_STALE",
+            "P05_NATIVE_OPERATIONAL_REDACTION",
+            "P05_NATIVE_CURRENT_REVOKE",
+            "P05_NATIVE_CLOSED_QUERY",
+            "P05_NATIVE_PRIVATE_CAPS",
+            "P05_NATIVE_TIMEZONES",
+            "P05_NATIVE_UNKNOWN_HISTORY",
+            "P05_NATIVE_GLOBAL_30_ROOTS",
+            "P06_NATIVE_PROFILE_METADATA",
+            "P06_NATIVE_PROFILE_UUID",
+            "P06_NATIVE_STALE_REVISION",
+            "P06_NATIVE_NATIVE_VERSION",
+            "P06_NATIVE_STRICT_CONFIG",
+            "P06_NATIVE_UNREVIEWED_UNKNOWN",
+            "P06_NATIVE_SELECTED_TARGET100",
+            "P06_NATIVE_OWN_HISTORY_UNKNOWN",
+            "P06_NATIVE_LEAD_UNKNOWN",
+            "P06_NATIVE_IMMUTABLE_ARCHIVE200",
+            "P06_NATIVE_CURRENT_AUTHORITY",
+            "P06_NATIVE_PRIVATE_CAPS",
+            "P06_NATIVE_TIMEZONES",
+            "P06_NATIVE_STOP_NATIVE_STOCK",
+            "P06_NATIVE_PRODUCTION_MULTIPLE"
+          ],
+          "exact_case_ids_verified": true
+        },
+        "races": {
+          "counts": {
+            "PASS": 5
+          },
+          "case_ids": [
+            "P05_RACE_SAME_UUID",
+            "P05_RACE_CURRENT_REVOKE",
+            "P06_RACE_SAME_PROFILE_UUID",
+            "P06_RACE_COMPETING_REVISION",
+            "P06_RACE_CURRENT_PROFILE_REVOKE"
+          ],
+          "exact_case_ids_verified": true
+        },
+        "http": {
+          "counts": {
+            "PASS": 2
+          },
+          "case_ids": [
+            "P05_ACTUAL_AUTH_HTTP",
+            "P06_ACTUAL_AUTH_HTTP"
+          ],
+          "exact_case_ids_verified": true
+        },
+        "browser": {
+          "counts": {
+            "PASS": 4
+          },
+          "case_ids": [
+            "P05_BROWSER_DESKTOP_NATIVE_HISTORY",
+            "P05_BROWSER_MOBILE_CURRENT_AUTH",
+            "P06_BROWSER_DESKTOP_NATIVE_PROFILE",
+            "P06_BROWSER_MOBILE_NATIVE_PROFILE"
+          ],
+          "exact_case_ids_verified": true
+        }
+      },
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "main_bytes": 295092,
+      "main_sha256": "a8c2d59139748f4fd839d306386d6c140cdaa62ba76a81ca58521e3bbc159e46",
+      "complete_original_json_artifact": {
+        "id": 12450194791,
+        "bytes": 39067,
+        "sha256": "0d155e03054114af7e5580f1fc81a33a70d1b10169a2d47be78a1b526578ad87"
+      }
+    },
+    {
+      "suite": "staged15",
+      "status": "PASS",
+      "run": 39836034246,
+      "job": 120024504069,
+      "expected_case_count": 15,
+      "observed_case_count": 15,
+      "source_sha256": "624a857be9d433965e91e69630525e6069ff3c4596cffec4df4b6ef0af567a5f",
+      "groups": {
+        "native": {
+          "counts": {
+            "PASS": 7
+          },
+          "case_ids": [
+            "P19G_STAGED_EQUALS_SINGLE",
+            "P19G_STAGED_AUTHORITY",
+            "P19G_STAGED_IDENTITY",
+            "P19G_STAGED_SOURCE_CHECK",
+            "P19G_STAGED_BOUNDS_VS_SINGLE",
+            "P19G_SNAPSHOT_FRESHNESS",
+            "P19G_STAGED_PRODUCTION_MULTIPLE"
+          ],
+          "exact_case_ids_verified": true
+        },
+        "races": {
+          "counts": {
+            "PASS": 4
+          },
+          "case_ids": [
+            "P19G_RACE_TWO_STEPS_ONE_UNIT",
+            "P19G_RACE_LIMIT_RETRIES_THEN_CONTINUES",
+            "P19G_RACE_ACCESS_CHANGED_MID_JOB",
+            "P19G_RACE_SNAPSHOT_IN_FLIGHT"
+          ],
+          "exact_case_ids_verified": true
+        },
+        "http": {
+          "counts": {
+            "PASS": 2
+          },
+          "case_ids": [
+            "P19G_HTTP_STAGED_FLOW",
+            "P19G_HTTP_REVOKED"
+          ],
+          "exact_case_ids_verified": true
+        },
+        "browser": {
+          "counts": {
+            "PASS": 2
+          },
+          "case_ids": [
+            "P19G_BROWSER_DESKTOP_STAGED_RELOAD",
+            "P19G_BROWSER_MOBILE_STAGED"
+          ],
+          "exact_case_ids_verified": true
+        }
+      },
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "main_bytes": 1734902,
+      "main_sha256": "1d5a7070e269b4a53b81636f7de2f62984601d981eafe3cdff9ee99a9c9caa8f",
+      "complete_original_json_artifact": {
+        "id": 12451153736,
+        "bytes": 193329,
+        "sha256": "ebf20a9b1ded5cdee191206b2b9d17b8e5f3f28fc00e7b3582bdc9bd5e6ca9f1"
+      }
+    },
+    {
+      "suite": "stock99",
+      "status": "PASS",
+      "run": 39836034334,
+      "job": 120024504806,
+      "expected_case_count": 99,
+      "observed_case_count": 99,
+      "source_sha256": "b2249b7221c6c8794f71890e255ec653c34fb5f7808e7c1470091ab0e79b002b",
+      "groups": {
+        "native": {
+          "counts": {
+            "PASS": 55
+          },
+          "case_ids": [
+            "WAF_COLLECT_WAITS_FOR_OWNER_SETTINGS",
+            "WAF_FABRIC_EQUALS_WAREHOUSE_SUMMARY",
+            "WAF_AR_AP_FROM_ACCEPTED_SOURCES",
+            "WAF_OWNER_REMINDERS_ONLY_WHEN_DUE",
+            "WAF_SEND_ONE_REQUEST_EXACT_TEXT",
+            "WAF_ROLLBACK_QUEUES_NOTHING",
+            "WAF_RESOLVED_BEFORE_SEND_NOT_SENT",
+            "WAF_ANSWERS_ACCEPTED_REFUSED_UNKNOWN",
+            "WAF_PACING_BURST_QUIET_DIGEST_REPEAT",
+            "WAF_OFF_OR_NO_KEY_SENDS_NOTHING",
+            "WAF_KEY_WRITE_ONLY_AND_MASKED",
+            "WAF_PRIVACY_AND_LIST_PERMISSIONS",
+            "WAF_TICKS_PRIVATE_AND_LIMITED",
+            "WAF_ANALYSIS_GAP_FORWARDED_AND_RECHECKED",
+            "WAF_ANALYSIS_AUTOMATIC_RUN",
+            "WAF_FG_REORDER_POINT_FORWARDED",
+            "WAF_FG_RESOLVED_BEFORE_SEND",
+            "WAF_FABRIC_REORDER_POINT_FORWARDED",
+            "WAF_ACCESSORY_REORDER_POINT_FORWARDED",
+            "SS1_FORMULA_FROM_POSTED_SALES",
+            "SS1_OUT_OF_STOCK_DAYS_NOT_ZERO_DEMAND",
+            "SS1_LEAD_TIME_MEASURED_FROM_PRODUCTION",
+            "SS1_DAYS_BUFFER_NOT_STACKED",
+            "SS1_SETTINGS_SERVICE_LEVEL_AND_WINDOW",
+            "SS1_MANUAL_POINT_REPLACES_AND_CLEARS",
+            "SS1_NOT_ENOUGH_DATA_NEVER_GUESSES",
+            "SS1_REVERSED_SALE_NOT_DEMAND",
+            "SS1_IN_PRODUCTION_COUNTS_TOWARD_POSITION",
+            "SS1_SOURCE_AND_ACCESS",
+            "SS1_VOLUME_2000_ITEMS_EVERY_MINUTE",
+            "SS2_FABRIC_FORMULA_FROM_CUTTING_USE",
+            "SS2_FABRIC_OUT_OF_STOCK_DAYS_NOT_ZERO_USE",
+            "SS2_FABRIC_REVERSED_ISSUE_NOT_USE",
+            "SS2_FABRIC_MINIMUM_STAYS_BELOW_MINIMUM",
+            "SS2_FABRIC_ON_ORDER_COUNTS_TOWARD_POSITION",
+            "SS2_NO_LEAD_TIME_NEVER_GUESSES",
+            "SS3_ACCESSORY_USAGE_SHOWN_NO_FORMULA",
+            "SS3_SERVICE_ZONES_NOT_FREE_STOCK",
+            "SS3_ACCESSORY_MANUAL_MINIMUM_ZERO_NEVER",
+            "SS3_MATERIAL_SOURCE_AND_ACCESS",
+            "SS3_ACCESSORY_MINIMUM_FROM_OWNER_ESTIMATE",
+            "WAF_OTHER_OPENING_AR_AP",
+            "WAF_OTHER_PAYROLL_PAYMENT_INVERSE",
+            "WAF_OTHER_ACCESSORY_ALLOCATION_NOT_SETTLEMENT",
+            "WAF_OTHER_LAUNDRY_PAYMENT_INVERSE",
+            "WAF_OTHER_LAUNDRY_OPENING_UNKNOWN",
+            "WAF_OTHER_NARROWER_PERMISSIONS",
+            "WAF_OTHER_ALL_DOMAINS_SUMMARY_PRIVATE",
+            "WAF_ACCESSORY_NEED_NATIVE_UNKNOWN_FORWARDED",
+            "WAF_ACCESSORY_NEED_MISSING_EMPTY",
+            "WAF_ACCESSORY_NEED_BOM_SUCCESSOR",
+            "WAF_ACCESSORY_NEED_CURRENT_PERMISSIONS",
+            "WAF_ACCESSORY_NEED_ISSUE_NOT_INSTALLATION_RESOLVED",
+            "WAF_ACCESSORY_NEED_POLICY_REPLAY_DEDUP",
+            "WAF_ACCESSORY_NEED_PAUSE_RESUME"
+          ],
+          "exact_case_ids_verified": true
+        },
+        "races": {
+          "counts": {
+            "PASS": 30
+          },
+          "case_ids": [
+            "WAF_RACE_TWO_SEND_TICKS_ONE_MESSAGE",
+            "WAF_RACE_COLLECT_AND_SEND_OPEN_ONCE",
+            "WAF_RACE_FAKE_CALLMEBOT_END_TO_END",
+            "WAF_RACE_PG_CRON_RUNS_TICKS",
+            "WAF_RACE_FG_BUSY_RECHECKS_LIVE_STOCK",
+            "WAF_RACE_MATERIAL_BUSY_RECHECKS_LIVE_STOCK",
+            "WAF_RACE_ACCESSORY_NEED_TWO_TICKS_ONE_RECEIPT",
+            "WAF_RACE_ACCESSORY_NEED_BOM_CHANGE_DURING_WAIT",
+            "WAF_RACE_ACCESSORY_NEED_ACCESS_REVOKED_DURING_WAIT",
+            "WAF_RACE_WA_SETTINGS_NEW_REVOKED_AFTER_WAIT",
+            "WAF_RACE_WA_SETTINGS_REPLAY_REVOKED_AFTER_WAIT",
+            "WAF_RACE_WA_KEY_NEW_REVOKED_AFTER_WAIT",
+            "WAF_RACE_WA_KEY_REPLAY_REVOKED_AFTER_WAIT",
+            "WAF_RACE_WA_TEST_NEW_REVOKED_AFTER_WAIT",
+            "WAF_RACE_WA_TEST_REPLAY_REVOKED_AFTER_WAIT",
+            "WAF_RACE_WA_RESOLVE_NEW_REVOKED_AFTER_WAIT",
+            "WAF_RACE_WA_RESOLVE_REPLAY_REVOKED_AFTER_WAIT",
+            "WAF_RACE_ALL_KIND_FG_AT_REORDER_POINT_FAKE_PROVIDER",
+            "WAF_RACE_ALL_KIND_ACCESSORY_AT_REORDER_POINT_FAKE_PROVIDER",
+            "WAF_RACE_ALL_KIND_AR_DUE_FAKE_PROVIDER",
+            "WAF_RACE_ALL_KIND_AP_DUE_FAKE_PROVIDER",
+            "WAF_RACE_ALL_KIND_PRODUCTION_GAP_FAKE_PROVIDER",
+            "WAF_RACE_ALL_KIND_FABRIC_NEED_FAKE_PROVIDER",
+            "WAF_RACE_ALL_KIND_OPENING_AR_FAKE_PROVIDER",
+            "WAF_RACE_ALL_KIND_OPENING_AP_FAKE_PROVIDER",
+            "WAF_RACE_ALL_KIND_PAYROLL_AP_FAKE_PROVIDER",
+            "WAF_RACE_ALL_KIND_ACCESSORY_AP_FAKE_PROVIDER",
+            "WAF_RACE_ALL_KIND_LAUNDRY_AP_FAKE_PROVIDER",
+            "WAF_RACE_ALL_KIND_LAUNDRY_RECEIPT_FAKE_PROVIDER",
+            "WAF_RACE_ALL_KIND_LAUNDRY_OPENING_UNINVOICED_FAKE_PROVIDER"
+          ],
+          "exact_case_ids_verified": true
+        },
+        "http": {
+          "counts": {
+            "PASS": 5
+          },
+          "case_ids": [
+            "WAF_HTTP_OWNER_SETS_UP_AND_TESTS",
+            "WAF_HTTP_OTHERS_REFUSED",
+            "WAF_HTTP_FG_REORDER_SCREEN",
+            "WAF_HTTP_MATERIAL_REORDER_SCREEN",
+            "WAF_HTTP_ACCESSORY_NEED_SETTINGS_LOST_REPLY_REVOKED_REPLAY"
+          ],
+          "exact_case_ids_verified": true
+        },
+        "browser": {
+          "counts": {
+            "PASS": 9
+          },
+          "case_ids": [
+            "WAF_BROWSER_DESKTOP_OWNER_SETS_UP_TESTS_AND_FORWARDS",
+            "WAF_BROWSER_MOBILE_OWNER_SETS_UP_TESTS_AND_FORWARDS",
+            "WAF_BROWSER_ADMIN_SEES_SYSTEM_REMINDERS_WITHOUT_WA",
+            "WAF_BROWSER_FG_REORDER_DESKTOP",
+            "WAF_BROWSER_FG_REORDER_MOBILE",
+            "WAF_BROWSER_MATERIAL_REORDER_DESKTOP",
+            "WAF_BROWSER_MATERIAL_REORDER_MOBILE",
+            "WAF_BROWSER_ACCESSORY_NEED_DESKTOP",
+            "WAF_BROWSER_ACCESSORY_NEED_MOBILE"
+          ],
+          "exact_case_ids_verified": true
+        }
+      },
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "main_bytes": 12393261,
+      "main_sha256": "22e185f11546947f59d2f3e20d46985fc29e0239ab054de76efed29a3257f50f",
+      "complete_original_json_artifact": {
+        "id": 12451647874,
+        "bytes": 1302728,
+        "sha256": "ab206814555a0aad77fd6e9e8a718cfaea81a6b4020abf314ad9ead0e3b6ee77"
+      }
+    }
+  ],
+  "OW10_complete": false,
+  "independent_acceptance": false,
+  "production_go": false
+}
