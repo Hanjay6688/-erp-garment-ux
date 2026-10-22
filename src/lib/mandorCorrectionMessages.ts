@@ -7,6 +7,7 @@ const messages: Record<string, string> = {
   CP7_MANDOR_CORRECTION_PICKUP_SOURCE: 'Riwayat pembagian PO belum cocok. Periksa seluruh pembagian sebelum mengoreksi mandor.',
   CP7_MANDOR_CORRECTION_FIELDS: 'Periksa PO, mandor pengganti dan alasan koreksi, lalu periksa ulang dokumennya.',
   CP7_MANDOR_CORRECTION_INCOMPLETE: 'Koreksi belum memenuhi pemeriksaan akhir dan seluruh perubahannya dibatalkan. Muat ulang dan periksa dokumen asal.',
+  CP7_MANDOR_CORRECTION_GENERATION_CHANGED: 'Riwayat pergantian mandor berbeda dari PO saat ini. Muat ulang WIP & Jahit dan periksa riwayat PO.',
 }
 export function mandorCorrectionMessage(value: unknown): string | null {
   if (typeof value !== 'string') return null

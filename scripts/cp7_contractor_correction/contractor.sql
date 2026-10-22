@@ -14,7 +14,8 @@ create table cp7_contractor_correction.history_v1(
  actor uuid not null,request_id uuid not null,po_id uuid not null,
  old_contractor_id uuid not null,new_contractor_id uuid not null,
  source jsonb not null,result jsonb not null,reason text not null,
- recorded_at timestamptz not null default clock_timestamp(),primary key(actor,request_id)
+ recorded_at timestamptz not null default clock_timestamp(),
+ generation_no bigint generated always as identity unique,primary key(actor,request_id)
 );
 -- No GUC, JWT claim, user-writable flag or durable row grants this capability.
 create table cp7_contractor_correction.context_v1(
@@ -40,9 +41,28 @@ declare v_pickup jsonb;v_sewing jsonb;
 begin
  v_pickup:=cp7_cutting_correction.pickup_access_now();
  v_sewing:=cp7_cutting_correction.sewing_access_now(true);
+ if erp.has_permission('production.distribution.create')is distinct from true then
+  raise exception using errcode='42501',message='CP7_MANDOR_CORRECTION_DENIED';end if;
  if v_pickup is distinct from v_sewing then
   raise exception using errcode='42501',message='CP7_MANDOR_CORRECTION_ACCESS_CHANGED';end if;
  return v_pickup;
+end $$;
+
+-- All correction commands hold the same global envelope before allocating the
+-- identity. Thus generation order is commit order (rolled-back gaps are fine),
+-- unlike arbitrary sequence allocation by unrelated concurrent transactions.
+-- A generation is an assignment, never a new physical date or a changed rate.
+create function cp7_contractor_correction.generation_v1(p_po uuid)returns uuid
+language plpgsql stable security definer set search_path=''as $$
+declare v_history cp7_contractor_correction.history_v1;v_contractor uuid;
+begin
+ select *into v_history from cp7_contractor_correction.history_v1 hh where hh.po_id=p_po
+  order by hh.generation_no desc limit 1;
+ if not found then return null;end if;
+ select po.contractor_id into v_contractor from erp.production_orders po where po.id=p_po;
+ if v_history.new_contractor_id is distinct from v_contractor then
+  raise exception 'CP7_MANDOR_CORRECTION_GENERATION_CHANGED';end if;
+ return md5(v_history.actor::text||':'||v_history.request_id::text)::uuid;
 end $$;
 
 -- A known append-only Laundry WIP original needs its own exact Native inverse;
@@ -310,7 +330,8 @@ begin
  v_response:=jsonb_build_object('contract_version','cp7.mandor-correction-result.v1','po_id',v_po.id,'po_number',v_po.po_number,
   'old_contractor_id',v_po.contractor_id,'contractor_id',v_target,'request_id',p_request,'status','PICKUPS_REPLACED',
   'replacements',v_replacements,'sewing_repost_required',true,'wage_history_reassigned',false);
- insert into cp7_contractor_correction.history_v1 values(auth.uid(),p_request,v_po.id,v_po.contractor_id,v_target,
+ insert into cp7_contractor_correction.history_v1(actor,request_id,po_id,old_contractor_id,new_contractor_id,source,result,reason,recorded_at)
+ values(auth.uid(),p_request,v_po.id,v_po.contractor_id,v_target,
   v_source,v_response,btrim(p->>'change_reason'),clock_timestamp());
  update cp7_contractor_correction.requests_v1 rq set response=v_response where rq.actor=auth.uid()and rq.request_id=p_request;
  return v_response;

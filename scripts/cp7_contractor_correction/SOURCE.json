@@ -1,5 +1,5 @@
 {
-  "contract_version": "ow05.extended-native-source.v2",
+  "contract_version": "ow05.assignment-generations-native-source.v3",
   "predecessor_integration": "2668af3268bebf0c1a2d79d8574511676805ec66",
   "case_ids": [
     "OW05_ACTIVE_WAGE_GUIDANCE",
@@ -19,11 +19,12 @@
   ],
   "files": {
     "scripts/cp7_contractor_correction/__init__.py": "d83608911c079a8d5e0d7278d1a766b947644ed1f8eda1cfc02d9e7c62883202",
-    "scripts/cp7_contractor_correction/contractor.sql": "bd2a99709bdbf911c3086e88f6c5be9e8f65358153f51e34e28b794474b7ecc3",
-    "scripts/cp7_contractor_correction/composition.py": "c2765270391394a689af6bd6c27baf1394e07a1928484bf8e349804491c1f2c2",
-    "scripts/cp7_contractor_correction/native_cases.py": "a0a192c2c9e0f0650b89c2170e5ac7901f78667cf6d766a55f09cd325f8db804",
-    "scripts/cp7_contractor_correction/native_probe.py": "0452a830941d25f6ef6f3c34c66b30c1ce2767057666a818a8adc72e3d5f9708",
-    ".github/workflows/cp7-ow05-native.yml": "d7ccc2d76d6dc6220e619febc17e3d92041439472346ca3df4dce23bd88544e7"
+    "scripts/cp7_contractor_correction/contractor.sql": "0e38f33989b1d60456d4d0318c1b8c04bd89b6b47acab8c3a6b8a0ea71bfc62d",
+    "scripts/cp7_contractor_correction/composition.py": "f766f60826c5dede59b59fc2065b4abe31350e71da590292f7bc87c619433bb2",
+    "scripts/cp7_contractor_correction/native_cases.py": "1c11253cbe0e3d45f2609fb2210aebda02ae580e4766ae5842fdbbb8d4023746",
+    "scripts/cp7_contractor_correction/native_probe.py": "e9b753b823470778773ac2378e1a54a4a5d6a45c9e08c3b651f85c56a9805a35",
+    ".github/workflows/cp7-ow05-native.yml": "0d81f67702eb601afc0023bbe39da84676ddf845c74f5758cdc8b8fc14bc77c3",
+    "scripts/cp7_r3_rate_cases.py": "240ca31bbc9746a6a0071ba100ae1e33168bacafe869bd348c35927e429e3873"
   },
   "literal_money": {
     "old_wage_four_pcs": "16.00",
@@ -35,5 +36,18 @@
   },
   "Native32_rerun": false,
   "OW05_complete": false,
-  "production_go": false
+  "production_go": false,
+  "retained_rate_case_ids": [
+    "CP17_R3_09_SAME_RATE_NO_CHOICE",
+    "CP17_R3_09_CHANGED_RATE_NEEDS_CHOICE",
+    "CP17_R3_09_CHOOSE_OLD_PAYS_LOCKED_RATE",
+    "CP17_R3_09_CHOOSE_NEW_PAYS_THROUGH_REVISION",
+    "CP17_R3_09_ALWAYS_NEW_SWITCH",
+    "CP17_R3_09_SWITCH_REFUSALS_AND_ACCESS",
+    "CP17_R3_09_CANCEL_NEW_RATE_RECORD",
+    "CP17_R3_09_NEW_RATE_WAGE_TO_PAYROLL_AND_DETECTORS",
+    "CP17_R3_09_WAVE_CHOICE_PER_SKU",
+    "CP17_R3_09_DECLARED_NATIVE_DELTAS_AND_RESTORE_REFUSAL",
+    "CP17_R3_09_REVISIONS_IMMUTABLE_AND_PRIVATE"
+  ]
 }

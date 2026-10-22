@@ -45,9 +45,9 @@ def command(cur, body, key=None):
 def balance(cur, po, account, contractor=None):
     return one(cur, """select coalesce(sum(jl.debit-jl.credit),0)
         from erp.journal_lines jl join erp.journal_entries je on je.id=jl.journal_entry_id
-        where jl.po_id=%s and jl.account_id=erp.account_id(%s)
+        where(%s::uuid is null or jl.po_id=%s)and jl.account_id=erp.account_id(%s)
         and je.status in('POSTED','REVERSED')
-        and(%s::uuid is null or jl.contractor_id=%s::uuid)""", (po, account, contractor, contractor))
+        and(%s::uuid is null or jl.contractor_id=%s::uuid)""", (po, po, account, contractor, contractor))
 
 
 def fixture(cur, today, reverse=True):
@@ -244,7 +244,11 @@ def cases(cur, today):
         if paid:
             payroll.act(cur,'PREPARE',payroll.doc(cur,new_pid));payroll.act(cur,'APPROVE',payroll.doc(cur,new_pid))
             payroll.act(cur,'PAY',payroll.doc(cur,new_pid),payment_date=str(today),cash_account_id=bank)
-            assert cash_balance()==0 and balance(cur,g['po'],'CONTRACTOR_PAYABLE',g['target'])==0
+            # Native PAYROLL_PAYMENT settles the contractor as a whole; its
+            # journal has contractor_id and no PO id. Keep the original money
+            # oracle (cash0/payable0), with the Native settlement dimension.
+            assert cash_balance()==0 and balance(cur,None,'CONTRACTOR_PAYABLE',g['target'])==0,(
+                cash_balance(),balance(cur,None,'CONTRACTOR_PAYABLE',g['target']))
         else:assert cash_balance()==D('16.00')and balance(cur,g['po'],'CONTRACTOR_PAYABLE',g['target'])==D('-16.00')
         assert payroll.doc(cur,pid)['status']=='REVERSED'
         return dict(status='PASS',old_nota_and_payroll_retained=True,new_nota='16.00',

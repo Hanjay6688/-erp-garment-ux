@@ -1,0 +1,16 @@
+{
+  "classification": "LOCAL_PGLITE_SOURCE_COMPILE_ASSIGNMENT_KEYS_AND_LOGICAL_CATALOG_ROLLBACK_NOT_NATIVE_POSTING",
+  "status": "PASS",
+  "private_PLpgSQL_compiled": 4,
+  "derived_rate_helper_compiled": true,
+  "rollback_unchanged_existing_six_catalog_queries": true,
+  "legacy_null_generation_reused": true,
+  "same_generation_changed_rate_refused": true,
+  "two_assignment_generations_distinct": true,
+  "same_generation_replay_same_snapshot": true,
+  "original_base_rate_unchanged": true,
+  "unrecorded_assignment_refused": true,
+  "Native_financial_cases_added": 0,
+  "OW05_complete": false,
+  "production_go": false
+}

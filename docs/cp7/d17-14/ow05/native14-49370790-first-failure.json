@@ -1,0 +1,51 @@
+{
+  "status": "INCOMPLETE",
+  "candidate_commit": "4937079037ba685d86473fca1a17cc02eb731f35",
+  "run_id": 39769236803,
+  "job_id": 119792291443,
+  "counts": {
+    "PASS": 12,
+    "INCOMPLETE": 2
+  },
+  "failed_cases": {
+    "OW05_SECOND_MANDOR_NEW_RATE_SAME_PHYSICAL_TIME": {
+      "status": "INCOMPLETE",
+      "error": "CP7_SEWING_RATE_BASIS_CHANGED\nCONTEXT:  PL/pgSQL function cp7_cutting_correction.sewing_revision(uuid,uuid,numeric,uuid,timestamp with time zone,uuid) line 9 at RAISE\nPL/pgSQL function cp7_cutting_correction.sewing_command(jsonb,uuid,text) line 114 at assignment\nSQL function \"erp_cp7_save_sewing_completion_v1\" statement 1",
+      "first_traceback_excerpt": " (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py\", line 165, in _strict_group_once\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_contractor_correction/native_cases.py\", line 255, in <lambda>\n    lambda:second_mandor(True),lambda:second_mandor(False),lambda:nota_and_payroll(False),lambda:nota_and_payroll(True))\n           ^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_contractor_correction/native_cases.py\", line 203, in second_mandor\n    repost(g,'NEW'if new_rate else'OLD')\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_contractor_correction/native_cases.py\", line 104, in repost\n    result=one(cur,'select public.erp_cp7_save_sewing_completion_v1(%s,%s,%s)',(json.dumps(p),str(uuid.uuid4()),w['group_version']))\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_contractor_correction/native_cases.py\", line 22, in one\n    return cur.execute(sql, args).fetchone()[0]\n           ^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.RaiseException: CP7_SEWING_RATE_BASIS_CHANGED\nCONTEXT:  PL/pgSQL function cp7_cutting_correction.sewing_revision(uuid,uuid,numeric,uuid,timestamp with time zone,uuid) line 9 at RAISE\nPL/pgSQL function cp7_cutting_correction.sewing_command(jsonb,uuid,text) line 114 at assignment\nSQL function \"erp_cp7_save_sewing_completion_v1\" statement 1\n"
+    },
+    "OW05_PAID_NOTA_REVERSE_CASH_CORRECT_REPAY": {
+      "status": "INCOMPLETE",
+      "error": "",
+      "first_traceback_excerpt": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py\", line 165, in _strict_group_once\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_contractor_correction/native_cases.py\", line 255, in <lambda>\n    lambda:second_mandor(True),lambda:second_mandor(False),lambda:nota_and_payroll(False),lambda:nota_and_payroll(True))\n                                                                                                 ^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_contractor_correction/native_cases.py\", line 247, in nota_and_payroll\n    assert cash_balance()==0 and balance(cur,g['po'],'CONTRACTOR_PAYABLE',g['target'])==0\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n"
+    }
+  },
+  "case_statuses": {
+    "OW05_ACTIVE_WAGE_GUIDANCE": "PASS",
+    "OW05_NATIVE_SUCCESSOR_OLD_RATE": "PASS",
+    "OW05_NATIVE_SUCCESSOR_NEW_RATE": "PASS",
+    "OW05_LOST_REPLY_REPLAY": "PASS",
+    "OW05_CHANGED_UUID_REFUSED": "PASS",
+    "OW05_STALE_REVIEW_REFUSED": "PASS",
+    "OW05_INACTIVE_TARGET_REFUSED": "PASS",
+    "OW05_LATE_NATIVE_POST_ATOMIC": "PASS",
+    "OW05_PRIVATE_CAPABILITY_DENIED": "PASS",
+    "OW05_HISTORY_IMMUTABLE": "PASS",
+    "OW05_SECOND_MANDOR_NEW_RATE_SAME_PHYSICAL_TIME": "INCOMPLETE",
+    "OW05_SECOND_MANDOR_OLD_RATE_SAME_PHYSICAL_TIME": "PASS",
+    "OW05_UNPAID_NOTA_CANCEL_CORRECT_REPOST": "PASS",
+    "OW05_PAID_NOTA_REVERSE_CASH_CORRECT_REPAY": "INCOMPLETE"
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "raw_report": {
+    "bytes": 3563857,
+    "sha256": "d6f25b1aa597a9be42ca00baea8394895965fb76c9dc9a556847695416c24df8"
+  },
+  "artifact": {
+    "id": 12420969739,
+    "bytes": 1978533,
+    "sha256": "6be1bae3df5b328a7c6f535027c62578093e1efb311716d089c1c1cdf82090aa"
+  },
+  "OW05_complete": false,
+  "production_go": false
+}
