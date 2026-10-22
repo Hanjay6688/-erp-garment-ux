@@ -1,0 +1,36 @@
+{
+  "status": "INCOMPLETE",
+  "head": "aebb8bc75e6903bd6723db98dd39c5e897f9a4d2",
+  "run": 39820414867,
+  "job": 119969898729,
+  "actual_counts": {
+    "native": {
+      "PASS": 13,
+      "INCOMPLETE": 1
+    },
+    "races": {
+      "PASS": 2
+    },
+    "http": {
+      "PASS": 2
+    },
+    "browser": {
+      "PASS": 2
+    }
+  },
+  "original": {
+    "bytes": 2985837,
+    "sha256": "76df94becfe910aa881086e06e7f5a95c4c4d21897b53c2ad4da200f975a2f1d",
+    "artifact_id": 12445240928,
+    "zip_bytes": 323213,
+    "zip_sha256": "c9c7cfced2b6dad53313b99e3979ca0c8e4da501b3bdbfe85c0a9cf7c5e9b4fb"
+  },
+  "first_failure": {
+    "case": "OW13B_COMPLETE_HISTORY_200_201_501_UNDER_8S",
+    "status": "INCOMPLETE",
+    "error": "value too long for type character varying(80)\nCONTEXT:  SQL statement \"insert into erp.fg_lots(\n        lot_number,po_id,qc_item_id,cutting_group_id,product_id,initial_qty_pcs,cached_qty_pcs,produced_at,lot_origin\n      ) values(\n        v_lot_number,h.po_id,r.id,r.cutting_group_id,r.final_product_id,r.qty_good_pcs,0,h.physical_at,'PRODUCTION'\n      ) returning id\"\nPL/pgSQL function post_qc(uuid) line 34 at SQL statement\nSQL statement \"SELECT erp.post_qc(v_qc_id)\"\nPL/pgSQL function post_fg_partial_completion_v2_legacy_v2610(jsonb,uuid,bigint) line 182 at PERFORM\nPL/pgSQL function post_fg_partial_completion_v2(jsonb,uuid,bigint) line 13 at assignment\nPL/pgSQL function erp.post_final_sku_allocation_v1(jsonb,uuid,bigint) line 27 at RETURN\nPL/pgSQL function erp.save_laundry_qc_action_v1(text,jsonb,uuid,bigint) line 1191 at assignment\nPL/pgSQL function public.erp_save_laundry_qc_action_v1(text,jsonb,uuid,bigint) line 3 at RETURN"
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "disposition": "Fixture SKU suffix made the generated fg_lots.lot_number exceed its existing80-character limit. Shorten only fixture label to ow13b; do not alter schema, amounts, budget or oracle. Original failure retained."
+}

@@ -23,7 +23,7 @@ http_cases = retained.http_cases
 def cases(cur, today):
     def complete_history():
         owner = retained.actor(cur)
-        item = retained.product(cur, 'ow13b-all-history')
+        item = retained.product(cur, 'ow13b')
         production = retained.Production(cur, today)
         original = production.group(item, 40, 37)
         # SYNTHETIC scale fixture only. Every clone is checked by the ordinary
