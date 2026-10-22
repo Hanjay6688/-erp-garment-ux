@@ -133,6 +133,11 @@ Disusun 16 Okt 2026. Tambahkan aturan baru di bagian yang sesuai, dengan ID temu
     panel anak ikut memulai pembacaan baru, hasil muat ulang adalah hasil pembacaan terbaru, sesudah simpan maupun
     sesudah ditolak server. Pesan penolakan harus persis kalimat server, tanpa tambahan "Refetch gagal" yang tidak benar.
     Uji DOM meniru induk yang memuat ulang di tengah jalan. (CI 39020856920, kasbon ditolak di kasus pengaman R3)
+18d. **Penolakan gabungan menyebut syarat mana yang benar dan langkah berikutnya.** Bila satu kode penolakan menutup
+    beberapa keadaan, server mengirim alasan rinci terstruktur (kode dan pesan lama tidak diubah, supaya oracle lama
+    tetap berlaku), layar menerjemahkan tiap alasan, dan penerjemah menolak bentuk yang tidak dikenal dengan menampilkan
+    kode untuk dilaporkan, bukan menebak alasan atau menulis "belum dapat diperiksa". (Uji ulang OW-04 23 Okt 2026
+    bagian 3; `docs/cp7/d17-14/ow04/OW04B.md`)
 
 ## E. Bukti dan alat uji
 
@@ -337,7 +342,8 @@ Disusun 16 Okt 2026. Tambahkan aturan baru di bagian yang sesuai, dengan ID temu
 - [ ] Batas tanggal resmi: trigger tabel, jalur sah dikecualikan per nama sumber, uji 00:00 vs 23:59:59 WIB (A5a).
 - [ ] Batas Native per SKU/lingkup: layar meminta dan menghitung per lingkup yang sama (B8c).
 - [ ] Layar: pemeriksaan sama dengan Native, teks status dari server, simpan diblokir saat memuat (D13–D15);
-  layar dengan dua penulis aktif kembali sesudah simpan di tiap mode (D18b).
+  layar dengan dua penulis aktif kembali sesudah simpan di tiap mode (D18b); penolakan gabungan menyebut alasan dan
+  langkahnya (D18d).
 - [ ] Mode data nyata: tidak ada angka contoh tanpa label; tidak ada fungsi Native tanpa layar kecuali owner menunda
   tertulis; tabel aktivasi diperbarui; uji browser build mode data nyata (D16, F29a).
 - [ ] 47 menu × 3 mode × HP 390 px: `scrollWidth <= innerWidth` (D17; 48 sebelum D16-5 menggabungkan Tutup Periode).

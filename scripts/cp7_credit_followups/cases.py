@@ -32,6 +32,7 @@ IDS=('OW04B_FIRST_RETURN_QUOTES_UNCHANGED',
      'OW04B_RETURN_ON_CREDIT_PAID_INVOICE_NAMES_REASON',
      'OW04B_EDIT_RETUR_ON_CREDIT_INVOICE_NAMES_REASON',
      'OW04B_PAYMENT_ON_CREDIT_PAID_INVOICE_NAMES_REASON',
+     'OW04B_BENERIN_NOTA_ON_CREDIT_INVOICES_NAMES_REASON',
      'OW04B_REFUND_EMPTY_BANK_REFUSED_NO_EFFECT_THEN_FUNDED',
      'OW04B_REFUND_BANK_FUNDED_AFTER_REFUND_DATE_REFUSED',
      'OW04B_CONSUMER_REFUND_EMPTY_BANK_REFUSED_NO_EFFECT_THEN_FUNDED')
@@ -191,6 +192,19 @@ def cases(cur,today):
                 detail('REGISTERED_SOURCE_MUTATION','PAYMENT',['CREDIT_APPLIED_TO_INVOICE']))
             return dict(status='PASS',action='PAYMENT',reasons=['CREDIT_APPLIED_TO_INVOICE'],open_limit_named=True,**seen)
 
+    def benerin_nota():
+        # Benerin nota first reverses the invoice's payments, then its returns, then the invoice (cp7_note.command).
+        # On the credit source the first Native reversal is its payment; on the credit-paid target it is the invoice.
+        with native.isolated(cur):
+            pair=fixture.prepare(cur,today,'CREDIT');basic.apply(cur,pair,'80.00')
+            seen={}
+            for name,f,price,action,reason in (('source',pair['source']['f'],'210','PAYMENT_REVERSE','PRIOR_CREDIT_RETURN'),
+                                               ('target',pair['target'],'110','SALE_REVERSE','CREDIT_APPLIED_TO_INVOICE')):
+                p,v=native.note.edit(cur,f,price=price)
+                seen[name]=side_by_side(cur,lambda:basic.observation(cur,pair),lambda:native.note.correct(cur,p,v),REGISTERED,
+                    detail('REGISTERED_SOURCE_MUTATION',action,[reason]))
+            return dict(status='PASS',screen='Benerin nota',source_action='PAYMENT_REVERSE',target_action='SALE_REVERSE',**seen)
+
     def refund_empty_bank():
         with native.isolated(cur):
             x,credit,query,bank,coa,code=refund_setup(cur,today);d2=x['dates']['D2']
@@ -249,7 +263,7 @@ def cases(cur,today):
                 same_request_after_funding=result['operation_id'],bank_after='0.00',available_credit_after='120.00')
 
     result=list(zip(IDS,(first_quotes,second_return,credit_paid_invoice_return,edit_retur,payment_on_credit_paid_invoice,
-                         refund_empty_bank,refund_funded_later,consumer_refund_empty_bank)))
+                         benerin_nota,refund_empty_bank,refund_funded_later,consumer_refund_empty_bank)))
     assert tuple(key for key,_ in result)==IDS
     return result
 
