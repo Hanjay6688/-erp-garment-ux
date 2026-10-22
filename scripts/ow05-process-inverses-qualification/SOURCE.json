@@ -1,0 +1,28 @@
+{
+  "contract_version": "ow05.process-inverses-native2.v1",
+  "case_ids": [
+    "OW05_LAUNDRY_RECEIPT_DELIVERY_AND_SEWING_INVERSES",
+    "OW05_FINISHED_PO_QC_VOIDED_FG_AND_LAUNDRY_INVERSES"
+  ],
+  "native_original": {
+    "name": "CP7_OW05_NATIVE28_GUIDANCE_WHOLE_PO_WAVE.json",
+    "bytes": 6646642,
+    "sha256": "9e4732a171faff7175a03b895daca09bcb1dc54a53003cb300d979c858d1143c"
+  },
+  "files": {
+    "scripts/ow05-process-inverses-qualification/cases.py": "04f441f4940925a85100a6081fdd1c034a5bc30fb24776a8329ccceafd8605ed",
+    "scripts/ow05-process-inverses-qualification/probe.py": "0ca0ea7d631b50de73b2db84a07f37530bfaca69c64a4fa8a6ee05ad6dc931a9",
+    ".github/workflows/cp7-ow05-process-inverses.yml": "66e1a79084c7a6bfe4b2c64da838cad3b91a2fc95c3f653e824b2fdaf6ce07f4",
+    "scripts/ow05_native_original.py": "bb2030de3d8041c1dbeffef691335056869494c0929fe5e1d3b0678992ff60a0",
+    "docs/cp7/d17-14/ow05/native28-current-pass.json": "1d25fbbdcdeea6791a7d04b45ac0bb1a17f3629a29a727284fc6796248c08308",
+    "scripts/cp7_contractor_correction/native_probe.py": "cee3ecd38d197413a14308467147c3e6d31768854bf616a1b212c19a78e17206"
+  },
+  "literal_money": {
+    "original_wage": "40.00",
+    "old_payable_after_named_inverses": "0.00",
+    "new_wage_and_WIP_increment": "60.00"
+  },
+  "product_unchanged_from_qualified_Native28": true,
+  "OW05_complete": false,
+  "production_go": false
+}

@@ -1,6 +1,7 @@
 """Retain Auth2 plus actual rights changes and contention with the sewing writer."""
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
+from decimal import Decimal as D
 import importlib.util
 import json
 import time
@@ -96,7 +97,7 @@ def contention(http,today):
                 assert correction['status']==500 and correction['body'].get('code')=='55P03'and 'CP7_MANDOR_CORRECTION_BUSY'in str(correction['body']),correction
                 assert not sew.done()
             finally:holder.rollback()
-        posted=retained.body(sew.result(timeout=30));assert str(posted['result']['wage_amount'])=='16.00'
+        posted=retained.body(sew.result(timeout=30));assert D(str(posted['result']['wage_amount']))==D('16.00'),posted['result']
     stale=user.rpc('erp_cp7_correct_mandor_v1',args)
     assert stale['status']==400 and 'CP7_MANDOR_CORRECTION_STALE_REVIEW'in str(stale['body']),stale
     w=retained.body(user.rpc('erp_cp7_get_sewing_completion_v1',dict(p_group=g['group'])))

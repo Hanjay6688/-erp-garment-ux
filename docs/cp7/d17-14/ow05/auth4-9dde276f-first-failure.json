@@ -1,0 +1,42 @@
+{
+  "classification": "COMPACT_ACTUAL_AUTH4_FIRST_FAILURE_NOT_PASS",
+  "status": "INCOMPLETE",
+  "candidate_commit": "9dde276fdbf354368593607e52d7405775c4bf6f",
+  "run_id": 39789070528,
+  "job_id": 119859922717,
+  "counts": {
+    "PASS": 3,
+    "INCOMPLETE": 1
+  },
+  "case_status": {
+    "OW05_REAL_AUTH_UNDO_CORRECT_NEW_RATE_AND_NOTA24": "PASS",
+    "OW05_TWO_DISTINCT_AUTH_USERS_SAME_PO_ONE_EFFECT": "PASS",
+    "OW05_REAL_AUTH_RIGHT_REVOKED_AFTER_WAIT_AND_BEFORE_REPLAY": "PASS",
+    "OW05_REAL_SEWING_FLOW_AND_PO_ROW_CONTENTION_REFUSED_ATOMICALLY": "INCOMPLETE"
+  },
+  "failure": {
+    "case": "OW05_REAL_SEWING_FLOW_AND_PO_ROW_CONTENTION_REFUSED_ATOMICALLY",
+    "at": "cases.py99 after real sewing completes and after actual BUSY refusal",
+    "assertion": "str(wage_amount) == 16.00 textual formatting",
+    "actual_scalar_not_logged_in_first_failure": true,
+    "qualifier_fix": "Compare exact Decimal(str(wage_amount)) to Decimal(16.00), as the retained monetary oracles; include actual result on failure. Keep amount exactly16.00 and all subsequent stale/row/atomicity oracles."
+  },
+  "first_three_cases_pass": true,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "auth_counts_restored": true,
+  "cleanup_failures": false,
+  "database_remaining": 0,
+  "original_report": {
+    "name": "CP7_OW05_REAL_AUTH4.json",
+    "bytes": 263197,
+    "sha256": "7e48cdfc4d32bc8e137da01d37a36db21e35852146f793a0321a246ee0eaf7fe"
+  },
+  "artifact": {
+    "id": 12430068319,
+    "zip_bytes": 1633579,
+    "zip_sha256": "e84c869b275462ef484e9fc2e9bebd53ebc24aba3a5039c1baa39d4f84e0131e"
+  },
+  "OW05_complete": false,
+  "production_go": false
+}

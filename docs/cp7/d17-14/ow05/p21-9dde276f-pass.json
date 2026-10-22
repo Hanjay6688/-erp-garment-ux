@@ -1,0 +1,162 @@
+{
+  "classification": "COMPACT_ACTUAL_CURRENT_FULL_P21_RECEIPT_NOT_RAW_LOG",
+  "status": "PASS",
+  "candidate_commit": "9dde276fdbf354368593607e52d7405775c4bf6f",
+  "run_id": 39789070200,
+  "job_id": 119859922468,
+  "default_entry_exercised": true,
+  "retained_steps": [
+    {
+      "step": "COMMITTED_CURRENT_APPLY_REFUND_CORRECTION_CHAINS",
+      "status": "PASS"
+    },
+    {
+      "step": "EXACT_FULL_DUMP_AND_FRESH_RESTORE",
+      "status": "PASS"
+    },
+    {
+      "step": "RESTORE_BINDING_REFUSAL_CONTROLS",
+      "status": "PASS"
+    },
+    {
+      "step": "VERIFIED_CURRENT_CENSUS_REBIND",
+      "status": "PASS"
+    },
+    {
+      "step": "EXACT_RESTORED_READS_AND_OLD_RECEIPT_REPLAYS",
+      "status": "PASS"
+    },
+    {
+      "step": "RESTORED_NAMED_UNDOS_AND_RETURN_INVERSES",
+      "status": "PASS"
+    }
+  ],
+  "install_steps": [
+    {
+      "step": "CURRENT_INSTALL_1",
+      "status": "PASS"
+    },
+    {
+      "step": "EXACT_PREUSE_ROLLBACK",
+      "status": "PASS"
+    },
+    {
+      "step": "CURRENT_REINSTALL",
+      "status": "PASS"
+    },
+    {
+      "step": "COMMITTED_SUPPLIER_AND_STAGED_ANALYSIS",
+      "status": "PASS"
+    }
+  ],
+  "ow05_steps": [
+    {
+      "step": "COMMITTED_OW05_MANDOR_NEW24_AND_NOTA",
+      "status": "PASS",
+      "new_wage_and_nota": "24.00",
+      "old_work_retained": true
+    },
+    {
+      "step": "RESTORED_OW05_EXACT_READS_AND_FOUR_RECEIPT_REPLAYS",
+      "status": "PASS",
+      "all_raw_business_reads_equal": true,
+      "four_original_receipts_replayed": true,
+      "every_table_and_sequence_unchanged": true
+    },
+    {
+      "step": "RESTORED_OW05_NAMED_INVERSES_NEXT_ASSIGNMENT",
+      "status": "PASS",
+      "restored_nota24_cancelled_through_Native": true,
+      "restored_wage24_undone": true,
+      "next_generation_after_restore": true,
+      "current_original_mandor_payable": "16.00",
+      "previous_mandor_payable": "0.00",
+      "original_history_unchanged": true,
+      "history_generations": 2,
+      "private_contexts": 0
+    }
+  ],
+  "total_required_steps": 13,
+  "all13_pass": true,
+  "actual_drift_refusals": [
+    {
+      "id": "WRONG_TRUSTED_HASH",
+      "status": "PASS",
+      "error": "OW05_RESTORE_TRUSTED_BACKUP_HASH_REQUIRED"
+    },
+    {
+      "id": "CHANGED_FINANCIAL_SOURCE",
+      "status": "PASS",
+      "error": "OW05_RESTORE_SOURCE_OR_CONTRACT_CHANGED"
+    },
+    {
+      "id": "WRONG_TARGET_DATABASE",
+      "status": "PASS",
+      "error": "OW05_RESTORE_FRESH_EXPECTED_DATABASE_REQUIRED"
+    },
+    {
+      "id": "ACTUAL_FUNCTION_METADATA_DRIFT",
+      "status": "PASS",
+      "error": "OW05_RESTORE_CATALOG_CHANGED"
+    },
+    {
+      "id": "ACTUAL_BUSINESS_ROW_DRIFT",
+      "status": "PASS",
+      "error": "OW05_RESTORE_BUSINESS_ROWS_OR_SEQUENCE_CHANGED"
+    }
+  ],
+  "cp6_restored": true,
+  "baseline_advisors_equal": true,
+  "known_remaining_report_boundary": {
+    "owner_open_work": "OW-08",
+    "reason": "Legacy readiness AR checks use Native P without the verified credit U-I adjustment.",
+    "actual_legacy_checks": [
+      [
+        "V2620H_CUSTOMER_AR_BY_CUSTOMER_MISMATCH",
+        "CRITICAL",
+        2
+      ],
+      [
+        "V2620H_CUSTOMER_AR_STATUS_MISMATCH",
+        "CRITICAL",
+        3
+      ],
+      [
+        "V268_AR_GL_SUBLEDGER_MISMATCH",
+        "CRITICAL",
+        1
+      ]
+    ],
+    "expected_legacy_checks": [
+      [
+        "V2620H_CUSTOMER_AR_BY_CUSTOMER_MISMATCH",
+        "CRITICAL",
+        2
+      ],
+      [
+        "V2620H_CUSTOMER_AR_STATUS_MISMATCH",
+        "CRITICAL",
+        3
+      ],
+      [
+        "V268_AR_GL_SUBLEDGER_MISMATCH",
+        "CRITICAL",
+        1
+      ]
+    ],
+    "report_readiness_after_credit_not_claimed_READY": true,
+    "original_report_checks_and_E01_READY_assertions_not_changed": true
+  },
+  "original_report": {
+    "name": "CP7_P21_CURRENT_OW05_REHEARSAL.json",
+    "bytes": 281127,
+    "sha256": "d9a16c44dca1f1ca6e70d23f96df0db296817b185828dfc2477c9ccb1e1b3f3d"
+  },
+  "artifact": {
+    "id": 12430418497,
+    "zip_bytes": 3434553,
+    "zip_sha256": "ed0c4a854c23ebb7077936af4c6055f5b05bff09508d78877968ed740993cad6"
+  },
+  "OW05_complete": false,
+  "production_go": false
+}
