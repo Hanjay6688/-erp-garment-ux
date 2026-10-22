@@ -11,7 +11,7 @@ export const LAU_POLICY_LABEL: Record<LauPolicyKey, string> = {
   'LAU-DEC05': 'Tarif khusus model / ukuran / warna', 'LAU-DEC06': 'Selisih invoice dan koreksi sesudah bayar' }
 export const BD_ACTIONS = ['SET_POLICY', 'SAVE_VENDOR_TERMS', 'SAVE_COMPONENT', 'SAVE_COMPONENT_RATE', 'SAVE_PACKAGE', 'SAVE_PACKAGE_RATE',
   'SAVE_PROCESS_RATE', 'SAVE_SCOPED_RATE', 'POST_PRICED_DELIVERY', 'SET_CHARGE_PRICE', 'SAVE_INVOICE_DRAFT', 'CANCEL_INVOICE_DRAFT', 'POST_INVOICE',
-  'REVERSE_INVOICE', 'SET_REDYE_PRICE', 'SET_OPENING_ESTIMATE', 'APPLY_CLAIM_CREDIT', 'PAY_VENDOR_DOCUMENT', 'REVERSE_VENDOR_SETTLEMENT'] as const
+  'REVERSE_INVOICE', 'SET_REDYE_PRICE', 'SET_OPENING_ESTIMATE', 'APPLY_CLAIM_CREDIT', 'PAY_VENDOR_DOCUMENT', 'REVERSE_VENDOR_SETTLEMENT', 'SET_FAILED_WASH_PRICE'] as const
 export type BdAction = typeof BD_ACTIONS[number]
 export const CATEGORY_LABEL = { GOOD: 'Hasil baik', BS: 'BS laundry', FAILED_ATTEMPT: 'Cuci gagal' } as const
 export type Category = keyof typeof CATEGORY_LABEL
@@ -63,13 +63,19 @@ export type BdPendingSale = { id: string; sale_id: string; sale_number: string; 
 export type BdPayables = { documents: BdPayableDocument[]; credits: BdClaimCredit[]; cash_accounts: { id: string; code: string; name: string }[]
   ledger: { ap_balance: string; documents_remaining: string; credit_available: string; matches: boolean } }
 export type BdRedye = { id: string; number: string; vendor_id: string; po_number: string; status: string; qty: number; good: number; bs: number; billed_good: number; billed_bs: number; process: string; price_known: boolean; rate: string | null; cost: string | null }
+/** OW-08b (LAU-DEC04): a paid failed wash recorded while the vendor price was unknown. Its cost is not zero but not yet counted, the HPP of
+ * its PO is not final and the period through its date cannot close until the owner/admin sets the price, once (KNOWN, or FREE/WAIVED = 0). */
+export type BdFailedWashPrice = { attempt_id: string; receipt_id: string; receipt_number: string; attempt_status: string; delivery_number: string; po_number: string
+  vendor_id: string; vendor_code: string; process_name: string | null; custody_outcome: 'RETRY_AT_VENDOR' | 'RETURN_UNPROCESSED'; qty: number; physical_local: string
+  recorded_reason: string; recorded_by: string | null; recorded_local: string; price_status: BdRateStatus; rate: string | null; amount: string | null
+  price_reason: string | null; priced_by: string | null; priced_local: string | null }
 export type BdPageKind = 'invoices' | 'receipts'
 export type BdPagination = { as_of: string; invoice_next: string | null; receipt_next: string | null }
 export type LaundryBdWorkspace = { pagination: BdPagination; money_visible: boolean; can_manage_master: boolean; can_set_price: boolean; is_owner: boolean
   policies: BdPolicy[]; vendors: BdVendor[]; processes: { id: string; code: string; name: string }[]; components: BdComponent[]; packages: BdPackage[]
   process_rates: BdProcessRate[]; scoped_rates: BdScopedRate[]; priced_deliveries: BdPricedDelivery[]; opening_uninvoiced: BdOpening[]
   invoices: BdInvoice[] | null; billable_receipts: BdBillable[] | null; accounts: { id: string; code: string; name: string; type: 'ASSET' | 'EXPENSE' }[] | null
-  redye_services?: BdRedye[]; payables: BdPayables | null; pending_cost: { goods: BdPendingGood[]; sales: BdPendingSale[] } }
+  redye_services?: BdRedye[]; payables: BdPayables | null; pending_cost: { goods: BdPendingGood[]; sales: BdPendingSale[] }; failed_wash_prices: BdFailedWashPrice[] }
 
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
 function object(value: unknown, label: string): Record<string, unknown> {
@@ -238,7 +244,25 @@ export function parseLaundryBdWorkspace(value: unknown): LaundryBdWorkspace {
     pending_cost, redye_services: r.redye_services === undefined ? [] : list(r.redye_services, 'Jasa celup ulang').map((x): BdRedye => ({
       id: id(x.id, 'Jasa'), number: text(x.number, 'Order'), vendor_id: id(x.vendor_id, 'Vendor'), po_number: text(x.po_number, 'PO'), status: text(x.status, 'Status'),
       qty: count(x.qty, 'Dikirim'), good: count(x.good, 'Good'), bs: count(x.bs, 'BS'), billed_good: count(x.billed_good, 'Ditagih Good'), billed_bs: count(x.billed_bs, 'Ditagih BS'),
-      process: text(x.process, 'Proses'), price_known: bool(x.price_known, 'Harga diketahui'), rate: gated(x.rate, money_visible, 'Tarif celup'), cost: gated(x.cost, money_visible, 'Biaya celup') })) }
+      process: text(x.process, 'Proses'), price_known: bool(x.price_known, 'Harga diketahui'), rate: gated(x.rate, money_visible, 'Tarif celup'), cost: gated(x.cost, money_visible, 'Biaya celup') })),
+    failed_wash_prices: r.failed_wash_prices === undefined ? [] : list(r.failed_wash_prices, 'Cuci gagal harga belum diketahui').map(x => failedWashPrice(x, money_visible)) }
+}
+
+/** An unknown price has no amount, reason or time (never zero); a set price has its reason and time, KNOWN above zero, FREE/WAIVED exactly zero. */
+function failedWashPrice(x: Record<string, unknown>, money_visible: boolean): BdFailedWashPrice {
+  const price_status = oneOf(x.price_status, BD_RATE_STATUSES, 'Status harga cuci gagal')
+  const rate = gated(x.rate, money_visible, 'Harga cuci gagal'), amount = gated(x.amount, money_visible, 'Biaya cuci gagal')
+  const price_reason = nullableText(x.price_reason, 'Alasan harga cuci gagal'), priced_local = nullableLocal(x.priced_local, 'Waktu isi harga cuci gagal')
+  if (price_status === 'UNKNOWN' ? rate !== null || amount !== null || price_reason !== null || priced_local !== null || x.priced_by !== null
+    : price_reason === null || priced_local === null || (money_visible && (rate === null || amount === null
+      || (price_status === 'KNOWN' ? Number(rate) <= 0 : rate !== '0.00' || amount !== '0.00')))) throw new Error('Harga cuci gagal tidak cocok dengan statusnya.')
+  return { attempt_id: id(x.attempt_id, 'Attempt cuci gagal'), receipt_id: id(x.receipt_id, 'Penerimaan cuci gagal'), receipt_number: text(x.receipt_number, 'Nomor cuci gagal'),
+    attempt_status: text(x.attempt_status, 'Status cuci gagal'), delivery_number: text(x.delivery_number, 'Nomor kirim'), po_number: text(x.po_number, 'Nomor PO'),
+    vendor_id: id(x.vendor_id, 'Vendor'), vendor_code: text(x.vendor_code, 'Kode vendor'), process_name: nullableText(x.process_name, 'Proses cuci'),
+    custody_outcome: oneOf(x.custody_outcome, ['RETRY_AT_VENDOR', 'RETURN_UNPROCESSED'] as const, 'Posisi fisik cuci gagal'), qty: count(x.qty, 'Qty cuci gagal'),
+    physical_local: local(x.physical_local, 'Waktu cuci gagal'), recorded_reason: text(x.recorded_reason, 'Alasan cuci gagal'),
+    recorded_by: nullableText(x.recorded_by, 'Pencatat'), recorded_local: local(x.recorded_local, 'Waktu catat'), price_status, rate, amount, price_reason,
+    priced_by: nullableText(x.priced_by, 'Pengisi harga'), priced_local }
 }
 
 /** A correction document names the invoice it corrects; an invoice names none. */
