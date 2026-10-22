@@ -4,10 +4,11 @@ import {readFile,writeFile,mkdir,access} from 'node:fs/promises'
 import {createHash,randomUUID} from 'node:crypto'
 import {execFileSync} from 'node:child_process'
 import assert from 'node:assert/strict'
+import {beginLocalStageAudit} from './cp7_local_stage_audit.mjs'
 const {PGlite}=await import(process.env.CP7_PGLITE_MODULE??'@electric-sql/pglite')
 const db=new PGlite(),dir='scripts/cp7_target_policy_stage/sql/'
 const read=path=>readFile(path,'utf8'),block=(s,name)=>{const start=s.search(new RegExp('create(?: or replace)? function '+name.replaceAll('.','\\.')+'\\('));assert.ok(start>=0,name);return s.slice(start,s.indexOf('$$;',s.indexOf('as $$',start))+3)}
-await db.exec(`create role cp7_capture;create role cp7_policy;create role anon;create role authenticated;create role service_role;
+await db.exec(`create role cp7_capture nologin noinherit nosuperuser nocreatedb nocreaterole noreplication bypassrls;create role cp7_policy;create role anon;create role authenticated;create role service_role;
 create schema erp;create schema auth;create schema cp7_identity;create schema cp7_planning;create schema extensions;create schema cp7_analysis_stage;create schema cp7_baseline_native;
 create function extensions.digest(bytea,text)returns bytea language sql immutable as $$select sha256($1)$$;
 create function auth.uid()returns uuid language sql stable as $$select 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa'::uuid$$;
@@ -21,7 +22,9 @@ create table erp.production_orders(id uuid,model_id uuid,status text);
 create table erp.cutting_groups(id uuid,po_id uuid,cut_at timestamptz,material_issue_posted boolean);
 create table erp.fg_lots(id uuid,cutting_group_id uuid,qc_item_id uuid,produced_at timestamptz,lot_origin text);
 create table erp.qc_inspection_items(id uuid,inspection_id uuid);
-create table erp.qc_inspections(id uuid,status text);`)
+create table erp.qc_inspections(id uuid,status text);
+-- Controlled fixture: mirror the pinned capture principal and its reads.
+grant usage on schema erp,auth,extensions to cp7_capture;grant select on all tables in schema erp to cp7_capture;`)
 for(const file of['wip/bootstrap.sql','demand/bootstrap.sql','demand/estimate.sql'])await db.exec(await read('scripts/cp7-src/'+file))
 await db.exec(await read('scripts/cp7_production_stage/sql/cp7_baseline__target.sql'))
 await db.exec(await read('scripts/cp7-src/planning/profile.sql'))
@@ -36,6 +39,13 @@ for(const file of files)await db.exec(await read(dir+file))
 for(const [file,fn]of[['cp7_baseline_native__build.before.sql','cp7_baseline_native.build'],['cp7_analysis_stage__baseline_rows.before.sql','cp7_analysis_stage.baseline_rows']]){
  const sql=(await read(dir+file)).replace('function '+fn+'(','function '+fn+'_before(');await db.exec(sql)
 }
+// Restore the exact predecessor, then exercise the real installer rather
+// than the raw forward SQL. Metadata and inversion cover all22 groups.
+for(const file of files)await db.exec(await read(dir+file.replace('.sql','.before.sql')))
+for(const [sig,owner]of[['cp7_profile.apply(jsonb,uuid)','cp7_policy'],['cp7_baseline_native.build(jsonb,jsonb)','cp7_capture'],['cp7_analysis_stage.baseline_rows(jsonb,jsonb,jsonb,text)','cp7_capture'],['cp7_stock_formula.compute(timestamptz,interval)','cp7_capture']]){
+ await db.exec('alter function '+sig+' owner to '+owner+';revoke all on function '+sig+' from public,anon,authenticated,service_role')
+}
+const stageAudit=await beginLocalStageAudit(db,'cp7_target_policy_stage')
 const root='11111111-1111-4111-8111-111111111111',size='22222222-2222-4222-8222-222222222222',model='55555555-5555-4555-8555-555555555555',key=root+':'+size
 const {at,today,from_date,through_date}= (await db.query(`select to_char(clock_timestamp()+interval'1 hour','YYYY-MM-DD"T"HH24:MI:SS.US"Z"')at,
  ((clock_timestamp()+interval'1 hour')at time zone'Asia/Jakarta')::date::text today,
@@ -107,7 +117,8 @@ await test('OW10_STAT_ROP_EFFECTIVE_PROFILE_SAME_KERNEL',async()=>{
  assert.equal(day.formula_point,25);assert.equal(day.buffer_mode,'DAYS')
  return{profile95_over_general90:true,ROP_matches_same_kernel_L_horizon:true,DAYS_remains_one_buffer:true,allocated_WIP_not_proven:true}
 })
-const report={classification:'LOCAL_ACTUAL_FOUR_PRODUCT_BODIES_WITH_CONTROLLED_ERP_HISTORY_IDENTITY_NOT_NATIVE',status:results.every(r=>r.status==='PASS')?'PASS':'FAIL',
+const catalog=await stageAudit.afterUse()
+const report={classification:'LOCAL_ACTUAL_FOUR_PRODUCT_BODIES_WITH_CONTROLLED_ERP_HISTORY_IDENTITY_NOT_NATIVE',status:results.every(r=>r.status==='PASS')?'PASS':'FAIL',catalog,
  sources:Object.fromEntries(await Promise.all(files.map(async file=>[file,createHash('sha256').update(await read(dir+file)).digest('hex')]))),cases:results,OW10_complete:false,full_A_chain_qualified:false,production_go:false}
 await mkdir('docs/cp7/d17-14/ow10',{recursive:true});const out='docs/cp7/d17-14/ow10/statistical-local.json'
 await writeFile(out,JSON.stringify(report,null,2)+'\n');if(report.status!=='PASS'){const first=out.replace('.json','-first-failure.json');try{await access(first)}catch{await writeFile(first,JSON.stringify(report,null,2)+'\n')}}

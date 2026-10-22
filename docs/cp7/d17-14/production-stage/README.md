@@ -61,3 +61,16 @@ Penolakan clone menghentikan sequence sebelum suite berikutnya. Original T3_*.js
 suite-NN-probe setelah setiap proses; file Native utama tetap bernama unik. Upload complete-json harus
 rekursif agar Original paket pertama tidak hilang/ditimpa. Tidak mengubah runner/bundle/pemasang A.
 Tiga uji pengatur urutan mereproduksi penghapusan database, kegagalan clone dan writer berubah.
+
+
+## Native286 sudah PASS pada a753ebc2
+
+Run39868830130/job120137814829: keenam suite113/16/20/38/15/84 PASS. Exact declared IDs dicocokkan
+dengan observed pada Original, setiap kasus PASS; total Native180, dua pengguna58, HTTP21, browser27.
+Enam preuse22/restore/advisor dan enam paket pemasangan/backup/primary-unchanged lulus. Folder
+Original per suite dan clone2–6 benar-benar ada. Receipt a753ebc-native286-pass.json mengunci hash
+masing-masing Original/Source/ID set serta artifact2276888bytes. Kegagalan pertama tetap disimpan.
+
+Ini kualifikasi komponen penulis di atas basis beku, bukan ujung rantai A atau audit independen. Tahap
+statistik OW10 dan bridge OW12b yang ditulis sesudah a753 belum termasuk Native286. A tetap memasang
+komposisi penuh, registry, invers dan melakukan kualifikasi gabungan sebelum paket auditor.

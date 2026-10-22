@@ -3,8 +3,18 @@ import{beforeEach,expect,it}from'vitest'
 import{readStagedRequest,persistStagedRequest,persistStagedCompletedRequest,stagedCompletedScope,stagedRequestKey,stagedRequestQuery,parseStagedJob}from'./nativeStagedJob'
 import{stagedJobFixture}from'../tests/fixtures/nativeAnalysisPages'
 import finance from'../tests/fixtures/analysisFinanceSidecar.json'
+import actual from '../tests/fixtures/stagedFinanceRequestActual.json'
 const scope='disposable:finance-actor',request={id:finance.request_id,q:finance.query as{from_date:string;through_date:string;group_mode:'AS_SOLD'},finance:'STAGED' as const}
 beforeEach(()=>localStorage.clear())
+it('reads the exact output of the real patched SQL request/status and retains its complete explicit query',()=>{
+ const {finance_mode:mode,...q}=actual.query
+ expect(mode).toBe('STAGED')
+ const r={id:actual.response.request_id,q:{...q,group_mode:q.group_mode as 'AS_SOLD'},finance:'STAGED' as const}
+ const parsed=parseStagedJob(actual.response,r.id,r)
+ expect(parsed.state).toBe('RUNNING');expect(parsed.financeCapture?.capture?.unitsTotal).toBeNull()
+ expect(parsed.financeCapture?.capture?.id).toBe(actual.response.finance_capture.capture.capture_id)
+ persistStagedRequest(scope,r);expect(stagedRequestQuery(readStagedRequest(scope).pending!)).toEqual(actual.query)
+})
 it('retains the financial selection with the same UUID for pending and completed operational jobs',()=>{
  persistStagedRequest(scope,request);expect(readStagedRequest(scope).pending).toEqual(request)
  persistStagedCompletedRequest(scope,request);expect(readStagedRequest(stagedCompletedScope(scope)).pending).toEqual(request)

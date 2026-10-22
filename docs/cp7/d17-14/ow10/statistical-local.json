@@ -1,6 +1,18 @@
 {
   "classification": "LOCAL_ACTUAL_FOUR_PRODUCT_BODIES_WITH_CONTROLLED_ERP_HISTORY_IDENTITY_NOT_NATIVE",
   "status": "PASS",
+  "catalog": {
+    "classification": "LOCAL_REAL_INSTALLER_AND_PG_CATALOG_VIA_CONTROLLED_TRANSPORT_NOT_NATIVE",
+    "stage": "cp7_target_policy_stage",
+    "status": "PASS",
+    "catalog_groups": 22,
+    "apply_rollback_reapply_exact": true,
+    "admission_passed": true,
+    "full_A_chain_qualified": false,
+    "production_go": false,
+    "after_use_refusal": "OW10_TARGET_POLICY_AFTER_USE_REQUIRES_BACKUP_RESTORE",
+    "after_use_refused_before_first_DDL": true
+  },
   "sources": {
     "cp7_profile__apply.sql": "2b4d0a7e59476568655181907cbead35972ee48210d06ef27e21bbb4d5f42e4e",
     "cp7_baseline_native__build.sql": "53f0a164c731ae2fc7f569cd612734dca3e835c75019bd606cb51e183f2ebccc",

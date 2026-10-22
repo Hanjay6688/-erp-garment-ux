@@ -70,3 +70,14 @@ Kontrol tambahan: minimum profil20 hari atas14 hari tersedia membuat ROP belum d
 alasan minimal profil belum terpenuhi; tidak diganti0 atau salah disebut kekurangan14 hari.
 Fixture baris compute sebenarnya diuji oleh parser dan pesan klien. Cadangan DAYS eksplisit
 memerlukan angka hari (0 sah); konfigurasi lama yang null tetap dipertahankan.
+
+
+Pembaruan pemeriksaan pemasang: API Python tahap sebenarnya dan pembaca katalog22 sekarang dijalankan
+melalui transport lokal ke PostgreSQL PGlite, bukan cur tiruan. apply → admission → rollback → katalog
+before==after → apply lulus; sesudah profil baru dipakai, rollback ditolak sebelum DDL pertama. Lima
+kelompok SQL tetap lulus. Dua kegagalan pertama disimpan: SHOW tidak dikirim sebagai query berbaris di
+transport, lalu role fixture belum meniru grant baca/flag cp7_capture dari bootstrap beku. Perbaikannya
+hanya fixture/transport. **Ini bukti lokal, bukan Native/rantai penuh.**
+
+224/224 uji klien/DOM gabungan pada15 berkas terkait produksi/analisis/keuangan lulus. Native286 pada
+a753ebc2 juga sudah PASS dan dibaca per kasus, tetapi tahap statistik belum termasuk kandidat itu.

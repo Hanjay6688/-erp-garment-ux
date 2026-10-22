@@ -1,6 +1,18 @@
 {
   "classification": "LOCAL_ACTUAL_CONSUMER_AND_OFFICIAL_OVERLAY_WITH_CONTROLLED_JOB_IDENTITY_AND_A_CAPTURE_ADAPTERS_NOT_NATIVE",
   "status": "PASS",
+  "catalog": {
+    "classification": "LOCAL_REAL_INSTALLER_AND_PG_CATALOG_VIA_CONTROLLED_TRANSPORT_NOT_NATIVE",
+    "stage": "cp7_analysis_finance_bridge",
+    "status": "PASS",
+    "catalog_groups": 22,
+    "apply_rollback_reapply_exact": true,
+    "admission_passed": true,
+    "full_A_chain_qualified": false,
+    "production_go": false,
+    "after_use_refusal": "OW12B_AFTER_USE_REQUIRES_BACKUP_RESTORE",
+    "after_use_refused_before_first_DDL": true
+  },
   "consumer_sha256": "22e0cb7618883436061b0a493d49b2db24e3151262ff28db1bf2f8132e0bc777",
   "official_overlay_sha256": "05e7a1dbc37dc7f86252c73a843d65d532ca314ef19a0e37c41d199be076b9ee",
   "cases": [
@@ -62,6 +74,33 @@
         "failed_capture_has_no_figures": true,
         "second_access_check_fences_reply": true,
         "controlled_change_not_Native_race": true
+      }
+    },
+    {
+      "id": "OW12B_ACTUAL_REQUEST_STATUS_PATCH_AND_EXACT_REPLAY",
+      "status": "PASS",
+      "observed": {
+        "actual_two_patched_bodies_executed": true,
+        "capture_started_once": true,
+        "mode_and_query_replay_bound": true,
+        "source_query_has_no_finance_mode": true
+      }
+    },
+    {
+      "id": "OW12B_ACTUAL_LEGACY_NO_CAPTURE_AND_CLOSED_CHOICES",
+      "status": "PASS",
+      "observed": {
+        "legacy_status_shape_preserved": true,
+        "invalid_mode_refusals": 4
+      }
+    },
+    {
+      "id": "OW12B_REQUEST_REFUSALS_ATOMIC_AND_CURRENT_PERMISSION",
+      "status": "PASS",
+      "observed": {
+        "A_start_refusal_rolls_back_job_and_units": true,
+        "current_finance_permission_before_new_job": true,
+        "controlled_role_not_real_Auth": true
       }
     }
   ],

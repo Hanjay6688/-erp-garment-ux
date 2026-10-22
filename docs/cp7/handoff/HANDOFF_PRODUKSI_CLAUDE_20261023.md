@@ -1,130 +1,81 @@
-# Ambil hasil produksi B —23 Oktober2026 WIB
+# Ambil alih hasil produksi B —23 Oktober2026 WIB
 
-Pembagian tetap D17-16 versi2: Claude/A uang, stok, HPP, laporan dan integrator; Codex/B produksi/perencanaan.
-Cabang A `claude/d17-14-uang`, B `astra/d17-14-produksi`, integrasi hanya dipegang A. Main/frozen/Enteng tidak diubah.
-Konteks personal tetap privat. Slogan: VENI. VIDI. VICI. ERP. Reliable data adalah dewa; keuangan/stok/HPP adalah raja.
+B/Codex bekerja di `astra/d17-14-produksi`; A/Claude di `claude/d17-14-uang` dan menjadi satu-satunya
+penggabung `astra/d17-14-integrasi`, sesuai D17-16/17 versi2. Main, kandidat audit beku, Enteng,
+hosted dan WA sungguhan tidak disentuh. Konteks personal tetap privat.
 
-## Titik ambil terbaru
+**Status induk tetap5/16; CP7C/production_go belum disetujui.** Semua fitur tetap lingkup. Slogan:
+VENI. VIDI. VICI. ERP. Reliable data adalah dewa. Keuangan termasuk laporan, stok dan HPP adalah raja.
 
-Pengatur clone/Original diperbaiki padae37a28ae; Native286 pengganti dipin ke
-**a753ebc2874cf52112d34ca1208b4e155d463dbe**, run39868830130, masih berjalan.
-Pilihan statistik OW10 pada checkpoint sesudahnya belum termasuk kandidat server itu:108 uji klien/DOM
-dan5 kelompok SQL adapter lulus. A membaca KOORDINASI bagian09 dan ow10/STATISTICAL_CONTRACT.md,
-memasang tahap4 body dengan admisi/invers22; OW10 tidak ditutup.
+## Titik yang sudah dapat diperiksa A
 
+**Native286 PASS** pada `a753ebc2874cf52112d34ca1208b4e155d463dbe`, tree
+`612b5bf7edbcb86998f4d04d86ec285ce153130d`, run39868830130/job120137814829. Keenam suite
+113/16/20/38/15/84, seluruh ID dan status cocok; Native180, dua pengguna58, HTTP21, browser27.
+Enam preuse22/restore/advisor serta paket/backup/primary-unchanged lulus. Bukti lengkap disimpan
+terpisah, bukan log besar di repo. Receipt [a753ebc-native286-pass.json](../d17-14/production-stage/a753ebc-native286-pass.json).
+Ini kualifikasi penulis atas komponen/basis beku, **bukan** ujung rantai A atau audit independen.
 
-Perbaikan pembacaan desimal Native sudah di5113c133. Uji server gabungan pengganti dipin ke
-**4eaf6bce69ddcb52b89c8d24446ce5466825ac78**, run39865429494: paket pertama113/113 PASS; paket kedua0 kasus karena clone sudah dihapus runner pertama.
-Sumber beku tetap tepat. Native286 belum lulus; perbaikan berikutnya membuat clone baru sebelum paket2–6 dan menyimpan Original paket per folder.
-
-OW12b sekarang memiliki caller dan layar, belum Native atau bukti±3.600 barang. Baca
-[README OW12b](../d17-14/ow12b/README.md) dan kontraknya. A memasang `cp7_analysis_finance_bridge`
-di atas module OW12a miliknya, dengan envelope lock/global use guard/admission22/invers/pemulihan.
-Module keuangan A, report-staged, bundle/install bersama dan registry tidak diedit B.
-Pilihan STAGED eksplisit disimpan bersama UUID; angka keuangan datang dari finance_apply resmi,
-terpisah dari halaman operasional tersegel.114 uji klien/DOM dan7 kelompok SQL adapter lulus;
-angka ini tidak menutup kualifikasi Native/gabungan/kecepatan.
-
-Bukti bundle terisolasi lama (belum tahap rantai A): **3f0e545cc6d6948ac5d0f1052bb55cc971ab530a**.
-
-| Bagian | Bukti yang sudah dibaca dari Original |
+| Bagian B | Hasil dan batas terbaru |
 |---|---|
-| OW13b riwayat200+ |efe7112,20/20, run39824155178/job119982870102;501 kelompok2.561ms, batch50, batas8detik tetap; skala500 clone SYNTHETIC dari satu perjalanan Native, bukan500 perjalanan |
-| OW16 status potong otomatis |3f0e545,16/16, run39832859589/job120013305810; transaksi Native, pencabutan akses saat menunggu, dua owner, login HTTP, desktop/HP, balasan hilang UUID sama, restore/advisor |
-| OW14a ringkasan kain di gudang |245b595,99/99 kontrol WA/stock formula tetap, run39830370397/job120004613284; browser desktop/HP memeriksa angka sama dengan panel kain, tanpa penulis konfigurasi |
+| Tahap produksi18 badan | Sembilan cp7-src dasar dikembalikan tepat ke a255e48f; pin owning-chain PASS. Delta/invers/kolom terhitung di cp7_production_stage; Native286 di atas memakai tata letak ini. |
+| OW13b riwayat200+ | Native20/20 termasuk riwayat utuh; tidak memotong ke201. Batch50/batas8detik dipertahankan. Skala500 sebelumnya adalah clone sintetis satu perjalanan Native, bukan500 perjalanan. |
+| OW16 status potong | Native16/16, transaksi/API/browser desktop/HP, UUID/revokasi/restore. Kelompok bahan+pola/revisi+rentang ukuran, seluruh pabrik. Nilai produksi diisi owner lewat form; tidak ada default aktif penulis. A masih memasang modul/registry. |
+| OW14a/b kain | Native113/113 mencakup99 kontrol lama dan14 tambahan. Minimum lama referensi baca saja; satu pilihan aktif; pin enam desimal/UUID bertahan. A masih melakukan inventaris satuan/referensi dan label Master. |
+| OW10 inti | Target38/staged15/netting84 lulus pada a753. L memicu, L+R menentukan jumlah dari suplai hasil alokasi yang sama. |
+| OW10 tambahan statistik | Kode c0fcfe04:4 body di cp7_target_policy_stage;5 kelompok SQL,108 klien/DOM; tambahan pemeriksaan pemasang22 lokal lulus. Belum Native. Sumber/periode/lead serta WIP mentah per-model di pengingat tetap OPEN. |
+| OW12b | Kode f82868f: request/status analisis memakai capture resmi A, tampilan uang terpisah dari halaman tersegel;10 kelompok SQL dan pemasang22 lokal lulus. Nilai besar tepat, belum READY bukan0, UUID/akses/atomik diperiksa. Belum Native/A-chain/factory3600. |
 
-Receipt/hash dan batas ada di `docs/cp7/d17-14/{ow13b,ow16,ow14a}`. Original lengkap privat; repo berisi ringkasan,
-bukan log besar/data produksi. Semua hasil adalah kualifikasi penulis; audit independen oleh Fable/Sol masih wajib.
+224/224 uji klien/DOM gabungan pada15 berkas terkait lulus; TypeScript/CSS lulus. Build penuh tetap
+tertahan6 registry RPC milik A (3 MandorCorrection baseline,3 OW16); patch tepat di
+[SHARED_INTEGRATION.patch](../d17-14/ow16/SHARED_INTEGRATION.patch). Penjaga tidak dilemahkan.
 
-A menerapkan sambungan OW16 yang sudah diminta di `KOORDINASI.md` bagian03: muat automatic-status.sql setelah
-principal/planning/cutting-yield tersedia; catat tiga endpoint baru dengan ACL/restore persis; terapkan usulan
-`ow16/SHARED_INTEGRATION.patch` pada registry sumber. Tiga entri MandorCorrection yang hilang sudah merupakan masalah
-baseline sebelum OW16. TypeScript/CSS lulus; build penuh tetap tertahan registry tersebut sampai A memasangnya.
-Lalu jalankan pemasangan/pemulihan dan pemeriksaan gabungan pada satu commit. Angka cakupan/minimum OW16 diisi owner
-melalui form eksplisit, tanpa default aktif dari penulis. Nilai fixture bukan keputusan owner.
+## Komposisi oleh A
 
-Inti OW10 pada **b6c041157f0f5888f8d0d50081de25f7538fb594** sudah diperiksa dari Original: target38/38,
-analisis bertahap15/15, stock formula/WA99/99; exact case IDs, restore dan gerbang advisor lulus.
-Receipt di `ow10/b6c0411-pass.json`. Hasil sebelumnya tetap tercatat menurut commit masing-masing.
+B tidak mengubah bundle, pemasang, generator tipe, registry, module angka A atau report-staged.
+Kontrak/permintaan sebelum caller ada di [KOORDINASI](../d17-14/KOORDINASI.md) bagian03/06–10.
 
-Sesudah b6, B menambah pembacaan suplai pada dua horizon dari satu pembagian global yang sama: L menentukan status
-titik pesan ulang, L+R menentukan jumlah target. Kontrak privat cp7.net-input.v2, tanpa fungsi/endpoint/role/tabel
-baru. Rencana langsung/bertahap dan panelnya tersambung;129 jawaban target lama/12 jawaban netting lama identik,
-168 pembanding independen dan82 uji klien lulus. Uji SQL aktual membuktikan pool20 terbagi15+5 ke dua varian;
-suplai datang setelah L tidak menghapus pemicu meski mengurangi jumlah target. v2 juga membedakan lama0 dari unknown.
-Kegagalan pertama lokal disimpan. Pada4d881bfc20da641d2ed4a941cb97a3d125e9e65a, Original38/15/84 sudah
-diverifikasi lulus, termasuk Native suplai hari5 setelah lead3 tetapi sebelum target10 dan browser desktop/HP.
-Stock99 pada4d gagal boot akibat batas unduhan image,0 kasus; jangan memakai bukti99 b6 untuk menutupnya.
-Receipt/hash masing-masing di ow10/4d881bf-38-15-84-pass.json dan potongan boot pertama di folder yang sama.
+1. A menyelesaikan ujung rantainya. Pasang `cp7_production_stage` dengan transaksi/envelope lock/global
+   after-use guard/admission22/invers; [API dan18 delta](../d17-14/production-stage/README.md). Tiga
+   kolom/empat constraint OW14b dan manual_point18,4→20,6 termasuk metadata yang diperiksa.
+2. Pasang OW16 melalui modul B `cp7_ow16_status_install.py`; tambah6 entri registry yang sudah diminta.
+3. Di atas produksi B, pasang `cp7_target_policy_stage`:4 body saja, tanpa objek/grant baru. Kontrak
+   [STATISTICAL_CONTRACT](../d17-14/ow10/STATISTICAL_CONTRACT.md); profil yang sudah memakai mode baru
+   membuat rollback menolak sebelum DDL. Native286 belum mencakup tambahan ini.
+4. Setelah OW12a A tersedia, pasang `cp7_analysis_finance_bridge`:1schema/1reader privat dan2 body
+   request/status, tanpa rumus uang atau endpoint baru. [Kontrak/API/batas](../d17-14/ow12b/README.md).
+   Global use guard A wajib mempertimbangkan capture yang masih ada setelah job dipurge.
+5. Integrasikan frontend yang cocok, jalankan source gate, Native gabungan/pasang-pulih pada satu
+   kandidat, lalu bekukan paket bagi Fable/Sol. Bukti lokal tidak menggantikan langkah ini.
 
-OW10 belum selesai: aturan/sumber permintaan lintas jalur dan penggantian WIP mentah per-model pada pengingat dengan
-suplai relevan dari mesin yang sama masih terbuka. Jangan menyebut pengingat sudah bebas hitung ganda dari uji allocator
-saja. Lihat `ow10/README.md` dan koordinasi bagian05; angka target/status tetap bukan izin mulai produksi.
+Kontrak OW12a dibaca dari A b91a60b, sama pada16bf8e56. Pembanding periode A sudah memakai
+compare_reports_v2 atas dua laporan resmi terbit; B tidak membuat selisih uang kedua. Header status
+B menautkan id capture; header/halaman operasional tetap disegel. Ini dicatat sebagai interpretasi
+kontrak header/id untuk diperiksa penggabung.
 
-Sisa B sesudah OW10: OW11a pemilihan metode/uji mundur; OW11b kandidat produk pembanding dan konfirmasi; OW12b waktu
-analisis serta sambungan ke modul angka resmi A; OW13a otomatis saat siap, sekali per perubahan; OW13c saran potong
-dari mesin yang sama dan pemeriksaan ulang saat simpan; OW14b referensi minimum lama/satu aturan aktif.
-Sumber A untuk OW12a belum diberikan pada catatan ini; pekerjaan B lain tetap berjalan. Tidak ada fitur yang dihapus.
+## Kelanjutan B
 
-Head sesudah4d juga menyimpan **WIP OW14b**: referensi minimum lama baca saja, pilihan satu aturan per kain,
-minimum yang dipilih tetap sampai revisi berikutnya, dan sumber pengingat tidak menghidupkan minimum lama kedua.
-Enam kelompok SQL pada adapter/44 uji klien lulus. Pemulihan UUID klien sesudah remount, larangan mengganti pilihan
-saat jawaban belum jelas, dua catatan serentak, data lokal rusak, gagal menyimpan catatan dan current403 sudah
-diperiksa lokal; Native/HTTP/browser/pasang-pulih masih menunggu. WIP ini **belum siap diambil untuk integrasi**,
-tidak menyatakan butir selesai. B melanjutkannya setelah
-checkpoint; lihat ow14b/README.md dan koordinasi bagian06 untuk kontrak serta kolom pemasangan yang diperlukan A.
+OW10 belum boleh disebut bebas hitung ganda: pengingat masih menyalin WIP mentah model+ukuran ke
+beberapa varian. Ganti dengan suplai relevan, berwaktu dan dialokasikan global dari mesin yang sama;
+periode/sumber permintaan serta lead terukur vs asumsi juga belum seragam.
 
-Status induk tetap5/16 sampai paket dan syarat tiap butir benar-benar ditutup. CP7C belum dinyatakan siap dari hasil ini.
-Prioritas A tetap OW06, OW08a/OW07/OW08b/OW09/OW12a dan integrasi/auditor menurut pembagian terbaru.
+OW11a/b: aktivasi metode yang terbukti lebih baik, pembanding produk baru beserta konfirmasi.
+OW12b: Native/rantai A, angka sama dan waktu sebelum/sesudah±3.600 barang. OW13a: analisis awal
+otomatis saat minimum siap, daftar kekurangan/tombol melengkapi, tidak berulang tanpa perubahan.
+OW13c: saran potong dari mesin sama, waktu/alasan, boleh diubah, pemeriksaan ulang saat simpan.
 
-Catatan kontinuitas: folder kerja lokal sempat kehilangan metadata Git dan draft OW10. Commit terbit tetap aman;
-draft dipulihkan pada clone baru, SHA SQL inti cocok69ddf72c8212550cc4a5ef52eac2df11bcac7aef8432b897758d15cc4ab93f18,
-SQL/49 uji klien/TypeScript/CSS dijalankan lagi. Pengambilalihan memakai GitHub, bukan path lokal/sesi lama.
+Temuan untuk pekerjaan berikut: `analysis_stage.plan_targets` menyimpan supplies dari netting global
+dan tetap ada sesudah cleanup K3; tidak perlu menambal halaman tersegel atau membaca seluruh halaman
+untuk mengambil satu target. `cp7_alert_native.analysis_tick` masih bergantung konfigurasi WA dan
+analysis_unit masih berhenti pada NO_OWNER_ANALYSIS_YET. Itu belum memenuhi OW13a.
 
+## Kegagalan yang harus tetap dibaca
 
-Lanjutan OW14b: kandidat berikutnya memasang entry point Native113 dengan semua99 kontrol WA lama tetap wajib;
-kontrak di ow14b/CONTRACT.json. Uji lokal44/44, TypeScript/CSS dan6 kelompok SQL lulus. Pesan minimum lama kini
-menyebut aturan yang benar; kegagalan pertama disimpan. Native113 belum dinyatakan lulus dari uji lokal, dan OW14b
-belum dinyatakan selesai atau siap digabung. Jangan mengambil WIP ini sebagai izin memasang ke Enteng.
-
-
-Pembaruan arsitektur23 Okt WIB: A di b91a60b meminta sembilan cp7-src dasar beku dikembalikan; permintaan
-tersebut sudah ditangani pada WIP berikutnya. Semua18 perubahan badan tersimpan sebagai delta/invers di
-scripts/cp7_production_stage; tiga kolom/empat constraint OW14b menjadi upgrade tahap. Gerbang sumber rantai
-OW04 yang semula gagal sekarang lulus tepat, tanpa mengubah pin beku. A membaca
-`docs/cp7/d17-14/production-stage/README.md` untuk API state/admission/rollback dan daftar asal perubahan.
-WIP tahap belum siap digabung; A memasang delta setelah ujung rantainya, lalu modul status OW16 dan registry.
-Kualifikasi lama tetap sah sebagai bukti bundle terisolasi, bukan bukti rantai gabungan lulus.
-
-Kontrak angka A OW12a sekarang sudah ditemukan pada cabang A b91a60b:
-docs/cp7/d17-14/ow12/KONTRAK_OW12A.md (cp7.finance-capture.v1). Jadi ketergantungan kontrak sudah tersedia;
-sambungan OW12b belum dibuat dan harus di atas tahap OW12a A, bukan lewat perubahan dasar beku.
-
-
-Perbaikan sesudah Original460ada9:108/113 lulus;1 Native dan4 layar belum lulus, pemulihan/advisor lulus.
-Kegagalan pertama di ow14b/460ada9-first-native113.json, Original lengkap privat. NULL pilihan lama sempat
-menghilangkan satu tanda delegasi; sekarang kondisi pilihan eksplisit memakai Boolean pasti. Pencatat permintaan
-klien juga menolak referensi Native enam desimal sebelum RPC; Master Native memang menerima6 desimal. Validator
-klien/server dan pin privat kini mempertahankan6 angka tanpa pembulatan (manual_point18,4 →20,6; metadata ini
-masuk admisi/invers). Pesan minimum terpilih mempertahankan angkanya. Form tanpa pilihan eksplisit mempertahankan
-penjelasan Master lama ditambah keterangan referensi/aturan aktif; assertion browser lama tidak dihapus.
-Lokal8 kelompok SQL bahan/pemulihan plus5 kelompok kernel lulus; pemeriksaan server tahap baru masih menunggu.
-
-
-Pembaruan Original tahap **cebb4bb** (run39859229686/job120105301344): gerbang sumber beku dan
-apply/rollback/reapply22 kelompok lulus. Paket pertama109/113 PASS (Native61, dua pengguna34, HTTP7,
-layar7); empat layar INCOMPLETE, pemulihan/advisor lulus. Lima paket berikutnya173 kasus belum dijalankan.
-Receipt `production-stage/cebb4bb-first-native286.json`; Original lengkap terpisah, tidak dimasukkan ke Git.
-Penyimpanan sebenarnya berhasil, tetapi klien menolak `39.3200000000000000` sebelum membuang nol padding.
-Perbaikan memeriksa presisi bermakna sesudah normalisasi tanpa pembulatan; referensi CAS tetap teks asli.
-Fixture jawaban Native yang sama dipakai pada uji simpan dan muat ulang, termasuk penolakan digit nyata berlebih.
-Uji terarah56/56 lulus (termasuk17 kontrol analisis); Native286 pengganti belum diklaim.
-
-
-Original4eaf6bc sudah dibaca: Native61/61, dua pengguna34/34, HTTP7/7 dan browser11/11, total113/113;
-ID tepat, gerbang22 sebelum pakai, sumber beku, pemulihan/advisor lulus. Receipt ow14b/4eaf6bc-native113-pass.json.
-Lima paket berikutnya173 kasus belum diuji di kandidat ini. Kegagalan alat: retained package sengaja
-dropcp6_rollback pada finally; sequence belum membuat clone berikutnya. Perbaikannya memakai skrip
-clone beku milik writerca7f095, memeriksa SHA berkas, memakai alamat loopback persis dan batas5 menit.
-Original T3/package/backup tiap suite dipindah ke folder tersendiri sebelum paket berikutnya, supaya
-tidak tertimpa. Tiga uji pengatur urutan lulus; ini bukan pengganti Native. A module/install tidak diedit.
+- 460ada9:108/113, satu delegasi NULL dan empat browser. Perbaikan Boolean/presisi enam desimal serta
+  kalimat lama disimpan; oracle browser lama tidak dihapus. Receipt ow14b/460ada9-first-native113.json.
+- cebb4bb:109/113; point PostgreSQL dengan16 nol padding ditolak klien. Fixture jawaban Native yang
+  sama digunakan untuk perbaikan tanpa pembulatan.
+- 4eaf6bc:113/113 tetapi paket berikutnya0 kasus karena runner menghapus clone. e37a28ae memperbaiki
+  clone2–6 dan menyimpan Original T3 per suite; a753 membuktikannya.
+- Kegagalan awal SQL/klien/transport/fixture terbaru di folder ow10/ow12b; tidak dipadamkan dengan
+  mengubah angka, melemahkan scanner atau mengganti rumus resmi. Detail historis tetap di Git/receipt.

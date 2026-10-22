@@ -1,0 +1,10 @@
+{
+  "classification": "LOCAL_CLIENT_AND_DOM_REGRESSION_NOT_NATIVE",
+  "status": "PASS",
+  "files": 15,
+  "tests": 224,
+  "command": "vitest run NativeAnalysisPanel/staged/finance and planning/profile/reorder touched suites",
+  "log_sha256": "d23d8691dfe7ab7297b7f64e5ebb5f3bfd1be484464d2666eb2bc83c2ce28519",
+  "Native_qualification": false,
+  "production_go": false
+}

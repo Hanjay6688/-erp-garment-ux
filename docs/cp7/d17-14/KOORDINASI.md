@@ -211,3 +211,17 @@ profil yang sudah memakai kunci baru. B tidak mengubah dasar beku atau pemasang 
 OW10 masih OPEN: periode/sumber permintaan serta lead terukur/asumsi belum seragam; WIP mentah per-model
 pada pengingat masih harus diganti suplai relevan dari satu alokasi global. Tidak mengklaim itu beres dari
 uji kernel/opsi statistik. Native286 yang berjalan a753ebc2/run39868830130 tidak memuat tahap statistik ini.
+
+
+## 10 — bukti Native tahap produksi dan pemasang lokal (B,23 Okt WIB)
+
+Native286 **PASS** di a753ebc2874cf52112d34ca1208b4e155d463dbe/run39868830130/job120137814829:
+113/16/20/38/15/84, seluruh ID cocok; Native180/races58/HTTP21/browser27; setiap preuse22, restore,
+advisor dan gate paket/backup/primary lulus. Receipt production-stage/a753ebc-native286-pass.json.
+Kelalaian clone4eaf sebelumnya diperbaiki tanpa mengubah runner A; Original paket per suite terjaga.
+
+Native286 tidak memuat tahap statistik4 body atau pemasangan bridge OW12b. Keduanya kini lulus
+pemasang lokal melalui API sebenarnya dan katalog PostgreSQL22: apply/rollback tepat/reapply dan
+penolakan setelah-pakai sebelum DDL pertama. SQL statistik5 kelompok/bridge10 kelompok, klien224
+pada15 berkas lulus. Transport/ERP/identity/A.capture terkontrol bukan Native. Pemasang A/bundle,
+registry6 gap dan penggabungan integrasi tetap milik A; tidak ada klaim production_go.

@@ -1,0 +1,10 @@
+{
+  "classification": "LOCAL_CURSOR_TRANSPORT_BEFORE_FIX",
+  "status": "FAIL",
+  "Native_cases": 0,
+  "catalog_roundtrip_proven": false,
+  "error": "The local JSON cursor discarded SHOW rows before the first 22-group catalog read; fetchone returned None.",
+  "fix": "Handle SHOW as a row-producing query, exactly like SELECT; product installer/catalog code unchanged.",
+  "log_sha256": "d021ea301fb33afe5b85edd0d1c1a88603189448651422e5694d8dae5ae11813",
+  "production_go": false
+}

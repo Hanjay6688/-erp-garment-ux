@@ -39,3 +39,16 @@ Belum dibuktikan: pemasangan/invers22 pada ujung rantai A, Auth/API/browser asli
 angka identik laporan pada Native, serta waktu sebelum/sesudah pada±3.600 barang. Angka114 dan uji lokal7
 tidak menutup kekurangan itu. A menggabungkan dan menguji modul miliknya; B melanjutkan bagian produksi.
 Status induk5/16, audit independen dan CP7C tetap belum disetujui.
+
+
+Pembaruan:10/10 kelompok SQL lokal sekarang menjalankan pula kedua badan request/status hasil patch
+yang sebenarnya, dengan query/UUID tetap, legacy tanpa capture, mode tertutup, A.start hanya sekali,
+dan penolakan A.start yang membatalkan job **serta unit**. Contoh jawaban SQL request/status diuji
+oleh parser klien; bukan hanya bentuk buatan tangan. Seluruh22 kelompok katalog tepat kembali lewat
+API installer asli, lalu reapply; sesudah dipakai rollback ditolak sebelum DDL pertama.
+
+Transport lokal bukan psycopg/Native/Auth/race atau komposisi A yang sebenarnya. Modul A/source/identity
+masih adapter terkontrol; nilai laporan diuji melalui finance_apply resmi yang sama.224/224 uji gabungan
+klien/DOM pada15 berkas lulus (local-combined-regression.json). Pembanding periode memang milik A,
+sudah tersedia melalui compare_reports_v2 pada kontrak A; B tidak membuat rumus selisih kedua.
+Native286 a753ebc2 sekarang lulus tetapi tidak memasang OW12b, sehingga tidak menutup kualifikasi ini.
