@@ -34,3 +34,4 @@ Penulis B = Astra (`astra/d17-14-produksi`). Cabang gabungan `astra/d17-14-integ
 | Tanggal | Penulis | Status (bahasa sehari-hari) |
 |---|---|---|
 | 23 Okt 2026 | A | Perbaikan laporan sesudah saldo kredit pelanggan (OW-08a) sedang diuji otomatis; uji ulang OW-05 selesai dengan empat catatan tampilan |
+| 23 Okt 2026 (malam) | A | OW-08a lulus uji otomatis 6/6. OW-07 (tutup buku tertahan bila kain kantong/pool absen belum dibagi, sisa WIP PO selesai ditutup) sedang diuji. OW-06: uji login asli dan uji layar desktop/HP sedang diuji |
