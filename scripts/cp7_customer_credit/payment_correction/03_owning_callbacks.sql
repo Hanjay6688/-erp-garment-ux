@@ -43,6 +43,7 @@ end $$;
 create function cp7_credit.payment_source_enter_v1(p jsonb,p_request uuid,p_expected text)returns void
 language plpgsql volatile security definer set search_path=''set TimeZone='UTC'as $$
 declare reviewed jsonb;sale uuid:=(p->>'sale_id')::uuid;op uuid:=gen_random_uuid();accounts jsonb;before_source jsonb;
+ prior_op uuid;op_ordinal bigint;
 begin
  reviewed:=cp7_credit.payment_source_preflight_v1(p,p_request,p_expected);
  if reviewed is null then return;end if;
@@ -56,10 +57,15 @@ begin
   union select ch.credit_account_id from cp7_credit.cohorts ch where ch.source_sale_id=sale
   union select ca.coa_account_id from erp.cash_accounts ca where ca.id=(p#>>'{replacement,cash_account_id}')::uuid);
  before_source:=cp7_credit.source_native_snapshot_v1(sale);
- insert into cp7_credit.source_operation_work_v1(operation_id,operation_ordinal,backend_pid,transaction_id,actor,request_id,
+ select operation_id,operation_ordinal+1 into prior_op,op_ordinal from cp7_credit.source_operation_materializations_v1
+  where sale_id=sale order by operation_ordinal desc limit 1;
+ if prior_op is null then op_ordinal:=1;
+ elsif not exists(select 1 from cp7_credit.source_operation_completions_v1 where operation_id=prior_op)then
+  raise exception 'CP7_CREDIT_SOURCE_PREDECESSOR_NOT_COMPLETE';end if;
+ insert into cp7_credit.source_operation_work_v1(operation_id,operation_ordinal,predecessor_operation_id,backend_pid,transaction_id,actor,request_id,
   action,sale_id,source_id,expected_version,payload,payload_sha256,authority_snapshot,phase,before_source,before_ordinal_input,
   before_ordinal_result,before_financial_profile,account_facts,period_snapshot)
- values(op,1,pg_backend_pid(),txid_current(),auth.uid(),p_request,'PAYMENT_CORRECT',sale,(p->>'payment_id')::uuid,
+ values(op,op_ordinal,prior_op,pg_backend_pid(),txid_current(),auth.uid(),p_request,'PAYMENT_CORRECT',sale,(p->>'payment_id')::uuid,
   p_expected,p,cp7_credit.pg_jsonb_sha256(p),reviewed->'authority','PREPARED',before_source,reviewed->'before_input',
   reviewed->'before_result',cp7_credit.inspect_current_materialized_profile(sale,sale,sale),accounts,reviewed->'period');
  insert into cp7_credit.payment_source_context_v1(operation_id,backend_pid,transaction_id,actor,request_id,phase,projected_input,projected_result)

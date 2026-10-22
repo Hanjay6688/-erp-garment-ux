@@ -1,0 +1,128 @@
+{
+  "classification": "FROZEN_BEFORE_IMPLEMENTATION_POSITIVE_EXISTING_COHORT_LITERAL_GOLD_NOT_EXECUTED",
+  "cases": [
+    {
+      "id": "OW04_PAYMENT_POSITIVE_EXISTING_APPLY80_1000_TO900_RESTORE1000",
+      "action": "APPLY",
+      "spend_second20": false,
+      "after_restore": {
+        "source_net": "800.00",
+        "source_P": "1000.00",
+        "I": "200.00",
+        "C": "80.00",
+        "available": "120.00",
+        "source_AR": "0.00",
+        "target_P": "0.00",
+        "target_U": "80.00",
+        "target_AR": "420.00",
+        "cash": "1000.00"
+      },
+      "source_operation_actions": [
+        "PAYMENT_CORRECT",
+        "PAYMENT_CORRECT",
+        "RETURN_REVERSE"
+      ],
+      "historical_consumer_counts": [
+        1,
+        1,
+        2
+      ]
+    },
+    {
+      "id": "OW04_PAYMENT_POSITIVE_EXISTING_APPLY100_1000_TO900_RESTORE1000",
+      "action": "APPLY",
+      "spend_second20": true,
+      "after_restore": {
+        "source_net": "800.00",
+        "source_P": "1000.00",
+        "I": "200.00",
+        "C": "100.00",
+        "available": "100.00",
+        "source_AR": "0.00",
+        "target_P": "0.00",
+        "target_U": "100.00",
+        "target_AR": "400.00",
+        "cash": "1000.00"
+      },
+      "source_operation_actions": [
+        "PAYMENT_CORRECT",
+        "PAYMENT_CORRECT",
+        "RETURN_REVERSE"
+      ],
+      "historical_consumer_counts": [
+        1,
+        2,
+        4
+      ]
+    },
+    {
+      "id": "OW04_PAYMENT_POSITIVE_EXISTING_REFUND80_1000_TO900_RESTORE1000",
+      "action": "REFUND",
+      "spend_second20": false,
+      "after_restore": {
+        "source_net": "800.00",
+        "source_P": "1000.00",
+        "I": "200.00",
+        "C": "80.00",
+        "available": "120.00",
+        "source_AR": "0.00",
+        "target_P": "0.00",
+        "target_U": "0.00",
+        "target_AR": "500.00",
+        "cash": "920.00"
+      },
+      "source_operation_actions": [
+        "PAYMENT_CORRECT",
+        "PAYMENT_CORRECT",
+        "RETURN_REVERSE"
+      ],
+      "historical_consumer_counts": [
+        1,
+        1,
+        2
+      ]
+    },
+    {
+      "id": "OW04_PAYMENT_POSITIVE_EXISTING_REFUND100_1000_TO900_RESTORE1000",
+      "action": "REFUND",
+      "spend_second20": true,
+      "after_restore": {
+        "source_net": "800.00",
+        "source_P": "1000.00",
+        "I": "200.00",
+        "C": "100.00",
+        "available": "100.00",
+        "source_AR": "0.00",
+        "target_P": "0.00",
+        "target_U": "0.00",
+        "target_AR": "500.00",
+        "cash": "900.00"
+      },
+      "source_operation_actions": [
+        "PAYMENT_CORRECT",
+        "PAYMENT_CORRECT",
+        "RETURN_REVERSE"
+      ],
+      "historical_consumer_counts": [
+        1,
+        2,
+        4
+      ]
+    }
+  ],
+  "final_after_actual_named_undos_and_return_inverse": {
+    "source_net": "1000.00",
+    "source_P": "1000.00",
+    "I": "0.00",
+    "C": "0.00",
+    "available": "0.00",
+    "source_AR": "0.00",
+    "target_P": "0.00",
+    "target_U": "0.00",
+    "target_AR": "500.00",
+    "cash": "1000.00"
+  },
+  "new_cohort_policy_inferred": false,
+  "proposed_scope": "Existing immutable configured cohort only; no new zero-I cohort choice inferred",
+  "production_go": false
+}

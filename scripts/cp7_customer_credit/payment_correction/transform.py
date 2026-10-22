@@ -8,7 +8,7 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 SQL_FILES = ('01_facts.sql', '02_actual_proof.sql', '03_owning_callbacks.sql', '04_completion.sql',
-             '05_consumer_continuation.sql')
+             '05_consumer_continuation.sql', '06_replacement_admission.sql')
 CHANGED = (
  'cp7_payment_correction.apply(jsonb,uuid,text)',
  'erp.post_sales_payment(uuid)', 'erp._cp7_current_credit_adjustment(uuid)',
@@ -23,6 +23,7 @@ CHANGED = (
  'cp7_credit.assert_source_actual_v1(uuid)', 'cp7_credit.assert_source_materialization_v1(uuid)',
  'cp7_credit.source_completion_manifest_v1(uuid)', 'cp7_credit.assert_source_operation_closed_v1(uuid)',
  'cp7_credit.consumer_execute_v1(uuid)', 'cp7_credit.assert_reconciled_source_profile_v1(uuid,jsonb)',
+ 'cp7_credit.validate_source_adjustment_component_v1(uuid)',
 )
 
 
@@ -42,6 +43,21 @@ def preflight_definition():
     text = once(text, ' perform cp7_credit.consumer_source_undone_v1(sale);',
         " if exists(select 1 from cp7_credit.consumption_events where event_kind='APPLY'and target_sale_id=sale)then\n"
         "  raise exception 'CP7_CREDIT_SOURCE_INCOMING_HISTORY_ADAPTER_REQUIRED';end if;")
+    text = once(text, 'or amount<=0 or amount>=original.amount or amount*100<>trunc(amount*100)',
+        'or amount<=0 or amount=original.amount or amount*100<>trunc(amount*100)')
+    text = once(text,
+        '  or exists(select 1 from cp7_payment_correction.links where original_id=original.id or replacement_id=original.id)\n'
+        '  or exists(select 1 from cp7_credit.source_operation_materializations_v1 where sale_id=sale)\n', '')
+    text = once(text, ' before_input:=cp7_credit.initial_ordinal_input_v1(sale);',
+        " perform cp7_credit.payment_link_source_check_v1(sale);\n"
+        " perform cp7_credit.assert_current_materialized_profile(sale,sale,sale);\n"
+        " -- Existing return credit can be reconciled, but cannot fund receipts\n"
+        " -- beyond the actual original invoice gross amount.\n"
+        " if amount+coalesce((select sum(x.amount)from erp.sales_payments x where x.sale_id=sale\n"
+        "  and x.status='POSTED'and x.id<>original.id),0)>\n"
+        "  coalesce((select sum(i.line_total)from erp.sales_items i where i.sale_id=sale),0)then\n"
+        "  raise exception 'CP7_CREDIT_PAYMENT_GROSS_RECEIPT_LIMIT';end if;\n"
+        ' before_input:=cp7_credit.source_reconciliation_input_v1(sale);')
     # The original unsafe case keeps its entire actual-pending/cut/detail
     # contract. Only the successful terminal refusal becomes a typed result.
     anchor = " raise exception 'CP7_CREDIT_RESTATEMENT_FULL_CORRECTION_ADAPTER_REQUIRED';\nend $$;"
@@ -49,7 +65,7 @@ def preflight_definition():
         " if not coalesce((result->>'arithmetic_supported')::boolean,false)\n"
         "  or exists(select 1 from jsonb_array_elements(result->'families')f\n"
         "   where coalesce((f->>'needs_cohort_configuration')::boolean,false)\n"
-        "    or exists(select 1 from jsonb_array_elements(f->'reconciliation_components')x where(x->>'amount')::numeric>=0))then\n"
+        "    or exists(select 1 from jsonb_array_elements(f->'reconciliation_components')x where(x->>'amount')::numeric=0))then\n"
         "  raise exception 'CP7_CREDIT_PAYMENT_PROJECTED_ADAPTER_CLASS_UNSUPPORTED';end if;\n"
         " return jsonb_build_object('authority',authority,'graph',graph,'sources',sources,'period',period,\n"
         "  'before_input',before_input,'before_result',before_result,'proposed',proposed,'result',result);\nend $$;")
@@ -90,6 +106,8 @@ def derive(captures):
         " perform cp7_credit.payment_source_finish_v1(p_request,posted,link);\n return posted||jsonb_build_object('original_payment_id',original.id,")
 
     sig = 'erp.post_sales_payment(uuid)'
+    result[sig] = once(result[sig], 'if v_paid+v_amount>v_total then',
+        'if v_paid+v_amount>v_total and not cp7_credit.payment_replacement_admitted_v1(p_payment_id,v_total,v_paid,v_amount)then')
     anchor = "  update erp.sales_payments set status='POSTED' where id=p_payment_id;"
     result[sig] = once(result[sig], anchor, anchor+'\n  perform cp7_credit.payment_posted_reconcile_v1(p_payment_id);')
     sig = 'erp._cp7_current_credit_adjustment(uuid)'
@@ -132,6 +150,13 @@ def derive(captures):
         result[sig] = once(result[sig], 'perform cp7_credit.consumer_source_undone_v1(w.sale_id);',
             "if w.action='PAYMENT_CORRECT'then perform cp7_credit.payment_source_consumers_v1(w.operation_id);\n"
             '  else perform cp7_credit.consumer_source_undone_v1(w.sale_id);end if;')
+        result[sig] = once(result[sig], "where(a->>'amount')::numeric>=0)",
+            "where(a->>'amount')::numeric=0 or((a->>'amount')::numeric>0 and w.action<>'PAYMENT_CORRECT'))")
+    sig = 'cp7_credit.validate_source_adjustment_component_v1(uuid)'
+    result[sig] = once(result[sig], 'or p.net_amount>=0 or p.expected_component_count<=0',
+        "or(p.net_amount>=0 and p.owning_action<>'PAYMENT_CORRECT')or p.expected_component_count<=0")
+    result[sig] = once(result[sig], 'or cc.amount>=0))then',
+        "or cc.amount=0 or(cc.amount>0 and p.owning_action<>'PAYMENT_CORRECT')))then")
     sig = 'cp7_credit.consumer_source_historical_v1(uuid,uuid)'
     result[sig] = once(result[sig], 'or(e.amount>0 and not exists(',
         "or(e.amount>0 and op->>'action'<>'PAYMENT_CORRECT'and not exists(")
@@ -157,6 +182,10 @@ def derive(captures):
     result[sig] = once(result[sig], 'cp7_credit.source_inverse_proof_v1(w.before_source,actual,w.action,w.source_id)',
         'cp7_credit.source_owned_actual_proof_v1(w.operation_id,w.before_source,actual,w.action,w.source_id)')
     sig = 'cp7_credit.assert_source_materialization_v1(uuid)'
+    result[sig] = once(result[sig], 'or p.net_amount>=0 or sp.full_family_result',
+        "or(p.net_amount>=0 and m.action<>'PAYMENT_CORRECT')or sp.full_family_result")
+    result[sig] = once(result[sig], "where(x->>'amount')::numeric>=0)",
+        "where(x->>'amount')::numeric=0 or((x->>'amount')::numeric>0 and m.action<>'PAYMENT_CORRECT'))")
     result[sig] = once(result[sig], 'cp7_credit.source_inverse_proof_v1(m.before_source,m.actual_source,m.action,m.source_id)',
         'cp7_credit.source_owned_actual_proof_v1(m.operation_id,m.before_source,m.actual_source,m.action,m.source_id)')
     sig = 'cp7_credit.source_completion_manifest_v1(uuid)'
