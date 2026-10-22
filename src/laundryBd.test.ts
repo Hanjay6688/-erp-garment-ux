@@ -769,3 +769,47 @@ describe('BD audit revision contracts', () => {
     expect(mergeLaundryBdPage(first, redacted, 'invoices')).toBe(redacted)
   })
 })
+
+// OW-08b (LAU-DEC04): the shape of cp7_laundry_unknown_wash.workspace_v1 inside erp.get_laundry_bd_workspace_v1.
+const failedWash = (over: Record<string, unknown> = {}) => ({ attempt_id: '5a1f0c3e-7d55-4b0e-9a51-2f4b0d9e7a01', receipt_id: '5a1f0c3e-7d55-4b0e-9a51-2f4b0d9e7a02',
+  receipt_number: 'LFW-OW08B-1', attempt_status: 'POSTED', delivery_number: 'LD-OW08B', po_number: 'PO-OW08B', vendor_id: '5a1f0c3e-7d55-4b0e-9a51-2f4b0d9e7a03',
+  vendor_code: 'LDR-A', process_name: 'Bleach', custody_outcome: 'RETRY_AT_VENDOR', qty: 10, physical_local: '2026-10-20T11:00:00',
+  recorded_reason: 'Vendor menagih attempt, nota belum datang', recorded_by: 'Admin', recorded_local: '2026-10-20T11:05:00', price_status: 'UNKNOWN',
+  rate: null, amount: null, price_reason: null, priced_by: null, priced_local: null, ...over })
+const priced = { price_status: 'KNOWN', rate: '3.00', amount: '30.00', price_reason: 'Nota vendor datang', priced_by: 'Owner', priced_local: '2026-10-21T09:00:00' }
+describe('OW-08b failed wash with an unknown vendor price', () => {
+  it('reads a waiting attempt as unknown (never zero) and a priced one with its reason and time; an older server without the list reads as none', () => {
+    const ws = clone(); ws.failed_wash_prices = [failedWash(), failedWash({ attempt_id: '5a1f0c3e-7d55-4b0e-9a51-2f4b0d9e7a04', ...priced })]
+    const [waiting, set] = parseLaundryBdWorkspace(ws).failed_wash_prices
+    expect(waiting).toMatchObject({ price_status: 'UNKNOWN', rate: null, amount: null, price_reason: null, qty: 10 })
+    expect(set).toMatchObject({ price_status: 'KNOWN', rate: '3.00', amount: '30.00', price_reason: 'Nota vendor datang', priced_local: '2026-10-21T09:00:00' })
+    expect(parseLaundryBdWorkspace(clone()).failed_wash_prices).toEqual([])
+  })
+  it('refuses an unknown price with an amount, a set price without reason, zero as a known price and a non-zero free price', () => {
+    for (const row of [failedWash({ rate: '0.00', amount: '0.00' }), failedWash({ price_reason: 'x y z' }), failedWash({ ...priced, price_reason: null }),
+      failedWash({ ...priced, rate: '0.00', amount: '0.00' }), failedWash({ ...priced, price_status: 'FREE' }), failedWash({ custody_outcome: 'LOST' })]) {
+      const ws = clone(); ws.failed_wash_prices = [row]
+      expect(() => parseLaundryBdWorkspace(ws)).toThrow()
+    }
+    const free = clone(); free.failed_wash_prices = [failedWash({ ...priced, price_status: 'WAIVED', rate: '0.00', amount: '0.00' })]
+    expect(parseLaundryBdWorkspace(free).failed_wash_prices[0]).toMatchObject({ price_status: 'WAIVED', amount: '0.00' })
+  })
+  it('hides the price from a reader without the money permission and refuses one shown to them', () => {
+    const hidden = clone(); hidden.money_visible = false
+    hidden.invoices = null; hidden.billable_receipts = null; hidden.accounts = null
+    for (const v of hidden.vendors) v.minimum_charge = null
+    for (const c of hidden.components) if (c.current) c.current.rate = null
+    for (const r of hidden.process_rates) r.rate = null
+    for (const d of hidden.priced_deliveries) { d.total_known = null; for (const c of d.charges) { c.unit_rate = null; c.amount = null } }
+    for (const g of hidden.pending_cost.goods) g.hpp_per_pcs_so_far = null
+    for (const x of hidden.pending_cost.sales) x.unit_hpp_at_sale = null
+    hidden.failed_wash_prices = [failedWash({ ...priced, rate: null, amount: null })]
+    expect(parseLaundryBdWorkspace(hidden).failed_wash_prices[0]).toMatchObject({ price_status: 'KNOWN', rate: null, amount: null })
+    hidden.failed_wash_prices = [failedWash(priced)]
+    expect(() => parseLaundryBdWorkspace(hidden)).toThrow(/tanpa hak/)
+  })
+  it('matches the set-price answer by its request id and action', () => {
+    expect(() => validateBdResult({ action: 'SET_FAILED_WASH_PRICE', request_id: 'r', status: 'SAVED' }, 'SET_FAILED_WASH_PRICE', 'r')).not.toThrow()
+    expect(() => validateBdResult({ action: 'SET_CHARGE_PRICE', request_id: 'r' }, 'SET_FAILED_WASH_PRICE', 'r')).toThrow()
+  })
+})

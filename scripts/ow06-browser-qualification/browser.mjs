@@ -86,7 +86,11 @@ async function journey(ui,today,mobile){
   assert.deepEqual(end.transfers.map(x=>x[1]),['REVERSED','REVERSED']);assert.equal(end.contexts,0)
   const actions=requests.map(r=>r.p_payload.action)
   assert.deepEqual(actions,mobile?['CREATE','CORRECT','REVERSE']:['CREATE','CREATE','CORRECT','REVERSE'])
-  assert.deepEqual(requests.find(r=>r.p_payload.action==='CREATE').p_payload.allocations.map(a=>a.amount),['400.00','600.00'])
+  // The screen sends each receipt's typed amount, rows in the payload's canonical receipt-id order (supplierTransferPayload),
+  // so a resend of the same choice is byte-identical; Browser2 77a48da6 showed the typed order is not kept.
+  const sent=requests.find(r=>r.p_payload.action==='CREATE').p_payload.allocations
+  assert.deepEqual(Object.fromEntries(sent.map(a=>[a.purchase_id,a.amount])),{[f.receipts[0]]:'400.00',[f.receipts[1]]:'600.00'})
+  assert.deepEqual(sent.map(a=>a.purchase_id),[...f.receipts].sort((x,y)=>x.localeCompare(y)))
   const viewport=await page.evaluate(()=>({width:innerWidth,scroll:document.documentElement.scrollWidth}))
   assert.ok(viewport.scroll<=viewport.width+1,JSON.stringify(viewport));if(mobile)assert.equal(viewport.width,390)
   await page.screenshot({path:`cp6-proof/t3/CP7_OW06_TRANSFER_${suffix}.png`,fullPage:true})

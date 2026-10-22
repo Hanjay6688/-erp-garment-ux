@@ -1,0 +1,18 @@
+{
+ "run": 39834283522,
+ "attempt": 1,
+ "job": 120018347724,
+ "head": "1f9fd987",
+ "label": "CP7_OW08B_KASBON_SOURCE_NATIVE4",
+ "status": "INCOMPLETE",
+ "cases": {
+  "OW08B_KASBON_GIVE_JOURNAL_OPENS_KASBON": "PASS",
+  "OW08B_KASBON_CANCEL_INVERSE_OPENS_SAME_KASBON": "PASS",
+  "OW08B_KASBON_SOURCE_RIGHTS_AND_UNKNOWN_REFUSED": "PASS",
+  "OW08B_OTHER_SOURCE_FAMILIES_UNCHANGED": "INCOMPLETE: cases.py:126 assert len(checked)>=10 with {'PAYROLL_ATTENDANCE_ACCRUAL': 'AVAILABLE', 'WORK_COMPLETION': 'UNSUPPORTED_SOURCE'}"
+ },
+ "cp6_restored": true,
+ "advisor_gate": true,
+ "cause": "Test design, not product: the case compared only the journal families already in the database, and the bare fixture holds two. Both matched the original OW06 reader (the per-family assertion at line 124 passed); the count of ten was never reachable.",
+ "fix": "The case first writes a finished PO chain (sewing, laundry, QC, finished goods, PO finish), an approved payroll and a kasbon through their own writers, then compares a real document of every journal family present and an unknown id of every family the original reader dispatches on (54 at the OW06 source), against the original reader. It asserts the chain's own families were compared on real documents; no count is assumed."
+}

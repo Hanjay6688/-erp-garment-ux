@@ -121,7 +121,8 @@ def cases(cur,today):
         assert c.po_state(cur,po)['status']=='FINISHED'
         w=n.workspace(cur,po);old=original(cur,lambda:n.workspace(cur,po))
         kinds=[x['kind']for x in w['blockers']]
-        assert {'PO_STATE','QC','FG_LOT','LAUNDRY','SEWING','WORK','WORK_JOURNAL'}<=set(kinds),kinds
+        # The finished chain's own blockers (Native6 3093e2d3 showed them; WORK_JOURNAL is covered by the every-kind case).
+        assert {'PO_STATE','QC','FG_LOT','LAUNDRY','SEWING','WORK','GROUP_STATE','WIP_HISTORY'}<=set(kinds),kinds
         assert [strip(x)for x in w['blockers']]==[strip(x)for x in old['blockers']]
         assert set(w)==set(old)|{'after_steps','history'}and w['history']==[]
         assert all(w[k]==old[k]for k in old if k not in('blockers','review_token','after_step'))
@@ -202,7 +203,9 @@ def cases(cur,today):
     def command_unchanged():
         g=n.fixture(cur,today);w=n.workspace(cur,g['po'])
         old=original(cur,lambda:n.workspace(cur,g['po']))
-        assert w['review_token']!=old['review_token']  # the token covers the guidance the operator reviewed
+        # The token is over the facts the operator decides on, not the wording of the guidance: same facts, same token,
+        # so a reviewed workspace from before the guidance stage still corrects exactly as before.
+        assert w['review_token']==old['review_token']
         key=str(uuid.uuid4());_,r=n.correct(cur,g,key)
         assert set(r)=={'contract_version','po_id','po_number','old_contractor_id','contractor_id','request_id','status',
             'replacements','sewing_repost_required','wage_history_reassigned'},r

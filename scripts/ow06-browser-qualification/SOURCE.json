@@ -6,7 +6,7 @@
  ],
  "files": {
   "scripts/ow06-browser-qualification/fixture.py": "f32198b1bfc191fa84ed808fd365a1b71bd458f7db020043969d86cd9b1802cb",
-  "scripts/ow06-browser-qualification/browser.mjs": "8c3ed0dfdc8fd733d6df7b02e7d02ecd614db441fde79793c550bcb1b4de1a8d",
+  "scripts/ow06-browser-qualification/browser.mjs": "46fc483caf8d8a124a17d61f75fbaa2f8da9f05d93becc30d14d00f179b5c3f2",
   "scripts/ow06-browser-qualification/probe.py": "289b8ccaaf6bac70b3dad68a3cd34ec9eaef650ee5d44023059759b7b7b134da",
   "scripts/ow04-payment-current-qualification/copy_authority.py": "cfdc3b899e335dd13a9456242ed5158b718ac5c56d9b1ebf06c4571eda2cc7a2",
   ".github/workflows/cp7-ow06-browser.yml": "8ec473c6c5507f39fbf760229660ea6c2f4ac27f2e0dcf09e8155bc3b44992fb",

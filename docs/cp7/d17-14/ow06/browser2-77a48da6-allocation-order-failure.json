@@ -1,0 +1,17 @@
+{
+ "run": 39835578930,
+ "attempt": 1,
+ "job": 120022895317,
+ "head": "77a48da6",
+ "label": "CP7_OW06_REAL_BROWSER2",
+ "status": "INCOMPLETE",
+ "earlier_attempt": {"run": 39829886025, "head": "8ed40e88", "cause": "stale source pin on src/transactionSource.ts; pins refreshed in d65c3ef3"},
+ "infra_attempt": {"run": 39831356518, "head": "eda58db5", "step": "Start disposable database"},
+ "cases": {
+  "OW06_DESKTOP_TRANSFER_TWO_RECEIPTS_LOST_REPLY_CORRECT_REVERSE": "INCOMPLETE: browser.mjs:89 allocations amounts expected ['400.00','600.00'], sent ['600.00','400.00']",
+  "OW06_MOBILE390_TRANSFER_TWO_RECEIPTS_CORRECT_REVERSE": "INCOMPLETE: browser.mjs:89 same assertion"
+ },
+ "passed_before_the_failing_line": "bank -1000 after create, paid per receipt 400/600, lost reply recovered with the same request (desktop), correction 250/500 and bank -750, whole reverse to 0, statuses REVERSED/REVERSED, action sequence; console_errors 0",
+ "cause": "Wrong expectation in the journey, not product: supplierTransferPayload deliberately sends allocations sorted by receipt id so a resend of the same choice is byte-identical; the journey assumed the typed order. Every money figure was right per receipt.",
+ "fix": "The journey checks the amount sent for each receipt id (400.00 and 600.00 to the receipts they were typed for) and that rows are in the canonical receipt-id order. No product line changed."
+}

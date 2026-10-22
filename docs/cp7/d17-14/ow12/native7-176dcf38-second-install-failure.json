@@ -1,0 +1,15 @@
+{
+ "run": 39845868506,
+ "attempt": 1,
+ "job": 120058847088,
+ "head": "176dcf38",
+ "label": "CP7_OW12A_FINANCE_CAPTURE_NATIVE7",
+ "status": "INCOMPLETE",
+ "observed_case_count": 0,
+ "error": "must be able to SET ROLE \"cp7_capture\"",
+ "traceback_tail": "composition.py line 91 in install: cur.execute(text) -> psycopg.errors.InsufficientPrivilege",
+ "predecessor_definitions_on_install_failure": "present, 5 bodies (report_run_unit, report_step, report_status, report_summary_text, run_next)",
+ "package_gate": {"installed": true, "primary_unchanged": true, "backup_restore_drill": true, "security_advisors": true, "writer_runtime": false},
+ "cause": "Installer, not product: the first fix (176dcf38) ran the stage SQL as postgres, as E25j asks, but the harness creates cp7_capture and cp7_finance_read as supabase_admin, so postgres is not a member of them and 'create schema ... authorization cp7_capture' is refused. A CP7C install as postgres with createrole_self_grant='set, inherit' would make postgres a member. No case ran.",
+ "fix": "composition.handover: where postgres lacks SET and INHERIT membership of exactly these two roles, the session superuser grants it for the install (and pre-use removal) transaction and revokes it before the catalog is read again; the DDL still runs as postgres and the role owners, and the 22-group catalog (role memberships included) must equal the admitted delta. Checked on local PostgreSQL 16: without the grant the hand-over is refused with the same message; with it the schema, table and function hand-over and a replace as the owner succeed; after the revoke no membership row remains."
+}

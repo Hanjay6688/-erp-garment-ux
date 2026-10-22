@@ -109,6 +109,12 @@ describe('connected accessory issue',()=>{
     expect(container.querySelector('[aria-label="Form nota aksesori"] h2')?.textContent).toContain('ACC-10')
     expect(client.rpc.mock.calls).toHaveLength(calls);expect(writes()).toHaveLength(0)
   })
+  it('keeps its honest page-only wording: the Native reader shows the newest 50 notes and cannot filter or order them all (OW-09 not converted)',async()=>{
+    server();await mount()
+    const tools=container.querySelector('[aria-label="Cari, browse, urutkan dan filter nota aksesori"]')!
+    expect(tools.textContent).toContain('Urutkan halaman ini');expect(tools.textContent).toContain('Filter dan urutan hanya mengatur halaman yang sedang tampil.');expect(tools.textContent).not.toContain('seluruh hasil')
+    expect(container.querySelector('[aria-label="Urutkan halaman nota aksesori"]')).not.toBeNull();expect(container.textContent).toContain('filter status hanya berlaku pada daftar yang tampil')
+  })
   it('browses through the unchanged capped Native history reader and keeps unsent form edits',async()=>{
     server();await mount();await prepare();await change('Cari nota aksesori','ACC lama');await change('Status halaman nota aksesori','POSTED');await change('Urutkan halaman nota aksesori','LABEL_DESC')
     await click('Browse semua')

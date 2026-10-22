@@ -410,7 +410,32 @@ function UnknownPrices({ data, locked, send }: { data: LaundryBdWorkspace; locke
           {(resolution[c.id] ?? 'KNOWN') === 'KNOWN' && <input aria-label={`Harga per PCS ${c.label}`} value={rate[c.id] ?? ''} disabled={locked} onChange={e => setRate(x => ({ ...x, [c.id]: e.target.value }))}/>}
           <button type="button" disabled={locked || ((resolution[c.id] ?? 'KNOWN') === 'KNOWN' && !moneyInput(rate[c.id] ?? '')) || !reason.trim()} onClick={() => send('SET_CHARGE_PRICE', { charge_line_id: c.id,
             rate_status: resolution[c.id] ?? 'KNOWN', rate_per_pcs: (resolution[c.id] ?? 'KNOWN') === 'KNOWN' ? normalizeMoney(rate[c.id]) : '0.00', reason: reason.trim() })}>Isi harga {c.label}</button></>}</td></tr>))}</tbody></table>}
+    <FailedWashPrices data={data} locked={locked} send={send}/>
     <PendingCost data={data}/>
+  </section>
+}
+
+// OW-08b (LAU-DEC04): a paid failed wash recorded while the vendor price was unknown waits here. Its cost is not zero but not yet
+// counted, its PO's HPP is not final and the close through its date is held until the owner/admin sets the price, once.
+function FailedWashPrices({ data, locked, send }: { data: LaundryBdWorkspace; locked: boolean; send: Send }) {
+  const [rate, setRate] = useState<Record<string, string>>({}), [resolution, setResolution] = useState<Record<string, string>>({}), [reason, setReason] = useState('')
+  const rows = data.failed_wash_prices, waits = (x: typeof rows[number]) => x.attempt_status === 'POSTED' && x.price_status === 'UNKNOWN'
+  const dec02 = data.policies.find(p => p.key === 'LAU-DEC02')?.value?.billable
+  return <section aria-label="Cuci gagal harga belum diketahui">
+    <h4>Cuci gagal berbayar dengan harga vendor belum diketahui</h4>
+    <p>Biaya cuci gagal ini belum dihitung, bukan nol. HPP PO-nya belum final dan tutup buku sampai tanggal kejadian tertahan sampai harganya diisi. Harga diisi sekali saja oleh owner/admin; pilih Gratis atau Tidak ditagih (nol) bila vendor memang tidak menagih.</p>
+    {Array.isArray(dec02) && !dec02.includes('FAILED_ATTEMPT') && rows.some(waits) && <p role="status">Kebijakan LAU-DEC02 saat ini tidak menagihkan cuci gagal ke invoice vendor; harganya tetap perlu diisi agar biaya dan HPP lengkap.</p>}
+    {rows.some(waits) && (data.can_set_price ? <Reason value={reason} set={setReason} locked={locked} label="Alasan harga cuci gagal"/> : <p>Harga cuci gagal hanya dapat diisi owner/admin yang berhak mengelola HPP.</p>)}
+    {rows.length === 0 ? <p>Tidak ada cuci gagal dengan harga vendor belum diketahui.</p> : <table aria-label="Daftar cuci gagal harga belum diketahui"><thead><tr><th>Cuci gagal</th><th>Kiriman · PO</th><th>Proses</th><th>PCS</th><th>Harga</th><th>Isi harga</th></tr></thead>
+      <tbody>{rows.map(x => { const status = resolution[x.attempt_id] ?? 'KNOWN', typed = rate[x.attempt_id] ?? ''
+        return <tr key={x.attempt_id}><td>{x.receipt_number} · {x.physical_local.replace('T', ' ')}{x.attempt_status === 'POSTED' ? '' : ' · dibatalkan'}</td><td>{x.vendor_code} · {x.delivery_number} · {x.po_number}</td><td>{x.process_name ?? '—'}</td><td>{x.qty}</td>
+          <td>{x.price_status === 'UNKNOWN' ? (waits(x) ? 'Belum diketahui · biaya belum dihitung · HPP belum final' : 'Tidak diisi; cuci gagal sudah dibatalkan tanpa biaya')
+            : `${BD_RATE_LABEL[x.price_status]} · ${rupiah(x.rate)}/PCS · biaya ${rupiah(x.amount)} · ${x.price_reason} · ${x.priced_by ?? '—'} · ${x.priced_local?.replace('T', ' ')}`}</td>
+          <td>{waits(x) && data.can_set_price && <><select aria-label={`Status harga cuci gagal ${x.receipt_number}`} disabled={locked} value={status} onChange={e => setResolution(v => ({ ...v, [x.attempt_id]: e.target.value }))}>
+            {BD_RATE_STATUSES.filter(s => s !== 'UNKNOWN').map(s => <option key={s} value={s}>{BD_RATE_LABEL[s]}</option>)}</select>
+            {status === 'KNOWN' && <input aria-label={`Harga per PCS cuci gagal ${x.receipt_number}`} value={typed} disabled={locked} onChange={e => setRate(v => ({ ...v, [x.attempt_id]: e.target.value }))}/>}
+            <button type="button" disabled={locked || reason.trim().length < 4 || (status === 'KNOWN' && (!moneyInput(typed) || Number(normalizeMoney(typed)) <= 0))} onClick={() => send('SET_FAILED_WASH_PRICE', {
+              failed_wash_attempt_id: x.attempt_id, rate_status: status, rate_per_pcs: status === 'KNOWN' ? normalizeMoney(typed) : '0.00', reason: reason.trim() })}>Isi harga cuci gagal {x.receipt_number}</button></>}</td></tr> })}</tbody></table>}
   </section>
 }
 
