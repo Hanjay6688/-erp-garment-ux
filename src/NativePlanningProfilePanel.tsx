@@ -5,7 +5,7 @@ import {normalizeClientError} from './lib/clientError'
 import {formatReceiptDecimal as numberText} from './procurementContract'
 import {formatCp6WibDateTime} from './cp6BusinessTime'
 import {readNativeDemandRequest,persistNativeDemandRequest,clearNativeDemandRequest,nativeDemandRequestKey,type NativeDemandRow,type NativeDemandQuery} from './nativeDemandHistory'
-import {parsePlanningProfile,planningPayload,checkPlanningOutcome,parseNativeBaseline,readPlanningRequest,persistPlanningRequest,clearPlanningRequest,planningRequestKey,type PlanningProfile,type PlanningRequest,type PlanningConfig,type NativeBaseline} from './nativePlanningProfile'
+import {parsePlanningProfile,planningPayload,checkPlanningOutcome,parseNativeBaseline,readPlanningRequest,persistPlanningRequest,clearPlanningRequest,planningRequestKey,type PlanningProfile,type PlanningRequest,type PlanningConfig,type NativeBaseline,type BaselineRow} from './nativePlanningProfile'
 import './native-planning-profile.css'
 type Props={product:NativeDemandRow;query:NativeDemandQuery;onSourceReadStart:()=>void;onSourceReadEnd:()=>void;onClose:()=>void}
 const permissions=['master.product.view','production.wip.view','warehouse.stock.view','sales.invoice.view']
@@ -67,6 +67,21 @@ function Workspace({product,query,onSourceReadStart,onSourceReadEnd,onClose}:Pro
   {recovery.pending?<div role="status"><p>Hasil simpan belum dipastikan. Periksa permintaan yang sama sebelum menyimpan lagi.</p><button disabled={busy||!canSave} onClick={()=>void save(true)}>Ulangi simpan aturan yang sama</button></div>:null}
   {baselineRecovery.pending?<div role="status"><p>Permintaan target belum dipastikan.</p><button disabled={busy} onClick={()=>void calculate(true)}>Ulangi permintaan target yang sama</button></div>:null}
   <button disabled={busy||pending||Boolean(message)} onClick={()=>void calculate()}>Hitung target dari ERP</button>
-  {baseline&&r?<article className="native-planning-result"><p className={baseline.state==='UNCHANGED'?'native-demand-current':'native-demand-stale'}>{baseline.state==='UNCHANGED'?'Sumber sesuai saat diperiksa.':'Arsip lama: sumber ERP atau aturan sudah berubah. Hitung target baru.'} Diambil {formatCp6WibDateTime(baseline.capturedAt)}.</p><dl><div><dt>Target stok dari asumsi</dt><dd>{r.target===null?'Belum diketahui':numberText(r.target)+' PCS'}</dd></div><div><dt>Tersedia saat diambil</dt><dd>{numberText(r.available)} PCS</dd></div><div><dt>Permintaan per hari</dt><dd>{r.daily===null?'Belum diketahui':numberText(r.daily)+' PCS'}</dd></div><div><dt>Produksi baru</dt><dd>{r.startNew==='0'?'0 PCS · produksi dihentikan/jeda':'Belum dihitung'}</dd></div></dl><p>{r.meanBasis==='SELECTED_MANUAL_ASSUMPTION'?'Permintaan memakai angka pilihan yang diperiksa.':r.meanBasis==='UNKNOWN'?'Bukti riwayat permintaan belum cukup.':'Permintaan memakai riwayat saat stok tersedia.'} Aturan versi {r.profileRevision}.</p><p>Jumlah yang masih perlu diproduksi belum diketahui. Stok dalam proses, waktu tiba, jadwal dan kapasitas perlu sumber yang lengkap.</p><button disabled={busy} onClick={()=>void check()}>Periksa sumber target</button></article>:null}
+  {baseline&&r?<article className="native-planning-result"><p className={baseline.state==='UNCHANGED'?'native-demand-current':'native-demand-stale'}>{baseline.state==='UNCHANGED'?'Sumber sesuai saat diperiksa.':'Arsip lama: sumber ERP atau aturan sudah berubah. Hitung target baru.'} Diambil {formatCp6WibDateTime(baseline.capturedAt)}.</p><dl><div><dt>Target stok dari asumsi</dt><dd>{r.target===null?'Belum diketahui':numberText(r.target)+' PCS'}</dd></div><div><dt>Tersedia saat diambil</dt><dd>{numberText(r.available)} PCS</dd></div><div><dt>Permintaan per hari</dt><dd>{r.daily===null?'Belum diketahui':numberText(r.daily)+' PCS'}</dd></div><div><dt>Produksi baru</dt><dd>{r.startNew==='0'?'0 PCS · produksi dihentikan/jeda':'Belum dihitung'}</dd></div></dl><TargetBreakdown row={r}/><p>{r.meanBasis==='SELECTED_MANUAL_ASSUMPTION'?'Permintaan memakai angka pilihan yang diperiksa.':r.meanBasis==='UNKNOWN'?'Bukti riwayat permintaan belum cukup.':'Permintaan memakai riwayat saat stok tersedia.'} Aturan versi {r.profileRevision}.</p><p>Jumlah yang masih perlu diproduksi belum diketahui. Stok dalam proses, waktu tiba, jadwal dan kapasitas perlu sumber yang lengkap.</p><button disabled={busy} onClick={()=>void check()}>Periksa sumber target</button></article>:null}
  </section>
+}
+
+function TargetBreakdown({row:r}:{row:BaselineRow}){
+ if(r.reorderPoint===null)return null
+ const qty=(value:string|null)=>value===null?'Belum diketahui':numberText(value)+' PCS'
+ return <details className="native-target-breakdown"><summary>Rincian ambang dan jumlah target</summary>
+  <dl>
+   <div><dt>Ambang kebutuhan selama waktu produksi</dt><dd>{qty(r.reorderPoint)}</dd></div>
+   <div><dt>Target sampai pemeriksaan berikutnya</dt><dd>{qty(r.target)}</dd></div>
+   <div><dt>Kebutuhan selama waktu produksi</dt><dd>{qty(r.leadDemand)}</dd></div>
+   <div><dt>Kebutuhan selama jarak pemeriksaan</dt><dd>{qty(r.reviewDemand)}</dd></div>
+   <div><dt>Cadangan yang sudah masuk target</dt><dd>{qty(r.safety)}</dd></div>
+  </dl>
+  <p>Cadangan dihitung satu kali. Ambang dan target berbeda: kapan perlu mulai produksi diperiksa bersama stok, pesanan dan proses yang datang tepat waktu; jumlah yang perlu dibuat dihitung setelah sumber itu dialokasikan.</p>
+ </details>
 }

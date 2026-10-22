@@ -5,7 +5,7 @@ import{beforeEach,afterEach,it,expect,vi,type Mock}from'vitest'
 import NativePlanningProfilePanel from'./NativePlanningProfilePanel'
 import{recoveryIdentity}from'../tests/fixtures/productionRecovery'
 import{demandRoot,demandSize,demandRequest}from'../tests/fixtures/nativeDemandHistory'
-import{profileWire,baselineWire,planningConfig,planningQuery,planningId}from'../tests/fixtures/nativePlanningProfile'
+import{profileWire,baselineWire,unifiedBaselineWire,planningConfig,planningQuery,planningId}from'../tests/fixtures/nativePlanningProfile'
 import{persistPlanningRequest,planningPayload,parsePlanningProfile,readPlanningRequest}from'./nativePlanningProfile'
 const state=vi.hoisted(()=>({auth:null as unknown}))
 const client=vi.hoisted(()=>({rpc:vi.fn()}))
@@ -16,6 +16,17 @@ beforeEach(()=>{Object.assign(globalThis,{IS_REACT_ACT_ENVIRONMENT:true});client
 afterEach(async()=>{await act(async()=>root.unmount());container.remove();localStorage.clear();vi.restoreAllMocks()})
 async function render(query=planningQuery){await act(async()=>root.render(<NativePlanningProfilePanel product={product} query={query} onSourceReadStart={start} onSourceReadEnd={end} onClose={close}/>))}
 async function click(label:string){const b=[...container.querySelectorAll('button')].find(b=>b.textContent===label)!;await act(async()=>b.click())}
+it('shows separate authoritative trigger, horizon demand and one buffer without treating target as permission to start production',async()=>{
+ client.rpc.mockImplementation(async(name:string,args:{p_request:string})=>({data:name==='erp_cp7_get_planning_profiles_v1'?profileWire(true):unifiedBaselineWire(args.p_request),error:null}))
+ await render();await click('Hitung target dari ERP')
+ const detail=container.querySelector('.native-target-breakdown')!
+ expect(detail.textContent).toContain('Ambang kebutuhan selama waktu produksi30 PCS')
+ expect(detail.textContent).toContain('Target sampai pemeriksaan berikutnya100 PCS')
+ expect(detail.textContent).toContain('Kebutuhan selama jarak pemeriksaan70 PCS')
+ expect(detail.textContent).toContain('Cadangan yang sudah masuk target0 PCS')
+ expect(detail.textContent).toContain('Cadangan dihitung satu kali')
+ expect(container.textContent).toContain('Jumlah yang masih perlu diproduksi belum diketahui')
+})
 async function fill(label:string,value:string){const e=container.querySelector<HTMLInputElement|HTMLTextAreaElement|HTMLSelectElement>(`[aria-label="${label}"]`)??([...container.querySelectorAll('label')].find(x=>x.textContent?.startsWith(label))?.querySelector('select')as HTMLSelectElement);await act(async()=>{const prototype=e instanceof HTMLSelectElement?HTMLSelectElement.prototype:e instanceof HTMLTextAreaElement?HTMLTextAreaElement.prototype:HTMLInputElement.prototype;Object.getOwnPropertyDescriptor(prototype,'value')!.set!.call(e,value);e.dispatchEvent(new Event(e instanceof HTMLSelectElement?'change':'input',{bubbles:true}))})}
 function outcome(request:string){return{contract_version:'cp7.planning-profile-outcome.v1',request_id:request,root_id:demandRoot,profile_id:planningId,revision:'1',quality:'SELECTED_ASSUMPTION'}}
 const scope='cp6-disposable:actor-1:'+demandRoot

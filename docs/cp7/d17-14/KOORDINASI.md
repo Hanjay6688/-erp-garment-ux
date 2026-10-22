@@ -84,3 +84,27 @@ Permintaan untuk A selaku integrator:
 Permintaan ini tidak menghalangi B menguji tahap OW16 secara terpisah dan mengerjakan bagian produksi/perencanaan lain.
 Tidak ada keputusan owner baru tentang angka cakupan/minimum atau umur koreksi. Default fitur tidak diaktifkan lewat
 fallback atau angka fixture. Butir selesai keseluruhan tetap5/16 sampai kebutuhan dan alurnya benar-benar terbukti.
+
+## B/20261023-04 — hasil kualifikasi dan kontrak target privat
+
+OW13b20/20 pada efe71123407312f562ef91068f60b11ef4243f76/run39824155178/job119982870102.
+OW16 sekarang16/16 pada3f0e545/run39832859589/job120013305810: Native10, dua pengguna2, HTTP2, browser2;
+restore/advisor lulus. Kegagalan boot sebelumnya0 kasus tetap disimpan. Sumber SQL45cf0b428fbe6b85d7e18367492ef188e7ac49d06f120e39156b66e9cf758d4f.
+Sambungan pemasang/registry A pada bagian03 masih diperlukan; owner belum mengisi nilai produksi melalui form.
+
+OW14a pada245b595/run39830370397/job120004613284 lulus99/99: Native55, dua pengguna30, HTTP5, browser9,
+restore/advisor lulus. Desktop/HP memeriksa sumber/angka kain sama di Ringkasan Gudang, tanpa tombol konfigurasi.
+Ini tidak menutup OW14b atau mengaktifkan pengiriman WA nyata. Receipt/hash Original di folder masing-masing.
+
+Kontrak privat OW10 dicatat sebelum kualifikasi server: helper yang sama `cp7_baseline.target(jsonb)`, input
+`cp7.target-input.v2`: contract_version/snapshot_id/scope_id/mode/daily_total_pcs/counted_days/daily_sd/lead_days/
+review_days/buffer_days/service_level/refs. DAYS meminta daily_sd/service_level=null; STATISTICAL meminta buffer_days=null.
+Output reorder_point_pcs/target_pcs dan rincian demand/cadangan. Kontrak v1/arsip tetap dibaca; endpoint publik,
+UUID/periksa hak/lock penulis tidak berubah. Semua angka tetap string tepat, unknown bukan0 dan tidak ada dua cadangan.
+Pemanggil: planning/baseline-source.sql, planning/analysis-stages.sql, stock-formula/formula.sql. Target memakai rasio
+utuh; hash baseline dan planning/supply-source.sql diberi stempel target-unified-2. Tidak ada fungsi/role/table/grant baru;
+kernel tetap22, tidak perlu penambahan daftar sumber bundle. Panel target membaca v1/v2. B tidak mengubah pemasang A.
+
+OW10 belum selesai: konsistensi aturan permintaan, kapan mulai dengan suplai tepat waktu, alokasi WIP/rencana ke varian
+masih terbuka.162 pembanding independen/129 jawaban lama/49 uji klien lokal lulus; Native38/analisis bertahap15 dan
+stock formula99 pada commit baru belum boleh diasumsikan lulus. Modul angka/laporan A, uang/HPP dan Enteng tidak diubah.

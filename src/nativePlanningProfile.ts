@@ -4,7 +4,7 @@ export type PlanningProfile={rootId:string;productVersionId:string;sizeId:string
 export type PlanningPayload={root_id:string;product_version_id:string;expected_revision:string;config:PlanningConfig;reason:string}
 export type PlanningRequest={id:string;payload:PlanningPayload}
 export type NativeBaseline={runId:string;requestId:string;capturedAt:string;sourceHash:string;state:'UNCHANGED'|'ARCHIVED_STALE';query:NativeDemandQuery;rows:BaselineRow[]}
-export type BaselineRow={rootId:string;sizeId:string;sku:string;productName:string;available:string;daily:string|null;meanBasis:string;target:string|null;horizon:string|null;productionState:'ACTIVE'|'PAUSED'|'STOPPED'|null;startNew:'0'|null;profileRevision:string;profileId:string|null}
+export type BaselineRow={rootId:string;sizeId:string;sku:string;productName:string;available:string;daily:string|null;meanBasis:string;target:string|null;horizon:string|null;reorderPoint:string|null;leadDemand:string|null;reviewDemand:string|null;safety:string|null;productionState:'ACTIVE'|'PAUSED'|'STOPPED'|null;startNew:'0'|null;profileRevision:string;profileId:string|null}
 const fail=():never=>{throw Error('Aturan atau hasil target dari server berubah atau belum lengkap. Muat ulang sumber.')}
 const obj=(v:unknown):Record<string,unknown>=>v&&typeof v==='object'&&!Array.isArray(v)?v as Record<string,unknown>:fail()
 const str=(v:unknown)=>typeof v==='string'&&v.length>0?v:fail()
@@ -56,20 +56,37 @@ export function parseNativeBaseline(raw:unknown,q:NativeDemandQuery):NativeBasel
   if(seen.has(key)||p.rootId!==native.rootId||p.sizeId!==native.sizeId||r.size_id!==native.sizeId||r.available_fg_pcs!==native.available||r.sku!==native.sku||r.product_name!==native.productName)fail();seen.add(key)
   if(r.final_gap_pcs!==null||['supply_state','capacity_state','timeline_state'].some(k=>r[k]!=='UNKNOWN'))fail()
   for(const inputs of[ei,ti])if(inputs.snapshot_id!==hash||inputs.scope_id!==v.scope)fail()
-  if(ei.target_key!==key||ei.size_id!==native.sizeId||ti.mode!=='DAYS'||ti.quantile!==null||!Array.isArray(ti.horizon_samples)||ti.horizon_samples.length!==0)fail()
+  const unified=ti.contract_version==='cp7.target-input.v2'
+  if(ei.target_key!==key||ei.size_id!==native.sizeId||ti.mode!=='DAYS')fail()
+  if(unified){
+   exact(ti,['contract_version','snapshot_id','scope_id','mode','daily_total_pcs','counted_days','daily_sd','lead_days','review_days','buffer_days','service_level','refs'])
+   if(ti.daily_sd!==null||ti.service_level!==null)fail()
+  }else if(ti.contract_version!=='cp7.target-input.v1'||ti.quantile!==null||!Array.isArray(ti.horizon_samples)||ti.horizon_samples.length!==0)fail()
   const daily=nullable(estimate.daily_pcs,decimal);if(estimate.status==='UNKNOWN'?daily!==null:estimate.status!=='SCENARIO'||daily===null)fail()
-  if(ti.daily_mean!==daily)fail()
+  if(unified){
+   const own=estimate.basis==='OWN_AVAILABLE_HISTORY_ASSUMED_REPRESENTATIVE'?obj(ei.own):null
+   if(ti.daily_total_pcs!==(own?own.available_total_pcs:daily)||ti.counted_days!==(own?own.available_days:'1'))fail()
+   nullable(ti.daily_total_pcs,decimal);integer(ti.counted_days)
+  }else if(ti.daily_mean!==daily)fail()
   if(p.quality==='SELECTED_ASSUMPTION'){
    const c=p.config!;if(ti.lead_days!==c.lead_days||ti.review_days!==c.review_days||ti.buffer_days!==c.buffer_days)fail()
    if(c.mean_mode==='SELECTED_MANUAL'&&(daily!==c.daily_pcs||estimate.basis!=='SELECTED_MANUAL_ASSUMPTION'))fail()
    if(!Array.isArray(r.refs)||!r.refs.some(x=>{const ref=obj(x);return ref.kind==='PLANNING_PROFILE'&&ref.id===p.profileId&&ref.revision===p.revision}))fail()
   }else if(daily!==null||['lead_days','review_days','buffer_days'].some(k=>ti[k]!==null))fail()
-  let targetPcs:string|null=null,horizon:string|null=null
-  if(target.status==='SCENARIO'){if(target.kernel_version!=='target-days-1'||daily===null)fail();targetPcs=targetQuantity(target.target_pcs);horizon=decimal(target.horizon_days)}else if(target.status!=='UNKNOWN')fail()
+  let targetPcs:string|null=null,horizon:string|null=null,reorderPoint:string|null=null,leadDemand:string|null=null,reviewDemand:string|null=null,safety:string|null=null
+  if(target.status==='SCENARIO'){
+   if(target.kernel_version!==(unified?'target-unified-2':'target-days-1')||daily===null)fail()
+   targetPcs=targetQuantity(target.target_pcs);horizon=decimal(target.horizon_days)
+   if(unified){
+    const computed=(value:unknown)=>typeof value==='string'&&/^(0|[1-9][0-9]{0,29})(\.[0-9]{1,40})?$/.test(value)?value:fail()
+    reorderPoint=targetQuantity(target.reorder_point_pcs);leadDemand=computed(target.lead_demand_pcs);reviewDemand=computed(target.review_demand_pcs);safety=computed(target.horizon_safety_pcs)
+    if(target.reason!=='ONE_EXPLICIT_DAYS_BUFFER'||target.lead_safety_pcs!==target.horizon_safety_pcs)fail()
+   }
+  }else if(target.status!=='UNKNOWN'||unified&&(target.target_pcs!==null||target.reorder_point_pcs!==null))fail()
   const policy=r.production_policy===null?null:obj(obj(r.production_policy).policy),known=policy?.quality==='KNOWN',state=known?str(policy!.state):null
   if(state!==null&&!['ACTIVE','PAUSED','STOPPED'].includes(state))fail()
   const disabled=state==='PAUSED'||state==='STOPPED';if(r.start_new_pcs!==(disabled?'0':null))fail()
-  rows.push({rootId:p.rootId,sizeId:p.sizeId,sku:native.sku,productName:native.productName,available:native.available,daily,meanBasis:estimate.status==='UNKNOWN'?'UNKNOWN':str(estimate.basis),target:targetPcs,horizon,productionState:state as BaselineRow['productionState'],startNew:disabled?'0':null,profileId:p.profileId,profileRevision:p.revision})
+  rows.push({rootId:p.rootId,sizeId:p.sizeId,sku:native.sku,productName:native.productName,available:native.available,daily,meanBasis:estimate.status==='UNKNOWN'?'UNKNOWN':str(estimate.basis),target:targetPcs,horizon,reorderPoint,leadDemand,reviewDemand,safety,productionState:state as BaselineRow['productionState'],startNew:disabled?'0':null,profileId:p.profileId,profileRevision:p.revision})
  }
  return{runId:run,requestId:request,capturedAt:h.capturedAt,sourceHash:hash,state:v.source_state as NativeBaseline['state'],query:{...q},rows}
 }

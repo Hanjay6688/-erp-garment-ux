@@ -1,0 +1,9 @@
+{
+  "classification": "LOCAL_TEST_FIXTURE_FIRST_FAILURE",
+  "test": "shows separate authoritative trigger, horizon demand and one buffer without treating target as permission to start production",
+  "observed": "48 passed, 1 failed; fixture answered a fixed UUID instead of the UI request UUID",
+  "cause": "The client correctly rejected the unrelated reply before presenting its quantities",
+  "fix": "Only the DOM fixture returns args.p_request; UUID validation and product code are unchanged",
+  "Native_or_HTTP_evidence": false,
+  "production_go": false
+}

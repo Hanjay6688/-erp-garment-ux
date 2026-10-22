@@ -4,6 +4,13 @@
 Status keseluruhan tetap5/16. Pemasang bawaan, kualifikasi Native/HTTP/browser dan pemulihan gabungan masih perlu
 diselesaikan. Tidak ada penulisan Enteng/hosted/produksi, WA atau cabang integrasi.
 
+Update23 Oktober: kualifikasi writer Native/HTTP/browser/pemulihan sekarang **16/16 PASS** pada
+`3f0e545cc6d6948ac5d0f1052bb55cc971ab530a`, run39832859589/job120013305810.
+Native10, dua pengguna2, HTTP2, browser desktop/HP2; CP6/advisor dipulihkan. Receipt `3f0e545-pass.json` memuat
+hash Original dan hasil browser. Kegagalan boot pertama0 kasus tetap disimpan. Pemasang bawaan/registrasi oleh A,
+pengisian angka produksi oleh owner, penggabungan dan audit tetap terbuka. Bagian bukti implementasi awal di bawah
+adalah catatan historis, digantikan hasil server ini untuk kandidat yang disebut; bukan klaim semua head berikutnya lulus.
+
 `automatic-status.sql` menyediakan pembacaan otomatis setelah potong disahkan dan kebijakan pabrik yang hanya dapat
 disimpan OWNER dengan hak kelola produk. Riwayat semua akun dibandingkan per material Native, pola/revisi snapshot,
 dan set ukuran yang sama. Yang dinilai total PCS menurut kain yang benar-benar dipakai; bukan sisa potong hitungan,

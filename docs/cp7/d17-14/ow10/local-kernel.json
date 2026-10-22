@@ -1,0 +1,40 @@
+{
+  "classification": "LOCAL_ACTUAL_KERNEL_SQL_NOT_NATIVE_OR_HTTP",
+  "status": "PASS",
+  "source_sha256": "69ddf72c8212550cc4a5ef52eac2df11bcac7aef8432b897758d15cc4ab93f18",
+  "cases": [
+    {
+      "id": "OW10_LEGACY_DAYS_EXACT_EQUIVALENCE",
+      "status": "PASS",
+      "observed": {
+        "identical_full_JSON": 124
+      }
+    },
+    {
+      "id": "OW10_LEGACY_EMPIRICAL_EXACT_EQUIVALENCE",
+      "status": "PASS",
+      "observed": {
+        "identical_full_JSON": 5
+      }
+    },
+    {
+      "id": "OW10_INDEPENDENT_RATIONAL_AND_DECIMAL_ORACLE",
+      "status": "PASS",
+      "observed": {
+        "independent_cases": 162,
+        "exact_repeating_mean_whole_PCS": true,
+        "separate_reorder_and_target": true
+      }
+    },
+    {
+      "id": "OW10_UNKNOWN_AND_DOUBLE_SAFETY_REFUSAL",
+      "status": "PASS",
+      "observed": {
+        "unknown_not_zero": 4,
+        "invalid_or_double_buffer_refused": 4
+      }
+    }
+  ],
+  "OW10_complete": false,
+  "production_go": false
+}

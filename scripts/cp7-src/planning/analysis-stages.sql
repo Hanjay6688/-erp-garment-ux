@@ -160,7 +160,7 @@ begin
  end if;
  return jsonb_build_object('hash',hash,'targets',targets,'stock_order',to_jsonb(stock_order),'events_clean',events_clean,'events',events,
   'availability_clean',avail_clean,'availability',avail,'cuts',coalesce(cuts,'[]'::jsonb),'from',lo,'through',hi,
-  'baseline_hash',encode(extensions.digest(convert_to(jsonb_build_object('native',c->'facts','profiles',c->'profiles','production_policies',c->'production_policies'->'rows')::text,'UTF8'),'sha256'),'hex'));
+  'baseline_hash',encode(extensions.digest(convert_to(jsonb_build_object('target_kernel','target-unified-2','native',c->'facts','profiles',c->'profiles','production_policies',c->'production_policies'->'rows')::text,'UTF8'),'sha256'),'hex'));
 end $$;
 -- The facts of the sales with ids lo..hi and only the rows history_events
 -- joins to them: their headers' journals and the inverses of those, their
@@ -395,10 +395,12 @@ begin
    'scope_id','GLOBAL_CURRENT_PHYSICAL_ROOTS','target_key',r->>'target_key','size_id',r->>'size_id',
    'minimum_own_available_days',coalesce(cfg->'minimum_available_days','"1"'::jsonb),
    'own',case when cfg is null then null else own end,'analog',null,'manual',manual,'refs',refs||profile_refs));
-  target:=cp7_baseline.target(jsonb_build_object('contract_version','cp7.target-input.v1','snapshot_id',hash,
-   'scope_id','GLOBAL_CURRENT_PHYSICAL_ROOTS','mode','DAYS','daily_mean',estimate->'daily_pcs',
-   'lead_days',cfg->'lead_days','review_days',cfg->'review_days','buffer_days',cfg->'buffer_days',
-   'quantile',null,'horizon_samples','[]'::jsonb,'refs',refs||profile_refs));
+  target:=cp7_baseline.target(jsonb_build_object('contract_version','cp7.target-input.v2','snapshot_id',hash,
+   'scope_id','GLOBAL_CURRENT_PHYSICAL_ROOTS','mode','DAYS',
+   'daily_total_pcs',case when estimate->>'basis'='OWN_AVAILABLE_HISTORY_ASSUMED_REPRESENTATIVE'then own->'available_total_pcs'else estimate->'daily_pcs'end,
+   'counted_days',case when estimate->>'basis'='OWN_AVAILABLE_HISTORY_ASSUMED_REPRESENTATIVE'then own->'available_days'else'"1"'::jsonb end,
+   'daily_sd',null,'service_level',null,'lead_days',cfg->'lead_days','review_days',cfg->'review_days','buffer_days',cfg->'buffer_days',
+   'refs',refs||profile_refs));
   if policies is null then
    select coalesce(jsonb_object_agg(f.k,f.v),'{}')into policies
     from(select m.k,(array_agg(x order by o))[1] v from jsonb_array_elements(c->'production_policies'->'rows')with ordinality a(x,o)
