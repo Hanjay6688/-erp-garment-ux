@@ -1,5 +1,7 @@
 # Takeover writer ERP oleh Claude — 22 Oktober2026 WIB
 
+> **Pembaruan 22 Okt 2026 (D17-17):** pembagian yang berlaku adalah `docs/cp7/PEMBAGIAN_DUA_PENULIS_20261022.md` versi 2. Claude bekerja di `claude/d17-14-uang` (OW-06, OW-07, OW-08, OW-09, OW-12a, OW-15, penggabung); Astra di `astra/d17-14-produksi`. Bagian yang menyebut Codex OW07 dan `claude/ow06-supplier-transfer` di bawah sudah digantikan.
+
 Instruksi awal: "selesain sampe checkpoint berikutnya, siapin handoff takeover by claude ya". Checkpoint itu sudah diserahkan. **Arahan berikutnya22 Oktober: Codex dan Claude membagi pekerjaan supaya tidak bertabrakan.** Pembagian terbaru dan batas file wajib dibaca di [PEMBAGIAN_KERJA_20261022.md](PEMBAGIAN_KERJA_20261022.md); aturan kerja paralel di sana menggantikan aturan satu writer/cabang di handoff awal. Pesan lama dan konteks personal tetap disimpan dalam paket privat.
 
 Claude menangani OW06 dan menjadi integrator tunggal; Codex menangani OW07 di cabang terpisah. Jangan mengerjakan scope writer lain atau otomatis mengambil OW08 dan seterusnya. Orang ketiga opsional untuk menguji; penugasan ini tidak berarti Claude atau pemeriksa sudah mulai bekerja.

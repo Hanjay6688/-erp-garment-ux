@@ -1,5 +1,10 @@
 # Pembagian kerja Claude dan Codex — 22 Oktober 2026 WIB
 
+> **Digantikan (22 Okt 2026, D17-17).** Owner menyetujui `docs/cp7/PEMBAGIAN_DUA_PENULIS_20261022.md` versi 2 dan
+> menyalin kotaknya ke sesi Astra. Yang tetap: Claude mengerjakan OW-06 dan menjadi penggabung tunggal. Yang berubah:
+> OW-07 dikerjakan Claude (bukan Codex); Astra/Codex mengerjakan OW-10, OW-11, OW-12b, OW-13, OW-14, OW-16 di
+> `astra/d17-14-produksi`; cabang kerja Claude `claude/d17-14-uang`. Isi di bawah disimpan sebagai riwayat.
+
 Arahan terbaru owner: bagi pekerjaan supaya tidak bertabrakan dan mudah digabung. Ini memperbarui aturan satu writer
 untuk seluruh repo dalam handoff awal. **Siap untuk dua penulis; orang ketiga opsional sebagai pemeriksa.** Tidak ada
 agent baru yang diluncurkan dan belum ada pengakuan mulai dari Claude. Pembagian ini tidak menambah butir selesai.

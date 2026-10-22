@@ -39,7 +39,8 @@ pemeriksaan yang secara khusus ditugaskan kepada reviewer.
 - Arahan owner terbaru22 Okt2026: siapkan pembagian kerja Codex dan Claude
   supaya perubahan tidak bertabrakan dan mudah digabung; dua jalur penulisan
   terpisah diizinkan. Batas file, cabang dan urutan integrasi ada di
-  `docs/cp7/handoff/PEMBAGIAN_KERJA_20261022.md`. Baca sebelum mengubah produk.
+  `docs/cp7/PEMBAGIAN_DUA_PENULIS_20261022.md` versi 2 (disetujui owner, D17-17;
+  menggantikan `docs/cp7/handoff/PEMBAGIAN_KERJA_20261022.md`). Baca sebelum mengubah produk.
   Ini menggantikan aturan satu writer untuk seluruh repo pada handoff sebelumnya.
   Jangan otomatis menambah agent; orang ketiga opsional untuk pemeriksaan.
 - Satu integrator mengubah cabang integrasi dan file bersama; masing-masing

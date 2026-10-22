@@ -67,4 +67,3 @@ Dari kata-kata owner (D17-14 butir 4) dan daftar terbuka Astra sendiri:
 - Satu cabang integrasi, commit kecil, satu checkpoint per setengah hari: satu baris status yang bisa dibaca owner.
 - Kegagalan pertama tetap disimpan (ringkas), oracle tidak dilonggarkan, nilai kebijakan tidak dikarang.
 - Pertanyaan ke owner hanya untuk nilai kebijakan atau pilihan bisnis yang belum ditetapkan, dalam bentuk ya/tidak.
-
