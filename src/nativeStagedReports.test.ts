@@ -2,7 +2,7 @@
 import {it,expect,beforeEach,vi} from 'vitest'
 import * as f from '../tests/fixtures/nativeStagedReports'
 import {parseStagedReportJob,parseStagedReport,parseStagedReportSection,parseStagedReportIndex,driveStagedReport,readStagedReportRequest,persistStagedReportRequest,
- clearStagedReportRequest,stagedReportPayload,stagedReportFreshnessText,stagedReportFailureText,type StagedReportReply} from './nativeStagedReports'
+ clearStagedReportRequest,stagedReportPayload,stagedReportFreshnessText,stagedReportFailureText,stagedReportProgressText,type StagedReportReply} from './nativeStagedReports'
 
 beforeEach(()=>localStorage.clear())
 it('reads the job plan exactly: actuals, one section per page, freshness, summary; nothing else',()=>{
@@ -57,4 +57,24 @@ it('keeps one pending request per actor scope and never replaces a different one
  localStorage.setItem('erp.cp7.report-request.v2:s','{');expect(readStagedReportRequest('s').error).toBeTruthy()
  for(const bad of[f.payload({finance:'MAYBE'}),f.payload({series_id:f.series}),f.payload({title:' '}),f.payload({identity_hash:'x'}),{...f.payload(),source_hash:'a'.repeat(64)}])
   expect(()=>stagedReportPayload(bad)).toThrow()
+})
+it('OW-12a: ACTUALS names the finance capture progress; the capture is read strictly and only for a finance report',()=>{
+ const r=f.req({finance:'INCLUDED'}),capture=(extra:Record<string,unknown>={})=>({contract_version:'cp7.finance-capture-status.v1',capture_id:'66666666-6666-4666-8666-666666666666',
+  owner_kind:'STAGED_REPORT',owner_id:'77777777-7777-4777-8777-777777777777',state:'RUNNING',units_done:3,units_total:8,report_read_at:'2026-10-22T19:00:00Z',
+  dates:{from:'2026-09-22',to:'2026-10-22',as_of:'2026-10-23'},readiness:'READY',failure_code:null,production_go:false,...extra})
+ const reading=parseStagedReportJob(f.job(0,'RUNNING',{finance:'INCLUDED',finance_capture:capture({units_done:0,units_total:null,report_read_at:null,readiness:null})}),r)
+ expect(stagedReportProgressText(reading)).toContain('membaca laporan keuangan ERP')
+ const running=parseStagedReportJob(f.job(0,'RUNNING',{finance:'INCLUDED',finance_capture:capture()}),r)
+ expect(running.financeCapture).toEqual({state:'RUNNING',unitsDone:3,unitsTotal:8,reportReadAt:'2026-10-22T19:00:00Z',readiness:'READY',failureCode:null})
+ expect(stagedReportProgressText(running)).toContain('keuangan dan HPP: langkah 3 dari 8 (laporan keuangan dibaca 23 Okt 2026, 02.00 WIB)')
+ // Not yet started, and a later section that no longer names it.
+ expect(parseStagedReportJob(f.job(0,'RUNNING',{finance:'INCLUDED',finance_capture:null}),r).financeCapture).toBeNull()
+ expect(stagedReportProgressText(parseStagedReportJob(f.job(1,'RUNNING',{finance:'INCLUDED',finance_capture:capture({state:'READY',units_done:8})}),r))).not.toContain('keuangan dan HPP')
+ for(const bad of[capture({owner_kind:'STAGED_ANALYSIS'}),capture({state:'READY'}),capture({units_done:9}),capture({units_total:null}),capture({failure_code:'CP7_X'}),
+  capture({state:'FAILED'}),capture({readiness:'MAYBE'}),capture({extra:1}),capture({production_go:true}),capture({dates:{from:'2026-09-22',to:'2026-10-22'}})])
+  expect(()=>parseStagedReportJob(f.job(0,'RUNNING',{finance:'INCLUDED',finance_capture:bad}),r),JSON.stringify(bad)).toThrow()
+ // A report without finance never carries a capture.
+ expect(()=>parseStagedReportJob(f.job(0,'RUNNING',{finance_capture:capture()}),f.req())).toThrow()
+ const failed=parseStagedReportJob(f.job(0,'FAILED',{finance:'INCLUDED',failure:{unit:0,sqlstate:'P0001',code:'CP7_FINANCE_CAPTURE_SOURCE_CHANGED'}}),r)
+ expect(stagedReportFailureText(failed.failure!)).toContain('Buku besar berubah selama angka keuangan dihitung')
 })

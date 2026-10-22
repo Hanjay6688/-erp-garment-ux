@@ -2,6 +2,7 @@ import type {NativeDemandQuery} from './nativeDemandHistory'
 import {stagedInstant,ANALYSIS_STAGED_TARGETS,ANALYSIS_PAGE_UTF8_BYTES} from './nativeAnalysisPages'
 import {reportKinds,type ReportKind} from './nativeAnalysisReports'
 import {financeDate} from './financeReportContract'
+import {formatCp6WibDateTime} from './cp6BusinessTime'
 
 // Business Report v2 (snapshot contract v2 §4, owner decision 8 Oct 2026): a
 // report of ONE staged run of the actor. The server builds it one unit per
@@ -18,7 +19,11 @@ export type StagedReportRequest={id:string;payload:StagedReportPayload}
 export type StagedReportStage='ACTUALS'|'SECTION'|'FRESHNESS'|'SUMMARY'
 export type StagedReportJob={requestId:string;state:'RUNNING'|'DONE'|'FAILED'|'CLOSED_UNCOMMITTED';stage:StagedReportStage|null;unitsDone:number;unitCount:number;unitAttempts:number
  sectionsDone:number;sectionCount:number;runId:string;identityHash:string;dataAsOf:string;kind:ReportKind;finance:StagedReportFinance;seriesId:string;revision:string
- lastProgressAt:string;publicationId:string|null;failure:{unit:number;sqlstate:string;code:string}|null;workerActive:boolean}
+ lastProgressAt:string;publicationId:string|null;failure:{unit:number;sqlstate:string;code:string}|null;workerActive:boolean
+ financeCapture:StagedReportFinanceCapture|null}
+/** OW-12a: the staged capture of the official finance report while ACTUALS waits for it (cp7.finance-capture-status.v1). */
+export type StagedReportFinanceCapture={state:'RUNNING'|'READY'|'FAILED';unitsDone:number;unitsTotal:number|null;reportReadAt:string|null;
+ readiness:'READY'|'LIMITED'|'BLOCKED'|null;failureCode:string|null}
 export type StagedReportFreshnessState='STALE_VERIFIED'|'VERIFIED_SAME'|'CHANGES_RECORDED'|'NO_RECORDED_CHANGE'
 export type StagedReportSectionEntry={index:number;targetLo:number;targetHi:number;utf8Bytes:number;sha256:string}
 export type StagedReport={id:string;seriesId:string;revision:string;runId:string;requestId:string;identityHash:string;dataAsOf:string;kind:ReportKind;query:NativeDemandQuery
@@ -51,13 +56,26 @@ export function stagedReportPayload(v:unknown):StagedReportPayload{
  return structuredClone(p) as StagedReportPayload
 }
 
+const CAPTURE=['contract_version','capture_id','owner_kind','owner_id','state','units_done','units_total','report_read_at','dates','readiness','failure_code','production_go']
+function parseFinanceCapture(v:unknown):StagedReportFinanceCapture{
+ const c=obj(v);exact(c,CAPTURE)
+ if(c.contract_version!=='cp7.finance-capture-status.v1'||c.owner_kind!=='STAGED_REPORT'||c.production_go!==false||!guid(c.capture_id)||!guid(c.owner_id))fail()
+ const state=c.state==='RUNNING'||c.state==='READY'||c.state==='FAILED'?c.state:fail()
+ const total=c.units_total===null?null:count(c.units_total,2,Number.MAX_SAFE_INTEGER),done=count(c.units_done,0,total??0)
+ if(state==='READY'&&done!==total||(total===null)!==(c.report_read_at===null)||(total===null)!==(c.readiness===null))fail()
+ const readiness=c.readiness===null||c.readiness==='READY'||c.readiness==='LIMITED'||c.readiness==='BLOCKED'?c.readiness:fail()
+ const failureCode=state==='FAILED'?(typeof c.failure_code==='string'&&/^CP7_[A-Z0-9_]+$/.test(c.failure_code)?c.failure_code:fail()):c.failure_code===null?null:fail()
+ const d=obj(c.dates);exact(d,['from','to','as_of']);if(!financeDate(d.from)||!financeDate(d.to)||!financeDate(d.as_of))fail()
+ return{state,unitsDone:done,unitsTotal:total,reportReadAt:c.report_read_at===null?null:stagedInstant(c.report_read_at),readiness,failureCode}
+}
+
 const JOB=['contract_version','request_id','state','stage','units_done','unit_count','unit_attempts','sections_done','section_count','run_id','identity_hash','data_as_of',
  'kind','finance','series_id','revision','last_progress_at','publication_id','failure','production_go']
 const STAGES=['ACTUALS','SECTION','FRESHNESS','SUMMARY'] as const
 // The job status; the unit plan is fixed: 0 ACTUALS, 1..n SECTION, n+1 FRESHNESS, n+2 SUMMARY.
 export function parseStagedReportJob(v:unknown,r:StagedReportRequest):StagedReportJob{
  const e=obj(v),keys=Object.keys(e)
- if(JOB.some(k=>!Object.hasOwn(e,k))||keys.some(k=>!JOB.includes(k)&&k!=='worker_active'))fail()
+ if(JOB.some(k=>!Object.hasOwn(e,k))||keys.some(k=>!JOB.includes(k)&&k!=='worker_active'&&k!=='finance_capture'))fail()
  if(e.contract_version!=='cp7.report-job.v2'||e.production_go!==false||uuid(e.request_id)!==r.id)fail()
  const state=e.state;if(state!=='RUNNING'&&state!=='DONE'&&state!=='FAILED'&&state!=='CLOSED_UNCOMMITTED')fail()
  const sectionCount=count(e.section_count,0,ANALYSIS_STAGED_TARGETS),unitCount=count(e.unit_count,0,ANALYSIS_STAGED_TARGETS+3),unitsDone=count(e.units_done,0,unitCount)
@@ -73,9 +91,10 @@ export function parseStagedReportJob(v:unknown,r:StagedReportRequest):StagedRepo
  if(uuid(e.run_id)!==p.run_id||hex(e.identity_hash)!==p.identity_hash||kind(e.kind)!==p.kind||finance(e.finance)!==p.finance||!revision(e.revision))fail()
  if(p.series_id===null?e.revision!=='1':e.series_id!==p.series_id||BigInt(e.revision as string)!==BigInt(p.expected_revision!)+1n)fail()
  const workerActive=e.worker_active===undefined?false:typeof e.worker_active==='boolean'?e.worker_active:fail()
+ const financeCapture=e.finance_capture===undefined||e.finance_capture===null?null:p.finance==='INCLUDED'?parseFinanceCapture(e.finance_capture):fail()
  return{requestId:r.id,state,stage:expect as StagedReportStage|null,unitsDone,unitCount,unitAttempts:count(e.unit_attempts,0,Number.MAX_SAFE_INTEGER),sectionsDone,sectionCount,
   runId:p.run_id,identityHash:p.identity_hash,dataAsOf:stagedInstant(e.data_as_of),kind:p.kind,finance:p.finance,seriesId:uuid(e.series_id),revision:e.revision as string,
-  lastProgressAt:stagedInstant(e.last_progress_at),publicationId:state==='DONE'?e.publication_id as string:null,failure,workerActive}
+  lastProgressAt:stagedInstant(e.last_progress_at),publicationId:state==='DONE'?e.publication_id as string:null,failure,workerActive,financeCapture}
 }
 
 const DOC=['contract_version','actor_scope_id','id','series_id','revision','run_id','request_id','identity_hash','data_as_of','kind','period_query','title','reason',
@@ -170,7 +189,10 @@ export async function driveStagedReport(o:{rpc:StagedReportRpc;request:StagedRep
 }
 
 const stageLabel:Record<StagedReportStage,string>={ACTUALS:'membaca stok dan angka aktual',SECTION:'menyusun bagian rincian',FRESHNESS:'menghitung perubahan sejak data diambil',SUMMARY:'menyusun ringkasan dan menyimpan'}
+const financeProgress=(f:StagedReportFinanceCapture)=>f.unitsTotal===null?' · membaca laporan keuangan ERP':
+ ` · keuangan dan HPP: langkah ${f.unitsDone} dari ${f.unitsTotal} (laporan keuangan dibaca ${formatCp6WibDateTime(f.reportReadAt!)})`
 export const stagedReportProgressText=(j:StagedReportJob)=>`Laporan bertahap: ${j.stage?stageLabel[j.stage]:'selesai'} · langkah ${j.unitsDone} dari ${j.unitCount}`+
+ (j.stage==='ACTUALS'&&j.financeCapture?financeProgress(j.financeCapture):'')+
  (j.sectionCount?` · bagian ${j.sectionsDone} dari ${j.sectionCount}`:'')+(j.unitAttempts?` · percobaan ulang ${j.unitAttempts}`:'')+(j.workerActive?' · sesi lain sedang menjalankan langkah ini':'')+'.'
 const failureText:Record<string,string>={
  CP7_REPORT_ACCESS_CHANGED:'Hak akses berubah selama laporan disusun. Tidak ada laporan yang disimpan.',
@@ -180,7 +202,12 @@ const failureText:Record<string,string>={
  CP7_REPORT_V2_STAGE_STOPPED:'Satu langkah dihentikan batas waktu server tiga kali berturut-turut. Tidak ada laporan yang disimpan.',
  CP7_REPORT_V2_SECTION_TOO_LARGE:'Satu bagian laporan melampaui batas ukuran server. Tidak ada laporan yang disimpan.',
  CP7_REPORT_V2_SUMMARY_TOO_LARGE:'Ringkasan laporan melampaui batas ukuran server. Tidak ada laporan yang disimpan.',
- CP7_REPORT_V2_LABEL_AMBIGUOUS:'Satu target punya lebih dari satu nama produk di analisis ini. Tidak ada laporan yang disimpan.'}
+ CP7_REPORT_V2_LABEL_AMBIGUOUS:'Satu target punya lebih dari satu nama produk di analisis ini. Tidak ada laporan yang disimpan.',
+ CP7_FINANCE_CAPTURE_SOURCE_CHANGED:'Buku besar berubah selama angka keuangan dihitung, jadi angkanya tidak dicampur. Tidak ada laporan yang disimpan; minta laporan lagi.',
+ CP7_FINANCE_REPORT_TIME_LIMIT:'Laporan keuangan ERP tidak selesai dibaca dalam batas waktu server tiga kali. Tidak ada laporan yang disimpan.',
+ CP7_FINANCE_CAPTURE_STOPPED:'Satu langkah hitung keuangan dihentikan batas waktu server tiga kali. Tidak ada laporan yang disimpan.',
+ CP7_FINANCE_CAPTURE_ACCESS_CHANGED:'Hak akses keuangan berubah selama angka keuangan dihitung. Tidak ada laporan yang disimpan.',
+ CP7_REPORT_V2_FINANCE_DATE_CHANGED:'Tanggal berganti selama angka keuangan dihitung. Tidak ada laporan yang disimpan; minta laporan lagi.'}
 export const stagedReportFailureText=(f:NonNullable<StagedReportJob['failure']>)=>`Laporan gagal pada langkah ${f.unit} (${f.code}). ${failureText[f.code]??'Server menolak langkah ini. Tidak ada laporan yang disimpan.'}`
 // Freshness at publication, in the words of the snapshot contract: never "current".
 export const stagedReportFreshnessText=(r:StagedReport)=>r.freshness.state==='VERIFIED_SAME'?'Saat laporan dibuat: sama dengan data pada cek sumber terakhir.'
