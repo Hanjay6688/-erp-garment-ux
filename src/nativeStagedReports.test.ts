@@ -2,7 +2,7 @@
 import {it,expect,beforeEach,vi} from 'vitest'
 import * as f from '../tests/fixtures/nativeStagedReports'
 import {parseStagedReportJob,parseStagedReport,parseStagedReportSection,parseStagedReportIndex,driveStagedReport,readStagedReportRequest,persistStagedReportRequest,
- clearStagedReportRequest,stagedReportPayload,stagedReportFreshnessText,stagedReportFailureText,stagedReportProgressText,type StagedReportReply} from './nativeStagedReports'
+ clearStagedReportRequest,stagedReportPayload,stagedReportFreshnessText,stagedReportFailureText,stagedReportProgressText,parseStagedReportComparison,type StagedReportReply} from './nativeStagedReports'
 
 beforeEach(()=>localStorage.clear())
 it('reads the job plan exactly: actuals, one section per page, freshness, summary; nothing else',()=>{
@@ -77,4 +77,20 @@ it('OW-12a: ACTUALS names the finance capture progress; the capture is read stri
  expect(()=>parseStagedReportJob(f.job(0,'RUNNING',{finance_capture:capture()}),f.req())).toThrow()
  const failed=parseStagedReportJob(f.job(0,'FAILED',{finance:'INCLUDED',failure:{unit:0,sqlstate:'P0001',code:'CP7_FINANCE_CAPTURE_SOURCE_CHANGED'}}),r)
  expect(stagedReportFailureText(failed.failure!)).toContain('Buku besar berubah selama angka keuangan dihitung')
+})
+it('OW-12a: reads a report comparison strictly; unknown never becomes a difference',()=>{
+ const b='11111111-1111-4111-8111-111111111111',a='22222222-2222-4222-8222-222222222222'
+ const m=(v:string|null,state='KNOWN')=>({metric_id:'NATIVE_FINANCE:performance:cogs_gl',value:{state,value:v,unit:'IDR'},period_start:'2026-09-01',period_end:'2026-09-30'})
+ const ok=(rows:unknown[])=>({contract_version:'cp7.report-comparison.v2',actor_scope_id:f.actor,before:{id:b,report_date:'2026-09-30'},after:{id:a,report_date:'2026-10-22'},rows,
+  comparison_basis:'AFTER_MINUS_BEFORE_OFFICIAL_FINANCE_METRICS_MATCHED_ID_UNIT',production_go:false})
+ const row=(before:unknown,after:unknown,difference:unknown)=>({metric_id:'NATIVE_FINANCE:performance:cogs_gl',before,after,difference})
+ const c=parseStagedReportComparison(ok([row(m('100.50'),m('250.25'),{state:'KNOWN',unit:'IDR',value:'149.75'})]),f.actor,b,a)
+ expect(c.rows[0]).toMatchObject({label:'HPP penjualan tercatat',difference:{state:'KNOWN',value:'149.75'}})
+ expect(parseStagedReportComparison(ok([row(m(null,'UNKNOWN'),m('1.00'),{state:'UNKNOWN',unit:'IDR',reason:'ONE_OR_BOTH_VALUES_UNKNOWN'})]),f.actor,b,a).rows[0].before).toMatchObject({state:'UNKNOWN',value:null})
+ for(const bad of[ok([row(m(null,'UNKNOWN'),m('1.00'),{state:'KNOWN',unit:'IDR',value:'1.00'})]),ok([row(null,m('1.00'),{state:'UNKNOWN',unit:'IDR',reason:'ONE_OR_BOTH_VALUES_UNKNOWN'})]),
+  ok([row(m('1'),m('2'),{state:'UNKNOWN',unit:'IDR',reason:'FINANCE_NOT_IN_BOTH_REPORTS'})]),ok([row(m('1'),m('2'),{state:'KNOWN',unit:'USD',value:'1'})]),
+  ok([row(m('1'),m('2'),{state:'KNOWN',unit:'IDR',value:'1'}),row(m('1'),m('2'),{state:'KNOWN',unit:'IDR',value:'1'})]),{...ok([]),production_go:true},
+  {...ok([]),before:{id:b,report_date:'2026-09-30',summary:'x'}},{...ok([]),extra:1},{...ok([]),actor_scope_id:'x'}])
+  expect(()=>parseStagedReportComparison(bad,f.actor,b,a),JSON.stringify(bad).slice(0,200)).toThrow()
+ expect(()=>parseStagedReportComparison(ok([]),f.actor,a,b)).toThrow()
 })

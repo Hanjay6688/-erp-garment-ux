@@ -192,7 +192,9 @@ const cp7ObligationReportBoundaries=['erp_cp7_get_obligation_report_preview_v1',
 for(const name of cp7ObligationReportBoundaries) assert.ok(rpcBoundaries.has(`src/NativeObligationReportsPanel.tsx:${name}`))
 for(const name of cp7ReportBoundaries) assert.ok(rpcBoundaries.has(`src/NativeAnalysisReportsPanel.tsx:${name}`))
 // Business Report v2 of a staged run (snapshot contract v2 §4): its own panel in the staged view.
-const cp7StagedReportBoundaries=['erp_cp7_publish_report_v2','erp_cp7_get_report_request_v2','erp_cp7_step_report_v2','erp_cp7_read_report_v2','erp_cp7_read_report_section_v2','erp_cp7_list_reports_v2']
+const cp7StagedReportBoundaries=['erp_cp7_publish_report_v2','erp_cp7_get_report_request_v2','erp_cp7_step_report_v2','erp_cp7_read_report_v2','erp_cp7_read_report_section_v2','erp_cp7_list_reports_v2',
+ // OW-12a: the period comparison of two published staged reports (same rights as opening each).
+ 'erp_cp7_compare_reports_v2']
 for(const name of cp7StagedReportBoundaries) assert.ok(rpcBoundaries.has(`src/NativeStagedReportsPanel.tsx:${name}`))
 // AI v2 of a staged run (contract v2 §6): the bounded brief and the owner finance report read at question time.
 const cp7StagedAiBoundaries=['erp_cp7_get_staged_ai_brief_v1','erp_cp7_get_finance_report_v1']

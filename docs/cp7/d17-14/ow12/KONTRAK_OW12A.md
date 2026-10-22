@@ -1,7 +1,8 @@
 # Kontrak modul angka keuangan/HPP untuk analisis skala pabrik (OW-12a)
 
 Pemilik: A (Claude). Pemakai: B (Astra, OW-12b) dan laporan bertahap milik A. Versi kontrak `cp7.finance-capture.v1`.
-Status: kontrak ditulis 23 Okt 2026; modul sedang dibuat di tahap `scripts/cp7_finance_capture/`. B boleh menulis
+Status: kontrak ditulis 23 Okt 2026; modul dibuat di tahap `scripts/cp7_finance_capture/` (uji Native7 di `cp7-ow12a-finance-native.yml`).
+Tidak ada RPC publik khusus capture: layar membaca kemajuan lewat status job pemiliknya. B boleh menulis
 pemanggilnya mengikuti kontrak ini; perubahan kontrak dicatat di sini lebih dulu.
 
 ## Masalah yang diselesaikan
@@ -41,7 +42,7 @@ Modul ini menghitung angka yang sama dalam beberapa langkah pendek, dengan statu
 | `cp7_finance_capture.status(p_capture uuid) returns jsonb` | lihat bawah; hanya milik pengguna itu |
 | `cp7_finance_capture.result(p_capture uuid) returns jsonb` | hanya bila `READY`; selain itu `CP7_FINANCE_CAPTURE_NOT_READY` |
 | `cp7_background.run_next()` | penjalan server mendapat keluarga `FINANCE` (capture `RUNNING` tertua), jadi capture jalan walau halaman ditutup |
-| `public.erp_cp7_get_finance_capture_v1(p_capture uuid)` | status untuk layar (hak sama dengan `status`) |
+| `cp7_finance_capture.status_of(p_owner_kind text, p_owner_id uuid)` | status capture milik job itu, atau null bila belum dimulai; dipakai status job (laporan bertahap memuatnya sebagai `finance_capture`) |
 
 Status `cp7.finance-capture-status.v1`:
 `{capture_id, owner_kind, owner_id, state: RUNNING|READY|FAILED, units_done, units_total (null sampai laporan
@@ -73,3 +74,11 @@ dengan `finance_apply`.
   melewati batas di skala pabrik.
 - Pembanding periode: dua laporan bertahap terbit dibandingkan per metrik resmi (sesudah dikurangi sebelum), dengan
   aturan yang sama dengan pembanding laporan v1 (`cp7_analysis_native.report_compare`).
+
+## Pembanding periode (milik A, sudah dibuat)
+
+`public.erp_cp7_compare_reports_v2(p_before uuid, p_after uuid)` → `cp7.report-comparison.v2`: dua laporan bertahap terbit
+milik pengguna itu, dibaca dengan hak yang sama seperti membukanya; baris per metrik keuangan resmi yang tersimpan di
+laporan (`finance_apply` atas keuangan masing-masing), selisih = sesudah − sebelum hanya bila kedua angka diketahui; bila
+hanya satu laporan memuat keuangan: `FINANCE_NOT_IN_BOTH_REPORTS`. Layar: "Bandingkan dengan laporan" di panel laporan
+bertahap.

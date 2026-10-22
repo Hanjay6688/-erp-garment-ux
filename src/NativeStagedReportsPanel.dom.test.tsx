@@ -117,3 +117,25 @@ it('opening another publication retires the previous revision series and review 
  expect(button('Buat laporan dari analisis ini').disabled).toBe(true)
  expect((container.querySelector('[aria-label="Laporan bertahap sudah ditinjau"]') as HTMLInputElement).checked).toBe(false)
 })
+it('OW-12a: compares the opened report with an earlier one, metric by metric, as the server stored them',async()=>{
+ const other='99999999-9999-4999-8999-999999999999',idx=f.index() as {rows:Record<string,unknown>[];total:string}
+ const metric=(id:string,value:string|null,state='KNOWN',from='2026-09-01',to='2026-09-30')=>({metric_id:id,value:{state,value,unit:'IDR'},period_start:from,period_end:to})
+ const comparison={contract_version:'cp7.report-comparison.v2',actor_scope_id:f.actor,before:{id:other,report_date:'2026-09-30'},after:{id:f.publication,report_date:'2026-10-22'},
+  rows:[{metric_id:'NATIVE_FINANCE:performance:cogs_gl',before:metric('NATIVE_FINANCE:performance:cogs_gl','100.50'),after:metric('NATIVE_FINANCE:performance:cogs_gl','250.25','KNOWN','2026-10-01','2026-10-22'),
+   difference:{state:'KNOWN',unit:'IDR',value:'149.75'}},
+   {metric_id:'NATIVE_FINANCE:financial_position:cash',before:null,after:metric('NATIVE_FINANCE:financial_position:cash','5000.00','KNOWN','2026-10-22','2026-10-22'),
+   difference:{state:'UNKNOWN',unit:'IDR',reason:'FINANCE_NOT_IN_BOTH_REPORTS'}}],
+  comparison_basis:'AFTER_MINUS_BEFORE_OFFICIAL_FINANCE_METRICS_MATCHED_ID_UNIT',production_go:false}
+ client.rpc.mockImplementation((n:string,a:{p_before?:string;p_after?:string;p_request?:string})=>n==='erp_cp7_list_reports_v2'?Promise.resolve({data:{...idx,rows:[...idx.rows,{...idx.rows[0],id:other,title:'Laporan September',series_id:'88888888-8888-4888-8888-888888888888'}],total:'2'},error:null})
+  :n==='erp_cp7_compare_reports_v2'?Promise.resolve({data:{...comparison,before:{id:a.p_before,report_date:'2026-09-30'},after:{id:a.p_after,report_date:'2026-10-22'}},error:null}):reply(n,a))
+ await render();await click('Muat laporan bertahap tersimpan');await act(async()=>(container.querySelector('[aria-label="Buka laporan bertahap 1"]') as HTMLButtonElement).click());await settle()
+ expect(button('Bandingkan dengan laporan ini').disabled).toBe(true)
+ await act(async()=>{const s=container.querySelector('[aria-label="Laporan pembanding"]') as HTMLSelectElement;s.value=other;s.dispatchEvent(new Event('change',{bubbles:true}))})
+ await click('Bandingkan dengan laporan ini')
+ expect(client.rpc.mock.calls.find(c=>c[0]==='erp_cp7_compare_reports_v2')![1]).toEqual({p_before:other,p_after:f.publication})
+ const table=container.querySelector('[aria-label="Pembanding laporan bertahap"]')!;expect(table).toBeTruthy()
+ const cogs=table.querySelector('[data-metric="NATIVE_FINANCE:performance:cogs_gl"]')!.textContent!
+ expect(cogs).toContain('HPP penjualan tercatat');expect(cogs).toContain('149');expect(cogs).toContain('periode 2026-09-01 s.d. 2026-09-30')
+ expect(table.querySelector('[data-metric="NATIVE_FINANCE:financial_position:cash"]')!.textContent).toContain('Hanya satu laporan yang memuat angka keuangan ini.')
+ expect(table.textContent).not.toMatch(/Rp0[,.]00/)
+})

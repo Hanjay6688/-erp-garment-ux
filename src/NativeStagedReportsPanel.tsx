@@ -3,9 +3,11 @@ import {useAuth} from './auth/AuthProvider'
 import {getUatSupabaseClient} from './lib/supabase'
 import {normalizeClientError} from './lib/clientError'
 import {formatCp6WibDateTime} from './cp6BusinessTime'
+import {formatReceiptDecimal} from './procurementContract'
 import {reportKindLabels,reportKinds,type ReportKind} from './nativeAnalysisReports'
 import type {AnalysisFinanceAccess} from './nativeAnalysis'
 import type {StagedAnalysis} from './nativeAnalysisPages'
+import {parseStagedReportComparison,stagedReportComparisonReason,type StagedReportComparison,type StagedReportComparisonValue} from './nativeStagedReports'
 import {driveStagedReport,parseStagedReport,parseStagedReportSection,parseStagedReportIndex,readStagedReportRequest,persistStagedReportRequest,clearStagedReportRequest,
  stagedReportRequestKey,stagedReportProgressText,stagedReportFailureText,stagedReportFreshnessText,type StagedReport,type StagedReportIndex,type StagedReportJob,
  type StagedReportRequest,type StagedReportSection,type StagedReportRpc} from './nativeStagedReports'
@@ -28,6 +30,7 @@ function Reports({staged,blocked:outer,financeAccess,scope,actor}:Props&{scope:s
  const[recovery,setRecovery]=useState(()=>readStagedReportRequest(scope)),[job,setJob]=useState<StagedReportJob|null>(null)
  const[kind,setKind]=useState<ReportKind>(recovery.pending?.payload.kind??'DAILY'),[title,setTitle]=useState(recovery.pending?.payload.title??''),[reason,setReason]=useState(recovery.pending?.payload.reason??'')
  const[withFinance,setWithFinance]=useState(false),[reviewed,setReviewed]=useState(false),[base,setBase]=useState<Base|null>(null)
+ const[compareWith,setCompareWith]=useState(''),[comparison,setComparison]=useState<StagedReportComparison|null>(null)
  const[report,setReport]=useState<StagedReport|null>(null),[section,setSection]=useState<StagedReportSection|null>(null),[sectionIndex,setSectionIndex]=useState(0),[index,setIndex]=useState<StagedReportIndex|null>(null)
  const[busy,setBusy]=useState(false),[error,setError]=useState(''),[message,setMessage]=useState('')
  const retireFacts=useCallback(()=>{setReport(null);setSection(null);setSectionIndex(0);setIndex(null);setJob(null);setBase(null);setReviewed(false);setMessage('')},[])
@@ -59,6 +62,8 @@ function Reports({staged,blocked:outer,financeAccess,scope,actor}:Props&{scope:s
  }catch(e){setError(normalizeClientError(e).message)}}
  const resume=(lookup:boolean)=>{const held=readStagedReportRequest(scope);setRecovery(held);if(!held.pending){setError(held.error??'Permintaan laporan tersimpan tidak tersedia.');return}void drive(held.pending,lookup)}
  const list=(before:string|null=null)=>void perform(async n=>{const r=await client.rpc('erp_cp7_list_reports_v2',{p_query:{before_id:before,limit:25}});if(n!==seq.current)return;if(r.error)throw r.error;setIndex(parseStagedReportIndex(r.data,actor,25))})
+ // OW-12a: the opened report against an earlier one, metric by metric, as the server compared the two stored reports.
+ const compare=()=>{const d=report,other=compareWith;if(!d||!other)return;void perform(async n=>{const r=await client.rpc('erp_cp7_compare_reports_v2',{p_before:other,p_after:d.id});if(n!==seq.current)return;if(r.error)throw r.error;const c=parseStagedReportComparison(r.data,actor,other,d.id);if(n===seq.current)setComparison(c)})}
  const readSection=()=>{const d=report;if(!d)return;const i=sectionIndex;void perform(async n=>{const r=await client.rpc('erp_cp7_read_report_section_v2',{p_id:d.id,p_index:i,p_access:d.accessEpoch});if(n!==seq.current)return;if(r.error)throw r.error;const s=await parseStagedReportSection(r.data,d,i);if(n===seq.current)setSection(s)})}
  const revise=()=>{if(!report)return;setBase({seriesId:report.seriesId,revision:report.revision,kind:report.kind});setKind(report.kind);setReviewed(false);setMessage('Isi judul dan alasan revisi. Revisi memakai analisis bertahap yang sedang dibuka; isi laporan lama tetap tersimpan.')}
  const pending=recovery.pending,mine=pending&&pending.payload.run_id===run.runId
@@ -89,7 +94,14 @@ function Reports({staged,blocked:outer,financeAccess,scope,actor}:Props&{scope:s
    {report.sections.length?<div><label>Pilih bagian laporan<select aria-label="Pilih bagian laporan bertahap" value={sectionIndex} disabled={blocked} onChange={e=>{setSectionIndex(Number(e.target.value));setSection(null)}}>{report.sections.map(s=><option key={s.index} value={s.index}>Bagian {s.index+1}: target {s.targetLo}–{s.targetHi} dari {report.targetsTotal}</option>)}</select></label>
     <button disabled={blocked} onClick={readSection}>Buka bagian laporan</button></div>:<p>Analisis ini tidak memuat rincian per target.</p>}
    {section?<pre aria-label="Bagian laporan bertahap" data-section-index={section.index}>{section.body}</pre>:null}
+   {index&&index.rows.some(r=>r.id!==report.id)?<div aria-label="Pembanding periode laporan bertahap"><label>Bandingkan dengan laporan<select aria-label="Laporan pembanding" value={compareWith} disabled={blocked} onChange={e=>{setCompareWith(e.target.value);setComparison(null)}}><option value="">Pilih laporan pembanding</option>{index.rows.filter(r=>r.id!==report.id).map(r=><option key={r.id} value={r.id}>{r.title} · versi {r.revision} · periode {r.query.from_date} s.d. {r.query.through_date}</option>)}</select></label>
+    <button disabled={blocked||!compareWith} onClick={compare}>Bandingkan dengan laporan ini</button></div>:<p>Muat laporan bertahap tersimpan untuk memilih laporan pembanding.</p>}
+   {comparison&&comparison.afterId===report.id&&comparison.beforeId===compareWith?<div className="responsive-table"><table aria-label="Pembanding laporan bertahap"><caption>Laporan pembanding (tanggal laporan {comparison.beforeDate}) dan laporan ini (tanggal laporan {comparison.afterDate}). Selisih = laporan ini dikurangi pembanding; hanya angka keuangan resmi yang tersimpan di kedua laporan.</caption>
+    <thead><tr><th>Angka</th><th>Pembanding</th><th>Laporan ini</th><th>Selisih</th></tr></thead><tbody>{comparison.rows.map(r=><tr key={r.metricId} data-metric={r.metricId}><td>{r.label}</td><td data-label="Pembanding">{compareValue(r.before)}</td><td data-label="Laporan ini">{compareValue(r.after)}</td>
+    <td data-label="Selisih">{r.difference.state==='UNKNOWN'?stagedReportComparisonReason[r.difference.reason]:`Rp${formatReceiptDecimal(r.difference.value)}${r.difference.state==='ASSUMED'?' (asumsi)':''}`}</td></tr>)}</tbody></table></div>:null}
    <details><summary>Identitas laporan</summary><p>Analisis {report.runId} · identitas {report.identityHash}</p><p>Hash laporan {report.reportHash} · diterbitkan {formatCp6WibDateTime(report.publishedAt)}.</p></details>
   </article>:null}
  </section>
 }
+// One side of a compared metric: the amount and its period, or why it is not known; never zero for unknown.
+const compareValue=(v:StagedReportComparisonValue)=>v===null?'Tidak ada di laporan ini':v.value===null||v.state==='UNKNOWN'?`Belum diketahui (periode ${v.periodStart} s.d. ${v.periodEnd})`:`Rp${formatReceiptDecimal(v.value)}${v.state==='ASSUMED'?' (asumsi)':''} · ${v.periodStart===v.periodEnd?'per '+v.periodEnd:'periode '+v.periodStart+' s.d. '+v.periodEnd}`

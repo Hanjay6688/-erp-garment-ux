@@ -154,6 +154,7 @@ assert.deepEqual([...rpcOwnership].sort(), [
   'src/NativeAnalysisReportsPanel.tsx:erp_cp7_list_reports_v1',
   'src/NativeAnalysisReportsPanel.tsx:erp_cp7_compare_reports_v1',
   'src/NativeStagedReportsPanel.tsx:erp_cp7_publish_report_v2',
+  'src/NativeStagedReportsPanel.tsx:erp_cp7_compare_reports_v2',
   'src/NativeStagedReportsPanel.tsx:erp_cp7_get_report_request_v2',
   'src/NativeStagedReportsPanel.tsx:erp_cp7_step_report_v2',
   'src/NativeStagedReportsPanel.tsx:erp_cp7_read_report_v2',

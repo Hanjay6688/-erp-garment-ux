@@ -214,3 +214,47 @@ export const stagedReportFreshnessText=(r:StagedReport)=>r.freshness.state==='VE
  :r.freshness.state==='STALE_VERIFIED'?'Saat laporan dibuat: cek sumber terakhir menemukan data sudah berubah; isi analisis tetap keadaan saat data diambil.'
  :r.freshness.state==='CHANGES_RECORDED'?`Saat laporan dibuat: ada ${r.freshness.changesTotal} perubahan tercatat sejak data diambil; isi analisis tetap keadaan saat data diambil.`
  :'Saat laporan dibuat: belum ada perubahan tercatat sejak data diambil (belum dicek penuh).'
+
+// OW-12a: two published staged reports compared metric by metric (after minus before) on the official finance metrics
+// each report stored; the server reads both through the same rights as opening them (cp7.report-comparison.v2).
+export const stagedReportMetricLabels:Record<string,string>={sales_revenue_gl:'Pendapatan penjualan tercatat',cogs_gl:'HPP penjualan tercatat',gross_profit:'Laba kotor',
+ other_income:'Pendapatan lain tercatat',operating_and_other_expense:'Beban tercatat',net_profit:'Laba bersih',gross_sales_before_discount:'Penjualan sebelum diskon',
+ line_discounts:'Diskon penjualan',posted_sales_returns:'Retur penjualan tercatat',operational_net_sales:'Penjualan bersih operasional',
+ sales_revenue_bridge_delta:'Selisih penjualan operasional dan jurnal',assets:'Aset',cash:'Saldo kas tercatat',customer_ar:'Piutang pelanggan tercatat',
+ material_inventory:'Nilai persediaan bahan',wip_inventory:'Nilai barang dalam proses',fg_inventory:'Nilai persediaan barang jadi',liabilities:'Kewajiban',
+ supplier_final_ap:'Utang pemasok final tercatat',grni_estimated_liability:'Kewajiban penerimaan belum ditagih tercatat',recorded_equity:'Ekuitas tercatat',
+ current_earnings:'Laba berjalan',liabilities_plus_equity:'Kewajiban dan ekuitas',balance_difference:'Selisih neraca'}
+export type StagedReportComparisonValue={state:'KNOWN'|'ASSUMED'|'UNKNOWN';value:string|null;periodStart:string;periodEnd:string}|null
+export type StagedReportComparisonRow={metricId:string;label:string;before:StagedReportComparisonValue;after:StagedReportComparisonValue;
+ difference:{state:'KNOWN'|'ASSUMED';value:string}|{state:'UNKNOWN';reason:'FINANCE_NOT_IN_BOTH_REPORTS'|'METRIC_SCOPE_NOT_COMPARABLE'|'ONE_OR_BOTH_VALUES_UNKNOWN'}}
+export type StagedReportComparison={beforeId:string;afterId:string;beforeDate:string;afterDate:string;rows:StagedReportComparisonRow[]}
+const money=(v:unknown)=>typeof v==='string'&&/^-?[0-9]{1,30}(\.[0-9]{1,20})?$/.test(v)?v:fail()
+function comparisonValue(v:unknown):StagedReportComparisonValue{
+ if(v===null)return null
+ const m=obj(v),value=obj(m.value),state=value.state==='KNOWN'||value.state==='ASSUMED'||value.state==='UNKNOWN'?value.state:fail()
+ if(value.unit!=='IDR'||!financeDate(m.period_start)||!financeDate(m.period_end))fail()
+ return{state,value:state==='UNKNOWN'?(value.value===null||value.value===undefined?null:money(value.value)):money(value.value),periodStart:m.period_start as string,periodEnd:m.period_end as string}
+}
+export function parseStagedReportComparison(v:unknown,actor:string,beforeId:string,afterId:string):StagedReportComparison{
+ const c=obj(v);exact(c,['contract_version','actor_scope_id','before','after','rows','comparison_basis','production_go'])
+ if(c.contract_version!=='cp7.report-comparison.v2'||c.actor_scope_id!==actor||c.production_go!==false||c.comparison_basis!=='AFTER_MINUS_BEFORE_OFFICIAL_FINANCE_METRICS_MATCHED_ID_UNIT')fail()
+ const before=obj(c.before),after=obj(c.after)
+ if(before.id!==beforeId||after.id!==afterId||beforeId===afterId||!financeDate(before.report_date)||!financeDate(after.report_date)||Object.hasOwn(before,'summary')||Object.hasOwn(after,'summary'))fail()
+ if(!Array.isArray(c.rows)||c.rows.length>200)fail()
+ const seen=new Set<string>()
+ const rows=c.rows.map(x=>{const r=obj(x);exact(r,['metric_id','before','after','difference'])
+  const id=typeof r.metric_id==='string'&&/^NATIVE_FINANCE:(performance|financial_position):[a-z0-9_]+$/.test(r.metric_id)?r.metric_id:fail()
+  if(seen.has(id))fail();seen.add(id)
+  const b=comparisonValue(r.before),a=comparisonValue(r.after),d=obj(r.difference)
+  let difference:StagedReportComparisonRow['difference']
+  if(d.state==='KNOWN'||d.state==='ASSUMED'){exact(d,['state','unit','value']);if(d.unit!=='IDR'||!b||!a||b.value===null||a.value===null||b.state==='UNKNOWN'||a.state==='UNKNOWN')fail()
+   difference={state:d.state,value:money(d.value)}}
+  else if(d.state==='UNKNOWN'){exact(d,['state','unit','reason']);const reason=d.reason==='FINANCE_NOT_IN_BOTH_REPORTS'||d.reason==='METRIC_SCOPE_NOT_COMPARABLE'||d.reason==='ONE_OR_BOTH_VALUES_UNKNOWN'?d.reason:fail()
+   if(reason==='FINANCE_NOT_IN_BOTH_REPORTS'?(b!==null&&a!==null):(b===null||a===null))fail();difference={state:'UNKNOWN',reason}}
+  else return fail()
+  const key=id.split(':')[2];return{metricId:id,label:stagedReportMetricLabels[key]??key,before:b,after:a,difference}})
+ return{beforeId,afterId,beforeDate:before.report_date as string,afterDate:after.report_date as string,rows}
+}
+export const stagedReportComparisonReason:Record<'FINANCE_NOT_IN_BOTH_REPORTS'|'METRIC_SCOPE_NOT_COMPARABLE'|'ONE_OR_BOTH_VALUES_UNKNOWN',string>={
+ FINANCE_NOT_IN_BOTH_REPORTS:'Hanya satu laporan yang memuat angka keuangan ini.',METRIC_SCOPE_NOT_COMPARABLE:'Satuan angka berbeda, tidak dapat dibandingkan.',
+ ONE_OR_BOTH_VALUES_UNKNOWN:'Salah satu angka belum diketahui; selisih tidak dihitung.'}
