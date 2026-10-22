@@ -108,6 +108,7 @@ jobs:
         npx playwright install --with-deps chromium
 
         '
+      timeout-minutes: 20
     - name: Install pinned Supabase CLI
       uses: supabase/setup-cli@ab058987d8d6c725971f6cf9d0b5c98467e30bd1
       with:
@@ -139,14 +140,16 @@ jobs:
         \ HEAD^{tree})\" = 334629c626257b8b713826f491cdf62385d5299b\ntest -z \"$(git status --porcelain)\"\nsupabase --help\
         \ >/dev/null\nsupabase init --help >/dev/null\nsupabase start --help >/dev/null\nmkdir cp5-local\nsupabase init --force\
         \ --workdir cp5-local\nmkdir -p cp5-local/supabase/.temp\necho '17.6.1.165' > cp5-local/supabase/.temp/postgres-version\n\
-        sed -i '0,/^enable_signup = true$/s//enable_signup = false/' cp5-local/supabase/config.toml\n# ghcr.io can rate-limit\
-        \ image pulls before anything runs. Retry the start\n# only (no test has run), falling back to the same image tags\
-        \ on public.ecr.aws.\nfor attempt in 1 2 3 4; do\n  if [ \"$attempt\" -ge 2 ]; then export SUPABASE_INTERNAL_IMAGE_REGISTRY=public.ecr.aws;\
-        \ fi\n  if supabase start --workdir cp5-local \\\n    -x realtime,imgproxy,studio,postgres-meta,edge-runtime,logflare,vector,supavisor\
-        \ \\\n    > \"$RUNNER_TEMP/cp6-local-start.log\" 2>&1; then\n    echo \"supabase start succeeded on attempt $attempt\
-        \ from ${SUPABASE_INTERNAL_IMAGE_REGISTRY:-default}\"\n    break\n  fi\n  tail -n 20 \"$RUNNER_TEMP/cp6-local-start.log\"\
-        \n  supabase stop --workdir cp5-local --no-backup || true\n  if [ \"$attempt\" = 4 ]; then exit 1; fi\n  sleep $((attempt\
-        \ * 60))\ndone\n"
+        sed -i '0,/^enable_signup = true$/s//enable_signup = false/' cp5-local/supabase/config.toml\n# Registry throttling\
+        \ is an environment failure, before any test case.\n# Try the CLI's official mirrors with the same pinned service\
+        \ versions.\n# A completed green suite is not retried by this loop.\nbooted=false\nfor registry in ghcr.io docker.io\
+        \ public.ecr.aws; do\n  export SUPABASE_INTERNAL_IMAGE_REGISTRY=\"$registry\"\n  if timeout 120 supabase start --workdir\
+        \ cp5-local \\\n    -x realtime,imgproxy,studio,postgres-meta,edge-runtime,logflare,vector,supavisor \\\n    > \"\
+        $RUNNER_TEMP/cp6-local-start.log\" 2>&1; then\n    echo \"supabase start succeeded from $registry\"\n    booted=true\n\
+        \    break\n  fi\n  tail -n 20 \"$RUNNER_TEMP/cp6-local-start.log\"\n  timeout 30 supabase stop --workdir cp5-local\
+        \ --no-backup || true\n  if [ \"$registry\" != public.ecr.aws ]; then sleep 15; fi\ndone\nif [ \"$booted\" != true\
+        \ ]; then exit 1; fi\n"
+      timeout-minutes: 10
     - name: Rebuild to v2.6.20, align with hosted, continue the frozen path to AB
       working-directory: base
       env:
