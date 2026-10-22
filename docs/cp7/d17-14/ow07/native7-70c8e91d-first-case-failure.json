@@ -1,0 +1,17 @@
+{
+  "label": "CP7_OW07_HPP_CLOSE_NATIVE7",
+  "run": 39822642176,
+  "attempts": {"1": "infrastructure: Supabase image pull refused before any test (no product code ran)", "2": "job 119988068260"},
+  "head": "70c8e91d",
+  "status": "INCOMPLETE",
+  "counts": {"PASS": 6, "INCOMPLETE": 1},
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "failed_case": "OW07_ATTENDANCE_POOL_HOLDS_CLOSE_UNTIL_ACTIVE",
+  "failed_assertion": "cases.py preflight_refuses: assert r['preflight']['status']=='BLOCKED' and len(found)==1",
+  "observed": "close screen BLOCKED with 15 blockers: ATTENDANCE_POOL_NOT_ACTIVE x5, PAYROLL_WORK_UNCOVERED x5, ATTENDANCE_CELL_MISSING x4, PAYROLL_NOT_APPROVED x1; info GRNI_ESTIMATE_OPEN",
+  "cause": "test assumed the case's attendance period was the only one outside a pool; the shared aligned copy already holds four other approved attendance periods (CP3 R3/R4 seed contractors) that OW-07 also, correctly, holds",
+  "fix_commit": "e064ae93",
+  "fix": "the case selects its own blocker row by payroll id; the close command must still refuse with no effect",
+  "integration_note": "any CP7 suite that closes a period over those seed attendance periods will now be held by OW-07 until the attendance cost is divided; fix such data, never loosen the check"
+}
