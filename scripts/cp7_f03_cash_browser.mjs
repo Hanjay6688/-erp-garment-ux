@@ -14,6 +14,9 @@ async function screen(ui,page,name){
  await ui.expect.poll(()=>page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true)
  await page.evaluate(()=>scrollTo(0,0));await page.screenshot({path:'cp6-proof/t3/'+name,fullPage:true})
 }
+// Same natural label key as the CP7 reader (OW-09): digit runs by value, text runs lower-cased, compared bytewise.
+const natural=s=>(s.match(/[0-9]+|[^0-9]+/g)??[]).map(p=>/^[0-9]/.test(p)?(d=>String(d.length).padStart(10,'0')+d)(p.replace(/^0+/,'')):p.toLowerCase()).join('')
+const cashRead=(page,check)=>page.waitForResponse(r=>r.url().endsWith('/rpc/erp_cp7_get_finance_analysis_v1')&&check(r.request().postDataJSON()?.p_query??{}))
 async function journey(ui,f,mobile){
  const user=await ui.login(mobile?'ADMIN':'OWNER',{label:'f03-cash-'+mobile,mobile,timezoneId:mobile?'America/Los_Angeles':'Asia/Jakarta'}),page=user.page,suffix=mobile?'MOBILE':'DESKTOP'
  const cash=page.getByRole('main',{name:'Kas dan bank dari jurnal',exact:true}),observed=[],screenshots=[]
@@ -28,6 +31,7 @@ async function journey(ui,f,mobile){
   let response=page.waitForResponse(r=>r.url().endsWith('/rpc/erp_cp7_get_finance_analysis_v1')&&r.request().postDataJSON()?.p_query?.from===f.query.from&&r.request().postDataJSON()?.p_query?.to===f.query.to&&r.request().postDataJSON()?.p_query?.offset===0)
   await cash.getByRole('button',{name:'Tampilkan kas',exact:true}).click()
   let result=await response;assert.equal(result.status(),200);observed.push(await result.json())
+  assert.deepEqual(['entry_q','entry_status','entry_order'].map(k=>result.request().postDataJSON().p_query[k]),['',null,'SOURCE'])
   await ui.expect(cash.locator('[data-journal-id]')).toHaveCount(25)
   const metric=label=>cash.locator('.cproc-total').filter({has:page.getByText(label,{exact:true})}).locator('strong')
   await ui.expect(metric('Perubahan kas bersih')).toHaveText('Rp137,5')
@@ -43,14 +47,25 @@ async function journey(ui,f,mobile){
   const actualIds=await cash.locator('[data-journal-id]').evaluateAll(rows=>rows.map(row=>row.getAttribute('data-journal-id')))
   assert.deepEqual(actualIds,observed[1].cash.entries.rows.map(row=>row.id))
   assert.deepEqual(source(),before)
-  const pageIds=[...actualIds].sort();await cash.getByLabel('Urutkan halaman jurnal kas',{exact:true}).selectOption('LABEL_DESC')
-  assert.deepEqual((await cash.locator('[data-journal-id]').evaluateAll(rows=>rows.map(row=>row.getAttribute('data-journal-id')))).sort(),pageIds)
-  const exactNumber=observed[1].cash.entries.rows[0].journal_number
-  await cash.getByLabel('Cari jurnal kas di halaman',{exact:true}).fill(exactNumber)
-  response=page.waitForResponse(r=>r.url().endsWith('/rpc/erp_cp7_get_finance_analysis_v1')&&r.request().postDataJSON()?.p_query?.offset===25)
-  await cash.getByRole('button',{name:'Tampilkan kas',exact:true}).click();assert.equal((await response).status(),200);await ui.expect(cash.locator('[data-journal-id]')).toHaveCount(1);await ui.expect(metric('Perubahan kas bersih')).toHaveText('Rp137,5');await ui.expect(cash).toContainText('Total 33 jurnal')
-  response=page.waitForResponse(r=>r.url().endsWith('/rpc/erp_cp7_get_finance_analysis_v1')&&r.request().postDataJSON()?.p_query?.offset===25)
-  await cash.getByRole('button',{name:'Browse halaman ini',exact:true}).click();assert.equal((await response).status(),200);await ui.expect(cash.locator('[data-journal-id]')).toHaveCount(8)
+  // Owner D17-16 (OW-09): the reader orders all 33 journals before paging and the list restarts at page 1; the screen
+  // shows the reader's order as is. Period balances never follow the list, and reading changes no business row.
+  const all=observed.flatMap(x=>x.cash.entries.rows),shownIds=()=>cash.locator('[data-journal-id]').evaluateAll(rows=>rows.map(row=>row.getAttribute('data-journal-id')))
+  response=cashRead(page,q=>q.entry_order==='LABEL_DESC'&&q.offset===0)
+  await cash.getByLabel('Urutkan jurnal kas',{exact:true}).selectOption('LABEL_DESC');result=await response;assert.equal(result.status(),200);let ordered=await result.json()
+  const descending=[...all].sort((a,b)=>natural(b.journal_number)<natural(a.journal_number)?-1:natural(b.journal_number)>natural(a.journal_number)?1:0)
+  assert.deepEqual(ordered.cash.entries.rows.map(row=>row.id),descending.slice(0,25).map(row=>row.id));assert.equal(ordered.cash.entries.total,'33')
+  await ui.expect(cash.locator('[data-journal-id]')).toHaveCount(25);assert.deepEqual(await shownIds(),ordered.cash.entries.rows.map(row=>row.id))
+  await ui.expect(metric('Perubahan kas bersih')).toHaveText('Rp137,5');await ui.expect(cash).toContainText('Total 33 jurnal cocok')
+  const exactNumber=observed[1].cash.entries.rows[0].journal_number,needle=exactNumber.toLowerCase()
+  const matching=all.filter(row=>[row.journal_number,row.source_type,row.source_id,row.economic_date,row.transaction_date].filter(x=>x!==null).join(' ').toLowerCase().includes(needle))
+  await cash.getByLabel('Cari jurnal kas',{exact:true}).fill(exactNumber)
+  response=cashRead(page,q=>q.entry_q===exactNumber&&q.offset===0&&q.entry_order==='LABEL_DESC')
+  await cash.getByRole('button',{name:'Tampilkan kas',exact:true}).click();result=await response;assert.equal(result.status(),200);ordered=await result.json()
+  assert.equal(ordered.cash.entries.total,String(matching.length));assert.ok(ordered.cash.entries.rows.some(row=>row.journal_number===exactNumber))
+  await ui.expect(cash.locator('[data-journal-id]')).toHaveCount(Math.min(25,matching.length));await ui.expect(metric('Perubahan kas bersih')).toHaveText('Rp137,5');await ui.expect(cash).toContainText(`Total ${matching.length} jurnal cocok`)
+  response=cashRead(page,q=>q.offset===0&&q.entry_q===''&&q.entry_status===null&&q.entry_order==='SOURCE')
+  await cash.getByRole('button',{name:'Browse semua jurnal',exact:true}).click();result=await response;assert.equal(result.status(),200)
+  assert.deepEqual((await result.json()).cash.entries.rows.map(row=>row.id),observed[0].cash.entries.rows.map(row=>row.id));await ui.expect(cash.locator('[data-journal-id]')).toHaveCount(25);await ui.expect(cash).toContainText('Total 33 jurnal cocok')
   assert.deepEqual(source(),before)
   await screen(ui,page,`F03_CASH_PAGE2_${suffix}.png`);screenshots.push(`F03_CASH_PAGE2_${suffix}.png`)
   if(mobile){
