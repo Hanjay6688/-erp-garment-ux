@@ -1,0 +1,42 @@
+{
+  "contract_version": "ow05b.real-browser2-guidance-history.v1",
+  "case_ids": [
+    "OW05B_DESKTOP_GUIDE_OPEN_NOTA_CANCEL_CORRECT_HISTORY",
+    "OW05B_MOBILE390_GUIDE_OPEN_NOTA_CANCEL_CORRECT_HISTORY"
+  ],
+  "files": {
+    "scripts/ow05b-browser-qualification/fixture.py": "7e5cf55494920fa8da93ff9008c89d8834bea3bd54d5851f881fb009bfe1643d",
+    "scripts/ow05b-browser-qualification/browser.mjs": "cc3040496b6b248a0f8512fe0f6778baa47d39cde5f251bc9a529cda844a9388",
+    "scripts/ow05b-browser-qualification/probe.py": "6574c4e7467429da241a16dad42dd4cbb3a81c766d14d0f6719ed2418a892c86",
+    "scripts/ow04-payment-current-qualification/copy_authority.py": "cfdc3b899e335dd13a9456242ed5158b718ac5c56d9b1ebf06c4571eda2cc7a2",
+    ".github/workflows/cp7-ow05b-browser.yml": "3bf72045559baf1e038106ef448eb979d52228c1414820cba4dfa633c9733bc8",
+    "src/MandorCorrectionPanel.tsx": "f0a708246766ef8b3198d0f1bd88032feb91e0de840b66e2cc22440d4d9f7b7e",
+    "src/MandorCorrectionPanel.dom.test.tsx": "784bb78117bd654d18952512434658caff792e3bd0d60c0ed38542eada8af93b",
+    "src/mandorCorrectionContract.ts": "bf6f023ee2e6926b305e34a0bee2f013a6e6e53b4719704f3a0d699ed94790f2",
+    "src/ConnectedWipStatusPage.tsx": "ee9ba1317dea44240030548c77ad058066e479e02a5b867606f654cb8c8c9d18",
+    "src/SewingCompletionPanel.tsx": "82cd0e8302da95f67f6f8d0bb1113b1bb5e41136ab426ac0af5d9d78a8c6ce14",
+    "src/sewingCompletionContract.ts": "e7f958db5ef367b9304e0bed1a7376f8c4ff0da6ecef207ffe8a46f3b3f82860",
+    "src/TransactionSourceNavigation.tsx": "db0fd1f2dc82157b79130f16425dad374bea59cffb1ea370c1468c4f6544f5cf",
+    "src/transactionSource.ts": "3ab0b92f335159608df116fd3f51605e4b4b32b45ac78818e007b0394ce1a708",
+    "src/ConnectedPayrollPage.tsx": "ddc811b887d676260d95514e7f23f6d3c46ce9c26f5898dfbfd71bce582200f9",
+    "src/cp6BusinessTime.ts": "d1681a2c28898c2bd772581bb4436cd1ca34bfa32e41af4b9096f2aaa0b834b7",
+    "src/types/database.preconnect.ts": "becc24cbdaede960661101e4752231d6fb962014e303efef65b967d87b12aaa8",
+    "src/lib/clientError.ts": "2dced6bcbd1dd81aabee729abfc2e0729789f10f9ea06474fc7bef428f167b96",
+    "src/App.tsx": "0bca1e95f69c51d3fb394028b41d9df1d5829858c185f0df008202dbaf1c08c4",
+    "scripts/ow05_native_original.py": "bb2030de3d8041c1dbeffef691335056869494c0929fe5e1d3b0678992ff60a0",
+    "docs/cp7/d17-14/ow05/native28-current-pass.json": "1d25fbbdcdeea6791a7d04b45ac0bb1a17f3629a29a727284fc6796248c08308"
+  },
+  "fixture_creation": "Native SQL on cp6_auditor_browser only (OW05 fixture + one approved nota)",
+  "journey_writes": "actual UI -> actual GoTrue/PostgREST (payroll cancel, sewing reverse, correction, sewing record)",
+  "money_gold": {
+    "old_mandor_payable": "0.00",
+    "new_mandor_payable": "24.00",
+    "WIP_increment": "24.00"
+  },
+  "native_original": {
+    "name": "CP7_OW05_NATIVE28_GUIDANCE_WHOLE_PO_WAVE.json",
+    "bytes": 6646642,
+    "sha256": "9e4732a171faff7175a03b895daca09bcb1dc54a53003cb300d979c858d1143c"
+  },
+  "OW05b_complete": false
+}

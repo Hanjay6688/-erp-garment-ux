@@ -3,6 +3,8 @@ import { act, useState } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import MandorCorrectionPanel from './MandorCorrectionPanel'
+import { TransactionSourceProvider } from './TransactionSourceNavigation'
+import { parseMandorCorrection } from './mandorCorrectionContract'
 import { recoveryIdentity } from '../tests/fixtures/productionRecovery'
 const auth = vi.hoisted(() => ({ current: null as unknown }))
 const client = vi.hoisted(() => ({ rpc: vi.fn() }))
@@ -15,7 +17,12 @@ const onCommitted = vi.fn(async () => {})
 const workspace = (extra: Record<string, unknown> = {}) => ({ contract_version: 'cp7.mandor-correction-workspace.v1',
   po_id: po, po_number: 'PO-9', contractor_id: old, contractors: [{ id: old, name: 'Mandor Lama' }, { id: target, name: 'Mandor Benar' }],
   group_count: 2, pickup_count: 1, blockers: [], eligible: true, review_token: 'e'.repeat(32), closed_through: null,
-  after_step: 'Catat ulang hasil jahit dengan waktu fisik asli dan pilihan tarif; baru susun ulang nota.', business_DML: false, ...extra })
+  after_step: 'Catat ulang hasil jahit dengan waktu fisik asli dan pilihan tarif; baru susun ulang nota.', business_DML: false,
+  after_steps: [{ menu: 'Produksi › WIP & Sewing', step: 'Catat ulang hasil jahit untuk mandor yang benar.' },
+    { menu: 'Produksi › Laundry', step: 'Bila laundry dibatalkan, kirim dan terima lagi.' },
+    { menu: 'Keuangan › Payroll & Kasbon', step: 'Susun lagi nota/gaji untuk mandor yang benar.' }],
+  history: [], ...extra })
+const blocker = (extra: Record<string, unknown>) => ({ menu: null, source: null, ...extra })
 let root: Root, container: HTMLDivElement
 beforeEach(() => {
   Object.assign(globalThis, { IS_REACT_ACT_ENVIRONMENT: true })
@@ -57,7 +64,7 @@ function result(args: Record<string, unknown>, extra: Record<string, unknown> = 
 }
 describe('koreksi mandor sesudah jahit', () => {
   it('does no read until opened and shows the PO-wide scope and real inverse guidance', async () => {
-    serve(workspace({ eligible: false, blockers: [{ order: 20, kind: 'PAYROLL', id: pickup, number: 'NOTA-9', step: 'Balik pembayaran dan nota melalui Nota/Gaji.' }] }))
+    serve(workspace({ eligible: false, blockers: [blocker({ order: 20, kind: 'PAYROLL', id: pickup, number: 'NOTA-9', step: 'Balik pembayaran dan nota melalui Nota/Gaji.' })] }))
     await mount(); expect(client.rpc).not.toHaveBeenCalled()
     await click('Koreksi mandor sesudah jahit')
     expect(container.textContent).toContain('seluruh PO'); expect(container.textContent).toContain('NOTA-9')
@@ -75,8 +82,8 @@ describe('koreksi mandor sesudah jahit', () => {
   })
   it('explains that existing FG use must be undone before a finished PO can reopen', async () => {
     serve(workspace({ eligible: false, blockers: [
-      { order: 10, kind: 'PO_STATE', id: po, number: 'PO-9', status: 'FINISHED', step: 'Buka kembali PO selesai.' },
-      { order: 40, kind: 'FG_LOT', id: next, number: 'LOT-9', step: 'Balik pemakaian barang jadi lalu QC asalnya.' },
+      blocker({ order: 10, kind: 'PO_STATE', id: po, number: 'PO-9', status: 'FINISHED', step: 'Buka kembali PO selesai.' }),
+      blocker({ order: 40, kind: 'FG_LOT', id: next, number: 'LOT-9', step: 'Balik pemakaian barang jadi lalu QC asalnya.' }),
     ] }))
     await mount(); await click('Koreksi mandor sesudah jahit')
     expect(container.textContent).toContain('melalui dokumen pemakaiannya sebelum membuka kembali PO')
@@ -120,11 +127,58 @@ describe('koreksi mandor sesudah jahit', () => {
     serve(workspace(), () => { stale = true; return { data: null, error: { code: 'P0001', message: 'CP7_MANDOR_CORRECTION_STALE_REVIEW' } } })
     const original = client.rpc.getMockImplementation()!
     client.rpc.mockImplementation(async (name: string, args: Record<string, unknown>) => stale && name === 'erp_cp7_get_mandor_correction_v1'
-      ? { data: workspace({ eligible: false, blockers: [{ order: 20, kind: 'WORK', id: pickup, step: 'Balik hasil kerja yang baru muncul.' }] }), error: null }
+      ? { data: workspace({ eligible: false, blockers: [blocker({ order: 20, kind: 'WORK', id: pickup, step: 'Balik hasil kerja yang baru muncul.' })] }), error: null }
       : original(name, args))
     await mount(); await click('Koreksi mandor sesudah jahit'); await fill(); await click('Ganti pembagian ke mandor yang benar')
     expect(onCommitted).not.toHaveBeenCalled(); expect(container.textContent).toContain('Dokumen PO atau data mandor berubah')
     expect(container.textContent).toContain('Balik hasil kerja yang baru muncul')
     expect(button('Ganti pembagian ke mandor yang benar').disabled).toBe(true)
   })
+
+  it('names the real menu, opens the blocking document through the source reader, and lists every redo step', async () => {
+    const actor = '77777777-7777-4777-8777-777777777777', current = auth.current as typeof recoveryIdentity
+    auth.current = { ...current, identity: { ...current.identity, profile: { ...current.identity.profile, authUserId: actor } } }
+    serve(workspace({ eligible: false, blockers: [blocker({ order: 20, kind: 'PAYROLL', id: pickup, number: 'NOTA-9', status: 'APPROVED',
+      step: 'Batalkan nota/gaji ini di Keuangan › Payroll & Kasbon (tombol Batalkan payroll).', menu: 'Keuangan › Payroll & Kasbon',
+      source: { source_type: 'PAYROLL_PAYMENT', source_id: pickup } })] }), args => ({ data: { contract_version: 'cp7.transaction-source.v1',
+      actor_scope_id: actor, source: args.p_source, status: 'AVAILABLE', document: { domain: 'PAYROLL', route: 'finance-payroll', id: pickup,
+      number: 'NOTA-9', status: 'APPROVED', revision: '3', focus: null }, read_at: '2026-10-23T03:00:00Z', business_DML: false }, error: null }))
+    const navigate = vi.fn()
+    await act(async () => root.render(<TransactionSourceProvider scope="AUTH:1" onNavigate={navigate}><MandorCorrectionPanel groupId={group} groupVersion={7} parentReady onCommitted={onCommitted}/></TransactionSourceProvider>))
+    await settle(); await click('Koreksi mandor sesudah jahit')
+    expect(container.textContent).toContain('Keuangan › Payroll & Kasbon'); expect(container.textContent).not.toContain('Nota/Gaji')
+    await click('Buka NOTA-9')
+    expect(client.rpc).toHaveBeenCalledWith('erp_cp7_resolve_transaction_source_v1', { p_source: { source_type: 'PAYROLL_PAYMENT', source_id: pickup } })
+    expect(navigate).toHaveBeenCalledExactlyOnceWith('finance-payroll')
+    const steps = container.querySelector('[aria-label="Langkah sesudah koreksi mandor"]')!
+    expect([...steps.querySelectorAll('li strong')].map(x => x.textContent)).toEqual(['Produksi › WIP & Sewing', 'Produksi › Laundry', 'Keuangan › Payroll & Kasbon'])
+  })
+  it('shows who corrected the Mandor, when, from whom to whom and why, newest first', async () => {
+    serve(workspace({ history: [
+      { generation_no: 8, recorded_at: '2026-10-22T03:15:00Z', actor_name: 'Bu Owner', old_contractor_id: target, old_contractor_name: 'Mandor Benar',
+        new_contractor_id: old, new_contractor_name: 'Mandor Lama', reason: 'Dikembalikan setelah cek nota', pickup_count: 2 },
+      { generation_no: 5, recorded_at: '2026-10-21T03:15:00Z', actor_name: null, old_contractor_id: old, old_contractor_name: 'Mandor Lama',
+        new_contractor_id: target, new_contractor_name: 'Mandor Benar', reason: 'Salah mandor sesudah jahit', pickup_count: 2 }] }))
+    await mount(); await click('Koreksi mandor sesudah jahit')
+    const rows = [...container.querySelectorAll('[aria-label="Riwayat koreksi mandor PO ini"] li')].map(x => x.textContent ?? '')
+    expect(rows).toHaveLength(2)
+    expect(rows[0]).toContain('Mandor Benar → Mandor Lama'); expect(rows[0]).toContain('Bu Owner'); expect(rows[0]).toContain('Dikembalikan setelah cek nota')
+    expect(rows[0]).toContain('WIB'); expect(rows[1]).toContain('akun yang sudah tidak terdaftar')
+  })
+  it('says plainly when the PO was never corrected and puts the redo menus in the outcome', async () => {
+    serve(workspace(), result)
+    await mount(); await click('Koreksi mandor sesudah jahit')
+    expect(container.textContent).toContain('PO ini belum pernah dikoreksi mandornya.')
+    await fill(); await click('Ganti pembagian ke mandor yang benar')
+    expect(container.textContent).toContain('Produksi › WIP & Sewing'); expect(container.textContent).toContain('Produksi › Laundry; Keuangan › Payroll & Kasbon')
+    expect(container.textContent).not.toContain('WIP & Jahit')
+  })
+  it.each([
+    ['a blocker without menu/source', workspace({ eligible: false, blockers: [{ order: 1, kind: 'QC', id: pickup, step: 'Batalkan finalisasi QC ini.' }] })],
+    ['a menu outside the sidebar form', workspace({ eligible: false, blockers: [blocker({ order: 1, kind: 'QC', id: pickup, step: 'x', menu: 'layar QC' })] })],
+    ['a source with extra keys', workspace({ eligible: false, blockers: [blocker({ order: 1, kind: 'QC', id: pickup, step: 'x', source: { source_type: 'QC_INSPECTION', source_id: pickup, x: 1 } })] })],
+    ['missing after steps', workspace({ after_steps: [] })],
+    ['history out of order', workspace({ history: [1, 2].map(n => ({ generation_no: n, recorded_at: '2026-10-21T03:15:00Z', actor_name: null,
+      old_contractor_id: old, old_contractor_name: 'A', new_contractor_id: target, new_contractor_name: 'B', reason: 'alasan', pickup_count: 1 })) })],
+  ])('refuses %s', (_label, value) => { expect(() => parseMandorCorrection(value, po)).toThrow() })
 })

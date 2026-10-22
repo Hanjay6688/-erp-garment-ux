@@ -6,6 +6,8 @@ import { getUatSupabaseClient } from './lib/supabase'
 import { normalizeClientError } from './lib/clientError'
 import { useProductionMutation } from './useProductionMutation'
 import ProductionRecoveryNotice from './ProductionRecoveryNotice'
+import TransactionSourceLink from './TransactionSourceNavigation'
+import { formatCp6WibDateTime } from './cp6BusinessTime'
 import type { ProductionEnvelope } from './productionRecovery'
 import { correctionPoFromSewing, parseMandorCorrection, mandorCorrectionPayload, validateMandorCorrection,
   type MandorCorrectionWorkspace } from './mandorCorrectionContract'
@@ -29,7 +31,7 @@ export default function MandorCorrectionPanel({ groupId, groupVersion, parentRea
   const allowed = ['OWNER', 'ADMIN'].includes(identity.profile.role) && permissions.every(p => hasPermission(identity, p))
   const bound = `${groupId}:${groupVersion}:${recovery.scope}:${identity.profile.rowVersion}:${identity.profile.roleRowVersion}:${identity.permissions.join('|')}`
   const live = useRef(bound); live.current = bound
-  const serial = useRef(0), committed = useRef(false), outcome = useRef('')
+  const serial = useRef(0), committed = useRef(false), outcome = useRef(''), redo = useRef<{ poId: string; menus: string[] } | null>(null)
   const [open, setOpen] = useState(false), [data, setData] = useState<MandorCorrectionWorkspace | null>(null)
   const [busy, setBusy] = useState(false), [error, setError] = useState(''), [done, setDone] = useState('')
   const [target, setTarget] = useState(''), [reason, setReason] = useState(''), [reviewed, setReviewed] = useState(false)
@@ -52,7 +54,9 @@ export default function MandorCorrectionPanel({ groupId, groupVersion, parentRea
       const reply = await client.rpc('erp_cp7_get_mandor_correction_v1', { p_po: poId })
       if (n !== serial.current || capture !== live.current || !isReadCurrent(ticket)) return false
       if (reply.error) throw reply.error
-      setData(parseMandorCorrection(reply.data, poId)); finishRead(ticket); return true
+      const parsed = parseMandorCorrection(reply.data, poId)
+      redo.current = { poId, menus: parsed.afterSteps.map(s => s.menu) }
+      setData(parsed); finishRead(ticket); return true
     } catch (e) {
       if (n === serial.current && isReadCurrent(ticket)) setError(normalizeClientError(e).message)
       return false
@@ -64,7 +68,8 @@ export default function MandorCorrectionPanel({ groupId, groupVersion, parentRea
     retire: (value: unknown, e: ProductionEnvelope) => {
       const result = validateMandorCorrection(value, e); committed.current = true
       setData(null); setReviewed(false); setTarget(''); setReason('')
-      outcome.current = `${result.poNumber}: ${result.pickupCount} pembagian diganti ke mandor yang benar. Catat ulang hasil jahit di WIP & Jahit dengan waktu fisik aslinya, periksa tarif, lalu susun ulang nota. Riwayat upah dan nota lama tetap tersimpan.`
+      const p = e.payload as { po_id?: unknown }, seen = redo.current, menus = seen && seen.poId === p.po_id ? seen.menus : []
+      outcome.current = `${result.poNumber}: ${result.pickupCount} pembagian diganti ke mandor yang benar. Catat ulang hasil jahit di Produksi › WIP & Sewing dengan waktu fisik aslinya dan pilih tarifnya, lalu buat lagi dokumen lain yang tadi dibalik${menus.length ? ` (urutannya: ${menus.join('; ')})` : ''}. Riwayat upah dan nota lama tetap tersimpan.`
       setDone(outcome.current)
     },
     reload: async () => {
@@ -90,13 +95,19 @@ export default function MandorCorrectionPanel({ groupId, groupVersion, parentRea
         <p>Mandor tercatat: {data.contractors.find(c => c.id === data.contractorId)?.name ?? 'Lihat riwayat PO'}.</p>
         {data.blockers.length ? <div role="alert"><p>Dokumen berikut masih mengunci koreksi. Balik pemakaiannya dari dokumen paling akhir, lalu periksa ulang daftar ini.</p>
           {data.blockers.some(b => b.kind === 'PO_STATE' && b.status === 'FINISHED') && data.blockers.some(b => b.kind === 'FG_LOT') ? <p>Barang jadi yang sudah dipakai harus dibalik melalui dokumen pemakaiannya sebelum membuka kembali PO. Setelah PO dibuka, balik QC dan laundry, lalu periksa lagi pengunci upahnya.</p> : null}
-          <ol>{data.blockers.map(b => <li key={`${b.kind}:${b.id}`}><strong>{b.number ?? documentNames[b.kind] ?? 'Dokumen terkait'}</strong> — {b.step}</li>)}</ol></div> : <p>Dokumen pengunci sudah ditutup. Riwayat lama tetap tersimpan saat pembagian pengganti dibuat.</p>}
+          <ol>{data.blockers.map(b => { const name = b.number ?? documentNames[b.kind] ?? 'Dokumen terkait'
+            return <li key={`${b.kind}:${b.id}`}><strong>{name}</strong> — {b.step}
+              {b.source ? <TransactionSourceLink sourceType={b.source.sourceType} sourceId={b.source.sourceId} label={`Buka ${name}`}/> : null}</li> })}</ol></div> : <p>Dokumen pengunci sudah ditutup. Riwayat lama tetap tersimpan saat pembagian pengganti dibuat.</p>}
         <button type="button" disabled={busy || recovery.busy} onClick={() => void load()}>Periksa ulang dokumen pengunci</button>
         <label>Mandor yang benar<select aria-label="Mandor yang benar" value={target} disabled={disabled} onChange={e => { setTarget(e.target.value); setReviewed(false) }}><option value="">Pilih mandor</option>{data.contractors.filter(c => c.id !== data.contractorId).map(c => <option key={c.id} value={c.id}>{c.name}</option>)}</select></label>
         <label>Alasan koreksi mandor<input aria-label="Alasan koreksi mandor" value={reason} maxLength={1000} disabled={disabled} onChange={e => { setReason(e.target.value); setReviewed(false) }}/></label>
         <p>{data.afterStep}</p>
+        <ol aria-label="Langkah sesudah koreksi mandor">{data.afterSteps.map(s => <li key={s.menu}><strong>{s.menu}</strong> — {s.step}</li>)}</ol>
         <label className="cproc-check"><input type="checkbox" aria-label="Koreksi seluruh PO sudah diperiksa" checked={reviewed} disabled={disabled || !validTarget || reason.trim().length < 5} onChange={e => setReviewed(e.target.checked)}/>Saya sudah memeriksa seluruh PO, mandor pengganti, dan langkah mencatat ulang jahitan.</label>
         <button type="button" disabled={disabled || !validTarget || !reviewed || reason.trim().length < 5} onClick={() => { if (data && !disabled) void run('CORRECT_MANDOR', mandorCorrectionPayload(data, target, reason), null, handlers) }}>Ganti pembagian ke mandor yang benar</button>
+        <section aria-label="Riwayat koreksi mandor PO ini"><h3>Riwayat koreksi mandor PO ini</h3>
+          {data.history.length ? <ol>{data.history.map(h => <li key={h.generationNo}>{formatCp6WibDateTime(h.recordedAt)} · {h.oldContractorName} → {h.newContractorName} · {h.pickupCount} pembagian diganti · oleh {h.actorName ?? 'akun yang sudah tidak terdaftar'} · alasan: {h.reason}</li>)}</ol>
+            : <p>PO ini belum pernah dikoreksi mandornya.</p>}</section>
       </> : null}
     </> : null}
   </section>
