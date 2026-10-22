@@ -20,6 +20,13 @@ PUBLIC=('public.erp_cp7_save_supplier_transfer_v1(jsonb,uuid)',
         'public.erp_cp7_get_supplier_transfer_v1(jsonb)')
 INTERNAL={'cp7_invoice_read':{'cp7_supplier_transfer.child_detail_v1(uuid,jsonb)'},
           'cp7_transaction_source_read':{'cp7_supplier_transfer.source_payment_v1(uuid)'}}
+DDL_ROLES={'postgres','cp7_invoice_read','cp7_invoice_write','cp7_transaction_source_read','cp7_procure_write'}
+FUNCTION_OWNERS={sig:'postgres'for sig in native_delta.SIGNATURES}
+FUNCTION_OWNERS['cp7_invoice.payment_detail(uuid,jsonb)']='cp7_invoice_read'
+FUNCTION_OWNERS['cp7_transaction_source.resolve(jsonb)']='cp7_transaction_source_read'
+SCHEMA_OWNERS={'erp':'postgres','cp7_invoice':'cp7_invoice_read',
+    'cp7_supplier_payment_correction':'cp7_invoice_read',
+    'cp7_receipt_fix':'cp7_procure_write','cp7_transaction_source':'cp7_transaction_source_read'}
 catalog=predecessor.predecessor.catalog
 atomic=predecessor.predecessor.atomic
 
@@ -28,6 +35,21 @@ def sources():
     return dict(predecessor=predecessor.sources(),
         files={name:sha256((ROOT/name).read_bytes()).hexdigest()
                for name in('transfer.sql','correction.sql','read.sql','native_delta.py','composition.py')})
+
+
+@contextmanager
+def existing_ddl_owner(cur,owner):
+    # The OW04 consumer helper intentionally admits only its own private
+    # roles. Keep it unchanged; this stage admits only these existing owners
+    # from the fully verified predecessor, never an arbitrary caller role.
+    if owner not in DDL_ROLES:raise ValueError('OW06_UNTRUSTED_EXISTING_DDL_OWNER')
+    previous=cur.execute('select current_user').fetchone()[0]
+    if previous not in DDL_ROLES:raise ValueError('OW06_UNTRUSTED_INSTALLER_ROLE')
+    if owner!=previous:cur.execute(sql.SQL('set local role {}').format(sql.Identifier(owner)))
+    try:yield
+    finally:
+        if owner!=previous and cur.connection.info.transaction_status!=TransactionStatus.INERROR:
+            cur.execute(sql.SQL('set local role {}').format(sql.Identifier(previous)))
 
 
 @contextmanager
@@ -42,7 +64,9 @@ def function_ddl(cur,signature,captured):
     function_owner=captured['functions'][signature][1]
     schema_owner,acl,allowed=cur.execute("select pg_get_userbyid(nspowner),nspacl::text,has_schema_privilege(%s,oid,'CREATE')from pg_namespace where nspname=%s",
         (function_owner,namespace)).fetchone()
-    as_owner=predecessor.predecessor.payment.consumer.as_owner
+    if function_owner!=FUNCTION_OWNERS.get(signature)or schema_owner!=SCHEMA_OWNERS.get(namespace):
+        raise ValueError('OW06_VERIFIED_EXISTING_OWNER_CHANGED: '+signature)
+    as_owner=existing_ddl_owner
     if not allowed:
         with as_owner(cur,schema_owner):
             cur.execute(sql.SQL('grant create on schema {} to {}').format(sql.Identifier(namespace),sql.Identifier(function_owner)))

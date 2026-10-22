@@ -1,0 +1,23 @@
+{
+  "classification": "COMPACT_ORIGINAL_SECOND_OW06_INSTALL_FAILURE_NOT_RAW_LOG",
+  "status": "INCOMPLETE",
+  "candidate_commit": "39b415c36fddb2dba83f8656cfa037e565d49ee4",
+  "run_id": 39807454686,
+  "job_id": 119924364125,
+  "observed_case_count": 0,
+  "error": "OW04_CONSUMER_UNTRUSTED_PRIVATE_OWNER",
+  "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/cp7_supplier_transfer/native_probe.py\", line 71, in run\n    STATE=product.install(cur)\n          ^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_supplier_transfer/composition.py\", line 84, in install\n    with function_ddl(cur,signature,before):cur.execute(definition,prepare=False)\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/contextlib.py\", line 137, in __enter__\n    return next(self.gen)\n           ^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_supplier_transfer/composition.py\", line 47, in function_ddl\n    with as_owner(cur,schema_owner):\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/contextlib.py\", line 137, in __enter__\n    return next(self.gen)\n           ^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_customer_credit/consumer/composition.py\", line 225, in as_owner\n    raise ValueError('OW04_CONSUMER_UNTRUSTED_PRIVATE_OWNER')\nValueError: OW04_CONSUMER_UNTRUSTED_PRIVATE_OWNER\n",
+  "original_report": {
+    "name": "ow06-native10-39b415c3-second-install-failure.json",
+    "bytes": 8069,
+    "sha256": "0ffef1e41d0b3880e886da31f4ebbc1dbfb9ca73591c30377824ecd7d4fb1033"
+  },
+  "artifact": {
+    "id": 12437029993,
+    "zip_bytes": 1622793,
+    "zip_sha256": "63e0783e5f7a7281f622f8b2413fe5fa04e3ab6ac0f3f029e150d020226661e0"
+  },
+  "disposition": "The OW04 consumer role helper deliberately permits only postgres/cp7_credit_write. Keep it unchanged; OW06 now has its own source-validated finite existing-function/schema owner map and bounded installer SET LOCAL ROLE with exact ACL restoration. No App grant and no financial oracle change.",
+  "OW06_complete": false,
+  "production_go": false
+}
