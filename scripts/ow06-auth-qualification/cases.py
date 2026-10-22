@@ -19,6 +19,8 @@ IDS=('OW06_REAL_AUTH_CREATE_REPLAY_CORRECT_REVERSE_EXACT_CASH',
 REASON='OW06 satu transfer supplier lewat login nyata'
 LOCK="select pg_backend_pid(),pg_advisory_xact_lock(hashtextextended('FG_HPP_SALES_V2620C',0))"
 PAY='finance.ap.pay'
+# Active role outside OWNER/ADMIN: cp7_invoice.payment_access() gives it no pay right whatever its permissions.
+ROLE='KEUANGAN'
 
 
 def body(reply):
@@ -112,7 +114,7 @@ def http_cases(http,today):
         assert w['can_write']is True and all(pid in ids for pid in f['receipts']),w
         start=state(http,f);p=payload(w,f);key=uuid.uuid4();made=body(save(user,p,key))
         after=state(http,f)
-        assert D(after['cash'])==D(start['cash'])-1000 and after['paid']=={pid:str(D(start['paid'][pid])+D(a))for pid,a in zip(f['receipts'],('400','600'))},(start,after)
+        assert D(after['cash'])==D(start['cash'])-1000 and{k:D(v)for k,v in after['paid'].items()}=={pid:D(start['paid'][pid])+D(a)for pid,a in zip(f['receipts'],('400','600'))},(start,after)
         assert after['journals']==[('POSTED','1000.00','1000.00','2')]and after['private']['context_v1']==0,after
         assert body(save(user,p,key))==made and state(http,f)==after
         changed=save(user,dict(p,reason=REASON+' berubah'),key)
@@ -122,7 +124,7 @@ def http_cases(http,today):
         fixed=body(save(user,payload(read(user,f,made['transfer_id']),f,('250.00','500.00'),made['transfer_id'])))
         assert fixed['transfer_id']!=made['transfer_id']and read(user,f,made['transfer_id'])['selected']['status']=='REVERSED',fixed
         corrected=state(http,f)
-        assert D(corrected['cash'])==D(start['cash'])-750 and corrected['paid']=={pid:str(D(start['paid'][pid])+D(a))for pid,a in zip(f['receipts'],('250','500'))},corrected
+        assert D(corrected['cash'])==D(start['cash'])-750 and{k:D(v)for k,v in corrected['paid'].items()}=={pid:D(start['paid'][pid])+D(a)for pid,a in zip(f['receipts'],('250','500'))},corrected
         w=read(user,f,fixed['transfer_id'])
         back=body(save(user,dict(action='REVERSE',supplier_id=f['supplier'],transfer_id=fixed['transfer_id'],review_token=w['review_token'],reason=REASON)))
         end=state(http,f)
@@ -147,14 +149,15 @@ def http_cases(http,today):
                         removed=role_permission(http,role)
                     finally:holder.rollback()
                 reply=future.result(timeout=60)
-            assert reply['status']==403 and'CP7_SUPPLIER_TRANSFER_ACCESS_CHANGED'in str(reply['body']),reply
+            # The re-check after the wait (transfer.sql, access_now_v1(true)) refuses a missing write right itself.
+            assert reply['status']==403 and'CP7_SUPPLIER_TRANSFER_DENIED'in str(reply['body']),reply
             assert state(http,f)==before
             role_permission(http,role,removed);removed=None
             made=body(save(user,p,key))
             assert D(state(http,f)['cash'])==D(before['cash'])-1000 and body(save(user,p,key))==made
         finally:
             if removed is not None:role_permission(http,role,removed)
-        return dict(status='PASS',actual_advisory_wait=[list(map(str,r))for r in observed],right_removed_while_waiting='403 CP7_SUPPLIER_TRANSFER_ACCESS_CHANGED',
+        return dict(status='PASS',actual_advisory_wait=[list(map(str,r))for r in observed],right_removed_while_waiting='403 CP7_SUPPLIER_TRANSFER_DENIED after the wait',
             zero_effect=True,same_UUID_after_right_restored_succeeds_once=True)
 
     def race():
@@ -184,9 +187,9 @@ def http_cases(http,today):
         owner=http.login('OWNER',label='ow06-denied-owner');f=prepare(http,today);p=payload(read(owner,f),f)
         with http.connect()as conn,conn.cursor()as cur:
             perms={k for k,in cur.execute("""select p.permission_key from erp.app_role_permissions p join erp.app_roles r on r.id=p.role_id
-                where r.role_code='STAFF' and r.is_active""").fetchall()};conn.rollback()
+                where r.role_code=%s and r.is_active""",(ROLE,)).fetchall()};conn.rollback()
         viewer='warehouse.procurement.view'in perms and'finance.ap.view'in perms
-        staff=http.login('STAFF',label='ow06-denied-staff');before=state(http,f)
+        staff=http.login(ROLE,label='ow06-denied-'+ROLE.lower());before=state(http,f)
         seen=staff.rpc('erp_cp7_get_supplier_transfer_v1',dict(p_query=dict(supplier_id=f['supplier'],transfer_id=None)))
         if viewer:
             assert seen['status']==200 and seen['body']['can_write']is False,seen
@@ -198,6 +201,6 @@ def http_cases(http,today):
         assert state(http,f)==before
         anon=http.anon_rpc('erp_cp7_save_supplier_transfer_v1',dict(p_payload=p,p_request=str(uuid.uuid4())))
         assert anon['status']in(401,403)and state(http,f)==before,anon
-        return dict(status='PASS',staff_can_view=viewer,staff_read=seen['status'],staff_write='403 '+expected,anonymous=anon['status'],zero_effect=True)
+        return dict(status='PASS',role=ROLE,role_has_finance_ap_pay=PAY in perms,staff_can_view=viewer,staff_read=seen['status'],staff_write='403 '+expected,anonymous=anon['status'],zero_effect=True)
 
     return list(zip(IDS,(journey,revoked,race,denied)))
