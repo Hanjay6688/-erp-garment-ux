@@ -142,3 +142,8 @@ v1 lama tetap dibaca. B tidak memberi role pembaca gudang akses ke tabel aturan 
 facade gudang ditampilkan sebagai referensi netral, sementara angka/aturan aktif dari panel sumber material yang sama.
 Mohon A mengganti label fakta minimum di ConnectedMasterPage.tsx menjadi referensi lama saat mengambil hasil B.
 OW14b belum ditutup: pemulihan UUID di klien dan kualifikasi Native masih dikerjakan.
+
+Lanjutan checkpoint: pemulihan klien sudah terpasang;44 uji klien/DOM lulus. Setiap UUID punya catatan tersendiri
+sebelum pengiriman, hasil belum jelas memagari pilihan lain atas bahan yang sama, current403 menyembunyikan fakta
+tanpa membuang permintaan. Penolakan pasti sebelum INSERT boleh ditutup, jaringan/403 tidak dijadikan kepastian.
+Kualifikasi Native/HTTP/browser/pasang-pulih serta uji tunggu/revokasi tetap belum diklaim.

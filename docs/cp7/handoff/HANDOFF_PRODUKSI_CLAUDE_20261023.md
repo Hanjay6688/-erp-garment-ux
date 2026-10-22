@@ -47,8 +47,10 @@ Sumber A untuk OW12a belum diberikan pada catatan ini; pekerjaan B lain tetap be
 
 Head sesudah4d juga menyimpan **WIP OW14b**: referensi minimum lama baca saja, pilihan satu aturan per kain,
 minimum yang dipilih tetap sampai revisi berikutnya, dan sumber pengingat tidak menghidupkan minimum lama kedua.
-Enam kelompok SQL pada adapter/31 uji klien lulus; pemulihan UUID klien dan Native/HTTP/browser/pasang-pulih belum
-selesai. WIP ini **belum siap diambil untuk integrasi**, tidak menyatakan butir selesai. B melanjutkannya setelah
+Enam kelompok SQL pada adapter/44 uji klien lulus. Pemulihan UUID klien sesudah remount, larangan mengganti pilihan
+saat jawaban belum jelas, dua catatan serentak, data lokal rusak, gagal menyimpan catatan dan current403 sudah
+diperiksa lokal; Native/HTTP/browser/pasang-pulih masih menunggu. WIP ini **belum siap diambil untuk integrasi**,
+tidak menyatakan butir selesai. B melanjutkannya setelah
 checkpoint; lihat ow14b/README.md dan koordinasi bagian06 untuk kontrak serta kolom pemasangan yang diperlukan A.
 
 Status induk tetap5/16 sampai paket dan syarat tiap butir benar-benar ditutup. CP7C belum dinyatakan siap dari hasil ini.

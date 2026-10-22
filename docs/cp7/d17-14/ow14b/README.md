@@ -19,13 +19,19 @@ Payload pilihan menambah pasangan fabric_rule + expected_legacy_minimum_qty. Ser
 UUID/isi yang sama, hak sesudah lock dan hak sebelum selesai. Klien lama yang hanya mengubah lama kirim tidak
 mengosongkan aturan yang sudah dipilih. Tiga kolom privat bertambah, tidak ada fungsi/role/endpoint baru.
 
-Bukti saat checkpoint: enam kelompok SQL aktual pada adapter ERP/identitas terkendali lulus;31 uji klien/DOM dan
+Bukti saat checkpoint: enam kelompok SQL aktual pada adapter ERP/identitas terkendali lulus;44 uji klien/DOM dan
 TypeScript/CSS lulus. Bukti lokal bukan Native/login/race nyata. Kegagalan pertama UI lama serta skala serialisasi
 tetap disimpan. Nilai800/60/900/1000 adalah fixture, bukan keputusan owner atau angka Enteng.
 
-Sisa sebelum kualifikasi: permintaan simpan harus pulih dengan UUID/isi sama sesudah remount, ditahan bila hasilnya
-belum diketahui, lalu kontrol Native/HTTP/browser/pasang-pulih dan konflik akses harus dijalankan. Sumber SQL dan
-klien sudah berubah;31 uji lokal tidak memberikan izin memakai kode ini pada produksi.
+Permintaan simpan sekarang disimpan sebelum pengiriman dengan satu key per UUID. Dua tab tidak menimpa catatan
+masing-masing. Balasan hilang pulih dengan UUID/isi sama setelah remount; pilihan lain atas bahan yang sama ditahan.
+Isian baru yang belum dikirim tetap ada ketika permintaan lama diperiksa. Penolakan hak saat ini menyembunyikan fakta
+dan nama bahan, tetapi tidak membuang permintaan yang mungkin sudah tersimpan. Data lokal rusak tidak ditimpa;
+catatan yang gagal disimpan tidak mengirim RPC. Hanya penolakan pasti sesudah pemeriksaan replay/sebelum INSERT
+yang mengizinkan permintaan ditutup sebagai tidak tersimpan. Tidak mengarang kepastian dari jaringan/403.
+
+Sisa sebelum kualifikasi: kontrol Native/HTTP/browser/pasang-pulih dan konflik akses harus dijalankan pada satu
+kandidat.44 uji lokal tidak memberikan izin memakai kode ini pada produksi.
 
 A/integrator: inventaris minimum lama saat pemasangan, cocokkan identitas/satuan dan tampilkan aturan aktif; jangan
 menghapus atau memindahkan nilai Enteng otomatis. Tambahkan kolom ke pemasang/upgrade/rollback/pemulihan sesuai sumber

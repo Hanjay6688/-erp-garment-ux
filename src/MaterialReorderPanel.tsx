@@ -2,7 +2,6 @@ import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } fro
 import { useAuth } from './auth/AuthProvider'
 import { isConnectedRuntime } from './config/runtime'
 import { getUatSupabaseClient } from './lib/supabase'
-import { isUnansweredFailure } from './lib/clientError'
 import { formatCp6WibDateTime } from './cp6BusinessTime'
 import { formatWaDay } from './waContract'
 import { REASON_MAX, REORDER_PAGE, REORDER_QUERY_MAX, formatReorderQty, formatReorderUpTo2, formatReorderWhole, parseFgReorderRefresh, servicePercent,
@@ -16,6 +15,7 @@ import {
 } from './materialReorderContract'
 import './procurement-connected.css'
 import './fg-reorder.css'
+import {clearMaterialRequest,materialAccessDenied,materialRequestDefinitelyRefused,materialRequestPrefix,persistMaterialRequest,readMaterialRequests,type MaterialRequest} from './materialReorderRequests'
 
 // SS-2 (fabric) and SS-3 (accessories), owner D17-9, D17-10 and D17-12: one component on Gudang › Bahan & Roll and Master Data ›
 // Kain & Benchmark (FABRIC: "Titik pesan ulang kain", the formula with the lama kirim of each fabric), Gudang › Aksesori and
@@ -27,7 +27,6 @@ import './fg-reorder.css'
 // Jadi: every read is sequenced so the latest question wins, and a write keeps one request id per attempt in memory (an
 // unanswered attempt is sent again with it).
 type Note = { tone: 'ok' | 'bad'; text: string }
-type Pending = { id: string; fingerprint: string }
 type Editing = MaterialDraft & { materialId: string }
 const words: Record<MaterialType, { label: string; heading: string; noun: string; search: string; row: string; manualFilter: string }> = {
   FABRIC: { label: 'Titik pesan ulang kain', heading: 'Titik pesan ulang kain (safety stock)', noun: 'kain', search: 'Cari kain untuk titik pesan ulang',
@@ -44,15 +43,17 @@ export default function MaterialReorderPanel({ materialType, readOnlySummary=fal
 }
 
 function Panel({ materialType,readOnlySummary }: { materialType: MaterialType;readOnlySummary:boolean }) {
-  const { runtime } = useAuth()
-  if (!isConnectedRuntime(runtime)) throw new Error('Sesi bahan belum siap.')
+  const { runtime,identity } = useAuth()
+  if (!isConnectedRuntime(runtime)||identity.status!=='AUTHORIZED') throw new Error('Sesi bahan belum siap.')
   const client = useMemo(() => getUatSupabaseClient(runtime), [runtime]), say = words[materialType], fabric = materialType === 'FABRIC'
+  const requestScope=runtime.projectRef+':'+identity.profile.id
   const serial = useRef(0), requested = useRef<MaterialQuery>({ material_type: materialType, q: '', filter: 'ALL', offset: 0, limit: REORDER_PAGE })
   const [data, setData] = useState<MaterialWorkspace | null>(null), [busy, setBusy] = useState(false), [error, setError] = useState('')
   const [filter, setFilter] = useState<MaterialFilter>('ALL'), [search, setSearch] = useState('')
   const [writing, setWriting] = useState<string | null>(null), [notes, setNotes] = useState<Record<string, Note>>({})
   const [editing, setEditing] = useState<Editing | null>(null)
-  const pending = useRef(new Map<string, Pending>())
+  const [recovery,setRecovery]=useState(()=>readMaterialRequests(requestScope,materialType))
+  const [accessDenied,setAccessDenied]=useState(false)
 
   const note = (scope: string, value: Note | null) => setNotes(current => {
     const next = { ...current }
@@ -66,13 +67,17 @@ function Panel({ materialType,readOnlySummary }: { materialType: MaterialType;re
       const reply = await client.rpc('erp_cp7_get_material_reorder_v1', { p_query: query })
       if (n !== serial.current) return
       if (reply.error) throw reply.error
-      setData(parseMaterialWorkspace(reply.data, query))
+      setData(parseMaterialWorkspace(reply.data, query));setAccessDenied(false)
     } catch (e) {
-      if (n === serial.current) { setData(null); setError(materialErrorText(e, materialType)) }
+      if (n === serial.current) { setData(null);setAccessDenied(materialAccessDenied(e)); setError(materialErrorText(e, materialType)) }
     } finally { if (n === serial.current) setBusy(false) }
   }, [client, materialType])
   useEffect(() => { void load() }, [load])
   useEffect(() => () => { ++serial.current }, [])
+  useEffect(()=>{
+    const listen=(e:StorageEvent)=>{if(e.key===null||e.key.startsWith(materialRequestPrefix(requestScope,materialType)))setRecovery(readMaterialRequests(requestScope,materialType))}
+    addEventListener('storage',listen);return()=>removeEventListener('storage',listen)
+  },[requestScope,materialType])
 
   const locked = busy || writing !== null || !data
   // A newer question may start while a read is under way (filter, search): the sequence number keeps only its answer.
@@ -92,27 +97,44 @@ function Panel({ materialType,readOnlySummary }: { materialType: MaterialType;re
     } catch (e) { note('REFRESH', { tone: 'bad', text: materialWriteErrorText(e, materialType, 'REFRESH') }) } finally { setWriting(null) }
   }
 
+  const send = async (request:MaterialRequest,fromEdit=false) => {
+    if(readOnlySummary||busy||writing!==null||accessDenied)return
+    const payload=request.payload,id=payload.material_id,n=++serial.current
+    setWriting(id);note(id,null);note('RECOVERY',null)
+    try{
+      const reply=await client.rpc('erp_cp7_save_material_reorder_v1',{p_payload:payload,p_request:request.id})
+      if(n!==serial.current)return
+      if(reply.error)throw reply.error
+      const saved=parseMaterialSaveResult(reply.data,payload,materialType)
+      clearMaterialRequest(requestScope,materialType,request);setRecovery(readMaterialRequests(requestScope,materialType))
+      const what=fabric?(payload.fabric_rule==='FORMULA'?'aturan rumus':payload.fabric_rule==='LEGACY_MINIMUM'?'minimum lama yang diperiksa':payload.lead_days===null?'lama kirim kosong':'lama kirim '+formatReorderUpTo2(payload.lead_days)+' hari')
+        :accessorySavedText(payload,data?.page.rows.find(r=>r.materialId===id)?.unitCode??null)
+      const result:Note={tone:'ok',text:'Tersimpan (revisi '+formatReorderWhole(saved.revision)+'): '+what+'.'+(saved.replay?' Permintaan ini ternyata sudah tersimpan sebelumnya.':'')}
+      note(id,result);if(!fromEdit)note('RECOVERY',result)
+      if(fromEdit)setEditing(null)
+      setWriting(null);await load()
+    }catch(e){
+      if(n!==serial.current)return
+      let failure=e
+      if(materialRequestDefinitelyRefused(e)){
+        try{clearMaterialRequest(requestScope,materialType,request)}catch(cleanup){failure=cleanup}
+        setRecovery(readMaterialRequests(requestScope,materialType))
+      }
+      if(materialAccessDenied(e)){setData(null);setAccessDenied(true);setError(materialErrorText(e,materialType))}
+      const result:Note={tone:'bad',text:materialWriteErrorText(failure,materialType,'SAVE')};note(id,result);if(!fromEdit)note('RECOVERY',result)
+    }finally{if(n===serial.current)setWriting(null)}
+  }
   const save = async (r: MaterialRow) => {
-    if (locked || !editing || editing.materialId !== r.materialId || materialProblem(materialType, editing) || !materialChanged(materialType, r, editing)) return
-    const payload = materialPayload(r, materialType, editing), fingerprint = JSON.stringify(payload)
-    const held = pending.current.get(r.materialId), request = held && held.fingerprint === fingerprint ? held.id : crypto.randomUUID()
-    pending.current.set(r.materialId, { id: request, fingerprint })
-    setWriting(r.materialId); note(r.materialId, null)
-    try {
-      const reply = await client.rpc('erp_cp7_save_material_reorder_v1', { p_payload: payload, p_request: request })
-      if (reply.error) throw reply.error
-      const saved = parseMaterialSaveResult(reply.data, payload, materialType)
-      pending.current.delete(r.materialId)
-      // A fabric saves its lama kirim, an accessory its minimum (typed, or worked out from its numbers): the note names it.
-      const what = fabric ? (payload.lead_days === null ? 'lama kirim kosong' : `lama kirim ${formatReorderUpTo2(payload.lead_days)} hari`)
-        : accessorySavedText(payload, r.unitCode)
-      note(r.materialId, { tone: 'ok', text: `Tersimpan (revisi ${formatReorderWhole(saved.revision)}): ${what}.`
-        + (saved.replay ? ' Permintaan ini ternyata sudah tersimpan sebelumnya.' : '') })
-      setEditing(null); setWriting(null); await load()
-    } catch (e) {
-      if (!isUnansweredFailure(e)) pending.current.delete(r.materialId)
-      note(r.materialId, { tone: 'bad', text: materialWriteErrorText(e, materialType, 'SAVE') })
-    } finally { setWriting(null) }
+    if(locked||!editing||editing.materialId!==r.materialId||materialProblem(materialType,editing)||!materialChanged(materialType,r,editing))return
+    try{
+      const payload=materialPayload(r,materialType,editing),held=readMaterialRequests(requestScope,materialType)
+      if(held.error)throw Error(held.error)
+      const mine=held.pending.filter(x=>x.payload.material_id===r.materialId),same=mine.find(x=>JSON.stringify(x.payload)===JSON.stringify(payload))
+      if(mine.length&&!same)throw Error('Masih ada penyimpanan bahan ini yang hasilnya belum jelas. Periksa penyimpanan yang sama di atas sebelum membuat perubahan lain.')
+      const request=same??{id:crypto.randomUUID(),label:r.name.slice(0,400),payload}
+      if(!same)persistMaterialRequest(requestScope,materialType,request)
+      setRecovery(readMaterialRequests(requestScope,materialType));await send(request,true)
+    }catch(e){note(r.materialId,{tone:'bad',text:materialWriteErrorText(e,materialType,'SAVE')})}
   }
   const noteView = (scope: string) => {
     const n = notes[scope]
@@ -164,6 +186,14 @@ function Panel({ materialType,readOnlySummary }: { materialType: MaterialType;re
       </div>
     </header>
     {noteView('REFRESH')}
+    {!readOnlySummary&&(recovery.error||recovery.pending.length)?<aside className="cfr-source" aria-label="Penyimpanan bahan belum selesai">
+      {recovery.error?<p role="alert">{recovery.error}</p>:null}
+      {accessDenied?<p>Catatan penyimpanan tetap disimpan sampai akses akun dipulihkan.</p>:recovery.pending.map(r=><div key={r.id}>
+        <p>Hasil penyimpanan {r.label} belum dipastikan. Periksa penyimpanan yang sama sebelum mengganti aturannya.</p>
+        <button type="button" disabled={busy||writing!==null||Boolean(recovery.error)} onClick={()=>{void send(r)}}>Ulangi simpan bahan yang sama: {r.label}</button>
+      </div>)}
+    </aside>:null}
+    {noteView('RECOVERY')}
     {error ? <p className="cfr-note bad" role="alert">{error}</p> : null}
     <div className="cfr-filters" role="group" aria-label={`Saring ${say.label.toLowerCase()}`}>
       {materialFilters[materialType].map(f => { const n = countOf[f]; return <button type="button" key={f} aria-pressed={filter === f}

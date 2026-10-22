@@ -9,5 +9,12 @@
   ],
   "owner_requirement": "D17-16/OW14b: old minimum is a read-only reference, with one clear active rule",
   "resolution": "Update only the superseded presentation assertions; retain exact stock12.25YD/reference100YD and verify no legacy edit input or second active warning",
-  "production_go": false
+  "production_go": false,
+  "first_recovery_dom_execution": {
+    "status": "INCOMPLETE",
+    "new_cases_executed": 0,
+    "retained_cases_pass": 40,
+    "error": "Vitest hoisting rejects two vi.hoisted declarations in one declaration statement",
+    "fix": "Split declarations; all44 client/DOM cases then pass; no product oracle changed"
+  }
 }
