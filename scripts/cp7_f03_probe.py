@@ -5,6 +5,7 @@ import cp7_restore_state as restore_state
 from cp7_catalog_state import exact_public_catalog
 import cp7_f03_bundle as bundle
 import cp7_f03_cases as cases
+import cp7_ow09_list_cases as ow09
 import cp7_note_correction_verify as note_correction
 import cp7_sales_return_correction_bundle as return_correction
 import cp7_sales_chain_bundle as sales_chain
@@ -50,6 +51,8 @@ def run():
   with exact_public_catalog(native,retain_raw=True)as catalog_audit:
    report['native']=native.strict_group('CP7_F03_COMBINED',cases.cases,verify)
   report['native_public_catalog_comparison']=catalog_audit
+  # OW-09 (owner D17-16): every list reader of the stack orders and filters the whole matching list before paging.
+  report['ow09_lists']=native.strict_group('CP7_OW09_WHOLE_LIST',ow09.cases,verify)
   report['races']=modes.run_races(cases,verify,'cp7_f03_combined')
   report['http']=modes.run_http(cases,verify,'cp7_f03_combined')
   for group,script in [('sales_browser','cp7_p11_returns_browser.mjs'),('opening_payroll_browser','cp7_p12_opening_browser.mjs'),('finance_browser','cp7_p13_finance_browser.mjs')]:report[group]=modes.run_browser(bundle.ROOT/'scripts'/script,verify,'cp7_f03_'+group)
@@ -61,7 +64,7 @@ def run():
     for role in bundle.ROLES:cur.execute('drop owned by '+role+' cascade;drop role '+role,prepare=False)
     conn.commit();report['cp6_restored']=restore_state.prove(cur,restore_before,package.boundary.snapshot,native.public_state,p09.functions,report);conn.rollback();p09.wip.policy.bf.verified(cur);conn.rollback()
    report['advisor_delta']=advisor_delta(advisors(package.boundary.PG),report.get('advisors_with_cp7',{}));d=report['advisor_delta'];report['advisor_gate']=d['status']=='NO_NEW_FINDINGS' or(d['status']=='REVIEW_REQUIRED' and all(f.get('name')=='rls_enabled_no_policy' and f.get('level')=='INFO' and(f.get('metadata')or{}).get('schema')in('cp7_recost','cp7_period','cp7_sales','cp7_payroll','cp7_attendance','cp7_fg','cp7_private','cp7_identity','cp7_wip','cp7_procurement','cp7_material','cp7_supplier_return','cp7_invoice','cp7_receipt_fix')for f in d.get('added',[])))
-  groups=[report.get(k,{})for k in('native','races','http','sales_browser','opening_payroll_browser','finance_browser')];report['observed_case_count']=sum(sum(g.get('counts',{}).values())for g in groups);report['status']='PASS' if not report.get('error') and report.get('cp6_restored') and report.get('advisor_gate') and report['observed_case_count']==22 and all(g.get('status')in('PASS','RUN_COMPLETE') and set(g.get('counts',{}))=={'PASS'} and g.get('database_remaining',0)==0 for g in groups) else 'INCOMPLETE'
+  groups=[report.get(k,{})for k in('native','ow09_lists','races','http','sales_browser','opening_payroll_browser','finance_browser')];report['observed_case_count']=sum(sum(g.get('counts',{}).values())for g in groups);report['status']='PASS' if not report.get('error') and report.get('cp6_restored') and report.get('advisor_gate') and report['observed_case_count']==28 and all(g.get('status')in('PASS','RUN_COMPLETE') and set(g.get('counts',{}))=={'PASS'} and g.get('database_remaining',0)==0 for g in groups) else 'INCOMPLETE'
   OUT.parent.mkdir(parents=True,exist_ok=True);OUT.write_text(json.dumps(report,indent=2,default=str)+'\n');print(json.dumps({k:report.get(k)for k in('label','status','source_sha256','observed_case_count','cp6_restored','advisor_gate','error','traceback')},default=str),flush=True)
  return dict(status=report['status'],production_go=False,independent_acceptance=False,full_family_acceptance=False)
 if __name__=='__main__':
