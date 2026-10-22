@@ -115,7 +115,7 @@ function StatusWorkspace({groupId,sourceKey,parentBusy,onAuthorityLost}:Props){
     {pending.map(intent=><div key={intent.requestId}><p role="status">Penyimpanan aturan belum dipastikan. Permintaan {intent.requestId.slice(0,8)} tetap disimpan.</p>
       <button type="button" disabled={saving||parentBusy||!canManage||Boolean(storageError)} onClick={()=>void send(intent)}>Periksa aturan tertunda {intent.requestId.slice(0,8)}</button></div>)}
     {value?<>
-      <p>{value.group.posted?'Potong sudah disahkan.':'Potongan belum disahkan atau sudah dibatalkan.'} {value.group.pattern_label||'Pola belum lengkap'} · {formatCp6WibDateTime(value.group.physical_at)} WIB.</p>
+      <p>{value.group.posted?'Potong sudah disahkan.':'Potongan belum disahkan atau sudah dibatalkan.'} {value.group.pattern_label||'Pola belum lengkap'} · {formatCp6WibDateTime(value.group.physical_at)}.</p>
       <p>Proses produksi: {stages[value.group.production_stage]??'Status proses belum dikenali'}. Penilaian ini khusus hasil potong.</p>
       <ul className="ccut-status-list">{value.materials.map(row=><li key={row.material_id}>
         <strong>{row.sku} · {row.name}</strong>
@@ -127,7 +127,7 @@ function StatusWorkspace({groupId,sourceKey,parentBusy,onAuthorityLost}:Props){
       </li>)}</ul>
       {value.materials.length===0?<p>Rincian bahan belum lengkap; belum ada penilaian hasil.</p>:null}
       <p>Perbandingan memakai jenis bahan, pola, revisi, dan ukuran yang sama. Selisih hasil belum menjelaskan penyebabnya.</p>
-      <p>Diperiksa {formatCp6WibDateTime(value.checkedAt)} WIB. {value.policy?`Aturan versi ${value.policy.revision}: cakupan riwayat ${cuttingCoveragePercent(value.policy.coverage)}%, minimal ${value.policy.min_groups} kelompok.`:'Aturan cakupan dan minimum riwayat belum ditetapkan owner.'}</p>
+      <p>Diperiksa {formatCp6WibDateTime(value.checkedAt)}. {value.policy?`Aturan versi ${value.policy.revision}: cakupan riwayat ${cuttingCoveragePercent(value.policy.coverage)}%, minimal ${value.policy.min_groups} kelompok.`:'Aturan cakupan dan minimum riwayat belum ditetapkan owner.'}</p>
       {canManage?<details><summary>Atur rentang hasil potong pabrik</summary>
         <p>Aturan berlaku untuk seluruh pabrik; pembanding setiap bahan, pola dan ukuran tetap terpisah. Tidak ada angka bawaan yang diaktifkan.</p>
         <fieldset disabled={locked}><div className="ccut-fields">
