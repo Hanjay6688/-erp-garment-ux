@@ -21,4 +21,7 @@
 .cwhs-fabric-rule { min-width: 0; overflow-wrap: anywhere; }
 .cwhs-fabric-rule summary { cursor: pointer; padding: 10px 0; font-weight: 600; }
 .cwhs-fabric-rule details[open] > summary { margin-bottom: 10px; }
+.cwhs-legacy { min-width: 0; overflow-wrap: anywhere; }
+.cwhs-legacy summary { cursor: pointer; font-weight: 600; }
+.cwhs-legacy p { color: #adb7cc; }
 @media (max-width: 640px) { .cwhs .cwhs-search { grid-template-columns: 1fr; } .cwhs-totals, .cwhs-parts { grid-template-columns: 1fr; } .cwhs-lines strong { font-size: 21px; } }

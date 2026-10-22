@@ -344,10 +344,18 @@ end $$;
 -- fabric_source(). The two sets never share a fabric.
 create function cp7_alert_native.fabric_kind_source()returns jsonb
 language plpgsql volatile security definer set search_path=''set TimeZone='UTC'as $$
-declare m jsonb:=cp7_alert_native.fabric_source();f jsonb:=cp7_stock_formula.material_source('FABRIC');
+declare f jsonb:=cp7_stock_formula.material_source('FABRIC');m jsonb:=cp7_alert_native.fabric_source();
 begin
- return jsonb_build_object('rows',(m->'rows')||(f->'rows'),
-  'states',coalesce((select jsonb_object_agg(e.key,e.value)from jsonb_each(f->'states')e where e.value<>'"MANUAL_MINIMUM_IN_FORCE"'::jsonb),'{}')||(m->'states'));
+ -- The current evaluation owns the explicit choice. The Native legacy rule
+ -- only fills subjects it still delegates, including during a busy recheck;
+ -- it cannot resurrect a reference minimum after FORMULA was selected.
+ return jsonb_build_object('rows',(f->'rows')||coalesce((select jsonb_agg(x)from jsonb_array_elements(m->'rows')x
+   where(f->'states'->>(x->>'subject_key')is null or f->'states'->>(x->>'subject_key')='MANUAL_MINIMUM_IN_FORCE')
+    and not exists(select 1 from jsonb_array_elements(f->'rows')y where y->>'subject_key'=x->>'subject_key')),'[]'::jsonb),
+  'states',coalesce((select jsonb_object_agg(e.key,e.value)from jsonb_each(f->'states')e where e.value<>'"MANUAL_MINIMUM_IN_FORCE"'::jsonb),'{}')||
+   coalesce((select jsonb_object_agg(e.key,e.value)from jsonb_each(m->'states')e
+    where(f->'states'->>e.key is null or f->'states'->>e.key='MANUAL_MINIMUM_IN_FORCE')
+     and not exists(select 1 from jsonb_array_elements(f->'rows')y where y->>'subject_key'=e.key)),'{}'));
 end $$;
 -- Receivables: cp7_reminder_native.receivable_source() (finance.ar.view), open while DUE_TODAY or OVERDUE.
 create function cp7_alert_native.ar_source()returns jsonb

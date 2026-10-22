@@ -32,11 +32,15 @@ Tidak ada fungsi/role/tabel/grant ERP baru; jumlah fungsi kernel tetap22. Bundle
 Pada **b6c041157f0f5888f8d0d50081de25f7538fb594**, Original yang sudah dibaca membuktikan target38/38,
 analisis bertahap15/15, serta stock formula/WA99/99, termasuk pasang/pulih dan gerbang advisor.
 Receipt/hash di b6c0411-pass.json. Bukti itu berlaku untuk b6, sebelum pemisahan suplai dua horizon di atas.
-Kandidat sesudah b6 harus lulus38/15/84/99 lagi. Tidak mengklaim kandidat baru lulus memakai bukti b6.
+Pada **4d881bfc20da641d2ed4a941cb97a3d125e9e65a**, Original membuktikan38/38,15/15,84/84; termasuk Native hari5
+di antara lead3 dan target10, desktop/HP, hak saat ini, UUID, pasang/pulih dan gerbang advisor. Receipt terpisah
+4d881bf-38-15-84-pass.json. Stock99 gagal boot pada batas unduh image:0 kasus, bukan hasil uji fitur. Log pertama
+ditahan privat, potongan/hash di 4d881bf-first-stock-boot.json; tidak mengulang tes tanpa perubahan/risiko konkret.
+Stock99 pada4d masih belum terverifikasi. Tidak memakai bukti99 b6 untuk menyebut4d lulus penuh.
 
 Sisa OW10: satu aturan/sumber permintaan pada semua jalur dan penggantian kredit WIP mentah per-model pada pengingat
 dengan suplai yang relevan dari mesin rencana yang sama; pengingat belum boleh dianggap sudah bebas hitung ganda.
-Kualifikasi server untuk pemisahan dua horizon masih menunggu. OW11/OW13c tetap terbuka.
+Kualifikasi server pemisahan dua horizon38/15/84 sudah lulus; sisa pemeriksaan stock99 belum berjalan. OW11/OW13c tetap terbuka.
 Rincian target bukan izin memulai produksi. Keuangan/HPP, data Enteng dan branch A tidak disentuh.
 
 Acuan modul ROP yang sudah ada: Chris Caplice, MIT ESD.260, Inventory Management: Probabilistic Demand, slide5–7/9/13,

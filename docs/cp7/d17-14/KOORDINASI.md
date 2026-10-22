@@ -120,3 +120,25 @@ Pemanggil: planning/netting.sql dan pasangan bertahap planning/analysis-stages.s
 dan panelnya membaca angka server. Tidak ada fungsi/endpoint/role/tabel/grant baru; pemilik pemasang tetap A.
 Ini melengkapi pemisahan kapan/berapa pada mesin rencana, belum menutup OW10: sumber aturan permintaan serta
 penggantian kredit WIP per-model pada pengingat masih harus disatukan. Satu potongan tidak boleh menutup beberapa SKU.
+
+## B/20261023-06 — OW14b referensi minimum lama dan satu aturan aktif
+
+Kontrak sebelum pemanggil diubah: material_workspace mengeluarkan cp7.material-reorder.v2, menambah hanya
+legacy_minimum_qty dan fabric_rule pada row; klien tetap membaca v1. material_settings menambah fabric_rule
+nullable (LEGACY_MINIMUM/FORMULA), evaluations menambah kedua field tersebut. Tidak menambah endpoint/fungsi/role.
+Payload save_material boleh menambah pasangan fabric_rule + expected_legacy_minimum_qty untuk kain saja. Ini pilihan
+eksplisit dengan alasan, UUID dan revisi; tanpa pasangan, klien lama mempertahankan pilihan yang sudah berlaku.
+LEGACY_MINIMUM menyalin nilai sumber yang diperiksa ke manual_point privat (bukan menerima angka pengganti dari
+operator); pilihan berikutnya tidak ikut berubah diam-diam ketika metadata lama berubah. FORMULA memakai rumus
+yang sudah ada; angka lama tetap referensi baca saja. Sebelum pilihan eksplisit, aturan sebelumnya dipertahankan.
+Pengingat serta Ringkasan Gudang harus menghormati pilihan yang sama agar minimum lama tidak menyala bersama rumus.
+
+A: saat pemasangan, inventaris nilai minimum lama, cocokkan satuan/material, tampilkan referensi dan satu aturan aktif;
+jangan menghapus nilai lama atau otomatis memindahkan kain ke rumus. Tambahkan kolom privat ke pemasang/upgrade/
+rollback/pemulihan sesuai sumber B. B tidak menjalankan pemasangan/data Enteng atau mengubah pemasang bersama.
+
+Point/manual_point v2 berbentuk teks desimal supaya nilai minimum yang dipilih tidak melewati pembulatan JavaScript;
+v1 lama tetap dibaca. B tidak memberi role pembaca gudang akses ke tabel aturan privat: fakta minimum lama pada
+facade gudang ditampilkan sebagai referensi netral, sementara angka/aturan aktif dari panel sumber material yang sama.
+Mohon A mengganti label fakta minimum di ConnectedMasterPage.tsx menjadi referensi lama saat mengambil hasil B.
+OW14b belum ditutup: pemulihan UUID di klien dan kualifikasi Native masih dikerjakan.

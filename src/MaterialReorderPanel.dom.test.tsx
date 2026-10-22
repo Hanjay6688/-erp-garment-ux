@@ -360,7 +360,9 @@ describe('Titik pesan ulang of fabric and Batas minimum of accessories (SS-2/SS-
     let item = row('Katun 1')
     expect(field<HTMLInputElement>('Lama kirim (hari)', item).value).toBe('6')
     expect(item.querySelector('[aria-label="Angka manual"]')).toBeNull(); expect(item.querySelector('[aria-label^="Batas minimum"]')).toBeNull()
-    expect(item.textContent).toContain('Angka minimum diatur di Master Data › Kain & Benchmark.')
+    expect(item.textContent).toContain('Referensi minimum lama: belum tersedia (baca saja).')
+    expect(field<HTMLSelectElement>('Aturan kain yang akan dipakai',item).value).toBe('')
+    expect(field<HTMLSelectElement>('Aturan kain yang akan dipakai',item).querySelector('option[value="LEGACY_MINIMUM"]')?.hasAttribute('disabled')).toBe(true)
     expect(item.textContent).toContain('Belum ada yang diubah.')
     for (const bad of ['0', '366', '6.555', 'enam']) {
       await type('Lama kirim (hari)', bad, item)

@@ -12,6 +12,7 @@ import {
   materialErrorText, materialFilters, materialFormulaLines, materialPayload, materialProblem, materialQty, materialStatus, materialReorderVisible,
   materialWriteErrorText, parseMaterialSaveResult, parseMaterialWorkspace, type MaterialDraft, type MaterialFilter, type MaterialPayload, type MaterialQuery,
   type MaterialRow, type MaterialType, type MaterialWorkspace,
+  type FabricRule,
 } from './materialReorderContract'
 import './procurement-connected.css'
 import './fg-reorder.css'
@@ -139,7 +140,8 @@ function Panel({ materialType,readOnlySummary }: { materialType: MaterialType;re
           <p>Titik pesan ulang = rata-rata pakai per hari × lama kirim + cadangan. Dihitung dari pemakaian yang sudah diposting {formatReorderWhole(windowDays)} hari
             terakhir (hari tanpa stok tidak dihitung) dengan tingkat layanan {servicePercent(level)}%, dalam satuan bahannya.</p>
           <p>Pemakaian kain = dikeluarkan untuk potong dikurangi sisa yang kembali, pemakaian pabrik, dan bahan ke mandor. Kain yang sudah dipesan (PO terbuka)
-            ikut dihitung. Kain yang punya angka minimum di Master Data › Kain & Benchmark memakai minimum itu. Lama kirim (hari) dari supplier diisi per kain
+            ikut dihitung. Minimum lama dari Master Data › Kain & Benchmark tetap terlihat sebagai referensi. Pilih satu aturan per kain: minimum lama
+            yang diperiksa, atau rumus. Sebelum ada pilihan baru, aturan sebelumnya tetap berlaku. Lama kirim (hari) dari supplier diisi per kain
             oleh Owner atau Admin, karena ERP belum mencatatnya. Kalau sisa ditambah yang dipesan sudah sama atau di bawah titik ini, muncul pengingat "Stok kain
             di bawah minimum" di Reminder › Pengingat sistem, diteruskan ke WhatsApp Bos bila Sambungan WhatsApp menyala. Tingkat layanan dan jumlah hari diatur
             di Gudang › Ringkasan Barang Jadi.</p>
@@ -223,7 +225,10 @@ function Row({ r, type, windowDays, level, canManage, locked, writing, draft, no
       <div><dt>Batas minimum</dt><dd data-cmr="point">{r.point === null ? 'belum diisi' : q(r.point)}</dd></div>
       <div><dt>Asal angka</dt><dd data-cmr="basis">{materialBasisText(r, windowDays)}</dd></div>
     </dl>}
-    {fabric ? <details className="cfr-formula"><summary>Rincian rumus</summary><ul>{materialFormulaLines(r, windowDays, level).map(line => <li key={line}>{line}</li>)}</ul></details>
+    {fabric ? <>
+      <p className="cfr-source" data-cmr="legacy">Minimum lama (referensi baca saja): {r.legacyMinimumQty===null?'belum tersedia':q(r.legacyMinimumQty)}.
+        {' '}{r.fabricRule===null?'Belum ada pilihan ulang; aturan sebelumnya masih berlaku.':r.fabricRule==='FORMULA'?'Rumus dipilih; angka lama tidak mengaktifkan pengingat kedua.':'Minimum yang dipilih tetap berlaku sampai aturan disimpan lagi.'}</p>
+      <details className="cfr-formula"><summary>Rincian rumus</summary><ul>{materialFormulaLines(r, windowDays, level).map(line => <li key={line}>{line}</li>)}</ul></details></>
       : <div className="cfr-source">
         <p data-cmr="inputs">Isian: MOQ {set(r.moq, unit)} · lama kirim dari Cina {set(r.leadDays, ' hari')} · pemakaian per bulan {set(r.usageMonthQty, unit)} ·
           cadangan {set(r.bufferDays, ' hari')}.</p>
@@ -235,7 +240,14 @@ function Row({ r, type, windowDays, level, canManage, locked, writing, draft, no
       {fabric ? <fieldset disabled={locked}><legend>Lama kirim</legend>
         <label>Lama kirim (hari)<input inputMode="decimal" aria-label="Lama kirim (hari)" maxLength={6} value={draft.lead} onChange={e => onDraft({ lead: e.target.value })}/>
           <small>Berapa hari dari pesan ke supplier sampai kain diterima. Kosong = rumus tidak dihitung.</small></label>
-        <p className="cfr-source">Angka minimum diatur di Master Data › Kain & Benchmark.</p>
+        <label>Aturan kain yang akan dipakai<select aria-label="Aturan kain yang akan dipakai" value={draft.fabricRule??''}
+          onChange={e=>onDraft({fabricRule:e.target.value as FabricRule|''})}>
+          <option value="">Pertahankan aturan yang aktif</option>
+          <option value="FORMULA">Pakai rumus</option>
+          <option value="LEGACY_MINIMUM" disabled={r.legacyMinimumQty===null}>Pakai minimum lama yang diperiksa</option>
+        </select></label>
+        <p className="cfr-source">Referensi minimum lama: {r.legacyMinimumQty===null?'belum tersedia':q(r.legacyMinimumQty)} (baca saja).
+          {' '}{draft.fabricRule==='LEGACY_MINIMUM'?'Angka ini akan menjadi minimum yang dipilih. Perubahan referensi sesudahnya tidak mengubah pilihan ini.':draft.fabricRule==='FORMULA'?'Hanya rumus yang akan mengatur pengingat kain ini.':'Mengubah lama kirim mempertahankan aturan dan minimum yang sudah dipilih.'}</p>
         {reason}{check}{actions}
       </fieldset> : <fieldset disabled={locked}><legend>Batas minimum</legend>
         <label>{moqLabel}<input inputMode="decimal" aria-label={moqLabel} maxLength={18} value={draft.moq} onChange={e => onDraft({ moq: e.target.value })}/>

@@ -24,6 +24,7 @@ export const materialFilters: Record<MaterialType, readonly MaterialFilter[]> = 
   FABRIC: ['ALL', 'AT_OR_BELOW', 'MANUAL', 'NOT_ENOUGH_DATA'], ACCESSORY: ['ALL', 'AT_OR_BELOW', 'MANUAL', 'ESTIMATE', 'NOT_SET'],
 }
 /** One row of cp7_stock_formula.material_evaluations. */
+export type FabricRule = 'LEGACY_MINIMUM' | 'FORMULA'
 export type MaterialRow = {
   materialId: string; materialType: MaterialType; sku: string; name: string; unitCode: string | null; freeQty: string; onOrderQty: string; usageQty: string
   countedDays: number; useDays: number; dailyMean: string | null; dailySd: string | null; leadDays: string | null; settingRevision: number | null; z: string
@@ -31,6 +32,7 @@ export type MaterialRow = {
   /** D17-12, accessories only: the owner's MOQ, monthly use and buffer days, and the minimum worked out from them. */
   moq: string | null; usageMonthQty: string | null; bufferDays: string | null; estimatePoint: string | null
   basis: MaterialBasis; reason: MaterialReason | null; state: 'AT_OR_BELOW' | 'ABOVE' | 'NO_POINT'; changedAt: string
+  legacyMinimumQty: string | null; fabricRule: FabricRule | null
 }
 export type MaterialCounts = {
   items: number; atOrBelow: number; manual: number; formula: number; estimate: number; notEnoughData: number; noUsage: number; notSet: number
@@ -46,11 +48,12 @@ export type MaterialWorkspace = {
 export type MaterialPayload = {
   material_id: string; expected_revision: number; lead_days: string | null; manual_point: string | null; reason: string
   moq?: string | null; usage_month_qty?: string | null; buffer_days?: string | null
+  fabric_rule?: FabricRule; expected_legacy_minimum_qty?: string | null
 }
 export type MaterialSaveResult = { replay: boolean; materialId: string; revision: number; evaluation: MaterialRow | null }
 /** The form of one material: text as typed (a decimal comma is accepted), empty = none. A fabric fills `lead` only; an
  * accessory `lead` (dari Cina), `moq`, `usageMonth`, `buffer` and `manual` (the typed minimum). */
-export type MaterialDraft = { lead: string; manual: string; moq: string; usageMonth: string; buffer: string; reason: string }
+export type MaterialDraft = { lead: string; manual: string; moq: string; usageMonth: string; buffer: string; reason: string; fabricRule?: FabricRule | '' }
 
 const fail = (what: string): never => w.fail(what)
 const rowKeys = ['material_id', 'material_type', 'sku', 'name', 'unit_code', 'free_qty', 'on_order_qty', 'usage_qty', 'counted_days', 'use_days', 'daily_mean',
@@ -88,22 +91,26 @@ export function moqDays(moq: string, usageMonth: string): string {
   return String((m.n * pow10(scale - m.scale) * 30n) / (u.n * pow10(scale - u.scale)))
 }
 const positive = (v: string) => compareDecimal(v, '0') > 0
-function row(v: unknown, type: MaterialType): MaterialRow {
-  const what = 'bahan', o = w.obj(v, what); w.keys(o, rowKeys, what)
+function row(v: unknown, type: MaterialType, modern=false): MaterialRow {
+  const what = 'bahan', o = w.obj(v, what); w.keys(o, modern ? [...rowKeys,'legacy_minimum_qty','fabric_rule'] : rowKeys, what)
+  const exactQty=(v:unknown)=>typeof v==='string'&&/^(0|[1-9][0-9]{0,29})(\.[0-9]{1,12})?$/.test(v)?v:fail(what)
+  const selectedQty=(v:unknown)=>v===null?null:modern?canonical(exactQty(v)):w.decimal(v,what)
   const r: MaterialRow = {
     materialId: w.uuidText(o.material_id, what), materialType: w.oneOf(o.material_type, ['FABRIC', 'ACCESSORY'] as const, what), sku: w.str(o.sku, what),
     name: w.str(o.name, what), unitCode: w.maybeStr(o.unit_code, what), freeQty: w.decimal(o.free_qty, what), onOrderQty: w.decimal(o.on_order_qty, what),
     usageQty: w.decimal(o.usage_qty, what), countedDays: w.count(o.counted_days, what), useDays: w.count(o.use_days, what),
     dailyMean: w.maybeDecimal(o.daily_mean, what), dailySd: w.maybeDecimal(o.daily_sd, what), leadDays: w.maybeDecimal(o.lead_days, what),
     settingRevision: w.maybeCount(o.setting_revision, what), z: w.decimal(o.z, what), safetyQty: w.maybeDecimal(o.safety_qty, what),
-    formulaPoint: w.maybeDecimal(o.formula_point, what), manualPoint: w.maybeDecimal(o.manual_point, what),
+    formulaPoint: w.maybeDecimal(o.formula_point, what), manualPoint: selectedQty(o.manual_point),
     manualSource: o.manual_source === null ? null : w.oneOf(o.manual_source, ['FABRIC_MINIMUM', 'ACCESSORY_MANUAL'] as const, what),
-    point: w.maybeDecimal(o.point, what), moq: w.maybeDecimal(o.moq, what), usageMonthQty: w.maybeDecimal(o.usage_month_qty, what),
+    point: selectedQty(o.point), moq: w.maybeDecimal(o.moq, what), usageMonthQty: w.maybeDecimal(o.usage_month_qty, what),
     bufferDays: w.maybeDecimal(o.buffer_days, what), estimatePoint: w.maybeDecimal(o.estimate_point, what),
     basis: w.oneOf<MaterialBasis>(o.basis, bases[type], 'dasar angka'),
     reason: o.reason === null ? null : w.oneOf<MaterialReason>(o.reason, reasons[type], what),
     state: w.oneOf(o.state, ['AT_OR_BELOW', 'ABOVE', 'NO_POINT'] as const, 'status'),
     changedAt: w.instant(o.changed_at, what),
+    legacyMinimumQty: modern && o.legacy_minimum_qty!==null ? exactQty(o.legacy_minimum_qty) : null,
+    fabricRule: modern && o.fabric_rule!==null ? w.oneOf(o.fabric_rule,['LEGACY_MINIMUM','FORMULA'] as const,what) : null,
   }
   const pointed = r.basis === 'MANUAL' || r.basis === 'FORMULA' || r.basis === 'ESTIMATE'
   // The table checks and compute_materials(): a point exactly for MANUAL, FORMULA and ESTIMATE, the manual number exactly with its
@@ -116,6 +123,12 @@ function row(v: unknown, type: MaterialType): MaterialRow {
   if ((r.state === 'NO_POINT') !== (r.point === null || Number(r.point) <= 0)) fail('status')
   // A fabric never carries the accessory estimate (D17-12).
   if (type === 'FABRIC' && (r.moq !== null || r.usageMonthQty !== null || r.bufferDays !== null || r.estimatePoint !== null)) fail(what)
+  if (r.fabricRule==='FORMULA'&&r.manualSource!==null || r.fabricRule==='LEGACY_MINIMUM'&&(r.basis!=='MANUAL'||r.manualSource!=='FABRIC_MINIMUM')) fail('aturan kain')
+  if(modern&&type==='FABRIC'&&r.fabricRule===null){
+    const previousMinimum=r.legacyMinimumQty!==null&&positive(r.legacyMinimumQty)
+    if(previousMinimum?(r.manualSource!=='FABRIC_MINIMUM'||!sameDecimal(r.manualPoint,r.legacyMinimumQty)):r.manualSource!==null)fail('aturan kain sebelumnya')
+  }
+  if (type==='ACCESSORY'&&(r.fabricRule!==null||r.legacyMinimumQty!==null)) fail('aturan kain')
   if (type === 'ACCESSORY') {
     // D17-10: no formula. D17-12: the estimate is there exactly when its three numbers are, and it is the owner's rule worked
     // out again here exactly; it is the point when no minimum is typed (a typed minimum wins).
@@ -137,7 +150,7 @@ function row(v: unknown, type: MaterialType): MaterialRow {
 export function parseMaterialWorkspace(value: unknown, query: MaterialQuery): MaterialWorkspace {
   const x = w.obj(value, 'titik pesan ulang bahan')
   w.keys(x, ['contract_version', 'material_type', 'read_at', 'settings', 'run', 'can_manage', 'counts', 'page'], 'titik pesan ulang bahan')
-  if (x.contract_version !== 'cp7.material-reorder.v1') fail('kontrak')
+  if (x.contract_version !== 'cp7.material-reorder.v1' && x.contract_version !== 'cp7.material-reorder.v2') fail('kontrak')
   if (x.material_type !== query.material_type) fail('jenis bahan')
   const c = w.obj(x.counts, 'jumlah'); w.keys(c, ['items', 'at_or_below', 'manual', 'formula', 'estimate', 'not_enough_data', 'no_usage', 'not_set'], 'jumlah')
   const counts: MaterialCounts = { items: w.count(c.items, 'jumlah'), atOrBelow: w.count(c.at_or_below, 'jumlah'), manual: w.count(c.manual, 'jumlah'),
@@ -150,7 +163,7 @@ export function parseMaterialWorkspace(value: unknown, query: MaterialQuery): Ma
   const p = w.obj(x.page, 'halaman'); w.keys(p, ['rows', 'total', 'offset', 'limit', 'next_offset'], 'halaman')
   if (!Array.isArray(p.rows)) fail('halaman')
   const total = typeof p.total === 'string' && /^(0|[1-9]\d{0,18})$/.test(p.total) ? p.total : fail('halaman')
-  const page = { rows: (p.rows as unknown[]).map(r => row(r, query.material_type)), total, offset: w.count(p.offset, 'halaman'), limit: w.count(p.limit, 'halaman'),
+  const page = { rows: (p.rows as unknown[]).map(r => row(r, query.material_type,x.contract_version==='cp7.material-reorder.v2')), total, offset: w.count(p.offset, 'halaman'), limit: w.count(p.limit, 'halaman'),
     nextOffset: w.maybeCount(p.next_offset, 'halaman') }
   const end = page.offset + page.rows.length
   // Total and rows come from two statements: only what the server derives from both is checked.
@@ -169,9 +182,10 @@ export function parseMaterialSaveResult(value: unknown, payload: MaterialPayload
   const what = 'hasil simpan bahan', o = w.obj(value, what), replay = w.bool(o.replay, what)
   w.keys(o, replay ? ['replay', 'material_id', 'revision'] : ['replay', 'material_id', 'revision', 'evaluation'], what)
   const r: MaterialSaveResult = { replay, materialId: w.uuidText(o.material_id, what), revision: w.count(o.revision, what),
-    evaluation: replay ? null : row(o.evaluation, type) }
+    evaluation: replay ? null : row(o.evaluation, type,Object.hasOwn(w.obj(o.evaluation,what),'fabric_rule')) }
   if (r.materialId !== payload.material_id || r.revision !== payload.expected_revision + 1) fail(what)
   const e = r.evaluation
+  if(e&&payload.fabric_rule&&(e.fabricRule!==payload.fabric_rule||payload.fabric_rule==='LEGACY_MINIMUM'&&!sameDecimal(e.manualPoint,payload.expected_legacy_minimum_qty??null)))fail('aturan kain')
   if (e && (e.materialId !== r.materialId || e.settingRevision !== r.revision || !sameDecimal(e.leadDays, payload.lead_days)
     || (type === 'ACCESSORY' && (!sameDecimal(e.manualPoint, payload.manual_point) || (e.manualSource !== null) !== (payload.manual_point !== null)
       || !sameDecimal(e.moq, payload.moq ?? null) || !sameDecimal(e.usageMonthQty, payload.usage_month_qty ?? null)
@@ -190,6 +204,7 @@ const validBuffer = (v: string) => leadText.test(v) && Number(v) <= 365
 export function materialProblem(type: MaterialType, d: MaterialDraft): string {
   const lead = typed(d.lead), manual = typed(d.manual), moq = typed(d.moq), usage = typed(d.usageMonth), buffer = typed(d.buffer)
   if (type === 'FABRIC' && (moq !== '' || usage !== '' || buffer !== '')) return 'Kain tidak memakai isian hitungan aksesori. Muat ulang halaman.'
+  if(d.fabricRule&&(!['LEGACY_MINIMUM','FORMULA'].includes(d.fabricRule)||type!=='FABRIC'))return 'Pilihan aturan kain tidak cocok. Muat ulang halaman.'
   if (lead !== '' && !validLead(lead)) return type === 'FABRIC' ? 'Lama kirim: isi lebih dari 0 sampai 365 hari (boleh 2 angka di belakang koma), atau kosongkan.'
     : 'Lama kirim dari Cina: isi lebih dari 0 sampai 365 hari (boleh 2 angka di belakang koma), atau kosongkan.'
   if (type === 'ACCESSORY') {
@@ -209,14 +224,15 @@ export const materialDraftOf = (r: MaterialRow): MaterialDraft => ({ lead: shown
   reason: '' })
 /** The draft differs from what is saved (the reason alone is not a change). */
 export function materialChanged(type: MaterialType, r: MaterialRow, d: MaterialDraft): boolean {
-  const saved = materialDraftOf(r), differs = (k: keyof MaterialDraft) => !sameDecimal(typed(d[k]) || null, typed(saved[k]) || null)
-  return differs('lead') || (type === 'ACCESSORY' && (differs('manual') || differs('moq') || differs('usageMonth') || differs('buffer')))
+  const saved = materialDraftOf(r), differs = (k: 'lead'|'manual'|'moq'|'usageMonth'|'buffer') => !sameDecimal(typed(d[k]) || null, typed(saved[k]) || null)
+  return differs('lead') || type==='FABRIC'&&Boolean(d.fabricRule) || (type === 'ACCESSORY' && (differs('manual') || differs('moq') || differs('usageMonth') || differs('buffer')))
 }
-export function materialPayload(r: Pick<MaterialRow, 'materialId' | 'settingRevision'>, type: MaterialType, d: MaterialDraft): MaterialPayload {
+export function materialPayload(r: Pick<MaterialRow, 'materialId' | 'settingRevision'> & Partial<Pick<MaterialRow,'legacyMinimumQty'>>, type: MaterialType, d: MaterialDraft): MaterialPayload {
   if (materialProblem(type, d)) fail('isian bahan')
   const value = (v: string) => typed(v) === '' ? null : typed(v)
   const base = { material_id: r.materialId, expected_revision: r.settingRevision ?? 0, lead_days: value(d.lead) }
-  return type === 'FABRIC' ? { ...base, manual_point: null, reason: d.reason.trim() }
+  if(type==='FABRIC'&&d.fabricRule&&(r.legacyMinimumQty===undefined||d.fabricRule==='LEGACY_MINIMUM'&&r.legacyMinimumQty===null))fail('referensi minimum kain')
+  return type === 'FABRIC' ? { ...base, manual_point: null, reason: d.reason.trim(),...(d.fabricRule?{fabric_rule:d.fabricRule,expected_legacy_minimum_qty:r.legacyMinimumQty}: {}) }
     : { ...base, manual_point: value(d.manual), moq: value(d.moq), usage_month_qty: value(d.usageMonth), buffer_days: value(d.buffer), reason: d.reason.trim() }
 }
 
@@ -257,6 +273,9 @@ const shared: Record<string, string> = {
   CP7_FORMULA_REQUEST_REUSED: 'Permintaan ini sudah pernah dipakai dengan isi lain. Tekan "Muat ulang", periksa isinya, lalu simpan lagi.',
   CP7_FORMULA_REQUEST_REQUIRED: 'Permintaan tidak lengkap. Muat ulang halaman lalu coba lagi.',
   CP7_FRESH_ACCESS_REQUIRED: 'Server belum bisa memastikan data terbaru untuk permintaan ini. Muat ulang halaman lalu coba lagi.',
+  CP7_FORMULA_MATERIAL_ACCESS_CHANGED: 'Hak akun berubah saat penyimpanan menunggu. Periksa kembali akses akun sebelum memeriksa hasil penyimpanan yang sama.',
+  CP7_FORMULA_FABRIC_REFERENCE_CHANGED: 'Referensi minimum lama berubah. Tekan "Hitung sekarang", periksa referensi terbaru, lalu pilih aturannya lagi.',
+  CP7_FORMULA_FABRIC_REFERENCE_NOT_SET: 'Belum ada angka minimum lama yang bisa dipilih. Periksa referensinya atau pilih rumus.',
 }
 // The words that differ: a fabric has a lama kirim and a reorder point, an accessory a batas minimum only (D17-10).
 const own: Record<MaterialType, Record<string, string>> = {
@@ -306,6 +325,8 @@ export function materialStatus(r: MaterialRow): { label: string; tone: 'warn' | 
 }
 /** Where the point comes from, or why there is none, in plain words (best practice D18: what to fill in). */
 export function materialBasisText(r: MaterialRow, windowDays: number): string {
+  if(r.fabricRule==='LEGACY_MINIMUM')return r.point!==null&&Number(r.point)===0?'Minimum lama yang dipilih 0: tidak diingatkan':'Minimum lama yang dipilih'
+  if(r.fabricRule==='FORMULA')return r.basis==='FORMULA'?'Rumus yang dipilih':'Rumus dipilih; hitungan belum cukup datanya'
   if (r.basis === 'FORMULA') return 'Rumus'
   if (r.manualSource === 'FABRIC_MINIMUM') return 'Minimum Kain & Benchmark'
   // An accessory (D17-10, D17-12): a typed minimum, the hitungan from the owner's numbers, or none yet.

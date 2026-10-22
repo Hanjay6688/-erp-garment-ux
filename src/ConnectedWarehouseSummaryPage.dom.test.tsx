@@ -71,9 +71,14 @@ describe('Ringkasan Gudang from the connected summary read',()=>{
   expect(region('Stok Gudang Barang Jadi')!.textContent).not.toContain('Bahan & Roll')
   expect(container.textContent).toContain('Total 3 gudang berisi stok')
   const attention=region('Perlu diperhatikan')!
-  expect(attention.querySelectorAll('[data-attention]')).toHaveLength(8)
+  expect(attention.querySelectorAll('[data-attention]')).toHaveLength(7)
   expect(attention.querySelector('[data-attention="MATERIAL_TRANSFER_DRAFT"]')).toBeNull()
-  expect(attention.textContent).toContain('KAIN-1 · Denim biru: stok 12,25 YD, minimum 100 YD')
+  const legacy=region('Referensi minimum kain lama')!
+  expect(legacy.textContent).toContain('KAIN-1 · Denim biru: stok 12,25 YD, referensi lama 100 YD')
+  expect(legacy.textContent).toContain('hanya pembanding')
+  expect(legacy.querySelectorAll('input,select,textarea')).toHaveLength(0)
+  expect(attention.querySelector('[data-attention="FABRIC_BELOW_MINIMUM"]')).toBeNull()
+  expect(attention.textContent).not.toContain('KAIN-1')
   expect(attention.textContent).toContain('2 hitung fisik atau penyesuaian bahan masih draft.')
   await click(attention.querySelector<HTMLElement>('[data-attention="RECEIPT_DRAFT"] button')!);expect(nav).toHaveBeenLastCalledWith('procurement')
   await click(attention.querySelector<HTMLElement>('[data-attention="FG_ADJUSTMENT_DRAFT"] button')!);expect(nav).toHaveBeenLastCalledWith('stock-adjustment')

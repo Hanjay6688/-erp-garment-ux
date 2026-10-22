@@ -31,7 +31,10 @@ titik pesan ulang, L+R menentukan jumlah target. Kontrak privat cp7.net-input.v2
 baru. Rencana langsung/bertahap dan panelnya tersambung;129 jawaban target lama/12 jawaban netting lama identik,
 168 pembanding independen dan82 uji klien lulus. Uji SQL aktual membuktikan pool20 terbagi15+5 ke dua varian;
 suplai datang setelah L tidak menghapus pemicu meski mengurangi jumlah target. v2 juga membedakan lama0 dari unknown.
-Kegagalan pertama lokal disimpan. Kandidat baru masih memerlukan38/15/84/99; jangan memakai bukti b6 untuk menutupnya.
+Kegagalan pertama lokal disimpan. Pada4d881bfc20da641d2ed4a941cb97a3d125e9e65a, Original38/15/84 sudah
+diverifikasi lulus, termasuk Native suplai hari5 setelah lead3 tetapi sebelum target10 dan browser desktop/HP.
+Stock99 pada4d gagal boot akibat batas unduhan image,0 kasus; jangan memakai bukti99 b6 untuk menutupnya.
+Receipt/hash masing-masing di ow10/4d881bf-38-15-84-pass.json dan potongan boot pertama di folder yang sama.
 
 OW10 belum selesai: aturan/sumber permintaan lintas jalur dan penggantian WIP mentah per-model pada pengingat dengan
 suplai relevan dari mesin yang sama masih terbuka. Jangan menyebut pengingat sudah bebas hitung ganda dari uji allocator
@@ -41,6 +44,12 @@ Sisa B sesudah OW10: OW11a pemilihan metode/uji mundur; OW11b kandidat produk pe
 analisis serta sambungan ke modul angka resmi A; OW13a otomatis saat siap, sekali per perubahan; OW13c saran potong
 dari mesin yang sama dan pemeriksaan ulang saat simpan; OW14b referensi minimum lama/satu aturan aktif.
 Sumber A untuk OW12a belum diberikan pada catatan ini; pekerjaan B lain tetap berjalan. Tidak ada fitur yang dihapus.
+
+Head sesudah4d juga menyimpan **WIP OW14b**: referensi minimum lama baca saja, pilihan satu aturan per kain,
+minimum yang dipilih tetap sampai revisi berikutnya, dan sumber pengingat tidak menghidupkan minimum lama kedua.
+Enam kelompok SQL pada adapter/31 uji klien lulus; pemulihan UUID klien dan Native/HTTP/browser/pasang-pulih belum
+selesai. WIP ini **belum siap diambil untuk integrasi**, tidak menyatakan butir selesai. B melanjutkannya setelah
+checkpoint; lihat ow14b/README.md dan koordinasi bagian06 untuk kontrak serta kolom pemasangan yang diperlukan A.
 
 Status induk tetap5/16 sampai paket dan syarat tiap butir benar-benar ditutup. CP7C belum dinyatakan siap dari hasil ini.
 Prioritas A tetap OW06, OW08a/OW07/OW08b/OW09/OW12a dan integrasi/auditor menurut pembagian terbaru.

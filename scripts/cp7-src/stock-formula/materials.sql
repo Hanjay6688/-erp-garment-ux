@@ -26,25 +26,32 @@
 -- * Alerts: the fabrics on the formula (stock + on order <= point) are rows of FABRIC_BELOW_MINIMUM "Stok kain di bawah
 --   minimum" next to the fabrics with a minimum (D17-10, cp7_alert_native.fabric_kind_source); ACCESSORY_AT_REORDER_POINT
 --   "Stok aksesori menipis": stock <= the minimum (typed or worked out from the owner's numbers).
+-- OW14b/D17-16: an explicit per-fabric choice supersedes the old presence rule.
+-- FORMULA keeps the Native minimum as a read-only reference; LEGACY_MINIMUM
+-- pins the reviewed Native number in its immutable setting revision. No choice
+-- preserves the previous rule. The fabric kind emits one active source only.
 grant select(id,movement_type,reversal_of_id,source_type)on erp.material_stock_movements to cp7_capture;
 grant select(material_id,minimum_stock_qty)on erp.fabric_master_profiles to cp7_capture;
 grant select(location_id)on erp.bc_accessory_zones_v1 to cp7_capture;
 
 create table cp7_stock_formula.material_settings(
  material_id uuid not null,revision integer not null check(revision>0),
+ fabric_rule text check(fabric_rule in('LEGACY_MINIMUM','FORMULA')),
  lead_days numeric(6,2)check(lead_days is null or(lead_days>0 and lead_days<=365)),
  manual_point numeric(18,4)check(manual_point is null or manual_point>=0),
  moq numeric(18,4)check(moq is null or moq>0),usage_month_qty numeric(18,4)check(usage_month_qty is null or usage_month_qty>0),
  buffer_days numeric(6,2)check(buffer_days is null or(buffer_days>=0 and buffer_days<=365)),
  reason text not null check(length(btrim(reason))between 1 and 500),actor uuid not null,request_id uuid not null unique,
  request_hash text not null check(request_hash~'^[0-9a-f]{64}$'),recorded_at timestamptz not null default clock_timestamp(),
- primary key(material_id,revision));
+ primary key(material_id,revision),check(fabric_rule is distinct from'LEGACY_MINIMUM'or manual_point is not null),
+ check(fabric_rule is distinct from'FORMULA'or manual_point is null));
 create table cp7_stock_formula.material_evaluations(
  material_id uuid primary key,material_type text not null check(material_type in('FABRIC','ACCESSORY')),sku text not null,name text not null,
  unit_code text,free_qty numeric not null,on_order_qty numeric not null,usage_qty numeric not null,counted_days integer not null,
  use_days integer not null,daily_mean numeric,daily_sd numeric,lead_days numeric,setting_revision integer,z numeric not null,safety_qty numeric,
  formula_point numeric,manual_point numeric,manual_source text check(manual_source in('FABRIC_MINIMUM','ACCESSORY_MANUAL')),point numeric,
  moq numeric,usage_month_qty numeric,buffer_days numeric,estimate_point numeric,
+ legacy_minimum_qty numeric,fabric_rule text check(fabric_rule in('LEGACY_MINIMUM','FORMULA')),
  basis text not null check(basis in('MANUAL','FORMULA','ESTIMATE','NOT_ENOUGH_DATA','NO_USAGE','NOT_SET')),reason text check(length(reason)<=80),
  state text not null check(state in('AT_OR_BELOW','ABOVE','NO_POINT')),changed_at timestamptz not null,
  check((basis in('MANUAL','FORMULA','ESTIMATE'))=(point is not null)),check((manual_source is null)=(manual_point is null)));
@@ -107,7 +114,7 @@ begin
   cross join lateral(select erp.bb_commitment_line_remaining_v1(l.id,null)remaining)r
   where l.material_id in(select i.material_id from items i where i.material_type='FABRIC')and r.remaining>0 group by 1),
  setting as materialized(
-  select distinct on(x.material_id)x.material_id,x.revision,x.lead_days,x.manual_point,x.moq,x.usage_month_qty,x.buffer_days
+  select distinct on(x.material_id)x.material_id,x.revision,x.lead_days,x.manual_point,x.moq,x.usage_month_qty,x.buffer_days,x.fabric_rule
   from cp7_stock_formula.material_settings x order by x.material_id,x.revision desc),
  calc as(
   select i.*,coalesce(b.free,0)free,case when i.material_type='FABRIC'then coalesce(o.qty,0)else 0 end on_order,coalesce(st.total,0)usage,
@@ -115,9 +122,12 @@ begin
    s.lead_days,s.revision setting_revision,
    case when i.material_type='ACCESSORY'then s.moq end moq,case when i.material_type='ACCESSORY'then s.usage_month_qty end usage_month_qty,
    case when i.material_type='ACCESSORY'then s.buffer_days end buffer_days,
-   case when i.material_type='FABRIC'then nullif(fp.minimum_stock_qty,0)else s.manual_point end manual_point,
-   case when i.material_type='FABRIC'and fp.minimum_stock_qty>0 then'FABRIC_MINIMUM'when i.material_type='ACCESSORY'and s.manual_point is not null
-    then'ACCESSORY_MANUAL'end manual_source
+   case when i.material_type='FABRIC'then fp.minimum_stock_qty end legacy_minimum_qty,
+   case when i.material_type='FABRIC'then s.fabric_rule end fabric_rule,
+   case when i.material_type='FABRIC'then case s.fabric_rule when'FORMULA'then null when'LEGACY_MINIMUM'then s.manual_point
+    else nullif(fp.minimum_stock_qty,0)end else s.manual_point end manual_point,
+   case when i.material_type='FABRIC'and(s.fabric_rule='LEGACY_MINIMUM'or(s.fabric_rule is null and fp.minimum_stock_qty>0))then'FABRIC_MINIMUM'
+    when i.material_type='ACCESSORY'and s.manual_point is not null then'ACCESSORY_MANUAL'end manual_source
   from items i left join bal b on b.material_id=i.material_id left join stats st on st.material_id=i.material_id
   left join ordered o on o.material_id=i.material_id left join setting s on s.material_id=i.material_id
   left join erp.fabric_master_profiles fp on fp.material_id=i.material_id and i.material_type='FABRIC'),
@@ -142,23 +152,24 @@ begin
  ins as(
   insert into cp7_stock_formula.material_evaluations as e(material_id,material_type,sku,name,unit_code,free_qty,on_order_qty,usage_qty,counted_days,
    use_days,daily_mean,daily_sd,lead_days,setting_revision,z,safety_qty,formula_point,manual_point,manual_source,point,moq,usage_month_qty,buffer_days,
-   estimate_point,basis,reason,state,changed_at)
+   estimate_point,basis,reason,state,changed_at,legacy_minimum_qty,fabric_rule)
   select x.material_id,x.material_type,x.sku,x.name,x.unit_code,x.free,x.on_order,x.usage,x.counted,x.use_days,round(x.mean,4),round(x.sd,4),x.lead_days,
    x.setting_revision,zv,round(x.safety,4),x.formula_point,x.manual_point,x.manual_source,x.point,x.moq,x.usage_month_qty,x.buffer_days,x.estimate_point,
-   x.basis,x.reason,x.state,p_at from stated x
+   x.basis,x.reason,x.state,p_at,x.legacy_minimum_qty,x.fabric_rule from stated x
   on conflict(material_id)do update set material_type=excluded.material_type,sku=excluded.sku,name=excluded.name,unit_code=excluded.unit_code,
    free_qty=excluded.free_qty,on_order_qty=excluded.on_order_qty,usage_qty=excluded.usage_qty,counted_days=excluded.counted_days,use_days=excluded.use_days,
    daily_mean=excluded.daily_mean,daily_sd=excluded.daily_sd,lead_days=excluded.lead_days,setting_revision=excluded.setting_revision,z=excluded.z,
    safety_qty=excluded.safety_qty,formula_point=excluded.formula_point,manual_point=excluded.manual_point,manual_source=excluded.manual_source,
    point=excluded.point,moq=excluded.moq,usage_month_qty=excluded.usage_month_qty,buffer_days=excluded.buffer_days,estimate_point=excluded.estimate_point,
-   basis=excluded.basis,reason=excluded.reason,state=excluded.state,changed_at=p_at
+   basis=excluded.basis,reason=excluded.reason,state=excluded.state,changed_at=p_at,
+   legacy_minimum_qty=excluded.legacy_minimum_qty,fabric_rule=excluded.fabric_rule
   where(e.material_type,e.sku,e.name,e.unit_code,e.free_qty,e.on_order_qty,e.usage_qty,e.counted_days,e.use_days,e.daily_mean,e.daily_sd,e.lead_days,
    e.setting_revision,e.z,e.safety_qty,e.formula_point,e.manual_point,e.manual_source,e.point,e.moq,e.usage_month_qty,e.buffer_days,e.estimate_point,
-   e.basis,e.reason,e.state)is distinct from(
+   e.basis,e.reason,e.state,e.legacy_minimum_qty,e.fabric_rule)is distinct from(
    excluded.material_type,excluded.sku,excluded.name,excluded.unit_code,excluded.free_qty,excluded.on_order_qty,excluded.usage_qty,excluded.counted_days,
    excluded.use_days,excluded.daily_mean,excluded.daily_sd,excluded.lead_days,excluded.setting_revision,excluded.z,excluded.safety_qty,
    excluded.formula_point,excluded.manual_point,excluded.manual_source,excluded.point,excluded.moq,excluded.usage_month_qty,excluded.buffer_days,
-   excluded.estimate_point,excluded.basis,excluded.reason,excluded.state)
+   excluded.estimate_point,excluded.basis,excluded.reason,excluded.state,excluded.legacy_minimum_qty,excluded.fabric_rule)
   returning 1)
  delete from cp7_stock_formula.material_evaluations e where not exists(select 1 from items i where i.material_id=e.material_id);
  select count(*),count(*)filter(where state='AT_OR_BELOW')into n,low from cp7_stock_formula.material_evaluations;
@@ -191,8 +202,9 @@ language sql stable security definer set search_path=''set TimeZone='UTC'as $$
    'safety_qty',case when e->>'basis'='FORMULA'then round((e->>'safety_qty')::numeric,2)::text end,
    'service_level',case when e->>'basis'='FORMULA'then p_level::text end),
   'party_names','[]'::jsonb)$$;
--- FABRIC: the fabrics on the formula, read by cp7_alert_native.fabric_kind_source() into FABRIC_BELOW_MINIMUM (a fabric
--- with a minimum is left to the Ringkasan Gudang rule there); ACCESSORY: the source of ACCESSORY_AT_REORDER_POINT. Each
+-- FABRIC: formula and explicitly selected pinned minima, read into FABRIC_BELOW_MINIMUM.
+-- An unreviewed prior minimum is delegated to the retained Native reference rule;
+-- explicit choices are never delegated back. ACCESSORY: ACCESSORY_AT_REORDER_POINT. Each
 -- with the permissions of its screen.
 create function cp7_stock_formula.material_source(p_type text)returns jsonb
 language plpgsql volatile security definer set search_path=''set TimeZone='UTC'as $$
@@ -207,30 +219,30 @@ begin
  if cp7_stock_formula.ensure_computed()then
   select jsonb_build_object(
    'rows',coalesce(jsonb_agg(cp7_stock_formula.material_alert_row(to_jsonb(e),lvl)order by e.sku,e.material_id)
-    filter(where e.state='AT_OR_BELOW'and(p_type='ACCESSORY'or e.basis='FORMULA')),'[]'),
-   'states',coalesce(jsonb_object_agg(e.material_id::text,case when e.manual_source='FABRIC_MINIMUM'then'MANUAL_MINIMUM_IN_FORCE'
+    filter(where e.state='AT_OR_BELOW'and(p_type='ACCESSORY'or e.basis='FORMULA'or e.fabric_rule='LEGACY_MINIMUM')),'[]'),
+   'states',coalesce(jsonb_object_agg(e.material_id::text,case when e.manual_source='FABRIC_MINIMUM'and e.fabric_rule is null then'MANUAL_MINIMUM_IN_FORCE'
      when e.state='ABOVE'then'ABOVE_REORDER_POINT'else'NO_REORDER_POINT'end)
-    filter(where not(e.state='AT_OR_BELOW'and(p_type='ACCESSORY'or e.basis='FORMULA'))),'{}'))
+    filter(where not(e.state='AT_OR_BELOW'and(p_type='ACCESSORY'or e.basis='FORMULA'or e.fabric_rule='LEGACY_MINIMUM'))),'{}'))
   into r from cp7_stock_formula.material_evaluations e where e.material_type=p_type;
   return r;
  end if;
  -- Busy: the materials at or under their point in the last evaluation, against the stock now (same locations), with that
  -- evaluation's point and on-order quantity.
  with low as(select e.*,to_jsonb(e)j from cp7_stock_formula.material_evaluations e
-   where e.material_type=p_type and e.state='AT_OR_BELOW'and(p_type='ACCESSORY'or e.basis='FORMULA')),
- live as(select l.material_id,l.sku,l.point,l.on_order_qty,l.j,coalesce((select sum(s.qty_signed)from erp.material_stock_movements s
+   where e.material_type=p_type and e.state='AT_OR_BELOW'and(p_type='ACCESSORY'or e.basis='FORMULA'or e.fabric_rule='LEGACY_MINIMUM')),
+ live as(select l.material_id,l.sku,l.point,l.on_order_qty,l.manual_source,l.j,coalesce((select sum(s.qty_signed)from erp.material_stock_movements s
    left join erp.locations x on x.id=s.location_id where s.material_id=l.material_id and s.physical_at<=t and s.system_created_at<=t
     and(p_type='FABRIC'or(x.location_type='RAW_MATERIAL_WAREHOUSE'and x.is_active
      and not exists(select 1 from erp.bc_accessory_zones_v1 z where z.location_id=x.id)))),0)::numeric free from low l),
- now_state as(select v.*,v.free+v.on_order_qty<=v.point still from live v)
+ now_state as(select v.*,case when v.manual_source='FABRIC_MINIMUM'then v.free<v.point else v.free+v.on_order_qty<=v.point end still from live v)
  select jsonb_build_object(
   'rows',coalesce(jsonb_agg(cp7_stock_formula.material_alert_row(n.j||jsonb_build_object('free_qty',n.free),lvl)order by n.sku,n.material_id)
    filter(where n.still),'[]'),
   'states',coalesce(jsonb_object_agg(n.material_id::text,'ABOVE_REORDER_POINT')filter(where not n.still),'{}'))into r from now_state n;
- return jsonb_set(r,'{states}',(r->'states')||coalesce((select jsonb_object_agg(e.material_id::text,case when e.manual_source='FABRIC_MINIMUM'
+ return jsonb_set(r,'{states}',(r->'states')||coalesce((select jsonb_object_agg(e.material_id::text,case when e.manual_source='FABRIC_MINIMUM'and e.fabric_rule is null
    then'MANUAL_MINIMUM_IN_FORCE'when e.state='ABOVE'then'ABOVE_REORDER_POINT'else'NO_REORDER_POINT'end)
   from cp7_stock_formula.material_evaluations e where e.material_type=p_type
-   and not(e.state='AT_OR_BELOW'and(p_type='ACCESSORY'or e.basis='FORMULA'))),'{}'));
+   and not(e.state='AT_OR_BELOW'and(p_type='ACCESSORY'or e.basis='FORMULA'or e.fabric_rule='LEGACY_MINIMUM'))),'{}'));
 end $$;
 
 -- ----------------------------------------------------------- material RPCs --
@@ -265,13 +277,14 @@ begin
   and(q=''or strpos(lower(concat_ws(' ',e.sku,e.name)),q)>0)
   and(f='ALL'or(f='AT_OR_BELOW'and e.state='AT_OR_BELOW')or(f='MANUAL'and e.basis='MANUAL')or(f='NOT_ENOUGH_DATA'and e.basis='NOT_ENOUGH_DATA')
    or(f='NOT_SET'and e.basis='NOT_SET')or(f='ESTIMATE'and e.basis='ESTIMATE'));
- select coalesce(jsonb_agg(to_jsonb(x)-'ord'order by x.ord,x.sku,x.material_id),'[]')into rows from(
+ select coalesce(jsonb_agg((to_jsonb(x)-'ord')||jsonb_build_object('legacy_minimum_qty',x.legacy_minimum_qty::text,
+  'point',x.point::text,'manual_point',x.manual_point::text)order by x.ord,x.sku,x.material_id),'[]')into rows from(
   select e.*,case e.state when'AT_OR_BELOW'then 0 when'ABOVE'then 1 else 2 end ord from cp7_stock_formula.material_evaluations e
   where e.material_type=typ and(q=''or strpos(lower(concat_ws(' ',e.sku,e.name)),q)>0)
    and(f='ALL'or(f='AT_OR_BELOW'and e.state='AT_OR_BELOW')or(f='MANUAL'and e.basis='MANUAL')or(f='NOT_ENOUGH_DATA'and e.basis='NOT_ENOUGH_DATA')
     or(f='NOT_SET'and e.basis='NOT_SET')or(f='ESTIMATE'and e.basis='ESTIMATE'))
   order by ord,e.sku,e.material_id limit n offset off)x;
- return jsonb_build_object('contract_version','cp7.material-reorder.v1','material_type',typ,'read_at',statement_timestamp(),
+ return jsonb_build_object('contract_version','cp7.material-reorder.v2','material_type',typ,'read_at',statement_timestamp(),
   'settings',cp7_stock_formula.current_settings(),'run',(select to_jsonb(r)-'id'from cp7_stock_formula.runs r),
   'can_manage',coalesce(a->'profile'->>'role_code','')in('OWNER','ADMIN'),
   'counts',(select jsonb_build_object('items',count(*),'at_or_below',count(*)filter(where e.state='AT_OR_BELOW'),'manual',count(*)filter(where e.basis='MANUAL'),
@@ -293,12 +306,16 @@ end $$;
 create function cp7_stock_formula.save_material(p jsonb,p_request uuid)returns jsonb
 language plpgsql volatile security definer set search_path=''set TimeZone='UTC'as $$
 declare a jsonb;h text;prev cp7_stock_formula.material_settings;mat record;cur_rev integer;row cp7_stock_formula.material_settings;lead numeric;manual numeric;
- moq numeric;usage_month numeric;buffer numeric;
+ moq numeric;usage_month numeric;buffer numeric;rule text;previous_manual numeric;legacy numeric;
 begin
  if current_setting('transaction_isolation')<>'read committed'then raise exception 'CP7_FRESH_ACCESS_REQUIRED';end if;
  if jsonb_typeof(p)is distinct from'object'or not p?&array['material_id','expected_revision','lead_days','manual_point','reason']
   or exists(select 1 from jsonb_object_keys(p)k where k not in('material_id','expected_revision','lead_days','manual_point','reason','moq',
-   'usage_month_qty','buffer_days'))
+   'usage_month_qty','buffer_days','fabric_rule','expected_legacy_minimum_qty'))
+  or((p?'fabric_rule')is distinct from(p?'expected_legacy_minimum_qty'))
+  or(p?'fabric_rule'and(jsonb_typeof(p->'fabric_rule')is distinct from'string'or p->>'fabric_rule'not in('LEGACY_MINIMUM','FORMULA')))
+  or(p?'expected_legacy_minimum_qty'and(jsonb_typeof(p->'expected_legacy_minimum_qty')not in('string','null')
+   or coalesce(p->>'expected_legacy_minimum_qty','0')!~'^[0-9]{1,14}(\.[0-9]{1,4})?$'))
   or jsonb_typeof(p->'material_id')<>'string'or(p->>'material_id')!~'^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
   or jsonb_typeof(p->'expected_revision')<>'number'or(p->>'expected_revision')!~'^[0-9]{1,9}$'
   or jsonb_typeof(p->'lead_days')not in('string','null')or coalesce(p->>'lead_days','1')!~'^[0-9]{1,3}(\.[0-9]{1,2})?$'
@@ -317,22 +334,46 @@ begin
  moq:=(p->>'moq')::numeric;usage_month:=(p->>'usage_month_qty')::numeric;buffer:=(p->>'buffer_days')::numeric;
  if(lead is not null and(lead<=0 or lead>365))or(moq is not null and moq<=0)or(usage_month is not null and usage_month<=0)
   or(buffer is not null and buffer>365)
-  or(mat.material_type='FABRIC'and(manual is not null or moq is not null or usage_month is not null or buffer is not null))then
+  or(mat.material_type='FABRIC'and(manual is not null or moq is not null or usage_month is not null or buffer is not null))
+  or(mat.material_type='ACCESSORY'and p?'fabric_rule')then
   raise exception using errcode='22023',message='CP7_FORMULA_MATERIAL_INVALID';end if;
  h:=encode(sha256(convert_to(coalesce(p::text,''),'UTF8')),'hex');
  perform pg_advisory_xact_lock(hashtextextended('CP7:FORMULA:FG',0));
+ if cp7_stock_formula.material_access_now(mat.material_type,true)is distinct from a then
+  raise exception using errcode='42501',message='CP7_FORMULA_MATERIAL_ACCESS_CHANGED';end if;
+ if not exists(select 1 from erp.materials m where m.id=mat.id and m.is_active and m.material_type::text=mat.material_type)then
+  raise exception using errcode='22023',message='CP7_FORMULA_ITEM_UNKNOWN';end if;
  select*into prev from cp7_stock_formula.material_settings x where x.request_id=p_request;
  if found then
   if prev.actor<>auth.uid()or prev.request_hash<>h then raise exception using errcode='22023',message='CP7_FORMULA_REQUEST_REUSED';end if;
   return jsonb_build_object('replay',true,'material_id',prev.material_id,'revision',prev.revision);
  end if;
- select coalesce(max(x.revision),0)into cur_rev from cp7_stock_formula.material_settings x where x.material_id=mat.id;
+ select x.revision,x.fabric_rule,x.manual_point into cur_rev,rule,previous_manual from cp7_stock_formula.material_settings x
+  where x.material_id=mat.id order by x.revision desc limit 1;
+ cur_rev:=coalesce(cur_rev,0);
  if cur_rev<>(p->>'expected_revision')::integer then raise exception using errcode='40001',message='CP7_FORMULA_MATERIAL_STALE';end if;
- insert into cp7_stock_formula.material_settings(material_id,revision,lead_days,manual_point,moq,usage_month_qty,buffer_days,reason,actor,request_id,request_hash)
- values(mat.id,cur_rev+1,lead,manual,moq,usage_month,buffer,btrim(p->>'reason'),auth.uid(),p_request,h)returning*into row;
+ if mat.material_type='FABRIC'then
+  if p?'fabric_rule'then
+   select fp.minimum_stock_qty into legacy from erp.fabric_master_profiles fp where fp.material_id=mat.id;
+   if legacy is distinct from(p->>'expected_legacy_minimum_qty')::numeric then
+    raise exception using errcode='40001',message='CP7_FORMULA_FABRIC_REFERENCE_CHANGED';end if;
+   rule:=p->>'fabric_rule';
+   if rule='LEGACY_MINIMUM'and(legacy is null or legacy<0)then
+    raise exception using errcode='22023',message='CP7_FORMULA_FABRIC_REFERENCE_NOT_SET';end if;
+   manual:=case when rule='LEGACY_MINIMUM'then legacy end;
+  else
+   -- Older clients may update delivery time, never silently clear a choice.
+   manual:=case when rule='LEGACY_MINIMUM'then previous_manual end;
+  end if;
+ end if;
+ insert into cp7_stock_formula.material_settings(material_id,revision,lead_days,manual_point,moq,usage_month_qty,buffer_days,reason,actor,request_id,request_hash,fabric_rule)
+ values(mat.id,cur_rev+1,lead,manual,moq,usage_month,buffer,btrim(p->>'reason'),auth.uid(),p_request,h,rule)returning*into row;
  perform cp7_stock_formula.compute(clock_timestamp(),interval'1 second');
+ if cp7_stock_formula.material_access_now(mat.material_type,true)is distinct from a then
+  raise exception using errcode='42501',message='CP7_FORMULA_MATERIAL_ACCESS_CHANGED';end if;
  return jsonb_build_object('replay',false,'material_id',row.material_id,'revision',row.revision,
-  'evaluation',(select to_jsonb(e)from cp7_stock_formula.material_evaluations e where e.material_id=mat.id));
+  'evaluation',(select to_jsonb(e)||jsonb_build_object('legacy_minimum_qty',e.legacy_minimum_qty::text,'point',e.point::text,
+   'manual_point',e.manual_point::text)from cp7_stock_formula.material_evaluations e where e.material_id=mat.id));
 end $$;
 
 do $$declare r record;begin
