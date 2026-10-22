@@ -1,6 +1,6 @@
 # Koreksi mandor sesudah jahit — OW-05
 
-Belum selesai. Native28 lulus: 14 alur koreksi, 3 alur HPP/seluruh PO/per SKU dan 11 uji tarif lama yang dipertahankan. Hak pengguna, layar komputer/HP dan pemulihan lengkap sedang diuji pada produk yang sama; bukti lama dan seluruh kegagalan awal tetap disimpan.
+Selesai pada cakupan OW-05 D17-14: koreksi seluruh PO sesudah jahit, dampak upah/nota/payroll/HPP, riwayat tetap dan petunjuk pembalikan sudah terbukti. [Satu catatan penyelesaian](completion.json) mengikat Native28, Auth4, layar komputer/HP, dua alur laundry/barang jadi dan pemulihan lengkap P21; seluruh kegagalan awal tetap disimpan. Ini kualifikasi penulis pada database sekali pakai; audit independen, pemasangan produksi dan CP7C belum dinyatakan selesai.
 
 Dasar: keputusan owner D17-14 butir4 dan arahan22 Oktober; urutan tetap OW-05→OW-06→OW-07/08.
 
@@ -19,7 +19,7 @@ Katalog22 kelompok diperiksa penuh; pembatalan pemasangan sesudah dipakai harus 
 
 Sepuluh kasus Native awal mencakup upah aktif ditolak dengan petunjuk, pembalikan→pengganti→catat ulang pada tarif16,00/24,00, replay, UUID berubah, ulasan basi, mandor tidak aktif, kegagalan posting terakhir, kapabilitas privat dan sejarah immutable. [Native10 sudah lulus](native10-60cbf04d-pass.json), produk60cbf04d, run39765975641/job119781398868. Upah mandor lama0,00; catat ulang empat pcs pada tarif PO menghasilkan16,00 atau tarif mandor baru24,00, dengan WIP/jurnal tepat; CP6 dan advisor pulih sama. Ini belum menyatakan OW-05 selesai.
 
-Masih harus dituntaskan: uji nota/payroll dibayar dan belum dibayar, pool/nota aksesori, riwayat laundry/FG, beberapa potongan satu PO, pergantian berulang, hak dan dua penulis, Auth/layar komputer/HP, pemasangan/pemulihan bawaan serta integrasi pemasangan akhir.
+Sisa pada titik Native10 dahulu: uji nota/payroll dibayar dan belum dibayar, pool/nota aksesori, riwayat laundry/FG, beberapa potongan satu PO, pergantian berulang, hak dan dua penulis, Auth/layar komputer/HP serta pemasangan/pemulihan. Seluruhnya kini tercakup bukti penyelesaian di atas; paragraf-paragraf berikut menyimpan perjalanan dan kegagalan aslinya, bukan daftar sisa terkini.
 
 Tidak mengubah main, kandidat audit55c885d1, Enteng, database hosted/produksi atau WA nyata; CP7C formal belum dimulai.
 
@@ -44,3 +44,7 @@ Percobaan25 pada86bfc11 berhenti sebelum kasus (0 tercapai): [kegagalan pertama]
 [Bukti Auth nyata2](auth2-828f77db-pass.json): dua pengguna GoTrue berbeda, dua backend benar-benar menunggu kunci, tepat satu koreksi; nota baru24, mandor lama0, stok/HPP tetap. Asli tersimpan privat, pembuktian uang dari jurnal Native; bukan pengujian pembuatan master melalui layar.
 
 [Bukti Native28 saat ini](native28-current-pass.json): urutan pool HPP → nota/gaji → hasil jahit berjalan melalui pembalikan Native, 2 pembagian dalam satu PO diganti seluruhnya, dan upah SKU53 menjadi56 tanpa menimpa riwayat. Pemulihan P21 tetap mempertahankan seluruh 10 langkah lama dan menambah3 langkah mandor.
+
+Hasil akhir: [Auth4](auth4-347a1baf-pass.json) lulus hak setelah menunggu, dua pengguna bersamaan, penolakan ketika izin dicabut dan benturan penulis jahit. [Layar terbaru](browser2-5e4b4c1c-pass.json) lulus2/2 perjalanan nyata pada1440/390px. [Laundry dan barang jadi](process2-5e4b4c1c-pass.json) lulus2/2 melalui fasad publik yang sama dengan aplikasi, tanpa membuka izin fungsi privat: balik pemakaian FG bila ada → buka PO selesai → balik QC → penerimaan/pengiriman laundry → jahit → ganti mandor → catat ulang pada jam/jumlah fisik asli. Upah lama0,00, upah baru60,00 dan tambahan WIP60,00; sejarah tetap. Kasus ini tidak mengklaim membuat penjualan FG melalui browser.
+
+[P21 lengkap](p21-9dde276f-pass.json) lulus13 langkah termasuk seluruh langkah lama, dump/pulih, kecocokan semua baris/urutan/katalog22 kelompok, replay tanpa efek kedua dan pergantian mandor berikutnya sesudah pemulihan. Laporan sesudah kredit pelanggan tetap BLOCKED di OW-08; status selesai OW-05 tidak menutup masalah itu. Pekerjaan diteruskan ke OW-06.

@@ -1,0 +1,84 @@
+{
+  "classification": "BOUNDED_OW05_WRITER_COMPLETION_NOT_INDEPENDENT_ACCEPTANCE",
+  "owner_requirement": "D17-14 item 4: koreksi mandor sesudah jahit; upah, nota, payroll, HPP; riwayat tetap dan langkah pembalikan jelas",
+  "status": "COMPLETE_WITHIN_OW05_SCOPE",
+  "completed_at_WIB": "2026-10-22T21:52:16.884267+07:00",
+  "qualified_UI_commit": "5e4b4c1c89a5b899d331a1c916d4c310c5ab5a6a",
+  "financial_product_last_changed": "e3a37d7308468d2c9983519ff55230aab9ffb2e5",
+  "proofs": [
+    {
+      "receipt": "native28-current-pass.json",
+      "sha256": "1d25fbbdcdeea6791a7d04b45ac0bb1a17f3629a29a727284fc6796248c08308",
+      "run_id": 39786776421,
+      "job_id": 119851971167,
+      "original_report": {
+        "name": "CP7_OW05_NATIVE28_GUIDANCE_WHOLE_PO_WAVE.json",
+        "bytes": 6646642,
+        "sha256": "9e4732a171faff7175a03b895daca09bcb1dc54a53003cb300d979c858d1143c"
+      }
+    },
+    {
+      "receipt": "auth4-347a1baf-pass.json",
+      "sha256": "f3b9fe3c3d3a1e2d96970c7d5ee297fc84b2599e53dd9e00a159bae386c5dafe",
+      "run_id": 39792851198,
+      "job_id": 119872918589,
+      "original_report": {
+        "name": "CP7_OW05_REAL_AUTH4.json",
+        "bytes": 262222,
+        "sha256": "f688cb465113539c838d7681c8be22032cf2fee3ca08b3d3431e5f6801fa2a2a"
+      }
+    },
+    {
+      "receipt": "browser2-5e4b4c1c-pass.json",
+      "sha256": "0c63c04c6373a22badfd6425fcebdd2b37e6940079618177bb476c851b997f9d",
+      "run_id": 39797404450,
+      "job_id": 119888156171,
+      "original_report": {
+        "name": "CP7_OW05_REAL_BROWSER2.json",
+        "bytes": 262234,
+        "sha256": "815409936fb343f7605c98775c81fccccf27e466ec42535e900c636c6802e807"
+      }
+    },
+    {
+      "receipt": "process2-5e4b4c1c-pass.json",
+      "sha256": "60e4710d12473b1b247986adb42aa8773a8899665492b015cca33042997ec46d",
+      "run_id": 39797404458,
+      "job_id": 119888156506,
+      "original_report": {
+        "name": "CP7_OW05_PROCESS_NATIVE2.json",
+        "bytes": 920457,
+        "sha256": "1fb76d278f638927d323b8575f847141208e59bd0d8f7e16683a062853478e4a"
+      }
+    },
+    {
+      "receipt": "p21-9dde276f-pass.json",
+      "sha256": "fc5d84aad478fa493bcd84b54fd6e82adfa1cc5a6a9cb8cb8220291c4068df82",
+      "run_id": 39789070200,
+      "job_id": 119859922468,
+      "original_report": {
+        "name": "CP7_P21_CURRENT_OW05_REHEARSAL.json",
+        "bytes": 281127,
+        "sha256": "d9a16c44dca1f1ca6e70d23f96df0db296817b185828dfc2477c9ccb1e1b3f3d"
+      }
+    }
+  ],
+  "counting": "Distinct suites, not cumulative case claims: Native28 includes retained14 OW05 and11 old rate oracles; P21 retains10 prior steps and adds3 mandor steps; browser2 and process2 cover different interfaces.",
+  "preserved_boundaries": [
+    "original posted money/work/rate history retained",
+    "whole PO identity and original physical times/quantities",
+    "OLD/NEW tariff decisions retained",
+    "all22 catalog groups and exact preuse removal",
+    "used database backup/restore and replay",
+    "fresh permissions after waiting and on replay",
+    "first failures archived unchanged"
+  ],
+  "known_remaining": {
+    "OW08": "Financial-report checks after customer credit remain BLOCKED; not resolved by OW05.",
+    "independent_audit": "Writer qualification does not close independent audit gates.",
+    "CP7C": "Formal stress/installation phase has not started.",
+    "next": "OW06 one supplier transfer with multiple exact allocations."
+  },
+  "production_go": false,
+  "independent_acceptance": false,
+  "formal_CP7C_started": false
+}

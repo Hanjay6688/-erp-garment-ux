@@ -1,0 +1,126 @@
+{
+  "classification": "COMPACT_ACTUAL_CURRENT_PROCESS2_RECEIPT_NOT_RAW_LOG",
+  "status": "PASS",
+  "candidate_commit": "5e4b4c1c89a5b899d331a1c916d4c310c5ab5a6a",
+  "run_id": 39797404458,
+  "job_id": 119888156506,
+  "counts": {
+    "PASS": 2
+  },
+  "cases": {
+    "OW05_LAUNDRY_RECEIPT_DELIVERY_AND_SEWING_INVERSES": {
+      "status": "PASS",
+      "initial_named_blockers": [
+        "LAUNDRY",
+        "SEWING",
+        "SEWING",
+        "WORK",
+        "WORK",
+        "WORK_JOURNAL",
+        "WORK_JOURNAL",
+        "GROUP_STATE",
+        "WIP_HISTORY"
+      ],
+      "finished_PO_reopened_first": false,
+      "old_FG_voided_and_stock_zero": false,
+      "original_laundry_and_exact_WIP_inverses_retained": true,
+      "incomplete_inverse_refused_atomically": true,
+      "original_work_history_unchanged": true,
+      "original_sewing_times_and_quantities": [
+        {
+          "qty": 4,
+          "hour": 10,
+          "minute": 0
+        },
+        {
+          "qty": 6,
+          "hour": 10,
+          "minute": 30
+        }
+      ],
+      "old_payable": "0.00",
+      "new_payable": "60.00",
+      "WIP_increment": "60.00",
+      "one_correction": true,
+      "production_go": false,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-22",
+        "before": "2026-10-22",
+        "after": "2026-10-22"
+      }
+    },
+    "OW05_FINISHED_PO_QC_VOIDED_FG_AND_LAUNDRY_INVERSES": {
+      "status": "PASS",
+      "initial_named_blockers": [
+        "PO_STATE",
+        "QC",
+        "FG_LOT",
+        "LAUNDRY",
+        "SEWING",
+        "SEWING",
+        "WORK",
+        "WORK",
+        "WORK_JOURNAL",
+        "WORK_JOURNAL",
+        "GROUP_STATE",
+        "WIP_HISTORY"
+      ],
+      "finished_PO_reopened_first": true,
+      "old_FG_voided_and_stock_zero": true,
+      "original_laundry_and_exact_WIP_inverses_retained": true,
+      "incomplete_inverse_refused_atomically": true,
+      "original_work_history_unchanged": true,
+      "original_sewing_times_and_quantities": [
+        {
+          "qty": 4,
+          "hour": 10,
+          "minute": 0
+        },
+        {
+          "qty": 6,
+          "hour": 10,
+          "minute": 30
+        }
+      ],
+      "old_payable": "0.00",
+      "new_payable": "60.00",
+      "WIP_increment": "60.00",
+      "one_correction": true,
+      "production_go": false,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-22",
+        "before": "2026-10-22",
+        "after": "2026-10-22"
+      }
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "original_report": {
+    "name": "CP7_OW05_PROCESS_NATIVE2.json",
+    "bytes": 920457,
+    "sha256": "1fb76d278f638927d323b8575f847141208e59bd0d8f7e16683a062853478e4a"
+  },
+  "artifact": {
+    "id": 12434077583,
+    "zip_bytes": 1702040,
+    "zip_sha256": "3433c62dd7d77b7262ec1bd4c4a556129bb6825abeba8ca0f5a0c7166fc64bea"
+  },
+  "OW05_complete": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

@@ -1,0 +1,90 @@
+{
+  "classification": "COMPACT_ACTUAL_CURRENT_BROWSER2_RECEIPT_NOT_RAW_LOG",
+  "status": "PASS",
+  "candidate_commit": "5e4b4c1c89a5b899d331a1c916d4c310c5ab5a6a",
+  "run_id": 39797404450,
+  "job_id": 119888156171,
+  "counts": {
+    "PASS": 2
+  },
+  "cases": {
+    "OW05_DESKTOP_NATIVE_UNDO_CORRECT_REPOST_NEW24": {
+      "status": "PASS",
+      "real_login": true,
+      "fixture_created_by_Native_SQL": true,
+      "all_journey_writes_from_actual_UI": true,
+      "timezone": "America/Los_Angeles",
+      "physical_time_WIB_preserved": true,
+      "mobile": false,
+      "viewport": {
+        "width": 1440,
+        "scroll": 1440
+      },
+      "progress": {
+        "active_wage_refused": true,
+        "assignment_preserves_old_history_stock_HPP_and_physical_time": true
+      },
+      "old_mandor_payable": "0.00",
+      "new_mandor_payable": "24.00",
+      "WIP_increment": "24.00",
+      "posted_work_count": 1,
+      "one_correction_one_history": true,
+      "private_contexts": 0,
+      "nota_UI_not_claimed": true,
+      "production_go": false,
+      "business_day": {
+        "planned": "2026-10-22",
+        "before": "2026-10-22",
+        "after": "2026-10-22"
+      }
+    },
+    "OW05_MOBILE390_NATIVE_UNDO_CORRECT_REPOST_NEW24": {
+      "status": "PASS",
+      "real_login": true,
+      "fixture_created_by_Native_SQL": true,
+      "all_journey_writes_from_actual_UI": true,
+      "timezone": "America/Los_Angeles",
+      "physical_time_WIB_preserved": true,
+      "mobile": true,
+      "viewport": {
+        "width": 390,
+        "scroll": 390
+      },
+      "progress": {
+        "active_wage_refused": true,
+        "assignment_preserves_old_history_stock_HPP_and_physical_time": true
+      },
+      "old_mandor_payable": "0.00",
+      "new_mandor_payable": "24.00",
+      "WIP_increment": "24.00",
+      "posted_work_count": 1,
+      "one_correction_one_history": true,
+      "private_contexts": 0,
+      "nota_UI_not_claimed": true,
+      "production_go": false,
+      "business_day": {
+        "planned": "2026-10-22",
+        "before": "2026-10-22",
+        "after": "2026-10-22"
+      }
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "original_report": {
+    "name": "CP7_OW05_REAL_BROWSER2.json",
+    "bytes": 262234,
+    "sha256": "815409936fb343f7605c98775c81fccccf27e466ec42535e900c636c6802e807"
+  },
+  "artifact": {
+    "id": 12435450084,
+    "zip_bytes": 1633264,
+    "zip_sha256": "7bb07aad9586ecdfb27909e03fd87f97d629c314cbe39ef8940b383cf980598e"
+  },
+  "OW05_complete": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "auth_counts_restored": true,
+  "cleanup_failures": false,
+  "database_remaining": 0
+}
