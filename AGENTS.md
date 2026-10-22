@@ -36,12 +36,14 @@ pemeriksaan yang secara khusus ditugaskan kepada reviewer.
 
 ## Integrasi, bukti, dan batas peran
 
-- Arahan owner terbaru22 Okt2026: siapkan pembagian kerja Codex dan Claude
-  supaya perubahan tidak bertabrakan dan mudah digabung; dua jalur penulisan
-  terpisah diizinkan. Batas file, cabang dan urutan integrasi ada di
-  `docs/cp7/handoff/PEMBAGIAN_KERJA_20261022.md`. Baca sebelum mengubah produk.
-  Ini menggantikan aturan satu writer untuk seluruh repo pada handoff sebelumnya.
-  Jangan otomatis menambah agent; orang ketiga opsional untuk pemeriksaan.
+- Arahan terbaru22 Okt2026 D17-16 dan pembagian Claude versi2: semua fitur
+  tetap lingkup. Claude/A memegang uang, stok, HPP, laporan, urut/saring,
+  modul angka keuangan analisis dan integrasi; Codex/Astra/B memegang produksi,
+  perencanaan, model, kecepatan analisis dan gudang. OW07 milik A, bukan B.
+  Baca `docs/cp7/PEMBAGIAN_DUA_PENULIS_20261022.md` dan
+  `docs/cp7/d17-14/KOORDINASI.md` sebelum mengubah produk. Pembagian sebelumnya
+  di `handoff/PEMBAGIAN_KERJA_20261022.md` menjadi arsip.
+  Jangan otomatis menambah agent atau penulis ketiga.
 - Satu integrator mengubah cabang integrasi dan file bersama; masing-masing
   writer hanya mengubah scope yang dialokasikan di cabang dan worktree sendiri.
   Scope yang belum dibagi tidak diambil sepihak. Pemeriksa diberi scope terbatas.

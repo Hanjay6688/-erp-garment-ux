@@ -1,5 +1,11 @@
 # Pembagian kerja Claude dan Codex — 22 Oktober 2026 WIB
 
+> **ARSIP — digantikan pembagian Claude versi2 sesudah D17-16.** Gunakan
+> [PEMBAGIAN_DUA_PENULIS_20261022.md](../PEMBAGIAN_DUA_PENULIS_20261022.md) dan
+> [KOORDINASI.md](../d17-14/KOORDINASI.md). Claude kini menangani uang/stok/HPP/laporan dan integrasi;
+> Codex/Astra menangani produksi/perencanaan. OW07 bukan lagi tugas Codex. Dua cabang OW06/OW07 yang
+> disebut di bawah hanya persiapan lama; tidak dipakai untuk pembagian baru. Isi lama dipertahankan sebagai riwayat.
+
 Arahan terbaru owner: bagi pekerjaan supaya tidak bertabrakan dan mudah digabung. Ini memperbarui aturan satu writer
 untuk seluruh repo dalam handoff awal. **Siap untuk dua penulis; orang ketiga opsional sebagai pemeriksa.** Tidak ada
 agent baru yang diluncurkan dan belum ada pengakuan mulai dari Claude. Pembagian ini tidak menambah butir selesai.
