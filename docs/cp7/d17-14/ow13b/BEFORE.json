@@ -1,0 +1,43 @@
+{
+  "label": "OW13B_READER_BEFORE",
+  "scope": "ACTUAL_READER_SQL_WITH_CONTROLLED_RELATIONAL_FIXTURE_AND_STUBBED_PROOF_ADAPTER_NOT_NATIVE_PROOF",
+  "source_sha256": "d7faf1e4ce4fa002c4f4e0eec70cd1a1fb4243dbeacd5e0e9dd8484ffebeea77",
+  "status": "FAIL",
+  "cases": [
+    {
+      "id": "COMPLETE_PRODUCT_SIZE_200",
+      "status": "PASS",
+      "observed": {
+        "groups": "200",
+        "cut_pcs": "8000",
+        "fg_pcs": "7400",
+        "all_proofs_matched": true
+      }
+    },
+    {
+      "id": "COMPLETE_PRODUCT_SIZE_201",
+      "status": "FAIL",
+      "error": "expected all 201 groups, observed UNKNOWN/HISTORY_GROUP_LIMIT\n+ actual - expected\n\n+ 'UNKNOWN'\n- 'AVAILABLE'\n"
+    },
+    {
+      "id": "COMPLETE_PRODUCT_SIZE_501",
+      "status": "FAIL",
+      "error": "expected all 501 groups, observed UNKNOWN/HISTORY_GROUP_LIMIT\n+ actual - expected\n\n+ 'UNKNOWN'\n- 'AVAILABLE'\n"
+    },
+    {
+      "id": "COMPLETE_MODEL_FALLBACK_501",
+      "status": "FAIL",
+      "error": "Expected values to be strictly equal:\n+ actual - expected\n\n+ 'UNKNOWN'\n- 'AVAILABLE'\n"
+    },
+    {
+      "id": "STALE_PROOF_AFTER_GROUP_200_EXCLUDED_EXACTLY",
+      "status": "FAIL",
+      "error": "Expected values to be strictly equal:\n+ actual - expected\n\n+ 'UNKNOWN'\n- 'AVAILABLE'\n"
+    },
+    {
+      "id": "LATE_BATCH_FAILURE_NEVER_RETURNS_PARTIAL_YIELD",
+      "status": "FAIL",
+      "error": "Expected values to be strictly equal:\n+ actual - expected\n\n+ 'HISTORY_GROUP_LIMIT'\n- 'HISTORY_SOURCE_INCOMPLETE'\n           ^\n"
+    }
+  ]
+}

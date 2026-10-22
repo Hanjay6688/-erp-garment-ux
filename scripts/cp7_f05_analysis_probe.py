@@ -39,7 +39,8 @@ def verify(cur):
  f03.cutting_correction.verify(cur)
  return dict(stage='EXPLICIT_F03_COMBINED_DEVELOPMENT_STACK',source_sha256=hashlib.sha256(bundle.bundle().encode()).hexdigest(),full_family_acceptance=False)
 
-def run(attention=False,p18_e01=False,rule_lifecycle=False,source_navigation=False,misc_correction=False,payment_correction=False,supplier_payment_correction=False,return_correction=False,sales_chain=False,cutting_correction=False,fabric_recipe=False,fabric_physical=False,fabric_reminder=False,p19_load=False,p19_transport=False,p19_scale=False,p19_staged=False,p19_plan_v2=False,p19_report_v2=False,p19_ai_v2=False,p19_reminder_v2=False,pl5_history_yield=False,k2_retention=False,k3_cleanup=False,k4_runner=False,k6_proof_runner=False,wa_forward=False):
+def run(attention=False,p18_e01=False,rule_lifecycle=False,source_navigation=False,misc_correction=False,payment_correction=False,supplier_payment_correction=False,return_correction=False,sales_chain=False,cutting_correction=False,fabric_recipe=False,fabric_physical=False,fabric_reminder=False,p19_load=False,p19_transport=False,p19_scale=False,p19_staged=False,p19_plan_v2=False,p19_report_v2=False,p19_ai_v2=False,p19_reminder_v2=False,pl5_history_yield=False,k2_retention=False,k3_cleanup=False,k4_runner=False,k6_proof_runner=False,wa_forward=False,ow13_complete_history=False):
+ assert not ow13_complete_history or pl5_history_yield,'OW13B_REQUIRES_RETAINED_HISTORY_SUITE'
  assert not p19_load or not any((attention,p18_e01,rule_lifecycle,source_navigation,misc_correction,payment_correction,supplier_payment_correction,return_correction,sales_chain,cutting_correction,fabric_recipe,fabric_physical,fabric_reminder,p19_scale,p19_staged)),'P19_LOAD_REQUIRES_ITS_OWN_DECLARED_CASE_BUDGET'
  fabric_any=fabric_recipe or fabric_physical or fabric_reminder
  candidate=bundle;case_provider=history_cases;checker=verify;extra='';expected=154;out=OUT;phase='cp7_f05_analysis';browser_script='cp7_f05_analysis_browser.mjs'
@@ -92,6 +93,9 @@ def run(attention=False,p18_e01=False,rule_lifecycle=False,source_navigation=Fal
   assert not any((attention,p18_e01,rule_lifecycle,source_navigation,misc_correction,payment_correction,supplier_payment_correction,return_correction,sales_chain,cutting_correction,fabric_recipe,fabric_physical,fabric_reminder,p19_load,p19_transport,p19_scale,p19_staged,p19_plan_v2,p19_report_v2,p19_ai_v2,p19_reminder_v2)),'PL5_HISTORY_YIELD_REQUIRES_ITS_OWN_DECLARED_CASE_BUDGET'
   import cp7_pl5_history_yield_cases as case_provider
   expected=case_provider.EXPECTED;assert expected==20;out=OUT.with_name('CP7_PL5_HISTORY_YIELD.json');phase='cp7_pl5_history_yield';browser_script='cp7_pl5_history_yield_browser.mjs'
+  if ow13_complete_history:
+   import cp7_ow13_history_cases as case_provider
+   out=OUT.with_name('CP7_OW13B_COMPLETE_HISTORY.json');phase='cp7_ow13_history'
  if k2_retention:
   # K2 (owner decision 8 Oct 2026): staged results kept 7 days after they
   # finished, then expired and refused everywhere; the private purge rule.
@@ -253,9 +257,12 @@ def run(attention=False,p18_e01=False,rule_lifecycle=False,source_navigation=Fal
   assert declaration['contract']==case_provider.CONTRACT and declaration['expected_case_count']==expected and declaration['required_case_counts']==case_provider.REQUIRED and declaration['required_case_ids']==case_provider.IDS and declaration['public_rpcs']==list(case_provider.FUNCTIONS),'P19_REMINDER_V2_PREDECLARED_CASE_BUDGET_CHANGED'
   report.update(label='CP7_P19_REMINDER_V2',scope='REMINDERS_FROM_DATED_STAGED_SNAPSHOT_CONDITIONS_BUILT_ONCE_LIVE_RECHECK_AFTER_LAST_LOCK_BEFORE_LOCAL_PREVIEW_RESOLVED_RECORDED_NOT_SENT_NO_EXTERNAL_DELIVERY',required_case_counts=case_provider.REQUIRED,required_case_ids=case_provider.IDS,predeclared_case_contract=declaration,predeclared_case_sha256=hashlib.sha256(declaration_bytes).hexdigest(),full_P19_acceptance=False)
  if pl5_history_yield:
-  declaration_bytes=(bundle.ROOT/'docs/cp7/pl5/PL5_HISTORY_YIELD.json').read_bytes();declaration=json.loads(declaration_bytes)
+  declaration_path='docs/cp7/d17-14/ow13b/CONTRACT.json'if ow13_complete_history else'docs/cp7/pl5/PL5_HISTORY_YIELD.json'
+  declaration_bytes=(bundle.ROOT/declaration_path).read_bytes();declaration=json.loads(declaration_bytes)
   assert declaration['contract']==case_provider.CONTRACT and declaration['expected_case_count']==expected and declaration['required_case_counts']==case_provider.REQUIRED and declaration['required_case_ids']==case_provider.IDS and declaration['public_rpcs']==list(case_provider.FUNCTIONS),'PL5_HISTORY_YIELD_PREDECLARED_CASE_BUDGET_CHANGED'
   report.update(label='CP7_PL5_HISTORY_YIELD',scope='PL5_B_HISTORY_YIELD_VERSIONED_OWNER_ADMIN_POLICY_PL8_PROOF_MATCHING_CURRENT_FACTS_PRODUCT_SIZE_THEN_SAME_MODEL_WILSON_90_FLOOR_PERMILLE_NEVER_CROSS_MODEL_NEVER_100',required_case_counts=case_provider.REQUIRED,required_case_ids=case_provider.IDS,predeclared_case_contract=declaration,predeclared_case_sha256=hashlib.sha256(declaration_bytes).hexdigest(),full_PL5_acceptance=False)
+  if ow13_complete_history:
+   report.update(label='CP7_OW13B_COMPLETE_HISTORY',scope='D17_14_OW13B_ALL_CANDIDATES_IN_BOUNDED_BATCHES_200_201_501_EXACT_PROOF_SET_WITH_19_RETAINED_CONTROLS',superseded_case=declaration['superseded_case'],OW13b_complete=False)
  if k3_cleanup:
   declaration_bytes=(bundle.ROOT/'docs/cp7/k3/K3_CLEANUP.json').read_bytes();declaration=json.loads(declaration_bytes)
   assert declaration['contract']==case_provider.CONTRACT and declaration['expected_case_count']==expected and declaration['required_case_counts']==case_provider.REQUIRED and declaration['required_case_ids']==case_provider.IDS and declaration['public_rpcs']==list(case_provider.FUNCTIONS) and declaration['schedules']==case_provider.SCHEDULES,'K3_CLEANUP_PREDECLARED_CASE_BUDGET_CHANGED'
