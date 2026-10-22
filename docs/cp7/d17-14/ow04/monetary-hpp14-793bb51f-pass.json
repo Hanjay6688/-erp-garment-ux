@@ -1,0 +1,25 @@
+{
+  "status": "PASS",
+  "candidate_product": "36a6b880d789452dbe4096fd4c401430bba1a5cb",
+  "qualification_commit": "793bb51f087dd0b57408d8eae290b3bc5efd5c46",
+  "run_id": 39748075152,
+  "job_id": 119721445604,
+  "counts": {
+    "PASS": 14
+  },
+  "required_case_ids_pass": true,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "scope": "Unchanged original14 monetary CREDIT/opening/PO/fractional vectors, including proper stock/HPP/journals and original refusal controls; separate from direct zero-money Native14.",
+  "raw_report": {
+    "bytes": 6777087,
+    "sha256": "5ddef135cc9d385b856e374c7c46dfbb4d5a09aa2fef8843e4f1d316862e59f6"
+  },
+  "artifact": {
+    "id": 12412357999,
+    "bytes": 2406156,
+    "sha256": "6639ae2208f3b2e0f68e9e1b7ad66f14f63c58df473f00b4922b70cd11ab9143"
+  },
+  "formal_CP7C_started": false,
+  "production_go": false
+}

@@ -1,0 +1,43 @@
+{
+  "classification": "FROZEN_BEFORE_EXECUTION_DISTINCT_AUTH_STILL_FUNDED_STALE_REVIEW",
+  "original_150_expected_file_sha256": "9790794287e38363e0d8637ebea906f2fabf29a67796c0a66b3e124366dce406",
+  "why_amount80": "After one80 success120 remains; another80 is funded, so exact old review must be rejected as changed. The original150 scenario reached the earlier capacity refusal and its original expectation remains unchanged.",
+  "cases": [
+    {
+      "id": "OW04_REAL_AUTH_TWO_USERS_APPLY80_STALE_ONE_EFFECT",
+      "action": "APPLY",
+      "amount": "80.00",
+      "loser_error": "CP7_CREDIT_CONSUMER_REVIEW_CHANGED",
+      "expected": {
+        "source_net": "800.00",
+        "source_P": "1000.00",
+        "I": "200.00",
+        "C": "80.00",
+        "available": "120.00",
+        "source_AR": "0.00",
+        "target_P": "0.00",
+        "target_U": "80.00",
+        "target_AR": "420.00",
+        "cash": "1000.00"
+      }
+    },
+    {
+      "id": "OW04_REAL_AUTH_TWO_USERS_REFUND80_STALE_ONE_EFFECT",
+      "action": "REFUND",
+      "amount": "80.00",
+      "loser_error": "CP7_CREDIT_CONSUMER_REVIEW_CHANGED",
+      "expected": {
+        "source_net": "800.00",
+        "source_P": "1000.00",
+        "I": "200.00",
+        "C": "80.00",
+        "available": "120.00",
+        "source_AR": "0.00",
+        "target_P": "0.00",
+        "target_U": "0.00",
+        "target_AR": "500.00",
+        "cash": "920.00"
+      }
+    }
+  ]
+}

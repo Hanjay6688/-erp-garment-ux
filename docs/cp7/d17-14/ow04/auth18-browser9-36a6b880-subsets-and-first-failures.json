@@ -1,0 +1,48 @@
+{
+  "status": "PARTIAL_EVIDENCE_FROM_INCOMPLETE_COMBINED_JOB",
+  "original_combined_status": "INCOMPLETE",
+  "candidate": "36a6b880d789452dbe4096fd4c401430bba1a5cb",
+  "run_id": 39746622801,
+  "job_id": 119716563410,
+  "actual_HTTP_counts": {
+    "PASS": 18,
+    "INCOMPLETE": 2
+  },
+  "actual_browser_counts": {
+    "PASS": 9
+  },
+  "retained_HTTP18_all_pass": true,
+  "browser9_all_pass": true,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "Auth_and_DB_cleanup_exact": true,
+  "actual_product_loopback_proven": true,
+  "first_failures": {
+    "OW04_REAL_AUTH_TWO_USERS_APPLY150_ONE_EFFECT": {
+      "status": "INCOMPLETE",
+      "error": "REAL_AUTH_WRITER_FINISHED_BEFORE_GLOBAL_LOCK_RELEASE"
+    },
+    "OW04_REAL_AUTH_TWO_USERS_REFUND150_ONE_EFFECT": {
+      "status": "INCOMPLETE",
+      "error": "('CP7_CREDIT_CONSUMER_REVIEW_CHANGED', {'code': 'P0001', 'details': None, 'hint': None, 'message': 'CP7_CREDIT_CONSUMER_INSUFFICIENT_DATED_SOURCE_CAPACITY'})"
+    }
+  },
+  "old150_gold_sha256": "9790794287e38363e0d8637ebea906f2fabf29a67796c0a66b3e124366dce406",
+  "root_cause_notes": [
+    "APPLY: the monitoring transaction did not clear its activity snapshot while polling. This can keep an earlier view; the finished RPC outcome was not recorded, so its exact early outcome is not claimed.",
+    "REFUND: two150 requests with200 credit leave50 after one success. The second is correctly refused by dated source capacity before stale-review comparison. The original expectation selected the wrong branch."
+  ],
+  "next_qualification": "Separate versioned two-user80 fixtures keep120 after the first80, so the second80 is still funded and must fail the exact stale-review guard. Refresh monitoring snapshot for each observation; preserve original150 report/gold and every failure.",
+  "unchanged_product_timeouts_and_guards": true,
+  "raw_report": {
+    "bytes": 415098,
+    "sha256": "77e1847a2a2b445dadf275a3cba4f00caa72253bd75ce3e65767c3cc221df7b2"
+  },
+  "artifact": {
+    "id": 12411998495,
+    "bytes": 22103751,
+    "sha256": "e2e2a2d6bb5af0684e85c759c2a85d93ce3aeee45200e92fa4985fdb27d42d12"
+  },
+  "formal_CP7C_started": false,
+  "production_go": false
+}

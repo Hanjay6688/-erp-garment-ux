@@ -6,10 +6,10 @@ Writer hanya bekerja di `astra/d17-14-integrasi`; cabang lama dipertahankan.
 
 | Syarat owner | Bukti yang sudah ada | Yang masih perlu ditutup |
 |---|---|---|
-|1. Invoice lunas; pilih uang kembali atau kredit di layar |Alur Native dan layar pada kandidat91f71ce7/da6a5454 serta browser9 pada642d7a00 |Ulangi alur login dan layar pada sumber keuangan8c437dbe terkini |
+|1. Invoice lunas; pilih uang kembali atau kredit di layar |Alur Native dan layar pada kandidat91f71ce7/da6a5454 serta browser9 pada642d7a00 |18HTTP dan9browser kini lulus pada36a6b880 dengan sumber keuangan8c yang sama; lihat kuitansi gabungan INCOMPLETE di bawah |
 |2. Uang keluar sekali; kas per tanggal tetap dijaga |Native32 pada8c437dbe lulus; literal uang, replay, penolakan UUID berubah dan penjaga tanggal tetap |Bukti transport terakhir pada sumber yang sama |
-|3. Kredit ke invoice berikutnya dan pembatalan tanpa saldo ganda |Native32 lulus APPLY/REFUND/UNDO bernama; HTTP18 dan browser9 pada sumber527 sudah lulus |Ulangi transport pada8c437dbe |
-|4. Stok/HPP retur termasuk saldo awal; jurnal seimbang |Native63/87/90 mencakup fondasi retur/HPP; Native32 terkini membuktikan koreksi pembayaran tidak mengubah stok/HPP |Cocokkan regresi saldo awal terhadap kandidat akhir; jangan mengklaim 32 mengulang90 |
+|3. Kredit ke invoice berikutnya dan pembatalan tanpa saldo ganda |Native32 lulus APPLY/REFUND/UNDO bernama; HTTP18 dan browser9 pada sumber527 sudah lulus |18HTTP dan9browser sudah lulus pada36a6b880; dua uji pengguna berbeda masih dibenahi |
+|4. Stok/HPP retur termasuk saldo awal; jurnal seimbang |Native63/87/90 mencakup fondasi retur/HPP; Native32 terkini membuktikan koreksi pembayaran tidak mengubah stok/HPP |14 vektor langsung Native serta14 vektor uang/kredit/HPP asli kini lulus pada36a6b880; bukan klaim mengulang90 |
 |5. Koreksi dua arah, beberapa angkatan, histori dan petunjuk pembalikan |Native32 lulus1000→900→1000 dan inverses; petunjuk di browser pernah diuji |Dua perjalanan tambahan membuktikan empat generasi1000→900→1000→950→1000. Itu satu kelompok retur; beberapa kelompok retur berbeda pada invoice yang sama belum diklaim |
 |6. Native, dua penulis, HTTP Auth, desktop/HP, P21 di salinan |Native32 terkini lulus; bukti18HTTP/8balapan SQL/9browser sumber527; full restore6/6 langkah pada1e8e1b0d |P21 bawaan baru dialihkan ke pemasang terkini; pasang/copot sebelum pakai/pasang ulang/pakai/pulihkan harus lulus, serta transport sumber8c perlu diuji |
 |7. Temuan di luar daftar menjadi batas tersisa |Batas tercatat di bawah |Tidak memperpanjang OW-04 dengan penyelidikan lain |
@@ -54,6 +54,13 @@ Writer hanya bekerja di `astra/d17-14-integrasi`; cabang lama dipertahankan.
   pembuat contoh E01 mengasumsikan laporan global READY setelah kredit OW04 telah dibuat. Pemeriksa laporan lama belum mengurangi/menambah kredit.
   Batas ini masuk [OW-08](../ow08/README.md), sesuai syarat7 owner. Pembuat contoh E01 tetap diuji READY sebelum kredit;
   tanda laporan sesudah kredit tetap dicatat dan wajib sama setelah restore. Belum ada klaim P21 lengkap lulus.
+
+- [18HTTP dan9browser pada sumber terkini lulus](auth18-browser9-36a6b880-subsets-and-first-failures.json).
+  Run gabungan tetap INCOMPLETE karena dua uji tambahan150; kegagalan dan gold aslinya dipertahankan.
+  Pengamatan antrean diperbarui, dan dua contoh80 yang tetap cukup saldonya menguji tepat penjaga ulasan berubah.
+  Dua contoh baru ini memakai ID/gold tersendiri; belum dinyatakan lulus.
+- [14 vektor retur dengan kredit bernilai dan HPP saldo awal/PO lulus](monetary-hpp14-793bb51f-pass.json),
+  run39748075152/job119721445604, produk beku36a6b880; seluruh CP6/advisor/pembersihan lulus.
 
 ## Batas tersisa
 
