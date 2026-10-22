@@ -19,3 +19,12 @@ Pemeriksaan lokal hanya lulus kompilasi tipe Native, bentuk masukan, jumlah alok
 Batas tetap: tidak menyentuh main, kandidat auditor55c885d1, Enteng, database hosted/produksi atau WA nyata. CP7C formal belum mulai. Laporan sesudah kredit pelanggan masih BLOCKED di OW-08.
 
 Hasil final: f764c508, run39808778963/job119929044980, enam kontrol grup dan empat oracle lama semuanya PASS. Seluruh22 kelompok, pencopotan sebelum dipakai, pengembalian CP6 dan advisor lulus. Dua kegagalan pemasangan asli tetap disimpan; satu run versi lama masih dilaporkan berjalan pada persiapan alat dan tidak dipakai sebagai bukti. Claude mengambil alih sisa OW06 sesuai handoff; jangan menambah hitungan selesai menjadi6 sebelum layar, hak/race, perjalanan nyata serta pemulihan sesudah dipakai terbukti.
+
+## Lanjutan oleh penulis A (23 Okt 2026)
+
+| Uji | Kepala | Run/job | Hasil |
+|---|---|---|---|
+| Login Auth nyata, hak dan rebutan (Auth4) | `b9456b5a` | 39825964400 percobaan 3 / 120015131365 | **4/4 PASS**. Artefak `cp7-ow06-real-auth4`, 1.633.962 byte, sha256 `35d0e3453989303e55456c1723bbf75562e170ef9597cee7bcf62997d95d68a4`. Percobaan 1 (`33581706`) 1/4: tiga kesalahan uji (perbandingan teks angka, kode penolakan sesudah menunggu, peran STAFF tidak aktif), bukti `auth4-33581706-first-failure.json`; percobaan 2 berhenti di langkah menyalakan database uji |
+| Browser desktop + HP (Browser2) | `eda58db5` | 39831356518 | Berhenti di langkah menyalakan database uji (server CI). Dua kegagalan sebelumnya karena uji (`browser2-*-first-failure.json`) sudah dibetulkan; dijalankan ulang |
+
+Belum selesai: Browser2 lulus, pemulihan sesudah dipakai (P21) dan sambungan ke pemasang bawaan.
