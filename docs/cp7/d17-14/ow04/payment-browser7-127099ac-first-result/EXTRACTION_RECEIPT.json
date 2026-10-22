@@ -1,0 +1,210 @@
+{
+  "artifact_zip_sha256": "2b9ce11354ac64697f5d4eb1d2580e83631ac068a8412955657ef6b5c34169d9",
+  "artifact_zip_client_verified": true,
+  "zip_bytes": 19010647,
+  "original_json_bytes_preserved": true,
+  "files": [
+    {
+      "archive_member": "ALIGNED_CHAIN.json",
+      "file": "ALIGNED_CHAIN.json.gz",
+      "raw_bytes": 17536,
+      "raw_sha256": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b",
+      "gzip_bytes": 4768,
+      "gzip_sha256": "50b6faabc978bed534a8489174702a0c73a288a5614b300e218d7a2fdf719f75",
+      "label": "T3_PREP",
+      "status": "PASS_ALIGNED_CHAIN_TO_AB",
+      "steps": [
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {},
+        {}
+      ]
+    },
+    {
+      "archive_member": "CP7_OW04_PAYMENT_CURRENT_BROWSER7_SYNC.json",
+      "file": "CP7_OW04_PAYMENT_CURRENT_BROWSER7_SYNC.json.gz",
+      "raw_bytes": 306858,
+      "raw_sha256": "ac9578fddc80e472f1861485e2556540a42f7ce393f833e7280925fd890144e1",
+      "gzip_bytes": 19922,
+      "gzip_sha256": "55fb13cc3b9f7568224ae08338cbeb4078c484427fa503af34c7b54577836924",
+      "label": "CP7_OW04_PAYMENT_CURRENT_BROWSER7_SYNC",
+      "status": "INCOMPLETE",
+      "candidate_commit": "127099ac1e0f74d15e802fd5b0e0d4caa5db4db5",
+      "cp6_restored": true,
+      "hosted": false
+    },
+    {
+      "archive_member": "PAYMENT_CURRENT_APPLY_FAILURE.json",
+      "file": "PAYMENT_CURRENT_APPLY_FAILURE.json.gz",
+      "raw_bytes": 6341,
+      "raw_sha256": "3d150b14fd789380c71cdf77db8e3703dd4fa09f735068e394e46df91e7d4061",
+      "gzip_bytes": 2014,
+      "gzip_sha256": "c46dce911c476d656d620ee76958b7e34bab0874f892c2b6928ce8617a44afee",
+      "error": "TimeoutError: page.waitForResponse: Timeout 20000ms exceeded while waiting for event \"response\""
+    },
+    {
+      "archive_member": "PAYMENT_CURRENT_HOST_0.json",
+      "file": "PAYMENT_CURRENT_HOST_0.json.gz",
+      "raw_bytes": 19010,
+      "raw_sha256": "824bb68117b825cb709246aa2e30a46bdff2d6ad5b02b24bafb9d003bbff232e",
+      "gzip_bytes": 2787,
+      "gzip_sha256": "a76a3634f962e6e8b236ee6e65ff59cdd7cda3b56e93ef0a139af801b26039e7",
+      "label": "AUDITOR_SCENARIO",
+      "status": "RUN_COMPLETE"
+    },
+    {
+      "archive_member": "T3_BACKUP_RESTORE_DRILL.json",
+      "file": "T3_BACKUP_RESTORE_DRILL.json.gz",
+      "raw_bytes": 10402,
+      "raw_sha256": "096dfc31c484130c13c457f8c900732fdc93eb6a77b2b412b0e5b350b4e6ad33",
+      "gzip_bytes": 1810,
+      "gzip_sha256": "1e693a99c02d946b6a0774465479c94e95ad3c94bfab1ccc9038e2a6c2002745",
+      "label": "T3_PREP_BACKUP_RESTORE_DRILL",
+      "status": "RESTORED_SAME_MEANING"
+    },
+    {
+      "archive_member": "T3_PACKAGE_FILES_INSTALL.json",
+      "file": "T3_PACKAGE_FILES_INSTALL.json.gz",
+      "raw_bytes": 1806,
+      "raw_sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "gzip_bytes": 255,
+      "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7",
+      "label": "T3_PREP_RELEASE_PACKAGE_INSTALL",
+      "status": "ALL_FILES_INSTALLED"
+    },
+    {
+      "archive_member": "T3_PACKAGE_INSTALL.json",
+      "file": "T3_PACKAGE_INSTALL.json.gz",
+      "raw_bytes": 360442,
+      "raw_sha256": "8e198539e2ca8b2a6bdf06ff3dffdb80d249c5be52e2714789db0b30dd5c56c2",
+      "gzip_bytes": 11417,
+      "gzip_sha256": "1c4bf8d537efeb15bdbba86b515effeaceba3bd8a481bd7e86686ec8820db934",
+      "label": "T3_PREP",
+      "status": "ALL_STAGES_INSTALLED"
+    },
+    {
+      "archive_member": "consumer-browser-fixtures/047387ca-376e-4d61-aa71-f58138e57225.json",
+      "file": "consumer-browser-fixtures/047387ca-376e-4d61-aa71-f58138e57225.json.gz",
+      "raw_bytes": 7005178,
+      "raw_sha256": "a93ffee7671827db4299789408bea56842c77102285310f89a20a1a11327be77",
+      "gzip_bytes": 1368367,
+      "gzip_sha256": "446d1824f3a2249ed6a41a2135bcdcb080ef91c8a6ebc9d37da21f31dab07613"
+    },
+    {
+      "archive_member": "consumer-browser-fixtures/5d16c235-659f-48b2-bdc5-87d3f0d2476f.json",
+      "file": "consumer-browser-fixtures/5d16c235-659f-48b2-bdc5-87d3f0d2476f.json.gz",
+      "raw_bytes": 7012336,
+      "raw_sha256": "e4519caeee84ed09f8877903869283d71af31ea9b2a296c32ec89ef2e166945e",
+      "gzip_bytes": 1368959,
+      "gzip_sha256": "58c5c2eb540f210da491580085762b0b2119d4ec707a7590738b0a537fdbf9b5"
+    },
+    {
+      "archive_member": "consumer-browser-fixtures/224d25b3-f496-4a8c-8996-c13587ba46d1.json",
+      "file": "consumer-browser-fixtures/224d25b3-f496-4a8c-8996-c13587ba46d1.json.gz",
+      "raw_bytes": 7011349,
+      "raw_sha256": "21bf9712b67ef93df841a0b03226a486eeb7d3ac12e92dd5e315c5ba1cfbb8de",
+      "gzip_bytes": 1368413,
+      "gzip_sha256": "41278c558ff800bf3241f5d722f80a78a301ffff13100f2e94a1651e42661507"
+    },
+    {
+      "archive_member": "consumer-browser-fixtures/afbee449-7c9e-4e63-bfb3-18cda8cb4b86.json",
+      "file": "consumer-browser-fixtures/afbee449-7c9e-4e63-bfb3-18cda8cb4b86.json.gz",
+      "raw_bytes": 7005877,
+      "raw_sha256": "91c4f8b826d58672208c0d5eb8dee5862a9ebfe2661b90745788bbd866c3d34d",
+      "gzip_bytes": 1368641,
+      "gzip_sha256": "c2455591a9af676b6255d73c15710460f022c78539aa2bac207178ed78722c59"
+    },
+    {
+      "archive_member": "consumer-browser-fixtures/bf40aa81-3b37-471d-bd39-cf35d6a8b331.json",
+      "file": "consumer-browser-fixtures/bf40aa81-3b37-471d-bd39-cf35d6a8b331.json.gz",
+      "raw_bytes": 7003292,
+      "raw_sha256": "a93a596aa4fb87cfb9c4900a738d1cbe0e8f99537e9578d36737eeefc769c8f4",
+      "gzip_bytes": 1367071,
+      "gzip_sha256": "b6b25e3c1a71967ec20de8a16520d8031d8ea7d4a030b23632939e488600820b"
+    },
+    {
+      "archive_member": "consumer-browser-fixtures/c3e7e1c1-ac11-4207-990d-5919d46c6c75.json",
+      "file": "consumer-browser-fixtures/c3e7e1c1-ac11-4207-990d-5919d46c6c75.json.gz",
+      "raw_bytes": 7002541,
+      "raw_sha256": "88708f7c8dfde81dc963d3a166f1aba2282ff7020d7d795127aff481bd585266",
+      "gzip_bytes": 1366723,
+      "gzip_sha256": "450a694fddf230e50d4c1dcaad219e704ee32b135771bcab36da27f52661e8f2"
+    },
+    {
+      "archive_member": "consumer-browser-fixtures/fd8cb3f9-d738-4661-9ca0-de33a417b368.json",
+      "file": "consumer-browser-fixtures/fd8cb3f9-d738-4661-9ca0-de33a417b368.json.gz",
+      "raw_bytes": 7004247,
+      "raw_sha256": "ea052b19b817de2e04dae52260980e6e5e5788fd57a0109eb33c8d1fea7880a0",
+      "gzip_bytes": 1367636,
+      "gzip_sha256": "e4940a71d2489b2bc7b7d7f87085fc5e4176945de9a2599a031b4c305186f845"
+    },
+    {
+      "archive_member": "payment-current-browser-fixtures/047387ca-376e-4d61-aa71-f58138e57225.json",
+      "file": "payment-current-browser-fixtures/047387ca-376e-4d61-aa71-f58138e57225.json.gz",
+      "raw_bytes": 16940,
+      "raw_sha256": "b40397c6e7e6fa9f828a40e6c3af07ded5260ae2927675f1c681d24c87bfad50",
+      "gzip_bytes": 3523,
+      "gzip_sha256": "a919fb49b83079e1547008cdb2b4e0ac13c48523c01f54e0eef513dd406f2bc0"
+    },
+    {
+      "archive_member": "payment-current-browser-fixtures/afbee449-7c9e-4e63-bfb3-18cda8cb4b86.json",
+      "file": "payment-current-browser-fixtures/afbee449-7c9e-4e63-bfb3-18cda8cb4b86.json.gz",
+      "raw_bytes": 16921,
+      "raw_sha256": "d364ebe894f6d7752f574bc3ce14a76167eaaf3d8108755acc4f1d3039bef514",
+      "gzip_bytes": 3539,
+      "gzip_sha256": "9beea33ffb1b0b841f7b927846dfd16760f946c0a216bbfa73b3993629326db1"
+    },
+    {
+      "archive_member": "source-inverse-ui-fixtures/5d16c235-659f-48b2-bdc5-87d3f0d2476f.initial.json",
+      "file": "source-inverse-ui-fixtures/5d16c235-659f-48b2-bdc5-87d3f0d2476f.initial.json.gz",
+      "raw_bytes": 10236399,
+      "raw_sha256": "fdd77a5cc71aba76612348299009c3c9c3c8ae2ee999ef5cf528222b1db36127",
+      "gzip_bytes": 1710229,
+      "gzip_sha256": "a09c8d9a019e10525afb1ce29b71d2417ef83f9c3e335108f5a4888ee9a5d80b"
+    },
+    {
+      "archive_member": "source-inverse-ui-fixtures/5d16c235-659f-48b2-bdc5-87d3f0d2476f.undone.json",
+      "file": "source-inverse-ui-fixtures/5d16c235-659f-48b2-bdc5-87d3f0d2476f.undone.json.gz",
+      "raw_bytes": 20706,
+      "raw_sha256": "24bbcb868cb61415a60cf0e7be5a47da7e487d96818ac83605eef5807c075346",
+      "gzip_bytes": 3842,
+      "gzip_sha256": "332d881a771c96d525c2be2cbbbb850b225b54b9f7c0afc6e36ce6b037fc7838"
+    }
+  ]
+}

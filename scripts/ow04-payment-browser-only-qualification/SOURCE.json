@@ -1,14 +1,15 @@
 {
-  "classification": "CLOSED_BROWSER7_CALLBACK_OBSERVATION_ONLY_NO_FINANCIAL_SOURCE_CHANGE",
-  "base_candidate": "92c297f2cdc82f107dfa0f079627a09608c3551b",
+  "classification": "CLOSED_BROWSER7_ACTUAL_CALLBACK_AND_CONSUMER_RECOVERY_OBSERVATION_NO_FINANCIAL_SOURCE_CHANGE",
+  "base_candidate": "127099ac1e0f74d15e802fd5b0e0d4caa5db4db5",
   "files": {
-    ".github/workflows/cp7-ow04-payment-browser-only.yml": "f74a2e277ff724d0cf3dbe5d5afa36c548ff2fbeaca3f42336930662d4460665",
+    ".github/workflows/cp7-ow04-payment-browser-only.yml": "d1bc1f17bdbd37bf94a9eab414cad60d90dd47ec3212e2eca4c4cbb4eee22caa",
     "scripts/ow04-payment-browser-only-qualification/EXPECTED.json": "2813bb6e965022f1a3bafa48090834e30942cf401068c610bfc488c8f203bc54",
     "scripts/ow04-payment-browser-only-qualification/QUALIFIED.json": "7e134e2e7766462876ee7fbdd8d59f6b9b40136bc54a45d4939d3901974e8ee2",
-    "scripts/ow04-payment-browser-only-qualification/README.md": "f714e75914bae0f2f46358d7002c5e5d8abc760b7d80377b3e0d1eaed58e6489",
+    "scripts/ow04-payment-browser-only-qualification/README.md": "527c67212aae95e05b95f4778c0b3918bc62c97d99e0efefee30e62a3ba85975",
     "scripts/ow04-payment-browser-only-qualification/all_browser_cases.mjs": "1b14b0c2afb67aca4d71e7ae5506a8fbebf86b5cdaee5217978906fab816d3b8",
-    "scripts/ow04-payment-browser-only-qualification/browser_cases.mjs": "662399ecd402d437839f38442f771bfe69bd99379ae678a6cbf4dbc0a51a64a6",
-    "scripts/ow04-payment-browser-only-qualification/probe.py": "da308995e06b47357a720bc6086b80bfbdc23e28d5e73c8109353ade38f72fd6"
+    "scripts/ow04-payment-browser-only-qualification/browser_cases.mjs": "9dc8d6f3eea604f078716b1f99d8084b9dff4e2f9fc50ac46af010c3c80f548f",
+    "scripts/ow04-payment-browser-only-qualification/function_stats.py": "ee4e4306b644876d9100e96a8ef6576b7e062dd08b543d4066ab8d829840df61",
+    "scripts/ow04-payment-browser-only-qualification/probe.py": "4ebad597dae015687ca6c5196ec113cb1a8231aae870ec2046f9633581845cab"
   },
   "product_sources": {
     "installer_sha256": "52de3debc64b578da53ae58d5844a04a4523e43c743577772375f7a998f78512",

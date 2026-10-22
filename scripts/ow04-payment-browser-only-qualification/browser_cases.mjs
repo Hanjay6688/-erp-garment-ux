@@ -18,6 +18,9 @@ async function journey(ui,today,action){
  const review=()=>page.getByRole('region',{name:'Pemeriksaan transaksi kredit',exact:true}),requests=[]
  const correctionRpc='erp_cp7_correct_sales_payment_v1',creditRpc='erp_cp7_customer_credit_command_v1'
  const lostReplyTrace={route_started:false,response_parsed:false,reply_aborted:false}
+ const secondReplyTrace={route_started:false,response_parsed:false,reply_aborted:false}
+ const journeyProgress={}
+ let functionProfile
  page.on('request',r=>{if(isRpc(correctionRpc)(r)||isRpc(creditRpc)(r))requests.push({rpc:r.url().split('/').at(-1),args:r.postDataJSON()})})
  const observed=(op,args,outcome)=>proof(op,{fixture:f.fixture,fixture_sha256:f.fixture_sha256,actor:user.user.id,args,outcome})
  async function source(){
@@ -53,6 +56,50 @@ async function journey(ui,today,action){
   response=await waiting;assert.equal(response.status(),200,await response.text())
   data=await response.json();assert.equal(data.available_credit_after,amount==='80.00'?'120.00':'0.00')
   await review().getByLabel('Transaksi kredit sudah diperiksa',{exact:true}).check()
+  if(!mobile&&amount==='20.00'){
+   // Observe the actual slow command through completion, lose that reply,
+   // then use the product's exact UUID recovery. No response body is mocked.
+   const before=helper('ow04-payment-browser-only-qualification/function_stats.py','snapshot',{})
+   let completed,commandArgs,commandError,finish,timer
+   const done=new Promise(resolve=>{finish=resolve})
+   await page.route('**/rest/v1/rpc/'+creditRpc,async route=>{
+    const started=performance.now();secondReplyTrace.route_started=true
+    try{
+     commandArgs=route.request().postDataJSON()
+     const response=await route.fetch({timeout:60000,maxRetries:0});secondReplyTrace.response_status=response.status()
+     assert.equal(response.status(),200,await response.text());completed=await response.json();secondReplyTrace.response_parsed=true
+    }catch(error){commandError=String(error)}
+    finally{
+     secondReplyTrace.fetch_elapsed_ms=performance.now()-started
+     try{await route.abort('failed');secondReplyTrace.reply_aborted=true}catch(error){commandError??=String(error)}
+     finish()
+    }
+   },{times:1})
+   try{
+    await review().getByRole('button',{name:'Simpan transaksi kredit',exact:true}).click()
+    await Promise.race([done,new Promise((_,reject)=>{timer=setTimeout(()=>reject(Error('ACTUAL_CONSUMER20_CALLBACK_NOT_COMPLETED_65S '+JSON.stringify(secondReplyTrace))),65000)})])
+   }finally{
+    clearTimeout(timer)
+    await new Promise(resolve=>setTimeout(resolve,1100))
+    const after=helper('ow04-payment-browser-only-qualification/function_stats.py','snapshot',{})
+    const deltas=Object.entries(after.functions).map(([name,row])=>{
+     const prev=before.functions[name]??{calls:0,total_ms:0,self_ms:0}
+     return{name,calls:row.calls-prev.calls,total_ms:row.total_ms-prev.total_ms,self_ms:row.self_ms-prev.self_ms}
+    }).filter(row=>row.calls>0)
+    functionProfile={diagnostic_only:true,application_latency_acceptance:false,includes_concurrent_background_requests:true,
+     track_functions_before:before.track_functions,track_functions_after:after.track_functions,
+     top_self:deltas.sort((a,b)=>b.self_ms-a.self_ms).slice(0,40),top_total:[...deltas].sort((a,b)=>b.total_ms-a.total_ms).slice(0,20)}
+   }
+   assert.equal(commandError,undefined,commandError);assert.ok(completed);assert.ok(commandArgs)
+   observed('second20',commandArgs,completed)
+   await ui.expect(page.getByRole('button',{name:'Reconcile transaksi',exact:true})).toBeEnabled()
+   await page.reload();await menu(page)
+   waiting=page.waitForResponse(isRpc(creditRpc),{timeout:60000})
+   await page.getByRole('button',{name:'Reconcile transaksi',exact:true}).click()
+   const response=await waiting;assert.equal(response.status(),200,await response.text())
+   assert.deepEqual(await response.json(),completed);assert.deepEqual(response.request().postDataJSON(),commandArgs)
+   return{args:commandArgs,outcome:completed}
+  }
   waiting=page.waitForResponse(isRpc(creditRpc));await review().getByRole('button',{name:'Simpan transaksi kredit',exact:true}).click()
   response=await waiting;assert.equal(response.status(),200,await response.text())
   return{args:response.request().postDataJSON(),outcome:await response.json()}
@@ -60,6 +107,7 @@ async function journey(ui,today,action){
  try{
   mkdirSync('cp6-proof/t3',{recursive:true});await source()
   const first=await spend('80.00','200.00'),initial=observed('first80',first.args,first.outcome)
+  journeyProgress.first80={...first,proof:initial}
   await source();await page.getByRole('button',{name:'Pembayaran invoice',exact:true}).click()
   const payments=page.getByRole('region',{name:'Pembayaran invoice',exact:true})
   await payments.locator('[data-payment-id="'+initial.payment_id+'"]').getByRole('button',{name:'Edit pembayaran '+initial.payment_number,exact:true}).click()
@@ -107,16 +155,18 @@ async function journey(ui,today,action){
    const response=await waiting;assert.equal(response.status(),200,await response.text());corrected=await response.json();args=response.request().postDataJSON()
   }
   const correctionProof=observed('correction',args,corrected)
+  journeyProgress.correction={args,outcome:corrected,proof:correctionProof,exact_replay_completed:!mobile}
   await source();const second=await spend('20.00','20.00'),final=observed('second20',second.args,second.outcome)
-  assert.equal(requests.filter(x=>x.rpc===creditRpc).length,2)
+  assert.equal(requests.filter(x=>x.rpc===creditRpc).length,mobile?2:3)
   assert.equal(requests.filter(x=>x.rpc===correctionRpc).length,mobile?1:2)
   await ui.expect.poll(()=>page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true)
   await page.screenshot({path:'cp6-proof/t3/PAYMENT_CURRENT_'+action+'.png',fullPage:true})
   return{status:'PASS',mobile,actual_Auth_product_UI_C80_then_1000_to900_then_C20:true,all_business_writes_from_UI:true,
    original_payment_C80_journal_stock_HPP_retained:true,actual_committed_reply_lost_then_exact_replay:!mobile,
-   correctionProof,final,lostReplyTrace,production_go:false}
+   correctionProof,final,lostReplyTrace,secondReplyTrace,functionProfile,
+   additional_consumer20_actual_commit_lost_reply_exact_UI_replay:!mobile,production_go:false}
  }catch(error){
-  writeFileSync('cp6-proof/t3/PAYMENT_CURRENT_'+action+'_FAILURE.json',JSON.stringify({error:String(error),stack:error.stack,requests,lostReplyTrace,text:await page.locator('main').innerText().catch(()=> '')},null,2))
+  writeFileSync('cp6-proof/t3/PAYMENT_CURRENT_'+action+'_FAILURE.json',JSON.stringify({error:String(error),stack:error.stack,requests,lostReplyTrace,secondReplyTrace,functionProfile,journeyProgress,text:await page.locator('main').innerText().catch(()=> '')},null,2))
   await page.screenshot({path:'cp6-proof/t3/PAYMENT_CURRENT_'+action+'_FAILURE.png',fullPage:true}).catch(()=>{});throw error
  }finally{await user.context.close()}
 }

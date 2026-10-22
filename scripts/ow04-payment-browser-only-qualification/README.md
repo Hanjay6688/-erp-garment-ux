@@ -25,3 +25,7 @@ used authenticated SQL fixtures, not real Auth concurrency.
 The current job runs browser7 only and removes the complete installed owner
 before use after removing the copy. OW04, full-factory performance, default P21,
 used-state restore and formal CP7C remain open.
+
+Current127099ac first result is retained under docs/cp7/d17-14/ow04/payment-browser7-127099ac-first-result/. Actual correction200 returned after16.53s and exact replay passed; subsequent APPLY20 had no observed browser response at20s. Its outcome was not read. This is not a performance PASS.
+
+This next observation also loses the actual APPLY20 reply after a real200 and requires committed readback plus exact UI replay. The fetch observer is bounded60s/no retries, callback65s; product8s UNKNOWN remains intact. Actual function-time counters around that request are diagnostic, may include concurrent background reads and do not establish application latency. Disposable cluster track_functions is temporarily all and restored, with no role/database authority/product definition/RPC permission changes. Both lost-reply UUIDs must recover through the product. No Native22/HTTP16/SQLraces6 rerun.

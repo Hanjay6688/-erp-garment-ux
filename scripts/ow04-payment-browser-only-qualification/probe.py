@@ -15,7 +15,7 @@ from cp6_t3_aligned_install import advisors,advisor_delta
 spec=importlib.util.spec_from_file_location('payment_current_copy_authority',REPO/'scripts/ow04-payment-browser-races-qualification/copy_authority.py')
 copies=importlib.util.module_from_spec(spec);spec.loader.exec_module(copies)
 product,previous,package,core,p09=control.product,control.previous,control.package,control.core,control.p09
-LABEL='CP7_OW04_PAYMENT_CURRENT_BROWSER7_SYNC'
+LABEL='CP7_OW04_PAYMENT_CURRENT_BROWSER7_RECOVERY'
 OUT=REPO/'cp6-proof/t3'/f'{LABEL}.json'
 
 
@@ -50,7 +50,7 @@ def admitted():
     declaration=json.loads((HERE/'EXPECTED.json').read_bytes())
     assert declaration['browser_count']==len(set(declaration['browser_case_ids']))==7
     r=reports['races6'];race=r['races']
-    assert r['candidate_commit']==binding['races6_candidate']==source['base_candidate']=='92c297f2cdc82f107dfa0f079627a09608c3551b'
+    assert r['candidate_commit']==binding['races6_candidate']=='92c297f2cdc82f107dfa0f079627a09608c3551b'
     assert r['current_financial_sources']==product.sources()and r['cp6_restored']and r['advisor_gate']
     assert r['status']=='INCOMPLETE'and r['browser']['counts']=={'PASS':6,'INCOMPLETE':1}
     assert race['status']=='RUN_COMPLETE'and race['counts']=={'PASS':6}and race['database_remaining']==0
@@ -71,8 +71,14 @@ def run():
         expected_browser_case_ids=expected['browser_case_ids'],retained_actual_SQL_races6=True,
         expected_case_count=7,retained_browser4_plus_sourceUI1_actually_rerun=True,
         Native22_HTTP16_SQLraces6_rerun=False,formal_CP7C_started=False,production_go=False,feature_complete=False,hosted=False)
-    installed=False;original=modes.copy_db
+    installed=False;original=modes.copy_db;tracking=None
     try:
+        # Disposable cluster observability only; no business body, database
+        # authority, role setting, public capability or product budget changes.
+        with psycopg.connect(package.boundary.PRIMARY_ADMIN,autocommit=True)as conn,conn.cursor()as cur:
+            tracking=cur.execute("select setting,sourcefile from pg_settings where name='track_functions'").fetchone()
+            cur.execute("alter system set track_functions='all'");cur.execute('select pg_reload_conf()')
+        report['disposable_tracking_before']=tracking
         with psycopg.connect(package.boundary.ADMIN)as conn,conn.cursor()as cur:
             p09.wip.policy.bf.verified(cur)
             before=previous.restore_state.capture(cur,package.boundary.snapshot,core.predecessor.public_state,p09.functions)
@@ -101,6 +107,18 @@ def run():
     except Exception as error:report.update(error=str(error),traceback=traceback.format_exc(),copy_catalog_admissions=copies.COPY_ADMISSIONS)
     finally:
         modes.copy_db=original
+        if tracking is not None:
+            try:
+                with psycopg.connect(package.boundary.PRIMARY_ADMIN,autocommit=True)as conn,conn.cursor()as cur:
+                    if tracking[1]and tracking[1].endswith('/postgresql.auto.conf'):
+                        from psycopg import sql
+                        cur.execute(sql.SQL('alter system set track_functions={}').format(sql.Literal(tracking[0])))
+                    else:cur.execute('alter system reset track_functions')
+                    cur.execute('select pg_reload_conf()')
+                with psycopg.connect(package.boundary.PRIMARY_ADMIN)as conn,conn.cursor()as cur:
+                    after=cur.execute("show track_functions").fetchone()[0]
+                report['disposable_tracking_restored']=after==tracking[0]
+            except Exception as error:report.update(tracking_restore_error=str(error),disposable_tracking_restored=False)
         if installed:
             try:
                 with psycopg.connect(package.boundary.ADMIN)as conn,conn.cursor()as cur:
@@ -116,7 +134,7 @@ def run():
         report['required_case_ids_pass']=set(browser.get('cases',{}))==set(expected['browser_case_ids'])and all(row['status']=='PASS'for row in browser.get('cases',{}).values())
         groups=browser.get('status')in('PASS','RUN_COMPLETE')and browser.get('counts')=={'PASS':7}
         clean=browser.get('database_remaining',1)==0 and(browser.get('auth_counts')or{}).get('restored')and not browser.get('cleanup_failures')and not browser.get('auth_cleanup_failures')and browser.get('host_exit')==0 and browser.get('host_status')=='RUN_COMPLETE'and browser.get('console_errors')==0 and browser.get('real_auth')is True and browser.get('jwt_signed_by_runtime')is False and browser.get('test_only_usage_grant')is False
-        if not report.get('error')and report.get('cp6_restored')and report.get('advisor_gate')and report['required_case_ids_pass']and groups and clean and report.get('actual_product_loopback_proven'):
+        if not report.get('error')and report.get('cp6_restored')and report.get('advisor_gate')and report['required_case_ids_pass']and groups and clean and report.get('actual_product_loopback_proven')and report.get('disposable_tracking_restored'):
             report['status']='PASS'
         OUT.parent.mkdir(parents=True,exist_ok=True);OUT.write_text(json.dumps(report,indent=2,default=str)+'\n')
         print(json.dumps({k:report.get(k)for k in ('label','status','expected_case_count','observed_case_count','cp6_restored','advisor_gate','error','restore_error')}),flush=True)
