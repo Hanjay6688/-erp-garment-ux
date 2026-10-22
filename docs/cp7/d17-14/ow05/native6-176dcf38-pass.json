@@ -1,0 +1,38 @@
+{
+ "run": 39845868524,
+ "attempt": 1,
+ "job": 120058846819,
+ "head": "176dcf38",
+ "qualification_commit": "176dcf381163b9e84c1b8c0d848f1cfac88448bc",
+ "label": "CP7_OW05B_MANDOR_GUIDANCE_NATIVE6",
+ "status": "PASS",
+ "expected_case_count": 6,
+ "observed_case_count": 6,
+ "cases": {
+  "OW05B_REAL_CHAIN_BLOCKERS_NAME_REAL_MENUS_AND_OPEN": "PASS",
+  "OW05B_EVERY_KIND_AND_BRANCH_GUIDED": "PASS",
+  "OW05B_AFTER_STEPS_COMPLETE_IN_ORDER": "PASS",
+  "OW05B_HISTORY_TWO_CORRECTIONS_VISIBLE": "PASS",
+  "OW05B_CORRECTION_COMMAND_UNCHANGED": "PASS",
+  "OW05B_GUIDANCE_READERS_PRIVATE": "PASS"
+ },
+ "cp6_restored": true,
+ "advisor_gate": true,
+ "restore_raw_public_equal": true,
+ "package_gate": {"installed": true, "primary_unchanged": true, "backup_restore_drill": true, "security_advisors": true, "writer_runtime": true},
+ "every_case": {"full_boundary_restored": true, "public_schema_unchanged": true, "session_leaks": 0, "business_day": "2026-10-23 unchanged"},
+ "report": {"name": "CP7_OW05B_MANDOR_GUIDANCE_NATIVE6.json", "raw_bytes": 1821419, "raw_sha256": "c91da4a6e7c21743eb392fa5006e9c6c34eb72bafc89eefd7406f0cae66d2b99"},
+ "artifact": "cp7-ow05b-mandor-guidance-native6 (12455766548)",
+ "highlights": {
+  "real_chain_kinds": ["PO_STATE", "QC", "FG_LOT", "LAUNDRY", "SEWING", "WORK", "GROUP_STATE", "WIP_HISTORY"],
+  "every_kind_count": 19,
+  "unknown_kind_refused": "CP7_MANDOR_GUIDANCE_KIND_UNKNOWN",
+  "history": "two corrections, newest first, visible while blocked, other PO empty",
+  "command": "response keys unchanged, replay identical, one history row",
+  "readers": "authenticated direct call refused (permission denied for schema cp7_contractor_guidance)"
+ },
+ "not_reached_with_real_rows": ["MATERIAL_ISSUE non-accessory (kain/bahan) branch"],
+ "OW05b_complete": false,
+ "production_go": false,
+ "independent_acceptance": false
+}
