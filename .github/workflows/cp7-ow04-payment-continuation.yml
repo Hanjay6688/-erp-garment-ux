@@ -1,4 +1,4 @@
-name: CP7 OW04 retained20 and actual consumer continuation Native22
+name: CP7 OW04 actual Native22 then real Auth HTTP16
 'on':
   push:
     branches:
@@ -7,6 +7,7 @@ name: CP7 OW04 retained20 and actual consumer continuation Native22
     - scripts/ow04-payment-continuation-qualification/**
     - scripts/cp7_customer_credit/payment_correction/**
     - scripts/cp7_payment_source_owning_install.py
+    - scripts/ow04-payment-http-current-qualification/**
     - .github/workflows/cp7-ow04-payment-continuation.yml
   workflow_dispatch: {}
 permissions:
@@ -17,7 +18,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   phase:
-    name: Retain20 then actual new use named undos and source inverse; Native22
+    name: Native22 then real Auth HTTP16; owning correction and subsequent use
     runs-on: ubuntu-24.04
     timeout-minutes: 60
     env:
@@ -145,11 +146,46 @@ jobs:
     - name: Qualify retained20 plus the two original first-failing continuation journeys
       working-directory: writer
       run: python '../auditor/scripts/ow04-payment-continuation-qualification/native22_probe.py'
+    - name: Bind actual successful Native22 and preserve every first-phase primary report
+      working-directory: auditor
+      run: |
+        python - <<'PYCODE'
+        from pathlib import Path
+        from hashlib import sha256
+        import json,os,shutil,subprocess
+        root=Path('cp6-proof/t3');phase=root/'native22-phase';phase.mkdir()
+        for name in ('CP7_OW04_PAYMENT_SOURCE_NATIVE22.json','T3_PACKAGE_INSTALL.json','T3_BACKUP_RESTORE_DRILL.json','T3_PACKAGE_FILES_INSTALL.json','ALIGNED_CHAIN.json'):
+            shutil.copyfile(root/name,phase/name)
+        n=json.loads((phase/'CP7_OW04_PAYMENT_SOURCE_NATIVE22.json').read_bytes())
+        outer=json.loads((phase/'T3_PACKAGE_INSTALL.json').read_bytes())
+        assert n['status']=='PASS'and n['native']['counts']=={'PASS':22}
+        assert n['expected_case_count']==n['observed_case_count']==22 and n['required_case_ids_pass']
+        assert n['cp6_restored']and n['advisor_gate']
+        assert all(outer['gate'].values())and outer['primary_unchanged']and outer['writer_runtime']['status']=='PASS'
+        head=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip()
+        assert n['candidate_commit']==head
+        binding=dict(classification='ACTUAL_SAME_CANDIDATE_NATIVE22_COMPLETED_BEFORE_HTTP16',candidate_commit=head,
+            github_run_id=os.environ['GITHUB_RUN_ID'],original_reports={name:sha256((phase/name).read_bytes()).hexdigest()
+            for name in ('CP7_OW04_PAYMENT_SOURCE_NATIVE22.json','T3_PACKAGE_INSTALL.json')})
+        (root/'NATIVE22_HTTP_ADMISSION.json').write_text(json.dumps(binding,indent=2)+'\n')
+        print(json.dumps(binding))
+        PYCODE
+    - name: Make a fresh owner-preserving AB clone for the HTTP phase
+      working-directory: writer
+      run: |
+        bash scripts/clone-cp6-disposable-database.sh \
+          'postgresql://postgres:postgres@127.0.0.1:54322/postgres' \
+          'postgresql://postgres:postgres@127.0.0.1:54322/template1' \
+          'postgresql://postgres:postgres@127.0.0.1:54322/cp6_rollback' \
+          cp6_rollback supabase_db_cp5-local '../auditor/cp6-proof/t3/CLONE_http_phase'
+    - name: Qualify original real Auth HTTP14 and two actual owning corrections
+      working-directory: writer
+      run: python '../auditor/scripts/ow04-payment-http-current-qualification/http_probe.py'
     - name: Preserve exact original JSON report bytes in a bounded compressed log receipt
       if: always()
       working-directory: auditor
       run: "python - <<'PY'\nimport base64,gzip,hashlib,json\nfrom pathlib import Path\nroot=Path('cp6-proof/t3')\nfor name\
-        \ in ('CP7_OW04_PAYMENT_SOURCE_NATIVE22.json','T3_PACKAGE_INSTALL.json','T3_BACKUP_RESTORE_DRILL.json','T3_PACKAGE_FILES_INSTALL.json'):\n\
+        \ in ('CP7_OW04_PAYMENT_SOURCE_NATIVE22.json','CP7_OW04_PAYMENT_SOURCE_HTTP16.json','NATIVE22_HTTP_ADMISSION.json','T3_PACKAGE_INSTALL.json','T3_BACKUP_RESTORE_DRILL.json','T3_PACKAGE_FILES_INSTALL.json'):\n\
         \    path=root/name\n    if not path.is_file():\n        continue\n    raw=path.read_bytes();packed=gzip.compress(raw,mtime=0)\n\
         \    print(json.dumps(dict(ow04_original_report_bytes=True,name=name,raw_bytes=len(raw),\n        raw_sha256=hashlib.sha256(raw).hexdigest(),gzip_bytes=len(packed),\n\
         \        gzip_sha256=hashlib.sha256(packed).hexdigest(),\n        gzip_base64=base64.b64encode(packed).decode('ascii'))),flush=True)\n\

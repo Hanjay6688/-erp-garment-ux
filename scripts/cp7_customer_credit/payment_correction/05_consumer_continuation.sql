@@ -3,13 +3,13 @@ do $not_an_installer$begin raise exception 'OW04_PAYMENT_SOURCE_REQUIRES_COMPLET
 
 -- An outgoing consumer changes the Native review epoch even when source
 -- P/I/U/status do not change. Retain its actual whole before/after headers.
--- No timestamp is inferred from a journal: Native touch uses transaction now,
--- while the journal uses statement_timestamp(). No Native relation/FK/trigger
+-- Both actual Native touch and the poster use statement_timestamp(); their
+-- approved installed definitions are checked before this stage. No Native relation/FK/trigger
 -- or public capability is added. Each fact still needs real owning closure.
 create table cp7_credit.payment_consumer_headers_v1(
  operation_id uuid primary key,sale_id uuid not null,
  before_row_version bigint not null,before_header jsonb not null,after_header jsonb not null,
- backend_pid integer not null,transaction_id bigint not null,transaction_started_at timestamptz not null,
+ backend_pid integer not null,transaction_id bigint not null,statement_started_at timestamptz not null,
  unique(sale_id,before_row_version),
  check(before_header->>'id'=sale_id::text and after_header->>'id'=sale_id::text),
  check((before_header->>'row_version')::bigint=before_row_version),
@@ -41,8 +41,13 @@ begin
   or h.before_row_version is distinct from(o.projection#>>array['expected_versions',h.sale_id::text])::bigint
   or h.after_header-array['row_version','updated_at']is distinct from h.before_header-array['row_version','updated_at']
   or(h.after_header->>'row_version')::bigint<>h.before_row_version+1
-  or(h.after_header->>'updated_at')::timestamptz is distinct from h.transaction_started_at then
-  raise exception 'CP7_CREDIT_PAYMENT_CONSUMER_HEADER_FACT_CHANGED';end if;
+  or(h.after_header->>'updated_at')::timestamptz is distinct from h.statement_started_at then
+  raise exception 'CP7_CREDIT_PAYMENT_CONSUMER_HEADER_FACT_CHANGED'using detail=jsonb_build_object(
+   'source_identity_matches',(o.source_sale_id,o.source_root_sale_id,o.source_current_leaf_id)=(h.sale_id,h.sale_id,h.sale_id),
+   'before_header_matches',h.before_header=o.locked_sources#>array['sources',h.sale_id::text,'native','sale'],
+   'review_epoch_matches',h.before_row_version=(o.projection#>>array['expected_versions',h.sale_id::text])::bigint,
+   'unchanged_header_fields',h.after_header-array['row_version','updated_at']=h.before_header-array['row_version','updated_at'],
+   'actual_clock',h.after_header->'updated_at','captured_statement_clock',h.statement_started_at)::text;end if;
  select *into c from cp7_credit.consumer_completions_v1 where operation_id=o.id;
  if c.operation_id is null or q.response is null then
   -- A MATERIALIZED event is actual, but is not a completed operation. Its
@@ -50,8 +55,8 @@ begin
   select *into strict ctx from cp7_credit.consumer_execution_context where backend_pid=pg_backend_pid()
    and transaction_id=txid_current()and actor=auth.uid()and operation_id=o.id;
   if ctx.phase not in('MATERIALIZED','COMPLETE')or q.response is not null
-   or(h.backend_pid,h.transaction_id,h.transaction_started_at)is distinct from
-     (pg_backend_pid(),txid_current(),transaction_timestamp())
+   or(h.backend_pid,h.transaction_id,h.statement_started_at)is distinct from
+     (pg_backend_pid(),txid_current(),statement_timestamp())
    or not cp7_credit.consumer_internal_allowed_v1()then
    raise exception 'CP7_CREDIT_PAYMENT_CONSUMER_HEADER_PENDING_SCOPE_REQUIRED';end if;
  end if;
@@ -88,7 +93,7 @@ begin
   raise exception 'CP7_CREDIT_PAYMENT_CONSUMER_HEADER_CAPTURE_SCOPE_REQUIRED';end if;
  select to_jsonb(h)into strict actual from erp.sales_headers h where id=p_sale;
  insert into cp7_credit.payment_consumer_headers_v1 values(o.id,p_sale,(p_before->>'row_version')::bigint,
-  p_before,actual,pg_backend_pid(),txid_current(),transaction_timestamp());
+  p_before,actual,pg_backend_pid(),txid_current(),statement_timestamp());
  perform cp7_credit.payment_consumer_header_proof_v1(o.id);
 end $$;
 

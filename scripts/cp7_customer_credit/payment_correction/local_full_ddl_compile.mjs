@@ -16,6 +16,7 @@ replace(anchor,`
 const paymentFragments=JSON.parse(readFileSync(process.env.OW04_LOCAL_PAYMENT_FRAGMENTS,'utf8'));
 const paymentDerived=JSON.parse(readFileSync(process.env.OW04_LOCAL_PAYMENT_DERIVED,'utf8'));
 await exec('ACCEPTED_TERMINAL_HEADER_DEPENDENCY',accepted.catalog.functions['cp7_credit.source_native_terminal_header_v1(jsonb,jsonb,uuid)'][0]);
+await exec('ACTUAL_APPROVED_NATIVE_HEADER_CLOCK',accepted.catalog.functions['erp.touch_updated_at()'][0]);
 const catalogInput=process.env.OW04_LOCAL_PAYMENT_CATALOG_INPUT?JSON.parse(readFileSync(process.env.OW04_LOCAL_PAYMENT_CATALOG_INPUT,'utf8')):null;
 async function catalogRows(){
  const result={};

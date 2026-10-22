@@ -2,15 +2,18 @@
   "classification": "PREEXECUTION_CHANGED_SOURCE_NATIVE22_NOT_QUALIFICATION",
   "base_candidate": "1a591000e42b253ce9bdad0c99d6bf2397115e48",
   "files": {
-    ".github/workflows/cp7-ow04-payment-continuation.yml": "c615eaaef8e5a14ff9935558f5d7efdc323362ab93ddbfe2ebb8555ecc0dec5e",
+    ".github/workflows/cp7-ow04-payment-continuation.yml": "e76a925b0a1b93314bdb9870c90d8bf098f2586e80b7a4bfcbadc353ffcfd83e",
     ".github/workflows/cp7-ow04-payment-source.yml": "ef7f6f054f43ee14604edd9dc6f503fbae859057a916751ea577bdef8c3306bb",
-    "scripts/cp7_customer_credit/payment_correction/05_consumer_continuation.sql": "350a82dc32e81e4654733cdf74987301e4ca5bcd36cea8936b3d06c94433fa9e",
-    "scripts/cp7_customer_credit/payment_correction/composition.py": "d2d274474c0fd70e41688e8bd968c7ed1f7111e9cd18b90451d30a18ef531cfd",
-    "scripts/cp7_customer_credit/payment_correction/local_full_ddl_compile.mjs": "da5a8d84c47037a8f02c558bb726823a9dd705d4e0551e4e3daa3b1f435b82b0",
+    "scripts/cp7_customer_credit/payment_correction/05_consumer_continuation.sql": "3b53a04bc7787e8effa917dcb5645634b7d69205f276a45e3bfdd0d7a81e2b42",
+    "scripts/cp7_customer_credit/payment_correction/composition.py": "5fe0abb651d8c438a6176240b1bf8cdf3b889fee8a17c96cceac4a8616c09e30",
+    "scripts/cp7_customer_credit/payment_correction/local_full_ddl_compile.mjs": "729d8794e6fba5b832109cc95bd454a09dc179c8d755038700590d1c24bb665d",
     "scripts/cp7_customer_credit/payment_correction/transform.py": "fe98d0813ccbd897710f1d9616210b409e2aca9c9aaafdc8fa38892134af725f",
     "scripts/ow04-payment-continuation-qualification/EXPECTED_INTEROP2.json": "6fc87d306ebce7240be5beacbc97ebebea9bb93fa15af7971c9775b53f290713",
     "scripts/ow04-payment-continuation-qualification/native22_probe.py": "7c35b00827eacfcfe7fd856361e900034e477b56e6082641a587dc65f692b16e",
     "scripts/ow04-payment-continuation-qualification/native_cases.py": "04829086676ee6e434785bc0730d4fd8fef19368923b1409adf50278c8634b8e",
+    "scripts/ow04-payment-http-current-qualification/EXPECTED.json": "e9ecdde8cbd3086bd356e70349134a39ebb3b185c5fc522776fcc8c46fd00c17",
+    "scripts/ow04-payment-http-current-qualification/http_cases.py": "2984b2e10b36137b2963a610578460f0fc0451e62f4a8c043cc9fdab5d2f00aa",
+    "scripts/ow04-payment-http-current-qualification/http_probe.py": "8227e92ccf78948385349a539a9a4806d301a1a3534f1a1f23118e005ad78703",
     "scripts/ow04-payment-source-qualification/EXPECTED.json": "92c411cf225d7c54a53445f603fedfac8102ac6cbdce9fd9558b45d701f8d38c",
     "scripts/ow04-payment-source-qualification/native_cases.py": "72293512ad158437c7081807bb8ccc943f468e4b2cad94acdf54bc5daaa3906e",
     "scripts/ow04-payment-source-qualification/source_probe.py": "fe8faa04ba6445fc54ff6daeee05753e78a6a73212b24b9d240f4d1fe58d3dad"
@@ -116,11 +119,12 @@
       "02_actual_proof.sql": "ce2730695da89646b99598b1051d138f310cd8fb3d4ff096bde24d595df82854",
       "03_owning_callbacks.sql": "c85d3d0e51531c20c5137756da98d16b513e6ae4b61e946bb094f5233ec4e985",
       "04_completion.sql": "1a45a483e774404896017b28886efe4b75669bbd57560d5a0873a078ebf59a7d",
-      "05_consumer_continuation.sql": "350a82dc32e81e4654733cdf74987301e4ca5bcd36cea8936b3d06c94433fa9e",
+      "05_consumer_continuation.sql": "3b53a04bc7787e8effa917dcb5645634b7d69205f276a45e3bfdd0d7a81e2b42",
       "transform.py": "fe98d0813ccbd897710f1d9616210b409e2aca9c9aaafdc8fa38892134af725f",
-      "composition.py": "d2d274474c0fd70e41688e8bd968c7ed1f7111e9cd18b90451d30a18ef531cfd"
+      "composition.py": "5fe0abb651d8c438a6176240b1bf8cdf3b889fee8a17c96cceac4a8616c09e30"
     }
   },
   "retained20_original_gold_sha256": "92c411cf225d7c54a53445f603fedfac8102ac6cbdce9fd9558b45d701f8d38c",
-  "interop2_original_gold_sha256": "6fc87d306ebce7240be5beacbc97ebebea9bb93fa15af7971c9775b53f290713"
+  "interop2_original_gold_sha256": "6fc87d306ebce7240be5beacbc97ebebea9bb93fa15af7971c9775b53f290713",
+  "same_job_sequence": "ACTUAL_NATIVE22_PACKAGE_PASS_THEN_FRESH_AB_CLONE_THEN_REAL_AUTH_HTTP16"
 }

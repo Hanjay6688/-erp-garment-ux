@@ -24,6 +24,7 @@ INDEXES = {
 }
 CONSTRAINTS = {f'cp7_credit.{name}:{name}_action_check' for name in
     ('source_operation_work_v1', 'source_operation_materializations_v1')}
+NATIVE_HEADER_PRIMITIVES = {'erp.touch_updated_at()': 'c763f2b528a413cba95d9e5b3915c50eb7da52c83a3fea9fbdad9e39e9eddc7a', 'erp.bump_row_version()': '3283792bd1b93077533711a4b3c8c09f1d80e0524f45eb575b5b4b1f7272b340'}
 OLD_CHECK = "CHECK ((action = ANY (ARRAY['RETURN_REVERSE'::text, 'PAYMENT_REVERSE'::text])))"
 NEW_CHECK = "CHECK ((action = ANY (ARRAY['RETURN_REVERSE'::text, 'PAYMENT_REVERSE'::text, 'PAYMENT_CORRECT'::text])))"
 
@@ -109,6 +110,10 @@ def install(cur, predecessor_verified, catalog_reader):
     if predecessor_verified.get('catalog_groups') != 22 or predecessor_verified.get('legacy_definitions_projected') is not False:
         raise ValueError('OW04_PAYMENT_SOURCE_COMPLETE_FRESH_PREDECESSOR_PROOF_REQUIRED')
     before = catalog_reader(cur)
+    for signature, approved in NATIVE_HEADER_PRIMITIVES.items():
+        actual = consumer.capture(cur, signature)
+        if sha256(actual['definition'].encode()).hexdigest() != approved:
+            raise ValueError('OW04_PAYMENT_SOURCE_ACTUAL_NATIVE_HEADER_PRIMITIVE_CHANGED: '+signature)
     if any(cur.execute('select to_regclass(%s)is not null', ('cp7_credit.'+name,)).fetchone()[0] for name in TABLES):
         raise ValueError('OW04_PAYMENT_SOURCE_ALREADY_INSTALLED')
     captures = {sig:consumer.capture(cur, sig) for sig in transform.CHANGED}
@@ -171,6 +176,7 @@ def verify(cur, state, catalog_reader):
     consumer.guard.verify(cur)
     return dict(status='EXACT_DECLARED_PAYMENT_SOURCE_STAGE_VERIFIED', complete_catalog_groups=22,
         changed_functions=len(transform.CHANGED), new_functions=len(state['new_functions']),
+        actual_Native_header_primitives=NATIVE_HEADER_PRIMITIVES,
         new_Native_foreign_keys=0, Native_existing_triggers_changed=0, production_go=False)
 
 
