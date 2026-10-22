@@ -1,0 +1,22 @@
+{
+  "label": "CP7_OW06_REAL_BROWSER2",
+  "run": 39824709088,
+  "job": 119984828618,
+  "head": "cc940d14",
+  "status": "INCOMPLETE",
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "console_errors": 0,
+  "cases": {
+    "OW06_DESKTOP_TRANSFER_TWO_RECEIPTS_LOST_REPLY_CORRECT_REVERSE": {
+      "status": "INCOMPLETE",
+      "error_summary": "after the committed reply was dropped and the page reloaded, the test clicked a receipt to reopen it; the receipt list is disabled while the transfer reply is unknown (every writer locked). The reconcile button sits in the transfer panel on the page itself, so the test step order was wrong, not the screen"
+    },
+    "OW06_MOBILE390_TRANSFER_TWO_RECEIPTS_CORRECT_REVERSE": {
+      "status": "INCOMPLETE",
+      "error_summary": "start state showed 1 transfer instead of 0: the retained fixture reuses one supplier, so the desktop journey's transfer was counted by a supplier-wide oracle"
+    }
+  },
+  "fix_commit": "26f890df",
+  "money_defect_found": false
+}
