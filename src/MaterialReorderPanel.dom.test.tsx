@@ -3,6 +3,7 @@ import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import MaterialReorderPanel from './MaterialReorderPanel'
+import WarehouseFabricReorderSummary from './WarehouseFabricReorderSummary'
 import ConnectedMasterPage from './ConnectedMasterPage'
 import { formatCp6WibDateTime } from './cp6BusinessTime'
 import { formatWaDay } from './waContract'
@@ -122,6 +123,38 @@ const row = (name: string) => {
 }
 const cell = (r: HTMLElement, key: string) => r.querySelector(`[data-cmr="${key}"]`)?.textContent
 const chip = (r: HTMLElement) => r.querySelector('.cfr-chip')?.textContent
+
+describe('OW14a warehouse fabric calculation',()=>{
+ async function expand(){
+  await act(async()=>{const details=container.querySelector('details')!;details.open=true;details.dispatchEvent(new Event('toggle'))});await settle()
+ }
+ it('opens the existing fabric reader on demand and separates physical stock, incoming orders and the active threshold',async()=>{
+  const fake=server()
+  await act(async()=>root.render(<WarehouseFabricReorderSummary/>));await settle()
+  expect(fake.calls).toEqual([])
+  await expand()
+  expect(fake.calls).toEqual([['erp_cp7_get_material_reorder_v1',{p_query:FQ}]])
+  const fabric=row('Katun 1')
+  expect(cell(fabric,'free')).toBe('56 YD');expect(cell(fabric,'ordered')).toBe('0 YD');expect(cell(fabric,'point')).toBe('63,34 YD')
+  expect(fabric.textContent).toContain('Stok fisik saat perhitungan');expect(fabric.textContent).toContain('Pesanan belum diterima')
+  expect(container.textContent).toContain('Pencarian gudang di atas tidak menyaring daftar kain ini')
+  expect(container.textContent).toContain('ambang pengingat, bukan jumlah stok atau jumlah yang harus dibeli')
+  expect([...container.querySelectorAll('button')].some(b=>/Hitung sekarang|Ubah|Simpan/.test(b.textContent??''))).toBe(false)
+  expect(container.textContent).toContain(formatCp6WibDateTime(REORDER_RUN_AT))
+ })
+ it('retires the expanded facts when current access disappears and refuses to retain stale stock on a denied read',async()=>{
+  server();await act(async()=>root.render(<WarehouseFabricReorderSummary/>));await expand()
+  expect(row('Katun 1')).toBeTruthy()
+  auth.current=as('OWNER',[])
+  // The base recovery fixture has no fabric permissions: removal is immediate,
+  // before another response can disclose the former facts.
+  await act(async()=>root.render(<WarehouseFabricReorderSummary/>));await settle()
+  expect(container.querySelectorAll('.cfr-row')).toHaveLength(0)
+  auth.current=as('OWNER',PERMS);client.rpc.mockResolvedValue(refuse('42501','CP7_FORMULA_MATERIAL_SOURCE_DENIED'))
+  await act(async()=>root.render(<WarehouseFabricReorderSummary/>));await settle()
+  expect(container.querySelector('[role="alert"]')).toBeTruthy();expect(container.querySelectorAll('.cfr-row')).toHaveLength(0)
+ })
+})
 const calls = (fake: Fake, name: string) => fake.calls.filter(c => c[0] === name).map(c => c[1])
 
 // The situations a material can be in, as compute_materials() writes them.

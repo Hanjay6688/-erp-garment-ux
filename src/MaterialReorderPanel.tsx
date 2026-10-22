@@ -35,13 +35,14 @@ const words: Record<MaterialType, { label: string; heading: string; noun: string
     row: 'Batas minimum', manualFilter: 'Diketik manual' },
 }
 
-export default function MaterialReorderPanel({ materialType }: { materialType: MaterialType }) {
+export default function MaterialReorderPanel({ materialType, readOnlySummary=false }: { materialType: MaterialType; readOnlySummary?: boolean }) {
   const { runtime, identity } = useAuth()
   if (!isConnectedRuntime(runtime) || identity.status !== 'AUTHORIZED' || !materialReorderVisible(materialType, identity.permissions)) return null
-  return <Panel materialType={materialType} key={`${materialType}:${runtime.projectRef}:${identity.profile.id}:${identity.permissions.join('|')}`}/>
+  return <Panel materialType={materialType} readOnlySummary={readOnlySummary} key={JSON.stringify([materialType,runtime.projectRef,identity.profile.id,
+    identity.profile.role,identity.profile.rowVersion,identity.profile.roleRowVersion,identity.permissions])}/>
 }
 
-function Panel({ materialType }: { materialType: MaterialType }) {
+function Panel({ materialType,readOnlySummary }: { materialType: MaterialType;readOnlySummary:boolean }) {
   const { runtime } = useAuth()
   if (!isConnectedRuntime(runtime)) throw new Error('Sesi bahan belum siap.')
   const client = useMemo(() => getUatSupabaseClient(runtime), [runtime]), say = words[materialType], fabric = materialType === 'FABRIC'
@@ -129,7 +130,12 @@ function Panel({ materialType }: { materialType: MaterialType }) {
       <div>
         <div className="eyebrow">{fabric ? 'KAIN' : 'AKSESORI'} · PENGINGAT STOK</div>
         <h2>{say.heading}</h2>
-        {fabric ? <>
+        {readOnlySummary ? <>
+          <p>Seluruh gudang, dari perhitungan yang juga dipakai panel kain dan Pengingat sistem/WhatsApp. Pencarian gudang di atas tidak menyaring daftar kain ini.</p>
+          <p>Stok fisik, pesanan yang belum diterima, dan perkiraan kebutuhan ditampilkan terpisah. Titik pesan ulang adalah ambang pengingat, bukan jumlah stok atau jumlah yang harus dibeli.</p>
+          {counts?<p>{formatReorderWhole(counts.items)} kain: {formatReorderWhole(counts.formula)} memakai rumus, {formatReorderWhole(counts.manual)} memakai minimum dari Kain &amp; Benchmark;
+            {' '}{formatReorderWhole(counts.notEnoughData+counts.noUsage)} belum mempunyai rumus yang cukup datanya. {formatReorderWhole(counts.atOrBelow)} perlu diperhatikan.</p>:null}
+        </> : fabric ? <>
           <p>Titik pesan ulang = rata-rata pakai per hari × lama kirim + cadangan. Dihitung dari pemakaian yang sudah diposting {formatReorderWhole(windowDays)} hari
             terakhir (hari tanpa stok tidak dihitung) dengan tingkat layanan {servicePercent(level)}%, dalam satuan bahannya.</p>
           <p>Pemakaian kain = dikeluarkan untuk potong dikurangi sisa yang kembali, pemakaian pabrik, dan bahan ke mandor. Kain yang sudah dipesan (PO terbuka)
@@ -151,7 +157,7 @@ function Panel({ materialType }: { materialType: MaterialType }) {
             WhatsApp satu kali), atau tekan "Hitung sekarang".</>}</p> : null}
       </div>
       <div className="cfr-actions">
-        <button type="button" className="primary-btn" disabled={locked} onClick={() => { void refresh() }}>Hitung sekarang</button>
+        {!readOnlySummary?<button type="button" className="primary-btn" disabled={locked} onClick={() => { void refresh() }}>Hitung sekarang</button>:null}
         <button type="button" aria-label={`Muat ulang ${say.label.toLowerCase()}`} disabled={writing !== null} onClick={reload}>Muat ulang</button>
       </div>
     </header>
@@ -172,7 +178,7 @@ function Panel({ materialType }: { materialType: MaterialType }) {
     {busy ? <p role="status">Memuat {say.label.toLowerCase()}…</p> : null}
     {data && page ? <>
       {!page.rows.length ? <p className="cfr-none">Tidak ada {say.noun} yang cocok.</p> : null}
-      <div className="cfr-list">{page.rows.map(r => <Row key={r.materialId} r={r} type={materialType} windowDays={windowDays} level={level} canManage={data.canManage}
+      <div className="cfr-list">{page.rows.map(r => <Row key={r.materialId} r={r} type={materialType} windowDays={windowDays} level={level} canManage={data.canManage&&!readOnlySummary}
         locked={locked} writing={writing === r.materialId} draft={editing?.materialId === r.materialId ? editing : null} note={noteView(r.materialId)}
         onOpen={() => { setEditing({ materialId: r.materialId, ...materialDraftOf(r) }); note(r.materialId, null) }} onClose={() => setEditing(null)}
         onDraft={next => setEditing(current => current && current.materialId === r.materialId ? { ...current, ...next } : current)}
@@ -203,12 +209,12 @@ function Row({ r, type, windowDays, level, canManage, locked, writing, draft, no
   return <article className="cfr-row" aria-label={`${words[type].row} ${r.name} (SKU ${r.sku})`} data-material-id={r.materialId}>
     <header><div><h3>{r.name}</h3><small>SKU {r.sku}</small></div><span className={`cfr-chip ${status.tone}`}>{status.label}</span></header>
     {fabric ? <dl>
-      <div><dt>Sisa</dt><dd data-cmr="free">{q(r.freeQty)}</dd></div>
-      <div><dt>Dipesan</dt><dd data-cmr="ordered">{q(r.onOrderQty)}</dd></div>
+      <div><dt>Stok fisik saat perhitungan</dt><dd data-cmr="free">{q(r.freeQty)}</dd></div>
+      <div><dt>Pesanan belum diterima</dt><dd data-cmr="ordered">{q(r.onOrderQty)}</dd></div>
       <div><dt>Pakai/hari</dt><dd data-cmr="daily">{r.dailyMean === null ? 'belum ada' : `${formatReorderUpTo2(r.dailyMean)}${unit}`}</dd></div>
       <div><dt>Lama kirim (hari)</dt><dd data-cmr="lead">{r.leadDays === null ? 'belum diisi' : formatReorderUpTo2(r.leadDays)}</dd></div>
       <div><dt>Titik pesan ulang</dt><dd data-cmr="point">{r.point === null ? 'belum ada' : q(r.point)}</dd></div>
-      <div><dt>Dasar</dt><dd data-cmr="basis">{materialBasisText(r, windowDays)}</dd></div>
+      <div><dt>Aturan yang aktif</dt><dd data-cmr="basis">{materialBasisText(r, windowDays)}</dd></div>
     </dl> : <dl>
       <div><dt>Stok di gudang</dt><dd data-cmr="free">{q(r.freeQty)}</dd></div>
       <div><dt>Pemakaian nyata per hari ({formatReorderWhole(windowDays)} hari terakhir)</dt><dd data-cmr="daily">{measured}</dd></div>

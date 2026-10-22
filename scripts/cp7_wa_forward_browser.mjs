@@ -339,6 +339,21 @@ async function materialReorderJourney(ui,mobile){
   await ui.expect(cell(row,'basis')).toHaveText('Rumus');await ui.expect(chipOf(row)).toHaveText('Menipis')
   if(mobile)await noScroll(ui,page)
   shots.push(await shot(ui,page,`WAF_MAT_${suffix}_BAHAN_ROLL.png`))
+  // OW14a: the collapsible warehouse summary reads the same row as the fabric
+  // panel and reminder source. It must not add orders to physical stock or
+  // offer configuration writes from this read-only summary.
+  await openMenu(page,'Gudang','Ringkasan Gudang')
+  const warehouse=page.getByRole('main',{name:'Ringkasan gudang',exact:true})
+  await ui.expect(warehouse.getByRole('article',{name:'Total bahan dan roll',exact:true})).toBeVisible()
+  await ui.expect(warehouse.getByRole('region',{name:'Titik pesan ulang kain',exact:true})).toHaveCount(0)
+  await warehouse.getByText('Lihat titik pesan ulang kain dari seluruh gudang',{exact:true}).click()
+  row=await find('FABRIC',f)
+  await ui.expect(cell(row,'free')).toHaveText(qty(f.free,f.unit));await ui.expect(cell(row,'ordered')).toHaveText(qty('0',f.unit))
+  await ui.expect(cell(row,'point')).toHaveText(qty(f.point,f.unit));await ui.expect(cell(row,'basis')).toHaveText('Rumus')
+  await ui.expect(panel.getByRole('button',{name:'Hitung sekarang',exact:true})).toHaveCount(0)
+  await ui.expect(row.getByRole('button',{name:'Atur lama kirim',exact:true})).toHaveCount(0)
+  await ui.expect(panel).toContainText('Titik pesan ulang adalah ambang pengingat, bukan jumlah stok atau jumlah yang harus dibeli.')
+  await ui.expect.poll(()=>page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true)
   // Gudang › Aksesori (D17-10, D17-12): no formula and nothing filled in, so not reminded. The owner fills the numbers per
   // accessory and leaves the typed minimum empty: the app works the minimum out, "Dari isian hitungan" and "Menipis".
   await openMenu(page,'Gudang','Aksesori')
@@ -385,7 +400,8 @@ async function materialReorderJourney(ui,mobile){
   assert.equal(new Set(saves.map(x=>x.p_request)).size,2)
   assert.deepEqual(w.sent.filter(r=>r.name==='erp_cp7_refresh_material_reorder_v1').map(r=>JSON.parse(r.body)),[{p_material_type:'FABRIC'}])
   return{status:'PASS',phone:mobile,fabric:{sku:f.sku,free:f.free,point:f.point,lead_days:item.lead,set_on:'Master Data › Kain & Benchmark',
-   same_on:'Gudang › Bahan & Roll',reminder:'Stok kain di bawah minimum'},accessory:{sku:a.sku,free:a.free,lead_days:numbers.lead,usage_month_qty:numbers.usage,
+   same_on:'Gudang › Bahan & Roll; Ringkasan Gudang',warehouse_summary_same_source_and_no_configuration_writes:true,
+   reminder:'Stok kain di bawah minimum'},accessory:{sku:a.sku,free:a.free,lead_days:numbers.lead,usage_month_qty:numbers.usage,
    buffer_days:numbers.buffer,moq:numbers.moq,typed_minimum:null,minimum:a.estimate,basis:'Dari isian hitungan',status:'Menipis'},
    distinct_request_ids:2,no_horizontal_scroll:true,
    screenshots:shots,label:'TEST_FIXTURE SS-2/SS-3 materials; real Auth and PostgREST'}

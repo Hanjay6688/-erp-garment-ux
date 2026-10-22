@@ -7,6 +7,7 @@ import {normalizeClientError} from './lib/clientError'
 import {formatCp6WibDateTime} from './cp6BusinessTime'
 import {formatReceiptDecimal as numberText} from './procurementContract'
 import {isScreenHidden,SCREEN_ACTIVATION} from './screenActivation'
+import WarehouseFabricReorderSummary from './WarehouseFabricReorderSummary'
 import {moneyText,parseWarehouseSummary,summaryAccess,type AccessoryPart,type Attention,type FgPart,type MaterialPart,type SummaryValuation,type WarehouseMenu,type WarehouseSummary} from './warehouseSummaryContract'
 import './procurement-connected.css'
 import './warehouse-summary.css'
@@ -86,6 +87,7 @@ function Workspace({onNavigate}:{onNavigate?:(page:WarehouseMenu)=>void}){
     {data.totals.accessories?<article className="panel" aria-label="Total aksesori"><h2>Aksesori{searched}</h2><AccessoryLines part={data.totals.accessories}/>{open('accessories')}</article>:null}
     {data.totals.finished_goods?<article className="panel" aria-label="Total barang jadi"><h2>Barang jadi{searched}</h2><FgLines part={data.totals.finished_goods}/>{open('fg-summary')}</article>:null}
    </section>}
+   {access.materials&&access.fabricMaster?<WarehouseFabricReorderSummary/>:null}
    <section className="panel" aria-label="Perlu diperhatikan"><h2>Perlu diperhatikan</h2>
     {open_items.length?<ul className="cwhs-attention">{open_items.map(a=><li key={a.kind} data-attention={a.kind}><p>{attentionText(a)}</p>
      {a.rows?.length?<ul>{a.rows.map(r=><li key={r.material_id}>{r.material_sku} · {r.material_name}: stok {qty(r.qty,r.unit_code)}, minimum {qty(r.minimum_qty,r.unit_code)}</li>)}</ul>:null}
