@@ -29,7 +29,27 @@ Catatan yang harus dibetulkan (OW-05 terbuka kembali untuk tampilan):
 Batas yang sudah diungkap penulis tetap berlaku: uji layar tidak menjalankan nota/payroll lewat layar (nota diuji
 lewat API pada Auth4); data master uji dibuat dengan SQL.
 
-## OW-04 retur transaksi lunas
+## OW-04 retur transaksi lunas (23 Okt 2026, kepala `2d625616`; berkas kredit sama dengan produk `36a6b880`)
 
-Run CI sudah dicek pada 22 Okt (`docs/cp7/handoff/ARAHAN_ASTRA_20261022.md` bagian 2). Pemeriksaan isi kode terhadap
-tujuh syarat sedang berjalan; hasil ditambahkan di sini.
+Hasil singkat: retur pertama atas invoice lunas berjalan benar (uang kembali atau saldo kredit, pakai dan batal pakai,
+stok/HPP, jurnal seimbang, koreksi pembayaran). Tetapi beberapa keadaan yang wajar di pabrik ditolak sistem, jadi OW-04
+belum memenuhi kebutuhan owner sepenuhnya. Run CI sudah dicek 22 Okt (`ARAHAN_ASTRA_20261022.md` bagian 2).
+
+| Syarat (ARAHAN bagian 3) | Hasil |
+|---|---|
+| 1. Pilih uang kembali / saldo kredit di layar | Ada, label jelas (`src/SalesReturnSettlementSection.tsx:212-221,243`). **Batas:** ditolak (`CP7_CREDIT_INITIAL_SOURCE_FAMILY_UNSUPPORTED`, `02_initial_projection.sql:314-318`) bila invoice sudah punya retur bersaldo kredit sebelumnya, sudah "Benerin nota", punya koreksi retur, atau pernah menerima pemakaian kredit; layar hanya menulis "Sumber penyelesaian retur belum dapat diperiksa" tanpa alasan dan langkah. Uji browser9 tidak membuka layar pilihan ini (fixture lewat HTTP); layar diuji di `91f71ce7` dan tidak berubah sejak itu |
+| 2. Uang kembali tercatat sekali, penjaga kas per tanggal | Kode benar (kunci kas, cek kas tanggal ekonomi dan buku, ulang permintaan tidak dobel). **Batas:** tidak ada uji yang membuktikan uang kembali ditolak bila kas/bank tidak cukup |
+| 3. Saldo kredit dipakai dan dibatalkan tanpa dobel | Terbukti (batal kedua ditolak, ulang permintaan aman, unik di database); belum ada uji dua sesi bersamaan untuk batal |
+| 4. Stok/HPP termasuk saldo awal; jurnal seimbang | Terbukti (14 kasus HPP saldo awal; jurnal tepat dua baris) |
+| 5. Koreksi sesudahnya; riwayat; langkah balik di layar | Koreksi pembayaran berkali-kali terbukti; langkah membatalkan pemakaian kredit tampil di layar. **Batas:** koreksi retur dan "Benerin nota" atas invoice yang ikut kredit belum ada (`CP7_CREDIT_SOURCE_CORRECTION_ADAPTER_UNIMPLEMENTED`, `05_factual_profile.sql:45-48`) |
+| 6. Bukti Native, race, Auth, browser, P21 | Ada (lihat batas browser di syarat 1) |
+| 7. Batas tersisa tercatat | Sebagian: README OW-04 menulis "retur bertingkat belum diuji", padahal sistem menolaknya; penolakan Benerin nota/koreksi retur dan uji kas tidak cukup belum dicatat |
+
+Yang harus dikerjakan (OW-04 dibuka lagi, penulis A):
+
+1. Retur kedua dan seterusnya atas invoice lunas yang sudah punya retur bersaldo kredit, dan retur atas invoice yang
+   pernah menerima kredit, harus bisa diselesaikan (uang kembali atau saldo kredit).
+2. Koreksi retur dan "Benerin nota" atas invoice yang ikut kredit.
+3. Bila sistem tetap harus menolak sesuatu, layar menyebut alasan dan langkah berikutnya, bukan "belum dapat diperiksa".
+4. Uji: uang kembali ditolak tanpa efek bila kas/bank tidak cukup pada tanggal itu; dua batal pakai kredit bersamaan.
+5. Laporan sesudah kredit: dikerjakan di OW-08a.
