@@ -1,0 +1,20 @@
+{
+  "classification": "PREEXECUTION_BROWSER7_SYNC_ONLY_BOUND_ACTUAL_SQL_RACES6",
+  "browser_case_ids": [
+    "OW04_CONSUMER_BROWSER_APPLY_LOST_REPLY_DESKTOP",
+    "OW04_CONSUMER_BROWSER_REFUND_MOBILE",
+    "OW04_CONSUMER_BROWSER_INITIAL_REFUND_UNDO_MOBILE",
+    "OW04_CONSUMER_BROWSER_REVOKED_PENDING_REPLAY",
+    "OW04_SOURCE_REFUND_UNDO_RETURN_REVERSE_MOBILE",
+    "OW04_PAYMENT_CURRENT_UI_APPLY80_CORRECT900_LOST_REPLY_APPLY20",
+    "OW04_PAYMENT_CURRENT_UI_MOBILE_REFUND80_CORRECT900_REFUND20"
+  ],
+  "browser_count": 7,
+  "old_browser4_actually_rerun": true,
+  "old_guided_source_UI1_actually_rerun": true,
+  "new_money_gold_unchanged": true,
+  "Native22_or_HTTP16_rerun": false,
+  "production_go": false,
+  "retained_actual_SQL_races6": 6,
+  "Native22_or_HTTP16_or_SQLraces6_rerun": false
+}

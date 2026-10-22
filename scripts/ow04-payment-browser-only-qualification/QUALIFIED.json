@@ -1,0 +1,28 @@
+{
+  "classification": "ACTUAL_NATIVE22_HTTP16_SQL_RACES6_EQUAL_FINANCIAL_SOURCE_BINDING",
+  "native22_candidate": "e830604509210377f19c24b49c2fe22cc7476b6b",
+  "http16_candidate": "365c2df32b95c1f4c1824f4a984c8d18bdee5e36",
+  "reports": {
+    "native22": {
+      "file": "docs/cp7/d17-14/ow04/payment-source-native22-e8306045-pass-http16-second-result/native22-phase/CP7_OW04_PAYMENT_SOURCE_NATIVE22.json.xz",
+      "raw_sha256": "f775a742b14fe546e393c8663e473a7ad9fdf0ed93bae18b5b50b9ef1d9bf3ab"
+    },
+    "http16": {
+      "file": "docs/cp7/d17-14/ow04/payment-source-http16-365c2df3-pass/CP7_OW04_PAYMENT_SOURCE_HTTP16.json.xz",
+      "raw_sha256": "1761b61a8bcbad3cc26349a611ae2404fac32a9863ed890be2583b5013e96b4f"
+    },
+    "races6": {
+      "file": "docs/cp7/d17-14/ow04/payment-current13-92c297f2-first-result/CP7_OW04_PAYMENT_CURRENT_BROWSER7_RACES6.json.xz",
+      "raw_sha256": "a970bb77e1e1d32e34ea490ea45d62a975c33d22f538501c9e87c3e4e20ebb75"
+    }
+  },
+  "races6_candidate": "92c297f2cdc82f107dfa0f079627a09608c3551b",
+  "race_case_ids": [
+    "OW04_CONSUMER_RACE_SAME_UUID_APPLY",
+    "OW04_CONSUMER_RACE_DISTINCT_UUID_STALE_APPLY",
+    "OW04_PAYMENT_RACE_SAME_UUID_CORRECT900",
+    "OW04_PAYMENT_RACE_DISTINCT_UUID_STALE_CORRECT900",
+    "OW04_PAYMENT_RACE_CONSUMER20_HOLDS_CORRECTION_STALE",
+    "OW04_PAYMENT_RACE_CORRECTION_HOLDS_CONSUMER20_STALE"
+  ]
+}
