@@ -50,6 +50,15 @@ Diperbarui: 22 Okt 2026, 20.50 UTC (23 Okt 03.50 WIB).
 6. OW-15: rantai linear tahap, P21 untuk OW-06/OW-08a, sambungan B untuk OW-12a. Pembantu perencana sedang menyusun rencana
    rinci (urutan tahap, tumpang tindih fungsi, pin yang harus dibuat ulang).
 
+## Antrean uji yang ditahan (registry image menolak unduhan sejak sekitar 20.20 UTC)
+
+Semua run baru berhenti di "Start disposable database" (ghcr.io `toomanyrequests`, public.ecr.aws `Data limit exceeded`):
+OW12a Native7 (39847548230 dua kali), wash Native11 (39849752268), fgqc Native9 (39850804753), OW06 Browser2 (39850343966).
+Antrean dihentikan supaya jatah unduh tidak makin habis. Sesudah reset: (1) login `docker login ghcr.io` dengan token run di
+langkah start database pada workflow tahap yang BELUM lulus (OW12a, wash, fgqc, OW04b; workflow tahap yang sudah lulus jangan
+diedit karena dikunci); (2) kirim ulang berurutan: OW12a, wash, fgqc, OW04b (daftarkan dengan push non-skip), OW06 browser,
+OW05b browser bila run 39851046496 juga gagal.
+
 ## Menunggu Bos
 
 - 2.19 kelebihan bayar laundry: dicatat piutang ke vendor itu, dipotong tagihan berikutnya atau ditutup pengembalian tunai — ya/tidak.
