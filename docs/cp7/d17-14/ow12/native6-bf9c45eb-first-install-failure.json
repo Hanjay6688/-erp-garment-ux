@@ -1,0 +1,13 @@
+{
+ "run": 39834097799,
+ "attempt": 1,
+ "job": 120017706422,
+ "head": "bf9c45eb",
+ "label": "CP7_OW12A_FINANCE_CAPTURE_NATIVE6",
+ "status": "INCOMPLETE",
+ "observed_case_count": 0,
+ "error": "OW12A_UNTRUSTED_INSTALLER_ROLE",
+ "t3_backup_restore_drill": "RESTORED_SAME_MEANING",
+ "cause": "Installer, not product: composition.install switched to postgres with its own as_role helper, which admits only postgres or cp7_capture as the current role; the harness connects as its admin role, so the install was refused before any case ran. No figure, refusal or screen was exercised.",
+ "fix": "install and rollback_preuse switch to postgres with the verified installer switch the predecessor stages use (payment.consumer.as_owner, as OW07 and kasbon); the own as_role stays as the guard for the per-function owner switch. The follow-up Native7 run 39835362716 at the same installer was cancelled before it ran, since it would refuse the same way."
+}

@@ -1,0 +1,22 @@
+{
+ "run": 39826573395,
+ "attempt": 3,
+ "job": 120013068797,
+ "head": "3093e2d3",
+ "label": "CP7_OW05B_MANDOR_GUIDANCE_NATIVE6",
+ "status": "INCOMPLETE",
+ "cases": {
+  "OW05B_REAL_CHAIN_BLOCKERS_NAME_REAL_MENUS_AND_OPEN": "INCOMPLETE: AssertionError ['PO_STATE', 'FG_LOT', 'QC', 'LAUNDRY', 'SEWING', 'WORK', 'GROUP_STATE', 'WIP_HISTORY'] (cases.py:124 expected WORK_JOURNAL)",
+  "OW05B_EVERY_KIND_AND_BRANCH_GUIDED": "PASS",
+  "OW05B_AFTER_STEPS_COMPLETE_IN_ORDER": "PASS",
+  "OW05B_HISTORY_TWO_CORRECTIONS_VISIBLE": "PASS",
+  "OW05B_CORRECTION_COMMAND_UNCHANGED": "INCOMPLETE: AssertionError at cases.py:205 assert w['review_token']!=old['review_token']",
+  "OW05B_GUIDANCE_READERS_PRIVATE": "PASS"
+ },
+ "cp6_restored": true,
+ "advisor_gate": true,
+ "full_boundary_restored": true,
+ "session_leaks": 0,
+ "cause": "Two wrong expectations in this stage's own new cases, not product: (1) the finished real chain has no work-journal blocker; it has GROUP_STATE and WIP_HISTORY, and its blockers equal the predecessor's exactly (the next assertion); WORK_JOURNAL guidance is already proven by OW05B_EVERY_KIND_AND_BRANCH_GUIDED. (2) The guidance stage does not touch the review token (no line of the stage computes it); the token is over the facts the operator decides on, so it is the same as before the stage, and the correction command is unchanged as the case name says.",
+ "fix": "real_chain expects the chain's actual blocker kinds; command_unchanged asserts the token is unchanged. No predecessor oracle, product line or guard changed."
+}

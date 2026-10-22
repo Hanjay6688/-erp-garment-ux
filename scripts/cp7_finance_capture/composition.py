@@ -29,6 +29,8 @@ SQL_FILES=('finance_capture.sql','report_compare.sql')
 OWNER='cp7_capture'
 DDL_ROLES={'postgres',OWNER}
 catalog=predecessor.predecessor.catalog
+# The verified installer switch to postgres (the harness admin role cannot run DDL itself), as the OW07/kasbon stages.
+POSTGRES=predecessor.predecessor.payment.consumer.as_owner
 atomic=predecessor.predecessor.atomic
 CAPTURED={}
 
@@ -85,7 +87,7 @@ def install(cur):
         CAPTURED.clear();CAPTURED.update(originals)  # diagnostic copy if an anchor no longer matches
         definitions=native_delta.patched(originals)
         text=(ROOT/'finance_capture.sql').read_text();compare=(ROOT/'report_compare.sql').read_text()
-        with as_role(cur,'postgres'):
+        with POSTGRES(cur,'postgres'):
             cur.execute(text,prepare=False);cur.execute(compare,prepare=False)
             for signature,definition in definitions.items():
                 with function_ddl(cur,signature,before):cur.execute(definition,prepare=False)
@@ -140,7 +142,7 @@ def rollback_preuse(cur,state):
     with atomic(cur):
         verify(cur,state)
         if cur.execute('select exists(select 1 from cp7_finance_capture.captures)').fetchone()[0]:raise ValueError('OW12A_USED_STATE_PRESENT')
-        with as_role(cur,'postgres'):
+        with POSTGRES(cur,'postgres'):
             for signature,original in state['originals'].items():
                 with function_ddl(cur,signature,state['before']):cur.execute(original,prepare=False)
             cur.execute('drop function '+PUBLIC_COMPARE);cur.execute('drop function '+COMPARE)

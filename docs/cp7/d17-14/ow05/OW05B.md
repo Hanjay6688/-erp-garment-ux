@@ -41,7 +41,8 @@ Untuk PO seperti ini koreksi mandor tetap terkunci; petunjuknya tidak menyuruh m
 |---|---|---|---|
 | Browser nyata desktop + HP 390 | `eda58db5` | 39831356490 / 120008037841 | **2/2 PASS**. Artefak `cp7-ow05b-real-browser2`, 1.995.500 byte, sha256 `850f7acff4d6cd644efb4329cfc01aa777203ff2a21e52804b911c269b7a0e10` |
 | Browser, percobaan pertama | `b7c20b98` | 39827224321 | Berhenti di langkah menyalakan database uji (masalah server CI, sebelum kode diuji) |
-| Native6 | `3093e2d3` | 39826573395 | Percobaan 1–2 berhenti di langkah menyalakan database uji; percobaan 3 sedang berjalan |
+| Native6 | `3093e2d3` | 39826573395 | Percobaan 3: 4/6 lulus. Dua harapan uji baru tahap ini yang salah (bukan produk): rantai selesai tidak punya penghalang jurnal upah, dan token tinjauan memang tidak berubah. Bukti `native6-3093e2d3-first-failure.json` |
+| Native6 | sesudah perbaikan | menunggu | Harapan uji dibetulkan; uji ulang dikirim |
 
 OW-05b belum dinyatakan selesai sebelum Native6 lulus. Bukti uji browser OW-05 lama (`browser2-*`) tetap sebagai riwayat;
 layar yang sekarang diuji oleh alur OW-05b.

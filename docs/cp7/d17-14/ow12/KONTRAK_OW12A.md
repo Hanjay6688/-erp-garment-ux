@@ -2,6 +2,8 @@
 
 Pemilik: A (Claude). Pemakai: B (Astra, OW-12b) dan laporan bertahap milik A. Versi kontrak `cp7.finance-capture.v1`.
 Status: kontrak ditulis 23 Okt 2026; modul dibuat di tahap `scripts/cp7_finance_capture/` (uji Native7 di `cp7-ow12a-finance-native.yml`).
+Uji pertama (Native6 `bf9c45eb`, run 39834097799) berhenti di pemasangan karena alat pasang memakai pengalih peran
+sendiri, bukan pengalih terverifikasi tahap pendahulu; belum ada kasus yang jalan. Bukti `native6-bf9c45eb-first-install-failure.json`.
 Tidak ada RPC publik khusus capture: layar membaca kemajuan lewat status job pemiliknya. B boleh menulis
 pemanggilnya mengikuti kontrak ini; perubahan kontrak dicatat di sini lebih dulu.
 
