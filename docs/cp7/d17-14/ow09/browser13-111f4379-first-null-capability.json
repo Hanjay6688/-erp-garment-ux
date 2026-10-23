@@ -1,0 +1,42 @@
+{
+  "classification": "ORIGINAL_FAILURE_PRESERVED",
+  "run": 39999618000,
+  "job": 120572027923,
+  "head": "111f43795650f381ba89657a4993dceea8dc6438",
+  "artifact": 12522565879,
+  "original": {
+    "name": "CP7_OW09_CHAIN_BROWSER13.json",
+    "bytes": 360851,
+    "sha256": "1b27c46adb0af3cfc7594441d27772cba81d1ff78335c9c8de9d583858efa07d"
+  },
+  "status": "INCOMPLETE",
+  "counts": {
+    "PASS": 11,
+    "INCOMPLETE": 2
+  },
+  "failed_cases": {
+    "P11_RETURN_BROWSER_R10_DESKTOP_A": {
+      "status": "INCOMPLETE",
+      "error": "Error: expect(locator).toBeVisible() failed\n\nLocator: locator('.csales').getByRole('region', { name: 'Retur fisik invoice' }).getByRole('form', { name: 'Catat retur pelanggan' }).getByRole('region', { name: 'Hasil pemeriksaan penyelesaian retur', exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"to.be.visible\" with timeout 5000ms\n  - waiting for locator('.csales').getByRole('region', { name: 'Retur fisik invoice' }).getByRole('form', { name: 'Catat retur pelanggan' }).getByRole('region', { name: 'Hasil pemeriksaan penyelesaian retur', exact: true })\n\n    at captureRawStack (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright-core/lib/coreBundle.js:9681:17)\n    at callMatcherAsStep (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright/lib/matchers/expect.js:13310:57)\n    at Object.toBeVisible (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright/lib/matchers/expect.js:13300:23)\n    at reviewedNoCredit (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/ow09-chain-browser-qualification/returns.mjs:22:101)\n    at async lifecycle (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/ow09-chain-browser-qualification/returns.mjs:85:25)\n    at async main (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:243:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:259:3",
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    "P11_RETURN_BROWSER_R10_MOBILE_B_RECOVERY": {
+      "status": "INCOMPLETE",
+      "error": "Error: expect(locator).toBeVisible() failed\n\nLocator: locator('.csales').getByRole('region', { name: 'Retur fisik invoice' }).getByRole('form', { name: 'Catat retur pelanggan' }).getByRole('region', { name: 'Hasil pemeriksaan penyelesaian retur', exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"to.be.visible\" with timeout 5000ms\n  - waiting for locator('.csales').getByRole('region', { name: 'Retur fisik invoice' }).getByRole('form', { name: 'Catat retur pelanggan' }).getByRole('region', { name: 'Hasil pemeriksaan penyelesaian retur', exact: true })\n\n    at captureRawStack (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright-core/lib/coreBundle.js:9681:17)\n    at callMatcherAsStep (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright/lib/matchers/expect.js:13310:57)\n    at Object.toBeVisible (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright/lib/matchers/expect.js:13300:23)\n    at reviewedNoCredit (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/ow09-chain-browser-qualification/returns.mjs:22:101)\n    at async lifecycle (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/ow09-chain-browser-qualification/returns.mjs:85:25)\n    at async main (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:243:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:259:3",
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "finding": "Native no-choice quote returns HTTP200 READY with no recognition, but strict client parser refuses reply. Source analysis finds refund_cash=(NULL=REFUND), a SQL null instead of boolean false.",
+  "fix": "One counted substitution over fully verified A changes only explicit refund-mode comparison to IS NOT DISTINCT FROM. Client parser remains strict; actual PostgreSQL three-mode truth table and full real-Auth browser flow required.",
+  "production_go": false
+}

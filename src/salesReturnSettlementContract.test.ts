@@ -62,6 +62,14 @@ function priorCausalWire(state: 'DATED' | 'PROVEN_ABSENT', journal: 'JOURNAL_EXP
 }
 const context = (q: QuoteInput): ReadContext => ({ generation: 1, parent_ticket: 'parent-read-1', authority_scope: 'actor-profile-permissions-1', input_identity: inputIdentity(q) })
 const flags = { writer_locked: false, source_stale: false, pending_envelope: false }
+it('accepts a boolean false refund capability for no-credit returns and refuses SQL null', () => {
+  const q = zeroCurrent(false)
+  q.capabilities.refund_cash = false
+  expect(parseSettlementQuote(q, q.input_echo)).toEqual(q)
+  const malformed = structuredClone(q) as any
+  malformed.capabilities.refund_cash = null
+  expect(() => parseSettlementQuote(malformed, q.input_echo)).toThrow()
+})
 const receipt = (q: Quote, request = id(99)) => ({ contract_version: 'cp7.sales-return-settlement-outcome.v1', kind: 'COMMITTED_OUTCOME', action: 'RETURN_SETTLEMENT', request_id: request, sale_id: q.source.sale_id, return_id: id(11), return_status: 'POSTED', row_version: '4', family_ordinal: '1', credit_id: q.has_recognition_effect ? id(12) : null, refund_event_id: q.input_echo.settlement.mode === 'REFUND' ? id(13) : null, quote_sha256: q.binding.quote_sha256, projection_sha256: q.binding.projection_sha256, actual_manifest_sha256: hash(7), projection_actual_proof_sha256: hash(8), production_go: false })
 
 describe('OW04 proposed quote/parser/state contract only', () => {

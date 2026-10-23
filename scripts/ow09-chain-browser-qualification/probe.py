@@ -14,6 +14,7 @@ REPO=HERE.parents[1]
 sys.path.insert(0,str(REPO/'scripts'))
 import cp7_p21_current_chain_rehearsal_probe as chain_proof
 import cp7_p21_chain_adapter as chain_adapter
+import cp7_return_quote_capability as quote_capability
 import psycopg
 import cp6_auditor_modes as modes
 from cp6_t3_aligned_install import advisors,advisor_delta
@@ -24,7 +25,7 @@ def load(name,path):
 
 IDS=tuple(json.loads((HERE/'EXPECTED.json').read_bytes())['case_ids'])
 copies=load('ow09_chain_exact_copy_authority',REPO/'scripts/ow04-payment-current-qualification/copy_authority.py')
-product,previous,package,core,p09=chain_adapter,chain_proof.previous,chain_proof.package,chain_proof.core,chain_proof.p09
+product,previous,package,core,p09=quote_capability,chain_proof.previous,chain_proof.package,chain_proof.core,chain_proof.p09
 LABEL='CP7_OW09_CHAIN_BROWSER13'
 OUT=REPO/'cp6-proof/t3'/f'{LABEL}.json'
 STATE=None
@@ -57,6 +58,7 @@ def run():
             before=previous.restore_state.capture(cur,package.boundary.snapshot,core.predecessor.public_state,p09.functions)
             conn.rollback();STATE=product.install(cur)
             report['complete_installed_verification']=product.verify(cur,STATE)
+            report['no_choice_quote_SQL_truth_table']=STATE['truth_table']
             report['verified_predecessor_info_manifest']=core.predecessor_info_manifest(cur)
             conn.commit();installed=True
         report['advisors_with_cp7']=advisors(package.boundary.PG)

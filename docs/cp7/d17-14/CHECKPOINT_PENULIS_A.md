@@ -1,3 +1,7 @@
+## 24 Okt 2026 — no-credit quote capability
+
+Browser run39999618000 retained: 11 PASS/2 INCOMPLETE. Actual HTTP200 READY quote was rejected by strict parser. SQL nullable mode comparison produced refund_cash=null. A counted one-expression stage now returns false for explicit no choice, preserving CREDIT/REFUND, complete22 metadata, ownership and global before-DDL used guard. Parser is unchanged; raw browser quote is now retained. Native browser rerun and integrated used restore remain gates. production_go=false.
+
 # Checkpoint penulis A (cabang `claude/d17-14-uang`)
 
 ## Posisi penerus A — 24 Oktober 2026
