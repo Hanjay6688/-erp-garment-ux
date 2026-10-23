@@ -14,7 +14,9 @@ Pengingat terjadwal: 20.58 UTC mode hemat (tidak memulai pekerjaan besar baru, g
 pembantu, perbarui berkas ini), 01.10 UTC jalan normal lagi.
 
 Diperbarui: 23 Okt 2026, 01.15 UTC (08.15 WIB). Jendela kuota baru mulai sekitar 01.12 UTC, reset sekitar 06.12 UTC; mode hemat
-sekitar 03.50 UTC. Satu dispatch OW-12a (39882795647) untuk menguji apakah registry image sudah melayani lagi.
+sekitar 03.50 UTC. Satu dispatch OW-12a (39882795647): database sudah menyala lagi (registry melayani); gagal di langkah kasus, log sedang dibaca.
+Antrean ulang: wash, fgqc, OW06 browser, OW05b browser (`ciqueue-after-reset.log`). OW04b dan OW-09 menunggu push non-skip
+untuk mendaftarkan workflow-nya saat antrean longgar.
 
 ## Sudah terbukti (uji database penuh atau browser lulus)
 
