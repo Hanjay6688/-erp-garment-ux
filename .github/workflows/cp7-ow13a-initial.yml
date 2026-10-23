@@ -115,9 +115,11 @@ jobs:
       uses: supabase/setup-cli@ab058987d8d6c725971f6cf9d0b5c98467e30bd1
       with:
         version: 2.116.0
-    - name: Gate exact SQL replies, repeated reopen and client types before Native126
+    - name: Gate clone guards, exact SQL replies, repeated reopen and client types
       working-directory: auditor
-      run: 'npx vitest run src/materialFirstNativeRule.test.ts src/nativeInitialAnalysis.test.ts
+      run: 'python -B -m unittest discover -s tests/cp7 -p test_initial_clone_authority.py
+
+        npx vitest run src/materialFirstNativeRule.test.ts src/nativeInitialAnalysis.test.ts
         src/NativeInitialAnalysisPanel.dom.test.tsx src/NativeDemandInitial.integration.dom.test.tsx
         src/NativeDemandHistoryPanel.dom.test.tsx src/NativePlanningProfilePanel.dom.test.tsx
 

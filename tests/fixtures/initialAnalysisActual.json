@@ -15,10 +15,10 @@
     "retention": {
       "days": 7,
       "state": "EXPIRED",
-      "kept_until": "2026-10-22T01:34:11.229+00:00"
+      "kept_until": "2026-10-22T02:03:50.479+00:00"
     },
     "plan_final": false,
-    "request_id": "bd8ba4f9-8d39-4024-ae87-190fe4e02ec7",
+    "request_id": "427d86f1-f244-4b6f-8c26-f70e58597b0e",
     "unit_count": 1,
     "units_done": 0,
     "stage_count": 1,
@@ -32,7 +32,7 @@
     "targets_total": 1,
     "unit_attempts": 0,
     "contract_version": "cp7.native-analysis-staged-job.v1",
-    "last_progress_at": "2026-10-15T01:34:11.229+00:00",
+    "last_progress_at": "2026-10-15T02:03:50.479+00:00",
     "targets_done_in_stage": 0
   },
   "actor": "00000001-1111-4111-8111-111111111111",
@@ -65,7 +65,7 @@
     "candidate_limit": 20,
     "eligible_targets": 1
   },
-  "checked_at": "2026-10-23T01:34:11.320000Z",
+  "checked_at": "2026-10-23T02:03:50.564000Z",
   "apply_enabled": false,
   "production_go": false,
   "semantic_hash": "852bb480b18b66655c9c10aacc09e194d37e7d3b6d927d6027fc54e62d2e2ae0",

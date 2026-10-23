@@ -1,0 +1,39 @@
+{
+  "candidate": "17d9d62a0d794147b9afed361d470bc078cbcaff",
+  "run_id": 39885283105,
+  "job_id": 120191923758,
+  "declared_case_count": 126,
+  "observed_case_count": 68,
+  "status": "INCOMPLETE",
+  "native": {
+    "passed": 68,
+    "expected": 68,
+    "exact_ID_set": true
+  },
+  "groups": {
+    "races": {
+      "status": "INCOMPLETE",
+      "error": "OW13A_LEGACY_ORACLE_NOT_EXACT_PREDECESSOR_22",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_modes.py\", line 183, in _run_races_once\n    url=copy_db(RACE_DB);setup=setup_copy(url,verify,True)\n                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_modes.py\", line 80, in setup_copy\n    runtime=verify(cur);conn.rollback()\n            ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f05_analysis_probe.py\", line 155, in checker\n    verify_composed_install(cur,old_checker,initial_states)\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow13a_initial_probe.py\", line 48, in verify_composed_install\n    verify_initial_delta(cur, legacy_checker, states['initial'], function_oracle)\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow13a_initial_probe.py\", line 23, in verify_initial_delta\n    raise ValueError('OW13A_LEGACY_ORACLE_NOT_EXACT_PREDECESSOR_22')\nValueError: OW13A_LEGACY_ORACLE_NOT_EXACT_PREDECESSOR_22\n"
+    },
+    "http": {
+      "status": "INCOMPLETE",
+      "error": "OW13A_LEGACY_ORACLE_NOT_EXACT_PREDECESSOR_22",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_modes.py\", line 320, in _run_http_once\n    url=copy_db(HTTP_DB);setup=setup_copy(url,verify,False);report['copy_runtime']=setup['runtime']\n                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_modes.py\", line 80, in setup_copy\n    runtime=verify(cur);conn.rollback()\n            ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f05_analysis_probe.py\", line 155, in checker\n    verify_composed_install(cur,old_checker,initial_states)\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow13a_initial_probe.py\", line 48, in verify_composed_install\n    verify_initial_delta(cur, legacy_checker, states['initial'], function_oracle)\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow13a_initial_probe.py\", line 23, in verify_initial_delta\n    raise ValueError('OW13A_LEGACY_ORACLE_NOT_EXACT_PREDECESSOR_22')\nValueError: OW13A_LEGACY_ORACLE_NOT_EXACT_PREDECESSOR_22\n"
+    },
+    "browser": {
+      "status": "INCOMPLETE",
+      "error": "OW13A_LEGACY_ORACLE_NOT_EXACT_PREDECESSOR_22",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_modes.py\", line 360, in _run_browser_once\n    url=copy_db(BROWSER_DB);setup=setup_copy(url,verify,False);report['copy_runtime']=setup['runtime']\n                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_modes.py\", line 80, in setup_copy\n    runtime=verify(cur);conn.rollback()\n            ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f05_analysis_probe.py\", line 155, in checker\n    verify_composed_install(cur,old_checker,initial_states)\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow13a_initial_probe.py\", line 48, in verify_composed_install\n    verify_initial_delta(cur, legacy_checker, states['initial'], function_oracle)\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow13a_initial_probe.py\", line 23, in verify_initial_delta\n    raise ValueError('OW13A_LEGACY_ORACLE_NOT_EXACT_PREDECESSOR_22')\nValueError: OW13A_LEGACY_ORACLE_NOT_EXACT_PREDECESSOR_22\n"
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "artifact_id": 12472508545,
+  "complete_artifact_bytes": 1591350,
+  "complete_artifact_sha256": "036c5d2abf17240b22cacc359d16ca34afbc6ccbd221c863f353bdf518bce988",
+  "observed_failure": "All68 Native pass; mode copies refused the exact22 predecessor catalogue check before cases.",
+  "source_diagnosis": "Existing mode copy creates database as supabase_admin without preserving source owner/database ACL/GUCs; unlike the accepted AB clone script. The next B-specific copy wrapper preserves and checks all database authority rather than loosening the22-group oracle. Actual clone receipt still to be observed.",
+  "full_A_chain_qualified": false,
+  "production_go": false
+}

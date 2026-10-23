@@ -19,8 +19,12 @@ def verify_initial_delta(cur, legacy_checker, state, function_oracle=None):
     cur.execute('savepoint ow13a_legacy_oracle')
     try:
         initial.rollback_preuse(cur, state)
-        if _catalog_rows(cur) != state['predecessor_catalog']:
-            raise ValueError('OW13A_LEGACY_ORACLE_NOT_EXACT_PREDECESSOR_22')
+        actual_predecessor = _catalog_rows(cur)
+        if actual_predecessor != state['predecessor_catalog']:
+            names={group:sorted(key for key in set(actual_predecessor[group])|set(state['predecessor_catalog'][group])
+                if actual_predecessor[group].get(key)!=state['predecessor_catalog'][group].get(key))
+                for group in actual_predecessor}
+            raise ValueError('OW13A_LEGACY_ORACLE_NOT_EXACT_PREDECESSOR_22: '+str({g:k for g,k in names.items()if k}))
         # P09 compares every function/ACL to the admitted install snapshot.
         # Bind its unchanged equality oracle to this VERIFIED predecessor,
         # then restore its current-stage snapshot even when a check fails.
@@ -69,5 +73,14 @@ def install_stages(cur):
 
 if __name__=='__main__':
     import cp7_f05_analysis_probe as probe
-    probe.package._writer_runtime=lambda browser_mode=False:probe.run(wa_forward=True,ow14b_rules=True,ow13a_initial=True)
+    import cp7_ow13a_clone_authority as copies
+    original_copy=probe.modes.copy_db
+    def runtime(browser_mode=False):
+        probe.modes.copy_db=lambda name:copies.copied_with_authority(original_copy,name,
+            probe.OUT.parent/'CP7_OW13A_CLONE_AUTHORITY.json')
+        try:
+            return probe.run(wa_forward=True,ow14b_rules=True,ow13a_initial=True)
+        finally:
+            probe.modes.copy_db=original_copy
+    probe.package._writer_runtime=runtime
     probe.package.run('install')

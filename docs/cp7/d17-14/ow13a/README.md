@@ -1,7 +1,8 @@
 # OW13a — checkpoint B,23 Oktober2026 WIB
 
 Pemicu awal, status kesiapan, tombol pengisian target dan pembukaan hasil dengan
-UUID server sudah dibuat. **OPEN**: Native126 pertama berhenti sebelum kasus; rantai A,
+UUID server sudah dibuat. **OPEN**:68/68 Native lulus, kelompok dua pengguna/HTTP/layar
+tertahan penyiapan salinan; paket126 belum lulus. Rantai A,
 pemasangan jadwal dan tombol Master pada host A belum dikualifikasi. Parent
 tetap5/16. B tidak memasang Enteng, mengubah main atau memberi production_go.
 Audit independen tetap Fable/Sol.
@@ -78,6 +79,19 @@ ke predecessor terverifikasi itu; snapshot tahap kini dipulihkan di finally.
 Oracle kesamaan P09 dan pemeriksa WA tetap tidak diubah. Lokal11 SQL/invers22
 serta42 klien lulus; juga dibuktikan pengikatan sementara dan pemulihan
 snapshot oracle pada jalur lulus/gagal. Hasil Native berikutnya belum diklaim.
+
+17d9d62a/run39885283105/job120191923758: **68/68 Native PASS**, seluruh ID tepat,
+termasuk tujuh tambahan awal/statistik; restore/advisor PASS. Races/HTTP/browser
+belum punya kasus: guard predecessor22 menolak salinan. Receipt
+[17d9d62-native126-first-mode-copy.json](17d9d62-native126-first-mode-copy.json).
+Sumber mode lama memakai createdb TEMPLATE tanpa menyalin pemilik/ACL/GUC
+database; skrip clone AB yang diterima sudah menjaga hal itu. Wrapper B baru
+memperbaiki hanya tiga database mode lokal, memakai pemilik/grantor postgres,
+menyalin ACL dan GUC di server, lalu meminta **seluruh otoritas database sama**
+dengan sumber. Tidak menerima pemilik baru sebagai pengecualian oracle22.
+Skrip A tidak diedit; perbedaan berikut akan mencetak nama grup/objek tanpa
+isi fungsi atau nilai rahasia. Empat kontrol transport/otorisasi lokal lulus;
+pelaksanaan SQL replay dan semua kasus mode masih harus dibuktikan Native.
 
 ## Permintaan integrasi A
 

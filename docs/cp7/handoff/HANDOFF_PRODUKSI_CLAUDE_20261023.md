@@ -14,9 +14,13 @@ oracle di finally; lokal11+42 lulus, Native berikutnya belum PASS. Detail dan pe
 registry sekarang7 pasangan (patch pengganti6 lama), tipe nullable, callback
 Master dan pemasangan jadwal lama/K4 tanpa syarat konfigurasi WA. OW13a OPEN.
 
-**Kandidat pemeriksaan terbaru:**17d9d62a/run39885283105/job120191923758,
-Native126 benar-benar berjalan; belum ada Original hasil kasus yang dibaca.
-Kandidat ini tidak memuat kernel suplai baru berikut. Pemeriksaan OW16 dan
+**Hasil pemeriksaan terbaru:**17d9d62a/run39885283105/job120191923758:
+68/68 Native PASS dengan seluruh ID tepat, termasuk tujuh awal/statistik;
+restore/advisor PASS. Races/HTTP/browser0 kasus karena katalog salinan tidak
+sama. Wrapper B memperbaiki penyalinan pemilik/ACL/GUC tiga database mode;
+empat kontrol transport lokal,11 SQL serta42 klien lulus, Native berikutnya
+masih diperlukan. Oracle22 dan skrip A tidak dilonggarkan/diubah. Kandidat
+17d9d62a tidak memuat kernel suplai baru berikut. Pemeriksaan OW16 dan
 OW13b yang terpicu pada39360e5 sudah success; hitungan/Original belum direkonsiliasi
 di checkpoint ini sehingga tidak dipakai menambah klaim kasus.
 
@@ -54,7 +58,7 @@ Ini kualifikasi penulis atas komponen/basis beku, **bukan** ujung rantai A atau 
 | OW10 inti | Target38/staged15/netting84 lulus pada a753. L memicu, L+R menentukan jumlah dari suplai hasil alokasi yang sama. |
 | OW10 tambahan statistik | Kode c0fcfe04:4 body di cp7_target_policy_stage;5 kelompok SQL,108 klien/DOM; tambahan pemeriksaan pemasang22 lokal lulus. Belum Native. Sumber/periode/lead serta WIP mentah per-model di pengingat tetap OPEN. |
 | OW12b | Kode f82868f: request/status analisis memakai capture resmi A, tampilan uang terpisah dari halaman tersegel;10 kelompok SQL dan pemasang22 lokal lulus. Nilai besar tepat, belum READY bukan0, UUID/akses/atomik diperiksa. Belum Native/A-chain/factory3600. |
-| OW13a awal otomatis | Tahap4 fungsi privat/1 tabel dan2 hook, status minimum/tombol profil/UUID server. Lokal11 kelompok SQL +197 klien/DOM; invers/admission22 lokal. Native126 pertama0 kasus karena komposisi pemeriksa grant; perbaikan masih harus Native. Callback Master/jadwal/rantai A masih OPEN. |
+| OW13a awal otomatis | Tahap4 fungsi privat/1 tabel dan2 hook, status minimum/tombol profil/UUID server. Lokal11 kelompok SQL +197 klien/DOM; invers/admission22 lokal. Native68/68 PASS pada17d9d62a; races/HTTP/browser tertahan penyalinan database mode, paket126 belum PASS. Callback Master/jadwal/rantai A masih OPEN. |
 
 Checkpoint terdahulu224/224 klien/DOM pada15 berkas lulus; tambahan terbaru197/17 berkas dan
 42/5 berkas terfokus lulus. TypeScript/CSS lulus. Build penuh kini tertahan7 pasangan registry
