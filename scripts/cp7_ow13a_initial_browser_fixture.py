@@ -33,8 +33,21 @@ def main():
         elif operation=='worker':
             # Existing private K4 worker, actual Native source and job. The
             # app page is closed by Playwright; no client step is sent.
+            before=cur.execute('select j.id,j.units_done from cp7_initial_analysis.intents i '
+                'join cp7_analysis_stage.jobs j on j.id=i.job_id where i.actor=%s',(p['actor'],)).fetchone()
+            assert before is not None,'OW13A_BROWSER_OWN_INITIAL_JOB_REQUIRED'
+            running=cur.execute("select count(*)from cp7_analysis_stage.jobs where state='RUNNING'").fetchone()[0]
+            assert running<=len(case.IDS['browser']),'OW13A_BROWSER_UNEXPECTED_QUEUE_SIZE'
             cur.execute("set local statement_timeout='8s';set local role cp7_capture")
-            out=cur.execute('select cp7_analysis_stage.run_next()').fetchone()[0]
+            ticks=[]
+            # The desktop journey leaves an older job for the same global
+            # runner. One queue pass is bounded by the existing job count;
+            # never bypass fairness by stepping an actor's job directly.
+            for _ in range(running+1):
+                ticks.append(cur.execute('select cp7_analysis_stage.run_next()').fetchone()[0])
+                after=cur.execute('select units_done,state from cp7_analysis_stage.jobs where id=%s',(before[0],)).fetchone()
+                if after[0]>before[1]or after[1]!='RUNNING':break
+            out=dict(worker_ticks=ticks,queue_at_start=running,own_units_before=before[1],own_units_after=after[0],own_state=after[1])
             cur.execute('reset role');case.b.api.admin(cur)
         elif operation in('deactivate','restore'):
             cur.execute('update erp.app_users set is_active=%s where auth_user_id=%s',(operation=='restore',p['actor']))

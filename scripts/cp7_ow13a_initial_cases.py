@@ -31,6 +31,9 @@ ADDED_IDS=dict(native=[
  http=['OW13A_REAL_AUTH_INITIAL_PROFILE_AND_UUID','OW13A_REAL_AUTH_CURRENT_REVOKE_AND_PRIVATE_DENIAL'],
  browser=['OW13A_BROWSER_DESKTOP_MINIMUM_TO_AUTO','OW13A_BROWSER_MOBILE_LOST_REPLY_SAME_JOB'])
 IDS={k:list(v)+ADDED_IDS[k]for k,v in retained.IDS.items()}
+# HTTP uses one committed copy. Exercise the genuinely missing global
+# minimum before retained controls create their own reviewed profiles.
+IDS['http']=ADDED_IDS['http']+list(retained.IDS['http'])
 REQUIRED={k:len(v)for k,v in IDS.items()};EXPECTED=DECLARED=sum(REQUIRED.values())
 assert REQUIRED==dict(native=68,races=36,http=9,browser=13)and EXPECTED==126
 INSTALL_STATES={}
@@ -208,4 +211,4 @@ def http_cases(http,today):
    for role in('anon','authenticated','service_role'):
     assert not cur.execute("select has_schema_privilege(%s,'cp7_initial_analysis','USAGE')or has_function_privilege(%s,'cp7_initial_analysis.tick()','EXECUTE')",(role,role)).fetchone()[0]
   return dict(status='PASS',real_Auth_current_admin_revocation_hides_job=True,no_anonymous_or_private_tick_access=True)
- return retained.http_cases(http,today)+list(zip(ADDED_IDS['http'],[flow,denied]))
+ return list(zip(ADDED_IDS['http'],[flow,denied]))+retained.http_cases(http,today)

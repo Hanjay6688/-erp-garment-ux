@@ -1,0 +1,55 @@
+{
+  "candidate": "a86d22a256a3a37abbab406b42f3ea77e9bb481c",
+  "run_id": 39887742896,
+  "job_id": 120199774843,
+  "status": "INCOMPLETE",
+  "observed": 126,
+  "passed": 124,
+  "groups": {
+    "native": {
+      "observed": 68,
+      "passed": 68
+    },
+    "races": {
+      "observed": 36,
+      "passed": 36
+    },
+    "http": {
+      "observed": 9,
+      "passed": 8
+    },
+    "browser": {
+      "observed": 13,
+      "passed": 12
+    }
+  },
+  "all_exact_ID_sets": {
+    "native": true,
+    "races": true,
+    "http": true,
+    "browser": true
+  },
+  "failures": {
+    "OW13A_REAL_AUTH_INITIAL_PROFILE_AND_UUID": {
+      "status": "INCOMPLETE",
+      "error": "{'status': 200, 'body': {'job': None, 'actor': '749fcdcf-f4d5-4866-87ef-4d7e5f466939', 'query': {'from_date': '2026-09-23', 'group_mode': 'AS_SOLD', 'through_date': '2026-10-22'}, 'state': 'READY', 'job_query': None, 'readiness': {'ready': "
+    },
+    "OW13A_BROWSER_MOBILE_LOST_REPLY_SAME_JOB": {
+      "status": "INCOMPLETE",
+      "error": "locator.click: Timeout 20000ms exceeded."
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "verified_disposable_authority_copies": 38,
+  "source_and_clone_owner": "postgres",
+  "oracle_relaxed": false,
+  "artifact_id": 12474287791,
+  "complete_artifact_bytes": 1599920,
+  "complete_artifact_sha256": "6115acb0376841a91d9fab809c6d9cbd4d3b55bc8d6f7efaa6f319c1ba34ed88",
+  "http_fix": "Run the missing-global-minimum journey before the retained HTTP cases create reviewed global profiles; the NOT_READY expected stays exact.",
+  "browser_fix": "Wait for Auth/App/sidebar to mount before testing menu visibility; use the real drawer, never force a click or change mobile viewport.",
+  "worker_fixture_review": "Advance at most one bounded global queue pass; an older desktop job may precede the mobile actor. Use real K4 run_next, no direct actor step or job edit.",
+  "full_A_chain_qualified": false,
+  "production_go": false
+}

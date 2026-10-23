@@ -6,8 +6,11 @@ const fixture=(operation,p)=>JSON.parse(execFileSync('python',['../auditor/scrip
  {input:JSON.stringify(p),cwd:'../writer',encoding:'utf8',maxBuffer:16*1024*1024}).trim())
 const request='erp_cp7_request_staged_analysis_v1'
 async function navigate(ui,page){
- const menu=page.getByRole('button',{name:'Buka menu',exact:true});if(await menu.isVisible())await menu.click()
  const parent=page.locator('.sidebar .nav-main').filter({hasText:'Gudang'}).first();await parent.waitFor({state:'attached'})
+ // A reload/new page may still be mounting Auth/App. Check the actual menu
+ // after the sidebar exists, as the retained mobile navigation does.
+ const menu=page.getByRole('button',{name:'Buka menu',exact:true})
+ if(await menu.isVisible()){await menu.click();await ui.expect(page.locator('.sidebar')).toHaveClass(/sidebar-open/)}
  const link=page.getByRole('button',{name:'• Ringkasan Barang Jadi',exact:true});if(!await link.isVisible())await parent.click()
  await link.click();await ui.expect(page.getByRole('region',{name:'Analisis awal otomatis',exact:true})).toBeVisible()
 }

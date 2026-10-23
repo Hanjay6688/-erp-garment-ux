@@ -46,6 +46,11 @@ kandidat dibekukan. Hasilnya124/126 PASS (68 Native,36 races,8/9 HTTP,12/13
 browser); restore/advisor PASS. Dua kegagalan baru ialah fixture HTTP min-data
 sesudah kasus lain mengisi profil global, dan navigasi HP memeriksa tombol menu
 sebelum aplikasi selesai dimuat. Belum PASS penuh; Original disimpan terpisah.
+Keduanya sudah diperbaiki tanpa menghapus expected NOT_READY atau kontrol113
+lama. Mobile memakai drawer nyata390px; worker fixture menghormati antrean
+global, maksimal satu putaran job. Seluruh38 salinan a86 membuktikan otoritas
+database sama dengan sumber. Receipt ow13a/a86d22a-first-native126-124.json;
+Native berikutnya masih diperlukan sebelum mengklaim126 PASS.
 
 Reader privat kini ada:9 kelompok lokal PASS, memilih hanya DONE/kept dengan
 query/hash/engine/marker/capture/page-set/index yang cocok. Tangkapan Native

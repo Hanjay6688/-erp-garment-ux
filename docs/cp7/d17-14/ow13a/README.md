@@ -93,6 +93,26 @@ Skrip A tidak diedit; perbedaan berikut akan mencetak nama grup/objek tanpa
 isi fungsi atau nilai rahasia. Empat kontrol transport/otorisasi lokal lulus;
 pelaksanaan SQL replay dan semua kasus mode masih harus dibuktikan Native.
 
+a86d22a2/run39887742896/job120199774843: **124/126 PASS**; Native68/68,
+races36/36, HTTP8/9, browser12/13, seluruh ID126 hadir tepat. Restore/advisor
+PASS. Seluruh38 salinan mode membuktikan pemilik/ACL/GUC sama dengan sumber;
+pemilik sebelumnya supabase_admin, dipulihkan postgres tanpa mengecualikan
+grup katalog. Receipt [a86d22a-first-native126-124.json](a86d22a-first-native126-124.json);
+Original lengkap/log dan kegagalan mobile disimpan, bukan diganti hijau.
+
+Dua kegagalan berada di alat uji baru. HTTP menuntut NOT_READY sesudah tujuh
+kontrol lama sudah mengisi profil global; server benar menjawab READY dengan
+tiga target eligible. Journey min-data kini berjalan pertama di salinan segar,
+**expected NOT_READY tetap**, diikuti seluruh tujuh kontrol lama. Hanya urutan
+daftar/deklarasi HTTP berubah; tidak ada ID atau assertion lama dihapus.
+Navigasi mobile kini menunggu sidebar/Auth/App benar-benar terpasang sebelum
+memeriksa tombol menu, sama dengan helper mobile lama. Drawer nyata tetap
+dibuka dan viewport390 dipertahankan, tanpa force-click. Review fixture worker
+juga menambah satu putaran antrean yang dibatasi jumlah job: run_next global
+dapat memilih job desktop lebih tua dulu. Tetap worker K4 yang sebenarnya,
+tanpa mengubah job atau memanggil step actor langsung. Native berikutnya masih
+diperlukan; kode produk/SQL/UI tidak diubah oleh perbaikan fixture ini.
+
 ## Permintaan integrasi A
 
 1. SQL dasar tetap beku. Tahap produksi18, OW16 dan registry terdahulu, lalu
