@@ -127,6 +127,19 @@ Fix hanya script browser: cocokkan UUID string dan ketiga kolom query formulir;
 API/status/stock/metadata/UUID assertions tidak dilonggarkan, initial-auto tetap
 jalan. GET body kini ikut disimpan jika gagal. Ulang Entry2 saja pada sumber ini.
 
+**Entry2 terbaru: desktop PASS, ponsel belum selesai karena test terlalu cepat.**
+[Receipt2cbda77](../d17-14/ow13c/2cbda77-entry2-one-pass.json),
+run40027557172/job120667450842. Desktop nyata membuktikan source request/GET,
+field/customer work, penolakan SAVE40001 setelah stok berubah, isian tetap,
+request baru dilepas, akses terbaru ditolak dan lebar1440 tanpa overflow.
+Ponsel memeriksa lost.status sebelum response tiba: tombol pending sudah tampil
+sejak request disimpan. Fix test menunggu response200 yang benar dan tombol
+retry aktif setelah abort, baru reload/replay. Produk tidak diubah; tujuh kontrol
+server dan desktop PASS tidak diklaim menutup mobile. Original12532574644/
+45029bytes/SHA94878519518c7bfccfff479fcb6f39790f68b5fe089ee8442f16f74194bc025d.
+Langkah sesudah browser: [rancangan integrasi bounded](../d17-14/ow13c/BOUNDED_STAGE_INTEGRATION.md),
+dengan sumber/func yang tepat dan semua guard yang wajib dipertahankan.
+
 **Pembacaan riwayat besar Native3 sudah PASS3/3.**
 [Receiptcd8e37d6](../d17-14/ow13c/cd8e37d-inputs3-pass.json),
 [run40020162611](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/40020162611)

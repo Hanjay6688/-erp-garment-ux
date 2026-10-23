@@ -77,7 +77,10 @@ async function journey(ui,today,mobile){
   if(mobile){
    await panel.getByRole('button',{name:'Simpan jadwal yang diperiksa',exact:true}).click()
    await ui.expect(panel.getByRole('button',{name:'Ulangi simpan jadwal yang sama',exact:true})).toBeVisible()
-   assert.equal(lost?.status,200)
+   // The durable record is visible as soon as sending starts. It is not
+   // evidence that the server has committed or that delivery was aborted.
+   await ui.expect.poll(()=>lost?.status).toBe(200)
+   await ui.expect(panel.getByRole('button',{name:'Ulangi simpan jadwal yang sama',exact:true})).toBeEnabled()
    await page.reload();panel=await open(ui,page,f.query)
    await panel.getByRole('button',{name:'Ulangi simpan jadwal yang sama',exact:true}).click()
    await ui.expect(panel).toContainText('Jadwal tersimpan')
