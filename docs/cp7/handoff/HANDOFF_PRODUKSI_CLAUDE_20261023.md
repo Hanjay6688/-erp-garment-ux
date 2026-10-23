@@ -39,6 +39,30 @@ grup dan baris ERP/uang/stok/HPP.31/25/19 lama tidak diulang atau dilabel ulang;
 kode aplikasi dan SQL tetap identik kandidat Native31. Tidak ada kredit baru
 HTTP/browser/race/skala/after-use/rantai A dari suite terfokus ini.
 
+**Dua bukti sisa lainnya juga sedang berjalan, belum dinyatakan lulus.**
+SAVE2000: kandidat `fa3375ebd12c52fa45563631d97c41608b960183`, tree
+`ea031f895ba60466ccf6a19ed2fcf9ba26aa2062`,
+[run40002041287](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/40002041287)
+/job120580374491. Kontrak SCALE_NATIVE_CONTRACT SHA
+`ebe68a4108297b68479ff62d0898ec5979aed9e8c314f5b3b94bcad31ef8183a`:
+2 Native=jangkar lama+1 pengukuran SAVE aktual2000 produk/202000 gerakan
+sintetis,3 UUID baru masing-masing<8000ms/statement8s, termasuk kedua cek
+sumber penuh dan kelayakan; replay tepat,3 draf/receipt tanpa intent/grup/fakta
+fisik baru. Ini bukan volume caller lama atau SLA factory3600/layar.
+
+WIP: kandidat `b543ce0bcb964a4037fc6fb0e6e3a0a8fdc6c4a3`, tree
+`3bfeaf2e9ea56ac1f879e25ee9605952a40c22f3`,
+[run40002836272](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/40002836272)
+/job120583102547. Kontrak WIP_NATIVE_CONTRACT SHA
+`0c8e08e97bb36547f279d4f74790f18af0b9405cbe88dcd00f09b926c392d5fa`:
+2 Native=jangkar lama+1 batas200→201 grup posted model yang sama, semua
+penerimaan dan potong lewat penulis Native nyata, tanpa kloning grup.
+Preview lama di200 harus COMPLETE, di201 UNKNOWN/null untuk WIP dan need,
+kode WIP_UNKNOWN; checked SAVE menolak SOURCE_CHANGED40001 tanpa efek.
+Ini bukti sumber berubah, bukan klaim WIP unknown dengan sumber UNCHANGED.
+Batas model200 tidak dinaikkan. Seluruh suite terpisah mempertahankan8 tahap/
+invers22, oracle lama dan5 gate paket; aplikasi/SQL tetap identik Native31.
+
 ## Tujuan dan sumber konteks
 
 VENI. VIDI. VICI. ERP.
@@ -64,7 +88,7 @@ Sumber yang wajib dibaca saat mengambil alih:
   [selesai untuk diuji](../d17-14/SELESAI_UNTUK_DIUJI.md),
   [koordinasi](../d17-14/KOORDINASI.md): konteks keputusan/status lengkap,
   permintaan pemilik berkas dan bukti per butir. Entri awal koordinasi adalah
-  riwayat, bukan status terbaru; bagian31 mencatat hasil terbaru sesi ini.
+  riwayat, bukan status terbaru; bagian31 mencatat checkpoint lulus; bagian32–33 mencatat lanjutan yang masih diuji.
 - [Praktik ERP](../../ERP_BEST_PRACTICES.md): append-only, idempotensi, current
   access sesudah wait/response, latest corrected wins, dua sumbu tanggal,
   transaksi/envelope lintas modul atomik, draf tidak authoritative, UNKNOWN≠0.
