@@ -52,6 +52,8 @@ begin
  select jsonb_build_object('contract_version','cp7.reorder-stock-summary.v1','captured_at',cp7_planning.utc(p_at),'query',q,
   'raw_rows_read',(select count(*)from all_moves),'products',jsonb_array_length(products),'days',day_count,
   'availability',availability.rows,'current_stock',current_rows.rows,
+  'history_data_hash',encode(extensions.digest(convert_to(jsonb_build_object('products',products,'query',q,
+   'availability',(select coalesce(jsonb_agg(x-'known_at'order by x->>'target_key',x->>'date'),'[]')from jsonb_array_elements(availability.rows)x))::text,'UTF8'),'sha256'),'hex'),
   'data_hash',encode(extensions.digest(convert_to(jsonb_build_object('products',products,'query',q,
    'availability',(select coalesce(jsonb_agg(x-'known_at'order by x->>'target_key',x->>'date'),'[]')from jsonb_array_elements(availability.rows)x),
    'current_stock',current_rows.rows)::text,'UTF8'),'sha256'),'hex'),

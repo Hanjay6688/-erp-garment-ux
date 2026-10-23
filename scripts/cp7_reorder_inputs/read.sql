@@ -11,7 +11,7 @@ declare c jsonb;f jsonb;q jsonb;summary jsonb;inputs jsonb;compiled jsonb;path t
  current_rows jsonb[]:='{}';rows_out jsonb[]:='{}';targets_out jsonb[]:='{}';item jsonb;
 begin
  perform cp7_wip.fields(s,array['contract_version','status','captured_at','query','native','defaults','product_bound',
-  'stock_summary','leads','manuals','engine_hash','context_hash','apply_enabled','production_go']);
+  'stock_summary','leads','manuals','engine_hash','context_hash','threshold_hash','apply_enabled','production_go']);
  if s->>'contract_version'is distinct from'cp7.reorder-native-source.v1'
   or s->'apply_enabled'is distinct from'false'::jsonb or s->'production_go'is distinct from'false'::jsonb
   or jsonb_typeof(s->'product_bound')is distinct from'number'or(s->>'product_bound')!~'^[0-9]{1,4}$'then
@@ -66,27 +66,7 @@ begin
   ev:=cp7_analysis_stage.events_validate(v||jsonb_build_object('events',cp7_planning.history_events(c)));
   validated:=cp7_analysis_stage.history_validate(jsonb_build_object('targets',targets,'events',ev->'events',
    'errors',case when ev?'error'then jsonb_build_array(ev->'error')else'[]'::jsonb end));
-  select coalesce(jsonb_object_agg(x->>'root_id',x),'{}')into stock_by_root from jsonb_array_elements(summary->'current_stock')x;
-  select coalesce(jsonb_object_agg(x.root_id,x.drafts),'{}')into drafts_by_root from(
-   select value->>'root_id'root_id,jsonb_agg(jsonb_build_object('lineage_key',value->>'id','qty_pcs',value->>'qty_pcs',
-    'refs',jsonb_build_array(jsonb_build_object('kind','SALE_ITEM','id',value->>'id','revision',value->>'revision')))order by value->>'id')drafts
-   from jsonb_array_elements(f->'sales')where value->>'status'='DRAFT'and value->>'root_id'is not null group by 1)x;
-  for p in select value from jsonb_array_elements(f->'products')order by value->>'root_id'loop
-   r:=stock_by_root->(p->>'root_id');refs:=jsonb_build_array(jsonb_build_object('kind','PRODUCT','id',p->>'id','revision','1'));
-   if r is null then raise exception 'CP7_REORDER_STOCK_SNAPSHOT_MISMATCH';end if;
-   native_available:=(r->>'free_pcs')::numeric;
-   availability:=cp7_demand.availability(jsonb_build_object('contract_version','cp7.available-input.v1',
-    'snapshot_id',hash,'scope_id','GLOBAL_CURRENT_PHYSICAL_ROOTS','target_key',(p->>'root_id')||':'||(p->>'size_id'),
-    'size_id',p->'size_id','fg_basis','ON_HAND_AFTER_POSTED','fg_pcs',r->'physical_pcs',
-    'open_drafts',coalesce(drafts_by_root->(p->>'root_id'),'[]'),'residual_future_pcs','0','refs',refs));
-   if(availability->>'available_fg_pcs')::numeric<>native_available or native_available<0 then
-    raise exception 'CP7_PLANNING_NATIVE_RESERVATION_MISMATCH';end if;
-   current_rows:=array_append(current_rows,jsonb_build_object('target_key',(p->>'root_id')||':'||(p->>'size_id'),
-    'root_id',p->'root_id','size_id',p->'size_id','sku',p->'sku','product_name',p->'product_name',
-    'is_active',(p->>'is_active')::boolean,'grade_basis','NATIVE_SELLABLE_GRADE_A_AND_B','availability',availability,
-    'projection_basis','CURRENT_STOCK_ONLY_NO_FORECAST','native_available_pcs',native_available::text,'refs',refs));
-  end loop;
-  stock:=to_jsonb(current_rows);n:=jsonb_array_length(targets);
+  stock:=cp7_reorder_inputs.current_stock(c,summary,hash);n:=jsonb_array_length(targets);
   per:=greatest(1,(limits->>'history_cells_per_unit')::integer/greatest(day_count,1));
   while offset_at<n loop
    select coalesce(jsonb_agg(targets->(entry.i::integer-1)order by entry.pos),'[]')into selected

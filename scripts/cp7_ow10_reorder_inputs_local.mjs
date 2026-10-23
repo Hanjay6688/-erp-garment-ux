@@ -107,6 +107,8 @@ const points = async (input, measured=lead(), manual=[], policy=defaults) =>
     [JSON.stringify(input),JSON.stringify(policy),JSON.stringify(measured),JSON.stringify(manual)])).rows[0].v
 const serverSource=async(bound=5000)=>(await db.query('select cp7_reorder_inputs.source_within($1)v',[bound])).rows[0].v
 const readPoints=async(bound=5000)=>(await db.query('select cp7_reorder_inputs.read_points($1)v',[bound])).rows[0].v
+const readerSnapshot=async()=>(await db.query(`with s as materialized(select cp7_reorder_inputs.source_within(5000)v)
+ select cp7_reorder_reader.snapshot(s.v)v from s`)).rows[0].v
 const addMovement=async m=>db.query('insert into erp.fg_stock_movements(id,product_id,qty_signed,physical_at,system_created_at,quality_grade,movement_type,reversal_of_id,book_order)values($1,$2,$3,$4,$5,$6,$7,$8,$9)',
  [m.id,m.product_id,m.qty_signed,m.physical_at,m.system_created_at,m.quality_grade,m.movement_type,m.reversal_of_id,m.book_order])
 const stockSummary=async(products=fixture().facts.products,at=clock,q=query)=>(await db.query(
@@ -368,6 +370,63 @@ await test('OW10_INPUTS_REAL_INSTALLER_22_AND_CALLER_DEPENDENCY_REFUSAL',async()
   return{apply_admit_inverse_reapply_all22_exact:true,actual_installed_SQL_caller_requires_removal_first:true,
     caller_guard_before_DDL:true,persisted_Native_use_qualified:false}
 })
+const readerAudit=await beginLocalStageAudit(db,'cp7_reorder_reader_stage')
+let readerInstaller
+await test('OW10_CACHE_FIRST_COMPILE_THEN_REUSE_WITH_FRESH_CAPTURE_ROLE',async()=>{
+ await sourceFixture();const a=await readerSnapshot(),b=await readerSnapshot()
+ assert.equal(a.cache_hit,false);assert.equal(b.cache_hit,true);assert.deepEqual(b.points,a.points)
+ assert.equal(b.threshold_captured_at,a.threshold_captured_at);assert.equal(b.threshold_hash,a.threshold_hash)
+ await db.exec('set role cp7_capture');const c=await readerSnapshot();await db.exec('reset role')
+ assert.equal(c.cache_hit,true);assert.deepEqual(c.current_stock,b.current_stock)
+ assert.equal(c.live_ROP_caller_changed,false)
+ return{actual_private_cache_miss_then_hit:true,original_threshold_time_and_full_points_retained:true,
+  fresh_current_stock_each_read:true,capture_role_only:true,live_ROP_caller_changed:false}
+})
+await test('OW10_CACHE_TODAY_STOCK_FRESH_WITHOUT_HISTORY_RECOMPILE',async()=>{
+ const a=await readerSnapshot(),now=new Date(Date.now()-1000).toISOString()
+ await addMovement(movement(740,1,'3',now))
+ const b=await readerSnapshot();assert.equal(b.cache_hit,true);assert.equal(b.threshold_hash,a.threshold_hash)
+ assert.notEqual(b.context_hash,a.context_hash);assert.equal(b.threshold_captured_at,a.threshold_captured_at)
+ assert.equal(a.current_stock[0].native_available_pcs,'90');assert.equal(b.current_stock[0].native_available_pcs,'93')
+ assert.deepEqual(b.points,a.points)
+ return{today_stock90_to93_without_old_stock_reuse:true,full_threshold_points_unchanged:true,
+  same_threshold_hash_different_current_source_hash:true,threshold_time_retained:true}
+})
+await test('OW10_CACHE_BACKDATE_PROFILE_AND_MANUAL_INVALIDATE_THRESHOLD',async()=>{
+ const a=await readerSnapshot();await addMovement(movement(741,1,'2','2026-09-25T02:00:00Z'))
+ const b=await readerSnapshot();assert.equal(b.cache_hit,false);assert.notEqual(b.threshold_hash,a.threshold_hash)
+ await db.query(`update public.reorder_native_fixture set c=jsonb_set(c,'{profiles,1,config,daily_pcs}','"4"'::jsonb)`)
+ const c=await readerSnapshot();assert.equal(c.cache_hit,false);assert.equal(c.points.rows[1].point_pcs,'20')
+ await db.query(`insert into cp7_stock_formula.manual_points(root_id,revision,size_id,product_version_id,reorder_point_pcs,reason,actor,request_id,request_hash)
+  values($1,1,$2,$1,25,'CONTROLLED_FIXTURE',$3,$4,$5)`,[id(1),id(9000),id(999),id(15099),'f'.repeat(64)])
+ const d=await readerSnapshot();assert.equal(d.cache_hit,false);assert.equal(d.points.rows[0].point_pcs,'25')
+ return{later_known_backdate_recompiled:true,profile_mean4_point20_recompiled:true,manual25_recompiled:true,
+  no_stale_threshold_after_operational_or_policy_change:true}
+})
+await test('OW10_CACHE_HIT_STILL_REFUSES_RESERVATION_CORRUPTION_AND_INCOMPLETE_SCOPE',async()=>{
+ await sourceFixture();await readerSnapshot();const before=(await db.query('select threshold_hash from cp7_reorder_reader.cache')).rows[0].threshold_hash
+ const now=new Date(Date.now()-1000).toISOString()
+ await addMovement({...movement(742,1,'-4',now),movement_type:'SALE_RESERVE'})
+ await assert.rejects(()=>readerSnapshot(),/CP7_PLANNING_NATIVE_RESERVATION_MISMATCH/)
+ assert.equal((await db.query('select threshold_hash from cp7_reorder_reader.cache')).rows[0].threshold_hash,before)
+ await db.query('delete from erp.fg_stock_movements where id=$1',[id(742)])
+ await db.query('insert into erp.products(id,identity_root_id)values($1,$2)',[id(799),id(1)])
+ await assert.rejects(()=>readerSnapshot(),/CP7_REORDER_NON_STOCK_SOURCE_INCOMPLETE/)
+ assert.equal((await db.query('select threshold_hash from cp7_reorder_reader.cache')).rows[0].threshold_hash,before)
+ return{cached_threshold_never_bypasses_fresh_draft_stock_validation:true,duplicate_current_identity_refused:true,
+  failed_read_keeps_cache_unchanged:true}
+})
+await test('OW10_CACHE_22_GROUPS_AND_USE_MARK_SURVIVES_CACHE_EVICTION',async()=>{
+ await db.exec('delete from cp7_reorder_reader.cache')
+ assert.equal((await db.query('select count(*)::integer n from cp7_reorder_reader.cache')).rows[0].n,0)
+ assert.equal((await db.query('select count(*)::integer n from cp7_reorder_reader.use_marks')).rows[0].n,1)
+ await assert.rejects(()=>db.exec('delete from cp7_reorder_reader.use_marks'),/CP7_REORDER_USE_MARK_IMMUTABLE/)
+ readerInstaller=await readerAudit.afterUse()
+ assert.equal(readerInstaller.catalog_groups,22);assert.equal(readerInstaller.apply_rollback_reapply_exact,true)
+ assert.equal(readerInstaller.after_use_refused_before_first_DDL,true)
+ return{actual_apply_admit_inverse_reapply22:true,cache_evicted_but_immutable_use_mark_retained:true,
+  after_use_requires_backup_restore_before_DDL:true,Native_or_A_chain:false}
+})
 await test('OW10_STOCK_SUMMARY_FULL_NATIVE_AVAILABILITY_AND_BOTH_CLOCKS',async()=>{
  await sourceFixture();const r=await stockSummary(),source={...fixture(),captured_at:r.captured_at}
  const expected=(await db.query('select cp7_planning.history_availability($1::jsonb,$2::jsonb)v',[JSON.stringify(source),JSON.stringify(query)])).rows[0].v
@@ -450,6 +509,21 @@ await test('OW10_READ_202000_SQL_ROWS_FULL_NATIVE_HISTORY_TARGETS_AND_POINTS',as
   local_full_pipeline_ms:ms,outside_raw_prefix_change_invalidates_context:true,summary_clock_binding_refused:true,
   Native_Auth_or_factory_SLA:false,live_ROP_caller_changed:false}
 })
+await test('OW10_CACHE_2000_POINTS_WARM_CURRENT_STOCK_WITHOUT_HISTORY_RECOMPILE',async()=>{
+ const coldStart=performance.now(),a=await readerSnapshot(),coldMs=Math.round(performance.now()-coldStart)
+ const warmStart=performance.now(),b=await readerSnapshot(),warmMs=Math.round(performance.now()-warmStart)
+ assert.equal(a.cache_hit,false);assert.equal(b.cache_hit,true);assert.equal(b.points.rows.length,2000)
+ assert.deepEqual(b.points,a.points);assert.deepEqual(b.current_stock,a.current_stock)
+ assert.equal(b.threshold_captured_at,a.threshold_captured_at)
+ const now=new Date(Date.now()-1000).toISOString();await addMovement(movement(79999,1,'1',now))
+ const c=await readerSnapshot();assert.equal(c.cache_hit,true);assert.equal(c.threshold_hash,b.threshold_hash)
+ const before=b.current_stock.find(x=>x.root_id===id(1)),after=c.current_stock.find(x=>x.root_id===id(1))
+ assert.equal(BigInt(after.native_available_pcs),BigInt(before.native_available_pcs)+1n)
+ assert.equal(c.points.rows.length,2000);assert.deepEqual(c.points,b.points)
+ return{complete_points_and_current_stock:2000,actual_history_cache_hit:true,
+  cold_local_ms:coldMs,warm_local_ms:warmMs,today_stock_change_still_fresh_without_history_recompute:true,
+  Native_Auth_or_factory_SLA:false,live_ROP_caller_changed:false}
+})
 await test('OW10_STOCK_SUMMARY_SCOPE_REFUSED_AND_DATA_HASH_EXCLUDES_ONLY_CLOCK',async()=>{
  await sourceFixture();const a=await stockSummary(),b=await stockSummary(fixture().facts.products,'2026-10-23T00:01:00Z')
  assert.notEqual(a.captured_at,b.captured_at);assert.equal(a.data_hash,b.data_hash)
@@ -467,7 +541,8 @@ const report={classification:'LOCAL_ACTUAL_NATIVE_HISTORY_AND_STAGED_TARGET_KERN
   source_sql_sha256:createHash('sha256').update(await read('scripts/cp7_reorder_inputs/source.sql')).digest('hex'),
   stock_sql_sha256:createHash('sha256').update(await read('scripts/cp7_reorder_inputs/stock.sql')).digest('hex'),
   read_sql_sha256:createHash('sha256').update(await read('scripts/cp7_reorder_inputs/read.sql')).digest('hex'),
-  installer,
+  reader_cache_sql_sha256:createHash('sha256').update(await read('scripts/cp7_reorder_reader_stage/cache.sql')).digest('hex'),
+  installer,reader_installer:readerInstaller,
   ROP_caller_changed:false,full_A_chain_qualified:false,production_go:false}
 await mkdir('docs/cp7/d17-14/ow10',{recursive:true})
 await writeFile('docs/cp7/d17-14/ow10/local-reorder-inputs.json',JSON.stringify(report,null,2)+'\n')

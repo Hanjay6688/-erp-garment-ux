@@ -1,0 +1,29 @@
+{
+  "classification": "LOCAL_ACTUAL_NATIVE_HISTORY_AND_STAGED_TARGET_KERNELS_CONTROLLED_SOURCE_NOT_NATIVE_OR_LIVE_ROP",
+  "status": "FAIL",
+  "passed": 15,
+  "total": 28,
+  "first_failed_case": "OW10_SOURCE_ACTUAL_SQL_LEAD_SETTINGS_AND_NATIVE_CAPTURE_CLOCK",
+  "first_error": "error: operator is not unique: unknown - unknown\n    at pe.Oe (file:///workspace/scratch/05009cca93f2/local-sql-resume-20261023b/node_modules/@electric-sql/pglite/dist/chunk-3OMHRXTA.js:1:18162)\n    at pe.tt (file:///workspace/scratch/05009cca93f2/local-sql-resume-20261023b/node_modules/@electric-sql/pglite/dist/chunk-3OMHRXTA.js:1:15548)\n    at pe.parse (file:///workspace/scratch/05009cca93f2/local-sql-resume-20261023b/node_modules/@electric-sql/pglite/dist/chunk-3OMHRXTA.js:1:14222)\n    at D.Ne (file:///workspace/scratch/05009cca93f2/local-sql-resume-20261023b/node_modules/@electric-sql/pglite/dist/index.js:5:1763)\n    at file:///workspace/scratch/05009cca93f2/local-sql-resume-20261023b/node_modules/@electric-sql/pglite/dist/index.js:5:1155\n    at wasm://wasm/0269dffe:wasm-function[10979]:0x5ad04f\n    at wasm://wasm/0269dffe:wasm-function[3598]:0x281dd2\n    at wasm://wasm/0269dffe:wasm-function[3640]:0x289ccf\n    at wasm://wasm/0269dffe:wasm-function[3650]:0x289f2b\n    at wasm://wasm/0269dffe:wasm-function[9956]:0x55697c",
+  "failed_ids": [
+    "OW10_SOURCE_ACTUAL_SQL_LEAD_SETTINGS_AND_NATIVE_CAPTURE_CLOCK",
+    "OW10_SOURCE_LATEST_MANUAL_AS_OF_CAPTURE_AND_PROVEN_LEAD_GUARD",
+    "OW10_SOURCE_CLOSED_CAP_INCOMPLETE_AND_ENGINE_CURRENTNESS",
+    "OW10_READ_COMPLETE_NATIVE_FULL_INPUTS_AND_POINTS_EQUAL",
+    "OW10_COMPILE_ONE_CLOSED_SNAPSHOT_NO_SECOND_DATABASE_READ",
+    "OW10_READ_OVERFLOW_RETAINS_ALL_OTHER_NATIVE_COMPLETENESS_GUARDS",
+    "OW10_CACHE_FIRST_COMPILE_THEN_REUSE_WITH_FRESH_CAPTURE_ROLE",
+    "OW10_CACHE_TODAY_STOCK_FRESH_WITHOUT_HISTORY_RECOMPILE",
+    "OW10_CACHE_BACKDATE_PROFILE_AND_MANUAL_INVALIDATE_THRESHOLD",
+    "OW10_CACHE_HIT_STILL_REFUSES_RESERVATION_CORRUPTION_AND_INCOMPLETE_SCOPE",
+    "OW10_CACHE_22_GROUPS_AND_USE_MARK_SURVIVES_CACHE_EVICTION",
+    "OW10_READ_202000_SQL_ROWS_FULL_NATIVE_HISTORY_TARGETS_AND_POINTS",
+    "OW10_CACHE_2000_POINTS_WARM_CURRENT_STOCK_WITHOUT_HISTORY_RECOMPILE"
+  ],
+  "cause": "Missing parentheses around JSON extraction in threshold key: boundary.c->'facts'-'stock' parses the literal subtraction first and raises ambiguous operator. Source reads fail before cache use.",
+  "fix": "Parenthesize (boundary.c->'facts') before removing the stock key; no guard or expected value changes.",
+  "oracle_changed": false,
+  "source_sha256": "8ba50eb05a46010817db73a3097515a7ecd31f413cafa31e460b15d937c74f97",
+  "full_report_sha256": "1e4121445fb81e09a2c3ad9f9f6666e04bc0991b79b769e440a8602ff7a26356",
+  "production_go": false
+}

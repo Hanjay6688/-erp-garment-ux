@@ -1,0 +1,9 @@
+{
+  "contract": "cp7.reorder-reader-stage.v1",
+  "sql_sha256": {
+    "cache.sql": "0e4ed8511ee5b2e23e4ad2a344d76eba38bde2fb9c7e5d30aae0897455bf9e52"
+  },
+  "default_install": false,
+  "live_ROP_caller_changed": false,
+  "Native_DML": false
+}

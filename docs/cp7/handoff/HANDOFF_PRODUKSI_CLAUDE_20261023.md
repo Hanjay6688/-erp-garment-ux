@@ -32,8 +32,8 @@ A tidak perlu memasang separuh fitur ini.
 Sumber ROP sekarang juga mempunyai tahap privat `cp7_reorder_inputs`: riwayat
 memakai fungsi Native yang sama, titik memakai target profil persis atau
 aturan default lama atas riwayat Native; override manual tidak ditumpuk.
-22 kelompok lokal/installer22 PASS, termasuk420 produk/12.600 hari dan guard
-dependensi caller sebelum DDL. Tahap v4 enam fungsi/1 schema, tanpa hook/DML/endpoint.
+28 kelompok lokal/dua installer22 PASS, termasuk420 produk/12.600 hari dan guard
+dependensi caller sebelum DDL. Tahap v5 tujuh fungsi/1 schema, tanpa hook/DML/endpoint.
 Sumber server membaca baseline Native, setting, lead terukur/manual dan waktu
 yang sama; engine/context hash berubah bila kode/sumber berubah. Badan sumber
 baseline dan SQL lead/manual aktual diuji, adapter Native di bawahnya terkontrol.
@@ -41,9 +41,13 @@ Ringkasan SQL stok juga membaca202.000 pergerakan/2.000 produk menjadi60.000 har
 utuh, cocok dengan aturan Native; ini bukan Native/SLA. Sumber mentah Native
 tetap mempunyai cap50.000 dan status INCOMPLETE-nya tidak ditimpa. Adapter ke target/titik kini lengkap untuk2.000 produk/60.000 hari; read_points
 atau compile atas satu snapshot tersedia. Perubahan di luar array mentah juga
-mengubah context_hash. Caller/cache ROP tiap menit dan binding WIP masih harus
-dibuat; ini belum Native/Auth/SLA pabrik.
-Ini belum caller/cache ROP atau Native/performa; kompilasi penuh lokal sekitar10detik. Kontrak dan beda angka yang diharapkan:
+mengubah context_hash. Cache privat kini tersedia: stok hari ini tetap dibaca baru, titik dihitung ulang
+hanya bila dependensinya berubah. Caller compute/pengingat dan binding WIP
+masih harus dibuat; ini belum Native/Auth/SLA pabrik.
+Ini belum caller ROP atau Native/performa. Cache2.000 titik lokal sekitar11,2detik
+dingin/5,6detik hangat; bukan klaim SLA3detik Native. Guard cache setelah pakai
+tetap menolak walau cache dieviksikan, melalui use_marks yang immutable.
+[Kontrak cache](../d17-14/ow10/REORDER_READER_CONTRACT.md). Kontrak dan beda angka yang diharapkan:
 [REORDER_INPUTS_CONTRACT](../d17-14/ow10/REORDER_INPUTS_CONTRACT.md).
 
 B/Codex bekerja di `astra/d17-14-produksi`; A/Claude di `claude/d17-14-uang` dan menjadi satu-satunya

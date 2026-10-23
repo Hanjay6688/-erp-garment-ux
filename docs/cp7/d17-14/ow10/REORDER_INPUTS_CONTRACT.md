@@ -59,15 +59,15 @@ caller masih wajib mengambil sumber baru, memeriksa hak sebelum/sesudah dan
 engine/dependensi sebelum memakai cache. JSON privat tidak boleh disalurkan
 mentah ke facade gudang.
 
-API `install_delta/verify/admit_catalog/rollback_preuse` tahap v4 menambah1 schema dan
-6 fungsi invoker (3 immutable,3 stable), tanpa body lama/tabel/kolom/Native DML/RPC/cron.
+API `install_delta/verify/admit_catalog/rollback_preuse` tahap v5 menambah1 schema dan
+7 fungsi invoker (4 immutable,3 stable), tanpa body lama/tabel/kolom/Native DML/RPC/cron.
 Dua belas badan Native yang dipanggil dipin; owner/ACL/body/config baru diperiksa.
 A tetap memegang transaksi/envelope/global after-use guard. Helper stateless
 tidak menyimpan bisnis; invers menolak sebelum DDL bila masih ada pemanggil
 SQL terpasang. Balikkan lapisan caller dahulu sesuai guard/rantai A; tidak
 menghapus evaluasi/riwayat agar invers diizinkan.
 
-Bukti kini **22/22 kelompok lokal PASS**, termasuk pemasang aktual/katalog22
+Bukti kini **28/28 kelompok lokal PASS**, termasuk tahap cache di bawah, termasuk pemasang aktual/katalog22
 apply/admit/inverse/reapply dan penolakan saat caller SQL fixture masih ada.
 Ini kontrol dependensi caller, bukan klaim pemakaian Native telah dikualifikasi.
 Perubahan yang akan tampak sesudah caller dipasang: hari stok habis di tengah
@@ -172,3 +172,21 @@ aktual atas tabel ERP fixture; adapter profil/identitas tetap terkontrol.
 Sebelas penolakan guard disuntikkan lewat adapter sumber sementara, kemudian
 badan Native dipulihkan dan hash diperiksa tepat; ini bukan kualifikasi Native.
 Installer/admission/inverse/reapply22 serta guard dependensi caller tetap lulus.
+
+
+## Pemisahan cache titik dari stok hari ini
+
+`source_within` kini mempunyai dua key: context_hash untuk seluruh input kini,
+dan threshold_hash untuk riwayat hari lengkap/profil/lead/manual/default/engine.
+Pergerakan fisik hari ini tidak mengubah riwayat tertutup. Pada jalur stok besar,
+history_data_hash berisi state ketersediaan lengkap; current_stock tetap dibaca
+baru. Pada jalur kecil, seluruh pergerakan sebelum batas hari tetap dalam key.
+Backdate yang diketahui kemudian, profil/manual/lead/default atau kode berubah
+mengubah key yang bersangkutan. Status sumber, scope/bound produk dan koleksi
+non-stok tetap terikat. Key ini bukan fingerprint sumber operasional WIP.
+
+`current_stock(native,summary,hash)` memakai history_stock Native pada sumber
+kecil; pada ringkasan lengkap, availability Native tetap mengurangi draft sekali
+dan membandingkan stok bebas. Cache hit tidak melewati guard reservasi/identitas.
+Tahap cache privat terpisah kini tersedia; [kontrak pembaca](REORDER_READER_CONTRACT.md).
+Pemanggil compute/ROP lama belum diganti.

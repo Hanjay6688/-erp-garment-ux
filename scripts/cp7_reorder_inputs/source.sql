@@ -33,24 +33,32 @@ begin
  engine as materialized(select encode(extensions.digest(convert_to(string_agg(p.oid::regprocedure::text||':'||pg_get_functiondef(p.oid),
   E'\n'order by p.oid::regprocedure::text),'UTF8'),'sha256'),'hex')hash
   from pg_proc p join pg_namespace n on n.oid=p.pronamespace
-  where n.nspname in('cp7_reorder_inputs','cp7_planning','cp7_profile','cp7_baseline_native','cp7_analysis_stage','cp7_demand','cp7_baseline','cp7_stock_formula')
+  where n.nspname in('cp7_reorder_inputs','cp7_reorder_reader','cp7_planning','cp7_profile','cp7_baseline_native','cp7_analysis_stage','cp7_demand','cp7_baseline','cp7_stock_formula')
    and p.prokind='f'),
  query as materialized(select jsonb_build_object(
   'from_date',((boundary.at at time zone'Asia/Jakarta')::date-(policy.defaults->>'window_days')::integer)::text,
   'through_date',((boundary.at at time zone'Asia/Jakarta')::date-1)::text,'group_mode','AS_SOLD')q from boundary cross join policy),
  complete_stock as materialized(select case when jsonb_array_length(boundary.c->'facts'->'stock')=50001 then
   cp7_reorder_inputs.stock_summary(boundary.c->'facts'->'products',boundary.at,query.q)end summary
-  from boundary cross join query)
+  from boundary cross join query),
+ history_stock_key as materialized(select case when complete_stock.summary is not null then complete_stock.summary->'history_data_hash'
+  else(select coalesce(jsonb_agg(m order by ord),'[]')from jsonb_array_elements(boundary.c->'facts'->'stock')with ordinality movements(m,ord)
+   where(m->>'physical_at')::timestamptz<((boundary.at at time zone'Asia/Jakarta')::date::timestamp at time zone'Asia/Jakarta'))end value
+  from boundary cross join complete_stock)
  select jsonb_build_object('contract_version','cp7.reorder-native-source.v1','status',boundary.c->'status',
   'captured_at',boundary.c->'captured_at','query',query.q,'native',boundary.c,'defaults',policy.defaults,'product_bound',p_products,
   'stock_summary',complete_stock.summary,
   'leads',leads.rows,'manuals',manuals.rows,'engine_hash',engine.hash,
+  'threshold_hash',encode(extensions.digest(convert_to(jsonb_build_object('native_non_stock',(boundary.c->'facts')-'stock',
+    'native_status',boundary.c->'status','product_bound',p_products,'history_stock',history_stock_key.value,
+    'profiles',boundary.c->'profiles','production_policies',boundary.c->'production_policies'->'rows',
+    'query',query.q,'defaults',policy.defaults,'leads',leads.rows,'manuals',manuals.rows,'engine',engine.hash)::text,'UTF8'),'sha256'),'hex'),
   'context_hash',encode(extensions.digest(convert_to(jsonb_build_object('facts',boundary.c->'facts',
     'profiles',boundary.c->'profiles','production_policies',boundary.c->'production_policies'->'rows',
     'query',query.q,'defaults',policy.defaults,'leads',leads.rows,'manuals',manuals.rows,'engine',engine.hash,
     'complete_stock_summary',complete_stock.summary->'data_hash')::text,'UTF8'),'sha256'),'hex'),
   'apply_enabled',false,'production_go',false)
- from boundary cross join policy cross join leads cross join manuals cross join engine cross join query cross join complete_stock);
+ from boundary cross join policy cross join leads cross join manuals cross join engine cross join query cross join complete_stock cross join history_stock_key);
 end $$;
 alter function cp7_reorder_inputs.source_within(integer)owner to cp7_capture;
 revoke all on function cp7_reorder_inputs.source_within(integer)from public,anon,authenticated,service_role;

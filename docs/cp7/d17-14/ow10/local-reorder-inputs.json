@@ -1,9 +1,9 @@
 {
   "classification": "LOCAL_ACTUAL_NATIVE_HISTORY_AND_STAGED_TARGET_KERNELS_CONTROLLED_SOURCE_NOT_NATIVE_OR_LIVE_ROP",
   "status": "PASS",
-  "passed": 22,
-  "total": 22,
-  "sql_sha256": "011719b5a336ab3cf4587ccad4818c722f8ee59c37049b441cd6f37b32281d2b",
+  "passed": 28,
+  "total": 28,
+  "sql_sha256": "a3581317e48309c61ce4c4fb38805bd302f5887ba4c650d4f061971469baef25",
   "points_sql_sha256": "d357aa97b1b85fcefc8a470ff8885eba16578b0982cc02d7e6fd35778d7adaea",
   "results": [
     {
@@ -191,6 +191,56 @@
       }
     },
     {
+      "id": "OW10_CACHE_FIRST_COMPILE_THEN_REUSE_WITH_FRESH_CAPTURE_ROLE",
+      "status": "PASS",
+      "observed": {
+        "actual_private_cache_miss_then_hit": true,
+        "original_threshold_time_and_full_points_retained": true,
+        "fresh_current_stock_each_read": true,
+        "capture_role_only": true,
+        "live_ROP_caller_changed": false
+      }
+    },
+    {
+      "id": "OW10_CACHE_TODAY_STOCK_FRESH_WITHOUT_HISTORY_RECOMPILE",
+      "status": "PASS",
+      "observed": {
+        "today_stock90_to93_without_old_stock_reuse": true,
+        "full_threshold_points_unchanged": true,
+        "same_threshold_hash_different_current_source_hash": true,
+        "threshold_time_retained": true
+      }
+    },
+    {
+      "id": "OW10_CACHE_BACKDATE_PROFILE_AND_MANUAL_INVALIDATE_THRESHOLD",
+      "status": "PASS",
+      "observed": {
+        "later_known_backdate_recompiled": true,
+        "profile_mean4_point20_recompiled": true,
+        "manual25_recompiled": true,
+        "no_stale_threshold_after_operational_or_policy_change": true
+      }
+    },
+    {
+      "id": "OW10_CACHE_HIT_STILL_REFUSES_RESERVATION_CORRUPTION_AND_INCOMPLETE_SCOPE",
+      "status": "PASS",
+      "observed": {
+        "cached_threshold_never_bypasses_fresh_draft_stock_validation": true,
+        "duplicate_current_identity_refused": true,
+        "failed_read_keeps_cache_unchanged": true
+      }
+    },
+    {
+      "id": "OW10_CACHE_22_GROUPS_AND_USE_MARK_SURVIVES_CACHE_EVICTION",
+      "status": "PASS",
+      "observed": {
+        "actual_apply_admit_inverse_reapply22": true,
+        "cache_evicted_but_immutable_use_mark_retained": true,
+        "after_use_requires_backup_restore_before_DDL": true,
+        "Native_or_A_chain": false
+      }
+    },
+    {
       "id": "OW10_STOCK_SUMMARY_FULL_NATIVE_AVAILABILITY_AND_BOTH_CLOCKS",
       "status": "PASS",
       "observed": {
@@ -218,7 +268,7 @@
         "products": 2000,
         "complete_days": 60000,
         "all_free_pcs": "450",
-        "local_SQL_ms": 3002,
+        "local_SQL_ms": 3515,
         "no_source_row_sampled": true,
         "Native_Auth_or_factory_SLA": false
       }
@@ -235,9 +285,22 @@
         "full_points": 2000,
         "free450_exact": true,
         "known_zero_profile_not_unknown": true,
-        "local_full_pipeline_ms": 10426,
+        "local_full_pipeline_ms": 10485,
         "outside_raw_prefix_change_invalidates_context": true,
         "summary_clock_binding_refused": true,
+        "Native_Auth_or_factory_SLA": false,
+        "live_ROP_caller_changed": false
+      }
+    },
+    {
+      "id": "OW10_CACHE_2000_POINTS_WARM_CURRENT_STOCK_WITHOUT_HISTORY_RECOMPILE",
+      "status": "PASS",
+      "observed": {
+        "complete_points_and_current_stock": 2000,
+        "actual_history_cache_hit": true,
+        "cold_local_ms": 11208,
+        "warm_local_ms": 5612,
+        "today_stock_change_still_fresh_without_history_recompute": true,
         "Native_Auth_or_factory_SLA": false,
         "live_ROP_caller_changed": false
       }
@@ -253,9 +316,9 @@
       }
     }
   ],
-  "source_sql_sha256": "51897b528b7b9f2378cb039e60912a0116cf6b129c0eb31d6506cea450bcfd9d",
-  "stock_sql_sha256": "66249ddf22f4e67572c74601994c3e908643ba7dc909426e4d525604a5835a41",
-  "read_sql_sha256": "9ae8b17d309fb93b4d6867391fac75fddaf59d5a2a4aa68ee6a3c5c5bb017acd",
+  "source_sql_sha256": "15520623ef27feb30a63b890012972471e7f45082fd88ab5211809cdaedf4f13",
+  "stock_sql_sha256": "88b23511305abbf8ccb68155b1e614d2f758ef82c1f3dc6938391340531990db",
+  "read_sql_sha256": "0725b07761351018dc248707901ff7f67a4d9bea4cbd710a7356d23fa46fed89",
   "installer": {
     "classification": "LOCAL_REAL_INSTALLER_AND_PG_CATALOG_VIA_CONTROLLED_TRANSPORT_NOT_NATIVE",
     "stage": "cp7_reorder_inputs",
@@ -268,7 +331,20 @@
     "after_use_refusal": "OW10_REORDER_INPUTS_AFTER_USE_REQUIRES_BACKUP_RESTORE",
     "after_use_refused_before_first_DDL": true
   },
+  "reader_installer": {
+    "classification": "LOCAL_REAL_INSTALLER_AND_PG_CATALOG_VIA_CONTROLLED_TRANSPORT_NOT_NATIVE",
+    "stage": "cp7_reorder_reader_stage",
+    "status": "PASS",
+    "catalog_groups": 22,
+    "apply_rollback_reapply_exact": true,
+    "admission_passed": true,
+    "full_A_chain_qualified": false,
+    "production_go": false,
+    "after_use_refusal": "OW10_REORDER_READER_AFTER_USE_REQUIRES_BACKUP_RESTORE",
+    "after_use_refused_before_first_DDL": true
+  },
   "ROP_caller_changed": false,
   "full_A_chain_qualified": false,
-  "production_go": false
+  "production_go": false,
+  "reader_cache_sql_sha256": "0e4ed8511ee5b2e23e4ad2a344d76eba38bde2fb9c7e5d30aae0897455bf9e52"
 }

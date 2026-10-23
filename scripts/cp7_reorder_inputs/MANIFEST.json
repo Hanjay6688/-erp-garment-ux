@@ -1,5 +1,5 @@
 {
-  "contract": "cp7.reorder-inputs-stage.v4",
+  "contract": "cp7.reorder-inputs-stage.v5",
   "existing_body_sha256": {
     "cp7_analysis_stage.bounds()": "aced99fa879da9258a6af894fb0e87789aaeb5a51b5d419fa3bb77cb1bea0bbe",
     "cp7_analysis_stage.history_prep(jsonb,jsonb,integer,bigint,integer)": "2e142be7c1f72e459f045491999aa603746c3220afaf6a1f883b1f31afc914e8",
@@ -15,11 +15,11 @@
     "cp7_planning.history_source_within(integer)": "0ded55083303fe72262abd977c238e8ec2f092791e31dc37dfcd7928c12bef9f"
   },
   "sql_sha256": {
-    "history.sql": "011719b5a336ab3cf4587ccad4818c722f8ee59c37049b441cd6f37b32281d2b",
+    "history.sql": "a3581317e48309c61ce4c4fb38805bd302f5887ba4c650d4f061971469baef25",
     "points.sql": "d357aa97b1b85fcefc8a470ff8885eba16578b0982cc02d7e6fd35778d7adaea",
-    "source.sql": "51897b528b7b9f2378cb039e60912a0116cf6b129c0eb31d6506cea450bcfd9d",
-    "stock.sql": "66249ddf22f4e67572c74601994c3e908643ba7dc909426e4d525604a5835a41",
-    "read.sql": "9ae8b17d309fb93b4d6867391fac75fddaf59d5a2a4aa68ee6a3c5c5bb017acd"
+    "source.sql": "15520623ef27feb30a63b890012972471e7f45082fd88ab5211809cdaedf4f13",
+    "stock.sql": "88b23511305abbf8ccb68155b1e614d2f758ef82c1f3dc6938391340531990db",
+    "read.sql": "0725b07761351018dc248707901ff7f67a4d9bea4cbd710a7356d23fa46fed89"
   },
   "default_install": false,
   "live_ROP_caller_changed": false,

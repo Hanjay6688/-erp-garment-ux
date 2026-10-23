@@ -60,3 +60,47 @@ begin
 end $$;
 alter function cp7_reorder_inputs.history(jsonb,jsonb)owner to cp7_capture;
 revoke all on function cp7_reorder_inputs.history(jsonb,jsonb)from public,anon,authenticated,service_role;
+
+-- Current free FG is refreshed even when the closed-day threshold is cached.
+-- Draft reservation validation is still the actual Native availability kernel.
+create function cp7_reorder_inputs.current_stock(c jsonb,summary jsonb,hash text)returns jsonb
+language plpgsql immutable security invoker set search_path=''set TimeZone='UTC'as $$
+declare f jsonb:=c->'facts';products jsonb;stock_by_root jsonb;drafts_by_root jsonb;p jsonb;r jsonb;
+ refs jsonb;availability jsonb;native_available numeric;current_rows jsonb[]:='{}';
+begin
+ select coalesce(jsonb_agg(x order by x->>'root_id'),'[]')into products from jsonb_array_elements(f->'products')x;
+ if summary is null or summary='null'::jsonb then
+  if c->>'status'is distinct from'COMPLETE'then raise exception 'CP7_REORDER_STOCK_SNAPSHOT_MISMATCH';end if;
+  return cp7_analysis_stage.history_stock(c,products,hash);
+ end if;
+ if c->>'status'is distinct from'INCOMPLETE'or jsonb_array_length(f->'stock')<>50001
+  or summary->>'contract_version'is distinct from'cp7.reorder-stock-summary.v1'
+  or summary->>'captured_at'is distinct from cp7_planning.utc((c->>'captured_at')::timestamptz)
+  or(summary->>'products')::integer is distinct from jsonb_array_length(products)
+  or(summary->>'raw_rows_read')::bigint<50001 or summary->'raw_rows_truncated'is distinct from'false'::jsonb then
+  raise exception 'CP7_REORDER_STOCK_SNAPSHOT_MISMATCH';end if;
+ select coalesce(jsonb_object_agg(x->>'root_id',x),'{}')into stock_by_root from jsonb_array_elements(summary->'current_stock')x;
+ if(select count(*)from jsonb_each(stock_by_root))<>jsonb_array_length(products)then raise exception 'CP7_REORDER_STOCK_SNAPSHOT_MISMATCH';end if;
+ select coalesce(jsonb_object_agg(x.root_id,x.drafts),'{}')into drafts_by_root from(
+  select value->>'root_id'root_id,jsonb_agg(jsonb_build_object('lineage_key',value->>'id','qty_pcs',value->>'qty_pcs',
+   'refs',jsonb_build_array(jsonb_build_object('kind','SALE_ITEM','id',value->>'id','revision',value->>'revision')))order by value->>'id')drafts
+  from jsonb_array_elements(f->'sales')where value->>'status'='DRAFT'and value->>'root_id'is not null group by 1)x;
+ for p in select value from jsonb_array_elements(products)loop
+  r:=stock_by_root->(p->>'root_id');refs:=jsonb_build_array(jsonb_build_object('kind','PRODUCT','id',p->>'id','revision','1'));
+  if r is null or r->>'size_id'is distinct from p->>'size_id'then raise exception 'CP7_REORDER_STOCK_SNAPSHOT_MISMATCH';end if;
+  native_available:=(r->>'free_pcs')::numeric;
+  availability:=cp7_demand.availability(jsonb_build_object('contract_version','cp7.available-input.v1',
+   'snapshot_id',hash,'scope_id','GLOBAL_CURRENT_PHYSICAL_ROOTS','target_key',(p->>'root_id')||':'||(p->>'size_id'),
+   'size_id',p->'size_id','fg_basis','ON_HAND_AFTER_POSTED','fg_pcs',r->'physical_pcs',
+   'open_drafts',coalesce(drafts_by_root->(p->>'root_id'),'[]'),'residual_future_pcs','0','refs',refs));
+  if(availability->>'available_fg_pcs')::numeric<>native_available or native_available<0 then
+   raise exception 'CP7_PLANNING_NATIVE_RESERVATION_MISMATCH';end if;
+  current_rows:=array_append(current_rows,jsonb_build_object('target_key',(p->>'root_id')||':'||(p->>'size_id'),
+   'root_id',p->'root_id','size_id',p->'size_id','sku',p->'sku','product_name',p->'product_name',
+   'is_active',(p->>'is_active')::boolean,'grade_basis','NATIVE_SELLABLE_GRADE_A_AND_B','availability',availability,
+   'projection_basis','CURRENT_STOCK_ONLY_NO_FORECAST','native_available_pcs',native_available::text,'refs',refs));
+ end loop;
+ return to_jsonb(current_rows);
+end $$;
+alter function cp7_reorder_inputs.current_stock(jsonb,jsonb,text)owner to cp7_capture;
+revoke all on function cp7_reorder_inputs.current_stock(jsonb,jsonb,text)from public,anon,authenticated,service_role;

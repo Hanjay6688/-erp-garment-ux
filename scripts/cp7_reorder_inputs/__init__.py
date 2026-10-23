@@ -18,7 +18,8 @@ FUNCTIONS = {'cp7_reorder_inputs.history(jsonb,jsonb)': 'i',
              'cp7_reorder_inputs.source_within(integer)': 's',
              'cp7_reorder_inputs.stock_summary(jsonb,timestamp with time zone,jsonb)': 's',
              'cp7_reorder_inputs.compile(jsonb)': 'i',
-             'cp7_reorder_inputs.read_points(integer)': 's'}
+             'cp7_reorder_inputs.read_points(integer)': 's',
+             'cp7_reorder_inputs.current_stock(jsonb,jsonb,text)': 'i'}
 
 
 def sources():
@@ -77,7 +78,7 @@ def verify(cur, state):
             for grant in row[-1]:
                 if grant[0] != 'cp7_capture' or grant[1] != 'cp7_capture' or grant[3] is not False:
                     raise ValueError('OW10_REORDER_INPUTS_UNDECLARED_GRANT: '+key)
-    return dict(stage='cp7.reorder-inputs-stage.v4', private_functions=6, hook_bodies=0,
+    return dict(stage='cp7.reorder-inputs-stage.v5', private_functions=7, hook_bodies=0,
                 Native_DML=False, live_ROP_caller_changed=False,
                 full_A_chain_qualified=False, production_go=False)
 
