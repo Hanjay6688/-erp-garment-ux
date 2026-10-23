@@ -84,8 +84,19 @@ def given(cur,today,amount='1500.00'):
 
 
 def independent_signature(cur,as_of):
-    """The sealed signature recomputed here: same rows, keys, facts, chunk boundaries and join."""
+    """The sealed signature recomputed here: same rows, keys, facts, chunk boundaries and join.
+
+    book_chunk renders rows with TimeZone 'UTC' (its own setting), so the recompute does too: a fixture that left the session
+    on another zone (Native7 2cd58e47, after the kasbon fixture) would render timestamptz columns differently."""
     b.api.admin(cur)
+    zone=cur.execute('show TimeZone').fetchone()[0]
+    cur.execute("select set_config('TimeZone','UTC',true)")
+    try:return _signature(cur,as_of)
+    finally:
+        if cur.connection.info.transaction_status!=TransactionStatus.INERROR:cur.execute("select set_config('TimeZone',%s,true)",(zone,))
+
+
+def _signature(cur,as_of):
     rows={
      'journal':cur.execute("select 'journal:'||j.id||':'||encode(sha256(convert_to(to_jsonb(j)::text,'UTF8')),'hex')from erp.journal_entries j where j.transaction_date<=%s order by j.id",(as_of,)).fetchall(),
      'line':cur.execute("select 'line:'||l.id||':'||encode(sha256(convert_to(to_jsonb(l)::text,'UTF8')),'hex')from erp.journal_lines l join erp.journal_entries j on j.id=l.journal_entry_id where j.transaction_date<=%s order by l.id",(as_of,)).fetchall(),
@@ -142,8 +153,9 @@ def cases(cur,today):
         # The book is re-signed independently right after the capture (as the runner case does): Native7 8438a4a7 re-signed
         # it only after the official and direct reads below and differed, so whether those reads touch the book is recorded.
         signature,counts=independent_signature(cur,r['dates']['as_of'])
-        assert r['book_signature']==signature,(r['book_signature'],signature)
-        assert {fam:r['capture']['plan'][fam]['rows']for fam in FAMILIES}==counts,(r['capture']['plan'],counts)
+        plan_rows={fam:r['capture']['plan'][fam]['rows']for fam in FAMILIES}
+        assert r['book_signature']==signature,(r['book_signature'],signature,plan_rows,counts)
+        assert plan_rows==counts,(r['capture']['plan'],counts)
         native=official(cur,r['dates'])
         for part in('performance','financial_position','basis','data_confidence'):
             assert r['report']['snapshot'][part]==native['snapshot'][part],part
