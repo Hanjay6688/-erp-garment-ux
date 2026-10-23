@@ -45,9 +45,9 @@ untuk mendaftarkan workflow-nya saat antrean longgar.
 1. Catat hasil tiga run di atas (lulus: berkas bukti; gagal: simpan kegagalan pertama, betulkan).
 2. OW-08b 2.21 koreksi barang jadi di QC: digabung (`5be35e60`), Native9 dikirim di `2927dd25`; browser OW-05b dan OW-06 diulang
    karena `src/transactionSource.ts` berubah (diantrekan).
-3. OW-04b: bagian 3–4 dan A lulus (lihat tabel). Bagian B (retur kedua) besar, 16–24 jam: daftar 11 titik di
-   `ow04/OW04B_SLICE_B_INVENTORY.md`; langkah 1 (fungsi before-events/snapshot per keluarga + pengganti cek zero-excess + local
-   check) sedang dikerjakan pembantu di `claude/d17-14-ow04b`. C–E menyusul; D dan E menunggu 3 keputusan Bos.
+3. OW-04b: bagian 3–4 dan A lulus (lihat tabel). Bagian B (retur kedua/ketiga) langkah 1–4 di cabang (`scripts/cp7_credit_multi/`,
+   workflow `cp7-ow04b-multi-native.yml`, run 39889035001 berjalan). Bagian C: daftar `ow04/OW04B_SLICE_C_INVENTORY.md`, langkah 1
+   (`scripts/cp7_credit_incoming/`) di cabang; langkah 2 menunggu hasil bagian B. D dan E menunggu 3 keputusan Bos.
 4. OW-09: tahap `scripts/cp7_ow09_lists/` (8 pembaca termasuk aksesori, Native8, workflow `cp7-ow09-native.yml`) sudah
    di cabang ini (`15fb2a69`, `00385161`), belum pernah jalan di CI (daftarkan dengan push non-skip, sesudah login ghcr bila
    uji coba OW-12a berhasil). Bagian layar (`d8cd1960`, `2a0a6fb4`) masih di cabang lokal `claude/d17-14-ow09-stage`; digabung
@@ -58,8 +58,9 @@ untuk mendaftarkan workflow-nya saat antrean longgar.
 6. OW-15: rencana `ow15/RENCANA_OW15.md`. Langkah 4 lulus: fgqc Native9 9/9 di `903b1879` mengakui laporan kasbon Native4
    (`ow08/fgqc-native9-903b1879-pass.json`; laporan sha256 `56d3294f…`, artifak 12472787961). Langkah 5 lulus: OW05b Native6 6/6 di `197fb3fc` di atas fgqc
    (`ow05/native6-197fb3fc-chain-pass.json`; laporan sha256 `cf004a56…`, artifak 12473826069). Rantai terbukti: OW04 → OW05 →
-   OW06 → kasbon → fgqc → OW05b. Langkah 6 (OW04b: followups → bagian A → bagian B di atas OW05b) menunggu bagian B selesai.
-   Berikutnya langkah 5 (OW05b di atas fgqc) dst., satu tahap per run.
+   OW06 → kasbon → fgqc → OW05b. Urutan diubah (OW04b ke ujung rantai, `ow15/RENCANA_OW15.md`); OW08a di atas OW05b digabung
+   `45cf3e42`, run 39889089044 berjalan. Berikutnya OW12a di atas OW08a.
+   
 
 ## Antrean uji yang ditahan (registry image menolak unduhan sejak sekitar 20.20 UTC)
 
