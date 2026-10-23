@@ -1,7 +1,7 @@
 """OW-04b slice B stage over cp7_credit_remaining (slice A), which sits over cp7_credit_followups: one linear chain.
 
-Steps 2-3: six installed functions get the counted delta of native_delta.py (B1-B9, B11), replaced as their verified
-existing owner postgres; five private readers are added in one new schema (multi.sql). No table, trigger, grant on an existing object or
+Steps 2-3: seven installed functions get the counted delta of native_delta.py (B1-B9, B11, B12), replaced as their
+verified existing owner postgres; five private readers are added in one new schema (multi.sql). No table, trigger, grant on an existing object or
 business row changes, so removal before use restores the exact slice A / followups definitions, then slice A removes
 itself the same way. Cases, race and workflow are a later step.
 """

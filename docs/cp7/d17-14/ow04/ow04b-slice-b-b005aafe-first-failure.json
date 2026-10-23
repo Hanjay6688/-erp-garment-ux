@@ -1,0 +1,52 @@
+{
+ "run": 39889035001,
+ "attempt": 1,
+ "job": 120204062241,
+ "head": "b005aafe",
+ "label": "CP7_OW04BB_MULTI_RETURN_NATIVE6_RACE1",
+ "status": "INCOMPLETE",
+ "observed_case_count": 6,
+ "observed_race_count": 1,
+ "cases": {
+  "OW04BB_FIRST_RETURN_QUOTES_UNCHANGED": "PASS",
+  "OW04BB_SECOND_RETURN_CREDIT": "INCOMPLETE: CP7_CREDIT_OPENING_HPP_GUARDED_OWNER_REQUIRED",
+  "OW04BB_SECOND_RETURN_REFUND": "INCOMPLETE: CP7_CREDIT_OPENING_HPP_GUARDED_OWNER_REQUIRED",
+  "OW04BB_THIRD_RETURN": "INCOMPLETE: CP7_CREDIT_OPENING_HPP_GUARDED_OWNER_REQUIRED",
+  "OW04BB_SECOND_RETURN_AFTER_CREDIT_USED": "INCOMPLETE: CP7_CREDIT_OPENING_HPP_GUARDED_OWNER_REQUIRED",
+  "OW04BB_PROTECTED_REFUSALS_IDENTICAL": "PASS"
+ },
+ "races": {
+  "OW04BB_RACE_TWO_FIRST_RETURNS_STALE_INVOICE": "PASS"
+ },
+ "first_failure_context": [
+  "CP7_CREDIT_OPENING_HPP_GUARDED_OWNER_REQUIRED",
+  "CONTEXT:  PL/pgSQL function cp7_credit.opening_return_hpp_owner_v1(uuid) line 16 at RAISE",
+  "PL/pgSQL function cp7_credit.defer_opening_return_hpp_v1(uuid,text,text) line 5 at assignment",
+  "PL/pgSQL function sync_opening_hpp_after_return_status() line 5 at IF",
+  "SQL statement \"update erp.sales_returns set status='POSTED' where id=h.id\"",
+  "PL/pgSQL function post_sales_return(uuid) line 112 at SQL statement",
+  "SQL statement \"SELECT erp.post_sales_return(return_id)\"",
+  "PL/pgSQL function cp7_sales.apply_command(text,jsonb,uuid,text) line 61 at PERFORM",
+  "PL/pgSQL function cp7_sales.command(text,jsonb,uuid,text) line 26 at assignment",
+  "PL/pgSQL function cp7_sales.execute_preclaimed_credit_return(uuid,jsonb,text) line 13 at RETURN",
+  "PL/pgSQL function cp7_credit.return_settlement_command(jsonb,uuid,text) line 47 at assignment",
+  "SQL function \"erp_cp7_settle_sales_return_v1\" statement 1"
+ ],
+ "race_observed": {
+  "actual_worker": {
+   "ok": false,
+   "sqlstate": "P0001",
+   "message": "CP7_SALES_REVIEW_CHANGED"
+  },
+  "posted_returns": 1,
+  "cohorts": 1,
+  "worker_request_rows": 0
+ },
+ "cp6_restored": true,
+ "advisor_gate": true,
+ "error": null,
+ "restore_error": null,
+ "final_gate": "writer_runtime: False only because the report status was INCOMPLETE; installed, primary_unchanged, backup_restore_drill and security_advisors True",
+ "cause": "Stage incompleteness, not a product defect. The four cases that settle a second or later return reached Native post_sales_return (quote, sealing and B1-B6 passed) and were refused by the retained opening-HPP return owner cp7_credit.opening_return_hpp_owner_v1 (coordinator/03_opening_return_hpp.sql:32-33). It re-derives the Native guard's effective paid as raw_paid - K; slice B's B6 makes the guard subtract the earlier families' recognized credit as well (raw_paid - prior - K), so the owner correctly refused a value it did not expect. The inventory had missed this single-cohort place. The first-return quotes, the protected refusals side by side and the race (worker refused CP7_SALES_REVIEW_CHANGED, one return, one cohort, no worker request) passed; install, removal before use, CP6 restore and the advisor gate passed.",
+ "fix": "B12: one counted substitution in opening_return_hpp_owner_v1 so the expected value for a reviewed settlement is raw_paid - prior_recognized_v1(source_sale_id) - K, exactly the guard's B6 value (the guard runs before this return's family is registered, so every registered family is earlier). With no earlier credit prior_recognized_v1 is 0 and the check is unchanged; ORDINARY returns are unchanged; a wrong guard value is still refused (local_check_delta.py). No oracle or case expectation was changed."
+}

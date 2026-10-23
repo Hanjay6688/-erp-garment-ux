@@ -44,6 +44,11 @@ calls `cp7_credit_remaining.composition.rollback_preuse`.
 
 Each anchor in the table above was counted in its frozen source file and occurs exactly once (23 Oct 2026).
 
+**Missed place found by the first CI run (b005aafe, run 39889035001):**
+- **B12.** `opening_return_hpp_owner_v1` (`coordinator/03_opening_return_hpp.sql:32-33`) re-derives the guard's effective paid as `raw_paid − K`.
+- It must expect `raw_paid − prior − K`, exactly as B6 now computes.
+- Fixed by one counted substitution; the record is `ow04b-slice-b-b005aafe-first-failure.json`.
+
 To verify during implementation (read, not yet confirmed): `finish_return_settlement` and `assert_initial_return_closed_v1`
 (`06:63,216`) use `current_effective_paid`. That already sums all cohorts through the reader, so no change is expected.
 `readers/02_materialized_profile.proposal.sql` loops cohorts (one INITIAL plan per cohort at `:148`), so no change is

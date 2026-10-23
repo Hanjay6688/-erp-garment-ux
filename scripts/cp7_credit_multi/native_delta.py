@@ -1,4 +1,4 @@
-"""Counted substitutions for OW-04b slice B steps 2-3 (docs/cp7/d17-14/ow04/OW04B_SLICE_B_INVENTORY.md B1-B9, B11).
+"""Counted substitutions for OW-04b slice B steps 2-3 (docs/cp7/d17-14/ow04/OW04B_SLICE_B_INVENTORY.md B1-B9, B11, B12).
 
 Every substitution is an exact anchor found once in the installed (captured) definition. With no earlier family that
 has a cohort, every replaced expression evaluates to exactly the retained value: prior_recognized_v1 is 0 and
@@ -11,7 +11,8 @@ ADMISSION='cp7_credit.assert_source_admission(uuid)'
 COMPLETE='cp7_credit.native_return_complete(uuid,numeric,numeric)'
 REASONS='cp7_credit_followups.initial_family_reasons_v1(uuid,jsonb)'
 PROFILE='cp7_credit._consumer_root_source_profile_v1(uuid,uuid,uuid,jsonb)'
-SIGNATURES=(BUILD,GUARD,ADMISSION,COMPLETE,REASONS,PROFILE)
+OPENING='cp7_credit.opening_return_hpp_owner_v1(uuid)'
+SIGNATURES=(BUILD,GUARD,ADMISSION,COMPLETE,REASONS,PROFILE,OPENING)
 PRIOR="cp7_credit_multi.prior_recognized_v1(h.id)"
 ORDINAL="(select f.family_ordinal from cp7_credit.return_families f where f.id=ch.family_id)"
 RECOGNIZED=("(select coalesce(sum(rp.net_amount),0)from cp7_credit.cohorts c join cp7_credit.return_families f on f.id=c.family_id"
@@ -73,6 +74,15 @@ SUBSTITUTIONS={
                " if n>1 and((p_actual->>'I')::numeric<>"+RECOGNIZED+"\n"
                "  or(ow04_pure_kernel.recognition_plan_v1('[]',events)->>'net_current_k')::numeric<>"+RECOGNIZED+")then\n"
                "  raise exception 'CP7_CREDIT_CURRENT_RECOGNITION_TARGET_UNRECONCILED';end if;\n")),
+    # B12 (first CI run 39889035001, b005aafe): the opening-HPP return owner re-derives the guard's effective paid as
+    # raw_paid - K. B6 made the guard subtract the earlier families' credit too, so the owner must expect the same
+    # value; the guard runs before this return's family is registered, so every registered family is earlier.
+    OPENING:(
+        ('B12',"   or n.guard_effective_paid is distinct from((w.projection->>'raw_paid')::numeric-\n"
+               "    case when w.origin='REVIEWED_SETTLEMENT'then(w.projected_kernel->>'net_current_k')::numeric else 0 end)then\n",
+               "   or n.guard_effective_paid is distinct from((w.projection->>'raw_paid')::numeric-\n"
+               "    case when w.origin='REVIEWED_SETTLEMENT'then cp7_credit_multi.prior_recognized_v1(w.source_sale_id)"
+               "+(w.projected_kernel->>'net_current_k')::numeric else 0 end)then\n"),),
 }
 # The installed predecessor these anchors belong to (fail closed if another composition is underneath).
 PREDECESSOR_MARKERS={
@@ -86,6 +96,8 @@ PREDECESSOR_MARKERS={
     PROFILE:(" -- Every consumer has its actual immutable operation and exact named inverse.\n",
              "if(p_actual->>'I')::numeric<>0 then",
              " select *into strict m from cp7_credit.initial_return_materializations where cohort_id=ch.id and plan_id=p.id;\n"),
+    OPENING:(" if to_regclass('cp7_credit.native_empty_work')is not null then\n",
+             "  select *into strict n from cp7_credit.return_native_scope where backend_pid=pg_backend_pid()and transaction_id=txid_current();\n"),
 }
 REFUSALS=("'CP7_CREDIT_INITIAL_SOURCE_FAMILY_UNSUPPORTED'","'CP7_CREDIT_CORRUPT_BEFORE_AR_OR_RETURN'","'CP7_CREDIT_INITIAL_K_OUTSIDE_RETURN_SCOPE'",
           "'CP7_CREDIT_NATIVE_RETURN_TOTALS_CHANGED'","'CP7_CREDIT_EXPLICIT_RECOGNITION_REVIEW_REQUIRED'","'CP7_CREDIT_INITIAL_CAUSAL_SCOPE_INVALID'",
@@ -93,7 +105,8 @@ REFUSALS=("'CP7_CREDIT_INITIAL_SOURCE_FAMILY_UNSUPPORTED'","'CP7_CREDIT_CORRUPT_
           "'CP7_CREDIT_MULTI_COHORT_RECONCILIATION_UNIMPLEMENTED'","'CP7_CREDIT_CURRENT_RECOGNITION_TARGET_UNRECONCILED'",
           "'CP7_CREDIT_RECOGNIZED_SOURCE_MUTATION_UNIMPLEMENTED'","'CP7_CREDIT_CURRENT_SOURCE_TARGET_CHANGED'",
           "'CP7_CREDIT_CURRENT_JOINT_CAPACITY_NEGATIVE'","'CP7_CREDIT_EMPTY_FAMILY_HAS_FINANCIAL_EFFECT'",
-          "'CP7_CREDIT_CURRENT_ORDINAL_RECONCILIATION_REQUIRED'","'CP7_CREDIT_CURRENT_SOURCE_ROUTE_UNIMPLEMENTED'")
+          "'CP7_CREDIT_CURRENT_ORDINAL_RECONCILIATION_REQUIRED'","'CP7_CREDIT_CURRENT_SOURCE_ROUTE_UNIMPLEMENTED'",
+          "'CP7_CREDIT_OPENING_HPP_GUARDED_OWNER_REQUIRED'","'CP7_CREDIT_OPENING_HPP_NATIVE_EMPTY_GUARDED_OWNER_REQUIRED'")
 # The only declared refusal-text changes: B9 removes the one-cohort refusal and adds the invoice-level check.
 REFUSAL_DELTA={PROFILE:{"'CP7_CREDIT_MULTI_COHORT_RECONCILIATION_UNIMPLEMENTED'":-1,"'CP7_CREDIT_CURRENT_RECOGNITION_TARGET_UNRECONCILED'":1}}
 
