@@ -719,3 +719,28 @@ Ketiganya belum memiliki hasil. Tetap8 tahap/invers22/5 gate paket; tidak
 mengulang31/25/19 atau menambah kredit jangkar lama. Tidak ada bukti baru
 HTTP/browser/race/after-use/A dari Native-only. Pekerjaan A/default/global
 census, after-use restore, OW11a-b dan bridge3600 masih terbuka, parent5/16.
+
+
+## 34 — Native5/WIP2 PASS; SAVE2000 menemukan batas review jadwal lama (24 Okt WIB) [bersama]
+
+e94d2507/run40001211363/job120577462881 PASS5/5, receiptow13c/e94d250-native5-pass.json.
+b543ce0/run40002836272/job120583102547 PASS2/2, receiptow13c/b543ce0-wip2-pass.json.
+Empat negatif produk/policy/bahan/kapasitas dan WIP200→201 nyata telah teruji;
+bahan/kapasitas benar-benar pada Original baru UNCHANGED, WIP checked stale
+dilabeli tepat.28 sumber/8 invers22/restore/advisor/lima gate paket semua tepat.
+App/SQL identik Native31. Jangkar lama berulang tidak menambah kredit. Semua
+Original/log utuh disimpan, ringkasan saja di repo.
+
+fa3375eb/run40002041287/job120580374491 INCOMPLETE1/2; receiptow13c/fa3375e-scale2-first-incomplete.json.
+Belum mencapai SAVE2000: setup review_work memakai capture supply v1 lama,
+CP7_PLANNING_CAPTURE_INCOMPLETE. Jalur lama1000 produk/50000 gerakan dan
+schedule.save v1 membutuhkan cp7_supply_native.runs. Itu tidak dapat menjadi
+persiapan valid pada2000/202000. B mengerjakan jalur review jadwal dari
+Original bertahap nyata sebagai delta additive terpisah, tanpa mengubah9
+sumber beku, limit lama,8s, jumlah data, hash atau hasil dari fixture. Validator
+kerja/kalender/global WIP lama tetap; akses/UUID/revisi/current-source harus
+teruji. Belum ada perubahan produk baru untuk ini; ketiga run terminal.
+
+A tetap pemilik pemasang/default/tipe/registry/globalcensus; B tidak mengambil
+file A. Registry aktual8 gap dan patch usulan sebelumnya tetap. After-use,
+OW11a-b/bridge3600/rantai penuh/audit belum selesai; parent5/16.

@@ -1,67 +1,62 @@
 # Handoff produksi/perencanaan B —24 Oktober2026 WIB
 
-**Checkpoint terbaru sudah PASS31/31.** Kandidat
-`a15054c290802420adaa8a4dd64217380d5ebbcb`, tree
-`63918f4bf582832203784673c855ccab69ac6b70`, pada
-[run39996465132](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39996465132)
-/job120561154474:15 Native/8 race/4 Auth/4 browser. Seluruh31 ID/deklarasi,
-28 sumber,8 invers22,10 authority, restore/advisor dan lima gate paket
-tepat.160 uji aplikasi/12 berkas, TypeScript dan scanner SQL juga lulus.
-[Receipt terbaru](../d17-14/ow13c/a15054c-native31-pass.json).
-
-Pesan penolakan sumber berubah dan pemulihan HP lulus. Tiga contoh stok
-hari ini08:00WIB yang masih masa depan saat00:23WIB kini00:00 pada hari yang
-sama; tanggal/jumlah/oracle dan penjaga Native tetap. Kode aplikasi5b6ca459,
-fix fixture1ba69eaa. Volume sintetis2000 produk/202000 gerakan4728/1799/
-1743ms lulus batas8s/dua hangat3s. Ini bukan SAVE2000 atau SLA seluruh pabrik.
-Original/log lengkap dan semua kegagalan lama28/31,30/31,clock28/31 disimpan.
-
-**Sisa masih terbuka; parent5/16.** FullOW13c, A/default installation,
-registry/types, after-use restore, SAVE data besar, OW11a-b, bridge3600,
-callback/jadwal dan paket auditor belum selesai. CP7C/production_go belum
-diberikan. Jangan mengulang19/25/31 yang sudah lulus tanpa perubahan/risiko
-baru. Handoff ini untuk A/Claude atau penerusnya; B tetap scope produksi dan
-perencanaan, A tetap integrator, uang/stok/HPP/laporan dan pemilik sharedfiles.
-
-**Lanjutan sesudah checkpoint:** suite terpisah Native5 sedang berjalan pada
-kandidat `e94d25075b4770b4c55f48a68eb7cc1252bb2584`, tree
-`890d052fcf95ecd7b0052aa9aeca050bd29fa825`,
+**Checkpoint baru: Native5 dan WIP Native2 lulus seluruhnya.**
+[Native5 e94d2507](../d17-14/ow13c/e94d250-native5-pass.json),
 [run40001211363](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/40001211363)
-/job120577462881. Hasilnya **belum tersedia**. Kontrak
-`ow13c/NEGATIVE_NATIVE_CONTRACT.json`, SHA
-`49d3694d5b32f8464c86f397d9426e39ed8548af39f4546eadc19b8ca0451e16`:
-1 fresh SAVE/replay diulang sebagai jangkar (0 kredit baru),4 negatif baru
-produk/policy/bahan/kapasitas. Produk adalah fixture master admin yang diberi
-label; policy memakai CAS publik. Bahan/kapasitas memakai grup Native target
-lain lalu analisis baru, wajib UNCHANGED dan kode kelayakan tepat, bukan sekadar
-penolakan sumber kedaluwarsa. Semua penolakan harus menjaga draf/intent/receipt/
-grup dan baris ERP/uang/stok/HPP.31/25/19 lama tidak diulang atau dilabel ulang;
-kode aplikasi dan SQL tetap identik kandidat Native31. Tidak ada kredit baru
-HTTP/browser/race/skala/after-use/rantai A dari suite terfokus ini.
+/job120577462881:1 jangkar fresh SAVE/replay lama+4 negatif produk/policy/
+bahan/kapasitas. Bahan/kapasitas menggunakan grup Native target lain, lalu
+Original baru UNCHANGED, dan exact40001 kelayakan. Produk fixture master admin
+dilabeli; policy CAS publik. Semua penolakan menjaga baris ERP/stok/uang/HPP
+serta draf/intent/receipt/grup. Kontrak SHA49d3694d5b32f8464c86f397d9426e39ed8548af39f4546eadc19b8ca0451e16.
+Original artifact12521739632/179180bytes/SHAb42ba42ce073ee44cda15050f9f9104939595a6ab406f090cd8c6c1054a3adc3.
 
-**Dua bukti sisa lainnya juga sedang berjalan, belum dinyatakan lulus.**
-SAVE2000: kandidat `fa3375ebd12c52fa45563631d97c41608b960183`, tree
-`ea031f895ba60466ccf6a19ed2fcf9ba26aa2062`,
-[run40002041287](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/40002041287)
-/job120580374491. Kontrak SCALE_NATIVE_CONTRACT SHA
-`ebe68a4108297b68479ff62d0898ec5979aed9e8c314f5b3b94bcad31ef8183a`:
-2 Native=jangkar lama+1 pengukuran SAVE aktual2000 produk/202000 gerakan
-sintetis,3 UUID baru masing-masing<8000ms/statement8s, termasuk kedua cek
-sumber penuh dan kelayakan; replay tepat,3 draf/receipt tanpa intent/grup/fakta
-fisik baru. Ini bukan volume caller lama atau SLA factory3600/layar.
-
-WIP: kandidat `b543ce0bcb964a4037fc6fb0e6e3a0a8fdc6c4a3`, tree
-`3bfeaf2e9ea56ac1f879e25ee9605952a40c22f3`,
+[WIP Native2 b543ce0](../d17-14/ow13c/b543ce0-wip2-pass.json),
 [run40002836272](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/40002836272)
-/job120583102547. Kontrak WIP_NATIVE_CONTRACT SHA
-`0c8e08e97bb36547f279d4f74790f18af0b9405cbe88dcd00f09b926c392d5fa`:
-2 Native=jangkar lama+1 batas200→201 grup posted model yang sama, semua
-penerimaan dan potong lewat penulis Native nyata, tanpa kloning grup.
-Preview lama di200 harus COMPLETE, di201 UNKNOWN/null untuk WIP dan need,
-kode WIP_UNKNOWN; checked SAVE menolak SOURCE_CHANGED40001 tanpa efek.
-Ini bukti sumber berubah, bukan klaim WIP unknown dengan sumber UNCHANGED.
-Batas model200 tidak dinaikkan. Seluruh suite terpisah mempertahankan8 tahap/
-invers22, oracle lama dan5 gate paket; aplikasi/SQL tetap identik Native31.
+/job120583102547:1 jangkar lama+1 batas200→201 grup posted model yang sama.
+Semua grup/penerimaan baru dari penulis Native nyata, tanpa clone. Preview200
+COMPLETE lalu201 UNKNOWN/null untuk WIP dan need, codeWIP_UNKNOWN; checked
+SOURCE_CHANGED40001 tanpa efek. Ini sumber berubah, bukan unchanged-source
+WIP. Limit200 tetap. Kontrak SHA0c8e08e97bb36547f279d4f74790f18af0b9405cbe88dcd00f09b926c392d5fa.
+Original artifact12523745881/111550bytes/SHAf832285f6a82376d661d92562cf24400961b7837ee0528e832b0a0ea80da58c8.
+Kedua suite28 sumber/8 invers22/restore/advisor/5 gate paket tepat;0 kredit
+baru jangkar berulang,0 bukti tambahan race/Auth/browser/after-use/rantai A.
+
+**SAVE2000 belum lulus; penyebab pertama sudah pasti.**
+[fa3375eb](../d17-14/ow13c/fa3375e-scale2-first-incomplete.json),
+[run40002041287](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/40002041287)
+/job120580374491 INCOMPLETE1/2. Pada fixture2000 produk/202000 gerakan,
+persiapan review_work memanggil capture supply lama lalu ditolak
+CP7_PLANNING_CAPTURE_INCOMPLETE sebelum SAVE. Capture lama1000 produk/50000
+gerakan; review jadwal masih membutuhkan handle capture lama itu. Jangan
+mengurangi data/mengubah hash/melonggarkan limit. Belum ada waktu SAVE2000.
+Original artifact12523296632/112315bytes/SHA c62852005327060ef26cd7b9cf07f7bdf9b4ff93186ff0d1f32a3854c66fac96.
+
+**Langkah aktif B berikutnya:** buat review jadwal yang menerima sumber
+analisis bertahap nyata, memeriksa sumber/akses/revisi sesudah wait dan menjaga
+UUID/history, kemudian jalankan kembali kandidat baru SAVE2000. Tetap memakai
+validator kerja/kalender/WIP dan mesin yang sama, tidak menulis hash atau hasil
+palsu dari fixture. Delta B baru harus additive/terpisah dari9 cp7-src beku;
+A tetap pemilik pemasang/default/tipe/registry/global census. Belum ada kode
+produk baru untuk jalur ini atau job yang masih berjalan. Tiga suite terminal
+sudah disimpan; jangan mengulang kandidat lama hanya demi hijau.
+
+**Native31 sebelumnya tetap PASS31/31**, kandidat
+`a15054c290802420adaa8a4dd64217380d5ebbcb`, tree63918f4b,
+[run39996465132](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39996465132)
+/job120561154474:15 Native/8 race/4 Auth/4 browser, seluruh12 checked-save
+baru.31 ID,28 sumber,8 invers22,10 authority/restore/advisor/5 gate paket
+tepat;160 uji aplikasi/12 berkas, TS/scanner SQL lulus.
+[Receipt](../d17-14/ow13c/a15054c-native31-pass.json). Volume caller2000/
+2020004728/1799/1743ms, batas statement8s/dua hangat3s tetap. Ini bukan
+SAVE2000/factory3600/layar. Kode aplikasi5b6ca459/fix fixture1ba69eaa tetap
+identik pada ketiga suite lanjutan. Semua kegagalan lama dan Original/log utuh
+tersimpan; screenshot hanya artifact GitHub.
+
+**Parent tetap5/16.** FullOW13c, A/default/registry/types, after-use restore,
+SAVE data besar, OW11a-b, bridge3600, callback/jadwal dan paket auditor belum
+selesai. CP7C/production_go/audit independen tidak diberikan. Handoff ini untuk
+A/Claude/penerusnya; B tetap produksi/perencanaan, A tetap integrator dan
+pemilik uang/stok/HPP/laporan/sharedfiles. Tidak ada writer/agent ketiga.
 
 ## Tujuan dan sumber konteks
 
@@ -88,7 +83,7 @@ Sumber yang wajib dibaca saat mengambil alih:
   [selesai untuk diuji](../d17-14/SELESAI_UNTUK_DIUJI.md),
   [koordinasi](../d17-14/KOORDINASI.md): konteks keputusan/status lengkap,
   permintaan pemilik berkas dan bukti per butir. Entri awal koordinasi adalah
-  riwayat, bukan status terbaru; bagian31 mencatat checkpoint lulus; bagian32–33 mencatat lanjutan yang masih diuji.
+  riwayat, bukan status terbaru; bagian34 mencatat hasil lanjutan terbaru dan pekerjaan aktif B berikutnya.
 - [Praktik ERP](../../ERP_BEST_PRACTICES.md): append-only, idempotensi, current
   access sesudah wait/response, latest corrected wins, dua sumbu tanggal,
   transaksi/envelope lintas modul atomik, draf tidak authoritative, UNKNOWN≠0.
@@ -129,7 +124,7 @@ ditulisi sesi B ini. Semua kiriman WA pengujian memakai layanan palsu.
 | OW10 caller pengingat | Native31 a15054c2 PASS15/8/4/4 termasuk seluruh19/25 lama; V7 volume4728/1799/1743ms. Manual25 hanya pemicu, target/jumlah tetap; stok bebas dibaca baru. | Jadwal stok tiap menit, default A, after-use backuprestore dan rantai gabungan belum lengkap. |
 | OW12b sambungan ke angka A | `cp7_analysis_finance_bridge`;10 kelompok SQL/installer22 lokal, klien/DOM. Operasional tampil dulu; uang resmi, belum READY bukan0; header mengikat capture. A punya komponen OW12a Native7 terpisah. | Native B→A, angka sama, waktu sebelum/sesudah±3600 barang. Native7 A bukan bukti sambungan B. |
 | OW13a analisis awal | `cp7_initial_analysis_stage`; Native126 PASS: minimum konfigurasi, belum siap/siap sekali/tidak diulang, UUID/revokasi/hilang-jawaban/HP. Tidak menunggu WA dikonfigurasi. | Callback Master/jadwal K4/analisis rutin dipasang A; tick alat uji bukan bukti cron terpasang. |
-| OW13c saran potong | Native31 a15054c2 PASS; seluruh12 checked-save baru, sumber stok berubah menolak, UUID/revisi/akses/stok sesudah wait, Auth dan desktop/HP/lost-reply ordinary reopen; mesin staged/rencana sama, jumlah dapat diedit. | Tambahan kelayakan negatif jalur checked selain stok, SAVE2000/8s, after-use backuprestore dan integrasi A belum terbukti. |
+| OW13c saran potong | Native31 a15054c2 PASS; seluruh12 checked-save baru, sumber stok berubah menolak, UUID/revisi/akses/stok sesudah wait, Auth dan desktop/HP/lost-reply ordinary reopen; mesin staged/rencana sama, jumlah dapat diedit. | Negatif tambahan sudah PASS sesuai Native5/WIP2; SAVE2000/8s tertahan review jadwal lama, after-use backuprestore dan integrasi A belum terbukti. |
 | OW11a model | Cara dasar dan profil statistik ada; riwayat pendek dapat tetap UNKNOWN/fallback dengan alasan. | Pemilihan metode, backtest/pembanding dan aktivasi yang terbukti lebih baik belum selesai. Jangan menyamakan keberadaan profil dengan fitur ini lengkap. |
 | OW11b produk baru | Kebutuhan/kontrak owner tercatat. | Saran kandidat pembanding, alasan kemiripan, konfirmasi/pilihan pengguna, label analog dan keadaan data kurang belum selesai. |
 
