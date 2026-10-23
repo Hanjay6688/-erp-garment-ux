@@ -1,0 +1,47 @@
+{
+ "run": 39890202035,
+ "attempt": 1,
+ "job": 120207851755,
+ "head": "33760a52",
+ "qualification_commit": "33760a5205cde88c00c180e02c60f635fea9fe58",
+ "label": "CP7_OW04BB_MULTI_RETURN_NATIVE6_RACE1",
+ "status": "PASS",
+ "expected_case_count": 6,
+ "observed_case_count": 6,
+ "observed_race_count": 1,
+ "cases": {
+  "OW04BB_FIRST_RETURN_QUOTES_UNCHANGED": "PASS",
+  "OW04BB_SECOND_RETURN_CREDIT": "PASS",
+  "OW04BB_SECOND_RETURN_REFUND": "PASS",
+  "OW04BB_THIRD_RETURN": "PASS",
+  "OW04BB_SECOND_RETURN_AFTER_CREDIT_USED": "PASS",
+  "OW04BB_PROTECTED_REFUSALS_IDENTICAL": "PASS"
+ },
+ "races": {
+  "OW04BB_RACE_TWO_FIRST_RETURNS_STALE_INVOICE": "PASS"
+ },
+ "cp6_restored": true,
+ "advisor_gate": true,
+ "restore_raw_public_equal": true,
+ "package_gate": {"installed": true, "primary_unchanged": true, "backup_restore_drill": true, "security_advisors": true, "writer_runtime": true},
+ "every_case": {"full_boundary_restored": true, "public_schema_unchanged": true, "session_leaks": 0, "business_day": "2026-10-23 unchanged"},
+ "report": {"name": "CP7_OW04BB_MULTI_RETURN_NATIVE6_RACE1.json", "raw_bytes": 1821693, "raw_sha256": "73bfc5c085157f46f0640b05fadd32c204831089ffa6ca0c10d0ec15b2894047"},
+ "artifact": "cp7-ow04b-multi-return-native6-race1 (12474881472)",
+ "slice_a_original": {
+  "admission_step": "python scripts/ow04ba_native_original.py",
+  "log_line": "ACTUAL_OW04BA_NATIVE6_RACE2_ORIGINAL_BYTES_AND_FULL_DECLARED_SOURCE_VERIFIED_NO_PRODUCT_EXECUTION"
+ },
+ "qualified_slice_a": {"name": "CP7_OW04BA_REMAINING_PAYMENT_NATIVE6_RACE2.json", "bytes": 1819241, "sha256": "230d8df2e4967dcb4b79962c016687bc150c0cd86df6c8a66697e263a9445dcf", "artifact": "cp7-ow04b-remaining-payment-native6-race2 (12472492099)", "qualification_commit": "3311518880e31eae05e22489782d3b9e5c65d403"},
+ "case_results": {
+  "OW04BB_FIRST_RETURN_QUOTES_UNCHANGED": {"CREDIT": {"credit": "200.00", "quote_sha256": "7d4985fbfb8647f84e63ab684c477ad2703ba841e95f5b40c6c1dc5ed6c5cd94"}, "REFUND": {"credit": "200.00", "quote_sha256": "f7801ded81fbdc48612b4908bdd51fd41093a5f834149aa275c4b105ae94b5bc"}},
+  "OW04BB_SECOND_RETURN_CREDIT": {"predecessor_refusal": "CP7_CREDIT_INITIAL_SOURCE_FAMILY_UNSUPPORTED", "family_ordinal": 2, "credit_2": "100.00", "source": {"gross": "1000.00", "net": "700.00", "P": "1000.00", "U": "0.00", "I": "300.00", "E": "700.00", "AR": "0.00", "available_credit": "300.00", "net_consumption": "0.00"}, "first_family_components_unchanged": true},
+  "OW04BB_SECOND_RETURN_REFUND": {"cash_before": "1000.00", "cash_after": "900.00"},
+  "OW04BB_THIRD_RETURN": {"families": 3, "source": {"gross": "1000.00", "net": "600.00", "P": "1000.00", "U": "0.00", "I": "400.00", "E": "600.00", "AR": "0.00", "available_credit": "400.00", "net_consumption": "0.00"}},
+  "OW04BB_SECOND_RETURN_AFTER_CREDIT_USED": {"source": {"gross": "1000.00", "net": "700.00", "P": "1000.00", "U": "0.00", "I": "300.00", "E": "700.00", "AR": "0.00", "available_credit": "220.00", "net_consumption": "80.00"}, "first_family_unchanged": true},
+  "OW04BB_PROTECTED_REFUSALS_IDENTICAL": {"return_on_credit_paid_invoice": "CP7_CREDIT_INITIAL_SOURCE_FAMILY_UNSUPPORTED (CREDIT_APPLIED_TO_INVOICE)", "edit_retur_on_credit_source": "CP7_CREDIT_REGISTERED_SOURCE_MUTATION_REQUIRES_BOUND_RECONCILIATION (RETURN_REVERSE, PRIOR_CREDIT_RETURN)", "benerin_nota_on_credit_paid_target": "CP7_CREDIT_REGISTERED_SOURCE_MUTATION_REQUIRES_BOUND_RECONCILIATION (SALE_REVERSE, CREDIT_APPLIED_TO_INVOICE)", "ordinary_return_without_choice": {"now": "Retur ini membuat pembayaran customer melebihi nilai penjualan tersisa. Nilai setelah retur 700.00, sudah dibayar 1000.00. Reverse/koreksi pembayaran customer dulu agar kelebihan bayar tidak hilang dari pembukuan.", "predecessor": "CP7_CREDIT_INITIAL_SOURCE_FAMILY_UNSUPPORTED (PRIOR_CREDIT_RETURN)", "still_refused_no_effect": true}},
+  "OW04BB_RACE_TWO_FIRST_RETURNS_STALE_INVOICE": {"two_actual_SQL_sessions": true, "actual_holder_blocks_worker": true, "holder_committed": true, "holder_outcome": "COMMITTED_OUTCOME RETURN_SETTLEMENT, return POSTED, family_ordinal 1", "worker": "refused CP7_SALES_REVIEW_CHANGED", "posted_returns": 1, "cohorts": 1, "worker_request_rows": 0, "final_state_sha256": "b3ad06021d8f3ea55cf1d3447a077f23f3d69bccbf1a7dcd86c0f4e131c8a2ea", "copy_runtime_status": "OW04BB_EXACT_STAGE_OBJECTS_VERIFIED", "lower_objects": "OW04BA_EXACT_STAGE_OBJECTS_VERIFIED"}
+ },
+ "OW04b_complete": false,
+ "production_go": false,
+ "independent_acceptance": false
+}

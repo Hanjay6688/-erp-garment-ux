@@ -30,6 +30,7 @@ untuk mendaftarkan workflow-nya saat antrean longgar.
 | OW-05b layar ulang | Browser2 2/2 `8438a4a7` (run 39884456248; `ow05/browser2-8438a4a7-pass.json`) |
 | OW-09 tahap daftar (8 pembaca) | Native8 8/8 `559ac537` (run 39885622953; `ow09/native8-559ac537-pass.json`); layar ditahan sampai rantai OW-15 (`ow09/screens/`) |
 | OW-04b bagian 3–4 | Native9+Race3 12/12 `e9b88564` (run 39885599854; `ow04/ow04b-native9-race3-e9b88564-pass.json`) |
+| OW-04b bagian B retur kedua/ketiga | Native6+Race1 7/7 `33760a52` (run 39890202035; `ow04/ow04b-slice-b-native6-race1-33760a52-pass.json`) |
 | OW-04b bagian A bayar sisa sesudah kredit | Native6+Race2 8/8 `33115188` (run 39885477424; `ow04/ow04b-slice-a-native6-race2-33115188-pass.json`) |
 | OW-12a modul angka keuangan | Native7 7/7 `efa800cd` (run 39886155240; `ow12/native7-efa800cd-pass.json`) |
 | OW-08b 2.20 cuci gagal tanpa tarif | Native11 11/11 `efa800cd` (run 39886298512; `ow08/wash-native11-efa800cd-pass.json`) |
@@ -45,9 +46,8 @@ untuk mendaftarkan workflow-nya saat antrean longgar.
 1. Catat hasil tiga run di atas (lulus: berkas bukti; gagal: simpan kegagalan pertama, betulkan).
 2. OW-08b 2.21 koreksi barang jadi di QC: digabung (`5be35e60`), Native9 dikirim di `2927dd25`; browser OW-05b dan OW-06 diulang
    karena `src/transactionSource.ts` berubah (diantrekan).
-3. OW-04b: bagian 3–4 dan A lulus (lihat tabel). Bagian B (retur kedua/ketiga) langkah 1–4 di cabang (`scripts/cp7_credit_multi/`,
-   workflow `cp7-ow04b-multi-native.yml`, run 39889035001 berjalan). Bagian C: daftar `ow04/OW04B_SLICE_C_INVENTORY.md`, langkah 1
-   (`scripts/cp7_credit_incoming/`) di cabang; langkah 2 menunggu hasil bagian B. D dan E menunggu 3 keputusan Bos.
+3. OW-04b: bagian 3–4 dan A lulus (lihat tabel). Bagian B lulus (lihat tabel). Bagian C: daftar `ow04/OW04B_SLICE_C_INVENTORY.md`, langkah 1
+   (`scripts/cp7_credit_incoming/`) di cabang; langkah 2 sedang dikerjakan. D dan E menunggu 3 keputusan Bos.
 4. OW-09: tahap `scripts/cp7_ow09_lists/` (8 pembaca termasuk aksesori, Native8, workflow `cp7-ow09-native.yml`) sudah
    di cabang ini (`15fb2a69`, `00385161`), belum pernah jalan di CI (daftarkan dengan push non-skip, sesudah login ghcr bila
    uji coba OW-12a berhasil). Bagian layar (`d8cd1960`, `2a0a6fb4`) masih di cabang lokal `claude/d17-14-ow09-stage`; digabung
