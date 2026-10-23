@@ -127,7 +127,9 @@ def publish_finance(cur,r,subject=None):
 def compare(cur,before,after,subject=None):
     auth.actor(cur,subject)
     try:return cur.execute('select public.erp_cp7_compare_reports_v2(%s,%s)',(before,after)).fetchone()[0]
-    finally:b.api.admin(cur)
+    finally:
+        # A refused pair aborts the transaction; the refusal helper rolls back and restores the role itself (Native7 f45577cd).
+        if cur.connection.info.transaction_status!=TransactionStatus.INERROR:b.api.admin(cur)
 
 
 def cases(cur,today):
@@ -144,7 +146,12 @@ def cases(cur,today):
         b.api.admin(cur)
         direct=call(cur,'select cp7_analysis_native.financial_source(%s::jsonb,%s::timestamptz)',(json.dumps(q),r['report']['captured_at']))
         mine,ready=metrics(cur,r);theirs,ready2=metrics(cur,direct)
-        assert mine==theirs and ready==ready2,(sorted(set(mine)^set(theirs)),ready,ready2)
+        # Each fact names its own source in refs: the capture's sealed hash differs by design from the one-statement
+        # scan hash (Native7 f45577cd), so figures are compared without refs and each side must cite its own source.
+        bare=lambda m:{k:{f:v[f]for f in v if f!='refs'}for k,v in m.items()}
+        assert bare(mine)==bare(theirs)and ready==ready2,({k:(bare(mine)[k],bare(theirs)[k])for k in mine if bare(mine).get(k)!=bare(theirs).get(k)},ready,ready2)
+        assert all(v['refs']==mine[next(iter(mine))]['refs']and r['source_hash']in json.dumps(v['refs'])for v in mine.values())
+        assert all(direct['source_hash']in json.dumps(v['refs'])for v in theirs.values())
         signature,counts=independent_signature(cur,r['dates']['as_of'])
         assert r['book_signature']==signature,(r['book_signature'],signature)
         assert {fam:r['capture']['plan'][fam]['rows']for fam in FAMILIES}==counts,(r['capture']['plan'],counts)
