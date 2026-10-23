@@ -772,3 +772,29 @@ save_staged_production_schedule_v1(p_payload,p_request) belum dipasang default.
 Klien B akan memakai facade sempit sementara, A memasang generator/registry
 setelah bukti cukup.8 gap registry lama tetap; belum ada sourcecallTS baru.
 Parent5/16, fullOW13c/after-use/OW11/bridge3600/A/audit/CP7C tetap OPEN.
+
+
+## 36 — Native8 PASS, pelajaranUTC, Native11 lifecycle berjalan (24 Okt WIB) [bersama]
+
+d85187dc/run40010384850/job120608936647 PASS8/8;32source/9invers22/
+restore/advisor/5gatepaket tepat. Receiptow13c/d85187d-schedule8-pass.json.
+6370d29pertama1/8 danOriginal/logutuh tetap. Fixb508bf77 menstandarkanUTC
+sejakawalseluruhhashmetadata sebelum boundary.data() danrestoreGUC, equality
+semuabaristetap. Append-onlypelajaranWR-METADATA-COMPARE-UTC/E25z diERP_BEST,
+bukan auditindependen. Metadata2000/202000 bukancheckedSAVE2000.
+
+B lanjutNative11:source5656deeb,candidate1eb55680bef0c76fde944fa45fcf7f282b19065f/
+treedb2790c4,run40013059616/job120618058316 masihberjalan. KontrakCONTEXTS
+SHA2b071f05a9abd4e2fb73a5c99b1c355ea54f1b26ddaef6780775adfde6a0453d.
+8IDlama utuh+3DONE/expired/FAILED. ImmutableFAILEDreference bolehmetadata
+kerjahanyajikacurrent/WIPvalid/hakkini; tetapFAILED/historyINCOMPLETE,
+planoptions42501. RUNNING/DONE/FAILEDmemakaikeptguardK2yangsama; expiry7hari
+bukanpolicydikarang, age()negativefixtureK2updated_atsynthetic. Ini mencegah
+racejobrunner menghentikan analisis di tengah formulir tanpa memalsukanDONE.
+PerubahankodeacceptanceFAILED belumqualifiedolehNative8versilama; tunggu11.
+
+Semua9sumberNative danSRC tetap. BbelummengubahUI; Adefault/tipe/registry/
+globalcensus danrantaiA tetapA. DensehistoryactualSAVE2000,Auth/race/browser,
+after-use/OW11/bridge3600/audit/CP7C tetapOPEN;parent5/16.2facadebarureserved
+sama:get_staged_production_schedule_v1(p_source_request) dan
+save_staged_production_schedule_v1(p_payload,p_request), belumdefault.
