@@ -389,3 +389,30 @@ Caller compute/pengingat lama **belum diganti**; B sedang menyambungkannya denga
 suplai good/ETA dari alokasi global, facade dan label proyeksi. Kandidat Native133
 tidak memasang input/cache ini. A tidak perlu memasang bagian separuh; pemasang/
 transaksi/envelope/rantai A tetap milik A. Parent5/16; tidak ada CP7C/production_go.
+
+## 16 — caller ROP/server/klien tersimpan; kualifikasi Native berikutnya (23 Okt WIB)
+
+B0b1b91f0 sudah mendorong caller ROP yang memakai input/cache/target Native dan
+suplai good/ETA global yang sama. Tahap cp7_reorder_caller_stage v1:8 hook,
+2 fungsi/2 tabel privat,0 endpoint publik baru,0 DML ERP. UI/pengingat v2
+membedakan stok bebas, good tepat waktu, kandidat bersyarat, waktu stok/aturan/
+analisis, angka manual versi lama. V1 tetap diterima dengan kontrak tertutup.
+
+Lokal35 inputs/cache/evaluate,9 alur caller/RPC SQL aktual,9 reader suplai,
+65 klien/DOM lulus. Empat API installer22/invers/reapply/guard setelah pakai,
+revokasi terkontrol termasuk replay, busy stok terbaru, manual25/target5/jumlah1,
+successor dan konflik ukuran dibuktikan. Kegagalan pertama tetap disimpan.
+TypeScript/clash/owning source PASS; registry masih7 gap lama milik A.
+
+Kontrak lengkap ow10/REORDER_CALLER_CONTRACT.md dan handoff Claude diperbarui.
+A memegang komposisi inputs → cache → caller, transaksi/envelope/global use
+marker dan backup/restore. Caller juga menambal item_line di atas body produksi
+B yang menjaga format kewajiban uang; bila A mengubah hook itu, komposisi harus
+menjaga kedua perubahan dan pin menolak body yang belum direkonsiliasi. B tidak
+mengubah bundle, migrasi, registry, generator tipe, modul uang atau report A.
+
+B melanjutkan uji Native caller; hasil Native133 sebelumnya tidak mencakup
+input/cache/caller ini. Auth/dua pengguna/layar Native/pasang-pulih rantai A,
+SLA2000 hangat3detik dan factory3600 tetap belum PASS. Kontrol SS1 yang memang
+berubah akan dipetakan terbuka, bukan oracle dilonggarkan. Semua scope tetap;
+parent5/16, tidak ada CP7C/production_go. Main/audit beku/Enteng/WA asli tetap.
