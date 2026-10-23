@@ -1,0 +1,10 @@
+{
+  "classification": "LOCAL_HARNESS_SETUP_FAILURE_BEFORE_ANY_CASE",
+  "status": "INCOMPLETE",
+  "observed_case_count": 0,
+  "exit_code": 1,
+  "diagnostic": "The harness loaded Native serve_history/capture_history together with the pure history functions; their run-table composite types were not installed in this controlled SQL harness.",
+  "raw_tool_output_truncated": true,
+  "SQL_or_expected_product_changed": false,
+  "correction": "Load only actual history_availability and history_build; keep their full bodies unchanged."
+}

@@ -1,3 +1,4 @@
+import {parseAnalysisFinance,type AnalysisFinance} from './nativeAnalysisFinanceSidecar'
 import type {NativeDemandQuery} from './nativeDemandHistory'
 import {analysisWibClock,analysisWibDate} from './nativeAnalysisTransport'
 import {parseStagedReference,stagedInstant,stagedNumber,ANALYSIS_STAGED_TARGETS,type StagedReference} from './nativeAnalysisPages'
@@ -22,8 +23,9 @@ export type StagedRetention={days:7;keptUntil:string|null;state:'NOT_FINISHED'|'
 // K4: whether the server runner ticked in the last 2 minutes, and when.
 export type StagedServerRunner={active:boolean;lastTickAt:string|null}
 export type StagedJob={retention:StagedRetention|null;serverRunner:StagedServerRunner|null;requestId:string;state:StagedJobState;stage:string|null;stageIndex:number;stageCount:number;unitsDone:number;unitCount:number;planFinal:boolean
- targetsTotal:number|null;targetsDoneInStage:number;reference:StagedReference;lastProgressAt:string;unitAttempts:number;runId:string|null;failure:StagedJobFailure|null;workerActive:boolean}
-export type StagedRequest={id:string;q:NativeDemandQuery}
+ targetsTotal:number|null;targetsDoneInStage:number;reference:StagedReference;lastProgressAt:string;unitAttempts:number;runId:string|null;failure:StagedJobFailure|null;workerActive:boolean;financeCapture?:AnalysisFinance}
+export type StagedRequest={id:string;q:NativeDemandQuery;finance?:'STAGED'|'DEFERRED'}
+export const stagedRequestQuery=(r:StagedRequest)=>r.finance?{...r.q,finance_mode:r.finance}:r.q
 
 function fail():never{throw Error('Status analisis bertahap server belum sesuai kontrak CP7.')}
 const object=(v:unknown):Record<string,unknown>=>v!==null&&typeof v==='object'&&!Array.isArray(v)?v as Record<string,unknown>:fail()
@@ -32,9 +34,9 @@ const count=(v:unknown,min:number,max:number)=>typeof v==='number'&&Number.isSaf
 const REQUIRED=['contract_version','request_id','state','stage','stage_index','stage_count','units_done','unit_count','plan_final','targets_total','targets_done_in_stage','reference','last_progress_at','unit_attempts','apply_enabled','production_go']
 // run_id comes only with DONE, failure only with FAILED and worker_active
 // only on a skipped step; a field that does not apply is absent or null.
-const OPTIONAL=['run_id','failure','worker_active','retention','server_runner']
+const OPTIONAL=['run_id','failure','worker_active','retention','server_runner','finance_capture']
 
-export function parseStagedJob(v:unknown,requestId:string):StagedJob{
+export function parseStagedJob(v:unknown,requestId:string,request?:StagedRequest):StagedJob{
  const e=object(v),keys=Object.keys(e)
  if(REQUIRED.some(k=>!Object.hasOwn(e,k))||keys.some(k=>!REQUIRED.includes(k)&&!OPTIONAL.includes(k)))fail()
  if(e.contract_version!=='cp7.native-analysis-staged-job.v1'||e.apply_enabled!==false||e.production_go!==false||uuid(e.request_id)!==requestId)fail()
@@ -58,7 +60,9 @@ export function parseStagedJob(v:unknown,requestId:string):StagedJob{
  const workerActive=e.worker_active===undefined?false:typeof e.worker_active==='boolean'?e.worker_active:fail()
  const retention=e.retention===undefined?null:parseRetention(e.retention,state)
  const serverRunner=e.server_runner===undefined?null:parseServerRunner(e.server_runner)
- return{retention,serverRunner,requestId,state,stage,stageIndex,stageCount,unitsDone,unitCount,planFinal:e.plan_final,targetsTotal,targetsDoneInStage,reference,lastProgressAt,unitAttempts,runId,failure,workerActive}
+ const financeCapture=Object.hasOwn(e,'finance_capture')?parseAnalysisFinance(e.finance_capture,{requestId,reference,query:request?.q}):undefined
+ if(request&&(request.finance==='STAGED')!==(financeCapture!==undefined))fail()
+ return{retention,serverRunner,requestId,state,stage,stageIndex,stageCount,unitsDone,unitCount,planFinal:e.plan_final,targetsTotal,targetsDoneInStage,reference,lastProgressAt,unitAttempts,runId,failure,workerActive,...(financeCapture?{financeCapture}:{})}
 }
 
 // The staged request is kept apart from the single job's request
@@ -74,20 +78,20 @@ export function readStagedRequest(scope:string):{pending:StagedRequest|null;erro
  try{
   const raw=localStorage.getItem(stagedRequestKey(scope));if(raw===null)return{pending:null,error:''}
   const v=object(JSON.parse(raw)),q=object(v.q)
-  if(Object.keys(v).sort().join('|')!=='id|q'||Object.keys(q).sort().join('|')!=='from_date|group_mode|through_date'||(q.group_mode!=='AS_SOLD'&&q.group_mode!=='RESTATED'))fail()
+  if(!['id|q','finance|id|q'].includes(Object.keys(v).sort().join('|'))||Object.hasOwn(v,'finance')&&v.finance!=='STAGED'&&v.finance!=='DEFERRED'||Object.keys(q).sort().join('|')!=='from_date|group_mode|through_date'||(q.group_mode!=='AS_SOLD'&&q.group_mode!=='RESTATED'))fail()
   const from=day(q.from_date),through=day(q.through_date);if(from>through)fail()
-  return{pending:{id:uuid(v.id),q:{from_date:from,through_date:through,group_mode:q.group_mode}},error:''}
+  return{pending:{id:uuid(v.id),q:{from_date:from,through_date:through,group_mode:q.group_mode},...(v.finance?{finance:v.finance as 'STAGED'|'DEFERRED'}:{})},error:''}
  }catch{return{pending:null,error:'Catatan analisis bertahap belum bisa dibaca. Jangan hapus catatan ini; pulihkan penyimpanan sebelum membuat analisis bertahap baru.'}}
 }
 export function persistStagedRequest(scope:string,r:StagedRequest){
  const before=readStagedRequest(scope);if(before.error||before.pending)throw Error('Selesaikan analisis bertahap yang tersimpan terlebih dahulu.')
- const raw=JSON.stringify({id:r.id,q:r.q});try{localStorage.setItem(stagedRequestKey(scope),raw)}catch{throw Error('Permintaan belum tersimpan. Periksa penyimpanan sebelum mencoba lagi.')}
+ const raw=JSON.stringify({id:r.id,q:r.q,...(r.finance?{finance:r.finance}:{})});try{localStorage.setItem(stagedRequestKey(scope),raw)}catch{throw Error('Permintaan belum tersimpan. Periksa penyimpanan sebelum mencoba lagi.')}
  if(stored(stagedRequestKey(scope))!==raw||readStagedRequest(scope).pending?.id!==r.id)throw Error('Permintaan belum tersimpan. Periksa penyimpanan sebelum mencoba lagi.')
 }
 export function persistStagedCompletedRequest(scope:string,r:StagedRequest){
  const target=stagedCompletedScope(scope),key=stagedRequestKey(target)
  if(readStagedRequest(target).error)throw Error('Catatan hasil terakhir belum bisa dibaca. Permintaan aktif tetap disimpan.')
- const raw=JSON.stringify({id:r.id,q:r.q})
+ const raw=JSON.stringify({id:r.id,q:r.q,...(r.finance?{finance:r.finance}:{})})
  try{localStorage.setItem(key,raw)}catch{throw Error('Hasil terakhir belum tersimpan. Permintaan aktif tetap disimpan.')}
  if(stored(key)!==raw||readStagedRequest(target).pending?.id!==r.id)throw Error('Hasil terakhir belum tersimpan. Permintaan aktif tetap disimpan.')
 }
@@ -136,7 +140,7 @@ export const STAGED_WORKER_BACKOFF_MS=2000
 // reported through onStatus, so the caller can show "paused since".
 export async function driveStagedJob(o:StagedDriveOptions):Promise<StagedJob|null>{
  const aborted=o.aborted??(()=>false),sleep=o.sleep??(ms=>new Promise<void>(r=>setTimeout(r,ms))),backoff=o.workerBackoffMs??STAGED_WORKER_BACKOFF_MS
- const read=(r:StagedReply)=>{if(r.error)throw r.error;const s=parseStagedJob(r.data,o.request.id);o.onStatus?.(s);return s}
+ const read=(r:StagedReply)=>{if(r.error)throw r.error;const s=parseStagedJob(r.data,o.request.id,o.request);o.onStatus?.(s);return s}
  if(aborted())return null
  const first=await(o.start?o.rpc.request(o.request):o.rpc.get(o.request.id));if(aborted())return null
  let status=read(first)

@@ -1,0 +1,14 @@
+{
+  "classification": "LOCAL_CLIENT_AND_DOM_NOT_NATIVE",
+  "status": "PASS",
+  "tests": 108,
+  "files": 6,
+  "command": "./node_modules/.bin/vitest run src/planningStatistical.test.ts src/nativePlanningProfile.test.ts src/NativePlanningProfilePanel.dom.test.tsx src/FgReorderPanel.dom.test.tsx src/nativeProductionPlanning.test.ts src/NativeProductionPlanningPanel.dom.test.tsx",
+  "log_sha256": "9446ca177bbbe01b7133b407deb13c7cd697ccab8c83a18f973e1d45e6ecc9c7",
+  "TypeScript": "PASS",
+  "CSS": "PASS",
+  "frozen_owning_sources": "PASS",
+  "Native_qualification": false,
+  "OW10_complete": false,
+  "production_go": false
+}

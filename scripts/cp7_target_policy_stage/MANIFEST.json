@@ -1,0 +1,38 @@
+{
+  "cp7_profile.apply(jsonb,uuid)": {
+    "source": "scripts/cp7-src/planning/profile.sql",
+    "forward": "cp7_profile__apply.sql",
+    "inverse": "cp7_profile__apply.before.sql",
+    "before_body_sha256": "2f7f79238f20621615e064b846b5d76799252ba92cbb7a19b888a1bac688dda9",
+    "after_body_sha256": "1f23220f4c5ab6b0a8791b19e0f2849e45713e2d1718bf2e7149c89895aff7d8",
+    "forward_sha256": "2b4d0a7e59476568655181907cbead35972ee48210d06ef27e21bbb4d5f42e4e",
+    "inverse_sha256": "d72a6bda3e344e5e83ee0a6ec036df26fc838ee35b2f41d9100bb50552ccae68"
+  },
+  "cp7_baseline_native.build(jsonb,jsonb)": {
+    "source": "scripts/cp7_production_stage/sql/cp7_baseline_native__build.sql",
+    "forward": "cp7_baseline_native__build.sql",
+    "inverse": "cp7_baseline_native__build.before.sql",
+    "before_body_sha256": "7a205d333b2fda2359a856515632aaf8f5391a8bb7786136e7cb9f3bce40b2b9",
+    "after_body_sha256": "5f9e58f9f76c753b0ad35975a688fba2f5a507eb575df3d3abc41bbd0fdd013d",
+    "forward_sha256": "53f0a164c731ae2fc7f569cd612734dca3e835c75019bd606cb51e183f2ebccc",
+    "inverse_sha256": "7d3eb04c4e169cabfde24abfb8891719483f3ef6ffa7eed55aeeab2fc35c78b3"
+  },
+  "cp7_analysis_stage.baseline_rows(jsonb,jsonb,jsonb,text)": {
+    "source": "scripts/cp7_production_stage/sql/cp7_analysis_stage__baseline_rows.sql",
+    "forward": "cp7_analysis_stage__baseline_rows.sql",
+    "inverse": "cp7_analysis_stage__baseline_rows.before.sql",
+    "before_body_sha256": "3d726d0254432d7cf828cbb44d9f13437538ba160cbade97a07c1cd808a0a773",
+    "after_body_sha256": "6d2e88b7a13313e31d2ab70d55c0373337fc82d79b30d1b2ddc97687e8d06228",
+    "forward_sha256": "29424c16f205ecc87b96fb74ca691f7568b447e8ffe74de295444112267d9c5f",
+    "inverse_sha256": "c7632719f0e0203926de8e53bb43709ac39ff067a4cc93eb76df55c2d9d09e77"
+  },
+  "cp7_stock_formula.compute(timestamp with time zone,interval)": {
+    "source": "scripts/cp7_production_stage/sql/cp7_stock_formula__compute.sql",
+    "forward": "cp7_stock_formula__compute.sql",
+    "inverse": "cp7_stock_formula__compute.before.sql",
+    "before_body_sha256": "80b016f132b97973febcfa270e084baea823d024c5f08435d8dcfcd318884712",
+    "after_body_sha256": "0d217809dad7470e22576d887f43a8c18ed514cc11e20bb807b3d1310a3f0943",
+    "forward_sha256": "753d7d336d82ab78618005775be33524ee65de11575caf842005b578151e61ea",
+    "inverse_sha256": "d8d6cc1e641d7941f4781597476d525a78995cb25d76d142cc381162feeef156"
+  }
+}

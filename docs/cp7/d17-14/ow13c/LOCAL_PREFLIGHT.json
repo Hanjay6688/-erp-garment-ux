@@ -1,0 +1,40 @@
+{
+  "classification": "LOCAL_CHECKED_CUTTING_SAVE_AND_UI_NOT_NATIVE_OR_COMPOSED_RELEASE",
+  "status": "PASS",
+  "SQL_local": {
+    "passed": 11,
+    "total": 11,
+    "existing_plan_source_preflight_writer": "CONTROLLED_BOUNDARIES"
+  },
+  "client_DOM": {
+    "passed": 91,
+    "files": 8,
+    "new_checked_recovery_and_saved_quantity": true,
+    "old_plan_and_cutting_controls_retained": true
+  },
+  "typescript": "PASS",
+  "new_PLpgSQL_clash_functions": 2,
+  "local_actual_installer_22_inverse_reapply_afteruse": "PASS",
+  "unchanged_owning_source_guard": "PASS",
+  "react_review": {
+    "lazy_analysis_bundle": true,
+    "current_authority_keys": true,
+    "stable_parent_callbacks": true,
+    "one_existing_staged_recovery_domain": true,
+    "new_public_RPC_registry_and_generated_types_owned_by_A": true
+  },
+  "server_stage_sources": {
+    "save.sql": "7804d769edf74c83ed9958db19553fc00fe940c3aad8564acec0aa348c2a5527",
+    "schema.sql": "8d8b7a93da1841ae904b957e3374a980d99fc5686f2c9f7b6fdaebf1edf0feca",
+    "__init__.py": "63d564edd2d79a29a59543c378bab95cdf9115faf140d6c408ba4afddf43d623",
+    "MANIFEST.json": "f2fee72685deb9b670503518f6aa7cb385602ddf58b31382bfef2bdb82e95f18"
+  },
+  "Native_qualified": false,
+  "Auth_PostgREST_qualified": false,
+  "race_qualified": false,
+  "browser_qualified": false,
+  "full_A_chain_qualified": false,
+  "OW13c_complete": false,
+  "production_go": false,
+  "parent_completed": "5/16"
+}

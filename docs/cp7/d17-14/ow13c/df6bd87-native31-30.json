@@ -1,0 +1,64 @@
+{
+  "contract": "cp7.writer-component-result.v1",
+  "candidate": "df6bd8771b54b9d66b07ba78228abfefab872c6a",
+  "tree": "55ee4091bbc3c63639a481d626180edbd783ab69",
+  "run_id": 39945772181,
+  "job_id": 120387939390,
+  "status": "INCOMPLETE",
+  "expected": 31,
+  "observed": 31,
+  "passed": 30,
+  "groups": {
+    "native": {
+      "PASS": 15
+    },
+    "races": {
+      "PASS": 8
+    },
+    "http": {
+      "PASS": 4
+    },
+    "browser": {
+      "PASS": 3,
+      "INCOMPLETE": 1
+    }
+  },
+  "failed": {
+    "browser": {
+      "OW13C_BROWSER_DESKTOP_EDIT_AND_STALE_REFUSAL": "Actual HTTP500/code40001/source-changed refusal was correct; shared client normalization replaced its specific explanation with the generic conflict message."
+    }
+  },
+  "volume_2000_products_202000_movements_ms": [
+    7589,
+    2831,
+    2851
+  ],
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "exact_declared_ID_set_and_SHA_verified": true,
+  "copied_clone_authorities_exact": 10,
+  "service_images": {
+    "rest": "ghcr.io/supabase/postgrest:v16.1",
+    "database": "ghcr.io/supabase/postgres:17.6.1.165"
+  },
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "full_OW13c_acceptance": false,
+  "full_A_chain_qualified": false,
+  "production_go": false,
+  "complete_Original": {
+    "artifact_id": 12497834761,
+    "bytes": 409410,
+    "sha256": "a1c879a7e7773454b78a910d1a1a4025f1bd61d52501f30a87a67f1119b852f7"
+  },
+  "full_artifact_id": 12497664977,
+  "Original_and_log_preserved": true,
+  "next_fix": "Translate the specific checked-save refusal at the existing panel notice boundary while passing the unchanged database error to shared recovery. Preserve uncertainty after replay and the failed-refresh lock.",
+  "source_files_exact_to_candidate": 28,
+  "preuse_22_group_inverses_exact": 8
+}

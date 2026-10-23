@@ -1,0 +1,19 @@
+{
+  "candidate": "39360e5bf4dbf4430bb20a96672387cba34409a2",
+  "run_id": 39883844008,
+  "job_id": 120187290457,
+  "declared_case_count": 126,
+  "observed_case_count": 0,
+  "status": "INCOMPLETE",
+  "error": "P09_INSTALLED_FUNCTION_OR_ACL_CHANGED",
+  "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f05_analysis_probe.py\", line 353, in run\n    conn.commit();installed=True;checker(cur);conn.rollback()\n                                 ^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f05_analysis_probe.py\", line 155, in checker\n    verify_composed_install(cur,old_checker,initial_states)\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow13a_initial_probe.py\", line 33, in verify_composed_install\n    verify_initial_delta(cur, legacy_checker, states['initial'])\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow13a_initial_probe.py\", line 22, in verify_initial_delta\n    legacy_checker(cur)\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f05_analysis_probe.py\", line 145, in checker\n    def checker(cur):verify(cur);candidate.verify(cur)\n                     ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f05_analysis_probe.py\", line 34, in verify\n    payroll.verify(cur,True,True,True,True,True);finance.verify(cur);f03.journal.verify(cur);f03.misc.verify(cur);f03.installment.verify(cur)\n    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_p12_nota_probe.py\", line 23, in verify\n    result=p10.verify(cur)\n           ^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_p10_fg_probe.py\", line 18, in verify\n    result=p09.verify(cur)\n           ^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_p09_procurement_probe.py\", line 40, in verify\n    assert INSTALLED_FUNCTIONS is not None and functions(cur)==INSTALLED_FUNCTIONS,'P09_INSTALLED_FUNCTION_OR_ACL_CHANGED'\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: P09_INSTALLED_FUNCTION_OR_ACL_CHANGED\n",
+  "cp6_restored": true,
+  "advisor_gate": false,
+  "artifact_id": 12472380480,
+  "complete_artifact_bytes": 35701,
+  "complete_artifact_sha256": "a4c85096f5991314dce3650d306c26f28be99db7333d2afd013c2fffbb2e6112",
+  "failure_phase": "AFTER_STAGE_INSTALL_BEFORE_CASES",
+  "cause": "P09 all-function oracle still bound to full new-stage snapshot while checking the verified exact predecessor.",
+  "full_A_chain_qualified": false,
+  "production_go": false
+}

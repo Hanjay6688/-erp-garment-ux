@@ -1,0 +1,310 @@
+{
+  "classification": "WRITER_QUALIFIED_38_15_84_STOCK99_INFRASTRUCTURE_INCOMPLETE",
+  "head": "4d881bfc20da641d2ed4a941cb97a3d125e9e65a",
+  "tree": "40704eedcfac1f27d665e60487da66c9f8ca72d5",
+  "suites": [
+    {
+      "suite": "baseline38",
+      "status": "PASS",
+      "run": 39840453304,
+      "job": 120039769646,
+      "expected_case_count": 38,
+      "observed_case_count": 38,
+      "source_sha256": "3c97a3a9a2a85747084a4a1de7c84fafc8c23a023936c2632eb5d1985b7ea6a4",
+      "groups": {
+        "native": {
+          "counts": {
+            "PASS": 27
+          },
+          "case_ids": [
+            "P05_NATIVE_DRAFT_ONCE",
+            "P05_NATIVE_POSTED_ONCE",
+            "P05_NATIVE_RETURN_SEPARATE",
+            "P05_NATIVE_NATIVE_INVERSES",
+            "P05_NATIVE_IMMUTABLE_REPLAY_STALE",
+            "P05_NATIVE_OPERATIONAL_REDACTION",
+            "P05_NATIVE_CURRENT_REVOKE",
+            "P05_NATIVE_CLOSED_QUERY",
+            "P05_NATIVE_PRIVATE_CAPS",
+            "P05_NATIVE_TIMEZONES",
+            "P05_NATIVE_UNKNOWN_HISTORY",
+            "P05_NATIVE_GLOBAL_30_ROOTS",
+            "P06_NATIVE_PROFILE_METADATA",
+            "P06_NATIVE_PROFILE_UUID",
+            "P06_NATIVE_STALE_REVISION",
+            "P06_NATIVE_NATIVE_VERSION",
+            "P06_NATIVE_STRICT_CONFIG",
+            "P06_NATIVE_UNREVIEWED_UNKNOWN",
+            "P06_NATIVE_SELECTED_TARGET100",
+            "P06_NATIVE_OWN_HISTORY_UNKNOWN",
+            "P06_NATIVE_LEAD_UNKNOWN",
+            "P06_NATIVE_IMMUTABLE_ARCHIVE200",
+            "P06_NATIVE_CURRENT_AUTHORITY",
+            "P06_NATIVE_PRIVATE_CAPS",
+            "P06_NATIVE_TIMEZONES",
+            "P06_NATIVE_STOP_NATIVE_STOCK",
+            "P06_NATIVE_PRODUCTION_MULTIPLE"
+          ],
+          "exact_case_ids_verified": true
+        },
+        "races": {
+          "counts": {
+            "PASS": 5
+          },
+          "case_ids": [
+            "P05_RACE_SAME_UUID",
+            "P05_RACE_CURRENT_REVOKE",
+            "P06_RACE_SAME_PROFILE_UUID",
+            "P06_RACE_COMPETING_REVISION",
+            "P06_RACE_CURRENT_PROFILE_REVOKE"
+          ],
+          "exact_case_ids_verified": true
+        },
+        "http": {
+          "counts": {
+            "PASS": 2
+          },
+          "case_ids": [
+            "P05_ACTUAL_AUTH_HTTP",
+            "P06_ACTUAL_AUTH_HTTP"
+          ],
+          "exact_case_ids_verified": true
+        },
+        "browser": {
+          "counts": {
+            "PASS": 4
+          },
+          "case_ids": [
+            "P05_BROWSER_DESKTOP_NATIVE_HISTORY",
+            "P05_BROWSER_MOBILE_CURRENT_AUTH",
+            "P06_BROWSER_DESKTOP_NATIVE_PROFILE",
+            "P06_BROWSER_MOBILE_NATIVE_PROFILE"
+          ],
+          "exact_case_ids_verified": true
+        }
+      },
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "main_bytes": 295014,
+      "main_sha256": "1b7fdf0611242f12d595a58b17abe24cc4f7f6972deb0d6d5cf819b635a52b12",
+      "complete_original_json_artifact": {
+        "id": 12452214566,
+        "bytes": 38980,
+        "sha256": "d4a41ebab9cadf3b5e2cff00b1d048131a23474a6627b89fb6c392538707c2ce"
+      }
+    },
+    {
+      "suite": "staged15",
+      "status": "PASS",
+      "run": 39840453304,
+      "job": 120039769385,
+      "expected_case_count": 15,
+      "observed_case_count": 15,
+      "source_sha256": "b418943f3531091cf92aea7f5fa398576bad007a9f8d0264d3bff36175623e9c",
+      "groups": {
+        "native": {
+          "counts": {
+            "PASS": 7
+          },
+          "case_ids": [
+            "P19G_STAGED_EQUALS_SINGLE",
+            "P19G_STAGED_AUTHORITY",
+            "P19G_STAGED_IDENTITY",
+            "P19G_STAGED_SOURCE_CHECK",
+            "P19G_STAGED_BOUNDS_VS_SINGLE",
+            "P19G_SNAPSHOT_FRESHNESS",
+            "P19G_STAGED_PRODUCTION_MULTIPLE"
+          ],
+          "exact_case_ids_verified": true
+        },
+        "races": {
+          "counts": {
+            "PASS": 4
+          },
+          "case_ids": [
+            "P19G_RACE_TWO_STEPS_ONE_UNIT",
+            "P19G_RACE_LIMIT_RETRIES_THEN_CONTINUES",
+            "P19G_RACE_ACCESS_CHANGED_MID_JOB",
+            "P19G_RACE_SNAPSHOT_IN_FLIGHT"
+          ],
+          "exact_case_ids_verified": true
+        },
+        "http": {
+          "counts": {
+            "PASS": 2
+          },
+          "case_ids": [
+            "P19G_HTTP_STAGED_FLOW",
+            "P19G_HTTP_REVOKED"
+          ],
+          "exact_case_ids_verified": true
+        },
+        "browser": {
+          "counts": {
+            "PASS": 2
+          },
+          "case_ids": [
+            "P19G_BROWSER_DESKTOP_STAGED_RELOAD",
+            "P19G_BROWSER_MOBILE_STAGED"
+          ],
+          "exact_case_ids_verified": true
+        }
+      },
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "main_bytes": 1734902,
+      "main_sha256": "35477c981fbf827464f16b31cc01a6cfceba3016ad8f78d9e12769048198c99d",
+      "complete_original_json_artifact": {
+        "id": 12453546349,
+        "bytes": 193337,
+        "sha256": "3fcaceeca3409861e0d79c7fa816b54870c75e2e94b0f2747a11574f2b0688c7"
+      }
+    },
+    {
+      "suite": "netting84",
+      "status": "PASS",
+      "run": 39840453304,
+      "job": 120039769769,
+      "expected_case_count": 84,
+      "observed_case_count": 84,
+      "source_sha256": "7207d3e780daa3e60d714a3ceebfaddc3eff8bbd1c7f5b38e00282a3dc9aa103",
+      "groups": {
+        "native": {
+          "counts": {
+            "PASS": 61
+          },
+          "case_ids": [
+            "P05_NATIVE_DRAFT_ONCE",
+            "P05_NATIVE_POSTED_ONCE",
+            "P05_NATIVE_RETURN_SEPARATE",
+            "P05_NATIVE_NATIVE_INVERSES",
+            "P05_NATIVE_IMMUTABLE_REPLAY_STALE",
+            "P05_NATIVE_OPERATIONAL_REDACTION",
+            "P05_NATIVE_CURRENT_REVOKE",
+            "P05_NATIVE_CLOSED_QUERY",
+            "P05_NATIVE_PRIVATE_CAPS",
+            "P05_NATIVE_TIMEZONES",
+            "P05_NATIVE_UNKNOWN_HISTORY",
+            "P05_NATIVE_GLOBAL_30_ROOTS",
+            "P06_NATIVE_PROFILE_METADATA",
+            "P06_NATIVE_PROFILE_UUID",
+            "P06_NATIVE_STALE_REVISION",
+            "P06_NATIVE_NATIVE_VERSION",
+            "P06_NATIVE_STRICT_CONFIG",
+            "P06_NATIVE_UNREVIEWED_UNKNOWN",
+            "P06_NATIVE_SELECTED_TARGET100",
+            "P06_NATIVE_OWN_HISTORY_UNKNOWN",
+            "P06_NATIVE_LEAD_UNKNOWN",
+            "P06_NATIVE_IMMUTABLE_ARCHIVE200",
+            "P06_NATIVE_CURRENT_AUTHORITY",
+            "P06_NATIVE_PRIVATE_CAPS",
+            "P06_NATIVE_TIMEZONES",
+            "P06_NATIVE_STOP_NATIVE_STOCK",
+            "P06_NATIVE_PRODUCTION_MULTIPLE",
+            "P06_SUPPLY_NATIVE_MIXED",
+            "P06_SUPPLY_NATIVE_OPENING_LIFECYCLE",
+            "P06_SUPPLY_NATIVE_CLAIMS",
+            "P06_SUPPLY_NATIVE_UNSOURCED_BS",
+            "P06_SUPPLY_NATIVE_GLOBAL56",
+            "P06_SUPPLY_NATIVE_NO_ALIAS",
+            "P06_SUPPLY_NATIVE_IMMUTABLE_UUID",
+            "P06_SUPPLY_NATIVE_CURRENT_AUTH",
+            "P06_SUPPLY_NATIVE_PRIVATE_CAPS",
+            "P06_SUPPLY_NATIVE_CLOSED_QUERY",
+            "P06_SUPPLY_NATIVE_TIMEZONES",
+            "P06_SUPPLY_NATIVE_ONE_CLOCK",
+            "P06_SCHEDULE_NATIVE_UNREVIEWED",
+            "P06_SCHEDULE_NATIVE_UUID_METADATA",
+            "P06_SCHEDULE_NATIVE_STRICT_SOURCE_ROUTE",
+            "P06_SCHEDULE_NATIVE_SOURCE_STALE",
+            "P06_SCHEDULE_NATIVE_REVISION_STALE",
+            "P06_SCHEDULE_NATIVE_YIELD7",
+            "P06_SCHEDULE_NATIVE_REMAINING45_CAPACITY37",
+            "P06_SCHEDULE_NATIVE_NULL_LOAD",
+            "P06_SCHEDULE_NATIVE_OTHER_LOAD_PLACEMENT",
+            "P06_SCHEDULE_NATIVE_PL4_OVERFLOW_CARRIED",
+            "P06_SCHEDULE_NATIVE_SHARED_QUEUE",
+            "P06_SCHEDULE_NATIVE_PRIVATE_CAPABILITIES",
+            "P06_SCHEDULE_NATIVE_CURRENT_AUTH",
+            "P06_SCHEDULE_NATIVE_CUSTOMER_WORK_ONLY",
+            "P06_NETTING_NATIVE_BOUND_GAP93",
+            "P06_NETTING_NATIVE_BOUND_UNKNOWN_YIELD",
+            "P06_NETTING_NATIVE_GLOBAL_ONE_EDGE",
+            "P06_NETTING_NATIVE_EXISTING_WORK_DISTINCT",
+            "P06_NETTING_NATIVE_LATE_NOT_NETTED",
+            "P06_NETTING_NATIVE_UNBOUND_NEEDS_CHECK",
+            "P06_NETTING_NATIVE_IMMUTABLE_AFTER_NATIVE_OUTPUT",
+            "P06_NETTING_NATIVE_CURRENT_AUTH_CLOSED_QUERY"
+          ],
+          "exact_case_ids_verified": true
+        },
+        "races": {
+          "counts": {
+            "PASS": 11
+          },
+          "case_ids": [
+            "P05_RACE_SAME_UUID",
+            "P05_RACE_CURRENT_REVOKE",
+            "P06_RACE_SAME_PROFILE_UUID",
+            "P06_RACE_COMPETING_REVISION",
+            "P06_RACE_CURRENT_PROFILE_REVOKE",
+            "P06_SUPPLY_RACE_UUID",
+            "P06_SUPPLY_RACE_REVOKE",
+            "P06_SUPPLY_RACE_ONE_MVCC",
+            "P06_SCHEDULE_RACE_REVISION",
+            "P06_SCHEDULE_RACE_CACHED_AUTH",
+            "P06_NETTING_RACE_UUID"
+          ],
+          "exact_case_ids_verified": true
+        },
+        "http": {
+          "counts": {
+            "PASS": 6
+          },
+          "case_ids": [
+            "P05_ACTUAL_AUTH_HTTP",
+            "P06_ACTUAL_AUTH_HTTP",
+            "P06_SUPPLY_HTTP_AUTH",
+            "P06_SCHEDULE_HTTP_FLOW",
+            "P06_SCHEDULE_HTTP_UNREVIEWED",
+            "P06_NETTING_HTTP_AUTH"
+          ],
+          "exact_case_ids_verified": true
+        },
+        "browser": {
+          "counts": {
+            "PASS": 6
+          },
+          "case_ids": [
+            "P05_BROWSER_DESKTOP_NATIVE_HISTORY",
+            "P05_BROWSER_MOBILE_CURRENT_AUTH",
+            "P06_BROWSER_DESKTOP_NATIVE_PROFILE",
+            "P06_BROWSER_MOBILE_NATIVE_PROFILE",
+            "P06_BROWSER_DESKTOP_NATIVE_NETTING",
+            "P06_BROWSER_MOBILE_NATIVE_NETTING"
+          ],
+          "exact_case_ids_verified": true
+        }
+      },
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "main_bytes": 324915,
+      "main_sha256": "28006689b589b72c20133652cecf51baa663f90317314b1cf68be6e3781319c5",
+      "complete_original_json_artifact": {
+        "id": 12453755829,
+        "bytes": 42066,
+        "sha256": "efe94c7b35f84e6e04d9e0f320c2bd0174ecb100b8554cba6a6072daecab4880"
+      }
+    }
+  ],
+  "stock99": {
+    "run": 39840453373,
+    "job": 120039769904,
+    "observed_case_count": 0,
+    "status": "BOOT_FAILED_IMAGE_REGISTRY_LIMIT",
+    "first_receipt": "4d881bf-first-stock-boot.json"
+  },
+  "OW10_complete": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

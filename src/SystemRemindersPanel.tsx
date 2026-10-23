@@ -108,6 +108,9 @@ function AlertRow({ alert: a, owner }: { alert: SystemAlert; owner: boolean }) {
       <p>{alertSummary(a)}</p>
       {analysis ? <small className="csys-analysis-line">{analysis}</small> : null}
       {fg ? <small>SKU {fg.sku} · titik pesan ulang dari {fg.basis === 'MANUAL' ? 'angka manual' : 'rumus'} · rinciannya di Gudang › Ringkasan Barang Jadi</small> : null}
+      {fg?.projection?.analysisAt ? <small>Perkiraan barang baik dari analisis {formatCp6WibDateTime(fg.projection.analysisAt)}.</small> : null}
+      {fg?.projection?.candidatePcs !== null && fg?.projection?.candidatePcs !== undefined ? <small>Kandidat tambahan {fg.projection.candidatePcs} pcs perlu dikonfirmasi;
+        {' '}peringatan tetap mengikuti stok dan suplai terarah.</small> : null}
       {material ? <small>SKU {material.sku} · {material.materialType === 'FABRIC'
         ? 'minimum dari rumus, karena kain ini belum punya minimum di Kain & Benchmark · rinciannya di Gudang › Bahan & Roll'
         : `batas minimum ${material.basis === 'MANUAL' ? 'diketik manual' : 'dari isian hitungan'} · rinciannya di Gudang › Aksesori`}</small> : null}

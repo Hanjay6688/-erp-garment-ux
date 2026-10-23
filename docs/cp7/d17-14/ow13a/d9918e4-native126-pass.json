@@ -1,0 +1,72 @@
+{
+  "contract": "cp7.ow13a.initial-statistical-native126-receipt.v1",
+  "candidate": "d9918e4b62a7427e9e5b977b227608109967462c",
+  "tree": "14507c7167771a407fd5ebb548ab986ee7d9e088",
+  "run_id": 39893138696,
+  "job_id": 120217297227,
+  "status": "PASS",
+  "expected_case_count": 126,
+  "observed_case_count": 126,
+  "required_case_counts": {
+    "native": 68,
+    "races": 36,
+    "http": 9,
+    "browser": 13
+  },
+  "observed_pass_counts": {
+    "native": 68,
+    "races": 36,
+    "http": 9,
+    "browser": 13
+  },
+  "all_case_ids_exact": true,
+  "all_cases_PASS": true,
+  "retained113": true,
+  "source_contract_sha256": "d50d5090183b2d8ccf67d61c93f991e76d05a2b83503125233ad11f8d2215dab",
+  "preuse_22_groups_exact": {
+    "target": true,
+    "initial": true
+  },
+  "mode_clone_authority_exact": 38,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "backup_restore_checks": {
+    "restore_errors_only_pg_cron": true,
+    "catalog_explained": true,
+    "data_identical": true,
+    "engine_answer_present": true,
+    "engine_equal": true
+  },
+  "complete_originals_artifact": {
+    "id": 12476144165,
+    "bytes": 1596780,
+    "sha256": "846748c4ac9f04713f97e34554d50d0f85aede38a7f12fec1952b8207f63a4cb"
+  },
+  "raw_job_log_sha256": "f8c25067bdc19542002f45aeaa0701c72910ebd6aa8e7b07eac9261294e69049",
+  "scope_excludes": [
+    "A full installation/rollback chain",
+    "host Master callback",
+    "installed automatic schedules",
+    "positive statistical history Native arithmetic",
+    "OW10 reorder supply stage and caller",
+    "finance bridge",
+    "factory3600",
+    "independent audit",
+    "production_go"
+  ],
+  "first_failures_retained": [
+    "6738da4-first-native126.json",
+    "39360e5-native126-first-composition-fix.json",
+    "17d9d62-native126-first-mode-copy.json",
+    "a86d22a-first-native126-124.json"
+  ],
+  "production_go": false,
+  "independent_acceptance": false
+}

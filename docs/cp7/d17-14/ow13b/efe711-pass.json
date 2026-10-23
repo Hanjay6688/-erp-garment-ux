@@ -1,0 +1,82 @@
+{
+  "head": "efe71123407312f562ef91068f60b11ef4243f76",
+  "run": 39824155178,
+  "job": 119982870102,
+  "status": "PASS",
+  "counts": {
+    "native": {
+      "PASS": 14
+    },
+    "races": {
+      "PASS": 2
+    },
+    "http": {
+      "PASS": 2
+    },
+    "browser": {
+      "PASS": 2
+    }
+  },
+  "original": {
+    "bytes": 2983849,
+    "sha256": "5082333382448b797a19e67e89a9d5f929c60c1a6c78eba05646fe78805ba4b3",
+    "artifact_id": 12445129773,
+    "zip_bytes": 322648,
+    "zip_sha256": "9126530908dba590bfb33bce27f653833bacb97aa74331c7ce6a14de213473ac"
+  },
+  "scale": {
+    "status": "PASS",
+    "observations": {
+      "200": {
+        "milliseconds": 1026.0,
+        "groups": 200,
+        "cut_pcs": 8000,
+        "good_pcs": 7400,
+        "lower_bound_permille": 921,
+        "all_proof_ids_matched": true
+      },
+      "201": {
+        "milliseconds": 1027.2,
+        "groups": 201,
+        "cut_pcs": 8040,
+        "good_pcs": 7437,
+        "lower_bound_permille": 921,
+        "all_proof_ids_matched": true
+      },
+      "501": {
+        "milliseconds": 2561.0,
+        "groups": 501,
+        "cut_pcs": 20040,
+        "good_pcs": 18537,
+        "lower_bound_permille": 922,
+        "all_proof_ids_matched": true
+      }
+    },
+    "synthetic_scale_clones": 500,
+    "native_original_finished_through_ordinary_writers": true,
+    "all_proofs_from_unchanged_prover": true,
+    "ordinary_statement_timeout": "8s",
+    "no_source_truncation": true,
+    "no_proof_writes_during_history_read": true,
+    "limits_raised": false,
+    "full_boundary_restored": true,
+    "public_schema_unchanged": true,
+    "session_leaks": {
+      "advisory_locks": 0,
+      "advisory_lock_keys": [],
+      "other_sessions": []
+    },
+    "business_day": {
+      "planned": "2026-10-23",
+      "before": "2026-10-23",
+      "after": "2026-10-23"
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "required_case_ids_pass": true,
+  "required_case_counts_pass": true,
+  "production_go": false,
+  "independent_acceptance": false,
+  "overall_completed_items": 5
+}

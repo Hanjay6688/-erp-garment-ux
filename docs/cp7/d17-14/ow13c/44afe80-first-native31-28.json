@@ -1,0 +1,58 @@
+{
+  "contract": "cp7.writer-component-first-result.v1",
+  "candidate": "44afe80bbf9dbc1ac61162b97daa701ca56993f6",
+  "tree": "f0a8ac6ee757c7cdd060eb8848d5136005856b14",
+  "run_id": 39941715921,
+  "job_id": 120374491985,
+  "status": "INCOMPLETE",
+  "expected": 31,
+  "observed": 31,
+  "passed": 28,
+  "groups": {
+    "native": {
+      "PASS": 14,
+      "INCOMPLETE": 1
+    },
+    "races": {
+      "PASS": 8
+    },
+    "http": {
+      "PASS": 4
+    },
+    "browser": {
+      "PASS": 2,
+      "INCOMPLETE": 2
+    }
+  },
+  "failed": {
+    "native": {
+      "OW10R_NATIVE_VOLUME2000_8S_WARM3S": "[7409, 3150, 3122]"
+    },
+    "races": {},
+    "http": {},
+    "browser": {
+      "OW13C_BROWSER_DESKTOP_EDIT_AND_STALE_REFUSAL": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n500 !== 409\n\n    at journey (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow13c_checked_browser.mjs:122:14)\n    at runNextTicks (node:internal/process/task_queues:64:5)\n    at process.processImmediate (node:internal/timers:452:9)\n    at process.callbackTrampoline (node:internal/async_hooks:130:17)\n    at async main (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:243:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:259:3",
+      "OW13C_BROWSER_MOBILE_LOST_REPLY_ORDINARY_PLAN_REOPEN": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\nundefined !== 200\n\n    at journey (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow13c_checked_browser.mjs:97:14)\n    at async main (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:243:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:259:3"
+    }
+  },
+  "exact_declared_ID_set_and_SHA_verified": true,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "all_four_new_checked_save_races_pass": true,
+  "full_OW13c_acceptance": false,
+  "full_A_chain_qualified": false,
+  "production_go": false,
+  "complete_Original": {
+    "artifact_id": 12496937971,
+    "bytes": 408139,
+    "sha256": "2dfc2ebe3eee2ec27b8fba498865ddd5dc7b1af124cc3c3b456f9d81720ede2f"
+  },
+  "full_artifact_id": 12497366801,
+  "first_original_and_log_preserved": true,
+  "next_fix": [
+    "V7 exact SQL aggregate/hash reuse for 2000 warm limit; leave 3000ms and 8s unchanged",
+    "Correct new browser HTTP oracle to documented 500/code40001/source-change message, keeping no-orphan assertion",
+    "Mobile must wait for intercepted actual committed reply before asserting its status; recovery button is visible earlier",
+    "Bound every race connection and release holder in finally; first run all eight races passed, so this was not the observed blocker"
+  ]
+}

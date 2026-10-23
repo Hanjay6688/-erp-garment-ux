@@ -1,0 +1,12 @@
+{
+  "classification": "LOCAL_ACTUAL_SQL_WITH_CONTROLLED_ERP_AND_IDENTITY_ADAPTER_NOT_NATIVE",
+  "alert_source_sha256": "a11a92e8909827c6c00ec8a8e436a461d57b8312a9bacc4390c0c19c61c13aee",
+  "cases": [
+    {
+      "id": "OW14B_SELECTED_LEGACY_IS_PINNED_AND_REPLAY_IS_EXACT",
+      "status": "FAIL",
+      "error": "AssertionError [ERR_ASSERTION]: Controlled fabric: sisa 700 YD, dipesan 0 YD, minimum rumus 900 YD\n    at file:///workspace/scratch/05009cca93f2/erp-production-recovered-20261023b/scripts/cp7_ow14b_rule_local.mjs:66:9\n    at async test (file:///workspace/scratch/05009cca93f2/erp-production-recovered-20261023b/scripts/cp7_ow14b_rule_local.mjs:42:89)\n    at async file:///workspace/scratch/05009cca93f2/erp-production-recovered-20261023b/scripts/cp7_ow14b_rule_local.mjs:56:1"
+    }
+  ],
+  "production_go": false
+}

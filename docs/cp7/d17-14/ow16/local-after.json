@@ -1,0 +1,105 @@
+{
+  "label": "OW16_STATUS_LOCAL",
+  "scope": "ACTUAL_SQL_ON_CONTROLLED_RELATIONAL_FIXTURE_WITH_STUBBED_IDENTITY_NOT_NATIVE_OR_HTTP",
+  "source_sha256": "45cf0b428fbe6b85d7e18367492ef188e7ac49d06f120e39156b66e9cf758d4f",
+  "status": "PASS",
+  "cases": [
+    {
+      "id": "NO_INVENTED_FACTORY_POLICY",
+      "status": "PASS",
+      "observed": {
+        "policy": null,
+        "status": "POLICY_REQUIRED"
+      }
+    },
+    {
+      "id": "OWNER_POLICY_EXACT_REPLAY_AND_CHANGED_REQUEST_REFUSAL",
+      "status": "PASS",
+      "observed": {
+        "revision": "1",
+        "same_request_same_result": true,
+        "changed_request_refused": true,
+        "stale_revision_refused": true
+      }
+    },
+    {
+      "id": "FACTORY_CONTEXT_EXCLUDES_OTHER_MATERIAL_PATTERN_SIZE_REVISION_FUTURE_AND_UNPOSTED",
+      "status": "PASS",
+      "observed": {
+        "history_groups": "3",
+        "lower_pcs": "80",
+        "upper_pcs": "120",
+        "other_actor_history_included": true
+      }
+    },
+    {
+      "id": "TOTAL_PCS_LOW_HIGH_AND_CONSUMPTION_NORMALIZATION",
+      "status": "PASS",
+      "observed": {
+        "low79": true,
+        "high121": true,
+        "current_consumed20_range": [
+          "160",
+          "240"
+        ]
+      }
+    },
+    {
+      "id": "READS_NEVER_CHANGE_NATIVE_FACTS",
+      "status": "PASS",
+      "observed": {
+        "read_only": true
+      }
+    },
+    {
+      "id": "ADMIN_CANNOT_SET_FACTORY_POLICY_AND_ANON_CANNOT_READ",
+      "status": "PASS",
+      "observed": {
+        "owner_only_write": true,
+        "anonymous_closed": true,
+        "staff_closed": true,
+        "private_tables_closed": true
+      }
+    },
+    {
+      "id": "MISSING_HISTORY_PAUSED_POLICY_AND_NOT_FINISHED_STATES",
+      "status": "PASS",
+      "observed": {
+        "insufficient": true,
+        "paused": true,
+        "unposted": true
+      }
+    },
+    {
+      "id": "LOST_REPLY_LOOKUP_CLOSES_UNCOMMITTED_UUID",
+      "status": "PASS",
+      "observed": {
+        "no_late_commit_after_negative_lookup": true
+      }
+    },
+    {
+      "id": "LEGACY_MISSING_CONTEXT_IS_INCOMPLETE_NOT_ZERO_OR_NORMAL",
+      "status": "PASS",
+      "observed": {
+        "missing_pattern_not_judged": true
+      }
+    },
+    {
+      "id": "POLICY_AND_RECEIPTS_IMMUTABLE",
+      "status": "PASS",
+      "observed": {
+        "delete_refused": true,
+        "truncate_refused": true
+      }
+    },
+    {
+      "id": "MORE_THAN_500_FACTORY_GROUPS_NO_TRUNCATION",
+      "status": "PASS",
+      "observed": {
+        "groups": "504",
+        "lower_pcs": "100",
+        "upper_pcs": "100"
+      }
+    }
+  ]
+}

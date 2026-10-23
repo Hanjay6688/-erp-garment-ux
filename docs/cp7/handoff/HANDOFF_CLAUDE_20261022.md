@@ -2,22 +2,22 @@
 
 > **Pembaruan 22 Okt 2026 (D17-17):** pembagian yang berlaku adalah `docs/cp7/PEMBAGIAN_DUA_PENULIS_20261022.md` versi 2. Claude bekerja di `claude/d17-14-uang` (OW-06, OW-07, OW-08, OW-09, OW-12a, OW-15, penggabung); Astra di `astra/d17-14-produksi`. Bagian yang menyebut Codex OW07 dan `claude/ow06-supplier-transfer` di bawah sudah digantikan.
 
-Instruksi awal: "selesain sampe checkpoint berikutnya, siapin handoff takeover by claude ya". Checkpoint itu sudah diserahkan. **Arahan berikutnya22 Oktober: Codex dan Claude membagi pekerjaan supaya tidak bertabrakan.** Pembagian terbaru dan batas file wajib dibaca di [PEMBAGIAN_KERJA_20261022.md](PEMBAGIAN_KERJA_20261022.md); aturan kerja paralel di sana menggantikan aturan satu writer/cabang di handoff awal. Pesan lama dan konteks personal tetap disimpan dalam paket privat.
+Instruksi awal: "selesain sampe checkpoint berikutnya, siapin handoff takeover by claude ya". Checkpoint itu sudah diserahkan. **Terbaru: D17-16 dan pembagian Claude versi2**, semua fitur tetap lingkup. Baca [PEMBAGIAN_DUA_PENULIS_20261022.md](../PEMBAGIAN_DUA_PENULIS_20261022.md) dan [KOORDINASI.md](../d17-14/KOORDINASI.md). Pembagian OW06-Claude/OW07-Codex dan aturan satu writer sebelumnya sudah digantikan. Pesan lama dan konteks personal tetap disimpan dalam paket privat.
 
-Claude menangani OW06 dan menjadi integrator tunggal; Codex menangani OW07 di cabang terpisah. Jangan mengerjakan scope writer lain atau otomatis mengambil OW08 dan seterusnya. Orang ketiga opsional untuk menguji; penugasan ini tidak berarti Claude atau pemeriksa sudah mulai bekerja.
+Claude/A menangani uang, stok, HPP, laporan, OW06/07/08/09, modul angka analisis OW12a dan paket auditor sekaligus integrator tunggal. Codex/Astra/B menangani produksi/perencanaan OW16, OW10/11, OW12b, OW13/14 pada cabang produksi. Jangan mengerjakan scope penulis lain. Penugasan ini tidak berarti Claude sudah mulai bekerja atau memberikan production_go.
 
 ## Kotak untuk disalin ke Claude
 
 ```text
 Claude, takeover sebagai writer ERP Hansen. Baca docs/cp7/handoff/HANDOFF_CLAUDE_20261022.md dari cabang astra/d17-14-integrasi, AGENTS.md, CLAUDE.md, keputusan owner dan daftar OPEN_WORK yang ditautkan di sana. Baca juga ERP_WRITER_CONTEXT_20261021.txt dari paket privat yang saya lampirkan: itu menyimpan seluruh konteks/personal, keputusan, slogan, aturan dan riwayat takeover; bagian paling atas yang terbaru mengalahkan status lama di bawahnya.
-Saat mulai, baca PEMBAGIAN_KERJA_20261022.md dan pastikan commit/tree cocok. Kerjakan OW06 di claude/ow06-supplier-transfer; hanya Claude sebagai integrator yang memajukan astra/d17-14-integrasi. Codex menangani OW07 di codex/ow07-hpp-close. Gunakan checkout terpisah; jangan menulis ke main, kandidat auditor55c885d1, Enteng, hosted, produksi atau WA nyata.
-Status selesai5/16; OW05 selesai dalam cakupan owner dan bukti terikat di completion.json. OW06 baru checkpoint mesin pembayaran, belum selesai seluruh fitur. Tuntaskan OW06 sesuai daftar tepat di handoff. Jangan mengambil OW07 milik Codex atau OW08/seterusnya sebelum pembagian berikutnya tercatat. Jangan mengulang investigasi/hijau yang tidak perlu, mengarang keputusan owner atau melonggarkan pemeriksaan. Simpan kegagalan pertama.
+Saat mulai, baca PEMBAGIAN_DUA_PENULIS_20261022.md versi2 dan d17-14/KOORDINASI.md, pastikan commit/tree cocok. Cabang A claude/d17-14-uang, cabang B astra/d17-14-produksi; hanya Claude sebagai integrator yang memajukan astra/d17-14-integrasi. OW07 sekarang milik Claude, bukan Codex. Dasar produk01c5f856, kepala integrasi a255e48 menambahkan dokumen saja. Gunakan checkout terpisah; jangan menulis ke main, kandidat auditor55c885d1, Enteng, hosted, produksi atau WA nyata.
+Status selesai5/16; OW05 selesai dalam cakupan owner dan bukti terikat di completion.json. OW06 baru checkpoint mesin pembayaran, belum selesai seluruh fitur. Tuntaskan scope A sesuai pembagian versi2; semua fitur D17-16 tetap lingkup. Jangan mengambil scope B. Jangan mengulang investigasi/hijau yang tidak perlu, mengarang keputusan owner atau melonggarkan pemeriksaan. Simpan kegagalan pertama.
 Kabar maksimal dua kalimat bahasa sehari-hari; checkpoint bukan alasan berhenti selama scope masih dapat dikerjakan. Kalau layanan/sesi terputus, tulis keadaan nyata dan langkah lanjut, jangan mengaku chat masih bekerja di latar belakang.
 ```
 
 ## Keadaan yang diwariskan
 
-- Repo `Hanjay6688/-erp-garment-ux`; titik integrasi tetap `astra/d17-14-integrasi`. Dua cabang kerja baru dibatasi oleh PEMBAGIAN_KERJA. Empat belas cabang lama dan lima commit yang sempat belum tergabung sudah direkonsiliasi; jangan dibuka ulang atau dihapus.
+- Repo `Hanjay6688/-erp-garment-ux`; titik integrasi tetap `astra/d17-14-integrasi`. Cabang A/B dibatasi pembagian Claude versi2. Dua cabang persiapan OW06/OW07 sebelumnya tidak diteruskan. Empat belas cabang lama dan lima commit yang sempat belum tergabung sudah direkonsiliasi; jangan dibuka ulang atau dihapus.
 - **5/16 selesai:** OW01 pengingat WA ke provider palsu99; OW02 proses server32; OW03 kelipatan produksi154; OW04 retur tujuh syarat; OW05 koreksi mandor. Daftar satu baris per butir: `docs/cp7/d17-14/SELESAI_UNTUK_DIUJI.md`.
 - Kandidat auditor55c885d1 tetap beku. Ini pekerjaan writer di cabang terpisah; kualifikasi writer bukan audit independen atau izin produksi. Audit tetap Fable/Sol sesuai arahan terdahulu.
 - CP7C formal belum dimulai. Jangan menjanjikan besok/lusa tanpa bukti kesiapan. Urutan CP7→CP7.5 cleanup/rebaseline/restore→CP7C stress/automation/backup/install→CP8 audit/cutover/owner GO; tidak ada CP9.
@@ -77,7 +77,7 @@ Uji finite10 seluruhnya PASS: enam kontrol grup baru + empat oracle pembayaran t
 4. Gunakan useProductionMutation dan pemulihan hasil belum pasti. Domain baru/aksi baru harus didaftarkan dengan benar bila dipakai; invalidate semua fakta saat401/403/sumber berubah, current-ticket untuk jawaban terlambat. Jangan membuka tombol writer hanya karena sudah ada kode SQL.
 5. Uji Auth/PostgREST nyata, persaingan nyata (observed lock wait, hak dicabut sesudah menunggu), browser desktop/390px, pencatatan→pembatalan→empat koreksi. Uji viewport dengan scrollWidth<=innerWidth, bukan overflow hidden.
 6. Tambahkan owner pemasangan/used-state restore untuk OW06: semua baris, urutan,22 katalog, tamper refusal, replay sesudah pulih, inverse/successor berikutnya; integrasikan default P21 hanya sesudah jalur ini terbukti. Sumber badan yang diuji harus sama dengan badan paket yang dipasang. Jangan mengganti pemeriksa lama dengan yang tidak mengenal sumber baru.
-7. Baru tutup OW06 jika seluruh syarat owner dan alur aplikasi terbukti; tulis satu baris SELESAI_UNTUK_DIUJI dan hitungan berdasarkan daftar aktual. OW07 dialokasikan kepada Codex; gabungkan melalui urutan dalam PEMBAGIAN_KERJA sebelum membagi OW08/seterusnya. Ini belum CP7C.
+7. Baru tutup OW06 jika seluruh syarat owner dan alur aplikasi terbukti; tulis satu baris SELESAI_UNTUK_DIUJI dan hitungan berdasarkan daftar aktual. OW07/OW08/seterusnya dibagi menurut pembagian Claude versi2; OW07 tetap di jalur A bersama uang/HPP. Ini belum CP7C.
 
 ## Sisa pekerjaan setelah OW06
 
@@ -102,13 +102,13 @@ Bukti asli yang dibutuhkan disertakan di paket privat atau di arsip Library yang
 
 Status job GitHub kadang tersimpan lama sebagai queued meski run selesai dan artifact tersedia. Cocokkan metadata run, artifact dan hasil per kasus sebelum menyimpulkan macet; jangan rerun kandidat hijau hanya karena daftar job lama.
 
-Git push CLI di sesi ini tidak punya auth; publisher GitHub API memverifikasi blob/tree dan mengubah ref dengan expected parent/forcefalse, kemudian fetch dan soft-reset hanya jika tree sama. Kalau Claude punya git push biasa, pakai alur biasa ke cabang kerjanya. Hanya integrator memajukan cabang integrasi; jangan force-push atau membuat cabang di luar dua cabang yang dibagi. Hindari `git add -A`; ada satu clone-temp tak terkait yang sengaja tidak diikutkan.
+Git push CLI di sesi ini tidak punya auth; publisher GitHub API memverifikasi blob/tree dan mengubah ref dengan expected parent/forcefalse, kemudian fetch dan soft-reset hanya jika tree sama. Kalau Claude punya git push biasa, pakai alur biasa ke cabang A claude/d17-14-uang. Hanya integrator memajukan cabang integrasi; jangan force-push atau membuat cabang di luar pembagian versi2. Hindari `git add -A`; ada satu clone-temp tak terkait yang sengaja tidak diikutkan.
 
 ## Paket privat lengkap
 
 `ERP_WRITER_CONTEXT_20261021.txt` memuat seluruh28 dokumen konteks awal,7 aliran takeover dan versi checkpoint berurutan, termasuk konteks personal/owner. Jangan mengunggahnya ke repo publik. Ringkasan handoff ini menuntun urutan baca; ia tidak menggantikan berkas konteks lengkap.
 
-Setelah Claude mulai, hanya Claude yang menulis jalur OW06 dan file integrasi bersama; Codex hanya OW07. Baca PEMBAGIAN_KERJA dari GitHub untuk aturan terbaru, termasuk jika ZIP privat masih berisi handoff awal yang memakai satu writer. Owner tidak perlu menyalin ulang keputusan yang sudah tersimpan.
+Setelah Claude mulai, Claude hanya menulis scope A dan integrasi; Codex/Astra hanya scope B produksi/perencanaan. Baca pembagian Claude versi2 dan KOORDINASI dari GitHub, termasuk jika ZIP privat masih berisi handoff awal yang memakai satu writer atau pembagian OW07-Codex. Owner tidak perlu menyalin ulang keputusan yang sudah tersimpan.
 
 ## Catatan run lama dan kegagalan pemasangan
 

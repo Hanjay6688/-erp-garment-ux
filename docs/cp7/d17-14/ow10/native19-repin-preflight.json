@@ -1,0 +1,30 @@
+{
+  "classification": "LOCAL_COMPOSED_BODY_PIN_REPAIR_NOT_NATIVE",
+  "status": "PASS",
+  "first_attempt": "9ac0964e2756b0752858961e354b5c10307e8959",
+  "first_attempt_cases": 0,
+  "changed_dependency": "cp7_analysis_stage.history_prep(jsonb,jsonb,integer,bigint,integer)",
+  "required_production18_body_sha256": "e76f05569d1282c0bba24985e549b22b71e5051078ca868ef814a7eff46fe9ec",
+  "frozen_predecessor_not_accepted": true,
+  "local_fixture_loads_actual_production18_body": true,
+  "three_composed_dependency_pins_exact": true,
+  "local_inputs_cache_evaluate": {
+    "passed": 35,
+    "total": 35
+  },
+  "local_caller_actual_RPC_SQL": {
+    "passed": 9,
+    "total": 9
+  },
+  "actual_installers_22_groups_inverse_reapply_afteruse": "PASS",
+  "client_DOM": {
+    "passed": 65,
+    "total": 65
+  },
+  "all_module_source_guards": "PASS",
+  "old_oracles_changed": false,
+  "limits_raised": false,
+  "Native_requalified": false,
+  "full_A_chain_qualified": false,
+  "production_go": false
+}

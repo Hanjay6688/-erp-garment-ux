@@ -1,0 +1,8 @@
+2026-10-22T17:25:24.1957323Z failed to pull docker image from all registries: ghcr.io/supabase/kong:2.8.1 attempt 1: 2.8.1: Pulling from supabase/kong
+2026-10-22T17:25:24.1967926Z failed to pull docker image from all registries: ghcr.io/supabase/gotrue:v2.196.0 attempt 1: Error response from daemon: toomanyrequests: retry-after: 29.027µs, allowed: 44000/minute; ghcr.io/supabase/gotrue:v2.196.0 attempt 2: Error response from daemon: toomanyrequests: retry-after: 267.207µs, allowed: 44000/minute; ghcr.io/supabase/gotrue:v2.196.0 attempt 3: Error response from daemon: toomanyrequests: retry-after: 355.66µs, allowed: 44000/minute
+2026-10-22T17:26:38.7171948Z Error response from daemon: toomanyrequests: Data limit exceeded
+2026-10-22T17:26:38.7177686Z Error response from daemon: toomanyrequests: Data limit exceeded
+2026-10-22T17:26:38.7178676Z Error response from daemon: toomanyrequests: Data limit exceeded
+2026-10-22T17:26:38.7179710Z Error response from daemon: toomanyrequests: Data limit exceeded
+2026-10-22T17:26:38.7180725Z Error response from daemon: toomanyrequests: Data limit exceeded
+2026-10-22T17:26:38.7181236Z Error response from daemon: toomanyrequests: Data limit exceeded

@@ -1,0 +1,14 @@
+{
+  "status": "FAIL",
+  "observed": {
+    "pass": 113,
+    "fail": 1,
+    "total": 114
+  },
+  "test": "NativeAnalysisPanel.pages.dom.test.tsx / finance checkbox staged request",
+  "failure": "Legacy adapter expected three-field operational query; new explicit finance choice correctly adds finance_mode=STAGED. Adapter refused before job ran.",
+  "change_required": "Keep default legacy cases unchanged; replace obsolete exclusion case with explicit STAGED binding, independent financial status, exact official amounts, sealed operational pages and durable remount assertions. Update obsolete product explanation.",
+  "log_sha256": "f029c58532ba779fe2074f8fa84435942ac140df831955d02667733cc1861f9f",
+  "Native_evidence": false,
+  "production_go": false
+}

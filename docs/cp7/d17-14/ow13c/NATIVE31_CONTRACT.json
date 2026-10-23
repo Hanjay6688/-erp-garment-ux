@@ -1,0 +1,111 @@
+{
+  "contract": "cp7.ow13c.checked-save-journeys.v1",
+  "expected_case_count": 31,
+  "required_case_counts": {
+    "native": 15,
+    "races": 8,
+    "http": 4,
+    "browser": 4
+  },
+  "required_case_ids": {
+    "native": [
+      "OW10R_NATIVE_CATALOG_PRIVATE_22",
+      "OW10R_NATIVE_PROFILE_MEAN_AND_CLOCKS",
+      "OW10R_NATIVE_UNKNOWN_RAW_NOT_ZERO",
+      "OW10R_NATIVE_MANUAL_REPLAY_CLEAR",
+      "OW10R_NATIVE_CURRENT_GLOBAL_GOOD",
+      "OW10R_NATIVE_STALE_NO_CREDIT",
+      "OW10R_NATIVE_CURRENT_ACCESS",
+      "OW10R_NATIVE_THRESHOLD_CACHE_FRESH_STOCK",
+      "OW10R_NATIVE_LARGE_EXACT_WA",
+      "OW10R_NATIVE_AFTER_USE_GUARDS",
+      "OW10R_NATIVE_VOLUME2000_8S_WARM3S",
+      "OW13C_NATIVE_FRESH_SAVE_REPLAY_AND_NO_PHYSICAL_FACT",
+      "OW13C_NATIVE_STALE_REFUSED_OLD_ARCHIVE_SAVE_UNCHANGED",
+      "OW13C_NATIVE_OLD_UUID_CANNOT_BECOME_CHECKED",
+      "OW13C_NATIVE_USED_RECEIPT_BLOCKS_INVERSE_BEFORE_DDL"
+    ],
+    "races": [
+      "OW10R_RACE_SAME_UUID_ONE_REVISION",
+      "OW10R_RACE_STALE_REVISION_ONE_WINNER",
+      "OW10R_RACE_REVOKED_AFTER_GLOBAL_WAIT",
+      "OW10R_RACE_BUSY_NEW_LOW",
+      "OW13C_RACE_SAME_UUID_ONE_DRAFT_RECEIPT",
+      "OW13C_RACE_TWO_REVISIONS_ONE_WINNER",
+      "OW13C_RACE_REVOKED_WHILE_CAPACITY_LOCKED",
+      "OW13C_RACE_STOCK_CHANGED_WHILE_CAPACITY_LOCKED"
+    ],
+    "http": [
+      "OW10R_HTTP_ACTUAL_AUTH_V2_SAVE_REPLAY",
+      "OW10R_HTTP_ANON_AND_REVOKED",
+      "OW13C_HTTP_REAL_AUTH_SAVE_REPLAY",
+      "OW13C_HTTP_CURRENT_ACCESS_AND_ANON"
+    ],
+    "browser": [
+      "OW10R_BROWSER_DESKTOP_NATIVE_V2",
+      "OW10R_BROWSER_MOBILE_LOST_REPLY",
+      "OW13C_BROWSER_DESKTOP_EDIT_AND_STALE_REFUSAL",
+      "OW13C_BROWSER_MOBILE_LOST_REPLY_ORDINARY_PLAN_REOPEN"
+    ]
+  },
+  "public_rpcs": [
+    "erp_cp7_get_alerts_v1",
+    "erp_cp7_get_wa_settings_v1",
+    "erp_cp7_save_wa_settings_v1",
+    "erp_cp7_set_wa_key_v1",
+    "erp_cp7_send_wa_test_v1",
+    "erp_cp7_resolve_wa_dispatch_v1",
+    "erp_cp7_get_fg_reorder_v1",
+    "erp_cp7_refresh_fg_reorder_v1",
+    "erp_cp7_save_fg_reorder_manual_v1",
+    "erp_cp7_save_stock_formula_settings_v1",
+    "erp_cp7_get_material_reorder_v1",
+    "erp_cp7_refresh_material_reorder_v1",
+    "erp_cp7_save_material_reorder_v1",
+    "erp_cp7_request_staged_analysis_v1",
+    "erp_cp7_get_staged_analysis_v1",
+    "erp_cp7_step_staged_analysis_v1",
+    "erp_cp7_get_planning_profiles_v1",
+    "erp_cp7_save_planning_profile_v1",
+    "erp_cp7_capture_baseline_v1",
+    "erp_cp7_save_cutting_suggestion_v1"
+  ],
+  "schedules": [
+    "erp-wa-collect",
+    "erp-wa-send",
+    "erp-wa-analysis"
+  ],
+  "new_cases": {
+    "native": [
+      "OW13C_NATIVE_FRESH_SAVE_REPLAY_AND_NO_PHYSICAL_FACT",
+      "OW13C_NATIVE_STALE_REFUSED_OLD_ARCHIVE_SAVE_UNCHANGED",
+      "OW13C_NATIVE_OLD_UUID_CANNOT_BECOME_CHECKED",
+      "OW13C_NATIVE_USED_RECEIPT_BLOCKS_INVERSE_BEFORE_DDL"
+    ],
+    "http": [
+      "OW13C_HTTP_REAL_AUTH_SAVE_REPLAY",
+      "OW13C_HTTP_CURRENT_ACCESS_AND_ANON"
+    ],
+    "races": [
+      "OW13C_RACE_SAME_UUID_ONE_DRAFT_RECEIPT",
+      "OW13C_RACE_TWO_REVISIONS_ONE_WINNER",
+      "OW13C_RACE_REVOKED_WHILE_CAPACITY_LOCKED",
+      "OW13C_RACE_STOCK_CHANGED_WHILE_CAPACITY_LOCKED"
+    ],
+    "browser": [
+      "OW13C_BROWSER_DESKTOP_EDIT_AND_STALE_REFUSAL",
+      "OW13C_BROWSER_MOBILE_LOST_REPLY_ORDINARY_PLAN_REOPEN"
+    ]
+  },
+  "retained19_oracles_unchanged": true,
+  "checked_save_races_qualified": false,
+  "checked_save_browser_qualified": false,
+  "full_OW13c_acceptance": false,
+  "full_A_chain_qualified": false,
+  "production_go": false,
+  "caller_backup_restore_qualified": false,
+  "limits_raised": false,
+  "retained25_oracles_unchanged": true,
+  "checked_save_race_controls_declared": true,
+  "checked_save_browser_controls_declared": true
+}

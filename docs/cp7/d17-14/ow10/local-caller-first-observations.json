@@ -1,0 +1,128 @@
+{
+  "classification": "PRESERVED_FIRST_OBSERVATIONS_NOT_CURRENT_PASS",
+  "full_originals_kept_separately": true,
+  "observations": [
+    {
+      "id": "FIRST_SETUP",
+      "result": "New caller cases not reached",
+      "cause": "Projection SQL already creates schema; fixture created it twice",
+      "product_oracle_unchanged": true
+    },
+    {
+      "id": "FIRST_35",
+      "result": "29/35",
+      "cause": "Fixture budget supplied undeclared refs; large-demand fixture omitted SELECTED_MANUAL",
+      "expected_large_PCS_unchanged": true
+    },
+    {
+      "id": "FIRST_LIVE_SETUP",
+      "result": "0 caller cases reached",
+      "cause": "Job marker fixture omitted required created_at/updated_at"
+    },
+    {
+      "id": "FIRST_7",
+      "result": "6/7",
+      "cause": "Synthetic successor changed size despite an old posted sale; Native TARGET_SIZE correctly refused",
+      "resolution": "Add explicit refusal control, use a no-sale root for valid successor test"
+    },
+    {
+      "id": "FIRST_8",
+      "result": "7/8",
+      "cause": "Fault injection updated the historical product size too; corrected to actual old/current version pair; preserve original DB exception during aborted fixture transaction"
+    },
+    {
+      "id": "FIRST_9",
+      "result": "7/9",
+      "cause": "Fixture enum DIRECTED_WIP invalid; actual contract is DIRECTED; malformed retained job cascaded to successor case"
+    },
+    {
+      "id": "FIRST_REFACTOR",
+      "result": "Aborted before report",
+      "cause": "Shared fixture forgot to export pinned nativeSourceSQL and manifest; unchanged Native pin correctly rejected body left by failed cleanup"
+    },
+    {
+      "id": "FIRST_CLIENT_SETUP",
+      "result": "51 legacy PASS; new suite not loaded",
+      "cause": "Vitest hoisted declarations must be separate; test helper inferred overly narrow JSON fixture type"
+    },
+    {
+      "id": "FIRST_CLIENT_PARTIAL_PROFILE",
+      "result": "61/63",
+      "cause": "PRODUCT BUG: v2 parser required known DAYS buffer for a legitimate UNKNOWN stale profile",
+      "resolution": "Require complete buffer only for known formula; unknown profile remains unknown; assertions unchanged"
+    }
+  ],
+  "originals": [
+    {
+      "file": "first-35-local-report.json",
+      "bytes": 19361,
+      "sha256": "23b5dd7ab7db977cfca11f41ff54cec55d8ad0046856398cc7393b77a095656b"
+    },
+    {
+      "file": "first-35-raw.log",
+      "bytes": 21732,
+      "sha256": "fcefd3bc8052afc9f3e5b2b39764f3cb5644416bbd3d0936d2f3835f4f43af76"
+    },
+    {
+      "file": "first-7-local-report.json",
+      "bytes": 6624,
+      "sha256": "f6a2a2330eca110a20171f53ad2b9ccdf18b9d9998e7a17095c39fa2039813fe"
+    },
+    {
+      "file": "first-7-raw.log",
+      "bytes": 7051,
+      "sha256": "b1c6ce1648f03b3714520b95f7cfdca598558a8c0e2632254ad04cfb160b503c"
+    },
+    {
+      "file": "first-8-local-report.json",
+      "bytes": 6530,
+      "sha256": "b35dc5d247dba8c461e860676ff07017de51b53e604e0f85688fadfc01ebb600"
+    },
+    {
+      "file": "first-8-raw.log",
+      "bytes": 7038,
+      "sha256": "04e383383b1d4ffe8d7f037d31c9e69b94a2cfbc56bf78c54ccc626a4d85f109"
+    },
+    {
+      "file": "first-9-local-report.json",
+      "bytes": 8094,
+      "sha256": "714bd857d7f4c462ded7e5ee86da415e169aafa509d1328477c2076490aa93e4"
+    },
+    {
+      "file": "first-9-raw.log",
+      "bytes": 8676,
+      "sha256": "11b3c831bedbb2645feafe3736eb510ff1cc8736d045b2d195d44f9b5caf171c"
+    },
+    {
+      "file": "first-live-setup.log",
+      "bytes": 22248,
+      "sha256": "3ac34db47a2cacbfce005446e539ca0bc9bdf390d8f63e1f1d6a34b69498c8e9"
+    },
+    {
+      "file": "first-refactor-inputs.log",
+      "bytes": 2947,
+      "sha256": "089ecac5918cdfc2337d703d38d4bcfa94a359b74d1ebde85a01a1e5b4ce12c0"
+    },
+    {
+      "file": "first-setup.log",
+      "bytes": 33817,
+      "sha256": "da14c0f9c029aa4e58ee16f4cc1b98a50eb11b70e6d4d54dccbad8196dbaa387"
+    },
+    {
+      "file": "first-v2-partial-profile-61-of-63.log",
+      "bytes": 2362,
+      "sha256": "fb4e76a0bc0479657a9a6b0d79c45d3d835f48054c0289cca65732be76805059"
+    },
+    {
+      "file": "reorder-v2-client-first.log",
+      "bytes": 1267,
+      "sha256": "03d0fc7d828454b5525c086138574c7f1e66f819d95ba3e61f7c0c2881ebd859"
+    },
+    {
+      "file": "reorder-v2-tsc-second.log",
+      "bytes": 5678,
+      "sha256": "283edc2bfd516ffd68352006fb14a7f72e922b38d2a860ab1180d96cac1f618e"
+    }
+  ],
+  "production_go": false
+}

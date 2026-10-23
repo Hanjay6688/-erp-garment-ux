@@ -12,3 +12,13 @@ export function baselineWire(request=demandRequest){
   target:{status:'SCENARIO',kernel_version:'target-days-1',horizon_days:'10',horizon_demand_pcs:'100',buffer_pcs:'0',target_pcs:'100',formula:'ceil(D * (L + R + B))',inputs:{contract_version:'cp7.target-input.v1',snapshot_id:hash,scope_id:scope,mode:'DAYS',daily_mean:'10',lead_days:'3',review_days:'7',buffer_days:'0',quantile:null,horizon_samples:[],refs}},
   production_policy:null,start_new_pcs:null,final_gap_pcs:null,supply_state:'UNKNOWN',capacity_state:'UNKNOWN',timeline_state:'UNKNOWN',reason:'PRODUCTION_POLICY_UNREVIEWED_OR_IDENTITY_UNAVAILABLE',refs}],target_basis:'DAYS_WITH_SELECTED_PROFILE_ASSUMPTIONS',apply_enabled:false,model_basis:'BASELINE_ADAPTIVE_PROMOTION_NOT_PROVEN',production_go:false,source_state:'UNCHANGED',run_id:demandRun,request_id:request}
 }
+
+/** OW10 explicit manual 10 PCS/day, lead3 + review7, buffer0. */
+export function unifiedBaselineWire(request=demandRequest){
+ const value=baselineWire(request),r=value.rows[0],old=r.target.inputs
+ const inputs={contract_version:'cp7.target-input.v2',snapshot_id:old.snapshot_id,scope_id:old.scope_id,mode:'DAYS',
+  daily_total_pcs:'10',counted_days:'1',daily_sd:null,lead_days:'3',review_days:'7',buffer_days:'0',service_level:null,refs:old.refs}
+ const target={status:'SCENARIO',kernel_version:'target-unified-2',horizon_days:'10',lead_demand_pcs:'30',review_demand_pcs:'70',
+  lead_safety_pcs:'0',horizon_safety_pcs:'0',reorder_point_pcs:'30',target_pcs:'100',inputs,reason:'ONE_EXPLICIT_DAYS_BUFFER'}
+ return {...value,rows:[{...r,target}]}
+}

@@ -1,0 +1,37 @@
+{
+  "job": null,
+  "actor": "00000001-1111-4111-8111-111111111111",
+  "query": {
+    "from_date": "2026-09-23",
+    "group_mode": "AS_SOLD",
+    "through_date": "2026-10-22"
+  },
+  "state": "READY",
+  "job_query": null,
+  "readiness": {
+    "ready": true,
+    "reasons": [],
+    "candidates": [
+      {
+        "sku": "LOCAL-INITIAL",
+        "root_id": "00000010-1111-4111-8111-111111111111",
+        "size_id": "00000012-1111-4111-8111-111111111111",
+        "product_id": "00000011-1111-4111-8111-111111111111",
+        "product_name": "Controlled initial analysis",
+        "profile_ready": true
+      }
+    ],
+    "products_total": 1,
+    "active_products": 1,
+    "candidate_limit": 20,
+    "eligible_targets": 1
+  },
+  "checked_at": "2026-10-23T02:03:50.450000Z",
+  "apply_enabled": false,
+  "production_go": false,
+  "semantic_hash": "7bd40d8ae904e4c28a1361477c690448a184196e5fd1016e7fae917408b3d9a8",
+  "source_changed": false,
+  "automatic_scope": "INITIAL_ONCE",
+  "contract_version": "cp7.initial-analysis.v1",
+  "job_semantic_hash": null
+}

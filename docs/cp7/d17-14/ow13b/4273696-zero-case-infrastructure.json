@@ -1,0 +1,10 @@
+{
+  "head": "42736964a5a8a27c937658f5ba4377ba46346165",
+  "run": 39822010561,
+  "job": 119975430398,
+  "observed_cases": 0,
+  "status": "INCOMPLETE",
+  "failed_step": "Start disposable database",
+  "cause_observed": "GHCR toomanyrequests and public ECR Data limit exceeded; no database or cases started; no report artifact",
+  "disposition": "Authenticate existing GHCR image pulls with job token packages:read; image versions, SQL, oracle, counts, budgets and 8s statement timeout unchanged. No success claimed and no production writes."
+}

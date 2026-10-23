@@ -1,0 +1,22 @@
+{
+  "classification": "LOCAL_CLIENT_AND_DOM_NOT_NATIVE",
+  "status": "PASS",
+  "files": 9,
+  "tests": 114,
+  "command": "./node_modules/.bin/vitest run src/NativeAnalysisFinancePanel.dom.test.tsx src/NativeAnalysisPanel src/nativeStagedJob.test.ts src/nativeAnalysisFinance src/nativeStagedFinanceRequest.test.ts src/nativeAnalysisPages",
+  "log_sha256": "b804d5a5e38df2af220c6ac12106e7b9f88709990381345f95d2bcb50afed955",
+  "TypeScript": "PASS",
+  "CSS": "PASS",
+  "frozen_owning_sources": "PASS",
+  "full_source_registry": "BLOCKED_SIX_EXISTING_A_OWNED_PAIRS",
+  "full_A_chain_qualified": false,
+  "OW12b_complete": false,
+  "production_go": false,
+  "additional_capture_time_binding": {
+    "files": 1,
+    "tests": 8,
+    "status": "PASS",
+    "command": "./node_modules/.bin/vitest run src/NativeAnalysisFinancePanel.dom.test.tsx",
+    "log_sha256": "2206853b910f3c795ede3fb2423a030ff4c0f1e990a4ce4b4ea835b09d3a2c5f"
+  }
+}

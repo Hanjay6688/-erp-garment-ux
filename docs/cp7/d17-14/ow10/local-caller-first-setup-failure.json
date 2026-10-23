@@ -1,0 +1,13 @@
+{
+  "classification": "LOCAL_CALLER_FIXTURE_SETUP_NOT_NATIVE_OR_PRODUCT_FAILURE",
+  "status": "SETUP_FAILED",
+  "retained_cases_before_setup_passed": 22,
+  "new_caller_cases_reached": 0,
+  "error": "42P06 schema cp7_reorder_supply already exists",
+  "cause": "Harness created the schema before loading projection.sql, which already owns its schema declaration.",
+  "fix": "Load the actual module SQL once; no product or expected arithmetic changes.",
+  "product_changed": false,
+  "oracle_changed": false,
+  "raw_log_sha256": "da14c0f9c029aa4e58ee16f4cc1b98a50eb11b70e6d4d54dccbad8196dbaa387",
+  "production_go": false
+}

@@ -1,11 +1,19 @@
 // @vitest-environment jsdom
 import{beforeEach,describe,it,expect}from'vitest'
 import{parsePlanningProfile,parsePlanningConfig,parseNativeBaseline,planningPayload,checkPlanningOutcome,readPlanningRequest,persistPlanningRequest,clearPlanningRequest,planningRequestKey}from'./nativePlanningProfile'
-import{profileWire,baselineWire,planningConfig,planningQuery,planningId}from'../tests/fixtures/nativePlanningProfile'
+import{profileWire,baselineWire,unifiedBaselineWire,planningConfig,planningQuery,planningId}from'../tests/fixtures/nativePlanningProfile'
 import{demandRoot,demandSize,demandRequest}from'../tests/fixtures/nativeDemandHistory'
 beforeEach(()=>localStorage.clear())
 describe('Native planning profile and baseline client contract',()=>{
  it('projects a selected target100 and native FG76 without deriving final gap or enabling apply',()=>{const r=parseNativeBaseline(baselineWire(),planningQuery);expect(r.rows[0]).toMatchObject({target:'100',available:'76',daily:'10',productionState:null,startNew:null,profileRevision:'1'});expect(r.query).toEqual(planningQuery)})
+ it('keeps reorder trigger and target quantity separate using the authoritative unified kernel breakdown',()=>{
+  expect(parseNativeBaseline(unifiedBaselineWire(),planningQuery).rows[0]).toMatchObject({target:'100',reorderPoint:'30',leadDemand:'30',reviewDemand:'70',safety:'0',startNew:null})
+  expect(parseNativeBaseline(baselineWire(),planningQuery).rows[0].reorderPoint).toBeNull()
+ })
+ it('rejects a unified target whose demand source or buffer mode differs from the reviewed profile',()=>{
+  const v=unifiedBaselineWire();v.rows[0].target.inputs.daily_total_pcs='11';expect(()=>parseNativeBaseline(v,planningQuery)).toThrow()
+  const other=unifiedBaselineWire();Object.assign(other.rows[0].target.inputs,{daily_sd:'2',service_level:'0.95'});expect(()=>parseNativeBaseline(other,planningQuery)).toThrow()
+ })
  it('keeps an unreviewed profile unreviewed with no default configuration',()=>{expect(parsePlanningProfile(profileWire(false),demandRoot,demandSize)).toMatchObject({quality:'UNREVIEWED',config:null,profileId:null,revision:'0'})})
  it.each(['apply_enabled','production_go']as const)('refuses enabled execution flag %s',flag=>{const r=baselineWire();r[flag]=true;expect(()=>parseNativeBaseline(r,planningQuery)).toThrow()})
  it.each(['final_gap_pcs','capacity_state','supply_state','timeline_state'])('refuses fake-known missing native source %s',key=>{const r=baselineWire();Object.assign(r.rows[0],{[key]:key==='final_gap_pcs'?'24':'KNOWN'});expect(()=>parseNativeBaseline(r,planningQuery)).toThrow()})

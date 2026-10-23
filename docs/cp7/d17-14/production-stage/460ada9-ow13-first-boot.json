@@ -1,0 +1,12 @@
+{
+  "candidate": "460ada9a1402488e4cf5bfa7df4cb41cf4357098",
+  "run": 39854168810,
+  "job": 120087906535,
+  "status": "BOOT_FAILED_NO_CASES",
+  "observed_case_count": 0,
+  "reason": "Docker mirrors exhausted: toomanyrequests: Data limit exceeded; failed to pull postgres/kong/postgrest/storage-api from configured registries",
+  "raw_log_bytes": 232948,
+  "raw_log_sha256": "c72e4dce713fd0334945e8ba69e181964e3e0bb51da9b357635be222afe57da9",
+  "unchanged_rerun": false,
+  "production_go": false
+}

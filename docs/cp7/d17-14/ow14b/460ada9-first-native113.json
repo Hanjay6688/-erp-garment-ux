@@ -1,0 +1,68 @@
+{
+  "candidate": "460ada9a1402488e4cf5bfa7df4cb41cf4357098",
+  "run": 39854168836,
+  "job": 120087906759,
+  "status": "INCOMPLETE",
+  "source_sha256": "d27d5342d5b388a94264a301d964502aa7289a91e7248dab0de0f91c5ec17d34",
+  "expected": 113,
+  "observed": 113,
+  "counts": {
+    "native": {
+      "PASS": 60,
+      "INCOMPLETE": 1
+    },
+    "races": {
+      "PASS": 34
+    },
+    "http": {
+      "PASS": 7
+    },
+    "browser": {
+      "PASS": 7,
+      "INCOMPLETE": 4
+    }
+  },
+  "failures": {
+    "native": {
+      "SS2_FABRIC_MINIMUM_STAYS_BELOW_MINIMUM": {
+        "status": "INCOMPLETE",
+        "error": "{'80959aac-d635-402c-ab3a-30e13d4575ef': 'MANUAL_MINIMUM_IN_FORCE', 'c8c30000-0000-4000-8000-000000000002': 'NO_REORDER_POINT'}"
+      }
+    },
+    "races": {},
+    "http": {},
+    "browser": {
+      "WAF_BROWSER_MATERIAL_REORDER_DESKTOP": {
+        "status": "INCOMPLETE",
+        "error": "Error: expect(locator).toContainText(expected) failed\n\nLocator: getByRole('region', { name: 'Titik pesan ulang kain', exact: true }).getByRole('article', { name: 'Titik pesan ulang Kain SS2 B6C0BAA8 (SKU SS2-B6C0BAA8)', exact: true }).getByRole('group', { name: 'Lama kirim', exact: true })\nExpected substring: \"Angka minimum diatur di Master Data \u203a Kain & Benchmark.\"\nReceived string:    \"Lama kirimLama kirim (hari)Berapa hari dari pesan ke supplier sampai kain diterima. Kosong = rumus tidak dihitung.Aturan kain yang akan dipakaiPertahankan aturan yang aktifPakai rumusPakai minimum lama yang diperiksaReferensi minimum lama: 0 YD (baca saja). Me"
+      },
+      "WAF_BROWSER_MATERIAL_REORDER_MOBILE": {
+        "status": "INCOMPLETE",
+        "error": "Error: expect(locator).toContainText(expected) failed\n\nLocator: getByRole('region', { name: 'Titik pesan ulang kain', exact: true }).getByRole('article', { name: 'Titik pesan ulang Kain SS2 620ACB57 (SKU SS2-620ACB57)', exact: true }).getByRole('group', { name: 'Lama kirim', exact: true })\nExpected substring: \"Angka minimum diatur di Master Data \u203a Kain & Benchmark.\"\nReceived string:    \"Lama kirimLama kirim (hari)Berapa hari dari pesan ke supplier sampai kain diterima. Kosong = rumus tidak dihitung.Aturan kain yang akan dipakaiPertahankan aturan yang aktifPakai rumusPakai minimum lama yang diperiksaReferensi minimum lama: 0 YD (baca saja). Me"
+      },
+      "OW14B_BROWSER_DESKTOP_CHOICE_RELOAD_UUID": {
+        "status": "INCOMPLETE",
+        "error": "Error: expect(locator).toBeEnabled() failed\n\nLocator: getByRole('region', { name: 'Titik pesan ulang kain', exact: true }).getByRole('button', { name: 'Ulangi simpan bahan yang sama: Kain SS2 CEE08341', exact: true })\nExpected: enabled\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"to.be.enabled\" with timeout 5000ms\n  - waiting for getByRole('region', { name: 'Titik pesan ulang kain', exact: true }).getByRole('button', { name: 'Ulangi simpan bahan yang sama: Kain SS2 CEE08341', exact: true })\n\n    at captureRawStack (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright-core/lib/coreBundle.js:96"
+      },
+      "OW14B_BROWSER_MOBILE_CHOICE_RELOAD_CURRENT_ACCESS": {
+        "status": "INCOMPLETE",
+        "error": "Error: expect(locator).toBeEnabled() failed\n\nLocator: getByRole('region', { name: 'Titik pesan ulang kain', exact: true }).getByRole('button', { name: 'Ulangi simpan bahan yang sama: Kain SS2 458010AF', exact: true })\nExpected: enabled\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"to.be.enabled\" with timeout 5000ms\n  - waiting for getByRole('region', { name: 'Titik pesan ulang kain', exact: true }).getByRole('button', { name: 'Ulangi simpan bahan yang sama: Kain SS2 458010AF', exact: true })\n\n    at captureRawStack (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright-core/lib/coreBundle.js:96"
+      }
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "main_original_bytes": 13688761,
+  "main_original_sha256": "bdcb949df98b7d2a1ea54eea663317b4b8e0b1f44048744e0dcbe05b133f2bcb",
+  "complete_json_artifact": {
+    "id": 12460310491,
+    "bytes": 1442364,
+    "sha256": "be162efac16aa15a1ea588f3f2799c3ee2a581ce260a94a4648f1ab0c9926e7f"
+  },
+  "full_artifact": {
+    "id": 12460375731,
+    "bytes": 23503803,
+    "sha256": "122890176a9aa5753452ff8848a3531a96f861c7f28366098fa8c790438041c0"
+  },
+  "production_go": false
+}

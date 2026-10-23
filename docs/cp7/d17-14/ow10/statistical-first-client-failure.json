@@ -1,0 +1,37 @@
+{
+  "classification": "LOCAL_CLIENT_BEFORE_FIX",
+  "observed": {
+    "pass": 67,
+    "fail": 24,
+    "tests": 91
+  },
+  "failure": "New service-level binding incorrectly required an explicit null on legacy target-input.v1, which has no such field. ROP header also changed wording.",
+  "failed_tests": [
+    "src/FgReorderPanel.dom.test.tsx > Titik pesan ulang on Ringkasan Barang Jadi (SS-1) > shows each item with its status, numbers and formula in plain words",
+    "src/NativePlanningProfilePanel.dom.test.tsx > recovers a lost target reply with the identical query/UUID then checks the recovered period",
+    "src/NativePlanningProfilePanel.dom.test.tsx > retires old target facts on current native access denial",
+    "src/NativeProductionPlanningPanel.dom.test.tsx > loads one global source and server routes with blank timing/yield assumptions including customer work",
+    "src/NativeProductionPlanningPanel.dom.test.tsx > persists exact metadata UUID before send and replays it after response loss/remount despite newer schedule",
+    "src/NativeProductionPlanningPanel.dom.test.tsx > keeps dirty quantities/times and original revision after new source review; requires explicit adoption",
+    "src/NativeProductionPlanningPanel.dom.test.tsx > retries a lost netting capture with the original complete query/UUID after remount and retires results on current403",
+    "src/nativePlanningProfile.test.ts > Native planning profile and baseline client contract > projects a selected target100 and native FG76 without deriving final gap or enabling apply",
+    "src/nativePlanningProfile.test.ts > Native planning profile and baseline client contract > keeps reorder trigger and target quantity separate using the authoritative unified kernel breakdown",
+    "src/nativePlanningProfile.test.ts > Native planning profile and baseline client contract > allows a known STOP policy to show zero new starts while preserving available stock",
+    "src/nativePlanningProfile.test.ts > Native planning profile and baseline client contract > keeps large target quantities exact without Number arithmetic",
+    "src/nativeProductionPlanning.test.ts > retains the lead trigger separately when later supply reduces the target quantity",
+    "src/nativeProductionPlanning.test.ts > retains physical quantities, customer work, selected good, signed shortage and capacity as separate server values",
+    "src/nativeProductionPlanning.test.ts > preserves unknown yield, shared time and global allocation as unknown values",
+    "src/nativeProductionPlanning.test.ts > reads the PL-8 v2 supply contract and runs archived as v1, never another version",
+    "src/nativeProductionPlanning.test.ts > accepts the native timing kernel UTC offset serialization while keeping selected metadata UTC-Z only",
+    "src/nativeProductionPlanning.test.ts > refuses misbound schedule guidance: run",
+    "src/nativeProductionPlanning.test.ts > refuses misbound schedule guidance: hash",
+    "src/nativeProductionPlanning.test.ts > refuses misbound schedule guidance: qty",
+    "src/nativeProductionPlanning.test.ts > refuses misbound schedule guidance: ownership",
+    "src/nativeProductionPlanning.test.ts > refuses misbound schedule guidance: candidate",
+    "src/nativeProductionPlanning.test.ts > refuses misbound schedule guidance: version",
+    "src/nativeProductionPlanning.test.ts > keeps original metadata revision and exact microsecond timestamps for retry despite newer source",
+    "src/nativeProductionPlanning.test.ts > refuses new saves against a stale source and preserves corrupt pending state"
+  ],
+  "log_sha256": "5ecb6f9a43647181946835d89bed092b7c5ec84f96d73d194c5e1a2ee8a19553",
+  "production_go": false
+}

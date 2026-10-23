@@ -915,3 +915,9 @@ berlaku, dan kotak bagian 6 sudah disalin owner ke sesi Astra. Dokumen Astra `do
 Claude mengerjakan OW-06 dan menjadi penggabung tunggal. Yang berbeda mengikuti versi 2: OW-07, OW-08, OW-09, OW-12a dan
 paket auditor dikerjakan Claude; Astra mengerjakan OW-10, OW-11, OW-12b, OW-13, OW-14 dan OW-16. Cabang kerja Claude
 `claude/d17-14-uang`, bukan `claude/ow06-supplier-transfer` (cabang itu dibiarkan, tidak dihapus).
+
+Catatan penerimaan Penulis B (Codex/Astra, 22 Okt2026): sumber kutipan dan pembagian versi2 diambil dari commit
+349a3b30580394f66b29637fcba51ff644e36959 cabang Claude. Pembagian terbaru memindahkan OW07 ke Claude dan produksi/
+perencanaan ke B; pembagian OW06-Claude/OW07-Codex sebelumnya digantikan. B menyiapkan cabang astra/d17-14-produksi
+dari integrasi a255e48 (produk sama dengan01c5f856; hanya dokumen koordinasi lebih baru). Rincian di d17-14/KOORDINASI.md.
+Ini catatan pelaksanaan, bukan keputusan owner baru tentang angka kebijakan atau kepastian tanggal selesai.

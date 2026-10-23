@@ -20,7 +20,7 @@ export const WINDOW_MAX = 365
 export const MIN_COUNTED_DAYS = 14
 
 export type ReorderBasis = 'MANUAL' | 'FORMULA' | 'NOT_ENOUGH_DATA' | 'NO_SALES'
-export type ReorderReason = 'NO_POSTED_SALES_IN_WINDOW' | 'FEWER_THAN_14_COUNTED_DAYS' | 'NO_LEAD_TIME'
+export type ReorderReason = typeof reasons[number] | typeof nativeReasons[number]
 export type WipStatus = 'COMPLETE' | 'UNKNOWN' | 'NOT_READ'
 export type ReorderState = 'AT_OR_BELOW' | 'ABOVE' | 'NO_POINT'
 export type ReorderSettings = { revision: number; serviceLevel: ServiceLevel; windowDays: number; reason: string | null; savedAt: string | null }
@@ -29,19 +29,29 @@ export type ReorderRun = {
   items: number; atOrBelow: number; wipRead: number; materials: number; materialsAtOrBelow: number; millis: number
 }
 export type ReorderCounts = { items: number; atOrBelow: number; manual: number; formula: number; notEnoughData: number; noSales: number }
+export type ReorderProjection = {
+  thresholdSource: 'PLANNING_PROFILE' | 'NATIVE_HISTORY_WITH_EXISTING_DEFAULTS' | 'PROFILE_UNAVAILABLE'
+  thresholdCheckedAt: string; stockCheckedAt: string; analysisAt: string | null; leadDeadline: string | null; targetDeadline: string | null
+  basePositionPcs: string | null; conditionalPositionPcs: string | null; candidatePcs: string | null; targetPcs: string | null
+  productionBasePcs: string | null; productionConditionalPcs: string | null
+  manualState: 'NONE' | 'ACTIVE' | 'CLEARED' | 'STALE_IDENTITY'
+  manualReference: { productVersionId: string; sizeId: string; revision: number; point: string | null } | null
+}
 /** One row of cp7_stock_formula.evaluations (plus wip_read_at on the list). Decimal quantities are text. */
 export type ReorderRow = {
   targetKey: string; rootId: string; sizeId: string; modelId: string | null; productId: string; sku: string; productName: string; sizeCode: string | null
   freePcs: string; salesPcs: string; countedDays: number; saleDays: number; dailyMean: string | null; dailySd: string | null
   leadDays: string | null; leadBasis: 'MEASURED' | 'PROFILE' | null; leadLots: number | null; leadGroups: number | null
-  bufferMode: 'STATISTICAL' | 'DAYS'; bufferDays: string | null; z: string; safetyPcs: string | null
-  formulaPoint: number | null; manualPoint: number | null; manualRevision: number | null; point: number | null
+  bufferMode: 'STATISTICAL' | 'DAYS' | null; bufferDays: string | null; z: string | null; safetyPcs: string | null
+  formulaPoint: number | string | null; manualPoint: number | string | null; manualRevision: number | null; point: number | string | null
   basis: ReorderBasis; reason: ReorderReason | null; wipPcs: string | null; wipStatus: WipStatus; wipReason: string | null
   state: ReorderState; changedAt: string; wipReadAt: string | null
+  projection?: ReorderProjection; serviceLevel?: ServiceLevel | null
 }
 export type ReorderQuery = { q: string; filter: ReorderFilter; offset: number; limit: number }
 export type ReorderPage = { rows: ReorderRow[]; total: string; offset: number; limit: number; nextOffset: number | null }
-export type ReorderWorkspace = { readAt: string; settings: ReorderSettings; run: ReorderRun | null; canManage: boolean; counts: ReorderCounts; page: ReorderPage }
+export type ReorderWorkspace = { readAt: string; settings: ReorderSettings; run: ReorderRun | null; canManage: boolean; counts: ReorderCounts; page: ReorderPage
+  contractVersion?: 'cp7.fg-reorder.v2' }
 export type ReorderRefresh = { computedAt: string; items: number; atOrBelow: number; wipRead: number; materials: number; materialsAtOrBelow: number }
 export type ManualPayload = { root_id: string; expected_revision: number; reorder_point_pcs: number | null; reason: string }
 export type SettingsPayload = { expected_revision: number; service_level: ServiceLevel; window_days: number; reason: string }
@@ -112,7 +122,10 @@ export const reorderWire = { fail, obj, str, maybeStr, bool, instant, maybeInsta
 const rowKeys = ['target_key', 'root_id', 'size_id', 'model_id', 'product_id', 'sku', 'product_name', 'size_code', 'free_pcs', 'sales_pcs', 'counted_days',
   'sale_days', 'daily_mean', 'daily_sd', 'lead_days', 'lead_basis', 'lead_lots', 'lead_groups', 'buffer_mode', 'buffer_days', 'z', 'safety_pcs', 'formula_point',
   'manual_point', 'manual_revision', 'point', 'basis', 'reason', 'wip_pcs', 'wip_status', 'wip_reason', 'state', 'changed_at'] as const
-const reasons = ['NO_POSTED_SALES_IN_WINDOW', 'FEWER_THAN_14_COUNTED_DAYS', 'NO_LEAD_TIME'] as const
+const reasons = ['NO_POSTED_SALES_IN_WINDOW', 'FEWER_THAN_14_COUNTED_DAYS', 'NO_LEAD_TIME', 'PROFILE_MINIMUM_NOT_MET'] as const
+const nativeReasons = ['FEWER_THAN_14_NATIVE_AVAILABLE_DAYS', 'NO_PROVEN_LEAD_TIME', 'PROFILE_IDENTITY_OR_VERSION_CHANGED',
+  'MANUAL_POINT_VERSION_CHANGED', 'HORIZON_UNKNOWN', 'DEMAND_UNKNOWN', 'DEMAND_OR_BUFFER_UNKNOWN',
+  'STATISTICAL_HISTORY_OR_SERVICE_UNKNOWN', 'AGGREGATE_HORIZON_DISTRIBUTION_REQUIRED'] as const
 function row(v: unknown, list: boolean): ReorderRow {
   const what = 'barang', o = obj(v, what)
   keys(o, list ? [...rowKeys, 'wip_read_at'] : rowKeys, what)
@@ -136,12 +149,87 @@ function row(v: unknown, list: boolean): ReorderRow {
     || (r.manualPoint !== null) !== (r.basis === 'MANUAL') || (r.manualPoint !== null && r.manualRevision === null)) fail('titik pesan ulang')
   // compute(): the reason says why there is no formula basis, and only then.
   if (pointed ? r.reason !== null : r.basis === 'NO_SALES' ? r.reason !== 'NO_POSTED_SALES_IN_WINDOW'
-    : r.reason !== 'FEWER_THAN_14_COUNTED_DAYS' && r.reason !== 'NO_LEAD_TIME') fail('alasan')
+    : r.reason !== 'FEWER_THAN_14_COUNTED_DAYS' && r.reason !== 'NO_LEAD_TIME' && r.reason !== 'PROFILE_MINIMUM_NOT_MET') fail('alasan')
   // In production: a number exactly when COMPLETE; any other status says why.
   if ((r.wipStatus === 'COMPLETE') !== (r.wipPcs !== null) || (r.wipStatus === 'COMPLETE') !== (r.wipReason === null)) fail('sedang diproduksi')
-  if ((r.state === 'NO_POINT') !== (r.point === null || r.point <= 0)) fail('status')
+  if ((r.state === 'NO_POINT') !== (r.point === null || BigInt(r.point) <= 0n)) fail('status')
   if (r.targetKey !== `${r.rootId}:${r.sizeId}` || r.saleDays > r.countedDays || (r.leadDays === null) !== (r.leadBasis === null)
     || (r.bufferMode === 'DAYS') !== (r.bufferDays !== null)) fail(what)
+  return r
+}
+
+// The Native caller deliberately versions the wire. Legacy numbers remain
+// accepted only on v1; v2 PCS stay decimal text, including values above 2^53.
+const exactDecimal = (v: unknown, what: string) => typeof v === 'string' && /^\d+(?:\.\d+)?$/.test(v) ? v : fail(what)
+const exactWhole = (v: unknown, what: string) => typeof v === 'string' && /^(0|[1-9]\d*)$/.test(v) ? v : fail(what)
+const nullable = <T>(v: unknown, parse: (v: unknown, what: string) => T, what: string): T | null => v === null ? null : parse(v, what)
+function nativeRow(v: unknown): ReorderRow {
+  const what = 'barang', o = obj(v, what)
+  keys(o, [...rowKeys, 'contract_version', 'service_level', 'projection'], what)
+  if (o.contract_version !== 'cp7.fg-reorder-row.v2') fail('kontrak barang')
+  const d = (v: unknown) => nullable(v, exactDecimal, what), pcs = (v: unknown) => nullable(v, exactWhole, what)
+  const r: ReorderRow = {
+    targetKey: str(o.target_key, what), rootId: uuidText(o.root_id, what), sizeId: uuidText(o.size_id, what), modelId: maybeUuid(o.model_id, what),
+    productId: uuidText(o.product_id, what), sku: str(o.sku, what), productName: str(o.product_name, what), sizeCode: maybeStr(o.size_code, what),
+    freePcs: exactWhole(o.free_pcs, what), salesPcs: exactWhole(o.sales_pcs, what), countedDays: count(o.counted_days, what), saleDays: count(o.sale_days, what),
+    dailyMean: d(o.daily_mean), dailySd: d(o.daily_sd), leadDays: d(o.lead_days),
+    leadBasis: o.lead_basis === null ? null : oneOf(o.lead_basis, ['MEASURED', 'PROFILE'] as const, what),
+    leadLots: maybeCount(o.lead_lots, what), leadGroups: maybeCount(o.lead_groups, what),
+    bufferMode: o.buffer_mode === null ? null : oneOf(o.buffer_mode, ['STATISTICAL', 'DAYS'] as const, what),
+    bufferDays: d(o.buffer_days), z: d(o.z), safetyPcs: d(o.safety_pcs), formulaPoint: pcs(o.formula_point), manualPoint: pcs(o.manual_point),
+    manualRevision: maybeCount(o.manual_revision, what), point: pcs(o.point),
+    basis: oneOf(o.basis, ['MANUAL', 'FORMULA', 'NOT_ENOUGH_DATA'] as const, what), reason: o.reason === null ? null : oneOf(o.reason, nativeReasons, 'alasan'),
+    wipPcs: pcs(o.wip_pcs), wipStatus: oneOf(o.wip_status, ['COMPLETE', 'UNKNOWN'] as const, what), wipReason: maybeStr(o.wip_reason, what),
+    state: oneOf(o.state, ['AT_OR_BELOW', 'ABOVE', 'NO_POINT'] as const, 'status'), changedAt: instant(o.changed_at, what), wipReadAt: null,
+    serviceLevel: o.service_level === null ? null : oneOf(o.service_level, serviceLevels, what),
+  }
+  const p = obj(o.projection, 'proyeksi')
+  keys(p, ['contract_version', 'threshold_source', 'threshold_checked_at', 'stock_checked_at', 'analysis_at', 'lead_deadline', 'target_deadline',
+    'base_position_pcs', 'conditional_position_pcs', 'candidate_pcs', 'target_pcs', 'production_base_pcs', 'production_conditional_pcs',
+    'manual_state', 'manual_reference', 'raw_WIP_credited', 'candidate_mutes_alert'], 'proyeksi')
+  if (p.contract_version !== 'cp7.fg-reorder-projection.v1' || p.raw_WIP_credited !== false || p.candidate_mutes_alert !== false) fail('proyeksi')
+  const projection: ReorderProjection = {
+    thresholdSource: oneOf(p.threshold_source, ['PLANNING_PROFILE', 'NATIVE_HISTORY_WITH_EXISTING_DEFAULTS', 'PROFILE_UNAVAILABLE'] as const, 'proyeksi'),
+    thresholdCheckedAt: instant(p.threshold_checked_at, 'proyeksi'), stockCheckedAt: instant(p.stock_checked_at, 'proyeksi'),
+    analysisAt: maybeInstant(p.analysis_at, 'proyeksi'), leadDeadline: maybeInstant(p.lead_deadline, 'proyeksi'), targetDeadline: maybeInstant(p.target_deadline, 'proyeksi'),
+    basePositionPcs: pcs(p.base_position_pcs), conditionalPositionPcs: pcs(p.conditional_position_pcs), candidatePcs: pcs(p.candidate_pcs),
+    targetPcs: pcs(p.target_pcs), productionBasePcs: pcs(p.production_base_pcs), productionConditionalPcs: pcs(p.production_conditional_pcs),
+    manualState: oneOf(p.manual_state, ['NONE', 'ACTIVE', 'CLEARED', 'STALE_IDENTITY'] as const, 'proyeksi'), manualReference: null,
+  }
+  if (p.manual_reference !== null) {
+    const m = obj(p.manual_reference, 'referensi manual')
+    keys(m, ['root_id', 'product_version_id', 'size_id', 'revision', 'reorder_point_pcs'], 'referensi manual')
+    const revision = exactWhole(m.revision, 'referensi manual'), point = pcs(m.reorder_point_pcs)
+    if (m.root_id !== r.rootId || BigInt(revision) < 1n || BigInt(revision) > 999999999n || (point !== null && BigInt(point) > BigInt(MANUAL_POINT_MAX))) fail('referensi manual')
+    projection.manualReference = { productVersionId: uuidText(m.product_version_id, 'referensi manual'), sizeId: uuidText(m.size_id, 'referensi manual'),
+      revision: Number(revision), point }
+  }
+  r.projection = projection; r.wipReadAt = projection.analysisAt
+  const complete = r.wipStatus === 'COMPLETE', pointed = r.basis !== 'NOT_ENOUGH_DATA', m = projection.manualReference
+  if (r.targetKey !== `${r.rootId}:${r.sizeId}` || r.saleDays > r.countedDays || (r.leadDays === null) !== (r.leadBasis === null)
+    || (r.bufferMode !== 'DAYS' && r.bufferDays !== null)
+    || (r.bufferMode !== 'STATISTICAL' && (r.serviceLevel !== null || r.z !== null))
+    || (r.formulaPoint !== null && (r.bufferMode === null || r.safetyPcs === null
+      || (r.bufferMode === 'DAYS' && r.bufferDays === null) || (r.bufferMode === 'STATISTICAL' && (r.serviceLevel === null || r.z === null))))) fail(what)
+  if ((r.point !== null) !== pointed || (pointed ? r.reason !== null : r.reason === null)
+    || (r.basis === 'MANUAL' && r.point !== r.manualPoint) || (r.basis === 'FORMULA' && r.point !== r.formulaPoint)
+    || (r.manualPoint !== null) !== (projection.manualState === 'ACTIVE') || (r.basis === 'MANUAL') !== (projection.manualState === 'ACTIVE')
+    || (m === null) !== (projection.manualState === 'NONE') || r.manualRevision !== (m?.revision ?? null)
+    || (m && projection.manualState === 'ACTIVE' && (m.point !== r.point || m.productVersionId !== r.productId || m.sizeId !== r.sizeId))
+    || (m && projection.manualState === 'CLEARED' && m.point !== null)
+    || (projection.manualState === 'STALE_IDENTITY' && r.reason !== 'MANUAL_POINT_VERSION_CHANGED')) fail('titik pesan ulang')
+  if (complete !== (r.wipPcs !== null) || complete !== (r.wipReason === null) || complete !== (projection.basePositionPcs !== null)
+    || complete !== (projection.analysisAt !== null) || complete !== (projection.leadDeadline !== null) || complete !== (projection.targetDeadline !== null)
+    || complete !== (projection.productionBasePcs !== null)) fail('sedang diproduksi')
+  if (complete && (BigInt(projection.basePositionPcs!) !== BigInt(r.freePcs) + BigInt(r.wipPcs!)
+    || Date.parse(projection.leadDeadline!) < Date.parse(projection.analysisAt!) || Date.parse(projection.targetDeadline!) < Date.parse(projection.leadDeadline!))) fail('proyeksi')
+  if ((projection.candidatePcs === null) !== (projection.conditionalPositionPcs === null)
+    || (projection.candidatePcs === null) !== (projection.productionConditionalPcs === null)
+    || (!complete && projection.candidatePcs !== null)
+    || (projection.candidatePcs !== null && BigInt(projection.conditionalPositionPcs!) !== BigInt(projection.basePositionPcs!) + BigInt(projection.candidatePcs))) fail('proyeksi')
+  const expectedState = r.point === null || BigInt(r.point) === 0n ? 'NO_POINT'
+    : BigInt(projection.basePositionPcs ?? r.freePcs) <= BigInt(r.point) ? 'AT_OR_BELOW' : 'ABOVE'
+  if (r.state !== expectedState) fail('status')
   return r
 }
 
@@ -149,7 +237,8 @@ function row(v: unknown, list: boolean): ReorderRow {
 export function parseFgReorderWorkspace(value: unknown, query: ReorderQuery): ReorderWorkspace {
   const w = obj(value, 'titik pesan ulang')
   keys(w, ['contract_version', 'read_at', 'settings', 'run', 'can_manage', 'counts', 'page'], 'titik pesan ulang')
-  if (w.contract_version !== 'cp7.fg-reorder.v1') fail('kontrak')
+  if (w.contract_version !== 'cp7.fg-reorder.v1' && w.contract_version !== 'cp7.fg-reorder.v2') fail('kontrak')
+  const native = w.contract_version === 'cp7.fg-reorder.v2'
   const c = obj(w.counts, 'jumlah'); keys(c, ['items', 'at_or_below', 'manual', 'formula', 'not_enough_data', 'no_sales'], 'jumlah')
   const counts: ReorderCounts = { items: count(c.items, 'jumlah'), atOrBelow: count(c.at_or_below, 'jumlah'), manual: count(c.manual, 'jumlah'),
     formula: count(c.formula, 'jumlah'), notEnoughData: count(c.not_enough_data, 'jumlah'), noSales: count(c.no_sales, 'jumlah') }
@@ -158,7 +247,7 @@ export function parseFgReorderWorkspace(value: unknown, query: ReorderQuery): Re
   const p = obj(w.page, 'halaman'); keys(p, ['rows', 'total', 'offset', 'limit', 'next_offset'], 'halaman')
   if (!Array.isArray(p.rows)) fail('halaman')
   const total = typeof p.total === 'string' && /^(0|[1-9]\d{0,18})$/.test(p.total) ? p.total : fail('halaman')
-  const page: ReorderPage = { rows: p.rows.map(x => row(x, true)), total, offset: count(p.offset, 'halaman'), limit: count(p.limit, 'halaman'),
+  const page: ReorderPage = { rows: p.rows.map(x => native ? nativeRow(x) : row(x, true)), total, offset: count(p.offset, 'halaman'), limit: count(p.limit, 'halaman'),
     nextOffset: maybeCount(p.next_offset, 'halaman') }
   const end = page.offset + page.rows.length
   // The total and the rows are read by two statements, so only what the server derives from both is checked here.
@@ -168,7 +257,7 @@ export function parseFgReorderWorkspace(value: unknown, query: ReorderQuery): Re
   if (page.rows.some(r => (query.filter === 'AT_OR_BELOW' && r.state !== 'AT_OR_BELOW') || (query.filter === 'MANUAL' && r.basis !== 'MANUAL')
     || (query.filter === 'NOT_ENOUGH_DATA' && r.basis !== 'NOT_ENOUGH_DATA'))) fail('saringan')
   return { readAt: instant(w.read_at, 'waktu baca'), settings: settings(w.settings, 'pengaturan'), run: w.run === null ? null : run(w.run),
-    canManage: bool(w.can_manage, 'hak ubah'), counts, page }
+    canManage: bool(w.can_manage, 'hak ubah'), counts, page, ...(native ? {contractVersion: 'cp7.fg-reorder.v2' as const} : {}) }
 }
 
 /** erp_cp7_refresh_fg_reorder_v1: what compute() answers (finished goods, then fabric and accessories of the same run). */
@@ -184,11 +273,14 @@ export function parseFgReorderRefresh(value: unknown): ReorderRefresh {
 /** erp_cp7_save_fg_reorder_manual_v1: a replay answers the first request's row (same payload), without the evaluation. */
 export function parseFgReorderManualResult(value: unknown, payload: ManualPayload): ManualResult {
   const what = 'hasil angka manual', o = obj(value, what), replay = bool(o.replay, what)
-  keys(o, replay ? ['replay', 'root_id', 'revision', 'reorder_point_pcs'] : ['replay', 'root_id', 'revision', 'reorder_point_pcs', 'evaluation'], what)
+  const native = o.contract_version === 'cp7.fg-reorder-manual.v2'
+  keys(o, [...(replay ? ['replay', 'root_id', 'revision', 'reorder_point_pcs'] : ['replay', 'root_id', 'revision', 'reorder_point_pcs', 'evaluation']),
+    ...(native ? ['contract_version'] : [])], what)
   const r: ManualResult = { replay, rootId: uuidText(o.root_id, what), revision: count(o.revision, what), reorderPointPcs: maybeCount(o.reorder_point_pcs, what),
-    evaluation: replay ? null : row(o.evaluation, false) }
+    evaluation: replay ? null : native ? nativeRow(o.evaluation) : row(o.evaluation, false) }
   if (r.rootId !== payload.root_id || r.revision !== payload.expected_revision + 1 || r.reorderPointPcs !== payload.reorder_point_pcs) fail(what)
-  if (r.evaluation && (r.evaluation.rootId !== r.rootId || r.evaluation.manualRevision !== r.revision || r.evaluation.manualPoint !== r.reorderPointPcs)) fail(what)
+  if (r.evaluation && (r.evaluation.rootId !== r.rootId || r.evaluation.manualRevision !== r.revision
+    || r.evaluation.manualPoint !== (native && r.reorderPointPcs !== null ? String(r.reorderPointPcs) : r.reorderPointPcs))) fail(what)
   return r
 }
 
@@ -236,6 +328,8 @@ export function settingsPayload(d: SettingsDraft, expectedRevision: number): Set
 // The refusals of formula.sql in plain words, with the way out (best practice D18).
 const refusals: Record<string, string> = {
   CP7_FORMULA_ACCESS_DENIED: 'Akun ini belum boleh membuka atau mengubah titik pesan ulang. Melihat butuh hak Ringkasan Barang Jadi; mengubah hanya untuk Owner atau Admin. Minta Owner memeriksa akun ini di Pengguna & Hak Akses.',
+  CP7_FORMULA_ACCESS_CHANGED: 'Hak akses akun berubah saat permintaan diproses. Muat ulang halaman untuk memeriksa hak akses terbaru.',
+  CP7_FORMULA_BUSY_SOURCE_CHANGED: 'Data barang atau aturan perhitungan berubah saat server masih menghitung. Pengingat menunggu pemeriksaan baru; tekan "Hitung sekarang" setelah proses selesai.',
   CP7_FORMULA_BUSY: 'Server sedang menghitung titik pesan ulang (hitungan otomatis tiap menit, atau tombol "Hitung sekarang" dari layar lain). Coba lagi sekitar satu menit lagi.',
   CP7_FORMULA_MANUAL_STALE: 'Angka manual barang ini baru saja diubah di layar atau perangkat lain. Tekan "Muat ulang", periksa angkanya, lalu simpan lagi bila masih perlu.',
   CP7_FORMULA_SETTINGS_STALE: 'Pengaturan rumus baru saja diubah di layar atau perangkat lain. Tekan "Muat ulang", periksa isinya, lalu simpan lagi bila masih perlu.',
@@ -277,7 +371,7 @@ const plain = new Intl.NumberFormat('id-ID', { maximumFractionDigits: 2 })
 const two = new Intl.NumberFormat('id-ID', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
 /** Exact decimal text as Indonesian digits ("1234.5" -> "1.234,5"). */
 export const formatReorderQty = (v: string) => formatReceiptDecimal(v)
-export const formatReorderWhole = (n: number) => formatReceiptDecimal(String(n))
+export const formatReorderWhole = (n: number | string) => formatReceiptDecimal(String(n))
 /** At most two decimals, for the formula's inputs (a display rounding only; the server keeps the exact numbers). */
 export const formatReorderUpTo2 = (v: string) => plain.format(Number(v))
 export const formatReorderTwo = (v: string) => two.format(Number(v))
@@ -290,12 +384,19 @@ export function reorderChip(r: ReorderRow, windowDays: number): ReorderChip {
   if (r.state === 'ABOVE') return { label: 'Aman', tone: 'ok' }
   if (r.basis === 'NOT_ENOUGH_DATA') return { label: 'Belum cukup data', tone: 'off' }
   if (r.basis === 'NO_SALES') return { label: `Belum ada penjualan ${windowDays} hari terakhir`, tone: 'off' }
-  if (r.basis === 'MANUAL' && r.point === 0) return { label: 'Peringatan dimatikan (angka manual 0)', tone: 'off' }
+  if (r.basis === 'MANUAL' && (r.point === 0 || r.point === '0')) return { label: 'Peringatan dimatikan (angka manual 0)', tone: 'off' }
+  if (r.basis === 'FORMULA' && (r.point === 0 || r.point === '0')) return { label: 'Kebutuhan menurut rumus 0 pcs', tone: 'off' }
   return { label: 'Belum ada titik pesan ulang', tone: 'off' }
 }
 /** Why the formula has no number yet, with what to fill in (best practice D18); null when it has one. */
 export function reorderReasonText(r: ReorderRow): string | null {
+  if (r.reason === 'FEWER_THAN_14_NATIVE_AVAILABLE_DAYS') return `Belum cukup data: baru ${r.countedDays} hari stok tersedia menurut riwayat, perlu ${MIN_COUNTED_DAYS}.`
+  if (r.reason === 'MANUAL_POINT_VERSION_CHANGED') return 'Versi atau ukuran barang berubah. Angka manual lama hanya menjadi referensi; periksa dan simpan angka yang sesuai barang sekarang.'
+  if (r.reason === 'PROFILE_IDENTITY_OR_VERSION_CHANGED') return 'Versi fisik barang berubah. Tinjau kembali profil perencanaan sebelum memakai angkanya.'
+  if (r.reason === 'NO_PROVEN_LEAD_TIME') return 'Lama produksi belum terbukti dari sedikitnya 3 grup. Lengkapi profil perencanaan atau riwayat produksi.'
+  if (r.projection && r.reason) return 'Data untuk target produksi belum lengkap. Periksa riwayat penjualan dan pengaturan profil perencanaan.'
   if (r.reason === 'FEWER_THAN_14_COUNTED_DAYS') return `Belum cukup data: baru ${r.countedDays} hari tercatat, perlu ${MIN_COUNTED_DAYS}.`
+  if (r.reason === 'PROFILE_MINIMUM_NOT_MET') return 'Riwayat belum memenuhi minimal hari di profil perencanaan. Periksa aturan target produk ini.'
   if (r.reason === 'NO_LEAD_TIME') return 'Belum cukup data: lama produksi belum ada, karena belum ada 3 kali produksi model ini. Isi lama produksi di profil perencanaan '
     + '(tombol "Data permintaan & stok" di atas, lalu "Atur target", kolom "Waktu proses pilihan") atau isi angka manual.'
   return null
@@ -310,23 +411,31 @@ export function reorderWipText(r: ReorderRow): string {
 const wipReasons: Record<string, string> = {
   PRODUCT_WITHOUT_MODEL: 'barang ini belum terhubung ke model',
   MODEL_WIP_GROUP_LIMIT: 'potongan model ini yang masih berjalan lebih dari 200',
+  GLOBAL_ANALYSIS_NEEDED: 'analisis produksi terbaru belum tersedia',
+  GLOBAL_ANALYSIS_IN_PROGRESS: 'analisis produksi sedang berjalan',
+  CURRENT_GLOBAL_SOURCE_INCOMPLETE: 'sumber analisis produksi belum lengkap',
+  CURRENT_TARGET_STOCK_OR_HORIZON_CHANGED: 'stok, aturan target atau tenggat berubah sejak analisis',
+  WIP_READ_TIME_BUDGET_EXHAUSTED: 'pemeriksaan akan dilanjutkan pada hitungan berikutnya',
 }
 /** Why "in production" is not a number, and what is compared instead; null when it is. */
 export function reorderWipNote(r: ReorderRow): string | null {
   if (r.wipStatus === 'COMPLETE') return null
   const why = r.wipStatus === 'NOT_READ' ? 'server belum sempat membacanya' : (r.wipReason && wipReasons[r.wipReason]) || 'data produksinya belum lengkap'
-  return `Sedang diproduksi ${r.wipStatus === 'NOT_READ' ? 'belum dibaca' : 'belum bisa dihitung'}: ${why}. Selama itu, yang dibandingkan dengan titik pesan ulang hanya stok bebas.`
+  return `${r.projection ? 'Perkiraan barang baik yang tiba tepat waktu' : 'Sedang diproduksi'} ${r.wipStatus === 'NOT_READ' ? 'belum dibaca' : 'belum bisa dihitung'}: ${why}. Selama itu, yang dibandingkan dengan titik pesan ulang hanya stok bebas.`
 }
 /** The formula of one item, one line per step, in plain words. */
 export function reorderFormulaLines(r: ReorderRow, windowDays: number, level: ServiceLevel): string[] {
+  // Explicit per-product statistical profiles may differ from the general setting.
+  // These are the server's three fixed z labels, not a second calculation.
+  const effectiveLevel:ServiceLevel=r.serviceLevel??({'1.2816':'0.90','1.6449':'0.95','2.3263':'0.99'}as Record<string,ServiceLevel>)[r.z??'']??level
   const lead = r.leadDays === null ? 'Lama produksi: belum ada.'
     : `Lama produksi: ${formatReorderUpTo2(r.leadDays)} hari (${r.leadBasis === 'MEASURED'
       ? `diukur dari ${formatReorderWhole(r.leadLots ?? 0)} lot dari ${formatReorderWhole(r.leadGroups ?? 0)} potongan` : 'dari profil perencanaan'}).`
   const safety = r.safetyPcs === null ? 'Cadangan: belum bisa dihitung.'
     : r.bufferMode === 'DAYS' ? `Cadangan: rata-rata × ${formatReorderUpTo2(r.bufferDays ?? '0')} hari = ${formatReorderUpTo2(r.safetyPcs)} pcs (cadangan hari dari profil perencanaan).`
-    : `Cadangan: ${formatReorderQty(r.z)} × naik-turun × √lama produksi = ${formatReorderUpTo2(r.safetyPcs)} pcs (tingkat layanan ${servicePercent(level)}%).`
+    : `Cadangan: ${formatReorderQty(r.z??'0')} × naik-turun × √lama produksi = ${formatReorderUpTo2(r.safetyPcs)} pcs (tingkat layanan ${servicePercent(effectiveLevel)}%).`
   return [
-    `Rata-rata jual per hari: ${r.dailyMean === null ? 'belum ada' : `${formatReorderTwo(r.dailyMean)} pcs`}.`,
+    `${r.projection ? 'Rata-rata yang dipakai untuk target' : 'Rata-rata jual per hari'}: ${r.dailyMean === null ? 'belum ada' : `${formatReorderTwo(r.dailyMean)} pcs`}.`,
     `Naik-turun penjualan per hari: ${r.dailySd === null ? 'belum ada' : `${formatReorderTwo(r.dailySd)} pcs`}.`,
     `Hari terhitung: ${formatReorderWhole(r.countedDays)} dari ${formatReorderWhole(windowDays)} hari (hari jual ${formatReorderWhole(r.saleDays)}); terjual ${formatReorderQty(r.salesPcs)} pcs.`,
     lead, safety,

@@ -1,0 +1,43 @@
+{
+  "classification": "FIRST_NATIVE25_24_PASS_ONE_EXISTING_VOLUME_TIMEOUT_RETAINED",
+  "candidate": "bf98947e09e40557d5150b8f9c3dd5ec7d55ac89",
+  "tree": "8900f4c047f602334aadcc4e6df2a4d6613a1ee5",
+  "run_id": 39933288875,
+  "job_id": 120346584940,
+  "status": "INCOMPLETE",
+  "case_ids_exact": true,
+  "observed": 25,
+  "passed": 24,
+  "counts": {
+    "native": {
+      "PASS": 14,
+      "INCOMPLETE": 1
+    },
+    "races": {
+      "PASS": 4
+    },
+    "http": {
+      "PASS": 4
+    },
+    "browser": {
+      "PASS": 2
+    }
+  },
+  "new_checked_native4_auth2": "ALL_PASS",
+  "failed_case": "OW10R_NATIVE_VOLUME2000_8S_WARM3S",
+  "failure": "8s statement timeout during cp7_reorder_inputs.compile; no oracle or limit relaxed",
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "complete_original_artifact": {
+    "id": 12493875195,
+    "bytes": 405292,
+    "sha256": "73c182c3ff6db3bf84d82f762cb0fc078fdcf6a774c5b441aaa418c5bddf076f"
+  },
+  "full_artifact_id": 12493775366,
+  "checked_save_races_qualified": false,
+  "checked_save_browser_qualified": false,
+  "full_OW13c_acceptance": false,
+  "full_A_chain_qualified": false,
+  "production_go": false,
+  "parent_completed": "5/16"
+}

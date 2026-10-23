@@ -1,0 +1,13 @@
+{
+  "classification": "LOCAL_ACTUAL_SQL_WITH_CONTROLLED_ERP_AND_IDENTITY_ADAPTER_NOT_NATIVE",
+  "source_sha256": "58c0cd44e7270aa10c67f08be0c276962ed4daf88e35daafc16278e310dc4f92",
+  "status": "FAIL",
+  "cases": [
+    {
+      "id": "OW14B_PREVIOUS_RULE_RETAINED_UNTIL_EXPLICIT_CHOICE",
+      "status": "FAIL",
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n+ actual - expected\n\n+ undefined\n- 'MANUAL_MINIMUM_IN_FORCE'\n\n    at file:///workspace/scratch/05009cca93f2/erp-production-recovered-20261023b/scripts/cp7_ow14b_rule_local.mjs:49:91\n    at async test (file:///workspace/scratch/05009cca93f2/erp-production-recovered-20261023b/scripts/cp7_ow14b_rule_local.mjs:46:89)\n    at async file:///workspace/scratch/05009cca93f2/erp-production-recovered-20261023b/scripts/cp7_ow14b_rule_local.mjs:47:1"
+    }
+  ],
+  "production_go": false
+}

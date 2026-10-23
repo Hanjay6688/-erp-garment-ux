@@ -10,4 +10,5 @@
 .native-planning-result dl{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 .native-planning-result dl>div{padding:12px;background:var(--panel-2);border-radius:9px}.native-planning-result dt{color:var(--muted);font-size:13px}
 .native-planning-result dd{margin:8px 0 0;font-size:20px;font-weight:650;overflow-wrap:anywhere}
+.native-target-breakdown{margin:14px 0;min-width:0;overflow-wrap:anywhere}.native-target-breakdown summary{cursor:pointer;padding:10px 0;font-weight:600}
 @media(max-width:700px){.native-planning{padding:14px}.native-planning header{display:block}.native-planning fieldset{grid-template-columns:1fr;padding:12px}.native-planning-result dl{grid-template-columns:1fr}.native-planning button{max-width:100%;white-space:normal}}

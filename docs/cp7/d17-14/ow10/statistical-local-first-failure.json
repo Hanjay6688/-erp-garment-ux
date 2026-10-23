@@ -1,0 +1,69 @@
+{
+  "classification": "LOCAL_ACTUAL_FOUR_PRODUCT_BODIES_WITH_CONTROLLED_ERP_HISTORY_IDENTITY_NOT_NATIVE",
+  "status": "FAIL",
+  "catalog": {
+    "classification": "LOCAL_REAL_INSTALLER_AND_PG_CATALOG_VIA_CONTROLLED_TRANSPORT_NOT_NATIVE",
+    "stage": "cp7_target_policy_stage",
+    "status": "PASS",
+    "catalog_groups": 22,
+    "apply_rollback_reapply_exact": true,
+    "admission_passed": true,
+    "full_A_chain_qualified": false,
+    "production_go": false,
+    "after_use_refusal": "OW10_TARGET_POLICY_AFTER_USE_REQUIRES_BACKUP_RESTORE",
+    "after_use_refused_before_first_DDL": true
+  },
+  "sources": {
+    "cp7_profile__apply.sql": "2b4d0a7e59476568655181907cbead35972ee48210d06ef27e21bbb4d5f42e4e",
+    "cp7_baseline_native__build.sql": "53f0a164c731ae2fc7f569cd612734dca3e835c75019bd606cb51e183f2ebccc",
+    "cp7_analysis_stage__baseline_rows.sql": "29424c16f205ecc87b96fb74ca691f7568b447e8ffe74de295444112267d9c5f",
+    "cp7_stock_formula__compute.sql": "753d7d336d82ab78618005775be33524ee65de11575caf842005b578151e61ea"
+  },
+  "cases": [
+    {
+      "id": "OW10_STAT_LEGACY_FULL_JSON_UNCHANGED",
+      "status": "PASS",
+      "observed": {
+        "direct_and_staged_legacy_full_JSON_equal": true,
+        "old_payload_saved_without_extra_keys": true
+      }
+    },
+    {
+      "id": "OW10_STAT_DIRECT_STAGED_AND_INDEPENDENT_ORACLE",
+      "status": "PASS",
+      "observed": {
+        "direct_staged_target_equal": true,
+        "independent_80_digit_decimal_oracle": {
+          "3": "30",
+          "10": "77"
+        },
+        "one_variation_buffer": true
+      }
+    },
+    {
+      "id": "OW10_STAT_INCOMPLETE_HISTORY_NOT_ZERO",
+      "status": "PASS",
+      "observed": {
+        "missing_available_days_refused_by_same_kernel": true,
+        "unknown_target_not_zero": true
+      }
+    },
+    {
+      "id": "OW10_STAT_PROFILE_CLOSED_MODES_REPLAY_AND_REFUSALS",
+      "status": "PASS",
+      "observed": {
+        "same_UUID_exact_replay": true,
+        "changed_body_refused": true,
+        "closed_and_double_buffer_refusals": 7
+      }
+    },
+    {
+      "id": "OW10_STAT_ROP_EFFECTIVE_PROFILE_SAME_KERNEL",
+      "status": "FAIL",
+      "error": "error: permission denied for schema erp\n    at pe.Oe (file:///workspace/scratch/05009cca93f2/local-sql-resume-20261023b/node_modules/@electric-sql/pglite/dist/chunk-3OMHRXTA.js:1:18162)\n    at pe.tt (file:///workspace/scratch/05009cca93f2/local-sql-resume-20261023b/node_modules/@electric-sql/pglite/dist/chunk-3OMHRXTA.js:1:15548)\n    at pe.parse (file:///workspace/scratch/05009cca93f2/local-sql-resume-20261023b/node_modules/@electric-sql/pglite/dist/chunk-3OMHRXTA.js:1:14222)\n    at D.Ne (file:///workspace/scratch/05009cca93f2/local-sql-resume-20261023b/node_modules/@electric-sql/pglite/dist/index.js:5:1763)\n    at file:///workspace/scratch/05009cca93f2/local-sql-resume-20261023b/node_modules/@electric-sql/pglite/dist/index.js:5:1155\n    at wasm://wasm/0269dffe:wasm-function[10979]:0x5ad04f\n    at wasm://wasm/0269dffe:wasm-function[3598]:0x281dd2\n    at wasm://wasm/0269dffe:wasm-function[3640]:0x289ccf\n    at wasm://wasm/0269dffe:wasm-function[3650]:0x289f2b\n    at wasm://wasm/0269dffe:wasm-function[9956]:0x55697c"
+    }
+  ],
+  "OW10_complete": false,
+  "full_A_chain_qualified": false,
+  "production_go": false
+}

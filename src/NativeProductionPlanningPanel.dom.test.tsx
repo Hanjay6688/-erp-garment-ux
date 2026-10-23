@@ -4,7 +4,7 @@ import {createRoot,type Root} from 'react-dom/client'
 import {beforeEach,afterEach,it,expect,vi,type Mock} from 'vitest'
 import NativeProductionPlanningPanel from './NativeProductionPlanningPanel'
 import {recoveryIdentity} from '../tests/fixtures/productionRecovery'
-import {supplyWire,workspaceWire,nettingWire,scheduleOutcome,planningQuery,workKey,customerKey} from '../tests/fixtures/nativeProductionPlanning'
+import {supplyWire,workspaceWire,nettingWire,dualHorizonNettingWire,scheduleOutcome,planningQuery,workKey,customerKey} from '../tests/fixtures/nativeProductionPlanning'
 import {readScheduleRequest,scheduleRequestKey} from './nativeProductionPlanning'
 const state=vi.hoisted(()=>({auth:null as unknown}))
 const client=vi.hoisted(()=>({rpc:vi.fn()}))
@@ -18,6 +18,17 @@ async function click(label:string){const b=[...container.querySelectorAll('butto
 async function fill(label:string,value:string){const e=container.querySelector<HTMLInputElement|HTMLTextAreaElement|HTMLSelectElement>(`[aria-label="${label}"]`)!;expect(e).toBeTruthy();await act(async()=>{const prototype=e instanceof HTMLSelectElement?HTMLSelectElement.prototype:e instanceof HTMLTextAreaElement?HTMLTextAreaElement.prototype:HTMLInputElement.prototype;Object.getOwnPropertyDescriptor(prototype,'value')!.set!.call(e,value);e.dispatchEvent(new Event(e instanceof HTMLSelectElement?'change':'input',{bubbles:true}))})}
 function reply(reviewed=false){client.rpc.mockImplementation(async(name:string,args:{p_request:string})=>({data:name==='erp_cp7_get_production_schedule_v1'?workspaceWire(reviewed):name.includes('production_supply')?supplyWire(args.p_request):name.includes('netting')?nettingWire(args.p_request):null,error:null}))}
 async function fillSchedule(){await fill('Tempat kerja pilihan','Explicit centre');await fill('Batas jadwal WIB','2026-10-02T19:00');await fill('Waktu satu PCS baru','2');await fill('Mulai kerja 1 WIB','2026-10-01T08:00');await fill('Selesai kerja 1 WIB','2026-10-01T10:00');await fill('Beban lain 1','0');await fill(`Bagus ${workKey}`,'9');await fill(`Acuan ${workKey}`,'10');for(const key of[workKey,customerKey])for(const stage of['SEWING','LAUNDRY','QC'])await fill(`${stage} menit ${key}`,stage==='SEWING'?'15':stage==='LAUNDRY'?'20':'10');await fill('Alasan jadwal','explicit reviewed work')}
+it('shows the server lead trigger and target separately, and retires them on current denial',async()=>{
+ client.rpc.mockImplementation(async(_name:string,args:{p_request:string})=>({data:dualHorizonNettingWire(args.p_request),error:null}))
+ await render();await click('Hitung kekurangan seluruh produk')
+ const cell=container.querySelector('td[data-label="Kapan perlu ditinjau"]')
+ expect(cell?.textContent).toContain('Titik pesan ulang tercapai');expect(cell?.textContent).toContain('80 PCS');expect(cell?.textContent).toContain('76 PCS')
+ expect(container.querySelector('td[data-label="Target"]')?.textContent).toBe('100 PCS')
+ expect(container.querySelector('td[data-label="Kurang setelah stok proses terikat"]')?.textContent).toBe('17 PCS')
+ expect(container.textContent).toContain('hanya mengurangi jumlah target')
+ client.rpc.mockResolvedValue({data:null,error:{status:403,message:'CP7_ACCESS_DENIED'}});await click('Periksa sumber kekurangan')
+ expect(container.querySelector('.native-production-result')).toBeNull()
+})
 it('loads one global source and server routes with blank timing/yield assumptions including customer work',async()=>{reply();await render();expect(client.rpc).not.toHaveBeenCalled();await click('Ambil stok proses terbaru');expect((container.querySelector('[aria-label="Waktu satu PCS baru"]')as HTMLInputElement).value).toBe('');expect((container.querySelector(`[aria-label="SEWING menit ${workKey}"]`)as HTMLInputElement).value).toBe('');expect(container.querySelector(`[aria-label="Bagus ${customerKey}"]`)).toBeNull();expect(container.textContent).toContain('Milik pelanggan');expect(start).toHaveBeenCalledTimes(1);expect(end).toHaveBeenCalledTimes(1)})
 it('persists exact metadata UUID before send and replays it after response loss/remount despite newer schedule',async()=>{reply();await render();await click('Ambil stok proses terbaru');await fillSchedule();client.rpc.mockResolvedValue({data:null,error:Error('reply lost')});await click('Simpan jadwal yang diperiksa');const original=structuredClone(client.rpc.mock.calls.find(([name])=>name==='erp_cp7_save_production_schedule_v1')!);expect(readScheduleRequest(scope).pending?.id).toBe(original[1].p_request);expect(original[1].p_payload.config.positions[1].target_key).toBeNull();expect(original[1].p_payload.config.positions[1].yield_numerator).toBeNull()
  await act(async()=>root.unmount());root=createRoot(container);client.rpc.mockImplementation(async(name:string,args:{p_request:string})=>({data:name==='erp_cp7_save_production_schedule_v1'?scheduleOutcome(args.p_request):null,error:null}));await render();await click('Ulangi simpan jadwal yang sama');expect(client.rpc.mock.calls.filter(([name])=>name==='erp_cp7_save_production_schedule_v1')[1]).toEqual(original);expect(readScheduleRequest(scope).pending).toBeNull();expect(container.textContent).toContain('Jadwal tersimpan')})

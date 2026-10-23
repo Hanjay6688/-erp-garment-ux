@@ -1,0 +1,11 @@
+{
+  "classification": "LOCAL_CALLER_INSTALL_FIXTURE_SETUP_NOT_NATIVE",
+  "status": "SETUP_FAILED",
+  "caller_cases_reached": 0,
+  "error": "23502 jobs.created_at was omitted in the after-use fixture",
+  "fix": "Supply the required created_at and updated_at on the controlled marker job; no product or oracle change.",
+  "product_changed": false,
+  "oracle_changed": false,
+  "raw_log_sha256": "3ac34db47a2cacbfce005446e539ca0bc9bdf390d8f63e1f1d6a34b69498c8e9",
+  "production_go": false
+}

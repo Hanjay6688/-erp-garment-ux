@@ -1,0 +1,7 @@
+{
+  "classification": "LOCAL_ACTUAL_CONSUMER_AND_OFFICIAL_OVERLAY_WITH_CONTROLLED_JOB_IDENTITY_AND_A_CAPTURE_ADAPTERS_NOT_NATIVE",
+  "observed": "4 groups PASS,3 groups FAIL; local fixture did not load the existing cp7_wip.ref(text,text,text) dependency used by official finance_apply",
+  "consumer_sha256": "1a4dade196cf6e836d3da70b54f1da86bf280361fbd73fe4af6c6bed5cb2fccf",
+  "changed_financial_math": false,
+  "production_go": false
+}

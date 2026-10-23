@@ -1,0 +1,94 @@
+{
+  "classification": "LOCAL_REAL_YIELD_TIMING_BUDGET_AND_RETAINED_SCOPE_SQL_WITH_CONTROLLED_SOURCE_AND_JOB_TABLES_NOT_NATIVE",
+  "status": "PASS",
+  "passed": 8,
+  "total": 8,
+  "sql_sha256": "346c545a4ec47885cf0d02f866e27d259a3550b3a9b1e8bcfe1312d483811fa8",
+  "hook_body_files_sha256": {
+    "run_original": "57036cf2594153d26ea5068432e4d81a28a996e287bb07745b0048486a1a854f",
+    "run_patched": "578e66e726dbbd2caad2c16289cf7547120614bae062fff4793d32d3a7bd5a4b",
+    "source_original": "b57ba541d3048033de27a5e09e4e3e5473ffea408a900cc04103844d11820e30",
+    "source_patched": "34d846945f16148ea518d12e7a3b8a150659ff1016d6175a651b3226e98afbec"
+  },
+  "results": [
+    {
+      "id": "OW10_BUDGET_ACTUAL_YIELD_AND_UTC_CALENDAR_REPLY",
+      "status": "PASS",
+      "observed": {
+        "actual_yield_100_times_4_over_5": 80,
+        "actual_calendar_minutes": 60,
+        "actual_SQL_offset_reply_canonicalized": true,
+        "no_yield_or_queue_recalculation": true
+      }
+    },
+    {
+      "id": "OW10_BUDGET_UNKNOWN_YIELD_TIME_AND_SCOPE_NOT_ZERO",
+      "status": "PASS",
+      "observed": {
+        "unknown_quantity_and_ETA_preserved": true,
+        "incomplete_scope_rows_null_not_empty": true
+      }
+    },
+    {
+      "id": "OW10_BUDGET_ACTUAL_UNREVIEWED_SCHEDULER_RAW_WIP_IS_UNKNOWN",
+      "status": "PASS",
+      "observed": {
+        "actual_frozen_schedule_early_return_executed": true,
+        "controlled_Native_supply_adapter": true,
+        "raw_WIP_without_projection_kept_as_unknown_good_and_ETA": true,
+        "unreviewed_and_source_changed": true,
+        "present_malformed_still_refused": true
+      }
+    },
+    {
+      "id": "OW10_BUDGET_EXCLUDES_NON_COMPANY_AND_PRESERVES_EXPLICIT_ZERO",
+      "status": "PASS",
+      "observed": {
+        "customer_WIP_not_company_supply": true,
+        "explicit_zero_distinct_from_unknown": true
+      }
+    },
+    {
+      "id": "OW10_BUDGET_DUPLICATES_MISSING_ELIGIBILITY_AND_RELATIVE_TIME_REFUSED",
+      "status": "PASS",
+      "observed": {
+        "ambiguous_sources_refused": true,
+        "no_relative_or_unexpected_zone_datetime": true
+      }
+    },
+    {
+      "id": "OW10_REAL_COUNTED_ANA_META_INSERT_RETAINS_BUDGET_AND_ALL_OLD_FIELDS",
+      "status": "PASS",
+      "observed": {
+        "actual_patched_scope_INSERT_executed": true,
+        "all_old_scope_fields_full_JSON_unchanged": true,
+        "raw_report_100_distinct_from_projected_good_80": true,
+        "retained_after_commit": true,
+        "actual_K3_clean_done_executed": false
+      }
+    },
+    {
+      "id": "OW10_BUDGET_REAL_SOURCE_HOOK_COVERS_PRIVATE_ENGINE_CODE",
+      "status": "PASS",
+      "observed": {
+        "actual_source_hook_executed_with_controlled_Native_adapter": true,
+        "other_source_fields_full_JSON_unchanged": true,
+        "private_budget_code_in_engine_signature": true,
+        "restoring_code_restores_signature": true
+      }
+    },
+    {
+      "id": "OW10_BUDGET_PRIVATE_AUTHORITY_ONLY",
+      "status": "PASS",
+      "observed": {
+        "private_invoker_immutable_empty_search_path": true,
+        "no_Native_DML_grants": true
+      }
+    }
+  ],
+  "full_run_unit_and_K3_executed": false,
+  "reversible_stage_and_fresh_reader_pending": true,
+  "live_ROP_caller_changed": false,
+  "full_A_chain_qualified": false,
+  "production_go": false
+}

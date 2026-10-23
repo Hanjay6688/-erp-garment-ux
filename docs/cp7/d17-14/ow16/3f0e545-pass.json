@@ -1,0 +1,117 @@
+{
+  "label": "CP7_OW16_AUTOMATIC_STATUS",
+  "status": "PASS",
+  "source_sha256": "594368e7fc2016595441f03d072e642d0c917511098bb6e5e909e67205be6fa3",
+  "automatic_status_source_sha256": "45cf0b428fbe6b85d7e18367492ef188e7ac49d06f120e39156b66e9cf758d4f",
+  "observed_case_count": 16,
+  "expected_case_count": 16,
+  "required_case_ids_pass": true,
+  "required_case_counts_pass": true,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "error": null,
+  "traceback": null,
+  "main_bytes": 2282683,
+  "main_sha256": "98e06bc97da15c0da3fd67e8da735aac1bf55b42051055dc33f190dc6f62d597",
+  "groups": {
+    "native": {
+      "status": "PASS",
+      "counts": {
+        "PASS": 10
+      },
+      "case_ids": [
+        "OW16_NO_GUESSED_POLICY",
+        "OW16_FACTORY_CURRENT_CONTEXT",
+        "OW16_LOW_HIGH_TOTAL_PCS",
+        "OW16_READ_ONLY_NATIVE_FACTS",
+        "OW16_OWNER_POLICY_REPLAY_IMMUTABLE",
+        "OW16_INVALID_POLICY_ZERO_EFFECT",
+        "OW16_PAUSED_INSUFFICIENT_UNPOSTED",
+        "OW16_NEGATIVE_LOOKUP_SEALS_REQUEST",
+        "OW16_NATIVE_HISTORY_REOPEN_REPOST",
+        "OW16_PRIVATE_CATALOG_AND_CURRENT_ACCESS"
+      ]
+    },
+    "races": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 2
+      },
+      "case_ids": [
+        "OW16_WAIT_REVOKED_OWNER_REFUSED",
+        "OW16_TWO_OWNERS_ONE_REVISION"
+      ]
+    },
+    "http": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 2
+      },
+      "case_ids": [
+        "OW16_REAL_AUTH_FACTORY_STATUS_POLICY",
+        "OW16_REAL_AUTH_CURRENT_REVOKE"
+      ]
+    },
+    "browser": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 2
+      },
+      "case_ids": [
+        "OW16_BROWSER_DESKTOP_AUTO_AFTER_POST",
+        "OW16_BROWSER_MOBILE_UUID_RECOVERY"
+      ]
+    }
+  },
+  "classification": "WRITER_QUALIFIED_NOT_PRODUCTION_GO",
+  "head": "3f0e545cc6d6948ac5d0f1052bb55cc971ab530a",
+  "tree": "6adc4cca8bc14014f665153a1bda94504a1697d9",
+  "run": 39832859589,
+  "job": 120013305810,
+  "artifact": {
+    "id": 12450930456,
+    "bytes": 249001,
+    "sha256": "5312d9216007bef5d455d6d3e6ec3c5fcb84f975d9a5e1025a24c684e446a423",
+    "scope": "complete Original JSON; screenshots excluded"
+  },
+  "browser_observed": {
+    "OW16_BROWSER_DESKTOP_AUTO_AFTER_POST": {
+      "status": "PASS",
+      "actual_Auth_POSTgREST_and_Native_POST": true,
+      "automatic_status_without_manual_capture": true,
+      "native_raw70_to60_value700_to600": true,
+      "current_total_pcs40_range20_to60": true,
+      "physical_WIB_instant_unchanged_with_foreign_browser_timezone": false,
+      "lost_reply_same_UUID_lookup": false,
+      "only_one_policy_effect": true,
+      "current403_retires_status": true,
+      "no_horizontal_overflow": true,
+      "viewport": 1440,
+      "business_day": {
+        "planned": "2026-10-23",
+        "before": "2026-10-23",
+        "after": "2026-10-23"
+      }
+    },
+    "OW16_BROWSER_MOBILE_UUID_RECOVERY": {
+      "status": "PASS",
+      "actual_Auth_POSTgREST_and_Native_POST": true,
+      "automatic_status_without_manual_capture": true,
+      "native_raw70_to60_value700_to600": true,
+      "current_total_pcs40_range20_to60": true,
+      "physical_WIB_instant_unchanged_with_foreign_browser_timezone": true,
+      "lost_reply_same_UUID_lookup": true,
+      "only_one_policy_effect": true,
+      "current403_retires_status": true,
+      "no_horizontal_overflow": true,
+      "viewport": 390,
+      "business_day": {
+        "planned": "2026-10-23",
+        "before": "2026-10-23",
+        "after": "2026-10-23"
+      }
+    }
+  },
+  "independent_acceptance": false,
+  "production_go": false
+}

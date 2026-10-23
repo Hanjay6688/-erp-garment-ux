@@ -109,6 +109,8 @@ export type FgReorderDetail = {
   freePcs: string; wipPcs: string | null; wipStatus: 'COMPLETE' | 'UNKNOWN' | 'NOT_READ'; positionPcs: string | null; reorderPointPcs: string
   basis: 'MANUAL' | 'FORMULA'; dailyMean: string | null; leadDays: string | null; leadBasis: string | null; bufferMode: string | null
   safetyPcs: string | null; serviceLevel: string | null
+  projection?: { analysisAt: string | null; candidatePcs: string | null; conditionalPositionPcs: string | null
+    thresholdSource: 'PLANNING_PROFILE' | 'NATIVE_HISTORY_WITH_EXISTING_DEFAULTS' | 'PROFILE_UNAVAILABLE' }
 }
 /** cp7_stock_formula.material_alert_row: a fabric or accessory at or under its number, quantities as decimal text. */
 type MaterialReorderFields = {
@@ -323,8 +325,9 @@ function detail(kind: AlertKind, v: unknown): AlertDetail {
 // basis is MANUAL or FORMULA; the formula's parts (cadangan, tingkat layanan) are written for FORMULA only.
 function fgReorderDetail(d: Record<string, unknown>): FgReorderDetail {
   const what = 'rincian barang jadi'
+  const native = d.contract_version === 'cp7.fg-reorder-detail.v2'
   keys(d, ['root_id', 'size_id', 'sku', 'product_name', 'size_code', 'free_pcs', 'wip_pcs', 'wip_status', 'position_pcs', 'reorder_point_pcs', 'basis', 'daily_mean',
-    'lead_days', 'lead_basis', 'buffer_mode', 'safety_pcs', 'service_level'], what)
+    'lead_days', 'lead_basis', 'buffer_mode', 'safety_pcs', 'service_level', ...(native ? ['contract_version', 'projection'] : [])], what)
   const text = (v: unknown) => typeof v === 'string' && decimalText.test(v) ? v : fail(what)
   const maybeText = (v: unknown) => v === null ? null : text(v)
   const r: FgReorderDetail = { kind: 'FG_AT_REORDER_POINT', rootId: uuidText(d.root_id, what), sizeId: uuidText(d.size_id, what), sku: str(d.sku, what),
@@ -338,6 +341,24 @@ function fgReorderDetail(d: Record<string, unknown>): FgReorderDetail {
   if (complete !== (r.wipPcs !== null) || complete !== (r.positionPcs !== null)) fail(what)
   if (r.basis === 'MANUAL' ? r.bufferMode !== null || r.safetyPcs !== null || r.serviceLevel !== null
     : r.bufferMode === null || r.safetyPcs === null || (r.serviceLevel !== null) !== (r.bufferMode === 'STATISTICAL')) fail(what)
+  if (native) {
+    const p = obj(d.projection, what)
+    keys(p, ['basis', 'analysis_at', 'candidate_pcs', 'conditional_position_pcs', 'threshold_source', 'candidate_mutes_alert'], what)
+    if (p.basis !== 'GLOBAL_PROJECTED_GOOD_ON_TIME' || p.candidate_mutes_alert !== false || r.wipStatus === 'NOT_READ') fail(what)
+    const whole = (v: unknown) => typeof v === 'string' && /^(0|[1-9]\d*)$/.test(v) ? v : fail(what)
+    const maybeWhole = (v: unknown) => v === null ? null : whole(v)
+    const projection: NonNullable<FgReorderDetail['projection']> = {
+      analysisAt: maybeInstant(p.analysis_at, what), candidatePcs: maybeWhole(p.candidate_pcs), conditionalPositionPcs: maybeWhole(p.conditional_position_pcs),
+      thresholdSource: oneOf(p.threshold_source, ['PLANNING_PROFILE', 'NATIVE_HISTORY_WITH_EXISTING_DEFAULTS', 'PROFILE_UNAVAILABLE'] as const, what),
+    }
+    whole(r.freePcs); whole(r.reorderPointPcs); maybeWhole(r.wipPcs); maybeWhole(r.positionPcs)
+    if (complete !== (projection.analysisAt !== null) || (projection.candidatePcs === null) !== (projection.conditionalPositionPcs === null)
+      || (!complete && projection.candidatePcs !== null)
+      || (complete && BigInt(r.positionPcs!) !== BigInt(r.freePcs) + BigInt(r.wipPcs!))
+      || (projection.candidatePcs !== null && BigInt(projection.conditionalPositionPcs!) !== BigInt(r.positionPcs!) + BigInt(projection.candidatePcs))
+      || BigInt(r.reorderPointPcs) === 0n || BigInt(r.positionPcs ?? r.freePcs) > BigInt(r.reorderPointPcs)) fail(what)
+    r.projection = projection
+  }
   return r
 }
 
@@ -732,6 +753,13 @@ export function alertNumber(v: string | null): string {
 }
 /** The line item_line (alerts.sql) writes for a finished good in the WhatsApp message, cut to 120 characters like left(). */
 export function fgReorderLine(d: FgReorderDetail): string {
+  if (d.projection) {
+    const label = Array.from(`${d.productName}${d.sizeCode !== null ? ` ${d.sizeCode}` : ''}`)
+    const suffix = `: bebas ${alertNumber(d.freePcs)} pcs, perkiraan tepat waktu `
+      + `${d.wipStatus === 'COMPLETE' ? `${alertNumber(d.wipPcs)} pcs` : 'belum diketahui'}, titik ${alertNumber(d.reorderPointPcs)} pcs`
+    return label.length + Array.from(suffix).length <= 256 ? label.join('') + suffix
+      : label.slice(0, Math.max(0, 255 - Array.from(suffix).length)).join('') + '…' + suffix
+  }
   const line = `${d.productName}${d.sizeCode !== null ? ` ${d.sizeCode}` : ''}: sisa ${alertNumber(d.freePcs)} pcs, sedang diproduksi `
     + `${d.wipStatus === 'COMPLETE' ? `${alertNumber(d.wipPcs)} pcs` : 'belum diketahui'}, titik pesan ulang ${alertNumber(d.reorderPointPcs)} pcs`
   return Array.from(line).slice(0, 120).join('')

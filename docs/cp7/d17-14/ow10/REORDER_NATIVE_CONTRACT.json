@@ -1,0 +1,91 @@
+{
+  "contract": "cp7.ow10.reorder-caller-native.v1",
+  "expected_case_count": 19,
+  "required_case_counts": {
+    "native": 11,
+    "races": 4,
+    "http": 2,
+    "browser": 2
+  },
+  "required_case_ids": {
+    "native": [
+      "OW10R_NATIVE_CATALOG_PRIVATE_22",
+      "OW10R_NATIVE_PROFILE_MEAN_AND_CLOCKS",
+      "OW10R_NATIVE_UNKNOWN_RAW_NOT_ZERO",
+      "OW10R_NATIVE_MANUAL_REPLAY_CLEAR",
+      "OW10R_NATIVE_CURRENT_GLOBAL_GOOD",
+      "OW10R_NATIVE_STALE_NO_CREDIT",
+      "OW10R_NATIVE_CURRENT_ACCESS",
+      "OW10R_NATIVE_THRESHOLD_CACHE_FRESH_STOCK",
+      "OW10R_NATIVE_LARGE_EXACT_WA",
+      "OW10R_NATIVE_AFTER_USE_GUARDS",
+      "OW10R_NATIVE_VOLUME2000_8S_WARM3S"
+    ],
+    "races": [
+      "OW10R_RACE_SAME_UUID_ONE_REVISION",
+      "OW10R_RACE_STALE_REVISION_ONE_WINNER",
+      "OW10R_RACE_REVOKED_AFTER_GLOBAL_WAIT",
+      "OW10R_RACE_BUSY_NEW_LOW"
+    ],
+    "http": [
+      "OW10R_HTTP_ACTUAL_AUTH_V2_SAVE_REPLAY",
+      "OW10R_HTTP_ANON_AND_REVOKED"
+    ],
+    "browser": [
+      "OW10R_BROWSER_DESKTOP_NATIVE_V2",
+      "OW10R_BROWSER_MOBILE_LOST_REPLY"
+    ]
+  },
+  "public_rpcs": [
+    "erp_cp7_get_alerts_v1",
+    "erp_cp7_get_wa_settings_v1",
+    "erp_cp7_save_wa_settings_v1",
+    "erp_cp7_set_wa_key_v1",
+    "erp_cp7_send_wa_test_v1",
+    "erp_cp7_resolve_wa_dispatch_v1",
+    "erp_cp7_get_fg_reorder_v1",
+    "erp_cp7_refresh_fg_reorder_v1",
+    "erp_cp7_save_fg_reorder_manual_v1",
+    "erp_cp7_save_stock_formula_settings_v1",
+    "erp_cp7_get_material_reorder_v1",
+    "erp_cp7_refresh_material_reorder_v1",
+    "erp_cp7_save_material_reorder_v1",
+    "erp_cp7_request_staged_analysis_v1",
+    "erp_cp7_get_staged_analysis_v1",
+    "erp_cp7_step_staged_analysis_v1",
+    "erp_cp7_get_planning_profiles_v1",
+    "erp_cp7_save_planning_profile_v1",
+    "erp_cp7_capture_baseline_v1"
+  ],
+  "schedules": [
+    "erp-wa-collect",
+    "erp-wa-send",
+    "erp-wa-analysis"
+  ],
+  "new_cron_or_provider": false,
+  "full_A_chain_qualified": false,
+  "production_go": false,
+  "private_supply_stage": "cp7.reorder-supply-stage.v2",
+  "ROP_caller_changed": true,
+  "full_OW10_acceptance": false,
+  "predecessor133_rerun_in_this_suite": false,
+  "predecessor133_receipt": "c0bb0d1-native133-pass.json",
+  "live_ROP_caller_changed": true,
+  "caller_backup_restore_qualified": false,
+  "volume": {
+    "items": 2000,
+    "movements": 202000,
+    "statement_timeout": "8s",
+    "warm_limit_ms": 3000,
+    "synthetic_established_at": "131_DAYS_BEFORE_CAPTURE"
+  },
+  "old_SS1_replacement_mapping": {
+    "SS1_FORMULA_FROM_POSTED_SALES": "OW10R_NATIVE_PROFILE_MEAN_AND_CLOCKS",
+    "SS1_IN_PRODUCTION_COUNTS_TOWARD_POSITION": "OW10R_NATIVE_CURRENT_GLOBAL_GOOD",
+    "SS1_MANUAL_POINT_REPLACES_AND_CLEARS": "OW10R_NATIVE_MANUAL_REPLAY_CLEAR",
+    "SS1_SOURCE_AND_ACCESS": "OW10R_NATIVE_CURRENT_ACCESS",
+    "SS1_VOLUME_2000_ITEMS_EVERY_MINUTE": "OW10R_NATIVE_VOLUME2000_8S_WARM3S"
+  },
+  "predecessor133_commit": "c0bb0d197c86447e800f9c100c37def0fb0a2fd6",
+  "coupled_A_regression_pending": true
+}

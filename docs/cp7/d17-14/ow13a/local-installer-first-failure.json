@@ -1,0 +1,11 @@
+{
+  "classification": "LOCAL_INSTALLER_FIRST_STRICT_OBJECT_SET_FAILURE_NOT_NATIVE",
+  "failure": "OW13A_PRIVATE_OBJECT_SET_CHANGED",
+  "case_groups_run": 0,
+  "cause": "The local engine is PostgreSQL18 and catalogues the six NOT NULL constraints; Native17 records table NOT NULL in pg_attribute. The exact version set is now required.",
+  "full_log_sha256": "65f24c0e52318652f43c2f876ad7c434534b9882f54fcaa46dc0e73f82e1100d",
+  "primary_docs": [
+    "https://www.postgresql.org/docs/18/catalog-pg-constraint.html",
+    "https://www.postgresql.org/docs/17/catalog-pg-constraint.html"
+  ]
+}

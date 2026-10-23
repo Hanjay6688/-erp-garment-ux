@@ -1,0 +1,27 @@
+{
+  "classification": "LOCAL_CALLER_FIXTURE_NOT_NATIVE",
+  "status": "FAIL",
+  "passed": 29,
+  "total": 35,
+  "first_failed_case": "OW10_CALLER_ONE_DIRECTED_GOOD_BUDGET_NOT_COPIED_TO_SAME_MODEL_VARIANT",
+  "first_error": "error: CP7_WIP_FIELDS\n    at pe.Oe (file:///workspace/scratch/05009cca93f2/local-sql-resume-20261023b/node_modules/@electric-sql/pglite/dist/chunk-3OMHRXTA.js:1:18162)\n    at pe.tt (file:///workspace/scratch/05009cca93f2/local-sql-resume-20261023b/node_modules/@electric-sql/pglite/dist/chunk-3OMHRXTA.js:1:15548)\n    at pe.parse (file:///workspace/scratch/05009cca93f2/local-sql-resume-20261023b/node_modules/@electric-sql/pglite/dist/chunk-3OMHRXTA.js:1:14222)\n    at D.Ne (file:///workspace/scratch/05009cca93f2/local-sql-resume-20261023b/node_modules/@electric-sql/pglite/dist/index.js:5:1763)\n    at file:///workspace/scratch/05009cca93f2/local-sql-resume-20261023b/node_modules/@electric-sql/pglite/dist/index.js:5:1155\n    at wasm://wasm/0269dffe:wasm-function[10979]:0x5ad04f\n    at wasm://wasm/0269dffe:wasm-function[3598]:0x281dd2\n    at wasm://wasm/0269dffe:wasm-function[3640]:0x289ccf\n    at wasm://wasm/0269dffe:wasm-function[3650]:0x289f2b\n    at wasm://wasm/0269dffe:wasm-function[9956]:0x55697c",
+  "failed_ids": [
+    "OW10_CALLER_ONE_DIRECTED_GOOD_BUDGET_NOT_COPIED_TO_SAME_MODEL_VARIANT",
+    "OW10_CALLER_GLOBAL_CANDIDATES_SEPARATE_NEVER_MUTE_BASE_ALERT",
+    "OW10_CALLER_LATE_GOOD_AT_TARGET_EXCLUDED_FROM_TRIGGER_AND_UNKNOWN_YIELD",
+    "OW10_CALLER_MANUAL_TRIGGER25_DOES_NOT_INVENT_TARGET25",
+    "OW10_CALLER_FRESH_FREE_AND_HORIZON_BINDING_REFUSE_OLD_SUPPLY_CREDIT",
+    "OW10_CALLER_EXACT_POINT_ABOVE_JS_SAFE_INTEGER_AND_FULL_SCOPE_BEFORE_ACTIVE_FILTER"
+  ],
+  "cause": [
+    "New budget fixture included an undeclared refs key; actual closed kernel correctly refused it.",
+    "Large manual-demand fixture changed daily_pcs while leaving mean_mode OWN_AVAILABLE_HISTORY, so Native correctly kept the history point2."
+  ],
+  "fix": [
+    "Remove only the undeclared budget fixture key.",
+    "Explicitly select SELECTED_MANUAL for the large-demand fixture; expected point10000000000000000 stays unchanged."
+  ],
+  "product_oracle_loosened": false,
+  "full_report_sha256": "23b5dd7ab7db977cfca11f41ff54cec55d8ad0046856398cc7393b77a095656b",
+  "production_go": false
+}

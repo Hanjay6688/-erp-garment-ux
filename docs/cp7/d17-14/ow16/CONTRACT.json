@@ -1,0 +1,57 @@
+{
+  "contract": "cp7.ow16.automatic-status.v1",
+  "expected_case_count": 16,
+  "required_case_counts": {
+    "native": 10,
+    "races": 2,
+    "http": 2,
+    "browser": 2
+  },
+  "required_case_ids": {
+    "native": [
+      "OW16_NO_GUESSED_POLICY",
+      "OW16_FACTORY_CURRENT_CONTEXT",
+      "OW16_LOW_HIGH_TOTAL_PCS",
+      "OW16_READ_ONLY_NATIVE_FACTS",
+      "OW16_OWNER_POLICY_REPLAY_IMMUTABLE",
+      "OW16_INVALID_POLICY_ZERO_EFFECT",
+      "OW16_PAUSED_INSUFFICIENT_UNPOSTED",
+      "OW16_NEGATIVE_LOOKUP_SEALS_REQUEST",
+      "OW16_NATIVE_HISTORY_REOPEN_REPOST",
+      "OW16_PRIVATE_CATALOG_AND_CURRENT_ACCESS"
+    ],
+    "races": [
+      "OW16_WAIT_REVOKED_OWNER_REFUSED",
+      "OW16_TWO_OWNERS_ONE_REVISION"
+    ],
+    "http": [
+      "OW16_REAL_AUTH_FACTORY_STATUS_POLICY",
+      "OW16_REAL_AUTH_CURRENT_REVOKE"
+    ],
+    "browser": [
+      "OW16_BROWSER_DESKTOP_AUTO_AFTER_POST",
+      "OW16_BROWSER_MOBILE_UUID_RECOVERY"
+    ]
+  },
+  "public_rpcs": [
+    "erp_cp7_get_cutting_status_v1",
+    "erp_cp7_save_cutting_status_policy_v1",
+    "erp_cp7_get_cutting_status_policy_request_v1"
+  ],
+  "scope": "Factory-wide descriptive cutting status from current authoritative posted Native cutting; no business write",
+  "comparison_dimensions": [
+    "Native material_id",
+    "pattern_id",
+    "pattern_revision_snapshot",
+    "exact sorted Native size_id set"
+  ],
+  "quantity": "Total integer PCS normalized to consumed material; prior known groups only",
+  "policy": "No activated defaults. OWNER explicitly reviews coverage and minimum history in the app; test values 80% and 3 are synthetic fixtures, not owner production policy.",
+  "fixture": "Masters and PO header are administrative fixtures; receipt, cutting SAVE/POST, historical reopen and repost are existing public Native writer operations.",
+  "release_claims": {
+    "default_installer_changed": false,
+    "independent_acceptance": false,
+    "production_go": false,
+    "OW16_complete": false
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "numTotalTests": 2277,
+  "numPassedTests": 2277,
+  "numFailedTests": 0,
+  "success": true,
+  "source_tree": "2e36175677bf1f0d6205eca7ba732f5298225c20",
+  "A": "86fe7a64db8404ef261450f7cd17afd72dcb597d",
+  "B": "85b9d64687885d4c52587615cf4f9f405e7a066d",
+  "original_raw_sha256": "603e9911bb94bbda5b2484402120fcebfa315a2106d3ac80fe5dda5c611f2117",
+  "scope": "Non-SQL client regression only; browser and cp7/families excluded",
+  "typecheck": "PASS",
+  "frozen_financial_source": "EXACT",
+  "source_access_css": "PASS",
+  "first_source_gate_failure": "Five B RPC owners absent",
+  "first_access_gate_failure": "306 actual versus 301 declared; reconciled with the same five explicit owners",
+  "integration_branch_promoted": false,
+  "B_stages_installed_in_A": false,
+  "production_go": false
+}

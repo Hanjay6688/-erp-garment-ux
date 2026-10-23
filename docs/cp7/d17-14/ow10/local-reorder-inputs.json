@@ -1,0 +1,419 @@
+{
+  "classification": "LOCAL_ACTUAL_NATIVE_HISTORY_AND_STAGED_TARGET_KERNELS_CONTROLLED_SOURCE_NOT_NATIVE_OR_LIVE_ROP",
+  "status": "PASS",
+  "passed": 35,
+  "total": 35,
+  "sql_sha256": "a3581317e48309c61ce4c4fb38805bd302f5887ba4c650d4f061971469baef25",
+  "points_sql_sha256": "d357aa97b1b85fcefc8a470ff8885eba16578b0982cc02d7e6fd35778d7adaea",
+  "results": [
+    {
+      "id": "OW10_INPUTS_ACTUAL_WHOLE_NATIVE_HISTORY_AND_STOCK_EQUAL",
+      "status": "PASS",
+      "observed": {
+        "whole_history_and_current_stock_full_JSON_equal": true,
+        "actual_staged_targets_full_JSON_equal": true,
+        "real_non_superuser_read": true
+      }
+    },
+    {
+      "id": "OW10_INPUTS_INTRADAY_STOCKOUT_NOT_LEGACY_START_DAY_AVAILABLE",
+      "status": "PASS",
+      "observed": {
+        "start90_zero_then90_still_stockout": true,
+        "available_days": 29,
+        "exact_total10_over29_point2_target5": true
+      }
+    },
+    {
+      "id": "OW10_INPUTS_PROFILE_MANUAL_AND_KNOWN_ZERO_REMAIN_NATIVE_CHOICES",
+      "status": "PASS",
+      "observed": {
+        "selected_mean2_exact_native_point10_target24": true,
+        "selected_zero_known_despite_no_available_days": true
+      }
+    },
+    {
+      "id": "OW10_INPUTS_POSTED_REVERSED_AND_RETURN_GROSS_RULE_SAME",
+      "status": "PASS",
+      "observed": {
+        "return4_not_subtracted_from_gross10": true,
+        "actual_journal_inverse_removes_gross": true,
+        "whole_history_equal_on_both": true
+      }
+    },
+    {
+      "id": "OW10_INPUTS_MULTIPLE_CHUNKS_KEEP_EVERY_PRODUCT_AND_DAY",
+      "status": "PASS",
+      "observed": {
+        "controlled_products": 420,
+        "complete_days": 12600,
+        "chunks": 2,
+        "whole_history_full_JSON_equal": true,
+        "factory_SLA": false
+      }
+    },
+    {
+      "id": "OW10_INPUTS_CHANGED_PERIOD_SOURCE_UNKNOWN_CAPS_AND_ACL",
+      "status": "PASS",
+      "observed": {
+        "changed_query_and_profile_visible": true,
+        "incomplete_future_and_full_grid_refused": true,
+        "private_only": true
+      }
+    },
+    {
+      "id": "OW10_POINTS_REVIEWED_PROFILE_EXACT_TARGET_AND_NO_DOUBLE_BUFFER",
+      "status": "PASS",
+      "observed": {
+        "same_full_Native_target_JSON": true,
+        "reviewed_lead3_wins_over_measured9": true,
+        "profile_manual_mean_and_known_zero_respected": true,
+        "no_second_buffer": true,
+        "non_superuser": true
+      }
+    },
+    {
+      "id": "OW10_POINTS_UNREVIEWED_DEFAULTS_USE_NATIVE_AVAILABLE_HISTORY",
+      "status": "PASS",
+      "observed": {
+        "exact_independent_point7_from29_Native_days": true,
+        "existing14_day95pct_rule_only": true,
+        "known_zero_not_unknown": true,
+        "default_only_not_claimed_full_production_target": true,
+        "insufficient_lead_never_guessed": true
+      }
+    },
+    {
+      "id": "OW10_POINTS_MANUAL_REPLACES_CLEARS_OR_REQUIRES_IDENTITY_REVIEW",
+      "status": "PASS",
+      "observed": {
+        "manual25_replaces_formula2_without_changing_target5": true,
+        "manual_zero_and_clear_distinct": true,
+        "changed_product_version_does_not_silently_activate_formula": true,
+        "existing_manual_limit_retained": true
+      }
+    },
+    {
+      "id": "OW10_POINTS_POLICY_HASH_UNKNOWN_PROFILE_AND_CLOSED_SCOPE",
+      "status": "PASS",
+      "observed": {
+        "lead_and_defaults_in_selection_hash": true,
+        "stale_profile_unknown": true,
+        "closed_policy_period_identity_and_full_scope": true,
+        "private_only": true
+      }
+    },
+    {
+      "id": "OW10_SOURCE_ACTUAL_SQL_LEAD_SETTINGS_AND_NATIVE_CAPTURE_CLOCK",
+      "status": "PASS",
+      "observed": {
+        "actual_Native_baseline_and_history_source_bodies": true,
+        "profile_and_identity_adapters_controlled": true,
+        "actual_SQL_median4_from5_lots3_groups": true,
+        "draft_reversed_future_and_nonproduction_lots_excluded": true,
+        "current_settings_defaults_actual_SQL": true,
+        "same_capture_clock_and_read_only_capture_role": true
+      }
+    },
+    {
+      "id": "OW10_SOURCE_LATEST_MANUAL_AS_OF_CAPTURE_AND_PROVEN_LEAD_GUARD",
+      "status": "PASS",
+      "observed": {
+        "latest_revision_at_Native_capture_only": true,
+        "future_manual_not_active": true,
+        "manual25_from_server_only": true,
+        "fewer_than3_issued_groups_not_proven_lead": true,
+        "source_change_changes_context_hash": true
+      }
+    },
+    {
+      "id": "OW10_SOURCE_CLOSED_CAP_INCOMPLETE_AND_ENGINE_CURRENTNESS",
+      "status": "PASS",
+      "observed": {
+        "existing5000_product_bound_not_raised": true,
+        "incomplete_source_not_empty_success": true,
+        "actual_catalog_code_in_engine_and_context_hash": true,
+        "exact_private_body_restored": true
+      }
+    },
+    {
+      "id": "OW10_READ_COMPLETE_NATIVE_FULL_INPUTS_AND_POINTS_EQUAL",
+      "status": "PASS",
+      "observed": {
+        "actual_history_source_and_baseline_source": true,
+        "full_input_and_point_JSON_equal": true,
+        "read_only_capture_role": true,
+        "clock_only_change_same_cache_key": true,
+        "visible_stock_change_new_key": true,
+        "incomplete_product_universe_refused": true
+      }
+    },
+    {
+      "id": "OW10_COMPILE_ONE_CLOSED_SNAPSHOT_NO_SECOND_DATABASE_READ",
+      "status": "PASS",
+      "observed": {
+        "exact_same_snapshot_same_full_result_after_DB_change": true,
+        "fresh_snapshot_changes_key": true,
+        "no_second_source_read_in_immutable_compile": true,
+        "closed_snapshot_and_clock_binding": true,
+        "cache_key_not_freshness_proof": true
+      }
+    },
+    {
+      "id": "OW10_READ_OVERFLOW_RETAINS_ALL_OTHER_NATIVE_COMPLETENESS_GUARDS",
+      "status": "PASS",
+      "observed": {
+        "fault_injected_denials": [
+          "SQL stock has fewer rows than raw capture",
+          "sales overflow",
+          "sale_journals overflow",
+          "returns overflow",
+          "return_journals overflow",
+          "duplicate current root",
+          "ambiguous current commercial",
+          "ambiguous sold commercial",
+          "missing posted original journal",
+          "duplicate original journal",
+          "unknown Native status"
+        ],
+        "Native_body_exactly_restored": true,
+        "Native_qualification": false
+      }
+    },
+    {
+      "id": "OW10_INPUTS_REAL_INSTALLER_22_AND_CALLER_DEPENDENCY_REFUSAL",
+      "status": "PASS",
+      "observed": {
+        "apply_admit_inverse_reapply_all22_exact": true,
+        "actual_installed_SQL_caller_requires_removal_first": true,
+        "caller_guard_before_DDL": true,
+        "persisted_Native_use_qualified": false
+      }
+    },
+    {
+      "id": "OW10_CACHE_FIRST_COMPILE_THEN_REUSE_WITH_FRESH_CAPTURE_ROLE",
+      "status": "PASS",
+      "observed": {
+        "actual_private_cache_miss_then_hit": true,
+        "original_threshold_time_and_full_points_retained": true,
+        "fresh_current_stock_each_read": true,
+        "capture_role_only": true,
+        "live_ROP_caller_changed": false
+      }
+    },
+    {
+      "id": "OW10_CACHE_TODAY_STOCK_FRESH_WITHOUT_HISTORY_RECOMPILE",
+      "status": "PASS",
+      "observed": {
+        "today_stock90_to93_without_old_stock_reuse": true,
+        "full_threshold_points_unchanged": true,
+        "same_threshold_hash_different_current_source_hash": true,
+        "threshold_time_retained": true
+      }
+    },
+    {
+      "id": "OW10_CACHE_BACKDATE_PROFILE_AND_MANUAL_INVALIDATE_THRESHOLD",
+      "status": "PASS",
+      "observed": {
+        "later_known_backdate_recompiled": true,
+        "profile_mean4_point20_recompiled": true,
+        "manual25_recompiled": true,
+        "no_stale_threshold_after_operational_or_policy_change": true
+      }
+    },
+    {
+      "id": "OW10_CACHE_HIT_STILL_REFUSES_RESERVATION_CORRUPTION_AND_INCOMPLETE_SCOPE",
+      "status": "PASS",
+      "observed": {
+        "cached_threshold_never_bypasses_fresh_draft_stock_validation": true,
+        "duplicate_current_identity_refused": true,
+        "failed_read_keeps_cache_unchanged": true
+      }
+    },
+    {
+      "id": "OW10_CACHE_22_GROUPS_AND_USE_MARK_SURVIVES_CACHE_EVICTION",
+      "status": "PASS",
+      "observed": {
+        "actual_apply_admit_inverse_reapply22": true,
+        "cache_evicted_but_immutable_use_mark_retained": true,
+        "after_use_requires_backup_restore_before_DDL": true,
+        "Native_or_A_chain": false
+      }
+    },
+    {
+      "id": "OW10_CALLER_UNKNOWN_WIP_KEEPS_FREE_STOCK_ALERT_AND_KNOWN_ZERO",
+      "status": "PASS",
+      "observed": {
+        "unknown_not_zero": true,
+        "free_stock_alert_not_waiting_for_analysis": true,
+        "known_profile_zero_preserved": true,
+        "public_caller_installed": false
+      }
+    },
+    {
+      "id": "OW10_CALLER_ONE_DIRECTED_GOOD_BUDGET_NOT_COPIED_TO_SAME_MODEL_VARIANT",
+      "status": "PASS",
+      "observed": {
+        "actual_Native_net_and_global_project": true,
+        "directed4_once_not_copied_to_other_variant": true,
+        "base_state_and_target5_quantity1_from_same_kernel": true,
+        "Native_job_reader_not_claimed": true
+      }
+    },
+    {
+      "id": "OW10_CALLER_GLOBAL_CANDIDATES_SEPARATE_NEVER_MUTE_BASE_ALERT",
+      "status": "PASS",
+      "observed": {
+        "global_candidate_budget7_split3_and4": true,
+        "conditional_position_only": true,
+        "base_alert_still_open": true,
+        "proven_directed_kept_when_candidate_allocation_unknown": true
+      }
+    },
+    {
+      "id": "OW10_CALLER_LATE_GOOD_AT_TARGET_EXCLUDED_FROM_TRIGGER_AND_UNKNOWN_YIELD",
+      "status": "PASS",
+      "observed": {
+        "ETA5_excluded_from_lead3_included_in_target10": true,
+        "unknown_good_not_raw_PCS_or_100percent_yield": true,
+        "free_alert_preserved": true
+      }
+    },
+    {
+      "id": "OW10_CALLER_MANUAL_TRIGGER25_DOES_NOT_INVENT_TARGET25",
+      "status": "PASS",
+      "observed": {
+        "manual25_compares_same_lead_position4": true,
+        "full_target5_unchanged": true,
+        "no_point_above_target_kernel_call": true,
+        "no_silent_target_bump": true
+      }
+    },
+    {
+      "id": "OW10_CALLER_FRESH_FREE_AND_HORIZON_BINDING_REFUSE_OLD_SUPPLY_CREDIT",
+      "status": "PASS",
+      "observed": {
+        "different_live_free_rejects_cached_position": true,
+        "different_lead_rejects_cached_ETA": true,
+        "free_alert_still_computed": true
+      }
+    },
+    {
+      "id": "OW10_CALLER_EXACT_POINT_ABOVE_JS_SAFE_INTEGER_AND_FULL_SCOPE_BEFORE_ACTIVE_FILTER",
+      "status": "PASS",
+      "observed": {
+        "exact_decimal_point_10000000000000000": true,
+        "no_JS_number_or_int32_cast": true,
+        "complete_global_scope_validated_before_active_filter": true,
+        "filtered_projection_refused": true
+      }
+    },
+    {
+      "id": "OW10_STOCK_SUMMARY_FULL_NATIVE_AVAILABILITY_AND_BOTH_CLOCKS",
+      "status": "PASS",
+      "observed": {
+        "complete_actual_Native_availability_JSON_equal": true,
+        "current_free_and_physical_same": true,
+        "future_physical_and_later_known_rows_both_excluded": true,
+        "non_superuser_read": true,
+        "canonical_Native_clock": true
+      }
+    },
+    {
+      "id": "OW10_STOCK_SUMMARY_RESERVATION_INVERSE_AND_INTRADAY_UNKNOWN",
+      "status": "PASS",
+      "observed": {
+        "reservation_subtracted_once_inverse_excluded_from_physical": true,
+        "negative_intraday_state_UNKNOWN_never_zero": true,
+        "full_Native_availability_JSON_equal": true
+      }
+    },
+    {
+      "id": "OW10_STOCK_SUMMARY_202000_ROWS_2000_PRODUCTS_NO_TRUNCATION",
+      "status": "PASS",
+      "observed": {
+        "controlled_SQL_rows": 202000,
+        "products": 2000,
+        "complete_days": 60000,
+        "all_free_pcs": "450",
+        "local_SQL_ms": 3553,
+        "no_source_row_sampled": true,
+        "Native_Auth_or_factory_SLA": false
+      }
+    },
+    {
+      "id": "OW10_READ_202000_SQL_ROWS_FULL_NATIVE_HISTORY_TARGETS_AND_POINTS",
+      "status": "PASS",
+      "observed": {
+        "actual_Native_source_cap_still50001": true,
+        "Native_status_still_INCOMPLETE": true,
+        "SQL_rows": 202000,
+        "full_targets": 2000,
+        "full_history_days": 60000,
+        "full_points": 2000,
+        "free450_exact": true,
+        "known_zero_profile_not_unknown": true,
+        "local_full_pipeline_ms": 10594,
+        "outside_raw_prefix_change_invalidates_context": true,
+        "summary_clock_binding_refused": true,
+        "Native_Auth_or_factory_SLA": false,
+        "live_ROP_caller_changed": false
+      }
+    },
+    {
+      "id": "OW10_CACHE_2000_POINTS_WARM_CURRENT_STOCK_WITHOUT_HISTORY_RECOMPILE",
+      "status": "PASS",
+      "observed": {
+        "complete_points_and_current_stock": 2000,
+        "actual_history_cache_hit": true,
+        "cold_local_ms": 10963,
+        "warm_local_ms": 5702,
+        "today_stock_change_still_fresh_without_history_recompute": true,
+        "Native_Auth_or_factory_SLA": false,
+        "live_ROP_caller_changed": false
+      }
+    },
+    {
+      "id": "OW10_STOCK_SUMMARY_SCOPE_REFUSED_AND_DATA_HASH_EXCLUDES_ONLY_CLOCK",
+      "status": "PASS",
+      "observed": {
+        "clock_only_change_not_data_change": true,
+        "actual_visible_stock_change_changes_hash": true,
+        "existing_grid_and_closed_day_caps_preserved": true,
+        "not_a_complete_Native_capture_claim": true
+      }
+    }
+  ],
+  "source_sql_sha256": "15520623ef27feb30a63b890012972471e7f45082fd88ab5211809cdaedf4f13",
+  "stock_sql_sha256": "88b23511305abbf8ccb68155b1e614d2f758ef82c1f3dc6938391340531990db",
+  "read_sql_sha256": "0725b07761351018dc248707901ff7f67a4d9bea4cbd710a7356d23fa46fed89",
+  "reader_cache_sql_sha256": "0e4ed8511ee5b2e23e4ad2a344d76eba38bde2fb9c7e5d30aae0897455bf9e52",
+  "caller_evaluate_sql_sha256": "f10a837e501c682039d84e97db8e0c2b8f0c727908e55c69ddc41afe9252f93d",
+  "installer": {
+    "classification": "LOCAL_REAL_INSTALLER_AND_PG_CATALOG_VIA_CONTROLLED_TRANSPORT_NOT_NATIVE",
+    "stage": "cp7_reorder_inputs",
+    "status": "PASS",
+    "catalog_groups": 22,
+    "apply_rollback_reapply_exact": true,
+    "admission_passed": true,
+    "full_A_chain_qualified": false,
+    "production_go": false,
+    "after_use_refusal": "OW10_REORDER_INPUTS_AFTER_USE_REQUIRES_BACKUP_RESTORE",
+    "after_use_refused_before_first_DDL": true
+  },
+  "reader_installer": {
+    "classification": "LOCAL_REAL_INSTALLER_AND_PG_CATALOG_VIA_CONTROLLED_TRANSPORT_NOT_NATIVE",
+    "stage": "cp7_reorder_reader_stage",
+    "status": "PASS",
+    "catalog_groups": 22,
+    "apply_rollback_reapply_exact": true,
+    "admission_passed": true,
+    "full_A_chain_qualified": false,
+    "production_go": false,
+    "after_use_refusal": "OW10_REORDER_READER_AFTER_USE_REQUIRES_BACKUP_RESTORE",
+    "after_use_refused_before_first_DDL": true
+  },
+  "ROP_caller_changed": false,
+  "full_A_chain_qualified": false,
+  "production_go": false
+}

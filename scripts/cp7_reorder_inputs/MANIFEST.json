@@ -1,0 +1,28 @@
+{
+  "contract": "cp7.reorder-inputs-stage.v7",
+  "existing_body_sha256": {
+    "cp7_analysis_stage.bounds()": "aced99fa879da9258a6af894fb0e87789aaeb5a51b5d419fa3bb77cb1bea0bbe",
+    "cp7_analysis_stage.history_prep(jsonb,jsonb,integer,bigint,integer)": "e76f05569d1282c0bba24985e549b22b71e5051078ca868ef814a7eff46fe9ec",
+    "cp7_analysis_stage.events_validate(jsonb)": "9da062dc57dc204c4130cbd3a6921df7758ac63ed3ec8d6108a4a9514ca391d0",
+    "cp7_analysis_stage.history_validate(jsonb)": "1a736070f7621c3303fbb403f703b036787bfddfee6d6fa4d8d540e916b2e873",
+    "cp7_analysis_stage.history_rows(jsonb)": "6a78d3c32b5b00b6574fe6dbc11f83b36e2999c0bf8379bddc209452a64a6d94",
+    "cp7_analysis_stage.history_stock(jsonb,jsonb,text)": "61fdea6b17c4b445835cd98a04ca33297660b9102bdd9dd2737802a92cefb195",
+    "cp7_analysis_stage.baseline_rows(jsonb,jsonb,jsonb,text)": "6d2e88b7a13313e31d2ab70d55c0373337fc82d79b30d1b2ddc97687e8d06228",
+    "cp7_planning.history_events(jsonb)": "9237aa396d2d4bf7cc0ab72262a778251acb6c852cb23875c3f607a150d55bf9",
+    "cp7_planning.history_availability(jsonb,jsonb)": "edddf5ab31b60ce1b3af9d7a6eab7fa0155dc772431c4da05d7191cf29052002",
+    "cp7_baseline.target(jsonb)": "c37605060db1d48486b0533993c57519afff2472d70908ec2f2a5fb2b8094c59",
+    "cp7_baseline_native.source_within(integer)": "256904df93ee5b7197d89839a157db40d3a119c801ea7a1092cc185e1bc3bdee",
+    "cp7_planning.history_source_within(integer)": "0ded55083303fe72262abd977c238e8ec2f092791e31dc37dfcd7928c12bef9f"
+  },
+  "sql_sha256": {
+    "history.sql": "7aa729ada06c2b93ada2b89e04e5cabb219a498fdca48ab6cdcc5d3a2b65660d",
+    "points.sql": "d357aa97b1b85fcefc8a470ff8885eba16578b0982cc02d7e6fd35778d7adaea",
+    "source.sql": "2bfd8be2e40437b043ed16a1128a3845f11789ce9954e2240bd1b04e2279b2e0",
+    "stock.sql": "4cbc58de2cdd3a0af85b7ab09a84c22568a8e36cfcfd96a57a1691b4dabed1b2",
+    "read.sql": "494adccc0273a659856f06c6e6956de022c247a7644f5538e7c646659e241201",
+    "capture.sql": "a4921aa90111709dfbde026e6b98beb6d977dcd46d212d3cc0fbd97a159f7e78"
+  },
+  "default_install": false,
+  "live_ROP_caller_changed": false,
+  "Native_DML": false
+}

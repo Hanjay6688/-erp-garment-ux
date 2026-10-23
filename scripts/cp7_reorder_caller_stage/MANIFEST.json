@@ -1,0 +1,103 @@
+{
+  "contract": "cp7.reorder-caller-stage.v1",
+  "hooks": {
+    "cp7_stock_formula.compute(timestamp with time zone,interval)": {
+      "source": "scripts/cp7_target_policy_stage/sql/cp7_stock_formula__compute.sql",
+      "source_sha256": "753d7d336d82ab78618005775be33524ee65de11575caf842005b578151e61ea",
+      "before_body_sha256": "0d217809dad7470e22576d887f43a8c18ed514cc11e20bb807b3d1310a3f0943",
+      "forward": "compute.sql",
+      "after_body_sha256": "495210ebbfb107d680c61f426b8e7285a8860485ec5ede716801971aeec0e537"
+    },
+    "cp7_stock_formula.workspace(jsonb)": {
+      "source": "scripts/cp7-src/stock-formula/formula.sql",
+      "source_sha256": "5d5b92fc652b9dbdedbe96e422a6dc876b749ffe6df0a25cb9e3c37d962980bf",
+      "before_body_sha256": "eebe82144a30276446884dc5660adbb763e690f4359e176d1d1c701ffb232bc0",
+      "forward": "workspace.sql",
+      "after_body_sha256": "aac7109912f28c6be3cf414687ce0e2806b8ea6e0b98afe84ee52cd7dccf8387"
+    },
+    "cp7_stock_formula.alert_row(jsonb,numeric)": {
+      "source": "scripts/cp7-src/stock-formula/formula.sql",
+      "source_sha256": "5d5b92fc652b9dbdedbe96e422a6dc876b749ffe6df0a25cb9e3c37d962980bf",
+      "before_body_sha256": "2bb53e4d90df6920968693d8315c44187d41ce85eab7203f06e12acb6136144e",
+      "forward": "alert_row.sql",
+      "after_body_sha256": "90ca97e76b43b5c7cea81b7e14a3e18b0552ac057df03977f0897327877de29a"
+    },
+    "cp7_stock_formula.fg_source()": {
+      "source": "scripts/cp7-src/stock-formula/formula.sql",
+      "source_sha256": "5d5b92fc652b9dbdedbe96e422a6dc876b749ffe6df0a25cb9e3c37d962980bf",
+      "before_body_sha256": "fcb80e29895133cb10fb759d30997a3a1fd45f695fcd1c4c56b2f637bdafe3aa",
+      "forward": "fg_source.sql",
+      "after_body_sha256": "3a2d93c3d5ad0b557d236068fb0d3c458e00742f349551662d0fea757ccc98e1"
+    },
+    "cp7_stock_formula.save_manual(jsonb,uuid)": {
+      "source": "scripts/cp7-src/stock-formula/formula.sql",
+      "source_sha256": "5d5b92fc652b9dbdedbe96e422a6dc876b749ffe6df0a25cb9e3c37d962980bf",
+      "before_body_sha256": "942d24cd06a8b03e7aa6db04d5b8379ebf1e3e09ec40d7fecb36cc80b996221b",
+      "forward": "save_manual.sql",
+      "after_body_sha256": "9dd34b332e090e495b76fe15321ffdb7e72cf9ffe91869f18205ce36a843a5ac"
+    },
+    "cp7_stock_formula.save_settings(jsonb,uuid)": {
+      "source": "scripts/cp7-src/stock-formula/formula.sql",
+      "source_sha256": "5d5b92fc652b9dbdedbe96e422a6dc876b749ffe6df0a25cb9e3c37d962980bf",
+      "before_body_sha256": "5216f1ab6a2a9e12eca60f6e415cb18947ae6104e3ecb8625678100eb17d546f",
+      "forward": "save_settings.sql",
+      "after_body_sha256": "ced02652d4438bb18c2abd61151d8acb5aa2c205c7b4936fd941f94f36eff8fd"
+    },
+    "cp7_stock_formula.refresh()": {
+      "source": "scripts/cp7-src/stock-formula/formula.sql",
+      "source_sha256": "5d5b92fc652b9dbdedbe96e422a6dc876b749ffe6df0a25cb9e3c37d962980bf",
+      "before_body_sha256": "3724321d33002470a17ee060edb486aa2f83dac7733be87e715588760e0f4872",
+      "forward": "refresh.sql",
+      "after_body_sha256": "d34b201118430deb42cb588e4c6537b31e1eb028f0919d94bfc1de9b45725e69"
+    },
+    "cp7_alert_native.item_line(jsonb,text)": {
+      "source": "scripts/cp7_production_stage/sql/cp7_alert_native__item_line.sql",
+      "source_sha256": "48b820ad77f8da4bd81c5c3f7e9f8a3f47fd5131612c77533fea5ea2cfd39080",
+      "before_body_sha256": "7a82c54216752aeee5eb89773ed6db3ccdf27e9788a914407d48e3e348559a9d",
+      "forward": "item_line.sql",
+      "after_body_sha256": "df264cec882ff5e57e97547b7c1fac46d293f2ef4faf3f0152d1c517c1dd265d"
+    }
+  },
+  "sql_sha256": {
+    "alert_row.sql": "19fc781dd00ccdf6f8665c2e775c3d3c51e9c085d35d81854cf0b69efe8dc15c",
+    "compute.sql": "021ffaac52ad2d3a6e45b99cebd86fb0d15a07826c4a7d3a0b58cda73051b286",
+    "evaluate.sql": "de94b03b664f854065f6a9484d39fec9a3811fc2ee90022b954466835460959c",
+    "fg_source.sql": "e95552adc28534832509ba8899095a71cef65da37ae376cc3498c47b31ae0677",
+    "item_line.sql": "c03efb88c108a04aeb470109e2b5cbdf5773f750f3137baaa400e4a17d67a179",
+    "refresh.sql": "becb4ae410ec91ea3eda1084cc91df7316a8f722b0899603af4c51ad705374b6",
+    "save_manual.sql": "add982629f9e6d12f8367c0d8fa7e3c18512a94441f044d0bca7b9848d0da2c4",
+    "save_settings.sql": "e9b3eb6530b7bbb2130a9b81ada1d3bb5544fcec0d8e24378311611812912c99",
+    "state.sql": "e67e84dbcc6a1662b57b6264f29c1d72cb0d62dd39fd92720fae4987c54b87ba",
+    "workspace.sql": "f5fa326190cbdf29ef1e046fa82a765dce644795690030e489693223df8feb4f"
+  },
+  "default_install": false,
+  "Native_DML": false,
+  "live_ROP_caller_changed": true,
+  "new_public_RPCS": 0,
+  "dependency_bodies": {
+    "cp7_analysis_stage.run_unit(cp7_analysis_stage.jobs,cp7_analysis_stage.units)": {
+      "sha256": "191d51b5085d644abcfd4cc9783158b03abe22f661efb64249c3c31fc2748ba0",
+      "volatility": "v"
+    },
+    "cp7_analysis_native.source_within(integer,integer)": {
+      "sha256": "92dcec0e7affa781882757dc131851507311be07bd373f2a2eb321ac1be66bd0",
+      "volatility": "s"
+    },
+    "cp7_reorder_supply.project(jsonb)": {
+      "sha256": "be76b75bdbfa081a7b484fadb57f833f60675ada93c92c903b41d9fbc048b852",
+      "volatility": "i"
+    },
+    "cp7_reorder_supply.budgets(jsonb,jsonb)": {
+      "sha256": "8192afe4ed61e02523a3fae7e34d0d4fbfce9be7df7594b7a9de45c10f1f45f8",
+      "volatility": "i"
+    },
+    "cp7_reorder_supply.read_job(jsonb,jsonb)": {
+      "sha256": "1101f892adcf3d83a0fb25cb39ded98df7e900bdc02d4b2348c71df769b8333a",
+      "volatility": "s"
+    },
+    "cp7_analysis_native.fingerprint(jsonb)": {
+      "sha256": "f4a4da02c3560e121ca287da378476a227980af8c3dcfe08b5c4e765293cb18c",
+      "volatility": "i"
+    }
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "contract": "cp7.ow10.global-supply-native-first-receipt.v1",
+  "candidate": "68411456312f6fc924b69e7618a3f91e3f39cad1",
+  "tree": "f3a99721c0b7c9b83a74ff0ca5bb7b94f0059ad1",
+  "run_id": 39897276233,
+  "job_id": 120230503872,
+  "status": "INCOMPLETE",
+  "expected_case_count": 133,
+  "observed_case_count": 133,
+  "pass_count": 131,
+  "counts": {
+    "native": {
+      "PASS": 73,
+      "INCOMPLETE": 2
+    },
+    "races": {
+      "PASS": 36
+    },
+    "http": {
+      "PASS": 9
+    },
+    "browser": {
+      "PASS": 13
+    }
+  },
+  "all_case_ids_exact": true,
+  "first_failed_cases": {
+    "WAF_ANALYSIS_AUTOMATIC_RUN": "ANA_META FAILED: CP7_REORDER_CAPTURE_PROJECTION_SHAPE",
+    "OW10_SUPPLY_NATIVE_UNREVIEWED_IS_UNKNOWN": "ANA_META FAILED: CP7_REORDER_CAPTURE_PROJECTION_SHAPE"
+  },
+  "cause": "Actual unreviewed/source-changed Native schedule returns normalized raw WIP without a projection field. The new budget producer incorrectly rejected it instead of retaining unknown good quantity and ETA.",
+  "fix": "Only absent projection is legitimate unknown; present malformed projection remains refused. No raw pieces or default100percent yield is credited.",
+  "preuse_22_groups_exact": {
+    "target": true,
+    "supply": true,
+    "initial": true
+  },
+  "mode_clone_authority_exact": 38,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "complete_originals_artifact": {
+    "id": 12478217598,
+    "bytes": 1755634,
+    "sha256": "51fb6e90558479f5953ee9c77db7355a5ac9f72da70dd7ae5a25f1d2933cff69"
+  },
+  "raw_log_sha256": "01894eb5f5613d2c18106afa42065bdc1233ef911de2e1b55d75c592ebeacfcd",
+  "Native_ROP_inputs_installed": false,
+  "live_ROP_caller_changed": false,
+  "full_A_chain_qualified": false,
+  "production_go": false
+}

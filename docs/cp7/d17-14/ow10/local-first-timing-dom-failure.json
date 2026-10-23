@@ -1,0 +1,11 @@
+{
+  "classification": "LOCAL_CLIENT_DOM_AND_TYPESCRIPT_NOT_NATIVE",
+  "status": "FAIL",
+  "tests_pass": 81,
+  "tests_fail": 1,
+  "trigger": "First rendering of the new lead-timing cell",
+  "observed": "ReferenceError: qty is not defined; TypeScript TS2304 at the three uses in ReorderTimingCell",
+  "fix": "Move the unchanged quantity display helper to module scope so both the timing cell and the workspace use it",
+  "oracle_changed": false,
+  "production_go": false
+}

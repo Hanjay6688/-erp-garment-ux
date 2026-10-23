@@ -1,0 +1,59 @@
+{
+  "classification": "LOCAL_ACTUAL_SQL_WITH_CONTROLLED_ERP_AND_IDENTITY_ADAPTER_NOT_NATIVE",
+  "status": "FAIL",
+  "source_sha256": "2b87723e66f56e5c406b891340d94bc94c28791f0bc2839034f0630bc9b95c52",
+  "alert_source_sha256": "a11a92e8909827c6c00ec8a8e436a461d57b8312a9bacc4390c0c19c61c13aee",
+  "cases": [
+    {
+      "id": "OW14B_PREVIOUS_RULE_RETAINED_UNTIL_EXPLICIT_CHOICE",
+      "status": "PASS",
+      "observed": {
+        "free": "700",
+        "legacy_active": "800",
+        "inactive_formula": "60",
+        "one_reminder": true
+      }
+    },
+    {
+      "id": "OW14B_FORMULA_CHOICE_DOES_NOT_RESURRECT_LEGACY_ALERT",
+      "status": "PASS",
+      "observed": {
+        "one_active_formula": "60",
+        "legacy_reference": "800",
+        "old_rule_not_active": true
+      }
+    },
+    {
+      "id": "OW14B_REFERENCE_CHANGE_REFUSES_ATOMICALLY",
+      "status": "PASS",
+      "observed": {
+        "no_revision_appended": true
+      }
+    },
+    {
+      "id": "OW14B_SELECTED_LEGACY_IS_PINNED_AND_REPLAY_IS_EXACT",
+      "status": "FAIL",
+      "error": "Expected canonical string900; actual numeric(18,4) serialization900.0000 (same quantity)."
+    },
+    {
+      "id": "OW14B_ZERO_REFERENCE_IS_EXPLICITLY_DISABLED_NOT_UNKNOWN",
+      "status": "PASS",
+      "observed": {
+        "explicit_zero_legacy": "NO_POINT",
+        "formula_reenabled_only_by_choice": true
+      }
+    },
+    {
+      "id": "OW14B_CURRENT_ACCESS_AND_APPEND_ONLY",
+      "status": "PASS",
+      "observed": {
+        "current_denial_refuses": true,
+        "old_settings_immutable": true,
+        "native_lock_wait_race_not_claimed": true
+      }
+    }
+  ],
+  "OW14b_complete": false,
+  "production_go": false,
+  "fix": "Fixture expects the existing scale4 serialization; no product arithmetic or oracle quantity changed."
+}

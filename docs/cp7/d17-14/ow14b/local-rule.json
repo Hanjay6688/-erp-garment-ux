@@ -1,0 +1,84 @@
+{
+  "classification": "LOCAL_ACTUAL_SQL_WITH_CONTROLLED_ERP_AND_IDENTITY_ADAPTER_NOT_NATIVE",
+  "status": "PASS",
+  "source_sha256": "56b0d14c2edb1bfcfad53af8bbe9d007ee30cf84f2750ec57bacc7600aa9252d",
+  "alert_source_sha256": "e49ef91dd8f193c8024efebaccfd291f99524db6e27be0c1dea8d591fc5bc815",
+  "source_layout": "FROZEN_PREDECESSOR_PLUS_COUNTED_PRODUCTION_STAGE",
+  "cases": [
+    {
+      "id": "OW14B_LOCAL_SCHEMA_PREUSE_ROUNDTRIP",
+      "status": "PASS",
+      "observed": {
+        "actual_upgrade_and_inverse": true,
+        "old_private_row_hash_unchanged": true,
+        "columns_constraints_and_precision_restored": true,
+        "full_Native_22_groups_not_claimed": true
+      }
+    },
+    {
+      "id": "OW14B_PREVIOUS_RULE_RETAINED_UNTIL_EXPLICIT_CHOICE",
+      "status": "PASS",
+      "observed": {
+        "free": "700",
+        "legacy_active": "800",
+        "inactive_formula": "60",
+        "one_reminder": true
+      }
+    },
+    {
+      "id": "OW14B_FORMULA_CHOICE_DOES_NOT_RESURRECT_LEGACY_ALERT",
+      "status": "PASS",
+      "observed": {
+        "one_active_formula": "60",
+        "legacy_reference": "800",
+        "old_rule_not_active": true
+      }
+    },
+    {
+      "id": "OW14B_REFERENCE_CHANGE_REFUSES_ATOMICALLY",
+      "status": "PASS",
+      "observed": {
+        "no_revision_appended": true
+      }
+    },
+    {
+      "id": "OW14B_SELECTED_LEGACY_IS_PINNED_AND_REPLAY_IS_EXACT",
+      "status": "PASS",
+      "observed": {
+        "chosen_legacy": "900",
+        "current_reference": "1000",
+        "older_client_preserves_choice": true,
+        "exact_replay": true,
+        "one_reminder": true
+      }
+    },
+    {
+      "id": "OW14B_ZERO_REFERENCE_IS_EXPLICITLY_DISABLED_NOT_UNKNOWN",
+      "status": "PASS",
+      "observed": {
+        "explicit_zero_legacy": "NO_POINT",
+        "formula_reenabled_only_by_choice": true
+      }
+    },
+    {
+      "id": "OW14B_CURRENT_ACCESS_AND_APPEND_ONLY",
+      "status": "PASS",
+      "observed": {
+        "current_denial_refuses": true,
+        "old_settings_immutable": true,
+        "native_lock_wait_race_not_claimed": true
+      }
+    },
+    {
+      "id": "OW14B_SIX_DECIMAL_PIN_AND_POSTUSE_ROLLBACK_REFUSAL",
+      "status": "PASS",
+      "observed": {
+        "six_place_Native_reference_pinned_without_rounding": true,
+        "exact_rule_in_message": true,
+        "used_policy_not_dropped": true
+      }
+    }
+  ],
+  "OW14b_complete": false,
+  "production_go": false
+}

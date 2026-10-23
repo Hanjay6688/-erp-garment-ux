@@ -1,0 +1,63 @@
+{
+  "label": "OW13B_READER_AFTER",
+  "scope": "ACTUAL_READER_SQL_WITH_CONTROLLED_RELATIONAL_FIXTURE_AND_STUBBED_PROOF_ADAPTER_NOT_NATIVE_PROOF",
+  "source_sha256": "037b83b9148ccb23ec75a39267f2e9f36faa23878ce826e340519263b63a99e9",
+  "status": "PASS",
+  "cases": [
+    {
+      "id": "COMPLETE_PRODUCT_SIZE_200",
+      "status": "PASS",
+      "observed": {
+        "groups": "200",
+        "cut_pcs": "8000",
+        "fg_pcs": "7400",
+        "all_proofs_matched": true
+      }
+    },
+    {
+      "id": "COMPLETE_PRODUCT_SIZE_201",
+      "status": "PASS",
+      "observed": {
+        "groups": "201",
+        "cut_pcs": "8040",
+        "fg_pcs": "7437",
+        "all_proofs_matched": true
+      }
+    },
+    {
+      "id": "COMPLETE_PRODUCT_SIZE_501",
+      "status": "PASS",
+      "observed": {
+        "groups": "501",
+        "cut_pcs": "20040",
+        "fg_pcs": "18537",
+        "all_proofs_matched": true
+      }
+    },
+    {
+      "id": "COMPLETE_MODEL_FALLBACK_501",
+      "status": "PASS",
+      "observed": {
+        "level": "MODEL",
+        "groups": "501"
+      }
+    },
+    {
+      "id": "STALE_PROOF_AFTER_GROUP_200_EXCLUDED_EXACTLY",
+      "status": "PASS",
+      "observed": {
+        "groups": "500",
+        "stale_excluded": "1"
+      }
+    },
+    {
+      "id": "LATE_BATCH_FAILURE_NEVER_RETURNS_PARTIAL_YIELD",
+      "status": "PASS",
+      "observed": {
+        "status": "UNKNOWN",
+        "reason": "HISTORY_SOURCE_INCOMPLETE",
+        "lower_bound": null
+      }
+    }
+  ]
+}

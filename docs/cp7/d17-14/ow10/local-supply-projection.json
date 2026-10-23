@@ -1,0 +1,140 @@
+{
+  "classification": "LOCAL_REAL_SQL_KERNEL_WITH_CONTROLLED_GLOBAL_ALLOCATION_INPUT_NOT_NATIVE_NOT_ROP_CALLER",
+  "status": "PASS",
+  "passed": 14,
+  "total": 14,
+  "sql_sha256": "b9261c28c776b87da6489d11496f811ee337ecc6626e48033e8630ce346e5008",
+  "results": [
+    {
+      "id": "OW10_SUPPLY_ONE_RAW_POOL_NOT_CREDITED_TO_BOTH_VARIANTS",
+      "status": "PASS",
+      "observed": {
+        "controlled_raw_pieces": 100,
+        "source_projected_good": 80,
+        "unique_candidate_shares": [
+          30,
+          50
+        ],
+        "base_positions": [
+          2,
+          4
+        ],
+        "conditional_positions": [
+          32,
+          54
+        ],
+        "candidate_never_suppresses_base": true
+      }
+    },
+    {
+      "id": "OW10_SUPPLY_DIRECTED_ONLY_EXACT_TARGET_AND_TWO_HORIZONS",
+      "status": "PASS",
+      "observed": {
+        "exact_target_only": true,
+        "after_lead_does_not_hide_reorder": true,
+        "after_horizon_excluded": true
+      }
+    },
+    {
+      "id": "OW10_SUPPLY_REJECTS_DOUBLE_DIRECTED_OVERALLOCATED_AND_MIXED_POOL",
+      "status": "PASS",
+      "observed": {
+        "copied_model_pool_refused": true,
+        "overallocated_split_refused": true,
+        "directed_plus_candidate_same_source_refused": true
+      }
+    },
+    {
+      "id": "OW10_SUPPLY_EXACT_REPLAY_IS_ONCE_CONFLICTING_REPLAY_REFUSED",
+      "status": "PASS",
+      "observed": {
+        "identical_replay_numbers_and_states_unchanged": true,
+        "submitted_duplicate_inputs_preserved": true,
+        "conflicting_replay_refused": true
+      }
+    },
+    {
+      "id": "OW10_SUPPLY_SOURCE_PERIOD_SCOPE_AND_WIP_CHANGE_NEVER_ZERO",
+      "status": "PASS",
+      "observed": {
+        "stale_and_incomplete_variants": 7,
+        "old_snapshot_never_presented_as_current": true
+      }
+    },
+    {
+      "id": "OW10_SUPPLY_UNKNOWN_YIELD_ETA_AND_UNPROVEN_CANDIDATES",
+      "status": "PASS",
+      "observed": {
+        "unknown_not_zero": true,
+        "unproven_candidate_refused": true,
+        "directed_independent_of_candidate_allocation": true
+      }
+    },
+    {
+      "id": "OW10_SUPPLY_WRONG_SIZE_SOURCE_SNAPSHOT_TIME_AND_ELIGIBILITY_REFUSED",
+      "status": "PASS",
+      "observed": {
+        "conflicting_bindings_refused": 7
+      }
+    },
+    {
+      "id": "OW10_SUPPLY_INELIGIBLE_STAYS_EXCLUDED",
+      "status": "PASS",
+      "observed": {
+        "ineligible_source_never_available_stock": true
+      }
+    },
+    {
+      "id": "OW10_SUPPLY_SIGNED_STOCK_ZERO_POINT_AND_BIG_INTEGER_EXACT",
+      "status": "PASS",
+      "observed": {
+        "negative_available_preserved": true,
+        "explicit_zero_point_preserved": true,
+        "large_integer_without_JS_rounding": true
+      }
+    },
+    {
+      "id": "OW10_SUPPLY_MISSING_HORIZON_NOT_AN_EMPTY_WIP_ZERO",
+      "status": "PASS",
+      "observed": {
+        "missing_time_not_guessed": true
+      }
+    },
+    {
+      "id": "OW10_SUPPLY_INDEPENDENT_INTEGER_ORACLE_64_GLOBAL_SCENARIOS",
+      "status": "PASS",
+      "observed": {
+        "controlled_scenarios": 64,
+        "targets_per_scenario": 2,
+        "independent_BigInt_quantities_gaps_states_and_conservation": true
+      }
+    },
+    {
+      "id": "OW10_SUPPLY_UNCOMPUTED_NULL_LIST_STAYS_UNKNOWN",
+      "status": "PASS",
+      "observed": {
+        "uncomputed_null_distinct_from_empty_known_list": true,
+        "missing_key_refused": true,
+        "other_target_conserved_projection_still_available": true
+      }
+    },
+    {
+      "id": "OW10_SUPPLY_CLOSED_SHAPES_AND_BOUNDS",
+      "status": "PASS",
+      "observed": {
+        "invalid_shape_identity_quantity_and_bound_controls": 15
+      }
+    },
+    {
+      "id": "OW10_SUPPLY_PRIVATE_NO_PUBLIC_AUTHORITY",
+      "status": "PASS",
+      "observed": {
+        "private_only": true,
+        "no_definer_privilege_or_business_writes": true
+      }
+    }
+  ],
+  "live_ROP_caller_changed": false,
+  "full_A_chain_qualified": false,
+  "production_go": false
+}

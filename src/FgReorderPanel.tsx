@@ -137,6 +137,7 @@ export default function FgReorderPanel() {
   }
 
   const run = data?.run ?? null, windowDays = run?.windowDays ?? data?.settings.windowDays ?? 30
+  const native = data?.contractVersion === 'cp7.fg-reorder.v2'
   const level = run?.serviceLevel ?? data?.settings.serviceLevel ?? '0.95'
   const counts = data?.counts, page = data?.page
   const countOf: Record<ReorderFilter, number | undefined> = { ALL: counts?.items, AT_OR_BELOW: counts?.atOrBelow, MANUAL: counts?.manual, NOT_ENOUGH_DATA: counts?.notEnoughData }
@@ -146,9 +147,11 @@ export default function FgReorderPanel() {
       <div>
         <div className="eyebrow">GUDANG · BARANG JADI · PENGINGAT STOK</div>
         <h2>Titik pesan ulang (safety stock)</h2>
-        <p>Titik pesan ulang = rata-rata jual per hari × lama produksi + cadangan. Dihitung dari penjualan yang sudah diposting {formatReorderWhole(windowDays)} hari
-          terakhir (hari stok kosong tidak dihitung) dengan tingkat layanan {servicePercent(level)}%. Kalau stok bebas ditambah yang sedang diproduksi sudah sama atau
-          di bawah angka ini, muncul pengingat "Stok barang jadi menipis" di Reminder › Pengingat sistem, dan diteruskan ke WhatsApp Bos bila Sambungan WhatsApp menyala.</p>
+        {native ? <p>Titik pesan ulang menentukan kapan perlu produksi. Target jumlah produksi dihitung terpisah oleh mesin rencana yang sama, mengikuti profil produk atau pengaturan umum di bawah.
+          Stok bebas dan perkiraan barang baik yang tiba tepat waktu dibandingkan dengan titik pesan ulang. Kandidat produksi ditampilkan sebagai kemungkinan tambahan dan perlu dikonfirmasi.
+          Pengingat stok diteruskan ke WhatsApp Bos bila Sambungan WhatsApp menyala.</p> : <p>Titik pesan ulang = rata-rata jual per hari × lama produksi + cadangan. Dihitung dari penjualan yang sudah diposting {formatReorderWhole(windowDays)} hari
+          terakhir (hari stok kosong tidak dihitung) dengan tingkat layanan {servicePercent(level)}%. Ini aturan umum; pilihan cadangan dan tingkat layanan khusus produk mengikuti profil perencanaan. Kalau stok bebas ditambah yang sedang diproduksi sudah sama atau
+          di bawah angka ini, muncul pengingat "Stok barang jadi menipis" di Reminder › Pengingat sistem, dan diteruskan ke WhatsApp Bos bila Sambungan WhatsApp menyala.</p>}
         {data ? <p className="cfr-run">{run ? <>Dihitung {formatCp6WibDateTime(run.computedAt)} (penjualan {formatWaDay(run.windowFrom)} sampai {formatWaDay(run.windowThrough)}).</>
           : <>Belum pernah dihitung. Server menghitungnya tiap menit sesudah pengingat WhatsApp diatur (Owner menyimpan pengaturan di Reminder › Sambungan WhatsApp
             satu kali), atau tekan "Hitung sekarang".</>}</p> : null}
@@ -200,18 +203,19 @@ function Row({ r, windowDays, level, canManage, locked, writing, draft, note, on
     <header><div><h3>{rowLabel(r)}</h3><small>SKU {r.sku}</small></div><span className={`cfr-chip ${chip.tone}`}>{chip.label}</span></header>
     <dl>
       <div><dt>Stok bebas</dt><dd data-cfr="free">{formatReorderQty(r.freePcs)} pcs</dd></div>
-      <div><dt>Sedang diproduksi</dt><dd data-cfr="wip">{reorderWipText(r)}</dd>{r.wipReadAt ? <small>dibaca {formatCp6WibDateTime(r.wipReadAt)}</small> : null}</div>
+      <div><dt>{r.projection ? 'Perkiraan tepat waktu' : 'Sedang diproduksi'}</dt><dd data-cfr="wip">{reorderWipText(r)}</dd>{r.wipReadAt ? <small>{r.projection ? 'analisis' : 'dibaca'} {formatCp6WibDateTime(r.wipReadAt)}</small> : null}</div>
       <div><dt>Titik pesan ulang</dt><dd data-cfr="point">{r.point === null ? 'belum ada' : `${formatReorderWhole(r.point)} pcs`}</dd></div>
     </dl>
     {why ? <p className="cfr-why">{why}</p> : null}
     {wipNote ? <p className="cfr-why">{wipNote}</p> : null}
     {source ? <p className="cfr-source">{source}</p> : null}
+    {r.projection ? <Projection r={r}/> : null}
     <details className="cfr-formula"><summary>Rincian rumus</summary><ul>{reorderFormulaLines(r, windowDays, level).map(line => <li key={line}>{line}</li>)}</ul></details>
     {note}
     {canManage && !draft ? <button type="button" disabled={locked} onClick={onOpen}>Atur angka manual</button> : null}
     {canManage && draft ? <form className="cfr-manual" onSubmit={e => { e.preventDefault(); onSave(false) }}>
       <fieldset disabled={locked}><legend>Angka manual</legend>
-        <p>Angka manual menggantikan hasil rumus untuk barang ini sampai dihapus. Isi 0 bila barang ini tidak perlu diingatkan.</p>
+        <p>Angka manual menggantikan titik pesan ulang untuk barang ini sampai dihapus.{r.projection ? ' Target jumlah produksi tetap mengikuti rencana.' : ''} Isi 0 bila barang ini tidak perlu diingatkan.</p>
         <label>Titik pesan ulang manual (pcs)<input type="number" inputMode="numeric" min={0} max={MANUAL_POINT_MAX} step={1} aria-label="Titik pesan ulang manual (pcs)"
           value={draft.qty} onChange={e => onDraft({ qty: e.target.value })}/></label>
         <label>Alasan<input aria-label="Alasan angka manual" maxLength={REASON_MAX} value={draft.reason} onChange={e => onDraft({ reason: e.target.value })}/></label>
@@ -224,6 +228,22 @@ function Row({ r, windowDays, level, canManage, locked, writing, draft, note, on
       </fieldset>
     </form> : null}
   </article>
+}
+
+function Projection({ r }: { r: ReorderRow }) {
+  const p = r.projection
+  if (!p) return null
+  const qty = (v: string | null) => v === null ? 'belum diketahui' : `${formatReorderQty(v)} pcs`
+  return <div className="cfr-source">
+    <p>Aturan dari {p.thresholdSource === 'PLANNING_PROFILE' ? 'profil perencanaan produk' : p.thresholdSource === 'PROFILE_UNAVAILABLE'
+      ? 'profil produk yang perlu ditinjau ulang' : 'riwayat stok tersedia dan pengaturan umum'}.
+      {' '}Stok diperiksa {formatCp6WibDateTime(p.stockCheckedAt)}; aturan diperiksa {formatCp6WibDateTime(p.thresholdCheckedAt)}.</p>
+    {p.leadDeadline ? <p>Perkiraan tepat waktu dihitung sampai {formatCp6WibDateTime(p.leadDeadline)}. Target rencana sampai {formatCp6WibDateTime(p.targetDeadline ?? p.leadDeadline)}.</p> : null}
+    <p>Target rencana: {qty(p.targetPcs)}. Tambahan produksi dari stok dan suplai terarah: {qty(p.productionBasePcs)}.</p>
+    {p.candidatePcs !== null ? <p>Kandidat tambahan: {qty(p.candidatePcs)}; tambahan produksi bila kandidat dipakai: {qty(p.productionConditionalPcs)}.
+      {' '}Kandidat perlu dikonfirmasi; peringatan tetap mengikuti stok dan suplai terarah.</p> : null}
+    {p.manualState === 'STALE_IDENTITY' && p.manualReference?.point !== null ? <p>Referensi angka manual sebelumnya: {qty(p.manualReference?.point ?? null)}. Angka ini belum aktif untuk versi barang sekarang.</p> : null}
+  </div>
 }
 
 function Settings({ data, draft, base, locked, note, onDraft, onSave }: {

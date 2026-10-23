@@ -1,0 +1,165 @@
+# OW10 — proyeksi suplai global, kontrak sebelum pemanggil
+
+23 Oktober2026 WIB. `cp7_reorder_supply.project(jsonb)` adalah helper privat
+murni. Ia membaca **satu** hasil alokasi global; tidak mengambil WIP model dan
+tidak mengalokasikan ulang. Ini tahap kernel, **belum mengganti pemanggil ROP**.
+OW10 tetap OPEN sampai sumber/periode/lead, caller dan Native terbukti.
+
+Input tertutup `cp7.reorder-supply-input.v1`: snapshot_id, scope_id
+GLOBAL_NATIVE_PLANNING, scenario_id, captured_at, checked_at, source_hash,
+current_source_hash, source_state CURRENT/ARCHIVED_STALE/UNKNOWN, complete_scope,
+wip_status COMPLETE/UNKNOWN, allocation_status SCENARIO/UNKNOWN, query,
+expected_query, budgets, targets, refs. Query kanonik punya from_date,
+through_date, group_mode AS_SOLD/RESTATED. Batas teknis:5000 target,1000 posisi,
+10000 entri suplai seluruh scope; bukan nilai kebijakan produksi.
+
+Budget per **physical_key + size_id** berasal dari proyeksi barang baik dan ETA
+global yang sama: physical_key, snapshot_id, size_id, projected_good_pcs, eta,
+eligible. Bukan potongan mentah, bukan hitungan ulang yield. Target memegang
+target_key, size_id, reorder_point_pcs, target_pcs, available_fg_pcs,
+lead_deadline, deadline, supplies, refs. Supplies memakai kontrak netting lama.
+Angka PCS teks integer; stok tersedia boleh negatif. Unknown tetap null.
+
+- Seluruh kredit atas satu physical_key wajib konservatif terhadap budget yang
+  sama. DIRECTED hanya untuk satu target; tidak boleh bercampur candidate.
+  Candidate boleh terbagi ke beberapa target, tetapi jumlahnya tidak melewati
+  budget. Duplikat persis pada target sama dihitung sekali seperti kernel lama;
+  identitas, ukuran, ETA, snapshot atau jumlah bertentangan ditolak.
+- DIRECTED/INCOMING yang tepat waktu masuk posisi dasar; ALLOCATED_CANDIDATE
+  hanya posisi bersyarat dan perlu allocation_status SCENARIO. Jumlah tetap
+  dihitung oleh `cp7_baseline.net(v2)` untuk L dan L+R, tanpa rumus kedua.
+  Input WIP ini menolak INCOMING: pesanan masuk bukan posisi WIP yang ditangkap
+  adapter ini dan harus memakai sumber resmi tersendiri bila ditambahkan.
+- Suplai terlambat, tidak eligible, yield/ETA unknown tidak dijadikan stok
+  tersedia. Kandidat tidak menyembunyikan kebutuhan produksi dasar.
+- Sumber/kueri berubah, scope parsial atau WIP belum lengkap menghasilkan
+  unknown untuk semua posisi; tidak memakai snapshot lama sebagai angka kini.
+  Fingerprint caller wajib memakai sumber operasi/engine/kalender yang sama;
+  helper murni ini tidak membuktikan kebenaran hash yang diberikan caller.
+- Alokasi kandidat UNKNOWN dengan suplai terarah yang terbukti menghasilkan
+  PARTIAL: posisi dasar tetap terbaca, seluruh jumlah/posisi bersyarat null dan
+  status bersyarat UNKNOWN, bukan kandidat0 yang dikira sudah terbukti.
+- Deadline target yang belum diketahui hanya boleh bersama supplies kosong;
+  hasilnya unknown. Target hilang, key ganda, field tambahan atau null palsu
+  bukan jalan pintas menjadi0.
+
+Caller berikutnya harus mempertahankan budget posisi saat ANA_META sebelum
+K3 membersihkan intermediate, memilih job DONE/kept dengan scope/kueri/hash
+segar, dan memeriksa kesamaan profil/lead/target/stok dengan ROP. Ia harus
+menampilkan waktu dan sifat proyeksi serta kandidat terpisah. Tanpa job cocok,
+jelaskan unknown dan jalan memperbarui analisis; jangan kembali ke WIP mentah.
+Pemasang, bundle dan registry A tidak diubah oleh tahap kernel ini.
+
+## Producer dan pemasang tahap B
+
+`cp7_reorder_supply.budgets(wip,etas)` memakai hasil **project_yield** dan
+**remaining_eta** yang sebenarnya, tanpa mengulang yield/antrean. Balasan UTC
+beroffset dari JSON SQL diformat persis seperti netting. WIP tidak lengkap
+punya rows=null; yield/ETA belum diketahui tetap null; WIP pelanggan dikeluarkan
+dengan eligibility sumber. Ambiguitas posisi/ETA ditolak.
+
+Dua hook terpin di `patches.py`: ANA_META menyimpan satu field privat tambahan
+`plan_scope.scope.reorder_supply_budget`; `analysis_native.source_within`
+menambahkan marker versi dan memasukkan namespace helper ke sidik engine.
+Semua field scope lama tetap persis. Perubahan kode helper membuat hash engine
+berubah. Header/halaman tersegel tidak ditambal. SQL dasar tetap beku.
+
+API tahap `install_delta/verify/admit_catalog/rollback_preuse` di
+`scripts/cp7_reorder_supply`: satu schema,tiga fungsi invoker privat
+(dua immutable dan reader stable),
+dua badan terhitung, tanpa tabel/kolom/grant Native/RPC publik. Verifikasi
+owner/ACL/body/config dan admisi22; invers tepat sebelum pakai. Pemasangan
+menolak analisis RUNNING; sesudah job merekam marker atau scope merekam budget,
+invers menolak sebelum DDL. A tetap memegang transaksi/envelope/global use
+guard dan rantai penuh. Urutan sebelum pemicu awal/worker diaktifkan, setelah
+modul perencanaan/target tersedia; tak memasang jadwal atau mengubah ROP.
+
+Bukti:14 kelompok SQL proyeksi (64 skenario pembanding integer terpisah),
+8 kelompok producer termasuk INSERT scope ANA_META aktual yang diekstrak dari
+hook serta badan source aktual dengan adapter Native terkontrol. Installer
+API/katalog PostgreSQL22 lokal lulus apply/inverse/reapply dan after-use
+sebelum DDL. Reader dan K3 pada fixture terkontrol dijelaskan di bawah.
+**Belum Native, belum menjalankan run_unit lengkap dan belum caller ROP.** Jangan menerapkan separuh tahap di
+hosted atau menyebut WIP pengingat sudah selesai.
+
+Pengingat stok bebas tetap harus diperiksa tiap menit tanpa menunggu analisis
+besar (D17-8). Jika suplai global belum siap/segar, ketidakpastiannya tidak
+menunda pengingat dan tidak dijadikan WIP0 yang diklaim sudah terbukti.
+
+## Reader privat (tahap v2)
+
+`read_job(p_current,p_query)` menerima satu tangkapan Native **segar dari caller**
+dan kueri kanonik, lalu hanya memilih DONE/kept dengan hash operasi/engine dan
+periode/pengelompokan sama. Marker, capture mark, header/page-set, jumlah target,
+identitas row/index dan budget global harus cocok. Seluruh alokasi dibaca,
+tidak disaring dahulu. Deadline berasal dari waktu snapshot dan input target
+yang disimpan, bukan hitungan permintaan/cadangan kedua.
+
+Tidak membuat job atau memanggil worker. Tanpa hasil cocok: projection=null,
+alasan needed/in-progress/stale-or-expired; sumber/engine belum siap juga
+unknown. Supplies=null yang ditulis Native ketika netting belum dihitung kini
+berarti **TARGET_SUPPLY_UNKNOWN**, bukan daftar kosong/0. Field yang hilang
+tetap ditolak. Target lain boleh mempertahankan proyeksinya, sementara status
+scope keseluruhan tetap UNKNOWN.
+
+Helper invoker STABLE privat ini tidak membaca angka keuangan. Caller wajib
+memakai sumber server baru, memeriksa akses sebelum/sesudah dan menyalurkan
+hanya agregat yang diizinkan ke facade gudang, bukan JSON privat ini.
+Penyelarasan profil/lead/titik ROP dan label proyeksi **masih harus dibuat**.
+
+Tahap v2 berisi3 fungsi privat (dua immutable+satu stable), satu schema dan
+dua hook badan. API/invers22 dan penjaga setelah-pakai tetap; SQL dasar,
+pemasang A, tipe publik dan endpoint tidak diubah.14 kelompok proyeksi dan
+9 reader lokal lulus;8 producer tetap lulus. Reader dijalankan sebagai role
+cp7_capture non-superuser. Uji juga menjalankan **clean_done K3 sebenarnya**
+pada job/header/page terkontrol dengan hash sah dan trigger work_immutable:
+intermediate terhapus, scope budget dan seluruh JSON hasil baca tetap persis,
+pemanggilan ulang idempotent. Installer3 fungsi apply/inverse/reapply22 dan
+after-use-before-DDL juga lulus lokal.
+
+Hash Native dan data job uji reader lokal masih adapter/fixture terkontrol;
+hasil Native berikut dicatat terpisah. Pasang-pulih rantai A, performa3600 dan caller
+ROP belum dibuktikan. Kegagalan transport pertama disimpan: RESET ROLE dalam
+transaksi gagal menutupi error asli; savepoint kini memulihkan transaksi
+terlebih dahulu tanpa mengubah expected produk.
+
+## Kualifikasi Native berikutnya (dideklarasikan, belum PASS)
+
+`SUPPLY_NATIVE_CONTRACT.json` menambah tepat7 Native pada seluruh126 kontrol
+sebelumnya:75 Native/36 dua pengguna/9 HTTP/13 layar, total133. Runner B
+memasang target, suplai, pemicu awal; tiap delta wajib admisi dan invers22
+sebelum dipasang ulang. Pemeriksa lama tetap memakai predecessor22 tepat;
+suplai diverifikasi sebelum/sesudahnya. Salinan mode tetap menjaga seluruh
+otoritas database. Pemasang/bundle A tidak diubah.
+
+Kasus tambahan memakai writer Native, jadwal/profil uji yang ditinjau secara
+eksplisit, request/step publik sampai DONE dan source_within server yang baru.
+Producer ANA_META dibandingkan dengan hasil SCENARIO sebenarnya; reader
+cp7_capture dibandingkan dengan netting Native. K3 membersihkan intermediate
+aktual, sementara scope/budget, seluruh JSON baca dan semua halaman/hash wajib
+tetap sama. Perubahan profil, output Native, query dan kode engine harus
+menolak alokasi lama; jadwal tak ditinjau tetap unknown. Kasus ETA hari5
+membuktikan tidak masuk lead3 tetapi masuk target10 dari suplai yang sama.
+ACL privat dan after-use refusal22 diperiksa. Angka8→7/lead3/target10 adalah
+fixture, bukan aturan Enteng. Native133 belum membuktikan caller ROP, cron
+terpasang, rantai A atau factory3600.
+
+Hasil pertama68411456/run39897276233/job120230503872: **131/133 PASS**,
+Native73/75, dua pengguna36/36, HTTP9/9, layar13/13; seluruh ID hadir tepat.
+Tiga tahap membuktikan invers22;38 salinan otoritas tepat, restore/advisor dan
+backup/restore lulus. Enam kasus suplai baru lulus, termasuk run_unit sampai
+DONE, sumber server segar, jumlah baik8→7 hanya sekali dan K3 menjaga seluruh
+scope/JSON baca/halaman/hash. Receipt6841145-first-native133-131.json.
+
+Dua kasus gagal di ANA_META: kontrol analisis otomatis lama dan jadwal belum
+ditinjau yang baru. Producer keliru mengharuskan field projection, padahal
+scheduler Native memang mengembalikan WIP mentah tanpa field itu sebelum
+review atau setelah sumber berubah. Perbaikan menyimpan kuantitas barang baik
+dan ETA sebagai null; tidak mengkreditkan potongan mentah atau yield100%.
+Field projection yang ada tetapi malformed tetap ditolak. Delapan kelompok
+producer lokal (termasuk early-return scheduler sebenarnya),9 reader dan API
+invers22 lulus sesudah perbaikan. Native ulang c0bb0d19/run39900426633/job120240505606 kini **133/133 PASS**:
+75 Native/36 dua pengguna/9 HTTP/13 layar, semua ID tepat. Tiga invers22,
+38 otoritas salinan, restore/advisor/lima gate paket dan backup/restore lulus.
+Receipt `c0bb0d1-native133-pass.json`; kegagalan pertama dan seluruh Original/log
+tetap disimpan. Kasus/oracle lama tidak diubah.

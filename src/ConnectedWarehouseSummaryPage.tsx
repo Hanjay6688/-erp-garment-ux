@@ -7,6 +7,7 @@ import {normalizeClientError} from './lib/clientError'
 import {formatCp6WibDateTime} from './cp6BusinessTime'
 import {formatReceiptDecimal as numberText} from './procurementContract'
 import {isScreenHidden,SCREEN_ACTIVATION} from './screenActivation'
+import WarehouseFabricReorderSummary from './WarehouseFabricReorderSummary'
 import {moneyText,parseWarehouseSummary,summaryAccess,type AccessoryPart,type Attention,type FgPart,type MaterialPart,type SummaryValuation,type WarehouseMenu,type WarehouseSummary} from './warehouseSummaryContract'
 import './procurement-connected.css'
 import './warehouse-summary.css'
@@ -66,7 +67,8 @@ function Workspace({onNavigate}:{onNavigate?:(page:WarehouseMenu)=>void}){
  const open=(menu:WarehouseMenu)=>onNavigate&&isPageAllowed(identity,menu)&&!isScreenHidden(runtime.mode,menu)?<button type="button" disabled={busy} onClick={()=>onNavigate(menu)}>Buka {SCREEN_ACTIVATION[menu].label}</button>:null
  const searched=data?.q?' sesuai pencarian':''
  const hidden=[!access.materials&&'Bahan & Roll',!access.accessories&&'Aksesori',!access.finished_goods&&'Ringkasan Barang Jadi'].filter(Boolean) as string[]
- const visibleChecks=data?.attention??[],open_items=visibleChecks.filter(a=>a.count!=='0')
+ const allChecks=data?.attention??[],legacy=allChecks.find(a=>a.kind==='FABRIC_BELOW_MINIMUM')
+ const visibleChecks=allChecks.filter(a=>a.kind!=='FABRIC_BELOW_MINIMUM'),open_items=visibleChecks.filter(a=>a.count!=='0')
  return <main className="cproc cwhs" aria-label="Ringkasan gudang">
   <header className="panel cproc-heading"><div><div className="eyebrow">GUDANG</div><h1>Ringkasan Gudang</h1><p>Stok per gudang dari catatan stok yang sudah disahkan. Angkanya sama dengan layar rinciannya; draft belum dihitung sebagai stok.</p></div>
    <button type="button" disabled={busy} onClick={()=>void load()}>Muat ulang ringkasan</button></header>
@@ -86,6 +88,14 @@ function Workspace({onNavigate}:{onNavigate?:(page:WarehouseMenu)=>void}){
     {data.totals.accessories?<article className="panel" aria-label="Total aksesori"><h2>Aksesori{searched}</h2><AccessoryLines part={data.totals.accessories}/>{open('accessories')}</article>:null}
     {data.totals.finished_goods?<article className="panel" aria-label="Total barang jadi"><h2>Barang jadi{searched}</h2><FgLines part={data.totals.finished_goods}/>{open('fg-summary')}</article>:null}
    </section>}
+   {access.materials&&access.fabricMaster?<WarehouseFabricReorderSummary/>:null}
+   {legacy?<section className="panel cwhs-legacy" aria-label="Referensi minimum kain lama"><details>
+    <summary>Referensi minimum kain lama: {numberText(legacy.count)} kain di bawah angka lama</summary>
+    <p>Angka konfigurasi lama ini hanya pembanding. Aturan dan angka yang aktif ada di ringkasan titik pesan ulang kain di atas.</p>
+    {legacy.rows?.length?<ul>{legacy.rows.map(r=><li key={r.material_id}>{r.material_sku} · {r.material_name}: stok {qty(r.qty,r.unit_code)}, referensi lama {qty(r.minimum_qty,r.unit_code)}</li>)}</ul>:null}
+    {legacy.rows&&Number(legacy.count)>legacy.rows.length?<small>Menampilkan {legacy.rows.length} kain pertama.</small>:null}
+    {open(legacy.menu)}
+   </details></section>:null}
    <section className="panel" aria-label="Perlu diperhatikan"><h2>Perlu diperhatikan</h2>
     {open_items.length?<ul className="cwhs-attention">{open_items.map(a=><li key={a.kind} data-attention={a.kind}><p>{attentionText(a)}</p>
      {a.rows?.length?<ul>{a.rows.map(r=><li key={r.material_id}>{r.material_sku} · {r.material_name}: stok {qty(r.qty,r.unit_code)}, minimum {qty(r.minimum_qty,r.unit_code)}</li>)}</ul>:null}

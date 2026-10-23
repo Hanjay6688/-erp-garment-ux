@@ -46,3 +46,6 @@
   .cfr-row { padding: 12px; }
   .cfr-row dd { font-size: 17px; }
 }
+
+/* Rule choices stay inside the material editor on narrow viewports. */
+.cfr-manual select { width: 100%; min-width: 0; max-width: 100%; }

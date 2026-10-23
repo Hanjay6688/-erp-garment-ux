@@ -1,0 +1,111 @@
+{
+  "classification": "LOCAL_ACTUAL_CONSUMER_AND_OFFICIAL_OVERLAY_WITH_CONTROLLED_JOB_IDENTITY_AND_A_CAPTURE_ADAPTERS_NOT_NATIVE",
+  "status": "PASS",
+  "catalog": {
+    "classification": "LOCAL_REAL_INSTALLER_AND_PG_CATALOG_VIA_CONTROLLED_TRANSPORT_NOT_NATIVE",
+    "stage": "cp7_analysis_finance_bridge",
+    "status": "PASS",
+    "catalog_groups": 22,
+    "apply_rollback_reapply_exact": true,
+    "admission_passed": true,
+    "full_A_chain_qualified": false,
+    "production_go": false,
+    "after_use_refusal": "OW12B_AFTER_USE_REQUIRES_BACKUP_RESTORE",
+    "after_use_refused_before_first_DDL": true
+  },
+  "consumer_sha256": "22e0cb7618883436061b0a493d49b2db24e3151262ff28db1bf2f8132e0bc777",
+  "official_overlay_sha256": "05e7a1dbc37dc7f86252c73a843d65d532ca314ef19a0e37c41d199be076b9ee",
+  "cases": [
+    {
+      "id": "OW12B_LEGACY_DEFERRED_DOES_NOT_READ_FINANCE",
+      "status": "PASS",
+      "observed": {
+        "legacy_shape_preserved": true,
+        "no_capture_status_or_amount_read": true
+      }
+    },
+    {
+      "id": "OW12B_RUNNING_NEVER_CALLS_RESULT",
+      "status": "PASS",
+      "observed": {
+        "operations_not_waiting": true,
+        "unknown_total_not_zero": true,
+        "no_early_financial_facts": true
+      }
+    },
+    {
+      "id": "OW12B_CURRENT_PERMISSION_BEFORE_STATUS",
+      "status": "PASS",
+      "observed": {
+        "financial_metadata_and_amounts_hidden": true,
+        "private_status_reader_not_called": true,
+        "actual_Auth_not_claimed": true
+      }
+    },
+    {
+      "id": "OW12B_OFFICIAL_FINANCE_APPLY_EXACT_VALUES",
+      "status": "PASS",
+      "observed": {
+        "same_official_SQL_function": true,
+        "large_IDR_decimal_unchanged": true,
+        "financial_math_added": false,
+        "captured_operations_and_report_times_distinct": true
+      }
+    },
+    {
+      "id": "OW12B_BLOCKED_PROFIT_STAYS_UNKNOWN",
+      "status": "PASS",
+      "observed": {
+        "official_report_confidence_preserved": true,
+        "unproved_profit_not_zero": true
+      }
+    },
+    {
+      "id": "OW12B_BINDING_AND_CLOSED_OWNER_DATE_SOURCE",
+      "status": "PASS",
+      "observed": {
+        "owner_job_and_date_source_refusals": 9
+      }
+    },
+    {
+      "id": "OW12B_FAILED_AND_ACCESS_CHANGED_NO_RESULT",
+      "status": "PASS",
+      "observed": {
+        "failed_capture_has_no_figures": true,
+        "second_access_check_fences_reply": true,
+        "controlled_change_not_Native_race": true
+      }
+    },
+    {
+      "id": "OW12B_ACTUAL_REQUEST_STATUS_PATCH_AND_EXACT_REPLAY",
+      "status": "PASS",
+      "observed": {
+        "actual_two_patched_bodies_executed": true,
+        "capture_started_once": true,
+        "mode_and_query_replay_bound": true,
+        "source_query_has_no_finance_mode": true
+      }
+    },
+    {
+      "id": "OW12B_ACTUAL_LEGACY_NO_CAPTURE_AND_CLOSED_CHOICES",
+      "status": "PASS",
+      "observed": {
+        "legacy_status_shape_preserved": true,
+        "invalid_mode_refusals": 4
+      }
+    },
+    {
+      "id": "OW12B_REQUEST_REFUSALS_ATOMIC_AND_CURRENT_PERMISSION",
+      "status": "PASS",
+      "observed": {
+        "A_start_refusal_rolls_back_job_and_units": true,
+        "current_finance_permission_before_new_job": true,
+        "controlled_role_not_real_Auth": true
+      }
+    }
+  ],
+  "OW12b_complete": false,
+  "full_A_chain_qualified": false,
+  "factory_scale_proven": false,
+  "production_go": false
+}

@@ -1,0 +1,59 @@
+{
+  "classification": "LOCAL_ACTUAL_KERNEL_SQL_NOT_NATIVE_OR_HTTP",
+  "status": "PASS",
+  "source_sha256": "b0940f70a5e02328992b92417ce46d23e705647a18c70814c6528905add11235",
+  "source_layout": "FROZEN_PREDECESSOR_PLUS_COUNTED_PRODUCTION_STAGE",
+  "cases": [
+    {
+      "id": "OW10_LEGACY_DAYS_EXACT_EQUIVALENCE",
+      "status": "PASS",
+      "observed": {
+        "identical_full_JSON": 124
+      }
+    },
+    {
+      "id": "OW10_LEGACY_EMPIRICAL_EXACT_EQUIVALENCE",
+      "status": "PASS",
+      "observed": {
+        "identical_full_JSON": 5
+      }
+    },
+    {
+      "id": "OW10_INDEPENDENT_RATIONAL_AND_DECIMAL_ORACLE",
+      "status": "PASS",
+      "observed": {
+        "independent_cases": 168,
+        "exact_repeating_mean_whole_PCS": true,
+        "separate_reorder_and_target": true
+      }
+    },
+    {
+      "id": "OW10_UNKNOWN_AND_DOUBLE_SAFETY_REFUSAL",
+      "status": "PASS",
+      "observed": {
+        "unknown_not_zero": 4,
+        "invalid_or_double_buffer_refused": 4
+      }
+    },
+    {
+      "id": "OW10_ONE_GLOBAL_ALLOCATION_TWO_VARIANTS_TWO_HORIZONS",
+      "status": "PASS",
+      "observed": {
+        "physical_pool_pcs": "20",
+        "global_candidate_allocation": {
+          "SKU-A": "15",
+          "SKU-B": "5"
+        },
+        "late_supply_does_not_cover_lead": true,
+        "at_lead_boundary_included": true,
+        "equality_still_at_point": true,
+        "confirmed_other_variant_excluded": true,
+        "unknown_not_safe": true,
+        "identical_replay_not_double_counted": true,
+        "legacy_net_identical_full_JSON": 12
+      }
+    }
+  ],
+  "OW10_complete": false,
+  "production_go": false
+}

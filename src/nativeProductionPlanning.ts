@@ -10,7 +10,9 @@ export type ScheduleRequirement=WorkPosition&{route:string[];targets:{key:string
 export type ScheduleWorkspace={sourceRun:string;sourceHash:string;currentHash:string;capturedAt:string;state:SourceState;revision:string;planState:'UNREVIEWED'|'SELECTED_ASSUMPTIONS'|'SOURCE_CHANGED';config:ScheduleConfig|null;requirements:ScheduleRequirement[]}
 export type SchedulePayload={source_run:string;source_hash:string;expected_revision:string;config:ScheduleConfig;reason:string}
 export type ScheduleRequest={id:string;payload:SchedulePayload}
-export type NettingRow=BaselineRow&{key:string;rawGap:string|null;directed:string|null;baseGap:string|null;conditionalGap:string|null;candidate:string|null;firstGapAt:string|null;timelineState:string;reason:string}
+export type ReorderState='AT_OR_BELOW'|'ABOVE'|'NO_POINT'|'UNKNOWN'
+export type ReorderTiming={deadline:string|null;basePosition:string|null;conditionalPosition:string|null;baseState:ReorderState;conditionalState:ReorderState}
+export type NettingRow=BaselineRow&{key:string;rawGap:string|null;directed:string|null;baseGap:string|null;conditionalGap:string|null;candidate:string|null;firstGapAt:string|null;timelineState:string;reason:string;timing:ReorderTiming|null}
 export type NativeNetting={runId:string;requestId:string;capturedAt:string;sourceHash:string;state:SourceState;status:'SCENARIO'|'PARTIAL'|'UNKNOWN';query:NativeDemandQuery;rows:NettingRow[];capacity:string|null;allocationState:string;scheduleState:string;positions:WorkPosition[];etas:{key:string;at:string|null}[]}
 
 const fail=():never=>{throw Error('Data stok proses atau jadwal dari server berubah atau belum lengkap. Muat ulang sumber.')}
@@ -18,6 +20,7 @@ const obj=(v:unknown):Record<string,unknown>=>v&&typeof v==='object'&&!Array.isA
 const str=(v:unknown)=>typeof v==='string'&&v.length>0&&v.length<=2000?v:fail()
 const uuid=(v:unknown)=>typeof v==='string'&&/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/.test(v)?v:fail()
 const pcs=(v:unknown)=>typeof v==='string'&&/^(0|[1-9][0-9]{0,33})$/.test(v)?v:fail()
+const signedPcs=(v:unknown)=>typeof v==='string'&&/^-?(0|[1-9][0-9]{0,33})$/.test(v)?v:fail()
 const decimal=(v:unknown)=>typeof v==='string'&&/^(0|[1-9][0-9]{0,29})(\.[0-9]{1,12})?$/.test(v)?v:fail()
 const hash=(v:unknown)=>typeof v==='string'&&/^[0-9a-f]{64}$/.test(v)?v:fail()
 const instant=(v:unknown)=>typeof v==='string'&&/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{1,6})?Z$/.test(v)&&Number.isFinite(Date.parse(v))?v:fail()
@@ -77,9 +80,23 @@ export function parseNativeNetting(raw:unknown,q:NativeDemandQuery):NativeNettin
  const capacityPcs=nullable(capacity.capacity_pcs,pcs);if(capacity.status==='UNKNOWN'?capacityPcs!==null:!['SCENARIO','KNOWN'].includes(str(capacity.status))||capacityPcs===null)fail()
  const rows=list(v.rows).map(raw=>{const r=obj(raw),key=str(r.target_key),b=supply.baseline.rows.find(x=>x.rootId+':'+x.sizeId===key)??fail();if(r.size_id!==b.sizeId||r.sku!==b.sku||r.product_name!==b.productName||r.available_fg_pcs!==b.available||r.final_gap_pcs!==null||r.start_new_pcs!==b.startNew||r.material_state!=='UNKNOWN'||r.apply_enabled!==false)fail()
   const rawGap=nullable(r.raw_gap_pcs,pcs),directed=nullable(r.directed_on_time_good_pcs,pcs),baseGap=nullable(r.base_gap_pcs,pcs),conditionalGap=nullable(r.conditional_gap_pcs,pcs),candidate=nullable(r.candidate_allocated_good_pcs,pcs)
-  if(r.net!==null){const net=obj(r.net),input=obj(net.inputs);if(!['SCENARIO','UNKNOWN'].includes(str(net.status))||input.snapshot_id!==obj(scenario.wip).snapshot_id||input.scope_id!=='GLOBAL_NATIVE_PLANNING'||input.target_key!==key||input.size_id!==b.sizeId||input.available_fg_pcs!==b.available||input.target_pcs!==b.target||net.q_base_pcs!==baseGap||net.q_conditional_pcs!==conditionalGap&&allocation.status==='SCENARIO'||(net.directed_on_time_pcs??null)!==directed)fail()}
+  let timing:ReorderTiming|null=null
+  if(r.net!==null){const net=obj(r.net),input=obj(net.inputs);if(!['SCENARIO','UNKNOWN'].includes(str(net.status))||input.snapshot_id!==obj(scenario.wip).snapshot_id||input.scope_id!=='GLOBAL_NATIVE_PLANNING'||input.target_key!==key||input.size_id!==b.sizeId||input.available_fg_pcs!==b.available||input.target_pcs!==b.target||net.q_base_pcs!==baseGap||net.q_conditional_pcs!==conditionalGap&&allocation.status==='SCENARIO'||(net.directed_on_time_pcs??null)!==directed)fail()
+   if(input.contract_version==='cp7.net-input.v2'){
+    if(net.kernel_version!=='net-dual-horizon-2'||input.reorder_point_pcs!==b.reorderPoint)fail()
+    const deadline=nullable(input.lead_deadline,instant),lead=obj(net.lead_net),basePosition=nullable(net.lead_position_base_pcs,signedPcs),conditionalPosition=nullable(net.lead_position_conditional_pcs,signedPcs)
+    const reorder=(value:unknown):ReorderState=>['AT_OR_BELOW','ABOVE','NO_POINT','UNKNOWN'].includes(str(value))?value as ReorderState:fail()
+    const baseState=reorder(net.base_reorder_state),conditionalState=reorder(net.conditional_reorder_state)
+    if(!['SCENARIO','UNKNOWN'].includes(str(lead.status))||(lead.status==='UNKNOWN')!==(basePosition===null)||(basePosition===null)!==(conditionalPosition===null)||(baseState==='UNKNOWN')!==(basePosition===null)||(conditionalState==='UNKNOWN')!==(conditionalPosition===null))fail()
+    if(lead.status==='SCENARIO'){
+     const li=obj(lead.inputs)
+     if(deadline===null||li.contract_version!=='cp7.net-input.v1'||li.deadline!==deadline||li.target_pcs!==b.reorderPoint||['snapshot_id','scope_id','scenario_id','target_key','size_id','available_fg_pcs'].some(k=>li[k]!==input[k])||JSON.stringify(li.supplies)!==JSON.stringify(input.supplies))fail()
+    }
+    timing={deadline,basePosition,baseState,conditionalPosition:allocation.status==='SCENARIO'?conditionalPosition:null,conditionalState:allocation.status==='SCENARIO'?conditionalState:'UNKNOWN'}
+   }else if(net.kernel_version==='net-dual-horizon-2'||net.lead_net!==undefined)fail()
+  }
   if(allocation.status!=='SCENARIO'&&(conditionalGap!==null||candidate!==null))fail();const timeline=obj(r.timeline),first=timeline.first_known_gap===null||timeline.first_known_gap===undefined?null:obj(timeline.first_known_gap)
-  return{...b,key,rawGap,directed,baseGap,conditionalGap,candidate,firstGapAt:first===null?null:instant(first.at),timelineState:str(timeline.status),reason:str(r.reason)}
+  return{...b,key,rawGap,directed,baseGap,conditionalGap,candidate,firstGapAt:first===null?null:instant(first.at),timelineState:str(timeline.status),reason:str(r.reason),timing}
  });unique(rows.map(r=>r.key));if(w.complete&&rows.length!==supply.baseline.rows.length||!w.complete&&rows.length!==0)fail()
  const etas=list(scenario.etas).map(raw=>{const e=obj(raw),key=str(e.position_key),result=obj(e.result);if(!w.rows.some(p=>p.key===key))fail();const at=nullable(result.eta,nativeEtaInstant);if(!['KNOWN','CONDITIONAL','UNKNOWN'].includes(str(result.status))||result.status==='UNKNOWN'&&at!==null)fail();return{key,at}});unique(etas.map(e=>e.key))
  return{runId:run,requestId:request,capturedAt,sourceHash,state:s,status:v.status as NativeNetting['status'],query:{...q},rows,capacity:capacityPcs,allocationState:str(allocation.status),scheduleState:str(scenario.schedule_state),positions:w.rows,etas}
