@@ -13,7 +13,7 @@ scripts/chain-p21-qualification/EXPECTED_CHAIN_STEPS.json; a TODO step keeps the
 from copy import deepcopy
 from hashlib import sha256
 from pathlib import Path
-from datetime import date
+from datetime import date,timedelta
 import importlib.util,json,os,subprocess,sys,time,traceback,uuid
 
 sys.dont_write_bytecode=True
@@ -26,6 +26,7 @@ helper=importlib.util.module_from_spec(spec);spec.loader.exec_module(helper)
 import cp7_p21_chain_adapter as adapter
 import cp7_chain_restore as chain_restore
 import cp7_r3_hpp_pool_cases as hp
+import cp7_period_cases as period
 import mandor_fixture
 from cp7_supplier_transfer import cases as ow06
 from cp7_kasbon_source import cases as kasbon
@@ -98,9 +99,29 @@ def prepare_attendance_pools(cur,today):
     missing=[r for r in before if r['code']=='ATTENDANCE_POOL_POLICY_MISSING']
     if missing:raise ValueError('P21_CHAIN_ATTENDANCE_POLICY_FIXTURE_TODO: '+json.dumps(missing,default=str)[:2000])
     days=sorted({r['impact_date']for r in before if r['code']=='ATTENDANCE_POOL_NOT_ACTIVE'})
-    pools=[]
+    pools=[];reopening=None
     if days:
         owner=hp.owner(cur)
+        # The aligned fixture contains old attendance inside a closed period.
+        # Reopen only through the reviewed Native facade, with an explicit
+        # fixture reason. Never bypass the closed-period guard or edit control.
+        control=period.read(cur,today,owner)
+        closed=control['control']['closed_through']
+        first=date.fromisoformat(days[0])
+        if closed is not None and date.fromisoformat(closed)>=first:
+            target=str(first-timedelta(days=1))
+            business_before=period.business(cur);filings_before=period.filings(cur)
+            request=uuid.uuid4()
+            payload=dict(period.intent(control,'REOPEN',target),reason=FIXTURE_REASON+'; buka periode lama sebelum membagi pool')
+            receipt=period.command(cur,'REOPEN',payload,request,owner)
+            assert receipt['closed_through']==target
+            assert period.command(cur,'REOPEN',payload,request,owner)==receipt
+            assert period.read(cur,today,owner)['control']['closed_through']==target
+            assert period.business(cur)==business_before and period.filings(cur)==filings_before
+            reopening=dict(from_closed_through=closed,to_closed_through=target,
+                request_id=str(request),receipt=receipt,exact_replay=True,
+                existing_filed_history_unchanged=True,GL_and_stock_unchanged_by_reopen=True,
+                path='erp_cp7_save_period_control_v1:REOPEN',fixture_only=True)
         for day in days:
             preview=hp.read(cur,owner,date.fromisoformat(day),date.fromisoformat(day))['preview']
             if preview['status']!='READY':raise ValueError('P21_CHAIN_ATTENDANCE_POOL_PREVIEW_NOT_READY: '+day)
@@ -110,7 +131,7 @@ def prepare_attendance_pools(cur,today):
     left=[r for r in attendance_rows(cur,today)if r['code']=='ATTENDANCE_POOL_NOT_ACTIVE']
     if left:raise ValueError('P21_CHAIN_ATTENDANCE_POOL_STILL_NOT_ACTIVE: '+json.dumps(left,default=str)[:2000])
     return dict(step='OW07_ATTENDANCE_POOLS_ACTIVE_BEFORE_E01',status='PASS',not_active_before=sum(r['code']=='ATTENDANCE_POOL_NOT_ACTIVE'for r in before),
-        days=days,pools=pools,fixture_reason=FIXTURE_REASON,owner_figures_used=False,E01_READY_assertions_changed=False)
+        days=days,pools=pools,period_reopening=reopening,fixture_reason=FIXTURE_REASON,owner_figures_used=False,E01_READY_assertions_changed=False)
 
 
 def admitted():

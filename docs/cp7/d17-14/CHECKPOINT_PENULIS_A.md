@@ -1,5 +1,14 @@
 # Checkpoint penulis A (cabang `claude/d17-14-uang`)
 
+## P21 run pertama penerus A — kegagalan dipertahankan
+
+Run39995579424/86fe7a64: pasang22, copot pra-pakai tepat22 dan pasang ulang
+lulus. Persiapan pool lama ditolak CP7_HPP_POOL_PERIOD_CLOSED (Jan1 berada
+di bawah tutup buku20 Okt). CP6/advisor pulih tepat. Receipt di
+`ow15/p21-86fe7a64-first-closed-pool.json`. Perbaikan hanya fixture: REOPEN
+melalui facade periode dengan alasan fixture sebelum membagi pool; replay,
+arsip lama, GL dan stok diperiksa. READY/oracle/produk tidak dilonggarkan.
+
 ## Posisi penerus A — 24 Oktober 2026
 
 Astra A mengambil alih scope Claude sesuai handoff owner, branch

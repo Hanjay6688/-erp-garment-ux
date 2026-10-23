@@ -1,0 +1,32 @@
+{
+  "run": 39995579424,
+  "job": 120558121072,
+  "qualification_commit": "86fe7a64db8404ef261450f7cd17afd72dcb597d",
+  "status": "INCOMPLETE",
+  "error": "CP7_HPP_POOL_PERIOD_CLOSED: pembukuan sudah ditutup sampai 2026-10-20, sedangkan periode pool ini berakhir 2026-01-01. Pool periode ini tidak bisa dibuat, diaktifkan, atau dibatalkan. Bila memang perlu dibetulkan, buka kembali periodenya di Keuangan > Laporan & Tutup Buku > tab Tutup Buku, lalu ulangi.\nCONTEXT:  PL/pgSQL function cp7_hpp_pool.command(text,jsonb,uuid) line 53 at RAISE\nSQL function \"erp_cp7_save_hpp_pool_v1\" statement 1",
+  "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/cp7_p21_current_chain_rehearsal_probe.py\", line 410, in run\n    legacy_prepare(cur,today,report)\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/cp7_p21_current_chain_rehearsal_probe.py\", line 307, in legacy_prepare\n    report.setdefault('chain_steps',[]).append(prepare_attendance_pools(cur,today))\n                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/cp7_p21_current_chain_rehearsal_probe.py\", line 107, in prepare_attendance_pools\n    made=hp.save(cur,owner,'CREATE',hp.create_body(preview,reason=FIXTURE_REASON))\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_r3_hpp_pool_cases.py\", line 83, in save\n    r=one(cur,'select public.erp_cp7_save_hpp_pool_v1(%s,%s::jsonb,%s)',(action,json.dumps(payload),str(key or uuid.uuid4())));b.api.admin(cur);return r\n      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_r3_hpp_pool_cases.py\", line 35, in one\n    def one(cur,sql,args=()):return cur.execute(sql,args).fetchone()[0]\n                                    ^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.RaiseException: CP7_HPP_POOL_PERIOD_CLOSED: pembukuan sudah ditutup sampai 2026-10-20, sedangkan periode pool ini berakhir 2026-01-01. Pool periode ini tidak bisa dibuat, diaktifkan, atau dibatalkan. Bila memang perlu dibetulkan, buka kembali periodenya di Keuangan > Laporan & Tutup Buku > tab Tutup Buku, lalu ulangi.\nCONTEXT:  PL/pgSQL function cp7_hpp_pool.command(text,jsonb,uuid) line 53 at RAISE\nSQL function \"erp_cp7_save_hpp_pool_v1\" statement 1\n",
+  "completed_adapter_steps": [
+    {
+      "step": "CURRENT_INSTALL_1",
+      "status": "PASS"
+    },
+    {
+      "step": "EXACT_PREUSE_ROLLBACK",
+      "status": "PASS"
+    },
+    {
+      "step": "CURRENT_REINSTALL",
+      "status": "PASS"
+    }
+  ],
+  "cp6_restored": true,
+  "baseline_advisors_equal": true,
+  "artifact": 12519827933,
+  "report": {
+    "name": "CP7_P21_CURRENT_CHAIN_REHEARSAL.json",
+    "raw_bytes": 287772,
+    "raw_sha256": "ddca8c2224bd5c5de79140721050276947bc5ec47414d2781f3f56ff5b433db8"
+  },
+  "production_go": false,
+  "disposition": "Closed-period guard correctly refused old fixture pool. Prepare fixture by reviewed Native REOPEN before allocation; no product/period/HPP oracle change."
+}
