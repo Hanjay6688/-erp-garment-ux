@@ -1,0 +1,45 @@
+{
+ "run": 39912682314,
+ "attempt": 1,
+ "job": 120279058489,
+ "head": "464b8bf8",
+ "qualification_commit": "464b8bf88fdd6852ae6b9c86ddaef7da532acad5",
+ "label": "CP7_OW04BB_MULTI_RETURN_NATIVE6_RACE1",
+ "status": "PASS",
+ "expected_case_count": 6,
+ "observed_case_count": 6,
+ "observed_race_count": 1,
+ "cases": {
+  "OW04BB_FIRST_RETURN_QUOTES_UNCHANGED": "PASS",
+  "OW04BB_SECOND_RETURN_CREDIT": "PASS",
+  "OW04BB_SECOND_RETURN_REFUND": "PASS",
+  "OW04BB_THIRD_RETURN": "PASS",
+  "OW04BB_SECOND_RETURN_AFTER_CREDIT_USED": "PASS",
+  "OW04BB_PROTECTED_REFUSALS_IDENTICAL": "PASS"
+ },
+ "races": {
+  "OW04BB_RACE_TWO_FIRST_RETURNS_STALE_INVOICE": "PASS"
+ },
+ "cp6_restored": true,
+ "advisor_gate": true,
+ "restore_raw_public_equal": true,
+ "package_gate": {"installed": true, "primary_unchanged": true, "backup_restore_drill": true, "security_advisors": true, "writer_runtime": true},
+ "report": {"name": "CP7_OW04BB_MULTI_RETURN_NATIVE6_RACE1.json", "raw_bytes": 1880908, "raw_sha256": "bf473bad5292098275585896d9df772f9b389716a2eb1a6a78927b752b9a71e8"},
+ "artifact": "cp7-ow04b-multi-return-native6-race1 (12483069287)",
+ "slice_a_original": {
+  "admission_step": "python scripts/ow04ba_native_original.py",
+  "log_line": "ACTUAL_OW04BA_NATIVE6_RACE2_ORIGINAL_BYTES_AND_FULL_DECLARED_SOURCE_VERIFIED_NO_PRODUCT_EXECUTION"
+ },
+ "qualified_predecessor": {"name": "CP7_OW04BA_REMAINING_PAYMENT_NATIVE6_RACE2.json", "bytes": 1876663, "sha256": "72a3061c5c6123fe58ce9c359762aa030ad7837cf2f5a772fe8657ab66b9460e", "artifact": "cp7-ow04b-remaining-payment-native6-race2 (12483287094)", "qualification_commit": "26fde10177a53106898b328f3890a764a305e6c8", "report_key": "source_declaration.qualified_slice_a"},
+ "highlights": {
+  "second_return_credit": "credit_2 100.00; source gross 1000.00, net 700.00, P 1000.00, I 300.00, E 700.00, AR 0.00, available credit 300.00",
+  "second_return_refund": "cash 1000.00 -> 900.00",
+  "third_return": "3 families; net 600.00, I 400.00, E 600.00, AR 0.00, available credit 400.00",
+  "second_return_after_credit_used": "net 700.00, E 700.00, AR 0.00, available credit 220.00, net consumption 80.00",
+  "protected_refusals": "unchanged; ordinary return without choice still refused, no effect",
+  "race": "second session refused CP7_SALES_REVIEW_CHANGED; 1 posted return, 1 cohort, 0 worker request rows"
+ },
+ "OW04b_complete": false,
+ "production_go": false,
+ "independent_acceptance": false
+}
