@@ -1,3 +1,7 @@
+## 24 Okt 2026 — P21 source at dump
+
+Run39999210667 preserved INCOMPLETE: exact full dump/fresh restore and binding controls passed; the read oracle was taken before three later fixture bank options. Expected reads now come from the source immediately before dump, with an explicit assertion that all earlier options and every other authoritative fact stayed identical. Full restored comparison remains exact. No hosted write or production_go.
+
 ## Astra A — P21 urutan payroll/pool, 24 Okt 2026
 
 Run39997562338 pada dd2fb30c lolos install, exact preuse rollback, reinstall, serta reopening Native beserta replay. E01 berhenti karena fixture mengaktifkan pool sebelum payroll seed lama disahkan; penjaga ACTIVE pool menolak dengan benar. Original dipertahankan pada receipt `ow15/p21-dd2fb30c-first-payroll-pool.json`. Kandidat berikut menyelesaikan sumber payroll melalui helper Native yang sama sebelum alokasi pool diaktifkan, lalu membaca ulang blocker; tidak mengubah produk, assertion READY, atau oracle keuangan. Belum PASS keseluruhan.

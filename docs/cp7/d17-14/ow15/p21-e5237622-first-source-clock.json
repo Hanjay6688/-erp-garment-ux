@@ -1,0 +1,1031 @@
+{
+  "classification": "ORIGINAL_FAILURE_PRESERVED",
+  "run": 39999210667,
+  "job": 120570610411,
+  "head": "e523762250d76ddba6a8d4c8db633e44d0f29874",
+  "artifact": 12522676136,
+  "original": {
+    "name": "CP7_P21_CURRENT_CHAIN_REHEARSAL.json",
+    "bytes": 327531,
+    "sha256": "d21a54b278db6bea7339e77b5dc45ba83a99ff3e2036702c2913d43cfcaa978b"
+  },
+  "status": "INCOMPLETE",
+  "error": "CURRENT_RESTORE_AUTHORITATIVE_BUSINESS_READ_CHANGED: [\".workspace.cash_accounts.rows.length\", \".workspace.cash_accounts.total\"]",
+  "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/cp7_p21_current_chain_rehearsal_probe.py\", line 503, in run\n    assert not changed,'CURRENT_RESTORE_AUTHORITATIVE_BUSINESS_READ_CHANGED: '+json.dumps(changed)\n           ^^^^^^^^^^^\nAssertionError: CURRENT_RESTORE_AUTHORITATIVE_BUSINESS_READ_CHANGED: [\".workspace.cash_accounts.rows.length\", \".workspace.cash_accounts.total\"]\n",
+  "steps": [
+    {
+      "step": "COMMITTED_CURRENT_APPLY_REFUND_CORRECTION_CHAINS",
+      "status": "PASS",
+      "actual_committed_business_chains": 2,
+      "fixture_modes": [
+        "APPLY",
+        "REFUND"
+      ],
+      "before_restore_profiles": [
+        {
+          "source_net": "800.00",
+          "source_P": "1000.00",
+          "I": "200.00",
+          "C": "100.00",
+          "available": "100.00",
+          "source_AR": "0.00",
+          "target_P": "0.00",
+          "target_U": "100.00",
+          "target_AR": "400.00",
+          "cash": "1000.00"
+        },
+        {
+          "source_net": "800.00",
+          "source_P": "1000.00",
+          "I": "200.00",
+          "C": "100.00",
+          "available": "100.00",
+          "source_AR": "0.00",
+          "target_P": "0.00",
+          "target_U": "0.00",
+          "target_AR": "500.00",
+          "cash": "900.00"
+        }
+      ],
+      "used_removal_refused_before_mutation": true,
+      "administrative_fixture_seeded": true,
+      "test_usage_grant_revoked": false
+    },
+    {
+      "step": "EXACT_FULL_DUMP_AND_FRESH_RESTORE",
+      "status": "PASS",
+      "restore": {
+        "exit": 1,
+        "error_count": 19,
+        "unexplained": [],
+        "only_pg_cron_errors": true,
+        "database_owner_acl_and_settings_preserved": true,
+        "platform_schema_authority_restored": [
+          "graphql",
+          "graphql_public"
+        ]
+      },
+      "every_table_hash_equal": true,
+      "table_count": 661,
+      "every_catalog_data_and_sequence_bound": true
+    },
+    {
+      "step": "RESTORE_BINDING_REFUSAL_CONTROLS",
+      "status": "PASS",
+      "original_raw_oid_guard_refused": true,
+      "controls": [
+        {
+          "id": "WRONG_TRUSTED_HASH",
+          "status": "PASS",
+          "error": "CHAIN_RESTORE_TRUSTED_BACKUP_HASH_REQUIRED"
+        },
+        {
+          "id": "CHANGED_FINANCIAL_SOURCE",
+          "status": "PASS",
+          "error": "CHAIN_RESTORE_SOURCE_OR_CONTRACT_CHANGED"
+        },
+        {
+          "id": "WRONG_TARGET_DATABASE",
+          "status": "PASS",
+          "error": "CHAIN_RESTORE_FRESH_EXPECTED_DATABASE_REQUIRED"
+        },
+        {
+          "id": "ACTUAL_FUNCTION_METADATA_DRIFT",
+          "status": "PASS",
+          "error": "CHAIN_RESTORE_CATALOG_CHANGED"
+        },
+        {
+          "id": "ACTUAL_BUSINESS_ROW_DRIFT",
+          "status": "PASS",
+          "error": "CHAIN_RESTORE_BUSINESS_ROWS_OR_SEQUENCE_CHANGED"
+        }
+      ]
+    },
+    {
+      "step": "VERIFIED_CURRENT_CENSUS_REBIND",
+      "status": "PASS",
+      "binding": {
+        "contract_version": "ow15.chain-top-slice-c.verified-restore-binding.v1",
+        "trusted_backup_sha256": "6b4ec85cd448e3db86d4f27d08ef3ff8da6e461cb12e8a1aea97e4bb9fc1da0c",
+        "fresh_database_verified": true,
+        "all_rows_and_sequences_equal": true,
+        "all22_portable_catalog_groups_equal": true,
+        "changed_functions": [
+          "cp7_credit.assert_source_native_trigger_census_v1()"
+        ],
+        "local_raw_oid_census_enforced": true,
+        "runtime_capture_sha256_pg": "7a3a5672f61fd923f5028971ab45f2d8bda4755052f73c70084d871509114672",
+        "chain_depth_to_ow05": 13,
+        "production_go": false
+      }
+    }
+  ],
+  "chain_steps": [
+    {
+      "step": "OW07_ATTENDANCE_POOLS_ACTIVE_BEFORE_E01",
+      "status": "PASS",
+      "not_active_before": 4,
+      "days": [
+        "2026-01-01",
+        "2026-02-01",
+        "2026-03-01",
+        "2026-04-01"
+      ],
+      "pools": [
+        {
+          "day": "2026-01-01",
+          "pool_id": "9289d41e-9f3b-4908-a48c-e9b465379586"
+        },
+        {
+          "day": "2026-02-01",
+          "pool_id": "36363207-2a1f-4a75-8eda-d748a62842c5"
+        },
+        {
+          "day": "2026-03-01",
+          "pool_id": "e087c8fd-e793-4f56-a65e-f994bfce17f9"
+        },
+        {
+          "day": "2026-04-01",
+          "pool_id": "4c793cff-0adf-4ef4-b5c8-9a5017860e3c"
+        }
+      ],
+      "period_reopening": {
+        "from_closed_through": "2026-10-20",
+        "to_closed_through": "2025-12-31",
+        "request_id": "9fe1d6a0-cd5b-4ac5-b36f-65aa57221d9c",
+        "receipt": {
+          "kind": "COMMITTED_OUTCOME",
+          "action": "REOPEN",
+          "filing_id": null,
+          "request_id": "9fe1d6a0-cd5b-4ac5-b36f-65aa57221d9c",
+          "version_token": "ceeeac35b8b78e07785f77ff3f55a830",
+          "closed_through": "2025-12-31",
+          "contract_version": "cp7.period-outcome.v1"
+        },
+        "exact_replay": true,
+        "existing_filed_history_unchanged": true,
+        "GL_and_stock_unchanged_by_reopen": true,
+        "path": "erp_cp7_save_period_control_v1:REOPEN",
+        "fixture_only": true
+      },
+      "seed_completion_before_pool_activation": {
+        "attendance": [
+          {
+            "contractor": "a1000000-0000-0000-0000-000000000001",
+            "days": 4,
+            "lines": 4,
+            "periods": [
+              {
+                "start": "2026-10-21",
+                "end": "2026-10-24",
+                "period_id": "b725d789-ad36-4f80-ad24-706f9bd8a616",
+                "row_version": 3,
+                "days": 4,
+                "lines": 4
+              }
+            ],
+            "occupied": [],
+            "posted_drafts": []
+          },
+          {
+            "contractor": "a1000000-0000-0000-0000-000000000002",
+            "days": 4,
+            "lines": 4,
+            "periods": [
+              {
+                "start": "2026-10-21",
+                "end": "2026-10-24",
+                "period_id": "f1c8937a-28cc-4798-99c4-ca17f3e3f99e",
+                "row_version": 3,
+                "days": 4,
+                "lines": 4
+              }
+            ],
+            "occupied": [],
+            "posted_drafts": []
+          },
+          {
+            "contractor": "a1000000-0000-0000-0000-000000000003",
+            "days": 4,
+            "lines": 4,
+            "periods": [
+              {
+                "start": "2026-10-21",
+                "end": "2026-10-24",
+                "period_id": "68d5ccb6-e38e-4ff1-b82e-1400ec619910",
+                "row_version": 3,
+                "days": 4,
+                "lines": 4
+              }
+            ],
+            "occupied": [],
+            "posted_drafts": []
+          },
+          {
+            "contractor": "a1000000-0000-0000-0000-000000000005",
+            "days": 4,
+            "lines": 4,
+            "periods": [
+              {
+                "start": "2026-10-21",
+                "end": "2026-10-24",
+                "period_id": "8358cbe3-8dff-439e-be32-f52c626995ae",
+                "row_version": 3,
+                "days": 4,
+                "lines": 4
+              }
+            ],
+            "occupied": [],
+            "posted_drafts": []
+          }
+        ],
+        "approved": [
+          "a6000000-0000-0000-0000-000000000021"
+        ],
+        "work_payrolls": [
+          {
+            "contractor": "a1000000-0000-0000-0000-000000000001",
+            "start": "2026-08-30",
+            "end": "2026-09-01"
+          },
+          {
+            "contractor": "a1000000-0000-0000-0000-000000000004",
+            "start": "2026-01-01",
+            "end": "2026-01-01"
+          },
+          {
+            "contractor": "a1000000-0000-0000-0000-000000000006",
+            "start": "2026-04-01",
+            "end": "2026-04-01"
+          }
+        ],
+        "refused": []
+      },
+      "fixture_reason": "P21 RANTAI FIXTURE (temuan 3): periode absensi lama dibagi lewat facade pool HPP Native",
+      "owner_figures_used": false,
+      "E01_READY_assertions_changed": false
+    },
+    {
+      "step": "OW08A_AR_AND_CREDIT_REPORT_CHECKS_ZERO",
+      "status": "PASS",
+      "before_credit": [
+        [
+          "CP7_CUSTOMER_CREDIT_REPORT_UNPROVEN",
+          "CRITICAL",
+          0
+        ],
+        [
+          "V2620H_CUSTOMER_AR_BY_CUSTOMER_MISMATCH",
+          "CRITICAL",
+          0
+        ],
+        [
+          "V2620H_CUSTOMER_AR_STATUS_MISMATCH",
+          "CRITICAL",
+          0
+        ],
+        [
+          "V268_AR_GL_SUBLEDGER_MISMATCH",
+          "CRITICAL",
+          0
+        ]
+      ],
+      "after_credit": [
+        [
+          "CP7_CUSTOMER_CREDIT_REPORT_UNPROVEN",
+          "CRITICAL",
+          0
+        ],
+        [
+          "V2620H_CUSTOMER_AR_BY_CUSTOMER_MISMATCH",
+          "CRITICAL",
+          0
+        ],
+        [
+          "V2620H_CUSTOMER_AR_STATUS_MISMATCH",
+          "CRITICAL",
+          0
+        ],
+        [
+          "V268_AR_GL_SUBLEDGER_MISMATCH",
+          "CRITICAL",
+          0
+        ]
+      ],
+      "expected": [
+        [
+          "CP7_CUSTOMER_CREDIT_REPORT_UNPROVEN",
+          "CRITICAL",
+          0
+        ],
+        [
+          "V2620H_CUSTOMER_AR_BY_CUSTOMER_MISMATCH",
+          "CRITICAL",
+          0
+        ],
+        [
+          "V2620H_CUSTOMER_AR_STATUS_MISMATCH",
+          "CRITICAL",
+          0
+        ],
+        [
+          "V268_AR_GL_SUBLEDGER_MISMATCH",
+          "CRITICAL",
+          0
+        ]
+      ],
+      "history": "docs/cp7/d17-14/ow04/p21-36a6b880-readiness-boundary.json",
+      "original_report_checks_and_E01_READY_assertions_not_changed": true
+    },
+    {
+      "step": "WASH_UNKNOWN_PRICE_HOLDS_CLOSE_UNTIL_PRICED_ONCE",
+      "status": "PASS",
+      "stage_case": "cp7_laundry_unknown_wash/cases.py close_and_twin(), set_once()",
+      "attempt": "a1ac8af5-eb7b-420e-ad66-3a00ca401b93",
+      "close_row": {
+        "code": "LAUNDRY_FAILED_WASH_PRICE_UNKNOWN",
+        "scope": "AS_OF",
+        "family": "LAUNDRY",
+        "reason": "Harga cuci gagal LFW-261019-47C986A37A964C7882A7CF9DAAC50BC9 (kiriman LDR-261019-7A752C6C87874C8C95FB0FDD7FEABFFB, PO AA-INV-PO-ce3c0d7e-6d57-417f-a9db-50f245d22c8d, 10 pcs, tanggal 2026-10-19) belum diketahui: biayanya belum dihitung dan HPP PO itu belum final. Isi harganya di Produksi \u203a Laundry \u203a Harga & tagihan \u203a Harga belum diketahui.",
+        "severity": "POLICY",
+        "reference": {
+          "po_id": "ce3c0d7e-6d57-417f-a9db-50f245d22c8d",
+          "po_number": "AA-INV-PO-ce3c0d7e-6d57-417f-a9db-50f245d22c8d",
+          "receipt_id": "47c986a3-7a96-4c78-82a7-cf9daac50bc9",
+          "delivery_id": "7a752c6c-8787-4c8c-95fb-0fdd7feabffb",
+          "receipt_number": "LFW-261019-47C986A37A964C7882A7CF9DAAC50BC9",
+          "custody_outcome": "RETRY_AT_VENDOR",
+          "delivery_number": "LDR-261019-7A752C6C87874C8C95FB0FDD7FEABFFB",
+          "qty_attempted_pcs": "10",
+          "failed_wash_attempt_id": "a1ac8af5-eb7b-420e-ad66-3a00ca401b93"
+        },
+        "impact_date": "2026-10-19"
+      },
+      "close_refused_without_effect": true,
+      "screen_reason": "Harga cuci gagal LFW-261019-47C986A37A964C7882A7CF9DAAC50BC9 (kiriman LDR-261019-7A752C6C87874C8C95FB0FDD7FEABFFB, PO AA-INV-PO-ce3c0d7e-6d57-417f-a9db-50f245d22c8d, 10 pcs, tanggal 2026-10-19) belum diketahui: biayanya belum dihitung dan HPP PO itu belum final. Isi harganya di Produksi \u203a Laundry \u203a Harga & tagihan \u203a Harga belum diketahui.",
+      "money_while_unknown": {
+        "desired": "20.00",
+        "accrued": "20.00",
+        "journal": [
+          [
+            "1200",
+            "2026-10-19",
+            "-100.00"
+          ],
+          [
+            "1400",
+            "2026-10-19",
+            "120.00"
+          ],
+          [
+            "2050",
+            "2026-10-19",
+            "-20.00"
+          ]
+        ],
+        "hpp": [
+          [
+            10,
+            "120.00",
+            "ESTIMATED"
+          ]
+        ]
+      },
+      "price": {
+        "po_id": "ce3c0d7e-6d57-417f-a9db-50f245d22c8d",
+        "action": "SET_FAILED_WASH_PRICE",
+        "status": "SAVED",
+        "receipt_id": "47c986a3-7a96-4c78-82a7-cf9daac50bc9",
+        "request_id": "ad9e13d9-8a78-4917-949e-ff79dd864e20",
+        "actual_cost": "30.00",
+        "cost_status": "ESTIMATED_UNBILLED",
+        "delivery_id": "7a752c6c-8787-4c8c-95fb-0fdd7feabffb",
+        "rate_status": "KNOWN",
+        "rate_per_pcs": "3.00",
+        "economic_date": "2026-10-19",
+        "receipt_number": "LFW-261019-47C986A37A964C7882A7CF9DAAC50BC9",
+        "failed_wash_attempt_id": "a1ac8af5-eb7b-420e-ad66-3a00ca401b93"
+      },
+      "same_request_replayed": true,
+      "second_price_refused": "CP7_FAILED_WASH_PRICE_ALREADY_SET: harga cuci gagal ini sudah diisi (KNOWN); tidak ditimpa",
+      "money_after_price": {
+        "desired": "50.00",
+        "accrued": "50.00",
+        "journal": [
+          [
+            "1200",
+            "2026-10-19",
+            "-100.00"
+          ],
+          [
+            "1400",
+            "2026-10-19",
+            "150.00"
+          ],
+          [
+            "2050",
+            "2026-10-19",
+            "-50.00"
+          ]
+        ],
+        "hpp": [
+          [
+            10,
+            "150.00",
+            "ESTIMATED"
+          ]
+        ]
+      },
+      "equal_to_known_twin": true,
+      "close_kinds_after_price_equal_to_known_twin": true
+    },
+    {
+      "step": "OW12A_SEALED_CAPTURE_EQUALS_FINANCE_REPORT",
+      "status": "PASS",
+      "stage_case": "cp7_finance_capture/cases.py same_figures() ('OW12A_CAPTURE_SAME_FIGURES_AS_FINANCE_REPORT')",
+      "result": {
+        "status": "PASS",
+        "units": 6,
+        "rows": {
+          "journal": 112,
+          "line": 247,
+          "book": 61,
+          "cash": 7
+        },
+        "readiness": "BLOCKED",
+        "report_read_at": "2026-10-23T18:11:02.886418+00:00",
+        "same_as_owner_report": true,
+        "same_metrics_as_direct_analysis_source": 24,
+        "independent_book_signature": true,
+        "kasbon": "KB-20261023-E676C0",
+        "book_unchanged_by_report_reads": true,
+        "rows_after_report_reads": {
+          "journal": 112,
+          "line": 247,
+          "book": 61,
+          "cash": 7
+        }
+      }
+    }
+  ],
+  "readback_comparisons": [
+    {
+      "fixture": 0,
+      "expected": {
+        "profile": {
+          "source_net": "800.00",
+          "source_P": "1000.00",
+          "I": "200.00",
+          "C": "100.00",
+          "available": "100.00",
+          "source_AR": "0.00",
+          "target_P": "0.00",
+          "target_U": "100.00",
+          "target_AR": "400.00",
+          "cash": "1000.00"
+        },
+        "workspace": {
+          "next": null,
+          "sale_id": "6fb6f6be-f000-43a9-9ab2-18925cae8055",
+          "document": {
+            "id": "f34ee354-15d0-4942-bdfc-4264024c63e5",
+            "notes": "cash receipt notes retained",
+            "amount": "1000.00",
+            "method": "BANK_TRANSFER",
+            "number": "PAY-f4bd5f9ea3aa \u00b7 K \u00b7 K-2ed94422eb75442a88da2895b9bc2b0c",
+            "status": "POSTED",
+            "reference": "reference retained",
+            "physical_at": "2026-10-22T04:00:00.123456+00:00",
+            "cash_account_id": "50dac3c9-e77a-4a4c-9fc0-ebc3a8aaef31",
+            "cash_account_name": "BC L bank",
+            "replaces_payment_id": null
+          },
+          "eligible": true,
+          "previous": {
+            "link": {
+              "reason": "Pembayaran sumber dan pengganti diperiksa di lapangan",
+              "sale_id": "6fb6f6be-f000-43a9-9ab2-18925cae8055",
+              "request_id": "2ed94422-eb75-442a-88da-2895b9bc2b0c",
+              "original_id": "3daf9003-4111-4f11-b0e8-a21888ea5089",
+              "recorded_at": "2026-10-23T18:08:54.994069+00:00",
+              "actor_scope_id": "c8c00000-0000-4000-8000-000000000101",
+              "replacement_id": "f34ee354-15d0-4942-bdfc-4264024c63e5",
+              "time_restatement": {
+                "neutral_number": "JRN-20261024010856440-2d58ac9a",
+                "effective_number": "JRN-20261024010856441-e76db242",
+                "neutral_journal_id": "fcf7866f-fab2-4653-863c-af04904bce05",
+                "effective_journal_id": "8cb3cfc8-e251-48e0-836a-e88f0de94a67",
+                "neutral_economic_date": "2026-10-24",
+                "effective_economic_date": "2026-10-22",
+                "neutral_transaction_date": "2026-10-24",
+                "effective_transaction_date": "2026-10-22"
+              }
+            },
+            "document": {
+              "id": "3daf9003-4111-4f11-b0e8-a21888ea5089",
+              "notes": "cash receipt notes retained",
+              "amount": "900.00",
+              "method": "BANK_TRANSFER",
+              "number": "PAY-f4bd5f9ea3aa \u00b7 K-d342ed265a1741d68a2b2a126851a54f",
+              "status": "REVERSED",
+              "reference": "reference retained",
+              "physical_at": "2026-10-22T04:00:00.123456+00:00",
+              "cash_account_id": "50dac3c9-e77a-4a4c-9fc0-ebc3a8aaef31",
+              "cash_account_name": "BC L bank",
+              "replaces_payment_id": null
+            }
+          },
+          "row_version": "10",
+          "review_token": "89f54d01b857f3f304d0d0797f20628b",
+          "cash_accounts": {
+            "rows": [
+              {
+                "id": "b2907112-0a68-4dc2-862a-87934afa3116",
+                "code": "BCED824E7882",
+                "kind": "BANK",
+                "name": "BC bank"
+              },
+              {
+                "id": "b800939d-896c-4d74-881c-be9fd6a38370",
+                "code": "CASH-MAIN",
+                "kind": "CASH",
+                "name": "Kas Utama"
+              },
+              {
+                "id": "5fee8033-511c-41e6-a790-cfeb1524c3d3",
+                "code": "E01-8bbfbab2d4f9BANKL",
+                "kind": "BANK",
+                "name": "BC L bank"
+              },
+              {
+                "id": "dc686a38-91ec-48ef-b21b-cda9175b1764",
+                "code": "OW04-33e6d84abfL",
+                "kind": "BANK",
+                "name": "BC L bank"
+              },
+              {
+                "id": "50dac3c9-e77a-4a4c-9fc0-ebc3a8aaef31",
+                "code": "OW04-6b53193824L",
+                "kind": "BANK",
+                "name": "BC L bank"
+              }
+            ],
+            "limit": 25,
+            "total": "5",
+            "offset": 0,
+            "next_offset": null
+          },
+          "contract_version": "cp7.sales-payment-correction-workspace.v2",
+          "replacement_capacity": {
+            "basis": "EXISTING_RETURN_COHORT",
+            "payment_id": "f34ee354-15d0-4942-bdfc-4264024c63e5",
+            "row_version": "10",
+            "maximum_amount": "1000.00",
+            "source_sale_id": "6fb6f6be-f000-43a9-9ab2-18925cae8055"
+          }
+        },
+        "original_P1000": [
+          {
+            "id": "064982c4-14f2-4789-810d-6c62d9c926ee",
+            "notes": "cash receipt notes retained",
+            "amount": 1000.0,
+            "sale_id": "6fb6f6be-f000-43a9-9ab2-18925cae8055",
+            "created_at": "2026-10-23T18:08:25.372896+00:00",
+            "created_by": "c8c00000-0000-4000-8000-000000000001",
+            "payment_date": "2026-10-22T04:00:00.123456+00:00",
+            "payment_method": "BANK_TRANSFER",
+            "payment_number": "PAY-f4bd5f9ea3aa",
+            "cash_account_id": "50dac3c9-e77a-4a4c-9fc0-ebc3a8aaef31",
+            "reference_number": "reference retained",
+            "replaces_payment_id": null
+          },
+          {
+            "amount": 1000.0,
+            "sale_id": "6fb6f6be-f000-43a9-9ab2-18925cae8055",
+            "payment_id": "064982c4-14f2-4789-810d-6c62d9c926ee",
+            "customer_id": "dae18c4f-943d-4fdf-b7cb-64dd9d789265",
+            "recorded_at": "2026-10-23T18:08:25.383786+00:00",
+            "recorded_by": "c8c00000-0000-4000-8000-000000000001",
+            "payment_date": "2026-10-22T04:00:00.123456+00:00",
+            "lineage_sha256": "f59660cc3bdfe4ec2429c2c65d666e1c6d4cef4f8f7293f4d5912be82189fb89",
+            "payment_number": "PAY-f4bd5f9ea3aa",
+            "cash_account_id": "50dac3c9-e77a-4a4c-9fc0-ebc3a8aaef31",
+            "payment_snapshot": {
+              "id": "064982c4-14f2-4789-810d-6c62d9c926ee",
+              "notes": "cash receipt notes retained",
+              "amount": 1000.0,
+              "sale_id": "6fb6f6be-f000-43a9-9ab2-18925cae8055",
+              "created_at": "2026-10-23T18:08:25.372896+00:00",
+              "created_by": "c8c00000-0000-4000-8000-000000000001",
+              "payment_date": "2026-10-22T04:00:00.123456+00:00",
+              "payment_method": "BANK_TRANSFER",
+              "payment_number": "PAY-f4bd5f9ea3aa",
+              "cash_account_id": "50dac3c9-e77a-4a4c-9fc0-ebc3a8aaef31",
+              "reference_number": "reference retained",
+              "replaces_payment_id": null
+            },
+            "journal_posting_at": "2026-10-23T18:08:25.372896+00:00",
+            "replaces_payment_id": null,
+            "journal_economic_date": "2026-10-22",
+            "journal_transaction_date": "2026-10-22",
+            "original_journal_entry_id": "620796d2-f47e-4562-af9b-d1c319e919e3",
+            "predecessor_reversal_journal_id": null
+          }
+        ],
+        "original_P900": [
+          {
+            "id": "3daf9003-4111-4f11-b0e8-a21888ea5089",
+            "notes": "cash receipt notes retained",
+            "amount": 900.0,
+            "sale_id": "6fb6f6be-f000-43a9-9ab2-18925cae8055",
+            "created_at": "2026-10-23T18:08:31.143821+00:00",
+            "created_by": "c8c00000-0000-4000-8000-000000000001",
+            "payment_date": "2026-10-22T04:00:00.123456+00:00",
+            "payment_method": "BANK_TRANSFER",
+            "payment_number": "PAY-f4bd5f9ea3aa \u00b7 K-d342ed265a1741d68a2b2a126851a54f",
+            "cash_account_id": "50dac3c9-e77a-4a4c-9fc0-ebc3a8aaef31",
+            "reference_number": "reference retained",
+            "replaces_payment_id": null
+          },
+          {
+            "amount": 900.0,
+            "sale_id": "6fb6f6be-f000-43a9-9ab2-18925cae8055",
+            "payment_id": "3daf9003-4111-4f11-b0e8-a21888ea5089",
+            "customer_id": "dae18c4f-943d-4fdf-b7cb-64dd9d789265",
+            "recorded_at": "2026-10-23T18:08:31.735741+00:00",
+            "recorded_by": "c8c00000-0000-4000-8000-000000000001",
+            "payment_date": "2026-10-22T04:00:00.123456+00:00",
+            "lineage_sha256": "3a1fa08b7b86acd213e017799eb06ba147d10d051eb587512ec280a3d4ddfe16",
+            "payment_number": "PAY-f4bd5f9ea3aa \u00b7 K-d342ed265a1741d68a2b2a126851a54f",
+            "cash_account_id": "50dac3c9-e77a-4a4c-9fc0-ebc3a8aaef31",
+            "payment_snapshot": {
+              "id": "3daf9003-4111-4f11-b0e8-a21888ea5089",
+              "notes": "cash receipt notes retained",
+              "amount": 900.0,
+              "sale_id": "6fb6f6be-f000-43a9-9ab2-18925cae8055",
+              "created_at": "2026-10-23T18:08:31.143821+00:00",
+              "created_by": "c8c00000-0000-4000-8000-000000000001",
+              "payment_date": "2026-10-22T04:00:00.123456+00:00",
+              "payment_method": "BANK_TRANSFER",
+              "payment_number": "PAY-f4bd5f9ea3aa \u00b7 K-d342ed265a1741d68a2b2a126851a54f",
+              "cash_account_id": "50dac3c9-e77a-4a4c-9fc0-ebc3a8aaef31",
+              "reference_number": "reference retained",
+              "replaces_payment_id": null
+            },
+            "journal_posting_at": "2026-10-23T18:08:31.143821+00:00",
+            "replaces_payment_id": null,
+            "journal_economic_date": "2026-10-22",
+            "journal_transaction_date": "2026-10-22",
+            "original_journal_entry_id": "34d412b9-4ea0-4a39-8791-507127288b8d",
+            "predecessor_reversal_journal_id": null
+          }
+        ],
+        "legacy_staged": {
+          "identity_hash": "491068f17130bef033bdd06f7cdb08a2815d49b893c9226d2b1c399b14d0ee45",
+          "pages": [
+            [
+              0,
+              "42c7b4c8284188342061bef39750abd7e37e8ec5e06998bec6fa929287e67cff"
+            ]
+          ],
+          "shape": {
+            "page_count": 1,
+            "targets_total": 7,
+            "header_utf8_bytes": 8850,
+            "page_utf8_bytes_max": 127536,
+            "page_utf8_bytes_total": 127536,
+            "uneven_ranges": false
+          },
+          "original_sha256": "850cb0a524b96f71b91d6d483d292886c08a5d5dc416065f9c9e28d571aca14d"
+        },
+        "legacy_supplier_payment": {
+          "id": "c7944cd3-a17f-4b5b-a6ad-0b755ec745c4",
+          "notes": "Transfer bank pelunasan supplier",
+          "amount": 100.0,
+          "status": "POSTED",
+          "created_at": "2026-10-23T18:08:20.910034+00:00",
+          "created_by": "c8c00000-0000-4000-8000-000000000001",
+          "purchase_id": "3f2d2005-d7f1-4ffe-adbb-e07e7c56e97f",
+          "payment_date": "2026-10-23T18:07:20.908342+00:00",
+          "payment_method": null,
+          "payment_number": "B-4dc5ecaa82c94456a8ae75a8342a4740",
+          "cash_account_id": "b2907112-0a68-4dc2-862a-87934afa3116",
+          "reference_number": null
+        },
+        "legacy_financial_integrity_checks": [
+          [
+            "CP7_CUSTOMER_CREDIT_REPORT_UNPROVEN",
+            "CRITICAL",
+            0
+          ],
+          [
+            "V2620H_CUSTOMER_AR_BY_CUSTOMER_MISMATCH",
+            "CRITICAL",
+            0
+          ],
+          [
+            "V2620H_CUSTOMER_AR_STATUS_MISMATCH",
+            "CRITICAL",
+            0
+          ],
+          [
+            "V268_AR_GL_SUBLEDGER_MISMATCH",
+            "CRITICAL",
+            0
+          ]
+        ]
+      },
+      "actual": {
+        "profile": {
+          "source_net": "800.00",
+          "source_P": "1000.00",
+          "I": "200.00",
+          "C": "100.00",
+          "available": "100.00",
+          "source_AR": "0.00",
+          "target_P": "0.00",
+          "target_U": "100.00",
+          "target_AR": "400.00",
+          "cash": "1000.00"
+        },
+        "workspace": {
+          "next": null,
+          "sale_id": "6fb6f6be-f000-43a9-9ab2-18925cae8055",
+          "document": {
+            "id": "f34ee354-15d0-4942-bdfc-4264024c63e5",
+            "notes": "cash receipt notes retained",
+            "amount": "1000.00",
+            "method": "BANK_TRANSFER",
+            "number": "PAY-f4bd5f9ea3aa \u00b7 K \u00b7 K-2ed94422eb75442a88da2895b9bc2b0c",
+            "status": "POSTED",
+            "reference": "reference retained",
+            "physical_at": "2026-10-22T04:00:00.123456+00:00",
+            "cash_account_id": "50dac3c9-e77a-4a4c-9fc0-ebc3a8aaef31",
+            "cash_account_name": "BC L bank",
+            "replaces_payment_id": null
+          },
+          "eligible": true,
+          "previous": {
+            "link": {
+              "reason": "Pembayaran sumber dan pengganti diperiksa di lapangan",
+              "sale_id": "6fb6f6be-f000-43a9-9ab2-18925cae8055",
+              "request_id": "2ed94422-eb75-442a-88da-2895b9bc2b0c",
+              "original_id": "3daf9003-4111-4f11-b0e8-a21888ea5089",
+              "recorded_at": "2026-10-23T18:08:54.994069+00:00",
+              "actor_scope_id": "c8c00000-0000-4000-8000-000000000101",
+              "replacement_id": "f34ee354-15d0-4942-bdfc-4264024c63e5",
+              "time_restatement": {
+                "neutral_number": "JRN-20261024010856440-2d58ac9a",
+                "effective_number": "JRN-20261024010856441-e76db242",
+                "neutral_journal_id": "fcf7866f-fab2-4653-863c-af04904bce05",
+                "effective_journal_id": "8cb3cfc8-e251-48e0-836a-e88f0de94a67",
+                "neutral_economic_date": "2026-10-24",
+                "effective_economic_date": "2026-10-22",
+                "neutral_transaction_date": "2026-10-24",
+                "effective_transaction_date": "2026-10-22"
+              }
+            },
+            "document": {
+              "id": "3daf9003-4111-4f11-b0e8-a21888ea5089",
+              "notes": "cash receipt notes retained",
+              "amount": "900.00",
+              "method": "BANK_TRANSFER",
+              "number": "PAY-f4bd5f9ea3aa \u00b7 K-d342ed265a1741d68a2b2a126851a54f",
+              "status": "REVERSED",
+              "reference": "reference retained",
+              "physical_at": "2026-10-22T04:00:00.123456+00:00",
+              "cash_account_id": "50dac3c9-e77a-4a4c-9fc0-ebc3a8aaef31",
+              "cash_account_name": "BC L bank",
+              "replaces_payment_id": null
+            }
+          },
+          "row_version": "10",
+          "review_token": "89f54d01b857f3f304d0d0797f20628b",
+          "cash_accounts": {
+            "rows": [
+              {
+                "id": "d77be3ad-71de-4f70-90d4-9b2b51a2f0d1",
+                "code": "BC052D5067DB",
+                "kind": "BANK",
+                "name": "BC bank"
+              },
+              {
+                "id": "b2907112-0a68-4dc2-862a-87934afa3116",
+                "code": "BCED824E7882",
+                "kind": "BANK",
+                "name": "BC bank"
+              },
+              {
+                "id": "b800939d-896c-4d74-881c-be9fd6a38370",
+                "code": "CASH-MAIN",
+                "kind": "CASH",
+                "name": "Kas Utama"
+              },
+              {
+                "id": "5fee8033-511c-41e6-a790-cfeb1524c3d3",
+                "code": "E01-8bbfbab2d4f9BANKL",
+                "kind": "BANK",
+                "name": "BC L bank"
+              },
+              {
+                "id": "dc686a38-91ec-48ef-b21b-cda9175b1764",
+                "code": "OW04-33e6d84abfL",
+                "kind": "BANK",
+                "name": "BC L bank"
+              },
+              {
+                "id": "50dac3c9-e77a-4a4c-9fc0-ebc3a8aaef31",
+                "code": "OW04-6b53193824L",
+                "kind": "BANK",
+                "name": "BC L bank"
+              },
+              {
+                "id": "92fc02cc-2bc8-4458-8b27-54b8549d94ce",
+                "code": "P1228a604121e67L",
+                "kind": "BANK",
+                "name": "BC L bank"
+              },
+              {
+                "id": "6d69fff9-f4c1-4a46-9aef-d2f423bb82f1",
+                "code": "P127124a3aac590L",
+                "kind": "BANK",
+                "name": "BC L bank"
+              }
+            ],
+            "limit": 25,
+            "total": "8",
+            "offset": 0,
+            "next_offset": null
+          },
+          "contract_version": "cp7.sales-payment-correction-workspace.v2",
+          "replacement_capacity": {
+            "basis": "EXISTING_RETURN_COHORT",
+            "payment_id": "f34ee354-15d0-4942-bdfc-4264024c63e5",
+            "row_version": "10",
+            "maximum_amount": "1000.00",
+            "source_sale_id": "6fb6f6be-f000-43a9-9ab2-18925cae8055"
+          }
+        },
+        "original_P1000": [
+          {
+            "id": "064982c4-14f2-4789-810d-6c62d9c926ee",
+            "notes": "cash receipt notes retained",
+            "amount": 1000.0,
+            "sale_id": "6fb6f6be-f000-43a9-9ab2-18925cae8055",
+            "created_at": "2026-10-23T18:08:25.372896+00:00",
+            "created_by": "c8c00000-0000-4000-8000-000000000001",
+            "payment_date": "2026-10-22T04:00:00.123456+00:00",
+            "payment_method": "BANK_TRANSFER",
+            "payment_number": "PAY-f4bd5f9ea3aa",
+            "cash_account_id": "50dac3c9-e77a-4a4c-9fc0-ebc3a8aaef31",
+            "reference_number": "reference retained",
+            "replaces_payment_id": null
+          },
+          {
+            "amount": 1000.0,
+            "sale_id": "6fb6f6be-f000-43a9-9ab2-18925cae8055",
+            "payment_id": "064982c4-14f2-4789-810d-6c62d9c926ee",
+            "customer_id": "dae18c4f-943d-4fdf-b7cb-64dd9d789265",
+            "recorded_at": "2026-10-23T18:08:25.383786+00:00",
+            "recorded_by": "c8c00000-0000-4000-8000-000000000001",
+            "payment_date": "2026-10-22T04:00:00.123456+00:00",
+            "lineage_sha256": "f59660cc3bdfe4ec2429c2c65d666e1c6d4cef4f8f7293f4d5912be82189fb89",
+            "payment_number": "PAY-f4bd5f9ea3aa",
+            "cash_account_id": "50dac3c9-e77a-4a4c-9fc0-ebc3a8aaef31",
+            "payment_snapshot": {
+              "id": "064982c4-14f2-4789-810d-6c62d9c926ee",
+              "notes": "cash receipt notes retained",
+              "amount": 1000.0,
+              "sale_id": "6fb6f6be-f000-43a9-9ab2-18925cae8055",
+              "created_at": "2026-10-23T18:08:25.372896+00:00",
+              "created_by": "c8c00000-0000-4000-8000-000000000001",
+              "payment_date": "2026-10-22T04:00:00.123456+00:00",
+              "payment_method": "BANK_TRANSFER",
+              "payment_number": "PAY-f4bd5f9ea3aa",
+              "cash_account_id": "50dac3c9-e77a-4a4c-9fc0-ebc3a8aaef31",
+              "reference_number": "reference retained",
+              "replaces_payment_id": null
+            },
+            "journal_posting_at": "2026-10-23T18:08:25.372896+00:00",
+            "replaces_payment_id": null,
+            "journal_economic_date": "2026-10-22",
+            "journal_transaction_date": "2026-10-22",
+            "original_journal_entry_id": "620796d2-f47e-4562-af9b-d1c319e919e3",
+            "predecessor_reversal_journal_id": null
+          }
+        ],
+        "original_P900": [
+          {
+            "id": "3daf9003-4111-4f11-b0e8-a21888ea5089",
+            "notes": "cash receipt notes retained",
+            "amount": 900.0,
+            "sale_id": "6fb6f6be-f000-43a9-9ab2-18925cae8055",
+            "created_at": "2026-10-23T18:08:31.143821+00:00",
+            "created_by": "c8c00000-0000-4000-8000-000000000001",
+            "payment_date": "2026-10-22T04:00:00.123456+00:00",
+            "payment_method": "BANK_TRANSFER",
+            "payment_number": "PAY-f4bd5f9ea3aa \u00b7 K-d342ed265a1741d68a2b2a126851a54f",
+            "cash_account_id": "50dac3c9-e77a-4a4c-9fc0-ebc3a8aaef31",
+            "reference_number": "reference retained",
+            "replaces_payment_id": null
+          },
+          {
+            "amount": 900.0,
+            "sale_id": "6fb6f6be-f000-43a9-9ab2-18925cae8055",
+            "payment_id": "3daf9003-4111-4f11-b0e8-a21888ea5089",
+            "customer_id": "dae18c4f-943d-4fdf-b7cb-64dd9d789265",
+            "recorded_at": "2026-10-23T18:08:31.735741+00:00",
+            "recorded_by": "c8c00000-0000-4000-8000-000000000001",
+            "payment_date": "2026-10-22T04:00:00.123456+00:00",
+            "lineage_sha256": "3a1fa08b7b86acd213e017799eb06ba147d10d051eb587512ec280a3d4ddfe16",
+            "payment_number": "PAY-f4bd5f9ea3aa \u00b7 K-d342ed265a1741d68a2b2a126851a54f",
+            "cash_account_id": "50dac3c9-e77a-4a4c-9fc0-ebc3a8aaef31",
+            "payment_snapshot": {
+              "id": "3daf9003-4111-4f11-b0e8-a21888ea5089",
+              "notes": "cash receipt notes retained",
+              "amount": 900.0,
+              "sale_id": "6fb6f6be-f000-43a9-9ab2-18925cae8055",
+              "created_at": "2026-10-23T18:08:31.143821+00:00",
+              "created_by": "c8c00000-0000-4000-8000-000000000001",
+              "payment_date": "2026-10-22T04:00:00.123456+00:00",
+              "payment_method": "BANK_TRANSFER",
+              "payment_number": "PAY-f4bd5f9ea3aa \u00b7 K-d342ed265a1741d68a2b2a126851a54f",
+              "cash_account_id": "50dac3c9-e77a-4a4c-9fc0-ebc3a8aaef31",
+              "reference_number": "reference retained",
+              "replaces_payment_id": null
+            },
+            "journal_posting_at": "2026-10-23T18:08:31.143821+00:00",
+            "replaces_payment_id": null,
+            "journal_economic_date": "2026-10-22",
+            "journal_transaction_date": "2026-10-22",
+            "original_journal_entry_id": "34d412b9-4ea0-4a39-8791-507127288b8d",
+            "predecessor_reversal_journal_id": null
+          }
+        ],
+        "legacy_staged": {
+          "identity_hash": "491068f17130bef033bdd06f7cdb08a2815d49b893c9226d2b1c399b14d0ee45",
+          "pages": [
+            [
+              0,
+              "42c7b4c8284188342061bef39750abd7e37e8ec5e06998bec6fa929287e67cff"
+            ]
+          ],
+          "shape": {
+            "page_count": 1,
+            "targets_total": 7,
+            "header_utf8_bytes": 8850,
+            "page_utf8_bytes_max": 127536,
+            "page_utf8_bytes_total": 127536,
+            "uneven_ranges": false
+          },
+          "original_sha256": "850cb0a524b96f71b91d6d483d292886c08a5d5dc416065f9c9e28d571aca14d"
+        },
+        "legacy_supplier_payment": {
+          "id": "c7944cd3-a17f-4b5b-a6ad-0b755ec745c4",
+          "notes": "Transfer bank pelunasan supplier",
+          "amount": 100.0,
+          "status": "POSTED",
+          "created_at": "2026-10-23T18:08:20.910034+00:00",
+          "created_by": "c8c00000-0000-4000-8000-000000000001",
+          "purchase_id": "3f2d2005-d7f1-4ffe-adbb-e07e7c56e97f",
+          "payment_date": "2026-10-23T18:07:20.908342+00:00",
+          "payment_method": null,
+          "payment_number": "B-4dc5ecaa82c94456a8ae75a8342a4740",
+          "cash_account_id": "b2907112-0a68-4dc2-862a-87934afa3116",
+          "reference_number": null
+        },
+        "legacy_financial_integrity_checks": [
+          [
+            "CP7_CUSTOMER_CREDIT_REPORT_UNPROVEN",
+            "CRITICAL",
+            0
+          ],
+          [
+            "V2620H_CUSTOMER_AR_BY_CUSTOMER_MISMATCH",
+            "CRITICAL",
+            0
+          ],
+          [
+            "V2620H_CUSTOMER_AR_STATUS_MISMATCH",
+            "CRITICAL",
+            0
+          ],
+          [
+            "V268_AR_GL_SUBLEDGER_MISMATCH",
+            "CRITICAL",
+            0
+          ]
+        ]
+      },
+      "changed_paths": [
+        ".workspace.cash_accounts.rows.length",
+        ".workspace.cash_accounts.total"
+      ]
+    }
+  ],
+  "cp6_restored": true,
+  "baseline_advisors_equal": true,
+  "cause": "The expected read was captured before three later fixture bank accounts were created. All tables and restore binding had already compared exactly.",
+  "fix": "Capture the authoritative source immediately before the trusted dump, proving the only intervening read delta is the exact new fixture bank options. Compare the complete reader including cash_accounts after restore.",
+  "production_go": false
+}

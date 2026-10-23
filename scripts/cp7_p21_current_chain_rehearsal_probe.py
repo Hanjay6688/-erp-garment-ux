@@ -467,9 +467,33 @@ def run():
                 used_removal_refused_before_mutation=True,administrative_fixture_seeded=seeded,test_usage_grant_revoked=granted))
         # Chain steps that write business rows: after the used-state refusal, before the trusted dump.
         with psycopg.connect(package.boundary.ADMIN)as conn,conn.cursor()as cur:
+            cash_before=dict(cur.execute('select id::text,to_jsonb(c)from erp.cash_accounts c').fetchall())
             chain_source_steps(cur,today,report);conn.commit()
         with psycopg.connect(package.boundary.ADMIN)as conn,conn.cursor()as cur:
             cur.execute("set local timezone='UTC'")
+            cash_after=dict(cur.execute('select id::text,to_jsonb(c)from erp.cash_accounts c').fetchall())
+            assert all(cash_after.get(key)==value for key,value in cash_before.items()),'P21_CHAIN_FIXTURE_CHANGED_EXISTING_CASH_ACCOUNT'
+            added_cash=sorted(set(cash_after)-set(cash_before))
+            # The later kasbon/QC/transfer fixtures add their own bank options.
+            # Compare the restored DB with the SOURCE AT DUMP, not an earlier
+            # source snapshot. Existing options and every financial fact must
+            # still be exact; this does not remove cash_accounts from the oracle.
+            for index,item in enumerate(fixtures):
+                actual=read(cur,item,'SOURCE_AFTER_ALL_CHAIN_STEPS_BEFORE_DUMP')
+                old_options=item['before_read']['workspace']['cash_accounts']
+                new_options=actual['workspace']['cash_accounts']
+                assert old_options['next_offset']is None and new_options['next_offset']is None,'P21_FIXTURE_OPTION_CENSUS_MUST_BE_COMPLETE'
+                old_rows={row['id']:row for row in old_options['rows']}
+                new_rows={row['id']:row for row in new_options['rows']}
+                assert all(new_rows.get(key)==value for key,value in old_rows.items()),'P21_CHAIN_FIXTURE_CHANGED_EXISTING_CASH_OPTION'
+                assert set(new_rows)-set(old_rows)==set(added_cash),'P21_CHAIN_FIXTURE_UNEXPLAINED_CASH_OPTION'
+                assert int(new_options['total'])-int(old_options['total'])==len(added_cash)
+                expected=deepcopy(item['before_read']);expected['workspace']['cash_accounts']=new_options
+                assert not differences(expected,actual),'P21_CHAIN_FIXTURE_CHANGED_EXISTING_AUTHORITATIVE_FACTS'
+                report.setdefault('source_at_dump_baselines',[]).append(dict(fixture=index,
+                    before=item['before_read'],at_dump=actual,added_fixture_cash_account_ids=added_cash,
+                    every_existing_option_and_other_authoritative_fact_unchanged=True))
+                item['before_read']=actual
             mandor_before=mandor_fixture.read(cur,mandor);conn.rollback()
         used_data=drill.data_hashes(database.SOURCE);used_profile=database._database_profile(database.SOURCE)
         with psycopg.connect(package.boundary.ADMIN)as conn,conn.cursor()as cur:
