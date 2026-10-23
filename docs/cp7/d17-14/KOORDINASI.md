@@ -575,3 +575,15 @@ ref/jam produk, set identitas dan statistik caller agar hanya dibuat sekali.
 Tidak mengubah rumus/angka/seluruh202000 gerakan/guard/batas. Uji lokal
 meminta seluruh JSON serta kedua hash sama persis dengan SQL v6. Native v7
 belum ada; seluruh hasil lama tetap melekat ke kandidatnya, parent5/16.
+
+## 26 — v7 Native31 aktual; handoff disatukan (23 Okt WIB) [bersama]
+
+Source fix486a38ea, kandidat df6bd877/tree55ee4091, run39945772181/
+job120387939390 aktual berjalan. Batas8s/dua hangat≤3000ms dan31 ID tetap;
+45 menit job/10 menit per browser adalah batas alat uji, bukan pelonggaran
+SLA aplikasi. Workflow mencatat versi image layanan disposable.
+
+Handoff produksi Claude ditulis ulang dalam satu peta status, sumber keputusan,
+batas berkas A/B, bukti kandidat tepat, seluruh sisa B dan API pemasangan A.
+Catatan rinci sebelumnya tetap di Git/receipt; konteks privat tidak dipublikasi.
+Native31 pertama tetap28/31,25/19 sebelumnya PASS hanya padaa3bf8842.
