@@ -1,6 +1,28 @@
-# Native31: v7 30/31; perbaikan pesan sedang dikualifikasi
+# Native31 —28/31 karena jam fixture; kandidat waktu WIB sedang diuji
 
-**Status terkini,24 Oktober2026 WIB.** df6bd877/tree55ee4091 pada
+**Status terbaru:**16a0aeb0 pada run39993639712/job120551431684 selesai
+INCOMPLETE28/31:13 Native/7 race/4 Auth/4 browser PASS. Seluruh12 kasus
+checked-save baru lulus, termasuk desktop pesan sumber berubah dan HP
+hilang-jawaban/reopen. Volume7710/2952/2943ms PASS di8s/3s. Tiga yang gagal
+adalah2 Native dan1 race OW10 lama: contoh stock hari ini memakai08:00 WIB
+saat runtime baru00:23–00:27 WIB, sehingga Native menolak masa depan.
+[Receipt immutable28/31](16a0aeb-native31-28-clock.json).31 ID/deklarasi,
+28 sumber/8 invers22/10 authority/restore/advisor tepat; writer_runtimefalse.
+
+Fix1ba69eaa hanya waktu contoh positif pada3 jalur itu: tanggal/jumlah,
+assertion cache/stale/baru rendah, Native writer serta penolakan masa depan
+tetap. item() menerima stock_hour opsional dengan default08 tetap; caller
+OW10 memilih00 bila stock_day==today dan2 found hari ini eksplisit00.
+Tidak menjepit tanggal masa depan, mengubah jam database atau melewati Native.
+Sintaks Python dan diff-check PASS; bukan kelulusan Native sebelum dijalankan.
+
+Kandidat `a15054c290802420adaa8a4dd64217380d5ebbcb`, tree
+`63918f4bf582832203784673c855ccab69ac6b70`,
+[run39996465132](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39996465132)
+/job120561154474 sedang berjalan. Semua31 ID dan batas8s/3s tetap.
+
+
+**Riwayat V7 sebelum perbaikan jam fixture,24 Oktober2026 WIB.** df6bd877/tree55ee4091 pada
 [run39945772181](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39945772181)
 /job120387939390 selesai INCOMPLETE30/31: Native15/15, race8/8, Auth4/4,
 browser3/4. Volume2000/202000 lulus7589/2831/2851ms dengan batas8s/3s

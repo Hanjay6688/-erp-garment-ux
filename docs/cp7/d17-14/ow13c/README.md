@@ -1,14 +1,14 @@
 # OW13c — saran potong, checkpoint Native31
 
-**Belum OW13c selesai.** Native25 a3bf8842 lulus25/25; Native31 V7
-df6bd877 selesai30/31 (15 Native/8 race/4 Auth/3 browser PASS).
-Volume dan pemulihan HP lulus; desktop gagal pada pesan penolakan yang
-tertutup pesan umum. Perbaikan5b6ca459 lulus160 uji klien dan TypeScript;
-kandidat16a0aeb0 sedang diuji31 pada run39993639712/job120551431684.
-[Status/bukti lengkap31](NATIVE31_README.md). Catatan di bawah menjelaskan
-kontrak/riwayat awal, bukan menggantikan hasil terbaru ini.
+**Belum OW13c selesai.** Native25 a3bf8842 lulus25/25; V7 df6bd877
+30/31, lalu perbaikan pesan16a0aeb0 membuktikan seluruh12 checked-save
+baru termasuk4 browser PASS. Paket16a tetap INCOMPLETE28/31 karena3 contoh
+stok OW10 lama08:00WIB masih masa depan saat uji00:23WIB. Batas tanggal
+Native tidak diubah; contoh hari yang sama diperbaiki ke00:00 pada1ba69eaa.
+Kandidat a15054c2 sedang diuji31 pada run39996465132/job120561154474.
+160 uji klien/TypeScript tetap pada sumber aplikasi5b6ca459 yang sama.
+[Status/bukti lengkap31](NATIVE31_README.md). Riwayat awal di bawah.
 
-**Riwayat implementasi awal.**
 Run Native25 pertama bf98947e membuktikan6 kasus baru (4 Native/2 Auth) PASS,
 tetapi satu volume ROP lama timeout8detik:24/25, paket INCOMPLETE. Bukti di
 [receipt pertama](bf98947-first-native25-24.json).11 SQL lokal,91 klien/DOM pada8 berkas, TypeScript serta
