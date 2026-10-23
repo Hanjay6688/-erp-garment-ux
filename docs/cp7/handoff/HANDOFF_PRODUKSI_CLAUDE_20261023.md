@@ -3,9 +3,16 @@
 **Active next:** BpagedquantityUI implemented and159clienttests/9files+TS PASS.
 Newcalculations useboundedNativejobs/pages/checks,alltarget server totals,
 50displayrows, strictactor/query/hash/microsecondbinding;oldnettingrecoverykept.
-ExistingcheckedPotonganform reused. Actualquantitybrowser2 prepared, notyetrun.
+ExistingcheckedPotonganform reused. Actualquantitybrowser2 running atd2fdf31f,
+run40041003292/job120711808034; no result declared yet.
 Sourcegate17unmergedpairs,exact17-onlypreview364/312;Aaddsquantity5afterprior12.
 Native6+Entry2+realSAVE2000 remainqualified,47backendfilesunchanged. Parent5/16.
+
+**A integration:** [bounded composition and remaining acceptance](../d17-14/ow13c/INTEGRASI_CLAUDE_BOUNDED.md)
+lists request overlap withfinancialbridge, exact17 registry pairs/order,
+immutable method recovery andglobalafter-use restore/fullchain requirements.
+Private Original/log archive updated in place toversion30; new browser
+screenshots not copied into it. Source changes remainonBbranch only.
 
 
 **Latest: actual SAVE2000 and bounded desktop/mobile packages PASS.** Candidate

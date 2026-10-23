@@ -931,3 +931,17 @@ Bothindependentlyverified47sources/12preuse22/restore/advisors/all5gates,1exacta
 `NativeBoundedQuantityPanel`/`nativeBoundedQuantity` now connect main workpane's new calculation to realboundedrequest+existingget/step/pages/check APIs, replacingoldwhole-netting1000cap fornewactions. Oldnettingpending stillusesoldroute. ImmutableUUID/q/method retained evenDONE forreload; deliberatefreshcalculation atomicallyreplacesfinishedpointer; constructor-onlyknownrefusal allowsdeliberatenewperiod, uncertainreply/403doesnot. Hash/header/page/actor/query/targetcount/microseconds verifiedbyexistingNativeparsers. All-run totalsfromserver;only50visible suggestions andserverpage controls, genuineunknownspreserved, roundup extrasexplicit. ExistingNativePlanDraftPanel reusedwithSTAGEDcontext/requireCurrentSave, noAsharedanalysis/financefileedited.159tests/9files+TS PASS; firsttestwire oversized750targetpage exceeded8MB, fixedcuts500/500/500/500whilekeeping2000targets, no parserlimitrelaxation. NoactualnewquantityUIproofyet.
 
 Actualsourcegate now17knownmissingpairs;exact17-entrypreviewPASS364runtime/312RPC/noorphans/directtables, sharedcheckerunchangedSHAf1148cb... . A applies BOUNDED_QUANTITY_REGISTRY.patch forfiveexistingpage/step/checkpairs AFTERprior12, notduplicateoldpatches. Preparedbrowser2: smallmobilefirst(realboundedworkreviewSAVE→freshquantity→checkedcuttingSAVEreplyloss/reloadexactreconcile), thendesktop2000/202000realDONE/fullreference/rawINCOMPLETE/currentstockfreshness/newUUID, nooldwhole-netting. Smallfirstavoidsunreviewedvolumefixture contaminatingpositivefeasibility. Backend47sourcefilesunchangedfromqualifiedNative6/Entry2/SAVE2. SourceSDKchangesdonotqualifyafter-use/fullAchain/production, parent5/16.
+
+
+## 56. Concrete A composition note; quantity browser2 running (24 Oktober2026 WIB)
+
+`ow13c/INTEGRASI_CLAUDE_BOUNDED.md` now names the exact request conflict between
+bounded stage and OW12b financebridge, preserved initial_auto/finance/methodUUID
+guards, exact17 registry pairs/patch order, A-owned defaults/types and global
+after-use restore acceptance. It does not ask for renewed authorization or
+change A files. Prior design marked historical where results supersede it.
+Quantitycandidate d2fdf31f/run40041003292/job120711808034 remains running; no
+PASS claimed. Current159clientchecks/TS and same47backendfiles unchanged.
+Private archive version30 retains new8fEntry/SAVE completeOriginals/logs and
+quantity client first/final logs, plus exact active-run continuation. Newbrowser
+screenshots not copied into archive. Parent5/16; work continues after save.

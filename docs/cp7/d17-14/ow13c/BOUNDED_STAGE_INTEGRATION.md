@@ -1,4 +1,11 @@
-# Next implementation: bounded staged analysis (not yet qualified)
+# Bounded staged analysis: design and current integration boundary
+
+Current24October2026WIB: Native6 at708c4658, bounded work Entry2 and genuine
+checkedSAVE2000 at8f8728bc are qualified components; see
+`BOUNDED_COMPONENT_MATRIX.json` and `INTEGRASI_CLAUDE_BOUNDED.md`. New quantity
+browser2 is active atd2fdf31f/run40041003292. After-use restore and A full chain
+remain open. The following design was written before these component results;
+its former "remain open" statements are historical, not the current matrix.
 
 Native11 qualifies work metadata. Native3 qualifies full bounded history inputs
 (2000 synthetic products,202000 movements,1414ms). Native4 qualifies every raw
