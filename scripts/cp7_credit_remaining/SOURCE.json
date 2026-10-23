@@ -1,0 +1,38 @@
+{
+ "classification": "OW04BA_REMAINING_PAYMENT_AFTER_CUSTOMER_CREDIT_NATIVE_STAGE",
+ "predecessor_stage": "cp7_credit_followups",
+ "files": {
+  ".github/workflows/cp7-ow04b-remaining-native.yml": "a34d91037057934d9154e703e4907cfa3e7c98f3cd95818e4961c49b03a163cd",
+  "scripts/cp7_credit_remaining/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "scripts/cp7_credit_remaining/cases.py": "4bf314a447a280f6df5836e092a7d288e99f4a89268bb00868734e76d65d2018",
+  "scripts/cp7_credit_remaining/composition.py": "ec16cd274b1e1d8306df0486dac624b9f95faeb65f2ee38105e1f23f842b28af",
+  "scripts/cp7_credit_remaining/local_check.py": "162def6be46f72794e1edbadd2f93b42e67a770963accfe7cfbac26443b00404",
+  "scripts/cp7_credit_remaining/native_delta.py": "1aa640fe1167f93b9b2962ca16eaeb2268cc07480ef90968fbe355630c2a1c6e",
+  "scripts/cp7_credit_remaining/native_probe.py": "e48e79de9aa5dee64dca548fce7c6823e97c29654e85945e169662d5593589be",
+  "scripts/cp7_credit_remaining/remaining.sql": "c6a94eb29dad14bac3508beb713f7ef30fca9dfefbce727286c3af4c2c4da478"
+ },
+ "case_ids": [
+  "OW04BA_PAY_REMAINING_IN_TWO_PARTS_PAID",
+  "OW04BA_ONE_CENT_OVER_REFUSED_NO_EFFECT_THEN_EXACT_PAID",
+  "OW04BA_REVERSE_REMAINING_PAYMENT_KEEPS_CREDIT",
+  "OW04BA_UNDO_CREDIT_AFTER_REMAINING_PAID",
+  "OW04BA_BACKDATED_PAYMENT_OVERFUNDING_A_DATE_PAIR_REFUSED",
+  "OW04BA_PROTECTED_REFUSALS_IDENTICAL"
+ ],
+ "race_ids": [
+  "OW04BA_RACE_TWO_PAYMENTS_SAME_REVIEW_DISTINCT_UUID",
+  "OW04BA_RACE_TWO_PAYMENTS_SAME_UUID"
+ ],
+ "slice": {
+  "name": "A",
+  "design": "docs/cp7/d17-14/ow04/OW04B_MULTI_COHORT_DESIGN.md",
+  "admitted": "ordinary PAYMENT and PAYMENT_REVERSE on an invoice whose only credit participation is incoming APPLY",
+  "still_refused": [
+   "payment correction on such an invoice",
+   "any payment on an invoice with its own return family or cohort",
+   "opening/import advances",
+   "parts 1-2 slices B-E"
+  ]
+ },
+ "OW04b_complete": false
+}

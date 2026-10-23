@@ -83,7 +83,11 @@ saldo) ditolak dengan kode dan pesan yang sama seperti dulu, kini dengan alasan 
    dikerjakan.
 2. **Bagian 2** (Edit retur dan Benerin nota pada invoice yang ikut saldo kredit): sama, butuh jalur pembalikan yang
    membawa saldo kredit ikut pindah ke dokumen pengganti.
-3. Pembayaran sisa tagihan pada invoice yang dibayar sebagian pakai saldo kredit (temuan di atas).
+3. Pembayaran sisa tagihan pada invoice yang dibayar sebagian pakai saldo kredit (temuan di atas). **Tahap A sudah
+   dibuat, menunggu CI** (`scripts/cp7_credit_remaining/`, uji otomatis `cp7-ow04b-remaining-native.yml`): pembayaran
+   biasa dan pembatalannya pada invoice seperti itu diterima selama tidak melebihi sisa tagihan pada tanggal mana pun;
+   status invoice dihitung dari pembayaran ditambah saldo kredit yang dipakai. Koreksi pembayaran pada invoice itu dan
+   invoice yang punya retur sendiri masih ditolak. Belum boleh disebut selesai sebelum hasil CI lulus.
 
 Ketiganya tetap terbuka; OW-04 belum boleh disebut selesai.
 
