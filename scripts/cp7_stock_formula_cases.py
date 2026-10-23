@@ -36,12 +36,12 @@ def one(cur, sql, args=None):
 
 
 # ------------------------------------------------------------------ fixture
-def item(cur, today, stock, stock_day=None, effective_days=90):
-    """A new SKU of a new model with `stock` pieces found at opname at 08:00 WIB of stock_day (default: 40 days ago)."""
+def item(cur, today, stock, stock_day=None, effective_days=90, stock_hour=8):
+    """A new SKU with stock found at stock_hour WIB (default08),40 days ago unless stock_day is explicit."""
     stock_day = stock_day or today - timedelta(days=40)
     product, _ = sales.fg.ax.owner_only_model_product(cur, effective_from=at(today - timedelta(days=effective_days), 0))
     found = sales.fg.ax.post(cur, dict(source_kind='FOUND_AT_OPNAME', product_id=product, location_id=sales.fg.base.LOCATION, qty_pcs=stock,
-                                       physical_at=at(stock_day, 8).isoformat(), reason='SS-1 stock found at opname',
+                                       physical_at=at(stock_day, stock_hour).isoformat(), reason='SS-1 stock found at opname',
                                        owner_unit_value='10', owner_value_reason='SS-1 explicit value'))
     b.api.admin(cur)
     customer = str(sales.fg.base.create_customer(cur, 'SS1' + uuid.uuid4().hex[:6]))
