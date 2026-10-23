@@ -1,7 +1,9 @@
 // @vitest-environment jsdom
-import {beforeEach,it,expect} from 'vitest'
+import {beforeEach,it,expect,vi} from 'vitest'
 import {parseNativeSupply,parseScheduleWorkspace,parseNativeNetting,schedulePayload,checkScheduleOutcome,persistScheduleRequest,readScheduleRequest,clearScheduleRequest,scheduleRequestKey,instantToWibInput,wibInputToInstant} from './nativeProductionPlanning'
-import {supplyWire,workspaceWire,nettingWire,dualHorizonNettingWire,scheduleConfig,scheduleOutcome,planningQuery,workKey} from '../tests/fixtures/nativeProductionPlanning'
+import {supplyWire,workspaceWire,stagedWorkspaceWire,stagedScheduleOutcome,scheduleJobWire,nettingWire,dualHorizonNettingWire,scheduleConfig,scheduleOutcome,planningQuery,workKey} from '../tests/fixtures/nativeProductionPlanning'
+import {parseStagedScheduleWorkspace,STAGED_SCHEDULE_CONTRACT} from './nativeProductionPlanning'
+import {readStagedSchedule,saveStagedSchedule} from './nativeStagedSchedule'
 import {demandRequest} from '../tests/fixtures/nativeDemandHistory'
 beforeEach(()=>localStorage.clear())
 it('retains the lead trigger separately when later supply reduces the target quantity',()=>{
@@ -34,3 +36,40 @@ it.each(['query','target','available','net','conditional','apply','duplicate','c
 it('keeps original metadata revision and exact microsecond timestamps for retry despite newer source',()=>{const s=parseNativeSupply(supplyWire(),planningQuery),w=parseScheduleWorkspace(workspaceWire(),s),request={id:demandRequest,payload:schedulePayload(w,scheduleConfig,'explicit review')};persistScheduleRequest('actor-project',request);expect(readScheduleRequest('actor-project').pending).toEqual(request);expect(()=>persistScheduleRequest('actor-project',request)).toThrow();expect(()=>clearScheduleRequest('actor-project',crypto.randomUUID())).toThrow();checkScheduleOutcome(scheduleOutcome(request.id),request);clearScheduleRequest('actor-project',request.id);expect(readScheduleRequest('actor-project').pending).toBeNull()})
 it('refuses new saves against a stale source and preserves corrupt pending state',()=>{const s=parseNativeSupply(supplyWire(),planningQuery),raw=workspaceWire();raw.current_source_hash='f'.repeat(64);raw.source_state='ARCHIVED_STALE';const w=parseScheduleWorkspace(raw,s);expect(()=>schedulePayload(w,scheduleConfig,'review')).toThrow();localStorage.setItem(scheduleRequestKey('actor'),'broken');expect(readScheduleRequest('actor').error).not.toBe('');expect(localStorage.getItem(scheduleRequestKey('actor'))).toBe('broken')})
 it('converts WIB independently of computer timezone while preserving an unchanged original microsecond wire value',()=>{const original='2026-10-01T01:00:00.123456Z';expect(instantToWibInput(original)).toBe('2026-10-01T08:00:00');expect(wibInputToInstant('2026-10-01T08:00',original)).toBe(original);expect(wibInputToInstant('2026-10-01T08:01')).toBe('2026-10-01T01:01:00.000Z');expect(()=>wibInputToInstant('2026-02-30T10:00')).toThrow();expect(()=>wibInputToInstant('')).toThrow();expect(workKey).toBeTruthy()})
+it.each(['RUNNING','DONE','FAILED'] as const)('reads genuine %s work metadata without inventing completed history',analysis_state=>{
+ const wire={...stagedWorkspaceWire(),analysis_state,history_capture_state:'INCOMPLETE'},w=parseStagedScheduleWorkspace(wire,demandRequest,{capturedAt:scheduleJobWire().reference.captured_at,sourceHash:'a'.repeat(64)})
+ expect(w.staged).toMatchObject({analysisState:analysis_state,historyState:'INCOMPLETE',productionState:'COMPLETE'});expect(w.requirements[1].targets).toEqual([])
+ const payload=schedulePayload(w,scheduleConfig,'work metadata only');expect(payload.staged_review_contract).toBe(STAGED_SCHEDULE_CONTRACT)
+ const r={id:demandRequest,payload};persistScheduleRequest('staged',r);expect(readScheduleRequest('staged').pending).toEqual(r);checkScheduleOutcome(stagedScheduleOutcome(r.id),r);expect(()=>checkScheduleOutcome(scheduleOutcome(r.id),r)).toThrow()
+})
+it.each(['request','reference-hash','microsecond','run','unchanged-hash','customer-target','target-size','unknown-with-guidance','history-state','state','contract','extra'] )('refuses staged work metadata misbinding: %s',kind=>{
+ const wire=stagedWorkspaceWire();const reference={capturedAt:wire.captured_at,sourceHash:wire.analysis_source_hash}
+ if(kind==='request')wire.source_request_id=crypto.randomUUID()
+ if(kind==='reference-hash')reference.sourceHash='b'.repeat(64)
+ if(kind==='microsecond')reference.capturedAt=wire.captured_at.replace(/(\d)Z$/,d=>String((Number(d[0])+1)%10)+'Z')
+ if(kind==='run')wire.source_run=crypto.randomUUID()
+ if(kind==='unchanged-hash')wire.current_source_hash='b'.repeat(64)
+ if(kind==='customer-target')wire.position_requirements[1].target_candidates=wire.position_requirements[0].target_candidates
+ if(kind==='target-size')wire.position_requirements[0].target_candidates[0].target_key=crypto.randomUUID()+':'+crypto.randomUUID()
+ if(kind==='unknown-with-guidance')wire.production_capture_state='UNKNOWN'
+ if(kind==='history-state')wire.history_capture_state='UNKNOWN'
+ if(kind==='state')wire.analysis_state='COMPLETE'
+ if(kind==='contract')wire.staged_review_contract='later-version'
+ if(kind==='extra')Object.assign(wire,{apply_enabled:true})
+ expect(()=>parseStagedScheduleWorkspace(wire,demandRequest,reference,workspaceWire().source_run)).toThrow()
+})
+it('keeps an archived staged reference stale even when only the full analysis context changed',()=>{
+ const wire={...stagedWorkspaceWire(),source_state:'ARCHIVED_STALE'},w=parseStagedScheduleWorkspace(wire,demandRequest,{capturedAt:wire.captured_at,sourceHash:wire.analysis_source_hash})
+ expect(w.currentHash).toBe(w.sourceHash);expect(()=>schedulePayload(w,scheduleConfig,'review')).toThrow()
+})
+it('allows honest unknown production metadata to be read but refuses saving it',()=>{
+ const wire={...stagedWorkspaceWire(),production_capture_state:'UNKNOWN',position_requirements:[]},w=parseStagedScheduleWorkspace(wire,demandRequest,{capturedAt:wire.captured_at,sourceHash:wire.analysis_source_hash})
+ expect(w.requirements).toEqual([]);expect(()=>schedulePayload(w,scheduleConfig,'review')).toThrow()
+})
+it('retains old pending UUID payloads unchanged and rejects unknown route markers or mismatched receipts',async()=>{
+ const w=parseScheduleWorkspace(workspaceWire(),parseNativeSupply(supplyWire(),planningQuery)),r={id:demandRequest,payload:schedulePayload(w,scheduleConfig,'old route')}
+ persistScheduleRequest('old',r);expect(readScheduleRequest('old').pending).toEqual(r);expect(Object.hasOwn(readScheduleRequest('old').pending!.payload,'staged_review_contract')).toBe(false)
+ expect(()=>checkScheduleOutcome(stagedScheduleOutcome(r.id),r)).toThrow();const rpc=vi.fn();await expect(saveStagedSchedule({rpc},r)).rejects.toThrow();expect(rpc).not.toHaveBeenCalled()
+ localStorage.setItem(scheduleRequestKey('unknown'),JSON.stringify({...r,payload:{...r.payload,staged_review_contract:'unknown'}}));expect(readScheduleRequest('unknown').error).not.toBe('')
+ await readStagedSchedule({rpc},demandRequest);expect(rpc).toHaveBeenCalledWith('erp_cp7_get_staged_production_schedule_v1',{p_source_request:demandRequest})
+})

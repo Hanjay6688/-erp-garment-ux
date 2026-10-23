@@ -65,14 +65,18 @@ Fixture K2 hanya mengubah updated_at sintetis, tanpa mengubah tanggal fisik atau
 Original artifact12527881809, 315263 bytes, SHA
 6c07edcbc83cab6f4705968ab804b7b1081438f04bc05317a68d78730673ed7c.
 
-**Aktif sekarang: sambungan layar jadwal.** GET/SAVE baru belum dipakai frontend;
-pekerjaan berikutnya mempertahankan UUID lama, isian belum disimpan, dan penolakan akses terkini.
-Native11 adalah bukti Native, belum bukti Auth/browser/race untuk facade baru.
+**Sambungan layar sudah ditulis dan lulus 77 uji klien serta TypeScript.**
+GET/SAVE baru memakai reference staged asli. UUID lama tetap menuju facade lama;
+isian belum disimpan, pergantian akses, respons terlambat, dan perubahan tab lain dipertahankan.
+History INCOMPLETE/analisis FAILED tetap diberi keterangan yang jujur.
+[Catatan uji klien](../d17-14/ow13c/STAGED_SCHEDULE_CLIENT_CHECK.json).
+**Aktif berikutnya: Transport10**, satu anchor katalog ulang, empat balapan dua sesi,
+tiga Auth/PostgREST, dua browser desktop/ponsel. Belum diklaim lulus sebelum hasil nyata.
 
 GET memakai UUID permintaan job (`p_source_request`), SAVE memakai realrun
 UUID dariGET+marker/sourcehash/revisi/config/alasan. Native validator kerja/
 kalender/globalWIP/target lama, request/global lock, UUID/history dan sumber/
-akses sesudahwait/tulis tetap. Frontend baru,Auth/race/browser,after-userestore
+akses sesudahwait/tulis tetap. Auth/race/browser baru,after-userestore
 serta A/default/registry/types/globalcensus masihOPEN. Srcdan9 sumberNative
 beku tidak berubah.2facadebaru dikelolaB; A memasangdefault/tipe/registry.
 

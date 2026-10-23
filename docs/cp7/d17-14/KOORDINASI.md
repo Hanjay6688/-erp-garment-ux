@@ -805,3 +805,10 @@ save_staged_production_schedule_v1(p_payload,p_request), belumdefault.
 Kandidat `1eb55680bef0c76fde944fa45fcf7f282b19065f`, run40013059616/job120618058316 PASS11/11; receipt `ow13c/1eb5568-contexts11-pass.json`. Delapan kasus sebelumnya tetap, ditambah DONE, kedaluwarsa DONE, serta FAILED riwayat padat nyata dan kedaluwarsa FAILED. 32 sumber, 9 invers22, restore/advisor/5 gate paket tepat. Original12527881809/315263bytes/SHA6c07edcbc83cab6f4705968ab804b7b1081438f04bc05317a68d78730673ed7c.
 
 B menyambungkan facade jadwal baru ke layar milik B; UUID lama harus tetap menuju facade lama, metadata riwayat INCOMPLETE/FAILED tidak menjadi angka atau DONE. Belum ada bukti baru Auth/browser/race, actual checked SAVE2000, after-use restore, ataupun rantai penuh A. A tetap pemilik installer/default/types/registry/global census. Parent tetap5/16.
+
+
+## 38. Sambungan layar dan Transport10 (24 Oktober 2026 WIB)
+
+B menyambungkan layar jadwal ke reference staged asli, tanpa memaksa job DONE. Payload simpan baru memiliki marker; payload/UUID lama tetap memakai facade lama. LocalStorage sumber baru terpisah dari pemulihan sumber lama. Pending baru baru dihapus sesudah guidance lengkap cocok. Dirty form, current access retirement, held reply, multi-tab, UTC microseconds, customer WIP dan UNKNOWN tetap diuji. 77 uji klien/3 berkas dan TypeScript lulus; receipt `ow13c/STAGED_SCHEDULE_CLIENT_CHECK.json`.
+
+Transport10 dideklarasikan di `ow13c/SCHEDULE_TRANSPORT_CONTRACT.json`: Native1 anchor ulang (kredit baru0), race4/Auth3/browser2 baru. Uji nyata belum selesai. A menambahkan tepat3 pasangan di `STAGED_SCHEDULE_REGISTRY.patch` setelah7+1 pasangan lama; actual source gate masih FAIL11, preview hanya penambahan11 pasangan PASS361 runtime/306 RPC. A shared checker/default/types tidak diubah. Native11 tidak dihitung ulang sebagai bukti transport; actual checked SAVE2000/after-use restore/parent5 dari16 tetap terbuka.
