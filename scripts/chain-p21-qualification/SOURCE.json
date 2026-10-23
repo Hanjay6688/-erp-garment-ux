@@ -2,7 +2,7 @@
  "classification": "OW15_CHAIN_TOP_P21_REHEARSAL",
  "files": {
   ".github/workflows/cp7-chain-p21.yml": "f1edaaae1a0c0c3b273eade3cef9ad4835f9ab41bcff7004a59884b66ecfadc9",
-  "scripts/cp7_p21_current_chain_rehearsal_probe.py": "29a0c1b1252c8ac4d13ce471a489260e20eade9140ceb0e3e593324b3c5cb34f",
+  "scripts/cp7_p21_current_chain_rehearsal_probe.py": "fb229463d35d3e94f2c16e0a55fd0550226615b28ba3d5a0bd8b5212b3823e37",
   "scripts/cp7_p21_chain_adapter.py": "9434b56789fdacf988758156a22143d7d00451c01a9ab92c8ba473037b826b3c",
   "scripts/cp7_chain_restore.py": "1bdedf403f0c4c7458b0498daaaaf583a4567ef628a7dcec1c8c08f804f30186",
   "scripts/chain-p21-qualification/EXPECTED_CHAIN_STEPS.json": "dd49274ed02108928ce3f74175a8aafde3ca2bf8ee5f044b395399af98ecb2ad",
@@ -11,7 +11,8 @@
   "scripts/ow05-p21-qualification/mandor_fixture.py": "6ee213465d2d898efd469fe3ab92cd2a4d1fc30b4746c0967fc97f0c2429e860",
   "scripts/ow04bc_native_original.py": "6cd690e566320756625f7f3e267b9ff4f83c93c4742ad06cc4a3b83e3608c219",
   "docs/cp7/d17-14/ow04/ow04b-slice-c-native7-race1-cbdd7263-chain-pass.json": "1aae121b82c7c6d46cd1552e419f50a56d38aff001e436382053b227ed4f39f9",
-  "scripts/cp7_period_cases.py": "a01f568bab12465ef0b71a005f0eddb73574c3e259c1fd3b020f35ea39087bb3"
+  "scripts/cp7_period_cases.py": "a01f568bab12465ef0b71a005f0eddb73574c3e259c1fd3b020f35ea39087bb3",
+  "scripts/cp6_aw_probe.py": "b67a896d3ddc593fb226598a1987d3716eed8684b311c5bd3c6ae1ac967f6532"
  },
  "native_original": {
   "name": "CP7_OW04BC_INCOMING_CREDIT_RETURN_NATIVE7_RACE1.json",

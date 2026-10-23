@@ -1,3 +1,7 @@
+## Astra A — P21 urutan payroll/pool, 24 Okt 2026
+
+Run39997562338 pada dd2fb30c lolos install, exact preuse rollback, reinstall, serta reopening Native beserta replay. E01 berhenti karena fixture mengaktifkan pool sebelum payroll seed lama disahkan; penjaga ACTIVE pool menolak dengan benar. Original dipertahankan pada receipt `ow15/p21-dd2fb30c-first-payroll-pool.json`. Kandidat berikut menyelesaikan sumber payroll melalui helper Native yang sama sebelum alokasi pool diaktifkan, lalu membaca ulang blocker; tidak mengubah produk, assertion READY, atau oracle keuangan. Belum PASS keseluruhan.
+
 # Checkpoint penulis A (cabang `claude/d17-14-uang`)
 
 ## P21 run pertama penerus A — kegagalan dipertahankan

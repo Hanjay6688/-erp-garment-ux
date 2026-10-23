@@ -122,6 +122,18 @@ def prepare_attendance_pools(cur,today):
                 request_id=str(request),receipt=receipt,exact_replay=True,
                 existing_filed_history_unchanged=True,GL_and_stock_unchanged_by_reopen=True,
                 path='erp_cp7_save_period_control_v1:REOPEN',fixture_only=True)
+    # Complete the existing attendance/payroll sources BEFORE freezing their
+    # allocation in ACTIVE pools. E01's unchanged quiet_seed cannot approve
+    # old payroll while its attendance cost is locked by an active pool.
+    seed_completion=period.aw.quiet_seed(cur,today-timedelta(days=3),today)
+    hp.b.api.admin(cur)
+    assert not seed_completion['refused'],('P21_CHAIN_PRE_POOL_SEED_COMPLETION',seed_completion)
+    after_sources=attendance_rows(cur,today)
+    missing=[r for r in after_sources if r['code']=='ATTENDANCE_POOL_POLICY_MISSING']
+    if missing:raise ValueError('P21_CHAIN_ATTENDANCE_POLICY_FIXTURE_TODO: '+json.dumps(missing,default=str)[:2000])
+    days=sorted({r['impact_date']for r in after_sources if r['code']=='ATTENDANCE_POOL_NOT_ACTIVE'})
+    if days:
+        owner=hp.owner(cur)
         for day in days:
             preview=hp.read(cur,owner,date.fromisoformat(day),date.fromisoformat(day))['preview']
             if preview['status']!='READY':raise ValueError('P21_CHAIN_ATTENDANCE_POOL_PREVIEW_NOT_READY: '+day)
@@ -131,7 +143,7 @@ def prepare_attendance_pools(cur,today):
     left=[r for r in attendance_rows(cur,today)if r['code']=='ATTENDANCE_POOL_NOT_ACTIVE']
     if left:raise ValueError('P21_CHAIN_ATTENDANCE_POOL_STILL_NOT_ACTIVE: '+json.dumps(left,default=str)[:2000])
     return dict(step='OW07_ATTENDANCE_POOLS_ACTIVE_BEFORE_E01',status='PASS',not_active_before=sum(r['code']=='ATTENDANCE_POOL_NOT_ACTIVE'for r in before),
-        days=days,pools=pools,period_reopening=reopening,fixture_reason=FIXTURE_REASON,owner_figures_used=False,E01_READY_assertions_changed=False)
+        days=days,pools=pools,period_reopening=reopening,seed_completion_before_pool_activation=seed_completion,fixture_reason=FIXTURE_REASON,owner_figures_used=False,E01_READY_assertions_changed=False)
 
 
 def admitted():
