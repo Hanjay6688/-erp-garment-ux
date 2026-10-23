@@ -3,6 +3,7 @@ name: CP7 OW-15 chain top P21 full used database restore qualification
   push:
     branches:
     - claude/d17-14-uang
+    - astra-a/d17-14-uang-20261024
     - astra/d17-14-integrasi
     paths:
     - .github/workflows/cp7-chain-p21.yml

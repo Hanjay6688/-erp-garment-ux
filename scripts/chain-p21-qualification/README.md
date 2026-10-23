@@ -6,8 +6,9 @@ irisan A, B, C) di salinan database sekali pakai. Tidak menyentuh database hoste
 - Probe: `scripts/cp7_p21_current_chain_rehearsal_probe.py` (salinan probe P21 OW05).
 - Adaptor: `scripts/cp7_p21_chain_adapter.py`; pemulihan: `scripts/cp7_chain_restore.py`.
 - Workflow: `.github/workflows/cp7-chain-p21.yml`.
-- `SOURCE.json`: sidik jari berkas dan laporan asli irisan C (masih `PENDING_OW04BC_*` sampai irisan C lulus; sampai itu
-  workflow berhenti di langkah ambil laporan, sebelum database dinyalakan).
+- `SOURCE.json`: sidik jari berkas dan laporan asli irisan C di `cbdd7263`, run `39915754651` attempt 3,
+  Native7 + Race1 PASS; raw bytes dan SHA-256 diverifikasi terhadap artifact `12487401175`.
+  Bukti ini membuka admisi P21; P21 rantai sendiri belum dinyatakan lulus.
 - `EXPECTED_CHAIN_STEPS.json`: langkah rantai dari rencana bagian 4. Langkah bertanda `TODO` belum ditulis; selama masih
   ada, laporan tidak boleh PASS. Setiap langkah memakai panggilan dan pemeriksaan dari berkas kasus tahapnya sendiri, dan
   berjalan sesudah cek "sudah dipakai" ditolak, sebelum database dicadangkan (lalu dicek lagi di database hasil pulih).

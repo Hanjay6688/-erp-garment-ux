@@ -1,5 +1,17 @@
 # Checkpoint penulis A (cabang `claude/d17-14-uang`)
 
+## Posisi penerus A — 24 Oktober 2026
+
+Astra A mengambil alih scope Claude sesuai handoff owner, branch
+`astra-a/d17-14-uang-20261024` dari `f898a71f`; B tetap terpisah.
+Bagian riwayat di bawah dipertahankan. Status terkini irisan C: **PASS7+1**
+di cbdd7263, run39915754651 attempt3; laporan asli, hash dan lima gate paket
+diperiksa, receipt `ow04/ow04b-slice-c-native7-race1-cbdd7263-chain-pass.json`.
+Pin P21 diisi dari bukti itu. Berikutnya run P21, perbaiki kegagalan nyata,
+lalu OW09 layar dan integrasi B bertahap. P21/seluruh rantai/audit belum PASS;
+production_go tetap false. Status 503 dan menunggu C di bawah adalah riwayat.
+
+
 Aturan owner 22 Okt 2026: "update pake perlahan pake checkpoint ... biar kalo token abis ga sayang", lalu: "selagi masih banyak
 ya lu pake banyak orang gapapa, kalo udah tipis lu baru slowing down ... jangan tiba tiba di stop". Jadi: setiap langkah selesai
 langsung di-commit dan di-push dan berkas ini diperbarui; selama kuota banyak boleh banyak pembantu; pembantu yang sudah jalan

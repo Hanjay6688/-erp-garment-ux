@@ -37,3 +37,18 @@ Penulis B = Astra (`astra/d17-14-produksi`). Cabang gabungan `astra/d17-14-integ
 |---|---|---|
 | 23 Okt 2026 | A | Perbaikan laporan sesudah saldo kredit pelanggan (OW-08a) sedang diuji otomatis; uji ulang OW-05 selesai dengan empat catatan tampilan |
 | 23 Okt 2026 (malam) | A | OW-08a lulus uji otomatis 6/6. OW-07 (tutup buku tertahan bila kain kantong/pool absen belum dibagi, sisa WIP PO selesai ditutup) sedang diuji. OW-06: uji login asli dan uji layar desktop/HP sedang diuji |
+
+## A/20261024-01 — estafet A/integrator dari Claude ke Astra A
+
+Arahan owner pada handoff 24 Okt: Astra A melanjutkan seluruh scope A/Claude dan
+menjadi satu-satunya integrator. Astra B tetap di `astra/d17-14-produksi`.
+Cabang penerus A `astra-a/d17-14-uang-20261024` mulai dari `f898a71f`; cabang
+Claude lama dipertahankan. Pembagian versi 2 dan prinsip reliable data/uang,
+stok, HPP tetap berlaku; perubahan ini mengganti identitas A di pembukaan.
+
+Laporan asli irisan C run39915754651 attempt3 di cbdd7263 sudah diunduh dan
+diperiksa: Native7/Race1 PASS, restore/advisor/lima gate paket PASS. Catatan
+503 lama tetap riwayat, bukan status terkini. Receipt dan pin P21 diselesaikan;
+pengujian P21 rantai belum PASS. B belum masuk rantai; parent5/16 dan
+production_go=false tetap. Patch layar OW09 terselamatkan di repo, sedangkan
+worktree lokal Claude yang tidak dipush tidak tersedia di lingkungan ini.

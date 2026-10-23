@@ -1,0 +1,43 @@
+{
+ "run": 39915754651,
+ "attempt": 3,
+ "job": 120301680634,
+ "head": "cbdd7263",
+ "qualification_commit": "cbdd7263a18742f14897a7fbbdb8fab9d62406af",
+ "label": "CP7_OW04BC_INCOMING_CREDIT_RETURN_NATIVE7_RACE1",
+ "status": "PASS",
+ "expected_case_count": 7,
+ "observed_case_count": 7,
+ "observed_race_count": 1,
+ "cases": {
+  "OW04BC_FIRST_RETURN_QUOTES_UNCHANGED": "PASS",
+  "OW04BC_RETURN_ON_CREDIT_PAID_INVOICE_NO_CREDIT": "PASS",
+  "OW04BC_UNDO_ALLOWED_WHEN_RETURN_EMPTY": "PASS",
+  "OW04BC_RETURN_ON_CREDIT_PAID_INVOICE_CREDIT": "PASS",
+  "OW04BC_RETURN_ON_CREDIT_PAID_INVOICE_REFUND": "PASS",
+  "OW04BC_UNDO_REFUSED_WHEN_RETURN_DEPENDS": "PASS",
+  "OW04BC_PROTECTED_REFUSALS_IDENTICAL": "PASS"
+ },
+ "races": {
+  "OW04BC_RACE_RETURN_VS_UNDO_OF_ITS_CREDIT": "PASS"
+ },
+ "cp6_restored": true,
+ "advisor_gate": true,
+ "restore_raw_public_equal": true,
+ "package_gate": {
+  "installed": true,
+  "primary_unchanged": true,
+  "backup_restore_drill": true,
+  "security_advisors": true,
+  "writer_runtime": true
+ },
+ "report": {
+  "name": "CP7_OW04BC_INCOMING_CREDIT_RETURN_NATIVE7_RACE1.json",
+  "raw_bytes": 2110481,
+  "raw_sha256": "cd21c7da0d0d8da8baf66b9c9dd4769e3505e3c7c29f17b61a48ef5d65f9eae6"
+ },
+ "artifact": "cp7-ow04b-incoming-credit-return-native7-race1 (12487401175)",
+ "OW04b_complete": false,
+ "production_go": false,
+ "independent_acceptance": false
+}
