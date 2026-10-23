@@ -139,6 +139,11 @@ def cases(cur,today):
         assert done['state']=='READY'and done['failure_code']is None,done
         r=call(cur,'select cp7_finance_capture.result(%s)',(cid,))
         assert r['contract_version']=='cp7.native-analysis-finance.v2'and set(r)=={'contract_version','dates','book_signature','source_hash','report','capture'},r.keys()
+        # The book is re-signed independently right after the capture (as the runner case does): Native7 8438a4a7 re-signed
+        # it only after the official and direct reads below and differed, so whether those reads touch the book is recorded.
+        signature,counts=independent_signature(cur,r['dates']['as_of'])
+        assert r['book_signature']==signature,(r['book_signature'],signature)
+        assert {fam:r['capture']['plan'][fam]['rows']for fam in FAMILIES}==counts,(r['capture']['plan'],counts)
         native=official(cur,r['dates'])
         for part in('performance','financial_position','basis','data_confidence'):
             assert r['report']['snapshot'][part]==native['snapshot'][part],part
@@ -152,15 +157,14 @@ def cases(cur,today):
         assert bare(mine)==bare(theirs)and ready==ready2,({k:(bare(mine)[k],bare(theirs)[k])for k in mine if bare(mine).get(k)!=bare(theirs).get(k)},ready,ready2)
         assert all(v['refs']==mine[next(iter(mine))]['refs']and r['source_hash']in json.dumps(v['refs'])for v in mine.values())
         assert all(direct['source_hash']in json.dumps(v['refs'])for v in theirs.values())
-        signature,counts=independent_signature(cur,r['dates']['as_of'])
-        assert r['book_signature']==signature,(r['book_signature'],signature)
-        assert {fam:r['capture']['plan'][fam]['rows']for fam in FAMILIES}==counts,(r['capture']['plan'],counts)
+        after_reads,counts_after=independent_signature(cur,r['dates']['as_of'])
         b.api.admin(cur)
         fp=cur.execute('select cp7_analysis_native.financial_fingerprint(%s::jsonb,%s)',(json.dumps(r['report']),r['book_signature'])).fetchone()[0]
         assert fp==r['source_hash'],(fp,r['source_hash'])
         assert done['units_total']==2+sum(r['capture']['plan'][fam]['chunks']for fam in FAMILIES)and len(trail)==done['units_total']
         return dict(status='PASS',units=done['units_total'],rows=counts,readiness=ready,report_read_at=r['capture']['report_read_at'],
-            same_as_owner_report=True,same_metrics_as_direct_analysis_source=len(mine),independent_book_signature=True,kasbon=g['kasbon']['number'])
+            same_as_owner_report=True,same_metrics_as_direct_analysis_source=len(mine),independent_book_signature=True,kasbon=g['kasbon']['number'],
+            book_unchanged_by_report_reads=after_reads==signature,rows_after_report_reads=counts_after)
 
     def refuses_change():
         q=query(today);given(cur,today,'700.00')

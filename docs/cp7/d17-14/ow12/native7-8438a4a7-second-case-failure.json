@@ -1,0 +1,23 @@
+{
+ "run": 39884380703,
+ "attempt": 1,
+ "job": 120189010013,
+ "head": "8438a4a7",
+ "label": "CP7_OW12A_FINANCE_CAPTURE_NATIVE7",
+ "status": "INCOMPLETE",
+ "observed_case_count": 7,
+ "cp6_restored": true,
+ "advisor_gate": true,
+ "report": {"raw_bytes": 2033311, "raw_sha256": "c7052c20969e79756e3df2bb1811d3b04c829bb38c1d39d3dcd8483c5c73aaff"},
+ "cases": {
+  "OW12A_CAPTURE_SAME_FIGURES_AS_FINANCE_REPORT": "INCOMPLETE: cases.py:156 book_signature 3fc75e17... != independent 12a755bd... (figures and source refs checks before it passed)",
+  "OW12A_CAPTURE_REFUSES_BOOK_CHANGE_DURING_SCAN": "PASS",
+  "OW12A_CAPTURE_ACCESS_AND_PRIVACY": "PASS",
+  "OW12A_REPORT_V2_FINANCE_THROUGH_CAPTURE": "PASS",
+  "OW12A_REPORT_V2_DEFERRED_UNCHANGED": "PASS",
+  "OW12A_RUNNER_STEPS_CAPTURE_AS_ITS_ACTOR": "PASS (independent_book_signature true, re-signed right after its capture)",
+  "OW12A_REPORT_V2_PERIOD_COMPARISON": "PASS (24 metrics compared, 13 known differences, same pair and other actor refused)"
+ },
+ "cause": "Not settled by the log: same_figures re-signed the book only after official(), financial_source() and two finance_apply() reads, while the runner case re-signs right after its capture and agrees. Either the late re-sign is the harness's fault or one of those reads writes to a signed book table.",
+ "fix": "same_figures re-signs right after result() (the capture's own moment, as the runner case) and keeps the exact assertion; it re-signs again after the reads and records book_unchanged_by_report_reads and the row counts, so the next run shows whether a report read touches the book. No product line changed."
+}
