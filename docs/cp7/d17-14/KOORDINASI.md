@@ -361,3 +361,31 @@ finance atau planning/fungsi beku yang diperiksa. A mencatat step10 OW07 Native7
 PASS di atas OW09 dan mengisi pin step11 wash; itu kemajuan rantai A, belum
 bukti sambungan finance B atau gabungan semua tahap. Parent tetap5/16. Tidak
 menyentuh main, kandidat audit, Enteng, hosted atau WA nyata; belum CP7C go.
+
+## 15 — WIP Native133 PASS, input lengkap dan cache titik B (23 Okt WIB)
+
+C0bb0d19/run39900426633/job120240505606 kini selesai dan Original lengkap
+cocok:133/133 PASS,75 Native/36 dua pengguna/9 HTTP/13 layar, seluruh ID tepat.
+Tiga tahap invers22 ditambah produksi kembali tepat;38 otoritas, restore/advisor,
+lima gate paket dan backup/restore PASS. Receipt ow10/c0bb0d1-native133-pass.json.
+Hasil pertama131/133 tetap disimpan, bukan dilabel hijau. Handoff diperbarui5a68a979.
+
+B11a1cb16 menyambung sumber server lengkap→riwayat→target→titik; raw Native
+INCOMPLETE tetap apa adanya. Hanya overflow stok memakai ringkasan semua SQL;
+seluruh guard koleksi/jurnal/identitas lain dipertahankan. B94bd6ba menambah
+cache titik privat: stok hari ini diperiksa baru, riwayat dihitung ulang ketika
+key dependensinya berubah. Input v5:7 fungsi/1 schema; cache v1:2 fungsi/2 tabel/
+1 schema.0 hook/endpoint/Native DML baru.28 kelompok lokal dan kedua API22 PASS,
+termasuk202.000 pergerakan/2.000 produk/60.000 hari/2.000 titik. Cache hangat lokal
+5,6detik vs dingin11,2detik PGlite; ini bukan Native/Auth/SLA3detik.
+
+Guard setelah pakai cache menolak sebelum DDL sekalipun cache kosong; use_marks
+immutable harus dimasukkan A dalam global use guard kelak. Input dibalik setelah
+caller/cache, bukan dihapus paksa. Kegagalan lokal15/28 akibat kurung SQL kurang
+pada key sumber disimpan; perbaikan tidak mengganti oracle/angka expected.
+Kontrak ow10/REORDER_INPUTS_CONTRACT.md dan REORDER_READER_CONTRACT.md.
+
+Caller compute/pengingat lama **belum diganti**; B sedang menyambungkannya dengan
+suplai good/ETA dari alokasi global, facade dan label proyeksi. Kandidat Native133
+tidak memasang input/cache ini. A tidak perlu memasang bagian separuh; pemasang/
+transaksi/envelope/rantai A tetap milik A. Parent5/16; tidak ada CP7C/production_go.
