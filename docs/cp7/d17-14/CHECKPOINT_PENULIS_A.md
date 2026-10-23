@@ -59,8 +59,9 @@ untuk mendaftarkan workflow-nya saat antrean longgar.
    (`ow08/fgqc-native9-903b1879-pass.json`; laporan sha256 `56d3294f…`, artifak 12472787961). Langkah 5 lulus: OW05b Native6 6/6 di `197fb3fc` di atas fgqc
    (`ow05/native6-197fb3fc-chain-pass.json`; laporan sha256 `cf004a56…`, artifak 12473826069). Rantai terbukti: OW04 → OW05 →
    OW06 → kasbon → fgqc → OW05b. Urutan diubah (OW04b ke ujung rantai, `ow15/RENCANA_OW15.md`); OW08a di atas OW05b lulus 6/6 di
-   `c6c01275` (`ow08/ow08a-native6-c6c01275-chain-pass.json`; laporan sha256 `69459e5a…`, artifak 12473818897). Berikutnya OW12a
-   di atas OW08a.
+   `c6c01275` (`ow08/ow08a-native6-c6c01275-chain-pass.json`; laporan sha256 `69459e5a…`, artifak 12473818897). OW12a di atas OW08a lulus 7/7
+   di `646a52e0` (`ow12/native7-646a52e0-chain-pass.json`; laporan sha256 `94608fd1…`, artifak 12474329154). Berikutnya OW-09
+   di atas OW12a, lalu OW07, wash, OW04b (followups → A → B → C).
    
 
 ## Antrean uji yang ditahan (registry image menolak unduhan sejak sekitar 20.20 UTC)
