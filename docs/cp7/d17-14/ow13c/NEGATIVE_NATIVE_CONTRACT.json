@@ -1,0 +1,115 @@
+{
+  "contract": "cp7.ow13c.checked-save-negatives.v1",
+  "expected_case_count": 5,
+  "required_case_counts": {
+    "native": 5
+  },
+  "required_case_ids": {
+    "native": [
+      "OW13C_NATIVE_FRESH_SAVE_REPLAY_AND_NO_PHYSICAL_FACT",
+      "OW13C_NATIVE_CHANGED_PRODUCT_REFUSED_WITHOUT_ORPHAN",
+      "OW13C_NATIVE_PAUSED_POLICY_REFUSED_WITHOUT_ORPHAN",
+      "OW13C_NATIVE_CURRENT_SHARED_MATERIAL_REFUSED_WITHOUT_ORPHAN",
+      "OW13C_NATIVE_CURRENT_SHARED_CAPACITY_REFUSED_WITHOUT_ORPHAN"
+    ]
+  },
+  "public_rpcs": [
+    "erp_cp7_get_alerts_v1",
+    "erp_cp7_get_wa_settings_v1",
+    "erp_cp7_save_wa_settings_v1",
+    "erp_cp7_set_wa_key_v1",
+    "erp_cp7_send_wa_test_v1",
+    "erp_cp7_resolve_wa_dispatch_v1",
+    "erp_cp7_get_fg_reorder_v1",
+    "erp_cp7_refresh_fg_reorder_v1",
+    "erp_cp7_save_fg_reorder_manual_v1",
+    "erp_cp7_save_stock_formula_settings_v1",
+    "erp_cp7_get_material_reorder_v1",
+    "erp_cp7_refresh_material_reorder_v1",
+    "erp_cp7_save_material_reorder_v1",
+    "erp_cp7_request_staged_analysis_v1",
+    "erp_cp7_get_staged_analysis_v1",
+    "erp_cp7_step_staged_analysis_v1",
+    "erp_cp7_get_planning_profiles_v1",
+    "erp_cp7_save_planning_profile_v1",
+    "erp_cp7_capture_baseline_v1",
+    "erp_cp7_save_cutting_suggestion_v1"
+  ],
+  "schedules": [
+    "erp-wa-collect",
+    "erp-wa-send",
+    "erp-wa-analysis"
+  ],
+  "predecessor": {
+    "candidate": "a15054c290802420adaa8a4dd64217380d5ebbcb",
+    "run": "39996465132",
+    "counts": "31/31",
+    "repeated_here": false,
+    "application_SQL_unchanged": true
+  },
+  "positive_anchor": {
+    "id": "OW13C_NATIVE_FRESH_SAVE_REPLAY_AND_NO_PHYSICAL_FACT",
+    "repeated_from_native31": true,
+    "new_case_credit": 0
+  },
+  "new_negative_case_count": 4,
+  "expected_outcomes": {
+    "OW13C_NATIVE_CHANGED_PRODUCT_REFUSED_WITHOUT_ORPHAN": {
+      "mutation": "ADMINISTRATIVE_MASTER_FIXTURE_INACTIVE_PRODUCT",
+      "old_preview_check": "PRODUCT",
+      "old_preview_code": "CP7_PLAN_V2_PRODUCT_CHANGED",
+      "source_state": "ARCHIVED_STALE",
+      "checked_code": "CP7_CUTTING_SUGGESTION_SOURCE_CHANGED",
+      "sqlstate": "40001"
+    },
+    "OW13C_NATIVE_PAUSED_POLICY_REFUSED_WITHOUT_ORPHAN": {
+      "mutation": "ACTUAL_PUBLIC_POLICY_CAS_PAUSED",
+      "old_preview_check": "POLICY",
+      "old_preview_code": "CP7_PLAN_V2_POLICY_CHANGED",
+      "source_state": "ARCHIVED_STALE",
+      "checked_code": "CP7_CUTTING_SUGGESTION_SOURCE_CHANGED",
+      "sqlstate": "40001"
+    },
+    "OW13C_NATIVE_CURRENT_SHARED_MATERIAL_REFUSED_WITHOUT_ORPHAN": {
+      "mutation": "ACTUAL_OTHER_TARGET_UNPOSTED_NATIVE_CUTTING_DRAFT_6_OF_ROLL10",
+      "analysis_captured_after_mutation": true,
+      "source_state": "UNCHANGED",
+      "selected_issued": "6",
+      "native_available": "10",
+      "linked_native_draft_qty": "6",
+      "free_for_new_plan": "4",
+      "old_archive_save_code": "CP7_PLAN_SHARED_MATERIAL_BUDGET_CHANGED",
+      "checked_code": "CP7_PLAN_SHARED_MATERIAL_BUDGET_CHANGED",
+      "sqlstate": "40001"
+    },
+    "OW13C_NATIVE_CURRENT_SHARED_CAPACITY_REFUSED_WITHOUT_ORPHAN": {
+      "mutation": "ACTUAL_OTHER_TARGET_UNPOSTED_NATIVE_CUTTING_DRAFT_USES_SHARED_CENTRE",
+      "analysis_captured_after_mutation": true,
+      "source_state": "UNCHANGED",
+      "selected_fits_snapshot_need_and_capacity": true,
+      "selected_exceeds_current_remaining_capacity": true,
+      "old_preview_check": "CAPACITY",
+      "old_preview_code": "CP7_PLAN_V2_CAPACITY_USED",
+      "checked_code": "CP7_PLAN_V2_CAPACITY_USED",
+      "sqlstate": "40001"
+    }
+  },
+  "refusal_invariants": [
+    "NO_NEW_PLAN_DRAFT_INTENT_RECEIPT_OR_CUTTING_GROUP",
+    "ALL_EXISTING_ERP_PLATFORM_AUTH_ROWS_UNCHANGED",
+    "NO_PHYSICAL_STOCK_MONEY_OR_HPP_CHANGE"
+  ],
+  "full_OW13c_acceptance": false,
+  "full_A_chain_qualified": false,
+  "checked_save_races_qualified": false,
+  "checked_save_browser_qualified": false,
+  "caller_backup_restore_qualified": false,
+  "production_go": false,
+  "limits_raised": false,
+  "remaining": [
+    "WIP_UNKNOWN_ON_ACTUAL_CHECKED_ROUTE",
+    "ACTUAL_CHECKED_SAVE2000_UNDER8S",
+    "AFTER_USE_BACKUP_RESTORE",
+    "A_DEFAULT_INTEGRATION_REGISTRY_TYPES_GLOBAL_CENSUS_AND_FULL_CHAIN"
+  ]
+}
