@@ -1,5 +1,23 @@
 # Ambil alih hasil produksi B —23 Oktober2026 WIB
 
+**Status terbaru: kode a3bf8842 sudah dipush; dua run v6 belum punya hasil.**
+Native25 [39939451330](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39939451330)
+/job120367011308 dan Native19
+[39939451231](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39939451231)
+/job120367010911 memakai kandidat tepat
+`a3bf88427fe7eb243ace02f2102ce0a5195d3b7e`, tree
+`68c6d2b89d699f44d4614b08d2b04ff57303810e`. Jangan menyalin PASS kandidat lama
+ke v6. [Perubahan v6 dan35+9+65 bukti lokal](../d17-14/ow10/BOUNDED_CAPTURE_V6.md).
+
+**Pemeriksaan berikut sudah ditulis, belum dijalankan:** Native31 menahan
+seluruh25 ID lama, menambah4 race checked-save dan2 perjalanan layar nyata.
+Dua pengguna memakai UUID sama/revisi sama, akses/stok berubah sesudah lock
+benar-benar menunggu; desktop mengedit jumlah lalu menolak stok berubah;
+HP memutus pengiriman jawaban setelah server commit, membuka panel rencana
+biasa dan mengulang UUID/payload/jalur checked yang tepat. Deklarasi31 terpisah;
+Native25 tidak dilonggarkan/dilabel ulang. [Status dan langkah](../d17-14/ow13c/NATIVE31_README.md).
+
+
 **Run OW13c pertama selesai24/25:** kandidat bf98947e/tree8900f4c0,
 [run39933288875](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39933288875),
 job120346584940. Enam checked-save baru (4 Native/2 Auth) PASS; satu volume ROP
@@ -9,7 +27,7 @@ B memperbaiki source agar tidak membuat prefix stok50001 yang langsung dibuang;
 jumlah lengkap tetap dari SQL seluruh stok, batas/oracle tetap. Race/browser
 yang ditahan masih OW10, bukan bukti checked-save. [Batas Native25](../d17-14/ow13c/NATIVE25_README.md).
 
-**Kode B terbaru cbb74b2b** (treee2a3ddb7): OW13c saran potong sekarang
+**Checkpoint kode OW13c cbb74b2b** (treee2a3ddb7): OW13c saran potong sekarang
 terhubung ke panel/mesin rencana yang sama di Buat Potongan, dengan jalur SAVE
 baru yang memeriksa sumber/kelayakan sebelum dan sesudah writer.11 SQL lokal,
 91 klien/DOM pada8 berkas, TypeScript, pemeriksa sumber serta API/invers22 lokal
@@ -74,13 +92,15 @@ peringatan. Stok diperiksa baru tiap hitungan, termasuk saat server sibuk.
 Klien/pengingat v2 menerima PCS teks persis, kandidat bersyarat, waktu stok/
 aturan/analisis dan referensi manual versi lama; klien v1 tetap kompatibel.
 
-**Bukti caller baru masih lokal:**35/35 inputs/cache/evaluate,9/9 alur caller
+**Checkpoint lokal caller sebelum Native19 di atas:**35/35 inputs/cache/evaluate,9/9 alur caller
 (public RPC SQL dan reader Native aktual, fakta ERP/akses/lower source terkontrol),
 9/9 reader suplai dan65/65 klien/DOM. Empat API installer22/invers/reapply serta
 penolakan setelah pakai sebelum DDL lulus; TypeScript dan owning-source beku
 PASS. Source registry tetap7 gap lama milik A, tidak ada endpoint baru.
-Native133 di atas **tidak memasang input/cache/caller ini**; Auth/dua pengguna/
-layar Native/pasang-pulih seluruh rantai A dan SLA masih terbuka. Parent5/16.
+Native133 di atas **tidak memasang input/cache/caller ini**. Native19 d5997235
+kemudian membuktikan caller/Auth/dua pengguna/layar dan volume sintetis yang
+tercantum di header. V6 baru masih menunggu dua run aktual di header;
+pasang-pulih seluruh rantai A/factory3600 tetap terbuka. Parent5/16.
 
 [Kontrak caller, API A, beda angka dan langkah lanjut](../d17-14/ow10/REORDER_CALLER_CONTRACT.md).
 A memegang komposisi inputs → cache → caller setelah tahap B yang diperlukan;

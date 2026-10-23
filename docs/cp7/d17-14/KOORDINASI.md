@@ -523,3 +523,17 @@ pembentukan prefix stok50001 yang dibuang sebelum memakai summary SQL lengkap.
 Native source asli/frozen9, kernel, angka/oracle dan batas tidak diubah;
 dua helper turunan hanya menghindari serialisasi setelah overflow terbukti.
 V6 sedang diuji lokal dan belum dikualifikasi Native. Parent5/16 tetap.
+
+## 22 — v6 berjalan; checked-save race/browser disiapkan (23 Okt WIB) [bersama]
+
+B mendorong inputs v6 pada a3bf8842/tree68c6d2b8. Dua run nyata: Native25
+39939451330/job120367011308 dan Native19 39939451231/job120367010911.
+Belum ada kesimpulan v6. Bukti pertama Native25 bf98947e tetap24/25, enam
+kasus checked baru PASS; batas8s/3s dan seluruh sumber stok tetap.
+
+B menulis kontrak Native31 terpisah, seluruh25 lama tetap ditahan dengan6
+kontrol tambahan:4 actual-backend race dan2 actual-browser checked-save.
+Saat catatan ini dibuat hanya sintaks/import/deklarasi yang lulus; kontrol
+belum dijalankan di server. Jangan mengaku Native25 sudah membuktikan race/
+browser checked-save. [Rincian](ow13c/NATIVE31_README.md). Tidak ada perubahan
+berkas bersama A/bundle/tipe/registry atau keputusan owner. Parent5/16.
