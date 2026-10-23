@@ -99,6 +99,18 @@ describe('other refusals of the return settlement and the shared client error pa
     expect(creditRefusalMessage('CP7_CREDIT_SOMETHING_NEW', null)).toBe('Permintaan ini ditolak oleh pemeriksaan saldo kredit (kode CP7_CREDIT_SOMETHING_NEW). '
       + 'Muat ulang invoice dan periksa lagi; bila tetap muncul, beri tahu admin dengan kode CP7_CREDIT_SOMETHING_NEW.')
   })
+  it('names the second-return refusals of slice B with their next step', () => {
+    for (const code of ['CP7_CREDIT_MULTI_PRIOR_FAMILY_UNRECONCILED', 'CP7_CREDIT_MULTI_PRIOR_EXCESS_NOT_RECOGNIZED']) {
+      const text = creditRefusalMessage(code, null)!
+      expect(text).toContain('saldo kredit dari retur sebelumnya pada invoice ini belum tercatat lengkap')
+      expect(text).toContain('Langkah berikutnya: muat ulang invoice')
+      expect(text).toContain(`beri tahu admin dengan kode ${code}.`)
+      expect(text).not.toContain(GENERIC)
+    }
+    expect(creditRefusalMessage('CP7_CREDIT_MULTI_BEFORE_EVENTS_NOT_EXACT', null)).toBe('Riwayat invoice berubah saat retur diperiksa '
+      + '(ada pembayaran atau retur lain yang baru tercatat). Muat ulang invoice, lalu periksa lagi.')
+    expect(normalizeClientError({code:'P0001', message:'CP7_CREDIT_MULTI_PRIOR_FAMILY_UNRECONCILED'}).code).toBe('REJECTED')
+  })
   it('leaves other codes and free text to their own mappers', () => {
     expect(creditRefusalMessage('CP7_CASH_NEGATIVE: saldo Bank (B1) menjadi minus -200.00', null)).toBeNull()
     expect(creditRefusalMessage('PRIVATE SQL secret', null)).toBeNull()
