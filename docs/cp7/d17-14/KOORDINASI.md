@@ -628,3 +628,23 @@ no orphan/direct-table/dynamic-RPC, semua oracle lain dipertahankan.
 ini kesiapan patch, bukan kelulusan integrasi A. Berkas shared A byte-identik
 terhadap HEAD. A head yang dibaca tetap f898a71fc13654d217f987949f126290083a0225.
 Native31 kandidat16a0aeb0/run39993639712 tetap sedang berjalan.
+
+
+## 29 — seluruh checked-save baru PASS;3 jam fixture OW10 dibetulkan (24 Okt WIB) [bersama]
+
+16a0aeb0/run39993639712/job120551431684 terminal INCOMPLETE28/31:
+13 Native/7 race/4 Auth/4 browser PASS, seluruh12 checked-save baru PASS.
+Desktop pesan spesifik sekarang benar; HP exact ordinary-reopen tetap PASS.
+Volume7710/2952/2943ms PASS,8s/3s utuh. Tiga kegagalan lama OW10 berasal
+contoh stok08:00WIB hari ini saat jam database baru00:23–00:27WIB:
+FG_UNSOURCED_PHYSICAL_AT_FUTURE.31 ID/hash,28 sumber,8 invers22,
+10 authority dan restore/advisor tepat. Receipt16a0aeb-native31-28-clock.json;
+Original/log lengkap disimpan, bukan diganti receipt atau dihitung lulus.
+
+Fix1ba69eaa hanya2 berkas fixture B. item() mendapat stock_hour opsional,
+default08 tetap; configured OW10 memilih00 hanya bila stock_day==today,
+dua found hari ini memilih00. Tanggal/jumlah/cache/stale/busy-low oracle,
+penolakan masa depan, clock DB dan kode produk tetap. Tidak mengubah Native,
+source SQL/registry A atau batas performa. Kandidat a15054c290802420adaa8a4dd64217380d5ebbcb/
+tree63918f4b, run39996465132/job120561154474 aktual berjalan. Parent5/16;
+fullOW13c/after-use/data besar/OW11/bridge3600/rantai A/audit tetap OPEN.

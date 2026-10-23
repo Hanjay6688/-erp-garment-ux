@@ -1,20 +1,21 @@
 # Ambil alih produksi/perencanaan B —24 Oktober2026 WIB
 
-**Baca status ini sebelum catatan lama.** Kode B ada di `astra/d17-14-produksi`.
-Kandidat terbaru `16a0aeb0270eed29239668a94678c59221507e46`, tree
-`3c312602826defd8944666da0123540edd54bdff`, sedang diuji pada
-[Native31 run39993639712](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39993639712),
-job120551431684. Perbaikan pesan5b6ca459 lulus160 uji aplikasi/TypeScript.
-Hasil31 kandidat terbaru belum tersedia; jangan menyebutnya PASS.
+**Status terbaru sebelum membaca arsip:** B di `astra/d17-14-produksi`.
+Kandidat `a15054c290802420adaa8a4dd64217380d5ebbcb`, tree
+`63918f4bf582832203784673c855ccab69ac6b70`, sedang diuji pada
+[Native31 run39996465132](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39996465132),
+job120561154474. Hasil belum tersedia. Produk aplikasi tetap5b6ca459;
+perubahan1ba69eaa hanya waktu contoh positif3 jalur uji OW10.
 
-**Hasil terverifikasi terakhir:** df6bd877 selesai INCOMPLETE30/31:
-15/15 Native,8/8 race,4/4 Auth,3/4 browser. Volume2000/202000 lulus
-7589/2831/2851ms, batas8s dan dua hangat≤3000ms tetap; pemulihan HP PASS.
-Desktop ditolak server dengan benar, tetapi pesan spesifik ditimpa pesan
-umum di layar. Adapter/panel B kini menjaga pesan serta objek error asli,
-ketidakpastian replay dan kunci sesudah refresh gagal. Native25/19 a3bf8842
-PASS hanya pada kandidat itu; Native31 pertama44afe80b tetap28/31.
-**Parent tetap5/16.** Full OW13c, rantai A, audit, CP7C dan production_go terbuka.
+**Hasil terakhir terverifikasi:**16a0aeb0=INCOMPLETE28/31,13 Native/7 race/
+4 Auth/4 browser PASS. Seluruh12 checked-save baru lulus termasuk pesan
+penolakan desktop dan pemulihan HP. Volume2000/202000 7710/2952/2943ms
+PASS, batas8s/3s tetap. Tiga gagal karena stok contoh08:00WIB hari ini
+masih masa depan ketika uji00:23–00:27WIB. Contoh positif itu kini00:00;
+tanggal/jumlah/oracle/penolakan masa depan Native tidak berubah. Data contoh
+lain tetap default08. Sebelumnya df6bd87730/31,44afe80b28/31; semuanya
+immutable dan melekat kandidatnya. Native25/19 a3bf8842 PASS tersendiri.
+**Parent5/16; full OW13c/rantai A/audit/CP7C/production_go tetap OPEN.**
 
 ## Tujuan dan sumber konteks
 
@@ -41,7 +42,7 @@ Sumber yang wajib dibaca saat mengambil alih:
   [selesai untuk diuji](../d17-14/SELESAI_UNTUK_DIUJI.md),
   [koordinasi](../d17-14/KOORDINASI.md): konteks keputusan/status lengkap,
   permintaan pemilik berkas dan bukti per butir. Entri awal koordinasi adalah
-  riwayat, bukan status terbaru; bagian27 mencatat hasil terbaru sesi ini.
+  riwayat, bukan status terbaru; bagian29 mencatat hasil terbaru sesi ini.
 - [Praktik ERP](../../ERP_BEST_PRACTICES.md): append-only, idempotensi, current
   access sesudah wait/response, latest corrected wins, dua sumbu tanggal,
   transaksi/envelope lintas modul atomik, draf tidak authoritative, UNKNOWN≠0.
@@ -82,7 +83,7 @@ ditulisi sesi B ini. Semua kiriman WA pengujian memakai layanan palsu.
 | OW10 caller pengingat | Native19 dan25 a3bf8842 PASS; manual25 hanya mengganti pemicu, tidak mengganti target/jumlah; free stock selalu dibaca baru, kandidat tidak mematikan peringatan. | V7 volume PASS pada df6bd87730/31; seluruh paket31 kandidat pesan terbaru belum tersedia. Jadwal stok tiap menit, pasang/pulih setelah dipakai dan rantai A. |
 | OW12b sambungan ke angka A | `cp7_analysis_finance_bridge`;10 kelompok SQL/installer22 lokal, klien/DOM. Operasional tampil dulu; uang resmi, belum READY bukan0; header mengikat capture. A punya komponen OW12a Native7 terpisah. | Native B→A, angka sama, waktu sebelum/sesudah±3600 barang. Native7 A bukan bukti sambungan B. |
 | OW13a analisis awal | `cp7_initial_analysis_stage`; Native126 PASS: minimum konfigurasi, belum siap/siap sekali/tidak diulang, UUID/revokasi/hilang-jawaban/HP. Tidak menunggu WA dikonfigurasi. | Callback Master/jadwal K4/analisis rutin dipasang A; tick alat uji bukan bukti cron terpasang. |
-| OW13c saran potong | Mesin/panel staged sama di Buat Potongan, SKU/ukuran/periode/WIB/waktu/alasan, jumlah dapat diedit; Native25 memberi4 Native+2 Auth baru PASS. Native31 pertama memberi4 race checked-save PASS. | HP dan volume V7 PASS; pesan penolakan desktop diperbaiki dan seluruh31 sedang diuji pada16a0aeb0. SAVE skala2000/8s, after-use backuprestore dan rantai A belum terbukti. |
+| OW13c saran potong | Mesin/panel staged sama di Buat Potongan, SKU/ukuran/periode/WIB/waktu/alasan, jumlah dapat diedit; Native25 memberi4 Native+2 Auth baru PASS. Native31 pertama memberi4 race checked-save PASS. | Seluruh12 checked-save baru PASS pada16a0aeb0; paket28/31 karena3 jam fixture OW10. Kandidat waktuWIB a15054c2 sedang diuji31. SAVE skala2000/8s, after-use backuprestore dan rantai A belum terbukti. |
 | OW11a model | Cara dasar dan profil statistik ada; riwayat pendek dapat tetap UNKNOWN/fallback dengan alasan. | Pemilihan metode, backtest/pembanding dan aktivasi yang terbukti lebih baik belum selesai. Jangan menyamakan keberadaan profil dengan fitur ini lengkap. |
 | OW11b produk baru | Kebutuhan/kontrak owner tercatat. | Saran kandidat pembanding, alasan kemiripan, konfirmasi/pilihan pengguna, label analog dan keadaan data kurang belum selesai. |
 
@@ -94,7 +95,8 @@ ditulisi sesi B ini. Semua kiriman WA pengujian memakai layanan palsu.
 | a3bf8842/tree68c6d2b8 | [Native19 PASS](../d17-14/ow10/a3bf884-native19-pass.json), run39939451231/job120367010911:11/4/2/2.7 invers22,24 sumber,6 authority dan seluruh gate tepat.6305/2697/2733ms. Semua19 bertumpang tindih dalam25, bukan44 kontrol baru. |
 | 44afe80b/treef0a8ac6e | [Native31 pertama28/31](../d17-14/ow13c/44afe80-first-native31-28.json), run39941715921/job120374491985. Native14/15,race8/8,Auth4/4,browser2/4; restore/advisor benar. Volume7409/3150/3122ms; desktop salah harapan HTTP; HP memeriksa status terlalu awal. |
 | df6bd877/tree55ee4091 | [Native31 V7 30/31](../d17-14/ow13c/df6bd87-native31-30.json), run39945772181/job120387939390.15/8/4/3 PASS; volume7589/2831/2851ms dan HP PASS. Desktop pesan salah; server tetap menolak tepat500/40001/sumber berubah.28 source/8 invers22/10 authority/restore/advisor tepat; writer_runtimefalse. |
-|16a0aeb0/tree3c312602 | [Native31 perbaikan pesan sedang berjalan](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39993639712), job120551431684. Seluruh31 ID dan batas8s/3s tetap; hasil belum tersedia. |
+|16a0aeb0/tree3c312602 | [Native31 28/31, jam fixture](../d17-14/ow13c/16a0aeb-native31-28-clock.json), run39993639712/job120551431684.13/7/4/4 PASS; seluruh12 checked-save baru dan volume7710/2952/2943ms PASS.3 fixture stok08:00WIB masih masa depan pada00:23WIB; Native tetap menolak. |
+|a15054c2/tree63918f4b | [Native31 perbaikan waktuWIB berjalan](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39996465132), job120561154474.31 ID/batas8s/3s utuh; hasil belum tersedia. |
 
 V7 tidak mengganti rumus atau membuang fakta. Agregat stok/saldo awal,
 normalisasi availability/hash, ref/jam, set identitas/statistik caller dibuat
@@ -169,8 +171,9 @@ Shared file A tidak ditulis; A tetap menerapkan, membuat tipe dan menguji rantai
 
 ## Langkah penerus yang persis
 
-1. Baca hasil run39993639712/job120551431684 pada16a0aeb0 dan unduh
-   complete Original JSON+log. df6bd877 sudah dicatat30/31, jangan diulang. Cocokkan
+1. Baca hasil run39996465132/job120561154474 padaa15054c2 dan unduh
+   complete Original JSON+log.16a0aeb0 sudah dicatat28/31 karena jam fixture,
+   df6bd87730/31 karena pesan layar; jangan mengulang kandidat lama. Cocokkan
   31 ID/status/deklarasi,28 sumber,8 invers22,10 authority copy dan gate;
    catat image layanan uji. Jangan mengulang Native19/25 lama untuk hijau.
 2. Bila gagal, simpan hasil pertama lengkap sebelum perbaikan. Batas8s dan
