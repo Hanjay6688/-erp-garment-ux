@@ -9,7 +9,10 @@ irisan A, B, C) di salinan database sekali pakai. Tidak menyentuh database hoste
 - `SOURCE.json`: sidik jari berkas dan laporan asli irisan C (masih `PENDING_OW04BC_*` sampai irisan C lulus; sampai itu
   workflow berhenti di langkah ambil laporan, sebelum database dinyalakan).
 - `EXPECTED_CHAIN_STEPS.json`: langkah rantai dari rencana bagian 4. Langkah bertanda `TODO` belum ditulis; selama masih
-  ada, laporan tidak boleh PASS.
+  ada, laporan tidak boleh PASS. Setiap langkah memakai panggilan dan pemeriksaan dari berkas kasus tahapnya sendiri, dan
+  berjalan sesudah cek "sudah dipakai" ditolak, sebelum database dicadangkan (lalu dicek lagi di database hasil pulih).
+- Catatan lingkup (`scope_notes`): pembacaan status tahap B **belum** jadi langkah wajib, karena B belum di rantai;
+  ditambah saat tahap B masuk. Catatan ini ikut tercetak di setiap laporan.
 
 Yang diperketat dibanding P21 OW05: cek piutang lama dan `CP7_CUSTOMER_CREDIT_REPORT_UNPROVEN` harus semuanya
 `('CRITICAL',0)`. Batas lama 2/3/1 tetap tersimpan sebagai riwayat di
