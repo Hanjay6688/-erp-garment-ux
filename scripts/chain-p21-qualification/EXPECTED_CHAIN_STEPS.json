@@ -1,0 +1,77 @@
+{
+ "contract": "ow15.chain-p21.expected-chain-steps.v1",
+ "plan": "docs/cp7/d17-14/ow15/RENCANA_OW15.md section 4 (CHAIN_STEPS)",
+ "rule": "Every step listed here must be recorded PASS by cp7_p21_current_chain_rehearsal_probe.py; a TODO step keeps the report from PASS. Oracles of the stages are not changed.",
+ "steps": [
+  {
+   "id": "OW07_ATTENDANCE_POOLS_ACTIVE_BEFORE_E01",
+   "stage": "OW07 (cp7_hpp_close)",
+   "status": "IMPLEMENTED",
+   "expect": "Before the unchanged E01 READY assertions: every ATTENDANCE_POOL_NOT_ACTIVE period of the data copy is divided through the Native HPP pool facade (preview READY, CREATE, ACTIVATE; reason labelled P21 RANTAI FIXTURE) and none remains; a missing contractor policy refuses (labelled fixture policy step still to be written if it ever appears).",
+   "calls": "cp7_r3_hpp_pool_cases.owner/read/save/create_body/pool_body/facade_pool, as scripts/cp7_hpp_close/cases.py attendance_pool()"
+  },
+  {
+   "id": "OW08A_AR_AND_CREDIT_REPORT_CHECKS_ZERO",
+   "stage": "OW08a (cp7_report_credit)",
+   "status": "IMPLEMENTED",
+   "expect": [
+    [
+     "CP7_CUSTOMER_CREDIT_REPORT_UNPROVEN",
+     "CRITICAL",
+     0
+    ],
+    [
+     "V2620H_CUSTOMER_AR_BY_CUSTOMER_MISMATCH",
+     "CRITICAL",
+     0
+    ],
+    [
+     "V2620H_CUSTOMER_AR_STATUS_MISMATCH",
+     "CRITICAL",
+     0
+    ],
+    [
+     "V268_AR_GL_SUBLEDGER_MISMATCH",
+     "CRITICAL",
+     0
+    ]
+   ],
+   "when": "before OW04 credit use and after actual credit use; history docs/cp7/d17-14/ow04/p21-36a6b880-readiness-boundary.json (2/3/1) unchanged"
+  },
+  {
+   "id": "OW06_TRANSFER_400_600_RESTORE_REPLAY_REVERSE",
+   "stage": "OW06 (cp7_supplier_transfer)",
+   "status": "TODO",
+   "expect": "transfer 400 + 600 committed, equal after restore, one replay gives one effect, full reversal",
+   "todo": "TODO: facade calls not yet confirmed from the stage cases; write this step from scripts/cp7_supplier_transfer/cases.py (same calls, same oracles) before the chain P21 can PASS."
+  },
+  {
+   "id": "KASBON_FGQC_RESOLVE_SAME_AFTER_RESTORE",
+   "stage": "kasbon + fgqc (cp7_kasbon_source, cp7_fg_correction_source)",
+   "status": "TODO",
+   "expect": "cp7_transaction_source.resolve gives the same answer on the source and the restored database for a kasbon and an FG reversal row",
+   "todo": "TODO: facade calls not yet confirmed from the stage cases; write this step from scripts/cp7_kasbon_source/cases.py and scripts/cp7_fg_correction_source/cases.py (same calls, same oracles) before the chain P21 can PASS."
+  },
+  {
+   "id": "OW12A_SEALED_CAPTURE_EQUALS_FINANCE_REPORT",
+   "stage": "OW12a (cp7_finance_capture)",
+   "status": "TODO",
+   "expect": "a sealed capture has the same figures as the finance report on the same state, before and after restore",
+   "todo": "TODO: facade calls not yet confirmed from the stage cases; write this step from scripts/cp7_finance_capture/cases.py (same calls, same oracles) before the chain P21 can PASS."
+  },
+  {
+   "id": "WASH_UNKNOWN_PRICE_HOLDS_CLOSE_UNTIL_PRICED_ONCE",
+   "stage": "wash (cp7_laundry_unknown_wash)",
+   "status": "TODO",
+   "expect": "failed wash with unknown vendor price holds close; the price set once releases it",
+   "todo": "TODO: facade calls not yet confirmed from the stage cases; write this step from scripts/cp7_laundry_unknown_wash/cases.py (same calls, same oracles) before the chain P21 can PASS."
+  },
+  {
+   "id": "STAGE_B_STATUS_READS_SAME",
+   "stage": "stage B (OW16 status)",
+   "status": "TODO",
+   "expect": "status reads the same",
+   "todo": "TODO: stage B is not in the chain yet (plan section 3 row 12+); add when it is."
+  }
+ ]
+}
