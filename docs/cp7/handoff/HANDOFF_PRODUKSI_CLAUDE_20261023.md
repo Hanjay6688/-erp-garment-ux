@@ -1,22 +1,30 @@
 # Ambil alih hasil produksi B —23 Oktober2026 WIB
 
-**Status terbaru: kode a3bf8842 sudah dipush; dua run v6 belum punya hasil.**
+**Checkpoint terbaru sudah PASS: Native25 dan Native19 pada a3bf8842.**
 Native25 [39939451330](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39939451330)
-/job120367011308 dan Native19
+/job120367011308 tepat25/25 (15/4/4/2); Native19
 [39939451231](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39939451231)
-/job120367010911 memakai kandidat tepat
+/job120367010911 tepat19/19 (11/4/2/2). Kandidat
 `a3bf88427fe7eb243ace02f2102ce0a5195d3b7e`, tree
-`68c6d2b89d699f44d4614b08d2b04ff57303810e`. Jangan menyalin PASS kandidat lama
-ke v6. [Perubahan v6 dan35+9+65 bukti lokal](../d17-14/ow10/BOUNDED_CAPTURE_V6.md).
+`68c6d2b89d699f44d4614b08d2b04ff57303810e`. Seluruh ID/status/deklarasi,
+24/28 berkas sumber, tujuh/delapan invers22,6 authority setiap run,
+restore/advisor dan lima gate paket cocok. Volume sintetis2000/202000:
+Native25 6133/2663/2679ms; Native19 6305/2697/2733ms. Batas8s/hangat3s
+utuh. [Receipt25](../d17-14/ow13c/a3bf884-native25-pass.json),
+[receipt19](../d17-14/ow10/a3bf884-native19-pass.json).
 
-**Pemeriksaan berikut sudah ditulis, belum dijalankan:** Native31 menahan
-seluruh25 ID lama, menambah4 race checked-save dan2 perjalanan layar nyata.
-Dua pengguna memakai UUID sama/revisi sama, akses/stok berubah sesudah lock
-benar-benar menunggu; desktop mengedit jumlah lalu menolak stok berubah;
-HP memutus pengiriman jawaban setelah server commit, membuka panel rencana
-biasa dan mengulang UUID/payload/jalur checked yang tepat. Deklarasi31 terpisah;
-Native25 tidak dilonggarkan/dilabel ulang. [Status dan langkah](../d17-14/ow13c/NATIVE31_README.md).
+**Kontrol checked-save dua backend/layar masih berjalan:** kode kontrol802d7b0d,
+kandidat lengkap `44afe80bbf9dbc1ac61162b97daa701ca56993f6`/treef0a8ac6e,
+[Native31 run39941715921](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39941715921),
+job120374491985. Seluruh25 lama ditahan, ditambah4 race checked-save dan2
+browser nyata. Desktop mengedit jumlah dan menolak stok berubah; HP memutus
+jawaban setelah server commit lalu membuka panel rencana biasa, UUID/payload/
+jalur checked tetap persis. Belum ada hasil Native31; jangan melabel race/
+browser OW10 pada Native25 sebagai checked-save. [Kontrak/status](../d17-14/ow13c/NATIVE31_README.md).
 
+**Batas:** ini komponen B, parent5/16. Full OW13c, ujung komposisi A,
+backup/restore caller setelah dipakai, factory3600 dan audit tetap OPEN.
+Native19/25 bertumpang tindih; tidak dijumlah menjadi44 kontrol baru.
 
 **Run OW13c pertama selesai24/25:** kandidat bf98947e/tree8900f4c0,
 [run39933288875](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39933288875),
@@ -31,8 +39,8 @@ yang ditahan masih OW10, bukan bukti checked-save. [Batas Native25](../d17-14/ow
 terhubung ke panel/mesin rencana yang sama di Buat Potongan, dengan jalur SAVE
 baru yang memeriksa sumber/kelayakan sebelum dan sesudah writer.11 SQL lokal,
 91 klien/DOM pada8 berkas, TypeScript, pemeriksa sumber serta API/invers22 lokal
-lulus. **Enam Native/Auth baru lulus pada run di atas; paket keseluruhan, dua
-backend checked-save/browser/pemulihan/rantai A belum lulus.** Boundary
+lulus. **Native25 lengkap kini PASS di header; dua backend checked-save/browser/
+pemulihan pada Native31 serta rantai A belum punya hasil.** Boundary
 plan source/preflight/writer pada SQL lokal terkontrol, bukan perjalanan Native.
 [Kontrak, API dan langkah berikut](../d17-14/ow13c/README.md).
 Ini tambahan setelah kandidat Native19 di bawah, bukan bagian run Native19.
@@ -99,7 +107,7 @@ penolakan setelah pakai sebelum DDL lulus; TypeScript dan owning-source beku
 PASS. Source registry tetap7 gap lama milik A, tidak ada endpoint baru.
 Native133 di atas **tidak memasang input/cache/caller ini**. Native19 d5997235
 kemudian membuktikan caller/Auth/dua pengguna/layar dan volume sintetis yang
-tercantum di header. V6 baru masih menunggu dua run aktual di header;
+tercantum di header. V6 kemudian juga PASS pada dua run aktual di header;
 pasang-pulih seluruh rantai A/factory3600 tetap terbuka. Parent5/16.
 
 [Kontrak caller, API A, beda angka dan langkah lanjut](../d17-14/ow10/REORDER_CALLER_CONTRACT.md).
@@ -140,7 +148,7 @@ Ini kualifikasi penulis atas komponen/basis beku, **bukan** ujung rantai A atau 
 | OW13a awal otomatis | Tahap4 fungsi privat/1 tabel dan2 hook, status minimum/tombol profil/UUID server. Lokal11 kelompok SQL +197 klien/DOM; invers/admission22 lokal. Native126 PASS pada d9918e4b,68/36/9/13 dengan ID tepat; invers22/restore/advisor/paket lulus. Callback Master/jadwal/rantai A masih OPEN. |
 
 Checkpoint terdahulu224/224 klien/DOM pada15 berkas lulus; tambahan terbaru197/17 berkas dan
-42/5 berkas terfokus lulus. TypeScript/CSS lulus. Build penuh kini tertahan7 pasangan registry
+42/5 berkas terfokus lulus. TypeScript/CSS lulus. Checkpoint build/source gate sebelumnya tertahan7 pasangan registry
 milik A (3 MandorCorrection baseline,3 OW16,1 pemanggil awal); patch pengganti enam lama di
 [SHARED_INTEGRATION.patch](../d17-14/ow13a/SHARED_INTEGRATION.patch). Salinan sementara dengan
 patch tepat itu lulus source gate; berkas bersama dan penjaga aslinya tidak diubah B.
@@ -166,7 +174,7 @@ Kontrak/permintaan sebelum caller ada di [KOORDINASI](../d17-14/KOORDINASI.md) b
 6. Integrasikan frontend yang cocok, jalankan source gate, Native gabungan/pasang-pulih pada satu
    kandidat, lalu bekukan paket bagi Fable/Sol. Bukti lokal tidak menggantikan langkah ini.
 
-Sumber A terbaru dibaca197fb3fc: kontrak privat OW12a dan fungsi angka tetap
+Checkpoint sumber A sebelumnya197fb3fc: kontrak privat OW12a dan fungsi angka tetap
 sama dengan b91a60b/16bf8e56; perubahan komposisi A hanya mengakui RI_FKey
 bawaan yang tepat. A mencatat Native7/7 PASS efa800cd/run39886155240; itu bukti
 komponen A, belum sambungan B/rantai OW15 atau factory3600. Pembanding periode A sudah memakai
@@ -195,8 +203,9 @@ dalam payload immutable. Buka ulang di halaman rencana biasa tetap mengirim
 request checked yang sama. Jangan merutekan menurut layar/prop saja, menghapus
 marker atau menghilangkan pemeriksaan bukti respons. Kontrak arsip lama tetap.
 
-Langkah berikut: baca hasil run Native25 di atas dan simpan Original/failure
-pertama. Kualifikasi ini memasang modul baru di atas komposisi B yang tepat.
+Langkah berikut: baca hasil Native31 di header; Native25 dan kegagalan
+pertamanya sudah selesai dicocokkan/disimpan. Kualifikasi memasang modul baru
+di atas komposisi B yang tepat.
 Lanjutkan kontrol source/plan/payload benar, jumlah sama, sumber/bahan/
 WIP/kapasitas berubah, dua backend dan revoke setelah lock wait, UUID/revisi,
 Auth asli, desktop/HP, hilang jawaban dan buka ulang pada rencana biasa.5 badan

@@ -1,0 +1,105 @@
+{
+  "contract": "cp7.writer-component-receipt.v1",
+  "status": "PASS",
+  "candidate": "a3bf88427fe7eb243ace02f2102ce0a5195d3b7e",
+  "tree": "68c6d2b89d699f44d4614b08d2b04ff57303810e",
+  "run_id": 39939451330,
+  "job_id": 120367011308,
+  "run_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39939451330",
+  "expected_case_count": 25,
+  "observed_case_count": 25,
+  "groups": {
+    "native": {
+      "PASS": 15
+    },
+    "races": {
+      "PASS": 4
+    },
+    "http": {
+      "PASS": 4
+    },
+    "browser": {
+      "PASS": 2
+    }
+  },
+  "exact_case_ids_statuses_and_predeclared_contract_verified": true,
+  "source_files_sha256_matched_candidate": [
+    "scripts/cp7_reorder_inputs/MANIFEST.json",
+    "scripts/cp7_reorder_inputs/__init__.py",
+    "scripts/cp7_reorder_inputs/capture.sql",
+    "scripts/cp7_reorder_inputs/capture_source.py",
+    "scripts/cp7_reorder_inputs/history.sql",
+    "scripts/cp7_reorder_inputs/points.sql",
+    "scripts/cp7_reorder_inputs/read.sql",
+    "scripts/cp7_reorder_inputs/source.sql",
+    "scripts/cp7_reorder_inputs/stock.sql",
+    "scripts/cp7_reorder_reader_stage/MANIFEST.json",
+    "scripts/cp7_reorder_reader_stage/__init__.py",
+    "scripts/cp7_reorder_reader_stage/cache.sql",
+    "scripts/cp7_reorder_caller_stage/MANIFEST.json",
+    "scripts/cp7_reorder_caller_stage/__init__.py",
+    "scripts/cp7_reorder_caller_stage/alert_row.sql",
+    "scripts/cp7_reorder_caller_stage/compute.sql",
+    "scripts/cp7_reorder_caller_stage/evaluate.sql",
+    "scripts/cp7_reorder_caller_stage/fg_source.sql",
+    "scripts/cp7_reorder_caller_stage/item_line.sql",
+    "scripts/cp7_reorder_caller_stage/refresh.sql",
+    "scripts/cp7_reorder_caller_stage/save_manual.sql",
+    "scripts/cp7_reorder_caller_stage/save_settings.sql",
+    "scripts/cp7_reorder_caller_stage/state.sql",
+    "scripts/cp7_reorder_caller_stage/workspace.sql",
+    "scripts/cp7_cutting_checked_save/MANIFEST.json",
+    "scripts/cp7_cutting_checked_save/__init__.py",
+    "scripts/cp7_cutting_checked_save/save.sql",
+    "scripts/cp7_cutting_checked_save/schema.sql"
+  ],
+  "exact_copied_authorities": 6,
+  "preuse_22_exact_stages": 8,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "five_base_package_gates_pass": true,
+  "volume_synthetic_native_only": {
+    "status": "PASS",
+    "label": "SYNTHETIC_NATIVE_TIMING_ONLY",
+    "items": 2000,
+    "movements": 202000,
+    "millis": [
+      6133,
+      2663,
+      2679
+    ],
+    "warm_limit_ms": 3000,
+    "statement_limit": "8s",
+    "no_raw_stock_truncation": true,
+    "full_boundary_restored": true,
+    "public_schema_unchanged": true,
+    "session_leaks": {
+      "advisory_locks": 0,
+      "advisory_lock_keys": [],
+      "other_sessions": []
+    },
+    "business_day": {
+      "planned": "2026-10-23",
+      "before": "2026-10-23",
+      "after": "2026-10-23"
+    }
+  },
+  "limits_raised": false,
+  "complete_Original": {
+    "artifact_id": 12496636613,
+    "bytes": 404861,
+    "sha256": "74eac0873d0a76f9a5b87fed841005a93e9ed82e7837b7176dfe88a1afc64e9a"
+  },
+  "full_artifact_id": 12496606821,
+  "first_failure_and_Original_preserved": true,
+  "checked_save_races_qualified": false,
+  "checked_save_browser_qualified": false,
+  "all_predecessor133_rerun": false,
+  "caller_afteruse_backup_restore_qualified": false,
+  "full_A_chain_qualified": false,
+  "factory3600_qualified": false,
+  "independent_audit": false,
+  "parent_done": 5,
+  "parent_total": 16,
+  "production_go": false
+}

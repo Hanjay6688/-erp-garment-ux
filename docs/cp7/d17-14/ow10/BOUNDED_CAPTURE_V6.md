@@ -1,3 +1,16 @@
+# V6 sudah lulus Native25 dan Native19
+
+Pada kandidat a3bf8842/tree68c6d2b8, dua run aktual selesai PASS:
+Native25 run39939451330/job120367011308:25/25, waktu sintetis2000/202000
+6133/2663/2679ms; Native19 run39939451231/job120367010911:19/19,
+6305/2697/2733ms. Dua hangat masing-masing tetap≤3000ms; statement8detik
+tidak berubah. Seluruh ID/status/deklarasi, sumber24/28 berkas, invers22,
+6 salinan authority masing-masing, restore/advisor/lima gate paket tepat.
+[Receipt caller](a3bf884-native19-pass.json),
+[receipt checked25](../ow13c/a3bf884-native25-pass.json).
+Ini uji sintetis kandidat tersebut, bukan jaminan waktu umum/factory3600/
+checked-save skala2000/rantai A/audit. Kegagalan pertama24/25 tetap disimpan.
+
 # V6: buang pekerjaan berulang, bukan stok atau pemeriksaan
 
 Native25 pertama bf98947e:24/25, termasuk6 checked-save baru PASS. Kontrol

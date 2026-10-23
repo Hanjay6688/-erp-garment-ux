@@ -1,9 +1,10 @@
-# Native31 — pemeriksaan tambahan sudah ditulis, belum dijalankan
+# Native31 — sedang berjalan, hasil belum tersedia
 
 Kontrak `NATIVE31_CONTRACT.json` dideklarasikan sebelum eksekusi. Seluruh
 Native25 ditahan persis:15 Native,4 race OW10,4 Auth,2 browser OW10. Ditambah
 4 race checked-save dan2 browser checked-save: total31, kelompok15/8/4/4.
-Ini bukan31 yang sudah lulus; pemeriksaan sintaks/import/deklarasi saja lulus.
+Ini bukan31 yang sudah lulus. Sintaks/import/deklarasi/4 uji clone lulus;
+eksekusi nyata sedang berlangsung.
 
 Race menggunakan dua koneksi berbeda dan barrier mulai bersama. UUID sama
 harus menghasilkan satu receipt/draf; dua revisi dari versi sama hanya satu
@@ -26,9 +27,12 @@ Flag baru pada probe bersama hanya aktif untuk entry ini; jalur Native25 tetap
 25 ID dengan race/browser OW10 saja. Semua source pins/admission22/invers,
 restore/advisor dan batas8detik/volume2000 hangat3detik dipertahankan.
 
-Kode kontrol sudah dipush pada802d7b0d; workflow Native31 sekarang terdaftar
-di `cp7-ow13c-journeys.yml`. Hasil aktual Native31 belum ada. Dua run v6 pada a3bf8842 (Native25
-39939451330; Native19 39939451231) masih berjalan saat catatan dibuat.
-Baca hasil aktual dan simpan Original/failure sebelum mengklaim lulus.
+Kode kontrol802d7b0d; kandidat `44afe80bbf9dbc1ac61162b97daa701ca56993f6`,
+treef0a8ac6e, workflow `cp7-ow13c-journeys.yml`,
+[run39941715921](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39941715921)
+/job120374491985 masih berjalan. Native25 dan Native19 pada a3bf8842 sudah
+PASS25/25 dan19/19; lihat receipt masing-masing. Bukti tersebut tidak
+mencakup6 kontrol baru ini. Baca hasil aktual dan simpan Original/failure
+sebelum mengklaim lulus.
 Full OW13c, komposisi A, backup/restore setelah dipakai, factory3600 dan
 production_go tetap terbuka; parent5/16. A tetap integrator/registry/types.

@@ -1,4 +1,20 @@
-# Kualifikasi Native25 pertama —24/25, belum lulus paket
+# Native25 PASS —25/25 pada a3bf8842
+
+Kandidat `a3bf88427fe7eb243ace02f2102ce0a5195d3b7e`, tree68c6d2b8,
+[run39939451330](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39939451330),
+job120367011308. Seluruh25 ID/status/deklarasi tepat:15 Native/4 race/4 Auth/
+2 browser. Delapan preuse/invers22,6 authority copy,28 berkas sumber terhadap
+kandidat, restore/advisor serta lima gate paket lulus. Volume sintetis2000
+produk/202000 pergerakan6133/2663/2679ms, dua hangat tetap≤3000ms. Tidak ada
+batas dinaikkan. [Receipt](a3bf884-native25-pass.json).
+
+Enam kasus checked-save baru lulus. Empat race dan dua browser pada Native25
+masih OW10; bukti checked-save baru ada pada Native31 yang masih berjalan,
+[run39941715921](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39941715921),
+kandidat44afe80b. Full OW13c/rantai A/restore caller setelah pakai/factory3600/
+audit/production_go tetap belum lulus; parent5/16.
+
+## Kegagalan pertama tetap24/25
 
 Kandidat bf98947e09e40557d5150b8f9c3dd5ec7d55ac89, tree
 8900f4c047f602334aadcc4e6df2a4d6613a1ee5, run39933288875/job120346584940
@@ -31,6 +47,6 @@ Native19 yang tidak diubah, kemudian memulihkan seluruh22 kelompok lagi.
 Setelah receipt ada, invers wajib menolak sebelum DDL. Tidak menghapus marker.
 
 Entrypoint cp7_ow13c_checked_probe.py; workflow cp7-ow13c-checked.yml.
-Run/job di atas aktual; hasil pertama tidak dilabel PASS. Seluruh Original dan
+Run/job di atas aktual; hasil pertama tetap24/25 dan rerun a3bf8842 PASS. Seluruh Original dan
 kegagalan pertama dipertahankan. Rantai A, checked-save race/browser, restore
 setelah dipakai, factory3600 dan batas SAVE Native skala besar masih terbuka.
