@@ -13,7 +13,7 @@ jendela berikutnya sekitar 2 jam 20 menit sebelum reset (pengingat 03.50 UTC). K
 Pengingat terjadwal: 20.58 UTC mode hemat (tidak memulai pekerjaan besar baru, gabung dan push semua commit
 pembantu, perbarui berkas ini), 01.10 UTC jalan normal lagi.
 
-Diperbarui: 23 Okt 2026, 01.15 UTC (08.15 WIB). Jendela kuota baru mulai sekitar 01.12 UTC, reset sekitar 06.12 UTC; mode hemat
+Diperbarui: 23 Okt 2026, 02.10 UTC (09.10 WIB). Jendela kuota baru mulai sekitar 01.12 UTC, reset sekitar 06.12 UTC; mode hemat
 sekitar 03.50 UTC. Satu dispatch OW-12a (39882795647): database sudah menyala lagi (registry melayani); gagal di langkah kasus, log sedang dibaca.
 Antrean ulang: wash, fgqc, OW06 browser, OW05b browser (`ciqueue-after-reset.log`). OW04b dan OW-09 menunggu push non-skip
 untuk mendaftarkan workflow-nya saat antrean longgar.
@@ -31,10 +31,10 @@ untuk mendaftarkan workflow-nya saat antrean longgar.
 
 | Butir | Keadaan |
 |---|---|
-| OW-12a modul angka keuangan | Native7 `47688e63` run 39847548230 berhenti dua kali di "Start disposable database": registry image menolak (ghcr.io `toomanyrequests`, public.ecr.aws `Data limit exceeded`), infrastruktur; dikirim ulang lewat antrean. Usul lanjutan: login ghcr.io dengan token run di workflow agar batas unduh lebih longgar |
-| OW-08b 2.20 cuci gagal tanpa tarif | Native11 `3c3dea91` ditolak di penerimaan sumber karena OW-09 mengubah SQL dasar yang dibekukan (`ow08/wash-native11-3c3dea91-admission-failure.json`); diulang di `03242502` (run 39849752268) |
+| OW-12a modul angka keuangan | Pasang lulus sejak `f45577cd` (5/7); dua harapan uji dibetulkan di `8438a4a7` (bandingkan angka tanpa refs; tanpa reset peran di transaksi batal); Native7 jalan ulang. Kegagalan disimpan di `ow12/` |
+| OW-08b 2.20 cuci gagal tanpa tarif | Native11 `cc5766e7`: pasang lulus, 3/11; penjaga POST penerimaan v2.6.20 kini substitusi ke-10 (hanya percobaan bertanda UNKNOWN); gabung `c6e073b5`, Native11 jalan ulang |
 | OW-06 layar transfer supplier | Browser2 `3c3dea91` berhenti di pin `src/productionRecovery.ts`; pin diperbarui `ed4818b3`; diantrekan ulang sesudah cuci gagal |
-| OW-09 urut/saring seluruh hasil | Gabungan pertama dibatalkan (`43452c27`): mengedit `scripts/cp7-src` yang dibekukan (E25j2). Pembantu membangun ulang sebagai satu tahap Native (7 pembaca + aksesori) di `claude/d17-14-ow09`; F03 combined run 39849124506 masih menguji versi lama, hasilnya hanya info |
+| OW-09 urut/saring seluruh hasil | Tahap `scripts/cp7_ow09_lists/` di cabang; Native8 `d8b0164e` berhenti di pasang (pemilik tanpa CREATE di skemanya); perbaikan `42a84b23`, Native8 jalan ulang. Layar di `claude/d17-14-ow09-stage` menunggu Native8 lulus |
 
 ## Belum selesai / berikutnya (urutan kerja)
 
