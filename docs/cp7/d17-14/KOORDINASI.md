@@ -306,3 +306,18 @@ global use guard. Marker job/budget yang terpakai mengharuskan backup/restore.
 Sembilan sumber SQL dasar tetap tepat beku dan owning source gate PASS.
 Permintaan registry7/tipe nullable/Master/jadwal K4 di bagian11 tetap berlaku.
 Parent5/16, main/kandidat audit/Enteng/WA nyata tidak disentuh, tidak ada CP7C go.
+
+## 13 — Native126 B lengkap PASS (23 Okt WIB)
+
+d9918e4b/run39893138696/job120217297227 sudah selesai dan seluruh Original
+direkonsiliasi:126/126 PASS,68 Native/36 dua pengguna/9 HTTP/13 layar, semua ID
+tepat. Target dan pemicu awal masing-masing invers22;38 salinan otoritas sama,
+restore/advisor, kelima gate paket dan backup/restore lulus. Receipt kecil di
+ow13a/d9918e4-native126-pass.json, Original/log lengkap tetap terpisah. Status
+ini menggantikan hasil124/126 di bagian12; semua kegagalan pertama dipertahankan.
+
+Kandidat tidak memasang suplai OW10 atau bridge uang. Jadwal otomatis, callback
+Master, rantai A, factory3600 dan audit independen tetap terbuka; tick worker
+pada uji layar dipanggil alat uji. B melanjutkan kualifikasi producer/reader WIP
+dan penyelarasan ROP, tanpa mengubah berkas A atau meminta keputusan yang sama.
+Parent5/16 dan batas produksi tidak berubah.
