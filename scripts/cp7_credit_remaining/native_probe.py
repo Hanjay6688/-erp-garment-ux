@@ -1,6 +1,7 @@
 """OW-04b slice A Native qualification on a disposable aligned CP6 copy (6 savepoint cases + 2 two-session races).
 
-The stage is installed over the cp7_credit_followups stage (admitted by its own probe and pins). No hosted or production
+The stage is installed over the cp7_credit_followups stage (admitted by its own probe and pins) and admits that stage's
+qualified chain Native9+Race3 original (followups over wash, OW-15 step 12). No hosted or production
 effect. The races run on fresh committed copies of the installed database (cp6_auditor_modes).
 """
 from pathlib import Path
@@ -36,8 +37,15 @@ def admitted():
     assert pins['predecessor_stage']=='cp7_credit_followups'
     assert pins['case_ids']==list(IDS)and len(IDS)==6
     assert pins['race_ids']==list(RACE_IDS)and len(RACE_IDS)==2
+    raw=Path(os.environ['OW04B_NATIVE9_RACE3_ORIGINAL_REPORT']).read_bytes();proof=pins['native_original']
+    assert proof['name']=='CP7_OW04B_CREDIT_FOLLOWUPS_NATIVE9_RACE3.json'and len(raw)==proof['bytes']and sha256(raw).hexdigest()==proof['sha256']
+    actual=json.loads(raw)
+    assert actual['label']=='CP7_OW04B_CREDIT_FOLLOWUPS_NATIVE9_RACE3'and actual['status']=='PASS'
+    assert actual['native']['counts']=={'PASS':9}and actual['races']['counts']=={'PASS':3}
+    assert actual['cp6_restored']and actual['advisor_gate']and actual['required_case_ids_pass']and actual['required_race_ids_pass']
+    assert actual['source_declaration']['OW04B_declared_source']==old['OW04B_declared_source']
     assert not subprocess.check_output(['git','-C',str(REPO),'status','--porcelain','--',str(HERE)],text=True).strip()
-    return dict(followups_stage_admission=old,OW04BA_declared_source=pins)
+    return dict(qualified_followups=proof,followups_stage_admission=old,OW04BA_declared_source=pins)
 
 
 def bind():
