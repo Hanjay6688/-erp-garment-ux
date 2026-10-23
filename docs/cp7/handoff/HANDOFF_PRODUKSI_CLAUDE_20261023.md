@@ -99,7 +99,9 @@ karena identitas salinan yang sama; Original12529931730/42007bytes/SHA
 Ia mengambil compiler Native yang sama sebelum aturan ROP, memakai query periode
 yang dipilih dan membaca seluruh stok SQL. Raw capture tetap INCOMPLETE; jalur
 input lengkap diberi kontrak tersendiri, bukan job DONE atau izin produksi.
-Native3 dideklarasikan: parity input lama,2000 produk sintetis/202000 gerakan
+Native3 [run40020162611](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/40020162611)
+kandidat `cd8e37d66117dbd120c38fa3c4378b75e8eb1439`, sumbercc64199f, sedang berjalan;
+belum hasil. Native3 dideklarasikan: parity input lama,2000 produk sintetis/202000 gerakan
 dibaca penuh tiga kali masing-masing<8s, serta overflow produk nyata ditolak.
 Sepuluh invers22 dan oracle9 lama wajib tepat. Belum ada hasil runtime; belum
 tersambung ke staged job/freshness atau checked SAVE2000. Tidak mengubah hitungan
@@ -109,8 +111,8 @@ GET memakai UUID permintaan job (`p_source_request`), SAVE memakai realrun
 UUID dariGET+marker/sourcehash/revisi/config/alasan. Native validator kerja/
 kalender/globalWIP/target lama, request/global lock, UUID/history dan sumber/
 akses sesudahwait/tulis tetap. Auth/race/browser baru,after-userestore
-serta A/default/registry/types/globalcensus masihOPEN. Srcdan9 sumberNative
-beku tidak berubah.2facadebaru dikelolaB; A memasangdefault/tipe/registry.
+serta A/default/registry/types/globalcensus masihOPEN. Sembilan sumber Native
+beku tidak berubah; frontend berubah sesuai catatan uji klien di atas.2facadebaru dikelolaB; A memasangdefault/tipe/registry.
 
 **ActualcheckedSAVE2000 masihOPEN.** Rawhistory>50000 tetapINCOMPLETE pada
 compilerlama; Native8/11hanya membuktikanmetadata. Perlu pembacaanriwayatpadat
@@ -331,3 +333,15 @@ Shared file A tidak ditulis; A tetap menerapkan, membuat tipe dan menguji rantai
   fixture/transport dan batas ada dalam receipt per folder/KOORDINASI serta
   [catatan rinci sebelum perapian](https://github.com/Hanjay6688/-erp-garment-ux/blob/486a38ea8dfe0464d890f81d5c35d8be040edd85/docs/cp7/handoff/HANDOFF_PRODUKSI_CLAUDE_20261023.md).
   Original lengkap tidak diganti dengan potongan atau dihapus saat rerun.
+
+
+### Persiapan CI tanpa unduhan repo lima kali
+
+Retry Transport10 menunjukkan empat checkout lama masing-masing perlu beberapa menit.
+Tiga workflow B terbaru kini menyiapkan satu checkout penuh auditor, lalu4 detached
+worktree pada commit yang sama persis untuk writer/harness/candidate/base.
+[Uji lokal nyata](../d17-14/ow13c/PINNED_WORKTREE_CHECK.json): semua head/tree tepat,
+index terpisah dan bersih; keempat worktree uji sudah dihapus. Tidak mengubah kode
+produk, A harness, pin, oracle, atau database. Runtime CI sesudah perubahan belum
+diukur; dua job yang sedang berjalan tetap memakai workflow lama yang beku.
+Perubahan disimpan dengan skipci agar tidak mengulang tes hanya demi warna hijau.

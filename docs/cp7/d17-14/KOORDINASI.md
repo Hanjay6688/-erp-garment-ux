@@ -833,3 +833,10 @@ Ulang Transport10 pada sumber layar terbaru sekaligus menguji akses langsung tan
 Transport ulang kandidatf1f05b8e/run40018747206/job120637496516 masih berjalan. Entry2 lama3695778b juga tertolak sebelum browser (0/2) oleh identitas salinan; receipt dan Original lengkap disimpan, tidak diulang sendiri. Perbaikan065c4df1 memakai wrapper clone authority lama tanpa mengubah oracle.
 
 B menulis helper stateless `cp7_history_bounded` dari sumber `cp7_reorder_inputs` yang dipin:2 fungsi privat/0 tabel/0 facade/0 replace. Capture Native tetap INCOMPLETE di batas stok lama, input SQL lengkap mempunyai kontrak terpisah dengan status raw tetap. Query periode eksplisit tidak meminjam aturan periode/ROP owner. Tidak membuat job/DONE/kuantitas produksi. Native3 baru dideklarasikan untuk katalog+parity exact,2000 produk sintetis/202000 gerakan tiga pembacaan<8s, dan overflow produk nyata yang tidak boleh diterima. Sepuluh invers22 plus oracle9 lama tetap wajib. Runtime belum dijalankan; staged integration/freshness/checkedSAVE2000 masih sisa. Tidak memasang apa pun ke default A.
+
+
+## 42. Persiapan CI: satu fetch, empat worktree tepat pin (24 Oktober 2026 WIB)
+
+Terukur di retry Transport10: checkout writer20:22:51–20:27:39 (4m48s), harness20:27:57–20:31:52 (3m55s); candidate/base masih perlu checkout sendiri. Tiga workflow B baru diganti dari5 unduhan penuh ke1 checkout auditor dan4 detached worktree writer/harness/candidate/base dengan pin yang identik. Uji lokal nyata membuat keempat worktree, membandingkan setiap head/tree serta status bersih, lalu menghapusnya; receipt `ow13c/PINNED_WORKTREE_CHECK.json`. Tidak mengubah A harness, kode produk, database, atau oracle. Runtime CI baru belum diukur.
+
+Disimpan skipci untuk mencegah ulangan yang tidak perlu. Job aktifTransport10f1f05b8e/run40018747206/job120637496516 dan Native3cd8e37d6/run40020162611 tetap memakai workflow lama masing-masing; kandidat dan bukti tidak berubah. Native11PASS/108clienttests tetap bukti terpisah. Perubahan berikut pada CI yang benar-benar diperlukan akan memakai persiapan baru.
