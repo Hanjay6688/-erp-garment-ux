@@ -1,8 +1,9 @@
 # OW13a — checkpoint B,23 Oktober2026 WIB
 
 Pemicu awal, status kesiapan, tombol pengisian target dan pembukaan hasil dengan
-UUID server sudah dibuat. **OPEN**:68/68 Native lulus, kelompok dua pengguna/HTTP/layar
-tertahan penyiapan salinan; paket126 belum lulus. Rantai A,
+UUID server sudah dibuat. **Native126 PASS** pada d9918e4b/run39893138696:
+68 Native,36 dua pengguna,9 HTTP dan13 layar, seluruh ID dan hasil tepat.
+**OPEN** untuk integrasi: rantai A,
 pemasangan jadwal dan tombol Master pada host A belum dikualifikasi. Parent
 tetap5/16. B tidak memasang Enteng, mengubah main atau memberi production_go.
 Audit independen tetap Fable/Sol.
@@ -49,7 +50,7 @@ Pemeriksa meminta set tepat per versi. Referensi primer:
 [PG18](https://www.postgresql.org/docs/18/catalog-pg-constraint.html),
 [PG17](https://www.postgresql.org/docs/17/catalog-pg-constraint.html).
 
-Native126 sudah dideklarasikan, **belum PASS**: seluruh113 WA/kain lama +13 baru
+Native126 sudah dideklarasikan dan **PASS pada d9918e4b**: seluruh113 WA/kain lama +13 baru
 (7 Native,2 races,2 HTTP,2 browser), total68/36/9/13. Dua tahap target/awal wajib
 invers22 sebelum kasus. Kasus halaman ditutup memanggil worker K4 sebenarnya
 dari alat uji; bukan klaim cron terpasang. Native286 sebelumnya tetap bukti
@@ -114,6 +115,18 @@ tanpa mengubah job atau memanggil step actor langsung. Native berikutnya masih
 diperlukan; kode produk/SQL/UI tidak diubah oleh perbaikan fixture ini.
 
 ## Permintaan integrasi A
+
+Hasil terakhir d9918e4b/run39893138696/job120217297227: **126/126 PASS**,
+68/36/9/13 dengan seluruh ID tepat. Target dan pemicu awal sama-sama membuktikan
+invers22 sebelum kasus;38 salinan mempertahankan otoritas database persis,
+restore/advisor, kelima gate paket serta backup/restore lulus. Browser desktop
+dan HP390 memakai Auth/PostgREST sebenarnya; hilang-jawaban, buka ulang UUID
+sama, pencabutan akses dan progres K4 ketika halaman ditutup lulus. Tick K4
+tetap dipanggil alat uji, bukan bukti jadwal otomatis terpasang. Receipt
+[d9918e4-native126-pass.json](d9918e4-native126-pass.json); semua Original lengkap,
+log mentah dan kegagalan pertama tetap disimpan terpisah. Tahap suplai OW10,
+bridge uang, factory3600 dan rantai A tidak termasuk kandidat ini. Riwayat
+hasil sebelumnya di atas dipertahankan sebagai bukti kegagalan, bukan status kini.
 
 1. SQL dasar tetap beku. Tahap produksi18, OW16 dan registry terdahulu, lalu
    `cp7_target_policy_stage`. Bila OW12a + bridge OW12b dipakai, pasang bridge

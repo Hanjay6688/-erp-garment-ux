@@ -1,64 +1,25 @@
 # Ambil alih hasil produksi B —23 Oktober2026 WIB
 
-**Tambahan terbaru OW13a:** pemicu awal tanpa syarat konfigurasi WA, minimum
-terlihat dan formulir target langsung, satu intent/UUID server dan buka ulang
-driver yang sama sudah dibuat. Lokal197 uji klien/17 berkas dan11 kelompok SQL
-lulus; instal/invers/admission22 lokal lulus. Native126 pertama6738da4/run39881934739
-berhenti sebelum kasus karena satu grant baru bertabrakan dengan daftar tepat
-pemeriksa WA lama. Original disimpan; komposisi alat uji diperbaiki lewat invers
-terverifikasi/savepoint22 tanpa mengubah pemeriksa lama. Lokal11+42 terfokus lulus;
-Native126 perbaikan39360e5 juga0 kasus: snapshot seluruh fungsi P09 belum
-diikat ke predecessor yang diperiksa. Perbaikan berikut wajib mencocokkan
-katalog predecessor22 sebelum pengikatan sementara dan memulihkan snapshot
-oracle di finally; lokal11+42 lulus, Native berikutnya belum PASS. Detail dan permintaan A di [ow13a/README.md](../d17-14/ow13a/README.md):
-registry sekarang7 pasangan (patch pengganti6 lama), tipe nullable, callback
-Master dan pemasangan jadwal lama/K4 tanpa syarat konfigurasi WA. OW13a OPEN.
+**Hasil terbaru: Native126 PASS** pada d9918e4b/run39893138696/job120217297227.
+Seluruh126 ID tepat:68 Native,36 dua pengguna,9 HTTP dan13 layar. Dua tahap
+(target/statistik + pemicu awal) membuktikan invers22;38 salinan mempunyai
+pemilik/ACL/GUC sama dengan sumber. Restore/advisor, kelima gate paket serta
+backup/restore lulus. Pemicu tanpa konfigurasi WA, min-data/formulir target,
+UUID server, hilang-jawaban dan buka ulang pada HP390 terbukti. Progres K4 saat
+halaman ditutup memakai tick alat uji; jadwal otomatis A belum dibuktikan.
+Receipt [d9918e4-native126-pass.json](../d17-14/ow13a/d9918e4-native126-pass.json).
+Seluruh kegagalan sebelumnya dan Original lengkap tetap disimpan; hasil kini
+menggantikan status124/126. [Kontrak dan permintaan A](../d17-14/ow13a/README.md).
 
-**Hasil pemeriksaan terbaru:**17d9d62a/run39885283105/job120191923758:
-68/68 Native PASS dengan seluruh ID tepat, termasuk tujuh awal/statistik;
-restore/advisor PASS. Races/HTTP/browser0 kasus karena katalog salinan tidak
-sama. Wrapper B memperbaiki penyalinan pemilik/ACL/GUC tiga database mode;
-empat kontrol transport lokal,11 SQL serta42 klien lulus, Native berikutnya
-masih diperlukan. Oracle22 dan skrip A tidak dilonggarkan/diubah. Kandidat
-17d9d62a tidak memuat kernel suplai baru berikut. Pemeriksaan OW16 dan
-OW13b yang terpicu pada39360e5 sudah success; hitungan/Original belum direkonsiliasi
-di checkpoint ini sehingga tidak dipakai menambah klaim kasus.
-
-**Lanjutan OW10:** `cp7_reorder_supply.project` sudah ditulis dengan14 kelompok
-SQL lokal lulus, termasuk64 skenario dua target memakai pembanding integer
-terpisah. Satu pool proyeksi dibagi global, kandidat terpisah dari suplai terarah,
-dua horizon memakai netting yang sama, sumber/periode berubah tetap unknown;
-nilai besar dan stok negatif tepat. Ini helper murni, **belum dipanggil ROP**;
-budget dan reader privat sudah dibuat pada tahap berikut; sumber/kueri/lead ROP belum disatukan.
-Kontrak sebelum caller di [SUPPLY_PROJECTION_CONTRACT](../d17-14/ow10/SUPPLY_PROJECTION_CONTRACT.md).
-Tidak menghapus fungsi lama dan tidak mengklaim WIP pengingat sudah beres.
-
-Producer berikutnya juga dibuat: `cp7_reorder_supply.budgets` menyimpan proyeksi
-barang baik/ETA global pada satu field privat ANA_META; dua hook terpin dan
-API install/verify/admit22/inverse.14 kelompok proyeksi,7 producer,installer
-lokal22 apply/inverse/reapply/after-use-sebelum-DDL lulus. Body source yang
-sebenarnya diuji dengan adapter terkontrol; INSERT scope aktual mempertahankan
-seluruh field lama. Ini belum run_unit/K3 lengkap, belum Native, belum reader
-segar atau caller ROP. A tidak perlu menerapkan separuh fitur ini sekarang.
-
-Uji Native126 lanjutan sudah dikirim pada a86d22a2/run39887742896/job120199774843;
-kandidat dibekukan. Hasilnya124/126 PASS (68 Native,36 races,8/9 HTTP,12/13
-browser); restore/advisor PASS. Dua kegagalan baru ialah fixture HTTP min-data
-sesudah kasus lain mengisi profil global, dan navigasi HP memeriksa tombol menu
-sebelum aplikasi selesai dimuat. Belum PASS penuh; Original disimpan terpisah.
-Keduanya sudah diperbaiki tanpa menghapus expected NOT_READY atau kontrol113
-lama. Mobile memakai drawer nyata390px; worker fixture menghormati antrean
-global, maksimal satu putaran job. Seluruh38 salinan a86 membuktikan otoritas
-database sama dengan sumber. Receipt ow13a/a86d22a-first-native126-124.json;
-Native berikutnya masih diperlukan sebelum mengklaim126 PASS.
-
-Reader privat kini ada:9 kelompok lokal PASS, memilih hanya DONE/kept dengan
-query/hash/engine/marker/capture/page-set/index yang cocok. Tangkapan Native
-segar tetap tanggung jawab caller. K3 clean_done yang sebenarnya dijalankan
-pada fixture job/hash terkontrol: budget dan seluruh JSON hasil baca tetap
-persis sesudah intermediate dihapus. Tahap v2 sekarang3 fungsi privat/2 hook;
-invers/admission22 lulus. Supplies=null tetap unknown, bukan0. Ini belum Native
-atau run_unit lengkap; caller ROP dan penyelarasan sumber/periode/lead masih OPEN.
+**OW10 belum selesai:** producer budget barang baik/ETA dan reader cache privat
+sudah dipush690c565e, tahap v2 tiga fungsi privat/dua hook. Lokal14 kelompok
+proyeksi (64 pembanding integer dua target),7 producer,9 reader serta pemasang
+22 lulus. K3 sebenarnya pada fixture terkontrol mempertahankan seluruh budget
+serta JSON baca. Ini belum run_unit penuh/Native. ROP masih memakai pemanggil
+lama; sumber/periode/lead, caller dan label proyeksi harus disatukan. Pengingat
+stok bebas tetap tiap menit tanpa menunggu analisis besar. Kontrak sebelum
+caller: [SUPPLY_PROJECTION_CONTRACT](../d17-14/ow10/SUPPLY_PROJECTION_CONTRACT.md).
+A tidak perlu memasang separuh fitur ini. Native126 tidak memasang tahap suplai.
 
 B/Codex bekerja di `astra/d17-14-produksi`; A/Claude di `claude/d17-14-uang` dan menjadi satu-satunya
 penggabung `astra/d17-14-integrasi`, sesuai D17-16/17 versi2. Main, kandidat audit beku, Enteng,
@@ -83,9 +44,9 @@ Ini kualifikasi penulis atas komponen/basis beku, **bukan** ujung rantai A atau 
 | OW16 status potong | Native16/16, transaksi/API/browser desktop/HP, UUID/revokasi/restore. Kelompok bahan+pola/revisi+rentang ukuran, seluruh pabrik. Nilai produksi diisi owner lewat form; tidak ada default aktif penulis. A masih memasang modul/registry. |
 | OW14a/b kain | Native113/113 mencakup99 kontrol lama dan14 tambahan. Minimum lama referensi baca saja; satu pilihan aktif; pin enam desimal/UUID bertahan. A masih melakukan inventaris satuan/referensi dan label Master. |
 | OW10 inti | Target38/staged15/netting84 lulus pada a753. L memicu, L+R menentukan jumlah dari suplai hasil alokasi yang sama. |
-| OW10 tambahan statistik | Kode c0fcfe04:4 body di cp7_target_policy_stage;5 kelompok SQL,108 klien/DOM; tambahan pemeriksaan pemasang22 lokal lulus. Belum Native. Sumber/periode/lead serta WIP mentah per-model di pengingat tetap OPEN. |
+| OW10 tambahan statistik | Kode c0fcfe04:4 body di cp7_target_policy_stage;5 kelompok SQL,108 klien/DOM dan pemasang22 lokal lulus. Native126 membuktikan profil statistik eksplisit dengan riwayat belum cukup tetap UNKNOWN; hitungan statistik positif tetap bukti lokal. Sumber/periode/lead serta WIP mentah per-model di pengingat tetap OPEN. |
 | OW12b | Kode f82868f: request/status analisis memakai capture resmi A, tampilan uang terpisah dari halaman tersegel;10 kelompok SQL dan pemasang22 lokal lulus. Nilai besar tepat, belum READY bukan0, UUID/akses/atomik diperiksa. Belum Native/A-chain/factory3600. |
-| OW13a awal otomatis | Tahap4 fungsi privat/1 tabel dan2 hook, status minimum/tombol profil/UUID server. Lokal11 kelompok SQL +197 klien/DOM; invers/admission22 lokal. Native68/68 PASS pada17d9d62a; races/HTTP/browser tertahan penyalinan database mode, paket126 belum PASS. Callback Master/jadwal/rantai A masih OPEN. |
+| OW13a awal otomatis | Tahap4 fungsi privat/1 tabel dan2 hook, status minimum/tombol profil/UUID server. Lokal11 kelompok SQL +197 klien/DOM; invers/admission22 lokal. Native126 PASS pada d9918e4b,68/36/9/13 dengan ID tepat; invers22/restore/advisor/paket lulus. Callback Master/jadwal/rantai A masih OPEN. |
 
 Checkpoint terdahulu224/224 klien/DOM pada15 berkas lulus; tambahan terbaru197/17 berkas dan
 42/5 berkas terfokus lulus. TypeScript/CSS lulus. Build penuh kini tertahan7 pasangan registry
@@ -134,14 +95,13 @@ proyeksi. Jangan menganggap helper ini telah mengganti pembaca model lama. First
 angka benar, assertion awal keliru menuntut seluruh JSON sama padahal kernel mempertahankan input
 duplikat. Expected kini menyebut tepat dua array input yang berbeda; seluruh angka/status/metadata
 lain tetap diperiksa penuh. Pemeriksa owning sumber dasar dan clash SQL tetap PASS.
-Producer/pemasang budget sekarang tersedia; langkah persis berikutnya adalah
-reader job DONE/kept dengan query/hash/marker/target tunggal yang cocok,
-penyelarasan sumber/periode/lead ROP dan label proyeksi; lalu kualifikasi
-run_unit/K3/Native dan bukti pengingat tetap berjalan tiap menit (D17-8).
+Producer/pemasang budget dan reader DONE/kept/query/hash/marker sudah tersedia.
+Langkah persis berikutnya adalah kualifikasi run_unit/K3/Native, penyelarasan
+sumber/periode/lead ROP, caller dan label proyeksi; buktikan pengingat stok
+bebas tetap berjalan tiap menit (D17-8).
 
 OW11a/b: aktivasi metode yang terbukti lebih baik, pembanding produk baru beserta konfirmasi.
-OW12b: Native/rantai A, angka sama dan waktu sebelum/sesudah±3.600 barang. OW13a: Native126,
-callback Master dan bukti pemasangan/jadwal/rantai A masih terbuka; kode/local sudah di atas.
+OW12b: Native/rantai A, angka sama dan waktu sebelum/sesudah±3.600 barang. OW13a: callback Master dan bukti pemasangan/jadwal/rantai A masih terbuka; kode/local sudah di atas.
 OW13c: saran potong dari mesin sama, waktu/alasan, boleh diubah, pemeriksaan ulang saat simpan.
 
 Temuan untuk pekerjaan berikut: `analysis_stage.plan_targets` menyimpan supplies dari netting global
