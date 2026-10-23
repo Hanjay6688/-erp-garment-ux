@@ -1,0 +1,54 @@
+{
+  "contract": "cp7.same-backend-component-evidence.v1",
+  "backend_source_paths": [
+    "scripts/cp7-src",
+    "scripts/cp7_production_stage",
+    "scripts/cp7_target_policy_stage",
+    "scripts/cp7_reorder_supply",
+    "scripts/cp7_initial_analysis_stage",
+    "scripts/cp7_reorder_inputs",
+    "scripts/cp7_reorder_reader_stage",
+    "scripts/cp7_reorder_caller_stage",
+    "scripts/cp7_cutting_checked_save",
+    "scripts/cp7_schedule_staged_review"
+  ],
+  "backend_paths_byte_identical_between_candidates": [
+    "1eb55680bef0c76fde944fa45fcf7f282b19065f",
+    "f1f05b8e4bee89d5965d5d11de68bdeb9867c5fd",
+    "0d1221c0540e0617264486f0af40787c8059e1d2"
+  ],
+  "evidence": {
+    "native11": {
+      "receipt": "1eb5568-contexts11-pass.json",
+      "candidate": "1eb55680bef0c76fde944fa45fcf7f282b19065f",
+      "counts": {
+        "native": 11
+      }
+    },
+    "server_transport": {
+      "receipt": "f1f05b8-transport-browser-incomplete.json",
+      "candidate": "f1f05b8e4bee89d5965d5d11de68bdeb9867c5fd",
+      "counts": {
+        "native": 1,
+        "races": 4,
+        "http": 3
+      },
+      "overall": "INCOMPLETE_BECAUSE_ITS_BROWSER_FAILED"
+    },
+    "browser2": {
+      "receipt": "0d1221c-entry2-pass.json",
+      "candidate": "0d1221c0540e0617264486f0af40787c8059e1d2",
+      "counts": {
+        "browser": 2
+      }
+    }
+  },
+  "overlapping_cases_not_summed": true,
+  "component_evidence_only": true,
+  "staged_work_metadata_component_qualified": true,
+  "actual_checked_SAVE2000_qualified": false,
+  "full_OW13c_acceptance": false,
+  "full_A_chain_qualified": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

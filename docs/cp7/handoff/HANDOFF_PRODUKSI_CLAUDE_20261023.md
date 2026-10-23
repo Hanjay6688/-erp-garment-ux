@@ -140,6 +140,30 @@ server dan desktop PASS tidak diklaim menutup mobile. Original12532574644/
 Langkah sesudah browser: [rancangan integrasi bounded](../d17-14/ow13c/BOUNDED_STAGE_INTEGRATION.md),
 dengan sumber/func yang tepat dan semua guard yang wajib dipertahankan.
 
+**Layar jadwal kini PASS desktop dan ponsel.**
+[Receipt0d1221c](../d17-14/ow13c/0d1221c-entry2-pass.json),
+[run40029016206](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/40029016206)
+/job120672311605 PASS2/2. Desktop source/GET, staleSAVE40001, dirty form,
+request baru dilepas, current-token denial dan1440 tanpa overflow lulus. Ponsel
+source/GET/SAVE nyata200, response delivery diputus, reload/replay persis UUID/
+payload/result yang sama, tepat1 plan+1 command, uang/stok/HPP tetap, token lama
+ditolak,390 tanpa overflow lulus. Kedua screenshot asli sudah dilihat.
+Original12534072222/42611bytes/SHA
+b903766a505477653a6fea8b4f75c7342c07b0010db9336f9790bc555c205348.
+9 invers22/1 clone authority/restore/advisor/5 gate paket tepat.
+[Matrix komponen](../d17-14/ow13c/STAGED_WORK_COMPONENT_MATRIX.json) mengikat
+Native11, race4/Auth3, serta browser2 ke backend yang byte-identik di10 direktori.
+Tidak menjumlah kasus overlap atau menyebut runTransport10 yang INCOMPLETE
+sebagai PASS penuh. Parent masih5/16; actualcheckedSAVE2000/after-use/fullA tetapOPEN.
+
+**Aktif berikutnya: integrasi bounded.** Prototype source factory8 fungsi privat
+ada di `scripts/cp7_bounded_analysis_stage/source.py`+source.sql+SOURCE_MANIFEST.
+Derivasi memakai source_parts/schedule-scenario/netting/analysis, current supply
+fingerprint target-unified-2, Native3 input dan Native4 digest. Work hash tidak
+memakai capture clock atau query. Belum ada installer/facade/job/6 counted hooks
+atau runtime qualification; rawstatus tetap. Lanjut sesuai rancangan integrasi,
+jangan memperlakukan prototype ini sebagai penyelesaian SAVE2000.
+
 **Pembacaan riwayat besar Native3 sudah PASS3/3.**
 [Receiptcd8e37d6](../d17-14/ow13c/cd8e37d-inputs3-pass.json),
 [run40020162611](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/40020162611)

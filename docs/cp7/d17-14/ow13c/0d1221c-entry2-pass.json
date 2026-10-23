@@ -1,0 +1,136 @@
+{
+  "contract": "cp7.writer-component-receipt.v1",
+  "status": "PASS",
+  "candidate": "0d1221c0540e0617264486f0af40787c8059e1d2",
+  "tree": "41414a36b0acb49f014417dc565ec8a53b6081b6",
+  "run_id": 40029016206,
+  "job_id": 120672311605,
+  "run_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/40029016206",
+  "expected_case_count": 2,
+  "observed_case_count": 2,
+  "groups": {
+    "browser": {
+      "PASS": 2
+    }
+  },
+  "predeclared_case_sha256": "0e176a2fa9ac33bca3fb1895f835dd57d3958e2ed25623aff07852c22ab7b541",
+  "source_files_sha256_matched_candidate": [
+    "scripts/cp7_reorder_inputs/MANIFEST.json",
+    "scripts/cp7_reorder_inputs/__init__.py",
+    "scripts/cp7_reorder_inputs/capture.sql",
+    "scripts/cp7_reorder_inputs/capture_source.py",
+    "scripts/cp7_reorder_inputs/history.sql",
+    "scripts/cp7_reorder_inputs/points.sql",
+    "scripts/cp7_reorder_inputs/read.sql",
+    "scripts/cp7_reorder_inputs/source.sql",
+    "scripts/cp7_reorder_inputs/stock.sql",
+    "scripts/cp7_reorder_reader_stage/MANIFEST.json",
+    "scripts/cp7_reorder_reader_stage/__init__.py",
+    "scripts/cp7_reorder_reader_stage/cache.sql",
+    "scripts/cp7_reorder_caller_stage/MANIFEST.json",
+    "scripts/cp7_reorder_caller_stage/__init__.py",
+    "scripts/cp7_reorder_caller_stage/alert_row.sql",
+    "scripts/cp7_reorder_caller_stage/compute.sql",
+    "scripts/cp7_reorder_caller_stage/evaluate.sql",
+    "scripts/cp7_reorder_caller_stage/fg_source.sql",
+    "scripts/cp7_reorder_caller_stage/item_line.sql",
+    "scripts/cp7_reorder_caller_stage/refresh.sql",
+    "scripts/cp7_reorder_caller_stage/save_manual.sql",
+    "scripts/cp7_reorder_caller_stage/save_settings.sql",
+    "scripts/cp7_reorder_caller_stage/state.sql",
+    "scripts/cp7_reorder_caller_stage/workspace.sql",
+    "scripts/cp7_cutting_checked_save/MANIFEST.json",
+    "scripts/cp7_cutting_checked_save/__init__.py",
+    "scripts/cp7_cutting_checked_save/save.sql",
+    "scripts/cp7_cutting_checked_save/schema.sql",
+    "scripts/cp7_schedule_staged_review/MANIFEST.json",
+    "scripts/cp7_schedule_staged_review/__init__.py",
+    "scripts/cp7_schedule_staged_review/render.py",
+    "scripts/cp7_schedule_staged_review/review.sql"
+  ],
+  "preuse_22_exact_stages": 9,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "clone_authorities": [
+    {
+      "database": "cp6_auditor_browser",
+      "source": "cp6_rollback",
+      "source_owner": "postgres",
+      "previous_owner": "supabase_admin",
+      "current_owner": "postgres",
+      "source_authority_sha256": "40beebded7c4fdf0cd00051d0a186642f05c036bb91b14641c5f6f6228b6bc6d",
+      "before_authority_sha256": "050a4d892c21c8bb42172e2ac27c2a3b0f2fd47e49c95ee5b476d36042374068",
+      "after_authority_sha256": "40beebded7c4fdf0cd00051d0a186642f05c036bb91b14641c5f6f6228b6bc6d",
+      "authority_exact": true,
+      "oracle_relaxed": false,
+      "primary_modified": false
+    }
+  ],
+  "browser_results": {
+    "OW13C_SCHEDULE_ENTRY_DESKTOP_STALE_DIRTY": {
+      "status": "PASS",
+      "actual_Auth_PostgREST_browser": true,
+      "viewport": 1440,
+      "no_horizontal_overflow": true,
+      "dirty_form_stale_refusal": true,
+      "first_confirmed_refusal_releases_only_new_request": true,
+      "lost_committed_response_same_UUID_reopen": false,
+      "current_token_denied": true,
+      "shots": [
+        "cp6-proof/t3/SCHEDULE_DESKTOP_REVIEWED.png"
+      ],
+      "production_quantity_claim": false,
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    "OW13C_SCHEDULE_ENTRY_MOBILE_LOST_REPLY": {
+      "status": "PASS",
+      "actual_Auth_PostgREST_browser": true,
+      "viewport": 390,
+      "no_horizontal_overflow": true,
+      "dirty_form_stale_refusal": false,
+      "first_confirmed_refusal_releases_only_new_request": false,
+      "lost_committed_response_same_UUID_reopen": true,
+      "current_token_denied": true,
+      "shots": [
+        "cp6-proof/t3/SCHEDULE_MOBILE_REVIEWED.png"
+      ],
+      "production_quantity_claim": false,
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    }
+  },
+  "original": {
+    "artifact_id": 12534072222,
+    "bytes": 42611,
+    "sha256": "b903766a505477653a6fea8b4f75c7342c07b0010db9336f9790bc555c205348",
+    "file_name": "0d1221c-entry2-pass-complete.zip",
+    "complete_report_preserved": true
+  },
+  "full_archive": {
+    "artifact_id": 12533358782,
+    "bytes": 4523747,
+    "sha256": "8e36610dad5c9265d3e5cda133e6f112f5dd730a6487d55642c96f835fc7beed",
+    "file_name": "0d1221c-entry2-pass-full.zip"
+  },
+  "visual_QA": "Viewed both actual desktop/mobile screenshots; geometry checks show1440/390 without horizontal overflow.",
+  "full_OW13c_acceptance": false,
+  "actual_checked_SAVE2000_qualified": false,
+  "full_A_chain_qualified": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "parent_completed_count": "5/16"
+}
