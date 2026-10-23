@@ -1,5 +1,5 @@
 {
-  "contract": "cp7.reorder-inputs-stage.v2",
+  "contract": "cp7.reorder-inputs-stage.v3",
   "existing_body_sha256": {
     "cp7_analysis_stage.bounds()": "aced99fa879da9258a6af894fb0e87789aaeb5a51b5d419fa3bb77cb1bea0bbe",
     "cp7_analysis_stage.history_prep(jsonb,jsonb,integer,bigint,integer)": "2e142be7c1f72e459f045491999aa603746c3220afaf6a1f883b1f31afc914e8",
@@ -16,7 +16,8 @@
   "sql_sha256": {
     "history.sql": "011719b5a336ab3cf4587ccad4818c722f8ee59c37049b441cd6f37b32281d2b",
     "points.sql": "d357aa97b1b85fcefc8a470ff8885eba16578b0982cc02d7e6fd35778d7adaea",
-    "source.sql": "72cf357c776722de503460f288dceb05b1719a3cecbe5ae39df0ab85b6732322"
+    "source.sql": "72cf357c776722de503460f288dceb05b1719a3cecbe5ae39df0ab85b6732322",
+    "stock.sql": "66249ddf22f4e67572c74601994c3e908643ba7dc909426e4d525604a5835a41"
   },
   "default_install": false,
   "live_ROP_caller_changed": false,

@@ -59,15 +59,15 @@ caller masih wajib mengambil sumber baru, memeriksa hak sebelum/sesudah dan
 engine/dependensi sebelum memakai cache. JSON privat tidak boleh disalurkan
 mentah ke facade gudang.
 
-API `install_delta/verify/admit_catalog/rollback_preuse` tahap v2 menambah1 schema dan
-3 fungsi invoker (2 immutable,1 stable), tanpa body lama/tabel/kolom/Native DML/RPC/cron.
+API `install_delta/verify/admit_catalog/rollback_preuse` tahap v3 menambah1 schema dan
+4 fungsi invoker (2 immutable,2 stable), tanpa body lama/tabel/kolom/Native DML/RPC/cron.
 Sebelas badan Native yang dipanggil dipin; owner/ACL/body/config baru diperiksa.
 A tetap memegang transaksi/envelope/global after-use guard. Helper stateless
 tidak menyimpan bisnis; invers menolak sebelum DDL bila masih ada pemanggil
 SQL terpasang. Balikkan lapisan caller dahulu sesuai guard/rantai A; tidak
 menghapus evaluasi/riwayat agar invers diizinkan.
 
-Bukti kini **14/14 kelompok lokal PASS**, termasuk pemasang aktual/katalog22
+Bukti kini **18/18 kelompok lokal PASS**, termasuk pemasang aktual/katalog22
 apply/admit/inverse/reapply dan penolakan saat caller SQL fixture masih ada.
 Ini kontrol dependensi caller, bukan klaim pemakaian Native telah dikualifikasi.
 Perubahan yang akan tampak sesudah caller dipasang: hari stok habis di tengah
@@ -98,8 +98,38 @@ tabel fixture. Adapter di bawah sumber Native tetap terkontrol. Median4 hari
 dari5 lot/3 grup, pengecualian QC draft/reversed/lot masa depan/nonproduction,
 manual as-of capture, lead kurang3 grup dan perubahan kode/hash diuji; role
 cp7_capture non-superuser membaca hasil sama. Ini belum bukti Native/Auth
-atau waktu pabrik. Setup/API22 seluruh14 kelompok lulus pada tahap v2.
+atau waktu pabrik. Setup/API22 kini lulus dengan empat fungsi tahap v3.
 
-Berikutnya: sambungan compute ROP memakai sumber tersebut, cache perubahan
+## Seluruh pergerakan stok, tanpa batas array mentah
+
+`stock_summary(products,captured_at,query)` membaca seluruh pergerakan yang
+terlihat pada kedua sumbu waktu, mengelompokkan stok awal, perubahan harian dan
+saldo minimum di dalam hari. Aturan, urutan physical_at/book_order/id, grade,
+waktu pendirian produk dan refs sama dengan history_availability Native.
+Stok fisik membuang reserve dan inversenya; stok bebas memasukkan keduanya
+seperti sumber Native. Helper ini tidak memanggil penulis atau rumus uang.
+
+Ini diperlukan karena sumber Native lama membatasi array mentah50.000, sedangkan
+kontrol SS1_VOLUME mempunyai202.000 pergerakan. Agregasi SQL membaca semuanya;
+cap target5.000 dan grid500.000 tetap. Native capture yang INCOMPLETE **tidak
+diubah menjadi COMPLETE** oleh helper ini. Caller berikut harus membuktikan
+kelengkapan sumber lain/identitas sebelum memakai ringkasan tersebut untuk ROP.
+
+Empat kelompok stok baru lulus. Seluruh JSON ketersediaan dan kedua angka stok
+cocok dengan fungsi Native utuh pada fixture kecil, termasuk reserve/inverse,
+dua sumbu waktu dan intraday UNKNOWN. Fixture SQL202.000 pergerakan/2.000 produk
+memberi60.000 hari lengkap, seluruh stok bebas450; tidak ada sampling atau
+perubahan flag capture Native. Angka waktu lokal tersimpan hanya sebagai
+pengukuran PGlite, bukan Native/Auth atau SLA pabrik. Data_hash membuang hanya
+label known_at dari identitas ringkasan agar jam bergerak sendiri tidak dianggap
+perubahan angka; stok yang benar berubah tetap mengubah hash.
+
+Pemasang pertama tahap ini menolak tanda tangan yang memakai singkatan
+timestamptz, sedangkan katalog PostgreSQL menulis timestamp with time zone.
+Nama katalog kini tepat;22 grup tidak dikecualikan. Kegagalan pertama disimpan
+di local-reorder-stock-first-installer-failure.json.
+
+Berikutnya: lengkapi adapter stok ringkas ke riwayat/target Native tanpa
+mengubah status capture mentah, lalu sambungan compute ROP, cache perubahan
 yang aman, proyeksi WIP yang serasi, label waktu/kandidat serta Native/performa. Pengingat stok bebas harus
 tetap tiap menit tanpa menunggu job analisis besar. Parent5/16, OW10 OPEN.

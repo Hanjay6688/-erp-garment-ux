@@ -41,6 +41,9 @@ await db.exec(`create schema erp;create schema cp7_identity;create schema cp7_pr
  create function cp7_profile.source(uuid[],timestamptz)returns jsonb language sql stable as $$select c->'profiles'from public.reorder_native_fixture$$;
  create function cp7_identity.workspace_data(uuid[],timestamptz)returns jsonb language sql stable as $$select c->'production_policies'from public.reorder_native_fixture$$;
  create table erp.production_orders(id uuid,model_id uuid,status text);
+ create table erp.products(id uuid primary key,identity_root_id uuid);
+ create table erp.fg_stock_movements(id uuid primary key,product_id uuid,qty_signed numeric,physical_at timestamptz,
+  system_created_at timestamptz,quality_grade text,movement_type text,reversal_of_id uuid,book_order bigint);
  create table erp.cutting_groups(id uuid,po_id uuid,cut_at timestamptz,material_issue_posted boolean);
  create table erp.fg_lots(id uuid,cutting_group_id uuid,qc_item_id uuid,produced_at timestamptz,lot_origin text);
  create table erp.qc_inspection_items(id uuid,inspection_id uuid);
@@ -88,9 +91,15 @@ const points = async (input, measured=lead(), manual=[], policy=defaults) =>
   (await db.query('select cp7_reorder_inputs.points($1::jsonb,$2::jsonb,$3::jsonb,$4::jsonb)v',
     [JSON.stringify(input),JSON.stringify(policy),JSON.stringify(measured),JSON.stringify(manual)])).rows[0].v
 const serverSource=async(bound=5000)=>(await db.query('select cp7_reorder_inputs.source_within($1)v',[bound])).rows[0].v
+const addMovement=async m=>db.query('insert into erp.fg_stock_movements values($1,$2,$3,$4,$5,$6,$7,$8,$9)',
+ [m.id,m.product_id,m.qty_signed,m.physical_at,m.system_created_at,m.quality_grade,m.movement_type,m.reversal_of_id,m.book_order])
+const stockSummary=async(products=fixture().facts.products,at=clock,q=query)=>(await db.query(
+ 'select cp7_reorder_inputs.stock_summary($1::jsonb,$2::timestamptz,$3::jsonb)v',[JSON.stringify(products),at,JSON.stringify(q)])).rows[0].v
 const sourceFixture=async()=>{
- await db.exec('truncate public.reorder_native_fixture,erp.production_orders,erp.cutting_groups,erp.fg_lots,erp.qc_inspection_items,erp.qc_inspections,cp7_stock_formula.settings,cp7_stock_formula.manual_points')
+ await db.exec('truncate public.reorder_native_fixture,erp.production_orders,erp.products,erp.fg_stock_movements,erp.cutting_groups,erp.fg_lots,erp.qc_inspection_items,erp.qc_inspections,cp7_stock_formula.settings,cp7_stock_formula.manual_points')
  await db.query('insert into public.reorder_native_fixture values($1::jsonb)',[JSON.stringify(fixture())])
+ for(const p of fixture().facts.products)await db.query('insert into erp.products values($1,$2)',[p.id,p.root_id])
+ for(const m of fixture().facts.stock)await addMovement(m)
  await db.query('insert into erp.production_orders values($1,$2,\'FINISHED\')',[id(10001),id(9001)])
  for(const [n,cut]of[[1,'2026-10-01'],[2,'2026-10-02'],[3,'2026-10-03']])await db.query('insert into erp.cutting_groups values($1,$2,$3,true)',[id(11000+n),id(10001),cut+'T00:00:00Z'])
  let index=0
@@ -274,11 +283,76 @@ await test('OW10_INPUTS_REAL_INSTALLER_22_AND_CALLER_DEPENDENCY_REFUSAL',async()
   return{apply_admit_inverse_reapply_all22_exact:true,actual_installed_SQL_caller_requires_removal_first:true,
     caller_guard_before_DDL:true,persisted_Native_use_qualified:false}
 })
+await test('OW10_STOCK_SUMMARY_FULL_NATIVE_AVAILABILITY_AND_BOTH_CLOCKS',async()=>{
+ await sourceFixture();const r=await stockSummary(),source={...fixture(),captured_at:r.captured_at}
+ const expected=(await db.query('select cp7_planning.history_availability($1::jsonb,$2::jsonb)v',[JSON.stringify(source),JSON.stringify(query)])).rows[0].v
+ assert.deepEqual(r.availability,expected);assert.equal(r.raw_rows_read,5)
+ const current=(await whole(source)).current_stock
+ for(const row of r.current_stock){const native=current.find(x=>x.target_key===row.target_key)
+  assert.equal(row.free_pcs,native.native_available_pcs);assert.equal(row.physical_pcs,native.availability.inputs.fg_pcs)
+ }
+ for(const m of[{...movement(700,1,'999','2026-10-24T00:00:00Z'),system_created_at:'2026-10-22T00:00:00Z'},
+   {...movement(701,1,'999','2026-10-22T00:00:00Z'),system_created_at:'2026-10-24T00:00:00Z'}])await addMovement(m)
+ assert.deepEqual(await stockSummary(),r)
+ await db.exec('set role cp7_capture');assert.deepEqual(await stockSummary(),r);await db.exec('reset role')
+ return{complete_actual_Native_availability_JSON_equal:true,current_free_and_physical_same:true,
+  future_physical_and_later_known_rows_both_excluded:true,non_superuser_read:true,canonical_Native_clock:true}
+})
+await test('OW10_STOCK_SUMMARY_RESERVATION_INVERSE_AND_INTRADAY_UNKNOWN',async()=>{
+ await sourceFixture();const source=fixture()
+ const reserve={...movement(710,1,'-4','2026-10-20T03:00:00Z'),movement_type:'SALE_RESERVE'}
+ await addMovement(reserve);source.facts.stock.push(reserve)
+ source.facts.sales.push({id:id(711),sale_id:id(712),root_id:id(1),size_id:id(9000),qty_pcs:'4',status:'DRAFT',revision:'1',
+  sale_date:'2026-10-20T03:00:00Z',created_at:'2026-10-20T03:00:00Z',updated_at:'2026-10-20T03:00:00Z',sold_commercial:[]})
+ let r=await stockSummary();source.captured_at=r.captured_at
+ let native=await whole(source);assert.equal(r.current_stock[0].free_pcs,'86');assert.equal(r.current_stock[0].physical_pcs,'90')
+ assert.equal(native.current_stock[0].native_available_pcs,'86')
+ const inverse={...movement(713,1,'4','2026-10-21T03:00:00Z'),reversal_of_id:reserve.id}
+ await addMovement(inverse);source.facts.stock.push(inverse);source.facts.sales.at(-1).status='CANCELLED'
+ r=await stockSummary();native=await whole(source);assert.equal(r.current_stock[0].physical_pcs,'90');assert.equal(native.current_stock[0].native_available_pcs,'90')
+ for(const m of[movement(714,1,'-100','2026-10-18T01:00:00Z',1),movement(715,1,'100','2026-10-18T02:00:00Z',2)]){
+  await addMovement(m);source.facts.stock.push(m)
+ }
+ r=await stockSummary();assert.deepEqual(r.availability,(await db.query('select cp7_planning.history_availability($1::jsonb,$2::jsonb)v',
+  [JSON.stringify(source),JSON.stringify(query)])).rows[0].v)
+ assert.equal(r.availability.find(x=>x.target_key.startsWith(id(1))&&x.date==='2026-10-18').state,'UNKNOWN')
+ return{reservation_subtracted_once_inverse_excluded_from_physical:true,
+  negative_intraday_state_UNKNOWN_never_zero:true,full_Native_availability_JSON_equal:true}
+})
+await test('OW10_STOCK_SUMMARY_202000_ROWS_2000_PRODUCTS_NO_TRUNCATION',async()=>{
+ await db.exec('truncate erp.products,erp.fg_stock_movements')
+ const products=Array.from({length:2000},(_,i)=>product(i+1))
+ await db.query('insert into erp.products select (p->>\'id\')::uuid,(p->>\'root_id\')::uuid from jsonb_array_elements($1::jsonb)p',[JSON.stringify(products)])
+ await db.exec(`insert into erp.fg_stock_movements
+  select md5('opening'||p.id::text)::uuid,p.id,800,'2026-06-15T00:00:00Z','2026-06-15T00:00:00Z','GRADE_A','OPENING',null,1 from erp.products p;
+  insert into erp.fg_stock_movements
+  select md5(p.id::text||':'||g::text)::uuid,p.id,-(1+g%6),'2026-10-23T00:00:00Z'::timestamptz-g*interval'1 day'-interval'2 hours',
+   '2026-10-22T00:00:00Z','GRADE_A','SALE',null,g+1 from erp.products p cross join generate_series(1,100)g;`)
+ const t=performance.now(),r=await stockSummary(products),ms=Math.round(performance.now()-t)
+ assert.equal(r.raw_rows_read,202000);assert.equal(r.current_stock.length,2000);assert.equal(r.availability.length,60000)
+ assert.ok(r.availability.every(x=>x.state==='AVAILABLE'))
+ const free=String(800-Array.from({length:100},(_,i)=>1+(i+1)%6).reduce((a,b)=>a+b,0))
+ assert.ok(r.current_stock.every(x=>x.free_pcs===free&&x.physical_pcs===free))
+ assert.equal(r.raw_rows_truncated,false);assert.equal(r.Native_capture_status_overridden,false)
+ return{controlled_SQL_rows:202000,products:2000,complete_days:60000,all_free_pcs:free,
+  local_SQL_ms:ms,no_source_row_sampled:true,Native_Auth_or_factory_SLA:false}
+})
+await test('OW10_STOCK_SUMMARY_SCOPE_REFUSED_AND_DATA_HASH_EXCLUDES_ONLY_CLOCK',async()=>{
+ await sourceFixture();const a=await stockSummary(),b=await stockSummary(fixture().facts.products,'2026-10-23T00:01:00Z')
+ assert.notEqual(a.captured_at,b.captured_at);assert.equal(a.data_hash,b.data_hash)
+ await addMovement(movement(720,1,'3','2026-10-22T00:00:00Z'))
+ assert.notEqual((await stockSummary()).data_hash,a.data_hash)
+ await assert.rejects(()=>stockSummary(fixture().facts.products,clock,{...query,through_date:'2026-10-23'}),/CP7_REORDER_STOCK_SCOPE_BOUND/)
+ await assert.rejects(()=>stockSummary(Array.from({length:1400},(_,i)=>product(i+1)),clock,{...query,from_date:'2025-10-23'}),/CP7_REORDER_STOCK_SCOPE_BOUND/)
+ return{clock_only_change_not_data_change:true,actual_visible_stock_change_changes_hash:true,
+  existing_grid_and_closed_day_caps_preserved:true,not_a_complete_Native_capture_claim:true}
+})
 const report={classification:'LOCAL_ACTUAL_NATIVE_HISTORY_AND_STAGED_TARGET_KERNELS_CONTROLLED_SOURCE_NOT_NATIVE_OR_LIVE_ROP',
   status:results.every(x=>x.status==='PASS')?'PASS':'FAIL',passed:results.filter(x=>x.status==='PASS').length,total:results.length,
   sql_sha256:createHash('sha256').update(await read('scripts/cp7_reorder_inputs/history.sql')).digest('hex'),
   points_sql_sha256:createHash('sha256').update(await read('scripts/cp7_reorder_inputs/points.sql')).digest('hex'),results,
   source_sql_sha256:createHash('sha256').update(await read('scripts/cp7_reorder_inputs/source.sql')).digest('hex'),
+  stock_sql_sha256:createHash('sha256').update(await read('scripts/cp7_reorder_inputs/stock.sql')).digest('hex'),
   installer,
   ROP_caller_changed:false,full_A_chain_qualified:false,production_go:false}
 await mkdir('docs/cp7/d17-14/ow10',{recursive:true})

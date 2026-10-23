@@ -1,8 +1,8 @@
 {
   "classification": "LOCAL_ACTUAL_NATIVE_HISTORY_AND_STAGED_TARGET_KERNELS_CONTROLLED_SOURCE_NOT_NATIVE_OR_LIVE_ROP",
   "status": "PASS",
-  "passed": 14,
-  "total": 14,
+  "passed": 18,
+  "total": 18,
   "sql_sha256": "011719b5a336ab3cf4587ccad4818c722f8ee59c37049b441cd6f37b32281d2b",
   "points_sql_sha256": "d357aa97b1b85fcefc8a470ff8885eba16578b0982cc02d7e6fd35778d7adaea",
   "results": [
@@ -145,9 +145,53 @@
         "caller_guard_before_DDL": true,
         "persisted_Native_use_qualified": false
       }
+    },
+    {
+      "id": "OW10_STOCK_SUMMARY_FULL_NATIVE_AVAILABILITY_AND_BOTH_CLOCKS",
+      "status": "PASS",
+      "observed": {
+        "complete_actual_Native_availability_JSON_equal": true,
+        "current_free_and_physical_same": true,
+        "future_physical_and_later_known_rows_both_excluded": true,
+        "non_superuser_read": true,
+        "canonical_Native_clock": true
+      }
+    },
+    {
+      "id": "OW10_STOCK_SUMMARY_RESERVATION_INVERSE_AND_INTRADAY_UNKNOWN",
+      "status": "PASS",
+      "observed": {
+        "reservation_subtracted_once_inverse_excluded_from_physical": true,
+        "negative_intraday_state_UNKNOWN_never_zero": true,
+        "full_Native_availability_JSON_equal": true
+      }
+    },
+    {
+      "id": "OW10_STOCK_SUMMARY_202000_ROWS_2000_PRODUCTS_NO_TRUNCATION",
+      "status": "PASS",
+      "observed": {
+        "controlled_SQL_rows": 202000,
+        "products": 2000,
+        "complete_days": 60000,
+        "all_free_pcs": "450",
+        "local_SQL_ms": 2774,
+        "no_source_row_sampled": true,
+        "Native_Auth_or_factory_SLA": false
+      }
+    },
+    {
+      "id": "OW10_STOCK_SUMMARY_SCOPE_REFUSED_AND_DATA_HASH_EXCLUDES_ONLY_CLOCK",
+      "status": "PASS",
+      "observed": {
+        "clock_only_change_not_data_change": true,
+        "actual_visible_stock_change_changes_hash": true,
+        "existing_grid_and_closed_day_caps_preserved": true,
+        "not_a_complete_Native_capture_claim": true
+      }
     }
   ],
   "source_sql_sha256": "72cf357c776722de503460f288dceb05b1719a3cecbe5ae39df0ab85b6732322",
+  "stock_sql_sha256": "66249ddf22f4e67572c74601994c3e908643ba7dc909426e4d525604a5835a41",
   "installer": {
     "classification": "LOCAL_REAL_INSTALLER_AND_PG_CATALOG_VIA_CONTROLLED_TRANSPORT_NOT_NATIVE",
     "stage": "cp7_reorder_inputs",

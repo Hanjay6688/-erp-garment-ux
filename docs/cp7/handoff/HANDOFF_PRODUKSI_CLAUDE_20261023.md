@@ -34,11 +34,16 @@ ow10/SUPPLY_NATIVE_CONTRACT.json. Tidak ada oracle lama diganti.
 Sumber ROP sekarang juga mempunyai tahap privat `cp7_reorder_inputs`: riwayat
 memakai fungsi Native yang sama, titik memakai target profil persis atau
 aturan default lama atas riwayat Native; override manual tidak ditumpuk.
-14 kelompok lokal/installer22 PASS, termasuk420 produk/12.600 hari dan guard
-dependensi caller sebelum DDL. Tahap v2 tiga fungsi/1 schema, tanpa hook/DML/endpoint.
+18 kelompok lokal/installer22 PASS, termasuk420 produk/12.600 hari dan guard
+dependensi caller sebelum DDL. Tahap v3 empat fungsi/1 schema, tanpa hook/DML/endpoint.
 Sumber server membaca baseline Native, setting, lead terukur/manual dan waktu
 yang sama; engine/context hash berubah bila kode/sumber berubah. Badan sumber
 baseline dan SQL lead/manual aktual diuji, adapter Native di bawahnya terkontrol.
+Ringkasan SQL stok juga membaca202.000 pergerakan/2.000 produk menjadi60.000 hari
+utuh, cocok dengan aturan Native; ini bukan Native/SLA. Sumber mentah Native
+tetap mempunyai cap50.000 dan status INCOMPLETE-nya tidak ditimpa. Adapter ke
+target serta caller/cache tiap menit masih harus dibuat, bukan dianggap beres
+dari helper ringkasan ini.
 Ini belum caller ROP/Native/performa. Kontrak dan beda angka yang diharapkan:
 [REORDER_INPUTS_CONTRACT](../d17-14/ow10/REORDER_INPUTS_CONTRACT.md).
 

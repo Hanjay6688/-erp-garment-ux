@@ -15,7 +15,8 @@ ROOT = Path(__file__).resolve().parent
 SCHEMA = 'cp7_reorder_inputs'
 FUNCTIONS = {'cp7_reorder_inputs.history(jsonb,jsonb)': 'i',
              'cp7_reorder_inputs.points(jsonb,jsonb,jsonb,jsonb)': 'i',
-             'cp7_reorder_inputs.source_within(integer)': 's'}
+             'cp7_reorder_inputs.source_within(integer)': 's',
+             'cp7_reorder_inputs.stock_summary(jsonb,timestamp with time zone,jsonb)': 's'}
 
 
 def sources():
@@ -52,7 +53,7 @@ def verify(cur, state):
         raise ValueError('OW10_REORDER_INPUTS_SOURCE_CHANGED')
     prerequisites(cur)
     bodies = {}
-    for filename in ('history.sql', 'points.sql', 'source.sql'):
+    for filename in ('history.sql', 'points.sql', 'source.sql', 'stock.sql'):
         bodies.update(re.findall(r'create function (cp7_reorder_inputs\.[a-z_]+)\([^;]*?\).*?as \$\$(.*?)\$\$;',
                                  (ROOT/filename).read_text(), re.S))
     if set(bodies) != {sig.split('(')[0] for sig in FUNCTIONS}:
@@ -74,7 +75,7 @@ def verify(cur, state):
             for grant in row[-1]:
                 if grant[0] != 'cp7_capture' or grant[1] != 'cp7_capture' or grant[3] is not False:
                     raise ValueError('OW10_REORDER_INPUTS_UNDECLARED_GRANT: '+key)
-    return dict(stage='cp7.reorder-inputs-stage.v2', private_functions=3, hook_bodies=0,
+    return dict(stage='cp7.reorder-inputs-stage.v3', private_functions=4, hook_bodies=0,
                 Native_DML=False, live_ROP_caller_changed=False,
                 full_A_chain_qualified=False, production_go=False)
 
@@ -84,7 +85,7 @@ def install_delta(cur):
     if cur.execute('select to_regnamespace(%s)is not null', (SCHEMA,)).fetchone()[0]:
         raise ValueError('OW10_REORDER_INPUTS_ALREADY_INSTALLED')
     prerequisites(cur)
-    for filename in ('history.sql', 'points.sql', 'source.sql'):
+    for filename in ('history.sql', 'points.sql', 'source.sql', 'stock.sql'):
         cur.execute((ROOT/filename).read_text(), prepare=False)
     state = dict(sources=pins, new_catalog=own_catalog(_catalog_rows(cur)))
     verify(cur, state)
