@@ -82,9 +82,17 @@ const SAME_DATA = 'Data HPP atau akun berubah saat diperiksa. Muat ulang invoice
 const HPP_BOOK = 'HPP barang ini di buku belum cocok dengan perhitungan HPP, jadi nilai stok retur belum bisa dihitung dengan benar. '
 const CREDIT_ACCOUNT = 'Akun saldo kredit yang dipilih tidak memenuhi syarat (akun kewajiban aktif yang saldonya cocok dengan catatan saldo kredit). '
   + 'Pilih akun lain dari daftar akun saldo kredit, lalu periksa lagi.'
+// Second and later returns (OW-04b slice B): an earlier return's credit must be fully and exactly recorded first.
+const EARLIER_RETURN = 'Retur ini belum bisa dicatat dan diselesaikan karena saldo kredit dari retur sebelumnya pada invoice ini '
+  + 'belum tercatat lengkap atau sudah berubah. Langkah berikutnya: muat ulang invoice dan periksa lagi; bila tetap muncul, '
+  + 'jangan mencatat retur ini lewat menu lain dan beri tahu admin dengan kode '
 // Other refusals the return settlement can meet before its quote or save, each with the user's next step.
 const EXACT: Record<string, string | ((code: string) => string)> = {
   CP7_SALES_REVIEW_CHANGED: 'Invoice berubah sejak dibuka. Muat ulang invoice, lalu periksa lagi.',
+  CP7_CREDIT_MULTI_PRIOR_FAMILY_UNRECONCILED: code => `${EARLIER_RETURN}${code}.`,
+  CP7_CREDIT_MULTI_PRIOR_EXCESS_NOT_RECOGNIZED: code => `${EARLIER_RETURN}${code}.`,
+  CP7_CREDIT_MULTI_BEFORE_EVENTS_NOT_EXACT: 'Riwayat invoice berubah saat retur diperiksa (ada pembayaran atau retur lain yang baru tercatat). '
+    + 'Muat ulang invoice, lalu periksa lagi.',
   AH_RETURN_EXCEEDS_ORIGINAL_ALLOCATION: 'Jumlah retur melebihi sisa barang yang boleh diretur dari penjualan ini. Kurangi jumlah PCS, lalu periksa lagi.',
   CP7_CREDIT_RETURN_QTY_SOURCE_INVALID: 'Jumlah retur melebihi barang terjual yang masih tercatat pada lot ini. Kurangi jumlah PCS dan muat ulang invoice.',
   CP7_CREDIT_REFUND_PRODUCT_VALUE_EXCEEDED: 'Nilai retur melebihi sisa nilai barang ini di invoice. Kurangi nilai pengurang tagihan, lalu periksa lagi.',

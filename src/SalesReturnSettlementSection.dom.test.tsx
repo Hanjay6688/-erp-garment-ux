@@ -250,6 +250,15 @@ describe('OW-04b refused settlement reads name the reason and the next step', ()
     const text = await refusedQuote(error)
     expect(text).toContain(expected); expect(text).not.toContain('PRIVATE SQL')
   })
+  it.each([
+    ['CP7_CREDIT_MULTI_PRIOR_FAMILY_UNRECONCILED', 'saldo kredit dari retur sebelumnya pada invoice ini belum tercatat lengkap'],
+    ['CP7_CREDIT_MULTI_PRIOR_EXCESS_NOT_RECOGNIZED', 'saldo kredit dari retur sebelumnya pada invoice ini belum tercatat lengkap'],
+    ['CP7_CREDIT_MULTI_BEFORE_EVENTS_NOT_EXACT', 'Riwayat invoice berubah saat retur diperiksa'],
+  ])('DOM19f a second return refused by the earlier-return check (%s) says why and what to do', async (code, why) => {
+    const text = await refusedQuote({code:'P0001', message:code, details:null, hint:null})
+    expect(text).toContain(why); expect(text.toLowerCase()).toContain('muat ulang invoice')
+    expect(text).not.toContain('Pemeriksaan retur ditolak server (kode')
+  })
   it('DOM19e a malformed quote reply says it was not shown and what to do', async () => {
     getQuote.mockImplementation(async q => ({...quoteFor(q), private_debug:'SECRET'})); await render(); await click(button('Periksa penyelesaian retur'))
     expect(alerts()).toContain('Jawaban pemeriksaan retur dari server tidak lengkap atau tidak sesuai, jadi tidak ditampilkan.'); expect(container.textContent).not.toContain('belum dapat diperiksa')
