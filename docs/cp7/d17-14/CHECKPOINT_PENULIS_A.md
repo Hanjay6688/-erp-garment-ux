@@ -13,10 +13,9 @@ jendela berikutnya sekitar 2 jam 20 menit sebelum reset (pengingat 03.50 UTC). K
 Pengingat terjadwal: 20.58 UTC mode hemat (tidak memulai pekerjaan besar baru, gabung dan push semua commit
 pembantu, perbarui berkas ini), 01.10 UTC jalan normal lagi.
 
-Diperbarui: 23 Okt 2026, 02.00 UTC (09.00 WIB). Jendela kuota baru mulai sekitar 01.12 UTC, reset sekitar 06.12 UTC; mode hemat
-sekitar 03.50 UTC. Satu dispatch OW-12a (39882795647): database sudah menyala lagi (registry melayani); gagal di langkah kasus, log sedang dibaca.
-Antrean ulang: wash, fgqc, OW06 browser, OW05b browser (`ciqueue-after-reset.log`). OW04b dan OW-09 menunggu push non-skip
-untuk mendaftarkan workflow-nya saat antrean longgar.
+Diperbarui: 23 Okt 2026, 02.46 UTC (09.46 WIB). Jendela kuota mulai sekitar 01.12 UTC, reset sekitar 06.12 UTC; mode hemat
+sekitar 03.50 UTC. Registry image melayani lagi; semua run yang tertahan sudah lulus (tabel di bawah). Dua pembantu jalan:
+OW-15 langkah 8 (OW-09 di atas OW12a, cabang `claude/d17-14-chain8`) dan OW-04b bagian C langkah 2.
 
 ## Sudah terbukti (uji database penuh atau browser lulus)
 
@@ -43,15 +42,11 @@ untuk mendaftarkan workflow-nya saat antrean longgar.
 
 ## Belum selesai / berikutnya (urutan kerja)
 
-1. Catat hasil tiga run di atas (lulus: berkas bukti; gagal: simpan kegagalan pertama, betulkan).
-2. OW-08b 2.21 koreksi barang jadi di QC: digabung (`5be35e60`), Native9 dikirim di `2927dd25`; browser OW-05b dan OW-06 diulang
-   karena `src/transactionSource.ts` berubah (diantrekan).
+1. OW-15 langkah 8: OW-09 di atas OW12a (pembantu, cabang `claude/d17-14-chain8`), lalu Native8 di atas rantai.
+2. OW-04b bagian C langkah 2 (pembantu), lalu langkah 3: kasus, uji balapan, workflow.
 3. OW-04b: bagian 3–4 dan A lulus (lihat tabel). Bagian B lulus (lihat tabel). Bagian C: daftar `ow04/OW04B_SLICE_C_INVENTORY.md`, langkah 1
    (`scripts/cp7_credit_incoming/`) di cabang; langkah 2 sedang dikerjakan. D dan E menunggu 3 keputusan Bos.
-4. OW-09: tahap `scripts/cp7_ow09_lists/` (8 pembaca termasuk aksesori, Native8, workflow `cp7-ow09-native.yml`) sudah
-   di cabang ini (`15fb2a69`, `00385161`), belum pernah jalan di CI (daftarkan dengan push non-skip, sesudah login ghcr bila
-   uji coba OW-12a berhasil). Bagian layar (`d8cd1960`, `2a0a6fb4`) masih di cabang lokal `claude/d17-14-ow09-stage`; digabung
-   hanya sesudah Native8 lulus, karena layar baru mengirim kunci yang ditolak pembaca dasar tanpa tahap ini. Sisa: README
+4. OW-09: tahap Native8 lulus (tabel). Bagian layar ditahan di `ow09/screens/` sampai tahap masuk rantai OW-15. Sisa: README
    `ow09/README.md`, cek F04/F05 gagal di base (`cp7_analysis_native.rounded_suggestion` tidak ada, area B), `check-*.mjs`.
 5. Penggabungan harian 17.00 WIB 23 Okt ke `astra/d17-14-integrasi` (pengingat terjadwal 09.35 UTC). Pembanding vitest: base
    50 gagal/2102, gabungan uji 50 gagal/2146, tidak ada kegagalan baru; ke-50 itu uji `tests/cp7/families` yang menolak root.
