@@ -438,3 +438,30 @@ tipe dan registry A tidak disentuh. Kontrak di ow10/REORDER_NATIVE_README.md.
 Handoff Claude kini memuat kandidat/run/langkah lanjut aktual. B mendahulukan
 perbaikan pin ini, lalu meneruskan OW13c pada berkas produksi miliknya.
 Rantai A, backup/restore caller, factory3600, audit dan parent5/16 tetap terbuka.
+
+
+## 18 — caller Native19 PASS; kandidat dan batas untuk A (23 Okt WIB) [bersama]
+
+D5997235/treee9fdbe91/run39924999687/job120319097974 PASS:11 Native,4 dua
+pengguna,2 Auth/PostgREST nyata,2 browser1440/390. Seluruh19 ID/status dan
+sumber3 tahap dicocokkan dengan Original lengkap;7 invers22 tepat,6 salinan
+otoritas tepat, restore/advisor dan5 gerbang paket PASS. Fixture volume2000/
+202000 pergerakan:5622/2899/2845ms; batas8detik/hangat3detik tetap. Ini bukan
+factory3600/jaminan waktu umum. Receipt ow10/d599723-native19-pass.json.
+
+Hasil pertama9ac0964e0/19 tertahan pin history_prep dasar. Perbaikan meminta
+tepat body produksi18 e76f0556 dan memuat body itu pada fixture lokal;
+35+9 SQL/65 klien ulang lulus. Oracle/batas tidak diubah; kegagalan pertama,
+seluruh Original/log/artifact tetap disimpan. Main/audit beku/Enteng/WA asli
+serta berkas A tidak disentuh. Native133 bukti predecessor terpisah.
+
+A terbaru dibacaf898a71f: sembilan SQL dasar tetap byte-identik dengan B.
+Ini bukan bukti rantai A atau izin merge. Komposisi inputs→cache→caller, global
+use guard termasuk immutable use_marks, pemasangan/pemulihan caller yang sudah
+dipakai, callback/jadwal/registry/tipe tetap milik A. Parent5/16 tetap.
+
+B melanjutkan OW13c. Temuan desain: SAVE rencana arsip lama memang memakai
+snapshot; preview/apply memeriksa live. Form saran baru wajib live recheck atomik
+saat SAVE, target SKU eksplisit dan mesin retained yang sama. Jangan menimpa
+kontrak arsip lama atau mengganti ketidaklengkapan WIP menjadi0. Detail langkah
+berikut ada di handoff produksi terbaru. Belum ada klaim OW13c selesai.

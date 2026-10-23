@@ -1,6 +1,10 @@
 # OW10 — satu pemanggil rencana dan pengingat stok (23 Oktober2026 WIB)
 
-**Checkpoint kode lengkap server/klien, bukti lokal; belum kualifikasi Native.**
+**Server/klien lengkap; Native19 PASS pada d5997235**, treee9fdbe91,
+run39924999687/job120319097974. Seluruh19 ID/status dicocokkan dengan Original.
+Receipt dan batas: [d599723-native19-pass.json](d599723-native19-pass.json).
+Ini kualifikasi komponen penulis; pemasangan/pemulihan caller serta rantai A
+dan audit independen tetap terbuka.
 `cp7_reorder_caller_stage` v1 mengganti pemanggil ROP saat tahap ini dipasang.
 Basis Native133 c0bb0d19 tetap PASS sebagai producer/reader; run itu **tidak**
 memasang inputs/cache/caller di dokumen ini. Parent tetap5/16, bukan CP7C go.
@@ -96,8 +100,10 @@ terekspor, hoisted satu deklarasi, setup timestamp) juga dicatat terpisah.
 
 ## Yang harus dibuktikan selanjutnya
 
-1. Kualifikasi Native caller dengan Auth/PostgREST, dua pengguna/revokasi nyata,
-   browser komputer/HP, serta pemasangan/pemulihan seluruh rantai A.
+1. Native19 sudah membuktikan Auth/PostgREST, dua pengguna/revokasi setelah
+   menunggu, UUID, stok baru saat lock sibuk, browser komputer/HP dan invers22.
+   Pemasangan/pemulihan caller setelah digunakan dan seluruh rantai A masih
+   harus diuji oleh integrator; gerbang restore paket dasar bukan bukti itu.
 2. Angka/oracle lama yang memang berubah dipetakan secara eksplisit. Kontrol
    lama tetap dijalankan pada pendahulunya; pengganti mengikuti Native penuh:
    `SS1_OUT_OF_STOCK_DAYS_NOT_ZERO_DEMAND` memakai availability intrahari;
@@ -106,8 +112,10 @@ terekspor, hoisted satu deklarasi, setup timestamp) juga dicatat terpisah.
    `SS1_IN_PRODUCTION_COUNTS_TOWARD_POSITION` menerima good/ETA global saja;
    manual/save/access/WA dan volume menggunakan kontrak v2. Jangan menyalin
    angka expected lama ke rumus baru atau meloloskan raw WIP agar kontrol hijau.
-3. Volume2000: batas statement8detik dan hangat3detik tetap. PGlite cache
-   terdahulu11,2/5,6detik bukan bukti SLA Native. Produk sintetis yang mewakili
+3. Volume2000 Native:5622ms dingin,2899/2845ms hangat pada202000 pergerakan,
+   batas statement8detik dan hangat3detik tetap. Itu satu fixture sintetis,
+   bukan janji waktu umum. PGlite cache terdahulu bukan bukti SLA Native.
+   Produk sintetis yang mewakili
    riwayat harus memiliki established_at yang sesuai; jangan mengubah riwayat
    produk nyata agar dianggap tersedia. Factory3600 sebelum/sesudah tetap OW12b.
 4. Jadwal pengingat tiap menit/pemicu awal/K4 tanpa ketergantungan WA dipasang

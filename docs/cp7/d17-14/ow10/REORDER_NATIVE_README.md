@@ -2,17 +2,25 @@
 
 Kandidat khusus caller v2 di atas produksi18/target4/suplai/pemicu awal lalu
 inputs/cache/caller.19 kasus yang dideklarasikan sebelum run:11 Native,4 dua
-pengguna,2 Auth/PostgREST,2 browser1440/390. Kandidat
-`9ac0964e2756b0752858961e354b5c10307e8959`, tree
-`c8bb4c37ed5574cf4c641a6363151a81fe10398d`, sudah dijalankan pada
-[run39923253294](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39923253294),
-job120313328107. **Pertama INCOMPLETE:0/19 kasus**; guard instalasi menolak
+pengguna,2 Auth/PostgREST,2 browser1440/390. **Native19 PASS**, semua ID dan
+status dicocokkan dengan Original lengkap pada kandidat
+`d599723534a2f1b31833059106f09e2b069d0417`, tree
+`e9fdbe914d6f19aa430df7e09605d19b4006d96d`,
+[run39924999687](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39924999687),
+job120319097974. Ketujuh tahap invers22 tepat;6 salinan otoritas tepat,
+restore/advisor dan kelima gerbang paket PASS. Tiga panggilan Native pada
+fixture sintetis2000 produk/202000 pergerakan:5622/2899/2845ms; dua hangat
+masing-masing di bawah3000ms. Ini bukan pengukuran factory3600 atau janji waktu
+umum. [Receipt lengkap ringkas](d599723-native19-pass.json).
+
+Kandidat pertama9ac0964e/run39923253294/job120313328107
+**INCOMPLETE:0/19 kasus**; guard instalasi menolak
 pin history_prep yang masih menunjuk body dasar. Komposisi produksi18 yang
 memang diwajibkan memakai body e76f0556. Perbaikan meminta satu body tepat itu
 dan memuat body produksi18 ke fixture lokal; bukan menerima sembarang body atau
 mengubah oracle. [Receipt](9ac0964-first-native19-incomplete.json); seluruh log
-dan Original dipertahankan terpisah. Belum ada klaim Native caller PASS.
-Hasil lokal65/65 klien/DOM, TypeScript dan preflight awal ada di native19-preflight.json.
+dan Original dipertahankan terpisah. Lokal ulang35/35 inputs/cache/evaluate,
+9/9 caller/RPC SQL dan65/65 klien/DOM PASS: native19-repin-preflight.json.
 
 Ini tidak mengganti hasil predecessor133 c0bb0d19. Seluruh Original133 dan
 kegagalan pertamanya tetap disimpan.19 kasus ini memakai kontrak v2 dan tabel
@@ -56,5 +64,5 @@ source gate itu lulus atau mengubah registry. Patch permintaan A tetap berlaku.
 
 Environment sebelumnya terputus; kode0b1b91f0/handoff50475ed2/checkpoint92d6ff40
 berhasil dipulihkan. Log lengkap versi terdahulu tetap tersimpan terpisah.
-Run/job dan kedua artifact pertama dicatat di receipt. Perbaikan akan diuji
-pada kandidat berikutnya; hasil pertama tidak dihapus. Parent5/16.
+Run/job/artifact kedua hasil dicatat di receipt masing-masing. Hasil pertama
+tidak dihapus. Parent5/16; kualifikasi gabungan A dan caller restore masih terbuka.

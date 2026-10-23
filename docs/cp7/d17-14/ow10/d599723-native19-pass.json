@@ -1,0 +1,79 @@
+{
+  "classification": "NATIVE19_WRITER_COMPONENT_QUALIFICATION_NOT_COMPOSED_A_RELEASE",
+  "candidate": "d599723534a2f1b31833059106f09e2b069d0417",
+  "tree": "e9fdbe914d6f19aa430df7e09605d19b4006d96d",
+  "run_id": 39924999687,
+  "job_id": 120319097974,
+  "run_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39924999687",
+  "workflow_conclusion": "success",
+  "status": "PASS",
+  "expected_case_count": 19,
+  "observed_case_count": 19,
+  "required_case_counts": {
+    "native": 11,
+    "races": 4,
+    "http": 2,
+    "browser": 2
+  },
+  "case_ids_match_exactly": true,
+  "all_case_statuses_PASS": true,
+  "declaration_sha256": "d653b71891768aaaf88dc2ec56f289e195fe30cac2fe4604728f0176a3103520",
+  "stage_source_maps_match_candidate": true,
+  "preuse_22_groups_exactly_restored": [
+    "production18",
+    "target4",
+    "supply",
+    "initial",
+    "inputs",
+    "reader",
+    "caller"
+  ],
+  "caller_and_reader_afteruse_refused_before_DDL": true,
+  "clone_authorities_exact": 6,
+  "restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "public_catalog_and_rows": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "timing_only_synthetic": {
+    "items": 2000,
+    "movements": 202000,
+    "millis": [
+      5622,
+      2899,
+      2845
+    ],
+    "statement_limit": "8s",
+    "each_warm_limit_ms": 3000,
+    "scope": "Three actual Native calls on labelled synthetic fixture; not factory3600 or a general latency guarantee"
+  },
+  "artifact": {
+    "id": 12488699634,
+    "kind": "complete_Original_JSON",
+    "bytes": 313881,
+    "sha256": "a2b0d39bb7cff4e197bd425cba5f2ce3e0464b03173f8696226c6751c1e3126b",
+    "full_artifact_id": 12489392208
+  },
+  "first_attempt_receipt": "9ac0964-first-native19-incomplete.json",
+  "first_attempt_cases": 0,
+  "first_failure_preserved": true,
+  "limits_raised": false,
+  "old_oracles_changed": false,
+  "predecessor133_separate_candidate": "c0bb0d197c86447e800f9c100c37def0fb0a2fd6",
+  "predecessor133_rerun_in_this_suite": false,
+  "caller_backup_restore_qualified": false,
+  "full_OW10_acceptance": false,
+  "full_A_chain_qualified": false,
+  "independent_acceptance": false,
+  "production_go": false,
+  "parent_completed": "5/16"
+}

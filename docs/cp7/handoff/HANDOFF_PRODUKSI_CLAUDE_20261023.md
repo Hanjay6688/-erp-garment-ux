@@ -1,22 +1,29 @@
 # Ambil alih hasil produksi B —23 Oktober2026 WIB
 
-**Kelanjutan aktual setelah lingkungan terputus:** kandidat caller
-`9ac0964e2756b0752858961e354b5c10307e8959` (tree
-`c8bb4c37ed5574cf4c641a6363151a81fe10398d`) sudah diuji pada
-[run39923253294](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39923253294),
-job120313328107. **Hasil pertama INCOMPLETE:0/19 kasus**, tertahan pemeriksaan
-dependensi sebelum kasus pertama. Pin history_prep masih meminta body dasar,
-padahal produksi18 yang dipasang sudah memakai body terpadu e76f0556. Guard
-menolak sebagaimana mestinya; B membetulkan pin tepat serta fixture lokal agar
-memakai produksi18 yang sama, tanpa melonggarkan pemeriksa/oracle/batas waktu.
-Deklarasi19 kasus:11 Native,4 dua pengguna,2 login nyata,2 layar desktop/HP.
-Klien65/65 dan TypeScript lokal sebelumnya lulus; ini bukan bukti Native caller.
-[Receipt pertama](../d17-14/ow10/9ac0964-first-native19-incomplete.json) dan
-[kontrak/batas/pemetaan kontrol](../d17-14/ow10/REORDER_NATIVE_README.md).
-Ini kualifikasi tambahan caller v2; predecessor133 tetap bukti tersendiri, bukan
-133 regresi gabungan, pemasangan/pemulihan caller, rantai A atau izin produksi.
-Kode dan runner sudah didorong; jangan mengulangi pembuatan runner dari
-checkpoint92d6ff40. B mendahulukan perbaikan ini, lalu melanjutkan OW13c.
+**Checkpoint terbaru caller: Native19 PASS** pada
+`d599723534a2f1b31833059106f09e2b069d0417`, tree
+`e9fdbe914d6f19aa430df7e09605d19b4006d96d`,
+[run39924999687](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39924999687),
+job120319097974. Seluruh19 ID/status dicocokkan dengan Original lengkap:
+11 Native,4 dua pengguna,2 login nyata,2 layar desktop1440/HP390. Ketujuh tahap
+invers22,6 salinan otoritas tepat, restore/advisor dan lima gerbang paket lulus.
+Volume sintetis2000 produk/202000 pergerakan:5622/2899/2845ms; dua hangat tetap
+maksimum3000ms. Ini bukan factory3600 atau jaminan waktu umum.
+[Receipt](../d17-14/ow10/d599723-native19-pass.json),
+[kontrak/batas](../d17-14/ow10/REORDER_NATIVE_README.md).
+
+Kegagalan pertama9ac0964e/run39923253294:0/19 kasus, guard menolak pin riwayat
+lama. D5997235 meminta satu body produksi18 yang tepat dan memakai body itu di
+fixture lokal, tanpa mengubah oracle/rumus/batas waktu. Original/log pertama
+utuh; [receipt](../d17-14/ow10/9ac0964-first-native19-incomplete.json).
+Lokal ulang35+9 SQL dan65 klien/DOM lulus. Kode, runner dan catatan tersimpan
+GitHub; tidak perlu mengulang pemulihan/pembuatan runner dari92d6ff40.
+
+**Batas:** Native133 predecessor tetap bukti terpisah. Native19 bukan133 regresi
+ulang, caller backup/restore setelah dipakai, rantai A, audit atau izin produksi.
+A tetap integrator; parent5/16. A terbaru dibacaf898a71f: sembilan SQL dasar A
+masih sama persis dengan B. Ini pemeriksaan kompatibilitas sumber, bukan
+kualifikasi komposisi A. B meneruskan OW13c sesuai daftar kelanjutan di bawah.
 
 **Hasil pemicu awal: Native126 PASS** pada d9918e4b/run39893138696/job120217297227.
 Seluruh126 ID tepat:68 Native,36 dua pengguna,9 HTTP dan13 layar. Dua tahap
@@ -89,7 +96,7 @@ Ini kualifikasi penulis atas komponen/basis beku, **bukan** ujung rantai A atau 
 | OW16 status potong | Native16/16, transaksi/API/browser desktop/HP, UUID/revokasi/restore. Kelompok bahan+pola/revisi+rentang ukuran, seluruh pabrik. Nilai produksi diisi owner lewat form; tidak ada default aktif penulis. A masih memasang modul/registry. |
 | OW14a/b kain | Native113/113 mencakup99 kontrol lama dan14 tambahan. Minimum lama referensi baca saja; satu pilihan aktif; pin enam desimal/UUID bertahan. A masih melakukan inventaris satuan/referensi dan label Master. |
 | OW10 inti | Target38/staged15/netting84 lulus pada a753. L memicu, L+R menentukan jumlah dari suplai hasil alokasi yang sama. |
-| OW10 tambahan statistik | Kode c0fcfe04:4 body di cp7_target_policy_stage;5 kelompok SQL,108 klien/DOM dan pemasang22 lokal lulus. Native126 membuktikan profil statistik eksplisit dengan riwayat belum cukup tetap UNKNOWN; hitungan statistik positif tetap bukti lokal. Caller penyelarasan sumber/periode/lead dan good/ETA global kini dibuat/lokal lulus; kualifikasi Native/A-chain/SLA tetap OPEN. |
+| OW10 tambahan statistik | Kode c0fcfe04:4 body di cp7_target_policy_stage;5 kelompok SQL,108 klien/DOM dan pemasang22 lokal lulus. Native126 membuktikan profil statistik eksplisit dengan riwayat belum cukup tetap UNKNOWN; hitungan statistik positif tetap bukti lokal. Caller penyelarasan sumber/periode/lead dan good/ETA global Native19 lulus; target statistik positif belum dikualifikasi ulang penuh, A-chain/factory3600 tetap OPEN. |
 | OW12b | Kode f82868f: request/status analisis memakai capture resmi A, tampilan uang terpisah dari halaman tersegel;10 kelompok SQL dan pemasang22 lokal lulus. Nilai besar tepat, belum READY bukan0, UUID/akses/atomik diperiksa. Belum Native/A-chain/factory3600. |
 | OW13a awal otomatis | Tahap4 fungsi privat/1 tabel dan2 hook, status minimum/tombol profil/UUID server. Lokal11 kelompok SQL +197 klien/DOM; invers/admission22 lokal. Native126 PASS pada d9918e4b,68/36/9/13 dengan ID tepat; invers22/restore/advisor/paket lulus. Callback Master/jadwal/rantai A masih OPEN. |
 
@@ -130,20 +137,24 @@ kontrak header/id untuk diperiksa penggabung.
 
 ## Kelanjutan B
 
-OW10 belum boleh disebut bebas hitung ganda: pengingat masih menyalin WIP mentah model+ukuran ke
-beberapa varian. Ganti dengan suplai relevan, berwaktu dan dialokasikan global dari mesin yang sama;
-periode/sumber permintaan serta lead terukur vs asumsi juga belum seragam.
-Kernel konservasi/proyeksi sudah ada di scripts/cp7_reorder_supply/projection.sql dan bukti lokal
-ow10/local-supply-projection.json. Simpan budget dari posisi/ETA global sebelum cleanup K3, lalu
-buat reader job DONE/kept/hash/query/identitas/profil yang cocok, baru pasang caller ROP dan label
-proyeksi. Jangan menganggap helper ini telah mengganti pembaca model lama. First local11/12 tersimpan:
-angka benar, assertion awal keliru menuntut seluruh JSON sama padahal kernel mempertahankan input
-duplikat. Expected kini menyebut tepat dua array input yang berbeda; seluruh angka/status/metadata
-lain tetap diperiksa penuh. Pemeriksa owning sumber dasar dan clash SQL tetap PASS.
-Producer/pemasang budget dan reader DONE/kept/query/hash/marker sudah tersedia.
-Run_unit/K3/reader Native133 kini lulus pada c0bb0d19. Langkah berikutnya
-penyelarasan sumber/periode/lead ROP, caller dan label proyeksi; buktikan pengingat stok
-bebas tetap berjalan tiap menit (D17-8).
+OW10 caller v2 sudah mengganti pembaca WIP mentah dengan good/ETA alokasi
+global pada kandidat Native19 di atas. UNKNOWN tetap null; pengingat stok bebas
+masih bekerja saat analisis tidak tersedia atau lock sibuk. Inputs/cache/caller
+harus dipasang A sebagai satu komposisi; jadwal setiap menit, callback Master,
+registry/generator, caller backup/restore dan kualifikasi gabungan tetap terbuka.
+Tidak ada pemasangan bawaan/Enteng/WA asli dari checkpoint ini.
+
+OW13c sudah ditelusuri; belum ada perubahan produk. Gunakan retained
+`analysis_stage.plan_targets` dan `cp7_plan_native.staged_source`/`preflight_v2`
+yang sama dengan panel rencana, bukan rumus baru atau menyalin seluruh halaman.
+Satu model/ukuran bisa punya beberapa SKU: pemilihan target harus eksplisit,
+tidak otomatis menyalin satu saran ke seluruh varian. Tampilkan waktu/alasan dan
+biarkan jumlah diedit. Kontrak rencana arsip lama memang mengizinkan SAVE dari
+snapshot lama (8 Okt), lalu memeriksa pada preview/apply. Form saran baru wajib
+menambah pemeriksaan atomik pada SAVE sesuai D17-16; jangan mengubah perilaku
+arsip lama diam-diam atau menganggap pemeriksaan klien cukup. Hak/roll/kapasitas/
+target/versi harus diperiksa lagi sesudah menunggu. API baru perlu modul B dan
+permintaan registry/tipe ke A; jangan mengubah installer atau tipe bersama.
 
 OW11a/b: aktivasi metode yang terbukti lebih baik, pembanding produk baru beserta konfirmasi.
 OW12b: Native/rantai A, angka sama dan waktu sebelum/sesudah±3.600 barang. OW13a: callback Master dan bukti pemasangan/jadwal/rantai A masih terbuka; kode/local sudah di atas.
