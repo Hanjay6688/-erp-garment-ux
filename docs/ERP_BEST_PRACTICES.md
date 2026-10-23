@@ -363,3 +363,20 @@ Disusun 16 Okt 2026. Tambahkan aturan baru di bagian yang sesuai, dengan ID temu
 - [ ] Receipt: run, job, kasus terpisah; batal/ulang/gagal-sebelum-kasus ditulis; jumlah run = jumlah workflow yang
   dipicu (E19–E20, E19a).
 - [ ] Bukti jangka panjang tidak bergantung artifact 30 hari (E21).
+
+
+## Tambahan hasil kualifikasi24 Oktober2026 WIB
+
+25y. **Data contoh positif hari ini harus sah sejak awal hari, tanpa mengubah penjaga tanggal aplikasi.** Jam bawaan
+     08:00WIB pada contoh stok sah saat uji siang, tetapi masih masa depan bila CI berjalan00:23WIB. Tiga kontrol OW10
+     berhenti di penolakan masa depan sebelum mencapai assertion cache/stale/stock-baru-rendah. Pakai00:00WIB pada
+     tanggal rencana yang sama untuk contoh positif hari ini; atau waktu database yang sah bila urutan intra-hari
+     memang diuji. Pertahankan tanggal, jumlah, urutan yang menjadi maksud kasus dan oracle bisnis. Jangan menjepit
+     semua tanggal ke sekarang, memundurkan clock database, melewati writer Native, mengubah tanggal kasus negatif
+     atau melonggarkan penolakan masa depan. Default contoh historis lain tidak perlu diganti.
+     Bukti pertama16a0aeb0/run39993639712:13/15 Native,7/8 race,4/4 Auth,4/4 browser; ketiga kegagalan
+     FG_UNSOURCED_PHYSICAL_AT_FUTURE. Fix fixture1ba69eaa, periksa hasil Native terbaru sebelum menyatakan lulus.
+     (`WR-OW10-FIXTURE-WIB`, [receipt](cp7/d17-14/ow13c/16a0aeb-native31-28-clock.json)).
+
+- [ ] Contoh positif bertanggal hari ini sah sebelum jam08WIB; uji masa depan tetap memakai tanggal/jam masa depan
+  eksplisit dan tetap ditolak Native (E25y).

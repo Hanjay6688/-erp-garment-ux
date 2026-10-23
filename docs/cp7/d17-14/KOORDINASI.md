@@ -648,3 +648,12 @@ penolakan masa depan, clock DB dan kode produk tetap. Tidak mengubah Native,
 source SQL/registry A atau batas performa. Kandidat a15054c290802420adaa8a4dd64217380d5ebbcb/
 tree63918f4b, run39996465132/job120561154474 aktual berjalan. Parent5/16;
 fullOW13c/after-use/data besar/OW11/bridge3600/rantai A/audit tetap OPEN.
+
+
+## 30 — pelajaran jam fixture dicatat untuk mencegah pengulangan (24 Okt WIB) [bersama]
+
+ERP_BEST_PRACTICES hanya ditambah di akhir dengan WR-OW10-FIXTURE-WIB/E25y:
+contoh positif hari ini harus sah sejak00:00WIB, tanggal/jumlah/oracle tetap,
+contoh negatif masa depan tetap eksplisit dan tetap ditolak Native. Tidak
+mengubah keputusan owner atau penjaga aplikasi. Bukti16a0aeb0/28 dari31 dan
+fix1ba69eaa dirujuk tepat; kandidat a15054c2 masih sedang dikualifikasi.
