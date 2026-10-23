@@ -27,7 +27,7 @@ jobs:
         include:
         - suite: ow13c-checked-journeys-31
           probe: cp7_ow13c_checked_journeys_probe.py
-          timeout: 120
+          timeout: 45
     env:
       PGURL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
       CP6_AC_INDEPENDENT_CONFIRM: postgres
@@ -42,6 +42,7 @@ jobs:
       CP6_MAINTENANCE_CONFIRM_DATABASE: cp6_rollback
       CP6_AR_CONFIRM: cp6_rollback
       CP6_AU_BROWSER_CONFIRM: cp6_rollback
+      AUDITOR_BROWSER_CASE_TIMEOUT_MS: '600000'
     steps:
     - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       with:
@@ -211,7 +212,9 @@ jobs:
         \ndocker run -d --name fake-callmebot --network \"$net\" -e FAKE_CALLMEBOT_ACCEPTS=FAKEKEY-WA3B\
         \ \\\n  -v \"$GITHUB_WORKSPACE/auditor/scripts/cp7_wa_fake_callmebot.py:/fake.py:ro\" python:3.12-alpine\
         \ python -u /fake.py\nsleep 3\ndocker ps --filter name=fake-callmebot --format '{{.Status}}'\n"
-    - name: Qualify all25 retained controls plus four checked-save races and two real browser journeys
+    - name: Record disposable service image versions
+      run: docker ps --format '{{.Names}}\t{{.Image}}'
+    - name: Qualify Native31 with exact stock v7 and actual committed-reply browser waits
       working-directory: writer
       run: python "../auditor/scripts/${{ matrix.probe }}"
     - name: Remove disposable database
