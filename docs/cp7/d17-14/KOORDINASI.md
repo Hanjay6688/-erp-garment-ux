@@ -260,3 +260,49 @@ Permintaan A, bukan berkas yang diubah B:
 
 Lanjutan B sambil Native126 berjalan: OW10 mengganti kredit WIP mentah model+ukuran dengan suplai
 berwaktu, sesuai target dan berasal dari satu alokasi global. Dasar SQL/pin beku tidak disentuh.
+
+## 12 — hasil124/126 dan producer/reader suplai B (23 Okt WIB)
+
+A terbaru dibaca197fb3fc: kontrak/fungsi SQL OW12a tetap sama dengan16bf8e56;
+komposisi A menambah admisi RI_FKey bawaan yang tepat dan A mencatat Native7/7
+efa800cd/run39886155240. Sambungan B, rantai A dan factory3600 tetap belum
+dibuktikan; B tidak menyebut komponen A masih menunggu dibuat.
+
+B a86d22a/run39887742896/job120199774843 mencapai124/126:68 Native,36 races,
+8/9 HTTP,12/13 browser; semua ID hadir tepat, restore/advisor PASS. Semua38
+salinan mode membuktikan pemilik/ACL/GUC sama dengan sumber postgres. B memakai
+wrapper khusus atas mode copier, bukan melonggarkan oracle22 atau mengedit
+skrip A. Generic copier lama membuat database sebagai supabase_admin dan
+tidak menyalin otoritas database. Perbaikan dan bukti di ow13a/README.md.
+
+Dua kegagalan adalah fixture baru: min-data HTTP dipanggil sesudah profil
+global terisi, serta menu mobile diperiksa sebelum App selesai mount.
+NOT_READY tetap diwajibkan pada salinan segar, seluruh kontrol113 tetap,
+drawer nyata390px dipakai. D9918e4/run39893138696/job120217297227 menguji
+perbaikan; belum PASS saat catatan ini ditulis. Tidak ada perubahan SQL/UI
+produk oleh perbaikan fixture. Original pertama tetap disimpan.
+
+OW10 B690c565: kontrak sebelum caller di ow10/SUPPLY_PROJECTION_CONTRACT.md.
+Tahap `cp7_reorder_supply` v2 memiliki3 fungsi privat,2 hook pada run_unit dan
+analysis_native.source_within,1 schema, tanpa tabel/kolom/endpoint/grant Native
+baru. Producer menyimpan satu field budget/ETA pada scope ANA_META; engine
+signature mencakup kode helper. Reader hanya menerima DONE/kept, query/hash/
+marker/capture/header/page-set/index yang cocok, memeriksa alokasi global
+sebelum mengeluarkan angka. Source baru dan akses sebelum/sesudah tetap tugas
+caller. JSON privat tidak boleh disalurkan mentah ke facade gudang.
+
+Lokal14 kelompok proyeksi (64 pembanding integer dua target),7 producer,
+9 reader lulus. clean_done K3 yang sebenarnya atas fixture terkontrol menjaga
+seluruh budget/JSON baca; API apply/inverse/reapply/admission22 dan penolakan
+setelah-pakai sebelum DDL lulus. Ini **bukan Native/run_unit lengkap/factory3600**.
+Source/hash Native di reader masih adapter terkontrol. ROP masih pemanggil lama;
+sumber/periode/lead, caller dan label proyeksi belum disatukan. Pengingat stok
+bebas tetap harus berjalan tiap menit tanpa menunggu analisis besar (D17-8).
+
+A tidak perlu memasang separuh fitur WIP sekarang. Jika dikomposisikan setelah
+bagian B lengkap: pasang di atas modul planning/target saat tidak ada RUNNING
+job, sebelum worker/pemicu awal diaktifkan; A memegang transaksi/envelope dan
+global use guard. Marker job/budget yang terpakai mengharuskan backup/restore.
+Sembilan sumber SQL dasar tetap tepat beku dan owning source gate PASS.
+Permintaan registry7/tipe nullable/Master/jadwal K4 di bagian11 tetap berlaku.
+Parent5/16, main/kandidat audit/Enteng/WA nyata tidak disentuh, tidak ada CP7C go.
