@@ -380,3 +380,9 @@ Disusun 16 Okt 2026. Tambahkan aturan baru di bagian yang sesuai, dengan ID temu
 
 - [ ] Contoh positif bertanggal hari ini sah sebelum jam08WIB; uji masa depan tetap memakai tanggal/jam masa depan
   eksplisit dan tetap ditolak Native (E25y).
+
+
+Validasi E25y/WR-OW10-FIXTURE-WIB: kandidat a15054c2, run39996465132/
+job120561154474 lulus31/31 pada24 Oktober2026 WIB; ketiga kasus yang sebelumnya
+berhenti karena contoh08:00WIB kini lulus dengan00:00 pada tanggal yang sama.
+Tidak ada perubahan penjaga masa depan, jumlah atau oracle. [Receipt](cp7/d17-14/ow13c/a15054c-native31-pass.json).

@@ -657,3 +657,24 @@ contoh positif hari ini harus sah sejak00:00WIB, tanggal/jumlah/oracle tetap,
 contoh negatif masa depan tetap eksplisit dan tetap ditolak Native. Tidak
 mengubah keputusan owner atau penjaga aplikasi. Bukti16a0aeb0/28 dari31 dan
 fix1ba69eaa dirujuk tepat; kandidat a15054c2 masih sedang dikualifikasi.
+
+
+## 31 — checkpoint Native31 lulus dan handoff aktual (24 Okt WIB) [bersama]
+
+Kandidat a15054c290802420adaa8a4dd64217380d5ebbcb/tree63918f4b,
+run39996465132/job120561154474 SUCCESS31/31:15 Native/8 race/4 Auth/4
+browser; seluruh12 checked-save baru dan3 kasus jam stok lama PASS.
+Volume2000/202000 4728/1799/1743ms, statement8s/dua hangat≤3000ms tetap.
+160 uji aplikasi/12 berkas, TypeScript/scanner SQL PASS.31 ID/deklarasi SHA,
+28 sumber,8 invers22,10 authority, restore/advisor dan lima gate paket
+cocok persis. Receipt ow13c/a15054c-native31-pass.json; Original lengkap
+artifact12519888810/405514bytes/SHAf13916ab59a182d92be39633e05ffe54f7afd7267fc5714ad1d3ee19f7b34a52
+beserta raw log dipertahankan, semua kegagalan lama tetap. Screenshot hanya
+artefak GitHub. REST uji16.1/Postgres17.6.1.165, bukan inventaris hosted.
+
+Checkpoint ini tidak menyatakan fullOW13c/after-use/SAVE2000/factory3600/
+rantai A/audit independen/CP7C/production_go; parent5/16. Native31 mengandung
+19/25 lama, jangan dijumlahkan atau diulang tanpa perubahan/risiko baru.
+Actual source gate masih8 gap; patch usulan360/303 lulus pada salinan,
+A menerapkan registry/types/default/global use census. Handoff Claude/penerus
+sudah mencatat PASS, semua sisa B dan batas A. B tidak mengambil berkas A.

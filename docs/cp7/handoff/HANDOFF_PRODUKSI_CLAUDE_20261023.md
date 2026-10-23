@@ -1,21 +1,27 @@
-# Ambil alih produksi/perencanaan B —24 Oktober2026 WIB
+# Handoff produksi/perencanaan B —24 Oktober2026 WIB
 
-**Status terbaru sebelum membaca arsip:** B di `astra/d17-14-produksi`.
-Kandidat `a15054c290802420adaa8a4dd64217380d5ebbcb`, tree
-`63918f4bf582832203784673c855ccab69ac6b70`, sedang diuji pada
-[Native31 run39996465132](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39996465132),
-job120561154474. Hasil belum tersedia. Produk aplikasi tetap5b6ca459;
-perubahan1ba69eaa hanya waktu contoh positif3 jalur uji OW10.
+**Checkpoint terbaru sudah PASS31/31.** Kandidat
+`a15054c290802420adaa8a4dd64217380d5ebbcb`, tree
+`63918f4bf582832203784673c855ccab69ac6b70`, pada
+[run39996465132](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39996465132)
+/job120561154474:15 Native/8 race/4 Auth/4 browser. Seluruh31 ID/deklarasi,
+28 sumber,8 invers22,10 authority, restore/advisor dan lima gate paket
+tepat.160 uji aplikasi/12 berkas, TypeScript dan scanner SQL juga lulus.
+[Receipt terbaru](../d17-14/ow13c/a15054c-native31-pass.json).
 
-**Hasil terakhir terverifikasi:**16a0aeb0=INCOMPLETE28/31,13 Native/7 race/
-4 Auth/4 browser PASS. Seluruh12 checked-save baru lulus termasuk pesan
-penolakan desktop dan pemulihan HP. Volume2000/202000 7710/2952/2943ms
-PASS, batas8s/3s tetap. Tiga gagal karena stok contoh08:00WIB hari ini
-masih masa depan ketika uji00:23–00:27WIB. Contoh positif itu kini00:00;
-tanggal/jumlah/oracle/penolakan masa depan Native tidak berubah. Data contoh
-lain tetap default08. Sebelumnya df6bd87730/31,44afe80b28/31; semuanya
-immutable dan melekat kandidatnya. Native25/19 a3bf8842 PASS tersendiri.
-**Parent5/16; full OW13c/rantai A/audit/CP7C/production_go tetap OPEN.**
+Pesan penolakan sumber berubah dan pemulihan HP lulus. Tiga contoh stok
+hari ini08:00WIB yang masih masa depan saat00:23WIB kini00:00 pada hari yang
+sama; tanggal/jumlah/oracle dan penjaga Native tetap. Kode aplikasi5b6ca459,
+fix fixture1ba69eaa. Volume sintetis2000 produk/202000 gerakan4728/1799/
+1743ms lulus batas8s/dua hangat3s. Ini bukan SAVE2000 atau SLA seluruh pabrik.
+Original/log lengkap dan semua kegagalan lama28/31,30/31,clock28/31 disimpan.
+
+**Sisa masih terbuka; parent5/16.** FullOW13c, A/default installation,
+registry/types, after-use restore, SAVE data besar, OW11a-b, bridge3600,
+callback/jadwal dan paket auditor belum selesai. CP7C/production_go belum
+diberikan. Jangan mengulang19/25/31 yang sudah lulus tanpa perubahan/risiko
+baru. Handoff ini untuk A/Claude atau penerusnya; B tetap scope produksi dan
+perencanaan, A tetap integrator, uang/stok/HPP/laporan dan pemilik sharedfiles.
 
 ## Tujuan dan sumber konteks
 
@@ -42,7 +48,7 @@ Sumber yang wajib dibaca saat mengambil alih:
   [selesai untuk diuji](../d17-14/SELESAI_UNTUK_DIUJI.md),
   [koordinasi](../d17-14/KOORDINASI.md): konteks keputusan/status lengkap,
   permintaan pemilik berkas dan bukti per butir. Entri awal koordinasi adalah
-  riwayat, bukan status terbaru; bagian29 mencatat hasil terbaru sesi ini.
+  riwayat, bukan status terbaru; bagian31 mencatat hasil terbaru sesi ini.
 - [Praktik ERP](../../ERP_BEST_PRACTICES.md): append-only, idempotensi, current
   access sesudah wait/response, latest corrected wins, dua sumbu tanggal,
   transaksi/envelope lintas modul atomik, draf tidak authoritative, UNKNOWN≠0.
@@ -80,10 +86,10 @@ ditulisi sesi B ini. Semua kiriman WA pengujian memakai layanan palsu.
 | OW14a-b kain/minimum lama | Native113/113 (99 lama+14 tambahan); sumber ringkasan/pengingat sama, fisik≠perkiraan, satu aturan aktif, referensi lama baca saja, angka6 desimal/UUID bertahan. | A inventaris satuan/referensi Enteng saat pemasangan dan label Master; tidak migrasi data nyata dari B. |
 | OW10 target inti | Native38 target/15 staged/84 netting dalam Native286. Satu mesin; L memicu, L+R menentukan jumlah, suplai global yang sama; draf/WIP mentah bukan stok bagus. | Positif target statistik/evaluasi metode, gabungan A dan factory3600 tetap terbuka. |
 | OW10 suplai/pemicu | Native126 dan133 PASS; current global good/ETA, pemicu awal, sumber segar dan K3. Raw WIP tanpa projection tetap UNKNOWN, bukan0; malformed projection tetap ditolak. | Callback Master, jadwal A yang dipasang nyata, kondisi statistik positif/rantai penuh. |
-| OW10 caller pengingat | Native19 dan25 a3bf8842 PASS; manual25 hanya mengganti pemicu, tidak mengganti target/jumlah; free stock selalu dibaca baru, kandidat tidak mematikan peringatan. | V7 volume PASS pada df6bd87730/31; seluruh paket31 kandidat pesan terbaru belum tersedia. Jadwal stok tiap menit, pasang/pulih setelah dipakai dan rantai A. |
+| OW10 caller pengingat | Native31 a15054c2 PASS15/8/4/4 termasuk seluruh19/25 lama; V7 volume4728/1799/1743ms. Manual25 hanya pemicu, target/jumlah tetap; stok bebas dibaca baru. | Jadwal stok tiap menit, default A, after-use backuprestore dan rantai gabungan belum lengkap. |
 | OW12b sambungan ke angka A | `cp7_analysis_finance_bridge`;10 kelompok SQL/installer22 lokal, klien/DOM. Operasional tampil dulu; uang resmi, belum READY bukan0; header mengikat capture. A punya komponen OW12a Native7 terpisah. | Native B→A, angka sama, waktu sebelum/sesudah±3600 barang. Native7 A bukan bukti sambungan B. |
 | OW13a analisis awal | `cp7_initial_analysis_stage`; Native126 PASS: minimum konfigurasi, belum siap/siap sekali/tidak diulang, UUID/revokasi/hilang-jawaban/HP. Tidak menunggu WA dikonfigurasi. | Callback Master/jadwal K4/analisis rutin dipasang A; tick alat uji bukan bukti cron terpasang. |
-| OW13c saran potong | Mesin/panel staged sama di Buat Potongan, SKU/ukuran/periode/WIB/waktu/alasan, jumlah dapat diedit; Native25 memberi4 Native+2 Auth baru PASS. Native31 pertama memberi4 race checked-save PASS. | Seluruh12 checked-save baru PASS pada16a0aeb0; paket28/31 karena3 jam fixture OW10. Kandidat waktuWIB a15054c2 sedang diuji31. SAVE skala2000/8s, after-use backuprestore dan rantai A belum terbukti. |
+| OW13c saran potong | Native31 a15054c2 PASS; seluruh12 checked-save baru, sumber stok berubah menolak, UUID/revisi/akses/stok sesudah wait, Auth dan desktop/HP/lost-reply ordinary reopen; mesin staged/rencana sama, jumlah dapat diedit. | Tambahan kelayakan negatif jalur checked selain stok, SAVE2000/8s, after-use backuprestore dan integrasi A belum terbukti. |
 | OW11a model | Cara dasar dan profil statistik ada; riwayat pendek dapat tetap UNKNOWN/fallback dengan alasan. | Pemilihan metode, backtest/pembanding dan aktivasi yang terbukti lebih baik belum selesai. Jangan menyamakan keberadaan profil dengan fitur ini lengkap. |
 | OW11b produk baru | Kebutuhan/kontrak owner tercatat. | Saran kandidat pembanding, alasan kemiripan, konfirmasi/pilihan pengguna, label analog dan keadaan data kurang belum selesai. |
 
@@ -96,7 +102,7 @@ ditulisi sesi B ini. Semua kiriman WA pengujian memakai layanan palsu.
 | 44afe80b/treef0a8ac6e | [Native31 pertama28/31](../d17-14/ow13c/44afe80-first-native31-28.json), run39941715921/job120374491985. Native14/15,race8/8,Auth4/4,browser2/4; restore/advisor benar. Volume7409/3150/3122ms; desktop salah harapan HTTP; HP memeriksa status terlalu awal. |
 | df6bd877/tree55ee4091 | [Native31 V7 30/31](../d17-14/ow13c/df6bd87-native31-30.json), run39945772181/job120387939390.15/8/4/3 PASS; volume7589/2831/2851ms dan HP PASS. Desktop pesan salah; server tetap menolak tepat500/40001/sumber berubah.28 source/8 invers22/10 authority/restore/advisor tepat; writer_runtimefalse. |
 |16a0aeb0/tree3c312602 | [Native31 28/31, jam fixture](../d17-14/ow13c/16a0aeb-native31-28-clock.json), run39993639712/job120551431684.13/7/4/4 PASS; seluruh12 checked-save baru dan volume7710/2952/2943ms PASS.3 fixture stok08:00WIB masih masa depan pada00:23WIB; Native tetap menolak. |
-|a15054c2/tree63918f4b | [Native31 perbaikan waktuWIB berjalan](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39996465132), job120561154474.31 ID/batas8s/3s utuh; hasil belum tersedia. |
+|a15054c2/tree63918f4b | [Native31 PASS31/31](../d17-14/ow13c/a15054c-native31-pass.json), run39996465132/job120561154474.15/8/4/4,160 klien/TS,28 source/8 invers22/10 authority/restore/advisor/lima gate tepat. Volume4728/1799/1743ms, batas tetap. |
 
 V7 tidak mengganti rumus atau membuang fakta. Agregat stok/saldo awal,
 normalisasi availability/hash, ref/jam, set identitas/statistik caller dibuat
@@ -171,23 +177,25 @@ Shared file A tidak ditulis; A tetap menerapkan, membuat tipe dan menguji rantai
 
 ## Langkah penerus yang persis
 
-1. Baca hasil run39996465132/job120561154474 padaa15054c2 dan unduh
-   complete Original JSON+log.16a0aeb0 sudah dicatat28/31 karena jam fixture,
-   df6bd87730/31 karena pesan layar; jangan mengulang kandidat lama. Cocokkan
-  31 ID/status/deklarasi,28 sumber,8 invers22,10 authority copy dan gate;
-   catat image layanan uji. Jangan mengulang Native19/25 lama untuk hijau.
-2. Bila gagal, simpan hasil pertama lengkap sebelum perbaikan. Batas8s dan
-   dua hangat≤3000ms tetap; jangan mengubah angka/oracle untuk meloloskan.
-   Bila lulus, tulis receipt pada kandidat tepat dan perbarui header ini.
-3. Teruskan sisa OW13c yang benar-benar belum terbukti dan koordinasi A,
-   lalu OW11a/b, Native bridge/factory3600 serta callback/jadwal yang sesuai
-   pemilik. Jangan membuat kebijakan atas nama Bos atau menganggap fallback
-   menutup fitur. Ada pekerjaan lain yang tidak perlu menunggu A.
+1. Ambil B terbaru dan baca receipt a15054c2:31/31 sudah lengkap. Tidak ada
+   job31 yang masih berjalan. Jangan mengulang kandidat gagal lama atau
+   menjumlahkan19+25+31 sebagai kasus berbeda. Commit setelah kandidat hanya
+   dokumentasi; kode produk/alat uji sama dengan kandidat lulus.
+2. B lanjutkan sisa OW13c: matriks negatif kelayakan jalur checked yang belum
+   terbukti (produk/policy/WIP/bahan/kapasitas), SAVE aktual2000/8s dan
+   pemulihan caller/receipt sesudah dipakai. Semua di disposable, Original
+   pertama disimpan, batas8s/3s tidak dinaikkan, draf tetap tanpa fakta fisik.
+   A mengerjakan default installer/registry/types/global use census serta
+   rantai gabungan sesuai pemilik berkas. Patch registry konkret di atas.
+3. Berikutnya B meneruskan OW11a/b, Native finance bridge/factory3600 dan
+   callback/jadwal yang sesuai pemilik. Semua fitur tetap lingkup; fallback
+   bukan bukti selesai. Tidak mengambil OW07/uang/HPP/shared A sepihak.
 4. Nilai owner yang masih terbuka: OW16 lebar batas/minimal potong;
-   OW10 tingkat layanan bila berbeda dari bawaan ROP95% D17-9;
-   OW11a syarat “lebih baik”; batas umur koreksi HPP/harga bila dikehendaki.
-   Ajukan satu per satu saat benar-benar diperlukan dengan usulan; nilai form
-   diisi saat aplikasi dipakai, bukan tugas tambahan administratif owner.
+   OW10 tingkat layanan bila berbeda dari ROP95% D17-9; OW11a syarat “lebih
+   baik”; batas umur koreksi HPP/harga bila dikehendaki. Ajukan satu per satu
+   saat perlu dengan usulan. Nilai form diisi saat aplikasi dipakai, bukan
+   tugas administratif tambahan. A/penerus baru memakai keputusan/sumber
+   ini dan tidak mewarisi klaim hasil yang belum dibaca.
 
 ## Indeks bukti dan kegagalan yang tetap dipertahankan
 
