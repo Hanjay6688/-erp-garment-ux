@@ -9,7 +9,7 @@
   "scripts/cp7_laundry_unknown_wash/native_probe.py": "b68f13c6a5f788e3231f0d95090a21cfc783f0742a7940a84ed2be1e1a23686f",
   "scripts/cp7_laundry_unknown_wash/ow07_original.py": "61100a17856c56cf79cdcf11c8a12964f495b55e88e6d1c229d60d968a2347ab",
   "scripts/cp7_laundry_unknown_wash/unknown_wash.sql": "2274d8a0afd8a7d67592df545879367b9187fe8902891810d9d18083f6e3180b",
-  "docs/cp7/d17-14/ow07/native7-PENDING_OW07_HEAD8-chain-pass.json": "PENDING_OW07_NATIVE7_RECEIPT_SHA256"
+  "docs/cp7/d17-14/ow07/native7-1bd08969-chain-pass.json": "b139e0b98eb0becca31e97afe7342e072adc5f3018d3040c72777798dea5fedd"
  },
  "case_ids": [
   "OW08B_WASH_UNKNOWN_RECORDED_NOT_ZERO_HPP_NOT_FINAL",
@@ -25,13 +25,13 @@
   "OW08B_WASH_STATE_DETECTOR_AND_PRIVATE_SCHEMA"
  ],
  "ow07_native_original": {
-  "receipt": "docs/cp7/d17-14/ow07/native7-PENDING_OW07_HEAD8-chain-pass.json",
-  "head": "PENDING_OW07_HEAD8",
-  "run": "PENDING_OW07_NATIVE7_RUN_ID",
-  "artifact": "PENDING_OW07_NATIVE7_ARTIFACT_ID",
+  "receipt": "docs/cp7/d17-14/ow07/native7-1bd08969-chain-pass.json",
+  "head": "1bd08969",
+  "run": 39892838281,
+  "artifact": 12474909312,
   "artifact_name": "cp7-ow07-hpp-close-native7",
-  "bytes": "PENDING_OW07_NATIVE7_RAW_BYTES",
-  "sha256": "PENDING_OW07_NATIVE7_RAW_SHA256"
+  "bytes": 2072291,
+  "sha256": "e2a20f8999daff51727882ef2ad87ecf406787fb0d427122ce6fba6e9b3c8d55"
  },
  "OW08b_complete": false
 }

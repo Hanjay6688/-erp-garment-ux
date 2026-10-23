@@ -1,0 +1,44 @@
+{
+ "run": 39892838281,
+ "attempt": 1,
+ "job": 120216348708,
+ "head": "1bd08969",
+ "qualification_commit": "1bd08969c238bd4a2dadc353881de13fb99af027",
+ "label": "CP7_OW07_HPP_CLOSE_NATIVE7",
+ "status": "PASS",
+ "expected_case_count": 7,
+ "observed_case_count": 7,
+ "cases": {
+  "OW07_POCKET_DAILY_USAGE_HOLDS_CLOSE_UNTIL_DIVIDED": "PASS",
+  "OW07_POCKET_OPENING_USAGE_HOLDS_CLOSE_UNTIL_DIVIDED": "PASS",
+  "OW07_ATTENDANCE_POOL_HOLDS_CLOSE_UNTIL_ACTIVE": "PASS",
+  "OW07_ATTENDANCE_POLICY_MISSING_HOLDS_CLOSE": "PASS",
+  "OW07_ATTENDANCE_SOURCE_UNCLEAR_HOLDS_CLOSE": "PASS",
+  "OW07_ATTENDANCE_ZERO_OUTPUT_REPORTED_NOT_BLOCKING": "PASS",
+  "OW07_FINISHED_PO_POOL_ACTIVATE_CANCEL_LEAVES_NO_WIP": "PASS"
+ },
+ "cp6_restored": true,
+ "advisor_gate": true,
+ "restore_raw_public_equal": true,
+ "package_gate": {"installed": true, "primary_unchanged": true, "backup_restore_drill": true, "security_advisors": true, "writer_runtime": true},
+ "every_case": {"full_boundary_restored": true, "public_schema_unchanged": true, "session_leaks": 0, "business_day": "2026-10-23 unchanged"},
+ "report": {"name": "CP7_OW07_HPP_CLOSE_NATIVE7.json", "raw_bytes": 2072291, "raw_sha256": "e2a20f8999daff51727882ef2ad87ecf406787fb0d427122ce6fba6e9b3c8d55"},
+ "artifact": "cp7-ow07-hpp-close-native7 (12474909312)",
+ "ow09_native8_original": {
+  "admission_step": "python scripts/ow09_native_original.py",
+  "log_line": "ACTUAL_OW09_NATIVE8_ORIGINAL_BYTES_AND_FULL_DECLARED_SOURCE_VERIFIED_NO_PRODUCT_EXECUTION"
+ },
+ "qualified_predecessor": {"name": "CP7_OW09_WHOLE_LIST_NATIVE8.json", "bytes": 2291282, "sha256": "f6c723468c5924d9990e2c3c8260a9152281ee1c38840e30841b322c2147ed50"},
+ "highlights": {
+  "OW07_POCKET_DAILY_USAGE_HOLDS_CLOSE_UNTIL_DIVIDED": "pocket usage 50.00 not divided to HPP holds close (POCKET_USAGE_UNALLOCATED added); original and patched both BLOCKED",
+  "OW07_POCKET_OPENING_USAGE_HOLDS_CLOSE_UNTIL_DIVIDED": "opening usage 11.25 holds close; dividing removes it, cancelling the division restores it",
+  "OW07_ATTENDANCE_POOL_HOLDS_CLOSE_UNTIL_ACTIVE": "attendance wage 1000.00 holds close; draft pool still holds, active pool releases, cancel holds again; close refused without effect",
+  "OW07_ATTENDANCE_POLICY_MISSING_HOLDS_CLOSE": "missing policy holds close; after policy a pool is required",
+  "OW07_ATTENDANCE_SOURCE_UNCLEAR_HOLDS_CLOSE": "unclear source (direct corruption, rolled back) holds close",
+  "OW07_ATTENDANCE_ZERO_OUTPUT_REPORTED_NOT_BLOCKING": "zero-output attendance reported as info, not blocking",
+  "OW07_FINISHED_PO_POOL_ACTIVATE_CANCEL_LEAVES_NO_WIP": "attendance 1000.00 to finished PO; WIP 0 after activate and after cancel; no residual closed"
+ },
+ "OW07_complete": false,
+ "production_go": false,
+ "independent_acceptance": false
+}
