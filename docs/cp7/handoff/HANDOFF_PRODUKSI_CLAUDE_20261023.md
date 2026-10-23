@@ -1,5 +1,11 @@
 # Ambil alih hasil produksi B —23 Oktober2026 WIB
 
+**Run OW13c aktual sedang berjalan:** kandidat bf98947e/tree8900f4c0,
+[run39933288875](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39933288875),
+job120346584940.25 kasus=19 caller lama utuh+4 Native+2 Auth checked-save baru.
+Gerbang klien/typecheck lewat; hasil kualifikasi belum keluar. Race/browser
+yang ditahan masih OW10, bukan bukti checked-save. [Batas Native25](../d17-14/ow13c/NATIVE25_README.md).
+
 **Kode B terbaru cbb74b2b** (treee2a3ddb7): OW13c saran potong sekarang
 terhubung ke panel/mesin rencana yang sama di Buat Potongan, dengan jalur SAVE
 baru yang memeriksa sumber/kelayakan sebelum dan sesudah writer.11 SQL lokal,
@@ -165,8 +171,9 @@ dalam payload immutable. Buka ulang di halaman rencana biasa tetap mengirim
 request checked yang sama. Jangan merutekan menurut layar/prop saja, menghapus
 marker atau menghilangkan pemeriksaan bukti respons. Kontrak arsip lama tetap.
 
-Langkah berikut: buat kualifikasi Native khusus OW13c memakai modul baru di atas
-komposisi B yang tepat. Uji source/plan/payload benar, jumlah sama, sumber/bahan/
+Langkah berikut: baca hasil run Native25 di atas dan simpan Original/failure
+pertama. Kualifikasi ini memasang modul baru di atas komposisi B yang tepat.
+Lanjutkan kontrol source/plan/payload benar, jumlah sama, sumber/bahan/
 WIP/kapasitas berubah, dua backend dan revoke setelah lock wait, UUID/revisi,
 Auth asli, desktop/HP, hilang jawaban dan buka ulang pada rencana biasa.5 badan
 dependensi dipin; installer/invers22 dan guard setelah receipt wajib. Ukur satu

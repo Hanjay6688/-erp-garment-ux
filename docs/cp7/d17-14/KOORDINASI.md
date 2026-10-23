@@ -492,3 +492,19 @@ dan UUID/payload sama. Tipe facade B sementara sempit, bukan RPC bebas.
 B berikutnya kualifikasi Native khusus OW13c, termasuk waktu SAVE aktual8detik
 (dua pemeriksaan source penuh) dan perjalanan desktop/HP. Jangan menganggap
 Native19 d5997235 meliputi kode OW13c setelahnya, atau menaikkan batas waktu.
+
+## 20 — OW13c Native25 sedang berjalan (23 Okt WIB) [bersama]
+
+B memisahkan harness11ef4c13[skip ci] lalu kandidat bf98947e/tree8900f4c0,
+run39933288875/job120346584940 aktual. Gerbang klien/typecheck sudah lewat;
+langkah kualifikasi sedang berjalan, **belum PASS**. Budget tepat25:19 kontrol
+caller tidak diubah+4 Native/2 Auth checked-save. Race/browser yang ditahan
+masih OW10; checked-save race/browser tetap harus ditambah. Stack/pin dasar
+tetap, oracle/8detik/volume hangat3detik tidak dilonggarkan.
+
+Empat Native baru: source/preflight/writer sebenarnya+replay/0 physical fact,
+sumber berubah dan SAVE arsip lama tetap, UUID lama tidak dilabel checked,
+receipt menolak inverse sebelum DDL. Dua Auth: login/save/replay, anonymous dan
+revoke token lama. Kontrak dideklarasikan sebelum run di ow13c/NATIVE25_CONTRACT.json.
+Handoff memuat run aktual; seluruh Source/Original/failure pertama akan disimpan.
+Belum ada klaim OW13c/rantai A/pasang-pulih lengkap; parent5/16 tetap.
