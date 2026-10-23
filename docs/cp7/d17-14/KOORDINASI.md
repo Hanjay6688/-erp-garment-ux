@@ -819,3 +819,10 @@ Transport10 dideklarasikan di `ow13c/SCHEDULE_TRANSPORT_CONTRACT.json`: Native1 
 Tombol jadwal dipindah ke pilihan periode agar tidak menunggu capture riwayat lama yang dapat menolak data padat. Satu tombol tetap setelah hasil riwayat ada; pending/corrupt riwayat lama tetap mengunci sampai dipulihkan. 108 uji klien/5 berkas dan TypeScript lulus. Review React: import langsung, penyimpanan versi kecil, cleanup event/generasi akses, dependency request→GET yang benar, functional update, fieldset/label dan tidak ada hitungan bisnis baru.
 
 Transport10 kandidatbbe3438c/run40017444415/job120633051970 sedang berjalan, belum hasil. Perubahan tombol langsung sesudahnya mendapat suite Entry2 browser-only dengan source server9 sama, bukan mengulang semua Native/race/Auth. Tidak mengklaim bukti silang kandidat bila source relevan berubah. Parent5/16, actual checked SAVE2000 dan after-use restore tetap terbuka.
+
+
+## 40. Transport10 gagal di identitas salinan; probe diperbaiki (24 Oktober 2026 WIB)
+
+Receipt `ow13c/bbe3438-transport10-first-incomplete.json`: Native anchor PASS,9 skenario transport belum jalan. Setup clone ditolak oracle lama karena database_authority CURRENT berbeda, bukan penolakan akses/data yang boleh diabaikan. New probe lupa memakai wrapper `cp7_ow13a_clone_authority` yang sudah qualified pada Native31. Wrapper yang sama dipasang ke probe transport/entry; tidak mengubah oracle22 atau A harness, SQL produk, akses hosted/primer. Restore/advisor tetap lulus; writer_runtime false dipertahankan.
+
+Ulang Transport10 pada sumber layar terbaru sekaligus menguji akses langsung tanpa capture riwayat lama; Native11/31 tidak perlu diulang. Entry2 yang sudah berjalan dengan probe lama tetap disimpan terpisah; tidak perlu diulang sebagai suite tambahan setelah browser Transport10 terbaru mencakup jalur langsung. 108 uji klien/TypeScript sudah lulus. Parent tetap5/16 dan semua batas acceptance tetap.

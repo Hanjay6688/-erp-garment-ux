@@ -70,16 +70,24 @@ GET/SAVE baru memakai reference staged asli. UUID lama tetap menuju facade lama;
 isian belum disimpan, pergantian akses, respons terlambat, dan perubahan tab lain dipertahankan.
 History INCOMPLETE/analisis FAILED tetap diberi keterangan yang jujur.
 [Catatan uji klien](../d17-14/ow13c/STAGED_SCHEDULE_CLIENT_CHECK.json).
-**Transport10 sedang berjalan** di kandidat `bbe3438c8977239dd7a3d36b52bf570708a30b77`,
-[run40017444415](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/40017444415),
-job120633051970. Ini satu anchor katalog ulang, empat balapan dua sesi,
-tiga Auth/PostgREST, dua browser desktop/ponsel. Belum diklaim lulus sebelum hasil nyata.
+**Transport10 pertama belum lulus: lingkungan salinan ditolak sebelum skenario.**
+[Kegagalan bbe3438](../d17-14/ow13c/bbe3438-transport10-first-incomplete.json),
+[run40017444415](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/40017444415)
+/job120633051970: Native anchor PASS1/1; race/Auth/browser belum dijalankan karena
+oracle 22 kelompok menolak database_authority CURRENT pada salinan template.
+Restore/advisor tetap lulus; gate writer_runtime tepat false. Original12529950784,
+90180 bytes, SHA122f48b51b9cb27f17741c9b29ce4462d2a3a787e642c53820fa3ec7354494d9.
 
-**Entry2 akan memeriksa akses jadwal langsung dari pilihan periode.** Tombol
-jadwal kini tersedia sebelum capture riwayat lama; jalur lama tetap memakai limit
-semula dan hasil yang belum pasti tetap dipulihkan. Dua browser khusus memeriksa
-akses langsung, tanpa mengulang seluruh kelompok race/Auth yang sumber servernya sama.
-Source layar baru masih menunggu bukti browser Entry2; Native11 tetap bukti server terpisah.
+Perbaikan hanya probe B: memasang kembali wrapper clone-authority yang sudah
+terbukti di Native31. Owner, ACL, connection limit, database/role GUC disamakan
+ke sumber untuk tepat3 nama salinan lokal; oracle22 tetap utuh dan membandingkan
+hasil nyata. Tidak mengubah SQL produk, A harness, atau database primer.
+**Langkah aktif: ulang Transport10 pada sumber layar terbaru**, termasuk tombol
+jadwal langsung dari pilihan periode, desktop dirty/stale, dan ponsel lost reply.
+Dengan demikian kedua skenario akses langsung ikut diuji pada kandidat terbaru;
+Entry2 tidak perlu diulang sendiri. Kandidat Entry2 3695778b memakai wrapper lama
+sebelum fix, hasilnya harus disimpan sebagai bukti terpisah dan tidak diklaim lulus.
+Native11 tetap bukti server terpisah; actual checked SAVE2000 belum selesai.
 
 GET memakai UUID permintaan job (`p_source_request`), SAVE memakai realrun
 UUID dariGET+marker/sourcehash/revisi/config/alasan. Native validator kerja/

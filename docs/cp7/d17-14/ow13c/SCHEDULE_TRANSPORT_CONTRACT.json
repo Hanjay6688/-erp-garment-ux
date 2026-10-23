@@ -59,5 +59,7 @@
   "repeated_catalog_anchor_case_credit": 0,
   "new_transport_cases": 9,
   "actual_checked_SAVE2000_qualified": false,
-  "production_go": false
+  "production_go": false,
+  "browser_direct_entry_without_old_whole_history_first": true,
+  "first_environment_failure_preserved": "bbe3438-transport10-first-incomplete.json"
 }
