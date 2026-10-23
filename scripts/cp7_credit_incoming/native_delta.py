@@ -1,4 +1,4 @@
-"""Counted substitutions for OW-04b slice C step 2 (docs/cp7/d17-14/ow04/OW04B_SLICE_C_INVENTORY.md C1-C7, C12).
+"""Counted substitutions for OW-04b slice C step 2 (docs/cp7/d17-14/ow04/OW04B_SLICE_C_INVENTORY.md C1-C7, C12, C13).
 
 Applied to the installed slice B definitions (cp7_credit_multi). Every anchor is found once. U is
 cp7_credit_incoming.incoming_applied_v1, the credit applied to the invoice (incoming.sql); with U = 0 every replaced
@@ -14,6 +14,12 @@ U_WORK="cp7_credit_incoming.incoming_applied_v1(w.source_sale_id)"
 SUBSTITUTIONS={
     BUILD:(
         ('C1',"\n  or exists(select 1 from cp7_credit.consumption_events where event_kind='APPLY'and target_sale_id=(p_legacy->>'sale_id')::uuid)",''),
+        # C13 (first CI run 39892148460, ceed13e3): the quote's completeness proof compares the coordinator collector,
+        # which the consumer composition extended with the invoice's incoming credit as FUNDING events, with the Native
+        # source collector, which has no consumer events. The exact proven incoming events are added to the Native side.
+        ('C13'," if cp7_credit.initial_event_semantics_v1(before_events)is distinct from cp7_credit.initial_event_semantics_v1(src->'events')then\n",
+               " if cp7_credit.initial_event_semantics_v1(before_events)is distinct from"
+               " cp7_credit.initial_event_semantics_v1((src->'events')||cp7_credit.consumer_incoming_funding_v1(h.id))then\n"),
         ('C2a',"paid-"+PRIOR+">net","paid+"+U_SALE+"-"+PRIOR+">net"),
         ('C2b',"paid-"+PRIOR+"-issued>after_net or paid-"+PRIOR+"-issued<0 then",
                "paid+"+U_SALE+"-"+PRIOR+"-issued>after_net or paid+"+U_SALE+"-"+PRIOR+"-issued<0 then"),

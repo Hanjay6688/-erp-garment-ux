@@ -1,0 +1,49 @@
+{
+ "run": 39892148460,
+ "attempt": 1,
+ "job": 120214163160,
+ "step": 20,
+ "head": "ceed13e3",
+ "label": "CP7_OW04BC_INCOMING_CREDIT_RETURN_NATIVE7_RACE1",
+ "status": "INCOMPLETE",
+ "artifact": "cp7-ow04b-incoming-credit-return-native7-race1 (12475571330)",
+ "observed_case_count": 7,
+ "observed_race_count": 1,
+ "cases": {
+  "OW04BC_FIRST_RETURN_QUOTES_UNCHANGED": "PASS",
+  "OW04BC_RETURN_ON_CREDIT_PAID_INVOICE_NO_CREDIT": "INCOMPLETE: CP7_CREDIT_NATIVE_SOURCE_VECTOR_INCOMPLETE",
+  "OW04BC_UNDO_ALLOWED_WHEN_RETURN_EMPTY": "INCOMPLETE: CP7_CREDIT_NATIVE_SOURCE_VECTOR_INCOMPLETE",
+  "OW04BC_RETURN_ON_CREDIT_PAID_INVOICE_CREDIT": "INCOMPLETE: CP7_CREDIT_NATIVE_SOURCE_VECTOR_INCOMPLETE",
+  "OW04BC_RETURN_ON_CREDIT_PAID_INVOICE_REFUND": "INCOMPLETE: CP7_CREDIT_NATIVE_SOURCE_VECTOR_INCOMPLETE",
+  "OW04BC_UNDO_REFUSED_WHEN_RETURN_DEPENDS": "INCOMPLETE: CP7_CREDIT_NATIVE_SOURCE_VECTOR_INCOMPLETE",
+  "OW04BC_PROTECTED_REFUSALS_IDENTICAL": "PASS"
+ },
+ "races": {
+  "OW04BC_RACE_RETURN_VS_UNDO_OF_ITS_CREDIT": "INCOMPLETE: CP7_CREDIT_NATIVE_SOURCE_VECTOR_INCOMPLETE"
+ },
+ "expected_for_failing": {
+  "OW04BC_RETURN_ON_CREDIT_PAID_INVOICE_NO_CREDIT": "ordinary return of 50 accepted: net 450, E 80, AR 370, PARTIAL_PAID, no cohort",
+  "OW04BC_UNDO_ALLOWED_WHEN_RETURN_EMPTY": "after that return, the undo of the 80 credit accepted: AR 450",
+  "OW04BC_RETURN_ON_CREDIT_PAID_INVOICE_CREDIT": "quote K 100 (credit applied 80, effective 500 -> 400), settled as CREDIT: I 100, E 400, AR 0, PAID",
+  "OW04BC_RETURN_ON_CREDIT_PAID_INVOICE_REFUND": "same as REFUND, cash -100",
+  "OW04BC_UNDO_REFUSED_WHEN_RETURN_DEPENDS": "after the credit return, undo refused CP7_CREDIT_CONSUMER_FAMILY_ADJUSTMENT_REVIEW_REQUIRED",
+  "OW04BC_RACE_RETURN_VS_UNDO_OF_ITS_CREDIT": "worker undo refused CP7_CREDIT_CONSUMER_FAMILY_ADJUSTMENT_REVIEW_REQUIRED, no undo, one cohort"
+ },
+ "observed_refusal": "P0001 CP7_CREDIT_NATIVE_SOURCE_VECTOR_INCOMPLETE at build_initial_return_for_draft_v1 line 34, in every path that quotes a return on the credit-paid invoice (public quote, settlement sealing and the ordinary own-draft path)",
+ "first_failure_context": [
+  "CP7_CREDIT_NATIVE_SOURCE_VECTOR_INCOMPLETE",
+  "CONTEXT:  PL/pgSQL function cp7_credit.build_initial_return_for_draft_v1(jsonb,text,jsonb,uuid) line 34 at RAISE",
+  "PL/pgSQL assignment \"b:=cp7_credit.build_initial_return_for_draft_v1(q.payload,q.expected_version,cp7_credit.initial_choice_v1(null),r.id)\"",
+  "PL/pgSQL function cp7_credit.native_return_enter(uuid) line 23 at assignment",
+  "SQL statement \"SELECT cp7_credit.native_return_enter(p_return_id)\"",
+  "PL/pgSQL function post_sales_return(uuid) line 29 at PERFORM"
+ ],
+ "cp6_restored": true,
+ "advisor_gate": true,
+ "error": null,
+ "restore_error": null,
+ "final_gate": "writer_runtime: False only because the report status was INCOMPLETE; installed, primary_unchanged, backup_restore_drill and security_advisors True",
+ "classification": "(b) the stage was wrong: a missed place, not a wrong expectation and not a product defect",
+ "cause": "The quote proves its source vector is complete by comparing cp7_credit.initial_base_events_v1(sale) with the Native source collector ow04_source_proposal.locked_source_family(sale)->events (02_initial_projection.sql:333). The consumer composition extended initial_base_events_v1 with the invoice's incoming credit as FUNDING events (consumer_incoming_funding_v1); the Native collector has no consumer events. On an invoice that received credit the two vectors therefore differ by exactly those events, and the retained check correctly refused. Slice C had removed the APPLY clause (C1) without adding the incoming events to the Native side. The first-return quotes and the protected refusals passed; install, removal before use, CP6 restore and the advisor gate passed.",
+ "fix": "C13: one counted substitution in the quote so the Native side is (src->events) || consumer_incoming_funding_v1(sale): the exact incoming events, each proven by consumer_event_data_v1 inside that function. Without incoming credit the added list is empty and the check is the slice B check; with it the exact vector is accepted, and a vector missing an incoming event is still refused (local_check_delta.py). The native-empty direct route keeps its own unchanged check (C8). No case expectation or oracle was changed; the six blocked cases and the race are unproven until the next run."
+}
