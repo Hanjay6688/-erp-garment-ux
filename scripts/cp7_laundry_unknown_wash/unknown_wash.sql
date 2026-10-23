@@ -40,6 +40,8 @@ create table cp7_laundry_unknown_wash.prices_v1(
 create index prices_v1_unknown_po on cp7_laundry_unknown_wash.prices_v1(po_id) where price_status='UNKNOWN';
 alter table cp7_laundry_unknown_wash.prices_v1 owner to postgres;
 alter table cp7_laundry_unknown_wash.prices_v1 enable row level security;
+-- Default denial as an explicit policy (no API role has a grant either); the stage's own definer functions own the table.
+create policy deny_prices on cp7_laundry_unknown_wash.prices_v1 for all using(false)with check(false);
 revoke all on table cp7_laundry_unknown_wash.prices_v1 from public,anon,authenticated,service_role;
 
 -- History is immutable: the only change is UNKNOWN -> priced, once; no delete.

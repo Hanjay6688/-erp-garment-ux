@@ -1,4 +1,4 @@
-"""Counted substitutions of nine installed Native functions (OW-08b, failed wash with an unknown vendor price).
+"""Counted substitutions of ten installed Native functions (OW-08b, failed wash with an unknown vendor price).
 
 Each anchor must occur exactly once in the predecessor's own pg_get_functiondef text, else the stage refuses. The
 predecessor is the qualified OW07 product: erp.period_blockers_v1 already carries OW07's HPP-pool line, and this delta
@@ -11,6 +11,9 @@ explicit request key price_status='UNKNOWN', from a row this stage registers, or
                                      response cost/hpp status says the price is unknown.
   erp.validate_laundry_receipt_line  the facade context that says UNKNOWN stores the attempt without rate and cost
                                      (PENDING); an unknown attempt leaves PENDING only through its recorded price.
+  erp.guard_cp6_laundry_receipt_lineage_on_post_v2620
+                                     posting: an attempt registered UNKNOWN must post exactly with no rate, no cost,
+                                     PENDING; every other attempt keeps the exact zero-output estimate (all other checks stay).
   erp.period_blockers_v1             + cp7_laundry_unknown_wash.blockers_v1 (close waits; state detector).
   erp.rebuild_po_hpp                 an unknown attempt keeps the PO's HPP not final (ESTIMATED).
   erp.bd_lot_laundry_unknown_v1      goods of that PO are "laundry price unknown" (sale guard LAU-DEC04, provisional HPP).
@@ -21,6 +24,7 @@ explicit request key price_status='UNKNOWN', from a row this stage registers, or
 """
 SAVE_QC='erp.save_laundry_qc_action_v1(text,jsonb,uuid,bigint)'
 VALIDATE='erp.validate_laundry_receipt_line()'
+LINEAGE='erp.guard_cp6_laundry_receipt_lineage_on_post_v2620()'
 BLOCKERS='erp.period_blockers_v1(date,date)'
 HPP='erp.rebuild_po_hpp(uuid,text)'
 LOT='erp.bd_lot_laundry_unknown_v1(uuid)'
@@ -28,7 +32,7 @@ PENDING='erp.bd_pending_cost_json_v1(uuid,boolean)'
 DRAFT='erp.bd_save_invoice_draft_v1(jsonb,uuid)'
 ROUTER='erp.save_laundry_bd_action_v1(text,jsonb,uuid)'
 WORKSPACE='erp.get_laundry_bd_workspace_v1(jsonb)'
-SIGNATURES=(SAVE_QC,VALIDATE,BLOCKERS,HPP,LOT,PENDING,DRAFT,ROUTER,WORKSPACE)
+SIGNATURES=(SAVE_QC,VALIDATE,LINEAGE,BLOCKERS,HPP,LOT,PENDING,DRAFT,ROUTER,WORKSPACE)
 SCHEMA='cp7_laundry_unknown_wash'
 CODES=('LAUNDRY_FAILED_WASH_PRICE_UNKNOWN','LAUNDRY_FAILED_WASH_PRICE_STATE_MISMATCH')
 ACTION='SET_FAILED_WASH_PRICE'
@@ -131,6 +135,24 @@ STEPS={
    "    raise exception 'CP7_FAILED_WASH_PRICE_UNKNOWN: harga cuci gagal ini belum diketahui; isi dulu di "+PLACE+"';\n"
    "  end if;\n"
    "  if v_existing_failed_qty is not null then\n    if new.qty_good_received<>0 or new.qty_bs_laundry<>0\n"),
+ ),
+ LINEAGE:(
+  ('unknown-shape',
+   "        or l.actual_wash_process_id is null\n"
+   "        or l.actual_rate_snapshot is null or l.actual_rate_snapshot<0\n"
+   "        or l.actual_cost_status<>'ESTIMATED'\n"
+   "        or l.actual_cost is distinct from round(r.qty_attempted_pcs*l.actual_rate_snapshot,2)\n"
+   "      )\n",
+   "        or l.actual_wash_process_id is null\n"
+   "        -- OW-08b (LAU-DEC04): an attempt this stage registered with an unknown vendor price posts with exactly no rate,\n"
+   "        -- no cost and status PENDING (never zero); every other attempt keeps the exact zero-output estimate below.\n"
+   "        or (case when exists(select 1 from cp7_laundry_unknown_wash.prices_v1 ow\n"
+   "            where ow.attempt_id=r.id and ow.receipt_line_id=l.id and ow.price_status='UNKNOWN')\n"
+   "          then l.actual_rate_snapshot is not null or l.actual_cost is not null or l.actual_cost_status<>'PENDING'\n"
+   "          else l.actual_rate_snapshot is null or l.actual_rate_snapshot<0\n"
+   "        or l.actual_cost_status<>'ESTIMATED'\n"
+   "        or l.actual_cost is distinct from round(r.qty_attempted_pcs*l.actual_rate_snapshot,2) end)\n"
+   "      )\n"),
  ),
  BLOCKERS:(
   ('close',

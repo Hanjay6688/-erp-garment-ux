@@ -38,7 +38,7 @@ bersamaan, tetap ditolak seperti sebelumnya. Perintah laundry lain (kirim, terim
 
 ## Yang sudah dicoba di komputer kerja
 
-- Perubahan pada 9 fungsi database dicoba pada teks fungsi versi terakhir dari berkas rilis ditambah perubahan OW-07:
+- Perubahan pada 10 fungsi database dicoba pada teks fungsi versi terakhir dari berkas rilis ditambah perubahan OW-07:
   setiap perubahan cocok tepat satu kali, hasilnya bisa dipasang di PostgreSQL percobaan, dan menolak dipasang dua kali
   atau di atas versi yang salah.
 - 36 pemeriksaan kecil pada database percobaan tiruan lulus (mencatat tanpa tarif, menolak tanpa centang, menahan tutup
@@ -52,7 +52,14 @@ bersamaan, tetap ditolak seperti sebelumnya. Perintah laundry lain (kirim, terim
 
 Uji lengkap "CP7 OW08b failed wash with unknown vendor price Native11" (11 kasus) pada salinan database yang disamakan
 dengan database asli. Uji ini membandingkan setiap hasil dengan kembarannya yang tarifnya sudah diketahui, dan dengan mesin
-lama pada keadaan yang sama. Uji itu belum dijalankan; hasilnya akan dicatat di sini.
+lama pada keadaan yang sama.
+
+Percobaan pertama (23 Okt, run 39883305777): 3 dari 11 kasus lulus, 8 belum selesai. Penyebabnya satu penjaga lama di
+database: saat cuci gagal disimpan, penjaga itu mewajibkan tarif sudah terisi, jadi cuci gagal tanpa tarif selalu ditolak.
+Penjaga itu sekarang ikut disesuaikan: hanya cuci gagal yang memang dicatat "tarif belum diketahui" boleh disimpan tanpa
+tarif, dan harus benar-benar kosong (bukan nol). Cuci gagal lain tetap diperiksa persis seperti dulu. Satu catatan
+keamanan juga dirapikan (tabel harga diberi aturan tolak-semua). Uji diulang; hasilnya dicatat di sini
+(rincian: `wash-native11-cc5766e7-first-failure.json`).
 
 ## Catatan teknis untuk pemeriksa
 

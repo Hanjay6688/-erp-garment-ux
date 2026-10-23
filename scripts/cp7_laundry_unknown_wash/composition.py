@@ -1,8 +1,8 @@
 """OW-08b failed-wash stage over the qualified OW07 product: a failed wash may wait for its laundry vendor price (LAU-DEC04).
 
-Nine installed Native functions get the counted delta of native_delta.py, replaced as their verified existing owner
-(postgres, as OW07 requires for its own three). One private schema is added: the price register prices_v1 (RLS on, nothing
-granted), its immutability trigger and five SECURITY DEFINER readers/writer owned by postgres that no API role can call.
+Ten installed Native functions get the counted delta of native_delta.py, replaced as their verified existing owner
+(postgres, as OW07 requires for its own three). One private schema is added: the price register prices_v1 (RLS on with one
+deny-all policy, nothing granted), its immutability trigger and five SECURITY DEFINER readers/writer owned by postgres that no API role can call.
 Every one of the 22 catalog groups is captured; only these declared changes are admitted. Removal before use restores the
 exact OW07 predecessor; once an attempt was recorded with an unknown price, removal needs a backup restore.
 """
@@ -18,6 +18,7 @@ SCHEMA=native_delta.SCHEMA
 SQL='unknown_wash.sql'
 TABLE=SCHEMA+'.prices_v1'
 TRIGGER='prices_v1_guard'
+POLICY=('deny_prices','*',True,['PUBLIC'],'false','false')
 GUARD=SCHEMA+'.guard_v1()'
 FUNCTIONS=(GUARD,SCHEMA+'.unknown_v1()',SCHEMA+'.po_pending_v1(uuid)',SCHEMA+'.blockers_v1(date)',
            SCHEMA+'.workspace_v1(uuid,boolean)',SCHEMA+'.set_price_v1(jsonb,uuid)')
@@ -92,6 +93,11 @@ def verify(cur,state):
     owner,rls,trigger=cur.execute("""select pg_get_userbyid(c.relowner),c.relrowsecurity,(select t.tgenabled from pg_trigger t where t.tgrelid=c.oid and t.tgname=%s)
         from pg_class c where c.oid=%s::regclass""",(TRIGGER,TABLE)).fetchone()
     if owner!=OWNER or not rls or trigger!='O':raise ValueError('OW08B_WASH_PRICE_REGISTER_AUTHORITY_CHANGED')
+    policies=cur.execute("""select p.polname::text,p.polcmd::text,p.polpermissive,
+        array(select case when x=0 then 'PUBLIC' else pg_get_userbyid(x) end from unnest(p.polroles)x),
+        pg_get_expr(p.polqual,p.polrelid),pg_get_expr(p.polwithcheck,p.polrelid)
+        from pg_policy p where p.polrelid=%s::regclass""",(TABLE,)).fetchall()
+    if [tuple(x)for x in policies]!=[POLICY]:raise ValueError('OW08B_WASH_PRICE_REGISTER_POLICY_CHANGED: '+repr(policies))
     for role in ROLES:
         if not cur.execute('select exists(select 1 from pg_roles where rolname=%s)',(role,)).fetchone()[0]:continue
         if cur.execute("select has_schema_privilege(%s,%s,'USAGE')",(role,SCHEMA)).fetchone()[0]:

@@ -1,0 +1,25 @@
+{
+ "run": 39883305777,
+ "attempt": 1,
+ "job": 120185538188,
+ "head": "cc5766e7",
+ "label": "CP7_OW08B_LAUNDRY_UNKNOWN_WASH_NATIVE11",
+ "status": "INCOMPLETE",
+ "cases": {
+  "OW08B_WASH_UNKNOWN_RECORDED_NOT_ZERO_HPP_NOT_FINAL": "INCOMPLETE: Failed-wash canonical cost line is not an exact zero-output estimate (erp.guard_cp6_laundry_receipt_lineage_on_post_v2620 line 32, on the receipt status update to POSTED in erp.save_laundry_qc_action_v1 line 907)",
+  "OW08B_WASH_WITHOUT_FLAG_REFUSED_AS_BEFORE": "PASS",
+  "OW08B_WASH_TWO_EFFECTIVE_RATES_REFUSED": "PASS",
+  "OW08B_WASH_CLOSE_BLOCKED_UNTIL_PRICED_EQUALS_KNOWN_TWIN": "INCOMPLETE: same refusal at posting",
+  "OW08B_WASH_RETURN_UNPROCESSED_UNKNOWN_PRICE": "INCOMPLETE: same refusal at posting",
+  "OW08B_WASH_PRICE_SET_ONCE_OWNER_ADMIN_ONLY": "INCOMPLETE: same refusal at posting",
+  "OW08B_WASH_REVERSE_UNKNOWN_NO_MONEY_EFFECT": "INCOMPLETE: same refusal at posting",
+  "OW08B_WASH_SALE_FOLLOWS_LAU_DEC04": "INCOMPLETE: same refusal at posting",
+  "OW08B_WASH_INVOICE_REFUSED_UNTIL_PRICED": "INCOMPLETE: same refusal at posting",
+  "OW08B_WASH_OTHER_LAUNDRY_COMMANDS_UNCHANGED": "PASS",
+  "OW08B_WASH_STATE_DETECTOR_AND_PRIVATE_SCHEMA": "INCOMPLETE: same refusal at posting"
+ },
+ "cp6_restored": true,
+ "advisor_gate": false,
+ "cause": "Product, two gaps in the stage. (1) The CP6 posting guard erp.guard_cp6_laundry_receipt_lineage_on_post_v2620 (v2.6.20 trigger on laundry_receipts status) requires every failed-wash cost line to hold a non-null rate, status ESTIMATED and cost = attempts x rate when its receipt posts. The stage changed the writer and the line validator but not this guard, so every attempt recorded with price_status UNKNOWN was refused at posting; the three cases that never record such an attempt passed. Install, complete verification, CP6 restore and removal before use passed. (2) Advisor gate: the new table cp7_laundry_unknown_wash.prices_v1 had RLS with no policy (INFO rls_enabled_no_policy), which is not a verified predecessor finding. Report CP7_OW08B_LAUNDRY_UNKNOWN_WASH_NATIVE11.json, 2935076 bytes, sha256 9da78b42f66fb4363fb4764084b523022ed7d90a9ff0f16506cb88c37cb22ea4, decoded from the job log receipt.",
+ "fix": "The guard becomes the tenth function of the counted delta: only an attempt registered UNKNOWN in the stage's private price register may post, and then exactly with no rate, no cost and status PENDING (a priced, zero or ESTIMATED line is refused); every other attempt keeps the original zero-output estimate text, and every other check of the guard is unchanged. Checked locally with the original and the patched guard: the CI refusal reproduces on the original, and all four outcomes for unregistered attempts are identical. The register gets one deny-all policy (using false, with check false), the pattern of the other private CP7 stages, and verify() pins it. No case expectation was changed."
+}
