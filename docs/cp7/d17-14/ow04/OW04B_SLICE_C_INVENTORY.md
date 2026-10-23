@@ -56,6 +56,11 @@ then calls B's removal.
 - `opening_return_hpp_owner_v1` re-derives the guard's value, so it must expect `raw_paid + U − (earlier credit + K)` for a reviewed settlement.
 - For an ordinary return it must expect `raw_paid + U`, exactly what C3 and C3b now compute.
 
+**Added after the first CI run (C13, ceed13e3, run 39892148460):**
+- The quote's source-vector completeness check (`02_initial_projection.sql:333`) compares the collector that includes the incoming credit with the Native collector, which has none.
+- The Native side now adds the exact proven incoming events (`consumer_incoming_funding_v1`).
+- Record: `ow04b-slice-c-native7-race1-ceed13e3-first-failure.json`.
+
 Still refused after C, with named reasons:
 - payment correction on such an invoice (`payment_correction/transform.py:53,171`, `04_completion.sql:9`);
 - source reversal of its payments or returns (`consumer/11_source_history.sql:14`, `CP7_CREDIT_SOURCE_INCOMING_HISTORY_ADAPTER_REQUIRED`);

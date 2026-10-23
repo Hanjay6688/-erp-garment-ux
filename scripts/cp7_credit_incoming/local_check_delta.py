@@ -208,6 +208,20 @@ def main(dsn):
             assert same(a['no_credit']) and a['no_credit'][0].get('ok'), a['no_credit']
             assert a['credit_applied'][0]['message'] == 'CP7_CREDIT_INITIAL_CAUSAL_SCOPE_INVALID' and a['credit_applied'][1].get('ok'), a['credit_applied']
             seen['admission'] = a
+            # C13: the quote's source-vector completeness, old expression (Native events only) vs new (plus the proven
+            # incoming FUNDING events). Without incoming credit both agree; with it only the new one accepts the exact
+            # vector, and a vector missing the incoming event is still refused.
+            cur.execute(bcheck.statement('coordinator/01_coordinator_facts.sql', 'cp7_credit.initial_event_semantics_v1'))
+            ev = lambda i, kind, amount, day: dict(id='journal:' + i, kind=kind, amount=amount, economic_date=day, transaction_date=day, source_sha256='0' * 64)
+            native_events = [ev('a', 'NET', '500.00', '2026-10-01'), ev('b', 'FUNDING', '420.00', '2026-10-03')]
+            incoming = [ev('c', 'FUNDING', '80.00', '2026-10-02')]
+            distinct = lambda x, y: cur.execute('select cp7_credit.initial_event_semantics_v1(%s::jsonb)is distinct from cp7_credit.initial_event_semantics_v1(%s::jsonb)',
+                                                (json.dumps(x), json.dumps(y))).fetchone()[0]
+            c13 = dict(no_credit_old=distinct(native_events, native_events), no_credit_new=distinct(native_events, native_events + []),
+                       credit_old=distinct(native_events + incoming, native_events), credit_new=distinct(native_events + incoming, native_events + incoming),
+                       missing_incoming_new=distinct(native_events, native_events + incoming))
+            assert c13 == dict(no_credit_old=False, no_credit_new=False, credit_old=True, credit_new=False, missing_incoming_new=True), c13
+            seen['quote_source_vector_C13_refuses'] = c13
             report['side_by_side'] = seen
             conn.rollback()
         report['profile_C6'] = profile_check(re.sub(r'dbname=\S+', 'dbname=' + DB + '_profile', dsn))
