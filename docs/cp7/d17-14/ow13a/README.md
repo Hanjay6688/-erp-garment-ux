@@ -1,7 +1,7 @@
 # OW13a — checkpoint B,23 Oktober2026 WIB
 
 Pemicu awal, status kesiapan, tombol pengisian target dan pembukaan hasil dengan
-UUID server sudah dibuat. **OPEN**: Native126 belum dijalankan; rantai A,
+UUID server sudah dibuat. **OPEN**: Native126 pertama berhenti sebelum kasus; rantai A,
 pemasangan jadwal dan tombol Master pada host A belum dikualifikasi. Parent
 tetap5/16. B tidak memasang Enteng, mengubah main atau memberi production_go.
 Audit independen tetap Fable/Sol.
@@ -53,6 +53,21 @@ Native126 sudah dideklarasikan, **belum PASS**: seluruh113 WA/kain lama +13 baru
 invers22 sebelum kasus. Kasus halaman ditutup memanggil worker K4 sebenarnya
 dari alat uji; bukan klaim cron terpasang. Native286 sebelumnya tetap bukti
 a753ebc tersendiri, tanpa pilihan statistik, bridge keuangan atau pemicu ini.
+
+Kandidat6738da4c/run39881934739/job120181076950: **INCOMPLETE,0/126 diamati**.
+Pemasangan dua tahap/invers22 lulus; sesudahnya pemeriksa WA lama menolak satu
+grant tambahan `cp7_initial_analysis.tick()` yang memang dideklarasikan tahap
+baru. Receipt [6738da4-first-native126.json](6738da4-first-native126.json),
+Original lengkap dan log tetap privat. Pemulihan lulus; advisor runtime belum
+dijalankan sehingga belum PASS. Tidak ada kasus gagal yang diganti lulus.
+
+Perbaikan komposisi alat uji: pemeriksa WA **tidak diubah**. Invers awal yang
+terverifikasi dipakai di savepoint untuk memeriksa predecessor tepat, lalu
+rollback savepoint wajib mengembalikan seluruh22 grup katalog tahap terpasang.
+Verifikasi tahap baru di kedua sisi menjaga izin tambahan tepat satu; tidak
+menambah pengecualian umum. Lokal11 kelompok tetap lulus; API/katalog aktual
+juga membuktikan oracle gagal diteruskan dan keadaan22 tetap pulih pada jalur
+lulus maupun gagal. Native126 perbaikan masih harus membuktikan komposisi ini.
 
 ## Permintaan integrasi A
 

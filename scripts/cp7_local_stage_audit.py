@@ -61,6 +61,30 @@ def main():
     result=dict(classification='LOCAL_REAL_INSTALLER_AND_PG_CATALOG_VIA_CONTROLLED_TRANSPORT_NOT_NATIVE',
                 stage=name,status='PASS',catalog_groups=len(before),
                 apply_rollback_reapply_exact=True,admission_passed=True,full_A_chain_qualified=False,production_go=False)
+    if name=='cp7_initial_analysis_stage':
+        from cp7_ow13a_initial_probe import verify_initial_delta
+        installed=catalog._catalog_rows(cur)
+        calls=[]
+        def predecessor_check(cursor):
+            if catalog._catalog_rows(cursor)!=before:
+                raise ValueError('LOCAL_LEGACY_ORACLE_NOT_EXACT_PREDECESSOR')
+            calls.append(True)
+        verify_initial_delta(cur,predecessor_check,state)
+        if calls!=[True]or catalog._catalog_rows(cur)!=installed:
+            raise ValueError('LOCAL_LEGACY_ORACLE_NOT_RESTORED')
+        def rejected_predecessor(cursor):
+            predecessor_check(cursor)
+            raise ValueError('LOCAL_LEGACY_ORACLE_SENTINEL')
+        try:
+            verify_initial_delta(cur,rejected_predecessor,state)
+        except ValueError as error:
+            if str(error)!='LOCAL_LEGACY_ORACLE_SENTINEL':raise
+        else:
+            raise ValueError('LOCAL_LEGACY_ORACLE_FAILURE_SWALLOWED')
+        if catalog._catalog_rows(cur)!=installed:
+            raise ValueError('LOCAL_REJECTED_LEGACY_ORACLE_NOT_RESTORED')
+        result.update(legacy_oracle_exact_predecessor=True,
+                      legacy_oracle_refusal_propagated=True,legacy_oracle_restored_22_on_pass_and_fail=True)
     cur.execute('commit');emit(dict(kind='ready',result=result))
     if json.loads(sys.stdin.readline())!={'kind':'after_use'}:
         raise ValueError('LOCAL_AFTER_USE_PHASE_REQUIRED')

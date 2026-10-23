@@ -3,8 +3,11 @@
 **Tambahan terbaru OW13a:** pemicu awal tanpa syarat konfigurasi WA, minimum
 terlihat dan formulir target langsung, satu intent/UUID server dan buka ulang
 driver yang sama sudah dibuat. Lokal197 uji klien/17 berkas dan11 kelompok SQL
-lulus; instal/invers/admission22 lokal lulus. Native126 baru disiapkan, belum
-PASS. Detail dan permintaan A di [ow13a/README.md](../d17-14/ow13a/README.md):
+lulus; instal/invers/admission22 lokal lulus. Native126 pertama6738da4/run39881934739
+berhenti sebelum kasus karena satu grant baru bertabrakan dengan daftar tepat
+pemeriksa WA lama. Original disimpan; komposisi alat uji diperbaiki lewat invers
+terverifikasi/savepoint22 tanpa mengubah pemeriksa lama. Lokal11+42 terfokus lulus;
+Native126 perbaikan belum PASS. Detail dan permintaan A di [ow13a/README.md](../d17-14/ow13a/README.md):
 registry sekarang7 pasangan (patch pengganti6 lama), tipe nullable, callback
 Master dan pemasangan jadwal lama/K4 tanpa syarat konfigurasi WA. OW13a OPEN.
 
@@ -33,7 +36,7 @@ Ini kualifikasi penulis atas komponen/basis beku, **bukan** ujung rantai A atau 
 | OW10 inti | Target38/staged15/netting84 lulus pada a753. L memicu, L+R menentukan jumlah dari suplai hasil alokasi yang sama. |
 | OW10 tambahan statistik | Kode c0fcfe04:4 body di cp7_target_policy_stage;5 kelompok SQL,108 klien/DOM; tambahan pemeriksaan pemasang22 lokal lulus. Belum Native. Sumber/periode/lead serta WIP mentah per-model di pengingat tetap OPEN. |
 | OW12b | Kode f82868f: request/status analisis memakai capture resmi A, tampilan uang terpisah dari halaman tersegel;10 kelompok SQL dan pemasang22 lokal lulus. Nilai besar tepat, belum READY bukan0, UUID/akses/atomik diperiksa. Belum Native/A-chain/factory3600. |
-| OW13a awal otomatis | Tahap4 fungsi privat/1 tabel dan2 hook, status minimum/tombol profil/UUID server. Lokal11 kelompok SQL +197 klien/DOM; invers/admission22 lokal. Native126 disiapkan, bukan PASS; callback Master/jadwal/rantai A masih OPEN. |
+| OW13a awal otomatis | Tahap4 fungsi privat/1 tabel dan2 hook, status minimum/tombol profil/UUID server. Lokal11 kelompok SQL +197 klien/DOM; invers/admission22 lokal. Native126 pertama0 kasus karena komposisi pemeriksa grant; perbaikan masih harus Native. Callback Master/jadwal/rantai A masih OPEN. |
 
 Checkpoint terdahulu224/224 klien/DOM pada15 berkas lulus; tambahan terbaru197/17 berkas dan
 42/5 berkas terfokus lulus. TypeScript/CSS lulus. Build penuh kini tertahan7 pasangan registry
@@ -91,5 +94,7 @@ tahap OW13a baru menambahkan pemicu awal sebelum syarat itu tanpa menulis ulang 
   sama digunakan untuk perbaikan tanpa pembulatan.
 - 4eaf6bc:113/113 tetapi paket berikutnya0 kasus karena runner menghapus clone. e37a28ae memperbaiki
   clone2–6 dan menyimpan Original T3 per suite; a753 membuktikannya.
+- 6738da4:Native1260 kasus, grant privat tick baru ditolak daftar tepat pemeriksa WA lama. Oracle lama
+  tetap utuh; inverse/savepoint memeriksa predecessor dan wajib memulihkan katalog22 pada semua hasil.
 - Kegagalan awal SQL/klien/transport/fixture terbaru di folder ow10/ow12b; tidak dipadamkan dengan
   mengubah angka, melemahkan scanner atau mengganti rumus resmi. Detail historis tetap di Git/receipt.

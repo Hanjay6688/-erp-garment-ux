@@ -1,0 +1,20 @@
+{
+  "candidate": "6738da4c6a2b492255d0f031906b49e71ecec4cc",
+  "run_id": 39881934739,
+  "job_id": 120181076950,
+  "declared_case_count": 126,
+  "observed_case_count": 0,
+  "status": "INCOMPLETE",
+  "error": "[('cp7_initial_analysis.tick()',), ('cp7_reminder_native.condition_domain_access(text)',), ('cp7_reminder_native.other_obligation_source()',), ('cp7_reminder_native.payable_source()',), ('cp7_reminder_native.receivable_source()',), ('cp7_stock_formula.fg_source()',), ('cp7_stock_formula.material_source(text)',), ('erp.get_my_access_v1()',), ('erp.has_permission(text)',), ('public.erp_cp7_get_sales_v1(jsonb)',), ('public.erp_cp7_read_reminder_conditions_v2(jsonb)',), ('public.erp_cp7_recheck_reminder_v2(uuid,text)',), ('public.erp_cp7_request_staged_analysis_v1(jsonb,uuid)',), ('public.erp_cp7_staged_snapshot_freshness_v1(uuid)',), ('public.erp_cp7_step_reminder_conditions_v2(uuid)',)]",
+  "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f05_analysis_probe.py\", line 355, in run\n    conn.commit();installed=True;checker(cur);conn.rollback()\n                                 ^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f05_analysis_probe.py\", line 154, in checker\n    old_checker(cur)\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f05_analysis_probe.py\", line 145, in checker\n    def checker(cur):verify(cur);candidate.verify(cur)\n                                 ^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_alert_bundle.py\", line 81, in verify\n    return verify_alert(cur)\n           ^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_alert_bundle.py\", line 167, in verify_alert\n    assert[r[0]for r in granted]==sorted(CALLS+tuple(GRANTS[ROLE])+('cp7_reminder_native.payable_source()','cp7_reminder_native.receivable_source()',\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: [('cp7_initial_analysis.tick()',), ('cp7_reminder_native.condition_domain_access(text)',), ('cp7_reminder_native.other_obligation_source()',), ('cp7_reminder_native.payable_source()',), ('cp7_reminder_native.receivable_source()',), ('cp7_stock_formula.fg_source()',), ('cp7_stock_formula.material_source(text)',), ('erp.get_my_access_v1()',), ('erp.has_permission(text)',), ('public.erp_cp7_get_sales_v1(jsonb)',), ('public.erp_cp7_read_reminder_conditions_v2(jsonb)',), ('public.erp_cp7_recheck_reminder_v2(uuid,text)',), ('public.erp_cp7_request_staged_analysis_v1(jsonb,uuid)',), ('public.erp_cp7_staged_snapshot_freshness_v1(uuid)',), ('public.erp_cp7_step_reminder_conditions_v2(uuid)',)]\n",
+  "cp6_restored": true,
+  "advisor_gate": false,
+  "artifact_id": 12471282004,
+  "complete_artifact_bytes": 35731,
+  "complete_artifact_sha256": "1b8495eac27b56bf03d9e65f58d0a9921fc093718595d138349b0f2750799175",
+  "failure_phase": "AFTER_STAGE_INSTALL_BEFORE_CASES",
+  "cause": "Unchanged legacy WA verifier expects its exact old outside-schema grant set; new declared private initial.tick grant is present.",
+  "not_case_pass": true,
+  "full_A_chain_qualified": false,
+  "production_go": false
+}

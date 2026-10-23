@@ -151,10 +151,8 @@ def run(attention=False,p18_e01=False,rule_lifecycle=False,source_navigation=Fal
    import cp7_ow13a_initial_cases as case_provider
    old_checker=checker
    def checker(cur):
-    old_checker(cur)
-    import cp7_initial_analysis_stage as initial_module
-    import cp7_target_policy_stage as target_module
-    target_module.verify(cur,initial_states['target']);initial_module.verify(cur,initial_states['initial'])
+    from cp7_ow13a_initial_probe import verify_composed_install
+    verify_composed_install(cur,old_checker,initial_states)
    expected=case_provider.EXPECTED;assert expected==case_provider.DECLARED==126
    out=OUT.with_name('CP7_OW13A_INITIAL_STATISTICAL.json');phase='cp7_ow13a_initial';browser_script='cp7_ow13a_initial_browser.mjs'
  if k3_cleanup:

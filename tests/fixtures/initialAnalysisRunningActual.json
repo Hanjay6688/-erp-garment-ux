@@ -14,7 +14,7 @@
       "kept_until": null
     },
     "plan_final": false,
-    "request_id": "c32efdb2-7ff4-466c-b321-dc7abb5d99ae",
+    "request_id": "4dafd2b9-4e2c-4105-9e52-1581832b3410",
     "unit_count": 1,
     "units_done": 0,
     "stage_count": 1,
@@ -28,7 +28,7 @@
     "targets_total": 1,
     "unit_attempts": 0,
     "contract_version": "cp7.native-analysis-staged-job.v1",
-    "last_progress_at": "2026-10-23T00:42:50.196+00:00",
+    "last_progress_at": "2026-10-23T01:22:08.007+00:00",
     "targets_done_in_stage": 0
   },
   "actor": "00000001-1111-4111-8111-111111111111",
@@ -61,7 +61,7 @@
     "candidate_limit": 20,
     "eligible_targets": 1
   },
-  "checked_at": "2026-10-23T00:42:50.201000Z",
+  "checked_at": "2026-10-23T01:22:08.012000Z",
   "apply_enabled": false,
   "production_go": false,
   "semantic_hash": "7bd40d8ae904e4c28a1361477c690448a184196e5fd1016e7fae917408b3d9a8",
