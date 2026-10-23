@@ -2,8 +2,8 @@
   "contract": "cp7.writer-client-component-check.v1",
   "status": "PASS",
   "type_check": "npx tsc -b --pretty false",
-  "vitest_files": 3,
-  "vitest_tests": 77,
+  "vitest_files": 5,
+  "vitest_tests": 108,
   "new_route_requires_real_staged_reference": true,
   "legacy_pending_payload_route_preserved": true,
   "microseconds_not_truncated": true,
@@ -20,6 +20,10 @@
     "src/nativeStagedSchedule.ts": "3f0a8db46861d0a44fc2c6324efc9cfcab2c2ca007712b8e5b9853d4078e05c3",
     "src/NativeProductionPlanningPanel.dom.test.tsx": "98057eed656a485074f0ddbb7ec542546a732b23ee4c5976dbaac8afaae26a19",
     "src/nativeProductionPlanning.test.ts": "391d46b59ccde66141a77b28ed398e16e6b0f133b85ff7b699e8c33b429988b0",
-    "tests/fixtures/nativeProductionPlanning.ts": "91099520ff9ea730b4e165f1420df9139f37246e1da76260fe6a559ce360bc20"
-  }
+    "tests/fixtures/nativeProductionPlanning.ts": "91099520ff9ea730b4e165f1420df9139f37246e1da76260fe6a559ce360bc20",
+    "src/NativeDemandHistoryPanel.tsx": "34efc911517b4f1e39dba4d20337799b1d7aae37710c12b2e558a10ca3d5ce65",
+    "src/NativeDemandHistoryPanel.dom.test.tsx": "151aca99b2ab72e26b201f78da33fb3390dda593a5be1b8ccf9fbc39654c657e"
+  },
+  "direct_entry_before_old_history_capture": true,
+  "react_review": "direct imports; schema-versioned storage; auth epoch remount; dependent source/read sequence; retire held replies; functional edits; labelled fields/fieldset; no new business arithmetic"
 }

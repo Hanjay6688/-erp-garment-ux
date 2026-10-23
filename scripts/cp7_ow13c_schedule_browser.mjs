@@ -17,7 +17,6 @@ async function open(ui,page,q){
  await history.getByRole('button',{name:'Data permintaan & stok',exact:true}).click()
  await history.getByLabel('Permintaan dari tanggal',{exact:true}).fill(q.from_date)
  await history.getByLabel('Permintaan sampai tanggal',{exact:true}).fill(q.through_date)
- await history.getByRole('button',{name:'Muat data permintaan',exact:true}).click()
  await history.getByRole('button',{name:'Jadwal & kekurangan seluruh produk',exact:true}).click()
  return page.getByRole('region',{name:'Jadwal dan kekurangan produksi',exact:true})
 }

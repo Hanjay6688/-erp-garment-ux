@@ -812,3 +812,10 @@ B menyambungkan facade jadwal baru ke layar milik B; UUID lama harus tetap menuj
 B menyambungkan layar jadwal ke reference staged asli, tanpa memaksa job DONE. Payload simpan baru memiliki marker; payload/UUID lama tetap memakai facade lama. LocalStorage sumber baru terpisah dari pemulihan sumber lama. Pending baru baru dihapus sesudah guidance lengkap cocok. Dirty form, current access retirement, held reply, multi-tab, UTC microseconds, customer WIP dan UNKNOWN tetap diuji. 77 uji klien/3 berkas dan TypeScript lulus; receipt `ow13c/STAGED_SCHEDULE_CLIENT_CHECK.json`.
 
 Transport10 dideklarasikan di `ow13c/SCHEDULE_TRANSPORT_CONTRACT.json`: Native1 anchor ulang (kredit baru0), race4/Auth3/browser2 baru. Uji nyata belum selesai. A menambahkan tepat3 pasangan di `STAGED_SCHEDULE_REGISTRY.patch` setelah7+1 pasangan lama; actual source gate masih FAIL11, preview hanya penambahan11 pasangan PASS361 runtime/306 RPC. A shared checker/default/types tidak diubah. Native11 tidak dihitung ulang sebagai bukti transport; actual checked SAVE2000/after-use restore/parent5 dari16 tetap terbuka.
+
+
+## 39. Akses jadwal langsung, browser Entry2 terpisah (24 Oktober 2026 WIB)
+
+Tombol jadwal dipindah ke pilihan periode agar tidak menunggu capture riwayat lama yang dapat menolak data padat. Satu tombol tetap setelah hasil riwayat ada; pending/corrupt riwayat lama tetap mengunci sampai dipulihkan. 108 uji klien/5 berkas dan TypeScript lulus. Review React: import langsung, penyimpanan versi kecil, cleanup event/generasi akses, dependency request→GET yang benar, functional update, fieldset/label dan tidak ada hitungan bisnis baru.
+
+Transport10 kandidatbbe3438c/run40017444415/job120633051970 sedang berjalan, belum hasil. Perubahan tombol langsung sesudahnya mendapat suite Entry2 browser-only dengan source server9 sama, bukan mengulang semua Native/race/Auth. Tidak mengklaim bukti silang kandidat bila source relevan berubah. Parent5/16, actual checked SAVE2000 dan after-use restore tetap terbuka.
