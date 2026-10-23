@@ -56,7 +56,9 @@ untuk mendaftarkan workflow-nya saat antrean longgar.
 5. Penggabungan harian 17.00 WIB 23 Okt ke `astra/d17-14-integrasi` (pengingat terjadwal 09.35 UTC). Pembanding vitest: base
    50 gagal/2102, gabungan uji 50 gagal/2146, tidak ada kegagalan baru; ke-50 itu uji `tests/cp7/families` yang menolak root.
 6. OW-15: rencana `ow15/RENCANA_OW15.md`. Langkah 4 lulus: fgqc Native9 9/9 di `903b1879` mengakui laporan kasbon Native4
-   (`ow08/fgqc-native9-903b1879-pass.json`; laporan sha256 `56d3294f…`, artifak 12472787961). Langkah 5 (OW05b di atas fgqc) dikerjakan.
+   (`ow08/fgqc-native9-903b1879-pass.json`; laporan sha256 `56d3294f…`, artifak 12472787961). Langkah 5 lulus: OW05b Native6 6/6 di `197fb3fc` di atas fgqc
+   (`ow05/native6-197fb3fc-chain-pass.json`; laporan sha256 `cf004a56…`, artifak 12473826069). Rantai terbukti: OW04 → OW05 →
+   OW06 → kasbon → fgqc → OW05b. Langkah 6 (OW04b: followups → bagian A → bagian B di atas OW05b) menunggu bagian B selesai.
    Berikutnya langkah 5 (OW05b di atas fgqc) dst., satu tahap per run.
 
 ## Antrean uji yang ditahan (registry image menolak unduhan sejak sekitar 20.20 UTC)

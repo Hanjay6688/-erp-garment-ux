@@ -1,14 +1,17 @@
-"""OW-08a stage over the complete qualified OW05 product: report checks know customer credit.
+"""OW-08a stage over the qualified OW05b stage (OW-15 chain: OW05, OW06, kasbon, fgqc, OW05b): report checks know
+customer credit.
 
 Two installed report check readers get the counted delta of native_delta.py and
 one private reader is added. No table, trigger, writer, grant or business row
-changes, so removal before or after use restores the exact predecessor.
+changes, so removal before or after use restores the exact predecessor. No stage below changes the two report check
+readers (each one's 22-group catalog admission refuses any undeclared function change), so the counted delta applies
+to the same text as over OW05 alone.
 """
 from hashlib import sha256
 from pathlib import Path
 import re
 
-from cp7_contractor_correction import composition as predecessor
+from cp7_contractor_guidance import composition as predecessor
 from cp7_report_credit import native_delta
 
 ROOT=Path(__file__).resolve().parent
@@ -16,9 +19,12 @@ SCHEMA='cp7_report_credit'
 READER='cp7_report_credit.adjustment_v1(uuid)'
 OWNERS={native_delta.REPORT:'postgres',native_delta.SCOPE:'postgres'}
 ROLES=('anon','authenticated','service_role','cp7_capture','cp7_sales_read','cp7_credit_visible_read')
-catalog=predecessor.predecessor.catalog
-atomic=predecessor.predecessor.atomic
-as_owner=predecessor.predecessor.payment.consumer.as_owner
+catalog=predecessor.catalog
+atomic=predecessor.atomic
+as_owner=predecessor.as_owner
+# OW05b exports catalog, atomic and as_owner; base and function_ddl come from fgqc below it (chain interface, OW-15).
+base=predecessor.predecessor.base
+function_ddl=predecessor.predecessor.function_ddl
 CAPTURED={}
 
 
@@ -60,7 +66,7 @@ def install(cur):
             raise ValueError('OW08A_NEW_FUNCTION_SET_CHANGED')
         admit_catalog(before,after,definitions)
         state=dict(sources=sources(),predecessor=previous,predecessor_proof=proof,before=before,after=after,
-            originals=originals,definitions=definitions,seeded_private_rows=predecessor.predecessor.base.private_rows(cur))
+            originals=originals,definitions=definitions,seeded_private_rows=base.private_rows(cur))
         verify(cur,state)
         return state
 
