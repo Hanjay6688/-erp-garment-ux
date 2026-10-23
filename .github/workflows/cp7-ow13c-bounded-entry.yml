@@ -152,6 +152,10 @@ jobs:
 
         assert d[''public_rpcs'']==list(n.FUNCTIONS) and d[''schedules'']==n.SCHEDULES
 
+        from cp7_f05_analysis_probe import bounded_group_names
+
+        assert bounded_group_names(n.REQUIRED)==(''browser'',)
+
         assert n.REQUIRED==dict(browser=2)
 
         assert sum(map(len,n.IDS.values()))==2
