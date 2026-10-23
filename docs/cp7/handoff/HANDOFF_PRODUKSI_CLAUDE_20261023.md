@@ -33,6 +33,17 @@ budget posisi belum disimpan saat ANA_META, sumber/kueri/lead belum disatukan.
 Kontrak sebelum caller di [SUPPLY_PROJECTION_CONTRACT](../d17-14/ow10/SUPPLY_PROJECTION_CONTRACT.md).
 Tidak menghapus fungsi lama dan tidak mengklaim WIP pengingat sudah beres.
 
+Producer berikutnya juga dibuat: `cp7_reorder_supply.budgets` menyimpan proyeksi
+barang baik/ETA global pada satu field privat ANA_META; dua hook terpin dan
+API install/verify/admit22/inverse.13 kelompok proyeksi,7 producer,installer
+lokal22 apply/inverse/reapply/after-use-sebelum-DDL lulus. Body source yang
+sebenarnya diuji dengan adapter terkontrol; INSERT scope aktual mempertahankan
+seluruh field lama. Ini belum run_unit/K3 lengkap, belum Native, belum reader
+segar atau caller ROP. A tidak perlu menerapkan separuh fitur ini sekarang.
+
+Uji Native126 lanjutan sudah dikirim pada a86d22a2/run39887742896/job120199774843;
+kandidat dibekukan. Hasil akhirnya belum dibaca di checkpoint producer ini.
+
 B/Codex bekerja di `astra/d17-14-produksi`; A/Claude di `claude/d17-14-uang` dan menjadi satu-satunya
 penggabung `astra/d17-14-integrasi`, sesuai D17-16/17 versi2. Main, kandidat audit beku, Enteng,
 hosted dan WA sungguhan tidak disentuh. Konteks personal tetap privat.
@@ -87,7 +98,10 @@ Kontrak/permintaan sebelum caller ada di [KOORDINASI](../d17-14/KOORDINASI.md) b
 6. Integrasikan frontend yang cocok, jalankan source gate, Native gabungan/pasang-pulih pada satu
    kandidat, lalu bekukan paket bagi Fable/Sol. Bukti lokal tidak menggantikan langkah ini.
 
-Kontrak OW12a dibaca dari A b91a60b, sama pada16bf8e56. Pembanding periode A sudah memakai
+Sumber A terbaru dibaca197fb3fc: kontrak privat OW12a dan fungsi angka tetap
+sama dengan b91a60b/16bf8e56; perubahan komposisi A hanya mengakui RI_FKey
+bawaan yang tepat. A mencatat Native7/7 PASS efa800cd/run39886155240; itu bukti
+komponen A, belum sambungan B/rantai OW15 atau factory3600. Pembanding periode A sudah memakai
 compare_reports_v2 atas dua laporan resmi terbit; B tidak membuat selisih uang kedua. Header status
 B menautkan id capture; header/halaman operasional tetap disegel. Ini dicatat sebagai interpretasi
 kontrak header/id untuk diperiksa penggabung.
@@ -104,6 +118,10 @@ proyeksi. Jangan menganggap helper ini telah mengganti pembaca model lama. First
 angka benar, assertion awal keliru menuntut seluruh JSON sama padahal kernel mempertahankan input
 duplikat. Expected kini menyebut tepat dua array input yang berbeda; seluruh angka/status/metadata
 lain tetap diperiksa penuh. Pemeriksa owning sumber dasar dan clash SQL tetap PASS.
+Producer/pemasang budget sekarang tersedia; langkah persis berikutnya adalah
+reader job DONE/kept dengan query/hash/marker/target tunggal yang cocok,
+penyelarasan sumber/periode/lead ROP dan label proyeksi; lalu kualifikasi
+run_unit/K3/Native dan bukti pengingat tetap berjalan tiap menit (D17-8).
 
 OW11a/b: aktivasi metode yang terbukti lebih baik, pembanding produk baru beserta konfirmasi.
 OW12b: Native/rantai A, angka sama dan waktu sebelum/sesudah±3.600 barang. OW13a: Native126,

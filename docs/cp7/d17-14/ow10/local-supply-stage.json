@@ -1,0 +1,21 @@
+{
+  "classification": "LOCAL_REAL_PRODUCER_STAGE_INSTALL_AND_22_PG_CATALOG_GROUPS_WITH_CONTROLLED_NATIVE_ADAPTER_NOT_NATIVE",
+  "status": "PASS",
+  "installer": {
+    "classification": "LOCAL_REAL_INSTALLER_AND_PG_CATALOG_VIA_CONTROLLED_TRANSPORT_NOT_NATIVE",
+    "stage": "cp7_reorder_supply",
+    "status": "PASS",
+    "catalog_groups": 22,
+    "apply_rollback_reapply_exact": true,
+    "admission_passed": true,
+    "full_A_chain_qualified": false,
+    "production_go": false,
+    "after_use_refusal": "OW10_SUPPLY_AFTER_USE_REQUIRES_BACKUP_RESTORE",
+    "after_use_refused_before_first_DDL": true
+  },
+  "actual_new_source_marker_captured_in_job": true,
+  "full_run_unit_and_K3_executed": false,
+  "live_ROP_caller_changed": false,
+  "full_A_chain_qualified": false,
+  "production_go": false
+}

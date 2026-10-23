@@ -49,3 +49,38 @@ segar, dan memeriksa kesamaan profil/lead/target/stok dengan ROP. Ia harus
 menampilkan waktu dan sifat proyeksi serta kandidat terpisah. Tanpa job cocok,
 jelaskan unknown dan jalan memperbarui analisis; jangan kembali ke WIP mentah.
 Pemasang, bundle dan registry A tidak diubah oleh tahap kernel ini.
+
+## Producer dan pemasang tahap B
+
+`cp7_reorder_supply.budgets(wip,etas)` memakai hasil **project_yield** dan
+**remaining_eta** yang sebenarnya, tanpa mengulang yield/antrean. Balasan UTC
+beroffset dari JSON SQL diformat persis seperti netting. WIP tidak lengkap
+punya rows=null; yield/ETA belum diketahui tetap null; WIP pelanggan dikeluarkan
+dengan eligibility sumber. Ambiguitas posisi/ETA ditolak.
+
+Dua hook terpin di `patches.py`: ANA_META menyimpan satu field privat tambahan
+`plan_scope.scope.reorder_supply_budget`; `analysis_native.source_within`
+menambahkan marker versi dan memasukkan namespace helper ke sidik engine.
+Semua field scope lama tetap persis. Perubahan kode helper membuat hash engine
+berubah. Header/halaman tersegel tidak ditambal. SQL dasar tetap beku.
+
+API tahap `install_delta/verify/admit_catalog/rollback_preuse` di
+`scripts/cp7_reorder_supply`: satu schema,dua fungsi invoker immutable privat,
+dua badan terhitung, tanpa tabel/kolom/grant Native/RPC publik. Verifikasi
+owner/ACL/body/config dan admisi22; invers tepat sebelum pakai. Pemasangan
+menolak analisis RUNNING; sesudah job merekam marker atau scope merekam budget,
+invers menolak sebelum DDL. A tetap memegang transaksi/envelope/global use
+guard dan rantai penuh. Urutan sebelum pemicu awal/worker diaktifkan, setelah
+modul perencanaan/target tersedia; tak memasang jadwal atau mengubah ROP.
+
+Bukti:13 kelompok SQL proyeksi (64 skenario pembanding integer terpisah),
+7 kelompok producer termasuk INSERT scope ANA_META aktual yang diekstrak dari
+hook serta badan source aktual dengan adapter Native terkontrol. Installer
+API/katalog PostgreSQL22 lokal lulus apply/inverse/reapply dan after-use
+sebelum DDL. **Belum Native, belum menjalankan run_unit/K3 lengkap, belum
+reader job segar dan belum caller ROP.** Jangan menerapkan separuh tahap di
+hosted atau menyebut WIP pengingat sudah selesai.
+
+Pengingat stok bebas tetap harus diperiksa tiap menit tanpa menunggu analisis
+besar (D17-8). Jika suplai global belum siap/segar, ketidakpastiannya tidak
+menunda pengingat dan tidak dijadikan WIP0 yang diklaim sudah terbukti.

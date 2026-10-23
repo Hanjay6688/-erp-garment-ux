@@ -1,0 +1,13 @@
+{
+  "contract": "cp7.reorder-supply-producer.v1",
+  "before_bodies": {
+    "cp7_analysis_stage.run_unit(cp7_analysis_stage.jobs,cp7_analysis_stage.units)": "e537de8b662be3a6adf416d18a7a911ca0356b0ff9f064bb0cfacae83914e0d7",
+    "cp7_analysis_native.source_within(integer,integer)": "7d45741f4cf90ca7cb9b1671610409da33906d3713117f7b0771c4e62729335b"
+  },
+  "default_install": false,
+  "ROP_caller_changed": false,
+  "sql_sha256": {
+    "projection.sql": "64ded51a5246310dfaca3d1c62aeabcf09955c26be3e45f910bb6a7702eb7271",
+    "capture.sql": "47e40d25c18fb9003e347895b65d3c4da549aa4715078d420a7196782422f628"
+  }
+}
