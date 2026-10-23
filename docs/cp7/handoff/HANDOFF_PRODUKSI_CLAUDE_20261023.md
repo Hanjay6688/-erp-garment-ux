@@ -25,6 +25,14 @@ sebenarnya +seluruh126 kontrol lama. Belum PASS; caller ROP tetap langkah
 berikutnya. Runner terpisah cp7_ow10_supply_probe.py, kontrak di
 ow10/SUPPLY_NATIVE_CONTRACT.json.
 
+Sumber ROP sekarang juga mempunyai tahap privat `cp7_reorder_inputs`: riwayat
+memakai fungsi Native yang sama, titik memakai target profil persis atau
+aturan default lama atas riwayat Native; override manual tidak ditumpuk.
+11 kelompok lokal/installer22 PASS, termasuk420 produk/12.600 hari dan guard
+dependensi caller sebelum DDL. Dua fungsi/1 schema, tanpa hook/DML/endpoint.
+Ini belum caller ROP/Native/performa. Kontrak dan beda angka yang diharapkan:
+[REORDER_INPUTS_CONTRACT](../d17-14/ow10/REORDER_INPUTS_CONTRACT.md).
+
 B/Codex bekerja di `astra/d17-14-produksi`; A/Claude di `claude/d17-14-uang` dan menjadi satu-satunya
 penggabung `astra/d17-14-integrasi`, sesuai D17-16/17 versi2. Main, kandidat audit beku, Enteng,
 hosted dan WA sungguhan tidak disentuh. Konteks personal tetap privat.

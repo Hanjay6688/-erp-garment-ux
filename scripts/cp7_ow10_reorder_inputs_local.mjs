@@ -4,6 +4,7 @@
 import {readFile, writeFile, mkdir} from 'node:fs/promises'
 import {createHash} from 'node:crypto'
 import assert from 'node:assert/strict'
+import {beginLocalStageAudit} from './cp7_local_stage_audit.mjs'
 const {PGlite} = await import(process.env.CP7_PGLITE_MODULE ?? '@electric-sql/pglite')
 const db = new PGlite(), read = path => readFile(path, 'utf8')
 const block = (sql, name) => {
@@ -14,7 +15,7 @@ const block = (sql, name) => {
   return sql.slice(start, end + 3)
 }
 await db.exec(`create role cp7_capture nologin noinherit nosuperuser nocreatedb nocreaterole noreplication bypassrls;
- create role anon nologin;create role authenticated nologin;create role service_role nologin;
+ create role anon nologin;create role authenticated nologin;create role service_role nologin;create role cp7_alert nologin;
  create schema cp7_planning;create schema cp7_analysis_stage;create schema cp7_baseline_native;create schema extensions;
  create function extensions.digest(bytea,text)returns bytea language sql immutable as $$select sha256($1)$$;`)
 for (const file of ['wip/bootstrap.sql', 'demand/bootstrap.sql', 'demand/history.sql', 'demand/estimate.sql', 'baseline/target.sql']) {
@@ -31,8 +32,10 @@ for (const name of ['castable', 'events_clean', 'availability_clean', 'history_p
   await db.exec(block(staged, 'cp7_analysis_stage.' + name))
 }
 await db.exec(await read('scripts/cp7_target_policy_stage/sql/cp7_analysis_stage__baseline_rows.sql'))
-await db.exec(await read('scripts/cp7_reorder_inputs/history.sql'))
 await db.exec(`grant usage on schema cp7_planning,cp7_analysis_stage,cp7_baseline_native,extensions,cp7_wip,cp7_demand,cp7_baseline to cp7_capture;`)
+const manifest=JSON.parse(await read('scripts/cp7_reorder_inputs/MANIFEST.json'))
+for(const signature of Object.keys(manifest.existing_body_sha256))await db.exec('alter function '+signature+' owner to cp7_capture')
+const stageAudit=await beginLocalStageAudit(db,'cp7_reorder_inputs')
 const id = n => `${String(n).padStart(8, '0')}-1111-4111-8111-111111111111`
 const clock = '2026-10-23T00:00:00Z', query = {from_date:'2026-09-23', through_date:'2026-10-22', group_mode:'AS_SOLD'}
 const product = n => ({id:id(n), root_id:id(n), size_id:id(9000), model_id:id(9001), sku:'CONTROL-' + n,
@@ -57,6 +60,11 @@ const invoke = async (source, q=query) => (await db.query('select cp7_reorder_in
   [JSON.stringify(source),JSON.stringify(q)])).rows[0].v
 const whole = async (source, q=query) => (await db.query('select cp7_planning.history_build($1::jsonb,$2::jsonb)v',
   [JSON.stringify(source),JSON.stringify(q)])).rows[0].v
+const defaults = {service_level:'0.95',window_days:'30'}
+const lead = (days='3',groups='3') => [{model_id:id(9001),lead_days:days,lot_count:'5',group_count:groups}]
+const points = async (input, measured=lead(), manual=[], policy=defaults) =>
+  (await db.query('select cp7_reorder_inputs.points($1::jsonb,$2::jsonb,$3::jsonb,$4::jsonb)v',
+    [JSON.stringify(input),JSON.stringify(policy),JSON.stringify(measured),JSON.stringify(manual)])).rows[0].v
 const results=[]
 const test=async(id,fn)=>{try{results.push({id,status:'PASS',observed:await fn()})}catch(e){results.push({id,status:'FAIL',error:String(e.stack).slice(0,3000)})}}
 await test('OW10_INPUTS_ACTUAL_WHOLE_NATIVE_HISTORY_AND_STOCK_EQUAL',async()=>{
@@ -120,9 +128,81 @@ await test('OW10_INPUTS_CHANGED_PERIOD_SOURCE_UNKNOWN_CAPS_AND_ACL',async()=>{
   }
   return{changed_query_and_profile_visible:true,incomplete_future_and_full_grid_refused:true,private_only:true}
 })
+await test('OW10_POINTS_REVIEWED_PROFILE_EXACT_TARGET_AND_NO_DOUBLE_BUFFER',async()=>{
+  const input=await invoke(fixture()),a=await points(input,lead('9'))
+  for(const r of a.rows){
+    assert.deepEqual(r.target,input.targets.find(t=>t.target_key===r.target_key).target)
+    assert.equal(r.point_pcs,r.target.reorder_point_pcs);assert.equal(r.formula_point_pcs,r.point_pcs)
+    assert.equal(r.lead_days,'3');assert.equal(r.lead_basis,'PROFILE');assert.equal(r.supply_alignment,'NATIVE_TARGET')
+  }
+  assert.deepEqual(a.rows.map(r=>r.point_pcs),['2','10','0'])
+  await db.exec('set role cp7_capture');assert.deepEqual(await points(input,lead('9')),a);await db.exec('reset role')
+  return{same_full_Native_target_JSON:true,reviewed_lead3_wins_over_measured9:true,
+    profile_manual_mean_and_known_zero_respected:true,no_second_buffer:true,non_superuser:true}
+})
+await test('OW10_POINTS_UNREVIEWED_DEFAULTS_USE_NATIVE_AVAILABLE_HISTORY',async()=>{
+  const source=fixture();source.profiles=source.profiles.map(p=>({...p,quality:'UNREVIEWED',profile_id:null,revision:'0',config:null}))
+  const input=await invoke(source),a=await points(input),r=a.rows[0]
+  assert.equal(r.source_kind,'NATIVE_HISTORY_WITH_EXISTING_DEFAULTS');assert.equal(r.available_days,'29')
+  assert.equal(r.available_total_pcs,'10');assert.equal(r.lead_basis,'MEASURED')
+  // Independent arithmetic: 10/29*3 +1.6449*(10/sqrt29)*sqrt3 =6.323..., ceil7.
+  assert.equal(r.point_pcs,'7');assert.equal(r.target.inputs.review_days,'0')
+  assert.equal(r.supply_alignment,'NEEDS_EXPLICIT_BINDING')
+  assert.equal(a.rows[1].point_pcs,'0');assert.equal(a.rows[1].point_basis,'FORMULA')
+  assert.equal(a.rows[2].point_pcs,null);assert.equal(a.rows[2].reason,'FEWER_THAN_14_NATIVE_AVAILABLE_DAYS')
+  const missing=await points(input,[]);assert.equal(missing.rows[0].point_pcs,null);assert.equal(missing.rows[0].reason,'NO_PROVEN_LEAD_TIME')
+  const measuredZero=await points(input,lead('0'));assert.equal(measuredZero.rows[0].point_pcs,'0')
+  await assert.rejects(()=>points(input,lead('3','2')),/CP7_REORDER_LEAD_UNPROVEN/)
+  return{exact_independent_point7_from29_Native_days:true,existing14_day95pct_rule_only:true,
+    known_zero_not_unknown:true,default_only_not_claimed_full_production_target:true,insufficient_lead_never_guessed:true}
+})
+await test('OW10_POINTS_MANUAL_REPLACES_CLEARS_OR_REQUIRES_IDENTITY_REVIEW',async()=>{
+  const input=await invoke(fixture()),manual={root_id:id(1),product_version_id:id(1),size_id:id(9000),revision:'1',reorder_point_pcs:'25'}
+  const active=(await points(input,lead(),[manual])).rows[0]
+  assert.equal(active.point_basis,'MANUAL');assert.equal(active.point_pcs,'25');assert.equal(active.formula_point_pcs,'2')
+  assert.equal(active.target.target_pcs,'5');assert.equal(active.supply_alignment,'NEEDS_EXPLICIT_BINDING')
+  const zero=(await points(input,lead(),[{...manual,reorder_point_pcs:'0'}])).rows[0];assert.equal(zero.point_pcs,'0');assert.equal(zero.manual_state,'ACTIVE')
+  const cleared=(await points(input,lead(),[{...manual,reorder_point_pcs:null}])).rows[0]
+  assert.equal(cleared.point_pcs,'2');assert.equal(cleared.manual_state,'CLEARED')
+  const stale=(await points(input,lead(),[{...manual,product_version_id:id(999)}])).rows[0]
+  assert.equal(stale.point_pcs,null);assert.equal(stale.reason,'MANUAL_POINT_VERSION_CHANGED');assert.equal(stale.manual_reference.reorder_point_pcs,'25')
+  await assert.rejects(()=>points(input,lead(),[{...manual,reorder_point_pcs:'10000001'}]),/CP7_REORDER_MANUAL_RANGE/)
+  return{manual25_replaces_formula2_without_changing_target5:true,manual_zero_and_clear_distinct:true,
+    changed_product_version_does_not_silently_activate_formula:true,existing_manual_limit_retained:true}
+})
+await test('OW10_POINTS_POLICY_HASH_UNKNOWN_PROFILE_AND_CLOSED_SCOPE',async()=>{
+  const input=await invoke(fixture()),a=await points(input)
+  assert.notEqual((await points(input,lead('4'))).selection_hash,a.selection_hash)
+  assert.notEqual((await points(input,lead(),[],{...defaults,service_level:'0.99'})).selection_hash,a.selection_hash)
+  const oldProfile=structuredClone(input);oldProfile.targets[0].profile.quality='PHYSICAL_VERSION_CHANGED'
+  const stale=(await points(oldProfile)).rows[0];assert.equal(stale.point_pcs,null);assert.equal(stale.reason,'PROFILE_IDENTITY_OR_VERSION_CHANGED')
+  await assert.rejects(()=>points(input,lead(),[],{...defaults,window_days:'31'}),/CP7_REORDER_INPUT_PERIOD/)
+  await assert.rejects(()=>points(input,lead(),[],{...defaults,service_level:'0.96'}),/CP7_REORDER_INPUT_POLICY/)
+  const filtered=structuredClone(input);filtered.targets=filtered.targets.slice(0,1)
+  await assert.rejects(()=>points(filtered),/CP7_REORDER_HISTORY_SCOPE_MISMATCH/)
+  const mismatched=structuredClone(input);mismatched.targets[0].profile.product_version_id=id(999)
+  await assert.rejects(()=>points(mismatched),/CP7_REORDER_TARGET_PRODUCT_BINDING/)
+  for(const role of['anon','authenticated','service_role'])assert.equal((await db.query("select has_function_privilege($1,'cp7_reorder_inputs.points(jsonb,jsonb,jsonb,jsonb)','EXECUTE')f",[role])).rows[0].f,false)
+  return{lead_and_defaults_in_selection_hash:true,stale_profile_unknown:true,closed_policy_period_identity_and_full_scope:true,private_only:true}
+})
+let installer
+await test('OW10_INPUTS_REAL_INSTALLER_22_AND_CALLER_DEPENDENCY_REFUSAL',async()=>{
+  // Actual SQL caller declaration, controlled fixture; no Native transaction
+  // or persisted ERP use is claimed for this stateless helper's boundary.
+  await db.exec(`create function cp7_analysis_stage.local_reorder_inputs_consumer(jsonb,jsonb)returns jsonb
+    language sql immutable as $$select cp7_reorder_inputs.history($1,$2)$$;
+    alter function cp7_analysis_stage.local_reorder_inputs_consumer(jsonb,jsonb)owner to cp7_capture;`)
+  installer=await stageAudit.afterUse()
+  assert.equal(installer.catalog_groups,22);assert.equal(installer.apply_rollback_reapply_exact,true)
+  assert.equal(installer.after_use_refused_before_first_DDL,true)
+  return{apply_admit_inverse_reapply_all22_exact:true,actual_installed_SQL_caller_requires_removal_first:true,
+    caller_guard_before_DDL:true,persisted_Native_use_qualified:false}
+})
 const report={classification:'LOCAL_ACTUAL_NATIVE_HISTORY_AND_STAGED_TARGET_KERNELS_CONTROLLED_SOURCE_NOT_NATIVE_OR_LIVE_ROP',
   status:results.every(x=>x.status==='PASS')?'PASS':'FAIL',passed:results.filter(x=>x.status==='PASS').length,total:results.length,
-  sql_sha256:createHash('sha256').update(await read('scripts/cp7_reorder_inputs/history.sql')).digest('hex'),results,
+  sql_sha256:createHash('sha256').update(await read('scripts/cp7_reorder_inputs/history.sql')).digest('hex'),
+  points_sql_sha256:createHash('sha256').update(await read('scripts/cp7_reorder_inputs/points.sql')).digest('hex'),results,
+  installer,
   ROP_caller_changed:false,full_A_chain_qualified:false,production_go:false}
 await mkdir('docs/cp7/d17-14/ow10',{recursive:true})
 await writeFile('docs/cp7/d17-14/ow10/local-reorder-inputs.json',JSON.stringify(report,null,2)+'\n')

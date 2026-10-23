@@ -55,7 +55,7 @@ begin
  end loop;
  return jsonb_build_object('contract_version','cp7.reorder-native-inputs.v1','captured_at',c->'captured_at',
   'query',q,'source_hash',g->'baseline_hash','history_hash',g->'hash',
-  'target_engine','EXISTING_NATIVE_STAGED_BASELINE','history',to_jsonb(rows_out),
+  'target_engine','EXISTING_NATIVE_STAGED_BASELINE','products',c->'facts'->'products','history',to_jsonb(rows_out),
   'current_stock',stock,'targets',to_jsonb(targets_out),'apply_enabled',false,'production_go',false);
 end $$;
 alter function cp7_reorder_inputs.history(jsonb,jsonb)owner to cp7_capture;

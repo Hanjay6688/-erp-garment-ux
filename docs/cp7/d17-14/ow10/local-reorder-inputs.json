@@ -1,9 +1,10 @@
 {
   "classification": "LOCAL_ACTUAL_NATIVE_HISTORY_AND_STAGED_TARGET_KERNELS_CONTROLLED_SOURCE_NOT_NATIVE_OR_LIVE_ROP",
   "status": "PASS",
-  "passed": 6,
-  "total": 6,
-  "sql_sha256": "95fbba37642688bbb61a240a6fd119163e87ca0e0ac22860b34d1ea8ab098f7d",
+  "passed": 11,
+  "total": 11,
+  "sql_sha256": "011719b5a336ab3cf4587ccad4818c722f8ee59c37049b441cd6f37b32281d2b",
+  "points_sql_sha256": "d357aa97b1b85fcefc8a470ff8885eba16578b0982cc02d7e6fd35778d7adaea",
   "results": [
     {
       "id": "OW10_INPUTS_ACTUAL_WHOLE_NATIVE_HISTORY_AND_STOCK_EQUAL",
@@ -59,8 +60,72 @@
         "incomplete_future_and_full_grid_refused": true,
         "private_only": true
       }
+    },
+    {
+      "id": "OW10_POINTS_REVIEWED_PROFILE_EXACT_TARGET_AND_NO_DOUBLE_BUFFER",
+      "status": "PASS",
+      "observed": {
+        "same_full_Native_target_JSON": true,
+        "reviewed_lead3_wins_over_measured9": true,
+        "profile_manual_mean_and_known_zero_respected": true,
+        "no_second_buffer": true,
+        "non_superuser": true
+      }
+    },
+    {
+      "id": "OW10_POINTS_UNREVIEWED_DEFAULTS_USE_NATIVE_AVAILABLE_HISTORY",
+      "status": "PASS",
+      "observed": {
+        "exact_independent_point7_from29_Native_days": true,
+        "existing14_day95pct_rule_only": true,
+        "known_zero_not_unknown": true,
+        "default_only_not_claimed_full_production_target": true,
+        "insufficient_lead_never_guessed": true
+      }
+    },
+    {
+      "id": "OW10_POINTS_MANUAL_REPLACES_CLEARS_OR_REQUIRES_IDENTITY_REVIEW",
+      "status": "PASS",
+      "observed": {
+        "manual25_replaces_formula2_without_changing_target5": true,
+        "manual_zero_and_clear_distinct": true,
+        "changed_product_version_does_not_silently_activate_formula": true,
+        "existing_manual_limit_retained": true
+      }
+    },
+    {
+      "id": "OW10_POINTS_POLICY_HASH_UNKNOWN_PROFILE_AND_CLOSED_SCOPE",
+      "status": "PASS",
+      "observed": {
+        "lead_and_defaults_in_selection_hash": true,
+        "stale_profile_unknown": true,
+        "closed_policy_period_identity_and_full_scope": true,
+        "private_only": true
+      }
+    },
+    {
+      "id": "OW10_INPUTS_REAL_INSTALLER_22_AND_CALLER_DEPENDENCY_REFUSAL",
+      "status": "PASS",
+      "observed": {
+        "apply_admit_inverse_reapply_all22_exact": true,
+        "actual_installed_SQL_caller_requires_removal_first": true,
+        "caller_guard_before_DDL": true,
+        "persisted_Native_use_qualified": false
+      }
     }
   ],
+  "installer": {
+    "classification": "LOCAL_REAL_INSTALLER_AND_PG_CATALOG_VIA_CONTROLLED_TRANSPORT_NOT_NATIVE",
+    "stage": "cp7_reorder_inputs",
+    "status": "PASS",
+    "catalog_groups": 22,
+    "apply_rollback_reapply_exact": true,
+    "admission_passed": true,
+    "full_A_chain_qualified": false,
+    "production_go": false,
+    "after_use_refusal": "OW10_REORDER_INPUTS_AFTER_USE_REQUIRES_BACKUP_RESTORE",
+    "after_use_refused_before_first_DDL": true
+  },
   "ROP_caller_changed": false,
   "full_A_chain_qualified": false,
   "production_go": false
