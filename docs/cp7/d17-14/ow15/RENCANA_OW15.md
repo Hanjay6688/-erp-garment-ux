@@ -82,6 +82,9 @@ sudah lulus; hasil baru ditulis di berkas baru. Antarmuka dari fgqc ke atas: set
 OW06→kasbon→fgqc di bawah karena hanya awalan itu yang sudah lulus; OW07 di atas supaya penghalang tutup bukunya tidak
 mengubah kasus tahap di bawahnya. Tidak ada id kasus, angka uang atau berkas EXPECTED yang berubah; hanya ikatan pendahulu.
 
+Perubahan urutan (keputusan integrator, 23 Okt): OW04b (followups/A/B) pindah ke ujung rantai, sesudah wash; OW08a langsung
+di atas OW05b. Alasannya: fungsi yang diubah OW04b tidak beririsan dengan tahap lain, dan OW04b masih dibangun.
+
 ## 4. P21 bawaan memasang ujung rantai
 
 - `scripts/cp7_p21_chain_adapter.py` (bentuk `cp7_p21_ow05_adapter.py`): `owner` = komposisi ujung rantai; `install` mencatat
