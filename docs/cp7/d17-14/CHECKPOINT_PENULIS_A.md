@@ -44,13 +44,15 @@ reset sekitar 11.13 UTC; pengingat mode hemat 08.00 UTC; paling banyak 2 pembant
 
 ## Belum selesai / berikutnya (urutan kerja)
 
-1. OW-15: langkah 12 (followups di atas wash) lulus 12/12 di `62d00c42`; langkah 13 (bagian A) lulus 8/8 di `26fde101`
-   (bukti `ow04/ow04b-native9-race3-62d00c42-chain-pass.json`, `ow04/ow04b-slice-a-native6-race2-26fde101-chain-pass.json`).
-   Langkah 14 (bagian B) sedang diuji (run 39912682314 di `464b8bf8`). Langkah 15 (bagian C di atas B) siap, menunggu bukti B.
-2. OW-04b bagian C: perbaikan C13 (vektor sumber kutipan) dan C14 (hash refund) plus tunggu kunci sebelum bongkar sudah
-   digabung; diuji sesudah B lulus. Satu run C (39911207808) terpicu tanpa sengaja oleh penggabungan fast-forward dan
-   tertolak di langkah ambil bukti sebelum database (sesuai rancangan). Pelajaran: gabung cabang pembantu dengan `--no-ff` dan
-   pesan `[skip ci]` bila belum mau memicu uji.
+1. OW-15: langkah 12 (followups) 12/12 `62d00c42`, langkah 13 (bagian A) 8/8 `26fde101`, langkah 14 (bagian B) 7/7 `464b8bf8`
+   lulus di rantai (bukti `ow04/*-chain-pass.json`). Langkah 15 (bagian C di atas B): run 39913778353 di `639208e6` gagal di
+   kasus (C14 memakai alias `x` yang bentrok dengan variabel fungsi, 42702; pembongkaran beres, kunci tidak muncul lagi;
+   `ow04/ow04b-slice-c-native7-race1-639208e6-failure.json`), dibetulkan di `cbdd7263`. Run 39915754651 di `cbdd7263` dua kali
+   berhenti sebelum database: unduhan bukti OW05b (artifak 12473826069) dijawab HTTP 503 oleh penyimpanan berkas GitHub
+   (bukan kode); dijadwalkan ulang 07.42 UTC.
+2. OW-04b bagian C: C13 (vektor sumber kutipan), C14 (hash refund, alias `obj`) dan tunggu kunci sebelum bongkar sudah digabung.
+   Pelajaran: gabung cabang pembantu dengan `--no-ff` dan `[skip ci]` bila belum mau memicu uji; cek bentrok nama (E25c) juga
+   untuk definisi hasil substitusi teks.
 3. P21 rantai (`scripts/cp7_p21_chain_adapter.py`, `cp7_chain_restore.py`, `cp7_p21_current_chain_rehearsal_probe.py`,
    `scripts/chain-p21-qualification/`, workflow `cp7-chain-p21.yml`) sudah di cabang; 6 langkah rantai ditulis dari kasus tahap;
    tahap B Astra dicatat terang "belum di rantai". Menunggu bukti bagian C lalu run pertama.
