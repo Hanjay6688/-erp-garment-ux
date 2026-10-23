@@ -26,6 +26,8 @@ untuk mendaftarkan workflow-nya saat antrean longgar.
 | OW-06 hak akses transfer supplier | Auth4 4/4 `b9456b5a` |
 | OW-06 layar transfer supplier | Browser2 2/2 `d8b0164e` (run 39884070148; `ow06/browser2-d8b0164e-pass.json`) |
 | OW-07 tutup buku menunggu HPP | Native7 7/7 (`ow07/PROGRESS.md`) |
+| OW-08b 2.21 koreksi barang jadi di QC | Native9 9/9 `048f194e` (run 39884816533; `ow08/fgqc-native9-048f194e-pass.json`) |
+| OW-05b layar ulang | Browser2 2/2 `8438a4a7` (run 39884456248; `ow05/browser2-8438a4a7-pass.json`) |
 | OW-08b 2.18 kasbon dari buku besar | Native4 4/4 `6c8be6f6` (run 39847032024; `ow08/kasbon-native4-6c8be6f6-pass.json`, laporan sha256 `8f9f2c83…`, artifak 12456785458) |
 
 ## Sudah dibuat, uji sedang/akan jalan

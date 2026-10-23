@@ -43,6 +43,7 @@ Untuk PO seperti ini koreksi mandor tetap terkunci; petunjuknya tidak menyuruh m
 | Browser, percobaan pertama | `b7c20b98` | 39827224321 | Berhenti di langkah menyalakan database uji (masalah server CI, sebelum kode diuji) |
 | Native6 | `3093e2d3` | 39826573395 | Percobaan 3: 4/6 lulus. Dua harapan uji baru tahap ini yang salah (bukan produk): rantai selesai tidak punya penghalang jurnal upah, dan token tinjauan memang tidak berubah. Bukti `native6-3093e2d3-first-failure.json` |
 | Native6 | `176dcf38` | 39845868524 | **Lulus 6/6**, database kembali utuh, gerbang paket lulus. Bukti `native6-176dcf38-pass.json`. Satu cabang belum dicoba dengan data nyata: pengambilan bahan non-aksesori (kain/bahan) |
+| Browser ulang (sesudah `src/transactionSource.ts` berubah) | `8438a4a7` | 39884456248 / 120189267232 | **2/2 PASS**; mandor lama 0, baru 24, WIP +24; nota dibuka dari penghalang dan dibatalkan di layarnya. Bukti `browser2-8438a4a7-pass.json` |
 
 Native6 dan browser sudah lulus. OW-05b belum dinyatakan selesai: cabang petunjuk untuk pengambilan kain/bahan belum
 dicoba dengan data nyata, dan tahap ini belum ikut uji pemulihan basis data terpakai (P21) di rantai gabungan OW-15. Bukti uji browser OW-05 lama (`browser2-*`) tetap sebagai riwayat;
