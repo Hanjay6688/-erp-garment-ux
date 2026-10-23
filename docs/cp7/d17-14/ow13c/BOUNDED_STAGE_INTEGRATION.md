@@ -36,6 +36,11 @@ supplies coverage, source hashes, eligibility or DONE.
 
 ## Counted existing-function adaptations
 
+Implementation now counts seven adaptations: the original six below plus
+`cp7_analysis_stage.request(jsonb,uuid)`, whose old route must reject a new-method
+UUID too. This prevents recovery through one method from accepting the other's
+immutable reference. Both directions are declared Native6 controls.
+
 Use a new B module with exact original/new bodies/owners/ACLs, additive facade,
 strict catalog delta and inverse. Never edit frozen `cp7-src` or A bundles.
 
@@ -47,6 +52,7 @@ strict catalog delta and inverse. Never edit frozen `cp7-src` or A bundles.
 | `cp7_analysis_stage.check_source(uuid)` | Select the same versioned raw-source factory as the immutable job. Keep DONE/actor/K2/current-access checks; old jobs retain their old factory. |
 | `cp7_schedule_staged_review.workspace(uuid)` | Select the reference's factory. Old response remains v1. A new response may explicitly label complete bounded coverage while preserving raw INCOMPLETE; client must validate its version/real request/run/hash. |
 | `cp7_schedule_staged_review.save(jsonb,uuid)` | Read the real job reference for pre/post source checks. Keep request/global locks, fresh access, CAS, immutable UUID replay, Native config validation and atomic metadata. Post-check must include full raw digest without rejecting its own calendar write. |
+| `cp7_analysis_stage.request(jsonb,uuid)` | Keep the complete old route and add only the explicit new-method UUID refusal; old requests keep their exact source and Native job machinery. |
 
 Derive the new public request from `cp7_analysis_stage.request(jsonb,uuid)`:
 real `create_job`, one Native snapshot, same limits/access/idempotency/K2.

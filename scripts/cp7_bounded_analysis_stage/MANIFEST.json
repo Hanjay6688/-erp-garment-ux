@@ -1,0 +1,40 @@
+{
+  "contract": "cp7.bounded-analysis-stage.v1",
+  "sql_sha256": "c628a07833a5034fdadc025d92e53d2110214f9c582f477afe100697bb6da849",
+  "replacements": {
+    "cp7_supply_native.fingerprint(jsonb)": {
+      "before_sha256": "b48259722443efbb11146f2677e0c8588fbd717aee525ac34adee6ba40ddf7ef",
+      "after_sha256": "c3527037b764bad525c075cba5c0b36998fec48df4fff006cdefb374ae2b4430"
+    },
+    "cp7_analysis_stage.run_scenario_unit(cp7_analysis_stage.jobs,cp7_analysis_stage.units,jsonb)": {
+      "before_sha256": "8cba81bc236ba98d3bce8fbb748064d5b6b1a7fc45c88317bab709593477f8ee",
+      "after_sha256": "db3886d9716856ed9049a5b724780f1ca870c19334566102ae6839d467c1480d"
+    },
+    "cp7_analysis_stage.analysis_skeleton(jsonb,jsonb,uuid,jsonb,jsonb,jsonb,jsonb,jsonb,boolean,text)": {
+      "before_sha256": "d51e976abe33bec728341e57520170deca56011f4caa9b973f7d4fa8dadbbcf7",
+      "after_sha256": "3efd130e7245845c100272ac47082a66d087591e320fbe5346372f4274430f4a"
+    },
+    "cp7_analysis_stage.check_source(uuid)": {
+      "before_sha256": "f7b4b42e963ea511e711185ceff6d341e8a61b5ba4b09cefc6399b83e61b2839",
+      "after_sha256": "7953996ec563cc07e9323d83b8ee91aacc71fd2b74af780d64e4f5bb14783f48"
+    },
+    "cp7_analysis_stage.request(jsonb,uuid)": {
+      "before_sha256": "45313cc81b68fe6a4dbbb1df5fb2251efc5714be55ccbb2d1f27ad8b39b5d4f4",
+      "after_sha256": "46de68d3fbb3f91237e9bd321cab00ff7a36001101b4201c5c032e2c60ce2a39"
+    },
+    "cp7_schedule_staged_review.workspace(uuid)": {
+      "before_sha256": "2a1c6c51b9a8897ca67892f7b1d18a8f7990445bfe1949d4be0f7b09ffb054ae",
+      "after_sha256": "73b4d0e97009f2ce629bd3e4a242004e334540704045b83f33360a797250040d"
+    },
+    "cp7_schedule_staged_review.save(jsonb,uuid)": {
+      "before_sha256": "2fd719d27fa9c6dca81b7683f4b083e6053889044fd9bc24a8756103f04ce0ef",
+      "after_sha256": "57d1566d4ed4f1d8b50d86deb983844e6aa270bf79e02d3780305acfb3a3683e"
+    }
+  },
+  "source_files": {
+    "cp7_production_stage/sql/cp7_supply_native__fingerprint.sql": "3357b81418aca17f16d67a1e1fd08c37db7fb84fcdb0f7adb56c5da503368271",
+    "cp7_production_stage/sql/cp7_analysis_stage__history_prep.sql": "6cf78ac783d46d87aa88ecb8e9463b1cf3446b75a3966fbd1d23e696008c3487",
+    "cp7-src/planning/analysis-stages.sql": "df00590019a580c36efb585e3b0cbb2582c9f5690b7b951ba6bb3836f2cc884d",
+    "cp7_schedule_staged_review/review.sql": "afdcd17f9ddc96c72e5019aab7bdc9909ae6e1ff18e613cf07a974a648eab380"
+  }
+}
