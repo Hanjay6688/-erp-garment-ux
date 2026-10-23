@@ -1,0 +1,47 @@
+{
+ "classification": "OW04BC_RETURN_ON_AN_INVOICE_PAID_WITH_CREDIT_NATIVE_STAGE",
+ "predecessor_stage": "cp7_credit_multi",
+ "files": {
+  ".github/workflows/cp7-ow04b-incoming-native.yml": "4b1993750cc067ed9793a6a27822f3532a95592b9d684e62c5d914c050e7a86e",
+  "scripts/ow04bb_native_original.py": "66b4ac97549b1f3523984b3b2cb5465efc5c5e3f39f68c797d4c9276368f0fcf",
+  "scripts/cp7_credit_incoming/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "scripts/cp7_credit_incoming/cases.py": "7a78b6e133fe694384192c9af268ddce94baca23196ce19a51b4f94164f48251",
+  "scripts/cp7_credit_incoming/composition.py": "039060ba04e335fa25b5b41868b628f2d895ee5dfc479f73423e702b7a7d4a6d",
+  "scripts/cp7_credit_incoming/incoming.sql": "cb9c7bcd6960977e22b349c4365075edfa0f9e8410a84ed98898fa9bfb556d6f",
+  "scripts/cp7_credit_incoming/local_check.py": "b3520e0deb4240f28940021a850a189ceae5ec92660669788a97f2b972abede0",
+  "scripts/cp7_credit_incoming/local_check_delta.py": "7164cae72ef3e169e73e54d405a3c9c7aa7345bceddb0bc7614c0e2b71733391",
+  "scripts/cp7_credit_incoming/native_delta.py": "6b4231f1db12fa6f436ae12c45927691c939bae69a4268a367cad1bea996cbbf",
+  "scripts/cp7_credit_incoming/native_probe.py": "d47c529c6619190b9db71af3a9dbadfb47f377e9b0e005a7f4dcdad04e356c4c"
+ },
+ "case_ids": [
+  "OW04BC_FIRST_RETURN_QUOTES_UNCHANGED",
+  "OW04BC_RETURN_ON_CREDIT_PAID_INVOICE_NO_CREDIT",
+  "OW04BC_UNDO_ALLOWED_WHEN_RETURN_EMPTY",
+  "OW04BC_RETURN_ON_CREDIT_PAID_INVOICE_CREDIT",
+  "OW04BC_RETURN_ON_CREDIT_PAID_INVOICE_REFUND",
+  "OW04BC_UNDO_REFUSED_WHEN_RETURN_DEPENDS",
+  "OW04BC_PROTECTED_REFUSALS_IDENTICAL"
+ ],
+ "race_ids": [
+  "OW04BC_RACE_RETURN_VS_UNDO_OF_ITS_CREDIT"
+ ],
+ "native_original": {
+  "name": "CP7_OW04BB_MULTI_RETURN_NATIVE6_RACE1.json",
+  "bytes": 1821693,
+  "sha256": "73bfc5c085157f46f0640b05fadd32c204831089ffa6ca0c10d0ec15b2894047",
+  "artifact": "cp7-ow04b-multi-return-native6-race1 (12474881472)",
+  "qualification_commit": "33760a5205cde88c00c180e02c60f635fea9fe58"
+ },
+ "slice": {
+  "name": "C",
+  "design": "docs/cp7/d17-14/ow04/OW04B_SLICE_C_INVENTORY.md",
+  "substitutions": "C1-C7, C12 (C8 kept refused)",
+  "still_refused": [
+   "payment correction on an invoice that received credit",
+   "source reversal with incoming credit",
+   "Edit retur and Benerin nota with credit (D/E)",
+   "native-empty direct route with incoming credit (C8)"
+  ]
+ },
+ "OW04b_complete": false
+}
