@@ -204,9 +204,11 @@ begin
  if (select po.status from erp.production_orders po where po.id=v_delivery.po_id)='FINISHED' then
   perform erp.sync_finished_po_wip_residual(v_delivery.po_id,v_date,'Failed-wash price set: '||v_reason);
  end if;
- insert into erp.audit_logs(entity_type,entity_id,action,new_data,changed_by,change_reason)
- values('laundry_failed_wash_attempts',v_row.id,'SET_PRICE',jsonb_build_object('receipt_id',v_receipt.id,'rate_status',v_status,
-  'rate_per_pcs',v_rate,'actual_cost',v_cost,'qty_attempted_pcs',v_row.qty_attempted_pcs,'economic_date',v_date,
+ -- erp.audit_logs admits only its fixed actions (audit_logs_action_check): an UPDATE of the attempt's cost, named in the data.
+ insert into erp.audit_logs(entity_type,entity_id,action,old_data,new_data,changed_by,change_reason)
+ values('laundry_failed_wash_attempts',v_row.id,'UPDATE',jsonb_build_object('rate_status','UNKNOWN','rate_per_pcs',null,'actual_cost',null,
+  'actual_cost_status','PENDING'),jsonb_build_object('operation','SET_FAILED_WASH_PRICE','receipt_id',v_receipt.id,'rate_status',v_status,
+  'rate_per_pcs',v_rate,'actual_cost',v_cost,'actual_cost_status','ESTIMATED','qty_attempted_pcs',v_row.qty_attempted_pcs,'economic_date',v_date,
   'history_deleted',false),erp.current_app_user_id(),v_reason);
  return jsonb_build_object('failed_wash_attempt_id',v_row.id,'receipt_id',v_receipt.id,'receipt_number',v_receipt.receipt_number,
   'delivery_id',v_delivery.id,'po_id',v_delivery.po_id,'rate_status',v_status,'rate_per_pcs',v_rate::numeric(18,2)::text,
