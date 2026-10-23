@@ -1,4 +1,4 @@
-# Focused actual transport for staged work screen source dba6ef2e; previous Native11 is separate.
+# Exact clone-authority wrapper source065c4df1; direct work entry included in both browser cases.
 name: CP7 Staged Work Screen Actual Transport10
 'on':
   push:
@@ -111,7 +111,7 @@ jobs:
       uses: supabase/setup-cli@ab058987d8d6c725971f6cf9d0b5c98467e30bd1
       with:
         version: 2.116.0
-    - name: Check focused declaration, unchanged legacy budgets and 66 client tests
+    - name: Check focused budget, legacy budgets and 108 related client tests
       working-directory: auditor
       run: 'set -euo pipefail
 
@@ -151,7 +151,8 @@ jobs:
 
         npx tsc -b --pretty false
 
-        npx vitest run src/nativeProductionPlanning.test.ts src/NativeProductionPlanningPanel.dom.test.tsx
+        npx vitest run src/nativeProductionPlanning.test.ts src/NativeProductionPlanningPanel.dom.test.tsx src/nativeStagedJob.test.ts
+        src/NativeDemandHistoryPanel.dom.test.tsx src/nativeDemandHistory.test.ts
 
         node --check scripts/cp7_ow13c_schedule_browser.mjs
 
