@@ -1,4 +1,8 @@
-"""OW-04b stage over the complete qualified OW05 product (which contains the OW04 credit product).
+"""OW-04b stage over the qualified wash stage (which contains the OW04 credit product).
+
+OW-15 chain: OW05, OW06, kasbon, fgqc, OW05b, OW08a, OW12a, OW-09, OW07, wash, then this stage (order change of
+23 Oct). No stage below declares or changes any cp7_credit function this stage or slices A, B and C replace (each
+one's 22-group catalog admission refuses any undeclared function change).
 
 Three installed OW04 credit functions get the counted delta of native_delta.py (a DETAIL on three retained refusals),
 replaced as their verified existing owner postgres; four private readers are added in one new schema. No table,
@@ -8,7 +12,7 @@ from hashlib import sha256
 from pathlib import Path
 import re
 
-from cp7_contractor_correction import composition as predecessor
+from cp7_laundry_unknown_wash import composition as predecessor
 from cp7_credit_followups import native_delta
 
 ROOT=Path(__file__).resolve().parent
@@ -18,9 +22,10 @@ READERS=('cp7_credit_followups.detail_v1(text,text,jsonb,jsonb)',
          'cp7_credit_followups.correction_reasons_v1(uuid)',
          'cp7_credit_followups.source_mutation_reasons_v1(text,uuid)')
 ROLES=('anon','authenticated','service_role','cp7_capture','cp7_sales_read','cp7_sales_write','cp7_credit_write','cp7_credit_visible_read')
-catalog=predecessor.predecessor.catalog
-atomic=predecessor.predecessor.atomic
-as_owner=predecessor.predecessor.payment.consumer.as_owner
+catalog=predecessor.catalog
+atomic=predecessor.atomic
+as_owner=predecessor.as_owner
+base=predecessor.predecessor.base  # wash exports no base; its predecessor OW07 does (chain interface, OW-15)
 CAPTURED={}
 
 
@@ -62,7 +67,7 @@ def install(cur):
             raise ValueError('OW04B_NEW_FUNCTION_SET_CHANGED')
         admit_catalog(before,after,definitions)
         state=dict(sources=sources(),predecessor=previous,predecessor_proof=proof,before=before,after=after,
-            originals=originals,definitions=definitions,seeded_private_rows=predecessor.predecessor.base.private_rows(cur))
+            originals=originals,definitions=definitions,seeded_private_rows=base.private_rows(cur))
         verify(cur,state)
         return state
 
