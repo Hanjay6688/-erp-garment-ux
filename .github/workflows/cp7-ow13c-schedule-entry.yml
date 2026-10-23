@@ -1,3 +1,4 @@
+# Direct-entry source a16e5d85; server Native11 and Transport10 retain their own evidence.
 name: CP7 Direct Work Entry Actual Browser2
 'on':
   push:
