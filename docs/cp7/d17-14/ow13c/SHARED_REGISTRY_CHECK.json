@@ -1,0 +1,34 @@
+{
+  "contract": "cp7.proposed-shared-registry-check.v1",
+  "component_candidate": "16a0aeb0270eed29239668a94678c59221507e46",
+  "actual_repository_gate": "FAIL_BROWSER_RPC_OWNERSHIP_DRIFT",
+  "missing_exact_pairs": [
+    "src/MandorCorrectionPanel.tsx:erp_cp7_correct_mandor_v1",
+    "src/MandorCorrectionPanel.tsx:erp_cp7_get_mandor_correction_v1",
+    "src/MandorCorrectionPanel.tsx:erp_cp7_get_sewing_completion_v1",
+    "src/NativeCuttingStatusPanel.tsx:erp_cp7_get_cutting_status_policy_request_v1",
+    "src/NativeCuttingStatusPanel.tsx:erp_cp7_get_cutting_status_v1",
+    "src/NativeCuttingStatusPanel.tsx:erp_cp7_save_cutting_status_policy_v1",
+    "src/NativeInitialAnalysisPanel.tsx:erp_cp7_request_staged_analysis_v1",
+    "src/nativeCuttingSuggestion.ts:erp_cp7_save_cutting_suggestion_v1"
+  ],
+  "shared_checker_base_sha256": "f1148cb535181a28a1792723400746a88f6025e217ebef58264ece39d2140333",
+  "shared_checker_modified": false,
+  "proposed_eight_entries_only": {
+    "status": "PASS",
+    "runtime_files": 360,
+    "owned_rpc_boundaries": 303,
+    "no_orphan_or_direct_table_access": true,
+    "all_other_oracles_unchanged": true,
+    "temporary_checker_sha256": "064b50148b0b7f109a827360c28a374985b19fe4f173faf7a2ece5e8d3a89cd2"
+  },
+  "apply_order_for_A": [
+    "Use ow13a/SHARED_INTEGRATION.patch for the seven older gaps; do not also apply ow16 six-entry patch.",
+    "Apply ow13c/SHARED_REGISTRY.patch for the single new checked-save pair, unless already integrated.",
+    "Regenerate shared types, compose default installation/global after-use census and run actual shared gates/full A chain."
+  ],
+  "A_files_not_written": true,
+  "actual_shared_source_gate_pass": false,
+  "full_A_chain_qualified": false,
+  "production_go": false
+}

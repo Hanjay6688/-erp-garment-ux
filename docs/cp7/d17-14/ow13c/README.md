@@ -58,7 +58,12 @@ menolak sebelum DDL. DROP menggunakan RESTRICT, bukan menghapus dependen lain.
 A menambah pasangan source/RPC `src/nativeCuttingSuggestion.ts` →
 `erp_cp7_save_cutting_suggestion_v1` pada registry dan generator tipe. B memakai
 tipe facade sempit sementara di berkasnya sendiri; tidak mengubah tipe/bundle/
-registry bersama. Gerbang sumber bersama belum dinyatakan lulus. Sembilan SQL
+registry bersama. [Patch satu pasangan](SHARED_REGISTRY.patch) disiapkan;
+`git apply --check` lulus pada B. Tujuh pasangan lama memakai patch OW13a,
+bukan ditumpuk dengan patch enam pasangan OW16. Pemeriksa sumber yang sama
+pada salinan sementara dengan tepat8 entri tambahan lulus360 berkas/303 jalur;
+[receipt](SHARED_REGISTRY_CHECK.json). Pemeriksa bersama di repo tetap gagal8
+pasangan sampai A mengintegrasikannya; ini bukan gerbang rantai A yang lulus. Sembilan SQL
 dasar dan pemeriksa owning sumber tetap tepat; A saja penggabung.
 
 ## Bukti yang masih wajib
