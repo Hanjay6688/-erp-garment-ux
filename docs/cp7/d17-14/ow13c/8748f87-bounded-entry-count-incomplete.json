@@ -1,0 +1,85 @@
+{
+  "contract": "cp7.bounded-entry-first-total-incomplete.v1",
+  "candidate": "8748f874529fcd093e9c0645b8df5be7bf409942",
+  "source": "2f4257abf933c33c9a6e22f94843f6dd1e9da737",
+  "run_id": 40035732616,
+  "job_id": 120694593010,
+  "status": "INCOMPLETE",
+  "expected": 2,
+  "reported_observed": 0,
+  "actual_browser_cases": 2,
+  "counts": {
+    "browser": {
+      "PASS": 2
+    }
+  },
+  "totals_match": false,
+  "cause": "Bounded Entry inherited predecessor native-only final total selector despite declaring and executing browser2. Both actual browser cases PASS; wholepackage remains INCOMPLETE/ writer_runtimefalse.",
+  "fix": "New bounded suites aggregate exactly case_provider.REQUIRED groups; Native6/browser2/committedSAVE2 group-declaration checks run before database setup. No browser assertion or product change.",
+  "source_files_exact": 47,
+  "preuse22_exact": 12,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "clone_authorities": 1,
+  "original": {
+    "artifact_id": 12536574512,
+    "bytes": 43183,
+    "sha256": "80199d62dd9b4a97de29a4fae9c8941a601a68e66f24b86abbe131b4ac0c695f"
+  },
+  "first_failure_preserved": true,
+  "actual_browser_results": {
+    "OW13C_BOUNDED_ENTRY_DESKTOP_STALE_DIRTY": {
+      "status": "PASS",
+      "actual_Auth_PostgREST_browser": true,
+      "viewport": 1440,
+      "no_horizontal_overflow": true,
+      "dirty_form_stale_refusal": true,
+      "first_confirmed_refusal_releases_only_new_request": true,
+      "lost_committed_response_same_UUID_reopen": false,
+      "current_token_denied": true,
+      "shots": [
+        "cp6-proof/t3/SCHEDULE_DESKTOP_REVIEWED.png"
+      ],
+      "production_quantity_claim": false,
+      "source_method": "BOUNDED",
+      "explicit_bounded_coverage_and_receipt": true,
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    "OW13C_BOUNDED_ENTRY_MOBILE_LOST_REPLY": {
+      "status": "PASS",
+      "actual_Auth_PostgREST_browser": true,
+      "viewport": 390,
+      "no_horizontal_overflow": true,
+      "dirty_form_stale_refusal": false,
+      "first_confirmed_refusal_releases_only_new_request": false,
+      "lost_committed_response_same_UUID_reopen": true,
+      "current_token_denied": true,
+      "shots": [
+        "cp6-proof/t3/SCHEDULE_MOBILE_REVIEWED.png"
+      ],
+      "production_quantity_claim": false,
+      "source_method": "BOUNDED",
+      "explicit_bounded_coverage_and_receipt": true,
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    }
+  },
+  "new_method_full_package_qualified": false,
+  "actual_checked_SAVE2000_qualified": false,
+  "full_A_chain_qualified": false,
+  "production_go": false
+}
