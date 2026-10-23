@@ -41,10 +41,18 @@ def save(cur, p, key=None, subject=None):
 
 def metadata(cur):
     plan.b.api.admin(cur)
-    plans = cur.execute("select md5(coalesce(jsonb_agg(to_jsonb(p)order by p.revision),'[]')::text)from cp7_schedule_native.plans p").fetchone()[0]
-    commands = cur.execute("select md5(coalesce(jsonb_agg(to_jsonb(c)order by c.actor,c.request_id),'[]')::text)from cp7_schedule_native.commands c").fetchone()[0]
-    return dict(plans=plans, commands=commands, physical=plan.monetary_state(cur),
-                native=plan.b.boundary.snapshot(cur))
+    # boundary.snapshot's data() selects UTC. Serialize our timestamptz rows
+    # in that SAME zone from the start, then restore the caller's local GUC.
+    # Otherwise the first hash is WIB and the second UTC, despite exact rows.
+    zone = cur.execute('show TimeZone').fetchone()[0]
+    cur.execute("select set_config('TimeZone','UTC',true)")
+    try:
+        plans = cur.execute("select md5(coalesce(jsonb_agg(to_jsonb(p)order by p.revision),'[]')::text)from cp7_schedule_native.plans p").fetchone()[0]
+        commands = cur.execute("select md5(coalesce(jsonb_agg(to_jsonb(c)order by c.actor,c.request_id),'[]')::text)from cp7_schedule_native.commands c").fetchone()[0]
+        return dict(plans=plans, commands=commands, physical=plan.monetary_state(cur),
+                    native=plan.b.boundary.snapshot(cur))
+    finally:
+        cur.execute("select set_config('TimeZone',%s,true)", (zone,))
 
 
 def prepare(cur, today, subject=None, dense_fixture=False):
@@ -58,7 +66,9 @@ def prepare(cur, today, subject=None, dense_fixture=False):
     assert initial['state'] == 'RUNNING' and initial['run_id'] is None and initial['units_done'] == 0, initial
     before = metadata(cur)
     w = get(cur, key, subject)
-    assert metadata(cur) == before, 'STAGED_SCHEDULE_GET_WROTE_DATA'
+    after = metadata(cur)
+    assert after == before, ('STAGED_SCHEDULE_GET_WROTE_DATA',
+                             {k: dict(before=before[k], after=after[k]) for k in before if before[k] != after[k]})
     assert w['contract_version'] == 'cp7.planning-schedule-staged.v1' and w['source_request_id'] == key, w
     assert w['source_state'] == 'UNCHANGED' and w['analysis_state'] == 'RUNNING', w
     assert w['production_capture_state'] == 'COMPLETE' and w['staged_review_contract'] == stage.render.CONTRACT, w
