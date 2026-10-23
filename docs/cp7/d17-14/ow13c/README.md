@@ -1,14 +1,16 @@
-# OW13c — saran potong, checkpoint Native31
+# OW13c — checkpoint Native31 lulus; fitur penuh masih terbuka
 
-**Belum OW13c selesai.** Native25 a3bf8842 lulus25/25; V7 df6bd877
-30/31, lalu perbaikan pesan16a0aeb0 membuktikan seluruh12 checked-save
-baru termasuk4 browser PASS. Paket16a tetap INCOMPLETE28/31 karena3 contoh
-stok OW10 lama08:00WIB masih masa depan saat uji00:23WIB. Batas tanggal
-Native tidak diubah; contoh hari yang sama diperbaiki ke00:00 pada1ba69eaa.
-Kandidat a15054c2 sedang diuji31 pada run39996465132/job120561154474.
-160 uji klien/TypeScript tetap pada sumber aplikasi5b6ca459 yang sama.
-[Status/bukti lengkap31](NATIVE31_README.md). Riwayat awal di bawah.
+**Native31 PASS31/31 padaa15054c2**, run39996465132/job120561154474:
+15 Native/8 race/4 Auth/4 browser.160 uji klien/12 berkas, TypeScript,
+28 source hash,8 invers22,10 authority, restore/advisor/lima gate paket
+tepat. Volume2000/202000 4728/1799/1743ms, batas8s/3s tetap.
+[Receipt PASS](a15054c-native31-pass.json), [riwayat lengkap](NATIVE31_README.md).
+Pesan source berubah dan pemulihan HP lulus; tiga contoh stok yang tadinya
+08:00 masih masa depan pada uji tengah malam diperbaiki ke00:00 pada hari
+yang sama, tanpa perubahan penjaga Native/jumlah/oracle. Parent tetap5/16;
+ini bukti komponen, belum fullOW13c/komposisi A/audit/production_go.
 
+**Riwayat implementasi awal:**
 Run Native25 pertama bf98947e membuktikan6 kasus baru (4 Native/2 Auth) PASS,
 tetapi satu volume ROP lama timeout8detik:24/25, paket INCOMPLETE. Bukti di
 [receipt pertama](bf98947-first-native25-24.json).11 SQL lokal,91 klien/DOM pada8 berkas, TypeScript serta
@@ -66,21 +68,27 @@ pada salinan sementara dengan tepat8 entri tambahan lulus360 berkas/303 jalur;
 pasangan sampai A mengintegrasikannya; ini bukan gerbang rantai A yang lulus. Sembilan SQL
 dasar dan pemeriksa owning sumber tetap tepat; A saja penggabung.
 
-## Bukti yang masih wajib
+## Bukti yang ada dan yang masih wajib
 
-- Native: data/plan/target/quantity dari perjalanan sebenarnya; angka sama
-  dengan panel, stale/produk nonaktif/policy/WIP unknown/bahan/kapasitas berubah
-  menolak dengan0 efek; rencana arsip lama tetap kontraknya.
-- Dua backend: UUID sama, dua revisi bersaing, stok/bahan/kapasitas berubah dan
-  revoke setelah lock wait; tidak ada draf/receipt yatim.
-- Auth/PostgREST asli, desktop1440/HP390, waktu WIB, period/target eksplisit,
-  jumlah yang diedit, hilang jawaban dan buka ulang di halaman rencana biasa.
-- Komposisi dependensi terhadap rantai A, installer/invers22 Native dan penolakan
-  setelah pakai, backup/restore caller yang sudah dipakai, source gate bersama.
-- Waktu satu SAVE aktual di bawah batas8detik, termasuk dua pemeriksaan sumber
-  penuh. Belum ada angka Native untuk jalur ini; jangan menaikkan batas agar
-  lulus. Pabrik3600 tetap OW12b, terpisah dari Native19 sintetis.
+Native31 membuktikan fresh SAVE/UUID replay/0 efek stok-uang-fisik, sumber
+stok berubah ditolak, UUID lama tidak dilabel ulang, used-receipt menahan
+invers sebelum DDL;4 race checked-save (UUID/revisi/stok/akses setelah wait),
+Auth asli dan2 perjalanan checked desktop/HP.19 kontrol caller lama juga
+lulus. Lihat receipt untuk31 ID tepat; bukti ini tidak mencakup seluruh
+kualifikasi aplikasi dari awal sampai akhir.
 
-Native19 yang telah lulus tetap kandidat d5997235 tersendiri, bukan bukti untuk
-kode OW13c baru ini. Seluruh backlog tetap lingkup; parent5/16, tidak ada
-CP7C/production_go/audit independen dari checkpoint ini.
+Yang masih terbuka sesuai daftar awal:
+
+- Penolakan kelayakan tambahan pada jalur checked: produk/policy berubah,
+  WIP unknown, bahan/kapasitas tidak cukup; nilai tidak menjadi0/100% dan
+  tidak ada efek draf/receipt yatim. Kontrak preview/apply lama tetap.
+- Waktu SAVE aktual dengan2000 produk di bawah8detik termasuk kedua
+  pemeriksaan sumber penuh; volume caller2000 yang sudah lulus bukan ini.
+- Backup/restore caller/receipt yang sudah dipakai, dengan UUID/history,
+  data/owner/ACL/katalog tetap; base package restore bukan after-use proof.
+- Komposisi A/default installer, global use census, source registry/generated
+  types dan rantai gabungan. Patch/receipt registry sudah tersedia di atas.
+- Factory3600/angka keuangan resmi tetap OW12b, terpisah dari proof ini.
+
+FullOW13c/CP7C/audit independen/production_go dan kenaikan parent5/16 tidak
+diberikan oleh checkpoint31. Jangan mengulang19/25/31 lama demi angka hijau.

@@ -1,0 +1,139 @@
+{
+  "contract": "cp7.writer-component-receipt.v1",
+  "status": "PASS",
+  "candidate": "a15054c290802420adaa8a4dd64217380d5ebbcb",
+  "tree": "63918f4bf582832203784673c855ccab69ac6b70",
+  "application_source": "5b6ca459f1ea62666384088a2a9855663a1267a2",
+  "same_day_fixture_fix": "1ba69eaaeb3740378a192fe9d695259b2f27dadc",
+  "run_id": 39996465132,
+  "job_id": 120561154474,
+  "run_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39996465132",
+  "expected_case_count": 31,
+  "observed_case_count": 31,
+  "groups": {
+    "native": {
+      "PASS": 15
+    },
+    "races": {
+      "PASS": 8
+    },
+    "http": {
+      "PASS": 4
+    },
+    "browser": {
+      "PASS": 4
+    }
+  },
+  "exact_case_ids_statuses_and_predeclared_contract_verified": true,
+  "predeclared_case_sha256": "bac2726cb5f466bf6cce8c743b3c860bab52a4ea640889a8e78def4ed51b15f8",
+  "source_files_sha256_matched_candidate": [
+    "scripts/cp7_reorder_inputs/MANIFEST.json",
+    "scripts/cp7_reorder_inputs/__init__.py",
+    "scripts/cp7_reorder_inputs/capture.sql",
+    "scripts/cp7_reorder_inputs/capture_source.py",
+    "scripts/cp7_reorder_inputs/history.sql",
+    "scripts/cp7_reorder_inputs/points.sql",
+    "scripts/cp7_reorder_inputs/read.sql",
+    "scripts/cp7_reorder_inputs/source.sql",
+    "scripts/cp7_reorder_inputs/stock.sql",
+    "scripts/cp7_reorder_reader_stage/MANIFEST.json",
+    "scripts/cp7_reorder_reader_stage/__init__.py",
+    "scripts/cp7_reorder_reader_stage/cache.sql",
+    "scripts/cp7_reorder_caller_stage/MANIFEST.json",
+    "scripts/cp7_reorder_caller_stage/__init__.py",
+    "scripts/cp7_reorder_caller_stage/alert_row.sql",
+    "scripts/cp7_reorder_caller_stage/compute.sql",
+    "scripts/cp7_reorder_caller_stage/evaluate.sql",
+    "scripts/cp7_reorder_caller_stage/fg_source.sql",
+    "scripts/cp7_reorder_caller_stage/item_line.sql",
+    "scripts/cp7_reorder_caller_stage/refresh.sql",
+    "scripts/cp7_reorder_caller_stage/save_manual.sql",
+    "scripts/cp7_reorder_caller_stage/save_settings.sql",
+    "scripts/cp7_reorder_caller_stage/state.sql",
+    "scripts/cp7_reorder_caller_stage/workspace.sql",
+    "scripts/cp7_cutting_checked_save/MANIFEST.json",
+    "scripts/cp7_cutting_checked_save/__init__.py",
+    "scripts/cp7_cutting_checked_save/save.sql",
+    "scripts/cp7_cutting_checked_save/schema.sql"
+  ],
+  "exact_copied_authorities": 10,
+  "preuse_22_exact_stages": 8,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "five_base_package_gates_pass": true,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "checked_save_races_qualified": true,
+  "checked_save_browser_qualified": true,
+  "all12_new_checked_save_cases_pass": true,
+  "volume_synthetic_native_only": {
+    "status": "PASS",
+    "label": "SYNTHETIC_NATIVE_TIMING_ONLY",
+    "items": 2000,
+    "movements": 202000,
+    "millis": [
+      4728,
+      1799,
+      1743
+    ],
+    "warm_limit_ms": 3000,
+    "statement_limit": "8s",
+    "no_raw_stock_truncation": true,
+    "full_boundary_restored": true,
+    "public_schema_unchanged": true,
+    "session_leaks": {
+      "advisory_locks": 0,
+      "advisory_lock_keys": [],
+      "other_sessions": []
+    },
+    "business_day": {
+      "planned": "2026-10-24",
+      "before": "2026-10-24",
+      "after": "2026-10-24"
+    }
+  },
+  "same_candidate_client_checks": {
+    "files": 12,
+    "tests_pass": 160,
+    "typescript": true,
+    "SQL_clash_scans": true
+  },
+  "disposable_service_images": {
+    "REST": "ghcr.io/supabase/postgrest:v16.1",
+    "Postgres": "ghcr.io/supabase/postgres:17.6.1.165"
+  },
+  "complete_Original": {
+    "artifact_id": 12519888810,
+    "bytes": 405514,
+    "sha256": "f13916ab59a182d92be39633e05ffe54f7afd7267fc5714ad1d3ee19f7b34a52"
+  },
+  "full_artifact_id": 12520077957,
+  "full_artifact_bytes": 10241694,
+  "Original_and_raw_log_retained": true,
+  "first_results_preserved": [
+    "44afe80-first-native31-28.json",
+    "df6bd87-native31-30.json",
+    "16a0aeb-native31-28-clock.json"
+  ],
+  "oracle_or_SLA_relaxed": false,
+  "production_go": false,
+  "full_OW13c_acceptance": false,
+  "full_A_chain_qualified": false,
+  "caller_backup_restore_qualified": false,
+  "independent_acceptance": false,
+  "parent_finished_items": 5,
+  "parent_total_items": 16,
+  "not_qualified_by_this_component": [
+    "Checked SAVE with2000 products under8s",
+    "Additional new-route product/policy/WIP/material/capacity refusal matrix",
+    "Backup/restore with used caller and checked receipts retained",
+    "Default A installer/generated types/source registry and full A chain",
+    "Factory3600 official finance bridge",
+    "Independent audit or CP7C"
+  ]
+}
