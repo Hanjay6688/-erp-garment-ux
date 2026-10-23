@@ -24,6 +24,8 @@ def admitted():
     pins=json.loads((HERE/'SOURCE.json').read_bytes())
     for path,digest in pins['files'].items():assert sha256((REPO/path).read_bytes()).hexdigest()==digest,('OW08B_WASH_SOURCE_CHANGED',path)
     raw=Path(os.environ['OW07_NATIVE7_ORIGINAL_REPORT']).read_bytes()
+    # The OW07 chain Native7 report (OW-15 step 10, OW07 over OW-09): exactly the pinned bytes.
+    assert len(raw)==pins['ow07_native_original']['bytes']and sha256(raw).hexdigest()==pins['ow07_native_original']['sha256']
     actual=json.loads(raw)
     assert actual['label']=='CP7_OW07_HPP_CLOSE_NATIVE7' and actual['status']=='PASS' and actual['native']['counts']=={'PASS':7}
     assert actual['required_case_ids_pass']and actual['cp6_restored']and actual['advisor_gate']
