@@ -149,6 +149,7 @@ def races(tools,today):
    f,subject,p=prepare(cur,today);conn.commit();return subject
  def ensure(subject):
   with tools.connect()as conn,conn.cursor()as cur:
+   cur.execute("set local statement_timeout='8s'")
    try:r=call(cur,subject,True);conn.commit();return r
    except psycopg.Error as error:conn.rollback();return dict(error=error.sqlstate,message=error.diag.message_primary)
  def two():
@@ -163,6 +164,7 @@ def races(tools,today):
   subject=fixture();started=Event();pid=[]
   def waiting():
    with tools.connect()as conn,conn.cursor()as cur:
+    cur.execute("set local statement_timeout='8s'")
     pid.append(cur.execute('select pg_backend_pid()').fetchone()[0]);started.set()
     try:r=call(cur,subject,True);conn.commit();return r
     except psycopg.Error as error:conn.rollback();return dict(code=error.sqlstate,message=error.diag.message_primary)
