@@ -34,6 +34,10 @@ for (const name of ['castable', 'events_clean', 'availability_clean', 'history_p
   'history_validate', 'history_rows', 'history_stock', 'bounds']) {
   await db.exec(block(staged, 'cp7_analysis_stage.' + name))
 }
+// Reorder is composed above production18, not the frozen predecessor alone.
+// Use its actual history-prep body in both the adapter and independent whole
+// history comparison. The installer still requires its one exact body hash.
+await db.exec(await read('scripts/cp7_production_stage/sql/cp7_analysis_stage__history_prep.sql'))
 await db.exec(await read('scripts/cp7_target_policy_stage/sql/cp7_analysis_stage__baseline_rows.sql'))
 // Native history_source_within and baseline source bodies are loaded exactly.
 // ERP tables contain controlled test facts; profile/identity adapters remain
