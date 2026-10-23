@@ -1,0 +1,39 @@
+{
+  "contract": "cp7.writer-component-receipt.v1",
+  "status": "INCOMPLETE",
+  "candidate": "f10530d9819c0874733a8374ddab0cc05aae9c98",
+  "tree": "3d74d83882c5ce32c4faf25e3d9a9ab95af5914a",
+  "run_id": 40024644622,
+  "job_id": 120657639795,
+  "expected_case_count": 2,
+  "observed_case_count": 2,
+  "groups": {
+    "browser": {
+      "INCOMPLETE": 2
+    }
+  },
+  "preuse_22_exact_stages": 9,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "failure": "Browser harness matched the initial-auto ENSURE response (p_request null, p_query.initial_auto) on the same endpoint, rather than the work form query. The unrelated automatic response was200 and no UI alerts were shown. No form SAVE was reached.",
+  "fix": "Bind initial request observation to a non-null durable UUID and the complete matching from_date/through_date/group_mode. Preserve the same query/status/stock/metadata assertions and automatic analysis behavior.",
+  "original": {
+    "artifact_id": 12531339414,
+    "bytes": 45229,
+    "sha256": "c7a00e076125d836be33019b625d51a32b01f3e41dbf9595906175ef74a689a0",
+    "file_name": "f10530d-entry2-capture-race.zip",
+    "complete_report_preserved": true
+  },
+  "product_code_changed_for_this_fix": false,
+  "actual_checked_SAVE2000_qualified": false,
+  "full_OW13c_acceptance": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

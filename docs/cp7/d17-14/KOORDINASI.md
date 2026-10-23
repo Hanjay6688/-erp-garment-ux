@@ -856,3 +856,10 @@ Transport ulangf1f05b8e/run40018747206/job120637496516 Native1/race4/Auth3 PASS,
 B mengirim tepat query tiga kolom tersimpan; Native sendiri sudah DEFERRED. UUID/periode tetap, old supply danold SAVE route/payload tidak diubah. Catatan source dengan finance flag tambahan tidak diterima atau dihapus.119 uji klien danTypeScript lulus; browser merekam jawaban request awal agar kegagalan tidak hanya tampak sebagai timeout GET. Ulang hanya Entry2, tidak ulang race/Auth/server32 yang sama. Optimisasi one fetch+4 worktree sudah melewati persiapan Native9 dan32 source gate di CI Entry610aa71; kegagalan UI terjadi sesudahnya.
 
 B mereservasi `cp7_history_reference`:1 fungsi privat/0 facade/0 tabel/0 replace, digest seluruh proyeksi Native rawstock beserta kedua visibility clock. Diperlukan agar perubahan baris yang totalnya kebetulan sama tetap terdeteksi pada reference baru. Native4 baru dideklarasikan (katalog, parity raw Native, dense2000/202000<8s, Native late-recorded physical-backdate); runtime belum jalan.11 invers22+oracle10 wajib tepat. Tidak mengubah sumber Native9/Native3 yang beku dan belum menyambung stagedjob/freshness/SAVE. Parent tetap5/16.
+
+
+## 45. Raw reference Native4 PASS; pengamat browser diperbaiki (24 Oktober 2026 WIB)
+
+Native4 8909b7c/run40024688908/job120657795577 PASS4/4:40 source/11 invers22/legacy10/restore/advisor/5 gate tepat. Full digest202001 baris terlihat2206.968/2213.959/2190.252ms, batas8s. Parity actual raw Native serta late-recorded physical-backdate nyata lulus, tidak mengubah clock/tanggal. Receipt `ow13c/8909b7c-reference4-pass.json`. Belum terpasang di job/freshness/SAVE; parent5/16.
+
+Entry2f10530d/run40024644622/job120657639795 masihINCOMPLETE: pengamat URI menangkap initial_autoENSURE denganp_requestnull dan jawaban200 tanpaalert. Ini jawaban lain pada endpoint sama, bukan hasil formulir. Receipt `ow13c/f10530d-entry2-capture-race.json`. Script kini mengikat observasi ke UUID string+query tiga kolom formulir; tidak mengubah produk atau melonggarkan status/stock/SAVE assertions. Ulang hanya2 browser. Tujuh server race/Auth tetap bukti f1f05b8e yang32 sumbernya sama.

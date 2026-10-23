@@ -13,6 +13,9 @@ sampling, floating arithmetic, old-status override or business write is used.
 One private function, zero public facades/tables/old replacements. Four Native
 controls are declared: private catalog; exact parity against actual Native raw
 facts; full dense2000/202000 digest three times below8s; real Native late-recorded
-stock whose physical date is earlier than the read cutoff. Runtime qualification
-is still pending. This digest is not yet bound into staged-job fingerprints,
+stock whose physical date is earlier than the read cutoff. Native4 qualified this reader at8909b7c/run40024688908:4/4 PASS,40 source
+hashes,11 pre-use22 inverses, unchanged legacy10, restore/advisor and all5
+package gates exact. Dense202001 visible rows were hashed in2206.968/2213.959/
+2190.252ms, each below8s. The late-recorded Native stock control passed without
+rewriting a clock or date. See `docs/cp7/d17-14/ow13c/8909b7c-reference4-pass.json`. This digest is not yet bound into staged-job fingerprints,
 source freshness, work scheduling or the actual checked SAVE2000 writer.

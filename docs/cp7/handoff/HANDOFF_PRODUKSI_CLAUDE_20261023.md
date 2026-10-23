@@ -106,15 +106,26 @@ klien dan TypeScript lulus. Browser kini merekam response request awal sebelum
 menunggu GET. Ulang hanya Entry2 pada sumber ini; tujuh kontrol server baru
 Native/race/Auth tidak perlu diulang karena32 sumber servernya tepat sama.
 
-**Reference Native4 disiapkan, belum dijalankan.** Schema privat
-`cp7_history_reference` mempunyai1 pembaca hash seluruh baris Native stok,
-termasuk identitas/lot/lokasi/jenis/tanggal, bukan hanya angka total.
-Proyeksi dan kedua cutoff diambil tepat dari history-source.sql yang beku;
-raw array tidak dikumpulkan atau dipotong. Native4 dideklarasikan untuk katalog,
-parity raw Native,2000/202000 tiga kali<8s, serta Native stock yang direkam
-belakangan tetapi physical_at lebih awal.11 invers22 dan oracle10 lama wajib
-tepat. Tidak menulis ERP atau mengganti fungsi lama; belum masuk fingerprint/
-job/freshness/SAVE. Writer B tetap pemilik schema; A integrator/default/types.
+**Reference Native4 PASS4/4.**
+[Receipt8909b7c](../d17-14/ow13c/8909b7c-reference4-pass.json),
+[run40024688908](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/40024688908)
+/job120657795577.40 sumber/11 invers22/legacy10/restore/advisor/5 gate paket tepat.
+Hash seluruh202001 baris stok yang terlihat:2206.968/2213.959/2190.252ms, batas8s.
+Parity raw Native dan Native stock yang direkam belakangan dengan physical_at
+lebih awal lulus tanpa mengubah clock/tanggal.1 fungsi privat/0 facade/0 tabel/
+0 replace. Original12531334604/157181bytes/SHA
+8d6077afdf73387744b9bac63c798586d391139a3cd7269514fa791230bf8f7c.
+Belum dipasang ke fingerprint/job/freshness/SAVE; parent tetap5/16.
+
+**Entry2 setelah query fix belum lulus karena pengamat test salah jawaban.**
+[Receiptf10530d](../d17-14/ow13c/f10530d-entry2-capture-race.json),
+run40024644622/job120657639795. Pengamat URI menangkap initial_auto ENSURE
+(p_request null) yang memakai endpoint sama, berstatus200 tanpa alert, lalu
+membandingkannya dengan query formulir. Original12531339414/45229bytes/SHA
+c7a00e076125d836be33019b625d51a32b01f3e41dbf9595906175ef74a689a0.
+Fix hanya script browser: cocokkan UUID string dan ketiga kolom query formulir;
+API/status/stock/metadata/UUID assertions tidak dilonggarkan, initial-auto tetap
+jalan. GET body kini ikut disimpan jika gagal. Ulang Entry2 saja pada sumber ini.
 
 **Pembacaan riwayat besar Native3 sudah PASS3/3.**
 [Receiptcd8e37d6](../d17-14/ow13c/cd8e37d-inputs3-pass.json),
