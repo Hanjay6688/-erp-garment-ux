@@ -1,4 +1,8 @@
-"""OW-09 Native qualification on a disposable aligned CP6 copy; no hosted or production effect."""
+"""OW-09 Native qualification on a disposable aligned CP6 copy; no hosted or production effect.
+
+The predecessor is the OW12a stage (cp7_finance_capture); admission checks its qualified chain Native7 original and,
+through the OW12a probe chain, the OW08a, OW05b, fgqc, kasbon, OW06, OW05 and OW04 originals.
+"""
 from pathlib import Path
 from hashlib import sha256
 import json,os,subprocess,sys,traceback
@@ -6,7 +10,7 @@ sys.dont_write_bytecode=True
 HERE=Path(__file__).resolve().parent
 REPO=HERE.parents[1]
 sys.path.insert(0,str(REPO/'scripts'))
-from cp7_contractor_correction import native_probe as setup
+from cp7_finance_capture import native_probe as setup
 from cp7_ow09_lists import composition as product,cases as business
 import psycopg
 from cp6_t3_aligned_install import advisors,advisor_delta
@@ -23,11 +27,12 @@ def admitted():
     old=setup.admitted()
     pins=json.loads((HERE/'SOURCE.json').read_bytes())
     for path,digest in pins['files'].items():assert sha256((REPO/path).read_bytes()).hexdigest()==digest,('OW09_SOURCE_CHANGED',path)
-    raw=Path(os.environ['OW05_NATIVE28_ORIGINAL_REPORT']).read_bytes();proof=pins['native_original']
-    assert len(raw)==proof['bytes']and sha256(raw).hexdigest()==proof['sha256']
+    raw=Path(os.environ['OW12A_NATIVE7_ORIGINAL_REPORT']).read_bytes();proof=pins['native_original']
+    assert proof['name']=='CP7_OW12A_FINANCE_CAPTURE_NATIVE7.json'and len(raw)==proof['bytes']and sha256(raw).hexdigest()==proof['sha256']
     actual=json.loads(raw)
-    assert actual['status']=='PASS'and actual['native']['counts']=={'PASS':28}and actual['required_case_ids_pass']and actual['cp6_restored']and actual['advisor_gate']
-    assert actual['source_declaration']['declared_source']==old['declared_source']
+    assert actual['label']=='CP7_OW12A_FINANCE_CAPTURE_NATIVE7'and actual['status']=='PASS'and actual['native']['counts']=={'PASS':7}
+    assert actual['required_case_ids_pass']and actual['cp6_restored']and actual['advisor_gate']
+    assert actual['source_declaration']['OW12a_declared_source']==old['OW12a_declared_source']
     assert pins['case_ids']==list(IDS)and len(IDS)==8
     assert not subprocess.check_output(['git','-C',str(REPO),'status','--porcelain','--',str(HERE)],text=True).strip()
     return dict(qualified_predecessor=proof,predecessor_source_declaration=old,OW09_declared_source=pins)

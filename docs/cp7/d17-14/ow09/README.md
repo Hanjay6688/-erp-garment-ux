@@ -31,7 +31,8 @@ Ekspor: kedelapan layar ini tidak punya tombol ekspor, jadi tidak ada ekspor yan
 
 Versi pertama mengubah berkas SQL dasar CP7 dan harus dibatalkan, karena berkas dasar itu dikunci sidik jarinya untuk
 semua tahap berikutnya (pelajaran E25j2). Sekarang perubahan dipasang sebagai satu tahap tersendiri
-(`scripts/cp7_ow09_lists`) di atas tahap OW05 yang sudah lulus. Artinya:
+(`scripts/cp7_ow09_lists`) di atas tahap-tahap sebelumnya yang sudah lulus (sejak 23 Okt di atas tahap OW-12a, sesuai
+urutan rantai OW-15; tidak ada tahap lain yang menyentuh delapan fungsi baca ini). Artinya:
 
 - Berkas SQL dasar CP7 tidak diubah sama sekali (sidik jarinya tetap `e7701eaa`).
 - Tahap mengganti delapan fungsi baca yang sudah terpasang dengan potongan pengganti yang dihitung persis: setiap
