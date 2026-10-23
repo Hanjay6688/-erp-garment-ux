@@ -13,9 +13,10 @@ jendela berikutnya sekitar 2 jam 20 menit sebelum reset (pengingat 03.50 UTC). K
 Pengingat terjadwal: 20.58 UTC mode hemat (tidak memulai pekerjaan besar baru, gabung dan push semua commit
 pembantu, perbarui berkas ini), 01.10 UTC jalan normal lagi.
 
-Diperbarui: 23 Okt 2026, 02.46 UTC (09.46 WIB). Jendela kuota mulai sekitar 01.12 UTC, reset sekitar 06.12 UTC; mode hemat
-sekitar 03.50 UTC. Registry image melayani lagi; semua run yang tertahan sudah lulus (tabel di bawah). Dua pembantu jalan:
-OW-15 langkah 8 (OW-09 di atas OW12a, cabang `claude/d17-14-chain8`) dan OW-04b bagian C langkah 2.
+Diperbarui: 23 Okt 2026, 06.25 UTC (13.25 WIB). Kuota jendela lalu habis 03.20 UTC (2 jam 50 menit sebelum reset 06.10,
+sebelum pengingat mode hemat 03.50) dengan 3–4 pembantu; satu pembantu terpotong di tengah (dilanjutkan sesudah reset).
+Pelajaran: dengan banyak pembantu, mode hemat mulai sekitar 3 jam sebelum reset. Jendela sekarang mulai sekitar 06.13 UTC,
+reset sekitar 11.13 UTC; pengingat mode hemat 08.00 UTC; paling banyak 2 pembantu sekaligus.
 
 ## Sudah terbukti (uji database penuh atau browser lulus)
 
@@ -33,6 +34,7 @@ OW-15 langkah 8 (OW-09 di atas OW12a, cabang `claude/d17-14-chain8`) dan OW-04b 
 | OW-04b bagian A bayar sisa sesudah kredit | Native6+Race2 8/8 `33115188` (run 39885477424; `ow04/ow04b-slice-a-native6-race2-33115188-pass.json`) |
 | OW-12a modul angka keuangan | Native7 7/7 `efa800cd` (run 39886155240; `ow12/native7-efa800cd-pass.json`) |
 | OW-08b 2.20 cuci gagal tanpa tarif | Native11 11/11 `efa800cd` (run 39886298512; `ow08/wash-native11-efa800cd-pass.json`) |
+| OW-05b layar ulang sesudah teks bagian C | Browser2 2/2 `077ff813` (run 39893018551; `ow05/browser2-077ff813-pass.json`) |
 | OW-08b 2.18 kasbon dari buku besar | Native4 4/4 `6c8be6f6` (run 39847032024; `ow08/kasbon-native4-6c8be6f6-pass.json`, laporan sha256 `8f9f2c83…`, artifak 12456785458) |
 
 ## Sudah dibuat, uji sedang/akan jalan
@@ -42,9 +44,10 @@ OW-15 langkah 8 (OW-09 di atas OW12a, cabang `claude/d17-14-chain8`) dan OW-04b 
 
 ## Belum selesai / berikutnya (urutan kerja)
 
-1. OW-15 langkah 10 (OW07) sedang diuji; langkah 11 (wash) disiapkan, menunggu laporan OW07.
-2. OW-04b bagian C: langkah 2 dan 3 digabung; uji pertama run 39892148460 di `ceed13e3` sedang jalan. Browser OW-05b diulang
-   karena `clientError.ts` berubah (run 39892148406 gagal di langkah penerimaan sumber, sedang dibaca).
+1. OW-15: langkah 10 (OW07) dan 11 (wash) lulus. Langkah 12 (followups di atas wash) sedang diuji (run 39910610220 di
+   `62d00c42`); langkah 13 (bagian A) dan 14 (bagian B) sudah di cabang dengan isian menunggu laporan pendahulunya.
+2. OW-04b bagian C: uji kedua (929c615a) gagal, sedang dibetulkan pembantu. Sesudah langkah 12–14 digabung, bukti bagian C
+   memakai rantai (penerima bagian B diganti ke laporan rantai bagian B), jadi uji bagian C berikutnya menunggu bagian B lulus.
 3. OW-04b: bagian 3–4 dan A lulus (lihat tabel). Bagian B lulus (lihat tabel). Bagian C: daftar `ow04/OW04B_SLICE_C_INVENTORY.md`, langkah 1
    (`scripts/cp7_credit_incoming/`) di cabang; langkah 2 sedang dikerjakan. D dan E menunggu 3 keputusan Bos.
 4. OW-09: tahap Native8 lulus (tabel). Bagian layar ditahan di `ow09/screens/` sampai tahap masuk rantai OW-15. Sisa: README
@@ -58,8 +61,9 @@ OW-15 langkah 8 (OW-09 di atas OW12a, cabang `claude/d17-14-chain8`) dan OW-04b 
    `c6c01275` (`ow08/ow08a-native6-c6c01275-chain-pass.json`; laporan sha256 `69459e5a…`, artifak 12473818897). OW12a di atas OW08a lulus 7/7
    di `646a52e0` (`ow12/native7-646a52e0-chain-pass.json`; laporan sha256 `94608fd1…`, artifak 12474329154). OW-09 di atas OW12a
    lulus 8/8 di `63623374` (`ow09/native8-63623374-chain-pass.json`; laporan sha256 `f6c72346…`, artifak 12475755459).
-   Langkah 10 (OW07 di atas OW-09) sedang diuji (run 39892838281 di `1bd08969`); langkah 11 (wash) disiapkan pembantu;
-   lalu OW04b (followups → A → B → C).
+   OW07 di atas OW-09 lulus 7/7 di `1bd08969` (`ow07/native7-1bd08969-chain-pass.json`; laporan sha256 `e2a20f89…`,
+   artifak 12474909312). Wash di atas OW07 lulus 11/11 di `3d5c5035` (`ow08/wash-native11-3d5c5035-chain-pass.json`; laporan
+   sha256 `8f50c9f5…`, artifak 12475194840). Berikutnya OW04b followups → A → B → C.
    
 
 ## Antrean uji yang ditahan (registry image menolak unduhan sejak sekitar 20.20 UTC)
