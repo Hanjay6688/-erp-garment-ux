@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import {readFileSync} from 'node:fs'
 import {cases as cash} from '../cp7_f03_cash_browser.mjs'
-import {cases as sales} from '../cp7_p11_returns_browser.mjs'
+import {cases as sales} from './returns.mjs'
 import {cases as fg} from '../cp7_p10_browser.mjs'
 import {cases as nota} from '../cp7_p12_browser.mjs'
 import {cases as procurement} from '../cp7_p09_browser.mjs'

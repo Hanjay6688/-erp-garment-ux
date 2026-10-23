@@ -52,8 +52,8 @@
   "scripts/cp7_p12_settlement_browser.mjs": "c19c455e8557aa2238e680056e99bfd9d98c5ea1eeac785b06fbea2a5fb0113a",
   "scripts/ow04-payment-current-qualification/copy_authority.py": "cfdc3b899e335dd13a9456242ed5158b718ac5c56d9b1ebf06c4571eda2cc7a2",
   "scripts/ow09-chain-browser-qualification/EXPECTED.json": "2a393dfe96a6be58a61d18642dad2e4fe76e8690f5128bc3a92a53bf354f9594",
-  "scripts/ow09-chain-browser-qualification/README.md": "62814e3422893dc9943ffe75bd2676f24629a95d9b1bdc4b307146eaf7b502b5",
-  "scripts/ow09-chain-browser-qualification/browser.mjs": "4706c0576844d20563a0a2cfd589907374dc68656ce8fb6321a12c7297737945",
+  "scripts/ow09-chain-browser-qualification/README.md": "1fffcfc380e357a52612685c4eccf6467d08d9fe0d0bbcc62423032610eedc96",
+  "scripts/ow09-chain-browser-qualification/browser.mjs": "c75c7f1e4d12b7060d223679d9b691f64f1b4975a2167788c08030c9af33bbf9",
   "scripts/ow09-chain-browser-qualification/probe.py": "009a082a5ae4abe6fcfa65c797d2cce72cc50cfaba760d5e2b3bc4d0ae0e5be9",
   "src/AccessControlPage.tsx": "bcf752f41016274c16a65126d63957cba73b6c8c890ca351df8d67736e1221af",
   "src/App.tsx": "0bca1e95f69c51d3fb394028b41d9df1d5829858c185f0df008202dbaf1c08c4",
@@ -606,7 +606,8 @@
   "src/wipControlPolicy.test.ts": "610cea93ff2f6dfed94d3aed96fb9686b1bee328dde4031cd55f4f354b195ebb",
   "src/wipControlPolicy.ts": "706dc41ee6a821fc120936265d4b7e1aa7003e206eb219ee14c4deed8e403268",
   "src/workspace-refinements.css": "c8a744029aaeca203026f83d66f1acbf4da7e1894e4e403b074b4bfd2a2831a0",
-  "tests/fixtures/financeAnalysis.ts": "dce495bcb0d2ddc4e6f87c793bbedaaa6bc1ee87c049f12f51eee8bc93cc733d"
+  "tests/fixtures/financeAnalysis.ts": "dce495bcb0d2ddc4e6f87c793bbedaaa6bc1ee87c049f12f51eee8bc93cc733d",
+  "scripts/ow09-chain-browser-qualification/returns.mjs": "27577a352bd5fbf60d72a85469511f524694921bcb87ff26ddd3d7a118254f7c"
  },
  "case_ids": [
   "F03_CASH_BROWSER_DESKTOP",
