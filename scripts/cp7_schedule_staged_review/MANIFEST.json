@@ -1,0 +1,43 @@
+{
+  "contract": "cp7.schedule-staged-review.v1",
+  "native_schedule_file_sha256": "93ce18465667c763493f1b2643cc96f1013726424a208e10e36a9efda057762a",
+  "native_dependencies": {
+    "cp7_schedule_native.workspace(uuid)": {
+      "body_sha256": "4c132fa751683d20655b10b82af06128d7710e47edc162505c745ba4ced430d9",
+      "owner": "cp7_capture"
+    },
+    "cp7_schedule_native.save(jsonb,uuid)": {
+      "body_sha256": "69f018b582728f0c13552dcdaad990064ac2b0a98d1a9401b18348fb2c54d76d",
+      "owner": "cp7_capture"
+    },
+    "cp7_schedule_native.validate(jsonb,jsonb,jsonb)": {
+      "body_sha256": "7720f8e5014aa64c56d41a3e9ee8a38455a2d6186a48daf8a113f344f3a5c42f",
+      "owner": "cp7_capture"
+    },
+    "cp7_schedule_native.source_at(timestamp with time zone)": {
+      "body_sha256": "06df7fa1717bfddf80648b2c8117f0babb845cab8f1cefba2956784c347367be",
+      "owner": "cp7_capture"
+    },
+    "cp7_schedule_native.route(text)": {
+      "body_sha256": "a9b4fe0b741261014c7033f9e7add4d4cf471ce3220c4372cae18e288e4bf6e3",
+      "owner": "cp7_capture"
+    },
+    "cp7_schedule_native.position_model(jsonb,jsonb)": {
+      "body_sha256": "bf529426fda8297130522fd0fe8276e07a94b603bde68d5090f4f10e9dbc04e8",
+      "owner": "cp7_capture"
+    },
+    "cp7_schedule_native.access_now(boolean)": {
+      "body_sha256": "e1e00416298263ca16345bd7e43d93b2d0efbfe07dc4a0d023d353812a0ca070",
+      "owner": "cp7_capture"
+    }
+  },
+  "sql_sha256": "859237c660f21f765923ef6fc59a6356a694b804728acc992468ab1152131b41",
+  "new_schema": "cp7_schedule_staged_review",
+  "private_functions": 3,
+  "public_rpcs": 2,
+  "new_tables": 0,
+  "old_function_replacements": 0,
+  "Native_ERP_DML": false,
+  "full_A_chain_qualified": false,
+  "production_go": false
+}
