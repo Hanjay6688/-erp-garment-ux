@@ -826,3 +826,10 @@ Transport10 kandidatbbe3438c/run40017444415/job120633051970 sedang berjalan, bel
 Receipt `ow13c/bbe3438-transport10-first-incomplete.json`: Native anchor PASS,9 skenario transport belum jalan. Setup clone ditolak oracle lama karena database_authority CURRENT berbeda, bukan penolakan akses/data yang boleh diabaikan. New probe lupa memakai wrapper `cp7_ow13a_clone_authority` yang sudah qualified pada Native31. Wrapper yang sama dipasang ke probe transport/entry; tidak mengubah oracle22 atau A harness, SQL produk, akses hosted/primer. Restore/advisor tetap lulus; writer_runtime false dipertahankan.
 
 Ulang Transport10 pada sumber layar terbaru sekaligus menguji akses langsung tanpa capture riwayat lama; Native11/31 tidak perlu diulang. Entry2 yang sudah berjalan dengan probe lama tetap disimpan terpisah; tidak perlu diulang sebagai suite tambahan setelah browser Transport10 terbaru mencakup jalur langsung. 108 uji klien/TypeScript sudah lulus. Parent tetap5/16 dan semua batas acceptance tetap.
+
+
+## 41. Helper bounded history siap uji Native3; transport ulang berjalan (24 Oktober 2026 WIB)
+
+Transport ulang kandidatf1f05b8e/run40018747206/job120637496516 masih berjalan. Entry2 lama3695778b juga tertolak sebelum browser (0/2) oleh identitas salinan; receipt dan Original lengkap disimpan, tidak diulang sendiri. Perbaikan065c4df1 memakai wrapper clone authority lama tanpa mengubah oracle.
+
+B menulis helper stateless `cp7_history_bounded` dari sumber `cp7_reorder_inputs` yang dipin:2 fungsi privat/0 tabel/0 facade/0 replace. Capture Native tetap INCOMPLETE di batas stok lama, input SQL lengkap mempunyai kontrak terpisah dengan status raw tetap. Query periode eksplisit tidak meminjam aturan periode/ROP owner. Tidak membuat job/DONE/kuantitas produksi. Native3 baru dideklarasikan untuk katalog+parity exact,2000 produk sintetis/202000 gerakan tiga pembacaan<8s, dan overflow produk nyata yang tidak boleh diterima. Sepuluh invers22 plus oracle9 lama tetap wajib. Runtime belum dijalankan; staged integration/freshness/checkedSAVE2000 masih sisa. Tidak memasang apa pun ke default A.

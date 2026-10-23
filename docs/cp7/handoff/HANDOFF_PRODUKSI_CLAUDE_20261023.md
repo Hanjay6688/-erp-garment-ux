@@ -82,12 +82,28 @@ Perbaikan hanya probe B: memasang kembali wrapper clone-authority yang sudah
 terbukti di Native31. Owner, ACL, connection limit, database/role GUC disamakan
 ke sumber untuk tepat3 nama salinan lokal; oracle22 tetap utuh dan membandingkan
 hasil nyata. Tidak mengubah SQL produk, A harness, atau database primer.
-**Langkah aktif: ulang Transport10 pada sumber layar terbaru**, termasuk tombol
+**Aktif: Transport10 ulang kandidat `f1f05b8e4bee89d5965d5d11de68bdeb9867c5fd`**,
+[run40018747206](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/40018747206),
+job120637496516, sumber clone fix065c4df1, belum hasil. Pada sumber layar terbaru, termasuk tombol
 jadwal langsung dari pilihan periode, desktop dirty/stale, dan ponsel lost reply.
 Dengan demikian kedua skenario akses langsung ikut diuji pada kandidat terbaru;
 Entry2 tidak perlu diulang sendiri. Kandidat Entry2 3695778b memakai wrapper lama
 sebelum fix, hasilnya harus disimpan sebagai bukti terpisah dan tidak diklaim lulus.
 Native11 tetap bukti server terpisah; actual checked SAVE2000 belum selesai.
+[Entry2 pertama](../d17-14/ow13c/3695778-entry2-first-incomplete.json) juga INCOMPLETE0/2
+karena identitas salinan yang sama; Original12529931730/42007bytes/SHA
+214ec7864a3f4c8877cb124d9f6be82273e7ec4d03785a718b6ab0ecf5a6c23c.
+
+**Langkah riwayat besar: helper input bounded sudah ditulis, belum qualified.**
+`cp7_history_bounded` memiliki2 fungsi privat,0 facade/0 tabel/0 replace.
+Ia mengambil compiler Native yang sama sebelum aturan ROP, memakai query periode
+yang dipilih dan membaca seluruh stok SQL. Raw capture tetap INCOMPLETE; jalur
+input lengkap diberi kontrak tersendiri, bukan job DONE atau izin produksi.
+Native3 dideklarasikan: parity input lama,2000 produk sintetis/202000 gerakan
+dibaca penuh tiga kali masing-masing<8s, serta overflow produk nyata ditolak.
+Sepuluh invers22 dan oracle9 lama wajib tepat. Belum ada hasil runtime; belum
+tersambung ke staged job/freshness atau checked SAVE2000. Tidak mengubah hitungan
+parent atau batas lama, dan tidak mengubah sumber Native9 yang beku.
 
 GET memakai UUID permintaan job (`p_source_request`), SAVE memakai realrun
 UUID dariGET+marker/sourcehash/revisi/config/alasan. Native validator kerja/
