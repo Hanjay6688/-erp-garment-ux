@@ -31,14 +31,40 @@ gerakan; review jadwal masih membutuhkan handle capture lama itu. Jangan
 mengurangi data/mengubah hash/melonggarkan limit. Belum ada waktu SAVE2000.
 Original artifact12523296632/112315bytes/SHA c62852005327060ef26cd7b9cf07f7bdf9b4ff93186ff0d1f32a3854c66fac96.
 
-**Langkah aktif B berikutnya:** buat review jadwal yang menerima sumber
-analisis bertahap nyata, memeriksa sumber/akses/revisi sesudah wait dan menjaga
-UUID/history, kemudian jalankan kembali kandidat baru SAVE2000. Tetap memakai
-validator kerja/kalender/WIP dan mesin yang sama, tidak menulis hash atau hasil
-palsu dari fixture. Delta B baru harus additive/terpisah dari9 cp7-src beku;
-A tetap pemilik pemasang/default/tipe/registry/global census. Belum ada kode
-produk baru untuk jalur ini atau job yang masih berjalan. Tiga suite terminal
-sudah disimpan; jangan mengulang kandidat lama hanya demi hijau.
+**Langkah aktif B: jalur jadwal baru sedang diuji di server.** Source
+`39208d09cd8fc5cae61020fe423651a98bd951aa`, kandidat
+`6370d29192bc2e2d1efb27941804eb487cf8c276`, tree9c225527,
+[run40008494076](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/40008494076)
+/job120602447065 Native8 sedang berjalan, hasil belum tersedia.
+`cp7_schedule_staged_review` menambah3 fungsi privat/2 facade/0 tabel/
+0 penggantian fungsi Native.7 badan Native dipin,11 otoritas dependensi
+harus tetap. Render/kompilasi Python/scanner SQL lulus;9 sumber beku tepat.
+Kontrak SCHEDULE_NATIVE_CONTRACT SHA
+5ecd8279720aee5f4956751b977f4ba26b26f8497610ff9cb452203845553116.
+9 tahap/invers22 wajib,8 oracle pendahulu ditutup sementara di savepoint lalu
+dipulihkan tepat; pasang/restore/advisor/lima gate paket tetap.
+
+GET menerima **UUID permintaan job nyata** (`p_source_request`), bukan run yang
+baru terlihat setelah DONE. JobRUNNING/DONE milik aktor kini boleh menyiapkan
+metadata; DONE tetap mengikuti retensi, FAILED/asing ditolak. SAVE memakai
+run nyata dari GET + marker kontrak, sourcehash/revisi/config/alasan, Native
+validator pekerjaan/kalender/global WIP/tujuan lama, lock request/global,
+UUID/history dan cek sumber/akses sesudah wait/tulis. Bukan pemasangan default
+atau perpindahan fakta produksi/stock/uang/HPP. Layar/tipe/registry/realAuth/
+race/browser untuk jalur ini **belum** teruji/diintegrasikan.
+
+**Batas bukti baru penting:** raw history di atas50000 juga tetap INCOMPLETE
+pada compiler bertahap lama. Native8 menguji review metadata2000/202000 dari
+referenceRUNNING dengan label historyINCOMPLETE/WIPCOMPLETE, tanpa jobDONE/
+hash/completeness palsu. Ini **tidak menutup SAVE2000**. Sesudah jalur jadwal,
+masih perlu pembacaan history padat yang utuh/bertahap menggunakan engine yang
+sama, versi terpisah tanpa melonggarkan refusal lama, lalu actualSAVE2000/8s.
+Jangan mengulang fa3375eb lama tanpa perbaikan karena masih akan ditolak.
+
+A tetap pemilik pemasang/default/tipe/registry/globalcensus.2 facade baru
+`erp_cp7_get_staged_production_schedule_v1` dan
+`erp_cp7_save_staged_production_schedule_v1` disiapkan B; pemasangan/tipe/registry
+shared menunggu modul benar-benar qualified. Tidak ada perubahan berkas A.
 
 **Native31 sebelumnya tetap PASS31/31**, kandidat
 `a15054c290802420adaa8a4dd64217380d5ebbcb`, tree63918f4b,
@@ -83,7 +109,7 @@ Sumber yang wajib dibaca saat mengambil alih:
   [selesai untuk diuji](../d17-14/SELESAI_UNTUK_DIUJI.md),
   [koordinasi](../d17-14/KOORDINASI.md): konteks keputusan/status lengkap,
   permintaan pemilik berkas dan bukti per butir. Entri awal koordinasi adalah
-  riwayat, bukan status terbaru; bagian34 mencatat hasil lanjutan terbaru dan pekerjaan aktif B berikutnya.
+  riwayat, bukan status terbaru; bagian35 mencatat kandidat aktif Native8 dan batas bukti terbaru.
 - [Praktik ERP](../../ERP_BEST_PRACTICES.md): append-only, idempotensi, current
   access sesudah wait/response, latest corrected wins, dua sumbu tanggal,
   transaksi/envelope lintas modul atomik, draf tidak authoritative, UNKNOWN≠0.

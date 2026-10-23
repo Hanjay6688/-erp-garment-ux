@@ -744,3 +744,31 @@ teruji. Belum ada perubahan produk baru untuk ini; ketiga run terminal.
 A tetap pemilik pemasang/default/tipe/registry/globalcensus; B tidak mengambil
 file A. Registry aktual8 gap dan patch usulan sebelumnya tetap. After-use,
 OW11a-b/bridge3600/rantai penuh/audit belum selesai; parent5/16.
+
+
+## 35 — B menyiapkan review metadata dari job nyata; Native8 aktif (24 Okt WIB) [bersama]
+
+Source39208d09cd8fc5cae61020fe423651a98bd951aa, kandidat6370d29192bc2e2d1efb27941804eb487cf8c276/
+tree9c225527, run40008494076/job120602447065 sedang berjalan. Kontrak8 Native
+SCHEDULE_NATIVE_CONTRACT SHA5ecd8279720aee5f4956751b977f4ba26b26f8497610ff9cb452203845553116.
+Modul cp7_schedule_staged_review,3 privat/2 facade/0 tabel/0 replace Native;
+7 Nativebody pin/11 dependency authority. Derived validator/kalender/WIP/target
+lama, akses/request-global lock/UUID/CAS/history, current-source setelah wait
+serta sumber kerja/akses sesudah tulis. GET memakai Native job.requestUUID
+RUNNING/DONE; DONEkept, asing/FAILEDditolak. CREATEpublic hanya sementara lalu
+kembali tertutup. Invers before-use22/after-use menolak tagcommand immutable
+sebelumDDL;9th stage membungkus8th oracle unchanged via savepoint.8 case:
+catalog, RUNNING SAVE/replay, source stale, foreign/current inactive, revision/
+oldUUID, usedinverse, injectedatomicfault, metadata2000/202000 yang jujur.
+
+Raw history>50000 masih incomplete pada compiler lama; metadata work boleh
+menunjukkanINCOMPLETE/WIPCOMPLETE, tidak menciptakan hasil analisis/kelayakan.
+Native8 ini tidak mengklaimactualcheckedSAVE2000 atau Auth/race/browser/layar.
+Perbaikan history padat utuh bertahap masih perlu sesudah ini. Belum ada
+hasilNative8. Render/Python/scanner lulus;9 cp7-src dan src byte-identik Native31.
+A memegang pemasang/default/globalcensus/tipe/registry; B tidak mengubahnya.
+Facade baru get_staged_production_schedule_v1(p_source_request) dan
+save_staged_production_schedule_v1(p_payload,p_request) belum dipasang default.
+Klien B akan memakai facade sempit sementara, A memasang generator/registry
+setelah bukti cukup.8 gap registry lama tetap; belum ada sourcecallTS baru.
+Parent5/16, fullOW13c/after-use/OW11/bridge3600/A/audit/CP7C tetap OPEN.
