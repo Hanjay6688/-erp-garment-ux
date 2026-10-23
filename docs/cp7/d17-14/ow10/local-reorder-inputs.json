@@ -1,0 +1,67 @@
+{
+  "classification": "LOCAL_ACTUAL_NATIVE_HISTORY_AND_STAGED_TARGET_KERNELS_CONTROLLED_SOURCE_NOT_NATIVE_OR_LIVE_ROP",
+  "status": "PASS",
+  "passed": 6,
+  "total": 6,
+  "sql_sha256": "95fbba37642688bbb61a240a6fd119163e87ca0e0ac22860b34d1ea8ab098f7d",
+  "results": [
+    {
+      "id": "OW10_INPUTS_ACTUAL_WHOLE_NATIVE_HISTORY_AND_STOCK_EQUAL",
+      "status": "PASS",
+      "observed": {
+        "whole_history_and_current_stock_full_JSON_equal": true,
+        "actual_staged_targets_full_JSON_equal": true,
+        "real_non_superuser_read": true
+      }
+    },
+    {
+      "id": "OW10_INPUTS_INTRADAY_STOCKOUT_NOT_LEGACY_START_DAY_AVAILABLE",
+      "status": "PASS",
+      "observed": {
+        "start90_zero_then90_still_stockout": true,
+        "available_days": 29,
+        "exact_total10_over29_point2_target5": true
+      }
+    },
+    {
+      "id": "OW10_INPUTS_PROFILE_MANUAL_AND_KNOWN_ZERO_REMAIN_NATIVE_CHOICES",
+      "status": "PASS",
+      "observed": {
+        "selected_mean2_exact_native_point10_target24": true,
+        "selected_zero_known_despite_no_available_days": true
+      }
+    },
+    {
+      "id": "OW10_INPUTS_POSTED_REVERSED_AND_RETURN_GROSS_RULE_SAME",
+      "status": "PASS",
+      "observed": {
+        "return4_not_subtracted_from_gross10": true,
+        "actual_journal_inverse_removes_gross": true,
+        "whole_history_equal_on_both": true
+      }
+    },
+    {
+      "id": "OW10_INPUTS_MULTIPLE_CHUNKS_KEEP_EVERY_PRODUCT_AND_DAY",
+      "status": "PASS",
+      "observed": {
+        "controlled_products": 420,
+        "complete_days": 12600,
+        "chunks": 2,
+        "whole_history_full_JSON_equal": true,
+        "factory_SLA": false
+      }
+    },
+    {
+      "id": "OW10_INPUTS_CHANGED_PERIOD_SOURCE_UNKNOWN_CAPS_AND_ACL",
+      "status": "PASS",
+      "observed": {
+        "changed_query_and_profile_visible": true,
+        "incomplete_future_and_full_grid_refused": true,
+        "private_only": true
+      }
+    }
+  ],
+  "ROP_caller_changed": false,
+  "full_A_chain_qualified": false,
+  "production_go": false
+}
