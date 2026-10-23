@@ -508,3 +508,18 @@ receipt menolak inverse sebelum DDL. Dua Auth: login/save/replay, anonymous dan
 revoke token lama. Kontrak dideklarasikan sebelum run di ow13c/NATIVE25_CONTRACT.json.
 Handoff memuat run aktual; seluruh Source/Original/failure pertama akan disimpan.
 Belum ada klaim OW13c/rantai A/pasang-pulih lengkap; parent5/16 tetap.
+
+## 21 — Native25 pertama24/25;6 checked-save baru PASS (23 Okt WIB) [bersama]
+
+Bf98947e/run39933288875/job120346584940 selesai dengan24 PASS/1 INCOMPLETE.
+Seluruh25 ID tepat;4 Native/2 Auth checked-save baru PASS. Source/old archive
+SAVE, replay/UUID, receipt after-use, token revoke dan anon teruji. Kegagalan
+tunggal `OW10R_NATIVE_VOLUME2000_8S_WARM3S`: timeout8detik di compile ROP.
+Native14/15, race4/4,HTTP4/4,browser2/2; restore/advisor tepat. Receipt
+ow13c/bf98947-first-native25-24.json; seluruh Original/log dipertahankan.
+
+Ini tidak meluluskan paket atau checked-save race/browser. B memperbaiki
+pembentukan prefix stok50001 yang dibuang sebelum memakai summary SQL lengkap.
+Native source asli/frozen9, kernel, angka/oracle dan batas tidak diubah;
+dua helper turunan hanya menghindari serialisasi setelah overflow terbukti.
+V6 sedang diuji lokal dan belum dikualifikasi Native. Parent5/16 tetap.

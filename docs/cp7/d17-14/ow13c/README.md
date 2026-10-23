@@ -1,7 +1,9 @@
 # OW13c — saran potong, checkpoint lokal
 
-**Kode server dan layar terhubung di Disposable; belum kualifikasi Native dan
-belum OW13c selesai.**11 SQL lokal,91 klien/DOM pada8 berkas, TypeScript serta
+**Kode server dan layar terhubung di Disposable; belum OW13c selesai.**
+Run Native25 pertama bf98947e membuktikan6 kasus baru (4 Native/2 Auth) PASS,
+tetapi satu volume ROP lama timeout8detik:24/25, paket INCOMPLETE. Bukti di
+[receipt pertama](bf98947-first-native25-24.json).11 SQL lokal,91 klien/DOM pada8 berkas, TypeScript serta
 API installer/invers22 lokal lulus. Batas penting: SQL lokal memakai badan baru
 yang sebenarnya, tetapi source/preflight/writer rencana lama adalah boundary
 terkontrol; bukan bukti perilaku Native. Tidak ada pemasangan bawaan/Enteng.

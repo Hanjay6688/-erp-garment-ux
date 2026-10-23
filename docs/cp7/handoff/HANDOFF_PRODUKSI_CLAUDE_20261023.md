@@ -1,16 +1,20 @@
 # Ambil alih hasil produksi B —23 Oktober2026 WIB
 
-**Run OW13c aktual sedang berjalan:** kandidat bf98947e/tree8900f4c0,
+**Run OW13c pertama selesai24/25:** kandidat bf98947e/tree8900f4c0,
 [run39933288875](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39933288875),
-job120346584940.25 kasus=19 caller lama utuh+4 Native+2 Auth checked-save baru.
-Gerbang klien/typecheck lewat; hasil kualifikasi belum keluar. Race/browser
+job120346584940. Enam checked-save baru (4 Native/2 Auth) PASS; satu volume ROP
+lama2000/202000 melewati statement8detik saat compile. Paket INCOMPLETE, bukan
+PASS. Original/log utuh; [receipt](../d17-14/ow13c/bf98947-first-native25-24.json).
+B memperbaiki source agar tidak membuat prefix stok50001 yang langsung dibuang;
+jumlah lengkap tetap dari SQL seluruh stok, batas/oracle tetap. Race/browser
 yang ditahan masih OW10, bukan bukti checked-save. [Batas Native25](../d17-14/ow13c/NATIVE25_README.md).
 
 **Kode B terbaru cbb74b2b** (treee2a3ddb7): OW13c saran potong sekarang
 terhubung ke panel/mesin rencana yang sama di Buat Potongan, dengan jalur SAVE
 baru yang memeriksa sumber/kelayakan sebelum dan sesudah writer.11 SQL lokal,
 91 klien/DOM pada8 berkas, TypeScript, pemeriksa sumber serta API/invers22 lokal
-lulus. **Belum Native/Auth/dua backend/browser/pemulihan/rantai A.** Boundary
+lulus. **Enam Native/Auth baru lulus pada run di atas; paket keseluruhan, dua
+backend checked-save/browser/pemulihan/rantai A belum lulus.** Boundary
 plan source/preflight/writer pada SQL lokal terkontrol, bukan perjalanan Native.
 [Kontrak, API dan langkah berikut](../d17-14/ow13c/README.md).
 Ini tambahan setelah kandidat Native19 di bawah, bukan bagian run Native19.

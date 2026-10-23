@@ -1,9 +1,12 @@
-# Kualifikasi Native25 — sedang berjalan
+# Kualifikasi Native25 pertama —24/25, belum lulus paket
 
 Kandidat bf98947e09e40557d5150b8f9c3dd5ec7d55ac89, tree
 8900f4c047f602334aadcc4e6df2a4d6613a1ee5, run39933288875/job120346584940
-aktual sedang menjalankan kualifikasi; gerbang klien/typecheck sudah lewat.
-Belum ada klaim hasil Native25 PASS.
+selesai24/25. Enam kasus checked-save baru (4 Native/2 Auth) semuanya PASS.
+Satu kontrol lama `OW10R_NATIVE_VOLUME2000_8S_WARM3S` melewati statement8detik
+di compile ROP. Restore/advisor tepat; pipeline tetap INCOMPLETE.
+[Receipt pertama](bf98947-first-native25-24.json), Original/log lengkap disimpan.
+B memperbaiki beban source tanpa menaikkan batas atau mengubah angka/oracle.
 
 Native19 caller dipertahankan utuh, ditambah4 Native dan2 Auth/PostgREST
 khusus checked-save. Deklarasi tepat15 Native/4 race/4 HTTP/2 browser=25
@@ -28,6 +31,6 @@ Native19 yang tidak diubah, kemudian memulihkan seluruh22 kelompok lagi.
 Setelah receipt ada, invers wajib menolak sebelum DDL. Tidak menghapus marker.
 
 Entrypoint cp7_ow13c_checked_probe.py; workflow cp7-ow13c-checked.yml.
-Run/job di atas aktual; hasil akhir belum keluar. Seluruh Original dan
+Run/job di atas aktual; hasil pertama tidak dilabel PASS. Seluruh Original dan
 kegagalan pertama dipertahankan. Rantai A, checked-save race/browser, restore
 setelah dipakai, factory3600 dan batas SAVE Native skala besar masih terbuka.
