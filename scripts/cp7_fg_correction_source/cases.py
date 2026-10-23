@@ -322,17 +322,36 @@ def cases(cur,today):
             without_qc_view=no_qc,warehouse_and_sales_view_opens=opened['document']['number'])
 
     def unchanged():
-        # Real inverses of a newly opened family and of QC exist in this state (E25i), whatever the clone holds.
-        f=chain(cur,today,'CEN');s=draft_sale(cur,f,1);fgc.cancel(cur,s);b.api.admin(cur);reverse(cur,f)
+        # Every source the patched reader answers, compared with the exact kasbon-stage reader on the same state: a real
+        # document of every journal and FG movement family present after the chains below are written through their own
+        # writers, an unknown id of every family the original reader dispatches on, and a real inverse of all five FG
+        # families it now follows. (Native9 fe95ba50: the bare clone held 9 direct families, so a count of 10 was never
+        # reachable; every family compared there matched. No count is assumed now.)
+        b.api.admin(cur)
+        bare={k for k,in cur.execute("""select distinct source_type from erp.journal_entries where source_id is not null
+            union select distinct source_type from erp.fg_stock_movements where source_id is not null""").fetchall()}
+        f=chain(cur,today,'CEN');s=draft_sale(cur,f,1);fgc.cancel(cur,s);b.api.admin(cur)
+        a=adjust(cur,f,'-1');fgadj.action(cur,'REVERSE',a['posted']);reverse(cur,f)
+        g=chain(cur,today,'CENPO');c17.finish_command(cur,c17.finish_workspace(cur,g['po']),reason=REASON+' PO selesai');b.api.admin(cur)
+        assert c17.po_state(cur,g['po'])['status']=='FINISHED'
+        r=returns.fixture(cur,today);done=returns.returned(cur,r,qty='1',refund='20');returns.inverse(cur,r,done['return_id']);returns.reverse_sale(cur,r)
+        w=ts.rework_fixture(cur,today);b.api.admin(cur);chain_=ts.production.b.chain
+        chain_.bs_action(cur,'REVERSE_REWORK_COMPLETION',dict(rework_order_id=w['rework'],change_reason=REASON),chain_.version(cur,'rework_orders',w['rework']))
+        b.api.admin(cur)
+        def compare(kind,source):
+            now=read(cur,kind,source);before=original(cur,lambda:read(cur,kind,source))
+            assert same(now,before),(kind,source,now,before)
+            return now.get('status',now.get('refused'))
         direct=cur.execute("""select * from(select distinct on(source_type)'JOURNAL'origin,source_type,source_id::text from erp.journal_entries
             where source_id is not null order by source_type,created_at desc,id)j
             union all select * from(select distinct on(source_type)'FG_MOVEMENT',source_type,source_id::text from erp.fg_stock_movements
             where source_id is not null and source_type<>'FG_MOVEMENT_REVERSAL'order by source_type,physical_at desc,id)m""").fetchall()
-        families={}
-        for origin,kind,source in direct:
-            now=read(cur,kind,source);before=original(cur,lambda:read(cur,kind,source))
-            assert same(now,before),(origin,kind,now,before)
-            families[origin+':'+kind]=now.get('status',now.get('refused'))
+        real={origin+':'+kind:compare(kind,source)for origin,kind,source in direct}
+        body=ORIGINALS[d.SOURCE]
+        dispatched=set(re.findall(r"kind ?= ?'([A-Z][A-Z0-9_]+)'",body))
+        for group in re.findall(r"kind ?(?:not )?in ?\(([^)]*)\)",body):dispatched|=set(re.findall(r"'([A-Z][A-Z0-9_]+)'",group))
+        assert{'FG_MOVEMENT_REVERSAL','JOURNAL_REVERSAL','CP7_KASBON','QC_ITEM','SALE_ITEM','REWORK_ORDER'}<=dispatched,sorted(dispatched)
+        unknown={kind:compare(kind,uuid.uuid4())for kind in sorted(dispatched)}
         inverses={}
         for family,movement,source in cur.execute("""select distinct on(o.source_type)o.source_type,o.id::text,o.source_id::text
             from erp.fg_stock_movements v join erp.fg_stock_movements o on o.id=v.source_id and o.reversal_of_id is null
@@ -347,9 +366,11 @@ def cases(cur,today):
             else:
                 assert same(now,before)and now.get('status')=='UNSUPPORTED_SOURCE',(family,now,before)
             inverses[family]=dict(before=before.get('status',before.get('refused')),after=now.get('status',now.get('refused')))
-        assert len(families)>=10 and{'SALE_ITEM','QC_ITEM'}<=set(inverses),(families,inverses)
-        return dict(status='PASS',direct_families_compared=len(families),direct=families,fg_inverse_families=inverses,
-            unsupported_fg_families_seen=sorted(set(inverses)-set(d.FAMILIES)))
+        written={k.split(':',1)[1]for k in real}
+        assert written>bare and{'FG_ADJUSTMENT_ITEM','SALES_RETURN_ITEM','REWORK_ORDER','SALE_ITEM','QC_ITEM'}<=written,(sorted(bare),sorted(real))
+        assert set(d.FAMILIES)<=set(inverses),inverses  # all five newly followed families on real inverses
+        return dict(status='PASS',real_document_families=real,families_before_chains=sorted(bare),unknown_id_families=len(unknown),
+            fg_inverse_families=inverses,unsupported_fg_families_seen=sorted(set(inverses)-set(d.FAMILIES)))
 
     def refusal_census():
         free=chain(cur,today,'RC1');held=chain(cur,today,'RC2');draft_sale(cur,held,1)

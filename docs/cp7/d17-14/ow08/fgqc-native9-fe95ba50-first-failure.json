@@ -1,0 +1,23 @@
+{
+ "run": 39883690295,
+ "attempt": 1,
+ "job": 120186788329,
+ "head": "fe95ba50",
+ "label": "CP7_OW08B_FG_CORRECTION_NATIVE9",
+ "status": "INCOMPLETE",
+ "cases": {
+  "OW08B_FG_QC_REFUSAL_NAMES_SALE_AND_ADJUSTMENT_THEN_UNDO": "PASS",
+  "OW08B_FG_INVERSE_OPENS_SALE_ADJUSTMENT_QC": "PASS",
+  "OW08B_FG_INVERSE_OPENS_RETURN_AND_SALE_REVERSAL": "PASS",
+  "OW08B_FG_QC_REFUSAL_NAMES_REWORK_AND_REWORK_INVERSE_OPENS": "PASS",
+  "OW08B_FG_QC_REFUSAL_NAMES_FINISHED_PO_THEN_REOPEN": "PASS",
+  "OW08B_FG_INVERSE_RIGHTS_AND_UNKNOWN_REFUSED": "PASS",
+  "OW08B_FG_OTHER_SOURCES_UNCHANGED_CENSUS": "INCOMPLETE: cases.py:350 assert len(families)>=10 with 9 direct families {'JOURNAL:CUTTING_MATERIAL_ISSUE': 'AVAILABLE', 'JOURNAL:LAUNDRY_ESTIMATE_ACCRUAL': 'UNSUPPORTED_SOURCE', 'JOURNAL:MATERIAL_PURCHASE': 'AVAILABLE', 'JOURNAL:MATERIAL_PURCHASE_GRNI_RECLASS': 'AVAILABLE', 'JOURNAL:PAYROLL_ATTENDANCE_ACCRUAL': 'AVAILABLE', 'JOURNAL:PO_HPP_GL_SYNC': 'UNSUPPORTED_SOURCE', 'JOURNAL:WORK_COMPLETION': 'UNSUPPORTED_SOURCE', 'FG_MOVEMENT:QC_ITEM': 'AVAILABLE', 'FG_MOVEMENT:SALE_ITEM': 'AVAILABLE'} and FG inverses {'QC_ITEM': AVAILABLE before and after, 'SALE_ITEM': UNSUPPORTED_SOURCE before, AVAILABLE after}",
+  "OW08B_FG_QC_REFUSAL_CENSUS_SAME_CONDITIONS": "PASS",
+  "OW08B_FG_CORRECTION_READERS_PRIVATE": "PASS"
+ },
+ "cp6_restored": true,
+ "advisor_gate": true,
+ "cause": "Test design, not product: the census compared only the families the clone held after one QC chain, and that state has nine direct families; every one of them, and both FG inverse families, matched the original kasbon-stage reader (the per-family assertions passed). The count of ten copied from the kasbon case was never reachable. Install, the other eight cases, removal before use, CP6 restore and the advisor gate passed; the final 'writer_runtime: False' assertion only reflects the INCOMPLETE case.",
+ "fix": "The census first writes, through their own writers, a QC chain with a cancelled draft invoice, a posted and reversed FG adjustment and a reversed QC, a finished PO, a posted sale with a return, the return reversed and the sale reversed, and a rework chain with its completion reversed. It then compares a real document of every journal and FG movement family present and an unknown id of every family the original reader dispatches on (58), and requires the chains' own families and all five newly followed FG inverse families (QC_ITEM, SALE_ITEM, SALES_RETURN_ITEM, FG_ADJUSTMENT_ITEM, REWORK_ORDER) on real rows. No count is assumed; every per-family comparison is unchanged."
+}
