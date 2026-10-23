@@ -32,13 +32,13 @@ untuk mendaftarkan workflow-nya saat antrean longgar.
 | OW-04b bagian 3–4 | Native9+Race3 12/12 `e9b88564` (run 39885599854; `ow04/ow04b-native9-race3-e9b88564-pass.json`) |
 | OW-04b bagian A bayar sisa sesudah kredit | Native6+Race2 8/8 `33115188` (run 39885477424; `ow04/ow04b-slice-a-native6-race2-33115188-pass.json`) |
 | OW-12a modul angka keuangan | Native7 7/7 `efa800cd` (run 39886155240; `ow12/native7-efa800cd-pass.json`) |
+| OW-08b 2.20 cuci gagal tanpa tarif | Native11 11/11 `efa800cd` (run 39886298512; `ow08/wash-native11-efa800cd-pass.json`) |
 | OW-08b 2.18 kasbon dari buku besar | Native4 4/4 `6c8be6f6` (run 39847032024; `ow08/kasbon-native4-6c8be6f6-pass.json`, laporan sha256 `8f9f2c83…`, artifak 12456785458) |
 
 ## Sudah dibuat, uji sedang/akan jalan
 
 | Butir | Keadaan |
 |---|---|
-| OW-08b 2.20 cuci gagal tanpa tarif | Native11 `cc5766e7`: pasang lulus, 3/11; penjaga POST penerimaan v2.6.20 kini substitusi ke-10 (hanya percobaan bertanda UNKNOWN); gabung `c6e073b5`, Native11 jalan ulang |
 
 ## Belum selesai / berikutnya (urutan kerja)
 
