@@ -1,8 +1,8 @@
 {
   "classification": "LOCAL_ACTUAL_NATIVE_HISTORY_AND_STAGED_TARGET_KERNELS_CONTROLLED_SOURCE_NOT_NATIVE_OR_LIVE_ROP",
   "status": "PASS",
-  "passed": 18,
-  "total": 18,
+  "passed": 22,
+  "total": 22,
   "sql_sha256": "011719b5a336ab3cf4587ccad4818c722f8ee59c37049b441cd6f37b32281d2b",
   "points_sql_sha256": "d357aa97b1b85fcefc8a470ff8885eba16578b0982cc02d7e6fd35778d7adaea",
   "results": [
@@ -107,8 +107,8 @@
       "id": "OW10_SOURCE_ACTUAL_SQL_LEAD_SETTINGS_AND_NATIVE_CAPTURE_CLOCK",
       "status": "PASS",
       "observed": {
-        "actual_Native_baseline_source_body": true,
-        "lower_Native_source_adapters_controlled": true,
+        "actual_Native_baseline_and_history_source_bodies": true,
+        "profile_and_identity_adapters_controlled": true,
         "actual_SQL_median4_from5_lots3_groups": true,
         "draft_reversed_future_and_nonproduction_lots_excluded": true,
         "current_settings_defaults_actual_SQL": true,
@@ -134,6 +134,50 @@
         "incomplete_source_not_empty_success": true,
         "actual_catalog_code_in_engine_and_context_hash": true,
         "exact_private_body_restored": true
+      }
+    },
+    {
+      "id": "OW10_READ_COMPLETE_NATIVE_FULL_INPUTS_AND_POINTS_EQUAL",
+      "status": "PASS",
+      "observed": {
+        "actual_history_source_and_baseline_source": true,
+        "full_input_and_point_JSON_equal": true,
+        "read_only_capture_role": true,
+        "clock_only_change_same_cache_key": true,
+        "visible_stock_change_new_key": true,
+        "incomplete_product_universe_refused": true
+      }
+    },
+    {
+      "id": "OW10_COMPILE_ONE_CLOSED_SNAPSHOT_NO_SECOND_DATABASE_READ",
+      "status": "PASS",
+      "observed": {
+        "exact_same_snapshot_same_full_result_after_DB_change": true,
+        "fresh_snapshot_changes_key": true,
+        "no_second_source_read_in_immutable_compile": true,
+        "closed_snapshot_and_clock_binding": true,
+        "cache_key_not_freshness_proof": true
+      }
+    },
+    {
+      "id": "OW10_READ_OVERFLOW_RETAINS_ALL_OTHER_NATIVE_COMPLETENESS_GUARDS",
+      "status": "PASS",
+      "observed": {
+        "fault_injected_denials": [
+          "SQL stock has fewer rows than raw capture",
+          "sales overflow",
+          "sale_journals overflow",
+          "returns overflow",
+          "return_journals overflow",
+          "duplicate current root",
+          "ambiguous current commercial",
+          "ambiguous sold commercial",
+          "missing posted original journal",
+          "duplicate original journal",
+          "unknown Native status"
+        ],
+        "Native_body_exactly_restored": true,
+        "Native_qualification": false
       }
     },
     {
@@ -174,9 +218,28 @@
         "products": 2000,
         "complete_days": 60000,
         "all_free_pcs": "450",
-        "local_SQL_ms": 2774,
+        "local_SQL_ms": 3002,
         "no_source_row_sampled": true,
         "Native_Auth_or_factory_SLA": false
+      }
+    },
+    {
+      "id": "OW10_READ_202000_SQL_ROWS_FULL_NATIVE_HISTORY_TARGETS_AND_POINTS",
+      "status": "PASS",
+      "observed": {
+        "actual_Native_source_cap_still50001": true,
+        "Native_status_still_INCOMPLETE": true,
+        "SQL_rows": 202000,
+        "full_targets": 2000,
+        "full_history_days": 60000,
+        "full_points": 2000,
+        "free450_exact": true,
+        "known_zero_profile_not_unknown": true,
+        "local_full_pipeline_ms": 10426,
+        "outside_raw_prefix_change_invalidates_context": true,
+        "summary_clock_binding_refused": true,
+        "Native_Auth_or_factory_SLA": false,
+        "live_ROP_caller_changed": false
       }
     },
     {
@@ -190,8 +253,9 @@
       }
     }
   ],
-  "source_sql_sha256": "72cf357c776722de503460f288dceb05b1719a3cecbe5ae39df0ab85b6732322",
+  "source_sql_sha256": "51897b528b7b9f2378cb039e60912a0116cf6b129c0eb31d6506cea450bcfd9d",
   "stock_sql_sha256": "66249ddf22f4e67572c74601994c3e908643ba7dc909426e4d525604a5835a41",
+  "read_sql_sha256": "9ae8b17d309fb93b4d6867391fac75fddaf59d5a2a4aa68ee6a3c5c5bb017acd",
   "installer": {
     "classification": "LOCAL_REAL_INSTALLER_AND_PG_CATALOG_VIA_CONTROLLED_TRANSPORT_NOT_NATIVE",
     "stage": "cp7_reorder_inputs",

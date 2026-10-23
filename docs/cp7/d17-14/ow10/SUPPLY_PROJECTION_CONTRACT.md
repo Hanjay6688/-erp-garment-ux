@@ -158,5 +158,8 @@ review atau setelah sumber berubah. Perbaikan menyimpan kuantitas barang baik
 dan ETA sebagai null; tidak mengkreditkan potongan mentah atau yield100%.
 Field projection yang ada tetapi malformed tetap ditolak. Delapan kelompok
 producer lokal (termasuk early-return scheduler sebenarnya),9 reader dan API
-invers22 lulus sesudah perbaikan. Hasil Native ulang tetap wajib; kegagalan
-pertama dan seluruh Original/log disimpan. Kasus/oracle lama tidak diubah.
+invers22 lulus sesudah perbaikan. Native ulang c0bb0d19/run39900426633/job120240505606 kini **133/133 PASS**:
+75 Native/36 dua pengguna/9 HTTP/13 layar, semua ID tepat. Tiga invers22,
+38 otoritas salinan, restore/advisor/lima gate paket dan backup/restore lulus.
+Receipt `c0bb0d1-native133-pass.json`; kegagalan pertama dan seluruh Original/log
+tetap disimpan. Kasus/oracle lama tidak diubah.

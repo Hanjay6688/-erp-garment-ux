@@ -37,15 +37,20 @@ begin
    and p.prokind='f'),
  query as materialized(select jsonb_build_object(
   'from_date',((boundary.at at time zone'Asia/Jakarta')::date-(policy.defaults->>'window_days')::integer)::text,
-  'through_date',((boundary.at at time zone'Asia/Jakarta')::date-1)::text,'group_mode','AS_SOLD')q from boundary cross join policy)
+  'through_date',((boundary.at at time zone'Asia/Jakarta')::date-1)::text,'group_mode','AS_SOLD')q from boundary cross join policy),
+ complete_stock as materialized(select case when jsonb_array_length(boundary.c->'facts'->'stock')=50001 then
+  cp7_reorder_inputs.stock_summary(boundary.c->'facts'->'products',boundary.at,query.q)end summary
+  from boundary cross join query)
  select jsonb_build_object('contract_version','cp7.reorder-native-source.v1','status',boundary.c->'status',
-  'captured_at',boundary.c->'captured_at','query',query.q,'native',boundary.c,'defaults',policy.defaults,
+  'captured_at',boundary.c->'captured_at','query',query.q,'native',boundary.c,'defaults',policy.defaults,'product_bound',p_products,
+  'stock_summary',complete_stock.summary,
   'leads',leads.rows,'manuals',manuals.rows,'engine_hash',engine.hash,
   'context_hash',encode(extensions.digest(convert_to(jsonb_build_object('facts',boundary.c->'facts',
     'profiles',boundary.c->'profiles','production_policies',boundary.c->'production_policies'->'rows',
-    'query',query.q,'defaults',policy.defaults,'leads',leads.rows,'manuals',manuals.rows,'engine',engine.hash)::text,'UTF8'),'sha256'),'hex'),
+    'query',query.q,'defaults',policy.defaults,'leads',leads.rows,'manuals',manuals.rows,'engine',engine.hash,
+    'complete_stock_summary',complete_stock.summary->'data_hash')::text,'UTF8'),'sha256'),'hex'),
   'apply_enabled',false,'production_go',false)
- from boundary cross join policy cross join leads cross join manuals cross join engine cross join query);
+ from boundary cross join policy cross join leads cross join manuals cross join engine cross join query cross join complete_stock);
 end $$;
 alter function cp7_reorder_inputs.source_within(integer)owner to cp7_capture;
 revoke all on function cp7_reorder_inputs.source_within(integer)from public,anon,authenticated,service_role;

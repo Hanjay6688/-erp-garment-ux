@@ -59,15 +59,15 @@ caller masih wajib mengambil sumber baru, memeriksa hak sebelum/sesudah dan
 engine/dependensi sebelum memakai cache. JSON privat tidak boleh disalurkan
 mentah ke facade gudang.
 
-API `install_delta/verify/admit_catalog/rollback_preuse` tahap v3 menambah1 schema dan
-4 fungsi invoker (2 immutable,2 stable), tanpa body lama/tabel/kolom/Native DML/RPC/cron.
-Sebelas badan Native yang dipanggil dipin; owner/ACL/body/config baru diperiksa.
+API `install_delta/verify/admit_catalog/rollback_preuse` tahap v4 menambah1 schema dan
+6 fungsi invoker (3 immutable,3 stable), tanpa body lama/tabel/kolom/Native DML/RPC/cron.
+Dua belas badan Native yang dipanggil dipin; owner/ACL/body/config baru diperiksa.
 A tetap memegang transaksi/envelope/global after-use guard. Helper stateless
 tidak menyimpan bisnis; invers menolak sebelum DDL bila masih ada pemanggil
 SQL terpasang. Balikkan lapisan caller dahulu sesuai guard/rantai A; tidak
 menghapus evaluasi/riwayat agar invers diizinkan.
 
-Bukti kini **18/18 kelompok lokal PASS**, termasuk pemasang aktual/katalog22
+Bukti kini **22/22 kelompok lokal PASS**, termasuk pemasang aktual/katalog22
 apply/admit/inverse/reapply dan penolakan saat caller SQL fixture masih ada.
 Ini kontrol dependensi caller, bukan klaim pemakaian Native telah dikualifikasi.
 Perubahan yang akan tampak sesudah caller dipasang: hari stok habis di tengah
@@ -133,3 +133,42 @@ Berikutnya: lengkapi adapter stok ringkas ke riwayat/target Native tanpa
 mengubah status capture mentah, lalu sambungan compute ROP, cache perubahan
 yang aman, proyeksi WIP yang serasi, label waktu/kandidat serta Native/performa. Pengingat stok bebas harus
 tetap tiap menit tanpa menunggu job analisis besar. Parent5/16, OW10 OPEN.
+
+
+## Pembacaan lengkap dan snapshot untuk cache
+
+`read_points(bound)` sekarang menyambung sumber server →riwayat →target →titik.
+`compile(source_snapshot)` bersifat immutable agar caller dapat mengambil satu
+snapshot, mencocokkan context_hash cache lalu menghitung hanya ketika berubah.
+Compiler tidak membaca database kedua kali. Caller tetap bertanggung jawab
+atas sumber server baru/hak saat baca; mengompilasi snapshot lama bukan bukti
+kesegaran. Belum ada tabel/cache/caller ROP yang dipasang oleh tahap ini.
+
+Sumber COMPLETE kecil menghasilkan seluruh JSON input/titik sama persis dengan
+jalur Native. Bila **hanya** array stok mentah mencapai50001, sumber server juga
+membawa ringkasan SQL stok lengkap dengan waktu/query sama. read_points tetap
+mencatat native_capture_status=INCOMPLETE dan menandai jalur khusus, tanpa
+mengubah status Native atau mengisi array stok kosong. Seluruh guard Native
+lain dipertahankan: jumlah produk/unik root, identitas komersial sekarang dan
+saat jual, empat cap koleksi lain50.000, serta tepat satu jurnal asli untuk
+setiap penjualan final. Badan history_source_within sekarang ikut pin DB.
+
+Hari tersedia tetap aturan Native penuh; event/jurnal, stok fisik vs reservasi,
+pengurangan draft sekali, history_rows dan baseline_rows memakai kernel asli.
+Mismatch reservasi, batas grid/target, snapshot/query dan jumlah baris yang
+berkurang tetap ditolak. Hash sumber jalur ringkas diberi identitas terpisah;
+ini bukan hash operasional analisis besar atau izin memakai WIP lama.
+
+Seluruh202.000 pergerakan/2.000 produk kini melewati jalur lengkap menjadi
+60.000 hari riwayat,2.000 target dan2.000 titik; bukan hanya stock_summary.
+Semua stok bebas450, pilihan profil nol tetap0, tanpa penjualan/jurnal fiktif.
+Perubahan satu pergerakan **di luar**50001 baris mentah mengubah key lewat hash
+ringkasan lengkap meskipun JSON array mentah sama. Snapshot beda waktu ditolak.
+PGlite lokal membutuhkan sekitar10detik untuk kompilasi penuh; ini **bukan
+Native/Auth/SLA3detik**. Cache hit belum diuji karena caller/cache belum dibuat.
+
+Harnes sumber kini memuat badan history_source_within dan baseline.source_within
+aktual atas tabel ERP fixture; adapter profil/identitas tetap terkontrol.
+Sebelas penolakan guard disuntikkan lewat adapter sumber sementara, kemudian
+badan Native dipulihkan dan hash diperiksa tepat; ini bukan kualifikasi Native.
+Installer/admission/inverse/reapply22 serta guard dependensi caller tetap lulus.

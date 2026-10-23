@@ -32,17 +32,18 @@ A tidak perlu memasang separuh fitur ini.
 Sumber ROP sekarang juga mempunyai tahap privat `cp7_reorder_inputs`: riwayat
 memakai fungsi Native yang sama, titik memakai target profil persis atau
 aturan default lama atas riwayat Native; override manual tidak ditumpuk.
-18 kelompok lokal/installer22 PASS, termasuk420 produk/12.600 hari dan guard
-dependensi caller sebelum DDL. Tahap v3 empat fungsi/1 schema, tanpa hook/DML/endpoint.
+22 kelompok lokal/installer22 PASS, termasuk420 produk/12.600 hari dan guard
+dependensi caller sebelum DDL. Tahap v4 enam fungsi/1 schema, tanpa hook/DML/endpoint.
 Sumber server membaca baseline Native, setting, lead terukur/manual dan waktu
 yang sama; engine/context hash berubah bila kode/sumber berubah. Badan sumber
 baseline dan SQL lead/manual aktual diuji, adapter Native di bawahnya terkontrol.
 Ringkasan SQL stok juga membaca202.000 pergerakan/2.000 produk menjadi60.000 hari
 utuh, cocok dengan aturan Native; ini bukan Native/SLA. Sumber mentah Native
-tetap mempunyai cap50.000 dan status INCOMPLETE-nya tidak ditimpa. Adapter ke
-target serta caller/cache tiap menit masih harus dibuat, bukan dianggap beres
-dari helper ringkasan ini.
-Ini belum caller ROP/Native/performa. Kontrak dan beda angka yang diharapkan:
+tetap mempunyai cap50.000 dan status INCOMPLETE-nya tidak ditimpa. Adapter ke target/titik kini lengkap untuk2.000 produk/60.000 hari; read_points
+atau compile atas satu snapshot tersedia. Perubahan di luar array mentah juga
+mengubah context_hash. Caller/cache ROP tiap menit dan binding WIP masih harus
+dibuat; ini belum Native/Auth/SLA pabrik.
+Ini belum caller/cache ROP atau Native/performa; kompilasi penuh lokal sekitar10detik. Kontrak dan beda angka yang diharapkan:
 [REORDER_INPUTS_CONTRACT](../d17-14/ow10/REORDER_INPUTS_CONTRACT.md).
 
 B/Codex bekerja di `astra/d17-14-produksi`; A/Claude di `claude/d17-14-uang` dan menjadi satu-satunya
