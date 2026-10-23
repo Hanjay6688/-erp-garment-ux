@@ -193,7 +193,7 @@ jobs:
       run: "set -euo pipefail\nnet=\"$(docker network ls --format '{{.Name}}' | grep -m1 supabase_network)\"\ndocker run -d --name fake-callmebot --network \"$net\" -e FAKE_CALLMEBOT_ACCEPTS=FAKEKEY-WA3B \\\n  -v \"$GITHUB_WORKSPACE/auditor/scripts/cp7_wa_fake_callmebot.py:/fake.py:ro\" python:3.12-alpine python -u /fake.py\nsleep 3\ndocker ps --filter name=fake-callmebot --format '{{.Status}}'\n"
     - name: Record disposable service image versions
       run: docker ps --format '{{.Names}}\t{{.Image}}'
-    - name: Qualify actual staged work-metadata route Native8 with all nine stage inverses
+    - name: Qualify Native8 with UTC metadata fingerprints and all nine stage inverses
       working-directory: writer
       run: python "../auditor/scripts/${{ matrix.probe }}"
     - name: Remove disposable database
