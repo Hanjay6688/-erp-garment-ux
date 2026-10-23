@@ -52,6 +52,10 @@ then calls B's removal.
 | C8 | Native-empty direct route (`native-empty/02_native_empty_callbacks.sql:38-39`) | `…event_kind='APPLY'and target_sale_id=p_sale)then\n  raise exception 'CP7_NATIVE_EMPTY_RECOGNIZED_OR_CORRECTED_SOURCE_UNIMPLEMENTED'` | **Keep** (direct Native writer route only, `native_empty_is_direct_v1`). CP7 returns go through the coordinator. Listed so it is not loosened by accident | Identical |
 | C9 | Screen (`src/lib/creditRefusalMessages.ts`) | — | Name `CP7_CREDIT_CONSUMER_FAMILY_ADJUSTMENT_REVIEW_REQUIRED` ("pemakaian saldo ini tidak bisa dibatalkan atau ditambah karena retur pada invoice tujuan bergantung padanya; batalkan dulu retur itu…"). Stop showing "pernah dibayar memakai saldo kredit" as a reason for returns | Unit and DOM tests |
 
+**Added in step 2 (C12, learned from the slice B first failure B12):**
+- `opening_return_hpp_owner_v1` re-derives the guard's value, so it must expect `raw_paid + U − (earlier credit + K)` for a reviewed settlement.
+- For an ordinary return it must expect `raw_paid + U`, exactly what C3 and C3b now compute.
+
 Still refused after C, with named reasons:
 - payment correction on such an invoice (`payment_correction/transform.py:53,171`, `04_completion.sql:9`);
 - source reversal of its payments or returns (`consumer/11_source_history.sql:14`, `CP7_CREDIT_SOURCE_INCOMING_HISTORY_ADAPTER_REQUIRED`);
