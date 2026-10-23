@@ -43,7 +43,7 @@ def verify_composed(cur, legacy_checker, states):
 
 
 if __name__ == '__main__':
-    import cp7_f05_analysis_probe as probe
+    import cp7_b_f05_analysis_probe as probe
     import cp7_ow13a_clone_authority as copies
     original_copy = probe.modes.copy_db
 

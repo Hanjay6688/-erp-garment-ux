@@ -1,3 +1,7 @@
+## 24 Okt 2026 — batas source A/B
+
+Run40001235110 menolak perubahan dua harness pendahulu yang dikunci trigger guard A. Original disimpan. Harness A dipulihkan persis; penerus B diberi nama sendiri dan delapan entrypoint B diarahkan kepadanya, dengan assertion netting tambahan B tetap dipanggil. Penerimaan source guard tetap utuh dan kini diperiksa sebelum database. Uji integrasi/restore masih wajib. production_go=false.
+
 # Checkpoint penulis A (cabang `claude/d17-14-uang`)
 
 ## Posisi penerus A — 24 Oktober 2026

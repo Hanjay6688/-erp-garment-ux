@@ -33,6 +33,11 @@ STEPS=('INSTALL_ALL22','PREUSE_EXACT_RESTORE','REINSTALL_ALL22',
 
 def admitted():
     predecessor,_=a.admitted()
+    guard_path=REPO/'scripts/cp7_customer_credit/integration/source_triggers/trigger_guard.py'
+    import importlib.util
+    spec=importlib.util.spec_from_file_location('ow15_preflight_trigger_source_guard',guard_path)
+    guard=importlib.util.module_from_spec(spec);spec.loader.exec_module(guard)
+    guard.declarations(REPO)  # Fail before DB if a pinned predecessor harness moved.
     pins=json.loads((HERE/'SOURCE.json').read_bytes())
     for path,digest in pins['files'].items():
         assert sha256((REPO/path).read_bytes()).hexdigest()==digest,('PRODUCTION_CHAIN_SOURCE_CHANGED',path)

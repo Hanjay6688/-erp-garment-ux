@@ -3,7 +3,7 @@
   "files": {
     ".github/workflows/cp7-b-extension-chain.yml": "b55de801177ec32c5bedbc0dd027aae0daa34516c06ac26c74576f116b4bd4d7",
     "scripts/b-extension-chain-qualification/README.md": "2506ba45099f18b6f48cc9c9ec1984078326b2e03da6761c4e2b4b40d1e0bd8f",
-    "scripts/b-extension-chain-qualification/probe.py": "79e344ce25b88a1d87bbaac84f61cc7b4f48820ce0c825329e7f21552f92c570",
+    "scripts/b-extension-chain-qualification/probe.py": "b8e777b2f4cf25a2d7600e9baf7444e78283d4b0f0d8804c4333f3ae5d7aa48e",
     "scripts/chain-p21-qualification/SOURCE.json": "b0413df026dc4dc00674c2d19f54a18f9eb60070e25de3375c8a22dabe02418d",
     "scripts/cp7-src/cutting-yield/automatic-status.sql": "45cf0b428fbe6b85d7e18367492ef188e7ac49d06f120e39156b66e9cf758d4f",
     "scripts/cp7_analysis_finance_bridge/BEFORE.json": "41f07c249a1a472e653853cfbcf31e326df6d593929b6407078d090566442ef6",
@@ -111,7 +111,11 @@
     "scripts/cp7_target_policy_stage/sql/cp7_profile__apply.before.sql": "d72a6bda3e344e5e83ee0a6ec036df26fc838ee35b2f41d9100bb50552ccae68",
     "scripts/cp7_target_policy_stage/sql/cp7_profile__apply.sql": "2b4d0a7e59476568655181907cbead35972ee48210d06ef27e21bbb4d5f42e4e",
     "scripts/cp7_target_policy_stage/sql/cp7_stock_formula__compute.before.sql": "d8d6cc1e641d7941f4781597476d525a78995cb25d76d142cc381162feeef156",
-    "scripts/cp7_target_policy_stage/sql/cp7_stock_formula__compute.sql": "753d7d336d82ab78618005775be33524ee65de11575caf842005b578151e61ea"
+    "scripts/cp7_target_policy_stage/sql/cp7_stock_formula__compute.sql": "753d7d336d82ab78618005775be33524ee65de11575caf842005b578151e61ea",
+    "scripts/cp7_b_f05_analysis_probe.py": "3edea18936130f1a027f0a9909aed0fb67e98e4b51f7a6da960ff79ddbf7d5f3",
+    "scripts/cp7_b_planning_netting_cases.py": "8ccb6b4d4ada4aca061a58141e1b93660eedfe19673a1674778a8307f05274b4",
+    "scripts/cp7_f05_analysis_probe.py": "d3135a9c00a81a3cd7db45f0e6d9013da19180d5b827f5f999a5a1f6aaa8bcf0",
+    "scripts/cp7_planning_netting_cases.py": "acc215b7fed17b1e577ad12546b7d20358809002d5f38acdae293e8fce20579d"
   },
   "required_steps": [
     "INSTALL_ALL22",

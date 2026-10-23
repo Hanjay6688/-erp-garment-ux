@@ -1,0 +1,18 @@
+{
+  "reason": "A Native trigger source admission pins two predecessor harnesses. Preserve their exact original bytes and name the B successor explicitly; no allowed-hash list or weakened declaration.",
+  "files": {
+    "scripts/cp7_f05_analysis_probe.py": {
+      "retained_A_sha256": "d3135a9c00a81a3cd7db45f0e6d9013da19180d5b827f5f999a5a1f6aaa8bcf0",
+      "B_copy": "scripts/cp7_b_f05_analysis_probe.py",
+      "B_sha256": "1bb81eddc59846578d734ec52d84460c897bc1720ee18c4b70678a666867cc11"
+    },
+    "scripts/cp7_planning_netting_cases.py": {
+      "retained_A_sha256": "acc215b7fed17b1e577ad12546b7d20358809002d5f38acdae293e8fce20579d",
+      "B_copy": "scripts/cp7_b_planning_netting_cases.py",
+      "B_sha256": "8ccb6b4d4ada4aca061a58141e1b93660eedfe19673a1674778a8307f05274b4"
+    }
+  },
+  "B_probe_entrypoints_redirected": 8,
+  "SQL_product_changed": false,
+  "production_go": false
+}

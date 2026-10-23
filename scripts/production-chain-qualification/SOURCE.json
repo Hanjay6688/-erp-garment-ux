@@ -53,7 +53,11 @@
     "scripts/cp7_stock_formula_cases.py": "cf5a26cdf8d4bf42f07f71a64e12ba05aa3ae89e56c0120de51ff70d3e42df4d",
     "scripts/cp7_supplier_payment_create_cases.py": "ac07bfdb55751b5e8da86e599eec1bf97e870768c39c930af3a76d871a19c292",
     "scripts/production-chain-qualification/README.md": "e02bdc433a479ddbed10efb40ba8fba7ea788121c1f17535a9533279d47ceb41",
-    "scripts/production-chain-qualification/probe.py": "ef9d73faac85522b6ad5305b4d522badebd427702b1d6ad98aac78e65954a570"
+    "scripts/production-chain-qualification/probe.py": "139f56f309c5e3979d3f8d024c4ec22c340d05d91ca7279bb7ab11ebe3a05a64",
+    "scripts/cp7_b_f05_analysis_probe.py": "3edea18936130f1a027f0a9909aed0fb67e98e4b51f7a6da960ff79ddbf7d5f3",
+    "scripts/cp7_b_planning_netting_cases.py": "8ccb6b4d4ada4aca061a58141e1b93660eedfe19673a1674778a8307f05274b4",
+    "scripts/cp7_f05_analysis_probe.py": "d3135a9c00a81a3cd7db45f0e6d9013da19180d5b827f5f999a5a1f6aaa8bcf0",
+    "scripts/cp7_planning_netting_cases.py": "acc215b7fed17b1e577ad12546b7d20358809002d5f38acdae293e8fce20579d"
   },
   "required_steps": [
     "INSTALL_ALL22",

@@ -39,17 +39,8 @@ def verify(cur):
  f03.cutting_correction.verify(cur)
  return dict(stage='EXPLICIT_F03_COMBINED_DEVELOPMENT_STACK',source_sha256=hashlib.sha256(bundle.bundle().encode()).hexdigest(),full_family_acceptance=False)
 
-def run(attention=False,p18_e01=False,rule_lifecycle=False,source_navigation=False,misc_correction=False,payment_correction=False,supplier_payment_correction=False,return_correction=False,sales_chain=False,cutting_correction=False,fabric_recipe=False,fabric_physical=False,fabric_reminder=False,p19_load=False,p19_transport=False,p19_scale=False,p19_staged=False,p19_plan_v2=False,p19_report_v2=False,p19_ai_v2=False,p19_reminder_v2=False,pl5_history_yield=False,k2_retention=False,k3_cleanup=False,k4_runner=False,k6_proof_runner=False,wa_forward=False,ow13_complete_history=False,ow16_status=False,ow14b_rules=False,ow13a_initial=False,ow10_supply=False,ow10_reorder=False,ow13c_checked=False,ow13c_journeys=False):
- assert not ow13_complete_history or pl5_history_yield,'OW13B_REQUIRES_RETAINED_HISTORY_SUITE'
- assert not ow16_status or(pl5_history_yield and not ow13_complete_history),'OW16_REQUIRES_ITS_OWN_DECLARED_CASE_BUDGET'
+def run(attention=False,p18_e01=False,rule_lifecycle=False,source_navigation=False,misc_correction=False,payment_correction=False,supplier_payment_correction=False,return_correction=False,sales_chain=False,cutting_correction=False,fabric_recipe=False,fabric_physical=False,fabric_reminder=False,p19_load=False,p19_transport=False,p19_scale=False,p19_staged=False,p19_plan_v2=False,p19_report_v2=False,p19_ai_v2=False,p19_reminder_v2=False,pl5_history_yield=False,k2_retention=False,k3_cleanup=False,k4_runner=False,k6_proof_runner=False,wa_forward=False):
  assert not p19_load or not any((attention,p18_e01,rule_lifecycle,source_navigation,misc_correction,payment_correction,supplier_payment_correction,return_correction,sales_chain,cutting_correction,fabric_recipe,fabric_physical,fabric_reminder,p19_scale,p19_staged)),'P19_LOAD_REQUIRES_ITS_OWN_DECLARED_CASE_BUDGET'
- assert not ow14b_rules or wa_forward,'OW14B_RETAINS_ALL_WA99_GATES'
- assert not ow13a_initial or(wa_forward and ow14b_rules),'OW13A_RETAINS_ALL_NATIVE113_GATES'
- assert not ow10_supply or ow13a_initial,'OW10_SUPPLY_RETAINS_ALL_INITIAL126_GATES'
- assert not ow10_reorder or ow10_supply,'OW10_REORDER_REQUIRES_GLOBAL_SUPPLY'
- assert not ow13c_checked or ow10_reorder,'OW13C_CHECKED_RETAINS_NATIVE19'
- assert not ow13c_journeys or ow13c_checked,'OW13C_JOURNEYS_RETAINS_NATIVE25'
- initial_states={};reorder_states={};checked_state={}
  fabric_any=fabric_recipe or fabric_physical or fabric_reminder
  candidate=bundle;case_provider=history_cases;checker=verify;extra='';expected=154;out=OUT;phase='cp7_f05_analysis';browser_script='cp7_f05_analysis_browser.mjs'
  if p19_transport:
@@ -101,15 +92,6 @@ def run(attention=False,p18_e01=False,rule_lifecycle=False,source_navigation=Fal
   assert not any((attention,p18_e01,rule_lifecycle,source_navigation,misc_correction,payment_correction,supplier_payment_correction,return_correction,sales_chain,cutting_correction,fabric_recipe,fabric_physical,fabric_reminder,p19_load,p19_transport,p19_scale,p19_staged,p19_plan_v2,p19_report_v2,p19_ai_v2,p19_reminder_v2)),'PL5_HISTORY_YIELD_REQUIRES_ITS_OWN_DECLARED_CASE_BUDGET'
   import cp7_pl5_history_yield_cases as case_provider
   expected=case_provider.EXPECTED;assert expected==20;out=OUT.with_name('CP7_PL5_HISTORY_YIELD.json');phase='cp7_pl5_history_yield';browser_script='cp7_pl5_history_yield_browser.mjs'
-  if ow13_complete_history:
-   import cp7_ow13_history_cases as case_provider
-   out=OUT.with_name('CP7_OW13B_COMPLETE_HISTORY.json');phase='cp7_ow13_history'
-  if ow16_status:
-   import cp7_ow16_status_cases as case_provider
-   import cp7_ow16_status_install as status_stage
-   def checker(cur):verify(cur);status_stage.verify(cur)
-   extra=status_stage.extension();expected=case_provider.EXPECTED;assert expected==16
-   out=OUT.with_name('CP7_OW16_AUTOMATIC_STATUS.json');phase='cp7_ow16_status';browser_script='cp7_ow16_status_browser.mjs'
  if k2_retention:
   # K2 (owner decision 8 Oct 2026): staged results kept 7 days after they
   # finished, then expired and refused everywhere; the private purge rule.
@@ -148,43 +130,6 @@ def run(attention=False,p18_e01=False,rule_lifecycle=False,source_navigation=Fal
   import cp7_wa_forward_cases as case_provider
   def checker(cur):verify(cur);candidate.verify(cur)
   extra=candidate.extension();expected=case_provider.EXPECTED;assert expected==case_provider.DECLARED;out=OUT.with_name('CP7_WA_FORWARD.json');phase='cp7_wa_forward';browser_script='cp7_wa_forward_browser.mjs'
-  if ow14b_rules:
-   import cp7_ow14b_rule_cases as case_provider
-   expected=case_provider.EXPECTED;assert expected==case_provider.DECLARED==113;out=OUT.with_name('CP7_OW14B_RULES.json');phase='cp7_ow14b_rules';browser_script='cp7_ow14b_rule_browser.mjs'
-  if ow13a_initial:
-   import cp7_ow13a_initial_cases as case_provider
-   old_checker=checker
-   def checker(cur):
-    from cp7_ow13a_initial_probe import verify_composed_install
-    verify_composed_install(cur,old_checker,initial_states)
-   expected=case_provider.EXPECTED;assert expected==case_provider.DECLARED==126
-   out=OUT.with_name('CP7_OW13A_INITIAL_STATISTICAL.json');phase='cp7_ow13a_initial';browser_script='cp7_ow13a_initial_browser.mjs'
-   if ow10_supply:
-    import cp7_ow10_supply_cases as case_provider
-    expected=case_provider.EXPECTED;assert expected==case_provider.DECLARED==133
-    out=OUT.with_name('CP7_OW10_GLOBAL_SUPPLY.json');phase='cp7_ow10_supply'
-    if ow10_reorder:
-     import cp7_ow10_reorder_cases as case_provider
-     reorder_legacy_checker=checker
-     def checker(cur):
-      from cp7_ow10_reorder_probe import verify_composed
-      return verify_composed(cur,reorder_legacy_checker,reorder_states)
-     expected=case_provider.EXPECTED;assert expected==case_provider.DECLARED==19
-     out=OUT.with_name('CP7_OW10_REORDER_CALLER.json');phase='cp7_ow10_reorder'
-     browser_script='cp7_ow10_reorder_browser.mjs'
-     if ow13c_checked:
-      import cp7_ow13c_checked_cases as case_provider
-      checked_legacy_checker=checker
-      def checker(cur):
-       from cp7_ow13c_checked_probe import verify_composed as verify_checked
-       return verify_checked(cur,checked_legacy_checker,checked_state)
-      expected=case_provider.EXPECTED;assert expected==case_provider.DECLARED==25
-      out=OUT.with_name('CP7_OW13C_CHECKED_SAVE.json');phase='cp7_ow13c_checked'
-      if ow13c_journeys:
-       import cp7_ow13c_checked_journeys_cases as case_provider
-       expected=case_provider.EXPECTED;assert expected==case_provider.DECLARED==31
-       out=OUT.with_name('CP7_OW13C_CHECKED_JOURNEYS.json');phase='cp7_ow13c_checked_journeys'
-       browser_script='cp7_ow13c_checked_browser.mjs'
  if k3_cleanup:
   # K3b + CP7C (owner decision 9 Oct 2026 WIB): a finished run's temporary work
   # removed on the server's schedule after its result verifies; the pg_cron
@@ -308,14 +253,9 @@ def run(attention=False,p18_e01=False,rule_lifecycle=False,source_navigation=Fal
   assert declaration['contract']==case_provider.CONTRACT and declaration['expected_case_count']==expected and declaration['required_case_counts']==case_provider.REQUIRED and declaration['required_case_ids']==case_provider.IDS and declaration['public_rpcs']==list(case_provider.FUNCTIONS),'P19_REMINDER_V2_PREDECLARED_CASE_BUDGET_CHANGED'
   report.update(label='CP7_P19_REMINDER_V2',scope='REMINDERS_FROM_DATED_STAGED_SNAPSHOT_CONDITIONS_BUILT_ONCE_LIVE_RECHECK_AFTER_LAST_LOCK_BEFORE_LOCAL_PREVIEW_RESOLVED_RECORDED_NOT_SENT_NO_EXTERNAL_DELIVERY',required_case_counts=case_provider.REQUIRED,required_case_ids=case_provider.IDS,predeclared_case_contract=declaration,predeclared_case_sha256=hashlib.sha256(declaration_bytes).hexdigest(),full_P19_acceptance=False)
  if pl5_history_yield:
-  declaration_path='docs/cp7/d17-14/ow16/CONTRACT.json'if ow16_status else'docs/cp7/d17-14/ow13b/CONTRACT.json'if ow13_complete_history else'docs/cp7/pl5/PL5_HISTORY_YIELD.json'
-  declaration_bytes=(bundle.ROOT/declaration_path).read_bytes();declaration=json.loads(declaration_bytes)
+  declaration_bytes=(bundle.ROOT/'docs/cp7/pl5/PL5_HISTORY_YIELD.json').read_bytes();declaration=json.loads(declaration_bytes)
   assert declaration['contract']==case_provider.CONTRACT and declaration['expected_case_count']==expected and declaration['required_case_counts']==case_provider.REQUIRED and declaration['required_case_ids']==case_provider.IDS and declaration['public_rpcs']==list(case_provider.FUNCTIONS),'PL5_HISTORY_YIELD_PREDECLARED_CASE_BUDGET_CHANGED'
   report.update(label='CP7_PL5_HISTORY_YIELD',scope='PL5_B_HISTORY_YIELD_VERSIONED_OWNER_ADMIN_POLICY_PL8_PROOF_MATCHING_CURRENT_FACTS_PRODUCT_SIZE_THEN_SAME_MODEL_WILSON_90_FLOOR_PERMILLE_NEVER_CROSS_MODEL_NEVER_100',required_case_counts=case_provider.REQUIRED,required_case_ids=case_provider.IDS,predeclared_case_contract=declaration,predeclared_case_sha256=hashlib.sha256(declaration_bytes).hexdigest(),full_PL5_acceptance=False)
-  if ow13_complete_history:
-   report.update(label='CP7_OW13B_COMPLETE_HISTORY',scope='D17_14_OW13B_ALL_CANDIDATES_IN_BOUNDED_BATCHES_200_201_501_EXACT_PROOF_SET_WITH_19_RETAINED_CONTROLS',superseded_case=declaration['superseded_case'],OW13b_complete=False)
-  if ow16_status:
-   report.update(label='CP7_OW16_AUTOMATIC_STATUS',scope='FACTORY_CUTTING_STATUS_FROM_ACTUAL_NATIVE_POSTED_TOTAL_PCS_AND_CONSUMED_MATERIAL_EXACT_PATTERN_REVISION_SIZES_EXPLICIT_OWNER_POLICY_SAME_UUID_RECOVERY',automatic_status_source_sha256=hashlib.sha256(extra.encode()).hexdigest(),OW16_complete=False,default_installer_changed=False)
  if k3_cleanup:
   declaration_bytes=(bundle.ROOT/'docs/cp7/k3/K3_CLEANUP.json').read_bytes();declaration=json.loads(declaration_bytes)
   assert declaration['contract']==case_provider.CONTRACT and declaration['expected_case_count']==expected and declaration['required_case_counts']==case_provider.REQUIRED and declaration['required_case_ids']==case_provider.IDS and declaration['public_rpcs']==list(case_provider.FUNCTIONS) and declaration['schedules']==case_provider.SCHEDULES,'K3_CLEANUP_PREDECLARED_CASE_BUDGET_CHANGED'
@@ -329,21 +269,9 @@ def run(attention=False,p18_e01=False,rule_lifecycle=False,source_navigation=Fal
   assert declaration['contract']==case_provider.CONTRACT and declaration['expected_case_count']==expected and declaration['required_case_counts']==case_provider.REQUIRED and declaration['required_case_ids']==case_provider.IDS and declaration['public_rpcs']==list(case_provider.FUNCTIONS) and declaration['runner_schedule']==case_provider.RUNNER,'K6_PROOF_RUNNER_PREDECLARED_CASE_BUDGET_CHANGED'
   report.update(label='CP7_K6_PROOF_RUNNER',scope='PL8_EXHAUSTION_PROOFS_MADE_BY_THE_SERVER_ONE_WINDOW_PER_TICK_THROUGH_THE_UNCHANGED_PROVER_8S_LIMIT_CORRECTION_OR_CANCELLATION_LEAVES_THE_OLD_PROOF_UNMATCHED_NO_TICK_WAITS_PG_CRON_TESTED_NOT_INSTALLED',required_case_counts=case_provider.REQUIRED,required_case_ids=case_provider.IDS,predeclared_case_contract=declaration,predeclared_case_sha256=hashlib.sha256(declaration_bytes).hexdigest(),full_K6_acceptance=False,schedule_installed=False)
  if wa_forward:
-  declaration_bytes=(bundle.ROOT/('docs/cp7/d17-14/ow13c/NATIVE31_CONTRACT.json'if ow13c_journeys else'docs/cp7/d17-14/ow13c/NATIVE25_CONTRACT.json'if ow13c_checked else'docs/cp7/d17-14/ow10/REORDER_NATIVE_CONTRACT.json'if ow10_reorder else'docs/cp7/d17-14/ow10/SUPPLY_NATIVE_CONTRACT.json'if ow10_supply else'docs/cp7/d17-14/ow13a/CONTRACT.json'if ow13a_initial else'docs/cp7/d17-14/ow14b/CONTRACT.json'if ow14b_rules else'docs/cp7/wa/WA_FORWARD.json')).read_bytes();declaration=json.loads(declaration_bytes)
+  declaration_bytes=(bundle.ROOT/'docs/cp7/wa/WA_FORWARD.json').read_bytes();declaration=json.loads(declaration_bytes)
   assert declaration['contract']==case_provider.CONTRACT and declaration['expected_case_count']==expected and declaration['required_case_counts']==case_provider.REQUIRED and declaration['required_case_ids']==case_provider.IDS and declaration['public_rpcs']==list(case_provider.FUNCTIONS) and declaration['schedules']==case_provider.SCHEDULES,'WA_FORWARD_PREDECLARED_CASE_BUDGET_CHANGED'
   report.update(label='CP7_WA_FORWARD',scope='SYSTEM_REMINDERS_FROM_ACCEPTED_SOURCES_FORWARDED_TO_THE_OWNER_WHATSAPP_THROUGH_CALLMEBOT_RECHECKED_BEFORE_SEND_FAKE_CALLMEBOT_ONLY_KEY_WRITE_ONLY_PG_CRON_TESTED_NOT_INSTALLED',required_case_counts=case_provider.REQUIRED,required_case_ids=case_provider.IDS,predeclared_case_contract=declaration,predeclared_case_sha256=hashlib.sha256(declaration_bytes).hexdigest(),full_WA_acceptance=False,schedule_installed=False,real_message_sent=False)
-  if ow14b_rules:
-   report.update(label='CP7_OW14B_RULES',scope='ONE_EXPLICIT_ACTIVE_FABRIC_RULE_READ_ONLY_LEGACY_REFERENCE_PINNED_CHOICE_DURABLE_UUID_CURRENT_ACCESS_REAL_NATIVE_HTTP_BROWSER_INSTALL_RESTORE_ALL_WA99_RETAINED_FAKE_CALLMEBOT_ONLY',full_OW14b_acceptance=False,production_go=False)
-  if ow13a_initial:
-   report.update(label='CP7_OW13A_INITIAL_STATISTICAL',scope='ALL_NATIVE113_RETAINED_INITIAL_ONCE_REAL_SOURCE_NO_WA_REQUIRED_SHARED_STAGED_UUID_CURRENT_ACCESS_AND_EXPLICIT_STATISTICAL_UNKNOWN_NOT_ZERO',full_OW13a_acceptance=False,full_OW10_acceptance=False)
-  if ow10_supply:
-   report.update(label='CP7_OW10_GLOBAL_SUPPLY',scope='ALL_INITIAL126_RETAINED_NATIVE_STAGED_GLOBAL_GOOD_ETA_BUDGET_FRESH_PRIVATE_READER_AND_K3_RETENTION',live_ROP_caller_changed=False,factory_capacity_or_SLA=False)
-  if ow10_reorder:
-   report.update(label='CP7_OW10_REORDER_CALLER',scope='FOCUSED_LIVE_CALLER_V2_ACTUAL_NATIVE_ROLE_SOURCE_TARGET_GLOBAL_GOOD_AUTH_LOCK_RACES_BROWSER_AND_UNCHANGED_2000_3S_SLA',live_ROP_caller_changed=True,predecessor133_separate_qualified_evidence=True,all_predecessor133_rerun_in_this_suite=False,full_A_chain_qualified=False,caller_backup_restore_qualified=False,production_go=False)
- if ow13c_checked:
-  report.update(label='CP7_OW13C_CHECKED_SAVE',scope='RETAINED_NATIVE19_PLUS_FOUR_NATIVE_AND_TWO_AUTH_CHECKED_SAVE_CASES_NOT_CHECKED_SAVE_RACES_OR_BROWSER',full_OW13c_acceptance=False,checked_save_races_qualified=False,checked_save_browser_qualified=False,full_A_chain_qualified=False,caller_backup_restore_qualified=False,production_go=False)
- if ow13c_journeys:
-  report.update(label='CP7_OW13C_CHECKED_JOURNEYS',scope='ALL_NATIVE25_RETAINED_PLUS_FOUR_CHECKED_SAVE_LOCK_RACES_AND_TWO_REAL_UI_EDIT_STALE_AND_COMMITTED_REPLY_REOPEN_JOURNEYS',full_OW13c_acceptance=False,checked_save_races_qualified=False,checked_save_browser_qualified=False,full_A_chain_qualified=False,caller_backup_restore_qualified=False,production_go=False)
  if k2_retention:
   declaration_bytes=(bundle.ROOT/'docs/cp7/k2/K2_RETENTION.json').read_bytes();declaration=json.loads(declaration_bytes)
   assert declaration['contract']==case_provider.CONTRACT and declaration['expected_case_count']==expected and declaration['required_case_counts']==case_provider.REQUIRED and declaration['required_case_ids']==case_provider.IDS and declaration['public_rpcs']==list(case_provider.FUNCTIONS),'K2_RETENTION_PREDECLARED_CASE_BUDGET_CHANGED'
@@ -363,25 +291,7 @@ def run(attention=False,p18_e01=False,rule_lifecycle=False,source_navigation=Fal
    internal_before=cur.execute("select pg_get_functiondef('erp.require_internal()'::regprocedure)").fetchone()[0]
    originals['erp.require_owner_admin()']=cur.execute("select pg_get_functiondef('erp.require_owner_admin()'::regprocedure)").fetchone()[0]
    f03.note_report.capture(cur,originals)
-   cur.execute(f03.extension()+'\n'+planning.extension()+'\n'+baseline.extension()+'\n'+supply.extension()+'\n'+schedule.extension()+'\n'+bundle.predecessor.extension()+'\n'+bundle.extension()+'\n'+extra,prepare=False)
-   if wa_forward or ow13_complete_history or ow16_status or p19_staged:
-    import cp7_production_stage as production_stage
-    stage_paths=None if wa_forward else [x['path']for x in production_stage.MANIFEST['files']if not x['path'].startswith(('stock-formula/','alerts/'))]
-    report['production_stage']=production_stage.rehearse(cur,stage_paths)
-    report['production_stage']['delta_sha256']=hashlib.sha256(production_stage.extension(stage_paths).encode()).hexdigest()
-   if ow13a_initial:
-    from cp7_ow13a_initial_probe import install_stages
-    initial_states,report['initial_target_stages']=install_stages(cur,with_supply=ow10_supply)
-    case_provider.INSTALL_STATES=initial_states
-    if ow10_reorder:
-     from cp7_ow10_reorder_probe import install_stages as install_reorder_stages
-     reorder_states,report['reorder_caller_stages']=install_reorder_stages(cur)
-     case_provider.REORDER_STATES=reorder_states
-     if ow13c_checked:
-      from cp7_ow13c_checked_probe import install_stage as install_checked_stage
-      checked_state,report['checked_save_stage']=install_checked_stage(cur)
-      case_provider.CHECKED_STATE=checked_state
-   after=p09.functions(cur)
+   cur.execute(f03.extension()+'\n'+planning.extension()+'\n'+baseline.extension()+'\n'+supply.extension()+'\n'+schedule.extension()+'\n'+bundle.predecessor.extension()+'\n'+bundle.extension()+'\n'+extra,prepare=False);after=p09.functions(cur)
    path=cur.execute('show search_path').fetchone()[0];cur.execute("select set_config('search_path','',true)");grants={}
    for principal,signatures in candidate.GRANTS.items():
     for signature in signatures:
@@ -416,7 +326,7 @@ def run(attention=False,p18_e01=False,rule_lifecycle=False,source_navigation=Fal
    report['source_admission_required_case_credit']=0
    assert report['source_admission'].get('status')in('PASS','RUN_COMPLETE')and report['source_admission'].get('counts')=={'PASS':3},'ATTENTION_SOURCE_ADMISSION_FAILED'
   with exact_public_catalog(native,retain_raw=fabric_any or p19_load or p19_transport or p19_scale or p19_staged or p19_plan_v2 or p19_report_v2 or p19_ai_v2 or p19_reminder_v2 or pl5_history_yield or k2_retention or k3_cleanup or k4_runner or k6_proof_runner or wa_forward)as catalog_audit:
-   report['native']=native.strict_group('CP7_OW13C_CHECKED_JOURNEYS'if ow13c_journeys else'CP7_OW13C_CHECKED_SAVE'if ow13c_checked else'CP7_OW10_REORDER_CALLER'if ow10_reorder else'CP7_OW10_GLOBAL_SUPPLY'if ow10_supply else'CP7_OW13A_INITIAL_STATISTICAL'if ow13a_initial else'CP7_OW14B_RULES'if ow14b_rules else'CP7_OW16_AUTOMATIC_STATUS'if ow16_status else'CP7_OW13B_COMPLETE_HISTORY'if ow13_complete_history else'CP7_WA_FORWARD'if wa_forward else'CP7_K6_PROOF_RUNNER'if k6_proof_runner else'CP7_K4_RUNNER'if k4_runner else'CP7_K3_CLEANUP'if k3_cleanup else'CP7_K2_RETENTION'if k2_retention else'CP7_PL5_HISTORY_YIELD'if pl5_history_yield else'CP7_P19_REMINDER_V2'if p19_reminder_v2 else'CP7_P19_AI_V2'if p19_ai_v2 else'CP7_P19_REPORT_V2'if p19_report_v2 else'CP7_P19_PLAN_V2'if p19_plan_v2 else'CP7_P19_SCALE'if p19_scale else'CP7_P19_STAGED'if p19_staged else'CP7_P19_TRANSPORT'if p19_transport else'CP7_P19_NATIVE_LOAD'if p19_load else'CP7_P18_FABRIC_RULE'if fabric_reminder else'CP7_FABRIC_PHYSICAL'if fabric_physical else'CP7_FABRIC_RECIPE'if fabric_recipe else'CP7_CUTTING_REOPEN'if cutting_correction else'CP7_SALES_CHAIN'if sales_chain else'CP7_RETURN_CORRECTION'if return_correction else'CP7_SUPPLIER_PAYMENT_CORRECTION'if supplier_payment_correction else'CP7_PAYMENT_CORRECTION'if payment_correction else'CP7_MISC_CORRECTION'if misc_correction else'CP7_TRANSACTION_SOURCE'if source_navigation else'CP7_RULE_LIFECYCLE'if rule_lifecycle else'CP7_P18_E01_BRIDGE'if p18_e01 else'CP7_F05_ATTENTION'if attention else'CP7_F05_ANALYSIS',case_provider.cases,checker)
+   report['native']=native.strict_group('CP7_WA_FORWARD'if wa_forward else'CP7_K6_PROOF_RUNNER'if k6_proof_runner else'CP7_K4_RUNNER'if k4_runner else'CP7_K3_CLEANUP'if k3_cleanup else'CP7_K2_RETENTION'if k2_retention else'CP7_PL5_HISTORY_YIELD'if pl5_history_yield else'CP7_P19_REMINDER_V2'if p19_reminder_v2 else'CP7_P19_AI_V2'if p19_ai_v2 else'CP7_P19_REPORT_V2'if p19_report_v2 else'CP7_P19_PLAN_V2'if p19_plan_v2 else'CP7_P19_SCALE'if p19_scale else'CP7_P19_STAGED'if p19_staged else'CP7_P19_TRANSPORT'if p19_transport else'CP7_P19_NATIVE_LOAD'if p19_load else'CP7_P18_FABRIC_RULE'if fabric_reminder else'CP7_FABRIC_PHYSICAL'if fabric_physical else'CP7_FABRIC_RECIPE'if fabric_recipe else'CP7_CUTTING_REOPEN'if cutting_correction else'CP7_SALES_CHAIN'if sales_chain else'CP7_RETURN_CORRECTION'if return_correction else'CP7_SUPPLIER_PAYMENT_CORRECTION'if supplier_payment_correction else'CP7_PAYMENT_CORRECTION'if payment_correction else'CP7_MISC_CORRECTION'if misc_correction else'CP7_TRANSACTION_SOURCE'if source_navigation else'CP7_RULE_LIFECYCLE'if rule_lifecycle else'CP7_P18_E01_BRIDGE'if p18_e01 else'CP7_F05_ATTENTION'if attention else'CP7_F05_ANALYSIS',case_provider.cases,checker)
   report['native_public_catalog_comparison']=catalog_audit
   if not p19_scale:
    # The scale ladder declares no race/HTTP group: real Auth/PostgREST is
@@ -460,9 +370,6 @@ def run(attention=False,p18_e01=False,rule_lifecycle=False,source_navigation=Fal
    report['required_case_ids_pass']=all(set(report.get(k,{}).get('races'if k=='races'else'cases',{}))==set(ids)for k,ids in case_provider.IDS.items())
   group_names=('native','races','http')if p19_load or k6_proof_runner else('native','browser')if p19_scale else('native','races','http','browser')
   groups=[report.get(k,{})for k in group_names];report['observed_case_count']=sum(sum(g.get('counts',{}).values())for g in groups);report['required_case_counts_pass']=not(attention or p18_e01 or rule_lifecycle or source_navigation or misc_correction or payment_correction or supplier_payment_correction or return_correction or sales_chain or cutting_correction or fabric_any or p19_load or p19_transport or p19_scale or p19_staged or p19_plan_v2 or p19_report_v2 or p19_ai_v2 or p19_reminder_v2 or pl5_history_yield or k2_retention or k3_cleanup or k4_runner or k6_proof_runner or wa_forward)or all(report.get(k,{}).get('counts')=={'PASS':n}for k,n in report['required_case_counts'].items());report['status']='PASS' if not report.get('error') and report.get('cp6_restored') and report.get('advisor_gate') and report['observed_case_count']==expected and report['required_case_counts_pass'] and(not(fabric_any or p19_load or p19_transport or p19_scale or p19_staged or p19_plan_v2 or p19_report_v2 or p19_ai_v2 or p19_reminder_v2 or pl5_history_yield or k2_retention or k3_cleanup or k4_runner or k6_proof_runner or wa_forward)or report.get('required_case_ids_pass'))and all(g.get('status')in('PASS','RUN_COMPLETE') and set(g.get('counts',{}))=={'PASS'} and g.get('database_remaining',0)==0 for g in groups) else 'INCOMPLETE'
-  if ow13c_journeys:
-   report['checked_save_races_qualified']=report['status']=='PASS' and all(report.get('races',{}).get('races',{}).get(k,{}).get('status')=='PASS' for k in case_provider.concurrent.IDS)
-   report['checked_save_browser_qualified']=report['status']=='PASS' and all(report.get('browser',{}).get('cases',{}).get(k,{}).get('status')=='PASS' for k in case_provider.IDS['browser'] if k.startswith('OW13C_'))
   out.parent.mkdir(parents=True,exist_ok=True);out.write_text(json.dumps(report,indent=2,default=str)+'\n');print(json.dumps({k:report.get(k)for k in('label','status','source_sha256','observed_case_count','cp6_restored','advisor_gate','error','traceback')},default=str),flush=True)
  return dict(status=report['status'],production_go=False,independent_acceptance=False,full_family_acceptance=False)
 if __name__=='__main__':
