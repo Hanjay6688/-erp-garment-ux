@@ -24,6 +24,7 @@ untuk mendaftarkan workflow-nya saat antrean longgar.
 |---|---|
 | OW-05b petunjuk koreksi mandor | Native6 6/6 `176dcf38` (`ow05/native6-176dcf38-pass.json`); browser 2/2 `eda58db5` |
 | OW-06 hak akses transfer supplier | Auth4 4/4 `b9456b5a` |
+| OW-06 layar transfer supplier | Browser2 2/2 `d8b0164e` (run 39884070148; `ow06/browser2-d8b0164e-pass.json`) |
 | OW-07 tutup buku menunggu HPP | Native7 7/7 (`ow07/PROGRESS.md`) |
 | OW-08b 2.18 kasbon dari buku besar | Native4 4/4 `6c8be6f6` (run 39847032024; `ow08/kasbon-native4-6c8be6f6-pass.json`, laporan sha256 `8f9f2c83…`, artifak 12456785458) |
 
@@ -33,7 +34,6 @@ untuk mendaftarkan workflow-nya saat antrean longgar.
 |---|---|
 | OW-12a modul angka keuangan | Pasang lulus sejak `f45577cd` (5/7); dua harapan uji dibetulkan di `8438a4a7` (bandingkan angka tanpa refs; tanpa reset peran di transaksi batal); Native7 jalan ulang. Kegagalan disimpan di `ow12/` |
 | OW-08b 2.20 cuci gagal tanpa tarif | Native11 `cc5766e7`: pasang lulus, 3/11; penjaga POST penerimaan v2.6.20 kini substitusi ke-10 (hanya percobaan bertanda UNKNOWN); gabung `c6e073b5`, Native11 jalan ulang |
-| OW-06 layar transfer supplier | Browser2 `3c3dea91` berhenti di pin `src/productionRecovery.ts`; pin diperbarui `ed4818b3`; diantrekan ulang sesudah cuci gagal |
 | OW-09 urut/saring seluruh hasil | Tahap `scripts/cp7_ow09_lists/` di cabang; Native8 `d8b0164e` berhenti di pasang (pemilik tanpa CREATE di skemanya); perbaikan `42a84b23`, Native8 jalan ulang. Layar di `claude/d17-14-ow09-stage` menunggu Native8 lulus |
 
 ## Belum selesai / berikutnya (urutan kerja)
