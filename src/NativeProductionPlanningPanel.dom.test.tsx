@@ -43,7 +43,7 @@ it('does not send duplicate source requests while the first request is held',asy
  let release:(v:unknown)=>void=()=>{};client.rpc.mockImplementation(()=>new Promise(r=>release=r));await render()
  const button=[...container.querySelectorAll('button')].find(b=>b.textContent==='Ambil stok proses terbaru')!
  await act(async()=>{button.click();button.click()});expect(client.rpc).toHaveBeenCalledTimes(1)
- const args=client.rpc.mock.calls[0][1];expect(args.p_query).toEqual({...planningQuery,finance_mode:'DEFERRED'});expect(readNativeDemandRequest('staged-schedule-source:'+scope).pending).toEqual({id:args.p_request,q:planningQuery})
+ const args=client.rpc.mock.calls[0][1];expect(args.p_query).toEqual(planningQuery);expect(Object.keys(args.p_query).sort()).toEqual(['from_date','group_mode','through_date']);expect(readNativeDemandRequest('staged-schedule-source:'+scope).pending).toEqual({id:args.p_request,q:planningQuery})
  await act(async()=>release({data:null,error:Error('uncertain')}));expect(readNativeDemandRequest('staged-schedule-source:'+scope).pending?.id).toBe(args.p_request)
 })
 it('retains a staged source until its work guidance is verified, and retries the same query after remount',async()=>{
@@ -96,4 +96,7 @@ it('releases only a first confirmed stale save refusal while preserving dirty wo
 it('retains the exact UUID after an uncertain save even if its replay later refuses a stale source',async()=>{
  reply();await render();await click('Ambil stok proses terbaru');await fillSchedule();client.rpc.mockResolvedValue({data:null,error:Error('committed reply may have been lost')});await click('Simpan jadwal yang diperiksa');const held=readScheduleRequest(scope).pending;expect(held).toBeTruthy()
  client.rpc.mockResolvedValue({data:null,error:{code:'40001',message:'CP7_SCHEDULE_SOURCE_CHANGED'}});await click('Ulangi simpan jadwal yang sama');expect(readScheduleRequest(scope).pending).toEqual(held);expect([...container.querySelectorAll('button')].find(b=>b.textContent==='Ambil stok proses terbaru')!.disabled).toBe(true)
+})
+it('refuses an added finance choice in this operational-only source recovery without discarding the record',async()=>{
+ const record={id:demandRequest,q:planningQuery,finance:'DEFERRED' as const};persistNativeDemandRequest('staged-schedule-source:'+scope,record);await render();await click('Ulangi stok proses yang sama');expect(client.rpc).not.toHaveBeenCalled();expect(readNativeDemandRequest('staged-schedule-source:'+scope).pending).toEqual(record);expect(container.textContent).toContain('Pulihkan catatan asal')
 })

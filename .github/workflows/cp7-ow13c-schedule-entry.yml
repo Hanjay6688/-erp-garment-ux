@@ -1,5 +1,3 @@
-# Qualified server component unchanged; verify client refusal source e498160f with exact worktrees.
-# New first-refusal UI followup; one exact fetch and isolated pinned worktrees.
 name: CP7 Direct Work Entry Actual Browser2
 'on':
   push:
@@ -125,7 +123,7 @@ jobs:
       uses: supabase/setup-cli@ab058987d8d6c725971f6cf9d0b5c98467e30bd1
       with:
         version: 2.116.0
-    - name: Check direct-entry budget, unchanged transport budget and 118 client tests
+    - name: Check Native three-field query, declared budget and 119 client tests
       working-directory: auditor
       run: 'set -euo pipefail
 

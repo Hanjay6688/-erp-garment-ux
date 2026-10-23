@@ -46,7 +46,7 @@ async function fill(panel,c){
 async function journey(ui,today,mobile){
  const user=await ui.login('OWNER',{label:'ow13c-schedule-'+mobile,mobile,timezoneId:mobile?'America/Los_Angeles':'Asia/Jakarta'})
  const page=user.page,actor=user.user.id,requests=[],shots=[]
- let f,panel,lost=null,sourceReply
+ let f,panel,lost=null,sourceReply,captureReply=null
  const state=()=>fixture('state',{actor})
  const shot=async suffix=>{mkdirSync('cp6-proof/t3',{recursive:true});const path=`cp6-proof/t3/SCHEDULE_${mobile?'MOBILE':'DESKTOP'}_${suffix}.png`;await page.screenshot({path,fullPage:true});shots.push(path)}
  try{
@@ -58,9 +58,13 @@ async function journey(ui,today,mobile){
    if(mobile&&!lost){lost=requests.at(-1);await route.abort('failed')}else await route.fulfill({response:reply})
   })
   panel=await open(ui,page,f.query)
-  const read=page.waitForResponse(r=>r.request().method()==='POST'&&r.url().endsWith('/rpc/'+GET))
+  const read=page.waitForResponse(r=>r.request().method()==='POST'&&r.url().endsWith('/rpc/'+GET)).catch(error=>({error}))
+  const captured=page.waitForResponse(r=>r.request().method()==='POST'&&r.url().endsWith('/rpc/erp_cp7_request_staged_analysis_v1'))
   await panel.getByRole('button',{name:'Ambil stok proses terbaru',exact:true}).click()
-  sourceReply=await read;assert.equal(sourceReply.status(),200);const workspace=await sourceReply.json()
+  const capturedResponse=await captured;captureReply={args:capturedResponse.request().postDataJSON(),status:capturedResponse.status(),body:await capturedResponse.json()}
+  assert.deepEqual(Object.keys(captureReply.args.p_query).sort(),['from_date','group_mode','through_date'])
+  assert.equal(captureReply.status,200,JSON.stringify(captureReply))
+  sourceReply=await read;if(sourceReply.error)throw sourceReply.error;assert.equal(sourceReply.status(),200);const workspace=await sourceReply.json()
   assert.equal(workspace.production_capture_state,'COMPLETE')
   await ui.expect(panel.getByLabel('Tempat kerja pilihan',{exact:true})).toBeVisible()
   await fill(panel,f.config)
@@ -95,7 +99,7 @@ async function journey(ui,today,mobile){
    dirty_form_stale_refusal:!mobile,first_confirmed_refusal_releases_only_new_request:!mobile,lost_committed_response_same_UUID_reopen:mobile,current_token_denied:true,shots,
    production_quantity_claim:false}
  }catch(error){
-  mkdirSync('cp6-proof/t3',{recursive:true});writeFileSync(`cp6-proof/t3/SCHEDULE_${mobile?'MOBILE':'DESKTOP'}_FAILURE.json`,JSON.stringify({error:String(error),requests,lost,alerts:await page.getByRole('alert').allTextContents().catch(()=>[])},null,2));await shot('FAILURE').catch(()=>{});throw error
+  mkdirSync('cp6-proof/t3',{recursive:true});writeFileSync(`cp6-proof/t3/SCHEDULE_${mobile?'MOBILE':'DESKTOP'}_FAILURE.json`,JSON.stringify({error:String(error),captureReply,requests,lost,alerts:await page.getByRole('alert').allTextContents().catch(()=>[])},null,2));await shot('FAILURE').catch(()=>{});throw error
  }finally{fixture('restore',{actor});await user.context.close()}
 }
 export function cases(ui,today){return[

@@ -65,7 +65,7 @@ Fixture K2 hanya mengubah updated_at sintetis, tanpa mengubah tanggal fisik atau
 Original artifact12527881809, 315263 bytes, SHA
 6c07edcbc83cab6f4705968ab804b7b1081438f04bc05317a68d78730673ed7c.
 
-**Sambungan layar sudah ditulis dan lulus 118 uji klien serta TypeScript.**
+**Sambungan layar sudah ditulis dan lulus 119 uji klien serta TypeScript.**
 GET/SAVE baru memakai reference staged asli. UUID lama tetap menuju facade lama;
 isian belum disimpan, pergantian akses, respons terlambat, dan perubahan tab lain dipertahankan.
 History INCOMPLETE/analisis FAILED tetap diberi keterangan yang jujur.
@@ -82,17 +82,39 @@ Perbaikan hanya probe B: memasang kembali wrapper clone-authority yang sudah
 terbukti di Native31. Owner, ACL, connection limit, database/role GUC disamakan
 ke sumber untuk tepat3 nama salinan lokal; oracle22 tetap utuh dan membandingkan
 hasil nyata. Tidak mengubah SQL produk, A harness, atau database primer.
-**Aktif: Transport10 ulang kandidat `f1f05b8e4bee89d5965d5d11de68bdeb9867c5fd`**,
-[run40018747206](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/40018747206),
-job120637496516, sumber clone fix065c4df1, belum hasil. Pada sumber layar terbaru, termasuk tombol
-jadwal langsung dari pilihan periode, desktop dirty/stale, dan ponsel lost reply.
-Dengan demikian kedua skenario akses langsung ikut diuji pada kandidat terbaru;
-Entry2 tidak perlu diulang sendiri. Kandidat Entry2 3695778b memakai wrapper lama
-sebelum fix, hasilnya harus disimpan sebagai bukti terpisah dan tidak diklaim lulus.
-Native11 tetap bukti server terpisah; actual checked SAVE2000 belum selesai.
-[Entry2 pertama](../d17-14/ow13c/3695778-entry2-first-incomplete.json) juga INCOMPLETE0/2
-karena identitas salinan yang sama; Original12529931730/42007bytes/SHA
-214ec7864a3f4c8877cb124d9f6be82273e7ec4d03785a718b6ab0ecf5a6c23c.
+**Transport10 ulang:8 PASS,2 browser INCOMPLETE.**
+[Receiptf1f05b8](../d17-14/ow13c/f1f05b8-transport-browser-incomplete.json),
+[run40018747206](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/40018747206)
+/job120637496516. Native anchor1/1, race4/4, Auth3/3 PASS: UUID sama satu hasil,
+CAS satu pemenang, akses dicabut saat menunggu, stok berubah saat menunggu,
+read/SAVE/replay nyata, token lama dicabut, anonymous/owner asing ditolak.
+32 sumber/9 invers22/6 authority clone tepat; restore/advisor tepat.
+Writer_runtime tetap false karena2 browser INCOMPLETE, bukan paket lulus penuh.
+Original12531691679/91767bytes/SHA
+83d8cad7267040c97c9e83fdb8d44835b0a3965dcab8bf602d0a7e1b6ded3c47.
+
+[Entry2 lanjutan610aa71](../d17-14/ow13c/610aa71-entry-browser-incomplete.json),
+run40021901654/job120648270476, juga2 browser INCOMPLETE; Original12531227174/
+43155bytes/SHA4cb231be0a2c693b8e0a7caeb1b1f64df5c016fa63c8a45ec1b5f309eeb17993.
+Keduanya menampilkan CP7_WIP_FIELDS sebelum GET jadwal: UI mengirim finance_mode
+ke query Native v1 yang menerima tepat from_date/group_mode/through_date.
+Native sudah menangkap operasional dengan finance DEFERRED secara default.
+**Fix aktif:** hanya kirim query tiga kolom yang disimpan, UUID/periode tetap;
+parameter tambahan yang tidak disimpan dihapus. GET/SAVE server tidak diubah.
+Catatan sumber dengan pilihan finance tambahan ditolak tanpa dihapus.119 uji
+klien dan TypeScript lulus. Browser kini merekam response request awal sebelum
+menunggu GET. Ulang hanya Entry2 pada sumber ini; tujuh kontrol server baru
+Native/race/Auth tidak perlu diulang karena32 sumber servernya tepat sama.
+
+**Reference Native4 disiapkan, belum dijalankan.** Schema privat
+`cp7_history_reference` mempunyai1 pembaca hash seluruh baris Native stok,
+termasuk identitas/lot/lokasi/jenis/tanggal, bukan hanya angka total.
+Proyeksi dan kedua cutoff diambil tepat dari history-source.sql yang beku;
+raw array tidak dikumpulkan atau dipotong. Native4 dideklarasikan untuk katalog,
+parity raw Native,2000/202000 tiga kali<8s, serta Native stock yang direkam
+belakangan tetapi physical_at lebih awal.11 invers22 dan oracle10 lama wajib
+tepat. Tidak menulis ERP atau mengganti fungsi lama; belum masuk fingerprint/
+job/freshness/SAVE. Writer B tetap pemilik schema; A integrator/default/types.
 
 **Pembacaan riwayat besar Native3 sudah PASS3/3.**
 [Receiptcd8e37d6](../d17-14/ow13c/cd8e37d-inputs3-pass.json),
@@ -109,7 +131,7 @@ Original12530871964/134413bytes/SHA
 serta actual checked SAVE2000 dengan seluruh pemeriksaan writer<8s.
 Jangan memperlakukan kelulusan pembaca ini sebagai bukti SAVE atau job DONE.
 
-**Perbaikan layar lanjutan:**118 uji klien+TypeScript lulus. Penolakan SQL source/
+**Perbaikan layar lanjutan:**119 uji klien+TypeScript lulus. Penolakan SQL source/
 revisi yang pasti pada simpan pertama melepas hanya request baru itu dan menjaga
 isian agar pengguna dapat mengambil sumber baru. Error pada retry, jawaban hilang,
 penolakan akses, dan request-changed tetap menyimpan UUID yang sama. Entry2 berikut

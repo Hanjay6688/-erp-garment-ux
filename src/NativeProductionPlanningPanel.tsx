@@ -55,8 +55,8 @@ function Workspace({query,onSourceReadStart,onSourceReadEnd,onClose}:Props){
   if(active.current)return
   const n=begin()
   try{const held=readNativeDemandRequest(stagedScope);if(held.error)throw Error(held.error);if(retry&&!held.pending)throw Error('Permintaan stok proses tersimpan tidak tersedia.');if(!retry&&held.pending)throw Error('Periksa permintaan stok proses yang sama terlebih dahulu.')
-   const request=retry?held.pending!:{id:crypto.randomUUID(),q:query};if(!retry)persistNativeDemandRequest(stagedScope,request);setStagedRecovery(readNativeDemandRequest(stagedScope))
-   const r=await client.rpc('erp_cp7_request_staged_analysis_v1',{p_query:{...request.q,finance_mode:'DEFERRED'},p_request:request.id});if(n!==seq.current)return;if(r.error)throw r.error;const job=parseStagedJob(r.data,request.id,{...request,finance:'DEFERRED'})
+   const request=retry?held.pending!:{id:crypto.randomUUID(),q:query};if(request.finance!==undefined)throw Error('Catatan permintaan stok proses berubah. Pulihkan catatan asal sebelum mencoba lagi.');if(!retry)persistNativeDemandRequest(stagedScope,request);setStagedRecovery(readNativeDemandRequest(stagedScope))
+   const r=await client.rpc('erp_cp7_request_staged_analysis_v1',{p_query:request.q,p_request:request.id});if(n!==seq.current)return;if(r.error)throw r.error;const job=parseStagedJob(r.data,request.id,{id:request.id,q:request.q})
    const reply=await readStagedSchedule(client,request.id);if(n!==seq.current)return;if(reply.error)throw reply.error;const w=parseStagedScheduleWorkspace(reply.data,request.id,job.reference,job.runId)
    clearNativeDemandRequest(stagedScope,request.id);setStagedRecovery(readNativeDemandRequest(stagedScope));setSource({kind:'STAGED',requestId:request.id,reference:job.reference,runId:w.sourceRun});setWorkspace(w);if(!formBound.current){formBound.current=true;adopt(w)}
   }catch(e){if(n===seq.current)setError(normalizeClientError(e).message)}finally{end(n)}

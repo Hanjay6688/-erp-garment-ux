@@ -42,5 +42,11 @@
   "actual_checked_SAVE2000_qualified": false,
   "production_go": false,
   "first_confirmed_SQL_source_refusal_preserves_form_without_stranding_new_request": true,
-  "retry_any_error_remains_uncertain": true
+  "retry_any_error_remains_uncertain": true,
+  "operational_source_query_keys": [
+    "from_date",
+    "group_mode",
+    "through_date"
+  ],
+  "unsupported_finance_parameter_sent": false
 }
