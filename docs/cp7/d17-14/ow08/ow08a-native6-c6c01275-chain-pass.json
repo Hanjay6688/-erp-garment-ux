@@ -1,0 +1,42 @@
+{
+ "run": 39889089044,
+ "attempt": 1,
+ "job": 120204242685,
+ "head": "c6c01275",
+ "qualification_commit": "c6c01275d61081faf46a8839afc35dcf1a1bbf6d",
+ "label": "CP7_OW08A_REPORT_CREDIT_NATIVE6",
+ "status": "PASS",
+ "expected_case_count": 6,
+ "observed_case_count": 6,
+ "cases": {
+  "OW08A_NO_CREDIT_STATE_UNCHANGED": "PASS",
+  "OW08A_CREDIT_ISSUED_AND_APPLIED_READY": "PASS",
+  "OW08A_REFUND_READY": "PASS",
+  "OW08A_APPLY_UNDO_READY": "PASS",
+  "OW08A_REAL_DIFFERENCES_STILL_CAUGHT": "PASS",
+  "OW08A_UNPROVEN_CREDIT_BLOCKS_WITHOUT_ERROR": "PASS"
+ },
+ "cp6_restored": true,
+ "advisor_gate": true,
+ "restore_raw_public_equal": true,
+ "package_gate": {"installed": true, "primary_unchanged": true, "backup_restore_drill": true, "security_advisors": true, "writer_runtime": true},
+ "every_case": {"full_boundary_restored": true, "public_schema_unchanged": true, "session_leaks": 0, "business_day": "2026-10-23 unchanged"},
+ "report": {"name": "CP7_OW08A_REPORT_CREDIT_NATIVE6.json", "raw_bytes": 1832674, "raw_sha256": "69459e5a312b7f616e03aeff5a9da005a4e8ac0f581e2b4ab283ed5aa7b17db1"},
+ "artifact": "cp7-ow08a-report-credit-native6 (12473818897)",
+ "ow05b_native6_original": {
+  "admission_step": "python scripts/ow05b_native_original.py",
+  "log_line": "ACTUAL_OW05B_NATIVE6_ORIGINAL_BYTES_AND_FULL_DECLARED_SOURCE_VERIFIED_NO_PRODUCT_EXECUTION"
+ },
+ "qualified_predecessor": {"name": "CP7_OW05B_MANDOR_GUIDANCE_NATIVE6.json", "bytes": 1842197, "sha256": "cf004a5688be8fb80c7bccabb38e2c70544089a30ba3c834c5a2f8fa3131e28a"},
+ "highlights": {
+  "no_credit": "critical checks empty, identical to original except the new zero check, 69 check rows",
+  "issued_and_applied": "critical empty after issue and after two uses; original readers flag V2620H/V268 AR checks (after uses: STATUS_MISMATCH 2, others 0)",
+  "refund": "critical empty; cash 800.00",
+  "apply_undo": "critical empty; available credit 200.00 back on source",
+  "real_differences": "status corruption caught (STATUS_MISMATCH 1, unproven 0); GL corruption caught (BY_CUSTOMER 1, STATUS 2, V268 1, unproven 2); ready again after rollback",
+  "unproven_credit": "core error CP7_CREDIT_UNREPRESENTED_FINANCIAL_JOURNAL surfaced as CP7_CUSTOMER_CREDIT_REPORT_UNPROVEN 2 critical rows; report returned rows instead of error"
+ },
+ "OW08_complete": false,
+ "production_go": false,
+ "independent_acceptance": false
+}

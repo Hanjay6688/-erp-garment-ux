@@ -1,14 +1,16 @@
 {
  "classification": "OW12A_STAGED_OFFICIAL_FINANCE_CAPTURE_NATIVE_STAGE",
  "files": {
-  ".github/workflows/cp7-ow12a-finance-native.yml": "858491b98166c08205914d99ba067b60e66eff255ba4ec84d083e4d8c8b222cb",
+  ".github/workflows/cp7-ow12a-finance-native.yml": "63db9a2b6f1a7c8f3bc1668bf273592d3d837e84f7f2064734035014d67f81f7",
   "scripts/cp7_finance_capture/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
   "scripts/cp7_finance_capture/cases.py": "cdb9e0abd345a5247fb47413101d76fc037a64db926b413d31c1f9208be42840",
-  "scripts/cp7_finance_capture/composition.py": "d3b4ddc30d464b74711d206b30613e7da1ec7fdd98cdb742cf47f068f39766e2",
+  "scripts/cp7_finance_capture/composition.py": "eaf7dc31941e68a12796dab176580105af07cfb6e9beb76d0adb46bd4df2eaf7",
   "scripts/cp7_finance_capture/native_delta.py": "0f8c5c9067d1a545e01226ab8230ac78165c939ec5708d1460425dd1a45178ab",
-  "scripts/cp7_finance_capture/native_probe.py": "abca2abd2bb8fe757a8ded8bc97b68566f467a2f0a0370e65a17fc5eb332cbec",
+  "scripts/cp7_finance_capture/native_probe.py": "8776a04ee4ac107387de99559c7f470094ea2ee57f3ce5f285206037eca7352e",
   "scripts/cp7_finance_capture/finance_capture.sql": "c6704e726c5fbc7a6e9b8ae266075ec6777e8b7f6bc6d7b10ddc074f3706d8bb",
-  "scripts/cp7_finance_capture/report_compare.sql": "13cfa2381e185bf037e556448cbdbc806b288a7969423ad0f1102f1d5be82ce4"
+  "scripts/cp7_finance_capture/report_compare.sql": "13cfa2381e185bf037e556448cbdbc806b288a7969423ad0f1102f1d5be82ce4",
+  "scripts/ow08a_native_original.py": "f60f36e2238880e55790f1cbaa9bb352333939ec4909a4b0ece0f2890695bfb6",
+  "docs/cp7/d17-14/ow08/ow08a-native6-c6c01275-chain-pass.json": "dd64ca6bc49a5ad2993c65b6037537d8fc1751f7e0c30433d2191491202317fa"
  },
  "case_ids": [
   "OW12A_CAPTURE_SAME_FIGURES_AS_FINANCE_REPORT",
@@ -20,9 +22,15 @@
   "OW12A_REPORT_V2_PERIOD_COMPARISON"
  ],
  "native_original": {
-  "name": "CP7_OW05_NATIVE28_GUIDANCE_WHOLE_PO_WAVE.json",
-  "bytes": 6646642,
-  "sha256": "9e4732a171faff7175a03b895daca09bcb1dc54a53003cb300d979c858d1143c"
+  "name": "CP7_OW08A_REPORT_CREDIT_NATIVE6.json",
+  "bytes": 1832674,
+  "sha256": "69459e5a312b7f616e03aeff5a9da005a4e8ac0f581e2b4ab283ed5aa7b17db1"
  },
- "OW12a_complete": false
+ "OW12a_complete": false,
+ "native_original_run": {
+  "run": 39889089044,
+  "artifact": 12473818897,
+  "receipt": "docs/cp7/d17-14/ow08/ow08a-native6-c6c01275-chain-pass.json"
+ },
+ "predecessor": "cp7_report_credit.composition"
 }

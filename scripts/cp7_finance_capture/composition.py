@@ -1,8 +1,10 @@
-"""OW-12a finance capture stage over the qualified OW05 product (isolated until the OW-15 linear integration).
+"""OW-12a finance capture stage over the qualified OW08a stage (OW-15 chain: OW05, OW06, kasbon, fgqc, OW05b, OW08a).
 
 One private schema (two tables, the capture job and three reads owned by the finance reader) plus counted substitutions
 of four staged-report functions and the server runner, each replaced as its own existing owner. No business row,
-Native writer or v1 path changes, so removal before use restores the exact predecessor.
+Native writer or v1 path changes, so removal before use restores the exact predecessor. No stage below changes the
+five functions (each one's 22-group catalog admission refuses any undeclared function change). handover() and the
+own function_ddl stay (E25j).
 """
 from contextlib import contextmanager
 from hashlib import sha256
@@ -12,7 +14,7 @@ import re
 from psycopg import sql
 from psycopg.pq import TransactionStatus
 
-from cp7_contractor_correction import composition as predecessor
+from cp7_report_credit import composition as predecessor
 from cp7_finance_capture import native_delta
 
 ROOT=Path(__file__).resolve().parent
@@ -28,10 +30,11 @@ PUBLIC_COMPARE='public.erp_cp7_compare_reports_v2(uuid,uuid)'
 SQL_FILES=('finance_capture.sql','report_compare.sql')
 OWNER='cp7_capture'
 DDL_ROLES={'postgres',OWNER}
-catalog=predecessor.predecessor.catalog
+catalog=predecessor.catalog
 # The verified installer switch to postgres (the harness admin role cannot run DDL itself), as the OW07/kasbon stages.
-POSTGRES=predecessor.predecessor.payment.consumer.as_owner
-atomic=predecessor.predecessor.atomic
+POSTGRES=predecessor.as_owner
+atomic=predecessor.atomic
+base=predecessor.base  # chain interface (OW-15); this stage keeps its own function_ddl
 CAPTURED={}
 
 
