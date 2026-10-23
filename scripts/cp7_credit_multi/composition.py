@@ -1,9 +1,9 @@
 """OW-04b slice B stage over cp7_credit_remaining (slice A), which sits over cp7_credit_followups: one linear chain.
 
-Step 2: five installed functions get the counted delta of native_delta.py, replaced as their verified existing owner
-postgres; five private readers are added in one new schema (multi.sql). No table, trigger, grant on an existing object or
+Steps 2-3: six installed functions get the counted delta of native_delta.py (B1-B9, B11), replaced as their verified
+existing owner postgres; five private readers are added in one new schema (multi.sql). No table, trigger, grant on an existing object or
 business row changes, so removal before use restores the exact slice A / followups definitions, then slice A removes
-itself the same way. The per-cohort profile (B9), cases, race and workflow are later steps.
+itself the same way. Cases, race and workflow are a later step.
 """
 from hashlib import sha256
 from pathlib import Path
@@ -102,7 +102,7 @@ def verify_objects(cur,state):
             raise ValueError('OW04BB_PRIVATE_SCHEMA_EXPOSED: '+role)
     return dict(status='OW04BB_EXACT_STAGE_OBJECTS_VERIFIED',lower_objects=below['status'],
         changed_credit_functions=list(native_delta.SIGNATURES),new_private_readers=list(READERS),
-        profile_loop_B9_present=False,OW04b_complete=False,production_go=False,independent_acceptance=False)
+        profile_loop_B9_present=True,OW04b_complete=False,production_go=False,independent_acceptance=False)
 
 
 def rollback_preuse(cur,state):

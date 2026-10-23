@@ -5,7 +5,7 @@ python3 scripts/cp7_credit_multi/local_check_delta.py 'host=127.0.0.1 port=55480
 1. Rebuilds the installed predecessor text of the five replaced functions from the repo sources in install order:
    quote = coordinator/02 + followups detail; Native return guard and completion = native-empty overlays;
    registration admission = coordinator/04; initial reasons = followups.sql. All compile with check_function_bodies on.
-2. Applies native_delta.patched: each anchor/marker once; reverting every substitution gives the predecessor back; a
+2. Applies native_delta.patch (step 2 functions; the B9 profile loop has local_check_profile.py): each anchor/marker once; reverting every substitution gives the predecessor back; a
    second application and a missing marker refuse; no refusal text is added or removed. Patched texts compile.
 3. Calls predecessor and patched definitions on the same stub rows (savepoints):
    - initial reasons: identical except that PRIOR_CREDIT_RETURN is no longer named (it no longer blocks);
@@ -35,6 +35,7 @@ from cp7_credit_followups import native_delta as followups_delta  # noqa: E402
 from cp7_credit_multi import native_delta  # noqa: E402
 
 CREDIT = REPO / 'scripts/cp7_customer_credit'
+STEP2 = tuple(sig for sig in native_delta.SIGNATURES if sig != native_delta.PROFILE)
 DB = 'ow04bb_local_delta'
 STUBS = r"""
 do $roles$declare r text;begin
@@ -107,10 +108,10 @@ def outcome(cur, sql, args=()):
 
 
 def side_by_side(cur, originals, patched, sql, args=()):
-    for sig in native_delta.SIGNATURES:
+    for sig in STEP2:
         cur.execute(originals[sig])
     before = outcome(cur, sql, args)
-    for sig in native_delta.SIGNATURES:
+    for sig in STEP2:
         cur.execute(patched[sig])
     after = outcome(cur, sql, args)
     return before, after
@@ -138,11 +139,11 @@ def main(dsn):
             cur.execute(statement('native-empty/04_exact_overlays.sql', 'cp7_credit.native_return_guard', True).replace('create or replace', 'create', 1))
             cur.execute(statement('native-empty/04_exact_overlays.sql', 'cp7_credit.native_return_complete', True).replace('create or replace', 'create', 1))
             cur.execute(statement('coordinator/04_register_and_materialize.sql', 'cp7_credit.assert_source_admission'))
-            originals = {sig: definition(cur, sig) for sig in native_delta.SIGNATURES}
+            originals = {sig: definition(cur, sig) for sig in STEP2}
             assert followups_delta.replacement(followups_delta.BUILD) in originals[native_delta.BUILD]
             # 2. Counted delta.
-            patched = native_delta.patched(originals)
-            for sig in native_delta.SIGNATURES:
+            patched = {sig: native_delta.patch(sig, originals[sig]) for sig in STEP2}
+            for sig in STEP2:
                 # Rebuild the predecessor from the patched text: put each replacement back at its exact position.
                 back, text = patched[sig], originals[sig]
                 # Anchors are in text order, so restoring them front to back keeps every later position.
@@ -158,16 +159,20 @@ def main(dsn):
             refused = []
             for label, bad in (('twice', patched),
                                ('missing', {sig: text.replace(native_delta.PREDECESSOR_MARKERS[sig][0], '') for sig, text in originals.items()})):
-                try:
-                    native_delta.patched(bad)
-                except ValueError as error:
-                    refused.append((label, str(error).split(':')[0]))
+                errors = set()
+                for sig in STEP2:
+                    try:
+                        native_delta.patch(sig, bad[sig])
+                    except ValueError as error:
+                        errors.add(str(error).split(':')[0])
+                if errors:
+                    refused.append((label, sorted(errors)))
             assert [label for label, _ in refused] == ['twice', 'missing'], refused
             cur.execute((HERE / 'multi.sql').read_text())
-            for sig in native_delta.SIGNATURES:
+            for sig in STEP2:
                 cur.execute(patched[sig])
                 assert definition(cur, sig) == patched[sig], ('LOCAL_INSTALLED_TEXT_DIFFERS', sig)
-            report['delta'] = dict(substitutions={sig: [label for label, _, _ in native_delta.SUBSTITUTIONS[sig]] for sig in native_delta.SIGNATURES},
+            report['delta'] = dict(substitutions={sig: [label for label, _, _ in native_delta.SUBSTITUTIONS[sig]] for sig in STEP2},
                                    exactly_once=True, reverse_restores_predecessor=True, refused=refused, compiled=True)
             # 3. Side by side on stub rows.
             sale, target, both = (str(uuid.uuid4()) for _ in range(3))
