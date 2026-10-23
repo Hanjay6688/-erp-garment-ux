@@ -234,7 +234,8 @@ def main(dsn):
             for role in ('anon', 'authenticated', 'service_role', 'cp7_capture', 'cp7_sales_read', 'cp7_sales_write', 'cp7_credit_write'):
                 assert not one(cur, "select has_schema_privilege(%s,'cp7_credit_multi','USAGE')", (role,)), role
                 for sig in ('later_family_returns_v1(uuid,bigint)', 'family_before_events_v1(uuid,bigint)',
-                            'family_preserved_source_v1(uuid,bigint)', 'assert_prior_families_reconciled_v1(uuid,jsonb,uuid)'):
+                            'family_preserved_source_v1(uuid,bigint)', 'prior_recognized_v1(uuid,bigint)',
+                            'assert_prior_families_reconciled_v1(uuid,jsonb,uuid)'):
                     assert not one(cur, "select has_function_privilege(%s,%s,'EXECUTE')", (role, 'cp7_credit_multi.' + sig)), (role, sig)
             conn.rollback()
     finally:

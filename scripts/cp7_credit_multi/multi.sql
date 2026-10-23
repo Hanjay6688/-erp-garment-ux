@@ -47,6 +47,16 @@ begin
    from(select jsonb_build_object('id',substring(e->>'id'from 9))x from jsonb_array_elements(events)e)z));
 end $$;
 
+-- B3-B6/B8. Credit already recognized for this invoice by its families before p_before_ordinal (null: every family):
+-- the signed parts with a journal, exactly the retained recognition the ordinal input reads. 0 without a cohort.
+create function cp7_credit_multi.prior_recognized_v1(p_sale uuid,p_before_ordinal bigint default null)returns numeric
+language sql stable security invoker set search_path=''set TimeZone='UTC'as $$
+ select coalesce(sum(pp.amount),0)from cp7_credit.return_families f join cp7_credit.cohorts ch on ch.family_id=f.id
+  join cp7_credit.recognition_plans rp on rp.cohort_id=ch.id join cp7_credit.recognition_components cc on cc.plan_id=rp.id
+  join cp7_credit.component_parts pp on pp.component_id=cc.id join cp7_credit.component_journals cj on cj.part_id=pp.id
+ where f.family_root_sale_id=p_sale and(p_before_ordinal is null or f.family_ordinal<p_before_ordinal)
+$$;
+
 -- B2/B7. Replacement for assert_zero_excess_v1(before_events) in the quote (p_own_return = the own draft or null) and in
 -- the registration admission (p_own_return = the own return, already a member of its new family there).
 -- No cohort in an EARLIER family: exactly the retained assert_zero_excess_v1 (first return and EMPTY prior families).
@@ -79,7 +89,7 @@ end $$;
 
 do $private_multi$declare sig text;begin
  foreach sig in array array['later_family_returns_v1(uuid,bigint)','family_before_events_v1(uuid,bigint)',
-  'family_preserved_source_v1(uuid,bigint)','assert_prior_families_reconciled_v1(uuid,jsonb,uuid)']loop
+  'family_preserved_source_v1(uuid,bigint)','prior_recognized_v1(uuid,bigint)','assert_prior_families_reconciled_v1(uuid,jsonb,uuid)']loop
   execute 'alter function cp7_credit_multi.'||sig||' owner to postgres';
   execute 'revoke all on function cp7_credit_multi.'||sig||' from public,anon,authenticated,service_role,cp7_capture,cp7_sales_read,cp7_sales_write,cp7_credit_write';
  end loop;
