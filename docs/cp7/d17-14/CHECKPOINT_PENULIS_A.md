@@ -56,11 +56,11 @@ reset sekitar 11.13 UTC; pengingat mode hemat 08.00 UTC; paling banyak 2 pembant
    tahap B Astra dicatat terang "belum di rantai". Menunggu bukti bagian C lalu run pertama.
 4. OW-04b: bagian 3–4 dan A lulus (lihat tabel). Bagian B lulus (lihat tabel). Bagian C: daftar `ow04/OW04B_SLICE_C_INVENTORY.md`, langkah 1
    (`scripts/cp7_credit_incoming/`) di cabang; langkah 2 sedang dikerjakan. D dan E menunggu 3 keputusan Bos.
-4. OW-09: tahap Native8 lulus (tabel). Bagian layar ditahan di `ow09/screens/` sampai tahap masuk rantai OW-15. Sisa: README
+5. OW-09: tahap Native8 lulus (tabel). Bagian layar ditahan di `ow09/screens/` sampai tahap masuk rantai OW-15. Sisa: README
    `ow09/README.md`, cek F04/F05 gagal di base (`cp7_analysis_native.rounded_suggestion` tidak ada, area B), `check-*.mjs`.
-5. Penggabungan harian 17.00 WIB 23 Okt ke `astra/d17-14-integrasi` (pengingat terjadwal 09.35 UTC). Pembanding vitest: base
+6. Penggabungan harian 17.00 WIB 23 Okt ke `astra/d17-14-integrasi` (pengingat terjadwal 09.35 UTC). Pembanding vitest: base
    50 gagal/2102, gabungan uji 50 gagal/2146, tidak ada kegagalan baru; ke-50 itu uji `tests/cp7/families` yang menolak root.
-6. OW-15: rencana `ow15/RENCANA_OW15.md`. Langkah 4 lulus: fgqc Native9 9/9 di `903b1879` mengakui laporan kasbon Native4
+7. OW-15: rencana `ow15/RENCANA_OW15.md`. Langkah 4 lulus: fgqc Native9 9/9 di `903b1879` mengakui laporan kasbon Native4
    (`ow08/fgqc-native9-903b1879-pass.json`; laporan sha256 `56d3294f…`, artifak 12472787961). Langkah 5 lulus: OW05b Native6 6/6 di `197fb3fc` di atas fgqc
    (`ow05/native6-197fb3fc-chain-pass.json`; laporan sha256 `cf004a56…`, artifak 12473826069). Rantai terbukti: OW04 → OW05 →
    OW06 → kasbon → fgqc → OW05b. Urutan diubah (OW04b ke ujung rantai, `ow15/RENCANA_OW15.md`); OW08a di atas OW05b lulus 6/6 di
