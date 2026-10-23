@@ -1,3 +1,4 @@
+# Qualified server component unchanged; verify client refusal source e498160f with exact worktrees.
 # New first-refusal UI followup; one exact fetch and isolated pinned worktrees.
 name: CP7 Direct Work Entry Actual Browser2
 'on':
