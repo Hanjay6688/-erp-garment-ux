@@ -52,3 +52,10 @@ diperiksa: Native7/Race1 PASS, restore/advisor/lima gate paket PASS. Catatan
 pengujian P21 rantai belum PASS. B belum masuk rantai; parent5/16 dan
 production_go=false tetap. Patch layar OW09 terselamatkan di repo, sedangkan
 worktree lokal Claude yang tidak dipush tidak tersedia di lingkungan ini.
+
+## A/20261024-02 — OW09 layar di cabang persiapan
+
+A melanjutkan delapan daftar OW09 dan RecordTools sesuai kontrak22 Okt;
+`astra-a/d17-14-ow09-screens-20261024` terpisah dari kandidat P21 yang berjalan.
+Patch tersimpan diterapkan dengan mempertahankan uji OW04b terbaru. Layar
+harus dikualifikasi bersama pemasang rantai; belum dipromosikan ke integrasi.

@@ -1,0 +1,10 @@
+{
+  "numTotalTests": 2126,
+  "numPassedTests": 2126,
+  "numFailedTests": 0,
+  "success": true,
+  "scope": "non-SQL client regression; excludes tests/browser/** and tests/cp7/families/**",
+  "original_raw_sha256": "aece674aafdd6798be668ff5c2027bf5fda57120c40e4339eb21b74d847227fe",
+  "source_base": "86fe7a64db8404ef261450f7cd17afd72dcb597d",
+  "production_go": false
+}

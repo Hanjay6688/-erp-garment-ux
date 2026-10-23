@@ -28,9 +28,14 @@ async function sourceReads(ui,today,mobile){
   await p.getByLabel('Cari barang jadi',{exact:true}).fill(f.sku);await p.getByRole('button',{name:'Cari stok',exact:true}).click();await ui.expect(p.locator('.cfg-position')).toHaveCount(1)
   await p.locator('.cfg-position').getByRole('button').click()
   await ui.expect(p.locator('.cfg-ledger')).toContainText('Dicadangkan untuk penjualan')
-  await p.getByLabel('Jenis mutasi FG di halaman',{exact:true}).selectOption('SALE_RESERVE');await ui.expect(p.locator('.cfg-movement')).toHaveCount(1)
-  await p.getByLabel('Urutkan halaman mutasi posisi FG',{exact:true}).selectOption('LABEL_ASC');await ui.expect(p.locator('.cfg-movement')).toContainText(/Saldo fisik\s*10/)
-  await p.getByLabel('Jenis mutasi FG di halaman',{exact:true}).selectOption('')
+  // Owner D17-16 (OW-09): movement type and order go to the card reader, which applies them to every movement of the
+  // position before paging; each change restarts at page 1 and the running balances stay attached to their rows.
+  const card=check=>p.waitForResponse(r=>r.url().endsWith('/rpc/erp_cp7_get_fg_ledger_v2')&&r.status()===200&&check(r.request().postDataJSON()?.p_query??{})),beforeCard=fixture('read',f)
+  let read=card(q=>q.movement_type==='SALE_RESERVE'&&q.offset===0&&q.order==='SOURCE');await p.getByLabel('Jenis mutasi FG',{exact:true}).selectOption('SALE_RESERVE');let body=await (await read).json()
+  if(body.page.list?.movement_type!=='SALE_RESERVE'||!body.page.rows.every(m=>m.movement_type==='SALE_RESERVE'))throw Error('Card reader did not apply the movement type');await ui.expect(p.locator('.cfg-movement')).toHaveCount(body.page.rows.length);await ui.expect(p.locator('.cfg-movement')).toHaveCount(1)
+  read=card(q=>q.order==='LABEL_ASC'&&q.movement_type==='SALE_RESERVE'&&q.offset===0);await p.getByLabel('Urutkan mutasi posisi FG',{exact:true}).selectOption('LABEL_ASC');body=await (await read).json();await ui.expect(p.locator('.cfg-movement')).toContainText(/Saldo fisik\s*10/)
+  read=card(q=>q.movement_type===null&&q.order==='LABEL_ASC'&&q.offset===0);await p.getByLabel('Jenis mutasi FG',{exact:true}).selectOption('');await read
+  if(JSON.stringify(fixture('read',f))!==JSON.stringify(beforeCard))throw Error('Card search, type or order changed Native stock')
   if(mobile){if((await p.locator('.cfg').innerText()).includes('Rp'))throw Error('Operations UI exposed an amount')}
   else await ui.expect(p.locator('.cfg-position')).toContainText('Nilai fisik Rp100')
   await ui.expect.poll(()=>p.locator('.cfg').evaluate(el=>{const b=el.getBoundingClientRect();return b.left>=0&&b.right<=innerWidth+1&&document.documentElement.scrollWidth<=innerWidth+1})).toBe(true)
