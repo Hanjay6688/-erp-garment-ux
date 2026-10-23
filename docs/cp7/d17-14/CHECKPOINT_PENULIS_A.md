@@ -13,7 +13,10 @@ jendela berikutnya sekitar 2 jam 20 menit sebelum reset (pengingat 03.50 UTC). K
 Pengingat terjadwal: 20.58 UTC mode hemat (tidak memulai pekerjaan besar baru, gabung dan push semua commit
 pembantu, perbarui berkas ini), 01.10 UTC jalan normal lagi.
 
-Diperbarui: 22 Okt 2026, 21.00 UTC (23 Okt 04.00 WIB), mode hemat.
+Diperbarui: 23 Okt 2026, 01.15 UTC (08.15 WIB). Jendela kuota baru mulai sekitar 01.12 UTC, reset sekitar 06.12 UTC; mode hemat
+sekitar 03.50 UTC. Satu dispatch OW-12a (39882795647): database sudah menyala lagi (registry melayani); gagal di langkah kasus, log sedang dibaca.
+Antrean ulang: wash, fgqc, OW06 browser, OW05b browser (`ciqueue-after-reset.log`). OW04b dan OW-09 menunggu push non-skip
+untuk mendaftarkan workflow-nya saat antrean longgar.
 
 ## Sudah terbukti (uji database penuh atau browser lulus)
 
@@ -22,7 +25,7 @@ Diperbarui: 22 Okt 2026, 21.00 UTC (23 Okt 04.00 WIB), mode hemat.
 | OW-05b petunjuk koreksi mandor | Native6 6/6 `176dcf38` (`ow05/native6-176dcf38-pass.json`); browser 2/2 `eda58db5` |
 | OW-06 hak akses transfer supplier | Auth4 4/4 `b9456b5a` |
 | OW-07 tutup buku menunggu HPP | Native7 7/7 (`ow07/PROGRESS.md`) |
-| OW-08b 2.18 kasbon dari buku besar | Native4 lulus di `6c8be6f6` (run 39847032024); baris per kasus belum disalin |
+| OW-08b 2.18 kasbon dari buku besar | Native4 4/4 `6c8be6f6` (run 39847032024; `ow08/kasbon-native4-6c8be6f6-pass.json`, laporan sha256 `8f9f2c83…`, artifak 12456785458) |
 
 ## Sudah dibuat, uji sedang/akan jalan
 

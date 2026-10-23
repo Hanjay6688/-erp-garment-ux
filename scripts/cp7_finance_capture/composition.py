@@ -95,6 +95,9 @@ def admit_catalog(before,after,definitions,new_functions):
             if group=='functions'and(key in new_functions or key in(COMPARE,PUBLIC_COMPARE)):continue
             if group=='schemas'and key==SCHEMA:continue
             if group in('relations','columns','constraints','indexes','policies','types','type_implementation')and key.startswith(SCHEMA+'.'):continue
+            # The chunks->captures foreign key makes PostgreSQL create its internal RI_FKey_* triggers (Native7 16bf8e56);
+            # those are admitted, any other trigger in the schema is not (the stage declares none).
+            if group=='triggers'and key.startswith(SCHEMA+'.')and':"RI_FKey_'in key:continue
             raise ValueError('OW12A_UNDECLARED_NEW_OBJECT: '+group+':'+key)
 
 
