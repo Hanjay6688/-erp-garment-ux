@@ -52,10 +52,10 @@ def render():
  select j.run_id id,j.id job_id,j.state job_state,j.reference facts,j.captured_at,j.source_hash analysis_source_hash,
   cp7_supply_native.fingerprint(j.reference)dependency_hash,
   jsonb_build_object('wip',cp7_wip.normalize_production(j.reference->'production_sources'))result
- into r from cp7_analysis_stage.jobs j where j.request_id=p_run and j.actor=(a->>'actor')::uuid and j.state in('RUNNING','DONE');""")
+ into r from cp7_analysis_stage.jobs j where j.request_id=p_run and j.actor=(a->>'actor')::uuid and j.state in('RUNNING','DONE','FAILED');""")
     workspace = once(workspace, "message='CP7_SUPPLY_RUN_UNAVAILABLE'", "message='CP7_SCHEDULE_STAGED_RUN_UNAVAILABLE'")
     workspace = once(workspace, 'c:=cp7_supply_native.source();',
-                     "if r.job_state='DONE'then perform cp7_analysis_stage.require_kept(r.job_id);end if;\n c:="+SCHEMA+'.current_source();')
+                     "perform cp7_analysis_stage.require_kept(r.job_id);\n c:="+SCHEMA+'.current_source();')
     workspace = once(workspace, "'cp7.planning-schedule.v1'", "'cp7.planning-schedule-staged.v1'")
     workspace = once(workspace, "'source_state',case when hash=r.dependency_hash then", "'source_state',case when hash=r.dependency_hash and cp7_analysis_native.fingerprint(c)=r.analysis_source_hash then")
     workspace = once(workspace, "'captured_at',cp7_planning.utc(r.captured_at),", "'captured_at',cp7_planning.utc(r.captured_at),'staged_review_contract','"+CONTRACT+"','analysis_source_hash',r.analysis_source_hash,")
@@ -73,10 +73,10 @@ def render():
         """select j.run_id id,j.id job_id,j.state job_state,j.source_hash analysis_source_hash,
   cp7_supply_native.fingerprint(j.reference)dependency_hash
  into run from cp7_analysis_stage.jobs j where j.run_id=(p_payload->>'source_run')::uuid
-  and j.actor=(a->>'actor')::uuid and j.state in('RUNNING','DONE');""")
+  and j.actor=(a->>'actor')::uuid and j.state in('RUNNING','DONE','FAILED');""")
     save = once(save, "message='CP7_SUPPLY_RUN_UNAVAILABLE'", "message='CP7_SCHEDULE_STAGED_RUN_UNAVAILABLE'")
     save = once(save, 'c:=cp7_supply_native.source();',
-                "if run.job_state='DONE'then perform cp7_analysis_stage.require_kept(run.job_id);end if;\n c:="+SCHEMA+'.current_source();')
+                "perform cp7_analysis_stage.require_kept(run.job_id);\n c:="+SCHEMA+'.current_source();')
     save = once(save, "if hash<>run.dependency_hash or hash<>p_payload->>'source_hash'then raise exception 'CP7_SCHEDULE_SOURCE_CHANGED';end if;",
                 "if hash<>run.dependency_hash or hash<>p_payload->>'source_hash'\n  or cp7_analysis_native.fingerprint(c)<>run.analysis_source_hash then raise exception using errcode='40001',message='CP7_SCHEDULE_SOURCE_CHANGED';end if;")
     save = once(save, "'cp7.planning-schedule-outcome.v1'", "'cp7.planning-schedule-staged-outcome.v1'")

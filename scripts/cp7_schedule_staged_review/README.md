@@ -12,7 +12,7 @@ boleh dianggap menyelesaikan SAVE2000, analisis besar atau OW13c.
 - GET `erp_cp7_get_staged_production_schedule_v1(p_source_request uuid)`
   menerima UUID permintaan analisis bertahap asli milik pengguna, bukan UUID
   run yang baru terlihat setelah analisis selesai. RUNNING/DONE diterima;
-  DONE tetap harus lolos penjaga retensi. FAILED/asing tidak diterima.
+  DONE tetap harus lolos penjaga retensi. Asing tidak diterima.
 - GET menampilkan referensi waktu, hash dan kebutuhan pekerjaan dari snapshot
   yang diperiksa, keadaan sumber terkini, `history_capture_state` dan
   `production_capture_state`. Mengambil formulir tidak menulis apa pun.
@@ -59,3 +59,17 @@ source registry/default installer milik A; panel produksi/perencanaan milik B.
 Rujukan: panduan fungsi database Supabase dan transaksi PostgreSQL, dicek
 24 Oktober2026. Schema/fungsi privat memakai search_path kosong, pembatasan
 EXECUTE eksplisit; metadata tidak mengubah fakta ERP/uang/stok/HPP.
+
+
+Lanjutan (belum qualified): Native11 mempertahankan8 kontrol dan menambah
+DONE/expired/FAILED. Job gagal tetap memiliki reference Native yang immutable;
+memakai metadata pekerjaan dari reference itu tidak membuat analisis berhasil.
+Ini mengatasi kasus runner lebih dulu menghentikan analisis riwayat sebelum
+pengguna menyimpan jadwal. GET/SAVE sekarang memeriksa K2 untuk semua keadaan
+RUNNING/DONE/FAILED; RUNNING tidak kedaluwarsa, DONE/FAILED mengikuti7 hari.
+FAILED tetap diberi labelFAILED, historyINCOMPLETE, snapshot rencana/kuantitas
+tetap ditolak. WIP global/validator/source/akses tetap wajib, expired tetap
+ditolak. Angka7 bukan kebijakan baru; fixture negatif memakai age() K2 yang
+sudah ada dan diberi labelsynthetic, tidak mengubah clock/tanggal fisik.
+Native8 d85187dc membuktikan versi sebelumnya; perubahan acceptanceFAILED ini
+menunggu bukti Native11 pada kandidat baru.

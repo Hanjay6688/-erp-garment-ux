@@ -31,7 +31,7 @@
       "owner": "cp7_capture"
     }
   },
-  "sql_sha256": "859237c660f21f765923ef6fc59a6356a694b804728acc992468ab1152131b41",
+  "sql_sha256": "afdcd17f9ddc96c72e5019aab7bdc9909ae6e1ff18e613cf07a974a648eab380",
   "new_schema": "cp7_schedule_staged_review",
   "private_functions": 3,
   "public_rpcs": 2,

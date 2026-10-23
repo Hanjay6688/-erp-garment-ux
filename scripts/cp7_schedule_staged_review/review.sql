@@ -23,9 +23,9 @@ begin
  select j.run_id id,j.id job_id,j.state job_state,j.reference facts,j.captured_at,j.source_hash analysis_source_hash,
   cp7_supply_native.fingerprint(j.reference)dependency_hash,
   jsonb_build_object('wip',cp7_wip.normalize_production(j.reference->'production_sources'))result
- into r from cp7_analysis_stage.jobs j where j.request_id=p_source_request and j.actor=(a->>'actor')::uuid and j.state in('RUNNING','DONE');
+ into r from cp7_analysis_stage.jobs j where j.request_id=p_source_request and j.actor=(a->>'actor')::uuid and j.state in('RUNNING','DONE','FAILED');
  if r.id is null then raise exception using errcode='42501',message='CP7_SCHEDULE_STAGED_RUN_UNAVAILABLE';end if;
- if r.job_state='DONE'then perform cp7_analysis_stage.require_kept(r.job_id);end if;
+ perform cp7_analysis_stage.require_kept(r.job_id);
  c:=cp7_schedule_staged_review.current_source();hash:=cp7_supply_native.fingerprint(c);plan:=cp7_schedule_native.source_at((c->>'captured_at')::timestamptz);
  -- Form guidance belongs to the immutable source being reviewed. A fresh
  -- source check must not silently rebind quantities or an unfinished form.
@@ -86,9 +86,9 @@ begin
  select j.run_id id,j.id job_id,j.state job_state,j.source_hash analysis_source_hash,
   cp7_supply_native.fingerprint(j.reference)dependency_hash
  into run from cp7_analysis_stage.jobs j where j.run_id=(p_payload->>'source_run')::uuid
-  and j.actor=(a->>'actor')::uuid and j.state in('RUNNING','DONE');
+  and j.actor=(a->>'actor')::uuid and j.state in('RUNNING','DONE','FAILED');
  if run.id is null then raise exception using errcode='42501',message='CP7_SCHEDULE_STAGED_RUN_UNAVAILABLE';end if;
- if run.job_state='DONE'then perform cp7_analysis_stage.require_kept(run.job_id);end if;
+ perform cp7_analysis_stage.require_kept(run.job_id);
  c:=cp7_schedule_staged_review.current_source();hash:=cp7_supply_native.fingerprint(c);
  if hash<>run.dependency_hash or hash<>p_payload->>'source_hash'
   or cp7_analysis_native.fingerprint(c)<>run.analysis_source_hash then raise exception using errcode='40001',message='CP7_SCHEDULE_SOURCE_CHANGED';end if;
