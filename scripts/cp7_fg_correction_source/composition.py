@@ -22,6 +22,7 @@ catalog=predecessor.catalog
 atomic=predecessor.atomic
 function_ddl=predecessor.predecessor.function_ddl  # OW06: replace the reader as its own owner
 as_owner=predecessor.predecessor.predecessor.predecessor.payment.consumer.as_owner
+base=predecessor.predecessor.predecessor.predecessor.base  # chain interface (OW-15): catalog, atomic, as_owner, base, function_ddl
 CAPTURED={}
 
 
