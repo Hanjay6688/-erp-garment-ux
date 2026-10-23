@@ -465,3 +465,30 @@ snapshot; preview/apply memeriksa live. Form saran baru wajib live recheck atomi
 saat SAVE, target SKU eksplisit dan mesin retained yang sama. Jangan menimpa
 kontrak arsip lama atau mengganti ketidaklengkapan WIP menjadi0. Detail langkah
 berikut ada di handoff produksi terbaru. Belum ada klaim OW13c selesai.
+
+## 19 — OW13c kode/layar terhubung; checkpoint lokal (23 Okt WIB) [bersama]
+
+B cbb74b2b/treee2a3ddb7 menambah jalur SAVE khusus saran potong tanpa mengubah
+kontrak SAVE arsip lama. `NativeCuttingSuggestionsPanel` membuka analisis/panel
+rencana yang sama, periode/target eksplisit, waktu/alasan/jumlah dapat diedit.
+Modul `cp7_cutting_checked_save`:1 schema/1 receipt immutable/2 fungsi privat/
+1 RPC `erp_cp7_save_cutting_suggestion_v1(jsonb,uuid)`;0 hook lama/0 DML ERP.
+Lock request/roll/kapasitas/target/versi sama; dua source/preflight dan akses
+menolak perubahan sebelum/sesudah writer secara atomik. Receipt menjaga guard
+setelah pakai, termasuk TRUNCATE. API/invers22 lokal lulus.
+
+11 SQL lokal dan91 klien/DOM pada8 berkas, TypeScript, clash2 dan owning source
+lulus. Boundary source/preflight/writer Native lama pada SQL lokal terkontrol;
+ini bukan Native/Auth/dua backend/browser/backuprestore/rantai A. Oracle lama
+tetap, sembilan sumber beku tetap. README/preflight di ow13c; parent5/16.
+
+Permintaan A: pasang modul dengan transaksi/envelope/global use census yang
+mempertahankan receipt immutable; tambahkan pasangan registry
+`src/nativeCuttingSuggestion.ts` → `erp_cp7_save_cutting_suggestion_v1` dan tipe
+generator yang sesuai. Tidak perlu domain recovery baru: marker tersimpan dalam
+payload `PLAN_APPLY_STAGED`; replay pada halaman rencana biasa tetap facade baru
+dan UUID/payload sama. Tipe facade B sementara sempit, bukan RPC bebas.
+
+B berikutnya kualifikasi Native khusus OW13c, termasuk waktu SAVE aktual8detik
+(dua pemeriksaan source penuh) dan perjalanan desktop/HP. Jangan menganggap
+Native19 d5997235 meliputi kode OW13c setelahnya, atau menaikkan batas waktu.

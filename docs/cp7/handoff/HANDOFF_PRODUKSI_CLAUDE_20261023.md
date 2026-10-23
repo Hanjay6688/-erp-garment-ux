@@ -1,5 +1,14 @@
 # Ambil alih hasil produksi B —23 Oktober2026 WIB
 
+**Kode B terbaru cbb74b2b** (treee2a3ddb7): OW13c saran potong sekarang
+terhubung ke panel/mesin rencana yang sama di Buat Potongan, dengan jalur SAVE
+baru yang memeriksa sumber/kelayakan sebelum dan sesudah writer.11 SQL lokal,
+91 klien/DOM pada8 berkas, TypeScript, pemeriksa sumber serta API/invers22 lokal
+lulus. **Belum Native/Auth/dua backend/browser/pemulihan/rantai A.** Boundary
+plan source/preflight/writer pada SQL lokal terkontrol, bukan perjalanan Native.
+[Kontrak, API dan langkah berikut](../d17-14/ow13c/README.md).
+Ini tambahan setelah kandidat Native19 di bawah, bukan bagian run Native19.
+
 **Checkpoint terbaru caller: Native19 PASS** pada
 `d599723534a2f1b31833059106f09e2b069d0417`, tree
 `e9fdbe914d6f19aa430df7e09605d19b4006d96d`,
@@ -144,17 +153,28 @@ harus dipasang A sebagai satu komposisi; jadwal setiap menit, callback Master,
 registry/generator, caller backup/restore dan kualifikasi gabungan tetap terbuka.
 Tidak ada pemasangan bawaan/Enteng/WA asli dari checkpoint ini.
 
-OW13c sudah ditelusuri; belum ada perubahan produk. Gunakan retained
-`analysis_stage.plan_targets` dan `cp7_plan_native.staged_source`/`preflight_v2`
-yang sama dengan panel rencana, bukan rumus baru atau menyalin seluruh halaman.
-Satu model/ukuran bisa punya beberapa SKU: pemilihan target harus eksplisit,
-tidak otomatis menyalin satu saran ke seluruh varian. Tampilkan waktu/alasan dan
-biarkan jumlah diedit. Kontrak rencana arsip lama memang mengizinkan SAVE dari
-snapshot lama (8 Okt), lalu memeriksa pada preview/apply. Form saran baru wajib
-menambah pemeriksaan atomik pada SAVE sesuai D17-16; jangan mengubah perilaku
-arsip lama diam-diam atau menganggap pemeriksaan klien cukup. Hak/roll/kapasitas/
-target/versi harus diperiksa lagi sesudah menunggu. API baru perlu modul B dan
-permintaan registry/tipe ke A; jangan mengubah installer atau tipe bersama.
+OW13c cbb74b2b memakai `NativeAnalysisPanel`/plan v2 yang sama, periode eksplisit,
+target SKU eksplisit, waktu/alasan dan jumlah yang dapat diedit. Modul
+`cp7_cutting_checked_save` menambah1 schema/1 receipt immutable/2 fungsi privat/
+1 facade publik, tanpa mengganti SAVE arsip lama atau DML ERP. Request memakai
+lock plan yang sama, roll terurut, kapasitas/target/versi; akses/sumber/preflight
+diperiksa lagi sesudah writer. UUID/replay/0 efek penolakan teruji lokal.
+
+Recovery tetap domain `PLAN_APPLY_STAGED`; marker `cutting_save_contract` berada
+dalam payload immutable. Buka ulang di halaman rencana biasa tetap mengirim
+request checked yang sama. Jangan merutekan menurut layar/prop saja, menghapus
+marker atau menghilangkan pemeriksaan bukti respons. Kontrak arsip lama tetap.
+
+Langkah berikut: buat kualifikasi Native khusus OW13c memakai modul baru di atas
+komposisi B yang tepat. Uji source/plan/payload benar, jumlah sama, sumber/bahan/
+WIP/kapasitas berubah, dua backend dan revoke setelah lock wait, UUID/revisi,
+Auth asli, desktop/HP, hilang jawaban dan buka ulang pada rencana biasa.5 badan
+dependensi dipin; installer/invers22 dan guard setelah receipt wajib. Ukur satu
+SAVE aktual dengan dua source check penuh di bawah8detik; jangan menaikkan batas.
+A menambah registry/tipe `src/nativeCuttingSuggestion.ts` →
+`erp_cp7_save_cutting_suggestion_v1` dan memasang receipt dalam global use census.
+Jangan mengubah bundle/tipe/registry A dari B. Backup/restore setelah pakai serta
+rantai A tetap terbuka. Native19 adalah bukti kandidat d5997235, bukan kode baru.
 
 OW11a/b: aktivasi metode yang terbukti lebih baik, pembanding produk baru beserta konfirmasi.
 OW12b: Native/rantai A, angka sama dan waktu sebelum/sesudah±3.600 barang. OW13a: callback Master dan bukti pemasangan/jadwal/rantai A masih terbuka; kode/local sudah di atas.
