@@ -41,16 +41,18 @@
   {
    "id": "OW06_TRANSFER_400_600_RESTORE_REPLAY_REVERSE",
    "stage": "OW06 (cp7_supplier_transfer)",
-   "status": "TODO",
+   "status": "IMPLEMENTED",
    "expect": "transfer 400 + 600 committed, equal after restore, one replay gives one effect, full reversal",
-   "todo": "TODO: facade calls not yet confirmed from the stage cases; write this step from scripts/cp7_supplier_transfer/cases.py (same calls, same oracles) before the chain P21 can PASS."
+   "when": "source after the used-state refusal, before the trusted dump (last, its oracle compares the whole stock/HPP state); restored database before any other restored write",
+   "calls": "cp7_supplier_transfer/cases.py fixture, payload, command, observe, snapshot, reverse_payload (oracles of exact() and reverse())"
   },
   {
    "id": "KASBON_FGQC_RESOLVE_SAME_AFTER_RESTORE",
    "stage": "kasbon + fgqc (cp7_kasbon_source, cp7_fg_correction_source)",
-   "status": "TODO",
+   "status": "IMPLEMENTED",
    "expect": "cp7_transaction_source.resolve gives the same answer on the source and the restored database for a kasbon and an FG reversal row",
-   "todo": "TODO: facade calls not yet confirmed from the stage cases; write this step from scripts/cp7_kasbon_source/cases.py and scripts/cp7_fg_correction_source/cases.py (same calls, same oracles) before the chain P21 can PASS."
+   "when": "source after the used-state refusal; compared on the restored database",
+   "calls": "cp7_kasbon_source/cases.py given, resolve, expected, same (give()); cp7_fg_correction_source/cases.py chain, reverse, resolve, strip, one (opens() for QC, without the original-reader comparison that needs the stage install state)"
   },
   {
    "id": "OW12A_SEALED_CAPTURE_EQUALS_FINANCE_REPORT",
@@ -65,13 +67,15 @@
    "status": "TODO",
    "expect": "failed wash with unknown vendor price holds close; the price set once releases it",
    "todo": "TODO: facade calls not yet confirmed from the stage cases; write this step from scripts/cp7_laundry_unknown_wash/cases.py (same calls, same oracles) before the chain P21 can PASS."
-  },
+  }
+ ],
+ "scope_notes": [
   {
    "id": "STAGE_B_STATUS_READS_SAME",
    "stage": "stage B (OW16 status)",
-   "status": "TODO",
-   "expect": "status reads the same",
-   "todo": "TODO: stage B is not in the chain yet (plan section 3 row 12+); add when it is."
+   "status": "NOT_IN_CHAIN",
+   "required": false,
+   "note": "B belum di rantai; ditambah saat tahap B masuk (rencana bagian 3 baris 12+). Not a required step until stage B joins the chain."
   }
  ]
 }

@@ -27,6 +27,9 @@ import cp7_p21_chain_adapter as adapter
 import cp7_chain_restore as chain_restore
 import cp7_r3_hpp_pool_cases as hp
 import mandor_fixture
+from cp7_supplier_transfer import cases as ow06
+from cp7_kasbon_source import cases as kasbon
+from cp7_fg_correction_source import cases as fgqc
 
 product=adapter.owner
 basic,payment,restore,dump,drill=helper.basic,helper.payment,chain_restore,helper.dump,helper.drill
@@ -49,8 +52,11 @@ AR_CHECKS=tuple(sorted((*LEGACY_AR_CHECKS,UNPROVEN)))
 ZERO=[(name,'CRITICAL',0)for name in AR_CHECKS]
 SLICE_C='CP7_OW04BC_INCOMING_CREDIT_RETURN_NATIVE7_RACE1'
 CHAIN_STEPS=tuple(s['id']for s in json.loads((HERE/'EXPECTED_CHAIN_STEPS.json').read_bytes())['steps'])
+# Visible scope notes (not required steps), e.g. stage B is not in the chain yet; recorded in every report.
+CHAIN_SCOPE_NOTES=json.loads((HERE/'EXPECTED_CHAIN_STEPS.json').read_bytes()).get('scope_notes',[])
 FIXTURE_REASON='P21 RANTAI FIXTURE (temuan 3): periode absensi lama dibagi lewat facade pool HPP Native'
 ENTRYPOINT='cp7_p21_current_chain_rehearsal_probe.py'
+CHAIN_HELD={}
 
 
 def legacy_ar_checks(cur):
@@ -132,6 +138,7 @@ def admitted():
     raw=(OW05_HERE/'EXPECTED_P21_RESTORE.json').read_bytes()
     assert sha256(raw).hexdigest()=='643081adcec37ffd3c4d83c25e7522522da634e81cb8af551796202c16bc2cf9'
     assert pins['OW05_steps']==list(OW05_STEPS)and pins['chain_steps']==list(CHAIN_STEPS)
+    assert pins['chain_scope_notes']==[n['id']for n in CHAIN_SCOPE_NOTES]and not set(pins['chain_scope_notes'])&set(CHAIN_STEPS)
     assert not subprocess.check_output(['git','-C',str(REPO),'status','--porcelain','--',str(HERE),str(OW05_HERE),
         'scripts/cp7_p21_current_chain_rehearsal_probe.py','scripts/cp7_chain_restore.py','scripts/cp7_p21_chain_adapter.py'],text=True).strip()
     return dict(actual_slice_C_chain_original=proof,chain_stages_declared_sources_verified=sorted(declared),
@@ -190,6 +197,59 @@ def p21_install_cycle(cur,report):
     steps.append(dict(step=P21_STEPS[2],status='PASS',all22_portable_catalog_groups_equal=True,
         both_exact_local_OID_censuses_verified=True,seeded_private_counts_equal=True))
     return second
+
+
+def chain_source_steps(cur,today,report):
+    """Chain steps on the source after the used-state refusal and before the trusted dump, committed by the caller.
+
+    Every call and oracle is the named stage case's own (helpers of the stage cases module); fixture rows are made by the
+    stage fixtures (labelled there). The OW06 transfer comes last: its oracle compares the whole stock/HPP state, which
+    the other fixtures move."""
+    granted,_=database._foundation(cur)
+    # kasbon + fgqc: cp7_kasbon_source/cases.py give(); cp7_fg_correction_source/cases.py chain(), reverse(), opens() for QC.
+    g=kasbon.given(cur,today);k=g['kasbon']
+    kr=kasbon.resolve(cur,'CP7_KASBON',k['id']);kasbon.expected(kr,k,g['contractor'],'GIVEN')
+    fx=fgqc.chain(cur,today,'P21-FIXTURE');fgqc.reverse(cur,fx)
+    kind,ident=cur.execute('select source_type,source_id::text from erp.fg_stock_movements where id=%s',(fx['movement'],)).fetchone()
+    assert kind=='QC_ITEM'and fgqc.one(cur,"""select count(*)from erp.fg_stock_movements
+        where source_type='FG_MOVEMENT_REVERSAL'and source_id=%s and reversal_of_id=%s""",(fx['movement'],fx['movement']))==1,(kind,fx['movement'])
+    new=fgqc.resolve(cur,'FG_MOVEMENT_REVERSAL',fx['movement']);direct=fgqc.resolve(cur,kind,ident)
+    assert new['status']=='AVAILABLE'and new['business_DML']is False and fgqc.strip(new)==fgqc.strip(direct),(new,direct)
+    expect=dict(domain='QC',route='qc',id=fx['qc'],number=fx['qc_number'],focus=None)
+    assert {key:new['document'][key]for key in expect}==expect,(new,expect)
+    CHAIN_HELD['resolve']=dict(kasbon=k,contractor=g['contractor'],kasbon_read=kr,fg=fx,fg_read=new)
+    # OW06: cp7_supplier_transfer/cases.py exact(): one transfer 400+600, one journal of two lines, same-UUID replay no effect.
+    f=ow06.fixture(cur,today);p=ow06.payload(cur,f);key=uuid.uuid4();r=ow06.command(cur,p,key)
+    t=ow06.observe(cur,f,r['transfer_id'],('400','600'))
+    rows=cur.execute("select j.id,l.debit,l.credit,l.account_id::text from erp.journal_entries j join erp.journal_lines l on l.journal_entry_id=j.id where j.source_type='CP7_SUPPLIER_TRANSFER'and j.source_id=%s order by l.debit desc",(t['id'],)).fetchall()
+    assert len(rows)==2 and len({x[0]for x in rows})==1 and[(x[1],x[2])for x in rows]==[(1000,0),(0,1000)],rows
+    before=ow06.snapshot(cur);assert ow06.command(cur,p,key)==r and ow06.snapshot(cur)==before
+    CHAIN_HELD['ow06']=dict(f=f,p=p,key=key,r=r,transfer=t['id'])
+    cur.execute('set constraints all immediate')
+    if granted:cur.execute('revoke usage on schema erp from authenticated')
+    report['chain_source_phase']=dict(kasbon=k['number'],fg_qc=fx['qc_number'],OW06_transfer=t['id'],usage_grant_revoked=granted)
+
+
+def chain_restored_steps(cur,report):
+    """The same reads and commands on the fresh restored database (OW06 first: nothing else has written yet)."""
+    h=CHAIN_HELD['ow06'];f=h['f']
+    ow06.observe(cur,f,h['transfer'],('400','600'))
+    before=ow06.snapshot(cur);assert ow06.command(cur,h['p'],h['key'])==h['r']and ow06.snapshot(cur)==before
+    rp=ow06.reverse_payload(cur,f,h['transfer']);rkey=uuid.uuid4();rr=ow06.command(cur,rp,rkey)
+    back=ow06.observe(cur,f,h['transfer'],('400','600'),'REVERSED')
+    assert back['journal']['status']=='REVERSED'and back['inverse']['status']=='POSTED',back
+    before=ow06.snapshot(cur);assert ow06.command(cur,rp,rkey)==rr and ow06.snapshot(cur)==before
+    report['chain_steps'].append(dict(step='OW06_TRANSFER_400_600_RESTORE_REPLAY_REVERSE',status='PASS',stage_case='cp7_supplier_transfer/cases.py exact(), reverse()',
+        transfer=h['transfer'],allocations=['400.00','600.00'],equal_after_restore=True,same_UUID_replay_no_effect=True,
+        whole_transfer_reversed=True,reverse_replay_no_effect=True))
+    h=CHAIN_HELD['resolve'];k=h['kasbon']
+    again=kasbon.resolve(cur,'CP7_KASBON',k['id']);kasbon.expected(again,k,h['contractor'],'GIVEN')
+    assert kasbon.same(h['kasbon_read'],again),(h['kasbon_read'],again)
+    fg_again=fgqc.resolve(cur,'FG_MOVEMENT_REVERSAL',h['fg']['movement'])
+    assert fgqc.strip(fg_again)==fgqc.strip(h['fg_read']),(h['fg_read'],fg_again)
+    report['chain_steps'].append(dict(step='KASBON_FGQC_RESOLVE_SAME_AFTER_RESTORE',status='PASS',
+        stage_case='cp7_kasbon_source/cases.py give(); cp7_fg_correction_source/cases.py opens() for QC',
+        kasbon=k['number'],kasbon_document=again['document'],fg_qc=h['fg']['qc_number'],fg_document=fg_again['document']))
 
 
 def legacy_prepare(cur,today,report):
@@ -290,7 +350,8 @@ def run():
         qualification_only=True,hosted=False,production_go=False,feature_complete=False,steps=[],
         current_P21_adapter_sources=adapter.sources(),
         entrypoint=Path(sys.argv[0]).name,default_P21_entrypoint_switched_to_chain=False,
-        read_observations=READ_OBSERVATIONS,only_validated_workspace_observation_time_separate_from_business_comparison=True)
+        read_observations=READ_OBSERVATIONS,only_validated_workspace_observation_time_separate_from_business_comparison=True,
+        chain_scope_notes=CHAIN_SCOPE_NOTES)
     before=None;before_roles=set();new_roles=set();pre_dumped=False;installed=False
     try:
         assert drill.SOURCE==database.SOURCE=='cp6_rollback'and drill.CONTAINER=='supabase_db_cp5-local'
@@ -330,6 +391,9 @@ def run():
             report['steps'].append(dict(step=gold['required_steps'][0],status='PASS',actual_committed_business_chains=2,
                 fixture_modes=gold['fixture_actions'],before_restore_profiles=gold['before_restore_profiles'],
                 used_removal_refused_before_mutation=True,administrative_fixture_seeded=seeded,test_usage_grant_revoked=granted))
+        # Chain steps that write business rows: after the used-state refusal, before the trusted dump.
+        with psycopg.connect(package.boundary.ADMIN)as conn,conn.cursor()as cur:
+            chain_source_steps(cur,today,report);conn.commit()
         with psycopg.connect(package.boundary.ADMIN)as conn,conn.cursor()as cur:
             cur.execute("set local timezone='UTC'")
             mandor_before=mandor_fixture.read(cur,mandor);conn.rollback()
@@ -376,6 +440,7 @@ def run():
             assert restore.catalog._data(cur)==held
             report['steps'].append(dict(step=gold['required_steps'][4],status='PASS',exact_authoritative_reads=True,
                 original_P1000_P900_facts_unchanged=True,old_and_current_eight_receipts_replayed=True,every_table_and_sequence_unchanged=True))
+            chain_restored_steps(cur,report)
             results=[]
             for item in fixtures:
                 pair=item['pair']
