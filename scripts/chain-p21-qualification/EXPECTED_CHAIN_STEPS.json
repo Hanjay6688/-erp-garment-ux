@@ -57,16 +57,18 @@
   {
    "id": "OW12A_SEALED_CAPTURE_EQUALS_FINANCE_REPORT",
    "stage": "OW12a (cp7_finance_capture)",
-   "status": "TODO",
+   "status": "IMPLEMENTED",
    "expect": "a sealed capture has the same figures as the finance report on the same state, before and after restore",
-   "todo": "TODO: facade calls not yet confirmed from the stage cases; write this step from scripts/cp7_finance_capture/cases.py (same calls, same oracles) before the chain P21 can PASS."
+   "when": "source after the used-state refusal, before the trusted dump",
+   "calls": "the stage case itself: dict(cp7_finance_capture.cases.cases(cur,today))['OW12A_CAPTURE_SAME_FIGURES_AS_FINANCE_REPORT']() (its own fixture, capture run, independent book signature, owner report parts, direct analysis metrics, fingerprint)"
   },
   {
    "id": "WASH_UNKNOWN_PRICE_HOLDS_CLOSE_UNTIL_PRICED_ONCE",
    "stage": "wash (cp7_laundry_unknown_wash)",
-   "status": "TODO",
+   "status": "IMPLEMENTED",
    "expect": "failed wash with unknown vendor price holds close; the price set once releases it",
-   "todo": "TODO: facade calls not yet confirmed from the stage cases; write this step from scripts/cp7_laundry_unknown_wash/cases.py (same calls, same oracles) before the chain P21 can PASS."
+   "when": "source after the used-state refusal, before the trusted dump",
+   "calls": "cp7_laundry_unknown_wash/cases.py fixture, failed, readiness, mine, kinds, savepoint, known_rate, money, close_refused, price, preflight_codes (oracles of close_and_twin() and set_once(), without the original-engine comparison that needs the stage install state)"
   }
  ],
  "scope_notes": [

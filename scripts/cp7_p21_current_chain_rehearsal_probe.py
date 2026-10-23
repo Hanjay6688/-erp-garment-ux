@@ -30,6 +30,8 @@ import mandor_fixture
 from cp7_supplier_transfer import cases as ow06
 from cp7_kasbon_source import cases as kasbon
 from cp7_fg_correction_source import cases as fgqc
+from cp7_finance_capture import cases as ow12a
+from cp7_laundry_unknown_wash import cases as wash
 
 product=adapter.owner
 basic,payment,restore,dump,drill=helper.basic,helper.payment,chain_restore,helper.dump,helper.drill
@@ -218,6 +220,45 @@ def chain_source_steps(cur,today,report):
     expect=dict(domain='QC',route='qc',id=fx['qc'],number=fx['qc_number'],focus=None)
     assert {key:new['document'][key]for key in expect}==expect,(new,expect)
     CHAIN_HELD['resolve']=dict(kasbon=k,contractor=g['contractor'],kasbon_read=kr,fg=fx,fg_read=new)
+    # wash: cp7_laundry_unknown_wash/cases.py close_and_twin() and set_once(): unknown price holds close, the price set once
+    # (same-request replay, a second price refused) releases it and equals the known-rate twin (twin rolled back).
+    w=wash.fixture(cur,today,'P21-FIXTURE');day=w['day']
+    def path(unknown):
+        def run():
+            if not unknown:wash.known_rate(cur,w)
+            r=wash.failed(cur,w,12,unknown=unknown)
+            rec=wash.bd.receive(cur,w['delivery'],w['fx'],10,13);wash.bd.finish_goods(cur,w['fx'],rec['receipt_id'],10,14);wash.b.api.admin(cur)
+            return r
+        return run
+    def twin():
+        path(False)()
+        return wash.money(cur,w['po']),wash.kinds(wash.readiness(cur,day))
+    known_money,known_kinds=wash.savepoint(cur,twin,'p21_wash_twin')
+    attempt=str(path(True)()['failed_wash_attempt_id'])
+    pending=wash.readiness(cur,day);row=wash.mine(pending,attempt)
+    assert len(row)==1 and row[0]['severity']=='POLICY'and row[0]['impact_date']==str(day)and row[0]['family']=='LAUNDRY',row
+    assert row[0]['reference']['qty_attempted_pcs']=='10'and'Harga & tagihan'in row[0]['reason'],row
+    extra=wash.kinds(pending)-known_kinds;gone=known_kinds-wash.kinds(pending)
+    assert sorted(extra)==[('LAUNDRY',wash.CODE,'POLICY',str(day))]and not gone,(extra,gone)
+    shown=wash.close_refused(cur,day,attempt);held_money=wash.money(cur,w['po'])
+    wkey=uuid.uuid4();first=wash.price(cur,attempt,'3.00',key=wkey);replay=wash.price(cur,attempt,'3.00',key=wkey)
+    assert first['action']=='SET_FAILED_WASH_PRICE'and first['rate_per_pcs']=='3.00'and first['economic_date']==str(day),first
+    assert replay.get('replayed')is True and {x:v for x,v in replay.items()if x!='replayed'}==first,replay
+    twice=wash.auth.refused(cur,lambda:wash.price(cur,attempt,'4.00'),'CP7_FAILED_WASH_PRICE_ALREADY_SET')
+    priced=wash.money(cur,w['po']);after=wash.readiness(cur,day)
+    assert priced==known_money,(priced,known_money)
+    assert not wash.mine(after,attempt)and wash.kinds(after)==known_kinds,(wash.kinds(after),known_kinds)
+    assert wash.CODE not in wash.preflight_codes(cur,day)
+    report['chain_steps'].append(dict(step='WASH_UNKNOWN_PRICE_HOLDS_CLOSE_UNTIL_PRICED_ONCE',status='PASS',
+        stage_case='cp7_laundry_unknown_wash/cases.py close_and_twin(), set_once()',attempt=attempt,close_row=row[0],
+        close_refused_without_effect=True,screen_reason=shown,money_while_unknown=held_money,price=first,same_request_replayed=True,
+        second_price_refused=twice,money_after_price=priced,equal_to_known_twin=True,close_kinds_after_price_equal_to_known_twin=True))
+    # OW12a: the stage case itself (its own fixture, sealed capture run, independent book signature, owner report parts,
+    # direct analysis metrics, fingerprint).
+    sealed=dict(ow12a.cases(cur,today))['OW12A_CAPTURE_SAME_FIGURES_AS_FINANCE_REPORT']()
+    assert sealed['status']=='PASS',sealed
+    report['chain_steps'].append(dict(step='OW12A_SEALED_CAPTURE_EQUALS_FINANCE_REPORT',status='PASS',
+        stage_case="cp7_finance_capture/cases.py same_figures() ('OW12A_CAPTURE_SAME_FIGURES_AS_FINANCE_REPORT')",result=sealed))
     # OW06: cp7_supplier_transfer/cases.py exact(): one transfer 400+600, one journal of two lines, same-UUID replay no effect.
     f=ow06.fixture(cur,today);p=ow06.payload(cur,f);key=uuid.uuid4();r=ow06.command(cur,p,key)
     t=ow06.observe(cur,f,r['transfer_id'],('400','600'))
