@@ -5,7 +5,7 @@ revoke all on schema cp7_reorder_caller from public,anon,authenticated,service_r
 
 create function cp7_reorder_caller.evaluate(v jsonb,supply jsonb)returns jsonb
 language plpgsql immutable security invoker set search_path=''set TimeZone='UTC'as $$
-declare products jsonb;stocks jsonb;projections jsonb;seen jsonb:='{}';p jsonb;product jsonb;stock jsonb;
+declare products jsonb;stocks jsonb;projections jsonb;seen jsonb;history_statistics jsonb;p jsonb;product jsonb;stock jsonb;
  projected jsonb;net jsonb;lead_net jsonb;kernel jsonb;config jsonb;hist jsonb;k text;root text;item jsonb;
  free numeric;point numeric;good numeric;base_position numeric;candidate numeric;conditional_position numeric;
  status text;reason text;state text;basis text;bound boolean;analysis_at timestamptz;lead numeric;review numeric;
@@ -39,14 +39,21 @@ begin
    or exists(select 1 from jsonb_each(projections)x where not stocks?x.key)then
    raise exception 'CP7_REORDER_EVALUATE_SUPPLY_SCOPE';end if;
  end if;
+ -- Build the validated identity set once, instead of copying a growing
+ -- object for every target. Keep the same duplicate/scope refusal.
+ select coalesce(jsonb_object_agg(cp7_wip.key(x->'target_key'),true),'{}')into seen
+  from jsonb_array_elements(v->'points'->'rows')x;
+ if(select count(*)from jsonb_each(seen))<>jsonb_array_length(v->'points'->'rows')then
+  raise exception 'CP7_REORDER_EVALUATE_IDENTITY';end if;
+ history_statistics:=v->'history_statistics';
  for p in select value from jsonb_array_elements(v->'points'->'rows')loop
   k:=cp7_wip.key(p->'target_key');root:=split_part(k,':',1);product:=products->root;stock:=stocks->k;
-  if seen?k or product is null or stock is null or product->'id'is distinct from p->'product_version_id'
+  if product is null or stock is null or product->'id'is distinct from p->'product_version_id'
    or product->'size_id'is distinct from p->'size_id'or stock->'size_id'is distinct from p->'size_id'
    or stock->>'root_id'is distinct from root then raise exception 'CP7_REORDER_EVALUATE_IDENTITY';end if;
-  seen:=seen||jsonb_build_object(k,true);free:=cp7_wip.pcs(stock->'native_available_pcs');
+  free:=cp7_wip.pcs(stock->'native_available_pcs');
   point:=null;if p->'point_pcs'<>'null'::jsonb then point:=cp7_wip.pcs(p->'point_pcs');end if;
-  kernel:=p->'target';config:=kernel->'inputs';hist:=v->'history_statistics'->k;
+  kernel:=p->'target';config:=kernel->'inputs';hist:=history_statistics->k;
   if hist is null then raise exception 'CP7_REORDER_EVALUATE_HISTORY';end if;
   good:=null;base_position:=null;candidate:=null;conditional_position:=null;analysis_at:=null;
   status:='UNKNOWN';reason:=coalesce(supply->>'reason','GLOBAL_ALLOCATION_UNAVAILABLE');net:=null;lead_net:=null;

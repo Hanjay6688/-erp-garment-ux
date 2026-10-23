@@ -1,4 +1,4 @@
-# Native31 — sedang berjalan, hasil belum tersedia
+# Native31 pertama28/31; perbaikan sedang disiapkan
 
 Kontrak `NATIVE31_CONTRACT.json` dideklarasikan sebelum eksekusi. Seluruh
 Native25 ditahan persis:15 Native,4 race OW10,4 Auth,2 browser OW10. Ditambah
@@ -27,12 +27,47 @@ Flag baru pada probe bersama hanya aktif untuk entry ini; jalur Native25 tetap
 25 ID dengan race/browser OW10 saja. Semua source pins/admission22/invers,
 restore/advisor dan batas8detik/volume2000 hangat3detik dipertahankan.
 
-Kode kontrol802d7b0d; kandidat `44afe80bbf9dbc1ac61162b97daa701ca56993f6`,
-treef0a8ac6e, workflow `cp7-ow13c-journeys.yml`,
-[run39941715921](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39941715921)
-/job120374491985 masih berjalan. Native25 dan Native19 pada a3bf8842 sudah
-PASS25/25 dan19/19; lihat receipt masing-masing. Bukti tersebut tidak
-mencakup6 kontrol baru ini. Baca hasil aktual dan simpan Original/failure
-sebelum mengklaim lulus.
+Kandidat pertama `44afe80bbf9dbc1ac61162b97daa701ca56993f6`,
+treef0a8ac6e, [run39941715921](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39941715921)
+/job120374491985 selesai INCOMPLETE28/31:14/15 Native,8/8 race,4/4 Auth,
+2/4 browser. Seluruh ID/deklarasi tepat; restore/advisor lulus. Empat race
+checked-save baru semuanya PASS, termasuk akses/stok berubah sesudah lock.
+[Receipt pertama](44afe80-first-native31-28.json), Original/log utuh.
+
+Tiga yang gagal: volume2000 7409/3150/3122ms (dua hangat harus≤3000);
+desktop mengharapkan409 tetapi menerima500 sesuai aturan SQLSTATE40001;
+HP memeriksa status sebelum callback intersepsi menerima jawaban server.
+Ini dua bug alat uji dan satu pengukuran melewati SLA, bukan31 lulus.
+Batas8s/3s tidak berubah. V7 memakai agregat stok yang sama satu kali,
+normalisasi/hash sekali, referensi/jam sekali, dan set identitas/statistik
+caller sekali. Rumus, seluruh202000 gerakan/60000 hari, penolakan dan
+nilai/hash stok wajib sama; pembanding SQL v6 penuh ditambahkan di fixture.
+Native baru perbaikan ini belum ada saat catatan dibuat.
+
+Native25 dan Native19 pada a3bf8842 tetap PASS25/25 dan19/19 pada kandidat
+tersebut; tidak dialihkan ke v7. Empat race baru sudah lulus pada44afe80b,
+tetapi seluruh31 belum lulus.
 Full OW13c, komposisi A, backup/restore setelah dipakai, factory3600 dan
 production_go tetap terbuka; parent5/16. A tetap integrator/registry/types.
+
+## Pemeriksaan alat uji ketika run44afe80b masih berjalan
+
+Ditemukan satu koneksi pengubah stok pada race yang belum diberi batas.
+Perbaikan memberi statement8s/lock5s pada writer ketiga serta melepas lock
+pemegang di finally, termasuk bila writer itu gagal. Setup/pembaca hitungan
+juga memakai8s. Ini membatasi alat uji, tidak menaikkan batas aplikasi atau
+melemahkan syarat kedua backend/no orphan. Original kemudian membuktikan seluruh8 race lulus; koneksi ini bukan
+penghambat yang teramati. Run39941715921 tetap bukti pertama immutable.
+
+Harapan HTTP409 pada browser juga salah untuk SQLSTATE40001: pemetaan resmi
+PostgREST adalah HTTP500. Pemeriksa sekarang meminta tepat500 +code40001+
+pesan sumber berubah+jumlah draf/receipt tetap, bukan menerima sembarang error.
+Sumber: https://docs.postgrest.org/en/v14/references/errors.html#http-status-codes
+
+Catatan integrasi platform untuk A sebelum produksi: Supabase mendokumentasikan
+masalah retry40001 pada PostgREST14 (diperbaiki16). Versi REST aktual serta
+jalur konflik seluruh rantai harus diperiksa sebelum production_go. Native25
+hanya menguji source berubah melalui SQL, belum menegaskan perilaku negatif
+HTTP; Native31 menambah jalur layar itu. Jangan mengklaim lingkungan produksi
+aman dari retry berdasarkan uji positif.
+https://supabase.com/kb/troubleshooting/high-cpu-and-infinite-transaction-retries-when-using-custom-error-codes-in-rpc-functions

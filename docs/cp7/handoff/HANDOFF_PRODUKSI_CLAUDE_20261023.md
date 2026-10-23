@@ -13,14 +13,20 @@ Native25 6133/2663/2679ms; Native19 6305/2697/2733ms. Batas8s/hangat3s
 utuh. [Receipt25](../d17-14/ow13c/a3bf884-native25-pass.json),
 [receipt19](../d17-14/ow10/a3bf884-native19-pass.json).
 
-**Kontrol checked-save dua backend/layar masih berjalan:** kode kontrol802d7b0d,
-kandidat lengkap `44afe80bbf9dbc1ac61162b97daa701ca56993f6`/treef0a8ac6e,
-[Native31 run39941715921](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39941715921),
-job120374491985. Seluruh25 lama ditahan, ditambah4 race checked-save dan2
-browser nyata. Desktop mengedit jumlah dan menolak stok berubah; HP memutus
-jawaban setelah server commit lalu membuka panel rencana biasa, UUID/payload/
-jalur checked tetap persis. Belum ada hasil Native31; jangan melabel race/
-browser OW10 pada Native25 sebagai checked-save. [Kontrak/status](../d17-14/ow13c/NATIVE31_README.md).
+**Native31 pertama selesai28/31, belum PASS.** Kandidat
+`44afe80bbf9dbc1ac61162b97daa701ca56993f6`/treef0a8ac6e,
+[run39941715921](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39941715921),
+job120374491985. Keempat race checked-save baru semuanya lulus; Native14/15,
+race8/8,Auth4/4,browser2/4. Original/log dan
+[receipt pertama](../d17-14/ow13c/44afe80-first-native31-28.json) disimpan.
+Volume2000:7409/3150/3122ms, dua hangat melampaui3000; desktop salah
+mengharapkan409 (aktual500/code40001), HP memeriksa status sebelum callback
+menerima hasil. Perbaikan v7 merapikan pekerjaan SQL berulang, bukan angka/
+rumus/batas. Browser menunggu jawaban commit asli lalu menguji reopen.
+Timeout/finally race juga dirapikan; hasil pertama membuktikan8 race sudah
+lulus, jadi itu bukan penghambat yang teramati. V7 lokal35+9 dan perbandingan seluruh JSON/hash dengan v6 lulus;
+Native baru belum ada. [Perubahan/bukti](../d17-14/ow10/STOCK_AGGREGATE_V7.md).
+[Kontrak/status](../d17-14/ow13c/NATIVE31_README.md).
 
 **Batas:** ini komponen B, parent5/16. Full OW13c, ujung komposisi A,
 backup/restore caller setelah dipakai, factory3600 dan audit tetap OPEN.

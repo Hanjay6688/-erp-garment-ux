@@ -83,7 +83,7 @@ def verify(cur, state):
             for grant in row[-1]:
                 if grant[0] != 'cp7_capture' or grant[1] != 'cp7_capture' or grant[3] is not False:
                     raise ValueError('OW10_REORDER_INPUTS_UNDECLARED_GRANT: '+key)
-    return dict(stage='cp7.reorder-inputs-stage.v6', private_functions=9, hook_bodies=0,
+    return dict(stage='cp7.reorder-inputs-stage.v7', private_functions=9, hook_bodies=0,
                 Native_DML=False, live_ROP_caller_changed=False,
                 full_A_chain_qualified=False, production_go=False)
 

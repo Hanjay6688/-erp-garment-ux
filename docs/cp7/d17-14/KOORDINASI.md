@@ -550,3 +550,28 @@ Kontrol31 sudah dipush802d7b0d; kandidat44afe80b/treef0a8ac6e,
 run39941715921/job120374491985 aktual berjalan, belum ada hasil. Seluruh25
 lama dipertahankan,6 kontrol tambahan checked-save bukan pengganti oracle.
 Parent5/16; rantai A/backuprestore setelah pakai/factory3600/audit tetap OPEN.
+
+## 24 — perbaikan batas alat uji31, bukan hasil baru (23 Okt WIB) [bersama]
+
+Run31 pertama44afe80b/39941715921 masih berjalan saat review. Ditemukan satu
+writer race ketiga tanpa timeout; perbaikan menambah statement8s/lock5s dan
+melepas holder dalam finally. Oracle browser HTTP409 salah untuk40001;
+sekarang tepat500+code40001+pesan+no orphan sesuai dokumentasi PostgREST.
+Produk, batas8s aplikasi, angka dan25 kontrol lama tidak berubah. Belum
+mengklaim penyebab run pertama lama atau hasil31 sebelum Original tersedia.
+Catatan risiko retry PostgREST14 dicatat untuk verifikasi A sebelum produksi.
+
+## 25 —31 pertama28/31, seluruh race lulus; v7 dirapikan (23 Okt WIB) [bersama]
+
+44afe80b/run39941715921/job120374491985 selesai28/31: Native14/15,
+race8/8,Auth4/4,browser2/4. Empat race checked-save seluruhnya PASS;
+Original/log dan receipt44afe80-first-native31-28.json utuh. Tiga gagal:
+volume7409/3150/3122ms (hangat≤3000), oracle desktop409 vs500/code40001,
+HP memeriksa lost.status sebelum callback commit selesai. Koneksi race tanpa
+timeout yang ditemukan review bukan kegagalan yang teramati pada run ini.
+
+V7 merapikan agregat stok/current+opening, normalisasi availability/hash,
+ref/jam produk, set identitas dan statistik caller agar hanya dibuat sekali.
+Tidak mengubah rumus/angka/seluruh202000 gerakan/guard/batas. Uji lokal
+meminta seluruh JSON serta kedua hash sama persis dengan SQL v6. Native v7
+belum ada; seluruh hasil lama tetap melekat ke kandidatnya, parent5/16.

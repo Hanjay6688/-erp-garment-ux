@@ -19,6 +19,7 @@ IDS = ['OW13C_RACE_SAME_UUID_ONE_DRAFT_RECEIPT',
 def races(tools, today):
     def prepare():
         with tools.connect() as conn, conn.cursor() as cur:
+            cur.execute("set local statement_timeout='8s'")
             actor = base.retained.master.role_actor(cur, 'OWNER')
             x = base.plan.single(cur, today, subject=actor)
             conn.commit()
@@ -43,6 +44,7 @@ def races(tools, today):
 
     def counts(actor):
         with tools.connect() as conn, conn.cursor() as cur:
+            cur.execute("set local statement_timeout='8s'")
             return cur.execute('select(select count(*)from cp7_plan_native.drafts where actor=%s),'
                                '(select count(*)from cp7_cutting_checked.receipts where actor=%s)',
                                (actor, actor)).fetchone()
@@ -90,13 +92,19 @@ def races(tools, today):
                     break
                 sleep(.05)
             assert observed, 'OW13C_ACTUAL_CAPACITY_WAIT_NOT_OBSERVED'
-            with tools.connect() as conn, conn.cursor() as cur:
-                if revoke:
-                    cur.execute('update erp.app_users set is_active=false where auth_user_id=%s', (actor,))
-                else:
-                    base.plan.found_fg(cur, x, '1')
-                conn.commit()
-            holder.rollback()
+            try:
+                with tools.connect() as conn, conn.cursor() as cur:
+                    cur.execute("set local statement_timeout='8s'")
+                    cur.execute("set local lock_timeout='5s'")
+                    if revoke:
+                        cur.execute('update erp.app_users set is_active=false where auth_user_id=%s', (actor,))
+                    else:
+                        base.plan.found_fg(cur, x, '1')
+                    conn.commit()
+            finally:
+                # Release the test's lock even if its external writer fails.
+                # Otherwise pool shutdown could itself wait on this holder.
+                holder.rollback()
             answer = pending.result(timeout=15)
         if revoke:
             assert answer.get('sqlstate') == '42501', answer

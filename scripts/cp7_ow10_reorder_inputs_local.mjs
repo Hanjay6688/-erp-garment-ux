@@ -3,6 +3,7 @@
 // than replaying this adapter's chunk orchestration. This is not Native/Auth.
 import {readFile, writeFile, mkdir} from 'node:fs/promises'
 import {createHash} from 'node:crypto'
+import {execFileSync} from 'node:child_process'
 import assert from 'node:assert/strict'
 import {beginLocalStageAudit} from './cp7_local_stage_audit.mjs'
 import {createNativeReorderFixture} from './cp7_ow10_reorder_local_fixture.mjs'
@@ -450,8 +451,15 @@ await test('OW10_STOCK_SUMMARY_202000_ROWS_2000_PRODUCTS_NO_TRUNCATION',async()=
  const free=String(800-Array.from({length:100},(_,i)=>1+(i+1)%6).reduce((a,b)=>a+b,0))
  assert.ok(r.current_stock.every(x=>x.free_pcs===free&&x.physical_pcs===free))
  assert.equal(r.raw_rows_truncated,false);assert.equal(r.Native_capture_status_overridden,false)
+ // Previous qualified v6 SQL, same complete fixture and capture clock: every
+ // field, row, ordering and both hashes must remain byte-for-byte equivalent.
+ const previous=execFileSync('git',['show','a3bf88427fe7eb243ace02f2102ce0a5195d3b7e:scripts/cp7_reorder_inputs/stock.sql'],{encoding:'utf8'})
+ const current=await read('scripts/cp7_reorder_inputs/stock.sql')
+ const replace=sql=>sql.replace('create function cp7_reorder_inputs.stock_summary(', 'create or replace function cp7_reorder_inputs.stock_summary(')
+ try{await db.exec(replace(previous));assert.deepEqual(await stockSummary(products),r)}
+ finally{await db.exec(replace(current))}
  return{controlled_SQL_rows:202000,products:2000,complete_days:60000,all_free_pcs:free,
-  local_SQL_ms:ms,no_source_row_sampled:true,Native_Auth_or_factory_SLA:false}
+  local_SQL_ms:ms,previous_v6_full_JSON_and_both_hashes_equal:true,no_source_row_sampled:true,Native_Auth_or_factory_SLA:false}
 })
 await test('OW10_READ_202000_SQL_ROWS_FULL_NATIVE_HISTORY_TARGETS_AND_POINTS',async()=>{
  // Reuse the complete 202000-row SQL fixture above. These products have a

@@ -1,0 +1,17 @@
+{
+  "classification": "LOCAL_CONTROLLED_SQL_NOT_NATIVE_AUTH_RACES_OR_BROWSER",
+  "status": "PASS",
+  "inputs": 35,
+  "caller": 9,
+  "stock202000_products2000_days60000": true,
+  "previous_v6_entire_JSON_and_both_hashes_equal": true,
+  "same_Native_kernels_and_formula": true,
+  "all_22_installer_groups_exact": true,
+  "Native_v7_qualified": false,
+  "limits_raised": false,
+  "production_go": false,
+  "source_sha256": {
+    "scripts/cp7_reorder_inputs/stock.sql": "4cbc58de2cdd3a0af85b7ab09a84c22568a8e36cfcfd96a57a1691b4dabed1b2",
+    "scripts/cp7_reorder_caller_stage/evaluate.sql": "de94b03b664f854065f6a9484d39fec9a3811fc2ee90022b954466835460959c"
+  }
+}
