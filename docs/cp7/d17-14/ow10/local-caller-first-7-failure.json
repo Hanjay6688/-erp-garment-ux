@@ -1,0 +1,147 @@
+{
+  "classification": "LOCAL_ACTUAL_REORDER_CALLER_PUBLIC_RPC_SQL_NATIVE_PROFILE_AND_SUPPLY_READER_BODIES_CONTROLLED_CLAIMS_ERP_AND_LOWER_OPERATIONAL_ADAPTERS_NOT_NATIVE_AUTH_OR_RACES",
+  "status": "FAIL",
+  "passed": 6,
+  "total": 7,
+  "results": [
+    {
+      "id": "OW10_LIVE_CALLER_COMPUTE_AND_V2_WORKSPACE",
+      "status": "PASS",
+      "observed": {
+        "actual_compute_and_public_workspace_SQL": true,
+        "decimal_text_points": [
+          2,
+          10,
+          0
+        ],
+        "actual_Native_profile_source": true,
+        "current_stock_snapshot_and_no_legacy_raw_WIP_credit": true,
+        "controlled_claims_not_Auth_PostgREST": true
+      }
+    },
+    {
+      "id": "OW10_LIVE_CALLER_REAL_INSTALLER_22_AFTER_USE_REFUSED",
+      "status": "PASS",
+      "observed": {
+        "three_predecessor_installers_and_actual_caller_API": true,
+        "caller_apply_admit_inverse_reapply22": true,
+        "after_use_refusal_before_DDL": true
+      }
+    },
+    {
+      "id": "OW10_LIVE_MANUAL_REPLAY_STALE_CLEAR_AND_POSTED_FACTS_UNCHANGED",
+      "status": "PASS",
+      "observed": {
+        "manual_only_changes_trigger": true,
+        "request_replay_single_row": true,
+        "changed_payload_and_stale_revision_refused": true,
+        "clear_returns_to_same_Native_formula": true,
+        "posted_ERP_facts_unchanged": true,
+        "append_only": true
+      }
+    },
+    {
+      "id": "OW10_LIVE_ACCESS_RECHECK_BEFORE_WRITE_AND_AFTER_COMPUTE_ATOMIC",
+      "status": "PASS",
+      "observed": {
+        "actual_public_RPC_bodies": true,
+        "controlled_revocation_after_lock_and_after_compute": true,
+        "all_new_manual_writes_rolled_back": true,
+        "read_only_role_and_missing_permission_refused": true,
+        "not_Native_two_session_concurrency": true
+      }
+    },
+    {
+      "id": "OW10_LIVE_SETTINGS_REPLAY_AND_STALE_REVISION",
+      "status": "PASS",
+      "observed": {
+        "settings_and_manual_share_global_lock": true,
+        "append_single_revision_and_replay": true,
+        "stale_and_reused_requests_refused": true,
+        "posted_ERP_facts_unchanged": true
+      }
+    },
+    {
+      "id": "OW10_LIVE_BUSY_NEW_LOW_ITEM_FRESH_STOCK_AND_STABLE_ALERT_FACTS",
+      "status": "PASS",
+      "observed": {
+        "busy_checks_every_item_and_current_stock": true,
+        "no_old_WIP_credit": true,
+        "no_busy_evaluation_write": true,
+        "same_facts_no_new_alert_hash_per_tick": true
+      }
+    },
+    {
+      "id": "OW10_LIVE_SUCCESSOR_SIZE_DROPS_OLD_KEY_AND_STALE_MANUAL",
+      "status": "FAIL",
+      "error": "error: CP7_DEMAND_TARGET_SIZE\n    at pe.Oe (file:///workspace/scratch/05009cca93f2/local-sql-resume-20261023b/node_modules/@electric-sql/pglite/dist/chunk-3OMHRXTA.js:1:18162)\n    at pe.tt (file:///workspace/scratch/05009cca93f2/local-sql-resume-20261023b/node_modules/@electric-sql/pglite/dist/chunk-3OMHRXTA.js:1:15548)\n    at pe.parse (file:///workspace/scratch/05009cca93f2/local-sql-resume-20261023b/node_modules/@electric-sql/pglite/dist/chunk-3OMHRXTA.js:1:14222)\n    at D.Ne (file:///workspace/scratch/05009cca93f2/local-sql-resume-20261023b/node_modules/@electric-sql/pglite/dist/index.js:5:1763)\n    at file:///workspace/scratch/05009cca93f2/local-sql-resume-20261023b/node_modules/@electric-sql/pglite/dist/index.js:5:1155\n    at wasm://wasm/0269dffe:wasm-function[10979]:0x5ad04f\n    at wasm://wasm/0269dffe:wasm-function[3598]:0x281dd2\n    at wasm://wasm/0269dffe:wasm-function[3640]:0x289ccf\n    at wasm://wasm/0269dffe:wasm-function[3650]:0x289f2b\n    at wasm://wasm/0269dffe:wasm-function[9956]:0x55697c"
+    }
+  ],
+  "inputs_installer": {
+    "classification": "LOCAL_REAL_INSTALLER_AND_PG_CATALOG_VIA_CONTROLLED_TRANSPORT_NOT_NATIVE",
+    "stage": "cp7_reorder_inputs",
+    "status": "PASS",
+    "catalog_groups": 22,
+    "apply_rollback_reapply_exact": true,
+    "admission_passed": true,
+    "full_A_chain_qualified": false,
+    "production_go": false,
+    "after_use_refusal": "OW10_REORDER_INPUTS_AFTER_USE_REQUIRES_BACKUP_RESTORE",
+    "after_use_refused_before_first_DDL": true
+  },
+  "reader_installer": {
+    "classification": "LOCAL_REAL_INSTALLER_AND_PG_CATALOG_VIA_CONTROLLED_TRANSPORT_NOT_NATIVE",
+    "stage": "cp7_reorder_reader_stage",
+    "status": "PASS",
+    "catalog_groups": 22,
+    "apply_rollback_reapply_exact": true,
+    "admission_passed": true,
+    "full_A_chain_qualified": false,
+    "production_go": false,
+    "after_use_refusal": "OW10_REORDER_READER_AFTER_USE_REQUIRES_BACKUP_RESTORE",
+    "after_use_refused_before_first_DDL": true
+  },
+  "supply_installer": {
+    "classification": "LOCAL_REAL_INSTALLER_AND_PG_CATALOG_VIA_CONTROLLED_TRANSPORT_NOT_NATIVE",
+    "stage": "cp7_reorder_supply",
+    "status": "PASS",
+    "catalog_groups": 22,
+    "apply_rollback_reapply_exact": true,
+    "admission_passed": true,
+    "full_A_chain_qualified": false,
+    "production_go": false,
+    "after_use_refusal": "OW10_SUPPLY_AFTER_USE_REQUIRES_BACKUP_RESTORE",
+    "after_use_refused_before_first_DDL": true
+  },
+  "caller_installer": {
+    "classification": "LOCAL_REAL_INSTALLER_AND_PG_CATALOG_VIA_CONTROLLED_TRANSPORT_NOT_NATIVE",
+    "stage": "cp7_reorder_caller_stage",
+    "status": "PASS",
+    "catalog_groups": 22,
+    "apply_rollback_reapply_exact": true,
+    "admission_passed": true,
+    "full_A_chain_qualified": false,
+    "production_go": false,
+    "after_use_refusal": "OW10_REORDER_CALLER_AFTER_USE_REQUIRES_BACKUP_RESTORE",
+    "after_use_refused_before_first_DDL": true
+  },
+  "sql_sha256": {
+    "evaluate.sql": "339673fd431107cfde280f4f05ff28e1c8e957bb72ea6f5a0b312e117ea5edec",
+    "state.sql": "e67e84dbcc6a1662b57b6264f29c1d72cb0d62dd39fd92720fae4987c54b87ba",
+    "compute.sql": "021ffaac52ad2d3a6e45b99cebd86fb0d15a07826c4a7d3a0b58cda73051b286",
+    "workspace.sql": "f5fa326190cbdf29ef1e046fa82a765dce644795690030e489693223df8feb4f",
+    "fg_source.sql": "e95552adc28534832509ba8899095a71cef65da37ae376cc3498c47b31ae0677",
+    "alert_row.sql": "0760a3e5c4a8ed37e6997315cad44fa3d1d82de846a38b01e15cac06f35a06d1",
+    "save_manual.sql": "efa271cee90733b2415badef0f67190b23c3ed4dd77dfca31ef098bdd1af204d",
+    "save_settings.sql": "1d918ea59c46bec928c1d7341311d90854b725018a8b19fd376bb3b6e87689a2",
+    "refresh.sql": "becb4ae410ec91ea3eda1084cc91df7316a8f722b0899603af4c51ad705374b6",
+    "item_line.sql": "c03efb88c108a04aeb470109e2b5cbdf5773f750f3137baaa400e4a17d67a179"
+  },
+  "controlled_material_compute": true,
+  "controlled_lock_busy_adapter": true,
+  "Native_Auth_or_factory_SLA": false,
+  "full_A_chain_qualified": false,
+  "production_go": false,
+  "classification_first": "CONTROLLED_SUCCESSOR_FIXTURE_CHANGED_SIZE_DESPITE_POSTED_SALE_OLD_SIZE_NATIVE_TARGET_SIZE_REFUSED_AS_REQUIRED_NO_ORACLE_RELAXATION",
+  "raw_log_sha256": "b1c6ce1648f03b3714520b95f7cfdca598558a8c0e2632254ad04cfb160b503c"
+}

@@ -22,33 +22,31 @@ Hasil pertama131/133 dan Original tetap disimpan; dua gagal memang bug producer
 B yang menolak WIP mentah tanpa projection. Perbaikan mempertahankan barang
 baik/ETA null dan tetap menolak projection malformed, tanpa mengkreditkan raw PCS.
 
-**OW10 tetap terbuka:** hasil ini membuktikan producer budget/ETA dan reader
-cache privat, belum mengganti pemanggil ROP lama atau menyamakan sumber/periode/
-lead. Pengingat stok bebas tetap wajib tiap menit tanpa menunggu analisis besar.
-Native133 ini tidak memasang cp7_reorder_inputs atau bridge keuangan; jadwal,
-rantai A, factory3600, audit independen dan production_go belum dibuktikan.
-Kontrak sebelum caller: [SUPPLY_PROJECTION_CONTRACT](../d17-14/ow10/SUPPLY_PROJECTION_CONTRACT.md).
-A tidak perlu memasang separuh fitur ini.
-Sumber ROP sekarang juga mempunyai tahap privat `cp7_reorder_inputs`: riwayat
-memakai fungsi Native yang sama, titik memakai target profil persis atau
-aturan default lama atas riwayat Native; override manual tidak ditumpuk.
-28 kelompok lokal/dua installer22 PASS, termasuk420 produk/12.600 hari dan guard
-dependensi caller sebelum DDL. Tahap v5 tujuh fungsi/1 schema, tanpa hook/DML/endpoint.
-Sumber server membaca baseline Native, setting, lead terukur/manual dan waktu
-yang sama; engine/context hash berubah bila kode/sumber berubah. Badan sumber
-baseline dan SQL lead/manual aktual diuji, adapter Native di bawahnya terkontrol.
-Ringkasan SQL stok juga membaca202.000 pergerakan/2.000 produk menjadi60.000 hari
-utuh, cocok dengan aturan Native; ini bukan Native/SLA. Sumber mentah Native
-tetap mempunyai cap50.000 dan status INCOMPLETE-nya tidak ditimpa. Adapter ke target/titik kini lengkap untuk2.000 produk/60.000 hari; read_points
-atau compile atas satu snapshot tersedia. Perubahan di luar array mentah juga
-mengubah context_hash. Cache privat kini tersedia: stok hari ini tetap dibaca baru, titik dihitung ulang
-hanya bila dependensinya berubah. Caller compute/pengingat dan binding WIP
-masih harus dibuat; ini belum Native/Auth/SLA pabrik.
-Ini belum caller ROP atau Native/performa. Cache2.000 titik lokal sekitar11,2detik
-dingin/5,6detik hangat; bukan klaim SLA3detik Native. Guard cache setelah pakai
-tetap menolak walau cache dieviksikan, melalui use_marks yang immutable.
-[Kontrak cache](../d17-14/ow10/REORDER_READER_CONTRACT.md). Kontrak dan beda angka yang diharapkan:
-[REORDER_INPUTS_CONTRACT](../d17-14/ow10/REORDER_INPUTS_CONTRACT.md).
+**OW10 caller server dan klien kini sudah dibuat dalam tahap terpisah**
+`cp7_reorder_caller_stage` v1:8 hook,2 fungsi/2 tabel privat,0 endpoint baru.
+Input/cache/Native target yang sama; WIP hanya good/ETA dari alokasi global
+terkini. Manual25 tidak mengubah target5/jumlah1; kandidat tidak mematikan
+peringatan. Stok diperiksa baru tiap hitungan, termasuk saat server sibuk.
+Klien/pengingat v2 menerima PCS teks persis, kandidat bersyarat, waktu stok/
+aturan/analisis dan referensi manual versi lama; klien v1 tetap kompatibel.
+
+**Bukti caller baru masih lokal:**35/35 inputs/cache/evaluate,9/9 alur caller
+(public RPC SQL dan reader Native aktual, fakta ERP/akses/lower source terkontrol),
+9/9 reader suplai dan65/65 klien/DOM. Empat API installer22/invers/reapply serta
+penolakan setelah pakai sebelum DDL lulus; TypeScript dan owning-source beku
+PASS. Source registry tetap7 gap lama milik A, tidak ada endpoint baru.
+Native133 di atas **tidak memasang input/cache/caller ini**; Auth/dua pengguna/
+layar Native/pasang-pulih seluruh rantai A dan SLA masih terbuka. Parent5/16.
+
+[Kontrak caller, API A, beda angka dan langkah lanjut](../d17-14/ow10/REORDER_CALLER_CONTRACT.md).
+A memegang komposisi inputs → cache → caller setelah tahap B yang diperlukan;
+jangan memasang setengah kontrak server/klien. Sembilan SQL beku tetap tepat,
+bundle/migrasi/tipe generator/finance A tidak diubah. Pengingat stok bebas
+wajib tetap tiap menit tanpa menunggu analisis besar atau WA menyala.
+Cache2000 titik PGlite terdahulu11,2detik dingin/5,6detik hangat **bukan** SLA
+Native3detik. [Input](../d17-14/ow10/REORDER_INPUTS_CONTRACT.md),
+[cache](../d17-14/ow10/REORDER_READER_CONTRACT.md),
+[producer/reader Native133](../d17-14/ow10/SUPPLY_PROJECTION_CONTRACT.md).
 
 B/Codex bekerja di `astra/d17-14-produksi`; A/Claude di `claude/d17-14-uang` dan menjadi satu-satunya
 penggabung `astra/d17-14-integrasi`, sesuai D17-16/17 versi2. Main, kandidat audit beku, Enteng,
@@ -73,7 +71,7 @@ Ini kualifikasi penulis atas komponen/basis beku, **bukan** ujung rantai A atau 
 | OW16 status potong | Native16/16, transaksi/API/browser desktop/HP, UUID/revokasi/restore. Kelompok bahan+pola/revisi+rentang ukuran, seluruh pabrik. Nilai produksi diisi owner lewat form; tidak ada default aktif penulis. A masih memasang modul/registry. |
 | OW14a/b kain | Native113/113 mencakup99 kontrol lama dan14 tambahan. Minimum lama referensi baca saja; satu pilihan aktif; pin enam desimal/UUID bertahan. A masih melakukan inventaris satuan/referensi dan label Master. |
 | OW10 inti | Target38/staged15/netting84 lulus pada a753. L memicu, L+R menentukan jumlah dari suplai hasil alokasi yang sama. |
-| OW10 tambahan statistik | Kode c0fcfe04:4 body di cp7_target_policy_stage;5 kelompok SQL,108 klien/DOM dan pemasang22 lokal lulus. Native126 membuktikan profil statistik eksplisit dengan riwayat belum cukup tetap UNKNOWN; hitungan statistik positif tetap bukti lokal. Sumber/periode/lead serta WIP mentah per-model di pengingat tetap OPEN. |
+| OW10 tambahan statistik | Kode c0fcfe04:4 body di cp7_target_policy_stage;5 kelompok SQL,108 klien/DOM dan pemasang22 lokal lulus. Native126 membuktikan profil statistik eksplisit dengan riwayat belum cukup tetap UNKNOWN; hitungan statistik positif tetap bukti lokal. Caller penyelarasan sumber/periode/lead dan good/ETA global kini dibuat/lokal lulus; kualifikasi Native/A-chain/SLA tetap OPEN. |
 | OW12b | Kode f82868f: request/status analisis memakai capture resmi A, tampilan uang terpisah dari halaman tersegel;10 kelompok SQL dan pemasang22 lokal lulus. Nilai besar tepat, belum READY bukan0, UUID/akses/atomik diperiksa. Belum Native/A-chain/factory3600. |
 | OW13a awal otomatis | Tahap4 fungsi privat/1 tabel dan2 hook, status minimum/tombol profil/UUID server. Lokal11 kelompok SQL +197 klien/DOM; invers/admission22 lokal. Native126 PASS pada d9918e4b,68/36/9/13 dengan ID tepat; invers22/restore/advisor/paket lulus. Callback Master/jadwal/rantai A masih OPEN. |
 

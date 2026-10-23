@@ -1,7 +1,8 @@
 # OW10 — cache titik, stok selalu baru (23 Oktober2026 WIB)
 
 Tahap privat `cp7_reorder_reader_stage` v1 mempunyai1 schema,2 fungsi dan2 tabel,
-0 hook/endpoint/grant Native. **Pemanggil ROP lama belum diganti.** A tidak perlu
+0 hook/endpoint/grant Native. Caller v1 kini tersedia terpisah di [REORDER_CALLER_CONTRACT](REORDER_CALLER_CONTRACT.md);
+Native caller masih menunggu kualifikasi. A tidak perlu
 memasang potongan ini terpisah. Ini infrastruktur untuk caller D17-8/OW10.
 
 `snapshot(server_source)` menerima hanya snapshot dari sumber server privat
@@ -37,7 +38,7 @@ unknown-minus-unknown sebelum penggunaan cache. Produk diperbaiki dengan
 kurung; angka expected/oracle/guard tidak dilonggarkan. Original/log lengkap
 terpisah, hasil28/28 menggantikannya tanpa menghapus kegagalan pertama.
 
-Lanjutan: caller compute/pengingat, WIP good/ETA dari alokasi global yang cocok,
-facade/label proyeksi dan uji Native/dua pengguna/login/layar/pasang-pulih serta
+Caller compute/pengingat, binding WIP good/ETA serta facade/label v2 sudah
+dibuat dan diuji lokal. Lanjutan: uji Native/dua pengguna/login/layar/pasang-pulih serta
 ukuran performa. Komponen suplai Native133 sudah PASS; cache/input di dokumen
 ini belum masuk kandidat Native tersebut. Parent5/16; bukan CP7C/production_go.

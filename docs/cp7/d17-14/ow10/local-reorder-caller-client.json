@@ -1,0 +1,33 @@
+{
+  "classification": "LOCAL_CLOSED_V1_V2_CONTRACT_AND_DOM_TESTS_WITH_ACTUAL_SQL_SYNTHETIC_ERP_OUTPUTS_CONTROLLED_TRANSPORT_NOT_NATIVE_BROWSER",
+  "status": "PASS",
+  "tests": 65,
+  "files": 4,
+  "new_tests": 14,
+  "legacy_tests": 51,
+  "typescript": "PASS",
+  "Native_Auth_or_browser": false,
+  "full_A_chain_qualified": false,
+  "production_go": false,
+  "source_sha256": {
+    "src/fgReorderContract.ts": "e4648935b96232d9d5241977460753646f02b15dc5193ea50f6a6390d8a775b2",
+    "src/FgReorderPanel.tsx": "3034708fdace34a12ba69830acf50aecc660b14852213103d9666aeb2bb35882",
+    "src/SystemRemindersPanel.tsx": "daa47eedc72ff1ed37c1a55127925cbf8cc2c29b18a6d9bf0baabcbdfc638f1c",
+    "src/waContract.ts": "7ef1944623c5fe5a4f206388345ff0226b6013ca3b58fc7296e2484d2e3cbfc6",
+    "src/fgReorderNative.dom.test.tsx": "79028161648b4b7888f66b81063f915b3abe8fe4ba6d44a42df5da7c5b5a414e",
+    "tests/fixtures/reorderCallerSql.json": "bcaf80f61b6485085e77133e5473b65177756d038bfec0c19ea96d338d0c582b"
+  },
+  "log_sha256": "8001c5b7a4e04147443469a70a35b109b9874da224b12678723d7def9387578c",
+  "typescript_log_sha256": "7125f194612fcff2f454c05d848e7cb71facc1967b4d5017e25b34fdee3ba74f",
+  "source_registry": {
+    "status": "FAIL_EXISTING_7_SHARED_RPC_PAIRS",
+    "same_known_Mandor3_OW16_3_initial1": true,
+    "no_new_public_RPC": true
+  },
+  "first_failure": {
+    "tests_passed": 61,
+    "tests_total": 63,
+    "bug": "V2_PARSER_REJECTED_LEGITIMATE_UNKNOWN_STALE_PROFILE_WITH_NULL_BUFFER",
+    "fixed_without_assertion_change": true
+  }
+}

@@ -5,138 +5,8 @@ import {readFile, writeFile, mkdir} from 'node:fs/promises'
 import {createHash} from 'node:crypto'
 import assert from 'node:assert/strict'
 import {beginLocalStageAudit} from './cp7_local_stage_audit.mjs'
-const {PGlite} = await import(process.env.CP7_PGLITE_MODULE ?? '@electric-sql/pglite')
-const db = new PGlite(), read = path => readFile(path, 'utf8')
-const block = (sql, name) => {
-  const start = sql.search(new RegExp('create(?: or replace)? function ' + name.replaceAll('.', '\\.') + '\\('))
-  assert.ok(start >= 0, name)
-  const end = sql.indexOf('$$;', sql.indexOf('as $$', start))
-  assert.ok(end >= 0, name)
-  return sql.slice(start, end + 3)
-}
-await db.exec(`create role cp7_capture nologin noinherit nosuperuser nocreatedb nocreaterole noreplication bypassrls;
- create role anon nologin;create role authenticated nologin;create role service_role nologin;create role cp7_alert nologin;
- create schema cp7_planning;create schema cp7_analysis_stage;create schema cp7_baseline_native;create schema extensions;
- create function extensions.digest(bytea,text)returns bytea language sql immutable as $$select sha256($1)$$;`)
-for (const file of ['wip/bootstrap.sql', 'demand/bootstrap.sql', 'demand/history.sql', 'demand/estimate.sql', 'baseline/target.sql']) {
-  await db.exec(await read('scripts/cp7-src/' + file))
-}
-await db.exec(await read('scripts/cp7_production_stage/sql/cp7_baseline__target.sql'))
-await db.exec(block(await read('scripts/cp7-src/planning/bootstrap.sql'), 'cp7_planning.utc'))
-await db.exec(block(await read('scripts/cp7-src/planning/history-source.sql'), 'cp7_planning.history_events'))
-const history = await read('scripts/cp7-src/planning/history.sql')
-for (const name of ['cp7_planning.history_availability', 'cp7_planning.history_build']) await db.exec(block(history, name))
-const staged = await read('scripts/cp7-src/planning/analysis-stages.sql')
-for (const name of ['castable', 'events_clean', 'availability_clean', 'history_prep', 'events_validate',
-  'history_validate', 'history_rows', 'history_stock', 'bounds']) {
-  await db.exec(block(staged, 'cp7_analysis_stage.' + name))
-}
-await db.exec(await read('scripts/cp7_target_policy_stage/sql/cp7_analysis_stage__baseline_rows.sql'))
-// Native history_source_within and baseline source bodies are loaded exactly.
-// ERP tables contain controlled test facts; profile/identity adapters remain
-// controlled. These local SQL checks do not claim a Native/Auth journey.
-await db.exec(`create schema erp;create schema cp7_identity;create schema cp7_profile;create schema cp7_stock_formula;
- create table public.reorder_native_fixture(c jsonb);
- create function cp7_profile.source(uuid[],timestamptz)returns jsonb language sql stable as $$select c->'profiles'from public.reorder_native_fixture$$;
- create function cp7_identity.workspace_data(uuid[],timestamptz)returns jsonb language sql stable as $$select c->'production_policies'from public.reorder_native_fixture$$;
- create table erp.production_orders(id uuid,model_id uuid,status text);
- create table erp.products(id uuid primary key,identity_root_id uuid,size_id uuid default '00009000-1111-4111-8111-111111111111',
-  model_id uuid default '00009001-1111-4111-8111-111111111111',brand_id uuid,sku text default 'CONTROLLED',
-  product_name text default 'Controlled SQL product',is_active boolean default true,
-  effective_from timestamptz default '2020-01-01T00:00:00Z',effective_to timestamptz,created_at timestamptz default '2020-01-01T00:00:00Z');
- create table erp.fg_stock_movements(id uuid primary key,product_id uuid,qty_signed numeric,physical_at timestamptz,
-  system_created_at timestamptz,quality_grade text,movement_type text,reversal_of_id uuid,book_order bigint,
-  lot_id uuid,location_id uuid,source_type text,source_id uuid);
- create table erp.bf_sku_members_v1(product_root uuid,version_id uuid);
- create table erp.bf_sku_versions_v1(id uuid,sku_id uuid,revision integer,effective_from timestamptz,effective_to timestamptz);
- create table erp.bf_skus_v1(id uuid,sku text);
- create table erp.sales_items(id uuid,sale_id uuid,product_id uuid,qty_pcs numeric);
- create table erp.sales_headers(id uuid,status text,row_version integer,sale_date timestamptz,created_at timestamptz,updated_at timestamptz);
- create table erp.journal_entries(id uuid,source_id uuid,source_type text,status text,posting_at timestamptz,
-  transaction_date date,economic_date date,reversal_of_id uuid);
- create table erp.sales_return_items(id uuid,return_id uuid,sale_stock_allocation_id uuid,qty_pcs numeric);
- create table erp.sales_returns(id uuid,sale_id uuid,status text,physical_at timestamptz,created_at timestamptz);
- create table erp.sale_stock_allocations(id uuid,sale_item_id uuid);
- create table erp.cutting_groups(id uuid,po_id uuid,cut_at timestamptz,material_issue_posted boolean);
- create table erp.fg_lots(id uuid,cutting_group_id uuid,qc_item_id uuid,produced_at timestamptz,lot_origin text);
- create table erp.qc_inspection_items(id uuid,inspection_id uuid);
- create table erp.qc_inspections(id uuid,status text);`)
-const formula=await read('scripts/cp7-src/stock-formula/formula.sql')
-for(const table of['settings','manual_points']){
- const start=formula.indexOf('create table cp7_stock_formula.'+table+'(')
- await db.exec(formula.slice(start,formula.indexOf(');',start)+2))
-}
-await db.exec(block(formula,'cp7_stock_formula.current_settings'))
-const nativeSourceSQL=block(await read('scripts/cp7-src/planning/history-source.sql'),'cp7_planning.history_source_within')
-await db.exec(nativeSourceSQL)
-await db.exec(block(await read('scripts/cp7-src/planning/baseline-source.sql'),'cp7_baseline_native.source_within'))
-await db.exec(`grant usage on schema erp,cp7_identity,cp7_profile,cp7_stock_formula to cp7_capture;
- grant select on public.reorder_native_fixture to cp7_capture;grant select on all tables in schema erp,cp7_stock_formula to cp7_capture;`)
-await db.exec(`grant usage on schema cp7_planning,cp7_analysis_stage,cp7_baseline_native,extensions,cp7_wip,cp7_demand,cp7_baseline to cp7_capture;`)
-const manifest=JSON.parse(await read('scripts/cp7_reorder_inputs/MANIFEST.json'))
-for(const signature of Object.keys(manifest.existing_body_sha256))await db.exec('alter function '+signature+' owner to cp7_capture')
-const stageAudit=await beginLocalStageAudit(db,'cp7_reorder_inputs')
-const id = n => `${String(n).padStart(8, '0')}-1111-4111-8111-111111111111`
-const clock = '2026-10-23T00:00:00Z', query = {from_date:'2026-09-23', through_date:'2026-10-22', group_mode:'AS_SOLD'}
-const product = n => ({id:id(n), root_id:id(n), size_id:id(9000), model_id:id(9001), sku:'CONTROL-' + n,
-  product_name:'Controlled source ' + n, is_active:true, effective_from:'2020-01-01T00:00:00Z',
-  effective_to:null, established_at:'2020-01-01T00:00:00Z', commercial:[]})
-const profile = (n, daily=null) => ({root_id:id(n), product_version_id:id(n), quality:'SELECTED_ASSUMPTION',
-  profile_id:id(n+1000), revision:'1', config:{mean_mode:daily === null?'OWN_AVAILABLE_HISTORY':'SELECTED_MANUAL',
-    daily_pcs:daily, minimum_available_days:'14', lead_days:'3', review_days:'7', buffer_days:'2'}})
-const movement = (n, root, qty, at, order=1) => ({id:id(n), root_id:id(root), size_id:id(9000), product_id:id(root),
-  qty_signed:qty, physical_at:at, system_created_at:at, quality_grade:'GRADE_A', movement_type:'ADJUSTMENT',
-  book_order:String(order), reversal_of_id:null})
-const fixture = () => ({captured_at:clock, status:'COMPLETE', facts:{products:[product(1),product(2),product(3)],
-  stock:[movement(100,1,'100','2026-09-20T00:00:00Z'), movement(101,1,'-10','2026-09-24T02:00:00Z'),
-    movement(102,1,'-90','2026-09-26T01:00:00Z',1),movement(103,1,'90','2026-09-26T02:00:00Z',2),
-    movement(104,2,'50','2026-09-20T00:00:00Z')],
-  sales:[{id:id(200),sale_id:id(201),root_id:id(1),size_id:id(9000),qty_pcs:'10',status:'POSTED',revision:'1',
-    sale_date:'2026-09-24T02:00:00Z',created_at:'2026-09-24T02:00:00Z',updated_at:'2026-09-24T02:00:00Z',sold_commercial:[]}],
-  sale_journals:[{id:id(202),sale_id:id(201),status:'POSTED',posting_at:'2026-09-24T02:00:00Z',
-    transaction_date:'2026-09-24',reversal_of_id:null}],returns:[],return_journals:[]},
-  profiles:[profile(1),profile(2,'2'),profile(3,'0')],production_policies:{rows:[]}})
-const invoke = async (source, q=query) => (await db.query('select cp7_reorder_inputs.history($1::jsonb,$2::jsonb)v',
-  [JSON.stringify(source),JSON.stringify(q)])).rows[0].v
-const whole = async (source, q=query) => (await db.query('select cp7_planning.history_build($1::jsonb,$2::jsonb)v',
-  [JSON.stringify(source),JSON.stringify(q)])).rows[0].v
-const defaults = {service_level:'0.95',window_days:'30'}
-const lead = (days='3',groups='3') => [{model_id:id(9001),lead_days:days,lot_count:'5',group_count:groups}]
-const points = async (input, measured=lead(), manual=[], policy=defaults) =>
-  (await db.query('select cp7_reorder_inputs.points($1::jsonb,$2::jsonb,$3::jsonb,$4::jsonb)v',
-    [JSON.stringify(input),JSON.stringify(policy),JSON.stringify(measured),JSON.stringify(manual)])).rows[0].v
-const serverSource=async(bound=5000)=>(await db.query('select cp7_reorder_inputs.source_within($1)v',[bound])).rows[0].v
-const readPoints=async(bound=5000)=>(await db.query('select cp7_reorder_inputs.read_points($1)v',[bound])).rows[0].v
-const readerSnapshot=async()=>(await db.query(`with s as materialized(select cp7_reorder_inputs.source_within(5000)v)
- select cp7_reorder_reader.snapshot(s.v)v from s`)).rows[0].v
-const addMovement=async m=>db.query('insert into erp.fg_stock_movements(id,product_id,qty_signed,physical_at,system_created_at,quality_grade,movement_type,reversal_of_id,book_order)values($1,$2,$3,$4,$5,$6,$7,$8,$9)',
- [m.id,m.product_id,m.qty_signed,m.physical_at,m.system_created_at,m.quality_grade,m.movement_type,m.reversal_of_id,m.book_order])
-const stockSummary=async(products=fixture().facts.products,at=clock,q=query)=>(await db.query(
- 'select cp7_reorder_inputs.stock_summary($1::jsonb,$2::timestamptz,$3::jsonb)v',[JSON.stringify(products),at,JSON.stringify(q)])).rows[0].v
-const sourceFixture=async()=>{
- await db.exec('truncate public.reorder_native_fixture,erp.production_orders,erp.products,erp.fg_stock_movements,erp.cutting_groups,erp.fg_lots,erp.qc_inspection_items,erp.qc_inspections,erp.sales_items,erp.sales_headers,erp.journal_entries,erp.sales_return_items,erp.sales_returns,erp.sale_stock_allocations,erp.bf_sku_members_v1,erp.bf_sku_versions_v1,erp.bf_skus_v1,cp7_stock_formula.settings,cp7_stock_formula.manual_points')
- await db.query('insert into public.reorder_native_fixture values($1::jsonb)',[JSON.stringify(fixture())])
- for(const p of fixture().facts.products)await db.query('insert into erp.products(id,identity_root_id,size_id,model_id,sku,product_name)values($1,$2,$3,$4,$5,$6)',[p.id,p.root_id,p.size_id,p.model_id,p.sku,p.product_name])
- for(const m of fixture().facts.stock)await addMovement(m)
- for(const s of fixture().facts.sales){
-  await db.query('insert into erp.sales_items values($1,$2,$3,$4)',[s.id,s.sale_id,s.root_id,s.qty_pcs])
-  await db.query('insert into erp.sales_headers values($1,$2,$3,$4,$5,$6)',[s.sale_id,s.status,s.revision,s.sale_date,s.created_at,s.updated_at])
- }
- for(const j of fixture().facts.sale_journals)await db.query('insert into erp.journal_entries values($1,$2,\'SALE\',$3,$4,$5,null,$6)',
-  [j.id,j.sale_id,j.status,j.posting_at,j.transaction_date,j.reversal_of_id])
- await db.query('insert into erp.production_orders values($1,$2,\'FINISHED\')',[id(10001),id(9001)])
- for(const [n,cut]of[[1,'2026-10-01'],[2,'2026-10-02'],[3,'2026-10-03']])await db.query('insert into erp.cutting_groups values($1,$2,$3,true)',[id(11000+n),id(10001),cut+'T00:00:00Z'])
- let index=0
- for(const [group,at,status,origin]of[[1,'2026-10-04','POSTED','PRODUCTION'],[1,'2026-10-04','POSTED','PRODUCTION'],
-   [2,'2026-10-06','POSTED','PRODUCTION'],[2,'2026-10-06','POSTED','PRODUCTION'],[3,'2026-10-08','POSTED','PRODUCTION'],
-   [3,'2026-10-20','DRAFT','PRODUCTION'],[3,'2026-10-21','REVERSED','PRODUCTION'],[3,'2026-10-24','POSTED','PRODUCTION'],
-   [3,'2026-10-22','POSTED','PURCHASE']]){
-  ++index
-  await db.query('insert into erp.qc_inspections values($1,$2)',[id(12000+index),status])
-  await db.query('insert into erp.qc_inspection_items values($1,$2)',[id(13000+index),id(12000+index)])
-  await db.query('insert into erp.fg_lots values($1,$2,$3,$4,$5)',[id(14000+index),id(11000+group),id(13000+index),at+'T00:00:00Z',origin])
- }
-}
+import {createNativeReorderFixture} from './cp7_ow10_reorder_local_fixture.mjs'
+const {db,stageAudit,id,clock,query,product,profile,movement,fixture,invoke,whole,defaults,lead,points,serverSource,readPoints,readerSnapshot,addMovement,stockSummary,sourceFixture,block,read,formula,nativeSourceSQL,manifest}=await createNativeReorderFixture()
 const results=[]
 const test=async(id,fn)=>{try{results.push({id,status:'PASS',observed:await fn()})}catch(e){results.push({id,status:'FAIL',error:String(e.stack).slice(0,3000)})}console.log(id+': '+results.at(-1).status)}
 await test('OW10_INPUTS_ACTUAL_WHOLE_NATIVE_HISTORY_AND_STOCK_EQUAL',async()=>{
@@ -427,6 +297,106 @@ await test('OW10_CACHE_22_GROUPS_AND_USE_MARK_SURVIVES_CACHE_EVICTION',async()=>
  return{actual_apply_admit_inverse_reapply22:true,cache_evicted_but_immutable_use_mark_retained:true,
   after_use_requires_backup_restore_before_DDL:true,Native_or_A_chain:false}
 })
+// Pure consumer over actual Native points/net/project kernels. This does not
+// install compute, a public facade, an Auth journey or a fresh-job adapter.
+await db.exec(block(formula,'cp7_stock_formula.z'))
+await db.exec(await read('scripts/cp7_production_stage/sql/cp7_baseline__net.sql'))
+await db.exec(await read('scripts/cp7_reorder_supply/projection.sql'))
+await db.exec(await read('scripts/cp7_reorder_caller_stage/evaluate.sql'))
+const evaluate=async(v,supply)=>(await db.query('select cp7_reorder_caller.evaluate($1::jsonb,$2::jsonb)v',
+ [JSON.stringify(v),JSON.stringify(supply)])).rows[0].v
+const unknownSupply=v=>({contract_version:'cp7.reorder-supply-cache.v1',checked_at:v.captured_at,query:v.query,
+ status:'UNKNOWN',reason:'GLOBAL_ANALYSIS_NEEDED',job:null,projection:null,apply_enabled:false,production_go:false})
+const lowSnapshot=async()=>{
+ await sourceFixture();const now=new Date(Date.now()-1000).toISOString()
+ await addMovement(movement(750,1,'-90',now));await addMovement(movement(751,2,'-50',now))
+ return readerSnapshot()
+}
+const projectedSupply=async(v,{kind='DIRECTED',quantity='4',eta=2,alloc='SCENARIO',split=null}={})=>{
+ const snapshotId=id(9800),refs=[{kind:'CONTROLLED_GLOBAL_POSITION',id:'fixture',revision:'1'}]
+ const at=async days=>(await db.query("select cp7_planning.utc($1::timestamptz+$2::numeric*interval'1 day')v",[v.captured_at,String(days)])).rows[0].v
+ const etaAt=await at(eta),budget={physical_key:'CUT:FIXTURE',snapshot_id:snapshotId,size_id:id(9000),
+  projected_good_pcs:quantity,eta:etaAt,eligible:true}
+ const targets=[]
+ for(let i=0;i<v.points.rows.length;i++){
+  const p=v.points.rows[i],target={target_key:p.target_key,size_id:p.size_id,reorder_point_pcs:p.formula_point_pcs,
+   target_pcs:p.target.target_pcs,available_fg_pcs:v.current_stock.find(s=>s.target_key===p.target_key).native_available_pcs,
+   lead_deadline:await at(p.lead_days),deadline:await at(String(Number(p.lead_days)+Number(p.target.inputs.review_days))),supplies:[],refs}
+  const qty=split?split[i]:i===0?quantity:null
+  if(qty!==null||(!split&&i===0))target.supplies.push({physical_key:budget.physical_key,snapshot_id:snapshotId,target_key:p.target_key,
+   size_id:p.size_id,kind,qty_pcs:qty,eta:etaAt,eligible:true,refs})
+  targets.push(target)
+ }
+ const input={contract_version:'cp7.reorder-supply-input.v1',snapshot_id:snapshotId,scope_id:'GLOBAL_NATIVE_PLANNING',scenario_id:id(9801),
+  captured_at:v.captured_at,checked_at:v.captured_at,source_hash:'a'.repeat(64),current_source_hash:'a'.repeat(64),source_state:'CURRENT',
+  complete_scope:true,wip_status:'COMPLETE',allocation_status:alloc,query:v.query,expected_query:v.query,budgets:[budget],targets,refs}
+ const projection=(await db.query('select cp7_reorder_supply.project($1::jsonb)v',[JSON.stringify(input)])).rows[0].v
+ return{contract_version:'cp7.reorder-supply-cache.v1',checked_at:v.captured_at,query:v.query,status:projection.status,
+  reason:projection.reason,job:{state:'DONE',run_id:id(9802),captured_at:v.captured_at,targets_total:targets.length},projection,apply_enabled:false,production_go:false}
+}
+await test('OW10_CALLER_UNKNOWN_WIP_KEEPS_FREE_STOCK_ALERT_AND_KNOWN_ZERO',async()=>{
+ const v=await lowSnapshot(),r=await evaluate(v,unknownSupply(v))
+ assert.equal(r.rows[0].state,'AT_OR_BELOW');assert.equal(r.rows[1].state,'AT_OR_BELOW');assert.equal(r.rows[2].state,'NO_POINT')
+ assert.equal(r.rows[0].wip_pcs,null);assert.equal(r.rows[0].projection.base_position_pcs,null)
+ assert.equal(r.rows[2].point,'0');assert.equal(r.rows[2].basis,'FORMULA')
+ assert.ok(r.rows.every(x=>x.projection.raw_WIP_credited===false&&x.projection.candidate_mutes_alert===false))
+ return{unknown_not_zero:true,free_stock_alert_not_waiting_for_analysis:true,known_profile_zero_preserved:true,public_caller_installed:false}
+})
+await test('OW10_CALLER_ONE_DIRECTED_GOOD_BUDGET_NOT_COPIED_TO_SAME_MODEL_VARIANT',async()=>{
+ const v=await lowSnapshot(),r=await evaluate(v,await projectedSupply(v))
+ assert.equal(r.rows[0].wip_pcs,'4');assert.equal(r.rows[0].state,'ABOVE')
+ assert.equal(r.rows[1].wip_pcs,'0');assert.equal(r.rows[1].state,'AT_OR_BELOW')
+ assert.equal(r.rows[0].projection.production_base_pcs,'1');assert.equal(r.rows[0].projection.target_pcs,'5')
+ return{actual_Native_net_and_global_project:true,directed4_once_not_copied_to_other_variant:true,
+  base_state_and_target5_quantity1_from_same_kernel:true,Native_job_reader_not_claimed:true}
+})
+await test('OW10_CALLER_GLOBAL_CANDIDATES_SEPARATE_NEVER_MUTE_BASE_ALERT',async()=>{
+ const v=await lowSnapshot(),s=await projectedSupply(v,{kind:'ALLOCATED_CANDIDATE',quantity:'7',split:['3','4',null]}),r=await evaluate(v,s)
+ assert.equal(r.rows[0].wip_pcs,'0');assert.equal(r.rows[0].projection.candidate_pcs,'3')
+ assert.equal(r.rows[1].projection.candidate_pcs,'4');assert.equal(r.rows[0].state,'AT_OR_BELOW')
+ assert.equal(r.rows[0].projection.conditional_position_pcs,'3');assert.equal(r.rows[0].projection.candidate_mutes_alert,false)
+ assert.equal(BigInt(r.rows[0].projection.candidate_pcs)+BigInt(r.rows[1].projection.candidate_pcs),7n)
+ const partial=await evaluate(v,await projectedSupply(v,{alloc:'UNKNOWN'}))
+ assert.equal(partial.rows[0].wip_pcs,'4');assert.equal(partial.rows[0].projection.candidate_pcs,null)
+ return{global_candidate_budget7_split3_and4:true,conditional_position_only:true,base_alert_still_open:true,
+  proven_directed_kept_when_candidate_allocation_unknown:true}
+})
+await test('OW10_CALLER_LATE_GOOD_AT_TARGET_EXCLUDED_FROM_TRIGGER_AND_UNKNOWN_YIELD',async()=>{
+ const v=await lowSnapshot(),late=await evaluate(v,await projectedSupply(v,{quantity:'7',eta:5}))
+ assert.equal(late.rows[0].wip_pcs,'0');assert.equal(late.rows[0].state,'AT_OR_BELOW')
+ assert.equal(late.rows[0].projection.production_base_pcs,'0')
+ const unknown=await evaluate(v,await projectedSupply(v,{quantity:null}))
+ assert.equal(unknown.rows[0].wip_pcs,null);assert.equal(unknown.rows[0].state,'AT_OR_BELOW')
+ return{ETA5_excluded_from_lead3_included_in_target10:true,unknown_good_not_raw_PCS_or_100percent_yield:true,free_alert_preserved:true}
+})
+await test('OW10_CALLER_MANUAL_TRIGGER25_DOES_NOT_INVENT_TARGET25',async()=>{
+ const v=await lowSnapshot();v.points.rows[0].point_pcs='25';v.points.rows[0].point_basis='MANUAL';v.points.rows[0].manual_state='ACTIVE'
+ v.points.rows[0].manual_reference={root_id:id(1),product_version_id:id(1),size_id:id(9000),revision:'1',reorder_point_pcs:'25'}
+ const r=await evaluate(v,await projectedSupply(v))
+ assert.equal(r.rows[0].point,'25');assert.equal(r.rows[0].wip_pcs,'4');assert.equal(r.rows[0].state,'AT_OR_BELOW')
+ assert.equal(r.rows[0].projection.target_pcs,'5');assert.equal(r.rows[0].projection.production_base_pcs,'1')
+ return{manual25_compares_same_lead_position4:true,full_target5_unchanged:true,no_point_above_target_kernel_call:true,no_silent_target_bump:true}
+})
+await test('OW10_CALLER_FRESH_FREE_AND_HORIZON_BINDING_REFUSE_OLD_SUPPLY_CREDIT',async()=>{
+ const v=await lowSnapshot(),s=await projectedSupply(v),changed=structuredClone(v)
+ changed.current_stock[0].native_available_pcs='1'
+ const a=await evaluate(changed,s);assert.equal(a.rows[0].wip_status,'UNKNOWN');assert.equal(a.rows[0].state,'AT_OR_BELOW')
+ assert.equal(a.rows[0].wip_reason,'CURRENT_TARGET_STOCK_OR_HORIZON_CHANGED')
+ const lead=structuredClone(v);lead.points.rows[0].lead_days='4';lead.points.rows[0].target.inputs.lead_days='4'
+ const b=await evaluate(lead,s);assert.equal(b.rows[0].wip_pcs,null);assert.equal(b.rows[0].state,'AT_OR_BELOW')
+ return{different_live_free_rejects_cached_position:true,different_lead_rejects_cached_ETA:true,free_alert_still_computed:true}
+})
+await test('OW10_CALLER_EXACT_POINT_ABOVE_JS_SAFE_INTEGER_AND_FULL_SCOPE_BEFORE_ACTIVE_FILTER',async()=>{
+ await sourceFixture();await db.query(`update public.reorder_native_fixture set c=jsonb_set(jsonb_set(c,'{profiles,0,config,daily_pcs}','"2000000000000000"'::jsonb),'{profiles,0,config,mean_mode}','"SELECTED_MANUAL"'::jsonb)`)
+ const v=await readerSnapshot(),r=await evaluate(v,unknownSupply(v));assert.equal(r.rows[0].point,'10000000000000000')
+ assert.equal(r.rows[0].formula_point,'10000000000000000')
+ const low=await lowSnapshot(),s=await projectedSupply(low),inactive=structuredClone(low);inactive.products[1].is_active=false
+ const a=await evaluate(inactive,s);assert.equal(a.rows.length,2);assert.equal(a.rows[0].wip_pcs,'4')
+ const missing=structuredClone(s);missing.projection.rows.splice(1,1)
+ await assert.rejects(()=>evaluate(inactive,missing),/CP7_REORDER_EVALUATE_SUPPLY_SCOPE/)
+ return{exact_decimal_point_10000000000000000:true,no_JS_number_or_int32_cast:true,
+  complete_global_scope_validated_before_active_filter:true,filtered_projection_refused:true}
+})
 await test('OW10_STOCK_SUMMARY_FULL_NATIVE_AVAILABILITY_AND_BOTH_CLOCKS',async()=>{
  await sourceFixture();const r=await stockSummary(),source={...fixture(),captured_at:r.captured_at}
  const expected=(await db.query('select cp7_planning.history_availability($1::jsonb,$2::jsonb)v',[JSON.stringify(source),JSON.stringify(query)])).rows[0].v
@@ -542,6 +512,7 @@ const report={classification:'LOCAL_ACTUAL_NATIVE_HISTORY_AND_STAGED_TARGET_KERN
   stock_sql_sha256:createHash('sha256').update(await read('scripts/cp7_reorder_inputs/stock.sql')).digest('hex'),
   read_sql_sha256:createHash('sha256').update(await read('scripts/cp7_reorder_inputs/read.sql')).digest('hex'),
   reader_cache_sql_sha256:createHash('sha256').update(await read('scripts/cp7_reorder_reader_stage/cache.sql')).digest('hex'),
+  caller_evaluate_sql_sha256:createHash('sha256').update(await read('scripts/cp7_reorder_caller_stage/evaluate.sql')).digest('hex'),
   installer,reader_installer:readerInstaller,
   ROP_caller_changed:false,full_A_chain_qualified:false,production_go:false}
 await mkdir('docs/cp7/d17-14/ow10',{recursive:true})

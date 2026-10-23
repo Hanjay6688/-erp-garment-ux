@@ -1,8 +1,8 @@
 {
   "classification": "LOCAL_ACTUAL_NATIVE_HISTORY_AND_STAGED_TARGET_KERNELS_CONTROLLED_SOURCE_NOT_NATIVE_OR_LIVE_ROP",
   "status": "PASS",
-  "passed": 28,
-  "total": 28,
+  "passed": 35,
+  "total": 35,
   "sql_sha256": "a3581317e48309c61ce4c4fb38805bd302f5887ba4c650d4f061971469baef25",
   "points_sql_sha256": "d357aa97b1b85fcefc8a470ff8885eba16578b0982cc02d7e6fd35778d7adaea",
   "results": [
@@ -241,6 +241,74 @@
       }
     },
     {
+      "id": "OW10_CALLER_UNKNOWN_WIP_KEEPS_FREE_STOCK_ALERT_AND_KNOWN_ZERO",
+      "status": "PASS",
+      "observed": {
+        "unknown_not_zero": true,
+        "free_stock_alert_not_waiting_for_analysis": true,
+        "known_profile_zero_preserved": true,
+        "public_caller_installed": false
+      }
+    },
+    {
+      "id": "OW10_CALLER_ONE_DIRECTED_GOOD_BUDGET_NOT_COPIED_TO_SAME_MODEL_VARIANT",
+      "status": "PASS",
+      "observed": {
+        "actual_Native_net_and_global_project": true,
+        "directed4_once_not_copied_to_other_variant": true,
+        "base_state_and_target5_quantity1_from_same_kernel": true,
+        "Native_job_reader_not_claimed": true
+      }
+    },
+    {
+      "id": "OW10_CALLER_GLOBAL_CANDIDATES_SEPARATE_NEVER_MUTE_BASE_ALERT",
+      "status": "PASS",
+      "observed": {
+        "global_candidate_budget7_split3_and4": true,
+        "conditional_position_only": true,
+        "base_alert_still_open": true,
+        "proven_directed_kept_when_candidate_allocation_unknown": true
+      }
+    },
+    {
+      "id": "OW10_CALLER_LATE_GOOD_AT_TARGET_EXCLUDED_FROM_TRIGGER_AND_UNKNOWN_YIELD",
+      "status": "PASS",
+      "observed": {
+        "ETA5_excluded_from_lead3_included_in_target10": true,
+        "unknown_good_not_raw_PCS_or_100percent_yield": true,
+        "free_alert_preserved": true
+      }
+    },
+    {
+      "id": "OW10_CALLER_MANUAL_TRIGGER25_DOES_NOT_INVENT_TARGET25",
+      "status": "PASS",
+      "observed": {
+        "manual25_compares_same_lead_position4": true,
+        "full_target5_unchanged": true,
+        "no_point_above_target_kernel_call": true,
+        "no_silent_target_bump": true
+      }
+    },
+    {
+      "id": "OW10_CALLER_FRESH_FREE_AND_HORIZON_BINDING_REFUSE_OLD_SUPPLY_CREDIT",
+      "status": "PASS",
+      "observed": {
+        "different_live_free_rejects_cached_position": true,
+        "different_lead_rejects_cached_ETA": true,
+        "free_alert_still_computed": true
+      }
+    },
+    {
+      "id": "OW10_CALLER_EXACT_POINT_ABOVE_JS_SAFE_INTEGER_AND_FULL_SCOPE_BEFORE_ACTIVE_FILTER",
+      "status": "PASS",
+      "observed": {
+        "exact_decimal_point_10000000000000000": true,
+        "no_JS_number_or_int32_cast": true,
+        "complete_global_scope_validated_before_active_filter": true,
+        "filtered_projection_refused": true
+      }
+    },
+    {
       "id": "OW10_STOCK_SUMMARY_FULL_NATIVE_AVAILABILITY_AND_BOTH_CLOCKS",
       "status": "PASS",
       "observed": {
@@ -268,7 +336,7 @@
         "products": 2000,
         "complete_days": 60000,
         "all_free_pcs": "450",
-        "local_SQL_ms": 3515,
+        "local_SQL_ms": 3553,
         "no_source_row_sampled": true,
         "Native_Auth_or_factory_SLA": false
       }
@@ -285,7 +353,7 @@
         "full_points": 2000,
         "free450_exact": true,
         "known_zero_profile_not_unknown": true,
-        "local_full_pipeline_ms": 10485,
+        "local_full_pipeline_ms": 10594,
         "outside_raw_prefix_change_invalidates_context": true,
         "summary_clock_binding_refused": true,
         "Native_Auth_or_factory_SLA": false,
@@ -298,8 +366,8 @@
       "observed": {
         "complete_points_and_current_stock": 2000,
         "actual_history_cache_hit": true,
-        "cold_local_ms": 11208,
-        "warm_local_ms": 5612,
+        "cold_local_ms": 10963,
+        "warm_local_ms": 5702,
         "today_stock_change_still_fresh_without_history_recompute": true,
         "Native_Auth_or_factory_SLA": false,
         "live_ROP_caller_changed": false
@@ -319,6 +387,8 @@
   "source_sql_sha256": "15520623ef27feb30a63b890012972471e7f45082fd88ab5211809cdaedf4f13",
   "stock_sql_sha256": "88b23511305abbf8ccb68155b1e614d2f758ef82c1f3dc6938391340531990db",
   "read_sql_sha256": "0725b07761351018dc248707901ff7f67a4d9bea4cbd710a7356d23fa46fed89",
+  "reader_cache_sql_sha256": "0e4ed8511ee5b2e23e4ad2a344d76eba38bde2fb9c7e5d30aae0897455bf9e52",
+  "caller_evaluate_sql_sha256": "f10a837e501c682039d84e97db8e0c2b8f0c727908e55c69ddc41afe9252f93d",
   "installer": {
     "classification": "LOCAL_REAL_INSTALLER_AND_PG_CATALOG_VIA_CONTROLLED_TRANSPORT_NOT_NATIVE",
     "stage": "cp7_reorder_inputs",
@@ -345,6 +415,5 @@
   },
   "ROP_caller_changed": false,
   "full_A_chain_qualified": false,
-  "production_go": false,
-  "reader_cache_sql_sha256": "0e4ed8511ee5b2e23e4ad2a344d76eba38bde2fb9c7e5d30aae0897455bf9e52"
+  "production_go": false
 }
