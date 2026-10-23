@@ -1,6 +1,7 @@
 # OW-04b bagian 3–4 — penolakan kredit menyebut alasan; penjaga kas refund; batal bersamaan
 
-Tahap Native di atas produk OW-05 (`cp7_contractor_correction.composition`). SQL dasar tidak diubah. Penjelasan untuk owner:
+Tahap Native di atas tahap wash (`cp7_laundry_unknown_wash.composition`), ujung rantai OW-15 sesudah perubahan urutan
+23 Okt (OW05, OW06, kasbon, fgqc, OW05b, OW08a, OW12a, OW-09, OW07, wash, lalu OW-04b). SQL dasar tidak diubah. Penjelasan untuk owner:
 `docs/cp7/d17-14/ow04/OW04B.md`.
 
 - `followups.sql`: skema privat `cp7_credit_followups` (milik `postgres`) dengan empat fungsi alasan penolakan.

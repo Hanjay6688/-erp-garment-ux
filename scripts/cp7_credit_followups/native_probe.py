@@ -1,6 +1,8 @@
 """OW-04b Native qualification on a disposable aligned CP6 copy (9 savepoint cases + 3 two-session races).
 
 No hosted or production effect. The races run on fresh committed copies of the installed database (cp6_auditor_modes).
+The predecessor is the wash stage (cp7_laundry_unknown_wash); admission checks its qualified chain Native11 original
+and, through the wash probe chain, the OW07, OW-09, OW12a, OW08a, OW05b, fgqc, kasbon, OW06, OW05 and OW04 originals.
 """
 from pathlib import Path
 from hashlib import sha256
@@ -9,7 +11,7 @@ sys.dont_write_bytecode=True
 HERE=Path(__file__).resolve().parent
 REPO=HERE.parents[1]
 sys.path.insert(0,str(REPO/'scripts'))
-from cp7_contractor_correction import native_probe as setup
+from cp7_laundry_unknown_wash import native_probe as setup
 for extra in('cp7_customer_credit/consumer','cp7_customer_credit/reconciliation/native',
              'cp7_customer_credit/native','cp7_customer_credit/initial-settlement'):
     if str(REPO/'scripts'/extra)not in sys.path:sys.path.append(str(REPO/'scripts'/extra))
@@ -31,11 +33,12 @@ def admitted():
     old=setup.admitted()
     pins=json.loads((HERE/'SOURCE.json').read_bytes())
     for path,digest in pins['files'].items():assert sha256((REPO/path).read_bytes()).hexdigest()==digest,('OW04B_SOURCE_CHANGED',path)
-    raw=Path(os.environ['OW05_NATIVE28_ORIGINAL_REPORT']).read_bytes();proof=pins['native_original']
-    assert len(raw)==proof['bytes']and sha256(raw).hexdigest()==proof['sha256']
+    raw=Path(os.environ['OW08B_WASH_NATIVE11_ORIGINAL_REPORT']).read_bytes();proof=pins['native_original']
+    assert proof['name']=='CP7_OW08B_LAUNDRY_UNKNOWN_WASH_NATIVE11.json'and len(raw)==proof['bytes']and sha256(raw).hexdigest()==proof['sha256']
     actual=json.loads(raw)
-    assert actual['status']=='PASS'and actual['native']['counts']=={'PASS':28}and actual['required_case_ids_pass']and actual['cp6_restored']and actual['advisor_gate']
-    assert actual['source_declaration']['declared_source']==old['declared_source']
+    assert actual['label']=='CP7_OW08B_LAUNDRY_UNKNOWN_WASH_NATIVE11'and actual['status']=='PASS'and actual['native']['counts']=={'PASS':11}
+    assert actual['required_case_ids_pass']and actual['cp6_restored']and actual['advisor_gate']
+    assert actual['source_declaration']['OW08b_wash_declared_source']==old['OW08b_wash_declared_source']
     assert pins['case_ids']==list(IDS)and len(IDS)==9
     assert pins['race_ids']==list(RACE_IDS)and len(RACE_IDS)==3
     assert not subprocess.check_output(['git','-C',str(REPO),'status','--porcelain','--',str(HERE)],text=True).strip()

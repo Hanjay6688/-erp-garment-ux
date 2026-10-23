@@ -2,14 +2,27 @@
  "classification": "OW04BA_REMAINING_PAYMENT_AFTER_CUSTOMER_CREDIT_NATIVE_STAGE",
  "predecessor_stage": "cp7_credit_followups",
  "files": {
-  ".github/workflows/cp7-ow04b-remaining-native.yml": "a34d91037057934d9154e703e4907cfa3e7c98f3cd95818e4961c49b03a163cd",
+  ".github/workflows/cp7-ow04b-remaining-native.yml": "680a37412110c273fd5a622637a2cf92a4ac2e29a460955ec4ef6f7c971227b1",
   "scripts/cp7_credit_remaining/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
   "scripts/cp7_credit_remaining/cases.py": "4bf314a447a280f6df5836e092a7d288e99f4a89268bb00868734e76d65d2018",
   "scripts/cp7_credit_remaining/composition.py": "ec16cd274b1e1d8306df0486dac624b9f95faeb65f2ee38105e1f23f842b28af",
   "scripts/cp7_credit_remaining/local_check.py": "162def6be46f72794e1edbadd2f93b42e67a770963accfe7cfbac26443b00404",
   "scripts/cp7_credit_remaining/native_delta.py": "1aa640fe1167f93b9b2962ca16eaeb2268cc07480ef90968fbe355630c2a1c6e",
-  "scripts/cp7_credit_remaining/native_probe.py": "e48e79de9aa5dee64dca548fce7c6823e97c29654e85945e169662d5593589be",
-  "scripts/cp7_credit_remaining/remaining.sql": "c6a94eb29dad14bac3508beb713f7ef30fca9dfefbce727286c3af4c2c4da478"
+  "scripts/cp7_credit_remaining/native_probe.py": "95cbbf05d333afce6178b5b09459a0b4494166accc5d8458acddc3b92b0d6ae4",
+  "scripts/cp7_credit_remaining/remaining.sql": "c6a94eb29dad14bac3508beb713f7ef30fca9dfefbce727286c3af4c2c4da478",
+  "scripts/ow04b_followups_native_original.py": "0c0a70e79bc6774f5ae1ec82aedc5074b0adef7b9356e83af235cbeb134f5a2a",
+  "docs/cp7/d17-14/ow04/ow04b-native9-race3-PENDING_OW04B_FOLLOWUPS_HEAD8-chain-pass.json": "PENDING_OW04B_FOLLOWUPS_RECEIPT_SHA256"
+ },
+ "native_original": {
+  "name": "CP7_OW04B_CREDIT_FOLLOWUPS_NATIVE9_RACE3.json",
+  "bytes": "PENDING_OW04B_FOLLOWUPS_RAW_BYTES",
+  "sha256": "PENDING_OW04B_FOLLOWUPS_RAW_SHA256"
+ },
+ "native_original_run": {
+  "receipt": "docs/cp7/d17-14/ow04/ow04b-native9-race3-PENDING_OW04B_FOLLOWUPS_HEAD8-chain-pass.json",
+  "head": "PENDING_OW04B_FOLLOWUPS_HEAD8",
+  "run": "PENDING_OW04B_FOLLOWUPS_RUN_ID",
+  "artifact": "PENDING_OW04B_FOLLOWUPS_ARTIFACT_ID"
  },
  "case_ids": [
   "OW04BA_PAY_REMAINING_IN_TWO_PARTS_PAID",
