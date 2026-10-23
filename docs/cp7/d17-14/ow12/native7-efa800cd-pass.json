@@ -1,0 +1,39 @@
+{
+ "run": 39886155240,
+ "attempt": 1,
+ "job": 120194691124,
+ "head": "efa800cd",
+ "qualification_commit": "efa800cdb3acf55e90689569c52f316bcbc74b80",
+ "label": "CP7_OW12A_FINANCE_CAPTURE_NATIVE7",
+ "status": "PASS",
+ "expected_case_count": 7,
+ "observed_case_count": 7,
+ "cases": {
+  "OW12A_CAPTURE_SAME_FIGURES_AS_FINANCE_REPORT": "PASS",
+  "OW12A_CAPTURE_REFUSES_BOOK_CHANGE_DURING_SCAN": "PASS",
+  "OW12A_CAPTURE_ACCESS_AND_PRIVACY": "PASS",
+  "OW12A_REPORT_V2_FINANCE_THROUGH_CAPTURE": "PASS",
+  "OW12A_REPORT_V2_DEFERRED_UNCHANGED": "PASS",
+  "OW12A_RUNNER_STEPS_CAPTURE_AS_ITS_ACTOR": "PASS",
+  "OW12A_REPORT_V2_PERIOD_COMPARISON": "PASS"
+ },
+ "cp6_restored": true,
+ "advisor_gate": true,
+ "restore_raw_public_equal": true,
+ "package_gate": {"installed": true, "primary_unchanged": true, "backup_restore_drill": true, "security_advisors": true, "writer_runtime": true},
+ "every_case": {"full_boundary_restored": true, "public_schema_unchanged": true, "session_leaks": 0, "business_day": "2026-10-23 unchanged"},
+ "report": {"name": "CP7_OW12A_FINANCE_CAPTURE_NATIVE7.json", "raw_bytes": 2033059, "raw_sha256": "1f48a43a7fafbc0c9f35da0aba3cd9dadf39d12056a21405e10e0d2e87a6f66a"},
+ "artifact": "cp7-ow12a-finance-capture-native7 (12473066874)",
+ "case_results": {
+  "OW12A_CAPTURE_SAME_FIGURES_AS_FINANCE_REPORT": {"units": 6, "rows": {"journal": 21, "line": 44, "book": 22, "cash": 2}, "readiness": "BLOCKED", "report_read_at": "2026-10-23T01:56:06.70964+00:00", "same_as_owner_report": true, "same_metrics_as_direct_analysis_source": 24, "independent_book_signature": true, "kasbon": "KB-20261022-27AEB0", "book_unchanged_by_report_reads": true, "rows_after_report_reads": {"journal": 21, "line": 44, "book": 22, "cash": 2}},
+  "OW12A_CAPTURE_REFUSES_BOOK_CHANGE_DURING_SCAN": {"failed_with": "CP7_FINANCE_CAPTURE_SOURCE_CHANGED", "failed_at_unit": 5, "result_refused": "CP7_FINANCE_CAPTURE_NOT_READY", "later_kasbon": "KB-20261022-4A93FF", "new_capture_ready": true},
+  "OW12A_CAPTURE_ACCESS_AND_PRIVACY": {"ops_actor": "CP7_FINANCE_CAPTURE_ACCESS", "other_actor": "CP7_FINANCE_CAPTURE_UNAVAILABLE", "changed_query": "CP7_FINANCE_CAPTURE_CHANGED", "permission_lost_mid_capture": "CP7_FINANCE_CAPTURE_ACCESS_CHANGED", "failed_capture_result": "CP7_FINANCE_CAPTURE_NOT_READY", "public_roles_exposed": {"anon": false, "authenticated": false, "service_role": false}},
+  "OW12A_REPORT_V2_FINANCE_THROUGH_CAPTURE": {"actuals_waited_steps": 5, "capture_units": 6, "publication": "dbf6bfc6-1b3f-4717-be33-a8625fcec165", "finance_hash_from_capture": true, "figures_equal_owner_report": true, "summary_names_finance_read_time": true},
+  "OW12A_REPORT_V2_DEFERRED_UNCHANGED": {"units": 4, "captures": 0, "finance": "DEFERRED"},
+  "OW12A_RUNNER_STEPS_CAPTURE_AS_ITS_ACTOR": {"runner_units": 6, "result_contract": "cp7.native-analysis-finance.v2", "independent_book_signature": true},
+  "OW12A_REPORT_V2_PERIOD_COMPARISON": {"metrics_compared": 24, "known_differences": 13, "previous_period": ["2026-10-21", "2026-10-21"], "finance_vs_operations_only": "FINANCE_NOT_IN_BOTH_REPORTS", "same_report": "CP7_REPORT_COMPARE_PAIR", "other_actor": "CP7_REPORT_UNAVAILABLE"}
+ },
+ "OW12a_complete": false,
+ "production_go": false,
+ "independent_acceptance": false
+}
