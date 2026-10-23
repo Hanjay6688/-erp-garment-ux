@@ -1,12 +1,14 @@
 {
  "classification": "OW09_WHOLE_LIST_SORT_FILTER_EIGHT_READERS_NATIVE_STAGE",
  "files": {
-  ".github/workflows/cp7-ow09-native.yml": "48721b7a248bb2248d96c3cf64d94923da2054bdce117b625fc493087b5751ec",
+  ".github/workflows/cp7-ow09-native.yml": "e037618ca22692aea7bfa19bb5715551ddc1f859795f5c9e892ee021816e9808",
   "scripts/cp7_ow09_lists/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
   "scripts/cp7_ow09_lists/cases.py": "e6276ffc6363279de65eaeeae88991586e0409922f59290f3e57aca91607455a",
-  "scripts/cp7_ow09_lists/composition.py": "6046b9440780f40ae7a539f3dd25b242dd23304820bf948318db3d66d39815bc",
+  "scripts/cp7_ow09_lists/composition.py": "46c23210c4ff8124ca86ef1af050a6d43f75dc3ff3b22a7ef670f882a6a0a22d",
   "scripts/cp7_ow09_lists/native_delta.py": "9db5192319bb89d9718485ce49e092a9c2bcb05b375d70fbb0de3357b21e1d8e",
-  "scripts/cp7_ow09_lists/native_probe.py": "2e819f21802acecc90e4159d97a0a9963ccd9f993b92697a09ff95dd6eed6491"
+  "scripts/cp7_ow09_lists/native_probe.py": "ef2438220fcf538450435b8141005e043bbe0ee599bb1495235733ff05ebb09b",
+  "scripts/ow12a_native_original.py": "94d82cc58b7a99a52d59573ee7e6a7c95c3fde6e8f2c2182626fda73cb09ebee",
+  "docs/cp7/d17-14/ow12/native7-646a52e0-chain-pass.json": "c01babd1d9c8fe1066ab73ce05ce6f9f5bf38bd03990b9c9dc421bf96971114d"
  },
  "case_ids": [
   "OW09_CASH_LEDGER_WHOLE_PERIOD",
@@ -19,9 +21,15 @@
   "OW09_READERS_PRIVATE_AND_ACCESS_UNCHANGED"
  ],
  "native_original": {
-  "name": "CP7_OW05_NATIVE28_GUIDANCE_WHOLE_PO_WAVE.json",
-  "bytes": 6646642,
-  "sha256": "9e4732a171faff7175a03b895daca09bcb1dc54a53003cb300d979c858d1143c"
+  "name": "CP7_OW12A_FINANCE_CAPTURE_NATIVE7.json",
+  "bytes": 2063596,
+  "sha256": "94608fd155a79852c52a41a724d288d77924a016d3a809117812e71e73b7abb6"
  },
- "OW09_complete": false
+ "OW09_complete": false,
+ "native_original_run": {
+  "run": 39890121178,
+  "artifact": 12474329154,
+  "receipt": "docs/cp7/d17-14/ow12/native7-646a52e0-chain-pass.json"
+ },
+ "predecessor": "cp7_finance_capture.composition"
 }

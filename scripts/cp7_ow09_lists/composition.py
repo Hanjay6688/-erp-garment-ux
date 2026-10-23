@@ -1,4 +1,8 @@
-"""OW-09 stage over the qualified OW05 product: sort and filter apply to the whole list in eight readers (D17-16).
+"""OW-09 stage over the qualified OW12a stage: sort and filter apply to the whole list in eight readers (D17-16).
+
+OW-15 chain: OW05, OW06, kasbon, fgqc, OW05b, OW08a, OW12a, then this stage. No stage below changes any of the eight
+readers (each one's 22-group catalog admission refuses any undeclared function change); OW12a reads the finance
+report through cp7_finance.workspace, never cp7_finance.analysis.
 
 Eight installed readers get the counted delta of native_delta.py and are replaced as their verified existing owners:
 the CP7 read roles that own the seven CP7 readers and their schemas, and postgres for the CP6 accessory note reader.
@@ -16,17 +20,18 @@ from pathlib import Path
 from psycopg import sql
 from psycopg.pq import TransactionStatus
 
-from cp7_contractor_correction import composition as predecessor
+from cp7_finance_capture import composition as predecessor
 from cp7_ow09_lists import native_delta
 
 ROOT=Path(__file__).resolve().parent
 OWNERS=native_delta.OWNERS
 ROLES=('anon','authenticated','service_role','cp7_capture')
 BROWSER=('anon','authenticated','service_role')
-catalog=predecessor.predecessor.catalog
-atomic=predecessor.predecessor.atomic
-# The verified installer switch to postgres (the harness admin role cannot run DDL itself), as the OW05b/OW07 stages.
-as_owner=predecessor.predecessor.payment.consumer.as_owner
+catalog=predecessor.catalog
+atomic=predecessor.atomic
+# The verified installer switch to postgres (the harness admin role cannot run DDL itself); OW12a names it POSTGRES.
+as_owner=predecessor.POSTGRES
+base=predecessor.base  # chain interface (OW-15); this stage keeps its own function_ddl
 CAPTURED={}
 
 

@@ -1,0 +1,46 @@
+{
+ "run": 39891827409,
+ "attempt": 1,
+ "job": 120213139329,
+ "head": "63623374",
+ "qualification_commit": "636233746d75928f201775a7fb13dfde1b877e47",
+ "label": "CP7_OW09_WHOLE_LIST_NATIVE8",
+ "status": "PASS",
+ "expected_case_count": 8,
+ "observed_case_count": 8,
+ "cases": {
+  "OW09_CASH_LEDGER_WHOLE_PERIOD": "PASS",
+  "OW09_INVOICE_PAYMENTS_WHOLE_HISTORY": "PASS",
+  "OW09_INVOICE_RETURNS_WHOLE_HISTORY": "PASS",
+  "OW09_SAVED_NOTES_WHOLE_LIST": "PASS",
+  "OW09_FG_DOCUMENTS_AND_CARD_WHOLE_LIST": "PASS",
+  "OW09_MATERIAL_COUNT_DOCUMENTS_WHOLE_LIST": "PASS",
+  "OW09_ACCESSORY_NOTES_WHOLE_HISTORY": "PASS",
+  "OW09_READERS_PRIVATE_AND_ACCESS_UNCHANGED": "PASS"
+ },
+ "cp6_restored": true,
+ "advisor_gate": true,
+ "restore_raw_public_equal": true,
+ "package_gate": {"installed": true, "primary_unchanged": true, "backup_restore_drill": true, "security_advisors": true, "writer_runtime": true},
+ "every_case": {"full_boundary_restored": true, "public_schema_unchanged": true, "session_leaks": 0, "business_day": "2026-10-23 unchanged"},
+ "report": {"name": "CP7_OW09_WHOLE_LIST_NATIVE8.json", "raw_bytes": 2291282, "raw_sha256": "f6c723468c5924d9990e2c3c8260a9152281ee1c38840e30841b322c2147ed50"},
+ "artifact": "cp7-ow09-whole-list-native8 (12475755459)",
+ "ow12a_native7_original": {
+  "admission_step": "python scripts/ow12a_native_original.py",
+  "log_line": "ACTUAL_OW12A_NATIVE7_ORIGINAL_BYTES_AND_FULL_DECLARED_SOURCE_VERIFIED_NO_PRODUCT_EXECUTION"
+ },
+ "qualified_predecessor": {"name": "CP7_OW12A_FINANCE_CAPTURE_NATIVE7.json", "bytes": 2063596, "sha256": "94608fd155a79852c52a41a724d288d77924a016d3a809117812e71e73b7abb6"},
+ "highlights": {
+  "OW09_CASH_LEDGER_WHOLE_PERIOD": "7 journals (2 reversed), 18 combinations, counts and sums equal the oracle, period balances unfiltered, no business side effect",
+  "OW09_INVOICE_PAYMENTS_WHOLE_HISTORY": "8 payments (2 reversed), 36 combinations, natural order and tie on 7/07, access unchanged",
+  "OW09_INVOICE_RETURNS_WHOLE_HISTORY": "7 returns (2 reversed), 27 combinations, line search on every page, other kinds refuse history keys",
+  "OW09_SAVED_NOTES_WHOLE_LIST": "6 notes (5 void, 1 posted), 24 combinations, empty status answers zero",
+  "OW09_FG_DOCUMENTS_AND_CARD_WHOLE_LIST": "6 documents, 4 movements (ADJUSTMENT, REVERSAL), 42 combinations, card balances keep complete prefix",
+  "OW09_MATERIAL_COUNT_DOCUMENTS_WHOLE_LIST": "6 documents, 24 combinations, old call pages equal to original reader (3)",
+  "OW09_ACCESSORY_NOTES_WHOLE_HISTORY": "8 notes (3 drafts, 3 posted, 2 reversed), 24 combinations, whole history in 1 page of 50, old 50 cap kept for old calls",
+  "OW09_READERS_PRIVATE_AND_ACCESS_UNCHANGED": "8 private readers refused to authenticated; 8 public readers still executable"
+ },
+ "OW09_complete": false,
+ "production_go": false,
+ "independent_acceptance": false
+}

@@ -1,6 +1,7 @@
 # OW-09 — urut, saring dan cari seluruh hasil di 8 daftar
 
-Tahap Native di atas produk OW-05 (`cp7_contractor_correction.composition`). SQL dasar `scripts/cp7-src` tidak diubah
+Tahap Native di atas tahap OW-12a (`cp7_finance_capture.composition`), langkah 8 rantai OW-15 (OW05, OW06, kasbon,
+fgqc, OW05b, OW08a, OW12a, lalu OW-09); tidak ada tahap di bawahnya yang mengubah delapan pembaca ini. SQL dasar `scripts/cp7-src` tidak diubah
 (dibekukan, E25j2). Penjelasan untuk owner: `docs/cp7/d17-14/ow09/README.md`.
 
 - `native_delta.py`: penggantian terhitung pada 8 pembaca yang terpasang (`cp7_finance.analysis`, `cp7_sales.cash_workspace`,

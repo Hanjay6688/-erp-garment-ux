@@ -42,8 +42,9 @@ OW-15 langkah 8 (OW-09 di atas OW12a, cabang `claude/d17-14-chain8`) dan OW-04b 
 
 ## Belum selesai / berikutnya (urutan kerja)
 
-1. OW-15 langkah 8: OW-09 di atas OW12a (pembantu, cabang `claude/d17-14-chain8`), lalu Native8 di atas rantai.
-2. OW-04b bagian C langkah 2 (pembantu), lalu langkah 3: kasus, uji balapan, workflow.
+1. OW-15 langkah 10 (OW07) sedang diuji; langkah 11 (wash) disiapkan, menunggu laporan OW07.
+2. OW-04b bagian C: langkah 2 dan 3 digabung; uji pertama run 39892148460 di `ceed13e3` sedang jalan. Browser OW-05b diulang
+   karena `clientError.ts` berubah (run 39892148406 gagal di langkah penerimaan sumber, sedang dibaca).
 3. OW-04b: bagian 3–4 dan A lulus (lihat tabel). Bagian B lulus (lihat tabel). Bagian C: daftar `ow04/OW04B_SLICE_C_INVENTORY.md`, langkah 1
    (`scripts/cp7_credit_incoming/`) di cabang; langkah 2 sedang dikerjakan. D dan E menunggu 3 keputusan Bos.
 4. OW-09: tahap Native8 lulus (tabel). Bagian layar ditahan di `ow09/screens/` sampai tahap masuk rantai OW-15. Sisa: README
@@ -55,8 +56,10 @@ OW-15 langkah 8 (OW-09 di atas OW12a, cabang `claude/d17-14-chain8`) dan OW-04b 
    (`ow05/native6-197fb3fc-chain-pass.json`; laporan sha256 `cf004a56…`, artifak 12473826069). Rantai terbukti: OW04 → OW05 →
    OW06 → kasbon → fgqc → OW05b. Urutan diubah (OW04b ke ujung rantai, `ow15/RENCANA_OW15.md`); OW08a di atas OW05b lulus 6/6 di
    `c6c01275` (`ow08/ow08a-native6-c6c01275-chain-pass.json`; laporan sha256 `69459e5a…`, artifak 12473818897). OW12a di atas OW08a lulus 7/7
-   di `646a52e0` (`ow12/native7-646a52e0-chain-pass.json`; laporan sha256 `94608fd1…`, artifak 12474329154). Berikutnya OW-09
-   di atas OW12a, lalu OW07, wash, OW04b (followups → A → B → C).
+   di `646a52e0` (`ow12/native7-646a52e0-chain-pass.json`; laporan sha256 `94608fd1…`, artifak 12474329154). OW-09 di atas OW12a
+   lulus 8/8 di `63623374` (`ow09/native8-63623374-chain-pass.json`; laporan sha256 `f6c72346…`, artifak 12475755459).
+   Langkah 10 (OW07 di atas OW-09) sedang diuji (run 39892838281 di `1bd08969`); langkah 11 (wash) disiapkan pembantu;
+   lalu OW04b (followups → A → B → C).
    
 
 ## Antrean uji yang ditahan (registry image menolak unduhan sejak sekitar 20.20 UTC)
