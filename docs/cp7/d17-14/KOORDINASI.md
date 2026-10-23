@@ -840,3 +840,10 @@ B menulis helper stateless `cp7_history_bounded` dari sumber `cp7_reorder_inputs
 Terukur di retry Transport10: checkout writer20:22:51–20:27:39 (4m48s), harness20:27:57–20:31:52 (3m55s); candidate/base masih perlu checkout sendiri. Tiga workflow B baru diganti dari5 unduhan penuh ke1 checkout auditor dan4 detached worktree writer/harness/candidate/base dengan pin yang identik. Uji lokal nyata membuat keempat worktree, membandingkan setiap head/tree serta status bersih, lalu menghapusnya; receipt `ow13c/PINNED_WORKTREE_CHECK.json`. Tidak mengubah A harness, kode produk, database, atau oracle. Runtime CI baru belum diukur.
 
 Disimpan skipci untuk mencegah ulangan yang tidak perlu. Job aktifTransport10f1f05b8e/run40018747206/job120637496516 dan Native3cd8e37d6/run40020162611 tetap memakai workflow lama masing-masing; kandidat dan bukti tidak berubah. Native11PASS/108clienttests tetap bukti terpisah. Perubahan berikut pada CI yang benar-benar diperlukan akan memakai persiapan baru.
+
+
+## 43. Native3 riwayat besar PASS; perbaikan penolakan simpan pertama (24 Oktober 2026 WIB)
+
+Native3 kandidatcd8e37d6/run40020162611/job120642326384 PASS3/3; receipt `ow13c/cd8e37d-inputs3-pass.json`. Semua36 sumber/10 invers22/legacy9/restore/advisor/5 gate paket tepat.2000 produk sintetis+2 fixture lama,202000 gerakan dibaca penuh tiga kali1413.602/1400.994/1416.235ms, batas tetap8s. Parity input Native tepat dan overflow produk nyata ditolak. Raw status tetapINCOMPLETE, tidak membuatDONE. Freshness lossless raw-stock/staged integration/actualSAVE2000 masih OPEN; parent tetap5/16.
+
+Layar diperbaiki untuk penolakan source/revisi yang pasti pada simpan pertama: request baru itu dilepas, isian tetap ada dan sumber bisa diambil lagi. Setiap error pada retry tetap menyimpan UUID/payload asal; lost reply/auth/request-changed tidak dibersihkan.118 uji klien/5 berkas danTypeScript lulus. Entry2 lanjutan akan menekan SAVE desktop sesudah stok berubah, lalu memeriksa ponsel lost commit/reopen; server9/SQL sama, sehingga tidak perlu mengulang kelompok race/Auth. PersiapanCI memakai satu fetch+empat worktree yang sudah diverifikasi lokal.

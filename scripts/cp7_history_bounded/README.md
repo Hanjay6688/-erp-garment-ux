@@ -17,8 +17,15 @@ replacement. Installation takes an already authorized disposable cursor; no
 default installer or connection/commit is provided. The pre-use inverse must
 restore all 22 catalog groups and refuses external SQL callers before DDL.
 
-Not qualified yet: actual Native parity below the raw bound; complete 2,000
-product/202,000 movement input under 8 seconds; malformed/other-incomplete
-source refusal; inverse and composed source-authority checks. After those pass,
-staged-job, source-freshness and final checked-SAVE integration still remain.
-The parent OW13c completion count does not change for this adapter.
+Native3 qualified the component at candidate `cd8e37d6`, run40020162611:
+exact complete-input parity; 2,000 synthetic products/202,000 movements plus
+2 existing fixture products in three full reads (1413.602/1400.994/1416.235 ms,
+each below the unchanged 8 s limit); real product-bound overflow refusal.
+All36 source hashes,10 pre-use22 inverses, unchanged legacy9 oracle,
+restore/advisor and all5 package gates matched. All ERP/platform/auth and
+work-metadata rows stayed unchanged. Raw Native INCOMPLETE remained so.
+
+The component does not yet provide a lossless raw-stock freshness digest,
+create a versioned staged job, or qualify actual checked SAVE2000. Those
+integration steps remain open; the parent OW13c completion count is unchanged.
+See `docs/cp7/d17-14/ow13c/cd8e37d-inputs3-pass.json` for exact evidence.

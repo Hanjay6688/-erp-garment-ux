@@ -2,7 +2,7 @@
 import {beforeEach,it,expect,vi} from 'vitest'
 import {parseNativeSupply,parseScheduleWorkspace,parseNativeNetting,schedulePayload,checkScheduleOutcome,persistScheduleRequest,readScheduleRequest,clearScheduleRequest,scheduleRequestKey,instantToWibInput,wibInputToInstant} from './nativeProductionPlanning'
 import {supplyWire,workspaceWire,stagedWorkspaceWire,stagedScheduleOutcome,scheduleJobWire,nettingWire,dualHorizonNettingWire,scheduleConfig,scheduleOutcome,planningQuery,workKey} from '../tests/fixtures/nativeProductionPlanning'
-import {parseStagedScheduleWorkspace,STAGED_SCHEDULE_CONTRACT} from './nativeProductionPlanning'
+import {parseStagedScheduleWorkspace,STAGED_SCHEDULE_CONTRACT,firstScheduleRefusal} from './nativeProductionPlanning'
 import {readStagedSchedule,saveStagedSchedule} from './nativeStagedSchedule'
 import {demandRequest} from '../tests/fixtures/nativeDemandHistory'
 beforeEach(()=>localStorage.clear())
@@ -72,4 +72,10 @@ it('retains old pending UUID payloads unchanged and rejects unknown route marker
  expect(()=>checkScheduleOutcome(stagedScheduleOutcome(r.id),r)).toThrow();const rpc=vi.fn();await expect(saveStagedSchedule({rpc},r)).rejects.toThrow();expect(rpc).not.toHaveBeenCalled()
  localStorage.setItem(scheduleRequestKey('unknown'),JSON.stringify({...r,payload:{...r.payload,staged_review_contract:'unknown'}}));expect(readScheduleRequest('unknown').error).not.toBe('')
  await readStagedSchedule({rpc},demandRequest);expect(rpc).toHaveBeenCalledWith('erp_cp7_get_staged_production_schedule_v1',{p_source_request:demandRequest})
+})
+it.each([{code:'40001',message:'CP7_SCHEDULE_SOURCE_CHANGED'},{code:'P0001',message:'CP7_SCHEDULE_SOURCE_CHANGED'},{code:'P0001',message:'CP7_SCHEDULE_REVISION_CHANGED'}])('recognizes only a first confirmed stale schedule refusal: %s',error=>{
+ expect(firstScheduleRefusal(error,false)).toContain('Isianmu masih ada');expect(firstScheduleRefusal(error,true)).toBeUndefined()
+})
+it.each([Error('reply lost'),{status:403,message:'CP7_ACCESS_DENIED'},{code:'42501',message:'CP7_SCHEDULE_ACCESS_CHANGED'},{code:'40001',message:'different writer'},{code:'P0001',message:'CP7_SCHEDULE_REQUEST_CHANGED'}])('does not discard uncertain or denied schedule recovery: %s',error=>{
+ expect(firstScheduleRefusal(error,false)).toBeUndefined();expect(firstScheduleRefusal(error,true)).toBeUndefined()
 })

@@ -98,6 +98,14 @@ export function schedulePayload(w:ScheduleWorkspace,config:ScheduleConfig,reason
  return{source_run:w.sourceRun,source_hash:w.sourceHash,expected_revision:w.revision,config:parseScheduleConfig(config),reason:clean,...(w.staged?{staged_review_contract:STAGED_SCHEDULE_CONTRACT}:{})}
 }
 export function checkScheduleOutcome(raw:unknown,r:ScheduleRequest){const o=obj(raw),staged=r.payload.staged_review_contract===STAGED_SCHEDULE_CONTRACT;if(o.contract_version!==(staged?'cp7.planning-schedule-staged-outcome.v1':'cp7.planning-schedule-outcome.v1')||staged&&(o.staged_review_contract!==STAGED_SCHEDULE_CONTRACT||o.source_run!==r.payload.source_run)||o.request_id!==r.id||o.source_hash!==r.payload.source_hash||o.quality!=='SELECTED_ASSUMPTIONS'||o.production_go!==false||BigInt(pcs(o.revision))!==BigInt(r.payload.expected_revision)+1n)fail();uuid(o.plan_id)}
+// Clear only a newly submitted request whose own transaction definitely
+// refused a known stale source/revision. A retry may follow a lost commit;
+// never discard that retained request on any error, including access denial.
+export function firstScheduleRefusal(error:unknown,retry:boolean):string|undefined{
+ if(retry||!error||typeof error!=='object')return
+ const e=error as Record<string,unknown>
+ if((e.code==='40001'||e.code==='P0001')&&e.message==='CP7_SCHEDULE_SOURCE_CHANGED'||e.code==='P0001'&&e.message==='CP7_SCHEDULE_REVISION_CHANGED')return 'Sumber atau versi jadwal berubah. Isianmu masih ada. Ambil sumber terbaru sebelum menyimpan lagi.'
+}
 export function parseNativeNetting(raw:unknown,q:NativeDemandQuery):NativeNetting{
  const v=obj(raw);if(v.contract_version!=='cp7.native-netting.v1'||v.apply_enabled!==false||v.production_go!==false||!['SCENARIO','PARTIAL','UNKNOWN'].includes(str(v.status)))fail()
  const run=uuid(v.run_id),request=uuid(v.request_id),s=state(v.source_state),capturedAt=instant(v.captured_at),sourceHash=hash(v.source_hash),scenario=obj(v.schedule_run_result)

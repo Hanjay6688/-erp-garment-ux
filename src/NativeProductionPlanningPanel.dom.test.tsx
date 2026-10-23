@@ -89,3 +89,11 @@ it('keeps both legacy and staged recovery records visible and never overwrites e
  persistNativeDemandRequest('supply:'+scope,{id:demandRequest,q:planningQuery});persistNativeDemandRequest('staged-schedule-source:'+scope,{id:crypto.randomUUID(),q:planningQuery});await render()
  expect(container.textContent).toContain('Pulihkan stok proses versi lama');expect(container.textContent).toContain('Ulangi stok proses yang sama');expect([...container.querySelectorAll('button')].find(b=>b.textContent==='Ambil stok proses terbaru')!.disabled).toBe(true);expect(client.rpc).not.toHaveBeenCalled()
 })
+it('releases only a first confirmed stale save refusal while preserving dirty work and requiring a new source',async()=>{
+ reply();await render();await click('Ambil stok proses terbaru');await fillSchedule();await fill('Waktu satu PCS baru','3');client.rpc.mockResolvedValue({data:null,error:{code:'40001',message:'CP7_SCHEDULE_SOURCE_CHANGED'}});await click('Simpan jadwal yang diperiksa')
+ expect(readScheduleRequest(scope).pending).toBeNull();expect(container.textContent).toContain('Isianmu masih ada');expect((container.querySelector('[aria-label="Waktu satu PCS baru"]')as HTMLInputElement).value).toBe('3');expect([...container.querySelectorAll('button')].find(b=>b.textContent==='Ambil stok proses terbaru')!.disabled).toBe(false);expect([...container.querySelectorAll('button')].find(b=>b.textContent==='Simpan jadwal yang diperiksa')!.disabled).toBe(true)
+})
+it('retains the exact UUID after an uncertain save even if its replay later refuses a stale source',async()=>{
+ reply();await render();await click('Ambil stok proses terbaru');await fillSchedule();client.rpc.mockResolvedValue({data:null,error:Error('committed reply may have been lost')});await click('Simpan jadwal yang diperiksa');const held=readScheduleRequest(scope).pending;expect(held).toBeTruthy()
+ client.rpc.mockResolvedValue({data:null,error:{code:'40001',message:'CP7_SCHEDULE_SOURCE_CHANGED'}});await click('Ulangi simpan jadwal yang sama');expect(readScheduleRequest(scope).pending).toEqual(held);expect([...container.querySelectorAll('button')].find(b=>b.textContent==='Ambil stok proses terbaru')!.disabled).toBe(true)
+})

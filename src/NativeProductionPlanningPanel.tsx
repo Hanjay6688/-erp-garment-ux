@@ -5,7 +5,7 @@ import {normalizeClientError} from './lib/clientError'
 import {formatReceiptDecimal as numberText} from './procurementContract'
 import {formatCp6WibDateTime} from './cp6BusinessTime'
 import {readNativeDemandRequest,persistNativeDemandRequest,clearNativeDemandRequest,nativeDemandRequestKey,type NativeDemandQuery} from './nativeDemandHistory'
-import {parseNativeSupply,parseScheduleWorkspace,parseStagedScheduleWorkspace,parseNativeNetting,schedulePayload,checkScheduleOutcome,readScheduleRequest,persistScheduleRequest,clearScheduleRequest,scheduleRequestKey,instantToWibInput,wibInputToInstant,type NativeSupply,type ScheduleWorkspace,type ScheduleConfig,type ScheduleRequest,type NativeNetting,type NettingRow,type ReorderState} from './nativeProductionPlanning'
+import {parseNativeSupply,parseScheduleWorkspace,parseStagedScheduleWorkspace,parseNativeNetting,schedulePayload,checkScheduleOutcome,firstScheduleRefusal,readScheduleRequest,persistScheduleRequest,clearScheduleRequest,scheduleRequestKey,instantToWibInput,wibInputToInstant,type NativeSupply,type ScheduleWorkspace,type ScheduleConfig,type ScheduleRequest,type NativeNetting,type NettingRow,type ReorderState} from './nativeProductionPlanning'
 import {parseStagedJob} from './nativeStagedJob'
 import type {StagedReference} from './nativeAnalysisPages'
 import {readStagedSchedule,saveStagedSchedule} from './nativeStagedSchedule'
@@ -85,7 +85,7 @@ function Workspace({query,onSourceReadStart,onSourceReadEnd,onClose}:Props){
   if(active.current||!canSave)return;const n=begin()
   try{const held=readScheduleRequest(scope);if(held.error)throw Error(held.error);if(retry&&!held.pending)throw Error('Permintaan jadwal tersimpan tidak tersedia.');if(!retry&&held.pending)throw Error('Periksa permintaan jadwal yang sama terlebih dahulu.')
    const request:ScheduleRequest=retry?held.pending!:{id:crypto.randomUUID(),payload:schedulePayload(base!,configFrom(form!),form!.reason)};if(!retry)persistScheduleRequest(scope,request);setSaveRecovery(readScheduleRequest(scope))
-   const r=request.payload.staged_review_contract?await saveStagedSchedule(client,request):await client.rpc('erp_cp7_save_production_schedule_v1',{p_payload:request.payload,p_request:request.id});if(n!==seq.current)return;if(r.error)throw r.error;checkScheduleOutcome(r.data,request);clearScheduleRequest(scope,request.id);setSaveRecovery(readScheduleRequest(scope));setMessage('Jadwal tersimpan. Ambil sumber terbaru untuk memeriksa versi jadwal dan menghitung kekurangan.')
+   const r=request.payload.staged_review_contract?await saveStagedSchedule(client,request):await client.rpc('erp_cp7_save_production_schedule_v1',{p_payload:request.payload,p_request:request.id});if(n!==seq.current)return;if(r.error){const refusal=firstScheduleRefusal(r.error,retry);if(refusal){clearScheduleRequest(scope,request.id);setSaveRecovery(readScheduleRequest(scope));throw Error(refusal)}throw r.error}checkScheduleOutcome(r.data,request);clearScheduleRequest(scope,request.id);setSaveRecovery(readScheduleRequest(scope));setMessage('Jadwal tersimpan. Ambil sumber terbaru untuk memeriksa versi jadwal dan menghitung kekurangan.')
   }catch(e){if(n===seq.current)setError(normalizeClientError(e).message)}finally{end(n)}
  }
  const calculate=async(retry=false)=>{

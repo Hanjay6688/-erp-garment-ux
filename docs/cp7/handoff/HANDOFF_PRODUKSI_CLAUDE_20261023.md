@@ -65,7 +65,7 @@ Fixture K2 hanya mengubah updated_at sintetis, tanpa mengubah tanggal fisik atau
 Original artifact12527881809, 315263 bytes, SHA
 6c07edcbc83cab6f4705968ab804b7b1081438f04bc05317a68d78730673ed7c.
 
-**Sambungan layar sudah ditulis dan lulus 108 uji klien serta TypeScript.**
+**Sambungan layar sudah ditulis dan lulus 118 uji klien serta TypeScript.**
 GET/SAVE baru memakai reference staged asli. UUID lama tetap menuju facade lama;
 isian belum disimpan, pergantian akses, respons terlambat, dan perubahan tab lain dipertahankan.
 History INCOMPLETE/analisis FAILED tetap diberi keterangan yang jujur.
@@ -94,18 +94,28 @@ Native11 tetap bukti server terpisah; actual checked SAVE2000 belum selesai.
 karena identitas salinan yang sama; Original12529931730/42007bytes/SHA
 214ec7864a3f4c8877cb124d9f6be82273e7ec4d03785a718b6ab0ecf5a6c23c.
 
-**Langkah riwayat besar: helper input bounded sudah ditulis, belum qualified.**
-`cp7_history_bounded` memiliki2 fungsi privat,0 facade/0 tabel/0 replace.
-Ia mengambil compiler Native yang sama sebelum aturan ROP, memakai query periode
-yang dipilih dan membaca seluruh stok SQL. Raw capture tetap INCOMPLETE; jalur
-input lengkap diberi kontrak tersendiri, bukan job DONE atau izin produksi.
-Native3 [run40020162611](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/40020162611)
-kandidat `cd8e37d66117dbd120c38fa3c4378b75e8eb1439`, sumbercc64199f, sedang berjalan;
-belum hasil. Native3 dideklarasikan: parity input lama,2000 produk sintetis/202000 gerakan
-dibaca penuh tiga kali masing-masing<8s, serta overflow produk nyata ditolak.
-Sepuluh invers22 dan oracle9 lama wajib tepat. Belum ada hasil runtime; belum
-tersambung ke staged job/freshness atau checked SAVE2000. Tidak mengubah hitungan
-parent atau batas lama, dan tidak mengubah sumber Native9 yang beku.
+**Pembacaan riwayat besar Native3 sudah PASS3/3.**
+[Receiptcd8e37d6](../d17-14/ow13c/cd8e37d-inputs3-pass.json),
+[run40020162611](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/40020162611)
+/job120642326384. Helper `cp7_history_bounded` tetap2 privat/0 facade/0 tabel/0 replace.
+Parity input Native lama tepat. Seluruh202000 gerakan/2000 produk sintetis,
+plus2 produk fixture yang sudah ada, dibaca tiga kali1413.602/1400.994/1416.235ms;
+masing-masing<8s. Overflow produk nyata tetap ditolak.36 sumber/10 invers22/
+legacy9/restore/advisor/5 gate paket tepat. ERP/platform/auth/metadata tidak berubah.
+Raw capture tetap INCOMPLETE, input lengkap mempunyai kontrak tersendiri.
+Original12530871964/134413bytes/SHA
+5369020da63549f89e7787b65126ec24e0eced2dd749b1f7d0e0d8d814012cfc.
+**Belum selesai:** digest raw stock penuh untuk freshness, versi staged job/kompiler,
+serta actual checked SAVE2000 dengan seluruh pemeriksaan writer<8s.
+Jangan memperlakukan kelulusan pembaca ini sebagai bukti SAVE atau job DONE.
+
+**Perbaikan layar lanjutan:**118 uji klien+TypeScript lulus. Penolakan SQL source/
+revisi yang pasti pada simpan pertama melepas hanya request baru itu dan menjaga
+isian agar pengguna dapat mengambil sumber baru. Error pada retry, jawaban hilang,
+penolakan akses, dan request-changed tetap menyimpan UUID yang sama. Entry2 berikut
+menguji desktop menekan SAVE sesudah stok berubah, serta ponsel lost reply/reopen;
+sumber server sama dengan Transport10 yang masih berjalan. Tidak perlu mengulang
+seluruh kelompok server karena perubahan ini hanya di klien.
 
 GET memakai UUID permintaan job (`p_source_request`), SAVE memakai realrun
 UUID dariGET+marker/sourcehash/revisi/config/alasan. Native validator kerja/

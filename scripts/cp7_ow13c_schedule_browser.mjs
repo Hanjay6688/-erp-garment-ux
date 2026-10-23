@@ -76,11 +76,13 @@ async function journey(ui,today,mobile){
   }else{
    await panel.getByLabel('Waktu satu PCS baru',{exact:true}).fill('3')
    fixture('stock',{root:f.root})
-   await panel.getByRole('button',{name:'Periksa sumber stok proses',exact:true}).click()
+   await panel.getByRole('button',{name:'Simpan jadwal yang diperiksa',exact:true}).click()
    await ui.expect(panel).toContainText('Isianmu masih ada')
    await ui.expect(panel.getByLabel('Waktu satu PCS baru',{exact:true})).toHaveValue('3')
    await ui.expect(panel.getByRole('button',{name:'Simpan jadwal yang diperiksa',exact:true})).toBeDisabled()
-   assert.equal(requests.length,0)
+   assert.equal(requests.length,1);assert.equal(requests[0].status,500);assert.equal(requests[0].body.code,'40001')
+   await ui.expect(panel.getByRole('button',{name:'Ambil stok proses terbaru',exact:true})).toBeEnabled()
+   await ui.expect(panel.getByRole('button',{name:'Ulangi simpan jadwal yang sama',exact:true})).toHaveCount(0)
    const after=state();assert.equal(after.plans,before.plans);assert.equal(after.commands,before.commands)
   }
   await ui.expect.poll(()=>page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true)
@@ -90,7 +92,7 @@ async function journey(ui,today,mobile){
   const denied=await user.context.request.post(sourceReply.url(),{data:{p_source_request:workspace.source_request_id},headers:sourceReply.request().headers()})
   assert.equal(denied.status(),403)
   return{status:'PASS',actual_Auth_PostgREST_browser:true,viewport:mobile?390:1440,no_horizontal_overflow:true,
-   dirty_form_stale_refusal:!mobile,lost_committed_response_same_UUID_reopen:mobile,current_token_denied:true,shots,
+   dirty_form_stale_refusal:!mobile,first_confirmed_refusal_releases_only_new_request:!mobile,lost_committed_response_same_UUID_reopen:mobile,current_token_denied:true,shots,
    production_quantity_claim:false}
  }catch(error){
   mkdirSync('cp6-proof/t3',{recursive:true});writeFileSync(`cp6-proof/t3/SCHEDULE_${mobile?'MOBILE':'DESKTOP'}_FAILURE.json`,JSON.stringify({error:String(error),requests,lost,alerts:await page.getByRole('alert').allTextContents().catch(()=>[])},null,2));await shot('FAILURE').catch(()=>{});throw error
