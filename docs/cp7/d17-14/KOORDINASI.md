@@ -23,6 +23,7 @@ Penulis B = Astra (`astra/d17-14-produksi`). Cabang gabungan `astra/d17-14-integ
 
 | Tanggal | Butir | Dari → ke | Berkas | Alasan dan bentuk perubahan | Selesai |
 |---|---|---|---|---|---|
+| 23 Okt 2026 | OW-15 rantai tahap | A → B | 9 berkas `scripts/cp7-src` di `astra/d17-14-produksi` (`alerts/alerts.sql`, `baseline/target.sql`, `plan-native/history-yield.sql`, `planning/{analysis-stages,baseline-source,netting,supply-source}.sql`, `stock-formula/{formula,materials}.sql`) | SQL dasar dibekukan oleh `PREDECESSOR_SQL_SHA256` (`scripts/cp7_full_owning_install.py`); edit di berkas itu membuat semua tahap A berhenti di `CP7_FULL_PREDECESSOR_SQL_SOURCE_CHANGED` (E25j2; A sendiri sudah membatalkan OW-09 karena hal yang sama). Mohon kembalikan 9 berkas ke byte beku dan pindahkan perubahannya ke folder tahap di atas ujung rantai (penggantian terhitung, admisi 22 kelompok katalog, rollback tepat); A menulis komposisi rantai, B SQL dan kasusnya. Sampai itu, cabang B tidak digabung ke integrasi apa adanya. Rencana: `ow15/RENCANA_OW15.md` | belum |
 
 ## Perubahan bersama
 
