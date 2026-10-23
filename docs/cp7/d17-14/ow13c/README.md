@@ -110,3 +110,22 @@ Yang masih terbuka sesuai daftar awal:
 
 FullOW13c/CP7C/audit independen/production_go dan kenaikan parent5/16 tidak
 diberikan oleh checkpoint31. Jangan mengulang19/25/31 lama demi angka hijau.
+
+
+## Lanjutan review jadwal: Native8 komponen PASS
+
+[d85187dc](d85187d-schedule8-pass.json),run40010384850/job120608936647
+PASS8/8,32 sumber/9 invers22/restore/advisor/5 gate paket tepat. Modul
+`cp7_schedule_staged_review` menyimpan metadata dari job nyata RUNNING, UUID/
+revisi/hak kini/source/atomicfault danmetadata2000/202000 terbukti.0 perubahan
+9 sumber lama/0 tabel/0 penggantianNative. Status riwayatINCOMPLETE tidak
+menjadiCOMPLETE atau hasil produksi. ActualcheckedSAVE2000 tetap OPEN.
+
+[6370d29 pertama](6370d29-schedule8-first-incomplete.json)1/8 tetap disimpan.
+Pembanding menghitung hash timestamptz sebelum boundary.snapshot mengubah
+GUC keUTC, lalu membandingkan dengan hashUTC sesudahnya. Fixb508bf77 menyamakan
+UTC sejak awal/restoreGUC, tetap membandingkan semua baris/hash dan menambah
+diff bila gagal. Semua delapan kontrol kemudianPASS; bukan oracle dilonggarkan.
+Layar/newAuth/race/current-wait/DONE-retention/FAILED context/defaultA belum
+terbukti dari suiteNative-only ini.1 positive no-write yang dahulu tertahan
+sekarangPASS; seluruhOriginal/rawlog tetap tersedia.

@@ -1,4 +1,4 @@
-# Review jadwal dari sumber bertahap — B, DRAFT, belum Native-qualified
+# Review jadwal dari sumber bertahap — B, Native8 komponen PASS
 
 Native5/WIP2 sudah lulus. Upaya SAVE2000/202000 pertama berhenti sebelum SAVE
 karena setup membutuhkan capture supply v1 lama (1000 produk/50000 gerakan).
@@ -42,7 +42,15 @@ tepat dan pin7 helper; `review.sql` harus tepat hasil render. Bagian validasi
 pekerjaan/target/calendar dan penyimpanan metadata bukan salinan rumus stok,
 uang/HPP atau pembentukan hasil analisis.
 
-Pemeriksaan lokal baru: render/pin/kompilasi Python/scanner SQL. Masih wajib:
+Native8 komponen lulus pada d85187dc/run40010384850/job120608936647:
+8 ID,32 sumber,9 invers22,restore/advisor/5 gate paket tepat. GET/replay,
+source berubah,asing/akun nonaktif,revisi/UUIDlama,usedinverse,atomicfault,
+metadata2000/202000 semuanya PASS. Riwayat padat tetap INCOMPLETE;0 klaim
+actualcheckedSAVE2000. Receipt `docs/cp7/d17-14/ow13c/d85187d-schedule8-pass.json`.
+Kegagalan pertama6370d29 tetap; pembanding metadata kini menserialkan timestamp
+UTC sejak awal dan mengembalikan GUC semula, equality/baris tetap ketat.
+
+Masih wajib:
 Native pasang/invers22/otoritas, RUNNING/DONE/asing/retensi, SAVE/replay/revisi,
 current-source/current-access setelah wait, atomic fault, metadata besar,
 Auth/browser/layar dengan UUID tahan putus, dan pemasangan A. Generator tipe/
