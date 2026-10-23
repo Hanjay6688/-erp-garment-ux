@@ -1,0 +1,12 @@
+{
+  "classification": "LOCAL_CONTROLLED_CACHE_READER_HARNESS_FAILURE_NOT_NATIVE",
+  "phase": "FIRST_READER_LOCAL_RUN",
+  "observed_case_count": null,
+  "status": "INCOMPLETE",
+  "error": "25P02: RESET ROLE attempted while the transaction was aborted; masked the preceding observation.",
+  "query": "reset role;rollback",
+  "log_bytes": 21245,
+  "log_sha256": "f1616815fa932c7c9bfd7d85897753f3c102957f8a85439a55e382fa24229f14",
+  "fix": "Per-call savepoint rolls back the original SQL error before restoring role; outer cleanup rolls back before RESET ROLE.",
+  "product_error_oracle_weakened": false
+}

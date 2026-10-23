@@ -52,9 +52,9 @@ begin
     or r->>'available_fg_pcs'!~'^-?(0|[1-9][0-9]{0,29})$')then raise exception 'CP7_REORDER_AVAILABLE_FG';end if;
   if r->'lead_deadline'<>'null'::jsonb and cp7_demand.instant(r->'lead_deadline')<captured then raise exception 'CP7_REORDER_LEAD_BEFORE_CAPTURE';end if;
   if r->'deadline'<>'null'::jsonb then perform cp7_demand.instant(r->'deadline');end if;
-  perform cp7_demand.items(r->'supplies',10000);entries:=entries+jsonb_array_length(r->'supplies');
+  if r->'supplies'<>'null'::jsonb then perform cp7_demand.items(r->'supplies',10000);entries:=entries+jsonb_array_length(r->'supplies');end if;
   if entries>10000 then raise exception 'CP7_REORDER_GLOBAL_SUPPLY_LIMIT';end if;
-  for s in select value from jsonb_array_elements(r->'supplies')loop
+  for s in select value from jsonb_array_elements(case when r->'supplies'='null'::jsonb then'[]'::jsonb else r->'supplies'end)loop
    perform cp7_wip.fields(s,array['physical_key','snapshot_id','target_key','size_id','kind','qty_pcs','eta','eligible','refs']);
    perform cp7_wip.key(s->'physical_key');perform cp7_wip.refs(s->'refs');
    if s->>'kind'is null or s->>'kind'not in('DIRECTED','ALLOCATED_CANDIDATE')then raise exception 'CP7_REORDER_WIP_KIND';end if;
@@ -69,7 +69,11 @@ begin
    if s->>'kind'='ALLOCATED_CANDIDATE'and v->>'allocation_status'<>'SCENARIO'then raise exception 'CP7_REORDER_UNPROVEN_ALLOCATION';end if;
   end loop;
   net:=null;
-  if r->'deadline'='null'::jsonb or r->'lead_deadline'='null'::jsonb then
+  if r->'supplies'='null'::jsonb then
+   -- Native leaves this null when matching/netting was not computed. It is
+   -- not an empty list and is never passed to netting as zero supply.
+   net:=null;
+  elsif r->'deadline'='null'::jsonb or r->'lead_deadline'='null'::jsonb then
    if r->'supplies'<>'[]'::jsonb then raise exception 'CP7_REORDER_TARGET_HORIZON_UNKNOWN_SUPPLY';end if;
   else
    -- Exactly the same kernel/one conserved supplies list for L and L+R.
@@ -87,14 +91,15 @@ begin
   end if;
   results:=array_append(results,jsonb_build_object('target_key',r->'target_key','size_id',r->'size_id',
    'status',case when why is not null or net is null then'UNKNOWN'else net->>'status'end,
-   'reason',coalesce(why,case when net is null then'TARGET_HORIZON_UNKNOWN'else net->>'reason'end),
+   'reason',coalesce(why,case when r->'supplies'='null'::jsonb then'TARGET_SUPPLY_UNKNOWN'
+     when net is null then'TARGET_HORIZON_UNKNOWN'else net->>'reason'end),
    'net',case when why is null then net end));
  end loop;
  -- Exact duplicates are idempotent per target, as in net(). A conflicting
  -- duplicate, multiple DIRECTED targets or mixed DIRECTED/candidate is refused.
  for conflict in
   with entries as(select rt.target->>'target_key'target_key,st.supply from jsonb_array_elements(v->'targets')rt(target)
-   cross join lateral jsonb_array_elements(rt.target->'supplies')st(supply)),
+   cross join lateral jsonb_array_elements(case when rt.target->'supplies'='null'::jsonb then'[]'::jsonb else rt.target->'supplies'end)st(supply)),
   unique_entries as(select distinct e.target_key,e.supply from entries e)
   select u.supply->>'physical_key'physical_key,count(distinct u.target_key)targets,count(distinct u.supply->>'kind')kinds,
    bool_or(u.supply->>'kind'='DIRECTED')directed,sum(case when u.supply->'eligible'='true'::jsonb then(u.supply->>'qty_pcs')::numeric else 0 end)used,
@@ -110,7 +115,8 @@ begin
   'captured_at',v->'captured_at','checked_at',v->'checked_at','query',v->'query','source_hash',v->'source_hash',
   'status',case when why is not null or exists(select 1 from unnest(results)x where x->>'status'<>'SCENARIO')then'UNKNOWN'
     when v->>'allocation_status'='UNKNOWN'then'PARTIAL'else'SCENARIO'end,
-  'reason',why,'allocation_status',v->'allocation_status','rows',to_jsonb(results),
+  'reason',coalesce(why,case when v->>'allocation_status'='UNKNOWN'then'GLOBAL_CANDIDATE_ALLOCATION_UNKNOWN'end),
+  'allocation_status',v->'allocation_status','rows',to_jsonb(results),
   'basis','SAME_GLOBAL_ALLOCATION_PROJECTED_GOOD_UNIQUE_PHYSICAL_SIZE_TWO_HORIZONS','apply_enabled',false,'production_go',false);
 end $$;
 alter function cp7_reorder_supply.project(jsonb)owner to cp7_capture;

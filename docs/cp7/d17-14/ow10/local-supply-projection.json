@@ -1,9 +1,9 @@
 {
   "classification": "LOCAL_REAL_SQL_KERNEL_WITH_CONTROLLED_GLOBAL_ALLOCATION_INPUT_NOT_NATIVE_NOT_ROP_CALLER",
   "status": "PASS",
-  "passed": 13,
-  "total": 13,
-  "sql_sha256": "64ded51a5246310dfaca3d1c62aeabcf09955c26be3e45f910bb6a7702eb7271",
+  "passed": 14,
+  "total": 14,
+  "sql_sha256": "b9261c28c776b87da6489d11496f811ee337ecc6626e48033e8630ce346e5008",
   "results": [
     {
       "id": "OW10_SUPPLY_ONE_RAW_POOL_NOT_CREDITED_TO_BOTH_VARIANTS",
@@ -107,6 +107,15 @@
         "controlled_scenarios": 64,
         "targets_per_scenario": 2,
         "independent_BigInt_quantities_gaps_states_and_conservation": true
+      }
+    },
+    {
+      "id": "OW10_SUPPLY_UNCOMPUTED_NULL_LIST_STAYS_UNKNOWN",
+      "status": "PASS",
+      "observed": {
+        "uncomputed_null_distinct_from_empty_known_list": true,
+        "missing_key_refused": true,
+        "other_target_conserved_projection_still_available": true
       }
     },
     {

@@ -1,6 +1,6 @@
-"""Reversible B supply-budget producer; A composes the full release.
+"""Reversible B supply-budget producer/reader; A composes the full release.
 
-No connection/commit, cron, public RPC or live ROP caller. Reader integration
+No connection/commit, cron, public RPC or live ROP caller. ROP integration
 remains open. A supplies transaction/envelope and the global after-use guard.
 """
 from hashlib import sha256
@@ -13,7 +13,7 @@ from . import patches
 
 ROOT=Path(__file__).resolve().parent
 SCHEMA='cp7_reorder_supply'
-FUNCTIONS=(SCHEMA+'.project(jsonb)',SCHEMA+'.budgets(jsonb,jsonb)')
+FUNCTIONS={SCHEMA+'.project(jsonb)':'i',SCHEMA+'.budgets(jsonb,jsonb)':'i',SCHEMA+'.read_job(jsonb,jsonb)':'s'}
 
 
 def sources():
@@ -46,14 +46,14 @@ def verify(cur,state):
         if row[0]!=state['definitions'][sig]or row[0]!=expected[sig]or row[2:]!=state['originals'][sig][2:]:
             raise ValueError('OW10_SUPPLY_HOOK_OR_AUTHORITY_CHANGED: '+sig)
     bodies={}
-    for file in ('projection.sql','capture.sql'):
+    for file in ('projection.sql','capture.sql','read.sql'):
         bodies.update(re.findall(r'create function (cp7_reorder_supply\.[a-z_]+)\([^;]*?\).*?as \$\$(.*?)\$\$;',
                                  (ROOT/file).read_text(),re.S))
     if set(bodies)!={sig.split('(')[0]for sig in FUNCTIONS}:
         raise ValueError('OW10_SUPPLY_PRIVATE_SET_CHANGED')
-    for sig in FUNCTIONS:
+    for sig,volatility in FUNCTIONS.items():
         row=_row(cur,sig)
-        if row[1]!=bodies[sig.split('(')[0]]or row[2:6]!=['cp7_capture',False,'i',['search_path=""','TimeZone=UTC']]:
+        if row[1]!=bodies[sig.split('(')[0]]or row[2:6]!=['cp7_capture',False,volatility,['search_path=""','TimeZone=UTC']]:
             raise ValueError('OW10_SUPPLY_PRIVATE_BODY_OR_AUTHORITY_CHANGED: '+sig)
         for role in ('anon','authenticated','service_role','cp7_alert'):
             if cur.execute("select has_function_privilege(%s,%s,'EXECUTE')",(role,sig)).fetchone()[0]:
@@ -71,7 +71,7 @@ def verify(cur,state):
             for grant in row[-1]:
                 if grant[0]!='cp7_capture'or grant[1]!='cp7_capture'or grant[3]is not False:
                     raise ValueError('OW10_SUPPLY_UNDECLARED_PRIVATE_GRANT: '+key)
-    return dict(stage='cp7.reorder-supply-producer.v1',private_functions=2,hook_bodies=2,
+    return dict(stage='cp7.reorder-supply-stage.v2',private_functions=3,hook_bodies=2,
         new_public_rpcs=0,live_ROP_caller_changed=False,full_A_chain_qualified=False,production_go=False)
 
 
@@ -84,7 +84,7 @@ def install_delta(cur):
     before=_catalog_rows(cur)
     originals={sig:_row(cur,sig)for sig in patches.SIGNATURES}
     definitions=patches.patched({sig:row[0]for sig,row in originals.items()})
-    for file in ('projection.sql','capture.sql'):
+    for file in ('projection.sql','capture.sql','read.sql'):
         cur.execute((ROOT/file).read_text(),prepare=False)
     for definition in definitions.values():cur.execute(definition,prepare=False)
     state=dict(sources=pins,originals=originals,

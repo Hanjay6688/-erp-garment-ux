@@ -1,0 +1,102 @@
+{
+  "classification": "LOCAL_REAL_PRIVATE_CACHE_READER_FINGERPRINT_WRAPPER_NETTING_AND_K3_SQL_WITH_CONTROLLED_NATIVE_HASH_AND_JOB_DATA_NOT_NATIVE",
+  "status": "PASS",
+  "passed": 9,
+  "total": 9,
+  "installer": {
+    "classification": "LOCAL_REAL_INSTALLER_AND_PG_CATALOG_VIA_CONTROLLED_TRANSPORT_NOT_NATIVE",
+    "stage": "cp7_reorder_supply",
+    "status": "PASS",
+    "catalog_groups": 22,
+    "apply_rollback_reapply_exact": true,
+    "admission_passed": true,
+    "full_A_chain_qualified": false,
+    "production_go": false,
+    "after_use_refusal": "OW10_SUPPLY_AFTER_USE_REQUIRES_BACKUP_RESTORE",
+    "after_use_refused_before_first_DDL": true
+  },
+  "sql_sha256": "9d4e559c0a61243c7cb840da508d1242e5a30525f77e3d6f1a25eb1256f675eb",
+  "results": [
+    {
+      "id": "OW10_CACHE_NO_MATCHING_ANALYSIS_NOT_WIP_ZERO",
+      "status": "PASS",
+      "observed": {
+        "missing_cache_unknown": true,
+        "no_new_job_or_business_write": true
+      }
+    },
+    {
+      "id": "OW10_CACHE_FRESH_COMPLETE_SNAPSHOT_CONSERVED_AND_READ_ONLY",
+      "status": "PASS",
+      "observed": {
+        "actual_reader_and_kernel": true,
+        "kept_DONE_job_with_capture_header_page_set": true,
+        "whole_global_allocation_once": true,
+        "private_cache_read_no_write": true
+      }
+    },
+    {
+      "id": "OW10_CACHE_CHANGED_FACTS_ENGINE_PERIOD_AND_GROUPING_REFUSED",
+      "status": "PASS",
+      "observed": {
+        "changed_contexts": 6,
+        "never_reuses_old_snapshot_as_current": true
+      }
+    },
+    {
+      "id": "OW10_CACHE_RUNNING_PROGRESS_WITHOUT_CREATING_OR_ADVANCING_JOB",
+      "status": "PASS",
+      "observed": {
+        "server_progress_only": true,
+        "no_request_or_worker_side_effect": true
+      }
+    },
+    {
+      "id": "OW10_CACHE_FAILED_OR_EXPIRED_RESULT_NEVER_CURRENT",
+      "status": "PASS",
+      "observed": {
+        "failed_and_expired_ignored": true,
+        "no_automatic_retry": true
+      }
+    },
+    {
+      "id": "OW10_CACHE_MISSING_OR_CONFLICTING_CAPTURE_INDEX_REFUSED",
+      "status": "PASS",
+      "observed": {
+        "malformed_or_ambiguous_private_indexes_refused": 8
+      }
+    },
+    {
+      "id": "OW10_CACHE_UNKNOWN_WIP_SCHEDULE_AND_ROW_STAY_UNKNOWN",
+      "status": "PASS",
+      "observed": {
+        "unknown_contexts": 3,
+        "no_missing_to_zero": true
+      }
+    },
+    {
+      "id": "OW10_CACHE_ACTUAL_K3_CLEAN_DONE_PRESERVES_RETAINED_BUDGET_AND_REPLY",
+      "status": "PASS",
+      "observed": {
+        "actual_frozen_K3_clean_done_executed": true,
+        "actual_work_immutable_delete_guard_used": true,
+        "all_retained_budget_and_reader_JSON_unchanged": true,
+        "cleanup_replay_idempotent": true,
+        "full_run_unit_not_executed": true
+      }
+    },
+    {
+      "id": "OW10_CACHE_PRIVATE_STABLE_INVOKER_AND_CURRENT_QUERY_GUARDS",
+      "status": "PASS",
+      "observed": {
+        "actual_runtime_invoker_cp7_capture_non_superuser": true,
+        "outsiders_denied": true,
+        "invalid_clock_or_query_refused": true
+      }
+    }
+  ],
+  "full_run_unit_executed": false,
+  "live_ROP_caller_changed": false,
+  "full_A_chain_qualified": false,
+  "production_go": false
+}

@@ -84,3 +84,40 @@ hosted atau menyebut WIP pengingat sudah selesai.
 Pengingat stok bebas tetap harus diperiksa tiap menit tanpa menunggu analisis
 besar (D17-8). Jika suplai global belum siap/segar, ketidakpastiannya tidak
 menunda pengingat dan tidak dijadikan WIP0 yang diklaim sudah terbukti.
+
+## Reader privat (tahap v2)
+
+`read_job(p_current,p_query)` menerima satu tangkapan Native **segar dari caller**
+dan kueri kanonik, lalu hanya memilih DONE/kept dengan hash operasi/engine dan
+periode/pengelompokan sama. Marker, capture mark, header/page-set, jumlah target,
+identitas row/index dan budget global harus cocok. Seluruh alokasi dibaca,
+tidak disaring dahulu. Deadline berasal dari waktu snapshot dan input target
+yang disimpan, bukan hitungan permintaan/cadangan kedua.
+
+Tidak membuat job atau memanggil worker. Tanpa hasil cocok: projection=null,
+alasan needed/in-progress/stale-or-expired; sumber/engine belum siap juga
+unknown. Supplies=null yang ditulis Native ketika netting belum dihitung kini
+berarti **TARGET_SUPPLY_UNKNOWN**, bukan daftar kosong/0. Field yang hilang
+tetap ditolak. Target lain boleh mempertahankan proyeksinya, sementara status
+scope keseluruhan tetap UNKNOWN.
+
+Helper invoker STABLE privat ini tidak membaca angka keuangan. Caller wajib
+memakai sumber server baru, memeriksa akses sebelum/sesudah dan menyalurkan
+hanya agregat yang diizinkan ke facade gudang, bukan JSON privat ini.
+Penyelarasan profil/lead/titik ROP dan label proyeksi **masih harus dibuat**.
+
+Tahap v2 berisi3 fungsi privat (dua immutable+satu stable), satu schema dan
+dua hook badan. API/invers22 dan penjaga setelah-pakai tetap; SQL dasar,
+pemasang A, tipe publik dan endpoint tidak diubah.14 kelompok proyeksi dan
+9 reader lokal lulus;7 producer tetap lulus. Reader dijalankan sebagai role
+cp7_capture non-superuser. Uji juga menjalankan **clean_done K3 sebenarnya**
+pada job/header/page terkontrol dengan hash sah dan trigger work_immutable:
+intermediate terhapus, scope budget dan seluruh JSON hasil baca tetap persis,
+pemanggilan ulang idempotent. Installer3 fungsi apply/inverse/reapply22 dan
+after-use-before-DDL juga lulus lokal.
+
+Hash Native dan data job uji reader masih adapter/fixture terkontrol;
+run_unit lengkap, pasang-pulih rantai A, Native, Auth, performa3600 dan caller
+ROP belum dibuktikan. Kegagalan transport pertama disimpan: RESET ROLE dalam
+transaksi gagal menutupi error asli; savepoint kini memulihkan transaksi
+terlebih dahulu tanpa mengubah expected produk.

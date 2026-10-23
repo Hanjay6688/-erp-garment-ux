@@ -128,6 +128,13 @@ await test('OW10_SUPPLY_INDEPENDENT_INTEGER_ORACLE_64_GLOBAL_SCENARIOS',async()=
  }
  return{controlled_scenarios:64,targets_per_scenario:2,independent_BigInt_quantities_gaps_states_and_conservation:true}
 })
+await test('OW10_SUPPLY_UNCOMPUTED_NULL_LIST_STAYS_UNKNOWN',async()=>{
+ const v=fixture();v.targets[0].supplies=null
+ const r=await project(v);assert.equal(r.status,'UNKNOWN');assert.equal(r.rows[0].status,'UNKNOWN')
+ assert.equal(r.rows[0].net,null);assert.equal(r.rows[0].reason,'TARGET_SUPPLY_UNKNOWN');assert.equal(r.rows[1].net.lead_position_conditional_pcs,'54')
+ const missing=structuredClone(v);delete missing.targets[0].supplies;await assert.rejects(()=>project(missing),/CP7_WIP_FIELDS/)
+ return{uncomputed_null_distinct_from_empty_known_list:true,missing_key_refused:true,other_target_conserved_projection_still_available:true}
+})
 await test('OW10_SUPPLY_CLOSED_SHAPES_AND_BOUNDS',async()=>{
  const cases=[v=>{v.extra=true},v=>{v.budgets[0].raw_pcs='100'},v=>{v.targets[0].target_pcs=100},v=>{v.complete_scope=null},
   v=>{v.targets.push(structuredClone(v.targets[0]))},v=>{v.budgets.push(structuredClone(v.budgets[0]))},

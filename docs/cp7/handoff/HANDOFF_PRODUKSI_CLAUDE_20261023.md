@@ -24,25 +24,36 @@ masih diperlukan. Oracle22 dan skrip A tidak dilonggarkan/diubah. Kandidat
 OW13b yang terpicu pada39360e5 sudah success; hitungan/Original belum direkonsiliasi
 di checkpoint ini sehingga tidak dipakai menambah klaim kasus.
 
-**Lanjutan OW10:** `cp7_reorder_supply.project` sudah ditulis dengan13 kelompok
+**Lanjutan OW10:** `cp7_reorder_supply.project` sudah ditulis dengan14 kelompok
 SQL lokal lulus, termasuk64 skenario dua target memakai pembanding integer
 terpisah. Satu pool proyeksi dibagi global, kandidat terpisah dari suplai terarah,
 dua horizon memakai netting yang sama, sumber/periode berubah tetap unknown;
 nilai besar dan stok negatif tepat. Ini helper murni, **belum dipanggil ROP**;
-budget posisi belum disimpan saat ANA_META, sumber/kueri/lead belum disatukan.
+budget dan reader privat sudah dibuat pada tahap berikut; sumber/kueri/lead ROP belum disatukan.
 Kontrak sebelum caller di [SUPPLY_PROJECTION_CONTRACT](../d17-14/ow10/SUPPLY_PROJECTION_CONTRACT.md).
 Tidak menghapus fungsi lama dan tidak mengklaim WIP pengingat sudah beres.
 
 Producer berikutnya juga dibuat: `cp7_reorder_supply.budgets` menyimpan proyeksi
 barang baik/ETA global pada satu field privat ANA_META; dua hook terpin dan
-API install/verify/admit22/inverse.13 kelompok proyeksi,7 producer,installer
+API install/verify/admit22/inverse.14 kelompok proyeksi,7 producer,installer
 lokal22 apply/inverse/reapply/after-use-sebelum-DDL lulus. Body source yang
 sebenarnya diuji dengan adapter terkontrol; INSERT scope aktual mempertahankan
 seluruh field lama. Ini belum run_unit/K3 lengkap, belum Native, belum reader
 segar atau caller ROP. A tidak perlu menerapkan separuh fitur ini sekarang.
 
 Uji Native126 lanjutan sudah dikirim pada a86d22a2/run39887742896/job120199774843;
-kandidat dibekukan. Hasil akhirnya belum dibaca di checkpoint producer ini.
+kandidat dibekukan. Hasilnya124/126 PASS (68 Native,36 races,8/9 HTTP,12/13
+browser); restore/advisor PASS. Dua kegagalan baru ialah fixture HTTP min-data
+sesudah kasus lain mengisi profil global, dan navigasi HP memeriksa tombol menu
+sebelum aplikasi selesai dimuat. Belum PASS penuh; Original disimpan terpisah.
+
+Reader privat kini ada:9 kelompok lokal PASS, memilih hanya DONE/kept dengan
+query/hash/engine/marker/capture/page-set/index yang cocok. Tangkapan Native
+segar tetap tanggung jawab caller. K3 clean_done yang sebenarnya dijalankan
+pada fixture job/hash terkontrol: budget dan seluruh JSON hasil baca tetap
+persis sesudah intermediate dihapus. Tahap v2 sekarang3 fungsi privat/2 hook;
+invers/admission22 lulus. Supplies=null tetap unknown, bukan0. Ini belum Native
+atau run_unit lengkap; caller ROP dan penyelarasan sumber/periode/lead masih OPEN.
 
 B/Codex bekerja di `astra/d17-14-produksi`; A/Claude di `claude/d17-14-uang` dan menjadi satu-satunya
 penggabung `astra/d17-14-integrasi`, sesuai D17-16/17 versi2. Main, kandidat audit beku, Enteng,
