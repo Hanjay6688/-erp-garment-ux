@@ -321,3 +321,43 @@ Master, rantai A, factory3600 dan audit independen tetap terbuka; tick worker
 pada uji layar dipanggil alat uji. B melanjutkan kualifikasi producer/reader WIP
 dan penyelarasan ROP, tanpa mengubah berkas A atau meminta keputusan yang sama.
 Parent5/16 dan batas produksi tidak berubah.
+
+## 14 — WIP Native131/133, perbaikan unknown dan input ROP (23 Okt WIB)
+
+Hasil pertama68411456/run39897276233/job120230503872:131/133 PASS; Native73/75,
+36 dua pengguna,9 HTTP,13 layar, seluruh ID tepat. Tiga invers22,38 salinan
+otoritas tepat, restore/advisor dan backup/restore PASS. Enam kasus suplai baru
+lulus, termasuk run_unit selesai, reader dengan sumber server segar serta K3
+yang menjaga seluruh scope/JSON baca/halaman/hash. Receipt kecil di
+ow10/6841145-first-native133-131.json; seluruh Original dan log tetap terpisah.
+
+Dua gagal di ANA_META: kontrol analisis otomatis lama dan jadwal belum ditinjau
+yang baru. Native mengembalikan WIP mentah tanpa field projection di jalur itu;
+producer B keliru menolaknya. C0bb0d19 menyimpan barang baik/ETA unknown ketika
+field memang belum ada, tetap menolak field malformed, tanpa raw PCS/yield100%.
+Lokal8 producer/9 reader/API22 PASS. Native ulang39900426633/job120240505606
+sedang berjalan saat catatan ini ditulis; belum diberi PASS. Tidak mengubah
+kasus/oracle lama.
+
+Sambil menunggu, B8234d0b menyiapkan cp7_reorder_inputs v3:4 fungsi privat,
+1 schema,0 hook/DML/endpoint,11 badan Native dipin. Riwayat/target memakai
+kernel yang sama; titik mengambil profil persis atau default lama yang jelas;
+lead/manual dibaca server dalam satu snapshot; engine/context hash disimpan.
+18 kelompok lokal +API admisi/invers22 PASS, termasuk420 produk/12.600 hari,
+override manual/versi, serta stok SQL202.000 pergerakan/2.000 produk/60.000 hari
+utuh. Ringkasan cocok dengan aturan Native. Ini bukan Native/Auth/SLA pabrik.
+
+Temuan penting untuk caller: array pergerakan Native lama dibatasi50.000,
+sedangkan kontrol SS1_VOLUME mempunyai202.000. stock_summary membaca seluruh
+data tanpa menaikkan cap grid/target atau menimpa INCOMPLETE Native. Adapter
+kelengkapan/riwayat ringkas, compute/cache ROP tiap menit, binding WIP dan label
+masih harus dibuat. Caller ROP lama belum berubah; jangan menganggap empat
+helper ini selesai mengganti WIP mentah. Kontrak/batas: ow10/REORDER_INPUTS_CONTRACT.md.
+A tidak perlu memasang separuh caller sekarang; transaksi/envelope/global use
+guard dan komposisi penuh tetap milik A.
+
+A terbaru dibaca3d5c5035: perbedaan terhadap197fb3fc tidak mengubah modul privat
+finance atau planning/fungsi beku yang diperiksa. A mencatat step10 OW07 Native7
+PASS di atas OW09 dan mengisi pin step11 wash; itu kemajuan rantai A, belum
+bukti sambungan finance B atau gabungan semua tahap. Parent tetap5/16. Tidak
+menyentuh main, kandidat audit, Enteng, hosted atau WA nyata; belum CP7C go.
