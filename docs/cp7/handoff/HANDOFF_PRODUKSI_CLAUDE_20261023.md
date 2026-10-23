@@ -1,6 +1,6 @@
 # Ambil alih hasil produksi B —23 Oktober2026 WIB
 
-**Hasil terbaru: Native126 PASS** pada d9918e4b/run39893138696/job120217297227.
+**Hasil pemicu awal: Native126 PASS** pada d9918e4b/run39893138696/job120217297227.
 Seluruh126 ID tepat:68 Native,36 dua pengguna,9 HTTP dan13 layar. Dua tahap
 (target/statistik + pemicu awal) membuktikan invers22;38 salinan mempunyai
 pemilik/ACL/GUC sama dengan sumber. Restore/advisor, kelima gate paket serta
@@ -11,26 +11,24 @@ Receipt [d9918e4-native126-pass.json](../d17-14/ow13a/d9918e4-native126-pass.jso
 Seluruh kegagalan sebelumnya dan Original lengkap tetap disimpan; hasil kini
 menggantikan status124/126. [Kontrak dan permintaan A](../d17-14/ow13a/README.md).
 
-**OW10 belum selesai:** producer budget barang baik/ETA dan reader cache privat
-sudah dipush690c565e, tahap v2 tiga fungsi privat/dua hook. Lokal14 kelompok
-proyeksi (64 pembanding integer dua target),8 producer,9 reader serta pemasang
-22 lulus. K3 sebenarnya pada fixture terkontrol mempertahankan seluruh budget
-serta JSON baca. Native133 pertama kini131/133 PASS (detail berikut). ROP masih memakai pemanggil
-lama; sumber/periode/lead, caller dan label proyeksi harus disatukan. Pengingat
-stok bebas tetap tiap menit tanpa menunggu analisis besar. Kontrak sebelum
-caller: [SUPPLY_PROJECTION_CONTRACT](../d17-14/ow10/SUPPLY_PROJECTION_CONTRACT.md).
-A tidak perlu memasang separuh fitur ini. Native126 tidak memasang tahap suplai.
-Native133 pertama68411456/run39897276233/job120230503872:131/133 PASS,
-Native73/75,36 races,9 HTTP,13 layar; semua ID tepat. Tiga invers22,38 otoritas
-salinan, restore/advisor dan backup/restore lulus. Enam kasus suplai Native
-baru, termasuk run_unit/reader segar/K3 utuh, lulus. Dua gagal karena producer
-menolak WIP mentah tanpa field projection pada jadwal belum ditinjau. Kini
-field yang belum ada disimpan sebagai barang baik/ETA null; field malformed
-tetap ditolak, bukan dikreditkan raw PCS. Lokal8 producer +9 reader +API22
-lulus; Native ulang masih wajib. Receipt6841145-first-native133-131.json.
-Caller ROP tetap langkah berikutnya. Runner cp7_ow10_supply_probe.py; kontrak
-ow10/SUPPLY_NATIVE_CONTRACT.json. Tidak ada oracle lama diganti.
+**WIP Native133 kini PASS** pada c0bb0d19/run39900426633/job120240505606.
+Seluruh133 ID tepat:75 Native,36 dua pengguna,9 HTTP dan13 layar. Tiga tahap
+(target, suplai dan pemicu awal) masing-masing invers22; tahap produksi juga
+kembali tepat. Seluruh38 salinan otoritas, restore/advisor, lima gate paket dan
+backup/restore lulus. Run_unit, sumber segar, K3 yang menjaga scope/reader/halaman
+utuh dan WIP belum ditinjau sekarang terbukti. Receipt
+[c0bb0d1-native133-pass.json](../d17-14/ow10/c0bb0d1-native133-pass.json).
+Hasil pertama131/133 dan Original tetap disimpan; dua gagal memang bug producer
+B yang menolak WIP mentah tanpa projection. Perbaikan mempertahankan barang
+baik/ETA null dan tetap menolak projection malformed, tanpa mengkreditkan raw PCS.
 
+**OW10 tetap terbuka:** hasil ini membuktikan producer budget/ETA dan reader
+cache privat, belum mengganti pemanggil ROP lama atau menyamakan sumber/periode/
+lead. Pengingat stok bebas tetap wajib tiap menit tanpa menunggu analisis besar.
+Native133 ini tidak memasang cp7_reorder_inputs atau bridge keuangan; jadwal,
+rantai A, factory3600, audit independen dan production_go belum dibuktikan.
+Kontrak sebelum caller: [SUPPLY_PROJECTION_CONTRACT](../d17-14/ow10/SUPPLY_PROJECTION_CONTRACT.md).
+A tidak perlu memasang separuh fitur ini.
 Sumber ROP sekarang juga mempunyai tahap privat `cp7_reorder_inputs`: riwayat
 memakai fungsi Native yang sama, titik memakai target profil persis atau
 aturan default lama atas riwayat Native; override manual tidak ditumpuk.
@@ -122,8 +120,8 @@ angka benar, assertion awal keliru menuntut seluruh JSON sama padahal kernel mem
 duplikat. Expected kini menyebut tepat dua array input yang berbeda; seluruh angka/status/metadata
 lain tetap diperiksa penuh. Pemeriksa owning sumber dasar dan clash SQL tetap PASS.
 Producer/pemasang budget dan reader DONE/kept/query/hash/marker sudah tersedia.
-Langkah persis berikutnya adalah kualifikasi run_unit/K3/Native, penyelarasan
-sumber/periode/lead ROP, caller dan label proyeksi; buktikan pengingat stok
+Run_unit/K3/reader Native133 kini lulus pada c0bb0d19. Langkah berikutnya
+penyelarasan sumber/periode/lead ROP, caller dan label proyeksi; buktikan pengingat stok
 bebas tetap berjalan tiap menit (D17-8).
 
 OW11a/b: aktivasi metode yang terbukti lebih baik, pembanding produk baru beserta konfirmasi.
