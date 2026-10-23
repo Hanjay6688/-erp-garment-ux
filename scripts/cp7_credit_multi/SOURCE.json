@@ -1,0 +1,46 @@
+{
+ "classification": "OW04BB_SECOND_AND_LATER_RETURNS_ON_A_PAID_INVOICE_NATIVE_STAGE",
+ "predecessor_stage": "cp7_credit_remaining",
+ "files": {
+  ".github/workflows/cp7-ow04b-multi-native.yml": "53cded26ef3945759eca46480236fad03fb7b95d16933930abdae5ef268f8fa7",
+  "scripts/ow04ba_native_original.py": "5ebeb290a1dbd9d7372bef8a3e608a929918d85e5d422a8aff5bbd14e308a6eb",
+  "scripts/cp7_credit_multi/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "scripts/cp7_credit_multi/cases.py": "85be87db91bd302fa01d759941389a8302c7928e2a2bdedebc8982872c4f0857",
+  "scripts/cp7_credit_multi/composition.py": "2739eb507ffa28f11783454d4a4538858f296085564243f05679c987f0dbd2de",
+  "scripts/cp7_credit_multi/local_check.py": "60ff2539ed19566afc973daca30840c9b9e1dfafb13b7bc3b39a5fa658b08a51",
+  "scripts/cp7_credit_multi/local_check_delta.py": "9f1d833d0a56141c31d0447391208f7d87c0556e1ff97ae955adb31cf34cbe8b",
+  "scripts/cp7_credit_multi/local_check_profile.py": "6f85094a7fa26c8087e6c535546ca0896e037844bb096e04e73dba68d36cb155",
+  "scripts/cp7_credit_multi/multi.sql": "7533d0963f66d2ed8cfd28f738fd7ac5c15a3852ff54d6f881e61a72ab60a28f",
+  "scripts/cp7_credit_multi/native_delta.py": "2bc675f8ffe772fb2a34a3c70080b38b7c01d7dc1f708db26571c59da2407eaa",
+  "scripts/cp7_credit_multi/native_probe.py": "f88150aabcf1fa5b44af84f42c8248bc4fd9e242b48fce5677a3ed33716f9c9a"
+ },
+ "case_ids": [
+  "OW04BB_FIRST_RETURN_QUOTES_UNCHANGED",
+  "OW04BB_SECOND_RETURN_CREDIT",
+  "OW04BB_SECOND_RETURN_REFUND",
+  "OW04BB_THIRD_RETURN",
+  "OW04BB_SECOND_RETURN_AFTER_CREDIT_USED",
+  "OW04BB_PROTECTED_REFUSALS_IDENTICAL"
+ ],
+ "race_ids": [
+  "OW04BB_RACE_TWO_FIRST_RETURNS_STALE_INVOICE"
+ ],
+ "native_original": {
+  "name": "CP7_OW04BA_REMAINING_PAYMENT_NATIVE6_RACE2.json",
+  "bytes": 1819241,
+  "sha256": "230d8df2e4967dcb4b79962c016687bc150c0cd86df6c8a66697e263a9445dcf",
+  "artifact": "cp7-ow04b-remaining-payment-native6-race2 (12472492099)",
+  "qualification_commit": "3311518880e31eae05e22489782d3b9e5c65d403"
+ },
+ "slice": {
+  "name": "B",
+  "design": "docs/cp7/d17-14/ow04/OW04B_SLICE_B_INVENTORY.md",
+  "substitutions": "B1-B9, B11",
+  "still_refused": [
+   "return on an invoice that received credit (slice C)",
+   "Edit retur and Benerin nota with credit (D/E)",
+   "source reversal with active consumers"
+  ]
+ },
+ "OW04b_complete": false
+}
