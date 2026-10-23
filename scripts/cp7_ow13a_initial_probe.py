@@ -49,13 +49,23 @@ def verify_composed_install(cur, legacy_checker, states, function_oracle=None):
     if function_oracle is None:
         import cp7_p09_procurement_probe as function_oracle
     target.verify(cur, states['target'])
+    if 'supply' in states:
+        import cp7_reorder_supply as supply
+        supply.verify(cur, states['supply'])
     verify_initial_delta(cur, legacy_checker, states['initial'], function_oracle)
     target.verify(cur, states['target'])
+    if 'supply' in states:
+        supply.verify(cur, states['supply'])
 
 
-def install_stages(cur):
+def install_stages(cur, with_supply=False):
     states={};receipts={}
-    for name,module in (('target',target),('initial',initial)):
+    modules=[('target',target)]
+    if with_supply:
+        import cp7_reorder_supply as supply
+        modules.append(('supply',supply))
+    modules.append(('initial',initial))
+    for name,module in modules:
         before=_catalog_rows(cur)
         state=module.install_delta(cur)
         module.admit_catalog(before,_catalog_rows(cur),state)

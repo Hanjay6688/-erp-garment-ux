@@ -65,7 +65,8 @@ Semua field scope lama tetap persis. Perubahan kode helper membuat hash engine
 berubah. Header/halaman tersegel tidak ditambal. SQL dasar tetap beku.
 
 API tahap `install_delta/verify/admit_catalog/rollback_preuse` di
-`scripts/cp7_reorder_supply`: satu schema,dua fungsi invoker immutable privat,
+`scripts/cp7_reorder_supply`: satu schema,tiga fungsi invoker privat
+(dua immutable dan reader stable),
 dua badan terhitung, tanpa tabel/kolom/grant Native/RPC publik. Verifikasi
 owner/ACL/body/config dan admisi22; invers tepat sebelum pakai. Pemasangan
 menolak analisis RUNNING; sesudah job merekam marker atau scope merekam budget,
@@ -73,12 +74,12 @@ invers menolak sebelum DDL. A tetap memegang transaksi/envelope/global use
 guard dan rantai penuh. Urutan sebelum pemicu awal/worker diaktifkan, setelah
 modul perencanaan/target tersedia; tak memasang jadwal atau mengubah ROP.
 
-Bukti:13 kelompok SQL proyeksi (64 skenario pembanding integer terpisah),
+Bukti:14 kelompok SQL proyeksi (64 skenario pembanding integer terpisah),
 7 kelompok producer termasuk INSERT scope ANA_META aktual yang diekstrak dari
 hook serta badan source aktual dengan adapter Native terkontrol. Installer
 API/katalog PostgreSQL22 lokal lulus apply/inverse/reapply dan after-use
-sebelum DDL. **Belum Native, belum menjalankan run_unit/K3 lengkap, belum
-reader job segar dan belum caller ROP.** Jangan menerapkan separuh tahap di
+sebelum DDL. Reader dan K3 pada fixture terkontrol dijelaskan di bawah.
+**Belum Native, belum menjalankan run_unit lengkap dan belum caller ROP.** Jangan menerapkan separuh tahap di
 hosted atau menyebut WIP pengingat sudah selesai.
 
 Pengingat stok bebas tetap harus diperiksa tiap menit tanpa menunggu analisis
@@ -121,3 +122,24 @@ run_unit lengkap, pasang-pulih rantai A, Native, Auth, performa3600 dan caller
 ROP belum dibuktikan. Kegagalan transport pertama disimpan: RESET ROLE dalam
 transaksi gagal menutupi error asli; savepoint kini memulihkan transaksi
 terlebih dahulu tanpa mengubah expected produk.
+
+## Kualifikasi Native berikutnya (dideklarasikan, belum PASS)
+
+`SUPPLY_NATIVE_CONTRACT.json` menambah tepat7 Native pada seluruh126 kontrol
+sebelumnya:75 Native/36 dua pengguna/9 HTTP/13 layar, total133. Runner B
+memasang target, suplai, pemicu awal; tiap delta wajib admisi dan invers22
+sebelum dipasang ulang. Pemeriksa lama tetap memakai predecessor22 tepat;
+suplai diverifikasi sebelum/sesudahnya. Salinan mode tetap menjaga seluruh
+otoritas database. Pemasang/bundle A tidak diubah.
+
+Kasus tambahan memakai writer Native, jadwal/profil uji yang ditinjau secara
+eksplisit, request/step publik sampai DONE dan source_within server yang baru.
+Producer ANA_META dibandingkan dengan hasil SCENARIO sebenarnya; reader
+cp7_capture dibandingkan dengan netting Native. K3 membersihkan intermediate
+aktual, sementara scope/budget, seluruh JSON baca dan semua halaman/hash wajib
+tetap sama. Perubahan profil, output Native, query dan kode engine harus
+menolak alokasi lama; jadwal tak ditinjau tetap unknown. Kasus ETA hari5
+membuktikan tidak masuk lead3 tetapi masuk target10 dari suplai yang sama.
+ACL privat dan after-use refusal22 diperiksa. Angka8→7/lead3/target10 adalah
+fixture, bukan aturan Enteng. Native133 belum membuktikan caller ROP, cron
+terpasang, rantai A atau factory3600.

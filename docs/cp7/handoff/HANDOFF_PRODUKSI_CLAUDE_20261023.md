@@ -20,6 +20,10 @@ lama; sumber/periode/lead, caller dan label proyeksi harus disatukan. Pengingat
 stok bebas tetap tiap menit tanpa menunggu analisis besar. Kontrak sebelum
 caller: [SUPPLY_PROJECTION_CONTRACT](../d17-14/ow10/SUPPLY_PROJECTION_CONTRACT.md).
 A tidak perlu memasang separuh fitur ini. Native126 tidak memasang tahap suplai.
+Kualifikasi berikutnya dideklarasikan Native133: tujuh alur suplai Native
+sebenarnya +seluruh126 kontrol lama. Belum PASS; caller ROP tetap langkah
+berikutnya. Runner terpisah cp7_ow10_supply_probe.py, kontrak di
+ow10/SUPPLY_NATIVE_CONTRACT.json.
 
 B/Codex bekerja di `astra/d17-14-produksi`; A/Claude di `claude/d17-14-uang` dan menjadi satu-satunya
 penggabung `astra/d17-14-integrasi`, sesuai D17-16/17 versi2. Main, kandidat audit beku, Enteng,
