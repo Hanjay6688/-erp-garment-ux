@@ -24,8 +24,12 @@ begin
   if jsonb_typeof(p->'eligible_company_wip')is distinct from'boolean'then raise exception 'CP7_REORDER_CAPTURE_ELIGIBILITY_UNKNOWN';end if;
   if p->'eligible_company_wip'='false'::jsonb then continue;end if;
   perform cp7_wip.key(p->'size_id');
-  if jsonb_typeof(p->'projection')is distinct from'object'or p->'projection'->>'quality'is null
-   or p->'projection'->>'quality'not in('SCENARIO','UNKNOWN')then raise exception 'CP7_REORDER_CAPTURE_PROJECTION_SHAPE';end if;
+  -- The actual Native scheduler returns raw normalized WIP, with no
+  -- projection field, before a schedule is reviewed (or after its source
+  -- changes). Keep its physical budget with UNKNOWN good/ETA, never raw PCS.
+  -- A present malformed projection is still refused.
+  if p?'projection'and(jsonb_typeof(p->'projection')is distinct from'object'or p->'projection'->>'quality'is null
+   or p->'projection'->>'quality'not in('SCENARIO','UNKNOWN'))then raise exception 'CP7_REORDER_CAPTURE_PROJECTION_SHAPE';end if;
   qty:=null;at_text:=null;
   if p->'projection'->>'quality'='SCENARIO'then
    qty:=cp7_wip.pcs(p->'projection'->'projected_good_pcs')::text;

@@ -1,9 +1,9 @@
 {
   "classification": "LOCAL_REAL_YIELD_TIMING_BUDGET_AND_RETAINED_SCOPE_SQL_WITH_CONTROLLED_SOURCE_AND_JOB_TABLES_NOT_NATIVE",
   "status": "PASS",
-  "passed": 7,
-  "total": 7,
-  "sql_sha256": "47e40d25c18fb9003e347895b65d3c4da549aa4715078d420a7196782422f628",
+  "passed": 8,
+  "total": 8,
+  "sql_sha256": "346c545a4ec47885cf0d02f866e27d259a3550b3a9b1e8bcfe1312d483811fa8",
   "hook_body_files_sha256": {
     "run_original": "57036cf2594153d26ea5068432e4d81a28a996e287bb07745b0048486a1a854f",
     "run_patched": "578e66e726dbbd2caad2c16289cf7547120614bae062fff4793d32d3a7bd5a4b",
@@ -27,6 +27,17 @@
       "observed": {
         "unknown_quantity_and_ETA_preserved": true,
         "incomplete_scope_rows_null_not_empty": true
+      }
+    },
+    {
+      "id": "OW10_BUDGET_ACTUAL_UNREVIEWED_SCHEDULER_RAW_WIP_IS_UNKNOWN",
+      "status": "PASS",
+      "observed": {
+        "actual_frozen_schedule_early_return_executed": true,
+        "controlled_Native_supply_adapter": true,
+        "raw_WIP_without_projection_kept_as_unknown_good_and_ETA": true,
+        "unreviewed_and_source_changed": true,
+        "present_malformed_still_refused": true
       }
     },
     {

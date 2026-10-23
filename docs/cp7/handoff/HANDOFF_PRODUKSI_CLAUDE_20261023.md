@@ -13,17 +13,23 @@ menggantikan status124/126. [Kontrak dan permintaan A](../d17-14/ow13a/README.md
 
 **OW10 belum selesai:** producer budget barang baik/ETA dan reader cache privat
 sudah dipush690c565e, tahap v2 tiga fungsi privat/dua hook. Lokal14 kelompok
-proyeksi (64 pembanding integer dua target),7 producer,9 reader serta pemasang
+proyeksi (64 pembanding integer dua target),8 producer,9 reader serta pemasang
 22 lulus. K3 sebenarnya pada fixture terkontrol mempertahankan seluruh budget
-serta JSON baca. Ini belum run_unit penuh/Native. ROP masih memakai pemanggil
+serta JSON baca. Native133 pertama kini131/133 PASS (detail berikut). ROP masih memakai pemanggil
 lama; sumber/periode/lead, caller dan label proyeksi harus disatukan. Pengingat
 stok bebas tetap tiap menit tanpa menunggu analisis besar. Kontrak sebelum
 caller: [SUPPLY_PROJECTION_CONTRACT](../d17-14/ow10/SUPPLY_PROJECTION_CONTRACT.md).
 A tidak perlu memasang separuh fitur ini. Native126 tidak memasang tahap suplai.
-Kualifikasi berikutnya dideklarasikan Native133: tujuh alur suplai Native
-sebenarnya +seluruh126 kontrol lama. Belum PASS; caller ROP tetap langkah
-berikutnya. Runner terpisah cp7_ow10_supply_probe.py, kontrak di
-ow10/SUPPLY_NATIVE_CONTRACT.json.
+Native133 pertama68411456/run39897276233/job120230503872:131/133 PASS,
+Native73/75,36 races,9 HTTP,13 layar; semua ID tepat. Tiga invers22,38 otoritas
+salinan, restore/advisor dan backup/restore lulus. Enam kasus suplai Native
+baru, termasuk run_unit/reader segar/K3 utuh, lulus. Dua gagal karena producer
+menolak WIP mentah tanpa field projection pada jadwal belum ditinjau. Kini
+field yang belum ada disimpan sebagai barang baik/ETA null; field malformed
+tetap ditolak, bukan dikreditkan raw PCS. Lokal8 producer +9 reader +API22
+lulus; Native ulang masih wajib. Receipt6841145-first-native133-131.json.
+Caller ROP tetap langkah berikutnya. Runner cp7_ow10_supply_probe.py; kontrak
+ow10/SUPPLY_NATIVE_CONTRACT.json. Tidak ada oracle lama diganti.
 
 Sumber ROP sekarang juga mempunyai tahap privat `cp7_reorder_inputs`: riwayat
 memakai fungsi Native yang sama, titik memakai target profil persis atau

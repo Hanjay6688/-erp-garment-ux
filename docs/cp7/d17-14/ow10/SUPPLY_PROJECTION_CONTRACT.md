@@ -75,7 +75,7 @@ guard dan rantai penuh. Urutan sebelum pemicu awal/worker diaktifkan, setelah
 modul perencanaan/target tersedia; tak memasang jadwal atau mengubah ROP.
 
 Bukti:14 kelompok SQL proyeksi (64 skenario pembanding integer terpisah),
-7 kelompok producer termasuk INSERT scope ANA_META aktual yang diekstrak dari
+8 kelompok producer termasuk INSERT scope ANA_META aktual yang diekstrak dari
 hook serta badan source aktual dengan adapter Native terkontrol. Installer
 API/katalog PostgreSQL22 lokal lulus apply/inverse/reapply dan after-use
 sebelum DDL. Reader dan K3 pada fixture terkontrol dijelaskan di bawah.
@@ -110,15 +110,15 @@ Penyelarasan profil/lead/titik ROP dan label proyeksi **masih harus dibuat**.
 Tahap v2 berisi3 fungsi privat (dua immutable+satu stable), satu schema dan
 dua hook badan. API/invers22 dan penjaga setelah-pakai tetap; SQL dasar,
 pemasang A, tipe publik dan endpoint tidak diubah.14 kelompok proyeksi dan
-9 reader lokal lulus;7 producer tetap lulus. Reader dijalankan sebagai role
+9 reader lokal lulus;8 producer tetap lulus. Reader dijalankan sebagai role
 cp7_capture non-superuser. Uji juga menjalankan **clean_done K3 sebenarnya**
 pada job/header/page terkontrol dengan hash sah dan trigger work_immutable:
 intermediate terhapus, scope budget dan seluruh JSON hasil baca tetap persis,
 pemanggilan ulang idempotent. Installer3 fungsi apply/inverse/reapply22 dan
 after-use-before-DDL juga lulus lokal.
 
-Hash Native dan data job uji reader masih adapter/fixture terkontrol;
-run_unit lengkap, pasang-pulih rantai A, Native, Auth, performa3600 dan caller
+Hash Native dan data job uji reader lokal masih adapter/fixture terkontrol;
+hasil Native berikut dicatat terpisah. Pasang-pulih rantai A, performa3600 dan caller
 ROP belum dibuktikan. Kegagalan transport pertama disimpan: RESET ROLE dalam
 transaksi gagal menutupi error asli; savepoint kini memulihkan transaksi
 terlebih dahulu tanpa mengubah expected produk.
@@ -143,3 +143,20 @@ membuktikan tidak masuk lead3 tetapi masuk target10 dari suplai yang sama.
 ACL privat dan after-use refusal22 diperiksa. Angka8→7/lead3/target10 adalah
 fixture, bukan aturan Enteng. Native133 belum membuktikan caller ROP, cron
 terpasang, rantai A atau factory3600.
+
+Hasil pertama68411456/run39897276233/job120230503872: **131/133 PASS**,
+Native73/75, dua pengguna36/36, HTTP9/9, layar13/13; seluruh ID hadir tepat.
+Tiga tahap membuktikan invers22;38 salinan otoritas tepat, restore/advisor dan
+backup/restore lulus. Enam kasus suplai baru lulus, termasuk run_unit sampai
+DONE, sumber server segar, jumlah baik8→7 hanya sekali dan K3 menjaga seluruh
+scope/JSON baca/halaman/hash. Receipt6841145-first-native133-131.json.
+
+Dua kasus gagal di ANA_META: kontrol analisis otomatis lama dan jadwal belum
+ditinjau yang baru. Producer keliru mengharuskan field projection, padahal
+scheduler Native memang mengembalikan WIP mentah tanpa field itu sebelum
+review atau setelah sumber berubah. Perbaikan menyimpan kuantitas barang baik
+dan ETA sebagai null; tidak mengkreditkan potongan mentah atau yield100%.
+Field projection yang ada tetapi malformed tetap ditolak. Delapan kelompok
+producer lokal (termasuk early-return scheduler sebenarnya),9 reader dan API
+invers22 lulus sesudah perbaikan. Hasil Native ulang tetap wajib; kegagalan
+pertama dan seluruh Original/log disimpan. Kasus/oracle lama tidak diubah.

@@ -8,7 +8,7 @@
   "ROP_caller_changed": false,
   "sql_sha256": {
     "projection.sql": "b9261c28c776b87da6489d11496f811ee337ecc6626e48033e8630ce346e5008",
-    "capture.sql": "47e40d25c18fb9003e347895b65d3c4da549aa4715078d420a7196782422f628",
+    "capture.sql": "346c545a4ec47885cf0d02f866e27d259a3550b3a9b1e8bcfe1312d483811fa8",
     "read.sql": "9d4e559c0a61243c7cb840da508d1242e5a30525f77e3d6f1a25eb1256f675eb"
   }
 }

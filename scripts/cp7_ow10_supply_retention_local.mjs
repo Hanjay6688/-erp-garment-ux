@@ -65,6 +65,28 @@ await test('OW10_BUDGET_UNKNOWN_YIELD_TIME_AND_SCOPE_NOT_ZERO',async()=>{
  r=await budgets({status:'UNKNOWN'},null);assert.equal(r.status,'UNKNOWN');assert.equal(r.rows,null)
  return{unknown_quantity_and_ETA_preserved:true,incomplete_scope_rows_null_not_empty:true}
 })
+await test('OW10_BUDGET_ACTUAL_UNREVIEWED_SCHEDULER_RAW_WIP_IS_UNKNOWN',async()=>{
+ const stages=await read('scripts/cp7-src/planning/analysis-stages.sql'),name='cp7_analysis_stage.schedule'
+ const a=stages.indexOf('create function '+name+'('),b=stages.indexOf('$$;',stages.indexOf('as $$',a))+3
+ assert.ok(a>=0&&b>a)
+ await db.exec(`create schema cp7_schedule_native;create schema cp7_supply_native;
+  create function cp7_supply_native.fingerprint(jsonb)returns text language sql immutable as $$select md5(($1->'controlled_supply')::text)$$;`)
+ const source=await read('scripts/cp7-src/planning/schedule-scenario.sql'),f=source.indexOf('create function cp7_schedule_native.fingerprint(')
+ await db.exec(source.slice(f,source.indexOf('$$;',source.indexOf('as $$',f))+3))
+ await db.exec(stages.slice(a,b))
+ for(const schedule of[null,{source_hash:'stale-schedule',config:{windows:[]}}]){
+  const c={captured_at:'2026-10-23T00:00:00Z',schedule,controlled_supply:{wip:baseWip()}}
+  const s=(await db.query('select cp7_analysis_stage.schedule($1::jsonb,$2::jsonb)v',[JSON.stringify(c),JSON.stringify(c.controlled_supply)])).rows[0].v
+  assert.equal(s.schedule_state,schedule===null?'UNREVIEWED':'SOURCE_CHANGED')
+  assert.equal(s.status,'UNKNOWN');assert.equal('projection'in s.wip.positions[0],false)
+  const r=await budgets(s.wip,s.etas)
+  assert.equal(r.status,'COMPLETE');assert.equal(r.rows.length,1)
+  assert.equal(r.rows[0].projected_good_pcs,null);assert.equal(r.rows[0].eta,null)
+ }
+ for(const projection of[null,{quality:'MALFORMED'}])await assert.rejects(()=>budgets({...baseWip(),positions:[{...baseWip().positions[0],projection}]},[]),/CP7_REORDER_CAPTURE_PROJECTION_SHAPE/)
+ return{actual_frozen_schedule_early_return_executed:true,controlled_Native_supply_adapter:true,
+  raw_WIP_without_projection_kept_as_unknown_good_and_ETA:true,unreviewed_and_source_changed:true,present_malformed_still_refused:true}
+})
 await test('OW10_BUDGET_EXCLUDES_NON_COMPANY_AND_PRESERVES_EXPLICIT_ZERO',async()=>{
  const w=await realWip();w.positions.push({key:'CUSTOMER:else:M',eligible_company_wip:false})
  const r=await budgets(w,await etaRows());assert.equal(r.rows.length,1)
