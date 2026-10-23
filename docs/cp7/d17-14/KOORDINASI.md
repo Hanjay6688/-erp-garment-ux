@@ -1,3 +1,7 @@
+## A / 24 Okt 2026 — produksi18 di atas rantai A, kandidat kualifikasi
+
+Integrator menambah `cp7_production_chain` serta gerbang `production-chain-qualification` di cabang persiapan A+B. Sumber B18 dan SQL beku tidak diubah. Katalog22, inverse pra-pakai, guard global seluruh tabel privat sebelum DDL serta full dump/restore sesudah penggunaan A/B mendapat pengujian tersendiri. Ini belum PASS, bukan bukti Native286 ulang atau seluruh B terpasang; OW16/target4/bridge/initial/supply/caller/checked-save tetap sisa integrasi.
+
 # Koordinasi dua penulis D17-14
 
 Dasar: `docs/cp7/PEMBAGIAN_DUA_PENULIS_20261022.md` versi 2 (owner D17-17). Penulis A = Claude (`claude/d17-14-uang`),
