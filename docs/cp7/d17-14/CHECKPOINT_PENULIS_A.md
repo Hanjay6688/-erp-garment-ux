@@ -23,7 +23,7 @@ sekitar 03.50 UTC. Satu dispatch OW-12a (39882795647) untuk menguji apakah regis
 | OW-05b petunjuk koreksi mandor | Native6 6/6 `176dcf38` (`ow05/native6-176dcf38-pass.json`); browser 2/2 `eda58db5` |
 | OW-06 hak akses transfer supplier | Auth4 4/4 `b9456b5a` |
 | OW-07 tutup buku menunggu HPP | Native7 7/7 (`ow07/PROGRESS.md`) |
-| OW-08b 2.18 kasbon dari buku besar | Native4 lulus di `6c8be6f6` (run 39847032024); baris per kasus belum disalin |
+| OW-08b 2.18 kasbon dari buku besar | Native4 4/4 `6c8be6f6` (run 39847032024; `ow08/kasbon-native4-6c8be6f6-pass.json`, laporan sha256 `8f9f2c83…`, artifak 12456785458) |
 
 ## Sudah dibuat, uji sedang/akan jalan
 
