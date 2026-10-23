@@ -1,0 +1,24 @@
+{
+ "run": 39884698323,
+ "attempt": 1,
+ "job": 120190020967,
+ "head": "42a84b23",
+ "label": "CP7_OW09_WHOLE_LIST_NATIVE8",
+ "status": "INCOMPLETE",
+ "report_sha256": "401f269ff7f6",
+ "install": "PASS: all eight readers replaced as their verified owners (the owner-CREATE fix of the first failure held); complete preuse removal ran, cp6_restored true, advisor_gate true",
+ "cases": {
+  "OW09_CASH_LEDGER_WHOLE_PERIOD": "PASS",
+  "OW09_INVOICE_PAYMENTS_WHOLE_HISTORY": "PASS",
+  "OW09_INVOICE_RETURNS_WHOLE_HISTORY": "PASS",
+  "OW09_SAVED_NOTES_WHOLE_LIST": "PASS",
+  "OW09_FG_DOCUMENTS_AND_CARD_WHOLE_LIST": "PASS",
+  "OW09_MATERIAL_COUNT_DOCUMENTS_WHOLE_LIST": "INCOMPLETE: cases.py:266 fixture save('10') refused by the count writer with CP7_COUNT_NO_DIFFERENCE (cp7_material.count_command line 32), before any list read",
+  "OW09_ACCESSORY_NOTES_WHOLE_HISTORY": "PASS",
+  "OW09_READERS_PRIVATE_AND_ACCESS_UNCHANGED": "PASS"
+ },
+ "cp6_restored": true,
+ "advisor_gate": true,
+ "cause": "Test design, not product. The fixture saved every count document with the same physical quantity (8). The writer compares a count with the stock at the count's own time (cp7_material.count_lines at physical_at) and refuses a count with no difference. N1 was posted (10 to 8) and then reversed; the reversal is a later movement, so at the shared count time the position still holds 8, and the second count of 8 has no difference. The guard is right and stays.",
+ "fix": "Each count document in the fixture counts its own quantity: N1 8 (posted, reversed), N10 7 (posted), drafts N2/N11/N3/N03 at 6/5/4/3 against the 7 that N10 posts, so every document has a difference. The list oracle, statuses (one reversed, one posted, four drafts) and every assertion are unchanged. SOURCE.json refreshed; scripts/cp7-src unchanged (e7701eaa)."
+}

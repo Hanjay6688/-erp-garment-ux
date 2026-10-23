@@ -262,9 +262,12 @@ def cases(cur,today):
 
     def material_count_documents():
         f=counts.raw.fixture(cur,today);tag=f['tag']
-        def save(n):p=counts.payload(cur,f);p['adjustment_number']=f'{tag}-N{n}';return counts.command(cur,'SAVE',p)
-        counts.action(cur,'REVERSE',counts.action(cur,'POST',save('1')));counts.action(cur,'POST',save('10'))
-        for n in ('2','11','3','03'):save(n)
+        # A count must differ from the stock at its own count time (CP7_COUNT_NO_DIFFERENCE). The reversal of N1 is a later
+        # movement, so at that count time the position still holds N1's 8 (Native8 42a84b23); every document therefore
+        # counts its own quantity: 8, then 7, then drafts 6..3 against the 7 that N10 posts.
+        def save(n,qty):p=counts.payload(cur,f,qty);p['adjustment_number']=f'{tag}-N{n}';return counts.command(cur,'SAVE',p)
+        counts.action(cur,'REVERSE',counts.action(cur,'POST',save('1','8')));counts.action(cur,'POST',save('10','7'))
+        for n,qty in (('2','6'),('11','5'),('3','4'),('03','3')):save(n,qty)
         b.api.admin(cur)
         docs=[dict(id=str(i),label=n,status=s,date=d)for i,n,s,d in cur.execute('select id,adjustment_number,status,physical_at from erp.material_adjustments where strpos(lower(adjustment_number),lower(%s))>0',(tag,)).fetchall()]
         source=[('date',True),('id',False)];before=b.boundary.snapshot(cur);combos=0
