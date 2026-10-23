@@ -1,0 +1,104 @@
+{
+  "contract": "cp7.writer-component-receipt.v1",
+  "status": "INCOMPLETE",
+  "candidate": "fa3375ebd12c52fa45563631d97c41608b960183",
+  "tree": "ea031f895ba60466ccf6a19ed2fcf9ba26aa2062",
+  "application_source": "5b6ca459f1ea62666384088a2a9855663a1267a2",
+  "run_id": 40002041287,
+  "job_id": 120580374491,
+  "run_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/40002041287",
+  "expected_case_count": 2,
+  "observed_case_count": 2,
+  "groups": {
+    "native": {
+      "PASS": 1,
+      "INCOMPLETE": 1
+    }
+  },
+  "predeclared_case_sha256": "ebe68a4108297b68479ff62d0898ec5979aed9e8c314f5b3b94bcad31ef8183a",
+  "source_files_sha256_matched_candidate": [
+    "scripts/cp7_reorder_inputs/MANIFEST.json",
+    "scripts/cp7_reorder_inputs/__init__.py",
+    "scripts/cp7_reorder_inputs/capture.sql",
+    "scripts/cp7_reorder_inputs/capture_source.py",
+    "scripts/cp7_reorder_inputs/history.sql",
+    "scripts/cp7_reorder_inputs/points.sql",
+    "scripts/cp7_reorder_inputs/read.sql",
+    "scripts/cp7_reorder_inputs/source.sql",
+    "scripts/cp7_reorder_inputs/stock.sql",
+    "scripts/cp7_reorder_reader_stage/MANIFEST.json",
+    "scripts/cp7_reorder_reader_stage/__init__.py",
+    "scripts/cp7_reorder_reader_stage/cache.sql",
+    "scripts/cp7_reorder_caller_stage/MANIFEST.json",
+    "scripts/cp7_reorder_caller_stage/__init__.py",
+    "scripts/cp7_reorder_caller_stage/alert_row.sql",
+    "scripts/cp7_reorder_caller_stage/compute.sql",
+    "scripts/cp7_reorder_caller_stage/evaluate.sql",
+    "scripts/cp7_reorder_caller_stage/fg_source.sql",
+    "scripts/cp7_reorder_caller_stage/item_line.sql",
+    "scripts/cp7_reorder_caller_stage/refresh.sql",
+    "scripts/cp7_reorder_caller_stage/save_manual.sql",
+    "scripts/cp7_reorder_caller_stage/save_settings.sql",
+    "scripts/cp7_reorder_caller_stage/state.sql",
+    "scripts/cp7_reorder_caller_stage/workspace.sql",
+    "scripts/cp7_cutting_checked_save/MANIFEST.json",
+    "scripts/cp7_cutting_checked_save/__init__.py",
+    "scripts/cp7_cutting_checked_save/save.sql",
+    "scripts/cp7_cutting_checked_save/schema.sql"
+  ],
+  "preuse_22_exact_stages": 8,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "native_results": {
+    "OW13C_NATIVE_FRESH_SAVE_REPLAY_AND_NO_PHYSICAL_FACT": {
+      "status": "PASS",
+      "actual_Native_staged_source_preflight_and_writer": true,
+      "exact_UUID_replay": true,
+      "no_stock_money_or_physical_posting": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    }
+  },
+  "repeated_positive_anchor_case_credit": 0,
+  "checked_save_races_qualified": false,
+  "checked_save_browser_qualified": false,
+  "caller_backup_restore_qualified": false,
+  "full_OW13c_acceptance": false,
+  "full_A_chain_qualified": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "parent_completed_count": "5/16",
+  "original": {
+    "artifact_id": 12523296632,
+    "file_name": "fa3375e-scale2-complete.zip",
+    "bytes": 112315,
+    "sha256": "c62852005327060ef26cd7b9cf07f7bdf9b4ff93186ff0d1f32a3854c66fac96",
+    "complete_report_preserved": true
+  },
+  "actual_checked_SAVE2000_reached": false,
+  "first_failure": {
+    "case_id": "OW13C_NATIVE_ACTUAL_CHECKED_SAVE2000_202000_UNDER8S",
+    "code": "CP7_PLANNING_CAPTURE_INCOMPLETE",
+    "location": "cp7_ow13c_checked_scale_cases.py scale -> plan.plan.review_work -> old erp_cp7_capture_production_supply_v1 -> history_build",
+    "meaning": "Old unsegmented supply capture cannot prepare a schedule for this full large fixture; no SAVE timing obtained",
+    "error": "CP7_PLANNING_CAPTURE_INCOMPLETE\nCONTEXT:  PL/pgSQL function cp7_planning.history_build(jsonb,jsonb) line 6 at RAISE\nPL/pgSQL function cp7_baseline_native.build(jsonb,jsonb) line 6 at assignment\nPL/pgSQL function cp7_supply_native.build(jsonb,jsonb) line 4 at assignment\nSQL statement \"with source as materialized(select cp7_supply_native.source_parts()s),\n calculated as materialized(select s->'c'c,cp7_supply_native.build(s->'c',q)result,\n  cp7_supply_native.store_proofs(s->'proofs',(s->'c'->>'captured_at')::timestamptz)proofs from source)\n insert into cp7_supply_native.runs(actor,request_id,query,captured_at,access_at_capture,facts,result,dependency_hash)\n select(a->>'actor')::uuid,p_request,q,(c->>'captured_at')::timestamptz,a,c,result,result->>'source_hash'\n from calculated where proofs>=0 returning *\"\nPL/pgSQL function cp7_supply_native.capture(jsonb,uuid) line 14 at SQL statement\nSQL function \"erp_cp7_capture_production_supply_v1\" statement 1"
+  },
+  "required_fix": "A real bounded staged schedule-review path; keep 2000/202000 and8s, no forged source hash, source bypass or old limit increase"
+}
