@@ -1,4 +1,4 @@
-# Exact admitted initial-aware request sourceb3ee67c3; preserve first0/6 and rerun only boundedNative6.
+# Exact current supply sourcebb598f82; keep both first0/6 failures and run only declared Native6.
 name: CP7 Bounded Staged Jobs Native6
 'on':
   push:
