@@ -26,7 +26,8 @@ Flag baru pada probe bersama hanya aktif untuk entry ini; jalur Native25 tetap
 25 ID dengan race/browser OW10 saja. Semua source pins/admission22/invers,
 restore/advisor dan batas8detik/volume2000 hangat3detik dipertahankan.
 
-Kandidat/run Native31 belum ada. Dua run v6 pada a3bf8842 (Native25
+Kode kontrol sudah dipush pada802d7b0d; workflow Native31 sekarang terdaftar
+di `cp7-ow13c-journeys.yml`. Hasil aktual Native31 belum ada. Dua run v6 pada a3bf8842 (Native25
 39939451330; Native19 39939451231) masih berjalan saat catatan dibuat.
 Baca hasil aktual dan simpan Original/failure sebelum mengklaim lulus.
 Full OW13c, komposisi A, backup/restore setelah dipakai, factory3600 dan
