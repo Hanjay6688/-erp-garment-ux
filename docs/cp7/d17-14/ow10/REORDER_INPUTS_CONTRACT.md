@@ -59,15 +59,15 @@ caller masih wajib mengambil sumber baru, memeriksa hak sebelum/sesudah dan
 engine/dependensi sebelum memakai cache. JSON privat tidak boleh disalurkan
 mentah ke facade gudang.
 
-API `install_delta/verify/admit_catalog/rollback_preuse` menambah1 schema dan
-2 fungsi invoker immutable, tanpa body lama/tabel/kolom/Native DML/RPC/cron.
-Sepuluh badan Native yang dipanggil dipin; owner/ACL/body/config baru diperiksa.
+API `install_delta/verify/admit_catalog/rollback_preuse` tahap v2 menambah1 schema dan
+3 fungsi invoker (2 immutable,1 stable), tanpa body lama/tabel/kolom/Native DML/RPC/cron.
+Sebelas badan Native yang dipanggil dipin; owner/ACL/body/config baru diperiksa.
 A tetap memegang transaksi/envelope/global after-use guard. Helper stateless
 tidak menyimpan bisnis; invers menolak sebelum DDL bila masih ada pemanggil
 SQL terpasang. Balikkan lapisan caller dahulu sesuai guard/rantai A; tidak
 menghapus evaluasi/riwayat agar invers diizinkan.
 
-Bukti kini **11/11 kelompok lokal PASS**, termasuk pemasang aktual/katalog22
+Bukti kini **14/14 kelompok lokal PASS**, termasuk pemasang aktual/katalog22
 apply/admit/inverse/reapply dan penolakan saat caller SQL fixture masih ada.
 Ini kontrol dependensi caller, bukan klaim pemakaian Native telah dikualifikasi.
 Perubahan yang akan tampak sesudah caller dipasang: hari stok habis di tengah
@@ -75,6 +75,31 @@ hari dikeluarkan dari latihan; mean manual dan nol dari profil benar dipakai;
 lead profil yang dipilih sama dengan Native. Default lama hanya untuk produk
 tanpa profil, dengan labelnya sendiri. Caller hidup **belum berubah**.
 
-Berikutnya: sumber lead terukur/manual dari server dan sambungan compute ROP,
-proyeksi WIP yang serasi, label waktu/kandidat serta Native/performa. Pengingat stok bebas harus
+## Sumber server dengan satu waktu tangkap
+
+`source_within(bound)` kini membaca sumber baseline Native, setting yang aktif,
+lead terukur dan override manual dalam satu pernyataan/snapshot. Query AS_SOLD
+berakhir kemarin WIB dan memakai window aktif dari setting. Lead memakai
+median lot PRODUCTION/QC posted/grup issued dalam365 hari, minimal3 grup;
+angka tersebut menjadi null jika belum terbukti. Profil tetap pilihan utama
+compiler. Manual mengambil revisi terakhir yang tercatat pada waktu capture,
+bukan nilai yang diberikan klien atau revisi masa depan.
+
+Engine_hash meliputi badan fungsi perencanaan/target/penghitungan/pembaca;
+context_hash meliputi fakta/profil/policy, query/default, lead/manual dan engine.
+Kode atau data berubah membuat konteks berubah. INCOMPLETE dipertahankan;
+batas produk1..5000, tidak dipotong agar tampak lengkap. Helper privat ini
+belum memeriksa hak seorang pengguna gudang: facade masih wajib memeriksa
+akses sebelum/sesudah dan menyalurkan agregat yang diizinkan.
+
+Tiga kelompok sumber baru menjalankan **badan source baseline Native yang
+sebenarnya**, fungsi setting sebenarnya dan SQL lead/manual sebenarnya di
+tabel fixture. Adapter di bawah sumber Native tetap terkontrol. Median4 hari
+dari5 lot/3 grup, pengecualian QC draft/reversed/lot masa depan/nonproduction,
+manual as-of capture, lead kurang3 grup dan perubahan kode/hash diuji; role
+cp7_capture non-superuser membaca hasil sama. Ini belum bukti Native/Auth
+atau waktu pabrik. Setup/API22 seluruh14 kelompok lulus pada tahap v2.
+
+Berikutnya: sambungan compute ROP memakai sumber tersebut, cache perubahan
+yang aman, proyeksi WIP yang serasi, label waktu/kandidat serta Native/performa. Pengingat stok bebas harus
 tetap tiap menit tanpa menunggu job analisis besar. Parent5/16, OW10 OPEN.

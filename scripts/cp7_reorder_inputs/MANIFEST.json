@@ -1,5 +1,5 @@
 {
-  "contract": "cp7.reorder-inputs-stage.v1",
+  "contract": "cp7.reorder-inputs-stage.v2",
   "existing_body_sha256": {
     "cp7_analysis_stage.bounds()": "aced99fa879da9258a6af894fb0e87789aaeb5a51b5d419fa3bb77cb1bea0bbe",
     "cp7_analysis_stage.history_prep(jsonb,jsonb,integer,bigint,integer)": "2e142be7c1f72e459f045491999aa603746c3220afaf6a1f883b1f31afc914e8",
@@ -10,11 +10,13 @@
     "cp7_analysis_stage.baseline_rows(jsonb,jsonb,jsonb,text)": "6d2e88b7a13313e31d2ab70d55c0373337fc82d79b30d1b2ddc97687e8d06228",
     "cp7_planning.history_events(jsonb)": "9237aa396d2d4bf7cc0ab72262a778251acb6c852cb23875c3f607a150d55bf9",
     "cp7_planning.history_availability(jsonb,jsonb)": "edddf5ab31b60ce1b3af9d7a6eab7fa0155dc772431c4da05d7191cf29052002",
-    "cp7_baseline.target(jsonb)": "c37605060db1d48486b0533993c57519afff2472d70908ec2f2a5fb2b8094c59"
+    "cp7_baseline.target(jsonb)": "c37605060db1d48486b0533993c57519afff2472d70908ec2f2a5fb2b8094c59",
+    "cp7_baseline_native.source_within(integer)": "256904df93ee5b7197d89839a157db40d3a119c801ea7a1092cc185e1bc3bdee"
   },
   "sql_sha256": {
     "history.sql": "011719b5a336ab3cf4587ccad4818c722f8ee59c37049b441cd6f37b32281d2b",
-    "points.sql": "d357aa97b1b85fcefc8a470ff8885eba16578b0982cc02d7e6fd35778d7adaea"
+    "points.sql": "d357aa97b1b85fcefc8a470ff8885eba16578b0982cc02d7e6fd35778d7adaea",
+    "source.sql": "72cf357c776722de503460f288dceb05b1719a3cecbe5ae39df0ab85b6732322"
   },
   "default_install": false,
   "live_ROP_caller_changed": false,

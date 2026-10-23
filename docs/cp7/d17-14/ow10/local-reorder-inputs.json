@@ -1,8 +1,8 @@
 {
   "classification": "LOCAL_ACTUAL_NATIVE_HISTORY_AND_STAGED_TARGET_KERNELS_CONTROLLED_SOURCE_NOT_NATIVE_OR_LIVE_ROP",
   "status": "PASS",
-  "passed": 11,
-  "total": 11,
+  "passed": 14,
+  "total": 14,
   "sql_sha256": "011719b5a336ab3cf4587ccad4818c722f8ee59c37049b441cd6f37b32281d2b",
   "points_sql_sha256": "d357aa97b1b85fcefc8a470ff8885eba16578b0982cc02d7e6fd35778d7adaea",
   "results": [
@@ -104,6 +104,39 @@
       }
     },
     {
+      "id": "OW10_SOURCE_ACTUAL_SQL_LEAD_SETTINGS_AND_NATIVE_CAPTURE_CLOCK",
+      "status": "PASS",
+      "observed": {
+        "actual_Native_baseline_source_body": true,
+        "lower_Native_source_adapters_controlled": true,
+        "actual_SQL_median4_from5_lots3_groups": true,
+        "draft_reversed_future_and_nonproduction_lots_excluded": true,
+        "current_settings_defaults_actual_SQL": true,
+        "same_capture_clock_and_read_only_capture_role": true
+      }
+    },
+    {
+      "id": "OW10_SOURCE_LATEST_MANUAL_AS_OF_CAPTURE_AND_PROVEN_LEAD_GUARD",
+      "status": "PASS",
+      "observed": {
+        "latest_revision_at_Native_capture_only": true,
+        "future_manual_not_active": true,
+        "manual25_from_server_only": true,
+        "fewer_than3_issued_groups_not_proven_lead": true,
+        "source_change_changes_context_hash": true
+      }
+    },
+    {
+      "id": "OW10_SOURCE_CLOSED_CAP_INCOMPLETE_AND_ENGINE_CURRENTNESS",
+      "status": "PASS",
+      "observed": {
+        "existing5000_product_bound_not_raised": true,
+        "incomplete_source_not_empty_success": true,
+        "actual_catalog_code_in_engine_and_context_hash": true,
+        "exact_private_body_restored": true
+      }
+    },
+    {
       "id": "OW10_INPUTS_REAL_INSTALLER_22_AND_CALLER_DEPENDENCY_REFUSAL",
       "status": "PASS",
       "observed": {
@@ -114,6 +147,7 @@
       }
     }
   ],
+  "source_sql_sha256": "72cf357c776722de503460f288dceb05b1719a3cecbe5ae39df0ab85b6732322",
   "installer": {
     "classification": "LOCAL_REAL_INSTALLER_AND_PG_CATALOG_VIA_CONTROLLED_TRANSPORT_NOT_NATIVE",
     "stage": "cp7_reorder_inputs",

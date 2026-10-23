@@ -32,6 +32,28 @@ for (const name of ['castable', 'events_clean', 'availability_clean', 'history_p
   await db.exec(block(staged, 'cp7_analysis_stage.' + name))
 }
 await db.exec(await read('scripts/cp7_target_policy_stage/sql/cp7_analysis_stage__baseline_rows.sql'))
+// Controlled lower Native source adapters; source_within itself is the exact
+// existing Native body. Lead/manual/settings are real SQL tables below.
+await db.exec(`create schema erp;create schema cp7_identity;create schema cp7_profile;create schema cp7_stock_formula;
+ create table public.reorder_native_fixture(c jsonb);
+ create function cp7_planning.history_source_within(integer)returns jsonb language sql stable as $$
+  select case when jsonb_array_length(c->'facts'->'products')>$1 then c||jsonb_build_object('status','INCOMPLETE')else c end from public.reorder_native_fixture$$;
+ create function cp7_profile.source(uuid[],timestamptz)returns jsonb language sql stable as $$select c->'profiles'from public.reorder_native_fixture$$;
+ create function cp7_identity.workspace_data(uuid[],timestamptz)returns jsonb language sql stable as $$select c->'production_policies'from public.reorder_native_fixture$$;
+ create table erp.production_orders(id uuid,model_id uuid,status text);
+ create table erp.cutting_groups(id uuid,po_id uuid,cut_at timestamptz,material_issue_posted boolean);
+ create table erp.fg_lots(id uuid,cutting_group_id uuid,qc_item_id uuid,produced_at timestamptz,lot_origin text);
+ create table erp.qc_inspection_items(id uuid,inspection_id uuid);
+ create table erp.qc_inspections(id uuid,status text);`)
+const formula=await read('scripts/cp7-src/stock-formula/formula.sql')
+for(const table of['settings','manual_points']){
+ const start=formula.indexOf('create table cp7_stock_formula.'+table+'(')
+ await db.exec(formula.slice(start,formula.indexOf(');',start)+2))
+}
+await db.exec(block(formula,'cp7_stock_formula.current_settings'))
+await db.exec(block(await read('scripts/cp7-src/planning/baseline-source.sql'),'cp7_baseline_native.source_within'))
+await db.exec(`grant usage on schema erp,cp7_identity,cp7_profile,cp7_stock_formula to cp7_capture;
+ grant select on public.reorder_native_fixture to cp7_capture;grant select on all tables in schema erp,cp7_stock_formula to cp7_capture;`)
 await db.exec(`grant usage on schema cp7_planning,cp7_analysis_stage,cp7_baseline_native,extensions,cp7_wip,cp7_demand,cp7_baseline to cp7_capture;`)
 const manifest=JSON.parse(await read('scripts/cp7_reorder_inputs/MANIFEST.json'))
 for(const signature of Object.keys(manifest.existing_body_sha256))await db.exec('alter function '+signature+' owner to cp7_capture')
@@ -65,6 +87,23 @@ const lead = (days='3',groups='3') => [{model_id:id(9001),lead_days:days,lot_cou
 const points = async (input, measured=lead(), manual=[], policy=defaults) =>
   (await db.query('select cp7_reorder_inputs.points($1::jsonb,$2::jsonb,$3::jsonb,$4::jsonb)v',
     [JSON.stringify(input),JSON.stringify(policy),JSON.stringify(measured),JSON.stringify(manual)])).rows[0].v
+const serverSource=async(bound=5000)=>(await db.query('select cp7_reorder_inputs.source_within($1)v',[bound])).rows[0].v
+const sourceFixture=async()=>{
+ await db.exec('truncate public.reorder_native_fixture,erp.production_orders,erp.cutting_groups,erp.fg_lots,erp.qc_inspection_items,erp.qc_inspections,cp7_stock_formula.settings,cp7_stock_formula.manual_points')
+ await db.query('insert into public.reorder_native_fixture values($1::jsonb)',[JSON.stringify(fixture())])
+ await db.query('insert into erp.production_orders values($1,$2,\'FINISHED\')',[id(10001),id(9001)])
+ for(const [n,cut]of[[1,'2026-10-01'],[2,'2026-10-02'],[3,'2026-10-03']])await db.query('insert into erp.cutting_groups values($1,$2,$3,true)',[id(11000+n),id(10001),cut+'T00:00:00Z'])
+ let index=0
+ for(const [group,at,status,origin]of[[1,'2026-10-04','POSTED','PRODUCTION'],[1,'2026-10-04','POSTED','PRODUCTION'],
+   [2,'2026-10-06','POSTED','PRODUCTION'],[2,'2026-10-06','POSTED','PRODUCTION'],[3,'2026-10-08','POSTED','PRODUCTION'],
+   [3,'2026-10-20','DRAFT','PRODUCTION'],[3,'2026-10-21','REVERSED','PRODUCTION'],[3,'2026-10-24','POSTED','PRODUCTION'],
+   [3,'2026-10-22','POSTED','PURCHASE']]){
+  ++index
+  await db.query('insert into erp.qc_inspections values($1,$2)',[id(12000+index),status])
+  await db.query('insert into erp.qc_inspection_items values($1,$2)',[id(13000+index),id(12000+index)])
+  await db.query('insert into erp.fg_lots values($1,$2,$3,$4,$5)',[id(14000+index),id(11000+group),id(13000+index),at+'T00:00:00Z',origin])
+ }
+}
 const results=[]
 const test=async(id,fn)=>{try{results.push({id,status:'PASS',observed:await fn()})}catch(e){results.push({id,status:'FAIL',error:String(e.stack).slice(0,3000)})}}
 await test('OW10_INPUTS_ACTUAL_WHOLE_NATIVE_HISTORY_AND_STOCK_EQUAL',async()=>{
@@ -185,6 +224,43 @@ await test('OW10_POINTS_POLICY_HASH_UNKNOWN_PROFILE_AND_CLOSED_SCOPE',async()=>{
   for(const role of['anon','authenticated','service_role'])assert.equal((await db.query("select has_function_privilege($1,'cp7_reorder_inputs.points(jsonb,jsonb,jsonb,jsonb)','EXECUTE')f",[role])).rows[0].f,false)
   return{lead_and_defaults_in_selection_hash:true,stale_profile_unknown:true,closed_policy_period_identity_and_full_scope:true,private_only:true}
 })
+await test('OW10_SOURCE_ACTUAL_SQL_LEAD_SETTINGS_AND_NATIVE_CAPTURE_CLOCK',async()=>{
+ await sourceFixture();const r=await serverSource()
+ assert.equal(r.status,'COMPLETE');assert.equal(r.captured_at,clock);assert.deepEqual(r.query,query);assert.deepEqual(r.defaults,defaults)
+ assert.deepEqual(r.leads,[{model_id:id(9001),lead_days:'4.00',lot_count:'5',group_count:'3'}])
+ assert.deepEqual(r.manuals,[]);assert.deepEqual(r.native,fixture())
+ const compiled=await points(await invoke(r.native,r.query),r.leads,r.manuals,r.defaults)
+ assert.equal(compiled.rows[0].lead_days,'3');assert.equal(compiled.rows[0].point_pcs,'2')
+ await db.exec('set role cp7_capture');assert.deepEqual(await serverSource(),r);await db.exec('reset role')
+ return{actual_Native_baseline_source_body:true,lower_Native_source_adapters_controlled:true,
+  actual_SQL_median4_from5_lots3_groups:true,draft_reversed_future_and_nonproduction_lots_excluded:true,
+  current_settings_defaults_actual_SQL:true,same_capture_clock_and_read_only_capture_role:true}
+})
+await test('OW10_SOURCE_LATEST_MANUAL_AS_OF_CAPTURE_AND_PROVEN_LEAD_GUARD',async()=>{
+ await sourceFixture()
+ for(const [revision,point,at]of[[1,'0','2026-10-21'],[2,'25','2026-10-22'],[3,'99','2026-10-24']])await db.query(`
+  insert into cp7_stock_formula.manual_points(root_id,revision,size_id,product_version_id,reorder_point_pcs,reason,actor,request_id,request_hash,recorded_at)
+  values($1,$2,$3,$1,$4,'CONTROLLED_FIXTURE',$5,$6,$7,$8)`,[id(1),revision,id(9000),point,id(999),id(15000+revision),'a'.repeat(64),at+'T00:00:00Z'])
+ const r=await serverSource();assert.deepEqual(r.manuals,[{root_id:id(1),product_version_id:id(1),size_id:id(9000),revision:'2',reorder_point_pcs:'25'}])
+ const p=await points(await invoke(r.native),r.leads,r.manuals,r.defaults);assert.equal(p.rows[0].point_pcs,'25')
+ await db.query('update erp.cutting_groups set material_issue_posted=false where id=$1',[id(11003)])
+ const two=await serverSource();assert.equal(two.leads[0].group_count,'2');assert.equal(two.leads[0].lead_days,null)
+ assert.notEqual(two.context_hash,r.context_hash)
+ return{latest_revision_at_Native_capture_only:true,future_manual_not_active:true,manual25_from_server_only:true,
+  fewer_than3_issued_groups_not_proven_lead:true,source_change_changes_context_hash:true}
+})
+await test('OW10_SOURCE_CLOSED_CAP_INCOMPLETE_AND_ENGINE_CURRENTNESS',async()=>{
+ await sourceFixture();const r=await serverSource();assert.match(r.engine_hash,/^[a-f0-9]{64}$/);assert.match(r.context_hash,/^[a-f0-9]{64}$/)
+ assert.equal((await serverSource(1)).status,'INCOMPLETE')
+ await assert.rejects(()=>serverSource(0),/CP7_REORDER_SOURCE_PRODUCT_BOUND/)
+ await assert.rejects(()=>serverSource(5001),/CP7_REORDER_SOURCE_PRODUCT_BOUND/)
+ const sql=await read('scripts/cp7_reorder_inputs/points.sql')
+ await db.exec(sql.replace('create function ','create or replace function ').replaceAll('CP7_REORDER_INPUT_POLICY','CP7_REORDER_INPUT_POLICY_CONTROL'))
+ const changed=await serverSource();assert.notEqual(changed.engine_hash,r.engine_hash);assert.notEqual(changed.context_hash,r.context_hash)
+ await db.exec(sql.replace('create function ','create or replace function '));assert.equal((await serverSource()).context_hash,r.context_hash)
+ return{existing5000_product_bound_not_raised:true,incomplete_source_not_empty_success:true,
+  actual_catalog_code_in_engine_and_context_hash:true,exact_private_body_restored:true}
+})
 let installer
 await test('OW10_INPUTS_REAL_INSTALLER_22_AND_CALLER_DEPENDENCY_REFUSAL',async()=>{
   // Actual SQL caller declaration, controlled fixture; no Native transaction
@@ -202,6 +278,7 @@ const report={classification:'LOCAL_ACTUAL_NATIVE_HISTORY_AND_STAGED_TARGET_KERN
   status:results.every(x=>x.status==='PASS')?'PASS':'FAIL',passed:results.filter(x=>x.status==='PASS').length,total:results.length,
   sql_sha256:createHash('sha256').update(await read('scripts/cp7_reorder_inputs/history.sql')).digest('hex'),
   points_sql_sha256:createHash('sha256').update(await read('scripts/cp7_reorder_inputs/points.sql')).digest('hex'),results,
+  source_sql_sha256:createHash('sha256').update(await read('scripts/cp7_reorder_inputs/source.sql')).digest('hex'),
   installer,
   ROP_caller_changed:false,full_A_chain_qualified:false,production_go:false}
 await mkdir('docs/cp7/d17-14/ow10',{recursive:true})

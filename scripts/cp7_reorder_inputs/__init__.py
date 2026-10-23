@@ -13,8 +13,9 @@ from cp7_ow04_restore_bundle import _catalog_rows
 
 ROOT = Path(__file__).resolve().parent
 SCHEMA = 'cp7_reorder_inputs'
-FUNCTIONS = ('cp7_reorder_inputs.history(jsonb,jsonb)',
-             'cp7_reorder_inputs.points(jsonb,jsonb,jsonb,jsonb)')
+FUNCTIONS = {'cp7_reorder_inputs.history(jsonb,jsonb)': 'i',
+             'cp7_reorder_inputs.points(jsonb,jsonb,jsonb,jsonb)': 'i',
+             'cp7_reorder_inputs.source_within(integer)': 's'}
 
 
 def sources():
@@ -51,14 +52,14 @@ def verify(cur, state):
         raise ValueError('OW10_REORDER_INPUTS_SOURCE_CHANGED')
     prerequisites(cur)
     bodies = {}
-    for filename in ('history.sql', 'points.sql'):
+    for filename in ('history.sql', 'points.sql', 'source.sql'):
         bodies.update(re.findall(r'create function (cp7_reorder_inputs\.[a-z_]+)\([^;]*?\).*?as \$\$(.*?)\$\$;',
                                  (ROOT/filename).read_text(), re.S))
     if set(bodies) != {sig.split('(')[0] for sig in FUNCTIONS}:
         raise ValueError('OW10_REORDER_INPUTS_PRIVATE_SET_CHANGED')
     for signature in FUNCTIONS:
         row = _row(cur, signature)
-        if row[1] != bodies[signature.split('(')[0]] or row[2:6] != ['cp7_capture', False, 'i', ['search_path=""', 'TimeZone=UTC']]:
+        if row[1] != bodies[signature.split('(')[0]] or row[2:6] != ['cp7_capture', False, FUNCTIONS[signature], ['search_path=""', 'TimeZone=UTC']]:
             raise ValueError('OW10_REORDER_INPUTS_PRIVATE_BODY_OR_AUTHORITY_CHANGED: '+signature)
         for role in ('anon', 'authenticated', 'service_role', 'cp7_alert'):
             if cur.execute("select has_function_privilege(%s,%s,'EXECUTE')", (role, signature)).fetchone()[0]:
@@ -73,7 +74,7 @@ def verify(cur, state):
             for grant in row[-1]:
                 if grant[0] != 'cp7_capture' or grant[1] != 'cp7_capture' or grant[3] is not False:
                     raise ValueError('OW10_REORDER_INPUTS_UNDECLARED_GRANT: '+key)
-    return dict(stage='cp7.reorder-inputs-stage.v1', private_functions=2, hook_bodies=0,
+    return dict(stage='cp7.reorder-inputs-stage.v2', private_functions=3, hook_bodies=0,
                 Native_DML=False, live_ROP_caller_changed=False,
                 full_A_chain_qualified=False, production_go=False)
 
@@ -83,7 +84,7 @@ def install_delta(cur):
     if cur.execute('select to_regnamespace(%s)is not null', (SCHEMA,)).fetchone()[0]:
         raise ValueError('OW10_REORDER_INPUTS_ALREADY_INSTALLED')
     prerequisites(cur)
-    for filename in ('history.sql', 'points.sql'):
+    for filename in ('history.sql', 'points.sql', 'source.sql'):
         cur.execute((ROOT/filename).read_text(), prepare=False)
     state = dict(sources=pins, new_catalog=own_catalog(_catalog_rows(cur)))
     verify(cur, state)
