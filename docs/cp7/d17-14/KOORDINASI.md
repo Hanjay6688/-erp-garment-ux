@@ -613,3 +613,18 @@ run39993639712/job120551431684 aktual berjalan; hasil belum tersedia.
 Handoff Claude diperbarui ke kandidat itu. B tetap lanjut sisa OW13c yang
 mandiri; pemasang/registry/default/global after-use census dan rantai penuh
 milik A. Full OW13c/OW11a-b/bridge3600/audit tetap OPEN, parent5/16.
+
+
+## 28 — patch registry untuk A sudah disiapkan dan dicoba pada salinan (24 Okt WIB) [bersama]
+
+Pemeriksa sumber asli di B gagal tepat8 pasangan:3 Mandor lama,3 OW16,
+1 initial dan1 checked-save. Tidak ada gap tambahan dari perbaikan pesan.
+`ow13c/SHARED_REGISTRY.patch` menambah hanya1 pasangan baru dan lolos
+`git apply --check`. Tujuh lama memakai patch OW13a (yang sudah mencakup
+6 OW16/Mandor); jangan menumpuk kedua patch lama. Salinan sementara checker
+asli dengan tepat8 entri tambahan lulus360 runtime files/303 RPC boundaries,
+no orphan/direct-table/dynamic-RPC, semua oracle lain dipertahankan.
+`ow13c/SHARED_REGISTRY_CHECK.json` mencatat bahwa gerbang asli tetap FAIL;
+ini kesiapan patch, bukan kelulusan integrasi A. Berkas shared A byte-identik
+terhadap HEAD. A head yang dibaca tetap f898a71fc13654d217f987949f126290083a0225.
+Native31 kandidat16a0aeb0/run39993639712 tetap sedang berjalan.

@@ -159,6 +159,14 @@ Marker `cutting_save_contract` berada dalam payload immutable domain
 `PLAN_APPLY_STAGED`; ordinary-plan reopen tetap ke endpoint checked yang sama.
 APPLY membuat Native cutting draft, tidak melakukan posting fisik/stock/HPP.
 
+**Perubahan registry sudah konkret untuk A.** [Patch satu pasangan OW13c](../d17-14/ow13c/SHARED_REGISTRY.patch)
+menambah hanya nativeCuttingSuggestion→checked SAVE. Tujuh gap lama memakai
+patch OW13a yang sudah memuat enam OW16/Mandor; jangan menerapkan kedua patch
+lama sekaligus. Pemeriksa sumber asli masih gagal tepat8 pasangan. Salinan
+pemeriksa dengan8 entri tambahan saja lulus360 berkas/303 jalur; no orphan,
+no direct table access, semua oracle lainnya tetap. [Receipt](../d17-14/ow13c/SHARED_REGISTRY_CHECK.json).
+Shared file A tidak ditulis; A tetap menerapkan, membuat tipe dan menguji rantai.
+
 ## Langkah penerus yang persis
 
 1. Baca hasil run39993639712/job120551431684 pada16a0aeb0 dan unduh
