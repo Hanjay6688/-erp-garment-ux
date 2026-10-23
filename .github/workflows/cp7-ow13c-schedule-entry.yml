@@ -1,3 +1,4 @@
+# Three-field Native query source4e5af519; retain seven passed server cases without rerun.
 name: CP7 Direct Work Entry Actual Browser2
 'on':
   push:
