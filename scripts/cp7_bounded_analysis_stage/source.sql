@@ -33,9 +33,9 @@ language sql stable security invoker set search_path=''set TimeZone='UTC'as $$
  engine as(select encode(extensions.digest(convert_to(string_agg(
   p.oid::regprocedure::text||':'||pg_get_functiondef(p.oid),E'\n'order by p.oid::regprocedure::text),'UTF8'),'sha256'),'hex')signature
   from pg_proc p join pg_namespace n on n.oid=p.pronamespace
-  where n.nspname in('cp7_planning','cp7_profile','cp7_supply_native','cp7_schedule_native','cp7_netting_native','cp7_analysis_native','cp7_analysis_stage','cp7_fabric_native','cp7_wip','cp7_demand','cp7_baseline','cp7_models','cp7_finance','cp7_bounded_analysis_stage')
+  where n.nspname in('cp7_planning','cp7_profile','cp7_supply_native','cp7_schedule_native','cp7_netting_native','cp7_analysis_native','cp7_analysis_stage','cp7_fabric_native','cp7_wip','cp7_demand','cp7_baseline','cp7_models','cp7_finance','cp7_reorder_supply','cp7_bounded_analysis_stage')
    or p.oid='erp.get_owner_financial_snapshot_v2(date,date,date)'::regprocedure)
- select c||jsonb_build_object('analysis_engine_signature',signature,
+ select c||jsonb_build_object('reorder_supply_engine','cp7.reorder-supply.v1','analysis_engine_signature',signature,
   'material_source',cp7_analysis_native.material_source(c->'facts'->'products',(c->>'captured_at')::timestamptz),
   'fabric_source',cp7_fabric_native.source(c->'facts'->'products',(c->>'captured_at')::timestamptz))from native cross join engine
 $$;

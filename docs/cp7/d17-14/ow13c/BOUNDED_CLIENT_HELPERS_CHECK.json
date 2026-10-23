@@ -1,9 +1,9 @@
 {
   "contract": "cp7.bounded-client-helper-check.v1",
-  "client_tests": 139,
+  "client_tests": 145,
   "test_files": 6,
   "typescript": "PASS",
-  "screen_new_method_connected": false,
+  "screen_new_method_connected": "EXPLICIT_PROP_DRIVER_TESTED_PARENT_DEFAULT_STILL_NATIVE_PENDING_DATABASE_PROOF",
   "actual_native_proof": false,
   "actual_shared_gate": "FAIL_12_UNMERGED_RPC_PAIRS",
   "missing_exact_pairs": [
@@ -28,5 +28,7 @@
     "all_other_oracles_unchanged": true
   },
   "A_files_not_written": true,
-  "production_go": false
+  "production_go": false,
+  "old_native_screen_tests_retained": true,
+  "new_screen_recovery_cases": 6
 }

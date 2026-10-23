@@ -4,23 +4,86 @@ import {createRoot,type Root} from 'react-dom/client'
 import {beforeEach,afterEach,it,expect,vi,type Mock} from 'vitest'
 import NativeProductionPlanningPanel from './NativeProductionPlanningPanel'
 import {recoveryIdentity} from '../tests/fixtures/productionRecovery'
-import {supplyWire,workspaceWire,stagedWorkspaceWire,scheduleJobWire,stagedScheduleOutcome,nettingWire,dualHorizonNettingWire,scheduleOutcome,planningQuery,workKey,customerKey} from '../tests/fixtures/nativeProductionPlanning'
+import {supplyWire,workspaceWire,stagedWorkspaceWire,boundedWorkspaceWire,boundedScheduleOutcome,scheduleJobWire,stagedScheduleOutcome,nettingWire,dualHorizonNettingWire,scheduleOutcome,planningQuery,workKey,customerKey} from '../tests/fixtures/nativeProductionPlanning'
 import {readScheduleRequest,scheduleRequestKey} from './nativeProductionPlanning'
 import {schedulePayload,parseNativeSupply,parseScheduleWorkspace} from './nativeProductionPlanning'
 import {nativeDemandRequestKey,persistNativeDemandRequest,readNativeDemandRequest} from './nativeDemandHistory'
+import {BOUNDED_ANALYSIS_REQUEST,boundedAnalysisRequestKey,readBoundedAnalysisRequest,persistBoundedAnalysisRequest,type BoundedAnalysisRequest} from './nativeBoundedAnalysis'
 import {demandRequest} from '../tests/fixtures/nativeDemandHistory'
 const state=vi.hoisted(()=>({auth:null as unknown}))
 const client=vi.hoisted(()=>({rpc:vi.fn()}))
 vi.mock('./auth/AuthProvider',()=>({useAuth:()=>state.auth}));vi.mock('./lib/supabase',()=>({getUatSupabaseClient:()=>client}))
 let root:Root,container:HTMLDivElement,start:Mock<()=>void>,end:Mock<()=>void>,close:Mock<()=>void>
 const scope='cp6-disposable:actor-1'
+const boundedScope='work-schedule:'+scope
+function boundedReply(reviewed=false){client.rpc.mockImplementation(async(name:string,args:{p_request:string;p_source_request:string})=>({data:name==='erp_cp7_request_bounded_staged_analysis_v1'?scheduleJobWire(args.p_request):name==='erp_cp7_get_staged_production_schedule_v1'?boundedWorkspaceWire(args.p_source_request,reviewed):name==='erp_cp7_save_staged_production_schedule_v1'?boundedScheduleOutcome(args.p_request):null,error:null}))}
 beforeEach(()=>{Object.assign(globalThis,{IS_REACT_ACT_ENVIRONMENT:true});client.rpc.mockReset();localStorage.clear();const a=structuredClone(recoveryIdentity);Object.assign(a.runtime,{mode:'DISPOSABLE_TEST',projectRef:'cp6-disposable'});a.identity.permissions.push('master.product.view','master.product.manage','production.wip.view','warehouse.stock.view','sales.invoice.view');state.auth=a;container=document.createElement('div');document.body.append(container);root=createRoot(container);start=vi.fn();end=vi.fn();close=vi.fn()})
 afterEach(async()=>{await act(async()=>root.unmount());container.remove();localStorage.clear();vi.restoreAllMocks()})
-async function render(query=planningQuery){await act(async()=>root.render(<NativeProductionPlanningPanel query={query} onSourceReadStart={start} onSourceReadEnd={end} onClose={close}/>))}
+async function render(query=planningQuery,sourceMethod:'NATIVE'|'BOUNDED'='NATIVE'){await act(async()=>root.render(<NativeProductionPlanningPanel query={query} sourceMethod={sourceMethod} onSourceReadStart={start} onSourceReadEnd={end} onClose={close}/>))}
 async function click(label:string){const b=[...container.querySelectorAll('button')].find(b=>b.textContent===label)!;expect(b).toBeTruthy();await act(async()=>b.click())}
 async function fill(label:string,value:string){const e=container.querySelector<HTMLInputElement|HTMLTextAreaElement|HTMLSelectElement>(`[aria-label="${label}"]`)!;expect(e).toBeTruthy();await act(async()=>{const prototype=e instanceof HTMLSelectElement?HTMLSelectElement.prototype:e instanceof HTMLTextAreaElement?HTMLTextAreaElement.prototype:HTMLInputElement.prototype;Object.getOwnPropertyDescriptor(prototype,'value')!.set!.call(e,value);e.dispatchEvent(new Event(e instanceof HTMLSelectElement?'change':'input',{bubbles:true}))})}
 function reply(reviewed=false){client.rpc.mockImplementation(async(name:string,args:{p_request:string;p_source_request:string})=>({data:name==='erp_cp7_request_staged_analysis_v1'?scheduleJobWire(args.p_request):name==='erp_cp7_get_staged_production_schedule_v1'?stagedWorkspaceWire(args.p_source_request,reviewed):name==='erp_cp7_get_production_schedule_v1'?workspaceWire(reviewed):name.includes('production_supply')?supplyWire(args.p_request):name.includes('netting')?nettingWire(args.p_request):null,error:null}))}
 async function fillSchedule(){await fill('Tempat kerja pilihan','Explicit centre');await fill('Batas jadwal WIB','2026-10-02T19:00');await fill('Waktu satu PCS baru','2');await fill('Mulai kerja 1 WIB','2026-10-01T08:00');await fill('Selesai kerja 1 WIB','2026-10-01T10:00');await fill('Beban lain 1','0');await fill(`Bagus ${workKey}`,'9');await fill(`Acuan ${workKey}`,'10');for(const key of[workKey,customerKey])for(const stage of['SEWING','LAUNDRY','QC'])await fill(`${stage} menit ${key}`,stage==='SEWING'?'15':stage==='LAUNDRY'?'20':'10');await fill('Alasan jadwal','explicit reviewed work')}
+it('uses durable bounded method before send, exact three-field query and honest complete history guidance',async()=>{
+ let persisted=false
+ client.rpc.mockImplementation(async(name:string,args:{p_request:string;p_source_request:string})=>{
+  if(name==='erp_cp7_request_bounded_staged_analysis_v1'){
+   persisted=JSON.stringify(readBoundedAnalysisRequest(boundedScope).pending)===JSON.stringify({id:args.p_request,q:planningQuery,method:BOUNDED_ANALYSIS_REQUEST})
+   return{data:scheduleJobWire(args.p_request),error:null}
+  }
+  return{data:boundedWorkspaceWire(args.p_source_request),error:null}
+ })
+ await render(planningQuery,'BOUNDED');await click('Ambil stok proses terbaru')
+ expect(persisted).toBe(true);expect(client.rpc.mock.calls[0][0]).toBe('erp_cp7_request_bounded_staged_analysis_v1')
+ expect(client.rpc.mock.calls[0][1].p_query).toEqual(planningQuery);expect(readBoundedAnalysisRequest(boundedScope).pending).toBeNull()
+ expect(container.textContent).toContain('Riwayat stok telah dibaca seluruhnya');expect(container.textContent).not.toContain('Riwayat stok belum lengkap');expect(container.textContent).toContain('jumlah produksi belum dipastikan')
+ expect(client.rpc.mock.calls.some(([name])=>name==='erp_cp7_request_staged_analysis_v1')).toBe(false)
+})
+it('keeps bounded source until validated guidance, then retries original method/query/UUID after remount',async()=>{
+ client.rpc.mockImplementation(async(name:string,args:{p_request:string;p_source_request:string})=>({data:name==='erp_cp7_request_bounded_staged_analysis_v1'?scheduleJobWire(args.p_request):stagedWorkspaceWire(args.p_source_request),error:null}))
+ await render(planningQuery,'BOUNDED');await click('Ambil stok proses terbaru')
+ const first=structuredClone(client.rpc.mock.calls[0]),held=readBoundedAnalysisRequest(boundedScope).pending
+ expect(held?.id).toBe(first[1].p_request);expect(container.querySelector('form')).toBeNull()
+ await act(async()=>root.unmount());root=createRoot(container);boundedReply()
+ await render({...planningQuery,from_date:'2026-09-28'});await click('Ulangi pembacaan stok proses')
+ expect(client.rpc.mock.calls[2]).toEqual(first);expect(readBoundedAnalysisRequest(boundedScope).pending).toBeNull();expect(container.querySelector('form')).toBeTruthy()
+})
+it('replays bounded committed-reply-loss with stored method and exact payload even through the legacy-default component',async()=>{
+ boundedReply();await render(planningQuery,'BOUNDED');await click('Ambil stok proses terbaru');await fillSchedule()
+ client.rpc.mockResolvedValue({data:null,error:Error('reply lost')});await click('Simpan jadwal yang diperiksa')
+ const first=structuredClone(client.rpc.mock.calls.find(([name])=>name==='erp_cp7_save_staged_production_schedule_v1')!),held=readScheduleRequest(scope).pending
+ expect(held?.sourceMethod).toBe('BOUNDED');expect(first[1].p_payload.sourceMethod).toBeUndefined()
+ await act(async()=>root.unmount());root=createRoot(container);boundedReply();await render();await click('Ulangi simpan jadwal yang sama')
+ expect(client.rpc.mock.calls.filter(([name])=>name==='erp_cp7_save_staged_production_schedule_v1')[1]).toEqual(first)
+ expect(readScheduleRequest(scope).pending).toBeNull();expect(container.textContent).toContain('Jadwal tersimpan')
+})
+it('recovers original Native staged requests with the original route after bounded entry is selected',async()=>{
+ const held={id:demandRequest,q:planningQuery};persistNativeDemandRequest('staged-schedule-source:'+scope,held)
+ reply();await render(planningQuery,'BOUNDED');await click('Ulangi stok proses yang sama')
+ expect(client.rpc.mock.calls[0]).toEqual(['erp_cp7_request_staged_analysis_v1',{p_query:planningQuery,p_request:demandRequest}])
+ expect(client.rpc.mock.calls.some(([name])=>name==='erp_cp7_request_bounded_staged_analysis_v1')).toBe(false)
+ expect(readNativeDemandRequest('staged-schedule-source:'+scope).pending).toBeNull();expect(container.querySelector('form')).toBeTruthy()
+})
+it('retires bounded guidance on cross-tab changes and never clears the replacement request',async()=>{
+ let release:(x:unknown)=>void=()=>{},id=''
+ client.rpc.mockImplementation((name:string,args:{p_request:string})=>{
+  if(name==='erp_cp7_request_bounded_staged_analysis_v1'){id=args.p_request;return Promise.resolve({data:scheduleJobWire(id),error:null})}
+  return new Promise(r=>release=r)
+ })
+ await render(planningQuery,'BOUNDED');await click('Ambil stok proses terbaru')
+ const key=boundedAnalysisRequestKey(boundedScope),replacement={id:crypto.randomUUID(),q:planningQuery,method:BOUNDED_ANALYSIS_REQUEST}
+ localStorage.setItem(key,JSON.stringify(replacement));await act(async()=>dispatchEvent(new StorageEvent('storage',{key})))
+ await act(async()=>release({data:boundedWorkspaceWire(id),error:null}))
+ expect(container.querySelector('form')).toBeNull();expect(readBoundedAnalysisRequest(boundedScope).pending).toEqual(replacement)
+})
+it('keeps simultaneous old and bounded recovery records separate and permits only their own retries',async()=>{
+ const old={id:demandRequest,q:planningQuery},fresh:BoundedAnalysisRequest={id:crypto.randomUUID(),q:planningQuery,method:BOUNDED_ANALYSIS_REQUEST}
+ persistNativeDemandRequest('staged-schedule-source:'+scope,old);persistBoundedAnalysisRequest(boundedScope,fresh)
+ reply();await render(planningQuery,'BOUNDED');expect([...container.querySelectorAll('button')].find(b=>b.textContent==='Ambil stok proses terbaru')!.disabled).toBe(true)
+ await click('Ulangi stok proses yang sama');expect(readNativeDemandRequest('staged-schedule-source:'+scope).pending).toBeNull()
+ expect(readBoundedAnalysisRequest(boundedScope).pending).toEqual(fresh)
+ boundedReply();await click('Ulangi pembacaan stok proses');expect(readBoundedAnalysisRequest(boundedScope).pending).toBeNull()
+})
 it('shows the server lead trigger and target separately, and retires them on current denial',async()=>{
  client.rpc.mockImplementation(async(_name:string,args:{p_request:string})=>({data:dualHorizonNettingWire(args.p_request),error:null}))
  await render();await click('Hitung kekurangan seluruh produk')

@@ -79,14 +79,16 @@ def install_delta(cur):
     rows={sig:_row(cur,sig) for sig in old}
     for sig,text in old.items():
         if rows[sig][1]!=_body(text) or rows[sig][2]!='cp7_capture':
-            raise ValueError('BOUNDED_ANALYSIS_PREDECESSOR_CHANGED: '+sig)
+            raise ValueError('BOUNDED_ANALYSIS_PREDECESSOR_CHANGED: '+sig+': '+json.dumps(dict(
+                expected=sha256(_body(text).encode()).hexdigest(),actual=sha256(rows[sig][1].encode()).hexdigest(),owner=rows[sig][2])))
     dependencies={}
     for sig,pin in source.native_dependencies().items():
         if sig in old:
             continue
         row=_row(cur,sig)
         if sha256(row[1].encode()).hexdigest()!=pin['body_sha256'] or row[2]!=pin['owner']:
-            raise ValueError('BOUNDED_ANALYSIS_SOURCE_DEPENDENCY_CHANGED: '+sig)
+            raise ValueError('BOUNDED_ANALYSIS_SOURCE_DEPENDENCY_CHANGED: '+sig+': '+json.dumps(dict(
+                expected=pin['body_sha256'],actual=sha256(row[1].encode()).hexdigest(),owner=row[2])))
         dependencies[sig]=row
     # The complete compiler and digest are separate qualified stages, not
     # copies with a relaxed guard. Bind their entire private function sets.

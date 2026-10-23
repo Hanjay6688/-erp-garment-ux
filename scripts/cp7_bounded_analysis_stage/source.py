@@ -3,6 +3,7 @@ from pathlib import Path
 from hashlib import sha256
 import json
 import re
+from cp7_reorder_supply import patches as supply_patches
 
 ROOT = Path(__file__).resolve().parent
 NATIVE = ROOT.parent/'cp7-src'/'planning'
@@ -25,13 +26,20 @@ def once(text, old, new):
     return text.replace(old,new)
 
 
+def current_analysis_source():
+    # The admitted supply-cache stage already bound its producer and engine
+    # into this Native source. Preserve that exact hook and its pin checks.
+    return supply_patches.patched({supply_patches.RUN:block('analysis-stages.sql','cp7_analysis_stage.run_unit'),
+        supply_patches.SOURCE:block('analysis.sql','cp7_analysis_native.source_within')})[supply_patches.SOURCE]
+
+
 def native_dependencies():
     out = {}
     for file,name,signature in [('supply-source.sql','cp7_supply_native.source_parts_within','(integer)'),
        ('schedule-scenario.sql','cp7_schedule_native.source_within','(integer)'),
        ('netting.sql','cp7_netting_native.source_within','(integer,integer)'),
        ('analysis.sql','cp7_analysis_native.source_within','(integer,integer)')]:
-        raw = block(file,name)
+        raw = current_analysis_source() if name=='cp7_analysis_native.source_within' else block(file,name)
         body = re.search(r'as \$\$(.*?)\$\$;',raw,re.S)[1]
         out[name+signature] = dict(body_sha256=sha256(body.encode()).hexdigest(),owner='cp7_capture')
     raw = CURRENT_FP.read_text()
@@ -47,6 +55,9 @@ def render():
             raise ValueError('BOUNDED_ANALYSIS_NATIVE_SOURCE_CHANGED: '+file)
     if pins['native_dependencies'] != native_dependencies():
         raise ValueError('BOUNDED_ANALYSIS_NATIVE_DEPENDENCIES_CHANGED')
+    for file,digest in pins['admitted_supply_source_files_sha256'].items():
+        if sha256((ROOT.parent/file).read_bytes()).hexdigest()!=digest:
+            raise ValueError('BOUNDED_ANALYSIS_ADMITTED_SUPPLY_SOURCE_CHANGED: '+file)
     if sha256(CURRENT_FP.read_bytes()).hexdigest() != pins['current_supply_fingerprint_file_sha256']:
         raise ValueError('BOUNDED_ANALYSIS_CURRENT_SUPPLY_FP_CHANGED')
     native_fp = once(CURRENT_FP.read_text(), 'create or replace function cp7_supply_native.fingerprint(',
@@ -60,10 +71,10 @@ def render():
     net = block('netting.sql','cp7_netting_native.source_within')
     net = once(net,'cp7_netting_native.source_within(',SCHEMA+'.netting_source(')
     net = once(net,'cp7_schedule_native.source_within(p_products)',SCHEMA+'.schedule_source(p_products)')
-    analysis = block('analysis.sql','cp7_analysis_native.source_within')
+    analysis = current_analysis_source()
     analysis = once(analysis,'cp7_analysis_native.source_within(',SCHEMA+'.analysis_source(')
     analysis = once(analysis,'cp7_netting_native.source_within(p_products,p_match)',SCHEMA+'.netting_source(p_products,p_match)')
-    analysis = once(analysis,"'cp7_finance')", "'cp7_finance','"+SCHEMA+"')")
+    analysis = once(analysis,"'cp7_finance','cp7_reorder_supply')", "'cp7_finance','cp7_reorder_supply','"+SCHEMA+"')")
     producer = r"""
 create function cp7_bounded_analysis_stage.producer_hash()returns text
 language sql stable security invoker set search_path=''set TimeZone='UTC'as $$

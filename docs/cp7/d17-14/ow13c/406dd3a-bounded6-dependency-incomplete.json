@@ -1,0 +1,32 @@
+{
+  "contract": "cp7.bounded-stage-dependency-incomplete.v1",
+  "candidate": "406dd3aeba03a88088d666dd6ac3ddbeeeb4b01c",
+  "source": "b3ee67c3abe0f483bf94e1a41d107c27e8ad74e6",
+  "run_id": 40033328699,
+  "job_id": 120686678633,
+  "status": "INCOMPLETE",
+  "expected": 6,
+  "observed": 0,
+  "error": "BOUNDED_ANALYSIS_SOURCE_DEPENDENCY_CHANGED: cp7_analysis_native.source_within(integer,integer)",
+  "first_failure_preserved": true,
+  "cause": "Source factory dependency pin used older Native analysis source; admitted OW10 supply stage already bound reorder_supply producer and engine.",
+  "fix": "Derive actual admitted analysis source through unchanged supply patcher and preserve its marker/engine; body matches admitted reorder caller dependency SHA92dcec0e7affa781882757dc131851507311be07bd373f2a2eb321ac1be66bd0. Three other source factory dependencies and all seven existing replacement predecessors already passed strict pins.",
+  "original": {
+    "artifact_id": 12535613196,
+    "bytes": 31351,
+    "sha256": "10865421d29cba087d753821f878f448e10b0e18fdced3c12e055954ac3e8554"
+  },
+  "source_files_exact": 40,
+  "preuse22_exact": 11,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "cp6_restored": null,
+  "advisor_gate": null,
+  "actual_checked_SAVE2000_qualified": false,
+  "production_go": false
+}

@@ -1,5 +1,14 @@
 # Handoff produksi/perencanaan B —24 Oktober2026 WIB
 
+**Latest active correction:** Native6candidate406dd3a stopped0/6 on analysis-source
+pin: actual OW10 supply stage already adds its producer/engine. Exact current
+source now derived through unchanged patcher, hash92dcec0e matches admitted caller
+manifest; oldsource markers/engine preserved. Receipt406dd3a keeps completeOriginal.
+Bounded UI opt-in driver145tests/6files+TS PASS; parent remainsNative pendingactual
+DBproof. New method survives lost reply/remount/cross-tab without reinterpreting
+oldrequests. Next boundedNative6 only, then parent+actualbrowser, realSAVE2000.
+
+
 **Latest correction:** first Native6candidate02f9780 stopped before cases on strict
 request predecessor pin (actual request already has OW13a initial_auto hook).
 Receipt02f9780-bounded6-first-incomplete.json keeps Original. Corrected renderer
