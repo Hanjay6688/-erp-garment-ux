@@ -2,8 +2,7 @@
  "classification": "OW04BC_RETURN_ON_AN_INVOICE_PAID_WITH_CREDIT_NATIVE_STAGE",
  "predecessor_stage": "cp7_credit_multi",
  "files": {
-  ".github/workflows/cp7-ow04b-incoming-native.yml": "4b1993750cc067ed9793a6a27822f3532a95592b9d684e62c5d914c050e7a86e",
-  "scripts/ow04bb_native_original.py": "66b4ac97549b1f3523984b3b2cb5465efc5c5e3f39f68c797d4c9276368f0fcf",
+  ".github/workflows/cp7-ow04b-incoming-native.yml": "336632fd90bf5b4c132c7b1365626e831ca0a508808f1aec33bf09e5329de6cb",
   "scripts/cp7_credit_incoming/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
   "scripts/cp7_credit_incoming/cases.py": "7a78b6e133fe694384192c9af268ddce94baca23196ce19a51b4f94164f48251",
   "scripts/cp7_credit_incoming/composition.py": "039060ba04e335fa25b5b41868b628f2d895ee5dfc479f73423e702b7a7d4a6d",
@@ -11,7 +10,9 @@
   "scripts/cp7_credit_incoming/local_check.py": "b3520e0deb4240f28940021a850a189ceae5ec92660669788a97f2b972abede0",
   "scripts/cp7_credit_incoming/local_check_delta.py": "cab427be15e2103f4969d75642ac51523ae0dbe4db6a4534086e30c342f87c2b",
   "scripts/cp7_credit_incoming/native_delta.py": "486405968b93424f505ae5e7c255028c3772bf2e8df14577d72cad6f921cb223",
-  "scripts/cp7_credit_incoming/native_probe.py": "c7d9b4c078a76e25aaee2f9ceac7093abe43797bf8d137c4833b2a5208afab8b"
+  "scripts/cp7_credit_incoming/native_probe.py": "c7d9b4c078a76e25aaee2f9ceac7093abe43797bf8d137c4833b2a5208afab8b",
+  "scripts/ow04bb_native_original.py": "3d337eb302d0553411fa084075c875e3f5fb985ab4ddde6df5a653f34ebb89ec",
+  "docs/cp7/d17-14/ow04/ow04b-slice-b-native6-race1-PENDING_OW04BB_HEAD8-chain-pass.json": "PENDING_OW04BB_RECEIPT_SHA256"
  },
  "case_ids": [
   "OW04BC_FIRST_RETURN_QUOTES_UNCHANGED",
@@ -27,10 +28,16 @@
  ],
  "native_original": {
   "name": "CP7_OW04BB_MULTI_RETURN_NATIVE6_RACE1.json",
-  "bytes": 1821693,
-  "sha256": "73bfc5c085157f46f0640b05fadd32c204831089ffa6ca0c10d0ec15b2894047",
-  "artifact": "cp7-ow04b-multi-return-native6-race1 (12474881472)",
-  "qualification_commit": "33760a5205cde88c00c180e02c60f635fea9fe58"
+  "bytes": "PENDING_OW04BB_RAW_BYTES",
+  "sha256": "PENDING_OW04BB_RAW_SHA256",
+  "artifact": "cp7-ow04b-multi-return-native6-race1 (PENDING_OW04BB_ARTIFACT_ID)",
+  "qualification_commit": "PENDING_OW04BB_QUALIFICATION_COMMIT"
+ },
+ "native_original_run": {
+  "receipt": "docs/cp7/d17-14/ow04/ow04b-slice-b-native6-race1-PENDING_OW04BB_HEAD8-chain-pass.json",
+  "head": "PENDING_OW04BB_HEAD8",
+  "run": "PENDING_OW04BB_RUN_ID",
+  "artifact": "PENDING_OW04BB_ARTIFACT_ID"
  },
  "slice": {
   "name": "C",

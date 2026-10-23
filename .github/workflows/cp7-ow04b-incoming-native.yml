@@ -101,17 +101,67 @@ jobs:
         GH_TOKEN: ${{ github.token }}
       working-directory: auditor
       run: python scripts/ow05_native_original.py
-    - name: Fetch and verify qualified actual OW04b slice A Native6+Race2 original before DB
+    - name: Fetch and verify qualified actual OW06 Native10 original before DB
+      env:
+        GH_TOKEN: ${{ github.token }}
+      working-directory: auditor
+      run: python scripts/ow06_native_original.py
+    - name: Fetch and verify qualified actual OW08b kasbon Native4 original before DB
+      env:
+        GH_TOKEN: ${{ github.token }}
+      working-directory: auditor
+      run: python scripts/ow08b_kasbon_native_original.py
+    - name: Fetch and verify qualified actual OW08b fgqc Native9 original before DB
+      env:
+        GH_TOKEN: ${{ github.token }}
+      working-directory: auditor
+      run: python scripts/ow08b_fgqc_native_original.py
+    - name: Fetch and verify qualified actual OW05b chain Native6 original before DB
+      env:
+        GH_TOKEN: ${{ github.token }}
+      working-directory: auditor
+      run: python scripts/ow05b_native_original.py
+    - name: Fetch and verify qualified actual OW08a chain Native6 original before DB
+      env:
+        GH_TOKEN: ${{ github.token }}
+      working-directory: auditor
+      run: python scripts/ow08a_native_original.py
+    - name: Fetch and verify qualified actual OW12a chain Native7 original before DB
+      env:
+        GH_TOKEN: ${{ github.token }}
+      working-directory: auditor
+      run: python scripts/ow12a_native_original.py
+    - name: Fetch and verify qualified actual OW09 chain Native8 original before DB
+      env:
+        GH_TOKEN: ${{ github.token }}
+      working-directory: auditor
+      run: python scripts/ow09_native_original.py
+    - name: Fetch and verify qualified actual OW07 chain Native7 original before DB
+      env:
+        GH_TOKEN: ${{ github.token }}
+      working-directory: auditor
+      run: PYTHONDONTWRITEBYTECODE=1 python scripts/cp7_laundry_unknown_wash/ow07_original.py
+    - name: Fetch and verify qualified actual OW08b wash chain Native11 original before DB
+      env:
+        GH_TOKEN: ${{ github.token }}
+      working-directory: auditor
+      run: python scripts/ow08b_wash_native_original.py
+    - name: Fetch and verify qualified actual OW04b followups chain Native9+Race3 original before DB
+      env:
+        GH_TOKEN: ${{ github.token }}
+      working-directory: auditor
+      run: python scripts/ow04b_followups_native_original.py
+    - name: Fetch and verify qualified actual OW04b slice A chain Native6+Race2 original before DB
       env:
         GH_TOKEN: ${{ github.token }}
       working-directory: auditor
       run: python scripts/ow04ba_native_original.py
-    - name: Fetch and verify qualified actual OW04b slice B Native6+Race1 original before DB
+    - name: Fetch and verify qualified actual OW04b slice B chain Native6+Race1 original before DB
       env:
         GH_TOKEN: ${{ github.token }}
       working-directory: auditor
       run: python scripts/ow04bb_native_original.py
-    - name: Admit exact OW04b slice C, B, A and followups sources and the qualified originals before DB
+    - name: Admit exact OW04b slice C, B, A and followups sources over the qualified slice B chain before DB
       working-directory: writer
       run: ERP_REPO=../auditor PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=../auditor/scripts python -c "from cp7_credit_incoming import
         native_probe as p; p.admitted(); print('OW04BC_SOURCE_ADMITTED_NO_DB')"
@@ -132,17 +182,39 @@ jobs:
     - name: Start disposable database
       working-directory: base
       shell: bash
-      run: "set -euo pipefail\ntest \"$(git rev-parse HEAD)\" = 1bdca3766f7c9800d68295ff5122798060b8a05d\ntest \"$(git rev-parse HEAD^{tree})\"\
-        \ = 334629c626257b8b713826f491cdf62385d5299b\ntest -z \"$(git status --porcelain)\"\nsupabase --help >/dev/null\nsupabase init\
-        \ --help >/dev/null\nsupabase start --help >/dev/null\nmkdir cp5-local\nsupabase init --force --workdir cp5-local\nmkdir -p\
-        \ cp5-local/supabase/.temp\necho '17.6.1.165' > cp5-local/supabase/.temp/postgres-version\nsed -i '0,/^enable_signup = true$/s//enable_signup\
-        \ = false/' cp5-local/supabase/config.toml\n# ghcr.io can rate-limit image pulls before anything runs. Retry the start\n# only\
-        \ (no test has run), falling back to the same image tags on public.ecr.aws.\nfor attempt in 1 2 3 4; do\n  if [ \"$attempt\"\
-        \ -ge 2 ]; then export SUPABASE_INTERNAL_IMAGE_REGISTRY=public.ecr.aws; fi\n  if supabase start --workdir cp5-local \\\n   \
-        \ -x realtime,imgproxy,studio,postgres-meta,edge-runtime,logflare,vector,supavisor \\\n    > \"$RUNNER_TEMP/cp6-local-start.log\"\
-        \ 2>&1; then\n    echo \"supabase start succeeded on attempt $attempt from ${SUPABASE_INTERNAL_IMAGE_REGISTRY:-default}\"\n\
-        \    break\n  fi\n  tail -n 20 \"$RUNNER_TEMP/cp6-local-start.log\"\n  supabase stop --workdir cp5-local --no-backup || true\n\
-        \  if [ \"$attempt\" = 4 ]; then exit 1; fi\n  sleep $((attempt * 60))\ndone\n"
+      env:
+        GHCR_TOKEN: ${{ github.token }}
+      run: |
+        set -euo pipefail
+        test "$(git rev-parse HEAD)" = 1bdca3766f7c9800d68295ff5122798060b8a05d
+        test "$(git rev-parse HEAD^{tree})" = 334629c626257b8b713826f491cdf62385d5299b
+        test -z "$(git status --porcelain)"
+        supabase --help >/dev/null
+        supabase init --help >/dev/null
+        supabase start --help >/dev/null
+        # Authenticated pulls: anonymous ghcr.io/public.ecr.aws pulls were refused (toomanyrequests,
+        # Data limit exceeded) before any test ran (OW12a run 39847548230).
+        printf '%s' "$GHCR_TOKEN" | docker login ghcr.io -u "$GITHUB_ACTOR" --password-stdin
+        mkdir cp5-local
+        supabase init --force --workdir cp5-local
+        mkdir -p cp5-local/supabase/.temp
+        echo '17.6.1.165' > cp5-local/supabase/.temp/postgres-version
+        sed -i '0,/^enable_signup = true$/s//enable_signup = false/' cp5-local/supabase/config.toml
+        # ghcr.io can rate-limit image pulls before anything runs. Retry the start
+        # only (no test has run), falling back to the same image tags on public.ecr.aws.
+        for attempt in 1 2 3 4; do
+          if [ "$attempt" -ge 2 ]; then export SUPABASE_INTERNAL_IMAGE_REGISTRY=public.ecr.aws; fi
+          if supabase start --workdir cp5-local \
+            -x realtime,imgproxy,studio,postgres-meta,edge-runtime,logflare,vector,supavisor \
+            > "$RUNNER_TEMP/cp6-local-start.log" 2>&1; then
+            echo "supabase start succeeded on attempt $attempt from ${SUPABASE_INTERNAL_IMAGE_REGISTRY:-default}"
+            break
+          fi
+          tail -n 20 "$RUNNER_TEMP/cp6-local-start.log"
+          supabase stop --workdir cp5-local --no-backup || true
+          if [ "$attempt" = 4 ]; then exit 1; fi
+          sleep $((attempt * 60))
+        done
     - name: Rebuild to v2.6.20, align with hosted, continue the frozen path to AB
       working-directory: base
       env:
