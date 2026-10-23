@@ -1,0 +1,44 @@
+{
+ "run": 39888087062,
+ "attempt": 1,
+ "job": 120200923364,
+ "head": "197fb3fc",
+ "qualification_commit": "197fb3fcf3f5f10b7e4600ff88d27b2e8544b3be",
+ "label": "CP7_OW05B_MANDOR_GUIDANCE_NATIVE6",
+ "status": "PASS",
+ "expected_case_count": 6,
+ "observed_case_count": 6,
+ "cases": {
+  "OW05B_REAL_CHAIN_BLOCKERS_NAME_REAL_MENUS_AND_OPEN": "PASS",
+  "OW05B_EVERY_KIND_AND_BRANCH_GUIDED": "PASS",
+  "OW05B_AFTER_STEPS_COMPLETE_IN_ORDER": "PASS",
+  "OW05B_HISTORY_TWO_CORRECTIONS_VISIBLE": "PASS",
+  "OW05B_CORRECTION_COMMAND_UNCHANGED": "PASS",
+  "OW05B_GUIDANCE_READERS_PRIVATE": "PASS"
+ },
+ "cp6_restored": true,
+ "advisor_gate": true,
+ "restore_raw_public_equal": true,
+ "package_gate": {"installed": true, "primary_unchanged": true, "backup_restore_drill": true, "security_advisors": true, "writer_runtime": true},
+ "every_case": {"full_boundary_restored": true, "public_schema_unchanged": true, "session_leaks": 0, "business_day": "2026-10-23 unchanged"},
+ "report": {"name": "CP7_OW05B_MANDOR_GUIDANCE_NATIVE6.json", "raw_bytes": 1842197, "raw_sha256": "cf004a5688be8fb80c7bccabb38e2c70544089a30ba3c834c5a2f8fa3131e28a"},
+ "artifact": "cp7-ow05b-mandor-guidance-native6 (12473826069)",
+ "fgqc_native9_original": {
+  "admission_step": "python scripts/ow08b_fgqc_native_original.py",
+  "log_line": "ACTUAL_OW08B_FGQC_NATIVE9_ORIGINAL_BYTES_AND_FULL_DECLARED_SOURCE_VERIFIED_NO_PRODUCT_EXECUTION"
+ },
+ "qualified_predecessor": {"name": "CP7_OW08B_FG_CORRECTION_NATIVE9.json", "bytes": 2494251, "sha256": "56d3294f0a4c05c40d2d6f11301b0182f016725e5e0be5728a1112eb964cb634"},
+ "highlights": {
+  "real_chain_kinds": ["PO_STATE", "QC", "FG_LOT", "LAUNDRY", "SEWING", "WORK", "GROUP_STATE", "WIP_HISTORY"],
+  "every_kind_count": 19,
+  "unknown_kind_refused": "CP7_MANDOR_GUIDANCE_KIND_UNKNOWN",
+  "after_steps": 9,
+  "history": "two corrections, newest first, visible while blocked, other PO empty",
+  "command": "response keys unchanged (10), replay identical, one history row",
+  "readers": "authenticated direct call refused (permission denied for schema cp7_contractor_guidance)"
+ },
+ "not_reached_with_real_rows": ["MATERIAL_ISSUE non-accessory (kain/bahan) branch"],
+ "OW05b_complete": false,
+ "production_go": false,
+ "independent_acceptance": false
+}
