@@ -45,11 +45,9 @@ untuk mendaftarkan workflow-nya saat antrean longgar.
 1. Catat hasil tiga run di atas (lulus: berkas bukti; gagal: simpan kegagalan pertama, betulkan).
 2. OW-08b 2.21 koreksi barang jadi di QC: digabung (`5be35e60`), Native9 dikirim di `2927dd25`; browser OW-05b dan OW-06 diulang
    karena `src/transactionSource.ts` berubah (diantrekan).
-3. OW-04b retur berulang dengan kredit: bagian 3–4 digabung (`6ff98674`, tahap `scripts/cp7_credit_followups/`, workflow
-   `cp7-ow04b-native.yml` belum pernah jalan; daftarkan dengan push non-skip yang menyentuh foldernya). Bagian 1–2 BELUM:
-   retur kedua / retur pada invoice yang dibayar kredit, dan Edit retur / Benerin nota pada invoice berkredit; produk kredit
-   OW04 dan semua pemeriksanya sengaja satu-kohort, perlu tahap multi-kohort dengan bukti (lihat `ow04/OW04B.md`). Juga celah
-   lama: bayar sisa invoice yang sebagian dibayar kredit masih ditolak (sekarang dengan alasan jelas).
+3. OW-04b: bagian 3–4 dan A lulus (lihat tabel). Bagian B (retur kedua) besar, 16–24 jam: daftar 11 titik di
+   `ow04/OW04B_SLICE_B_INVENTORY.md`; langkah 1 (fungsi before-events/snapshot per keluarga + pengganti cek zero-excess + local
+   check) sedang dikerjakan pembantu di `claude/d17-14-ow04b`. C–E menyusul; D dan E menunggu 3 keputusan Bos.
 4. OW-09: tahap `scripts/cp7_ow09_lists/` (8 pembaca termasuk aksesori, Native8, workflow `cp7-ow09-native.yml`) sudah
    di cabang ini (`15fb2a69`, `00385161`), belum pernah jalan di CI (daftarkan dengan push non-skip, sesudah login ghcr bila
    uji coba OW-12a berhasil). Bagian layar (`d8cd1960`, `2a0a6fb4`) masih di cabang lokal `claude/d17-14-ow09-stage`; digabung
@@ -57,8 +55,8 @@ untuk mendaftarkan workflow-nya saat antrean longgar.
    `ow09/README.md`, cek F04/F05 gagal di base (`cp7_analysis_native.rounded_suggestion` tidak ada, area B), `check-*.mjs`.
 5. Penggabungan harian 17.00 WIB 23 Okt ke `astra/d17-14-integrasi` (pengingat terjadwal 09.35 UTC). Pembanding vitest: base
    50 gagal/2102, gabungan uji 50 gagal/2146, tidak ada kegagalan baru; ke-50 itu uji `tests/cp7/families` yang menolak root.
-6. OW-15: rantai linear tahap, P21 untuk OW-06/OW-08a, sambungan B untuk OW-12a. Pembantu perencana sedang menyusun rencana
-   rinci (urutan tahap, tumpang tindih fungsi, pin yang harus dibuat ulang).
+6. OW-15: rencana `ow15/RENCANA_OW15.md`. Langkah 4 (fgqc mengunci laporan kasbon Native4) digabung `903b1879`, Native9 jalan.
+   Berikutnya langkah 5 (OW05b di atas fgqc) dst., satu tahap per run.
 
 ## Antrean uji yang ditahan (registry image menolak unduhan sejak sekitar 20.20 UTC)
 
