@@ -1,4 +1,30 @@
-# Native31 pertama28/31; perbaikan sedang disiapkan
+# Native31: v7 30/31; perbaikan pesan sedang dikualifikasi
+
+**Status terkini,24 Oktober2026 WIB.** df6bd877/tree55ee4091 pada
+[run39945772181](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39945772181)
+/job120387939390 selesai INCOMPLETE30/31: Native15/15, race8/8, Auth4/4,
+browser3/4. Volume2000/202000 lulus7589/2831/2851ms dengan batas8s/3s
+utuh; HP hilang-jawaban/reopen juga PASS. Desktop menerima tepat
+HTTP500/code40001/sumber berubah, tetapi layar menimpa pesannya dengan pesan
+benturan umum. Ini cacat pesan produk, bukan penolakan server yang hilang.
+[Receipt30/31](df6bd87-native31-30.json):31 ID/deklarasi/hash,28 sumber,
+8 invers22 dan10 authority tepat; restore/advisor lulus, writer_runtimefalse.
+Original/log lengkap dipertahankan. REST aktual uji v16.1, Postgres17.6.1.165;
+ini bukan inventaris versi hosted/Enteng.
+
+Perbaikan5b6ca459 hanya pada4 berkas B. Adapter menyerahkan objek error
+Native asli kepada recovery; panel memakai messageText yang sudah tersedia
+untuk pesan spesifik setelah penolakan pasti diklasifikasikan. Pesan auth,
+ketidakpastian replay, suffix refresh gagal dan kunci writer dipertahankan.
+Tidak mengubah shared hook/normalizer/registry A, SQL,31 ID atau batas waktu.
+Reproduksi lokal pertama2FAIL/7PASS, sesudahnya29/29 pada3 berkas,
+160/160 pada12 berkas dan TypeScript PASS; log BEFORE tetap disimpan.
+
+Kandidat16a0aeb0270eed29239668a94678c59221507e46/tree3c312602,
+[run39993639712](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39993639712)
+/job120551431684 sedang berjalan; hasil belum tersedia. Jangan mengalihkan
+PASS parsial/hasil kandidat lama menjadi hasil31 kandidat ini.
+
 
 Kontrak `NATIVE31_CONTRACT.json` dideklarasikan sebelum eksekusi. Seluruh
 Native25 ditahan persis:15 Native,4 race OW10,4 Auth,2 browser OW10. Ditambah

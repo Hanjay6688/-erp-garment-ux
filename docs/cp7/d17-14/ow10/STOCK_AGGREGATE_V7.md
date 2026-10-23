@@ -1,4 +1,14 @@
-# V7 — optimasi identik; Native ulang belum tersedia
+# V7 — volume Native lulus; paket31 masih30/31
+
+**Hasil aktual df6bd877/tree55ee4091:** run39945772181/job120387939390,
+volume2000 produk/202000 gerakan7589/2831/2851ms PASS, batas8s dan kedua
+hangat≤3000ms tetap. Native15/15, race8/8, Auth4/4 dan browser3/4;
+paket INCOMPLETE30/31 karena pesan layar desktop, bukan volume.
+[Receipt](../ow13c/df6bd87-native31-30.json). Perbaikan pesan5b6ca459,
+kandidat16a0aeb0/run39993639712 sedang dikualifikasi31. Semua angka melekat
+pada kandidatnya; tidak ada klaim SLA hosted atau seluruh pabrik.
+
+**Riwayat alasan dan pembanding V7:**
 
 Native31 pertama44afe80b/run39941715921 memberi volume7409/3150/3122ms,
 dua hangat melewati≤3000ms. Native19 dan25 padaa3bf8842 memang pernah
