@@ -43,7 +43,8 @@ async function fill(panel,c){
  }
  await panel.getByLabel('Alasan jadwal',{exact:true}).fill('Actual disposable browser work review, explicit fixture assumptions only')
 }
-async function journey(ui,today,mobile){
+async function journey(ui,today,mobile,method='NATIVE'){
+ const bounded=method==='BOUNDED',captureFunction=bounded?'erp_cp7_request_bounded_staged_analysis_v1':'erp_cp7_request_staged_analysis_v1'
  const user=await ui.login('OWNER',{label:'ow13c-schedule-'+mobile,mobile,timezoneId:mobile?'America/Los_Angeles':'Asia/Jakarta'})
  const page=user.page,actor=user.user.id,requests=[],shots=[]
  let f,panel,lost=null,sourceReply,captureReply=null,workspaceReply=null
@@ -60,7 +61,7 @@ async function journey(ui,today,mobile){
   panel=await open(ui,page,f.query)
   const read=page.waitForResponse(r=>r.request().method()==='POST'&&r.url().endsWith('/rpc/'+GET)).catch(error=>({error}))
   const captured=page.waitForResponse(r=>{
-   if(r.request().method()!=='POST'||!r.url().endsWith('/rpc/erp_cp7_request_staged_analysis_v1'))return false
+   if(r.request().method()!=='POST'||!r.url().endsWith('/rpc/'+captureFunction))return false
    const args=r.request().postDataJSON(),q=args?.p_query
    // The initial-auto panel uses this same endpoint concurrently. Bind the
    // observation to this work form's complete query and durable request.
@@ -72,6 +73,12 @@ async function journey(ui,today,mobile){
   assert.equal(captureReply.status,200,JSON.stringify(captureReply))
   sourceReply=await read;if(sourceReply.error)throw sourceReply.error;assert.equal(sourceReply.status(),200);const workspace=await sourceReply.json();workspaceReply=workspace
   assert.equal(workspace.production_capture_state,'COMPLETE')
+  if(bounded){
+   assert.equal(workspace.contract_version,'cp7.planning-schedule-staged-bounded.v1')
+   assert.equal(workspace.bounded_request_contract,'cp7.bounded-analysis-request.v1')
+   assert.equal(workspace.bounded_reference_contract,'cp7.bounded-analysis-reference.v1')
+   assert.equal(workspace.history_input_coverage,'COMPLETE')
+  }else assert.equal(workspace.contract_version,'cp7.planning-schedule-staged.v1')
   await ui.expect(panel.getByLabel('Tempat kerja pilihan',{exact:true})).toBeVisible()
   await fill(panel,f.config)
   if(mobile){
@@ -81,6 +88,12 @@ async function journey(ui,today,mobile){
    // evidence that the server has committed or that delivery was aborted.
    await ui.expect.poll(()=>lost?.status).toBe(200)
    await ui.expect(panel.getByRole('button',{name:'Ulangi simpan jadwal yang sama',exact:true})).toBeEnabled()
+   if(bounded){
+    const retained=await page.evaluate(()=>Object.entries(localStorage).filter(([k])=>k.startsWith('erp.cp7.schedule-request.v1:')).map(([,v])=>JSON.parse(v)))
+    assert.equal(retained.length,1);assert.equal(retained[0].sourceMethod,'BOUNDED')
+    assert.equal(retained[0].id,lost.args.p_request);assert.deepEqual(retained[0].payload,lost.args.p_payload)
+    assert.equal(lost.body.contract_version,'cp7.planning-schedule-staged-bounded-outcome.v1')
+   }
    await page.reload();panel=await open(ui,page,f.query)
    await panel.getByRole('button',{name:'Ulangi simpan jadwal yang sama',exact:true}).click()
    await ui.expect(panel).toContainText('Jadwal tersimpan')
@@ -106,12 +119,12 @@ async function journey(ui,today,mobile){
   assert.equal(denied.status(),403)
   return{status:'PASS',actual_Auth_PostgREST_browser:true,viewport:mobile?390:1440,no_horizontal_overflow:true,
    dirty_form_stale_refusal:!mobile,first_confirmed_refusal_releases_only_new_request:!mobile,lost_committed_response_same_UUID_reopen:mobile,current_token_denied:true,shots,
-   production_quantity_claim:false}
+   production_quantity_claim:false,source_method:method,explicit_bounded_coverage_and_receipt:bounded}
  }catch(error){
   mkdirSync('cp6-proof/t3',{recursive:true});writeFileSync(`cp6-proof/t3/SCHEDULE_${mobile?'MOBILE':'DESKTOP'}_FAILURE.json`,JSON.stringify({error:String(error),captureReply,workspaceReply,requests,lost,alerts:await page.getByRole('alert').allTextContents().catch(()=>[])},null,2));await shot('FAILURE').catch(()=>{});throw error
  }finally{fixture('restore',{actor});await user.context.close()}
 }
-export function cases(ui,today){return[
- ['OW13C_SCHEDULE_BROWSER_DESKTOP_STALE_DIRTY',()=>journey(ui,today,false)],
- ['OW13C_SCHEDULE_BROWSER_MOBILE_LOST_REPLY',()=>journey(ui,today,true)],
+export function cases(ui,today,method='NATIVE'){return[
+ ['OW13C_SCHEDULE_BROWSER_DESKTOP_STALE_DIRTY',()=>journey(ui,today,false,method)],
+ ['OW13C_SCHEDULE_BROWSER_MOBILE_LOST_REPLY',()=>journey(ui,today,true,method)],
 ]}

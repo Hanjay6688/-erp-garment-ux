@@ -1,4 +1,4 @@
-# Versioned bounded analysis — implementation awaiting Native qualification
+# Versioned bounded analysis — Native6 component qualified; release remains separate
 
 Eight private source helpers are rendered from pinned Native source-parts,
 schedule-scenario, netting and analysis bodies. The current target-unified-2
@@ -20,7 +20,17 @@ actual new-method jobs/immutable receipts before DDL, restores all seven bodies,
 and drops only declared additions with RESTRICT. A savepoint masks this exact
 delta for the unchanged eleven-stage oracle, restoring all22 catalog groups.
 
-AST, source/derivation pins, declaration and PL/pgSQL variable checks pass.
-Native6 is declared in BOUNDED_STAGE_CONTRACT.json and not yet run. This is not
-checked SAVE2000, client routing, after-use restore, independent audit or release
-acceptance. A owns shared callers/types/registry/default installation/release.
+Native6candidate708c4658/run40034224254/job120689628663 PASS6/6, complete
+Original independently checked:47 source files/12 pre-use22-group inverses,
+restore/advisors/all5 package gates exact. Actual2000 synthetic+2 existing fixture
+products/202000 movements reached real DONE in51 units, request2830ms, slowest
+unit235ms; full source checks1475/1446/1416ms. Full raw capture stays INCOMPLETE,
+complete SQL history coverage is separate, and genuine unknowns remain unknown.
+Legacy method/initial_auto/hash, cross-method UUID refusal, explicit work receipt
+replay/calendar staleness, current access/K2 and used inverse-before-DDL passed.
+
+SOURCE_MANIFEST's prototype runtime_qualified:false was predeclared before this
+composed qualification; immutable run receipt `ow13c/708c465-bounded6-pass.json`
+is the actual component evidence. Do not alter qualified source pins to relabel
+that declaration. This does not qualify checkedSAVE2000, newmethod real browser,
+after-use restore, independent audit or A release. Default/shared files stay A.

@@ -1,10 +1,10 @@
 {
   "contract": "cp7.bounded-client-helper-check.v1",
-  "client_tests": 145,
-  "test_files": 6,
+  "client_tests": 147,
+  "test_files": 7,
   "typescript": "PASS",
-  "screen_new_method_connected": "EXPLICIT_PROP_DRIVER_TESTED_PARENT_DEFAULT_STILL_NATIVE_PENDING_DATABASE_PROOF",
-  "actual_native_proof": false,
+  "screen_new_method_connected": "PARENT_BOUNDED_SELECTED_AFTER_NATIVE6_PASS_ACTUAL_NEW_METHOD_BROWSER_PENDING",
+  "actual_native_proof": "708c465-bounded6-pass.json",
   "actual_shared_gate": "FAIL_12_UNMERGED_RPC_PAIRS",
   "missing_exact_pairs": [
     "src/MandorCorrectionPanel.tsx:erp_cp7_correct_mandor_v1",
@@ -30,5 +30,7 @@
   "A_files_not_written": true,
   "production_go": false,
   "old_native_screen_tests_retained": true,
-  "new_screen_recovery_cases": 6
+  "new_screen_recovery_cases": 6,
+  "parent_direct_bounded_entry": true,
+  "prior_initial_analysis_integration_tests_retained": true
 }

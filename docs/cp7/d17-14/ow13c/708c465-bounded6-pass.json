@@ -1,0 +1,188 @@
+{
+  "contract": "cp7.bounded-staged-native6-pass.v1",
+  "candidate": "708c4658eba779cce2b05f7e6822726f6a8de32d",
+  "tree": "eba44e6a48b177825ab6fb92e3841d3fc3001e15",
+  "source": "bb598f82c2ea5a71639c5c83a09d058324348752",
+  "run_id": 40034224254,
+  "job_id": 120689628663,
+  "status": "PASS",
+  "expected": 6,
+  "observed": 6,
+  "counts": {
+    "PASS": 6
+  },
+  "source_files_exact": 47,
+  "preuse22_exact": 12,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "declaration_sha256": "039711de66aa5db1e56e3b157fc4e019a96a2c34306fb33168f95b12d1f092fd",
+  "original": {
+    "artifact_id": 12537065633,
+    "bytes": 203469,
+    "sha256": "1be5ebaa5542e2dd64e8296b2ed1f4aba66f7390b8db55797a43224f216a0beb"
+  },
+  "complete_original_independently_checked": true,
+  "actual_bounded_Native_job_and_full_freshness_qualified": true,
+  "all_six_native_results": {
+    "OW13C_BOUNDED_STAGE_CATALOG22_AND_LEGACY_HASH": {
+      "status": "PASS",
+      "explicit_seven_replacements_preserve_owners_and_ACLs": true,
+      "legacy_work_fingerprint_exact": true,
+      "new_public_request_authenticated_only": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    "OW13C_BOUNDED_STAGE_LEGACY_AND_CROSS_METHOD_UUID": {
+      "status": "PASS",
+      "legacy_work_response_and_SAVE_contract_exact": true,
+      "actual_old_initial_auto_dispatch_preserved": true,
+      "new_route_cannot_enter_initial_auto": true,
+      "exact_new_method_request_replay": true,
+      "both_cross_method_UUID_routes_refused": true,
+      "changed_query_refused": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    "OW13C_BOUNDED_STAGE_REAL_DONE_AND_PAGES": {
+      "status": "PASS",
+      "real_Native_request_step_DONE_header_and_all_pages": true,
+      "immutable_reference_and_real_units_retained": true,
+      "request_millis": 32.063,
+      "step_count": 17,
+      "slowest_step_millis": 13.757,
+      "page_count": 1,
+      "targets_total": 2,
+      "header_utf8_bytes": 11211,
+      "page_utf8_bytes_max": 83954,
+      "page_utf8_bytes_total": 83954,
+      "uneven_ranges": false,
+      "financial_deferred_and_genuine_unknowns_preserved": true,
+      "no_physical_stock_money_HPP_write": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    "OW13C_BOUNDED_STAGE_DENSE2000_202000_DONE_FRESHNESS": {
+      "status": "PASS",
+      "products": 2000,
+      "movements": 202000,
+      "actual_products": 2002,
+      "raw_native_capture_remains_INCOMPLETE": true,
+      "real_Native_bounded_staged_DONE": true,
+      "full_raw_stock_digest_rows": 202001,
+      "request_millis": 2830.464,
+      "step_count": 51,
+      "slowest_step_millis": 235.238,
+      "full_source_check_millis": [
+        1475.131,
+        1446.048,
+        1416.373
+      ],
+      "statement_limit": "8s",
+      "wall_limit_ms": 8000,
+      "page_count": 1,
+      "targets_total": 2002,
+      "header_utf8_bytes": 331128,
+      "page_utf8_bytes_max": 1268078,
+      "page_utf8_bytes_total": 1268078,
+      "uneven_ranges": false,
+      "actual_Native_stock_change_stales_job_and_work": true,
+      "no_ERP_write_by_analysis_or_freshness": true,
+      "actual_checked_SAVE2000_qualified": false,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    "OW13C_BOUNDED_STAGE_WORK_REVIEW_REPLAY_AND_STALE": {
+      "status": "PASS",
+      "new_response_variant_explicit": true,
+      "exact_SAVE_UUID_replay": true,
+      "own_calendar_write_stales_old_analysis_new_capture_current": true,
+      "actual_stock_change_SAVE_refused40001": true,
+      "no_refused_command_or_plan_or_ERP_effect": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    "OW13C_BOUNDED_STAGE_CURRENT_ACCESS_K2_AND_USED_INVERSE": {
+      "status": "PASS",
+      "actual_new_job_blocks_inverse_before_any_DDL": true,
+      "foreign_actor_denied": true,
+      "current_deactivated_request_denied": true,
+      "actual_DONE_K2_work_and_source_readers_refuse": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    }
+  },
+  "actual_checked_SAVE2000_qualified": false,
+  "actual_new_method_browser_qualified": false,
+  "after_use_restore_qualified": false,
+  "full_OW13c_acceptance": false,
+  "full_A_chain_qualified": false,
+  "production_go": false,
+  "remaining": "Connect parent bounded work UI, qualify actual newmethod browser, genuine checked SAVE2000 three fresh UUIDs under8s, after-use restore and A full chain. Parent5/16."
+}

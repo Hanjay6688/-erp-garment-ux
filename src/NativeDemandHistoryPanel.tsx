@@ -88,7 +88,7 @@ function Workspace({onSourceReadStart,onSourceReadEnd,onOpenMaster}:SourceReadPr
    {modelSelection?<NativeModelEvaluationPanel {...modelSelection} onSourceReadStart={planningReadStart} onSourceReadEnd={planningReadEnd} onClose={()=>setModelSelection(null)}/>:null}
    {selected?<NativePlanningProfilePanel product={selected.product} query={selected.query} onSourceReadStart={planningReadStart} onSourceReadEnd={planningReadEnd} onClose={closePlanning}/>:null}
    {analysisQuery?<NativeAnalysisPanel key={analysisMount} query={analysisQuery} onSourceReadStart={analysisReadStart} onSourceReadEnd={analysisReadEnd} onClose={closeAnalysis}/>:null}
-   {workQuery?<NativeProductionPlanningPanel query={workQuery} onSourceReadStart={planningReadStart} onSourceReadEnd={planningReadEnd} onClose={closeWork}/>:null}
+   {workQuery?<NativeProductionPlanningPanel sourceMethod="BOUNDED" query={workQuery} onSourceReadStart={planningReadStart} onSourceReadEnd={planningReadEnd} onClose={closeWork}/>:null}
   </>:null}
  </section>
 }
