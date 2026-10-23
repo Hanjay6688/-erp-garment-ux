@@ -70,6 +70,24 @@ dasar dan pemeriksa owning sumber tetap tepat; A saja penggabung.
 
 ## Bukti yang ada dan yang masih wajib
 
+Lanjutan24 Okt: [Native5 e94d2507](e94d250-native5-pass.json) PASS5/5
+(jangkar lama+4 negatif produk/policy/bahan/kapasitas), dan
+[WIP Native2 b543ce0](b543ce0-wip2-pass.json) PASS2/2 (jangkar lama+1 batas
+200→201 grup posted Native nyata, tanpa clone). Keduanya28 sumber/8 invers22/
+restore/advisor/5 gate paket tepat. Bahan/kapasitas memakai Original baru
+UNCHANGED sehingga benar-benar menolak kelayakan. WIP201 UNKNOWN/null dibuktikan
+preview lama, checked menolak sumber berubah; tidak mengklaim unchanged-source
+WIP. Jangkar berulang tidak menambah kredit. Tidak mengulang31/25/19.
+
+[SAVE2000 pertama fa3375eb](fa3375e-scale2-first-incomplete.json) INCOMPLETE1/2:
+penyimpanan belum tercapai, sebab persiapan memakai capture supply lama dan
+menerima CP7_PLANNING_CAPTURE_INCOMPLETE pada2000/202000. Sumber supply lama
+berbatas1000 produk/50000 gerakan; current schedule review masih bergantung
+pada handle itu. Perbaikan perlu jalur review jadwal dari sumber bertahap yang
+nyata dan lengkap, bukan menaikkan batas lama/memalsukan hash/mengecilkan data.
+B belum memperoleh angka waktu SAVE2000;8s tetap. Original/log kegagalan utuh
+tersimpan. Tidak ada job lama yang masih berjalan atau perlu diulang.
+
 Native31 membuktikan fresh SAVE/UUID replay/0 efek stok-uang-fisik, sumber
 stok berubah ditolak, UUID lama tidak dilabel ulang, used-receipt menahan
 invers sebelum DDL;4 race checked-save (UUID/revisi/stok/akses setelah wait),
@@ -79,9 +97,9 @@ kualifikasi aplikasi dari awal sampai akhir.
 
 Yang masih terbuka sesuai daftar awal:
 
-- Penolakan kelayakan tambahan pada jalur checked: produk/policy berubah,
-  WIP unknown, bahan/kapasitas tidak cukup; nilai tidak menjadi0/100% dan
-  tidak ada efek draf/receipt yatim. Kontrak preview/apply lama tetap.
+- Negatif produk/policy/bahan/kapasitas dan WIP sumber berubah telah terbukti
+  sesuai batas bukti di atas. Jalur WIP unknown dengan sumber UNCHANGED tidak
+  diklaim. Kontrak preview/apply lama tetap.
 - Waktu SAVE aktual dengan2000 produk di bawah8detik termasuk kedua
   pemeriksaan sumber penuh; volume caller2000 yang sudah lulus bukan ini.
 - Backup/restore caller/receipt yang sudah dipakai, dengan UUID/history,

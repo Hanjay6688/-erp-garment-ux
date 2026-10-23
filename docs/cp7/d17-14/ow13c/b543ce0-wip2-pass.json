@@ -1,0 +1,126 @@
+{
+  "contract": "cp7.writer-component-receipt.v1",
+  "status": "PASS",
+  "candidate": "b543ce0bcb964a4037fc6fb0e6e3a0a8fdc6c4a3",
+  "tree": "3bfeaf2e9ea56ac1f879e25ee9605952a40c22f3",
+  "application_source": "5b6ca459f1ea62666384088a2a9855663a1267a2",
+  "run_id": 40002836272,
+  "job_id": 120583102547,
+  "run_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/40002836272",
+  "expected_case_count": 2,
+  "observed_case_count": 2,
+  "groups": {
+    "native": {
+      "PASS": 2
+    }
+  },
+  "predeclared_case_sha256": "0c8e08e97bb36547f279d4f74790f18af0b9405cbe88dcd00f09b926c392d5fa",
+  "source_files_sha256_matched_candidate": [
+    "scripts/cp7_reorder_inputs/MANIFEST.json",
+    "scripts/cp7_reorder_inputs/__init__.py",
+    "scripts/cp7_reorder_inputs/capture.sql",
+    "scripts/cp7_reorder_inputs/capture_source.py",
+    "scripts/cp7_reorder_inputs/history.sql",
+    "scripts/cp7_reorder_inputs/points.sql",
+    "scripts/cp7_reorder_inputs/read.sql",
+    "scripts/cp7_reorder_inputs/source.sql",
+    "scripts/cp7_reorder_inputs/stock.sql",
+    "scripts/cp7_reorder_reader_stage/MANIFEST.json",
+    "scripts/cp7_reorder_reader_stage/__init__.py",
+    "scripts/cp7_reorder_reader_stage/cache.sql",
+    "scripts/cp7_reorder_caller_stage/MANIFEST.json",
+    "scripts/cp7_reorder_caller_stage/__init__.py",
+    "scripts/cp7_reorder_caller_stage/alert_row.sql",
+    "scripts/cp7_reorder_caller_stage/compute.sql",
+    "scripts/cp7_reorder_caller_stage/evaluate.sql",
+    "scripts/cp7_reorder_caller_stage/fg_source.sql",
+    "scripts/cp7_reorder_caller_stage/item_line.sql",
+    "scripts/cp7_reorder_caller_stage/refresh.sql",
+    "scripts/cp7_reorder_caller_stage/save_manual.sql",
+    "scripts/cp7_reorder_caller_stage/save_settings.sql",
+    "scripts/cp7_reorder_caller_stage/state.sql",
+    "scripts/cp7_reorder_caller_stage/workspace.sql",
+    "scripts/cp7_cutting_checked_save/MANIFEST.json",
+    "scripts/cp7_cutting_checked_save/__init__.py",
+    "scripts/cp7_cutting_checked_save/save.sql",
+    "scripts/cp7_cutting_checked_save/schema.sql"
+  ],
+  "preuse_22_exact_stages": 8,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "native_results": {
+    "OW13C_NATIVE_FRESH_SAVE_REPLAY_AND_NO_PHYSICAL_FACT": {
+      "status": "PASS",
+      "actual_Native_staged_source_preflight_and_writer": true,
+      "exact_UUID_replay": true,
+      "no_stock_money_or_physical_posting": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    "OW13C_NATIVE_ACTUAL_WIP200_201_UNKNOWN_STALE_REFUSAL": {
+      "status": "PASS",
+      "exact_message": "CP7_CUTTING_SUGGESTION_SOURCE_CHANGED",
+      "sqlstate": "40001",
+      "no_new_draft_intent_receipt_or_cutting_group": true,
+      "existing_ERP_rows_stock_money_HPP_unchanged": true,
+      "all_added_receipts_and_cuts_through_actual_Native_public_writers": true,
+      "initial_posted_groups": 1,
+      "added_posted_groups": 200,
+      "model_posted_groups": 201,
+      "boundary200_WIP": "COMPLETE",
+      "boundary201_WIP": "UNKNOWN",
+      "unknown_reason": "MODEL_WIP_GROUP_LIMIT",
+      "unknown_WIP_and_need_preserved_as_null": true,
+      "source_state": "ARCHIVED_STALE",
+      "actual_checked_route_refused": true,
+      "unchanged_source_WIP_refusal_claim": false,
+      "model_WIP_limit_unchanged": 200,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    }
+  },
+  "repeated_positive_anchor_case_credit": 0,
+  "new_WIP_case_count": 1,
+  "checked_save_races_qualified": false,
+  "checked_save_browser_qualified": false,
+  "caller_backup_restore_qualified": false,
+  "full_OW13c_acceptance": false,
+  "full_A_chain_qualified": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "parent_completed_count": "5/16",
+  "original": {
+    "artifact_id": 12523745881,
+    "file_name": "b543ce0-wip2-complete.zip",
+    "bytes": 111550,
+    "sha256": "f832285f6a82376d661d92562cf24400961b7837ee0528e832b0a0ea80da58c8",
+    "complete_report_preserved": true
+  }
+}
