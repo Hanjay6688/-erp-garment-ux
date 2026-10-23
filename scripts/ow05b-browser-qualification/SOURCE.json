@@ -9,7 +9,7 @@
     "scripts/ow05b-browser-qualification/browser.mjs": "cc3040496b6b248a0f8512fe0f6778baa47d39cde5f251bc9a529cda844a9388",
     "scripts/ow05b-browser-qualification/probe.py": "6574c4e7467429da241a16dad42dd4cbb3a81c766d14d0f6719ed2418a892c86",
     "scripts/ow04-payment-current-qualification/copy_authority.py": "cfdc3b899e335dd13a9456242ed5158b718ac5c56d9b1ebf06c4571eda2cc7a2",
-    ".github/workflows/cp7-ow05b-browser.yml": "3bf72045559baf1e038106ef448eb979d52228c1414820cba4dfa633c9733bc8",
+    ".github/workflows/cp7-ow05b-browser.yml": "e0cbf9956c6a43b88cf2d5a3c497c922bff693dd4096f74842e63d5daa244eed",
     "src/MandorCorrectionPanel.tsx": "f0a708246766ef8b3198d0f1bd88032feb91e0de840b66e2cc22440d4d9f7b7e",
     "src/MandorCorrectionPanel.dom.test.tsx": "784bb78117bd654d18952512434658caff792e3bd0d60c0ed38542eada8af93b",
     "src/mandorCorrectionContract.ts": "bf6f023ee2e6926b305e34a0bee2f013a6e6e53b4719704f3a0d699ed94790f2",
