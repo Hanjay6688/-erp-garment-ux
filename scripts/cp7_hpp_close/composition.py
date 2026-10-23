@@ -1,4 +1,8 @@
-"""OW-07 stage over the complete qualified OW05 product: close waits for undivided HPP pools.
+"""OW-07 stage over the qualified OW-09 stage: close waits for undivided HPP pools.
+
+OW-15 chain: OW05, OW06, kasbon, fgqc, OW05b, OW08a, OW12a, OW-09, then this stage. No stage below declares or
+changes erp.period_blockers_v1, the two attendance HPP pool writers or the cp7_hpp_close schema (each one's
+22-group catalog admission refuses any undeclared function change).
 
 Three installed Native functions get the counted delta of native_delta.py and one
 private reader is added. No table, trigger, grant or business row changes, so removal
@@ -9,16 +13,17 @@ from hashlib import sha256
 from pathlib import Path
 import re
 
-from cp7_contractor_correction import composition as predecessor
+from cp7_ow09_lists import composition as predecessor
 from cp7_hpp_close import native_delta
 
 ROOT=Path(__file__).resolve().parent
 SCHEMA='cp7_hpp_close'
 READER='cp7_hpp_close.blockers_v1(date)'
 ROLES=('anon','authenticated','service_role','cp7_capture','cp7_hpp_pool_read','cp7_hpp_pool_write')
-catalog=predecessor.predecessor.catalog
-atomic=predecessor.predecessor.atomic
-as_owner=predecessor.predecessor.payment.consumer.as_owner
+catalog=predecessor.catalog
+atomic=predecessor.atomic
+as_owner=predecessor.as_owner
+base=predecessor.base  # chain interface (OW-15)
 CAPTURED={}
 
 
@@ -60,7 +65,7 @@ def install(cur):
             raise ValueError('OW07_NEW_FUNCTION_SET_CHANGED')
         admit_catalog(before,after,definitions)
         state=dict(sources=sources(),predecessor=previous,predecessor_proof=proof,before=before,after=after,
-            originals=originals,definitions=definitions,seeded_private_rows=predecessor.predecessor.base.private_rows(cur))
+            originals=originals,definitions=definitions,seeded_private_rows=base.private_rows(cur))
         verify(cur,state)
         return state
 
