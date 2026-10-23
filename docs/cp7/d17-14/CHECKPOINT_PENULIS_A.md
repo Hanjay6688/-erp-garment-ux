@@ -13,7 +13,8 @@ jendela berikutnya sekitar 2 jam 20 menit sebelum reset (pengingat 03.50 UTC). K
 Pengingat terjadwal: 20.58 UTC mode hemat (tidak memulai pekerjaan besar baru, gabung dan push semua commit
 pembantu, perbarui berkas ini), 01.10 UTC jalan normal lagi.
 
-Diperbarui: 22 Okt 2026, 21.00 UTC (23 Okt 04.00 WIB), mode hemat.
+Diperbarui: 23 Okt 2026, 01.15 UTC (08.15 WIB). Jendela kuota baru mulai sekitar 01.12 UTC, reset sekitar 06.12 UTC; mode hemat
+sekitar 03.50 UTC. Satu dispatch OW-12a (39882795647) untuk menguji apakah registry image sudah melayani lagi.
 
 ## Sudah terbukti (uji database penuh atau browser lulus)
 
