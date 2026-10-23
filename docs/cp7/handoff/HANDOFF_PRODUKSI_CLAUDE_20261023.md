@@ -49,21 +49,25 @@ Fixb508bf77 setUTCsejakawal+restoreGUC, equalitysemuabaris/hash tetap dan
 menambahdiff. Delapan kontrol kemudianPASS. PelajaranWR-METADATA-COMPARE-UTC
 hanya ditambah ke akhir ERP_BEST. Tidak mengubah tanggal fisik/recorded/clock.
 
-**Aktif sekarang: Native11 konteks selesai/gagal/kedaluwarsa.** Source
-5656deebc34ca36a9829c3c270cab93fc55a00d5, kandidat
-`1eb55680bef0c76fde944fa45fcf7f282b19065f`, treedb2790c4,
+**Native11 konteks selesai, gagal, dan kedaluwarsa sudah PASS11/11.**
+[Receipt 1eb55680](../d17-14/ow13c/1eb5568-contexts11-pass.json),
 [run40013059616](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/40013059616)
-/job120618058316 sedang berjalan, hasil belum tersedia. KontrakCONTEXTS
-SHA2b071f05a9abd4e2fb73a5c99b1c355ea54f1b26ddaef6780775adfde6a0453d.
-Seluruh8 ID lama tetap+3baru:DONEvalid,expiredDONE,FAILEDriwayat nyata dan
-expiryFAILED. Riwayat padat benar-benar membuat stepFAILED; reference yang
-nyata/tetapcurrent boleh untuk metadata pekerjaan, tanpa mengubah stateFAILED/
-historyINCOMPLETE menjadiDONE atau kuantitas. Planoptionsfailedrun tetap42501.
-K2 kini dicek untukRUNNING/DONE/FAILED;7hariberasalkeputusanowner8Okt,
-fixtureage()K2 hanyaupdated_atdiberilabelsynthetic, bukan tanggalfisik/clock.
-Native8PASS membuktikan versi sebelumnya; acceptanceFAILED ini belum qualified
-sampai Native11 lulus. Ini mencegah runner menghentikan analisis lalu membuat
-form jadwal yang sedang diisi tak dapat disimpan padahal data pekerjaan valid.
+/job120618058316. Kandidat `1eb55680bef0c76fde944fa45fcf7f282b19065f`,
+tree `db2790c4747181c94202e24956256f0a4cb48fe5`: 32 sumber tepat,
+9 invers sebelum pakai masing-masing 22 pemeriksaan, restore/advisor dan 5 gate paket lulus.
+Delapan kasus sebelumnya tetap, ditambah DONE valid, DONE kedaluwarsa,
+dan FAILED akibat riwayat padat nyata beserta kedaluwarsa FAILED.
+Kontrak CONTEXTS SHA 2b071f05a9abd4e2fb73a5c99b1c355ea54f1b26ddaef6780775adfde6a0453d.
+Reference pekerjaan yang nyata dan masih sesuai boleh dipakai menyimpan metadata;
+state FAILED dan history INCOMPLETE tetap demikian, plan options tetap ditolak 42501.
+K2 berlaku pada RUNNING/DONE/FAILED; 7 hari berasal dari keputusan owner 8 Oktober.
+Fixture K2 hanya mengubah updated_at sintetis, tanpa mengubah tanggal fisik atau clock.
+Original artifact12527881809, 315263 bytes, SHA
+6c07edcbc83cab6f4705968ab804b7b1081438f04bc05317a68d78730673ed7c.
+
+**Aktif sekarang: sambungan layar jadwal.** GET/SAVE baru belum dipakai frontend;
+pekerjaan berikutnya mempertahankan UUID lama, isian belum disimpan, dan penolakan akses terkini.
+Native11 adalah bukti Native, belum bukti Auth/browser/race untuk facade baru.
 
 GET memakai UUID permintaan job (`p_source_request`), SAVE memakai realrun
 UUID dariGET+marker/sourcehash/revisi/config/alasan. Native validator kerja/
@@ -120,7 +124,7 @@ Sumber yang wajib dibaca saat mengambil alih:
   [selesai untuk diuji](../d17-14/SELESAI_UNTUK_DIUJI.md),
   [koordinasi](../d17-14/KOORDINASI.md): konteks keputusan/status lengkap,
   permintaan pemilik berkas dan bukti per butir. Entri awal koordinasi adalah
-  riwayat, bukan status terbaru; bagian36 mencatat Native8PASS dan kandidat aktifNative11 beserta batas buktinya.
+  riwayat, bukan status terbaru; bagian36 mencatat Native8 PASS; bagian37 mencatat Native11 PASS dan batas buktinya.
 - [Praktik ERP](../../ERP_BEST_PRACTICES.md): append-only, idempotensi, current
   access sesudah wait/response, latest corrected wins, dua sumbu tanggal,
   transaksi/envelope lintas modul atomik, draf tidak authoritative, UNKNOWN≠0.

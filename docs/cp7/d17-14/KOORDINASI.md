@@ -798,3 +798,10 @@ globalcensus danrantaiA tetapA. DensehistoryactualSAVE2000,Auth/race/browser,
 after-use/OW11/bridge3600/audit/CP7C tetapOPEN;parent5/16.2facadebarureserved
 sama:get_staged_production_schedule_v1(p_source_request) dan
 save_staged_production_schedule_v1(p_payload,p_request), belumdefault.
+
+
+## 37. Native11 PASS; sambungan layar mulai (24 Oktober 2026 WIB)
+
+Kandidat `1eb55680bef0c76fde944fa45fcf7f282b19065f`, run40013059616/job120618058316 PASS11/11; receipt `ow13c/1eb5568-contexts11-pass.json`. Delapan kasus sebelumnya tetap, ditambah DONE, kedaluwarsa DONE, serta FAILED riwayat padat nyata dan kedaluwarsa FAILED. 32 sumber, 9 invers22, restore/advisor/5 gate paket tepat. Original12527881809/315263bytes/SHA6c07edcbc83cab6f4705968ab804b7b1081438f04bc05317a68d78730673ed7c.
+
+B menyambungkan facade jadwal baru ke layar milik B; UUID lama harus tetap menuju facade lama, metadata riwayat INCOMPLETE/FAILED tidak menjadi angka atau DONE. Belum ada bukti baru Auth/browser/race, actual checked SAVE2000, after-use restore, ataupun rantai penuh A. A tetap pemilik installer/default/types/registry/global census. Parent tetap5/16.
