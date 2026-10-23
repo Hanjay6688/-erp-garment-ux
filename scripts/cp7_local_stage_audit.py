@@ -46,7 +46,7 @@ class Cursor:
 
 def main():
     name=sys.argv[1]
-    if name not in('cp7_target_policy_stage','cp7_analysis_finance_bridge'):
+    if name not in('cp7_target_policy_stage','cp7_analysis_finance_bridge','cp7_initial_analysis_stage'):
         raise ValueError('LOCAL_STAGE_NOT_ALLOWLISTED')
     module=importlib.import_module(name)
     cur=Cursor();cur.execute('begin')

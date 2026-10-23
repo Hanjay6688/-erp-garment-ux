@@ -1,0 +1,12 @@
+{
+  "sql_sha256": "2cc240a5ada4b9e0c4bd09635e193d8b4f28375d4498410f3963ee8f5e921d0f",
+  "before_bodies": {
+    "cp7_analysis_stage.request(jsonb,uuid)": [
+      "45313cc81b68fe6a4dbbb1df5fb2251efc5714be55ccbb2d1f27ad8b39b5d4f4",
+      "d5078106e4530133bcf42f88d9cff84badd1a481baed35fba72dabe29965fc09"
+    ],
+    "cp7_alert_native.analysis_tick()": [
+      "7da103cf368f2ec7a6aebbaa8cd50bf8a3237cf615a6d7c2335cf5700a25a497"
+    ]
+  }
+}

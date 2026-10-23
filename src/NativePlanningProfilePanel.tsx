@@ -8,7 +8,8 @@ import {servicePercent} from './fgReorderContract'
 import {readNativeDemandRequest,persistNativeDemandRequest,clearNativeDemandRequest,nativeDemandRequestKey,type NativeDemandRow,type NativeDemandQuery} from './nativeDemandHistory'
 import {parsePlanningProfile,planningPayload,checkPlanningOutcome,parseNativeBaseline,readPlanningRequest,persistPlanningRequest,clearPlanningRequest,planningRequestKey,type PlanningProfile,type PlanningRequest,type PlanningConfig,type NativeBaseline,type BaselineRow} from './nativePlanningProfile'
 import './native-planning-profile.css'
-type Props={product:NativeDemandRow;query:NativeDemandQuery;onSourceReadStart:()=>void;onSourceReadEnd:()=>void;onClose:()=>void}
+export type PlanningProduct=Pick<NativeDemandRow,'rootId'|'sizeId'|'sku'|'productName'>
+type Props={product:PlanningProduct;query:NativeDemandQuery;onSourceReadStart:()=>void;onSourceReadEnd:()=>void;onClose:()=>void}
 const permissions=['master.product.view','production.wip.view','warehouse.stock.view','sales.invoice.view']
 export default function NativePlanningProfilePanel(props:Props){
  const{runtime,identity}=useAuth();if(runtime.mode!=='DISPOSABLE_TEST'||identity.status!=='AUTHORIZED'||!permissions.every(p=>identity.permissions.includes(p)))return null

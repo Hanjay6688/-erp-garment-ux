@@ -1,0 +1,90 @@
+{
+  "classification": "LOCAL_REAL_INITIAL_SQL_AND_STAGED_JOB_WITH_CONTROLLED_ERP_SOURCE_IDENTITY_AND_WA_UNIT_NOT_NATIVE",
+  "status": "FAIL",
+  "passed": 6,
+  "total": 9,
+  "sql_sha256": "1fd8e7800a78aad32ba5e07444b69c6adb0f16cbf03db15e56be11a979641ffd",
+  "installer": {
+    "classification": "LOCAL_REAL_INSTALLER_AND_PG_CATALOG_VIA_CONTROLLED_TRANSPORT_NOT_NATIVE",
+    "stage": "cp7_initial_analysis_stage",
+    "status": "PASS",
+    "catalog_groups": 22,
+    "apply_rollback_reapply_exact": true,
+    "admission_passed": true,
+    "full_A_chain_qualified": false,
+    "production_go": false,
+    "after_use_refusal": "OW13A_AFTER_USE_REQUIRES_BACKUP_RESTORE",
+    "after_use_refused_before_first_DDL": true
+  },
+  "results": [
+    {
+      "id": "OW13A_LOCAL_MISSING_DATA_NO_JOB",
+      "status": "PASS",
+      "observed": {
+        "missing_products": true,
+        "no_job": true
+      }
+    },
+    {
+      "id": "OW13A_LOCAL_MISSING_AND_STALE_PROFILE",
+      "status": "PASS",
+      "observed": {
+        "missing_and_wrong_version_and_ambiguous_profile_refused": true,
+        "incomplete_source_refused": true
+      }
+    },
+    {
+      "id": "OW13A_LOCAL_READY_READ_ONLY_THEN_ENSURE_EXACT_JOB",
+      "status": "PASS",
+      "observed": {
+        "real_create_job_and_status": true,
+        "operational_only": true,
+        "single_UUID_and_capture": true
+      }
+    },
+    {
+      "id": "OW13A_LOCAL_REPEATED_CLOCK_AND_SOURCE_NEVER_RESPAWN",
+      "status": "PASS",
+      "observed": {
+        "unchanged_minutes_no_repeat": true,
+        "changed_source_is_labelled": true,
+        "failed_or_expired_no_retry_loop": true
+      }
+    },
+    {
+      "id": "OW13A_LOCAL_CLOSED_MODE_AND_LEGACY_REQUEST_REPLAY",
+      "status": "PASS",
+      "observed": {
+        "mixed_mode_refused": 5,
+        "legacy_full_JSON_replay": true,
+        "changed_legacy_body_refused": true
+      }
+    },
+    {
+      "id": "OW13A_LOCAL_CURRENT_OWNER_AND_FRESH_RIGHTS",
+      "status": "FAIL",
+      "error": "AssertionError [ERR_ASSERTION]: Missing expected rejection.\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async file:///workspace/scratch/05009cca93f2/erp-production-recovered-20261023b/scripts/cp7_ow13a_initial_local.mjs:129:89\n    at async test (file:///workspace/scratch/05009cca93f2/erp-production-recovered-20261023b/scripts/cp7_ow13a_initial_local.mjs:89:71)\n    at async file:///workspace/scratch/05009cca93f2/erp-production-recovered-20261023b/scripts/cp7_ow13a_initial_local.mjs:126:1"
+    },
+    {
+      "id": "OW13A_LOCAL_SERVER_TICK_WITHOUT_WA_AND_CLAIMS_RESTORED",
+      "status": "FAIL",
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n3 !== 4\n\n    at file:///workspace/scratch/05009cca93f2/erp-production-recovered-20261023b/scripts/cp7_ow13a_initial_local.mjs:139:9\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async test (file:///workspace/scratch/05009cca93f2/erp-production-recovered-20261023b/scripts/cp7_ow13a_initial_local.mjs:89:71)\n    at async file:///workspace/scratch/05009cca93f2/erp-production-recovered-20261023b/scripts/cp7_ow13a_initial_local.mjs:133:1"
+    },
+    {
+      "id": "OW13A_LOCAL_LEGACY_TICK_CONTINUES_AND_FAILED_INITIAL_IS_VISIBLE",
+      "status": "FAIL",
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n+ actual - expected\n\n+ 'RUNNING'\n- 'FAILED'\n\n    at file:///workspace/scratch/05009cca93f2/erp-production-recovered-20261023b/scripts/cp7_ow13a_initial_local.mjs:145:146\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async test (file:///workspace/scratch/05009cca93f2/erp-production-recovered-20261023b/scripts/cp7_ow13a_initial_local.mjs:89:71)\n    at async file:///workspace/scratch/05009cca93f2/erp-production-recovered-20261023b/scripts/cp7_ow13a_initial_local.mjs:143:1"
+    },
+    {
+      "id": "OW13A_LOCAL_IMMUTABLE_INTENT_AND_PRIVATE_GRANTS",
+      "status": "PASS",
+      "observed": {
+        "intent_append_only": true,
+        "public_roles_have_no_private_access": true
+      }
+    }
+  ],
+  "full_A_chain_qualified": false,
+  "production_go": false,
+  "fix_notes": "Controlled identity epoch was outside the actual access projection; fixture private tables lacked the frozen capture owner. Product permission checks and failure expectations were retained."
+}

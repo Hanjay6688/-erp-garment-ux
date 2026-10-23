@@ -1,0 +1,76 @@
+{
+  "job": {
+    "stage": "HIST_PREP",
+    "state": "FAILED",
+    "run_id": null,
+    "failure": {
+      "code": "CP7_CONTROLLED_FAILURE",
+      "unit": 0,
+      "sqlstate": "P0001"
+    },
+    "reference": {
+      "captured_at": "2026-10-23T00:00:00+00:00",
+      "source_hash": "4cadf8f71349b4a4996e3931e7f6b089c6bf6e7ffcca0f0fa9920dec47e9dc1b"
+    },
+    "retention": {
+      "days": 7,
+      "state": "EXPIRED",
+      "kept_until": "2026-10-22T00:42:50.223+00:00"
+    },
+    "plan_final": false,
+    "request_id": "c32efdb2-7ff4-466c-b321-dc7abb5d99ae",
+    "unit_count": 1,
+    "units_done": 0,
+    "stage_count": 1,
+    "stage_index": 1,
+    "apply_enabled": false,
+    "production_go": false,
+    "server_runner": {
+      "active": false,
+      "last_tick_at": null
+    },
+    "targets_total": 1,
+    "unit_attempts": 0,
+    "contract_version": "cp7.native-analysis-staged-job.v1",
+    "last_progress_at": "2026-10-15T00:42:50.223+00:00",
+    "targets_done_in_stage": 0
+  },
+  "actor": "00000001-1111-4111-8111-111111111111",
+  "query": {
+    "from_date": "2026-09-23",
+    "group_mode": "AS_SOLD",
+    "through_date": "2026-10-22"
+  },
+  "state": "EXPIRED",
+  "job_query": {
+    "from_date": "2026-09-23",
+    "group_mode": "AS_SOLD",
+    "through_date": "2026-10-22"
+  },
+  "readiness": {
+    "ready": true,
+    "reasons": [],
+    "candidates": [
+      {
+        "sku": "LOCAL-INITIAL",
+        "root_id": "00000010-1111-4111-8111-111111111111",
+        "size_id": "00000012-1111-4111-8111-111111111111",
+        "product_id": "00000011-1111-4111-8111-111111111111",
+        "product_name": "Controlled initial analysis",
+        "profile_ready": true
+      }
+    ],
+    "products_total": 1,
+    "active_products": 1,
+    "candidate_limit": 20,
+    "eligible_targets": 1
+  },
+  "checked_at": "2026-10-23T00:42:50.312000Z",
+  "apply_enabled": false,
+  "production_go": false,
+  "semantic_hash": "852bb480b18b66655c9c10aacc09e194d37e7d3b6d927d6027fc54e62d2e2ae0",
+  "source_changed": true,
+  "automatic_scope": "INITIAL_ONCE",
+  "contract_version": "cp7.initial-analysis.v1",
+  "job_semantic_hash": "7bd40d8ae904e4c28a1361477c690448a184196e5fd1016e7fae917408b3d9a8"
+}

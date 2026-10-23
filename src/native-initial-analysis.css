@@ -1,0 +1,5 @@
+.native-initial{padding:16px;margin:12px 0;border:1px solid var(--line,#c6d2e2);border-radius:10px;background:var(--panel-2,#f3f6fb);color:var(--text,#19314e);min-width:0}
+.native-initial h3{margin:0 0 8px}.native-initial p,.native-initial li{line-height:1.6;overflow-wrap:anywhere}
+.native-initial-products{display:grid;gap:10px}.native-initial-products>div{display:flex;justify-content:space-between;align-items:center;gap:12px;min-width:0}
+.native-initial-products span{overflow-wrap:anywhere;min-width:0}.native-initial button{max-width:100%;white-space:normal;overflow-wrap:anywhere}
+@media(max-width:700px){.native-initial{padding:12px}.native-initial-products>div{display:grid;grid-template-columns:minmax(0,1fr)}.native-initial-products button{justify-self:start}}

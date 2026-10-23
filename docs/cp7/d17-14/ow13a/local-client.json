@@ -1,0 +1,16 @@
+{
+  "classification": "LOCAL_CLIENT_DOM_TYPES_CSS_AND_REQUESTED_REGISTRY_PATCH_NOT_NATIVE",
+  "status": "PASS",
+  "client_files": 17,
+  "client_tests": 197,
+  "focused_reopen_files": 5,
+  "focused_reopen_tests": 42,
+  "typescript": "PASS",
+  "css": "PASS",
+  "frozen_owning_sources": "PASS",
+  "source_ownership_in_repo": "BLOCKED_BY_7_SHARED_REGISTRY_PAIRS_OWNED_BY_A",
+  "source_ownership_with_exact_requested_patch_on_scratch_copy": "PASS",
+  "log_sha256": "f659d8e1ed317dd7bf9218775c1665594aaae115ba157b347f18c746597a637c",
+  "Native_qualification": false,
+  "production_go": false
+}

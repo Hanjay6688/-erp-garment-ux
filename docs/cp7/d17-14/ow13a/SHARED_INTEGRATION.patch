@@ -1,0 +1,12 @@
+--- a/scripts/check-source-ownership.mjs
++++ b/scripts/check-source-ownership.mjs
+@@ -92,2 +92,9 @@
+ assert.deepEqual([...rpcOwnership].sort(), [
++  'src/NativeCuttingStatusPanel.tsx:erp_cp7_get_cutting_status_policy_request_v1',
++  'src/NativeCuttingStatusPanel.tsx:erp_cp7_get_cutting_status_v1',
++  'src/NativeCuttingStatusPanel.tsx:erp_cp7_save_cutting_status_policy_v1',
++  'src/MandorCorrectionPanel.tsx:erp_cp7_correct_mandor_v1',
++  'src/MandorCorrectionPanel.tsx:erp_cp7_get_mandor_correction_v1',
++  'src/MandorCorrectionPanel.tsx:erp_cp7_get_sewing_completion_v1',
++  'src/NativeInitialAnalysisPanel.tsx:erp_cp7_request_staged_analysis_v1',
+   'src/NativeFabricRecipePanel.tsx:erp_cp7_get_fabric_recipe_v1',

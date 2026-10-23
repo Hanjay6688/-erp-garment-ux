@@ -1,0 +1,118 @@
+{
+  "classification": "LOCAL_REAL_INITIAL_SQL_AND_STAGED_JOB_WITH_CONTROLLED_ERP_SOURCE_IDENTITY_AND_WA_UNIT_NOT_NATIVE",
+  "status": "PASS",
+  "passed": 11,
+  "total": 11,
+  "sql_sha256": "2cc240a5ada4b9e0c4bd09635e193d8b4f28375d4498410f3963ee8f5e921d0f",
+  "installer": {
+    "classification": "LOCAL_REAL_INSTALLER_AND_PG_CATALOG_VIA_CONTROLLED_TRANSPORT_NOT_NATIVE",
+    "stage": "cp7_initial_analysis_stage",
+    "status": "PASS",
+    "catalog_groups": 22,
+    "apply_rollback_reapply_exact": true,
+    "admission_passed": true,
+    "full_A_chain_qualified": false,
+    "production_go": false,
+    "after_use_refusal": "OW13A_AFTER_USE_REQUIRES_BACKUP_RESTORE",
+    "after_use_refused_before_first_DDL": true
+  },
+  "results": [
+    {
+      "id": "OW13A_LOCAL_MISSING_DATA_NO_JOB",
+      "status": "PASS",
+      "observed": {
+        "missing_products": true,
+        "no_job": true,
+        "no_profile_actor_no_impersonation": true
+      }
+    },
+    {
+      "id": "OW13A_LOCAL_MISSING_AND_STALE_PROFILE",
+      "status": "PASS",
+      "observed": {
+        "missing_and_wrong_version_and_ambiguous_profile_refused": true,
+        "incomplete_source_refused": true
+      }
+    },
+    {
+      "id": "OW13A_LOCAL_READY_READ_ONLY_THEN_ENSURE_EXACT_JOB",
+      "status": "PASS",
+      "observed": {
+        "real_create_job_and_status": true,
+        "operational_only": true,
+        "single_UUID_and_capture": true
+      }
+    },
+    {
+      "id": "OW13A_LOCAL_REPEATED_CLOCK_AND_SOURCE_NEVER_RESPAWN",
+      "status": "PASS",
+      "observed": {
+        "unchanged_minutes_no_repeat": true,
+        "changed_source_is_labelled": true,
+        "failed_or_expired_no_retry_loop": true
+      }
+    },
+    {
+      "id": "OW13A_LOCAL_CLOSED_MODE_AND_LEGACY_REQUEST_REPLAY",
+      "status": "PASS",
+      "observed": {
+        "mixed_or_nonobject_modes_refused": 7,
+        "legacy_full_JSON_replay": true,
+        "changed_legacy_body_refused": true
+      }
+    },
+    {
+      "id": "OW13A_LOCAL_CURRENT_OWNER_AND_FRESH_RIGHTS",
+      "status": "PASS",
+      "observed": {
+        "wrong_role_inactive_missing_right_refused": true,
+        "revocation_after_source_no_orphan": true,
+        "existing_facts_withheld_on_changed_access": true
+      }
+    },
+    {
+      "id": "OW13A_LOCAL_EXISTING_OWN_JOB_HOLDS_INITIAL",
+      "status": "PASS",
+      "observed": {
+        "own_running_job_for_different_query_holds_initial_without_duplication": true
+      }
+    },
+    {
+      "id": "OW13A_LOCAL_REUSES_IDENTICAL_EXISTING_MANUAL_JOB",
+      "status": "PASS",
+      "observed": {
+        "same_owner_query_access_and_semantic_source_reuses_manual_UUID": true,
+        "no_extra_job_or_unit_or_capture_mark": true
+      }
+    },
+    {
+      "id": "OW13A_LOCAL_SERVER_TICK_WITHOUT_WA_AND_CLAIMS_RESTORED",
+      "status": "PASS",
+      "observed": {
+        "real_tick_before_WA_configuration": true,
+        "all_three_claim_settings_restored": true,
+        "no_browser_or_WA_request": true,
+        "second_tick_same_UUID_and_no_source_recapture": true,
+        "revoked_and_nonowner_profile_actors_skipped": true
+      }
+    },
+    {
+      "id": "OW13A_LOCAL_LEGACY_TICK_CONTINUES_AND_FAILED_INITIAL_IS_VISIBLE",
+      "status": "PASS",
+      "observed": {
+        "legacy_unit_still_called": true,
+        "initial_error_observable_without_breaking_legacy_unit": true
+      }
+    },
+    {
+      "id": "OW13A_LOCAL_IMMUTABLE_INTENT_AND_PRIVATE_GRANTS",
+      "status": "PASS",
+      "observed": {
+        "intent_append_only": true,
+        "public_roles_have_no_private_access": true
+      }
+    }
+  ],
+  "full_A_chain_qualified": false,
+  "production_go": false
+}
