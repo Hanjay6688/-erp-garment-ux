@@ -23,6 +23,22 @@ diberikan. Jangan mengulang19/25/31 yang sudah lulus tanpa perubahan/risiko
 baru. Handoff ini untuk A/Claude atau penerusnya; B tetap scope produksi dan
 perencanaan, A tetap integrator, uang/stok/HPP/laporan dan pemilik sharedfiles.
 
+**Lanjutan sesudah checkpoint:** suite terpisah Native5 sedang berjalan pada
+kandidat `e94d25075b4770b4c55f48a68eb7cc1252bb2584`, tree
+`890d052fcf95ecd7b0052aa9aeca050bd29fa825`,
+[run40001211363](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/40001211363)
+/job120577462881. Hasilnya **belum tersedia**. Kontrak
+`ow13c/NEGATIVE_NATIVE_CONTRACT.json`, SHA
+`49d3694d5b32f8464c86f397d9426e39ed8548af39f4546eadc19b8ca0451e16`:
+1 fresh SAVE/replay diulang sebagai jangkar (0 kredit baru),4 negatif baru
+produk/policy/bahan/kapasitas. Produk adalah fixture master admin yang diberi
+label; policy memakai CAS publik. Bahan/kapasitas memakai grup Native target
+lain lalu analisis baru, wajib UNCHANGED dan kode kelayakan tepat, bukan sekadar
+penolakan sumber kedaluwarsa. Semua penolakan harus menjaga draf/intent/receipt/
+grup dan baris ERP/uang/stok/HPP.31/25/19 lama tidak diulang atau dilabel ulang;
+kode aplikasi dan SQL tetap identik kandidat Native31. Tidak ada kredit baru
+HTTP/browser/race/skala/after-use/rantai A dari suite terfokus ini.
+
 ## Tujuan dan sumber konteks
 
 VENI. VIDI. VICI. ERP.
