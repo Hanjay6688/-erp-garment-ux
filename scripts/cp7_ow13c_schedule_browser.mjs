@@ -128,3 +128,4 @@ export function cases(ui,today,method='NATIVE'){return[
  ['OW13C_SCHEDULE_BROWSER_DESKTOP_STALE_DIRTY',()=>journey(ui,today,false,method)],
  ['OW13C_SCHEDULE_BROWSER_MOBILE_LOST_REPLY',()=>journey(ui,today,true,method)],
 ]}
+export {open as openWorkPlanning,fill as fillWorkPlanning}

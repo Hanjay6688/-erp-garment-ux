@@ -1,0 +1,8 @@
+--- a/scripts/check-source-ownership.mjs
++++ b/scripts/check-source-ownership.mjs
+@@ -387,0 +388,5 @@
++  'src/nativeBoundedQuantity.ts:erp_cp7_get_staged_analysis_v1',
++  'src/nativeBoundedQuantity.ts:erp_cp7_step_staged_analysis_v1',
++  'src/nativeBoundedQuantity.ts:erp_cp7_read_staged_analysis_pages_v1',
++  'src/nativeBoundedQuantity.ts:erp_cp7_read_staged_analysis_page_v1',
++  'src/nativeBoundedQuantity.ts:erp_cp7_check_staged_analysis_source_v1',

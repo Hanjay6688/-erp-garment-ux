@@ -10,6 +10,7 @@ import {parseStagedJob} from './nativeStagedJob'
 import type {StagedReference} from './nativeAnalysisPages'
 import {readStagedSchedule,saveStagedSchedule} from './nativeStagedSchedule'
 import {BOUNDED_ANALYSIS_REQUEST,boundedAnalysisRequestKey,readBoundedAnalysisRequest,persistBoundedAnalysisRequest,clearBoundedAnalysisRequest,requestBoundedAnalysis,type StagedSourceMethod,type BoundedAnalysisRequest} from './nativeBoundedAnalysis'
+import NativeBoundedQuantityPanel from './NativeBoundedQuantityPanel'
 import './native-production-planning.css'
 
 type Props={query:NativeDemandQuery;sourceMethod?:StagedSourceMethod;onSourceReadStart:()=>void;onSourceReadEnd:()=>void;onClose:()=>void}
@@ -47,6 +48,9 @@ function Workspace({query,sourceMethod='NATIVE',onSourceReadStart,onSourceReadEn
  const[supplyRecovery,setSupplyRecovery]=useState(()=>readNativeDemandRequest(supplyScope)),[stagedRecovery,setStagedRecovery]=useState(()=>readNativeDemandRequest(stagedScope)),[netRecovery,setNetRecovery]=useState(()=>readNativeDemandRequest(netScope)),[saveRecovery,setSaveRecovery]=useState(()=>readScheduleRequest(scope))
  const[boundedRecovery,setBoundedRecovery]=useState(()=>readBoundedAnalysisRequest(boundedScope))
  const[busy,setBusy]=useState(false),[error,setError]=useState(''),[message,setMessage]=useState(''),[search,setSearch]=useState('')
+ const[quantityOpen,setQuantityOpen]=useState(false),[quantityBusy,setQuantityBusy]=useState(false)
+ const quantityStart=useCallback(()=>{setQuantityBusy(true);onSourceReadStart()},[onSourceReadStart])
+ const quantityEnd=useCallback(()=>{setQuantityBusy(false);onSourceReadEnd()},[onSourceReadEnd])
  const canSave=identity.permissions.includes('master.product.manage')
  const adopt=useCallback((w:ScheduleWorkspace)=>{setBase(w);setForm(formFrom(w));setMessage('')},[])
  const begin=()=>{const n=++seq.current;active.current=true;setBusy(true);setSource(null);setWorkspace(null);setNet(null);setError('');setMessage('');onSourceReadStart();return n}
@@ -54,7 +58,7 @@ function Workspace({query,sourceMethod='NATIVE',onSourceReadStart,onSourceReadEn
  useEffect(()=>()=>{++seq.current;if(active.current){active.current=false;onSourceReadEnd()}},[onSourceReadEnd])
  useEffect(()=>{const listener=(e:StorageEvent)=>{if(e.key===null||[nativeDemandRequestKey(supplyScope),nativeDemandRequestKey(stagedScope),boundedAnalysisRequestKey(boundedScope),nativeDemandRequestKey(netScope),scheduleRequestKey(scope)].includes(e.key)){++seq.current;active.current=false;setBusy(false);setSource(null);setWorkspace(null);setNet(null);setSupplyRecovery(readNativeDemandRequest(supplyScope));setStagedRecovery(readNativeDemandRequest(stagedScope));setBoundedRecovery(readBoundedAnalysisRequest(boundedScope));setNetRecovery(readNativeDemandRequest(netScope));setSaveRecovery(readScheduleRequest(scope));onSourceReadStart();onSourceReadEnd()}};addEventListener('storage',listener);return()=>removeEventListener('storage',listener)},[scope,supplyScope,stagedScope,boundedScope,netScope,onSourceReadStart,onSourceReadEnd])
  const loadStaged=async(retry=false,recoveryMethod?:StagedSourceMethod)=>{
-  if(active.current)return
+  if(active.current||quantityBusy)return
   const n=begin()
   try{const held=readNativeDemandRequest(stagedScope),bounded=readBoundedAnalysisRequest(boundedScope),method=retry?(recoveryMethod??sourceMethod):sourceMethod
    if(!retry&&(held.error||bounded.error||held.pending||bounded.pending))throw Error(held.error||bounded.error||'Periksa permintaan stok proses yang sama terlebih dahulu.')
@@ -69,7 +73,7 @@ function Workspace({query,sourceMethod='NATIVE',onSourceReadStart,onSourceReadEn
   }catch(e){if(n===seq.current)setError(normalizeClientError(e).message)}finally{end(n)}
  }
  const loadSupply=async(retry=false)=>{
-  if(active.current)return
+  if(active.current||quantityBusy)return
   const n=begin()
   try{const held=readNativeDemandRequest(supplyScope);if(held.error)throw Error(held.error);if(retry&&!held.pending)throw Error('Permintaan stok proses tersimpan tidak tersedia.');if(!retry&&held.pending)throw Error('Periksa permintaan stok proses yang sama terlebih dahulu.')
    const request=retry?held.pending!:{id:crypto.randomUUID(),q:query};if(!retry)persistNativeDemandRequest(supplyScope,request);setSupplyRecovery(readNativeDemandRequest(supplyScope))
@@ -79,7 +83,7 @@ function Workspace({query,sourceMethod='NATIVE',onSourceReadStart,onSourceReadEn
   }catch(e){if(n===seq.current)setError(normalizeClientError(e).message)}finally{end(n)}
  }
  const checkSupply=async()=>{
-  if(active.current||!source)return;const previous=source,n=begin()
+  if(active.current||quantityBusy||!source)return;const previous=source,n=begin()
   if(previous.kind==='STAGED'){
    try{const reply=await readStagedSchedule(client,previous.requestId);if(n!==seq.current)return;if(reply.error)throw reply.error;const w=parseStagedScheduleWorkspace(reply.data,previous.requestId,previous.reference,previous.runId,previous.method);setSource(previous);setWorkspace(w)}catch(e){if(n===seq.current)setError(normalizeClientError(e).message)}finally{end(n)}
    return
@@ -89,14 +93,15 @@ function Workspace({query,sourceMethod='NATIVE',onSourceReadStart,onSourceReadEn
   }catch(e){if(n===seq.current)setError(normalizeClientError(e).message)}finally{end(n)}
  }
  const save=async(retry=false)=>{
-  if(active.current||!canSave)return;const n=begin()
+  if(active.current||quantityBusy||!canSave)return;const n=begin()
   try{const held=readScheduleRequest(scope);if(held.error)throw Error(held.error);if(retry&&!held.pending)throw Error('Permintaan jadwal tersimpan tidak tersedia.');if(!retry&&held.pending)throw Error('Periksa permintaan jadwal yang sama terlebih dahulu.')
    const request:ScheduleRequest=retry?held.pending!:{id:crypto.randomUUID(),payload:schedulePayload(base!,configFrom(form!),form!.reason),...(base?.staged?.method==='BOUNDED'?{sourceMethod:'BOUNDED' as const}:{})};if(!retry)persistScheduleRequest(scope,request);setSaveRecovery(readScheduleRequest(scope))
    const r=request.payload.staged_review_contract?await saveStagedSchedule(client,request):await client.rpc('erp_cp7_save_production_schedule_v1',{p_payload:request.payload,p_request:request.id});if(n!==seq.current)return;if(r.error){const refusal=firstScheduleRefusal(r.error,retry);if(refusal){clearScheduleRequest(scope,request.id);setSaveRecovery(readScheduleRequest(scope));throw Error(refusal)}throw r.error}checkScheduleOutcome(r.data,request);clearScheduleRequest(scope,request.id);setSaveRecovery(readScheduleRequest(scope));setMessage('Jadwal tersimpan. Ambil sumber terbaru untuk memeriksa versi jadwal dan menghitung kekurangan.')
   }catch(e){if(n===seq.current)setError(normalizeClientError(e).message)}finally{end(n)}
  }
  const calculate=async(retry=false)=>{
-  if(active.current)return
+  if(active.current||quantityBusy)return
+  if(sourceMethod==='BOUNDED'&&!retry){setQuantityOpen(true);return}
   const n=begin()
   try{const held=readNativeDemandRequest(netScope);if(held.error)throw Error(held.error);if(retry&&!held.pending)throw Error('Permintaan kekurangan tersimpan tidak tersedia.');if(!retry&&held.pending)throw Error('Periksa permintaan kekurangan yang sama terlebih dahulu.')
    const request=retry?held.pending!:{id:crypto.randomUUID(),q:query};if(!retry)persistNativeDemandRequest(netScope,request);setNetRecovery(readNativeDemandRequest(netScope))
@@ -104,7 +109,7 @@ function Workspace({query,sourceMethod='NATIVE',onSourceReadStart,onSourceReadEn
   }catch(e){if(n===seq.current)setError(normalizeClientError(e).message)}finally{end(n)}
  }
  const checkNet=async()=>{
-  if(active.current||!net)return;const previous=net,n=begin()
+  if(active.current||quantityBusy||!net)return;const previous=net,n=begin()
   try{const r=await client.rpc('erp_cp7_read_netting_v1',{p_run:previous.runId});if(n!==seq.current)return;if(r.error)throw r.error;const result=parseNativeNetting(r.data,previous.query);if(result.runId!==previous.runId||result.sourceHash!==previous.sourceHash)throw Error('Arsip kekurangan server berubah.');setNet(result)}catch(e){if(n===seq.current)setError(normalizeClientError(e).message)}finally{end(n)}
  }
  const close=()=>{++seq.current;if(active.current){active.current=false;onSourceReadEnd()}onClose()}
@@ -116,15 +121,15 @@ function Workspace({query,sourceMethod='NATIVE',onSourceReadStart,onSourceReadEn
  const editWindow=(key:string,change:Partial<WindowInput>)=>setForm(f=>f?{...f,windows:f.windows.map(w=>w.key===key?{...w,...change}:w)}:f)
  const rows=net?.rows.filter(r=>`${r.sku} ${r.productName}`.toLowerCase().includes(search.toLowerCase()))??[]
  return<section className="native-production panel" aria-label="Jadwal dan kekurangan produksi"><header><div><div className="eyebrow">PERENCANAAN SELURUH PRODUK</div><h2>Jadwal & kekurangan produksi</h2><p>Stok proses dibaca sekaligus untuk seluruh produk. Pekerjaan pelanggan ikut memakai waktu kerja.</p></div><button onClick={close}>Tutup jadwal produksi</button></header>
-  <div className="native-production-actions"><button disabled={busy||pending} onClick={()=>void loadStaged()}>Ambil stok proses terbaru</button>{source?<button disabled={busy||pending} onClick={()=>void checkSupply()}>Periksa sumber stok proses</button>:null}<button disabled={busy||pending||Boolean(message)} onClick={()=>void calculate()}>Hitung kekurangan seluruh produk</button></div>
+  <div className="native-production-actions"><button disabled={busy||quantityBusy||pending} onClick={()=>void loadStaged()}>Ambil stok proses terbaru</button>{source?<button disabled={busy||quantityBusy||pending} onClick={()=>void checkSupply()}>Periksa sumber stok proses</button>:null}<button disabled={busy||quantityBusy||pending||Boolean(message)} onClick={()=>void calculate()}>Hitung kekurangan seluruh produk</button></div>
   {busy?<p role="status">Memeriksa stok proses, jadwal, dan sumber ERP…</p>:null}{error||stagedRecovery.error||boundedRecovery.error||supplyRecovery.error||netRecovery.error||saveRecovery.error?<p role="alert">{error||stagedRecovery.error||boundedRecovery.error||supplyRecovery.error||netRecovery.error||saveRecovery.error}</p>:null}{message?<p role="status">{message}</p>:null}
-  {boundedRecovery.pending?<div role="status"><p>Hasil ambil stok proses belum dipastikan.</p><button disabled={busy} onClick={()=>void loadStaged(true,'BOUNDED')}>Ulangi pembacaan stok proses</button></div>:null}{stagedRecovery.pending?<div role="status"><p>Hasil ambil stok proses belum dipastikan.</p><button disabled={busy} onClick={()=>void loadStaged(true,'NATIVE')}>Ulangi stok proses yang sama</button></div>:null}{supplyRecovery.pending?<div role="status"><p>Hasil ambil stok proses belum dipastikan.</p><button disabled={busy} onClick={()=>void loadSupply(true)}>Pulihkan stok proses versi lama</button></div>:null}{netRecovery.pending?<div role="status"><p>Hasil hitung kekurangan belum dipastikan.</p><button disabled={busy} onClick={()=>void calculate(true)}>Ulangi kekurangan yang sama</button></div>:null}{saveRecovery.pending?<div role="status"><p>Hasil simpan jadwal belum dipastikan.</p><button disabled={busy||!canSave} onClick={()=>void save(true)}>Ulangi simpan jadwal yang sama</button></div>:null}
+  {boundedRecovery.pending?<div role="status"><p>Hasil ambil stok proses belum dipastikan.</p><button disabled={busy||quantityBusy} onClick={()=>void loadStaged(true,'BOUNDED')}>Ulangi pembacaan stok proses</button></div>:null}{stagedRecovery.pending?<div role="status"><p>Hasil ambil stok proses belum dipastikan.</p><button disabled={busy||quantityBusy} onClick={()=>void loadStaged(true,'NATIVE')}>Ulangi stok proses yang sama</button></div>:null}{supplyRecovery.pending?<div role="status"><p>Hasil ambil stok proses belum dipastikan.</p><button disabled={busy||quantityBusy} onClick={()=>void loadSupply(true)}>Pulihkan stok proses versi lama</button></div>:null}{netRecovery.pending?<div role="status"><p>Hasil hitung kekurangan belum dipastikan.</p><button disabled={busy||quantityBusy} onClick={()=>void calculate(true)}>Ulangi kekurangan yang sama</button></div>:null}{saveRecovery.pending?<div role="status"><p>Hasil simpan jadwal belum dipastikan.</p><button disabled={busy||quantityBusy||!canSave} onClick={()=>void save(true)}>Ulangi simpan jadwal yang sama</button></div>:null}
   {workspace?<p className={workspace.state==='UNCHANGED'?'native-demand-current':'native-demand-stale'}>{workspace.state==='UNCHANGED'?'Sumber sesuai saat diperiksa.':'Arsip lama: ambil stok proses terbaru.'} Diambil {formatCp6WibDateTime(workspace.capturedAt)} · jadwal versi {workspace.revision}.</p>:null}
   {workspace?.staged?<p role="status">{workspace.staged.inputCoverage==='COMPLETE'?'Riwayat stok telah dibaca seluruhnya untuk perhitungan. ':workspace.staged.historyState==='INCOMPLETE'?'Riwayat stok belum lengkap untuk menghitung kebutuhan produksi. ':''}{workspace.staged.analysisState==='RUNNING'?'Perhitungan kebutuhan belum selesai. ':workspace.staged.analysisState==='FAILED'?'Perhitungan kebutuhan terhenti. ':''}Pemeriksaan ini menyimpan waktu kerja dan asumsi jadwal; jumlah produksi belum dipastikan.</p>:null}
   {stale?<p role="alert">Sumber atau versi jadwal berubah. Isianmu masih ada. Ambil sumber terbaru, lalu gunakan sumber terbaru sebelum menyimpan.</p>:null}
-  {workspace&&base&&(stale||Boolean(message)||workspace.revision!==base.revision)?<button disabled={busy||pending||workspace.state!=='UNCHANGED'} onClick={()=>adopt(workspace)}>Gunakan sumber jadwal terbaru</button>:null}
+  {workspace&&base&&(stale||Boolean(message)||workspace.revision!==base.revision)?<button disabled={busy||quantityBusy||pending||workspace.state!=='UNCHANGED'} onClick={()=>adopt(workspace)}>Gunakan sumber jadwal terbaru</button>:null}
   {source&&!workComplete?<p role="alert">Jumlah stok proses belum dapat dicocokkan. Jadwal belum bisa disimpan.</p>:null}
-  {form&&base?<form onSubmit={e=>{e.preventDefault();void save()}}><fieldset disabled={busy||pending||!canSave}><legend>Waktu kerja dan perkiraan hasil yang diperiksa</legend><p>Kosong berarti belum diketahui. Isi 0 hanya jika memang sudah diperiksa tidak ada beban lain. Waktu sisa mencakup seluruh pekerjaan pada antrean ini.</p>
+  {form&&base?<form onSubmit={e=>{e.preventDefault();void save()}}><fieldset disabled={busy||quantityBusy||pending||!canSave}><legend>Waktu kerja dan perkiraan hasil yang diperiksa</legend><p>Kosong berarti belum diketahui. Isi 0 hanya jika memang sudah diperiksa tidak ada beban lain. Waktu sisa mencakup seluruh pekerjaan pada antrean ini.</p>
    <div className="native-production-fields"><label>Tempat kerja pilihan<input aria-label="Tempat kerja pilihan" value={form.centre} onChange={e=>edit({centre:e.target.value})} required/></label><label>Batas jadwal (WIB)<input aria-label="Batas jadwal WIB" type="datetime-local" step="1" value={form.through} onChange={e=>edit({through:e.target.value})} required/></label><label>Waktu untuk 1 PCS baru (menit)<input aria-label="Waktu satu PCS baru" inputMode="decimal" placeholder="Belum diketahui" value={form.unit} onChange={e=>edit({unit:e.target.value})}/></label></div>
    {form.windows.map((w,i)=><div key={w.key} className="native-production-window"><h3>Waktu kerja {i+1}</h3><label>Mulai (WIB)<input aria-label={`Mulai kerja ${i+1} WIB`} type="datetime-local" step="1" value={w.start} onChange={e=>editWindow(w.key,{start:e.target.value})} required/></label><label>Selesai (WIB)<input aria-label={`Selesai kerja ${i+1} WIB`} type="datetime-local" step="1" value={w.end} onChange={e=>editWindow(w.key,{end:e.target.value})} required/></label><label>Beban pekerjaan lain (menit)<input aria-label={`Beban lain ${i+1}`} inputMode="decimal" placeholder="Belum diketahui" value={w.load} onChange={e=>editWindow(w.key,{load:e.target.value})}/></label><button type="button" onClick={()=>edit({windows:form.windows.filter(x=>x.key!==w.key)})}>Hapus waktu kerja {i+1}</button></div>)}<button type="button" disabled={form.windows.length>=1000} onClick={()=>edit({windows:[...form.windows,blankWindow()]})}>Tambah waktu kerja</button>
    <p>{base.requirements.length} posisi kerja tercatat. Urutan antrean ini adalah skenario; perhitungan memakai seluruh posisi yang dibaca.</p>
@@ -133,8 +138,9 @@ function Workspace({query,sourceMethod='NATIVE',onSourceReadStart,onSourceReadEn
     {input.steps.map((s,i)=><label key={s.stage}>{stageNames[s.stage]??s.stage}: waktu sisa seluruh pekerjaan (menit)<input aria-label={`${s.stage} menit ${r.key}`} inputMode="numeric" placeholder="Belum diketahui" value={s.minutes} onChange={e=>editWork(r.key,{steps:input.steps.map((x,j)=>j===i?{...x,minutes:e.target.value}:x)})}/></label>)}</article>})}
    <label>Alasan pemeriksaan jadwal<textarea aria-label="Alasan jadwal" maxLength={1000} value={form.reason} onChange={e=>edit({reason:e.target.value})} required/></label><button disabled={!workspace||stale||!workComplete||Boolean(message)}>Simpan jadwal yang diperiksa</button></fieldset></form>:null}
   {!canSave?<p>Hak mengubah aturan produk diperlukan untuk menyimpan jadwal.</p>:null}
-  {net?<article className="native-production-result"><p className={net.state==='UNCHANGED'?'native-demand-current':'native-demand-stale'}>{net.state==='UNCHANGED'?'Sumber sesuai saat diperiksa.':'Arsip lama: hitung kekurangan baru.'} Diambil {formatCp6WibDateTime(net.capturedAt)}.</p><p>Kapasitas untuk produksi baru setelah pekerjaan tercatat: <strong>{qty(net.capacity)}</strong>. Waktu kerja dan hasil bagus memakai asumsi yang dipilih.</p><p>Bahan dan jumlah produksi baru belum dipastikan. Jumlah kosong tetap belum diketahui.</p><button disabled={busy||pending} onClick={()=>void checkNet()}>Periksa sumber kekurangan</button><label>Cari produk<input aria-label="Cari hasil kekurangan" value={search} onChange={e=>setSearch(e.target.value)}/></label><p>{rows.length} dari {net.rows.length} produk. Pencarian hanya mengubah tampilan hasil.</p>
+  {net?<article className="native-production-result"><p className={net.state==='UNCHANGED'?'native-demand-current':'native-demand-stale'}>{net.state==='UNCHANGED'?'Sumber sesuai saat diperiksa.':'Arsip lama: hitung kekurangan baru.'} Diambil {formatCp6WibDateTime(net.capturedAt)}.</p><p>Kapasitas untuk produksi baru setelah pekerjaan tercatat: <strong>{qty(net.capacity)}</strong>. Waktu kerja dan hasil bagus memakai asumsi yang dipilih.</p><p>Bahan dan jumlah produksi baru belum dipastikan. Jumlah kosong tetap belum diketahui.</p><button disabled={busy||quantityBusy||pending} onClick={()=>void checkNet()}>Periksa sumber kekurangan</button><label>Cari produk<input aria-label="Cari hasil kekurangan" value={search} onChange={e=>setSearch(e.target.value)}/></label><p>{rows.length} dari {net.rows.length} produk. Pencarian hanya mengubah tampilan hasil.</p>
    <div className="responsive-table"><table><thead><tr><th scope="col">Produk</th><th scope="col">Kapan perlu ditinjau</th><th scope="col">Target</th><th scope="col">Tersedia</th><th scope="col">Kurang sebelum stok proses</th><th scope="col">Perkiraan bagus tepat waktu</th><th scope="col">Kurang setelah stok proses terikat</th><th scope="col">Kurang setelah pembagian global</th><th scope="col">Kekurangan pertama</th></tr></thead><tbody>{rows.map(r=><tr key={r.key}><td><strong>{r.sku}</strong><small>{r.productName}</small></td><td data-label="Kapan perlu ditinjau"><ReorderTimingCell row={r}/></td><td data-label="Target">{qty(r.target)}</td><td data-label="Tersedia">{qty(r.available)}</td><td data-label="Kurang sebelum stok proses">{qty(r.rawGap)}</td><td data-label="Perkiraan bagus tepat waktu">{qty(r.directed)}</td><td data-label="Kurang setelah stok proses terikat">{qty(r.baseGap)}</td><td data-label="Kurang setelah pembagian global">{qty(r.conditionalGap)}</td><td data-label="Kekurangan pertama">{r.firstGapAt?formatCp6WibDateTime(r.firstGapAt):r.timelineState==='UNKNOWN'?'Belum diketahui':'Tidak ada dalam skenario'}</td></tr>)}</tbody></table></div>
    <p>Titik pesan ulang memakai batas lama produksi. Jumlah target memakai lama produksi + jeda pemeriksaan berikutnya. Perkiraan yang datang di antara kedua batas itu hanya mengurangi jumlah target; barang dalam proses tetap berupa perkiraan.</p></article>:null}
+  {quantityOpen?<NativeBoundedQuantityPanel query={query} onSourceReadStart={quantityStart} onSourceReadEnd={quantityEnd} onClose={()=>setQuantityOpen(false)}/>:null}
  </section>
 }

@@ -34,3 +34,9 @@ composed qualification; immutable run receipt `ow13c/708c465-bounded6-pass.json`
 is the actual component evidence. Do not alter qualified source pins to relabel
 that declaration. This does not qualify checkedSAVE2000, newmethod real browser,
 after-use restore, independent audit or A release. Default/shared files stay A.
+
+Subsequent candidate8f8728bc qualifies newmethod work Entry2 and actual checked
+SAVE2000 (three fresh UUIDs5355/5376/5308ms including both source+feasibility
+checks, exact replay, no ERP effects). Separate run receipts and
+BOUNDED_COMPONENT_MATRIX prove the same47 backend source files. This updates
+the earlier Native6-only scope above; after-use restore/A release stay open.

@@ -29,6 +29,14 @@ export function clearBoundedAnalysisRequest(scope:string,expected:BoundedAnalysi
  const held=readBoundedAnalysisRequest(scope);if(held.error||JSON.stringify(held.pending)!==JSON.stringify(parse(expected)))throw Error('Catatan permintaan berubah. Ulangi permintaan tersimpan yang sama.')
  localStorage.removeItem(boundedAnalysisRequestKey(scope));if(localStorage.getItem(boundedAnalysisRequestKey(scope))!==null)throw Error('Catatan permintaan belum bisa diselesaikan.')
 }
+// A deliberately new calculation replaces the verified finished pointer in
+// one storage write. A failed write leaves the old request recoverable.
+export function replaceBoundedAnalysisRequest(scope:string,expected:BoundedAnalysisRequest,next:BoundedAnalysisRequest){
+ const held=readBoundedAnalysisRequest(scope);if(held.error||JSON.stringify(held.pending)!==JSON.stringify(parse(expected)))throw Error('Catatan permintaan berubah. Ulangi permintaan tersimpan yang sama.')
+ if(next.id===expected.id)throw Error('Perhitungan baru harus memakai nomor permintaan baru.')
+ const raw=JSON.stringify(parse(next));localStorage.setItem(boundedAnalysisRequestKey(scope),raw)
+ if(localStorage.getItem(boundedAnalysisRequestKey(scope))!==raw)throw Error('Permintaan baru belum tersimpan. Periksa penyimpanan.')
+}
 // Only this reviewed new facade is exposed; A owns generated types/registry.
 type BoundedAnalysisClient={rpc(name:'erp_cp7_request_bounded_staged_analysis_v1',args:{p_query:NativeDemandQuery;p_request:string}):PromiseLike<{data:unknown;error:unknown}>}
 export async function requestBoundedAnalysis(client:unknown,request:BoundedAnalysisRequest){
