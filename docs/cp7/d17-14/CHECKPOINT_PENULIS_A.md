@@ -13,10 +13,9 @@ jendela berikutnya sekitar 2 jam 20 menit sebelum reset (pengingat 03.50 UTC). K
 Pengingat terjadwal: 20.58 UTC mode hemat (tidak memulai pekerjaan besar baru, gabung dan push semua commit
 pembantu, perbarui berkas ini), 01.10 UTC jalan normal lagi.
 
-Diperbarui: 23 Okt 2026, 02.00 UTC (09.00 WIB). Jendela kuota baru mulai sekitar 01.12 UTC, reset sekitar 06.12 UTC; mode hemat
-sekitar 03.50 UTC. Satu dispatch OW-12a (39882795647): database sudah menyala lagi (registry melayani); gagal di langkah kasus, log sedang dibaca.
-Antrean ulang: wash, fgqc, OW06 browser, OW05b browser (`ciqueue-after-reset.log`). OW04b dan OW-09 menunggu push non-skip
-untuk mendaftarkan workflow-nya saat antrean longgar.
+Diperbarui: 23 Okt 2026, 02.46 UTC (09.46 WIB). Jendela kuota mulai sekitar 01.12 UTC, reset sekitar 06.12 UTC; mode hemat
+sekitar 03.50 UTC. Registry image melayani lagi; semua run yang tertahan sudah lulus (tabel di bawah). Dua pembantu jalan:
+OW-15 langkah 8 (OW-09 di atas OW12a, cabang `claude/d17-14-chain8`) dan OW-04b bagian C langkah 2.
 
 ## Sudah terbukti (uji database penuh atau browser lulus)
 
@@ -30,6 +29,7 @@ untuk mendaftarkan workflow-nya saat antrean longgar.
 | OW-05b layar ulang | Browser2 2/2 `8438a4a7` (run 39884456248; `ow05/browser2-8438a4a7-pass.json`) |
 | OW-09 tahap daftar (8 pembaca) | Native8 8/8 `559ac537` (run 39885622953; `ow09/native8-559ac537-pass.json`); layar ditahan sampai rantai OW-15 (`ow09/screens/`) |
 | OW-04b bagian 3–4 | Native9+Race3 12/12 `e9b88564` (run 39885599854; `ow04/ow04b-native9-race3-e9b88564-pass.json`) |
+| OW-04b bagian B retur kedua/ketiga | Native6+Race1 7/7 `33760a52` (run 39890202035; `ow04/ow04b-slice-b-native6-race1-33760a52-pass.json`) |
 | OW-04b bagian A bayar sisa sesudah kredit | Native6+Race2 8/8 `33115188` (run 39885477424; `ow04/ow04b-slice-a-native6-race2-33115188-pass.json`) |
 | OW-12a modul angka keuangan | Native7 7/7 `efa800cd` (run 39886155240; `ow12/native7-efa800cd-pass.json`) |
 | OW-08b 2.20 cuci gagal tanpa tarif | Native11 11/11 `efa800cd` (run 39886298512; `ow08/wash-native11-efa800cd-pass.json`) |
@@ -42,16 +42,11 @@ untuk mendaftarkan workflow-nya saat antrean longgar.
 
 ## Belum selesai / berikutnya (urutan kerja)
 
-1. Catat hasil tiga run di atas (lulus: berkas bukti; gagal: simpan kegagalan pertama, betulkan).
-2. OW-08b 2.21 koreksi barang jadi di QC: digabung (`5be35e60`), Native9 dikirim di `2927dd25`; browser OW-05b dan OW-06 diulang
-   karena `src/transactionSource.ts` berubah (diantrekan).
-3. OW-04b: bagian 3–4 dan A lulus (lihat tabel). Bagian B (retur kedua/ketiga) langkah 1–4 di cabang (`scripts/cp7_credit_multi/`,
-   workflow `cp7-ow04b-multi-native.yml`, run 39889035001 berjalan). Bagian C: daftar `ow04/OW04B_SLICE_C_INVENTORY.md`, langkah 1
-   (`scripts/cp7_credit_incoming/`) di cabang; langkah 2 menunggu hasil bagian B. D dan E menunggu 3 keputusan Bos.
-4. OW-09: tahap `scripts/cp7_ow09_lists/` (8 pembaca termasuk aksesori, Native8, workflow `cp7-ow09-native.yml`) sudah
-   di cabang ini (`15fb2a69`, `00385161`), belum pernah jalan di CI (daftarkan dengan push non-skip, sesudah login ghcr bila
-   uji coba OW-12a berhasil). Bagian layar (`d8cd1960`, `2a0a6fb4`) masih di cabang lokal `claude/d17-14-ow09-stage`; digabung
-   hanya sesudah Native8 lulus, karena layar baru mengirim kunci yang ditolak pembaca dasar tanpa tahap ini. Sisa: README
+1. OW-15 langkah 8: OW-09 di atas OW12a (pembantu, cabang `claude/d17-14-chain8`), lalu Native8 di atas rantai.
+2. OW-04b bagian C langkah 2 (pembantu), lalu langkah 3: kasus, uji balapan, workflow.
+3. OW-04b: bagian 3–4 dan A lulus (lihat tabel). Bagian B lulus (lihat tabel). Bagian C: daftar `ow04/OW04B_SLICE_C_INVENTORY.md`, langkah 1
+   (`scripts/cp7_credit_incoming/`) di cabang; langkah 2 sedang dikerjakan. D dan E menunggu 3 keputusan Bos.
+4. OW-09: tahap Native8 lulus (tabel). Bagian layar ditahan di `ow09/screens/` sampai tahap masuk rantai OW-15. Sisa: README
    `ow09/README.md`, cek F04/F05 gagal di base (`cp7_analysis_native.rounded_suggestion` tidak ada, area B), `check-*.mjs`.
 5. Penggabungan harian 17.00 WIB 23 Okt ke `astra/d17-14-integrasi` (pengingat terjadwal 09.35 UTC). Pembanding vitest: base
    50 gagal/2102, gabungan uji 50 gagal/2146, tidak ada kegagalan baru; ke-50 itu uji `tests/cp7/families` yang menolak root.
@@ -59,8 +54,9 @@ untuk mendaftarkan workflow-nya saat antrean longgar.
    (`ow08/fgqc-native9-903b1879-pass.json`; laporan sha256 `56d3294f…`, artifak 12472787961). Langkah 5 lulus: OW05b Native6 6/6 di `197fb3fc` di atas fgqc
    (`ow05/native6-197fb3fc-chain-pass.json`; laporan sha256 `cf004a56…`, artifak 12473826069). Rantai terbukti: OW04 → OW05 →
    OW06 → kasbon → fgqc → OW05b. Urutan diubah (OW04b ke ujung rantai, `ow15/RENCANA_OW15.md`); OW08a di atas OW05b lulus 6/6 di
-   `c6c01275` (`ow08/ow08a-native6-c6c01275-chain-pass.json`; laporan sha256 `69459e5a…`, artifak 12473818897). Berikutnya OW12a
-   di atas OW08a.
+   `c6c01275` (`ow08/ow08a-native6-c6c01275-chain-pass.json`; laporan sha256 `69459e5a…`, artifak 12473818897). OW12a di atas OW08a lulus 7/7
+   di `646a52e0` (`ow12/native7-646a52e0-chain-pass.json`; laporan sha256 `94608fd1…`, artifak 12474329154). Berikutnya OW-09
+   di atas OW12a, lalu OW07, wash, OW04b (followups → A → B → C).
    
 
 ## Antrean uji yang ditahan (registry image menolak unduhan sejak sekitar 20.20 UTC)

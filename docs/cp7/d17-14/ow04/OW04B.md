@@ -115,3 +115,7 @@ Ketiganya tetap terbuka; OW-04 belum boleh disebut selesai.
   membuat kelebihan bayar ditolak (`BASE_OVERFLOW_NONZERO`).
 - Belum: bagian B–E (retur kedua, retur pada invoice yang dibayar kredit, Edit retur, Benerin nota); D dan E menunggu
   keputusan Bos (tiga pertanyaan di `OW04B_MULTI_COHORT_DESIGN.md`).
+- Bagian B (retur kedua, ketiga, dan seterusnya pada invoice lunas): Native6+Race1 7/7 lulus di `33760a52` (run 39890202035),
+  bukti `ow04b-slice-b-native6-race1-33760a52-pass.json`. Invoice 1.000 lunas: retur kedua → bersih 700, kredit 300, piutang 0;
+  retur ketiga → bersih 600, kredit 400; refund retur kedua mengurangi bank 100; dua retur pertama bersamaan → satu tercatat,
+  yang lain ditolak tanpa efek. Kegagalan pertama disimpan (`ow04b-slice-b-b005aafe-first-failure.json`).
