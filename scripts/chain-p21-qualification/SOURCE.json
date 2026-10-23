@@ -1,6 +1,7 @@
 {
  "classification": "OW15_CHAIN_TOP_P21_REHEARSAL",
  "files": {
+  ".github/workflows/cp7-chain-p21.yml": "9bf5a9b4a9222866db7c055e5bf832ab5d40ab85ecf5c4e0da9a13278910f86e",
   "scripts/cp7_p21_current_chain_rehearsal_probe.py": "60f1f2bbf834aadec31b720303a43c71fba7df7d1f663515f6566702ea59bd93",
   "scripts/cp7_p21_chain_adapter.py": "9434b56789fdacf988758156a22143d7d00451c01a9ab92c8ba473037b826b3c",
   "scripts/cp7_chain_restore.py": "1bdedf403f0c4c7458b0498daaaaf583a4567ef628a7dcec1c8c08f804f30186",
