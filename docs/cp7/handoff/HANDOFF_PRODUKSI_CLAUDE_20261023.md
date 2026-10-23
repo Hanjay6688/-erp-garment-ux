@@ -14,6 +14,21 @@ oracle di finally; lokal11+42 lulus, Native berikutnya belum PASS. Detail dan pe
 registry sekarang7 pasangan (patch pengganti6 lama), tipe nullable, callback
 Master dan pemasangan jadwal lama/K4 tanpa syarat konfigurasi WA. OW13a OPEN.
 
+**Kandidat pemeriksaan terbaru:**17d9d62a/run39885283105/job120191923758,
+Native126 benar-benar berjalan; belum ada Original hasil kasus yang dibaca.
+Kandidat ini tidak memuat kernel suplai baru berikut. Pemeriksaan OW16 dan
+OW13b yang terpicu pada39360e5 sudah success; hitungan/Original belum direkonsiliasi
+di checkpoint ini sehingga tidak dipakai menambah klaim kasus.
+
+**Lanjutan OW10:** `cp7_reorder_supply.project` sudah ditulis dengan13 kelompok
+SQL lokal lulus, termasuk64 skenario dua target memakai pembanding integer
+terpisah. Satu pool proyeksi dibagi global, kandidat terpisah dari suplai terarah,
+dua horizon memakai netting yang sama, sumber/periode berubah tetap unknown;
+nilai besar dan stok negatif tepat. Ini helper murni, **belum dipanggil ROP**;
+budget posisi belum disimpan saat ANA_META, sumber/kueri/lead belum disatukan.
+Kontrak sebelum caller di [SUPPLY_PROJECTION_CONTRACT](../d17-14/ow10/SUPPLY_PROJECTION_CONTRACT.md).
+Tidak menghapus fungsi lama dan tidak mengklaim WIP pengingat sudah beres.
+
 B/Codex bekerja di `astra/d17-14-produksi`; A/Claude di `claude/d17-14-uang` dan menjadi satu-satunya
 penggabung `astra/d17-14-integrasi`, sesuai D17-16/17 versi2. Main, kandidat audit beku, Enteng,
 hosted dan WA sungguhan tidak disentuh. Konteks personal tetap privat.
@@ -78,6 +93,13 @@ kontrak header/id untuk diperiksa penggabung.
 OW10 belum boleh disebut bebas hitung ganda: pengingat masih menyalin WIP mentah model+ukuran ke
 beberapa varian. Ganti dengan suplai relevan, berwaktu dan dialokasikan global dari mesin yang sama;
 periode/sumber permintaan serta lead terukur vs asumsi juga belum seragam.
+Kernel konservasi/proyeksi sudah ada di scripts/cp7_reorder_supply/projection.sql dan bukti lokal
+ow10/local-supply-projection.json. Simpan budget dari posisi/ETA global sebelum cleanup K3, lalu
+buat reader job DONE/kept/hash/query/identitas/profil yang cocok, baru pasang caller ROP dan label
+proyeksi. Jangan menganggap helper ini telah mengganti pembaca model lama. First local11/12 tersimpan:
+angka benar, assertion awal keliru menuntut seluruh JSON sama padahal kernel mempertahankan input
+duplikat. Expected kini menyebut tepat dua array input yang berbeda; seluruh angka/status/metadata
+lain tetap diperiksa penuh. Pemeriksa owning sumber dasar dan clash SQL tetap PASS.
 
 OW11a/b: aktivasi metode yang terbukti lebih baik, pembanding produk baru beserta konfirmasi.
 OW12b: Native/rantai A, angka sama dan waktu sebelum/sesudah±3.600 barang. OW13a: Native126,
