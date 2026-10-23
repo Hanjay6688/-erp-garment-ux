@@ -1,0 +1,52 @@
+{
+ "run": 39885599854,
+ "attempt": 1,
+ "job": 120192935895,
+ "head": "e9b88564",
+ "qualification_commit": "e9b88564ec15d6c1bb6bf1c94bf2c8cbf34062c1",
+ "label": "CP7_OW04B_CREDIT_FOLLOWUPS_NATIVE9_RACE3",
+ "status": "PASS",
+ "expected_case_count": 9,
+ "observed_case_count": 9,
+ "observed_race_count": 3,
+ "cases": {
+  "OW04B_FIRST_RETURN_QUOTES_UNCHANGED": "PASS",
+  "OW04B_SECOND_RETURN_NAMES_PRIOR_CREDIT_RETURN": "PASS",
+  "OW04B_RETURN_ON_CREDIT_PAID_INVOICE_NAMES_REASON": "PASS",
+  "OW04B_EDIT_RETUR_ON_CREDIT_INVOICE_NAMES_REASON": "PASS",
+  "OW04B_PAYMENT_ON_CREDIT_PAID_INVOICE_NAMES_REASON": "PASS",
+  "OW04B_BENERIN_NOTA_ON_CREDIT_INVOICES_NAMES_REASON": "PASS",
+  "OW04B_REFUND_EMPTY_BANK_REFUSED_NO_EFFECT_THEN_FUNDED": "PASS",
+  "OW04B_REFUND_BANK_FUNDED_AFTER_REFUND_DATE_REFUSED": "PASS",
+  "OW04B_CONSUMER_REFUND_EMPTY_BANK_REFUSED_NO_EFFECT_THEN_FUNDED": "PASS"
+ },
+ "races": {
+  "OW04B_RACE_TWO_UNDO_APPLY_DISTINCT_UUID": "PASS",
+  "OW04B_RACE_TWO_UNDO_APPLY_SAME_UUID": "PASS",
+  "OW04B_RACE_TWO_UNDO_INITIAL_REFUND_DISTINCT_UUID": "PASS"
+ },
+ "cp6_restored": true,
+ "advisor_gate": true,
+ "restore_raw_public_equal": true,
+ "package_gate": {"installed": true, "primary_unchanged": true, "backup_restore_drill": true, "security_advisors": true, "writer_runtime": true},
+ "every_case": {"full_boundary_restored": true, "public_schema_unchanged": true, "session_leaks": 0, "business_day": "2026-10-23 unchanged"},
+ "report": {"name": "CP7_OW04B_CREDIT_FOLLOWUPS_NATIVE9_RACE3.json", "raw_bytes": 2484110, "raw_sha256": "3ae4ffbf556023e695a9dcaa80a538b1d93eaf1365c2881e303496751c507bb6"},
+ "artifact": "cp7-ow04b-credit-followups-native9-race3 (12472413676)",
+ "case_results": {
+  "OW04B_FIRST_RETURN_QUOTES_UNCHANGED": {"CREDIT": {"credit": "200.00", "components": 1, "refund": null}, "REFUND": {"credit": "200.00", "components": 1, "refund": "200.00"}, "identical_except_captured_at": true},
+  "OW04B_SECOND_RETURN_NAMES_PRIOR_CREDIT_RETURN": {"screen_code": "CP7_CREDIT_INITIAL_SOURCE_FAMILY_UNSUPPORTED", "reasons": ["PRIOR_CREDIT_RETURN"], "sqlstate": "P0001", "message_same_as_original": true},
+  "OW04B_RETURN_ON_CREDIT_PAID_INVOICE_NAMES_REASON": {"message": "CP7_CREDIT_INITIAL_SOURCE_FAMILY_UNSUPPORTED", "reasons": ["CREDIT_APPLIED_TO_INVOICE"], "message_same_as_original": true},
+  "OW04B_EDIT_RETUR_ON_CREDIT_INVOICE_NAMES_REASON": {"screen": "Edit retur", "action": "RETURN_REVERSE", "message": "CP7_CREDIT_REGISTERED_SOURCE_MUTATION_REQUIRES_BOUND_RECONCILIATION", "reasons": ["PRIOR_CREDIT_RETURN"], "message_same_as_original": true},
+  "OW04B_PAYMENT_ON_CREDIT_PAID_INVOICE_NAMES_REASON": {"action": "PAYMENT", "message": "CP7_CREDIT_REGISTERED_SOURCE_MUTATION_REQUIRES_BOUND_RECONCILIATION", "reasons": ["CREDIT_APPLIED_TO_INVOICE"], "open_limit_named": true, "message_same_as_original": true},
+  "OW04B_BENERIN_NOTA_ON_CREDIT_INVOICES_NAMES_REASON": {"screen": "Benerin nota", "source_action": "PAYMENT_REVERSE", "source_reasons": ["PRIOR_CREDIT_RETURN"], "target_action": "SALE_REVERSE", "target_reasons": ["CREDIT_APPLIED_TO_INVOICE"], "message": "CP7_CREDIT_REGISTERED_SOURCE_MUTATION_REQUIRES_BOUND_RECONCILIATION"},
+  "OW04B_REFUND_EMPTY_BANK_REFUSED_NO_EFFECT_THEN_FUNDED": {"refused": "CP7_CASH_NEGATIVE (bank -200.00 on 2026-10-22 or later)", "state_unchanged": true, "same_request_after_funding": "ecbb441c-9008-462f-8c08-76189de99400", "bank_after": "0.00", "refund_events": 1},
+  "OW04B_REFUND_BANK_FUNDED_AFTER_REFUND_DATE_REFUSED": {"refused": "CP7_CASH_NEGATIVE (bank -200.00 on 2026-10-22 or later)", "capital_day": "2026-10-23", "refund_day": "2026-10-22", "state_unchanged": true, "bank_after": "200.00"},
+  "OW04B_CONSUMER_REFUND_EMPTY_BANK_REFUSED_NO_EFFECT_THEN_FUNDED": {"refused": "CP7_CASH_NEGATIVE (bank -80.00 on 2026-10-22 or later)", "state_unchanged": true, "same_request_after_funding": "84b0612c-d851-46a2-a51e-be56b59bb3b6", "bank_after": "0.00", "available_credit_after": "120.00"},
+  "OW04B_RACE_TWO_UNDO_APPLY_DISTINCT_UUID": {"mode": "CREDIT", "same_UUID": false, "two_actual_SQL_sessions": true, "actual_holder_blocks_worker": true, "worker": "refused CP7_CREDIT_CONSUMER_ORIGINAL_ALREADY_UNDONE", "outcome": "UNDO -80.00", "undo_events": 1},
+  "OW04B_RACE_TWO_UNDO_APPLY_SAME_UUID": {"mode": "CREDIT", "same_UUID": true, "two_actual_SQL_sessions": true, "actual_holder_blocks_worker": true, "worker": "ok, committed outcome UNDO -80.00 returned", "undo_events": 1},
+  "OW04B_RACE_TWO_UNDO_INITIAL_REFUND_DISTINCT_UUID": {"mode": "REFUND", "same_UUID": false, "two_actual_SQL_sessions": true, "actual_holder_blocks_worker": true, "worker": "refused CP7_CREDIT_CONSUMER_ORIGINAL_ALREADY_UNDONE", "outcome": "UNDO -200.00", "undo_events": 1}
+ },
+ "OW04b_complete": false,
+ "production_go": false,
+ "independent_acceptance": false
+}
