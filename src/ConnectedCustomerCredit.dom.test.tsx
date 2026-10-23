@@ -16,6 +16,7 @@ vi.mock('./lib/supabase',()=>({getUatSupabaseClient:()=>client}))
 const permissions=['sales.invoice.view','sales.invoice.create','sales.invoice.post','sales.invoice.edit_draft','finance.ar.view','finance.cash.view',
   'sales.return.view','sales.return.create','sales.return.post','sales.return.reverse','sales.payment.view','sales.payment.create','sales.payment.post','sales.payment.reverse']
 function allow(){const a=structuredClone(recoveryIdentity);Object.assign(a.identity.profile,{authUserId:creditActor,rowVersion:1,roleRowVersion:1});a.identity.permissions=permissions.slice();auth.current=a}
+let refusalCode='CP7_CREDIT_CONSUMER_REVIEW_CHANGED'
 let root:Root,container:HTMLDivElement,commits:number,loseReply:boolean,lost:boolean,denyReplay:boolean,wrongReceipt:boolean,readFailure:boolean,refuseInitial:boolean
 let denyQuote:boolean,delayQuote:((value:unknown)=>void)|null,holdQuote:boolean
 let cached:Map<string,ReturnType<typeof creditOutcome>>,original:ReturnType<typeof creditEvent>
@@ -28,7 +29,7 @@ function sales(selected:boolean){
 beforeEach(()=>{
   Object.assign(globalThis,{IS_REACT_ACT_ENVIRONMENT:true});localStorage.clear()
   Object.defineProperty(navigator,'locks',{configurable:true,value:{request:async(_name:string,_options:unknown,callback:(lock:unknown)=>Promise<unknown>)=>callback({})}})
-  commits=0;loseReply=lost=denyReplay=wrongReceipt=readFailure=refuseInitial=denyQuote=holdQuote=false;delayQuote=null;cached=new Map();original=creditEvent();allow();client.rpc.mockReset()
+  refusalCode='CP7_CREDIT_CONSUMER_REVIEW_CHANGED';commits=0;loseReply=lost=denyReplay=wrongReceipt=readFailure=refuseInitial=denyQuote=holdQuote=false;delayQuote=null;cached=new Map();original=creditEvent();allow();client.rpc.mockReset()
   client.rpc.mockImplementation(async(name,args)=>{
     if(name==='erp_cp7_get_sales_v1')return readFailure&&commits?{data:null,error:{message:'Current read unavailable'}}:{data:sales(Boolean(args.p_query.sale_id)),error:null}
     if(name==='erp_cp7_get_customer_credit_workspace_v1') {
@@ -43,7 +44,7 @@ beforeEach(()=>{
     }
     if(name==='erp_cp7_customer_credit_command_v1') {
       if(denyReplay)return {data:null,error:{status:403,code:'42501',message:'Permission revoked before idempotency read'}}
-      if(refuseInitial)return {data:null,error:{code:'P0001',message:'CP7_CREDIT_CONSUMER_REVIEW_CHANGED'}}
+      if(refuseInitial)return {data:null,error:{code:'P0001',message:refusalCode}}
       if(!cached.has(args.p_request)){
         const {quote_sha256:_,...payload}=args.p_payload
         const q=creditReview(payload,original);cached.set(args.p_request,creditOutcome(args.p_request,q));++commits
@@ -134,6 +135,11 @@ describe('consumer UI parent/recovery with declared server contracts',()=>{
     expect(commits).toBe(1);expect(readProductionRecovery(scope()).pending.SALES).toBeUndefined();expect(container.textContent).toContain('refresh authoritative gagal')
     expect(container.querySelector('[aria-label="Saldo kredit pelanggan"]')).toBeNull();expect(button('Buat invoice').disabled).toBe(true)
     readFailure=false;await click(button('Muat ulang invoice'));expect(button('Saldo kredit pelanggan').disabled).toBe(false);expect(sends()).toHaveLength(1)
+  })
+  it('names why an undo or new use is refused when a return on the target invoice depends on it (OW-04b slice C)',async()=>{
+    refusalCode='CP7_CREDIT_CONSUMER_FAMILY_ADJUSTMENT_REVIEW_REQUIRED';refuseInitial=true;await prepare();await click(button('Simpan transaksi kredit'))
+    expect(commits).toBe(0);expect(container.textContent).toContain('retur pada invoice tujuan ikut dihitung dari saldo yang dipakai')
+    expect(container.textContent).toContain('Langkah berikutnya: biarkan pemakaian saldo ini')
   })
   it('keeps editable input after a definite rollback, requires fresh source choices, and allows a reviewed retry',async()=>{
     refuseInitial=true;await prepare();await click(button('Simpan transaksi kredit'))

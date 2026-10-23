@@ -132,4 +132,9 @@ describe('other refusals of the return settlement and the shared client error pa
       .toBe('Saldo Bank (B1) menjadi minus -200.00 pada tanggal 2026-10-21 atau sesudahnya (tanggal ekonomi). Kas/bank tidak boleh minus; catat dulu uang masuk atau pilih rekening lain.')
     expect(normalizeClientError(new TypeError('Failed to fetch')).code).toBe('BACKEND_UNAVAILABLE')
   })
+  it('names the slice C refusal: a credit use a dependent return on the target invoice is built on', () => {
+    const e = normalizeClientError({code:'P0001', message:'CP7_CREDIT_CONSUMER_FAMILY_ADJUSTMENT_REVIEW_REQUIRED'})
+    expect(e.code).toBe('REJECTED')
+    expect(e.message).toBe('Pemakaian saldo ini tidak bisa dibatalkan atau ditambah, karena retur pada invoice tujuan ikut dihitung dari saldo yang dipakai (retur itu menghasilkan saldo kredit atau uang kembali). Langkah berikutnya: biarkan pemakaian saldo ini; bila memang harus dibatalkan, beri tahu admin dengan kode CP7_CREDIT_CONSUMER_FAMILY_ADJUSTMENT_REVIEW_REQUIRED.')
+  })
 })

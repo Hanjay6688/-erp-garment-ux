@@ -100,6 +100,7 @@ export function normalizeClientError(error: unknown): ClientAppError {
     cp7_credit_consumer_original_already_undone: 'Transaksi kredit ini sudah dibatalkan. Muat ulang invoice dan periksa riwayat kredit.',
     cp7_credit_consumer_undo_before_original_physical: 'Waktu pembatalan tidak boleh mendahului transaksi kredit aslinya. Periksa waktu di riwayat kredit.',
     cp7_credit_consumer_physical_source_date_invalid: 'Waktu transaksi kredit harus sesudah retur sumber dan tidak boleh di masa depan. Periksa waktu transaksi WIB.',
+    cp7_credit_consumer_family_adjustment_review_required: 'Pemakaian saldo ini tidak bisa dibatalkan atau ditambah, karena retur pada invoice tujuan ikut dihitung dari saldo yang dipakai (retur itu menghasilkan saldo kredit atau uang kembali). Langkah berikutnya: biarkan pemakaian saldo ini; bila memang harus dibatalkan, beri tahu admin dengan kode CP7_CREDIT_CONSUMER_FAMILY_ADJUSTMENT_REVIEW_REQUIRED.',
     cp7_credit_consumer_physical_before_target: 'Waktu pemakaian saldo tidak boleh mendahului invoice tujuan. Periksa waktu transaksi WIB.',
   }
   if (creditMessages[rawMessage]) return new ClientAppError('REJECTED',creditMessages[rawMessage])
