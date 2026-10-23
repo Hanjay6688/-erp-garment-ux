@@ -12,7 +12,7 @@
   "scripts/cp7_credit_incoming/native_delta.py": "486405968b93424f505ae5e7c255028c3772bf2e8df14577d72cad6f921cb223",
   "scripts/cp7_credit_incoming/native_probe.py": "c7d9b4c078a76e25aaee2f9ceac7093abe43797bf8d137c4833b2a5208afab8b",
   "scripts/ow04bb_native_original.py": "3d337eb302d0553411fa084075c875e3f5fb985ab4ddde6df5a653f34ebb89ec",
-  "docs/cp7/d17-14/ow04/ow04b-slice-b-native6-race1-PENDING_OW04BB_HEAD8-chain-pass.json": "PENDING_OW04BB_RECEIPT_SHA256"
+  "docs/cp7/d17-14/ow04/ow04b-slice-b-native6-race1-464b8bf8-chain-pass.json": "69a61c598bd4d2197f6ed7cbe021932134c6820189dab691c73f708a16dc0eb1"
  },
  "case_ids": [
   "OW04BC_FIRST_RETURN_QUOTES_UNCHANGED",
@@ -28,16 +28,16 @@
  ],
  "native_original": {
   "name": "CP7_OW04BB_MULTI_RETURN_NATIVE6_RACE1.json",
-  "bytes": "PENDING_OW04BB_RAW_BYTES",
-  "sha256": "PENDING_OW04BB_RAW_SHA256",
-  "artifact": "cp7-ow04b-multi-return-native6-race1 (PENDING_OW04BB_ARTIFACT_ID)",
-  "qualification_commit": "PENDING_OW04BB_QUALIFICATION_COMMIT"
+  "bytes": 1880908,
+  "sha256": "bf473bad5292098275585896d9df772f9b389716a2eb1a6a78927b752b9a71e8",
+  "artifact": "cp7-ow04b-multi-return-native6-race1 (12483069287)",
+  "qualification_commit": "464b8bf88fdd6852ae6b9c86ddaef7da532acad5"
  },
  "native_original_run": {
-  "receipt": "docs/cp7/d17-14/ow04/ow04b-slice-b-native6-race1-PENDING_OW04BB_HEAD8-chain-pass.json",
-  "head": "PENDING_OW04BB_HEAD8",
-  "run": "PENDING_OW04BB_RUN_ID",
-  "artifact": "PENDING_OW04BB_ARTIFACT_ID"
+  "receipt": "docs/cp7/d17-14/ow04/ow04b-slice-b-native6-race1-464b8bf8-chain-pass.json",
+  "head": "464b8bf8",
+  "run": 39912682314,
+  "artifact": 12483069287
  },
  "slice": {
   "name": "C",
