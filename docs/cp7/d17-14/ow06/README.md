@@ -28,4 +28,6 @@ Hasil final: f764c508, run39808778963/job119929044980, enam kontrol grup dan emp
 | Browser desktop + HP (Browser2) | `eda58db5` | 39831356518 | Berhenti di langkah menyalakan database uji (server CI). Dua kegagalan sebelumnya karena uji (`browser2-*-first-failure.json`) sudah dibetulkan; dijalankan ulang |
 | Browser desktop + HP (Browser2) | `77a48da6` | 39835578930 | Semua angka uang benar (bank, bayar per penerimaan, koreksi, pembatalan); gagal di satu harapan uji: layar sengaja mengurutkan baris menurut kode penerimaan, uji mengira urutan ketik. Uji dibetulkan, bukti `browser2-77a48da6-allocation-order-failure.json`; dijalankan ulang |
 
-Belum selesai: Browser2 lulus, pemulihan sesudah dipakai (P21) dan sambungan ke pemasang bawaan.
+| Browser desktop + HP (Browser2) | `d8b0164e` | 39884070148 / 120188022797 | **2/2 PASS**: bank -1000 → -750 → 0, bayar per surat jalan 400+600 → 250+500, balasan hilang pulih dengan UUID sama (desktop), lebar HP 390 tanpa geser samping. Bukti `browser2-d8b0164e-pass.json` |
+
+Belum selesai: pemulihan sesudah dipakai (P21) dan sambungan ke pemasang bawaan (rantai OW-15, `ow15/RENCANA_OW15.md`).

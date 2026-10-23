@@ -1,0 +1,17 @@
+{
+ "run": 39883706667,
+ "attempt": 1,
+ "job": 120186835682,
+ "head": "d8b0164e",
+ "label": "CP7_OW09_WHOLE_LIST_NATIVE8",
+ "status": "INCOMPLETE",
+ "report_sha256": "12cf152b5c59",
+ "stopped_at": "install, before any case: composition.function_ddl for cp7_payroll.note_workspace(text,jsonb), the fourth of eight readers (the three before it, owned by cp7_finance_read and cp7_sales_read, passed the same check)",
+ "error": "OW09_VERIFIED_EXISTING_OWNER_CHANGED: cp7_payroll.note_workspace(text,jsonb)",
+ "cases": {},
+ "observed_case_count": 0,
+ "cp6_restored": null,
+ "advisor_gate": null,
+ "cause": "Stage design, not product. The owners were exactly as declared (the install's owner map check passed); the guard refused because the owner role had no CREATE on its own schema. The frozen CP7 bundle grants and then revokes CREATE on cp7_payroll, cp7_fg and cp7_material from their owner read roles after installing (scripts/cp7-src/payroll/ownership.sql and the matching fg/material files: 'revoke create on schema public,cp7_payroll from cp7_payroll_read'), so the owner keeps ownership but not CREATE. CREATE OR REPLACE FUNCTION needs CREATE on the schema. The local rehearsal had schemas whose owners kept CREATE, so it did not show this.",
+ "fix": "function_ddl keeps every check (function owner, schema owner, postgres never given a schema privilege). When the verified owner lacks CREATE on its own schema it grants exactly CREATE to itself for the one CREATE OR REPLACE and revokes it, then requires the schema ACL text to be byte-identical to before; the 22-group catalog admission and the exact restore compare it again. Rehearsed locally with the bundle's revokes reproduced (cp7_fg, cp7_material, cp7_payroll owners without CREATE): install, verify, exact restore and refusal from a non-superuser session pass. scripts/cp7-src unchanged; SOURCE.json refreshed."
+}

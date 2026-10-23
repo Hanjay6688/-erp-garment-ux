@@ -1,0 +1,34 @@
+{
+ "run": 39884070148,
+ "attempt": 1,
+ "job": 120188022797,
+ "head": "d8b0164e",
+ "candidate_commit": "d8b0164eed06a1742f26ab9a68f24a5138ed2073",
+ "label": "CP7_OW06_REAL_BROWSER2",
+ "status": "PASS",
+ "expected_case_count": 2,
+ "observed_case_count": 2,
+ "cases": {
+  "OW06_DESKTOP_TRANSFER_TWO_RECEIPTS_LOST_REPLY_CORRECT_REVERSE": "PASS",
+  "OW06_MOBILE390_TRANSFER_TWO_RECEIPTS_CORRECT_REVERSE": "PASS"
+ },
+ "cp6_restored": true,
+ "advisor_gate": true,
+ "restore_raw_public_equal": true,
+ "package_gate": {"installed": true, "primary_unchanged": true, "backup_restore_drill": true, "security_advisors": true, "writer_runtime": true},
+ "every_case": {"real_login": true, "fixture_created_by_Native_SQL": true, "all_journey_writes_from_actual_UI": true, "timezone": "America/Los_Angeles", "business_day": "2026-10-23 unchanged"},
+ "report": {"name": "CP7_OW06_REAL_BROWSER2.json", "raw_bytes": 266727, "raw_sha256": "34cb52f2bdd068f0be01c54e1088a584af750609e60c6c8352db6f43ca3d84a3"},
+ "artifact": "cp7-ow06-real-browser2 (12472047756)",
+ "highlights": {
+  "created": "400.00+600.00, bank after create -1000.00",
+  "corrected": "250.00+500.00, bank after correction -750.00",
+  "reversed": "whole transfer reversed, bank after reverse 0.00",
+  "lost_reply": "desktop: lost committed reply recovered with the same UUID (true); mobile390: not exercised (false)",
+  "viewport": "desktop 1440 (scroll 1440), mobile 390 (scroll 390)",
+  "second_receipt_chosen_after_new_search": true,
+  "browser_host": "RUN_COMPLETE, console errors 0, users created 2, auth counts restored, database remaining 0"
+ },
+ "OW06_complete": false,
+ "production_go": false,
+ "independent_acceptance": false
+}

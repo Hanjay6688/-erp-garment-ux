@@ -225,6 +225,11 @@ Disusun 16 Okt 2026. Tambahkan aturan baru di bagian yang sesuai, dengan ID temu
     `CP7_FULL_PREDECESSOR_SQL_SOURCE_CHANGED` sebelum database; mengganti pin berarti mengulang kualifikasi seluruh rantai.
     Ubah fungsi yang sudah terpasang dengan penggantian terhitung di tahap Native di atas pendahulu yang lulus. (OW-09,
     CI 39848501244 di `3c3dea91`)
+25j3. **Tahap yang mengubah penulis juga memeriksa semua penjaga pada perubahan keadaan yang sama.** Tahap cuci gagal mengubah
+    penulis dan validator baris, tetapi pemicu lama saat penerimaan laundry di-POST (`guard_cp6_laundry_receipt_lineage_on_post_v2620`)
+    masih menuntut tarif; 8 kasus berhenti di sana. Sebelum CI, cari semua pemicu/penjaga pada tabel dan status yang disentuh
+    (`pg_trigger` + fungsi pemicunya), dan pemeriksa katalog tahap harus memperhitungkan pemicu RI bawaan untuk foreign key.
+    (OW-08b 2.20 CI 39883305777 di `cc5766e7`; OW-12a CI 39882795647 di `16bf8e56`)
 25k. **Server palsu dan alat uji juga tidak boleh mencetak kunci, walau kuncinya palsu.** Server CallMeBot palsu WA-3
     mencetak `apikey` ke log; gerbang CodeQL menolaknya (`py/clear-text-logging-sensitive-data`). Jangan longgarkan
     gerbang: server palsu menerima kunci uji yang diharapkan lewat variabel lingkungan dan hanya mencetak `key_ok`

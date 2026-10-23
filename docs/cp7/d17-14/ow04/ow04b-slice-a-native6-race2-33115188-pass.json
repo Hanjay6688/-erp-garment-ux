@@ -1,0 +1,44 @@
+{
+ "run": 39885477424,
+ "attempt": 1,
+ "job": 120192544562,
+ "head": "33115188",
+ "qualification_commit": "3311518880e31eae05e22489782d3b9e5c65d403",
+ "label": "CP7_OW04BA_REMAINING_PAYMENT_NATIVE6_RACE2",
+ "status": "PASS",
+ "expected_case_count": 6,
+ "observed_case_count": 6,
+ "observed_race_count": 2,
+ "cases": {
+  "OW04BA_PAY_REMAINING_IN_TWO_PARTS_PAID": "PASS",
+  "OW04BA_ONE_CENT_OVER_REFUSED_NO_EFFECT_THEN_EXACT_PAID": "PASS",
+  "OW04BA_REVERSE_REMAINING_PAYMENT_KEEPS_CREDIT": "PASS",
+  "OW04BA_UNDO_CREDIT_AFTER_REMAINING_PAID": "PASS",
+  "OW04BA_BACKDATED_PAYMENT_OVERFUNDING_A_DATE_PAIR_REFUSED": "PASS",
+  "OW04BA_PROTECTED_REFUSALS_IDENTICAL": "PASS"
+ },
+ "races": {
+  "OW04BA_RACE_TWO_PAYMENTS_SAME_REVIEW_DISTINCT_UUID": "PASS",
+  "OW04BA_RACE_TWO_PAYMENTS_SAME_UUID": "PASS"
+ },
+ "cp6_restored": true,
+ "advisor_gate": true,
+ "restore_raw_public_equal": true,
+ "package_gate": {"installed": true, "primary_unchanged": true, "backup_restore_drill": true, "security_advisors": true, "writer_runtime": true},
+ "every_case": {"full_boundary_restored": true, "public_schema_unchanged": true, "session_leaks": 0, "business_day": "2026-10-23 unchanged"},
+ "report": {"name": "CP7_OW04BA_REMAINING_PAYMENT_NATIVE6_RACE2.json", "raw_bytes": 1819241, "raw_sha256": "230d8df2e4967dcb4b79962c016687bc150c0cd86df6c8a66697e263a9445dcf"},
+ "artifact": "cp7-ow04b-remaining-payment-native6-race2 (12472492099)",
+ "case_results": {
+  "OW04BA_PAY_REMAINING_IN_TWO_PARTS_PAID": {"predecessor_refusal": "CP7_CREDIT_REGISTERED_SOURCE_MUTATION_REQUIRES_BOUND_RECONCILIATION (PAYMENT, CREDIT_APPLIED_TO_INVOICE)", "statuses": ["PARTIAL_PAID", "PAID"], "target": {"gross": "500.00", "net": "500.00", "P": "420.00", "U": "80.00", "I": "0.00", "E": "500.00", "AR": "0.00"}, "source_unchanged": true, "no_credit_objects": true},
+  "OW04BA_ONE_CENT_OVER_REFUSED_NO_EFFECT_THEN_EXACT_PAID": {"refused": "Customer payment exceeds exact remaining receivable. Net sale 500.00, already paid 80.00, requested 420.01", "status_after": "PAID", "no_credit_objects": true},
+  "OW04BA_REVERSE_REMAINING_PAYMENT_KEEPS_CREDIT": {"predecessor_refusal": "CP7_CREDIT_SOURCE_INCOMING_HISTORY_ADAPTER_REQUIRED", "status_after": "PARTIAL_PAID", "target": {"gross": "500.00", "net": "500.00", "P": "0.00", "U": "80.00", "I": "0.00", "E": "80.00", "AR": "420.00"}, "credit_kept_U": "80.00", "no_credit_objects": true},
+  "OW04BA_UNDO_CREDIT_AFTER_REMAINING_PAID": {"status_after": "PARTIAL_PAID", "target": {"gross": "500.00", "net": "500.00", "P": "420.00", "U": "0.00", "I": "0.00", "E": "420.00", "AR": "80.00"}, "source_credit_restored": true},
+  "OW04BA_BACKDATED_PAYMENT_OVERFUNDING_A_DATE_PAIR_REFUSED": {"early_payment_date": "2026-10-20T10:30:00.123456+07:00", "accepted_refusals": [["22023", "BASE_OVERFLOW_NONZERO"], ["P0001", "CP7_CREDIT_HISTORICAL_BASE_OVERFUNDING"]], "refusal_hit": {"sqlstate": "22023", "message": "BASE_OVERFLOW_NONZERO"}, "today_payment_status_after": "PAID"},
+  "OW04BA_PROTECTED_REFUSALS_IDENTICAL": {"payment_on_credit_source": "CP7_CREDIT_REGISTERED_SOURCE_MUTATION_REQUIRES_BOUND_RECONCILIATION", "reverse_source_payment_while_credit_used": "CP7_CREDIT_SOURCE_CONSUMERS_REQUIRE_UNDO", "benerin_nota_on_credit_paid_target": "CP7_CREDIT_REGISTERED_SOURCE_MUTATION_REQUIRES_BOUND_RECONCILIATION", "benerin_nota_after_remaining_payment_same_message_no_effect": true, "detail_names_next_unsupported_step": true},
+  "OW04BA_RACE_TWO_PAYMENTS_SAME_REVIEW_DISTINCT_UUID": {"same_UUID": false, "two_actual_SQL_sessions": true, "actual_holder_blocks_worker": true, "worker": "refused CP7_SALES_REVIEW_CHANGED", "posted_payments": 1, "target_after": {"gross": "500.00", "net": "500.00", "P": "300.00", "U": "80.00", "I": "0.00", "E": "380.00", "AR": "120.00"}},
+  "OW04BA_RACE_TWO_PAYMENTS_SAME_UUID": {"same_UUID": true, "two_actual_SQL_sessions": true, "actual_holder_blocks_worker": true, "worker": "ok, committed outcome PAYMENT PARTIAL_PAID returned", "posted_payments": 1, "target_after": {"gross": "500.00", "net": "500.00", "P": "300.00", "U": "80.00", "I": "0.00", "E": "380.00", "AR": "120.00"}}
+ },
+ "OW04b_complete": false,
+ "production_go": false,
+ "independent_acceptance": false
+}

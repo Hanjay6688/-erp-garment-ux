@@ -64,13 +64,26 @@ def as_role(cur,role):
 
 @contextmanager
 def function_ddl(cur,signature):
-    """Replace as the function's verified existing owner; a CP7 owner also owns the schema (so no temporary grant)."""
+    """Replace as the function's verified existing owner, which for a CP7 reader also owns the schema.
+
+    CREATE OR REPLACE needs CREATE on the schema. The CP7 bundle revoked it from the owner role on its own schema after
+    installing (cp7_payroll, cp7_fg, cp7_material; Native8 d8b0164e). The owner then grants exactly CREATE to itself
+    for this one statement and revokes it; the schema ACL must come back byte for byte (and all 22 catalog groups are
+    compared afterwards). postgres is never given a schema privilege here.
+    """
     owner=OWNERS[signature]
-    actual,schema_owner,create=cur.execute("""select pg_get_userbyid(p.proowner),pg_get_userbyid(n.nspowner),has_schema_privilege(%s,n.oid,'CREATE')
-        from pg_proc p join pg_namespace n on n.oid=p.pronamespace where p.oid=%s::regprocedure""",(owner,signature)).fetchone()
-    if actual!=owner or not create or(owner!='postgres'and schema_owner!=owner):
+    actual,schema,schema_owner,acl,create=cur.execute("""select pg_get_userbyid(p.proowner),n.nspname,pg_get_userbyid(n.nspowner),n.nspacl::text,
+        has_schema_privilege(%s,n.oid,'CREATE')from pg_proc p join pg_namespace n on n.oid=p.pronamespace where p.oid=%s::regprocedure""",(owner,signature)).fetchone()
+    if actual!=owner or(owner=='postgres'and not create)or(owner!='postgres'and schema_owner!=owner):
         raise ValueError('OW09_VERIFIED_EXISTING_OWNER_CHANGED: '+signature)
-    with as_role(cur,owner):yield
+    with as_role(cur,owner):
+        if not create:cur.execute(sql.SQL('grant create on schema {} to {}').format(sql.Identifier(schema),sql.Identifier(owner)))
+        try:yield
+        finally:
+            if cur.connection.info.transaction_status!=TransactionStatus.INERROR:
+                if not create:cur.execute(sql.SQL('revoke create on schema {} from {}').format(sql.Identifier(schema),sql.Identifier(owner)))
+                if cur.execute('select nspacl::text from pg_namespace where nspname=%s',(schema,)).fetchone()[0]!=acl:
+                    raise ValueError('OW09_SCHEMA_ORIGINAL_ACL_NOT_RESTORED: '+schema)
 
 
 def replace(cur,definitions):

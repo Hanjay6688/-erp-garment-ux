@@ -84,8 +84,19 @@ def given(cur,today,amount='1500.00'):
 
 
 def independent_signature(cur,as_of):
-    """The sealed signature recomputed here: same rows, keys, facts, chunk boundaries and join."""
+    """The sealed signature recomputed here: same rows, keys, facts, chunk boundaries and join.
+
+    book_chunk renders rows with TimeZone 'UTC' (its own setting), so the recompute does too: a fixture that left the session
+    on another zone (Native7 2cd58e47, after the kasbon fixture) would render timestamptz columns differently."""
     b.api.admin(cur)
+    zone=cur.execute('show TimeZone').fetchone()[0]
+    cur.execute("select set_config('TimeZone','UTC',true)")
+    try:return _signature(cur,as_of)
+    finally:
+        if cur.connection.info.transaction_status!=TransactionStatus.INERROR:cur.execute("select set_config('TimeZone',%s,true)",(zone,))
+
+
+def _signature(cur,as_of):
     rows={
      'journal':cur.execute("select 'journal:'||j.id||':'||encode(sha256(convert_to(to_jsonb(j)::text,'UTF8')),'hex')from erp.journal_entries j where j.transaction_date<=%s order by j.id",(as_of,)).fetchall(),
      'line':cur.execute("select 'line:'||l.id||':'||encode(sha256(convert_to(to_jsonb(l)::text,'UTF8')),'hex')from erp.journal_lines l join erp.journal_entries j on j.id=l.journal_entry_id where j.transaction_date<=%s order by l.id",(as_of,)).fetchall(),
@@ -127,7 +138,9 @@ def publish_finance(cur,r,subject=None):
 def compare(cur,before,after,subject=None):
     auth.actor(cur,subject)
     try:return cur.execute('select public.erp_cp7_compare_reports_v2(%s,%s)',(before,after)).fetchone()[0]
-    finally:b.api.admin(cur)
+    finally:
+        # A refused pair aborts the transaction; the refusal helper rolls back and restores the role itself (Native7 f45577cd).
+        if cur.connection.info.transaction_status!=TransactionStatus.INERROR:b.api.admin(cur)
 
 
 def cases(cur,today):
@@ -137,6 +150,12 @@ def cases(cur,today):
         assert done['state']=='READY'and done['failure_code']is None,done
         r=call(cur,'select cp7_finance_capture.result(%s)',(cid,))
         assert r['contract_version']=='cp7.native-analysis-finance.v2'and set(r)=={'contract_version','dates','book_signature','source_hash','report','capture'},r.keys()
+        # The book is re-signed independently right after the capture (as the runner case does): Native7 8438a4a7 re-signed
+        # it only after the official and direct reads below and differed, so whether those reads touch the book is recorded.
+        signature,counts=independent_signature(cur,r['dates']['as_of'])
+        plan_rows={fam:r['capture']['plan'][fam]['rows']for fam in FAMILIES}
+        assert r['book_signature']==signature,(r['book_signature'],signature,plan_rows,counts)
+        assert plan_rows==counts,(r['capture']['plan'],counts)
         native=official(cur,r['dates'])
         for part in('performance','financial_position','basis','data_confidence'):
             assert r['report']['snapshot'][part]==native['snapshot'][part],part
@@ -144,16 +163,20 @@ def cases(cur,today):
         b.api.admin(cur)
         direct=call(cur,'select cp7_analysis_native.financial_source(%s::jsonb,%s::timestamptz)',(json.dumps(q),r['report']['captured_at']))
         mine,ready=metrics(cur,r);theirs,ready2=metrics(cur,direct)
-        assert mine==theirs and ready==ready2,(sorted(set(mine)^set(theirs)),ready,ready2)
-        signature,counts=independent_signature(cur,r['dates']['as_of'])
-        assert r['book_signature']==signature,(r['book_signature'],signature)
-        assert {fam:r['capture']['plan'][fam]['rows']for fam in FAMILIES}==counts,(r['capture']['plan'],counts)
+        # Each fact names its own source in refs: the capture's sealed hash differs by design from the one-statement
+        # scan hash (Native7 f45577cd), so figures are compared without refs and each side must cite its own source.
+        bare=lambda m:{k:{f:v[f]for f in v if f!='refs'}for k,v in m.items()}
+        assert bare(mine)==bare(theirs)and ready==ready2,({k:(bare(mine)[k],bare(theirs)[k])for k in mine if bare(mine).get(k)!=bare(theirs).get(k)},ready,ready2)
+        assert all(v['refs']==mine[next(iter(mine))]['refs']and r['source_hash']in json.dumps(v['refs'])for v in mine.values())
+        assert all(direct['source_hash']in json.dumps(v['refs'])for v in theirs.values())
+        after_reads,counts_after=independent_signature(cur,r['dates']['as_of'])
         b.api.admin(cur)
         fp=cur.execute('select cp7_analysis_native.financial_fingerprint(%s::jsonb,%s)',(json.dumps(r['report']),r['book_signature'])).fetchone()[0]
         assert fp==r['source_hash'],(fp,r['source_hash'])
         assert done['units_total']==2+sum(r['capture']['plan'][fam]['chunks']for fam in FAMILIES)and len(trail)==done['units_total']
         return dict(status='PASS',units=done['units_total'],rows=counts,readiness=ready,report_read_at=r['capture']['report_read_at'],
-            same_as_owner_report=True,same_metrics_as_direct_analysis_source=len(mine),independent_book_signature=True,kasbon=g['kasbon']['number'])
+            same_as_owner_report=True,same_metrics_as_direct_analysis_source=len(mine),independent_book_signature=True,kasbon=g['kasbon']['number'],
+            book_unchanged_by_report_reads=after_reads==signature,rows_after_report_reads=counts_after)
 
     def refuses_change():
         q=query(today);given(cur,today,'700.00')

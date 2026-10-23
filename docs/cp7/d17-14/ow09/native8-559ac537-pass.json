@@ -1,0 +1,41 @@
+{
+ "run": 39885622953,
+ "attempt": 1,
+ "job": 120193011049,
+ "head": "559ac537",
+ "qualification_commit": "559ac5376b27799cefa831e56a4a863197e29793",
+ "label": "CP7_OW09_WHOLE_LIST_NATIVE8",
+ "status": "PASS",
+ "expected_case_count": 8,
+ "observed_case_count": 8,
+ "cases": {
+  "OW09_CASH_LEDGER_WHOLE_PERIOD": "PASS",
+  "OW09_INVOICE_PAYMENTS_WHOLE_HISTORY": "PASS",
+  "OW09_INVOICE_RETURNS_WHOLE_HISTORY": "PASS",
+  "OW09_SAVED_NOTES_WHOLE_LIST": "PASS",
+  "OW09_FG_DOCUMENTS_AND_CARD_WHOLE_LIST": "PASS",
+  "OW09_MATERIAL_COUNT_DOCUMENTS_WHOLE_LIST": "PASS",
+  "OW09_ACCESSORY_NOTES_WHOLE_HISTORY": "PASS",
+  "OW09_READERS_PRIVATE_AND_ACCESS_UNCHANGED": "PASS"
+ },
+ "cp6_restored": true,
+ "advisor_gate": true,
+ "restore_raw_public_equal": true,
+ "package_gate": {"installed": true, "primary_unchanged": true, "backup_restore_drill": true, "security_advisors": true, "writer_runtime": true},
+ "every_case": {"full_boundary_restored": true, "public_schema_unchanged": true, "session_leaks": 0, "business_day": "2026-10-23 unchanged"},
+ "report": {"name": "CP7_OW09_WHOLE_LIST_NATIVE8.json", "raw_bytes": 2248960, "raw_sha256": "f7682d32a213bbe853348ba7f16e43323e5ba811ddb4762bd71b5ed1412f65bc"},
+ "artifact": "cp7-ow09-whole-list-native8 (12473280034)",
+ "case_results": {
+  "OW09_CASH_LEDGER_WHOLE_PERIOD": {"journals_in_period": 7, "fixture_journals": 7, "reversed": 2, "page_rows": 3, "combinations": 18, "old_call_pages_equal_to_original_reader": 3, "count_and_matching_sums_equal_oracle": true, "period_balances_unfiltered": true, "no_business_side_effect": true},
+  "OW09_INVOICE_PAYMENTS_WHOLE_HISTORY": {"payments": 8, "reversed": 2, "page_rows": 3, "combinations": 36, "natural_order_and_tie_on_7_and_07": true, "old_call_pages_equal_to_original_reader": 3, "access_unchanged": true, "no_business_side_effect": true},
+  "OW09_INVOICE_RETURNS_WHOLE_HISTORY": {"returns": 7, "reversed": 2, "page_rows": 2, "combinations": 27, "line_search_on_every_page": true, "old_call_pages_equal_to_original_reader": 5, "other_kinds_refuse_history_keys": true, "no_business_side_effect": true},
+  "OW09_SAVED_NOTES_WHOLE_LIST": {"notes": 6, "void": 5, "posted": 1, "page_rows": 2, "combinations": 24, "empty_status_answers_zero": true, "old_call_pages_equal_to_original_reader": 3, "no_business_side_effect": true},
+  "OW09_FG_DOCUMENTS_AND_CARD_WHOLE_LIST": {"documents": 6, "movements": 4, "movement_types": ["ADJUSTMENT", "REVERSAL"], "page_rows": 2, "combinations": 42, "card_balances_keep_complete_prefix": true, "old_call_pages_equal_to_original_reader": 5, "no_business_side_effect": true},
+  "OW09_MATERIAL_COUNT_DOCUMENTS_WHOLE_LIST": {"documents": 6, "page_rows": 2, "combinations": 24, "old_call_pages_equal_to_original_reader": 3, "no_business_side_effect": true},
+  "OW09_ACCESSORY_NOTES_WHOLE_HISTORY": {"notes": 8, "drafts": 3, "posted": 3, "reversed": 2, "page_rows": 2, "combinations": 24, "accessory_notes_in_database": 8, "whole_history_pages_of_50": 1, "old_cap_still_50_for_old_calls": true, "old_calls_equal_to_original_reader": 5, "access_unchanged": true, "no_business_side_effect": true},
+  "OW09_READERS_PRIVATE_AND_ACCESS_UNCHANGED": {"private_readers_refused_to_authenticated": ["cp7_finance.analysis(jsonb)", "cp7_sales.cash_workspace(jsonb)", "cp7_sales.return_workspace(jsonb)", "cp7_payroll.note_workspace(text,jsonb)", "cp7_fg.adjust_workspace(jsonb)", "cp7_fg.corrected_ledger(jsonb)", "cp7_material.count_workspace(jsonb)", "erp.get_accessory_issue_workspace_v1(jsonb)"], "public_readers_still_executable": 8}
+ },
+ "OW09_complete": false,
+ "production_go": false,
+ "independent_acceptance": false
+}

@@ -13,7 +13,7 @@ jendela berikutnya sekitar 2 jam 20 menit sebelum reset (pengingat 03.50 UTC). K
 Pengingat terjadwal: 20.58 UTC mode hemat (tidak memulai pekerjaan besar baru, gabung dan push semua commit
 pembantu, perbarui berkas ini), 01.10 UTC jalan normal lagi.
 
-Diperbarui: 23 Okt 2026, 01.15 UTC (08.15 WIB). Jendela kuota baru mulai sekitar 01.12 UTC, reset sekitar 06.12 UTC; mode hemat
+Diperbarui: 23 Okt 2026, 02.00 UTC (09.00 WIB). Jendela kuota baru mulai sekitar 01.12 UTC, reset sekitar 06.12 UTC; mode hemat
 sekitar 03.50 UTC. Satu dispatch OW-12a (39882795647): database sudah menyala lagi (registry melayani); gagal di langkah kasus, log sedang dibaca.
 Antrean ulang: wash, fgqc, OW06 browser, OW05b browser (`ciqueue-after-reset.log`). OW04b dan OW-09 menunggu push non-skip
 untuk mendaftarkan workflow-nya saat antrean longgar.
@@ -24,17 +24,21 @@ untuk mendaftarkan workflow-nya saat antrean longgar.
 |---|---|
 | OW-05b petunjuk koreksi mandor | Native6 6/6 `176dcf38` (`ow05/native6-176dcf38-pass.json`); browser 2/2 `eda58db5` |
 | OW-06 hak akses transfer supplier | Auth4 4/4 `b9456b5a` |
+| OW-06 layar transfer supplier | Browser2 2/2 `d8b0164e` (run 39884070148; `ow06/browser2-d8b0164e-pass.json`) |
 | OW-07 tutup buku menunggu HPP | Native7 7/7 (`ow07/PROGRESS.md`) |
+| OW-08b 2.21 koreksi barang jadi di QC | Native9 9/9 `048f194e` (run 39884816533; `ow08/fgqc-native9-048f194e-pass.json`) |
+| OW-05b layar ulang | Browser2 2/2 `8438a4a7` (run 39884456248; `ow05/browser2-8438a4a7-pass.json`) |
+| OW-09 tahap daftar (8 pembaca) | Native8 8/8 `559ac537` (run 39885622953; `ow09/native8-559ac537-pass.json`); layar ditahan sampai rantai OW-15 (`ow09/screens/`) |
+| OW-04b bagian 3–4 | Native9+Race3 12/12 `e9b88564` (run 39885599854; `ow04/ow04b-native9-race3-e9b88564-pass.json`) |
+| OW-04b bagian A bayar sisa sesudah kredit | Native6+Race2 8/8 `33115188` (run 39885477424; `ow04/ow04b-slice-a-native6-race2-33115188-pass.json`) |
 | OW-08b 2.18 kasbon dari buku besar | Native4 4/4 `6c8be6f6` (run 39847032024; `ow08/kasbon-native4-6c8be6f6-pass.json`, laporan sha256 `8f9f2c83…`, artifak 12456785458) |
 
 ## Sudah dibuat, uji sedang/akan jalan
 
 | Butir | Keadaan |
 |---|---|
-| OW-12a modul angka keuangan | Native7 `47688e63` run 39847548230 berhenti dua kali di "Start disposable database": registry image menolak (ghcr.io `toomanyrequests`, public.ecr.aws `Data limit exceeded`), infrastruktur; dikirim ulang lewat antrean. Usul lanjutan: login ghcr.io dengan token run di workflow agar batas unduh lebih longgar |
-| OW-08b 2.20 cuci gagal tanpa tarif | Native11 `3c3dea91` ditolak di penerimaan sumber karena OW-09 mengubah SQL dasar yang dibekukan (`ow08/wash-native11-3c3dea91-admission-failure.json`); diulang di `03242502` (run 39849752268) |
-| OW-06 layar transfer supplier | Browser2 `3c3dea91` berhenti di pin `src/productionRecovery.ts`; pin diperbarui `ed4818b3`; diantrekan ulang sesudah cuci gagal |
-| OW-09 urut/saring seluruh hasil | Gabungan pertama dibatalkan (`43452c27`): mengedit `scripts/cp7-src` yang dibekukan (E25j2). Pembantu membangun ulang sebagai satu tahap Native (7 pembaca + aksesori) di `claude/d17-14-ow09`; F03 combined run 39849124506 masih menguji versi lama, hasilnya hanya info |
+| OW-12a modul angka keuangan | Pasang lulus sejak `f45577cd` (5/7); dua harapan uji dibetulkan di `8438a4a7` (bandingkan angka tanpa refs; tanpa reset peran di transaksi batal); Native7 jalan ulang. Kegagalan disimpan di `ow12/` |
+| OW-08b 2.20 cuci gagal tanpa tarif | Native11 `cc5766e7`: pasang lulus, 3/11; penjaga POST penerimaan v2.6.20 kini substitusi ke-10 (hanya percobaan bertanda UNKNOWN); gabung `c6e073b5`, Native11 jalan ulang |
 
 ## Belum selesai / berikutnya (urutan kerja)
 

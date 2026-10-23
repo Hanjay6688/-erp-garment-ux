@@ -106,3 +106,12 @@ Ketiganya tetap terbuka; OW-04 belum boleh disebut selesai.
   untuk invoice dengan beberapa kelompok; `payment_correction` (syarat satu kelompok); pemeriksa laporan OW-08a. Aritmetika
   banyak keluarga sudah ada di `ow04_ordinal_wrapper.reconcile_v1` (target keluarga ke-n = pengakuan dari base + keluarga
   sebelumnya dikurangi yang sudah diakui), tetapi materialisasi dan pembuktiannya belum.
+
+## Bukti uji database penuh (23 Okt)
+
+- Bagian 3–4: Native9+Race3 12/12 lulus di `e9b88564` (run 39885599854), bukti `ow04b-native9-race3-e9b88564-pass.json`.
+- Bagian A (bayar sisa tagihan sesudah kredit dipakai): Native6+Race2 8/8 lulus di `33115188` (run 39885477424), bukti
+  `ow04b-slice-a-native6-race2-33115188-pass.json`. Kelebihan satu sen ditolak tanpa efek; pembayaran mundur tanggal yang
+  membuat kelebihan bayar ditolak (`BASE_OVERFLOW_NONZERO`).
+- Belum: bagian B–E (retur kedua, retur pada invoice yang dibayar kredit, Edit retur, Benerin nota); D dan E menunggu
+  keputusan Bos (tiga pertanyaan di `OW04B_MULTI_COHORT_DESIGN.md`).
