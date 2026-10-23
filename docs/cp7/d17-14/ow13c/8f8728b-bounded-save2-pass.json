@@ -1,0 +1,148 @@
+{
+  "contract": "cp7.bounded-save-component-pass.v1",
+  "candidate": "8f8728bcef357c4ea0d752b920efefb172750835",
+  "tree": "ff1abbe0da7ee8c43834e5f3d2a7d224563dcc23",
+  "source": "6353bcaebef0c78bb5533fe49bde62234eb11710",
+  "run_id": 40036980183,
+  "job_id": 120698782481,
+  "status": "PASS",
+  "expected": 2,
+  "observed": 2,
+  "counts": {
+    "native": {
+      "PASS": 1
+    },
+    "committed": {
+      "PASS": 1
+    }
+  },
+  "totals_match": true,
+  "source_files_exact": 47,
+  "preuse22_exact": 12,
+  "clone_authorities": 1,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "declaration_sha256": "b512b49d9a15e035cfc2a1222604c731155bdd8970065b4590fbd94588054545",
+  "original": {
+    "artifact_id": 12537822746,
+    "bytes": 91324,
+    "sha256": "cfdd7f4f7ec89797c260515de32adccf91512ce592b94c4734153cdb8b601f66"
+  },
+  "complete_original_independently_checked": true,
+  "component_qualified": true,
+  "after_use_restore_qualified": false,
+  "full_OW13c_acceptance": false,
+  "full_A_chain_qualified": false,
+  "production_go": false,
+  "actual_checked_SAVE2000_qualified": true,
+  "native_positive_anchor": {
+    "OW13C_NATIVE_FRESH_SAVE_REPLAY_AND_NO_PHYSICAL_FACT": {
+      "status": "PASS",
+      "actual_Native_staged_source_preflight_and_writer": true,
+      "exact_UUID_replay": true,
+      "no_stock_money_or_physical_posting": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    }
+  },
+  "actual_checked_SAVE2000": {
+    "OW13C_BOUNDED_ACTUAL_CHECKED_SAVE2000_202000_UNDER8S": {
+      "status": "PASS",
+      "label": "SYNTHETIC_NATIVE_TIMING_ONLY_NOT_FACTORY_DEFAULTS",
+      "products": 2000,
+      "movements": 202000,
+      "actual_products": 2002,
+      "actual_public_checked_SAVE": true,
+      "genuine_Native_staged_DONE_after_calendar_SAVE": true,
+      "real_public_profile_commercial_policy_writers": true,
+      "preparation_committed_per_Native_command": true,
+      "synthetic_assumptions": {
+        "mean_mode": "SELECTED_MANUAL",
+        "daily_pcs": "1",
+        "minimum_available_days": "20",
+        "lead_days": "3",
+        "review_days": "7",
+        "buffer_days": "0"
+      },
+      "policy_state": "ACTIVE",
+      "preparation_command_timings": {
+        "profile_reader": {
+          "calls": 10,
+          "ms": 68.318
+        },
+        "profile_writer": {
+          "calls": 2000,
+          "ms": 9000.79
+        },
+        "commercial_sku_writer": {
+          "calls": 67,
+          "ms": 2747.235
+        },
+        "policy_reader": {
+          "calls": 10,
+          "ms": 149.196
+        },
+        "policy_writer": {
+          "calls": 20,
+          "ms": 548.211
+        }
+      },
+      "fresh_unique_UUIDs": 3,
+      "exact_first_UUID_replay": true,
+      "millis": [
+        5354.884,
+        5375.739,
+        5307.551
+      ],
+      "wall_limit_ms": 8000,
+      "statement_limit": "8s",
+      "both_full_source_checks_and_both_feasibility_checks_inside_measured_writer": true,
+      "no_truncation_or_source_hash_or_job_state_override": true,
+      "three_drafts_three_receipts_no_new_Native_group_or_intent": true,
+      "physical_stock_money_HPP_unchanged": true,
+      "actual_checked_SAVE2000_qualified": true,
+      "concurrency_test": false,
+      "race_case_credit": 0,
+      "factory3600_or_end_to_end_UI_SLA_claim": false,
+      "copy_runtime": {
+        "stage": "cp7.bounded-analysis-stage.v1",
+        "private_functions": 13,
+        "public_rpcs": 1,
+        "new_tables": 0,
+        "existing_function_replacements": 7,
+        "Native_ERP_DML": false,
+        "real_Native_job_rows": true,
+        "raw_native_status_overridden": false,
+        "actual_checked_SAVE2000_qualified": false,
+        "full_A_chain_qualified": false,
+        "production_go": false
+      },
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    }
+  },
+  "concurrency_test": false,
+  "race_case_credit": 0,
+  "repeated_positive_anchor_case_credit": 0
+}
