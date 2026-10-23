@@ -587,3 +587,29 @@ Handoff produksi Claude ditulis ulang dalam satu peta status, sumber keputusan,
 batas berkas A/B, bukti kandidat tepat, seluruh sisa B dan API pemasangan A.
 Catatan rinci sebelumnya tetap di Git/receipt; konteks privat tidak dipublikasi.
 Native31 pertama tetap28/31,25/19 sebelumnya PASS hanya padaa3bf8842.
+
+
+## 27 — v7 30/31; pesan checked-save dibetulkan tanpa berkas A (24 Okt WIB) [bersama]
+
+Run39945772181/job120387939390 pada df6bd877/tree55ee4091 terminal
+INCOMPLETE30/31: Native15/15, race8/8, Auth4/4, browser3/4. Volume2000/
+202000 lulus7589/2831/2851ms, batas8s dan dua hangat≤3000ms tetap. HP
+hilang-jawaban/reopen PASS. Desktop HTTP500/code40001/source-changed benar,
+tetapi normalisasi bersama menimpa pesannya dengan benturan umum.31 ID/
+deklarasi,28 sumber,8 invers22,10 authority, restore/advisor tepat;
+writer_runtimefalse. Receipt df6bd87-native31-30.json; Original/log utuh.
+
+Perbaikan5b6ca459 pada4 berkas B saja: nativeCuttingSuggestion.ts/test dan
+NativePlanDraftPanel.tsx/staged.dom.test. Error Native asli diteruskan utuh;
+panel memakai messageText yang sudah tersedia sesudah klasifikasi pasti.
+Replay belum pasti tidak diubah menjadi penolakan pasti; auth/suffix refresh
+gagal/kunci writer tetap. Reproduksi BEFORE2FAIL/7PASS; sesudah29/29 di3
+berkas,160/160 di12 berkas dan TypeScript PASS. Shared hook/normalizer,
+registry, SQL/angka/batas A tidak ditulis. REST disposable aktual16.1;
+Postgres17.6.1.165, bukan bukti versi hosted.
+
+Kandidat16a0aeb0270eed29239668a94678c59221507e46/tree3c312602,
+run39993639712/job120551431684 aktual berjalan; hasil belum tersedia.
+Handoff Claude diperbarui ke kandidat itu. B tetap lanjut sisa OW13c yang
+mandiri; pemasang/registry/default/global after-use census dan rantai penuh
+milik A. Full OW13c/OW11a-b/bridge3600/audit tetap OPEN, parent5/16.
