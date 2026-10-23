@@ -1,0 +1,52 @@
+{
+ "run": 39893809147,
+ "attempt": 1,
+ "job": 120219450376,
+ "head": "3d5c5035",
+ "qualification_commit": "3d5c5035afeeb6a9c75d086f430f862363b1c5df",
+ "label": "CP7_OW08B_LAUNDRY_UNKNOWN_WASH_NATIVE11",
+ "status": "PASS",
+ "expected_case_count": 11,
+ "observed_case_count": 11,
+ "cases": {
+  "OW08B_WASH_UNKNOWN_RECORDED_NOT_ZERO_HPP_NOT_FINAL": "PASS",
+  "OW08B_WASH_WITHOUT_FLAG_REFUSED_AS_BEFORE": "PASS",
+  "OW08B_WASH_TWO_EFFECTIVE_RATES_REFUSED": "PASS",
+  "OW08B_WASH_CLOSE_BLOCKED_UNTIL_PRICED_EQUALS_KNOWN_TWIN": "PASS",
+  "OW08B_WASH_RETURN_UNPROCESSED_UNKNOWN_PRICE": "PASS",
+  "OW08B_WASH_PRICE_SET_ONCE_OWNER_ADMIN_ONLY": "PASS",
+  "OW08B_WASH_REVERSE_UNKNOWN_NO_MONEY_EFFECT": "PASS",
+  "OW08B_WASH_SALE_FOLLOWS_LAU_DEC04": "PASS",
+  "OW08B_WASH_INVOICE_REFUSED_UNTIL_PRICED": "PASS",
+  "OW08B_WASH_OTHER_LAUNDRY_COMMANDS_UNCHANGED": "PASS",
+  "OW08B_WASH_STATE_DETECTOR_AND_PRIVATE_SCHEMA": "PASS"
+ },
+ "cp6_restored": true,
+ "advisor_gate": true,
+ "restore_raw_public_equal": true,
+ "package_gate": {"installed": true, "primary_unchanged": true, "backup_restore_drill": true, "security_advisors": true, "writer_runtime": true},
+ "every_case": {"full_boundary_restored": true, "public_schema_unchanged": true, "session_leaks": 0, "business_day": "2026-10-23 unchanged"},
+ "report": {"name": "CP7_OW08B_LAUNDRY_UNKNOWN_WASH_NATIVE11.json", "raw_bytes": 2983166, "raw_sha256": "8f50c9f55b00d3a719e4cd0f5fb51944c66a4488080cb21cba07644d731283ca"},
+ "artifact": "cp7-ow08b-laundry-unknown-wash-native11 (12475194840)",
+ "ow07_native7_original": {
+  "admission_step": "PYTHONDONTWRITEBYTECODE=1 python scripts/cp7_laundry_unknown_wash/ow07_original.py",
+  "log_line": "ACTUAL_OW07_NATIVE7_ORIGINAL_BYTES_AND_FULL_DECLARED_SOURCE_VERIFIED_NO_PRODUCT_EXECUTION"
+ },
+ "qualified_predecessor": {"name": null, "receipt": "docs/cp7/d17-14/ow07/native7-1bd08969-chain-pass.json", "head": "1bd08969", "run": 39892838281, "artifact": 12474909312, "artifact_name": "cp7-ow07-hpp-close-native7", "bytes": 2072291, "sha256": "e2a20f8999daff51727882ef2ad87ecf406787fb0d427122ce6fba6e9b3c8d55"},
+ "highlights": {
+  "OW08B_WASH_UNKNOWN_RECORDED_NOT_ZERO_HPP_NOT_FINAL": "recorded as PRICE_UNKNOWN, money unchanged (desired 20.00 vs known twin 50.00), lot unknown patched (original engine false)",
+  "OW08B_WASH_WITHOUT_FLAG_REFUSED_AS_BEFORE": "refusals as before, nothing written",
+  "OW08B_WASH_TWO_EFFECTIVE_RATES_REFUSED": "two effective rates refused (found 2), nothing written",
+  "OW08B_WASH_CLOSE_BLOCKED_UNTIL_PRICED_EQUALS_KNOWN_TWIN": "close refused without effect until priced; after price money equals known-rate twin (desired/accrued 50.00, HPP 150.00); close kinds equal to twin",
+  "OW08B_WASH_RETURN_UNPROCESSED_UNKNOWN_PRICE": "equal to known twin; HPP state ESTIMATED (original engine ACTUAL)",
+  "OW08B_WASH_PRICE_SET_ONCE_OWNER_ADMIN_ONLY": "same request replayed; second price refused CP7_FAILED_WASH_PRICE_ALREADY_SET",
+  "OW08B_WASH_REVERSE_UNKNOWN_NO_MONEY_EFFECT": "journals 2 before and after; close row gone",
+  "OW08B_WASH_SALE_FOLLOWS_LAU_DEC04": "lot value 120.000000 -> 150.000000; GL delta FG_INVENTORY 24.00, COGS 6.00; sale recosted",
+  "OW08B_WASH_INVOICE_REFUSED_UNTIL_PRICED": "not billable before price; billed 30.00, payable delta 30.00",
+  "OW08B_WASH_OTHER_LAUNDRY_COMMANDS_UNCHANGED": "state equal; known attempt cost 12.0",
+  "OW08B_WASH_STATE_DETECTOR_AND_PRIVATE_SCHEMA": "detector 0 -> 1 -> 0"
+ },
+ "OW08b_wash_complete": false,
+ "production_go": false,
+ "independent_acceptance": false
+}
