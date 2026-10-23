@@ -1,0 +1,16 @@
+{
+ "run": 39882795647,
+ "attempt": 1,
+ "job": 120183892732,
+ "head": "16bf8e56",
+ "label": "CP7_OW12A_FINANCE_CAPTURE_NATIVE7",
+ "status": "INCOMPLETE",
+ "observed_case_count": 0,
+ "database_start": "supabase start succeeded on attempt 1 from ghcr.io",
+ "error": "OW12A_UNDECLARED_NEW_OBJECT: triggers:cp7_finance_capture.captures:cp7_finance_capture.chunks:chunks_capture_id_fkey:\"RI_FKey_noaction_upd\"():17",
+ "traceback_tail": "composition.py:122 install -> admit_catalog line 98",
+ "package_gate": {"installed": true, "primary_unchanged": true, "backup_restore_drill": true, "security_advisors": true, "writer_runtime": false},
+ "earlier_runs_same_commit_family": {"39847548230": "registry image limits (two attempts)", "39854094236": "registry image limits after ghcr login"},
+ "cause": "Installer admission, not product: the install SQL ran (the SET ROLE handover works); the 22-group admission then saw PostgreSQL's internal RI_FKey triggers created for the chunks->captures foreign key, and the stage's allow-list for new private objects had no trigger group.",
+ "fix": "Admit only internal RI_FKey triggers on the stage's own schema (the stage declares no trigger); every other new trigger is still refused. Sibling stages admit all triggers in their schema; this is narrower."
+}

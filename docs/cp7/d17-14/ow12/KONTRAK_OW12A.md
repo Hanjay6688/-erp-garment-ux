@@ -7,6 +7,9 @@ sendiri, bukan pengalih terverifikasi tahap pendahulu; belum ada kasus yang jala
 Uji kedua (Native7 `176dcf38`, run 39845868506) berhenti lagi di pemasangan: `postgres` belum anggota peran `cp7_capture` di
 alat uji (peran dibuat oleh superuser alat uji). Pemasang kini memberi keanggotaan itu sementara dan mencabutnya lagi dalam
 transaksi yang sama. Bukti `native7-176dcf38-second-install-failure.json`.
+Uji ketiga (`16bf8e56`, run 39882795647): pemasangan jalan, lalu pemeriksa katalog menolak pemicu bawaan yang dibuat
+PostgreSQL untuk relasi `chunks`→`captures`; kini hanya pemicu relasi bawaan itu yang diizinkan. Bukti
+`native7-16bf8e56-third-install-failure.json`.
 Tidak ada RPC publik khusus capture: layar membaca kemajuan lewat status job pemiliknya. B boleh menulis
 pemanggilnya mengikuti kontrak ini; perubahan kontrak dicatat di sini lebih dulu.
 
