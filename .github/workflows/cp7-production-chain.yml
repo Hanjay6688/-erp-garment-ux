@@ -162,7 +162,7 @@ jobs:
       working-directory: auditor
       run: python scripts/ow04bc_native_original.py
     - name: Admit exact A prerequisites and production18 composition sources before DB
-      working-directory: writer
+      working-directory: auditor
       run: 'PYTHONPATH=scripts python - <<''PY''
 
         import importlib.util
@@ -249,7 +249,8 @@ jobs:
     - name: Remove disposable database
       if: always()
       working-directory: base
-      run: supabase stop --workdir cp5-local --no-backup
+      run: if command -v supabase >/dev/null 2>&1 && test -d cp5-local; then supabase stop --workdir cp5-local --no-backup;
+        fi
     - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
       if: always()
       with:

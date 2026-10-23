@@ -1,7 +1,7 @@
 {
   "classification": "MANDATORY_COMPOSITION_RESTORE_PREFLIGHT_NOT_NATIVE286",
   "files": {
-    ".github/workflows/cp7-production-chain.yml": "7f6b6363384d66533c4a145ffa56b0f2ae68749148db174d022db9f7799f0017",
+    ".github/workflows/cp7-production-chain.yml": "225d09fe0298194d543636ac89e2c068bf12b7b3d6b66c9ac251aadf97777ccd",
     "scripts/chain-p21-qualification/SOURCE.json": "b0413df026dc4dc00674c2d19f54a18f9eb60070e25de3375c8a22dabe02418d",
     "scripts/cp7_chain_restore.py": "1bdedf403f0c4c7458b0498daaaaf583a4567ef628a7dcec1c8c08f804f30186",
     "scripts/cp7_ow14b_rule_cases.py": "35e0c9ead944a72918d7e2daa1095753a5b24d461b7b85d95658be6ea75fee60",

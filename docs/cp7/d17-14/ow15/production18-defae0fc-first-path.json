@@ -1,0 +1,17 @@
+{
+  "classification": "FIRST_INFRASTRUCTURE_FAILURE_PRESERVED_NO_DB_EXECUTION",
+  "head": "defae0fc346279742c257e57bf8a2daedb80fd91",
+  "run": 40000390144,
+  "job": 120574645086,
+  "original_report_created": false,
+  "artifacts": [],
+  "log": {
+    "bytes": 238108,
+    "sha256": "d2c6fdb4ad702ae26f3c01de26bb3e072310036bc29f27471f4042155d9486d2"
+  },
+  "failure": "Source-admission step ran from immutable writer checkout instead of candidate auditor checkout; production-chain-qualification/probe.py was not found.",
+  "database_started": false,
+  "product_executed": false,
+  "correction": "Run source admission from candidate auditor working directory; cleanup only if CLI and disposable directory exist.",
+  "production_go": false
+}
