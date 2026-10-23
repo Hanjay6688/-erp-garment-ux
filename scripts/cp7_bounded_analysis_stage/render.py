@@ -8,6 +8,7 @@ from hashlib import sha256
 import json
 import re
 from . import source
+from cp7_initial_analysis_stage import patches as initial_patches
 
 ROOT = Path(__file__).resolve().parent
 SCHEMA = source.SCHEMA
@@ -36,6 +37,11 @@ def originals():
     out = {SUPPLY_FP: source.CURRENT_FP.read_text()}
     for signature in (RUN, SKELETON, CHECK, OLD_REQUEST):
         out[signature] = source.block('analysis-stages.sql', signature.split('(')[0])
+    # OW13a already adapted the live request with initial_auto. Derive that
+    # admitted body through its actual pinned patcher; preserve its branch.
+    alerts=(source.NATIVE.parent/'alerts'/'alerts.sql').read_text()
+    tick=re.search(r'create function cp7_alert_native.analysis_tick\(.*?\$\$;',alerts,re.S)[0]
+    out[OLD_REQUEST]=initial_patches.patched({initial_patches.REQUEST:out[OLD_REQUEST],initial_patches.TICK:tick})[OLD_REQUEST]
     text = (ROOT.parent/'cp7_schedule_staged_review'/'review.sql').read_text()
     for signature in (WORKSPACE, SAVE):
         out[signature] = re.search(r'create function '+re.escape(signature.split('(')[0])+r'\(.*?\$\$;', text, re.S)[0]
@@ -174,7 +180,9 @@ end $$;
     replacements[OLD_REQUEST] = source.once(old[OLD_REQUEST], '  if jq<>q then',
         "  if exists(select 1 from cp7_analysis_stage.jobs x where x.id=jid and x.reference?'bounded_request_contract')then\n"
         "   raise exception 'CP7_ANALYSIS_REQUEST_CHANGED';end if;\n  if jq<>q then")
-    request = private_copy(old[OLD_REQUEST], 'request')
+    # The NEW route accepts only the explicit three-field query/UUID. It must
+    # not inherit initial_auto dispatch and silently enter the legacy method.
+    request = private_copy(source.block('analysis-stages.sql','cp7_analysis_stage.request'), 'request')
     request = source.once(request, '  if jq<>q then', "  if not exists(select 1 from cp7_analysis_stage.jobs x where x.id=jid\n"
         "   and x.reference->>'bounded_request_contract'='cp7.bounded-analysis-request.v1')then\n"
         "   raise exception 'CP7_ANALYSIS_REQUEST_CHANGED';end if;\n  if jq<>q then")
@@ -200,4 +208,5 @@ def manifest():
                       for sig,text in originals().items()},
         source_files={str(p.relative_to(ROOT.parent)):sha256(p.read_bytes()).hexdigest() for p in
             [source.CURRENT_FP, ROOT.parent/'cp7_production_stage/sql/cp7_analysis_stage__history_prep.sql',
-             source.NATIVE/'analysis-stages.sql', ROOT.parent/'cp7_schedule_staged_review/review.sql']})
+             source.NATIVE/'analysis-stages.sql', ROOT.parent/'cp7_schedule_staged_review/review.sql',
+             ROOT.parent/'cp7_initial_analysis_stage/patches.py',source.NATIVE.parent/'alerts/alerts.sql']})

@@ -1,5 +1,14 @@
 # Handoff produksi/perencanaan B —24 Oktober2026 WIB
 
+**Latest correction:** first Native6candidate02f9780 stopped before cases on strict
+request predecessor pin (actual request already has OW13a initial_auto hook).
+Receipt02f9780-bounded6-first-incomplete.json keeps Original. Corrected renderer
+derives actual admitted body for old route/inverse while newroute remainsq3-only.
+Next repeat only boundedNative6. Clienthelper139tests/6files+TS PASS, explicit
+newmethod storage/parser/receipt recovery; screen default not yet changed.
+Actual sharedsource gate still12gaps untilA applies exact patches; preview362/307.
+
+
 **Latest active work — bounded staged Native6 implementation, not yet qualified.**
 Work metadata Entry2 at0d1221c passed actual desktop/mobile; see component matrix
 and receipt in ow13c. B now implements `cp7_bounded_analysis_stage`:13private,

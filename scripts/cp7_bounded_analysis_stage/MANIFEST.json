@@ -1,6 +1,6 @@
 {
   "contract": "cp7.bounded-analysis-stage.v1",
-  "sql_sha256": "c628a07833a5034fdadc025d92e53d2110214f9c582f477afe100697bb6da849",
+  "sql_sha256": "b6e4fbe5a571a7a4b01f885f82a9a975f0a778f973afb4a8c1600ea239e36161",
   "replacements": {
     "cp7_supply_native.fingerprint(jsonb)": {
       "before_sha256": "b48259722443efbb11146f2677e0c8588fbd717aee525ac34adee6ba40ddf7ef",
@@ -19,8 +19,8 @@
       "after_sha256": "7953996ec563cc07e9323d83b8ee91aacc71fd2b74af780d64e4f5bb14783f48"
     },
     "cp7_analysis_stage.request(jsonb,uuid)": {
-      "before_sha256": "45313cc81b68fe6a4dbbb1df5fb2251efc5714be55ccbb2d1f27ad8b39b5d4f4",
-      "after_sha256": "46de68d3fbb3f91237e9bd321cab00ff7a36001101b4201c5c032e2c60ce2a39"
+      "before_sha256": "884a7398dce243d8ae7cd32d82b9268ef5d6a93119a84d3195527ed7a723ac01",
+      "after_sha256": "68093cfcdfc62b41f3b660949c2df4c9ecc75851be2c6d228bdc8b19f640c5d7"
     },
     "cp7_schedule_staged_review.workspace(uuid)": {
       "before_sha256": "2a1c6c51b9a8897ca67892f7b1d18a8f7990445bfe1949d4be0f7b09ffb054ae",
@@ -35,6 +35,8 @@
     "cp7_production_stage/sql/cp7_supply_native__fingerprint.sql": "3357b81418aca17f16d67a1e1fd08c37db7fb84fcdb0f7adb56c5da503368271",
     "cp7_production_stage/sql/cp7_analysis_stage__history_prep.sql": "6cf78ac783d46d87aa88ecb8e9463b1cf3446b75a3966fbd1d23e696008c3487",
     "cp7-src/planning/analysis-stages.sql": "df00590019a580c36efb585e3b0cbb2582c9f5690b7b951ba6bb3836f2cc884d",
-    "cp7_schedule_staged_review/review.sql": "afdcd17f9ddc96c72e5019aab7bdc9909ae6e1ff18e613cf07a974a648eab380"
+    "cp7_schedule_staged_review/review.sql": "afdcd17f9ddc96c72e5019aab7bdc9909ae6e1ff18e613cf07a974a648eab380",
+    "cp7_initial_analysis_stage/patches.py": "36154e73c2e53182bf4cbe7eb29e55a66ac6313516835ef21a97eca74d71711f",
+    "cp7-src/alerts/alerts.sql": "219adb738c65aa56301b4befd266e76da29f0c46db3dba2cc9b97ee4fb214410"
   }
 }

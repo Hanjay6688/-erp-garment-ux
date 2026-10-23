@@ -19,6 +19,15 @@ export function stagedWorkspaceWire(request=demandRequest,reviewed=false){
 export function stagedScheduleOutcome(request:string,revision='1'){
  return{...scheduleOutcome(request,revision),contract_version:'cp7.planning-schedule-staged-outcome.v1',staged_review_contract:'cp7.schedule-staged-review.v1',source_run:demandRun}
 }
+// Separate explicit bounded-method wire, with unchanged raw capture truth.
+export function boundedWorkspaceWire(request=demandRequest,reviewed=false){
+ return{...stagedWorkspaceWire(request,reviewed),contract_version:'cp7.planning-schedule-staged-bounded.v1',history_capture_state:'INCOMPLETE',
+  bounded_request_contract:'cp7.bounded-analysis-request.v1',bounded_reference_contract:'cp7.bounded-analysis-reference.v1',history_input_coverage:'COMPLETE'}
+}
+export function boundedScheduleOutcome(request:string,revision='1'){
+ return{...stagedScheduleOutcome(request,revision),contract_version:'cp7.planning-schedule-staged-bounded-outcome.v1',
+  bounded_request_contract:'cp7.bounded-analysis-request.v1',bounded_reference_contract:'cp7.bounded-analysis-reference.v1'}
+}
 export function nettingWire(request=demandRequest,unknown=false){const supply=supplyWire(request),hash='d'.repeat(64),row=supply.baseline_run_result.rows[0],capacity={status:unknown?'UNKNOWN':'SCENARIO',capacity_pcs:unknown?null:'15'},net={status:unknown?'UNKNOWN':'SCENARIO',q_base_pcs:unknown?null:'17',q_conditional_pcs:unknown?null:'17',directed_on_time_pcs:unknown?null:'7',inputs:{snapshot_id:supply.captured_at,scope_id:'GLOBAL_NATIVE_PLANNING',target_key:row.target_key,size_id:row.size_id,available_fg_pcs:row.available_fg_pcs,target_pcs:row.target.target_pcs}}
  return{contract_version:'cp7.native-netting.v1',run_id:demandRun,request_id:request,source_hash:hash,captured_at:supply.captured_at,source_state:'UNCHANGED',status:unknown?'PARTIAL':'SCENARIO',apply_enabled:false,production_go:false,material_state:'UNKNOWN',schedule_run_result:{contract_version:'cp7.native-planning-scenario.v1',captured_at:supply.captured_at,source_hash:'e'.repeat(64),supply_run_result:supply,schedule_state:'SELECTED_ASSUMPTIONS',apply_enabled:false,production_go:false,wip:supply.wip,capacity,etas:supply.wip.positions.map(p=>({position_key:p.key,result:{status:unknown?'UNKNOWN':'CONDITIONAL',eta:unknown?null:'2026-10-01T01:45:00.123456Z'}}))},allocation:{status:unknown?'UNKNOWN':'SCENARIO'},rows:[{...row,raw_gap_pcs:'24',directed_on_time_good_pcs:unknown?null:'7',base_gap_pcs:unknown?null:'17',conditional_gap_pcs:unknown?null:'17',candidate_allocated_good_pcs:unknown?null:'0',net,timeline:{status:unknown?'UNKNOWN':'SCENARIO',first_known_gap:unknown?null:{at:'2026-10-03T12:00:00.123456Z'}},new_start_capacity:capacity,material_state:'UNKNOWN',apply_enabled:false,reason:'SELECTED_SCENARIO_ONLY'}]}}
 export {planningQuery}

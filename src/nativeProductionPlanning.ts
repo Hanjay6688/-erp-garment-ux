@@ -1,9 +1,10 @@
 import {parseNativeBaseline,type NativeBaseline,type BaselineRow} from './nativePlanningProfile'
 import type {NativeDemandQuery} from './nativeDemandHistory'
 import type {StagedReference} from './nativeAnalysisPages'
+import {BOUNDED_ANALYSIS_REQUEST,BOUNDED_ANALYSIS_REFERENCE,type StagedSourceMethod} from './nativeBoundedAnalysis'
 
 export const STAGED_SCHEDULE_CONTRACT='cp7.schedule-staged-review.v1'
-export type StagedScheduleContext={requestId:string;analysisHash:string;analysisState:'RUNNING'|'DONE'|'FAILED';historyState:'COMPLETE'|'INCOMPLETE';productionState:'COMPLETE'|'UNKNOWN'}
+export type StagedScheduleContext={requestId:string;analysisHash:string;analysisState:'RUNNING'|'DONE'|'FAILED';historyState:'COMPLETE'|'INCOMPLETE';productionState:'COMPLETE'|'UNKNOWN';method:StagedSourceMethod;inputCoverage?:'COMPLETE'}
 
 export type SourceState='UNCHANGED'|'ARCHIVED_STALE'
 export type WorkPosition={key:string;poolKey:string;stage:string;sizeId:string;ownership:'COMPANY'|'CUSTOMER';eligible:boolean;remaining:string}
@@ -13,7 +14,7 @@ export type ScheduleConfig={basis:'SELECTED_ASSUMPTIONS';resource_scope:'SINGLE_
 export type ScheduleRequirement=WorkPosition&{route:string[];targets:{key:string;versionId:string;sku:string;name:string}[]}
 export type ScheduleWorkspace={sourceRun:string;sourceHash:string;currentHash:string;capturedAt:string;state:SourceState;revision:string;planState:'UNREVIEWED'|'SELECTED_ASSUMPTIONS'|'SOURCE_CHANGED';config:ScheduleConfig|null;requirements:ScheduleRequirement[];staged?:StagedScheduleContext}
 export type SchedulePayload={source_run:string;source_hash:string;expected_revision:string;config:ScheduleConfig;reason:string;staged_review_contract?:typeof STAGED_SCHEDULE_CONTRACT}
-export type ScheduleRequest={id:string;payload:SchedulePayload}
+export type ScheduleRequest={id:string;payload:SchedulePayload;sourceMethod?:'BOUNDED'}
 export type ReorderState='AT_OR_BELOW'|'ABOVE'|'NO_POINT'|'UNKNOWN'
 export type ReorderTiming={deadline:string|null;basePosition:string|null;conditionalPosition:string|null;baseState:ReorderState;conditionalState:ReorderState}
 export type NettingRow=BaselineRow&{key:string;rawGap:string|null;directed:string|null;baseGap:string|null;conditionalGap:string|null;candidate:string|null;firstGapAt:string|null;timelineState:string;reason:string;timing:ReorderTiming|null}
@@ -77,9 +78,10 @@ const referenceUtc=(value:string)=>{
  const utc=value.replace(/\+00:00$/,'Z');instant(utc)
  const [seconds,fraction='']=utc.slice(0,-1).split('.');return seconds+'.'+fraction.padEnd(6,'0')+'Z'
 }
-export function parseStagedScheduleWorkspace(raw:unknown,requestId:string,reference:StagedReference,expectedRun:string|null=null):ScheduleWorkspace{
- const v=obj(raw);exact(v,['contract_version','source_run','source_request_id','analysis_state','current_source_hash','source_hash','captured_at','staged_review_contract','analysis_source_hash','history_capture_state','production_capture_state','position_requirements','source_state','plan','revision','plan_state','production_go'])
- if(v.contract_version!=='cp7.planning-schedule-staged.v1'||v.staged_review_contract!==STAGED_SCHEDULE_CONTRACT||v.production_go!==false||uuid(v.source_request_id)!==requestId||hash(v.analysis_source_hash)!==reference.sourceHash||referenceUtc(str(v.captured_at))!==referenceUtc(reference.capturedAt))fail()
+export function parseStagedScheduleWorkspace(raw:unknown,requestId:string,reference:StagedReference,expectedRun:string|null=null,method:StagedSourceMethod='NATIVE'):ScheduleWorkspace{
+ if(method!=='NATIVE'&&method!=='BOUNDED')fail()
+ const bounded=method==='BOUNDED',v=obj(raw);exact(v,['contract_version','source_run','source_request_id','analysis_state','current_source_hash','source_hash','captured_at','staged_review_contract','analysis_source_hash','history_capture_state','production_capture_state','position_requirements','source_state','plan','revision','plan_state','production_go',...(bounded?['bounded_request_contract','bounded_reference_contract','history_input_coverage']:[])])
+ if(v.contract_version!==(bounded?'cp7.planning-schedule-staged-bounded.v1':'cp7.planning-schedule-staged.v1')||bounded&&(v.bounded_request_contract!==BOUNDED_ANALYSIS_REQUEST||v.bounded_reference_contract!==BOUNDED_ANALYSIS_REFERENCE||v.history_input_coverage!=='COMPLETE')||v.staged_review_contract!==STAGED_SCHEDULE_CONTRACT||v.production_go!==false||uuid(v.source_request_id)!==requestId||hash(v.analysis_source_hash)!==reference.sourceHash||referenceUtc(str(v.captured_at))!==referenceUtc(reference.capturedAt))fail()
  const sourceRun=uuid(v.source_run),sourceHash=hash(v.source_hash),currentHash=hash(v.current_source_hash),capturedAt=instant(v.captured_at),s=state(v.source_state),revision=pcs(v.revision)
  if(expectedRun!==null&&sourceRun!==expectedRun||s==='UNCHANGED'&&sourceHash!==currentHash)fail()
  if(!['RUNNING','DONE','FAILED'].includes(str(v.analysis_state))||!['COMPLETE','INCOMPLETE'].includes(str(v.history_capture_state))||!['COMPLETE','UNKNOWN'].includes(str(v.production_capture_state))||!['UNREVIEWED','SELECTED_ASSUMPTIONS','SOURCE_CHANGED'].includes(str(v.plan_state)))fail()
@@ -89,7 +91,7 @@ export function parseStagedScheduleWorkspace(raw:unknown,requestId:string,refere
   const targets=list(p.target_candidates,5000).map(raw=>{const t=obj(raw),key=str(t.target_key),parts=key.split(':');if(parts.length!==2||uuid(parts[0])+':'+uuid(parts[1])!==key||parts[1]!==r.sizeId||!r.eligible)fail();return{key,versionId:uuid(t.product_version_id),sku:str(t.sku),name:str(t.product_name)}});unique(targets.map(t=>t.key));return{...r,route,targets}})
  unique(requirements.map(p=>p.key))
  if(v.production_capture_state!=='COMPLETE'&&requirements.length)fail()
- return{sourceRun,sourceHash,currentHash,capturedAt,state:s,revision,planState:v.plan_state as ScheduleWorkspace['planState'],config,requirements,staged:{requestId,analysisHash:reference.sourceHash,analysisState:v.analysis_state as StagedScheduleContext['analysisState'],historyState:v.history_capture_state as StagedScheduleContext['historyState'],productionState:v.production_capture_state as StagedScheduleContext['productionState']}}
+ return{sourceRun,sourceHash,currentHash,capturedAt,state:s,revision,planState:v.plan_state as ScheduleWorkspace['planState'],config,requirements,staged:{requestId,analysisHash:reference.sourceHash,analysisState:v.analysis_state as StagedScheduleContext['analysisState'],historyState:v.history_capture_state as StagedScheduleContext['historyState'],productionState:v.production_capture_state as StagedScheduleContext['productionState'],method,...(bounded?{inputCoverage:'COMPLETE'}:{})}}
 }
 export function schedulePayload(w:ScheduleWorkspace,config:ScheduleConfig,reason:string):SchedulePayload{
  if(w.state!=='UNCHANGED')throw Error('Sumber stok proses berubah. Ambil sumber terbaru sebelum menyimpan jadwal.')
@@ -97,7 +99,7 @@ export function schedulePayload(w:ScheduleWorkspace,config:ScheduleConfig,reason
  const clean=reason.trim();if(!clean||clean.length>1000)throw Error('Isi alasan pemeriksaan jadwal, maksimal 1000 karakter.')
  return{source_run:w.sourceRun,source_hash:w.sourceHash,expected_revision:w.revision,config:parseScheduleConfig(config),reason:clean,...(w.staged?{staged_review_contract:STAGED_SCHEDULE_CONTRACT}:{})}
 }
-export function checkScheduleOutcome(raw:unknown,r:ScheduleRequest){const o=obj(raw),staged=r.payload.staged_review_contract===STAGED_SCHEDULE_CONTRACT;if(o.contract_version!==(staged?'cp7.planning-schedule-staged-outcome.v1':'cp7.planning-schedule-outcome.v1')||staged&&(o.staged_review_contract!==STAGED_SCHEDULE_CONTRACT||o.source_run!==r.payload.source_run)||o.request_id!==r.id||o.source_hash!==r.payload.source_hash||o.quality!=='SELECTED_ASSUMPTIONS'||o.production_go!==false||BigInt(pcs(o.revision))!==BigInt(r.payload.expected_revision)+1n)fail();uuid(o.plan_id)}
+export function checkScheduleOutcome(raw:unknown,r:ScheduleRequest){const o=obj(raw),staged=r.payload.staged_review_contract===STAGED_SCHEDULE_CONTRACT,bounded=r.sourceMethod==='BOUNDED';if(bounded&&!staged||o.contract_version!==(bounded?'cp7.planning-schedule-staged-bounded-outcome.v1':staged?'cp7.planning-schedule-staged-outcome.v1':'cp7.planning-schedule-outcome.v1')||bounded&&(o.bounded_request_contract!==BOUNDED_ANALYSIS_REQUEST||o.bounded_reference_contract!==BOUNDED_ANALYSIS_REFERENCE)||!bounded&&(Object.hasOwn(o,'bounded_request_contract')||Object.hasOwn(o,'bounded_reference_contract'))||staged&&(o.staged_review_contract!==STAGED_SCHEDULE_CONTRACT||o.source_run!==r.payload.source_run)||o.request_id!==r.id||o.source_hash!==r.payload.source_hash||o.quality!=='SELECTED_ASSUMPTIONS'||o.production_go!==false||BigInt(pcs(o.revision))!==BigInt(r.payload.expected_revision)+1n)fail();uuid(o.plan_id)}
 // Clear only a newly submitted request whose own transaction definitely
 // refused a known stale source/revision. A retry may follow a lost commit;
 // never discard that retained request on any error, including access denial.
@@ -138,7 +140,7 @@ export function parseNativeNetting(raw:unknown,q:NativeDemandQuery):NativeNettin
 }
 
 export const scheduleRequestKey=(scope:string)=>'erp.cp7.schedule-request.v1:'+scope
-export function readScheduleRequest(scope:string):{pending:ScheduleRequest|null;error:string}{try{const raw=localStorage.getItem(scheduleRequestKey(scope));if(raw===null)return{pending:null,error:''};const r=obj(JSON.parse(raw)),p=obj(r.payload),staged=Object.hasOwn(p,'staged_review_contract');exact(r,['id','payload']);exact(p,['source_run','source_hash','expected_revision','config','reason',...(staged?['staged_review_contract']:[])]);if(staged&&p.staged_review_contract!==STAGED_SCHEDULE_CONTRACT)fail();const reason=str(p.reason);if(reason.trim()!==reason||reason.length>1000)fail();return{pending:{id:uuid(r.id),payload:{source_run:uuid(p.source_run),source_hash:hash(p.source_hash),expected_revision:pcs(p.expected_revision),config:parseScheduleConfig(p.config),reason,...(staged?{staged_review_contract:STAGED_SCHEDULE_CONTRACT}:{})}},error:''}}catch{return{pending:null,error:'Permintaan jadwal tersimpan belum bisa dibaca. Pulihkan catatan sebelum menyimpan lagi.'}}}
+export function readScheduleRequest(scope:string):{pending:ScheduleRequest|null;error:string}{try{const raw=localStorage.getItem(scheduleRequestKey(scope));if(raw===null)return{pending:null,error:''};const r=obj(JSON.parse(raw)),p=obj(r.payload),staged=Object.hasOwn(p,'staged_review_contract'),bounded=Object.hasOwn(r,'sourceMethod');exact(r,['id','payload',...(bounded?['sourceMethod']:[])]);if(bounded&&(r.sourceMethod!=='BOUNDED'||!staged))fail();exact(p,['source_run','source_hash','expected_revision','config','reason',...(staged?['staged_review_contract']:[])]);if(staged&&p.staged_review_contract!==STAGED_SCHEDULE_CONTRACT)fail();const reason=str(p.reason);if(reason.trim()!==reason||reason.length>1000)fail();return{pending:{id:uuid(r.id),payload:{source_run:uuid(p.source_run),source_hash:hash(p.source_hash),expected_revision:pcs(p.expected_revision),config:parseScheduleConfig(p.config),reason,...(staged?{staged_review_contract:STAGED_SCHEDULE_CONTRACT}:{})},...(bounded?{sourceMethod:'BOUNDED'}:{})},error:''}}catch{return{pending:null,error:'Permintaan jadwal tersimpan belum bisa dibaca. Pulihkan catatan sebelum menyimpan lagi.'}}}
 export function persistScheduleRequest(scope:string,r:ScheduleRequest){const held=readScheduleRequest(scope);if(held.error||held.pending)throw Error('Pastikan hasil permintaan jadwal tersimpan terlebih dahulu.');const raw=JSON.stringify(r);localStorage.setItem(scheduleRequestKey(scope),raw);if(localStorage.getItem(scheduleRequestKey(scope))!==raw||readScheduleRequest(scope).pending?.id!==r.id)throw Error('Permintaan jadwal belum tersimpan. Periksa penyimpanan.')}
 export function clearScheduleRequest(scope:string,id:string){const held=readScheduleRequest(scope);if(held.error||held.pending?.id!==id)throw Error('Catatan permintaan jadwal berubah. Ulangi permintaan yang sama.');localStorage.removeItem(scheduleRequestKey(scope));if(localStorage.getItem(scheduleRequestKey(scope))!==null)throw Error('Catatan jadwal belum dapat diselesaikan.')}
 

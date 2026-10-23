@@ -89,6 +89,9 @@ def cases(cur,today):
 
     def legacy():
         f=work.prepare(cur,today)
+        auto=plan.staged.limited(cur,'erp_cp7_request_staged_analysis_v1',(json.dumps(dict(initial_auto='STATUS')),None))
+        assert auto['contract_version']=='cp7.initial-analysis.v1'
+        plan.refused(cur,lambda:request(cur,today,str(uuid.uuid4()),q=dict(initial_auto='ENSURE')),'CP7_WIP_FIELDS')
         out=work.save(cur,f['payload'])
         assert out['contract_version']=='cp7.planning-schedule-staged-outcome.v1'
         assert 'bounded_request_contract' not in out
@@ -101,6 +104,7 @@ def cases(cur,today):
         q=dict(q,group_mode='RESTATED' if q['group_mode']=='AS_SOLD' else 'AS_SOLD')
         plan.refused(cur,lambda:request(cur,today,key,q=q),'CP7_ANALYSIS_REQUEST_CHANGED')
         return dict(status='PASS',legacy_work_response_and_SAVE_contract_exact=True,
+                    actual_old_initial_auto_dispatch_preserved=True,new_route_cannot_enter_initial_auto=True,
                     exact_new_method_request_replay=True,both_cross_method_UUID_routes_refused=True,changed_query_refused=True)
 
     def done():

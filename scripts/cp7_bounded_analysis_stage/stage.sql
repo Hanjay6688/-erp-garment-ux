@@ -742,6 +742,13 @@ create or replace function cp7_analysis_stage.request(p_query jsonb,p_request uu
 language plpgsql volatile security invoker set search_path=''set TimeZone='UTC'as $$
 declare a jsonb;q jsonb;jid uuid;jq jsonb;c jsonb;b jsonb:=cp7_analysis_stage.bounds();snap pg_snapshot;
 begin
+ if p_query?'initial_auto'then
+  if p_request is not null or jsonb_typeof(p_query)is distinct from'object'then raise exception 'CP7_INITIAL_MODE';end if;
+  if jsonb_typeof(p_query->'initial_auto')is distinct from'string'
+   or p_query->>'initial_auto'not in('STATUS','ENSURE')
+   or (select count(*)from jsonb_object_keys(p_query))<>1 then raise exception 'CP7_INITIAL_MODE';end if;
+  return cp7_initial_analysis.current(p_query->>'initial_auto'='ENSURE');
+ end if;
  if current_setting('transaction_isolation')<>'read committed'then raise exception 'CP7_FRESH_ACCESS_REQUIRED';end if;
  a:=cp7_schedule_native.access_now(false);q:=cp7_planning.history_query(p_query);
  if p_request is null then raise exception 'CP7_ANALYSIS_REQUEST_REQUIRED';end if;
