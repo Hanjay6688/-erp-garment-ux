@@ -1,3 +1,4 @@
+# Private bounded-input source cc64199f; raw Native status and job/SAVE boundaries stay explicit.
 name: CP7 Bounded History Inputs Native3
 'on':
   push:
