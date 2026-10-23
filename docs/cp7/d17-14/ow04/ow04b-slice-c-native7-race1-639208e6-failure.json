@@ -1,0 +1,50 @@
+{
+ "run": 39913778353,
+ "attempt": 1,
+ "job": 120282554572,
+ "step": 30,
+ "head": "639208e6",
+ "label": "CP7_OW04BC_INCOMING_CREDIT_RETURN_NATIVE7_RACE1",
+ "status": "INCOMPLETE",
+ "artifact": "cp7-ow04b-incoming-credit-return-native7-race1 (12484064277)",
+ "report_raw_sha256": "cc356ab8f03f37210dc8b7ada6c918eb8509872b6934b9d88117b6ddb73fd473",
+ "observed_case_count": 7,
+ "observed_race_count": 1,
+ "cp6_restored": true,
+ "advisor_gate": true,
+ "restore_error": null,
+ "pre_removal_lock_wait": {
+  "clear": true,
+  "waited_polls": 0,
+  "holders_seen": []
+ },
+ "cases": {
+  "OW04BC_FIRST_RETURN_QUOTES_UNCHANGED": "PASS",
+  "OW04BC_RETURN_ON_CREDIT_PAID_INVOICE_NO_CREDIT": "INCOMPLETE: column reference \"x\" is ambiguous",
+  "OW04BC_UNDO_ALLOWED_WHEN_RETURN_EMPTY": "INCOMPLETE: column reference \"x\" is ambiguous",
+  "OW04BC_RETURN_ON_CREDIT_PAID_INVOICE_CREDIT": "INCOMPLETE: column reference \"x\" is ambiguous",
+  "OW04BC_RETURN_ON_CREDIT_PAID_INVOICE_REFUND": "INCOMPLETE: column reference \"x\" is ambiguous",
+  "OW04BC_UNDO_REFUSED_WHEN_RETURN_DEPENDS": "INCOMPLETE: column reference \"x\" is ambiguous",
+  "OW04BC_PROTECTED_REFUSALS_IDENTICAL": "INCOMPLETE: column reference \"x\" is ambiguous"
+ },
+ "races": {
+  "OW04BC_RACE_RETURN_VS_UNDO_OF_ITS_CREDIT": "INCOMPLETE: column reference \"x\" is ambiguous"
+ },
+ "previous_items": {
+  "refund_case_929c615a": "not reached: every return now stops earlier, at the C14 line itself (see failure below)",
+  "removal_lock_929c615a": "did not recur: pre-use removal completed, CP6 restored, advisor gate true; the bounded wait saw no other lock holder (clear true, 0 polls)"
+ },
+ "failures": [
+  {
+   "item": "every case that posts a return (6 cases) and the race",
+   "observed": "42702 column reference \"x\" is ambiguous at native_return_complete line 18, the C14 assignment recognition_sha:=...jsonb_array_elements(a->'actual_objects')x...; \"It could refer to either a PL/pgSQL variable or a table column\"",
+   "expected": "each case reaches its own expected outcome",
+   "classification": "(b) the stage was wrong: my C14 text, not the case expectation",
+   "cause": "native_return_complete declares x record (its post_component loop variable). C14 reused x as the row alias of jsonb_array_elements, as the retained readers do in functions that have no x variable. PL/pgSQL resolves names only when the statement first runs, so the function compiled at install and the composition and local checks passed; the first return raised the ambiguity.",
+   "fix": "C14 now names the row alias obj (no variable, parameter or column of that name in the function). The manifest is otherwise byte-for-byte the same expression. local_check_delta.py now runs the exact patched C14 line under the exact declare line of the patched native_return_complete: it matches the readers' hash with and without a consumption object, and the first spelling is refused with 42702, reproducing this run."
+  }
+ ],
+ "process_note": "E25c (scripts/cp7_plpgsql_clash_check.py) had not been run on the patched definitions. Run now on all seven: slice B text clean, slice C text clean, and the first C14 spelling flags native_return_complete [x].",
+ "first_case": "PASS: first-return quotes unchanged",
+ "no_case_expectation_or_oracle_changed": true
+}

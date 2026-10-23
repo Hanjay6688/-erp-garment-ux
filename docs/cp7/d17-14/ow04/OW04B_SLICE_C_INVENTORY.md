@@ -66,6 +66,13 @@ then calls B's removal.
 - A credit-paid invoice's profile carries the incoming APPLY as a consumption object, so the two used to differ.
 - Record: `ow04b-slice-c-native7-race1-929c615a-failure.json`, which also notes the unexplained lock during removal.
 
+**Corrected after the third CI run (639208e6, run 39913778353):**
+- C14 first named its row alias `x`, but `x` is a declared record variable of `native_return_complete`. Every return failed with 42702 (ambiguous column).
+- The alias is now `obj`, and the hash expression is otherwise the same.
+- The local check now runs the patched line inside the function's own variable scope, and it reproduces the old failure.
+- The removal lock did not recur: removal completed and the wait saw no holder.
+- Record: `ow04b-slice-c-native7-race1-639208e6-failure.json`.
+
 Still refused after C, with named reasons:
 - payment correction on such an invoice (`payment_correction/transform.py:53,171`, `04_completion.sql:9`);
 - source reversal of its payments or returns (`consumer/11_source_history.sql:14`, `CP7_CREDIT_SOURCE_INCOMING_HISTORY_ADAPTER_REQUIRED`);

@@ -48,10 +48,12 @@ SUBSTITUTIONS={
         # while both retained readers (assert_refund_operation_v1, the refund poster) compare the sorted profile WITHOUT
         # consumption objects. A credit-paid invoice's profile carries the incoming APPLY as a consumption object of the
         # upstream cohort, so the stored value must be exactly the readers' manifest; without consumption objects it is
-        # the same hash as before (the profile is already sorted by kind and id).
+        # the same hash as before (the profile is already sorted by kind and id). The row alias is obj, not x: x is a
+        # declared record variable of native_return_complete, and the third run (39913778353, 639208e6) refused the
+        # first spelling as an ambiguous column reference.
         ('C14'," recognition_sha:=cp7_credit.pg_jsonb_sha256(a->'actual_objects');\n",
-               " recognition_sha:=cp7_credit.pg_jsonb_sha256((select coalesce(jsonb_agg(x order by x->>'object_kind'collate\"C\","
-               "x->>'object_id'collate\"C\"),'[]')from jsonb_array_elements(a->'actual_objects')x where x->>'object_kind'<>'CONSUMPTION'));\n"),
+               " recognition_sha:=cp7_credit.pg_jsonb_sha256((select coalesce(jsonb_agg(obj order by obj->>'object_kind'collate\"C\","
+               "obj->>'object_id'collate\"C\"),'[]')from jsonb_array_elements(a->'actual_objects')obj where obj->>'object_kind'<>'CONSUMPTION'));\n"),
         ('C4'," result:=(w.projection->>'raw_paid')::numeric-cp7_credit_multi.prior_recognized_v1(w.source_sale_id,w.family_ordinal)-full_k;\n",
               " result:=(w.projection->>'raw_paid')::numeric+"+U_WORK+"-cp7_credit_multi.prior_recognized_v1(w.source_sale_id,w.family_ordinal)-full_k;\n"),),
     REASONS:(

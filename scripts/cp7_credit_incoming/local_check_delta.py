@@ -235,8 +235,8 @@ def main(dsn):
             profile_with_apply = [fact('COHORT', ids[0]), fact('CONSUMPTION', ids[3]), fact('FAMILY', ids[1]), fact('PART', ids[2])]
             readers = "select cp7_credit.pg_jsonb_sha256(coalesce((select jsonb_agg(x order by x->>'object_kind'collate\"C\",x->>'object_id'collate\"C\")from jsonb_array_elements(%s::jsonb)x where x->>'object_kind'<>'CONSUMPTION'),'[]'))"
             old_store = 'select cp7_credit.pg_jsonb_sha256(%s::jsonb)'
-            new_store = ("select cp7_credit.pg_jsonb_sha256((select coalesce(jsonb_agg(x order by x->>'object_kind'collate\"C\",x->>'object_id'collate\"C\"),'[]')"
-                         "from jsonb_array_elements(%s::jsonb)x where x->>'object_kind'<>'CONSUMPTION'))")
+            new_store = ("select cp7_credit.pg_jsonb_sha256((select coalesce(jsonb_agg(obj order by obj->>'object_kind'collate\"C\",obj->>'object_id'collate\"C\"),'[]')"
+                         "from jsonb_array_elements(%s::jsonb)obj where obj->>'object_kind'<>'CONSUMPTION'))")
             h = lambda sql, v: cur.execute(sql, (json.dumps(v),)).fetchone()[0]
             c14 = dict(plain_old_equals_new=h(old_store, profile_plain) == h(new_store, profile_plain),
                        plain_readers_match=h(readers, profile_plain) == h(new_store, profile_plain),
@@ -245,6 +245,27 @@ def main(dsn):
             assert c14 == dict(plain_old_equals_new=True, plain_readers_match=True, with_apply_old_matches_readers=False,
                                with_apply_new_matches_readers=True), c14
             assert native_delta_text_contains(patched[c.COMPLETE], new_store.split('select ', 1)[1].replace('%s::jsonb', "a->'actual_objects'"))
+            # Third CI run (39913778353, 639208e6): the assignment must also run inside native_return_complete's own
+            # variable scope (x is a declared record there). Execute the exact patched line under the exact declare line.
+            body = patched[c.COMPLETE]
+            declare = re.search(r'\ndeclare [^\n]*\n', body).group(0)
+            c14_line = [n for label, _, n in c.SUBSTITUTIONS[c.COMPLETE] if label == 'C14'][0]
+            first_spelling = re.sub(r'\bobj\b', 'x', c14_line)
+
+            def in_scope(line, profile):
+                cur.execute('savepoint c14_scope')
+                try:
+                    cur.execute('create function pg_temp.c14_scope(p jsonb)returns text language plpgsql as $f$' + declare
+                                + "begin\n a:=jsonb_build_object('actual_objects',p);\n" + line + ' return recognition_sha;\nend$f$')
+                    got = cur.execute('select pg_temp.c14_scope(%s::jsonb)', (json.dumps(profile),)).fetchone()[0]
+                    return got == h(readers, profile)
+                except psycopg.Error as e:
+                    return e.sqlstate
+                finally:
+                    cur.execute('rollback to savepoint c14_scope')
+            c14['in_scope'] = dict(plain=in_scope(c14_line, profile_plain), with_apply=in_scope(c14_line, profile_with_apply),
+                                   first_spelling_refused=in_scope(first_spelling, profile_with_apply))
+            assert c14['in_scope'] == dict(plain=True, with_apply=True, first_spelling_refused='42702'), c14['in_scope']
             seen['refund_recognition_manifest_C14'] = c14
             report['side_by_side'] = seen
             conn.rollback()

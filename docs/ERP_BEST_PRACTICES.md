@@ -170,6 +170,9 @@ Disusun 16 Okt 2026. Tambahkan aturan baru di bagian yang sesuai, dengan ID temu
     menangkapnya. `CASE ... THEN` di dalam syarat `IF` harus diberi kurung. Jalankan
     `scripts/cp7_plpgsql_compile_check.py` lalu `scripts/cp7_plpgsql_clash_check.py` pada setiap berkas SQL yang diubah,
     di database cek milik sendiri. (CI 39002828381: 21 kasus jahit INCOMPLETE karena variabel `x`, `r`, `c`; R3-09)
+    Ini juga berlaku untuk fungsi yang diubah lewat substitusi teks: periksa teks hasil tambalannya, bukan berkas
+    sumbernya saja. (CI 39913778353: alias `x` di C14 bentrok dengan variabel `x` milik `native_return_complete`,
+    sehingga semua retur OW-04b slice C gagal)
 25d. **Uji build mode data nyata memakai build rilis yang sama**, bukan build uji: hanya alamat proyek dan kunci browser
     yang diganti (kunci pengganti, bukan kunci proyek mana pun), alamat proyek dijawab oleh database sekali pakai di
     loopback, semua alamat lain diblokir, dan host proyek diarahkan ke loopback di runner. (owner D16-1, oracle Fable 2)
