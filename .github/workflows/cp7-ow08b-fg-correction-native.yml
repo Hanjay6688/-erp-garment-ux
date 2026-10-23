@@ -105,7 +105,12 @@ jobs:
         GH_TOKEN: ${{ github.token }}
       working-directory: auditor
       run: python scripts/ow06_native_original.py
-    - name: Admit exact OW08b FG source over the declared kasbon stage and qualified OW06 original before DB
+    - name: Fetch and verify qualified actual OW08b kasbon Native4 original before DB
+      env:
+        GH_TOKEN: ${{ github.token }}
+      working-directory: auditor
+      run: python scripts/ow08b_kasbon_native_original.py
+    - name: Admit exact OW08b FG source over the qualified kasbon Native4 and OW06 originals before DB
       working-directory: writer
       run: ERP_REPO=../auditor PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=../auditor/scripts python -c "from cp7_fg_correction_source
         import native_probe as p; p.admitted(); print('OW08B_FG_SOURCE_ADMITTED_NO_DB')"

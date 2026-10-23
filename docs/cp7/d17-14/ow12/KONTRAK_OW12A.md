@@ -10,6 +10,11 @@ transaksi yang sama. Bukti `native7-176dcf38-second-install-failure.json`.
 Uji ketiga (`16bf8e56`, run 39882795647): pemasangan jalan, lalu pemeriksa katalog menolak pemicu bawaan yang dibuat
 PostgreSQL untuk relasi `chunks`→`captures`; kini hanya pemicu relasi bawaan itu yang diizinkan. Bukti
 `native7-16bf8e56-third-install-failure.json`.
+**Native7 lulus 7/7** di `efa800cd` (run 39886155240): angka sama dengan laporan keuangan resmi dan dengan sumber analisis
+langsung, sidik buku sama dengan hitung ulang mandiri, pembacaan laporan tidak mengubah buku, perubahan buku saat tangkapan
+ditolak, hak akses benar, laporan bertahap memakai tangkapan, pembanding periode bekerja. Bukti `native7-efa800cd-pass.json`;
+kegagalan kasus sebelumnya disimpan (`native7-f45577cd-first-case-failure.json`, `native7-8438a4a7-second-case-failure.json`,
+`native7-2cd58e47-third-case-failure.json`). Belum: sambungan B (OW-12b) dan rantai OW-15.
 Tidak ada RPC publik khusus capture: layar membaca kemajuan lewat status job pemiliknya. B boleh menulis
 pemanggilnya mengikuti kontrak ini; perubahan kontrak dicatat di sini lebih dulu.
 

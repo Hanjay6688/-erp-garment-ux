@@ -1,7 +1,8 @@
 """OW-08b FG-correction Native qualification on a disposable aligned CP6 copy; no hosted or production effect.
 
-The predecessor is the kasbon stage (cp7_kasbon_source). Its own qualified report does not exist yet, so admission
-checks the same qualified OW06 Native10 original the kasbon stage pins, plus the declared kasbon source.
+The predecessor is the kasbon stage (cp7_kasbon_source). Admission checks its qualified Native4 original (bytes, sha256,
+PASS 4/4, restore and advisor gates, declared source equal to scripts/cp7_kasbon_source/SOURCE.json), and through the
+kasbon probe chain the OW06 Native10 original it was built on.
 """
 from pathlib import Path
 from hashlib import sha256
@@ -27,11 +28,20 @@ def admitted():
     old=setup.admitted()
     pins=json.loads((HERE/'SOURCE.json').read_bytes())
     for path,digest in pins['files'].items():assert sha256((REPO/path).read_bytes()).hexdigest()==digest,('OW08B_FG_SOURCE_CHANGED',path)
+    # The OW06 Native10 original stays admitted through the kasbon probe chain, exactly as before.
+    ow06=pins['ow06_native_original']
+    assert ow06==old['OW08b_kasbon_declared_source']['ow06_native_original']and ow06==old['qualified_predecessor']
+    # The immediate predecessor's own qualified original: kasbon Native4 (run 39847032024, artifact 12456785458).
     proof=pins['predecessor_original']
-    assert proof==old['OW08b_kasbon_declared_source']['ow06_native_original']and proof==old['qualified_predecessor']
+    raw=Path(os.environ['OW08B_KASBON_NATIVE4_ORIGINAL_REPORT']).read_bytes()
+    assert proof['name']=='CP7_OW08B_KASBON_SOURCE_NATIVE4.json'and len(raw)==proof['bytes']and sha256(raw).hexdigest()==proof['sha256']
+    actual=json.loads(raw)
+    assert actual['label']=='CP7_OW08B_KASBON_SOURCE_NATIVE4'and actual['status']=='PASS'and actual['native']['counts']=={'PASS':4}
+    assert actual['required_case_ids_pass']and actual['cp6_restored']and actual['advisor_gate']
+    assert actual['source_declaration']['OW08b_kasbon_declared_source']==old['OW08b_kasbon_declared_source']
     assert pins['case_ids']==list(IDS)and len(IDS)==9
     assert not subprocess.check_output(['git','-C',str(REPO),'status','--porcelain','--',str(HERE)],text=True).strip()
-    return dict(qualified_predecessor=proof,predecessor_report_note='kasbon stage report not qualified yet; OW06 Native10 pinned',
+    return dict(qualified_predecessor=proof,ow06_native_original=ow06,
         predecessor_source_declaration=old,OW08b_fg_declared_source=pins)
 
 
