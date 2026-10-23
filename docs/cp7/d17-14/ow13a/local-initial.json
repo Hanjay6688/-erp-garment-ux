@@ -16,6 +16,7 @@
     "legacy_oracle_exact_predecessor": true,
     "legacy_oracle_refusal_propagated": true,
     "legacy_oracle_restored_22_on_pass_and_fail": true,
+    "function_oracle_bound_only_after_exact_22_predecessor_and_restored": true,
     "after_use_refusal": "OW13A_AFTER_USE_REQUIRES_BACKUP_RESTORE",
     "after_use_refused_before_first_DDL": true
   },

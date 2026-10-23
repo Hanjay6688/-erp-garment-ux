@@ -7,7 +7,10 @@ lulus; instal/invers/admission22 lokal lulus. Native126 pertama6738da4/run398819
 berhenti sebelum kasus karena satu grant baru bertabrakan dengan daftar tepat
 pemeriksa WA lama. Original disimpan; komposisi alat uji diperbaiki lewat invers
 terverifikasi/savepoint22 tanpa mengubah pemeriksa lama. Lokal11+42 terfokus lulus;
-Native126 perbaikan belum PASS. Detail dan permintaan A di [ow13a/README.md](../d17-14/ow13a/README.md):
+Native126 perbaikan39360e5 juga0 kasus: snapshot seluruh fungsi P09 belum
+diikat ke predecessor yang diperiksa. Perbaikan berikut wajib mencocokkan
+katalog predecessor22 sebelum pengikatan sementara dan memulihkan snapshot
+oracle di finally; lokal11+42 lulus, Native berikutnya belum PASS. Detail dan permintaan A di [ow13a/README.md](../d17-14/ow13a/README.md):
 registry sekarang7 pasangan (patch pengganti6 lama), tipe nullable, callback
 Master dan pemasangan jadwal lama/K4 tanpa syarat konfigurasi WA. OW13a OPEN.
 

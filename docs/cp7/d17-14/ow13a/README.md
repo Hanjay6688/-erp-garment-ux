@@ -69,6 +69,16 @@ menambah pengecualian umum. Lokal11 kelompok tetap lulus; API/katalog aktual
 juga membuktikan oracle gagal diteruskan dan keadaan22 tetap pulih pada jalur
 lulus maupun gagal. Native126 perbaikan masih harus membuktikan komposisi ini.
 
+Perbaikan39360e5/run39883844008/job120187290457 juga **0 kasus**: oracle P09
+atas seluruh fungsi/ACL masih terikat snapshot tahap baru saat memeriksa
+predecessor. Receipt39360e5-native126-first-composition-fix.json disimpan.
+Komposisi kini wajib cocok tepat22 grup dengan katalog predecessor yang
+ditangkap **sebelum** pemasangan awal, baru mengikat snapshot fungsi oracle
+ke predecessor terverifikasi itu; snapshot tahap kini dipulihkan di finally.
+Oracle kesamaan P09 dan pemeriksa WA tetap tidak diubah. Lokal11 SQL/invers22
+serta42 klien lulus; juga dibuktikan pengikatan sementara dan pemulihan
+snapshot oracle pada jalur lulus/gagal. Hasil Native berikutnya belum diklaim.
+
 ## Permintaan integrasi A
 
 1. SQL dasar tetap beku. Tahap produksi18, OW16 dan registry terdahulu, lalu

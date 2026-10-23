@@ -63,28 +63,35 @@ def main():
                 apply_rollback_reapply_exact=True,admission_passed=True,full_A_chain_qualified=False,production_go=False)
     if name=='cp7_initial_analysis_stage':
         from cp7_ow13a_initial_probe import verify_initial_delta
+        state['predecessor_catalog']=before
         installed=catalog._catalog_rows(cur)
         calls=[]
+        admitted_current=object()
+        admitted_predecessor=object()
+        function_oracle=SimpleNamespace(INSTALLED_FUNCTIONS=admitted_current,functions=lambda cursor:admitted_predecessor)
         def predecessor_check(cursor):
             if catalog._catalog_rows(cursor)!=before:
                 raise ValueError('LOCAL_LEGACY_ORACLE_NOT_EXACT_PREDECESSOR')
+            if function_oracle.INSTALLED_FUNCTIONS is not admitted_predecessor:
+                raise ValueError('LOCAL_LEGACY_FUNCTION_ORACLE_NOT_BOUND_TO_PREDECESSOR')
             calls.append(True)
-        verify_initial_delta(cur,predecessor_check,state)
-        if calls!=[True]or catalog._catalog_rows(cur)!=installed:
+        verify_initial_delta(cur,predecessor_check,state,function_oracle)
+        if calls!=[True]or catalog._catalog_rows(cur)!=installed or function_oracle.INSTALLED_FUNCTIONS is not admitted_current:
             raise ValueError('LOCAL_LEGACY_ORACLE_NOT_RESTORED')
         def rejected_predecessor(cursor):
             predecessor_check(cursor)
             raise ValueError('LOCAL_LEGACY_ORACLE_SENTINEL')
         try:
-            verify_initial_delta(cur,rejected_predecessor,state)
+            verify_initial_delta(cur,rejected_predecessor,state,function_oracle)
         except ValueError as error:
             if str(error)!='LOCAL_LEGACY_ORACLE_SENTINEL':raise
         else:
             raise ValueError('LOCAL_LEGACY_ORACLE_FAILURE_SWALLOWED')
-        if catalog._catalog_rows(cur)!=installed:
+        if catalog._catalog_rows(cur)!=installed or function_oracle.INSTALLED_FUNCTIONS is not admitted_current:
             raise ValueError('LOCAL_REJECTED_LEGACY_ORACLE_NOT_RESTORED')
         result.update(legacy_oracle_exact_predecessor=True,
-                      legacy_oracle_refusal_propagated=True,legacy_oracle_restored_22_on_pass_and_fail=True)
+                      legacy_oracle_refusal_propagated=True,legacy_oracle_restored_22_on_pass_and_fail=True,
+                      function_oracle_bound_only_after_exact_22_predecessor_and_restored=True)
     cur.execute('commit');emit(dict(kind='ready',result=result))
     if json.loads(sys.stdin.readline())!={'kind':'after_use'}:
         raise ValueError('LOCAL_AFTER_USE_PHASE_REQUIRED')

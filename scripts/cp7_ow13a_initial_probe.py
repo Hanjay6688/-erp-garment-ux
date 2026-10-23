@@ -4,7 +4,7 @@ import cp7_initial_analysis_stage as initial
 import cp7_target_policy_stage as target
 
 
-def verify_initial_delta(cur, legacy_checker, state):
+def verify_initial_delta(cur, legacy_checker, state, function_oracle=None):
     """Prove the unchanged legacy oracle plus the exact declared initial delta.
 
     The legacy WA verifier deliberately permits no unknown outside-schema
@@ -19,7 +19,20 @@ def verify_initial_delta(cur, legacy_checker, state):
     cur.execute('savepoint ow13a_legacy_oracle')
     try:
         initial.rollback_preuse(cur, state)
-        legacy_checker(cur)
+        if _catalog_rows(cur) != state['predecessor_catalog']:
+            raise ValueError('OW13A_LEGACY_ORACLE_NOT_EXACT_PREDECESSOR_22')
+        # P09 compares every function/ACL to the admitted install snapshot.
+        # Bind its unchanged equality oracle to this VERIFIED predecessor,
+        # then restore its current-stage snapshot even when a check fails.
+        if function_oracle is None:
+            legacy_checker(cur)
+        else:
+            admitted_current = function_oracle.INSTALLED_FUNCTIONS
+            try:
+                function_oracle.INSTALLED_FUNCTIONS = function_oracle.functions(cur)
+                legacy_checker(cur)
+            finally:
+                function_oracle.INSTALLED_FUNCTIONS = admitted_current
     finally:
         cur.execute('rollback to savepoint ow13a_legacy_oracle')
         cur.execute('release savepoint ow13a_legacy_oracle')
@@ -28,9 +41,11 @@ def verify_initial_delta(cur, legacy_checker, state):
     initial.verify(cur, state)
 
 
-def verify_composed_install(cur, legacy_checker, states):
+def verify_composed_install(cur, legacy_checker, states, function_oracle=None):
+    if function_oracle is None:
+        import cp7_p09_procurement_probe as function_oracle
     target.verify(cur, states['target'])
-    verify_initial_delta(cur, legacy_checker, states['initial'])
+    verify_initial_delta(cur, legacy_checker, states['initial'], function_oracle)
     target.verify(cur, states['target'])
 
 
@@ -45,6 +60,7 @@ def install_stages(cur):
             raise ValueError('OW13A_NATIVE_PREUSE_22_NOT_EXACTLY_RESTORED: '+name)
         state=module.install_delta(cur)
         module.admit_catalog(before,_catalog_rows(cur),state)
+        if name=='initial':state['predecessor_catalog']=before
         states[name]=state
         receipts[name]=dict(module.verify(cur,state),preuse_22_groups_exactly_restored=True,
                             source_sha256=module.sources())
