@@ -6,7 +6,7 @@ committed copy (cp6_auditor_modes).
 """
 from pathlib import Path
 from hashlib import sha256
-import json,os,subprocess,sys,traceback
+import json,os,subprocess,sys,time,traceback
 sys.dont_write_bytecode=True
 HERE=Path(__file__).resolve().parent
 REPO=HERE.parents[1]
@@ -78,6 +78,24 @@ def race_verify(cur):
     return product.verify_objects(cur,STATE)
 
 
+def quiesce(limit=90):
+    """Before removal: wait (bounded) until no OTHER backend holds a lock on a relation of a cp7 schema, and record who
+    did. The retained removal still takes its ACCESS EXCLUSIVE NOWAIT locks unchanged; this only avoids racing a
+    transient holder (run 39893191153 could not lock cp7_sales.requests; the holder was not recorded)."""
+    seen=[];deadline=time.monotonic()+limit
+    with psycopg.connect(package.boundary.ADMIN,autocommit=True)as conn,conn.cursor()as cur:
+        while True:
+            rows=cur.execute("""select a.pid,a.backend_type,coalesce(a.state,''),l.mode,c.relname,n.nspname,left(coalesce(a.query,''),160)
+             from pg_locks l join pg_class c on c.oid=l.relation join pg_namespace n on n.oid=c.relnamespace
+             left join pg_stat_activity a on a.pid=l.pid
+             where l.pid<>pg_backend_pid()and l.database=(select oid from pg_database where datname=current_database())
+              and n.nspname like 'cp7%'order by 1,5""").fetchall()
+            if rows and len(seen)<30:seen.append([list(map(str,r))for r in rows[:10]])
+            if not rows:return dict(clear=True,waited_polls=len(seen),holders_seen=seen)
+            if time.monotonic()>deadline:return dict(clear=False,waited_polls=len(seen),holders_seen=seen)
+            time.sleep(1)
+
+
 def run():
     global STATE
     report=dict(label=LABEL,status='INCOMPLETE',source_declaration=admitted(),
@@ -111,6 +129,10 @@ def run():
     finally:
         if installed:
             try:
+                try:
+                    report['pre_removal_lock_wait']=quiesce()
+                except Exception as error:  # diagnostics only; removal below still runs with its own guards
+                    report['pre_removal_lock_wait']=dict(clear=None,error=str(error))
                 with psycopg.connect(package.boundary.ADMIN)as conn,conn.cursor()as cur:
                     report['complete_preuse_removal']=product.rollback_preuse(cur,STATE)
                     conn.commit()

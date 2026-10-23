@@ -1,4 +1,4 @@
-"""Counted substitutions for OW-04b slice C step 2 (docs/cp7/d17-14/ow04/OW04B_SLICE_C_INVENTORY.md C1-C7, C12, C13).
+"""Counted substitutions for OW-04b slice C step 2 (docs/cp7/d17-14/ow04/OW04B_SLICE_C_INVENTORY.md C1-C7, C12-C14).
 
 Applied to the installed slice B definitions (cp7_credit_multi). Every anchor is found once. U is
 cp7_credit_incoming.incoming_applied_v1, the credit applied to the invoice (incoming.sql); with U = 0 every replaced
@@ -44,6 +44,14 @@ SUBSTITUTIONS={
     ADMISSION:(
         ('C5',"  or exists(select 1 from cp7_credit.consumption_events where event_kind='APPLY'and target_sale_id=w.source_sale_id)\n",''),),
     COMPLETE:(
+        # C14 (second CI run 39893191153, 929c615a): the refund binding stores the hash of the invoice's whole profile,
+        # while both retained readers (assert_refund_operation_v1, the refund poster) compare the sorted profile WITHOUT
+        # consumption objects. A credit-paid invoice's profile carries the incoming APPLY as a consumption object of the
+        # upstream cohort, so the stored value must be exactly the readers' manifest; without consumption objects it is
+        # the same hash as before (the profile is already sorted by kind and id).
+        ('C14'," recognition_sha:=cp7_credit.pg_jsonb_sha256(a->'actual_objects');\n",
+               " recognition_sha:=cp7_credit.pg_jsonb_sha256((select coalesce(jsonb_agg(x order by x->>'object_kind'collate\"C\","
+               "x->>'object_id'collate\"C\"),'[]')from jsonb_array_elements(a->'actual_objects')x where x->>'object_kind'<>'CONSUMPTION'));\n"),
         ('C4'," result:=(w.projection->>'raw_paid')::numeric-cp7_credit_multi.prior_recognized_v1(w.source_sale_id,w.family_ordinal)-full_k;\n",
               " result:=(w.projection->>'raw_paid')::numeric+"+U_WORK+"-cp7_credit_multi.prior_recognized_v1(w.source_sale_id,w.family_ordinal)-full_k;\n"),),
     REASONS:(

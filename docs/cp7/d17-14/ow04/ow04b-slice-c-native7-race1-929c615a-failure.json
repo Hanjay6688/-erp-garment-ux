@@ -1,0 +1,59 @@
+{
+ "run": 39893191153,
+ "attempt": 1,
+ "job": 120217461081,
+ "step": 20,
+ "head": "929c615a",
+ "label": "CP7_OW04BC_INCOMING_CREDIT_RETURN_NATIVE7_RACE1",
+ "status": "INCOMPLETE",
+ "artifact": "cp7-ow04b-incoming-credit-return-native7-race1 (12475513834)",
+ "observed_case_count": 7,
+ "observed_race_count": 1,
+ "cases": {
+  "OW04BC_FIRST_RETURN_QUOTES_UNCHANGED": "PASS",
+  "OW04BC_RETURN_ON_CREDIT_PAID_INVOICE_NO_CREDIT": "PASS",
+  "OW04BC_UNDO_ALLOWED_WHEN_RETURN_EMPTY": "PASS",
+  "OW04BC_RETURN_ON_CREDIT_PAID_INVOICE_CREDIT": "PASS",
+  "OW04BC_RETURN_ON_CREDIT_PAID_INVOICE_REFUND": "INCOMPLETE: CP7_CREDIT_REFUND_RECOGNITION_CHANGED",
+  "OW04BC_UNDO_REFUSED_WHEN_RETURN_DEPENDS": "PASS",
+  "OW04BC_PROTECTED_REFUSALS_IDENTICAL": "PASS"
+ },
+ "races": {
+  "OW04BC_RACE_RETURN_VS_UNDO_OF_ITS_CREDIT": "PASS"
+ },
+ "race_observed": {
+  "actual_worker": {
+   "ok": false,
+   "sqlstate": "P0001",
+   "message": "CP7_CREDIT_CONSUMER_FAMILY_ADJUSTMENT_REVIEW_REQUIRED"
+  }
+ },
+ "failures": [
+  {
+   "item": "OW04BC_RETURN_ON_CREDIT_PAID_INVOICE_REFUND",
+   "observed": "P0001 CP7_CREDIT_REFUND_RECOGNITION_CHANGED at assert_refund_operation_v1 line 32 (from post_initial_refund in native_return_complete)",
+   "expected": "return of 100 settled as REFUND: I 100, E 400, AR 0, PAID, cash -100",
+   "classification": "(b) the stage was wrong",
+   "cause": "native_return_complete stores the refund binding hash over the invoice's whole profile (pg_jsonb_sha256(a->actual_objects)), while both retained readers, assert_refund_operation_v1 (06_finish_and_closed_routes.sql:31-35) and the refund poster (refund/01_initial_refund.proposal.sql:163-166), compare the profile sorted by kind and id WITHOUT consumption objects. A single-root invoice has no consumption objects before its own refund, so the two agree; the credit-paid invoice's profile carries the incoming APPLY as a consumption object of the upstream cohort, so the retained check correctly refused.",
+   "fix": "C14: one counted substitution in native_return_complete so the stored hash is exactly the readers' manifest. The profile is already sorted by kind and id, so without consumption objects the hash is unchanged."
+  },
+  {
+   "item": "pre-use removal after the cases",
+   "observed": "cp6_restored False, advisor_gate False: the retained lower removal (cp7_consumer_owning_install._lock_private_tables, LOCK ... IN ACCESS EXCLUSIVE MODE NOWAIT) raised LockNotAvailable on cp7_sales.requests; the T3 gate then reported installed False and backup_restore_drill False (T3_RUNTIME_SCHEMA_ACL_CHANGED) because the stage chain was still installed",
+   "expected": "exact pre-use removal and CP6 restore, as in every earlier run of the chain",
+   "classification": "neither (a) nor (b) proven: another backend held a lock on cp7_sales.requests at that moment and the run did not record which one. Every case and the race reported no leaked session or advisory lock. No guard was changed.",
+   "fix": "Diagnostics plus a bounded wait in the slice C probe: before removal it polls pg_locks/pg_stat_activity for other backends holding locks on cp7 relations (up to 90 s) and records them in pre_removal_lock_wait. The retained NOWAIT removal runs unchanged afterwards. If the next run fails the same way, the record names the holder."
+  }
+ ],
+ "restore_error": "could not obtain lock on relation \"cp7_sales.requests\"",
+ "restore_traceback_tail": [
+  "    predecessor._lock_private_tables(cur,state)",
+  "  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_consumer_owning_install.py\", line 89, in _lock_private_tables",
+  "    cur.execute(sql.SQL('lock table {} in access exclusive mode nowait').format(",
+  "  File \"/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute",
+  "    raise ex.with_traceback(None)",
+  "psycopg.errors.LockNotAvailable: could not obtain lock on relation \"cp7_sales.requests\""
+ ],
+ "first_four_cases_and_race": "PASS: first-return quotes, ordinary return with no credit, undo allowed when that return is empty, credit return as CREDIT, undo refused when the return depends on it, protected refusals, and the race",
+ "no_case_expectation_or_oracle_changed": true
+}
