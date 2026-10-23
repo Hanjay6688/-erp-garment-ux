@@ -1,15 +1,16 @@
-"""OW-05b stage over the complete qualified OW05 product: correction guidance and history.
+"""OW-05b stage over the qualified fgqc stage (OW-15 chain: OW05, OW06, kasbon, fgqc): correction guidance and history.
 
 Two installed OW05 readers get the counted delta of native_delta.py and four private
 readers are added. No table, trigger, grant or business row changes, so removal before
 use restores the exact predecessor. The OW05 command, its review-token rule and its
-history rows are not touched.
+history rows are not touched. Neither OW06, the kasbon stage nor fgqc changes the two OW05 readers, so the
+counted delta applies to the same text as over OW05 alone.
 """
 from hashlib import sha256
 from pathlib import Path
 import re
 
-from cp7_contractor_correction import composition as predecessor
+from cp7_fg_correction_source import composition as predecessor
 from cp7_contractor_guidance import native_delta
 
 ROOT=Path(__file__).resolve().parent
@@ -18,9 +19,9 @@ READERS=('cp7_contractor_guidance.guide_v1(jsonb)','cp7_contractor_guidance.afte
          'cp7_contractor_guidance.after_steps_v1()','cp7_contractor_guidance.history_v1(uuid)')
 DEFINERS=('cp7_contractor_guidance.guide_v1(jsonb)','cp7_contractor_guidance.history_v1(uuid)')
 ROLES=('anon','authenticated','service_role','cp7_capture')
-catalog=predecessor.predecessor.catalog
-atomic=predecessor.predecessor.atomic
-as_owner=predecessor.predecessor.payment.consumer.as_owner
+catalog=predecessor.catalog
+atomic=predecessor.atomic
+as_owner=predecessor.as_owner
 CAPTURED={}
 
 
@@ -62,7 +63,7 @@ def install(cur):
             raise ValueError('OW05B_NEW_FUNCTION_SET_CHANGED')
         admit_catalog(before,after,definitions)
         state=dict(sources=sources(),predecessor=previous,predecessor_proof=proof,before=before,after=after,
-            originals=originals,definitions=definitions,seeded_private_rows=predecessor.predecessor.base.private_rows(cur))
+            originals=originals,definitions=definitions,seeded_private_rows=predecessor.base.private_rows(cur))
         verify(cur,state)
         return state
 

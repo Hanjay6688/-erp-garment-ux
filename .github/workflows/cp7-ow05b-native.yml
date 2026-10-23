@@ -100,7 +100,22 @@ jobs:
         GH_TOKEN: ${{ github.token }}
       working-directory: auditor
       run: python scripts/ow05_native_original.py
-    - name: Admit exact OW05b source and qualified unchanged OW05 predecessor before DB
+    - name: Fetch and verify qualified actual OW06 Native10 original before DB
+      env:
+        GH_TOKEN: ${{ github.token }}
+      working-directory: auditor
+      run: python scripts/ow06_native_original.py
+    - name: Fetch and verify qualified actual OW08b kasbon Native4 original before DB
+      env:
+        GH_TOKEN: ${{ github.token }}
+      working-directory: auditor
+      run: python scripts/ow08b_kasbon_native_original.py
+    - name: Fetch and verify qualified actual OW08b fgqc Native9 original before DB
+      env:
+        GH_TOKEN: ${{ github.token }}
+      working-directory: auditor
+      run: python scripts/ow08b_fgqc_native_original.py
+    - name: Admit exact OW05b source over the qualified fgqc Native9 chain before DB
       working-directory: writer
       run: ERP_REPO=../auditor PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=../auditor/scripts python -c "from cp7_contractor_guidance import
         native_probe as p; p.admitted(); print('OW05B_SOURCE_ADMITTED_NO_DB')"
