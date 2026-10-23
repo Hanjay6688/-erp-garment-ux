@@ -1,6 +1,6 @@
--- Assemble the minute-reader inputs in one SQL snapshot. Raw Native capture
--- remains unchanged: only its stock-array overflow can use the separate,
--- complete SQL stock summary. Every other Native completeness guard stays.
+-- The original Native capture remains unchanged. Its derived read-only copy
+-- omits the unused raw prefix only when the same query proves >50000 rows;
+-- complete SQL stock still reads every row. All non-stock guards stay exact.
 create function cp7_reorder_inputs.compile(s jsonb)returns jsonb
 language plpgsql immutable security invoker set search_path=''set TimeZone='UTC'as $$
 declare c jsonb;f jsonb;q jsonb;summary jsonb;inputs jsonb;compiled jsonb;path text;p_products integer;
@@ -26,7 +26,8 @@ begin
   -- stock array is replaced by ALL visible SQL movements below. No status on
   -- c is changed, no stock is discarded and no other overflow is accepted.
   perform cp7_wip.fields(f,array['products','stock','sales','sale_journals','returns','return_journals']);
-  if c->>'status'is distinct from'INCOMPLETE'or jsonb_array_length(f->'stock')<>50001
+  if c->>'status'is distinct from'INCOMPLETE'or not(jsonb_array_length(f->'stock')=50001
+   or coalesce(c->'stock_raw_omitted'='true'::jsonb and c->'stock_rows_at_least'='50001'::jsonb and jsonb_array_length(f->'stock')=0,false))
    or jsonb_array_length(f->'products')>p_products
    or exists(select 1 from jsonb_each(f)where key not in('products','stock')and jsonb_array_length(value)>50000)
    or jsonb_array_length(f->'products')<>(select count(distinct x->>'root_id')from jsonb_array_elements(f->'products')x)
@@ -42,7 +43,8 @@ begin
    or summary->>'captured_at'is distinct from cp7_planning.utc((c->>'captured_at')::timestamptz)
    or summary->'query'is distinct from q or(summary->>'products')::integer is distinct from jsonb_array_length(f->'products')
    or summary->'raw_rows_truncated'is distinct from'false'::jsonb or summary->'Native_capture_status_overridden'is distinct from'false'::jsonb
-   or(summary->>'raw_rows_read')::bigint<jsonb_array_length(f->'stock')then
+   or(summary->>'raw_rows_read')::bigint<greatest(jsonb_array_length(f->'stock'),
+    case when c->'stock_raw_omitted'='true'::jsonb then 50001 else 0 end)then
    raise exception 'CP7_REORDER_STOCK_SNAPSHOT_MISMATCH';end if;
   path:='COMPLETE_SQL_STOCK_SUMMARY_RAW_NATIVE_INCOMPLETE';
   hash:=encode(extensions.digest(convert_to(jsonb_build_object('native_non_stock',f-'stock',

@@ -14,6 +14,8 @@ from cp7_ow04_restore_bundle import _catalog_rows
 ROOT = Path(__file__).resolve().parent
 SCHEMA = 'cp7_reorder_inputs'
 FUNCTIONS = {'cp7_reorder_inputs.history(jsonb,jsonb)': 'i',
+             'cp7_reorder_inputs.capture_history(integer)': 's',
+             'cp7_reorder_inputs.capture_baseline(integer)': 's',
              'cp7_reorder_inputs.points(jsonb,jsonb,jsonb,jsonb)': 'i',
              'cp7_reorder_inputs.source_within(integer)': 's',
              'cp7_reorder_inputs.stock_summary(jsonb,timestamp with time zone,jsonb)': 's',
@@ -28,6 +30,9 @@ def sources():
 
 
 def verify_sources():
+    from .capture_source import render
+    if (ROOT/'capture.sql').read_text() != render():
+        raise ValueError('OW10_REORDER_BOUNDED_CAPTURE_DERIVATION_CHANGED')
     manifest = json.loads((ROOT/'MANIFEST.json').read_text())
     for filename, digest in manifest['sql_sha256'].items():
         if sha256((ROOT/filename).read_bytes()).hexdigest() != digest:
@@ -56,7 +61,7 @@ def verify(cur, state):
         raise ValueError('OW10_REORDER_INPUTS_SOURCE_CHANGED')
     prerequisites(cur)
     bodies = {}
-    for filename in ('history.sql', 'points.sql', 'source.sql', 'stock.sql', 'read.sql'):
+    for filename in ('capture.sql', 'history.sql', 'points.sql', 'source.sql', 'stock.sql', 'read.sql'):
         bodies.update(re.findall(r'create function (cp7_reorder_inputs\.[a-z_]+)\([^;]*?\).*?as \$\$(.*?)\$\$;',
                                  (ROOT/filename).read_text(), re.S))
     if set(bodies) != {sig.split('(')[0] for sig in FUNCTIONS}:
@@ -78,7 +83,7 @@ def verify(cur, state):
             for grant in row[-1]:
                 if grant[0] != 'cp7_capture' or grant[1] != 'cp7_capture' or grant[3] is not False:
                     raise ValueError('OW10_REORDER_INPUTS_UNDECLARED_GRANT: '+key)
-    return dict(stage='cp7.reorder-inputs-stage.v5', private_functions=7, hook_bodies=0,
+    return dict(stage='cp7.reorder-inputs-stage.v6', private_functions=9, hook_bodies=0,
                 Native_DML=False, live_ROP_caller_changed=False,
                 full_A_chain_qualified=False, production_go=False)
 
@@ -88,7 +93,7 @@ def install_delta(cur):
     if cur.execute('select to_regnamespace(%s)is not null', (SCHEMA,)).fetchone()[0]:
         raise ValueError('OW10_REORDER_INPUTS_ALREADY_INSTALLED')
     prerequisites(cur)
-    for filename in ('history.sql', 'points.sql', 'source.sql', 'stock.sql', 'read.sql'):
+    for filename in ('history.sql', 'capture.sql', 'points.sql', 'source.sql', 'stock.sql', 'read.sql'):
         cur.execute((ROOT/filename).read_text(), prepare=False)
     state = dict(sources=pins, new_catalog=own_catalog(_catalog_rows(cur)))
     verify(cur, state)

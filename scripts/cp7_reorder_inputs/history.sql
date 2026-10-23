@@ -73,7 +73,9 @@ begin
   if c->>'status'is distinct from'COMPLETE'then raise exception 'CP7_REORDER_STOCK_SNAPSHOT_MISMATCH';end if;
   return cp7_analysis_stage.history_stock(c,products,hash);
  end if;
- if c->>'status'is distinct from'INCOMPLETE'or jsonb_array_length(f->'stock')<>50001
+ if c->>'status'is distinct from'INCOMPLETE'or not(jsonb_array_length(f->'stock')=50001
+  or coalesce(c->'stock_raw_omitted'='true'::jsonb and c->'stock_rows_at_least'='50001'::jsonb
+   and jsonb_array_length(f->'stock')=0,false))
   or summary->>'contract_version'is distinct from'cp7.reorder-stock-summary.v1'
   or summary->>'captured_at'is distinct from cp7_planning.utc((c->>'captured_at')::timestamptz)
   or(summary->>'products')::integer is distinct from jsonb_array_length(products)

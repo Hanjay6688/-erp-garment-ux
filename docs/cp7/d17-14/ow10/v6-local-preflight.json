@@ -1,0 +1,30 @@
+{
+  "classification": "LOCAL_BOUNDED_CAPTURE_V6_NOT_NATIVE_SLA",
+  "status": "PASS",
+  "inputs_cache_evaluate": {
+    "passed": 35,
+    "total": 35
+  },
+  "actual_caller_RPC_SQL": {
+    "passed": 9,
+    "total": 9
+  },
+  "client_DOM": {
+    "passed": 65,
+    "files": 4
+  },
+  "real_python_install_admit_inverse_reapply_22": "PASS",
+  "afteruse_dependency_guards": "PASS",
+  "pinned_derivation": "PASS",
+  "owning_frozen_source_guard": "PASS",
+  "original_Native_raw_cap_oracle50001_retained": true,
+  "all_nonstock_fields_equal": true,
+  "all202000_SQL_rows_60000_days_2000_points_retained": true,
+  "missing_or_unproved_omission_refused": true,
+  "old_frozen_Native_bodies_changed": false,
+  "numerical_oracles_changed": false,
+  "limits_raised": false,
+  "Native_qualified": false,
+  "full_A_chain_qualified": false,
+  "production_go": false
+}

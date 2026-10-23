@@ -201,7 +201,7 @@ await test('OW10_READ_OVERFLOW_RETAINS_ALL_OTHER_NATIVE_COMPLETENESS_GUARDS',asy
  // compact stock is never allowed to excuse a second missing collection or
  // an identity/journal conflict. Restore the pinned real body in finally.
  const injected=fixture();injected.status='INCOMPLETE';injected.facts.stock=Array(50001).fill({})
- const controlledSource=`create or replace function cp7_planning.history_source_within(p_products integer)returns jsonb
+ const controlledSource=`create or replace function cp7_reorder_inputs.capture_history(p_products integer)returns jsonb
   language sql stable security invoker set search_path=''set TimeZone='UTC'as $$select c from public.reorder_native_fixture$$;`
  const denied=[]
  await db.exec(controlledSource)
@@ -219,8 +219,10 @@ await test('OW10_READ_OVERFLOW_RETAINS_ALL_OTHER_NATIVE_COMPLETENESS_GUARDS',asy
   await reject('missing posted original journal',c=>{c.facts.sale_journals=[]})
   await reject('duplicate original journal',c=>{c.facts.sale_journals.push({...c.facts.sale_journals[0],id:id(90002)})})
   await reject('unknown Native status',c=>{c.status='UNKNOWN'})
+  await reject('missing overflow evidence stays unknown',c=>{c.facts.stock=[]})
+  await reject('omitted prefix without proved bound',c=>{c.facts.stock=[];c.stock_raw_omitted=true;c.stock_rows_at_least=50000})
  }finally{
-  await db.exec(nativeSourceSQL.replace('create function ','create or replace function '))
+  await db.exec(block(await read('scripts/cp7_reorder_inputs/capture.sql'),'cp7_reorder_inputs.capture_history').replace('create function ','create or replace function '))
   await db.query('update public.reorder_native_fixture set c=$1::jsonb',[JSON.stringify(fixture())])
  }
  const body=(await db.query("select prosrc from pg_proc where oid='cp7_planning.history_source_within(integer)'::regprocedure")).rows[0].prosrc
@@ -457,7 +459,14 @@ await test('OW10_READ_202000_SQL_ROWS_FULL_NATIVE_HISTORY_TARGETS_AND_POINTS',as
  await db.exec('truncate erp.sales_items,erp.sales_headers,erp.journal_entries')
  const source=fixture();source.profiles=Array.from({length:2000},(_,i)=>profile(i+1,'0'))
  await db.query('update public.reorder_native_fixture set c=$1::jsonb',[JSON.stringify(source)])
- const raw=await serverSource();assert.equal(raw.status,'INCOMPLETE');assert.equal(raw.native.facts.stock.length,50001)
+ // Keep the original raw-cap oracle against the unchanged Native capture.
+ const nativeRaw=(await db.query('select cp7_baseline_native.source_within(5000)v')).rows[0].v
+ assert.equal(nativeRaw.status,'INCOMPLETE');assert.equal(nativeRaw.facts.stock.length,50001)
+ const raw=await serverSource();assert.equal(raw.status,'INCOMPLETE');assert.equal(raw.native.facts.stock.length,0)
+ assert.equal(raw.native.stock_raw_omitted,true);assert.equal(raw.native.stock_rows_at_least,50001)
+ const derived=structuredClone(raw.native);delete derived.stock_raw_omitted;delete derived.stock_rows_at_least
+ nativeRaw.captured_at=derived.captured_at;nativeRaw.facts.stock=[]
+ assert.deepEqual(derived,nativeRaw)
  const t=performance.now(),r=await readPoints(),ms=Math.round(performance.now()-t)
  assert.equal(r.native_capture_status,'INCOMPLETE');assert.equal(r.input_path,'COMPLETE_SQL_STOCK_SUMMARY_RAW_NATIVE_INCOMPLETE')
  assert.equal(r.complete_stock_raw_rows_read,202000);assert.equal(r.inputs.history.length,2000)
@@ -474,7 +483,8 @@ await test('OW10_READ_202000_SQL_ROWS_FULL_NATIVE_HISTORY_TARGETS_AND_POINTS',as
  assert.notEqual(changed.stock_summary.data_hash,raw.stock_summary.data_hash);assert.notEqual(changed.context_hash,raw.context_hash)
  const wrong=structuredClone(raw);wrong.stock_summary.captured_at='2026-10-22T00:00:00Z'
  await assert.rejects(()=>db.query('select cp7_reorder_inputs.compile($1::jsonb)',[JSON.stringify(wrong)]),/CP7_REORDER_STOCK_SNAPSHOT_MISMATCH/)
- return{actual_Native_source_cap_still50001:true,Native_status_still_INCOMPLETE:true,SQL_rows:202000,
+ return{actual_Native_source_cap_still50001:true,derived_omission_only_after_proved_overflow:true,non_stock_full_JSON_equal:true,
+  Native_status_still_INCOMPLETE:true,SQL_rows:202000,
   full_targets:2000,full_history_days:60000,full_points:2000,free450_exact:true,known_zero_profile_not_unknown:true,
   local_full_pipeline_ms:ms,outside_raw_prefix_change_invalidates_context:true,summary_clock_binding_refused:true,
   Native_Auth_or_factory_SLA:false,live_ROP_caller_changed:false}

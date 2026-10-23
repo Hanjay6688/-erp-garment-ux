@@ -119,7 +119,7 @@ jobs:
         npx tsc -b --pretty false
 
         '
-    - name: Check source-name clashes in private supply and initial SQL
+    - name: Check B SQL including the bounded Native capture v6
       working-directory: auditor
       run: 'python -B scripts/cp7_plpgsql_clash_check.py scripts/cp7_initial_analysis_stage/initial.sql
 

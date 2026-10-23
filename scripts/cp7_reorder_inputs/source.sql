@@ -5,7 +5,7 @@ language plpgsql stable security invoker set search_path=''set TimeZone='UTC'as 
 begin
  if p_products is null or p_products not between 1 and 5000 then raise exception 'CP7_REORDER_SOURCE_PRODUCT_BOUND';end if;
  return(
- with native as materialized(select cp7_baseline_native.source_within(p_products)c),
+ with native as materialized(select cp7_reorder_inputs.capture_baseline(p_products)c),
  boundary as materialized(select c,(c->>'captured_at')::timestamptz at from native),
  policy as materialized(select jsonb_build_object(
   'service_level',to_char((cp7_stock_formula.current_settings()->>'service_level')::numeric,'FM0.00'),
@@ -38,7 +38,8 @@ begin
  query as materialized(select jsonb_build_object(
   'from_date',((boundary.at at time zone'Asia/Jakarta')::date-(policy.defaults->>'window_days')::integer)::text,
   'through_date',((boundary.at at time zone'Asia/Jakarta')::date-1)::text,'group_mode','AS_SOLD')q from boundary cross join policy),
- complete_stock as materialized(select case when jsonb_array_length(boundary.c->'facts'->'stock')=50001 then
+ complete_stock as materialized(select case when boundary.c->'stock_raw_omitted'='true'::jsonb
+  or jsonb_array_length(boundary.c->'facts'->'stock')=50001 then
   cp7_reorder_inputs.stock_summary(boundary.c->'facts'->'products',boundary.at,query.q)end summary
   from boundary cross join query),
  history_stock_key as materialized(select case when complete_stock.summary is not null then complete_stock.summary->'history_data_hash'
