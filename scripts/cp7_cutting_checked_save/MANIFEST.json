@@ -1,0 +1,37 @@
+{
+  "contract": "cp7.cutting-checked-save-stage.v1",
+  "sql_sha256": {
+    "schema.sql": "8d8b7a93da1841ae904b957e3374a980d99fc5686f2c9f7b6fdaebf1edf0feca",
+    "save.sql": "7804d769edf74c83ed9958db19553fc00fe940c3aad8564acec0aa348c2a5527"
+  },
+  "dependencies": {
+    "cp7_plan_native.access_now(text)": {
+      "body_sha256": "02d5ea663edcb58f095efe6d040dd4b0238d163dc8ec87e8df65a5063e41ad43",
+      "owner": "cp7_plan_writer",
+      "source": "plan-native/bootstrap.sql"
+    },
+    "cp7_plan_native.preflight_v2(jsonb,text,uuid)": {
+      "body_sha256": "f2075d920f07436bc6658f58760fa32388b52a277dc3e21ff5ef8b15b724185d",
+      "owner": "cp7_plan_writer",
+      "source": "plan-native/staged.sql"
+    },
+    "cp7_plan_native.save_v2(jsonb,uuid)": {
+      "body_sha256": "f463f729742d4a80ffa06072d03cfa879fad31e58b04814ef15b4e36dcd64089",
+      "owner": "cp7_plan_writer",
+      "source": "plan-native/staged.sql"
+    },
+    "cp7_plan_native.staged_source(uuid,text)": {
+      "body_sha256": "56ca56ca7a3479fbbcd5a4d451475ba8e5bc86676ff44f09648bc88d5758d68c",
+      "owner": "cp7_capture",
+      "source": "plan-native/staged.sql"
+    },
+    "cp7_analysis_stage.check_source(uuid)": {
+      "body_sha256": "f7b4b42e963ea511e711185ceff6d341e8a61b5ba4b09cefc6399b83e61b2839",
+      "owner": "cp7_capture",
+      "source": "planning/analysis-stages.sql"
+    }
+  },
+  "default_install": false,
+  "Native_qualified": false,
+  "production_go": false
+}

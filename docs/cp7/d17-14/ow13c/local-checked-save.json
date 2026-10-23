@@ -1,0 +1,69 @@
+{
+  "classification": "LOCAL_NEW_CHECKED_SAVE_SQL_AND_INSTALLER_CONTROLLED_EXISTING_PLAN_BOUNDARIES_NOT_NATIVE_AUTH_OR_RACES",
+  "status": "PASS",
+  "passed": 11,
+  "total": 11,
+  "results": [
+    {
+      "id": "OW13C_LOCAL_VALID_TWO_LIVE_CHECKS_SAME_NATIVE_DRAFT",
+      "status": "PASS"
+    },
+    {
+      "id": "OW13C_LOCAL_SAME_UUID_EXACT_RESULT_AND_CHANGED_PAYLOAD_REFUSED",
+      "status": "PASS"
+    },
+    {
+      "id": "OW13C_LOCAL_STALE_BEFORE_SAVE_NO_DRAFT",
+      "status": "PASS"
+    },
+    {
+      "id": "OW13C_LOCAL_UNKNOWN_WIP_REFUSED_NOT_ZERO",
+      "status": "PASS"
+    },
+    {
+      "id": "OW13C_LOCAL_SOURCE_CHANGED_AFTER_DELEGATED_WRITE_ATOMIC_ROLLBACK",
+      "status": "PASS"
+    },
+    {
+      "id": "OW13C_LOCAL_FEASIBILITY_CHANGED_AFTER_WRITE_ATOMIC_ROLLBACK",
+      "status": "PASS"
+    },
+    {
+      "id": "OW13C_LOCAL_REVOKED_AFTER_WRITE_ATOMIC_ROLLBACK",
+      "status": "PASS"
+    },
+    {
+      "id": "OW13C_LOCAL_REPLAY_REQUIRES_CURRENT_PERMISSION",
+      "status": "PASS"
+    },
+    {
+      "id": "OW13C_LOCAL_OLD_ROUTE_UUID_NOT_RELABELLED_CHECKED",
+      "status": "PASS"
+    },
+    {
+      "id": "OW13C_LOCAL_RECEIPT_IMMUTABLE_INCLUDING_TRUNCATE",
+      "status": "PASS"
+    },
+    {
+      "id": "OW13C_LOCAL_MISSING_OR_WRONG_MODE_NO_DRAFT",
+      "status": "PASS"
+    }
+  ],
+  "installer": {
+    "classification": "LOCAL_REAL_INSTALLER_AND_PG_CATALOG_VIA_CONTROLLED_TRANSPORT_NOT_NATIVE",
+    "stage": "cp7_cutting_checked_save",
+    "status": "PASS",
+    "catalog_groups": 22,
+    "apply_rollback_reapply_exact": true,
+    "admission_passed": true,
+    "full_A_chain_qualified": false,
+    "production_go": false,
+    "after_use_refusal": "OW13C_CHECKED_SAVE_AFTER_USE_REQUIRES_BACKUP_RESTORE",
+    "after_use_refused_before_first_DDL": true
+  },
+  "old_plan_save_changed": false,
+  "Native_qualified": false,
+  "UI_integrated": false,
+  "full_A_chain_qualified": false,
+  "production_go": false
+}

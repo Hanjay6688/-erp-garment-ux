@@ -3,6 +3,7 @@ import NativeCuttingYieldPanel from './NativeCuttingYieldPanel'
 import NativeCuttingInputsPanel from './NativeCuttingInputsPanel'
 import NativeCuttingLearningPanel from './NativeCuttingLearningPanel'
 import NativeCuttingStatusPanel from './NativeCuttingStatusPanel'
+import NativeCuttingSuggestionsPanel from './NativeCuttingSuggestionsPanel'
 import { isConnectedRuntime } from './config/runtime'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { AlertTriangle, Check, Database, FilePenLine, LoaderCircle, RefreshCw, Search, Trash2 } from 'lucide-react'
@@ -352,6 +353,16 @@ export default function ConnectedCuttingPage() {
     Promise.all([load(view.locationId || null, view.rollQuery, offset), loadAuto({ q: modelQuery, draftId: null })])
       .then(([native, autoRead]) => native && autoRead !== null)
   const reload = () => refetchAll(viewRef.current, 0)
+  const suggestionReadStart = useCallback(() => {
+    ++loadRequestRef.current; ++autoRequestRef.current
+    selectionReadyRef.current = false
+    setWorkspace(null); setAutoWorkspace(null); setLoadedAuthority(null); setLoading(false)
+    mutation.invalidate(); autoMutation.invalidate()
+    setSourceEpoch(epoch => epoch + 1)
+  }, [mutation.invalidate, autoMutation.invalidate])
+  const suggestionReloadRef = useRef<() => void>(() => undefined)
+  suggestionReloadRef.current = () => { void refetchAll(viewRef.current, 0) }
+  const suggestionReadEnd = useCallback(() => suggestionReloadRef.current(), [])
   const retire = (data: unknown, envelope: ProductionEnvelope) => {
     resetForm()
     if (envelope.action === 'DELETE') { setLastCommittedGroupId(null); setNotice('Draft Potongan sudah dihapus.') }
@@ -464,6 +475,7 @@ export default function ConnectedCuttingPage() {
         {draftId && selectedOrder && <SkuWaveReferences waveId={draftId} modelId={selectedOrder.model_id}/>}
         <section className="ccut-card wide"><header><span>04 · HASIL PER ROLL & SIZE</span><strong>Angka sumber direkonsiliasi backend</strong></header>{!formFactsReady ? <p data-cutting-form-retired>Muat ulang sumber sebelum memeriksa jumlah roll dan hasil rencana. Isian operator tetap disimpan.</p> : selected.length === 0 ? <div className="ccut-empty">Pilih minimal satu roll dari gudang bahan.</div> : <div className="ccut-table-wrap"><table><thead><tr><th>Roll</th><th>Keluar</th><th>Terpakai</th><th>Sisa</th>{slots.map((slot) => <th key={slot.key}>Size {slot.sizeCode}</th>)}<th>Total pcs</th></tr></thead><tbody>{selected.map((item) => { const consumed = numeric(item.consumed); const rowPieces = slots.reduce((sum, slot) => sum + count(yields[item.roll.id]?.[slot.key] ?? '0'), 0); return <tr key={item.roll.id}><th><strong>{item.roll.roll_number}</strong><small>{item.roll.material_name}</small></th><td>{item.issued} {item.roll.unit_code}</td><td><input aria-label={`${item.roll.roll_number} terpakai`} aria-invalid={parseQuantityInput(item.consumed, 'MEASURE', item.issued) === null} inputMode="decimal" value={item.consumed} onChange={(event) => setSelectedRolls((current) => ({ ...current, [item.roll.id]: { ...current[item.roll.id], consumed: event.target.value } }))}/></td><td className={consumed > item.issued ? 'bad' : ''}>{display(item.issued - consumed, 2)}</td>{slots.map((slot) => <td key={slot.key}><input aria-label={`${item.roll.roll_number} Size ${slot.sizeCode}`} aria-invalid={parseQuantityInput(yields[item.roll.id]?.[slot.key] ?? '0') === null} inputMode="numeric" value={yields[item.roll.id]?.[slot.key] ?? '0'} onFocus={(event) => event.currentTarget.select()} onChange={(event) => setYields((current) => ({ ...current, [item.roll.id]: { ...current[item.roll.id], [slot.key]: event.target.value } }))}/></td>)}<td><strong>{display(rowPieces)}</strong></td></tr>})}</tbody></table></div>}</section>
 
+        <NativeCuttingSuggestionsPanel disabled={writerLocked} onSourceReadStart={suggestionReadStart} onSourceReadEnd={suggestionReadEnd}/>
         <NativeCuttingStatusPanel groupId={draftId ?? lastCommittedGroupId} sourceKey={JSON.stringify([authorityKey,sourceEpoch,draftId,draftVersion,lastCommittedGroupId])} parentBusy={writerLocked} onAuthorityLost={onAuthorityLost}/>
         <NativeCuttingYieldPanel groupId={draftId ?? lastCommittedGroupId} sourceKey={JSON.stringify([authorityKey,sourceEpoch,draftId,draftVersion,orderId,pattern,selectedRolls,slots,yields,cutAt])} parentBusy={writerLocked} onAuthorityLost={onAuthorityLost}/>
         <NativeCuttingInputsPanel groupId={draftId ?? lastCommittedGroupId} sourceKey={JSON.stringify([authorityKey,sourceEpoch,draftId,draftVersion,orderId,pattern,selectedRolls,slots,yields,cutAt])} parentBusy={writerLocked} onAuthorityLost={onAuthorityLost}/>

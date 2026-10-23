@@ -16,7 +16,7 @@ const scope='cp6-disposable:actor-1',start=vi.fn(),end=vi.fn(),close=vi.fn()
 let root:Root,container:HTMLDivElement,applied:boolean
 beforeEach(()=>{Object.assign(globalThis,{IS_REACT_ACT_ENVIRONMENT:true});localStorage.clear();client.rpc.mockReset();start.mockReset();end.mockReset();close.mockReset();applied=false;const a=structuredClone(recoveryIdentity);Object.assign(a.runtime,{mode:'DISPOSABLE_TEST',projectRef:'cp6-disposable'});Object.assign(a.identity.profile,{authUserId:f.actor});a.identity.permissions.push('master.product.view','warehouse.stock.view','sales.invoice.view','production.cutting.view');state.auth=a;Object.defineProperty(navigator,'locks',{configurable:true,value:{request:async(_n:string,_o:unknown,fn:(l:unknown)=>Promise<unknown>)=>fn({})}});container=document.createElement('div');document.body.append(container);root=createRoot(container)})
 afterEach(async()=>{await act(async()=>root.unmount());container.remove();localStorage.clear();Reflect.deleteProperty(navigator,'locks');vi.restoreAllMocks()})
-async function render(){await act(async()=>root.render(<NativePlanDraftPanel context={f.stagedContext} onSourceReadStart={start} onSourceReadEnd={end} onClose={close}/>))}
+async function render(requireCurrentSave=false){await act(async()=>root.render(<NativePlanDraftPanel requireCurrentSave={requireCurrentSave} context={f.stagedContext} onSourceReadStart={start} onSourceReadEnd={end} onClose={close}/>))}
 function button(name:string){const b=[...container.querySelectorAll('button')].find(b=>b.textContent===name);expect(b,`button ${name}`).toBeTruthy();return b!}
 async function click(name:string){await act(async()=>button(name).click())}
 async function fill(label:string,value:string){await act(async()=>{const node=container.querySelector(`[aria-label="${label}"]`) as HTMLInputElement|HTMLTextAreaElement|HTMLSelectElement;expect(node).toBeTruthy();const proto=node instanceof HTMLSelectElement?HTMLSelectElement.prototype:node instanceof HTMLTextAreaElement?HTMLTextAreaElement.prototype:HTMLInputElement.prototype;Object.getOwnPropertyDescriptor(proto,'value')!.set!.call(node,value);node.dispatchEvent(new Event('input',{bubbles:true}));node.dispatchEvent(new Event('change',{bubbles:true}))})}
@@ -59,4 +59,36 @@ it('shows the server refusal at apply in plain words with its numbers, and keeps
  await click('Buat draf Potongan di ERP')
  expect(container.textContent).toContain('Kebutuhan sekarang 40 pcs, rencana 60 pcs (stok barang jadi dan barang dalam proses naik 60 pcs sejak data diambil). Tinjau ulang rencana.')
  expect(localStorage.getItem(productionKey(scope,'PLAN_APPLY'))).toBeNull()
+})
+
+const checkedWire=(request:string)=>({...f.stagedSaveOutcome(request),cutting_save_guard:{contract_version:'cp7.cutting-checked-save.v1',
+ run_id:f.run,target_key:f.stagedContext.targetKey,identity_hash:f.identityHash,checked_at:'2026-10-23T00:00:00Z',feasible:true}})
+it('saves editable cutting suggestions through the checked route while retaining the same plan engine',async()=>{
+ client.rpc.mockImplementation((n:string,a:{p_request?:string})=>n==='erp_cp7_save_cutting_suggestion_v1'?Promise.resolve({data:checkedWire(a.p_request!),error:null}):reply(n,a))
+ await render(true);await form();await fill('Hasil roll rencana 1','42');await click('Simpan rencana Potongan')
+ const sent=client.rpc.mock.calls.find(c=>c[0]==='erp_cp7_save_cutting_suggestion_v1')![1]
+ expect(sent.p_payload.cutting_save_contract).toBe('cp7.cutting-checked-save.v1');expect(sent.p_payload.cutting.rolls[0].yields[0].qty_pcs).toBe('42')
+ expect(client.rpc.mock.calls.some(c=>c[0]==='erp_cp7_save_plan_draft_v2')).toBe(false)
+ expect(readProductionRecovery(scope).pending).toEqual({});expect(container.textContent).toContain('Rencana tersimpan.')
+})
+it('reopens a lost checked-save reply in ordinary planning and replays its exact guarded UUID and payload',async()=>{
+ let attempt=0
+ client.rpc.mockImplementation((n:string,a:{p_request?:string})=>{
+  if(n!=='erp_cp7_save_cutting_suggestion_v1')return reply(n,a)
+  if(++attempt===1)return Promise.reject(Error('Failed to fetch'))
+  return Promise.resolve({data:checkedWire(a.p_request!),error:null})
+ })
+ await render(true);await form();await click('Simpan rencana Potongan')
+ expect(readProductionRecovery(scope).pending.PLAN_APPLY_STAGED?.payload).toHaveProperty('cutting_save_contract','cp7.cutting-checked-save.v1')
+ const first=client.rpc.mock.calls.find(c=>c[0]==='erp_cp7_save_cutting_suggestion_v1')![1]
+ await act(async()=>root.unmount());root=createRoot(container);await render(false);await click('Reconcile transaksi')
+ const sent=client.rpc.mock.calls.filter(c=>c[0]==='erp_cp7_save_cutting_suggestion_v1')
+ expect(sent).toHaveLength(2);expect(sent[1][1]).toEqual(first);expect(readProductionRecovery(scope).pending).toEqual({})
+ expect(client.rpc.mock.calls.some(c=>c[0]==='erp_cp7_save_plan_draft_v2')).toBe(false)
+})
+it('does not clear recovery when a nominal success omits proof of the cutting save check',async()=>{
+ client.rpc.mockImplementation((n:string,a:{p_request?:string})=>n==='erp_cp7_save_cutting_suggestion_v1'?Promise.resolve({data:f.stagedSaveOutcome(a.p_request!),error:null}):reply(n,a))
+ await render(true);await form();await click('Simpan rencana Potongan')
+ expect(readProductionRecovery(scope).pending.PLAN_APPLY_STAGED).toBeTruthy()
+ expect(container.textContent).not.toContain('Rencana tersimpan.')
 })
