@@ -1,0 +1,45 @@
+{
+ "run": 39910610220,
+ "attempt": 1,
+ "job": 120272486371,
+ "head": "62d00c42",
+ "qualification_commit": "62d00c42547f5afc32ffaf932848ba7f5883e594",
+ "label": "CP7_OW04B_CREDIT_FOLLOWUPS_NATIVE9_RACE3",
+ "status": "PASS",
+ "expected_case_count": 9,
+ "observed_case_count": 9,
+ "observed_race_count": 3,
+ "cases": {
+  "OW04B_FIRST_RETURN_QUOTES_UNCHANGED": "PASS",
+  "OW04B_SECOND_RETURN_NAMES_PRIOR_CREDIT_RETURN": "PASS",
+  "OW04B_RETURN_ON_CREDIT_PAID_INVOICE_NAMES_REASON": "PASS",
+  "OW04B_EDIT_RETUR_ON_CREDIT_INVOICE_NAMES_REASON": "PASS",
+  "OW04B_PAYMENT_ON_CREDIT_PAID_INVOICE_NAMES_REASON": "PASS",
+  "OW04B_BENERIN_NOTA_ON_CREDIT_INVOICES_NAMES_REASON": "PASS",
+  "OW04B_REFUND_EMPTY_BANK_REFUSED_NO_EFFECT_THEN_FUNDED": "PASS",
+  "OW04B_REFUND_BANK_FUNDED_AFTER_REFUND_DATE_REFUSED": "PASS",
+  "OW04B_CONSUMER_REFUND_EMPTY_BANK_REFUSED_NO_EFFECT_THEN_FUNDED": "PASS"
+ },
+ "races": {
+  "OW04B_RACE_TWO_UNDO_APPLY_DISTINCT_UUID": "PASS",
+  "OW04B_RACE_TWO_UNDO_APPLY_SAME_UUID": "PASS",
+  "OW04B_RACE_TWO_UNDO_INITIAL_REFUND_DISTINCT_UUID": "PASS"
+ },
+ "cp6_restored": true,
+ "advisor_gate": true,
+ "restore_raw_public_equal": true,
+ "package_gate": {"installed": true, "primary_unchanged": true, "backup_restore_drill": true, "security_advisors": true, "writer_runtime": true},
+ "report": {"name": "CP7_OW04B_CREDIT_FOLLOWUPS_NATIVE9_RACE3.json", "raw_bytes": 2544422, "raw_sha256": "9e372cfda71a462098afcf4cb027e6663eb3b12c6383373c428588543c131ba8"},
+ "artifact": "cp7-ow04b-credit-followups-native9-race3 (12482688955)",
+ "wash_native11_original": {
+  "admission_step": "python scripts/ow08b_wash_native_original.py",
+  "log_line": "ACTUAL_OW08B_WASH_NATIVE11_ORIGINAL_BYTES_AND_FULL_DECLARED_SOURCE_VERIFIED_NO_PRODUCT_EXECUTION"
+ },
+ "qualified_predecessor": {"name": "CP7_OW08B_LAUNDRY_UNKNOWN_WASH_NATIVE11.json", "bytes": 2983166, "sha256": "8f50c9f55b00d3a719e4cd0f5fb51944c66a4488080cb21cba07644d731283ca"},
+ "highlights": {
+  "races": "distinct UUID undo (CREDIT and REFUND): second session refused CP7_CREDIT_CONSUMER_ORIGINAL_ALREADY_UNDONE; same UUID: second session got the committed UNDO -80.00 outcome; 1 undo event each"
+ },
+ "OW04b_complete": false,
+ "production_go": false,
+ "independent_acceptance": false
+}
