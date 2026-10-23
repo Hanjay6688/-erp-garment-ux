@@ -58,8 +58,12 @@ Percobaan pertama (23 Okt, run 39883305777): 3 dari 11 kasus lulus, 8 belum sele
 database: saat cuci gagal disimpan, penjaga itu mewajibkan tarif sudah terisi, jadi cuci gagal tanpa tarif selalu ditolak.
 Penjaga itu sekarang ikut disesuaikan: hanya cuci gagal yang memang dicatat "tarif belum diketahui" boleh disimpan tanpa
 tarif, dan harus benar-benar kosong (bukan nol). Cuci gagal lain tetap diperiksa persis seperti dulu. Satu catatan
-keamanan juga dirapikan (tabel harga diberi aturan tolak-semua). Uji diulang; hasilnya dicatat di sini
-(rincian: `wash-native11-cc5766e7-first-failure.json`).
+keamanan juga dirapikan (tabel harga diberi aturan tolak-semua). Rincian: `wash-native11-cc5766e7-first-failure.json`.
+
+Percobaan kedua (run 39884771546): 6 dari 11 kasus lulus, termasuk mencatat tanpa tarif, membatalkan, dan pemeriksa data.
+Lima kasus yang mengisi harga berhenti karena catatan riwayat (log audit) memakai nama aksi yang tidak dikenal database.
+Sekarang dicatat sebagai perubahan biasa dengan keterangan "isi harga cuci gagal". Uji diulang; hasilnya dicatat di sini
+(rincian: `wash-native11-c6e073b5-second-failure.json`).
 
 ## Catatan teknis untuk pemeriksa
 

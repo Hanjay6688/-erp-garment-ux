@@ -1,0 +1,25 @@
+{
+ "run": 39884771546,
+ "attempt": 1,
+ "job": 120190255818,
+ "head": "c6e073b5",
+ "label": "CP7_OW08B_LAUNDRY_UNKNOWN_WASH_NATIVE11",
+ "status": "INCOMPLETE",
+ "cases": {
+  "OW08B_WASH_UNKNOWN_RECORDED_NOT_ZERO_HPP_NOT_FINAL": "PASS",
+  "OW08B_WASH_WITHOUT_FLAG_REFUSED_AS_BEFORE": "PASS",
+  "OW08B_WASH_TWO_EFFECTIVE_RATES_REFUSED": "PASS",
+  "OW08B_WASH_CLOSE_BLOCKED_UNTIL_PRICED_EQUALS_KNOWN_TWIN": "INCOMPLETE: new row for relation \"audit_logs\" violates check constraint \"audit_logs_action_check\" (action SET_PRICE, cp7_laundry_unknown_wash.set_price_v1 line 49)",
+  "OW08B_WASH_RETURN_UNPROCESSED_UNKNOWN_PRICE": "INCOMPLETE: same audit_logs_action_check refusal when the price is set",
+  "OW08B_WASH_PRICE_SET_ONCE_OWNER_ADMIN_ONLY": "INCOMPLETE: same audit_logs_action_check refusal at the first valid price (the non-owner, zero, free-not-zero and UNKNOWN refusals before it passed)",
+  "OW08B_WASH_REVERSE_UNKNOWN_NO_MONEY_EFFECT": "PASS",
+  "OW08B_WASH_SALE_FOLLOWS_LAU_DEC04": "INCOMPLETE: same audit_logs_action_check refusal when the price is set",
+  "OW08B_WASH_INVOICE_REFUSED_UNTIL_PRICED": "INCOMPLETE: same audit_logs_action_check refusal when the price is set",
+  "OW08B_WASH_OTHER_LAUNDRY_COMMANDS_UNCHANGED": "PASS",
+  "OW08B_WASH_STATE_DETECTOR_AND_PRIVATE_SCHEMA": "PASS"
+ },
+ "cp6_restored": true,
+ "advisor_gate": true,
+ "cause": "Product, in the stage's own new function: cp7_laundry_unknown_wash.set_price_v1 wrote its audit row with action 'SET_PRICE', but erp.audit_logs admits only INSERT, UPDATE, DELETE, POST, REVERSE, RECALCULATE, WORK_BOM_COMMIT, CANCEL_UNPAID and REVERSE_PAID (audit_logs_action_check). Every case that sets a price stopped there; the posting-guard fix of the first failure held (recording, reversal, detector and the unchanged comparison all passed) and the advisor gate passed. The local stub audit table had no such constraint. Report CP7_OW08B_LAUNDRY_UNKNOWN_WASH_NATIVE11.json, 2944495 bytes, sha256 cd04942e31a7d6b40feb603a0dcafc91661cb7dd2028d8b2951c4c7dfab581e2, decoded from the job log receipt.",
+ "fix": "No existing constraint or guard changes. set_price_v1 writes the audit row as action UPDATE of the attempt, with old_data (UNKNOWN, no rate, no cost, PENDING) and new_data naming operation SET_FAILED_WASH_PRICE with the rate, cost and economic date. The set-once case asserted the invented action name; it now asserts the UPDATE row with that operation, cost 12.00 and old status PENDING (own expectation corrected: the product constraint is right and is kept). The local stub audit table now carries the real action constraint; all 36 local checks pass."
+}

@@ -367,7 +367,9 @@ def cases(cur,today):
             from cp7_laundry_unknown_wash.prices_v1 p join erp.laundry_failed_wash_attempts a on a.id=p.attempt_id where p.attempt_id=%s""",(attempt,)).fetchone()
         assert stored==('KNOWN','3.00','OW08b nota vendor datang',True,True,str(key)),stored
         assert attempt_line(cur,attempt)==(D('3.00'),D('12.00'),'ESTIMATED')
-        audit=one(cur,"select count(*)from erp.audit_logs where entity_type='laundry_failed_wash_attempts' and entity_id=%s and action='SET_PRICE'",(attempt,))
+        # erp.audit_logs admits only fixed actions (audit_logs_action_check): the price is an UPDATE named in its data.
+        audit=one(cur,"""select count(*)from erp.audit_logs where entity_type='laundry_failed_wash_attempts' and entity_id=%s and action='UPDATE'
+            and new_data->>'operation'='SET_FAILED_WASH_PRICE' and new_data->>'actual_cost'='12.00' and old_data->>'actual_cost_status'='PENDING'""",(attempt,))
         changed=auth.refused(cur,lambda:cur.execute("update cp7_laundry_unknown_wash.prices_v1 set price_reason='ubah' where attempt_id=%s",(attempt,)),'CP7_FAILED_WASH_PRICE_HISTORY_IMMUTABLE')
         deleted=auth.refused(cur,lambda:cur.execute('delete from cp7_laundry_unknown_wash.prices_v1 where attempt_id=%s',(attempt,)),'CP7_FAILED_WASH_PRICE_HISTORY_IMMUTABLE')
         # FREE / WAIVED: an explicit known zero with its reason, never an assumed zero.
