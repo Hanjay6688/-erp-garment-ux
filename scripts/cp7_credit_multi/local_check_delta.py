@@ -80,6 +80,12 @@ create function cp7_credit.is_unchanged_native_return_v1(uuid)returns boolean la
 create function cp7_credit.assert_return_owner_context(uuid)returns void language sql as $$select$$;
 create function cp7_credit.assert_owner_context(uuid)returns void language sql as $$select$$;
 create function cp7_credit.actual_own_return_events_v1(p uuid)returns jsonb language sql as $$select '[]'::jsonb$$;
+create function erp.require_internal()returns void language sql as $$select$$;
+alter table erp.sales_returns add column customer_id uuid;
+alter table cp7_credit.initial_return_work add column backend_pid integer,add column transaction_id bigint,add column actor uuid,
+ add column request_id uuid,add column source_lock_sha256 text,add column projection_sha256 text;
+alter table cp7_credit.return_native_scope add column actor uuid,add column request_id uuid,add column source_sale_id uuid,
+ add column customer_id uuid,add column origin text,add column source_lock_sha256 text,add column projection_sha256 text;
 """
 
 
@@ -139,6 +145,7 @@ def main(dsn):
             cur.execute(statement('native-empty/04_exact_overlays.sql', 'cp7_credit.native_return_guard', True).replace('create or replace', 'create', 1))
             cur.execute(statement('native-empty/04_exact_overlays.sql', 'cp7_credit.native_return_complete', True).replace('create or replace', 'create', 1))
             cur.execute(statement('coordinator/04_register_and_materialize.sql', 'cp7_credit.assert_source_admission'))
+            cur.execute(statement('coordinator/03_opening_return_hpp.sql', 'cp7_credit.opening_return_hpp_owner_v1'))
             originals = {sig: definition(cur, sig) for sig in STEP2}
             assert followups_delta.replacement(followups_delta.BUILD) in originals[native_delta.BUILD]
             # 2. Counted delta.
@@ -277,6 +284,31 @@ def main(dsn):
                                (clean, clean, clean, sale, sale, sale)).fetchone()
             assert list(zero) == [0, 0, '0.00', 200, 0, 200], zero
             seen['prior_recognized'] = dict(no_cohort=0, no_cohort_text='0.00', earlier_family_200=200, before_family_1=0, before_family_2=200)
+            # B12: the opening-HPP return owner expects the guard's exact value (raw paid - earlier credit - K).
+            owner = 'select cp7_credit.opening_return_hpp_owner_v1(%s)::text'
+            o = {}
+            for label, s, origin, guard_value in (('no_cohort', clean, 'REVIEWED_SETTLEMENT', 900), ('earlier_cohort', sale, 'REVIEWED_SETTLEMENT', 700),
+                                                  ('earlier_cohort_wrong_value', sale, 'REVIEWED_SETTLEMENT', 650), ('ordinary', sale, 'ORDINARY', 1000)):
+                cur.execute('savepoint owner_case')
+                ret, actor, request, customer = (str(uuid.uuid4()) for _ in range(4))
+                cur.execute("insert into erp.sales_returns(id,sale_id,status,customer_id)values(%s,%s,'POSTED',%s)", (ret, s, customer))
+                cur.execute("""insert into cp7_credit.initial_return_work(operation_id,plan_id,return_id,source_sale_id,family_ordinal,origin,projection,
+                    projected_kernel,settlement,credit_account_snapshot,phase,backend_pid,transaction_id,actor,request_id,source_lock_sha256,projection_sha256)
+                    values(%s,null,%s,%s,null,%s,%s,%s,'{}','{}','ENTERED',pg_backend_pid(),txid_current(),%s,%s,'lock','projection')""",
+                    (str(uuid.uuid4()), ret, s, origin, json.dumps(dict(return_amount='100', net_after='600', raw_paid='1000')),
+                     json.dumps(dict(has_recognition_effect=True, net_current_k='100')), actor, request))
+                cur.execute("""insert into cp7_credit.return_native_scope(backend_pid,transaction_id,return_id,native_refund,native_net_after,guard_effective_paid,
+                    completed,actor,request_id,source_sale_id,customer_id,origin,source_lock_sha256,projection_sha256)
+                    values(pg_backend_pid(),txid_current(),%s,100,600,%s,false,%s,%s,%s,%s,%s,'lock','projection')""",
+                    (ret, guard_value, actor, request, s, customer, origin))
+                o[label] = side_by_side(cur, originals, patched, owner, (ret,))
+                cur.execute('rollback to savepoint owner_case')
+            guarded = 'CP7_CREDIT_OPENING_HPP_GUARDED_OWNER_REQUIRED'
+            assert o['no_cohort'][0] == o['no_cohort'][1] and o['no_cohort'][0].get('ok'), o['no_cohort']
+            assert o['ordinary'][0] == o['ordinary'][1] and o['ordinary'][0].get('ok'), o['ordinary']
+            assert o['earlier_cohort'][0]['message'] == guarded and o['earlier_cohort'][1].get('ok'), o['earlier_cohort']
+            assert o['earlier_cohort_wrong_value'][0]['message'] == o['earlier_cohort_wrong_value'][1]['message'] == guarded, o['earlier_cohort_wrong_value']
+            seen['opening_hpp_owner'] = o
             report['side_by_side'] = seen
             conn.rollback()
     finally:
