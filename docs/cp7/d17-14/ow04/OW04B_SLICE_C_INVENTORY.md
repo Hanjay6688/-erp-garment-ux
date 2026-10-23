@@ -61,6 +61,11 @@ then calls B's removal.
 - The Native side now adds the exact proven incoming events (`consumer_incoming_funding_v1`).
 - Record: `ow04b-slice-c-native7-race1-ceed13e3-first-failure.json`.
 
+**Added after the second CI run (C14, 929c615a, run 39893191153):**
+- The refund binding hash written by `native_return_complete` must be the retained readers' manifest: the sorted profile without consumption objects.
+- A credit-paid invoice's profile carries the incoming APPLY as a consumption object, so the two used to differ.
+- Record: `ow04b-slice-c-native7-race1-929c615a-failure.json`, which also notes the unexplained lock during removal.
+
 Still refused after C, with named reasons:
 - payment correction on such an invoice (`payment_correction/transform.py:53,171`, `04_completion.sql:9`);
 - source reversal of its payments or returns (`consumer/11_source_history.sql:14`, `CP7_CREDIT_SOURCE_INCOMING_HISTORY_ADAPTER_REQUIRED`);

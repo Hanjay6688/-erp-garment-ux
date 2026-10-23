@@ -52,6 +52,10 @@ def slice_b_definitions(cur):
     return {sig: b.patch(sig, before_b[sig]) for sig in SIX}
 
 
+def native_delta_text_contains(text, expression):
+    return text.count(expression) == 1
+
+
 def delta_checks(originals, patched, sigs):
     for sig in sigs:
         back, text = patched[sig], originals[sig]
@@ -222,6 +226,26 @@ def main(dsn):
                        missing_incoming_new=distinct(native_events, native_events + incoming))
             assert c13 == dict(no_credit_old=False, no_credit_new=False, credit_old=True, credit_new=False, missing_incoming_new=True), c13
             seen['quote_source_vector_C13_refuses'] = c13
+            # C14: the stored recognition hash equals the retained readers' manifest (sorted, no consumption objects);
+            # without consumption objects it is the slice B hash.
+            cur.execute(bcheck.statement('ledger/01_immutable_facts.proposal.sql', 'cp7_credit.pg_jsonb_sha256'))
+            fact = lambda kind, i: dict(object_kind=kind, object_id=i, fact_sha256='0' * 64)
+            ids = sorted(str(uuid.uuid4()) for _ in range(4))
+            profile_plain = [fact('COHORT', ids[0]), fact('FAMILY', ids[1]), fact('PART', ids[2])]
+            profile_with_apply = [fact('COHORT', ids[0]), fact('CONSUMPTION', ids[3]), fact('FAMILY', ids[1]), fact('PART', ids[2])]
+            readers = "select cp7_credit.pg_jsonb_sha256(coalesce((select jsonb_agg(x order by x->>'object_kind'collate\"C\",x->>'object_id'collate\"C\")from jsonb_array_elements(%s::jsonb)x where x->>'object_kind'<>'CONSUMPTION'),'[]'))"
+            old_store = 'select cp7_credit.pg_jsonb_sha256(%s::jsonb)'
+            new_store = ("select cp7_credit.pg_jsonb_sha256((select coalesce(jsonb_agg(x order by x->>'object_kind'collate\"C\",x->>'object_id'collate\"C\"),'[]')"
+                         "from jsonb_array_elements(%s::jsonb)x where x->>'object_kind'<>'CONSUMPTION'))")
+            h = lambda sql, v: cur.execute(sql, (json.dumps(v),)).fetchone()[0]
+            c14 = dict(plain_old_equals_new=h(old_store, profile_plain) == h(new_store, profile_plain),
+                       plain_readers_match=h(readers, profile_plain) == h(new_store, profile_plain),
+                       with_apply_old_matches_readers=h(old_store, profile_with_apply) == h(readers, profile_with_apply),
+                       with_apply_new_matches_readers=h(new_store, profile_with_apply) == h(readers, profile_with_apply))
+            assert c14 == dict(plain_old_equals_new=True, plain_readers_match=True, with_apply_old_matches_readers=False,
+                               with_apply_new_matches_readers=True), c14
+            assert native_delta_text_contains(patched[c.COMPLETE], new_store.split('select ', 1)[1].replace('%s::jsonb', "a->'actual_objects'"))
+            seen['refund_recognition_manifest_C14'] = c14
             report['side_by_side'] = seen
             conn.rollback()
         report['profile_C6'] = profile_check(re.sub(r'dbname=\S+', 'dbname=' + DB + '_profile', dsn))
