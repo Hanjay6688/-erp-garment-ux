@@ -2,7 +2,17 @@
 
 Kandidat khusus caller v2 di atas produksi18/target4/suplai/pemicu awal lalu
 inputs/cache/caller.19 kasus yang dideklarasikan sebelum run:11 Native,4 dua
-pengguna,2 Auth/PostgREST,2 browser1440/390. Status awal **belum dijalankan**.
+pengguna,2 Auth/PostgREST,2 browser1440/390. Kandidat
+`9ac0964e2756b0752858961e354b5c10307e8959`, tree
+`c8bb4c37ed5574cf4c641a6363151a81fe10398d`, sudah dijalankan pada
+[run39923253294](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39923253294),
+job120313328107. **Pertama INCOMPLETE:0/19 kasus**; guard instalasi menolak
+pin history_prep yang masih menunjuk body dasar. Komposisi produksi18 yang
+memang diwajibkan memakai body e76f0556. Perbaikan meminta satu body tepat itu
+dan memuat body produksi18 ke fixture lokal; bukan menerima sembarang body atau
+mengubah oracle. [Receipt](9ac0964-first-native19-incomplete.json); seluruh log
+dan Original dipertahankan terpisah. Belum ada klaim Native caller PASS.
+Hasil lokal65/65 klien/DOM, TypeScript dan preflight awal ada di native19-preflight.json.
 
 Ini tidak mengganti hasil predecessor133 c0bb0d19. Seluruh Original133 dan
 kegagalan pertamanya tetap disimpan.19 kasus ini memakai kontrak v2 dan tabel
@@ -46,5 +56,5 @@ source gate itu lulus atau mengubah registry. Patch permintaan A tetap berlaku.
 
 Environment sebelumnya terputus; kode0b1b91f0/handoff50475ed2/checkpoint92d6ff40
 berhasil dipulihkan. Log lengkap versi terdahulu tetap tersimpan terpisah.
-Native19 akan dicatat melalui run/job/artifact aktual setelah dipicu, bukan
-dianggap berjalan hanya karena file workflow sudah dibuat. Parent5/16.
+Run/job dan kedua artifact pertama dicatat di receipt. Perbaikan akan diuji
+pada kandidat berikutnya; hasil pertama tidak dihapus. Parent5/16.

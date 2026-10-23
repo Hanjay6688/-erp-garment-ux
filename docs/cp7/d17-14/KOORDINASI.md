@@ -416,3 +416,25 @@ input/cache/caller ini. Auth/dua pengguna/layar Native/pasang-pulih rantai A,
 SLA2000 hangat3detik dan factory3600 tetap belum PASS. Kontrol SS1 yang memang
 berubah akan dipetakan terbuka, bukan oracle dilonggarkan. Semua scope tetap;
 parent5/16, tidak ada CP7C/production_go. Main/audit beku/Enteng/WA asli tetap.
+
+## 17 — caller Native19 pertama tertahan pin dependensi (23 Okt WIB) [bersama]
+
+Environment sebelumnya terputus; B memulihkan kode0b1b91f0, handoff50475ed2,
+checkpoint92d6ff40 dan bukti privat versi12 dengan SHA yang cocok. Runner yang
+belum tersimpan dibuat ulang dan kini didorong: harness947c63c6 lalu kandidat
+9ac0964e/treec8bb4c37. Run39923253294/job120313328107 **INCOMPLETE:0/19 kasus**:
+guard inputs menolak history_prep dasar2e142be7, karena produksi18 yang memang
+dipasang memakai body terpadu e76f0556. Pin tepat dan fixture lokal diperbaiki;
+pemeriksa tidak dilonggarkan. Original lengkap/log/kedua artifact dipertahankan,
+receipt kecil ow10/9ac0964-first-native19-incomplete.json. Native19 belum PASS.
+
+19 kasus dideklarasikan sebelum run:11 Native,4 dua pengguna,2 login nyata dan
+2 layar. Oracle lama tetap utuh; predecessor133 bukti terpisah. Batas8detik dan
+hangat3detik tidak dinaikkan. Klien65/65 dan TypeScript lokal lulus. Tiga tahap
+inputs/cache/caller serta seluruh22 kelompok katalog diperiksa sebelum/sesudah
+inverse di savepoint; guard setelah pakai tetap wajib. Default bundle, migrasi,
+tipe dan registry A tidak disentuh. Kontrak di ow10/REORDER_NATIVE_README.md.
+
+Handoff Claude kini memuat kandidat/run/langkah lanjut aktual. B mendahulukan
+perbaikan pin ini, lalu meneruskan OW13c pada berkas produksi miliknya.
+Rantai A, backup/restore caller, factory3600, audit dan parent5/16 tetap terbuka.

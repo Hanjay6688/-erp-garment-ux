@@ -1,0 +1,29 @@
+{
+  "classification": "FIRST_NATIVE19_ATTEMPT_RETAINED_NOT_QUALIFIED",
+  "candidate": "9ac0964e2756b0752858961e354b5c10307e8959",
+  "tree": "c8bb4c37ed5574cf4c641a6363151a81fe10398d",
+  "run_id": 39923253294,
+  "job_id": 120313328107,
+  "run_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39923253294",
+  "status": "INCOMPLETE",
+  "observed_case_count": 0,
+  "expected_case_count": 19,
+  "required_case_counts": {"native": 11, "races": 4, "http": 2, "browser": 2},
+  "error": "OW10_REORDER_INPUTS_NATIVE_PREDECESSOR_CHANGED: cp7_analysis_stage.history_prep(jsonb,jsonb,integer,bigint,integer)",
+  "cause": "Inputs pinned the frozen history_prep body 2e142be7; the required production18 stage correctly installs unified target body e76f0556. No case was executed.",
+  "intended_fix": "Pin the one exact production18 body; run local checks with that same actual body. Keep every oracle and timeout unchanged.",
+  "package_gates": {"installed": true, "primary_unchanged": true, "backup_restore_drill": true, "security_advisors": true, "writer_runtime": false},
+  "artifacts": [
+    {"id": 12488940727, "kind": "complete_original_json", "bytes": 29831, "sha256": "498d9760ebc47281d358d479ad1b43a9381fb1636c29d630ace422dc15bd757a"},
+    {"id": 12488163383, "kind": "full_archive", "bytes": 1630838, "sha256": "2834e6f5bc06c59462da21a3cb96089502d722cc407a89f116490827bfcab420"}
+  ],
+  "first_failure_preserved": true,
+  "old_oracles_changed": false,
+  "limits_raised": false,
+  "predecessor133_rerun": false,
+  "caller_backup_restore_qualified": false,
+  "full_A_chain_qualified": false,
+  "independent_acceptance": false,
+  "production_go": false,
+  "parent_completed": "5/16"
+}

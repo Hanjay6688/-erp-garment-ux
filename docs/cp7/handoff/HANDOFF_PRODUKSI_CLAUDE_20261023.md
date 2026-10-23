@@ -1,5 +1,23 @@
 # Ambil alih hasil produksi B —23 Oktober2026 WIB
 
+**Kelanjutan aktual setelah lingkungan terputus:** kandidat caller
+`9ac0964e2756b0752858961e354b5c10307e8959` (tree
+`c8bb4c37ed5574cf4c641a6363151a81fe10398d`) sudah diuji pada
+[run39923253294](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39923253294),
+job120313328107. **Hasil pertama INCOMPLETE:0/19 kasus**, tertahan pemeriksaan
+dependensi sebelum kasus pertama. Pin history_prep masih meminta body dasar,
+padahal produksi18 yang dipasang sudah memakai body terpadu e76f0556. Guard
+menolak sebagaimana mestinya; B membetulkan pin tepat serta fixture lokal agar
+memakai produksi18 yang sama, tanpa melonggarkan pemeriksa/oracle/batas waktu.
+Deklarasi19 kasus:11 Native,4 dua pengguna,2 login nyata,2 layar desktop/HP.
+Klien65/65 dan TypeScript lokal sebelumnya lulus; ini bukan bukti Native caller.
+[Receipt pertama](../d17-14/ow10/9ac0964-first-native19-incomplete.json) dan
+[kontrak/batas/pemetaan kontrol](../d17-14/ow10/REORDER_NATIVE_README.md).
+Ini kualifikasi tambahan caller v2; predecessor133 tetap bukti tersendiri, bukan
+133 regresi gabungan, pemasangan/pemulihan caller, rantai A atau izin produksi.
+Kode dan runner sudah didorong; jangan mengulangi pembuatan runner dari
+checkpoint92d6ff40. B mendahulukan perbaikan ini, lalu melanjutkan OW13c.
+
 **Hasil pemicu awal: Native126 PASS** pada d9918e4b/run39893138696/job120217297227.
 Seluruh126 ID tepat:68 Native,36 dua pengguna,9 HTTP dan13 layar. Dua tahap
 (target/statistik + pemicu awal) membuktikan invers22;38 salinan mempunyai
