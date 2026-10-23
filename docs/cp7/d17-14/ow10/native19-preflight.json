@@ -1,0 +1,23 @@
+{
+  "classification": "LOCAL_PREFLIGHT_ONLY_NATIVE_NOT_YET_RUN",
+  "python_module_import_and_19_declared_operations": true,
+  "python_AST": "PASS",
+  "browser_syntax": "PASS",
+  "workflow_YAML": "PASS",
+  "client_tests": 65,
+  "client_files": 4,
+  "typescript": "PASS",
+  "predecessor_sql_sha256": "e7701eaada592cfd74a8555cf4cdcb7df8d180448213d3bbf5698c3bfa025127",
+  "source_sha256": {
+    "scripts/cp7_ow10_reorder_probe.py": "211eac172b411d443c29fff1afbae120e7baebe69bd5da3cdd5406ae97944f41",
+    "scripts/cp7_ow10_reorder_cases.py": "ab8daa91afcd84ec5e36237bb4221acbcc726f04c90fe3be6caa3b5c9a873205",
+    "scripts/cp7_ow10_reorder_browser_fixture.py": "7f03d70bc9514e29457df09ad9c10ed0757ceb69572e9b097fae9e7d1ccb1be5",
+    "scripts/cp7_ow10_reorder_browser.mjs": "afbb3a98890e77176213f72aba46b6a4105e5100c922b3da949c2b90d071213a",
+    "scripts/cp7_f05_analysis_probe.py": "93b93d738316e9d9fce6e1fcdfaef15ab02d139f347d565988eebce09902db0c",
+    ".github/workflows/cp7-ow10-reorder.yml": "c83d76e0db3c349240aa1a2d59a7c31137ec5389fd28635414417e43b638072a",
+    "docs/cp7/d17-14/ow10/REORDER_NATIVE_CONTRACT.json": "d653b71891768aaaf88dc2ec56f289e195fe30cac2fe4604728f0176a3103520"
+  },
+  "Native_qualification": false,
+  "full_A_chain_qualified": false,
+  "production_go": false
+}
