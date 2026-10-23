@@ -10,7 +10,7 @@
   "scripts/cp7_credit_followups/native_delta.py": "972cc6f4b797b3a23ac9dff07029a17db17f73ccc140e6fbb8714c6459fb93c8",
   "scripts/cp7_credit_followups/native_probe.py": "f6905377d3957c3db586e750b3b4a69186ebe7fd184eecd3252b7b04c7eb0a4a",
   "scripts/ow08b_wash_native_original.py": "b90668ab86c0fd28ea2850751e9e6c6e3522f894936e2873ad569aa968a546f2",
-  "docs/cp7/d17-14/ow08/wash-native11-PENDING_WASH_HEAD8-chain-pass.json": "PENDING_WASH_NATIVE11_RECEIPT_SHA256"
+  "docs/cp7/d17-14/ow08/wash-native11-3d5c5035-chain-pass.json": "8902f5ea5b10c7e40b916c11e1fceacdee8646356a12cf16ef6ffa8201cc3a96"
  },
  "case_ids": [
   "OW04B_FIRST_RETURN_QUOTES_UNCHANGED",
@@ -30,14 +30,14 @@
  ],
  "native_original": {
   "name": "CP7_OW08B_LAUNDRY_UNKNOWN_WASH_NATIVE11.json",
-  "bytes": "PENDING_WASH_NATIVE11_RAW_BYTES",
-  "sha256": "PENDING_WASH_NATIVE11_RAW_SHA256"
+  "bytes": 2983166,
+  "sha256": "8f50c9f55b00d3a719e4cd0f5fb51944c66a4488080cb21cba07644d731283ca"
  },
  "native_original_run": {
-  "receipt": "docs/cp7/d17-14/ow08/wash-native11-PENDING_WASH_HEAD8-chain-pass.json",
-  "head": "PENDING_WASH_HEAD8",
-  "run": "PENDING_WASH_NATIVE11_RUN_ID",
-  "artifact": "PENDING_WASH_NATIVE11_ARTIFACT_ID"
+  "receipt": "docs/cp7/d17-14/ow08/wash-native11-3d5c5035-chain-pass.json",
+  "head": "3d5c5035",
+  "run": 39893809147,
+  "artifact": 12475194840
  },
  "retest_items": {
   "part3_refusal_names_reason_and_next_step": "SERVER_DETAIL_IN_THIS_STAGE_CLIENT_TEXT_IN_SRC",
