@@ -1,0 +1,15 @@
+{
+  "candidate_sha": "d0b9e9c2e41a9f0f3a138346887434fd7d3c14f0",
+  "case_id": "ASF-14-TABLET-PARITY",
+  "expected_cases": 1,
+  "reason": "Audit guide INV-UI04 explicitly names iPad; previous own runtime covered desktop and phone only.",
+  "scope": "Real connected sale/payment/return/inverse on tablet-size Chromium; same posted invoice read at 1440x1000,820x1180,390x844 with all five exact amounts and no horizontal overflow.",
+  "not_a_failure_rerun": true,
+  "oracle_origin": "ASTRA_EXACT_CENTS_AND_SAME_DOCUMENT_CROSS_VIEWPORT",
+  "fixture_origin": "UNCHANGED_ASTRA_73_41_13_4_13703_NATIVE_FIXTURE",
+  "original_journey_sha256": "eec8c946ab27922070d1096609b48a8826d5cd5688d708668b155740a58a3eff",
+  "source_sha256": "e97ae115a767f74acb10039f2999395f44955898fb155ab9c67d565cac197c91",
+  "physical_iPad_or_Safari": false,
+  "product_changed": false,
+  "production_go": false
+}

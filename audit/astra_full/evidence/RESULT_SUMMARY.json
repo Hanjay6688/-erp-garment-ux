@@ -1,0 +1,59 @@
+{
+  "candidate": "d0b9e9c2e41a9f0f3a138346887434fd7d3c14f0",
+  "product_cases_own_unique": 77,
+  "own_status_counts": {
+    "PASS": 76,
+    "COUNTEREXAMPLE": 1
+  },
+  "own_executions": 80,
+  "writer_regression": {
+    "PASS": 1760,
+    "smoke_executions": 3,
+    "smoke_pass": 3,
+    "reports": 42
+  },
+  "rehearsals": [
+    {
+      "artifact_id": 11711605241,
+      "file": "CP7_P21_REHEARSAL.json",
+      "status": "PASS",
+      "steps": [
+        "INSTALL_1",
+        "PREUSE_ROLLBACK",
+        "REINSTALL",
+        "USE",
+        "POSTUSE_ROLLBACK",
+        "HARNESS_RESTORE_AFTER_USE"
+      ],
+      "cp6_restored": true,
+      "advisor_gate": true
+    },
+    {
+      "artifact_id": 11711310972,
+      "file": "CP7_P21_FULL_REHEARSAL.json",
+      "status": "PASS",
+      "steps": [
+        "PREINSTALL_BACKUP",
+        "INSTALL_1",
+        "PREUSE_ROLLBACK",
+        "REINSTALL",
+        "USE",
+        "POSTUSE_ROLLBACK",
+        "USED_BACKUP_RESTORE",
+        "ROLLBACK_BY_PREINSTALL_RESTORE",
+        "HARNESS_RESTORE_AFTER_USE"
+      ],
+      "cp6_restored": true,
+      "advisor_gate": true
+    }
+  ],
+  "own_manifest_complete": true,
+  "own_cases_pending": [],
+  "own_cases_expected": 77,
+  "pending_regression_reports": 0,
+  "production_go": false,
+  "writer_product_unique_ids": 1174,
+  "writer_smoke_unique_ids": 3,
+  "date_rollover_flags_in_case_reports": 0,
+  "note": "Unique IDs are not unique independent oracles. The same product case may recur in separate composition suites. Smoke and rehearsal phases are separate."
+}

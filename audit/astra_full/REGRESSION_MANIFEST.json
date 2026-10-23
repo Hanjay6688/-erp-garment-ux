@@ -1,0 +1,354 @@
+{
+  "candidate_sha": "d0b9e9c2e41a9f0f3a138346887434fd7d3c14f0",
+  "evidence_origin": "INDEPENDENT_NATIVE_RERUN",
+  "oracle_origin": "WRITER_ORACLES_UNCHANGED",
+  "fixture_origin": "WRITER_FIXTURES_UNCHANGED",
+  "suite_count": 44,
+  "suites": [
+    {
+      "suite": "p19-transport11",
+      "probe": "cp7_p19_transport_probe.py",
+      "timeout": 120,
+      "args": "",
+      "bucket": ""
+    },
+    {
+      "suite": "p19-scale5",
+      "probe": "cp7_p19_scale_probe.py",
+      "timeout": 330,
+      "args": "",
+      "bucket": ""
+    },
+    {
+      "suite": "p19-staged12",
+      "probe": "cp7_p19_staged_probe.py",
+      "timeout": 150,
+      "args": "",
+      "bucket": ""
+    },
+    {
+      "suite": "p19-plan-v2-22",
+      "probe": "cp7_p19_plan_v2_probe.py",
+      "timeout": 180,
+      "args": "",
+      "bucket": ""
+    },
+    {
+      "suite": "p19-report-v2-20",
+      "probe": "cp7_p19_report_v2_probe.py",
+      "timeout": 180,
+      "args": "",
+      "bucket": ""
+    },
+    {
+      "suite": "p19-ai-v2-9",
+      "probe": "cp7_p19_ai_v2_probe.py",
+      "timeout": 150,
+      "args": "",
+      "bucket": ""
+    },
+    {
+      "suite": "p19-reminder-v2-16",
+      "probe": "cp7_p19_reminder_v2_probe.py",
+      "timeout": 180,
+      "args": "",
+      "bucket": ""
+    },
+    {
+      "suite": "pl5-history-yield-20",
+      "probe": "cp7_pl5_history_yield_probe.py",
+      "timeout": 180,
+      "args": "",
+      "bucket": ""
+    },
+    {
+      "suite": "k2-retention-10",
+      "probe": "cp7_k2_retention_probe.py",
+      "timeout": 150,
+      "args": "",
+      "bucket": ""
+    },
+    {
+      "suite": "k3-cleanup-19",
+      "probe": "cp7_k3_cleanup_probe.py",
+      "timeout": 180,
+      "args": "",
+      "bucket": ""
+    },
+    {
+      "suite": "fabric-physical21",
+      "probe": "cp7_fabric_physical_probe.py",
+      "timeout": 120,
+      "args": "",
+      "bucket": ""
+    },
+    {
+      "suite": "fabric13-successor",
+      "probe": "cp7_fabric_recipe_probe.py",
+      "timeout": 90,
+      "args": "",
+      "bucket": ""
+    },
+    {
+      "suite": "analysis152",
+      "probe": "cp7_f05_analysis_probe.py",
+      "timeout": 90,
+      "args": "",
+      "bucket": ""
+    },
+    {
+      "suite": "plan39",
+      "probe": "cp7_f04_plan_probe.py",
+      "timeout": 90,
+      "args": "",
+      "bucket": ""
+    },
+    {
+      "suite": "attention284",
+      "probe": "cp7_f05_attention_probe.py",
+      "timeout": 180,
+      "args": "",
+      "bucket": ""
+    },
+    {
+      "suite": "model",
+      "probe": "cp7_f04_model_probe.py",
+      "timeout": 60,
+      "args": "",
+      "bucket": ""
+    },
+    {
+      "suite": "schedule",
+      "probe": "cp7_f04_schedule_probe.py",
+      "timeout": 60,
+      "args": "",
+      "bucket": ""
+    },
+    {
+      "suite": "netting",
+      "probe": "cp7_f04_netting_probe.py",
+      "timeout": 60,
+      "args": "",
+      "bucket": ""
+    },
+    {
+      "suite": "supply",
+      "probe": "cp7_f04_supply_probe.py",
+      "timeout": 60,
+      "args": "",
+      "bucket": ""
+    },
+    {
+      "suite": "fabric-rule11",
+      "probe": "cp7_p18_fabric_rule_probe.py",
+      "timeout": 120,
+      "args": "",
+      "bucket": ""
+    },
+    {
+      "suite": "rule-lifecycle16",
+      "probe": "cp7_rule_lifecycle_probe.py",
+      "timeout": 120,
+      "args": "",
+      "bucket": ""
+    },
+    {
+      "suite": "p18-e01-9",
+      "probe": "cp7_p18_e01_bridge_probe.py",
+      "timeout": 120,
+      "args": "",
+      "bucket": ""
+    },
+    {
+      "probe": "cp7_p21_rehearsal_probe.py",
+      "timeout": 60,
+      "suite": "cp7-p21-rehearsal",
+      "args": "",
+      "bucket": ""
+    },
+    {
+      "probe": "cp7_p21_full_rehearsal_probe.py",
+      "timeout": 120,
+      "suite": "cp7-p21-full-rehearsal",
+      "args": "",
+      "bucket": ""
+    },
+    {
+      "suite": "payroll--roster",
+      "probe": "cp7_p12_nota_probe.py",
+      "args": "--roster",
+      "timeout": 180,
+      "bucket": ""
+    },
+    {
+      "suite": "payroll--payroll-review",
+      "probe": "cp7_p12_nota_probe.py",
+      "args": "--payroll-review",
+      "timeout": 180,
+      "bucket": ""
+    },
+    {
+      "suite": "payroll--attendance-write",
+      "probe": "cp7_p12_nota_probe.py",
+      "args": "--attendance-write",
+      "timeout": 180,
+      "bucket": ""
+    },
+    {
+      "suite": "p13_finance",
+      "probe": "cp7_p13_finance_probe.py",
+      "args": "",
+      "timeout": 180,
+      "bucket": ""
+    },
+    {
+      "suite": "p18_full_cycle",
+      "probe": "cp7_p18_full_cycle_probe.py",
+      "args": "",
+      "timeout": 180,
+      "bucket": ""
+    },
+    {
+      "suite": "note_correction",
+      "probe": "cp7_note_correction_probe.py",
+      "args": "",
+      "timeout": 180,
+      "bucket": ""
+    },
+    {
+      "suite": "supplier_payment_correction",
+      "probe": "cp7_supplier_payment_correction_probe.py",
+      "args": "",
+      "timeout": 180,
+      "bucket": ""
+    },
+    {
+      "suite": "supplier_payment_create",
+      "probe": "cp7_supplier_payment_create_probe.py",
+      "args": "",
+      "timeout": 180,
+      "bucket": ""
+    },
+    {
+      "suite": "receipt_correction",
+      "probe": "cp7_receipt_correction_probe.py",
+      "args": "",
+      "timeout": 180,
+      "bucket": ""
+    },
+    {
+      "suite": "k4-runner-17",
+      "probe": "cp7_k4_runner_probe.py",
+      "timeout": 180,
+      "args": "",
+      "bucket": ""
+    },
+    {
+      "suite": "k6-proof-runner-10",
+      "probe": "cp7_k6_proof_runner_probe.py",
+      "timeout": 150,
+      "args": "",
+      "bucket": ""
+    },
+    {
+      "suite": "f03-full-p09",
+      "probe": "cp7_f03_full_probe.py",
+      "timeout": 180,
+      "args": "",
+      "bucket": "p09"
+    },
+    {
+      "suite": "f03-full-p10",
+      "probe": "cp7_f03_full_probe.py",
+      "timeout": 180,
+      "args": "",
+      "bucket": "p10"
+    },
+    {
+      "suite": "f03-full-p11",
+      "probe": "cp7_f03_full_probe.py",
+      "timeout": 180,
+      "args": "",
+      "bucket": "p11"
+    },
+    {
+      "suite": "f03-full-p12",
+      "probe": "cp7_f03_full_probe.py",
+      "timeout": 180,
+      "args": "",
+      "bucket": "p12"
+    },
+    {
+      "suite": "f03-full-p13",
+      "probe": "cp7_f03_full_probe.py",
+      "timeout": 180,
+      "args": "",
+      "bucket": "p13"
+    },
+    {
+      "suite": "f03-full-cash_installments",
+      "probe": "cp7_f03_full_probe.py",
+      "timeout": 180,
+      "args": "",
+      "bucket": "cash_installments"
+    },
+    {
+      "suite": "f03-full-supplier_credit",
+      "probe": "cp7_f03_full_probe.py",
+      "timeout": 180,
+      "args": "",
+      "bucket": "supplier_credit"
+    },
+    {
+      "suite": "f03-full-customer_refund",
+      "probe": "cp7_f03_full_probe.py",
+      "timeout": 180,
+      "args": "",
+      "bucket": "customer_refund"
+    },
+    {
+      "suite": "f03-full-prefreeze_ui",
+      "probe": "cp7_f03_full_probe.py",
+      "timeout": 180,
+      "args": "",
+      "bucket": "prefreeze_ui"
+    }
+  ],
+  "suite_source_sha256": {
+    "cp7_p19_transport_probe.py": "6cf93b62dc5c9daf81a0ff33866c65c6cb54eb4155bf1eb460e92329a9dc2199",
+    "cp7_p19_scale_probe.py": "202e39fd7d7977ad1444ad93d3244ddf219440197b898df3c8fa8f73e28cbcc4",
+    "cp7_p19_staged_probe.py": "c4338b7572bb192470a22057816461a6184e6dabf328e914d31f6362344fd522",
+    "cp7_p19_plan_v2_probe.py": "07360323bc05cdbeed235c95a758d419a1c56a8168c451052a3098a7a2ca8d56",
+    "cp7_p19_report_v2_probe.py": "cdda53438ac8b8f23fc7b6cf06181beb204504efd6fa4b172b50b8e77527bf99",
+    "cp7_p19_ai_v2_probe.py": "d582d11794f2d9a912901452099b2075c3f6d1b3095fa8d0cef7465b545c598e",
+    "cp7_p19_reminder_v2_probe.py": "4e67e0069737bea902fb8f8076df6b2c8c4231401e9149cf48f6c7a73fcef788",
+    "cp7_pl5_history_yield_probe.py": "56b994edbfedc686c385bf3beb46de6f52742476a1dd369992a052e40208e136",
+    "cp7_k2_retention_probe.py": "bb11e72472c4ff4562f2e396e5b9b06ec262ae55eaaae90ddfd9c79a2caf6c46",
+    "cp7_k3_cleanup_probe.py": "3ce8507ecada1b32ea430ed59c2fe749cae943aba1233a66532e038cb7d0eff6",
+    "cp7_fabric_physical_probe.py": "ad0726d08abd8d895f5112a9a4a0c686f89b48e8c9d89b6b1f2ee357a0832b6e",
+    "cp7_fabric_recipe_probe.py": "76648c2051486d2fcd04cf3a20d2016e4ac59591eae3b2ab706493f58ec1ca19",
+    "cp7_f05_analysis_probe.py": "8d1a9182f2c1a2514c031a6f5bab1f7de3f06c226ed5ada7b0514cbcef316328",
+    "cp7_f04_plan_probe.py": "b177c4ef72f6ae25823997e5235bc74731615a5c86df8fa0c3ffb9e8f312f4d7",
+    "cp7_f05_attention_probe.py": "a8a54c4bde646d7f5ec2066086122b2c9e357388d76bce37d47ea821a5f74929",
+    "cp7_f04_model_probe.py": "06bcae49f159c22e1979eca34120e7df476b58f0bf2dc49b7cf1cbf0339714f2",
+    "cp7_f04_schedule_probe.py": "ce77f2d030597059b245c9a1139b2f8b25afc62162e2d1cf5a4a82826d59a6f1",
+    "cp7_f04_netting_probe.py": "789bb483887367cc50121c6c66862c37cc9482e0672ff14a5e34dc4e0fe3edd1",
+    "cp7_f04_supply_probe.py": "91c5f76509563a6216c96a05337f12b2ab9bc3bbcb22169c164492d363727358",
+    "cp7_p18_fabric_rule_probe.py": "b4a37abf0e564fdbb27288bfa936f87ccef1908e820a4e1c1dab9b3119bbe894",
+    "cp7_rule_lifecycle_probe.py": "8a7346dfbb1c85674079d430248bbef30c7a665962e8736b7ab89625edec3391",
+    "cp7_p18_e01_bridge_probe.py": "07b8d63fd35676637e70ae8a2d8fea2d0cba1addb490c187d5c613790a5649eb",
+    "cp7_p21_rehearsal_probe.py": "0f7f8aef34821da5487a965f7a3fa473824d67335615271e1e6713c3d3ca7d1d",
+    "cp7_p21_full_rehearsal_probe.py": "b1c8be5afc64cf32b696cefd202e86c4a7709ac2c96b41fc187129f3dff81dd8",
+    "cp7_p12_nota_probe.py": "663a4b963735bba35b20bd39630e769ecb3452be33bb07c7a2d527ecde41a865",
+    "cp7_p13_finance_probe.py": "ac940d04978cfcecc051d774eaf735f75de39e68cd6963a8b3c4a96184455d21",
+    "cp7_p18_full_cycle_probe.py": "77ca0349b1e462cb98fff6c207f54ebd3ab2de94ad2eeeb7eaa7b81389153732",
+    "cp7_note_correction_probe.py": "541ac67fe3fb7c883f51e474d730ddd8a32f4c2c8d3e02afa46f21197db462b7",
+    "cp7_supplier_payment_correction_probe.py": "176155adb2c3045f582218fe9d071564b588e2361c33b9963494644be1ae87f7",
+    "cp7_supplier_payment_create_probe.py": "af83d7ddf891b948fc77b6a9aa0ea0e636fc0b6766dd19b2bb562b9ca6a12ee3",
+    "cp7_receipt_correction_probe.py": "8e58e6864cdd3a8e7612ab718b0bd889301d862acd10c13676541c0b538e1d57",
+    "cp7_k4_runner_probe.py": "d02aa2c0e66842c35e3813da648b420b6dfff0f424b8aa296dfcf385d54bdbe7",
+    "cp7_k6_proof_runner_probe.py": "f2ba37fb54934b96794ddb46b9c7970cef715347dbeafec1ea7bbd57e8f7657a",
+    "cp7_f03_full_probe.py": "c838bfd09084545e4b27d610881d50302f7040300d3fe6fbe2c2d9a644b9eafd"
+  },
+  "note": "Suite names are navigation labels, never case counts. Canonical case IDs, originals, duplicate executions, first failures and restore gates are reconciled from raw reports. Independent designed probes follow in separate manifest before their first execution."
+}

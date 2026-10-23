@@ -1,0 +1,546 @@
+{
+  "job_id": 114529226884,
+  "run_id": 38159487255,
+  "name": "probe_edges",
+  "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/38159487255/job/114529226884",
+  "source": "Original job JSON lines, unchanged fields; package projected to explicit gates",
+  "case_rows": [
+    {
+      "group": "ASTRA_P20_EDGES_NATIVE",
+      "case": "AS20-15_PHYSICAL137",
+      "audit_case_id": "AS20-15_PHYSICAL137",
+      "evidence_origin": "INDEPENDENT_NATIVE_CASE",
+      "oracle_origin": "ASTRA_CONTRACT",
+      "fixture_origin": "MIXED_ASTRA_FIXTURES_AND_UNCHANGED_WRITER_SETUP",
+      "production_go": false,
+      "status": "PASS",
+      "observations": {
+        "inputs": [
+          50,
+          87
+        ],
+        "sent": 43,
+        "received": 39,
+        "initial": {
+          "input": 137,
+          "wip": 103,
+          "fg": 27,
+          "bs": 7
+        },
+        "after_three_good": {
+          "input": 137,
+          "wip": 100,
+          "fg": 30,
+          "bs": 7
+        },
+        "unknown_cost_visible": true
+      },
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-12",
+        "before": "2026-10-12",
+        "after": "2026-10-12"
+      }
+    },
+    {
+      "group": "ASTRA_P20_EDGES_NATIVE",
+      "case": "AS20-21_FORGED_MATCH",
+      "audit_case_id": "AS20-21_FORGED_MATCH",
+      "evidence_origin": "INDEPENDENT_NATIVE_CASE",
+      "oracle_origin": "ASTRA_CONTRACT",
+      "fixture_origin": "MIXED_ASTRA_FIXTURES_AND_UNCHANGED_WRITER_SETUP",
+      "production_go": false,
+      "status": "PASS",
+      "observations": {
+        "scope": "PRIVATE_KERNEL_INTEGRATION_NOT_LIVE_TRANSACTION_POST",
+        "positive": {
+          "basis": "SIMULATION_NOT_RESERVATION",
+          "edges": [
+            {
+              "key": "edge",
+              "refs": [
+                {
+                  "id": "sew",
+                  "kind": "ASTRA_SYNTHETIC_KERNEL",
+                  "revision": "1"
+                },
+                {
+                  "id": "target",
+                  "kind": "ASTRA_SYNTHETIC_KERNEL",
+                  "revision": "1"
+                }
+              ],
+              "match": "CANDIDATE_MATCH",
+              "size_id": "L",
+              "input_pcs": "27",
+              "target_key": "SKU-B:L",
+              "position_key": "sew",
+              "projected_good_pcs": "27"
+            }
+          ],
+          "status": "FEASIBLE",
+          "matching": {
+            "sources": [
+              {
+                "key": "sew",
+                "refs": [
+                  {
+                    "id": "sew",
+                    "kind": "ASTRA_SYNTHETIC_KERNEL",
+                    "revision": "1"
+                  }
+                ],
+                "quality": "COMPLETE",
+                "size_id": "L",
+                "constraints": [
+                  {
+                    "basis": "FACT",
+                    "field": "color",
+                    "value": "red",
+                    "required": true
+                  }
+                ],
+                "confirmed_target": null
+              }
+            ],
+            "targets": [
+              {
+                "key": "SKU-B:L",
+                "refs": [
+                  {
+                    "id": "target",
+                    "kind": "ASTRA_SYNTHETIC_KERNEL",
+                    "revision": "1"
+                  }
+                ],
+                "size_id": "L",
+                "constraints": [
+                  {
+                    "basis": "FACT",
+                    "field": "color",
+                    "value": "red",
+                    "required": true
+                  }
+                ]
+              }
+            ],
+            "snapshot_id": "AS20-own137"
+          },
+          "scope_id": "ALL",
+          "violations": [],
+          "scenario_id": "AS20",
+          "matching_basis": "RECOMPUTED_FROM_SAME_SNAPSHOT_FACTS"
+        },
+        "negative": [
+          {
+            "kind": "wrong_color",
+            "result": {
+              "refused": true,
+              "sqlstate": "P0001",
+              "message": "CP7_WIP_INELIGIBLE_ALLOCATION",
+              "detail": null
+            }
+          },
+          {
+            "kind": "wrong_size",
+            "result": {
+              "refused": true,
+              "sqlstate": "P0001",
+              "message": "CP7_WIP_MATCH_BINDING",
+              "detail": null
+            }
+          },
+          {
+            "kind": "wrong_source_reference",
+            "result": {
+              "refused": true,
+              "sqlstate": "P0001",
+              "message": "CP7_WIP_MATCH_BINDING",
+              "detail": null
+            }
+          }
+        ]
+      },
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-12",
+        "before": "2026-10-12",
+        "after": "2026-10-12"
+      }
+    },
+    {
+      "group": "ASTRA_P20_EDGES_NATIVE",
+      "case": "AS20-16_MEMBERSHIP",
+      "audit_case_id": "AS20-16_MEMBERSHIP",
+      "evidence_origin": "INDEPENDENT_NATIVE_CASE",
+      "oracle_origin": "ASTRA_CONTRACT",
+      "fixture_origin": "MIXED_ASTRA_FIXTURES_AND_UNCHANGED_WRITER_SETUP",
+      "production_go": false,
+      "status": "PASS",
+      "observations": {
+        "fixture_scope": "WRITER_ADMINISTRATIVE_SOURCE_FIXTURE_NOT_POSTING_PROOF",
+        "old_members": 3,
+        "new_members": 4,
+        "policy": {
+          "state": null,
+          "reason": "P03 explicit policy review",
+          "quality": "MEMBERSHIP_CHANGED",
+          "review_at": null,
+          "review_due": false,
+          "recorded_at": "2026-10-12T00:29:01.43195+07:00",
+          "last_reviewed_state": "ACTIVE"
+        },
+        "stale": {
+          "refused": true,
+          "sqlstate": "40001",
+          "message": "CP7_POLICY_MEMBERSHIP_STALE",
+          "detail": null
+        }
+      },
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-12",
+        "before": "2026-10-12",
+        "after": "2026-10-12"
+      }
+    },
+    {
+      "group": "ASTRA_P20_EDGES_NATIVE",
+      "case": "AS20-10_PENDING_LATE_PRICE",
+      "audit_case_id": "AS20-10_PENDING_LATE_PRICE",
+      "evidence_origin": "INDEPENDENT_NATIVE_CASE",
+      "oracle_origin": "ASTRA_CONTRACT",
+      "fixture_origin": "MIXED_ASTRA_FIXTURES_AND_UNCHANGED_WRITER_SETUP",
+      "production_go": false,
+      "status": "PASS",
+      "observations": {
+        "sold": 3,
+        "remaining": 7,
+        "added_cost": "12.90",
+        "delta": {
+          "FG_INVENTORY": "9.03",
+          "COGS": "3.87"
+        },
+        "first_close_blocker": [
+          "BD_LAUNDRY_COMPONENT_PRICE_UNKNOWN"
+        ]
+      },
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-12",
+        "before": "2026-10-12",
+        "after": "2026-10-12"
+      }
+    },
+    {
+      "group": "ASTRA_P20_EDGES_NATIVE",
+      "case": "AS20-35_FINISH_CURRENT_RECHECK",
+      "audit_case_id": "AS20-35_FINISH_CURRENT_RECHECK",
+      "evidence_origin": "INDEPENDENT_NATIVE_CASE",
+      "oracle_origin": "ASTRA_CONTRACT",
+      "fixture_origin": "MIXED_ASTRA_FIXTURES_AND_UNCHANGED_WRITER_SETUP",
+      "production_go": false,
+      "status": "PASS",
+      "observations": {
+        "added_FG": 92,
+        "finish": {
+          "sent": false,
+          "claim": {
+            "id": "e0ce79d0-ac86-4734-9fc2-a35bf926533f",
+            "body": "PRATINJAU LOKAL — BELUM DIKIRIM\nKebutuhan produksi\nBF-SKU-13b79a87 · CP6 E P04-67fe05f0\nData analisis per 2026-10-12 00:29:03 WIB: kurang 85 PCS.\nDiperiksa ulang 2026-10-12 00:29:03 WIB: masih kurang sedikitnya 85 PCS (stok jadi dan barang dalam proses naik 0 PCS sejak analisis).\nIni pratinjau lokal. Masalah tetap diperiksa dari transaksi ERP.",
+            "kind": "SNAPSHOT",
+            "fence": "5f15541e-9bea-40e2-bde2-d2fc8e68fe05",
+            "reason": "RECHECK_RESOLVED_NOW",
+            "run_id": "85a3410d-4965-4a56-b729-30688e89dea1",
+            "status": "SUPPRESSED",
+            "rule_id": "PRODUCTION_GAP",
+            "policy_id": "e715f60c-34d6-44d1-800f-7946adc25046",
+            "binding_id": "4d7a229b-63b1-4d9a-bebb-bbb90fbdc0a9",
+            "created_at": "2026-10-11T17:29:03.447977+00:00",
+            "episode_id": "891875d4-1399-4ff2-aa52-5aec0bf41f35",
+            "recheck_id": "55c445ff-2e2c-40e1-ac5b-2a27ee57f9ae",
+            "resolution": null,
+            "body_sha256": "1118aaed8e3151c0d1c6af1c57884ca13b78cd28744058446fd814a11a7e3f8b",
+            "environment": "LOCAL_TEST_SINK",
+            "finished_at": "2026-10-11T17:29:03.477627+00:00",
+            "condition_key": "PRODUCTION_GAP:d6425469-7d15-454f-9028-bcdc49c93356:c8c10000-0000-4000-8000-000000000002",
+            "identity_hash": "e03ec3e8d512720a38a0fc4723cfde74e0044f5e6fcf7d32bc6c4a06d9973979",
+            "condition_hash": "f749ec316fe7bf3384d9b1ce9b5e5b4705570823fcac1087c086193c6d2ce643",
+            "occurrence_key": "a4605909077c12ea2dea109f3af9fda649599c8808ed5f574fe8ab2b918e1624",
+            "finish_recheck_id": "cdf5cdfb-420d-4d99-be95-01a4039fb539"
+          },
+          "result": {
+            "status": "COMMITTED",
+            "claim_id": "e0ce79d0-ac86-4734-9fc2-a35bf926533f",
+            "recheck_id": "cdf5cdfb-420d-4d99-be95-01a4039fb539",
+            "request_id": "d5ead601-b82c-4d39-8454-e6225b20304f",
+            "local_status": "SUPPRESSED"
+          },
+          "run_id": "85a3410d-4965-4a56-b729-30688e89dea1",
+          "recheck": {
+            "id": "cdf5cdfb-420d-4d99-be95-01a4039fb539",
+            "kind": "SNAPSHOT",
+            "phase": "FINISH",
+            "reason": "FINISHED_STOCK_AND_WIP_COVER_THE_NEED_NOW",
+            "run_id": "85a3410d-4965-4a56-b729-30688e89dea1",
+            "numbers": {
+              "material": null,
+              "threshold": "1",
+              "fg_now_pcs": "107",
+              "wip_now_pcs": "40",
+              "increase_pcs": "92",
+              "need_now_pcs": "0",
+              "snapshot_unit": "PCS",
+              "snapshot_value": "85",
+              "wip_status_now": "COMPLETE",
+              "fg_snapshot_pcs": "15",
+              "wip_snapshot_pcs": "40",
+              "need_snapshot_pcs": "85",
+              "target_plans_after": 0
+            },
+            "rule_id": "PRODUCTION_GAP",
+            "verdict": "RESOLVED_NOW",
+            "policy_id": "e715f60c-34d6-44d1-800f-7946adc25046",
+            "checked_at": "2026-10-11T17:29:03.469013+00:00",
+            "created_at": "2026-10-11T17:29:03.476913+00:00",
+            "data_as_of": "2026-10-11T17:29:03.237238+00:00",
+            "episode_id": "891875d4-1399-4ff2-aa52-5aec0bf41f35",
+            "request_id": "d5ead601-b82c-4d39-8454-e6225b20304f",
+            "condition_key": "PRODUCTION_GAP:d6425469-7d15-454f-9028-bcdc49c93356:c8c10000-0000-4000-8000-000000000002",
+            "identity_hash": "e03ec3e8d512720a38a0fc4723cfde74e0044f5e6fcf7d32bc6c4a06d9973979"
+          },
+          "operation": "OUTCOME",
+          "identity_hash": "e03ec3e8d512720a38a0fc4723cfde74e0044f5e6fcf7d32bc6c4a06d9973979",
+          "actor_scope_id": "c8c00000-0000-4000-8000-000000000101",
+          "contract_version": "cp7.reminder-command.v2",
+          "scheduler_enabled": false,
+          "external_delivery_enabled": false
+        }
+      },
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-12",
+        "before": "2026-10-12",
+        "after": "2026-10-12"
+      }
+    },
+    {
+      "group": "ASTRA_P20_EDGES_NATIVE",
+      "case": "AS20-36_AI_BAD_INPUTS",
+      "audit_case_id": "AS20-36_AI_BAD_INPUTS",
+      "evidence_origin": "INDEPENDENT_NATIVE_CASE",
+      "oracle_origin": "ASTRA_CONTRACT",
+      "fixture_origin": "MIXED_ASTRA_FIXTURES_AND_UNCHANGED_WRITER_SETUP",
+      "production_go": false,
+      "status": "PASS",
+      "observations": {
+        "boundary": "SERVER_BRIEF_INPUT_NOT_A_CLAIM_OF_EXTERNAL_LLM_INJECTION_SAFETY",
+        "refusals": [
+          {
+            "refused": true,
+            "sqlstate": "P0001",
+            "message": "CP7_AI_V2_TARGETS",
+            "detail": null
+          },
+          {
+            "refused": true,
+            "sqlstate": "P0001",
+            "message": "CP7_AI_V2_TARGET",
+            "detail": null
+          },
+          {
+            "refused": true,
+            "sqlstate": "P0001",
+            "message": "CP7_AI_V2_TARGETS",
+            "detail": null
+          }
+        ],
+        "bounds": {
+          "priority": 25,
+          "selected": 20
+        }
+      },
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-12",
+        "before": "2026-10-12",
+        "after": "2026-10-12"
+      }
+    },
+    {
+      "group": "ASTRA_P20_EDGES_NATIVE",
+      "case": "AS20-33_37_DATED_REPORT",
+      "audit_case_id": "AS20-33_37_DATED_REPORT",
+      "evidence_origin": "INDEPENDENT_NATIVE_CASE",
+      "oracle_origin": "ASTRA_CONTRACT",
+      "fixture_origin": "MIXED_ASTRA_FIXTURES_AND_UNCHANGED_WRITER_SETUP",
+      "production_go": false,
+      "status": "PASS",
+      "observations": {
+        "snapshot_run": "213f42c8-f1a7-48da-a77f-0f2737f387db",
+        "report_id": "a8424d7c-19d7-4bfa-9f29-7951ba4f0992",
+        "report_hash": "7526befcc5f90b8bf983e7629168eb73630589ada6df061e3ec482121cc7eb24",
+        "dates": {
+          "to": "2026-10-11",
+          "from": "2026-10-11",
+          "as_of": "2026-10-12"
+        },
+        "independent_deltas": {
+          "performance": {
+            "sales_revenue_gl": "388.83",
+            "cogs_gl": "213.98"
+          },
+          "financial_position": {
+            "cash": "137.03",
+            "customer_ar": "132.16",
+            "fg_inventory": "-148.14"
+          }
+        },
+        "purge": {
+          "purged": [
+            {
+              "job_id": "187e1c80-6bdf-47df-8637-d11c281419ad",
+              "run_id": "213f42c8-f1a7-48da-a77f-0f2737f387db",
+              "removed": {
+                "outputs": 0,
+                "fragments": 0,
+                "pair_rows": 0,
+                "pair_lists": 0,
+                "target_rows": 0
+              },
+              "documents": {
+                "report_v2_jobs": 1
+              }
+            }
+          ],
+          "retention_days": 7
+        }
+      },
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-12",
+        "before": "2026-10-12",
+        "after": "2026-10-12"
+      }
+    }
+  ],
+  "group_finals": [
+    {
+      "group": "ASTRA_P20_EDGES_NATIVE",
+      "planned": [
+        "AS20-15_PHYSICAL137",
+        "AS20-21_FORGED_MATCH",
+        "AS20-16_MEMBERSHIP",
+        "AS20-10_PENDING_LATE_PRICE",
+        "AS20-35_FINISH_CURRENT_RECHECK",
+        "AS20-36_AI_BAD_INPUTS",
+        "AS20-33_37_DATED_REPORT"
+      ],
+      "final": {
+        "AS20-15_PHYSICAL137": "PASS",
+        "AS20-21_FORGED_MATCH": "PASS",
+        "AS20-16_MEMBERSHIP": "PASS",
+        "AS20-10_PENDING_LATE_PRICE": "PASS",
+        "AS20-35_FINISH_CURRENT_RECHECK": "PASS",
+        "AS20-36_AI_BAD_INPUTS": "PASS",
+        "AS20-33_37_DATED_REPORT": "PASS"
+      },
+      "missing": [],
+      "status": "PASS"
+    }
+  ],
+  "reports": [
+    {
+      "status": "PASS",
+      "expected_cases": 7,
+      "restore": {
+        "boundary": true,
+        "public": true,
+        "functions": true
+      },
+      "error": null,
+      "restore_error": null
+    }
+  ],
+  "package": {
+    "run_identity": {
+      "label": "T3_PREP",
+      "tool_head": "d0b9e9c2e41a9f0f3a138346887434fd7d3c14f0",
+      "product_ref": "7e5b726557fdfdcb860c39845ca5753c91758148",
+      "product_paths": [
+        "supabase/migrations",
+        "supabase/dev",
+        "supabase/release",
+        "supabase/rollbacks",
+        "src"
+      ],
+      "run_id": "38159487255",
+      "run_attempt": "1",
+      "workflow": "AUDIT/Astra/full-independent",
+      "job": "phase",
+      "event": "push",
+      "github_sha": "3df9df25be78acbad08781404b176893b23e9669",
+      "release_evidence": false,
+      "production_go": false,
+      "mode": "install"
+    },
+    "status": "ALL_STAGES_INSTALLED",
+    "gate": {
+      "installed": true,
+      "primary_unchanged": true,
+      "backup_restore_drill": true,
+      "security_advisors": true,
+      "writer_runtime": true
+    },
+    "primary_unchanged": true,
+    "backup_restore_drill": "RESTORED_SAME_MEANING",
+    "writer_runtime": {
+      "status": "PASS",
+      "production_go": false,
+      "independent_acceptance": false,
+      "schema_profile": "HOSTED_USAGE_UNCHANGED"
+    }
+  }
+}

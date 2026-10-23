@@ -1,0 +1,24 @@
+{
+  "artifact_id": 11712340456,
+  "classification": "LEGACY_RUNTIME_OBSERVATION_ONLY",
+  "product_case_credit": 0,
+  "legacy_status": "INCOMPLETE",
+  "legacy_cases": {
+    "READINESS_BROWSER:DESKTOP_NATIVE_POLICY_STATES_FINANCE_NOTE": {
+      "status": "INCOMPLETE",
+      "error": "Error: READINESS_FINANCE_OBSERVATION {\"mobile\":false,\"alerts\":[\"Data belum dimuat ulang. Refetch wajib berhasil sebelum transaksi berikutnya.\",\"Could not find the function public.erp_cp7_get_recost_queue_v1(p_offset) in the schema cache\"],\"rpc_errors\":[{\"rpc\":\"erp_cp7_get_recost_queue_v1\",\"status\":404,\"code\":\"PGRST202\",\"message\":\"Could not find the function public.erp_cp7_get_recost_queue_v1(p_offset) in the schema cache\"}]}\n    at readiness (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_readiness_browser.mjs:95:13)\n    at async main (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:177:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:193:3"
+    },
+    "READINESS_BROWSER:MOBILE_NATIVE_POLICY_STATES_FINANCE_NOTE": {
+      "status": "INCOMPLETE",
+      "error": "Error: READINESS_FINANCE_OBSERVATION {\"mobile\":true,\"alerts\":[\"Data belum dimuat ulang. Refetch wajib berhasil sebelum transaksi berikutnya.\",\"Could not find the function public.erp_cp7_get_recost_queue_v1(p_offset) in the schema cache\"],\"rpc_errors\":[{\"rpc\":\"erp_cp7_get_recost_queue_v1\",\"status\":404,\"code\":\"PGRST202\",\"message\":\"Could not find the function public.erp_cp7_get_recost_queue_v1(p_offset) in the schema cache\"}]}\n    at readiness (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_readiness_browser.mjs:95:13)\n    at async main (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:177:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:193:3"
+    }
+  },
+  "legacy_runtime_stage": "BE_PLUS_BF_T1",
+  "same_case_ids_on_full_cp7": {
+    "READINESS_BROWSER:DESKTOP_NATIVE_POLICY_STATES_FINANCE_NOTE": "PASS",
+    "READINESS_BROWSER:MOBILE_NATIVE_POLICY_STATES_FINANCE_NOTE": "PASS"
+  },
+  "full_cp7_browser_count": 31,
+  "full_cp7_status": "PASS",
+  "source": "scripts/cp7_f03_full_probe.py runs unmodified same browser on deliberately legacy vs full composition verifiers"
+}
