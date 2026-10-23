@@ -63,6 +63,36 @@ it('shows the server refusal at apply in plain words with its numbers, and keeps
 
 const checkedWire=(request:string)=>({...f.stagedSaveOutcome(request),cutting_save_guard:{contract_version:'cp7.cutting-checked-save.v1',
  run_id:f.run,target_key:f.stagedContext.targetKey,identity_hash:f.identityHash,checked_at:'2026-10-23T00:00:00Z',feasible:true}})
+it.each([
+ ['CP7_CUTTING_SUGGESTION_SOURCE_CHANGED','Data untuk saran potong sudah berubah. Ambil analisis terbaru sebelum menyimpan.'],
+ ['CP7_CUTTING_SUGGESTION_NOT_FEASIBLE','Saran potong belum layak atau datanya belum lengkap. Periksa kembali stok, bahan dan kapasitas.'],
+])('shows the actual checked-save refusal without weakening recovery: %s',async(message,sentence)=>{
+ client.rpc.mockImplementation((n:string,a:{p_request?:string})=>n==='erp_cp7_save_cutting_suggestion_v1'
+  ?Promise.resolve({data:null,error:{code:'40001',message,details:null,hint:null}}):reply(n,a))
+ await render(true);await form();await click('Simpan rencana Potongan')
+ expect(container.textContent).toContain(sentence)
+ expect(container.textContent).not.toContain('Terjadi benturan sementara.')
+ expect(container.textContent).toContain('Refetch authoritative gagal; writer tetap terkunci.')
+ expect(readProductionRecovery(scope).pending).toEqual({})
+ expect(localStorage.getItem('erp.cp7.plan-pointer.v2:'+scope)).toBeNull()
+ expect(button('Simpan rencana Potongan').disabled).toBe(true)
+ expect(client.rpc.mock.calls.some(c=>c[0]==='erp_cp7_save_plan_draft_v2')).toBe(false)
+})
+it('keeps a checked-save replay uncertain even when its current response refuses changed stock',async()=>{
+ let attempt=0
+ client.rpc.mockImplementation((n:string,a:{p_request?:string})=>{
+  if(n!=='erp_cp7_save_cutting_suggestion_v1')return reply(n,a)
+  if(++attempt===1)return Promise.reject(Error('Failed to fetch'))
+  return Promise.resolve({data:null,error:{code:'40001',message:'CP7_CUTTING_SUGGESTION_SOURCE_CHANGED'}})
+ })
+ await render(true);await form();await click('Simpan rencana Potongan')
+ const held=readProductionRecovery(scope).pending.PLAN_APPLY_STAGED
+ await click('Reconcile transaksi')
+ expect(readProductionRecovery(scope).pending.PLAN_APPLY_STAGED).toEqual(held)
+ expect(container.textContent).toContain('Hasil transaksi masih belum pasti.')
+ expect(container.textContent).not.toContain('Data untuk saran potong sudah berubah.')
+ expect(button('Simpan rencana Potongan').disabled).toBe(true)
+})
 it('saves editable cutting suggestions through the checked route while retaining the same plan engine',async()=>{
  client.rpc.mockImplementation((n:string,a:{p_request?:string})=>n==='erp_cp7_save_cutting_suggestion_v1'?Promise.resolve({data:checkedWire(a.p_request!),error:null}):reply(n,a))
  await render(true);await form();await fill('Hasil roll rencana 1','42');await click('Simpan rencana Potongan')

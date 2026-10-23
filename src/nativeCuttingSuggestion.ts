@@ -1,6 +1,7 @@
 import type {ProductionEnvelope} from './productionRecovery'
 import {rec,hash,guid,target,fail} from './nativePlanDraft'
 import {validateStagedPlanCommit} from './nativeStagedPlan'
+import {normalizeClientError} from './lib/clientError'
 
 export const CUTTING_SAVE_CONTRACT='cp7.cutting-checked-save.v1'
 export function cuttingSuggestionPayload(p:Record<string,unknown>){
@@ -18,14 +19,22 @@ export async function sendCuttingSuggestion(client:unknown,e:ProductionEnvelope)
  if(!isCuttingSuggestionSave(e)||rec(e.payload).cutting_save_contract!==CUTTING_SAVE_CONTRACT)fail()
  // B's new RPC: A adds this pair to the generated types/shared source registry
  // when composing the stage. No general string-RPC escape is exposed.
- const r=await(client as CheckedSaveClient).rpc('erp_cp7_save_cutting_suggestion_v1',{p_payload:e.payload,p_request:e.id})
- if(r.error&&typeof r.error==='object'){
-  const error=r.error as Record<string,unknown>
-  const message=error.message==='CP7_CUTTING_SUGGESTION_SOURCE_CHANGED'?'Data untuk saran potong sudah berubah. Ambil analisis terbaru sebelum menyimpan.'
-   :error.message==='CP7_CUTTING_SUGGESTION_NOT_FEASIBLE'?'Saran potong belum layak atau datanya belum lengkap. Periksa kembali stok, bahan dan kapasitas.':null
-  if(message)return{data:r.data,error:{...error,message}}
- }
- return r
+ return await(client as CheckedSaveClient).rpc('erp_cp7_save_cutting_suggestion_v1',{p_payload:e.payload,p_request:e.id})
+}
+// The shared recovery hook must receive the original database rejection code.
+// Translate only its displayed definite refusal, after recovery has classified
+// it. A failed replay stays uncertain; auth and failed-refresh messages survive.
+export function cuttingSuggestionNotice(error:unknown,recoveryError:string):string|undefined{
+ if(!error||typeof error!=='object')return
+ const raw=error as Record<string,unknown>
+ if(raw.code!=='40001')return
+ const normalized=normalizeClientError(error)
+ if(normalized.code!=='RETRYABLE_CONFLICT')return
+ const suffix=recoveryError.slice(normalized.message.length)
+ if(!recoveryError.startsWith(normalized.message)||(suffix!==''&&suffix!==' Refetch authoritative gagal; writer tetap terkunci.'))return
+ const message=raw.message==='CP7_CUTTING_SUGGESTION_SOURCE_CHANGED'?'Data untuk saran potong sudah berubah. Ambil analisis terbaru sebelum menyimpan.'
+  :raw.message==='CP7_CUTTING_SUGGESTION_NOT_FEASIBLE'?'Saran potong belum layak atau datanya belum lengkap. Periksa kembali stok, bahan dan kapasitas.':null
+ return message?message+suffix:undefined
 }
 export function validateCuttingSuggestion(v:unknown,e:ProductionEnvelope,actor:string){
  if(!isCuttingSuggestionSave(e)||rec(e.payload).cutting_save_contract!==CUTTING_SAVE_CONTRACT)fail()

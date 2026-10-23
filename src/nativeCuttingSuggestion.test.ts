@@ -18,6 +18,11 @@ it('leaves ordinary staged save and apply recovery on their existing routes',()=
  const e=envelope();expect(isCuttingSuggestionSave({...e,payload:{}})).toBe(false)
  expect(isCuttingSuggestionSave({...e,action:'APPLY'})).toBe(false)
 })
+it('passes the original database rejection unchanged to the recovery classifier',async()=>{
+ const error={code:'40001',message:'CP7_CUTTING_SUGGESTION_SOURCE_CHANGED',details:'source changed',hint:null}
+ const rpc=vi.fn(async()=>({data:null,error}))
+ expect((await sendCuttingSuggestion({rpc},envelope())).error).toBe(error)
+})
 it('rejects invalid recovery mode before any RPC call',async()=>{
  const e=envelope(),rpc=vi.fn();e.payload={...e.payload as object,cutting_save_contract:'OTHER'}
  await expect(sendCuttingSuggestion({rpc},e)).rejects.toThrow();expect(rpc).not.toHaveBeenCalled()
