@@ -5,7 +5,10 @@ volume2000 produk/202000 gerakan7589/2831/2851ms PASS, batas8s dan kedua
 hangat≤3000ms tetap. Native15/15, race8/8, Auth4/4 dan browser3/4;
 paket INCOMPLETE30/31 karena pesan layar desktop, bukan volume.
 [Receipt](../ow13c/df6bd87-native31-30.json). Perbaikan pesan5b6ca459,
-kandidat16a0aeb0/run39993639712 sedang dikualifikasi31. Semua angka melekat
+16a0aeb0/run39993639712 selesai28/31 karena3 jam fixture OW10; seluruh
+checked-save baru dan volume7710/2952/2943ms PASS. Contoh positif hari ini
+08:00 masih masa depan pada00:23WIB; kini00:00 tanpa mengganti tanggal atau
+penjaga Native. Kandidat a15054c2/run39996465132 sedang diuji31. Semua angka melekat
 pada kandidatnya; tidak ada klaim SLA hosted atau seluruh pabrik.
 
 **Riwayat alasan dan pembanding V7:**
