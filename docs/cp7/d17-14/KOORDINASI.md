@@ -225,3 +225,38 @@ pemasang lokal melalui API sebenarnya dan katalog PostgreSQL22: apply/rollback t
 penolakan setelah-pakai sebelum DDL pertama. SQL statistik5 kelompok/bridge10 kelompok, klien224
 pada15 berkas lulus. Transport/ERP/identity/A.capture terkontrol bukan Native. Pemasang A/bundle,
 registry6 gap dan penggabungan integrasi tetap milik A; tidak ada klaim production_go.
+
+## 11 — OW13a pemicu awal sekali dan sambungan A (B,23 Okt WIB)
+
+Kode B9918fa72, kandidat Native6738da4c/run39881934739. Pada pemeriksaan terakhir job120181076950
+masih menyiapkan basis AB: gate jawaban aktual/klien/tipe, SQL dan boot database sudah lulus;
+belum ada hasil126 kasus. Kandidat beku selama job berjalan. Lokal197/17 berkas dan42/5 berkas
+terfokus lulus (saling tumpang tindih, tidak dijumlahkan), SQL11 kelompok dan pemasang/invers22 lulus.
+Transport ERP/Auth/WA lokal terkontrol, bukan bukti Native atau ujung rantai A.
+
+Kontrak sebelum caller di ow13a/CONTRACT.md: endpoint request yang sama menerima hanya
+`{initial_auto: STATUS|ENSURE}` dengan p_request=null. Minimum sumber/produk/profil ditampilkan;
+STATUS membaca, ENSURE mencatat satu intent/UUID server per actor Owner/Admin. Pengulangan,
+ganti sumber, hasil gagal/kedaluwarsa tidak membuat job otomatis kedua. DEFERRED operasional;
+jadwal WA rutin dan pilihan on/off/interval tetap milik perilaku lama. Hook awal mendahului syarat WA.
+
+Permintaan A, bukan berkas yang diubah B:
+
+- Pasang cp7_initial_analysis_stage sesudah produksi18/target4 dan, bila dipakai, bridge OW12b.
+  API apply/verify/admit_catalog/rollback_preuse menghitung4 fungsi privat/1 tabel/2 hook;
+  A memegang transaksi, envelope dan penjaga setelah-pakai global. OW12a tidak ditulis ulang.
+- Terapkan **ow13a/SHARED_INTEGRATION.patch**: tujuh pasangan registry, mengganti patch enam lama.
+  Satu tambahan NativeInitialAnalysisPanel memanggil endpoint request yang sudah ada; enam gap lama
+  tetap MandorCorrection/OW16. Salinan dengan patch tepat lulus358 sumber/302 batas; registry asli
+  tetap merah tujuh dan tidak diubah B. Jangan menghapus kontrol lama untuk meloloskannya.
+- Generator tipe endpoint request perlu mengizinkan p_request nullable untuk dua mode di atas;
+  request manual tetap mewajibkan UUID. B memakai addon tipe sempit pada client yang sama.
+- Hubungkan callback opsional onOpenMaster dari NativeDemandHistoryPanel ke rute Data Master di
+  host ConnectedFgStockPage/App milik A. Tombol profil sudah membuka form target yang sebenarnya.
+- Pasang jadwal analisis lama **dan worker K4** tanpa menunggu konfigurasi WA. B tidak memasang
+  cron/hosted; uji pemanggilan tick sendiri tidak membuktikan cron terpasang atau worker aktif.
+- Jalankan satu rantai A/Native/pasang-pulih dan uji silang. OW13a tetap OPEN sampai bukti lengkap,
+  bukan dinyatakan selesai hanya dari layar atau tes lokal. Status induk tetap5/16.
+
+Lanjutan B sambil Native126 berjalan: OW10 mengganti kredit WIP mentah model+ukuran dengan suplai
+berwaktu, sesuai target dan berasal dari satu alokasi global. Dasar SQL/pin beku tidak disentuh.
