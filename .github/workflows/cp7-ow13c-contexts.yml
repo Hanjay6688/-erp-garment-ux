@@ -1,0 +1,216 @@
+name: CP7 Staged Schedule Context Lifecycle Native11
+'on':
+  push:
+    branches:
+    - astra/d17-14-produksi
+    paths:
+    - scripts/cp7_ow13c_schedule_contexts*
+    - docs/cp7/d17-14/ow13c/CONTEXTS_NATIVE_CONTRACT.json
+    - .github/workflows/cp7-ow13c-contexts.yml
+  workflow_dispatch: {}
+permissions:
+  contents: read
+  actions: read
+  packages: read
+concurrency:
+  group: cp7-ow13c-contexts-${{ github.run_id }}
+  cancel-in-progress: false
+jobs:
+  phase:
+    name: ${{ matrix.suite }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: ${{ matrix.timeout }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+        - suite: ow13c-staged-contexts-11
+          probe: cp7_ow13c_schedule_contexts_probe.py
+          timeout: 45
+    env:
+      PGURL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
+      CP6_AC_INDEPENDENT_CONFIRM: postgres
+      CP6_AF_INDEPENDENT_CONFIRM: postgres
+      CP6_AH_CONFIRM: postgres
+      CP6_AI_CONFIRM: postgres
+      CP6_AH_INDEPENDENT_CONFIRM: postgres
+      CP6_AI_INDEPENDENT_CONFIRM: postgres
+      CP6_AUDIT_HARNESS_HEAD: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
+      CP6_AF_HARNESS_HEAD: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
+      CP6_DATABASE_CONTAINER: supabase_db_cp5-local
+      CP6_MAINTENANCE_CONFIRM_DATABASE: cp6_rollback
+      CP6_AR_CONFIRM: cp6_rollback
+      CP6_AU_BROWSER_CONFIRM: cp6_rollback
+      AUDITOR_BROWSER_CASE_TIMEOUT_MS: '600000'
+    steps:
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      with:
+        path: writer
+        fetch-depth: 0
+        ref: ca7f09556397801c50a2277bdb65b1bf019f9a05
+        persist-credentials: false
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      with:
+        path: auditor
+        fetch-depth: 0
+        persist-credentials: false
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      with:
+        path: harness
+        fetch-depth: 0
+        ref: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
+        persist-credentials: false
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      with:
+        path: candidate
+        fetch-depth: 0
+        ref: 25fa4736329e5148dfdb3572bc169952cba23251
+        persist-credentials: false
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      with:
+        path: base
+        fetch-depth: 0
+        ref: 1bdca3766f7c9800d68295ff5122798060b8a05d
+        persist-credentials: false
+    - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+      with:
+        python-version: '3.12'
+    - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+      with:
+        node-version: '22'
+    - name: Prepare exact PG17 runtime with bounded installation
+      shell: bash
+      run: "set -euo pipefail\ntimeout 120 python -m pip install --quiet 'psycopg[binary]==3.2.10' 'PyYAML==6.0.2' 'jsonschema==4.25.1'\npg17_bin=/usr/lib/postgresql/17/bin\nif ! test -x \"$pg17_bin/psql\" || ! test -x \"$pg17_bin/pg_dump\" || ! test -x \"$pg17_bin/pg_restore\"; then\n  sudo install -d /usr/share/postgresql-common/pgdg\n  curl --fail --silent --show-error --connect-timeout 15 --max-time 45 --retry 2 \\\n    https://www.postgresql.org/media/keys/ACCC4CF8.asc \\\n    -o \"$RUNNER_TEMP/ow06-postgresql-signing-key.asc\"\n  pg17_fingerprint=\"$(gpg --show-keys --with-colons \"$RUNNER_TEMP/ow06-postgresql-signing-key.asc\" | awk -F: '$1 == \"fpr\" { print $10; exit }')\"\n  test \"$pg17_fingerprint\" = 'B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8'\n  sudo install -m 644 \"$RUNNER_TEMP/ow06-postgresql-signing-key.asc\" /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc\n  . /etc/os-release\n  pg17_architecture=\"$(dpkg --print-architecture)\"\n  sudo tee /etc/apt/sources.list.d/pgdg.sources\
+        \ >/dev/null <<EOF\nTypes: deb\nURIs: https://apt.postgresql.org/pub/repos/apt\nSuites: ${VERSION_CODENAME}-pgdg\nArchitectures: ${pg17_architecture}\nComponents: main\nSigned-By: /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc\nEOF\n  timeout 120 sudo apt-get -o DPkg::Lock::Timeout=45 -o Acquire::Retries=2 -o Acquire::https::Timeout=30 -o Acquire::http::Timeout=30 update -qq\n  timeout 180 sudo apt-get -o DPkg::Lock::Timeout=45 -o Acquire::Retries=2 -o Acquire::https::Timeout=30 -o Acquire::http::Timeout=30 install -y -qq postgresql-client-17\nfi\nfor pg17_tool in psql pg_dump pg_restore; do\n  test -x \"$pg17_bin/$pg17_tool\"\n  \"$pg17_bin/$pg17_tool\" --version | grep -Eq 'PostgreSQL\\) 17[.]'\ndone\necho \"$pg17_bin\" >> \"$GITHUB_PATH\"\n"
+      timeout-minutes: 8
+    - name: Install candidate dependencies; this Native-only suite opens no browser
+      working-directory: auditor
+      run: 'npm ci
+
+        '
+      timeout-minutes: 12
+    - name: Install pinned Supabase CLI
+      uses: supabase/setup-cli@ab058987d8d6c725971f6cf9d0b5c98467e30bd1
+      with:
+        version: 2.116.0
+    - name: Check focused declaration, unchanged legacy budgets and client types
+      working-directory: auditor
+      run: 'set -euo pipefail
+
+        PYTHONPATH=scripts python -B - <<''PY_DECL''
+
+        import hashlib,json
+
+        from pathlib import Path
+
+        import cp7_ow13c_schedule_contexts_cases as n
+
+        import cp7_ow13c_checked_journeys_cases as j
+
+        import cp7_ow13c_checked_cases as c
+
+        import cp7_ow10_reorder_cases as r
+
+        p=Path(''docs/cp7/d17-14/ow13c/CONTEXTS_NATIVE_CONTRACT.json'')
+
+        d=json.loads(p.read_bytes())
+
+        assert d[''contract'']==n.CONTRACT and d[''required_case_ids'']==n.IDS
+
+        assert d[''required_case_counts'']==n.REQUIRED and d[''expected_case_count'']==n.EXPECTED==11
+
+        assert d[''public_rpcs'']==list(n.FUNCTIONS) and d[''schedules'']==n.SCHEDULES
+
+        assert len(set(n.IDS[''native'']))==11
+
+        assert (j.EXPECTED,c.EXPECTED,r.EXPECTED)==(31,25,19)
+
+        print(json.dumps(dict(declaration_sha256=hashlib.sha256(p.read_bytes()).hexdigest(),native11_declared=True,old31_25_19_budgets_unchanged=True)))
+
+        PY_DECL
+
+        npx tsc -b --pretty false
+
+        '
+    - name: Check B SQL including the bounded Native capture v6
+      working-directory: auditor
+      run: 'python -B scripts/cp7_plpgsql_clash_check.py scripts/cp7_initial_analysis_stage/initial.sql
+
+        python -B scripts/cp7_plpgsql_clash_check.py scripts/cp7_reorder_supply/projection.sql
+
+        python -B scripts/cp7_plpgsql_clash_check.py scripts/cp7_reorder_supply/capture.sql
+
+        python -B scripts/cp7_plpgsql_clash_check.py scripts/cp7_reorder_supply/read.sql
+
+
+        python -B scripts/cp7_plpgsql_clash_check.py scripts/cp7_cutting_checked_save/save.sql
+
+
+        python -B scripts/cp7_plpgsql_clash_check.py scripts/cp7_schedule_staged_review/review.sql
+
+        '
+    - name: Record proposed source and prepare isolated proof paths
+      id: source_scope
+      working-directory: writer
+      run: 'set -euo pipefail
+
+        PYTHONPATH=scripts python -c "import cp6_au_trial; cp6_au_trial.source()"
+
+        mkdir -p ../candidate/cp6-proof/writer-{ae,af,ah,ai,aj,ak,al,am,an}
+
+        '
+    - name: Authenticate read-only GHCR image pulls
+      env:
+        GHCR_USER: ${{ github.actor }}
+        GHCR_TOKEN: ${{ github.token }}
+      shell: bash
+      run: 'set -euo pipefail
+
+        printf ''%s'' "$GHCR_TOKEN" | docker login ghcr.io --username "$GHCR_USER" --password-stdin
+
+        '
+    - name: Start disposable database
+      working-directory: base
+      shell: bash
+      run: "set -euo pipefail\ntest \"$(git rev-parse HEAD)\" = 1bdca3766f7c9800d68295ff5122798060b8a05d\ntest \"$(git rev-parse HEAD^{tree})\" = 334629c626257b8b713826f491cdf62385d5299b\ntest -z \"$(git status --porcelain)\"\nsupabase --help >/dev/null\nsupabase init --help >/dev/null\nsupabase start --help >/dev/null\nmkdir cp5-local\nsupabase init --force --workdir cp5-local\nmkdir -p cp5-local/supabase/.temp\necho '17.6.1.165' > cp5-local/supabase/.temp/postgres-version\nsed -i '0,/^enable_signup = true$/s//enable_signup = false/' cp5-local/supabase/config.toml\n# ghcr.io can rate-limit image pulls before anything runs. Retry the start\n# only (no test has run), falling back to the same image tags on public.ecr.aws.\nfor attempt in 1 2 3 4; do\n  if [ \"$attempt\" -ge 2 ]; then export SUPABASE_INTERNAL_IMAGE_REGISTRY=public.ecr.aws; fi\n  if supabase start --workdir cp5-local \\\n    -x realtime,imgproxy,studio,postgres-meta,edge-runtime,logflare,vector,supavisor \\\n    > \"$RUNNER_TEMP/cp6-local-start.log\"\
+        \ 2>&1; then\n    echo \"supabase start succeeded on attempt $attempt from ${SUPABASE_INTERNAL_IMAGE_REGISTRY:-default}\"\n    break\n  fi\n  tail -n 20 \"$RUNNER_TEMP/cp6-local-start.log\"\n  supabase stop --workdir cp5-local --no-backup || true\n  if [ \"$attempt\" = 4 ]; then exit 1; fi\n  sleep $((attempt * 60))\ndone\n"
+    - name: Rebuild to v2.6.20, align with hosted, continue the frozen path to AB
+      working-directory: base
+      env:
+        GITHUB_SHA: 1bdca3766f7c9800d68295ff5122798060b8a05d
+        GH_TOKEN: ${{ github.token }}
+      shell: bash
+      run: "set -euo pipefail\nexport CP6_AC_WRITER_ARTIFACT=\"$RUNNER_TEMP/ac-native200.zip\"\ngh api repos/Hanjay6688/-erp-garment-ux/actions/artifacts/10392910720/zip \\\n  > \"$CP6_AC_WRITER_ARTIFACT\" || { rm -f \"$CP6_AC_WRITER_ARTIFACT\"; echo 'AC writer artifact 10392910720 unavailable (kept 30 days, expired 15 Oct 2026, owner D14-17); cp6_pre_u_inventory captures the pre-U table set before U'; }\nmkdir -p ../auditor/cp6-proof/t3\nstatus=0\nPYTHONPATH=scripts python ../auditor/scripts/cp6_t3_aligned_chain.py ../auditor/cp6-proof/t3/ALIGNED_CHAIN.json --stop-after-ab || status=$?\npython - <<'PY'\nimport json\nd=json.load(open('../auditor/cp6-proof/t3/ALIGNED_CHAIN.json'))\nprint(json.dumps({k:d.get(k) for k in ('status','refused_step','alignment')},default=str)[:6000])\nprint(json.dumps([(s['name'],s['exit_code'],s['after_alignment']) for s in d['steps']])[:6000])\nPY\nexit \"$status\"\n"
+    - name: Provision isolated rollback authority
+      working-directory: writer
+      shell: bash
+      run: "set -euo pipefail\nmaintenance_password=\"$(openssl rand -hex 32)\"\nmaintenance_pgurl=\"postgresql://cp6_maintenance_admission:${maintenance_password}@127.0.0.1:54322/template1\"\necho \"::add-mask::$maintenance_password\"\necho \"::add-mask::$maintenance_pgurl\"\ndocker exec -i \"$CP6_DATABASE_CONTAINER\" \\\n  psql -U supabase_admin -d template1 -X -v ON_ERROR_STOP=1 \\\n    -v cp6_password=\"$maintenance_password\" <<'SQL'\ncreate role cp6_maintenance_admission\n  login superuser noinherit nocreatedb nocreaterole noreplication\n  connection limit 4 password :'cp6_password';\nSQL\nprintf 'CP6_ADMISSION_CONTROL_PGURL=%s\\n' \"$maintenance_pgurl\" >> \"$GITHUB_ENV\"\n"
+    - name: Clone the aligned AB state for install
+      working-directory: writer
+      run: "set -euo pipefail\nmkdir -p '../auditor/cp6-proof/t3'\nbash scripts/clone-cp6-disposable-database.sh \\\n  'postgresql://postgres:postgres@127.0.0.1:54322/postgres' \\\n  'postgresql://postgres:postgres@127.0.0.1:54322/template1' \\\n  'postgresql://postgres:postgres@127.0.0.1:54322/cp6_rollback' \\\n  cp6_rollback supabase_db_cp5-local '../auditor/cp6-proof/t3/CLONE_install'\n"
+    - name: Start the fake CallMeBot on the stack network
+      run: "set -euo pipefail\nnet=\"$(docker network ls --format '{{.Name}}' | grep -m1 supabase_network)\"\ndocker run -d --name fake-callmebot --network \"$net\" -e FAKE_CALLMEBOT_ACCEPTS=FAKEKEY-WA3B \\\n  -v \"$GITHUB_WORKSPACE/auditor/scripts/cp7_wa_fake_callmebot.py:/fake.py:ro\" python:3.12-alpine python -u /fake.py\nsleep 3\ndocker ps --filter name=fake-callmebot --format '{{.Status}}'\n"
+    - name: Record disposable service image versions
+      run: docker ps --format '{{.Names}}\t{{.Image}}'
+    - name: Qualify Native11 work metadata context lifecycle with all nine stage inverses
+      working-directory: writer
+      run: python "../auditor/scripts/${{ matrix.probe }}"
+    - name: Remove disposable database
+      if: always()
+      working-directory: base
+      run: supabase stop --workdir cp5-local --no-backup
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      if: always()
+      with:
+        name: ow13c-contexts-${{ matrix.suite }}
+        path: auditor/cp6-proof/t3
+        retention-days: 30
+        if-no-files-found: error
+    - name: Retain every complete Original JSON independently of the full archive
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      if: always()
+      with:
+        name: ow13c-contexts-${{ matrix.suite }}-complete-json
+        path: auditor/cp6-proof/t3/**/*.json
+        retention-days: 30
+        if-no-files-found: error
