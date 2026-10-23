@@ -945,3 +945,24 @@ PASS claimed. Current159clientchecks/TS and same47backendfiles unchanged.
 Private archive version30 retains new8fEntry/SAVE completeOriginals/logs and
 quantity client first/final logs, plus exact active-run continuation. Newbrowser
 screenshots not copied into archive. Parent5/16; work continues after save.
+
+
+## 57. Quantity firstOriginal retained; actual Native page argument fixed (24 Oktober2026 WIB)
+
+Candidate d2fdf31f/run40041003292/job120711808034 INCOMPLETE2/2; completeOriginal
+12540075742/44843bytes/SHA99afc83164fe419af58431d9721d7b1441a2c98356aeedd392044c960c032581
+independentlyverified47sources/12preuse22/1exactclone/restore/advisors;
+packagewriter_runtimefalse. BothrealNativejobs progressedtohash/pages but
+PostgREST refused nonexistent namedargumentp_access_epoch. Actual unchanged
+Nativefacade requiresp_access; server/header/page/hash/access code unchanged.
+Regression derives argumentkeys from frozenNativeSQL, firstred1/8 preserved,
+thenfixpasses.160clienttests/10files+TS PASS; demand2suitescheckedseparately.
+
+DirectBuatPotongan entry now openssameboundedquantitydriver asworkpane, retaining
+originalanalysis/archive/oldpendingroute viaexplicitarchivebutton. OldNative31
+browser journeys selectthat originalroute andkeepall assertions; no budget
+changes. Newquantitybrowser2 declareswork→directcutting sameDONEjob/replay
+anddense2000directcuttingentry; terminalpagealerts nowfailimmediatelyinstead
+ofwaiting180s. Freshness/UUID/geometry/physicaleffectsassertions kept. All47
+Native6qualifiedbackendfiles unchanged. Rerunonlyquantitybrowser2 afterfix;
+Aregistry17/defaults/types/after-use/fullchain stillownedA, parent5/16.

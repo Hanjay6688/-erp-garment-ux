@@ -1,5 +1,6 @@
 // @vitest-environment jsdom
 import {afterEach,it,expect,vi} from 'vitest'
+import nativeStageSQL from '../scripts/cp7-src/planning/analysis-stages.sql?raw'
 import {BOUNDED_ANALYSIS_REQUEST,persistBoundedAnalysisRequest,readBoundedAnalysisRequest,replaceBoundedAnalysisRequest,type BoundedAnalysisRequest} from './nativeBoundedAnalysis'
 import {driveBoundedQuantity,readBoundedQuantity,readBoundedQuantityPage,sameBoundedReference} from './nativeBoundedQuantity'
 import {parseStagedJob} from './nativeStagedJob'
@@ -27,10 +28,17 @@ it('uses get rather than relabelling or issuing a new request when resuming a sa
 })
 it('reads the hash-bound full page set and a single page for all2000 targets without the old whole-netting facade',async()=>{
  const f=await stagedRun({targets:2000,pageSizes:[500,500,500,500]}),r:BoundedAnalysisRequest={id:f.pageSet.request_id,q:f.query,method:BOUNDED_ANALYSIS_REQUEST},job=parseStagedJob(f.job('DONE'),r.id,{id:r.id,q:r.q})
- const rpc=vi.fn(async(name:string,args:{p_index:number})=>({data:name==='erp_cp7_read_staged_analysis_pages_v1'?f.pageSet:f.page(args.p_index),error:null}))
+ // Named PostgREST arguments come from the actual unchanged Native facade,
+ // not the client's locally declared type or this fixture's parameter names.
+ const signature=nativeStageSQL.match(/create function public\.erp_cp7_read_staged_analysis_page_v1\(([^)]+)\)/)![1]
+ const expectedArguments=signature.split(',').map(p=>p.trim().split(/\s+/)[0]).sort()
+ const rpc=vi.fn(async(name:string,args:{p_index:number})=>{
+  if(name==='erp_cp7_read_staged_analysis_page_v1')expect(Object.keys(args).sort()).toEqual(expectedArguments)
+  return{data:name==='erp_cp7_read_staged_analysis_pages_v1'?f.pageSet:f.page(args.p_index),error:null}
+ })
  const result=await readBoundedQuantity({rpc},r,job,f.actor),page=await readBoundedQuantityPage({rpc},result,1)
  expect(result.set.targetsTotal).toBe(2000);expect([page.targetLo,page.targetHi]).toEqual([501,1000])
- expect(rpc).toHaveBeenCalledWith('erp_cp7_read_staged_analysis_page_v1',{p_run:f.runId,p_index:1,p_access_epoch:f.pageSet.access_epoch})
+ expect(rpc).toHaveBeenCalledWith('erp_cp7_read_staged_analysis_page_v1',{p_run:f.runId,p_index:1,p_access:f.pageSet.access_epoch})
  expect(rpc.mock.calls.some(c=>c[0]==='erp_cp7_capture_netting_v1')).toBe(false)
 })
 it.each(['count','hash','clock'])('rejects a DONE job whose %s disagrees with the page set',async field=>{

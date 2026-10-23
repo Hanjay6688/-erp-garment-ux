@@ -9,7 +9,7 @@ type Reply={data:unknown;error:unknown}
 type QuantityClient={
  rpc(name:'erp_cp7_get_staged_analysis_v1'|'erp_cp7_step_staged_analysis_v1',args:{p_request:string}):PromiseLike<Reply>
  rpc(name:'erp_cp7_read_staged_analysis_pages_v1'|'erp_cp7_check_staged_analysis_source_v1',args:{p_run:string}):PromiseLike<Reply>
- rpc(name:'erp_cp7_read_staged_analysis_page_v1',args:{p_run:string;p_index:number;p_access_epoch:string}):PromiseLike<Reply>
+ rpc(name:'erp_cp7_read_staged_analysis_page_v1',args:{p_run:string;p_index:number;p_access:string}):PromiseLike<Reply>
 }
 const data=(reply:Reply)=>{if(reply.error)throw reply.error;return reply.data}
 const utcMicrosecond=(value:string)=>{
@@ -35,7 +35,7 @@ export async function readBoundedQuantity(client:unknown,request:BoundedAnalysis
 export async function readBoundedQuantityPage(client:unknown,staged:StagedAnalysis,index:number):Promise<AnalysisPage>{
  if(!Number.isSafeInteger(index)||index<0||index>=staged.set.pageCount)throw Error('Halaman target tidak tersedia.')
  const c=client as QuantityClient
- return parseAnalysisPage(data(await c.rpc('erp_cp7_read_staged_analysis_page_v1',{p_run:staged.set.runId,p_index:index,p_access_epoch:staged.set.accessEpoch})),staged.set,staged.header,index)
+ return parseAnalysisPage(data(await c.rpc('erp_cp7_read_staged_analysis_page_v1',{p_run:staged.set.runId,p_index:index,p_access:staged.set.accessEpoch})),staged.set,staged.header,index)
 }
 export async function checkBoundedQuantity(client:unknown,runId:string){
  const c=client as QuantityClient

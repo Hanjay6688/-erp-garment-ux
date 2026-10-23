@@ -1,7 +1,7 @@
 {
   "contract": "cp7.bounded-quantity-client.v1",
-  "tests": 159,
-  "test_files": 9,
+  "tests": 184,
+  "test_files": 12,
   "typescript": "PASS",
   "source_method": "BOUNDED",
   "real_Native_driver_and_page_parsers_reused": true,
@@ -41,5 +41,24 @@
     "all_other_oracles_unchanged": true
   },
   "A_files_not_written": true,
-  "production_go": false
+  "production_go": false,
+  "named_page_arguments_checked_against_actual_Native_SQL": true,
+  "Native_argument_regression_failed_before_fix": true,
+  "direct_cutting_entry_reuses_quantity_driver": true,
+  "original_analysis_archive_recovery_route_retained": true,
+  "first_actual_quantity_UI_result": "d2fdf31-quantity-first-incomplete.json",
+  "local_commands": [
+    "npx vitest run src/nativeProductionPlanning.test.ts src/NativeProductionPlanningPanel.dom.test.tsx src/nativeStagedJob.test.ts src/nativeBoundedAnalysis.test.ts src/nativeBoundedQuantity.test.ts src/NativeBoundedQuantityPanel.dom.test.tsx src/NativeDemandHistoryPanel.dom.test.tsx src/NativeCuttingSuggestionsPanel.dom.test.tsx src/nativeCuttingSuggestion.test.ts src/NativePlanDraftPanel.staged.dom.test.tsx",
+    "npx vitest run src/nativeDemandHistory.test.ts src/NativeDemandInitial.integration.dom.test.tsx"
+  ],
+  "local_disjoint_batches": [
+    {
+      "tests": 160,
+      "files": 10
+    },
+    {
+      "tests": 24,
+      "files": 2
+    }
+  ]
 }

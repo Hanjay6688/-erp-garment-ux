@@ -48,6 +48,8 @@
   "synthetic_products": 2000,
   "synthetic_movements": 202000,
   "small_checked_SAVE_before_dense_fixture": true,
+  "direct_cutting_dense_entry": true,
+  "work_to_cutting_same_job_and_checked_SAVE_recovery": true,
   "statement_timeout": "8s",
   "wall_limit_ms": 8000,
   "actual_quantity_UI_qualified": false,

@@ -2,14 +2,28 @@ import assert from 'node:assert/strict'
 import {execFileSync} from 'node:child_process'
 import {mkdirSync,writeFileSync} from 'node:fs'
 import {openWorkPlanning,fillWorkPlanning} from './cp7_ow13c_schedule_browser.mjs'
+import {openCuttingMenu} from './cp7_ow13c_checked_browser.mjs'
 const fixture=(op,p)=>JSON.parse(execFileSync('python',['../auditor/scripts/cp7_ow13c_quantity_browser_fixture.py',op],{input:JSON.stringify(p),cwd:'../writer',encoding:'utf8',maxBuffer:16*1024*1024}).trim())
 const SAVE='erp_cp7_save_cutting_suggestion_v1',wib=t=>new Date(Date.parse(t)+7*3600000).toISOString().slice(0,16)
-async function quantity(ui,page,f){
- const work=await openWorkPlanning(ui,page,f.query)
- await work.getByRole('button',{name:'Hitung kekurangan seluruh produk',exact:true}).click()
+async function waitQuantity(ui,page){
  const q=page.getByRole('region',{name:'Kebutuhan seluruh produk',exact:true})
+ await ui.expect(q.locator('tbody tr,[role="alert"]').first()).toBeVisible({timeout:180000})
+ assert.deepEqual(await q.getByRole('alert').allTextContents(),[],'QUANTITY_TERMINAL_PAGE_ERROR')
  await ui.expect(q.locator('tbody tr').first()).toBeVisible({timeout:180000})
  return q
+}
+async function quantity(ui,page,f,direct=false){
+ if(direct){
+  await openCuttingMenu(ui,page,'Produksi','Buat Potongan')
+  const panel=page.getByRole('region',{name:'Saran potong',exact:true})
+  await panel.getByLabel('Penjualan mulai untuk saran potong',{exact:true}).fill(f.query.from_date)
+  await panel.getByLabel('Penjualan sampai untuk saran potong',{exact:true}).fill(f.query.through_date)
+  await panel.getByRole('button',{name:'Buka saran potong',exact:true}).click()
+ }else{
+  const work=await openWorkPlanning(ui,page,f.query)
+  await work.getByRole('button',{name:'Hitung kekurangan seluruh produk',exact:true}).click()
+ }
+ return waitQuantity(ui,page)
 }
 async function response(page,name,action){const reply=page.waitForResponse(r=>r.request().method()==='POST'&&r.url().endsWith('/rpc/'+name));await action();return reply}
 async function journey(ui,today,dense){
@@ -31,9 +45,8 @@ async function journey(ui,today,dense){
    await work.getByRole('button',{name:'Ambil stok proses terbaru',exact:true}).click()
    await ui.expect(work.getByRole('button',{name:'Hitung kekurangan seluruh produk',exact:true})).toBeEnabled()
    await work.getByRole('button',{name:'Hitung kekurangan seluruh produk',exact:true}).click()
-   q=page.getByRole('region',{name:'Kebutuhan seluruh produk',exact:true})
-   await ui.expect(q.locator('tbody tr').first()).toBeVisible({timeout:180000})
-  }else q=await quantity(ui,page,f)
+   q=await waitQuantity(ui,page)
+  }else q=await quantity(ui,page,f,true)
   assert.equal(calls.filter(n=>n==='erp_cp7_capture_netting_v1').length,0)
   await ui.expect(q).toContainText(f.expected_targets.toLocaleString('id-ID')+' target')
   assert.ok(await q.locator('tbody tr').count()<=50)
@@ -48,7 +61,7 @@ async function journey(ui,today,dense){
    await ui.expect(q).toContainText('sumber sudah berubah')
    const changed=state(),old=changed.job.request
    await q.getByRole('button',{name:'Hitung kebutuhan terbaru',exact:true}).click()
-   await ui.expect(q.locator('tbody tr').first()).toBeVisible({timeout:180000})
+   q=await waitQuantity(ui,page)
    const fresh=state();assert.notEqual(fresh.job.request,old);assert.equal(fresh.job.state,'DONE');assert.deepEqual(fresh.physical,changed.physical)
   }else{
    const row=q.locator(`[data-quantity-target="${f.target_key}"]`)
@@ -68,7 +81,9 @@ async function journey(ui,today,dense){
    await plan.getByRole('button',{name:'Simpan rencana Potongan',exact:true}).click()
    await ui.expect.poll(()=>lost?.status,{timeout:30000}).toBe(200)
    await ui.expect(plan.getByRole('button',{name:'Reconcile transaksi',exact:true})).toBeEnabled()
-   await page.reload();q=await quantity(ui,page,f)
+   const quantityJobBeforeReload=state().job
+   await page.reload();q=await quantity(ui,page,f,true)
+   assert.deepEqual(state().job,quantityJobBeforeReload,'CUTTING_ENTRY_MUST_RESUME_THE_SAME_QUANTITY_JOB')
    await q.locator(`[data-quantity-target="${f.target_key}"]`).getByRole('button',{name:'Periksa saran potong',exact:true}).click()
    plan=page.getByRole('region',{name:'Rencana Potongan ERP',exact:true});await plan.getByRole('button',{name:'Reconcile transaksi',exact:true}).click()
    await ui.expect(plan).toContainText('Rencana tersimpan.')
@@ -79,7 +94,8 @@ async function journey(ui,today,dense){
   await ui.expect.poll(()=>page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true);await shot('REVIEWED')
   return{status:'PASS',actual_Auth_PostgREST_browser:true,real_Native_job_DONE:true,source_method:'BOUNDED',old_whole_netting_call_count:0,expected_targets:f.expected_targets,
    large_2000_products_202000_movements:dense,raw_history_INCOMPLETE_preserved:dense,actual_stock_change_and_new_UUID:dense,
-   checked_SAVE_lost_reply_exact_UUID_payload_result_recovery:!dense,no_client_money_HPP_or_stock_effect:true,no_horizontal_overflow:true,viewport:dense?1440:390,shots}
+   checked_SAVE_lost_reply_exact_UUID_payload_result_recovery:!dense,direct_cutting_entry:true,direct_cutting_reuses_same_job:!dense,
+   no_client_money_HPP_or_stock_effect:true,no_horizontal_overflow:true,viewport:dense?1440:390,shots}
  }catch(error){writeFileSync(`cp6-proof/t3/QUANTITY_${dense?'LARGE_DESKTOP':'SMALL_MOBILE'}_FAILURE.json`,JSON.stringify({error:String(error),calls,requests,alerts:await page.getByRole('alert').allTextContents().catch(()=>[])},null,2));await shot('FAILURE').catch(()=>{});throw error}
  finally{await page.unrouteAll({behavior:'wait'});fixture('restore',{actor});await user.context.close()}
 }

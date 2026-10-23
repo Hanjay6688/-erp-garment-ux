@@ -1,8 +1,11 @@
 # Integrasi Claude: jadwal dan saran potong bertahap
 
 Status24 Oktober2026 WIB: komponen server Native6, layar jadwal Entry2 dan
-SAVE2000 lulus; layar kebutuhan baru masih diuji pada kandidat d2fdf31f,
-run40041003292/job120711808034. Dokumen ini tidak menutup OW13c, pemasangan
+SAVE2000 lulus; kandidat layar kebutuhan d2fdf31f,
+run40041003292/job120711808034 INCOMPLETE2/2 karena nama parameter halaman
+klien salah (`p_access_epoch`, Native memerlukan `p_access`). Receipt
+`d2fdf31-quantity-first-incomplete.json` mempertahankan kegagalan itu;
+perbaikan klien dan sambungan langsung Buat Potongan menunggu uji ulang. Dokumen ini tidak menutup OW13c, pemasangan
 bawaan, pemulihan sesudah dipakai, rantai A, atau audit independen.
 
 ## Dasar yang sudah diuji

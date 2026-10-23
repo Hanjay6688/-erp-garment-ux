@@ -1,12 +1,15 @@
 # Handoff produksi/perencanaan B —24 Oktober2026 WIB
 
-**Active next:** BpagedquantityUI implemented and159clienttests/9files+TS PASS.
-Newcalculations useboundedNativejobs/pages/checks,alltarget server totals,
-50displayrows, strictactor/query/hash/microsecondbinding;oldnettingrecoverykept.
-ExistingcheckedPotonganform reused. Actualquantitybrowser2 running atd2fdf31f,
-run40041003292/job120711808034; no result declared yet.
-Sourcegate17unmergedpairs,exact17-onlypreview364/312;Aaddsquantity5afterprior12.
-Native6+Entry2+realSAVE2000 remainqualified,47backendfilesunchanged. Parent5/16.
+**Active correction:** firstquantitybrowser d2fdf31f/run40041003292/
+job120711808034 INCOMPLETE2/2: both actualjobs reached page reads, but newclient
+sentp_access_epoch instead of Nativefacade'sp_access. Receipt d2fdf31 keeps
+completeOriginal; all47sources/12preuse22/restore/advisors exact, writergatefalse.
+Fixedonlyclientargument; regression checks actualunchangedNativeSQLsignature,
+redbeforefix/passafter.160clienttests/10files+TS PASS, two demand testsuites
+checkedseparately. DirectBuatPotongan now reuses samequantitydriver; original
+analysis/archive/recovery remainsavailable. Next focusedbrowser2 rerun includes
+work→cutting sameDONEjob/checkedSAVEreplay anddense2000directcuttingentry.
+Native6+Entry2+SAVE2000 stayqualified; after-use/Afullchain/fullOW13c open, parent5/16.
 
 **A integration:** [bounded composition and remaining acceptance](../d17-14/ow13c/INTEGRASI_CLAUDE_BOUNDED.md)
 lists request overlap withfinancialbridge, exact17 registry pairs/order,

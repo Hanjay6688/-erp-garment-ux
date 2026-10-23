@@ -1,0 +1,49 @@
+{
+  "contract": "cp7.bounded-quantity-first-incomplete.v1",
+  "candidate": "d2fdf31f6d895d333cac1d8d443ebe8acee18430",
+  "tree": "e3b8930db44cb3c1b614310611ad0b28adf2d6eb",
+  "source": "0b820634fa152d4339b86daf3d2bb3ea06dcf4f1",
+  "run_id": 40041003292,
+  "job_id": 120711808034,
+  "status": "INCOMPLETE",
+  "expected": 2,
+  "observed": 2,
+  "counts": {
+    "browser": {
+      "INCOMPLETE": 2
+    }
+  },
+  "totals_match": true,
+  "source_files_exact": 47,
+  "preuse22_exact": 12,
+  "clone_authorities": 1,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "declaration_sha256": "003b8fd7c3fef3440528e8be3ad1fbc1d48ecfce4deba4cfc314553fa1ae9bf6",
+  "original": {
+    "artifact_id": 12540075742,
+    "bytes": 44843,
+    "sha256": "99afc83164fe419af58431d9721d7b1441a2c98356aeedd392044c960c032581"
+  },
+  "full_artifact": {
+    "artifact_id": 12538969965,
+    "bytes": 6336621,
+    "sha256": "67bcaf4df7be278e358f943fe051a36300a99e0e8ae1e0d0d029c87e88a80a0f"
+  },
+  "cause": "New client sent p_access_epoch to unchanged Native page facade, which requires p_access; both real jobs reached pages but PostgREST refused that nonexistent named-argument signature.",
+  "actual_checked_SAVE_not_reached": true,
+  "complete_original_independently_checked": true,
+  "component_qualified": false,
+  "after_use_restore_qualified": false,
+  "full_OW13c_acceptance": false,
+  "full_A_chain_qualified": false,
+  "production_go": false,
+  "correction": "Use exact existing p_access argument; regression checks named parameters from actual frozen Native SQL facade. Same page/hash/access parser and all server47 sources remain unchanged; no oracle or timeout relaxed."
+}
