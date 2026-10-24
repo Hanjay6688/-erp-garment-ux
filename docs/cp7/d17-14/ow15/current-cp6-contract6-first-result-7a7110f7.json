@@ -1,0 +1,80 @@
+{
+  "contract": "cp7.current-cp6-retained-result.v1",
+  "qualified_head": "7a7110f72417e9ff8ea7354e35b4e8856802fa60",
+  "run_id": 40076878768,
+  "job_id": 120822012360,
+  "artifact_id": 12554390190,
+  "artifact_zip": {
+    "name": "contract6-first.zip",
+    "bytes": 1943043,
+    "sha256": "bfa2b2384ea5628c63822eb2d43b981c1b4a11d30802e5496ddbd5f504a59896"
+  },
+  "original": {
+    "name": "CP7_CURRENT_CP6_CONTRACT_NATIVE6.json",
+    "bytes": 2741967,
+    "sha256": "25be83a8e79dc1073da1daeb1c47c39d987838932c8405ff11ccd9b78336b55a"
+  },
+  "status": "INCOMPLETE",
+  "groups": {
+    "baseline": {
+      "counts": {
+        "PASS": 6
+      },
+      "case_count": 6,
+      "complete_boundary_restored": true,
+      "database_remaining": null,
+      "failures": []
+    },
+    "native": {
+      "counts": {
+        "PASS": 5,
+        "INCOMPLETE": 1
+      },
+      "case_count": 6,
+      "complete_boundary_restored": true,
+      "database_remaining": null,
+      "failures": [
+        {
+          "case": "RETURN_REBOUND_CUSTOMER_ATOMIC_REFUSAL",
+          "status": "INCOMPLETE",
+          "error_head": "{'identity': ('authenticated', 'authenticated', 'OWNER'), 'refused': True, 'error': {'sqlstate': 'P0001', 'message': 'OW04_SOURCE_CUSTOMER_MISMATCH\\nCONTEXT:  PL/pgSQL function ow04_source_proposal.locked_source_family(uuid) line 87 at RAISE\\nPL/pgSQL assignment \"src:=ow04_source_proposal.locked_source_family(r.sale_id)\"\\nPL/pgSQL function cp7_credit.native_empty_enter_v1(uuid) line 20 at assignme",
+          "observed_blocker_codes": [],
+          "full_error_preserved_in_original": true
+        }
+      ]
+    }
+  },
+  "execution_count": 12,
+  "changed_case_statuses": {
+    "RETURN_REBOUND_CUSTOMER_ATOMIC_REFUSAL": {
+      "baseline": "PASS",
+      "current": "INCOMPLETE"
+    }
+  },
+  "cp6_restored": true,
+  "restore_raw_public_equal": true,
+  "advisor_gate": true,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "strict_group_originals": [
+    {
+      "path": "strict-groups/CP7_CURRENT_CP6_CONTRACT_NATIVE6.json",
+      "bytes": 51256,
+      "sha256": "6723274174312b9c62d21ed0c3ac06dd2bd015f6c7a7194044b8ac15719a3639"
+    },
+    {
+      "path": "strict-groups/CP7_CURRENT_CP6_CONTRACT_NATIVE6_BASELINE.json",
+      "bytes": 95339,
+      "sha256": "5dfcaef42f6e9ad599124097b5cf872ba060339deb0cde2afd57357638ffc67d"
+    }
+  ],
+  "production_go": false,
+  "independent_acceptance": false,
+  "new_business_case_credit": 0,
+  "disposition": "Baseline6PASS/current5PASS+1INCOMPLETE. CUSTOMER bad-return rejection advances past exact refusal/full data/sequence/catalog assertions, then the separate legitimate return is refused OW04_SOURCE_CUSTOMER_MISMATCH while the malformed DRAFT remains. The positive control remains mandatory; investigate source-family draft dependency isolation, do not remove this control or delete the bad draft to force green."
+}

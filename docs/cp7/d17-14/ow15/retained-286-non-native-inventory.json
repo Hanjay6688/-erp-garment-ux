@@ -1,0 +1,1116 @@
+{
+  "contract": "cp7.retained-286-non-native-inventory.v1",
+  "evidence_type": "STATIC_FACTORY_ENUMERATION_NO_CASE_EXECUTED",
+  "historical_mode_entries": {
+    "races": 58,
+    "http": 21,
+    "browser": 27
+  },
+  "unique_ids_by_mode": {
+    "races": 53,
+    "http": 19,
+    "browser": 23
+  },
+  "historical_non_native_entries": 106,
+  "unique_non_native_controls": 95,
+  "duplicate_entries": 11,
+  "duplicates": [
+    {
+      "mode": "races",
+      "id": "P05_RACE_SAME_UUID",
+      "first_suite": "cp7_planning_baseline_cases",
+      "repeat_suite": "cp7_planning_netting_cases",
+      "identical_callable": {
+        "id": "P05_RACE_SAME_UUID",
+        "callable": {
+          "module": "cp7_planning_history_cases",
+          "qualname": "races.<locals>.same_uuid",
+          "line": 126,
+          "source_sha256": "04f8164992b09d5f112ce41539b8afd87d86e02f833876c955b54c65cbfd1a84"
+        }
+      }
+    },
+    {
+      "mode": "races",
+      "id": "P05_RACE_CURRENT_REVOKE",
+      "first_suite": "cp7_planning_baseline_cases",
+      "repeat_suite": "cp7_planning_netting_cases",
+      "identical_callable": {
+        "id": "P05_RACE_CURRENT_REVOKE",
+        "callable": {
+          "module": "cp7_planning_history_cases",
+          "qualname": "races.<locals>.revoke_waiting",
+          "line": 137,
+          "source_sha256": "4dd71eb6369bbceaf4ff31e1056a9afbaee14be5d07ce4a56592fc02d3d2008a"
+        }
+      }
+    },
+    {
+      "mode": "races",
+      "id": "P06_RACE_SAME_PROFILE_UUID",
+      "first_suite": "cp7_planning_baseline_cases",
+      "repeat_suite": "cp7_planning_netting_cases",
+      "identical_callable": {
+        "id": "P06_RACE_SAME_PROFILE_UUID",
+        "callable": {
+          "module": "cp7_planning_baseline_cases",
+          "qualname": "races.<locals>.same_uuid",
+          "line": 165,
+          "source_sha256": "e4659a01dd6ab3cbc04d8d0e2a111f233ea6da821f0200d1c1abd12978dbc0e5"
+        }
+      }
+    },
+    {
+      "mode": "races",
+      "id": "P06_RACE_COMPETING_REVISION",
+      "first_suite": "cp7_planning_baseline_cases",
+      "repeat_suite": "cp7_planning_netting_cases",
+      "identical_callable": {
+        "id": "P06_RACE_COMPETING_REVISION",
+        "callable": {
+          "module": "cp7_planning_baseline_cases",
+          "qualname": "races.<locals>.competing",
+          "line": 173,
+          "source_sha256": "9abeb9d2b7853de4cbc35aca241e68cacbe5b7e3610d3e79a6b83d31fb7cf576"
+        }
+      }
+    },
+    {
+      "mode": "races",
+      "id": "P06_RACE_CURRENT_PROFILE_REVOKE",
+      "first_suite": "cp7_planning_baseline_cases",
+      "repeat_suite": "cp7_planning_netting_cases",
+      "identical_callable": {
+        "id": "P06_RACE_CURRENT_PROFILE_REVOKE",
+        "callable": {
+          "module": "cp7_planning_baseline_cases",
+          "qualname": "races.<locals>.revoke_waiting",
+          "line": 185,
+          "source_sha256": "80bd982894cb9abafe63525348385d5832b9271d6dfd246f077c908614dba566"
+        }
+      }
+    },
+    {
+      "mode": "http",
+      "id": "P05_ACTUAL_AUTH_HTTP",
+      "first_suite": "cp7_planning_baseline_cases",
+      "repeat_suite": "cp7_planning_netting_cases",
+      "identical_callable": {
+        "id": "P05_ACTUAL_AUTH_HTTP",
+        "callable": {
+          "module": "cp7_planning_history_cases",
+          "qualname": "http_cases.<locals>.flow",
+          "line": 164,
+          "source_sha256": "6c4ba6317043c04ab930f580097dc933eda681114aae81981e3cb8b23a84d3a1"
+        }
+      }
+    },
+    {
+      "mode": "http",
+      "id": "P06_ACTUAL_AUTH_HTTP",
+      "first_suite": "cp7_planning_baseline_cases",
+      "repeat_suite": "cp7_planning_netting_cases",
+      "identical_callable": {
+        "id": "P06_ACTUAL_AUTH_HTTP",
+        "callable": {
+          "module": "cp7_planning_baseline_cases",
+          "qualname": "http_cases.<locals>.flow",
+          "line": 210,
+          "source_sha256": "2148b825d277940a69a3c90688c1c52fbd873352a5d66c16a94ae6c4e7b69b4a"
+        }
+      }
+    },
+    {
+      "mode": "browser",
+      "id": "P05_BROWSER_DESKTOP_NATIVE_HISTORY",
+      "first_suite": "cp7_planning_baseline_cases",
+      "repeat_suite": "cp7_planning_netting_cases",
+      "identical_callable": {
+        "id": "P05_BROWSER_DESKTOP_NATIVE_HISTORY",
+        "callable_sha256": "6012a349c7f6e115ac1ba396840915ac338e8961c3e50431a2ac209a070d2092"
+      }
+    },
+    {
+      "mode": "browser",
+      "id": "P05_BROWSER_MOBILE_CURRENT_AUTH",
+      "first_suite": "cp7_planning_baseline_cases",
+      "repeat_suite": "cp7_planning_netting_cases",
+      "identical_callable": {
+        "id": "P05_BROWSER_MOBILE_CURRENT_AUTH",
+        "callable_sha256": "7460dce5a9c240455981222478eb7710cb58beeda6d990a11a87dd8d1421ae9c"
+      }
+    },
+    {
+      "mode": "browser",
+      "id": "P06_BROWSER_DESKTOP_NATIVE_PROFILE",
+      "first_suite": "cp7_planning_baseline_cases",
+      "repeat_suite": "cp7_planning_netting_cases",
+      "identical_callable": {
+        "id": "P06_BROWSER_DESKTOP_NATIVE_PROFILE",
+        "callable_sha256": "6012a349c7f6e115ac1ba396840915ac338e8961c3e50431a2ac209a070d2092"
+      }
+    },
+    {
+      "mode": "browser",
+      "id": "P06_BROWSER_MOBILE_NATIVE_PROFILE",
+      "first_suite": "cp7_planning_baseline_cases",
+      "repeat_suite": "cp7_planning_netting_cases",
+      "identical_callable": {
+        "id": "P06_BROWSER_MOBILE_NATIVE_PROFILE",
+        "callable_sha256": "7460dce5a9c240455981222478eb7710cb58beeda6d990a11a87dd8d1421ae9c"
+      }
+    }
+  ],
+  "suites": [
+    {
+      "module": "cp7_ow14b_rule_cases",
+      "modes": {
+        "races": [
+          {
+            "id": "WAF_RACE_TWO_SEND_TICKS_ONE_MESSAGE",
+            "callable": {
+              "module": "cp7_wa_forward_cases",
+              "qualname": "races.<locals>.two_sends",
+              "line": 1168,
+              "source_sha256": "f000edc1cc765bcd695a743e9b720608fe37c0e4fc91afd083241efb958f902f"
+            }
+          },
+          {
+            "id": "WAF_RACE_COLLECT_AND_SEND_OPEN_ONCE",
+            "callable": {
+              "module": "cp7_wa_forward_cases",
+              "qualname": "races.<locals>.collect_and_send",
+              "line": 1188,
+              "source_sha256": "e4b1a55060fec8d2b53cb40503c48458781ae168fc4b31e64aefa5486f601713"
+            }
+          },
+          {
+            "id": "WAF_RACE_FAKE_CALLMEBOT_END_TO_END",
+            "callable": {
+              "module": "cp7_wa_forward_cases",
+              "qualname": "races.<locals>.end_to_end",
+              "line": 1201,
+              "source_sha256": "ef25e25aafad0f37f2319788213c6080c3f2a6b28c508ee923345c6143bc962d"
+            }
+          },
+          {
+            "id": "WAF_RACE_PG_CRON_RUNS_TICKS",
+            "callable": {
+              "module": "cp7_wa_forward_cases",
+              "qualname": "races.<locals>.pg_cron_ticks",
+              "line": 1230,
+              "source_sha256": "e60ac1abf4131892ac8f926e564a149a05ff8b605892bb2561dd0851b6a7c74e"
+            }
+          },
+          {
+            "id": "WAF_RACE_FG_BUSY_RECHECKS_LIVE_STOCK",
+            "callable": {
+              "module": "cp7_wa_forward_cases",
+              "qualname": "races.<locals>.fg_busy_recheck",
+              "line": 1270,
+              "source_sha256": "61a34d1268a659a4e8debdd0c718b9d9f1e2575b8a6e02d83ab2dc73256c85cf"
+            }
+          },
+          {
+            "id": "WAF_RACE_MATERIAL_BUSY_RECHECKS_LIVE_STOCK",
+            "callable": {
+              "module": "cp7_wa_forward_cases",
+              "qualname": "races.<locals>.material_busy_recheck",
+              "line": 1308,
+              "source_sha256": "5ddbdb04f73fae83ce95f39e3d18c0035671fdd477561b21a4778bad4e064da4"
+            }
+          },
+          {
+            "id": "WAF_RACE_ACCESSORY_NEED_TWO_TICKS_ONE_RECEIPT",
+            "callable": {
+              "module": "cp7_wa_accessory_transport_cases",
+              "qualname": "races.<locals>.two_ticks_one_receipt",
+              "line": 111,
+              "source_sha256": "3765c81f72579d27da114ace3cc4b64173663df126cac53f834f5a4a0635ce12"
+            }
+          },
+          {
+            "id": "WAF_RACE_ACCESSORY_NEED_BOM_CHANGE_DURING_WAIT",
+            "callable": {
+              "module": "cp7_wa_accessory_transport_cases",
+              "qualname": "races.<locals>.<lambda>",
+              "line": 217,
+              "source_sha256": "b64ea93578237432c21e205864a3128b3fde9f359e5470e381458e1446ca0b57"
+            }
+          },
+          {
+            "id": "WAF_RACE_ACCESSORY_NEED_ACCESS_REVOKED_DURING_WAIT",
+            "callable": {
+              "module": "cp7_wa_accessory_transport_cases",
+              "qualname": "races.<locals>.<lambda>",
+              "line": 217,
+              "source_sha256": "b64ea93578237432c21e205864a3128b3fde9f359e5470e381458e1446ca0b57"
+            }
+          },
+          {
+            "id": "WAF_RACE_WA_SETTINGS_NEW_REVOKED_AFTER_WAIT",
+            "callable": {
+              "module": "cp7_wa_authority_race_cases",
+              "qualname": "races.<locals>.<lambda>",
+              "line": 254,
+              "source_sha256": "db6166eefd6880a9724028a62583136a79fbb1bc842fd715e09392cfb41ed729"
+            }
+          },
+          {
+            "id": "WAF_RACE_WA_SETTINGS_REPLAY_REVOKED_AFTER_WAIT",
+            "callable": {
+              "module": "cp7_wa_authority_race_cases",
+              "qualname": "races.<locals>.<lambda>",
+              "line": 254,
+              "source_sha256": "db6166eefd6880a9724028a62583136a79fbb1bc842fd715e09392cfb41ed729"
+            }
+          },
+          {
+            "id": "WAF_RACE_WA_KEY_NEW_REVOKED_AFTER_WAIT",
+            "callable": {
+              "module": "cp7_wa_authority_race_cases",
+              "qualname": "races.<locals>.<lambda>",
+              "line": 254,
+              "source_sha256": "db6166eefd6880a9724028a62583136a79fbb1bc842fd715e09392cfb41ed729"
+            }
+          },
+          {
+            "id": "WAF_RACE_WA_KEY_REPLAY_REVOKED_AFTER_WAIT",
+            "callable": {
+              "module": "cp7_wa_authority_race_cases",
+              "qualname": "races.<locals>.<lambda>",
+              "line": 254,
+              "source_sha256": "db6166eefd6880a9724028a62583136a79fbb1bc842fd715e09392cfb41ed729"
+            }
+          },
+          {
+            "id": "WAF_RACE_WA_TEST_NEW_REVOKED_AFTER_WAIT",
+            "callable": {
+              "module": "cp7_wa_authority_race_cases",
+              "qualname": "races.<locals>.<lambda>",
+              "line": 254,
+              "source_sha256": "db6166eefd6880a9724028a62583136a79fbb1bc842fd715e09392cfb41ed729"
+            }
+          },
+          {
+            "id": "WAF_RACE_WA_TEST_REPLAY_REVOKED_AFTER_WAIT",
+            "callable": {
+              "module": "cp7_wa_authority_race_cases",
+              "qualname": "races.<locals>.<lambda>",
+              "line": 254,
+              "source_sha256": "db6166eefd6880a9724028a62583136a79fbb1bc842fd715e09392cfb41ed729"
+            }
+          },
+          {
+            "id": "WAF_RACE_WA_RESOLVE_NEW_REVOKED_AFTER_WAIT",
+            "callable": {
+              "module": "cp7_wa_authority_race_cases",
+              "qualname": "races.<locals>.<lambda>",
+              "line": 254,
+              "source_sha256": "db6166eefd6880a9724028a62583136a79fbb1bc842fd715e09392cfb41ed729"
+            }
+          },
+          {
+            "id": "WAF_RACE_WA_RESOLVE_REPLAY_REVOKED_AFTER_WAIT",
+            "callable": {
+              "module": "cp7_wa_authority_race_cases",
+              "qualname": "races.<locals>.<lambda>",
+              "line": 254,
+              "source_sha256": "db6166eefd6880a9724028a62583136a79fbb1bc842fd715e09392cfb41ed729"
+            }
+          },
+          {
+            "id": "WAF_RACE_ALL_KIND_FG_AT_REORDER_POINT_FAKE_PROVIDER",
+            "callable": {
+              "module": "cp7_wa_all_kinds_transport_cases",
+              "qualname": "races.<locals>.<lambda>",
+              "line": 428,
+              "source_sha256": "e93840a27a2165b1854c11190589d2c9d644053468484dc8a98b218d3b106f3b"
+            }
+          },
+          {
+            "id": "WAF_RACE_ALL_KIND_ACCESSORY_AT_REORDER_POINT_FAKE_PROVIDER",
+            "callable": {
+              "module": "cp7_wa_all_kinds_transport_cases",
+              "qualname": "races.<locals>.<lambda>",
+              "line": 428,
+              "source_sha256": "e93840a27a2165b1854c11190589d2c9d644053468484dc8a98b218d3b106f3b"
+            }
+          },
+          {
+            "id": "WAF_RACE_ALL_KIND_AR_DUE_FAKE_PROVIDER",
+            "callable": {
+              "module": "cp7_wa_all_kinds_transport_cases",
+              "qualname": "races.<locals>.<lambda>",
+              "line": 428,
+              "source_sha256": "e93840a27a2165b1854c11190589d2c9d644053468484dc8a98b218d3b106f3b"
+            }
+          },
+          {
+            "id": "WAF_RACE_ALL_KIND_AP_DUE_FAKE_PROVIDER",
+            "callable": {
+              "module": "cp7_wa_all_kinds_transport_cases",
+              "qualname": "races.<locals>.<lambda>",
+              "line": 428,
+              "source_sha256": "e93840a27a2165b1854c11190589d2c9d644053468484dc8a98b218d3b106f3b"
+            }
+          },
+          {
+            "id": "WAF_RACE_ALL_KIND_PRODUCTION_GAP_FAKE_PROVIDER",
+            "callable": {
+              "module": "cp7_wa_all_kinds_transport_cases",
+              "qualname": "races.<locals>.<lambda>",
+              "line": 428,
+              "source_sha256": "e93840a27a2165b1854c11190589d2c9d644053468484dc8a98b218d3b106f3b"
+            }
+          },
+          {
+            "id": "WAF_RACE_ALL_KIND_FABRIC_NEED_FAKE_PROVIDER",
+            "callable": {
+              "module": "cp7_wa_all_kinds_transport_cases",
+              "qualname": "races.<locals>.<lambda>",
+              "line": 428,
+              "source_sha256": "e93840a27a2165b1854c11190589d2c9d644053468484dc8a98b218d3b106f3b"
+            }
+          },
+          {
+            "id": "WAF_RACE_ALL_KIND_OPENING_AR_FAKE_PROVIDER",
+            "callable": {
+              "module": "cp7_wa_all_kinds_transport_cases",
+              "qualname": "races.<locals>.<lambda>",
+              "line": 428,
+              "source_sha256": "e93840a27a2165b1854c11190589d2c9d644053468484dc8a98b218d3b106f3b"
+            }
+          },
+          {
+            "id": "WAF_RACE_ALL_KIND_OPENING_AP_FAKE_PROVIDER",
+            "callable": {
+              "module": "cp7_wa_all_kinds_transport_cases",
+              "qualname": "races.<locals>.<lambda>",
+              "line": 428,
+              "source_sha256": "e93840a27a2165b1854c11190589d2c9d644053468484dc8a98b218d3b106f3b"
+            }
+          },
+          {
+            "id": "WAF_RACE_ALL_KIND_PAYROLL_AP_FAKE_PROVIDER",
+            "callable": {
+              "module": "cp7_wa_all_kinds_transport_cases",
+              "qualname": "races.<locals>.<lambda>",
+              "line": 428,
+              "source_sha256": "e93840a27a2165b1854c11190589d2c9d644053468484dc8a98b218d3b106f3b"
+            }
+          },
+          {
+            "id": "WAF_RACE_ALL_KIND_ACCESSORY_AP_FAKE_PROVIDER",
+            "callable": {
+              "module": "cp7_wa_all_kinds_transport_cases",
+              "qualname": "races.<locals>.<lambda>",
+              "line": 428,
+              "source_sha256": "e93840a27a2165b1854c11190589d2c9d644053468484dc8a98b218d3b106f3b"
+            }
+          },
+          {
+            "id": "WAF_RACE_ALL_KIND_LAUNDRY_AP_FAKE_PROVIDER",
+            "callable": {
+              "module": "cp7_wa_all_kinds_transport_cases",
+              "qualname": "races.<locals>.<lambda>",
+              "line": 428,
+              "source_sha256": "e93840a27a2165b1854c11190589d2c9d644053468484dc8a98b218d3b106f3b"
+            }
+          },
+          {
+            "id": "WAF_RACE_ALL_KIND_LAUNDRY_RECEIPT_FAKE_PROVIDER",
+            "callable": {
+              "module": "cp7_wa_all_kinds_transport_cases",
+              "qualname": "races.<locals>.<lambda>",
+              "line": 428,
+              "source_sha256": "e93840a27a2165b1854c11190589d2c9d644053468484dc8a98b218d3b106f3b"
+            }
+          },
+          {
+            "id": "WAF_RACE_ALL_KIND_LAUNDRY_OPENING_UNINVOICED_FAKE_PROVIDER",
+            "callable": {
+              "module": "cp7_wa_all_kinds_transport_cases",
+              "qualname": "races.<locals>.<lambda>",
+              "line": 428,
+              "source_sha256": "e93840a27a2165b1854c11190589d2c9d644053468484dc8a98b218d3b106f3b"
+            }
+          },
+          {
+            "id": "OW14B_TWO_SESSIONS_ONE_UUID_AND_LIVE_MINIMUM",
+            "callable": {
+              "module": "cp7_ow14b_rule_cases",
+              "qualname": "races.<locals>.same_uuid_live",
+              "line": 211,
+              "source_sha256": "cb698a041e3983b01b6b9fd43b1b4b266bfdd198fb57f19e13888c2c469d6081"
+            }
+          },
+          {
+            "id": "OW14B_TWO_USERS_ONE_REVISION",
+            "callable": {
+              "module": "cp7_ow14b_rule_cases",
+              "qualname": "races.<locals>.competing",
+              "line": 234,
+              "source_sha256": "0dbd54f7da45d0144a66dd43907985c79514381aa5fe7c5c68b16827415acc0b"
+            }
+          },
+          {
+            "id": "OW14B_WAIT_CURRENT_OWNER_REVOKED",
+            "callable": {
+              "module": "cp7_ow14b_rule_cases",
+              "qualname": "races.<locals>.<lambda>",
+              "line": 276,
+              "source_sha256": "b215b9f1f69dda16499db3b5c6d6737f103cf6faa8ee36f9084131c099de3358"
+            }
+          },
+          {
+            "id": "OW14B_WAIT_REPLAY_OWNER_REVOKED",
+            "callable": {
+              "module": "cp7_ow14b_rule_cases",
+              "qualname": "races.<locals>.<lambda>",
+              "line": 276,
+              "source_sha256": "b215b9f1f69dda16499db3b5c6d6737f103cf6faa8ee36f9084131c099de3358"
+            }
+          }
+        ],
+        "http": [
+          {
+            "id": "WAF_HTTP_OWNER_SETS_UP_AND_TESTS",
+            "callable": {
+              "module": "cp7_wa_forward_cases",
+              "qualname": "http_cases.<locals>.owner_flow",
+              "line": 1360,
+              "source_sha256": "ec1508a28a53916bf07439d7ce98f6e7b3721d461f5996041df2bed9c45e7dcb"
+            }
+          },
+          {
+            "id": "WAF_HTTP_OTHERS_REFUSED",
+            "callable": {
+              "module": "cp7_wa_forward_cases",
+              "qualname": "http_cases.<locals>.others_refused",
+              "line": 1383,
+              "source_sha256": "a159de6cef24f9e4347b868cfdaae899586a46bd9ad04d1ec61c2f0cab46606d"
+            }
+          },
+          {
+            "id": "WAF_HTTP_FG_REORDER_SCREEN",
+            "callable": {
+              "module": "cp7_wa_forward_cases",
+              "qualname": "http_cases.<locals>.fg_reorder_screen",
+              "line": 1406,
+              "source_sha256": "dc09192485d8d8b22d184fdbb1657b777ab6258dfa73be666c550095ae84c3db"
+            }
+          },
+          {
+            "id": "WAF_HTTP_MATERIAL_REORDER_SCREEN",
+            "callable": {
+              "module": "cp7_wa_forward_cases",
+              "qualname": "http_cases.<locals>.material_reorder_screen",
+              "line": 1451,
+              "source_sha256": "048c3d60706f87996db1918cca35865e734aeef5a492688bcf91e6070c2a1e3f"
+            }
+          },
+          {
+            "id": "WAF_HTTP_ACCESSORY_NEED_SETTINGS_LOST_REPLY_REVOKED_REPLAY",
+            "callable": {
+              "module": "cp7_wa_accessory_transport_cases",
+              "qualname": "http_cases.<locals>.settings_lost_reply_revoked_replay",
+              "line": 237,
+              "source_sha256": "a08cad8ce49328d3b2e68c42430c3729053f88439a339633bb6f9a939615b9ea"
+            }
+          },
+          {
+            "id": "OW14B_REAL_AUTH_CHOICE_AND_EXACT_REPLAY",
+            "callable": {
+              "module": "cp7_ow14b_rule_cases",
+              "qualname": "http_cases.<locals>.choice",
+              "line": 280,
+              "source_sha256": "9c08ff4b94a58ef084a72f33594b5e89edcdb5e2d7d739269a0d6ba83404c039"
+            }
+          },
+          {
+            "id": "OW14B_REAL_AUTH_REPLAY_CURRENT_REVOKE",
+            "callable": {
+              "module": "cp7_ow14b_rule_cases",
+              "qualname": "http_cases.<locals>.revoke_replay",
+              "line": 306,
+              "source_sha256": "79f7d56d23e8722e62d2418702ecb6f7853402f5352e60ca4f21ca1cb8e4a75e"
+            }
+          }
+        ],
+        "browser": [
+          {
+            "id": "WAF_BROWSER_DESKTOP_OWNER_SETS_UP_TESTS_AND_FORWARDS",
+            "callable_sha256": "13c8810427d86fa73fed0fcd63092ea4dea17e46c2e4c55c1b55b046d8217936"
+          },
+          {
+            "id": "WAF_BROWSER_MOBILE_OWNER_SETS_UP_TESTS_AND_FORWARDS",
+            "callable_sha256": "aa828c4555db38c017b15fb0369a6d13fbbb255882f6a63e61faf799a75e2f51"
+          },
+          {
+            "id": "WAF_BROWSER_ADMIN_SEES_SYSTEM_REMINDERS_WITHOUT_WA",
+            "callable_sha256": "2ef5d194ba57444a91605622c13f81ba24739b254cf50d7345e437cdc3af13b5"
+          },
+          {
+            "id": "WAF_BROWSER_FG_REORDER_DESKTOP",
+            "callable_sha256": "f5a2593557bc4327c5674d65a90b3261541cd8343aada00ba5e44e71575d9c0d"
+          },
+          {
+            "id": "WAF_BROWSER_FG_REORDER_MOBILE",
+            "callable_sha256": "bef3dded1561efe7124c6e3eee918dc40cb154336362baad9e720290f6d9ca1c"
+          },
+          {
+            "id": "WAF_BROWSER_MATERIAL_REORDER_DESKTOP",
+            "callable_sha256": "c10540c4185a705150ede6b69d2c712cfb0adae35bf966389952cc305c72f0f1"
+          },
+          {
+            "id": "WAF_BROWSER_MATERIAL_REORDER_MOBILE",
+            "callable_sha256": "ed14d1986c480f4549bac4153f435c9bd50cd62c6629bb80063e7e73da717b72"
+          },
+          {
+            "id": "WAF_BROWSER_ACCESSORY_NEED_DESKTOP",
+            "callable_sha256": "deb7ccf7ea09764b0c95599b50cabe2251d2b25209cb280b9c0a9a9db3095075"
+          },
+          {
+            "id": "WAF_BROWSER_ACCESSORY_NEED_MOBILE",
+            "callable_sha256": "4b27fdc8d832aa9af36dc5496a901fb02f3c1cfcd6a3639d7bdcd0b95bd114dd"
+          },
+          {
+            "id": "OW14B_BROWSER_DESKTOP_CHOICE_RELOAD_UUID",
+            "callable_sha256": "6012a349c7f6e115ac1ba396840915ac338e8961c3e50431a2ac209a070d2092"
+          },
+          {
+            "id": "OW14B_BROWSER_MOBILE_CHOICE_RELOAD_CURRENT_ACCESS",
+            "callable_sha256": "7460dce5a9c240455981222478eb7710cb58beeda6d990a11a87dd8d1421ae9c"
+          }
+        ]
+      },
+      "counts": {
+        "races": 34,
+        "http": 7,
+        "browser": 11
+      }
+    },
+    {
+      "module": "cp7_ow16_status_cases",
+      "modes": {
+        "races": [
+          {
+            "id": "OW16_WAIT_REVOKED_OWNER_REFUSED",
+            "callable": {
+              "module": "cp7_ow16_status_cases",
+              "qualname": "races.<locals>.revoked",
+              "line": 225,
+              "source_sha256": "69dc379bed681c1997d262b302035387c3cd57945f8f2a075a1de638550b0d7a"
+            }
+          },
+          {
+            "id": "OW16_TWO_OWNERS_ONE_REVISION",
+            "callable": {
+              "module": "cp7_ow16_status_cases",
+              "qualname": "races.<locals>.same_revision",
+              "line": 264,
+              "source_sha256": "c435bf3b597e3f76f135bb10e3c82a83067a2a53345b90e1f31b916567878f69"
+            }
+          }
+        ],
+        "http": [
+          {
+            "id": "OW16_REAL_AUTH_FACTORY_STATUS_POLICY",
+            "callable": {
+              "module": "cp7_ow16_status_cases",
+              "qualname": "http_cases.<locals>.flow",
+              "line": 288,
+              "source_sha256": "1110b8c07a9833a1758776b386fca9ed3696e1600bdfcd56bd1dfea7b9045a91"
+            }
+          },
+          {
+            "id": "OW16_REAL_AUTH_CURRENT_REVOKE",
+            "callable": {
+              "module": "cp7_ow16_status_cases",
+              "qualname": "http_cases.<locals>.revoked",
+              "line": 309,
+              "source_sha256": "ccdbae3404ec812f5eb6369fc6d9b541c48f9aa793066a10d14da88488224f3c"
+            }
+          }
+        ],
+        "browser": [
+          {
+            "id": "OW16_BROWSER_DESKTOP_AUTO_AFTER_POST",
+            "callable_sha256": "6012a349c7f6e115ac1ba396840915ac338e8961c3e50431a2ac209a070d2092"
+          },
+          {
+            "id": "OW16_BROWSER_MOBILE_UUID_RECOVERY",
+            "callable_sha256": "7460dce5a9c240455981222478eb7710cb58beeda6d990a11a87dd8d1421ae9c"
+          }
+        ]
+      },
+      "counts": {
+        "races": 2,
+        "http": 2,
+        "browser": 2
+      }
+    },
+    {
+      "module": "cp7_ow13_history_cases",
+      "modes": {
+        "races": [
+          {
+            "id": "PL5H_RACE_SAME_REVISION",
+            "callable": {
+              "module": "cp7_pl5_history_yield_cases",
+              "qualname": "races.<locals>.same_revision",
+              "line": 616,
+              "source_sha256": "10230626fa3945dd4c46f7ad334ed18cb5426676b1b6bfff634fba5f7a74ea32"
+            }
+          },
+          {
+            "id": "PL5H_RACE_SAME_REQUEST_TWO_SESSIONS",
+            "callable": {
+              "module": "cp7_pl5_history_yield_cases",
+              "qualname": "races.<locals>.same_request",
+              "line": 629,
+              "source_sha256": "b29ac2680eddb242f9eca4bde23648a3aa833a72fa8685ca5fa5fd2353441b84"
+            }
+          }
+        ],
+        "http": [
+          {
+            "id": "PL5H_HTTP_FLOW",
+            "callable": {
+              "module": "cp7_pl5_history_yield_cases",
+              "qualname": "http_cases.<locals>.flow",
+              "line": 646,
+              "source_sha256": "9d2edb0a6355eb9086e57130e3dfc84d123e1932da3a794adf740b5565ad9226"
+            }
+          },
+          {
+            "id": "PL5H_HTTP_REVOKED",
+            "callable": {
+              "module": "cp7_pl5_history_yield_cases",
+              "qualname": "http_cases.<locals>.revoked",
+              "line": 667,
+              "source_sha256": "3a3354779e48336aff144861ec2baf36f3d9f428cd825c36a5acc14f535d78c0"
+            }
+          }
+        ],
+        "browser": [
+          {
+            "id": "PL5H_BROWSER_DESKTOP_POLICY",
+            "callable_sha256": "857b5c0374b4756ff354de163b4b0dd6a576edda0de1dd1da50510162d5ec3c6"
+          },
+          {
+            "id": "PL5H_BROWSER_MOBILE_POLICY",
+            "callable_sha256": "20ba50a61ea1f484bbf4c8b0b00629d4822019d970c5acc4061186bc7c5c7377"
+          }
+        ]
+      },
+      "counts": {
+        "races": 2,
+        "http": 2,
+        "browser": 2
+      }
+    },
+    {
+      "module": "cp7_planning_baseline_cases",
+      "modes": {
+        "races": [
+          {
+            "id": "P05_RACE_SAME_UUID",
+            "callable": {
+              "module": "cp7_planning_history_cases",
+              "qualname": "races.<locals>.same_uuid",
+              "line": 126,
+              "source_sha256": "04f8164992b09d5f112ce41539b8afd87d86e02f833876c955b54c65cbfd1a84"
+            }
+          },
+          {
+            "id": "P05_RACE_CURRENT_REVOKE",
+            "callable": {
+              "module": "cp7_planning_history_cases",
+              "qualname": "races.<locals>.revoke_waiting",
+              "line": 137,
+              "source_sha256": "4dd71eb6369bbceaf4ff31e1056a9afbaee14be5d07ce4a56592fc02d3d2008a"
+            }
+          },
+          {
+            "id": "P06_RACE_SAME_PROFILE_UUID",
+            "callable": {
+              "module": "cp7_planning_baseline_cases",
+              "qualname": "races.<locals>.same_uuid",
+              "line": 165,
+              "source_sha256": "e4659a01dd6ab3cbc04d8d0e2a111f233ea6da821f0200d1c1abd12978dbc0e5"
+            }
+          },
+          {
+            "id": "P06_RACE_COMPETING_REVISION",
+            "callable": {
+              "module": "cp7_planning_baseline_cases",
+              "qualname": "races.<locals>.competing",
+              "line": 173,
+              "source_sha256": "9abeb9d2b7853de4cbc35aca241e68cacbe5b7e3610d3e79a6b83d31fb7cf576"
+            }
+          },
+          {
+            "id": "P06_RACE_CURRENT_PROFILE_REVOKE",
+            "callable": {
+              "module": "cp7_planning_baseline_cases",
+              "qualname": "races.<locals>.revoke_waiting",
+              "line": 185,
+              "source_sha256": "80bd982894cb9abafe63525348385d5832b9271d6dfd246f077c908614dba566"
+            }
+          }
+        ],
+        "http": [
+          {
+            "id": "P05_ACTUAL_AUTH_HTTP",
+            "callable": {
+              "module": "cp7_planning_history_cases",
+              "qualname": "http_cases.<locals>.flow",
+              "line": 164,
+              "source_sha256": "6c4ba6317043c04ab930f580097dc933eda681114aae81981e3cb8b23a84d3a1"
+            }
+          },
+          {
+            "id": "P06_ACTUAL_AUTH_HTTP",
+            "callable": {
+              "module": "cp7_planning_baseline_cases",
+              "qualname": "http_cases.<locals>.flow",
+              "line": 210,
+              "source_sha256": "2148b825d277940a69a3c90688c1c52fbd873352a5d66c16a94ae6c4e7b69b4a"
+            }
+          }
+        ],
+        "browser": [
+          {
+            "id": "P05_BROWSER_DESKTOP_NATIVE_HISTORY",
+            "callable_sha256": "6012a349c7f6e115ac1ba396840915ac338e8961c3e50431a2ac209a070d2092"
+          },
+          {
+            "id": "P05_BROWSER_MOBILE_CURRENT_AUTH",
+            "callable_sha256": "7460dce5a9c240455981222478eb7710cb58beeda6d990a11a87dd8d1421ae9c"
+          },
+          {
+            "id": "P06_BROWSER_DESKTOP_NATIVE_PROFILE",
+            "callable_sha256": "6012a349c7f6e115ac1ba396840915ac338e8961c3e50431a2ac209a070d2092"
+          },
+          {
+            "id": "P06_BROWSER_MOBILE_NATIVE_PROFILE",
+            "callable_sha256": "7460dce5a9c240455981222478eb7710cb58beeda6d990a11a87dd8d1421ae9c"
+          }
+        ]
+      },
+      "counts": {
+        "races": 5,
+        "http": 2,
+        "browser": 4
+      }
+    },
+    {
+      "module": "cp7_p19_staged_cases",
+      "modes": {
+        "races": [
+          {
+            "id": "P19G_RACE_TWO_STEPS_ONE_UNIT",
+            "callable": {
+              "module": "cp7_p19_staged_cases",
+              "qualname": "races.<locals>.two_steps",
+              "line": 700,
+              "source_sha256": "b9e5b616cdf7290de5a499dec5e91701ed822f0375d30d09a3cdb957e616b5c1"
+            }
+          },
+          {
+            "id": "P19G_RACE_LIMIT_RETRIES_THEN_CONTINUES",
+            "callable": {
+              "module": "cp7_p19_staged_cases",
+              "qualname": "races.<locals>.limit",
+              "line": 742,
+              "source_sha256": "d43e61e7177ed6d1997b2c574e6a636b256b6284282dcad550c2b99f5870f383"
+            }
+          },
+          {
+            "id": "P19G_RACE_ACCESS_CHANGED_MID_JOB",
+            "callable": {
+              "module": "cp7_p19_staged_cases",
+              "qualname": "races.<locals>.access_changed",
+              "line": 776,
+              "source_sha256": "7859ab926303bb379c67c623b2c138bf601d29dd3fb63542d43f0e0ec962bbed"
+            }
+          },
+          {
+            "id": "P19G_RACE_SNAPSHOT_IN_FLIGHT",
+            "callable": {
+              "module": "cp7_p19_staged_cases",
+              "qualname": "races.<locals>.snapshot_in_flight",
+              "line": 794,
+              "source_sha256": "8f4de8f9a2894ad3917464c1b32ea9ba016c37177a338a9ae72302c09d2b82d6"
+            }
+          }
+        ],
+        "http": [
+          {
+            "id": "P19G_HTTP_STAGED_FLOW",
+            "callable": {
+              "module": "cp7_p19_staged_cases",
+              "qualname": "http_cases.<locals>.flow",
+              "line": 882,
+              "source_sha256": "9a7e47a32a4fd6909dad1c4286809c1a8df972f72114b6405914ad292696aac9"
+            }
+          },
+          {
+            "id": "P19G_HTTP_REVOKED",
+            "callable": {
+              "module": "cp7_p19_staged_cases",
+              "qualname": "http_cases.<locals>.revoked",
+              "line": 928,
+              "source_sha256": "849ed39ac9ba8e3e9be4b787df24709216271dd492d9ae84a1eba75fa251ffe6"
+            }
+          }
+        ],
+        "browser": [
+          {
+            "id": "P19G_BROWSER_DESKTOP_STAGED_RELOAD",
+            "callable_sha256": "6012a349c7f6e115ac1ba396840915ac338e8961c3e50431a2ac209a070d2092"
+          },
+          {
+            "id": "P19G_BROWSER_MOBILE_STAGED",
+            "callable_sha256": "7460dce5a9c240455981222478eb7710cb58beeda6d990a11a87dd8d1421ae9c"
+          }
+        ]
+      },
+      "counts": {
+        "races": 4,
+        "http": 2,
+        "browser": 2
+      }
+    },
+    {
+      "module": "cp7_planning_netting_cases",
+      "modes": {
+        "races": [
+          {
+            "id": "P05_RACE_SAME_UUID",
+            "callable": {
+              "module": "cp7_planning_history_cases",
+              "qualname": "races.<locals>.same_uuid",
+              "line": 126,
+              "source_sha256": "04f8164992b09d5f112ce41539b8afd87d86e02f833876c955b54c65cbfd1a84"
+            }
+          },
+          {
+            "id": "P05_RACE_CURRENT_REVOKE",
+            "callable": {
+              "module": "cp7_planning_history_cases",
+              "qualname": "races.<locals>.revoke_waiting",
+              "line": 137,
+              "source_sha256": "4dd71eb6369bbceaf4ff31e1056a9afbaee14be5d07ce4a56592fc02d3d2008a"
+            }
+          },
+          {
+            "id": "P06_RACE_SAME_PROFILE_UUID",
+            "callable": {
+              "module": "cp7_planning_baseline_cases",
+              "qualname": "races.<locals>.same_uuid",
+              "line": 165,
+              "source_sha256": "e4659a01dd6ab3cbc04d8d0e2a111f233ea6da821f0200d1c1abd12978dbc0e5"
+            }
+          },
+          {
+            "id": "P06_RACE_COMPETING_REVISION",
+            "callable": {
+              "module": "cp7_planning_baseline_cases",
+              "qualname": "races.<locals>.competing",
+              "line": 173,
+              "source_sha256": "9abeb9d2b7853de4cbc35aca241e68cacbe5b7e3610d3e79a6b83d31fb7cf576"
+            }
+          },
+          {
+            "id": "P06_RACE_CURRENT_PROFILE_REVOKE",
+            "callable": {
+              "module": "cp7_planning_baseline_cases",
+              "qualname": "races.<locals>.revoke_waiting",
+              "line": 185,
+              "source_sha256": "80bd982894cb9abafe63525348385d5832b9271d6dfd246f077c908614dba566"
+            }
+          },
+          {
+            "id": "P06_SUPPLY_RACE_UUID",
+            "callable": {
+              "module": "cp7_planning_supply_cases",
+              "qualname": "races.<locals>.same_uuid",
+              "line": 217,
+              "source_sha256": "22f7cfbc3aa7a3c517a4c9e78946f2134c218a1bfe140b95bdc17faaf1ca623d"
+            }
+          },
+          {
+            "id": "P06_SUPPLY_RACE_REVOKE",
+            "callable": {
+              "module": "cp7_planning_supply_cases",
+              "qualname": "races.<locals>.revoke_waiting",
+              "line": 226,
+              "source_sha256": "0cca98aa64a9b80a5528d04155279e468d57a35cd51b77658cd8de353d392d8b"
+            }
+          },
+          {
+            "id": "P06_SUPPLY_RACE_ONE_MVCC",
+            "callable": {
+              "module": "cp7_planning_supply_cases",
+              "qualname": "races.<locals>.coherent",
+              "line": 249,
+              "source_sha256": "8a77dc7153f1000864e7820159b8e9e9a9ea609080625c17ee8788e329a5d8ae"
+            }
+          },
+          {
+            "id": "P06_SCHEDULE_RACE_REVISION",
+            "callable": {
+              "module": "cp7_planning_schedule_cases",
+              "qualname": "races.<locals>.revision",
+              "line": 178,
+              "source_sha256": "7c7d6f019088362a0f3c4019d36791281aca7a500fff21e6b58cf37edab4e864"
+            }
+          },
+          {
+            "id": "P06_SCHEDULE_RACE_CACHED_AUTH",
+            "callable": {
+              "module": "cp7_planning_schedule_cases",
+              "qualname": "races.<locals>.revoked",
+              "line": 191,
+              "source_sha256": "b6ea981239c995ace43f4b6a9ca89b0afb4b1458ac3d511003f2100cdf8060ac"
+            }
+          },
+          {
+            "id": "P06_NETTING_RACE_UUID",
+            "callable": {
+              "module": "cp7_planning_netting_cases",
+              "qualname": "races.<locals>.same_uuid",
+              "line": 110,
+              "source_sha256": "feca7e35b8152fcf96a3c61c7ef1764036d1ae00983c7ac41ba530a495bfe2a5"
+            }
+          }
+        ],
+        "http": [
+          {
+            "id": "P05_ACTUAL_AUTH_HTTP",
+            "callable": {
+              "module": "cp7_planning_history_cases",
+              "qualname": "http_cases.<locals>.flow",
+              "line": 164,
+              "source_sha256": "6c4ba6317043c04ab930f580097dc933eda681114aae81981e3cb8b23a84d3a1"
+            }
+          },
+          {
+            "id": "P06_ACTUAL_AUTH_HTTP",
+            "callable": {
+              "module": "cp7_planning_baseline_cases",
+              "qualname": "http_cases.<locals>.flow",
+              "line": 210,
+              "source_sha256": "2148b825d277940a69a3c90688c1c52fbd873352a5d66c16a94ae6c4e7b69b4a"
+            }
+          },
+          {
+            "id": "P06_SUPPLY_HTTP_AUTH",
+            "callable": {
+              "module": "cp7_planning_supply_cases",
+              "qualname": "http_cases.<locals>.flow",
+              "line": 280,
+              "source_sha256": "f621ebc16768b227817c0eba5831abb0a7abba4affac0c56327dc24d56d21d76"
+            }
+          },
+          {
+            "id": "P06_SCHEDULE_HTTP_FLOW",
+            "callable": {
+              "module": "cp7_planning_schedule_cases",
+              "qualname": "http_cases.<locals>.flow",
+              "line": 217,
+              "source_sha256": "8ef47b87798353dd2ad1296eaf4413f1108747f93c3259c4c40c53f3c2951a8c"
+            }
+          },
+          {
+            "id": "P06_SCHEDULE_HTTP_UNREVIEWED",
+            "callable": {
+              "module": "cp7_planning_schedule_cases",
+              "qualname": "http_cases.<locals>.reader",
+              "line": 231,
+              "source_sha256": "7fbf4a1a666abb9245063d989f2a232446eb09796da38047737f569abf1d98ba"
+            }
+          },
+          {
+            "id": "P06_NETTING_HTTP_AUTH",
+            "callable": {
+              "module": "cp7_planning_netting_cases",
+              "qualname": "http_cases.<locals>.flow",
+              "line": 122,
+              "source_sha256": "fd254a7e91462b119431aee0b950c0d1287b7f54ee364f29fa037fb14f8f2c85"
+            }
+          }
+        ],
+        "browser": [
+          {
+            "id": "P05_BROWSER_DESKTOP_NATIVE_HISTORY",
+            "callable_sha256": "6012a349c7f6e115ac1ba396840915ac338e8961c3e50431a2ac209a070d2092"
+          },
+          {
+            "id": "P05_BROWSER_MOBILE_CURRENT_AUTH",
+            "callable_sha256": "7460dce5a9c240455981222478eb7710cb58beeda6d990a11a87dd8d1421ae9c"
+          },
+          {
+            "id": "P06_BROWSER_DESKTOP_NATIVE_PROFILE",
+            "callable_sha256": "6012a349c7f6e115ac1ba396840915ac338e8961c3e50431a2ac209a070d2092"
+          },
+          {
+            "id": "P06_BROWSER_MOBILE_NATIVE_PROFILE",
+            "callable_sha256": "7460dce5a9c240455981222478eb7710cb58beeda6d990a11a87dd8d1421ae9c"
+          },
+          {
+            "id": "P06_BROWSER_DESKTOP_NATIVE_NETTING",
+            "callable_sha256": "6012a349c7f6e115ac1ba396840915ac338e8961c3e50431a2ac209a070d2092"
+          },
+          {
+            "id": "P06_BROWSER_MOBILE_NATIVE_NETTING",
+            "callable_sha256": "7460dce5a9c240455981222478eb7710cb58beeda6d990a11a87dd8d1421ae9c"
+          }
+        ]
+      },
+      "counts": {
+        "races": 11,
+        "http": 6,
+        "browser": 6
+      }
+    }
+  ],
+  "files": {
+    "scripts/cp7_cutting_yield_browser.mjs": "3533ba8eb63a687458d3e7aa5525bc268723e0ea6150ec67338645160bdd4e51",
+    "scripts/cp7_f04_baseline_browser.mjs": "09da13ac1bd9104b7c3b8e5f2fb3a7dcac0444a3ff44ab4991ddca5afb3bd9de",
+    "scripts/cp7_f04_history_browser.mjs": "1f7427d6b989b2e1368309df51958c4511b36bbbaf8ef46e6c852e6ccb26c59e",
+    "scripts/cp7_f04_netting_browser.mjs": "0101aa374a96696abc3ee76890c5df307f813e417ac6e3172f2322ac5d180867",
+    "scripts/cp7_ow14b_rule_browser.mjs": "2e1036f4601128c71d772833435aef4b6347ed8a3fccdc63d8301cf2ff4f98fa",
+    "scripts/cp7_ow14b_rule_cases.py": "e9899b3eedcff7ef910fb87bd393ddcd522cee0d4a6cf2834cfe41102d97bfe7",
+    "scripts/cp7_ow16_status_browser.mjs": "01cab06e858bc5118e2e82b6dae8d47eb09e5f3aaab7fa88d3dbdee62b8ac09c",
+    "scripts/cp7_ow16_status_cases.py": "0c081bc54a5924c07f8081cc7f0a5e3ce56092887043c7769e3e4c4570876a8e",
+    "scripts/cp7_p19_staged_browser.mjs": "6600fc089ea99dd208d5c262ce602a6d89b3f9d9ff3ce1af53fab1f5cb70f22f",
+    "scripts/cp7_p19_staged_cases.py": "41d60aa1a8034a393dc27626cfcd013090c0144f16e53e2de3df746c4b794ecb",
+    "scripts/cp7_p19_staged_load_browser.mjs": "d2c6b1a69d5d7b7c2a3ef47a1700002209f9214f039371760a053545c4814e3f",
+    "scripts/cp7_pl5_history_yield_browser.mjs": "b4ad891a2064c429feb1d6ba6c02927c14f32486018b5f59be8e9a5e0f836937",
+    "scripts/cp7_pl5_history_yield_cases.py": "e8def3bebf8d0c1c452741e3d2cb75bdd725355ac94fd0b300bd8e07096ea0fb",
+    "scripts/cp7_planning_baseline_cases.py": "15ebc571d1ff3d730f6fb51827641c725b54749d84f8110367ae6d052fd51801",
+    "scripts/cp7_planning_history_cases.py": "d422aff4cb38b3ca89b858a9e416bf1575655ed1c2b1492eb67a7e866b6a34e9",
+    "scripts/cp7_planning_netting_cases.py": "acc215b7fed17b1e577ad12546b7d20358809002d5f38acdae293e8fce20579d",
+    "scripts/cp7_planning_schedule_cases.py": "b79a0681ca16f987193354f39c8a72117a16bc1447bb4dedae50ff554e626f69",
+    "scripts/cp7_planning_supply_cases.py": "cbf4713860ae37781378d02d2f5026a4c6fade7c5f996377087ac73f093d5942",
+    "scripts/cp7_wa_accessory_browser.mjs": "3171abd7ee6a9d9cfa539bb616c14a45022b91219872a3914bf7cdc3473bf3d2",
+    "scripts/cp7_wa_accessory_transport_cases.py": "5a969ee65189726c7ef6b3f1598d3d17ecaa99aeb32c36354d8910c8ed7ab2b6",
+    "scripts/cp7_wa_all_kinds_transport_cases.py": "29b45d3ca5c4dba23ba0a931e26bcdde1ce6964467eee5e921df941bbe7fd945",
+    "scripts/cp7_wa_authority_race_cases.py": "b502b80b0e8d8ef773f79636b46fb421a3932000b99f1ed93c1f5c3486731e24",
+    "scripts/cp7_wa_forward_browser.mjs": "b3159179d87de5f827e91a19a203acb986a8d49ac2f5f428135415796eddb416",
+    "scripts/cp7_wa_forward_cases.py": "d95a36a0afed6861cc5082ea7daff41b2a7e9797457c6eb9c39a12801cdc8fb4"
+  },
+  "native_unique_controls_from_separate_proof": 153,
+  "combined_unique_controls": 248,
+  "historical_total": 286,
+  "total_inherited_duplicates": 38,
+  "new_runtime_executions": 0,
+  "current_qualification": false,
+  "independent_acceptance": false,
+  "production_go": false,
+  "browser_recursive_import_files_verified": 11
+}

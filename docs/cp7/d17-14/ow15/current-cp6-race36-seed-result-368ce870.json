@@ -1,0 +1,335 @@
+{
+  "contract": "cp7.current-cp6-retained-result.v1",
+  "qualified_head": "368ce8701f0649c8f18d33051b72969a6d26cc57",
+  "run_id": 40076046451,
+  "job_id": 120819483914,
+  "artifact_id": 12554330089,
+  "artifact_zip": {
+    "name": "race36-repair.zip",
+    "bytes": 1959037,
+    "sha256": "90d4434815b8463501d1e05273200b5323c7766b88d18ae174b1fde0fc5b4451"
+  },
+  "original": {
+    "name": "CP7_CURRENT_CP6_RACE36.json",
+    "bytes": 2817657,
+    "sha256": "a9a7360a6894660497d851a7043df96a7a59f3f2f3f1ef8ab99d7eaecba67269"
+  },
+  "status": "INCOMPLETE",
+  "groups": {
+    "baseline": {
+      "counts": {
+        "PASS": 23,
+        "INCOMPLETE": 13
+      },
+      "case_count": 36,
+      "complete_boundary_restored": null,
+      "database_remaining": 0,
+      "failures": [
+        {
+          "case": "HEADER_POST_ABORT",
+          "status": "INCOMPLETE",
+          "error_head": "{'basis': {'period_to': '2026-10-24', 'period_from': '2026-10-24', 'balance_sheet_as_of': '2026-10-24', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laundry_outstanding_basis': 'IMMUTABLE_WIP_STAGE_EVENT_NET_AS_OF_BALANCE_DATE', 'performance_lifecycle_basis': 'SIGNED_JOURNAL_LIFECYCLE_EVENTS_IN_POSTING_PERIOD', ",
+          "observed_blocker_codes": [
+            "GRNI_ESTIMATE_OPEN",
+            "PAYROLL_WORK_UNCOVERED"
+          ],
+          "full_error_preserved_in_original": true
+        },
+        {
+          "case": "POST_HEADER_COMMIT",
+          "status": "INCOMPLETE",
+          "error_head": "{'basis': {'period_to': '2026-10-24', 'period_from': '2026-10-24', 'balance_sheet_as_of': '2026-10-24', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laundry_outstanding_basis': 'IMMUTABLE_WIP_STAGE_EVENT_NET_AS_OF_BALANCE_DATE', 'performance_lifecycle_basis': 'SIGNED_JOURNAL_LIFECYCLE_EVENTS_IN_POSTING_PERIOD', ",
+          "observed_blocker_codes": [
+            "GRNI_ESTIMATE_OPEN",
+            "PAYROLL_WORK_UNCOVERED"
+          ],
+          "full_error_preserved_in_original": true
+        },
+        {
+          "case": "HEADER_CHILD_ABORT",
+          "status": "INCOMPLETE",
+          "error_head": "{'basis': {'period_to': '2026-10-24', 'period_from': '2026-10-24', 'balance_sheet_as_of': '2026-10-24', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laundry_outstanding_basis': 'IMMUTABLE_WIP_STAGE_EVENT_NET_AS_OF_BALANCE_DATE', 'performance_lifecycle_basis': 'SIGNED_JOURNAL_LIFECYCLE_EVENTS_IN_POSTING_PERIOD', ",
+          "observed_blocker_codes": [
+            "GRNI_ESTIMATE_OPEN",
+            "PAYROLL_WORK_UNCOVERED"
+          ],
+          "full_error_preserved_in_original": true
+        },
+        {
+          "case": "PEER_DOUBLE_POST_COMMIT",
+          "status": "INCOMPLETE",
+          "error_head": "{'basis': {'period_to': '2026-10-21', 'period_from': '2026-10-21', 'balance_sheet_as_of': '2026-10-21', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laundry_outstanding_basis': 'IMMUTABLE_WIP_STAGE_EVENT_NET_AS_OF_BALANCE_DATE', 'performance_lifecycle_basis': 'SIGNED_JOURNAL_LIFECYCLE_EVENTS_IN_POSTING_PERIOD', ",
+          "observed_blocker_codes": [
+            "GRNI_ESTIMATE_OPEN",
+            "PAYROLL_WORK_UNCOVERED"
+          ],
+          "full_error_preserved_in_original": true
+        },
+        {
+          "case": "PEER_DOUBLE_POST_ABORT",
+          "status": "INCOMPLETE",
+          "error_head": "{'basis': {'period_to': '2026-10-21', 'period_from': '2026-10-21', 'balance_sheet_as_of': '2026-10-21', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laundry_outstanding_basis': 'IMMUTABLE_WIP_STAGE_EVENT_NET_AS_OF_BALANCE_DATE', 'performance_lifecycle_basis': 'SIGNED_JOURNAL_LIFECYCLE_EVENTS_IN_POSTING_PERIOD', ",
+          "observed_blocker_codes": [
+            "GRNI_ESTIMATE_OPEN",
+            "PAYROLL_WORK_UNCOVERED"
+          ],
+          "full_error_preserved_in_original": true
+        },
+        {
+          "case": "PEER_QTY_POST_COMMIT",
+          "status": "INCOMPLETE",
+          "error_head": "{'basis': {'period_to': '2026-10-21', 'period_from': '2026-10-21', 'balance_sheet_as_of': '2026-10-21', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laundry_outstanding_basis': 'IMMUTABLE_WIP_STAGE_EVENT_NET_AS_OF_BALANCE_DATE', 'performance_lifecycle_basis': 'SIGNED_JOURNAL_LIFECYCLE_EVENTS_IN_POSTING_PERIOD', ",
+          "observed_blocker_codes": [
+            "GRNI_ESTIMATE_OPEN",
+            "PAYROLL_WORK_UNCOVERED"
+          ],
+          "full_error_preserved_in_original": true
+        },
+        {
+          "case": "PEER_QTY_POST_ABORT",
+          "status": "INCOMPLETE",
+          "error_head": "{'basis': {'period_to': '2026-10-21', 'period_from': '2026-10-21', 'balance_sheet_as_of': '2026-10-21', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laundry_outstanding_basis': 'IMMUTABLE_WIP_STAGE_EVENT_NET_AS_OF_BALANCE_DATE', 'performance_lifecycle_basis': 'SIGNED_JOURNAL_LIFECYCLE_EVENTS_IN_POSTING_PERIOD', ",
+          "observed_blocker_codes": [
+            "GRNI_ESTIMATE_OPEN",
+            "PAYROLL_WORK_UNCOVERED"
+          ],
+          "full_error_preserved_in_original": true
+        },
+        {
+          "case": "PEER_POST_QTY_COMMIT",
+          "status": "INCOMPLETE",
+          "error_head": "{'basis': {'period_to': '2026-10-21', 'period_from': '2026-10-21', 'balance_sheet_as_of': '2026-10-21', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laundry_outstanding_basis': 'IMMUTABLE_WIP_STAGE_EVENT_NET_AS_OF_BALANCE_DATE', 'performance_lifecycle_basis': 'SIGNED_JOURNAL_LIFECYCLE_EVENTS_IN_POSTING_PERIOD', ",
+          "observed_blocker_codes": [
+            "GRNI_ESTIMATE_OPEN",
+            "PAYROLL_WORK_UNCOVERED"
+          ],
+          "full_error_preserved_in_original": true
+        },
+        {
+          "case": "PEER_POST_QTY_ABORT",
+          "status": "INCOMPLETE",
+          "error_head": "{'basis': {'period_to': '2026-10-21', 'period_from': '2026-10-21', 'balance_sheet_as_of': '2026-10-21', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laundry_outstanding_basis': 'IMMUTABLE_WIP_STAGE_EVENT_NET_AS_OF_BALANCE_DATE', 'performance_lifecycle_basis': 'SIGNED_JOURNAL_LIFECYCLE_EVENTS_IN_POSTING_PERIOD', ",
+          "observed_blocker_codes": [
+            "GRNI_ESTIMATE_OPEN",
+            "PAYROLL_WORK_UNCOVERED"
+          ],
+          "full_error_preserved_in_original": true
+        },
+        {
+          "case": "PEER_DELETE_POST_ABORT",
+          "status": "INCOMPLETE",
+          "error_head": "{'basis': {'period_to': '2026-10-21', 'period_from': '2026-10-21', 'balance_sheet_as_of': '2026-10-21', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laundry_outstanding_basis': 'IMMUTABLE_WIP_STAGE_EVENT_NET_AS_OF_BALANCE_DATE', 'performance_lifecycle_basis': 'SIGNED_JOURNAL_LIFECYCLE_EVENTS_IN_POSTING_PERIOD', ",
+          "observed_blocker_codes": [
+            "GRNI_ESTIMATE_OPEN",
+            "PAYROLL_WORK_UNCOVERED"
+          ],
+          "full_error_preserved_in_original": true
+        },
+        {
+          "case": "PEER_POST_DELETE_COMMIT",
+          "status": "INCOMPLETE",
+          "error_head": "{'basis': {'period_to': '2026-10-21', 'period_from': '2026-10-21', 'balance_sheet_as_of': '2026-10-21', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laundry_outstanding_basis': 'IMMUTABLE_WIP_STAGE_EVENT_NET_AS_OF_BALANCE_DATE', 'performance_lifecycle_basis': 'SIGNED_JOURNAL_LIFECYCLE_EVENTS_IN_POSTING_PERIOD', ",
+          "observed_blocker_codes": [
+            "GRNI_ESTIMATE_OPEN",
+            "PAYROLL_WORK_UNCOVERED"
+          ],
+          "full_error_preserved_in_original": true
+        },
+        {
+          "case": "PEER_GROUP_TWO_POST_COMMIT",
+          "status": "INCOMPLETE",
+          "error_head": "{'basis': {'period_to': '2026-10-21', 'period_from': '2026-10-21', 'balance_sheet_as_of': '2026-10-21', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laundry_outstanding_basis': 'IMMUTABLE_WIP_STAGE_EVENT_NET_AS_OF_BALANCE_DATE', 'performance_lifecycle_basis': 'SIGNED_JOURNAL_LIFECYCLE_EVENTS_IN_POSTING_PERIOD', ",
+          "observed_blocker_codes": [
+            "GRNI_ESTIMATE_OPEN",
+            "PAYROLL_WORK_UNCOVERED"
+          ],
+          "full_error_preserved_in_original": true
+        },
+        {
+          "case": "PEER_GROUP_TWO_POST_ABORT",
+          "status": "INCOMPLETE",
+          "error_head": "{'basis': {'period_to': '2026-10-21', 'period_from': '2026-10-21', 'balance_sheet_as_of': '2026-10-21', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laundry_outstanding_basis': 'IMMUTABLE_WIP_STAGE_EVENT_NET_AS_OF_BALANCE_DATE', 'performance_lifecycle_basis': 'SIGNED_JOURNAL_LIFECYCLE_EVENTS_IN_POSTING_PERIOD', ",
+          "observed_blocker_codes": [
+            "GRNI_ESTIMATE_OPEN",
+            "PAYROLL_WORK_UNCOVERED"
+          ],
+          "full_error_preserved_in_original": true
+        }
+      ]
+    },
+    "races": {
+      "counts": {
+        "PASS": 22,
+        "INCOMPLETE": 14
+      },
+      "case_count": 36,
+      "complete_boundary_restored": null,
+      "database_remaining": 0,
+      "failures": [
+        {
+          "case": "SALE_REVERSE_COMMIT",
+          "status": "INCOMPLETE",
+          "error_head": "{'committed': False, 'sqlstate': 'P0001', 'error': 'CP7_NATIVE_EMPTY_ACTIVE_SOURCE_REQUIRED\\nCONTEXT:  PL/pgSQL function cp7_credit.native_empty_enter_v1(uuid) line 26 at RAISE\\nSQL statement \"SELECT cp7_credit.native_empty_enter_v1(p_return)\"\\nPL/pgSQL function cp7_credit.native_return_enter(uuid) line 4 at PERFORM\\nSQL statement \"SELECT cp7_credit.native_return_enter(p_return_id)\"\\nPL/pgSQL func",
+          "observed_blocker_codes": [],
+          "full_error_preserved_in_original": true
+        },
+        {
+          "case": "HEADER_POST_ABORT",
+          "status": "INCOMPLETE",
+          "error_head": "{'basis': {'period_to': '2026-10-24', 'period_from': '2026-10-24', 'balance_sheet_as_of': '2026-10-24', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laundry_outstanding_basis': 'IMMUTABLE_WIP_STAGE_EVENT_NET_AS_OF_BALANCE_DATE', 'performance_lifecycle_basis': 'SIGNED_JOURNAL_LIFECYCLE_EVENTS_IN_POSTING_PERIOD', ",
+          "observed_blocker_codes": [
+            "GRNI_ESTIMATE_OPEN",
+            "PAYROLL_WORK_UNCOVERED"
+          ],
+          "full_error_preserved_in_original": true
+        },
+        {
+          "case": "POST_HEADER_COMMIT",
+          "status": "INCOMPLETE",
+          "error_head": "{'basis': {'period_to': '2026-10-24', 'period_from': '2026-10-24', 'balance_sheet_as_of': '2026-10-24', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laundry_outstanding_basis': 'IMMUTABLE_WIP_STAGE_EVENT_NET_AS_OF_BALANCE_DATE', 'performance_lifecycle_basis': 'SIGNED_JOURNAL_LIFECYCLE_EVENTS_IN_POSTING_PERIOD', ",
+          "observed_blocker_codes": [
+            "GRNI_ESTIMATE_OPEN",
+            "PAYROLL_WORK_UNCOVERED"
+          ],
+          "full_error_preserved_in_original": true
+        },
+        {
+          "case": "HEADER_CHILD_ABORT",
+          "status": "INCOMPLETE",
+          "error_head": "{'basis': {'period_to': '2026-10-24', 'period_from': '2026-10-24', 'balance_sheet_as_of': '2026-10-24', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laundry_outstanding_basis': 'IMMUTABLE_WIP_STAGE_EVENT_NET_AS_OF_BALANCE_DATE', 'performance_lifecycle_basis': 'SIGNED_JOURNAL_LIFECYCLE_EVENTS_IN_POSTING_PERIOD', ",
+          "observed_blocker_codes": [
+            "GRNI_ESTIMATE_OPEN",
+            "PAYROLL_WORK_UNCOVERED"
+          ],
+          "full_error_preserved_in_original": true
+        },
+        {
+          "case": "PEER_DOUBLE_POST_COMMIT",
+          "status": "INCOMPLETE",
+          "error_head": "{'basis': {'period_to': '2026-10-21', 'period_from': '2026-10-21', 'balance_sheet_as_of': '2026-10-21', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laundry_outstanding_basis': 'IMMUTABLE_WIP_STAGE_EVENT_NET_AS_OF_BALANCE_DATE', 'performance_lifecycle_basis': 'SIGNED_JOURNAL_LIFECYCLE_EVENTS_IN_POSTING_PERIOD', ",
+          "observed_blocker_codes": [
+            "GRNI_ESTIMATE_OPEN",
+            "PAYROLL_WORK_UNCOVERED"
+          ],
+          "full_error_preserved_in_original": true
+        },
+        {
+          "case": "PEER_DOUBLE_POST_ABORT",
+          "status": "INCOMPLETE",
+          "error_head": "{'basis': {'period_to': '2026-10-21', 'period_from': '2026-10-21', 'balance_sheet_as_of': '2026-10-21', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laundry_outstanding_basis': 'IMMUTABLE_WIP_STAGE_EVENT_NET_AS_OF_BALANCE_DATE', 'performance_lifecycle_basis': 'SIGNED_JOURNAL_LIFECYCLE_EVENTS_IN_POSTING_PERIOD', ",
+          "observed_blocker_codes": [
+            "GRNI_ESTIMATE_OPEN",
+            "PAYROLL_WORK_UNCOVERED"
+          ],
+          "full_error_preserved_in_original": true
+        },
+        {
+          "case": "PEER_QTY_POST_COMMIT",
+          "status": "INCOMPLETE",
+          "error_head": "{'basis': {'period_to': '2026-10-21', 'period_from': '2026-10-21', 'balance_sheet_as_of': '2026-10-21', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laundry_outstanding_basis': 'IMMUTABLE_WIP_STAGE_EVENT_NET_AS_OF_BALANCE_DATE', 'performance_lifecycle_basis': 'SIGNED_JOURNAL_LIFECYCLE_EVENTS_IN_POSTING_PERIOD', ",
+          "observed_blocker_codes": [
+            "GRNI_ESTIMATE_OPEN",
+            "PAYROLL_WORK_UNCOVERED"
+          ],
+          "full_error_preserved_in_original": true
+        },
+        {
+          "case": "PEER_QTY_POST_ABORT",
+          "status": "INCOMPLETE",
+          "error_head": "{'basis': {'period_to': '2026-10-21', 'period_from': '2026-10-21', 'balance_sheet_as_of': '2026-10-21', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laundry_outstanding_basis': 'IMMUTABLE_WIP_STAGE_EVENT_NET_AS_OF_BALANCE_DATE', 'performance_lifecycle_basis': 'SIGNED_JOURNAL_LIFECYCLE_EVENTS_IN_POSTING_PERIOD', ",
+          "observed_blocker_codes": [
+            "GRNI_ESTIMATE_OPEN",
+            "PAYROLL_WORK_UNCOVERED"
+          ],
+          "full_error_preserved_in_original": true
+        },
+        {
+          "case": "PEER_POST_QTY_COMMIT",
+          "status": "INCOMPLETE",
+          "error_head": "{'basis': {'period_to': '2026-10-21', 'period_from': '2026-10-21', 'balance_sheet_as_of': '2026-10-21', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laundry_outstanding_basis': 'IMMUTABLE_WIP_STAGE_EVENT_NET_AS_OF_BALANCE_DATE', 'performance_lifecycle_basis': 'SIGNED_JOURNAL_LIFECYCLE_EVENTS_IN_POSTING_PERIOD', ",
+          "observed_blocker_codes": [
+            "GRNI_ESTIMATE_OPEN",
+            "PAYROLL_WORK_UNCOVERED"
+          ],
+          "full_error_preserved_in_original": true
+        },
+        {
+          "case": "PEER_POST_QTY_ABORT",
+          "status": "INCOMPLETE",
+          "error_head": "{'basis': {'period_to': '2026-10-21', 'period_from': '2026-10-21', 'balance_sheet_as_of': '2026-10-21', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laundry_outstanding_basis': 'IMMUTABLE_WIP_STAGE_EVENT_NET_AS_OF_BALANCE_DATE', 'performance_lifecycle_basis': 'SIGNED_JOURNAL_LIFECYCLE_EVENTS_IN_POSTING_PERIOD', ",
+          "observed_blocker_codes": [
+            "GRNI_ESTIMATE_OPEN",
+            "PAYROLL_WORK_UNCOVERED"
+          ],
+          "full_error_preserved_in_original": true
+        },
+        {
+          "case": "PEER_DELETE_POST_ABORT",
+          "status": "INCOMPLETE",
+          "error_head": "{'basis': {'period_to': '2026-10-21', 'period_from': '2026-10-21', 'balance_sheet_as_of': '2026-10-21', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laundry_outstanding_basis': 'IMMUTABLE_WIP_STAGE_EVENT_NET_AS_OF_BALANCE_DATE', 'performance_lifecycle_basis': 'SIGNED_JOURNAL_LIFECYCLE_EVENTS_IN_POSTING_PERIOD', ",
+          "observed_blocker_codes": [
+            "GRNI_ESTIMATE_OPEN",
+            "PAYROLL_WORK_UNCOVERED"
+          ],
+          "full_error_preserved_in_original": true
+        },
+        {
+          "case": "PEER_POST_DELETE_COMMIT",
+          "status": "INCOMPLETE",
+          "error_head": "{'basis': {'period_to': '2026-10-21', 'period_from': '2026-10-21', 'balance_sheet_as_of': '2026-10-21', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laundry_outstanding_basis': 'IMMUTABLE_WIP_STAGE_EVENT_NET_AS_OF_BALANCE_DATE', 'performance_lifecycle_basis': 'SIGNED_JOURNAL_LIFECYCLE_EVENTS_IN_POSTING_PERIOD', ",
+          "observed_blocker_codes": [
+            "GRNI_ESTIMATE_OPEN",
+            "PAYROLL_WORK_UNCOVERED"
+          ],
+          "full_error_preserved_in_original": true
+        },
+        {
+          "case": "PEER_GROUP_TWO_POST_COMMIT",
+          "status": "INCOMPLETE",
+          "error_head": "{'basis': {'period_to': '2026-10-21', 'period_from': '2026-10-21', 'balance_sheet_as_of': '2026-10-21', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laundry_outstanding_basis': 'IMMUTABLE_WIP_STAGE_EVENT_NET_AS_OF_BALANCE_DATE', 'performance_lifecycle_basis': 'SIGNED_JOURNAL_LIFECYCLE_EVENTS_IN_POSTING_PERIOD', ",
+          "observed_blocker_codes": [
+            "GRNI_ESTIMATE_OPEN",
+            "PAYROLL_WORK_UNCOVERED"
+          ],
+          "full_error_preserved_in_original": true
+        },
+        {
+          "case": "PEER_GROUP_TWO_POST_ABORT",
+          "status": "INCOMPLETE",
+          "error_head": "{'basis': {'period_to': '2026-10-21', 'period_from': '2026-10-21', 'balance_sheet_as_of': '2026-10-21', 'quality_event_basis': 'CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF', 'supplier_exposure_basis': 'CURRENT_OPERATIONAL_STATE', 'laundry_outstanding_basis': 'IMMUTABLE_WIP_STAGE_EVENT_NET_AS_OF_BALANCE_DATE', 'performance_lifecycle_basis': 'SIGNED_JOURNAL_LIFECYCLE_EVENTS_IN_POSTING_PERIOD', ",
+          "observed_blocker_codes": [
+            "GRNI_ESTIMATE_OPEN",
+            "PAYROLL_WORK_UNCOVERED"
+          ],
+          "full_error_preserved_in_original": true
+        }
+      ]
+    }
+  },
+  "execution_count": 72,
+  "changed_case_statuses": {
+    "SALE_REVERSE_COMMIT": {
+      "baseline": "PASS",
+      "current": "INCOMPLETE"
+    }
+  },
+  "cp6_restored": true,
+  "restore_raw_public_equal": true,
+  "advisor_gate": true,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "strict_group_originals": [],
+  "production_go": false,
+  "independent_acceptance": false,
+  "new_business_case_credit": 0,
+  "full22_copy_catalog_admissions": {
+    "baseline": 36,
+    "current": 36
+  },
+  "disposition": "13 failures at both boundaries reach legacy READY assertion after new case work; the current-only SALE_REVERSE_COMMIT observes P0001 with the new CP7_NATIVE_EMPTY_ACTIVE_SOURCE_REQUIRED text before old final-state assertions. No waiver or relabel."
+}

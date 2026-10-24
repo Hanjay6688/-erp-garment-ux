@@ -1740,3 +1740,31 @@ Transport Native WA tetap fake lokal dengan nomor/key palsu, antrean tidak
 committed. Kandidat belum mempunyai hasil runtime; nol kredit skenario baru,
 bukan penutupan286 atau penerimaan independen. Lingkup ini pemeriksaan
 integrasi A; kode produk dan jalur pengerjaan B tidak diubah.
+
+## A / 24 Oktober 2026 — hasil penuh36/142 dan temuan draft retur
+
+Race36 pada368ce870: baseline23PASS/13INCOMPLETE, current22PASS/14INCOMPLETE,
+72eksekusi dan72full22copy, database0/CP6/rawpublic/advisor/4gatepaketPASS.
+13kegagalan bersama berhenti pada READY lama setelah kerja baru; satu tambahan
+SALE_REVERSE_COMMIT mengamati penolakan P0001 dengan kode Native active-source
+baru. Oracle final-state setelah perbandingan teks belum tercapai.
+
+Crossflow142 pada368ce870 kini menuntaskan284eksekusi: baseline124PASS/
+18INCOMPLETE, current112PASS/30INCOMPLETE. Kedua completeboundary, CP6,
+rawpublic, advisor dan4gatepaketPASS. Kedua batas:10teksguardAK lama,5absen
+berbayar belum payroll,3READY lama tanpa rincianreport. Current menambah12
+penolakan kas kosong pada tanggalSep2; prasyarat modal Native harus dicatat
+sebelum pembayaran, tanpa melemahkan larangan kas minus ownerD14-3.
+
+Native6 pada7a7110f7: baseline6PASS/current5PASS1INCOMPLETE. Kontrol draft
+pelanggan salah lolos assertion penolakan atomik, lalu retur sah pada nota
+sama ikut tertolak OW04_SOURCE_CUSTOMER_MISMATCH. Trace menunjukkan source
+collector memeriksa customer draft lain sebelum membedakan financial_state.
+Kontrol positif tetap; draft buruk tidak dihapus demi hijau. Investigasi
+isolasi dependensi draft berlanjut sebelum perubahan produk. Semua Original
+terikat receipt terpisah dan tetap INCOMPLETE; writer_runtime=false.
+
+Inventaris mode tersisa juga diperinci:106 entri historis=58race+21HTTP+
+27browser. Factory menunjukkan95 kontrol unik (53+19+23),11warisan identik.
+Total286 historis=248unik+38pengulangan; ini statis, bukan hasil runtime.
+Native153 pada04033ae3/run40077317395 masih berjalan. Production_go=false.

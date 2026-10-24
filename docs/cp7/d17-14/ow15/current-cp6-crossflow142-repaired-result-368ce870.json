@@ -1,0 +1,475 @@
+{
+  "contract": "cp7.current-cp6-retained-result.v1",
+  "qualified_head": "368ce8701f0649c8f18d33051b72969a6d26cc57",
+  "run_id": 40076046443,
+  "job_id": 120819485504,
+  "artifact_id": 12553294724,
+  "artifact_zip": {
+    "name": "crossflow-repair.zip",
+    "bytes": 5411652,
+    "sha256": "2c02bc72c6997c49f164574eb9e44baff6371ad3b8487dc05e859375899d785a"
+  },
+  "original": {
+    "name": "CP7_CURRENT_CP6_CROSSFLOW_NATIVE142.json",
+    "bytes": 41597357,
+    "sha256": "f992c82877d71e988f3a44f543295a0ac2d6817bf7940d425fa1013320fff329"
+  },
+  "status": "INCOMPLETE",
+  "groups": {
+    "baseline": {
+      "counts": {
+        "PASS": 124,
+        "INCOMPLETE": 18
+      },
+      "case_count": 142,
+      "complete_boundary_restored": true,
+      "database_remaining": null,
+      "failures": [
+        {
+          "case": "DAY:FABRIC_ROLL:IMPORT:Asia/Jakarta",
+          "status": "INCOMPLETE",
+          "error_head": "AD_REFUSAL_FAILED:Opening balance must be DRAFT:AK_OPENING_REQUIRES_CURRENT_VALIDATED_BATCH",
+          "observed_blocker_codes": [],
+          "full_error_preserved_in_original": true
+        },
+        {
+          "case": "DAY:FABRIC_ROLL:IMPORT:UTC",
+          "status": "INCOMPLETE",
+          "error_head": "AD_REFUSAL_FAILED:Opening balance must be DRAFT:AK_OPENING_REQUIRES_CURRENT_VALIDATED_BATCH",
+          "observed_blocker_codes": [],
+          "full_error_preserved_in_original": true
+        },
+        {
+          "case": "DAY:FABRIC_ROLL:IMPORT:Asia/Tokyo",
+          "status": "INCOMPLETE",
+          "error_head": "AD_REFUSAL_FAILED:Opening balance must be DRAFT:AK_OPENING_REQUIRES_CURRENT_VALIDATED_BATCH",
+          "observed_blocker_codes": [],
+          "full_error_preserved_in_original": true
+        },
+        {
+          "case": "DAY:FABRIC_ROLL:IMPORT:Pacific/Kiritimati",
+          "status": "INCOMPLETE",
+          "error_head": "AD_REFUSAL_FAILED:Opening balance must be DRAFT:AK_OPENING_REQUIRES_CURRENT_VALIDATED_BATCH",
+          "observed_blocker_codes": [],
+          "full_error_preserved_in_original": true
+        },
+        {
+          "case": "DAY:FABRIC_ROLL:IMPORT:Etc/GMT+12",
+          "status": "INCOMPLETE",
+          "error_head": "AD_REFUSAL_FAILED:Opening balance must be DRAFT:AK_OPENING_REQUIRES_CURRENT_VALIDATED_BATCH",
+          "observed_blocker_codes": [],
+          "full_error_preserved_in_original": true
+        },
+        {
+          "case": "DAY:ACCESSORY:IMPORT:Asia/Jakarta",
+          "status": "INCOMPLETE",
+          "error_head": "AD_REFUSAL_FAILED:Opening balance must be DRAFT:AK_OPENING_REQUIRES_CURRENT_VALIDATED_BATCH",
+          "observed_blocker_codes": [],
+          "full_error_preserved_in_original": true
+        },
+        {
+          "case": "DAY:ACCESSORY:IMPORT:UTC",
+          "status": "INCOMPLETE",
+          "error_head": "AD_REFUSAL_FAILED:Opening balance must be DRAFT:AK_OPENING_REQUIRES_CURRENT_VALIDATED_BATCH",
+          "observed_blocker_codes": [],
+          "full_error_preserved_in_original": true
+        },
+        {
+          "case": "DAY:ACCESSORY:IMPORT:Asia/Tokyo",
+          "status": "INCOMPLETE",
+          "error_head": "AD_REFUSAL_FAILED:Opening balance must be DRAFT:AK_OPENING_REQUIRES_CURRENT_VALIDATED_BATCH",
+          "observed_blocker_codes": [],
+          "full_error_preserved_in_original": true
+        },
+        {
+          "case": "DAY:ACCESSORY:IMPORT:Pacific/Kiritimati",
+          "status": "INCOMPLETE",
+          "error_head": "AD_REFUSAL_FAILED:Opening balance must be DRAFT:AK_OPENING_REQUIRES_CURRENT_VALIDATED_BATCH",
+          "observed_blocker_codes": [],
+          "full_error_preserved_in_original": true
+        },
+        {
+          "case": "DAY:ACCESSORY:IMPORT:Etc/GMT+12",
+          "status": "INCOMPLETE",
+          "error_head": "AD_REFUSAL_FAILED:Opening balance must be DRAFT:AK_OPENING_REQUIRES_CURRENT_VALIDATED_BATCH",
+          "observed_blocker_codes": [],
+          "full_error_preserved_in_original": true
+        },
+        {
+          "case": "DAY:ATTENDANCE:DIRECT:Asia/Jakarta",
+          "status": "INCOMPLETE",
+          "error_head": "AE_NORMAL_STATE_NOT_READY:{\"identity\": [\"authenticated\", \"authenticated\", \"OWNER\"], \"owner_snapshot\": {\"basis\": {\"period_to\": \"2026-10-21\", \"period_from\": \"2026-10-21\", \"balance_sheet_as_of\": \"2026-10-21\", \"quality_event_basis\": \"CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF\", \"supplier_exposure_basis\": \"CURRENT_OPERATIONAL_STATE\", \"laundry_outstanding_basis\": \"IMMUTABLE_WIP_STAGE_EVENT_NET_AS_",
+          "observed_blocker_codes": [
+            "PAYROLL_ATTENDANCE_UNCOVERED"
+          ],
+          "full_error_preserved_in_original": true
+        },
+        {
+          "case": "DAY:ATTENDANCE:DIRECT:UTC",
+          "status": "INCOMPLETE",
+          "error_head": "AE_NORMAL_STATE_NOT_READY:{\"identity\": [\"authenticated\", \"authenticated\", \"OWNER\"], \"owner_snapshot\": {\"basis\": {\"period_to\": \"2026-10-21\", \"period_from\": \"2026-10-21\", \"balance_sheet_as_of\": \"2026-10-21\", \"quality_event_basis\": \"CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF\", \"supplier_exposure_basis\": \"CURRENT_OPERATIONAL_STATE\", \"laundry_outstanding_basis\": \"IMMUTABLE_WIP_STAGE_EVENT_NET_AS_",
+          "observed_blocker_codes": [
+            "PAYROLL_ATTENDANCE_UNCOVERED"
+          ],
+          "full_error_preserved_in_original": true
+        },
+        {
+          "case": "DAY:ATTENDANCE:DIRECT:Asia/Tokyo",
+          "status": "INCOMPLETE",
+          "error_head": "AE_NORMAL_STATE_NOT_READY:{\"identity\": [\"authenticated\", \"authenticated\", \"OWNER\"], \"owner_snapshot\": {\"basis\": {\"period_to\": \"2026-10-21\", \"period_from\": \"2026-10-21\", \"balance_sheet_as_of\": \"2026-10-21\", \"quality_event_basis\": \"CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF\", \"supplier_exposure_basis\": \"CURRENT_OPERATIONAL_STATE\", \"laundry_outstanding_basis\": \"IMMUTABLE_WIP_STAGE_EVENT_NET_AS_",
+          "observed_blocker_codes": [
+            "PAYROLL_ATTENDANCE_UNCOVERED"
+          ],
+          "full_error_preserved_in_original": true
+        },
+        {
+          "case": "DAY:ATTENDANCE:DIRECT:Pacific/Kiritimati",
+          "status": "INCOMPLETE",
+          "error_head": "AE_NORMAL_STATE_NOT_READY:{\"identity\": [\"authenticated\", \"authenticated\", \"OWNER\"], \"owner_snapshot\": {\"basis\": {\"period_to\": \"2026-10-21\", \"period_from\": \"2026-10-21\", \"balance_sheet_as_of\": \"2026-10-21\", \"quality_event_basis\": \"CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF\", \"supplier_exposure_basis\": \"CURRENT_OPERATIONAL_STATE\", \"laundry_outstanding_basis\": \"IMMUTABLE_WIP_STAGE_EVENT_NET_AS_",
+          "observed_blocker_codes": [
+            "PAYROLL_ATTENDANCE_UNCOVERED"
+          ],
+          "full_error_preserved_in_original": true
+        },
+        {
+          "case": "DAY:ATTENDANCE:DIRECT:Etc/GMT+12",
+          "status": "INCOMPLETE",
+          "error_head": "AE_NORMAL_STATE_NOT_READY:{\"identity\": [\"authenticated\", \"authenticated\", \"OWNER\"], \"owner_snapshot\": {\"basis\": {\"period_to\": \"2026-10-21\", \"period_from\": \"2026-10-21\", \"balance_sheet_as_of\": \"2026-10-21\", \"quality_event_basis\": \"CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF\", \"supplier_exposure_basis\": \"CURRENT_OPERATIONAL_STATE\", \"laundry_outstanding_basis\": \"IMMUTABLE_WIP_STAGE_EVENT_NET_AS_",
+          "observed_blocker_codes": [
+            "PAYROLL_ATTENDANCE_UNCOVERED"
+          ],
+          "full_error_preserved_in_original": true
+        },
+        {
+          "case": "CASH_LINKED:1",
+          "status": "INCOMPLETE",
+          "error_head": "INDEPENDENT_PAYMENT_FIXTURE_NOT_READY",
+          "observed_blocker_codes": [],
+          "full_error_preserved_in_original": true
+        },
+        {
+          "case": "CASH_LINKED:4",
+          "status": "INCOMPLETE",
+          "error_head": "INDEPENDENT_PAYMENT_FIXTURE_NOT_READY",
+          "observed_blocker_codes": [],
+          "full_error_preserved_in_original": true
+        },
+        {
+          "case": "H_R02",
+          "status": "INCOMPLETE",
+          "error_head": "R02 lawful baseline is not READY",
+          "observed_blocker_codes": [],
+          "full_error_preserved_in_original": true
+        }
+      ]
+    },
+    "native": {
+      "counts": {
+        "PASS": 112,
+        "INCOMPLETE": 30
+      },
+      "case_count": 142,
+      "complete_boundary_restored": true,
+      "database_remaining": null,
+      "failures": [
+        {
+          "case": "DAY:FABRIC_ROLL:IMPORT:Asia/Jakarta",
+          "status": "INCOMPLETE",
+          "error_head": "AD_REFUSAL_FAILED:Opening balance must be DRAFT:AK_OPENING_REQUIRES_CURRENT_VALIDATED_BATCH",
+          "observed_blocker_codes": [],
+          "full_error_preserved_in_original": true
+        },
+        {
+          "case": "DAY:FABRIC_ROLL:IMPORT:UTC",
+          "status": "INCOMPLETE",
+          "error_head": "AD_REFUSAL_FAILED:Opening balance must be DRAFT:AK_OPENING_REQUIRES_CURRENT_VALIDATED_BATCH",
+          "observed_blocker_codes": [],
+          "full_error_preserved_in_original": true
+        },
+        {
+          "case": "DAY:FABRIC_ROLL:IMPORT:Asia/Tokyo",
+          "status": "INCOMPLETE",
+          "error_head": "AD_REFUSAL_FAILED:Opening balance must be DRAFT:AK_OPENING_REQUIRES_CURRENT_VALIDATED_BATCH",
+          "observed_blocker_codes": [],
+          "full_error_preserved_in_original": true
+        },
+        {
+          "case": "DAY:FABRIC_ROLL:IMPORT:Pacific/Kiritimati",
+          "status": "INCOMPLETE",
+          "error_head": "AD_REFUSAL_FAILED:Opening balance must be DRAFT:AK_OPENING_REQUIRES_CURRENT_VALIDATED_BATCH",
+          "observed_blocker_codes": [],
+          "full_error_preserved_in_original": true
+        },
+        {
+          "case": "DAY:FABRIC_ROLL:IMPORT:Etc/GMT+12",
+          "status": "INCOMPLETE",
+          "error_head": "AD_REFUSAL_FAILED:Opening balance must be DRAFT:AK_OPENING_REQUIRES_CURRENT_VALIDATED_BATCH",
+          "observed_blocker_codes": [],
+          "full_error_preserved_in_original": true
+        },
+        {
+          "case": "DAY:ACCESSORY:IMPORT:Asia/Jakarta",
+          "status": "INCOMPLETE",
+          "error_head": "AD_REFUSAL_FAILED:Opening balance must be DRAFT:AK_OPENING_REQUIRES_CURRENT_VALIDATED_BATCH",
+          "observed_blocker_codes": [],
+          "full_error_preserved_in_original": true
+        },
+        {
+          "case": "DAY:ACCESSORY:IMPORT:UTC",
+          "status": "INCOMPLETE",
+          "error_head": "AD_REFUSAL_FAILED:Opening balance must be DRAFT:AK_OPENING_REQUIRES_CURRENT_VALIDATED_BATCH",
+          "observed_blocker_codes": [],
+          "full_error_preserved_in_original": true
+        },
+        {
+          "case": "DAY:ACCESSORY:IMPORT:Asia/Tokyo",
+          "status": "INCOMPLETE",
+          "error_head": "AD_REFUSAL_FAILED:Opening balance must be DRAFT:AK_OPENING_REQUIRES_CURRENT_VALIDATED_BATCH",
+          "observed_blocker_codes": [],
+          "full_error_preserved_in_original": true
+        },
+        {
+          "case": "DAY:ACCESSORY:IMPORT:Pacific/Kiritimati",
+          "status": "INCOMPLETE",
+          "error_head": "AD_REFUSAL_FAILED:Opening balance must be DRAFT:AK_OPENING_REQUIRES_CURRENT_VALIDATED_BATCH",
+          "observed_blocker_codes": [],
+          "full_error_preserved_in_original": true
+        },
+        {
+          "case": "DAY:ACCESSORY:IMPORT:Etc/GMT+12",
+          "status": "INCOMPLETE",
+          "error_head": "AD_REFUSAL_FAILED:Opening balance must be DRAFT:AK_OPENING_REQUIRES_CURRENT_VALIDATED_BATCH",
+          "observed_blocker_codes": [],
+          "full_error_preserved_in_original": true
+        },
+        {
+          "case": "DAY:ATTENDANCE:DIRECT:Asia/Jakarta",
+          "status": "INCOMPLETE",
+          "error_head": "AE_NORMAL_STATE_NOT_READY:{\"identity\": [\"authenticated\", \"authenticated\", \"OWNER\"], \"owner_snapshot\": {\"basis\": {\"period_to\": \"2026-10-21\", \"period_from\": \"2026-10-21\", \"balance_sheet_as_of\": \"2026-10-21\", \"quality_event_basis\": \"CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF\", \"supplier_exposure_basis\": \"CURRENT_OPERATIONAL_STATE\", \"laundry_outstanding_basis\": \"IMMUTABLE_WIP_STAGE_EVENT_NET_AS_",
+          "observed_blocker_codes": [
+            "PAYROLL_ATTENDANCE_UNCOVERED"
+          ],
+          "full_error_preserved_in_original": true
+        },
+        {
+          "case": "DAY:ATTENDANCE:DIRECT:UTC",
+          "status": "INCOMPLETE",
+          "error_head": "AE_NORMAL_STATE_NOT_READY:{\"identity\": [\"authenticated\", \"authenticated\", \"OWNER\"], \"owner_snapshot\": {\"basis\": {\"period_to\": \"2026-10-21\", \"period_from\": \"2026-10-21\", \"balance_sheet_as_of\": \"2026-10-21\", \"quality_event_basis\": \"CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF\", \"supplier_exposure_basis\": \"CURRENT_OPERATIONAL_STATE\", \"laundry_outstanding_basis\": \"IMMUTABLE_WIP_STAGE_EVENT_NET_AS_",
+          "observed_blocker_codes": [
+            "PAYROLL_ATTENDANCE_UNCOVERED"
+          ],
+          "full_error_preserved_in_original": true
+        },
+        {
+          "case": "DAY:ATTENDANCE:DIRECT:Asia/Tokyo",
+          "status": "INCOMPLETE",
+          "error_head": "AE_NORMAL_STATE_NOT_READY:{\"identity\": [\"authenticated\", \"authenticated\", \"OWNER\"], \"owner_snapshot\": {\"basis\": {\"period_to\": \"2026-10-21\", \"period_from\": \"2026-10-21\", \"balance_sheet_as_of\": \"2026-10-21\", \"quality_event_basis\": \"CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF\", \"supplier_exposure_basis\": \"CURRENT_OPERATIONAL_STATE\", \"laundry_outstanding_basis\": \"IMMUTABLE_WIP_STAGE_EVENT_NET_AS_",
+          "observed_blocker_codes": [
+            "PAYROLL_ATTENDANCE_UNCOVERED"
+          ],
+          "full_error_preserved_in_original": true
+        },
+        {
+          "case": "DAY:ATTENDANCE:DIRECT:Pacific/Kiritimati",
+          "status": "INCOMPLETE",
+          "error_head": "AE_NORMAL_STATE_NOT_READY:{\"identity\": [\"authenticated\", \"authenticated\", \"OWNER\"], \"owner_snapshot\": {\"basis\": {\"period_to\": \"2026-10-21\", \"period_from\": \"2026-10-21\", \"balance_sheet_as_of\": \"2026-10-21\", \"quality_event_basis\": \"CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF\", \"supplier_exposure_basis\": \"CURRENT_OPERATIONAL_STATE\", \"laundry_outstanding_basis\": \"IMMUTABLE_WIP_STAGE_EVENT_NET_AS_",
+          "observed_blocker_codes": [
+            "PAYROLL_ATTENDANCE_UNCOVERED"
+          ],
+          "full_error_preserved_in_original": true
+        },
+        {
+          "case": "DAY:ATTENDANCE:DIRECT:Etc/GMT+12",
+          "status": "INCOMPLETE",
+          "error_head": "AE_NORMAL_STATE_NOT_READY:{\"identity\": [\"authenticated\", \"authenticated\", \"OWNER\"], \"owner_snapshot\": {\"basis\": {\"period_to\": \"2026-10-21\", \"period_from\": \"2026-10-21\", \"balance_sheet_as_of\": \"2026-10-21\", \"quality_event_basis\": \"CURRENT_OPERATIONAL_STATE_WITH_EVENT_DATE_CUTOFF\", \"supplier_exposure_basis\": \"CURRENT_OPERATIONAL_STATE\", \"laundry_outstanding_basis\": \"IMMUTABLE_WIP_STAGE_EVENT_NET_AS_",
+          "observed_blocker_codes": [
+            "PAYROLL_ATTENDANCE_UNCOVERED"
+          ],
+          "full_error_preserved_in_original": true
+        },
+        {
+          "case": "OPENING_SUBLEDGER:SUPPLIER_LAST_CENT",
+          "status": "INCOMPLETE",
+          "error_head": "CP7_CASH_NEGATIVE: saldo Kas Utama (CASH-MAIN) menjadi minus -99.99 pada tanggal 2026-09-02 atau sesudahnya (tanggal ekonomi). Kas/bank tidak boleh minus; catat dulu uang masuk atau pilih rekening lain.",
+          "observed_blocker_codes": [],
+          "full_error_preserved_in_original": true
+        },
+        {
+          "case": "OPENING_SUBLEDGER:SUPPLIER_REVERSE_PAYMENT",
+          "status": "INCOMPLETE",
+          "error_head": "CP7_CASH_NEGATIVE: saldo Kas Utama (CASH-MAIN) menjadi minus -99.99 pada tanggal 2026-09-02 atau sesudahnya (tanggal ekonomi). Kas/bank tidak boleh minus; catat dulu uang masuk atau pilih rekening lain.",
+          "observed_blocker_codes": [],
+          "full_error_preserved_in_original": true
+        },
+        {
+          "case": "OPENING_SUBLEDGER:SUPPLIER_CORRECTION",
+          "status": "INCOMPLETE",
+          "error_head": "CP7_CASH_NEGATIVE: saldo Kas Utama (CASH-MAIN) menjadi minus -100.00 pada tanggal 2026-09-02 atau sesudahnya (tanggal ekonomi). Kas/bank tidak boleh minus; catat dulu uang masuk atau pilih rekening lain.",
+          "observed_blocker_codes": [],
+          "full_error_preserved_in_original": true
+        },
+        {
+          "case": "OPENING_SUBLEDGER:SUPPLIER_REVERSE_CORRECTION",
+          "status": "INCOMPLETE",
+          "error_head": "CP7_CASH_NEGATIVE: saldo Kas Utama (CASH-MAIN) menjadi minus -100.01 pada tanggal 2026-09-02 atau sesudahnya (tanggal ekonomi). Kas/bank tidak boleh minus; catat dulu uang masuk atau pilih rekening lain.",
+          "observed_blocker_codes": [],
+          "full_error_preserved_in_original": true
+        },
+        {
+          "case": "OPENING_SUBLEDGER:SUPPLIER_RETURN",
+          "status": "INCOMPLETE",
+          "error_head": "CP7_CASH_NEGATIVE: saldo Kas Utama (CASH-MAIN) menjadi minus -100.00 pada tanggal 2026-09-02 atau sesudahnya (tanggal ekonomi). Kas/bank tidak boleh minus; catat dulu uang masuk atau pilih rekening lain.",
+          "observed_blocker_codes": [],
+          "full_error_preserved_in_original": true
+        },
+        {
+          "case": "OPENING_SUBLEDGER:OPENING_PARTIES",
+          "status": "INCOMPLETE",
+          "error_head": "CP7_CASH_NEGATIVE: saldo Kas Utama (CASH-MAIN) menjadi minus -99.99 pada tanggal 2026-09-02 atau sesudahnya (tanggal ekonomi). Kas/bank tidak boleh minus; catat dulu uang masuk atau pilih rekening lain.",
+          "observed_blocker_codes": [],
+          "full_error_preserved_in_original": true
+        },
+        {
+          "case": "OPENING_SUBLEDGER:SUPPLIER_VALID_LIFECYCLE",
+          "status": "INCOMPLETE",
+          "error_head": "CP7_CASH_NEGATIVE: saldo Kas Utama (CASH-MAIN) menjadi minus -99.99 pada tanggal 2026-09-02 atau sesudahnya (tanggal ekonomi). Kas/bank tidak boleh minus; catat dulu uang masuk atau pilih rekening lain.",
+          "observed_blocker_codes": [],
+          "full_error_preserved_in_original": true
+        },
+        {
+          "case": "OPENING_SUBLEDGER:SUPPLIER_INVOICE_LIFECYCLE",
+          "status": "INCOMPLETE",
+          "error_head": "CP7_CASH_NEGATIVE: saldo Kas Utama (CASH-MAIN) menjadi minus -99.99 pada tanggal 2026-09-02 atau sesudahnya (tanggal ekonomi). Kas/bank tidak boleh minus; catat dulu uang masuk atau pilih rekening lain.",
+          "observed_blocker_codes": [],
+          "full_error_preserved_in_original": true
+        },
+        {
+          "case": "OPENING_SUBLEDGER:FRACTIONAL_PURCHASES",
+          "status": "INCOMPLETE",
+          "error_head": "CP7_CASH_NEGATIVE: saldo Kas Utama (CASH-MAIN) menjadi minus -0.01 pada tanggal 2026-09-02 atau sesudahnya (tanggal ekonomi). Kas/bank tidak boleh minus; catat dulu uang masuk atau pilih rekening lain.",
+          "observed_blocker_codes": [],
+          "full_error_preserved_in_original": true
+        },
+        {
+          "case": "OPENING_SUBLEDGER:SUPPLIER_AMOUNT_WASH",
+          "status": "INCOMPLETE",
+          "error_head": "CP7_CASH_NEGATIVE: saldo Kas Utama (CASH-MAIN) menjadi minus -40.00 pada tanggal 2026-09-02 atau sesudahnya (tanggal ekonomi). Kas/bank tidak boleh minus; catat dulu uang masuk atau pilih rekening lain.",
+          "observed_blocker_codes": [],
+          "full_error_preserved_in_original": true
+        },
+        {
+          "case": "SUPPLIER_CENT:INVOICE_PAY_REVERSE",
+          "status": "INCOMPLETE",
+          "error_head": "CP7_CASH_NEGATIVE: saldo Kas Utama (CASH-MAIN) menjadi minus -0.05 pada tanggal 2026-09-02 atau sesudahnya (tanggal ekonomi). Kas/bank tidak boleh minus; catat dulu uang masuk atau pilih rekening lain.",
+          "observed_blocker_codes": [],
+          "full_error_preserved_in_original": true
+        },
+        {
+          "case": "SUPPLIER_RETURN:LOW_CREDIT_PAYMENT_CAPACITY",
+          "status": "INCOMPLETE",
+          "error_head": "CP7_CASH_NEGATIVE: saldo Kas Utama (CASH-MAIN) menjadi minus -40.00 pada tanggal 2026-09-02 atau sesudahnya (tanggal ekonomi). Kas/bank tidak boleh minus; catat dulu uang masuk atau pilih rekening lain.",
+          "observed_blocker_codes": [],
+          "full_error_preserved_in_original": true
+        },
+        {
+          "case": "CASH_LINKED:1",
+          "status": "INCOMPLETE",
+          "error_head": "INDEPENDENT_PAYMENT_FIXTURE_NOT_READY",
+          "observed_blocker_codes": [],
+          "full_error_preserved_in_original": true
+        },
+        {
+          "case": "CASH_LINKED:4",
+          "status": "INCOMPLETE",
+          "error_head": "INDEPENDENT_PAYMENT_FIXTURE_NOT_READY",
+          "observed_blocker_codes": [],
+          "full_error_preserved_in_original": true
+        },
+        {
+          "case": "H_R02",
+          "status": "INCOMPLETE",
+          "error_head": "R02 lawful baseline is not READY",
+          "observed_blocker_codes": [],
+          "full_error_preserved_in_original": true
+        }
+      ]
+    }
+  },
+  "execution_count": 284,
+  "changed_case_statuses": {
+    "OPENING_SUBLEDGER:SUPPLIER_LAST_CENT": {
+      "baseline": "PASS",
+      "current": "INCOMPLETE"
+    },
+    "OPENING_SUBLEDGER:SUPPLIER_REVERSE_PAYMENT": {
+      "baseline": "PASS",
+      "current": "INCOMPLETE"
+    },
+    "OPENING_SUBLEDGER:SUPPLIER_CORRECTION": {
+      "baseline": "PASS",
+      "current": "INCOMPLETE"
+    },
+    "OPENING_SUBLEDGER:SUPPLIER_REVERSE_CORRECTION": {
+      "baseline": "PASS",
+      "current": "INCOMPLETE"
+    },
+    "OPENING_SUBLEDGER:SUPPLIER_RETURN": {
+      "baseline": "PASS",
+      "current": "INCOMPLETE"
+    },
+    "OPENING_SUBLEDGER:OPENING_PARTIES": {
+      "baseline": "PASS",
+      "current": "INCOMPLETE"
+    },
+    "OPENING_SUBLEDGER:SUPPLIER_VALID_LIFECYCLE": {
+      "baseline": "PASS",
+      "current": "INCOMPLETE"
+    },
+    "OPENING_SUBLEDGER:SUPPLIER_INVOICE_LIFECYCLE": {
+      "baseline": "PASS",
+      "current": "INCOMPLETE"
+    },
+    "OPENING_SUBLEDGER:FRACTIONAL_PURCHASES": {
+      "baseline": "PASS",
+      "current": "INCOMPLETE"
+    },
+    "OPENING_SUBLEDGER:SUPPLIER_AMOUNT_WASH": {
+      "baseline": "PASS",
+      "current": "INCOMPLETE"
+    },
+    "SUPPLIER_CENT:INVOICE_PAY_REVERSE": {
+      "baseline": "PASS",
+      "current": "INCOMPLETE"
+    },
+    "SUPPLIER_RETURN:LOW_CREDIT_PAYMENT_CAPACITY": {
+      "baseline": "PASS",
+      "current": "INCOMPLETE"
+    }
+  },
+  "cp6_restored": true,
+  "restore_raw_public_equal": true,
+  "advisor_gate": true,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "strict_group_originals": [
+    {
+      "path": "strict-groups/CP7_CURRENT_CP6_CROSSFLOW_NATIVE142.json",
+      "bytes": 927668,
+      "sha256": "139b18e4cac333bb4073544dcacabd47f75d0fd41d0af765e249fca0507df32f"
+    },
+    {
+      "path": "strict-groups/CP7_CURRENT_CP6_CROSSFLOW_NATIVE142_BASELINE.json",
+      "bytes": 933743,
+      "sha256": "87e41c8df1497449db6e7bbfbb5441f65cb6a9d54ae3feb2f05e3d71ec62dd7b"
+    }
+  ],
+  "production_go": false,
+  "independent_acceptance": false,
+  "new_business_case_credit": 0,
+  "disposition": "All142 IDs execute on both boundaries. Both:10 AK guard-message mismatches,5 uncovered paid attendance,3 legacy READY assertions without embedded report. Current adds12 dated empty-cash refusals. Original oracles and source bodies unchanged; these results do not close the archive."
+}
