@@ -16,6 +16,6 @@ for variable,proof in pins['actual_qualification_originals'].items():
         assert all(value is True for value in gate.values()),(variable,gate)
     assert len(original)==proof['bytes']and sha256(original).hexdigest()==proof['sha256'],variable
     actual=json.loads(original);assert actual['status']=='PASS'and actual['cp6_restored'],variable
-    target=Path(os.environ['RUNNER_TEMP'])/proof['name'];target.write_bytes(original)
+    target=Path(os.environ['RUNNER_TEMP'])/(variable+'-'+proof['name']);target.write_bytes(original)
     with open(os.environ['GITHUB_ENV'],'a')as out:out.write(variable+'='+str(target)+'\n')
     print(variable+' actual raw PASS Original verified',flush=True)

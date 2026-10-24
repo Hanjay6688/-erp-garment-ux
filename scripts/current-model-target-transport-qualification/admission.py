@@ -1,7 +1,55 @@
-"""Admit actual current Native20 and policy/v2 transport10 plus target transport11 Originals."""
+"""Admit Native20, policy/v2 transport10, and all eleven target controls.
+
+Target transport may be one complete Original or both complete same-head
+partition Originals. Partial/cancelled runs never supply missing case credit.
+"""
 from pathlib import Path
 from hashlib import sha256
 import json,os,subprocess,sys
+
+
+TARGET_FULL='MODEL_TARGET_TRANSPORT_ORIGINAL_REPORT'
+TARGET_PARTS=('MODEL_TARGET_TRANSPORT_PART_A_ORIGINAL_REPORT','MODEL_TARGET_TRANSPORT_PART_B_ORIGINAL_REPORT')
+# Reviewed exact selector from B2b335934; it returns original operations unchanged.
+PART_PROVIDER_SHA256='44f62a6571ffc329e15e9fa1c0cbb799dd51928de3c6b3550828fa2e46c0b048'
+
+
+def target_prerequisites(proofs,transport,product):
+    selected=set(proofs)&({TARGET_FULL}|set(TARGET_PARTS))
+    assert selected in({TARGET_FULL},set(TARGET_PARTS)), 'TARGET_TRANSPORT_REQUIRES_FULL_OR_BOTH_PARTS'
+    full=transport.target.IDS
+    assert {k:len(v)for k,v in full.items()}==dict(native=1,races=7,http=3)
+    expected={TARGET_FULL:full,TARGET_PARTS[0]:dict(native=full['native'],races=full['races'][:4]),
+              TARGET_PARTS[1]:dict(native=full['native'],races=full['races'][4:],http=full['http'])}
+    result={};part_sources=[]
+    for variable in sorted(selected):
+        proof=proofs[variable];raw=Path(os.environ[variable]).read_bytes()
+        assert len(raw)==proof['bytes']and sha256(raw).hexdigest()==proof['sha256'],variable
+        actual=json.loads(raw);ids=expected[variable];count=sum(map(len,ids.values()))
+        assert actual['status']==proof['status']=='PASS'and actual['cp6_restored']and actual['advisor_gate']
+        assert actual['required_case_ids_pass']and actual['required_case_counts_pass']and actual['observed_case_count']==count
+        assert actual['required_case_ids']==ids and actual['required_case_counts']=={k:len(v)for k,v in ids.items()}
+        assert actual['model_target_source_sha256']==product.target.verify_sources()
+        for group,names in ids.items():
+            observed=actual[group];rows=observed.get('races'if group=='races'else'cases',{})
+            assert observed['counts']=={'PASS':len(names)}and set(rows)==set(names)
+            assert all(row['status']=='PASS'for row in rows.values())
+        if variable!=TARGET_FULL:
+            part='A'if variable==TARGET_PARTS[0]else'B'
+            assert actual['transport_part']==part and actual['model_target_transport_part_qualified']
+            assert actual['full11_requires_both_same_head_Originals']and not actual['model_target_transport_qualified']
+            assert actual['coverage']==dict(unique_required_cases=11,duplicate_catalog_anchor_credit=0,part_case_counts=dict(A=5,B=7))
+            sources=actual['transport_part_source_sha256']
+            assert set(sources)=={'cp7_ow11_model_target_transport_parts.py','cp7_ow11_model_target_transport_cases.py'}
+            assert sources['cp7_ow11_model_target_transport_parts.py']==PART_PROVIDER_SHA256
+            assert sources['cp7_ow11_model_target_transport_cases.py']==sha256(Path(transport.target.__file__).read_bytes()).hexdigest()
+            part_sources.append(sources)
+        else:assert actual['model_target_transport_qualified']
+        result[variable]=dict(proof,observed_status='PASS')
+    if selected==set(TARGET_PARTS):
+        assert proofs[TARGET_PARTS[0]]['head']==proofs[TARGET_PARTS[1]]['head'], 'TARGET_PARTS_DIFFERENT_HEADS'
+        assert part_sources[0]==part_sources[1], 'TARGET_PARTS_DIFFERENT_PROVIDERS'
+    return result
 
 
 def admitted(repo,here,ids,product,native,transport):
@@ -13,8 +61,9 @@ def admitted(repo,here,ids,product,native,transport):
     for path,digest in pins['files'].items():
         assert sha256((repo/path).read_bytes()).hexdigest()==digest,('CURRENT_RETAINED_MODEL_TRANSPORT_SOURCE_CHANGED',path)
     assert not subprocess.check_output(['git','-C',str(repo),'status','--porcelain','--',str(here)],text=True).strip()
-    originals={}
+    originals=target_prerequisites(pins['actual_qualification_originals'],transport,product)
     for variable,proof in pins['actual_qualification_originals'].items():
+        if variable in originals:continue
         raw=Path(os.environ[variable]).read_bytes()
         assert len(raw)==proof['bytes']and sha256(raw).hexdigest()==proof['sha256'],variable
         actual=json.loads(raw)
@@ -32,15 +81,9 @@ def admitted(repo,here,ids,product,native,transport):
             assert actual['races']['counts']=={'PASS':6}and actual['http']['counts']=={'PASS':3}
             assert actual['model_policy_source_sha256']==product.predecessor.policy.verify_sources()
             if component=='evaluation':assert actual['model_evaluation_v2_source_sha256']==product.predecessor.evaluation.verify_sources()
-        elif variable=='MODEL_TARGET_TRANSPORT_ORIGINAL_REPORT':
-            assert actual['required_case_ids_pass']and actual['required_case_counts_pass']and actual['observed_case_count']==11
-            assert actual['required_case_ids']==transport.target.IDS
-            assert actual['native']['counts']=={'PASS':1}
-            assert actual['races']['counts']=={'PASS':7}and actual['http']['counts']=={'PASS':3}
-            assert actual['model_target_source_sha256']==product.target.verify_sources()
         else:raise ValueError('CURRENT_MODEL_TARGET_TRANSPORT_UNDECLARED_ORIGINAL: '+variable)
         originals[variable]=dict(proof,observed_status='PASS')
-    assert set(originals)=={'CURRENT_MODEL_TARGET_ORIGINAL_REPORT','MODEL_POLICY_TRANSPORT_ORIGINAL_REPORT','MODEL_V2_TRANSPORT_ORIGINAL_REPORT','MODEL_TARGET_TRANSPORT_ORIGINAL_REPORT'}
+    assert set(originals)-({TARGET_FULL}|set(TARGET_PARTS))=={'CURRENT_MODEL_TARGET_ORIGINAL_REPORT','MODEL_POLICY_TRANSPORT_ORIGINAL_REPORT','MODEL_V2_TRANSPORT_ORIGINAL_REPORT'}
     loaded=[]
     for name,module in tuple(sys.modules.items()):
         if name.startswith(('cp6_','cp7_sales_'))and getattr(module,'__file__',None):

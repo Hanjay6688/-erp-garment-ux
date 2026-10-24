@@ -1,7 +1,12 @@
 # Full current model/dated-target Auth9 and races19
 
 Prepared only: SOURCE is deliberately absent pending actual current Native20
-and exact guarded B target Transport11 PASS Originals. The prior policy/v2
+and exact current B target Transport11 PASS Originals. Target transport requires
+either its complete full11 Original or both complete same-head A/B partition
+Originals with identical product/provider sources. Their union must retain all
+eleven cases; the repeated catalog anchor receives zero added credit. A single
+partition, mixed heads, cancellation or a missing case cannot qualify it.
+The prior policy/v2
 Transport10 Originals remain prerequisites. Three repeated catalog anchors
 receive no business-case credit; the full composed inverse is proved separately.
 

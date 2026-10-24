@@ -1,0 +1,16 @@
+{
+  "status": "LOCAL_ADMISSION_CONTROLS_PASS_NOT_RUNTIME",
+  "synthetic_control_documents_only": true,
+  "negative_controls": [
+    "one_partition_missing",
+    "different_heads",
+    "omitted_required_race",
+    "different_providers",
+    "failed_restore"
+  ],
+  "unchanged_current_business_cases": 28,
+  "real_B_partition_Originals_still_required": true,
+  "SOURCE_absent": true,
+  "first_local_control_failure": "different_providers mutated shared synthetic dict in both inputs; corrected independent fixture dictionaries and pinned exact reviewed B selector",
+  "production_go": false
+}
