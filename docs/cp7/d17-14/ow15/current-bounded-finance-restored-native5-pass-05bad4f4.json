@@ -1,0 +1,50 @@
+{
+  "contract": "cp7.current-writer-raw-evidence-intake.v1",
+  "name": "CP7_CURRENT_BOUNDED_FINANCE_RESTORED_NATIVE5.json",
+  "status": "PASS",
+  "head": "05bad4f465c61caabddfc0e8f4d5914b39aab22a",
+  "run_id": 40107643859,
+  "job_id": 120912548391,
+  "artifact_id": 12566241868,
+  "zip_bytes": 2030358,
+  "zip_sha256": "2ddff9661d83ee270a80f9e65930c65eb12ab6cc5d425fde09491c707ba7ff85",
+  "bytes": 2786639,
+  "sha256": "c3936a432efcb5be52b3fa9306f38167493efcb6ff89fd8eff895cb67c42001b",
+  "whole_job_status": "completed",
+  "whole_job_conclusion": "success",
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "exact_current_source_pins_verified": 1331,
+  "native_counts": {
+    "PASS": 5
+  },
+  "exact_case_ids": [
+    "OW12_BOUNDED_FINANCE_REQUEST_EXACT_ONCE",
+    "OW12_BOUNDED_FINANCE_OPERATIONAL_FIRST_OFFICIAL_FINANCE",
+    "OW12_BOUNDED_FINANCE_CHANGED_BOOK_REFUSED",
+    "OW12_BOUNDED_FINANCE_DEFERRED_NO_CAPTURE",
+    "OW12_BOUNDED_FINANCE_CURRENT_FINANCE_ACCESS"
+  ],
+  "official_sections_and_24_metrics_equal": true,
+  "unknown_never_zero": true,
+  "post_native_only_sequence_changes": true,
+  "used_guard_refused_before_DDL": true,
+  "complete_preuse_inverse_before_use": true,
+  "complete_baseline_backup_restored": true,
+  "baseline_full22_all_rows_all_sequences_equal": true,
+  "baseline_advisors_equal": true,
+  "cp6_restored": true,
+  "session_leaks": 0,
+  "first_INCOMPLETE_preserved": true,
+  "committed_used_finance_restore_credit": false,
+  "factory3600_credit": false,
+  "actual_cron_credit": false,
+  "independent_acceptance": false,
+  "production_go": false,
+  "formal_parent": "5/16"
+}

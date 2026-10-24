@@ -36,7 +36,8 @@ STEPS=('EXACT_INSTALL_AND_PREUSE_INVERSE','COMMITTED_RETURN_AND_ANALOG_CHOICE',
 
 
 def admitted():
-    import admission
+    spec=importlib.util.spec_from_file_location('current_bounded_finance_restore_admission',HERE/'admission.py')
+    admission=importlib.util.module_from_spec(spec);spec.loader.exec_module(admission)
     return admission.admitted(REPO,HERE,STEPS,composed,recovery)
 
 

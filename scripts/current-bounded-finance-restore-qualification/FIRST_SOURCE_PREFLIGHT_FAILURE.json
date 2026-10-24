@@ -1,0 +1,19 @@
+{
+  "status": "INCOMPLETE",
+  "phase": "local_source_admission_before_database",
+  "candidate": "df9b8c36",
+  "error": "RecursionError: maximum recursion depth exceeded",
+  "observed_call_cycle": [
+    "current-bounded-finance-restore-qualification/probe.py: admitted",
+    "current-bounded-finance-restore-qualification/admission.py: admitted",
+    "current-bounded-finance-native-qualification/probe.py: admitted",
+    "current-analog-consumer-opening-qualification/probe.py: admitted",
+    "cached top-level admission module resolves to the new finance restore gate"
+  ],
+  "correction": "Load the new gate by its unique module name and exact file path; leave predecessor sources and gates unchanged.",
+  "database_started": false,
+  "business_cases_executed": 0,
+  "product_changed": false,
+  "original_tests_changed": false,
+  "production_go": false
+}
