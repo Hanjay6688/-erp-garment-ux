@@ -1,0 +1,62 @@
+{
+  "contract": "cp7.original-runtime-receipt.v1",
+  "head": "7b70bb2e5b34180c5767d50fb643ad53880b7cd3",
+  "run_id": 40128497581,
+  "job_id": 120974960124,
+  "artifact_id": 12574910914,
+  "bytes": 158852,
+  "artifact_sha256": "c402171c72f249f5f32a84ba4a0ddc3d8552579286cb18af0c28fc03b744eb90",
+  "Original_read_complete": true,
+  "exact_head_and_current_source_hashes_match": true,
+  "verified_source_count": 6,
+  "status": "PASS",
+  "counts": {
+    "PASS": 4
+  },
+  "case_ids": [
+    "OW11_MODEL_TARGET_BINDING_CATALOG22_COMPOSED_INVERSE",
+    "OW11_MODEL_TARGET_BINDING_ACTUAL_DRAFT_POST_RETURN_INVERSE",
+    "OW11_MODEL_TARGET_BINDING_DENSE2000_OMITTED_GLOBAL_STOCK",
+    "OW11_MODEL_TARGET_BINDING_ACTUAL_SYSTEM_CLOCK_SOURCE_CHANGE"
+  ],
+  "observations": {
+    "exact22_composed_inverse": true,
+    "actual_draft_post_return_inverse": true,
+    "original_and_reversal_journals_retained": true,
+    "posted_history_immutable": true,
+    "dense_products": 2000,
+    "dense_movements": 202000,
+    "selected_target_stock_rows": 101,
+    "dense_millis": [
+      95.292,
+      86.769
+    ],
+    "factory_SLA_claim": false,
+    "old_cutoff_digest_unchanged_after_actual_backdated_physical_new_system_stock": true,
+    "complete_raw_digest_disagreement_refused": true
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "all_case_boundaries_restored": true,
+  "all_case_session_leaks_zero": true,
+  "public_schema_unchanged": true,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "auth_users_before_and_after": 0,
+  "workflow_conclusion": "success",
+  "disposable_database_removed": true,
+  "actual_Auth_HTTP_credit": false,
+  "actual_concurrency": false,
+  "model_target_caller_integrated": false,
+  "actual_historical_positive_winner": false,
+  "after_use_restore_qualified": false,
+  "formal_acceptance": "5/16",
+  "CP7C_accepted": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

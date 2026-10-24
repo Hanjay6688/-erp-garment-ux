@@ -2568,3 +2568,21 @@ For both Originals, exact-head and current source hashes, declared counts/IDs,
 all package gates, CP6/advisor and required boundaries/cleanup were checked.
 First failures remain. Model target integration, positive historical model,
 after-use restore and independent acceptance remain open. Formal5/16 unchanged.
+
+## 138. B25 Oktober2026 WIB — Native4 binding/selection dan putusnya lingkungan
+
+Binding7b70bb2e/run40128497581/job120974960124: empat case PASS, complete JSON
+12574910914/158852 bytes/SHA c402171c72f249f5f32a84ba4a0ddc3d8552579286cb18af0c28fc03b744eb90.
+Exact-head/current enam pin, package/CP6/advisor/boundary/cleanup sudah diverifikasi.
+Selection8ab4b7e1/run40127943408/job120973286538: empat case PASS; artifact12573938163,
+158554 bytes/SHA 2fb4da1ad59dc05b76e990c066e7969efc8ca9827d15bda43374c98f05b3de57.
+Semua case dibaca; pemeriksaan akhir seluruh pin/package tertahan karena runtime putus.
+Kedua job success, database disposable dihapus. Tidak mengulang suite.
+
+Batch source-v2 lokal: stock4, nonstock/physical7, full source/warehouse7 PASS
+(actual SQL dengan fixture sintetis; bukan Native/Auth/concurrency). Draft Native4 belum
+lengkap: deklarasi belum dibuat, belum preflight, belum dipublikasikan. Lingkungan dinyatakan
+unavailable; percobaan baca terakhir gagal. Catatan pemulihan dan daftar draft/hash/perintah
+ada di docs/cp7/handoff/ERP_B_SOURCE_V2_INTERRUPTED_20261025.md.
+Commit ini hanya dokumentasi/bukti; kode lokal belum dapat diselamatkan lewat read/diff.
+Target consumer/provenance/cache/hooks integrasi masih terbuka; formal5/16, production_go=false.

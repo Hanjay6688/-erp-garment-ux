@@ -1,0 +1,50 @@
+{
+  "contract": "cp7.original-runtime-observation.v1",
+  "head": "8ab4b7e1a1d2a623d5557502ae581f52caedee39",
+  "run_id": 40127943408,
+  "job_id": 120973286538,
+  "artifact_id": 12573938163,
+  "bytes": 158554,
+  "artifact_sha256": "2fb4da1ad59dc05b76e990c066e7969efc8ca9827d15bda43374c98f05b3de57",
+  "archive_downloaded_and_bytes_SHA_verified": true,
+  "complete_JSON_extracted": true,
+  "main_Original_parsed": true,
+  "all_four_case_bodies_read": true,
+  "status": "PASS",
+  "counts": {
+    "PASS": 4
+  },
+  "case_ids": [
+    "OW11_MODEL_SELECTION_CATALOG22_COMPOSED_INVERSE",
+    "OW11_MODEL_SELECTION_ACTUAL_V2_V3_LATEST_METHOD",
+    "OW11_MODEL_SELECTION_POST_SOURCE_ACTOR_ACCESS",
+    "OW11_MODEL_SELECTION_DENSE2000_PRIVATE_CURRENT"
+  ],
+  "observations": {
+    "exact22_composed_inverse": true,
+    "actual_v2_v3_same_request_UUID_distinct_runtime": true,
+    "newer_v2_beats_older_v3": true,
+    "old_cutoff_refused": true,
+    "actual_SALE_changes_current_guard": true,
+    "actor_isolation_and_current_access": true,
+    "unchanged_source_hash_stable": true,
+    "dense_products": 2000,
+    "dense_movements": 202000,
+    "dense_millis": 472.39,
+    "factory_SLA_claim": false
+  },
+  "cp6_restored_observed": true,
+  "advisor_gate_observed": true,
+  "workflow_conclusion": "success",
+  "disposable_database_removed": true,
+  "whole_archive_source_and_package_gate_reverification_complete": false,
+  "reverification_blocker": "Execution environment disconnected before the final exact-head/current-source and package-gate verification command could execute. Do not promote this observation to a completed release receipt until that check runs.",
+  "actual_Auth_HTTP_credit": false,
+  "actual_concurrency": false,
+  "model_target_caller_integrated": false,
+  "after_use_restore_qualified": false,
+  "formal_acceptance": "5/16",
+  "CP7C_accepted": false,
+  "independent_acceptance": false,
+  "production_go": false
+}
