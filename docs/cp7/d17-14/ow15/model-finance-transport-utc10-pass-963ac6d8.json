@@ -1,0 +1,54 @@
+{
+  "contract": "cp7.A-current-Original-intake.v1",
+  "name": "CP7_CURRENT_FINANCE_MODEL_TRANSPORT_UTC10.json",
+  "status": "PASS",
+  "head": "963ac6d884a56d4db6c8807174d89975e303ecf8",
+  "run_id": 40117401159,
+  "job_id": 120941426116,
+  "artifact_id": 12569442919,
+  "zip_bytes": 2047682,
+  "zip_sha256": "449f8034ff8879a785fa25920a0a03b2ae9510f15bbd9087897ed9d075ff2006",
+  "bytes": 2126547,
+  "sha256": "b84e5ac03217e85205fdc678465d93b7b1d0a5dbd0c33e29e9020097762337a0",
+  "whole_job_status": "completed",
+  "whole_job_conclusion": "success",
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "source_pins_verified": 3086,
+  "Auth3_PASS": true,
+  "races7_PASS": true,
+  "original_ten_case_bodies_unchanged": true,
+  "product_unchanged": true,
+  "full_current_model_copies": 8,
+  "full_capture_observations": 7,
+  "all_23_columns_and_nested_JSON_retained": true,
+  "observed_same_capture_across_Jakarta_UTC": [
+    {
+      "capture_id": "f5d7a1b3-06b5-4a2c-9627-b4e82f6a4dc9",
+      "raw_timezone": "Asia/Jakarta",
+      "changed_fields": [
+        "created_at",
+        "finished_at",
+        "report_read_at",
+        "updated_at"
+      ],
+      "all_fields_retained": 23,
+      "same_exact_instants": true
+    }
+  ],
+  "first_failed_Original_preserved": true,
+  "first_failure_actual_values_were_not_recorded": true,
+  "no_retroactive_first_failure_cause_claim": true,
+  "auth_sessions_databases_cleanup_exact": true,
+  "full22_allrows_allsequences_preuse_inverse": true,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "new_dated_target_overlay_credit": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

@@ -2880,3 +2880,22 @@ setup hooks bind every case to the complete current installation; each HTTP/race
 copy requires exact full catalog and all session/database/Auth cleanup. Actual
 permission checks after waits, source/policy/revision checks and UUID replay
 remain unchanged. No main/hosted/default policy/production changes.
+
+## A continuation: actual UTC finance transport10 PASS
+
+963ac6d8/run40117401159/job120941426116 completed success. Exact artifact
+12569442919 and complete CP7_CURRENT_FINANCE_MODEL_TRANSPORT_UTC10.json admitted:
+Auth3/races7 all PASS,3086 current source pins exact, all five package gates,
+full pre-use inverse/CP6/advisors and eight full-current copies cleaned. Seven
+complete23-column raw/UTC observations retained. The permission-replay capture
+was observed once under Asia/Jakarta and once under UTC: only created_at,
+finished_at,report_read_at,updated_at formatting differed, each the same exact
+instant; both complete UTC rows match including all nested JSON and money.
+Session timezone is restored after each read. Ten original case bodies and
+product bytes remain unchanged. First b3 INCOMPLETE is preserved; its missing
+before/after values cannot be reconstructed or retrospectively claimed proven.
+
+True integration parents are472c75d9 and963ac6d8. This completes the five
+followup families for the prior full finance/model composition. It does not
+claim runtime credit for the new guarded dated-target overlay. Current B161
+Native6/Transport11 and then A Native20 remain prerequisites for that overlay.

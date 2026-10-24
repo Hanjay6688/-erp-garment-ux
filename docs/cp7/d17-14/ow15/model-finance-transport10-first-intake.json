@@ -1,0 +1,41 @@
+{
+  "contract": "cp7.current-writer-raw-evidence-intake.v1",
+  "name": "CP7_CURRENT_FINANCE_MODEL_TRANSPORT10.json",
+  "status": "INCOMPLETE",
+  "head": "b3b00858b68e2915e67c7ab8d4dab4bb66439d9f",
+  "run_id": 40115137166,
+  "job_id": 120934755866,
+  "artifact_id": 12569660190,
+  "zip_bytes": 1995820,
+  "zip_sha256": "09fc87359aea183d85e818c5a131b4db38c77478668c11fd7ad52c64481e67d0",
+  "bytes": 1508702,
+  "sha256": "b9a6a722f2d2614255edd2c37452d754b13c11e144c26340d2b2f4ec1b2beac4",
+  "whole_job_status": "completed",
+  "whole_job_conclusion": "failure",
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "source_pins_verified": 3073,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "first_INCOMPLETE_preserved": true,
+  "production_go": false,
+  "independent_acceptance": false,
+  "auth_counts": {
+    "PASS": 3
+  },
+  "race_counts": {
+    "PASS": 6,
+    "INCOMPLETE": 1
+  },
+  "failed_case": "CURRENT_FINANCE_RACE_REPLAY_PERMISSION_AFTER_REQUEST",
+  "failure": "stored capture full-row comparison after permission withdrawal",
+  "first_report_did_not_record_capture_before_after_values": true,
+  "timezone_hypothesis_not_actual_failed_value_claim": true,
+  "complete_preuse_inverse": true,
+  "Auth_database_sessions_clean": true
+}
