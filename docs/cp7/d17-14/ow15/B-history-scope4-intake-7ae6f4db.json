@@ -1,0 +1,37 @@
+{
+  "contract": "cp7.B-component-original-intake.v1",
+  "name": "CP7_OW11_MODEL_HISTORY_SCOPE.json",
+  "status": "PASS",
+  "head": "7ae6f4db3205ce5700a211774cc6d8ad2756e163",
+  "run_id": 40119748745,
+  "job_id": 120948490158,
+  "artifact_id": 12571037094,
+  "zip_bytes": 158837,
+  "zip_sha256": "09c7556b2a6059a4f7790a92b6d5fb8cef88e2a7a95908db997be0e9756bd7f0",
+  "bytes": 1389102,
+  "sha256": "a4a60ffc27eaa39425c6880e3496c17eae5f04ea020e34797bd287cbaabb85dd",
+  "whole_job_status": "completed",
+  "whole_job_conclusion": "success",
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "source_pins_verified": 6,
+  "transport_source_pins_verified": 0,
+  "native_counts": {
+    "PASS": 4
+  },
+  "all_returned_case_boundaries_catalogs_and_sessions_restored": true,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "actual_Auth_HTTP_credit": false,
+  "actual_concurrency_credit": false,
+  "full_A_chain_credit": false,
+  "model_caller_integrated": false,
+  "positive_forecast_credit": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

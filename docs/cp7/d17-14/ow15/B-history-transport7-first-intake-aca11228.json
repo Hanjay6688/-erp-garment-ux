@@ -1,0 +1,54 @@
+{
+  "contract": "cp7.B-component-original-intake.v1",
+  "name": "CP7_OW11_MODEL_HISTORY_RUNTIME_TRANSPORT.json",
+  "status": "INCOMPLETE",
+  "head": "aca11228dac03c2949b8c3f275007de018f05bfd",
+  "run_id": 40121788270,
+  "job_id": 120954747798,
+  "artifact_id": 12571875800,
+  "zip_bytes": 91905,
+  "zip_sha256": "68c3fbdf7ab6159e178cb60a9c1e24f4a48958e05143022a0c53e81acc0be38b",
+  "bytes": 743546,
+  "sha256": "afba243e449d5bfacf15a8953edb4f9f0866b468885299f7d2fadf395a26d5f5",
+  "whole_job_status": "completed",
+  "whole_job_conclusion": "failure",
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "source_pins_verified": 9,
+  "transport_source_pins_verified": 2,
+  "native_counts": {
+    "PASS": 1
+  },
+  "all_returned_case_boundaries_catalogs_and_sessions_restored": true,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "actual_Auth_HTTP_credit": false,
+  "actual_concurrency_credit": false,
+  "full_A_chain_credit": false,
+  "model_caller_integrated": false,
+  "positive_forecast_credit": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "failed_groups": {
+    "races": {
+      "error": "OW13A_LEGACY_ORACLE_NOT_EXACT_PREDECESSOR_22: {'database_authority': ['CURRENT']}",
+      "traceback": "er(cur)\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f05_analysis_probe.py\", line 294, in checker\n    return verify_history_reference(cur,history_reference_legacy_checker,history_reference_state)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow13c_history_reference_probe.py\", line 23, in verify_composed\n    legacy_checker(cur)\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f05_analysis_probe.py\", line 286, in checker\n    return verify_bounded_history(cur,bounded_history_legacy_checker,bounded_history_state)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow13c_history_inputs_probe.py\", line 23, in verify_composed\n    legacy_checker(cur)\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f05_analysis_probe.py\", line 264, in checker\n    return verify_staged_schedule(cur,staged_schedule_legacy_checker,staged_schedule_state)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow13c_schedule_probe.py\", line 24, in verify_composed\n    legacy_checker(cur)\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f05_analysis_probe.py\", line 239, in checker\n    return verify_checked(cur,checked_legacy_checker,checked_state)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow13c_checked_probe.py\", line 24, in verify_composed\n    legacy_checker(cur)\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f05_analysis_probe.py\", line 230, in checker\n    return verify_composed(cur,reorder_legacy_checker,reorder_states)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow10_reorder_probe.py\", line 34, in verify_composed\n    legacy_checker(cur)\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f05_analysis_probe.py\", line 218, in checker\n    verify_composed_install(cur,old_checker,initial_states)\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow13a_initial_probe.py\", line 55, in verify_composed_install\n    verify_initial_delta(cur, legacy_checker, states['initial'], function_oracle)\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow13a_initial_probe.py\", line 27, in verify_initial_delta\n    raise ValueError('OW13A_LEGACY_ORACLE_NOT_EXACT_PREDECESSOR_22: '+str({g:k for g,k in names.items()if k}))\nValueError: OW13A_LEGACY_ORACLE_NOT_EXACT_PREDECESSOR_22: {'database_authority': ['CURRENT']}\n",
+      "returned_business_cases": 0,
+      "database_remaining": 0
+    },
+    "http": {
+      "error": "OW13A_LEGACY_ORACLE_NOT_EXACT_PREDECESSOR_22: {'database_authority': ['CURRENT']}",
+      "traceback": "er(cur)\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f05_analysis_probe.py\", line 294, in checker\n    return verify_history_reference(cur,history_reference_legacy_checker,history_reference_state)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow13c_history_reference_probe.py\", line 23, in verify_composed\n    legacy_checker(cur)\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f05_analysis_probe.py\", line 286, in checker\n    return verify_bounded_history(cur,bounded_history_legacy_checker,bounded_history_state)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow13c_history_inputs_probe.py\", line 23, in verify_composed\n    legacy_checker(cur)\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f05_analysis_probe.py\", line 264, in checker\n    return verify_staged_schedule(cur,staged_schedule_legacy_checker,staged_schedule_state)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow13c_schedule_probe.py\", line 24, in verify_composed\n    legacy_checker(cur)\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f05_analysis_probe.py\", line 239, in checker\n    return verify_checked(cur,checked_legacy_checker,checked_state)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow13c_checked_probe.py\", line 24, in verify_composed\n    legacy_checker(cur)\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f05_analysis_probe.py\", line 230, in checker\n    return verify_composed(cur,reorder_legacy_checker,reorder_states)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow10_reorder_probe.py\", line 34, in verify_composed\n    legacy_checker(cur)\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f05_analysis_probe.py\", line 218, in checker\n    verify_composed_install(cur,old_checker,initial_states)\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow13a_initial_probe.py\", line 55, in verify_composed_install\n    verify_initial_delta(cur, legacy_checker, states['initial'], function_oracle)\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow13a_initial_probe.py\", line 27, in verify_initial_delta\n    raise ValueError('OW13A_LEGACY_ORACLE_NOT_EXACT_PREDECESSOR_22: '+str({g:k for g,k in names.items()if k}))\nValueError: OW13A_LEGACY_ORACLE_NOT_EXACT_PREDECESSOR_22: {'database_authority': ['CURRENT']}\n",
+      "returned_business_cases": 0,
+      "database_remaining": 0
+    }
+  },
+  "transport_suite_credit": false,
+  "auth0000_restored": true,
+  "diagnosis": "Exact predecessor check rejected database_authority.CURRENT on copied database before business cases; no HTTP/race outcome credit."
+}
