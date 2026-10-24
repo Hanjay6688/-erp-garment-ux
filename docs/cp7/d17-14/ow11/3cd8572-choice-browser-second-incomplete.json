@@ -1,0 +1,77 @@
+{
+  "contract": "cp7.analog-choice-browser-second-incomplete.v1",
+  "candidate_sha": "3cd8572241bb09bf9b55330a6feef07f9ae3f9a8",
+  "run_id": 40089419592,
+  "job_id": 120858868157,
+  "status": "INCOMPLETE",
+  "browser_counts": {
+    "INCOMPLETE": 2
+  },
+  "cases": {
+    "OW11_CHOICE_BROWSER_MOBILE_LOSS_RELOAD_REPLAY_CLEAR": {
+      "status": "INCOMPLETE",
+      "error": "Error: expect(locator).toBeDisabled() failed\n\nLocator:  getByRole('region', { name: 'Kebutuhan seluruh produk', exact: true }).getByRole('region', { name: 'Kandidat produk pembanding', exact: true }).getByRole('region', { name: 'Konfirmasi produk pembanding', exact: true }).locator('fieldset')\nExpected: disabled\nReceived: enabled\nTimeout:  5000ms\n\nCall log:\n  - Expect \"to.be.disabled\" with timeout 5000ms\n  - waiting for getByRole('region', { name: 'Kebutuhan seluruh produk', exact: true }).getByRole('region', { name: 'Kandidat produk pembanding', exact: true }).getByRole('region', { name: 'Konfirmasi produk pembanding', exact: true }).locator('fieldset')\n    14 \u00d7 locator resolved to <fieldset disabled>\u2026</fieldset>\n       - unexpected value \"enabled\"\n\n    at captureRawStack (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright-core/lib/coreBundle.js:9681:17)\n    at callMatcherAsStep (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright/lib/matchers/expect.js:13310:57)\n    at Object.toBeDisabled (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/node_modules/playwright/lib/matchers/expect.js:13300:23)\n    at journey (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow11_choice_browser.mjs:50:46)\n    at async main (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:243:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:259:3",
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    "OW11_CHOICE_BROWSER_DESKTOP_DENSE_STALE_AND_REVOKED": {
+      "status": "INCOMPLETE",
+      "error": "locator.fill: Timeout 20000ms exceeded.\nCall log:\n  - waiting for getByRole('region', { name: 'Kebutuhan seluruh produk', exact: true }).getByRole('region', { name: 'Kandidat produk pembanding', exact: true }).getByRole('region', { name: 'Konfirmasi produk pembanding', exact: true }).getByLabel('Alasan kesamaan atau pencabutan', { exact: true })\n\n    at fill (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow11_choice_browser.mjs:20:72)\n    at async journey (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow11_choice_browser.mjs:70:4)\n    at async main (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:243:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:259:3",
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "auth_counts": {
+    "before": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "after": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "restored": true
+  },
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "confirmed_HTTP200_before_failure": {
+    "mobile": 1,
+    "desktop": 1
+  },
+  "errors": [
+    "Playwright toBeDisabled treats fieldset itself as enabled despite actual disabled attribute; assert attribute AND each child form control instead.",
+    "Textarea nested-label text changes with controlled value; explicit htmlFor separates stable label from content."
+  ],
+  "complete_journey_PASS": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "complete_json": {
+    "filename": "ow11-3cd8572-choice-browser2-complete-json.zip",
+    "artifact_id": 12558881555,
+    "bytes": 48289,
+    "sha256": "cf2f4d99f357de31cadd5f5537f4bee170283abd5aede8c1677656873c5faa05"
+  },
+  "full_log": {
+    "filename": "ow11-3cd8572-choice-browser2-incomplete.log",
+    "artifact_id": null,
+    "bytes": 189171,
+    "sha256": "b451992825e863353f490724b48d55756be386be8daab538d59b4c8c3cefa1b4"
+  }
+}

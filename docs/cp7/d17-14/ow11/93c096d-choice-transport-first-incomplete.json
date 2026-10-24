@@ -1,0 +1,273 @@
+{
+  "contract": "cp7.analog-choice-transport-first-incomplete.v1",
+  "candidate_sha": "93c096dcae8e7fd02dca7d60349b2827ee1b0fc0",
+  "run_id": 40086565713,
+  "job_id": 120850606120,
+  "status": "INCOMPLETE",
+  "error": "BOUNDED_PREDECLARED_GROUP_CHANGED",
+  "package_gates": {
+    "installed": false,
+    "primary_unchanged": true,
+    "backup_restore_drill": false,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "complete_CP7_transport_Original_present": false,
+  "aggregate_case_count_not_written": true,
+  "log_case_count": 10,
+  "log_case_results": [
+    {
+      "group": "CP7_OW11_ANALOG_CHOICE_TRANSPORT",
+      "case": "OW11_ANALOG_CHOICE_CATALOG22_PREUSE_AND_DEPENDENCY",
+      "status": "PASS",
+      "source_owner_ACL_RLS_GUC_exact": true,
+      "private4_public2_tables2_replacements0": true,
+      "exact_preuse_catalog22_inverse": true,
+      "dependent_view_failure_restores_partial_DDL": true,
+      "forecast_applied": false,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    {
+      "group": "AUDITOR_RACES_CP7_OW11_ANALOG_CHOICE_TRANSPORT",
+      "case": "OW11_ANALOG_CHOICE_RACE_SAME_UUID",
+      "status": "PASS",
+      "two_actual_backends": true,
+      "same_UUID_exact_replay": true,
+      "different_UUID_CAS_one_winner": false,
+      "one_choice_one_command": true,
+      "no_physical_stock_money_HPP_change": true,
+      "copy_runtime": {
+        "stage": "cp7.bounded-analysis-stage.v1",
+        "private_functions": 13,
+        "public_rpcs": 1,
+        "new_tables": 0,
+        "existing_function_replacements": 7,
+        "Native_ERP_DML": false,
+        "real_Native_job_rows": true,
+        "raw_native_status_overridden": false,
+        "actual_checked_SAVE2000_qualified": false,
+        "full_A_chain_qualified": false,
+        "production_go": false
+      },
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    {
+      "group": "AUDITOR_RACES_CP7_OW11_ANALOG_CHOICE_TRANSPORT",
+      "case": "OW11_ANALOG_CHOICE_RACE_REVISION",
+      "status": "PASS",
+      "two_actual_backends": true,
+      "same_UUID_exact_replay": false,
+      "different_UUID_CAS_one_winner": true,
+      "one_choice_one_command": true,
+      "no_physical_stock_money_HPP_change": true,
+      "copy_runtime": {
+        "stage": "cp7.bounded-analysis-stage.v1",
+        "private_functions": 13,
+        "public_rpcs": 1,
+        "new_tables": 0,
+        "existing_function_replacements": 7,
+        "Native_ERP_DML": false,
+        "real_Native_job_rows": true,
+        "raw_native_status_overridden": false,
+        "actual_checked_SAVE2000_qualified": false,
+        "full_A_chain_qualified": false,
+        "production_go": false
+      },
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    {
+      "group": "AUDITOR_RACES_CP7_OW11_ANALOG_CHOICE_TRANSPORT",
+      "case": "OW11_ANALOG_CHOICE_RACE_ACCESS_AFTER_ENVELOPE",
+      "status": "PASS",
+      "actual_lock_wait_observed": "envelope",
+      "actual_committed_replay_wait": false,
+      "access_revoked_during_wait": true,
+      "Native_stock_changed_during_wait": false,
+      "no_orphan_choice_or_command": true,
+      "two_actual_backends": true,
+      "copy_runtime": {
+        "stage": "cp7.bounded-analysis-stage.v1",
+        "private_functions": 13,
+        "public_rpcs": 1,
+        "new_tables": 0,
+        "existing_function_replacements": 7,
+        "Native_ERP_DML": false,
+        "real_Native_job_rows": true,
+        "raw_native_status_overridden": false,
+        "actual_checked_SAVE2000_qualified": false,
+        "full_A_chain_qualified": false,
+        "production_go": false
+      },
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    {
+      "group": "AUDITOR_RACES_CP7_OW11_ANALOG_CHOICE_TRANSPORT",
+      "case": "OW11_ANALOG_CHOICE_RACE_REPLAY_ACCESS_AFTER_REQUEST",
+      "status": "PASS",
+      "actual_lock_wait_observed": "request",
+      "actual_committed_replay_wait": true,
+      "access_revoked_during_wait": true,
+      "Native_stock_changed_during_wait": false,
+      "no_orphan_choice_or_command": true,
+      "two_actual_backends": true,
+      "copy_runtime": {
+        "stage": "cp7.bounded-analysis-stage.v1",
+        "private_functions": 13,
+        "public_rpcs": 1,
+        "new_tables": 0,
+        "existing_function_replacements": 7,
+        "Native_ERP_DML": false,
+        "real_Native_job_rows": true,
+        "raw_native_status_overridden": false,
+        "actual_checked_SAVE2000_qualified": false,
+        "full_A_chain_qualified": false,
+        "production_go": false
+      },
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    {
+      "group": "AUDITOR_RACES_CP7_OW11_ANALOG_CHOICE_TRANSPORT",
+      "case": "OW11_ANALOG_CHOICE_RACE_ACCESS_AFTER_TARGET",
+      "status": "PASS",
+      "actual_lock_wait_observed": "target",
+      "actual_committed_replay_wait": false,
+      "access_revoked_during_wait": true,
+      "Native_stock_changed_during_wait": false,
+      "no_orphan_choice_or_command": true,
+      "two_actual_backends": true,
+      "copy_runtime": {
+        "stage": "cp7.bounded-analysis-stage.v1",
+        "private_functions": 13,
+        "public_rpcs": 1,
+        "new_tables": 0,
+        "existing_function_replacements": 7,
+        "Native_ERP_DML": false,
+        "real_Native_job_rows": true,
+        "raw_native_status_overridden": false,
+        "actual_checked_SAVE2000_qualified": false,
+        "full_A_chain_qualified": false,
+        "production_go": false
+      },
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    {
+      "group": "AUDITOR_RACES_CP7_OW11_ANALOG_CHOICE_TRANSPORT",
+      "case": "OW11_ANALOG_CHOICE_RACE_SOURCE_AFTER_ENVELOPE",
+      "status": "PASS",
+      "actual_lock_wait_observed": "envelope",
+      "actual_committed_replay_wait": false,
+      "access_revoked_during_wait": false,
+      "Native_stock_changed_during_wait": true,
+      "no_orphan_choice_or_command": true,
+      "two_actual_backends": true,
+      "copy_runtime": {
+        "stage": "cp7.bounded-analysis-stage.v1",
+        "private_functions": 13,
+        "public_rpcs": 1,
+        "new_tables": 0,
+        "existing_function_replacements": 7,
+        "Native_ERP_DML": false,
+        "real_Native_job_rows": true,
+        "raw_native_status_overridden": false,
+        "actual_checked_SAVE2000_qualified": false,
+        "full_A_chain_qualified": false,
+        "production_go": false
+      },
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    {
+      "group": "AUDITOR_HTTP_CP7_OW11_ANALOG_CHOICE_TRANSPORT",
+      "case": "OW11_ANALOG_CHOICE_AUTH_CONFIRM_CLEAR_EXACT_REPLAY",
+      "status": "PASS",
+      "actual_Auth_PostgREST_confirm_clear_workspace": true,
+      "exact_committed_UUID_replay_after_clear": true,
+      "changed_payload_same_UUID_refused": true,
+      "no_physical_stock_money_HPP_change": true,
+      "forecast_applied": false,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    {
+      "group": "AUDITOR_HTTP_CP7_OW11_ANALOG_CHOICE_TRANSPORT",
+      "case": "OW11_ANALOG_CHOICE_AUTH_REVOKED_COMMITTED_REPLAY",
+      "status": "PASS",
+      "actual_old_token_revoked_read_and_committed_replay_refused": true,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    {
+      "group": "AUDITOR_HTTP_CP7_OW11_ANALOG_CHOICE_TRANSPORT",
+      "case": "OW11_ANALOG_CHOICE_AUTH_ANON_AND_FOREIGN_REFERENCE",
+      "status": "PASS",
+      "anonymous_both_facades_denied": true,
+      "authorized_shared_config_read": true,
+      "foreign_actor_own_epoch_cannot_confirm_private_reference": true,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    }
+  ],
+  "log_sha256": "1d431c943f5fbffaab8540ac7769c038f23c0a3c2d99d1882c796f3af9bf151a",
+  "artifact": {
+    "artifact_id": 12558296493,
+    "file_name": "ow11-93c096d-choice-transport10-complete-json.zip",
+    "bytes": 17496,
+    "sha256": "10c1105db4db7525ecfa64a6b2fdf6b376c512959d18306115fed3c9fa94b092"
+  },
+  "scope": "Ten individual actual log cases PASS; aggregate Original and backup/restore gates were lost to final selector exception. Not a complete component PASS.",
+  "full_OW11_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

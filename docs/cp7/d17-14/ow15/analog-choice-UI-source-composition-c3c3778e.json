@@ -1,0 +1,40 @@
+{
+  "status": "SOURCE_COMPOSITION_PREPARED_NOT_RUNTIME_PASS",
+  "parents": [
+    "469ed1e8b2edf80f7988feba38162a5be7251b8c",
+    "c3c3778ea07094c534a2b92bbc0d203eb843c9b0"
+  ],
+  "frozen_A_driver_and_analog_browser_preserved": true,
+  "new_B_driver_copy": "scripts/cp7_b_choice_f05_analysis_probe.py",
+  "new_B_helper_exact_copy": "scripts/cp7_b_choice_analog_browser.mjs",
+  "new_B_browser_one_import_adapter": "scripts/cp7_b_choice_browser.mjs",
+  "new_caller_registry_pairs": 2,
+  "production_go": false,
+  "independent_acceptance": false,
+  "consumer_prototype_not_installed": true,
+  "local_verification": {
+    "vitest_files": 6,
+    "vitest_tests": 70,
+    "vitest_PASS": true,
+    "typescript_PASS": true,
+    "source_ownership": {
+      "runtime_files": 374,
+      "RPCs": 318,
+      "PASS": true
+    },
+    "access_ownership": {
+      "permissions": 111,
+      "nav": 47,
+      "routes": 48,
+      "sensitive_actions": 21,
+      "RPCs": 318,
+      "PASS": true
+    },
+    "css_stylesheets": 64,
+    "css_PASS": true,
+    "browser_helper_tests": 3,
+    "browser_helper_PASS": true,
+    "full_browser_runtime_yet": false,
+    "React_review": "Unmount/stale generations, exact persisted request retry, tab lock, current access, explicit field labels, immutable original UI oracles checked"
+  }
+}

@@ -1,0 +1,108 @@
+{
+  "contract": "cp7.component-original-receipt.v1",
+  "candidate_sha": "9532ba0e4a6d2815c968353398648c4a8c0f4ca5",
+  "run_id": 40085123316,
+  "job_id": 120846382173,
+  "run_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/40085123316",
+  "status": "PASS",
+  "expected_case_count": 16,
+  "observed_case_count": 16,
+  "required_case_counts": {
+    "native": 10,
+    "races": 2,
+    "http": 2,
+    "browser": 2
+  },
+  "required_case_ids_pass": true,
+  "required_case_counts_pass": true,
+  "groups": {
+    "native": {
+      "OW16_NO_GUESSED_POLICY": {
+        "status": "PASS",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      "OW16_FACTORY_CURRENT_CONTEXT": {
+        "status": "PASS",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      "OW16_LOW_HIGH_TOTAL_PCS": {
+        "status": "PASS",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      "OW16_READ_ONLY_NATIVE_FACTS": {
+        "status": "PASS",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      "OW16_OWNER_POLICY_REPLAY_IMMUTABLE": {
+        "status": "PASS",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      "OW16_INVALID_POLICY_ZERO_EFFECT": {
+        "status": "PASS",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      "OW16_PAUSED_INSUFFICIENT_UNPOSTED": {
+        "status": "PASS",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      "OW16_NEGATIVE_LOOKUP_SEALS_REQUEST": {
+        "status": "PASS",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      "OW16_NATIVE_HISTORY_REOPEN_REPOST": {
+        "status": "PASS",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      "OW16_PRIVATE_CATALOG_AND_CURRENT_ACCESS": {
+        "status": "PASS",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      }
+    },
+    "races": {},
+    "http": {
+      "OW16_REAL_AUTH_FACTORY_STATUS_POLICY": {
+        "status": "PASS"
+      },
+      "OW16_REAL_AUTH_CURRENT_REVOKE": {
+        "status": "PASS"
+      }
+    },
+    "browser": {
+      "OW16_BROWSER_DESKTOP_AUTO_AFTER_POST": {
+        "status": "PASS"
+      },
+      "OW16_BROWSER_MOBILE_UUID_RECOVERY": {
+        "status": "PASS"
+      }
+    }
+  },
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "source_sha256": "3c0364ceafa88804e5ae8ab0804e2d0902aff036c249d344808ebb9936e40005",
+  "artifact": {
+    "artifact_id": 12557116303,
+    "file_name": "ow16-9532ba0-complete-json.zip",
+    "bytes": 251271,
+    "sha256": "af14eb975ddc96c30bd4e27f2a9d624d52fcf9e44a75930eb6679e2314e9d31f"
+  },
+  "new_OW_acceptance_credit": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

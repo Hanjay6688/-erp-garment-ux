@@ -91,6 +91,8 @@ assert.deepEqual(dataReads, [], 'Browser code must not read ERP tables/views dir
 
 assert.deepEqual([...rpcOwnership].sort(), [
   'src/nativeProductAnalog.ts:erp_cp7_read_product_analog_candidates_v1',
+  'src/nativeProductAnalogChoice.ts:erp_cp7_get_product_analog_choices_v1',
+  'src/nativeProductAnalogChoice.ts:erp_cp7_save_product_analog_choice_v1',
   'src/NativeCuttingStatusPanel.tsx:erp_cp7_get_cutting_status_policy_request_v1',
   'src/NativeCuttingStatusPanel.tsx:erp_cp7_get_cutting_status_v1',
   'src/NativeCuttingStatusPanel.tsx:erp_cp7_save_cutting_status_policy_v1',
