@@ -1827,3 +1827,19 @@ bounded analog/direct/staged parity. No positive historical model is fabricated.
 Actual runtime is pending; source/declaration/YAML/Python checks pass. Old31/25/19
 budgets and8s/45min limits unchanged. Continue on runtime findings and remaining
 source/SAVE/Auth/browser/bounded factory integration after publication.
+
+
+## 104. B24 Oktober2026 — model target Auth Browser2 candidate, Native6 running
+
+5770baa5/run40111136202/job120922915049 Native6 is running; no runtime credit
+before complete Original. Separate Browser2 composition installs the exact
+model-target parent chain only on the disposable Auth/browser copy. Mobile
+UNKNOWN→reviewed analog→new target→CLEAR and desktop dense2000/202000 reload
+now additionally assert provenancev2 with BASELINE_RETAINED, no model vector,
+exact baseline explanation and unchanged observed own sales. These are actual
+browser fallback/integration controls, not a positive model winner claim.
+
+Existing controlled historical openings stay explicitly synthetic; actual posted
+sale/Auth/PostgREST/UI assertions and cleanup retain their own evidence. Original
+consumer browser sources remain unchanged. Declaration/JS syntax/Python/YAML
+checks pass; old31/25/19 and45min budgets unchanged. FullOW11/productionfalse.
