@@ -53,5 +53,7 @@
   "statement_timeout": "8s",
   "wall_limit_ms": 8000,
   "actual_quantity_UI_qualified": false,
-  "production_go": false
+  "production_go": false,
+  "minimum_table_value_contrast": 4.5,
+  "pending_plan_keeps_direct_recovery_entry_readable": true
 }

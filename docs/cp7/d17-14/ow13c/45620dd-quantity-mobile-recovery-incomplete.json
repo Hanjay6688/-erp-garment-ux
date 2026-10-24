@@ -1,0 +1,77 @@
+{
+  "contract": "cp7.bounded-quantity-mobile-recovery-incomplete.v1",
+  "candidate": "45620dd0b615b36c8c026d9d2906986d7e2c9cb4",
+  "tree": "5aabba6bca8b2337ef8b4d9ebeae241ae7f76139",
+  "source": "bc93efedc9af2d580a637a7c363328e639328d4d",
+  "run_id": 40042756850,
+  "job_id": 120717391564,
+  "status": "INCOMPLETE",
+  "expected": 2,
+  "observed": 2,
+  "counts": {
+    "browser": {
+      "INCOMPLETE": 1,
+      "PASS": 1
+    }
+  },
+  "totals_match": true,
+  "source_files_exact": 47,
+  "preuse22_exact": 12,
+  "clone_authorities": 1,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "declaration_sha256": "8de9e592cf33383d38391f2a2f5df179d8e3fcb1663b36d1ceb7cceb23c6da34",
+  "original": {
+    "artifact_id": 12540512110,
+    "bytes": 45590,
+    "sha256": "8e6c318b4d8cc4351d83d0de1ecc257a8f2cec16f93fb36bb7906d40dcd5c39b"
+  },
+  "full_artifact": {
+    "artifact_id": 12540950214,
+    "bytes": 2610144,
+    "sha256": "b024313c863a521da71ec8a920c0cf44edf11796c548c4c7f6926018dab1beab"
+  },
+  "complete_original_independently_checked": true,
+  "cause": "Mobile actual checked SAVE returned200 SAVED and delivery was aborted; reload direct cutting entry was disabled by parent global writerLocked because PLAN_APPLY_STAGED envelope correctly remained pending. Entry could not reach reconcile.",
+  "correction": "Parent blocks read/recovery entry only while an actual send is busy; all actual writers keep original global writerLocked. Real-hook parent DOM regression first fails, then passes without erasing pending UUID/payload.",
+  "desktop_dense_quantity_component_qualified": true,
+  "mobile_recovery_component_qualified": false,
+  "after_use_restore_qualified": false,
+  "full_OW13c_acceptance": false,
+  "full_A_chain_qualified": false,
+  "production_go": false,
+  "desktop_actual_result": {
+    "status": "PASS",
+    "actual_Auth_PostgREST_browser": true,
+    "real_Native_job_DONE": true,
+    "source_method": "BOUNDED",
+    "old_whole_netting_call_count": 0,
+    "expected_targets": 2003,
+    "large_2000_products_202000_movements": true,
+    "raw_history_INCOMPLETE_preserved": true,
+    "actual_stock_change_and_new_UUID": true,
+    "checked_SAVE_lost_reply_exact_UUID_payload_result_recovery": false,
+    "direct_cutting_entry": true,
+    "direct_cutting_reuses_same_job": false,
+    "no_client_money_HPP_or_stock_effect": true,
+    "no_horizontal_overflow": true,
+    "viewport": 1440,
+    "shots": [
+      "cp6-proof/t3/QUANTITY_LARGE_DESKTOP_REVIEWED.png"
+    ],
+    "business_day": {
+      "planned": "2026-10-24",
+      "before": "2026-10-24",
+      "after": "2026-10-24"
+    }
+  },
+  "desktop_readability_qualified": false,
+  "visual_QA_finding": "Direct entry inherited light table text on white cutting card and only half-width layout; own quantity CSS and full-width cutting card added before next UI rerun."
+}

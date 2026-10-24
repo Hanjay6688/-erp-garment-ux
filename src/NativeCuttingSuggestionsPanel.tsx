@@ -17,7 +17,7 @@ function Workspace({onSourceReadStart,onSourceReadEnd,disabled}:Props){
  const query=selection?.query??null
  const today=cp6WibDateTimeInput().slice(0,10)
  const ready=/^\d{4}-\d\d-\d\d$/.test(from)&&/^\d{4}-\d\d-\d\d$/.test(through)&&from<=through&&through<today
- return<section className="ccut-card" aria-label="Saran potong"><h2>Saran potong</h2>
+ return<section className="ccut-card wide" aria-label="Saran potong"><h2>Saran potong</h2>
   <p>Pilih periode penjualan untuk membuka mesin rencana seluruh produk yang sama. Pilih SKU dan ukuran dengan jelas; waktu data dan alasan saran ditampilkan bersama jumlahnya.</p>
   <label>Penjualan mulai (WIB)<input aria-label="Penjualan mulai untuk saran potong" type="date" value={from} disabled={disabled||query!==null} onChange={e=>setFrom(e.target.value)}/></label>
   <label>Penjualan sampai (WIB)<input aria-label="Penjualan sampai untuk saran potong" type="date" max={today} value={through} disabled={disabled||query!==null} onChange={e=>setThrough(e.target.value)}/></label><p>Pakai hari yang sudah selesai dalam WIB.</p>

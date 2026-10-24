@@ -12,6 +12,7 @@ import {stagedFailureText,stagedRetentionText,type StagedJob} from './nativeStag
 import {stagedRangeLabel,stagedNumber,type StagedAnalysis,type AnalysisPage,type StagedSourceCheck} from './nativeAnalysisPages'
 import NativePlanDraftPanel from './NativePlanDraftPanel'
 import type {StagedPlanContext} from './nativePlanDraft'
+import './native-bounded-quantity.css'
 
 type Props={query:NativeDemandQuery;onSourceReadStart:()=>void;onSourceReadEnd:()=>void;onClose:()=>void}
 const permissions=['master.product.view','production.wip.view','warehouse.stock.view','sales.invoice.view']
@@ -75,7 +76,7 @@ function Workspace({query,onSourceReadStart,onSourceReadEnd,onClose}:Props){
  const blocked=busy||pageLoading||checking||plan!==null,canNew=Boolean(staged||refusedBeforeJob||job?.state==='FAILED'||job?.retention?.state==='EXPIRED'),m=staged?.set
  const labels=useMemo(()=>new Map(staged?.header.labels.map(p=>[p.key,`${p.sku} · ${p.name}`])??[]),[staged])
  const rows=page?.items.recommendations??[],visible=rows.slice(slice,slice+50),pageIndex=page?.index??0
- return <section className="native-production-result" aria-label="Kebutuhan seluruh produk"><header><h3>Kebutuhan seluruh produk</h3><button onClick={()=>{stop();onClose()}}>Tutup perhitungan kebutuhan</button></header>
+ return <section className="native-production-result native-bounded-quantity" aria-label="Kebutuhan seluruh produk"><header><h3>Kebutuhan seluruh produk</h3><button onClick={()=>{stop();onClose()}}>Tutup perhitungan kebutuhan</button></header>
   <p>Perhitungan memakai jadwal terakhir yang sudah disimpan. Isian jadwal yang belum disimpan belum masuk perhitungan.</p>
   {busy?<p role="status">{job?`Menghitung kebutuhan · ${stagedNumber(job.unitsDone)} dari ${stagedNumber(job.unitCount)} langkah selesai.`:'Mengambil sumber perhitungan…'}</p>:null}
   {job?.retention?<p>{stagedRetentionText(job.retention)}</p>:null}

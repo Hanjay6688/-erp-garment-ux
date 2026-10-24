@@ -91,11 +91,20 @@ async function journey(ui,today,dense){
    assert.equal(requests[0].body.cutting_save_guard.feasible,true)
    const committed=state();assert.equal(committed.drafts,before.drafts+1);assert.equal(committed.receipts,before.receipts+1);assert.equal(committed.intents,before.intents);assert.deepEqual(committed.physical,before.physical)
   }
+  const contrast=await q.locator('tbody td').first().evaluate(cell=>{
+   const channels=text=>text.match(/[\d.]+/g).slice(0,3).map(Number)
+   const luminance=rgb=>rgb.map(v=>v/255).map(v=>v<=.04045?v/12.92:((v+.055)/1.055)**2.4).reduce((s,v,i)=>s+v*[.2126,.7152,.0722][i],0)
+   let ancestor=cell,bg
+   while(ancestor){const color=getComputedStyle(ancestor).backgroundColor;if(color!=='transparent'&&color!=='rgba(0, 0, 0, 0)'){bg=color;break}ancestor=ancestor.parentElement}
+   const a=luminance(channels(getComputedStyle(cell).color)),b=luminance(channels(bg||'rgb(255,255,255)'))
+   return(Math.max(a,b)+.05)/(Math.min(a,b)+.05)
+  })
+  assert.ok(contrast>=4.5,`QUANTITY_VALUE_CONTRAST_${contrast}`)
   await ui.expect.poll(()=>page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true);await shot('REVIEWED')
   return{status:'PASS',actual_Auth_PostgREST_browser:true,real_Native_job_DONE:true,source_method:'BOUNDED',old_whole_netting_call_count:0,expected_targets:f.expected_targets,
    large_2000_products_202000_movements:dense,raw_history_INCOMPLETE_preserved:dense,actual_stock_change_and_new_UUID:dense,
    checked_SAVE_lost_reply_exact_UUID_payload_result_recovery:!dense,direct_cutting_entry:true,direct_cutting_reuses_same_job:!dense,
-   no_client_money_HPP_or_stock_effect:true,no_horizontal_overflow:true,viewport:dense?1440:390,shots}
+   no_client_money_HPP_or_stock_effect:true,no_horizontal_overflow:true,table_value_contrast:contrast,table_values_contrast_at_least4_5:true,viewport:dense?1440:390,shots}
  }catch(error){writeFileSync(`cp6-proof/t3/QUANTITY_${dense?'LARGE_DESKTOP':'SMALL_MOBILE'}_FAILURE.json`,JSON.stringify({error:String(error),calls,requests,alerts:await page.getByRole('alert').allTextContents().catch(()=>[])},null,2));await shot('FAILURE').catch(()=>{});throw error}
  finally{await page.unrouteAll({behavior:'wait'});fixture('restore',{actor});await user.context.close()}
 }

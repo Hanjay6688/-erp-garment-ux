@@ -984,3 +984,24 @@ flag defaultfalse andownNative2budget; quantitycandidate remainsfrozenonits
 owncommit. No runtimeproofyet; nofinance/completebefore-result/parity/fullfactory
 orUI/SAVE3600 claim. Afinancialbridge/after-use/globalchain stillownedA,
 OW11a-b remainopen, parent5/16. Nootherwriterfiles/defaults/types edited.
+
+
+## 59. Quantity desktop passes; pending direct recovery and visual QA corrected (24 Oktober2026 UTC)
+
+Candidate45620dd0/run40042756850/job120717391564 INCOMPLETE=1PASSdesktop+
+1INCOMPLETEmobile. CompleteOriginal12540512110/45590bytes/SHA8e6c318b4d8cc4351d83d0de1ecc257a8f2cec16f93fb36bb7906d40dcd5c39b
+independentlyverified47sources/12preuse22/1exactclone/restore/advisors;
+writerruntimefalse. Desktopactual2003targets/directcutting/jobDONE/fullsource
+UNCHANGED→actualNativeFGchange→STALE/newUUID/noeffects/1440width passes. Mobile
+actualcheckedSAVE200SAVED/responseaborted;reloaddirectentrydisabledbyparent
+foreignpendingguardbeforecouldreconcile. No backendfailure ornewSAVEattempt.
+
+ParentConnectedCuttingPage now disablesread/recoveryentryonlywhileactualsendbusy;
+allactualwriters keepglobalwriterLocked. RealsharedhookparentregressionRED1/4
+then62tests/5files+TS PASS, unchangedpendingenvelopeandmainwritersstilllocked.
+ManualdesktopvisualQAfoundinheritedpale8pxtableonwhitehalfwidthcard. Bquantity
+nowloadsownscopedCSS/lightcard/dark14pxvalues/mobilelabelsandoutercardwide;
+nextactualbrowserassertscomputedmainvaluecontrast>=4.5, geometrykept. CSSgate
+passes; noAsharedstyles/checkerschanged. Wholequantity2rerunneeded, nofullclaim.
+Operational3600 run40043712317/job120720445162 stillrunning;same47backend,
+Aafter-use/financebridge/fullchain andOW11a-b open, parent5/16.

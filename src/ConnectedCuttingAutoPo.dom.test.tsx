@@ -4,6 +4,7 @@ import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import ConnectedCuttingPage from './ConnectedCuttingPage'
 import { cuttingSelectorFixture, recoveryIdentity, recoveryPatterns } from '../tests/fixtures/productionRecovery'
+import {persistProductionEnvelope,readProductionRecovery} from './productionRecovery'
 
 // Owner D15-6 (SOL-R1-002): Buat Potongan makes its PO when the cutting is posted; a draft makes nothing.
 const authState = vi.hoisted(() => ({ current: null as unknown }))
@@ -64,6 +65,26 @@ async function fillCutting() {
   await setValue(container.querySelector<HTMLInputElement>('input[aria-label="R-1 Size 31"]')!, '5')
   await setValue(container.querySelector<HTMLInputElement>('input[aria-label="R-1 Size 32"]')!, '4')
 }
+
+it('keeps the suggestion recovery entry readable while a staged checked SAVE locks all production writers',async()=>{
+ const auth=structuredClone(recoveryIdentity)
+ Object.assign(auth.runtime,{mode:'DISPOSABLE_TEST'})
+ auth.identity.permissions.push('master.product.view','warehouse.stock.view','sales.invoice.view','production.cutting.view')
+ authState.current=auth
+ const content={action:'SAVE_DRAFT',payload:{cutting_save_contract:'cp7.cutting-checked-save.v1'},expectedVersion:null}
+ const pending={...content,fingerprint:JSON.stringify(content),id:'4a000000-0000-4000-8000-000000000001',createdAt:'2026-10-24T00:00:00Z'}
+ persistProductionEnvelope('disposable:actor-1','PLAN_APPLY_STAGED',pending)
+ server(()=>{throw Error('No production write is permitted while the earlier result is uncertain')})
+ await act(async()=>root.render(<ConnectedCuttingPage/>));await settle()
+ const from=container.querySelector<HTMLInputElement>('[aria-label="Penjualan mulai untuk saran potong"]')!
+ const through=container.querySelector<HTMLInputElement>('[aria-label="Penjualan sampai untuk saran potong"]')!
+ expect(from.disabled).toBe(false);expect(through.disabled).toBe(false)
+ await setValue(from,'2026-09-01');await setValue(through,'2026-09-30')
+ expect(button('Buka saran potong').disabled).toBe(false)
+ expect(button('Sahkan & buat PO').disabled).toBe(true)
+ expect(readProductionRecovery('disposable:actor-1').pending.PLAN_APPLY_STAGED).toEqual(pending)
+ expect(client.rpc.mock.calls.some(([name])=>name.startsWith('erp_save_')||name.startsWith('erp_cp7_save_'))).toBe(false)
+})
 
 describe('Buat Potongan with the PO made automatically (owner D15-6)', () => {
   it('posts the cutting and creates its PO in one request, then names the new PO', async () => {

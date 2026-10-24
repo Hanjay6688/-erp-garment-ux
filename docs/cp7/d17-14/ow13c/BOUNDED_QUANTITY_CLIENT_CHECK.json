@@ -60,5 +60,22 @@
       "tests": 24,
       "files": 2
     }
-  ]
+  ],
+  "parent_recovery_verification": {
+    "tests": 62,
+    "files": 5,
+    "typescript": "PASS",
+    "first_red_tests": 1,
+    "first_red_other_tests_pass": 3,
+    "real_shared_recovery_hook": true,
+    "pending_envelope_kept": true,
+    "all_actual_writers_still_locked": true,
+    "read_entry_accessible": true,
+    "overlaps_prior184_do_not_sum": true
+  },
+  "latest_actual_quantity_UI_result": "45620dd-quantity-mobile-recovery-incomplete.json",
+  "quantity_own_scoped_CSS": true,
+  "css_ownership": "PASS",
+  "direct_cutting_card_full_width": true,
+  "actual_contrast_4_5_predeclared": true
 }

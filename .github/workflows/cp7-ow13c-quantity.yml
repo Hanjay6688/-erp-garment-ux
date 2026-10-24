@@ -171,6 +171,7 @@ jobs:
         npx vitest run src/nativeProductionPlanning.test.ts src/NativeProductionPlanningPanel.dom.test.tsx src/nativeStagedJob.test.ts
         src/NativeDemandHistoryPanel.dom.test.tsx src/nativeDemandHistory.test.ts src/nativeBoundedAnalysis.test.ts src/nativeBoundedQuantity.test.ts src/NativeBoundedQuantityPanel.dom.test.tsx src/NativeDemandInitial.integration.dom.test.tsx
         src/NativeCuttingSuggestionsPanel.dom.test.tsx src/nativeCuttingSuggestion.test.ts src/NativePlanDraftPanel.staged.dom.test.tsx
+        src/ConnectedCuttingAutoPo.dom.test.tsx src/ConnectedProductionRecovery.dom.test.tsx
 
         node --check scripts/cp7_ow13c_schedule_browser.mjs
 
