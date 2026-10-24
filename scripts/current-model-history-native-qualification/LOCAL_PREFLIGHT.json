@@ -1,0 +1,65 @@
+{
+  "status": "LOCAL_NATIVE25_PREPARATION_PASS_NOT_RUNTIME",
+  "business_cases": 25,
+  "source_binding": {
+    "retained_current_target": {
+      "retained_finance_policy_v2": {
+        "retained": {
+          "finance": {
+            "path": "scripts/current-bounded-finance-native-qualification/cases.py",
+            "file_sha256": "c180f519190a63f2d21fc9b6465c1d7809220b07b2848a17cf987ccdfd9362c1",
+            "cases_body_sha256": "14cd23ac8ceec8b980d4a984fffbce73425f77644249fea2135c47f6daa6d57a"
+          },
+          "policy": {
+            "path": "scripts/cp7_ow11_model_policy_cases.py",
+            "file_sha256": "24d5ed6acf2974342348746c7c2b55bcd45acc68d2860bb4d7b1dec3c295a067",
+            "cases_body_sha256": "7ed8bf673c003f9eb85d20cb1a0a2a3ebe89982b739916f3f25973fc96853a74"
+          },
+          "evaluation_v2": {
+            "path": "scripts/cp7_ow11_model_evaluation_v2_cases.py",
+            "file_sha256": "e1388ceb90560fda08e75db68105e20a4bf23469e3e40710cd74bea3fe01b117",
+            "cases_body_sha256": "610154f7f5286fff3c03997214b8421705ef6bfb764e1ed5628c97214c7b7ecb"
+          }
+        },
+        "only_replaced_setup_hooks": [
+          "policy.install",
+          "evaluation.install"
+        ],
+        "excluded_original_catalog_case_ids": [
+          "OW11_MODEL_POLICY_CATALOG22_PREUSE_DEPENDENCY",
+          "OW11_MODEL_V2_CATALOG22_COMPOSED_PREUSE_DEPENDENCY"
+        ],
+        "original_business_assertions_unchanged": true
+      },
+      "target": {
+        "path": "scripts/cp7_ow11_model_target_consumer_cases.py",
+        "file_sha256": "c15dacc66d894f88365e5b8a0e0a77940775bd5629b92cccae09ddbb73777a26",
+        "cases_body_sha256": "dbebc69f877043b450adea47a20c17831871f5b0a2ed259d3e52106241457b52"
+      },
+      "excluded_target_catalog_anchor": "OW11_MODEL_TARGET_CATALOG22_COMPOSED_PREUSE",
+      "original_business_assertions_unchanged": true,
+      "baseline_fix_predecessor_regression_is_separate_component_proof": true
+    },
+    "history": {
+      "path": "scripts/cp7_ow11_model_history_runtime_cases.py",
+      "file_sha256": "9911806d440d1a1546476f494804753e50fbc8eebe32276e43e80e5c31bd950e",
+      "cases_body_sha256": "d99d4734172a8853f1a50ac6623990db9f1afcbf41c2a871be218d68b647c20f"
+    },
+    "excluded_history_catalog_anchor": "OW11_MODEL_HISTORY_RUNTIME_CATALOG22_COMPOSED_INVERSE",
+    "original_business_assertions_unchanged": true,
+    "full_composed_preuse_inverse_is_separate": true
+  },
+  "nested_install_hooks_restored_after_exception": true,
+  "workflow_steps": 47,
+  "shell_steps_syntax_checked": 36,
+  "mandatory_new_originals": [
+    "CURRENT_MODEL_TARGET_ORIGINAL_REPORT",
+    "FIRST_MODEL_HISTORY_TRANSPORT_ORIGINAL_REPORT",
+    "MODEL_HISTORY_NATIVE_ORIGINAL_REPORT",
+    "MODEL_HISTORY_SCOPE_ORIGINAL_REPORT",
+    "MODEL_HISTORY_TRANSPORT_ORIGINAL_REPORT"
+  ],
+  "SOURCE_absent": true,
+  "actual_database_execution": false,
+  "production_go": false
+}
