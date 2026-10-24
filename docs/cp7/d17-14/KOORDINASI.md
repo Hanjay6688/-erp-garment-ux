@@ -1371,3 +1371,19 @@ ini pada A saja; current9 menggunakan pembayaran satu penerimaan. Qualifier
 tambahan memakai helper/assertion OW06 yang tidak diubah, read utuh, replay
 zero-effect, larangan membalik anak, koreksi empat generasi dan pembalikan
 parent dengan stok/HPP tetap; tidak mengubah SQL produk atau expected lama.
+
+## A — OW09 dua riwayat invoice lintas halaman nyata (24 Oktober 2026)
+
+Browser19 current membuktikan kas33jurnal, tetapi dua riwayat invoice masih
+berisi satu dokumen. Native62/DOM telah memeriksa logika luas; A menambah
+qualifier sendiri current-invoice-history-browser, dua journey desktop/390px.
+Masing-masing riwayat memiliki31dokumen Native (30dibalik,1posted). UI harus
+melewati25+6, urut seluruh hasil, maju/mundur, filter30dibalik25+5, cari nomor
+yang semula ada di halaman2, hasil kosong dan reset. UUID/nomor/urutan/jumlah
+dibandingkan langsung dengan oracle tabel Native yang independen; semua tabel
+serta sequence current utuh dan0writerRPC. Tidak mengubah berkas produk/tes
+lama/B. Ini menambah2kasus terarah, belum menutup delapan layar OW09.
+
+Grouped supplier restore head aea44fa9687241300c3530da07fa16284a22ab7d
+run40058216568/job120765815354 sedang berjalan. Jangan menamai PASS sebelum
+Original/allgate dibaca; source834 dan kontrol statis lokal lulus.
