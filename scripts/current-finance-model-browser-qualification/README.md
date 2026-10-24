@@ -14,3 +14,12 @@ winner, activated forecast, backdated history or acceptance claim.
 Require all four exact IDs, actual Auth, no extra HTTP ERP grant, zero Auth/copy
 DB/session/console leaks and the strict primary preuse inverse/CP6/advisor gate.
 The preflight imports both actual ES modules and validates callable case IDs.
+
+## Bound prerequisites; runtime pending
+
+SOURCE.json now binds actual full-chain Native15 PASS on6d056959, with the exact
+raw Original and all five package gates verified. The committed used-restore
+suite additionally binds finance Restore8 PASS on81c7eff7; browser and retained
+transport suites bind their actual B component Originals. Local full admission
+passed3073 pins for each suite. The earlier preparation text describes scope;
+there is no runtime credit until this suite produces its own complete Original.

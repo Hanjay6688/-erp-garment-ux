@@ -26,3 +26,12 @@ Finally restore baseline full22 catalog, every row and sequence, roles, CP6 and
 advisors. Original predecessor case bodies, budgets and source declarations stay
 unchanged. Actual cron, factory3600, full OW11 and independent acceptance remain
 separate work.
+
+## Bound prerequisites; runtime pending
+
+SOURCE.json now binds actual full-chain Native15 PASS on6d056959, with the exact
+raw Original and all five package gates verified. The committed used-restore
+suite additionally binds finance Restore8 PASS on81c7eff7; browser and retained
+transport suites bind their actual B component Originals. Local full admission
+passed3073 pins for each suite. The earlier preparation text describes scope;
+there is no runtime credit until this suite produces its own complete Original.

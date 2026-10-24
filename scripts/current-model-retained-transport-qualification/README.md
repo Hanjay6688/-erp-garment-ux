@@ -18,3 +18,12 @@ completely. HTTP has no extra ERP usage grant; the existing race-only grant is
 removed only during full catalog verification. The original primary remains
 unused and must pass all22 global inverse, all rows/sequences, CP6 and advisors.
 No B source, old test, real WA, hosted state, default policy or production changes.
+
+## Bound prerequisites; runtime pending
+
+SOURCE.json now binds actual full-chain Native15 PASS on6d056959, with the exact
+raw Original and all five package gates verified. The committed used-restore
+suite additionally binds finance Restore8 PASS on81c7eff7; browser and retained
+transport suites bind their actual B component Originals. Local full admission
+passed3073 pins for each suite. The earlier preparation text describes scope;
+there is no runtime credit until this suite produces its own complete Original.
