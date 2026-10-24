@@ -5,7 +5,7 @@ import importlib.util,json,os,subprocess
 
 
 def predecessor_admission(repo):
-    path=repo/'scripts/current-finance-model-qualification/probe.py'
+    path=repo/'scripts/current-finance-model-registry-qualification/probe.py'
     spec=importlib.util.spec_from_file_location('current_model_used_restore_native_admission',path)
     native=importlib.util.module_from_spec(spec);spec.loader.exec_module(native)
     return native.admitted()

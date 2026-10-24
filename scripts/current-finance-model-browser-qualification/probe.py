@@ -25,7 +25,7 @@ def load(name,path):
     spec=importlib.util.spec_from_file_location(name,path)
     module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module);return module
 
-native=load('current_consumer_browser_native_admission',REPO/'scripts/current-finance-model-qualification/probe.py')
+native=load('current_consumer_browser_native_admission',REPO/'scripts/current-finance-model-registry-qualification/probe.py')
 GROUPS={'policy': ['OW11_MODEL_POLICY_BROWSER_MOBILE_EXACT_RECOVERY_SUSPEND', 'OW11_MODEL_POLICY_BROWSER_DESKTOP_REVIEW_ACCESS_REVOKED'], 'evaluation': ['OW11_MODEL_V2_BROWSER_MOBILE_EXACT_RECOVERY_POLICY_SOURCE', 'OW11_MODEL_V2_BROWSER_DESKTOP_BASELINE_CURRENT_ACCESS']}
 IDS=tuple(k for group in GROUPS.values()for k in group)
 copies=load('ow09_chain_exact_copy_authority',REPO/'scripts/ow04-payment-current-qualification/copy_authority.py')

@@ -25,7 +25,7 @@ def load(name,path):
     module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module);return module
 
 transport=load('current_finance_model_transport_cases',HERE/'cases.py')
-native=load('current_consumer_transport_native_admission',REPO/'scripts/current-finance-model-qualification/probe.py')
+native=load('current_consumer_transport_native_admission',REPO/'scripts/current-finance-model-registry-qualification/probe.py')
 GROUPS=dict(finance_auth=list(transport.IDS['http']),finance_races=list(transport.IDS['races']))
 IDS=tuple(k for group in GROUPS.values()for k in group)
 copies=load('current_consumer_http_copy_authority',REPO/'scripts/ow04-payment-current-qualification/copy_authority.py')

@@ -244,7 +244,7 @@ jobs:
       env:
         GH_TOKEN: ${{ github.token }}
       working-directory: auditor
-      run: python scripts/current-finance-model-qualification/fetch_originals.py
+      run: python scripts/current-finance-model-registry-qualification/fetch_originals.py
     - name: Fetch actual full current finance model Native15 PASS Original
       env:
         GH_TOKEN: ${{ github.token }}
