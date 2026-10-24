@@ -35,7 +35,7 @@ def admit_catalog(before,after,state,name):
         module=freshness;old={freshness.SIGNATURE};new=set();schemas=set()
     elif name=='DATED_MODEL_TARGET':
         module=target;old=set(target.render.originals());new=set(target.FUNCTIONS);schemas=set(target.SCHEMAS)
-        if len(old)!=19 or len(new)!=8 or len(schemas)!=3:
+        if len(old)!=20 or len(new)!=8 or len(schemas)!=3:
             raise ValueError('CURRENT_MODEL_TARGET_DECLARATION_CHANGED')
     else:raise ValueError('CURRENT_MODEL_TARGET_UNDECLARED_STAGE')
     if module.own_catalog(after)!=state['catalog']:
@@ -124,7 +124,7 @@ def verify(cur,state):
         raise ValueError('CURRENT_MODEL_TARGET_FINAL_BINDING_CHANGED')
     return dict(contract=CONTRACT,status='EXACT_CURRENT_MODEL_TARGET_ALL22',
         predecessor_verified_before_actual_delta=True,all22_transition_chain_verified=True,
-        substituted_catalog_or_definitions=False,baseline_replacements=1,target_replacements=19,
+        substituted_catalog_or_definitions=False,baseline_replacements=1,target_replacements=20,
         target_private_functions=8,target_schemas=3,new_tables=0,new_public_rpcs=0,
         every_old_row_and_sequence_preserved=True,default_owner_policy_created=False,
         installed_schedules=False,full_OW11_acceptance=False,production_go=False,independent_acceptance=False)

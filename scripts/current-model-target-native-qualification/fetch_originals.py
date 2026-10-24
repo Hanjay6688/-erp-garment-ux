@@ -13,9 +13,9 @@ for variable,proof in pins['actual_qualification_originals'].items():
         packages=[n for n in z.namelist()if Path(n).name=='T3_PACKAGE_INSTALL.json'];assert len(packages)==1
         gate=json.loads(z.read(packages[0]))['gate']
         assert set(gate)=={'installed','primary_unchanged','backup_restore_drill','security_advisors','writer_runtime'}
-        assert all(value is True for value in gate.values()),(variable,gate)
+        assert gate==dict(installed=True,primary_unchanged=True,backup_restore_drill=True,security_advisors=True,writer_runtime=proof['status']=='PASS'),(variable,gate)
     assert len(original)==proof['bytes']and sha256(original).hexdigest()==proof['sha256'],variable
-    actual=json.loads(original);assert actual['status']=='PASS'and actual['cp6_restored'],variable
+    actual=json.loads(original);assert actual['status']==proof['status']and actual['cp6_restored'],variable
     target=Path(os.environ['RUNNER_TEMP'])/proof['name'];target.write_bytes(original)
     with open(os.environ['GITHUB_ENV'],'a')as out:out.write(variable+'='+str(target)+'\n')
-    print(variable+' actual raw PASS Original verified',flush=True)
+    print(variable+' actual raw '+proof['status']+' Original verified',flush=True)

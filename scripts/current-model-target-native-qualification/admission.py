@@ -23,7 +23,8 @@ def admitted(repo,here,ids,product,business):
     for variable,proof in pins['actual_qualification_originals'].items():
         raw=Path(os.environ[variable]).read_bytes();assert len(raw)==proof['bytes']and sha256(raw).hexdigest()==proof['sha256']
         actual=json.loads(raw)
-        assert actual['status']=='PASS'and actual['cp6_restored']and actual['advisor_gate'],variable
+        assert actual['cp6_restored']and actual['advisor_gate'],variable
+        assert actual['status']==('INCOMPLETE'if variable=='FIRST_MODEL_TARGET_NATIVE_ORIGINAL_REPORT'else'PASS'),variable
         if variable=='CURRENT_FINANCE_MODEL_ORIGINAL_REPORT':
             assert actual['source_declaration']['current_installation']==product.predecessor.sources()
             assert actual['native']['counts']=={'PASS':15}and actual['observed_case_count']==15 and actual['required_case_ids_pass']
@@ -39,9 +40,14 @@ def admitted(repo,here,ids,product,business):
             assert actual['native']['counts']=={'PASS':6}and actual['observed_case_count']==6
             assert actual['required_case_ids_pass']and actual['required_case_counts_pass']
             assert actual['required_case_ids']['native']==business.target.IDS['native']
+        elif variable=='FIRST_MODEL_TARGET_NATIVE_ORIGINAL_REPORT':
+            assert actual['native']['counts']=={'INCOMPLETE':6}and actual['observed_case_count']==6
+            assert sum(row.get('error')=='AUDITOR_BUSINESS_DAY_ROLLOVER'for row in actual['native']['cases'].values())==5
+            warehouse=actual['native']['cases']['OW11_MODEL_TARGET_NATIVE_WAREHOUSE_ONLY_READ']
+            assert warehouse['status']=='INCOMPLETE'and 'StopIteration'in warehouse['traceback']
         else:raise ValueError('CURRENT_DATED_TARGET_UNDECLARED_ORIGINAL: '+variable)
-        originals[variable]=dict(proof,observed_status='PASS')
-    assert set(originals)=={'CURRENT_FINANCE_MODEL_ORIGINAL_REPORT','BASELINE_FRESHNESS_ORIGINAL_REPORT','MODEL_TARGET_NATIVE_ORIGINAL_REPORT'}
+        originals[variable]=dict(proof,observed_status=actual['status'])
+    assert set(originals)=={'CURRENT_FINANCE_MODEL_ORIGINAL_REPORT','BASELINE_FRESHNESS_ORIGINAL_REPORT','MODEL_TARGET_NATIVE_ORIGINAL_REPORT','FIRST_MODEL_TARGET_NATIVE_ORIGINAL_REPORT'}
     loaded=[]
     for name,module in tuple(sys.modules.items()):
         if name.startswith(('cp6_','cp7_sales_'))and getattr(module,'__file__',None):

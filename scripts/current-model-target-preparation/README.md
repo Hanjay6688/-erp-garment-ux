@@ -1,8 +1,8 @@
 # Full current dated model target integration preparation
 
 Current predecessor: exact A finance/policy/model v2 composition, Native15 PASS
-on6d056959. B source04eaad40 adds the direct baseline freshness correction and
-the dated model target overlay:19 existing replacements,8 private functions,
+on6d056959. B source161d4c9f adds the direct baseline freshness correction and
+the dated model target overlay:20 existing replacements,8 private functions,
 3 schemas and no RPC/table. The original A F05 driver and both earlier B driver
 copies stay untouched; exact latest B F05 is retained under its own new filename.
 
@@ -21,12 +21,18 @@ trigger seal can be rebound. No owner model default or forecast activation is ad
 
 Local preparation checks:257 client tests/9 files, TypeScript,381 owned runtime
 files/322 RPC boundaries, access and64 stylesheets passed on the merged source.
-LOCAL_GUARDS17 uses the real prior finance backup's22 groups/686 data keys, with
+The original LOCAL_GUARDS17 records the prior19/8 preparation. The new
+LOCAL_GUARDED_GUARDS17 uses the real prior finance backup's22 groups/686 data keys, with
 explicit simulated metadata deltas, to reject missing groups, undeclared objects,
 missing replacements and changed/extra/missing data. This is not Native proof.
 
-Runtime/source admission remains pending. The latest B19/8 Native6 and Browser2
-runs must supply their own exact Originals; the earlier17/7 Browser2 is not credit
-for this source. Full A runtime, used restore, Auth/races/browser and factory/SAVE
+The extra raw operational compiler replacement preserves the finance wrapper;
+raw and staged model provenance now agree. The component inverse additionally
+observes raw immutable analysis runs and queued jobs; installation refuses queued
+WAITING jobs. A's global ALLrows/ALLsequences guard remains unchanged.
+
+Runtime/source admission remains pending. The latest B20/8 guarded Native6 and
+Browser2 runs must supply their own exact Originals; earlier17/7 or19/8 receipts
+do not qualify this source. Full A runtime, used restore, Auth/races/browser and factory/SAVE
 integration remain open. production_go=false; writer evidence is not independent
 acceptance. Existing five A followups remain frozen on their prior qualified chain.

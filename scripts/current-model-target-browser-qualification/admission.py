@@ -34,7 +34,7 @@ def admitted(repo,here,ids,product,native,groups):
             assert actual['required_case_ids_pass']and actual['required_case_counts_pass']and actual['observed_case_count']==2
             assert actual['required_case_ids']['browser']==groups['target']and actual['browser']['counts']=={'PASS':2}
             assert actual['model_target_source_sha256']==product.target.verify_sources()
-            assert actual['browser']['copy_runtime']['model_target']['existing_replacements']==19
+            assert actual['browser']['copy_runtime']['model_target']['existing_replacements']==20
             assert actual['browser']['copy_runtime']['model_target']['new_private_functions']==8
         else:raise ValueError('CURRENT_MODEL_TARGET_BROWSER_UNDECLARED_ORIGINAL: '+variable)
         originals[variable]=dict(proof,observed_status='PASS')
