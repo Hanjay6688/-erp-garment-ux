@@ -2820,3 +2820,40 @@ This qualifies actual baseline/analog UI paths under20/8; no positive model or
 raw-use guard credit is inferred. Exact04eaad40 workflow success is now also
 confirmed and its earlier pending workflow receipt updated without altering
 the preserved Original.
+
+
+## A continuation: full-model followups and guarded target intake
+
+Full A finance/model head b3b00858 now has actual PASS Originals for committed
+UsedRestore8 (run40115134771/art12570316577), model Browser4
+(run40115139570/art12569730677), actual minute Cron1
+(run40115143766/art12569676332), and retained model Auth6/races12
+(run40115146064/art12569601214). All exact3073 source pins and five package
+gates verified; raw Originals retained privately. Cron used the unchanged minute
+schedule with60 separate8s transactions, no manual ticks, bounded STAGED finance
+READY and legacy DEFERRED DONE, official24 metrics/independent book signature,
+UNKNOWN retained, schedule cleanup and complete baseline restore. Used restore
+preserves full22/ALLrows/ALLsequences, immutable policy/v1/v2/finance history,
+strict DRAFT, subsequent CLEAR/policy withdrawal/Native return and all11 negatives.
+
+Finance Auth3/races7 on b3 is INCOMPLETE: Auth3 and races6 passed, one old-capture
+comparison after a permission wait failed; CP6/advisors/full inverse/copies clean.
+The failed Original has no before/after field diagnostic. Successor963ac6d8
+run40117401159/job120941426116 keeps the exact ten case bodies and product bytes,
+records full raw and UTC snapshots, restores session timezone, and retains every
+field in equality. Seven actual local SQL controls reproduce zone-dependent JSON
+and still reject one-cent/one-microsecond changes; runtime remains pending.
+
+B161d4c9f true source merge30c234b2 adds20 replacements/8 private functions, exact
+raw operational provenance plus raw-run/queued-job inverse safeguards. Original
+A F05 and earlier B copies stay unchanged; exact B driver is copied separately as
+cp7_b_model_target_guarded_f05_candidate.py. The A composer admits the exact20
+transition;19 actual finance predecessor bodies match byte-for-byte, with only
+the declared baseline freshness difference. Guard17, client65 current target
+cases, source381/322RPC/access and six browser module IDs pass locally. Full A
+Native20/Browser6 SOURCE remains absent pending the exact current B Native6 and
+then full A Native20 Original. Current B161 Browser2 actual20/8 is admitted
+separately; it is no full A runtime or positive forecast credit. The earlier04ea
+Native6 INCOMPLETE with5 day-rollover cases and warehouse first-page miss stays
+a mandatory exact prerequisite. No main/hosted/official/default policy changes;
+production_go=false, formalparent5/16, writer proof is not independent acceptance.
