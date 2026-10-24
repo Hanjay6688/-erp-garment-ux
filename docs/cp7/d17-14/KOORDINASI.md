@@ -2010,3 +2010,25 @@ required IDs/counts, CP6/advisor/all package gates true. Auth0000→0000, consol
 sessions[]/copy0. These qualify actual baseline/analog browser paths only, not
 positive models, FG-only refresh or after-use restoration. Receipts in ow11/.
 Formal5/16, CP7C unaccepted, independent acceptance/production_go false.
+
+## 113. B24 Oktober2026 UTC — private per-product history source candidate
+
+4c3623bb publishes the actual FG-only refresh fixture correction; Native6
+run40117732530 is in progress. Current model/history callers are unchanged.
+New cp7_model_history_scope source-only component selects one explicit physical
+root before Native completeness checks. The1,000-global-product limit stays
+unchanged; all prior product versions and both physical/system clocks remain.
+Raw stock overflow remains INCOMPLETE, while the existing full-row digest and
+SQL summary feed the same demand/reservation kernels. No target/profile/model
+call is made, avoiding a recursive model/history source. Four private invoker
+functions, no facade/table/old replacement/default installer or persistence.
+
+Controlled SQL8PASS includes exact whole-Native history/current-stock operands,
+5504 products, ambiguous root/wrong size, both clocks and old versions, equal
+totals with changed row metadata, all50005 selected stock rows versus explicit
+controlled full-array oracle, non-stock refusal, private ACL/zero versus unknown.
+No Native/Auth/past-knowledge/model-activation/factory-SLA credit. Initial local
+audit sequencing failure and5PASS/3FAIL comparison retained before correction.
+Immutable capture/runtime, exact UUID/current access/replay and integration stay
+open. Current shared FG cache also needs actor/access/source admission before
+exposing private model provenance; that is the next security seam under review.
