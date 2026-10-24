@@ -4,7 +4,7 @@ Inventaris kualifikasi r6 berisi **116 path workflow**, sedangkan rencana menyeb
 
 Peta R3 historis mempunyai37entry:14lulus pada kandidat lama,11penerus terpetakan,12batas tanpa penerus penuh. Itu tidak memberi kredit runtime pada kandidat24Oktober. Dua puluh satu kegagalan CP6 dan empat browser baseline yang dicatat rencana tetap dipertahankan; tidak disulap menjadi PASS karena ada adapter baru.
 
-Qualifier current-legacy-ui-browser menjalankan31ID yang sudah ada dalam cp7_prefreeze_legacy_browser.mjs tanpa perubahan:29kasus lama yang dipertahankan ditambah dua P11 connected draft successors. Dua READINESS termasuk29itu. Source admission1376pin/Node/AST lulus lokal; hasil runtime belum diamati. Ini memberi bukti untuk peta layar ketika Original diterima, bukan regresi seluruh arsip CP6.
+Qualifier current-legacy-ui-browser menjalankan31ID yang sudah ada dalam cp7_prefreeze_legacy_browser.mjs tanpa perubahan:29kasus lama yang dipertahankan ditambah dua P11 connected draft successors. Dua READINESS termasuk29itu. Run40061341301/head5681edbd telah PASS31/31; Original648018byte/SHAcbfd3ac9c94d3e810099b23fc3913b47379a44501c3522b33b29398637524918, Auth/DB bersih dan CP6/advisor/lima gate PASS. Receipt legacy-ui31-5681edbd-pass.json memberi bukti penulis untuk peta layar; ini bukan regresi seluruh arsip CP6 atau penerimaan independen.
 
 Pensiun SALES_MANUAL_13 tetap mengikuti D13-9c/D13-12: auditor harus memutuskan kelengkapan pengganti. Dua kasus asli tetap ada di CP6 beku; hasil writer P11 sekalipun PASS tidak menggantikan keputusan tersebut.
 

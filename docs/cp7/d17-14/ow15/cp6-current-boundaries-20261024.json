@@ -178,8 +178,11 @@
   ],
   "new_current_legacy_adapter": "scripts/current-legacy-ui-browser",
   "new_current_legacy_case_count": 31,
-  "new_current_legacy_runtime_status": "NOT_YET_OBSERVED",
+  "new_current_legacy_runtime_status": "PASS_31_RETAINED_IDS_WRITER_EVIDENCE",
   "independent_retirement_acceptance": false,
   "full_CP6_archive_acceptance": false,
-  "production_go": false
+  "production_go": false,
+  "new_current_legacy_receipt": "legacy-ui31-5681edbd-pass.json",
+  "new_current_legacy_run_id": 40061341301,
+  "new_current_legacy_original_sha256": "cbfd3ac9c94d3e810099b23fc3913b47379a44501c3522b33b29398637524918"
 }
