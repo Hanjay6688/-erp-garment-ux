@@ -311,7 +311,7 @@
     "scripts/current-invoice-history-browser/probe.py": "e1186902966520c4ac1472e84df7d2e505bbbd8a48424a1d1214852d8a92060f",
     "scripts/current-transfer-pages-browser/EXPECTED.json": "a9fb68e9d8299ecfb1e48f3fe6c54087c7572a6d199b891ea2c522001efe1041",
     "scripts/current-transfer-pages-browser/README.md": "995f157986083b5ccf3bd20d9deb9bfdf6164e8f788b5c9ba0dbbff1f036cf16",
-    "scripts/current-transfer-pages-browser/browser.mjs": "7c553224cf49774afd2a5fd9037b99de406c22dea92ac27b85d20fb44808f306",
+    "scripts/current-transfer-pages-browser/browser.mjs": "f9b97bd6ccabc65c336e74e0027fc39ccb242d8c3e48a73dbcf0d7d2fb18c9d9",
     "scripts/current-transfer-pages-browser/fixture.py": "c758e0dbb85d3f331e28b33c7c0b87f519215a0c44aa25ef5a203ad59986cd64",
     "scripts/current-transfer-pages-browser/probe.py": "2f29eb67e47e2d449aad240a64cb336a42d3ece0f1fb2f1f5b1b3b0a26ac22a5",
     "scripts/finance-bridge-chain-qualification/README.md": "ba44cd776c2b440a23de41c8880a4ffe62868228d07444effce0da06e20eb976",

@@ -1,0 +1,120 @@
+{
+  "status": "PASS",
+  "head": "28f73c0fb3f0e6da7002fcb4779e08ee0214a371",
+  "run_id": 40060328159,
+  "job_id": 120772213423,
+  "artifact_id": 12546894777,
+  "zip_bytes": 4037570,
+  "zip_sha256": "3b813b84d2b0469fc4673ddaca82af208756b02dc418a8218b19b09b56295c53",
+  "original_name": "CP7_CURRENT_TRANSFER_PAGES_BROWSER2.json",
+  "original_bytes": 505899,
+  "original_sha256": "2582f984a3532ed3b61c6852efc7b1218969da68c0960c840a8e392dd70dc7cb",
+  "cases": {
+    "OW06_DESKTOP_31_RECEIPTS_CROSS_PAGE_TRANSFER_RECOVER_CORRECT_REVERSE": {
+      "status": "PASS",
+      "real_login": true,
+      "fixture_created_by_Native_SQL": true,
+      "all_journey_writes_from_actual_UI": true,
+      "timezone": "America/Los_Angeles",
+      "mobile": false,
+      "viewport": {
+        "width": 1440,
+        "scroll": 1440
+      },
+      "created": "400.00+600.00",
+      "bank_after_create": "-1000.00",
+      "lost_committed_reply_same_UUID_recovered": true,
+      "corrected": "250.00+500.00",
+      "bank_after_correction": "-750.00",
+      "reversed_whole_transfer": true,
+      "bank_after_reverse": "0.00",
+      "receipt_count": 31,
+      "receipt_pages": [
+        25,
+        6
+      ],
+      "second_receipt_chosen_on_page_two": true,
+      "first_amount_survives_page_roundtrip": true,
+      "unselected_receipts_unpaid": true,
+      "stock_HPP_unchanged": true,
+      "production_go": false,
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    "OW06_MOBILE390_31_RECEIPTS_CROSS_PAGE_TRANSFER_CORRECT_REVERSE": {
+      "status": "PASS",
+      "real_login": true,
+      "fixture_created_by_Native_SQL": true,
+      "all_journey_writes_from_actual_UI": true,
+      "timezone": "America/Los_Angeles",
+      "mobile": true,
+      "viewport": {
+        "width": 390,
+        "scroll": 390
+      },
+      "created": "400.00+600.00",
+      "bank_after_create": "-1000.00",
+      "lost_committed_reply_same_UUID_recovered": false,
+      "corrected": "250.00+500.00",
+      "bank_after_correction": "-750.00",
+      "reversed_whole_transfer": true,
+      "bank_after_reverse": "0.00",
+      "receipt_count": 31,
+      "receipt_pages": [
+        25,
+        6
+      ],
+      "second_receipt_chosen_on_page_two": true,
+      "first_amount_survives_page_roundtrip": true,
+      "unselected_receipts_unpaid": true,
+      "stock_HPP_unchanged": true,
+      "production_go": false,
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    }
+  },
+  "auth_counts": {
+    "before": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "after": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "restored": true
+  },
+  "auth_cleanup_failures": [],
+  "host_exit": 0,
+  "host_status": "RUN_COMPLETE",
+  "database_remaining": 0,
+  "cleanup_failures": false,
+  "console_errors": 0,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "screenshots_visually_inspected": [
+    "CP7_OW06_PAGES_MOBILE390.png",
+    "CP7_OW06_PAGES_DESKTOP.png"
+  ],
+  "visual_observation": "Final screenshot can precede the dependent receipt/transfer refresh: mobile still shows pending read. Native state and all asserted UI actions PASS. A follow-up strengthens final reversed-detail/action-ready assertions and captures page-two selection; no product defect is inferred from this timing alone.",
+  "production_go": false,
+  "independent_acceptance": false,
+  "full_owner_scope_acceptance": false
+}

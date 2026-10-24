@@ -40,6 +40,9 @@ async function journey(ui,today,mobile){
   await pageAction(25,()=>form.getByRole('button',{name:'Penerimaan berikutnya',exact:true}).click())
   await form.getByLabel('Dibayar untuk '+second,{exact:true}).fill(amounts[1])
   await expect(form.getByRole('button',{name:'Penerimaan berikutnya',exact:true})).toBeDisabled()
+  await expect(form.getByRole('region',{name:'Alokasi transfer terpilih',exact:true})).toContainText(first)
+  await expect(form.getByRole('region',{name:'Alokasi transfer terpilih',exact:true})).toContainText(second)
+  await form.screenshot({path:`cp6-proof/t3/CP7_OW06_PAGES_${suffix}_${amounts[0]}_SECOND_PAGE.png`})
   await pageAction(0,()=>form.getByRole('button',{name:'Penerimaan sebelumnya',exact:true}).click())
   await expect(form.getByLabel('Dibayar untuk '+first,{exact:true})).toHaveValue(amounts[0])
   await expect(form.getByRole('region',{name:'Alokasi transfer terpilih',exact:true})).toContainText(first)
@@ -97,6 +100,15 @@ async function journey(ui,today,mobile){
   const end=observe()
   assert.equal(Number(end.cash_delta),0);assert.deepEqual(f.receipts.map(id=>Number(end.paid[id])),[0,0])
   assert.deepEqual(end.transfers.map(x=>x[1]),['REVERSED','REVERSED']);assert.equal(end.contexts,0)
+  // Native completion can precede the screen's dependent receipt refresh.
+  // Wait for the real final read so the visual proof cannot capture a loading state.
+  await expect(panel().getByRole('button',{name:'Muat ulang transfer supplier',exact:true})).toBeEnabled()
+  const finalDetail=panel().getByRole('region',{name:'Rincian transfer '+replacement,exact:true})
+  await expect(finalDetail).toContainText('Sudah dibalik')
+  await expect(finalDetail).toContainText('Pembalik')
+  await expect(finalDetail).toContainText(first);await expect(finalDetail).toContainText(second)
+  await expect(finalDetail.getByRole('button',{name:'Batalkan transfer '+replacement,exact:true})).toHaveCount(0)
+  await expect(panel().getByRole('button',{name:'Buat transfer supplier baru',exact:true})).toBeEnabled()
   const actions=requests.map(r=>r.p_payload.action)
   assert.deepEqual(actions,mobile?['CREATE','CORRECT','REVERSE']:['CREATE','CREATE','CORRECT','REVERSE'])
   // The screen sends each receipt's typed amount, rows in the payload's canonical receipt-id order (supplierTransferPayload),
@@ -110,7 +122,8 @@ async function journey(ui,today,mobile){
   return {status:'PASS',real_login:true,fixture_created_by_Native_SQL:true,all_journey_writes_from_actual_UI:true,timezone:'America/Los_Angeles',
    mobile,viewport,created:'400.00+600.00',bank_after_create:'-1000.00',lost_committed_reply_same_UUID_recovered:!mobile,
    corrected:'250.00+500.00',bank_after_correction:'-750.00',reversed_whole_transfer:true,bank_after_reverse:'0.00',
-   receipt_count:31,receipt_pages:[25,6],second_receipt_chosen_on_page_two:true,first_amount_survives_page_roundtrip:true,unselected_receipts_unpaid:true,stock_HPP_unchanged:true,production_go:false}
+   receipt_count:31,receipt_pages:[25,6],second_receipt_chosen_on_page_two:true,first_amount_survives_page_roundtrip:true,
+   final_reversed_detail_and_next_action_ready:true,second_page_visuals_captured:true,unselected_receipts_unpaid:true,stock_HPP_unchanged:true,production_go:false}
  }catch(error){writeFileSync(`cp6-proof/t3/CP7_OW06_PAGES_${suffix}_FAILURE.json`,JSON.stringify({error:String(error),stack:error.stack,
    text:await page.locator('main').innerText().catch(()=>''),state:(()=>{try{return observe()}catch(e){return String(e)}})(),requests},null,2))
   await page.screenshot({path:`cp6-proof/t3/CP7_OW06_PAGES_${suffix}_FAILURE.png`,fullPage:true}).catch(()=>{});throw error}
