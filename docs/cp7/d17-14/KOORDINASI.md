@@ -1593,3 +1593,35 @@ style terisolasi agar checkbox tidak mewarisi width100%. DOM16/TS/CSS64 PASS;
 behavior/SQL/ambang/budget tetap. Corrected actual browser masih perlu Original.
 Transport10 fc6ff132/run40099304591 masih berjalan; tidak diberi kredit dulu.
 Induk5/16, fullOW11/fullAchain/forecastactivation/production tetapfalse.
+
+## 92. B24 Oktober2026 — policy Browser2 PASS dan registry adapter13 lokal
+
+7027ac9/run40100084308/job120890262684 Original12562127995
+SHA6e3883fc3324b945dae2c6e06e99e01c016882cb11d63353ad26b3df3b7e7517:
+2PASS, requiredIDs/count/cp6/advisor/5packagegates true, Auth0/0/0/0pulih,
+copyDB0/session0/console0. Actual commit→lost reply→reload exactUUID/payload/
+receipt, appendSUSPEND dan revoke403→retirepolicy/model/parentFG/HPP terbukti
+di390/1440. Reviewdesktop/revokemobile diperiksa; gambar tetap lokal. First
+2INCOMPLETE tidak dihapus. Kebijakan tetap metadata, belum forecastactivation.
+
+Private prospective registryadapterv2 baru4fungsi/0RPC/table/replacement:
+reuses actual Native extractor/build, policy selected at actual capture clock,
+exact registry/clock/template/promotions binding, only explicitly allowed
+challengers compete, full vector retained. Later policy never approves old
+capture; current policy withdrawal defeats admission while old evaluation stays.
+13actualSQL lokalPASS pada100 synthetic capture rows/past policy, bukanNative
+history/Auth/catalog22/accuracy. First8PASS4FAIL retained: empty challengers
+needed explicit baseline-only path; expected-refusal tests needed savepoints.
+Legacyv1 tetap identik. Berikutnya immutablev2 capture/read dan targetconsumer.
+
+## 93. B24 Oktober2026 — policy transport10 Original PASS
+
+fc6ff132/run40099304591/job120887966560 Original12563070704
+SHA2d87674ccafa1639bec5fc37d70285085356c2c3128b5e20b58bf9692164aa53:
+Nativeanchor1+races6+actualAuthHTTP3PASS, jobsuccess, ID/count/cp6/advisor/
+5packagegatestrue. Auth0/0/0/0pulih, race/httpcopyDB0, sessionleaks0. SameUUID
+exactonepair, CASonewinner; observed envelope/request/policy waits recheck
+currentactive/role before replay; no orphan policy/registry/command. Actual
+HTTP SET/SUSPEND/replay, revoked oldtoken, anon/auditor/foreign epoch and
+authorized secondownerownfresh epoch terbukti. Scope tetapmetadata; tidak
+mengaktifkanforecast atau memberikredit fullOW11/fullAchain/independentaudit.

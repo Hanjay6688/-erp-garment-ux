@@ -1,0 +1,102 @@
+{
+  "contract": "cp7.model-policy-browser-original-receipt.v1",
+  "head": "7027ac9ccd19eefa549518004d2542cfb3ab5ac7",
+  "run_id": 40100084308,
+  "job_id": 120890262684,
+  "workflow_conclusion": "success",
+  "artifact_id": 12562127995,
+  "artifact_sha256": "6e3883fc3324b945dae2c6e06e99e01c016882cb11d63353ad26b3df3b7e7517",
+  "bytes": 43936,
+  "Original_read_complete": true,
+  "status": "PASS",
+  "counts": {
+    "PASS": 2
+  },
+  "required_case_ids_pass": true,
+  "required_case_counts_pass": true,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "auth_counts": {
+    "before": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "after": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "restored": true
+  },
+  "database_remaining": 0,
+  "session_leaks": [],
+  "console_errors": 0,
+  "cases": {
+    "OW11_MODEL_POLICY_BROWSER_MOBILE_EXACT_RECOVERY_SUSPEND": {
+      "status": "PASS",
+      "actual_Auth_PostgREST_browser": true,
+      "explicit_fields_no_default_threshold": true,
+      "actual_policy_registry_command_pair": true,
+      "lost_reply_reload_exact_UUID_payload_receipt": true,
+      "append_suspend_old_configuration_preserved": true,
+      "current403_retires_policy_parent_FG_HPP": true,
+      "no_business_write_or_model_forecast_activation": true,
+      "model_rows": 0,
+      "no_horizontal_overflow": true,
+      "shots": [
+        "cp6-proof/t3/MODEL_POLICY_MOBILE_REVIEW.png",
+        "cp6-proof/t3/MODEL_POLICY_MOBILE_REVOKED.png"
+      ],
+      "full_OW11_acceptance": false,
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    "OW11_MODEL_POLICY_BROWSER_DESKTOP_REVIEW_ACCESS_REVOKED": {
+      "status": "PASS",
+      "actual_Auth_PostgREST_browser": true,
+      "explicit_fields_no_default_threshold": true,
+      "actual_policy_registry_command_pair": true,
+      "lost_reply_reload_exact_UUID_payload_receipt": true,
+      "append_suspend_old_configuration_preserved": true,
+      "current403_retires_policy_parent_FG_HPP": true,
+      "no_business_write_or_model_forecast_activation": true,
+      "model_rows": 0,
+      "no_horizontal_overflow": true,
+      "shots": [
+        "cp6-proof/t3/MODEL_POLICY_DESKTOP_REVIEW.png",
+        "cp6-proof/t3/MODEL_POLICY_DESKTOP_REVOKED.png"
+      ],
+      "full_OW11_acceptance": false,
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    }
+  },
+  "full_artifact_id": 12562990030,
+  "full_artifact_sha256": "5830621a5f9c1095990940cc98855655b18d5827169e362728d1e383ea12b3e1",
+  "screenshots_inspected_locally_only": [
+    "MODEL_POLICY_DESKTOP_REVIEW.png",
+    "MODEL_POLICY_MOBILE_REVOKED.png"
+  ],
+  "first_failed_Original_retained": true,
+  "no_policy_threshold_default": true,
+  "forecast_applied": false,
+  "full_OW11_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

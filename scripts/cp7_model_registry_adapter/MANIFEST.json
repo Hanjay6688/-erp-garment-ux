@@ -1,0 +1,26 @@
+{
+  "contract": "cp7.model-registry-adapter-prototype.v1",
+  "private_functions": 4,
+  "new_public_rpcs": 0,
+  "new_tables": 0,
+  "existing_replacements": 0,
+  "source_files_sha256": {
+    "adapter.sql": "c41132090a6b8d2b45c30473e43716f1b2519a244b6339841fb28222a31751d3"
+  },
+  "dependency_files_sha256": {
+    "cp7-src/wip/bootstrap.sql": "f13d218d6ef6c38bea1968081368cdf253538c79d36b67a51e61d126927c2769",
+    "cp7-src/demand/bootstrap.sql": "9ce00d27b69656d385df150dacfa155571c5cfa9fb818181746838d0c9fc1455",
+    "cp7-src/models/kernels.sql": "8a89beb489c5750038d2924fc99c860cffa4daef31e7288f24859d0de0fb17f4",
+    "cp7-src/models/evaluation.sql": "e24e53290689520bf7ae871248a98c5a91adf398620df000af55505f1462d660",
+    "cp7-src/model-native/bootstrap.sql": "7e33ab818cd6c008caf0979f421015aa7a18fce8aef02f646eb8bc5cddc62ba4",
+    "cp7-src/model-native/source.sql": "b3a9807ca9b70d67ef553cc9f9861d743f56806c686800f28e063559c67d1a17",
+    "cp7-src/model-native/evaluation.sql": "450223ba2a41a943c6a9320ba72454acc565228aead947b7ef603b2f53364d95",
+    "cp7_model_activation_gate/gate.sql": "6f3cff8ab5989a325603e7200696a5b838b2a3f54b0815b5c96cdb0c88af8d3c",
+    "cp7_model_policy_stage/policy.sql": "36eb75182f9100331d1afea39f7d2e48d690eef167b03a7919a897d6d5c1279a"
+  },
+  "legacy_v1_unchanged": true,
+  "current_consumption_recheck_required": true,
+  "default_policy_created": false,
+  "forecast_applied": false,
+  "production_go": false
+}
