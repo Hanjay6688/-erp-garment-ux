@@ -1,0 +1,25 @@
+{
+  "contract": "ow15.bounded-local-validation.v1",
+  "client_tests": 2372,
+  "client_files": 222,
+  "typecheck": "PASS",
+  "source_runtime_files": 369,
+  "rpc_boundaries": 315,
+  "permission_keys": 111,
+  "navigation_labels": 47,
+  "routes": 48,
+  "sensitive_actions": 21,
+  "stylesheets": 64,
+  "source_controls": {
+    "finance_initial_commute": true,
+    "all_B_SQL_except_legacy_request_exact": true,
+    "missing_finance_anchor_refused": true,
+    "duplicate_finance_anchor_refused": true,
+    "missing_UUID_anchor_refused": true
+  },
+  "current_A_admission": "PASS",
+  "frozen_A_trigger_declarations": "PASS",
+  "Native_credit": 0,
+  "independent_acceptance": false,
+  "production_go": false
+}
