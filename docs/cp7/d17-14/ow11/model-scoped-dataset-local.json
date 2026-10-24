@@ -1,0 +1,93 @@
+{
+  "contract": "cp7.model-scoped-dataset-local.v1",
+  "status": "PASS",
+  "expected": 8,
+  "counts": {
+    "PASS": 8
+  },
+  "cases": [
+    {
+      "id": "ACTUAL_SCOPED_CAPTURE_MATCHES_LEGACY_SERIES_ORACLE",
+      "status": "PASS",
+      "observed": {
+        "actual_scoped_capture_and_legacy_SQL_math": true,
+        "controlled_ERP_primitives": true,
+        "server_known_at_preserved": true,
+        "old_model_history_not_modified_by_dataset": true
+      }
+    },
+    {
+      "id": "REPEATED_MEANING_DEDUPLICATES_AND_CORRECTION_IS_NEW_REVISION",
+      "status": "PASS",
+      "observed": {
+        "unchanged_snapshots_not_extra_revisions": true,
+        "controlled_source_correction_preserves_old_known_at": true,
+        "latest_corrected_revision_retained": true
+      }
+    },
+    {
+      "id": "QUERY_TARGET_FOREIGN_ACTOR_AND_CURRENT_REVOKED_ACCESS_REFUSED",
+      "status": "PASS",
+      "observed": {
+        "server_actor_and_target_binding": true,
+        "current_access_before_private_source": true
+      }
+    },
+    {
+      "id": "LARGE_UNIVERSE_KEEPS_SINGLE_TARGET_MODEL_INPUT_COMPLETE",
+      "status": "PASS",
+      "observed": {
+        "controlled_products": 5504,
+        "global1000_bound_unchanged": true,
+        "no_unrelated_target_rows_or_data_loss": true
+      }
+    },
+    {
+      "id": "CAPTURE_BOUND_COUNTS_ONLY_THIS_ACTOR_TARGET_AND_PERIOD",
+      "status": "PASS",
+      "observed": {
+        "explicit_synthetic_duplicate_capture_rows": true,
+        "unrelated501_captures_do_not_consume_target_bound": true,
+        "selected_over500_refused": true
+      }
+    },
+    {
+      "id": "EXISTING_ASSESSMENT_AND_POLICY_GATE_REMAIN_AUTHORITATIVE",
+      "status": "PASS",
+      "observed": {
+        "same_reviewed_assessment_kernel": true,
+        "no_invented_activation_policy": true,
+        "no_backdated_training_evidence_or_model_run": true
+      }
+    },
+    {
+      "id": "FINAL_ACCESS_RECHECK_AND_HISTORY_ENGINE_CHANGE_REFUSE",
+      "status": "PASS",
+      "observed": {
+        "counter_driven_final_access_change_not_concurrency_credit": true,
+        "changed_history_runtime_cannot_feed_model": true,
+        "no_history_write": true
+      }
+    },
+    {
+      "id": "PRIVATE_ONLY_NO_PUBLIC_RPC_OR_CLIENT_EXECUTE",
+      "status": "PASS",
+      "observed": {
+        "private_functions": 3,
+        "public_rpcs": 0,
+        "new_tables": 0,
+        "old_replacements": 0
+      }
+    }
+  ],
+  "sql_sha256": "c4fb9b15306583b2c9d1dca87855eee97a33266dc0e47d5e9ef3a460cd349a83",
+  "actual_SQL_and_scoped_capture": true,
+  "controlled_ERP_auth_primitives": true,
+  "actual_Native_capture": false,
+  "actual_Auth_HTTP_credit": false,
+  "actual_concurrency": false,
+  "model_caller_integrated": false,
+  "exact_catalog_installer_qualified": false,
+  "forecast_applied": false,
+  "production_go": false
+}

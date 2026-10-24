@@ -1,0 +1,14 @@
+{
+  "contract": "cp7.model-scoped-dataset.v1",
+  "private_functions": 3,
+  "public_rpcs": 0,
+  "new_tables": 0,
+  "existing_replacements": 0,
+  "legacy_source_sha256": "b3a9807ca9b70d67ef553cc9f9861d743f56806c686800f28e063559c67d1a17",
+  "sql_sha256": "c4fb9b15306583b2c9d1dca87855eee97a33266dc0e47d5e9ef3a460cd349a83",
+  "known_at": "ACTUAL_IMMUTABLE_NATIVE_CAPTURE_TIMES",
+  "legacy_history_and_model_runs_unchanged": true,
+  "model_caller_integrated": false,
+  "default_installer_changed": false,
+  "production_go": false
+}

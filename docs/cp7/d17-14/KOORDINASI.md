@@ -2212,3 +2212,29 @@ current cache guard; source4 and earlier20/8 Native6 remain separate evidence.
 aca11228 starts scoped-history transport7/run40121788270/job120954747798 and
 retained Native6/run40121788182;2201e9ed Native6/run40121381881 still pending.
 Formal5/16 and all production/independent acceptance flags stay false.
+
+## 120. B24 Oktober2026 UTC — scoped immutable model dataset candidate
+
+190c1d78 fixes the impossible two-field Native cache-refusal assertion without
+changing product SQL. New private cp7_model_scoped_dataset derives the exact
+legacy Native revision algorithm over actor/target/group/period-scoped immutable
+history rows. Three private functions, zero RPC/table/old replacement. Original
+500-capture/20000-series bounds remain; unrelated target captures no longer
+consume the selected target's count. Actual server capture timestamps remain
+knowledge times; repeated daily meaning is deduplicated, later correction is
+a new revision, UNKNOWN/stockout never observed zero. Current actor/access/
+source/engines are checked before and after building the dataset. Existing
+reviewed model-policy binder and assessment kernel remain authoritative.
+
+Local8PASS uses actual scoped runtime/history/model SQL on controlled ERP/auth
+primitives. An independent copy into the legacy Native dataset proves exact
+series/operands (with distinct reference-kind identity); corrected quantities
+retain actual old/new clocks.5504-product universe and501 unrelated/selected
+capture bound controls pass. Explicit synthetic duplicate records are labeled.
+No real historical winner or Native/Auth/concurrency credit is inferred.
+Exact22 opt-in installer and separate Native4 composition are added for actual
+source/policy clocks, actual SALE/current access, catalog inverse and dense
+2000/202000. Generated source/manifest, SQL parse/clash, Python AST, declaration
+and invalid-budget admission checks PASS. Retained model v3 capture, public
+client and model-target consumption remain open; old model callers unchanged.
+Formal5/16, CP7C unaccepted, production and independent acceptance remain false.
