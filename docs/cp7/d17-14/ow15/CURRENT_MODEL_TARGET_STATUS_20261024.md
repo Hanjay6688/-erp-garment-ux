@@ -49,8 +49,11 @@ membetulkan pembanding menjadi tepat tiga nilai tanpa mengubah SQL produk;
 run `40122499063` masih berjalan. [Transport11 pertama21/8](B-target-cache-transport11-cancelled-d7d3033b.json)
 `40119284316` dibatalkan pada45menit: satu katalog dan tujuh race PASS, kelompok
 Auth belum kembali, pemulihan/advisor akhir false. [PartA](B-target-transport-part-A-intake-2b335934.json)
-`40120202292` lulus satu katalog+empat race beserta seluruh gate; PartB masih
-berjalan. Seluruh11 belum mendapat kredit sampai kedua Original lengkap cocok.
+`40120202292` lulus satu katalog+empat race beserta seluruh gate. [PartB dan
+gabungan tepat11](B-target-transport-pair-intake-2b335934.json) sudah lulus:
+PartB satu katalog+tiga race+tiga Auth; kedua head/provider/source sama,
+pemulihan/advisor/lima gate dan Auth0000 kembali bersih. Katalog berulang tidak
+dihitung dua kali; ini bukti komponen B, belum uji gabungan A.
 A Native20 kemudian menjadi prasyarat lima pengujian gabungan yang sudah siap:
 Browser6, UsedRestore8, model Auth9/races19, keuangan Auth3/races7 dan cron1.
 Deklarasi SOURCE sengaja belum dibuat sebelum Original prasyarat benar-benar

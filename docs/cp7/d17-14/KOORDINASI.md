@@ -3275,3 +3275,25 @@ Catalog1+first4races PASS, exact15current21/8productpins and2providerpins,
 all5package/CP6/advisor gates, racecopy0. PartB/job120949897608 still pending.
 Full11 requires both complete same-head Originals; repeatedcatalog credit0.
 No A Native20, factory or independent/production claim is transferred.
+
+
+## A25 Oktober2026 WIB — exact current target transport11 pair now admitted
+
+PartB/run40120202292/job120949897608 wholejobsuccess. Artifact12572126471
+ZIP94413 SHA256eabe8fdfa6ad98ed6684c46e441b43400702ba23ae7188a5a25bff1e7a1cd907.
+OriginalCP7_OW11_MODEL_TARGET_TRANSPORT_PART_B.json746886 SHA2563564c703b93b566c885fcd9415ac33f23f436910f4c2f56635d6eb68597943ec.
+Nativecatalog1+race3+actualAuth3 PASS, all5package/CP6/advisor gates, Auth0000
+restored, session/copy0. Bothactual rawOriginals pass A's exact pair admission,
+same2b335934head,15productpins/2providerpins, union11 IDs with repeatedcatalog
+credit0. FullA28 stillrequiresA Native20PASS; no positiveforecast/productioncredit.
+
+A verification receipt had stale literal target_replacements20 despite exact21
+catalog admission. Receipt now derives21/8/3 from the verified declarations;
+installation/inverse/catalog/data guards and all B SQL bodies remain byte exact.
+No A runtime Original existed for this prepared source.
+
+Next independent A scope: optional whole-current scoped-history composition and
+after-use recovery preparation in an isolated A worktree. B keeps source/runtime
+engine ownership. It will require actual current Native20 and B history runtime
+Native/Auth originals; it will not change the current21/8 candidate, default
+installation, historical payloads, owner policy or existing qualified originals.

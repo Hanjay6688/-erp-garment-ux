@@ -1,0 +1,43 @@
+{
+  "contract": "cp7.B-component-original-intake.v1",
+  "name": "CP7_OW11_MODEL_TARGET_TRANSPORT_PART_B.json",
+  "status": "PASS",
+  "head": "2b3359346b49e3b5da17cb10e4accc886c7afc42",
+  "run_id": 40120202292,
+  "job_id": 120949897608,
+  "artifact_id": 12572126471,
+  "zip_bytes": 94413,
+  "zip_sha256": "eabe8fdfa6ad98ed6684c46e441b43400702ba23ae7188a5a25bff1e7a1cd907",
+  "bytes": 746886,
+  "sha256": "3564c703b93b566c885fcd9415ac33f23f436910f4c2f56635d6eb68597943ec",
+  "whole_job_status": "completed",
+  "whole_job_conclusion": "success",
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "partition": "B",
+  "source_pins_verified": 15,
+  "partition_source_pins_verified": 2,
+  "current_target_replacements": 21,
+  "native_counts": {
+    "PASS": 1
+  },
+  "race_counts": {
+    "PASS": 3
+  },
+  "http_counts": {
+    "PASS": 3
+  },
+  "actual_Auth_PostgREST": true,
+  "Auth0000_restored": true,
+  "copy_session_cleanup_exact": true,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "full_A_chain_credit": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

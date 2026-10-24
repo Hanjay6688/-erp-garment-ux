@@ -1,0 +1,60 @@
+{
+  "contract": "cp7.B-model-target-transport-paired-intake.v1",
+  "status": "PASS_COMPONENT_UNION",
+  "head": "2b3359346b49e3b5da17cb10e4accc886c7afc42",
+  "actual_part_originals": {
+    "MODEL_TARGET_TRANSPORT_PART_A_ORIGINAL_REPORT": {
+      "name": "CP7_OW11_MODEL_TARGET_TRANSPORT_PART_A.json",
+      "status": "PASS",
+      "head": "2b3359346b49e3b5da17cb10e4accc886c7afc42",
+      "run_id": 40120202292,
+      "job_id": 120949897510,
+      "artifact_id": 12572450064,
+      "zip_bytes": 93936,
+      "zip_sha256": "174ae107fe907858297c7497bb21001609665ecba239a8c2ce8767322ac8164f",
+      "bytes": 744738,
+      "sha256": "e104b11b3f26e752850a1ac0114175160dda1f250f93613d6b7a8cde6134eae3"
+    },
+    "MODEL_TARGET_TRANSPORT_PART_B_ORIGINAL_REPORT": {
+      "name": "CP7_OW11_MODEL_TARGET_TRANSPORT_PART_B.json",
+      "status": "PASS",
+      "head": "2b3359346b49e3b5da17cb10e4accc886c7afc42",
+      "run_id": 40120202292,
+      "job_id": 120949897608,
+      "artifact_id": 12572126471,
+      "zip_bytes": 94413,
+      "zip_sha256": "eabe8fdfa6ad98ed6684c46e441b43400702ba23ae7188a5a25bff1e7a1cd907",
+      "bytes": 746886,
+      "sha256": "3564c703b93b566c885fcd9415ac33f23f436910f4c2f56635d6eb68597943ec"
+    }
+  },
+  "unique_required_case_ids": [
+    "OW11_MODEL_TARGET_AUTH_ANON_AND_FOREIGN_REFERENCE",
+    "OW11_MODEL_TARGET_AUTH_CONFIRM_CLEAR_EXACT_REPLAY",
+    "OW11_MODEL_TARGET_AUTH_REVOKED_COMMITTED_REPLAY",
+    "OW11_MODEL_TARGET_CATALOG22_COMPOSED_PREUSE",
+    "OW11_MODEL_TARGET_RACE_ACCESS_AFTER_ENVELOPE",
+    "OW11_MODEL_TARGET_RACE_ACCESS_AFTER_TARGET",
+    "OW11_MODEL_TARGET_RACE_POLICY_AFTER_ENVELOPE",
+    "OW11_MODEL_TARGET_RACE_REPLAY_ACCESS_AFTER_REQUEST",
+    "OW11_MODEL_TARGET_RACE_REVISION",
+    "OW11_MODEL_TARGET_RACE_SAME_UUID",
+    "OW11_MODEL_TARGET_RACE_SOURCE_AFTER_ENVELOPE"
+  ],
+  "unique_required_case_count": 11,
+  "native_catalog_anchor_counted_once": true,
+  "duplicate_catalog_case_credit": 0,
+  "auth_cases": 3,
+  "race_cases": 7,
+  "both_whole_jobs_success": true,
+  "both_package_five_gates_pass": true,
+  "both_CP6_advisors_restore_pass": true,
+  "both_source_and_case_providers_exact": true,
+  "current_A_prerequisite_admission_pass": true,
+  "current_target_replacements": 21,
+  "current_target_private_functions": 8,
+  "full_A_chain_credit": false,
+  "positive_model_credit": false,
+  "production_go": false,
+  "independent_acceptance": false
+}
