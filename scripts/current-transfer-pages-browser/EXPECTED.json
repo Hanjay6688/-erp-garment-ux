@@ -1,0 +1,23 @@
+{
+  "count": 2,
+  "case_ids": [
+    "OW06_DESKTOP_31_RECEIPTS_CROSS_PAGE_TRANSFER_RECOVER_CORRECT_REVERSE",
+    "OW06_MOBILE390_31_RECEIPTS_CROSS_PAGE_TRANSFER_CORRECT_REVERSE"
+  ],
+  "matching_receipts_per_journey": 31,
+  "pages": [
+    25,
+    6
+  ],
+  "independent_Native_table_oracle": true,
+  "create_allocations": [
+    "400.00",
+    "600.00"
+  ],
+  "correct_allocations": [
+    "250.00",
+    "500.00"
+  ],
+  "final_cash_delta": "0.00",
+  "production_go": false
+}
