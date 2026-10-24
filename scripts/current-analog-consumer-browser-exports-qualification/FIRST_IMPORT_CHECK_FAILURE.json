@@ -1,0 +1,10 @@
+{
+  "status": "INCOMPLETE",
+  "kind": "local_import_check_helper",
+  "error": "TypeError: module.cases(...).map is not a function",
+  "cause": "Retained A return cases factory is async; the new import check must await both async and sync factories.",
+  "product_changed": false,
+  "original_case_assertions_changed": false,
+  "correction": "Await factory result before checking exact IDs.",
+  "runtime_browser_claim": false
+}
