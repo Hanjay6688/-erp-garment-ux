@@ -1,4 +1,4 @@
-# Qualify paged quantity source0b820634: small checkedSAVErecovery then full2000/202000 desktop.
+# Qualify sourcebc93efed: Native p_access, work-to-cutting replay and direct2000/202000 entry.
 name: CP7 Bounded Quantity Actual Browser2
 'on':
   push:
