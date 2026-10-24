@@ -1724,3 +1724,19 @@ baru. Kegagalan lama tidak dilabel ulang, dikecualikan atau ditutup; penerimaan
 pemetaan tetap pekerjaan auditor independen. Belum ada hasil runtime Native6.
 Race36 dan Crossflow142 pada368ce870 masih berjalan di database disposable.
 SQL produk, integrasi resmi, hosted dan production_go tetap tidak berubah.
+
+## A / 24 Oktober 2026 — deduplikasi Native historis dan kandidat153
+
+Pemeriksaan factory tanpa DB membuktikan180 entri Native dari label lama286
+berisi153 kontrol unik.27 closure baseline diwariskan tanpa perubahan oleh
+netting (module/qualname/line/sourcebytes identik); bukti rinci di
+ow15/retained-286-native-overlap.json.106 entri race/HTTP/browser tetap berbeda
+mode dan belum tercakup kandidat ini. Tidak mengubah angka hasil historis.
+
+Qualifier current-retained-native mengeksekusi153 kontrol unik sesudah seluruh
+A/B dipasang, dengan prasyarat seed sebelum skenario, oracle asli utuh,
+rollback tiap kasus, raw strict-group, katalog22 serta CP6/advisor/paket.
+Transport Native WA tetap fake lokal dengan nomor/key palsu, antrean tidak
+committed. Kandidat belum mempunyai hasil runtime; nol kredit skenario baru,
+bukan penutupan286 atau penerimaan independen. Lingkup ini pemeriksaan
+integrasi A; kode produk dan jalur pengerjaan B tidak diubah.

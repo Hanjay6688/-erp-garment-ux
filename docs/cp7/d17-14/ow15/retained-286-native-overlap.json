@@ -1,0 +1,1688 @@
+{
+  "contract": "cp7.retained-286-native-overlap.v1",
+  "static_only": true,
+  "historical_native_entries": 180,
+  "unique_native_controls": 153,
+  "duplicate_entries": 27,
+  "duplicate_callable_proofs": [
+    {
+      "case_id": "P05_NATIVE_DRAFT_ONCE",
+      "first_suite": "cp7_planning_baseline_cases",
+      "repeat_suite": "cp7_planning_netting_cases",
+      "callable": {
+        "module": "cp7_planning_history_cases",
+        "qualname": "cases.<locals>.draft_once",
+        "line": 52,
+        "source_sha256": "8595841e281d6c8a75a71bf6b5921ff23d3010218914dbeaa1e81c893e85bf80"
+      }
+    },
+    {
+      "case_id": "P05_NATIVE_POSTED_ONCE",
+      "first_suite": "cp7_planning_baseline_cases",
+      "repeat_suite": "cp7_planning_netting_cases",
+      "callable": {
+        "module": "cp7_planning_history_cases",
+        "qualname": "cases.<locals>.posted_once",
+        "line": 58,
+        "source_sha256": "c9313ed8a7a23006b3277c5fb472a349da172b8ccf7a84e635b485684362c1c7"
+      }
+    },
+    {
+      "case_id": "P05_NATIVE_RETURN_SEPARATE",
+      "first_suite": "cp7_planning_baseline_cases",
+      "repeat_suite": "cp7_planning_netting_cases",
+      "callable": {
+        "module": "cp7_planning_history_cases",
+        "qualname": "cases.<locals>.returned_separate",
+        "line": 62,
+        "source_sha256": "e4a0b28d470c8c6a073c1757cd6b73aa0e0449fa03a1403195bbca7583193747"
+      }
+    },
+    {
+      "case_id": "P05_NATIVE_NATIVE_INVERSES",
+      "first_suite": "cp7_planning_baseline_cases",
+      "repeat_suite": "cp7_planning_netting_cases",
+      "callable": {
+        "module": "cp7_planning_history_cases",
+        "qualname": "cases.<locals>.inverses",
+        "line": 66,
+        "source_sha256": "6104d2ec2f051216c4e633a6c031f9682682628b03daa1d03d103b0f5145e40e"
+      }
+    },
+    {
+      "case_id": "P05_NATIVE_IMMUTABLE_REPLAY_STALE",
+      "first_suite": "cp7_planning_baseline_cases",
+      "repeat_suite": "cp7_planning_netting_cases",
+      "callable": {
+        "module": "cp7_planning_history_cases",
+        "qualname": "cases.<locals>.replay_stale",
+        "line": 72,
+        "source_sha256": "25dc5936a6c7a24ed4f02162115f630a9a2c216653ff4f67f7d3387b7a36fb6a"
+      }
+    },
+    {
+      "case_id": "P05_NATIVE_OPERATIONAL_REDACTION",
+      "first_suite": "cp7_planning_baseline_cases",
+      "repeat_suite": "cp7_planning_netting_cases",
+      "callable": {
+        "module": "cp7_planning_history_cases",
+        "qualname": "cases.<locals>.access_redacted",
+        "line": 81,
+        "source_sha256": "4df94cc5b8e44267ad29cf63ec12bcfe1a6b8a761d38a6ae9e9c6a36c73939df"
+      }
+    },
+    {
+      "case_id": "P05_NATIVE_CURRENT_REVOKE",
+      "first_suite": "cp7_planning_baseline_cases",
+      "repeat_suite": "cp7_planning_netting_cases",
+      "callable": {
+        "module": "cp7_planning_history_cases",
+        "qualname": "cases.<locals>.current_revocation",
+        "line": 86,
+        "source_sha256": "20ffd1cf19ea3bdfcf4c49e3765bed7904420c97f1d772c8b2a7019cdc441778"
+      }
+    },
+    {
+      "case_id": "P05_NATIVE_CLOSED_QUERY",
+      "first_suite": "cp7_planning_baseline_cases",
+      "repeat_suite": "cp7_planning_netting_cases",
+      "callable": {
+        "module": "cp7_planning_history_cases",
+        "qualname": "cases.<locals>.closed_query",
+        "line": 91,
+        "source_sha256": "52365805f933f9943c340274044a1496f2ed65c9d0c875a5b3eaa165b97a991d"
+      }
+    },
+    {
+      "case_id": "P05_NATIVE_PRIVATE_CAPS",
+      "first_suite": "cp7_planning_baseline_cases",
+      "repeat_suite": "cp7_planning_netting_cases",
+      "callable": {
+        "module": "cp7_planning_history_cases",
+        "qualname": "cases.<locals>.immutable_private",
+        "line": 98,
+        "source_sha256": "b0ed0f857a1f445cae00f9cc67760126a6dac217d025b7a4385a87e24614b72b"
+      }
+    },
+    {
+      "case_id": "P05_NATIVE_TIMEZONES",
+      "first_suite": "cp7_planning_baseline_cases",
+      "repeat_suite": "cp7_planning_netting_cases",
+      "callable": {
+        "module": "cp7_planning_history_cases",
+        "qualname": "cases.<locals>.timezone",
+        "line": 108,
+        "source_sha256": "95ffd3f8407c12288edddb7ea330705be3269c16c50fefccdc509bad2a4c7114"
+      }
+    },
+    {
+      "case_id": "P05_NATIVE_UNKNOWN_HISTORY",
+      "first_suite": "cp7_planning_baseline_cases",
+      "repeat_suite": "cp7_planning_netting_cases",
+      "callable": {
+        "module": "cp7_planning_history_cases",
+        "qualname": "cases.<locals>.unknown_history",
+        "line": 114,
+        "source_sha256": "d665ced323aa2c2c4d30f95689ae278179d62a6d70772e3ad6fd9e0dc3b47fa0"
+      }
+    },
+    {
+      "case_id": "P05_NATIVE_GLOBAL_30_ROOTS",
+      "first_suite": "cp7_planning_baseline_cases",
+      "repeat_suite": "cp7_planning_netting_cases",
+      "callable": {
+        "module": "cp7_planning_history_cases",
+        "qualname": "cases.<locals>.complete_scope",
+        "line": 119,
+        "source_sha256": "8705abce932b5a3c6ea4bc08af2b17b91ac7dfed1123ac022f1aff56be15af8e"
+      }
+    },
+    {
+      "case_id": "P06_NATIVE_PROFILE_METADATA",
+      "first_suite": "cp7_planning_baseline_cases",
+      "repeat_suite": "cp7_planning_netting_cases",
+      "callable": {
+        "module": "cp7_planning_baseline_cases",
+        "qualname": "cases.<locals>.metadata",
+        "line": 44,
+        "source_sha256": "e421c8370b38e041d6354b32edce04a557447ef2d24eab93df4a31daa0f01dbf"
+      }
+    },
+    {
+      "case_id": "P06_NATIVE_PROFILE_UUID",
+      "first_suite": "cp7_planning_baseline_cases",
+      "repeat_suite": "cp7_planning_netting_cases",
+      "callable": {
+        "module": "cp7_planning_baseline_cases",
+        "qualname": "cases.<locals>.replay",
+        "line": 49,
+        "source_sha256": "4821dc42705bd6b97c2316fd2c38fba9acf02ffbe7538007db833f2d5b79090e"
+      }
+    },
+    {
+      "case_id": "P06_NATIVE_STALE_REVISION",
+      "first_suite": "cp7_planning_baseline_cases",
+      "repeat_suite": "cp7_planning_netting_cases",
+      "callable": {
+        "module": "cp7_planning_baseline_cases",
+        "qualname": "cases.<locals>.stale",
+        "line": 54,
+        "source_sha256": "f72d13abaff9ffc758d5977767d96867006eae0e7fc2c5c026c281c9aca9a3fb"
+      }
+    },
+    {
+      "case_id": "P06_NATIVE_NATIVE_VERSION",
+      "first_suite": "cp7_planning_baseline_cases",
+      "repeat_suite": "cp7_planning_netting_cases",
+      "callable": {
+        "module": "cp7_planning_baseline_cases",
+        "qualname": "cases.<locals>.wrong_version",
+        "line": 59,
+        "source_sha256": "ba88d2b3e035c69228581f64e60cc5fbd40774d039056ade4ace4b22dec308bb"
+      }
+    },
+    {
+      "case_id": "P06_NATIVE_STRICT_CONFIG",
+      "first_suite": "cp7_planning_baseline_cases",
+      "repeat_suite": "cp7_planning_netting_cases",
+      "callable": {
+        "module": "cp7_planning_baseline_cases",
+        "qualname": "cases.<locals>.malformed",
+        "line": 64,
+        "source_sha256": "494d087c0f0b40b13ff5f8c0560e836c17e0a411c03fb72d8686e85b976407fc"
+      }
+    },
+    {
+      "case_id": "P06_NATIVE_UNREVIEWED_UNKNOWN",
+      "first_suite": "cp7_planning_baseline_cases",
+      "repeat_suite": "cp7_planning_netting_cases",
+      "callable": {
+        "module": "cp7_planning_baseline_cases",
+        "qualname": "cases.<locals>.absent",
+        "line": 75,
+        "source_sha256": "1927458e6cdea56591c5029fd584f1c52c44062a5133d93d2241060a0c75e9d1"
+      }
+    },
+    {
+      "case_id": "P06_NATIVE_SELECTED_TARGET100",
+      "first_suite": "cp7_planning_baseline_cases",
+      "repeat_suite": "cp7_planning_netting_cases",
+      "callable": {
+        "module": "cp7_planning_baseline_cases",
+        "qualname": "cases.<locals>.manual",
+        "line": 80,
+        "source_sha256": "0975a27527a6a3fdf969479228c61fbe8ea7ecdfe816cac2f0942d1e941a8d3e"
+      }
+    },
+    {
+      "case_id": "P06_NATIVE_OWN_HISTORY_UNKNOWN",
+      "first_suite": "cp7_planning_baseline_cases",
+      "repeat_suite": "cp7_planning_netting_cases",
+      "callable": {
+        "module": "cp7_planning_baseline_cases",
+        "qualname": "cases.<locals>.own_unknown",
+        "line": 86,
+        "source_sha256": "96fba76936a73c9a01d7c72498352821077586563b52b6667fb3aa33090e9435"
+      }
+    },
+    {
+      "case_id": "P06_NATIVE_LEAD_UNKNOWN",
+      "first_suite": "cp7_planning_baseline_cases",
+      "repeat_suite": "cp7_planning_netting_cases",
+      "callable": {
+        "module": "cp7_planning_baseline_cases",
+        "qualname": "cases.<locals>.horizon_unknown",
+        "line": 90,
+        "source_sha256": "eba70d42b1e782ec03f481a8ad99c801b9ae99d223c478bc6a4e6fa0d8031eb6"
+      }
+    },
+    {
+      "case_id": "P06_NATIVE_IMMUTABLE_ARCHIVE200",
+      "first_suite": "cp7_planning_baseline_cases",
+      "repeat_suite": "cp7_planning_netting_cases",
+      "callable": {
+        "module": "cp7_planning_baseline_cases",
+        "qualname": "cases.<locals>.archive",
+        "line": 94,
+        "source_sha256": "e2f868a86e9b19112471a3157759601de2327902a14eb5b0f2ad6e760beed251"
+      }
+    },
+    {
+      "case_id": "P06_NATIVE_CURRENT_AUTHORITY",
+      "first_suite": "cp7_planning_baseline_cases",
+      "repeat_suite": "cp7_planning_netting_cases",
+      "callable": {
+        "module": "cp7_planning_baseline_cases",
+        "qualname": "cases.<locals>.revoke",
+        "line": 102,
+        "source_sha256": "fe3007b38299f174f10a8e4ece780f8148c9d9d9f1c6c8a2cd4cc270412b61af"
+      }
+    },
+    {
+      "case_id": "P06_NATIVE_PRIVATE_CAPS",
+      "first_suite": "cp7_planning_baseline_cases",
+      "repeat_suite": "cp7_planning_netting_cases",
+      "callable": {
+        "module": "cp7_planning_baseline_cases",
+        "qualname": "cases.<locals>.private",
+        "line": 109,
+        "source_sha256": "0abf0e67bd1dd5db837fbb286e03418e6f34a0a0e54fa72800cdf15ba9998321"
+      }
+    },
+    {
+      "case_id": "P06_NATIVE_TIMEZONES",
+      "first_suite": "cp7_planning_baseline_cases",
+      "repeat_suite": "cp7_planning_netting_cases",
+      "callable": {
+        "module": "cp7_planning_baseline_cases",
+        "qualname": "cases.<locals>.zones",
+        "line": 123,
+        "source_sha256": "7adddc86d8e27040a8aee2f1263b61cf51d70b769917fc08bb733949e0b23c78"
+      }
+    },
+    {
+      "case_id": "P06_NATIVE_STOP_NATIVE_STOCK",
+      "first_suite": "cp7_planning_baseline_cases",
+      "repeat_suite": "cp7_planning_netting_cases",
+      "callable": {
+        "module": "cp7_planning_baseline_cases",
+        "qualname": "cases.<locals>.stopped_stock",
+        "line": 128,
+        "source_sha256": "6a33bde8ab7f02e77e5af19eae5fd32ec088a71496e37867e749f841803ecff1"
+      }
+    },
+    {
+      "case_id": "P06_NATIVE_PRODUCTION_MULTIPLE",
+      "first_suite": "cp7_planning_baseline_cases",
+      "repeat_suite": "cp7_planning_netting_cases",
+      "callable": {
+        "module": "cp7_planning_baseline_cases",
+        "qualname": "cases.<locals>.production_multiple",
+        "line": 135,
+        "source_sha256": "e96bbaab2e02127b7b28925147c16db54cf8d83078be2a33a71f74def2bb27c0"
+      }
+    }
+  ],
+  "unique_controls": {
+    "WAF_COLLECT_WAITS_FOR_OWNER_SETTINGS": {
+      "suite": "cp7_ow14b_rule_cases",
+      "callable": {
+        "module": "cp7_wa_forward_cases",
+        "qualname": "cases.<locals>.waits_for_owner",
+        "line": 398,
+        "source_sha256": "9dc5209e282e88727cf6a2bfb802ab8052433b5308b9fd931ffcb40e061fa23c"
+      }
+    },
+    "WAF_FABRIC_EQUALS_WAREHOUSE_SUMMARY": {
+      "suite": "cp7_ow14b_rule_cases",
+      "callable": {
+        "module": "cp7_wa_forward_cases",
+        "qualname": "cases.<locals>.fabric_equals_summary",
+        "line": 426,
+        "source_sha256": "5e8e0d4c0a994640baaecf1ceadd71a4f985eb17f12562af262e4b2de6e9ded6"
+      }
+    },
+    "WAF_AR_AP_FROM_ACCEPTED_SOURCES": {
+      "suite": "cp7_ow14b_rule_cases",
+      "callable": {
+        "module": "cp7_wa_forward_cases",
+        "qualname": "cases.<locals>.ar_ap_sources",
+        "line": 455,
+        "source_sha256": "819ca2ab6b5b286444ce00cb1646bda66f8109284a1bef862591ca51871d724a"
+      }
+    },
+    "WAF_OWNER_REMINDERS_ONLY_WHEN_DUE": {
+      "suite": "cp7_ow14b_rule_cases",
+      "callable": {
+        "module": "cp7_wa_forward_cases",
+        "qualname": "cases.<locals>.owner_reminders_only",
+        "line": 482,
+        "source_sha256": "c9f100505b5d8e2099da46010457d6a6ac526091d703c411c46029df79f2581c"
+      }
+    },
+    "WAF_SEND_ONE_REQUEST_EXACT_TEXT": {
+      "suite": "cp7_ow14b_rule_cases",
+      "callable": {
+        "module": "cp7_wa_forward_cases",
+        "qualname": "cases.<locals>.send_one_request",
+        "line": 509,
+        "source_sha256": "bcbd4a30d608347e0543574c5cb270c8e90b6d5c38a864d76ffb35e41ee6716a"
+      }
+    },
+    "WAF_ROLLBACK_QUEUES_NOTHING": {
+      "suite": "cp7_ow14b_rule_cases",
+      "callable": {
+        "module": "cp7_wa_forward_cases",
+        "qualname": "cases.<locals>.rollback_nothing",
+        "line": 539,
+        "source_sha256": "97da99c5d23e053d648862cc1802571fc06adce0ccf391355f9d21b25eaf9db1"
+      }
+    },
+    "WAF_RESOLVED_BEFORE_SEND_NOT_SENT": {
+      "suite": "cp7_ow14b_rule_cases",
+      "callable": {
+        "module": "cp7_wa_forward_cases",
+        "qualname": "cases.<locals>.resolved_before_send",
+        "line": 559,
+        "source_sha256": "aa59bcbc29bb169e943dc62d39d1446e4bacb7031a93d127454d26cca0890289"
+      }
+    },
+    "WAF_ANSWERS_ACCEPTED_REFUSED_UNKNOWN": {
+      "suite": "cp7_ow14b_rule_cases",
+      "callable": {
+        "module": "cp7_wa_forward_cases",
+        "qualname": "cases.<locals>.answers",
+        "line": 579,
+        "source_sha256": "73eb27f5c5be2e2a887769c709101dda7910fb693c6b7dfa857cb36c045614f9"
+      }
+    },
+    "WAF_PACING_BURST_QUIET_DIGEST_REPEAT": {
+      "suite": "cp7_ow14b_rule_cases",
+      "callable": {
+        "module": "cp7_wa_forward_cases",
+        "qualname": "cases.<locals>.pacing_burst_quiet_digest_repeat",
+        "line": 634,
+        "source_sha256": "16ad7958a4a3b9f0ab949a5eebae023956b6ac037cdd3fdf4dd2e224ae779e93"
+      }
+    },
+    "WAF_OFF_OR_NO_KEY_SENDS_NOTHING": {
+      "suite": "cp7_ow14b_rule_cases",
+      "callable": {
+        "module": "cp7_wa_forward_cases",
+        "qualname": "cases.<locals>.off_or_no_key",
+        "line": 695,
+        "source_sha256": "df7df564dcf3f124651b4d37544ea3f7757d234c60f455f506daab747dbf8b5b"
+      }
+    },
+    "WAF_KEY_WRITE_ONLY_AND_MASKED": {
+      "suite": "cp7_ow14b_rule_cases",
+      "callable": {
+        "module": "cp7_wa_forward_cases",
+        "qualname": "cases.<locals>.key_write_only",
+        "line": 712,
+        "source_sha256": "c61cd3f0ae9f0213d2bed6a75b062124c6161dbff5d5506961ec9ba3d54e5c69"
+      }
+    },
+    "WAF_PRIVACY_AND_LIST_PERMISSIONS": {
+      "suite": "cp7_ow14b_rule_cases",
+      "callable": {
+        "module": "cp7_wa_forward_cases",
+        "qualname": "cases.<locals>.privacy_permissions",
+        "line": 741,
+        "source_sha256": "107b0c45fa40b95abd89473b12fca1e595c8cb5faec4428d71e676fdd11d1db5"
+      }
+    },
+    "WAF_TICKS_PRIVATE_AND_LIMITED": {
+      "suite": "cp7_ow14b_rule_cases",
+      "callable": {
+        "module": "cp7_wa_forward_cases",
+        "qualname": "cases.<locals>.ticks_private",
+        "line": 777,
+        "source_sha256": "a657ee40b672af87195d11492842783a264e0d0992b3eb2718cc4e36987667ac"
+      }
+    },
+    "WAF_ANALYSIS_GAP_FORWARDED_AND_RECHECKED": {
+      "suite": "cp7_ow14b_rule_cases",
+      "callable": {
+        "module": "cp7_wa_forward_cases",
+        "qualname": "cases.<locals>.analysis_gap",
+        "line": 808,
+        "source_sha256": "b8fef1a9008bb82a707c6324a7e89327b3b915d2c5e9c94ef00538c20ba364aa"
+      }
+    },
+    "WAF_ANALYSIS_AUTOMATIC_RUN": {
+      "suite": "cp7_ow14b_rule_cases",
+      "callable": {
+        "module": "cp7_wa_forward_cases",
+        "qualname": "cases.<locals>.analysis_automatic",
+        "line": 904,
+        "source_sha256": "a4dce35c1579dd689146be1051de61869900951d6cf4f14247a4a1f33c45d97d"
+      }
+    },
+    "WAF_FG_REORDER_POINT_FORWARDED": {
+      "suite": "cp7_ow14b_rule_cases",
+      "callable": {
+        "module": "cp7_wa_forward_cases",
+        "qualname": "cases.<locals>.fg_forwarded",
+        "line": 961,
+        "source_sha256": "f62f222291a066fd492b67dbdff4e5224767226c135180cf161698ac2749ff97"
+      }
+    },
+    "WAF_FG_RESOLVED_BEFORE_SEND": {
+      "suite": "cp7_ow14b_rule_cases",
+      "callable": {
+        "module": "cp7_wa_forward_cases",
+        "qualname": "cases.<locals>.fg_resolved_before_send",
+        "line": 988,
+        "source_sha256": "9f5c56cd7e9d6ce69447a2929ea41d984c599c877f8e49beff1f3a6356046273"
+      }
+    },
+    "WAF_FABRIC_REORDER_POINT_FORWARDED": {
+      "suite": "cp7_ow14b_rule_cases",
+      "callable": {
+        "module": "cp7_wa_forward_cases",
+        "qualname": "cases.<locals>.fabric_forwarded",
+        "line": 1015,
+        "source_sha256": "d307f3250cf5a1a972ada713db6e99ce103554658d6a198532ea33a8d4b2b9ef"
+      }
+    },
+    "WAF_ACCESSORY_REORDER_POINT_FORWARDED": {
+      "suite": "cp7_ow14b_rule_cases",
+      "callable": {
+        "module": "cp7_wa_forward_cases",
+        "qualname": "cases.<locals>.accessory_forwarded",
+        "line": 1059,
+        "source_sha256": "caf50e5727b896b14567dcd7a2c1df20d58834e0add14ceb4dbeb3bf2e65a2af"
+      }
+    },
+    "SS1_FORMULA_FROM_POSTED_SALES": {
+      "suite": "cp7_ow14b_rule_cases",
+      "callable": {
+        "module": "cp7_stock_formula_cases",
+        "qualname": "cases.<locals>.formula_from_sales",
+        "line": 465,
+        "source_sha256": "041811958bdbcbc599bb27b99bb1ea745af8e9daa80422f50c598b111fa6e6fb"
+      }
+    },
+    "SS1_OUT_OF_STOCK_DAYS_NOT_ZERO_DEMAND": {
+      "suite": "cp7_ow14b_rule_cases",
+      "callable": {
+        "module": "cp7_stock_formula_cases",
+        "qualname": "cases.<locals>.out_of_stock_days",
+        "line": 482,
+        "source_sha256": "b8adca73ee6e9a156ea59e97e55e5177775e3ef01750c970d6b0816ebc993bd9"
+      }
+    },
+    "SS1_LEAD_TIME_MEASURED_FROM_PRODUCTION": {
+      "suite": "cp7_ow14b_rule_cases",
+      "callable": {
+        "module": "cp7_stock_formula_cases",
+        "qualname": "cases.<locals>.lead_time_measured",
+        "line": 500,
+        "source_sha256": "7524d7382b44237cfb5a1d114ee124ec8d2bcdff49be1ac63ca5cfbb45fef067"
+      }
+    },
+    "SS1_DAYS_BUFFER_NOT_STACKED": {
+      "suite": "cp7_ow14b_rule_cases",
+      "callable": {
+        "module": "cp7_stock_formula_cases",
+        "qualname": "cases.<locals>.days_buffer",
+        "line": 518,
+        "source_sha256": "8a19171bfc3483401427d7d6e484b11de26e6bf3e56c976df01d6be2b58981cc"
+      }
+    },
+    "SS1_SETTINGS_SERVICE_LEVEL_AND_WINDOW": {
+      "suite": "cp7_ow14b_rule_cases",
+      "callable": {
+        "module": "cp7_stock_formula_cases",
+        "qualname": "cases.<locals>.settings_level_and_window",
+        "line": 540,
+        "source_sha256": "c9a12e52d024f9e8c75988fa8cecfacaf09a047af76387afa31daf466d05415a"
+      }
+    },
+    "SS1_MANUAL_POINT_REPLACES_AND_CLEARS": {
+      "suite": "cp7_ow14b_rule_cases",
+      "callable": {
+        "module": "cp7_stock_formula_cases",
+        "qualname": "cases.<locals>.manual_point",
+        "line": 566,
+        "source_sha256": "37fc74d2cd2d37bc16becf4aedd68df362eed393d84baff21e421c1bf19b026b"
+      }
+    },
+    "SS1_NOT_ENOUGH_DATA_NEVER_GUESSES": {
+      "suite": "cp7_ow14b_rule_cases",
+      "callable": {
+        "module": "cp7_stock_formula_cases",
+        "qualname": "cases.<locals>.not_enough_data",
+        "line": 588,
+        "source_sha256": "5de2a538ceb72b6f04034e594f9e8d96c0124f1a17050b8291fe3a250305baf7"
+      }
+    },
+    "SS1_REVERSED_SALE_NOT_DEMAND": {
+      "suite": "cp7_ow14b_rule_cases",
+      "callable": {
+        "module": "cp7_stock_formula_cases",
+        "qualname": "cases.<locals>.reversed_sale",
+        "line": 603,
+        "source_sha256": "86a646f292379be2dd6b6b2be35ab764419d572c64852178cbdc2b806ed4ae84"
+      }
+    },
+    "SS1_IN_PRODUCTION_COUNTS_TOWARD_POSITION": {
+      "suite": "cp7_ow14b_rule_cases",
+      "callable": {
+        "module": "cp7_stock_formula_cases",
+        "qualname": "cases.<locals>.in_production",
+        "line": 620,
+        "source_sha256": "c7dd5188066fa8902125022b76cad6068839e1213dcad1b8fe64ea4427ab7c25"
+      }
+    },
+    "SS1_SOURCE_AND_ACCESS": {
+      "suite": "cp7_ow14b_rule_cases",
+      "callable": {
+        "module": "cp7_stock_formula_cases",
+        "qualname": "cases.<locals>.source_and_access",
+        "line": 648,
+        "source_sha256": "696f45b519e663f69263fc05fdadccda1d5982fc3c69c301c19b6beb1ce1968a"
+      }
+    },
+    "SS1_VOLUME_2000_ITEMS_EVERY_MINUTE": {
+      "suite": "cp7_ow14b_rule_cases",
+      "callable": {
+        "module": "cp7_stock_formula_cases",
+        "qualname": "cases.<locals>.volume",
+        "line": 675,
+        "source_sha256": "fbe1024cd2e4ae0e4d6fcc6f0f6fb3a36a636bcca2ca2b88df1e582dac35f044"
+      }
+    },
+    "SS2_FABRIC_FORMULA_FROM_CUTTING_USE": {
+      "suite": "cp7_ow14b_rule_cases",
+      "callable": {
+        "module": "cp7_stock_formula_cases",
+        "qualname": "material_cases.<locals>.fabric_formula",
+        "line": 725,
+        "source_sha256": "f82666cb91cd83b3c2aed590562a00cde411c79d220c01039b4d10f816b686d0"
+      }
+    },
+    "SS2_FABRIC_OUT_OF_STOCK_DAYS_NOT_ZERO_USE": {
+      "suite": "cp7_ow14b_rule_cases",
+      "callable": {
+        "module": "cp7_stock_formula_cases",
+        "qualname": "material_cases.<locals>.fabric_out_of_stock",
+        "line": 747,
+        "source_sha256": "3c5f2477079595eb8de24233e55fafa16f88b4baf743dec472ad632fc6f6cd9d"
+      }
+    },
+    "SS2_FABRIC_REVERSED_ISSUE_NOT_USE": {
+      "suite": "cp7_ow14b_rule_cases",
+      "callable": {
+        "module": "cp7_stock_formula_cases",
+        "qualname": "material_cases.<locals>.fabric_reversed",
+        "line": 764,
+        "source_sha256": "aa08fed409d785caf053320726aef8b54367e01490fb78f6429a49cfd743f0b6"
+      }
+    },
+    "SS2_FABRIC_MINIMUM_STAYS_BELOW_MINIMUM": {
+      "suite": "cp7_ow14b_rule_cases",
+      "callable": {
+        "module": "cp7_stock_formula_cases",
+        "qualname": "material_cases.<locals>.fabric_minimum",
+        "line": 781,
+        "source_sha256": "2145426a72a24a8ef2bf4394e4e713b9b8acce7ac5f6456347e22ee9808b9cd7"
+      }
+    },
+    "SS2_FABRIC_ON_ORDER_COUNTS_TOWARD_POSITION": {
+      "suite": "cp7_ow14b_rule_cases",
+      "callable": {
+        "module": "cp7_stock_formula_cases",
+        "qualname": "material_cases.<locals>.fabric_on_order",
+        "line": 802,
+        "source_sha256": "ea1cf9656ccb8535337781bc90e4601446fe6ecae70cd7c71b24f8d7d5a65396"
+      }
+    },
+    "SS2_NO_LEAD_TIME_NEVER_GUESSES": {
+      "suite": "cp7_ow14b_rule_cases",
+      "callable": {
+        "module": "cp7_stock_formula_cases",
+        "qualname": "material_cases.<locals>.no_lead_time",
+        "line": 816,
+        "source_sha256": "54aa948b4d5ef06eb3f513f7f3fd76defc996e61116b5fb3e962e387903f1a80"
+      }
+    },
+    "SS3_ACCESSORY_USAGE_SHOWN_NO_FORMULA": {
+      "suite": "cp7_ow14b_rule_cases",
+      "callable": {
+        "module": "cp7_stock_formula_cases",
+        "qualname": "material_cases.<locals>.accessory_usage",
+        "line": 847,
+        "source_sha256": "eeba205d97a3490e37389cd5b5b04fc75e1caab517ef48c0a9d1071c54af8708"
+      }
+    },
+    "SS3_SERVICE_ZONES_NOT_FREE_STOCK": {
+      "suite": "cp7_ow14b_rule_cases",
+      "callable": {
+        "module": "cp7_stock_formula_cases",
+        "qualname": "material_cases.<locals>.service_zones",
+        "line": 874,
+        "source_sha256": "dc48a389e526f8589d588db8ee3ce776b6984b33d6b600d39c22f039416cd0c9"
+      }
+    },
+    "SS3_ACCESSORY_MANUAL_MINIMUM_ZERO_NEVER": {
+      "suite": "cp7_ow14b_rule_cases",
+      "callable": {
+        "module": "cp7_stock_formula_cases",
+        "qualname": "material_cases.<locals>.accessory_manual",
+        "line": 895,
+        "source_sha256": "7def5a35ba34b77cc3d16dfcd272e1a3f15a7c8d08961800e96dd845ceeae1cb"
+      }
+    },
+    "SS3_MATERIAL_SOURCE_AND_ACCESS": {
+      "suite": "cp7_ow14b_rule_cases",
+      "callable": {
+        "module": "cp7_stock_formula_cases",
+        "qualname": "material_cases.<locals>.source_and_access",
+        "line": 921,
+        "source_sha256": "334daa09eaa375f63f6052ffe3c8a78595d4fa3cad19537a006ffcfd1174be7e"
+      }
+    },
+    "SS3_ACCESSORY_MINIMUM_FROM_OWNER_ESTIMATE": {
+      "suite": "cp7_ow14b_rule_cases",
+      "callable": {
+        "module": "cp7_stock_formula_cases",
+        "qualname": "material_cases.<locals>.accessory_estimate",
+        "line": 969,
+        "source_sha256": "7a07df22335feede04cc00aa32d7fb265bf21c106ba7a55b0d6091862da818db"
+      }
+    },
+    "WAF_OTHER_OPENING_AR_AP": {
+      "suite": "cp7_ow14b_rule_cases",
+      "callable": {
+        "module": "cp7_wa_obligation_cases",
+        "qualname": "cases.<locals>.opening",
+        "line": 67,
+        "source_sha256": "5cf85205b79f24974d4f85dbffffa3e922a15e9f3b4ad9f7516e62e27ff31f7c"
+      }
+    },
+    "WAF_OTHER_PAYROLL_PAYMENT_INVERSE": {
+      "suite": "cp7_ow14b_rule_cases",
+      "callable": {
+        "module": "cp7_wa_obligation_cases",
+        "qualname": "cases.<locals>.payroll",
+        "line": 93,
+        "source_sha256": "f2fb2bc369733c942e62007ec21cd28e4bc9d79a7d6c3d1112911ecc392b6cad"
+      }
+    },
+    "WAF_OTHER_ACCESSORY_ALLOCATION_NOT_SETTLEMENT": {
+      "suite": "cp7_ow14b_rule_cases",
+      "callable": {
+        "module": "cp7_wa_obligation_cases",
+        "qualname": "cases.<locals>.accessory",
+        "line": 116,
+        "source_sha256": "f7721595f508d311ae2e10f6cf12b3d29a1ef84c8a7795699be635f266f9fb4e"
+      }
+    },
+    "WAF_OTHER_LAUNDRY_PAYMENT_INVERSE": {
+      "suite": "cp7_ow14b_rule_cases",
+      "callable": {
+        "module": "cp7_wa_obligation_cases",
+        "qualname": "cases.<locals>.laundry",
+        "line": 135,
+        "source_sha256": "c08ba57f95d52f7d631433b3d4b7cd19d582754b4b95f0c15fc54e4ce1e931d0"
+      }
+    },
+    "WAF_OTHER_LAUNDRY_OPENING_UNKNOWN": {
+      "suite": "cp7_ow14b_rule_cases",
+      "callable": {
+        "module": "cp7_wa_obligation_cases",
+        "qualname": "cases.<locals>.laundry_opening",
+        "line": 161,
+        "source_sha256": "c13f12c31f65e6d06fbdfeb0a370227eb4330fcf5fcc33fd7cf8e97206c8b276"
+      }
+    },
+    "WAF_OTHER_NARROWER_PERMISSIONS": {
+      "suite": "cp7_ow14b_rule_cases",
+      "callable": {
+        "module": "cp7_wa_obligation_cases",
+        "qualname": "cases.<locals>.permissions",
+        "line": 173,
+        "source_sha256": "486c9e6fcd5ba2acd8bbc1d12d609a504ef219555919578f9f07bc12159ea498"
+      }
+    },
+    "WAF_OTHER_ALL_DOMAINS_SUMMARY_PRIVATE": {
+      "suite": "cp7_ow14b_rule_cases",
+      "callable": {
+        "module": "cp7_wa_obligation_cases",
+        "qualname": "cases.<locals>.all_summary",
+        "line": 193,
+        "source_sha256": "8f8e53de38a9116bef28fb22ff887ba95e9b019cce4c0dbc69ed5c90eee9fae9"
+      }
+    },
+    "WAF_ACCESSORY_NEED_NATIVE_UNKNOWN_FORWARDED": {
+      "suite": "cp7_ow14b_rule_cases",
+      "callable": {
+        "module": "cp7_wa_accessory_cases",
+        "qualname": "cases.<locals>.unknown_forwarded",
+        "line": 368,
+        "source_sha256": "77ba99965e4fb61fe50664af78157ef66cef8bc6eaba73456c564f5ffccca45d"
+      }
+    },
+    "WAF_ACCESSORY_NEED_MISSING_EMPTY": {
+      "suite": "cp7_ow14b_rule_cases",
+      "callable": {
+        "module": "cp7_wa_accessory_cases",
+        "qualname": "cases.<locals>.missing_empty",
+        "line": 389,
+        "source_sha256": "afd857d5617156ef5b503e54d2299a0a0f6b88a1c5d32cc0f1c63c9729b59910"
+      }
+    },
+    "WAF_ACCESSORY_NEED_BOM_SUCCESSOR": {
+      "suite": "cp7_ow14b_rule_cases",
+      "callable": {
+        "module": "cp7_wa_accessory_cases",
+        "qualname": "cases.<locals>.bom_successor",
+        "line": 413,
+        "source_sha256": "348a6e3ce0fe3b17b4e21bea70c18b998fc6ee84b3405d731482bed22454f803"
+      }
+    },
+    "WAF_ACCESSORY_NEED_CURRENT_PERMISSIONS": {
+      "suite": "cp7_ow14b_rule_cases",
+      "callable": {
+        "module": "cp7_wa_accessory_cases",
+        "qualname": "cases.<locals>.current_permissions",
+        "line": 454,
+        "source_sha256": "c99c5852285f7f832f0c3994d6d12e2cb235df724c814e4b97001019f3b4d39e"
+      }
+    },
+    "WAF_ACCESSORY_NEED_ISSUE_NOT_INSTALLATION_RESOLVED": {
+      "suite": "cp7_ow14b_rule_cases",
+      "callable": {
+        "module": "cp7_wa_accessory_cases",
+        "qualname": "cases.<locals>.issue_not_installed_resolved",
+        "line": 525,
+        "source_sha256": "f2577e87a2a5b5b8b98e94f05dbd5bfc425b66eeb26671a9448c67ca2bd47f75"
+      }
+    },
+    "WAF_ACCESSORY_NEED_POLICY_REPLAY_DEDUP": {
+      "suite": "cp7_ow14b_rule_cases",
+      "callable": {
+        "module": "cp7_wa_accessory_cases",
+        "qualname": "cases.<locals>.policy_replay_dedup",
+        "line": 553,
+        "source_sha256": "7b20f3979d5d0f6539ff5e8654df94625187057c7d7dcb36a8336a38386b2e39"
+      }
+    },
+    "WAF_ACCESSORY_NEED_PAUSE_RESUME": {
+      "suite": "cp7_ow14b_rule_cases",
+      "callable": {
+        "module": "cp7_wa_accessory_pause_cases",
+        "qualname": "cases.<locals>.pause_resume",
+        "line": 89,
+        "source_sha256": "75d417ac7d7ec6007989d7781a5bf8c8e16d03221150c22f41b98e22e45f1f9d"
+      }
+    },
+    "OW14B_PREVIOUS_RULE_THEN_ONE_FORMULA": {
+      "suite": "cp7_ow14b_rule_cases",
+      "callable": {
+        "module": "cp7_ow14b_rule_cases",
+        "qualname": "cases.<locals>.formula_choice",
+        "line": 84,
+        "source_sha256": "9c58bd57897823d149264ca425376cacb0ab6cd783800e8487a89f84d099de34"
+      }
+    },
+    "OW14B_PINNED_REFERENCE_OLD_CLIENT": {
+      "suite": "cp7_ow14b_rule_cases",
+      "callable": {
+        "module": "cp7_ow14b_rule_cases",
+        "qualname": "cases.<locals>.pinned",
+        "line": 102,
+        "source_sha256": "68ed074846d16574fcc68c73535b137bbd5bbfd74962f170608148028f8d22e9"
+      }
+    },
+    "OW14B_CHANGED_REFERENCE_NO_APPEND": {
+      "suite": "cp7_ow14b_rule_cases",
+      "callable": {
+        "module": "cp7_ow14b_rule_cases",
+        "qualname": "cases.<locals>.changed_reference",
+        "line": 126,
+        "source_sha256": "a94c4c7c038fff023bcc8d7f8b78be5075a912ab3553780c8c766c513b66ae18"
+      }
+    },
+    "OW14B_REPLAY_IMMUTABLE_NO_SWITCH": {
+      "suite": "cp7_ow14b_rule_cases",
+      "callable": {
+        "module": "cp7_ow14b_rule_cases",
+        "qualname": "cases.<locals>.replay",
+        "line": 139,
+        "source_sha256": "92e6af1c7b69fefaecad9030e52dee7b2eb30774c8548ef99408bbd6587fd5a8"
+      }
+    },
+    "OW14B_ZERO_AND_UNKNOWN_DISTINCT": {
+      "suite": "cp7_ow14b_rule_cases",
+      "callable": {
+        "module": "cp7_ow14b_rule_cases",
+        "qualname": "cases.<locals>.zero_unknown",
+        "line": 154,
+        "source_sha256": "28fbdb56952f01b3fcc4a5e6d41dd4208c1aae0bea91f6456e12eb41403c2156"
+      }
+    },
+    "OW14B_CLOSED_SCOPE_AND_PRECISE_WIRE": {
+      "suite": "cp7_ow14b_rule_cases",
+      "callable": {
+        "module": "cp7_ow14b_rule_cases",
+        "qualname": "cases.<locals>.closed_scope",
+        "line": 168,
+        "source_sha256": "4298b90ac5a482d26d0721371671b0668de0aa503fe6caffa8b70e0b1178814d"
+      }
+    },
+    "OW16_NO_GUESSED_POLICY": {
+      "suite": "cp7_ow16_status_cases",
+      "callable": {
+        "module": "cp7_ow16_status_cases",
+        "qualname": "cases.<locals>.no_policy",
+        "line": 101,
+        "source_sha256": "b754ecc44a1aaf2707392a01293110cb7c68229c4c4e20941299d250ab765102"
+      }
+    },
+    "OW16_FACTORY_CURRENT_CONTEXT": {
+      "suite": "cp7_ow16_status_cases",
+      "callable": {
+        "module": "cp7_ow16_status_cases",
+        "qualname": "cases.<locals>.context",
+        "line": 111,
+        "source_sha256": "eb941eb5b9dc4577254ea340ad00b5388f436b30919e07c76622e815a31c5f94"
+      }
+    },
+    "OW16_LOW_HIGH_TOTAL_PCS": {
+      "suite": "cp7_ow16_status_cases",
+      "callable": {
+        "module": "cp7_ow16_status_cases",
+        "qualname": "cases.<locals>.totals",
+        "line": 128,
+        "source_sha256": "9763911b94be63d00d11e0f17755cfca8fcec6da7eb69bbb161705eb179a75a4"
+      }
+    },
+    "OW16_READ_ONLY_NATIVE_FACTS": {
+      "suite": "cp7_ow16_status_cases",
+      "callable": {
+        "module": "cp7_ow16_status_cases",
+        "qualname": "cases.<locals>.readonly",
+        "line": 139,
+        "source_sha256": "50e16416a8972aadf4b7a48e8c11c7d47c2c2d577e4061838b7a438b5086eefa"
+      }
+    },
+    "OW16_OWNER_POLICY_REPLAY_IMMUTABLE": {
+      "suite": "cp7_ow16_status_cases",
+      "callable": {
+        "module": "cp7_ow16_status_cases",
+        "qualname": "cases.<locals>.policy",
+        "line": 149,
+        "source_sha256": "a5e432d88f68d1e7fb01bfc998e53978e7f341219d8c49ea0e99c6e39c55dba9"
+      }
+    },
+    "OW16_INVALID_POLICY_ZERO_EFFECT": {
+      "suite": "cp7_ow16_status_cases",
+      "callable": {
+        "module": "cp7_ow16_status_cases",
+        "qualname": "cases.<locals>.invalid",
+        "line": 164,
+        "source_sha256": "f140057cd9d2ae822e8894d7b1f65cec285a0504d130c9d9f3346cb5257fac86"
+      }
+    },
+    "OW16_PAUSED_INSUFFICIENT_UNPOSTED": {
+      "suite": "cp7_ow16_status_cases",
+      "callable": {
+        "module": "cp7_ow16_status_cases",
+        "qualname": "cases.<locals>.states",
+        "line": 176,
+        "source_sha256": "326170451606973b7550bf05e083eb0e7605e1a2fe3fa869271dca43116a66a0"
+      }
+    },
+    "OW16_NEGATIVE_LOOKUP_SEALS_REQUEST": {
+      "suite": "cp7_ow16_status_cases",
+      "callable": {
+        "module": "cp7_ow16_status_cases",
+        "qualname": "cases.<locals>.negative",
+        "line": 186,
+        "source_sha256": "cccb49aae4703ac0bf458250b63dd2a9eda8af2937310c654bbda8222cadb2a0"
+      }
+    },
+    "OW16_NATIVE_HISTORY_REOPEN_REPOST": {
+      "suite": "cp7_ow16_status_cases",
+      "callable": {
+        "module": "cp7_ow16_status_cases",
+        "qualname": "cases.<locals>.correction",
+        "line": 193,
+        "source_sha256": "fab0e3754e8a534c6cf1ea266957665e363db61d9b4a5f8f825aa38459e12946"
+      }
+    },
+    "OW16_PRIVATE_CATALOG_AND_CURRENT_ACCESS": {
+      "suite": "cp7_ow16_status_cases",
+      "callable": {
+        "module": "cp7_ow16_status_cases",
+        "qualname": "cases.<locals>.boundary",
+        "line": 207,
+        "source_sha256": "d2e2d2c9c544906488129dd5fc800c18e0c0644e5e6f4bb1c23bf782eeed0245"
+      }
+    },
+    "PL5H_PENDING_WITHOUT_POLICY": {
+      "suite": "cp7_ow13_history_cases",
+      "callable": {
+        "module": "cp7_pl5_history_yield_cases",
+        "qualname": "cases.<locals>.pending",
+        "line": 270,
+        "source_sha256": "481e7220f8ad69d5584b6029298cf96939169105b79b666fecd6179967c0e908"
+      }
+    },
+    "PL5H_POLICY_SIGNED_VERSIONED": {
+      "suite": "cp7_ow13_history_cases",
+      "callable": {
+        "module": "cp7_pl5_history_yield_cases",
+        "qualname": "cases.<locals>.signed",
+        "line": 282,
+        "source_sha256": "d06cb086366e63edc11a5b6c0d8544ce95098553ee9a2654b7b928354af51e5a"
+      }
+    },
+    "PL5H_POLICY_VALUES_AND_AUTHORITY": {
+      "suite": "cp7_ow13_history_cases",
+      "callable": {
+        "module": "cp7_pl5_history_yield_cases",
+        "qualname": "cases.<locals>.values_authority",
+        "line": 312,
+        "source_sha256": "3ad155972525f3d9fe41117cc3123597b5d8576b5e9c7e2853bf6b3c414b8c46"
+      }
+    },
+    "PL5H_PRODUCT_SIZE_SUFFICIENT": {
+      "suite": "cp7_ow13_history_cases",
+      "callable": {
+        "module": "cp7_pl5_history_yield_cases",
+        "qualname": "cases.<locals>.product_size",
+        "line": 337,
+        "source_sha256": "5f72044b46d881e6004817e41a69c55deb0c9558c2f47cacac45f92f68729f1e"
+      }
+    },
+    "PL5H_MODEL_FALLBACK_SAME_MODEL": {
+      "suite": "cp7_ow13_history_cases",
+      "callable": {
+        "module": "cp7_pl5_history_yield_cases",
+        "qualname": "cases.<locals>.model_fallback",
+        "line": 365,
+        "source_sha256": "1a3d49ae94d5f926e2edb1558bec7b1fb23aa247a7a9d29d838ee63c080274e5"
+      }
+    },
+    "PL5H_INSUFFICIENT_NO_VALUE": {
+      "suite": "cp7_ow13_history_cases",
+      "callable": {
+        "module": "cp7_pl5_history_yield_cases",
+        "qualname": "cases.<locals>.insufficient",
+        "line": 380,
+        "source_sha256": "117f0ee635b0192cd3f7aaa114129badf1b400624132eb918fa1c2796dfe0712"
+      }
+    },
+    "PL5H_NEVER_CROSS_MODEL": {
+      "suite": "cp7_ow13_history_cases",
+      "callable": {
+        "module": "cp7_pl5_history_yield_cases",
+        "qualname": "cases.<locals>.cross_model",
+        "line": 395,
+        "source_sha256": "0f3fc03578842e166544e47d004148c3ed6230ab5ba44746635f8b69cbf03954"
+      }
+    },
+    "PL5H_NEVER_100_PERCENT": {
+      "suite": "cp7_ow13_history_cases",
+      "callable": {
+        "module": "cp7_pl5_history_yield_cases",
+        "qualname": "cases.<locals>.never_100",
+        "line": 426,
+        "source_sha256": "e8c3c6746d5f35030234a12a163e2f464c500cb861ca693178031847df8e17dc"
+      }
+    },
+    "PL5H_WILSON_EXACT": {
+      "suite": "cp7_ow13_history_cases",
+      "callable": {
+        "module": "cp7_pl5_history_yield_cases",
+        "qualname": "cases.<locals>.wilson_exact",
+        "line": 438,
+        "source_sha256": "0a75521ce217c4163b4e86e52ece276adda93cb6bfdf22f0083f88659dc1fec7"
+      }
+    },
+    "PL5H_CANCEL_CORRECT_BACKDATE": {
+      "suite": "cp7_ow13_history_cases",
+      "callable": {
+        "module": "cp7_pl5_history_yield_cases",
+        "qualname": "cases.<locals>.cancel_correct_backdate",
+        "line": 453,
+        "source_sha256": "272b59db6513c992b780912967c901b61794aa6165e0c9d11ecf123178020087"
+      }
+    },
+    "PL5H_WINDOW_FINISH_DATE": {
+      "suite": "cp7_ow13_history_cases",
+      "callable": {
+        "module": "cp7_pl5_history_yield_cases",
+        "qualname": "cases.<locals>.window",
+        "line": 485,
+        "source_sha256": "b2e218344aef1616456b757e2e06037564953dab98a66c352433a76723604a9b"
+      }
+    },
+    "OW13B_COMPLETE_HISTORY_200_201_501_UNDER_8S": {
+      "suite": "cp7_ow13_history_cases",
+      "callable": {
+        "module": "cp7_ow13_history_cases",
+        "qualname": "cases.<locals>.complete_history",
+        "line": 24,
+        "source_sha256": "461c84a41cd2e5b3ef5e56c3db3ca242677f0c2b7be2fc1fd7686611b38615d1"
+      }
+    },
+    "PL5H_PLAN_USES_HISTORY_LIVE": {
+      "suite": "cp7_ow13_history_cases",
+      "callable": {
+        "module": "cp7_pl5_history_yield_cases",
+        "qualname": "cases.<locals>.plan_live",
+        "line": 522,
+        "source_sha256": "2a5c3f14a1db719b1292d36e28db6b94e1a7fbaf420e0c2d49a83b477c8c5fa1"
+      }
+    },
+    "PL5H_CATALOG_PRIVATE": {
+      "suite": "cp7_ow13_history_cases",
+      "callable": {
+        "module": "cp7_pl5_history_yield_cases",
+        "qualname": "cases.<locals>.catalog",
+        "line": 568,
+        "source_sha256": "7e2c201c8579397336888846f40a6736b8cd235a14306b056aa7108307e92aea"
+      }
+    },
+    "P05_NATIVE_DRAFT_ONCE": {
+      "suite": "cp7_planning_baseline_cases",
+      "callable": {
+        "module": "cp7_planning_history_cases",
+        "qualname": "cases.<locals>.draft_once",
+        "line": 52,
+        "source_sha256": "8595841e281d6c8a75a71bf6b5921ff23d3010218914dbeaa1e81c893e85bf80"
+      }
+    },
+    "P05_NATIVE_POSTED_ONCE": {
+      "suite": "cp7_planning_baseline_cases",
+      "callable": {
+        "module": "cp7_planning_history_cases",
+        "qualname": "cases.<locals>.posted_once",
+        "line": 58,
+        "source_sha256": "c9313ed8a7a23006b3277c5fb472a349da172b8ccf7a84e635b485684362c1c7"
+      }
+    },
+    "P05_NATIVE_RETURN_SEPARATE": {
+      "suite": "cp7_planning_baseline_cases",
+      "callable": {
+        "module": "cp7_planning_history_cases",
+        "qualname": "cases.<locals>.returned_separate",
+        "line": 62,
+        "source_sha256": "e4a0b28d470c8c6a073c1757cd6b73aa0e0449fa03a1403195bbca7583193747"
+      }
+    },
+    "P05_NATIVE_NATIVE_INVERSES": {
+      "suite": "cp7_planning_baseline_cases",
+      "callable": {
+        "module": "cp7_planning_history_cases",
+        "qualname": "cases.<locals>.inverses",
+        "line": 66,
+        "source_sha256": "6104d2ec2f051216c4e633a6c031f9682682628b03daa1d03d103b0f5145e40e"
+      }
+    },
+    "P05_NATIVE_IMMUTABLE_REPLAY_STALE": {
+      "suite": "cp7_planning_baseline_cases",
+      "callable": {
+        "module": "cp7_planning_history_cases",
+        "qualname": "cases.<locals>.replay_stale",
+        "line": 72,
+        "source_sha256": "25dc5936a6c7a24ed4f02162115f630a9a2c216653ff4f67f7d3387b7a36fb6a"
+      }
+    },
+    "P05_NATIVE_OPERATIONAL_REDACTION": {
+      "suite": "cp7_planning_baseline_cases",
+      "callable": {
+        "module": "cp7_planning_history_cases",
+        "qualname": "cases.<locals>.access_redacted",
+        "line": 81,
+        "source_sha256": "4df94cc5b8e44267ad29cf63ec12bcfe1a6b8a761d38a6ae9e9c6a36c73939df"
+      }
+    },
+    "P05_NATIVE_CURRENT_REVOKE": {
+      "suite": "cp7_planning_baseline_cases",
+      "callable": {
+        "module": "cp7_planning_history_cases",
+        "qualname": "cases.<locals>.current_revocation",
+        "line": 86,
+        "source_sha256": "20ffd1cf19ea3bdfcf4c49e3765bed7904420c97f1d772c8b2a7019cdc441778"
+      }
+    },
+    "P05_NATIVE_CLOSED_QUERY": {
+      "suite": "cp7_planning_baseline_cases",
+      "callable": {
+        "module": "cp7_planning_history_cases",
+        "qualname": "cases.<locals>.closed_query",
+        "line": 91,
+        "source_sha256": "52365805f933f9943c340274044a1496f2ed65c9d0c875a5b3eaa165b97a991d"
+      }
+    },
+    "P05_NATIVE_PRIVATE_CAPS": {
+      "suite": "cp7_planning_baseline_cases",
+      "callable": {
+        "module": "cp7_planning_history_cases",
+        "qualname": "cases.<locals>.immutable_private",
+        "line": 98,
+        "source_sha256": "b0ed0f857a1f445cae00f9cc67760126a6dac217d025b7a4385a87e24614b72b"
+      }
+    },
+    "P05_NATIVE_TIMEZONES": {
+      "suite": "cp7_planning_baseline_cases",
+      "callable": {
+        "module": "cp7_planning_history_cases",
+        "qualname": "cases.<locals>.timezone",
+        "line": 108,
+        "source_sha256": "95ffd3f8407c12288edddb7ea330705be3269c16c50fefccdc509bad2a4c7114"
+      }
+    },
+    "P05_NATIVE_UNKNOWN_HISTORY": {
+      "suite": "cp7_planning_baseline_cases",
+      "callable": {
+        "module": "cp7_planning_history_cases",
+        "qualname": "cases.<locals>.unknown_history",
+        "line": 114,
+        "source_sha256": "d665ced323aa2c2c4d30f95689ae278179d62a6d70772e3ad6fd9e0dc3b47fa0"
+      }
+    },
+    "P05_NATIVE_GLOBAL_30_ROOTS": {
+      "suite": "cp7_planning_baseline_cases",
+      "callable": {
+        "module": "cp7_planning_history_cases",
+        "qualname": "cases.<locals>.complete_scope",
+        "line": 119,
+        "source_sha256": "8705abce932b5a3c6ea4bc08af2b17b91ac7dfed1123ac022f1aff56be15af8e"
+      }
+    },
+    "P06_NATIVE_PROFILE_METADATA": {
+      "suite": "cp7_planning_baseline_cases",
+      "callable": {
+        "module": "cp7_planning_baseline_cases",
+        "qualname": "cases.<locals>.metadata",
+        "line": 44,
+        "source_sha256": "e421c8370b38e041d6354b32edce04a557447ef2d24eab93df4a31daa0f01dbf"
+      }
+    },
+    "P06_NATIVE_PROFILE_UUID": {
+      "suite": "cp7_planning_baseline_cases",
+      "callable": {
+        "module": "cp7_planning_baseline_cases",
+        "qualname": "cases.<locals>.replay",
+        "line": 49,
+        "source_sha256": "4821dc42705bd6b97c2316fd2c38fba9acf02ffbe7538007db833f2d5b79090e"
+      }
+    },
+    "P06_NATIVE_STALE_REVISION": {
+      "suite": "cp7_planning_baseline_cases",
+      "callable": {
+        "module": "cp7_planning_baseline_cases",
+        "qualname": "cases.<locals>.stale",
+        "line": 54,
+        "source_sha256": "f72d13abaff9ffc758d5977767d96867006eae0e7fc2c5c026c281c9aca9a3fb"
+      }
+    },
+    "P06_NATIVE_NATIVE_VERSION": {
+      "suite": "cp7_planning_baseline_cases",
+      "callable": {
+        "module": "cp7_planning_baseline_cases",
+        "qualname": "cases.<locals>.wrong_version",
+        "line": 59,
+        "source_sha256": "ba88d2b3e035c69228581f64e60cc5fbd40774d039056ade4ace4b22dec308bb"
+      }
+    },
+    "P06_NATIVE_STRICT_CONFIG": {
+      "suite": "cp7_planning_baseline_cases",
+      "callable": {
+        "module": "cp7_planning_baseline_cases",
+        "qualname": "cases.<locals>.malformed",
+        "line": 64,
+        "source_sha256": "494d087c0f0b40b13ff5f8c0560e836c17e0a411c03fb72d8686e85b976407fc"
+      }
+    },
+    "P06_NATIVE_UNREVIEWED_UNKNOWN": {
+      "suite": "cp7_planning_baseline_cases",
+      "callable": {
+        "module": "cp7_planning_baseline_cases",
+        "qualname": "cases.<locals>.absent",
+        "line": 75,
+        "source_sha256": "1927458e6cdea56591c5029fd584f1c52c44062a5133d93d2241060a0c75e9d1"
+      }
+    },
+    "P06_NATIVE_SELECTED_TARGET100": {
+      "suite": "cp7_planning_baseline_cases",
+      "callable": {
+        "module": "cp7_planning_baseline_cases",
+        "qualname": "cases.<locals>.manual",
+        "line": 80,
+        "source_sha256": "0975a27527a6a3fdf969479228c61fbe8ea7ecdfe816cac2f0942d1e941a8d3e"
+      }
+    },
+    "P06_NATIVE_OWN_HISTORY_UNKNOWN": {
+      "suite": "cp7_planning_baseline_cases",
+      "callable": {
+        "module": "cp7_planning_baseline_cases",
+        "qualname": "cases.<locals>.own_unknown",
+        "line": 86,
+        "source_sha256": "96fba76936a73c9a01d7c72498352821077586563b52b6667fb3aa33090e9435"
+      }
+    },
+    "P06_NATIVE_LEAD_UNKNOWN": {
+      "suite": "cp7_planning_baseline_cases",
+      "callable": {
+        "module": "cp7_planning_baseline_cases",
+        "qualname": "cases.<locals>.horizon_unknown",
+        "line": 90,
+        "source_sha256": "eba70d42b1e782ec03f481a8ad99c801b9ae99d223c478bc6a4e6fa0d8031eb6"
+      }
+    },
+    "P06_NATIVE_IMMUTABLE_ARCHIVE200": {
+      "suite": "cp7_planning_baseline_cases",
+      "callable": {
+        "module": "cp7_planning_baseline_cases",
+        "qualname": "cases.<locals>.archive",
+        "line": 94,
+        "source_sha256": "e2f868a86e9b19112471a3157759601de2327902a14eb5b0f2ad6e760beed251"
+      }
+    },
+    "P06_NATIVE_CURRENT_AUTHORITY": {
+      "suite": "cp7_planning_baseline_cases",
+      "callable": {
+        "module": "cp7_planning_baseline_cases",
+        "qualname": "cases.<locals>.revoke",
+        "line": 102,
+        "source_sha256": "fe3007b38299f174f10a8e4ece780f8148c9d9d9f1c6c8a2cd4cc270412b61af"
+      }
+    },
+    "P06_NATIVE_PRIVATE_CAPS": {
+      "suite": "cp7_planning_baseline_cases",
+      "callable": {
+        "module": "cp7_planning_baseline_cases",
+        "qualname": "cases.<locals>.private",
+        "line": 109,
+        "source_sha256": "0abf0e67bd1dd5db837fbb286e03418e6f34a0a0e54fa72800cdf15ba9998321"
+      }
+    },
+    "P06_NATIVE_TIMEZONES": {
+      "suite": "cp7_planning_baseline_cases",
+      "callable": {
+        "module": "cp7_planning_baseline_cases",
+        "qualname": "cases.<locals>.zones",
+        "line": 123,
+        "source_sha256": "7adddc86d8e27040a8aee2f1263b61cf51d70b769917fc08bb733949e0b23c78"
+      }
+    },
+    "P06_NATIVE_STOP_NATIVE_STOCK": {
+      "suite": "cp7_planning_baseline_cases",
+      "callable": {
+        "module": "cp7_planning_baseline_cases",
+        "qualname": "cases.<locals>.stopped_stock",
+        "line": 128,
+        "source_sha256": "6a33bde8ab7f02e77e5af19eae5fd32ec088a71496e37867e749f841803ecff1"
+      }
+    },
+    "P06_NATIVE_PRODUCTION_MULTIPLE": {
+      "suite": "cp7_planning_baseline_cases",
+      "callable": {
+        "module": "cp7_planning_baseline_cases",
+        "qualname": "cases.<locals>.production_multiple",
+        "line": 135,
+        "source_sha256": "e96bbaab2e02127b7b28925147c16db54cf8d83078be2a33a71f74def2bb27c0"
+      }
+    },
+    "P19G_STAGED_EQUALS_SINGLE": {
+      "suite": "cp7_p19_staged_cases",
+      "callable": {
+        "module": "cp7_p19_staged_cases",
+        "qualname": "cases.<locals>.equals_single",
+        "line": 252,
+        "source_sha256": "19d4ed1a7e0aaed21567c3d7265e30e94c1b41ee6003f11cb664c4ce74133f96"
+      }
+    },
+    "P19G_STAGED_AUTHORITY": {
+      "suite": "cp7_p19_staged_cases",
+      "callable": {
+        "module": "cp7_p19_staged_cases",
+        "qualname": "cases.<locals>.authority",
+        "line": 276,
+        "source_sha256": "fbc75cd6c501c863c46b243af7530bbe6ec79c1e9c8046d7e925d65082dc6156"
+      }
+    },
+    "P19G_STAGED_IDENTITY": {
+      "suite": "cp7_p19_staged_cases",
+      "callable": {
+        "module": "cp7_p19_staged_cases",
+        "qualname": "cases.<locals>.identity",
+        "line": 327,
+        "source_sha256": "7bcffd2c8052b1160fcc7d9b2c76a403943ff6f766e3152204de7662e47d8d2f"
+      }
+    },
+    "P19G_STAGED_SOURCE_CHECK": {
+      "suite": "cp7_p19_staged_cases",
+      "callable": {
+        "module": "cp7_p19_staged_cases",
+        "qualname": "cases.<locals>.source_check",
+        "line": 368,
+        "source_sha256": "983c5f6eb5f04c1e4aef295ce2a22bf6ce2222e74a83f654a928262b7427d4ac"
+      }
+    },
+    "P19G_STAGED_BOUNDS_VS_SINGLE": {
+      "suite": "cp7_p19_staged_cases",
+      "callable": {
+        "module": "cp7_p19_staged_cases",
+        "qualname": "cases.<locals>.bounds_vs_single",
+        "line": 382,
+        "source_sha256": "3d427cf46b67faaf567fd783f7756aed0f9aef28f9d8143fe9e1c5c98017bc95"
+      }
+    },
+    "P19G_SNAPSHOT_FRESHNESS": {
+      "suite": "cp7_p19_staged_cases",
+      "callable": {
+        "module": "cp7_p19_staged_cases",
+        "qualname": "cases.<locals>.snapshot_freshness",
+        "line": 464,
+        "source_sha256": "ddc8b1cb94478f81c5d41977b760a415ad4ead717c647b4559edc05ddd72ffc0"
+      }
+    },
+    "P19G_STAGED_PRODUCTION_MULTIPLE": {
+      "suite": "cp7_p19_staged_cases",
+      "callable": {
+        "module": "cp7_p19_staged_cases",
+        "qualname": "cases.<locals>.production_multiple",
+        "line": 520,
+        "source_sha256": "7574eb0e52e50f92ba5979e804cae64efeac2f84174f60ff317acde7cd98e6d1"
+      }
+    },
+    "P06_SUPPLY_NATIVE_MIXED": {
+      "suite": "cp7_planning_netting_cases",
+      "callable": {
+        "module": "cp7_planning_supply_cases",
+        "qualname": "cases.<locals>.mixed",
+        "line": 101,
+        "source_sha256": "84009c39228bb909493dd60cf1db8cd2aa5bc7fa07ce1a9ea20a9a59437db2a0"
+      }
+    },
+    "P06_SUPPLY_NATIVE_OPENING_LIFECYCLE": {
+      "suite": "cp7_planning_netting_cases",
+      "callable": {
+        "module": "cp7_planning_supply_cases",
+        "qualname": "cases.<locals>.lifecycle",
+        "line": 110,
+        "source_sha256": "2442c3507a34de509884437f5771e8420e29aa3685b57bdf50f84787a1147807"
+      }
+    },
+    "P06_SUPPLY_NATIVE_CLAIMS": {
+      "suite": "cp7_planning_netting_cases",
+      "callable": {
+        "module": "cp7_planning_supply_cases",
+        "qualname": "cases.<locals>.claims",
+        "line": 120,
+        "source_sha256": "25c863b6ed729ab528e5e235fb8ce8f61272d952ae2455b708fe021b1b2c0fdc"
+      }
+    },
+    "P06_SUPPLY_NATIVE_UNSOURCED_BS": {
+      "suite": "cp7_planning_netting_cases",
+      "callable": {
+        "module": "cp7_planning_supply_cases",
+        "qualname": "cases.<locals>.unsourced",
+        "line": 127,
+        "source_sha256": "461db0db300f1d047292093af1bc2edd9b9804f3a642da717b2af274acf2618f"
+      }
+    },
+    "P06_SUPPLY_NATIVE_GLOBAL56": {
+      "suite": "cp7_planning_netting_cases",
+      "callable": {
+        "module": "cp7_planning_supply_cases",
+        "qualname": "cases.<locals>.global56",
+        "line": 146,
+        "source_sha256": "fa13ee7840c9c1ed0ccdee46759774d9b2d05809e5c99fe564e2bca6ca0a889d"
+      }
+    },
+    "P06_SUPPLY_NATIVE_NO_ALIAS": {
+      "suite": "cp7_planning_netting_cases",
+      "callable": {
+        "module": "cp7_planning_supply_cases",
+        "qualname": "cases.<locals>.no_alias",
+        "line": 162,
+        "source_sha256": "0830dfc0dd9a13b1d3f2b1a1ef2c015882afd118fdb3dbabd29f9f5629b23dd2"
+      }
+    },
+    "P06_SUPPLY_NATIVE_IMMUTABLE_UUID": {
+      "suite": "cp7_planning_netting_cases",
+      "callable": {
+        "module": "cp7_planning_supply_cases",
+        "qualname": "cases.<locals>.immutable",
+        "line": 168,
+        "source_sha256": "3392b9961d42bdd4ca56772bd64c05148751f97694a7fbca65b50726e1081d27"
+      }
+    },
+    "P06_SUPPLY_NATIVE_CURRENT_AUTH": {
+      "suite": "cp7_planning_netting_cases",
+      "callable": {
+        "module": "cp7_planning_supply_cases",
+        "qualname": "cases.<locals>.authority",
+        "line": 179,
+        "source_sha256": "5e39ebc28ecce8745495fa8330d1e698916a296bbe8ed45d0efa0a77ccc4f8dc"
+      }
+    },
+    "P06_SUPPLY_NATIVE_PRIVATE_CAPS": {
+      "suite": "cp7_planning_netting_cases",
+      "callable": {
+        "module": "cp7_planning_supply_cases",
+        "qualname": "cases.<locals>.caps",
+        "line": 186,
+        "source_sha256": "789c85962caebaf38f1c1b0b0a5191ae4d57b8eb3ea72f3cd5970dacc3541069"
+      }
+    },
+    "P06_SUPPLY_NATIVE_CLOSED_QUERY": {
+      "suite": "cp7_planning_netting_cases",
+      "callable": {
+        "module": "cp7_planning_supply_cases",
+        "qualname": "cases.<locals>.query",
+        "line": 193,
+        "source_sha256": "6af6bda4c360a80c4cab20381d86ec647a4268467efbb9fa8d3621cfb90c7430"
+      }
+    },
+    "P06_SUPPLY_NATIVE_TIMEZONES": {
+      "suite": "cp7_planning_netting_cases",
+      "callable": {
+        "module": "cp7_planning_supply_cases",
+        "qualname": "cases.<locals>.zones",
+        "line": 200,
+        "source_sha256": "7ac6450d8ab101cbf5305cdd328620b15861b44e3b3226b707284a7e921dd0bd"
+      }
+    },
+    "P06_SUPPLY_NATIVE_ONE_CLOCK": {
+      "suite": "cp7_planning_netting_cases",
+      "callable": {
+        "module": "cp7_planning_supply_cases",
+        "qualname": "cases.<locals>.same_clock",
+        "line": 205,
+        "source_sha256": "abc6719f41ee23a3b10d4b3a2f97118305613cf1a53f9789f30a6be8a2136056"
+      }
+    },
+    "P06_SCHEDULE_NATIVE_UNREVIEWED": {
+      "suite": "cp7_planning_netting_cases",
+      "callable": {
+        "module": "cp7_planning_schedule_cases",
+        "qualname": "cases.<locals>.absent",
+        "line": 56,
+        "source_sha256": "e6ad5f1b2c6aa48107b9bfcf4e298d1c7ca33fd24eff62a6549e134c0e381691"
+      }
+    },
+    "P06_SCHEDULE_NATIVE_UUID_METADATA": {
+      "suite": "cp7_planning_netting_cases",
+      "callable": {
+        "module": "cp7_planning_schedule_cases",
+        "qualname": "cases.<locals>.metadata",
+        "line": 61,
+        "source_sha256": "681a6f8c45056769fe410c1a9b5e1edf99ad0bbd0d96460b20629cafcac6d886"
+      }
+    },
+    "P06_SCHEDULE_NATIVE_STRICT_SOURCE_ROUTE": {
+      "suite": "cp7_planning_netting_cases",
+      "callable": {
+        "module": "cp7_planning_schedule_cases",
+        "qualname": "cases.<locals>.strict",
+        "line": 68,
+        "source_sha256": "8fc583455c11ca774125ffb04f5a81d32b63e8dea7b09afb5ea32fa61d5aa0cb"
+      }
+    },
+    "P06_SCHEDULE_NATIVE_SOURCE_STALE": {
+      "suite": "cp7_planning_netting_cases",
+      "callable": {
+        "module": "cp7_planning_schedule_cases",
+        "qualname": "cases.<locals>.source_stale",
+        "line": 80,
+        "source_sha256": "691e0a61a1c078d6fc3d605fcc3899b678ea1480231b6c6966cfe83224d942eb"
+      }
+    },
+    "P06_SCHEDULE_NATIVE_REVISION_STALE": {
+      "suite": "cp7_planning_netting_cases",
+      "callable": {
+        "module": "cp7_planning_schedule_cases",
+        "qualname": "cases.<locals>.revision",
+        "line": 89,
+        "source_sha256": "d6b479a260512bbbcf09390dfb66de13554481d85cf075a783a45aa105a9df9b"
+      }
+    },
+    "P06_SCHEDULE_NATIVE_YIELD7": {
+      "suite": "cp7_planning_netting_cases",
+      "callable": {
+        "module": "cp7_planning_schedule_cases",
+        "qualname": "cases.<locals>.yield7",
+        "line": 96,
+        "source_sha256": "a4abcdfe5935e110ef1223dfe120e5d00096960b58ac9bb519278ebd07f870e8"
+      }
+    },
+    "P06_SCHEDULE_NATIVE_REMAINING45_CAPACITY37": {
+      "suite": "cp7_planning_netting_cases",
+      "callable": {
+        "module": "cp7_planning_schedule_cases",
+        "qualname": "cases.<locals>.remaining",
+        "line": 102,
+        "source_sha256": "7f49062512e4592cd9606574d30d61aaf0059d62b64ef1925d4078a811a2cb56"
+      }
+    },
+    "P06_SCHEDULE_NATIVE_NULL_LOAD": {
+      "suite": "cp7_planning_netting_cases",
+      "callable": {
+        "module": "cp7_planning_schedule_cases",
+        "qualname": "cases.<locals>.missing_load",
+        "line": 109,
+        "source_sha256": "a3eb74ea5226c715906b46387eadbf455dcd732e83e154c7940b321ce3fba210"
+      }
+    },
+    "P06_SCHEDULE_NATIVE_OTHER_LOAD_PLACEMENT": {
+      "suite": "cp7_planning_netting_cases",
+      "callable": {
+        "module": "cp7_planning_schedule_cases",
+        "qualname": "cases.<locals>.placed_load",
+        "line": 113,
+        "source_sha256": "bac6895b24b229df0b4576cd6ca094ee2b6e6cb6cdb88be7f86914f3f44e394e"
+      }
+    },
+    "P06_SCHEDULE_NATIVE_PL4_OVERFLOW_CARRIED": {
+      "suite": "cp7_planning_netting_cases",
+      "callable": {
+        "module": "cp7_planning_schedule_cases",
+        "qualname": "cases.<locals>.overflow_carried",
+        "line": 117,
+        "source_sha256": "e7b302537f57dcce1dde17eea40216a9b93ff5678012394d2272f522cadca373"
+      }
+    },
+    "P06_SCHEDULE_NATIVE_SHARED_QUEUE": {
+      "suite": "cp7_planning_netting_cases",
+      "callable": {
+        "module": "cp7_planning_schedule_cases",
+        "qualname": "cases.<locals>.shared",
+        "line": 131,
+        "source_sha256": "fc3e41de4b39a35b035e74a496402ebce2ef5cdeea3689c3a1906481cdaa18ff"
+      }
+    },
+    "P06_SCHEDULE_NATIVE_PRIVATE_CAPABILITIES": {
+      "suite": "cp7_planning_netting_cases",
+      "callable": {
+        "module": "cp7_planning_schedule_cases",
+        "qualname": "cases.<locals>.private",
+        "line": 140,
+        "source_sha256": "3e8f2c2bd20e430a85ecdbd78bfec8b46008d0b7576dd0ec1baa69ee97a3cb17"
+      }
+    },
+    "P06_SCHEDULE_NATIVE_CURRENT_AUTH": {
+      "suite": "cp7_planning_netting_cases",
+      "callable": {
+        "module": "cp7_planning_schedule_cases",
+        "qualname": "cases.<locals>.authority",
+        "line": 148,
+        "source_sha256": "92d21b85018970893088fb0e8b458416f7b331cc5de4b4ab364d130b57f4009e"
+      }
+    },
+    "P06_SCHEDULE_NATIVE_CUSTOMER_WORK_ONLY": {
+      "suite": "cp7_planning_netting_cases",
+      "callable": {
+        "module": "cp7_planning_schedule_cases",
+        "qualname": "cases.<locals>.customer_work",
+        "line": 157,
+        "source_sha256": "016fcd8adcb6436a07b40a01e1480f06c1e4a85e259b76f27ce66aca257f30e0"
+      }
+    },
+    "P06_NETTING_NATIVE_BOUND_GAP93": {
+      "suite": "cp7_planning_netting_cases",
+      "callable": {
+        "module": "cp7_planning_netting_cases",
+        "qualname": "cases.<locals>.directed",
+        "line": 47,
+        "source_sha256": "b799ad422cb466e1fbd750379d93c6cb8c7370839cd84d75fe631bb459b4086a"
+      }
+    },
+    "P06_NETTING_NATIVE_BOUND_UNKNOWN_YIELD": {
+      "suite": "cp7_planning_netting_cases",
+      "callable": {
+        "module": "cp7_planning_netting_cases",
+        "qualname": "cases.<locals>.unknown",
+        "line": 54,
+        "source_sha256": "df10b593beb784ec6433b1eb1bf06ca564426d565ba09de347a76072cfbfc52a"
+      }
+    },
+    "P06_NETTING_NATIVE_GLOBAL_ONE_EDGE": {
+      "suite": "cp7_planning_netting_cases",
+      "callable": {
+        "module": "cp7_planning_netting_cases",
+        "qualname": "cases.<locals>.global_allocation",
+        "line": 59,
+        "source_sha256": "138102ce92f98fae2654ce237085b1d08b528e095545a3e3f44fab86be7d270d"
+      }
+    },
+    "P06_NETTING_NATIVE_EXISTING_WORK_DISTINCT": {
+      "suite": "cp7_planning_netting_cases",
+      "callable": {
+        "module": "cp7_planning_netting_cases",
+        "qualname": "cases.<locals>.occupied",
+        "line": 67,
+        "source_sha256": "dafbc2db52e0ea4fd22d75b578453f1c67d4c66376019a9a7c3cafbb114e268f"
+      }
+    },
+    "P06_NETTING_NATIVE_LATE_NOT_NETTED": {
+      "suite": "cp7_planning_netting_cases",
+      "callable": {
+        "module": "cp7_planning_netting_cases",
+        "qualname": "cases.<locals>.late",
+        "line": 74,
+        "source_sha256": "2117f407cb5ed970dfca86a6067e67457b7282f455ecee0fca22fe1d0978abd6"
+      }
+    },
+    "P06_NETTING_NATIVE_UNBOUND_NEEDS_CHECK": {
+      "suite": "cp7_planning_netting_cases",
+      "callable": {
+        "module": "cp7_planning_netting_cases",
+        "qualname": "cases.<locals>.unbound",
+        "line": 81,
+        "source_sha256": "01c1ac2769dd85587bb7f321c3e0957b827aea5b298c9dc9578df5d993fe7af0"
+      }
+    },
+    "P06_NETTING_NATIVE_IMMUTABLE_AFTER_NATIVE_OUTPUT": {
+      "suite": "cp7_planning_netting_cases",
+      "callable": {
+        "module": "cp7_planning_netting_cases",
+        "qualname": "cases.<locals>.immutable",
+        "line": 87,
+        "source_sha256": "777a902c1e13cee933890beb5d84d6beb33a6b027219a1d007711efacd136440"
+      }
+    },
+    "P06_NETTING_NATIVE_CURRENT_AUTH_CLOSED_QUERY": {
+      "suite": "cp7_planning_netting_cases",
+      "callable": {
+        "module": "cp7_planning_netting_cases",
+        "qualname": "cases.<locals>.authority",
+        "line": 97,
+        "source_sha256": "29d88351bb57c37242d3b16a3aa38210d3c893518756a69ec2f6b26ff69446b8"
+      }
+    }
+  },
+  "non_native_mode_entries": 106,
+  "new_runtime_executions": 0,
+  "does_not_change_historical_results": true
+}
