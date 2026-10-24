@@ -60,7 +60,13 @@ isolasi argumen fixture yang diuji lewat subprocess sebenarnya. Auth run40086882
 pembersihan Auth. Quote/replay/refusal membuktikan seluruh data/sequence/katalog
 tepat; angka AR/revenue/FG/COGS dan dua inverse Native tepat. Receipt:
 `current-return-auth-bounded2-first-pass-66d41d2e.json`.
-Browser run40086882093 masih berjalan; bukti UI tetap terpisah.
+Browser run40086882093 juga lulus desktop GradeA dan HP390 GradeB; respons
+penyimpanan HP diputus lalu reconcile UUID identik menghasilkan tepat satu retur.
+Angka AR/revenue/FG/COGS, tanggal WIB, draft salah tetap utuh dan inverse saldo/stok
+tepat. Dua screenshot diperiksa; host keluar0, console0, Auth/data/katalog pulih,
+CP6/advisor dan lima gate paket lulus. Invoice POSTED tetap fixture Native,
+bukan klaim pembuatan invoice melalui UI. Receipt:
+`current-return-browser-bounded2-first-pass-66d41d2e.json`.
 
 Diagnostik tiga kasus laporan, run40085047355, menangkap seluruh enam kegagalan
 baseline/current. Masing-masing memiliki satu `PAYROLL_WORK_UNCOVERED`:10 pcs
