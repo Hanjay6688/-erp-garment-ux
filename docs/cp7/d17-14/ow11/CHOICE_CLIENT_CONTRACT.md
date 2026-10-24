@@ -1,7 +1,8 @@
 # Client konfirmasi pembanding
 
-Form opt-in `choiceReview` pada NativeProductAnalogPanel. Parent belum menyalakan
-prop ini. Database Native6 qualified714d66f5; transport10 serta browser nyata belum
+Form `choiceReview` pada NativeProductAnalogPanel dibuka lewat tombol eksplisit
+Atur pilihan pembanding pada layar disposable. Membaca kandidat saja tidak
+mengirim RPC pilihan. Database Native6 qualified714d66f5; transport10 serta browser nyata belum
 selesai saat kontrak ini ditulis. Forecast tidak dipakai dan target tidak berubah.
 
 - Pilih kandidat yang sedang terlihat, skala positif eksplisit, alasan, dan checkbox

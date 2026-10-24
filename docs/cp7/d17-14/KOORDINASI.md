@@ -1304,3 +1304,27 @@ Shared checker A byte-identik f1148cb...; proposal tepat20 pasangan (18 sebelumn
 +2 choice facade) lulus369 runtime/315RPC tanpa orphan/direct table. Patch baru
 hanya2 pasangan setelah proposal18; A tetap pemilik registry/generated types/
 installer/default/fullchain. Induk5/16, independent_acceptance/production_go=false.
+
+## 75. B24 Oktober2026 — Browser2 konfirmasi dideklarasikan
+
+Kandidat client09313ea8 tersimpan. Layar disposable kini menyediakan tombol eksplisit
+Atur pilihan pembanding, setelah daftar advisory. Pembaca biasa tetap tidak membaca
+atau menulis konfigurasi pilihan. Scope recovery sama dengan hook produksi existing
+(projectRef:profile.id); hasil tetap hanya asumsi metadata, forecast=false.
+
+Uji baru Browser2 terpisah: mobile390 konfirmasi nyata200 lalu delivery loss,
+reload pekerjaan dan UUID yang sama, exact replay, CLEAR sesudah K2 expired, receipt
+lama tetap sama; desktop1440 dense2000/202000 konfirmasi, perubahan stok Native
+nyata menolak confirmation stale40001, user dicabut menolak GET dan committed
+replay. Form memperlihatkan SKU/nama pembanding tersimpan serta skala/alasan/revisi.
+Dua stage baru hanya dipasang pada salinan browser setelah parent12 diverifikasi;
+parent default A tidak dipasang pilihan dan tidak melakukan inverse setelah dipakai.
+Semua Auth dan copy harus dibersihkan; restore/advisor/paket wajib true. Ini bukti
+komponen yang belum diperoleh, bukan audit independen atau penerimaan OW11.
+
+Kontrak/group routing baru2, budgets31/25/19 tetap, bootstrap jsonschema4.25.1
+byte-identik, Python/JS parse/TS/CSS64/proposal20 PASS. Setelah perubahan label
+bukti client31/31 rerun terkait PASS; sebelumnya seluruh62/62 PASS,3 helperwaiter
+PASS. Perubahan exporter helper browser lama hanya membuka dua fungsi setup yang
+sama untuk dipakai suite baru. Source SQL/module qualified Native6 tidak berubah.
+Consumer forecast dan kebijakan model/backtest masih OPEN; induk5/16.

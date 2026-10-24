@@ -3,7 +3,7 @@ import {sameBoundedReference} from './nativeBoundedQuantity'
 import type {AnalogReadContext,AnalogCandidates} from './nativeProductAnalog'
 
 type ObjectValue=Record<string,unknown>
-export type AnalogChoiceEvidence={sourceKey:string;targetProductId:string;sourceProductId:string;scale:string;totalPcs:string;days:string;profileId:string;profileRevision:string;capturedAt:string;sourceRequest:string;sourceRun:string}
+export type AnalogChoiceEvidence={sourceKey:string;targetProductId:string;sourceProductId:string;sourceSku:string;sourceName:string;scale:string;totalPcs:string;days:string;profileId:string;profileRevision:string;capturedAt:string;sourceRequest:string;sourceRun:string}
 export type AnalogChoice={targetKey:string;id:string|null;revision:string;state:'UNREVIEWED'|'CONFIRMED_ASSUMPTION'|'CLEARED';action:'CONFIRM'|'CLEAR'|null;requestId:string|null;actor:string|null;recordedAt:string|null;reason:string|null;evidence:AnalogChoiceEvidence|null}
 export type AnalogChoiceWorkspace={actor:string;accessEpoch:string;choice:AnalogChoice}
 export type AnalogChoicePayload={contract_version:'cp7.product-analog-choice-command.v1';source_request:string|null;source_hash:string|null;access_epoch:string;target_key:string;source_key:string|null;scale_factor:string|null;reason:string;reviewed:true;expected_revision:string;action:'CONFIRM'|'CLEAR'}
@@ -13,6 +13,7 @@ type Reply={data:unknown;error:unknown}
 type ChoiceClient={rpc(name:'erp_cp7_get_product_analog_choices_v1',args:{p_targets:string[]}):PromiseLike<Reply>;rpc(name:'erp_cp7_save_product_analog_choice_v1',args:{p_payload:AnalogChoicePayload;p_request:string}):PromiseLike<Reply>}
 function fail():never{throw Error('Pilihan pembanding belum dapat dipastikan. Baca ulang pilihan tersimpan dan acuannya.')}
 const obj=(v:unknown):ObjectValue=>v&&typeof v==='object'&&!Array.isArray(v)?v as ObjectValue:fail()
+const label=(v:unknown)=>typeof v==='string'&&v.trim().length>0?v:fail()
 const uuid=(v:unknown)=>typeof v==='string'&&/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/.test(v)?v:fail()
 const hash=(v:unknown)=>typeof v==='string'&&/^[0-9a-f]{64}$/.test(v)?v:fail()
 const pcs=(v:unknown)=>typeof v==='string'&&/^(0|[1-9][0-9]{0,29})$/.test(v)?v:fail()
@@ -34,7 +35,7 @@ function evidence(value:unknown,targetKey:string):AnalogChoiceEvidence{
  if(!Array.isArray(e.refs)||e.refs.length<1)fail()
  for(const raw of e.refs){const r=obj(raw);if(typeof r.kind!=='string'||!r.kind||typeof r.id!=='string'||!r.id)fail();pcs(r.revision)}
  const profileRevision=revision(e.profile_revision);if(profileRevision==='0')fail()
- return{sourceKey,targetProductId:uuid(p.id),sourceProductId:uuid(s.id),scale:scale(e.scale_factor),totalPcs,days,profileId:uuid(e.profile_id),profileRevision,capturedAt:stagedInstant(e.captured_at),sourceRequest:uuid(e.source_request),sourceRun:uuid(e.source_run)}
+ return{sourceKey,targetProductId:uuid(p.id),sourceProductId:uuid(s.id),sourceSku:label(s.sku),sourceName:label(s.product_name),scale:scale(e.scale_factor),totalPcs,days,profileId:uuid(e.profile_id),profileRevision,capturedAt:stagedInstant(e.captured_at),sourceRequest:uuid(e.source_request),sourceRun:uuid(e.source_run)}
 }
 function choice(value:unknown,targetKey:string):AnalogChoice{
  const r=obj(value);if(r.target_key!==targetKey)fail()

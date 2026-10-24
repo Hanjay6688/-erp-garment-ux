@@ -58,7 +58,7 @@ export default function NativeProductAnalogChoicePanel({client,context,candidate
   }catch(e){if(n===seq.current)report(e)}finally{active.current=false;if(n===seq.current){setBusy(false);setHeld(readAnalogChoiceRequest(scope,context.actor,context.targetKey))}}
  }
  const locked=busy||Boolean(held.pending)||Boolean(held.error)||!canManage,choice=workspace?.choice
- return <section aria-label="Konfirmasi produk pembanding">
+ return <section className="native-analog-choice" aria-label="Konfirmasi produk pembanding">
   <h5>Pilihan pembanding tersimpan</h5>
   <p>Pilihan ini menyimpan asumsi dan alasan pemeriksaan. Target produksi belum berubah.</p>
   {busy?<p role="status">Memeriksa konfirmasi pembanding…</p>:null}
@@ -66,7 +66,7 @@ export default function NativeProductAnalogChoicePanel({client,context,candidate
   {error||held.error?<p role="alert">{error||held.error}</p>:null}
   {held.pending?<><p>Hasil permintaan tersimpan belum dipastikan. Periksa permintaan yang sama sebelum membuat perubahan lain.</p><button disabled={busy||!canManage} onClick={()=>void send('RETRY')}>Periksa hasil konfirmasi yang sama</button></>:null}
   <button disabled={busy} onClick={()=>void refresh()}>Baca ulang pilihan tersimpan</button>
-  {choice?<p>{choice.state==='UNREVIEWED'?'Belum ada pilihan yang dikonfirmasi.':choice.state==='CLEARED'?`Pilihan dicabut pada revisi ${choice.revision}.`:`Pilihan dikonfirmasi pada revisi ${choice.revision}, skala ${choice.evidence!.scale}.`} {choice.recordedAt?`Dicatat ${formatCp6WibDateTime(choice.recordedAt)}.`:''} {choice.reason?`Alasan: ${choice.reason}`:''}</p>:null}
+  {choice?<p>{choice.state==='UNREVIEWED'?'Belum ada pilihan yang dikonfirmasi.':choice.state==='CLEARED'?`Pilihan dicabut pada revisi ${choice.revision}.`:`Pembanding ${choice.evidence!.sourceSku} · ${choice.evidence!.sourceName}, revisi ${choice.revision}, skala ${choice.evidence!.scale}.`} {choice.recordedAt?`Dicatat ${formatCp6WibDateTime(choice.recordedAt)}.`:''} {choice.reason?`Alasan: ${choice.reason}`:''}</p>:null}
   {!canManage?<p>Izin mengelola produk diperlukan untuk mengubah pilihan.</p>:null}
   <fieldset disabled={locked||!workspace}>
    <legend>Pemeriksaan pilihan</legend>
@@ -74,7 +74,7 @@ export default function NativeProductAnalogChoicePanel({client,context,candidate
    <label>Skala terhadap produk pembanding<input inputMode="decimal" value={scale} onChange={e=>{setScale(e.target.value);setReviewed(false)}}/></label>
    <p>Skala 1 berarti sama, 0.5 berarti setengah. Isi skala sesuai pemeriksaan Anda.</p>
    <label>Alasan kesamaan atau pencabutan<textarea value={reason} onChange={e=>{setReason(e.target.value);setReviewed(false)}}/></label>
-   <label><input type="checkbox" checked={reviewed} onChange={e=>setReviewed(e.target.checked)}/>Saya telah memeriksa kesesuaian ukuran, model, kain, pola, dan riwayat penjualan serta alasan perubahan ini.</label>
+   <label className="native-analog-review"><input type="checkbox" checked={reviewed} onChange={e=>setReviewed(e.target.checked)}/>Saya telah memeriksa kesesuaian ukuran, model, kain, pola, dan riwayat penjualan serta alasan perubahan ini.</label>
    <button disabled={!reviewed||!selected||!candidates?.rows.some(r=>r.key===selected)||!scale.trim()||!reason.trim()||workspace?.accessEpoch!==context.accessEpoch} onClick={()=>void send('CONFIRM')}>Simpan pilihan pembanding</button>
    <button disabled={!reviewed||!reason.trim()||!choice||choice.revision==='0'} onClick={()=>void send('CLEAR')}>Cabut pilihan pembanding</button>
   </fieldset>

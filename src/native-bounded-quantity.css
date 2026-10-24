@@ -75,3 +75,40 @@
     font-weight: 700;
   }
 }
+.native-bounded-quantity .native-analog-choice fieldset {
+  min-width: 0;
+  margin-block: 16px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+.native-bounded-quantity .native-analog-choice label {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+  margin-block: 12px;
+  line-height: 1.5;
+}
+.native-bounded-quantity .native-analog-choice input,
+.native-bounded-quantity .native-analog-choice select,
+.native-bounded-quantity .native-analog-choice textarea {
+  min-width: 0;
+  max-width: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px;
+  color: #24352e;
+  background: #fff;
+  border: 1px solid #9aafa2;
+  border-radius: 6px;
+}
+.native-bounded-quantity .native-analog-choice .native-analog-review {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+.native-bounded-quantity .native-analog-choice input[type=checkbox] {
+  width: 20px;
+  height: 20px;
+  flex: 0 0 20px;
+}
