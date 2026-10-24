@@ -1,0 +1,40 @@
+{
+  "contract": "cp7.explicit-fixture-only-oracle-transforms.v1",
+  "functions": [
+    {
+      "file": "payment_oracle.py",
+      "source": "scripts/cp6_x_independent_audit.py",
+      "function": "payment_date",
+      "old": "    owner(cur)\n    before = scrap.reports(cur, days)",
+      "new": "    complete_known_work(cur,cash)\n    owner(cur)\n    before = scrap.reports(cur, days)"
+    },
+    {
+      "file": "cash_oracle.py",
+      "source": "scripts/cp6_v2620y_cash_business_date_regression.py",
+      "function": "setup",
+      "old": "audit.payment_date(cur, cash, kind,",
+      "new": "payment_oracle.payment_date(cur, cash, kind,"
+    },
+    {
+      "file": "cash_oracle.py",
+      "source": "scripts/cp6_v2620y_cash_business_date_regression.py",
+      "function": "lifecycle",
+      "old": "",
+      "new": ""
+    },
+    {
+      "file": "cash_oracle.py",
+      "source": "scripts/cp6_v2620y_cash_business_date_regression.py",
+      "function": "detector_fault",
+      "old": "",
+      "new": ""
+    },
+    {
+      "file": "wash_oracle.py",
+      "source": "scripts/cp6_v2620h_adversarial_regression.py",
+      "function": "case_r02",
+      "old": "    baseline = owner(cur)['data_confidence']['status']",
+      "new": "    complete_known_work(cur)\n    baseline = owner(cur)['data_confidence']['status']"
+    }
+  ]
+}

@@ -1,0 +1,325 @@
+{
+  "run": 40085047355,
+  "job": 120846155276,
+  "artifact": 12556917922,
+  "zip_bytes": 2063604,
+  "zip_sha256": "c276279ba8c93dc76bd910fb5c769ad76b4b9bcec4071c864c61533196c62e48",
+  "label": "CP7_CURRENT_CASH_FIXTURE_DIAGNOSTIC3",
+  "status": "INCOMPLETE",
+  "qualification_commit": "e59e5e5a1f527dcb5194ffceaab4f702294a97b7",
+  "report": {
+    "name": "CP7_CURRENT_CASH_FIXTURE_DIAGNOSTIC3.json",
+    "raw_bytes": 2836423,
+    "raw_sha256": "8b7ac552f2578fac075f3c50108006b528e4ef04fe90b4cbf61fc35b2d2b9a1a"
+  },
+  "case_status_comparison": {
+    "CASH_LINKED:1": {
+      "baseline": "INCOMPLETE",
+      "current": "INCOMPLETE"
+    },
+    "CASH_LINKED:4": {
+      "baseline": "INCOMPLETE",
+      "current": "INCOMPLETE"
+    },
+    "H_R02": {
+      "baseline": "INCOMPLETE",
+      "current": "INCOMPLETE"
+    }
+  },
+  "execution_count": 6,
+  "diagnostic_only": true,
+  "all_six_reports_captured": true,
+  "exact_observed_blockers": {
+    "baseline": {
+      "CASH_LINKED:1": {
+        "original_error": "INDEPENDENT_PAYMENT_FIXTURE_NOT_READY",
+        "reports": {
+          "2026-09-04": {
+            "status": "BLOCKED",
+            "blockers": [
+              {
+                "code": "PAYROLL_WORK_UNCOVERED",
+                "scope": "AS_OF",
+                "family": "PAYROLL",
+                "reason": "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum 2026-09-04 belum masuk payroll.",
+                "severity": "POLICY",
+                "reference": {
+                  "lines": 1,
+                  "contractor_id": "a1000000-0000-0000-0000-000000000001",
+                  "remaining_qty": 10,
+                  "remaining_amount": 0.0,
+                  "first_eligible_at": "2026-09-01T17:00:00+07:00"
+                },
+                "impact_date": "2026-09-01"
+              }
+            ],
+            "critical_issue_count": 1,
+            "balance_difference": 0.0
+          },
+          "2026-09-05": {
+            "status": "BLOCKED",
+            "blockers": [
+              {
+                "code": "PAYROLL_WORK_UNCOVERED",
+                "scope": "AS_OF",
+                "family": "PAYROLL",
+                "reason": "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum 2026-09-05 belum masuk payroll.",
+                "severity": "POLICY",
+                "reference": {
+                  "lines": 1,
+                  "contractor_id": "a1000000-0000-0000-0000-000000000001",
+                  "remaining_qty": 10,
+                  "remaining_amount": 0.0,
+                  "first_eligible_at": "2026-09-01T17:00:00+07:00"
+                },
+                "impact_date": "2026-09-01"
+              }
+            ],
+            "critical_issue_count": 1,
+            "balance_difference": 0.0
+          }
+        },
+        "targeted_issue_count": null
+      },
+      "CASH_LINKED:4": {
+        "original_error": "INDEPENDENT_PAYMENT_FIXTURE_NOT_READY",
+        "reports": {
+          "2026-09-04": {
+            "status": "BLOCKED",
+            "blockers": [
+              {
+                "code": "PAYROLL_WORK_UNCOVERED",
+                "scope": "AS_OF",
+                "family": "PAYROLL",
+                "reason": "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum 2026-09-04 belum masuk payroll.",
+                "severity": "POLICY",
+                "reference": {
+                  "lines": 1,
+                  "contractor_id": "a1000000-0000-0000-0000-000000000001",
+                  "remaining_qty": 10,
+                  "remaining_amount": 0.0,
+                  "first_eligible_at": "2026-09-01T17:00:00+07:00"
+                },
+                "impact_date": "2026-09-01"
+              }
+            ],
+            "critical_issue_count": 1,
+            "balance_difference": 0.0
+          },
+          "2026-09-05": {
+            "status": "BLOCKED",
+            "blockers": [
+              {
+                "code": "PAYROLL_WORK_UNCOVERED",
+                "scope": "AS_OF",
+                "family": "PAYROLL",
+                "reason": "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum 2026-09-05 belum masuk payroll.",
+                "severity": "POLICY",
+                "reference": {
+                  "lines": 1,
+                  "contractor_id": "a1000000-0000-0000-0000-000000000001",
+                  "remaining_qty": 10,
+                  "remaining_amount": 0.0,
+                  "first_eligible_at": "2026-09-01T17:00:00+07:00"
+                },
+                "impact_date": "2026-09-01"
+              }
+            ],
+            "critical_issue_count": 1,
+            "balance_difference": 0.0
+          }
+        },
+        "targeted_issue_count": null
+      },
+      "H_R02": {
+        "original_error": "R02 lawful baseline is not READY",
+        "reports": {
+          "owner": {
+            "status": "BLOCKED",
+            "blockers": [
+              {
+                "code": "PAYROLL_WORK_UNCOVERED",
+                "scope": "AS_OF",
+                "family": "PAYROLL",
+                "reason": "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum 2026-10-24 belum masuk payroll.",
+                "severity": "POLICY",
+                "reference": {
+                  "lines": 1,
+                  "contractor_id": "a1000000-0000-0000-0000-000000000001",
+                  "remaining_qty": 10,
+                  "remaining_amount": 0.0,
+                  "first_eligible_at": "2026-09-01T10:00:00+00:00"
+                },
+                "impact_date": "2026-09-01"
+              }
+            ],
+            "critical_issue_count": 1,
+            "balance_difference": 0.0
+          }
+        },
+        "targeted_issue_count": 0
+      }
+    },
+    "current": {
+      "CASH_LINKED:1": {
+        "original_error": "INDEPENDENT_PAYMENT_FIXTURE_NOT_READY",
+        "reports": {
+          "2026-09-04": {
+            "status": "BLOCKED",
+            "blockers": [
+              {
+                "code": "PAYROLL_WORK_UNCOVERED",
+                "scope": "AS_OF",
+                "family": "PAYROLL",
+                "reason": "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum 2026-09-04 belum masuk payroll.",
+                "severity": "POLICY",
+                "reference": {
+                  "lines": 1,
+                  "contractor_id": "a1000000-0000-0000-0000-000000000001",
+                  "remaining_qty": 10,
+                  "remaining_amount": 0.0,
+                  "first_eligible_at": "2026-09-01T17:00:00+07:00"
+                },
+                "impact_date": "2026-09-01"
+              }
+            ],
+            "critical_issue_count": 1,
+            "balance_difference": 0.0
+          },
+          "2026-09-05": {
+            "status": "BLOCKED",
+            "blockers": [
+              {
+                "code": "PAYROLL_WORK_UNCOVERED",
+                "scope": "AS_OF",
+                "family": "PAYROLL",
+                "reason": "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum 2026-09-05 belum masuk payroll.",
+                "severity": "POLICY",
+                "reference": {
+                  "lines": 1,
+                  "contractor_id": "a1000000-0000-0000-0000-000000000001",
+                  "remaining_qty": 10,
+                  "remaining_amount": 0.0,
+                  "first_eligible_at": "2026-09-01T17:00:00+07:00"
+                },
+                "impact_date": "2026-09-01"
+              }
+            ],
+            "critical_issue_count": 1,
+            "balance_difference": 0.0
+          }
+        },
+        "targeted_issue_count": null
+      },
+      "CASH_LINKED:4": {
+        "original_error": "INDEPENDENT_PAYMENT_FIXTURE_NOT_READY",
+        "reports": {
+          "2026-09-04": {
+            "status": "BLOCKED",
+            "blockers": [
+              {
+                "code": "PAYROLL_WORK_UNCOVERED",
+                "scope": "AS_OF",
+                "family": "PAYROLL",
+                "reason": "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum 2026-09-04 belum masuk payroll.",
+                "severity": "POLICY",
+                "reference": {
+                  "lines": 1,
+                  "contractor_id": "a1000000-0000-0000-0000-000000000001",
+                  "remaining_qty": 10,
+                  "remaining_amount": 0.0,
+                  "first_eligible_at": "2026-09-01T17:00:00+07:00"
+                },
+                "impact_date": "2026-09-01"
+              }
+            ],
+            "critical_issue_count": 1,
+            "balance_difference": 0.0
+          },
+          "2026-09-05": {
+            "status": "BLOCKED",
+            "blockers": [
+              {
+                "code": "PAYROLL_WORK_UNCOVERED",
+                "scope": "AS_OF",
+                "family": "PAYROLL",
+                "reason": "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum 2026-09-05 belum masuk payroll.",
+                "severity": "POLICY",
+                "reference": {
+                  "lines": 1,
+                  "contractor_id": "a1000000-0000-0000-0000-000000000001",
+                  "remaining_qty": 10,
+                  "remaining_amount": 0.0,
+                  "first_eligible_at": "2026-09-01T17:00:00+07:00"
+                },
+                "impact_date": "2026-09-01"
+              }
+            ],
+            "critical_issue_count": 1,
+            "balance_difference": 0.0
+          }
+        },
+        "targeted_issue_count": null
+      },
+      "H_R02": {
+        "original_error": "R02 lawful baseline is not READY",
+        "reports": {
+          "owner": {
+            "status": "BLOCKED",
+            "blockers": [
+              {
+                "code": "PAYROLL_WORK_UNCOVERED",
+                "scope": "AS_OF",
+                "family": "PAYROLL",
+                "reason": "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum 2026-10-24 belum masuk payroll.",
+                "severity": "POLICY",
+                "reference": {
+                  "lines": 1,
+                  "contractor_id": "a1000000-0000-0000-0000-000000000001",
+                  "remaining_qty": 10,
+                  "remaining_amount": 0.0,
+                  "first_eligible_at": "2026-09-01T10:00:00+00:00"
+                },
+                "impact_date": "2026-09-01"
+              }
+            ],
+            "critical_issue_count": 1,
+            "balance_difference": 0.0
+          }
+        },
+        "targeted_issue_count": 0
+      }
+    }
+  },
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "production_go": false,
+  "independent_acceptance": false,
+  "new_business_case_credit": 0,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "baseline_advisors_equal": true,
+  "baseline_all22_rows_sequences_exact": true,
+  "post_test_used_guard": {
+    "refused": true,
+    "all_data_sequences_catalog_unchanged": true
+  },
+  "strict_group_originals": [
+    {
+      "path": "strict-groups/CP7_CURRENT_CASH_FIXTURE_DIAGNOSTIC3.json",
+      "bytes": 40573,
+      "sha256": "d394f058c91b8b4fb73965057880c23ad9afa11ebafb31b6676fcf0115df5b6c"
+    },
+    {
+      "path": "strict-groups/CP7_CURRENT_CASH_FIXTURE_DIAGNOSTIC3_BASELINE.json",
+      "bytes": 83737,
+      "sha256": "687c7a86dd675fb2efcf6422edb89202b93777eb489dbd91611e8090acdfaaa8"
+    }
+  ],
+  "disposition": "Every baseline/current case stops on exactly one PAYROLL_WORK_UNCOVERED policy blocker for10 pcs known-zero-rate work. H_R02 targeted issue count0. No other blocker or false balance observed. Status remains INCOMPLETE. Explicit successors must complete real Native payroll linkage and retain all original READY, date, cents, inverse and corruption-detector assertions; no original result or oracle is changed."
+}

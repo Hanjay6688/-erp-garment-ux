@@ -46,9 +46,27 @@ gate paket lulus. Persiapan memegang407 tabel baseline dan669 tabel instalasi,
 tanpa membatalkan backend. Receipt: `current-opening-replay10-ready-pass-e99c1ca7.json`.
 
 Head`c52f3923`, run40084287050, menambah dua perjalanan Auth nyata untuk retur
-Grade A/B dengan sibling DRAFT salah: quote, commit, replay, penolakan anonim,
-payload berubah, izin dicabut, lalu inverse retur dan penjualan. Belum lulus
-sebelum Original dan seluruh gate diperiksa; tidak ada klaim browser baru.
+Grade A/B dengan sibling DRAFT salah. Original pertama INCOMPLETE: kedua kasus
+berhenti sebelum quote karena fixture tidak memiliki pelanggan kedua.
+CP6/advisor dan pembersihan Auth tetap lulus. Receipt:
+`current-return-auth2-first-incomplete-c52f3923.json`.
+Penerus head`b18853df` menyiapkan pelanggan aktif kedua secara eksplisit memakai
+helper Native yang sama; seluruh oracle uang/stok/replay/izin/inverse tetap.
+Run40085550449 menguji Auth2 dan run40085550446 menguji desktop/HP Browser2,
+termasuk respons hilang lalu reconcile satu retur. Keduanya belum dinyatakan
+lulus sebelum Original dan seluruh gate diperiksa.
+
+Diagnostik tiga kasus laporan, run40085047355, menangkap seluruh enam kegagalan
+baseline/current. Masing-masing memiliki satu `PAYROLL_WORK_UNCOVERED`:10 pcs
+hasil kerja dengan tarif sumber yang diketahui nol belum terkait payroll.
+H_R02 memiliki nol masalah detektor sasaran; seluruh pemulihan dan advisor lulus.
+Status asli tetap INCOMPLETE. Receipt:
+`current-cash-readiness3-diagnostic-e59e5e5a.json`.
+Penerus Native3 melengkapi payroll baru melalui populate/approve Native,
+memeriksa linkage tepat satu sumber dan saldo eligible nol, serta modal bank
+Native untuk pembayaran0.03. Lima tubuh fungsi oracle diperiksa terhadap
+transformasi eksplisit yang hanya menambah prasyarat. Semua pemeriksaan lama
+READY/tanggal/sen/inverse/korupsi tetap utuh; belum ada klaim hasil runtime.
 
 Original composed installation: run40081846443/job120836847789,
 artifact12556450449. JSON1133688byte,
