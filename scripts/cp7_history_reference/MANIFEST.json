@@ -1,0 +1,14 @@
+{
+  "contract": "cp7.history-reference-stage.v1",
+  "native_file_sha256": {
+    "history-source.sql": "56e681ac104d4d7e1fbe22ae903f73aa7fb4610db5f1073db62eea081390656e",
+    "bootstrap.sql": "81e6e636f174529e124d6d352a7072dda1b005e0466dbf0751133c1a4df237ce"
+  },
+  "dependencies": {
+    "cp7_planning.utc(timestamp with time zone)": {
+      "body_sha256": "d60e979df97243a1c582ca4fe3d73b3e36426bbfc7a5a25cf61b3074a1ae3715",
+      "owner": "cp7_capture"
+    }
+  },
+  "sql_sha256": "cc61d676da2d1777b3e22af361c8ba33d1913ad48d644c682c93478e96ed41f5"
+}

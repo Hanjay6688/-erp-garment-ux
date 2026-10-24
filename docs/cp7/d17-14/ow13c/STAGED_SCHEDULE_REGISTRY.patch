@@ -1,0 +1,6 @@
+--- a/scripts/check-source-ownership.mjs
++++ b/scripts/check-source-ownership.mjs
+@@ -387,0 +388,3 @@
++  'src/NativeProductionPlanningPanel.tsx:erp_cp7_request_staged_analysis_v1',
++  'src/nativeStagedSchedule.ts:erp_cp7_get_staged_production_schedule_v1',
++  'src/nativeStagedSchedule.ts:erp_cp7_save_staged_production_schedule_v1',

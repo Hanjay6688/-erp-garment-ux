@@ -1,0 +1,167 @@
+{
+  "contract": "cp7.writer-component-receipt.v1",
+  "status": "PASS",
+  "candidate": "8909b7c14e8397c55b030b8555cde9842be3eff9",
+  "tree": "a9171a991a1fe962068df44f2820b9c57afbd49c",
+  "run_id": 40024688908,
+  "job_id": 120657795577,
+  "run_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/40024688908",
+  "expected_case_count": 4,
+  "observed_case_count": 4,
+  "predeclared_case_sha256": "55243e65c40725e303871aa0db5b46b7e17bb4947994323cb9090fe92b3dd634",
+  "source_files_sha256_matched_candidate": [
+    "scripts/cp7_reorder_inputs/MANIFEST.json",
+    "scripts/cp7_reorder_inputs/__init__.py",
+    "scripts/cp7_reorder_inputs/capture.sql",
+    "scripts/cp7_reorder_inputs/capture_source.py",
+    "scripts/cp7_reorder_inputs/history.sql",
+    "scripts/cp7_reorder_inputs/points.sql",
+    "scripts/cp7_reorder_inputs/read.sql",
+    "scripts/cp7_reorder_inputs/source.sql",
+    "scripts/cp7_reorder_inputs/stock.sql",
+    "scripts/cp7_reorder_reader_stage/MANIFEST.json",
+    "scripts/cp7_reorder_reader_stage/__init__.py",
+    "scripts/cp7_reorder_reader_stage/cache.sql",
+    "scripts/cp7_reorder_caller_stage/MANIFEST.json",
+    "scripts/cp7_reorder_caller_stage/__init__.py",
+    "scripts/cp7_reorder_caller_stage/alert_row.sql",
+    "scripts/cp7_reorder_caller_stage/compute.sql",
+    "scripts/cp7_reorder_caller_stage/evaluate.sql",
+    "scripts/cp7_reorder_caller_stage/fg_source.sql",
+    "scripts/cp7_reorder_caller_stage/item_line.sql",
+    "scripts/cp7_reorder_caller_stage/refresh.sql",
+    "scripts/cp7_reorder_caller_stage/save_manual.sql",
+    "scripts/cp7_reorder_caller_stage/save_settings.sql",
+    "scripts/cp7_reorder_caller_stage/state.sql",
+    "scripts/cp7_reorder_caller_stage/workspace.sql",
+    "scripts/cp7_cutting_checked_save/MANIFEST.json",
+    "scripts/cp7_cutting_checked_save/__init__.py",
+    "scripts/cp7_cutting_checked_save/save.sql",
+    "scripts/cp7_cutting_checked_save/schema.sql",
+    "scripts/cp7_schedule_staged_review/MANIFEST.json",
+    "scripts/cp7_schedule_staged_review/__init__.py",
+    "scripts/cp7_schedule_staged_review/render.py",
+    "scripts/cp7_schedule_staged_review/review.sql",
+    "scripts/cp7_history_bounded/MANIFEST.json",
+    "scripts/cp7_history_bounded/__init__.py",
+    "scripts/cp7_history_bounded/inputs.sql",
+    "scripts/cp7_history_bounded/render.py",
+    "scripts/cp7_history_reference/MANIFEST.json",
+    "scripts/cp7_history_reference/__init__.py",
+    "scripts/cp7_history_reference/digest.sql",
+    "scripts/cp7_history_reference/render.py"
+  ],
+  "preuse_22_exact_stages": 11,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "native_results": {
+    "OW13C_REFERENCE_PRIVATE_CATALOG22": {
+      "status": "PASS",
+      "one_private_no_public_no_table_no_old_replacement": true,
+      "Native_typed_projection_and_both_visibility_clocks_pinned": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    "OW13C_REFERENCE_NATIVE_RAW_PARITY": {
+      "status": "PASS",
+      "exact_actual_Native_raw_facts_digest_parity": true,
+      "every_native_stock_field_preserved": true,
+      "all_ERP_platform_auth_metadata_rows_unchanged": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    "OW13C_REFERENCE_DENSE2000_202000_UNDER8S": {
+      "status": "PASS",
+      "products": 2000,
+      "movements": 202000,
+      "actual_rows": 202001,
+      "all_raw_stock_rows_hashed_without_prefix": true,
+      "millis": [
+        2206.968,
+        2213.959,
+        2190.252
+      ],
+      "statement_limit": "8s",
+      "wall_limit_ms": 8000,
+      "raw_capture_remains_INCOMPLETE": true,
+      "all_ERP_platform_auth_metadata_rows_unchanged": true,
+      "staged_source_freshness_integration": false,
+      "actual_checked_SAVE2000_qualified": false,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    "OW13C_REFERENCE_LATE_RECORDED_PHYSICAL_BACKDATE": {
+      "status": "PASS",
+      "actual_Native_stock_writer": true,
+      "recorded_visibility_not_only_physical_date": true,
+      "historical_cutoff_from_actual_recorded_time": true,
+      "fresh_digest_changes_old_cutoff_stays_same": true,
+      "no_clock_or_row_date_rewrite": true,
+      "reader_has_no_effect": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    }
+  },
+  "original": {
+    "artifact_id": 12531334604,
+    "bytes": 157181,
+    "sha256": "8d6077afdf73387744b9bac63c798586d391139a3cd7269514fa791230bf8f7c",
+    "file_name": "8909b7c-reference4-pass-complete.zip",
+    "complete_report_preserved": true
+  },
+  "full_raw_stock_digest_qualified": true,
+  "staged_source_freshness_integration": false,
+  "actual_checked_SAVE2000_qualified": false,
+  "full_OW13c_acceptance": false,
+  "full_A_chain_qualified": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "parent_completed_count": "5/16"
+}

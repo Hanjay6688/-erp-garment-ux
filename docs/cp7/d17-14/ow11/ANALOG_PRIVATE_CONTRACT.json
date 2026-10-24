@@ -1,0 +1,62 @@
+{
+  "contract": "cp7.ow11.analog-private-native.v1",
+  "expected_case_count": 3,
+  "required_case_counts": {
+    "native": 3
+  },
+  "required_case_ids": {
+    "native": [
+      "OW11_ANALOG_PRIVATE_CATALOG22_EXACT",
+      "OW11_ANALOG_NATIVE_SOURCE_DENSE_PAGINATION_ADVISORY",
+      "OW11_ANALOG_NATIVE_PROFILE_INSUFFICIENT_AND_PAGE_GUARDS"
+    ]
+  },
+  "public_rpcs": [
+    "erp_cp7_get_alerts_v1",
+    "erp_cp7_get_wa_settings_v1",
+    "erp_cp7_save_wa_settings_v1",
+    "erp_cp7_set_wa_key_v1",
+    "erp_cp7_send_wa_test_v1",
+    "erp_cp7_resolve_wa_dispatch_v1",
+    "erp_cp7_get_fg_reorder_v1",
+    "erp_cp7_refresh_fg_reorder_v1",
+    "erp_cp7_save_fg_reorder_manual_v1",
+    "erp_cp7_save_stock_formula_settings_v1",
+    "erp_cp7_get_material_reorder_v1",
+    "erp_cp7_refresh_material_reorder_v1",
+    "erp_cp7_save_material_reorder_v1",
+    "erp_cp7_request_staged_analysis_v1",
+    "erp_cp7_get_staged_analysis_v1",
+    "erp_cp7_step_staged_analysis_v1",
+    "erp_cp7_get_planning_profiles_v1",
+    "erp_cp7_save_planning_profile_v1",
+    "erp_cp7_capture_baseline_v1",
+    "erp_cp7_save_cutting_suggestion_v1",
+    "erp_cp7_get_staged_production_schedule_v1",
+    "erp_cp7_save_staged_production_schedule_v1",
+    "erp_cp7_request_bounded_staged_analysis_v1"
+  ],
+  "schedules": [
+    "erp-wa-collect",
+    "erp-wa-send",
+    "erp-wa-analysis"
+  ],
+  "private_prototype_functions": 1,
+  "prototype_created_and_removed_inside_each_rollback_case": true,
+  "parent_install_preuse_stages": 12,
+  "old_replacements": 0,
+  "public_facades_added": 0,
+  "new_tables": 0,
+  "synthetic_products": 2000,
+  "synthetic_movements": 202000,
+  "positive_profile": "P19 explicit synthetic selected profile on one volume product; not owner default",
+  "insufficient_profile": "Native explicit minimum2 against one-day query",
+  "statement_timeout": "8s",
+  "wall_limit_ms": 8000,
+  "different_size_positive_fixture_qualified": false,
+  "actual_Auth_HTTP_credit": false,
+  "analog_confirmation_qualified": false,
+  "forecast_applied": false,
+  "full_OW11_acceptance": false,
+  "production_go": false
+}

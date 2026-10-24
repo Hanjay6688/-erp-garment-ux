@@ -1,0 +1,61 @@
+{
+  "contract": "cp7.ow12b.operational3600-native.v1",
+  "expected_case_count": 2,
+  "required_case_counts": {
+    "native": 2
+  },
+  "required_case_ids": {
+    "native": [
+      "OW12B_OPERATIONAL3600_RETAINED_CATALOG_ANCHOR",
+      "OW12B_OPERATIONAL3600_REAL_DONE_ALL_PAGES_FULL_FRESHNESS"
+    ]
+  },
+  "public_rpcs": [
+    "erp_cp7_get_alerts_v1",
+    "erp_cp7_get_wa_settings_v1",
+    "erp_cp7_save_wa_settings_v1",
+    "erp_cp7_set_wa_key_v1",
+    "erp_cp7_send_wa_test_v1",
+    "erp_cp7_resolve_wa_dispatch_v1",
+    "erp_cp7_get_fg_reorder_v1",
+    "erp_cp7_refresh_fg_reorder_v1",
+    "erp_cp7_save_fg_reorder_manual_v1",
+    "erp_cp7_save_stock_formula_settings_v1",
+    "erp_cp7_get_material_reorder_v1",
+    "erp_cp7_refresh_material_reorder_v1",
+    "erp_cp7_save_material_reorder_v1",
+    "erp_cp7_request_staged_analysis_v1",
+    "erp_cp7_get_staged_analysis_v1",
+    "erp_cp7_step_staged_analysis_v1",
+    "erp_cp7_get_planning_profiles_v1",
+    "erp_cp7_save_planning_profile_v1",
+    "erp_cp7_capture_baseline_v1",
+    "erp_cp7_save_cutting_suggestion_v1",
+    "erp_cp7_get_staged_production_schedule_v1",
+    "erp_cp7_save_staged_production_schedule_v1",
+    "erp_cp7_request_bounded_staged_analysis_v1"
+  ],
+  "schedules": [
+    "erp-wa-collect",
+    "erp-wa-send",
+    "erp-wa-analysis"
+  ],
+  "synthetic_products": 3600,
+  "synthetic_movements": 363600,
+  "statement_timeout": "8s",
+  "wall_limit_ms": 8000,
+  "full_source_checks": 3,
+  "retained_catalog_anchor_case_credit": 0,
+  "new_operational_scale_cases": 1,
+  "old2000_fixture_unchanged_sha256": "45c219daa6c24aae94ce9db61c9ca056c31c8d3cd27894c30c8ef0993dc3cfc9",
+  "legacy_method_expected_state": "FAILED",
+  "legacy_method_expected_failure": "CP7_PLANNING_CAPTURE_INCOMPLETE",
+  "before_complete_result_available": false,
+  "before_after_equal_complete_results_claim": false,
+  "official_finance_included": false,
+  "money_HPP_report_parity_qualified": false,
+  "full_factory3600_qualified": false,
+  "full_OW12b_acceptance": false,
+  "actual_checked_SAVE3600_qualified": false,
+  "production_go": false
+}

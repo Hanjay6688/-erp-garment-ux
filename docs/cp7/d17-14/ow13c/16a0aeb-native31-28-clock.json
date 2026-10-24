@@ -1,0 +1,71 @@
+{
+  "contract": "cp7.writer-component-result.v1",
+  "candidate": "16a0aeb0270eed29239668a94678c59221507e46",
+  "tree": "3c312602826defd8944666da0123540edd54bdff",
+  "run_id": 39993639712,
+  "job_id": 120551431684,
+  "status": "INCOMPLETE",
+  "expected": 31,
+  "observed": 31,
+  "passed": 28,
+  "groups": {
+    "native": {
+      "PASS": 13,
+      "INCOMPLETE": 2
+    },
+    "races": {
+      "PASS": 7,
+      "INCOMPLETE": 1
+    },
+    "http": {
+      "PASS": 4
+    },
+    "browser": {
+      "PASS": 4
+    }
+  },
+  "failed": {
+    "native": {
+      "OW10R_NATIVE_STALE_NO_CREDIT": "FG_UNSOURCED_PHYSICAL_AT_FUTURE",
+      "OW10R_NATIVE_THRESHOLD_CACHE_FRESH_STOCK": "FG_UNSOURCED_PHYSICAL_AT_FUTURE"
+    },
+    "races": {
+      "OW10R_RACE_BUSY_NEW_LOW": "FG_UNSOURCED_PHYSICAL_AT_FUTURE"
+    },
+    "http": {},
+    "browser": {}
+  },
+  "all_new_checked_save_cases_pass": true,
+  "checked_save_desktop_specific_refusal_pass": true,
+  "checked_save_mobile_ordinary_reopen_pass": true,
+  "failure_cause": "Three retained positive stock fixtures used08:00 WIB on the current day while actual runtime was00:23-00:27 WIB; unchanged Native rejects future physical_at. No application guard loosened.",
+  "business_day": "2026-10-24",
+  "volume_2000_202000_ms": [
+    7710,
+    2952,
+    2943
+  ],
+  "source_files_exact_to_candidate": 28,
+  "preuse_22_group_inverses_exact": 8,
+  "copied_clone_authorities_exact": 10,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "complete_Original": {
+    "artifact_id": 12519663084,
+    "bytes": 406902,
+    "sha256": "e479ffe7c578a4ea4e65a5c3f4b11ef4e01e6e8a81cf24f665aebe6239b327a8"
+  },
+  "full_artifact_id": 12519139328,
+  "Original_and_log_preserved": true,
+  "next_fix": "Keep the same planned WIB day, quantities and assertions. Set only the three positive current-day stock fixture paths to00:00 WIB; retain default08 for all other stock formula calls. Future-date rejection remains Native and unchanged.",
+  "full_OW13c_acceptance": false,
+  "full_A_chain_qualified": false,
+  "production_go": false
+}

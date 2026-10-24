@@ -52,3 +52,34 @@ masih adapter terkontrol; nilai laporan diuji melalui finance_apply resmi yang s
 klien/DOM pada15 berkas lulus (local-combined-regression.json). Pembanding periode memang milik A,
 sudah tersedia melalui compare_reports_v2 pada kontrak A; B tidak membuat rumus selisih kedua.
 Native286 a753ebc2 sekarang lulus tetapi tidak memasang OW12b, sehingga tidak menutup kualifikasi ini.
+
+
+## Komponen operasional3600 terpisah (24 Oktober2026 UTC)
+
+`OPERATIONAL3600_CONTRACT.json` mendeklarasikan dua kontrol Native: satu jangkar
+katalog/hash lama (nol kredit kasus baru) dan satu kasus skala3600 produk
+sintetis/363600 gerakan stok. Seed2000/202000 dan47 sumber backend yang sudah
+lulus tetap persis; tidak ada formula atau pemasang A yang diubah.
+
+Probe `cp7_ow12b_operational3600_probe.py` memakai rantai12 tahap yang sama.
+Kasus mengukur metode lama sampai FAILED karena capture memang INCOMPLETE,
+lalu permintaan bounded nyata, semua unit sampai DONE, semua halaman/target,
+tiga cek sumber utuh masing-masing8s dan perubahan stok Native yang membuat
+hasil stale. Tidak mengarang waktu sebelum atau menyatakan hasil lengkap lama
+tersedia. Batas8s dan UNKNOWN tetap; fixture diberi label sintetis.
+
+Belum ada hasil runtime komponen ini. Ini persiapan bukti operasional3600,
+bukan kesamaan uang/HPP dengan laporan A, gabungan financebridge, waktu layar,
+SAVE3600, uji pasang/pulih global atau penutupan OW12b/skala pabrik penuh.
+
+
+**Operational3600 component PASS**, candidate36444aed/source8cf6f2c2,
+run40043712317/job120720445162. Receipt36444ae-operational3600-pass.json:
+2/2 (oldcataloganchor0newcredit+oneoperationalcase),47exactsource/12preuse22/
+restore/advisors/5packagegates.3602targets/76realNativeunits/allpages;
+request7832.927ms/maxunit454.456ms/freshness4336.496/4278.379/4335.070ms.
+Request has167.073ms headroom to8s inthisrun; noownerlatency/SLAacceptance.
+LegacyactualFAILEDcapture incomplete, nocompletebefore-result/parityclaim.
+RawINCOMPLETEpreserved, full363601rowdigest, realNativeFGchange=>STALE.
+Fixture360models/3600products/onecopiedsize isvolumecomponent, notreal1200SKU×3.
+FinanceDEFERRED, fullfactory/financialparity/SAVE3600/afteruse/Achain stillOPEN.

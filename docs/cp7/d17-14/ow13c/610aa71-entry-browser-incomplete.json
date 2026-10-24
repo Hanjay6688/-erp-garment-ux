@@ -1,0 +1,91 @@
+{
+  "contract": "cp7.writer-component-receipt.v1",
+  "status": "INCOMPLETE",
+  "candidate": "610aa7113da5532994c5c039f13d0199e0c6f544",
+  "tree": "30c1e30698867aff58ffa0f2e80e1df7bcf53664",
+  "run_id": 40021901654,
+  "job_id": 120648270476,
+  "expected_case_count": 2,
+  "observed_case_count": 2,
+  "groups": {
+    "browser": {
+      "INCOMPLETE": 2
+    }
+  },
+  "source_files_sha256_matched_candidate": [
+    "scripts/cp7_reorder_inputs/MANIFEST.json",
+    "scripts/cp7_reorder_inputs/__init__.py",
+    "scripts/cp7_reorder_inputs/capture.sql",
+    "scripts/cp7_reorder_inputs/capture_source.py",
+    "scripts/cp7_reorder_inputs/history.sql",
+    "scripts/cp7_reorder_inputs/points.sql",
+    "scripts/cp7_reorder_inputs/read.sql",
+    "scripts/cp7_reorder_inputs/source.sql",
+    "scripts/cp7_reorder_inputs/stock.sql",
+    "scripts/cp7_reorder_reader_stage/MANIFEST.json",
+    "scripts/cp7_reorder_reader_stage/__init__.py",
+    "scripts/cp7_reorder_reader_stage/cache.sql",
+    "scripts/cp7_reorder_caller_stage/MANIFEST.json",
+    "scripts/cp7_reorder_caller_stage/__init__.py",
+    "scripts/cp7_reorder_caller_stage/alert_row.sql",
+    "scripts/cp7_reorder_caller_stage/compute.sql",
+    "scripts/cp7_reorder_caller_stage/evaluate.sql",
+    "scripts/cp7_reorder_caller_stage/fg_source.sql",
+    "scripts/cp7_reorder_caller_stage/item_line.sql",
+    "scripts/cp7_reorder_caller_stage/refresh.sql",
+    "scripts/cp7_reorder_caller_stage/save_manual.sql",
+    "scripts/cp7_reorder_caller_stage/save_settings.sql",
+    "scripts/cp7_reorder_caller_stage/state.sql",
+    "scripts/cp7_reorder_caller_stage/workspace.sql",
+    "scripts/cp7_cutting_checked_save/MANIFEST.json",
+    "scripts/cp7_cutting_checked_save/__init__.py",
+    "scripts/cp7_cutting_checked_save/save.sql",
+    "scripts/cp7_cutting_checked_save/schema.sql",
+    "scripts/cp7_schedule_staged_review/MANIFEST.json",
+    "scripts/cp7_schedule_staged_review/__init__.py",
+    "scripts/cp7_schedule_staged_review/render.py",
+    "scripts/cp7_schedule_staged_review/review.sql"
+  ],
+  "preuse_22_exact_stages": 9,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "clone_authorities": [
+    {
+      "database": "cp6_auditor_browser",
+      "source": "cp6_rollback",
+      "source_owner": "postgres",
+      "previous_owner": "supabase_admin",
+      "current_owner": "postgres",
+      "source_authority_sha256": "40beebded7c4fdf0cd00051d0a186642f05c036bb91b14641c5f6f6228b6bc6d",
+      "before_authority_sha256": "050a4d892c21c8bb42172e2ac27c2a3b0f2fd47e49c95ee5b476d36042374068",
+      "after_authority_sha256": "40beebded7c4fdf0cd00051d0a186642f05c036bb91b14641c5f6f6228b6bc6d",
+      "authority_exact": true,
+      "oracle_relaxed": false,
+      "primary_modified": false
+    }
+  ],
+  "predeclared_case_sha256": "53e4a6c649ba57ab76f5bd29bfc5c69823704892c3f6966cc956cd99a6b0d7b5",
+  "browser_failure": "Both real browser cases timed out before staged schedule GET; visible alert CP7_WIP_FIELDS. Work source UI sent an unsupported finance_mode parameter to the exact three-field Native request query.",
+  "original": {
+    "artifact_id": 12531227174,
+    "bytes": 43155,
+    "sha256": "4cb231be0a2c693b8e0a7caeb1b1f64df5c016fa63c8a45ec1b5f309eeb17993",
+    "file_name": "610aa71-entry2-browser-incomplete.zip",
+    "complete_report_preserved": true
+  },
+  "fix": "Send exactly the persisted three-field operational query; Native request already captures DEFERRED finance. Preserve UUID/query and legacy SAVE route. Record the initial request response before waiting for GET.",
+  "server_component_changed": false,
+  "actual_checked_SAVE2000_qualified": false,
+  "full_OW13c_acceptance": false,
+  "full_A_chain_qualified": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "parent_completed_count": "5/16"
+}

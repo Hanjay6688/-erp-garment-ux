@@ -5,6 +5,7 @@ import{beforeEach,afterEach,it,expect,vi}from'vitest'
 import NativeDemandHistoryPanel from'./NativeDemandHistoryPanel'
 import{recoveryIdentity}from'../tests/fixtures/productionRecovery'
 import{demandWire}from'../tests/fixtures/nativeDemandHistory'
+import{scheduleJobWire,boundedWorkspaceWire}from'../tests/fixtures/nativeProductionPlanning'
 const state=vi.hoisted(()=>({auth:null as unknown}))
 const client=vi.hoisted(()=>({rpc:vi.fn()}))
 vi.mock('./auth/AuthProvider',()=>({useAuth:()=>state.auth}));vi.mock('./lib/supabase',()=>({getUatSupabaseClient:()=>client}))
@@ -23,3 +24,14 @@ it('drops the held source reply when the panel closes',async()=>{let release:(x:
 it('clears old facts on current archive access denial',async()=>{client.rpc.mockImplementation(captureReply);await render();await click('Data permintaan & stok');await click('Muat data permintaan');client.rpc.mockResolvedValueOnce({data:null,error:Error('CP7_ACCESS_DENIED')});await click('Periksa sumber arsip');expect(container.querySelector('table')).toBeNull();expect(container.querySelector('[role=alert]')).toBeTruthy()})
 it('does not expose the panel when a required permission is absent',async()=>{const a=structuredClone(recoveryIdentity);a.identity.permissions=['warehouse.stock.view'];state.auth=a;await render();expect(container.textContent).toBe('');expect(client.rpc).not.toHaveBeenCalled()})
 it('refuses another request after corrupt recovery without erasing it',async()=>{localStorage.setItem('erp.cp7.native-demand-request.v1:cp6-disposable:actor-1','broken');await render();expect(container.textContent).toContain('Permintaan tersimpan belum bisa dibaca');expect((button('Muat data permintaan')as HTMLButtonElement).disabled).toBe(true);expect(client.rpc).not.toHaveBeenCalled();expect(localStorage.length).toBe(1)})
+it('opens the work schedule directly without forcing the old whole-history capture first',async()=>{
+ client.rpc.mockImplementation(async(name:string,args:{p_request:string;p_source_request:string})=>({data:name==='erp_cp7_request_bounded_staged_analysis_v1'?scheduleJobWire(args.p_request):name==='erp_cp7_get_staged_production_schedule_v1'?boundedWorkspaceWire(args.p_source_request):null,error:null}))
+ await render();await click('Data permintaan & stok');await click('Jadwal & kekurangan seluruh produk');expect(client.rpc).not.toHaveBeenCalled();expect(container.querySelector('[aria-label="Jadwal dan kekurangan produksi"]')).toBeTruthy()
+ await click('Ambil stok proses terbaru');expect(client.rpc.mock.calls.map(([name])=>name)).toEqual(['erp_cp7_request_bounded_staged_analysis_v1','erp_cp7_get_staged_production_schedule_v1']);expect(container.querySelector('[aria-label="Tempat kerja pilihan"]')).toBeTruthy()
+})
+it('does not duplicate the direct work entry after a successful demand read',async()=>{
+ client.rpc.mockImplementation(captureReply);await render();await click('Data permintaan & stok');await click('Muat data permintaan');expect([...container.querySelectorAll('button')].filter(b=>b.textContent==='Jadwal & kekurangan seluruh produk')).toHaveLength(1)
+})
+it('keeps direct work entry blocked while a legacy demand result remains uncertain',async()=>{
+ client.rpc.mockResolvedValue({data:null,error:Error('reply lost')});await render();await click('Data permintaan & stok');await click('Muat data permintaan');expect(button('Jadwal & kekurangan seluruh produk').disabled).toBe(true);const saved=localStorage.getItem('erp.cp7.native-demand-request.v1:cp6-disposable:actor-1');expect(saved).not.toBeNull();await click('Jadwal & kekurangan seluruh produk');expect(localStorage.getItem('erp.cp7.native-demand-request.v1:cp6-disposable:actor-1')).toBe(saved);expect(client.rpc).toHaveBeenCalledTimes(1)
+})

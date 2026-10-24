@@ -66,7 +66,7 @@ async function journey(ui,today,mobile){
     const suggestions=page.getByRole('region',{name:'Saran potong',exact:true})
     await suggestions.getByLabel('Penjualan mulai untuk saran potong',{exact:true}).fill(f.query.from_date)
     await suggestions.getByLabel('Penjualan sampai untuk saran potong',{exact:true}).fill(f.query.through_date)
-    await suggestions.getByRole('button',{name:'Buka saran potong',exact:true}).click()
+    await suggestions.getByRole('button',{name:'Buka analisis & arsip saran potong',exact:true}).click()
     panel=page.getByRole('region',{name:'Analisis ERP bersama',exact:true})
     await panel.getByRole('button',{name:STAGED,exact:true}).click()
     plan=await openTarget(ui,page,f.target_key)
@@ -137,6 +137,7 @@ async function journey(ui,today,mobile){
     throw error
   }finally{await page.unrouteAll({behavior:'wait'});fixture('restore',{actor});await user.context.close()}
 }
+export {navigate as openCuttingMenu}
 export function cases(ui,today){return[...retainedCases(ui,today),
   ['OW13C_BROWSER_DESKTOP_EDIT_AND_STALE_REFUSAL',()=>journey(ui,today,false)],
   ['OW13C_BROWSER_MOBILE_LOST_REPLY_ORDINARY_PLAN_REOPEN',()=>journey(ui,today,true)],

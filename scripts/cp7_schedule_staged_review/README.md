@@ -1,0 +1,75 @@
+# Review jadwal dari sumber bertahap — B, Native8 komponen PASS
+
+Native5/WIP2 sudah lulus. Upaya SAVE2000/202000 pertama berhenti sebelum SAVE
+karena setup membutuhkan capture supply v1 lama (1000 produk/50000 gerakan).
+Lihat `docs/cp7/d17-14/ow13c/fa3375e-scale2-first-incomplete.json`.
+
+Modul ini menambahkan jalur review **metadata pekerjaan dan kalender** dari
+referensi asli job bertahap. Tidak mengubah fungsi Native lama, validator,
+batas history atau sumber SQL beku. Belum dipasang default/hosted dan belum
+boleh dianggap menyelesaikan SAVE2000, analisis besar atau OW13c.
+
+- GET `erp_cp7_get_staged_production_schedule_v1(p_source_request uuid)`
+  menerima UUID permintaan analisis bertahap asli milik pengguna, bukan UUID
+  run yang baru terlihat setelah analisis selesai. RUNNING/DONE diterima;
+  DONE tetap harus lolos penjaga retensi. Asing tidak diterima.
+- GET menampilkan referensi waktu, hash dan kebutuhan pekerjaan dari snapshot
+  yang diperiksa, keadaan sumber terkini, `history_capture_state` dan
+  `production_capture_state`. Mengambil formulir tidak menulis apa pun.
+- SAVE menerima `source_run` nyata yang dikembalikan GET, `source_hash`,
+  `expected_revision`, `config`, `reason`, dan `staged_review_contract` tepat
+  `cp7.schedule-staged-review.v1`. Permission, request/global lock, UUID/revisi,
+  validator kalender/global WIP/target-bound asli dan riwayat append-only sama.
+  Sumber/akses diperiksa sesudah wait, sumber kerja/akses kembali sesudah
+  metadata ditulis; penolakan harus atomik.
+- RUNNING dapat dipakai untuk menyiapkan jadwal sebelum analisis dihitung.
+  Kelayakan produksi dan kuantitas **tidak** diperoleh dari keadaan ini.
+  Riwayat besar yang INCOMPLETE tetap ditampilkan demikian; jalur analisis/
+  checked-save tidak dibuka dengan mengubah completeness/hash atau menambah
+  baris run/proof palsu. Batas raw history50000 masih perlu ditangani oleh
+  engine bertahap untuk fixture padat202000; modul metadata ini sendiri tidak
+  membuktikan atau menyelesaikannya.
+- 1 schema privat/3 fungsi privat/2 facade publik,0 tabel baru/0 penggantian
+  badan Native. Hanya `cp7_capture` memiliki akses privat; authenticated boleh
+  memanggil facade dengan validasi akun/hak saat ini. anon/service_role ditolak.
+- `install_delta`, `verify`, `admit_catalog`, `rollback_preuse` tidak membuka
+  koneksi/commit. A menyediakan transaksi/envelope/global census/default.
+  Invers sebelum pakai harus tepat22 kelompok; setelah command bertag ada,
+  invers menolak sebelum DDL. Tidak ada CASCADE.
+
+`render.py` menurunkan dua badan baru dari Native workspace/save dengan anchor
+tepat dan pin7 helper; `review.sql` harus tepat hasil render. Bagian validasi
+pekerjaan/target/calendar dan penyimpanan metadata bukan salinan rumus stok,
+uang/HPP atau pembentukan hasil analisis.
+
+Native8 komponen lulus pada d85187dc/run40010384850/job120608936647:
+8 ID,32 sumber,9 invers22,restore/advisor/5 gate paket tepat. GET/replay,
+source berubah,asing/akun nonaktif,revisi/UUIDlama,usedinverse,atomicfault,
+metadata2000/202000 semuanya PASS. Riwayat padat tetap INCOMPLETE;0 klaim
+actualcheckedSAVE2000. Receipt `docs/cp7/d17-14/ow13c/d85187d-schedule8-pass.json`.
+Kegagalan pertama6370d29 tetap; pembanding metadata kini menserialkan timestamp
+UTC sejak awal dan mengembalikan GUC semula, equality/baris tetap ketat.
+
+Masih wajib:
+Native pasang/invers22/otoritas, RUNNING/DONE/asing/retensi, SAVE/replay/revisi,
+current-source/current-access setelah wait, atomic fault, metadata besar,
+Auth/browser/layar dengan UUID tahan putus, dan pemasangan A. Generator tipe/
+source registry/default installer milik A; panel produksi/perencanaan milik B.
+
+Rujukan: panduan fungsi database Supabase dan transaksi PostgreSQL, dicek
+24 Oktober2026. Schema/fungsi privat memakai search_path kosong, pembatasan
+EXECUTE eksplisit; metadata tidak mengubah fakta ERP/uang/stok/HPP.
+
+
+Lanjutan (belum qualified): Native11 mempertahankan8 kontrol dan menambah
+DONE/expired/FAILED. Job gagal tetap memiliki reference Native yang immutable;
+memakai metadata pekerjaan dari reference itu tidak membuat analisis berhasil.
+Ini mengatasi kasus runner lebih dulu menghentikan analisis riwayat sebelum
+pengguna menyimpan jadwal. GET/SAVE sekarang memeriksa K2 untuk semua keadaan
+RUNNING/DONE/FAILED; RUNNING tidak kedaluwarsa, DONE/FAILED mengikuti7 hari.
+FAILED tetap diberi labelFAILED, historyINCOMPLETE, snapshot rencana/kuantitas
+tetap ditolak. WIP global/validator/source/akses tetap wajib, expired tetap
+ditolak. Angka7 bukan kebijakan baru; fixture negatif memakai age() K2 yang
+sudah ada dan diberi labelsynthetic, tidak mengubah clock/tanggal fisik.
+Native8 d85187dc membuktikan versi sebelumnya; perubahan acceptanceFAILED ini
+menunggu bukti Native11 pada kandidat baru.

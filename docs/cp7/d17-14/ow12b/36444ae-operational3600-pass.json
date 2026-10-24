@@ -1,0 +1,114 @@
+{
+  "contract": "cp7.operational3600-component-pass.v1",
+  "candidate": "36444aedf8d7bb7bc6882b2e835fcaeec7f23b7b",
+  "tree": "9e314f038e11efbb410b82d6c858eacd51e5395d",
+  "source": "8cf6f2c21e475e1ad86b58064272cdc7d33a57ea",
+  "run_id": 40043712317,
+  "job_id": 120720445162,
+  "status": "PASS",
+  "expected": 2,
+  "observed": 2,
+  "counts": {
+    "PASS": 2
+  },
+  "source_files_exact": 47,
+  "same47backend_as_Native6_Entry2_SAVE2": true,
+  "preuse22_exact": 12,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "declaration_sha256": "eedb6bd305cef323be269990952e6be6a3c0d92bc5f8ff3110da73d3d1d956ae",
+  "original": {
+    "artifact_id": 12540657975,
+    "bytes": 113258,
+    "sha256": "df4ebe425e879c3c8b89644b1a616f024cc25927a1d30bb4205cca34f5d95804"
+  },
+  "full_artifact": {
+    "artifact_id": 12540528471,
+    "bytes": 1714366,
+    "sha256": "76677e413e035bdb3e851a4ddd336d584e295327f30b83eb5fe853c7cd626c53"
+  },
+  "complete_original_independently_checked": true,
+  "component_qualified": true,
+  "repeated_catalog_anchor_case_credit": 0,
+  "new_operational_case_credit": 1,
+  "actual_native_result": {
+    "status": "PASS",
+    "products": 3600,
+    "movements": 363600,
+    "synthetic_fixture": true,
+    "actual_products": 3602,
+    "real_Native_job_DONE": true,
+    "all_target_pages_verified": true,
+    "page_count": 1,
+    "targets_total": 3602,
+    "header_utf8_bytes": 585129,
+    "page_utf8_bytes_max": 2215278,
+    "page_utf8_bytes_total": 2215278,
+    "uneven_ranges": false,
+    "request_millis": 7832.927,
+    "step_count": 76,
+    "slowest_step_millis": 454.456,
+    "full_source_check_millis": [
+      4336.496,
+      4278.379,
+      4335.07
+    ],
+    "legacy_request_millis": 3161.919,
+    "legacy_step_millis": [
+      23.678
+    ],
+    "legacy_terminal_state": "FAILED",
+    "legacy_failure": "CP7_PLANNING_CAPTURE_INCOMPLETE",
+    "complete_before_result_available": false,
+    "before_after_equal_complete_results_claim": false,
+    "raw_native_INCOMPLETE_preserved": true,
+    "raw_stock_digest_rows": 363601,
+    "original2000_fixture_sha256": "45c219daa6c24aae94ce9db61c9ca056c31c8d3cd27894c30c8ef0993dc3cfc9",
+    "actual_Native_stock_change_stales_job": true,
+    "no_ERP_write_by_analysis_or_freshness": true,
+    "statement_limit": "8s",
+    "wall_limit_ms": 8000,
+    "financial_capture": "DEFERRED",
+    "official_finance_included": false,
+    "money_HPP_report_parity_qualified": false,
+    "full_factory3600_qualified": false,
+    "full_OW12b_acceptance": false,
+    "operational3600_component_qualified": true,
+    "production_go": false,
+    "full_boundary_restored": true,
+    "public_schema_unchanged": true,
+    "session_leaks": {
+      "advisory_locks": 0,
+      "advisory_lock_keys": [],
+      "other_sessions": []
+    },
+    "business_day": {
+      "planned": "2026-10-24",
+      "before": "2026-10-24",
+      "after": "2026-10-24"
+    }
+  },
+  "request_budget_headroom_ms": 167.073,
+  "owner_latency_acceptance": false,
+  "fixture_shape": {
+    "synthetic_model_groups": 360,
+    "synthetic_products": 3600,
+    "one_copied_source_size": true,
+    "real_factory_1200_SKU_x3_size_shape_qualified": false
+  },
+  "official_finance_included": false,
+  "money_HPP_report_parity_qualified": false,
+  "full_OW12b_acceptance": false,
+  "full_factory3600_qualified": false,
+  "actual_checked_SAVE3600_qualified": false,
+  "after_use_restore_qualified": false,
+  "full_A_chain_qualified": false,
+  "production_go": false
+}

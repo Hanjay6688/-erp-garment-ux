@@ -1,0 +1,53 @@
+{
+  "contract": "cp7.ow13c.bounded-staged-native.v1",
+  "expected_case_count": 6,
+  "required_case_counts": {
+    "native": 6
+  },
+  "required_case_ids": {
+    "native": [
+      "OW13C_BOUNDED_STAGE_CATALOG22_AND_LEGACY_HASH",
+      "OW13C_BOUNDED_STAGE_LEGACY_AND_CROSS_METHOD_UUID",
+      "OW13C_BOUNDED_STAGE_REAL_DONE_AND_PAGES",
+      "OW13C_BOUNDED_STAGE_DENSE2000_202000_DONE_FRESHNESS",
+      "OW13C_BOUNDED_STAGE_WORK_REVIEW_REPLAY_AND_STALE",
+      "OW13C_BOUNDED_STAGE_CURRENT_ACCESS_K2_AND_USED_INVERSE"
+    ]
+  },
+  "public_rpcs": [
+    "erp_cp7_get_alerts_v1",
+    "erp_cp7_get_wa_settings_v1",
+    "erp_cp7_save_wa_settings_v1",
+    "erp_cp7_set_wa_key_v1",
+    "erp_cp7_send_wa_test_v1",
+    "erp_cp7_resolve_wa_dispatch_v1",
+    "erp_cp7_get_fg_reorder_v1",
+    "erp_cp7_refresh_fg_reorder_v1",
+    "erp_cp7_save_fg_reorder_manual_v1",
+    "erp_cp7_save_stock_formula_settings_v1",
+    "erp_cp7_get_material_reorder_v1",
+    "erp_cp7_refresh_material_reorder_v1",
+    "erp_cp7_save_material_reorder_v1",
+    "erp_cp7_request_staged_analysis_v1",
+    "erp_cp7_get_staged_analysis_v1",
+    "erp_cp7_step_staged_analysis_v1",
+    "erp_cp7_get_planning_profiles_v1",
+    "erp_cp7_save_planning_profile_v1",
+    "erp_cp7_capture_baseline_v1",
+    "erp_cp7_save_cutting_suggestion_v1",
+    "erp_cp7_get_staged_production_schedule_v1",
+    "erp_cp7_save_staged_production_schedule_v1",
+    "erp_cp7_request_bounded_staged_analysis_v1"
+  ],
+  "schedules": [
+    "erp-wa-collect",
+    "erp-wa-send",
+    "erp-wa-analysis"
+  ],
+  "synthetic_products": 2000,
+  "synthetic_movements": 202000,
+  "statement_timeout": "8s",
+  "wall_limit_ms": 8000,
+  "actual_checked_SAVE2000_qualified": false,
+  "production_go": false
+}

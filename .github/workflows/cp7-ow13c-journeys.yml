@@ -214,7 +214,7 @@ jobs:
         \ python -u /fake.py\nsleep 3\ndocker ps --filter name=fake-callmebot --format '{{.Status}}'\n"
     - name: Record disposable service image versions
       run: docker ps --format '{{.Names}}\t{{.Image}}'
-    - name: Qualify Native31 including specific refusal text and exact recovery classification
+    - name: Qualify Native31 with same-day stock fixtures valid from WIB midnight
       working-directory: writer
       run: python "../auditor/scripts/${{ matrix.probe }}"
     - name: Remove disposable database

@@ -1,0 +1,80 @@
+{
+  "contract": "cp7.ow13c.staged-schedule-native.v1",
+  "expected_case_count": 8,
+  "required_case_counts": {
+    "native": 8
+  },
+  "required_case_ids": {
+    "native": [
+      "OW13C_SCHEDULE_NATIVE_PRIVATE_CATALOG22",
+      "OW13C_SCHEDULE_NATIVE_RUNNING_SAVE_REPLAY",
+      "OW13C_SCHEDULE_NATIVE_STALE_REFUSED",
+      "OW13C_SCHEDULE_NATIVE_FOREIGN_AND_CURRENT_ACCESS",
+      "OW13C_SCHEDULE_NATIVE_REVISION_AND_OLD_UUID",
+      "OW13C_SCHEDULE_NATIVE_USED_INVERSE_BEFORE_DDL",
+      "OW13C_SCHEDULE_NATIVE_ATOMIC_METADATA_FAULT",
+      "OW13C_SCHEDULE_NATIVE_METADATA2000_HISTORY_INCOMPLETE_HONEST"
+    ]
+  },
+  "public_rpcs": [
+    "erp_cp7_get_alerts_v1",
+    "erp_cp7_get_wa_settings_v1",
+    "erp_cp7_save_wa_settings_v1",
+    "erp_cp7_set_wa_key_v1",
+    "erp_cp7_send_wa_test_v1",
+    "erp_cp7_resolve_wa_dispatch_v1",
+    "erp_cp7_get_fg_reorder_v1",
+    "erp_cp7_refresh_fg_reorder_v1",
+    "erp_cp7_save_fg_reorder_manual_v1",
+    "erp_cp7_save_stock_formula_settings_v1",
+    "erp_cp7_get_material_reorder_v1",
+    "erp_cp7_refresh_material_reorder_v1",
+    "erp_cp7_save_material_reorder_v1",
+    "erp_cp7_request_staged_analysis_v1",
+    "erp_cp7_get_staged_analysis_v1",
+    "erp_cp7_step_staged_analysis_v1",
+    "erp_cp7_get_planning_profiles_v1",
+    "erp_cp7_save_planning_profile_v1",
+    "erp_cp7_capture_baseline_v1",
+    "erp_cp7_save_cutting_suggestion_v1",
+    "erp_cp7_get_staged_production_schedule_v1",
+    "erp_cp7_save_staged_production_schedule_v1"
+  ],
+  "schedules": [
+    "erp-wa-collect",
+    "erp-wa-send",
+    "erp-wa-analysis"
+  ],
+  "new_stage": "cp7.schedule-staged-review.v1",
+  "required_preuse22_stages": 9,
+  "scope": "WORK_METADATA_ONLY_REAL_RUNNING_REFERENCES",
+  "actual_checked_SAVE2000_qualified": false,
+  "large_fixture": {
+    "products": 2000,
+    "movements": 202000,
+    "label": "SYNTHETIC_NATIVE_TIMING_ONLY",
+    "history_capture_state": "INCOMPLETE",
+    "production_capture_state": "COMPLETE",
+    "job_state": "RUNNING",
+    "work_review_allowed": true,
+    "completed_analysis_or_cutting_feasibility_claim": false
+  },
+  "invariants": [
+    "CURRENT_ACCESS_AFTER_WAIT_AND_WRITE",
+    "REQUEST_GLOBAL_LOCKS_AND_REVISION",
+    "REAL_IMMUTABLE_STAGED_REFERENCE_CURRENT_SOURCE",
+    "EXACT_UUID_REPLAY_NO_OLD_UUID_RELABEL",
+    "OLD_WORK_CALENDAR_TARGET_VALIDATOR_UNCHANGED",
+    "NO_PHYSICAL_STOCK_MONEY_HPP_EFFECT",
+    "ATOMIC_METADATA_FAILURE",
+    "USED_INVERSE_REFUSED_BEFORE_DDL",
+    "OLD8_ORACLE_COMPOSED_UNCHANGED"
+  ],
+  "checked_save_races_qualified": false,
+  "checked_save_browser_qualified": false,
+  "caller_backup_restore_qualified": false,
+  "full_OW13c_acceptance": false,
+  "full_A_chain_qualified": false,
+  "production_go": false,
+  "limits_raised": false
+}

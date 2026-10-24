@@ -736,3 +736,498 @@ A melanjutkan delapan daftar OW09 dan RecordTools sesuai kontrak22 Okt;
 `astra-a/d17-14-ow09-screens-20261024` terpisah dari kandidat P21 yang berjalan.
 Patch tersimpan diterapkan dengan mempertahankan uji OW04b terbaru. Layar
 harus dikualifikasi bersama pemasang rantai; belum dipromosikan ke integrasi.
+
+## 28 — patch registry untuk A sudah disiapkan dan dicoba pada salinan (24 Okt WIB) [bersama]
+
+Pemeriksa sumber asli di B gagal tepat8 pasangan:3 Mandor lama,3 OW16,
+1 initial dan1 checked-save. Tidak ada gap tambahan dari perbaikan pesan.
+`ow13c/SHARED_REGISTRY.patch` menambah hanya1 pasangan baru dan lolos
+`git apply --check`. Tujuh lama memakai patch OW13a (yang sudah mencakup
+6 OW16/Mandor); jangan menumpuk kedua patch lama. Salinan sementara checker
+asli dengan tepat8 entri tambahan lulus360 runtime files/303 RPC boundaries,
+no orphan/direct-table/dynamic-RPC, semua oracle lain dipertahankan.
+`ow13c/SHARED_REGISTRY_CHECK.json` mencatat bahwa gerbang asli tetap FAIL;
+ini kesiapan patch, bukan kelulusan integrasi A. Berkas shared A byte-identik
+terhadap HEAD. A head yang dibaca tetap f898a71fc13654d217f987949f126290083a0225.
+Native31 kandidat16a0aeb0/run39993639712 tetap sedang berjalan.
+
+
+## 29 — seluruh checked-save baru PASS;3 jam fixture OW10 dibetulkan (24 Okt WIB) [bersama]
+
+16a0aeb0/run39993639712/job120551431684 terminal INCOMPLETE28/31:
+13 Native/7 race/4 Auth/4 browser PASS, seluruh12 checked-save baru PASS.
+Desktop pesan spesifik sekarang benar; HP exact ordinary-reopen tetap PASS.
+Volume7710/2952/2943ms PASS,8s/3s utuh. Tiga kegagalan lama OW10 berasal
+contoh stok08:00WIB hari ini saat jam database baru00:23–00:27WIB:
+FG_UNSOURCED_PHYSICAL_AT_FUTURE.31 ID/hash,28 sumber,8 invers22,
+10 authority dan restore/advisor tepat. Receipt16a0aeb-native31-28-clock.json;
+Original/log lengkap disimpan, bukan diganti receipt atau dihitung lulus.
+
+Fix1ba69eaa hanya2 berkas fixture B. item() mendapat stock_hour opsional,
+default08 tetap; configured OW10 memilih00 hanya bila stock_day==today,
+dua found hari ini memilih00. Tanggal/jumlah/cache/stale/busy-low oracle,
+penolakan masa depan, clock DB dan kode produk tetap. Tidak mengubah Native,
+source SQL/registry A atau batas performa. Kandidat a15054c290802420adaa8a4dd64217380d5ebbcb/
+tree63918f4b, run39996465132/job120561154474 aktual berjalan. Parent5/16;
+fullOW13c/after-use/data besar/OW11/bridge3600/rantai A/audit tetap OPEN.
+
+
+## 30 — pelajaran jam fixture dicatat untuk mencegah pengulangan (24 Okt WIB) [bersama]
+
+ERP_BEST_PRACTICES hanya ditambah di akhir dengan WR-OW10-FIXTURE-WIB/E25y:
+contoh positif hari ini harus sah sejak00:00WIB, tanggal/jumlah/oracle tetap,
+contoh negatif masa depan tetap eksplisit dan tetap ditolak Native. Tidak
+mengubah keputusan owner atau penjaga aplikasi. Bukti16a0aeb0/28 dari31 dan
+fix1ba69eaa dirujuk tepat; kandidat a15054c2 masih sedang dikualifikasi.
+
+
+## 31 — checkpoint Native31 lulus dan handoff aktual (24 Okt WIB) [bersama]
+
+Kandidat a15054c290802420adaa8a4dd64217380d5ebbcb/tree63918f4b,
+run39996465132/job120561154474 SUCCESS31/31:15 Native/8 race/4 Auth/4
+browser; seluruh12 checked-save baru dan3 kasus jam stok lama PASS.
+Volume2000/202000 4728/1799/1743ms, statement8s/dua hangat≤3000ms tetap.
+160 uji aplikasi/12 berkas, TypeScript/scanner SQL PASS.31 ID/deklarasi SHA,
+28 sumber,8 invers22,10 authority, restore/advisor dan lima gate paket
+cocok persis. Receipt ow13c/a15054c-native31-pass.json; Original lengkap
+artifact12519888810/405514bytes/SHAf13916ab59a182d92be39633e05ffe54f7afd7267fc5714ad1d3ee19f7b34a52
+beserta raw log dipertahankan, semua kegagalan lama tetap. Screenshot hanya
+artefak GitHub. REST uji16.1/Postgres17.6.1.165, bukan inventaris hosted.
+
+Checkpoint ini tidak menyatakan fullOW13c/after-use/SAVE2000/factory3600/
+rantai A/audit independen/CP7C/production_go; parent5/16. Native31 mengandung
+19/25 lama, jangan dijumlahkan atau diulang tanpa perubahan/risiko baru.
+Actual source gate masih8 gap; patch usulan360/303 lulus pada salinan,
+A menerapkan registry/types/default/global use census. Handoff Claude/penerus
+sudah mencatat PASS, semua sisa B dan batas A. B tidak mengambil berkas A.
+
+
+## 32 — lanjutan terfokus kelayakan checked-save Native5 (24 Okt WIB) [bersama]
+
+Sesudah checkpoint31, B meneruskan sisa OW13c mandiri tanpa mengambil berkas
+A. Source/deklarasi d98051b6, kandidat e94d25075b4770b4c55f48a68eb7cc1252bb2584/
+tree890d052f, run40001211363/job120577462881 sedang berjalan; belum ada hasil.
+Kontrak NEGATIVE_NATIVE_CONTRACT.json SHA49d3694d5b32f8464c86f397d9426e39ed8548af39f4546eadc19b8ca0451e16:
+5 Native=1 jangkar fresh lama (0 kredit baru)+4 negatif produk/policy/bahan/
+kapasitas. Bahan/kapasitas memakai Native group target lain dan Original baru
+UNCHANGED; diharapkan exact40001 shared-material/capacity-used, bukan hanya
+sumber berubah. Produk fixture master admin dilabeli; policy CAS publik.
+Penolakan wajib menjaga baris ERP/stok/uang/HPP dan tidak menambah draft/intent/
+receipt/grup.8 tahap/invers22 dan5 gate paket tetap. Tidak mengulang31/25/19;
+app/stage SQL tetap identik Native31. Tidak menambah bukti race/HTTP/browser/
+skala/after-use/A. WIP unknown, SAVE2000, restore dan integrasi tetap terbuka.
+Parent5/16, fullOW13c/audit/CP7C/production_go tetap tidak diberikan.
+
+
+## 33 — SAVE2000 dan WIP200→201 terfokus disiapkan dari daftar sisa (24 Okt WIB) [bersama]
+
+Selain Native5/e94d2507/run40001211363 yang masih berjalan, B menjalankan
+2 suite terpisah tanpa perubahan aplikasi/SQL. SAVE2000 kandidatfa3375ebd12c52fa45563631d97c41608b960183/
+treeea031f89, run40002041287/job120580374491, Native2=1 jangkar lama+1
+kasus baru,3 fresh UUID pada2000 produk/202000 gerakan sintetis, masing-masing
+whole checkedSAVE<8000ms/statement8s, dua sourcecheck/dua preflight tetap,
+replay tepat/0 Nativeintent/grup/fisik baru. Deklarasi SCALE_NATIVE_CONTRACT
+SHAebe68a4108297b68479ff62d0898ec5979aed9e8c314f5b3b94bcad31ef8183a.
+
+WIP kandidatb543ce0bcb964a4037fc6fb0e6e3a0a8fdc6c4a3/tree3bfeaf2e,
+run40002836272/job120583102547, Native2=1 jangkar lama+1 kasus batas200→201
+posted Native groups. Semua grup baru dari receipt/cut SAVE/POST Native nyata,
+tidak clone. WIP200 COMPLETE lalu201 UNKNOWN/null, sourceARCHIVED_STALE,
+checkedSOURCE_CHANGED40001/0 efek penolakan. Tidak mengklaim unchanged-source
+WIP; model limit200 tetap. Deklarasi WIP_NATIVE_CONTRACT
+SHA0c8e08e97bb36547f279d4f74790f18af0b9405cbe88dcd00f09b926c392d5fa.
+
+Ketiganya belum memiliki hasil. Tetap8 tahap/invers22/5 gate paket; tidak
+mengulang31/25/19 atau menambah kredit jangkar lama. Tidak ada bukti baru
+HTTP/browser/race/after-use/A dari Native-only. Pekerjaan A/default/global
+census, after-use restore, OW11a-b dan bridge3600 masih terbuka, parent5/16.
+
+
+## 34 — Native5/WIP2 PASS; SAVE2000 menemukan batas review jadwal lama (24 Okt WIB) [bersama]
+
+e94d2507/run40001211363/job120577462881 PASS5/5, receiptow13c/e94d250-native5-pass.json.
+b543ce0/run40002836272/job120583102547 PASS2/2, receiptow13c/b543ce0-wip2-pass.json.
+Empat negatif produk/policy/bahan/kapasitas dan WIP200→201 nyata telah teruji;
+bahan/kapasitas benar-benar pada Original baru UNCHANGED, WIP checked stale
+dilabeli tepat.28 sumber/8 invers22/restore/advisor/lima gate paket semua tepat.
+App/SQL identik Native31. Jangkar lama berulang tidak menambah kredit. Semua
+Original/log utuh disimpan, ringkasan saja di repo.
+
+fa3375eb/run40002041287/job120580374491 INCOMPLETE1/2; receiptow13c/fa3375e-scale2-first-incomplete.json.
+Belum mencapai SAVE2000: setup review_work memakai capture supply v1 lama,
+CP7_PLANNING_CAPTURE_INCOMPLETE. Jalur lama1000 produk/50000 gerakan dan
+schedule.save v1 membutuhkan cp7_supply_native.runs. Itu tidak dapat menjadi
+persiapan valid pada2000/202000. B mengerjakan jalur review jadwal dari
+Original bertahap nyata sebagai delta additive terpisah, tanpa mengubah9
+sumber beku, limit lama,8s, jumlah data, hash atau hasil dari fixture. Validator
+kerja/kalender/global WIP lama tetap; akses/UUID/revisi/current-source harus
+teruji. Belum ada perubahan produk baru untuk ini; ketiga run terminal.
+
+A tetap pemilik pemasang/default/tipe/registry/globalcensus; B tidak mengambil
+file A. Registry aktual8 gap dan patch usulan sebelumnya tetap. After-use,
+OW11a-b/bridge3600/rantai penuh/audit belum selesai; parent5/16.
+
+
+## 35 — B menyiapkan review metadata dari job nyata; Native8 aktif (24 Okt WIB) [bersama]
+
+Source39208d09cd8fc5cae61020fe423651a98bd951aa, kandidat6370d29192bc2e2d1efb27941804eb487cf8c276/
+tree9c225527, run40008494076/job120602447065 sedang berjalan. Kontrak8 Native
+SCHEDULE_NATIVE_CONTRACT SHA5ecd8279720aee5f4956751b977f4ba26b26f8497610ff9cb452203845553116.
+Modul cp7_schedule_staged_review,3 privat/2 facade/0 tabel/0 replace Native;
+7 Nativebody pin/11 dependency authority. Derived validator/kalender/WIP/target
+lama, akses/request-global lock/UUID/CAS/history, current-source setelah wait
+serta sumber kerja/akses sesudah tulis. GET memakai Native job.requestUUID
+RUNNING/DONE; DONEkept, asing/FAILEDditolak. CREATEpublic hanya sementara lalu
+kembali tertutup. Invers before-use22/after-use menolak tagcommand immutable
+sebelumDDL;9th stage membungkus8th oracle unchanged via savepoint.8 case:
+catalog, RUNNING SAVE/replay, source stale, foreign/current inactive, revision/
+oldUUID, usedinverse, injectedatomicfault, metadata2000/202000 yang jujur.
+
+Raw history>50000 masih incomplete pada compiler lama; metadata work boleh
+menunjukkanINCOMPLETE/WIPCOMPLETE, tidak menciptakan hasil analisis/kelayakan.
+Native8 ini tidak mengklaimactualcheckedSAVE2000 atau Auth/race/browser/layar.
+Perbaikan history padat utuh bertahap masih perlu sesudah ini. Belum ada
+hasilNative8. Render/Python/scanner lulus;9 cp7-src dan src byte-identik Native31.
+A memegang pemasang/default/globalcensus/tipe/registry; B tidak mengubahnya.
+Facade baru get_staged_production_schedule_v1(p_source_request) dan
+save_staged_production_schedule_v1(p_payload,p_request) belum dipasang default.
+Klien B akan memakai facade sempit sementara, A memasang generator/registry
+setelah bukti cukup.8 gap registry lama tetap; belum ada sourcecallTS baru.
+Parent5/16, fullOW13c/after-use/OW11/bridge3600/A/audit/CP7C tetap OPEN.
+
+
+## 36 — Native8 PASS, pelajaranUTC, Native11 lifecycle berjalan (24 Okt WIB) [bersama]
+
+d85187dc/run40010384850/job120608936647 PASS8/8;32source/9invers22/
+restore/advisor/5gatepaket tepat. Receiptow13c/d85187d-schedule8-pass.json.
+6370d29pertama1/8 danOriginal/logutuh tetap. Fixb508bf77 menstandarkanUTC
+sejakawalseluruhhashmetadata sebelum boundary.data() danrestoreGUC, equality
+semuabaristetap. Append-onlypelajaranWR-METADATA-COMPARE-UTC/E25z diERP_BEST,
+bukan auditindependen. Metadata2000/202000 bukancheckedSAVE2000.
+
+B lanjutNative11:source5656deeb,candidate1eb55680bef0c76fde944fa45fcf7f282b19065f/
+treedb2790c4,run40013059616/job120618058316 masihberjalan. KontrakCONTEXTS
+SHA2b071f05a9abd4e2fb73a5c99b1c355ea54f1b26ddaef6780775adfde6a0453d.
+8IDlama utuh+3DONE/expired/FAILED. ImmutableFAILEDreference bolehmetadata
+kerjahanyajikacurrent/WIPvalid/hakkini; tetapFAILED/historyINCOMPLETE,
+planoptions42501. RUNNING/DONE/FAILEDmemakaikeptguardK2yangsama; expiry7hari
+bukanpolicydikarang, age()negativefixtureK2updated_atsynthetic. Ini mencegah
+racejobrunner menghentikan analisis di tengah formulir tanpa memalsukanDONE.
+PerubahankodeacceptanceFAILED belumqualifiedolehNative8versilama; tunggu11.
+
+Semua9sumberNative danSRC tetap. BbelummengubahUI; Adefault/tipe/registry/
+globalcensus danrantaiA tetapA. DensehistoryactualSAVE2000,Auth/race/browser,
+after-use/OW11/bridge3600/audit/CP7C tetapOPEN;parent5/16.2facadebarureserved
+sama:get_staged_production_schedule_v1(p_source_request) dan
+save_staged_production_schedule_v1(p_payload,p_request), belumdefault.
+
+
+## 37. Native11 PASS; sambungan layar mulai (24 Oktober 2026 WIB)
+
+Kandidat `1eb55680bef0c76fde944fa45fcf7f282b19065f`, run40013059616/job120618058316 PASS11/11; receipt `ow13c/1eb5568-contexts11-pass.json`. Delapan kasus sebelumnya tetap, ditambah DONE, kedaluwarsa DONE, serta FAILED riwayat padat nyata dan kedaluwarsa FAILED. 32 sumber, 9 invers22, restore/advisor/5 gate paket tepat. Original12527881809/315263bytes/SHA6c07edcbc83cab6f4705968ab804b7b1081438f04bc05317a68d78730673ed7c.
+
+B menyambungkan facade jadwal baru ke layar milik B; UUID lama harus tetap menuju facade lama, metadata riwayat INCOMPLETE/FAILED tidak menjadi angka atau DONE. Belum ada bukti baru Auth/browser/race, actual checked SAVE2000, after-use restore, ataupun rantai penuh A. A tetap pemilik installer/default/types/registry/global census. Parent tetap5/16.
+
+
+## 38. Sambungan layar dan Transport10 (24 Oktober 2026 WIB)
+
+B menyambungkan layar jadwal ke reference staged asli, tanpa memaksa job DONE. Payload simpan baru memiliki marker; payload/UUID lama tetap memakai facade lama. LocalStorage sumber baru terpisah dari pemulihan sumber lama. Pending baru baru dihapus sesudah guidance lengkap cocok. Dirty form, current access retirement, held reply, multi-tab, UTC microseconds, customer WIP dan UNKNOWN tetap diuji. 77 uji klien/3 berkas dan TypeScript lulus; receipt `ow13c/STAGED_SCHEDULE_CLIENT_CHECK.json`.
+
+Transport10 dideklarasikan di `ow13c/SCHEDULE_TRANSPORT_CONTRACT.json`: Native1 anchor ulang (kredit baru0), race4/Auth3/browser2 baru. Uji nyata belum selesai. A menambahkan tepat3 pasangan di `STAGED_SCHEDULE_REGISTRY.patch` setelah7+1 pasangan lama; actual source gate masih FAIL11, preview hanya penambahan11 pasangan PASS361 runtime/306 RPC. A shared checker/default/types tidak diubah. Native11 tidak dihitung ulang sebagai bukti transport; actual checked SAVE2000/after-use restore/parent5 dari16 tetap terbuka.
+
+
+## 39. Akses jadwal langsung, browser Entry2 terpisah (24 Oktober 2026 WIB)
+
+Tombol jadwal dipindah ke pilihan periode agar tidak menunggu capture riwayat lama yang dapat menolak data padat. Satu tombol tetap setelah hasil riwayat ada; pending/corrupt riwayat lama tetap mengunci sampai dipulihkan. 108 uji klien/5 berkas dan TypeScript lulus. Review React: import langsung, penyimpanan versi kecil, cleanup event/generasi akses, dependency request→GET yang benar, functional update, fieldset/label dan tidak ada hitungan bisnis baru.
+
+Transport10 kandidatbbe3438c/run40017444415/job120633051970 sedang berjalan, belum hasil. Perubahan tombol langsung sesudahnya mendapat suite Entry2 browser-only dengan source server9 sama, bukan mengulang semua Native/race/Auth. Tidak mengklaim bukti silang kandidat bila source relevan berubah. Parent5/16, actual checked SAVE2000 dan after-use restore tetap terbuka.
+
+
+## 40. Transport10 gagal di identitas salinan; probe diperbaiki (24 Oktober 2026 WIB)
+
+Receipt `ow13c/bbe3438-transport10-first-incomplete.json`: Native anchor PASS,9 skenario transport belum jalan. Setup clone ditolak oracle lama karena database_authority CURRENT berbeda, bukan penolakan akses/data yang boleh diabaikan. New probe lupa memakai wrapper `cp7_ow13a_clone_authority` yang sudah qualified pada Native31. Wrapper yang sama dipasang ke probe transport/entry; tidak mengubah oracle22 atau A harness, SQL produk, akses hosted/primer. Restore/advisor tetap lulus; writer_runtime false dipertahankan.
+
+Ulang Transport10 pada sumber layar terbaru sekaligus menguji akses langsung tanpa capture riwayat lama; Native11/31 tidak perlu diulang. Entry2 yang sudah berjalan dengan probe lama tetap disimpan terpisah; tidak perlu diulang sebagai suite tambahan setelah browser Transport10 terbaru mencakup jalur langsung. 108 uji klien/TypeScript sudah lulus. Parent tetap5/16 dan semua batas acceptance tetap.
+
+
+## 41. Helper bounded history siap uji Native3; transport ulang berjalan (24 Oktober 2026 WIB)
+
+Transport ulang kandidatf1f05b8e/run40018747206/job120637496516 masih berjalan. Entry2 lama3695778b juga tertolak sebelum browser (0/2) oleh identitas salinan; receipt dan Original lengkap disimpan, tidak diulang sendiri. Perbaikan065c4df1 memakai wrapper clone authority lama tanpa mengubah oracle.
+
+B menulis helper stateless `cp7_history_bounded` dari sumber `cp7_reorder_inputs` yang dipin:2 fungsi privat/0 tabel/0 facade/0 replace. Capture Native tetap INCOMPLETE di batas stok lama, input SQL lengkap mempunyai kontrak terpisah dengan status raw tetap. Query periode eksplisit tidak meminjam aturan periode/ROP owner. Tidak membuat job/DONE/kuantitas produksi. Native3 baru dideklarasikan untuk katalog+parity exact,2000 produk sintetis/202000 gerakan tiga pembacaan<8s, dan overflow produk nyata yang tidak boleh diterima. Sepuluh invers22 plus oracle9 lama tetap wajib. Runtime belum dijalankan; staged integration/freshness/checkedSAVE2000 masih sisa. Tidak memasang apa pun ke default A.
+
+
+## 42. Persiapan CI: satu fetch, empat worktree tepat pin (24 Oktober 2026 WIB)
+
+Terukur di retry Transport10: checkout writer20:22:51–20:27:39 (4m48s), harness20:27:57–20:31:52 (3m55s); candidate/base masih perlu checkout sendiri. Tiga workflow B baru diganti dari5 unduhan penuh ke1 checkout auditor dan4 detached worktree writer/harness/candidate/base dengan pin yang identik. Uji lokal nyata membuat keempat worktree, membandingkan setiap head/tree serta status bersih, lalu menghapusnya; receipt `ow13c/PINNED_WORKTREE_CHECK.json`. Tidak mengubah A harness, kode produk, database, atau oracle. Runtime CI baru belum diukur.
+
+Disimpan skipci untuk mencegah ulangan yang tidak perlu. Job aktifTransport10f1f05b8e/run40018747206/job120637496516 dan Native3cd8e37d6/run40020162611 tetap memakai workflow lama masing-masing; kandidat dan bukti tidak berubah. Native11PASS/108clienttests tetap bukti terpisah. Perubahan berikut pada CI yang benar-benar diperlukan akan memakai persiapan baru.
+
+
+## 43. Native3 riwayat besar PASS; perbaikan penolakan simpan pertama (24 Oktober 2026 WIB)
+
+Native3 kandidatcd8e37d6/run40020162611/job120642326384 PASS3/3; receipt `ow13c/cd8e37d-inputs3-pass.json`. Semua36 sumber/10 invers22/legacy9/restore/advisor/5 gate paket tepat.2000 produk sintetis+2 fixture lama,202000 gerakan dibaca penuh tiga kali1413.602/1400.994/1416.235ms, batas tetap8s. Parity input Native tepat dan overflow produk nyata ditolak. Raw status tetapINCOMPLETE, tidak membuatDONE. Freshness lossless raw-stock/staged integration/actualSAVE2000 masih OPEN; parent tetap5/16.
+
+Layar diperbaiki untuk penolakan source/revisi yang pasti pada simpan pertama: request baru itu dilepas, isian tetap ada dan sumber bisa diambil lagi. Setiap error pada retry tetap menyimpan UUID/payload asal; lost reply/auth/request-changed tidak dibersihkan.118 uji klien/5 berkas danTypeScript lulus. Entry2 lanjutan akan menekan SAVE desktop sesudah stok berubah, lalu memeriksa ponsel lost commit/reopen; server9/SQL sama, sehingga tidak perlu mengulang kelompok race/Auth. PersiapanCI memakai satu fetch+empat worktree yang sudah diverifikasi lokal.
+
+
+## 44. Race4/Auth3 PASS; query UI diperbaiki; Reference Native4 siap uji (24 Oktober 2026 WIB)
+
+Transport ulangf1f05b8e/run40018747206/job120637496516 Native1/race4/Auth3 PASS, browser2 INCOMPLETE.32 sumber/9 invers22/6 clone authority/restore/advisor tepat; writer_runtime tetap false. Entry610aa71/run40021901654/job120648270476 browser2 INCOMPLETE sama: CP7_WIP_FIELDS karena UI menambah finance_mode ke query Nativev1 tiga kolom. Bukti lengkap dan raw log disimpan; receiptsf1f05b8-transport-browser-incomplete/610aa71-entry-browser-incomplete.
+
+B mengirim tepat query tiga kolom tersimpan; Native sendiri sudah DEFERRED. UUID/periode tetap, old supply danold SAVE route/payload tidak diubah. Catatan source dengan finance flag tambahan tidak diterima atau dihapus.119 uji klien danTypeScript lulus; browser merekam jawaban request awal agar kegagalan tidak hanya tampak sebagai timeout GET. Ulang hanya Entry2, tidak ulang race/Auth/server32 yang sama. Optimisasi one fetch+4 worktree sudah melewati persiapan Native9 dan32 source gate di CI Entry610aa71; kegagalan UI terjadi sesudahnya.
+
+B mereservasi `cp7_history_reference`:1 fungsi privat/0 facade/0 tabel/0 replace, digest seluruh proyeksi Native rawstock beserta kedua visibility clock. Diperlukan agar perubahan baris yang totalnya kebetulan sama tetap terdeteksi pada reference baru. Native4 baru dideklarasikan (katalog, parity raw Native, dense2000/202000<8s, Native late-recorded physical-backdate); runtime belum jalan.11 invers22+oracle10 wajib tepat. Tidak mengubah sumber Native9/Native3 yang beku dan belum menyambung stagedjob/freshness/SAVE. Parent tetap5/16.
+
+
+## 45. Raw reference Native4 PASS; pengamat browser diperbaiki (24 Oktober 2026 WIB)
+
+Native4 8909b7c/run40024688908/job120657795577 PASS4/4:40 source/11 invers22/legacy10/restore/advisor/5 gate tepat. Full digest202001 baris terlihat2206.968/2213.959/2190.252ms, batas8s. Parity actual raw Native serta late-recorded physical-backdate nyata lulus, tidak mengubah clock/tanggal. Receipt `ow13c/8909b7c-reference4-pass.json`. Belum terpasang di job/freshness/SAVE; parent5/16.
+
+Entry2f10530d/run40024644622/job120657639795 masihINCOMPLETE: pengamat URI menangkap initial_autoENSURE denganp_requestnull dan jawaban200 tanpaalert. Ini jawaban lain pada endpoint sama, bukan hasil formulir. Receipt `ow13c/f10530d-entry2-capture-race.json`. Script kini mengikat observasi ke UUID string+query tiga kolom formulir; tidak mengubah produk atau melonggarkan status/stock/SAVE assertions. Ulang hanya2 browser. Tujuh server race/Auth tetap bukti f1f05b8e yang32 sumbernya sama.
+
+
+## 46. Desktop nyata PASS; tunggu receipt ponsel diperbaiki (24 Oktober 2026 WIB)
+
+Entry2 2cbda77/run40027557172/job120667450842 desktopPASS/mobileINCOMPLETE. Desktop source request/GET+save stale40001+dirty form+new request release+current token denial+1440 geometry berhasil. Mobile test terlalu awal menganggap tombol pending berarti server sudah menjawab; lost.status masihundefined. Fix hanya menunggu response200 yang benar dan tombol retry aktif setelahabort, baru reload/replay. Receipt `ow13c/2cbda77-entry2-one-pass.json` mempertahankan kegagalan,9 invers22/restore/advisor benar dan writer_runtimefalse.
+
+Native3/Native4 tetap bukti komponen terpisah; actualSAVE2000 belum ditutup. Rancangan berikut `ow13c/BOUNDED_STAGE_INTEGRATION.md` memetakan source factory,6 counted function adaptations, real Native jobs, lossless source freshness, lama vs baru, current access/K2/UUID, dan benchmark actual writer. Sumber13th-stage belum ditulis atau qualified; tidak ada batas/status yang dilonggarkan. Parent5/16, A default/types/registry/after-use/full chain tetap A.
+
+
+## 47. Work metadata selesai di checkpoint komponen; integrasi bounded berlanjut (24 Oktober 2026 WIB)
+
+Entry0d1221c/run40029016206/job120672311605 PASS2/2. Desktop source/GET, staleSAVE40001, dirty preservation/new request release/current denial/1440 geometry. Mobile real200 receipt before deliveryabort, reload exactUUID/payload/result replay,1 plan+1command, unchangedstock/money/HPP, oldtokendenied/390 geometry.9 invers22/1 cloneauthority/restore/advisor/5 gate tepat. Original12534072222/42611bytes/SHAb903766a505477653a6fea8b4f75c7342c07b0010db9336f9790bc555c205348. Actual screenshots viewed. `STAGED_WORK_COMPONENT_MATRIX.json` proves backend10 source directories byte-identical acrossNative11/f1 serverrace4Auth3/currentbrowser2. Runs/cases remain separate, overlaps not summed.119clienttests/TypeScript; actualsourcegate still11 known unmergedpairs untilAintegration.
+
+B proceeds with `cp7_bounded_analysis_stage` source-only prototype (8private/0facade/0table/0old replacement yet). Renderer pins four Native factory files and actual current target-unified-2 SupplyFP body, binds full raw digest and producer code, excludesclock/query fromwork hash, captures rawstatus unchanged. SQLscanner/AST/renderpins pass; runtime not run, no installer/job or sixcountedhooks yet. ActualSAVE2000 remainsopen alongwithafter-use/OW11a-b/OW12bbridge3600/Afullchain; parent5/16. Checkpoint doesnotendwork.
+
+
+## 48. Bounded staged job implementation siap diuji (24 Oktober 2026 WIB)
+
+`cp7_bounded_analysis_stage` now13private/1public request/0tables/7counted replacements. Seventh is oldrequest cross-method UUID refusal; planned six otherwise preserved. Source binds qualified full-row digest and actual Native3 inputs at same clock; real Native jobs/units/DONE/pages, full freshness, work current access/CAS/replay, K2. Raw capture remains INCOMPLETE; bounded work responses and immutable receipts explicitly versioned. Strict source pins/ownerACL/catalog admission/inverse-before-DDL and composed11-stage oracle written. Native6 declared, AST/renderpins/PLpgSQLscanner/declaration pass; actualDBqualification pending. No client newmethod credit, no checkedSAVE2000 or after-use/Afullchain credit. A sharedfiles/defaults untouched. Parent5/16; continue after checkpoint.
+
+
+## 49. First bounded Native6 stopped before cases; exact predecessor fixed (24 Oktober 2026 WIB)
+
+Candidate02f9780/run40032347526/job120683412947 INCOMPLETE0/6: stage12installer correctly refused `cp7_analysis_stage.request` because B pinned frozen body instead of admitted OW13a initial_auto-patched body. Original12535473438/31334bytes/SHA62a901733a22e79469604119898a83f8df222ae8065832518dd244886b68ef67 retained; package installed/primary/backuprestore/advisors true, writer_runtimefalse. Fix derives exact old request through unchanged OW13a patcher; preserves its initial_auto branch in old route. New bounded request deliberately derives explicit Nativeq3 body, so cannot dispatch old initial_auto. New controls assert oldSTATUS works/newENSURE refused, without changing six-case budget or prior31/25/19.
+
+Client helpers now139tests/6files+TS PASS. Durable newmethod/UUID/query storage is separate; full retained content compared beforeclear; explicit bounded response/receipt parser cannot relabel old work. UI default still existing method pendingactualDBqualification. Shared checker unchanged; actual source gate12 unmergedpairs, exact12-entry proposal passes362files/307RPC/noorphans/directtables. BOUNDED_ANALYSIS_REGISTRY.patch adds only newfacade pair after prior11. A defaults/types/registry untouched. Native6 rerun only after exact source fix; all other components remain separate evidence, parent5/16.
+
+
+## 50. Admitted analysis-source producer preserved; bounded UI driver145 passed (24 Oktober 2026 WIB)
+
+Native6candidate406dd3a/run40033328699/job120686678633 stillINCOMPLETE0/6, now strict dependency pin on analysis source: OW10 supply stage already adds reorder_supply producer/engine. Request predecessor fix passed; three other source dependencies/sevenexisting predecessor pins passed. Source factory now derives exact current source through unchanged OW10 patcher, preserves producer/engine and extends it only for new bounded schema. Actual body hash92dcec0e7affa781882757dc131851507311be07bd373f2a2eb321ac1be66bd0 matches admitted caller manifest. Original12535613196/31351bytes/SHA10865421d29cba087d753821f878f448e10b0e18fdced3c12e055954ac3e8554 retained;40source/11preuse22, package writer_runtimefalse. New source/derivation pins and SQLscanner pass; no oracle lowered.
+
+Bounded work screen driver now opt-in prop with six additional recovery/route/cross-tab/UUID tests,145clienttests/6files+TS PASS. Parent still selects Native method while actualDBqualification remainsopen. Both old and new pending records keep their original methods; bounded source cleared only after boundguidance; localSAVE method metadata never adds serverpayloadfield. Newmode rawINCOMPLETE with completeSQLcoverage is described honestly. A shared/defaults/types/registry unchanged, exact12-entry preview362/307. Next rerun onlyNative6, then activate parent and actualbrowserproof. Parent5/16, actualSAVE2000 stillopen.
+
+
+## 51. Bounded real Native jobs6 PASS; lanjut actualnewmethod browser2 (24 Oktober 2026 WIB)
+
+Candidate708c4658/run40034224254/job120689628663 PASS6/6, completeOriginal12537065633/203469bytes/SHA1be5ebaa5542e2dd64e8296b2ed1f4aba66f7390b8db55797a43224f216a0beb independentlyverified47sources/12preuse22/restore/advisors/5packagegates. Full dense2000+2existing targets/202000moves/202001visible digest rows realDONE51units: request2830.464ms/maxunit235.238ms, freshchecks1475.131/1446.048/1416.373ms, each8s unchanged. RawNativeINCOMPLETE unchanged, realSQLinputcoverageCOMPLETE, realNative stockchange stales analysis+work, oldhash/legacyinitial_auto/crossmethodUUID/currentaccess/K2/immutablemetadata replay allpass. No computed result/job/hash was inserted to forceDONE. Receipt708c465-bounded6-pass.json; both first0/6failures kept.
+
+Parent now explicitly selects BOUNDED worksource after actualserverPASS; driver147tests/7files including initialintegration+TS PASS. Preparing separate twoactualbrowser journeys with same13private/7existinghooks, real Auth/PostgREST, exact newmethod/coverage/receipt checks; oldbrowser2 remains historicalcomponentproof, never claimednewmethod proof. Afiles/defaults/types/registry untouched. GenuinecheckedSAVE2000/after-use/Afullchain stillopen, parent5/16; checkpoint continues.
+
+
+## 52. Actual SAVE2000 committed fixture predeclared; browser report group correction (24 Oktober 2026 WIB)
+
+Native6 remains qualified708c4658 with exact same47 SQL/module source files. ActualboundedEntry2candidate8748f874/run40035732616/job120694593010 is running. Before its result, B found its final report selector inherited native-only predecessor group despite declaring browser2. Corrected new bounded suites to aggregate exact predeclared REQUIRED groups; local Native6/browser2/committedSAVE2 group-declaration checks pass. Do not relabel currentrun if it reports INCOMPLETE; retain actual browser results and wholepackage status, rerun only after meaningfulfix. No product/source/guard relaxation.
+
+Next actualSAVE2000 contract declares1 repeatedfreshSAVE Nativeanchor (0newcredit)+1single-session committed scale case, NOT a concurrency test (0racecredit). Uses unchanged committed-copy runner/authority replay on named disposablecopy; Native profile/commercial/ACTIVEpolicy writers commit each command so thousands of fixture locks do not accumulate. Explicit P19synthetic daily1 profile+policy assumptions are not factory defaults. Old2k/202000movement fixture size retained; realboundedworkSAVE thenfreshrealstagedDONE;3fresh publiccheckedSAVEUUIDs measured incl2fullsource+2Nativefeasibility checks each8s, exactreplay/noERPstockmoneyHPPeffect required. No runtimeSAVE2000 qualification yet. Ahelpers/harness/shared/defaults untouched, parent5/16.
+
+
+## 53. Bounded desktop/mobile actualPASS; packagecounter0/2 keptINCOMPLETE (24 Oktober 2026 WIB)
+
+Candidate8748f874/run40035732616/job120694593010 actualbrowser2/2PASS: newfacade/explicitcoverage/receipt, desktopstale40001dirtyform/currenttoken/1440; mobileserver200deliveryloss/localmethodBOUNDED/reloadsameUUIDpayloadresult/390. Real Authcleanup restored, source47/preuse12/cloneauthority1/restore/advisors exact. WholepackageINCOMPLETEobserved0/2 andwriter_runtimefalse because finalgroupselector inheritednative-only branch. CompleteOriginal12536574512/43183bytes/SHA80199d62dd9b4a97de29a4fae9c8941a601a68e66f24b86abbe131b4ac0c695f independentlyverified, receipt8748f87-bounded-entry-count-incomplete.json. Countersfixedsource6353bcae usesexactdeclaredREQUIREDgroups; no product change/noassertionlowered. Rerun onlybrowser2 and startseparate committedSAVE2, eachsameNative6-qualified47sourcefiles. No fullpackagegreen claimfromfirstbrowserresult.
+
+
+## 54. Bounded Entry2 dan actual SAVE2000 keduanya PASS (24 Oktober 2026 WIB)
+
+Candidate8f8728bc: Entryrun40036980136/job120698782544 PASS2/2, completeOriginal12537971351/43153bytes/SHA67bc6bc6f4c24646114bb9b2b94ae4240f227c5d89fe0cdc9eaa9d7887ca77c7. Desktop/mobile sourceBOUNDED/coverage/receipt/currenttoken/geometry andcommittedresponse-lossreplay pass; finalcounts2 nowcorrect,1cloneauthority/Authcleanup exact. Firsttotal0/2 kept.
+
+Samecandidate SAVErun40036980183/job120698782481 PASS2/2=oneoldfreshSAVEanchor+oneCOMMITTEDsingle-session scale,0newracecredit. ActualpubliccheckedSAVE2000/202000moves,threefreshUUIDs5354.884/5375.739/5307.551ms each8s, bothfullsource+bothNativefeasibilityinsidewriter, exactfirstUUIDreplay,3drafts3receipts/noNativeintent/group/stockmoneyHPPchange. GenuinepublicNativeprofiles/commercial/ACTIVEpolicies withP19syntheticdaily1 assumptions committedpercommand; notfactorydefaults. RealboundedworkSAVEthenNEWrealstagedDONE. CompleteOriginal12537822746/91324bytes/SHAcfdd7f4f7ec89797c260515de32adccf91512ce592b94c4734153cdb8b601f66.
+
+Bothindependentlyverified47sources/12preuse22/restore/advisors/all5gates,1exactauthoritycloneeach. BOUNDED_COMPONENT_MATRIX proves47backendfiles byte-identical toNative6candidate708c4658. Budgets/runs keptseparate, notsummed. Actual SAVE2000 timing component is nowqualified; fullOW13c/after-use/Afullchain andquantityUInewdriver stillopen, parent5/16. Next BquantityUI avoids oldwhole-netting1000cap, reusesactualNativepagedjobs andexistingcheckedPotonganform withouteditingAsharedanalysisfiles. A mustcomposeoverlappingrequest hook withfinancialbridge/defaultinstallation; currentBstage pinsadmittedinitial_auto+reorder-supply hooks, notAfinancialbridge requestvariant. NoAfiles/Enteng/main touched.
+
+
+## 55. B paged quantity UI159 clienttests PASS; actualbrowser2 prepared (24 Oktober 2026 WIB)
+
+`NativeBoundedQuantityPanel`/`nativeBoundedQuantity` now connect main workpane's new calculation to realboundedrequest+existingget/step/pages/check APIs, replacingoldwhole-netting1000cap fornewactions. Oldnettingpending stillusesoldroute. ImmutableUUID/q/method retained evenDONE forreload; deliberatefreshcalculation atomicallyreplacesfinishedpointer; constructor-onlyknownrefusal allowsdeliberatenewperiod, uncertainreply/403doesnot. Hash/header/page/actor/query/targetcount/microseconds verifiedbyexistingNativeparsers. All-run totalsfromserver;only50visible suggestions andserverpage controls, genuineunknownspreserved, roundup extrasexplicit. ExistingNativePlanDraftPanel reusedwithSTAGEDcontext/requireCurrentSave, noAsharedanalysis/financefileedited.159tests/9files+TS PASS; firsttestwire oversized750targetpage exceeded8MB, fixedcuts500/500/500/500whilekeeping2000targets, no parserlimitrelaxation. NoactualnewquantityUIproofyet.
+
+Actualsourcegate now17knownmissingpairs;exact17-entrypreviewPASS364runtime/312RPC/noorphans/directtables, sharedcheckerunchangedSHAf1148cb... . A applies BOUNDED_QUANTITY_REGISTRY.patch forfiveexistingpage/step/checkpairs AFTERprior12, notduplicateoldpatches. Preparedbrowser2: smallmobilefirst(realboundedworkreviewSAVE→freshquantity→checkedcuttingSAVEreplyloss/reloadexactreconcile), thendesktop2000/202000realDONE/fullreference/rawINCOMPLETE/currentstockfreshness/newUUID, nooldwhole-netting. Smallfirstavoidsunreviewedvolumefixture contaminatingpositivefeasibility. Backend47sourcefilesunchangedfromqualifiedNative6/Entry2/SAVE2. SourceSDKchangesdonotqualifyafter-use/fullAchain/production, parent5/16.
+
+
+## 56. Concrete A composition note; quantity browser2 running (24 Oktober2026 WIB)
+
+`ow13c/INTEGRASI_CLAUDE_BOUNDED.md` now names the exact request conflict between
+bounded stage and OW12b financebridge, preserved initial_auto/finance/methodUUID
+guards, exact17 registry pairs/patch order, A-owned defaults/types and global
+after-use restore acceptance. It does not ask for renewed authorization or
+change A files. Prior design marked historical where results supersede it.
+Quantitycandidate d2fdf31f/run40041003292/job120711808034 remains running; no
+PASS claimed. Current159clientchecks/TS and same47backendfiles unchanged.
+Private archive version30 retains new8fEntry/SAVE completeOriginals/logs and
+quantity client first/final logs, plus exact active-run continuation. Newbrowser
+screenshots not copied into archive. Parent5/16; work continues after save.
+
+
+## 57. Quantity firstOriginal retained; actual Native page argument fixed (24 Oktober2026 WIB)
+
+Candidate d2fdf31f/run40041003292/job120711808034 INCOMPLETE2/2; completeOriginal
+12540075742/44843bytes/SHA99afc83164fe419af58431d9721d7b1441a2c98356aeedd392044c960c032581
+independentlyverified47sources/12preuse22/1exactclone/restore/advisors;
+packagewriter_runtimefalse. BothrealNativejobs progressedtohash/pages but
+PostgREST refused nonexistent namedargumentp_access_epoch. Actual unchanged
+Nativefacade requiresp_access; server/header/page/hash/access code unchanged.
+Regression derives argumentkeys from frozenNativeSQL, firstred1/8 preserved,
+thenfixpasses.160clienttests/10files+TS PASS; demand2suitescheckedseparately.
+
+DirectBuatPotongan entry now openssameboundedquantitydriver asworkpane, retaining
+originalanalysis/archive/oldpendingroute viaexplicitarchivebutton. OldNative31
+browser journeys selectthat originalroute andkeepall assertions; no budget
+changes. Newquantitybrowser2 declareswork→directcutting sameDONEjob/replay
+anddense2000directcuttingentry; terminalpagealerts nowfailimmediatelyinstead
+ofwaiting180s. Freshness/UUID/geometry/physicaleffectsassertions kept. All47
+Native6qualifiedbackendfiles unchanged. Rerunonlyquantitybrowser2 afterfix;
+Aregistry17/defaults/types/after-use/fullchain stillownedA, parent5/16.
+
+
+## 58. Quantity corrected rerun active; separate operational3600 component prepared (24 Oktober2026 UTC)
+
+Quantitycandidate45620dd0/sourcebc93efed/run40042756850/job120717391564
+running, no PASS yet.184 localclienttests/disjoint12files+TS PASS; firstd2f
+Original/log andNativeargfirstred retainedprivatelyversion31. Handoff/A
+composition alreadypushed; exactpublishedcommit synchronizedlocally through
+connector andSHA/tree proof when shellgitfetch approval cancelled, no force.
+
+B prepares separate OW12b OPERATIONAL3600_CONTRACT: oneoldcataloganchor0credit+
+oneNative3600synthetic/363600moves. Old2000fixture and47qualifiedbackendfiles
+unchanged. ReallegacyFAILEDhistory vsnewrealDONE/allpages/threefullfreshness
+checks/actualNativeFGstale; eachrequest/step/check8s unchanged. Bprobe opt-in
+flag defaultfalse andownNative2budget; quantitycandidate remainsfrozenonits
+owncommit. No runtimeproofyet; nofinance/completebefore-result/parity/fullfactory
+orUI/SAVE3600 claim. Afinancialbridge/after-use/globalchain stillownedA,
+OW11a-b remainopen, parent5/16. Nootherwriterfiles/defaults/types edited.
+
+
+## 59. Quantity desktop passes; pending direct recovery and visual QA corrected (24 Oktober2026 UTC)
+
+Candidate45620dd0/run40042756850/job120717391564 INCOMPLETE=1PASSdesktop+
+1INCOMPLETEmobile. CompleteOriginal12540512110/45590bytes/SHA8e6c318b4d8cc4351d83d0de1ecc257a8f2cec16f93fb36bb7906d40dcd5c39b
+independentlyverified47sources/12preuse22/1exactclone/restore/advisors;
+writerruntimefalse. Desktopactual2003targets/directcutting/jobDONE/fullsource
+UNCHANGED→actualNativeFGchange→STALE/newUUID/noeffects/1440width passes. Mobile
+actualcheckedSAVE200SAVED/responseaborted;reloaddirectentrydisabledbyparent
+foreignpendingguardbeforecouldreconcile. No backendfailure ornewSAVEattempt.
+
+ParentConnectedCuttingPage now disablesread/recoveryentryonlywhileactualsendbusy;
+allactualwriters keepglobalwriterLocked. RealsharedhookparentregressionRED1/4
+then62tests/5files+TS PASS, unchangedpendingenvelopeandmainwritersstilllocked.
+ManualdesktopvisualQAfoundinheritedpale8pxtableonwhitehalfwidthcard. Bquantity
+nowloadsownscopedCSS/lightcard/dark14pxvalues/mobilelabelsandoutercardwide;
+nextactualbrowserassertscomputedmainvaluecontrast>=4.5, geometrykept. CSSgate
+passes; noAsharedstyles/checkerschanged. Wholequantity2rerunneeded, nofullclaim.
+Operational3600 run40043712317/job120720445162 stillrunning;same47backend,
+Aafter-use/financebridge/fullchain andOW11a-b open, parent5/16.
+
+
+## 60. Operational3600 component PASS; current handoff separated from history (24 Oktober2026 UTC)
+
+Candidate36444aed/source8cf6f2c2/run40043712317/job120720445162 PASS2/2=
+oldcataloganchor0newcredit+oneoperationalcase. CompleteOriginal12540657975/
+113258bytes/SHAdf4ebe425e879c3c8b89644b1a616f024cc25927a1d30bb4205cca34f5d95804
+independentlyverified47sources/12preuse22/restore/advisors/5gates exact.3602targets,
+76realNativeunits/allpages; request7832.927ms/maxunit454.456ms/freshness4336.496/
+4278.379/4335.070ms.167.073msrequestheadroomonly, noownerlatency/SLAclaim.
+LegacyactualFAILED CP7_PLANNING_CAPTURE_INCOMPLETE;nocompletebeforeparityclaim.
+RawINCOMPLETEpreserved/full363601rowdigest/actualNativeFG=>STALE/noERPanalysiswrite.
+Synthetic360models/3600products/onecopiedsize notfull1200SKU×3factoryshape.
+FinanceDEFERRED/parity/SAVE3600/fullfactory/after-use/Achain allOPEN,parent5/16.
+
+Quantitythirdcandidate5c40e455/sourcea4317635/run40044408796/job120722693609
+stillrunning: pendingdirectrecovery+readablefullwidthquantity/computedcontrast4.5.
+Handoff rewrittenascurrentinstructions/context/rules/verifiedmatrix/opensteps;
+allprevious513lines preservedbyte-for-byte inHISTORI_HANDOFF_PRODUKSI_20261024.md
+withbodySHA. Noownercontext/historyremoved; noAfilesedited. PrivateOriginal/
+logs/validators willberetainedtogethernextcheckpoint. Continueafterpush.
+
+
+## 61. Quantity actual UI2 PASS; continue next B scope (24 Oktober2026 UTC)
+
+Candidate5c40e455/sourcea4317635/run40044408796/job120722693609 PASS2/2.
+CompleteOriginal12540837031/43475bytes/SHA18e4cc936a0ea50c92ffafa8d6053bc17a8338586805a702696b8c885f6d7101
+independentlyverified47samebackend/12preuse22/Authcleanup/clone1/restore/advisors/
+5gates.229clienttests14files+TS/CSS. HP work→quantity→actualcheckedSAVE200reply
+aborted→reloadDirectcutting sameDONEjob/UUID/payload/result,1draft1receipt/no
+ERPstockmoneyHPPchange. Desktop2003targets/202000moves realDONE/rawINCOMPLETE/
+completeSQLcoverage, sourceUNCHANGED→actualNativeFG→STALE/newUUID. Oldnetting0.
+Computedcontrast12.338>=4.5,390/1440nooverflow;bothscreensvisuallychecked.
+Firstd2f and45620failures kept. Publicreceipt+componentmatrix updated; noactiveCI.
+
+Currenthandoff nowopenswithverifiedcheckpoint andnextOW11a-b,profiling3600request
+near8s, Afinancebridge/parity/globalafterusechain. WholeOW13c/OW12b remainOPEN,
+parent5/16, noaudit/production/CP7C claim. B continuesafterpush; allAsharedfiles,
+main/Enteng/frozenversions remainuntouched. Privatearchive32 retains45620+3600;
+newquantityOriginal/log nextwritebacksamearchiveidentity, no screenshotcopy.
+
+
+## 62. OW11 source audit and first private analog candidate prototype (24 Oktober2026 UTC)
+
+AfteractualquantityPASS BcontinuesOW11a/b. `ow11/CONTRACT.md` records actualsource:
+modelkernels/evaluationalreadyexist butautomatic_activation/applyfalse; Native
+registryisTECHNICAL_PROPOSAL, actualcaptureknowledge/chronologicalguardskept.
+Commonbaselinebuild/baseline_rows stillanalognull andneverconsumechosenmodel.
+NoUI-onlymeanreplacementorbackdatedwinningproofallowed; onecommonengine,
+versionedreview/sourcefreshness/UNKNOWN/cadence remainrequired.
+
+`cp7_product_analog_stage` startsprivatepureconsumerprototype:1function/0facade/
+0table/0oldreplacement, noinstaller/connection/UI. Requiresactualboundedinputs;
+minimumdayscomesfromselectedtargetprofile, otherwiseconfigrequired. Samephysical
+size, capturedmodel/brandreasons, Nativeobservedmean/days andfullbeforepagination
+counts, explicitselectedfalse/reviewedfalse/no forecast apply. No inventedscale
+orweightedscore; nofakeavailabletotalfromroundedmean. CountsnormalizeNativeJSON
+numbertointegerstring forpcs. PinnedfourNativefiles/ownSQL, AST/clashscannerpass;
+NO runtimeproofyet. All47qualifiedbackendfilesandAdefault/types/registry unchanged.
+NextactualNativecontrols needprivatecatalog/actualsourcecandidate+pagination/
+source-binding/config/UNKNOWN/size, thensafereview+commonengineintegration.
+OW11notclosed,parent5/16; noactiveCIatthissave.
+
+
+## 63. Private analog Native3 predeclared, no selection/forecast claim (24 Oktober2026 WIB)
+
+BpreparesownNative3suite: exactprivatecatalog/owner/ACL/body and22groups restored;
+actualbounded2000/202000source+onepublicP19selectedprofile fixture, fullcandidate
+count/twopagesunique100/selfexclusion/samephysicalsizereasons/Nativeobservedmean;
+realNativeprofileminimum2against1day=>noreviewablecandidate, page/targetguards.
+Different-sizepositivefixture stillunqualified explicitly; noAuth/publicreader/
+confirmation/forecast/fullOW11credit. PrototypeDDLonlyinsideeachrolledbackNative
+case anddroppedRESTRICT, notdefaultinstalleror13thglobalstage.
+
+`scripts/cp7_ow11_analog_candidates_{cases,probe}.py`, ownANALOG_PRIVATE_CONTRACT
+andworkflow prepared; f05newoptinflagdefaultfalse/ownNative3group leavesold6/31/
+25/19budgets. PinnedSQL/AST/clash/workflow/querychecksPASS; all47qualifiedbackend
+files unchanged. No runtime result yet. Nexttriggeronlythissuite theninspect
+completeOriginal andpreservefirstfailure; finishsize/confirmation/commonengine
+laterbeforeclosingOW11. Parent5/16, Afinancialbridge/afteruse/fullchain stillOPEN.
+
+
+## 64. First analog Native3 retained; Native JSONB helper call corrected (24 Oktober2026 WIB)
+
+Candidate8c1a4bfa/source2027880d/run40047065038/job120731119748 INCOMPLETE:
+1PASSprivatecatalog/2INCOMPLETEreaders. CompleteOriginal12542480098/136079bytes/
+SHAf67da6d6eed5e058785be7e76ecedab3bbe8ca1016cca71a3d3ec8717ddac03a
+independentlyverified47source/12preuse22/restore/advisors; writer_runtimefalse.
+Exactprivatebody/owner/ACL/GUC/22restorationpassed. Bothreads stopped42883:
+cp7_wip.key(text)doesnotexist; NativehelpertakesJSONB. No candidate selected,
+reviewed orapplied, noclaimedreadsuccess, noERP effect.
+
+Fixexplicitto_jsonb(p_target), dependency pin addsactualNativewip/bootstrap.sql;
+Nativekeyfunctionunchanged. Nextcatalogresult includesobservedprototypeManifest.
+Same3casebudget; source/AST/clash pass, all47qualifiedbackendfiles unchanged.
+RerunonlyanalogNative3 onthissource, keepthefirstOriginal/log/fullartifact.
+OW11/fullAchain/afteruse stillOPEN,parent5/16. NoAfiles/defaults/types edited.
+
+
+## Integrator A — penerimaan paket B2bc01b15,24 Oktober2026
+
+Paket B digabung di cabang persiapan terisolasi. Native31, boundedNative6, SAVE2000, layar quantity2 dan operational3600 dibaca dari Original lengkap, bukan dari warna job; hash arsip sesuai receipt. Tidak memberi kredit rantai A atau keuangan pada boundedDEFERRED.
+
+Harness A lama tetap byte-identik. Perluasan probe B ditempatkan di `cp7_b_f05_analysis_probe.py`; fixture WIB B pada `cp7_b_stock_formula_cases.py`, dan seluruh caller B diarahkan eksplisit. Oracle lama tidak dilonggarkan. Endpoint bersama akan ditambahkan sekali sesuai caller nyata. Penggabungan request finance/initial/bounded memakai adapter dan manifest tersendiri, semua sumber server B asal tetap sama. Sesudahnya wajib Native gabungan, global before-DDL used guard dan full backup/restore. `production_go=false`.

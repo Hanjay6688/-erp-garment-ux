@@ -1,0 +1,195 @@
+{
+  "contract": "cp7.writer-component-receipt.v1",
+  "status": "PASS",
+  "candidate": "e94d25075b4770b4c55f48a68eb7cc1252bb2584",
+  "tree": "890d052fcf95ecd7b0052aa9aeca050bd29fa825",
+  "application_source": "5b6ca459f1ea62666384088a2a9855663a1267a2",
+  "run_id": 40001211363,
+  "job_id": 120577462881,
+  "run_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/40001211363",
+  "expected_case_count": 5,
+  "observed_case_count": 5,
+  "groups": {
+    "native": {
+      "PASS": 5
+    }
+  },
+  "predeclared_case_sha256": "49d3694d5b32f8464c86f397d9426e39ed8548af39f4546eadc19b8ca0451e16",
+  "source_files_sha256_matched_candidate": [
+    "scripts/cp7_reorder_inputs/MANIFEST.json",
+    "scripts/cp7_reorder_inputs/__init__.py",
+    "scripts/cp7_reorder_inputs/capture.sql",
+    "scripts/cp7_reorder_inputs/capture_source.py",
+    "scripts/cp7_reorder_inputs/history.sql",
+    "scripts/cp7_reorder_inputs/points.sql",
+    "scripts/cp7_reorder_inputs/read.sql",
+    "scripts/cp7_reorder_inputs/source.sql",
+    "scripts/cp7_reorder_inputs/stock.sql",
+    "scripts/cp7_reorder_reader_stage/MANIFEST.json",
+    "scripts/cp7_reorder_reader_stage/__init__.py",
+    "scripts/cp7_reorder_reader_stage/cache.sql",
+    "scripts/cp7_reorder_caller_stage/MANIFEST.json",
+    "scripts/cp7_reorder_caller_stage/__init__.py",
+    "scripts/cp7_reorder_caller_stage/alert_row.sql",
+    "scripts/cp7_reorder_caller_stage/compute.sql",
+    "scripts/cp7_reorder_caller_stage/evaluate.sql",
+    "scripts/cp7_reorder_caller_stage/fg_source.sql",
+    "scripts/cp7_reorder_caller_stage/item_line.sql",
+    "scripts/cp7_reorder_caller_stage/refresh.sql",
+    "scripts/cp7_reorder_caller_stage/save_manual.sql",
+    "scripts/cp7_reorder_caller_stage/save_settings.sql",
+    "scripts/cp7_reorder_caller_stage/state.sql",
+    "scripts/cp7_reorder_caller_stage/workspace.sql",
+    "scripts/cp7_cutting_checked_save/MANIFEST.json",
+    "scripts/cp7_cutting_checked_save/__init__.py",
+    "scripts/cp7_cutting_checked_save/save.sql",
+    "scripts/cp7_cutting_checked_save/schema.sql"
+  ],
+  "preuse_22_exact_stages": 8,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "native_results": {
+    "OW13C_NATIVE_FRESH_SAVE_REPLAY_AND_NO_PHYSICAL_FACT": {
+      "status": "PASS",
+      "actual_Native_staged_source_preflight_and_writer": true,
+      "exact_UUID_replay": true,
+      "no_stock_money_or_physical_posting": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    "OW13C_NATIVE_CHANGED_PRODUCT_REFUSED_WITHOUT_ORPHAN": {
+      "status": "PASS",
+      "exact_message": "CP7_CUTTING_SUGGESTION_SOURCE_CHANGED",
+      "sqlstate": "40001",
+      "no_new_draft_intent_receipt_or_cutting_group": true,
+      "existing_ERP_rows_stock_money_HPP_unchanged": true,
+      "administrative_product_fixture_deactivated": true,
+      "old_plan_preview_product_refused": true,
+      "source_state": "ARCHIVED_STALE",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    "OW13C_NATIVE_PAUSED_POLICY_REFUSED_WITHOUT_ORPHAN": {
+      "status": "PASS",
+      "exact_message": "CP7_CUTTING_SUGGESTION_SOURCE_CHANGED",
+      "sqlstate": "40001",
+      "no_new_draft_intent_receipt_or_cutting_group": true,
+      "existing_ERP_rows_stock_money_HPP_unchanged": true,
+      "actual_public_policy_CAS_paused": true,
+      "old_plan_preview_policy_refused": true,
+      "source_state": "ARCHIVED_STALE",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    "OW13C_NATIVE_CURRENT_SHARED_MATERIAL_REFUSED_WITHOUT_ORPHAN": {
+      "status": "PASS",
+      "exact_message": "CP7_PLAN_SHARED_MATERIAL_BUDGET_CHANGED",
+      "sqlstate": "40001",
+      "no_new_draft_intent_receipt_or_cutting_group": true,
+      "existing_ERP_rows_stock_money_HPP_unchanged": true,
+      "source_state": "UNCHANGED",
+      "actual_unposted_Native_group_uses_shared_roll": true,
+      "physical_available": "10",
+      "linked_draft_qty": "6",
+      "selected_issued": "6",
+      "free_for_new_plan": "4",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    "OW13C_NATIVE_CURRENT_SHARED_CAPACITY_REFUSED_WITHOUT_ORPHAN": {
+      "status": "PASS",
+      "exact_message": "CP7_PLAN_V2_CAPACITY_USED",
+      "sqlstate": "40001",
+      "no_new_draft_intent_receipt_or_cutting_group": true,
+      "existing_ERP_rows_stock_money_HPP_unchanged": true,
+      "source_state": "UNCHANGED",
+      "actual_other_target_Native_group_uses_shared_centre": true,
+      "capacity_snapshot": "60",
+      "used_by_other_plan": "59",
+      "selected_pcs": "2",
+      "capacity_remaining": "1",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    }
+  },
+  "repeated_positive_anchor_case_credit": 0,
+  "checked_save_races_qualified": false,
+  "checked_save_browser_qualified": false,
+  "caller_backup_restore_qualified": false,
+  "full_OW13c_acceptance": false,
+  "full_A_chain_qualified": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "parent_completed_count": "5/16",
+  "original": {
+    "artifact_id": 12521739632,
+    "file_name": "e94d250-native5-complete.zip",
+    "bytes": 179180,
+    "sha256": "b42ba42ce073ee44cda15050f9f9104939595a6ab406f090cd8c6c1054a3adc3",
+    "complete_report_preserved": true
+  },
+  "new_negative_case_count": 4,
+  "remaining": [
+    "WIP boundary suite pending",
+    "Actual checked SAVE2000 setup failed before SAVE; retained old source refuses large input",
+    "After-use backup/restore",
+    "A integration/default/registry/types/global use census/full chain"
+  ]
+}

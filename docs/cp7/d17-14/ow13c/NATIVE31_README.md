@@ -1,6 +1,36 @@
-# Native31: v7 30/31; perbaikan pesan sedang dikualifikasi
+# Native31 —31/31 PASS pada a15054c2
 
-**Status terkini,24 Oktober2026 WIB.** df6bd877/tree55ee4091 pada
+**Hasil terbaru terverifikasi,24 Oktober2026 WIB:** kandidat
+a15054c290802420adaa8a4dd64217380d5ebbcb/tree63918f4b,
+[run39996465132](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39996465132)
+/job120561154474 selesai PASS31/31:15 Native,8 race,4 Auth dan4 browser.
+[Receipt](a15054c-native31-pass.json). Seluruh31 ID/status/deklarasi SHA
+tepat;28 sumber cocok dengan kandidat,8 invers22 dan10 authority salinan
+tepat. Restore/advisor dan kelima gate paket lulus.160 uji klien/12 berkas,
+TypeScript serta scanner SQL lulus pada kandidat yang sama.
+
+Volume sintetis2000 produk/202000 gerakan4728/1799/1743ms PASS; statement8s,
+kedua hangat≤3000ms dan seluruh data tetap. Desktop pesan sumber berubah,
+HP hilang-jawaban/ordinary reopen dan3 kasus stok tengah malam semuanya PASS.
+Kode aplikasi5b6ca459; fix waktu fixture1ba69eaa menjaga hari/jumlah/oracle
+serta penolakan masa depan. REST uji16.1/Postgres17.6.1.165, bukan bukti
+versi hosted. Original lengkap405514bytes/SHAf13916ab59a182d92be39633e05ffe54f7afd7267fc5714ad1d3ee19f7b34a52
+dan raw job log dipertahankan; screenshot tetap artefak GitHub.
+
+**Tidak menambah butir induk selesai:** parent5/16, fullOW13c/A chain/
+independent audit/CP7C/production_go belum diberikan. Sisa: kelayakan negatif
+jalur checked selain stok yang sudah terbukti, SAVE2000/8s, pemulihan setelah
+receipt/caller dipakai dan integrasi A. Seluruh25/19 lama berada dalam31;
+jangan menjumlahkan sebagai75 kontrol berbeda atau mengulang demi hijau.
+
+**Riwayat16a0aeb0:** run39993639712/job120551431684 INCOMPLETE28/31,
+13 Native/7 race/4 Auth/4 browser PASS; seluruh12 checked-save baru lulus.
+Volume7710/2952/2943ms PASS. Tiga kontrol OW10 berhenti pada contoh stok
+08:00WIB saat runtime00:23–00:27WIB: Native menolak masa depan. Fix contoh
+positif ke00:00 pada hari yang sama; default contoh lain tetap08, tidak
+menjepit tanggal/clock atau melewati Native. [Receipt immutable](16a0aeb-native31-28-clock.json).
+
+**Riwayat V7 sebelum perbaikan jam fixture,24 Oktober2026 WIB.** df6bd877/tree55ee4091 pada
 [run39945772181](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39945772181)
 /job120387939390 selesai INCOMPLETE30/31: Native15/15, race8/8, Auth4/4,
 browser3/4. Volume2000/202000 lulus7589/2831/2851ms dengan batas8s/3s
@@ -22,8 +52,8 @@ Reproduksi lokal pertama2FAIL/7PASS, sesudahnya29/29 pada3 berkas,
 
 Kandidat16a0aeb0270eed29239668a94678c59221507e46/tree3c312602,
 [run39993639712](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/39993639712)
-/job120551431684 sedang berjalan; hasil belum tersedia. Jangan mengalihkan
-PASS parsial/hasil kandidat lama menjadi hasil31 kandidat ini.
+/job120551431684 kemudian selesai28/31 karena jam fixture, sebagaimana
+receipt dan penjelasan di atas. Hasil itu tidak dilabel ulang PASS.
 
 
 Kontrak `NATIVE31_CONTRACT.json` dideklarasikan sebelum eksekusi. Seluruh

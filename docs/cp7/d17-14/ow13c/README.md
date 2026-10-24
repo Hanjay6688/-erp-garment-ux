@@ -1,14 +1,16 @@
-# OW13c — saran potong, checkpoint Native31
+# OW13c — checkpoint Native31 lulus; fitur penuh masih terbuka
 
-**Belum OW13c selesai.** Native25 a3bf8842 lulus25/25; Native31 V7
-df6bd877 selesai30/31 (15 Native/8 race/4 Auth/3 browser PASS).
-Volume dan pemulihan HP lulus; desktop gagal pada pesan penolakan yang
-tertutup pesan umum. Perbaikan5b6ca459 lulus160 uji klien dan TypeScript;
-kandidat16a0aeb0 sedang diuji31 pada run39993639712/job120551431684.
-[Status/bukti lengkap31](NATIVE31_README.md). Catatan di bawah menjelaskan
-kontrak/riwayat awal, bukan menggantikan hasil terbaru ini.
+**Native31 PASS31/31 padaa15054c2**, run39996465132/job120561154474:
+15 Native/8 race/4 Auth/4 browser.160 uji klien/12 berkas, TypeScript,
+28 source hash,8 invers22,10 authority, restore/advisor/lima gate paket
+tepat. Volume2000/202000 4728/1799/1743ms, batas8s/3s tetap.
+[Receipt PASS](a15054c-native31-pass.json), [riwayat lengkap](NATIVE31_README.md).
+Pesan source berubah dan pemulihan HP lulus; tiga contoh stok yang tadinya
+08:00 masih masa depan pada uji tengah malam diperbaiki ke00:00 pada hari
+yang sama, tanpa perubahan penjaga Native/jumlah/oracle. Parent tetap5/16;
+ini bukti komponen, belum fullOW13c/komposisi A/audit/production_go.
 
-**Riwayat implementasi awal.**
+**Riwayat implementasi awal:**
 Run Native25 pertama bf98947e membuktikan6 kasus baru (4 Native/2 Auth) PASS,
 tetapi satu volume ROP lama timeout8detik:24/25, paket INCOMPLETE. Bukti di
 [receipt pertama](bf98947-first-native25-24.json).11 SQL lokal,91 klien/DOM pada8 berkas, TypeScript serta
@@ -58,24 +60,82 @@ menolak sebelum DDL. DROP menggunakan RESTRICT, bukan menghapus dependen lain.
 A menambah pasangan source/RPC `src/nativeCuttingSuggestion.ts` →
 `erp_cp7_save_cutting_suggestion_v1` pada registry dan generator tipe. B memakai
 tipe facade sempit sementara di berkasnya sendiri; tidak mengubah tipe/bundle/
-registry bersama. Gerbang sumber bersama belum dinyatakan lulus. Sembilan SQL
+registry bersama. [Patch satu pasangan](SHARED_REGISTRY.patch) disiapkan;
+`git apply --check` lulus pada B. Tujuh pasangan lama memakai patch OW13a,
+bukan ditumpuk dengan patch enam pasangan OW16. Pemeriksa sumber yang sama
+pada salinan sementara dengan tepat8 entri tambahan lulus360 berkas/303 jalur;
+[receipt](SHARED_REGISTRY_CHECK.json). Pemeriksa bersama di repo tetap gagal8
+pasangan sampai A mengintegrasikannya; ini bukan gerbang rantai A yang lulus. Sembilan SQL
 dasar dan pemeriksa owning sumber tetap tepat; A saja penggabung.
 
-## Bukti yang masih wajib
+## Bukti yang ada dan yang masih wajib
 
-- Native: data/plan/target/quantity dari perjalanan sebenarnya; angka sama
-  dengan panel, stale/produk nonaktif/policy/WIP unknown/bahan/kapasitas berubah
-  menolak dengan0 efek; rencana arsip lama tetap kontraknya.
-- Dua backend: UUID sama, dua revisi bersaing, stok/bahan/kapasitas berubah dan
-  revoke setelah lock wait; tidak ada draf/receipt yatim.
-- Auth/PostgREST asli, desktop1440/HP390, waktu WIB, period/target eksplisit,
-  jumlah yang diedit, hilang jawaban dan buka ulang di halaman rencana biasa.
-- Komposisi dependensi terhadap rantai A, installer/invers22 Native dan penolakan
-  setelah pakai, backup/restore caller yang sudah dipakai, source gate bersama.
-- Waktu satu SAVE aktual di bawah batas8detik, termasuk dua pemeriksaan sumber
-  penuh. Belum ada angka Native untuk jalur ini; jangan menaikkan batas agar
-  lulus. Pabrik3600 tetap OW12b, terpisah dari Native19 sintetis.
+Lanjutan24 Okt: [Native5 e94d2507](e94d250-native5-pass.json) PASS5/5
+(jangkar lama+4 negatif produk/policy/bahan/kapasitas), dan
+[WIP Native2 b543ce0](b543ce0-wip2-pass.json) PASS2/2 (jangkar lama+1 batas
+200→201 grup posted Native nyata, tanpa clone). Keduanya28 sumber/8 invers22/
+restore/advisor/5 gate paket tepat. Bahan/kapasitas memakai Original baru
+UNCHANGED sehingga benar-benar menolak kelayakan. WIP201 UNKNOWN/null dibuktikan
+preview lama, checked menolak sumber berubah; tidak mengklaim unchanged-source
+WIP. Jangkar berulang tidak menambah kredit. Tidak mengulang31/25/19.
 
-Native19 yang telah lulus tetap kandidat d5997235 tersendiri, bukan bukti untuk
-kode OW13c baru ini. Seluruh backlog tetap lingkup; parent5/16, tidak ada
-CP7C/production_go/audit independen dari checkpoint ini.
+[SAVE2000 pertama fa3375eb](fa3375e-scale2-first-incomplete.json) INCOMPLETE1/2:
+penyimpanan belum tercapai, sebab persiapan memakai capture supply lama dan
+menerima CP7_PLANNING_CAPTURE_INCOMPLETE pada2000/202000. Sumber supply lama
+berbatas1000 produk/50000 gerakan; current schedule review masih bergantung
+pada handle itu. Perbaikan perlu jalur review jadwal dari sumber bertahap yang
+nyata dan lengkap, bukan menaikkan batas lama/memalsukan hash/mengecilkan data.
+B belum memperoleh angka waktu SAVE2000;8s tetap. Original/log kegagalan utuh
+tersimpan. Tidak ada job lama yang masih berjalan atau perlu diulang.
+
+Native31 membuktikan fresh SAVE/UUID replay/0 efek stok-uang-fisik, sumber
+stok berubah ditolak, UUID lama tidak dilabel ulang, used-receipt menahan
+invers sebelum DDL;4 race checked-save (UUID/revisi/stok/akses setelah wait),
+Auth asli dan2 perjalanan checked desktop/HP.19 kontrol caller lama juga
+lulus. Lihat receipt untuk31 ID tepat; bukti ini tidak mencakup seluruh
+kualifikasi aplikasi dari awal sampai akhir.
+
+Yang masih terbuka sesuai daftar awal:
+
+- Negatif produk/policy/bahan/kapasitas dan WIP sumber berubah telah terbukti
+  sesuai batas bukti di atas. Jalur WIP unknown dengan sumber UNCHANGED tidak
+  diklaim. Kontrak preview/apply lama tetap.
+- Waktu SAVE aktual dengan2000 produk di bawah8detik termasuk kedua
+  pemeriksaan sumber penuh; volume caller2000 yang sudah lulus bukan ini.
+- Backup/restore caller/receipt yang sudah dipakai, dengan UUID/history,
+  data/owner/ACL/katalog tetap; base package restore bukan after-use proof.
+- Komposisi A/default installer, global use census, source registry/generated
+  types dan rantai gabungan. Patch/receipt registry sudah tersedia di atas.
+- Factory3600/angka keuangan resmi tetap OW12b, terpisah dari proof ini.
+
+FullOW13c/CP7C/audit independen/production_go dan kenaikan parent5/16 tidak
+diberikan oleh checkpoint31. Jangan mengulang19/25/31 lama demi angka hijau.
+
+
+## Lanjutan review jadwal: Native8 komponen PASS
+
+[d85187dc](d85187d-schedule8-pass.json),run40010384850/job120608936647
+PASS8/8,32 sumber/9 invers22/restore/advisor/5 gate paket tepat. Modul
+`cp7_schedule_staged_review` menyimpan metadata dari job nyata RUNNING, UUID/
+revisi/hak kini/source/atomicfault danmetadata2000/202000 terbukti.0 perubahan
+9 sumber lama/0 tabel/0 penggantianNative. Status riwayatINCOMPLETE tidak
+menjadiCOMPLETE atau hasil produksi. ActualcheckedSAVE2000 tetap OPEN.
+
+[6370d29 pertama](6370d29-schedule8-first-incomplete.json)1/8 tetap disimpan.
+Pembanding menghitung hash timestamptz sebelum boundary.snapshot mengubah
+GUC keUTC, lalu membandingkan dengan hashUTC sesudahnya. Fixb508bf77 menyamakan
+UTC sejak awal/restoreGUC, tetap membandingkan semua baris/hash dan menambah
+diff bila gagal. Semua delapan kontrol kemudianPASS; bukan oracle dilonggarkan.
+Layar/newAuth/race/current-wait/DONE-retention/FAILED context/defaultA belum
+terbukti dari suiteNative-only ini.1 positive no-write yang dahulu tertahan
+sekarangPASS; seluruhOriginal/rawlog tetap tersedia.
+
+
+**Quantity actualbrowser2 PASS**, candidate5c40e455/sourcea4317635,
+run40044408796/job120722693609. Receipt5c40e45-quantity2-pass.json:2/2,
+47qualifiedbackendfilesunchanged/12preuse22/Authcleanup/1exactcloneauthority/
+restore/advisor/all5gates,229clienttests14files+TS/CSS. HPexactjob/UUID/payload/
+result recovery after200replyloss viaDirectcutting,1draft1receipt/noERP effects.
+Desktop2003targets/202000moves fullNativeDONE/rawINCOMPLETE+derivedcoverage,
+actualFGsourcechange=>STALE/newUUID. Realcontrast12.338 and390/1440nooverflow;
+screensviewed. Firstd2f+45620Originals kept. FullOW13c/afteruse/Achain stillOPEN.

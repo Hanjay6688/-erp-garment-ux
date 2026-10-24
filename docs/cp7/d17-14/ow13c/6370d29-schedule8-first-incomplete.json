@@ -1,0 +1,88 @@
+{
+  "contract": "cp7.writer-component-receipt.v1",
+  "status": "INCOMPLETE",
+  "candidate": "6370d29192bc2e2d1efb27941804eb487cf8c276",
+  "tree": "9c2255274b09a53ec46b505918c754f23173ed30",
+  "run_id": 40008494076,
+  "job_id": 120602447065,
+  "expected_case_count": 8,
+  "observed_case_count": 8,
+  "groups": {
+    "native": {
+      "PASS": 1,
+      "INCOMPLETE": 7
+    }
+  },
+  "predeclared_case_sha256": "5ecd8279720aee5f4956751b977f4ba26b26f8497610ff9cb452203845553116",
+  "source_files_sha256_matched_candidate": [
+    "scripts/cp7_reorder_inputs/MANIFEST.json",
+    "scripts/cp7_reorder_inputs/__init__.py",
+    "scripts/cp7_reorder_inputs/capture.sql",
+    "scripts/cp7_reorder_inputs/capture_source.py",
+    "scripts/cp7_reorder_inputs/history.sql",
+    "scripts/cp7_reorder_inputs/points.sql",
+    "scripts/cp7_reorder_inputs/read.sql",
+    "scripts/cp7_reorder_inputs/source.sql",
+    "scripts/cp7_reorder_inputs/stock.sql",
+    "scripts/cp7_reorder_reader_stage/MANIFEST.json",
+    "scripts/cp7_reorder_reader_stage/__init__.py",
+    "scripts/cp7_reorder_reader_stage/cache.sql",
+    "scripts/cp7_reorder_caller_stage/MANIFEST.json",
+    "scripts/cp7_reorder_caller_stage/__init__.py",
+    "scripts/cp7_reorder_caller_stage/alert_row.sql",
+    "scripts/cp7_reorder_caller_stage/compute.sql",
+    "scripts/cp7_reorder_caller_stage/evaluate.sql",
+    "scripts/cp7_reorder_caller_stage/fg_source.sql",
+    "scripts/cp7_reorder_caller_stage/item_line.sql",
+    "scripts/cp7_reorder_caller_stage/refresh.sql",
+    "scripts/cp7_reorder_caller_stage/save_manual.sql",
+    "scripts/cp7_reorder_caller_stage/save_settings.sql",
+    "scripts/cp7_reorder_caller_stage/state.sql",
+    "scripts/cp7_reorder_caller_stage/workspace.sql",
+    "scripts/cp7_cutting_checked_save/MANIFEST.json",
+    "scripts/cp7_cutting_checked_save/__init__.py",
+    "scripts/cp7_cutting_checked_save/save.sql",
+    "scripts/cp7_cutting_checked_save/schema.sql",
+    "scripts/cp7_schedule_staged_review/MANIFEST.json",
+    "scripts/cp7_schedule_staged_review/__init__.py",
+    "scripts/cp7_schedule_staged_review/render.py",
+    "scripts/cp7_schedule_staged_review/review.sql"
+  ],
+  "preuse_22_exact_stages": 9,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "first_failure": {
+    "code": "STAGED_SCHEDULE_GET_WROTE_DATA",
+    "affected_cases": [
+      "OW13C_SCHEDULE_NATIVE_RUNNING_SAVE_REPLAY",
+      "OW13C_SCHEDULE_NATIVE_STALE_REFUSED",
+      "OW13C_SCHEDULE_NATIVE_FOREIGN_AND_CURRENT_ACCESS",
+      "OW13C_SCHEDULE_NATIVE_REVISION_AND_OLD_UUID",
+      "OW13C_SCHEDULE_NATIVE_USED_INVERSE_BEFORE_DDL",
+      "OW13C_SCHEDULE_NATIVE_ATOMIC_METADATA_FAULT",
+      "OW13C_SCHEDULE_NATIVE_METADATA2000_HISTORY_INCOMPLETE_HONEST"
+    ],
+    "location": "prepare()->metadata() before/after GET",
+    "diagnosis": "Private metadata timestamp hashes were calculated before boundary.snapshot data() selected UTC the first time; next hash used UTC. Fix normalizes all hashes to UTC then restores original session timezone, retains full equality and adds differences. No passing no-write result inferred until new Native run."
+  },
+  "fix_source": "b508bf773eb31fc4dce55ef855fb30858a8cd1fa",
+  "original": {
+    "artifact_id": 12524559646,
+    "file_name": "6370d29-schedule8-first-complete.zip",
+    "bytes": 247589,
+    "sha256": "d96e548d35d711b027cdf8ca5521d2e57beceb181420ff1becc51106876aa5e0",
+    "complete_report_preserved": true
+  },
+  "actual_checked_SAVE2000_qualified": false,
+  "full_OW13c_acceptance": false,
+  "full_A_chain_qualified": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

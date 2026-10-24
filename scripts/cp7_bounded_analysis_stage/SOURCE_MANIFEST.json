@@ -1,0 +1,41 @@
+{
+  "contract": "cp7.bounded-analysis-source-prototype.v1",
+  "native_files_sha256": {
+    "supply-source.sql": "4b7683a2219f2d500fa7259f49c376d515d9847a3d3434545e751797bb5f1b1e",
+    "schedule-scenario.sql": "b1e79a087e52b750b5209387874069d463624856fa1d689b11609a835f94babe",
+    "netting.sql": "cf044584c3e5f47993804c7759f74b0a0249551a86cf9de4d916efd7f17df5f7",
+    "analysis.sql": "885f72eb5dbafaf90d591aadb9758cbbdc66698cabc7267eb74c901349950a01",
+    "analysis-stages.sql": "df00590019a580c36efb585e3b0cbb2582c9f5690b7b951ba6bb3836f2cc884d"
+  },
+  "native_dependencies": {
+    "cp7_supply_native.source_parts_within(integer)": {
+      "body_sha256": "6eaa200cb64ac5202c1b1920caa386d4e774927cbc56b3251f4022c904679d4f",
+      "owner": "cp7_capture"
+    },
+    "cp7_schedule_native.source_within(integer)": {
+      "body_sha256": "ed640edd9b108db957c874d49c5ba50f4b1173c1a5e95388529b00153e8f524e",
+      "owner": "cp7_capture"
+    },
+    "cp7_netting_native.source_within(integer,integer)": {
+      "body_sha256": "9741986ad2eb13a4e59fdb53254875195ae799fa83898925214686b397f3ef6a",
+      "owner": "cp7_capture"
+    },
+    "cp7_analysis_native.source_within(integer,integer)": {
+      "body_sha256": "92dcec0e7affa781882757dc131851507311be07bd373f2a2eb321ac1be66bd0",
+      "owner": "cp7_capture"
+    },
+    "cp7_supply_native.fingerprint(jsonb)": {
+      "body_sha256": "b48259722443efbb11146f2677e0c8588fbd717aee525ac34adee6ba40ddf7ef",
+      "owner": "cp7_capture"
+    }
+  },
+  "runtime_qualified": false,
+  "public_facades": 0,
+  "old_replacements": 0,
+  "sql_sha256": "2d1b11e14d9ac960b5c2adf94dbeb6e5c93c76c02d84bf5944622fcb7ec36a44",
+  "current_supply_fingerprint_file_sha256": "3357b81418aca17f16d67a1e1fd08c37db7fb84fcdb0f7adb56c5da503368271",
+  "admitted_supply_source_files_sha256": {
+    "cp7_reorder_supply/patches.py": "f20648cc797e94acf6ceaf2e8c24d9674c13f3936ab71611bdefb0a99ba92d2c",
+    "cp7_reorder_supply/MANIFEST.json": "b787eb0be1fee9a73781c54e134022af914320281c95bef284efc02031e35bbf"
+  }
+}

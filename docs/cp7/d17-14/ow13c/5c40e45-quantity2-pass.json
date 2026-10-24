@@ -1,0 +1,113 @@
+{
+  "contract": "cp7.bounded-quantity-ui-component-pass.v1",
+  "candidate": "5c40e455e39755600d434c671c9525093afc60ae",
+  "tree": "8d03be2dc0196ca230a929a35cc2efeede047ff3",
+  "source": "a43176357578f93b159de63b30f5fc7206eb44a7",
+  "run_id": 40044408796,
+  "job_id": 120722693609,
+  "status": "PASS",
+  "expected": 2,
+  "observed": 2,
+  "counts": {
+    "browser": {
+      "PASS": 2
+    }
+  },
+  "totals_match": true,
+  "source_files_exact": 47,
+  "same47backend_as_Native6_Entry2_SAVE2_Operational3600": true,
+  "preuse22_exact": 12,
+  "clone_authorities": 1,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "declaration_sha256": "d22e2a031452088d7719ac4c73902e6d52fd6e9b4e7c3251fefba45d56ca4c3c",
+  "original": {
+    "artifact_id": 12540837031,
+    "bytes": 43475,
+    "sha256": "18e4cc936a0ea50c92ffafa8d6053bc17a8338586805a702696b8c885f6d7101"
+  },
+  "full_artifact": {
+    "artifact_id": 12539959794,
+    "bytes": 2888076,
+    "sha256": "de8ba44b18ecad91f5f4b560161d39b5c0ddc669049c8e7c6b332da02f6f7cb7"
+  },
+  "complete_original_independently_checked": true,
+  "actual_quantity_UI_component_qualified": true,
+  "actual_browser_results": {
+    "OW13C_QUANTITY_MOBILE_CHECKED_SAVE_REPLY_RECOVERY": {
+      "status": "PASS",
+      "actual_Auth_PostgREST_browser": true,
+      "real_Native_job_DONE": true,
+      "source_method": "BOUNDED",
+      "old_whole_netting_call_count": 0,
+      "expected_targets": 2,
+      "large_2000_products_202000_movements": false,
+      "raw_history_INCOMPLETE_preserved": false,
+      "actual_stock_change_and_new_UUID": false,
+      "checked_SAVE_lost_reply_exact_UUID_payload_result_recovery": true,
+      "direct_cutting_entry": true,
+      "direct_cutting_reuses_same_job": true,
+      "no_client_money_HPP_or_stock_effect": true,
+      "no_horizontal_overflow": true,
+      "table_value_contrast": 12.338097631837336,
+      "table_values_contrast_at_least4_5": true,
+      "viewport": 390,
+      "shots": [
+        "cp6-proof/t3/QUANTITY_SMALL_MOBILE_REVIEWED.png"
+      ],
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    "OW13C_QUANTITY_DESKTOP_DENSE2000_PAGED_FRESHNESS": {
+      "status": "PASS",
+      "actual_Auth_PostgREST_browser": true,
+      "real_Native_job_DONE": true,
+      "source_method": "BOUNDED",
+      "old_whole_netting_call_count": 0,
+      "expected_targets": 2003,
+      "large_2000_products_202000_movements": true,
+      "raw_history_INCOMPLETE_preserved": true,
+      "actual_stock_change_and_new_UUID": true,
+      "checked_SAVE_lost_reply_exact_UUID_payload_result_recovery": false,
+      "direct_cutting_entry": true,
+      "direct_cutting_reuses_same_job": false,
+      "no_client_money_HPP_or_stock_effect": true,
+      "no_horizontal_overflow": true,
+      "table_value_contrast": 12.338097631837336,
+      "table_values_contrast_at_least4_5": true,
+      "viewport": 1440,
+      "shots": [
+        "cp6-proof/t3/QUANTITY_LARGE_DESKTOP_REVIEWED.png"
+      ],
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    }
+  },
+  "client_tests": 229,
+  "client_test_files": 14,
+  "typescript": "PASS",
+  "css_ownership_stylesheets": 64,
+  "desktop_and_mobile_screenshots_visually_inspected": true,
+  "minimum_table_value_contrast": 12.338097631837336,
+  "first_failures_retained": [
+    "d2fdf31-quantity-first-incomplete.json",
+    "45620dd-quantity-mobile-recovery-incomplete.json"
+  ],
+  "after_use_restore_qualified": false,
+  "full_OW13c_acceptance": false,
+  "full_A_chain_qualified": false,
+  "production_go": false
+}

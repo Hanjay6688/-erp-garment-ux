@@ -12,7 +12,7 @@ import time
 import uuid
 import psycopg
 import cp7_wa_forward_cases as retained
-import cp7_stock_formula_cases as formula
+import cp7_b_stock_formula_cases as formula
 
 b, auth, master = formula.b, formula.auth, formula.master
 CONTRACT = 'cp7.ow14b.fabric-rule.v1'

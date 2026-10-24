@@ -1,0 +1,30 @@
+{
+  "contract": "cp7.bounded-stage-first-incomplete.v1",
+  "candidate": "02f9780cfa08406ec6c586bd87d49e3faec9198f",
+  "run_id": 40032347526,
+  "job_id": 120683412947,
+  "source": "1effa39dc37d69a599496663191a52f50666ae59",
+  "status": "INCOMPLETE",
+  "expected": 6,
+  "observed": 0,
+  "error": "BOUNDED_ANALYSIS_PREDECESSOR_CHANGED: cp7_analysis_stage.request(jsonb,uuid)",
+  "first_failure_preserved": true,
+  "cause": "Existing request is the OW13a initial_auto-patched body; new stage incorrectly pinned the older frozen request body.",
+  "fix": "Derive exact admitted request through unchanged OW13a patcher for old-route adaptation/inverse; derive new request only from explicit Native three-field request so new facade cannot dispatch legacy initial_auto.",
+  "original": {
+    "artifact_id": 12535473438,
+    "bytes": 31334,
+    "sha256": "62a901733a22e79469604119898a83f8df222ae8065832518dd244886b68ef67"
+  },
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "cp6_restored": null,
+  "advisor_gate": null,
+  "actual_checked_SAVE2000_qualified": false,
+  "production_go": false
+}

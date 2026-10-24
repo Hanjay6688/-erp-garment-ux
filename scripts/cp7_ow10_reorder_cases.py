@@ -9,7 +9,7 @@ from time import monotonic, sleep
 import json
 import uuid
 import psycopg
-import cp7_stock_formula_cases as formula
+import cp7_b_stock_formula_cases as formula
 import cp7_ow10_supply_cases as supply
 from cp7_ow04_restore_bundle import _catalog_rows
 from cp7_ow10_reorder_probe import MODULES
@@ -35,7 +35,9 @@ INSTALL_STATES, REORDER_STATES = {}, {}
 
 
 def configured(cur, today, subject=None, stock=4, daily='2', stock_day=None):
-    f = formula.item(cur, today, stock, stock_day=stock_day)
+    # A same-day positive stock fixture must be valid even just after WIB
+    # midnight. Keep its day/quantity and the Native no-future guard unchanged.
+    f = formula.item(cur, today, stock, stock_day=stock_day, stock_hour=0 if stock_day == today else 8)
     subject = subject or master.role_actor(cur, 'OWNER')
     p = supply.retained.profile.payload(cur, f, daily_pcs=daily,
                                        minimum_available_days='14', buffer_days='2')
@@ -129,7 +131,7 @@ def cases(cur, today):
     def stale():
         f, _ = current_job(cur, today)
         assert row(cur, f)['wip_pcs'] == '7'
-        formula.found(cur, f, today, 1)
+        formula.found(cur, f, today, 1, hour=0)
         formula.compute(cur)
         e = row(cur, f)
         assert e['free_pcs'] == '1' and e['wip_status'] == 'UNKNOWN' and e['wip_pcs'] is None, e
@@ -149,7 +151,7 @@ def cases(cur, today):
         f, _ = configured(cur, today)
         first, second = snapshot(cur), snapshot(cur)
         assert second['cache_hit'] is True and second['threshold_hash'] == first['threshold_hash']
-        formula.found(cur, f, today, 1)
+        formula.found(cur, f, today, 1, hour=0)
         latest = snapshot(cur)
         assert latest['cache_hit'] is True and latest['points'] == first['points']
         target = next(x for x in latest['current_stock'] if x['root_id'] == f['product'])

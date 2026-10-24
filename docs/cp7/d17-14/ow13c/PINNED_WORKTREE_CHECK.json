@@ -1,0 +1,47 @@
+{
+  "status": "PASS",
+  "exact_commits": [
+    {
+      "name": "writer",
+      "commit": "ca7f09556397801c50a2277bdb65b1bf019f9a05",
+      "tree": "5b5f12c5ef50b646c84a5e41cf8e02b394912325",
+      "clean": true,
+      "independent_index": true
+    },
+    {
+      "name": "harness",
+      "commit": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+      "tree": "b14b6ed3cf686eba34f68883ae4129ebba132a2b",
+      "clean": true,
+      "independent_index": true
+    },
+    {
+      "name": "candidate",
+      "commit": "25fa4736329e5148dfdb3572bc169952cba23251",
+      "tree": "a5cb1e43d776a9ffc058f99c8d5c96ac7f6a9c0d",
+      "clean": true,
+      "independent_index": true
+    },
+    {
+      "name": "base",
+      "commit": "1bdca3766f7c9800d68295ff5122798060b8a05d",
+      "tree": "334629c626257b8b713826f491cdf62385d5299b",
+      "clean": true,
+      "independent_index": true
+    }
+  ],
+  "test_worktrees_removed": 4,
+  "network_fetches": 0,
+  "contract": "cp7.pinned-ci-worktree-check.v1",
+  "workflow_paths": [
+    ".github/workflows/cp7-ow13c-schedule-transport.yml",
+    ".github/workflows/cp7-ow13c-schedule-entry.yml",
+    ".github/workflows/cp7-ow13c-history-inputs.yml"
+  ],
+  "old_network_checkouts": 5,
+  "new_network_checkouts": 1,
+  "CI_runtime_not_yet_measured": true,
+  "product_code_changed": false,
+  "A_harness_changed": false,
+  "production_go": false
+}

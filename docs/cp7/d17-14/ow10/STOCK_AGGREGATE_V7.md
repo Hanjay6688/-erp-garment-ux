@@ -1,12 +1,13 @@
-# V7 — volume Native lulus; paket31 masih30/31
+# V7 — Native31 PASS31/31; seluruh data dan batas tetap
 
-**Hasil aktual df6bd877/tree55ee4091:** run39945772181/job120387939390,
-volume2000 produk/202000 gerakan7589/2831/2851ms PASS, batas8s dan kedua
-hangat≤3000ms tetap. Native15/15, race8/8, Auth4/4 dan browser3/4;
-paket INCOMPLETE30/31 karena pesan layar desktop, bukan volume.
-[Receipt](../ow13c/df6bd87-native31-30.json). Perbaikan pesan5b6ca459,
-kandidat16a0aeb0/run39993639712 sedang dikualifikasi31. Semua angka melekat
-pada kandidatnya; tidak ada klaim SLA hosted atau seluruh pabrik.
+**Hasil terbaru a15054c2/tree63918f4b:** run39996465132/job120561154474,
+Native31 PASS31/31. Volume sintetis2000 produk/202000 gerakan4728/1799/
+1743ms, statement8s dan dua hangat≤3000ms tetap.28 source hash/8 invers22/
+10 authority/restore/advisor/lima gate tepat.
+[Receipt](../ow13c/a15054c-native31-pass.json). Ini bukan SAVE2000 atau SLA
+hosted/factory3600. Sebelumnya df6bd87730/31 karena pesan layar,16a0aeb0
+28/31 karena jam positif fixture08:00 yang masih masa depan saat00:23WIB;
+kedua volume V7 tetap PASS dan seluruh bukti pertama dipertahankan.
 
 **Riwayat alasan dan pembanding V7:**
 

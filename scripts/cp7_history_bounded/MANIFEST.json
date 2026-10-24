@@ -1,0 +1,28 @@
+{
+  "contract": "cp7.bounded-history-stage.v1",
+  "source_files_sha256": {
+    "read.sql": "494adccc0273a659856f06c6e6956de022c247a7644f5538e7c646659e241201",
+    "capture.sql": "a4921aa90111709dfbde026e6b98beb6d977dcd46d212d3cc0fbd97a159f7e78",
+    "history.sql": "7aa729ada06c2b93ada2b89e04e5cabb219a498fdca48ab6cdcc5d3a2b65660d",
+    "stock.sql": "4cbc58de2cdd3a0af85b7ab09a84c22568a8e36cfcfd96a57a1691b4dabed1b2"
+  },
+  "dependencies": {
+    "cp7_reorder_inputs.capture_baseline(integer)": {
+      "body_sha256": "a844c34afedd37c21696341889a273de9ba794e774dbdc6766bbe089034c4c53",
+      "owner": "cp7_capture"
+    },
+    "cp7_reorder_inputs.history(jsonb,jsonb)": {
+      "body_sha256": "eacb00a524065f78f3f84976957fc740e5fba3bbc777d3878b17f5c9ecbea1d9",
+      "owner": "cp7_capture"
+    },
+    "cp7_reorder_inputs.stock_summary(jsonb,timestamp with time zone,jsonb)": {
+      "body_sha256": "6ec94545b7c45cc108bcd2ee1b78e6a4d7ee05ed09b1e1db6ac4ed1fb6411d2a",
+      "owner": "cp7_capture"
+    },
+    "cp7_reorder_inputs.current_stock(jsonb,jsonb,text)": {
+      "body_sha256": "a6b6258b3f176ef508abcce84ff06c4c2f6b0349719ddd90e5d88be79a7fad6a",
+      "owner": "cp7_capture"
+    }
+  },
+  "sql_sha256": "211086cc47a58149083ae862329fc9c77cb67ff02009b5041e1ff91707586790"
+}

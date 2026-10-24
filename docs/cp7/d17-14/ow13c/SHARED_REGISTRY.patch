@@ -1,0 +1,6 @@
+--- a/scripts/check-source-ownership.mjs
++++ b/scripts/check-source-ownership.mjs
+@@ -387,2 +387,3 @@
+   'src/useLaundryQcWorkspace.ts:erp_search_laundry_bs_products_v1',
++  'src/nativeCuttingSuggestion.ts:erp_cp7_save_cutting_suggestion_v1',
+ ].sort(), 'Browser RPC ownership drift')

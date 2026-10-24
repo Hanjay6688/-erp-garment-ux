@@ -1,0 +1,72 @@
+{
+  "contract": "cp7.ow13c.staged-schedule-contexts.v1",
+  "expected_case_count": 11,
+  "required_case_counts": {
+    "native": 11
+  },
+  "required_case_ids": {
+    "native": [
+      "OW13C_SCHEDULE_NATIVE_PRIVATE_CATALOG22",
+      "OW13C_SCHEDULE_NATIVE_RUNNING_SAVE_REPLAY",
+      "OW13C_SCHEDULE_NATIVE_STALE_REFUSED",
+      "OW13C_SCHEDULE_NATIVE_FOREIGN_AND_CURRENT_ACCESS",
+      "OW13C_SCHEDULE_NATIVE_REVISION_AND_OLD_UUID",
+      "OW13C_SCHEDULE_NATIVE_USED_INVERSE_BEFORE_DDL",
+      "OW13C_SCHEDULE_NATIVE_ATOMIC_METADATA_FAULT",
+      "OW13C_SCHEDULE_NATIVE_METADATA2000_HISTORY_INCOMPLETE_HONEST",
+      "OW13C_SCHEDULE_NATIVE_DONE_CONTEXT_SAVE",
+      "OW13C_SCHEDULE_NATIVE_DONE_EXPIRED_CONTEXT_REFUSED",
+      "OW13C_SCHEDULE_NATIVE_FAILED_HISTORY_METADATA_ONLY_AND_EXPIRED"
+    ]
+  },
+  "public_rpcs": [
+    "erp_cp7_get_alerts_v1",
+    "erp_cp7_get_wa_settings_v1",
+    "erp_cp7_save_wa_settings_v1",
+    "erp_cp7_set_wa_key_v1",
+    "erp_cp7_send_wa_test_v1",
+    "erp_cp7_resolve_wa_dispatch_v1",
+    "erp_cp7_get_fg_reorder_v1",
+    "erp_cp7_refresh_fg_reorder_v1",
+    "erp_cp7_save_fg_reorder_manual_v1",
+    "erp_cp7_save_stock_formula_settings_v1",
+    "erp_cp7_get_material_reorder_v1",
+    "erp_cp7_refresh_material_reorder_v1",
+    "erp_cp7_save_material_reorder_v1",
+    "erp_cp7_request_staged_analysis_v1",
+    "erp_cp7_get_staged_analysis_v1",
+    "erp_cp7_step_staged_analysis_v1",
+    "erp_cp7_get_planning_profiles_v1",
+    "erp_cp7_save_planning_profile_v1",
+    "erp_cp7_capture_baseline_v1",
+    "erp_cp7_save_cutting_suggestion_v1",
+    "erp_cp7_get_staged_production_schedule_v1",
+    "erp_cp7_save_staged_production_schedule_v1"
+  ],
+  "schedules": [
+    "erp-wa-collect",
+    "erp-wa-send",
+    "erp-wa-analysis"
+  ],
+  "retained_native8_exact": true,
+  "new_native_cases": [
+    "OW13C_SCHEDULE_NATIVE_DONE_CONTEXT_SAVE",
+    "OW13C_SCHEDULE_NATIVE_DONE_EXPIRED_CONTEXT_REFUSED",
+    "OW13C_SCHEDULE_NATIVE_FAILED_HISTORY_METADATA_ONLY_AND_EXPIRED"
+  ],
+  "required_preuse22_stages": 9,
+  "expected": {
+    "DONE": "real completed compiler reference supports work metadata",
+    "expired": "K2 exact CP7_ANALYSIS_RESULT_EXPIRED for GET and SAVE",
+    "FAILED": "real step failed CP7_PLANNING_CAPTURE_INCOMPLETE; unchanged retained reference allows work metadata only; job stays FAILED; plan options42501; expires by same K2"
+  },
+  "synthetic_control": "Only K2 age() changes the finish timestamp to exercise expiry; physical dates and DB clock unchanged",
+  "actual_checked_SAVE2000_qualified": false,
+  "full_OW13c_acceptance": false,
+  "full_A_chain_qualified": false,
+  "production_go": false,
+  "checked_save_races_qualified": false,
+  "checked_save_browser_qualified": false,
+  "caller_backup_restore_qualified": false,
+  "limits_raised": false
+}

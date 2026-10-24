@@ -1,0 +1,66 @@
+{
+  "contract": "cp7.analog-private-first-incomplete.v1",
+  "candidate": "8c1a4bfa0ad047469dadb094de2c06af4a8ee8b3",
+  "tree": "8101c0376accb896fd383141a298b59d0f6a8cc7",
+  "source": "2027880d26803bf49eb8fb439195eb8618772765",
+  "run_id": 40047065038,
+  "job_id": 120731119748,
+  "status": "INCOMPLETE",
+  "expected": 3,
+  "observed": 3,
+  "counts": {
+    "PASS": 1,
+    "INCOMPLETE": 2
+  },
+  "source_files_exact": 47,
+  "preuse22_exact": 12,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "declaration_sha256": "28063f319c71f5c208a87a9a4f8c2581973f0e9b098fb5721e0ccfd411a2ae91",
+  "prototype_manifest": {
+    "contract": "cp7.product-analog-candidates.prototype.v1",
+    "sql_sha256": "c0b194308fb8f33063cddb467b491822b3f77e6a804caf003ea7a7289619268c",
+    "private_functions": 1,
+    "public_facades": 0,
+    "new_tables": 0,
+    "old_replacements": 0,
+    "selected": false,
+    "reviewed": false,
+    "forecast_applied": false,
+    "runtime_qualified": false,
+    "default_installed": false,
+    "production_go": false,
+    "dependency_files_sha256": {
+      "cp7_bounded_analysis_stage/stage.sql": "3d24ce30e643c60d965601eacfb5ae407da10b58e2fd638ff7116d7dd3f4b24c",
+      "cp7_reorder_inputs/capture.sql": "a4921aa90111709dfbde026e6b98beb6d977dcd46d212d3cc0fbd97a159f7e78",
+      "cp7-src/demand/history.sql": "01c0fb8c51758e933c2f43079690a8a9e99e96d7346cb018ee916077bd7260c8",
+      "cp7-src/demand/estimate.sql": "c17c125d5139f06ce5a3ea9fd4ff15d32f5fc8952a73270a526913f18a5ff2f2"
+    }
+  },
+  "original": {
+    "artifact_id": 12542480098,
+    "bytes": 136079,
+    "sha256": "f67da6d6eed5e058785be7e76ecedab3bbe8ca1016cca71a3d3ec8717ddac03a"
+  },
+  "full_artifact": {
+    "artifact_id": 12541888229,
+    "bytes": 1737183,
+    "sha256": "c2357ea0ce0bba940d57dd9406f1b98b69c6beb969ab8b5382cc2b37b3927618"
+  },
+  "complete_original_independently_checked": true,
+  "cause": "New private consumer passed typed text p_target to Native cp7_wip.key(jsonb). Catalog case passed; both reader cases stopped42883 before candidate output.",
+  "correction": "Explicit to_jsonb(p_target), plus pin actual Native wip/bootstrap.sql helper ABI. Add observed prototype manifest to next catalog result. No helper/guard/limit changed.",
+  "private_catalog_case_pass": true,
+  "candidate_reader_qualified": false,
+  "full_OW11_acceptance": false,
+  "after_use_restore_qualified": false,
+  "full_A_chain_qualified": false,
+  "production_go": false
+}

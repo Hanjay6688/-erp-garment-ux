@@ -1,0 +1,41 @@
+{
+  "contract": "cp7.writer-component-receipt.v1",
+  "status": "INCOMPLETE",
+  "candidate": "bbe3438c8977239dd7a3d36b52bf570708a30b77",
+  "tree": "ff9bdcb97770615b4c99c50ff58d30dec927d5dc",
+  "run_id": 40017444415,
+  "job_id": 120633051970,
+  "expected_case_count": 10,
+  "observed_case_count": 1,
+  "groups": {
+    "native": {
+      "PASS": 1
+    },
+    "races": {},
+    "http": {},
+    "browser": {}
+  },
+  "failure": "Exact 22-group predecessor oracle rejected the template copies CURRENT database_authority before transport cases could run; new entry probes omitted existing cp7_ow13a_clone_authority wrapper.",
+  "transport_cases_executed": 0,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "original": {
+    "artifact_id": 12529950784,
+    "bytes": 90180,
+    "sha256": "122f48b51b9cb27f17741c9b29ce4462d2a3a787e642c53820fa3ec7354494d9",
+    "file_name": "bbe3438-transport10-first-complete.zip",
+    "complete_report_preserved": true
+  },
+  "unchanged_legacy_oracle": true,
+  "no_source_ERP_or_A_harness_modifications": true,
+  "full_OW13c_acceptance": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

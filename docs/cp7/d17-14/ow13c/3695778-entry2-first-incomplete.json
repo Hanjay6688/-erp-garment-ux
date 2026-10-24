@@ -1,0 +1,25 @@
+{
+  "contract": "cp7.writer-component-receipt.v1",
+  "status": "INCOMPLETE",
+  "candidate": "3695778bef3f0cd707cb2af294ecd82e782fc0eb",
+  "tree": "6e37d5e64e55e9663d7b353bff84bbecfd3dc880",
+  "run_id": 40018149533,
+  "job_id": 120635465863,
+  "expected_case_count": 2,
+  "observed_case_count": 0,
+  "browser_error": "OW13A_LEGACY_ORACLE_NOT_EXACT_PREDECESSOR_22: {'database_authority': ['CURRENT']}",
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_writer_runtime": false,
+  "original": {
+    "artifact_id": 12529931730,
+    "bytes": 42007,
+    "sha256": "214ec7864a3f4c8877cb124d9f6be82273e7ec4d03785a718b6ab0ecf5a6c23c",
+    "file_name": "3695778-entry2-first-complete.zip",
+    "complete_report_preserved": true
+  },
+  "followup": "Fixed existing exact-authority clone wrapper in065c4df1. Combined Transport10 retry sourcef1f05b8e includes direct entry; no separate Entry2 retry.",
+  "full_OW13c_acceptance": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

@@ -1,0 +1,86 @@
+{
+  "contract": "cp7.bounded-entry-component-pass.v1",
+  "candidate": "8f8728bcef357c4ea0d752b920efefb172750835",
+  "tree": "ff1abbe0da7ee8c43834e5f3d2a7d224563dcc23",
+  "source": "6353bcaebef0c78bb5533fe49bde62234eb11710",
+  "run_id": 40036980136,
+  "job_id": 120698782544,
+  "status": "PASS",
+  "expected": 2,
+  "observed": 2,
+  "counts": {
+    "browser": {
+      "PASS": 2
+    }
+  },
+  "totals_match": true,
+  "source_files_exact": 47,
+  "preuse22_exact": 12,
+  "clone_authorities": 1,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "declaration_sha256": "5df7eb1f8459bd76b3bb447183dae4ba4cf3121d9df09a3a1de28de4b6f8b39c",
+  "original": {
+    "artifact_id": 12537971351,
+    "bytes": 43153,
+    "sha256": "67bc6bc6f4c24646114bb9b2b94ae4240f227c5d89fe0cdc9eaa9d7887ca77c7"
+  },
+  "complete_original_independently_checked": true,
+  "component_qualified": true,
+  "after_use_restore_qualified": false,
+  "full_OW13c_acceptance": false,
+  "full_A_chain_qualified": false,
+  "production_go": false,
+  "actual_new_method_work_browser_qualified": true,
+  "actual_browser_results": {
+    "OW13C_BOUNDED_ENTRY_DESKTOP_STALE_DIRTY": {
+      "status": "PASS",
+      "actual_Auth_PostgREST_browser": true,
+      "viewport": 1440,
+      "no_horizontal_overflow": true,
+      "dirty_form_stale_refusal": true,
+      "first_confirmed_refusal_releases_only_new_request": true,
+      "lost_committed_response_same_UUID_reopen": false,
+      "current_token_denied": true,
+      "shots": [
+        "cp6-proof/t3/SCHEDULE_DESKTOP_REVIEWED.png"
+      ],
+      "production_quantity_claim": false,
+      "source_method": "BOUNDED",
+      "explicit_bounded_coverage_and_receipt": true,
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    "OW13C_BOUNDED_ENTRY_MOBILE_LOST_REPLY": {
+      "status": "PASS",
+      "actual_Auth_PostgREST_browser": true,
+      "viewport": 390,
+      "no_horizontal_overflow": true,
+      "dirty_form_stale_refusal": false,
+      "first_confirmed_refusal_releases_only_new_request": false,
+      "lost_committed_response_same_UUID_reopen": true,
+      "current_token_denied": true,
+      "shots": [
+        "cp6-proof/t3/SCHEDULE_MOBILE_REVIEWED.png"
+      ],
+      "production_quantity_claim": false,
+      "source_method": "BOUNDED",
+      "explicit_bounded_coverage_and_receipt": true,
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    }
+  }
+}

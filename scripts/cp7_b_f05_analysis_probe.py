@@ -39,7 +39,15 @@ def verify(cur):
  f03.cutting_correction.verify(cur)
  return dict(stage='EXPLICIT_F03_COMBINED_DEVELOPMENT_STACK',source_sha256=hashlib.sha256(bundle.bundle().encode()).hexdigest(),full_family_acceptance=False)
 
-def run(attention=False,p18_e01=False,rule_lifecycle=False,source_navigation=False,misc_correction=False,payment_correction=False,supplier_payment_correction=False,return_correction=False,sales_chain=False,cutting_correction=False,fabric_recipe=False,fabric_physical=False,fabric_reminder=False,p19_load=False,p19_transport=False,p19_scale=False,p19_staged=False,p19_plan_v2=False,p19_report_v2=False,p19_ai_v2=False,p19_reminder_v2=False,pl5_history_yield=False,k2_retention=False,k3_cleanup=False,k4_runner=False,k6_proof_runner=False,wa_forward=False,ow13_complete_history=False,ow16_status=False,ow14b_rules=False,ow13a_initial=False,ow10_supply=False,ow10_reorder=False,ow13c_checked=False,ow13c_journeys=False):
+def bounded_group_names(required):
+ # New bounded suites use their exact predeclared group budget. A browser
+ # extension must not inherit the predecessor's native-only total selector.
+ if not required or not set(required)<= {'native','browser','committed'}:
+  raise ValueError('BOUNDED_PREDECLARED_GROUP_CHANGED')
+ return tuple(required)
+
+
+def run(attention=False,p18_e01=False,rule_lifecycle=False,source_navigation=False,misc_correction=False,payment_correction=False,supplier_payment_correction=False,return_correction=False,sales_chain=False,cutting_correction=False,fabric_recipe=False,fabric_physical=False,fabric_reminder=False,p19_load=False,p19_transport=False,p19_scale=False,p19_staged=False,p19_plan_v2=False,p19_report_v2=False,p19_ai_v2=False,p19_reminder_v2=False,pl5_history_yield=False,k2_retention=False,k3_cleanup=False,k4_runner=False,k6_proof_runner=False,wa_forward=False,ow13_complete_history=False,ow16_status=False,ow14b_rules=False,ow13a_initial=False,ow10_supply=False,ow10_reorder=False,ow13c_checked=False,ow13c_journeys=False,ow13c_negatives=False,ow13c_scale=False,ow13c_wip=False,ow13c_schedule=False,ow13c_schedule_contexts=False,ow13c_schedule_transport=False,ow13c_schedule_entry=False,ow13c_history_inputs=False,ow13c_history_reference=False,ow13c_bounded_stage=False,ow13c_bounded_entry=False,ow13c_bounded_save=False,ow13c_quantity=False,ow12b_operational3600=False,ow11_analog_candidates=False):
  # B-owned additional netting assertions belong only to B's explicit harness.
  # The A trigger guard still verifies both original predecessor files byte for byte.
  import cp7_b_planning_netting_cases as b_netting
@@ -56,7 +64,22 @@ def run(attention=False,p18_e01=False,rule_lifecycle=False,source_navigation=Fal
  assert not ow10_reorder or ow10_supply,'OW10_REORDER_REQUIRES_GLOBAL_SUPPLY'
  assert not ow13c_checked or ow10_reorder,'OW13C_CHECKED_RETAINS_NATIVE19'
  assert not ow13c_journeys or ow13c_checked,'OW13C_JOURNEYS_RETAINS_NATIVE25'
- initial_states={};reorder_states={};checked_state={}
+ assert not ow13c_negatives or(ow13c_checked and not ow13c_journeys),'OW13C_NEGATIVES_REQUIRES_OWN_NATIVE5_BUDGET'
+ assert not ow13c_scale or(ow13c_checked and not ow13c_journeys and not ow13c_negatives),'OW13C_SCALE_REQUIRES_OWN_NATIVE2_BUDGET'
+ assert not ow13c_wip or(ow13c_checked and not ow13c_journeys and not ow13c_negatives and not ow13c_scale),'OW13C_WIP_REQUIRES_OWN_NATIVE2_BUDGET'
+ assert not ow13c_schedule or(ow13c_checked and not any((ow13c_journeys,ow13c_negatives,ow13c_scale,ow13c_wip))),'STAGED_SCHEDULE_REQUIRES_OWN_NATIVE8_BUDGET'
+ assert not ow13c_schedule_contexts or(ow13c_checked and not any((ow13c_journeys,ow13c_negatives,ow13c_scale,ow13c_wip,ow13c_schedule))),'STAGED_CONTEXTS_REQUIRES_OWN_NATIVE11_BUDGET'
+ assert not ow13c_schedule_transport or(ow13c_checked and not any((ow13c_journeys,ow13c_negatives,ow13c_scale,ow13c_wip,ow13c_schedule,ow13c_schedule_contexts))),'STAGED_TRANSPORT_REQUIRES_OWN_TEN_CASE_BUDGET'
+ assert not ow13c_schedule_entry or ow13c_schedule_transport,'DIRECT_ENTRY_REQUIRES_STAGED_TRANSPORT_INSTALL'
+ assert not ow13c_history_inputs or(ow13c_checked and not any((ow13c_journeys,ow13c_negatives,ow13c_scale,ow13c_wip,ow13c_schedule,ow13c_schedule_contexts,ow13c_schedule_transport))),'BOUNDED_INPUTS_REQUIRES_OWN_NATIVE3_BUDGET'
+ assert not ow13c_history_reference or ow13c_history_inputs,'HISTORY_REFERENCE_REQUIRES_BOUNDED_INPUT_PREDECESSOR'
+ assert not ow13c_bounded_stage or ow13c_history_reference,'BOUNDED_STAGE_REQUIRES_REFERENCE_PREDECESSOR'
+ assert not ow13c_bounded_entry or ow13c_bounded_stage,'BOUNDED_ENTRY_REQUIRES_REAL_BOUNDED_STAGE'
+ assert not ow13c_bounded_save or(ow13c_bounded_stage and not ow13c_bounded_entry),'BOUNDED_SAVE_REQUIRES_OWN_COMMITTED_BUDGET'
+ assert not ow13c_quantity or(ow13c_bounded_stage and not(ow13c_bounded_entry or ow13c_bounded_save)),'BOUNDED_QUANTITY_REQUIRES_OWN_BROWSER_BUDGET'
+ assert not ow12b_operational3600 or(ow13c_bounded_stage and not(ow13c_quantity or ow13c_bounded_entry or ow13c_bounded_save)),'OPERATIONAL3600_REQUIRES_OWN_NATIVE_BUDGET'
+ assert not ow11_analog_candidates or(ow13c_bounded_stage and not(ow12b_operational3600 or ow13c_quantity or ow13c_bounded_entry or ow13c_bounded_save)),'ANALOG_PRIVATE_REQUIRES_OWN_NATIVE3_BUDGET'
+ initial_states={};reorder_states={};checked_state={};staged_schedule_state={}
  fabric_any=fabric_recipe or fabric_physical or fabric_reminder
  candidate=bundle;case_provider=history_cases;checker=verify;extra='';expected=154;out=OUT;phase='cp7_f05_analysis';browser_script='cp7_f05_analysis_browser.mjs'
  if p19_transport:
@@ -192,6 +215,86 @@ def run(attention=False,p18_e01=False,rule_lifecycle=False,source_navigation=Fal
        expected=case_provider.EXPECTED;assert expected==case_provider.DECLARED==31
        out=OUT.with_name('CP7_OW13C_CHECKED_JOURNEYS.json');phase='cp7_ow13c_checked_journeys'
        browser_script='cp7_ow13c_checked_browser.mjs'
+      if ow13c_negatives:
+       import cp7_ow13c_checked_negatives_cases as case_provider
+       expected=case_provider.EXPECTED;assert expected==case_provider.DECLARED==5
+       out=OUT.with_name('CP7_OW13C_CHECKED_NEGATIVES.json');phase='cp7_ow13c_checked_negatives'
+      if ow13c_scale:
+       import cp7_ow13c_checked_scale_cases as case_provider
+       expected=case_provider.EXPECTED;assert expected==case_provider.DECLARED==2
+       out=OUT.with_name('CP7_OW13C_CHECKED_SCALE.json');phase='cp7_ow13c_checked_scale'
+      if ow13c_wip:
+       import cp7_ow13c_checked_wip_cases as case_provider
+       expected=case_provider.EXPECTED;assert expected==case_provider.DECLARED==2
+       out=OUT.with_name('CP7_OW13C_CHECKED_WIP.json');phase='cp7_ow13c_checked_wip'
+      if ow13c_schedule or ow13c_schedule_contexts or ow13c_schedule_transport or ow13c_history_inputs:
+       import cp7_ow13c_schedule_cases as case_provider
+       staged_schedule_legacy_checker=checker
+       def checker(cur):
+        from cp7_ow13c_schedule_probe import verify_composed as verify_staged_schedule
+        return verify_staged_schedule(cur,staged_schedule_legacy_checker,staged_schedule_state)
+       expected=case_provider.EXPECTED;assert expected==case_provider.DECLARED==8
+       out=OUT.with_name('CP7_OW13C_STAGED_SCHEDULE.json');phase='cp7_ow13c_staged_schedule'
+       if ow13c_schedule_contexts:
+        import cp7_ow13c_schedule_contexts_cases as case_provider
+        expected=case_provider.EXPECTED;assert expected==case_provider.DECLARED==11
+        out=OUT.with_name('CP7_OW13C_STAGED_CONTEXTS.json');phase='cp7_ow13c_staged_contexts'
+       if ow13c_schedule_transport:
+        import cp7_ow13c_schedule_transport_cases as case_provider
+        expected=case_provider.EXPECTED;assert expected==case_provider.DECLARED==10
+        out=OUT.with_name('CP7_OW13C_STAGED_TRANSPORT.json');phase='cp7_ow13c_staged_transport'
+        browser_script='cp7_ow13c_schedule_browser.mjs'
+        if ow13c_schedule_entry:
+         import cp7_ow13c_schedule_entry_cases as case_provider
+         expected=case_provider.EXPECTED;assert expected==case_provider.DECLARED==2
+         out=OUT.with_name('CP7_OW13C_STAGED_ENTRY.json');phase='cp7_ow13c_staged_entry'
+         browser_script='cp7_ow13c_schedule_entry_browser.mjs'
+       if ow13c_history_inputs:
+        import cp7_ow13c_history_inputs_cases as case_provider
+        bounded_history_legacy_checker=checker
+        def checker(cur):
+         from cp7_ow13c_history_inputs_probe import verify_composed as verify_bounded_history
+         return verify_bounded_history(cur,bounded_history_legacy_checker,bounded_history_state)
+        expected=case_provider.EXPECTED;assert expected==case_provider.DECLARED==3
+        out=OUT.with_name('CP7_OW13C_BOUNDED_INPUTS.json');phase='cp7_ow13c_bounded_inputs'
+        if ow13c_history_reference:
+         import cp7_ow13c_history_reference_cases as case_provider
+         history_reference_legacy_checker=checker
+         def checker(cur):
+          from cp7_ow13c_history_reference_probe import verify_composed as verify_history_reference
+          return verify_history_reference(cur,history_reference_legacy_checker,history_reference_state)
+         expected=case_provider.EXPECTED;assert expected==case_provider.DECLARED==4
+         out=OUT.with_name('CP7_OW13C_HISTORY_REFERENCE.json');phase='cp7_ow13c_history_reference'
+         if ow13c_bounded_stage:
+          import cp7_ow13c_bounded_stage_cases as case_provider
+          bounded_stage_legacy_checker=checker
+          def checker(cur):
+           from cp7_ow13c_bounded_stage_probe import verify_composed as verify_bounded_stage
+           return verify_bounded_stage(cur,bounded_stage_legacy_checker,bounded_stage_state)
+          expected=case_provider.EXPECTED;assert expected==case_provider.DECLARED==6
+          out=OUT.with_name('CP7_OW13C_BOUNDED_STAGE.json');phase='cp7_ow13c_bounded_stage'
+          if ow13c_bounded_entry:
+           import cp7_ow13c_bounded_entry_cases as case_provider
+           expected=case_provider.EXPECTED;assert expected==case_provider.DECLARED==2
+           out=OUT.with_name('CP7_OW13C_BOUNDED_ENTRY.json');phase='cp7_ow13c_bounded_entry'
+           browser_script='cp7_ow13c_bounded_entry_browser.mjs'
+          if ow13c_bounded_save:
+           import cp7_ow13c_bounded_save_cases as case_provider
+           expected=case_provider.EXPECTED;assert expected==case_provider.DECLARED==2
+           out=OUT.with_name('CP7_OW13C_BOUNDED_SAVE.json');phase='cp7_ow13c_bounded_save'
+          if ow13c_quantity:
+           import cp7_ow13c_quantity_cases as case_provider
+           expected=case_provider.EXPECTED;assert expected==case_provider.DECLARED==2
+           out=OUT.with_name('CP7_OW13C_QUANTITY.json');phase='cp7_ow13c_quantity'
+           browser_script='cp7_ow13c_quantity_browser.mjs'
+          if ow12b_operational3600:
+           import cp7_ow12b_operational3600_cases as case_provider
+           expected=case_provider.EXPECTED;assert expected==case_provider.DECLARED==2
+           out=OUT.with_name('CP7_OW12B_OPERATIONAL3600.json');phase='cp7_ow12b_operational3600'
+          if ow11_analog_candidates:
+           import cp7_ow11_analog_candidates_cases as case_provider
+           expected=case_provider.EXPECTED;assert expected==case_provider.DECLARED==3
+           out=OUT.with_name('CP7_OW11_ANALOG_PRIVATE.json');phase='cp7_ow11_analog_private'
  if k3_cleanup:
   # K3b + CP7C (owner decision 9 Oct 2026 WIB): a finished run's temporary work
   # removed on the server's schedule after its result verifies; the pg_cron
@@ -336,7 +439,7 @@ def run(attention=False,p18_e01=False,rule_lifecycle=False,source_navigation=Fal
   assert declaration['contract']==case_provider.CONTRACT and declaration['expected_case_count']==expected and declaration['required_case_counts']==case_provider.REQUIRED and declaration['required_case_ids']==case_provider.IDS and declaration['public_rpcs']==list(case_provider.FUNCTIONS) and declaration['runner_schedule']==case_provider.RUNNER,'K6_PROOF_RUNNER_PREDECLARED_CASE_BUDGET_CHANGED'
   report.update(label='CP7_K6_PROOF_RUNNER',scope='PL8_EXHAUSTION_PROOFS_MADE_BY_THE_SERVER_ONE_WINDOW_PER_TICK_THROUGH_THE_UNCHANGED_PROVER_8S_LIMIT_CORRECTION_OR_CANCELLATION_LEAVES_THE_OLD_PROOF_UNMATCHED_NO_TICK_WAITS_PG_CRON_TESTED_NOT_INSTALLED',required_case_counts=case_provider.REQUIRED,required_case_ids=case_provider.IDS,predeclared_case_contract=declaration,predeclared_case_sha256=hashlib.sha256(declaration_bytes).hexdigest(),full_K6_acceptance=False,schedule_installed=False)
  if wa_forward:
-  declaration_bytes=(bundle.ROOT/('docs/cp7/d17-14/ow13c/NATIVE31_CONTRACT.json'if ow13c_journeys else'docs/cp7/d17-14/ow13c/NATIVE25_CONTRACT.json'if ow13c_checked else'docs/cp7/d17-14/ow10/REORDER_NATIVE_CONTRACT.json'if ow10_reorder else'docs/cp7/d17-14/ow10/SUPPLY_NATIVE_CONTRACT.json'if ow10_supply else'docs/cp7/d17-14/ow13a/CONTRACT.json'if ow13a_initial else'docs/cp7/d17-14/ow14b/CONTRACT.json'if ow14b_rules else'docs/cp7/wa/WA_FORWARD.json')).read_bytes();declaration=json.loads(declaration_bytes)
+  declaration_bytes=(bundle.ROOT/('docs/cp7/d17-14/ow11/ANALOG_PRIVATE_CONTRACT.json'if ow11_analog_candidates else'docs/cp7/d17-14/ow12b/OPERATIONAL3600_CONTRACT.json'if ow12b_operational3600 else'docs/cp7/d17-14/ow13c/QUANTITY_BROWSER_CONTRACT.json'if ow13c_quantity else'docs/cp7/d17-14/ow13c/BOUNDED_SAVE_CONTRACT.json'if ow13c_bounded_save else'docs/cp7/d17-14/ow13c/BOUNDED_ENTRY_CONTRACT.json'if ow13c_bounded_entry else'docs/cp7/d17-14/ow13c/BOUNDED_STAGE_CONTRACT.json'if ow13c_bounded_stage else'docs/cp7/d17-14/ow13c/HISTORY_REFERENCE_CONTRACT.json'if ow13c_history_reference else'docs/cp7/d17-14/ow13c/BOUNDED_INPUTS_CONTRACT.json'if ow13c_history_inputs else'docs/cp7/d17-14/ow13c/SCHEDULE_ENTRY_CONTRACT.json'if ow13c_schedule_entry else'docs/cp7/d17-14/ow13c/SCHEDULE_TRANSPORT_CONTRACT.json'if ow13c_schedule_transport else'docs/cp7/d17-14/ow13c/CONTEXTS_NATIVE_CONTRACT.json'if ow13c_schedule_contexts else'docs/cp7/d17-14/ow13c/SCHEDULE_NATIVE_CONTRACT.json'if ow13c_schedule else'docs/cp7/d17-14/ow13c/WIP_NATIVE_CONTRACT.json'if ow13c_wip else'docs/cp7/d17-14/ow13c/SCALE_NATIVE_CONTRACT.json'if ow13c_scale else'docs/cp7/d17-14/ow13c/NEGATIVE_NATIVE_CONTRACT.json'if ow13c_negatives else'docs/cp7/d17-14/ow13c/NATIVE31_CONTRACT.json'if ow13c_journeys else'docs/cp7/d17-14/ow13c/NATIVE25_CONTRACT.json'if ow13c_checked else'docs/cp7/d17-14/ow10/REORDER_NATIVE_CONTRACT.json'if ow10_reorder else'docs/cp7/d17-14/ow10/SUPPLY_NATIVE_CONTRACT.json'if ow10_supply else'docs/cp7/d17-14/ow13a/CONTRACT.json'if ow13a_initial else'docs/cp7/d17-14/ow14b/CONTRACT.json'if ow14b_rules else'docs/cp7/wa/WA_FORWARD.json')).read_bytes();declaration=json.loads(declaration_bytes)
   assert declaration['contract']==case_provider.CONTRACT and declaration['expected_case_count']==expected and declaration['required_case_counts']==case_provider.REQUIRED and declaration['required_case_ids']==case_provider.IDS and declaration['public_rpcs']==list(case_provider.FUNCTIONS) and declaration['schedules']==case_provider.SCHEDULES,'WA_FORWARD_PREDECLARED_CASE_BUDGET_CHANGED'
   report.update(label='CP7_WA_FORWARD',scope='SYSTEM_REMINDERS_FROM_ACCEPTED_SOURCES_FORWARDED_TO_THE_OWNER_WHATSAPP_THROUGH_CALLMEBOT_RECHECKED_BEFORE_SEND_FAKE_CALLMEBOT_ONLY_KEY_WRITE_ONLY_PG_CRON_TESTED_NOT_INSTALLED',required_case_counts=case_provider.REQUIRED,required_case_ids=case_provider.IDS,predeclared_case_contract=declaration,predeclared_case_sha256=hashlib.sha256(declaration_bytes).hexdigest(),full_WA_acceptance=False,schedule_installed=False,real_message_sent=False)
   if ow14b_rules:
@@ -361,9 +464,39 @@ def run(attention=False,p18_e01=False,rule_lifecycle=False,source_navigation=Fal
   assert declaration['sizes']==list(case_provider.SIZES)and declaration['history_days']==list(case_provider.HISTORY_DAYS)and declaration['grid_boundary']==case_provider.GRID_BOUNDARY and declaration['statement_timeout']==case_provider.STATEMENT_TIMEOUT,'P19_SCALE_PREDECLARED_PROFILE_CHANGED'
   assert declaration['caps']==case_provider.CAPS and declaration['synthetic_inputs']==case_provider.SYNTHETIC and declaration['limits_raised']is False and declaration['data_sampled_or_truncated']is False,'P19_SCALE_PREDECLARED_CAPS_OR_INPUTS_CHANGED'
   report.update(label='CP7_P19_SCALE',scope='FULL_APPLICATION_NATIVE_SCALE_LADDER_100_300_1000_5000_WRITER_SEEDED_PUBLIC_CAPTURE_BACKGROUND_JOB_SEGMENTS_AND_REAL_AUTH_BROWSER_CLICK_TO_RENDER_UNDER_UNCHANGED_CAPS',evidence_kind=case_provider.EVIDENCE_KIND,required_case_counts=case_provider.REQUIRED,required_case_ids=case_provider.IDS,predeclared_case_contract=declaration,predeclared_case_sha256=hashlib.sha256(declaration_bytes).hexdigest(),full_P19_acceptance=False,owner_latency_acceptance=False,factory_capacity_or_SLA=False)
+ if ow13c_negatives:
+  report.update(label='CP7_OW13C_CHECKED_NEGATIVES',scope='FOCUSED_FIVE_NATIVE_CONTROLS_ONE_REPEATED_FRESH_ANCHOR_FOUR_NEW_NEGATIVES_NO_NATIVE31_RERUN_OR_HTTP_BROWSER_RACE_SCALE_RESTORE_CREDIT',full_OW13c_acceptance=False,checked_save_races_qualified=False,checked_save_browser_qualified=False,full_A_chain_qualified=False,caller_backup_restore_qualified=False,production_go=False,native31_predecessor_separate=True,repeated_positive_anchor_case_credit=0,new_negative_case_count=4)
+ if ow13c_scale:
+  report.update(label='CP7_OW13C_CHECKED_SCALE',scope='FOCUSED_TWO_NATIVE_CONTROLS_REPEATED_FRESH_ANCHOR_PLUS_ACTUAL_CHECKED_SAVE2000_202000_THREE_FRESH_UUIDS_ALL_UNDER8S_NO_FACTORY_UI_RACE_HTTP_RESTORE_CREDIT',full_OW13c_acceptance=False,checked_save_races_qualified=False,checked_save_browser_qualified=False,full_A_chain_qualified=False,caller_backup_restore_qualified=False,production_go=False,native31_predecessor_separate=True,repeated_positive_anchor_case_credit=0,new_scale_case_count=1)
+ if ow13c_wip:
+  report.update(label='CP7_OW13C_CHECKED_WIP',scope='FOCUSED_TWO_NATIVE_CONTROLS_REPEATED_FRESH_ANCHOR_AND_200_TO201_ACTUAL_NATIVE_POSTED_GROUPS_CURRENT_WIP_UNKNOWN_OLD_PREVIEW_AND_STALE_CHECKED_SAVE_REFUSAL_NO_CLONED_GROUP_OR_UNCHANGED_SOURCE_UNKNOWN_CLAIM',full_OW13c_acceptance=False,checked_save_races_qualified=False,checked_save_browser_qualified=False,full_A_chain_qualified=False,caller_backup_restore_qualified=False,production_go=False,native31_predecessor_separate=True,repeated_positive_anchor_case_credit=0,new_WIP_case_count=1)
+ if ow13c_schedule:
+  report.update(label='CP7_OW13C_STAGED_SCHEDULE',scope='EIGHT_NATIVE_WORK_METADATA_CONTROLS_FROM_REAL_RUNNING_STAGED_REFERENCES_LARGE_HISTORY_INCOMPLETE_REMAINS_UNKNOWN_NO_CHECKED_SAVE2000_OR_HTTP_BROWSER_RACE_CREDIT',full_OW13c_acceptance=False,checked_save_races_qualified=False,checked_save_browser_qualified=False,full_A_chain_qualified=False,caller_backup_restore_qualified=False,actual_checked_SAVE2000_qualified=False,production_go=False)
+ if ow13c_schedule_contexts:
+  report.update(label='CP7_OW13C_STAGED_CONTEXTS',scope='RETAIN_NATIVE8_ADD_ACTUAL_DONE_EXPIRED_AND_FAILED_HISTORY_CONTEXTS_WORK_METADATA_ONLY_FAILED_ANALYSIS_NEVER_BECOMES_DONE_NO_CHECKED_SAVE2000_CREDIT',full_OW13c_acceptance=False,checked_save_races_qualified=False,checked_save_browser_qualified=False,full_A_chain_qualified=False,caller_backup_restore_qualified=False,actual_checked_SAVE2000_qualified=False,production_go=False)
  if fabric_reminder:report.update(label='CP7_P18_FABRIC_RULE',scope='P18_FABRIC_NEED_RULE_EXACT_SHARED_FABRIC_ROW_ASSUMED_NEVER_RESOLVES_UNKNOWN_NEVER_ZERO_SAME_UNIT_POLICY_LOCAL_SINK_ONLY_NO_DELIVERY',required_case_counts=case_provider.REQUIRED,required_case_ids=case_provider.IDS,predeclared_case_contract=declaration,predeclared_case_sha256=hashlib.sha256(declaration_bytes).hexdigest(),full_P18_acceptance=False)
  if fabric_physical:report.update(label='CP7_FABRIC_PHYSICAL',scope='P08_PHYSICAL_FABRIC_INSTALLED_UNSTARTED_ZERO_LINKED_DRAFT_OR_UNIQUE_FREE_STOCK_ON_TIME_OPEN_COMMITMENT_FAIL_CLOSED_NO_RESERVATION_OR_FEASIBILITY_CREDIT',required_case_counts=case_provider.REQUIRED,required_case_ids=case_provider.IDS,predeclared_case_contract=declaration,predeclared_case_sha256=hashlib.sha256(declaration_bytes).hexdigest(),full_P08_acceptance=False)
  if fabric_recipe:report.update(label='CP7_FABRIC_RECIPE',scope='EXPLICIT_EFFECTIVE_DATED_EXACT_ROOT_SIZE_NATIVE_FABRIC_RECIPE_ASSUMPTIONS_SHARED_ANALYSIS_NO_INSTALLATION_ALLOCATION_OR_FEASIBILITY_CREDIT',required_case_counts=case_provider.REQUIRED,required_case_ids=case_provider.IDS,predeclared_case_contract=declaration,predeclared_case_sha256=hashlib.sha256(declaration_bytes).hexdigest(),full_P08_acceptance=False)
+ if ow13c_schedule_transport:
+  report.update(label='CP7_OW13C_STAGED_TRANSPORT',scope='FOCUSED_ONE_REPEATED_CATALOG_ANCHOR_FOUR_ACTUAL_TWO_BACKEND_RACES_THREE_AUTH_POSTGREST_TWO_BROWSER_WORK_METADATA_CONTROLS',full_OW13c_acceptance=False,actual_checked_SAVE2000_qualified=False,checked_save_races_qualified=False,checked_save_browser_qualified=False,full_A_chain_qualified=False,caller_backup_restore_qualified=False,production_go=False,repeated_catalog_anchor_case_credit=0)
+ if ow13c_schedule_entry:
+  report.update(label='CP7_OW13C_STAGED_ENTRY',scope='TWO_ACTUAL_BROWSER_DIRECT_WORK_ENTRY_WITHOUT_OLD_WHOLE_HISTORY_FIRST_SAME_NATIVE11_SERVER_COMPONENTS_NO_NEW_RACE_AUTH_GROUP_CREDIT',repeated_catalog_anchor_case_credit=0)
+ if ow13c_history_inputs:
+  report.update(label='CP7_OW13C_BOUNDED_INPUTS',scope='THREE_NATIVE_PRIVATE_BOUNDED_INPUT_CATALOG_PARITY_DENSE2000_202000_UNDER8S_AND_REAL_NON_STOCK_PRODUCT_OVERFLOW_REFUSAL_NO_STAGED_DONE_OR_CHECKED_SAVE_CREDIT',actual_checked_SAVE2000_qualified=False,staged_job_integration=False,full_OW13c_acceptance=False,full_A_chain_qualified=False,caller_backup_restore_qualified=False,checked_save_races_qualified=False,checked_save_browser_qualified=False,production_go=False)
+ if ow13c_history_reference:
+  report.update(label='CP7_OW13C_HISTORY_REFERENCE',scope='FOUR_NATIVE_PRIVATE_FULL_RAW_STOCK_DIGEST_CATALOG_NATIVE_RAW_PARITY_DENSE2000_202000_AND_LATE_RECORDED_PHYSICAL_BACKDATE_NO_STAGED_FRESHNESS_OR_CHECKED_SAVE_CREDIT',staged_source_freshness_integration=False)
+ if ow13c_bounded_entry:
+  report.update(label='CP7_OW13C_BOUNDED_ENTRY',scope='TWO_REAL_AUTH_POSTGREST_BROWSER_BOUNDED_WORK_SOURCE_EXPLICIT_METHOD_UUID_COVERAGE_STALE_AND_LOST_REPLY_JOURNEYS_NO_ADDITIONAL_NATIVE6_CREDIT',staged_job_integration=True)
+ if ow13c_bounded_stage and not(ow13c_bounded_entry or ow13c_bounded_save or ow13c_quantity or ow12b_operational3600 or ow11_analog_candidates):
+  report.update(label='CP7_OW13C_BOUNDED_STAGE',scope='SIX_NATIVE_VERSIONED_REAL_STAGED_JOB_DENSE2000_202000_DONE_FULL_FRESHNESS_AND_WORK_METADATA_CONTROLS_NO_CHECKED_SAVE2000_CREDIT',staged_job_integration=True,actual_checked_SAVE2000_qualified=False,full_OW13c_acceptance=False,full_A_chain_qualified=False,production_go=False)
+ if ow13c_bounded_save:
+  report.update(label='CP7_OW13C_BOUNDED_SAVE',scope='ONE_REPEATED_NATIVE_ANCHOR_ONE_COMMITTED_SINGLE_SESSION_ACTUAL_CHECKED_SAVE2000_THREE_UUIDS_UNDER8S_NOT_A_CONCURRENCY_TEST',staged_job_integration=True,concurrency_test=False,race_case_credit=0,actual_checked_SAVE2000_qualified=False)
+ if ow13c_quantity:
+  report.update(label='CP7_OW13C_QUANTITY',scope='TWO_REAL_AUTH_BROWSER_BOUNDED_QUANTITY_SMALL_CHECKED_SAVE_REPLY_RECOVERY_THEN_DENSE2000_FULL_PAGED_READ_AND_ACTUAL_STOCK_FRESHNESS',staged_job_integration=True,concurrency_test=False,race_case_credit=0)
+ if ow12b_operational3600:
+  report.update(label='CP7_OW12B_OPERATIONAL3600',scope='ONE_RETAINED_CATALOG_ANCHOR_ONE_NATIVE3600_363600_REAL_DONE_ALL_PAGES_AND_FULL_FRESHNESS_OPERATIONAL_ONLY_NO_FINANCE_OR_FACTORY_SLA',staged_job_integration=True,full_OW12b_acceptance=False,official_finance_included=False,money_HPP_report_parity_qualified=False,full_factory3600_qualified=False,repeated_positive_anchor_case_credit=0,race_case_credit=0,full_A_chain_qualified=False,production_go=False)
+ if ow11_analog_candidates:
+  report.update(label='CP7_OW11_ANALOG_PRIVATE',scope='THREE_PRIVATE_CONSUMER_CONTROLS_CATALOG_ACTUAL_BOUNDED_SOURCE_PAGINATION_AND_NATIVE_PROFILE_INSUFFICIENT_NO_PUBLIC_SELECTION_OR_FORECAST',full_OW11_acceptance=False,public_analog_reader_qualified=False,analog_confirmation_qualified=False,forecast_applied=False,actual_Auth_HTTP_credit=False,after_use_restore_qualified=False,full_A_chain_qualified=False,production_go=False)
  try:
   with psycopg.connect(package.boundary.ADMIN) as conn,conn.cursor() as cur:
    p09.wip.policy.bf.verified(cur);before=package.boundary.snapshot(cur);public_before=public_state(cur);accepted_functions_before=p09.functions(cur);conn.rollback();originals,installation=p09.install(cur);report.update(installation);pre=p09.functions(cur)
@@ -388,6 +521,22 @@ def run(attention=False,p18_e01=False,rule_lifecycle=False,source_navigation=Fal
       from cp7_ow13c_checked_probe import install_stage as install_checked_stage
       checked_state,report['checked_save_stage']=install_checked_stage(cur)
       case_provider.CHECKED_STATE=checked_state
+      if ow13c_schedule or ow13c_schedule_contexts or ow13c_schedule_transport or ow13c_history_inputs:
+       from cp7_ow13c_schedule_probe import install_stage as install_staged_schedule
+       staged_schedule_state,report['staged_schedule_review_stage']=install_staged_schedule(cur)
+       case_provider.SCHEDULE_STATE=staged_schedule_state
+       if ow13c_history_inputs:
+        from cp7_ow13c_history_inputs_probe import install_stage as install_bounded_history
+        bounded_history_state,report['bounded_history_stage']=install_bounded_history(cur)
+        case_provider.BOUNDED_STATE=bounded_history_state
+        if ow13c_history_reference:
+         from cp7_ow13c_history_reference_probe import install_stage as install_history_reference
+         history_reference_state,report['history_reference_stage']=install_history_reference(cur)
+         case_provider.REFERENCE_STATE=history_reference_state
+         if ow13c_bounded_stage:
+          from cp7_ow13c_bounded_stage_probe import install_stage as install_bounded_stage
+          bounded_stage_state,report['bounded_analysis_stage']=install_bounded_stage(cur)
+          case_provider.STAGE_STATE=bounded_stage_state
    after=p09.functions(cur)
    path=cur.execute('show search_path').fetchone()[0];cur.execute("select set_config('search_path','',true)");grants={}
    for principal,signatures in candidate.GRANTS.items():
@@ -423,14 +572,18 @@ def run(attention=False,p18_e01=False,rule_lifecycle=False,source_navigation=Fal
    report['source_admission_required_case_credit']=0
    assert report['source_admission'].get('status')in('PASS','RUN_COMPLETE')and report['source_admission'].get('counts')=={'PASS':3},'ATTENTION_SOURCE_ADMISSION_FAILED'
   with exact_public_catalog(native,retain_raw=fabric_any or p19_load or p19_transport or p19_scale or p19_staged or p19_plan_v2 or p19_report_v2 or p19_ai_v2 or p19_reminder_v2 or pl5_history_yield or k2_retention or k3_cleanup or k4_runner or k6_proof_runner or wa_forward)as catalog_audit:
-   report['native']=native.strict_group('CP7_OW13C_CHECKED_JOURNEYS'if ow13c_journeys else'CP7_OW13C_CHECKED_SAVE'if ow13c_checked else'CP7_OW10_REORDER_CALLER'if ow10_reorder else'CP7_OW10_GLOBAL_SUPPLY'if ow10_supply else'CP7_OW13A_INITIAL_STATISTICAL'if ow13a_initial else'CP7_OW14B_RULES'if ow14b_rules else'CP7_OW16_AUTOMATIC_STATUS'if ow16_status else'CP7_OW13B_COMPLETE_HISTORY'if ow13_complete_history else'CP7_WA_FORWARD'if wa_forward else'CP7_K6_PROOF_RUNNER'if k6_proof_runner else'CP7_K4_RUNNER'if k4_runner else'CP7_K3_CLEANUP'if k3_cleanup else'CP7_K2_RETENTION'if k2_retention else'CP7_PL5_HISTORY_YIELD'if pl5_history_yield else'CP7_P19_REMINDER_V2'if p19_reminder_v2 else'CP7_P19_AI_V2'if p19_ai_v2 else'CP7_P19_REPORT_V2'if p19_report_v2 else'CP7_P19_PLAN_V2'if p19_plan_v2 else'CP7_P19_SCALE'if p19_scale else'CP7_P19_STAGED'if p19_staged else'CP7_P19_TRANSPORT'if p19_transport else'CP7_P19_NATIVE_LOAD'if p19_load else'CP7_P18_FABRIC_RULE'if fabric_reminder else'CP7_FABRIC_PHYSICAL'if fabric_physical else'CP7_FABRIC_RECIPE'if fabric_recipe else'CP7_CUTTING_REOPEN'if cutting_correction else'CP7_SALES_CHAIN'if sales_chain else'CP7_RETURN_CORRECTION'if return_correction else'CP7_SUPPLIER_PAYMENT_CORRECTION'if supplier_payment_correction else'CP7_PAYMENT_CORRECTION'if payment_correction else'CP7_MISC_CORRECTION'if misc_correction else'CP7_TRANSACTION_SOURCE'if source_navigation else'CP7_RULE_LIFECYCLE'if rule_lifecycle else'CP7_P18_E01_BRIDGE'if p18_e01 else'CP7_F05_ATTENTION'if attention else'CP7_F05_ANALYSIS',case_provider.cases,checker)
+   if not(ow13c_schedule_entry or ow13c_bounded_entry or ow13c_quantity):
+    report['native']=native.strict_group('CP7_OW11_ANALOG_PRIVATE'if ow11_analog_candidates else'CP7_OW12B_OPERATIONAL3600'if ow12b_operational3600 else'CP7_OW13C_BOUNDED_SAVE'if ow13c_bounded_save else'CP7_OW13C_BOUNDED_STAGE'if ow13c_bounded_stage else'CP7_OW13C_HISTORY_REFERENCE'if ow13c_history_reference else'CP7_OW13C_BOUNDED_INPUTS'if ow13c_history_inputs else'CP7_OW13C_STAGED_TRANSPORT'if ow13c_schedule_transport else'CP7_OW13C_STAGED_CONTEXTS'if ow13c_schedule_contexts else'CP7_OW13C_STAGED_SCHEDULE'if ow13c_schedule else'CP7_OW13C_CHECKED_WIP'if ow13c_wip else'CP7_OW13C_CHECKED_SCALE'if ow13c_scale else'CP7_OW13C_CHECKED_NEGATIVES'if ow13c_negatives else'CP7_OW13C_CHECKED_JOURNEYS'if ow13c_journeys else'CP7_OW13C_CHECKED_SAVE'if ow13c_checked else'CP7_OW10_REORDER_CALLER'if ow10_reorder else'CP7_OW10_GLOBAL_SUPPLY'if ow10_supply else'CP7_OW13A_INITIAL_STATISTICAL'if ow13a_initial else'CP7_OW14B_RULES'if ow14b_rules else'CP7_OW16_AUTOMATIC_STATUS'if ow16_status else'CP7_OW13B_COMPLETE_HISTORY'if ow13_complete_history else'CP7_WA_FORWARD'if wa_forward else'CP7_K6_PROOF_RUNNER'if k6_proof_runner else'CP7_K4_RUNNER'if k4_runner else'CP7_K3_CLEANUP'if k3_cleanup else'CP7_K2_RETENTION'if k2_retention else'CP7_PL5_HISTORY_YIELD'if pl5_history_yield else'CP7_P19_REMINDER_V2'if p19_reminder_v2 else'CP7_P19_AI_V2'if p19_ai_v2 else'CP7_P19_REPORT_V2'if p19_report_v2 else'CP7_P19_PLAN_V2'if p19_plan_v2 else'CP7_P19_SCALE'if p19_scale else'CP7_P19_STAGED'if p19_staged else'CP7_P19_TRANSPORT'if p19_transport else'CP7_P19_NATIVE_LOAD'if p19_load else'CP7_P18_FABRIC_RULE'if fabric_reminder else'CP7_FABRIC_PHYSICAL'if fabric_physical else'CP7_FABRIC_RECIPE'if fabric_recipe else'CP7_CUTTING_REOPEN'if cutting_correction else'CP7_SALES_CHAIN'if sales_chain else'CP7_RETURN_CORRECTION'if return_correction else'CP7_SUPPLIER_PAYMENT_CORRECTION'if supplier_payment_correction else'CP7_PAYMENT_CORRECTION'if payment_correction else'CP7_MISC_CORRECTION'if misc_correction else'CP7_TRANSACTION_SOURCE'if source_navigation else'CP7_RULE_LIFECYCLE'if rule_lifecycle else'CP7_P18_E01_BRIDGE'if p18_e01 else'CP7_F05_ATTENTION'if attention else'CP7_F05_ANALYSIS',case_provider.cases,checker)
   report['native_public_catalog_comparison']=catalog_audit
-  if not p19_scale:
+  if ow13c_bounded_save:
+   from cp7_ow13c_bounded_save_probe import committed_group
+   report['committed']=committed_group(case_provider,checker,phase)
+  if not(ow13c_history_inputs or ow13c_schedule_entry or p19_scale or ow13c_negatives or ow13c_scale or ow13c_wip or ow13c_schedule or ow13c_schedule_contexts):
    # The scale ladder declares no race/HTTP group: real Auth/PostgREST is
    # measured inside its browser cases on the same seeded copy.
    report['races']=modes.run_races(case_provider,checker,phase)
    report['http']=modes.run_http(case_provider,checker,phase)
-  if not(p19_load or k6_proof_runner):
+  if ow13c_quantity or ow13c_bounded_entry or not(ow13c_history_inputs or p19_load or k6_proof_runner or ow13c_negatives or ow13c_scale or ow13c_wip or ow13c_schedule or ow13c_schedule_contexts):
    # Keep port ownership evidence before opening the native browser host.
    import subprocess
    report['browser_port_state_before']=subprocess.run(['ss','-lntp','sport = :54328'],capture_output=True,text=True,check=False).stdout
@@ -465,7 +618,7 @@ def run(attention=False,p18_e01=False,rule_lifecycle=False,source_navigation=Fal
     report.setdefault('error','CP7_RESTORATION_INCOMPLETE: '+str(restoration_error))
   if fabric_any or p19_load or p19_transport or p19_scale or p19_staged or p19_plan_v2 or p19_report_v2 or p19_ai_v2 or p19_reminder_v2 or pl5_history_yield or k2_retention or k3_cleanup or k4_runner or k6_proof_runner or wa_forward:
    report['required_case_ids_pass']=all(set(report.get(k,{}).get('races'if k=='races'else'cases',{}))==set(ids)for k,ids in case_provider.IDS.items())
-  group_names=('native','races','http')if p19_load or k6_proof_runner else('native','browser')if p19_scale else('native','races','http','browser')
+  group_names=bounded_group_names(case_provider.REQUIRED)if ow13c_bounded_stage else('browser',)if ow13c_schedule_entry else('native',)if ow13c_history_inputs or ow13c_negatives or ow13c_scale or ow13c_wip or ow13c_schedule or ow13c_schedule_contexts else('native','races','http')if p19_load or k6_proof_runner else('native','browser')if p19_scale else('native','races','http','browser')
   groups=[report.get(k,{})for k in group_names];report['observed_case_count']=sum(sum(g.get('counts',{}).values())for g in groups);report['required_case_counts_pass']=not(attention or p18_e01 or rule_lifecycle or source_navigation or misc_correction or payment_correction or supplier_payment_correction or return_correction or sales_chain or cutting_correction or fabric_any or p19_load or p19_transport or p19_scale or p19_staged or p19_plan_v2 or p19_report_v2 or p19_ai_v2 or p19_reminder_v2 or pl5_history_yield or k2_retention or k3_cleanup or k4_runner or k6_proof_runner or wa_forward)or all(report.get(k,{}).get('counts')=={'PASS':n}for k,n in report['required_case_counts'].items());report['status']='PASS' if not report.get('error') and report.get('cp6_restored') and report.get('advisor_gate') and report['observed_case_count']==expected and report['required_case_counts_pass'] and(not(fabric_any or p19_load or p19_transport or p19_scale or p19_staged or p19_plan_v2 or p19_report_v2 or p19_ai_v2 or p19_reminder_v2 or pl5_history_yield or k2_retention or k3_cleanup or k4_runner or k6_proof_runner or wa_forward)or report.get('required_case_ids_pass'))and all(g.get('status')in('PASS','RUN_COMPLETE') and set(g.get('counts',{}))=={'PASS'} and g.get('database_remaining',0)==0 for g in groups) else 'INCOMPLETE'
   if ow13c_journeys:
    report['checked_save_races_qualified']=report['status']=='PASS' and all(report.get('races',{}).get('races',{}).get(k,{}).get('status')=='PASS' for k in case_provider.concurrent.IDS)

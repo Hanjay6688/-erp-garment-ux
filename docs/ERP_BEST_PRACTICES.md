@@ -386,3 +386,44 @@ Disusun 16 Okt 2026. Tambahkan aturan baru di bagian yang sesuai, dengan ID temu
 - [ ] Receipt: run, job, kasus terpisah; batal/ulang/gagal-sebelum-kasus ditulis; jumlah run = jumlah workflow yang
   dipicu (E19–E20, E19a).
 - [ ] Bukti jangka panjang tidak bergantung artifact 30 hari (E21).
+
+
+## Tambahan hasil kualifikasi24 Oktober2026 WIB
+
+25y. **Data contoh positif hari ini harus sah sejak awal hari, tanpa mengubah penjaga tanggal aplikasi.** Jam bawaan
+     08:00WIB pada contoh stok sah saat uji siang, tetapi masih masa depan bila CI berjalan00:23WIB. Tiga kontrol OW10
+     berhenti di penolakan masa depan sebelum mencapai assertion cache/stale/stock-baru-rendah. Pakai00:00WIB pada
+     tanggal rencana yang sama untuk contoh positif hari ini; atau waktu database yang sah bila urutan intra-hari
+     memang diuji. Pertahankan tanggal, jumlah, urutan yang menjadi maksud kasus dan oracle bisnis. Jangan menjepit
+     semua tanggal ke sekarang, memundurkan clock database, melewati writer Native, mengubah tanggal kasus negatif
+     atau melonggarkan penolakan masa depan. Default contoh historis lain tidak perlu diganti.
+     Bukti pertama16a0aeb0/run39993639712:13/15 Native,7/8 race,4/4 Auth,4/4 browser; ketiga kegagalan
+     FG_UNSOURCED_PHYSICAL_AT_FUTURE. Fix fixture1ba69eaa, periksa hasil Native terbaru sebelum menyatakan lulus.
+     (`WR-OW10-FIXTURE-WIB`, [receipt](cp7/d17-14/ow13c/16a0aeb-native31-28-clock.json)).
+
+- [ ] Contoh positif bertanggal hari ini sah sebelum jam08WIB; uji masa depan tetap memakai tanggal/jam masa depan
+  eksplisit dan tetap ditolak Native (E25y).
+
+
+Validasi E25y/WR-OW10-FIXTURE-WIB: kandidat a15054c2, run39996465132/
+job120561154474 lulus31/31 pada24 Oktober2026 WIB; ketiga kasus yang sebelumnya
+berhenti karena contoh08:00WIB kini lulus dengan00:00 pada tanggal yang sama.
+Tidak ada perubahan penjaga masa depan, jumlah atau oracle. [Receipt](cp7/d17-14/ow13c/a15054c-native31-pass.json).
+
+
+## E25z — pembanding timestamp memakai representasi waktu yang sama (WR-METADATA-COMPARE-UTC)
+
+Temuan writer24 Okt2026, bukan audit independen: Native8 pertama6370d29/
+run40008494076 menunjukkan1PASS/7INCOMPLETE pada no-write GET. Hash metadata
+`to_jsonb(timestamptz)` dibuat sebelum helper boundary.data() memilihUTC,
+lalu dibandingkan dengan hashUTC sesudahnya. Baris sama dapat memiliki teks
+berbeda. SetUTC sebelum seluruh serialisasi/hash, kembalikanGUCsemula dalam
+finally. Tetap bandingkan seluruhbaris,kolom,nilai,receipt danmetadata; tampilkan
+selisih bila gagal. Jangan menghapus tanggal/kolom, membulatkan hash atau
+mengubah physical_at/system_created_at/clock untuk membuat tes lulus.
+
+Fixb508bf77 hanyahelper pembanding. d85187dc/run40010384850 PASS8/8 dengan
+32 sumber/9 invers22/restore/advisor/5gatepaket tepat, termasuk metadata2000/
+202000 dan kegagalan atomik. Kegagalan awal/Original/rawlog dipertahankan di
+receipt6370d29-schedule8-first-incomplete.json; kelulusan di d85187d-schedule8-pass.json.
+Pelajaran ini tidak memberikan fullOW13c/rantaiA/audit/production_go.
