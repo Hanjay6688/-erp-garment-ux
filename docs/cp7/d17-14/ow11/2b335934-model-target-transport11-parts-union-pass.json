@@ -1,0 +1,59 @@
+{
+  "formal_acceptance": "5/16",
+  "CP7C_accepted": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "full_OW11_acceptance": false,
+  "positive_model_target_qualified": false,
+  "after_use_restore_qualified": false,
+  "contract": "cp7.model-target-transport11-two-originals.v1",
+  "status": "PASS",
+  "head": "2b3359346b49e3b5da17cb10e4accc886c7afc42",
+  "run_id": 40120202292,
+  "workflow_conclusion": "success",
+  "full_transport11_qualified": true,
+  "required_ids": {
+    "native": [
+      "OW11_MODEL_TARGET_CATALOG22_COMPOSED_PREUSE"
+    ],
+    "races": [
+      "OW11_MODEL_TARGET_RACE_SAME_UUID",
+      "OW11_MODEL_TARGET_RACE_REVISION",
+      "OW11_MODEL_TARGET_RACE_ACCESS_AFTER_ENVELOPE",
+      "OW11_MODEL_TARGET_RACE_REPLAY_ACCESS_AFTER_REQUEST",
+      "OW11_MODEL_TARGET_RACE_ACCESS_AFTER_TARGET",
+      "OW11_MODEL_TARGET_RACE_SOURCE_AFTER_ENVELOPE",
+      "OW11_MODEL_TARGET_RACE_POLICY_AFTER_ENVELOPE"
+    ],
+    "http": [
+      "OW11_MODEL_TARGET_AUTH_CONFIRM_CLEAR_EXACT_REPLAY",
+      "OW11_MODEL_TARGET_AUTH_REVOKED_COMMITTED_REPLAY",
+      "OW11_MODEL_TARGET_AUTH_ANON_AND_FOREIGN_REFERENCE"
+    ]
+  },
+  "unique_PASS": 11,
+  "native_catalog": 1,
+  "actual_races": 7,
+  "actual_Auth_HTTP": 3,
+  "duplicate_catalog_credit": 0,
+  "parts": [
+    {
+      "part": "A",
+      "job_id": 120949897510,
+      "artifact_id": 12572450064,
+      "artifact_sha256": "174ae107fe907858297c7497bb21001609665ecba239a8c2ce8767322ac8164f",
+      "observed_count": 5
+    },
+    {
+      "part": "B",
+      "job_id": 120949897608,
+      "artifact_id": 12572126471,
+      "artifact_sha256": "eabe8fdfa6ad98ed6684c46e441b43400702ba23ae7188a5a25bff1e7a1cd907",
+      "observed_count": 7
+    }
+  ],
+  "same_head_source_and_partition_pins_verified": true,
+  "each_part_all_package_CP6_advisor_restore_gates": true,
+  "Auth_restored_0000": true,
+  "no_positive_forecast_or_browser_credit": true
+}

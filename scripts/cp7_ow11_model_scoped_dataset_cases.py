@@ -25,15 +25,33 @@ def install(cur):
     model.PARENT_CHECKER = PARENT_CHECKER
     ps, ms = model.install(cur)
     def model_parent(c):
-        PARENT_CHECKER(c)
         model.policy.stage.verify(c, ps)
         model.stage.verify(c, ms)
+        current = _catalog_rows(c)
+        c.execute('savepoint scoped_dataset_model_parent')
+        try:
+            model.stage.rollback_preuse(c, ms)
+            model.policy.stage.rollback_preuse(c, ps)
+            PARENT_CHECKER(c)
+        finally:
+            c.execute('rollback to savepoint scoped_dataset_model_parent')
+            c.execute('release savepoint scoped_dataset_model_parent')
+        assert _catalog_rows(c) == current, 'SCOPED_DATASET_MODEL_PARENT_NOT_RESTORED22'
     history.PARENT_CHECKER = model_parent
     hs, hr = history.install(cur)
     def parents(c):
-        model_parent(c)
         history.source.stage.verify(c, hs)
         history.stage.verify(c, hr)
+        current = _catalog_rows(c)
+        c.execute('savepoint scoped_dataset_history_parent')
+        try:
+            history.stage.rollback_preuse(c, hr)
+            history.source.stage.rollback_preuse(c, hs)
+            model_parent(c)
+        finally:
+            c.execute('rollback to savepoint scoped_dataset_history_parent')
+            c.execute('release savepoint scoped_dataset_history_parent')
+        assert _catalog_rows(c) == current, 'SCOPED_DATASET_HISTORY_PARENT_NOT_RESTORED22'
     ds = stage.install_delta(cur, parents)
     return ps, ms, hs, hr, ds
 

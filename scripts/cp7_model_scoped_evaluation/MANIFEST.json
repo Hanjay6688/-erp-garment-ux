@@ -1,0 +1,40 @@
+{
+  "contract": "cp7.model-scoped-evaluation-stage.v1",
+  "private_functions": 4,
+  "new_public_rpcs": 2,
+  "new_tables": 1,
+  "existing_replacements": 0,
+  "sql_sha256": "b1af1dcc77c213ceaa14b85cf4d9fe054f39738c3dfaa394da6ddf13ccb2b4b6",
+  "functions": [
+    "cp7_model_scoped_evaluation.engine()",
+    "cp7_model_scoped_evaluation.dataset(jsonb,uuid)",
+    "cp7_model_scoped_evaluation.serve(uuid)",
+    "cp7_model_scoped_evaluation.capture(jsonb,uuid)",
+    "public.erp_cp7_capture_model_evaluation_v3(jsonb,uuid)",
+    "public.erp_cp7_read_model_evaluation_v3(uuid)"
+  ],
+  "dependencies": [
+    "cp7_model_scoped_dataset.native_dataset(jsonb,uuid)",
+    "cp7_model_scoped_dataset.engine()",
+    "cp7_model_scoped_dataset.dataset(jsonb,uuid)",
+    "cp7_model_history_runtime.serve(uuid)",
+    "cp7_model_registry_adapter.current_guard(jsonb,jsonb,jsonb,jsonb,text,timestamp with time zone)",
+    "cp7_model_registry_adapter.assess(jsonb,jsonb,jsonb)",
+    "cp7_model_policy.source_at(timestamp with time zone)",
+    "cp7_model_native.query(jsonb)",
+    "cp7_private.access_now()",
+    "cp7_private.immutable_run()",
+    "cp7_planning.utc(timestamp with time zone)"
+  ],
+  "parent_fk_triggers": [
+    "cp7_model_history_runtime.runs:cp7_model_scoped_evaluation.runs:runs_history_run_id_fkey:\"RI_FKey_noaction_del\"():9",
+    "cp7_model_history_runtime.runs:cp7_model_scoped_evaluation.runs:runs_history_run_id_fkey:\"RI_FKey_noaction_upd\"():17",
+    "cp7_model_native.registry:cp7_model_scoped_evaluation.runs:runs_registry_id_fkey:\"RI_FKey_noaction_del\"():9",
+    "cp7_model_native.registry:cp7_model_scoped_evaluation.runs:runs_registry_id_fkey:\"RI_FKey_noaction_upd\"():17"
+  ],
+  "requires_scoped_dataset_and_model_parent_checker": true,
+  "old_global_history_and_models_unchanged": true,
+  "default_installation": false,
+  "model_caller_integrated": false,
+  "production_go": false
+}

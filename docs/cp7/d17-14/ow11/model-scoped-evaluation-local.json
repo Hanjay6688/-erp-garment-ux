@@ -1,0 +1,92 @@
+{
+  "contract": "cp7.model-scoped-evaluation-local.v1",
+  "status": "PASS",
+  "expected": 8,
+  "counts": {
+    "PASS": 8
+  },
+  "cases": [
+    {
+      "id": "SCOPED_HISTORY_EVALUATES_WITH_SAME_POLICY_KERNEL_AND_ACTUAL_CLOCK",
+      "status": "PASS",
+      "observed": {
+        "actual_runtime_capture_and_shared_assessment_SQL": true,
+        "controlled_ERP_primitives": true,
+        "known_at": "2026-10-24T19:07:54.039000Z",
+        "model_captured_at": "2026-10-24T19:07:54.160000Z",
+        "no_invented_policy_or_forecast": true
+      }
+    },
+    {
+      "id": "EXACT_UUID_PAYLOAD_REPLAY_AND_SEPARATE_METHOD_NAMESPACE",
+      "status": "PASS",
+      "observed": {
+        "same_UUID_distinct_history_and_model_methods": true,
+        "exact_payload_replay": true,
+        "forged_actor_and_engine_rejected": true
+      }
+    },
+    {
+      "id": "CURRENT_SOURCE_CORRECTION_RETIRES_OLD_MODEL_PRESERVES_BOTH_CLOCKS",
+      "status": "PASS",
+      "observed": {
+        "controlled_source_correction": true,
+        "latest_corrected_revision_wins_without_backdating": true,
+        "immutable_old_model_and_history": true
+      }
+    },
+    {
+      "id": "FOREIGN_ACTOR_REVOKED_ACCESS_AND_WRONG_HISTORY_TARGET_FAIL_CLOSED",
+      "status": "PASS",
+      "observed": {
+        "current_actor_and_access_before_read_replay_and_capture": true,
+        "no_cross_actor_disclosure_or_orphan": true
+      }
+    },
+    {
+      "id": "MODEL_ENGINE_CHANGE_ARCHIVES_ORIGINAL_ASSESSMENT",
+      "status": "PASS",
+      "observed": {
+        "v3_runtime_engine_is_part_of_retained_model_identity": true,
+        "read_does_not_recalculate_archive": true
+      }
+    },
+    {
+      "id": "FINAL_INSERT_FAULT_AND_ACCESS_CHANGE_ROLL_BACK_MODEL",
+      "status": "PASS",
+      "observed": {
+        "controlled_fault_and_after_insert_revocation": true,
+        "entire_model_insert_rolled_back": true,
+        "no_actual_concurrency_credit": true
+      }
+    },
+    {
+      "id": "IMMUTABLE_PRIVATE_TABLE_AND_FACADE_ONLY_AUTHORITY",
+      "status": "PASS",
+      "observed": {
+        "private4_public2_table1": true,
+        "immutable_update_and_delete": true,
+        "only_authenticated_facade": true
+      }
+    },
+    {
+      "id": "LARGE_UNIVERSE_SCOPED_EVALUATION_RETAINS_TARGET_BOUND",
+      "status": "PASS",
+      "observed": {
+        "controlled_products": 5504,
+        "global1000_limit_unchanged": true,
+        "scoped_model_evaluation_not_blocked_by_unrelated_products": true
+      }
+    }
+  ],
+  "sql_sha256": "b1af1dcc77c213ceaa14b85cf4d9fe054f39738c3dfaa394da6ddf13ccb2b4b6",
+  "actual_SQL_and_scoped_capture": true,
+  "controlled_ERP_auth_primitives": true,
+  "actual_Native_capture": false,
+  "actual_Auth_HTTP_credit": false,
+  "actual_concurrency": false,
+  "model_target_caller_integrated": false,
+  "exact_catalog_installer_qualified": false,
+  "forecast_applied": false,
+  "production_go": false
+}

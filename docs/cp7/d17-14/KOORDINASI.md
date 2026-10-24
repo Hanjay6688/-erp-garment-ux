@@ -2282,3 +2282,48 @@ retains catalog1/races7PASS, no HTTP aggregate, CP6/advisor false after shutdown
 no full-suite acceptance. Existing two-part run addresses that full-job limit.
 190c1d78 cacheNative6 rerun40122499063 and3d19e1cb scoped datasetNative4
 run40122702164 are active. Formal5/16 and production/independent flags false.
+
+## 123. B24 Oktober2026 UTC — target transport11 complete across exact two parts
+
+2b335934/run40120202292 completed success. PartB/job120949897608 Original
+12572126471 (94413 bytes, SHA256
+eabe8fdfa6ad98ed6684c46e441b43400702ba23ae7188a5a25bff1e7a1cd907)
+has repeatedcatalog1+races3+actualAuthHTTP3PASS, all required/package/CP6/advisor
+and restore gates true, Auth0000→0000, copy0/sessions[]. Actual runtime login
+uses no test-only schema grant. Race harness retains its declared test-only
+usage grant. Paired with PartA Original12572450064 at the identical head/source/
+partition pins, the union is exactly11 unique required controls (1+7+3); the
+repeated catalog earns zero extra credit. This qualifies current21/8 transport,
+not a positive model forecast, scoped-model consumer, after-use restore or OW11.
+
+## 124. B24 Oktober2026 UTC — dataset composed-parent first failure and repair
+
+3d19e1cb/run40122702164/job120957501265 failed. Complete Original12571489356
+(161087 bytes, SHA256
+0f2a5917a27864bfd6de9612e7bb6e617b0ed7fc3037e485e856dba2dd1fcc3b)
+has4INCOMPLETE before model cases: the new composed checker invoked the exact
+predecessor22 oracle with policy/v2 children still installed. CP6/advisor restore
+pass; writer runtime fails. Fix test composition using verified preuse inverse
+inside savepoint, unchanged parent oracle, rollback and all22 equality, at both
+model and history boundaries. Product dataset SQL, counts and oracle unchanged.
+Actual Native dataset qualification remains open until the corrected rerun.
+
+## 125. B24 Oktober2026 UTC — retained scoped model evaluation v3 candidate
+
+New isolated v3 table/history FK/method namespace,4private+2public functions,
+no old replacement/default caller. Shared v2 policy and assessment kernels
+remain authoritative; exact scoped digest is verified before adding the v3
+engine identity. Capture rechecks actor after envelope/request waits and exact
+payload replay; source/policy/engine/day/access after final immutable insertion.
+Read returns original assessment plus separate current guard. Actual capture
+knowledge times and UNKNOWN remain intact; no owner policy or winner invented.
+
+Local8PASS on actual SQL with controlled ERP/Auth. First1PASS/7FAIL revealed
+ambiguous JSON subtraction precedence, fixed by explicit parentheses; next
+7PASS/1FAIL required the existing CP7_RUN_IMMUTABLE error, now exact. First logs
+retained. Source/SQL/Python/declaration checks pass. Exact22 installer declares
+parent FK triggers, private ACL and immutable preuse-only inverse. Native6 is
+prepared for actual capture, prospective policy, Native SALE/access, dense2000/
+202000 and atomic fault/engine controls. Public client, model-target consumption,
+Auth/concurrency and after-use restore remain open. Formal5/16, CP7C unaccepted,
+production_go=false; writer tests are not independent acceptance.
