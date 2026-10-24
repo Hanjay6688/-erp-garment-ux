@@ -1,0 +1,32 @@
+{
+  "contract": "cp7.original-runtime-first-failure.v1",
+  "head": "9ac7081063f8fc6acaaea47c80108191fa798ce7",
+  "run_id": 40125522882,
+  "job_id": 120965997005,
+  "workflow_conclusion": "failure",
+  "artifact_id": 12573351083,
+  "bytes": 16929,
+  "artifact_sha256": "183d7b84b1d2b844fde40dee521369eb3c6773783aa907d0b833fbae0bf26c1f",
+  "Original_read_complete": true,
+  "status": "INCOMPLETE",
+  "error": "BOUNDED_PREDECLARED_GROUP_CHANGED",
+  "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_t3_package_run.py\", line 212, in run\n    report['writer_runtime']=writer_runtime()\n                             ^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_t3_package_run.py\", line 110, in writer_runtime\n    result=_writer_runtime(browser_mode)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/cp7_ow11_model_scoped_evaluation_transport_probe.py\", line 12, in runtime\n    return probe.run(wa_forward=True, ow14b_rules=True, ow13a_initial=True,\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f05_analysis_probe.py\", line 525, in run\n    bounded_groups=bounded_group_names(case_provider.REQUIRED,transport=ow11_model_history_transport or ow11_model_target_transport or ow11_model_v2_transport or ow11_analog_choice_transport or ow11_consumer_transport or ow11_model_policy_transport,model_target=ow11_model_target_transport,model_target_part=ow11_model_target_transport_part,history_runtime=ow11_model_history_transport)if ow13c_bounded_stage else None\n                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f05_analysis_probe.py\", line 59, in bounded_group_names\n    raise ValueError('BOUNDED_PREDECLARED_GROUP_CHANGED')\nValueError: BOUNDED_PREDECLARED_GROUP_CHANGED\n",
+  "observed_case_count": 0,
+  "case_aggregate_present": false,
+  "package_gates": {
+    "installed": false,
+    "primary_unchanged": true,
+    "backup_restore_drill": false,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "diagnosis": "The F05 bounded-group call omitted the scoped-evaluation transport flag; it rejected races/http before the seven cases started.",
+  "correction": "Route the new flag through its own exact 1 native + 4 races + 2 HTTP selector; reject mixed suites or changed counts. Exercise the actual run selector before database setup. Product SQL and case oracles unchanged.",
+  "actual_Auth_HTTP_credit": false,
+  "actual_concurrency": false,
+  "full_transport_qualified": false,
+  "formal_acceptance": "5/16",
+  "CP7C_accepted": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

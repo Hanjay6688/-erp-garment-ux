@@ -39,9 +39,12 @@ def verify(cur):
  f03.cutting_correction.verify(cur)
  return dict(stage='EXPLICIT_F03_COMBINED_DEVELOPMENT_STACK',source_sha256=hashlib.sha256(bundle.bundle().encode()).hexdigest(),full_family_acceptance=False)
 
-def bounded_group_names(required,transport=False,model_target=False,model_target_part=None,history_runtime=False):
+def bounded_group_names(required,transport=False,model_target=False,model_target_part=None,history_runtime=False,scoped_evaluation=False):
  # New bounded suites use their exact predeclared group budget. A browser
  # extension must not inherit the predecessor's native-only total selector.
+ if scoped_evaluation:
+  if not transport or history_runtime or model_target or model_target_part is not None or required!={'native':1,'races':4,'http':2}:raise ValueError('MODEL_SCOPED_EVALUATION_TRANSPORT_BUDGET_CHANGED')
+  return tuple(required)
  if history_runtime:
   if not transport or model_target or model_target_part is not None or required!={'native':1,'races':4,'http':2}:raise ValueError('MODEL_HISTORY_RUNTIME_TRANSPORT_BUDGET_CHANGED')
   return tuple(required)
@@ -522,7 +525,7 @@ def run(attention=False,p18_e01=False,rule_lifecycle=False,source_navigation=Fal
   declaration_bytes=declaration_path.read_bytes();declaration=json.loads(declaration_bytes)
   assert declaration['contract']==contract and declaration['expected_case_count']==expected and declaration['required_case_counts']==case_provider.REQUIRED and declaration['required_case_ids']==case_provider.IDS,'FABRIC_PREDECLARED_CASE_BUDGET_CHANGED'
  # Validate group routing before running cases; preserve their eventual report.
- bounded_groups=bounded_group_names(case_provider.REQUIRED,transport=ow11_model_history_transport or ow11_model_target_transport or ow11_model_v2_transport or ow11_analog_choice_transport or ow11_consumer_transport or ow11_model_policy_transport,model_target=ow11_model_target_transport,model_target_part=ow11_model_target_transport_part,history_runtime=ow11_model_history_transport)if ow13c_bounded_stage else None
+ bounded_groups=bounded_group_names(case_provider.REQUIRED,transport=ow11_model_scoped_transport or ow11_model_history_transport or ow11_model_target_transport or ow11_model_v2_transport or ow11_analog_choice_transport or ow11_consumer_transport or ow11_model_policy_transport,model_target=ow11_model_target_transport,model_target_part=ow11_model_target_transport_part,history_runtime=ow11_model_history_transport,scoped_evaluation=ow11_model_scoped_transport)if ow13c_bounded_stage else None
  report=dict(label='CP7_MISC_CORRECTION'if misc_correction else'CP7_TRANSACTION_SOURCE'if source_navigation else'CP7_RULE_LIFECYCLE'if rule_lifecycle else'CP7_P18_E01_BRIDGE'if p18_e01 else'CP7_F05_NATIVE_ATTENTION'if attention else'CP7_F05_NATIVE_ANALYSIS',status='INCOMPLETE',production_go=False,independent_acceptance=False,full_family_acceptance=False,scope='ATOMIC_POSTED_MISC_NATIVE_INVERSE_REPLACEMENT_HISTORY_EXACT_UUID_CURRENT_AUTH_AND_BROWSER_CORRECTION'if misc_correction else'EXACT_NATIVE_SOURCE_PARENT_CHILD_PAGE_CURRENT_AUTH_OWNING_BROWSER_INVERSE_RETAINED_F03_REVOKE_SCHEDULES'if source_navigation else'NATIVE_INACTIVE_EPISODE_ARCHIVE_NOT_PAID_EXACT_SOURCE_REPLAY_CURRENT_AUTH_AND_RETAINED_E01_BRIDGE'if rule_lifecycle else'FOCUSED_E01_NATIVE_SOURCE_TO_ORIGINAL_REPORT_APPENDIX_RULE_EPISODES_NOT_FULL_P18'if p18_e01 else'IMMUTABLE_NATIVE_PUBLICATIONS_ATTENTION_ALL_NATIVE_OBLIGATION_DOMAINS_UNKNOWN_REVIEW_EPISODES_LOCAL_TEST_SINK'if attention else'FROZEN_ANALYSIS_V2_NATIVE_PUBLICATION_REVISION_PERIOD_COMPARISON_ACCEPTED_OWNER_FINANCE_REUSE_MATERIAL_APPLY_UNKNOWN',source_sha256=hashlib.sha256(candidate.bundle().encode()).hexdigest(),expected_case_count=expected);installed=False
  if attention:report['required_case_counts']=dict(native=182,races=40,http=29,browser=36)
  if payment_correction:

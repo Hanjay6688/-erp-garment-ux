@@ -2401,3 +2401,39 @@ no Native/Auth/concurrency credit before complete Original. Model policy default
 product runtime SQL, existing count or catalog oracle unchanged. Scoped-model
 Native6/datasetNative4 remain active; target consumption and Auth browser remain
 open. Formal5/16, CP7C and production/independent acceptance remain false.
+
+## 129. B24 Oktober2026 UTC — current21 target Native6 and scoped model Native6 Original PASS
+
+190c1d78/run40122499063/job120956892150 success; Original12572681615
+(205810 bytes, SHA256 5faeb6a96ed365b9e47603cc2e3faa5e4f0cd6f834c87ce112869df5f30c59ed)
+has6PASS on current21 replacements/private8, exact source pins, required IDs,
+all package/CP6/advisor gates and every case boundary/catalog/session restored.
+The corrected test requires the exact three-field stale-cache refusal; the
+product SQL did not change. Current21 Native and same-source Transport11 are
+now qualified separately. Positive model target and after-use restore remain open.
+
+23d4be61/run40124207922/job120962032546 success; Original12573251215
+(204253 bytes, SHA256 e88b44aaba95f95b408d542b9df18aa9d8c2611b4adbbb297af4dfc1a7bc2339)
+has scoped-model6PASS: exact22 catalog/inverse/FK, actual history/model capture,
+method-separated UUID replay, immutable knowledge clocks, prospective explicit
+synthetic policy, Native SALE/current access and final fault/engine controls.
+Dense2000/202000 single-target public evaluation426.66ms under8s, not factory SLA.
+Current sources, case IDs/counts, package/CP6/advisor and all restoration checks
+match. No actual historical winner, Auth/concurrency/browser, target consumption
+or after-use restore credit follows from these Native cases.
+
+## 130. B24 Oktober2026 UTC — scoped transport first routing failure retained and repaired
+
+9ac70810/run40125522882/job120965997005 failure; Original12573351083
+(16929 bytes, SHA256 183d7b84b1d2b844fde40dee521369eb3c6773783aa907d0b833fbae0bf26c1f)
+stopped before any case with BOUNDED_PREDECLARED_GROUP_CHANGED. The F05 selector
+call omitted the new transport flag. Zero case credit; no case aggregate or
+backup/restore credit. Primary unchanged and security-advisor gates true.
+
+Corrected routing uses its own exact native1/races4/http2 budget, rejects mixed
+suites or changed counts, and keeps all product SQL and case oracles unchanged.
+A pre-database regression executes the actual F05 selector expression: valid
+new route, seven negative controls and existing history7/Native6 routes pass.
+Workflow label now names scoped-model evaluation. Corrected actual transport
+still requires a complete new Original. Formal5/16, CP7C unaccepted and
+production/independent acceptance false.

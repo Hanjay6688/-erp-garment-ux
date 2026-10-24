@@ -1,0 +1,176 @@
+{
+  "contract": "cp7.model-target-native-original-receipt.v1",
+  "head": "190c1d78e1ec16a93d287e711780850db98fa1e8",
+  "run_id": 40122499063,
+  "job_id": 120956892150,
+  "workflow_conclusion": "success",
+  "artifact_id": 12572681615,
+  "bytes": 205810,
+  "artifact_sha256": "5faeb6a96ed365b9e47603cc2e3faa5e4f0cd6f834c87ce112869df5f30c59ed",
+  "Original_read_complete": true,
+  "exact_head_source_hashes_match": true,
+  "status": "PASS",
+  "counts": {
+    "PASS": 6
+  },
+  "native": {
+    "OW11_MODEL_TARGET_CATALOG22_COMPOSED_PREUSE": {
+      "status": "PASS",
+      "exact_catalog22_composed_inverse": true,
+      "private8_replacements21_no_new_RPC_or_table": true,
+      "dependent_view_partial_inverse_restored": true,
+      "source_sha256": {
+        "cp7_model_target_consumer_stage/MANIFEST.json": "24a60756357ea1cb2aabdef8e8123780ed4d4313d5eac624894b014880e38209",
+        "cp7_model_target_consumer_stage/__init__.py": "0af052bdbb726767437629c00f7ce429638040f4c674246bb7731605c267a91f",
+        "cp7_model_target_consumer_stage/hooks.sql": "91f4ba662d22bb3ba25d3a54e0f9dc93278259505cc7dfee9c0e1e330cb2ba80",
+        "cp7_model_target_consumer_stage/render.py": "f083d86dc6bac9bdfe60fb9e206974431007b91dcbc7aa2fb7489a8c3ef56e8c",
+        "cp7_model_target_source/MANIFEST.json": "5b59da3a09f54616115caffe8b17d3ea2a27a90925399f6ee6892412439aea17",
+        "cp7_model_target_source/__init__.py": "9a4ea1b1485d202105aca7d4fed590b4990a8b0db975d091bf752fc37499f2e6",
+        "cp7_model_target_source/source.sql": "94f856526c37ca14f5b2d5e44ee69a8845eee38524de648489256c56ebe60135",
+        "cp7_model_target_projection/MANIFEST.json": "df37cce0f27656606634fac61f26579f255ea291dc9f5a1696f28d1cbf2bd51a",
+        "cp7_model_target_projection/__init__.py": "2e2be38a043353af1d45f124d9f69e9c92fa1316c94eac826d133dad56c3b75c",
+        "cp7_model_target_projection/projection.sql": "1e96c6389c3537dcaf59bcf79383754f0b5716ad3c1d9010c77fb0918535e6b7",
+        "cp7_model_target_consumer/MANIFEST.json": "30d6ff9b8f41081e8cbe0aebdadda7d747de8ef6e23220b9658dd651ebb7684d",
+        "cp7_model_target_consumer/__init__.py": "4f965d8cf63a7d1f7671f0efc416a2a01ea9bf005278c69d71edeef772236e00",
+        "cp7_model_target_consumer/consumer.sql": "aea32bb1f7f07be6e65bbc613e8d3e5a38ed9db61f0cba510b3f84812d431600",
+        "cp7_model_target_consumer/timeline.py": "a23bbb9be67e24f7f3de8363eac2ebc8459142112e310ff11b0b6c783aca1825",
+        "cp7_model_target_consumer/timeline.sql": "869b9d35d10cfbdb64e7516562233e5dce8765950071ba72a69c69e5d2d4af49"
+      },
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-25",
+        "before": "2026-10-25",
+        "after": "2026-10-25"
+      }
+    },
+    "OW11_MODEL_TARGET_NATIVE_BASELINE_REPLAY_IMMUTABLE": {
+      "status": "PASS",
+      "actual_Native_v3_baseline100_current": true,
+      "exact_UUID_replay_and_immutable_result": true,
+      "actual_raw_operational_capture_replay_immutable": true,
+      "raw_report_alone_blocks_preuse_inverse": true,
+      "actual_queued_job_without_run_alone_blocks_preuse_inverse": true,
+      "no_model_fabricated": true,
+      "no_stock_money_HPP_change": true,
+      "after_use_requires_composed_restore": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-25",
+        "before": "2026-10-25",
+        "after": "2026-10-25"
+      }
+    },
+    "OW11_MODEL_TARGET_NATIVE_CURRENT_POLICY_AND_LATEST_V2": {
+      "status": "PASS",
+      "actual_policy_clock_and_latest_own_v2_selection": true,
+      "no_posthoc_model_promotion": true,
+      "old_baseline_stale_but_immutable": true,
+      "old_v2_result_immutable": true,
+      "actual_historical_positive_winner": false,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-25",
+        "before": "2026-10-25",
+        "after": "2026-10-25"
+      }
+    },
+    "OW11_MODEL_TARGET_NATIVE_POST_PROFILE_ACCESS": {
+      "status": "PASS",
+      "actual_profile_and_posted_SALE_retire_source": true,
+      "manual_target200_retained": true,
+      "current_access_before_read_replay": true,
+      "foreign_actor_refused": true,
+      "old_history_immutable": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-25",
+        "before": "2026-10-25",
+        "after": "2026-10-25"
+      }
+    },
+    "OW11_MODEL_TARGET_NATIVE_WAREHOUSE_ONLY_READ": {
+      "status": "PASS",
+      "actual_existing_FG_only_permission": true,
+      "actual_FG_only_refresh_then_cached_read": true,
+      "baseline_target100_point30_preserved": true,
+      "no_model_policy_history_disclosed": true,
+      "strict_model_and_revoked_FG_denied": true,
+      "actual_Auth_HTTP_credit": false,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-25",
+        "before": "2026-10-25",
+        "after": "2026-10-25"
+      }
+    },
+    "OW11_MODEL_TARGET_NATIVE_BOUNDED_ANALOG_PARITY": {
+      "status": "PASS",
+      "actual_bounded_and_staged_analog_target_parity": true,
+      "direct_same_target_and_history_operands": true,
+      "analog_not_silently_promoted_to_model": true,
+      "actual_positive_model_target": false,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-25",
+        "before": "2026-10-25",
+        "after": "2026-10-25"
+      }
+    }
+  },
+  "required_case_ids_pass": true,
+  "required_case_counts_pass": true,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "current21_cache_guard_qualified": true,
+  "actual_Auth_HTTP_credit": false,
+  "positive_model_target_qualified": false,
+  "after_use_restore_qualified": false,
+  "full_OW11_acceptance": false,
+  "formal_acceptance": "5/16",
+  "CP7C_accepted": false,
+  "independent_acceptance": false,
+  "production_go": false
+}
