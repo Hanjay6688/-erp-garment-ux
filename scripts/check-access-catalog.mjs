@@ -295,6 +295,8 @@ const cp7ProductionSuccessorBoundaries=[
 for(const name of cp7ProductionSuccessorBoundaries)assert.ok(rpcBoundaries.has(name),name)
 const cp7BoundedSuccessorBoundaries=[
   'src/nativeProductAnalog.ts:erp_cp7_read_product_analog_candidates_v1',
+  'src/nativeProductAnalogChoice.ts:erp_cp7_get_product_analog_choices_v1',
+  'src/nativeProductAnalogChoice.ts:erp_cp7_save_product_analog_choice_v1',
   'src/NativeProductionPlanningPanel.tsx:erp_cp7_request_staged_analysis_v1',
   'src/nativeStagedSchedule.ts:erp_cp7_get_staged_production_schedule_v1',
   'src/nativeStagedSchedule.ts:erp_cp7_save_staged_production_schedule_v1',

@@ -1,0 +1,405 @@
+{
+  "contract": "cp7.component-original-receipt.v1",
+  "candidate_sha": "9532ba0e4a6d2815c968353398648c4a8c0f4ca5",
+  "run_id": 40085123322,
+  "job_id": 120846382252,
+  "run_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/40085123322",
+  "status": "PASS",
+  "expected_case_count": 113,
+  "observed_case_count": 113,
+  "required_case_counts": {
+    "native": 61,
+    "races": 34,
+    "http": 7,
+    "browser": 11
+  },
+  "required_case_ids_pass": true,
+  "required_case_counts_pass": true,
+  "groups": {
+    "native": {
+      "WAF_COLLECT_WAITS_FOR_OWNER_SETTINGS": {
+        "status": "PASS",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      "WAF_FABRIC_EQUALS_WAREHOUSE_SUMMARY": {
+        "status": "PASS",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      "WAF_AR_AP_FROM_ACCEPTED_SOURCES": {
+        "status": "PASS",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      "WAF_OWNER_REMINDERS_ONLY_WHEN_DUE": {
+        "status": "PASS",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      "WAF_SEND_ONE_REQUEST_EXACT_TEXT": {
+        "status": "PASS",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      "WAF_ROLLBACK_QUEUES_NOTHING": {
+        "status": "PASS",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      "WAF_RESOLVED_BEFORE_SEND_NOT_SENT": {
+        "status": "PASS",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      "WAF_ANSWERS_ACCEPTED_REFUSED_UNKNOWN": {
+        "status": "PASS",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      "WAF_PACING_BURST_QUIET_DIGEST_REPEAT": {
+        "status": "PASS",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      "WAF_OFF_OR_NO_KEY_SENDS_NOTHING": {
+        "status": "PASS",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      "WAF_KEY_WRITE_ONLY_AND_MASKED": {
+        "status": "PASS",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      "WAF_PRIVACY_AND_LIST_PERMISSIONS": {
+        "status": "PASS",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      "WAF_TICKS_PRIVATE_AND_LIMITED": {
+        "status": "PASS",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      "WAF_ANALYSIS_GAP_FORWARDED_AND_RECHECKED": {
+        "status": "PASS",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      "WAF_ANALYSIS_AUTOMATIC_RUN": {
+        "status": "PASS",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      "WAF_FG_REORDER_POINT_FORWARDED": {
+        "status": "PASS",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      "WAF_FG_RESOLVED_BEFORE_SEND": {
+        "status": "PASS",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      "WAF_FABRIC_REORDER_POINT_FORWARDED": {
+        "status": "PASS",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      "WAF_ACCESSORY_REORDER_POINT_FORWARDED": {
+        "status": "PASS",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      "SS1_FORMULA_FROM_POSTED_SALES": {
+        "status": "PASS",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      "SS1_OUT_OF_STOCK_DAYS_NOT_ZERO_DEMAND": {
+        "status": "PASS",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      "SS1_LEAD_TIME_MEASURED_FROM_PRODUCTION": {
+        "status": "PASS",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      "SS1_DAYS_BUFFER_NOT_STACKED": {
+        "status": "PASS",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      "SS1_SETTINGS_SERVICE_LEVEL_AND_WINDOW": {
+        "status": "PASS",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      "SS1_MANUAL_POINT_REPLACES_AND_CLEARS": {
+        "status": "PASS",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      "SS1_NOT_ENOUGH_DATA_NEVER_GUESSES": {
+        "status": "PASS",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      "SS1_REVERSED_SALE_NOT_DEMAND": {
+        "status": "PASS",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      "SS1_IN_PRODUCTION_COUNTS_TOWARD_POSITION": {
+        "status": "PASS",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      "SS1_SOURCE_AND_ACCESS": {
+        "status": "PASS",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      "SS1_VOLUME_2000_ITEMS_EVERY_MINUTE": {
+        "status": "PASS",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      "SS2_FABRIC_FORMULA_FROM_CUTTING_USE": {
+        "status": "PASS",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      "SS2_FABRIC_OUT_OF_STOCK_DAYS_NOT_ZERO_USE": {
+        "status": "PASS",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      "SS2_FABRIC_REVERSED_ISSUE_NOT_USE": {
+        "status": "PASS",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      "SS2_FABRIC_MINIMUM_STAYS_BELOW_MINIMUM": {
+        "status": "PASS",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      "SS2_FABRIC_ON_ORDER_COUNTS_TOWARD_POSITION": {
+        "status": "PASS",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      "SS2_NO_LEAD_TIME_NEVER_GUESSES": {
+        "status": "PASS",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      "SS3_ACCESSORY_USAGE_SHOWN_NO_FORMULA": {
+        "status": "PASS",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      "SS3_SERVICE_ZONES_NOT_FREE_STOCK": {
+        "status": "PASS",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      "SS3_ACCESSORY_MANUAL_MINIMUM_ZERO_NEVER": {
+        "status": "PASS",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      "SS3_MATERIAL_SOURCE_AND_ACCESS": {
+        "status": "PASS",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      "SS3_ACCESSORY_MINIMUM_FROM_OWNER_ESTIMATE": {
+        "status": "PASS",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      "WAF_OTHER_OPENING_AR_AP": {
+        "status": "PASS",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      "WAF_OTHER_PAYROLL_PAYMENT_INVERSE": {
+        "status": "PASS",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      "WAF_OTHER_ACCESSORY_ALLOCATION_NOT_SETTLEMENT": {
+        "status": "PASS",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      "WAF_OTHER_LAUNDRY_PAYMENT_INVERSE": {
+        "status": "PASS",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      "WAF_OTHER_LAUNDRY_OPENING_UNKNOWN": {
+        "status": "PASS",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      "WAF_OTHER_NARROWER_PERMISSIONS": {
+        "status": "PASS",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      "WAF_OTHER_ALL_DOMAINS_SUMMARY_PRIVATE": {
+        "status": "PASS",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      "WAF_ACCESSORY_NEED_NATIVE_UNKNOWN_FORWARDED": {
+        "status": "PASS",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      "WAF_ACCESSORY_NEED_MISSING_EMPTY": {
+        "status": "PASS",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      "WAF_ACCESSORY_NEED_BOM_SUCCESSOR": {
+        "status": "PASS",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      "WAF_ACCESSORY_NEED_CURRENT_PERMISSIONS": {
+        "status": "PASS",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      "WAF_ACCESSORY_NEED_ISSUE_NOT_INSTALLATION_RESOLVED": {
+        "status": "PASS",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      "WAF_ACCESSORY_NEED_POLICY_REPLAY_DEDUP": {
+        "status": "PASS",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      "WAF_ACCESSORY_NEED_PAUSE_RESUME": {
+        "status": "PASS",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      "OW14B_PREVIOUS_RULE_THEN_ONE_FORMULA": {
+        "status": "PASS",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      "OW14B_PINNED_REFERENCE_OLD_CLIENT": {
+        "status": "PASS",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      "OW14B_CHANGED_REFERENCE_NO_APPEND": {
+        "status": "PASS",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      "OW14B_REPLAY_IMMUTABLE_NO_SWITCH": {
+        "status": "PASS",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      "OW14B_ZERO_AND_UNKNOWN_DISTINCT": {
+        "status": "PASS",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      "OW14B_CLOSED_SCOPE_AND_PRECISE_WIRE": {
+        "status": "PASS",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      }
+    },
+    "races": {},
+    "http": {
+      "WAF_HTTP_OWNER_SETS_UP_AND_TESTS": {
+        "status": "PASS"
+      },
+      "WAF_HTTP_OTHERS_REFUSED": {
+        "status": "PASS"
+      },
+      "WAF_HTTP_FG_REORDER_SCREEN": {
+        "status": "PASS"
+      },
+      "WAF_HTTP_MATERIAL_REORDER_SCREEN": {
+        "status": "PASS"
+      },
+      "WAF_HTTP_ACCESSORY_NEED_SETTINGS_LOST_REPLY_REVOKED_REPLAY": {
+        "status": "PASS"
+      },
+      "OW14B_REAL_AUTH_CHOICE_AND_EXACT_REPLAY": {
+        "status": "PASS"
+      },
+      "OW14B_REAL_AUTH_REPLAY_CURRENT_REVOKE": {
+        "status": "PASS"
+      }
+    },
+    "browser": {
+      "WAF_BROWSER_DESKTOP_OWNER_SETS_UP_TESTS_AND_FORWARDS": {
+        "status": "PASS"
+      },
+      "WAF_BROWSER_MOBILE_OWNER_SETS_UP_TESTS_AND_FORWARDS": {
+        "status": "PASS"
+      },
+      "WAF_BROWSER_ADMIN_SEES_SYSTEM_REMINDERS_WITHOUT_WA": {
+        "status": "PASS"
+      },
+      "WAF_BROWSER_FG_REORDER_DESKTOP": {
+        "status": "PASS"
+      },
+      "WAF_BROWSER_FG_REORDER_MOBILE": {
+        "status": "PASS"
+      },
+      "WAF_BROWSER_MATERIAL_REORDER_DESKTOP": {
+        "status": "PASS"
+      },
+      "WAF_BROWSER_MATERIAL_REORDER_MOBILE": {
+        "status": "PASS"
+      },
+      "WAF_BROWSER_ACCESSORY_NEED_DESKTOP": {
+        "status": "PASS"
+      },
+      "WAF_BROWSER_ACCESSORY_NEED_MOBILE": {
+        "status": "PASS"
+      },
+      "OW14B_BROWSER_DESKTOP_CHOICE_RELOAD_UUID": {
+        "status": "PASS"
+      },
+      "OW14B_BROWSER_MOBILE_CHOICE_RELOAD_CURRENT_ACCESS": {
+        "status": "PASS"
+      }
+    }
+  },
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "source_sha256": "e7701eaada592cfd74a8555cf4cdcb7df8d180448213d3bbf5698c3bfa025127",
+  "artifact": {
+    "artifact_id": 12557018774,
+    "file_name": "ow14b-9532ba0-complete-json.zip",
+    "bytes": 1438200,
+    "sha256": "a744e62f1bb37023bf4536fe9d4a16402b08f37a90850d57ddc25ae0ec77d215"
+  },
+  "new_OW_acceptance_credit": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

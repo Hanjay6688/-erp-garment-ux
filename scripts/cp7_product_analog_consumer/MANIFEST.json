@@ -1,0 +1,25 @@
+{
+  "contract": "cp7.product-analog-consumer.prototype.v1",
+  "source_files_sha256": {
+    "kernel.sql": "26885f7d83c4ad4301f3e81727c6bc3555903e65598941f726bd24e395fa2992",
+    "baseline.sql": "eeb927430f4ed36bab11e62a27fc34e1cbe9e8d938d083f5364865611b6b9a6b"
+  },
+  "dependency_files_sha256": {
+    "cp7_product_analog_choice_stage/choice.sql": "16f84ef04b71183d0e70ad0eca72aa748000dd7b4c4436fa7fd922090f285a0d",
+    "cp7-src/wip/bootstrap.sql": "f13d218d6ef6c38bea1968081368cdf253538c79d36b67a51e61d126927c2769",
+    "cp7-src/demand/bootstrap.sql": "9ce00d27b69656d385df150dacfa155571c5cfa9fb818181746838d0c9fc1455",
+    "cp7-src/demand/estimate.sql": "c17c125d5139f06ce5a3ea9fd4ff15d32f5fc8952a73270a526913f18a5ff2f2",
+    "cp7_production_stage/sql/cp7_baseline__target.sql": "4b6ce8053dca12162188c62b6f6eb7b595ba5b6acfb431485026e150a064f71a",
+    "cp7_target_policy_stage/sql/cp7_analysis_stage__baseline_rows.sql": "29424c16f205ecc87b96fb74ca691f7568b447e8ffe74de295444112267d9c5f"
+  },
+  "private_functions": 5,
+  "public_facades": 0,
+  "new_tables": 0,
+  "old_replacements": 0,
+  "default_installed": false,
+  "forecast_applied": false,
+  "Native_qualified": false,
+  "Auth_qualified": false,
+  "installer_inverse_qualified": false,
+  "production_go": false
+}

@@ -1,0 +1,138 @@
+{
+  "contract": "cp7.analog-consumer-local.v1",
+  "classification": "LOCAL_ACTUAL_PRIVATE_SQL_AND_EXISTING_KERNELS_WITH_CONTROLLED_HISTORY_NOT_NATIVE",
+  "status": "FAIL",
+  "sources": {
+    "scripts/cp7-src/wip/bootstrap.sql": "f13d218d6ef6c38bea1968081368cdf253538c79d36b67a51e61d126927c2769",
+    "scripts/cp7-src/demand/bootstrap.sql": "9ce00d27b69656d385df150dacfa155571c5cfa9fb818181746838d0c9fc1455",
+    "scripts/cp7-src/demand/estimate.sql": "c17c125d5139f06ce5a3ea9fd4ff15d32f5fc8952a73270a526913f18a5ff2f2",
+    "scripts/cp7_production_stage/sql/cp7_baseline__target.sql": "4b6ce8053dca12162188c62b6f6eb7b595ba5b6acfb431485026e150a064f71a",
+    "scripts/cp7_product_analog_consumer/kernel.sql": "26885f7d83c4ad4301f3e81727c6bc3555903e65598941f726bd24e395fa2992",
+    "scripts/cp7_product_analog_consumer/baseline.sql": "4c51f61d84335ecdc489a9bd94f76d914096888e5799d956baba181866f80afa",
+    "scripts/cp7_target_policy_stage/sql/cp7_analysis_stage__baseline_rows.sql": "29424c16f205ecc87b96fb74ca691f7568b447e8ffe74de295444112267d9c5f"
+  },
+  "cases": [
+    {
+      "id": "CURRENT_QUERY_EXACT_NUMERATOR_AND_FINAL_CEIL",
+      "status": "PASS",
+      "observed": {
+        "current_query_replaces_old_evidence_total999": true,
+        "exact_one_third_times_three": "1",
+        "refs_deduplicated": true
+      }
+    },
+    {
+      "id": "ZERO_AVAILABLE_IS_ZERO_NOT_UNKNOWN",
+      "status": "PASS",
+      "observed": {
+        "available_zero": true
+      }
+    },
+    {
+      "id": "UNKNOWN_STOCKOUT_EXCLUDED_AND_MINIMUM",
+      "status": "PASS",
+      "observed": {
+        "unknown_and_stockout_never_zero_training": true
+      }
+    },
+    {
+      "id": "RECORDED_CLOCK_AND_LATEST_CLEAR",
+      "status": "PASS",
+      "observed": {
+        "recorded_future_excluded": true,
+        "latest_clear_visible_after_clock": true
+      }
+    },
+    {
+      "id": "PROFILE_PRODUCT_AND_SOURCE_INVALIDATION",
+      "status": "PASS",
+      "observed": [
+        "ANALOG_PROFILE_CHANGED",
+        "ANALOG_PROFILE_UNREVIEWED",
+        "ANALOG_PRODUCT_IDENTITY_CHANGED",
+        "CP7_ANALOG_CONSUMER_EVIDENCE"
+      ]
+    },
+    {
+      "id": "ALL_HISTORY_REQUIRED_AND_ORDER_INDEPENDENT",
+      "status": "PASS",
+      "observed": {
+        "all_sources_required_even_outside_target_chunk": true,
+        "permutation_identical": true
+      }
+    },
+    {
+      "id": "STRICT_HISTORY_DATE_COUNT_AND_PCS",
+      "status": "PASS",
+      "observed": {
+        "refused": 5
+      }
+    },
+    {
+      "id": "DEMAND_PRIORITY_MANUAL_OWN_ANALOG",
+      "status": "PASS",
+      "observed": {
+        "existing_priority_preserved": true
+      }
+    },
+    {
+      "id": "SCALE_AND_STATISTICAL_SAME_HISTORY_ONE_BUFFER",
+      "status": "PASS",
+      "observed": {
+        "independent_80_digit_decimal_target": "97",
+        "one_buffer": true
+      }
+    },
+    {
+      "id": "STATISTICAL_INSUFFICIENT_NOT_ZERO_SD",
+      "status": "PASS",
+      "observed": {
+        "missing_sd_preserved": true
+      }
+    },
+    {
+      "id": "LARGE_PCS_AND_DECIMAL_SCALE_NO_FLOAT",
+      "status": "PASS",
+      "observed": {
+        "above_js_safe_integer_exact": true
+      }
+    },
+    {
+      "id": "LONG_REVIEW_REASON_PRESERVED_OUTSIDE_KERNEL_KEY",
+      "status": "PASS",
+      "observed": {
+        "no_truncation": true
+      }
+    },
+    {
+      "id": "ADAPTER_NO_CHOICE_LEGACY_FULL_JSON_PARITY",
+      "status": "PASS",
+      "observed": {
+        "all_rows_exact_legacy_JSON": true
+      }
+    },
+    {
+      "id": "ADAPTER_CROSS_CHUNK_TARGET_SAME_FULL_CONTEXT",
+      "status": "FAIL",
+      "error": "error: CP7_WIP_REFS\n    at pe.Oe (file:///workspace/scratch/282188edcd04/local-sql/node_modules/@electric-sql/pglite/dist/chunk-3OMHRXTA.js:1:18162)\n    at pe.tt (file:///workspace/scratch/282188edcd04/local-sql/node_modules/@electric-sql/pglite/dist/chunk-3OMHRXTA.js:1:15548)\n    at pe.parse (file:///workspace/scratch/282188edcd04/local-sql/node_modules/@electric-sql/pglite/dist/chunk-3OMHRXTA.js:1:14222)\n    at p.D_ (file:///workspace/scratch/282188edcd04/local-sql/node_modules/@electric-sql/pglite/dist/index.js:6:1759)\n    at file:///workspace/scratch/282188edcd04/local-sql/node_modules/@electric-sql/pglite/dist/index.js:6:1151\n    at wasm://wasm/0280c65e:wasm-function[10964]:0x58cc19\n    at wasm://wasm/0280c65e:wasm-function[3606]:0x2792af\n    at wasm://wasm/0280c65e:wasm-function[3648]:0x2807ba\n    at wasm://wasm/0280c65e:wasm-function[3658]:0x2809ef\n    at wasm://wasm/0280c65e:wasm-function[9946]:0x5393b2"
+    },
+    {
+      "id": "ADAPTER_MANUAL_AND_OWN_FULL_JSON_PARITY",
+      "status": "PASS",
+      "observed": {
+        "manual_and_own_full_JSON_equal": true
+      }
+    },
+    {
+      "id": "ADAPTER_STATISTICAL_AND_CLEARED_UNKNOWN",
+      "status": "FAIL",
+      "error": "error: CP7_WIP_REFS\n    at pe.Oe (file:///workspace/scratch/282188edcd04/local-sql/node_modules/@electric-sql/pglite/dist/chunk-3OMHRXTA.js:1:18162)\n    at pe.tt (file:///workspace/scratch/282188edcd04/local-sql/node_modules/@electric-sql/pglite/dist/chunk-3OMHRXTA.js:1:15548)\n    at pe.parse (file:///workspace/scratch/282188edcd04/local-sql/node_modules/@electric-sql/pglite/dist/chunk-3OMHRXTA.js:1:14222)\n    at p.D_ (file:///workspace/scratch/282188edcd04/local-sql/node_modules/@electric-sql/pglite/dist/index.js:6:1759)\n    at file:///workspace/scratch/282188edcd04/local-sql/node_modules/@electric-sql/pglite/dist/index.js:6:1151\n    at wasm://wasm/0280c65e:wasm-function[10964]:0x58cc19\n    at wasm://wasm/0280c65e:wasm-function[3606]:0x2792af\n    at wasm://wasm/0280c65e:wasm-function[3648]:0x2807ba\n    at wasm://wasm/0280c65e:wasm-function[3658]:0x2809ef\n    at wasm://wasm/0280c65e:wasm-function[9946]:0x5393b2"
+    }
+  ],
+  "Native_qualified": false,
+  "Auth_qualified": false,
+  "installer_inverse_qualified": false,
+  "full_A_chain_qualified": false,
+  "forecast_activated": false,
+  "production_go": false
+}

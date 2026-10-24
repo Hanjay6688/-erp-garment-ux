@@ -1966,3 +1966,143 @@ CSS64, source372/RPC316, akses111 dan tiga helper promise lulus. Gate akses awal
 315vs316 disimpan dalam receipt dan diselesaikan lewat satu deklarasi caller nyata.
 Belum ada klaim runtime adapter. Parent A terbaru4a012872 memuat actual Auth2,
 Browser2 dan cash3 baseline+current PASS; parent B tetap714d66f5.
+## 73. B24 Oktober2026 — konfirmasi Native6 dan transport10 berjalan terpisah
+
+Kandidat9532ba0e/run40085123363 gagal bootstrap sebelum database dimulai:
+copy workflow salah mengganti pin jsonschema4.25.1 menjadi6.25.1. Receipt pertama
+tersimpan;528ba773 mengembalikan pin persis dan run40085273832 menguji Native6.
+714d66f5 memperbaiki identitas katalog fungsi source_at ke ejaan PostgreSQL
+`timestamp with time zone`; SQL/bisnis/oracle tidak diubah. Run40085746207 memakai
+kandidat tersebut. Kedua Original belum dikreditkan sebelum diperiksa.
+
+Pemeriksaan yang otomatis terpicu oleh perubahan routing probe pada9532ba0e:
+OW16 run40085123316/job120846382173 actual16/16 PASS; OW13b
+run40085123327/job120846382159 actual20/20 PASS. Original diperiksa, seluruh5 gate
+paket true serta restore/advisor true. Ini bukti retensi, bukan tambahan penyelesaian
+OW. OW14b run40085123322 masih berjalan pada catatan ini.
+
+Transport10 dideklarasikan terpisah:1 katalog anchor tanpa kredit baru,6 race dua
+backend (UUID/CAS dan actual envelope/request/target waits),3 Auth/PostgREST.
+Pembaca/pilihan hanya dipasang pada salinan masing-masing uji; parent12 dan installer
+bawaan A tetap. Peta consumer lintas chunk, exact numerator, kedua clock dan source
+hash disimpan di `ow11/CONSUMER_INTEGRATION_MAP.md`; implementasi consumer belum ada.
+Jangan menganggap konfirmasi metadata atau transport sebagai forecast aktif.
+
+## 74. B24 Oktober2026 — Native6 PASS; form konfirmasi disiapkan, belum default
+
+Original528ba77/run40085273832 memuat enam refusal katalog identitas timestamp;
+bukan kegagalan bisnis. Receipt lengkap tetap disimpan. Kandidat714d66f5,
+run40085746207/job120848196696, Native6 actual6/6 PASS, katalog22 pulih,
+cp6/advisor true dan seluruh5 gate paket true. Pada2023 produk termasuk2000 dense,
+202022 baris digest, tiga write UUID baru5415.949/5379.084/5392.534ms; dua full
+source checks di setiap writer, batas8s tetap. Ini bukti metadata konfirmasi,
+bukan aktivasi demand/forecast, SLA pabrik, after-use/fullAchain atau OW11 selesai.
+
+Regresi9532ba0 Original OW16=16/16, OW13b=20/20, OW14b=113/113, semuanya
+5gate/restore/advisor true. Receipt masing-masing tersimpan tanpa penambahan
+kredit OW. Archive produksi v36 mempertahankan296 anggota lama byte-identik dan
+menambah10 Original/receipt/log. Native6 PASS baru disimpan terpisah setelah v36.
+Transport10 kandidat93c096dc/run40086565713/job120850606120 masih berjalan;
+penilaian menunggu Original, bukan disimpulkan dari Native6.
+
+Client konfirmasi menuntut produk yang terlihat, skala positif eksplisit, alasan,
+review, epoch/revisi/snapshot tepat; nilai desimal dan PCS tetap string. Form
+opt-in menyimpan command+review sebelum send, memakai kunci writer browser,
+menolak transaksi domain lain yang belum selesai, replay UUID/payload sama setelah
+reload, membedakan refusal pertama dari replay tidak pasti, dan menahan late reply
+sesudah perubahan tab. CLEAR append dapat memakai workspace terbaru tanpa snapshot
+lama. Layar utama belum memasang prop choiceReview; tidak ada aktivasi diam-diam.
+Uji client/DOM terkait62/62, TypeScript danCSS64 PASS. React review dilakukan:
+callback/read dengan dependensi primitive, cleanup seq/listener, field berlabel,
+checkbox eksplisit, no numeric coercion/no default scale. Browser nyata konfirmasi
+belum dibuktikan; penyambungan consumer lintas chunk tetap pekerjaan berikut.
+
+Shared checker A byte-identik f1148cb...; proposal tepat20 pasangan (18 sebelumnya
++2 choice facade) lulus369 runtime/315RPC tanpa orphan/direct table. Patch baru
+hanya2 pasangan setelah proposal18; A tetap pemilik registry/generated types/
+installer/default/fullchain. Induk5/16, independent_acceptance/production_go=false.
+
+## 75. B24 Oktober2026 — Browser2 konfirmasi dideklarasikan
+
+Kandidat client09313ea8 tersimpan. Layar disposable kini menyediakan tombol eksplisit
+Atur pilihan pembanding, setelah daftar advisory. Pembaca biasa tetap tidak membaca
+atau menulis konfigurasi pilihan. Scope recovery sama dengan hook produksi existing
+(projectRef:profile.id); hasil tetap hanya asumsi metadata, forecast=false.
+
+Uji baru Browser2 terpisah: mobile390 konfirmasi nyata200 lalu delivery loss,
+reload pekerjaan dan UUID yang sama, exact replay, CLEAR sesudah K2 expired, receipt
+lama tetap sama; desktop1440 dense2000/202000 konfirmasi, perubahan stok Native
+nyata menolak confirmation stale40001, user dicabut menolak GET dan committed
+replay. Form memperlihatkan SKU/nama pembanding tersimpan serta skala/alasan/revisi.
+Dua stage baru hanya dipasang pada salinan browser setelah parent12 diverifikasi;
+parent default A tidak dipasang pilihan dan tidak melakukan inverse setelah dipakai.
+Semua Auth dan copy harus dibersihkan; restore/advisor/paket wajib true. Ini bukti
+komponen yang belum diperoleh, bukan audit independen atau penerimaan OW11.
+
+Kontrak/group routing baru2, budgets31/25/19 tetap, bootstrap jsonschema4.25.1
+byte-identik, Python/JS parse/TS/CSS64/proposal20 PASS. Setelah perubahan label
+bukti client31/31 rerun terkait PASS; sebelumnya seluruh62/62 PASS,3 helperwaiter
+PASS. Perubahan exporter helper browser lama hanya membuka dua fungsi setup yang
+sama untuk dipakai suite baru. Source SQL/module qualified Native6 tidak berubah.
+Consumer forecast dan kebijakan model/backtest masih OPEN; induk5/16.
+
+## 76. B24 Oktober2026 — Transport10 laporan pertama INCOMPLETE
+
+Run40086565713/job120850606120 kandidat93c096dc menghasilkan10 kasus actual
+PASS di log (1 katalog,6 dua-backend races,3 Auth HTTP). Namun pemilih kelompok
+laporan menolak races/http setelah kasus selesai: BOUNDED_PREDECLARED_GROUP_CHANGED.
+Tidak ada CP7 transport Original lengkap; paket installed/restore/writer=false,
+primary/advisor=true. Receipt kegagalan dan log utuh dipertahankan. Sepuluh baris
+log tidak dinaikkan menjadi PASS paket atau kredit OW.
+
+Perbaikan menerima tepat budget native1/races6/http3 hanya saat flag transport
+dipilih, serta memvalidasinya sebelum kasus berjalan. Selector suite lama tetap;
+SQL, oracle, timeout dan budget tidak berubah. Positif/negatif routing, parse
+Python/YAML PASS. Rerun diperlukan untuk Original lengkap dan seluruh gate.
+Browser2 pilihan f67fa402/run40088215221 juga selesai INCOMPLETE; bukti dan
+penyebab sedang diperiksa terpisah. Consumer masih dikerjakan lokal, belum
+termasuk kandidat perbaikan laporan ini. Induk5/16 dan production_go=false.
+
+## 77. B24 Oktober2026 — Browser2 pertama: label select diperbaiki
+
+Original f67fa402/run40088215221/job120855364135 lengkap:2/2 INCOMPLETE,
+masing-masing berhenti sebelum SAVE. Form dan kandidat tampil, GET200 tanpa alert,
+namun label select membungkus seluruh opsi sehingga locator exact tidak menemukan
+nama Produk pembanding. Dua screenshot diperiksa lokal, tidak dimasukkan archive.
+cp6/advisor/auth-restored true; paket4/5 gate true, writer=false. Kegagalan pertama
+serta Original/log utuh disimpan. Tidak ada kredit actual confirmation/recovery.
+
+Label dipisah dari select dengan htmlFor/useId; uji31/31, TypeScript PASS,
+regresi memastikan text label tepat dan berasosiasi dengan select. Oracle browser
+exact-label, kedua journey, timeout serta semua pemeriksaan transaksi tetap.
+Rerun diperbaiki ini diperlukan. Consumer lokal belum dipublikasikan.
+
+## 78. B24 Oktober2026 — Consumer privat20 lokal PASS, belum aktif
+
+Prototype5 fungsi privat menyelesaikan resolver pilihan serta adapter baseline
+yang memakai kernel demand/target existing. Total AVAILABLE query baru*skala/hari
+dijaga sampai ceil akhir; SD dari sumber yang sama; alasan lengkap/provenance,
+clock mikrodetik, CLEAR, ukuran/versi/profil dan seluruh histori divalidasi.
+Tanpa pilihan, manual dan own cukup menghasilkan JSON identik dengan baseline
+qualified pada fixture. Pembanding di luar chunk dibuktikan termasuk2000 produk
+terkendali; belum Native scale.20 uji actual SQL lokal PASS, kedua kegagalan
+pertama disimpan; parser dan clash checker bersih. Manifest pin source/dependency.
+
+Tidak ada RPC/table baru/old replacement/default installer atau forecast aktif.
+Penyambungan capture, fingerprint semua jalur, dua-pass histori dan delta tepat
+writer masih OPEN; rincian CONSUMER_CONTRACT/INTEGRATION_MAP. Uji transport32cb39dd
+dan browser3cd85722 masih berlangsung. Induk5/16, production_go=false.
+
+## 79. B24 Oktober2026 — Browser konfirmasi200; perjalanan masih INCOMPLETE
+
+Original3cd85722/run40089419592/job120858868157: kedua layar mencapai satu SAVE
+HTTP200. Mobile kehilangan delivery sesuai fixture dan recovery muncul, lalu
+assertion fieldset gagal walau log menunjukkan atribut disabled. Desktop menunjukkan
+receipt revisi1, lalu exact label textarea tidak ditemukan ketika alasan lama sudah
+terisi.2/2 INCOMPLETE, cp6/advisor/Auth restored=true, paket4/5 gate true. Original
+dan log lengkap dipertahankan; dua write200 tidak menjadi PASS recovery/full journey.
+
+Scale dan textarea kini memakai label htmlFor terpisah seperti select. Assertion
+memeriksa atribut fieldset sekaligus setiap select/input/textarea/button disabled,
+sehingga penguncian perilaku tetap wajib.31 client/DOM, TypeScript, JS parse PASS.
+Tidak mengubah SQL, UUID/payload recovery, oracle transaksi atau timeout.

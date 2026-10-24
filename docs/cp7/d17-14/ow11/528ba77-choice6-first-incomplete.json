@@ -1,0 +1,75 @@
+{
+  "contract": "cp7.component-original-receipt.v1",
+  "candidate_sha": "528ba7733ea4806f76e6dfd3662801662b54abe9",
+  "run_id": 40085273832,
+  "job_id": 120846815257,
+  "run_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/40085273832",
+  "status": "INCOMPLETE",
+  "expected_case_count": 6,
+  "observed_case_count": 6,
+  "required_case_counts": {
+    "native": 6
+  },
+  "required_case_ids_pass": true,
+  "required_case_counts_pass": false,
+  "groups": {
+    "native": {
+      "OW11_ANALOG_CHOICE_CATALOG22_PREUSE_AND_DEPENDENCY": {
+        "status": "INCOMPLETE",
+        "error": "ANALOG_CHOICE_UNDECLARED_DELTA: functions:cp7_product_analog_choice.source_at(text[],timestamp with time zone)",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      "OW11_ANALOG_CHOICE_APPEND_CLEAR_REPLAY_CAS_AND_CLOCKS": {
+        "status": "INCOMPLETE",
+        "error": "ANALOG_CHOICE_UNDECLARED_DELTA: functions:cp7_product_analog_choice.source_at(text[],timestamp with time zone)",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      "OW11_ANALOG_CHOICE_REVIEW_SCALE_SIZE_UNKNOWN_AND_SELF": {
+        "status": "INCOMPLETE",
+        "error": "ANALOG_CHOICE_UNDECLARED_DELTA: functions:cp7_product_analog_choice.source_at(text[],timestamp with time zone)",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      "OW11_ANALOG_CHOICE_STALE_FOREIGN_K2_AND_CURRENT_ACCESS": {
+        "status": "INCOMPLETE",
+        "error": "ANALOG_CHOICE_UNDECLARED_DELTA: functions:cp7_product_analog_choice.source_at(text[],timestamp with time zone)",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      "OW11_ANALOG_CHOICE_ATOMIC_LAST_TABLE_FAULT": {
+        "status": "INCOMPLETE",
+        "error": "ANALOG_CHOICE_UNDECLARED_DELTA: functions:cp7_product_analog_choice.source_at(text[],timestamp with time zone)",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      },
+      "OW11_ANALOG_CHOICE_DENSE2000_202000_THREE_WRITES_UNDER8S": {
+        "status": "INCOMPLETE",
+        "error": "ANALOG_CHOICE_UNDECLARED_DELTA: functions:cp7_product_analog_choice.source_at(text[],timestamp with time zone)",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true
+      }
+    }
+  },
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "source_sha256": "e7701eaada592cfd74a8555cf4cdcb7df8d180448213d3bbf5698c3bfa025127",
+  "artifact": {
+    "artifact_id": 12557376164,
+    "file_name": "ow11-528ba77-choice6-complete-json.zip",
+    "bytes": 203834,
+    "sha256": "2d046b95dc3eef944c594916d6e3ed5ed26d7f137d47789fcc3252aadb9243c6"
+  },
+  "new_OW_acceptance_credit": false,
+  "independent_acceptance": false,
+  "production_go": false,
+  "root_cause": "All six cases refused admission because source_at declared timestamptz instead of canonical timestamp with time zone. Canonical declaration repair is 714d66f5; no SQL, rule, assertion or timeout change."
+}

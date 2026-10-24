@@ -1,3 +1,20 @@
+# Titik lanjut aktif —24 Oktober2026, konfirmasi dan transport
+
+Browser2 PASS2/2 pada624e2786 tetap bukti UI advisory terakhir. Backend pilihan
+baru berada di714d66f5:4 privat/2 facade/2 tabel immutable,0 replacement.
+Native6 berjalan run40085746207; run40085273832 pada528ba773 harus tetap dibaca
+untuk mempertahankan kegagalan pertama katalog bila muncul. Bootstrap9532ba0e
+run40085123363 gagal pin dependensi sebelum database dan receipt sudah disimpan.
+
+Transport10 kini disiapkan di cp7_ow11_choice_transport_{cases,probe}.py,
+1 anchor+6 race+3 HTTP; tunggu Original, jangan kredit dari sintaks atau badge.
+OW16 dan OW13b retensi9532ba0e terbukti16/16 dan20/20 dengan5 gate true;
+OW14b run40085123322 masih menunggu. Consumer satu mesin/clock/hash belum diterapkan;
+peta source tepat ada di ow11/CONSUMER_INTEGRATION_MAP.md. Lanjut tanpa meminta
+keputusan ulang; nilai bisnis harus tetap dipilih pengguna lewat config eksplisit.
+
+---
+
 # Pembaruan aktif —24 Oktober2026: Browser2 PASS, lanjut konfirmasi
 
 B tetap cabang `astra/d17-14-produksi`. Browser2 pada624e2786
