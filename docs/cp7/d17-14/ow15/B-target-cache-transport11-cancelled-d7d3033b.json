@@ -1,0 +1,35 @@
+{
+  "contract": "cp7.B-component-original-intake.v1",
+  "name": "CP7_OW11_MODEL_TARGET_TRANSPORT.json",
+  "status": "INCOMPLETE",
+  "head": "d7d3033b97a08d8bfc180dac638ea60b90e19c23",
+  "run_id": 40119284316,
+  "job_id": 120947092229,
+  "artifact_id": 12572315518,
+  "zip_bytes": 82339,
+  "zip_sha256": "f297f12b18c409fa3b14fc732c8268dac36e2c7e8dba538141bed048f252f5d0",
+  "bytes": 727794,
+  "sha256": "26862eae327962cda62f9c055245a027d0cf6f128bf9f6a91faf32e5a4b305fb",
+  "whole_job_status": "completed",
+  "source_pins_verified": 15,
+  "current_target_replacements": 21,
+  "full_transport11_credit": false,
+  "full_A_chain_credit": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "whole_job_conclusion": "cancelled",
+  "native_counts": {
+    "PASS": 1
+  },
+  "race_counts": {
+    "PASS": 7
+  },
+  "http_group_returned": false,
+  "package_gate_absent": true,
+  "cp6_restored": false,
+  "advisor_gate": false,
+  "final_cleanup_proven": false,
+  "suite_credit": false,
+  "error": "Command '['docker', 'exec', 'supabase_db_cp5-local', 'dropdb', '-U', 'supabase_admin', '--if-exists', '--force', '--maintenance-db=template1', 'cp6_auditor_http']' returned non-zero exit status 1.",
+  "restore_error": "connection failed: connection to server at \"127.0.0.1\", port 54322 failed: server closed the connection unexpectedly\n\tThis probably means the server terminated abnormally\n\tbefore or while processing the request."
+}

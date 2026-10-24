@@ -1,0 +1,42 @@
+{
+  "contract": "cp7.B-component-original-intake.v1",
+  "name": "CP7_OW11_MODEL_TARGET_TRANSPORT_PART_A.json",
+  "status": "PASS",
+  "head": "2b3359346b49e3b5da17cb10e4accc886c7afc42",
+  "run_id": 40120202292,
+  "job_id": 120949897510,
+  "artifact_id": 12572450064,
+  "zip_bytes": 93936,
+  "zip_sha256": "174ae107fe907858297c7497bb21001609665ecba239a8c2ce8767322ac8164f",
+  "bytes": 744738,
+  "sha256": "e104b11b3f26e752850a1ac0114175160dda1f250f93613d6b7a8cde6134eae3",
+  "whole_job_status": "completed",
+  "source_pins_verified": 15,
+  "current_target_replacements": 21,
+  "full_transport11_credit": false,
+  "full_A_chain_credit": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "whole_job_conclusion": "success",
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "partition": "A",
+  "native_counts": {
+    "PASS": 1
+  },
+  "race_counts": {
+    "PASS": 4
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "partition_source_pins_verified": true,
+  "complete_pair_required": true,
+  "duplicate_catalog_case_credit": 0,
+  "disclosed_race_only_test_usage_grant": true,
+  "all_race_copies_clean": true
+}

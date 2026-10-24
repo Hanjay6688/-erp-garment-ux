@@ -3257,3 +3257,21 @@ credit. A Native20 uses its own full-current case adapter and does not execute
 the B F05 source workflows. Scoped history remains opt-in, absent from A current
 installation; its independent acceptance and after-use composition are still open.
 Current Native20 remains SOURCE absent until corrected B190 Native6 Original PASS.
+
+
+## A25 Oktober2026 WIB — retain current transport timeout and exact PartA PASS
+
+D7 fullTransport11/run40119284316/job120947092229 cancelled45min. Complete
+artifact12572315518 ZIP82339 SHA256f297f12b18c409fa3b14fc732c8268dac36e2c7e8dba538141bed048f252f5d0;
+Original727794 SHA25626862eae327962cda62f9c055245a027d0cf6f128bf9f6a91faf32e5a4b305fb.
+Returned catalog1+race7PASS, races copy0, noHTTP aggregate. Finalcp6_restored
+and advisor_gate false, packagegate absent; failure at HTTPcopydrop after server
+shutdown. No suite/finalcleanup credit and no unchanged restart.
+
+Exact B2b335934 PartA/run40120202292/job120949897510 success. Complete
+artifact12572450064 ZIP93936 SHA256174ae107fe907858297c7497bb21001609665ecba239a8c2ce8767322ac8164f;
+Original744738 SHA256e104b11b3f26e752850a1ac0114175160dda1f250f93613d6b7a8cde6134eae3.
+Catalog1+first4races PASS, exact15current21/8productpins and2providerpins,
+all5package/CP6/advisor gates, racecopy0. PartB/job120949897608 still pending.
+Full11 requires both complete same-head Originals; repeatedcatalog credit0.
+No A Native20, factory or independent/production claim is transferred.
