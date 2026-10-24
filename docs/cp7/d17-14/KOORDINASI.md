@@ -2125,3 +2125,49 @@ Originals with all package/advisor/restore gates are required. This addresses
 repeated cancellation without discarding unfinished controls. Current21/8
 Native/browser/full-transport are running, and private history Native4 runs
 on7ae6f4db/40119748745. Formal5/16 and production/independent acceptance false.
+
+## 117. B24 Oktober2026 UTC — immutable scoped-history runtime candidate
+
+2b335934 publishes exact transport partitioning. Both jobs run under
+run40120202292 (A/job120949897510, B/job120949897608); neither has a complete
+Original yet. Cache Native6/run40119284264 remains pending.
+
+Private source7ae6f4db/run40119748745/job120948490158 completed success.
+Complete Original12571037094 (158837 bytes, SHA256
+09c7556b2a6059a4f7790a92b6d5fb8cef88e2a7a95908db997be0e9756bd7f0)
+has4PASS, exact source/declaration pins, all package/CP6/advisor/required
+gates true. Actual Native draft/post/return/inverse gives physical/reserved/
+available100/24/76 →76/0/76 →77/0/77 →100/0/100 without double subtraction.
+Dense synthetic2000/202000 source reads71.133/63.758ms, not factory SLA.
+Both physical/system visibility clocks, no historical rewrite, exact catalog22
+inverse and direct client denial PASS; every case restores boundary with zero
+lock/session leaks. Immutable runtime, Auth and model integration remain open.
+
+d7d3033b/run40119284296/job120947092145 Browser2 completed success. Complete
+Original12570114724 (45803 bytes, SHA256
+9db3d1b0cf8037241d3ac8017535ae38ffc1c5cbe4ecda4cb93b058a1453e826)
+has2PASS, exact21/8 sources, all package/CP6/advisor/required gates true,
+Auth0000→0000, console0/sessions[]/copy0. Actual mobile unknown→analog1→clear
+and dense desktop analog2/reload remain qualified. This does not exercise the
+new warehouse cache refusal UI or positive forecast activation.
+
+New opt-in cp7_model_history_runtime stores one explicit root/size over closed
+WIB≤366days in an immutable private RLS table. Five private functions/two
+facades/one table; no old replacement or default/model caller change. Actual
+Native four-permission helper, global envelope then actor/method/UUID lock,
+current-access checks after each wait, exact original payload replay, source/
+engine recheck before insertion and before return. Reading returns old history
+verbatim plus separate current guard; changed/unavailable scope retires it,
+unexpected errors propagate. No source-row or historical knowledge rewrite.
+
+Local11PASS with actual runtime/scoped-source/history/access SQL on controlled
+ERP/auth primitives covers replay/payload, equal-total row changes, identity
+unavailability, current/foreign access, each admission boundary with no orphan,
+mid-calculation source change, runtime engine change, unexpected fault,
+immutability/last-row fault/ACL, and5504-product single-root capture. It is not
+actual Native/Auth/concurrency evidence. Exact22 opt-in installer and inverse
+refuse retained rows or an external caller; after-use composed restore open.
+Separate Native6 declared for catalog, actual capture/replay, SALE source,
+current access, dense2000/202000 and final-row/engine controls. Source/static/
+declaration checks PASS; Native/HTTP/concurrent/browser and model integration
+remain open. Formal5/16, CP7C unaccepted, production/independent acceptance false.

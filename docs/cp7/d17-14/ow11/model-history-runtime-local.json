@@ -1,0 +1,112 @@
+{
+  "contract": "cp7.model-history-runtime-local.v1",
+  "status": "PASS",
+  "expected": 11,
+  "counts": {
+    "PASS": 11
+  },
+  "cases": [
+    {
+      "id": "EXACT_UUID_ONE_IMMUTABLE_SCOPED_CAPTURE",
+      "status": "PASS",
+      "observed": {
+        "same_UUID_same_payload_one_row": true,
+        "server_known_at_not_backdated": true,
+        "actual_scoped_source_and_history_kernel": true
+      }
+    },
+    {
+      "id": "SAME_REQUEST_CHANGED_QUERY_REFUSED",
+      "status": "PASS",
+      "observed": {
+        "exact_payload_namespace": true,
+        "closed_single_target_query": true,
+        "no_refusal_rows": true
+      }
+    },
+    {
+      "id": "CHANGED_SOURCE_ARCHIVE_REPLAY_UNCHANGED_NEW_CAPTURE_CURRENT",
+      "status": "PASS",
+      "observed": {
+        "full_row_change_detected_despite_equal_totals": true,
+        "old_row_immutable": true,
+        "current_capture_separate": true
+      }
+    },
+    {
+      "id": "ABSENT_OR_CHANGED_SIZE_TARGET_RETIRES_ARCHIVE_WITHOUT_ZERO",
+      "status": "PASS",
+      "observed": {
+        "unavailable_not_known_zero": true,
+        "no_recalculated_old_result": true
+      }
+    },
+    {
+      "id": "CURRENT_REVOKED_ACCESS_AND_FOREIGN_ACTOR_PRECEDE_REPLAY",
+      "status": "PASS",
+      "observed": {
+        "actual_Native_access_body_controlled_auth_primitives": true,
+        "revoked_and_foreign_no_history_disclosure": true
+      }
+    },
+    {
+      "id": "ACCESS_CHANGE_AT_EACH_ADMISSION_BOUNDARY_LEAVES_NO_ROW",
+      "status": "PASS",
+      "observed": {
+        "after_envelope_after_request_before_insert_and_after_insert_rechecked": true,
+        "controlled_counter_not_actual_concurrency": true,
+        "no_orphan": true
+      }
+    },
+    {
+      "id": "SOURCE_CHANGE_DURING_COMPUTATION_REFUSED_BEFORE_INSERT",
+      "status": "PASS",
+      "observed": {
+        "actual_runtime_detects_controlled_source_change": true,
+        "no_orphan_capture": true
+      }
+    },
+    {
+      "id": "RUNTIME_ENGINE_CHANGE_RETIRES_IMMUTABLE_HISTORY",
+      "status": "PASS",
+      "observed": {
+        "runtime_engine_bound_separately_from_physical_source": true
+      }
+    },
+    {
+      "id": "UNEXPECTED_SOURCE_ERROR_IS_NOT_DOWNGRADED_TO_STALE",
+      "status": "PASS",
+      "observed": {
+        "unknown_failure_propagates": true
+      }
+    },
+    {
+      "id": "IMMUTABILITY_FINAL_INSERT_FAULT_AND_PRIVATE_ACL",
+      "status": "PASS",
+      "observed": {
+        "immutable_private_RLS_table": true,
+        "authenticated_facade_only": true,
+        "last_row_fault_atomic": true
+      }
+    },
+    {
+      "id": "LARGE_PRODUCT_UNIVERSE_PERSISTS_ONLY_EXPLICIT_ROOT",
+      "status": "PASS",
+      "observed": {
+        "controlled_products": 5504,
+        "old_global_bound_unchanged": true,
+        "explicit_root_persisted": true
+      }
+    }
+  ],
+  "runtime_sql_sha256": "40a61d71d143de14d93502a2aba84ffbe04ab8fe78c3a83e9c71111a46c2c0f5",
+  "actual_SQL": true,
+  "actual_scoped_source_and_history": true,
+  "controlled_ERP_auth_primitives_and_interleavings": true,
+  "actual_Native_capture": false,
+  "actual_Auth_HTTP_credit": false,
+  "actual_concurrency": false,
+  "exact_catalog_installer_qualified": false,
+  "model_caller_integrated": false,
+  "production_go": false
+}
