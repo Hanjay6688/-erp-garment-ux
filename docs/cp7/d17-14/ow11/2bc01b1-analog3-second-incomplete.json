@@ -1,0 +1,66 @@
+{
+  "candidate": "2bc01b158c066fa876e460f9b3cbead895e3e127",
+  "status": "INCOMPLETE",
+  "expected": 3,
+  "observed": 3,
+  "counts": {
+    "PASS": 2,
+    "INCOMPLETE": 1
+  },
+  "preuse22_exact": 12,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "declaration_sha256": "28063f319c71f5c208a87a9a4f8c2581973f0e9b098fb5721e0ccfd411a2ae91",
+  "prototype_manifest": {
+    "contract": "cp7.product-analog-candidates.prototype.v1",
+    "sql_sha256": "f36b629eeb12cd16dd10eb4910f10490fc54b462d6a88768493d774b3c16a8b6",
+    "private_functions": 1,
+    "public_facades": 0,
+    "new_tables": 0,
+    "old_replacements": 0,
+    "selected": false,
+    "reviewed": false,
+    "forecast_applied": false,
+    "runtime_qualified": false,
+    "default_installed": false,
+    "production_go": false,
+    "dependency_files_sha256": {
+      "cp7_bounded_analysis_stage/stage.sql": "3d24ce30e643c60d965601eacfb5ae407da10b58e2fd638ff7116d7dd3f4b24c",
+      "cp7_reorder_inputs/capture.sql": "a4921aa90111709dfbde026e6b98beb6d977dcd46d212d3cc0fbd97a159f7e78",
+      "cp7-src/demand/history.sql": "01c0fb8c51758e933c2f43079690a8a9e99e96d7346cb018ee916077bd7260c8",
+      "cp7-src/demand/estimate.sql": "c17c125d5139f06ce5a3ea9fd4ff15d32f5fc8952a73270a526913f18a5ff2f2",
+      "cp7-src/wip/bootstrap.sql": "f13d218d6ef6c38bea1968081368cdf253538c79d36b67a51e61d126927c2769"
+    }
+  },
+  "contract": "cp7.analog-private-second-incomplete.v1",
+  "tree": "a51fa1bbf8c74081532875e35d12c26f0cd1e5d3",
+  "source": "f5e54d9e85817d34e051b57874f75175ba6300b3",
+  "run_id": 40048062052,
+  "job_id": 120734194727,
+  "source_files_exact": 47,
+  "original": {
+    "artifact_id": 12541987536,
+    "bytes": 136185,
+    "sha256": "16f9e91a079e6fb00760f157cf77da6d3221fb4446ac63a58d2b30783f2910f6"
+  },
+  "full_artifact": {
+    "artifact_id": 12542765184,
+    "bytes": 1737000,
+    "sha256": "9c358f4cb8ae70f3d55461aba59f653a8f4994660d3f2b345d5b6081a2bdffa2"
+  },
+  "complete_original_independently_checked": true,
+  "cause": "Dense fixture used P19 minimum_available_days20 against the one-day bounded query. The private consumer correctly refused insufficient history; dense test expected at least1999 candidates without configuring its intended minimum1.",
+  "correction": "Use unchanged public Native profile reader/writer with explicit synthetic minimum1 for the positive one-day pagination case. Consumer SQL, Native source, guards, 8s and 3-case budget unchanged. Retain actual minimum2 insufficient guard separately.",
+  "candidate_reader_qualified": false,
+  "full_OW11_acceptance": false,
+  "after_use_restore_qualified": false,
+  "full_A_chain_qualified": false,
+  "production_go": false
+}

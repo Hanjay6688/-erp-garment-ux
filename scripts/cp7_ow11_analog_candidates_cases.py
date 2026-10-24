@@ -79,12 +79,18 @@ def cases(cur,today):
     def dense():
         plan.fixture(cur,today);size=bounded.work.dense.seed(cur)
         root,target=cur.execute("select identity_root_id::text,identity_root_id::text||':'||size_id::text from erp.products where sku='OW13CSV-1'").fetchone()
-        log=volume.Phases();volume.profile(cur,[root],log)
+        row=volume.baseline.get(cur,[root])['rows'][0]
+        config=dict(volume.SYNTHETIC['profile']);config['minimum_available_days']='1'
+        volume.baseline.save(cur,dict(root_id=root,product_version_id=row['product_version_id'],expected_revision=row['revision'],
+                                     config=config,reason='Explicit synthetic minimum1 for one-day analog pagination; not owner default'))
         c=capture(cur,today);physical=plan.monetary_state(cur);before=install(cur)
         assert c['status']=='INCOMPLETE'and c['bounded_history_inputs']['coverage']=='COMPLETE'
         one,elapsed=call(cur,c,target)
         two,_=call(cur,c,target,50)
-        assert one['total']>=1999 and len(one['candidates'])==len(two['candidates'])==50
+        assert one['minimum_available_days']=='1'
+        assert one['total']>=1999 and len(one['candidates'])==len(two['candidates'])==50,dict(
+            state=one['state'],minimum_days=one['minimum_available_days'],total=one['total'],
+            first_count=len(one['candidates']),second_count=len(two['candidates']))
         assert one['total']==two['total']and one['suggested']==two['suggested']
         keys=[r['target_key']for r in one['candidates']+two['candidates']]
         assert len(set(keys))==100 and target not in keys
@@ -105,6 +111,7 @@ def cases(cur,today):
         remove(cur,before)
         return dict(status='PASS',**size,real_Native_bounded_reference=True,real_public_Native_profile_fixture=True,
                     source_raw_INCOMPLETE_preserved=True,minimum_days_from_selected_profile=True,
+                    synthetic_minimum1_explicit_for_one_day_query=True,
                     whole_total=one['total'],first_two_pages_exact_unique100=True,target_itself_excluded=True,
                     all_returned_candidates_same_physical_size=True,different_size_positive_fixture_qualified=False,
                     captured_brand_reason_and_Native_mean_only=True,unconfigured_target_no_invented_default=True,

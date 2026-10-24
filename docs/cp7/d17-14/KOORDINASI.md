@@ -1102,3 +1102,15 @@ Nativekeyfunctionunchanged. Nextcatalogresult includesobservedprototypeManifest.
 Same3casebudget; source/AST/clash pass, all47qualifiedbackendfiles unchanged.
 RerunonlyanalogNative3 onthissource, keepthefirstOriginal/log/fullartifact.
 OW11/fullAchain/afteruse stillOPEN,parent5/16. NoAfiles/defaults/types edited.
+
+
+## 65. Native analog minimum guard passed; positive fixture corrected (24 Oktober2026 WIB)
+
+Candidate2bc01b15/sourcef5e54d9e/run40048062052/job120734194727 INCOMPLETE:
+2PASScatalog+insufficient/page guards, 1INCOMPLETEdense. CompleteOriginal
+12541987536/136185bytes/SHA16f9e91a079e6fb00760f157cf77da6d3221fb4446ac63a58d2b30783f2910f6
+verified47source/12preuse22/restore/advisors. Dense fixture copied minimum20
+from P19 against1day, so consumer correctly returned insufficienthistory.
+Positive case now sets explicit SYNTHETIC minimum1 through actual Native
+profile writer; negative minimum2 retained. No SQL/oracle/8s/budget relaxation.
+Both failed Originals/logs retained. OW11 OPEN,parent5/16. Next sameNative3.
