@@ -68,7 +68,11 @@ fisik sama, alasan model/merek tercatat dan mean/hari Native. Tidak memilih atau
 mengonfirmasi sendiri. Source pins/AST/clash lulus; belum runtime/installer/UI.
 Langkah langsung: Native private-catalog/actual-source/UNKNOWN/size/pagination
 qualification, lalu konfirmasi berversi dan sambungan satu mesin.47serverqualified
-persis sama. Lihat koordinasi62; jangan menyebut OW11 selesai.
+persis sama. Lihat koordinasi62–63 dan ANALOG_PRIVATE_CONTRACT.json. Native3 terpisah
+sudah dideklarasikan (catalog/source-pagination/Native minimum2 vs1hari);
+DDL prototype hanya di transaksi kasus lalu RESTRICT drop, bukan defaultstage.
+Different-size positive fixture/publicreader/konfirmasi/forecast belum terbukti.
+Jangan menyebut OW11 selesai.
 
 ## Komponen yang benar-benar lulus
 
