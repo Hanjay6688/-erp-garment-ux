@@ -49,7 +49,7 @@
   "new_tables": 0,
   "synthetic_products": 2000,
   "synthetic_movements": 202000,
-  "positive_profile": "P19 explicit synthetic selected profile on one volume product; not owner default",
+  "positive_profile": "Native public writer, P19 synthetic profile with explicit minimum1 for one-day pagination on one volume product; not owner default",
   "insufficient_profile": "Native explicit minimum2 against one-day query",
   "statement_timeout": "8s",
   "wall_limit_ms": 8000,

@@ -1791,3 +1791,178 @@ memposting transaksi harus menolak inverse tanpa efek. Ini kandidat belum
 runtimequalified, belum ditambahkan ke current installation. Used fullbackup/
 restore dan regresi lebih luas tetap syarat sebelum integrasi. Sumber beku,
 currententrypoint, official dan hosted tidak disentuh.
+
+
+## 65. Native analog minimum guard passed; positive fixture corrected (24 Oktober2026 WIB)
+
+Candidate2bc01b15/sourcef5e54d9e/run40048062052/job120734194727 INCOMPLETE:
+2PASScatalog+insufficient/page guards, 1INCOMPLETEdense. CompleteOriginal
+12541987536/136185bytes/SHA16f9e91a079e6fb00760f157cf77da6d3221fb4446ac63a58d2b30783f2910f6
+verified47source/12preuse22/restore/advisors. Dense fixture copied minimum20
+from P19 against1day, so consumer correctly returned insufficienthistory.
+Positive case now sets explicit SYNTHETIC minimum1 through actual Native
+profile writer; negative minimum2 retained. No SQL/oracle/8s/budget relaxation.
+Both failed Originals/logs retained. OW11 OPEN,parent5/16. Next sameNative3.
+
+
+## 66. Advisory analog reader Native4 declared, not selected/applied (24 Oktober2026 WIB)
+
+B adds opt-in cp7_product_analog_reader_stage: unchanged qualified-in-progress
+private kernel+one reader/one authenticated facade, 0tables/0oldreplacements.
+Strict parent12checker required before DDL; Native dependency rows/own catalog
+body/owner/ACL/GUC pinned; RESTRICT read-only inverse blocks external callers
+before DDL. Default installers/global registry/types remain A-owned and untouched.
+Actual job DONE/owned/retained/page epoch/query/reference/producer bind; source
+state explicitly CAPTURED_NOT_CHECKED, never fake UNCHANGED. Native4 predeclared
+for catalog22/anon SQL/external inverse; DONE replay/K3/stale advisory; current
+actor/token/K2/RUNNING; Native BB import11 products10sizes with real AVAILABLE
+zero same-size candidate and9 other available sizes excluded. No runtime4 yet.
+No Auth HTTP/browser/concurrency/confirmation/forecast/fullOW11 credit. All47
+qualified backend files unchanged. Parent5/16. Private Native3 run40048832540
+on frozenf94df96 continues separately; trigger readerNative4 only next.
+
+
+## 67. Private analog Native3 PASS; reader Native4 executing (24 Oktober2026 WIB)
+
+Frozenf94df96/sourceaa9344c3/run40048832540/job120736651060 PASS3/3. Complete
+Original12542157909/136281bytes/SHAefb1fe376007db5837619d109941d88e404251732930758cb7a5d0889caabb8b
+independentlychecked47samefiles/12preuse22/restore/advisors/all5gates. Actual
+2000/202000 reference yields1999candidates;2pages100unique, reader197.485ms
+under8s. Positive syntheticminimum1 explicit; minimum2vs1day correctlynone.
+No public/Auth/selection/forecast/other-size credit. Bothfirstfailures retained.
+
+ReaderNative4 sourceb00d843d/candidate0a1deb1f/run40049365973 executing.
+It adds actualownedDONE/currentepoch/K2/K3/advisory andNativeBB11products10sizes
+controls; result notyetclaimed. OW11/fullAchain/afteruse OPEN,parent5/16.
+
+
+## 68. Reader Native4 first result preserved, fixture clocks stay honest (24 Oktober2026 WIB)
+
+Frozen0a1deb1f/sourceb00d843d/run40049365973/job120738326327 INCOMPLETE2/4.
+Catalog22/authority/inverse and actualDONEbinding/K3/capturedstale passed;8.973ms
+read. Original12542493243/159850bytes/SHA
+c3f5b5e99b208d71131f85432a4f3bd92e4246190d3eadd5754f61c9e60d6cc4
+independentlychecked47samefiles/12preuse22/restore/advisors; runtimegatefalse.
+
+Epoch testoracle incorrectly calledprivateschema asauthenticated: correctly
+refused42501. FixonlytestoracleusesfunctionownerwithsameactorJWT, noACLchange.
+BB11productscreatedtoday correctlyhaveUNKNOWNyesterday; noavailablezero. Keep
+all11trueclocks/history. Add10explicitSYNTHETIC historicalNativecomparators for
+size/availablezero structuraltest:1samesize+9others. No capture/registryclock,
+historyoutput/hash/coverage/compiler/guard/8s change; noall-public-historical
+importcredit. Contractupdated before rerun. Productionreader/kernel unchanged.
+OW11/fullAchain/afteruse OPEN,parent5/16. Browser2/sourceUI preparation continues.
+
+
+## 69. Analog advisory UI and actual Browser2 prepared (24 Oktober2026 WIB)
+
+B connects strict nativeProductAnalog transport/parser and NativeProductAnalogPanel
+to the existing bounded quantity UI. Same request/run/epoch/identity/microsecond
+reference/query/actor/target, all-page source/profile/producer binding. AVAILABLE
+zero remains a string; UNKNOWN/STOCKOUT/mean-null/foreignsize/duplicates or any
+selected/reviewed/applied claim refuse.50readrows/page, source CAPTURED_NOT_CHECKED.
+Target search covers every verified label and displays at most20choices, including
+products without a recommendation. Lost/retired replies ignored;403 clears parent
+and candidates. No client selection, metadata writer, stock/money/HPP write.
+
+Local255tests/16files PASS (38/4 focused overlap, not summed), TS/CSS64 PASS.
+Graph proposal18 exact pendingRPCpairs passes367runtime/313RPC; Achecker original
+SHAf1148cb... unchanged, original gate stillOPEN. Newonepairpatch inow11 after17.
+All47qualifiedserverfiles unchanged. Optin Browser2 declares realAuth/PostgREST
+mobile390 newproductUNKNOWN+historicalzero/physicalsize/anon/foreign/epoch/deactivate;
+desktop1440 real2000/202000/fullcandidatecount/unique100/reloadsameUUID/K2.
+Ownreadonly stage installed as explicit13th only in this optin component, exact
+preuse22/inverses required; defaultinstallers remain A-owned. No browser pass yet.
+Native4 rerun d2680d34/source58068918/run40050851768 pending. OW11/fullAchain/
+afteruse/CP7C OPEN,parent5/16. Continue after results, not stopatcheckpoint.
+
+
+## 70. Native4 actual PASS4/4; red wrapper explained and corrected (24 Oktober2026 WIB)
+
+Frozend2680d34/source58068918/run40050851768/job120742963233 actualNative
+4/4PASS,47samebackendfiles/12preuse22/restore/advisors/all5packagegates PASS.
+Original12543826883/159111bytes/SHA
+42878a477a5468dea86e3aba42bbf70d06968d3f50c4e9d8f645f919bbbf7420
+independentlyverified. DONEreader10.151ms/sizezero12.202ms. Currentactor/own
+epoch/foreign/RUNNING/K2/deactivated controls passed.11newimports keepUNKNOWN;
+10explicitSYNTHETIChistoricalcomparators prove1samesizezero+9others excluded.
+Noall-publichistoricalimportcredit. ActualreaderSQL/kernel identical tob00d843d.
+
+WorkflowredonlyAFTER package run returnedNone and probe triedreport['gate'];
+package alreadywrote/assertedall5gates. BothNative/Browser wrappers now useits
+existingassertion. LocalNone-success+false-gatepropagation checksPASS. NoNative
+rerunsolelyforgreenbadge; componentPASS distinguishedfromwholeworkflowfailure.
+Browser2nextwillusecorrectedwrapper andqualifyactual13stage/Auth/UI. Source
+UI255/16+TS/CSS64 assection69. NoAuth/browser/selection/forecast/fullOW11yet.
+Parent5/16; firstNative4failureandthiswrapperfailureOriginal/logretained.
+
+## 71. Continuation B: exact-SKU search and failed browser cleanup (24 Oktober2026 WIB)
+
+Current browser a1043452/run40053109319/job120749930012 is INCOMPLETE, not PASS:
+mobile passed, desktop waitForResponse timed out before a response while the
+click was pending. Unhandled rejection terminated the host before Auth cleanup;
+actual Auth counts0/0/0/0→3/3/6/6; package primary_unchanged/writer_runtime false.
+Full Original and both archive hashes retained in a104345-browser2-first-incomplete.json.
+Do not replace its aggregate0 case count with the one observed mobile PASS.
+
+Local adversarial reproduction with1200 verified labels/111 prefix matches:
+exact SKU-11 can be hidden after20 choices. Fix ranks exact SKU matches first
+without dropping identities; all matches now accessible in pages20 and query
+change resets pagination. Search remains across every verified header label.
+Browser response/action promises now observed together, so either failure is
+caught, original diagnostics recorded and host cleanup reached. Three Node
+controls include early response timeout and late rejection after a failed click.
+Native SQL/47 backend sources, money/stock/HPP/source/8s oracles unchanged.
+Same Browser2 is rerun for this product/harness fix; no reduced cases, no mocks.
+OW11 confirmation/model selection still OPEN; A default registry/fullchain/restore
+untouched. B continues on astra/d17-14-produksi only, no additional agents.
+
+
+## 72. B24 Oktober2026 — Browser2 PASS dan konfirmasi analog opt-in
+
+Browser2 kandidat624e27869498d176b7da4bef0437a65daa13c034,
+run40083891933/job120842786283, Original2/2 PASS dan5/5 gate paket true.
+Auth bersih0/0/0/0, database/public/ACL pulih, advisor true. Receipt dan
+kegagalan a104345 tetap ada. Archive produksi v35 menyimpan kedua Original JSON
+utuh;292 entri sebelumnya tetap byte-identik. Pembaca tidak memilih forecast.
+
+B menyiapkan `cp7_product_analog_choice_stage`:4 privat/2 facade/2 tabel,
+0 penggantian lama. Konfirmasi eksplisit dari DONE/current source, skala/alasan,
+CAS/UUID/global lock, append CLEAR, immutable serta recorded clock. Jumlah PCS
+berasal dari penjumlahan hari AVAILABLE, tidak merekonstruksi mean terbulat.
+Native6 dideklarasikan sebelum run untuk katalog22/invers, lifecycle/replay/CAS,
+validasi, stale/current actor/K2, atomic last-table fault, dense2000 tiga writer8s.
+**Belum qualified** sampai Original Native6 diperiksa. Tidak ada consumer forecast
+atau layar konfirmasi yang diaktifkan. A tetap pemilik default/fullchain/after-use,
+registry/type/installer; proposal18 pasangan pembaca terdahulu tetap menunggu A.
+Induk5/16, OW11 OPEN, production_go/independent_acceptance=false.
+
+
+## Integrator A — intake B714d66f5, 24 Oktober2026
+
+Merge pengembangan terisolasi mempertahankan dua parent A31b77abb dan B714d66f5.
+Harness A `cp7_f05_analysis_probe.py` serta harness B sebelumnya tetap persis.
+Harness B terbaru disimpan pada `cp7_b_analog_f05_analysis_probe.py` dengan satu
+perubahan import eksplisit ke salinan B private3. Kedua tubuh oracle tetap persis;
+private3 lama pada jalur A dipertahankan dan penerus B disimpan terpisah;
+entrypoint kualifikasi gabungan baru harus memilihnya secara eksplisit bila perlu.
+Tidak menimpa budget/oracle/source deklarasi lama. Original B tetap menunjuk head B.
+
+A telah membaca Original lengkap Native choice6 dan Browser2: keduanya PASS
+beserta lima gate paket, CP6/advisor dan cleanup. Ini intake penulis komponen,
+bukan penerimaan rantai A/after-use atau audit independen. UI analog menambah satu
+caller reader; 17 pasangan terdahulu sudah ditangani integrasi A sebelumnya.
+Default pemasangan komposisi analog dan pemulihan setelah penggunaan masih
+memerlukan adapter A serta Original gabungan. production_go=false,parent5/16.
+
+Adapter baru `cp7_current_analog_installation.py` dan pemulihan penuh terikat
+sumber sudah disiapkan di cabang analog terpisah. Delapan tahap komit/restore
+dideklarasikan sebelum run: retur sah bersama draft salah, bounded DONE, pilihan
+analog bernilai nol AVAILABLE yang eksplisit, global guard sebelum DDL, tujuh
+penolakan pemulihan, restore penuh ulang, satu seal OID Native dan replay/CLEAR
+serta retur berikutnya. Semua manifest sumber A lama tetap byte-valid; private3
+B baru dipisahkan agar oracle A lama tidak tertimpa. Local39/4 tes UI, TypeScript,
+CSS64, source372/RPC316, akses111 dan tiga helper promise lulus. Gate akses awal
+315vs316 disimpan dalam receipt dan diselesaikan lewat satu deklarasi caller nyata.
+Belum ada klaim runtime adapter. Parent A terbaru4a012872 memuat actual Auth2,
+Browser2 dan cash3 baseline+current PASS; parent B tetap714d66f5.

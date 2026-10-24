@@ -1,0 +1,69 @@
+{
+  "contract": "cp7.current-analog-installation-restore8.v1",
+  "required_steps": [
+    "EXACT_INSTALL_AND_PREUSE_INVERSE",
+    "COMMITTED_RETURN_AND_ANALOG_CHOICE",
+    "USED_INVERSE_REFUSED_BEFORE_DDL",
+    "FULL_USED_BACKUP_RESTORED",
+    "RESTORE_NEGATIVE_CONTROLS",
+    "FULL_RESTORE_AFTER_NEGATIVE_WRITE",
+    "ONLY_LOCAL_NATIVE_OID_SEAL",
+    "EXACT_READS_REPLAY_CLEAR_AND_NEXT_RETURN"
+  ],
+  "actual_qualification_originals": {
+    "COMPOSED_RETURN_ORIGINAL_REPORT": {
+      "name": "CP7_CURRENT_RETURN_INSTALLATION_RESTORE.json",
+      "bytes": 1133688,
+      "sha256": "8cd8d526218c2e6336c4d3c60cc540767469a13617ed610d05536001a787c59f"
+    },
+    "ANALOG_CHOICE_ORIGINAL_REPORT": {
+      "name": "CP7_OW11_ANALOG_CHOICE.json",
+      "bytes": 1824516,
+      "sha256": "34b3d68b042069d4248719952e883a858ddcab342146cfd543298be8ccab7fbf"
+    }
+  },
+  "files": {
+    ".github/workflows/cp7-current-analog-installation.yml": "a3c6f7f621a89e917ceffd1df45786c6e539e54cd63f71cf93b4bf96376a2506",
+    ".github/workflows/cp7-ow11-analog-browser.yml": "34caeb2a38ec57675db3b7c8f43b4b5e59185073289cbaf1653e0d772e13861c",
+    ".github/workflows/cp7-ow11-analog-choice.yml": "1aa34cef6a7548282c83ea7e483de2f9ce573925a1afce6f24d340e33a033f93",
+    ".github/workflows/cp7-ow11-analog-private.yml": "a9018eb6fddae620938e09f2704bf3f92075b94804a9fb3cad34ac9304aca646",
+    ".github/workflows/cp7-ow11-analog-reader.yml": "6988567781fd3bd7e267f04e5c0e34d9a2c18b0146ab88a1a62d5606041c340f",
+    "docs/cp7/d17-14/ow11/ANALOG_BROWSER_CONTRACT.json": "4970741d45e41cec271ce2791a3c789bcf9cda9a937c56424543ce571bd8fb45",
+    "docs/cp7/d17-14/ow11/ANALOG_CHOICE_CONTRACT.json": "a7f81a5a5ba805183ec399cabbc32a46d84db621db4e4d5f8973b933edc7a858",
+    "docs/cp7/d17-14/ow11/ANALOG_PRIVATE_CONTRACT.json": "b2e38722dac7b51a2ee7403260e847eee5f85d0f2c065ede82cb8d15c6edb172",
+    "docs/cp7/d17-14/ow11/ANALOG_READER_CONTRACT.json": "ed2e61f3d526f324ae319c85eb1a5f89d94d23bcd0a882633ecea3711ea1ec88",
+    "scripts/check-access-catalog.mjs": "9d356ad463430ef6a409c3f1e7117d065ff8518b19d004bd168bfed220a726f0",
+    "scripts/check-source-ownership.mjs": "0c7e66a1e4d9bf6e15d1f6e8884482b04273bf332bcdc97f90d7db2964062451",
+    "scripts/cp7_b_analog_candidates_cases.py": "8ad5f396e046144c41422d241b03290c7bd7622bd4cb92d3bab95fe704b69ddb",
+    "scripts/cp7_b_analog_f05_analysis_probe.py": "c7b98b47638d70a7d97f926c253b972a27fc503cc798d79f05dff2993da2774f",
+    "scripts/cp7_current_analog_installation.py": "8ee9ef35ee49caf3f32113b5d8cc71a3fbd04095d77cd60bd480d49afb4ceed9",
+    "scripts/cp7_current_analog_recovery.py": "bb1fb1c763b2a1cea08f16960140c446b937349d1310add47c58bdc8196cdb98",
+    "scripts/cp7_ow11_analog_browser.mjs": "773cb777430c6c5b0514325e6ba84ed7ae06937f79fdc3802bb47595db775087",
+    "scripts/cp7_ow11_analog_browser_cases.py": "439c66bae94cbb5daf7753093fbb920154311622be56b1c9a4475af3b9ded59c",
+    "scripts/cp7_ow11_analog_browser_fixture.py": "ba6345259340790f3e0e6a413a6b76c3324ae887835aede2824f5a2e07b9a485",
+    "scripts/cp7_ow11_analog_browser_helper.test.mjs": "e6424e38de2f45800592f65c716e65fe6ec763ecf310a4d3d52813e690c7a362",
+    "scripts/cp7_ow11_analog_browser_probe.py": "12895ced6f2779923467b00e49ec1af1b88f4159128a7f934a408f678587c03c",
+    "scripts/cp7_ow11_analog_choice_cases.py": "77bd18a20612a1a2845d19b11edfebe09409b01313f88cd1bcf818e075f40df1",
+    "scripts/cp7_ow11_analog_choice_probe.py": "477a6d815dd380552ed4cbfe77b13aebd9eda8391a0e3ebae2d39dda22c7f6cd",
+    "scripts/cp7_ow11_analog_history_fixture.py": "96223e8d17d5d2eaff442261a39f39e0c4db5c3a45e4b918a000c2e7bee7278f",
+    "scripts/cp7_ow11_analog_reader_cases.py": "e746b8cc7d92424caa44daf2c5365501047c8b3da4ffd04458ecec1b964d6877",
+    "scripts/cp7_ow11_analog_reader_probe.py": "a6316b52e2672090dfa8d89921c72d09de8ceea3dd7bd41868135024e271dc30",
+    "scripts/cp7_product_analog_choice_stage/MANIFEST.json": "19b2e5724539a9892761dea881b9aac5d4e798fae3ab985384c917a598988699",
+    "scripts/cp7_product_analog_choice_stage/__init__.py": "66f9412b1c73e717535507d933552a135dc264eae0946f73c8258e75e107b09e",
+    "scripts/cp7_product_analog_choice_stage/choice.sql": "16f84ef04b71183d0e70ad0eca72aa748000dd7b4c4436fa7fd922090f285a0d",
+    "scripts/cp7_product_analog_reader_stage/MANIFEST.json": "71181a81cd17ead145ed644ff68fc3fdbbd040bf15a1afab47df1e2adb9eb70e",
+    "scripts/cp7_product_analog_reader_stage/__init__.py": "59ed82a540881f387bd940f228180378690c44ebd50d0b6c506be0179e02b854",
+    "scripts/cp7_product_analog_reader_stage/reader.sql": "b1475fcbc2dc6fefc2f66d41485dd08570b23021b5f2aa555ff6b06c3ad9f6b9",
+    "scripts/current-analog-installation-qualification/README.md": "1881400e1607b45f00b377db48887ee9d3ca9a460d7eefab28b07a89ef309e2f",
+    "scripts/current-analog-installation-qualification/probe.py": "5fb47f36da2837ca557cb05266824cb10c046365e1ce2d9a03d91391ed1cf329",
+    "scripts/current-return-installation-qualification/SOURCE.json": "7301e057f68816518d08455fe5c28b1bd0c6e090914e7db00ac7038576e952d0",
+    "src/NativeBoundedQuantityPanel.dom.test.tsx": "7f80970f6021a972480b2c0f64d65ae5962dd5b4e8928ae2afd4ac30043427c4",
+    "src/NativeBoundedQuantityPanel.tsx": "f3404fe7afdd616fc4d5ba3ad6104120639c6d55da43d1c6f8e15f1482d76e9e",
+    "src/NativeProductAnalogPanel.dom.test.tsx": "8efb5d2eca2eebf6c3ff5a1c889f1c04adfadbbb963789dc2d821f90cc6b4078",
+    "src/NativeProductAnalogPanel.tsx": "3c50810dc2c5f770ffe3608e4d65818601a042621072188ce37fd92fec87e333",
+    "src/nativeProductAnalog.test.ts": "b8f12573b37969c0c54a3d7a965b111456db96a427c66795b2e25b75b0f39aa1",
+    "src/nativeProductAnalog.ts": "f85710df1f83d9a2712d229e2f9fd86a005099b6fa6ce289f3d070be1e0db807",
+    "tests/fixtures/nativeAnalysisPages.ts": "5537e6ecbdeb6cf4ddad31e05743438c839ce5c08d2ee27d3ebe97c59e3258e7",
+    "tests/fixtures/nativeProductAnalog.ts": "be1404e3a7fe4bc69dda24d173aa7cfebe282f311c493d0b4723265505bdff1c"
+  }
+}

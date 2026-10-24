@@ -1,3 +1,19 @@
+# Pembaruan aktif —24 Oktober2026: Browser2 PASS, lanjut konfirmasi
+
+B tetap cabang `astra/d17-14-produksi`. Browser2 pada624e2786
+run40083891933/job120842786283 actual2/2 dan seluruh5 gate paket PASS;
+receipt `docs/cp7/d17-14/ow11/624e278-browser2-pass.json`. Auth dan restore exact,
+first failure a104345 dipertahankan.256 uji klien terkait+3 helper lulus.
+
+Langkah aktif: stage konfirmasi analog immutable baru, Native6 dideklarasikan,
+belum runtime-qualified. Lanjut hasil Original, perbaiki bila gagal; sesudah itu
+uji Auth/race, sambungkan config berversi ke capture/fingerprint dan satu mesin
+target, lalu layar konfirmasi. Jangan menganggap penyimpanan pilihan saja menutup
+OW11.47 sumber qualified dan fungsi lama tidak diganti oleh tahap ini.
+Status formal5/16; A memegang uang/stok/HPP/laporan serta integrasi dan shared files.
+
+---
+
 # Handoff produksi/perencanaan B —24 Oktober2026
 
 ## Mandat, konteks owner, dan batas peran
@@ -33,6 +49,17 @@ satu sumber resmi stok/HPP/keuangan. First failure disimpan, oracle tidak dilong
 nilai kebijakan owner tidak dikarang. Uji penulis bukan audit independen/GO.
 
 ## Status aktif dan tindakan berikut
+
+Update takeover24Oktober: source head a1043452 recovered. Browser2 actual run40053109319
+FAILED/INCOMPLETE: mobile PASS, desktop unhandled response timeout; Auth cleanup
+not reached, package2gates false. Original retained at ow11/a104345-browser2-first-incomplete.json.
+Exact-SKU hidden after20 prefix matches reproduced locally and fixed; every
+match paginates20 with exact SKU first. Response and click failures observed
+concurrently, preserving original error and cleanup. Same Browser2 must pass
+on new candidate; do not report old source as browser-qualified. SQL/backend
+unchanged. Continue OW11 confirmation/versioning/one-engine after this check.
+See coordination71. Earlier descriptions below are historical where superseded.
+
 
 **Checkpoint quantity layar PASS.** Kandidat5c40e455/sourcea4317635,
 [run40044408796](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/40044408796)
@@ -72,11 +99,24 @@ persis sama. Lihat koordinasi62–63 dan ANALOG_PRIVATE_CONTRACT.json. Native3 t
 sudah dideklarasikan (catalog/source-pagination/Native minimum2 vs1hari);
 DDL prototype hanya di transaksi kasus lalu RESTRICT drop, bukan defaultstage.
 Different-size positive fixture/publicreader/konfirmasi/forecast belum terbukti.
-FirstNative3 8c1a4bfa/run40047065038/job120731119748 INCOMPLETE1/3:
-privatecatalogpassed,2readers stoppedNativekey(text)42883. Receipt8c1a4bf
-preserved. Fixuses to_jsonb(p_target) andpinsNativeWIPhelper, noNativebodychange;
-nextcatalogincludesobservedprototypeManifest. RerunonlyNative3, thencontinue.
-Jangan menyebut OW11 selesai.
+PrivateNative3 f94df96/sourceaa9344c3/run40048832540/job120736651060 PASS3/3.
+[Receipt](../d17-14/ow11/f94df96-analog3-pass.json): actual2000/202000,1999kandidat,
+2halaman100unik/197.485ms; profilminimum1 synthetic eksplisit, minimum2vs1hari
+tetap kurang data.47sumber/12invers22/restore/advisors/5gates tepat. First8c1
+1/3helperJSONB dansecond2bc2/3fixtureminimum20 disimpan, tidak ditimpa.
+
+Pembaca publik opt-in sudah ditulis di cp7_product_analog_reader_stage:
+2privat/1facade/0tabel/0penggantian. OwnedDONE/epoch/K2/query/clock/identity/
+producer danK3, hasil CAPTURED_NOT_CHECKED. Kontrak READER_CONTRACT.md.
+Native4 pertama0a1deb1f/run40049365973 INCOMPLETE2/4: katalog danDONE/K3 lulus;
+fixture akses/impor baru dibetulkan tanpa perubahan reader/kernel. Newimports
+tetapUNKNOWN;10komparatorhistoris SYNTHETIC terpisah,0allpublichistorycredit.
+Rerun d2680d34/source58068918/run40050851768 actual4/4+5gate lulus; workflow
+merah hanya karena penutup membaca None. Penutup sudah dibetulkan, sourceSQL
+sama; [receipt](../d17-14/ow11/d2680d3-reader4-component-pass-wrapper-failed.json). UI baca kandidat sudah
+tersambung;255uji/16berkas+TS/CSS64 lulus lokal. Browser2 nyata disiapkan,
+belum hasil. Native4 komponen lulus; Auth/browser/konfirmasi/forecast belum diterima. Lanjutkan setelah hasil
+jelas, selesaikan konfirmasi dan satu mesin; jangan menyebutOW11 selesai.
 
 ## Komponen yang benar-benar lulus
 
@@ -110,9 +150,9 @@ Pertahankan initial_auto, reorder_supply, financehook dan penolakan UUID lintas
 metode. Facade bounded saat ini q3 tepat/financeDEFERRED. A memegang komposisi
 manifest predecessor/owner/ACL, sensus after-use dan fullchain; jangan hapus pin.
 
-Gate sumber aktual masih17 pasangan RPC belum masuk daftar milik A. Usulan17
-persis lulus364runtime/312RPC; checker A SHA f1148cb... tidak diubah. Terapkan
-patch registry bounded1 setelah11 lama, quantity5 setelah12; jangan duplikasi.
+Gate sumber aktual masih18 pasangan RPC belum masuk daftar milik A. Usulan18
+persis lulus367runtime/313RPC; checker A SHA f1148cb... tidak diubah. Terapkan
+patch registry bounded1 setelah11 lama, quantity5 setelah12, analogreader1 setelah17; jangan duplikasi.
 B tidak mengubah sharedanalysis/finance/defaults/generatedtypes/Achecker.
 
 Worksource memakai `work-schedule:project:profile`, quantity
@@ -121,9 +161,9 @@ Pointer DONE disimpan untuk reload; permintaan baru mengganti atomik dengan UUID
 baru. Metode/payload pending lama tetap melalui facade asal. Buat Potongan baru
 memakai quantitydriver sama; “analisis & arsip” mempertahankan jalur lama.
 
-Log/Original lengkap di artifact; repo hanya receipt kecil. Arsip privat versi33
+Log/Original lengkap di artifact; repo hanya receipt kecil. Arsip privat versi34
 memuat bukti lama dan helper publisher yang memverifikasi tree/SHA commit secara
 lokal lewat connector; tidak menaruh repo/git atau screenshot baru ke arsip itu.
-Bukti45620,3600 dan Original/log quantity PASS sudah tersimpan pada arsip yang sama. Screenshot baru tetap hanya di artifact/scratch untuk QA.
+Bukti45620,3600, quantity PASS dan kedua kegagalan serta PASS private analog disimpan pada arsip yang sama. Screenshot baru tetap hanya di artifact/scratch untuk QA.
 [Seluruh histori checkpoint lama](HISTORI_HANDOFF_PRODUKSI_20261024.md)
 dipertahankan utuh; status di histori bukan status aktif.

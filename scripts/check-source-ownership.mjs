@@ -90,6 +90,7 @@ for (const file of sourceFiles.filter((candidate) => !isTestSource(candidate) &&
 assert.deepEqual(dataReads, [], 'Browser code must not read ERP tables/views directly')
 
 assert.deepEqual([...rpcOwnership].sort(), [
+  'src/nativeProductAnalog.ts:erp_cp7_read_product_analog_candidates_v1',
   'src/NativeCuttingStatusPanel.tsx:erp_cp7_get_cutting_status_policy_request_v1',
   'src/NativeCuttingStatusPanel.tsx:erp_cp7_get_cutting_status_v1',
   'src/NativeCuttingStatusPanel.tsx:erp_cp7_save_cutting_status_policy_v1',

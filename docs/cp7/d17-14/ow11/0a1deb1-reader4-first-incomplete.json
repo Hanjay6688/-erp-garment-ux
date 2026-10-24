@@ -1,0 +1,82 @@
+{
+  "candidate": "0a1deb1fc46d4bacda9ea7beb91125e9dd4afcfc",
+  "status": "INCOMPLETE",
+  "expected": 4,
+  "observed": 4,
+  "counts": {
+    "PASS": 2,
+    "INCOMPLETE": 2
+  },
+  "preuse22_exact": 12,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "reader_source_sha256": {
+    "MANIFEST.json": "71181a81cd17ead145ed644ff68fc3fdbbd040bf15a1afab47df1e2adb9eb70e",
+    "__init__.py": "59ed82a540881f387bd940f228180378690c44ebd50d0b6c506be0179e02b854",
+    "reader.sql": "b1475fcbc2dc6fefc2f66d41485dd08570b23021b5f2aa555ff6b06c3ad9f6b9"
+  },
+  "kernel_manifest": {
+    "contract": "cp7.product-analog-candidates.prototype.v1",
+    "sql_sha256": "f36b629eeb12cd16dd10eb4910f10490fc54b462d6a88768493d774b3c16a8b6",
+    "private_functions": 1,
+    "public_facades": 0,
+    "new_tables": 0,
+    "old_replacements": 0,
+    "selected": false,
+    "reviewed": false,
+    "forecast_applied": false,
+    "runtime_qualified": false,
+    "default_installed": false,
+    "production_go": false,
+    "dependency_files_sha256": {
+      "cp7_bounded_analysis_stage/stage.sql": "3d24ce30e643c60d965601eacfb5ae407da10b58e2fd638ff7116d7dd3f4b24c",
+      "cp7_reorder_inputs/capture.sql": "a4921aa90111709dfbde026e6b98beb6d977dcd46d212d3cc0fbd97a159f7e78",
+      "cp7-src/demand/history.sql": "01c0fb8c51758e933c2f43079690a8a9e99e96d7346cb018ee916077bd7260c8",
+      "cp7-src/demand/estimate.sql": "c17c125d5139f06ce5a3ea9fd4ff15d32f5fc8952a73270a526913f18a5ff2f2",
+      "cp7-src/wip/bootstrap.sql": "f13d218d6ef6c38bea1968081368cdf253538c79d36b67a51e61d126927c2769"
+    }
+  },
+  "declaration_sha256": "04141ec0785beba2e18740c3f30d32bd26813051ece403b0e2ac7f0c4c54d4a4",
+  "contract": "cp7.analog-reader-first-incomplete.v1",
+  "source": "b00d843d770dd2ec00eec2b4e66eb950cf92aab1",
+  "run_id": 40049365973,
+  "job_id": 120738326327,
+  "source_files_exact": 47,
+  "original": {
+    "artifact_id": 12542493243,
+    "bytes": 159850,
+    "sha256": "c3f5b5e99b208d71131f85432a4f3bd92e4246190d3eadd5754f61c9e60d6cc4"
+  },
+  "full_artifact": {
+    "artifact_id": 12542119430,
+    "bytes": 1761006,
+    "sha256": "b010be8bdb695b6b92e76d82c156288496ec454dfa40118bec3a78034803584b"
+  },
+  "complete_original_independently_checked": true,
+  "catalog_and_DONE_K3_stale_advisory_cases_pass": true,
+  "DONE_read_millis": 8.973,
+  "causes": [
+    "Test epoch oracle called a private schema as authenticated; private ACL correctly refused.",
+    "Newly imported products were created today and have UNKNOWN closed-day history. Test incorrectly expected an AVAILABLE zero from yesterday."
+  ],
+  "corrections": [
+    "Run only the Native test epoch oracle as cp7_capture with the same real actor JWT; do not grant the private schema to browser users.",
+    "Keep all11 newly imported products and their true clocks/history UNKNOWN. Add10 explicitly SYNTHETIC historical Native comparator products:1same physical size and9other sizes with genuine Native-computed available zero. Do not change capture/registry clocks, compiler, history output, hashes, thresholds or source status."
+  ],
+  "all_public_historical_import_credit": false,
+  "public_analog_reader_suite_qualified": false,
+  "actual_Auth_HTTP_credit": false,
+  "analog_confirmation_qualified": false,
+  "forecast_applied": false,
+  "full_OW11_acceptance": false,
+  "after_use_restore_qualified": false,
+  "full_A_chain_qualified": false,
+  "production_go": false
+}

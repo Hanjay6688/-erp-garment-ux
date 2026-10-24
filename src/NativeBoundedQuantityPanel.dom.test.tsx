@@ -4,6 +4,7 @@ import {createRoot,type Root} from 'react-dom/client'
 import {beforeEach,afterEach,it,expect,vi} from 'vitest'
 import NativeBoundedQuantityPanel from './NativeBoundedQuantityPanel'
 import {recoveryIdentity} from '../tests/fixtures/productionRecovery'
+import {analogReply} from '../tests/fixtures/nativeProductAnalog'
 import {stagedRun} from '../tests/fixtures/nativeAnalysisPages'
 import {BOUNDED_ANALYSIS_REQUEST,boundedAnalysisRequestKey,readBoundedAnalysisRequest,persistBoundedAnalysisRequest,type BoundedAnalysisRequest} from './nativeBoundedAnalysis'
 
@@ -70,4 +71,59 @@ it('permits an explicit new period only after a known constructor refusal, prese
  const first=readBoundedAnalysisRequest(scope).pending;expect(first).toBeTruthy();expect(button('Hitung kebutuhan terbaru').disabled).toBe(false)
  client.rpc.mockImplementation(server());await click('Hitung kebutuhan terbaru');await until(()=>container.querySelectorAll('tbody tr').length===50)
  expect(readBoundedAnalysisRequest(scope).pending?.id).not.toBe(first?.id)
+})
+
+it('opens a product advisory from the same verified analysis and retires it on denied access',async()=>{
+ const previous=server();let denied=false
+ client.rpc.mockImplementation(async(name:string,args:{p_request:string;p_index:number;p_target:string;p_access:string})=>{
+  if(name!=='erp_cp7_read_product_analog_candidates_v1')return previous(name,args)
+  if(denied)return{data:null,error:{status:403,code:'42501',message:'CP7_ACCESS_DENIED'}}
+  return{data:analogReply({actor:f.actor,requestId:f.pageSet.request_id,runId:f.runId,targetKey:args.p_target,query:f.query,reference:{capturedAt:f.pageSet.reference.captured_at,sourceHash:f.pageSet.reference.source_hash},identityHash:f.pageSet.identity_hash,accessEpoch:f.pageSet.access_epoch}),error:null}
+ })
+ await render();await until(()=>container.querySelectorAll('tbody tr').length===50)
+ const held=readBoundedAnalysisRequest(scope).pending
+ await click('Lihat produk pembanding');await until(()=>Boolean(container.querySelector('[data-analog-target]')))
+ const advisory=container.querySelector('[aria-label="Kandidat produk pembanding"]')!
+ expect(advisory.textContent).toContain('Kandidat belum dipilih dan belum mengubah target produksi')
+ expect(button('Hitung kebutuhan terbaru').disabled).toBe(true)
+ const sent=client.rpc.mock.calls.find(([name])=>name==='erp_cp7_read_product_analog_candidates_v1')![1]
+ expect(sent.p_request).toBe(held?.id);expect(sent.p_access).toBe(f.pageSet.access_epoch)
+ expect(readBoundedAnalysisRequest(scope).pending).toEqual(held)
+ await click('Tutup produk pembanding');expect(container.querySelector('[data-analog-target]')).toBeNull()
+ denied=true;await click('Lihat produk pembanding');await until(()=>container.querySelector('table')===null)
+ expect(container.textContent).toContain('tidak memiliki izin');expect(readBoundedAnalysisRequest(scope).pending).toEqual(held)
+})
+
+it('searches all verified product labels beyond the displayed50 suggestions before opening a candidate read',async()=>{
+ client.rpc.mockImplementation(server());await render();await until(()=>container.querySelectorAll('tbody tr').length===50)
+ const input=container.querySelector('input[type="search"]')as HTMLInputElement
+ const setter=Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value')!.set!
+ await act(async()=>{setter.call(input,'SKU-1199');input.dispatchEvent(new Event('input',{bubbles:true}))})
+ expect(container.textContent).toContain('1 produk ditemukan dalam seluruh hasil perhitungan')
+ expect(button('Lihat pembanding SKU-1199')).toBeTruthy()
+ expect(container.querySelectorAll('[data-quantity-target]')).toHaveLength(50)
+})
+
+it('keeps an exact SKU selectable after more than20 prefix matches and makes every match reachable',async()=>{
+ f=await stagedRun({targets:1200,pageSizes:[500,450,250],reverseLabels:true})
+ persistBoundedAnalysisRequest(scope,request());client.rpc.mockImplementation(server())
+ await render();await until(()=>container.querySelectorAll('tbody tr').length===50)
+ const input=container.querySelector('input[type="search"]')as HTMLInputElement
+ const setter=Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value')!.set!
+ await act(async()=>{setter.call(input,'  sku-11  ');input.dispatchEvent(new Event('input',{bubbles:true}))})
+ expect(container.textContent).toContain('111 produk ditemukan dalam seluruh hasil perhitungan')
+ const choices=()=>[...container.querySelectorAll<HTMLButtonElement>('button')].filter(b=>b.textContent?.startsWith('Lihat pembanding SKU-'))
+ expect(choices()).toHaveLength(20);expect(choices()[0].textContent).toBe('Lihat pembanding SKU-11')
+ const seen=new Set<string>()
+ while(true){
+  for(const choice of choices()){expect(seen.has(choice.textContent!)).toBe(false);seen.add(choice.textContent!)}
+  if(button('20 produk berikutnya').disabled)break
+  await click('20 produk berikutnya')
+ }
+ expect(seen.size).toBe(111)
+ await act(async()=>{setter.call(input,'SKU-1199');input.dispatchEvent(new Event('input',{bubbles:true}))})
+ expect(choices()).toHaveLength(1);expect(choices()[0].textContent).toBe('Lihat pembanding SKU-1199')
+ expect(button('20 produk sebelumnya').disabled).toBe(true)
+ expect(readBoundedAnalysisRequest(scope).pending?.id).toBe(f.pageSet.request_id)
+ expect(client.rpc.mock.calls.some(([name])=>name==='erp_cp7_request_bounded_staged_analysis_v1')).toBe(false)
 })

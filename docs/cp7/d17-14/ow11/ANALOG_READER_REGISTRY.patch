@@ -1,0 +1,4 @@
+--- a/scripts/check-source-ownership.mjs
++++ b/scripts/check-source-ownership.mjs
+@@ -387,0 +388,1 @@
++  'src/nativeProductAnalog.ts:erp_cp7_read_product_analog_candidates_v1',

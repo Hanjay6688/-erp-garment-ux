@@ -1,0 +1,80 @@
+{
+  "candidate": "d2680d342ebf226f058f43289e586d3c05b1d2ae",
+  "status": "PASS",
+  "expected": 4,
+  "observed": 4,
+  "counts": {
+    "PASS": 4
+  },
+  "preuse22_exact": 12,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "reader_source_sha256": {
+    "MANIFEST.json": "71181a81cd17ead145ed644ff68fc3fdbbd040bf15a1afab47df1e2adb9eb70e",
+    "__init__.py": "59ed82a540881f387bd940f228180378690c44ebd50d0b6c506be0179e02b854",
+    "reader.sql": "b1475fcbc2dc6fefc2f66d41485dd08570b23021b5f2aa555ff6b06c3ad9f6b9"
+  },
+  "kernel_manifest": {
+    "contract": "cp7.product-analog-candidates.prototype.v1",
+    "sql_sha256": "f36b629eeb12cd16dd10eb4910f10490fc54b462d6a88768493d774b3c16a8b6",
+    "private_functions": 1,
+    "public_facades": 0,
+    "new_tables": 0,
+    "old_replacements": 0,
+    "selected": false,
+    "reviewed": false,
+    "forecast_applied": false,
+    "runtime_qualified": false,
+    "default_installed": false,
+    "production_go": false,
+    "dependency_files_sha256": {
+      "cp7_bounded_analysis_stage/stage.sql": "3d24ce30e643c60d965601eacfb5ae407da10b58e2fd638ff7116d7dd3f4b24c",
+      "cp7_reorder_inputs/capture.sql": "a4921aa90111709dfbde026e6b98beb6d977dcd46d212d3cc0fbd97a159f7e78",
+      "cp7-src/demand/history.sql": "01c0fb8c51758e933c2f43079690a8a9e99e96d7346cb018ee916077bd7260c8",
+      "cp7-src/demand/estimate.sql": "c17c125d5139f06ce5a3ea9fd4ff15d32f5fc8952a73270a526913f18a5ff2f2",
+      "cp7-src/wip/bootstrap.sql": "f13d218d6ef6c38bea1968081368cdf253538c79d36b67a51e61d126927c2769"
+    }
+  },
+  "declaration_sha256": "ed2e61f3d526f324ae319c85eb1a5f89d94d23bcd0a882633ecea3711ea1ec88",
+  "contract": "cp7.analog-reader-native4-component-pass.v1",
+  "source": "58068918d24e9ace3b10fc223b886b39330ba7c9",
+  "run_id": 40050851768,
+  "job_id": 120742963233,
+  "source_files_exact": 47,
+  "original": {
+    "artifact_id": 12543826883,
+    "bytes": 159111,
+    "sha256": "42878a477a5468dea86e3aba42bbf70d06968d3f50c4e9d8f645f919bbbf7420"
+  },
+  "full_artifact": {
+    "artifact_id": 12543597545,
+    "bytes": 1760316,
+    "sha256": "df9e8e08dbc1704b0b06d52ffe6ed82604de2925530da646d69532a638761dae"
+  },
+  "complete_original_independently_checked": true,
+  "workflow_conclusion": "failure",
+  "workflow_wrapper_error": "TypeError: NoneType object is not subscriptable after package.run('install'); package itself already recorded/asserted all five gates successfully",
+  "wrapper_correction": "Call package.run once and let its own final assertion enforce the gates. Local success-None and false-gate-propagation regression passes for both Native and Browser probes; no Native SQL/helper/ACL change.",
+  "Native4_component_cases_pass": true,
+  "whole_workflow_pass": false,
+  "source_SQL_unchanged_since_b00d843d": true,
+  "DONE_read_millis": 10.151,
+  "physical_size_available_zero_read_millis": 12.202,
+  "new_native_import11_closed_day_history_UNKNOWN_preserved": true,
+  "explicit_SYNTHETIC_historical_Native_comparators": 10,
+  "all_public_historical_import_credit": false,
+  "actual_Auth_HTTP_credit": false,
+  "analog_confirmation_qualified": false,
+  "forecast_applied": false,
+  "full_OW11_acceptance": false,
+  "after_use_restore_qualified": false,
+  "full_A_chain_qualified": false,
+  "production_go": false
+}

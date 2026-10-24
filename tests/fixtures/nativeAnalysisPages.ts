@@ -23,7 +23,7 @@ export function stagedJobFixture(requestId:string,state:StagedJobState,extra:Jso
 }
 // itemRanges: a server defect where page p holds the items of other targets
 // than the range it claims (hashes, counts and totals all consistent).
-export async function stagedRun({targets,perPage,pageSizes,unreviewed=0,requestId=fixture.request_id,itemRanges,capturedAt=STAGED_CAPTURED_AT}:{targets:number;perPage?:number;pageSizes?:number[];unreviewed?:number;requestId?:string;itemRanges?:[number,number][];capturedAt?:string}){
+export async function stagedRun({targets,perPage,pageSizes,unreviewed=0,requestId=fixture.request_id,itemRanges,capturedAt=STAGED_CAPTURED_AT,reverseLabels=false}:{targets:number;perPage?:number;pageSizes?:number[];unreviewed?:number;requestId?:string;itemRanges?:[number,number][];capturedAt?:string;reverseLabels?:boolean}){
  const base=structuredClone(fixture) as Json,a=base.analysis as Json,key0:string=a.recommendations[0].target.key,[root0,size]=key0.split(':'),profile0:string=a.assumptions[1].id
  const states=['ACTIVE','ACTIVE','PAUSED','STOPPED']
  const per:Record<string,unknown[]>[]=[],labels:Json[]=[]
@@ -53,6 +53,7 @@ export async function stagedRun({targets,perPage,pageSizes,unreviewed=0,requestI
  // its semantic hash), kept for parity checks only.
  const analysis:Json={...header,semantic_hash:a.semantic_hash};for(const k of keys)analysis[k]=[...header[k].slice(0,paged[k].prefix),...per.flatMap(t=>t[k]),...header[k].slice(paged[k].prefix)]
  labels.sort((x,y)=>x.target_key<y.target_key?-1:1)
+ if(reverseLabels)labels.reverse()
  const original={contract_version:'cp7.native-analysis-run.v1',run_id:base.run_id,request_id:requestId,analysis,product_labels:labels,query:base.query,financial_source:null,apply_enabled:false,production_go:false}
  const sizes=pageSizes??Array.from({length:Math.ceil(targets/(perPage??(targets||1)))},(_,p)=>Math.min(perPage??targets,targets-p*(perPage??targets)))
  if(sizes.reduce((s,x)=>s+x,0)!==targets||sizes.some(s=>s<1))throw Error('page sizes must cover the targets')

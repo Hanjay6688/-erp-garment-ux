@@ -1,0 +1,57 @@
+{
+  "contract": "cp7.analog-integration.source-preservation.v1",
+  "A_parent": "4a01287284e7f7c5fcdf4a706ca36b2291e64edb",
+  "B_parent": "714d66f5e10f0a8095a5658305e044a271052a0f",
+  "accepted_A_harness": {
+    "path": "scripts/cp7_f05_analysis_probe.py",
+    "sha256": "d3135a9c00a81a3cd7db45f0e6d9013da19180d5b827f5f999a5a1f6aaa8bcf0"
+  },
+  "retained_B_harness": {
+    "original_path": "scripts/cp7_f05_analysis_probe.py",
+    "integration_path": "scripts/cp7_b_analog_f05_analysis_probe.py",
+    "original_sha256": "19574b4961873e7f0c5188dee46ae4468f147da5e09374362f5c6753e4dbb0f9",
+    "integration_sha256": "c7b98b47638d70a7d97f926c253b972a27fc503cc798d79f05dff2993da2774f",
+    "exact_transform": {
+      "old": "import cp7_ow11_analog_candidates_cases as case_provider",
+      "new": "import cp7_b_analog_candidates_cases as case_provider",
+      "count": 1
+    }
+  },
+  "only_new_registry_pair": "src/nativeProductAnalog.ts:erp_cp7_read_product_analog_candidates_v1",
+  "original_case_or_oracle_changed": false,
+  "combined_runtime_qualified": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "accepted_private3_harness": {
+    "path": "scripts/cp7_ow11_analog_candidates_cases.py",
+    "sha256": "42fd05bed41c4d780118c6962a83dfe4f55905cf9e7f08ad5d5c989a31748963"
+  },
+  "retained_B_private3_successor": {
+    "original_path": "scripts/cp7_ow11_analog_candidates_cases.py",
+    "integration_path": "scripts/cp7_b_analog_candidates_cases.py",
+    "sha256": "8ad5f396e046144c41422d241b03290c7bd7622bd4cb92d3bab95fe704b69ddb"
+  },
+  "registry_access_integration": {
+    "initial_source_gate": "PASS316",
+    "initial_access_gate": "FAIL expected315 actual316",
+    "resolution": "Add exact analog reader caller to declared bounded successor list; all original access rules and scanner logic retained.",
+    "final_access_gate": "PASS316"
+  },
+  "local_checks": {
+    "focused_UI_tests": {
+      "files": 4,
+      "tests": 39,
+      "status": "PASS"
+    },
+    "typescript_build": "PASS",
+    "CSS_stylesheets": 64,
+    "source_runtime_files": 372,
+    "source_RPC_pairs": 316,
+    "access_permissions": 111,
+    "browser_helper_tests": 3,
+    "React_review": "Hooks, retired responses, explicit access loss, bounded pages, semantic labels and read-only RPC verified; no frontend code changed beyond B merge.",
+    "new_composition_source_admission": "PASS42 extra pins plus complete unchanged A predecessor declarations and actual return8/B choice6 Originals",
+    "workflow_embedded_python": 5
+  },
+  "source_A_parent": "31b77abbfad6c2af88ebcfccaeda08e941508197"
+}

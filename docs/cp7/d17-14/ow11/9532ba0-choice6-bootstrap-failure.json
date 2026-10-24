@@ -1,0 +1,16 @@
+{
+  "contract": "cp7.analog-choice-native6-bootstrap-failure.v1",
+  "candidate_sha": "9532ba0e4a6d2815c968353398648c4a8c0f4ca5",
+  "run_id": 40085123363,
+  "job_id": 120846382404,
+  "status": "BOOTSTRAP_FAILED",
+  "expected_case_count": 6,
+  "executed_case_count": 0,
+  "run_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/40085123363",
+  "failure": "Workflow copy changed pinned jsonschema==4.25.1 to nonexistent6.25.1 while adapting the declared case count.",
+  "fix": "Restore exact predecessor bootstrap dependency pin; no SQL, fixture, budget or oracle change.",
+  "disposable_database_started": false,
+  "Original_JSON_produced": false,
+  "log_sha256": "3136141a3d6474fc9a129ca50ad03f08b905ba3b4e1fbb1658b0e27bea4ec181",
+  "production_go": false
+}
