@@ -1434,3 +1434,24 @@ dua kasus browser belum diberi kredit runtime sebelum Original server.
 
 Mandor34run40059271805 dan invoice fixrun40059653484 masih berjalan pada
 pemeriksaan ini. Integrasi resmi a255e48f/main/audit tetap; production_go=false.
+
+## A — Native34 PASS dan sisa lima daftar OW09 (24 Oktober 2026)
+
+Mandor current c99ca612/run40059271805/job120769034489 lulus34/34 ID asli.
+Original8561436byte/SHA84b45470c44be16befd387a019399f4a311236991bbc32d480156e7bba59ca7c;
+ZIP2547958byte/SHA5aaa73a49a054e6172c098f1b8a347ef1f07e9965331e02521211c8830028299.
+Boundary tiap kasus/full raw public/CP6/advisor dan lima gate paket PASS.
+Receipt mandor34-c99ca612-pass.json tidak mengklaim Auth/browser atau audit baru.
+
+Tambahan current-owner-lists-browser mempunyai10journey:nota mandor tersimpan,
+dokumen FG, hitung fisik bahan, nota aksesori, kartu mutasi FG; masing-masing
+desktop/390px. Empat daftar31baris25+6, aksesori56baris50+6 sesuai UI asli.
+Filter masih dua halaman30atau55baris. UUID dari Native, nomor/urutan DOM,
+urutglobal, maju/mundur, cari baris halaman2, kosong, Browse seluruh data dan
+saldo prefix kartu FG diperiksa. Semua perjalanan baca saja,0writerRPC dan
+seluruh baris/sequence tetap. Fixture resmi hanya di salinan loopback sekali
+persiapan; tidak mengubah SQL/TSX/tes lama/B. Admission915pin, AST/Node/import
+writer terpisah lulus;10kasus belum diberi kredit PASS sebelum Original server.
+
+Invoice fix6c3e5a9e/run40059653484 dan transferpages28f73c0f/run40060328159
+masih berjalan saat catatan ini. Main/integrasi resmi/audit tetap.
