@@ -1,0 +1,50 @@
+{
+  "label": "CP7_DRAFT_RETURN_REGRESSION_NATIVE32",
+  "status": "INCOMPLETE",
+  "qualification_commit": "666356baea89412c2e4077ea71e160e016b19046",
+  "run": 40080017329,
+  "job": 120831434544,
+  "artifact": 12555041826,
+  "zip_bytes": 3333693,
+  "zip_sha256": "d3f2feb5e547037b659350b99ed1e4e75b2ae3b22eec655740481e2598dba560",
+  "report": {
+    "name": "CP7_DRAFT_RETURN_REGRESSION_NATIVE32.json",
+    "raw_bytes": 15874804,
+    "raw_sha256": "bfdfd0021dacdde900d361895234c1d3c2bd299470a1659a82816f2bdfb5c10b"
+  },
+  "baseline": {
+    "INCOMPLETE": 2,
+    "PASS": 30
+  },
+  "native": {
+    "PASS": 32
+  },
+  "execution_count": 64,
+  "unfixed_counterexamples_reproduced": true,
+  "cp6_restored": false,
+  "advisor_gate": false,
+  "restore_error": "DRAFT_RETURN_ISOLATION_AFTER_USE_REQUIRES_BACKUP_RESTORE",
+  "package_gate": {
+    "installed": false,
+    "primary_unchanged": true,
+    "backup_restore_drill": false,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "strict_group_originals": [
+    {
+      "path": "strict-groups/CP7_DRAFT_RETURN_REGRESSION_NATIVE32.json",
+      "bytes": 190549,
+      "sha256": "64f076f11f67c7a4d80bfced5ad1b9e58a8347068e003b272ad739ee292f08c5"
+    },
+    {
+      "path": "strict-groups/CP7_DRAFT_RETURN_REGRESSION_NATIVE32_UNFIXED.json",
+      "bytes": 147344,
+      "sha256": "eb18b232c6c6bb3d00ecb828c7c9f9ebfbf06b18573c9295d14d9eb71a123901"
+    }
+  ],
+  "disposition": "All32 fixed controls pass; whole qualification remains INCOMPLETE because strict all-data/sequence guard refuses final preuse removal. Successor closure atfbc04b53 keeps same32 factory and all oracles, proves initial inverse, records exact residual differences, and restores full pre-install backup.",
+  "production_go": false,
+  "independent_acceptance": false,
+  "new_business_case_credit": 0
+}

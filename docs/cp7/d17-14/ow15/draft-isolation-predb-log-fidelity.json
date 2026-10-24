@@ -1,0 +1,15 @@
+{
+  "run": 40079032140,
+  "job": 120828515177,
+  "provider_decoded_log": {
+    "bytes": 242039,
+    "sha256": "3074a31fd336f76bd3fdb98a463ad315d6ddb34c8f4d1b3610b587801f872b45"
+  },
+  "initial_saved_log": {
+    "bytes": 242040,
+    "sha256": "89c5ead122842f294049f54bba3b6b5ec1a1b3dec773601386aec6268e77e864",
+    "difference": "one additional final LF introduced when saving via apply_patch; original provider text preserved separately"
+  },
+  "runtime_original_affected": false,
+  "production_go": false
+}
