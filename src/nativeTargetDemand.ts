@@ -1,9 +1,10 @@
 import type {NativeDemandQuery} from './nativeDemandHistory'
 import {stagedInstant} from './nativeAnalysisPages'
+import {parseModelTarget,type ModelTarget} from './nativeModelTarget'
 
 export const demandBases=['OWN_AVAILABLE_HISTORY_ASSUMED_REPRESENTATIVE','SELECTED_MANUAL_ASSUMPTION','REVIEWED_ANALOG_SAME_PHYSICAL_SIZE_ASSUMPTION','UNKNOWN'] as const
 export type TargetDemandBasis=typeof demandBases[number]
-export type TargetDemand={targetKey:string;sizeId:string;capturedAt:string;query:NativeDemandQuery;basis:TargetDemandBasis
+export type TargetDemand={targetKey:string;sizeId:string;capturedAt:string;query:NativeDemandQuery;basis:TargetDemandBasis;model?:ModelTarget
  ownTotalPcs:string;ownAvailableDays:string;dailyTotalPcs:string|null;countedDays:string|null;dailySd:string|null;targetPcs:string|null;reorderPointPcs:string|null
  analog:null|{state:'READY'|'UNAVAILABLE';reason:string;choiceId:string;revision:string;recordedAt:string;sourceKey:string|null;sourceSku:string|null;sourceName:string|null
  scale:string|null;reviewReason:string;sourceTotalPcs:string|null;availableDays:string|null;scaledTotalPcs:string|null;scaledDailySd:string|null}}
@@ -28,8 +29,8 @@ function instantMicros(v:unknown){
 }
 function day(v:unknown){const s=label(v,10);if(!/^\d{4}-\d{2}-\d{2}$/.test(s))fail();const t=Date.parse(s+'T00:00:00Z');if(!Number.isFinite(t)||new Date(t).toISOString().slice(0,10)!==s)fail();return s}
 export function parseTargetDemand(value:unknown,binding:{targetKey:string;capturedAt?:string;query?:NativeDemandQuery}):TargetDemand{
- const o=obj(value);keys(o,['contract_version','target_key','size_id','captured_at','query','basis','own_total_pcs','own_available_days','daily_total_pcs','counted_days','daily_sd','target_pcs','reorder_point_pcs','analog'])
- if(o.contract_version!=='cp7.target-demand-provenance.v1'||o.target_key!==binding.targetKey)fail()
+ const o=obj(value),model=o.contract_version==='cp7.target-demand-provenance.v2';keys(o,['contract_version','target_key','size_id','captured_at','query','basis','own_total_pcs','own_available_days','daily_total_pcs','counted_days','daily_sd','target_pcs','reorder_point_pcs','analog',...(model?['model']:[])])
+ if(!model&&o.contract_version!=='cp7.target-demand-provenance.v1'||o.target_key!==binding.targetKey)fail()
  const targetKey=target(o.target_key),sizeId=uuid(o.size_id),captured=instantMicros(o.captured_at),q=obj(o.query)
  keys(q,['from_date','through_date','group_mode']);const query:NativeDemandQuery={from_date:day(q.from_date),through_date:day(q.through_date),group_mode:q.group_mode==='AS_SOLD'||q.group_mode==='RESTATED'?q.group_mode:fail()}
  const windowDays=BigInt((Date.parse(query.through_date)-Date.parse(query.from_date))/86400000+1)
@@ -66,6 +67,7 @@ export function parseTargetDemand(value:unknown,binding:{targetKey:string;captur
   result.analog=analog
  }
  if(result.basis==='REVIEWED_ANALOG_SAME_PHYSICAL_SIZE_ASSUMPTION'&&result.analog?.state!=='READY')fail()
+ if(model)result.model=parseModelTarget(o.model,result)
  return result
 }
 

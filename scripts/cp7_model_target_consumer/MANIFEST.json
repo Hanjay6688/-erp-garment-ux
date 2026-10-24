@@ -1,0 +1,12 @@
+{
+  "contract": "cp7.model-target-consumer-private.v1",
+  "new_private_functions": 1,
+  "new_public_rpcs": 0,
+  "new_tables": 0,
+  "existing_replacements": 0,
+  "sql_sha256": "aea32bb1f7f07be6e65bbc613e8d3e5a38ed9db61f0cba510b3f84812d431600",
+  "public_caller_integrated": false,
+  "actual_Native_capture": false,
+  "actual_Auth_HTTP_credit": false,
+  "production_go": false
+}

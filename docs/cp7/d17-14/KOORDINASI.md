@@ -1765,3 +1765,47 @@ catalog22/preuse, reproduksi actualpublic capture sebelumfix lalu read/replay/
 CLEAR, actualprofile/postSALE/currentaccess. Runtime belumdikreditkan; old
 31/25/19 budgets dan8s/45mintetap. Forecasttarget integration tetapdilanjutkan
 setelah celah jalur dasar ini; fullOW11/fullAchain/productionfalse.
+
+
+## 101. B24 Oktober2026 — baseline freshness Native3 Original PASS
+
+dbb2eefb/run40107539505/job120912239496 success. Complete Original12565218414
+SHAe072a65a783e17ee76b8b4f6951801626585710550dbc0527a24de4ee156c7c0
+read/verified:3PASS, IDs/count/cp6/advisor/5packagegatestrue, Authusers0→0,
+fullboundary/public unchanged and sessionleaks0. Actual predecessor falseSTALE
+reproduced, same stored result current after fix, exactUUID replay immutable,
+actualCONFIRM/CLEAR/profile/postSALE retirement and currentaccess/foreign refusal.
+No actualAuthHTTP/forecast/fullOW11 credit. Formal5/16, CP7C unaccepted.
+
+## 102. B24 Oktober2026 — model target SQL/client candidate; integration continues
+
+Private targetsource4 + projection2 + consumer1; generated17 exact predecessor
+replacement candidates,0newRPC/table. Set-based latest-owned selection and
+current model authority feed the existing target kernel; manual/minimum/UNKNOWN
+remain prior. Forecast vectors are dated, exact numeric, no average substitution
+or extrapolation. Own sales/day totals stay observed; statistical safety retains
+the existing historical variation assumption, not forecast-error calibration.
+
+14source +20consumer/selectedhook SQL localPASS with explicit synthetic history
+and policy and controlled live source/access. Direct baseline/staged row/ROP
+share one model target; withdrawal keeps old results immutable and new baseline.
+A reproduced18PASS1FAIL found unreviewed-profile ROP explanation still pointing
+to its earlier UNKNOWN profile target. Candidate points hook now preserves the
+existing measured-lead/default kernel with its matching retained explanation.
+Warehouse-only capture preserves existing read access without disclosing model
+rows/policy or scanning model history; strict model access and revoked FG access
+still refuse. Auth/Native qualification of these candidates is still open.
+
+Versioned baselinev3/provenancev2/ROPprojectionv3 client parses actual generated
+controlled SQL fixtures. BigInt rational dated windows refuse altered quantities,
+policy/method/date/parameters and mismatched target/profile/provenance. UI shows
+historical operands separately, model dates/policy, baseline comparison and
+fallback reasons. 256tests/9files, TypeScript, CSS64 pass. Initial TS narrowing
+failures retained; declaration fixes preserve runtime guards. Shared source
+checker stays unchanged; missing pair catalog remains A-owned integration work.
+
+No installer/default activation yet. Next: exact catalog/preuse/composed restore,
+actual Native/FG/worker access, current-source/SAVE races and Auth browser, then
+bounded model-history and factory scale. Static analysis metadata candidate
+names the new model-target engine. FullOW11/fullAchain/independent acceptance
+remain false; this checkpoint is not task completion.

@@ -1,9 +1,9 @@
 {
   "contract": "cp7.model-target-source-local.v1",
   "status": "PASS",
-  "expected": 13,
+  "expected": 14,
   "counts": {
-    "PASS": 13
+    "PASS": 14
   },
   "cases": [
     {
@@ -103,9 +103,19 @@
       "observed": {
         "no_public_entry_no_duplicate_or_unbounded_query": true
       }
+    },
+    {
+      "id": "WAREHOUSE_ONLY_READ_PRESERVED_WITHOUT_MODEL_POLICY_OR_HISTORY",
+      "status": "PASS",
+      "observed": {
+        "existing_warehouse_read_retained": true,
+        "no_private_model_disclosed": true,
+        "full_model_reader_still_denied": true,
+        "revoked_warehouse_denied": true
+      }
     }
   ],
-  "sql_sha256": "ebc93e22c3053ac9137d87da0e194a4d6e19617b638a82e5729c30b246b3a640",
+  "sql_sha256": "d3861663b9024573dfb8a245511025333c26cb76a5192406d0f9e1ef9c3ad084",
   "actual_SQL": true,
   "explicit_synthetic_history_and_policy": true,
   "actual_v2_and_original_serve_history_SQL": true,

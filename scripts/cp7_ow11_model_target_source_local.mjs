@@ -1,38 +1,9 @@
 // Actual v2 and current-source SQL with explicitly controlled history/access.
 import {writeFile} from 'node:fs/promises'
 import {randomUUID,createHash} from 'node:crypto'
-import {execFileSync} from 'node:child_process'
 import assert from 'node:assert/strict'
-import {modelRegistryFixture} from './cp7_ow11_model_registry_local_fixture.mjs'
-execFileSync('python',['-B','-c','import cp7_model_target_source as s;s.verify_sources()'],{env:{...process.env,PYTHONPATH:'scripts'}})
-const {db,read,cases,sql,actor,key,history,q,seed,test,rejects}=await modelRegistryFixture({currentDay:true})
-await db.exec(`alter table cp7_planning.history_runs add column request_id uuid default gen_random_uuid();
-alter table cp7_planning.history_runs owner to cp7_capture;grant usage on schema extensions to cp7_capture;
-create function cp7_private.access_now()returns jsonb language plpgsql volatile as $$begin
- if current_setting('model_target_test.active',true)is distinct from'true'then raise exception using errcode='42501',message='CONTROLLED_ACCESS_DENIED';end if;
- return jsonb_build_object('actor',current_setting('model_target_test.actor'),'profile',jsonb_build_object('revision',current_setting('model_target_test.access_epoch')));
-end$$;
-create function cp7_planning.history_source()returns jsonb language plpgsql volatile as $$declare n integer;facts jsonb;begin
- n:=coalesce(nullif(current_setting('model_target_test.history_calls',true),''),'0')::integer+1;
- perform set_config('model_target_test.history_calls',n::text,true);
- facts:=jsonb_build_object('sentinel',current_setting('model_target_test.facts'));
- if current_setting('model_target_test.change_second',true)='true'and n>=2 then facts:=jsonb_build_object('sentinel','changed during capture');end if;
- if current_setting('model_target_test.revoke_second',true)='true'and n>=2 then perform set_config('model_target_test.active','false',true);end if;
- return jsonb_build_object('status',current_setting('model_target_test.history_state'),'facts',facts);
-end$$;`)
-await sql("select set_config('model_target_test.actor',$1,false)v",[actor])
-for(const[k,v]of Object.entries({active:'true',access_epoch:'1',facts:'original',history_state:'COMPLETE',history_calls:'0',change_second:'false',revoke_second:'false'}))await sql('select set_config($1,$2,false)v',['model_target_test.'+k,v])
-await db.exec("update cp7_planning.history_runs set dependency_hash=encode(pg_catalog.sha256(convert_to(jsonb_build_object('sentinel','original')::text,'UTF8')),'hex')")
-const historySql=await read('scripts/cp7-src/planning/history.sql'),i=historySql.indexOf('create function cp7_planning.serve_history(')
-assert.ok(i>=0);await db.exec(historySql.slice(i,historySql.indexOf('$$;',i)+3))
-await db.exec(await read('scripts/cp7_model_evaluation_v2_stage/runtime.sql'))
-await db.exec(await read('scripts/cp7_model_target_source/source.sql'))
-const capture=(p=q)=>sql('select public.erp_cp7_capture_model_evaluation_v2($1::jsonb,$2::uuid)v',[JSON.stringify(p),randomUUID()])
-const current=(keys=[key],at=null)=>sql('select cp7_model_target_source.capture($1::text[],coalesce($2::timestamptz,clock_timestamp()))v',[keys,at])
-const reset=()=>sql("select set_config('model_target_test.history_calls','0',true)v")
-const setting=(k,v)=>sql('select set_config($1,$2,true)v',['model_target_test.'+k,v])
-const stored=id=>sql('select to_jsonb(r)v from cp7_model_registry_adapter.runs r where id=$1::uuid',[id])
-const ready=async()=>{await seed();const r=await capture();assert.equal(r.current_guard.state,'ELIGIBLE');await reset();return r}
+import {modelTargetSourceFixture} from './cp7_ow11_model_target_source_local_fixture.mjs'
+const {db,read,cases,sql,actor,key,history,q,seed,test,rejects,capture,current,reset,setting,stored,ready}=await modelTargetSourceFixture()
 await test('NO_OWN_MODEL_NO_SOURCE_SCAN_AND_STABLE_IDENTITY',async()=>{
  await reset();const a=await current(),b=await current();assert.equal(a.rows[0].reason,'NO_OWN_MODEL_EVALUATION');assert.equal(a.rows[0].forecast,null);assert.equal(a.source_hash,b.source_hash)
  assert.equal(await sql("select current_setting('model_target_test.history_calls')v"),'0');return{no_fabricated_model:true,no_unneeded_global_scan:true}
@@ -99,5 +70,14 @@ await test('CLOSED_TARGET_SET_AND_PRIVATE_ACL',async()=>{
  for(const role of['anon','authenticated','service_role'])assert.equal(await sql("select has_function_privilege($1,'cp7_model_target_source.capture(text[],timestamp with time zone)','EXECUTE')v",[role]),false)
  return{no_public_entry_no_duplicate_or_unbounded_query:true}
 })
-const report={contract:'cp7.model-target-source-local.v1',status:cases.every(x=>x.status==='PASS')?'PASS':'FAIL',expected:13,counts:cases.reduce((a,x)=>(a[x.status]=(a[x.status]??0)+1,a),{}),cases,sql_sha256:createHash('sha256').update(await read('scripts/cp7_model_target_source/source.sql')).digest('hex'),actual_SQL:true,explicit_synthetic_history_and_policy:true,actual_v2_and_original_serve_history_SQL:true,controlled_access_and_history_source:true,actual_Native_capture:false,actual_Auth_HTTP_credit:false,caller_integrated:false,bounded_factory_model_history_adapter_qualified:false,production_go:false}
+await test('WAREHOUSE_ONLY_READ_PRESERVED_WITHOUT_MODEL_POLICY_OR_HISTORY',async()=>{
+ await ready();const optional=()=>sql('select cp7_model_target_source.capture_for_reorder($1::text[],clock_timestamp())v',[[key]])
+ assert.equal((await optional()).source_hash,(await current()).source_hash)
+ await setting('model_access','false');await reset();await rejects(()=>current(),/CONTROLLED_ACCESS_DENIED/)
+ const a=await optional(),b=await optional();assert.equal(a.source_hash,b.source_hash);assert.equal(a.policy_source,null);assert.equal(a.live_history_source_hash,null);assert.equal(a.rows[0].reason,'MODEL_CURRENT_ACCESS_REQUIRED');assert.equal(a.rows[0].run_id,null);assert.equal(a.rows[0].forecast,null)
+ assert.equal(await sql("select current_setting('model_target_test.history_calls')v"),'0')
+ await setting('warehouse_access','false');await rejects(optional,/CONTROLLED_WAREHOUSE_ACCESS_DENIED/)
+ return{existing_warehouse_read_retained:true,no_private_model_disclosed:true,full_model_reader_still_denied:true,revoked_warehouse_denied:true}
+})
+const report={contract:'cp7.model-target-source-local.v1',status:cases.every(x=>x.status==='PASS')?'PASS':'FAIL',expected:14,counts:cases.reduce((a,x)=>(a[x.status]=(a[x.status]??0)+1,a),{}),cases,sql_sha256:createHash('sha256').update(await read('scripts/cp7_model_target_source/source.sql')).digest('hex'),actual_SQL:true,explicit_synthetic_history_and_policy:true,actual_v2_and_original_serve_history_SQL:true,controlled_access_and_history_source:true,actual_Native_capture:false,actual_Auth_HTTP_credit:false,caller_integrated:false,bounded_factory_model_history_adapter_qualified:false,production_go:false}
 await writeFile('docs/cp7/d17-14/ow11/model-target-source-local.json',JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report,null,2));await db.close();if(report.status!=='PASS')process.exitCode=1
