@@ -6,6 +6,7 @@ import json
 import uuid
 import cp7_product_analog_reader_stage as stage
 import cp7_ow11_analog_candidates_cases as private
+import cp7_ow11_analog_history_fixture as historical
 from cp7_ow04_restore_bundle import _catalog_rows
 
 bounded,volume,plan=private.bounded,private.volume,private.plan
@@ -60,6 +61,10 @@ def from_current(cur,today,x,subject=None):
 
 def epoch(cur,subject):
     plan.staged.auth.actor(cur,subject)
+    # Epoch is a Native test oracle, not a private browser call. Preserve
+    # actual actor JWT claims while using the function owner's authority.
+    plan.b.api.admin(cur)
+    cur.execute('set local role cp7_capture')
     value=cur.execute("select encode(pg_catalog.sha256(convert_to(cp7_schedule_native.access_now(false)::text,'UTF8')),'hex')").fetchone()[0]
     plan.b.api.admin(cur)
     return value
@@ -144,8 +149,9 @@ def cases(cur,today):
         before,state=install(cur)
         x=plan.fixture(cur,today)
         imported=volume.import_batch(cur,today,11,volume.Phases())
-        target=imported[0]['target'];same=[p for p in imported[1:]if p['target'].split(':')[1]==target.split(':')[1]]
-        other=[p for p in imported if p['target'].split(':')[1]!=target.split(':')[1]]
+        source=historical.seed(cur,imported)
+        target=imported[0]['target'];same=[p for p in source if p['target'].split(':')[1]==target.split(':')[1]]
+        other=[p for p in source if p['target'].split(':')[1]!=target.split(':')[1]]
         assert len(same)==1 and len(other)==9
         explicit_profile(cur,imported[0]['root'])
         f=from_current(cur,today,x);bounded.finish(cur,f)
@@ -157,11 +163,13 @@ def cases(cur,today):
         assert int(item['available_days'])==1 and Decimal(item['observed_available_daily_mean'])==0
         assert item['suggested']and 'SAME_CAPTURED_BRAND'in item['reasons']
         history={r['target_key']:r for r in f['row']['reference']['bounded_history_inputs']['inputs']['history']}
+        assert all(int(history[p['target']]['available_days'])==0 and int(history[p['target']]['unknown_days'])==1 and history[p['target']]['available_sales_mean']is None for p in imported)
         assert all(int(history[p['target']]['available_days'])==1 and Decimal(history[p['target']]['available_sales_mean'])==0 for p in other)
         assert not{p['target']for p in other}&{r['target_key']for r in result['candidates']}
         assert plan.monetary_state(cur)==physical
         remove(cur,before,state)
-        return dict(status='PASS',actual_public_BB_import11_products10_physical_sizes=True,
+        return dict(status='PASS',actual_public_BB_import11_new_products_keep_UNKNOWN_history=True,
+                    explicit_SYNTHETIC_historical_Native_comparators=10,all_public_historical_import_credit=False,
                     actual_same_physical_size_available_zero_candidate=True,
                     nine_other_available_zero_sizes_excluded_despite_same_captured_brand=True,
                     actual_Native_history_not_mutated_or_promoted=True,read_millis=elapsed,

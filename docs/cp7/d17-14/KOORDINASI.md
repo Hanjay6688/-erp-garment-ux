@@ -1145,3 +1145,21 @@ No public/Auth/selection/forecast/other-size credit. Bothfirstfailures retained.
 ReaderNative4 sourceb00d843d/candidate0a1deb1f/run40049365973 executing.
 It adds actualownedDONE/currentepoch/K2/K3/advisory andNativeBB11products10sizes
 controls; result notyetclaimed. OW11/fullAchain/afteruse OPEN,parent5/16.
+
+
+## 68. Reader Native4 first result preserved, fixture clocks stay honest (24 Oktober2026 WIB)
+
+Frozen0a1deb1f/sourceb00d843d/run40049365973/job120738326327 INCOMPLETE2/4.
+Catalog22/authority/inverse and actualDONEbinding/K3/capturedstale passed;8.973ms
+read. Original12542493243/159850bytes/SHA
+c3f5b5e99b208d71131f85432a4f3bd92e4246190d3eadd5754f61c9e60d6cc4
+independentlychecked47samefiles/12preuse22/restore/advisors; runtimegatefalse.
+
+Epoch testoracle incorrectly calledprivateschema asauthenticated: correctly
+refused42501. FixonlytestoracleusesfunctionownerwithsameactorJWT, noACLchange.
+BB11productscreatedtoday correctlyhaveUNKNOWNyesterday; noavailablezero. Keep
+all11trueclocks/history. Add10explicitSYNTHETIC historicalNativecomparators for
+size/availablezero structuraltest:1samesize+9others. No capture/registryclock,
+historyoutput/hash/coverage/compiler/guard/8s change; noall-public-historical
+importcredit. Contractupdated before rerun. Productionreader/kernel unchanged.
+OW11/fullAchain/afteruse OPEN,parent5/16. Browser2/sourceUI preparation continues.

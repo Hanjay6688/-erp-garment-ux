@@ -61,5 +61,8 @@
   "full_A_chain_qualified": false,
   "statement_timeout": "8s",
   "wall_limit_ms": 8000,
-  "production_go": false
+  "production_go": false,
+  "newly_imported_closed_day_history": "UNKNOWN preserved, zero available days; never promoted to available zero",
+  "explicit_SYNTHETIC_historical_Native_comparators": 10,
+  "all_public_historical_import_credit": false
 }
