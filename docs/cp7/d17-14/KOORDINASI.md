@@ -1809,3 +1809,21 @@ actual Native/FG/worker access, current-source/SAVE races and Auth browser, then
 bounded model-history and factory scale. Static analysis metadata candidate
 names the new model-target engine. FullOW11/fullAchain/independent acceptance
 remain false; this checkpoint is not task completion.
+
+
+## 103. B24 Oktober2026 — model target composed installer / Native6 candidate
+
+Successor installer requires exact analog-provenance + baseline-freshness +
+prospective-policy + immutable-model-v2 parents. Seven private functions/three
+schemas and17 replacements admitted against all22catalog groups; existing
+owner/ACL/GUC/volatility unchanged, all other cp7 functions pinned. Preuse inverse
+is savepoint-atomic with RESTRICT; any job/capture/model/policy/history use requires
+composed after-use restore. No default installer or hosted/production change.
+
+Separate Native6 budget prepared: dependent-view inverse/catalog; actual v3
+manual baseline and exact replay; actual current policy/latest owned v2 without
+posthoc history; posted SALE/profile/current access; existing FG-only permission;
+bounded analog/direct/staged parity. No positive historical model is fabricated.
+Actual runtime is pending; source/declaration/YAML/Python checks pass. Old31/25/19
+budgets and8s/45min limits unchanged. Continue on runtime findings and remaining
+source/SAVE/Auth/browser/bounded factory integration after publication.

@@ -1,7 +1,7 @@
-"""Derive model-target hooks from exact predecessors; not an installer.
+"""Derive model-target hooks from exact predecessors for the opt-in installer.
 
 The actual parent must include analog provenance, the direct-reader correction,
-and immutable model-v2. Catalog admission and public clients are separate work.
+and immutable model-v2. Native catalog and runtime qualification stay explicit.
 """
 from pathlib import Path
 from hashlib import sha256
