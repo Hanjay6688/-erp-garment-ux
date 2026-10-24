@@ -127,9 +127,14 @@ def cases(cur,today):
         subject,role=baseline.custom_writer(cur);plan.b.api.admin(cur)
         cur.execute('delete from erp.app_role_permissions where role_id=%s',(role,))
         cur.execute("insert into erp.app_role_permissions(role_id,permission_key)values(%s,'warehouse.fg.view')",(role,))
-        query=dict(q='',filter='ALL',offset=0,limit=100)
+        # The factory already has more than one page of products. Bind the
+        # actual Native fixture SKU instead of assuming it sorts in page one.
+        sku=cur.execute('select sku from erp.products where id=%s',(f['product'],)).fetchone()[0]
+        query=dict(q=sku,filter='ALL',offset=0,limit=100)
         w=call(cur,'erp_cp7_get_fg_reorder_v1',(json.dumps(query),),subject)
-        r=next(x for x in w['page']['rows']if x['root_id']==str(f['product']))
+        found=[x for x in w['page']['rows']if x['root_id']==str(f['product'])]
+        assert len(found)==1,('MODEL_TARGET_FG_FIXTURE_LOOKUP',sku,w['page'])
+        r=found[0]
         m=r['projection']['target_demand']['model']
         assert r['projection']['contract_version']=='cp7.fg-reorder-projection.v3'
         assert r['projection']['target_pcs']=='100'and r['formula_point']=='30'

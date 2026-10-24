@@ -1900,3 +1900,21 @@ New sources/declaration/workflow syntax and old31/25/19 checks PASS; actual
 runtime remains pending. Positive model admission is not fabricated. The
 45min workflow and8s RPC boundaries are unchanged. Continue on complete
 Originals, failures and remaining bounded history/SAVE/after-use restoration.
+
+## 108. B24 Oktober2026 — retain model target Native6 first failure; fix fixture lookup
+
+5770baa5/run40111136202/job120922915049 completed failure: complete Original
+12567672813 (205733 bytes, SHA256 7de04353b0b39ab811f3ec877a25c87818144acd2596f5ba3d1eecdeddeb4b59)
+read and exact-head source hashes verified. Five PASS:17/7 catalog/preuse inverse,
+actual v3 baseline/replay, actual current policy/latest v2, profile/posted SALE/
+access, bounded/direct/staged analog parity. Warehouse-only case INCOMPLETE:
+next() did not find the fixture in an unfiltered first100-products page. Candidate
+now queries the actual Native SKU and asserts exactly one matching root, with
+no product permission or production SQL change. That correction needs a rerun.
+
+All six cases restored full boundary/public catalog; advisory/session leaks0.
+CP6/advisor gates true but required-count and package writer-runtime gates false.
+No complete Native6, FG-only, positive model, actual Auth or fullOW11 credit.
+The already running04eaad40 Native6 still contains that old lookup; do not
+relabel its forthcoming Original. Expanded19/8 correction will get a new run.
+Receipt: ow11/5770baa5-model-target-native6-first-failure.json.
