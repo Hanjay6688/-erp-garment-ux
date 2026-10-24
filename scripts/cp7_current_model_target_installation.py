@@ -124,8 +124,8 @@ def verify(cur,state):
         raise ValueError('CURRENT_MODEL_TARGET_FINAL_BINDING_CHANGED')
     return dict(contract=CONTRACT,status='EXACT_CURRENT_MODEL_TARGET_ALL22',
         predecessor_verified_before_actual_delta=True,all22_transition_chain_verified=True,
-        substituted_catalog_or_definitions=False,baseline_replacements=1,target_replacements=20,
-        target_private_functions=8,target_schemas=3,new_tables=0,new_public_rpcs=0,
+        substituted_catalog_or_definitions=False,baseline_replacements=1,target_replacements=len(target.render.originals()),
+        target_private_functions=len(target.FUNCTIONS),target_schemas=len(target.SCHEMAS),new_tables=0,new_public_rpcs=0,
         every_old_row_and_sequence_preserved=True,default_owner_policy_created=False,
         installed_schedules=False,full_OW11_acceptance=False,production_go=False,independent_acceptance=False)
 
