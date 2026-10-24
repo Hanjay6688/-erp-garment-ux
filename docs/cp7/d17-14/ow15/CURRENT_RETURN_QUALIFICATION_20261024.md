@@ -83,7 +83,12 @@ periode payroll fixture1September bertabrakan dengan payroll seed30Agustus–1Se
 Receipt: `current-cash-ready3-first-incomplete-4cec061c.json`.
 Penerus `current-cash-linked-qualification` memakai periode kosong2September,
 sesuai aturan backlog fungsi populate Native. Sumber pekerjaan tetap1September;
-nota/link lama, pool HPP dan seluruh jurnal harus persis tetap. Belum ada hasil runtime.
+nota/link lama, pool HPP dan seluruh jurnal tetap tepat. Run40087715870 sudah
+lulus3 baseline+3 current; enam receipt payroll membuktikan seluruh prasyarat.
+Pembayaran/inverse net0 dan tanggal historis tepat; fault tanggal memblokir laporan,
+serta fault kronologi failed-wash kembali READY setelah rollback. Lima gate paket,
+CP6/advisor dan pemulihan seluruh22 katalog/baris/sequence lulus. Receipt:
+`current-cash-linked3-first-pass-31b77abb.json`.
 
 Original composed installation: run40081846443/job120836847789,
 artifact12556450449. JSON1133688byte,

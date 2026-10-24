@@ -1,0 +1,197 @@
+{
+  "run": 40087715870,
+  "job": 120853932586,
+  "artifact": 12557079772,
+  "zip_bytes": 2061059,
+  "zip_sha256": "30906f8c311a66bdc43fcab8f39b7d1b6d535ad3048d1d04d32dc3bf4b179396",
+  "label": "CP7_CURRENT_CASH_LINKED_NATIVE3",
+  "status": "PASS",
+  "qualification_commit": "31b77abbfad6c2af88ebcfccaeda08e941508197",
+  "report": {
+    "name": "CP7_CURRENT_CASH_LINKED_NATIVE3.json",
+    "raw_bytes": 2762910,
+    "raw_sha256": "a116882c8f061db1956fd8c342eea4d8f9c24a468f8bfb4d688cd7ffc9b48c3d"
+  },
+  "baseline_counts": {
+    "PASS": 3
+  },
+  "current_counts": {
+    "PASS": 3
+  },
+  "execution_count": 6,
+  "business_results": {
+    "baseline": {
+      "CURRENT_VENDOR_PAYMENT_LINKED_INVERSE_READY": {
+        "status": "CONTROL_PASS",
+        "classification": "REAL_OWNER_REPLAY_REFUSAL_AND_LINKED_INVERSE",
+        "kind": "VENDOR_PAYMENT",
+        "replay_refusal": "Vendor payment must be DRAFT\nCONTEXT:  PL/pgSQL function post_vendor_payment(uuid) line 8 at RAISE",
+        "replay_boundary_exact": true,
+        "original_clock_preserved": true,
+        "immutable_sales_fact_preserved": false,
+        "inverse": [
+          [
+            "5cedc2ec-1624-4737-8d4e-b92f9c08c178",
+            "2026-10-24",
+            "2026-10-24",
+            "2026-10-24 10:59:10.103267+00:00"
+          ]
+        ],
+        "expected_reversal_date": "2026-10-24",
+        "cash_net": "0.00",
+        "earlier_as_of_preserved": true
+      },
+      "CURRENT_VENDOR_PAYMENT_DATE_DETECTOR_READY": {
+        "status": "CONTROL_PASS",
+        "classification": "PRIVILEGED_DISPOSABLE_CORRUPTION_DETECTOR_PROBE",
+        "ordinary_user_exploit": false,
+        "kind": "VENDOR_PAYMENT",
+        "affected_journal_count": 1,
+        "detectors": [
+          {
+            "function": "run_v267_financial_truth_checks",
+            "rows": [
+              [
+                "V2620Y_VENDOR_PAYMENT_BUSINESS_DATE",
+                "CRITICAL",
+                1,
+                "Vendor payment cash and AP dates must follow the Jakarta payment event"
+              ]
+            ]
+          },
+          {
+            "function": "run_v268_financial_report_checks",
+            "rows": [
+              [
+                "V2620Y_VENDOR_PAYMENT_BUSINESS_DATE",
+                "CRITICAL",
+                1,
+                "Vendor payment cash and AP dates must follow the Jakarta payment event"
+              ]
+            ]
+          }
+        ],
+        "report_confidence": "BLOCKED",
+        "restored_by_case_rollback": true
+      },
+      "CURRENT_FAILED_WASH_CHRONOLOGY_READY": {
+        "status": "PASS",
+        "dispatch_physical_at": "2026-09-01T11:00:00Z",
+        "authoritative_return_physical_at": "2026-09-02T11:00:00Z",
+        "fault_inverse_physical_at": "2026-09-01T12:00:00Z",
+        "fault_issue_count": 1,
+        "fault_report_status": "BLOCKED",
+        "restored_report_status": "READY"
+      }
+    },
+    "native": {
+      "CURRENT_VENDOR_PAYMENT_LINKED_INVERSE_READY": {
+        "status": "CONTROL_PASS",
+        "classification": "REAL_OWNER_REPLAY_REFUSAL_AND_LINKED_INVERSE",
+        "kind": "VENDOR_PAYMENT",
+        "replay_refusal": "Vendor payment must be DRAFT\nCONTEXT:  PL/pgSQL function post_vendor_payment(uuid) line 8 at RAISE",
+        "replay_boundary_exact": true,
+        "original_clock_preserved": true,
+        "immutable_sales_fact_preserved": false,
+        "inverse": [
+          [
+            "704d920a-7ca5-4aaa-8ef0-564a32964998",
+            "2026-10-24",
+            "2026-10-24",
+            "2026-10-24 11:04:23.958941+00:00"
+          ]
+        ],
+        "expected_reversal_date": "2026-10-24",
+        "cash_net": "0.00",
+        "earlier_as_of_preserved": true
+      },
+      "CURRENT_VENDOR_PAYMENT_DATE_DETECTOR_READY": {
+        "status": "CONTROL_PASS",
+        "classification": "PRIVILEGED_DISPOSABLE_CORRUPTION_DETECTOR_PROBE",
+        "ordinary_user_exploit": false,
+        "kind": "VENDOR_PAYMENT",
+        "affected_journal_count": 1,
+        "detectors": [
+          {
+            "function": "run_v267_financial_truth_checks",
+            "rows": [
+              [
+                "V2620Y_VENDOR_PAYMENT_BUSINESS_DATE",
+                "CRITICAL",
+                1,
+                "Vendor payment cash and AP dates must follow the Jakarta payment event"
+              ]
+            ]
+          },
+          {
+            "function": "run_v268_financial_report_checks",
+            "rows": [
+              [
+                "V2620Y_VENDOR_PAYMENT_BUSINESS_DATE",
+                "CRITICAL",
+                1,
+                "Vendor payment cash and AP dates must follow the Jakarta payment event"
+              ]
+            ]
+          }
+        ],
+        "report_confidence": "BLOCKED",
+        "restored_by_case_rollback": true
+      },
+      "CURRENT_FAILED_WASH_CHRONOLOGY_READY": {
+        "status": "PASS",
+        "dispatch_physical_at": "2026-09-01T11:00:00Z",
+        "authoritative_return_physical_at": "2026-09-02T11:00:00Z",
+        "fault_inverse_physical_at": "2026-09-01T12:00:00Z",
+        "fault_issue_count": 1,
+        "fault_report_status": "BLOCKED",
+        "restored_report_status": "READY"
+      }
+    }
+  },
+  "explicit_prerequisite_receipt_count": 6,
+  "all_old_payroll_work_links_HPP_source_and_GL_exact": true,
+  "known_source_date": "2026-09-01",
+  "Native_payroll_period_date": "2026-09-02",
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "baseline_all22_rows_sequences_exact": true,
+  "post_test_used_guard": {
+    "refused": true,
+    "all_data_sequences_catalog_unchanged": true
+  },
+  "post_test_data_or_sequence_changes": {
+    "sequence:erp.audit_logs_id_seq": {
+      "before": [
+        "1058",
+        true
+      ],
+      "after": [
+        "1985",
+        true
+      ]
+    },
+    "sequence:erp.fg_stock_book_order_seq": {
+      "before": [
+        "2",
+        true
+      ],
+      "after": [
+        "4",
+        true
+      ]
+    }
+  },
+  "production_go": false,
+  "independent_acceptance": false,
+  "new_business_case_credit": 0,
+  "legacy_results_relabelled": false,
+  "disposition": "Explicit lawful Native backlog fixture allows all unchanged original money/date/inverse/READY/corruption oracles to execute and PASS on baseline and corrected current. Diagnostic and first overlap failures remain INCOMPLETE."
+}
