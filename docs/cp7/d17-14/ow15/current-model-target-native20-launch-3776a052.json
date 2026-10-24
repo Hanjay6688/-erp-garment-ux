@@ -1,0 +1,18 @@
+{
+  "status": "FULL_BOUND_ADMISSION_PASS_CI_RUNNING",
+  "execution_head": "3776a052ea97695dce95da018be182fdf21fe85b",
+  "execution_tree": "73badcbc281e6add15505d66d4f051d62e02ecae",
+  "run_id": 40125980689,
+  "source_pins": 3213,
+  "actual_originals": 6,
+  "business_case_count": 20,
+  "admission_receipt_bytes": 665097,
+  "admission_receipt_sha256": "f8df226cc20a8de9cc49a31863e809d83f8c6b0573d9cee0bee7b2ac9f5a6c42",
+  "corrected_B_native6_head": "190c1d78e1ec16a93d287e711780850db98fa1e8",
+  "current_target_replacements": 21,
+  "current_target_private_functions": 8,
+  "all_three_first_failure_Originals_retained": true,
+  "runtime_result_available": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

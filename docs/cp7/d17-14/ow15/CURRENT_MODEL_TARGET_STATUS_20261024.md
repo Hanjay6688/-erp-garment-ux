@@ -46,7 +46,8 @@ bukti browser untuk cache FG atau model historis unggul. [Native6 pertama21/8](B
 tiga nilai, tetapi kasus gudang membandingkannya dengan dua nilai. Nilai error
 aktual tidak tersimpan; CP6/advisor/semua boundary kasus pulih. B `190c1d78`
 membetulkan pembanding menjadi tepat tiga nilai tanpa mengubah SQL produk;
-run `40122499063` masih berjalan. [Transport11 pertama21/8](B-target-cache-transport11-cancelled-d7d3033b.json)
+[run `40122499063` sudah PASS6](B-target-corrected-native6-pass-intake-190c1d78.json),
+dengan semua boundary, CP6/advisor dan lima gate paket pulih. [Transport11 pertama21/8](B-target-cache-transport11-cancelled-d7d3033b.json)
 `40119284316` dibatalkan pada45menit: satu katalog dan tujuh race PASS, kelompok
 Auth belum kembali, pemulihan/advisor akhir false. [PartA](B-target-transport-part-A-intake-2b335934.json)
 `40120202292` lulus satu katalog+empat race beserta seluruh gate. [PartB dan
@@ -56,9 +57,12 @@ pemulihan/advisor/lima gate dan Auth0000 kembali bersih. Katalog berulang tidak
 dihitung dua kali; ini bukti komponen B, belum uji gabungan A.
 A Native20 kemudian menjadi prasyarat lima pengujian gabungan yang sudah siap:
 Browser6, UsedRestore8, model Auth9/races19, keuangan Auth3/races7 dan cron1.
-Deklarasi SOURCE sengaja belum dibuat sebelum Original prasyarat benar-benar
-lulus. Komponen histori satu produk baru masih berupa sumber; belum dipasang
-dalam susunan A ini.
+Native20 A sudah dijalankan pada `3776a052`, run `40125980689`: 3.213 pin
+sumber dan enam Original prasyarat lolos pemeriksaan lengkap sebelum DB.
+Hasil Native20 belum tersedia; SOURCE kelima followup tetap belum dibuat.
+Komponen riwayat belum dipasang dalam susunan target ini. Cabang A riwayat
+terpisah menyiapkan Native25 dan UsedRestore8; komponen B riwayat sudah
+Native6 dan Auth/concurrency7 PASS, tetapi bukti gabungan A masih terbuka.
 
 Kegagalan B sebelumnya tetap terlihat:
 

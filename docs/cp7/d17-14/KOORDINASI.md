@@ -3297,3 +3297,29 @@ after-use recovery preparation in an isolated A worktree. B keeps source/runtime
 engine ownership. It will require actual current Native20 and B history runtime
 Native/Auth originals; it will not change the current21/8 candidate, default
 installation, historical payloads, owner policy or existing qualified originals.
+
+
+## A25 October2026 WIB - corrected B6 admitted, full current Native20 running
+
+B190c1d78/run40122499063/job120956892150 completed success. Complete Original
+12572681615 ZIP205810 SHA5faeb6a96ed365b9e47603cc2e3faa5e4f0cd6f834c87ce112869df5f30c59ed;
+CP7_OW11_MODEL_TARGET_CONSUMER.json1829176 SHA991a37cd4cddc05a6612751375f1a9c9b48398976c35542757b69efb126f4ede.
+SixPASS, exact15product pins and corrected case source, all boundaries/locks/
+sessions/CP6/advisors/five package gates pass. Earlier04ea/161d/d7 failures stay.
+A bound3213 source pins and six actual prerequisites; full frozen predecessor
+admission and current exact source admission PASS (receipt665097 SHA
+f8df226cc20a8de9cc49a31863e809d83f8c6b0573d9cee0bee7b2ac9f5a6c42).
+Dedicated execution branch astra-a/d17-14-model-target-native-20261024 head
+3776a052ea97695dce95da018be182fdf21fe85b tree73badcbc281e6add15505d66d4f051d62e02ecae
+started run40125980689. Freeze it; no Native20 result or five followup SOURCE yet.
+Local binder initially leaked its own CLI arguments to a strict frozen import;
+consume arguments before import corrected this adapter only, no frozen edit.
+Invoke the already-pinned generic followup binder via module.bind(manifest)
+from a no-argument Python wrapper, preserving all Native20 source pins.
+
+Separate history branch db9afa0a prepares composer/recovery, Native25 and
+UsedRestore8 (two actual roots,18 negative controls, all old fixtures exact).
+B history source4/Native6/Transport7 actual component PASS and first failure
+remain preserved. No history SOURCE or composed runtime is claimed. B23d4
+scoped model candidates are source references only; no automatic policy/caller.
+Formal5/16; production and independent acceptance remain false.
