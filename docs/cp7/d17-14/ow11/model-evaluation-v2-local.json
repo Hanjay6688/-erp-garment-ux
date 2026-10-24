@@ -1,0 +1,86 @@
+{
+  "contract": "cp7.model-evaluation-v2-local.v1",
+  "status": "PASS",
+  "expected": 8,
+  "counts": {
+    "PASS": 8
+  },
+  "cases": [
+    {
+      "id": "EMPTY_POLICY_CAPTURE_REPLAY_OWNS_ONE_IMMUTABLE_RUN",
+      "status": "PASS",
+      "observed": {
+        "exact_UUID_and_immutable_assessment": true,
+        "one_v2_row_no_v1_write": true
+      }
+    },
+    {
+      "id": "EXPLICIT_SYNTHETIC_WINNER_CAPTURE_READER_DATED_VECTOR",
+      "status": "PASS",
+      "observed": {
+        "synthetic_history_only": true,
+        "immutable_NAIVE100x7": true,
+        "read_does_not_recompute_or_apply_forecast": true
+      }
+    },
+    {
+      "id": "CURRENT_POLICY_WITHDRAWAL_PRESERVES_ORIGINAL_RESULT",
+      "status": "PASS",
+      "observed": {
+        "original_eligibility_is_history_only": true,
+        "current_guard_retires_policy_without_rewrite": true
+      }
+    },
+    {
+      "id": "STALE_HISTORY_NEW_CAPTURE_REFUSED_OLD_READ_RETIRED",
+      "status": "PASS",
+      "observed": {
+        "controlled_history_freshness_standin": true,
+        "new_stale_capture_does_not_insert": true
+      }
+    },
+    {
+      "id": "REVOKED_ACTOR_PRECEDES_COMMITTED_REPLAY_AND_FOREIGN_READ",
+      "status": "PASS",
+      "observed": {
+        "controlled_current_access_standin": true,
+        "actual_Auth_HTTP_credit": false
+      }
+    },
+    {
+      "id": "CURRENT_GUARD_DAY_ENGINE_AND_CLOCK_NEVER_REQUALIFY_HISTORY",
+      "status": "PASS",
+      "observed": {
+        "old_vector_not_shifted_to_new_day": true,
+        "changed_engine_never_reuses_old_admission": true
+      }
+    },
+    {
+      "id": "EXACT_RAW_PAYLOAD_METHOD_NAMESPACE_AND_IMMUTABILITY",
+      "status": "PASS",
+      "observed": {
+        "raw_payload_bound_even_when_canonical_query_equal": true,
+        "v2_has_distinct_request_table_and_lock_namespace": true
+      }
+    },
+    {
+      "id": "FINAL_ROW_FAULT_AND_PRIVATE_ACL",
+      "status": "PASS",
+      "observed": {
+        "fault_rolls_back_whole_capture": true,
+        "private_immutable_RLS_table": true,
+        "authenticated_only_facade": true
+      }
+    }
+  ],
+  "sql_sha256": "4506428f312ea20c47c3d0f4ade748f915dcd091825cf20178ced91be219d6dc",
+  "actual_SQL": true,
+  "explicit_synthetic_history_and_policy": true,
+  "controlled_access_history_freshness_and_sha256_adapter": true,
+  "actual_Native_capture": false,
+  "actual_Auth_HTTP_credit": false,
+  "catalog22_qualified": false,
+  "actual_concurrency": false,
+  "forecast_applied": false,
+  "production_go": false
+}

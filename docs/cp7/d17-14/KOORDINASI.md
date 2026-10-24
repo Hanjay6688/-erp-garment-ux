@@ -1625,3 +1625,22 @@ currentactive/role before replay; no orphan policy/registry/command. Actual
 HTTP SET/SUSPEND/replay, revoked oldtoken, anon/auditor/foreign epoch and
 authorized secondownerownfresh epoch terbukti. Scope tetapmetadata; tidak
 mengaktifkanforecast atau memberikredit fullOW11/fullAchain/independentaudit.
+
+## 94. B24 Oktober2026 — immutable model evaluationv2 candidate
+
+Stage terpisah7private+2public/1table/1schema/0replacement; policyparent harus
+diverifikasi eksplisit, bukan defaultinstaller. V2 menyimpan dataset/assessment
+immutable dengan requestnamespace tersendiri dan exactrawpayload. Read mengirim
+assessment lama utuh +current_guard terpisah (source/policy/engine/date/access),
+tidak mengulang model. Globalenvelope/requestwait recheckaccess; stalehistory
+menolak capturebaru. Forecast belum dipakai target. Exact4parentFKtrigger
+dideklarasikan, preuseinverseRESTRICT/savepoint; afteruserequirescomposedrestore.
+
+8actualSQL lokalPASS, registry13retainedPASS; fixturehistoris/policy synthetic
+dan access/freshnesscontrolled, bukanNative/Auth. First8FAIL karena localstub
+belum meniru existingextensionsUSAGEgrant disimpan; SQL tidakdiubah untuk itu.
+Native6 terpisahdideklarasikan untuk actualcapturereplay/v1/clock/sourcepost/
+access/atomic/catalog22, tidakbackdatehistorydemimodelwin. Python/SQL/sourcepins/
+negativeparent-budget/narrowFKguardsPASS, lama31/25/19 dan8s/45mintetap.
+Clientv2/actualAuth-races-browser/activation-targetconsumer/fullAchain masih
+berikutnya; induk5/16 danproductionfalse.
