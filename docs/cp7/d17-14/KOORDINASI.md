@@ -1412,3 +1412,25 @@ bukti runtime atau daftar run aktual. GitHub.com saatini mendokumentasikan
 batas3000berkas; angka300 dariEnterpriseServerlama tidak diterapkan ke repo ini.
 Peta current/historis ada di ow15/CURRENT_QUALIFICATION_MAP_20261024.md; tidak
 menghapus workflow, mengendurkan pin atau memajukan integrasi resmi.
+
+## A — transfer full restore PASS dan bukti alokasi lintas halaman (24 Oktober 2026)
+
+Group transfer current head aea44fa9/run40058216568/job120765815354 selesai PASS.
+Original551074byte/SHA a9ec119013b8e565140081810fba164be7b0f1b24e84f07573a8bc3e5dccd9bd
+diverifikasi bersama ZIP, sembilan langkah/enam kontrol, CP6/advisor/lima gate.
+Pembacaan lengkap, replay UUID, empat koreksi/tanggal asal dan inverse kas0
+tepat sesudah full restore; stok/HPP sama. Receipt terpisah tidak mengklaim
+browser pagination atau audit independen.
+
+A menambah current-transfer-pages-browser:31penerimaan yang dibuat Native,
+25+6 baris nyata, pilihan halaman1dan2, kembali halaman1 menjaga nilai400,
+create400+600/koreksi250+500/inverse0;29penerimaan lain tidak terbayar dan
+stok/HPP tepat. Desktop kehilangan jawaban committed lalu recover UUID yang
+sama setelah reload; HP390px mengerjakan perjalanan lengkap. Oracle urutan
+berasal tabel Native, bukan keluaran UI. Tidak mengubah SQL produk, modul
+kasus lama atau berkas B. Admission seluruh sumber915, AST/Node syntax serta
+import fixture dari checkout writer lain dengan argv prepare lulus lokal;
+dua kasus browser belum diberi kredit runtime sebelum Original server.
+
+Mandor34run40059271805 dan invoice fixrun40059653484 masih berjalan pada
+pemeriksaan ini. Integrasi resmi a255e48f/main/audit tetap; production_go=false.
