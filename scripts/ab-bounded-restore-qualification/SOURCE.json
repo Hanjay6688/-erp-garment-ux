@@ -1,16 +1,5 @@
 {
   "contract": "ow15.ab-bounded-used-restore.v1",
-  "required_steps": [
-    "INSTALL_ALL22",
-    "PREUSE_EXACT_RESTORE",
-    "REINSTALL_ALL22",
-    "COMMITTED_A_PAYMENT_B_FABRIC_BOUNDED_WORK_DRAFT",
-    "GLOBAL_USED_GUARD_BEFORE_DDL",
-    "FULL_USED_BACKUP_RESTORED",
-    "RESTORE_NEGATIVE_CONTROLS",
-    "LOCAL_OID_BINDING_ONLY",
-    "EXACT_A_B_READS_AND_UUID_REPLAY"
-  ],
   "files": {
     ".github/workflows/cp7-ab-bounded-native.yml": "647e218c402c207394e39881d39cd433c14a8596f953d785cf5806d79352faa4",
     ".github/workflows/cp7-ab-bounded-restore.yml": "4adc57159753d8c3bc3b33f5adbf33a4245e2b6289aaebea7297e90c129ad86d",
@@ -20,7 +9,7 @@
     "scripts/ab-bounded-native-qualification/bounded_cases.py": "6b03afbb8bc2d81f79311aa5b78cd75ce5f68598529de419d9d6af0254793d52",
     "scripts/ab-bounded-native-qualification/cases.py": "dcd00cbafa3d0077f970a7979208bb3f4565c297496cd54410c476e660845e6b",
     "scripts/ab-bounded-native-qualification/probe.py": "334ec1a6ef53bf91c49f45f22715d61f454211dc3ed87bb02c9c4901c649562b",
-    "scripts/ab-bounded-restore-qualification/probe.py": "c76a971f84e9ca70ca8848da718dcbd956d421e218ddaff56c65a5be9be0bfb1",
+    "scripts/ab-bounded-restore-qualification/probe.py": "f9db805a796ce6775718cae2bf6765f97d3a0790a6e47d4323363da9106b877f",
     "scripts/ab-bounded-restore-qualification/used.py": "ffdf9fe662d798876960dfbc4eb65c639abf6a8df362e28767271869a80d7918",
     "scripts/ab-quote-browser-qualification/EXPECTED.json": "2a393dfe96a6be58a61d18642dad2e4fe76e8690f5128bc3a92a53bf354f9594",
     "scripts/ab-quote-browser-qualification/README.md": "fae7923a7763f9664500c13c7ebeb2beb89eb1622cac50aca7a803579f1e2c52",
@@ -35,6 +24,7 @@
     "scripts/cp7_ab_bounded_chain/__init__.py": "6c40e8456bf476dc0e458b4b896c5021f27e75275a1780e7e9ec1a536243f82c",
     "scripts/cp7_ab_bounded_chain/composition.py": "7bae045c9418af1569555edffd941dd30ed0b7cc575cdb8f8fda3f8cdca590e4",
     "scripts/cp7_ab_bounded_chain/recovery.py": "f138af27c8e596381f548a0b7f53881671a06a4098d9b886048766579f85700a",
+    "scripts/cp7_ab_bounded_restored_verification.py": "cf9aaea17c7894a895ed18cb177828ac36b444d2fd30961556c23059ef3b063b",
     "scripts/cp7_ab_bounded_stage/MANIFEST.json": "7b1fa37ae431ab5f0f15b84e98bd245e60de7a36527410cdb2c6f8782cca4075",
     "scripts/cp7_ab_bounded_stage/__init__.py": "b5383d2186c143d700994010d7f41a4d0cede90dc2c3242ccdba0abf402673bc",
     "scripts/cp7_ab_bounded_stage/render.py": "2fbbb18ac068d4c4b93fe93b379a2bfa31d7d025598052b7524698aee7288d1f",
@@ -838,5 +828,16 @@
     "src/workspace-refinements.css": "c8a744029aaeca203026f83d66f1acbf4da7e1894e4e403b074b4bfd2a2831a0",
     "tests/fixtures/financeAnalysis.ts": "dce495bcb0d2ddc4e6f87c793bbedaaa6bc1ee87c049f12f51eee8bc93cc733d"
   },
-  "production_go": false
+  "production_go": false,
+  "required_steps": [
+    "INSTALL_ALL22",
+    "PREUSE_EXACT_RESTORE",
+    "REINSTALL_ALL22",
+    "COMMITTED_A_PAYMENT_B_FABRIC_BOUNDED_WORK_DRAFT",
+    "GLOBAL_USED_GUARD_BEFORE_DDL",
+    "FULL_USED_BACKUP_RESTORED",
+    "RESTORE_NEGATIVE_CONTROLS",
+    "LOCAL_OID_BINDING_ONLY",
+    "EXACT_A_B_READS_AND_UUID_REPLAY"
+  ]
 }

@@ -1,0 +1,65 @@
+{
+  "status": "INCOMPLETE",
+  "head": "8b9ae4c94cfba176c9212c774fbe95cfbe9e39da",
+  "run_id": 40050095236,
+  "job_id": 120740638032,
+  "artifact_id": 12542764066,
+  "zip_bytes": 3564553,
+  "zip_sha256": "5ca0e8e47121e1e56bc473dbed11655c7b785b7013672e542129c792fbbc6338",
+  "original_name": "CP7_AB_BOUNDED_CHAIN_RESTORE.json",
+  "original_bytes": 314311,
+  "original_sha256": "d1a24eb0bbb164245f5a5f2ab8c33c479526e01ce7fbf7bb5d3897c98f4c86d6",
+  "log_bytes": 406799,
+  "log_sha256": "1755a8e52a70fb23aeea9ccb3ee8c618272540126a645282741d2719630eb5df",
+  "error": "BOUNDED_ANALYSIS_EXISTING_AUTHORITY_CHANGED: cp7_analysis_stage.run_scenario_unit(cp7_analysis_stage.jobs,cp7_analysis_stage.units,jsonb)",
+  "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/ab-bounded-restore-qualification/probe.py\", line 163, in run\n    product.bounded.verify(cur,state['stages'][-1]['state'])\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ab_bounded_stage/__init__.py\", line 47, in verify\n    raise ValueError('BOUNDED_ANALYSIS_EXISTING_AUTHORITY_CHANGED: '+sig)\nValueError: BOUNDED_ANALYSIS_EXISTING_AUTHORITY_CHANGED: cp7_analysis_stage.run_scenario_unit(cp7_analysis_stage.jobs,cp7_analysis_stage.units,jsonb)\n",
+  "passed_steps": [
+    "INSTALL_ALL22",
+    "PREUSE_EXACT_RESTORE",
+    "REINSTALL_ALL22",
+    "COMMITTED_A_PAYMENT_B_FABRIC_BOUNDED_WORK_DRAFT",
+    "GLOBAL_USED_GUARD_BEFORE_DDL",
+    "FULL_USED_BACKUP_RESTORED",
+    "RESTORE_NEGATIVE_CONTROLS"
+  ],
+  "negative_controls": [
+    {
+      "id": "WRONG_TRUSTED_HASH",
+      "status": "PASS",
+      "refusal": "CHAIN_RESTORE_TRUSTED_BACKUP_HASH_REQUIRED"
+    },
+    {
+      "id": "CHANGED_COMPOSED_SOURCE",
+      "status": "PASS",
+      "refusal": "CHAIN_RESTORE_SOURCE_OR_CONTRACT_CHANGED"
+    },
+    {
+      "id": "WRONG_DATABASE",
+      "status": "PASS",
+      "refusal": "CHAIN_RESTORE_FRESH_EXPECTED_DATABASE_REQUIRED"
+    },
+    {
+      "id": "B_FUNCTION_METADATA_DRIFT",
+      "status": "PASS",
+      "refusal": "CHAIN_RESTORE_CATALOG_CHANGED"
+    },
+    {
+      "id": "B_EVALUATION_ROW_DRIFT",
+      "status": "PASS",
+      "refusal": "CHAIN_RESTORE_BUSINESS_ROWS_OR_SEQUENCE_CHANGED"
+    }
+  ],
+  "cp6_restored": true,
+  "baseline_advisors_equal": true,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "diagnosis": "Full22 portable catalog and all business rows passed before the extra same-database bounded verifier. Its _row includes raw proargtypes OIDs at index8. The successor must prove the actual local OID-only difference before accepting restored verification; no owner, ACL, body, type identity or metadata may be dropped.",
+  "after_use_restore_qualified": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

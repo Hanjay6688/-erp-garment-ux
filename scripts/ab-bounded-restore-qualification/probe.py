@@ -16,6 +16,7 @@ REPO=HERE.parents[1]
 sys.path.insert(0,str(REPO/'scripts'))
 import cp7_p21_current_chain_rehearsal_probe as a
 from cp7_ab_bounded_chain import composition as product,recovery
+import cp7_ab_bounded_restored_verification as restored_verification
 import cp7_ab_ui_admission as current_admission
 import importlib.util
 _s=importlib.util.spec_from_file_location("ab_bounded_used",HERE/"used.py")
@@ -77,6 +78,12 @@ def controls(cur,backup,digest,material):
         cur.execute(sql.SQL('alter function cp7_stock_formula.save_material(jsonb,uuid) cost {}').format(sql.Literal(cost+1)))
         recovery.rebind_restored(cur,backup,digest,expected_database=database.RESTORED)
     refused('B_FUNCTION_METADATA_DRIFT',metadata,'CHAIN_RESTORE_CATALOG_CHANGED')
+    def composite_metadata():
+        sig='cp7_analysis_stage.run_scenario_unit(cp7_analysis_stage.jobs,cp7_analysis_stage.units,jsonb)'
+        cost=cur.execute('select procost::numeric from pg_proc where oid=%s::regprocedure',(sig,)).fetchone()[0]
+        cur.execute(sql.SQL('alter function '+sig+' cost {}').format(sql.Literal(cost+1)))
+        recovery.rebind_restored(cur,backup,digest,expected_database=database.RESTORED)
+    refused('BOUNDED_COMPOSITE_METADATA_DRIFT',composite_metadata,'CHAIN_RESTORE_CATALOG_CHANGED')
     def row():
         cur.execute('update cp7_stock_formula.material_evaluations set point=point+1 where material_id=%s',(material,))
         assert cur.rowcount==1
@@ -159,8 +166,8 @@ def run():
             else:raise AssertionError('OLD_LOCAL_OID_CENSUS_ACCEPTED')
             cur.execute('release savepoint old_census')
             step(STEPS[6],old_census_refused=True,controls=controls(cur,backup,digest,g['material']))
-            rebound=recovery.rebind_restored(cur,backup,digest,expected_database=database.RESTORED)
-            product.bounded.verify(cur,state['stages'][-1]['state'])
+            rebound=restored_verification.rebind_and_verify(cur,state,backup,digest,expected_database=database.RESTORED)
+            assert rebound['local_argument_oid_bindings'],'COMPOSITE_TYPE_LOCAL_OID_CHANGE_NOT_EXERCISED'
             assert catalog._catalog_rows(cur)['functions'][product.predecessor.quote.SIGNATURE]==state['after']['functions'][product.predecessor.quote.SIGNATURE]
             conn.commit();step(STEPS[7],receipt=rebound,quote_definition_metadata_exact=True)
             granted,_=database._foundation(cur)
