@@ -1881,3 +1881,22 @@ remain checked by exact BigInt binding and old v1/v2 digit bounds are unchanged.
 Native6 on5770 remains pending complete Original. This expanded19/8 overlay
 requires fresh exact Native/browser runtime. FullOW11, factory/SAVE/restore,
 independent acceptance remain open; formal5/16, CP7C unaccepted, productionfalse.
+
+## 107. B24 Oktober2026 — model target Transport11 candidate
+
+04eaad40 publishes the19-replacement/8-private dated timeline candidate and
+Browser2 predecessor Original. Exact new Native6/run40113567267 and
+Browser2/run40113567313 started; no credit before their complete Originals.
+Separate Transport11 now declares1 repeated catalog anchor,7 actual observed
+lock races and3 actual Auth HTTP controls under the full model-target overlay.
+The extra race commits an actual model-policy change while CONFIRM waits for
+the global envelope, then requires SOURCE_CHANGED and no orphan choice/command.
+Existing stock change, access after envelope/request/target, exact same UUID,
+revision CAS, HTTP fresh provenancev2/CLEAR/replay/foreign/anon remain explicit.
+Original transport10 providers and their exact1/6/3 budget stay unchanged;
+new1/7/3 admission requires its own flag and rejects cross-budget use.
+
+New sources/declaration/workflow syntax and old31/25/19 checks PASS; actual
+runtime remains pending. Positive model admission is not fabricated. The
+45min workflow and8s RPC boundaries are unchanged. Continue on complete
+Originals, failures and remaining bounded history/SAVE/after-use restoration.
