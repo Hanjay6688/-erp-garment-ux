@@ -2545,3 +2545,26 @@ candidate covers exact22 inverse, real draft/post/return/inverse, dense2000
 with202000 movements and old/new system-clock binding. Closed declaration,
 source pins and F05 admission checked; actual Native Original pending. This is
 preparation for versioned source/provenance/cache integration, still open.
+
+## 137. B25 Oktober2026 WIB — scoped dataset Native4 and corrected Browser2 PASS
+
+3a88b488/run40126610556/job120969308831: Original12574000715,159357 bytes,
+SHA256 1aa0b3d10cd847822d5e7987d649b71043bea2dfaa3cb8498919e8035b968bb5.
+Native4PASS after the test-only private-session repair: exact22 inverse,
+actual capture/policy clocks, SALE/current access and dense2000/202000 private
+dataset233.932ms. UNKNOWN and actual known-at clocks retained; no invented winner.
+
+8ab4b7e1/run40127943416/job120973286302: Original12574265268,44955 bytes,
+SHA256 337baec60a45fb0d2fc36bcbb684ce5a1661800342b7657937b0ff7d118ba87c.
+Actual Auth Browser2PASS after adding model entry to unreviewed targets. Mobile
+commits history and evaluation with separately lost replies, reloads and replays
+exact method/actor/UUID/payload with one immutable row each. Desktop fresh history
+after SALE has gross24/available76 and new evaluation/history binding. Both preserve
+old archives, hide model/parent results on current403, never write business data
+through history/model capture, and fit the viewport. Existing paged staged entry
+is exercised; this is not full3600 or the separately bounded RPC qualification.
+
+For both Originals, exact-head and current source hashes, declared counts/IDs,
+all package gates, CP6/advisor and required boundaries/cleanup were checked.
+First failures remain. Model target integration, positive historical model,
+after-use restore and independent acceptance remain open. Formal5/16 unchanged.
