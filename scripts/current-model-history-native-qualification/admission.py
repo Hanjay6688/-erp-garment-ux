@@ -11,13 +11,23 @@ VARIABLES={'CURRENT_MODEL_TARGET_ORIGINAL_REPORT','MODEL_HISTORY_SCOPE_ORIGINAL_
 
 
 def admitted(repo,here,ids,product,business):
-    spec=importlib.util.spec_from_file_location('qualified_current_target_native20',repo/'scripts/current-model-target-native-qualification/probe.py')
-    native=importlib.util.module_from_spec(spec);spec.loader.exec_module(native)
-    predecessor=native.admitted()
+    spec=importlib.util.spec_from_file_location('qualified_current_target_native20',here/'frozen_admission.py')
+    frozen=importlib.util.module_from_spec(spec);spec.loader.exec_module(frozen)
+    predecessor=frozen.invoke()
     assert predecessor['current_installation']==product.predecessor.sources()
     pins=json.loads((here/'SOURCE.json').read_bytes())
     assert pins['contract']=='cp7.current-model-history-native25-qualification.v1'
     assert pins['case_ids']==list(ids)and len(ids)==len(set(ids))==25
+    declaration=pins['frozen_declaration']
+    assert declaration==dict(path='scripts/current-model-target-native-qualification/SOURCE.json',
+        head=frozen.FROZEN_HEAD,sha256=predecessor['source_manifest_sha256'])
+    assert sha256((repo/declaration['path']).read_bytes()).hexdigest()==declaration['sha256']
+    changes={path:dict(frozen_sha256=digest,current_sha256=sha256((repo/path).read_bytes()).hexdigest())
+        for path,digest in predecessor['qualification']['files'].items()
+        if sha256((repo/path).read_bytes()).hexdigest()!=digest}
+    assert changes==pins['explicit_current_source_changes']
+    assert set(changes)=={'scripts/cp7_ow11_model_history_runtime_transport_cases.py',
+                          'scripts/cp7_ow11_model_history_runtime_transport_probe.py'}
     for path,digest in pins['files'].items():
         assert sha256((repo/path).read_bytes()).hexdigest()==digest,('CURRENT_SCOPED_HISTORY_SOURCE_CHANGED',path)
     assert not subprocess.check_output(['git','-C',str(repo),'status','--porcelain','--',str(here)],text=True).strip()
@@ -30,6 +40,7 @@ def admitted(repo,here,ids,product,business):
         assert actual['status']==proof['status']==('INCOMPLETE'if first else'PASS')
         assert actual['cp6_restored']and actual['advisor_gate'],variable
         if variable=='CURRENT_MODEL_TARGET_ORIGINAL_REPORT':
+            assert proof['head']==frozen.FROZEN_HEAD
             assert actual['source_declaration']['current_installation']==product.predecessor.sources()
             assert actual['source_declaration']['qualification']==predecessor['qualification']
             assert actual['required_case_ids']==list(business.previous.IDS)and actual['required_case_ids_pass']

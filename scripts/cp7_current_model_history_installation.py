@@ -131,7 +131,7 @@ def verify(cur, state):
                 substituted_catalog_or_definitions=False,
                 scoped_history_private_functions=len(scope.FUNCTIONS)+len(runtime.FUNCTIONS)-len(runtime.PUBLIC),
                 scoped_history_public_rpcs=len(runtime.PUBLIC), scoped_history_tables=1, scoped_history_old_replacements=0,
-                every_old_row_and_sequence_preserved=True, default_owner_policy_created=False,
+                installation_preserved_every_old_row_and_sequence=True, default_owner_policy_created=False,
                 model_caller_integrated=False, forecast_applied=False, installed_schedules=False,
                 full_OW11_acceptance=False, production_go=False, independent_acceptance=False)
 

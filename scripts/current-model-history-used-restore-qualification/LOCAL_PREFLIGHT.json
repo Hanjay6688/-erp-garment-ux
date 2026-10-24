@@ -39,9 +39,10 @@
   ],
   "actual_roots_to_retain": 2,
   "post_restore_checks_per_root": 4,
-  "workflow_steps": 49,
+  "workflow_steps": 50,
   "shell_steps_syntax_checked": 38,
   "SOURCE_absent": true,
   "actual_database_execution": false,
-  "production_go": false
+  "production_go": false,
+  "target_frozen_checkout": "3776a052ea97695dce95da018be182fdf21fe85b"
 }

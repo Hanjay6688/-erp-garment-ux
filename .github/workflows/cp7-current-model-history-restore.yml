@@ -36,6 +36,7 @@ jobs:
       CP6_AR_CONFIRM: cp6_rollback
       CP6_AU_BROWSER_CONFIRM: cp6_rollback
       CURRENT_MODEL_FROZEN_SOURCE_ROOT: ${{ github.workspace }}/model-frozen
+      CURRENT_TARGET_FROZEN_SOURCE_ROOT: ${{ github.workspace }}/target-frozen
     steps:
     - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       with:
@@ -83,6 +84,12 @@ jobs:
         path: model-frozen
         fetch-depth: 0
         ref: 6d056959d33808dc59b8c38fb15ce8492db44523
+        persist-credentials: 'false'
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      with:
+        path: target-frozen
+        fetch-depth: 0
+        ref: 3776a052ea97695dce95da018be182fdf21fe85b
         persist-credentials: 'false'
     - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
       with:
