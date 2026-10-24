@@ -153,6 +153,10 @@ jobs:
 
         assert len(set(n.IDS[''native'']))==1 and len(set(n.IDS[''races'']))==6 and len(set(n.IDS[''http'']))==3
 
+        from cp7_f05_analysis_probe import bounded_group_names
+
+        assert bounded_group_names(n.REQUIRED,transport=True)==(''native'',''races'',''http'')
+
         assert (j.EXPECTED,c.EXPECTED,r.EXPECTED)==(31,25,19)
 
         print(json.dumps(dict(declaration_sha256=hashlib.sha256(p.read_bytes()).hexdigest(),analog_choice_transport10_declared=True,old31_25_19_budgets_unchanged=True)))

@@ -1328,3 +1328,20 @@ bukti client31/31 rerun terkait PASS; sebelumnya seluruh62/62 PASS,3 helperwaite
 PASS. Perubahan exporter helper browser lama hanya membuka dua fungsi setup yang
 sama untuk dipakai suite baru. Source SQL/module qualified Native6 tidak berubah.
 Consumer forecast dan kebijakan model/backtest masih OPEN; induk5/16.
+
+## 76. B24 Oktober2026 — Transport10 laporan pertama INCOMPLETE
+
+Run40086565713/job120850606120 kandidat93c096dc menghasilkan10 kasus actual
+PASS di log (1 katalog,6 dua-backend races,3 Auth HTTP). Namun pemilih kelompok
+laporan menolak races/http setelah kasus selesai: BOUNDED_PREDECLARED_GROUP_CHANGED.
+Tidak ada CP7 transport Original lengkap; paket installed/restore/writer=false,
+primary/advisor=true. Receipt kegagalan dan log utuh dipertahankan. Sepuluh baris
+log tidak dinaikkan menjadi PASS paket atau kredit OW.
+
+Perbaikan menerima tepat budget native1/races6/http3 hanya saat flag transport
+dipilih, serta memvalidasinya sebelum kasus berjalan. Selector suite lama tetap;
+SQL, oracle, timeout dan budget tidak berubah. Positif/negatif routing, parse
+Python/YAML PASS. Rerun diperlukan untuk Original lengkap dan seluruh gate.
+Browser2 pilihan f67fa402/run40088215221 juga selesai INCOMPLETE; bukti dan
+penyebab sedang diperiksa terpisah. Consumer masih dikerjakan lokal, belum
+termasuk kandidat perbaikan laporan ini. Induk5/16 dan production_go=false.

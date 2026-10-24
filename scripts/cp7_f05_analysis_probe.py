@@ -39,9 +39,12 @@ def verify(cur):
  f03.cutting_correction.verify(cur)
  return dict(stage='EXPLICIT_F03_COMBINED_DEVELOPMENT_STACK',source_sha256=hashlib.sha256(bundle.bundle().encode()).hexdigest(),full_family_acceptance=False)
 
-def bounded_group_names(required):
+def bounded_group_names(required,transport=False):
  # New bounded suites use their exact predeclared group budget. A browser
  # extension must not inherit the predecessor's native-only total selector.
+ if transport:
+  if required!={'native':1,'races':6,'http':3}:raise ValueError('BOUNDED_TRANSPORT_BUDGET_CHANGED')
+  return tuple(required)
  if not required or not set(required)<= {'native','browser','committed'}:
   raise ValueError('BOUNDED_PREDECLARED_GROUP_CHANGED')
  return tuple(required)
@@ -398,6 +401,8 @@ def run(attention=False,p18_e01=False,rule_lifecycle=False,source_navigation=Fal
    declaration_path=bundle.ROOT/'docs/cp7/f04/NATIVE_FABRIC_RECIPE.json';contract='cp7.fabric-recipe-declaration.v1'
   declaration_bytes=declaration_path.read_bytes();declaration=json.loads(declaration_bytes)
   assert declaration['contract']==contract and declaration['expected_case_count']==expected and declaration['required_case_counts']==case_provider.REQUIRED and declaration['required_case_ids']==case_provider.IDS,'FABRIC_PREDECLARED_CASE_BUDGET_CHANGED'
+ # Validate group routing before running cases; preserve their eventual report.
+ bounded_groups=bounded_group_names(case_provider.REQUIRED,transport=ow11_analog_choice_transport)if ow13c_bounded_stage else None
  report=dict(label='CP7_MISC_CORRECTION'if misc_correction else'CP7_TRANSACTION_SOURCE'if source_navigation else'CP7_RULE_LIFECYCLE'if rule_lifecycle else'CP7_P18_E01_BRIDGE'if p18_e01 else'CP7_F05_NATIVE_ATTENTION'if attention else'CP7_F05_NATIVE_ANALYSIS',status='INCOMPLETE',production_go=False,independent_acceptance=False,full_family_acceptance=False,scope='ATOMIC_POSTED_MISC_NATIVE_INVERSE_REPLACEMENT_HISTORY_EXACT_UUID_CURRENT_AUTH_AND_BROWSER_CORRECTION'if misc_correction else'EXACT_NATIVE_SOURCE_PARENT_CHILD_PAGE_CURRENT_AUTH_OWNING_BROWSER_INVERSE_RETAINED_F03_REVOKE_SCHEDULES'if source_navigation else'NATIVE_INACTIVE_EPISODE_ARCHIVE_NOT_PAID_EXACT_SOURCE_REPLAY_CURRENT_AUTH_AND_RETAINED_E01_BRIDGE'if rule_lifecycle else'FOCUSED_E01_NATIVE_SOURCE_TO_ORIGINAL_REPORT_APPENDIX_RULE_EPISODES_NOT_FULL_P18'if p18_e01 else'IMMUTABLE_NATIVE_PUBLICATIONS_ATTENTION_ALL_NATIVE_OBLIGATION_DOMAINS_UNKNOWN_REVIEW_EPISODES_LOCAL_TEST_SINK'if attention else'FROZEN_ANALYSIS_V2_NATIVE_PUBLICATION_REVISION_PERIOD_COMPARISON_ACCEPTED_OWNER_FINANCE_REUSE_MATERIAL_APPLY_UNKNOWN',source_sha256=hashlib.sha256(candidate.bundle().encode()).hexdigest(),expected_case_count=expected);installed=False
  if attention:report['required_case_counts']=dict(native=182,races=40,http=29,browser=36)
  if payment_correction:
@@ -658,7 +663,7 @@ def run(attention=False,p18_e01=False,rule_lifecycle=False,source_navigation=Fal
     report.setdefault('error','CP7_RESTORATION_INCOMPLETE: '+str(restoration_error))
   if fabric_any or p19_load or p19_transport or p19_scale or p19_staged or p19_plan_v2 or p19_report_v2 or p19_ai_v2 or p19_reminder_v2 or pl5_history_yield or k2_retention or k3_cleanup or k4_runner or k6_proof_runner or wa_forward:
    report['required_case_ids_pass']=all(set(report.get(k,{}).get('races'if k=='races'else'cases',{}))==set(ids)for k,ids in case_provider.IDS.items())
-  group_names=bounded_group_names(case_provider.REQUIRED)if ow13c_bounded_stage else('browser',)if ow13c_schedule_entry else('native',)if ow13c_history_inputs or ow13c_negatives or ow13c_scale or ow13c_wip or ow13c_schedule or ow13c_schedule_contexts else('native','races','http')if p19_load or k6_proof_runner else('native','browser')if p19_scale else('native','races','http','browser')
+  group_names=bounded_groups if ow13c_bounded_stage else('browser',)if ow13c_schedule_entry else('native',)if ow13c_history_inputs or ow13c_negatives or ow13c_scale or ow13c_wip or ow13c_schedule or ow13c_schedule_contexts else('native','races','http')if p19_load or k6_proof_runner else('native','browser')if p19_scale else('native','races','http','browser')
   groups=[report.get(k,{})for k in group_names];report['observed_case_count']=sum(sum(g.get('counts',{}).values())for g in groups);report['required_case_counts_pass']=not(attention or p18_e01 or rule_lifecycle or source_navigation or misc_correction or payment_correction or supplier_payment_correction or return_correction or sales_chain or cutting_correction or fabric_any or p19_load or p19_transport or p19_scale or p19_staged or p19_plan_v2 or p19_report_v2 or p19_ai_v2 or p19_reminder_v2 or pl5_history_yield or k2_retention or k3_cleanup or k4_runner or k6_proof_runner or wa_forward)or all(report.get(k,{}).get('counts')=={'PASS':n}for k,n in report['required_case_counts'].items());report['status']='PASS' if not report.get('error') and report.get('cp6_restored') and report.get('advisor_gate') and report['observed_case_count']==expected and report['required_case_counts_pass'] and(not(fabric_any or p19_load or p19_transport or p19_scale or p19_staged or p19_plan_v2 or p19_report_v2 or p19_ai_v2 or p19_reminder_v2 or pl5_history_yield or k2_retention or k3_cleanup or k4_runner or k6_proof_runner or wa_forward)or report.get('required_case_ids_pass'))and all(g.get('status')in('PASS','RUN_COMPLETE') and set(g.get('counts',{}))=={'PASS'} and g.get('database_remaining',0)==0 for g in groups) else 'INCOMPLETE'
   if ow11_analog_browser or ow11_choice_browser:
    report['actual_Auth_HTTP_credit']=report['status']=='PASS'and report.get('browser',{}).get('auth_counts',{}).get('restored')is True
