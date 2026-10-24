@@ -1,3 +1,26 @@
+## A / 24 Oktober 2026 — gabungan terbaru dan batas berikutnya [bersama]
+
+Astra A tetap integrator pengganti Claude. Money5f1e dan layar1107 digabung
+dengan dua-parent merge menjadi6892d748. Kode klien gabungan lulus2290/2290,
+typecheck serta penjaga sumber/hak/CSS. Empat Original PASS dicatat per source
+pada receipt ow15/ dan ow09/. Ini belum memajukan integrasi resmi atau production_go.
+
+Di3b86dede integrator memulihkan dua harness A yang dikunci source guard
+(`cp7_f05_analysis_probe.py`, `cp7_planning_netting_cases.py`) tepat ke byte
+pendahulu. Penerus B dipertahankan sebagai `cp7_b_f05_analysis_probe.py` dan
+`cp7_b_planning_netting_cases.py`; delapan entrypoint B memanggil penerus itu.
+Assertion tambahan netting B tetap aktif ketika probe B dijalankan. SQL produk
+B dan oracle/source guard A tidak dilonggarkan. Perubahan ini milik integrator.
+
+Kandidat82b976cf memasang semua tahap B kemudian perbaikan quote retur A.
+Uji used restore lengkap: run40047298685. A sedang menambah Native5 khusus
+sambungan B STAGED ke modul angka A; tidak mengubah SQL perhitungan B.
+
+B: run39993639712 pada16a0aeb0 sebelumnya FAILED dengan
+FG_UNSOURCED_PHYSICAL_AT_FUTURE pada fixture stok (dua Native, satu race).
+Perbaikan fixture dan Native31 tetap milik B; kegagalan ini tidak dianggap
+lulus oleh uji pemasangan A. Semua pekerjaan OW11a/b tetap lingkup B.
+
 ## A / 24 Okt 2026 — produksi18 di atas rantai A, kandidat kualifikasi
 
 Integrator menambah `cp7_production_chain` serta gerbang `production-chain-qualification` di cabang persiapan A+B. Sumber B18 dan SQL beku tidak diubah. Katalog22, inverse pra-pakai, guard global seluruh tabel privat sebelum DDL serta full dump/restore sesudah penggunaan A/B mendapat pengujian tersendiri. Ini belum PASS, bukan bukti Native286 ulang atau seluruh B terpasang; OW16/target4/bridge/initial/supply/caller/checked-save tetap sisa integrasi.
