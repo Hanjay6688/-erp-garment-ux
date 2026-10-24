@@ -1592,3 +1592,22 @@ pensiun dua simulasi manual13. Arsip terpisah mempertahankan20Original raw
 (18run current termasuk2firstfailure +2prasyarat immutable), dengan checksum
 perfile; bukan source repo atau signed download references. Formal5/16,
 production_go=false; main/integrasi resmi/audit/hosted/WA nyata tetap.
+
+## A — P21 uang +semua status produksi PASS (24 Oktober 2026)
+
+Headd18f5d26/run40064922630/job120786031258/artifact12549124412 terminal PASS.
+ZIP3682716byte/SHA599b9d72eb10e841832d6d5a0c3ab2cfd9fccf88bf2f04520b00b9705afa675b;
+Original1010312byte/SHAfd42f972c0dbe639ea157743f0a10e15c0f3d24a48ca179a0677600e75e0fd72.
+6restore+8chain+3mandor+4siklusP21,5kontrol negatif, gold uang immutable dan
+kedua readback tetap tepat. Seluruh15cutting group dalam data uji sama status,
+kebijakan dan fakta bisnis sesudah restore. Tiga puluh jendela checked_at raw
+serta semua fakta diperiksa ulang dari Original; pembacaan menjaga seluruh
+baris/sequence/full22katalog. Tidak menetapkan policy; tanpa perubahan produk B.
+CP6/rawpublic/advisor dan lima gate paket PASS. Receipt full-money-d18f5d26-status-pass.json;
+first7stepbc4dd575 tetap disimpan. OW06/rencanaOW15/peta current diperbarui.
+
+Tidak ada lagi run aktif dari kelompok UI43/P21ini. Bukti terbaru menutup
+pemulihan seluruh rantai uang current serta pembacaan status B pada data uji,
+bukan semua Native286/factory3600/seluruh B atau audit independen. Formal5/16,
+12batas arsip CP6 dan21fail+4browserbaseline tetap. Integrasi resmi a255e48f,
+B a1043452 pada baca terbaru; main/audit/hosted/WA nyata tidak disentuh.
