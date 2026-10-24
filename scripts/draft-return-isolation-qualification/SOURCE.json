@@ -10,7 +10,7 @@
     ".github/workflows/cp7-ab-bounded-native.yml": "647e218c402c207394e39881d39cd433c14a8596f953d785cf5806d79352faa4",
     ".github/workflows/cp7-ab-quote-browser.yml": "ba4aabcbcfbf6cf8377ae446263d2f7a82bddc1a4a139b482795fda3b3215e4b",
     ".github/workflows/cp7-ab-quote-chain.yml": "b681ad127a5d029c69766c3bdc6298a72fc5afb22b2213beae218f760a733eea",
-    ".github/workflows/cp7-draft-return-isolation.yml": "dd7e2f5fb632e46415c30c432f677065ca09137ba8df8a03f6c361bf1766c22b",
+    ".github/workflows/cp7-draft-return-isolation.yml": "f2dd5c9a683a3f431020b2c9c150e405d99228497c0636e5d8dfd3dd338831d7",
     ".github/workflows/cp7-finance-bridge-chain.yml": "d4a51bd941f3ba22324de43b3a5044322467572c390ed9179c3108809dbef49d",
     "scripts/ab-bounded-native-qualification/bounded_cases.py": "6b03afbb8bc2d81f79311aa5b78cd75ce5f68598529de419d9d6af0254793d52",
     "scripts/ab-bounded-native-qualification/cases.py": "dcd00cbafa3d0077f970a7979208bb3f4565c297496cd54410c476e660845e6b",

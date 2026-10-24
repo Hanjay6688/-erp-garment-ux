@@ -178,10 +178,9 @@ jobs:
       working-directory: auditor
       env:
         GH_TOKEN: ${{ github.token }}
-      run: "set -euo pipefail\npython - <<'PYCODE'\nimport hashlib,io,json,os,urllib.request,zipfile\nfrom pathlib import\
-        \ Path\nrequest=urllib.request.Request('https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12554390190/zip',headers={'Authorization':'Bearer\
-        \ '+os.environ['GH_TOKEN'],'Accept':'application/vnd.github+json'})\nraw=urllib.request.urlopen(request,timeout=90).read()\n\
-        assert len(raw)==1943043 and hashlib.sha256(raw).hexdigest()=='bfa2b2384ea5628c63822eb2d43b981c1b4a11d30802e5496ddbd5f504a59896'\n\
+      run: "set -euo pipefail\npython - <<'PYCODE'\nimport hashlib,io,json,os,subprocess,zipfile\nfrom pathlib import Path\n\
+        raw=subprocess.check_output(['gh','api','repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12554390190/zip'])\nassert\
+        \ len(raw)==1943043 and hashlib.sha256(raw).hexdigest()=='bfa2b2384ea5628c63822eb2d43b981c1b4a11d30802e5496ddbd5f504a59896'\n\
         with zipfile.ZipFile(io.BytesIO(raw))as z:\n names=[n for n in z.namelist()if n=='CP7_CURRENT_CP6_CONTRACT_NATIVE6.json']\n\
         \ assert len(names)==1\n original=z.read(names[0])\nassert len(original)==2741967 and hashlib.sha256(original).hexdigest()=='25be83a8e79dc1073da1daeb1c47c39d987838932c8405ff11ccd9b78336b55a'\n\
         d=json.loads(original)\nassert d['status']=='INCOMPLETE' and d['baseline']['counts']=={'PASS':6} and d['native']['counts']=={'PASS':5,'INCOMPLETE':1}\n\

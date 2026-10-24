@@ -1,0 +1,19 @@
+{
+  "label": "CP7_DRAFT_RETURN_ISOLATION_NATIVE4_PRE_DB_FAILURE",
+  "status": "INCOMPLETE",
+  "qualification_commit": "f4c7534b3174c04f9114440b6e5100e147102f94",
+  "run": 40079032140,
+  "job": 120828515177,
+  "artifact_count": 0,
+  "database_started": false,
+  "execution_count": 0,
+  "new_business_case_credit": 0,
+  "failure": "urllib storage redirect retained GitHub Authorization; redirected storage returned HTTP 401",
+  "resolution": "Use existing gh api redirect handling; exact ZIP and Original bytes/hash gates unchanged",
+  "job_log": {
+    "bytes": 242040,
+    "sha256": "89c5ead122842f294049f54bba3b6b5ec1a1b3dec773601386aec6268e77e864"
+  },
+  "production_go": false,
+  "independent_acceptance": false
+}
