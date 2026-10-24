@@ -1,0 +1,111 @@
+{
+  "status": "PASS",
+  "head": "d590893c1e733ff8f7f85306146d6361d4139c08",
+  "run_id": 40050605722,
+  "job_id": 120742201176,
+  "artifact_id": 12543597158,
+  "zip_bytes": 1814533,
+  "zip_sha256": "d7655983ac122646927ea2aea9d580c96eb7b27f2717a693adf7e5d5c9da7820",
+  "original_name": "CP7_OW14B_INSTALLATION_NATIVE4.json",
+  "original_bytes": 1624640,
+  "original_sha256": "21b02309a95d94b2e56a46e80cd28b1247527f5cb40477c0c1910b454b97d421",
+  "case_ids": [
+    "OW14B_INSTALL_IDENTITY_UNIT_SIX_DECIMALS",
+    "OW14B_INSTALL_PINNED_RULE_OLD_REFERENCE",
+    "OW14B_INSTALL_KNOWN_ZERO_UNKNOWN",
+    "OW14B_INSTALL_SOURCE_AND_REFERENCE_DRIFT_REFUSED"
+  ],
+  "counts": {
+    "PASS": 4
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "cases": {
+    "OW14B_INSTALL_IDENTITY_UNIT_SIX_DECIMALS": {
+      "status": "PASS",
+      "exact_id_unit_six_decimal_reference": true,
+      "official_inherited_rule": true,
+      "no_inventory_cache_or_business_writes": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    "OW14B_INSTALL_PINNED_RULE_OLD_REFERENCE": {
+      "status": "PASS",
+      "new_legacy_reference_separate_from_pinned_active_rule": true,
+      "no_choice_or_revision_created": true,
+      "official_engine_only": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    "OW14B_INSTALL_KNOWN_ZERO_UNKNOWN": {
+      "status": "PASS",
+      "chosen_zero_known": true,
+      "unready_formula_unknown": true,
+      "old_minimum_not_reactivated": true,
+      "no_substitute_calculation": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    "OW14B_INSTALL_SOURCE_AND_REFERENCE_DRIFT_REFUSED": {
+      "status": "PASS",
+      "forged_inventory_refused": true,
+      "real_changed_reference_refused": true,
+      "no_write_by_refusals": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    }
+  },
+  "scope": "Administrative installation inventory and official-rule preview on the complete A/B disposable installation. Native references retained; preview cache writes rolled back. Minimum quantities use exact decimal text.",
+  "default_installer_qualified": false,
+  "Enteng_inventory_executed": false,
+  "OW14b_complete": false,
+  "production_go": false,
+  "independent_acceptance": false
+}
