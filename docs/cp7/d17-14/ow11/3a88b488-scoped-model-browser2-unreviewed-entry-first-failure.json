@@ -1,0 +1,60 @@
+{
+  "contract": "cp7.original-runtime-first-failure.v1",
+  "head": "3a88b4887f8e443b683c023b350fee5f1d4ba715",
+  "run_id": 40126610568,
+  "job_id": 120969308934,
+  "artifact_id": 12573743824,
+  "bytes": 46389,
+  "artifact_sha256": "a4fad1a86b712705d95eab158b5f9e3e43960db9126ca8a4817c39afeed146a1",
+  "Original_read_complete": true,
+  "exact_head_source_hashes_match": true,
+  "status": "INCOMPLETE",
+  "counts": {
+    "INCOMPLETE": 2
+  },
+  "cases": {
+    "OW11_SCOPED_MODEL_BROWSER_MOBILE_HISTORY_MODEL_EXACT_RECOVERY": {
+      "status": "INCOMPLETE",
+      "error": "Error: expect(locator).toHaveCount(expected) failed\n\nLocator:  getByRole('region', { name: 'Hasil analisis bertahap', exact: true }).locator('[data-analysis-target=\"3a20a4cf-bb24-40a6-858d-71d92e33b24e:c8c10000-0000-4000-8000-000000000002\"]')\nExpected: 1\nReceived: 0\nTimeout:  5000ms\n\nCall log:\n  - Expect \"to.have.count\" with timeout 5000ms\n  - waiting for getByRole('region', { name: 'Hasil analisis bertahap', exact: true }).locator('[data-analysis-target=\"3a20a4cf-bb24-40a6-858d-71d92e33b24e:c8c10000-0000-4000-8000-000000000002\"]')\n    14 \u00d7 locator resolved to 0 elements\n       - unexpected value \"0\"\n\n"
+    },
+    "OW11_SCOPED_MODEL_BROWSER_DESKTOP_BOUNDED_ENTRY_SOURCE_ACCESS": {
+      "status": "INCOMPLETE",
+      "error": "Error: expect(locator).toHaveCount(expected) failed\n\nLocator:  getByRole('region', { name: 'Hasil analisis bertahap', exact: true }).locator('[data-analysis-target=\"745b69b5-d3a2-4a0a-9a6b-136dc5f43f7e:c8c10000-0000-4000-8000-000000000002\"]')\nExpected: 1\nReceived: 0\nTimeout:  5000ms\n\nCall log:\n  - Expect \"to.have.count\" with timeout 5000ms\n  - waiting for getByRole('region', { name: 'Hasil analisis bertahap', exact: true }).locator('[data-analysis-target=\"745b69b5-d3a2-4a0a-9a6b-136dc5f43f7e:c8c10000-0000-4000-8000-000000000002\"]')\n    14 \u00d7 locator resolved to 0 elements\n       - unexpected value \"0\"\n\n"
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "auth_counts": {
+    "before": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "after": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "restored": true
+  },
+  "database_remaining": 0,
+  "session_leaks": [],
+  "diagnosis": "All three current products had unreviewed production policies. The server correctly returned zero production recommendations, but the client offered model entry only on recommendations. The verified unreviewed targets had no model action.",
+  "correction": "Add per-target history/model entry to the verified unreviewed-target section. Bind warning targets to unique header labels and exact review-policy actions; keep production recommendations absent, no policy synthesis or default production activation.",
+  "browser2_qualified": false,
+  "actual_Auth_HTTP_credit": false,
+  "formal_acceptance": "5/16",
+  "full_OW11_acceptance": false,
+  "CP7C_accepted": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

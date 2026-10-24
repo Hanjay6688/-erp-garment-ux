@@ -1,0 +1,23 @@
+{
+  "contract": "cp7.scoped-model-client-candidate.v1",
+  "status": "LOCAL_CHECKS_PASS_SHARED_REGISTRY_OPEN",
+  "unit_and_DOM_tests": 155,
+  "test_files": 8,
+  "typecheck": "PASS",
+  "shared_source_ownership_check": "BLOCKED_24_PREEXISTING_PLUS_4_NEW_DECLARATIONS",
+  "new_RPC_invocations_are_literal": true,
+  "actual_SQL_fixture": true,
+  "controlled_ERP_auth_primitives": true,
+  "actual_Auth_browser_qualified": false,
+  "actual_Native_model_evaluation_qualified": false,
+  "model_target_consumer_integrated": false,
+  "production_go": false,
+  "formal_acceptance": "5/16",
+  "first_failures_retained": {
+    "SQL_precedence": "model-scoped-evaluation-first.log",
+    "immutable_error_name": "model-scoped-evaluation-corrected.log",
+    "client_unknown_field_type": "scoped-client-typecheck-first.log",
+    "DOM_old_button_budget_and_missing_policy_explanation": "scoped-panel-first.log",
+    "dynamic_RPC_call": "scoped-client-sourcecheck.log"
+  }
+}

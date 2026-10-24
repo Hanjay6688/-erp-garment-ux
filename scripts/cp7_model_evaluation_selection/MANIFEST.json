@@ -1,0 +1,22 @@
+{
+  "contract": "cp7.model-evaluation-selection-private.v1",
+  "private_functions": 2,
+  "new_public_rpcs": 0,
+  "new_tables": 0,
+  "existing_replacements": 0,
+  "sql_sha256": "ad8d57619a24837f39626246168f37f3f4f0a27105eab3dc449e4ef820448de6",
+  "dependencies_sha256": {
+    "cp7_model_evaluation_v2_stage/runtime.sql": "4506428f312ea20c47c3d0f4ade748f915dcd091825cf20178ced91be219d6dc",
+    "cp7_model_scoped_evaluation/runtime.sql": "b1af1dcc77c213ceaa14b85cf4d9fe054f39738c3dfaa394da6ddf13ccb2b4b6"
+  },
+  "maximum_targets": 5000,
+  "tie_order": [
+    "captured_at DESC",
+    "SCOPED_V3 before GLOBAL_V2",
+    "UUID DESC within runtime"
+  ],
+  "target_caller_integrated": false,
+  "actual_Native": false,
+  "actual_Auth_HTTP_credit": false,
+  "production_go": false
+}

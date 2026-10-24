@@ -1,0 +1,84 @@
+{
+  "contract": "cp7.ow11.model-scoped-evaluation-transport.v1",
+  "required_case_ids": {
+    "native": [
+      "OW11_SCOPED_EVALUATION_CATALOG22_COMPOSED_INVERSE"
+    ],
+    "races": [
+      "OW11_SCOPED_EVALUATION_RACE_SAME_UUID",
+      "OW11_SCOPED_EVALUATION_RACE_ACCESS_AFTER_ENVELOPE",
+      "OW11_SCOPED_EVALUATION_RACE_REPLAY_ACCESS_AFTER_REQUEST",
+      "OW11_SCOPED_EVALUATION_RACE_POSTED_SOURCE_AFTER_ENVELOPE"
+    ],
+    "http": [
+      "OW11_SCOPED_EVALUATION_AUTH_HISTORY_MODEL_REPLAY_SOURCE",
+      "OW11_SCOPED_EVALUATION_AUTH_REVOKED_FOREIGN_ANONYMOUS"
+    ]
+  },
+  "required_case_counts": {
+    "native": 1,
+    "races": 4,
+    "http": 2
+  },
+  "expected_case_count": 7,
+  "public_rpcs": [
+    "erp_cp7_get_alerts_v1",
+    "erp_cp7_get_wa_settings_v1",
+    "erp_cp7_save_wa_settings_v1",
+    "erp_cp7_set_wa_key_v1",
+    "erp_cp7_send_wa_test_v1",
+    "erp_cp7_resolve_wa_dispatch_v1",
+    "erp_cp7_get_fg_reorder_v1",
+    "erp_cp7_refresh_fg_reorder_v1",
+    "erp_cp7_save_fg_reorder_manual_v1",
+    "erp_cp7_save_stock_formula_settings_v1",
+    "erp_cp7_get_material_reorder_v1",
+    "erp_cp7_refresh_material_reorder_v1",
+    "erp_cp7_save_material_reorder_v1",
+    "erp_cp7_request_staged_analysis_v1",
+    "erp_cp7_get_staged_analysis_v1",
+    "erp_cp7_step_staged_analysis_v1",
+    "erp_cp7_get_planning_profiles_v1",
+    "erp_cp7_save_planning_profile_v1",
+    "erp_cp7_capture_baseline_v1",
+    "erp_cp7_save_cutting_suggestion_v1",
+    "erp_cp7_get_staged_production_schedule_v1",
+    "erp_cp7_save_staged_production_schedule_v1",
+    "erp_cp7_request_bounded_staged_analysis_v1",
+    "erp_cp7_capture_model_history_v1",
+    "erp_cp7_read_model_history_v1",
+    "erp_cp7_get_model_activation_policy_v1",
+    "erp_cp7_save_model_activation_policy_v1",
+    "erp_cp7_capture_model_evaluation_v2",
+    "erp_cp7_read_model_evaluation_v2",
+    "erp_cp7_capture_model_evaluation_v3",
+    "erp_cp7_read_model_evaluation_v3"
+  ],
+  "schedules": [
+    "erp-wa-collect",
+    "erp-wa-send",
+    "erp-wa-analysis"
+  ],
+  "private_functions": 4,
+  "new_public_rpcs": 2,
+  "new_tables": 1,
+  "existing_replacements": 0,
+  "scope": "ACTUAL_SCOPED_MODEL_RACES_AUTH_HISTORY_EVALUATION_REPLAY_SOURCE_ACCESS",
+  "actual_Auth_HTTP_credit": false,
+  "actual_concurrency": false,
+  "model_caller_integrated": false,
+  "after_use_restore_qualified": false,
+  "full_OW11_acceptance": false,
+  "formal_acceptance": "5/16",
+  "CP7C_accepted": false,
+  "independent_acceptance": false,
+  "production_go": false,
+  "transport_source_sha256": {
+    "cp7_ow11_model_scoped_evaluation_transport_cases.py": "fe1e206f1cc68ce8b1c4759b3dd383386fff20bd277cdff38d4ae767ff673020",
+    "cp7_ow11_model_scoped_evaluation_cases.py": "23afa650f11f73bd0e52d47886ec193431724088f62d31f080ca552caed7ebe8",
+    "cp7_ow11_model_scoped_dataset_cases.py": "f77e47767ac6a6e6209476b3f2b5ceb7291ebf2bb1b681732201369311030d26",
+    "cp7_ow11_model_scoped_evaluation_transport_probe.py": "2b98d0d2fd1d76abae7b61862faaff3a31224b2435181465ec00d68734d93692"
+  },
+  "repeated_catalog_anchor_case_credit": 0,
+  "concurrency_test": true
+}

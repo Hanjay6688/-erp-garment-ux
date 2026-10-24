@@ -62,7 +62,12 @@ def query(run, q):
 
 def dataset(cur, q, actor):
     history.history.auth.actor(cur, actor)
+    # This is a private-kernel control, not an authenticated RPC. Retain the
+    # actor JWT claims but restore the test session before assuming its owner.
+    # Never grant authenticated the private role or execute privileges.
+    cur.execute('reset session authorization')
     cur.execute('set local role cp7_capture')
+    assert cur.execute('select current_user,auth.uid()::text').fetchone() == ('cp7_capture', str(actor))
     start = monotonic()
     answer = cur.execute('select cp7_model_scoped_dataset.dataset(%s::jsonb,%s::uuid)', (json.dumps(q), actor)).fetchone()[0]
     millis = (monotonic() - start) * 1000

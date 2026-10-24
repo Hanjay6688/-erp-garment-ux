@@ -3429,3 +3429,190 @@ is kept as scripts/cp7_b_scoped_model_f05_candidate.py, not an A execution entry
 True merge preserves both parents. Whole-current after-use history restore,
 Native20/followups, factory1200x3+official finance and independent acceptance
 remain open. Formal5/16; production_go=false; no owner policy inferred.
+## 126. B24 Oktober2026 UTC — scoped history transport7 complete Original PASS
+
+c8b652ab/run40123046496/job120958543810 completed success. Complete Original
+12572228902 (92922 bytes, SHA256
+ede706a22898befafb5b96a30c6e0cf378d06b5e758921459b6c844c5fe00e5a)
+has catalog1+races4+actualAuthHTTP2PASS, exact runtime/case/probe source pins,
+all required/package/CP6/advisor/restoration gates true. Auth0000→0000,
+copy0/sessions[]. Same UUID one immutable actor-owned run; current access after
+observed envelope/request waits including committed replay; actual SALE during
+wait freshly capturesgross24/available76. Actual Auth capture/read/replay,
+foreign/anonymous/revoked old token denial and sameUUID actor isolation pass.
+No retained v3 model, model-target consumer or after-use restore credit.
+
+2b335934 fullTransport11/run40120202220/job120949897417 cancelled. Complete
+Original12572102321 (81443 bytes, SHA256
+2444e4953b8bf6859d957cfa345c96f536fa3dafea1146751e42f84cb4b85eb6)
+contains onlycatalog1PASS aggregate; race/HTTP aggregates absent and CP6/advisor
+restorefalse. Retain this failure separately; same-head two-part union from123
+is the complete qualifying transport evidence.
+
+## 127. B24 Oktober2026 UTC — scoped model client and bounded-page entry candidate
+
+23d4be61 publishes retained modelv3 and composed dataset checker repair.
+Native6/run40124207922/job120962032546 and datasetNative4/run40124207815/
+job120962032149 remain pending; current cacheNative6/40122499063 also pending.
+
+Client now strictly binds scoped history and v3 envelopes to actor/query/UUID,
+actual knowledge clock, root/size, immutable archive and current guard. Reuses
+exact existing history math and reviewed v2 assessment parser with explicitly
+validated v3 envelope. Distinct versioned local recovery for history/model;
+current browser lock and pending-state checks before send, uncertain response
+retained on remount/late completion, exact retry, changed access hides results.
+
+Per-target action on the bounded paged analysis opens the new flow without a
+global1000-product history capture. No request runs on mount; explicit capture
+and explicit horizon precede evaluation. Original policy/admission and current
+eligibility are displayed separately; forecast is not applied.155 tests across
+8 files and TypeScript pass; literal-RPC follow-up passes. First type/DOM/dynamic
+RPC failures retained; no Auth-browser or full3600 journey credit inferred.
+
+Integrator A: shared scripts/check-source-ownership.mjs remains untouched
+(SHA256 f1148cb535181a28a1792723400746a88f6025e217ebef58264ece39d2140333).
+It currently reports24 preexisting added RPC entries plus four new explicit
+entries in src/nativeScopedModel.ts: erp_cp7_capture_model_history_v1,
+erp_cp7_read_model_history_v1, erp_cp7_capture_model_evaluation_v3 and
+erp_cp7_read_model_evaluation_v3. Please incorporate exact reviewed ownership,
+generated client types and opt-in composed installer into the integration
+candidate; B does not edit the shared registry/default bundle. Source check is
+not green and no full build claim is made. Model-target integration, actual
+Auth/browser, after-use restore and independent acceptance remain open.
+Formal5/16, CP7C unaccepted and production_go=false.
+
+## 128. B24 Oktober2026 UTC — retained scoped-model transport7 candidate
+
+6fac955f publishes the bounded-page scoped-model client and historyTransport7
+Original receipt. New separate transport7 declaration/probe/workflow for the
+retained v3 evaluation: repeatedcatalog1, four actual backend races, two real
+Auth/PostgREST groups. SameUUID one immutable model; actor access after observed
+envelope wait and committed replay request wait; actual Native SALE while
+waiting must refuse the pinned older history before any model insert, then a
+fresh scoped history may feed a new baseline evaluation. Actual Auth flow calls
+both history and model facades; no global history is manufactured. Same UUID
+across distinct methods and actors, exact payload, anonymous/foreign/revoked
+access, immutable old assessment and actual knowledge time are asserted.
+
+Exact clone-authority wrapper retained from qualified history transport. Source
+pins include transport cases/probe, Native6 cases and dataset parent composition.
+Python AST, declaration/source pins, missing-parent budget refusal and controlled
+wrapper success/exception restoration PASS. Seven-case/45min/8s budgets fixed;
+no Native/Auth/concurrency credit before complete Original. Model policy defaults,
+product runtime SQL, existing count or catalog oracle unchanged. Scoped-model
+Native6/datasetNative4 remain active; target consumption and Auth browser remain
+open. Formal5/16, CP7C and production/independent acceptance remain false.
+
+## 129. B24 Oktober2026 UTC — current21 target Native6 and scoped model Native6 Original PASS
+
+190c1d78/run40122499063/job120956892150 success; Original12572681615
+(205810 bytes, SHA256 5faeb6a96ed365b9e47603cc2e3faa5e4f0cd6f834c87ce112869df5f30c59ed)
+has6PASS on current21 replacements/private8, exact source pins, required IDs,
+all package/CP6/advisor gates and every case boundary/catalog/session restored.
+The corrected test requires the exact three-field stale-cache refusal; the
+product SQL did not change. Current21 Native and same-source Transport11 are
+now qualified separately. Positive model target and after-use restore remain open.
+
+23d4be61/run40124207922/job120962032546 success; Original12573251215
+(204253 bytes, SHA256 e88b44aaba95f95b408d542b9df18aa9d8c2611b4adbbb297af4dfc1a7bc2339)
+has scoped-model6PASS: exact22 catalog/inverse/FK, actual history/model capture,
+method-separated UUID replay, immutable knowledge clocks, prospective explicit
+synthetic policy, Native SALE/current access and final fault/engine controls.
+Dense2000/202000 single-target public evaluation426.66ms under8s, not factory SLA.
+Current sources, case IDs/counts, package/CP6/advisor and all restoration checks
+match. No actual historical winner, Auth/concurrency/browser, target consumption
+or after-use restore credit follows from these Native cases.
+
+## 130. B24 Oktober2026 UTC — scoped transport first routing failure retained and repaired
+
+9ac70810/run40125522882/job120965997005 failure; Original12573351083
+(16929 bytes, SHA256 183d7b84b1d2b844fde40dee521369eb3c6773783aa907d0b833fbae0bf26c1f)
+stopped before any case with BOUNDED_PREDECLARED_GROUP_CHANGED. The F05 selector
+call omitted the new transport flag. Zero case credit; no case aggregate or
+backup/restore credit. Primary unchanged and security-advisor gates true.
+
+Corrected routing uses its own exact native1/races4/http2 budget, rejects mixed
+suites or changed counts, and keeps all product SQL and case oracles unchanged.
+A pre-database regression executes the actual F05 selector expression: valid
+new route, seven negative controls and existing history7/Native6 routes pass.
+Workflow label now names scoped-model evaluation. Corrected actual transport
+still requires a complete new Original. Formal5/16, CP7C unaccepted and
+production/independent acceptance false.
+
+## 131. B24 Oktober2026 UTC — scoped dataset private-helper refusal retained
+
+23d4be61 datasetNative4/run40124207815/job120962032149 failed. Original12572752014
+(159501 bytes, SHA256 b832229a58a5448fe669c63d6e2e5b4c4a426b1017c34309a26be1246589890e)
+has catalog1PASS and3INCOMPLETE: the helper set session authorization to
+authenticated before SET ROLE cp7_capture. Private ACLs correctly refused that
+transition before dataset execution. CP6/advisor and all case boundaries restore.
+The earlier parent-composition repair is now exercised by the passing catalog.
+
+Fix only the private test helper: retain actor JWT claims, restore the test
+session authorization, assume the private owner and assert current_user/auth.uid.
+No grant to authenticated, new public method or product SQL change. Native6
+public scoped-model proof in129 remains distinct; private dataset4 still open
+until a new complete Original. Transport/browser source pins track the helper.
+
+## 132. B24 Oktober2026 UTC — actual scoped-model Browser2 candidate
+
+New isolated browser installer/probe, two declared mobile/desktop journeys and
+source-pinned workflow. Both enter through a target in the actual paged analysis,
+capture that target's immutable history then its retained v3 assessment. Mobile
+drops actual committed history and model replies separately, reloads, retries
+the same method/actor/UUID/payload and checks only one row each. Desktop captures
+fresh history after actual SALE and checks gross24/available76 and new history FK.
+Both assert unchanged old assessment/history, current403 hides model and parent
+results, zero legacy global-history/v2-model calls, no history/model business
+write and no horizontal overflow. No positive model or full3600 claim.
+
+48 client/DOM controls PASS across3 files. Python AST, JS syntax, source hashes,
+closed declaration, missing/mixed parent refusal and probe-wrapper restoration
+on success/error PASS. F05 admits only the explicit own Browser2 route; primary
+development runtime is unchanged and private installation happens only on the
+disposable Auth/browser copy. Actual browser credit awaits complete Original.
+53bc7b68 correctedTransport7/run40126109440 remains active. Model-target v3
+consumption, shared installer/registry coordination, after-use restore and
+independent acceptance remain open. Formal5/16 and production_go=false.
+
+## 133. B25 Oktober2026 WIB — version-bound latest model selector candidate
+
+New private `cp7_model_evaluation_selection`: two functions, no public method,
+table, replacement or default installation. Select latest actor/physical target
+across immutable global-v2 and scoped-v3; carry runtime, exact reader and UUID.
+Never filter backwards for an eligible winner. Exact timestamp ties prefer v3,
+then UUID within runtime. Read twice, bind original body, compare current guard,
+then recheck actor access, latest selection and WIB date; no forecast arithmetic.
+
+Actual SQL on local PGlite:9PASS with explicitly synthetic tables/readers/access.
+Includes same UUID across runtimes, new baseline over old winner, actor/cutoff,
+source/access/new-run changes during reads and private ACL. First local runner
+syntax failure retained; fixed only invalid await placement. No Native/Auth credit.
+Opt-in installer checks exact22 catalog, private owner/ACL/source/dependencies,
+RESTRICT inverse and external callers. New isolated Native4 candidate declares
+catalog inverse, actual v2/v3 same-request methods, SALE/access and dense2000
+controls. Closed F05 admission and source pins pass; actual Original pending.
+Target source/provenance/cache integration still open. Formal5/16 unchanged.
+
+## 134. B25 Oktober2026 WIB — first scoped browser finding and unreviewed target entry
+
+3a88b488/run40126610568/job120969308934: Original12573743824 (46389 bytes,
+SHA256 a4fad1a86b712705d95eab158b5f9e3e43960db9126ca8a4817c39afeed146a1)
+has2INCOMPLETE before history/model capture. Three current physical targets all
+had unreviewed production policy; server correctly returned zero recommendations.
+The model action existed only on recommendation rows, hiding the feature for
+these products. Exact head sources, CP6/advisor, Auth cleanup and database removal
+verified; no Browser2 recovery/access qualification claimed.
+
+Add history/model entry to the existing unreviewed-target section on each page.
+Parser binds unique warning targets to header labels, no recommendation overlap,
+and each exact review-policy action. No production policy is invented and no
+planning/AI action or forecast is enabled for these unreviewed rows. Browser
+journey uses the actual section; firstfailure retained. Focused client checks
+cover next-page unreviewed entry, exact target/query and no automatic capture or
+policy write. Corrected Browser2 still requires a new complete Original.
+
+
+### A · 25 Oktober2026 WIB · isolated scoped client integration from B8ab4b7e1
+
+True merge only in astra-a/d17-14-scoped-model-integration-prepared-20261025; existing Native20 execution, five followups and history25 preparation are unchanged. Exact B8ab product/client/qualifier blobs retained. Frozen cp7_f05_analysis_probe.py stays d3135a9c; exact B8ab F05 is separately retained as cp7_b_scoped_model_client_f05_candidate.py and is not the A execution entrypoint. Current B dataset4 and scoped transport7 actual PASS are source-bound to3a88b488; first routing package/browser failures retained. B8ab browser/selection results still require actual intake. A will admit the four explicit client RPC ownership entries, preserve strict parsing/recovery, and prepare the optional full current scoped-model composer; generated database types require an actual installed schema capture. No default installer, policy, forecast, main or hosted action. production_go=false; formal5/16.

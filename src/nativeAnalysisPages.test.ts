@@ -93,6 +93,9 @@ it('refuses tampered, reordered, foreign, shifted and internally inconsistent pa
   (b:J)=>{b.counts.timeline-=1},(b:J)=>{b.offsets.timeline+=1},(b:J)=>{b.totals.timeline+=1},(b:J)=>{b.items.timeline.pop()},(b:J)=>{b.items.recommendations.pop();b.counts.recommendations-=1},
   (b:J)=>{b.summary.recommendations.ACTIVE+=1},(b:J)=>{b.summary.policy_unreviewed+=1},(b:J)=>{b.items.timeline[0].target_key=JSON.parse(s.page(0).body).items.recommendations[0].target.key},
   (b:J)=>{b.items.material_needs[0].target_key='nowhere'},(b:J)=>{b.items.metrics[0].scope_key='nowhere'},(b:J)=>{b.items.actions[0].source_keys=['nowhere']},
+  (b:J)=>{b.items.generation_warnings[0]='PRODUCTION_POLICY_UNREVIEWED:nowhere'},
+  (b:J)=>{b.items.generation_warnings[0]='PRODUCTION_POLICY_UNREVIEWED:'+b.items.recommendations[0].target.key},
+  (b:J)=>{b.items.actions.find((a:J)=>a.primary_reason==='PRODUCTION_POLICY_UNREVIEWED').key='review-policy-foreign'},
   (b:J)=>{b.items.recommendations[0].target_qty.assumption_ids=['missing']},(b:J)=>{b.items.recommendations[1]=b.items.recommendations[0]},(b:J)=>{b.items.timeline[0].extra=1},
   (b:J)=>{b.apply_enabled=true},(b:J)=>{b.production_go=true},(b:J)=>{b.items.analysis=[]}])
   await expect(forged(change)).rejects.toThrow()

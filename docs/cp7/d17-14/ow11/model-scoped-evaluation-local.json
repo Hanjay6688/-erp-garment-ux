@@ -12,8 +12,8 @@
       "observed": {
         "actual_runtime_capture_and_shared_assessment_SQL": true,
         "controlled_ERP_primitives": true,
-        "known_at": "2026-10-24T19:07:54.039000Z",
-        "model_captured_at": "2026-10-24T19:07:54.160000Z",
+        "known_at": "2026-10-24T19:15:21.743000Z",
+        "model_captured_at": "2026-10-24T19:15:21.857000Z",
         "no_invented_policy_or_forecast": true
       }
     },
