@@ -1,0 +1,72 @@
+{
+  "contract": "cp7.ow11.analog-choice-native.v1",
+  "expected_case_count": 6,
+  "required_case_counts": {
+    "native": 6
+  },
+  "required_case_ids": {
+    "native": [
+      "OW11_ANALOG_CHOICE_CATALOG22_PREUSE_AND_DEPENDENCY",
+      "OW11_ANALOG_CHOICE_APPEND_CLEAR_REPLAY_CAS_AND_CLOCKS",
+      "OW11_ANALOG_CHOICE_REVIEW_SCALE_SIZE_UNKNOWN_AND_SELF",
+      "OW11_ANALOG_CHOICE_STALE_FOREIGN_K2_AND_CURRENT_ACCESS",
+      "OW11_ANALOG_CHOICE_ATOMIC_LAST_TABLE_FAULT",
+      "OW11_ANALOG_CHOICE_DENSE2000_202000_THREE_WRITES_UNDER8S"
+    ]
+  },
+  "public_rpcs": [
+    "erp_cp7_get_alerts_v1",
+    "erp_cp7_get_wa_settings_v1",
+    "erp_cp7_save_wa_settings_v1",
+    "erp_cp7_set_wa_key_v1",
+    "erp_cp7_send_wa_test_v1",
+    "erp_cp7_resolve_wa_dispatch_v1",
+    "erp_cp7_get_fg_reorder_v1",
+    "erp_cp7_refresh_fg_reorder_v1",
+    "erp_cp7_save_fg_reorder_manual_v1",
+    "erp_cp7_save_stock_formula_settings_v1",
+    "erp_cp7_get_material_reorder_v1",
+    "erp_cp7_refresh_material_reorder_v1",
+    "erp_cp7_save_material_reorder_v1",
+    "erp_cp7_request_staged_analysis_v1",
+    "erp_cp7_get_staged_analysis_v1",
+    "erp_cp7_step_staged_analysis_v1",
+    "erp_cp7_get_planning_profiles_v1",
+    "erp_cp7_save_planning_profile_v1",
+    "erp_cp7_capture_baseline_v1",
+    "erp_cp7_save_cutting_suggestion_v1",
+    "erp_cp7_get_staged_production_schedule_v1",
+    "erp_cp7_save_staged_production_schedule_v1",
+    "erp_cp7_request_bounded_staged_analysis_v1",
+    "erp_cp7_read_product_analog_candidates_v1",
+    "erp_cp7_get_product_analog_choices_v1",
+    "erp_cp7_save_product_analog_choice_v1"
+  ],
+  "schedules": [
+    "erp-wa-collect",
+    "erp-wa-send",
+    "erp-wa-analysis"
+  ],
+  "private_functions": 4,
+  "public_facades_added": 2,
+  "new_tables": 2,
+  "old_replacements": 0,
+  "parent_install_preuse_stages": 12,
+  "advisory_and_choice_stages_inside_rollback_cases": true,
+  "parent_checker_required": true,
+  "actual_public_BB_import_products": 11,
+  "actual_physical_sizes": 10,
+  "explicit_SYNTHETIC_historical_Native_comparators": 10,
+  "dense_extra_products": 2000,
+  "dense_extra_movements": 202000,
+  "actual_Auth_HTTP_credit": false,
+  "analog_confirmation_qualified": false,
+  "forecast_applied": false,
+  "full_OW11_acceptance": false,
+  "after_use_restore_qualified": false,
+  "full_A_chain_qualified": false,
+  "concurrency_test": false,
+  "statement_timeout": "8s",
+  "wall_limit_ms": 8000,
+  "production_go": false
+}

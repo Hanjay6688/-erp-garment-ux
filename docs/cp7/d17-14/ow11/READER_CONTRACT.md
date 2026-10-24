@@ -69,3 +69,17 @@ TS dan CSS diperiksa. Browser2/Auth nyata dideklarasikan terpisah; belum ada
 kredit lulus saat persiapan. Registry A tetap tidak diubah; proposal satu pasangan
 baru setelah17 terdahulu, total18 persis, graph367 runtime/313RPC lulus dengan
 proposal tersebut. Gate asli masih terbuka sampai A menerapkannya.
+
+
+## Browser2 terbukti pada624e2786
+
+Run40083891933/job120842786283 PASS2/2, Original lengkap diperiksa.
+Komputer1440px:2.000 produk/202.000 movement,100 kandidat unik lintas halaman,
+reload UUID sama dan K2 menolak/bersihkan. HP390px: AVAILABLE nol sah,
+9 ukuran lain dikeluarkan, anon/aktor lain/epoch salah/nonaktif ditolak.
+Tidak ada overflow halaman atau error console. Auth0/0/0/0 kembali persis,
+CP6/public/ACL pulih, advisor dan semua5 gate paket true. Receipt
+`624e278-browser2-pass.json` mempertahankan kegagalan a104345 sebelumnya.
+Pencarian exact SKU diutamakan; semua hasil tersedia lewat halaman20 pilihan.
+256 uji klien terkait/16 berkas,3 helper Node,TS dan64 kepemilikan CSS lulus.
+Ini membuktikan pembaca advisory. Konfirmasi dan pemakaian forecast masih terpisah.

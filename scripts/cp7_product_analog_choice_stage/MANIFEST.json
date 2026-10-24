@@ -1,0 +1,36 @@
+{
+  "contract": "cp7.product-analog-choice-stage.v1",
+  "sql_sha256": "16f84ef04b71183d0e70ad0eca72aa748000dd7b4c4436fa7fd922090f285a0d",
+  "functions": [
+    "cp7_product_analog_choice.material(jsonb,text,text)",
+    "cp7_product_analog_choice.source_at(text[],timestamptz)",
+    "cp7_product_analog_choice.workspace(text[])",
+    "cp7_product_analog_choice.apply(jsonb,uuid)",
+    "public.erp_cp7_get_product_analog_choices_v1(text[])",
+    "public.erp_cp7_save_product_analog_choice_v1(jsonb,uuid)"
+  ],
+  "dependencies": [
+    "cp7_product_analog_stage.candidates(jsonb,text,integer,integer)",
+    "cp7_product_analog_stage.read_candidates(uuid,text,integer,integer,text)",
+    "cp7_bounded_analysis_stage.require_inputs(jsonb,jsonb)",
+    "cp7_bounded_analysis_stage.source_for(jsonb,jsonb)",
+    "cp7_analysis_native.fingerprint(jsonb)",
+    "cp7_schedule_native.access_now(boolean)",
+    "cp7_private.access_now()",
+    "cp7_private.immutable_run()",
+    "cp7_demand.decimal(jsonb)",
+    "cp7_wip.fields(jsonb,text[])",
+    "cp7_wip.key(jsonb)",
+    "cp7_wip.pcs(jsonb)"
+  ],
+  "private_functions": 4,
+  "public_rpcs": 2,
+  "new_tables": 2,
+  "old_replacements": 0,
+  "default_installed": false,
+  "runtime_qualified": false,
+  "actual_Auth_HTTP_credit": false,
+  "forecast_applied": false,
+  "full_OW11_acceptance": false,
+  "production_go": false
+}
