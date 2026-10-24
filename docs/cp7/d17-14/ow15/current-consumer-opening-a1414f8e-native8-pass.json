@@ -1,0 +1,119 @@
+{
+  "contract": "cp7.current-consumer-opening-restored-writer-receipt.v1",
+  "name": "CP7_CURRENT_CONSUMER_OPENING_RESTORE8.json",
+  "status": "PASS",
+  "artifact_id": 12563788280,
+  "zip_bytes": 3731358,
+  "zip_sha256": "be8f8ed3439c67f76773b13db4bdc5b43b6533176c98bc63a67bb8678a9b04ac",
+  "bytes": 1221998,
+  "sha256": "b884be400ffb7198cd3087d35f1a24e4e845ac4fdf82b2cfb459d1eeb558748d",
+  "head": "a1414f8e75ccd6ee561241c5bdc5f4dae2015655",
+  "run_id": 40102749319,
+  "job_id": 120898085518,
+  "whole_job_status": "completed",
+  "whole_job_conclusion": "success",
+  "required_steps": [
+    {
+      "step": "EXACT_INSTALL_AND_PREUSE_INVERSE",
+      "status": "PASS"
+    },
+    {
+      "step": "COMMITTED_RETURN_AND_ANALOG_CHOICE",
+      "status": "PASS"
+    },
+    {
+      "step": "USED_INVERSE_REFUSED_BEFORE_DDL",
+      "status": "PASS"
+    },
+    {
+      "step": "FULL_USED_BACKUP_RESTORED",
+      "status": "PASS"
+    },
+    {
+      "step": "RESTORE_NEGATIVE_CONTROLS",
+      "status": "PASS"
+    },
+    {
+      "step": "FULL_RESTORE_AFTER_NEGATIVE_WRITE",
+      "status": "PASS"
+    },
+    {
+      "step": "ONLY_LOCAL_NATIVE_OID_SEAL",
+      "status": "PASS"
+    },
+    {
+      "step": "EXACT_READS_REPLAY_CLEAR_AND_NEXT_RETURN",
+      "status": "PASS"
+    }
+  ],
+  "negative_controls": [
+    {
+      "id": "WRONG_TRUSTED_HASH",
+      "status": "PASS",
+      "refusal": "ANALOG_CONSUMER_RESTORE_TRUSTED_BACKUP_HASH_REQUIRED"
+    },
+    {
+      "id": "CHANGED_COMPOSED_ENTRYPOINT_SOURCE",
+      "status": "PASS",
+      "refusal": "ANALOG_CONSUMER_RESTORE_SOURCE_OR_CONTRACT_CHANGED"
+    },
+    {
+      "id": "WRONG_DATABASE",
+      "status": "PASS",
+      "refusal": "ANALOG_CONSUMER_RESTORE_FRESH_EXPECTED_DATABASE_REQUIRED"
+    },
+    {
+      "id": "CHANGED_ANALOG_CHOICE_SOURCE",
+      "status": "PASS",
+      "refusal": "ANALOG_CONSUMER_RESTORE_SOURCE_OR_CONTRACT_CHANGED"
+    },
+    {
+      "id": "MISSING_CATALOG_GROUP",
+      "status": "PASS",
+      "refusal": "ANALOG_CONSUMER_RESTORE_CATALOG_CHANGED"
+    },
+    {
+      "id": "DELTA_FUNCTION_METADATA_DRIFT",
+      "status": "PASS",
+      "refusal": "ANALOG_CONSUMER_RESTORE_CATALOG_CHANGED"
+    },
+    {
+      "id": "DRAFT_ROW_DRIFT",
+      "status": "PASS",
+      "refusal": "ANALOG_CONSUMER_RESTORE_ROWS_OR_SEQUENCES_CHANGED"
+    }
+  ],
+  "exact_current_product_sources_verified": true,
+  "fresh_consumer_proof": {
+    "actual_Native_sale_pcs": "1",
+    "available_days": "3",
+    "lead_days": "3",
+    "scale": "1",
+    "exact_direct_staged_bounded_and_ROP_target": "1",
+    "own_history_pcs": "0",
+    "own_history_days": "0",
+    "physical_stock_money_HPP_unchanged": true,
+    "retained_old_capture_not_rewritten": true
+  },
+  "all_DRAFT_snapshots_equal": true,
+  "complete_used_restore_full22_rows_sequences": true,
+  "second_full_restore_after_negative_write": true,
+  "only_declared_local_native_OID_seal_rebound": true,
+  "CLEAR_restores_UNKNOWN_without_zero": true,
+  "next_real_return_count": 2,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "baseline_advisors_equal": true,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "first_INCOMPLETE_preserved": "83c2fb8356889d89fefcbea234dcc0016d77b8ff0a960acfe818751a36508a48",
+  "formal_parent": "5/16",
+  "independent_acceptance": false,
+  "production_go": false,
+  "public_evidence": "Status, hashes, case IDs and synthetic target counts only; complete Original held separately"
+}
