@@ -1,0 +1,177 @@
+{
+  "contract": "cp7.original-runtime-receipt.v1",
+  "head": "2201e9ed5d23e1c149fd5a6b90205c4f2200b03d",
+  "run_id": 40121381881,
+  "job_id": 120953455379,
+  "job_conclusion": "success",
+  "workflow_conclusion": "success",
+  "artifact_id": 12571747558,
+  "bytes": 204277,
+  "artifact_sha256": "7c64fe185181a624e85841fe0dfc1a36382f541de7894e5f18b9c65a9f98e618",
+  "Original_read_complete": true,
+  "exact_head_source_and_declaration_hashes_match": true,
+  "status": "PASS",
+  "groups": {
+    "native": {
+      "counts": {
+        "PASS": 6
+      },
+      "cases": {
+        "OW11_MODEL_HISTORY_RUNTIME_CATALOG22_COMPOSED_INVERSE": {
+          "status": "PASS",
+          "exact_catalog22_composed_inverse": true,
+          "private5_public2_table1_replacement0": true,
+          "partial_inverse_restored": true,
+          "source_parent_cannot_be_removed_below_runtime": true,
+          "source_sha256": {
+            "cp7_model_history_runtime/MANIFEST.json": "6dd4c16e93581ddc283183e5fe3d6f7aa612baff8ed628498b2be6030f5515fc",
+            "cp7_model_history_runtime/__init__.py": "d19503c565d5cd85431f7fef52528e36fecae6314adfb4121172b709e88cd7bf",
+            "cp7_model_history_runtime/runtime.sql": "40a61d71d143de14d93502a2aba84ffbe04ab8fe78c3a83e9c71111a46c2c0f5",
+            "cp7_model_history_scope/MANIFEST.json": "c9721c0f3492caefa3f3c132b2fb11d6677b5176a1ae2379ab57db7df339225b",
+            "cp7_model_history_scope/__init__.py": "2209a7d648cc49b9e21a186edb5700be73eac511eb02d2179aaf8f0c7f940e2b",
+            "cp7_model_history_scope/capture.sql": "edc5d63dcfd75e99bcd83de3e1b03765c5057ccdbd76d9f06f92a0bec31fa8b7",
+            "cp7_model_history_scope/identity.sql": "271afb029f0dfbdf0889055b4d830e1f26e95c1b7800caf2310d3aa6b8555123",
+            "cp7_model_history_scope/render.py": "99f21eb92a2517940d08e5c3104940a4bdfd68f80e24115aacf908cbcc6d21e4",
+            "cp7_model_history_scope/scope.sql": "607c7fbb42673af963fa4b02bc3939ce6d9ca20e5b501a77c9ed9c31fc7895aa"
+          },
+          "full_boundary_restored": true,
+          "public_schema_unchanged": true,
+          "session_leaks": {
+            "advisory_locks": 0,
+            "advisory_lock_keys": [],
+            "other_sessions": []
+          },
+          "business_day": {
+            "planned": "2026-10-25",
+            "before": "2026-10-25",
+            "after": "2026-10-25"
+          }
+        },
+        "OW11_MODEL_HISTORY_RUNTIME_ACTUAL_CAPTURE_REPLAY_IMMUTABLE": {
+          "status": "PASS",
+          "actual_public_capture_and_replay": true,
+          "one_UUID_one_immutable_row": true,
+          "actual_Native_draft_available76": true,
+          "exact_private_source_history_parity": true,
+          "no_backfilled_training_knowledge": true,
+          "after_use_inverse_refused_before_DDL": true,
+          "no_stock_money_HPP_change": true,
+          "full_boundary_restored": true,
+          "public_schema_unchanged": true,
+          "session_leaks": {
+            "advisory_locks": 0,
+            "advisory_lock_keys": [],
+            "other_sessions": []
+          },
+          "business_day": {
+            "planned": "2026-10-25",
+            "before": "2026-10-25",
+            "after": "2026-10-25"
+          }
+        },
+        "OW11_MODEL_HISTORY_RUNTIME_ACTUAL_POST_RETIRES_ARCHIVE": {
+          "status": "PASS",
+          "actual_Native_post_retires_old_archive": true,
+          "original_draft_history_immutable": true,
+          "fresh_posted_gross24_available76": true,
+          "no_second_stock_subtraction": true,
+          "full_boundary_restored": true,
+          "public_schema_unchanged": true,
+          "session_leaks": {
+            "advisory_locks": 0,
+            "advisory_lock_keys": [],
+            "other_sessions": []
+          },
+          "business_day": {
+            "planned": "2026-10-25",
+            "before": "2026-10-25",
+            "after": "2026-10-25"
+          }
+        },
+        "OW11_MODEL_HISTORY_RUNTIME_CURRENT_ACCESS_AND_FOREIGN_READ": {
+          "status": "PASS",
+          "actual_four_operational_permissions": true,
+          "foreign_UUID_denied": true,
+          "current_revocation_before_read_and_committed_replay": true,
+          "no_denied_capture_effect": true,
+          "actual_Auth_HTTP_credit": false,
+          "full_boundary_restored": true,
+          "public_schema_unchanged": true,
+          "session_leaks": {
+            "advisory_locks": 0,
+            "advisory_lock_keys": [],
+            "other_sessions": []
+          },
+          "business_day": {
+            "planned": "2026-10-25",
+            "before": "2026-10-25",
+            "after": "2026-10-25"
+          }
+        },
+        "OW11_MODEL_HISTORY_RUNTIME_DENSE2000_SINGLE_TARGET": {
+          "status": "PASS",
+          "label": "SYNTHETIC_VOLUME_ACTUAL_PUBLIC_SCOPED_CAPTURE",
+          "products": 2000,
+          "movements": 202000,
+          "original_global_bound_unchanged": true,
+          "single_target_complete": true,
+          "millis": 248.243,
+          "wall_limit_ms": 8000,
+          "factory_SLA_claim": false,
+          "model_caller_integrated": false,
+          "full_boundary_restored": true,
+          "public_schema_unchanged": true,
+          "session_leaks": {
+            "advisory_locks": 0,
+            "advisory_lock_keys": [],
+            "other_sessions": []
+          },
+          "business_day": {
+            "planned": "2026-10-25",
+            "before": "2026-10-25",
+            "after": "2026-10-25"
+          }
+        },
+        "OW11_MODEL_HISTORY_RUNTIME_ENGINE_AND_FINAL_FAULT": {
+          "status": "PASS",
+          "controlled_engine_change_retires_actual_archive": true,
+          "injected_final_insert_fault_no_orphan": true,
+          "original_row_immutable": true,
+          "full_boundary_restored": true,
+          "public_schema_unchanged": true,
+          "session_leaks": {
+            "advisory_locks": 0,
+            "advisory_lock_keys": [],
+            "other_sessions": []
+          },
+          "business_day": {
+            "planned": "2026-10-25",
+            "before": "2026-10-25",
+            "after": "2026-10-25"
+          }
+        }
+      },
+      "database_remaining": null
+    }
+  },
+  "required_case_ids_pass": true,
+  "required_case_counts_pass": true,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "actual_Auth_HTTP_credit": false,
+  "model_caller_integrated": false,
+  "positive_model_target_qualified": false,
+  "after_use_restore_qualified": false,
+  "full_OW11_acceptance": false,
+  "formal_acceptance": "5/16",
+  "CP7C_accepted": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

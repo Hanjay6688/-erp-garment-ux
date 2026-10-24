@@ -1,0 +1,42 @@
+{
+  "contract": "cp7.original-runtime-first-failure.v1",
+  "head": "d7d3033b97a08d8bfc180dac638ea60b90e19c23",
+  "run_id": 40119284316,
+  "job_id": 120947092229,
+  "qualification_step_conclusion": "cancelled",
+  "artifact_id": 12572315518,
+  "bytes": 82339,
+  "artifact_sha256": "f297f12b18c409fa3b14fc732c8268dac36e2c7e8dba538141bed048f252f5d0",
+  "Original_read_complete": true,
+  "exact_head_source_hashes_match": true,
+  "status": "INCOMPLETE",
+  "observed_case_count": 8,
+  "groups": {
+    "native": {
+      "status": "PASS",
+      "counts": {
+        "PASS": 1
+      }
+    },
+    "races": {
+      "status": "RUN_COMPLETE",
+      "test_only_usage_grant": true,
+      "database_remaining": 0,
+      "counts": {
+        "PASS": 7
+      }
+    }
+  },
+  "cp6_restored": false,
+  "advisor_gate": false,
+  "required_case_ids_pass": false,
+  "required_case_counts_pass": false,
+  "diagnosis": "Full45-minute job cancelled after catalog1 and race7; HTTP aggregate absent and restore/advisor gates false. No full-suite acceptance.",
+  "correction": "Existing exact two-part same-head run is already pending; no RPC timeout or assertion weakened.",
+  "actual_Auth_HTTP_credit": false,
+  "full_transport_qualified": false,
+  "formal_acceptance": "5/16",
+  "CP7C_accepted": false,
+  "independent_acceptance": false,
+  "production_go": false
+}
