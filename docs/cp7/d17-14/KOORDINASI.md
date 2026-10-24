@@ -1843,3 +1843,41 @@ Existing controlled historical openings stay explicitly synthetic; actual posted
 sale/Auth/PostgREST/UI assertions and cleanup retain their own evidence. Original
 consumer browser sources remain unchanged. Declaration/JS syntax/Python/YAML
 checks pass; old31/25/19 and45min budgets unchanged. FullOW11/productionfalse.
+
+## 105. B24 Oktober2026 — exact model target Browser2 Original PASS
+
+4e2dca5f/run40111903884/job120925190120 completed success. Complete Original
+12567775320 (45639 bytes, SHA256 d51f74d771512cd6a883134659f668b9ff36deacd09445f44dbab9e28efb4d91)
+read with every model-target source hash matched to that exact head: 2 PASS,
+required IDs/counts, CP6 restoration, advisor and all five package gates true.
+Actual mobile CONFIRM→new target1→reload→CLEAR/new UNKNOWN and desktop
+2000 products/202000 movements→target2/reload retain provenancev2 and own
+zero sales. Auth counts0000→0000, console0, no session/copy leaks; both screenshots
+visually checked. These are actual Auth/browser baseline/analog paths only.
+No positive model, after-use composed restore or fullOW11 credit is inferred.
+Receipt: ow11/4e2dca5f-model-target-browser2-original-pass.json.
+
+## 106. B24 Oktober2026 — dated model timeline correction candidate
+
+Found downstream mismatch: projected target400/ROP300 could coexist with a
+timeline consuming the historical mean50.5/day instead of the admitted vector100.
+The candidate now derives two extra exact predecessor replacements (19 total)
+and one private timeline kernel (8 total private, no RPC/table). Model timelines
+consume each dated vector window through lead+review without buffer consumption,
+average substitution or early rounding. Existing explicit24h-from-capture timing
+and backlog ordering remain; late supply cannot erase the prior first gap.
+Partial-day products retain up to42 decimal places without numeric(42,12)
+overflow. Original shared timeline/decimal helpers are untouched; legacy/manual
+fallback retains exact old output. Target/profile/source/origin mismatch refuses.
+Analysis models name the selected method/run, with NOT_APPLICABLE single daily
+rate instead of falsely labelling a projected target as historical FALLBACK.
+No validation folds/scores are invented; current source also binds netting code.
+
+Local controlled SQL28 PASS (including8 chronology/report controls), source14
+PASS, client257 PASS/9files, TypeScript and CSS64 PASS. Positive histories and
+vectors are explicit synthetic fixtures, not actual Native model admission.
+Wide-sum client first64 PASS/1FAIL and fixed110 PASS retained; projected values
+remain checked by exact BigInt binding and old v1/v2 digit bounds are unchanged.
+Native6 on5770 remains pending complete Original. This expanded19/8 overlay
+requires fresh exact Native/browser runtime. FullOW11, factory/SAVE/restore,
+independent acceptance remain open; formal5/16, CP7C unaccepted, productionfalse.

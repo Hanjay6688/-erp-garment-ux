@@ -5,6 +5,7 @@ import {createHash} from 'node:crypto'
 import {execFileSync} from 'node:child_process'
 import assert from 'node:assert/strict'
 import {modelTargetSourceFixture} from './cp7_ow11_model_target_source_local_fixture.mjs'
+import {timelineCases} from './cp7_ow11_model_target_timeline_local.mjs'
 execFileSync('python',['-B','-c','import cp7_model_target_consumer as c;c.verify_sources()'],{env:{...process.env,PYTHONPATH:'scripts'}})
 const root='22222222-2222-4222-8222-222222222222',size='33333333-3333-4333-8333-333333333333',other='44444444-4444-4444-8444-444444444444'
 const products=[root,other].map((id,i)=>({id,root_id:id,model_id:id,is_active:true,size_id:size,sku:'CONTROLLED-'+i,product_name:'Synthetic target '+i,commercial:[]}))
@@ -183,6 +184,7 @@ await test('WAREHOUSE_CAPTURE_HOOK_PRESERVES_BASELINE_WITHOUT_MODEL_READ_ACCESS'
  await setting('warehouse_access','false');await rejects(()=>sql('select cp7_reorder_inputs.capture_baseline(5000)v'),/CONTROLLED_WAREHOUSE_ACCESS_DENIED/)
  return{actual_generated_reorder_capture_hook:true,baseline202_no_model_leak:true,full_model_and_revoked_warehouse_denied:true}
 })
+await timelineCases(f,{block,hooks,fixture,rows})
 await writeFile('tests/fixtures/nativeModelTargetSql.json',JSON.stringify(wire,null,2)+'\n')
-const report={contract:'cp7.model-target-consumer-local.v1',status:cases.every(x=>x.status==='PASS')?'PASS':'FAIL',expected:20,counts:cases.reduce((a,x)=>(a[x.status]=(a[x.status]??0)+1,a),{}),cases,sql_sha256:createHash('sha256').update(await read('scripts/cp7_model_target_consumer/consumer.sql')).digest('hex'),hooks_sql_sha256:createHash('sha256').update(hooks).digest('hex'),actual_private_SQL_pipeline:true,selected_actual_SQL_hooks:true,explicit_synthetic_history_policy:true,controlled_access_live_source:true,actual_Native_capture:false,actual_Auth_HTTP_credit:false,complete_stage_installer_qualified:false,public_client_qualified:false,public_caller_integrated:false,production_go:false}
+const report={contract:'cp7.model-target-consumer-local.v1',status:cases.every(x=>x.status==='PASS')?'PASS':'FAIL',expected:28,counts:cases.reduce((a,x)=>(a[x.status]=(a[x.status]??0)+1,a),{}),cases,sql_sha256:createHash('sha256').update(await read('scripts/cp7_model_target_consumer/consumer.sql')).digest('hex'),hooks_sql_sha256:createHash('sha256').update(hooks).digest('hex'),actual_private_SQL_pipeline:true,selected_actual_SQL_hooks:true,explicit_synthetic_history_policy:true,controlled_access_live_source:true,actual_Native_capture:false,actual_Auth_HTTP_credit:false,complete_stage_installer_qualified:false,public_client_qualified:false,public_caller_integrated:false,production_go:false}
 await writeFile('docs/cp7/d17-14/ow11/model-target-consumer-local.json',JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report,null,2));await db.close();if(report.status!=='PASS')process.exitCode=1

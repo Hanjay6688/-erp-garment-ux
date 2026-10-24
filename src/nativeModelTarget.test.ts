@@ -114,3 +114,13 @@ it('keeps dated fractional windows and PCS beyond safe integers exact (synthetic
  p.reorder_point_pcs='9007199254740995';p.target_pcs='9007199254740997'
  const r=parse(p);expect(r.targetPcs).toBe('9007199254740997');expect(r.model?.expectedTarget.lead_demand_pcs).toBe('4503599627370496.55')
 })
+it('preserves a dated horizon sum wider than one daily forecast (synthetic v3 wire)',()=>{
+ const v:Record<string,any>=direct(),r=v.rows[0],m=r.demand_provenance.model
+ m.forecast.forecasts=Array.from({length:7},()=> '999999999999999999999999999999.1')
+ r.demand_provenance.target_pcs='3999999999999999999999999999997'
+ r.demand_provenance.reorder_point_pcs='2999999999999999999999999999998'
+ r.model_resolution=copy(m);r.target=parse(r.demand_provenance).model!.expectedTarget
+ const parsed=parseNativeBaseline(v,query).rows[0]
+ expect(parsed.target).toBe('3999999999999999999999999999997')
+ expect(parsed.leadDemand).toBe('1999999999999999999999999999998.2')
+})

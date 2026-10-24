@@ -1,20 +1,20 @@
 {
   "contract": "cp7.model-target-consumer-candidate.v1",
   "scope": "Current server-owned v2 admission to shared baseline/staged/FG reorder target with versioned explanation",
-  "new_private_functions": 7,
+  "new_private_functions": 8,
   "new_public_rpcs": 0,
   "new_tables": 0,
-  "existing_replacement_candidates": 17,
+  "existing_replacement_candidates": 19,
   "local_SQL": {
     "source_cases_PASS": 14,
-    "consumer_and_selected_hook_cases_PASS": 20,
+    "consumer_and_selected_hook_cases_PASS": 28,
     "explicit_synthetic_history_policy": true,
     "live_source_and_access_controlled": true,
     "actual_Native_capture": false,
     "actual_Auth_HTTP_credit": false
   },
   "client": {
-    "tests_PASS": 256,
+    "tests_PASS": 257,
     "files": 9,
     "TypeScript": "PASS",
     "CSS_ownership_stylesheets": 64,
@@ -30,7 +30,9 @@
     "one dated vector with one buffer; statistical safety retains original historical variation assumption",
     "unreviewed profile retains exact existing reorder default and matching explanation",
     "warehouse-only reader gets baseline without model rows, policy, or model-history scans",
-    "posted history and prior captures remain immutable"
+    "posted history and prior captures remain immutable",
+    "model timeline consumes exact dated windows through lead+review, excludes buffer demand and preserves earlier gaps after late supply",
+    "original baseline timeline remains byte-identical for legacy/manual fallback; evaluated report does not replace vector with historical daily rate"
   ],
   "first_failure_retained": "18 PASS / 1 FAIL exposed unreviewed-profile reorder provenance referring to the earlier UNKNOWN target; candidate points hook now binds explanation to actual retained default kernel",
   "open": [
@@ -45,5 +47,7 @@
   "production_go": false,
   "independent_acceptance": false,
   "formal_acceptance": "5/16",
-  "CP7C_accepted": false
+  "CP7C_accepted": false,
+  "qualified_browser_original": "4e2dca5f-model-target-browser2-original-pass.json (exact predecessor; 2 PASS baseline/analog paths only)",
+  "current_timeline_overlay_Native_qualified": false
 }

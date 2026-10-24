@@ -24,7 +24,8 @@ FUNCTIONS={
  'cp7_model_target_source.capture_for_reorder(text[],timestamp with time zone)':('v',True),
  'cp7_model_target_projection.sum_window(jsonb,numeric,numeric)':('i',False),
  'cp7_model_target_projection.project(jsonb,jsonb,date)':('i',True),
- 'cp7_model_target_consumer.rows(jsonb,jsonb,jsonb,text,jsonb)':('i',True)}
+ 'cp7_model_target_consumer.rows(jsonb,jsonb,jsonb,text,jsonb)':('i',True),
+ 'cp7_model_target_consumer.timeline(jsonb)':('i',False)}
 
 
 def sources():
@@ -80,8 +81,8 @@ def verify(cur,state):
                 raise ValueError('MODEL_TARGET_SCHEMA_EXPOSED: '+role)
     if cur.execute("select has_schema_privilege('cp7_capture','public','CREATE')").fetchone()[0]:
         raise ValueError('MODEL_TARGET_PUBLIC_CREATE_OPEN')
-    return dict(stage='cp7.model-target-consumer-stage.v1',new_private_functions=7,
-      existing_replacements=17,new_public_rpcs=0,new_tables=0,Native_ERP_DML=False,
+    return dict(stage='cp7.model-target-consumer-stage.v1',new_private_functions=8,
+      existing_replacements=19,new_public_rpcs=0,new_tables=0,Native_ERP_DML=False,
       actual_Auth_HTTP_credit=False,full_OW11_acceptance=False,production_go=False)
 
 
@@ -99,7 +100,7 @@ def install_delta(cur,predecessor_checker):
     signatures=cur.execute("select p.oid::regprocedure::text from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname like 'cp7_%'and p.prokind='f'order by 1").fetchall()
     dependencies={sig:_row(cur,sig)for(sig,)in signatures if sig not in old}
     used=usage_state(cur)
-    sql='\n'.join(p.read_text()for p in(source.ROOT/'source.sql',projection.ROOT/'projection.sql',consumer.ROOT/'consumer.sql'))
+    sql='\n'.join(p.read_text()for p in(source.ROOT/'source.sql',projection.ROOT/'projection.sql',consumer.ROOT/'consumer.sql',consumer.ROOT/'timeline.sql'))
     cur.execute(sql,prepare=False);cur.execute((ROOT/'hooks.sql').read_text(),prepare=False)
     new={sig:_row(cur,sig)for sig in(*old,*FUNCTIONS)}
     definitions=render.replacements()

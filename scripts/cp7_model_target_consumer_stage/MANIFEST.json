@@ -17,7 +17,9 @@
     "cp7_bounded_analysis_stage.producer_hash()": "d69074760ea0f34f2c3d1f3769dfa9f7865d4ae3f219f42f864ef804dd9fc388",
     "cp7_reorder_caller.evaluate(jsonb,jsonb)": "4972b0bb23b702f9d504370859872ee8f312c90c4bf9b2b28cdfd59824bfa8a9",
     "cp7_reorder_inputs.points(jsonb,jsonb,jsonb,jsonb)": "4f5f418a8036d1d22d2adccc4a5bcbb6bff56aa204c0b21eacc8917b305373c0",
-    "cp7_analysis_stage.analysis_skeleton(jsonb,jsonb,uuid,jsonb,jsonb,jsonb,jsonb,jsonb,boolean,text)": "3efd130e7245845c100272ac47082a66d087591e320fbe5346372f4274430f4a"
+    "cp7_analysis_stage.analysis_skeleton(jsonb,jsonb,uuid,jsonb,jsonb,jsonb,jsonb,jsonb,boolean,text)": "3efd130e7245845c100272ac47082a66d087591e320fbe5346372f4274430f4a",
+    "cp7_netting_native.timeline(jsonb,jsonb,jsonb,jsonb,jsonb,jsonb)": "1287df58da9399bb1144f0cbd92627d0292e63ba96bd8be26b4cffa24fefdd29",
+    "cp7_analysis_stage.analysis_targets(jsonb,jsonb,jsonb,jsonb,jsonb,jsonb,jsonb,jsonb,jsonb)": "4012f83d772b164c3ca0c73b48c5cab56153952b3642d92e496d921202fc5451"
   },
   "replacement_body_sha256": {
     "cp7_baseline_native.source_within(integer)": "3e49f2f4d7983fd78a3596f70dc6524e78bd26372d403640d99ed5871c868b5d",
@@ -36,11 +38,13 @@
     "cp7_bounded_analysis_stage.producer_hash()": "bd0b51ef718aa617ccadbe1e5920ff40ea883d4380539c0e680a3a9abde851f3",
     "cp7_reorder_caller.evaluate(jsonb,jsonb)": "8384247d1a21693fd695d49ce91171abf50dc2c6e7d119399ab4c21657f2f425",
     "cp7_reorder_inputs.points(jsonb,jsonb,jsonb,jsonb)": "90236fa88dbea0ddef8e761b41f35ef3fb092be53cb36a4121bd4035b447de3e",
-    "cp7_analysis_stage.analysis_skeleton(jsonb,jsonb,uuid,jsonb,jsonb,jsonb,jsonb,jsonb,boolean,text)": "02a66fba6b205ddc971c98b61999c8f2cffcbdf1ac63c02af1d7ba363f67196c"
+    "cp7_analysis_stage.analysis_skeleton(jsonb,jsonb,uuid,jsonb,jsonb,jsonb,jsonb,jsonb,boolean,text)": "02a66fba6b205ddc971c98b61999c8f2cffcbdf1ac63c02af1d7ba363f67196c",
+    "cp7_netting_native.timeline(jsonb,jsonb,jsonb,jsonb,jsonb,jsonb)": "b6466c863ac54e21a134549fcc4d52026b8b72c7790762635757195f13b1ed64",
+    "cp7_analysis_stage.analysis_targets(jsonb,jsonb,jsonb,jsonb,jsonb,jsonb,jsonb,jsonb,jsonb)": "337e2efccc8a5f64f00484defd7329c6b005eaf8cc01821648f450d76ef84fd2"
   },
-  "hooks_sql_sha256": "0eddf7eb86468918129f77e7378586fdac57b33dafc951003ceed76e2936b41a",
-  "existing_replacements": 17,
-  "new_private_functions": 7,
+  "hooks_sql_sha256": "eb5da57c223af96fb9a9a550019c0add649528597e41fa66608556ad608ec4a8",
+  "existing_replacements": 19,
+  "new_private_functions": 8,
   "new_schemas": 3,
   "new_public_rpcs": 0,
   "new_tables": 0,

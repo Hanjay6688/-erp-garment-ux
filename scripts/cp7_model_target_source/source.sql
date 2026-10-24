@@ -9,7 +9,7 @@ language sql stable security invoker set search_path=''as $$
  from pg_proc p join pg_namespace n on n.oid=p.pronamespace
  where n.nspname in('cp7_model_target_source','cp7_model_target_projection','cp7_model_target_consumer',
   'cp7_baseline','cp7_demand','cp7_wip','cp7_product_analog_consumer','cp7_baseline_native',
-  'cp7_analysis_stage','cp7_reorder_inputs','cp7_history_bounded','cp7_bounded_analysis_stage')
+  'cp7_analysis_stage','cp7_netting_native','cp7_reorder_inputs','cp7_history_bounded','cp7_bounded_analysis_stage')
 $$;
 
 create function cp7_model_target_source.selection(p_targets text[],p_actor uuid,p_at timestamptz)returns jsonb

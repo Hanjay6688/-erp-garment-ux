@@ -89,7 +89,9 @@ export function parseNativeBaseline(raw:unknown,q:NativeDemandQuery):NativeBasel
    if(target.kernel_version!==(projected?'target-forecast-vector-1':unified?'target-unified-2':'target-days-1')||daily===null)fail()
    targetPcs=targetQuantity(target.target_pcs);horizon=decimal(target.horizon_days)
    if(unified){
-    const computed=(value:unknown)=>typeof value==='string'&&/^(0|[1-9][0-9]{0,29})(\.[0-9]{1,40})?$/.test(value)?value:fail()
+    // A dated sum may exceed the digit width of one daily forecast. Its exact
+    // decimal operands and arithmetic were already checked by the v3 binding.
+    const computed=(value:unknown)=>projected?str(value):typeof value==='string'&&/^(0|[1-9][0-9]{0,29})(\.[0-9]{1,40})?$/.test(value)?value:fail()
     reorderPoint=targetQuantity(target.reorder_point_pcs);leadDemand=computed(target.lead_demand_pcs);reviewDemand=computed(target.review_demand_pcs);safety=computed(target.horizon_safety_pcs)
     if(!projected&&(ti.mode==='DAYS'?(target.reason!=='ONE_EXPLICIT_DAYS_BUFFER'||target.lead_safety_pcs!==target.horizon_safety_pcs):(target.reason!=='BASELINE_INDEPENDENT_DAILY_VARIATION_ASSUMPTION'||BigInt(String(ti.counted_days))<14n||ti.daily_sd===null||typeof target.lead_safety_pcs!=='string')))fail()
    }

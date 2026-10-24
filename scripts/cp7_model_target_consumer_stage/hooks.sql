@@ -781,3 +781,171 @@ begin
   'metrics',metrics,'plan_comparisons','[]'::jsonb,'generation_warnings',warnings,'allocation_edges',edges);
  return cp7_analysis_native.finance_apply(v,c);
 end $$;
+
+create or replace function cp7_netting_native.timeline(c jsonb,r jsonb,etas jsonb,edges jsonb,matching jsonb,wip jsonb)returns jsonb
+language plpgsql immutable security invoker set search_path=''set TimeZone='UTC'as $$
+declare cfg jsonb:=r->'profile'->'config';rate numeric;horizon numeric;remaining numeric;duration numeric;qty numeric;
+ ready timestamptz:=(c->>'captured_at')::timestamptz;deadline timestamptz;at_time timestamptz;
+ model_input jsonb:=r->'model_resolution';model_applied boolean:=coalesce(r->'model_resolution'->>'state'='MODEL_PROJECTED',false);
+ projection jsonb;timeline_input jsonb;timeline_result jsonb;events jsonb[]:='{}';e jsonb;eta jsonb;i integer:=0;seq integer:=0;eta_at jsonb;eta_repeated jsonb;
+begin
+ if r->'target'->>'status'is distinct from 'SCENARIO'or r->'demand_estimate'->>'daily_pcs'is null then
+  return jsonb_build_object('status','UNKNOWN','reason','SELECTED_TARGET_OR_DEMAND_UNKNOWN');end if;
+ if r->>'available_fg_pcs'like '-%'then return jsonb_build_object('status','UNKNOWN',
+  'reason','NATIVE_RESERVATIONS_EXCEED_ON_HAND_SIGNED_GAP_PRESERVED');end if;
+ if model_applied then
+  if r->'target'->'model_input'is distinct from model_input
+   or model_input->>'source_hash'is distinct from c->'model_target_source'->>'source_hash'
+   or model_input->'forecast_applied'is distinct from'true'::jsonb then raise exception 'CP7_MODEL_TIMELINE_BINDING';end if;
+  if cfg->'lead_days'is distinct from r->'target'->'inputs'->'lead_days'
+   or cfg->'review_days'is distinct from r->'target'->'inputs'->'review_days'then raise exception 'CP7_MODEL_TIMELINE_PROFILE';end if;
+  projection:=cp7_model_target_projection.project(model_input->'baseline_target'->'inputs',
+   jsonb_build_object('contract_version','cp7.model-target-vector.v1','forecast_from_date',model_input->'forecast_from_date',
+    'forecasts',model_input->'forecast'->'forecasts'),(ready at time zone'Asia/Jakarta')::date);
+  if projection->>'state'is distinct from'ARITHMETIC_CANDIDATE'or r->'target'is distinct from
+   ((projection->'baseline')||(projection->'projected')||jsonb_build_object('reason',projection->'reason',
+    'model_input',model_input,'forecast_applied',true))then raise exception 'CP7_MODEL_TIMELINE_TARGET_MISMATCH';end if;
+ else rate:=cp7_demand.decimal(r->'demand_estimate'->'daily_pcs');end if;
+ horizon:=cp7_demand.decimal(cfg->'lead_days')+cp7_demand.decimal(cfg->'review_days');
+ deadline:=ready+(horizon::text||' days')::interval;remaining:=horizon;
+ while remaining>0 loop
+  duration:=least(1,remaining);i:=i+1;
+  if i>3660 then raise exception 'CP7_NETTING_TIMELINE_HORIZON_LIMIT';end if;
+  at_time:=least(deadline,ready+(i::text||' days')::interval);qty:=case when model_applied then cp7_model_target_projection.sum_window(model_input->'forecast'->'forecasts',i-1,i-1+duration)else ceil(rate*duration*1000000000000)/1000000000000 end;
+  events:=array_append(events,jsonb_build_object('key','forecast-day-'||i,'at',cp7_planning.utc(at_time),
+   'sequence',(10000+i)::text,'kind','DEMAND','qty_pcs',case when model_applied then qty::text else qty::numeric(42,12)::text end,'refs',r->'refs'));
+  remaining:=remaining-duration;
+ end loop;
+ for e in select value from jsonb_array_elements(edges)where value->>'target_key'=r->>'target_key'order by value->>'key'loop
+  -- One ETA per edge position. The map is built where the per-edge scan
+  -- first ran; a repeated position key fails as that scan did.
+  if eta_at is null then
+   select coalesce(jsonb_object_agg(f.k,f.v),'{}'),coalesce(jsonb_object_agg(f.k,true)filter(where f.n>1),'{}')into eta_at,eta_repeated
+    from(select value->>'position_key' k,count(*)n,(array_agg(value))[1] v from jsonb_array_elements(etas)
+     where value->>'position_key'is not null group by 1)f;
+  end if;
+  if eta_repeated?(e->>'position_key')then raise exception using errcode='21000',message='more than one row returned by a subquery used as an expression';end if;
+  eta:=eta_at->(e->>'position_key');
+  if eta->'at'='null'::jsonb then continue;end if;
+  at_time:=cp7_demand.instant(eta->'at');
+  if at_time>deadline then continue;end if;
+  seq:=seq+1;events:=array_append(events,jsonb_build_object('key','supply-'||(e->>'key'),
+   'at',cp7_planning.utc(at_time),'sequence',seq::text,'kind','SUPPLY','qty_pcs',e->'projected_good_pcs','refs',e->'refs'));
+ end loop;
+ timeline_input:=jsonb_build_object('contract_version',case when model_applied then'cp7.model-target-timeline-input.v1'else'cp7.timeline-input.v1'end,
+  'snapshot_id',wip->'snapshot_id','scope_id','GLOBAL_NATIVE_PLANNING','target_key',r->'target_key',
+  'size_id',r->'size_id','mode','BACKLOG','initial_fg_pcs',r->'available_fg_pcs',
+  'from_at',cp7_planning.utc(ready),'through_at',cp7_planning.utc(deadline),'events',to_jsonb(events),'refs',r->'refs');
+ timeline_result:=case when model_applied then cp7_model_target_consumer.timeline(timeline_input)else cp7_baseline.timeline(timeline_input)end;
+ return timeline_result||jsonb_build_object('timing_basis',case when model_applied then'DATED_MODEL_VECTOR_AT_EACH_24H_END_FROM_CAPTURE'else'SELECTED_DAILY_RESIDUAL_AT_EACH_24H_END_FROM_CAPTURE'end,
+   'unmet_mode_basis','EXPLICIT_TECHNICAL_BACKLOG_SCENARIO','buffer_consumed_as_demand',false);
+end $$;
+
+create or replace function cp7_analysis_stage.analysis_targets(c jsonb,rows jsonb,products_by_root jsonb,stock_by_target jsonb,history_by_target jsonb,
+ edges_by_target jsonb,match_results_by_target jsonb,plan_aids jsonb,fabric_plan jsonb)returns jsonb
+language plpgsql immutable security invoker set search_path=''set TimeZone='UTC'as $$
+declare r jsonb;refs jsonb;policy text;product jsonb;stock jsonb;hist jsonb;commercial jsonb;row_aids jsonb;rounded jsonb;rounding_aids jsonb;v jsonb;target_timeline jsonb;
+ t_assumptions jsonb;t_warnings jsonb;t_actions jsonb;t_recommendations jsonb;t_models jsonb;t_materials jsonb;t_metrics jsonb;t_timeline jsonb;
+ targets_acc jsonb[]:='{}';known_keys text[]:='{}';materials_null boolean:=false;
+ demand_unknown boolean:=false;captured text:=c->>'captured_at';
+begin
+ for r in select x.value from jsonb_array_elements(rows)with ordinality x(value,o)order by x.o loop
+  t_assumptions:='[]';t_warnings:='[]';t_actions:='[]';t_recommendations:='[]';t_models:='[]';t_materials:='[]';t_metrics:='[]';t_timeline:='[]';
+  if r->'demand_estimate'->>'daily_pcs'is null then demand_unknown:=true;end if;
+  refs:=r->'refs';policy:=r->'production_policy'->'policy'->>'state';
+  if policy is null then
+   t_warnings:=jsonb_build_array('PRODUCTION_POLICY_UNREVIEWED:'||(r->>'target_key'));
+   t_actions:=jsonb_build_array(jsonb_build_object('key','review-policy-'||(r->>'target_key'),
+    'intent','REVIEW_SOURCE','source_keys','[]'::jsonb,'target_keys','[]'::jsonb,'primary_reason','PRODUCTION_POLICY_UNREVIEWED',
+    'conditional',false,'source_links',refs,'display_priority',jsonb_build_object('rank',null,'lane','REVIEW_DATA',
+     'basis',jsonb_build_array('Status produksi produk perlu diperiksa'),'rule_version','native-review-1')));
+   targets_acc:=array_append(targets_acc,jsonb_build_object('assumptions',t_assumptions,'warnings',t_warnings,'actions',t_actions,
+    'recommendations',t_recommendations,'models',t_models,'materials',t_materials,'metrics',t_metrics,'timeline',t_timeline));continue;
+  end if;
+  product:=products_by_root->split_part(r->>'target_key',':',1);
+  stock:=stock_by_target->(r->>'target_key');hist:=history_by_target->(r->>'target_key');
+  if jsonb_array_length(product)>1 or jsonb_array_length(stock)>1 or jsonb_array_length(hist)>1 then
+   raise exception using errcode='21000',message='more than one row returned by a subquery used as an expression';
+  end if;
+  product:=product->0;stock:=stock->0;hist:=hist->0;
+  row_aids:=plan_aids;
+  if r->'profile'->>'quality'='SELECTED_ASSUMPTION'then
+   row_aids:=row_aids||jsonb_build_array(r->'profile'->>'profile_id');
+   t_assumptions:=jsonb_build_array(jsonb_build_object('id',r->'profile'->>'profile_id',
+    'label','Aturan permintaan dan target yang dipilih untuk '||(r->>'sku'),
+    'origin','OWNER_INPUT','confirmed_for_operation',false));
+  end if;
+  commercial:=product->'commercial'->0;known_keys:=array_append(known_keys,r->>'target_key');
+  rounded:=cp7_analysis_native.rounded_suggestion(r);rounding_aids:=case when rounded->>'applied'='true'then row_aids else '[]'::jsonb end;
+  t_recommendations:=jsonb_build_array(jsonb_build_object(
+   'target',jsonb_build_object('kind','PRODUCT','key',r->'target_key','brand_id',product->'brand_id',
+    'product_id',product->'root_id','product_version_id',product->'id','size_id',r->'size_id',
+    'commercial_identity',jsonb_build_object('state',case when commercial is null then 'LEGACY_UNMAPPED'else 'RESOLVED'end,
+     'sku_id',commercial->'sku_id','sku_version_id',commercial->'version_id',
+     'membership_version_id',case when commercial is null then null else(commercial->>'version_id')||':'||(product->>'root_id')end,
+     'grouping_basis','CURRENT_RESTATED')),
+   'production_state',policy,'actual_fg',cp7_analysis_native.fact(stock->'availability'->>'physical_fg_pcs','PCS',stock->'refs'),
+   'target_qty',cp7_analysis_native.fact(r->'target'->>'target_pcs','PCS',refs,row_aids),
+   'q_base',cp7_analysis_native.fact(r->>'base_gap_pcs','PCS',refs,row_aids),
+   'q_conditional',cp7_analysis_native.fact(r->>'conditional_gap_pcs','PCS',refs,row_aids),
+   'suggested_new',cp7_analysis_native.fact(rounded->>'suggested_pcs','PCS',refs,rounding_aids),
+   'rounding_extra',cp7_analysis_native.fact(rounded->>'extra_pcs','PCS',refs,rounding_aids),
+   'feasible_new',cp7_analysis_native.fact(case when policy in('PAUSED','STOPPED')then '0'else null end,'PCS',refs),
+   'unresolved_qty',cp7_analysis_native.fact(case when policy in('PAUSED','STOPPED')then r->>'base_gap_pcs'else null end,'PCS',refs,row_aids),
+   'reason_codes',jsonb_build_array('MATERIAL_FEASIBILITY_NOT_PROVEN'),'assumption_ids',row_aids));
+  if r->'demand_estimate'->>'daily_pcs'is not null and r->'target'->>'horizon_days'is not null then
+  t_models:=jsonb_build_array(jsonb_build_object('target_key',r->'target_key','method_id',case when r->'model_resolution'->>'state'='MODEL_PROJECTED'then r->'model_resolution'->'selected_model'->>'method'else coalesce(r->'demand_estimate'->>'basis','NATIVE_AVAILABLE_HISTORY')end,
+   'version',case when r->'model_resolution'->>'state'='MODEL_PROJECTED'then'policy-gated-dated-model-target-1'else'native-available-history-fallback-1'end,'mode',case when r->'model_resolution'->>'state'='MODEL_PROJECTED'then'EVALUATED'else'FALLBACK'end,
+   'demand_rate',case when r->'model_resolution'->>'state'='MODEL_PROJECTED'then jsonb_build_object('state','NOT_APPLICABLE','unit','PCS/DAY','reason','DATED_VECTOR_HAS_NO_SINGLE_DAILY_RATE','refs',refs)else cp7_analysis_native.fact(r->'demand_estimate'->>'daily_pcs','PCS/DAY',refs,row_aids)end,
+   'observed_days',hist->'available_days','stockout_days',hist->'stockout_days','unknown_days',hist->'unknown_days',
+   'horizon_days',ceil((r->'target'->>'horizon_days')::numeric),
+   'selection_reason',case when r->'model_resolution'->>'state'='MODEL_PROJECTED'then 'Current policy-gated dated vector; immutable model run '||(r->'model_resolution'->>'run_id')||'; historical variation remains a selected assumption'else'Native available-history/manual fallback; no backtest promotion without earlier-known training evidence'end,
+   'validation_fold_ids','[]'::jsonb,'scores','[]'::jsonb));
+  end if;
+  v:=cp7_analysis_native.material_needs(c,r,row_aids);
+  if v is null then materials_null:=true;else t_materials:=t_materials||('[]'::jsonb||v);end if;
+  v:=cp7_fabric_native.needs(c,r,row_aids,fabric_plan);
+  if v is null then materials_null:=true;else t_materials:=t_materials||('[]'::jsonb||v);end if;
+  t_metrics:=jsonb_build_array(jsonb_build_object('metric_id','AVAILABLE_FG_PCS:'||(r->>'target_key'),'version','native-availability-1',
+   'value',cp7_analysis_native.fact(r->>'available_fg_pcs','PCS',refs),'formula_ref','NATIVE_PHYSICAL_MINUS_ACTIVE_DRAFT_RESERVATIONS_ONCE',
+   'operands',jsonb_build_array(cp7_analysis_native.fact(stock->'availability'->>'physical_fg_pcs','PCS',stock->'refs'),
+    cp7_analysis_native.fact(stock->'availability'->>'reserved_pcs','PCS',stock->'refs')),
+   'readiness','READY','scope_kind','TARGET','scope_key',r->'target_key',
+   'period_start',((captured::timestamptz)at time zone 'Asia/Jakarta')::date::text,
+   'period_end',((captured::timestamptz)at time zone 'Asia/Jakarta')::date::text,'knowledge_mode','CURRENT'));
+  t_actions:=jsonb_build_array(jsonb_build_object('key','review-material-'||(r->>'target_key'),'intent','REVIEW_SOURCE',
+   'source_keys','[]'::jsonb,'target_keys',jsonb_build_array(r->'target_key'),'primary_reason','MATERIAL_FEASIBILITY_NOT_PROVEN',
+   'conditional',true,'source_links',refs,'display_priority',jsonb_build_object('rank',null,'lane','REVIEW_DATA',
+    'basis',jsonb_build_array('Periksa bahan dan batas produksi baru'),'rule_version','native-review-1')));
+  declare n jsonb:=jsonb_build_object('allocation',jsonb_build_object('allocation',jsonb_build_object('edges',
+   coalesce(edges_by_target->(r->>'target_key'),'[]'::jsonb))),'match_results',coalesce(match_results_by_target->(r->>'target_key'),'[]'::jsonb));
+  begin
+  with events as materialized(
+   select x.value event,x.value->'event' e,x.ordinality ordinal
+    from jsonb_array_elements(coalesce(r->'timeline'->'events','[]'))with ordinality x),
+  classified as materialized(
+   select events.*,case when events.e->>'kind'='SUPPLY'then coalesce(
+    (select x->>'match'from jsonb_array_elements(coalesce(n->'allocation'->'allocation'->'edges','[]'))x
+     where 'supply-'||(x->>'key')=events.e->>'key'and x->>'target_key'=r->>'target_key'limit 1),
+    case when exists(select 1 from jsonb_array_elements(n->'match_results')x
+     where 'supply-'||(x->>'position_key')=events.e->>'key'and x->>'target_key'=r->>'target_key'and x->'result'->>'match'='CONFIRMED_TARGET')then'CONFIRMED_TARGET'end)
+    else null end supply_match from events)
+  select coalesce(jsonb_agg(jsonb_build_object('date',((t.e->>'at')::timestamptz at time zone 'Asia/Jakarta')::date::text,
+    'target_key',r->'target_key','demand',cp7_analysis_native.fact(case when t.e->>'kind'='DEMAND'then t.e->>'qty_pcs'else '0'end,'PCS',t.e->'refs',row_aids),
+    'directed_supply',cp7_analysis_native.fact(case when t.e->>'kind'='DEMAND'or t.supply_match='CANDIDATE_MATCH'then '0'
+     when t.supply_match='CONFIRMED_TARGET'then t.e->>'qty_pcs'else null end,'PCS',t.e->'refs',row_aids),
+    'candidate_supply',cp7_analysis_native.fact(case when t.e->>'kind'='DEMAND'or t.supply_match='CONFIRMED_TARGET'then '0'
+     when t.supply_match='CANDIDATE_MATCH'then t.e->>'qty_pcs'else null end,'PCS',t.e->'refs',row_aids),
+    'proposed_new_supply',cp7_analysis_native.fact(null,'PCS',t.e->'refs'),'balance_end',cp7_analysis_native.fact(t.event->>'balance_pcs','PCS',t.e->'refs',row_aids),
+    'mode','BACKLOG','assumed',true,'unmet_demand',cp7_analysis_native.fact(t.event->>'new_unmet_pcs','PCS',t.e->'refs',row_aids),
+    'backlog_qty',cp7_analysis_native.fact(case when t.event->>'balance_pcs'is not null then greatest(0,-(t.event->>'balance_pcs')::numeric)::text else null end,'PCS',t.e->'refs',row_aids),
+    'min_intraday_balance',cp7_analysis_native.fact(r->'timeline'->>'minimum_balance_pcs','PCS',t.e->'refs',row_aids),
+    'first_gap_at',r->'timeline'->'first_known_gap'->'at','timing_basis','DATE_POLICY',
+    'timing_policy_id',case when r->'model_resolution'->>'state'='MODEL_PROJECTED'then'dated-model-each24h-from-capture-1'else'selected-native-each24h-from-capture-1'end,'event_refs',t.e->'refs')order by t.ordinal),'[]'::jsonb)into target_timeline from classified t;
+  t_timeline:=t_timeline||target_timeline;
+  end;
+  targets_acc:=array_append(targets_acc,jsonb_build_object('assumptions',t_assumptions,'warnings',t_warnings,'actions',t_actions,
+   'recommendations',t_recommendations,'models',t_models,'materials',t_materials,'metrics',t_metrics,'timeline',t_timeline));
+ end loop;
+ return jsonb_build_object('targets',to_jsonb(targets_acc),'known_keys',to_jsonb(known_keys),'demand_unknown',demand_unknown,'materials_null',materials_null);
+end $$;

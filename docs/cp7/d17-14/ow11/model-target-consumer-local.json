@@ -1,9 +1,9 @@
 {
   "contract": "cp7.model-target-consumer-local.v1",
   "status": "PASS",
-  "expected": 20,
+  "expected": 28,
   "counts": {
-    "PASS": 20
+    "PASS": 28
   },
   "cases": [
     {
@@ -165,10 +165,71 @@
         "baseline202_no_model_leak": true,
         "full_model_and_revoked_warehouse_denied": true
       }
+    },
+    {
+      "id": "DATED_VECTOR_TIMELINE_FIRST_GAP_DIFFERS_FROM_HISTORICAL_MEAN",
+      "status": "PASS",
+      "observed": {
+        "target400_timeline300_one_buffer": true,
+        "model_gap_day2_historical_day3": true,
+        "observed_mean_unchanged": "50.500000000000"
+      }
+    },
+    {
+      "id": "DATED_VECTOR_LATE_SUPPLY_PRESERVES_PRIOR_GAP",
+      "status": "PASS",
+      "observed": {
+        "positive_final_balance_does_not_erase_day2_gap": true
+      }
+    },
+    {
+      "id": "VARIABLE_DATED_VECTOR_PARTIAL_DAY_EXACT_NO_AVERAGING",
+      "status": "PASS",
+      "observed": {
+        "dated_partial_day_0_625_exact": true,
+        "target_buffer_not_consumed": true
+      }
+    },
+    {
+      "id": "DATED_VECTOR_SUB_TWELVE_PLACE_PRECISION_RETAINED",
+      "status": "PASS",
+      "observed": {
+        "half_day_31_decimal_places_not_rounded_up": true
+      }
+    },
+    {
+      "id": "DATED_VECTOR_WIDE_CUMULATIVE_BALANCE_NO_FIXED_NUMERIC_OVERFLOW",
+      "status": "PASS",
+      "observed": {
+        "daily30_digits_cumulative31_digits_exact": true
+      }
+    },
+    {
+      "id": "DATED_TIMELINE_REFUSES_TARGET_SOURCE_OR_ORIGIN_MISMATCH",
+      "status": "PASS",
+      "observed": {
+        "exact_target_source_and_business_origin_binding": true
+      }
+    },
+    {
+      "id": "LEGACY_TIMELINE_AND_UNKNOWN_SIGNED_GAP_UNCHANGED",
+      "status": "PASS",
+      "observed": {
+        "legacy_output_exact_parity": true,
+        "UNKNOWN_not_zero": true
+      }
+    },
+    {
+      "id": "ACTUAL_ANALYSIS_TARGET_HOOK_LABELS_VECTOR_AND_DATED_TIMELINE",
+      "status": "PASS",
+      "observed": {
+        "actual_report_hook_dated_method_not_historical_fallback": true,
+        "no_invented_rate_fold_or_score": true
+      }
     }
   ],
   "sql_sha256": "aea32bb1f7f07be6e65bbc613e8d3e5a38ed9db61f0cba510b3f84812d431600",
-  "hooks_sql_sha256": "0eddf7eb86468918129f77e7378586fdac57b33dafc951003ceed76e2936b41a",
+  "hooks_sql_sha256": "eb5da57c223af96fb9a9a550019c0add649528597e41fa66608556ad608ec4a8",
   "actual_private_SQL_pipeline": true,
   "selected_actual_SQL_hooks": true,
   "explicit_synthetic_history_policy": true,
