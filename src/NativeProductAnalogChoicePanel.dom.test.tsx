@@ -30,7 +30,7 @@ it('persists before sending, blocks duplicates, then reconciles the identical co
  })
  await mount();expect((container.querySelector('input[inputmode="decimal"]')as HTMLInputElement).value).toBe('')
  const select=container.querySelector('select')!;expect([...select.labels!].map(label=>label.textContent)).toEqual(['Produk pembanding'])
- await fill();await click('Simpan pilihan pembanding');expect(stored().pending).not.toBeNull()
+ await fill();expect([...container.querySelector('textarea')!.labels!].map(label=>label.textContent)).toEqual(['Alasan kesamaan atau pencabutan']);await click('Simpan pilihan pembanding');expect(stored().pending).not.toBeNull()
  expect((container.querySelector('fieldset')as HTMLFieldSetElement).disabled).toBe(true)
  await act(async()=>root.unmount());root=createRoot(container);await mount()
  await click('Periksa hasil konfirmasi yang sama');expect(stored().pending).toBeNull();expect(container.textContent).toContain('revisi 1 tersimpan')

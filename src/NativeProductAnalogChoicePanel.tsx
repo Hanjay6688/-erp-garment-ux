@@ -72,9 +72,9 @@ export default function NativeProductAnalogChoicePanel({client,context,candidate
   <fieldset disabled={locked||!workspace}>
    <legend>Pemeriksaan pilihan</legend>
    <label htmlFor={selectId}>Produk pembanding</label><select id={selectId} value={candidates?.rows.some(r=>r.key===selected)?selected:''} onChange={e=>{setSelected(e.target.value);setReviewed(false)}}><option value="">Pilih setelah memeriksa kandidat</option>{candidates?.rows.map(r=><option key={r.key} value={r.key}>{r.sku} · {r.name}</option>)}</select>
-   <label>Skala terhadap produk pembanding<input inputMode="decimal" value={scale} onChange={e=>{setScale(e.target.value);setReviewed(false)}}/></label>
+   <label htmlFor={selectId+'-scale'}>Skala terhadap produk pembanding</label><input id={selectId+'-scale'} inputMode="decimal" value={scale} onChange={e=>{setScale(e.target.value);setReviewed(false)}}/>
    <p>Skala 1 berarti sama, 0.5 berarti setengah. Isi skala sesuai pemeriksaan Anda.</p>
-   <label>Alasan kesamaan atau pencabutan<textarea value={reason} onChange={e=>{setReason(e.target.value);setReviewed(false)}}/></label>
+   <label htmlFor={selectId+'-reason'}>Alasan kesamaan atau pencabutan</label><textarea id={selectId+'-reason'} value={reason} onChange={e=>{setReason(e.target.value);setReviewed(false)}}/>
    <label className="native-analog-review"><input type="checkbox" checked={reviewed} onChange={e=>setReviewed(e.target.checked)}/>Saya telah memeriksa kesesuaian ukuran, model, kain, pola, dan riwayat penjualan serta alasan perubahan ini.</label>
    <button disabled={!reviewed||!selected||!candidates?.rows.some(r=>r.key===selected)||!scale.trim()||!reason.trim()||workspace?.accessEpoch!==context.accessEpoch} onClick={()=>void send('CONFIRM')}>Simpan pilihan pembanding</button>
    <button disabled={!reviewed||!reason.trim()||!choice||choice.revision==='0'} onClick={()=>void send('CLEAR')}>Cabut pilihan pembanding</button>

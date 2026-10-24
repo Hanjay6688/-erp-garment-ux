@@ -1375,3 +1375,17 @@ Tidak ada RPC/table baru/old replacement/default installer atau forecast aktif.
 Penyambungan capture, fingerprint semua jalur, dua-pass histori dan delta tepat
 writer masih OPEN; rincian CONSUMER_CONTRACT/INTEGRATION_MAP. Uji transport32cb39dd
 dan browser3cd85722 masih berlangsung. Induk5/16, production_go=false.
+
+## 79. B24 Oktober2026 — Browser konfirmasi200; perjalanan masih INCOMPLETE
+
+Original3cd85722/run40089419592/job120858868157: kedua layar mencapai satu SAVE
+HTTP200. Mobile kehilangan delivery sesuai fixture dan recovery muncul, lalu
+assertion fieldset gagal walau log menunjukkan atribut disabled. Desktop menunjukkan
+receipt revisi1, lalu exact label textarea tidak ditemukan ketika alasan lama sudah
+terisi.2/2 INCOMPLETE, cp6/advisor/Auth restored=true, paket4/5 gate true. Original
+dan log lengkap dipertahankan; dua write200 tidak menjadi PASS recovery/full journey.
+
+Scale dan textarea kini memakai label htmlFor terpisah seperti select. Assertion
+memeriksa atribut fieldset sekaligus setiap select/input/textarea/button disabled,
+sehingga penguncian perilaku tetap wajib.31 client/DOM, TypeScript, JS parse PASS.
+Tidak mengubah SQL, UUID/payload recovery, oracle transaksi atau timeout.

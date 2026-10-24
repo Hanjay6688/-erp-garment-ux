@@ -47,7 +47,8 @@ async function journey(ui,today,dense){
   assert.deepEqual(state().physical,before.physical)
   if(!dense){
    await ui.expect(form.getByRole('button',{name:'Periksa hasil konfirmasi yang sama',exact:true})).toBeEnabled()
-   await ui.expect(form.locator('fieldset')).toBeDisabled()
+   await ui.expect(form.locator('fieldset')).toHaveAttribute('disabled','')
+   for(const control of await form.locator('fieldset select,fieldset input,fieldset textarea,fieldset button').all())await ui.expect(control).toBeDisabled()
    await page.reload();q=await quantity(ui,page,f);({a,read}=await open(ui,page,q,f));form=await review(ui,page,a)
    assert.deepEqual(state().job,done)
    await form.getByRole('button',{name:'Periksa hasil konfirmasi yang sama',exact:true}).click()
