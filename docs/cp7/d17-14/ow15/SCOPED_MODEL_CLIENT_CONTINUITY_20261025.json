@@ -1,0 +1,147 @@
+{
+  "recorded_at_utc": "2026-10-24T20:32:12.008Z",
+  "source_parent": "eff2b395ab5453937acb7414a4a42b72d254161f",
+  "change": {
+    "path": "scripts/check-source-ownership.mjs",
+    "blob_sha": "7115410e955486efe504ef0d56f7b47ac081952a",
+    "description": "Four exact RPC ownership declarations for nativeScopedModel.ts; identical to the locally checked edit."
+  },
+  "verified_local": {
+    "ownership": {
+      "status": "PASS",
+      "runtime_files": 383,
+      "owned_rpcs": 326,
+      "orphans_or_direct_table_access": 0
+    },
+    "typescript": "PASS",
+    "scoped_client_unit": {
+      "path": "src/nativeScopedModel.test.ts",
+      "passed": 22
+    },
+    "scoped_client_browser_dom": {
+      "path": "src/NativeScopedModelPanel.dom.test.tsx",
+      "passed": 8
+    },
+    "node_helper": {
+      "path": "scripts/cp7_ow11_analog_browser_helper.test.mjs",
+      "passed": 3
+    },
+    "first_full_suite": {
+      "total": 2738,
+      "passed": 2651,
+      "failed": 50,
+      "pending": 37,
+      "extra_failed_file": "Node node:test helper not discovered as a Vitest suite",
+      "failure": "Native PostgreSQL unavailable/non-root runtime required; first results retained."
+    },
+    "configured_failed_files_retry": {
+      "runtime": "PGLITE_WASM_LOCAL_NOT_NATIVE_AUTH_PROOF",
+      "total": 87,
+      "passed": 53,
+      "failed": 25,
+      "pending": 9,
+      "remaining_errors": [
+        "pgcrypto extension unavailable",
+        "Unexpected [object Object] JSON parse",
+        "rounded_suggestion(jsonb) missing",
+        "SQLSTATE 42883",
+        "fabric recipe child process timeout",
+        "guard_subject table permission denied"
+      ],
+      "full_suite_pass": false
+    }
+  },
+  "local_work_checkpoint": {
+    "environment": "Became unavailable after local test receipt commit; no hosted database change.",
+    "local_unpublished_commit": "6fb09227",
+    "local_receipt": "docs/cp7/d17-14/ow15/SCOPED_MODEL_CLIENT_LOCAL_CHECKS_20261025.json",
+    "preparation_files": [
+      "scripts/cp7_current_scoped_model_installation.py",
+      "scripts/cp7_current_scoped_model_recovery.py"
+    ],
+    "preparation_status": "Local uncommitted, not imported/qualified; next local guard-file write was interrupted, existence unknown. No runtime credit.",
+    "resume": "Recover local worktree, true-merge this remote checkpoint with local 6fb09227 (no history rewrite), retain full raw failed reports, qualify optional scoped composition only after actual current Native25 and required B Originals. Generated disposable database types still need real schema regeneration."
+  },
+  "B_scoped_browser": {
+    "head": "8ab4b7e1a1d2a623d5557502ae581f52caedee39",
+    "run": 40127943416,
+    "job": 120973286302,
+    "workflow_conclusion": "success",
+    "complete_json_artifact": 12574265268,
+    "zip_bytes": 44955,
+    "github_artifact_digest": "sha256:337baec60a45fb0d2fc36bcbb684ce5a1661800342b7657937b0ff7d118ba87c",
+    "original_intake": "PENDING; workflow success not counted as Original-verified PASS"
+  },
+  "current_A_native20": {
+    "head": "3776a052ea97695dce95da018be182fdf21fe85b",
+    "run": 40125980689,
+    "verified_cases": 20,
+    "status": "PASS",
+    "main_status_commit": "9ec62605321412e2c1726fc2d213bdda4a5dea56"
+  },
+  "current_A_followups": [
+    {
+      "kind": "browser",
+      "head": "f88c4ee99fb5d18cf11caada5fab86ad161b007a",
+      "branch": "astra-a/d17-14-model-target-browser-20261024",
+      "run": 40129468846,
+      "status": "IN_PROGRESS",
+      "result_credit": false
+    },
+    {
+      "kind": "restore",
+      "head": "dd9d05ea61f74a05a5f91f52b6b668992d31acf1",
+      "branch": "astra-a/d17-14-model-target-restore-20261024",
+      "run": 40129512263,
+      "status": "IN_PROGRESS",
+      "result_credit": false
+    },
+    {
+      "kind": "transport",
+      "head": "6e30a61b0f6c1bbcc50b3a6a82c0ebd52af47ae3",
+      "branch": "astra-a/d17-14-model-target-transport-20261024",
+      "run": 40129473907,
+      "status": "IN_PROGRESS",
+      "result_credit": false
+    },
+    {
+      "kind": "finance",
+      "head": "1167a4f163aed719d1622194cc7aef30bab3ca8c",
+      "branch": "astra-a/d17-14-model-target-finance-20261024",
+      "run": 40129517530,
+      "status": "IN_PROGRESS",
+      "result_credit": false
+    },
+    {
+      "kind": "cron",
+      "head": "390823868c5d4cf132005cba6f82d6c58a807697",
+      "branch": "astra-a/d17-14-model-target-cron-20261024",
+      "run": 40129478997,
+      "status": "IN_PROGRESS",
+      "result_credit": false
+    },
+    {
+      "kind": "history25",
+      "head": "e3261d84ae217d1d37374990dec5804fd1970934",
+      "branch": "astra-a/d17-14-model-history-native-20261025",
+      "run": 40129877025,
+      "status": "IN_PROGRESS",
+      "result_credit": false
+    },
+    {
+      "kind": "contract6",
+      "head": "d69dc2d3eee3757ee7e92421c202ee3756d3f723",
+      "branch": "astra-a/d17-14-model-target-contract-20261025",
+      "run": 40129523155,
+      "status": "IN_PROGRESS",
+      "result_credit": false
+    }
+  ],
+  "durable_versions": {
+    "archive": 46,
+    "context": 57
+  },
+  "production_go": false,
+  "independent_acceptance": false,
+  "formal_accepted": "5/16"
+}
