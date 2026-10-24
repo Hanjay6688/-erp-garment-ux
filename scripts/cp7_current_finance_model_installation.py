@@ -6,6 +6,7 @@ substituted definition. No default installation, connection, commit or schedule.
 """
 from hashlib import sha256
 from pathlib import Path
+from datetime import datetime,timezone
 import cp7_current_bounded_finance_installation as predecessor
 import cp7_model_policy_stage as policy
 import cp7_model_evaluation_v2_stage as evaluation
@@ -25,6 +26,26 @@ def sources():
 def binding(prior,proof):
     return catalog.digest(dict(sources=prior['sources'],before=prior['before'],
         after=prior['after'],actual_verification=proof))
+
+
+def stage_digest(state):
+    """Bind the actual typed registry snapshot without changing its Native state.
+
+    B's registry reader returns PostgreSQL timestamptz as an aware datetime.
+    Only that declared column is encoded here, at full microsecond precision.
+    Strings, naive clocks and other unsupported values are refused rather than
+    accepted by a generic string fallback. All other stage members stay exact.
+    """
+    value=dict(state)
+    if 'registry'in state:
+        rows=[]
+        for row in state['registry']:
+            if(len(row)!=3 or not isinstance(row[0],str)or not isinstance(row[1],datetime)
+               or row[1].utcoffset()is None or not isinstance(row[2],dict)):
+                raise ValueError('CURRENT_FINANCE_MODEL_NATIVE_REGISTRY_TYPES_CHANGED')
+            rows.append([row[0],{'native_timestamptz_UTC':row[1].astimezone(timezone.utc).isoformat(timespec='microseconds')},row[2]])
+        value['registry']=rows
+    return catalog.digest(value)
 
 
 def admit_empty_tables(before,after,tables):
@@ -54,7 +75,7 @@ def _verify_prefix(cur,state,count):
     for row,(name,module)in zip(state['stages'],STAGES[:count]):
         if(row['name']!=name or row['before']!=left or row['data_before']!=data
            or row['state']['sources']!=module.verify_sources()
-           or row['verified_state_sha256']!=catalog.digest(row['state'])
+           or row['verified_state_sha256']!=stage_digest(row['state'])
            or row['verified_on_actual_database'].get('stage')!=('cp7.model-policy-stage.v1'if name=='MODEL_POLICY'else'cp7.model-evaluation-v2-stage.v1')):
             raise ValueError('CURRENT_FINANCE_MODEL_TRANSITION_CHANGED: '+name)
         module.admit_catalog(left,row['after'],row['state'])
@@ -89,7 +110,7 @@ def install(cur):
             verified=module.verify(cur,stage)
             state['stages'].append(dict(name=name,state=stage,before=left,after=right,
                 data_before=rows,data_after=after_rows,verified_on_actual_database=verified,
-                verified_state_sha256=catalog.digest(stage)))
+                verified_state_sha256=stage_digest(stage)))
             _verify_prefix(cur,state,index+1)
         state['after']=catalog._catalog_rows(cur);state['preuse_data_and_sequences']=catalog._data(cur)
         verify(cur,state)
