@@ -1,0 +1,290 @@
+{
+  "contract": "cp7.retained-cp6-actual-Original-comparison.v1",
+  "method": "Read archived Originals and verify exact recorded bytes and SHA256; no execution or Original mutation.",
+  "reports": [
+    {
+      "name": "CP7_CURRENT_CP6_AI_NATIVE135.json",
+      "artifact_id": 12552283657,
+      "head": "27ff04fa0dbfad271da8c490ca6a869cfd988eaa",
+      "run_id": 40074044695,
+      "job_id": 120813487949,
+      "status": "INCOMPLETE",
+      "raw_bytes": 39435160,
+      "raw_sha256": "9f8c00ded0bee193c7ee7d344d4f8f09112e1058ae1e58f735f9b5bfbe8e9fdf",
+      "baseline_counts": {
+        "PASS": 132,
+        "INCOMPLETE": 3
+      },
+      "current_counts": {
+        "PASS": 128,
+        "INCOMPLETE": 7
+      },
+      "changed_case_statuses": {
+        "SOURCE_REBIND": {
+          "baseline": "PASS",
+          "current": "INCOMPLETE"
+        },
+        "AH_AG_RETURN_SPLIT": {
+          "baseline": "PASS",
+          "current": "INCOMPLETE"
+        },
+        "AH_AG_RETURN_REBIND_CUSTOMER": {
+          "baseline": "PASS",
+          "current": "INCOMPLETE"
+        },
+        "AH_SOURCE_REBIND": {
+          "baseline": "PASS",
+          "current": "INCOMPLETE"
+        }
+      },
+      "baseline_failed_ids": [
+        "PARTIAL_WORK",
+        "AH_REFERENCE_WORK",
+        "AH_REFERENCE_VENDOR"
+      ],
+      "current_failed_ids": [
+        "SOURCE_REBIND",
+        "PARTIAL_WORK",
+        "AH_AG_RETURN_SPLIT",
+        "AH_AG_RETURN_REBIND_CUSTOMER",
+        "AH_SOURCE_REBIND",
+        "AH_REFERENCE_WORK",
+        "AH_REFERENCE_VENDOR"
+      ],
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": false
+      },
+      "cp6_restored": true,
+      "advisor_gate": true
+    },
+    {
+      "name": "CP7_CURRENT_CP6_RACE36.json",
+      "artifact_id": 12554330089,
+      "head": "368ce8701f0649c8f18d33051b72969a6d26cc57",
+      "run_id": 40076046451,
+      "job_id": 120819483914,
+      "status": "INCOMPLETE",
+      "raw_bytes": 2817657,
+      "raw_sha256": "a9a7360a6894660497d851a7043df96a7a59f3f2f3f1ef8ab99d7eaecba67269",
+      "baseline_counts": {
+        "PASS": 23,
+        "INCOMPLETE": 13
+      },
+      "current_counts": {
+        "PASS": 22,
+        "INCOMPLETE": 14
+      },
+      "changed_case_statuses": {
+        "SALE_REVERSE_COMMIT": {
+          "baseline": "PASS",
+          "current": "INCOMPLETE"
+        }
+      },
+      "baseline_failed_ids": [
+        "HEADER_POST_ABORT",
+        "POST_HEADER_COMMIT",
+        "HEADER_CHILD_ABORT",
+        "PEER_DOUBLE_POST_COMMIT",
+        "PEER_DOUBLE_POST_ABORT",
+        "PEER_QTY_POST_COMMIT",
+        "PEER_QTY_POST_ABORT",
+        "PEER_POST_QTY_COMMIT",
+        "PEER_POST_QTY_ABORT",
+        "PEER_DELETE_POST_ABORT",
+        "PEER_POST_DELETE_COMMIT",
+        "PEER_GROUP_TWO_POST_COMMIT",
+        "PEER_GROUP_TWO_POST_ABORT"
+      ],
+      "current_failed_ids": [
+        "SALE_REVERSE_COMMIT",
+        "HEADER_POST_ABORT",
+        "POST_HEADER_COMMIT",
+        "HEADER_CHILD_ABORT",
+        "PEER_DOUBLE_POST_COMMIT",
+        "PEER_DOUBLE_POST_ABORT",
+        "PEER_QTY_POST_COMMIT",
+        "PEER_QTY_POST_ABORT",
+        "PEER_POST_QTY_COMMIT",
+        "PEER_POST_QTY_ABORT",
+        "PEER_DELETE_POST_ABORT",
+        "PEER_POST_DELETE_COMMIT",
+        "PEER_GROUP_TWO_POST_COMMIT",
+        "PEER_GROUP_TWO_POST_ABORT"
+      ],
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": false
+      },
+      "cp6_restored": true,
+      "advisor_gate": true
+    },
+    {
+      "name": "CP7_CURRENT_CP6_CROSSFLOW_NATIVE142.json",
+      "artifact_id": 12553294724,
+      "head": "368ce8701f0649c8f18d33051b72969a6d26cc57",
+      "run_id": 40076046443,
+      "job_id": 120819485504,
+      "status": "INCOMPLETE",
+      "raw_bytes": 41597357,
+      "raw_sha256": "f992c82877d71e988f3a44f543295a0ac2d6817bf7940d425fa1013320fff329",
+      "baseline_counts": {
+        "PASS": 124,
+        "INCOMPLETE": 18
+      },
+      "current_counts": {
+        "PASS": 112,
+        "INCOMPLETE": 30
+      },
+      "changed_case_statuses": {
+        "OPENING_SUBLEDGER:SUPPLIER_LAST_CENT": {
+          "baseline": "PASS",
+          "current": "INCOMPLETE"
+        },
+        "OPENING_SUBLEDGER:SUPPLIER_REVERSE_PAYMENT": {
+          "baseline": "PASS",
+          "current": "INCOMPLETE"
+        },
+        "OPENING_SUBLEDGER:SUPPLIER_CORRECTION": {
+          "baseline": "PASS",
+          "current": "INCOMPLETE"
+        },
+        "OPENING_SUBLEDGER:SUPPLIER_REVERSE_CORRECTION": {
+          "baseline": "PASS",
+          "current": "INCOMPLETE"
+        },
+        "OPENING_SUBLEDGER:SUPPLIER_RETURN": {
+          "baseline": "PASS",
+          "current": "INCOMPLETE"
+        },
+        "OPENING_SUBLEDGER:OPENING_PARTIES": {
+          "baseline": "PASS",
+          "current": "INCOMPLETE"
+        },
+        "OPENING_SUBLEDGER:SUPPLIER_VALID_LIFECYCLE": {
+          "baseline": "PASS",
+          "current": "INCOMPLETE"
+        },
+        "OPENING_SUBLEDGER:SUPPLIER_INVOICE_LIFECYCLE": {
+          "baseline": "PASS",
+          "current": "INCOMPLETE"
+        },
+        "OPENING_SUBLEDGER:FRACTIONAL_PURCHASES": {
+          "baseline": "PASS",
+          "current": "INCOMPLETE"
+        },
+        "OPENING_SUBLEDGER:SUPPLIER_AMOUNT_WASH": {
+          "baseline": "PASS",
+          "current": "INCOMPLETE"
+        },
+        "SUPPLIER_CENT:INVOICE_PAY_REVERSE": {
+          "baseline": "PASS",
+          "current": "INCOMPLETE"
+        },
+        "SUPPLIER_RETURN:LOW_CREDIT_PAYMENT_CAPACITY": {
+          "baseline": "PASS",
+          "current": "INCOMPLETE"
+        }
+      },
+      "baseline_failed_ids": [
+        "DAY:FABRIC_ROLL:IMPORT:Asia/Jakarta",
+        "DAY:FABRIC_ROLL:IMPORT:UTC",
+        "DAY:FABRIC_ROLL:IMPORT:Asia/Tokyo",
+        "DAY:FABRIC_ROLL:IMPORT:Pacific/Kiritimati",
+        "DAY:FABRIC_ROLL:IMPORT:Etc/GMT+12",
+        "DAY:ACCESSORY:IMPORT:Asia/Jakarta",
+        "DAY:ACCESSORY:IMPORT:UTC",
+        "DAY:ACCESSORY:IMPORT:Asia/Tokyo",
+        "DAY:ACCESSORY:IMPORT:Pacific/Kiritimati",
+        "DAY:ACCESSORY:IMPORT:Etc/GMT+12",
+        "DAY:ATTENDANCE:DIRECT:Asia/Jakarta",
+        "DAY:ATTENDANCE:DIRECT:UTC",
+        "DAY:ATTENDANCE:DIRECT:Asia/Tokyo",
+        "DAY:ATTENDANCE:DIRECT:Pacific/Kiritimati",
+        "DAY:ATTENDANCE:DIRECT:Etc/GMT+12",
+        "CASH_LINKED:1",
+        "CASH_LINKED:4",
+        "H_R02"
+      ],
+      "current_failed_ids": [
+        "DAY:FABRIC_ROLL:IMPORT:Asia/Jakarta",
+        "DAY:FABRIC_ROLL:IMPORT:UTC",
+        "DAY:FABRIC_ROLL:IMPORT:Asia/Tokyo",
+        "DAY:FABRIC_ROLL:IMPORT:Pacific/Kiritimati",
+        "DAY:FABRIC_ROLL:IMPORT:Etc/GMT+12",
+        "DAY:ACCESSORY:IMPORT:Asia/Jakarta",
+        "DAY:ACCESSORY:IMPORT:UTC",
+        "DAY:ACCESSORY:IMPORT:Asia/Tokyo",
+        "DAY:ACCESSORY:IMPORT:Pacific/Kiritimati",
+        "DAY:ACCESSORY:IMPORT:Etc/GMT+12",
+        "DAY:ATTENDANCE:DIRECT:Asia/Jakarta",
+        "DAY:ATTENDANCE:DIRECT:UTC",
+        "DAY:ATTENDANCE:DIRECT:Asia/Tokyo",
+        "DAY:ATTENDANCE:DIRECT:Pacific/Kiritimati",
+        "DAY:ATTENDANCE:DIRECT:Etc/GMT+12",
+        "OPENING_SUBLEDGER:SUPPLIER_LAST_CENT",
+        "OPENING_SUBLEDGER:SUPPLIER_REVERSE_PAYMENT",
+        "OPENING_SUBLEDGER:SUPPLIER_CORRECTION",
+        "OPENING_SUBLEDGER:SUPPLIER_REVERSE_CORRECTION",
+        "OPENING_SUBLEDGER:SUPPLIER_RETURN",
+        "OPENING_SUBLEDGER:OPENING_PARTIES",
+        "OPENING_SUBLEDGER:SUPPLIER_VALID_LIFECYCLE",
+        "OPENING_SUBLEDGER:SUPPLIER_INVOICE_LIFECYCLE",
+        "OPENING_SUBLEDGER:FRACTIONAL_PURCHASES",
+        "OPENING_SUBLEDGER:SUPPLIER_AMOUNT_WASH",
+        "SUPPLIER_CENT:INVOICE_PAY_REVERSE",
+        "SUPPLIER_RETURN:LOW_CREDIT_PAYMENT_CAPACITY",
+        "CASH_LINKED:1",
+        "CASH_LINKED:4",
+        "H_R02"
+      ],
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": false
+      },
+      "cp6_restored": true,
+      "advisor_gate": true
+    },
+    {
+      "name": "CP7_CURRENT_CP6_FUNDED_NATIVE12.json",
+      "artifact_id": 12555735321,
+      "head": "f127234b995dcb9485b86bfc4360cda98fe13c75",
+      "run_id": 40080319691,
+      "job_id": 120832324639,
+      "status": "PASS",
+      "raw_bytes": 4341254,
+      "raw_sha256": "190232afd1c59ba418e3dc5e3d73f522f497f55323467451eba70269c55d6402",
+      "baseline_counts": {
+        "PASS": 12
+      },
+      "current_counts": {
+        "PASS": 12
+      },
+      "changed_case_statuses": {},
+      "baseline_failed_ids": [],
+      "current_failed_ids": [],
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "cp6_restored": true,
+      "advisor_gate": true
+    }
+  ],
+  "new_business_case_credit": 0,
+  "latest_target_runtime_credit": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

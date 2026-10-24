@@ -3323,3 +3323,8 @@ B history source4/Native6/Transport7 actual component PASS and first failure
 remain preserved. No history SOURCE or composed runtime is claimed. B23d4
 scoped model candidates are source references only; no automatic policy/caller.
 Formal5/16; production and independent acceptance remain false.
+
+
+### A · 25 Oktober2026 WIB · hasil pembanding CP6 sudah selesai
+
+Catatan CP6_CURRENT_BOUNDARIES tidak lagi menyebut run lama sebagai aktif. Empat Original arsip diverifikasi byte/SHA, jumlah, perubahan status dan gate: AI135 baseline132/3 vs current128/7; Race36 23/13 vs22/14; Crossflow142 124/18 vs112/30; funded12 12PASS pada masing-masing sisi. Tiga suite tetap INCOMPLETE, funded12 hanya fixture/source-specific. Tidak ada oracle, Original, kode produk atau sumber Native20 berjalan yang diubah. Receipt lengkap: ow15/CP6_RETAINED_ACTUAL_RESULTS_20261025.json. production_go=false; formal5/16 dan penerimaan independen tetap terbuka.

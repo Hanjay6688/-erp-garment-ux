@@ -38,5 +38,28 @@ Race36menghindari penghitungan ulang AF4 yang diwarisi AG dan AH8 yang
 diwarisi AI. Factory lintas proses asli berjumlah142=AE134+AG8. Seluruh
 pemetaan ini adalah pemeriksaan statis dan belum menutup baris arsip.
 FirstfailureAI135 di1e0c840f tetap28PASS/107INCOMPLETE pada kedua instalasi.
-Kandidat perbaikan seed27ff04fa/run40074044695 dan Race361273950b/
-run40073243436 masih aktif ketika catatan ini disusun.
+Hasil berikut sudah selesai dan diperiksa ulang dari Original, bukan masih
+berjalan. Receipt lengkap berisi SHA256, ID gagal, perubahan status dan gate:
+[CP6_RETAINED_ACTUAL_RESULTS_20261025.json](CP6_RETAINED_ACTUAL_RESULTS_20261025.json).
+
+| Original yang sudah selesai | Baseline | Komposisi pada sumber tersebut | Status suite |
+|---|---|---|---|
+| AI135, `27ff04fa`, run40074044695 | 132 PASS / 3 INCOMPLETE | 128 PASS / 7 INCOMPLETE | INCOMPLETE |
+| Race36, `368ce870`, run40076046451 | 23 PASS / 13 INCOMPLETE | 22 PASS / 14 INCOMPLETE | INCOMPLETE |
+| Crossflow142, `368ce870`, run40076046443 | 124 PASS / 18 INCOMPLETE | 112 PASS / 30 INCOMPLETE | INCOMPLETE |
+| Dua belas kasus pembayaran dengan modal fixture Native, `f127234b`, run40080319691 | 12 PASS | 12 PASS | PASS pada fixture dan sumber itu |
+
+Empat perubahan AI135 berada pada SOURCE_REBIND, AH_AG_RETURN_SPLIT,
+AH_AG_RETURN_REBIND_CUSTOMER dan AH_SOURCE_REBIND. Race36 mempunyai satu
+perubahan pada SALE_REVERSE_COMMIT. Status gagal lama tetap; penolakan oleh
+aturan baru tidak otomatis dinyatakan sebagai penerimaan pengganti.
+
+Dua belas perubahan Crossflow142 berasal dari kas fixture kosong. Penerus
+funded12 mem-posting modal Native1000 yang sama pada baseline dan komposisi,
+kemudian menjalankan dua belas tubuh kasus lama tanpa perubahan. PASS itu
+tidak mengubah Original142 atau menutup18 kegagalan baseline lainnya.
+
+Keempat Original memulihkan CP6 dan advisor. Tiga suite INCOMPLETE mempunyai
+writer_runtime=false; funded12 mempunyai kelima gate PASS. Hasil-hasil ini
+terikat ke sumber historisnya dan belum memberi kredit Native20, seluruh
+arsip CP6, empat browser baseline, atau penerimaan independen.
