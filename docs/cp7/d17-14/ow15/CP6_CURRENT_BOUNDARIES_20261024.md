@@ -24,3 +24,19 @@ Pensiun SALES_MANUAL_13 tetap mengikuti D13-9c/D13-12: auditor harus memutuskan 
 | `cp6-initial-import-review.yml` | proposed AP import RPC trial (cp6_initial_import_trial.py); scripts/check-production-recovery.mjs |
 
 Current Native34, Native62, Auth8, Browser19, Browser invoice2, instalasi/restore dan cron mempunyai lingkup sendiri. Tidak satu pun dipakai sebagai pengganti otomatis dua belas baris di atas. Kandidat audit tetap beku; integrasi resmi/main tidak dimajukan; production_go=false.
+
+## Pemetaan kasus current yang disiapkan 24 Oktober
+
+`retained-cp6-case-coverage.json` membagi tepat135ID tanpa duplikat:
+99focused dan36detector. Factory asli telah diperiksa: AI99memuat kontrol
+AH12, lifecycleAI5, residualAG17, kontrolAH14, saleAF12, draftAG9 dan
+AF/AE30. DetectorAI5+AH8+AG12+AF/AE11=36. Empat counterexample AG lama
+sudah diganti oleh kontrol AH yang telah ada pada factory asli; mapping
+empatnya dicatat, tidak dianggap empat kasus tambahan.
+
+Race36menghindari penghitungan ulang AF4 yang diwarisi AG dan AH8 yang
+diwarisi AI. Factory lintas proses asli berjumlah142=AE134+AG8. Seluruh
+pemetaan ini adalah pemeriksaan statis dan belum menutup baris arsip.
+FirstfailureAI135 di1e0c840f tetap28PASS/107INCOMPLETE pada kedua instalasi.
+Kandidat perbaikan seed27ff04fa/run40074044695 dan Race361273950b/
+run40073243436 masih aktif ketika catatan ini disusun.
