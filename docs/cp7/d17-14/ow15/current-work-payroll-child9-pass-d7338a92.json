@@ -1,0 +1,127 @@
+{
+  "label": "CURRENT_WORK_PAYROLL_CHILD9_RACE1_PASS",
+  "zip_bytes": 2028436,
+  "zip_sha256": "6286bbdaf28d19bb1ad94d2f447b77d2709d761464af373e2de7b0e8bdce1954",
+  "original_bytes": 1906319,
+  "original_sha256": "2427f2846b7b943af114caf9f8b481fceff5fdd0eaeeb1b7410c5a92a4e417a1",
+  "status": "PASS",
+  "head": "d7338a92861503c157f9ee02b809c556828ae4eb",
+  "run_id": 40096433972,
+  "job_id": 120879557164,
+  "artifact_id": 12560979882,
+  "original_name": "CP7_CURRENT_WORK_PAYROLL_CHILD9_RACE1.json",
+  "case_ids": [
+    "CURRENT_WORK_PAYROLL_CHILD9_HEADER_CHILD_ABORT"
+  ],
+  "actual_executions": 2,
+  "baseline_and_current": {
+    "baseline": {
+      "status": "PASS",
+      "second": {
+        "committed": true,
+        "sqlstate": null
+      },
+      "payroll_status": "APPROVED",
+      "payroll_net_payable": 11.25,
+      "Native_linkage_invariants": {
+        "caller_observer_identity_claims_timezone_restored": true,
+        "source_dates_quantities_rates_amounts_exact": true,
+        "all_original_work_lineage_rows_exact": true,
+        "all_GL_rows_and_stock_movements_exact": true,
+        "all_existing_payroll_and_HPP_pools_exact": true,
+        "no_payment_or_extra_cost_recognition": true,
+        "known_positive_source_rate_preserved": true,
+        "Native_period_overlap_guard_unchanged": true,
+        "UNKNOWN_never_zero": true
+      },
+      "critical_check": [
+        "CRITICAL",
+        0
+      ],
+      "database_remaining": 0,
+      "session_leaks": [],
+      "expected_synthetic_work": {
+        "quantity": 9,
+        "rate": "1.25",
+        "amount": "11.25",
+        "actual_exact_match": true
+      },
+      "financial_balance_difference_zero": true,
+      "data_confidence": {
+        "status": "READY",
+        "blockers": [],
+        "critical_issue_count": 0
+      },
+      "observed_transactionid_lock_wait": true
+    },
+    "races": {
+      "status": "PASS",
+      "second": {
+        "committed": true,
+        "sqlstate": null
+      },
+      "payroll_status": "APPROVED",
+      "payroll_net_payable": 11.25,
+      "Native_linkage_invariants": {
+        "caller_observer_identity_claims_timezone_restored": true,
+        "source_dates_quantities_rates_amounts_exact": true,
+        "all_original_work_lineage_rows_exact": true,
+        "all_GL_rows_and_stock_movements_exact": true,
+        "all_existing_payroll_and_HPP_pools_exact": true,
+        "no_payment_or_extra_cost_recognition": true,
+        "known_positive_source_rate_preserved": true,
+        "Native_period_overlap_guard_unchanged": true,
+        "UNKNOWN_never_zero": true
+      },
+      "critical_check": [
+        "CRITICAL",
+        0
+      ],
+      "database_remaining": 0,
+      "session_leaks": [],
+      "expected_synthetic_work": {
+        "quantity": 9,
+        "rate": "1.25",
+        "amount": "11.25",
+        "actual_exact_match": true
+      },
+      "financial_balance_difference_zero": true,
+      "data_confidence": {
+        "status": "READY",
+        "blockers": [],
+        "critical_issue_count": 0
+      },
+      "observed_transactionid_lock_wait": true
+    }
+  },
+  "source_pin_count": 1271,
+  "source_manifest_sha256": "081b9fa121a21756ed8a98bb20de4d9153e07f9e24a7b42387540c421ed12a80",
+  "exact_original_race_oracles_retained": true,
+  "prerequisite_accepts_exactly_9pcs_only": true,
+  "first13package_status_remains": "INCOMPLETE",
+  "twelve_other_cases_retained_from_first13": true,
+  "original_legacy_result_relabelled": false,
+  "new_business_case_credit": 0,
+  "complete_preuse_removal": {
+    "contract": "cp7.current-AB-return-with-analog-metadata.v1",
+    "status": "EXACT_CURRENT_ANALOG_PREUSE_INVERSE",
+    "all22_preinstall_equal": true,
+    "all_rows_and_sequences_equal": true,
+    "global_used_guard_before_any_DDL": true,
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "real_Auth_browser_claim": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "public_receipt_classification": "Source hashes and qualification metadata from disposable synthetic CI fixtures; no hosted or production ERP rows."
+}

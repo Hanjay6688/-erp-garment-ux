@@ -1,0 +1,91 @@
+{
+  "label": "CURRENT_COMPLETE_ANALOG_AUTH2_PASS",
+  "zip_bytes": 2312265,
+  "zip_sha256": "aacfee1bf85876ce4277bf49f7609c3bd9d36feeb991d3a6b694674fa55149f7",
+  "original_bytes": 2997600,
+  "original_sha256": "2169e7b3ca521fa0d1b66e76775f08dfe040c93875c5108fd73d5fc316a413f2",
+  "status": "PASS",
+  "head": "4b7e037edf3b892eae43f3ef9f18296189f8349b",
+  "run_id": 40095790833,
+  "job_id": 120877659473,
+  "artifact_id": 12560912444,
+  "original_name": "CP7_CURRENT_ANALOG_AUTH2.json",
+  "source_manifest_sha256": "2b8bc9aa24fdf9d4f70866b45e3562ac1398fd5cc819b70dd303102fb330ea28",
+  "source_pin_count": 1194,
+  "qualified_product_exact_native8": true,
+  "http": {
+    "real_auth": true,
+    "jwt_signed_by_runtime": false,
+    "test_only_usage_grant": false,
+    "cases": {
+      "CURRENT_RETURN_HTTP_BAD_DRAFT_GRADE_A": {
+        "status": "PASS",
+        "grade": "GRADE_A",
+        "real_Auth_actor_receipt_verified": true,
+        "malformed_sibling_DRAFT_unchanged": true,
+        "exact_AR_minus20_revenue_plus20_FG_plus10_COGS_minus10": true,
+        "quote_anonymous_changed_request_replay_full22_rows_sequences_exact": true,
+        "revoked_replay_refused": true,
+        "named_return_and_sale_inverse_GL_neutral_stock10": true,
+        "real_browser_claim": false,
+        "session_leaks": []
+      },
+      "CURRENT_RETURN_HTTP_BAD_DRAFT_GRADE_B": {
+        "status": "PASS",
+        "grade": "GRADE_B",
+        "real_Auth_actor_receipt_verified": true,
+        "malformed_sibling_DRAFT_unchanged": true,
+        "exact_AR_minus20_revenue_plus20_FG_plus10_COGS_minus10": true,
+        "quote_anonymous_changed_request_replay_full22_rows_sequences_exact": true,
+        "revoked_replay_refused": true,
+        "named_return_and_sale_inverse_GL_neutral_stock10": true,
+        "real_browser_claim": false,
+        "session_leaks": []
+      }
+    },
+    "cleanup_failures": false,
+    "database_remaining": 0,
+    "auth_counts": {
+      "before": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "after": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "restored": true
+    },
+    "counts": {
+      "PASS": 2
+    }
+  },
+  "full_current_copy_count": 1,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "complete_preuse_removal": {
+    "contract": "cp7.current-AB-return-with-analog-metadata.v1",
+    "status": "EXACT_CURRENT_ANALOG_PREUSE_INVERSE",
+    "all22_preinstall_equal": true,
+    "all_rows_and_sequences_equal": true,
+    "global_used_guard_before_any_DDL": true,
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "no_product_or_original_case_changes": true,
+  "real_browser_claim": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "public_receipt_classification": "Source hashes and qualification metadata from disposable synthetic CI fixtures; no hosted or production ERP rows."
+}

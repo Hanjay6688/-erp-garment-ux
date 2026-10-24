@@ -1,0 +1,410 @@
+{
+  "label": "CURRENT_UNIFIED_EVIDENCE_SOURCE_BINDINGS",
+  "status": "SOURCE_BOUND_TO_QUALIFIED_RUNTIME_ORIGINALS",
+  "contract": "cp7.unified-candidate.actual-runtime-source-bindings.v1",
+  "code_head": "8bc670ba0215c63b9cea7b63b60f3516262f00dc",
+  "code_tree": "7d8aa0703260e1ca88e2f29f4ec6b7131d4c45e0",
+  "product_contract": "cp7.current-AB-return-with-analog-metadata.v1",
+  "product_source_digest": "67bc1667c8b280822e6360803ed2e7fdcb9e9ff2fcf1243c7764f09995ed1c90",
+  "actual_pass_originals": {
+    "CP7_CURRENT_ANALOG_NATIVE_FIXTURE_RESTORE.json": {
+      "bytes": 1792636,
+      "sha256": "4828caaf57ad0392db03694e05844a13c44842f8075f992af260757a6f69608f",
+      "source_object_exact": true
+    },
+    "CP7_CURRENT_ANALOG_CHOICE_BROWSER6.json": {
+      "bytes": 704495,
+      "sha256": "e7b48b5ab1323a6332bfad607c44904cfbf66a84d0e46ff676fc751842190ec7",
+      "source_object_exact": true
+    },
+    "CP7_CURRENT_ANALOG_AUTH2.json": {
+      "bytes": 2997600,
+      "sha256": "2169e7b3ca521fa0d1b66e76775f08dfe040c93875c5108fd73d5fc316a413f2",
+      "source_object_exact": true
+    },
+    "CP7_CURRENT_WORK_PAYROLL_CHILD9_RACE1.json": {
+      "bytes": 1906319,
+      "sha256": "2427f2846b7b943af114caf9f8b481fceff5fdd0eaeeb1b7410c5a92a4e417a1",
+      "source_object_exact": true
+    }
+  },
+  "database_runtime_in_this_check": false,
+  "true_merges": [
+    {
+      "commit": "47eaf3672fbf75165f63cb5c30fb1d55b6070e81",
+      "parents": [
+        "d30bfb4a0dbe2b9ff78e28c2f85ccd36011899ac",
+        "09a95b1d839b4d174da66f8ea4320f9ee65d5e11"
+      ]
+    },
+    {
+      "commit": "8bc670ba0215c63b9cea7b63b60f3516262f00dc",
+      "parents": [
+        "47eaf3672fbf75165f63cb5c30fb1d55b6070e81",
+        "4b7e037edf3b892eae43f3ef9f18296189f8349b"
+      ]
+    }
+  ],
+  "qualified_UI_head": "09a95b1d839b4d174da66f8ea4320f9ee65d5e11",
+  "application_src_tree": "54329d31ed4f125c7d92272f55f1224106736cb7",
+  "all_application_UI_build_and_registry_sources_exact_UI6": true,
+  "only_added_qualification_and_evidence_files_since_UI6": [
+    {
+      "status": "A",
+      "path": ".github/workflows/cp7-current-analog-auth.yml",
+      "sha256": "ec787782352b61e7bef9902ae30b9e2cadb14ade61d290d8a3393f646f71d53d"
+    },
+    {
+      "status": "A",
+      "path": ".github/workflows/cp7-current-work-payroll-child9.yml",
+      "sha256": "7a2ac9ddaacb6b6219248c6e31467049b7af7d4c90f8678bb8ed8b08b21836a5"
+    },
+    {
+      "status": "A",
+      "path": ".github/workflows/cp7-current-work-payroll-race.yml",
+      "sha256": "9e515efbfa76f83467f55cfa3c39c843546b5ae8ca0104207a9c6a449f4b307c"
+    },
+    {
+      "status": "A",
+      "path": "docs/cp7/d17-14/ow15/B-analog-consumer-browser2-writer-intake-587586ee.json",
+      "sha256": "d7694ef707bad02ab326c9f2cbd59574523bdddb39b7359f4bde96cc62bb0d65"
+    },
+    {
+      "status": "A",
+      "path": "docs/cp7/d17-14/ow15/B-analog-consumer6-first-incomplete-intake-f1548564.json",
+      "sha256": "4df14fafd274254003fcd22a3fa1e2b7af46f7d32d0b9e3e9a4a37b9355ab717"
+    },
+    {
+      "status": "A",
+      "path": "docs/cp7/d17-14/ow15/B-analog-consumer6-writer-intake-587586ee.json",
+      "sha256": "4408d7e045c60f9868071a679c84e3c2c3d9ee069c4c5f1e0e5c3e1cce0a8823"
+    },
+    {
+      "status": "A",
+      "path": "docs/cp7/d17-14/ow15/B-analog-provenance3-first-incomplete-intake-587586ee.json",
+      "sha256": "59b93438ef051102cd236e77fe8b838cbd6186fc2b312d047548fa8973802503"
+    },
+    {
+      "status": "A",
+      "path": "docs/cp7/d17-14/ow15/current-analog-choice-browser6-pass-09a95b1d.json",
+      "sha256": "371e7aa7321758bfeebbf56ac3a403b87a4a61d7bcba675729b0d6af31effcc1"
+    },
+    {
+      "status": "A",
+      "path": "docs/cp7/d17-14/ow15/current-analog-native-fixture-pass-469ed1e8.json",
+      "sha256": "895271f01bfc91aeff82464c759f754b4e86c5012f3e9c19f16481684dbb7450"
+    },
+    {
+      "status": "A",
+      "path": "docs/cp7/d17-14/ow15/current-race-followup-first-manifest-preflight.json",
+      "sha256": "c00bb1bf2e9e1e1cb6912c6565ddc3d14b8a7d19b831c64fe4edd2ba4e61de09"
+    },
+    {
+      "status": "A",
+      "path": "docs/cp7/d17-14/ow15/current-work-payroll13-first-incomplete-997ffe2a.json",
+      "sha256": "27e9f541e980a8cb20058847ca1c25bdf54b6b3b46fc127563524c96d7a21f1e"
+    },
+    {
+      "status": "A",
+      "path": "docs/cp7/d17-14/ow15/retained-race13-readiness-diagnostic.json",
+      "sha256": "7e53548c14caae47462a859caf2bfb8510bbcf6b25f2d5b77be2c094640a5f3d"
+    },
+    {
+      "status": "A",
+      "path": "scripts/current-analog-auth-qualification/README.md",
+      "sha256": "d210edd6bd49128da9a9c2559ed15756ebd4f36cb361034475cf906a97e2aecb"
+    },
+    {
+      "status": "A",
+      "path": "scripts/current-analog-auth-qualification/SOURCE.json",
+      "sha256": "2b8bc9aa24fdf9d4f70866b45e3562ac1398fd5cc819b70dd303102fb330ea28"
+    },
+    {
+      "status": "A",
+      "path": "scripts/current-analog-auth-qualification/fetch_originals.py",
+      "sha256": "8f1d3b25c8d8914b4efbf2ebca262c51e51f4882c3db09ec1d63fb21f8872efd"
+    },
+    {
+      "status": "A",
+      "path": "scripts/current-analog-auth-qualification/probe.py",
+      "sha256": "d5ade24ffe9151cbeaab1a653ee199202bf1e00904fb11c6180eb874abfbe1fc"
+    },
+    {
+      "status": "A",
+      "path": "scripts/current-work-payroll-child9-qualification/README.md",
+      "sha256": "e35668131178e23b177a96644c1e0a88edf52dd9f06f2b44c6c412af356e2461"
+    },
+    {
+      "status": "A",
+      "path": "scripts/current-work-payroll-child9-qualification/SOURCE.json",
+      "sha256": "081b9fa121a21756ed8a98bb20de4d9153e07f9e24a7b42387540c421ed12a80"
+    },
+    {
+      "status": "A",
+      "path": "scripts/current-work-payroll-child9-qualification/TRANSFORMS.json",
+      "sha256": "ac7953537e636dcb7dba3f458c4b5f947728bcdabf33153390449513559a8063"
+    },
+    {
+      "status": "A",
+      "path": "scripts/current-work-payroll-child9-qualification/ai_oracle.py",
+      "sha256": "59da883a632d70656f7dce85b942c6b46d4b425008d818a7e4438a97ab0ad2c7"
+    },
+    {
+      "status": "A",
+      "path": "scripts/current-work-payroll-child9-qualification/cases.py",
+      "sha256": "3791c3c991c6ccad337630d0ffd05b7c39ce37114b001ea24c35059aae925bb6"
+    },
+    {
+      "status": "A",
+      "path": "scripts/current-work-payroll-child9-qualification/fetch_originals.py",
+      "sha256": "f51ff1105da038ca4911933ce0b39d2230147ec982345b05dacc4469f3d5bbaf"
+    },
+    {
+      "status": "A",
+      "path": "scripts/current-work-payroll-child9-qualification/prerequisites.py",
+      "sha256": "78ea9bfe5c2d0c6f808894711420879ea164f0e716723807f97d1f8f360cce63"
+    },
+    {
+      "status": "A",
+      "path": "scripts/current-work-payroll-child9-qualification/probe.py",
+      "sha256": "c9f6e0f70b24eabbc881cbe848fc433a9d6ac6b3a97cb0256db7add0a9f018c8"
+    },
+    {
+      "status": "A",
+      "path": "scripts/current-work-payroll-race-qualification/README.md",
+      "sha256": "9d709593729ce75c0544a86e64ec13d05ff6da260ffba376a11186526343a745"
+    },
+    {
+      "status": "A",
+      "path": "scripts/current-work-payroll-race-qualification/SOURCE.json",
+      "sha256": "faa98c54c865f59ed01b5eca01090161190287b10c17de4f14c5f25bce5b9f1a"
+    },
+    {
+      "status": "A",
+      "path": "scripts/current-work-payroll-race-qualification/TRANSFORMS.json",
+      "sha256": "5db42f8dc97083758fa223eaf929590d87b4a9417c9d80afdd2a1314d0c1b587"
+    },
+    {
+      "status": "A",
+      "path": "scripts/current-work-payroll-race-qualification/ai_oracle.py",
+      "sha256": "7f9beda1ad22cf6c920ccce869104c7e8be53130a1098505df5958505b6f6411"
+    },
+    {
+      "status": "A",
+      "path": "scripts/current-work-payroll-race-qualification/cases.py",
+      "sha256": "570278303150ea70847a93296929766f1e108b9d91da88655529b01af64d6ea9"
+    },
+    {
+      "status": "A",
+      "path": "scripts/current-work-payroll-race-qualification/fetch_originals.py",
+      "sha256": "f51ff1105da038ca4911933ce0b39d2230147ec982345b05dacc4469f3d5bbaf"
+    },
+    {
+      "status": "A",
+      "path": "scripts/current-work-payroll-race-qualification/peer_oracle.py",
+      "sha256": "6c51774eaa769c0f3294e9512b7c1eedf0fec7a941918005bff1a2578090814a"
+    },
+    {
+      "status": "A",
+      "path": "scripts/current-work-payroll-race-qualification/prerequisites.py",
+      "sha256": "8ff3d483deba64ca4f52ca3419af9dbfd217bca2a243b0d920f063343e42483a"
+    },
+    {
+      "status": "A",
+      "path": "scripts/current-work-payroll-race-qualification/probe.py",
+      "sha256": "474ef27f9ee1db9fb4b3ee5f366aca454563e1bf9abead95efa8d9ca5959a973"
+    }
+  ],
+  "qualified_SOURCE_comparisons": {
+    "current-analog-native-fixture-qualification": {
+      "source_manifest_sha256": "7c38234e15d2aadb6f8eb7872971acbb806bc9a5918a04f04bcd7045dba651d0",
+      "pins": 53,
+      "exact": 49,
+      "explicit_qualified_UI_changes": {
+        "scripts/check-access-catalog.mjs": {
+          "frozen_sha256": "9d356ad463430ef6a409c3f1e7117d065ff8518b19d004bd168bfed220a726f0",
+          "current_sha256": "7783b5069c05e689f3340561d3ecd231332465b6f815836a3c1521ffcac65c56",
+          "qualified_current_source_head": "09a95b1d839b4d174da66f8ea4320f9ee65d5e11"
+        },
+        "scripts/check-source-ownership.mjs": {
+          "frozen_sha256": "0c7e66a1e4d9bf6e15d1f6e8884482b04273bf332bcdc97f90d7db2964062451",
+          "current_sha256": "11ad93107ce1c70a57b439dcfe1b0d8da429a7a5263658a34f5be5a7b2137101",
+          "qualified_current_source_head": "09a95b1d839b4d174da66f8ea4320f9ee65d5e11"
+        },
+        "src/NativeBoundedQuantityPanel.tsx": {
+          "frozen_sha256": "f3404fe7afdd616fc4d5ba3ad6104120639c6d55da43d1c6f8e15f1482d76e9e",
+          "current_sha256": "02c0102fce7e293f6b1e9430f686c194ff1ff0a5488789f0c6874e3f7272a669",
+          "qualified_current_source_head": "09a95b1d839b4d174da66f8ea4320f9ee65d5e11"
+        },
+        "src/NativeProductAnalogPanel.tsx": {
+          "frozen_sha256": "3c50810dc2c5f770ffe3608e4d65818601a042621072188ce37fd92fec87e333",
+          "current_sha256": "77b9935521ed1e6e7cffab39630f8f742fb512013061695354d37641151809bd",
+          "qualified_current_source_head": "09a95b1d839b4d174da66f8ea4320f9ee65d5e11"
+        }
+      },
+      "original_SOURCE_rewritten": false,
+      "full_historical_admission_claimed_in_merged_root": false
+    },
+    "current-analog-choice-browser-qualification": {
+      "source_manifest_sha256": "7c227044c0f90e38293cc537114aea7a02bca3936767953da54212894692dcc3",
+      "pins": 1264,
+      "exact": 1264,
+      "explicit_qualified_UI_changes": {},
+      "original_SOURCE_rewritten": false,
+      "full_historical_admission_claimed_in_merged_root": false
+    },
+    "current-analog-auth-qualification": {
+      "source_manifest_sha256": "2b8bc9aa24fdf9d4f70866b45e3562ac1398fd5cc819b70dd303102fb330ea28",
+      "pins": 1194,
+      "exact": 1190,
+      "explicit_qualified_UI_changes": {
+        "scripts/check-access-catalog.mjs": {
+          "frozen_sha256": "9d356ad463430ef6a409c3f1e7117d065ff8518b19d004bd168bfed220a726f0",
+          "current_sha256": "7783b5069c05e689f3340561d3ecd231332465b6f815836a3c1521ffcac65c56",
+          "qualified_current_source_head": "09a95b1d839b4d174da66f8ea4320f9ee65d5e11"
+        },
+        "scripts/check-source-ownership.mjs": {
+          "frozen_sha256": "0c7e66a1e4d9bf6e15d1f6e8884482b04273bf332bcdc97f90d7db2964062451",
+          "current_sha256": "11ad93107ce1c70a57b439dcfe1b0d8da429a7a5263658a34f5be5a7b2137101",
+          "qualified_current_source_head": "09a95b1d839b4d174da66f8ea4320f9ee65d5e11"
+        },
+        "src/NativeBoundedQuantityPanel.tsx": {
+          "frozen_sha256": "f3404fe7afdd616fc4d5ba3ad6104120639c6d55da43d1c6f8e15f1482d76e9e",
+          "current_sha256": "02c0102fce7e293f6b1e9430f686c194ff1ff0a5488789f0c6874e3f7272a669",
+          "qualified_current_source_head": "09a95b1d839b4d174da66f8ea4320f9ee65d5e11"
+        },
+        "src/NativeProductAnalogPanel.tsx": {
+          "frozen_sha256": "3c50810dc2c5f770ffe3608e4d65818601a042621072188ce37fd92fec87e333",
+          "current_sha256": "77b9935521ed1e6e7cffab39630f8f742fb512013061695354d37641151809bd",
+          "qualified_current_source_head": "09a95b1d839b4d174da66f8ea4320f9ee65d5e11"
+        }
+      },
+      "original_SOURCE_rewritten": false,
+      "full_historical_admission_claimed_in_merged_root": false
+    },
+    "current-work-payroll-race-qualification": {
+      "source_manifest_sha256": "faa98c54c865f59ed01b5eca01090161190287b10c17de4f14c5f25bce5b9f1a",
+      "pins": 1261,
+      "exact": 1256,
+      "explicit_qualified_UI_changes": {
+        "scripts/check-access-catalog.mjs": {
+          "frozen_sha256": "9d356ad463430ef6a409c3f1e7117d065ff8518b19d004bd168bfed220a726f0",
+          "current_sha256": "7783b5069c05e689f3340561d3ecd231332465b6f815836a3c1521ffcac65c56",
+          "qualified_current_source_head": "09a95b1d839b4d174da66f8ea4320f9ee65d5e11"
+        },
+        "scripts/check-source-ownership.mjs": {
+          "frozen_sha256": "0c7e66a1e4d9bf6e15d1f6e8884482b04273bf332bcdc97f90d7db2964062451",
+          "current_sha256": "11ad93107ce1c70a57b439dcfe1b0d8da429a7a5263658a34f5be5a7b2137101",
+          "qualified_current_source_head": "09a95b1d839b4d174da66f8ea4320f9ee65d5e11"
+        },
+        "src/NativeBoundedQuantityPanel.tsx": {
+          "frozen_sha256": "f3404fe7afdd616fc4d5ba3ad6104120639c6d55da43d1c6f8e15f1482d76e9e",
+          "current_sha256": "02c0102fce7e293f6b1e9430f686c194ff1ff0a5488789f0c6874e3f7272a669",
+          "qualified_current_source_head": "09a95b1d839b4d174da66f8ea4320f9ee65d5e11"
+        },
+        "src/NativeProductAnalogPanel.tsx": {
+          "frozen_sha256": "3c50810dc2c5f770ffe3608e4d65818601a042621072188ce37fd92fec87e333",
+          "current_sha256": "77b9935521ed1e6e7cffab39630f8f742fb512013061695354d37641151809bd",
+          "qualified_current_source_head": "09a95b1d839b4d174da66f8ea4320f9ee65d5e11"
+        },
+        "src/native-bounded-quantity.css": {
+          "frozen_sha256": "92b735a53aa629fd3d4a39d38f6484b7ea8a62cb3f45b09ff83a0625caeff8d0",
+          "current_sha256": "8f52db1119d1b14f746590a6327c56154232d131af71e5f3597796c5940bb2e6",
+          "qualified_current_source_head": "09a95b1d839b4d174da66f8ea4320f9ee65d5e11"
+        }
+      },
+      "original_SOURCE_rewritten": false,
+      "full_historical_admission_claimed_in_merged_root": false
+    },
+    "current-work-payroll-child9-qualification": {
+      "source_manifest_sha256": "081b9fa121a21756ed8a98bb20de4d9153e07f9e24a7b42387540c421ed12a80",
+      "pins": 1271,
+      "exact": 1266,
+      "explicit_qualified_UI_changes": {
+        "scripts/check-access-catalog.mjs": {
+          "frozen_sha256": "9d356ad463430ef6a409c3f1e7117d065ff8518b19d004bd168bfed220a726f0",
+          "current_sha256": "7783b5069c05e689f3340561d3ecd231332465b6f815836a3c1521ffcac65c56",
+          "qualified_current_source_head": "09a95b1d839b4d174da66f8ea4320f9ee65d5e11"
+        },
+        "scripts/check-source-ownership.mjs": {
+          "frozen_sha256": "0c7e66a1e4d9bf6e15d1f6e8884482b04273bf332bcdc97f90d7db2964062451",
+          "current_sha256": "11ad93107ce1c70a57b439dcfe1b0d8da429a7a5263658a34f5be5a7b2137101",
+          "qualified_current_source_head": "09a95b1d839b4d174da66f8ea4320f9ee65d5e11"
+        },
+        "src/NativeBoundedQuantityPanel.tsx": {
+          "frozen_sha256": "f3404fe7afdd616fc4d5ba3ad6104120639c6d55da43d1c6f8e15f1482d76e9e",
+          "current_sha256": "02c0102fce7e293f6b1e9430f686c194ff1ff0a5488789f0c6874e3f7272a669",
+          "qualified_current_source_head": "09a95b1d839b4d174da66f8ea4320f9ee65d5e11"
+        },
+        "src/NativeProductAnalogPanel.tsx": {
+          "frozen_sha256": "3c50810dc2c5f770ffe3608e4d65818601a042621072188ce37fd92fec87e333",
+          "current_sha256": "77b9935521ed1e6e7cffab39630f8f742fb512013061695354d37641151809bd",
+          "qualified_current_source_head": "09a95b1d839b4d174da66f8ea4320f9ee65d5e11"
+        },
+        "src/native-bounded-quantity.css": {
+          "frozen_sha256": "92b735a53aa629fd3d4a39d38f6484b7ea8a62cb3f45b09ff83a0625caeff8d0",
+          "current_sha256": "8f52db1119d1b14f746590a6327c56154232d131af71e5f3597796c5940bb2e6",
+          "qualified_current_source_head": "09a95b1d839b4d174da66f8ea4320f9ee65d5e11"
+        }
+      },
+      "original_SOURCE_rewritten": false,
+      "full_historical_admission_claimed_in_merged_root": false
+    }
+  },
+  "merge_checks": {
+    "client_test_files": 6,
+    "client_tests_passed": 158,
+    "client_test_paths": [
+      "src/nativeProductAnalogChoice.test.ts",
+      "src/NativeProductAnalogChoicePanel.dom.test.tsx",
+      "src/nativeProductAnalog.test.ts",
+      "src/NativeProductAnalogPanel.dom.test.tsx",
+      "src/salesReturnSettlementContract.test.ts",
+      "src/SalesReturnSettlementSection.dom.test.tsx"
+    ],
+    "typecheck_command": "node_modules/.bin/tsc -b",
+    "typecheck_exit": 0,
+    "source_runtime_files": 374,
+    "owned_RPC_boundaries": 318,
+    "permissions": 111,
+    "nav_labels": 47,
+    "routes": 48,
+    "sensitive_actions": 21,
+    "stylesheets": 64,
+    "all_source_access_CSS_checks_pass": true
+  },
+  "first_payroll13_original_preserved_INCOMPLETE": true,
+  "child9_actual_result_pending": false,
+  "consumer_B_new_overlay_installed": false,
+  "forecast_application_claim": false,
+  "full_current_database_suite_rerun_on_merge": false,
+  "independent_acceptance": false,
+  "production_go": false,
+  "payroll_race_coverage": {
+    "first13_original_status": "INCOMPLETE",
+    "first13_baseline": {
+      "PASS": 12,
+      "INCOMPLETE": 1
+    },
+    "first13_current": {
+      "PASS": 12,
+      "INCOMPLETE": 1
+    },
+    "exact_child9_successor_baseline": {
+      "PASS": 1
+    },
+    "exact_child9_successor_current": {
+      "PASS": 1
+    },
+    "total_actual_executions": 28,
+    "old_results_relabelled": false,
+    "originals": [
+      "CP7_CURRENT_WORK_PAYROLL_RACE13.json",
+      "CP7_CURRENT_WORK_PAYROLL_CHILD9_RACE1.json"
+    ],
+    "new_business_case_credit": 0
+  },
+  "public_receipt_classification": "Source hashes and qualification metadata from disposable synthetic CI fixtures; no hosted or production ERP rows.",
+  "locally_checked_equivalent_commit": "3bd4651c70082a3bf59da27a754690fa421fdcd7",
+  "remote_merge_tree_equals_locally_checked_tree": true
+}
