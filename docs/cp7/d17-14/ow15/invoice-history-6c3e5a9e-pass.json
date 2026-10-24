@@ -1,0 +1,169 @@
+{
+  "status": "PASS",
+  "head": "6c3e5a9ee560a7fb03141e0b421ecdacd1c7928c",
+  "run_id": 40059653484,
+  "job_id": 120770175605,
+  "artifact_id": 12547262919,
+  "zip_bytes": 7547061,
+  "zip_sha256": "f9f8e848a7b88529bbbe72458a8c6f38bc50d963519a4a9806776cbc5d8bfee1",
+  "original_name": "CP7_CURRENT_INVOICE_HISTORY_BROWSER2.json",
+  "original_bytes": 506234,
+  "original_sha256": "2caaaf044920485aa0785619ee6553798f3b5d11dd8f043042163ef1e27ccaad",
+  "counts": {
+    "PASS": 2
+  },
+  "cases": {
+    "OW09_INVOICE_HISTORY31_DESKTOP": {
+      "status": "PASS",
+      "mobile": false,
+      "real_auth": true,
+      "synthetic_Native_fixture": true,
+      "actual_UI_sort_filter_search_and_pagination": true,
+      "histories": [
+        {
+          "status": "PASS",
+          "kind": "payment",
+          "source_records": 31,
+          "source_pages": [
+            25,
+            6
+          ],
+          "reversed_records": 30,
+          "reversed_pages": [
+            25,
+            5
+          ],
+          "independent_Native_ID_number_order_exact": true,
+          "search_finds_previous_second_page": true,
+          "changed_filter_restarts_page": true,
+          "forward_backward_and_browse_reset": true,
+          "empty_result_zero": true,
+          "screenshot": "OW09_HISTORY31_payment_DESKTOP.png"
+        },
+        {
+          "status": "PASS",
+          "kind": "return",
+          "source_records": 31,
+          "source_pages": [
+            25,
+            6
+          ],
+          "reversed_records": 30,
+          "reversed_pages": [
+            25,
+            5
+          ],
+          "independent_Native_ID_number_order_exact": true,
+          "search_finds_previous_second_page": true,
+          "changed_filter_restarts_page": true,
+          "forward_backward_and_browse_reset": true,
+          "empty_result_zero": true,
+          "screenshot": "OW09_HISTORY31_return_DESKTOP.png"
+        }
+      ],
+      "no_business_rows_sequences_changed": true,
+      "writer_RPC": 0,
+      "production_go": false,
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    "OW09_INVOICE_HISTORY31_MOBILE390": {
+      "status": "PASS",
+      "mobile": true,
+      "real_auth": true,
+      "synthetic_Native_fixture": true,
+      "actual_UI_sort_filter_search_and_pagination": true,
+      "histories": [
+        {
+          "status": "PASS",
+          "kind": "payment",
+          "source_records": 31,
+          "source_pages": [
+            25,
+            6
+          ],
+          "reversed_records": 30,
+          "reversed_pages": [
+            25,
+            5
+          ],
+          "independent_Native_ID_number_order_exact": true,
+          "search_finds_previous_second_page": true,
+          "changed_filter_restarts_page": true,
+          "forward_backward_and_browse_reset": true,
+          "empty_result_zero": true,
+          "screenshot": "OW09_HISTORY31_payment_MOBILE390.png"
+        },
+        {
+          "status": "PASS",
+          "kind": "return",
+          "source_records": 31,
+          "source_pages": [
+            25,
+            6
+          ],
+          "reversed_records": 30,
+          "reversed_pages": [
+            25,
+            5
+          ],
+          "independent_Native_ID_number_order_exact": true,
+          "search_finds_previous_second_page": true,
+          "changed_filter_restarts_page": true,
+          "forward_backward_and_browse_reset": true,
+          "empty_result_zero": true,
+          "screenshot": "OW09_HISTORY31_return_MOBILE390.png"
+        }
+      ],
+      "no_business_rows_sequences_changed": true,
+      "writer_RPC": 0,
+      "production_go": false,
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    }
+  },
+  "auth_counts": {
+    "before": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "after": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "restored": true
+  },
+  "auth_cleanup_failures": [],
+  "host_exit": 0,
+  "host_status": "RUN_COMPLETE",
+  "database_remaining": 0,
+  "cleanup_failures": false,
+  "console_errors": 0,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "first_failure_retained": "invoice-history-a17b34cf-first-fixture-import.json",
+  "screenshots_visually_inspected": [
+    "OW09_HISTORY31_payment_DESKTOP.png",
+    "OW09_HISTORY31_return_MOBILE390.png"
+  ],
+  "production_go": false,
+  "independent_acceptance": false,
+  "full_owner_scope_acceptance": false
+}
