@@ -1,0 +1,76 @@
+{
+  "run": 40080795563,
+  "job": 120833748426,
+  "artifact": 12555491670,
+  "zip_bytes": 3341211,
+  "zip_sha256": "a19f9aa888529783737f4418df10330ba555f3447340a0e1684ac4c0aa9c928c",
+  "label": "CP7_DRAFT_RETURN_CLOSURE_NATIVE32",
+  "status": "PASS",
+  "qualification_commit": "fbc04b53b7ccf45845f239b1bd95ed8cdeae872a",
+  "report": {
+    "name": "CP7_DRAFT_RETURN_CLOSURE_NATIVE32.json",
+    "raw_bytes": 16090323,
+    "raw_sha256": "7085322d357c37c776015a718a06b2859dd6f38ffdf75b6d28d9a88631f2e066"
+  },
+  "cp6_restored": true,
+  "baseline_advisors_equal": true,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "production_go": false,
+  "independent_acceptance": false,
+  "new_business_case_credit": 0,
+  "baseline": {
+    "INCOMPLETE": 2,
+    "PASS": 30
+  },
+  "native": {
+    "PASS": 32
+  },
+  "execution_count": 64,
+  "advisor_gate": true,
+  "baseline_all22_rows_sequences_exact": true,
+  "post_test_data_or_sequence_changes": {
+    "sequence:erp.audit_logs_id_seq": {
+      "before": [
+        "1474",
+        true
+      ],
+      "after": [
+        "2950",
+        true
+      ]
+    },
+    "sequence:erp.fg_stock_book_order_seq": {
+      "before": [
+        "184",
+        true
+      ],
+      "after": [
+        "369",
+        true
+      ]
+    }
+  },
+  "post_test_used_guard": {
+    "refused": true,
+    "all_data_sequences_catalog_unchanged": true
+  },
+  "strict_group_originals": [
+    {
+      "path": "strict-groups/CP7_DRAFT_RETURN_CLOSURE_NATIVE32.json",
+      "bytes": 190548,
+      "sha256": "e77437e38c8950cda8070bf95259c4f5090a18009db8fee03557a339d99ae698"
+    },
+    {
+      "path": "strict-groups/CP7_DRAFT_RETURN_CLOSURE_NATIVE32_UNFIXED.json",
+      "bytes": 147425,
+      "sha256": "08d18f8d5dc190deec8379f17cb6d4a38416cdfa9b48a8ce7a41e80e87509318"
+    }
+  ],
+  "disposition": "All32 fixed controls pass; exact initial inverse, unchanged used guard and complete pre-install full backup restoration pass. Only audit and stock-order sequences advanced during rolled-back cases; no business rows persisted. Earlier incomplete Originals remain unchanged."
+}

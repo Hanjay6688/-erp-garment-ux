@@ -1,0 +1,134 @@
+{
+  "run": 40080795607,
+  "job": 120833748549,
+  "artifact": 12555745676,
+  "zip_bytes": 3722714,
+  "zip_sha256": "aebab9db100cca395dd900160bd05ede3f05328c85346a99dbe2750fdfeffb0f",
+  "label": "CP7_DRAFT_RETURN_RESTORED",
+  "status": "PASS",
+  "qualification_commit": "fbc04b53b7ccf45845f239b1bd95ed8cdeae872a",
+  "report": {
+    "name": "CP7_DRAFT_RETURN_RESTORED.json",
+    "raw_bytes": 855544,
+    "raw_sha256": "503536b4d282052aa6e99906db5bb95821e528746a29dadc3e938b8c5e785681"
+  },
+  "cp6_restored": true,
+  "baseline_advisors_equal": true,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "production_go": false,
+  "independent_acceptance": false,
+  "new_business_case_credit": 0,
+  "required_steps_pass": true,
+  "steps": [
+    {
+      "step": "EXACT_INSTALL_AND_PREUSE_INVERSE",
+      "status": "PASS"
+    },
+    {
+      "step": "COMMITTED_VALID_RETURN_WITH_MALFORMED_DRAFT",
+      "status": "PASS"
+    },
+    {
+      "step": "USED_INVERSE_REFUSED_BEFORE_DDL",
+      "status": "PASS",
+      "all_rows_sequences_and_full22_unchanged": true
+    },
+    {
+      "step": "FULL_USED_BACKUP_RESTORED",
+      "status": "PASS",
+      "all_table_hashes_equal": true,
+      "trusted_manifest_sha256": "ba464a76f202e3b4b9aceda7e95d3fd9f4e6bb95d5890d61e5a56e4ccede07d3"
+    },
+    {
+      "step": "RESTORE_NEGATIVE_CONTROLS",
+      "status": "PASS",
+      "controls": [
+        {
+          "id": "WRONG_TRUSTED_HASH",
+          "status": "PASS",
+          "refusal": "DRAFT_RESTORE_TRUSTED_BACKUP_HASH_REQUIRED"
+        },
+        {
+          "id": "CHANGED_DELTA_SOURCE",
+          "status": "PASS",
+          "refusal": "DRAFT_RESTORE_SOURCE_OR_CONTRACT_CHANGED"
+        },
+        {
+          "id": "WRONG_DATABASE",
+          "status": "PASS",
+          "refusal": "DRAFT_RESTORE_FRESH_EXPECTED_DATABASE_REQUIRED"
+        },
+        {
+          "id": "MISSING_CATALOG_GROUP",
+          "status": "PASS",
+          "refusal": "DRAFT_RESTORE_CATALOG_CHANGED"
+        },
+        {
+          "id": "DELTA_FUNCTION_METADATA_DRIFT",
+          "status": "PASS",
+          "refusal": "DRAFT_RESTORE_CATALOG_CHANGED"
+        },
+        {
+          "id": "DRAFT_ROW_DRIFT",
+          "status": "PASS",
+          "refusal": "DRAFT_RESTORE_BUSINESS_ROWS_OR_SEQUENCE_CHANGED",
+          "savepoint_sequence_changes": {
+            "sequence:erp.audit_logs_id_seq": {
+              "before": [
+                "740",
+                true
+              ],
+              "after": [
+                "741",
+                true
+              ]
+            }
+          },
+          "requires_full_restore_before_binding": true
+        }
+      ]
+    },
+    {
+      "step": "FULL_RESTORE_AFTER_NEGATIVE_WRITE",
+      "status": "PASS",
+      "all_table_hashes_equal": true
+    },
+    {
+      "step": "ONLY_LOCAL_NATIVE_OID_SEAL",
+      "status": "PASS",
+      "receipt": {
+        "contract_version": "ow15.draft-return-isolation.verified-restore-binding.v1",
+        "trusted_backup_sha256": "ba464a76f202e3b4b9aceda7e95d3fd9f4e6bb95d5890d61e5a56e4ccede07d3",
+        "fresh_database_verified": true,
+        "all_rows_and_sequences_equal": true,
+        "all22_portable_catalog_groups_equal": true,
+        "changed_functions": [
+          "cp7_credit.assert_source_native_trigger_census_v1()"
+        ],
+        "local_raw_oid_census_enforced": true,
+        "runtime_capture_sha256_pg": "8c77bdafac0f557df4049eb17bc9eae120e4ca5ce3fd5d79ecc5dff9d783f76a",
+        "chain_depth_to_ow05": 17,
+        "production_go": false
+      }
+    },
+    {
+      "step": "EXACT_FINANCIAL_READS_AND_NEXT_VALID_RETURN",
+      "status": "PASS",
+      "exact_full_source_state": true,
+      "malformed_draft_unchanged": true,
+      "posted_count_qty_refund": [
+        2,
+        2,
+        "40.00"
+      ],
+      "all_catalog_and_permissions_unchanged": true
+    }
+  ],
+  "disposition": "All8 used-state steps pass. Negative live draft write advances audit sequence; full backup restored again before exact full22/data/sequence binding. Only Native OID seal changes. Financial source reads exact, next legitimate return posts, malformed sibling still refused and unchanged. Earlier incomplete Original remains unchanged."
+}
