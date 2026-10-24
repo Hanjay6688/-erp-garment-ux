@@ -34,3 +34,10 @@ were removed, Auth returned to 0000 and CP6/advisors passed, but writer_runtime
 was false. Preserve the full Original and failure; require a corrected actual
 transport PASS before any A qualification is admitted. Compact exact receipts
 are in docs/cp7/d17-14/ow15/B-history-*-intake-*.json.
+
+Corrected Transport7 at c8b652ab/run40123046496 is now verified PASS from raw
+Original12572228902: catalog1, races4, Auth HTTP2, five package gates, CP6 and
+advisors. All five copied-database authority profiles match the source without
+relaxing the oracle; copies are removed and Auth returns to0000. Nine product
+and three provider pins match this branch. The first failure remains preserved.
+The full A Native20 prerequisite is still pending; SOURCE remains absent.

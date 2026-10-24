@@ -1,0 +1,47 @@
+{
+  "contract": "cp7.B-component-original-intake.v1",
+  "name": "CP7_OW11_MODEL_HISTORY_RUNTIME_TRANSPORT.json",
+  "status": "PASS",
+  "head": "c8b652ab1d13316a2e58c2db60950a642b5ecd6f",
+  "run_id": 40123046496,
+  "job_id": 120958543810,
+  "artifact_id": 12572228902,
+  "zip_bytes": 92922,
+  "zip_sha256": "ede706a22898befafb5b96a30c6e0cf378d06b5e758921459b6c844c5fe00e5a",
+  "bytes": 743699,
+  "sha256": "31b61b10f1b2d67c8bbd964d6313ccef5ba9fbf72a711b5f7d68f68c000429e9",
+  "whole_job_status": "completed",
+  "whole_job_conclusion": "success",
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "source_pins_verified": 9,
+  "transport_provider_pins_verified": 3,
+  "native_counts": {
+    "PASS": 1
+  },
+  "race_counts": {
+    "PASS": 4
+  },
+  "http_counts": {
+    "PASS": 2
+  },
+  "repeated_catalog_anchor_new_case_credit": 0,
+  "actual_Auth_PostgREST": true,
+  "Auth0000_restored": true,
+  "copy_session_cleanup_exact": true,
+  "five_clone_authorities_exact": true,
+  "oracle_relaxed": false,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "first_failure_preserved_artifact": 12571875800,
+  "full_A_chain_credit": false,
+  "model_caller_integrated": false,
+  "positive_forecast_credit": false,
+  "production_go": false,
+  "independent_acceptance": false
+}
