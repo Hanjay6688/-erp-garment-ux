@@ -1,8 +1,8 @@
 # Full current dated model target integration preparation
 
 Current predecessor: exact A finance/policy/model v2 composition, Native15 PASS
-on6d056959. B source161d4c9f adds the direct baseline freshness correction and
-the dated model target overlay:20 existing replacements,8 private functions,
+on6d056959. B product source d7d3033b adds the direct baseline freshness correction and
+the dated model target overlay:21 existing replacements,8 private functions,
 3 schemas and no RPC/table. The original A F05 driver and both earlier B driver
 copies stay untouched; exact latest B F05 is retained under its own new filename.
 
@@ -31,8 +31,11 @@ raw and staged model provenance now agree. The component inverse additionally
 observes raw immutable analysis runs and queued jobs; installation refuses queued
 WAITING jobs. A's global ALLrows/ALLsequences guard remains unchanged.
 
-Runtime/source admission remains pending. The latest B20/8 guarded Native6 and
-Browser2 runs must supply their own exact Originals; earlier17/7 or19/8 receipts
-do not qualify this source. Full A runtime, used restore, Auth/races/browser and factory/SAVE
+Current Browser2 at d7d3033b and paired Transport11 at 2b335934 have exact PASS
+Originals admitted. Current Native6 at d7d3033b remains INCOMPLETE (the refusal
+helper returns three values but its case compared two); corrected case source
+190c1d78 is awaiting its actual Original. Product SQL remains exact d7d3033b.
+Earlier17/7,19/8 or20/8 receipts do not qualify this source. Full A runtime,
+used restore, Auth/races/browser and factory/SAVE
 integration remain open. production_go=false; writer evidence is not independent
 acceptance. Existing five A followups remain frozen on their prior qualified chain.

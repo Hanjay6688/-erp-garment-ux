@@ -1,12 +1,17 @@
 # Full current dated-target Native20 preparation
 
 SOURCE remains absent until actual corrected Native15, B baseline-freshness3 and
-current20-replacement/8-private-function B target Native6 Originals are admitted.
+current21-replacement/8-private-function B target Native6 Originals are admitted.
 The first04ea Native6 INCOMPLETE Original is mandatory unchanged evidence: five
 business-day rollover cases and one warehouse fixture missing from page one.
 The frozen full-model gate runs unchanged in its own6d056959 checkout. Exactly
-seven B client changes are declared against its source inventory; no old manifest
+nine B client changes are declared against its source inventory; no old manifest
 is repinned. The current new source inventory and actual loaded modules must match.
+
+Six exact prerequisites are mandatory: full A Native15, B freshness3, corrected
+current B Native6 PASS, and all three preserved B Native6 failures (04ea day
+rollover/fixture lookup, 161d missing cache row, d7d3 refusal tuple mismatch).
+The corrected B case source is 190c1d78; its actual PASS is still required.
 
 Five finance, five policy, five immutable v2 and five dated-target business bodies
 remain unchanged. Only Native install setup hooks bind to the actual full current
