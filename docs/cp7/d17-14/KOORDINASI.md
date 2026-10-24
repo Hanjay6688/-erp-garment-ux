@@ -1508,3 +1508,29 @@ dengan oracle NAIVE100x7 dan pairedMAE4. First duplicate-schema bootstrap failur
 disimpan; SQL/PLpgSQL/clash PASS. Tidak ada Native/Auth/catalog22/activation
 atau accuracy credit. Policy writer/registry adapter dan target consumer masih
 berikutnya; seluruh default A/qualified files tetap. Induk5/16, productionfalse.
+
+## 86. B24 Oktober2026 — consumer Native6 dan provenance Native3 PASS
+
+Original lengkap diverifikasi: consumer587586e/run40094445617/job120873653730
+artifact12560738865 SHA97a393c135b1ef686bda27ff2d0230f33158f0e5fa34aa7754372e89e0c4667e
+dan provenance5b8b207/run40096022119/job120878349700 artifact12560648419
+SHA3191539542571e76a05b5ce0f79a6ecfd2e14a26748a3c305a52b633b92000ed.
+6/6 dan3/3, seluruh ID/count, cp6/advisor/5packagegates true; Auth0 kembali0,
+session/lock bocor0. First incomplete masing-masing tetap tersimpan.
+Native posted sale1PCS/3hari menghasilkan target1PCS identik direct/staged/
+bounded/reorder, own sales/hari tetap; CLEAR kembaliUNKNOWN, manual6 menang,
+source lain/atomic fault ditolak. Dense2023produk/202022digest: confirm5494.422ms,
+step terlama380.392ms, dua source checks, batas8s tetap; bukan SLA pabrik.
+Provenance reader v2/current access/hasil lama dan public reorder v2/CLEAR
+cache lolos. Browser2 consumer terpisah sudah qualified; ROP UI belum.
+
+## 87. B24 Oktober2026 — explicit model policy metadata candidate
+
+Stage terpisah7private+2public/2tables/2schemas/0replacement; tidak dipasang
+default dan tidak mengaktifkanforecast. OWNER/ADMIN meninjau semua ambang
+secara eksplisit; SET/SUSPEND menambah policy+registry+command atomik dengan
+clockaktual, tidak mengubah riwayat. Tidak ada nilai kebijakan pabrik bawaan.
+10 actual SQL lokal PASS (controlled access, bukan Native/Auth); first salah
+nama pesan immutable disimpan. Native6 dideklarasikan untuk katalog22,
+lifecycle/clock/permission/CAS/atomic; menunggu CI. Consumertransport10 lama
+masih berjalan. FullAchain/afteruse/modelactivation/OW11 belum selesai.

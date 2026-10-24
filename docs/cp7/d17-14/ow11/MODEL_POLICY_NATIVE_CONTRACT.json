@@ -1,0 +1,75 @@
+{
+  "contract": "cp7.ow11.model-policy-native.v1",
+  "expected_case_count": 6,
+  "required_case_counts": {
+    "native": 6
+  },
+  "required_case_ids": {
+    "native": [
+      "OW11_MODEL_POLICY_CATALOG22_PREUSE_DEPENDENCY",
+      "OW11_MODEL_POLICY_EXPLICIT_APPEND_SUSPEND_REACTIVATE_REPLAY",
+      "OW11_MODEL_POLICY_PROSPECTIVE_CLOCK_AND_IMMUTABLE_HISTORY",
+      "OW11_MODEL_POLICY_CURRENT_ACCESS_OWNER_ADMIN_AND_REPLAY",
+      "OW11_MODEL_POLICY_EXPLICIT_VALIDATION_CAS_TEMPLATE",
+      "OW11_MODEL_POLICY_ATOMIC_REGISTRY_POLICY_COMMAND"
+    ]
+  },
+  "public_rpcs": [
+    "erp_cp7_get_alerts_v1",
+    "erp_cp7_get_wa_settings_v1",
+    "erp_cp7_save_wa_settings_v1",
+    "erp_cp7_set_wa_key_v1",
+    "erp_cp7_send_wa_test_v1",
+    "erp_cp7_resolve_wa_dispatch_v1",
+    "erp_cp7_get_fg_reorder_v1",
+    "erp_cp7_refresh_fg_reorder_v1",
+    "erp_cp7_save_fg_reorder_manual_v1",
+    "erp_cp7_save_stock_formula_settings_v1",
+    "erp_cp7_get_material_reorder_v1",
+    "erp_cp7_refresh_material_reorder_v1",
+    "erp_cp7_save_material_reorder_v1",
+    "erp_cp7_request_staged_analysis_v1",
+    "erp_cp7_get_staged_analysis_v1",
+    "erp_cp7_step_staged_analysis_v1",
+    "erp_cp7_get_planning_profiles_v1",
+    "erp_cp7_save_planning_profile_v1",
+    "erp_cp7_capture_baseline_v1",
+    "erp_cp7_save_cutting_suggestion_v1",
+    "erp_cp7_get_staged_production_schedule_v1",
+    "erp_cp7_save_staged_production_schedule_v1",
+    "erp_cp7_request_bounded_staged_analysis_v1",
+    "erp_cp7_get_model_activation_policy_v1",
+    "erp_cp7_save_model_activation_policy_v1"
+  ],
+  "schedules": [
+    "erp-wa-collect",
+    "erp-wa-send",
+    "erp-wa-analysis"
+  ],
+  "private_functions_added": 7,
+  "new_public_rpcs": 2,
+  "new_tables": 2,
+  "existing_replacements": 0,
+  "parent_install_preuse_stages": 12,
+  "policy_inside_rollback_cases": true,
+  "synthetic_thresholds_explicit": {
+    "minimum_training_days": "20",
+    "maximum_horizon_days": "90",
+    "allowed_methods": [
+      "NAIVE"
+    ],
+    "promotion": {
+      "minimum_complete_folds": "3",
+      "minimum_mae_improvement": "0",
+      "maximum_bias_worsening": "0",
+      "maximum_tail_worsening": "0",
+      "season_lag": "7"
+    }
+  },
+  "default_policy_created": false,
+  "forecast_applied": false,
+  "actual_Auth_HTTP_credit": false,
+  "concurrency_test": false,
+  "full_A_chain_qualified": false,
+  "production_go": false
+}

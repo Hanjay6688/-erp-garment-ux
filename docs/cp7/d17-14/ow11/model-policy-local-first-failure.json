@@ -1,0 +1,94 @@
+{
+  "contract": "cp7.model-policy-local.v1",
+  "status": "FAIL",
+  "expected": 10,
+  "counts": {
+    "PASS": 9,
+    "FAIL": 1
+  },
+  "cases": [
+    {
+      "id": "NO_SEEDED_POLICY_OR_INHERITED_THRESHOLD",
+      "status": "PASS",
+      "observed": {
+        "technical_template_is_not_active_policy": true,
+        "thresholds_not_defaulted": true
+      }
+    },
+    {
+      "id": "EXPLICIT_POLICY_AND_PROSPECTIVE_REGISTRY_ATOMIC_PAIR",
+      "status": "PASS",
+      "observed": {
+        "new_registry_has_actual_recorded_clock": true,
+        "no_old_registry_edit": true,
+        "forecast_applied": false
+      }
+    },
+    {
+      "id": "EXACT_REPLAY_AND_CHANGED_PAYLOAD_REFUSAL",
+      "status": "PASS",
+      "observed": {
+        "same_UUID_payload_result": true
+      }
+    },
+    {
+      "id": "REVISION_AND_TEMPLATE_ARE_CURRENT",
+      "status": "PASS",
+      "observed": {
+        "stale_revision_and_unreviewed_template_refused": true
+      }
+    },
+    {
+      "id": "LATEST_RECORDED_POLICY_AND_APPEND_SUSPEND",
+      "status": "PASS",
+      "observed": {
+        "old_result_and_recorded_clock_unchanged": true,
+        "suspend_is_append_only": true
+      }
+    },
+    {
+      "id": "REACTIVATION_REQUIRES_NEW_EXPLICIT_CONFIGURATION",
+      "status": "PASS",
+      "observed": {
+        "new_revision_new_registry": true
+      }
+    },
+    {
+      "id": "CURRENT_ACCESS_PRECEDES_COMMITTED_REPLAY",
+      "status": "PASS",
+      "observed": {
+        "controlled_access_standin_only": true,
+        "actual_Auth_HTTP_credit": false
+      }
+    },
+    {
+      "id": "IMMUTABLE_POLICY_COMMAND_AND_REGISTRY",
+      "status": "FAIL",
+      "error": "AssertionError [ERR_ASSERTION]: The input did not match the regular expression /CP7_IMMUTABLE_RUN/. Input:\n\n'error: CP7_RUN_IMMUTABLE'\n\n    at async file:///workspace/scratch/282188edcd04/erp-produksi/scripts/cp7_ow11_model_policy_local.mjs:79:151\n    at async test (file:///workspace/scratch/282188edcd04/erp-produksi/scripts/cp7_ow11_model_policy_local.mjs:35:85)\n    at async file:///workspace/scratch/282188edcd04/erp-produksi/scripts/cp7_ow11_model_policy_local.mjs:78:1"
+    },
+    {
+      "id": "INVALID_EXPLICIT_CONFIGURATION_HAS_NO_EFFECT",
+      "status": "PASS",
+      "observed": {
+        "invalid_cases": 6,
+        "no_orphan_registry_or_policy": true
+      }
+    },
+    {
+      "id": "LAST_TABLE_FAULT_ROLLS_BACK_REGISTRY_AND_POLICY",
+      "status": "PASS",
+      "observed": {
+        "registry_policy_command_atomic": true
+      }
+    }
+  ],
+  "sql_sha256": "36eb75182f9100331d1afea39f7d2e48d690eef167b03a7919a897d6d5c1279a",
+  "actual_SQL": true,
+  "controlled_access_standins": true,
+  "actual_Native": false,
+  "actual_Auth_HTTP_credit": false,
+  "actual_concurrency": false,
+  "catalog22_qualified": false,
+  "forecast_applied": false,
+  "production_go": false
+}
