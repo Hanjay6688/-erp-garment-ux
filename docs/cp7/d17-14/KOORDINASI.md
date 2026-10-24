@@ -1,3 +1,10 @@
+## A / 25 Oktober 2026 WIB — label minimum kain lama
+
+Permintaan OW14b bagian06 diterapkan: fakta di detail Data Master memakai
+label “Referensi minimum lama”. Nilai asli, satuan, formulir, hak dan aturan
+aktif tidak diubah. Inventaris pemasangan serta uji perjalanan lengkap tetap
+terbuka; label sendiri tidak menutup OW14b.
+
 ## A / 25 Oktober 2026 WIB — sambungan Master dan tipe awal [bersama]
 
 Menindaklanjuti permintaan bagian11: `ConnectedFgStockPage` meneruskan

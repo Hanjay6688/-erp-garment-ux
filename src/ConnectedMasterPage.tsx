@@ -282,7 +282,7 @@ function facts(kind: MasterKind, e: Record<string, unknown>, today: string): [st
       const p = (e.profile ?? {}) as Record<string, unknown>, bench = Array.isArray(e.benchmarks) ? e.benchmarks as Record<string, unknown>[] : []
       const open = bench.find(b => b.effective_to === null)
       return [['Satuan', shown(e.unit)], ['Stok', shown(e.stock)], ['Kategori', shown(p.fabric_category)], ['Warna', shown(p.color_name)], ['Komposisi', shown(p.composition)],
-        ['Lebar', p.width_cm ? `${String(p.width_cm)} cm` : '—'], ['Gramasi', p.gsm ? `${String(p.gsm)} gsm` : '—'], ['Stok minimum', shown(p.minimum_stock_qty)],
+        ['Lebar', p.width_cm ? `${String(p.width_cm)} cm` : '—'], ['Gramasi', p.gsm ? `${String(p.gsm)} gsm` : '—'], ['Referensi minimum lama', shown(p.minimum_stock_qty)],
         ['Supplier utama', shown(p.preferred_supplier_name)], ['Harga acuan', open ? `${rupiah(String(open.price))}/${String(open.unit)} mulai ${wibDay(String(open.effective_from))}` : 'Belum ada'],
         ['Riwayat harga acuan', bench.length ? bench.map(b => `${rupiah(String(b.price))} mulai ${wibDay(String(b.effective_from))}`).join(' · ') : '—']]
     }
