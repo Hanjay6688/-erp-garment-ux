@@ -1,0 +1,333 @@
+{
+  "contract": "cp7.model-v2-native6-browser2-and-retained-policy-originals.v1",
+  "reports": [
+    {
+      "label": "CP7_OW11_MODEL_EVALUATION_V2",
+      "head": "1d2318ea4d30efda2e7a11ea01d1c05f9cd30dce",
+      "run_id": 40104010474,
+      "job_id": 120901816194,
+      "job_conclusion": "success",
+      "Original_json_artifact_id": 12564267714,
+      "Original_zip_sha256": "49cfccd7d5fe0441fd100301246bff1dd06deda308a34724fb12b37e511299d1",
+      "counts": {
+        "PASS": 6
+      },
+      "required_ids_counts_verified": true,
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "cleanup": {
+        "all_case_boundaries_restored": true,
+        "session_leaks": 0
+      },
+      "cases": {
+        "OW11_MODEL_V2_CATALOG22_COMPOSED_PREUSE_DEPENDENCY": {
+          "status": "PASS",
+          "exact_catalog22_composed_preuse_inverse": true,
+          "private7_public2_table1_replacements0": true,
+          "dependent_view_partial_DDL_restored": true,
+          "source_sha256": {
+            "cp7_model_evaluation_v2_stage/MANIFEST.json": "a4eb6586d8f347a1cf59fa21387dd23d23eb8ce06d077c1336ca5d4b8fd0a806",
+            "cp7_model_evaluation_v2_stage/__init__.py": "e8aef726e4aab7adee7dfd7293a43bd62ab3d12e1e4b55d0239bce948440fe90",
+            "cp7_model_evaluation_v2_stage/runtime.sql": "4506428f312ea20c47c3d0f4ade748f915dcd091825cf20178ced91be219d6dc",
+            "cp7_model_registry_adapter/MANIFEST.json": "1a117a702f1ceb4f2d8bd6a3cacd2c907526c19d9c6e45cfbbcd191559293a1e",
+            "cp7_model_registry_adapter/__init__.py": "d44293832c89caf5f470c937ddd548c713cad7a67992bfbb832b615064fd5333",
+            "cp7_model_registry_adapter/adapter.sql": "2f01cdf56ce6d2e4528af00d92c355ad5b6c2bfe728432355b9eadae6ce94343"
+          },
+          "full_boundary_restored": true,
+          "public_schema_unchanged": true,
+          "session_leaks": {
+            "advisory_locks": 0,
+            "advisory_lock_keys": [],
+            "other_sessions": []
+          },
+          "business_day": {
+            "planned": "2026-10-24",
+            "before": "2026-10-24",
+            "after": "2026-10-24"
+          }
+        },
+        "OW11_MODEL_V2_NATIVE_BASELINE_EXACT_REPLAY_V1_UNCHANGED": {
+          "status": "PASS",
+          "actual_Native_history_explicit_baseline": true,
+          "exact_UUID_one_v2_run": true,
+          "same_UUID_v1_separate_immutable_namespace": true,
+          "no_stock_money_HPP_change": true,
+          "full_boundary_restored": true,
+          "public_schema_unchanged": true,
+          "session_leaks": {
+            "advisory_locks": 0,
+            "advisory_lock_keys": [],
+            "other_sessions": []
+          },
+          "business_day": {
+            "planned": "2026-10-24",
+            "before": "2026-10-24",
+            "after": "2026-10-24"
+          }
+        },
+        "OW11_MODEL_V2_ACTUAL_POLICY_CLOCK_NO_POSTHOC_APPROVAL": {
+          "status": "PASS",
+          "actual_recorded_policy_not_backdated": true,
+          "old_capture_never_posthoc_approved": true,
+          "new_capture_uses_explicit_late_registry_baseline": true,
+          "actual_Native_knowledge_clock": true,
+          "full_boundary_restored": true,
+          "public_schema_unchanged": true,
+          "session_leaks": {
+            "advisory_locks": 0,
+            "advisory_lock_keys": [],
+            "other_sessions": []
+          },
+          "business_day": {
+            "planned": "2026-10-24",
+            "before": "2026-10-24",
+            "after": "2026-10-24"
+          }
+        },
+        "OW11_MODEL_V2_NATIVE_POST_SOURCE_WITHDRAWAL_OLD_RESULT": {
+          "status": "PASS",
+          "actual_posted_sale24_retires_source": true,
+          "old_input_result_immutable": true,
+          "stale_new_capture_refused": true,
+          "unknown_availability_never_observed_zero": true,
+          "full_boundary_restored": true,
+          "public_schema_unchanged": true,
+          "session_leaks": {
+            "advisory_locks": 0,
+            "advisory_lock_keys": [],
+            "other_sessions": []
+          },
+          "business_day": {
+            "planned": "2026-10-24",
+            "before": "2026-10-24",
+            "after": "2026-10-24"
+          }
+        },
+        "OW11_MODEL_V2_CURRENT_ACCESS_FOREIGN_CLOSED_QUERY": {
+          "status": "PASS",
+          "actual_current_permission_precedes_committed_replay": true,
+          "foreign_run_history_denied": true,
+          "closed_input_cannot_supply_history_policy_forecast": true,
+          "actual_Auth_HTTP_credit": false,
+          "full_boundary_restored": true,
+          "public_schema_unchanged": true,
+          "session_leaks": {
+            "advisory_locks": 0,
+            "advisory_lock_keys": [],
+            "other_sessions": []
+          },
+          "business_day": {
+            "planned": "2026-10-24",
+            "before": "2026-10-24",
+            "after": "2026-10-24"
+          }
+        },
+        "OW11_MODEL_V2_IMMUTABLE_ATOMIC_LAST_ROW_AND_GUARD": {
+          "status": "PASS",
+          "actual_immutable_v2_table": true,
+          "last_row_fault_atomic": true,
+          "unchanged_stored_result_after_failed_capture": true,
+          "changed_engine_current_guard_baseline": true,
+          "no_stock_money_HPP_change": true,
+          "full_boundary_restored": true,
+          "public_schema_unchanged": true,
+          "session_leaks": {
+            "advisory_locks": 0,
+            "advisory_lock_keys": [],
+            "other_sessions": []
+          },
+          "business_day": {
+            "planned": "2026-10-24",
+            "before": "2026-10-24",
+            "after": "2026-10-24"
+          }
+        }
+      }
+    },
+    {
+      "label": "CP7_OW11_MODEL_V2_BROWSER",
+      "head": "3cc08e21a828f45df9f5ce70124fab31734fbc74",
+      "run_id": 40104357916,
+      "job_id": 120902845162,
+      "job_conclusion": "success",
+      "Original_json_artifact_id": 12563972425,
+      "Original_zip_sha256": "1ff3dde8adcc84a76629a1609d9d33ad2b42284b48dc1d5db1281dec856bd9b2",
+      "counts": {
+        "PASS": 2
+      },
+      "required_ids_counts_verified": true,
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "cleanup": {
+        "console_errors": 0,
+        "host_exit": 0,
+        "session_leaks": [],
+        "cleanup_failures": false,
+        "database_remaining": 0,
+        "auth_counts": {
+          "before": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "after": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "restored": true
+        }
+      },
+      "cases": {
+        "OW11_MODEL_V2_BROWSER_MOBILE_EXACT_RECOVERY_POLICY_SOURCE": {
+          "status": "PASS",
+          "actual_Auth_PostgREST_browser": true,
+          "actual_Native_history_not_backdated": true,
+          "actual_commit_lost_reply_reload_exact_actor_UUID_method_payload": true,
+          "immutable_assessment_current_policy_guard": true,
+          "explicit_empty_allowed_models_preserve_source_no_fake_backtest": true,
+          "actual_posted_sale_retires_source_immutable_run": true,
+          "current403_retires_model_parent_FG_HPP": true,
+          "legacy_model_rows": 0,
+          "model_v2_rows": 2,
+          "no_evaluation_money_stock_HPP_write": true,
+          "no_horizontal_overflow": true,
+          "actual_positive_model_winner": false,
+          "forecast_applied": false,
+          "full_OW11_acceptance": false,
+          "business_day": {
+            "planned": "2026-10-24",
+            "before": "2026-10-24",
+            "after": "2026-10-24"
+          }
+        },
+        "OW11_MODEL_V2_BROWSER_DESKTOP_BASELINE_CURRENT_ACCESS": {
+          "status": "PASS",
+          "actual_Auth_PostgREST_browser": true,
+          "actual_Native_history_not_backdated": true,
+          "actual_commit_lost_reply_reload_exact_actor_UUID_method_payload": true,
+          "immutable_assessment_current_policy_guard": true,
+          "explicit_empty_allowed_models_preserve_source_no_fake_backtest": true,
+          "actual_posted_sale_retires_source_immutable_run": true,
+          "current403_retires_model_parent_FG_HPP": true,
+          "legacy_model_rows": 0,
+          "model_v2_rows": 2,
+          "no_evaluation_money_stock_HPP_write": true,
+          "no_horizontal_overflow": true,
+          "actual_positive_model_winner": false,
+          "forecast_applied": false,
+          "full_OW11_acceptance": false,
+          "business_day": {
+            "planned": "2026-10-24",
+            "before": "2026-10-24",
+            "after": "2026-10-24"
+          }
+        }
+      }
+    },
+    {
+      "label": "CP7_OW11_MODEL_POLICY_BROWSER",
+      "head": "1d2318ea4d30efda2e7a11ea01d1c05f9cd30dce",
+      "run_id": 40104010507,
+      "job_id": 120901816485,
+      "job_conclusion": "success",
+      "Original_json_artifact_id": 12564390804,
+      "Original_zip_sha256": "aaae06d42fe3c2b030b0d77de1ef8c66526c87cf9c36e5dee9b23a3fa59c9121",
+      "counts": {
+        "PASS": 2
+      },
+      "required_ids_counts_verified": true,
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "cleanup": {
+        "console_errors": 0,
+        "host_exit": 0,
+        "session_leaks": [],
+        "cleanup_failures": false,
+        "database_remaining": 0,
+        "auth_counts": {
+          "before": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "after": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "restored": true
+        }
+      },
+      "cases": {
+        "OW11_MODEL_POLICY_BROWSER_MOBILE_EXACT_RECOVERY_SUSPEND": {
+          "status": "PASS",
+          "actual_Auth_PostgREST_browser": true,
+          "explicit_fields_no_default_threshold": true,
+          "actual_policy_registry_command_pair": true,
+          "lost_reply_reload_exact_UUID_payload_receipt": true,
+          "append_suspend_old_configuration_preserved": true,
+          "current403_retires_policy_parent_FG_HPP": true,
+          "no_business_write_or_model_forecast_activation": true,
+          "model_rows": 0,
+          "no_horizontal_overflow": true,
+          "full_OW11_acceptance": false,
+          "business_day": {
+            "planned": "2026-10-24",
+            "before": "2026-10-24",
+            "after": "2026-10-24"
+          }
+        },
+        "OW11_MODEL_POLICY_BROWSER_DESKTOP_REVIEW_ACCESS_REVOKED": {
+          "status": "PASS",
+          "actual_Auth_PostgREST_browser": true,
+          "explicit_fields_no_default_threshold": true,
+          "actual_policy_registry_command_pair": true,
+          "lost_reply_reload_exact_UUID_payload_receipt": true,
+          "append_suspend_old_configuration_preserved": true,
+          "current403_retires_policy_parent_FG_HPP": true,
+          "no_business_write_or_model_forecast_activation": true,
+          "model_rows": 0,
+          "no_horizontal_overflow": true,
+          "full_OW11_acceptance": false,
+          "business_day": {
+            "planned": "2026-10-24",
+            "before": "2026-10-24",
+            "after": "2026-10-24"
+          }
+        }
+      }
+    }
+  ],
+  "actual_Native_historical_positive_model_winner": false,
+  "forecast_applied": false,
+  "full_OW11_acceptance": false,
+  "full_A_chain_qualified": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

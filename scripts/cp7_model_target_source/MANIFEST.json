@@ -1,0 +1,23 @@
+{
+  "contract": "cp7.model-target-source-prototype.v1",
+  "private_functions": 4,
+  "new_public_rpcs": 0,
+  "new_tables": 0,
+  "existing_replacements": 0,
+  "source_files_sha256": {
+    "source.sql": "f8a171212baf2f4640c8af46e2acbb07000180eae4ccc11e38c8035ef28e7e96"
+  },
+  "dependency_files_sha256": {
+    "cp7_model_evaluation_v2_stage/runtime.sql": "4506428f312ea20c47c3d0f4ade748f915dcd091825cf20178ced91be219d6dc",
+    "cp7_model_registry_adapter/adapter.sql": "2f01cdf56ce6d2e4528af00d92c355ad5b6c2bfe728432355b9eadae6ce94343",
+    "cp7-src/planning/history.sql": "074f0508d6515c13b5d38c0d8a4a605f79a5460acfc7e1b25dddcd9a24ea53cd",
+    "cp7-src/planning/history-source.sql": "56e681ac104d4d7e1fbe22ae903f73aa7fb4610db5f1073db62eea081390656e",
+    "cp7_model_policy_stage/policy.sql": "36eb75182f9100331d1afea39f7d2e48d690eef167b03a7919a897d6d5c1279a",
+    "cp7-src/stock-formula/formula.sql": "5d5b92fc652b9dbdedbe96e422a6dc876b749ffe6df0a25cb9e3c37d962980bf"
+  },
+  "current_source_matches_existing_Native_v2_reader": true,
+  "current_Native_history_product_bound": 1000,
+  "bounded_factory_model_history_adapter_qualified": false,
+  "caller_integrated": false,
+  "production_go": false
+}

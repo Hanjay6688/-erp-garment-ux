@@ -1,0 +1,128 @@
+{
+  "contract": "cp7.model-target-source-local.v1",
+  "status": "PASS",
+  "expected": 14,
+  "counts": {
+    "PASS": 14
+  },
+  "cases": [
+    {
+      "id": "NO_OWN_MODEL_NO_SOURCE_SCAN_AND_STABLE_IDENTITY",
+      "status": "PASS",
+      "observed": {
+        "no_fabricated_model": true,
+        "no_unneeded_global_scan": true
+      }
+    },
+    {
+      "id": "ACTUAL_V2_SOURCE_CURRENT_GUARD_AND_SHARED_TWO_SCANS",
+      "status": "PASS",
+      "observed": {
+        "actual_v2_rows_and_guard": true,
+        "source_access_controlled": true,
+        "two_global_scans_independent_of_target_count": true
+      }
+    },
+    {
+      "id": "LATEST_BASELINE_RESULT_NEVER_CHERRY_PICKS_OLDER_WINNER",
+      "status": "PASS",
+      "observed": {
+        "newest_evaluation_governs_even_without_winner": true
+      }
+    },
+    {
+      "id": "CHANGED_PHYSICAL_SOURCE_RETIRES_VECTOR_WITHOUT_REWRITING_RUN",
+      "status": "PASS",
+      "observed": {
+        "controlled_source_change": true,
+        "immutable_result_retained": true
+      }
+    },
+    {
+      "id": "SOURCE_CHANGE_BETWEEN_TWO_READS_REFUSES_WHOLE_CAPTURE",
+      "status": "PASS",
+      "observed": {
+        "no_mixed_source_allowed": true
+      }
+    },
+    {
+      "id": "CURRENT_POLICY_WITHDRAWAL_NEVER_REUSES_OLD_ADMISSION",
+      "status": "PASS",
+      "observed": {
+        "current_policy_controls_consumption_reference": true
+      }
+    },
+    {
+      "id": "MODEL_ENGINE_CHANGE_RETIRES_OLD_VECTOR",
+      "status": "PASS",
+      "observed": {
+        "engine_bound": true
+      }
+    },
+    {
+      "id": "CONSUMER_ENGINE_CHANGES_SOURCE_IDENTITY_WITHOUT_FAKING_MODEL_CHANGE",
+      "status": "PASS",
+      "observed": {
+        "separate_consumer_version_in_source_identity": true
+      }
+    },
+    {
+      "id": "INCOMPLETE_HISTORY_SCOPE_NEVER_TRUNCATES_OR_IMPUTES_ZERO",
+      "status": "PASS",
+      "observed": {
+        "existing_Native_1000_product_bound_explicit": true,
+        "factory_bounded_model_history_not_qualified": true
+      }
+    },
+    {
+      "id": "CURRENT_ACCESS_EPOCH_CHANGES_SOURCE_IDENTITY_FOR_SAME_ACTOR",
+      "status": "PASS",
+      "observed": {
+        "same_actor_permission_or_profile_epoch_bound": true,
+        "old_source_identity_not_reused": true
+      }
+    },
+    {
+      "id": "CURRENT_ACTOR_OWNS_MODEL_RUNS_AND_ACCESS_RECHECKS_AFTER_SOURCE",
+      "status": "PASS",
+      "observed": {
+        "no_cross_actor_model_reuse": true,
+        "controlled_current_access_rechecked": true
+      }
+    },
+    {
+      "id": "OLD_CUTOFF_NEWER_RUN_AND_FUTURE_CLOCK_REFUSED",
+      "status": "PASS",
+      "observed": {
+        "no_future_or_superseded_evaluation_source": true
+      }
+    },
+    {
+      "id": "CLOSED_TARGET_SET_AND_PRIVATE_ACL",
+      "status": "PASS",
+      "observed": {
+        "no_public_entry_no_duplicate_or_unbounded_query": true
+      }
+    },
+    {
+      "id": "WAREHOUSE_ONLY_READ_PRESERVED_WITHOUT_MODEL_POLICY_OR_HISTORY",
+      "status": "PASS",
+      "observed": {
+        "existing_warehouse_read_retained": true,
+        "no_private_model_disclosed": true,
+        "full_model_reader_still_denied": true,
+        "revoked_warehouse_denied": true
+      }
+    }
+  ],
+  "sql_sha256": "f8a171212baf2f4640c8af46e2acbb07000180eae4ccc11e38c8035ef28e7e96",
+  "actual_SQL": true,
+  "explicit_synthetic_history_and_policy": true,
+  "actual_v2_and_original_serve_history_SQL": true,
+  "controlled_access_and_history_source": true,
+  "actual_Native_capture": false,
+  "actual_Auth_HTTP_credit": false,
+  "caller_integrated": false,
+  "bounded_factory_model_history_adapter_qualified": false,
+  "production_go": false
+}

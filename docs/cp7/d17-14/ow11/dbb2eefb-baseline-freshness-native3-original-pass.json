@@ -1,0 +1,103 @@
+{
+  "contract": "cp7.baseline-freshness-native-original-receipt.v1",
+  "head": "dbb2eefbed27e9370f8db6c67bffb0bf752fb046",
+  "run_id": 40107539505,
+  "job_id": 120912239496,
+  "workflow_conclusion": "success",
+  "artifact_id": 12565218414,
+  "artifact_sha256": "e072a65a783e17ee76b8b4f6951801626585710550dbc0527a24de4ee156c7c0",
+  "bytes": 136635,
+  "Original_read_complete": true,
+  "status": "PASS",
+  "counts": {
+    "PASS": 3
+  },
+  "cases": {
+    "OW11_BASELINE_FRESHNESS_CATALOG22_PREUSE": {
+      "status": "PASS",
+      "exact_catalog22_inverse": true,
+      "replacement1_newfunctions0_tables0_public0": true,
+      "all_old_owner_ACL_GUC_unchanged": true,
+      "source_sha256": {
+        "MANIFEST.json": "cf6bbc71df4e6914da2146a5ca6f9600b03f699b2681ccbaedfd8a2380a40eb5",
+        "__init__.py": "4fcf809cfde9143d778b8ba5e39c9a4c2fe8966ae70d6f72b39140501bd81e9e",
+        "reader.sql": "63cc580afd9fdcee3500a84716aee80c67f591d54dbcdea92470fda3835a7ab0",
+        "render.py": "a129e70c7b84734960a995558003414e7ed88995c73f1837cc57fe0ab322ca14"
+      },
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    "OW11_BASELINE_FRESHNESS_ACTUAL_REGRESSION_CONFIRM_CLEAR_REPLAY": {
+      "status": "PASS",
+      "actual_predecessor_false_stale_reproduced": true,
+      "same_stored_result_recognized_current_after_fix": true,
+      "exact_UUID_one_immutable_run": true,
+      "actual_CLEAR_retires_old_source_new_UNKNOWN_not_zero": true,
+      "no_stock_money_HPP_change": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    "OW11_BASELINE_FRESHNESS_POST_PROFILE_CURRENT_ACCESS": {
+      "status": "PASS",
+      "actual_profile_revision_and_posted_SALE_retire_source": true,
+      "fresh_capture_current": true,
+      "manual_target200_preserved": true,
+      "current_permission_before_read_replay": true,
+      "foreign_actor_refused": true,
+      "immutable_history_preserved": true,
+      "actual_Auth_HTTP_credit": false,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    }
+  },
+  "required_case_ids_pass": true,
+  "required_case_counts_pass": true,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "actual_Auth_HTTP_credit": false,
+  "forecast_applied": false,
+  "full_OW11_acceptance": false,
+  "formal_acceptance": "5/16",
+  "CP7C_accepted": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

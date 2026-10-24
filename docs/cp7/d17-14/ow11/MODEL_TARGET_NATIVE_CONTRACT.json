@@ -1,0 +1,64 @@
+{
+  "contract": "cp7.ow11.model-target-consumer-native.v1",
+  "required_case_ids": {
+    "native": [
+      "OW11_MODEL_TARGET_CATALOG22_COMPOSED_PREUSE",
+      "OW11_MODEL_TARGET_NATIVE_BASELINE_REPLAY_IMMUTABLE",
+      "OW11_MODEL_TARGET_NATIVE_CURRENT_POLICY_AND_LATEST_V2",
+      "OW11_MODEL_TARGET_NATIVE_POST_PROFILE_ACCESS",
+      "OW11_MODEL_TARGET_NATIVE_WAREHOUSE_ONLY_READ",
+      "OW11_MODEL_TARGET_NATIVE_BOUNDED_ANALOG_PARITY"
+    ]
+  },
+  "required_case_counts": {
+    "native": 6
+  },
+  "expected_case_count": 6,
+  "public_rpcs": [
+    "erp_cp7_get_alerts_v1",
+    "erp_cp7_get_wa_settings_v1",
+    "erp_cp7_save_wa_settings_v1",
+    "erp_cp7_set_wa_key_v1",
+    "erp_cp7_send_wa_test_v1",
+    "erp_cp7_resolve_wa_dispatch_v1",
+    "erp_cp7_get_fg_reorder_v1",
+    "erp_cp7_refresh_fg_reorder_v1",
+    "erp_cp7_save_fg_reorder_manual_v1",
+    "erp_cp7_save_stock_formula_settings_v1",
+    "erp_cp7_get_material_reorder_v1",
+    "erp_cp7_refresh_material_reorder_v1",
+    "erp_cp7_save_material_reorder_v1",
+    "erp_cp7_request_staged_analysis_v1",
+    "erp_cp7_get_staged_analysis_v1",
+    "erp_cp7_step_staged_analysis_v1",
+    "erp_cp7_get_planning_profiles_v1",
+    "erp_cp7_save_planning_profile_v1",
+    "erp_cp7_capture_baseline_v1",
+    "erp_cp7_save_cutting_suggestion_v1",
+    "erp_cp7_get_staged_production_schedule_v1",
+    "erp_cp7_save_staged_production_schedule_v1",
+    "erp_cp7_request_bounded_staged_analysis_v1",
+    "erp_cp7_read_product_analog_candidates_v1",
+    "erp_cp7_get_product_analog_choices_v1",
+    "erp_cp7_save_product_analog_choice_v1",
+    "erp_cp7_get_model_activation_policy_v1",
+    "erp_cp7_save_model_activation_policy_v1",
+    "erp_cp7_capture_model_evaluation_v2",
+    "erp_cp7_read_model_evaluation_v2"
+  ],
+  "schedules": [
+    "erp-wa-collect",
+    "erp-wa-send",
+    "erp-wa-analysis"
+  ],
+  "existing_replacements": 19,
+  "new_private_functions": 8,
+  "new_public_rpcs": 0,
+  "new_tables": 0,
+  "composed_parent": "analog provenance + corrected baseline reader + prospective policy + immutable model v2",
+  "actual_historical_positive_winner": false,
+  "actual_Auth_HTTP_credit": false,
+  "old_immutable_results_rewritten": false,
+  "full_OW11_acceptance": false,
+  "production_go": false
+}

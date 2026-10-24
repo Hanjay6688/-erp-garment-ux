@@ -1,0 +1,243 @@
+{
+  "contract": "cp7.model-target-consumer-local.v1",
+  "status": "PASS",
+  "expected": 28,
+  "counts": {
+    "PASS": 28
+  },
+  "cases": [
+    {
+      "id": "ACTUAL_V2_CURRENT_SOURCE_TO_ONE_SHARED_TARGET_KERNEL",
+      "status": "PASS",
+      "observed": {
+        "actual_private_pipeline": true,
+        "model_target400_ROP300": true,
+        "baseline202_ROP152_retained": true,
+        "observed_totals_not_rewritten": true
+      }
+    },
+    {
+      "id": "EXPLICIT_MANUAL_RETAINS_PRIORITY_AND_EXACT_TARGET",
+      "status": "PASS",
+      "observed": {
+        "manual_target12_not_overridden": true
+      }
+    },
+    {
+      "id": "PROFILE_MINIMUM_NEVER_BYPASSED_BY_MODEL_ELIGIBILITY",
+      "status": "PASS",
+      "observed": {
+        "UNKNOWN_not_zero": true,
+        "profile_minimum_retained": true
+      }
+    },
+    {
+      "id": "BASELINE_ONLY_POLICY_RETURNS_ORIGINAL_KERNEL_UNCHANGED",
+      "status": "PASS",
+      "observed": {
+        "no_invented_challenger": true,
+        "baseline202": true
+      }
+    },
+    {
+      "id": "EXACT_HISTORY_QUERY_REQUIRED_NOT_ONLY_PHYSICAL_SOURCE",
+      "status": "PASS",
+      "observed": {
+        "AS_SOLD_model_never_reused_for_RESTATED_target": true
+      }
+    },
+    {
+      "id": "FULL_TARGET_VECTOR_COVERAGE_REQUIRED",
+      "status": "PASS",
+      "observed": {
+        "no_vector_extrapolation": true
+      }
+    },
+    {
+      "id": "STATISTICAL_SAFETY_REUSES_EXISTING_EXPLICIT_ASSUMPTION",
+      "status": "PASS",
+      "observed": {
+        "same_historical_SD_and_service": true,
+        "one_buffer": true,
+        "no_calibrated_interval_claim": true
+      }
+    },
+    {
+      "id": "CURRENT_POLICY_WITHDRAWAL_RETIRES_PRIVATE_CONSUMPTION",
+      "status": "PASS",
+      "observed": {
+        "current_policy_enforced": true,
+        "immutable_result_retained": true
+      }
+    },
+    {
+      "id": "MIXED_BASELINE_PHYSICAL_SOURCE_AND_CURRENT_MODEL_REFUSED",
+      "status": "PASS",
+      "observed": {
+        "no_mixed_snapshot": true
+      }
+    },
+    {
+      "id": "SOURCE_DIGEST_AND_CAPTURE_CLOCK_BINDING",
+      "status": "PASS",
+      "observed": {
+        "tampered_vector_and_mixed_clock_refused": true
+      }
+    },
+    {
+      "id": "TARGET_CHUNK_USES_FULL_CURRENT_SOURCE_WITH_EXACT_PARITY",
+      "status": "PASS",
+      "observed": {
+        "one_target_chunk_same_as_all": true,
+        "other_target_no_model_not_invented": true
+      }
+    },
+    {
+      "id": "INCOMPLETE_LIVE_HISTORY_RETAINS_BASELINE",
+      "status": "PASS",
+      "observed": {
+        "Native1000_scope_limit_not_bypassed": true
+      }
+    },
+    {
+      "id": "PRIVATE_CONSUMER_ENGINE_BOUND_WITHOUT_NEW_PUBLIC_ENTRY",
+      "status": "PASS",
+      "observed": {
+        "consumer_version_bound_separately": true,
+        "public_caller_integrated": false
+      }
+    },
+    {
+      "id": "HOOK_BASELINE_REORDER_CAPTURE_SHARE_MODEL_SOURCE_IDENTITY",
+      "status": "PASS",
+      "observed": {
+        "actual_generated_capture_hooks": true,
+        "same_server_owned_model_selection": true
+      }
+    },
+    {
+      "id": "HOOK_DIRECT_AND_STAGED_CHUNK_HAVE_IDENTICAL_MODEL_TARGETS",
+      "status": "PASS",
+      "observed": {
+        "actual_direct_and_staged_row_hooks": true,
+        "one_shared_model_target": true
+      }
+    },
+    {
+      "id": "HOOK_DIRECT_READER_USES_EXACT_NEW_PRODUCER_IDENTITY",
+      "status": "PASS",
+      "observed": {
+        "actual_reader_current_then_stale": true,
+        "old_model_target400_immutable": true
+      }
+    },
+    {
+      "id": "HOOK_EXISTING_REORDER_POINTS_REUSE_EXACT_KERNEL_AND_MANUAL_TRIGGER",
+      "status": "PASS",
+      "observed": {
+        "actual_existing_ROP_kernel_reuse": true,
+        "manual_trigger15_formula300_target400": true,
+        "own_history_not_forecast_sales": true
+      }
+    },
+    {
+      "id": "HOOK_BASELINE_AND_WORK_IDENTITIES_INCLUDE_CURRENT_MODEL_AUTHORITY",
+      "status": "PASS",
+      "observed": {
+        "policy_only_change_retires_work_and_baseline": true,
+        "original_baseline202_restored_for_new_capture": true
+      }
+    },
+    {
+      "id": "UNREVIEWED_PROFILE_KEEPS_EXISTING_REORDER_DEFAULTS_AND_MATCHING_PROVENANCE",
+      "status": "PASS",
+      "observed": {
+        "unreviewed_profile_no_model": true,
+        "existing_native_defaults_preserved": true,
+        "provenance_matches_actual_reorder_target": true
+      }
+    },
+    {
+      "id": "WAREHOUSE_CAPTURE_HOOK_PRESERVES_BASELINE_WITHOUT_MODEL_READ_ACCESS",
+      "status": "PASS",
+      "observed": {
+        "actual_generated_reorder_capture_hook": true,
+        "baseline202_no_model_leak": true,
+        "full_model_and_revoked_warehouse_denied": true
+      }
+    },
+    {
+      "id": "DATED_VECTOR_TIMELINE_FIRST_GAP_DIFFERS_FROM_HISTORICAL_MEAN",
+      "status": "PASS",
+      "observed": {
+        "target400_timeline300_one_buffer": true,
+        "model_gap_day2_historical_day3": true,
+        "observed_mean_unchanged": "50.500000000000"
+      }
+    },
+    {
+      "id": "DATED_VECTOR_LATE_SUPPLY_PRESERVES_PRIOR_GAP",
+      "status": "PASS",
+      "observed": {
+        "positive_final_balance_does_not_erase_day2_gap": true
+      }
+    },
+    {
+      "id": "VARIABLE_DATED_VECTOR_PARTIAL_DAY_EXACT_NO_AVERAGING",
+      "status": "PASS",
+      "observed": {
+        "dated_partial_day_0_625_exact": true,
+        "target_buffer_not_consumed": true
+      }
+    },
+    {
+      "id": "DATED_VECTOR_SUB_TWELVE_PLACE_PRECISION_RETAINED",
+      "status": "PASS",
+      "observed": {
+        "half_day_31_decimal_places_not_rounded_up": true
+      }
+    },
+    {
+      "id": "DATED_VECTOR_WIDE_CUMULATIVE_BALANCE_NO_FIXED_NUMERIC_OVERFLOW",
+      "status": "PASS",
+      "observed": {
+        "daily30_digits_cumulative31_digits_exact": true
+      }
+    },
+    {
+      "id": "DATED_TIMELINE_REFUSES_TARGET_SOURCE_OR_ORIGIN_MISMATCH",
+      "status": "PASS",
+      "observed": {
+        "exact_target_source_and_business_origin_binding": true
+      }
+    },
+    {
+      "id": "LEGACY_TIMELINE_AND_UNKNOWN_SIGNED_GAP_UNCHANGED",
+      "status": "PASS",
+      "observed": {
+        "legacy_output_exact_parity": true,
+        "UNKNOWN_not_zero": true
+      }
+    },
+    {
+      "id": "ACTUAL_ANALYSIS_TARGET_HOOK_LABELS_VECTOR_AND_DATED_TIMELINE",
+      "status": "PASS",
+      "observed": {
+        "actual_report_hook_dated_method_not_historical_fallback": true,
+        "no_invented_rate_fold_or_score": true
+      }
+    }
+  ],
+  "sql_sha256": "aea32bb1f7f07be6e65bbc613e8d3e5a38ed9db61f0cba510b3f84812d431600",
+  "hooks_sql_sha256": "eb5da57c223af96fb9a9a550019c0add649528597e41fa66608556ad608ec4a8",
+  "actual_private_SQL_pipeline": true,
+  "selected_actual_SQL_hooks": true,
+  "explicit_synthetic_history_policy": true,
+  "controlled_access_live_source": true,
+  "actual_Native_capture": false,
+  "actual_Auth_HTTP_credit": false,
+  "complete_stage_installer_qualified": false,
+  "public_client_qualified": false,
+  "public_caller_integrated": false,
+  "production_go": false
+}

@@ -2533,3 +2533,186 @@ installation setup hooks bind to the full composed verifier. Two component
 catalog anchors remain excluded; all22 global inverse is proved separately.
 No hosted/main/realWA/defaultpolicy changes. Productionfalse/parent5of16; writer
 proof remains distinct from independent acceptance. Continue after checkpoint.
+
+## 98. B24 Oktober2026 — v2 Native6/header dan Browser2 Original PASS; target arithmetic11
+
+Headerbaru1d2318ea/run40104010474/job120901816194 Original12564267714
+SHA49cfccd7d5fe0441fd100301246bff1dd06deda308a34724fb12b37e511299d1:
+6PASS, requiredIDs/count/cp6/advisor/5packagegatestrue, Auth0→0, everycase
+fullboundary/publicunchanged/leaks0. RetainedpolicyBrowser2/run40104010507
+Original12564390804 SHAaaae06d42fe3c2b030b0d77de1ef8c66526c87cf9c36e5dee9b23a3fa59c9121
+2PASS, samegates, Auth0000pulih/console0/copyDB0/session0.
+
+V2Browser3cc08e21/run40104357916/job120902845162 Original12563972425
+SHA1ff3dde8adcc84a76629a1609d9d33ad2b42284b48dc1d5db1281dec856bd9b2:
+2PASS, samegates/cleanup. Actualcommit/lostreply/reload/exactactorUUIDmethodquery,
+immutableassessment aftercurrentpolicy and actualSALE changes, emptyallowed
+methods/sourceheader/noinventedmodel, revoked403parentFG/HPPretirement with
+searchpreserved proven390/1440; screenshot reviewedlocally, noimagearchive.
+PositivehistoricalNativewinner/fullOW11/activationtarget tetapbelumdikreditkan.
+
+Private targetprojection2functions/0RPC/table/replacement baru: calls existing
+v2kernel for validation/UNKNOWN, sums datedvectors withfractionaldayweight and
+oneexplicitbuffer, distinguishes ROP andproductiontarget, statisticalbuffer
+preservesqualifiedhistoricalSDassumption tanpa calibratedforecastclaim.11local
+actualSQLPASS. Initialfixture duplicate-schema setupfailure and1PASS10FAIL
+missingrequiredrefs retained; onlyfixturefixed, SQL/predecessorvalidatorssame.
+Prototype tidak memilih/mengesahkanmodel atau mengganticaller. Currentrun/source
+binding, staged/checked-save integration dan densequalification masihberikutnya.
+Transport077ff7fe/run40104679399 masihjalan; tidakdikreditkansebelumOriginal.
+
+## 99. B24 Oktober2026 — v2 Transport10 Original PASS; current target source13
+
+077ff7fe/run40104679399/job120903796453 success. Original12564693169
+SHAa35e1761ad8dc2edb1604fad16a32e38eb9763e36a16a8b735b57e5d447d20dd:
+1catalog+6races+3actualAuthHTTP PASS, IDs/count/cp6/advisor/5packagegatestrue,
+Auth0000pulih, race/httpcopyDB0, sessionleaks0. Actual two-backend sameUUID
+one immutable result, changedpayloadone refusal, current access after observed
+envelope/request waits, policy and actual SALE commit duringwait, immutable
+assessment on reread and stale new capture refused. No positive historical
+winner or target activation credit; repeated catalog anchor adds no old credit.
+
+Private source prototype3functions/0RPC/table/replacement selects latest own
+v2 run, never older favorable winner. Shared two global source scans surround
+all selected rows; policy/model/consumer engine/date/currentaccess rechecked.
+Access epoch participates in source identity; unchanged clocks do not churn it.
+13actualSQL localPASS with originalv2/currentguard/serve_history; historical
+fixtures synthetic and live source/access controlled, not Native/Auth credit.
+First12PASS checkpoint retained. Existing v2 Native history bound1000 explicit;
+INCOMPLETE retires model, bounded factory history adapter remains open. Source
+and projection still private prototypes; caller/staged/checked-save integration
+is next. FullOW11/fullAchain/independentacceptance false; formal5/16 unchanged.
+
+## 100. B24 Oktober2026 — direct baseline freshness correction candidate
+
+Penelusuran targetconsumer menemukan pembaca direct baseline masih memakai
+fingerprint sebelum analogconsumer, sedangkan build sudah memasukkan pilihan
+dan engineconsumer. Actual predecessorSQL lokal mereproduksi false STALE pada
+sumber yang tidak berubah. Successor opt-in satu replacement serve(uuid), tanpa
+fungsi/RPC/tabel baru, memakai ekspresi identitas persis milik producer. Hasil
+dan UUID tersimpan tidak diubah; sumber lama yang berbeda tetap ARCHIVED_STALE.
+
+8actualSQL localPASS: regression/fix/clock/choiceCLEAR/engine/profile/stock/
+policy/INCOMPLETE/currentaccess/foreign/immutable/ACL. First7PASS1FAIL retained:
+test penolakan belum memakai savepoint sebelum mencoba penolakan kedua;
+harness diperbaiki, SQL tidakdiubah. Native3 tersendiri disiapkan untuk exact
+catalog22/preuse, reproduksi actualpublic capture sebelumfix lalu read/replay/
+CLEAR, actualprofile/postSALE/currentaccess. Runtime belumdikreditkan; old
+31/25/19 budgets dan8s/45mintetap. Forecasttarget integration tetapdilanjutkan
+setelah celah jalur dasar ini; fullOW11/fullAchain/productionfalse.
+
+
+## 101. B24 Oktober2026 — baseline freshness Native3 Original PASS
+
+dbb2eefb/run40107539505/job120912239496 success. Complete Original12565218414
+SHAe072a65a783e17ee76b8b4f6951801626585710550dbc0527a24de4ee156c7c0
+read/verified:3PASS, IDs/count/cp6/advisor/5packagegatestrue, Authusers0→0,
+fullboundary/public unchanged and sessionleaks0. Actual predecessor falseSTALE
+reproduced, same stored result current after fix, exactUUID replay immutable,
+actualCONFIRM/CLEAR/profile/postSALE retirement and currentaccess/foreign refusal.
+No actualAuthHTTP/forecast/fullOW11 credit. Formal5/16, CP7C unaccepted.
+
+## 102. B24 Oktober2026 — model target SQL/client candidate; integration continues
+
+Private targetsource4 + projection2 + consumer1; generated17 exact predecessor
+replacement candidates,0newRPC/table. Set-based latest-owned selection and
+current model authority feed the existing target kernel; manual/minimum/UNKNOWN
+remain prior. Forecast vectors are dated, exact numeric, no average substitution
+or extrapolation. Own sales/day totals stay observed; statistical safety retains
+the existing historical variation assumption, not forecast-error calibration.
+
+14source +20consumer/selectedhook SQL localPASS with explicit synthetic history
+and policy and controlled live source/access. Direct baseline/staged row/ROP
+share one model target; withdrawal keeps old results immutable and new baseline.
+A reproduced18PASS1FAIL found unreviewed-profile ROP explanation still pointing
+to its earlier UNKNOWN profile target. Candidate points hook now preserves the
+existing measured-lead/default kernel with its matching retained explanation.
+Warehouse-only capture preserves existing read access without disclosing model
+rows/policy or scanning model history; strict model access and revoked FG access
+still refuse. Auth/Native qualification of these candidates is still open.
+
+Versioned baselinev3/provenancev2/ROPprojectionv3 client parses actual generated
+controlled SQL fixtures. BigInt rational dated windows refuse altered quantities,
+policy/method/date/parameters and mismatched target/profile/provenance. UI shows
+historical operands separately, model dates/policy, baseline comparison and
+fallback reasons. 256tests/9files, TypeScript, CSS64 pass. Initial TS narrowing
+failures retained; declaration fixes preserve runtime guards. Shared source
+checker stays unchanged; missing pair catalog remains A-owned integration work.
+
+No installer/default activation yet. Next: exact catalog/preuse/composed restore,
+actual Native/FG/worker access, current-source/SAVE races and Auth browser, then
+bounded model-history and factory scale. Static analysis metadata candidate
+names the new model-target engine. FullOW11/fullAchain/independent acceptance
+remain false; this checkpoint is not task completion.
+
+
+## 103. B24 Oktober2026 — model target composed installer / Native6 candidate
+
+Successor installer requires exact analog-provenance + baseline-freshness +
+prospective-policy + immutable-model-v2 parents. Seven private functions/three
+schemas and17 replacements admitted against all22catalog groups; existing
+owner/ACL/GUC/volatility unchanged, all other cp7 functions pinned. Preuse inverse
+is savepoint-atomic with RESTRICT; any job/capture/model/policy/history use requires
+composed after-use restore. No default installer or hosted/production change.
+
+Separate Native6 budget prepared: dependent-view inverse/catalog; actual v3
+manual baseline and exact replay; actual current policy/latest owned v2 without
+posthoc history; posted SALE/profile/current access; existing FG-only permission;
+bounded analog/direct/staged parity. No positive historical model is fabricated.
+Actual runtime is pending; source/declaration/YAML/Python checks pass. Old31/25/19
+budgets and8s/45min limits unchanged. Continue on runtime findings and remaining
+source/SAVE/Auth/browser/bounded factory integration after publication.
+
+
+## 104. B24 Oktober2026 — model target Auth Browser2 candidate, Native6 running
+
+5770baa5/run40111136202/job120922915049 Native6 is running; no runtime credit
+before complete Original. Separate Browser2 composition installs the exact
+model-target parent chain only on the disposable Auth/browser copy. Mobile
+UNKNOWN→reviewed analog→new target→CLEAR and desktop dense2000/202000 reload
+now additionally assert provenancev2 with BASELINE_RETAINED, no model vector,
+exact baseline explanation and unchanged observed own sales. These are actual
+browser fallback/integration controls, not a positive model winner claim.
+
+Existing controlled historical openings stay explicitly synthetic; actual posted
+sale/Auth/PostgREST/UI assertions and cleanup retain their own evidence. Original
+consumer browser sources remain unchanged. Declaration/JS syntax/Python/YAML
+checks pass; old31/25/19 and45min budgets unchanged. FullOW11/productionfalse.
+
+## 105. B24 Oktober2026 — exact model target Browser2 Original PASS
+
+4e2dca5f/run40111903884/job120925190120 completed success. Complete Original
+12567775320 (45639 bytes, SHA256 d51f74d771512cd6a883134659f668b9ff36deacd09445f44dbab9e28efb4d91)
+read with every model-target source hash matched to that exact head: 2 PASS,
+required IDs/counts, CP6 restoration, advisor and all five package gates true.
+Actual mobile CONFIRM→new target1→reload→CLEAR/new UNKNOWN and desktop
+2000 products/202000 movements→target2/reload retain provenancev2 and own
+zero sales. Auth counts0000→0000, console0, no session/copy leaks; both screenshots
+visually checked. These are actual Auth/browser baseline/analog paths only.
+No positive model, after-use composed restore or fullOW11 credit is inferred.
+Receipt: ow11/4e2dca5f-model-target-browser2-original-pass.json.
+
+## 106. B24 Oktober2026 — dated model timeline correction candidate
+
+Found downstream mismatch: projected target400/ROP300 could coexist with a
+timeline consuming the historical mean50.5/day instead of the admitted vector100.
+The candidate now derives two extra exact predecessor replacements (19 total)
+and one private timeline kernel (8 total private, no RPC/table). Model timelines
+consume each dated vector window through lead+review without buffer consumption,
+average substitution or early rounding. Existing explicit24h-from-capture timing
+and backlog ordering remain; late supply cannot erase the prior first gap.
+Partial-day products retain up to42 decimal places without numeric(42,12)
+overflow. Original shared timeline/decimal helpers are untouched; legacy/manual
+fallback retains exact old output. Target/profile/source/origin mismatch refuses.
+Analysis models name the selected method/run, with NOT_APPLICABLE single daily
+rate instead of falsely labelling a projected target as historical FALLBACK.
+No validation folds/scores are invented; current source also binds netting code.
+
+Local controlled SQL28 PASS (including8 chronology/report controls), source14
+PASS, client257 PASS/9files, TypeScript and CSS64 PASS. Positive histories and
+vectors are explicit synthetic fixtures, not actual Native model admission.
+Wide-sum client first64 PASS/1FAIL and fixed110 PASS retained; projected values
+remain checked by exact BigInt binding and old v1/v2 digit bounds are unchanged.
+Native6 on5770 remains pending complete Original. This expanded19/8 overlay
+requires fresh exact Native/browser runtime. FullOW11, factory/SAVE/restore,
+independent acceptance remain open; formal5/16, CP7C unaccepted, productionfalse.

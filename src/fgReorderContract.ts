@@ -1,3 +1,4 @@
+import {assertModelReorderBinding} from './nativeModelTarget'
 import { isUnansweredFailure, normalizeClientError } from './lib/clientError'
 import { formatReceiptDecimal } from './procurementContract'
 import {parseTargetDemand,type TargetDemand} from './nativeTargetDemand'
@@ -186,7 +187,8 @@ function nativeRow(v: unknown): ReorderRow {
     serviceLevel: o.service_level === null ? null : oneOf(o.service_level, serviceLevels, what),
   }
   const p = obj(o.projection, 'proyeksi')
-  const provenance = p.contract_version === 'cp7.fg-reorder-projection.v2'
+  const modelProvenance = p.contract_version === 'cp7.fg-reorder-projection.v3'
+  const provenance = modelProvenance || p.contract_version === 'cp7.fg-reorder-projection.v2'
   keys(p, ['contract_version', 'threshold_source', 'threshold_checked_at', 'stock_checked_at', 'analysis_at', 'lead_deadline', 'target_deadline',
     'base_position_pcs', 'conditional_position_pcs', 'candidate_pcs', 'target_pcs', 'production_base_pcs', 'production_conditional_pcs',
     'manual_state', 'manual_reference', 'raw_WIP_credited', 'candidate_mutes_alert', ...(provenance ? ['target_demand'] : [])], 'proyeksi')
@@ -201,6 +203,8 @@ function nativeRow(v: unknown): ReorderRow {
   }
   if (provenance) {
     const demand = parseTargetDemand(p.target_demand, {targetKey:r.targetKey,capturedAt:projection.thresholdCheckedAt})
+    if (Boolean(demand.model) !== modelProvenance) fail('dasar model')
+    if (demand.model) assertModelReorderBinding(r,demand.model)
     if (demand.targetPcs !== projection.targetPcs || demand.reorderPointPcs !== r.formulaPoint || demand.ownTotalPcs !== r.salesPcs
       || BigInt(demand.ownAvailableDays) !== BigInt(r.countedDays) || demand.dailySd !== r.dailySd) fail('dasar kebutuhan')
     projection.targetDemand = demand

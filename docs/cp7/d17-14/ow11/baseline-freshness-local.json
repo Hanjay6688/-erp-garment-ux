@@ -1,0 +1,75 @@
+{
+  "contract": "cp7.baseline-freshness-local.v1",
+  "status": "PASS",
+  "expected": 8,
+  "counts": {
+    "PASS": 8
+  },
+  "cases": [
+    {
+      "id": "PREDECESSOR_FRESH_CAPTURE_WRONGLY_REPORTED_STALE",
+      "status": "PASS",
+      "observed": {
+        "defect_reproduced_in_actual_predecessor_SQL": true,
+        "unchanged_source_and_producer_hash": true
+      }
+    },
+    {
+      "id": "CORRECTED_READER_RECOGNIZES_SAME_IMMUTABLE_CAPTURE",
+      "status": "PASS",
+      "observed": {
+        "actual_reader_fix": true,
+        "stored_result_and_request_unchanged": true
+      }
+    },
+    {
+      "id": "NEW_READ_CLOCK_ALONE_DOES_NOT_INVALIDATE_SOURCE",
+      "status": "PASS",
+      "observed": {
+        "check_clock_excluded_from_identity": true
+      }
+    },
+    {
+      "id": "CHOICE_CLEAR_OR_ENGINE_CHANGE_RETIRES_CAPTURE_WITHOUT_REWRITE",
+      "status": "PASS",
+      "observed": {
+        "both_new_consumer_dependencies_bound": true
+      }
+    },
+    {
+      "id": "EXISTING_PHYSICAL_PROFILE_POLICY_AND_INCOMPLETE_GUARDS_RETAINED",
+      "status": "PASS",
+      "observed": {
+        "old_source_guards_retained": true
+      }
+    },
+    {
+      "id": "FOREIGN_RUN_AND_CURRENT_REVOKED_ACCESS_STILL_REFUSED",
+      "status": "PASS",
+      "observed": {
+        "current_access_and_actor_binding_preserved": true
+      }
+    },
+    {
+      "id": "PRE_CONSUMER_CAPTURE_NOT_RELABELED_AS_CURRENT",
+      "status": "PASS",
+      "observed": {
+        "older_contract_history_kept": true
+      }
+    },
+    {
+      "id": "EXACT_OLD_AUTHORITY_AND_NO_NEW_ENTRY",
+      "status": "PASS",
+      "observed": {
+        "owner_ACL_volatility_GUC_unchanged": true,
+        "public_RPCS_added": 0
+      }
+    }
+  ],
+  "sql_sha256": "63cc580afd9fdcee3500a84716aee80c67f591d54dbcdea92470fda3835a7ab0",
+  "actual_reader_SQL": true,
+  "controlled_access_and_source": true,
+  "actual_Native_capture": false,
+  "actual_Auth_HTTP_credit": false,
+  "production_go": false
+}

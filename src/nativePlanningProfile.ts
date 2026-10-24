@@ -1,11 +1,13 @@
 import {parseNativeDemandHistory,type NativeDemandQuery} from './nativeDemandHistory'
+import {parseTargetDemand,type TargetDemand} from './nativeTargetDemand'
+import {assertModelTargetBinding} from './nativeModelTarget'
 export type PlanningConfig={mean_mode:'OWN_AVAILABLE_HISTORY'|'SELECTED_MANUAL';daily_pcs:string|null;minimum_available_days:string;lead_days:string|null;review_days:string|null;buffer_days:string|null;rounding_multiple?:string|null;buffer_mode?:'DAYS'|'STATISTICAL';service_level?:'0.90'|'0.95'|'0.99'|null}
 export type PlanningProfile={rootId:string;productVersionId:string;sizeId:string;sku:string;productName:string;profileId:string|null;revision:string;quality:'UNREVIEWED'|'SELECTED_ASSUMPTION'|'PHYSICAL_VERSION_CHANGED';config:PlanningConfig|null;reason:string|null}
 export type PlanningPayload={root_id:string;product_version_id:string;expected_revision:string;config:PlanningConfig;reason:string}
 export type PlanningRequest={id:string;payload:PlanningPayload}
 export type NativeBaseline={runId:string;requestId:string;capturedAt:string;sourceHash:string;state:'UNCHANGED'|'ARCHIVED_STALE';query:NativeDemandQuery;rows:BaselineRow[]}
-export type BaselineRow={rootId:string;sizeId:string;sku:string;productName:string;available:string;daily:string|null;meanBasis:string;target:string|null;horizon:string|null;reorderPoint:string|null;leadDemand:string|null;reviewDemand:string|null;safety:string|null;productionState:'ACTIVE'|'PAUSED'|'STOPPED'|null;startNew:'0'|null;profileRevision:string;profileId:string|null;statisticalServiceLevel?:'0.90'|'0.95'|'0.99';statisticalDays?:number;statisticalMinimumDays?:string}
-const fail=():never=>{throw Error('Aturan atau hasil target dari server berubah atau belum lengkap. Muat ulang sumber.')}
+export type BaselineRow={rootId:string;sizeId:string;sku:string;productName:string;available:string;daily:string|null;meanBasis:string;target:string|null;horizon:string|null;reorderPoint:string|null;leadDemand:string|null;reviewDemand:string|null;safety:string|null;productionState:'ACTIVE'|'PAUSED'|'STOPPED'|null;startNew:'0'|null;profileRevision:string;profileId:string|null;statisticalServiceLevel?:'0.90'|'0.95'|'0.99';statisticalDays?:number;statisticalMinimumDays?:string;targetDemand?:TargetDemand}
+function fail():never{throw Error('Aturan atau hasil target dari server berubah atau belum lengkap. Muat ulang sumber.')}
 const obj=(v:unknown):Record<string,unknown>=>v&&typeof v==='object'&&!Array.isArray(v)?v as Record<string,unknown>:fail()
 const str=(v:unknown)=>typeof v==='string'&&v.length>0?v:fail()
 const id=(v:unknown)=>typeof v==='string'&&/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/.test(v)?v:fail()
@@ -46,7 +48,7 @@ export function checkPlanningOutcome(raw:unknown,r:PlanningRequest){
  const o=obj(raw);if(o.contract_version!=='cp7.planning-profile-outcome.v1'||o.request_id!==r.id||o.root_id!==r.payload.root_id||o.quality!=='SELECTED_ASSUMPTION'||BigInt(integer(o.revision))!==BigInt(r.payload.expected_revision)+1n)fail();id(o.profile_id)
 }
 export function parseNativeBaseline(raw:unknown,q:NativeDemandQuery):NativeBaseline{
- const v=obj(raw),modernPolicy=v.contract_version==='cp7.native-baseline.v2';if(!modernPolicy&&v.contract_version!=='cp7.native-baseline.v1'||v.scope!=='GLOBAL_CURRENT_PHYSICAL_ROOTS'||v.apply_enabled!==false||v.production_go!==false||v.model_basis!=='BASELINE_ADAPTIVE_PROMOTION_NOT_PROVEN'||v.target_basis!==(modernPolicy?'UNIFIED_TARGET_WITH_SELECTED_PROFILE_ASSUMPTIONS':'DAYS_WITH_SELECTED_PROFILE_ASSUMPTIONS'))fail()
+ const v=obj(raw),modelContract=v.contract_version==='cp7.native-baseline.v3',modernPolicy=modelContract||v.contract_version==='cp7.native-baseline.v2';if(!modernPolicy&&v.contract_version!=='cp7.native-baseline.v1'||v.scope!=='GLOBAL_CURRENT_PHYSICAL_ROOTS'||v.apply_enabled!==false||v.production_go!==false||v.model_basis!==(modelContract?'CURRENT_POLICY_GATED_DATED_NATIVE_MODELS':'BASELINE_ADAPTIVE_PROMOTION_NOT_PROVEN')||v.target_basis!==(modernPolicy?'UNIFIED_TARGET_WITH_SELECTED_PROFILE_ASSUMPTIONS':'DAYS_WITH_SELECTED_PROFILE_ASSUMPTIONS'))fail()
  const run=id(v.run_id),request=id(v.request_id),hash=str(v.source_hash);if(!/^[0-9a-f]{64}$/.test(hash)||(v.source_state!=='UNCHANGED'&&v.source_state!=='ARCHIVED_STALE'))fail()
  const h=parseNativeDemandHistory({...obj(v.history_run_result),run_id:run,request_id:request,source_state:v.source_state})
  const rawRows=Array.isArray(v.rows)?v.rows:fail()
@@ -56,6 +58,13 @@ export function parseNativeBaseline(raw:unknown,q:NativeDemandQuery):NativeBasel
   const r=obj(rawRow),key=str(r.target_key),native=h.rows.find(x=>x.targetKey===key)??fail(),p=profile(r.profile),estimate=obj(r.demand_estimate),ei=obj(estimate.inputs),target=obj(r.target),ti=obj(target.inputs)
   if(seen.has(key)||p.rootId!==native.rootId||p.sizeId!==native.sizeId||r.size_id!==native.sizeId||r.available_fg_pcs!==native.available||r.sku!==native.sku||r.product_name!==native.productName)fail();seen.add(key)
   if(r.final_gap_pcs!==null||['supply_state','capacity_state','timeline_state'].some(k=>r[k]!=='UNKNOWN'))fail()
+  const targetDemand=modelContract?parseTargetDemand(r.demand_provenance,{targetKey:key,capturedAt:h.capturedAt,query:q}):undefined
+  if(modelContract){
+   if(!targetDemand?.model||targetDemand.ownAvailableDays!==String(native.availableDays)||targetDemand.basis!==(estimate.status==='UNKNOWN'?'UNKNOWN':estimate.basis))fail()
+   assertModelTargetBinding(target,r.model_resolution,targetDemand.model)
+   if(ei.own!==null){const own=obj(ei.own);if(own.available_total_pcs!==targetDemand.ownTotalPcs||own.available_days!==targetDemand.ownAvailableDays)fail()}
+  }else if(r.model_resolution!==undefined||target.forecast_applied!==undefined||target.model_input!==undefined)fail()
+  const projected=targetDemand?.model?.state==='MODEL_PROJECTED'
   for(const inputs of[ei,ti])if(inputs.snapshot_id!==hash||inputs.scope_id!==v.scope)fail()
   const unified=ti.contract_version==='cp7.target-input.v2';if(ti.mode==='STATISTICAL'&&!unified)fail()
   if(ei.target_key!==key||ei.size_id!==native.sizeId||ti.mode!=='DAYS'&&(!modernPolicy||ti.mode!=='STATISTICAL'))fail()
@@ -66,7 +75,8 @@ export function parseNativeBaseline(raw:unknown,q:NativeDemandQuery):NativeBasel
   const daily=nullable(estimate.daily_pcs,decimal);if(estimate.status==='UNKNOWN'?daily!==null:estimate.status!=='SCENARIO'||daily===null)fail()
   if(unified){
    const own=estimate.basis==='OWN_AVAILABLE_HISTORY_ASSUMED_REPRESENTATIVE'?obj(ei.own):null
-   if(ti.daily_total_pcs!==(own?own.available_total_pcs:daily)||ti.counted_days!==(own?own.available_days:'1'))fail()
+   if(targetDemand){if(ti.daily_total_pcs!==targetDemand.dailyTotalPcs||ti.counted_days!==(targetDemand.countedDays??'1'))fail()}
+   else if(ti.daily_total_pcs!==(own?own.available_total_pcs:daily)||ti.counted_days!==(own?own.available_days:'1'))fail()
    nullable(ti.daily_total_pcs,decimal);integer(ti.counted_days)
   }else if(ti.daily_mean!==daily)fail()
   if(p.quality==='SELECTED_ASSUMPTION'){
@@ -76,18 +86,20 @@ export function parseNativeBaseline(raw:unknown,q:NativeDemandQuery):NativeBasel
   }else if(daily!==null||['lead_days','review_days','buffer_days'].some(k=>ti[k]!==null))fail()
   let targetPcs:string|null=null,horizon:string|null=null,reorderPoint:string|null=null,leadDemand:string|null=null,reviewDemand:string|null=null,safety:string|null=null
   if(target.status==='SCENARIO'){
-   if(target.kernel_version!==(unified?'target-unified-2':'target-days-1')||daily===null)fail()
+   if(target.kernel_version!==(projected?'target-forecast-vector-1':unified?'target-unified-2':'target-days-1')||daily===null)fail()
    targetPcs=targetQuantity(target.target_pcs);horizon=decimal(target.horizon_days)
    if(unified){
-    const computed=(value:unknown)=>typeof value==='string'&&/^(0|[1-9][0-9]{0,29})(\.[0-9]{1,40})?$/.test(value)?value:fail()
+    // A dated sum may exceed the digit width of one daily forecast. Its exact
+    // decimal operands and arithmetic were already checked by the v3 binding.
+    const computed=(value:unknown)=>projected?str(value):typeof value==='string'&&/^(0|[1-9][0-9]{0,29})(\.[0-9]{1,40})?$/.test(value)?value:fail()
     reorderPoint=targetQuantity(target.reorder_point_pcs);leadDemand=computed(target.lead_demand_pcs);reviewDemand=computed(target.review_demand_pcs);safety=computed(target.horizon_safety_pcs)
-    if(ti.mode==='DAYS'?(target.reason!=='ONE_EXPLICIT_DAYS_BUFFER'||target.lead_safety_pcs!==target.horizon_safety_pcs):(target.reason!=='BASELINE_INDEPENDENT_DAILY_VARIATION_ASSUMPTION'||BigInt(String(ti.counted_days))<14n||ti.daily_sd===null||typeof target.lead_safety_pcs!=='string'))fail()
+    if(!projected&&(ti.mode==='DAYS'?(target.reason!=='ONE_EXPLICIT_DAYS_BUFFER'||target.lead_safety_pcs!==target.horizon_safety_pcs):(target.reason!=='BASELINE_INDEPENDENT_DAILY_VARIATION_ASSUMPTION'||BigInt(String(ti.counted_days))<14n||ti.daily_sd===null||typeof target.lead_safety_pcs!=='string')))fail()
    }
   }else if(target.status!=='UNKNOWN'||unified&&(target.target_pcs!==null||target.reorder_point_pcs!==null))fail()
   const policy=r.production_policy===null?null:obj(obj(r.production_policy).policy),known=policy?.quality==='KNOWN',state=known?str(policy!.state):null
   if(state!==null&&!['ACTIVE','PAUSED','STOPPED'].includes(state))fail()
   const disabled=state==='PAUSED'||state==='STOPPED';if(r.start_new_pcs!==(disabled?'0':null))fail()
-  rows.push({rootId:p.rootId,sizeId:p.sizeId,sku:native.sku,productName:native.productName,available:native.available,daily,meanBasis:estimate.status==='UNKNOWN'?'UNKNOWN':str(estimate.basis),target:targetPcs,horizon,reorderPoint,leadDemand,reviewDemand,safety,productionState:state as BaselineRow['productionState'],startNew:disabled?'0':null,profileId:p.profileId,profileRevision:p.revision,...(ti.mode==='STATISTICAL'?{statisticalServiceLevel:ti.service_level as '0.90'|'0.95'|'0.99',statisticalDays:native.availableDays,statisticalMinimumDays:p.config!.minimum_available_days}:{})})
+  rows.push({...(targetDemand?{targetDemand}:{}),rootId:p.rootId,sizeId:p.sizeId,sku:native.sku,productName:native.productName,available:native.available,daily,meanBasis:estimate.status==='UNKNOWN'?'UNKNOWN':str(estimate.basis),target:targetPcs,horizon,reorderPoint,leadDemand,reviewDemand,safety,productionState:state as BaselineRow['productionState'],startNew:disabled?'0':null,profileId:p.profileId,profileRevision:p.revision,...(ti.mode==='STATISTICAL'?{statisticalServiceLevel:ti.service_level as '0.90'|'0.95'|'0.99',statisticalDays:native.availableDays,statisticalMinimumDays:p.config!.minimum_available_days}:{})})
  }
  return{runId:run,requestId:request,capturedAt:h.capturedAt,sourceHash:hash,state:v.source_state as NativeBaseline['state'],query:{...q},rows}
 }

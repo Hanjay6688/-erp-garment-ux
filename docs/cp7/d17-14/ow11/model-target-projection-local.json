@@ -1,0 +1,105 @@
+{
+  "contract": "cp7.model-target-projection-local.v1",
+  "status": "PASS",
+  "expected": 11,
+  "counts": {
+    "PASS": 11
+  },
+  "cases": [
+    {
+      "id": "DATED_VECTOR_DISTINGUISHES_REORDER_TARGET_AND_ONE_BUFFER",
+      "status": "PASS",
+      "observed": {
+        "reorder30_target70": true,
+        "one_buffer_each_window": true,
+        "no_flat_mean": true
+      }
+    },
+    {
+      "id": "FRACTIONAL_HORIZONS_WEIGHT_ONLY_THEIR_DAY_SEGMENT",
+      "status": "PASS",
+      "observed": {
+        "fractional_dates_preserved": true,
+        "ceiling_only_at_final_PCS": true
+      }
+    },
+    {
+      "id": "LARGE_DECIMAL_VALUES_NEVER_PASS_THROUGH_FLOAT_OR_DAILY_CEILING",
+      "status": "PASS",
+      "observed": {
+        "exact_numeric_above_JS_safe_integer": true,
+        "fractional_PCS_rounded_once": true
+      }
+    },
+    {
+      "id": "STATISTICAL_VARIATION_REUSES_QUALIFIED_BASELINE_NO_CALIBRATION_CLAIM",
+      "status": "PASS",
+      "observed": {
+        "historical_daily_SD_preserved": true,
+        "existing_service_level_only": true,
+        "no_days_buffer_added": true
+      }
+    },
+    {
+      "id": "ZERO_FORECAST_AND_ZERO_KNOWN_HORIZON_REMAIN_KNOWN_ZERO",
+      "status": "PASS",
+      "observed": {
+        "known_zero_not_missing": true
+      }
+    },
+    {
+      "id": "UNKNOWN_BASELINE_DEMAND_HORIZON_BUFFER_OR_VARIATION_NEVER_FILLED",
+      "status": "PASS",
+      "observed": {
+        "unknown_preserved": true,
+        "existing_statistical_minimum_preserved": true
+      }
+    },
+    {
+      "id": "SHORT_VECTOR_NEVER_EXTRAPOLATED_TRUNCATED_OR_REPEATED",
+      "status": "PASS",
+      "observed": {
+        "full_fractional_coverage_required": true
+      }
+    },
+    {
+      "id": "OLD_AND_FUTURE_FORECASTS_NEVER_SHIFTED_TO_TODAY",
+      "status": "PASS",
+      "observed": {
+        "exact_origin_date_required": true
+      }
+    },
+    {
+      "id": "MALFORMED_VECTOR_AND_DOUBLE_BUFFER_CLOSED_INPUT_REFUSED",
+      "status": "PASS",
+      "observed": {
+        "closed_contract_and_numeric_strings": true,
+        "no_double_buffer": true
+      }
+    },
+    {
+      "id": "EXISTING_SYNTHETIC_ADMITTED_VECTOR_IS_ARITHMETIC_ONLY",
+      "status": "PASS",
+      "observed": {
+        "synthetic_NAIVE100_vector_only": true,
+        "prototype_never_authorizes_model": true
+      }
+    },
+    {
+      "id": "PRIVATE_FUNCTIONS_HAVE_NO_AUTHENTICATED_ENTRY_OR_BUSINESS_TABLE",
+      "status": "PASS",
+      "observed": {
+        "private2_public0_tables0_replacements0": true
+      }
+    }
+  ],
+  "sql_sha256": "1e96c6389c3537dcaf59bcf79383754f0b5716ad3c1d9010c77fb0918535e6b7",
+  "actual_SQL": true,
+  "explicit_synthetic_values": true,
+  "model_admission_proved": false,
+  "actual_Native_capture": false,
+  "actual_Auth_HTTP_credit": false,
+  "caller_integrated": false,
+  "calibrated_forecast_interval": false,
+  "production_go": false
+}
