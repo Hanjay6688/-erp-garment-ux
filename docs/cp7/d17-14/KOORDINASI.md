@@ -2997,3 +2997,41 @@ installation or claimed as Native runtime. A composition/admission must now bind
 21/8 and exact current client differences; actual d7 Native6/Browser2/Transport11
 runs40119284264/40119284296/40119284316 are still pending. No old20/8 runtime
 credit transfers. Both earlier Native failures remain immutable prerequisites.
+
+## A continuation: cache-safe composition21/8 and remaining finance followups
+
+A composer now admits exactly21 replacements,8 private functions and3 schemas;
+no new public RPC/table. Current workspace predecessor matches the actual full
+finance backup. All20 other predecessor bodies match except the sole declared
+baseline freshness replacement. Local structural17 on the actual22-group/686-key
+backup PASS; all earlier17 receipts remain unchanged. Current client82 tests in
+4files, TypeScript,381 runtime source/322RPC access checks and3 browser ESM
+modules/6IDs pass; browser runtime is not inferred.
+
+Native20 admission binds nine explicit current client differences from frozen6d
+and requires both actual04ea and161 Native INCOMPLETE Originals, alongside the
+actual current B Native6 PASS when available. Fetch paths now include the
+prerequisite variable because all three B Native Originals have the same
+basename. Local retrieval with both actual first-failure ZIPs proves distinct
+paths and exact raw bytes; neither is overwritten or relabelled PASS.
+
+Prepared current target finance Auth3/races7 and actual-minute Cron1 complete the
+five followup families after Native20 (Browser6,UsedRestore8,modelTransport28,
+finance10,Cron1). Finance case file and cron runner differ from their actual
+qualified predecessors only by the full-current product import; all business
+bodies, waits, scheduler command/budgets and assertions stay exact. UTC observer
+is byte-identical. Both local preflights PASS, actual predecessor Original source
+matched; SOURCE absent until current Native20 PASS. Finance additionally admits
+actual UTC10 PASS and first INCOMPLETE; cron admits actual prior minute Cron1.
+
+B161 Transport11/run40116196549 completed cancelled at the workflow boundary.
+Complete Original12570424873 contains only the repeated catalog anchor1PASS;
+no returned Auth/race results, drop-copy failure and restore connection refused,
+CP6/advisor false and final package gate absent. All five original JSON files
+are retained byte-exact; no suite or cleanup credit. Current d7 Native6/Browser2/
+Transport11 remain separate active runs; no unchanged retry or widened budget.
+
+The complete frozen6d Native15 admission has now also passed from its immutable
+checkout, with current21/8 predecessor source equal and all20 retained Native
+business bodies bound. Local preparation passes do not substitute for the
+pending actual d7 Native6 or future composed A Native20.

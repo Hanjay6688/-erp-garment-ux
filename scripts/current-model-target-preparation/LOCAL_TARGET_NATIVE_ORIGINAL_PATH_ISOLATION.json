@@ -1,0 +1,9 @@
+{
+  "status": "PASS",
+  "scope": "LOCAL_RETRIEVAL_SUBSTITUTE_USING_TWO_ACTUAL_FAILED_ARTIFACT_ZIPS",
+  "same_Original_basename": true,
+  "distinct_retained_paths": true,
+  "both_raw_Original_bytes_exact": true,
+  "both_original_package_failures_admitted_without_PASS_credit": true,
+  "production_go": false
+}

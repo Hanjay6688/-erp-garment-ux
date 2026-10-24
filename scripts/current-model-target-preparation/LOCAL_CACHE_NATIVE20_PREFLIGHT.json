@@ -1,0 +1,15 @@
+{
+  "status": "PASS",
+  "target_replacements": 21,
+  "target_private_functions": 8,
+  "actual_predecessor_body_matches": 20,
+  "sole_freshness_replacement": true,
+  "SOURCE_absent": true,
+  "new_Native_runtime": false,
+  "actual_full_frozen_gate": {
+    "frozen_head": "6d056959d33808dc59b8c38fb15ce8492db44523",
+    "admitted": true,
+    "source_manifest_sha256": "a60e0b3b50231120ca4fb1d3881570a8bff5b8f1a27e9c754e7ee04fc288d65f",
+    "complete_admission_receipt_sha256": "44d9c0fcaed8cdefd1c3128d177505f1d36f5e8736547a6bd5ec785e5941a4ca"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "status": "PASS",
+  "vitest_files": 4,
+  "vitest_tests": 82,
+  "TypeScript": true,
+  "source_runtime_files": 381,
+  "owned_RPC_boundaries": 322,
+  "source_ownership": true,
+  "access_ownership": true,
+  "original_browser_ESM_modules_loaded": 3,
+  "browser_IDs": 6,
+  "browser_execution": false,
+  "current_B_head": "d7d3033b97a08d8bfc180dac638ea60b90e19c23"
+}

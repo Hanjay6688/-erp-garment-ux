@@ -1,0 +1,36 @@
+{
+  "status": "PASS",
+  "preparation_only": true,
+  "qualifications": [
+    {
+      "part": "finance",
+      "case_ids": [
+        "CURRENT_FINANCE_AUTH_PUBLIC_FLOW_READY_REPLAY",
+        "CURRENT_FINANCE_AUTH_PERMISSION_WITHDRAWAL_SEALED_HISTORY",
+        "CURRENT_FINANCE_AUTH_FOREIGN_ANON_CLOSED_QUERY",
+        "CURRENT_FINANCE_RACE_SAME_UUID",
+        "CURRENT_FINANCE_RACE_CROSS_MODE_UUID",
+        "CURRENT_FINANCE_RACE_CHANGED_QUERY_UUID",
+        "CURRENT_FINANCE_RACE_PERMISSION_AFTER_REQUEST",
+        "CURRENT_FINANCE_RACE_REPLAY_PERMISSION_AFTER_REQUEST",
+        "CURRENT_FINANCE_RACE_ACTOR_AFTER_REQUEST",
+        "CURRENT_FINANCE_RACE_NATIVE_BOOK_AFTER_REQUEST"
+      ],
+      "actual_predecessor_original_source_matched": true,
+      "retained_business_file_only_product_import_changed": true,
+      "current_product_exact": true,
+      "SOURCE_absent": true
+    },
+    {
+      "part": "cron",
+      "case_ids": [
+        "CURRENT_FINANCE_MODEL_ACTUAL_MINUTE_CRON_BOUNDED_READY_AND_DEFERRED"
+      ],
+      "actual_predecessor_original_source_matched": true,
+      "retained_business_file_only_product_import_changed": true,
+      "current_product_exact": true,
+      "SOURCE_absent": true
+    }
+  ],
+  "actual_new_current_runtime": false
+}

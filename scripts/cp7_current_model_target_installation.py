@@ -35,7 +35,7 @@ def admit_catalog(before,after,state,name):
         module=freshness;old={freshness.SIGNATURE};new=set();schemas=set()
     elif name=='DATED_MODEL_TARGET':
         module=target;old=set(target.render.originals());new=set(target.FUNCTIONS);schemas=set(target.SCHEMAS)
-        if len(old)!=20 or len(new)!=8 or len(schemas)!=3:
+        if len(old)!=21 or len(new)!=8 or len(schemas)!=3:
             raise ValueError('CURRENT_MODEL_TARGET_DECLARATION_CHANGED')
     else:raise ValueError('CURRENT_MODEL_TARGET_UNDECLARED_STAGE')
     if module.own_catalog(after)!=state['catalog']:
