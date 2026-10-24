@@ -1450,3 +1450,23 @@ public, serta posted sale→pilih→fresh target→reload→CLEAR/UNKNOWN dan de
 Parent12/budget31/25/19 tetap. Proposal registry20 pasangan tidak bertambah;
 A memegang default/types/registry/fullchain. OW11/model policy/backtest/full
 integration tetap OPEN, induk5/16, production_go/independent_acceptance=false.
+
+
+## 83. B24 Oktober2026 — consumer transport10 dideklarasikan terpisah
+
+Kandidat587586ee menjalankan consumerNative6 fixturefix, provenanceNative3 dan
+consumerBrowser2; hasil belum diasumsikan. Consumer/provenance mengubah badan
+choice writer dan fingerprint, sehingga PASS transport metadata32cb39dd saja
+tidak membuktikan komposisi baru. Suite consumertransport10 memakai1 anchor
+katalog provenance tanpa kredit baru,6 actual two-backend waits/CAS/replay dan
+3 Auth/PostgREST, terpasang hanya dalam disposable copies.
+
+Skenario race mempertahankan pg_blocking_pids nyata dan revokasi setelah global/
+request/target lock, serta Native stock change saat global wait. Dua race pemenang
+juga menghasilkan target baru dari satu pilihan committed. Lifecycle HTTP membaca
+provenance target baru, mempertahankan hasil lama setelah CLEAR, lalu membaca
+UNKNOWN pada job baru. Profil OWN eksplisit; historis zero tetap fixture SYNTHETIC.
+8s/budget10/parent12 dan suite metadata lama tidak dilonggarkan. Python/YAML/
+declaration/negative-budget checks PASS, runtime belum. Perbaikan label sumber
+report mengambil choice-stage yang sebenarnya, tidak salah menamai source
+consumer/provenance sebagai choice. Bukan default/fullAchain/after-use/OW11 close.
