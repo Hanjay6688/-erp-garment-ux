@@ -3297,3 +3297,135 @@ after-use recovery preparation in an isolated A worktree. B keeps source/runtime
 engine ownership. It will require actual current Native20 and B history runtime
 Native/Auth originals; it will not change the current21/8 candidate, default
 installation, historical payloads, owner policy or existing qualified originals.
+
+## 120. B24 Oktober2026 UTC — scoped immutable model dataset candidate
+
+190c1d78 fixes the impossible two-field Native cache-refusal assertion without
+changing product SQL. New private cp7_model_scoped_dataset derives the exact
+legacy Native revision algorithm over actor/target/group/period-scoped immutable
+history rows. Three private functions, zero RPC/table/old replacement. Original
+500-capture/20000-series bounds remain; unrelated target captures no longer
+consume the selected target's count. Actual server capture timestamps remain
+knowledge times; repeated daily meaning is deduplicated, later correction is
+a new revision, UNKNOWN/stockout never observed zero. Current actor/access/
+source/engines are checked before and after building the dataset. Existing
+reviewed model-policy binder and assessment kernel remain authoritative.
+
+Local8PASS uses actual scoped runtime/history/model SQL on controlled ERP/auth
+primitives. An independent copy into the legacy Native dataset proves exact
+series/operands (with distinct reference-kind identity); corrected quantities
+retain actual old/new clocks.5504-product universe and501 unrelated/selected
+capture bound controls pass. Explicit synthetic duplicate records are labeled.
+No real historical winner or Native/Auth/concurrency credit is inferred.
+Exact22 opt-in installer and separate Native4 composition are added for actual
+source/policy clocks, actual SALE/current access, catalog inverse and dense
+2000/202000. Generated source/manifest, SQL parse/clash, Python AST, declaration
+and invalid-budget admission checks PASS. Retained model v3 capture, public
+client and model-target consumption remain open; old model callers unchanged.
+Formal5/16, CP7C unaccepted, production and independent acceptance remain false.
+
+## 121. B24 Oktober2026 UTC — immutable runtime Native6 and transport part A PASS
+
+2201e9ed/run40121381881/job120953455379 completed success. Complete Original
+12571747558 (204277 bytes, SHA256
+7c64fe185181a624e85841fe0dfc1a36382f541de7894e5f18b9c65a9f98e618)
+has6PASS with exact runtime/source/declaration pins, all package/CP6/advisor/
+required gates true, every boundary restored and zero leaked locks/sessions.
+Actual authenticated SQL facades capture/replay/read one immutable actor-owned
+row; actual Native SALE retires old source but not old result, freshgross24/
+available76; current permission revocation/foreign read denial and final-row
+fault pass. Dense synthetic2000/202000 single-root public capture248.243ms under
+unchanged8s; no factory SLA claim. No Auth/concurrency/model integration credit.
+
+2b335934/run40120202292 partA/job120949897510 completed success. Complete
+Original12572450064 (93936 bytes, SHA256
+174ae107fe907858297c7497bb21001609665ecba239a8c2ce8767322ac8164f)
+has repeatedcatalog1+races4PASS, exact21/8 and partition pins, all package/
+CP6/advisor/required gates true, copy0/sessions[]. Same UUID one command, CAS
+one winner, actual envelope revocation and committed replay request-lock
+revocation pass. Race harness declares test_only_usage_grant=true. PartB is
+pending: partA alone does not qualify the complete11 or actual Auth HTTP.
+
+## 122. B24 Oktober2026 UTC — scoped transport clone authority first failure
+
+aca11228/run40121788270/job120954747798 failed. Complete Original12571875800
+(91905 bytes, SHA256
+68c3fbdf7ab6159e178cb60a9c1e24f4a48958e05143022a0c53e81acc0be38b)
+has catalog1PASS only. Both races/HTTP refuse database_authority CURRENT
+before any case because the new probe omitted the existing exact clone-
+authority wrapper. All22 equality checks correctly remain strict. The fix
+reuses cp7_ow13a_clone_authority.copied_with_authority for the existing allowlisted
+disposable copies, as v2/target suites already do; source-pin the probe too.
+Controlled wrapper execution proves use on success and restoration on exception.
+Seven required cases, product runtime SQL and8s limits unchanged. CP6/advisor
+restore true, HTTP Auth0000→0000/copy0, but zero real transport case credit.
+
+d7d3033b fullTransport11/run40119284316/job120947092229 was cancelled at45min.
+Complete Original12572315518 (82339 bytes, SHA256
+f297f12b18c409fa3b14fc732c8268dac36e2c7e8dba538141bed048f252f5d0)
+retains catalog1/races7PASS, no HTTP aggregate, CP6/advisor false after shutdown;
+no full-suite acceptance. Existing two-part run addresses that full-job limit.
+190c1d78 cacheNative6 rerun40122499063 and3d19e1cb scoped datasetNative4
+run40122702164 are active. Formal5/16 and production/independent flags false.
+
+## 123. B24 Oktober2026 UTC — target transport11 complete across exact two parts
+
+2b335934/run40120202292 completed success. PartB/job120949897608 Original
+12572126471 (94413 bytes, SHA256
+eabe8fdfa6ad98ed6684c46e441b43400702ba23ae7188a5a25bff1e7a1cd907)
+has repeatedcatalog1+races3+actualAuthHTTP3PASS, all required/package/CP6/advisor
+and restore gates true, Auth0000→0000, copy0/sessions[]. Actual runtime login
+uses no test-only schema grant. Race harness retains its declared test-only
+usage grant. Paired with PartA Original12572450064 at the identical head/source/
+partition pins, the union is exactly11 unique required controls (1+7+3); the
+repeated catalog earns zero extra credit. This qualifies current21/8 transport,
+not a positive model forecast, scoped-model consumer, after-use restore or OW11.
+
+## 124. B24 Oktober2026 UTC — dataset composed-parent first failure and repair
+
+3d19e1cb/run40122702164/job120957501265 failed. Complete Original12571489356
+(161087 bytes, SHA256
+0f2a5917a27864bfd6de9612e7bb6e617b0ed7fc3037e485e856dba2dd1fcc3b)
+has4INCOMPLETE before model cases: the new composed checker invoked the exact
+predecessor22 oracle with policy/v2 children still installed. CP6/advisor restore
+pass; writer runtime fails. Fix test composition using verified preuse inverse
+inside savepoint, unchanged parent oracle, rollback and all22 equality, at both
+model and history boundaries. Product dataset SQL, counts and oracle unchanged.
+Actual Native dataset qualification remains open until the corrected rerun.
+
+## 125. B24 Oktober2026 UTC — retained scoped model evaluation v3 candidate
+
+New isolated v3 table/history FK/method namespace,4private+2public functions,
+no old replacement/default caller. Shared v2 policy and assessment kernels
+remain authoritative; exact scoped digest is verified before adding the v3
+engine identity. Capture rechecks actor after envelope/request waits and exact
+payload replay; source/policy/engine/day/access after final immutable insertion.
+Read returns original assessment plus separate current guard. Actual capture
+knowledge times and UNKNOWN remain intact; no owner policy or winner invented.
+
+Local8PASS on actual SQL with controlled ERP/Auth. First1PASS/7FAIL revealed
+ambiguous JSON subtraction precedence, fixed by explicit parentheses; next
+7PASS/1FAIL required the existing CP7_RUN_IMMUTABLE error, now exact. First logs
+retained. Source/SQL/Python/declaration checks pass. Exact22 installer declares
+parent FK triggers, private ACL and immutable preuse-only inverse. Native6 is
+prepared for actual capture, prospective policy, Native SALE/access, dense2000/
+202000 and atomic fault/engine controls. Public client, model-target consumption,
+Auth/concurrency and after-use restore remain open. Formal5/16, CP7C unaccepted,
+production_go=false; writer tests are not independent acceptance.
+
+
+## A25 October2026 WIB - isolated history integration and source-only model candidates
+
+A target candidate remains on exact21/8 current product; corrected B190 Native6
+Original is still required before A Native20 starts. Actual paired2b Transport11
+passed component admission. Separate A history branch retains composer/recovery
+and Native25 preparation with SOURCE absent. Local17 guards and25 original case
+selection/exception-restored setup hooks pass; no composed database credit.
+B23d4 scoped dataset/evaluation modules are source-reference only here; A history
+composer does not install or call them. Corrected history clone-authority probe
+is retained exactly, requiring actual transport PASS including its probe pin.
+Frozen F05 and earlier candidate driver copies remain unchanged; exact B23d4 F05
+is kept as scripts/cp7_b_scoped_model_f05_candidate.py, not an A execution entry.
+True merge preserves both parents. Whole-current after-use history restore,
+Native20/followups, factory1200x3+official finance and independent acceptance
+remain open. Formal5/16; production_go=false; no owner policy inferred.

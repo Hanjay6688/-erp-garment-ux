@@ -1,0 +1,80 @@
+{
+  "formal_acceptance": "5/16",
+  "CP7C_accepted": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "full_OW11_acceptance": false,
+  "positive_model_target_qualified": false,
+  "after_use_restore_qualified": false,
+  "contract": "cp7.model-target-transport-part-b-original-receipt.v1",
+  "status": "PASS",
+  "head": "2b3359346b49e3b5da17cb10e4accc886c7afc42",
+  "run_id": 40120202292,
+  "job_id": 120949897608,
+  "workflow_conclusion": "success",
+  "part": "B",
+  "artifact_id": 12572126471,
+  "artifact_bytes": 94413,
+  "artifact_sha256": "eabe8fdfa6ad98ed6684c46e441b43400702ba23ae7188a5a25bff1e7a1cd907",
+  "observed_count": 7,
+  "unique_case_credit": 6,
+  "repeated_catalog_credit": 0,
+  "required_ids": {
+    "native": [
+      "OW11_MODEL_TARGET_CATALOG22_COMPOSED_PREUSE"
+    ],
+    "races": [
+      "OW11_MODEL_TARGET_RACE_ACCESS_AFTER_TARGET",
+      "OW11_MODEL_TARGET_RACE_SOURCE_AFTER_ENVELOPE",
+      "OW11_MODEL_TARGET_RACE_POLICY_AFTER_ENVELOPE"
+    ],
+    "http": [
+      "OW11_MODEL_TARGET_AUTH_CONFIRM_CLEAR_EXACT_REPLAY",
+      "OW11_MODEL_TARGET_AUTH_REVOKED_COMMITTED_REPLAY",
+      "OW11_MODEL_TARGET_AUTH_ANON_AND_FOREIGN_REFERENCE"
+    ]
+  },
+  "model_target_source_sha256": {
+    "cp7_model_target_consumer_stage/MANIFEST.json": "24a60756357ea1cb2aabdef8e8123780ed4d4313d5eac624894b014880e38209",
+    "cp7_model_target_consumer_stage/__init__.py": "0af052bdbb726767437629c00f7ce429638040f4c674246bb7731605c267a91f",
+    "cp7_model_target_consumer_stage/hooks.sql": "91f4ba662d22bb3ba25d3a54e0f9dc93278259505cc7dfee9c0e1e330cb2ba80",
+    "cp7_model_target_consumer_stage/render.py": "f083d86dc6bac9bdfe60fb9e206974431007b91dcbc7aa2fb7489a8c3ef56e8c",
+    "cp7_model_target_source/MANIFEST.json": "5b59da3a09f54616115caffe8b17d3ea2a27a90925399f6ee6892412439aea17",
+    "cp7_model_target_source/__init__.py": "9a4ea1b1485d202105aca7d4fed590b4990a8b0db975d091bf752fc37499f2e6",
+    "cp7_model_target_source/source.sql": "94f856526c37ca14f5b2d5e44ee69a8845eee38524de648489256c56ebe60135",
+    "cp7_model_target_projection/MANIFEST.json": "df37cce0f27656606634fac61f26579f255ea291dc9f5a1696f28d1cbf2bd51a",
+    "cp7_model_target_projection/__init__.py": "2e2be38a043353af1d45f124d9f69e9c92fa1316c94eac826d133dad56c3b75c",
+    "cp7_model_target_projection/projection.sql": "1e96c6389c3537dcaf59bcf79383754f0b5716ad3c1d9010c77fb0918535e6b7",
+    "cp7_model_target_consumer/MANIFEST.json": "30d6ff9b8f41081e8cbe0aebdadda7d747de8ef6e23220b9658dd651ebb7684d",
+    "cp7_model_target_consumer/__init__.py": "4f965d8cf63a7d1f7671f0efc416a2a01ea9bf005278c69d71edeef772236e00",
+    "cp7_model_target_consumer/consumer.sql": "aea32bb1f7f07be6e65bbc613e8d3e5a38ed9db61f0cba510b3f84812d431600",
+    "cp7_model_target_consumer/timeline.py": "a23bbb9be67e24f7f3de8363eac2ebc8459142112e310ff11b0b6c783aca1825",
+    "cp7_model_target_consumer/timeline.sql": "869b9d35d10cfbdb64e7516562233e5dce8765950071ba72a69c69e5d2d4af49"
+  },
+  "partition_source_sha256": {
+    "cp7_ow11_model_target_transport_parts.py": "44f62a6571ffc329e15e9fa1c0cbb799dd51928de3c6b3550828fa2e46c0b048",
+    "cp7_ow11_model_target_transport_cases.py": "f70bf21326282e02136bc2eb005afb0392453f09fcaf8d309bfc10ae839f2692"
+  },
+  "all_package_gates": true,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "actual_Auth_HTTP_credit": true,
+  "race_test_only_usage_grant": true,
+  "http_test_only_usage_grant": false,
+  "auth_counts": {
+    "before": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "after": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "restored": true
+  },
+  "copy_database_remaining": 0
+}

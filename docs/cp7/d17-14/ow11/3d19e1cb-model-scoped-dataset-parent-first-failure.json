@@ -1,0 +1,50 @@
+{
+  "formal_acceptance": "5/16",
+  "CP7C_accepted": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "full_OW11_acceptance": false,
+  "positive_model_target_qualified": false,
+  "after_use_restore_qualified": false,
+  "contract": "cp7.model-scoped-dataset-original-first-failure.v1",
+  "head": "3d19e1cb4743b80af8afbd510827f183b93d3856",
+  "run_id": 40122702164,
+  "job_id": 120957501265,
+  "workflow_conclusion": "failure",
+  "artifact_id": 12571489356,
+  "artifact_bytes": 161087,
+  "artifact_sha256": "0f2a5917a27864bfd6de9612e7bb6e617b0ed7fc3037e485e856dba2dd1fcc3b",
+  "status": "INCOMPLETE",
+  "counts": {
+    "INCOMPLETE": 4
+  },
+  "required_ids": {
+    "native": [
+      "OW11_MODEL_SCOPED_DATASET_CATALOG22_COMPOSED_INVERSE",
+      "OW11_MODEL_SCOPED_DATASET_ACTUAL_CAPTURE_AND_POLICY_CLOCK",
+      "OW11_MODEL_SCOPED_DATASET_ACTUAL_POST_REVISION_AND_ACCESS",
+      "OW11_MODEL_SCOPED_DATASET_DENSE2000_SINGLE_TARGET"
+    ]
+  },
+  "model_source_sha256": {
+    "MANIFEST.json": "a8173b1615cf12c7f53fac7d66d9be09a6d8c4b68c6db048130eba9a3e24afda",
+    "__init__.py": "40a4ded256a30daecaf69a9fef5deeac3f96144a56ddddf9458310146378dbe0",
+    "binding.sql": "8a65561d962c503fd79bd1f90b90698b2dbc8e989ec9c7d8490f77941c395d8e",
+    "dataset.sql": "c4fb9b15306583b2c9d1dca87855eee97a33266dc0e47d5e9ef3a460cd349a83",
+    "render.py": "788521c7671fc3b61bda09f04af07ed48549dd4d795b4fcb4828dc6925eb8bfd"
+  },
+  "error": "OW13A_LEGACY_ORACLE_NOT_EXACT_PREDECESSOR_22",
+  "cause": "Composed test checker calls unchanged exact predecessor oracle while policy and model v2 additions are still installed.",
+  "correction": "Within a savepoint remove the verified preuse children, run the unchanged exact22 parent oracle, roll back and assert all22 groups restored. Repeat for scoped history layer.",
+  "runtime_SQL_changed": false,
+  "actual_model_cases_qualified": 0,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  }
+}
