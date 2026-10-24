@@ -1666,3 +1666,16 @@ pool lama lewat CREATE/ACTIVATE yang sudah diuji. Cutoff awal kasus dipulihkan;
 case/oracle/frozen SQL tidak diubah, tidak ada auto-approve setelah skenario.
 Race36 pertama tetap berjalan dan belum diklaim lulus. Parent5/16 serta
 production_go=false tetap.
+
+## A / 24 Oktober 2026 — cakupan286 diperinci, Crossflow142 mulai [bersama]
+
+CurrentCrossflow142 di c38271b6/run40074793087 mulaiCI. Source1088pin dan
+179modul CP6 yang benar-benar dimuat mempunyai byte identik dengan sumber
+yang dipin;142ID/284eksekusi baseline+current,0kasus bisnis baru. Ini tidak
+menjalankan admission/maintenance/rollback historis atau menutup12arsip.
+
+Inventaris enam suite lama menunjukkan labelNative286=180Native satu sesi
++106races/HTTP/browser. Rinciannya disimpan di ow15/retained-286-mode-inventory.json
+dan peta current. Penamaan lama dipertahankan sebagai label historis, bukan
+kredit286Native. Factory asli diperiksa tanpa DB; belumada eksekusi180current.
+A/B produk tetap sama; officiala255e48f dan Ba1043452 diverifikasi tetap.

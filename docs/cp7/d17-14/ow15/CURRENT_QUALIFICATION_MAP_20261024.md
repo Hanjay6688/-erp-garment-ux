@@ -37,6 +37,28 @@ ZIP/Original byte+SHA. Delapan di head28abdeef; Browser19 di7b26351f. Perubahan
 setelahnya menambah qualifier/dokumen, tidak mengganti sumber produk. Bukti tetap
 berlabel **REUSED_WRITER_EVIDENCE**, bukan audit independen atau izin produksi.
 
+## Arti label historis Native286
+
+Factory dan perhitungan Original diperiksa ulang: label lama **Native286**
+sebenarnya menjumlahkan **180 kasus Native satu sesi +106 kasus mode lain**
+(transaksi bersamaan, HTTP/Auth dan browser), bukan286Native satu sesi.
+Inventaris `retained-286-mode-inventory.json` memuat semua180ID asli; pembuatan
+daftar dilakukan tanpa eksekusi kasus dan menolak koneksi database.
+
+| Suite historis | Total semua mode | Native satu sesi | Mode lain |
+|---|---:|---:|---:|
+| OW14b rules |113|61|52|
+| OW16 status |16|10|6|
+| OW13b history |20|14|6|
+| F04 baseline |38|27|11|
+| P19 staged |15|7|8|
+| F04 netting |84|61|23|
+| Total |286|180|106|
+
+Label lama dan Original tetap utuh. Native180 saja kelak tidak boleh menutup
+286;106kasus mode lain harus punya bukti masing-masing. Ini koreksi cakupan
+dan rencana uji, bukan hasil runtime atau penerimaan tambahan.
+
 ## Pemetaan historis yang sudah mempunyai penerus
 
 | Entry point historis | Penerus dan batas pemetaan |
