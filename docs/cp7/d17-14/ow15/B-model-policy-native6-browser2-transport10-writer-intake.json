@@ -1,0 +1,215 @@
+{
+  "contract": "cp7.writer-A.B-model-policy-intake.v1",
+  "read_complete_raw_originals": true,
+  "reports": [
+    {
+      "id": 12562127995,
+      "bytes": 43936,
+      "sha": "6e3883fc3324b945dae2c6e06e99e01c016882cb11d63353ad26b3df3b7e7517",
+      "status": "PASS",
+      "head": "7027ac9ccd19eefa549518004d2542cfb3ab5ac7",
+      "run": 40100084308,
+      "job": 120890262684,
+      "original_name": "CP7_OW11_MODEL_POLICY_BROWSER.json",
+      "original_bytes": 293029,
+      "original_sha256": "683df2203f90ad4a6dd64c40b10ad60a5eed184acc3b0c0d20b542789411a7f4",
+      "counts": {
+        "browser": {
+          "PASS": 2
+        }
+      },
+      "case_ids": {
+        "browser": {
+          "OW11_MODEL_POLICY_BROWSER_MOBILE_EXACT_RECOVERY_SUSPEND": "PASS",
+          "OW11_MODEL_POLICY_BROWSER_DESKTOP_REVIEW_ACCESS_REVOKED": "PASS"
+        }
+      },
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "required_case_ids_pass": true,
+      "required_case_counts_pass": true,
+      "observed_case_count": 2,
+      "model_policy_source_pins_verified_at_B2263": {
+        "scripts/cp7_model_policy_stage/MANIFEST.json": "1786495190478f6f339093f9c8c2b49ae1675212e7a7fb987e567c86b3f09196",
+        "scripts/cp7_model_policy_stage/__init__.py": "a2d8c50c2bb8b75c345f93f218e7c06ad80b3d7cccae3f5f9d36d0b86ff7b7c8",
+        "scripts/cp7_model_policy_stage/policy.sql": "36eb75182f9100331d1afea39f7d2e48d690eef167b03a7919a897d6d5c1279a",
+        "scripts/cp7_model_activation_gate/MANIFEST.json": "51789bcc72c631b405180fa599093651950a9bded164c69ff8ddb99e2784c77e",
+        "scripts/cp7_model_activation_gate/__init__.py": "adff8b84726d5c6f867aeb2001a335a8340121d214ff06ff45e9f084f6cd22f0",
+        "scripts/cp7_model_activation_gate/gate.sql": "6f3cff8ab5989a325603e7200696a5b838b2a3f54b0815b5c96cdb0c88af8d3c"
+      },
+      "full_current_A_chain_qualified": false,
+      "whole_job_status": "completed",
+      "whole_job_conclusion": "success",
+      "whole_job_independently_read_by_A": true
+    },
+    {
+      "id": 12562431835,
+      "bytes": 203909,
+      "sha": "ce323897d96b3dda84d206a8ce8ea91436bfa5d0edf52e24b9b70d5f63960d86",
+      "status": "PASS",
+      "head": "2b3ddd26c1701fe33a562a047e9f4a37b173b85a",
+      "run": 40098897360,
+      "job": 120886791596,
+      "original_name": "CP7_OW11_MODEL_POLICY.json",
+      "original_bytes": 1824507,
+      "original_sha256": "805af49643b97e2c14a74857d6c70d739c8574e3c62f1aef51df98c550faf334",
+      "counts": {
+        "native": {
+          "PASS": 6
+        }
+      },
+      "case_ids": {
+        "native": {
+          "OW11_MODEL_POLICY_CATALOG22_PREUSE_DEPENDENCY": "PASS",
+          "OW11_MODEL_POLICY_EXPLICIT_APPEND_SUSPEND_REACTIVATE_REPLAY": "PASS",
+          "OW11_MODEL_POLICY_PROSPECTIVE_CLOCK_AND_IMMUTABLE_HISTORY": "PASS",
+          "OW11_MODEL_POLICY_CURRENT_ACCESS_OWNER_ADMIN_AND_REPLAY": "PASS",
+          "OW11_MODEL_POLICY_EXPLICIT_VALIDATION_CAS_TEMPLATE": "PASS",
+          "OW11_MODEL_POLICY_ATOMIC_REGISTRY_POLICY_COMMAND": "PASS"
+        }
+      },
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "required_case_ids_pass": true,
+      "required_case_counts_pass": true,
+      "observed_case_count": 6,
+      "model_policy_source_pins_verified_at_B2263": {
+        "scripts/cp7_model_policy_stage/MANIFEST.json": "1786495190478f6f339093f9c8c2b49ae1675212e7a7fb987e567c86b3f09196",
+        "scripts/cp7_model_policy_stage/__init__.py": "a2d8c50c2bb8b75c345f93f218e7c06ad80b3d7cccae3f5f9d36d0b86ff7b7c8",
+        "scripts/cp7_model_policy_stage/policy.sql": "36eb75182f9100331d1afea39f7d2e48d690eef167b03a7919a897d6d5c1279a",
+        "scripts/cp7_model_activation_gate/MANIFEST.json": "51789bcc72c631b405180fa599093651950a9bded164c69ff8ddb99e2784c77e",
+        "scripts/cp7_model_activation_gate/__init__.py": "adff8b84726d5c6f867aeb2001a335a8340121d214ff06ff45e9f084f6cd22f0",
+        "scripts/cp7_model_activation_gate/gate.sql": "6f3cff8ab5989a325603e7200696a5b838b2a3f54b0815b5c96cdb0c88af8d3c"
+      },
+      "full_current_A_chain_qualified": false,
+      "whole_job_status": "completed",
+      "whole_job_conclusion": "success",
+      "whole_job_independently_read_by_A": true
+    },
+    {
+      "id": 12562595876,
+      "bytes": 46098,
+      "sha": "9dad67f7a19c597014ab407446a0712f28fae95b8614058bac0da23729442d09",
+      "status": "INCOMPLETE",
+      "head": "2b3ddd26c1701fe33a562a047e9f4a37b173b85a",
+      "run": 40098897426,
+      "job": 120886791954,
+      "original_name": "CP7_OW11_MODEL_POLICY_BROWSER.json",
+      "original_bytes": 293115,
+      "original_sha256": "b480847c121882067e83cad2f2eed9230419dc0b1663b696f82071c5a6fd7a26",
+      "counts": {
+        "browser": {
+          "INCOMPLETE": 2
+        }
+      },
+      "case_ids": {
+        "browser": {
+          "OW11_MODEL_POLICY_BROWSER_MOBILE_EXACT_RECOVERY_SUSPEND": "INCOMPLETE",
+          "OW11_MODEL_POLICY_BROWSER_DESKTOP_REVIEW_ACCESS_REVOKED": "INCOMPLETE"
+        }
+      },
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": false
+      },
+      "required_case_ids_pass": true,
+      "required_case_counts_pass": false,
+      "observed_case_count": 2,
+      "model_policy_source_pins_verified_at_B2263": {
+        "scripts/cp7_model_policy_stage/MANIFEST.json": "1786495190478f6f339093f9c8c2b49ae1675212e7a7fb987e567c86b3f09196",
+        "scripts/cp7_model_policy_stage/__init__.py": "a2d8c50c2bb8b75c345f93f218e7c06ad80b3d7cccae3f5f9d36d0b86ff7b7c8",
+        "scripts/cp7_model_policy_stage/policy.sql": "36eb75182f9100331d1afea39f7d2e48d690eef167b03a7919a897d6d5c1279a",
+        "scripts/cp7_model_activation_gate/MANIFEST.json": "51789bcc72c631b405180fa599093651950a9bded164c69ff8ddb99e2784c77e",
+        "scripts/cp7_model_activation_gate/__init__.py": "adff8b84726d5c6f867aeb2001a335a8340121d214ff06ff45e9f084f6cd22f0",
+        "scripts/cp7_model_activation_gate/gate.sql": "6f3cff8ab5989a325603e7200696a5b838b2a3f54b0815b5c96cdb0c88af8d3c"
+      },
+      "full_current_A_chain_qualified": false,
+      "whole_job_status": "completed",
+      "whole_job_conclusion": "failure",
+      "whole_job_independently_read_by_A": true
+    },
+    {
+      "id": 12563070704,
+      "bytes": 92460,
+      "sha": "2d87674ccafa1639bec5fc37d70285085356c2c3128b5e20b58bf9692164aa53",
+      "status": "PASS",
+      "head": "fc6ff13232786f552f6e7811aade8363c54c9702",
+      "run": 40099304591,
+      "job": 120887966560,
+      "original_name": "CP7_OW11_MODEL_POLICY_TRANSPORT.json",
+      "original_bytes": 744612,
+      "original_sha256": "db75a6cbbd1fc53b4b92870b57a380f22d3966c5334ab5cae3e8c9512b0ea65a",
+      "counts": {
+        "native": {
+          "PASS": 1
+        },
+        "races": {
+          "PASS": 6
+        },
+        "http": {
+          "PASS": 3
+        }
+      },
+      "case_ids": {
+        "native": {
+          "OW11_MODEL_POLICY_CATALOG22_PREUSE_DEPENDENCY": "PASS"
+        },
+        "races": {
+          "OW11_MODEL_POLICY_RACE_SAME_UUID": "PASS",
+          "OW11_MODEL_POLICY_RACE_REVISION": "PASS",
+          "OW11_MODEL_POLICY_RACE_ACCESS_AFTER_ENVELOPE": "PASS",
+          "OW11_MODEL_POLICY_RACE_REPLAY_AFTER_REQUEST": "PASS",
+          "OW11_MODEL_POLICY_RACE_ACCESS_AFTER_POLICY": "PASS",
+          "OW11_MODEL_POLICY_RACE_ROLE_CHANGE_AFTER_ENVELOPE": "PASS"
+        },
+        "http": {
+          "OW11_MODEL_POLICY_AUTH_SET_SUSPEND_EXACT_REPLAY": "PASS",
+          "OW11_MODEL_POLICY_AUTH_REVOKED_COMMITTED_REPLAY": "PASS",
+          "OW11_MODEL_POLICY_AUTH_ANON_READER_FOREIGN_EPOCH": "PASS"
+        }
+      },
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "required_case_ids_pass": true,
+      "required_case_counts_pass": true,
+      "observed_case_count": 10,
+      "model_policy_source_pins_verified_at_B2263": {
+        "scripts/cp7_model_policy_stage/MANIFEST.json": "1786495190478f6f339093f9c8c2b49ae1675212e7a7fb987e567c86b3f09196",
+        "scripts/cp7_model_policy_stage/__init__.py": "a2d8c50c2bb8b75c345f93f218e7c06ad80b3d7cccae3f5f9d36d0b86ff7b7c8",
+        "scripts/cp7_model_policy_stage/policy.sql": "36eb75182f9100331d1afea39f7d2e48d690eef167b03a7919a897d6d5c1279a",
+        "scripts/cp7_model_activation_gate/MANIFEST.json": "51789bcc72c631b405180fa599093651950a9bded164c69ff8ddb99e2784c77e",
+        "scripts/cp7_model_activation_gate/__init__.py": "adff8b84726d5c6f867aeb2001a335a8340121d214ff06ff45e9f084f6cd22f0",
+        "scripts/cp7_model_activation_gate/gate.sql": "6f3cff8ab5989a325603e7200696a5b838b2a3f54b0815b5c96cdb0c88af8d3c"
+      },
+      "full_current_A_chain_qualified": false,
+      "whole_job_status": "completed",
+      "whole_job_conclusion": "success",
+      "whole_job_independently_read_by_A": true
+    }
+  ],
+  "first_browser_failure_preserved": true,
+  "source_verified_at": "2263a57690d632776c115ef63c1ce152182dc978",
+  "consumer_candidate_changed": false,
+  "full_current_A_chain_qualified": false,
+  "formal_parent": "5/16",
+  "production_go": false,
+  "independent_acceptance": false
+}
