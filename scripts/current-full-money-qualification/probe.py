@@ -17,8 +17,8 @@ HERE=Path(__file__).resolve().parent
 sys.path.insert(0,str(REPO/'scripts'))
 OW05_HERE=REPO/'scripts/ow05-p21-qualification'
 sys.path.insert(0,str(OW05_HERE))
-spec=importlib.util.spec_from_file_location('p21_current_restore_helpers',REPO/'scripts/ow04-payment-used-restore-qualification/probe.py')
-helper=importlib.util.module_from_spec(spec);spec.loader.exec_module(helper)
+import cp7_p21_current_chain_rehearsal_probe as inherited
+helper=inherited.helper  # Reuse the already-admitted closed-CLI helper once.
 from types import SimpleNamespace
 import cp7_current_installation as installation
 import cp7_p21_chain_adapter as old_adapter

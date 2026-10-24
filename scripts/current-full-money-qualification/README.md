@@ -25,3 +25,9 @@ factory3600. Auth/browser dinilai oleh receipt terpisah. Assertion E01 READY,
 unknown≠0, uang/stok/HPP dan original tidak boleh dilonggarkan. PASS baru boleh
 dicatat setelah Original, CP6/advisor, pembersihan dan lima gate paket diperiksa.
 Main/integrasi resmi/audit beku/hosted/WA nyata tetap; production_go=false.
+
+Pemeriksaan import lokal pertama berhenti pada penjaga CLI: helper lama diimpor
+ulang setelah pemasang mengatur argv install. Perbaikan memakai instance helper
+milik modul induk yang telah diimpor, sehingga kontrak CLI tetap utuh; tidak
+mengosongkan argv atau melonggarkan guard. Belum ada database yang dijalankan
+pada kegagalan import tersebut.

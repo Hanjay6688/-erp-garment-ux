@@ -54,6 +54,10 @@
     {
       "before": "\"\"\"P21 rehearsal of the source-verified current OW-15 chain top (OW-04b slice C over the whole chain).\n\nA copy of cp7_p21_current_ow05_rehearsal_probe.py with the chain adapter (cp7_p21_chain_adapter) and the chain\nrestore binding (cp7_chain_restore). It retains full dump/restore, all catalog/data/sequence checks, both committed\ncredit/refund chains, the legacy supplier/analysis use and readback and the OW05 mandor steps. Tightened (plan\nRENCANA_OW15 section 4): the legacy AR checks and CP7_CUSTOMER_CREDIT_REPORT_UNPROVEN must all be ('CRITICAL',0)\nbefore and after credit use (docs/cp7/d17-14/ow04/p21-36a6b880-readiness-boundary.json stays as history). Every\nother session holding a cp7 relation lock is waited out (bounded, recorded) before each removal attempt. Old\nattendance periods are divided through the Native HPP pool facade with a labelled fixture reason before E01 READY\n(finding 3); the READY assertions are not changed. CHAIN_STEPS come from\nscripts/chain-p21-qualification/EXPECTED_CHAIN_STEPS.json; a TODO step keeps the report from PASS.\n\"\"\"",
       "after": "\"\"\"Full retained A monetary P21 journey on the current A/B installation.\n\nThe parent helper bodies and immutable gold remain unchanged. Counted\nadaptations select the current installer/recovery and add actual bounded\nwork/draft restore and UUID replays. All seven chain steps are required.\nNo hosted connection, production admission or full B qualification is claimed.\n\"\"\""
+    },
+    {
+      "before": "spec=importlib.util.spec_from_file_location('p21_current_restore_helpers',REPO/'scripts/ow04-payment-used-restore-qualification/probe.py')\nhelper=importlib.util.module_from_spec(spec);spec.loader.exec_module(helper)",
+      "after": "import cp7_p21_current_chain_rehearsal_probe as inherited\nhelper=inherited.helper  # Reuse the already-admitted closed-CLI helper once."
     }
   ]
 }
