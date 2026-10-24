@@ -2502,3 +2502,34 @@ Tidak ada actualpositivewinner/forecastactivation atau fullAchain credit.
 Raw12JSON baru tersimpan bersama semua bukti lama; safeintake ada di ow15.
 Native15 fullA disiapkan dengan casebodies asli dan dua setuphook yang eksplisit,
 menunggu financeNative5 successor PASS sebelum SOURCE dan branchrun dibuat.
+
+
+## A — actual finance used Restore8 PASS and full model followups (24 October 2026)
+
+81c7eff7/run40110462977/job120920906265 actual full committed finance Restore8
+PASS. All eight steps, eight negative controls and five package gates pass;
+2971 source pins match the frozen candidate. Full used backup restores all22
+portable groups, all rows and sequences; the DRAFT negative write requires a
+second full restore. Official four sections/24 metrics, independent book signature,
+UNKNOWN without zero, exact old capture/pages/provenance and same UUID one capture
+survive restore, analog CLEAR and the next Native return. CP6 and baseline advisors
+are exact. Safe receipt: ow15/current-bounded-finance-restore8-pass-81c7eff7.json.
+
+Full model first2fe135e2/run40110353664 was INCOMPLETE before commit and before
+any business case: typed registry datetime could not be serialized for the composer
+hash. Raw Original and cleanup proof retained. Composer-only successor6d056959
+uses strict aware UTC microsecond serialization for hashing while preserving typed
+state. Ten local type controls and3041source admissions PASS; actual Native15
+run40112104441 is still pending, so no full model runtime credit yet.
+
+Prepared full current usedRestore8, bounded-finance Auth3/races7, model browser4,
+actual minute cron1 and retained B model Auth6/races12 all require the actual
+corrected Native15 PASS before binding SOURCE or creating their run branches.
+Cron preparation e810937e preserves the production minute schedule and60 bounded
+transactions, observes only, checks all24 metrics and exact replay, removes and
+quiesces its sole disposable schedule, then restores the complete baseline dump.
+Retained model transport leaves both original B case bodies/limits unchanged; only
+installation setup hooks bind to the full composed verifier. Two component
+catalog anchors remain excluded; all22 global inverse is proved separately.
+No hosted/main/realWA/defaultpolicy changes. Productionfalse/parent5of16; writer
+proof remains distinct from independent acceptance. Continue after checkpoint.
