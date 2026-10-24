@@ -3035,3 +3035,12 @@ The complete frozen6d Native15 admission has now also passed from its immutable
 checkout, with current21/8 predecessor source equal and all20 retained Native
 business bodies bound. Local preparation passes do not substitute for the
 pending actual d7 Native6 or future composed A Native20.
+
+## A shared-file update: current OW12a and OW15 evidence status
+
+A will update only its OW12/OW15 status cells in OPEN_WORK and add a concise
+current qualification index. Replace stale running labels with the actual
+retained INCOMPLETE CP6 results and actual full-model PASS followups, while
+keeping factory3600, current21/8 runtime, original baseline failures and
+independent acceptance explicitly open. B-owned rows and owner decisions stay
+unchanged. Publish this shared-document change as a separate [bersama] commit.
