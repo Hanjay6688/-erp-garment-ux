@@ -103,6 +103,11 @@ begin
    'selected_model',null,'forecast',null);
  end if;
  return jsonb_build_object('contract_version','cp7.native-model-assessment.v2','source_hash',d->'source_hash','engine_hash',d->'engine_hash',
+  'source',jsonb_build_object('history_run_id',d->'history_run_id','target_key',d->'target_key','size_id',d->'size_id',
+   'product_sku',d->'product_sku','product_name',d->'product_name','from_date',d->'from_date','through_date',d->'through_date',
+   'known_as_of',d->'known_as_of','registry_id',d->'registry_id','registered_at',d->'registered_at',
+   'horizon_days',d->'query'->'horizon_days','series_revision_count',jsonb_array_length(d->'series'),
+   'knowledge_basis',d->'knowledge_basis','no_retrospective_availability_backfill',d->'no_retrospective_availability_backfill'),
   'policy_source',d->'policy_source','policy_current',policy_current,'evaluation',evaluation,
   'evaluation_state',case when no_challenger then'NOT_REQUESTED_NO_ALLOWED_CHALLENGER'else'EVALUATED'end,
   'baseline',jsonb_build_object('method','MEAN','daily_mean',d->'fallback_daily_mean'),'activation',admission,

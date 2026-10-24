@@ -53,3 +53,28 @@ Open: Native6 Original verification; actual Auth, races and browser; v2 client
 recovery/UI; reviewed model activation and dated-vector consumption through the
 single target engine; full A composition/after-use restore and independent audit.
 Production and full OW11 acceptance remain false.
+
+## Explicit client and immutable source header
+
+The assessment includes a source header even when policy permits zero
+challengers and evaluation is null. The UI can identify the Native snapshot,
+actual knowledge time, product/size and exact policy registry clock without
+manufacturing a model evaluation. This additive candidate changes the adapter
+source hash and requires its own Native run; the 2263a57 Original predates it.
+
+`nativeModelEvaluationV2.ts` validates the separate v2 wire contract, exact
+actor/method/UUID/query, source/policy/model bindings, fixed parameter template,
+paired fold and holdout evidence, decimal strings, microsecond clocks and
+current guard. Reread compares the complete immutable response except the
+current guard. No v1 parser or UUID namespace is repurposed. Recovery is durable
+before capture and never exchanges uncertain work for a new request; stale tab
+or selected history invalidates late responses. Initial database rollback may
+release only a first request; uncertain retry remains held after access loss.
+
+The explicit panel leaves horizon blank, displays archived daily forecast dates
+and current policy/source/engine/date eligibility separately, and does not apply
+forecast to targets. V1 and v2 pending captures block new evaluations across
+both entry points. Existing production/browser locks and pending policy writes
+are respected. Current access loss retires parent figures and preserves dirty
+input. SQL fixture evidence is explicitly synthetic and is not Native/Auth or
+production accuracy proof. Actual browser/transport qualification remains open.

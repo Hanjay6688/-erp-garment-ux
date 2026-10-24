@@ -24,9 +24,11 @@ const serve=id=>sql('select public.erp_cp7_read_model_evaluation_v2($1::uuid)v',
 const rows=()=>sql('select count(*)::integer v from cp7_model_registry_adapter.runs')
 const row=id=>sql('select to_jsonb(r)v from cp7_model_registry_adapter.runs r where id=$1::uuid',[id])
 const unchanged=(x,y)=>{const a=structuredClone(x),b=structuredClone(y);delete a.current_guard;delete b.current_guard;assert.deepEqual(a,b)}
+const fixtures={}
 await test('EMPTY_POLICY_CAPTURE_REPLAY_OWNS_ONE_IMMUTABLE_RUN',async()=>{
- const k=randomUUID(),r=await capture(q,k),before=await row(r.run_id),again=await capture(q,k)
+ const p={...q,horizon_days:'90'},k=randomUUID(),r=await capture(p,k),before=await row(r.run_id),again=await capture(p,k)
  assert.equal(r.assessment.activation.reason,'EXPLICIT_ACTIVATION_POLICY_REQUIRED');assert.equal(r.current_guard.state,'BASELINE_REQUIRED')
+ fixtures.baseline=structuredClone(r)
  unchanged(r,again);assert.deepEqual(await row(r.run_id),before);assert.equal(await rows(),1)
  assert.equal(await sql('select count(*)::integer v from cp7_model_native.runs'),0)
  await rejects(()=>capture({...q,horizon_days:'8'},k),/CP7_MODEL_V2_REQUEST_CHANGED/)
@@ -36,16 +38,25 @@ await test('EXPLICIT_SYNTHETIC_WINNER_CAPTURE_READER_DATED_VECTOR',async()=>{
  await seed();const r=await capture(),stored=await row(r.run_id),again=await serve(r.run_id)
  assert.equal(r.assessment.activation.state,'ELIGIBLE');assert.equal(r.current_guard.state,'ELIGIBLE')
  assert.deepEqual(r.assessment.activation.forecast.forecasts,Array(7).fill('100.000000000000'));assert.equal(r.assessment.activation.forecast_from_date,day(100))
+ fixtures.eligible=structuredClone(r)
  unchanged(r,again);assert.deepEqual(await row(r.run_id),stored);assert.equal(r.forecast_applied,false)
  return{synthetic_history_only:true,immutable_NAIVE100x7:true,read_does_not_recompute_or_apply_forecast:true}
 })
 await test('CURRENT_POLICY_WITHDRAWAL_PRESERVES_ORIGINAL_RESULT',async()=>{
  await seed();const r=await capture(),before=await row(r.run_id)
+ fixtures.eligible=structuredClone(r)
  const at=await sql('select cp7_planning.utc(clock_timestamp())v');await seed({revision:'2',state:'SUSPENDED',at})
  const stale=await serve(r.run_id);assert.equal(stale.current_guard.reason,'ACTIVATION_POLICY_CHANGED');assert.equal(stale.current_guard.state,'BASELINE_REQUIRED')
+ fixtures.withdrawn=structuredClone(stale)
  assert.equal(stale.assessment.activation.state,'ELIGIBLE');unchanged(r,stale);assert.deepEqual(await row(r.run_id),before)
  const replay=await capture(q,r.request_id);unchanged(r,replay);assert.equal(replay.current_guard.reason,'ACTIVATION_POLICY_CHANGED')
  return{original_eligibility_is_history_only:true,current_guard_retires_policy_without_rewrite:true}
+})
+await test('BASELINE_ONLY_POLICY_RETAINS_SOURCE_WITHOUT_FAKE_EVALUATION',async()=>{
+ await seed({methods:[]});const r=await capture();fixtures.noAllowedModel=structuredClone(r)
+ assert.equal(r.assessment.evaluation,null);assert.equal(r.assessment.source.history_run_id,history)
+ assert.equal(r.assessment.source.horizon_days,'7');assert.equal(r.assessment.activation.reason,'NO_EXPLICITLY_ALLOWED_CHALLENGER')
+ assert.equal(r.current_guard.state,'BASELINE_REQUIRED');return{source_still_identified_without_permitted_model:true}
 })
 await test('STALE_HISTORY_NEW_CAPTURE_REFUSED_OLD_READ_RETIRED',async()=>{
  await seed();const r=await capture(),before=await row(r.run_id)
@@ -86,5 +97,6 @@ await test('FINAL_ROW_FAULT_AND_PRIVATE_ACL',async()=>{
  }
  return{fault_rolls_back_whole_capture:true,private_immutable_RLS_table:true,authenticated_only_facade:true}
 })
-const report={contract:'cp7.model-evaluation-v2-local.v1',status:cases.every(x=>x.status==='PASS')?'PASS':'FAIL',expected:8,counts:cases.reduce((a,x)=>(a[x.status]=(a[x.status]??0)+1,a),{}),cases,sql_sha256:createHash('sha256').update(await read('scripts/cp7_model_evaluation_v2_stage/runtime.sql')).digest('hex'),actual_SQL:true,explicit_synthetic_history_and_policy:true,controlled_access_history_freshness_and_sha256_adapter:true,actual_Native_capture:false,actual_Auth_HTTP_credit:false,catalog22_qualified:false,actual_concurrency:false,forecast_applied:false,production_go:false}
+const report={contract:'cp7.model-evaluation-v2-local.v1',status:cases.every(x=>x.status==='PASS')?'PASS':'FAIL',expected:9,counts:cases.reduce((a,x)=>(a[x.status]=(a[x.status]??0)+1,a),{}),cases,sql_sha256:createHash('sha256').update(await read('scripts/cp7_model_evaluation_v2_stage/runtime.sql')).digest('hex'),actual_SQL:true,explicit_synthetic_history_and_policy:true,controlled_access_history_freshness_and_sha256_adapter:true,actual_Native_capture:false,actual_Auth_HTTP_credit:false,catalog22_qualified:false,actual_concurrency:false,forecast_applied:false,production_go:false}
+if(report.status==='PASS')await writeFile('tests/fixtures/nativeModelEvaluationV2Sql.json',JSON.stringify({actual_SQL:true,explicit_synthetic_history_and_policy:true,controlled_access_history_freshness_and_sha256_adapter:true,actual_Native_capture:false,actual_Auth_HTTP_credit:false,actor,...fixtures})+'\n')
 await writeFile('docs/cp7/d17-14/ow11/model-evaluation-v2-local.json',JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report,null,2));await db.close();if(report.status!=='PASS')process.exitCode=1

@@ -1,9 +1,9 @@
 {
   "contract": "cp7.model-evaluation-v2-local.v1",
   "status": "PASS",
-  "expected": 8,
+  "expected": 9,
   "counts": {
-    "PASS": 8
+    "PASS": 9
   },
   "cases": [
     {
@@ -29,6 +29,13 @@
       "observed": {
         "original_eligibility_is_history_only": true,
         "current_guard_retires_policy_without_rewrite": true
+      }
+    },
+    {
+      "id": "BASELINE_ONLY_POLICY_RETAINS_SOURCE_WITHOUT_FAKE_EVALUATION",
+      "status": "PASS",
+      "observed": {
+        "source_still_identified_without_permitted_model": true
       }
     },
     {

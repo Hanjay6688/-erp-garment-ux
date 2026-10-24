@@ -1644,3 +1644,31 @@ access/atomic/catalog22, tidakbackdatehistorydemimodelwin. Python/SQL/sourcepins
 negativeparent-budget/narrowFKguardsPASS, lama31/25/19 dan8s/45mintetap.
 Clientv2/actualAuth-races-browser/activation-targetconsumer/fullAchain masih
 berikutnya; induk5/16 danproductionfalse.
+
+## 95. B24 Oktober2026 — model evaluationv2 Native6 Original PASS; client candidate
+
+2263a57/run40102386940/job120897019843 Original12563199519
+SHAfc7bb1bebf0e75ad8296d8169af3ade8db1c98c7870a1b7807c8b534aca4c4d7:
+6PASS, requiredIDs/count/cp6/advisor/5packagegatestrue, Auth0→0; setiapcase
+fullboundary/publicunchanged, advisory/sessionleaks0. Actualhistory baseline,
+namespacev1/2terpisah, actualpolicyclock/noposthocapproval, SALE24sourceretirement,
+currentaccess/foreign/closedquery, immutable/finalrowatomic terbukti. Positive
+modelwinner tetap hanya fixturesynthetic; bukanactualNativehistoricalaccuracy.
+
+Clientv2 terpisah memakai exactactor/method/UUID/query, durablepending sebelum
+RPC, replaytanpabuatUUIDbaru, current403retiresfacts, stale-tab/late-reply guard,
+sharedbrowserlock, dan current_guard terpisah dari immutableassessment. UI
+menampilkan arsipvectorbertanggal, syaratkebijakan dan alasanmetodedasar. Belum
+memakai forecastpada target. Header sumber selaluada ditambah ke assessment
+agar policytanpachallenger tetapmengidentifikasi snapshot; Native6 diatas
+mendahului perubahanheader ini dan tidak diberikredituntukheaderbaru.
+
+Lokal9actualSQLPASS (controlled synthetic, bukanNative/Auth); 102client/DOM
+PASS6files, TypeScript/CSS64PASS. Firstclient24PASS4FAIL tersimpan: test salah
+mengharapkan trailingzeros pada fallbackmean, actualSQL string tetap50.5;
+oracle diperbaiki ke stringactual tanpaformatulang. A sourcechecker tetapSHA
+f1148cb535181a28a1792723400746a88f6025e217ebef58264ece39d2140333.
+Usulan tambahan2RPCv2 (combined24pairs) diuji hanya pada copy:375runtimefiles,
+319RPCboundariesPASS; fileA/default/types/installer tidakdiubah.
+ActualAuth/races/browserv2 dan targetconsumer/fullAchain masihterbuka;
+induk5/16, independentacceptancefalse, productionfalse.

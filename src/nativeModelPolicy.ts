@@ -36,9 +36,11 @@ function source(value:unknown):ModelPolicySource{
  const p=obj(value);exact(p,['policy','actor_scope_id','request_id','template_hash'])
  return{policy:policy(p.policy),actor_scope_id:uuid(p.actor_scope_id),request_id:uuid(p.request_id),template_hash:hash(p.template_hash)}
 }
+export {source as parseModelPolicySource}
 // Fixed prospective candidate definitions from the existing Native registry.
 // Thresholds and allowed methods are intentionally absent from this template.
 const definitions:ModelDefinition[]=[{id:'mean-1',method:'MEAN',params:{}},{id:'naive-1',method:'NAIVE',params:{}},{id:'moving-mean-7-1',method:'MOVING_MEAN',params:{window:'7'}},{id:'ses-half-1',method:'SES',params:{alpha:'0.5',initial_level:null}},{id:'holt-damped-1',method:'DAMPED_HOLT',params:{alpha:'0.5',beta:'0.5',phi:'0.9',initial_level:null,initial_trend:'0'}},{id:'seasonal-7-1',method:'SEASONAL_NAIVE',params:{season:'7'}},{id:'sba-half-1',method:'SBA',params:{alpha:'0.5',beta:'0.5'}},{id:'tsb-half-1',method:'TSB',params:{alpha:'0.5',beta:'0.5'}}]
+export function fixedModelDefinitions():ModelDefinition[]{return structuredClone(definitions)}
 function template(value:unknown):ModelPolicyWorkspace['template']{
  const t=obj(value);exact(t,['models','hash']);const m=obj(t.models);exact(m,['baseline','challengers'])
  if(!Array.isArray(m.challengers)||canonical([m.baseline,...m.challengers])!==canonical(definitions))fail()

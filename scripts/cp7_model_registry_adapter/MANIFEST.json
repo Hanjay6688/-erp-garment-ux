@@ -5,7 +5,7 @@
   "new_tables": 0,
   "existing_replacements": 0,
   "source_files_sha256": {
-    "adapter.sql": "c41132090a6b8d2b45c30473e43716f1b2519a244b6339841fb28222a31751d3"
+    "adapter.sql": "2f01cdf56ce6d2e4528af00d92c355ad5b6c2bfe728432355b9eadae6ce94343"
   },
   "dependency_files_sha256": {
     "cp7-src/wip/bootstrap.sql": "f13d218d6ef6c38bea1968081368cdf253538c79d36b67a51e61d126927c2769",

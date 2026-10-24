@@ -1,0 +1,39 @@
+{
+  "contract": "cp7.model-evaluation-v2-registry-proposal.v1",
+  "original_checker_sha256": "f1148cb535181a28a1792723400746a88f6025e217ebef58264ece39d2140333",
+  "exact_missing_pairs": [
+    "src/MandorCorrectionPanel.tsx:erp_cp7_correct_mandor_v1",
+    "src/MandorCorrectionPanel.tsx:erp_cp7_get_mandor_correction_v1",
+    "src/MandorCorrectionPanel.tsx:erp_cp7_get_sewing_completion_v1",
+    "src/NativeCuttingStatusPanel.tsx:erp_cp7_get_cutting_status_policy_request_v1",
+    "src/NativeCuttingStatusPanel.tsx:erp_cp7_get_cutting_status_v1",
+    "src/NativeCuttingStatusPanel.tsx:erp_cp7_save_cutting_status_policy_v1",
+    "src/NativeInitialAnalysisPanel.tsx:erp_cp7_request_staged_analysis_v1",
+    "src/NativeProductionPlanningPanel.tsx:erp_cp7_request_staged_analysis_v1",
+    "src/nativeBoundedAnalysis.ts:erp_cp7_request_bounded_staged_analysis_v1",
+    "src/nativeBoundedQuantity.ts:erp_cp7_check_staged_analysis_source_v1",
+    "src/nativeBoundedQuantity.ts:erp_cp7_get_staged_analysis_v1",
+    "src/nativeBoundedQuantity.ts:erp_cp7_read_staged_analysis_page_v1",
+    "src/nativeBoundedQuantity.ts:erp_cp7_read_staged_analysis_pages_v1",
+    "src/nativeBoundedQuantity.ts:erp_cp7_step_staged_analysis_v1",
+    "src/nativeCuttingSuggestion.ts:erp_cp7_save_cutting_suggestion_v1",
+    "src/nativeModelEvaluationV2.ts:erp_cp7_capture_model_evaluation_v2",
+    "src/nativeModelEvaluationV2.ts:erp_cp7_read_model_evaluation_v2",
+    "src/nativeModelPolicy.ts:erp_cp7_get_model_activation_policy_v1",
+    "src/nativeModelPolicy.ts:erp_cp7_save_model_activation_policy_v1",
+    "src/nativeProductAnalog.ts:erp_cp7_read_product_analog_candidates_v1",
+    "src/nativeProductAnalogChoice.ts:erp_cp7_get_product_analog_choices_v1",
+    "src/nativeProductAnalogChoice.ts:erp_cp7_save_product_analog_choice_v1",
+    "src/nativeStagedSchedule.ts:erp_cp7_get_staged_production_schedule_v1",
+    "src/nativeStagedSchedule.ts:erp_cp7_save_staged_production_schedule_v1"
+  ],
+  "new_pairs": [
+    "src/nativeModelEvaluationV2.ts:erp_cp7_capture_model_evaluation_v2",
+    "src/nativeModelEvaluationV2.ts:erp_cp7_read_model_evaluation_v2"
+  ],
+  "removed_pairs": [],
+  "proposed24_only_result": "Source ownership passed: 375 runtime files, 319 owned RPC boundaries, no orphan or direct table access.",
+  "shared_checker_modified": false,
+  "shared_checker_full_gate_pass": false,
+  "production_go": false
+}
