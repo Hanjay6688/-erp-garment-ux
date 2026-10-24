@@ -1,0 +1,23 @@
+{
+  "contract": "cp7.analog-provenance-client-component.v1",
+  "status": "PASS",
+  "tests": 118,
+  "failed": 0,
+  "suites": [
+    "FgReorderPanel.dom.test.tsx",
+    "NativeProductAnalogChoicePanel.dom.test.tsx",
+    "NativeProductAnalogPanel.dom.test.tsx",
+    "TargetDemandDetails.dom.test.tsx",
+    "fgReorderNative.dom.test.tsx",
+    "nativeProductAnalog.test.ts",
+    "nativeProductAnalogChoice.test.ts",
+    "nativeTargetDemand.test.ts"
+  ],
+  "actual_SQL_controlled_provenance_cases": 5,
+  "typecheck": true,
+  "CSS_ownership_stylesheets": 64,
+  "actual_Auth_browser_qualified": false,
+  "Native_qualified": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

@@ -5,6 +5,7 @@ import { getUatSupabaseClient } from './lib/supabase'
 import { isUnansweredFailure } from './lib/clientError'
 import { formatCp6WibDateTime } from './cp6BusinessTime'
 import { formatWaDay } from './waContract'
+import TargetDemandDetails from './TargetDemandDetails'
 import {
   MANUAL_POINT_MAX, REASON_MAX, REORDER_PAGE, REORDER_QUERY_MAX, WINDOW_MAX, WINDOW_MIN, fgReorderErrorText, fgReorderWriteErrorText, formatReorderQty,
   formatReorderWhole, manualPayload, manualProblem, parseFgReorderManualResult, parseFgReorderRefresh, parseFgReorderSettingsResult, parseFgReorderWorkspace,
@@ -235,6 +236,7 @@ function Projection({ r }: { r: ReorderRow }) {
   if (!p) return null
   const qty = (v: string | null) => v === null ? 'belum diketahui' : `${formatReorderQty(v)} pcs`
   return <div className="cfr-source">
+    {p.targetDemand ? <TargetDemandDetails value={p.targetDemand}/> : null}
     <p>Aturan dari {p.thresholdSource === 'PLANNING_PROFILE' ? 'profil perencanaan produk' : p.thresholdSource === 'PROFILE_UNAVAILABLE'
       ? 'profil produk yang perlu ditinjau ulang' : 'riwayat stok tersedia dan pengaturan umum'}.
       {' '}Stok diperiksa {formatCp6WibDateTime(p.stockCheckedAt)}; aturan diperiksa {formatCp6WibDateTime(p.thresholdCheckedAt)}.</p>

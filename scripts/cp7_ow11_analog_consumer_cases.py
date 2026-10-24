@@ -84,7 +84,7 @@ def row(f):
 
 def staged_row(cur,f):
     plan.b.api.admin(cur)
-    result=cur.execute("select payload from cp7_analysis_stage.target_rows where job_id=%s and kind='BASE'and target_key=%s",(f['row']['id'],f['target'])).fetchone()
+    result=cur.execute("select payload from cp7_analysis_stage.target_rows where job_id=%s and kind='BASE'and key=%s",(f['row']['id'],f['target'])).fetchone()
     assert result is not None,'CONSUMER_STAGED_BASE_ROW_MISSING'
     return result[0]
 
@@ -140,8 +140,7 @@ def cases(cur,today):
         import cp7_procurement_cases as receipt
         day=today-timedelta(days=1);product=f['source'].split(':')[0]
         sales.fg.ax.post(cur,dict(source_kind='FOUND_AT_OPNAME',product_id=product,location_id=sales.fg.base.LOCATION,
-          qty_pcs=10,physical_at=receipt.aa.at(day,8).isoformat(),reason='Consumer actual Native sale fixture',
-          owner_unit_value='10',owner_value_reason='Explicit test value'))
+          qty_pcs=10,physical_at=receipt.aa.at(day,8).isoformat(),reason='Consumer actual Native sale fixture'))
         plan.b.api.admin(cur);tag='OW11C-'+uuid.uuid4().hex[:12]
         customer=str(sales.fg.base.create_customer(cur,tag))
         draft=plan.b.chain.production.rpc(cur,'erp.save_sale_draft_v2',dict(sale_number=tag,customer_id=customer,

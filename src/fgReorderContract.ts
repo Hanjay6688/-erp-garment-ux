@@ -1,5 +1,6 @@
 import { isUnansweredFailure, normalizeClientError } from './lib/clientError'
 import { formatReceiptDecimal } from './procurementContract'
+import {parseTargetDemand,type TargetDemand} from './nativeTargetDemand'
 
 // SS-1 (owner D17-8, D17-9): closed parsers for the four public RPCs of scripts/cp7-src/stock-formula/formula.sql
 // (cp7_stock_formula.workspace, refresh, save_manual, save_settings). Every shape is the server's own: an unknown key, a
@@ -30,6 +31,7 @@ export type ReorderRun = {
 }
 export type ReorderCounts = { items: number; atOrBelow: number; manual: number; formula: number; notEnoughData: number; noSales: number }
 export type ReorderProjection = {
+  targetDemand?: TargetDemand
   thresholdSource: 'PLANNING_PROFILE' | 'NATIVE_HISTORY_WITH_EXISTING_DEFAULTS' | 'PROFILE_UNAVAILABLE'
   thresholdCheckedAt: string; stockCheckedAt: string; analysisAt: string | null; leadDeadline: string | null; targetDeadline: string | null
   basePositionPcs: string | null; conditionalPositionPcs: string | null; candidatePcs: string | null; targetPcs: string | null
@@ -184,10 +186,11 @@ function nativeRow(v: unknown): ReorderRow {
     serviceLevel: o.service_level === null ? null : oneOf(o.service_level, serviceLevels, what),
   }
   const p = obj(o.projection, 'proyeksi')
+  const provenance = p.contract_version === 'cp7.fg-reorder-projection.v2'
   keys(p, ['contract_version', 'threshold_source', 'threshold_checked_at', 'stock_checked_at', 'analysis_at', 'lead_deadline', 'target_deadline',
     'base_position_pcs', 'conditional_position_pcs', 'candidate_pcs', 'target_pcs', 'production_base_pcs', 'production_conditional_pcs',
-    'manual_state', 'manual_reference', 'raw_WIP_credited', 'candidate_mutes_alert'], 'proyeksi')
-  if (p.contract_version !== 'cp7.fg-reorder-projection.v1' || p.raw_WIP_credited !== false || p.candidate_mutes_alert !== false) fail('proyeksi')
+    'manual_state', 'manual_reference', 'raw_WIP_credited', 'candidate_mutes_alert', ...(provenance ? ['target_demand'] : [])], 'proyeksi')
+  if (!provenance && p.contract_version !== 'cp7.fg-reorder-projection.v1' || p.raw_WIP_credited !== false || p.candidate_mutes_alert !== false) fail('proyeksi')
   const projection: ReorderProjection = {
     thresholdSource: oneOf(p.threshold_source, ['PLANNING_PROFILE', 'NATIVE_HISTORY_WITH_EXISTING_DEFAULTS', 'PROFILE_UNAVAILABLE'] as const, 'proyeksi'),
     thresholdCheckedAt: instant(p.threshold_checked_at, 'proyeksi'), stockCheckedAt: instant(p.stock_checked_at, 'proyeksi'),
@@ -195,6 +198,12 @@ function nativeRow(v: unknown): ReorderRow {
     basePositionPcs: pcs(p.base_position_pcs), conditionalPositionPcs: pcs(p.conditional_position_pcs), candidatePcs: pcs(p.candidate_pcs),
     targetPcs: pcs(p.target_pcs), productionBasePcs: pcs(p.production_base_pcs), productionConditionalPcs: pcs(p.production_conditional_pcs),
     manualState: oneOf(p.manual_state, ['NONE', 'ACTIVE', 'CLEARED', 'STALE_IDENTITY'] as const, 'proyeksi'), manualReference: null,
+  }
+  if (provenance) {
+    const demand = parseTargetDemand(p.target_demand, {targetKey:r.targetKey,capturedAt:projection.thresholdCheckedAt})
+    if (demand.targetPcs !== projection.targetPcs || demand.reorderPointPcs !== r.formulaPoint || demand.ownTotalPcs !== r.salesPcs
+      || BigInt(demand.ownAvailableDays) !== BigInt(r.countedDays) || demand.dailySd !== r.dailySd) fail('dasar kebutuhan')
+    projection.targetDemand = demand
   }
   if (p.manual_reference !== null) {
     const m = obj(p.manual_reference, 'referensi manual')
@@ -436,7 +445,7 @@ export function reorderFormulaLines(r: ReorderRow, windowDays: number, level: Se
     : `Cadangan: ${formatReorderQty(r.z??'0')} × naik-turun × √lama produksi = ${formatReorderUpTo2(r.safetyPcs)} pcs (tingkat layanan ${servicePercent(effectiveLevel)}%).`
   return [
     `${r.projection ? 'Rata-rata yang dipakai untuk target' : 'Rata-rata jual per hari'}: ${r.dailyMean === null ? 'belum ada' : `${formatReorderTwo(r.dailyMean)} pcs`}.`,
-    `Naik-turun penjualan per hari: ${r.dailySd === null ? 'belum ada' : `${formatReorderTwo(r.dailySd)} pcs`}.`,
+    `${r.projection?.targetDemand ? 'Naik-turun yang dipakai untuk target' : 'Naik-turun penjualan per hari'}: ${r.dailySd === null ? 'belum ada' : `${formatReorderTwo(r.dailySd)} pcs`}.`,
     `Hari terhitung: ${formatReorderWhole(r.countedDays)} dari ${formatReorderWhole(windowDays)} hari (hari jual ${formatReorderWhole(r.saleDays)}); terjual ${formatReorderQty(r.salesPcs)} pcs.`,
     lead, safety,
     r.formulaPoint === null ? 'Hasil rumus: belum ada.'

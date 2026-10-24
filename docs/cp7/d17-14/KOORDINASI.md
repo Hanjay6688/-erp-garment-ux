@@ -1389,3 +1389,64 @@ Scale dan textarea kini memakai label htmlFor terpisah seperti select. Assertion
 memeriksa atribut fieldset sekaligus setiap select/input/textarea/button disabled,
 sehingga penguncian perilaku tetap wajib.31 client/DOM, TypeScript, JS parse PASS.
 Tidak mengubah SQL, UUID/payload recovery, oracle transaksi atau timeout.
+
+
+## 80. B24 Oktober2026 — pilihan Browser2 dan Transport10 actual PASS
+
+Kandidat c3c3778ea07094c534a2b92bbc0d203eb843c9b0/run40090326455/
+job120861502917: dua journey actual Auth/PostgREST lulus, termasuk lost delivery,
+exact UUID recovery, CLEAR, dense2000/202000, stale dan revoked access. Original
+12559161887 SHA3cf4bc44e536e4c239cefc64d51ccb6c7b8a18bdadbcee8a24cb608d279424a8
+diperiksa: counts2, Auth pulih0/0/0/0, cp6/advisor dan seluruh5 gate true.
+Dua kegagalan label/fieldset sebelumnya tetap disimpan; screenshot diperiksa lokal.
+
+Transport32cb39dde5281561091a32f32934c62fcffdfd69/run40089245589/
+job120858347121 actual1 katalog +6 race +3 Auth HTTP PASS. Original12559421355
+SHAbaf261d80c51f0ab625d2255572bf798225b7fdf146b013738f73ef082d2e1ff,
+seluruh5 gate true. Ini menggantikan status INCOMPLETE agregasi, tidak menghapus
+Original93c096d. Keduanya masih bukti pilihan metadata, belum consumer forecast.
+
+## 81. B24 Oktober2026 — consumer stage dan Native6 pertama
+
+Stage opt-in f154856422865e4e6a255f3ae2dadbb52d96d62b menambah7 privat dan
+mengganti18 fungsi tepat, tanpa RPC/table baru. Capture pilihan immutable pada
+clock sama; seluruh source/producer hash memuat pilihan dan consumer; dua-pass
+history lengkap sebelum target membuat sumber lintas chunk tersedia. Direct,
+staged, bounded dan reorder memakai satu kernel. Own PCS/hari tidak ditimpa
+angka analog. Writer normalizes tepat satu delta pilihannya sendiri sebelum
+full source check kedua; tidak menghilangkan semua pilihan dari fingerprint.
+
+Actual SQL lokal20 dan hooks11 PASS. Native run40092015536/job120866464358
+INCOMPLETE3 PASS/3 INCOMPLETE. Catalog22/inverse/dependent-view, profile/manual,
+atomic fault/other-source PASS. Lifecycle/dense berhenti pada test query memakai
+kolom target_key padahal existing indexed key; posted-sale fixture menulis HPP
+manual saat referensi MODEL_SIZE tersedia, ditolak writer dengan benar. Original
+12560117859 SHA0845c29bf6c48c9495a3136786fe73e97917c23383213150941ff2c233bc898c
+dan log utuh disimpan. cp6/advisor/paket4 gate true; writer_runtime false.
+Perbaikan hanya pembaca test memakai key dan fixture tidak memberikan HPP manual;
+consumer SQL, oracle, enam kasus dan8s tetap. Rerun diperlukan.
+
+Retained f154856 Originals OW16=16, OW13b=20, OW14b=113 PASS dengan required
+ids/counts, Auth pulih0/0/0/0, cp6/advisor/5 gate true. Receipt terpisah tidak
+menambah kredit OW. Default installer/full A chain/after-use tetap milik A.
+
+## 82. B24 Oktober2026 — kontrak provenance sebelum pemanggil versi baru
+
+Satu helper privat cp7_product_analog_consumer.provenance dan4 replacement
+tepat (baseline_rows, reorder.points, analog.read_candidates, reorder.evaluate),
+0 RPC/table/schema baru. Output cp7.target-demand-provenance.v1 membawa clock,
+query, basis, own PCS/hari, numerator/denominator/SD kernel, target/point dan
+choice UUID/revisi/source/scale/alasan. Tidak menghitung forecast kedua. Reader
+body v2 menyatakan REVIEWED_ANALOG_FOR_FRESH_CAPTURES; reorder nested projection
+v2 memuat target_demand. RPC lama/argument tetap; v1 legacy tetap dibaca client.
+
+Client closed parser mengikat ukuran/target/query/mikrodetik, menolak angka
+UNKNOWN palsu, dan memeriksa total*scale dengan BigInt exact. Tampilan memberi
+asal angka serta tindakan hitung baru setelah pilihan; arsip lama tidak berubah.
+SQL lokal5/5, client/DOM118/118, TypeScript danCSS64 PASS; missing utc dependency
+first local failure retained, tidak mengubah oracle. Native3/actual Browser2
+dideklarasikan terpisah, belum PASS: katalog22/preuse/reader current access/ROP
+public, serta posted sale→pilih→fresh target→reload→CLEAR/UNKNOWN dan dense.
+Parent12/budget31/25/19 tetap. Proposal registry20 pasangan tidak bertambah;
+A memegang default/types/registry/fullchain. OW11/model policy/backtest/full
+integration tetap OPEN, induk5/16, production_go/independent_acceptance=false.

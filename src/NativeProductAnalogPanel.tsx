@@ -3,6 +3,7 @@ import {formatCp6WibDateTime} from './cp6BusinessTime'
 import {normalizeClientError} from './lib/clientError'
 import {readProductAnalogCandidates,type AnalogCandidates,type AnalogReadContext} from './nativeProductAnalog'
 import NativeProductAnalogChoicePanel from './NativeProductAnalogChoicePanel'
+import TargetDemandDetails from './TargetDemandDetails'
 
 type Props={client:unknown;context:AnalogReadContext;label:string;onClose:()=>void;onAccessLost:(message:string)=>void;choiceReview?:{scope:string;canManage:boolean}}
 const reasonLabel=(v:string)=>v==='SAME_PHYSICAL_SIZE'?'Ukuran fisik sama':v==='SAME_CAPTURED_MODEL'?'Model yang tercatat sama':v==='SAME_CAPTURED_BRAND'?'Merek yang tercatat sama':v
@@ -18,10 +19,11 @@ export default function NativeProductAnalogPanel({client,context,label,onClose,o
  return <section className="native-production-result native-product-analog" aria-label="Kandidat produk pembanding">
   <header><h4>Produk pembanding untuk {label}</h4><button onClick={()=>{++seq.current;onClose()}}>Tutup produk pembanding</button></header>
   <p>Data per {formatCp6WibDateTime(context.reference.capturedAt)}. Daftar ini memakai data saat perhitungan dibuat; perubahan data setelah itu belum diperiksa.</p>
-  <p>Kandidat belum dipilih dan belum mengubah target produksi. Kemiripan model dan merek berasal dari catatan produk; kecocokan kain, pola, dan pola penjualan masih perlu diperiksa.</p>
+  <p>{result?.supportsConsumer?'Daftar kandidat tidak otomatis memilih pembanding.':'Kandidat belum dipilih dan belum mengubah target produksi.'} Kemiripan model dan merek berasal dari catatan produk; kecocokan kain, pola, dan pola penjualan masih perlu diperiksa.</p>
   {busy?<p role="status">Membaca kandidat produk pembanding…</p>:null}
   {error?<><p role="alert">{error}</p><button disabled={busy} onClick={()=>void load(0)}>Baca ulang kandidat</button></>:null}
   {result?<>
+   {result.targetDemand?<TargetDemandDetails value={result.targetDemand}/>:null}
    {result.state==='PLANNING_CONFIG_REQUIRED'?<p>Atur dan simpan profil perencanaan produk ini terlebih dahulu, termasuk minimal hari data yang tersedia.</p>:<p>{result.total} kandidat memenuhi minimal {result.minimumDays} hari tersedia; {result.suggested} memiliki model atau merek yang tercatat sama.</p>}
    {result.state==='INSUFFICIENT_REVIEWABLE_HISTORY'?<p>Data pembanding belum cukup. Nilai yang belum diketahui tetap belum diketahui.</p>:null}
    {result.state==='MANUAL_CHOICE_REQUIRES_SIMILARITY_REASON'?<p>Belum ada kemiripan model atau merek yang tercatat. Pemilihan nanti memerlukan pemeriksaan dan alasan kesamaan.</p>:null}

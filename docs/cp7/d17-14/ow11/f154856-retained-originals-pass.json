@@ -1,0 +1,132 @@
+{
+  "contract": "cp7.retained-original-receipts.v1",
+  "candidate_sha": "f154856422865e4e6a255f3ae2dadbb52d96d62b",
+  "originals": [
+    {
+      "report": "CP7_OW16_AUTOMATIC_STATUS.json",
+      "run_id": 40092015528,
+      "artifact_id": 12558624218,
+      "filename": "f154856-ow16-complete-json.zip",
+      "bytes": 251243,
+      "sha256": "cff3623a6c5f8fd7f4172186ea0edef8cc7675c0531f7fc10c5a3e6c91986c3f",
+      "status": "PASS",
+      "expected": 16,
+      "observed": 16,
+      "required_counts": {
+        "native": 10,
+        "races": 2,
+        "http": 2,
+        "browser": 2
+      },
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "package_gates": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      }
+    },
+    {
+      "report": "CP7_OW13B_COMPLETE_HISTORY.json",
+      "run_id": 40092015522,
+      "artifact_id": 12559576883,
+      "filename": "f154856-ow13b-complete-json.zip",
+      "bytes": 324968,
+      "sha256": "ad6acd5843e02e9b91183964eb97fcc3f61419ffaeb0a8a6345b2599f4e77657",
+      "status": "PASS",
+      "expected": 20,
+      "observed": 20,
+      "required_counts": {
+        "native": 14,
+        "races": 2,
+        "http": 2,
+        "browser": 2
+      },
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "package_gates": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      }
+    },
+    {
+      "report": "CP7_OW14B_RULES.json",
+      "run_id": 40092015502,
+      "artifact_id": 12559687715,
+      "filename": "f154856-ow14b-complete-json.zip",
+      "bytes": 1438150,
+      "sha256": "58384f0cf6874591f67d5e76d822c318d8026cb09f640673a5293bc74eccb01a",
+      "status": "PASS",
+      "expected": 113,
+      "observed": 113,
+      "required_counts": {
+        "native": 61,
+        "races": 34,
+        "http": 7,
+        "browser": 11
+      },
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "package_gates": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      }
+    }
+  ],
+  "new_OW_acceptance": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

@@ -1,0 +1,62 @@
+{
+  "contract": "cp7.ow11.analog-consumer-browser.v1",
+  "expected_case_count": 2,
+  "required_case_counts": {
+    "browser": 2
+  },
+  "required_case_ids": {
+    "browser": [
+      "OW11_CONSUMER_BROWSER_MOBILE_CONFIRM_FRESH_TARGET_CLEAR",
+      "OW11_CONSUMER_BROWSER_DESKTOP_DENSE_FRESH_PROVENANCE_RELOAD"
+    ]
+  },
+  "public_rpcs": [
+    "erp_cp7_get_alerts_v1",
+    "erp_cp7_get_wa_settings_v1",
+    "erp_cp7_save_wa_settings_v1",
+    "erp_cp7_set_wa_key_v1",
+    "erp_cp7_send_wa_test_v1",
+    "erp_cp7_resolve_wa_dispatch_v1",
+    "erp_cp7_get_fg_reorder_v1",
+    "erp_cp7_refresh_fg_reorder_v1",
+    "erp_cp7_save_fg_reorder_manual_v1",
+    "erp_cp7_save_stock_formula_settings_v1",
+    "erp_cp7_get_material_reorder_v1",
+    "erp_cp7_refresh_material_reorder_v1",
+    "erp_cp7_save_material_reorder_v1",
+    "erp_cp7_request_staged_analysis_v1",
+    "erp_cp7_get_staged_analysis_v1",
+    "erp_cp7_step_staged_analysis_v1",
+    "erp_cp7_get_planning_profiles_v1",
+    "erp_cp7_save_planning_profile_v1",
+    "erp_cp7_capture_baseline_v1",
+    "erp_cp7_save_cutting_suggestion_v1",
+    "erp_cp7_get_staged_production_schedule_v1",
+    "erp_cp7_save_staged_production_schedule_v1",
+    "erp_cp7_request_bounded_staged_analysis_v1",
+    "erp_cp7_read_product_analog_candidates_v1",
+    "erp_cp7_get_product_analog_choices_v1",
+    "erp_cp7_save_product_analog_choice_v1"
+  ],
+  "schedules": [
+    "erp-wa-collect",
+    "erp-wa-send",
+    "erp-wa-analysis"
+  ],
+  "parent_install_preuse_stages": 12,
+  "advisory_choice_consumer_provenance_on_browser_copy": true,
+  "actual_Auth_PostgREST_browser": true,
+  "actual_Native_posted_sale": true,
+  "explicit_SYNTHETIC_historical_openings": true,
+  "dense_extra_products": 2000,
+  "dense_extra_movements": 202000,
+  "viewports": [
+    390,
+    1440
+  ],
+  "statement_timeout": "8s",
+  "factory_SLA": false,
+  "full_OW11_acceptance": false,
+  "full_A_chain_qualified": false,
+  "production_go": false
+}
