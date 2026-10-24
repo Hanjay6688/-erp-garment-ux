@@ -1,0 +1,68 @@
+{
+  "status": "INCOMPLETE_COMPONENT_INTAKE",
+  "source_head": "f154856422865e4e6a255f3ae2dadbb52d96d62b",
+  "run_id": 40092015536,
+  "job_id": 120866464358,
+  "artifact_id": 12560117859,
+  "zip_bytes": 205571,
+  "zip_sha256": "0845c29bf6c48c9495a3136786fe73e97917c23383213150941ff2c233bc898c",
+  "original_name": "CP7_OW11_ANALOG_CONSUMER.json",
+  "original_bytes": 1831941,
+  "original_sha256": "7638a82ffd34f4f4df0ba0d75d473f272e69efd112350d715a37426b6302db9b",
+  "actual_status": "INCOMPLETE",
+  "actual_case_counts": {
+    "PASS": 3,
+    "INCOMPLETE": 3
+  },
+  "cases": {
+    "OW11_ANALOG_CONSUMER_CATALOG22_PREUSE_DEPENDENCY": {
+      "status": "PASS"
+    },
+    "OW11_ANALOG_CONSUMER_CONFIRM_FRESH_TARGET_CLEAR_REPLAY": {
+      "status": "INCOMPLETE",
+      "error": "column \"target_key\" does not exist\nLINE 1: ...ge.target_rows where job_id=$1 and kind='BASE'and target_key...\n                                                             ^"
+    },
+    "OW11_ANALOG_CONSUMER_POSTED_SALE_EXACT_SHARED_KERNEL": {
+      "status": "INCOMPLETE",
+      "error": "FG_UNSOURCED_OWNER_VALUE_NOT_ALLOWED: ada pembanding HPP; nilai mengikuti rata-rata pada tanggal fisik\nDETAIL:  {\"lots\": [{\"lot_id\": \"dbccf5b2-84f5-46a8-9cab-5f56ae8a4596\", \"cost_state\": \"ACTUAL\", \"product_id\": \"a2f4b707-fa28-4c4d-bb4e-14f8e4c66b2f\", \"hpp_per_pcs\": 6.000000, \"initial_qty\": 50, \"qty_at_instant\": 50}], \"tier\": \"MODEL_SIZE\", \"method\": \"STOCK_ON_HAND_WEIGHTED\", \"basis_qty\": 50, \"unit_value\": 6.00, \"physical_at\": \"2026-10-23T08:00:00+07:00\", \"raw_average\": 6.0000000000000000, \"pattern_fabric\": \"NOT_AVAILABLE_WITHOUT_OWN_LINEAGE\", \"contains_estimated_hpp\": false}\nCONTEXT:  PL/pgSQL function erp.post_fg_unsourced_receipt_v1(jsonb,uuid) line 131 at RAISE\nSQL function \"erp_post_fg_unsourced_receipt_v1\" statement 2"
+    },
+    "OW11_ANALOG_CONSUMER_PROFILE_CHANGE_AND_MANUAL_PRIORITY": {
+      "status": "PASS"
+    },
+    "OW11_ANALOG_CONSUMER_ATOMIC_FAULT_AND_OTHER_SOURCE": {
+      "status": "PASS"
+    },
+    "OW11_ANALOG_CONSUMER_DENSE2000_202000_FRESH_TARGET": {
+      "status": "INCOMPLETE",
+      "error": "column \"target_key\" does not exist\nLINE 1: ...ge.target_rows where job_id=$1 and kind='BASE'and target_key...\n                                                             ^"
+    }
+  },
+  "consumer_source_pins_verified_at_original_head": {
+    "cp7_product_analog_consumer/MANIFEST.json": "6d8e7b40a9e8b254a9387c479181e4ad39a5708239c82bdaa7122cce9fbd30e3",
+    "cp7_product_analog_consumer/__init__.py": "347268de2580aa703dc1fe5d45852b70023828dafbfa0eac0a9751c841272ee7",
+    "cp7_product_analog_consumer/baseline.sql": "eeb927430f4ed36bab11e62a27fc34e1cbe9e8d938d083f5364865611b6b9a6b",
+    "cp7_product_analog_consumer/kernel.sql": "26885f7d83c4ad4301f3e81727c6bc3555903e65598941f726bd24e395fa2992",
+    "cp7_product_analog_consumer_stage/MANIFEST.json": "9ab3fd6d12729dead611d66d4d839ba3ca1bba231395a9018164c81f68dfb4ae",
+    "cp7_product_analog_consumer_stage/__init__.py": "dc9d5c9030eeeada1b046131f35a95dd344169ca2dff08f657ace7ca22cfc306",
+    "cp7_product_analog_consumer_stage/confirmation.sql": "80d4836927bafd493e1642798034650ac3d1f089d9cca288c9a29af10636116f",
+    "cp7_product_analog_consumer_stage/hooks.sql": "b02245f76a4039593200f8424fd234cf2779d71c67b9ea87dee03ca44239c8aa",
+    "cp7_product_analog_consumer_stage/render.py": "26862dbf1edf23eee73e9056485f2dc82a6749b6f9d868bc3b0c4e884d3c363d"
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "diagnosis": [
+    "Two observation queries reference nonexistent target_rows.target_key; preserve failure before a B successor query correction.",
+    "The posted-sale fixture supplies an owner HPP value where Native already has actual MODEL_SIZE comparator HPP6.00. Keep Native refusal; any successor must use actual permitted HPP provenance."
+  ],
+  "integration_status": "Not merged into current A product. Metadata-only c3 UI remains separate. Consumer overlay18 replacements/seven private functions needs its own complete qualification and used restore; local20/11 and three Native cases are not full PASS.",
+  "production_go": false,
+  "independent_acceptance": false,
+  "full_OW11_acceptance": false
+}
