@@ -1,0 +1,19 @@
+{
+  "contract": "cp7.model-target-projection-prototype.v1",
+  "private_functions": 2,
+  "new_public_rpcs": 0,
+  "new_tables": 0,
+  "existing_replacements": 0,
+  "source_files_sha256": {
+    "projection.sql": "1e96c6389c3537dcaf59bcf79383754f0b5716ad3c1d9010c77fb0918535e6b7"
+  },
+  "dependency_files_sha256": {
+    "cp7-src/wip/bootstrap.sql": "f13d218d6ef6c38bea1968081368cdf253538c79d36b67a51e61d126927c2769",
+    "cp7-src/demand/bootstrap.sql": "9ce00d27b69656d385df150dacfa155571c5cfa9fb818181746838d0c9fc1455",
+    "cp7_production_stage/sql/cp7_baseline__target.sql": "4b6ce8053dca12162188c62b6f6eb7b595ba5b6acfb431485026e150a064f71a"
+  },
+  "model_admission_proved": false,
+  "caller_integrated": false,
+  "calibrated_forecast_interval": false,
+  "production_go": false
+}
