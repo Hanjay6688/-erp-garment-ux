@@ -89,7 +89,7 @@ async function journey(ui,kind,f,mobile){
   answer=await act(want(f.query,0,'LABEL_DESC'),()=>panel.getByRole('button',{name:c.previous,exact:true}).click())
   await shown(answer,descending.slice(0,f.limit),f.count,0)
   answer=await act(want(f.query,0,'LABEL_DESC',f.filter),()=>tools.getByLabel(c.filter,{exact:true}).selectOption(f.filter))
-  const filtered=descending.filter(r=>r.status===f.filter);assert.equal(filtered.length,f.count-1)
+  const filtered=descending.filter(r=>r.status===f.filter);assert.equal(filtered.length,f.filtered_count)
   await shown(answer,filtered.slice(0,f.limit),filtered.length,0)
   answer=await act(want(f.query,f.limit,'LABEL_DESC',f.filter),()=>panel.getByRole('button',{name:c.next,exact:true}).click())
   await shown(answer,filtered.slice(f.limit),filtered.length,f.limit)
@@ -110,7 +110,7 @@ async function journey(ui,kind,f,mobile){
   const screenshot=`OW09_LIST_${kind}_${mobile?'MOBILE390':'DESKTOP'}.png`
   await panel.screenshot({path:'cp6-proof/t3/'+screenshot})
   return {status:'PASS',kind,mobile,real_auth:true,Native_fixture:true,matching_records:f.count,pages:[f.limit,f.count-f.limit],
-   filtered_records:f.count-1,filtered_pages:[f.limit,f.count-1-f.limit],whole_result_order_exact:true,
+   filtered_records:f.filtered_count,filtered_pages:[f.limit,f.filtered_count-f.limit],whole_result_order_exact:true,
    Native_UUID_and_DOM_order_exact:true,previous_second_page_search:true,empty_result_zero:true,browse_reset_exact:true,
    card_prefix_balances_exact:kind==='card',business_rows_sequences_unchanged:true,writer_RPC:0,screenshot,production_go:false}
  }catch(error){

@@ -1,0 +1,46 @@
+{
+  "status": "INCOMPLETE",
+  "head": "23ec565d4817f7b333a2129d46d669bb7dbe61f3",
+  "run_id": 40060889064,
+  "job_id": 120773926057,
+  "artifact_id": 12547676193,
+  "zip_bytes": 1700747,
+  "zip_sha256": "8c009abe75afa6c52d228a7d8a240b2c45355b952d2250a70abd5b39ff23e7c5",
+  "original_name": "CP7_CURRENT_OWNER_LISTS_BROWSER10.json",
+  "original_bytes": 507195,
+  "original_sha256": "fac0d7205b7a51b8e4202bda7300e08b9ba42f07fb18723c948da225c7f2d11c",
+  "observed_case_count": 0,
+  "first_failure": "Fixture prepare line74 expected most common FG movement type count30; assertion failed before any browser case or Auth user. Original only reports assertion, not type counts.",
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "auth_counts": {
+    "before": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "after": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "restored": true
+  },
+  "database_remaining": 0,
+  "cleanup_failures": false,
+  "auth_cleanup_failures": [],
+  "host_exit": 1,
+  "console_errors": 0,
+  "fix_scope": "Add a real Native inverse to make two movement types observable; keep independent exact table/order/prefix-balance oracles and all actual page checks. No old cases/product SQL changed.",
+  "production_go": false,
+  "independent_acceptance": false
+}

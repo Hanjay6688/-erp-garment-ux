@@ -19,22 +19,83 @@
     "accessory",
     "card"
   ],
-  "regular_pages": [
-    25,
-    6
-  ],
-  "regular_filtered_pages": [
-    25,
-    5
-  ],
-  "accessory_pages": [
-    50,
-    6
-  ],
-  "accessory_filtered_pages": [
-    50,
-    5
-  ],
   "independent_Native_table_oracles": true,
-  "production_go": false
+  "production_go": false,
+  "page_oracles": {
+    "notes": {
+      "total": 31,
+      "pages": [
+        25,
+        6
+      ],
+      "filtered_total": 30,
+      "filtered_pages": [
+        25,
+        5
+      ]
+    },
+    "fg": {
+      "total": 31,
+      "pages": [
+        25,
+        6
+      ],
+      "filtered_total": 29,
+      "filtered_pages": [
+        25,
+        4
+      ]
+    },
+    "count": {
+      "total": 31,
+      "pages": [
+        25,
+        6
+      ],
+      "filtered_total": 30,
+      "filtered_pages": [
+        25,
+        5
+      ]
+    },
+    "accessory": {
+      "total": 56,
+      "pages": [
+        50,
+        6
+      ],
+      "filtered_total": 55,
+      "filtered_pages": [
+        50,
+        5
+      ]
+    },
+    "card": {
+      "total": 32,
+      "pages": [
+        25,
+        7
+      ],
+      "filtered_total": 31,
+      "filtered_pages": [
+        25,
+        6
+      ]
+    }
+  },
+  "FG_native_fixture": {
+    "opening_qty": 10,
+    "positive_adjustments": 30,
+    "linked_inverse": 1,
+    "final_qty": 39,
+    "document_statuses": {
+      "POSTED": 29,
+      "REVERSED": 1,
+      "DRAFT": 1
+    },
+    "two_movement_type_counts": [
+      31,
+      1
+    ]
+  }
 }

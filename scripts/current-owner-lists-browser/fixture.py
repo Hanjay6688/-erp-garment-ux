@@ -29,7 +29,9 @@ def prepare(cur,today):
         p=a.payload(cur,ff,'1');p['adjustment_number']=tags['fg']+'-'+str(i)
         p['notes']=tags['fg']+' movement '+str(i)
         d=a.command(cur,'SAVE',p)
-        if i<=30:a.action(cur,'POST',d)
+        if i<=30:
+            posted=a.action(cur,'POST',d)
+            if i==1:a.action(cur,'REVERSE',posted)
     cf=c.raw.fixture(cur,today)
     for i in range(1,32):
         p=c.payload(cur,cf,'8'if i==31 else'5');p['adjustment_number']=tags['count']+'-'+str(i)
@@ -43,16 +45,17 @@ def prepare(cur,today):
             p.update(id=d['id'],expected_version=d['row_version']);issue.bc.note_call(cur,'POST',p)
     native.b.api.admin(cur)
     result={}
-    for kind,table,label,day,query,expected,filtered in [
-            ('notes','cp7_payroll.notes','note_number','created_at',"where strpos(coalesce(notes,''),%s)>0",31,'VOID'),
-            ('fg','erp.fg_adjustments','adjustment_number','physical_at','where strpos(adjustment_number,%s)>0',31,'POSTED'),
-            ('count','erp.material_adjustments','adjustment_number','physical_at','where strpos(adjustment_number,%s)>0',31,'DRAFT')]:
+    for kind,table,label,day,query,expected,filtered,filtered_count in [
+            ('notes','cp7_payroll.notes','note_number','created_at',"where strpos(coalesce(notes,''),%s)>0",31,'VOID',30),
+            ('fg','erp.fg_adjustments','adjustment_number','physical_at','where strpos(adjustment_number,%s)>0',31,'POSTED',29),
+            ('count','erp.material_adjustments','adjustment_number','physical_at','where strpos(adjustment_number,%s)>0',31,'DRAFT',30)]:
         def rows(where='',args=()):
             return [dict(id=str(i),label=x,status=s,date=t)for i,x,s,t in cur.execute(
                 f'select id,{label},status,{day} from {table} '+where,args).fetchall()]
         whole=rows();selected=rows(query,(tags[kind],))
-        assert len(selected)==expected and sum(r['status']==filtered for r in selected)==expected-1
-        result[kind]=dict(query=tags[kind],count=expected,limit=25,filter=filtered,
+        assert len(selected)==expected and sum(r['status']==filtered for r in selected)==filtered_count
+        if kind=='fg':assert sorted(r['status']for r in selected)==['DRAFT']+['POSTED']*29+['REVERSED']
+        result[kind]=dict(query=tags[kind],count=expected,limit=25,filter=filtered,filtered_count=filtered_count,
             matched=oracles(selected,[('date',True),('id',False)]),whole=oracles(whole,[('date',True),('id',False)]))
     every=[dict(id=str(i),label=x,status=s,date=str(t))for i,x,s,t in cur.execute("""
         select h.id,h.issue_number,h.status,(h.physical_at at time zone 'Asia/Jakarta')::date
@@ -61,7 +64,7 @@ def prepare(cur,today):
         where i.issue_id=h.id and(m.material_type<>'ACCESSORY'or u.dimension<>'COUNT'))""").fetchall()]
     chosen=[r for r in every if r['label'].startswith(tags['accessory']+'-PAGE-')]
     assert len(chosen)==56 and sum(r['status']=='DRAFT'for r in chosen)==55
-    result['accessory']=dict(query=tags['accessory'],count=56,limit=50,filter='DRAFT',
+    result['accessory']=dict(query=tags['accessory'],count=56,limit=50,filter='DRAFT',filtered_count=55,
         matched=oracles(chosen,[('date',True),('id',False)]),whole=oracles(every,[('date',True),('id',False)]))
     movements=[dict(id=str(i),label=f'{sku} {customer or ""} {kind}',status=kind,physical=ph,recorded=rc,source=str(sid),delta=int(qty))
         for i,ph,rc,kind,sid,customer,sku,qty in cur.execute("""select m.id,m.physical_at,m.system_created_at,m.movement_type,m.source_id,
@@ -69,17 +72,18 @@ def prepare(cur,today):
         from erp.fg_stock_movements m left join erp.customers c on c.id=m.customer_id
         where m.product_id=%s and m.lot_id=%s and m.location_id=%s and m.quality_grade='GRADE_A'
         and m.physical_at<=statement_timestamp()""",(ff['product'],ff['lot'],ff['location'])).fetchall()]
-    assert len(movements)==31 and not cur.execute('select 1 from cp7_fg.correction_movements c join erp.fg_stock_movements m on m.id=c.member_id where m.lot_id=%s',(ff['lot'],)).fetchone()
-    kind=max({r['status']for r in movements},key=lambda k:sum(r['status']==k for r in movements))
-    assert sum(r['status']==kind for r in movements)==30
+    assert len(movements)==32 and not cur.execute('select 1 from cp7_fg.correction_movements c join erp.fg_stock_movements m on m.id=c.member_id where m.lot_id=%s',(ff['lot'],)).fetchone()
+    kinds={k:sum(r['status']==k for r in movements)for k in {r['status']for r in movements}}
+    assert sorted(kinds.values())==[1,31],('EXPECTED_OPENING_AND_30_POSITIVE_PLUS_ONE_INVERSE',kinds)
+    kind=max(kinds,key=kinds.get)
     order=oracles(movements,[('physical',False),('recorded',False),('id',False)])
     by_id={r['id']:r for r in movements};balances={};balance=0
     for row in order['SOURCE']:
         delta=by_id[row['id']]['delta'];balance+=delta
         balances[row['id']]=dict(delta=delta,balance=balance)
-    assert balance==40
+    assert balance==39
     second=next(r for r in movements if r['id']==order['SOURCE'][25]['id'])
-    result['card']=dict(query='',count=31,limit=25,filter=kind,matched=order,whole=order,
+    result['card']=dict(query='',count=32,limit=25,filter=kind,filtered_count=31,matched=order,whole=order,
         sku=ff['sku'],position={k:ff[k]for k in('product','lot','location')},search=second['source'],search_id=second['id'],balances=balances)
     return result
 
