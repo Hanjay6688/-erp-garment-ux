@@ -1,0 +1,114 @@
+{
+  "label": "B_ANALOG_CONSUMER6_A_WRITER_INTAKE",
+  "status": "PASS",
+  "head": "587586eee306a7aa202cbf82a3af8eda86996c44",
+  "run_id": 40094445617,
+  "job_id": 120873653730,
+  "artifact_id": 12560738865,
+  "zip_bytes": 204592,
+  "zip_sha256": "97a393c135b1ef686bda27ff2d0230f33158f0e5fa34aa7754372e89e0c4667e",
+  "original_name": "CP7_OW11_ANALOG_CONSUMER.json",
+  "original_bytes": 1827281,
+  "original_sha256": "cf93acaca2a7d5253f81dfbfb0849b7af3f11009fda66be660ae4639dd0ee99d",
+  "counts": {
+    "PASS": 6
+  },
+  "actual_cases": {
+    "OW11_ANALOG_CONSUMER_CATALOG22_PREUSE_DEPENDENCY": {
+      "status": "PASS",
+      "private7_replacements18_public0_tables0": true,
+      "exact_catalog22_inverse": true,
+      "dependent_view_failure_restores_all_partial_DDL": true,
+      "exact_owner_ACL_GUC_unchanged": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true
+    },
+    "OW11_ANALOG_CONSUMER_CONFIRM_FRESH_TARGET_CLEAR_REPLAY": {
+      "status": "PASS",
+      "actual_choice_changes_fresh_bounded_and_staged_target": true,
+      "old_reference_stales_but_exact_receipt_replays": true,
+      "clear_returns_UNKNOWN_not_zero": true,
+      "no_physical_stock_money_HPP_change": true,
+      "after_use_inverse_refused": true,
+      "confirm_millis": 103.143,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true
+    },
+    "OW11_ANALOG_CONSUMER_POSTED_SALE_EXACT_SHARED_KERNEL": {
+      "status": "PASS",
+      "actual_public_posted_sale_quantity": "1",
+      "exact_1_over_3_times_3_target": "1",
+      "direct_staged_bounded_same_target": true,
+      "reorder_same_target_kernel": true,
+      "own_sales_PCS_and_days_unchanged": true,
+      "recomputed_current_ROP_window": true,
+      "synthetic_historical_opening_explicit": true,
+      "all_public_factory_history_credit": false,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true
+    },
+    "OW11_ANALOG_CONSUMER_PROFILE_CHANGE_AND_MANUAL_PRIORITY": {
+      "status": "PASS",
+      "actual_profile_revision_change_invalidates_choice": true,
+      "UNKNOWN_not_zero": true,
+      "explicit_manual_priority_preserved": true,
+      "manual_target_pcs": "6",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true
+    },
+    "OW11_ANALOG_CONSUMER_ATOMIC_FAULT_AND_OTHER_SOURCE": {
+      "status": "PASS",
+      "own_delta_does_not_skip_atomic_last_table_fault": true,
+      "actual_other_Native_stock_change_refused": true,
+      "no_orphan_choice_or_command": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true
+    },
+    "OW11_ANALOG_CONSUMER_DENSE2000_202000_FRESH_TARGET": {
+      "status": "PASS",
+      "products": 2000,
+      "movements": 202000,
+      "actual_products": 2023,
+      "full_stock_digest_rows": 202022,
+      "fresh_DONE_after_choice": true,
+      "raw_native_INCOMPLETE_not_promoted": true,
+      "confirm_millis": 5494.422,
+      "slowest_step_millis": 380.392,
+      "full_source_checks": 2,
+      "exact_old_UUID_replay": true,
+      "statement_limit": "8s",
+      "wall_limit_ms": 8000,
+      "factory_SLA": false,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true
+    }
+  },
+  "exact_product_sources_verified": {
+    "scripts/cp7_product_analog_consumer/MANIFEST.json": "6d8e7b40a9e8b254a9387c479181e4ad39a5708239c82bdaa7122cce9fbd30e3",
+    "scripts/cp7_product_analog_consumer/__init__.py": "347268de2580aa703dc1fe5d45852b70023828dafbfa0eac0a9751c841272ee7",
+    "scripts/cp7_product_analog_consumer/baseline.sql": "eeb927430f4ed36bab11e62a27fc34e1cbe9e8d938d083f5364865611b6b9a6b",
+    "scripts/cp7_product_analog_consumer/kernel.sql": "26885f7d83c4ad4301f3e81727c6bc3555903e65598941f726bd24e395fa2992",
+    "scripts/cp7_product_analog_consumer_stage/MANIFEST.json": "9ab3fd6d12729dead611d66d4d839ba3ca1bba231395a9018164c81f68dfb4ae",
+    "scripts/cp7_product_analog_consumer_stage/__init__.py": "dc9d5c9030eeeada1b046131f35a95dd344169ca2dff08f657ace7ca22cfc306",
+    "scripts/cp7_product_analog_consumer_stage/confirmation.sql": "80d4836927bafd493e1642798034650ac3d1f089d9cca288c9a29af10636116f",
+    "scripts/cp7_product_analog_consumer_stage/hooks.sql": "b02245f76a4039593200f8424fd234cf2779d71c67b9ea87dee03ca44239c8aa",
+    "scripts/cp7_product_analog_consumer_stage/render.py": "26862dbf1edf23eee73e9056485f2dc82a6749b6f9d868bc3b0c4e884d3c363d"
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "all_five_package_gates_pass": true,
+  "first_f154_original_status_unchanged": "INCOMPLETE",
+  "first_failures_fixed_only_in_B_fixtures": [
+    "Use the existing indexed target identity instead of nonexistent target_rows.target_key.",
+    "Use actual Native MODEL_SIZE comparable HPP; do not supply forbidden owner override."
+  ],
+  "full_artifact_id": 12561187252,
+  "full_artifact_bytes": 1805510,
+  "full_artifact_downloaded": false,
+  "product_changes_from_failed_f154": false,
+  "combined_A_runtime": false,
+  "after_use_composed_restore_qualified": false,
+  "full_OW11_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

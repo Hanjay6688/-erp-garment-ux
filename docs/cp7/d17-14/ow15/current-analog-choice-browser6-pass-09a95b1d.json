@@ -1,0 +1,356 @@
+{
+  "label": "CURRENT_COMPLETE_ANALOG_CHOICE_BROWSER6_PASS",
+  "status": "PASS",
+  "head": "09a95b1d839b4d174da66f8ea4320f9ee65d5e11",
+  "run_id": 40095060335,
+  "job_id": 120875451028,
+  "artifact_id": 12561042857,
+  "zip_bytes": 4956660,
+  "zip_sha256": "34f96dbd1985c027d2fe0dde91c5ad7e460eca177485e5a9a615fa4771896309",
+  "original_name": "CP7_CURRENT_ANALOG_CHOICE_BROWSER6.json",
+  "original_bytes": 704495,
+  "original_sha256": "e7b48b5ab1323a6332bfad607c44904cfbf66a84d0e46ff676fc751842190ec7",
+  "required_case_ids": [
+    "CURRENT_RETURN_BROWSER_BAD_DRAFT_DESKTOP_A",
+    "CURRENT_RETURN_BROWSER_BAD_DRAFT_MOBILE_B_RECOVERY",
+    "OW11_ANALOG_BROWSER_MOBILE_AVAILABLE_ZERO_SIZE_ACCESS",
+    "OW11_ANALOG_BROWSER_DESKTOP_DENSE_PAGES_RELOAD_K2",
+    "OW11_CHOICE_BROWSER_MOBILE_LOSS_RELOAD_REPLAY_CLEAR",
+    "OW11_CHOICE_BROWSER_DESKTOP_DENSE_STALE_AND_REVOKED"
+  ],
+  "observed_case_count": 6,
+  "source_pin_count": 1264,
+  "source_manifest_sha256": "7c227044c0f90e38293cc537114aea7a02bca3936767953da54212894692dcc3",
+  "current_product_exactly_matches_qualified_native8": true,
+  "immutable_predecessor_source_checks_passed": true,
+  "explicit_current_source_changes": {
+    "scripts/check-access-catalog.mjs": {
+      "frozen_sha256": "9d356ad463430ef6a409c3f1e7117d065ff8518b19d004bd168bfed220a726f0",
+      "current_sha256": "7783b5069c05e689f3340561d3ecd231332465b6f815836a3c1521ffcac65c56"
+    },
+    "scripts/check-source-ownership.mjs": {
+      "frozen_sha256": "0c7e66a1e4d9bf6e15d1f6e8884482b04273bf332bcdc97f90d7db2964062451",
+      "current_sha256": "11ad93107ce1c70a57b439dcfe1b0d8da429a7a5263658a34f5be5a7b2137101"
+    },
+    "src/NativeBoundedQuantityPanel.tsx": {
+      "frozen_sha256": "f3404fe7afdd616fc4d5ba3ad6104120639c6d55da43d1c6f8e15f1482d76e9e",
+      "current_sha256": "02c0102fce7e293f6b1e9430f686c194ff1ff0a5488789f0c6874e3f7272a669"
+    },
+    "src/NativeProductAnalogPanel.tsx": {
+      "frozen_sha256": "3c50810dc2c5f770ffe3608e4d65818601a042621072188ce37fd92fec87e333",
+      "current_sha256": "77b9935521ed1e6e7cffab39630f8f742fb512013061695354d37641151809bd"
+    }
+  },
+  "groups": {
+    "return": {
+      "real_auth": true,
+      "jwt_signed_by_runtime": false,
+      "test_only_usage_grant": false,
+      "cases": {
+        "CURRENT_RETURN_BROWSER_BAD_DRAFT_DESKTOP_A": {
+          "status": "PASS",
+          "grade": "GRADE_A",
+          "mobile": false,
+          "real_browser_login_quote_commit_and_named_inverse": true,
+          "Native_posted_sale_and_malformed_DRAFT_fixture_only": true,
+          "malformed_DRAFT_header_items_unchanged_no_journal": true,
+          "exact_AR_revenue_FG_COGS_and_stock": true,
+          "quote_all_rows_sequences_full22_unchanged": true,
+          "explicit_WIB_date_preserved_in_device_zone": true,
+          "lost_response_identical_replay_one_return": null,
+          "final_GL_neutral_stock10": true,
+          "screenshot": "CURRENT_RETURN_DESKTOP_A.png",
+          "business_day": {
+            "planned": "2026-10-24",
+            "before": "2026-10-24",
+            "after": "2026-10-24"
+          }
+        },
+        "CURRENT_RETURN_BROWSER_BAD_DRAFT_MOBILE_B_RECOVERY": {
+          "status": "PASS",
+          "grade": "GRADE_B",
+          "mobile": true,
+          "real_browser_login_quote_commit_and_named_inverse": true,
+          "Native_posted_sale_and_malformed_DRAFT_fixture_only": true,
+          "malformed_DRAFT_header_items_unchanged_no_journal": true,
+          "exact_AR_revenue_FG_COGS_and_stock": true,
+          "quote_all_rows_sequences_full22_unchanged": true,
+          "explicit_WIB_date_preserved_in_device_zone": true,
+          "lost_response_identical_replay_one_return": true,
+          "final_GL_neutral_stock10": true,
+          "screenshot": "CURRENT_RETURN_MOBILE_B.png",
+          "business_day": {
+            "planned": "2026-10-24",
+            "before": "2026-10-24",
+            "after": "2026-10-24"
+          }
+        }
+      },
+      "host_exit": 0,
+      "host_status": "RUN_COMPLETE",
+      "console_errors": 0,
+      "auth_cleanup_failures": [],
+      "session_leaks": [],
+      "cleanup_failures": false,
+      "database_remaining": 0,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "counts": {
+        "PASS": 2
+      }
+    },
+    "reader": {
+      "real_auth": true,
+      "jwt_signed_by_runtime": false,
+      "test_only_usage_grant": false,
+      "cases": {
+        "OW11_ANALOG_BROWSER_MOBILE_AVAILABLE_ZERO_SIZE_ACCESS": {
+          "status": "PASS",
+          "actual_Auth_PostgREST_browser": true,
+          "real_Native_DONE_snapshot": true,
+          "source_state": "CAPTURED_NOT_CHECKED",
+          "actual_available_zero_and_nine_other_sizes_excluded": true,
+          "actual_anon_foreign_bad_epoch_and_deactivated_denied": true,
+          "actual_dense2000_202000_pages_unique100": false,
+          "actual_reload_same_request_result": false,
+          "actual_K2_expired_refused_and_rows_cleared": false,
+          "no_stock_money_HPP_or_draft_receipt_write_by_reader": true,
+          "no_old_whole_netting": true,
+          "no_horizontal_overflow": true,
+          "viewport": 390,
+          "shots": [
+            "cp6-proof/t3/ANALOG_MOBILE_AVAILABLE_ZERO_REVIEWED.png"
+          ],
+          "selected": false,
+          "reviewed": false,
+          "forecast_applied": false,
+          "full_OW11_acceptance": false,
+          "business_day": {
+            "planned": "2026-10-24",
+            "before": "2026-10-24",
+            "after": "2026-10-24"
+          }
+        },
+        "OW11_ANALOG_BROWSER_DESKTOP_DENSE_PAGES_RELOAD_K2": {
+          "status": "PASS",
+          "actual_Auth_PostgREST_browser": true,
+          "real_Native_DONE_snapshot": true,
+          "source_state": "CAPTURED_NOT_CHECKED",
+          "actual_available_zero_and_nine_other_sizes_excluded": false,
+          "actual_anon_foreign_bad_epoch_and_deactivated_denied": false,
+          "actual_dense2000_202000_pages_unique100": true,
+          "actual_reload_same_request_result": true,
+          "actual_K2_expired_refused_and_rows_cleared": true,
+          "no_stock_money_HPP_or_draft_receipt_write_by_reader": true,
+          "no_old_whole_netting": true,
+          "no_horizontal_overflow": true,
+          "viewport": 1440,
+          "shots": [
+            "cp6-proof/t3/ANALOG_DESKTOP_PAGED_REVIEWED.png"
+          ],
+          "selected": false,
+          "reviewed": false,
+          "forecast_applied": false,
+          "full_OW11_acceptance": false,
+          "business_day": {
+            "planned": "2026-10-24",
+            "before": "2026-10-24",
+            "after": "2026-10-24"
+          }
+        }
+      },
+      "host_exit": 0,
+      "host_status": "RUN_COMPLETE",
+      "console_errors": 0,
+      "auth_cleanup_failures": [],
+      "session_leaks": [],
+      "cleanup_failures": false,
+      "database_remaining": 0,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "counts": {
+        "PASS": 2
+      }
+    },
+    "choice": {
+      "real_auth": true,
+      "jwt_signed_by_runtime": false,
+      "test_only_usage_grant": false,
+      "cases": {
+        "OW11_CHOICE_BROWSER_MOBILE_LOSS_RELOAD_REPLAY_CLEAR": {
+          "status": "PASS",
+          "actual_Auth_PostgREST_browser": true,
+          "actual_choice_metadata_write": true,
+          "exact_lost_reply_reload_UUID_payload_result": true,
+          "clear_after_actual_K2_expiry": true,
+          "actual_dense2000_202000": false,
+          "actual_Native_stock_change_refuses_stale_confirmation": false,
+          "current_deactivated_read_and_committed_replay_refused": false,
+          "no_physical_money_HPP_effect_from_confirmation": true,
+          "no_draft_or_cutting_receipt_effect": true,
+          "no_old_whole_netting": true,
+          "no_horizontal_overflow": true,
+          "write_millis": [
+            158.84486499999912,
+            9.178438999999344,
+            11.294356999998854
+          ],
+          "viewport": 390,
+          "shots": [
+            "cp6-proof/t3/CHOICE_MOBILE_REVIEWED.png"
+          ],
+          "forecast_applied": false,
+          "full_OW11_acceptance": false,
+          "business_day": {
+            "planned": "2026-10-24",
+            "before": "2026-10-24",
+            "after": "2026-10-24"
+          }
+        },
+        "OW11_CHOICE_BROWSER_DESKTOP_DENSE_STALE_AND_REVOKED": {
+          "status": "PASS",
+          "actual_Auth_PostgREST_browser": true,
+          "actual_choice_metadata_write": true,
+          "exact_lost_reply_reload_UUID_payload_result": false,
+          "clear_after_actual_K2_expiry": false,
+          "actual_dense2000_202000": true,
+          "actual_Native_stock_change_refuses_stale_confirmation": true,
+          "current_deactivated_read_and_committed_replay_refused": true,
+          "no_physical_money_HPP_effect_from_confirmation": true,
+          "no_draft_or_cutting_receipt_effect": true,
+          "no_old_whole_netting": true,
+          "no_horizontal_overflow": true,
+          "write_millis": [
+            5563.113903999998,
+            2695.9166149999946
+          ],
+          "viewport": 1440,
+          "shots": [
+            "cp6-proof/t3/CHOICE_DESKTOP_STALE_REFUSED.png",
+            "cp6-proof/t3/CHOICE_DESKTOP_REVIEWED.png"
+          ],
+          "forecast_applied": false,
+          "full_OW11_acceptance": false,
+          "business_day": {
+            "planned": "2026-10-24",
+            "before": "2026-10-24",
+            "after": "2026-10-24"
+          }
+        }
+      },
+      "host_exit": 0,
+      "host_status": "RUN_COMPLETE",
+      "console_errors": 0,
+      "auth_cleanup_failures": [],
+      "session_leaks": [],
+      "cleanup_failures": false,
+      "database_remaining": 0,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "counts": {
+        "PASS": 2
+      }
+    }
+  },
+  "full_current_copy_count": 3,
+  "complete_preuse_removal": {
+    "contract": "cp7.current-AB-return-with-analog-metadata.v1",
+    "status": "EXACT_CURRENT_ANALOG_PREUSE_INVERSE",
+    "all22_preinstall_equal": true,
+    "all_rows_and_sequences_equal": true,
+    "global_used_guard_before_any_DDL": true,
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "screenshots_inspected": [
+    {
+      "name": "ANALOG_DESKTOP_PAGED_REVIEWED.png",
+      "bytes": 235338,
+      "sha256": "b2aefb097be022c15ca8431b21d2cf461a539d2afecd13b478b1b7eb4ed72428"
+    },
+    {
+      "name": "ANALOG_MOBILE_AVAILABLE_ZERO_REVIEWED.png",
+      "bytes": 60707,
+      "sha256": "b302c34872e1df20ab0b75d99dc7f0ad5647479e36340978a7a513545fffc0a2"
+    },
+    {
+      "name": "CHOICE_DESKTOP_REVIEWED.png",
+      "bytes": 190845,
+      "sha256": "0f4a66dfbc3f32888ca713c80be5ba86aa8e982dcd5f222d424a38aa2a152f08"
+    },
+    {
+      "name": "CHOICE_DESKTOP_STALE_REFUSED.png",
+      "bytes": 189791,
+      "sha256": "e87a7f28d4bac28a0f6e768b7b8ba2c9c6e40bca8f64d0b5be00f6f0f385dbc3"
+    },
+    {
+      "name": "CHOICE_MOBILE_REVIEWED.png",
+      "bytes": 70272,
+      "sha256": "22e5d9715b0998fc1b9587cbde43be7c5f410a6ee66580b7e00c2dd184060f3e"
+    },
+    {
+      "name": "CURRENT_RETURN_DESKTOP_A.png",
+      "bytes": 1505534,
+      "sha256": "7eaf20a72941571d6f90204af793b522d79055a5385702e417ddb7480fa18c35"
+    },
+    {
+      "name": "CURRENT_RETURN_MOBILE_B.png",
+      "bytes": 1061309,
+      "sha256": "53fb815422d89018181d4dbed838c350d2ffe506153e6bd6358c8370fa9f56b7"
+    }
+  ],
+  "visual_scope": "All seven actual captures inspected. Return full-page captures retain malformed DRAFT and one committed return. Reader and choice captures show partial viewports, including explicit stale-choice refusal; exact replay/stock/money/HPP assertions are in Original cases, not inferred from screenshots.",
+  "Native_invoice_creation_fixture_only": true,
+  "forecast_application_claim": false,
+  "full_OW11_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false
+}
