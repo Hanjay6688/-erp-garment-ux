@@ -1,0 +1,13 @@
+{
+  "status": "PRE_DB_LOCAL_REFUSAL",
+  "source": "782d01e4",
+  "observed": [
+    "CHAIN_DECLARED_SOURCE_CHANGED",
+    "cp7_contractor_guidance",
+    "src/App.tsx"
+  ],
+  "cause": "A historical Native stage declaration includes the old App file; current App adds exactly two Master callbacks.",
+  "fix": "Separate current admission checks the counted two-callback successor and every other original App byte. Historical source declarations, Original reports and backend source guards stay unchanged.",
+  "database_started": false,
+  "production_go": false
+}

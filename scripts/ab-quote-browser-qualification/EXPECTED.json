@@ -1,0 +1,20 @@
+{
+  "case_ids": [
+    "F03_CASH_BROWSER_DESKTOP",
+    "F03_CASH_BROWSER_MOBILE_CURRENT_AUTH",
+    "P11_RETURN_BROWSER_R10_DESKTOP_A",
+    "P11_RETURN_BROWSER_R10_MOBILE_B_RECOVERY",
+    "P10_FG_BROWSER_DESKTOP",
+    "P10_FG_BROWSER_OPERATIONS_MOBILE",
+    "P10_ADJUST_BROWSER_DESKTOP",
+    "P10_ADJUST_BROWSER_MOBILE_RECOVERY",
+    "P12_NOTA_BROWSER_DESKTOP_DRAG",
+    "P12_NOTA_BROWSER_MOBILE_RECOVERY",
+    "P09_BROWSER_COUNT_MULTI_DESKTOP",
+    "P09_BROWSER_COUNT_MULTI_MOBILE_RECOVERY",
+    "BC_BROWSER:NOTE_PAGE_D09_DESKTOP_PHONE"
+  ],
+  "expected_case_count": 13,
+  "scope": "Existing desktop/mobile journeys for the eight OW09 screens on the complete A chain; cash includes whole-period multi-page sort/filter/sums. Other multi-page semantics separately covered by Native8 and client DOM; not full OW09 closure.",
+  "production_go": false
+}
