@@ -2437,3 +2437,39 @@ new route, seven negative controls and existing history7/Native6 routes pass.
 Workflow label now names scoped-model evaluation. Corrected actual transport
 still requires a complete new Original. Formal5/16, CP7C unaccepted and
 production/independent acceptance false.
+
+## 131. B24 Oktober2026 UTC — scoped dataset private-helper refusal retained
+
+23d4be61 datasetNative4/run40124207815/job120962032149 failed. Original12572752014
+(159501 bytes, SHA256 b832229a58a5448fe669c63d6e2e5b4c4a426b1017c34309a26be1246589890e)
+has catalog1PASS and3INCOMPLETE: the helper set session authorization to
+authenticated before SET ROLE cp7_capture. Private ACLs correctly refused that
+transition before dataset execution. CP6/advisor and all case boundaries restore.
+The earlier parent-composition repair is now exercised by the passing catalog.
+
+Fix only the private test helper: retain actor JWT claims, restore the test
+session authorization, assume the private owner and assert current_user/auth.uid.
+No grant to authenticated, new public method or product SQL change. Native6
+public scoped-model proof in129 remains distinct; private dataset4 still open
+until a new complete Original. Transport/browser source pins track the helper.
+
+## 132. B24 Oktober2026 UTC — actual scoped-model Browser2 candidate
+
+New isolated browser installer/probe, two declared mobile/desktop journeys and
+source-pinned workflow. Both enter through a target in the actual paged analysis,
+capture that target's immutable history then its retained v3 assessment. Mobile
+drops actual committed history and model replies separately, reloads, retries
+the same method/actor/UUID/payload and checks only one row each. Desktop captures
+fresh history after actual SALE and checks gross24/available76 and new history FK.
+Both assert unchanged old assessment/history, current403 hides model and parent
+results, zero legacy global-history/v2-model calls, no history/model business
+write and no horizontal overflow. No positive model or full3600 claim.
+
+48 client/DOM controls PASS across3 files. Python AST, JS syntax, source hashes,
+closed declaration, missing/mixed parent refusal and probe-wrapper restoration
+on success/error PASS. F05 admits only the explicit own Browser2 route; primary
+development runtime is unchanged and private installation happens only on the
+disposable Auth/browser copy. Actual browser credit awaits complete Original.
+53bc7b68 correctedTransport7/run40126109440 remains active. Model-target v3
+consumption, shared installer/registry coordination, after-use restore and
+independent acceptance remain open. Formal5/16 and production_go=false.
