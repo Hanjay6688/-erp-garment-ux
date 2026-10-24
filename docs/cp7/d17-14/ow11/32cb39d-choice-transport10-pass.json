@@ -1,0 +1,288 @@
+{
+  "contract": "cp7.choice-transport10-component-pass.v1",
+  "candidate_sha": "32cb39dde5281561091a32f32934c62fcffdfd69",
+  "run_id": 40089245589,
+  "job_id": 120858347121,
+  "run_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/40089245589",
+  "status": "PASS",
+  "expected_case_count": 10,
+  "observed_case_count": 10,
+  "required_case_ids_pass": true,
+  "required_case_counts_pass": true,
+  "cases": {
+    "native": {
+      "OW11_ANALOG_CHOICE_CATALOG22_PREUSE_AND_DEPENDENCY": {
+        "status": "PASS",
+        "source_owner_ACL_RLS_GUC_exact": true,
+        "private4_public2_tables2_replacements0": true,
+        "exact_preuse_catalog22_inverse": true,
+        "dependent_view_failure_restores_partial_DDL": true,
+        "forecast_applied": false,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-24",
+          "before": "2026-10-24",
+          "after": "2026-10-24"
+        }
+      }
+    },
+    "races": {
+      "OW11_ANALOG_CHOICE_RACE_SAME_UUID": {
+        "status": "PASS",
+        "two_actual_backends": true,
+        "same_UUID_exact_replay": true,
+        "different_UUID_CAS_one_winner": false,
+        "one_choice_one_command": true,
+        "no_physical_stock_money_HPP_change": true,
+        "copy_runtime": {
+          "stage": "cp7.bounded-analysis-stage.v1",
+          "private_functions": 13,
+          "public_rpcs": 1,
+          "new_tables": 0,
+          "existing_function_replacements": 7,
+          "Native_ERP_DML": false,
+          "real_Native_job_rows": true,
+          "raw_native_status_overridden": false,
+          "actual_checked_SAVE2000_qualified": false,
+          "full_A_chain_qualified": false,
+          "production_go": false
+        },
+        "session_leaks": [],
+        "business_day": {
+          "planned": "2026-10-24",
+          "before": "2026-10-24",
+          "after": "2026-10-24"
+        }
+      },
+      "OW11_ANALOG_CHOICE_RACE_REVISION": {
+        "status": "PASS",
+        "two_actual_backends": true,
+        "same_UUID_exact_replay": false,
+        "different_UUID_CAS_one_winner": true,
+        "one_choice_one_command": true,
+        "no_physical_stock_money_HPP_change": true,
+        "copy_runtime": {
+          "stage": "cp7.bounded-analysis-stage.v1",
+          "private_functions": 13,
+          "public_rpcs": 1,
+          "new_tables": 0,
+          "existing_function_replacements": 7,
+          "Native_ERP_DML": false,
+          "real_Native_job_rows": true,
+          "raw_native_status_overridden": false,
+          "actual_checked_SAVE2000_qualified": false,
+          "full_A_chain_qualified": false,
+          "production_go": false
+        },
+        "session_leaks": [],
+        "business_day": {
+          "planned": "2026-10-24",
+          "before": "2026-10-24",
+          "after": "2026-10-24"
+        }
+      },
+      "OW11_ANALOG_CHOICE_RACE_ACCESS_AFTER_ENVELOPE": {
+        "status": "PASS",
+        "actual_lock_wait_observed": "envelope",
+        "actual_committed_replay_wait": false,
+        "access_revoked_during_wait": true,
+        "Native_stock_changed_during_wait": false,
+        "no_orphan_choice_or_command": true,
+        "two_actual_backends": true,
+        "copy_runtime": {
+          "stage": "cp7.bounded-analysis-stage.v1",
+          "private_functions": 13,
+          "public_rpcs": 1,
+          "new_tables": 0,
+          "existing_function_replacements": 7,
+          "Native_ERP_DML": false,
+          "real_Native_job_rows": true,
+          "raw_native_status_overridden": false,
+          "actual_checked_SAVE2000_qualified": false,
+          "full_A_chain_qualified": false,
+          "production_go": false
+        },
+        "session_leaks": [],
+        "business_day": {
+          "planned": "2026-10-24",
+          "before": "2026-10-24",
+          "after": "2026-10-24"
+        }
+      },
+      "OW11_ANALOG_CHOICE_RACE_REPLAY_ACCESS_AFTER_REQUEST": {
+        "status": "PASS",
+        "actual_lock_wait_observed": "request",
+        "actual_committed_replay_wait": true,
+        "access_revoked_during_wait": true,
+        "Native_stock_changed_during_wait": false,
+        "no_orphan_choice_or_command": true,
+        "two_actual_backends": true,
+        "copy_runtime": {
+          "stage": "cp7.bounded-analysis-stage.v1",
+          "private_functions": 13,
+          "public_rpcs": 1,
+          "new_tables": 0,
+          "existing_function_replacements": 7,
+          "Native_ERP_DML": false,
+          "real_Native_job_rows": true,
+          "raw_native_status_overridden": false,
+          "actual_checked_SAVE2000_qualified": false,
+          "full_A_chain_qualified": false,
+          "production_go": false
+        },
+        "session_leaks": [],
+        "business_day": {
+          "planned": "2026-10-24",
+          "before": "2026-10-24",
+          "after": "2026-10-24"
+        }
+      },
+      "OW11_ANALOG_CHOICE_RACE_ACCESS_AFTER_TARGET": {
+        "status": "PASS",
+        "actual_lock_wait_observed": "target",
+        "actual_committed_replay_wait": false,
+        "access_revoked_during_wait": true,
+        "Native_stock_changed_during_wait": false,
+        "no_orphan_choice_or_command": true,
+        "two_actual_backends": true,
+        "copy_runtime": {
+          "stage": "cp7.bounded-analysis-stage.v1",
+          "private_functions": 13,
+          "public_rpcs": 1,
+          "new_tables": 0,
+          "existing_function_replacements": 7,
+          "Native_ERP_DML": false,
+          "real_Native_job_rows": true,
+          "raw_native_status_overridden": false,
+          "actual_checked_SAVE2000_qualified": false,
+          "full_A_chain_qualified": false,
+          "production_go": false
+        },
+        "session_leaks": [],
+        "business_day": {
+          "planned": "2026-10-24",
+          "before": "2026-10-24",
+          "after": "2026-10-24"
+        }
+      },
+      "OW11_ANALOG_CHOICE_RACE_SOURCE_AFTER_ENVELOPE": {
+        "status": "PASS",
+        "actual_lock_wait_observed": "envelope",
+        "actual_committed_replay_wait": false,
+        "access_revoked_during_wait": false,
+        "Native_stock_changed_during_wait": true,
+        "no_orphan_choice_or_command": true,
+        "two_actual_backends": true,
+        "copy_runtime": {
+          "stage": "cp7.bounded-analysis-stage.v1",
+          "private_functions": 13,
+          "public_rpcs": 1,
+          "new_tables": 0,
+          "existing_function_replacements": 7,
+          "Native_ERP_DML": false,
+          "real_Native_job_rows": true,
+          "raw_native_status_overridden": false,
+          "actual_checked_SAVE2000_qualified": false,
+          "full_A_chain_qualified": false,
+          "production_go": false
+        },
+        "session_leaks": [],
+        "business_day": {
+          "planned": "2026-10-24",
+          "before": "2026-10-24",
+          "after": "2026-10-24"
+        }
+      }
+    },
+    "http": {
+      "OW11_ANALOG_CHOICE_AUTH_CONFIRM_CLEAR_EXACT_REPLAY": {
+        "status": "PASS",
+        "actual_Auth_PostgREST_confirm_clear_workspace": true,
+        "exact_committed_UUID_replay_after_clear": true,
+        "changed_payload_same_UUID_refused": true,
+        "no_physical_stock_money_HPP_change": true,
+        "forecast_applied": false,
+        "session_leaks": [],
+        "business_day": {
+          "planned": "2026-10-24",
+          "before": "2026-10-24",
+          "after": "2026-10-24"
+        }
+      },
+      "OW11_ANALOG_CHOICE_AUTH_REVOKED_COMMITTED_REPLAY": {
+        "status": "PASS",
+        "actual_old_token_revoked_read_and_committed_replay_refused": true,
+        "session_leaks": [],
+        "business_day": {
+          "planned": "2026-10-24",
+          "before": "2026-10-24",
+          "after": "2026-10-24"
+        }
+      },
+      "OW11_ANALOG_CHOICE_AUTH_ANON_AND_FOREIGN_REFERENCE": {
+        "status": "PASS",
+        "anonymous_both_facades_denied": true,
+        "authorized_shared_config_read": true,
+        "foreign_actor_own_epoch_cannot_confirm_private_reference": true,
+        "session_leaks": [],
+        "business_day": {
+          "planned": "2026-10-24",
+          "before": "2026-10-24",
+          "after": "2026-10-24"
+        }
+      }
+    }
+  },
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "source_sha256": "e7701eaada592cfd74a8555cf4cdcb7df8d180448213d3bbf5698c3bfa025127",
+  "analog_choice_source_sha256": {
+    "MANIFEST.json": "19b2e5724539a9892761dea881b9aac5d4e798fae3ab985384c917a598988699",
+    "__init__.py": "66f9412b1c73e717535507d933552a135dc264eae0946f73c8258e75e107b09e",
+    "choice.sql": "16f84ef04b71183d0e70ad0eca72aa748000dd7b4c4436fa7fd922090f285a0d"
+  },
+  "artifact": {
+    "artifact_id": 12559421355,
+    "file_name": "ow11-32cb39d-choice-transport10-complete-json.zip",
+    "bytes": 92046,
+    "sha256": "baf261d80c51f0ab625d2255572bf798225b7fdf146b013738f73ef082d2e1ff"
+  },
+  "auth_counts": {
+    "before": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "after": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "restored": true
+  },
+  "race_database_remaining": 0,
+  "http_database_remaining": 0,
+  "first_failures_retained": [
+    "93c096d-choice-transport-first-incomplete.json"
+  ],
+  "repeated_catalog_case_new_credit": 0,
+  "forecast_applied": false,
+  "full_OW11_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

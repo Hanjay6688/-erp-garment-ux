@@ -1,10 +1,11 @@
 import type {NativeDemandQuery} from './nativeDemandHistory'
 import {parseStagedReference,stagedInstant,type StagedAnalysis,type StagedReference} from './nativeAnalysisPages'
 import {sameBoundedReference} from './nativeBoundedQuantity'
+import {parseTargetDemand,type TargetDemand} from './nativeTargetDemand'
 
 export type AnalogReadContext={actor:string;requestId:string;runId:string;targetKey:string;query:NativeDemandQuery;reference:StagedReference;identityHash:string;accessEpoch:string}
 export type AnalogCandidate={key:string;rootId:string;sizeId:string;sku:string;name:string;active:boolean;availableDays:number;stockoutDays:number;unknownDays:number;mean:string;reasons:string[];suggested:boolean;manualReasonRequired:boolean}
-export type AnalogCandidates={state:'PLANNING_CONFIG_REQUIRED'|'INSUFFICIENT_REVIEWABLE_HISTORY'|'MANUAL_CHOICE_REQUIRES_SIMILARITY_REASON'|'REVIEW_REQUIRED';total:number;suggested:number;offset:number;limit:50;minimumDays:string|null;profileId:string|null;profileRevision:string|null;producerHash:string;historyHash:string;sourceHash:string;rows:AnalogCandidate[]}
+export type AnalogCandidates={state:'PLANNING_CONFIG_REQUIRED'|'INSUFFICIENT_REVIEWABLE_HISTORY'|'MANUAL_CHOICE_REQUIRES_SIMILARITY_REASON'|'REVIEW_REQUIRED';total:number;suggested:number;offset:number;limit:50;minimumDays:string|null;profileId:string|null;profileRevision:string|null;producerHash:string;historyHash:string;sourceHash:string;rows:AnalogCandidate[];supportsConsumer?:boolean;targetDemand?:TargetDemand}
 type Reply={data:unknown;error:unknown}
 type AnalogClient={rpc(name:'erp_cp7_read_product_analog_candidates_v1',args:{p_request:string;p_target:string;p_offset:number;p_limit:50;p_access:string}):PromiseLike<Reply>}
 const fail=():never=>{throw Error('Data produk pembanding belum lengkap atau acuannya berubah. Buka kembali perhitungan tersimpan.')}
@@ -26,7 +27,11 @@ export function analogReadContext(staged:StagedAnalysis,actor:string,targetKey:s
 }
 export function parseAnalogCandidates(value:unknown,context:AnalogReadContext,offset:number,previous?:AnalogCandidates):AnalogCandidates{
  const e=obj(value),r=obj(e.result)
- if(e.contract_version!=='cp7.product-analog-candidates-read.v1'||e.source_state!=='CAPTURED_NOT_CHECKED'||e.captured_source_only!==true||e.production_go!==false)fail()
+ const supportsConsumer=e.contract_version==='cp7.product-analog-candidates-read.v2'
+ if(!supportsConsumer&&e.contract_version!=='cp7.product-analog-candidates-read.v1'||e.source_state!=='CAPTURED_NOT_CHECKED'||e.captured_source_only!==true||e.production_go!==false)fail()
+ if(supportsConsumer?e.consumer_capability!=='REVIEWED_ANALOG_FOR_FRESH_CAPTURES':Object.hasOwn(e,'target_demand')||Object.hasOwn(e,'consumer_capability'))fail()
+ const targetDemand=supportsConsumer?parseTargetDemand(e.target_demand,{targetKey:context.targetKey,capturedAt:context.reference.capturedAt,query:context.query}):undefined
+ if(previous&&(Boolean(previous.supportsConsumer)!==supportsConsumer||JSON.stringify(previous.targetDemand)!==JSON.stringify(targetDemand)))fail()
  noSelection(e)
  if(uuid(e.actor_scope_id)!==context.actor||uuid(e.request_id)!==context.requestId||uuid(e.run_id)!==context.runId||hash(e.identity_hash)!==context.identityHash||hash(e.access_epoch)!==context.accessEpoch)fail()
  if(!sameBoundedReference(parseStagedReference(e.reference),context.reference))fail()
@@ -56,7 +61,7 @@ export function parseAnalogCandidates(value:unknown,context:AnalogReadContext,of
   for(const rawRef of refs){const ref=obj(rawRef);text(ref.kind);text(ref.id);pcs(ref.revision)}
   return{key,rootId:root,sizeId:size,sku:text(x.sku),name:text(x.product_name),active:boolean(x.is_active),availableDays,stockoutDays,unknownDays,mean:mean(x.observed_available_daily_mean),reasons,suggested:isSuggested,manualReasonRequired:!isSuggested}
  })
- return{state,total,suggested,offset,limit:50,minimumDays,profileId,profileRevision,producerHash,historyHash,sourceHash,rows}
+ return{state,total,suggested,offset,limit:50,minimumDays,profileId,profileRevision,producerHash,historyHash,sourceHash,rows,supportsConsumer,targetDemand}
 }
 export async function readProductAnalogCandidates(client:unknown,context:AnalogReadContext,offset=0,previous?:AnalogCandidates){
  if(!Number.isSafeInteger(offset)||offset<0||offset>5000)fail()

@@ -1,0 +1,12 @@
+"""Two actual Auth UI consumer journeys, separate from Native proof."""
+import cp7_ow11_analog_provenance_cases as native
+CONTRACT='cp7.ow11.analog-consumer-browser.v1'
+IDS=dict(browser=['OW11_CONSUMER_BROWSER_MOBILE_CONFIRM_FRESH_TARGET_CLEAR',
+ 'OW11_CONSUMER_BROWSER_DESKTOP_DENSE_FRESH_PROVENANCE_RELOAD'])
+REQUIRED=dict(browser=2)
+EXPECTED=DECLARED=2
+FUNCTIONS=native.FUNCTIONS
+SCHEDULES=native.SCHEDULES
+INSTALL_STATES,REORDER_STATES,CHECKED_STATE,SCHEDULE_STATE,BOUNDED_STATE,REFERENCE_STATE,STAGE_STATE={},{},{},{},{},{},{}
+PARENT_CHECKER=None
+stage=native.stage

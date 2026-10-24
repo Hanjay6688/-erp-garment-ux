@@ -1,0 +1,20 @@
+{
+  "contract": "cp7.model-activation-gate-prototype.v1",
+  "private_functions": 2,
+  "new_public_rpcs": 0,
+  "new_tables": 0,
+  "existing_replacements": 0,
+  "source_files_sha256": {
+    "gate.sql": "6f3cff8ab5989a325603e7200696a5b838b2a3f54b0815b5c96cdb0c88af8d3c"
+  },
+  "dependency_files_sha256": {
+    "cp7-src/wip/bootstrap.sql": "f13d218d6ef6c38bea1968081368cdf253538c79d36b67a51e61d126927c2769",
+    "cp7-src/demand/bootstrap.sql": "9ce00d27b69656d385df150dacfa155571c5cfa9fb818181746838d0c9fc1455",
+    "cp7-src/models/kernels.sql": "8a89beb489c5750038d2924fc99c860cffa4daef31e7288f24859d0de0fb17f4",
+    "cp7-src/models/evaluation.sql": "e24e53290689520bf7ae871248a98c5a91adf398620df000af55505f1462d660",
+    "cp7-src/model-native/evaluation.sql": "450223ba2a41a943c6a9320ba72454acc565228aead947b7ef603b2f53364d95"
+  },
+  "default_policy_created": false,
+  "forecast_applied": false,
+  "production_go": false
+}

@@ -48,7 +48,7 @@ export default function NativeProductAnalogChoicePanel({client,context,candidate
     try{
      const saved=await saveProductAnalogChoice(client,command);if(n!==seq.current)return
      clearAnalogChoiceRequest(scope,command);setHeld(readAnalogChoiceRequest(scope,context.actor,context.targetKey));setWorkspace(null);setReviewed(false)
-     setNotice(`Bukti ${saved.action==='CLEAR'?'pencabutan':'konfirmasi'} revisi ${saved.revision} tersimpan. Perhitungan target belum memakai pilihan ini.`)
+     setNotice(`Bukti ${saved.action==='CLEAR'?'pencabutan':'konfirmasi'} revisi ${saved.revision} tersimpan. ${candidates?.supportsConsumer?'Hasil perhitungan lama tetap tersimpan. Tutup panel dan buat perhitungan baru untuk memakai konfigurasi terbaru.':'Perhitungan target belum memakai pilihan ini.'}`)
     }catch(e){
      if(n!==seq.current)return
      if(action!=='RETRY'&&isDefiniteInitialRejection(e)){clearAnalogChoiceRequest(scope,command);setHeld(readAnalogChoiceRequest(scope,context.actor,context.targetKey));setWorkspace(null)}
@@ -61,7 +61,7 @@ export default function NativeProductAnalogChoicePanel({client,context,candidate
  const locked=busy||Boolean(held.pending)||Boolean(held.error)||!canManage,choice=workspace?.choice
  return <section className="native-analog-choice" aria-label="Konfirmasi produk pembanding">
   <h5>Pilihan pembanding tersimpan</h5>
-  <p>Pilihan ini menyimpan asumsi dan alasan pemeriksaan. Target produksi belum berubah.</p>
+  <p>{candidates?.supportsConsumer?'Pilihan ini menyimpan asumsi dan alasan pemeriksaan. Pilihan yang memenuhi syarat dipakai pada perhitungan baru ketika riwayat produk sendiri belum cukup.':'Pilihan ini menyimpan asumsi dan alasan pemeriksaan. Target produksi belum berubah.'}</p>
   {busy?<p role="status">Memeriksa konfirmasi pembanding…</p>:null}
   {notice?<p role="status">{notice}</p>:null}
   {error||held.error?<p role="alert">{error||held.error}</p>:null}

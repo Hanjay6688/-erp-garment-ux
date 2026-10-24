@@ -1,0 +1,129 @@
+{
+  "contract": "cp7.choice-browser2-component-pass.v1",
+  "candidate_sha": "c3c3778ea07094c534a2b92bbc0d203eb843c9b0",
+  "run_id": 40090326455,
+  "job_id": 120861502917,
+  "run_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/40090326455",
+  "status": "PASS",
+  "expected_case_count": 2,
+  "observed_case_count": 2,
+  "required_case_ids_pass": true,
+  "required_case_counts_pass": true,
+  "cases": {
+    "browser": {
+      "OW11_CHOICE_BROWSER_MOBILE_LOSS_RELOAD_REPLAY_CLEAR": {
+        "status": "PASS",
+        "actual_Auth_PostgREST_browser": true,
+        "actual_choice_metadata_write": true,
+        "exact_lost_reply_reload_UUID_payload_result": true,
+        "clear_after_actual_K2_expiry": true,
+        "actual_dense2000_202000": false,
+        "actual_Native_stock_change_refuses_stale_confirmation": false,
+        "current_deactivated_read_and_committed_replay_refused": false,
+        "no_physical_money_HPP_effect_from_confirmation": true,
+        "no_draft_or_cutting_receipt_effect": true,
+        "no_old_whole_netting": true,
+        "no_horizontal_overflow": true,
+        "write_millis": [
+          206.8320160000003,
+          8.730475999998816,
+          9.4586870000021
+        ],
+        "viewport": 390,
+        "shots": [
+          "cp6-proof/t3/CHOICE_MOBILE_REVIEWED.png"
+        ],
+        "forecast_applied": false,
+        "full_OW11_acceptance": false,
+        "business_day": {
+          "planned": "2026-10-24",
+          "before": "2026-10-24",
+          "after": "2026-10-24"
+        }
+      },
+      "OW11_CHOICE_BROWSER_DESKTOP_DENSE_STALE_AND_REVOKED": {
+        "status": "PASS",
+        "actual_Auth_PostgREST_browser": true,
+        "actual_choice_metadata_write": true,
+        "exact_lost_reply_reload_UUID_payload_result": false,
+        "clear_after_actual_K2_expiry": false,
+        "actual_dense2000_202000": true,
+        "actual_Native_stock_change_refuses_stale_confirmation": true,
+        "current_deactivated_read_and_committed_replay_refused": true,
+        "no_physical_money_HPP_effect_from_confirmation": true,
+        "no_draft_or_cutting_receipt_effect": true,
+        "no_old_whole_netting": true,
+        "no_horizontal_overflow": true,
+        "write_millis": [
+          5537.5265260000015,
+          2701.9861290000044
+        ],
+        "viewport": 1440,
+        "shots": [
+          "cp6-proof/t3/CHOICE_DESKTOP_STALE_REFUSED.png",
+          "cp6-proof/t3/CHOICE_DESKTOP_REVIEWED.png"
+        ],
+        "forecast_applied": false,
+        "full_OW11_acceptance": false,
+        "business_day": {
+          "planned": "2026-10-24",
+          "before": "2026-10-24",
+          "after": "2026-10-24"
+        }
+      }
+    }
+  },
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "source_sha256": "e7701eaada592cfd74a8555cf4cdcb7df8d180448213d3bbf5698c3bfa025127",
+  "analog_choice_source_sha256": {
+    "MANIFEST.json": "19b2e5724539a9892761dea881b9aac5d4e798fae3ab985384c917a598988699",
+    "__init__.py": "66f9412b1c73e717535507d933552a135dc264eae0946f73c8258e75e107b09e",
+    "choice.sql": "16f84ef04b71183d0e70ad0eca72aa748000dd7b4c4436fa7fd922090f285a0d"
+  },
+  "artifact": {
+    "artifact_id": 12559161887,
+    "file_name": "ow11-c3c3778-choice-browser2-complete-json.zip",
+    "bytes": 44145,
+    "sha256": "3cf4bc44e536e4c239cefc64d51ccb6c7b8a18bdadbcee8a24cb608d279424a8"
+  },
+  "first_failures_retained": [
+    "f67fa40-choice-browser-first-incomplete.json",
+    "3cd8572-choice-browser-second-incomplete.json"
+  ],
+  "forecast_applied": false,
+  "full_OW11_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false,
+  "browser_cleanup": {
+    "counts": {
+      "PASS": 2
+    },
+    "console_errors": 0,
+    "database_remaining": 0,
+    "auth_counts": {
+      "before": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "after": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "restored": true
+    },
+    "session_leaks": [],
+    "cleanup_failures": false
+  }
+}

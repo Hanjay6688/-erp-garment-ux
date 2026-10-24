@@ -1,0 +1,116 @@
+{
+  "contract": "cp7.model-activation-gate-local.v1",
+  "status": "PASS",
+  "expected": 13,
+  "counts": {
+    "PASS": 13
+  },
+  "cases": [
+    {
+      "id": "EXPLICIT_PROSPECTIVE_POLICY_AND_PAIRED_WINNER",
+      "status": "PASS",
+      "observed": {
+        "fixed_naive_expected_each_day": "100",
+        "seven_day_vector_preserved": true,
+        "paired_MAE": "4",
+        "no_registry_or_business_write": true
+      }
+    },
+    {
+      "id": "MISSING_OR_SUSPENDED_POLICY_NEVER_ACTIVATES",
+      "status": "PASS",
+      "observed": {
+        "no_default_policy": true
+      }
+    },
+    {
+      "id": "TECHNICAL_PROPOSAL_AND_POSTHOC_POLICY_REFUSED",
+      "status": "PASS",
+      "observed": {
+        "one_microsecond_late_policy_is_not_backdated": true,
+        "technical_registry_is_not_owner_approval": true
+      }
+    },
+    {
+      "id": "CURRENT_SOURCE_ENGINE_TARGET_SIZE_AND_CLOCK_BOUND",
+      "status": "PASS",
+      "observed": {
+        "five_stale_or_mismatched_contexts_fail_closed": true
+      }
+    },
+    {
+      "id": "HORIZON_NEVER_EXTRAPOLATED_OR_SMEARED",
+      "status": "PASS",
+      "observed": {
+        "only_exact_tested_horizon": true,
+        "no_daily_mean_adapter": true
+      }
+    },
+    {
+      "id": "EXPLICIT_METHOD_AND_TRAINING_MINIMUM",
+      "status": "PASS",
+      "observed": {
+        "no_invented_factory_threshold": true
+      }
+    },
+    {
+      "id": "RECOMPUTED_RESULT_REJECTS_FORGED_SELECTION_FORECAST_AND_SCORE",
+      "status": "PASS",
+      "observed": {
+        "four_untrusted_result_mutations_refused": true
+      }
+    },
+    {
+      "id": "CHANGED_PROMOTION_POLICY_REQUIRES_MATCHING_REGISTRY",
+      "status": "PASS",
+      "observed": {
+        "no_retroactive_policy_retuning": true
+      }
+    },
+    {
+      "id": "LATE_REGISTRY_AND_CURRENT_ONLY_HISTORY_RETAIN_BASELINE",
+      "status": "PASS",
+      "observed": {
+        "no_fake_past_knowledge_from_current_capture": true
+      }
+    },
+    {
+      "id": "CURRENT_CENSORED_HISTORY_NEVER_ZERO",
+      "status": "PASS",
+      "observed": {
+        "censored_period_not_zero": true
+      }
+    },
+    {
+      "id": "BASELINE_TIE_IS_NOT_A_COMPLEX_MODEL_WIN",
+      "status": "PASS",
+      "observed": {
+        "strict_primary_improvement_preserved": true
+      }
+    },
+    {
+      "id": "CLOSED_POLICY_VALIDATION",
+      "status": "PASS",
+      "observed": {
+        "invalid_configs": 7
+      }
+    },
+    {
+      "id": "FORECAST_VECTOR_ORIGIN_AND_CANONICAL_CONTEXT",
+      "status": "PASS",
+      "observed": {
+        "old_vector_never_reused_for_new_day": true,
+        "canonical_physical_identity_and_hashes": true
+      }
+    }
+  ],
+  "gate_sha256": "6f3cff8ab5989a325603e7200696a5b838b2a3f54b0815b5c96cdb0c88af8d3c",
+  "actual_SQL": true,
+  "controlled_synthetic_history": true,
+  "actual_Native_capture": false,
+  "actual_Auth_HTTP_credit": false,
+  "installer_catalog22_qualified": false,
+  "default_policy_created": false,
+  "forecast_applied": false,
+  "production_go": false
+}

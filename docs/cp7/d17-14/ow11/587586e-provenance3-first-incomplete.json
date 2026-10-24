@@ -1,0 +1,99 @@
+{
+  "contract": "cp7.component-first-failure.v1",
+  "candidate_sha": "587586eee306a7aa202cbf82a3af8eda86996c44",
+  "run_id": 40094445688,
+  "job_id": 120873653822,
+  "artifact_id": 12560483936,
+  "original_filename": "587586e-provenance-native3-first-complete-json.zip",
+  "original_bytes": 136811,
+  "original_sha256": "d64276e59585c3f3a568a233132090732bee20cd6bb56822fdfc6a0ef9381e44",
+  "log_sha256": "288cb5310eed1f5123df5152f8bb481c7dff663f137a56e8a2f8b4c0e21007df",
+  "status": "INCOMPLETE",
+  "counts": {
+    "PASS": 2,
+    "INCOMPLETE": 1
+  },
+  "expected": 3,
+  "observed": 3,
+  "cases": {
+    "OW11_ANALOG_PROVENANCE_CATALOG22_PREUSE_DEPENDENCY": {
+      "status": "PASS",
+      "source_sha256": {
+        "MANIFEST.json": "7d407b2b618c7f9021ee9f86fec39d53d0bea41c4b81e13675e59025055dc50c",
+        "__init__.py": "966ce49f8dc4b51489a887e42a7a8e8ba3b4b6a87782b363bd678f6433c81096",
+        "hooks.sql": "22d732d58456635bff9e2c546f32081c0564fed54a75a57d513b224354c0c02f",
+        "provenance.sql": "a849cef63c8d292d7a8f44ea38424af59e43371e702fa9a3ede6cc818e20ce1e",
+        "render.py": "e51cd3ed6dc6367695b911209b2580018e69af9de7cae8af14e3f4cc17562841"
+      },
+      "helper1_replacements4_tables0_public0": true,
+      "exact_catalog22_inverse": true,
+      "dependent_view_failure_restores_partial_DDL": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    "OW11_ANALOG_PROVENANCE_RETAINED_READER_V2_CURRENT_ACCESS": {
+      "status": "INCOMPLETE",
+      "error": "LAST_ACTIVE_OWNER_PROTECTED\nCONTEXT:  PL/pgSQL function erp.guard_last_active_owner() line 27 at RAISE",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py\", line 165, in _strict_group_once\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow11_analog_provenance_cases.py\", line 58, in retained_reader\n    cur.execute('update erp.app_users set is_active=false where auth_user_id=%s',(actor,))\n  File \"/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.InsufficientPrivilege: LAST_ACTIVE_OWNER_PROTECTED\nCONTEXT:  PL/pgSQL function erp.guard_last_active_owner() line 27 at RAISE\n",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    "OW11_ANALOG_PROVENANCE_PUBLIC_REORDER_V2_OWN_HISTORY_AND_CLEAR": {
+      "status": "PASS",
+      "actual_public_reorder_refresh_and_workspace": true,
+      "own_sales_PCS_and_days_unchanged": true,
+      "one_shared_kernel": true,
+      "CLEAR_invalidates_threshold_cache": true,
+      "UNKNOWN_not_zero": true,
+      "no_physical_stock_money_HPP_change": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "cause": "The access test tried to deactivate the only active OWNER; LAST_ACTIVE_OWNER_PROTECTED correctly refused the test setup.",
+  "fix": "Seed a separate active OWNER before preparing the retained reader; leave the real guard active and still require the deactivated reader to fail 42501.",
+  "provenance_SQL_changed": false,
+  "oracle_or_budget_relaxed": false,
+  "full_OW11_acceptance": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

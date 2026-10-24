@@ -1,0 +1,66 @@
+{
+  "contract": "cp7.analog-provenance-local.v1",
+  "classification": "ACTUAL_SQL_RESPONSE_OVER_CONTROLLED_FACTS_NOT_NATIVE",
+  "status": "PASS",
+  "sources": {
+    "scripts/cp7-src/wip/bootstrap.sql": "f13d218d6ef6c38bea1968081368cdf253538c79d36b67a51e61d126927c2769",
+    "scripts/cp7-src/demand/bootstrap.sql": "9ce00d27b69656d385df150dacfa155571c5cfa9fb818181746838d0c9fc1455",
+    "scripts/cp7-src/demand/estimate.sql": "c17c125d5139f06ce5a3ea9fd4ff15d32f5fc8952a73270a526913f18a5ff2f2",
+    "scripts/cp7_production_stage/sql/cp7_baseline__target.sql": "4b6ce8053dca12162188c62b6f6eb7b595ba5b6acfb431485026e150a064f71a",
+    "scripts/cp7_product_analog_choice_stage/choice.sql": "16f84ef04b71183d0e70ad0eca72aa748000dd7b4c4436fa7fd922090f285a0d",
+    "scripts/cp7_product_analog_consumer/kernel.sql": "26885f7d83c4ad4301f3e81727c6bc3555903e65598941f726bd24e395fa2992",
+    "scripts/cp7_product_analog_provenance_stage/provenance.sql": "a849cef63c8d292d7a8f44ea38424af59e43371e702fa9a3ede6cc818e20ce1e",
+    "scripts/cp7_product_analog_provenance_stage/hooks.sql": "22d732d58456635bff9e2c546f32081c0564fed54a75a57d513b224354c0c02f",
+    "scripts/cp7-src/stock-formula/formula.sql": "5d5b92fc652b9dbdedbe96e422a6dc876b749ffe6df0a25cb9e3c37d962980bf",
+    "scripts/cp7-src/planning/bootstrap.sql": "81e6e636f174529e124d6d352a7072dda1b005e0466dbf0751133c1a4df237ce"
+  },
+  "cases": [
+    {
+      "id": "ANALOG_ACTUAL_KERNEL_INPUTS_OWN_HISTORY_UNCHANGED",
+      "status": "PASS",
+      "observed": {
+        "same_kernel_target": "1",
+        "own_PCS": "0",
+        "own_days": "0",
+        "captured_choice_and_source": true
+      }
+    },
+    {
+      "id": "FRACTIONAL_SCALED_PCS_ABOVE_JS_SAFE_INTEGER",
+      "status": "PASS",
+      "observed": {
+        "exact_scaled_numerator": "4503599627370496.5",
+        "final_ceil": "4503599627370497"
+      }
+    },
+    {
+      "id": "CLEAR_AND_CHANGED_PROFILE_EXPLAIN_UNKNOWN",
+      "status": "PASS",
+      "observed": {
+        "withdrawal_and_profile_change_not_zero": true
+      }
+    },
+    {
+      "id": "MANUAL_AND_OWN_PRIORITIES_DO_NOT_CREDIT_ANALOG",
+      "status": "PASS",
+      "observed": {
+        "manual_target": "6",
+        "own_target": "9",
+        "analog_not_used": true
+      }
+    },
+    {
+      "id": "REAL_REORDER_POINTS_AND_EVALUATE_VERSIONED_PROJECTION",
+      "status": "PASS",
+      "observed": {
+        "actual_points_and_evaluate": true,
+        "own_history_stays_zero": true,
+        "default_own_source_rebased_to_actual_kernel": true
+      }
+    }
+  ],
+  "Native_qualified": false,
+  "Auth_qualified": false,
+  "catalog22_qualified": false,
+  "production_go": false
+}
