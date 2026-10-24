@@ -21,8 +21,34 @@ hash sumber komposisi, delta, dan adapter pemulihan.
 | Closure Native32, headfbc04b53 | Sebelum perbaikan30 lulus+2 counterexample; setelah perbaikan32 lulus.64 eksekusi. Inverse awal tepat; guard setelah penggunaan dan pemulihan penuh tepat. |
 | Used restore8, headfbc04b53 | Delapan tahap dan enam kontrol negatif lulus. Backup dipulihkan lagi setelah fault yang menaikkan sequence audit. Retur berikutnya sah; draft salah tetap ditolak. |
 | Composed installation8, head4541499e | Delapan tahap, tujuh kontrol negatif dan lima gate paket lulus. Seluruh komposisi membuktikan inverse sebelum penggunaan dan pemulihan setelah penggunaan. |
-| Return Race2, head6b7dab37 | Run40082444870 sedang berjalan saat catatan ini dibuat. Baseline dan current masing-masing menguji commit pembatalan penjualan serta kontrol abort. Belum dikreditkan lulus. |
-| Opening replay Native10, head0e29c834 | Run40082679978 sedang berjalan saat catatan ini dibuat. Dua jenis impor pada lima zona waktu;20 eksekusi direncanakan. Belum dikreditkan lulus. |
+| Return Race2, head6b7dab37 | Run40082444870 lulus2 baseline+2 current; commit pembatalan penjualan dan kontrol abort, seluruh efek transaksi kedua tepat. |
+| Opening replay Native10, head0e29c834 | Run40082679978 INCOMPLETE:10 baseline lulus,0 current berjalan; inverse awal tertahan lock. Original tetap utuh. |
+
+**ReturnRace2 lulus2 baseline+2 current**, termasuk
+perbandingan seluruh baris, sequence dan22 kelompok katalog terhadap hasil
+pembatalan pertama saja. Receipt: `current-return-race2-first-pass-6b7dab37.json`.
+Opening10 pertama tetap **INCOMPLETE**:10 baseline lulus,0 kasus current berjalan.
+Inverse awal tertahan SHARE NOWAIT pada `erp.attendance_records`; identitas
+pemegang lock belum diamati sehingga penyebab prosesnya tidak ditebak.
+Pemulihan penuh data/sequence/katalog dan kesamaan advisor terbukti, tetapi
+diagnostik berikutnya membaca variabel advisor instalasi yang belum tersedia.
+Seluruh status asli tetap disimpan dalam
+`current-opening-replay10-first-incomplete-0e29c834.json`.
+
+Penerus head`e99c1ca7`, run40083710530, memakai kasus bisnis yang sama persis.
+Persiapan qualifier menunggu maksimal45detik untuk SHARE lock pada seluruh
+tabel yang memang diperiksa produk, mencatat pemegang lock, dan mempertahankan
+pengaman NOWAIT produk. Laporan pemulihan parsial juga menangani instalasi yang
+belum sempat mengambil advisor. **Original penerus lulus10 baseline+10 current**,
+termasuk inverse sebelum digunakan, penolakan inverse setelah sequence berubah,
+dan pemulihan penuh seluruh baris/sequence/22 kelompok katalog. Advisor dan lima
+gate paket lulus. Persiapan memegang407 tabel baseline dan669 tabel instalasi,
+tanpa membatalkan backend. Receipt: `current-opening-replay10-ready-pass-e99c1ca7.json`.
+
+Head`c52f3923`, run40084287050, menambah dua perjalanan Auth nyata untuk retur
+Grade A/B dengan sibling DRAFT salah: quote, commit, replay, penolakan anonim,
+payload berubah, izin dicabut, lalu inverse retur dan penjualan. Belum lulus
+sebelum Original dan seluruh gate diperiksa; tidak ada klaim browser baru.
 
 Original composed installation: run40081846443/job120836847789,
 artifact12556450449. JSON1133688byte,

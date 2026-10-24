@@ -1,0 +1,94 @@
+{
+  "run": 40083710530,
+  "job": 120842257648,
+  "artifact": 12556896192,
+  "zip_bytes": 2244534,
+  "zip_sha256": "3022f53ec33a68a25a9dbb3ffe807524637a49a3ab54449506d790380197a9f6",
+  "label": "CP7_CURRENT_OPENING_REPLAY_READY_NATIVE10",
+  "status": "PASS",
+  "qualification_commit": "e99c1ca70202ac76196b2570bf7f50faae62c640",
+  "report": {
+    "name": "CP7_CURRENT_OPENING_REPLAY_READY_NATIVE10.json",
+    "raw_bytes": 4834322,
+    "raw_sha256": "adc8f801c858ec71395ce5851fe50f37f8d03443f0ce3030bdd3a49c14b3e25e"
+  },
+  "baseline": {
+    "PASS": 10
+  },
+  "current": {
+    "PASS": 10
+  },
+  "execution_count": 20,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "production_go": false,
+  "independent_acceptance": false,
+  "new_business_case_credit": 0,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "baseline_advisors_equal": true,
+  "baseline_all22_rows_sequences_exact": true,
+  "initial_boundary_lock": {
+    "status": "EXACT_TABLE_SET_SHARE_LOCKS_HELD",
+    "table_count": 407,
+    "held_count": 407,
+    "other_holders_before_wait": [],
+    "bounded_lock_wait_seconds": 45,
+    "product_NOWAIT_unchanged": true,
+    "cancelled_backends": 0,
+    "data_or_catalog_changes": false
+  },
+  "complete_boundary_lock_before_used_guard": {
+    "status": "EXACT_TABLE_SET_SHARE_LOCKS_HELD",
+    "table_count": 669,
+    "held_count": 669,
+    "other_holders_before_wait": [],
+    "bounded_lock_wait_seconds": 45,
+    "product_NOWAIT_unchanged": true,
+    "cancelled_backends": 0,
+    "data_or_catalog_changes": false
+  },
+  "post_test_data_or_sequence_changes": {
+    "sequence:erp.audit_logs_id_seq": {
+      "before": [
+        "806",
+        true
+      ],
+      "after": [
+        "1634",
+        true
+      ]
+    }
+  },
+  "post_test_used_guard": {
+    "refused": true,
+    "all_data_sequences_catalog_unchanged": true
+  },
+  "strict_group_originals": [
+    {
+      "path": "strict-groups/CP7_CURRENT_OPENING_REPLAY_READY_NATIVE10.json",
+      "bytes": 91766,
+      "sha256": "f97de74b229285f25983c82eca3390099270d3019cc0bca31d8b3db20383e61d"
+    },
+    {
+      "path": "strict-groups/CP7_CURRENT_OPENING_REPLAY_READY_NATIVE10_BASELINE.json",
+      "bytes": 135044,
+      "sha256": "9e9f65469501075064d0b8920815b56ce611a95ee4bbee1b5845fabb4a49d941"
+    }
+  ],
+  "initial_preuse_inverse": {
+    "contract": "cp7.current-AB-with-draft-return-isolation.v1",
+    "status": "EXACT_FULL_PREUSE_INVERSE",
+    "full22_preinstall_equal": true,
+    "all_rows_and_sequences_preinstall_equal": true,
+    "used_guard_before_DDL": true,
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "disposition": "All10 baseline and10 corrected-current explicit successors pass. Original date/quantity/cost/12.50 journal/READY controls unchanged; replay all-row/all-sequence/full22 and legacy boundary exact. Qualifier holds actual SHARE locks on407 baseline and669 installed tables; product NOWAIT unchanged, zero cancelled backends. Rolled-back tests advance only audit sequence; full backup restores every original value. First INCOMPLETE Original remains unchanged."
+}
