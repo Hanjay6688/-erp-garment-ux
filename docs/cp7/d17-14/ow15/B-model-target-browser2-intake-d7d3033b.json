@@ -1,0 +1,40 @@
+{
+  "contract": "cp7.B-component-original-intake.v1",
+  "name": "CP7_OW11_MODEL_TARGET_BROWSER.json",
+  "status": "PASS",
+  "head": "d7d3033b97a08d8bfc180dac638ea60b90e19c23",
+  "run_id": 40119284296,
+  "job_id": 120947092145,
+  "artifact_id": 12570114724,
+  "zip_bytes": 45803,
+  "zip_sha256": "9db3d1b0cf8037241d3ac8017535ae38ffc1c5cbe4ecda4cb93b058a1453e826",
+  "bytes": 297887,
+  "sha256": "beeb4851a754d429029bff457c1e20f9d5824096311ad391a60cd31568d359fe",
+  "whole_job_status": "completed",
+  "whole_job_conclusion": "success",
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "source_pins_verified": 15,
+  "browser_counts": {
+    "PASS": 2
+  },
+  "actual_Auth_PostgREST_browser": true,
+  "mobile_unknown_analog_confirm_clear": true,
+  "desktop_dense2000_202000_provenance_reload": true,
+  "retained_provenance_exact": true,
+  "no_physical_money_HPP_or_draft_effect": true,
+  "auth_users_sessions_databases_cleanup_exact": true,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "current_target_replacements": 21,
+  "current_target_private_functions": 8,
+  "positive_model_target_credit": false,
+  "full_A_chain_credit": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

@@ -3044,3 +3044,14 @@ retained INCOMPLETE CP6 results and actual full-model PASS followups, while
 keeping factory3600, current21/8 runtime, original baseline failures and
 independent acceptance explicitly open. B-owned rows and owner decisions stay
 unchanged. Publish this shared-document change as a separate [bersama] commit.
+
+## A intake: actual current21/8 Browser2 PASS
+
+d7d3033b/run40119284296/job120947092145 completed success. Complete JSON
+artifact12570114724 contains exact CP7_OW11_MODEL_TARGET_BROWSER.json
+297887bytes/SHA256beeb4851a754d429029bff457c1e20f9d5824096311ad391a60cd31568d359fe.
+Both cases PASS,15sourcepins match exactBcommitandAcurrent,21replacements/8private,
+allfivepackagegates/CP6/advisors. Auth0000→0000,console0,sessions/copies0.
+MobileUNKNOWN/analog/CLEAR and dense2000/202000provenance reload are qualified
+on this exact source; no fullA,FGcachebrowser or positiveforecast credit.
+Native6/Transport11 remain pending. FullsixJSONfiles and rawZIP are preserved.

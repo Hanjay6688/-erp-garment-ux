@@ -38,8 +38,11 @@ TypeScript, kepemilikan sumber/akses dan admission lengkap kandidat Native15
 beku. Dua puluh dari 21 badan fungsi pendahulu cocok dengan backup keuangan;
 satu perbedaan ialah koreksi freshness baseline yang sudah dinyatakan.
 
-Native6, Browser2 dan Transport11 B pada `d7d3033b` masih menunggu hasil saat
-catatan dibuat: run `40119284264`, `40119284296`, `40119284316`.
+[Browser2 B pada `d7d3033b`](B-model-target-browser2-intake-d7d3033b.json)
+sudah PASS: dua alur baseline/analog melalui Auth nyata, tepat sumber21/8,
+CP6/advisor/lima gate serta pengguna/sesi/database bersih. Ini belum menjadi
+bukti browser untuk cache FG atau model historis unggul. Native6 dan Transport11
+masih menunggu hasil: run `40119284264` dan `40119284316`.
 A Native20 kemudian menjadi prasyarat lima pengujian gabungan yang sudah siap:
 Browser6, UsedRestore8, model Auth9/races19, keuangan Auth3/races7 dan cron1.
 Deklarasi SOURCE sengaja belum dibuat sebelum Original prasyarat benar-benar
