@@ -1387,3 +1387,28 @@ lama/B. Ini menambah2kasus terarah, belum menutup delapan layar OW09.
 Grouped supplier restore head aea44fa9687241300c3530da07fa16284a22ab7d
 run40058216568/job120765815354 sedang berjalan. Jangan menamai PASS sebelum
 Original/allgate dibaca; source834 dan kontrol statis lokal lulus.
+
+## A — A1 mandor current dan kegagalan alat riwayat invoice (24 Oktober 2026)
+
+Native34 current headc99ca612/run40059271805 menjalankan14koreksi+3edge+11tarif
+retained+6guidance. Native62 sebelumnya tidak memuat28+6ini. Semua ID/oracle
+modul lama tetap; guidance dibind ke stage asli yang benar-benar dipasang.
+Belum ada klaim PASS sampai Original dibaca.
+
+Invoice-history Browser2 head a17b34cf/run40058716148 berhenti pada import
+fixture: ModuleNotFoundError cp7_sales_payment_cases sebelum ada kasus/akun.
+Original504788byte/SHA b37f2c686371dc2ac683c71f1d8e904ac6109d4c240fc40bf9263b11b26101e2
+disimpan;0kasus, Auth/DB bersih, CP6/advisor dan4gate PASS, writer_runtime=false.
+Fix menambahkan parent scripts ke sys.path fixture, tanpa mengganti SQL/assertion.
+Uji import dari checkout writer lain tanpa scripts PYTHONPATH lulus; eksperimen
+awal dari /tmp tidak valid karena helper baseline membaca docs relatif writer.
+Metadata retained19 yang tertinggal dari template juga dikoreksi menjadi0retained
+dan2browserbaru, dengan assertion admission. Rerun diperlukan; bukan dua kasus
+PASS dari source check.
+
+Inventaris statis a17b34cf:238berkasworkflow,33full-diff path matches,58SOURCE
+dengan16pin drift,420commit/956berkas dariintegrasi. Bukan238suitewajib, bukan
+bukti runtime atau daftar run aktual. GitHub.com saatini mendokumentasikan
+batas3000berkas; angka300 dariEnterpriseServerlama tidak diterapkan ke repo ini.
+Peta current/historis ada di ow15/CURRENT_QUALIFICATION_MAP_20261024.md; tidak
+menghapus workflow, mengendurkan pin atau memajukan integrasi resmi.
