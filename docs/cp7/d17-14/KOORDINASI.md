@@ -1672,3 +1672,16 @@ Usulan tambahan2RPCv2 (combined24pairs) diuji hanya pada copy:375runtimefiles,
 319RPCboundariesPASS; fileA/default/types/installer tidakdiubah.
 ActualAuth/races/browserv2 dan targetconsumer/fullAchain masihterbuka;
 induk5/16, independentacceptancefalse, productionfalse.
+
+## 96. B24 Oktober2026 — v2 actual Browser2 candidate
+
+Separate2browserbudget menambah isolated policy+v2install hanya pada disposable
+browsercopy. Native6tetap6; lama31/25/19 dan8s/45mintetap. ActualAuth mobile390/
+desktop1440 menguji actualcommit/lostreply/reload/exactactorUUIDmethodpayload,
+immutableassessment vs currentpolicyguard, explicitallowedempty dengan source
+header tanpafakebacktest, actualpostedSALEsource retirement, current403retire
+parentFG/HPP dan dirtysearchtetap. Policychange lewat actualAuthHTTP; policyUI
+sudahpunya suite tersendiri. Tidakbackdatehistory/registryuntukpositivewinner.
+StaticPython/Node/YAML/declaration/sourcepins/budgetnegativePASS; belumkredit
+runtime sebelum completeOriginal. Native6headerbaru1d2318ea/run40104010474 dan
+retainedpolicyBrowser2/run40104010507 masihjalan, hasilbelumditandaiPASS.
