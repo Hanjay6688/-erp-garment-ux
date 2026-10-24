@@ -53,17 +53,23 @@ workflow lama selesai memerlukan pemetaan kasus/expected/observed per lingkup,
 bukan hanya kesamaan nama atau katalog22. Workflow root yang tidak memiliki
 ancestor SOURCE tetap memerlukan penelusuran admission dan bukti masing-masing.
 
-## Bukti tambahan yang sedang dikerjakan
+## Bukti tambahan yang sudah diperiksa
 
 | Lingkup | Kandidat/run | Status saat catatan ditulis |
 |---|---|---|
 | Group transfer400+600 sesudah current full restore, empat koreksi dan inverse | `aea44fa9`, run40058216568/job120765815354 | PASS9langkah+6kontrol; seluruh group read/replay/empat koreksi/inverse tepat; CP6/advisor/lima gate PASS |
-| Transfer alokasi31penerimaan lintas25+6, desktop/390px | `28f73c0f`, run40060328159/job120772213423 | PASS2uang/aksi/paging, Auth/DB/CP6/advisor/lima gate; penguatan tunggu tampilan akhir sedang disiapkan setelah inspeksi PNG |
+| Transfer alokasi31penerimaan lintas25+6, desktop/390px | `535c97af`, run40061613739/job120776139818 | PASS2uang/aksi/paging dan tampilan akhir sudah dibalik/aksi baru siap; PNG halaman2/akhir diperiksa; Auth/DB/CP6/advisor/lima gate PASS; receipt transfer-pages-535c97af-final-ui-pass.json, bukti28f73c0f tetap |
 | Riwayat pembayaran/retur31 dokumen:25+6 dan filter30:25+5, desktop/390px | `6c3e5a9e`, run40059653484/job120770175605 | PASS2; dua riwayat25+6/filter25+5; Native/DOM tepat,0writer; Auth/DB/CP6/advisor/lima gate PASS; firstfailurea17 tetap |
 | Mandor correction14 +edge3 +rate11 +guidance6 | `c99ca612`, run40059271805 | PASS34 ID lama, boundary utuh/CP6/advisor/lima gate PASS; Original8561436byte SHA84b45470c44be16befd387a019399f4a311236991bbc32d480156e7bba59ca7c |
+| Seluruh komposisi UI lama +dua connected draft successors | `5681edbd`, run40061341301/job120775316058 | PASS31 ID lama tanpa perubahan modul; Auth0000/DB0/console0/CP6/advisor/lima gate; receipt legacy-ui31-5681edbd-pass.json. Bukan31kasus baru atau penerimaan pensiun D13-9c/D13-12. |
+| Nota/FG/hitung fisik/aksesori/kartuFG, desktop+HP | `fefb20f3`, run40062079889/job120777559166 | PASS10; halaman nyata25+6,50+6,25+7; filter tetap lintas halaman, Native/DOM dan saldo prefix tepat,0writerRPC; Auth/DB/CP6/advisor/lima gate PASS. Firstfailure23ec tetap; receipt owner-lists-fefb20f3-pass.json. |
 
-Target berikut: terima Original transfer lintas halaman, rerun lima daftar tambahan10kasus (23ec565d/run40060889064 berhenti sebelum kasus: asumsi fixture jenis mutasi; firstfailure tersimpan, inverse Native ditambahkan), dan31kasus UI lama. Peta12batas CP6 ada di CP6_CURRENT_BOUNDARIES_20261024.md. Selesaikan sisa bukti lintas
-halaman OW09; petakan pengganti layar CP6 yang dipensiunkan; jalankan daftar
+Ketiga run Browser31/Transfer2/OwnerLists10 telah terminal dan Original diperiksa;
+tidak ada lagi run aktif dari kelompok ini. Delapan daftar OW09 kini mempunyai
+bukti lintas halaman dari Browser19, InvoiceHistory2 dan OwnerLists10.
+Peta12batas CP6 ada di CP6_CURRENT_BOUNDARIES_20261024.md. Target berikut:
+perjalanan seluruh uang P21 pada current A/B, penerimaan pemetaan pengganti
+layar CP6 yang dipensiunkan, dan daftar
 kualifikasi satu kandidat beserta pembanding CP6 lengkap. **21 kegagalan CP6
 dan empat kasus browser baseline tetap ditampilkan sesuai hasil asli**;
 tidak ada kredit PASS karena tidak dijalankan. Formal parent tetap5/16,

@@ -1,8 +1,6 @@
 # OW-09 — urut dan saring berlaku untuk seluruh data
 
-Kedelapan layar sudah dikerjakan, termasuk Nota Ambil Aksesori, dan lulus semua uji di komputer penulis. Yang belum:
-uji di database ERP lengkap (CI) belum dijalankan, jadi belum terbukti di sana. Perubahan layar baru boleh digabung
-setelah uji itu lulus.
+Status 24 Oktober 2026: kedelapan layar mempunyai bukti penulis pada gabungan ERP current, termasuk lintas halaman dengan login nyata desktop/HP. Browser19 sebelumnya mencakup kas33baris; InvoiceHistory2 membuktikan dua riwayat31baris; OwnerLists10 menutup lima daftar sisanya. Rincian dan batas bukti di bawah. Ini belum penerimaan audit independen atau izin produksi; jumlah formal tetap5/16.
 
 Keputusan owner D17-16: "Urut/saring seluruh data: berlaku pada seluruh hasil pencarian, termasuk lintas halaman; angka
 total dan ekspor mengikuti filter yang sama."
@@ -82,3 +80,30 @@ pilihan (`list`; kas juga `sums`, kartu FG juga daftar jenis, aksesori `history_
 `order` = `SOURCE` | `LABEL_ASC` | `LABEL_DESC`; seri dipecah dengan urutan standar lama yang berakhir pada id. Uji:
 `tests/cp7/families/ow09-record-lists.test.ts` (memakai fungsi pengganti milik tahap itu sendiri),
 `scripts/cp7_ow09_lists/cases.py` (database lengkap), uji layar `src/*.dom.test.tsx` terkait.
+
+## Bukti current A/B, 24 Oktober 2026
+
+| Layar | Jumlah dan halaman yang benar-benar diuji | Receipt penulis |
+|---|---|---|
+| Kas & Bank |33jurnal,25+8; jumlah/saldo yang mengikuti filter diuji terpisah dari saldo resmi periode | [Browser19](../ow15/owner-browser19-7b26351f-pass.json) |
+| Riwayat pembayaran dan retur invoice | Masing-masing31,25+6; filter30,25+5 | [InvoiceHistory2](../ow15/invoice-history-6c3e5a9e-pass.json) |
+| Nota FG tersimpan |31,25+6; filterVOID30,25+5 | [OwnerLists10](../ow15/owner-lists-fefb20f3-pass.json) |
+| Penyesuaian barang jadi |31,25+6; filterPOSTED29,25+4; satu dokumen sudah dibalik dan satu draft tetap ada | OwnerLists10 |
+| Kartu mutasi FG |32,25+7; filter jenis dominan31,25+6; saldo prefix setiap mutasi mengikuti seluruh sejarah, saldo akhir39 | OwnerLists10 |
+| Hitung fisik bahan |31,25+6; filterDRAFT30,25+5 | OwnerLists10 |
+| Nota Ambil Aksesori |56,50+6; filterDRAFT55,50+5, sesuai ukuran halaman asli50 | OwnerLists10 |
+
+InvoiceHistory2 dan OwnerLists10 memeriksa UUID dari tabel Native, nomor serta
+urutan DOM, urut global, maju/mundur, pencarian baris yang sebelumnya di
+halaman2, hasil kosong, dan Browse semua. Seluruh perjalanan baca mempertahankan
+semua baris bisnis dan sequence, dengan0writerRPC. Login nyata desktop/HP390,
+Auth kembali0000, DB sisa0, console0, CP6/advisor serta lima gate paket PASS.
+Gambar kartuFG/aksesori HP dan dokumenFG desktop ikut diperiksa.
+
+First failure invoicea17 dan daftar23ec tetap disimpan pada receipt masing-masing.
+Perbaikan hanya menata import fixture invoice dan menambahkan satu pembalikan
+Native sah untuk menyediakan dua jenis mutasi kartu; SQL produk, kasus lama
+dan oracle uang/stok/HPP tidak diubah. Bukti ini menutup celah lintas halaman
+yang sebelumnya dicatat pada delapan daftar. Penerimaan scope lengkap oleh
+auditor, kualifikasi satu kandidat dan arsip CP6 tetap pekerjaan terpisah;
+`production_go=false`.

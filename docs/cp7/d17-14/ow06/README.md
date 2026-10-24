@@ -1,10 +1,10 @@
 # OW-06 — satu transfer supplier ke beberapa penerimaan
 
-Checkpoint mesin pembayaran, pembatalan dan koreksi lulus10/10 pada database sekali pakai: [bukti dan batas](CHECKPOINT.json). Ini belum menyelesaikan OW-06: layar nyata, hak/race melalui login, pemulihan sesudah dipakai dan pemasangan bawaan masih menjadi pekerjaan Claude. Jumlah pekerjaan selesai tetap5/16.
+Status 24 Oktober 2026: Astra A mengambil estafet Claude. Mesin pembayaran, Auth/race, layar desktop/HP, alokasi lintas halaman, pemasangan current A/B dan pemulihan transfer sesudah dipakai sudah mempunyai bukti penulis PASS. Rinciannya di bagian terbaru di bawah. Ini belum penerimaan audit independen; jumlah formal tetap5/16. [Checkpoint awal](CHECKPOINT.json) tetap disimpan sebagai sejarah.
 
 Dasar owner D17-14 butir5: satu transfer dialokasikan ke beberapa penerimaan/tagihan, jumlah alokasi sama dengan pembayaran, kas keluar tercatat sekali, pembatalan/koreksi konsisten. Tidak ada FIFO, rekening perantara atau angka kebijakan baru.
 
-Implementasi terisolasi: `scripts/cp7_supplier_transfer/`. Tidak diimpor pemasang bawaan atau layar. Pemasang baru memverifikasi seluruh OW-05 dahulu; hanya sembilan perubahan fungsi terdahulu yang diturunkan dengan penggantian satu lokasi yang dihitung. Metadata/izin fungsi lama tetap. Seluruh22 kelompok katalog dibandingkan penuh; tidak menulis ulang definisi lama supaya pemeriksa lolos.
+Implementasi: `scripts/cp7_supplier_transfer/`, kini terhubung ke layar dan pemasang current `scripts/cp7_current_installation.py`. Pada checkpoint awal modul masih terisolasi. Pemasang tahap memverifikasi seluruh OW-05 dahulu; hanya sembilan perubahan fungsi terdahulu yang diturunkan dengan penggantian satu lokasi yang dihitung. Metadata/izin fungsi lama tetap. Seluruh22 kelompok katalog dibandingkan penuh; tidak menulis ulang definisi lama supaya pemeriksa lolos.
 
 - Satu induk transfer dan alokasi privat. Tiap penerimaan mempunyai fakta pembayaran Native sendiri untuk utangnya; hanya satu jurnal Native debit utang dan kredit kas bagi seluruh transfer. Tidak ada jurnal bank per anak atau saling hapus tersembunyi.
 - Penulis Native tetap memeriksa sisa utang kini dan kredit pada tanggal bayar, sumber, rekening dan status. Delegasi jurnal hanya lewat kapabilitas privat untuk backend/transaksi/aktor/permintaan/induk yang sama.
@@ -30,4 +30,26 @@ Hasil final: f764c508, run39808778963/job119929044980, enam kontrol grup dan emp
 
 | Browser desktop + HP (Browser2) | `d8b0164e` | 39884070148 / 120188022797 | **2/2 PASS**: bank -1000 → -750 → 0, bayar per surat jalan 400+600 → 250+500, balasan hilang pulih dengan UUID sama (desktop), lebar HP 390 tanpa geser samping. Bukti `browser2-d8b0164e-pass.json` |
 
-Belum selesai: pemulihan sesudah dipakai (P21) dan sambungan ke pemasang bawaan (rantai OW-15, `ow15/RENCANA_OW15.md`).
+Catatan di atas adalah posisi 23 Oktober. Bukti berikut memperbarui bagian pemulihan dan pemasangan, tanpa menghapus kegagalan pertama atau menaikkan hitungan penerimaan formal.
+
+## Bukti current A/B, 24 Oktober 2026
+
+| Batas | Bukti penulis terverifikasi |
+|---|---|
+| Mesin pembayaran current | [Native62](../ow15/owner62-28abdeef-pass.json) mempertahankan seluruh ID keluarga transfer dan oracle uang lama pada gabungan A/B. |
+| Hak/rebutan/login nyata | [Auth8](../ow15/owner-auth8-28abdeef-pass.json) mencakup empat ID OW06; hak diperiksa sesudah wait/replay. |
+| Pemasangan current | [Current installer](../ow15/current-install-28abdeef-used-restore-pass.json): inventaris resmi, seluruh22 kelompok katalog, inverse pra-pakai, penolakan pencopotan sesudah dipakai, full backup/restore dan tipe hasil generator. |
+| Transfer sesudah full restore | [Group restore](../ow15/current-transfer-aea44fa9-used-restore-pass.json):400+600, seluruh pembacaan sama, replay tanpa efek, empat koreksi beserta tanggal/sejarah, inverse induk mengembalikan kas neto0; stok/HPP tetap. |
+| Pilihan penerimaan lintas halaman | [Desktop dan HP390](../ow15/transfer-pages-535c97af-final-ui-pass.json), head535c97af/run40061613739:31penerimaan25+6; pilihan halaman1/2 bertahan;400+600→250+500→inverse0. Sebanyak29penerimaan lain tidak dibayar. Desktop memulihkan balasan committed yang hilang dengan UUID sama. |
+| Tampilan setelah pembalikan | Kedua perjalanan menunggu refresh selesai, memeriksa status sudah dibalik, jurnal pembalik dan kedua penerimaan, serta tombol transfer baru siap. Gambar pilihan halaman2 dan tampilan akhir turut diperiksa. |
+
+Setiap receipt current di atas mempunyai CP6/advisor dan lima gate paket PASS;
+run browser/Auth mengembalikan Auth dan database uji ke keadaan awal. Bukti
+sebelumnya `transfer-pages-28f73c0f-pass.json` tetap disimpan: uang/aksi sudah
+PASS, tetapi gambar akhir dapat mendahului refresh; penguatan535c97af menutup
+batas pengamatan itu tanpa mengubah produk atau oracle lama.
+
+Batas yang masih terbuka adalah penerimaan auditor atas seluruh scope dan
+kualifikasi satu kandidat lengkap, termasuk perjalanan seluruh uang P21.
+Restore group OW06 tidak otomatis membuktikan setiap perjalanan A/B.
+Integrasi resmi/main/kandidat audit lama tetap; `production_go=false`.

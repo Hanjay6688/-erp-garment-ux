@@ -1,0 +1,379 @@
+{
+  "status": "PASS",
+  "head": "fefb20f36079341abf392dc9f977b23dd7a00e2e",
+  "run_id": 40062079889,
+  "job_id": 120777559166,
+  "artifact_id": 12547624512,
+  "zip_bytes": 10063733,
+  "zip_sha256": "e20cde89797955ad818a394f7e5a892c3a178f650f392d3f8588203ac69c3a1e",
+  "original_name": "CP7_CURRENT_OWNER_LISTS_BROWSER10.json",
+  "original_bytes": 513580,
+  "original_sha256": "d7fdcd9e931783262aea0d9fbfee129e87836a51073c8497b5e4d688bb571c70",
+  "observed_case_count": 10,
+  "required_case_ids_pass": true,
+  "cases": {
+    "OW09_WHOLE_LIST_NOTES_DESKTOP": {
+      "status": "PASS",
+      "kind": "notes",
+      "mobile": false,
+      "real_auth": true,
+      "Native_fixture": true,
+      "matching_records": 31,
+      "pages": [
+        25,
+        6
+      ],
+      "filtered_records": 30,
+      "filtered_pages": [
+        25,
+        5
+      ],
+      "whole_result_order_exact": true,
+      "Native_UUID_and_DOM_order_exact": true,
+      "previous_second_page_search": true,
+      "empty_result_zero": true,
+      "browse_reset_exact": true,
+      "card_prefix_balances_exact": false,
+      "business_rows_sequences_unchanged": true,
+      "writer_RPC": 0,
+      "screenshot": "OW09_LIST_notes_DESKTOP.png",
+      "production_go": false,
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    "OW09_WHOLE_LIST_NOTES_MOBILE390": {
+      "status": "PASS",
+      "kind": "notes",
+      "mobile": true,
+      "real_auth": true,
+      "Native_fixture": true,
+      "matching_records": 31,
+      "pages": [
+        25,
+        6
+      ],
+      "filtered_records": 30,
+      "filtered_pages": [
+        25,
+        5
+      ],
+      "whole_result_order_exact": true,
+      "Native_UUID_and_DOM_order_exact": true,
+      "previous_second_page_search": true,
+      "empty_result_zero": true,
+      "browse_reset_exact": true,
+      "card_prefix_balances_exact": false,
+      "business_rows_sequences_unchanged": true,
+      "writer_RPC": 0,
+      "screenshot": "OW09_LIST_notes_MOBILE390.png",
+      "production_go": false,
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    "OW09_WHOLE_LIST_FG_DESKTOP": {
+      "status": "PASS",
+      "kind": "fg",
+      "mobile": false,
+      "real_auth": true,
+      "Native_fixture": true,
+      "matching_records": 31,
+      "pages": [
+        25,
+        6
+      ],
+      "filtered_records": 29,
+      "filtered_pages": [
+        25,
+        4
+      ],
+      "whole_result_order_exact": true,
+      "Native_UUID_and_DOM_order_exact": true,
+      "previous_second_page_search": true,
+      "empty_result_zero": true,
+      "browse_reset_exact": true,
+      "card_prefix_balances_exact": false,
+      "business_rows_sequences_unchanged": true,
+      "writer_RPC": 0,
+      "screenshot": "OW09_LIST_fg_DESKTOP.png",
+      "production_go": false,
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    "OW09_WHOLE_LIST_FG_MOBILE390": {
+      "status": "PASS",
+      "kind": "fg",
+      "mobile": true,
+      "real_auth": true,
+      "Native_fixture": true,
+      "matching_records": 31,
+      "pages": [
+        25,
+        6
+      ],
+      "filtered_records": 29,
+      "filtered_pages": [
+        25,
+        4
+      ],
+      "whole_result_order_exact": true,
+      "Native_UUID_and_DOM_order_exact": true,
+      "previous_second_page_search": true,
+      "empty_result_zero": true,
+      "browse_reset_exact": true,
+      "card_prefix_balances_exact": false,
+      "business_rows_sequences_unchanged": true,
+      "writer_RPC": 0,
+      "screenshot": "OW09_LIST_fg_MOBILE390.png",
+      "production_go": false,
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    "OW09_WHOLE_LIST_COUNT_DESKTOP": {
+      "status": "PASS",
+      "kind": "count",
+      "mobile": false,
+      "real_auth": true,
+      "Native_fixture": true,
+      "matching_records": 31,
+      "pages": [
+        25,
+        6
+      ],
+      "filtered_records": 30,
+      "filtered_pages": [
+        25,
+        5
+      ],
+      "whole_result_order_exact": true,
+      "Native_UUID_and_DOM_order_exact": true,
+      "previous_second_page_search": true,
+      "empty_result_zero": true,
+      "browse_reset_exact": true,
+      "card_prefix_balances_exact": false,
+      "business_rows_sequences_unchanged": true,
+      "writer_RPC": 0,
+      "screenshot": "OW09_LIST_count_DESKTOP.png",
+      "production_go": false,
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    "OW09_WHOLE_LIST_COUNT_MOBILE390": {
+      "status": "PASS",
+      "kind": "count",
+      "mobile": true,
+      "real_auth": true,
+      "Native_fixture": true,
+      "matching_records": 31,
+      "pages": [
+        25,
+        6
+      ],
+      "filtered_records": 30,
+      "filtered_pages": [
+        25,
+        5
+      ],
+      "whole_result_order_exact": true,
+      "Native_UUID_and_DOM_order_exact": true,
+      "previous_second_page_search": true,
+      "empty_result_zero": true,
+      "browse_reset_exact": true,
+      "card_prefix_balances_exact": false,
+      "business_rows_sequences_unchanged": true,
+      "writer_RPC": 0,
+      "screenshot": "OW09_LIST_count_MOBILE390.png",
+      "production_go": false,
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    "OW09_WHOLE_LIST_ACCESSORY_DESKTOP": {
+      "status": "PASS",
+      "kind": "accessory",
+      "mobile": false,
+      "real_auth": true,
+      "Native_fixture": true,
+      "matching_records": 56,
+      "pages": [
+        50,
+        6
+      ],
+      "filtered_records": 55,
+      "filtered_pages": [
+        50,
+        5
+      ],
+      "whole_result_order_exact": true,
+      "Native_UUID_and_DOM_order_exact": true,
+      "previous_second_page_search": true,
+      "empty_result_zero": true,
+      "browse_reset_exact": true,
+      "card_prefix_balances_exact": false,
+      "business_rows_sequences_unchanged": true,
+      "writer_RPC": 0,
+      "screenshot": "OW09_LIST_accessory_DESKTOP.png",
+      "production_go": false,
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    "OW09_WHOLE_LIST_ACCESSORY_MOBILE390": {
+      "status": "PASS",
+      "kind": "accessory",
+      "mobile": true,
+      "real_auth": true,
+      "Native_fixture": true,
+      "matching_records": 56,
+      "pages": [
+        50,
+        6
+      ],
+      "filtered_records": 55,
+      "filtered_pages": [
+        50,
+        5
+      ],
+      "whole_result_order_exact": true,
+      "Native_UUID_and_DOM_order_exact": true,
+      "previous_second_page_search": true,
+      "empty_result_zero": true,
+      "browse_reset_exact": true,
+      "card_prefix_balances_exact": false,
+      "business_rows_sequences_unchanged": true,
+      "writer_RPC": 0,
+      "screenshot": "OW09_LIST_accessory_MOBILE390.png",
+      "production_go": false,
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    "OW09_WHOLE_LIST_CARD_DESKTOP": {
+      "status": "PASS",
+      "kind": "card",
+      "mobile": false,
+      "real_auth": true,
+      "Native_fixture": true,
+      "matching_records": 32,
+      "pages": [
+        25,
+        7
+      ],
+      "filtered_records": 31,
+      "filtered_pages": [
+        25,
+        6
+      ],
+      "whole_result_order_exact": true,
+      "Native_UUID_and_DOM_order_exact": true,
+      "previous_second_page_search": true,
+      "empty_result_zero": true,
+      "browse_reset_exact": true,
+      "card_prefix_balances_exact": true,
+      "business_rows_sequences_unchanged": true,
+      "writer_RPC": 0,
+      "screenshot": "OW09_LIST_card_DESKTOP.png",
+      "production_go": false,
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    "OW09_WHOLE_LIST_CARD_MOBILE390": {
+      "status": "PASS",
+      "kind": "card",
+      "mobile": true,
+      "real_auth": true,
+      "Native_fixture": true,
+      "matching_records": 32,
+      "pages": [
+        25,
+        7
+      ],
+      "filtered_records": 31,
+      "filtered_pages": [
+        25,
+        6
+      ],
+      "whole_result_order_exact": true,
+      "Native_UUID_and_DOM_order_exact": true,
+      "previous_second_page_search": true,
+      "empty_result_zero": true,
+      "browse_reset_exact": true,
+      "card_prefix_balances_exact": true,
+      "business_rows_sequences_unchanged": true,
+      "writer_RPC": 0,
+      "screenshot": "OW09_LIST_card_MOBILE390.png",
+      "production_go": false,
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    }
+  },
+  "auth_counts": {
+    "before": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "after": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "restored": true
+  },
+  "auth_cleanup_failures": [],
+  "host_exit": 0,
+  "host_status": "RUN_COMPLETE",
+  "database_remaining": 0,
+  "cleanup_failures": false,
+  "console_errors": 0,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "copy_catalog_admissions": 1,
+  "screenshots_visually_inspected": [
+    "OW09_LIST_card_MOBILE390.png",
+    "OW09_LIST_accessory_MOBILE390.png",
+    "OW09_LIST_fg_DESKTOP.png"
+  ],
+  "first_failure_retained": "owner-lists-23ec565d-first-fixture.json",
+  "fixture_correction": "One real Native linked inverse; no posted row edit. FG documents31=29POSTED+1REVERSED+1DRAFT; FG movements32=31ADJUSTMENT+1inverse. Starting10+30positive-1inverse=39 physical.",
+  "read_only_journeys": true,
+  "writer_RPC": 0,
+  "production_go": false,
+  "independent_acceptance": false,
+  "full_owner_scope_acceptance": false
+}

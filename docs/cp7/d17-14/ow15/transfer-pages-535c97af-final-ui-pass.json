@@ -1,0 +1,133 @@
+{
+  "status": "PASS",
+  "head": "535c97af52b3a6348a4f82cdb7f6b518c21864fe",
+  "run_id": 40061613739,
+  "job_id": 120776139818,
+  "artifact_id": 12547527921,
+  "zip_bytes": 6136204,
+  "zip_sha256": "a1452bad983cae51e714e4888adae18a3d7c36c24add92823fe9ab451ee499ab",
+  "original_name": "CP7_CURRENT_TRANSFER_PAGES_BROWSER2.json",
+  "original_bytes": 506069,
+  "original_sha256": "8d6115b2e3185e9740e07285e12156364efdce0593973fc9e2bf5c21cec5be31",
+  "observed_case_count": 2,
+  "required_case_ids_pass": true,
+  "case_ids": [
+    "OW06_DESKTOP_31_RECEIPTS_CROSS_PAGE_TRANSFER_RECOVER_CORRECT_REVERSE",
+    "OW06_MOBILE390_31_RECEIPTS_CROSS_PAGE_TRANSFER_CORRECT_REVERSE"
+  ],
+  "auth_counts": {
+    "before": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "after": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "restored": true
+  },
+  "auth_cleanup_failures": [],
+  "host_exit": 0,
+  "host_status": "RUN_COMPLETE",
+  "database_remaining": 0,
+  "cleanup_failures": false,
+  "console_errors": 0,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "copy_catalog_admissions": 1,
+  "screenshots_visually_inspected": [
+    "CP7_OW06_PAGES_MOBILE390_400_SECOND_PAGE.png",
+    "CP7_OW06_PAGES_MOBILE390.png",
+    "CP7_OW06_PAGES_DESKTOP_250_SECOND_PAGE.png"
+  ],
+  "production_go": false,
+  "independent_acceptance": false,
+  "full_owner_scope_acceptance": false,
+  "cases": {
+    "OW06_DESKTOP_31_RECEIPTS_CROSS_PAGE_TRANSFER_RECOVER_CORRECT_REVERSE": {
+      "status": "PASS",
+      "real_login": true,
+      "fixture_created_by_Native_SQL": true,
+      "all_journey_writes_from_actual_UI": true,
+      "timezone": "America/Los_Angeles",
+      "mobile": false,
+      "viewport": {
+        "width": 1440,
+        "scroll": 1440
+      },
+      "created": "400.00+600.00",
+      "bank_after_create": "-1000.00",
+      "lost_committed_reply_same_UUID_recovered": true,
+      "corrected": "250.00+500.00",
+      "bank_after_correction": "-750.00",
+      "reversed_whole_transfer": true,
+      "bank_after_reverse": "0.00",
+      "receipt_count": 31,
+      "receipt_pages": [
+        25,
+        6
+      ],
+      "second_receipt_chosen_on_page_two": true,
+      "first_amount_survives_page_roundtrip": true,
+      "final_reversed_detail_and_next_action_ready": true,
+      "second_page_visuals_captured": true,
+      "unselected_receipts_unpaid": true,
+      "stock_HPP_unchanged": true,
+      "production_go": false,
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    "OW06_MOBILE390_31_RECEIPTS_CROSS_PAGE_TRANSFER_CORRECT_REVERSE": {
+      "status": "PASS",
+      "real_login": true,
+      "fixture_created_by_Native_SQL": true,
+      "all_journey_writes_from_actual_UI": true,
+      "timezone": "America/Los_Angeles",
+      "mobile": true,
+      "viewport": {
+        "width": 390,
+        "scroll": 390
+      },
+      "created": "400.00+600.00",
+      "bank_after_create": "-1000.00",
+      "lost_committed_reply_same_UUID_recovered": false,
+      "corrected": "250.00+500.00",
+      "bank_after_correction": "-750.00",
+      "reversed_whole_transfer": true,
+      "bank_after_reverse": "0.00",
+      "receipt_count": 31,
+      "receipt_pages": [
+        25,
+        6
+      ],
+      "second_receipt_chosen_on_page_two": true,
+      "first_amount_survives_page_roundtrip": true,
+      "final_reversed_detail_and_next_action_ready": true,
+      "second_page_visuals_captured": true,
+      "unselected_receipts_unpaid": true,
+      "stock_HPP_unchanged": true,
+      "production_go": false,
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    }
+  },
+  "earlier_result_retained": "transfer-pages-28f73c0f-pass.json",
+  "visual_observation": "Page-two selections show both allocations and exact totals1000/750; final mobile shows reversed parent with inverse link and next transfer action. Screenshots follow completion of the dependent refresh. Desktop/HP actual UI + Native money/stock/HPP assertions PASS."
+}
