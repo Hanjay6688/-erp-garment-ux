@@ -73,3 +73,12 @@ Kebijakan laundry kelebihan bayar/piutang vendor, kredit retur yang sudah
 terpakai, pembagian absen tanpa jahit dan batas umur koreksi HPP tidak dikarang.
 Metode dengan bukti/data belum cukup tetap baseline atau UNKNOWN; tidak ada
 klaim model unggul historis, factory SLA atau izin produksi dari hasil di atas.
+
+
+Prepared25Oct WIB: exact1200commercialSKU x3 physical sizes Native fixture and
+actual-minute official-finance runner are in
+see
+[scripts/current-factory-finance-qualification](../../../../scripts/current-factory-finance-qualification/README.md).
+SOURCE absent, awaiting actual current Native20 and Cron1 PASS. No factory
+runtime credit. All28 current transport cases stay unchanged; B target11 may
+qualify through both complete same-head partitions only, with no duplicate credit.

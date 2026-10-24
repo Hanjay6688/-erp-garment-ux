@@ -3055,3 +3055,29 @@ allfivepackagegates/CP6/advisors. Auth0000→0000,console0,sessions/copies0.
 MobileUNKNOWN/analog/CLEAR and dense2000/202000provenance reload are qualified
 on this exact source; no fullA,FGcachebrowser or positiveforecast credit.
 Native6/Transport11 remain pending. FullsixJSONfiles and rawZIP are preserved.
+
+
+## A25 Oktober2026 WIB — exact factory preparation and complete transport partition admission
+
+Current A target21/8 composition remains unchanged. B d7 Native6/run40119284264
+and Transport11/run40119284316 are still pending; current B Browser2 PASS is
+already retained. New B2b335934 transport partitions may supply target transport
+admission only together at one head with the exact reviewed provider and current
+15product source pins: catalog+4races and catalog+3races+3HTTP, union11, repeated
+catalog credit0. Local negative controls refuse one missing part, different heads,
+an omitted race, different provider and failed restore. All28 A business cases
+and the existing120min workflow remain unchanged. No actual partition credit yet.
+
+A isolated factory preparation bfc9f7b067ae05a4f249bcc5395870f1410fd5c6
+(tree7ab73431733607e4ed79d0cd9340fe3605cc043e) adds Native1200commercialSKUs
+x3sizes with all3600 physical variants, all target keys, stock and membership
+read-back, full page coverage and the existing actual-minute finance runner.
+Native import/group/sale/profile/policy writers are used, with all inputs explicitly
+synthetic. Retained BB helper period-control mutation is disclosed. Both sale dates
+are strictly past Jakarta dates and SKU membership precedes sales. Full baseline
+backup/restore remains mandatory after committed setup, including on failure.
+Official24metrics, independent book signature, UNKNOWN preservation, unchanged
+minute schedule60x8s,300s completion window, same UUID and immutable money/stock/HPP
+checks remain. Imports/AST/bash36steps/productbinding/schedulerfunctions PASS locally.
+SOURCE stays absent until actual current Native20 and current Cron1 PASS. This is
+preparation, not factory runtime, positive forecast, independent or production credit.
