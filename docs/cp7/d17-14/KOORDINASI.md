@@ -1494,3 +1494,21 @@ transfer baru siap; dua pilihan halaman2difoto sebelum create/correct. Admission
 Legacy31head5681edbd/run40061341301 dan daftar10head23ec565d/run40060889064
 berjalan. B upstream astra/d17-14-produksi masih a1043452fa35400fa25fab9ac9cda81f4275cb41
 pada baca terbaru; tidak ada merge atau perbaikan B yang diasumsikan.
+
+## A — first failure fixture daftar10 dipertahankan (24 Oktober 2026)
+
+Head23ec565d/run40060889064/job120773926057 INCOMPLETE sebelum0kasus/Auth0.
+Original507195byte/SHAfac0d7205b7a51b8e4202bda7300e08b9ba42f07fb18723c948da225c7f2d11c;
+ZIP1700747byte/SHA8c009abe75afa6c52d228a7d8a240b2c45355b952d2250a70abd5b39ff23e7c5.
+Fixture gagal pada assertion typecount30 kartuFG. Original hanya menampilkan
+assertion tanpa counts; sumber fixture stockFOUND_AT_OPNAME dan30positive
+adjustments tidak menjamin dua jenis. Bukan kasusUIlulus atau gagalproduk.
+Auth0000pulih/DB0/console0/cleanupbersih,CP6/advisor/4gatePASS,writer_runtimefalse.
+
+Perbaikan menambah satu inverse Native nyata dari adjustmentpositifpertama.
+Expected tegas menjadi:FGdocs31=29posted+1reversed+1draft, filter29:25+4;
+kartu32=31satujenis+1inverse, filter31:25+6; prefixbalanceakhir39 (10+30-1).
+Notes/materialtetap31/filter30;aksesori56/filter55. UUID/naturalorder/DOM/full
+rowssequence/prefixbalance tidak dilonggarkan; SQLproduk/oldoracles tetap.
+Admission915/AST/NodePASS, rerun diperlukan. Receipt owner-lists-23ec565d-first-fixture.json.
+Legacy31run40061341301 dan strengthenedtransfer2run40061613739 tetap berjalan.
