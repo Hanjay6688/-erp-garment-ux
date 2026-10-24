@@ -14,6 +14,9 @@ from cp7_ow04_restore_bundle import _catalog_rows
 ROOT=Path(__file__).resolve().parent
 SCHEMAS=('cp7_model_activation_gate','cp7_model_policy')
 TABLES=('cp7_model_policy.policies','cp7_model_policy.commands')
+REGISTRY_FK_TRIGGERS={
+ 'cp7_model_native.registry:cp7_model_policy.policies:policies_registry_id_fkey:"RI_FKey_noaction_del"():9',
+ 'cp7_model_native.registry:cp7_model_policy.policies:policies_registry_id_fkey:"RI_FKey_noaction_upd"():17'}
 PUBLIC=('public.erp_cp7_get_model_activation_policy_v1()',
         'public.erp_cp7_save_model_activation_policy_v1(jsonb,uuid)')
 FUNCTIONS={'cp7_model_activation_gate.policy(jsonb)':('i',False),
@@ -41,7 +44,7 @@ def verify_sources():
     gate.verify_sources();m=json.loads((ROOT/'MANIFEST.json').read_text())
     if sha256((ROOT/'policy.sql').read_bytes()).hexdigest()!=m['sql_sha256']:
         raise ValueError('MODEL_POLICY_SQL_CHANGED')
-    if list(FUNCTIONS)!=m['functions']or list(DEPENDENCIES)!=m['dependencies']:
+    if list(FUNCTIONS)!=m['functions']or list(DEPENDENCIES)!=m['dependencies']or sorted(REGISTRY_FK_TRIGGERS)!=m['registry_fk_triggers']:
         raise ValueError('MODEL_POLICY_DECLARATION_CHANGED')
     return sources()
 
@@ -49,6 +52,7 @@ def verify_sources():
 def declared(group,key):
     if group=='schemas':return key in SCHEMAS
     if group=='functions':return key in FUNCTIONS
+    if group=='triggers'and key in REGISTRY_FK_TRIGGERS:return True
     return group in('relations','columns','constraints','indexes','triggers','types',
                      'type_implementation','policies')and key.startswith('cp7_model_policy.')
 
@@ -72,6 +76,8 @@ def verify(cur,state):
         raise ValueError('MODEL_POLICY_TABLES_CHANGED')
     if set(catalog['policies'])!={t+':no_access'for t in TABLES}or len(catalog['types'])!=4:
         raise ValueError('MODEL_POLICY_POLICY_OR_TYPES_CHANGED')
+    if {k for k in catalog['triggers']if k.startswith('cp7_model_native.')}!=REGISTRY_FK_TRIGGERS:
+        raise ValueError('MODEL_POLICY_REGISTRY_FK_TRIGGERS_CHANGED')
     for sig,expected in state['dependencies'].items():
         if _row(cur,sig)!=expected:raise ValueError('MODEL_POLICY_NATIVE_DEPENDENCY_CHANGED: '+sig)
     for sig,(volatility,definer)in FUNCTIONS.items():

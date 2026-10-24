@@ -1,4 +1,5 @@
-import {useEffect,useMemo,useRef,useState} from 'react'
+import {useCallback,useEffect,useMemo,useRef,useState} from 'react'
+import NativeModelPolicyPanel from './NativeModelPolicyPanel'
 import {useAuth} from './auth/AuthProvider'
 import {getUatSupabaseClient} from './lib/supabase'
 import {normalizeClientError} from './lib/clientError'
@@ -13,6 +14,8 @@ function Workspace({historyRunId,targetKey,onSourceReadStart,onSourceReadEnd,onC
  const{runtime,identity}=useAuth();if(runtime.mode!=='DISPOSABLE_TEST'||identity.status!=='AUTHORIZED')throw Error('Sesi evaluasi belum siap.')
  const client=useMemo(()=>getUatSupabaseClient(runtime),[runtime]),scope=runtime.projectRef+':'+identity.profile.id,actor=identity.profile.authUserId,sequence=useRef(0),active=useRef(false)
  const[recovery,setRecovery]=useState(()=>readModelRequest(scope)),[horizon,setHorizon]=useState(recovery.pending?.q.horizon_days??''),[data,setData]=useState<NativeModelEvaluation|null>(null),[busy,setBusy]=useState(false),[error,setError]=useState('')
+ const[showPolicy,setShowPolicy]=useState(false)
+ const policyAccessLost=useCallback((message:string)=>{++sequence.current;setData(null);setError(message);const wasActive=active.current;active.current=false;setBusy(false);if(!wasActive)onSourceReadStart();onSourceReadEnd()},[onSourceReadStart,onSourceReadEnd])
  const begin=()=>{const n=++sequence.current;active.current=true;setData(null);setError('');setBusy(true);onSourceReadStart();return n}
  const end=(n:number)=>{if(n===sequence.current){active.current=false;setBusy(false);onSourceReadEnd()}}
  useEffect(()=>()=>{++sequence.current;if(active.current){active.current=false;onSourceReadEnd()}},[onSourceReadEnd])
@@ -33,5 +36,7 @@ function Workspace({historyRunId,targetKey,onSourceReadStart,onSourceReadEnd,onC
    {data.scores.length?<div className="responsive-table"><table><thead><tr><th>Model</th><th>Putaran lengkap</th><th>Kesalahan rata-rata</th><th>Bias</th><th>Kesalahan periode</th><th>Uji terakhir</th></tr></thead><tbody>{data.scores.map(s=><tr key={s.id}><td>{names[s.id]}</td><td data-label="Putaran lengkap">{s.complete}/{s.requested}</td><td data-label="Kesalahan rata-rata">{number(s.mae)}</td><td data-label="Bias">{number(s.bias)}</td><td data-label="Kesalahan periode">{number(s.tail)}</td><td data-label="Uji terakhir">{number(s.holdoutMae)}</td></tr>)}</tbody></table></div>:null}
    <p>{data.forecasts?`Ramalan ${data.horizon} hari: ${data.forecasts.map(x=>formatReceiptDecimal(x)).join('; ')} PCS.`:'Ramalan baru belum terbukti oleh histori yang lengkap.'}</p><p>Evaluasi ini tidak mengubah target, menyimpan pesanan, atau menerapkan produksi.</p>
   </div>:null}
+  <button disabled={busy} onClick={()=>{setShowPolicy(!showPolicy);setData(null)}}>{showPolicy?'Tutup syarat penggunaan model':'Tinjau syarat penggunaan model'}</button>
+  {showPolicy?<NativeModelPolicyPanel key={scope+':'+actor} client={client} scope={scope} actor={actor} canManage={['OWNER','ADMIN'].includes(identity.profile.role)&&identity.permissions.includes('master.product.manage')} onAccessLost={policyAccessLost}/>:null}
  </section>
 }

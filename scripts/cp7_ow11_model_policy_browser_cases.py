@@ -1,0 +1,11 @@
+"""Actual Auth policy UI proof; no model-consumer or accuracy claim."""
+import cp7_ow11_model_policy_cases as native
+CONTRACT='cp7.ow11.model-policy-browser.v1'
+IDS=dict(browser=['OW11_MODEL_POLICY_BROWSER_MOBILE_EXACT_RECOVERY_SUSPEND',
+ 'OW11_MODEL_POLICY_BROWSER_DESKTOP_REVIEW_ACCESS_REVOKED'])
+REQUIRED=dict(browser=2)
+EXPECTED=DECLARED=2
+FUNCTIONS,SCHEDULES=native.FUNCTIONS,native.SCHEDULES
+INSTALL_STATES,REORDER_STATES,CHECKED_STATE,SCHEDULE_STATE,BOUNDED_STATE,REFERENCE_STATE,STAGE_STATE={},{},{},{},{},{},{}
+PARENT_CHECKER=None
+stage=native.stage

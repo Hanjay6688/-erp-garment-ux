@@ -1,0 +1,135 @@
+{
+  "actual_SQL": true,
+  "controlled_access_standins": true,
+  "workspace": {
+    "state": "UNREVIEWED",
+    "current": null,
+    "revision": "0",
+    "can_write": true,
+    "access_epoch": "0d7d69ef0106b34c59e5862a4b1c1a8ab12f9747910f228414a158639f33cb1e",
+    "production_go": false,
+    "actor_scope_id": "11111111-1111-4111-8111-111111111111",
+    "model_template": {
+      "hash": "21e1ea8e303853f5d2e6f07041ad4c91555ebba944605151a2941519a6c081f7",
+      "models": {
+        "baseline": {
+          "id": "mean-1",
+          "method": "MEAN",
+          "params": {}
+        },
+        "challengers": [
+          {
+            "id": "naive-1",
+            "method": "NAIVE",
+            "params": {}
+          },
+          {
+            "id": "moving-mean-7-1",
+            "method": "MOVING_MEAN",
+            "params": {
+              "window": "7"
+            }
+          },
+          {
+            "id": "ses-half-1",
+            "method": "SES",
+            "params": {
+              "alpha": "0.5",
+              "initial_level": null
+            }
+          },
+          {
+            "id": "holt-damped-1",
+            "method": "DAMPED_HOLT",
+            "params": {
+              "phi": "0.9",
+              "beta": "0.5",
+              "alpha": "0.5",
+              "initial_level": null,
+              "initial_trend": "0"
+            }
+          },
+          {
+            "id": "seasonal-7-1",
+            "method": "SEASONAL_NAIVE",
+            "params": {
+              "season": "7"
+            }
+          },
+          {
+            "id": "sba-half-1",
+            "method": "SBA",
+            "params": {
+              "beta": "0.5",
+              "alpha": "0.5"
+            }
+          },
+          {
+            "id": "tsb-half-1",
+            "method": "TSB",
+            "params": {
+              "beta": "0.5",
+              "alpha": "0.5"
+            }
+          }
+        ]
+      }
+    },
+    "contract_version": "cp7.model-activation-policy-workspace.v1",
+    "forecast_applied": false
+  },
+  "payload": {
+    "contract_version": "cp7.model-activation-policy-command.v1",
+    "action": "SET",
+    "config": {
+      "minimum_training_days": "20",
+      "maximum_horizon_days": "90",
+      "allowed_methods": [
+        "NAIVE"
+      ],
+      "promotion": {
+        "minimum_complete_folds": "3",
+        "minimum_mae_improvement": "0",
+        "maximum_bias_worsening": "0",
+        "maximum_tail_worsening": "0",
+        "season_lag": "7"
+      }
+    },
+    "template_hash": "21e1ea8e303853f5d2e6f07041ad4c91555ebba944605151a2941519a6c081f7",
+    "reason": "Explicit controlled policy fixture",
+    "reviewed": true,
+    "expected_revision": "0",
+    "access_epoch": "0d7d69ef0106b34c59e5862a4b1c1a8ab12f9747910f228414a158639f33cb1e"
+  },
+  "requestId": "669dbd99-3f41-4442-8c5e-969d376369e5",
+  "outcome": {
+    "policy": {
+      "id": "c76e427b-3dea-4400-87fc-1e7eb6e1b70a",
+      "state": "ACTIVE",
+      "config": {
+        "promotion": {
+          "season_lag": "7",
+          "maximum_bias_worsening": "0",
+          "maximum_tail_worsening": "0",
+          "minimum_complete_folds": "3",
+          "minimum_mae_improvement": "0"
+        },
+        "allowed_methods": [
+          "NAIVE"
+        ],
+        "maximum_horizon_days": "90",
+        "minimum_training_days": "20"
+      },
+      "reason": "Explicit controlled policy fixture",
+      "revision": "1",
+      "recorded_at": "2026-10-24T13:33:25.116000Z",
+      "registry_id": "cp7.owner-model-policy.c76e427b-3dea-4400-87fc-1e7eb6e1b70a"
+    },
+    "request_id": "669dbd99-3f41-4442-8c5e-969d376369e5",
+    "production_go": false,
+    "template_hash": "21e1ea8e303853f5d2e6f07041ad4c91555ebba944605151a2941519a6c081f7",
+    "actor_scope_id": "11111111-1111-4111-8111-111111111111",
+    "contract_version": "cp7.model-activation-policy-outcome.v1",
+    "forecast_applied": false
+  }
+}

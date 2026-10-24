@@ -32,5 +32,9 @@
   "existing_replacements": 0,
   "default_policy_created": false,
   "forecast_applied": false,
-  "production_go": false
+  "production_go": false,
+  "registry_fk_triggers": [
+    "cp7_model_native.registry:cp7_model_policy.policies:policies_registry_id_fkey:\"RI_FKey_noaction_del\"():9",
+    "cp7_model_native.registry:cp7_model_policy.policies:policies_registry_id_fkey:\"RI_FKey_noaction_upd\"():17"
+  ]
 }

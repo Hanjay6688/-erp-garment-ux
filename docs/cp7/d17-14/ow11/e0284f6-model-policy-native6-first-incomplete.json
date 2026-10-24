@@ -1,0 +1,97 @@
+{
+  "contract": "cp7.model-policy-native6-first-incomplete.v1",
+  "candidate_sha": "e0284f6c5b636ebb71cd5a5850d74adc6db46550",
+  "run_id": 40097458641,
+  "job_id": 120882585502,
+  "artifact_id": 12561642820,
+  "original_filename": "e0284f6-model-policy-native6-first-complete-json.zip",
+  "original_bytes": 203959,
+  "original_sha256": "83e52f944a0d00b0b0b399f9d20a8e8c8b1507f64cdac70175f626c27b984b0c",
+  "status": "INCOMPLETE",
+  "counts": {
+    "INCOMPLETE": 6
+  },
+  "observed": 6,
+  "cases": {
+    "OW11_MODEL_POLICY_CATALOG22_PREUSE_DEPENDENCY": {
+      "status": "INCOMPLETE",
+      "error": "MODEL_POLICY_UNDECLARED_DELTA: triggers:cp7_model_native.registry:cp7_model_policy.policies:policies_registry_id_fkey:\"RI_FKey_noaction_del\"():9",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    "OW11_MODEL_POLICY_EXPLICIT_APPEND_SUSPEND_REACTIVATE_REPLAY": {
+      "status": "INCOMPLETE",
+      "error": "MODEL_POLICY_UNDECLARED_DELTA: triggers:cp7_model_native.registry:cp7_model_policy.policies:policies_registry_id_fkey:\"RI_FKey_noaction_del\"():9",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    "OW11_MODEL_POLICY_PROSPECTIVE_CLOCK_AND_IMMUTABLE_HISTORY": {
+      "status": "INCOMPLETE",
+      "error": "MODEL_POLICY_UNDECLARED_DELTA: triggers:cp7_model_native.registry:cp7_model_policy.policies:policies_registry_id_fkey:\"RI_FKey_noaction_del\"():9",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    "OW11_MODEL_POLICY_CURRENT_ACCESS_OWNER_ADMIN_AND_REPLAY": {
+      "status": "INCOMPLETE",
+      "error": "MODEL_POLICY_UNDECLARED_DELTA: triggers:cp7_model_native.registry:cp7_model_policy.policies:policies_registry_id_fkey:\"RI_FKey_noaction_del\"():9",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    "OW11_MODEL_POLICY_EXPLICIT_VALIDATION_CAS_TEMPLATE": {
+      "status": "INCOMPLETE",
+      "error": "MODEL_POLICY_UNDECLARED_DELTA: triggers:cp7_model_native.registry:cp7_model_policy.policies:policies_registry_id_fkey:\"RI_FKey_noaction_del\"():9",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    },
+    "OW11_MODEL_POLICY_ATOMIC_REGISTRY_POLICY_COMMAND": {
+      "status": "INCOMPLETE",
+      "error": "MODEL_POLICY_UNDECLARED_DELTA: triggers:cp7_model_native.registry:cp7_model_policy.policies:policies_registry_id_fkey:\"RI_FKey_noaction_del\"():9",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      }
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "auth_before": 0,
+  "auth_after": 0,
+  "fix": "Declare exactly the two FK registry-side internal triggers of policies_registry_id_fkey; no wildcard or SQL change.",
+  "SQL_changed": false,
+  "production_go": false
+}

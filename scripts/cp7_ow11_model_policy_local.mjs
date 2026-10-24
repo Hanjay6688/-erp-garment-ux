@@ -21,9 +21,16 @@ create table cp7_model_native.registry(id text primary key,registered_at timesta
 alter table cp7_model_native.registry owner to cp7_capture;
 create trigger immutable_registry before update or delete on cp7_model_native.registry for each row execute function cp7_private.immutable_run();
 grant usage on schema cp7_schedule_native,cp7_private,cp7_planning,erp to cp7_capture;`)
-const template={baseline:{id:'mean-1',method:'MEAN',params:{}},challengers:[{id:'naive-1',method:'NAIVE',params:{}}],policy:{minimum_complete_folds:'3',minimum_mae_improvement:'0',maximum_bias_worsening:'0',maximum_tail_worsening:'0',season_lag:'7'},meaning:'TECHNICAL_PROPOSAL_NOT_OWNER_SERVICE_TARGET'}
+const bootstrap=await read('scripts/cp7-src/model-native/bootstrap.sql')
+const template=JSON.parse(bootstrap.match(/'({"baseline":.*})'::jsonb/)[1])
 await db.query('insert into cp7_model_native.registry values($1,clock_timestamp(),$2::jsonb)',['cp7.native-model-policy.v1',JSON.stringify(template)])
 await db.exec(await read('scripts/cp7_model_policy_stage/policy.sql'))
+
+const registryFk=await db.query(`select 'cp7_model_native.registry:'||k.conrelid::regclass::text||':'||k.conname||':'||t.tgfoid::regprocedure::text||':'||t.tgtype::text as key from pg_trigger t join pg_constraint k on k.oid=t.tgconstraint where t.tgrelid='cp7_model_native.registry'::regclass and k.conname='policies_registry_id_fkey'`)
+assert.deepEqual(registryFk.rows.map(x=>x.key).sort(),[
+ 'cp7_model_native.registry:cp7_model_policy.policies:policies_registry_id_fkey:"RI_FKey_noaction_del"():9',
+ 'cp7_model_native.registry:cp7_model_policy.policies:policies_registry_id_fkey:"RI_FKey_noaction_upd"():17'])
+
 const sql=async(q,args=[])=>(await db.query(q,args)).rows[0]?.v
 const access=async(role='OWNER',active='true')=>{await sql("select set_config('model_test.role',$1,false)v",[role]);await sql("select set_config('model_test.active',$1,false)v",[active])}
 await access()
@@ -33,9 +40,9 @@ const counts=()=>sql("select jsonb_build_array((select count(*)from cp7_model_po
 const config={minimum_training_days:'20',maximum_horizon_days:'90',allowed_methods:['NAIVE'],promotion:template.policy}
 const command=async()=>{const w=await workspace();return{contract_version:'cp7.model-activation-policy-command.v1',action:'SET',config:structuredClone(config),template_hash:w.model_template.hash,reason:'Explicit controlled policy fixture',reviewed:true,expected_revision:w.revision,access_epoch:w.access_epoch}}
 const cases=[];async function test(id,fn){try{cases.push({id,status:'PASS',observed:await fn()})}catch(e){cases.push({id,status:'FAIL',error:String(e.stack).slice(0,2300)})}}
-let first,firstPayload,firstKey
+let first,firstPayload,firstKey,firstWorkspace
 await test('NO_SEEDED_POLICY_OR_INHERITED_THRESHOLD',async()=>{
- const w=await workspace();assert.equal(w.state,'UNREVIEWED');assert.equal(w.revision,'0');assert.equal(w.current,null)
+ const w=await workspace();firstWorkspace=structuredClone(w);assert.equal(w.state,'UNREVIEWED');assert.equal(w.revision,'0');assert.equal(w.current,null)
  assert.deepEqual(Object.keys(w.model_template.models).sort(),['baseline','challengers']);assert.deepEqual(await counts(),[0,0,1])
  return{technical_template_is_not_active_policy:true,thresholds_not_defaulted:true}
 })
@@ -92,4 +99,5 @@ await test('LAST_TABLE_FAULT_ROLLS_BACK_REGISTRY_AND_POLICY',async()=>{
  await db.exec('drop trigger test_fault on cp7_model_policy.commands;drop function cp7_model_policy.test_fault()');return{registry_policy_command_atomic:true}
 })
 const report={contract:'cp7.model-policy-local.v1',status:cases.every(x=>x.status==='PASS')?'PASS':'FAIL',expected:10,counts:cases.reduce((a,x)=>(a[x.status]=(a[x.status]??0)+1,a),{}),cases,sql_sha256:createHash('sha256').update(await read('scripts/cp7_model_policy_stage/policy.sql')).digest('hex'),actual_SQL:true,controlled_access_standins:true,actual_Native:false,actual_Auth_HTTP_credit:false,actual_concurrency:false,catalog22_qualified:false,forecast_applied:false,production_go:false}
+if(report.status==='PASS')await writeFile('tests/fixtures/nativeModelPolicySql.json',JSON.stringify({actual_SQL:true,controlled_access_standins:true,workspace:firstWorkspace,payload:firstPayload,requestId:firstKey,outcome:first},null,2)+'\n')
 await writeFile('docs/cp7/d17-14/ow11/model-policy-local.json',JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report,null,2));await db.close();if(report.status!=='PASS')process.exitCode=1

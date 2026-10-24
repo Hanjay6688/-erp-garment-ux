@@ -1534,3 +1534,29 @@ clockaktual, tidak mengubah riwayat. Tidak ada nilai kebijakan pabrik bawaan.
 nama pesan immutable disimpan. Native6 dideklarasikan untuk katalog22,
 lifecycle/clock/permission/CAS/atomic; menunggu CI. Consumertransport10 lama
 masih berjalan. FullAchain/afteruse/modelactivation/OW11 belum selesai.
+
+## 88. B24 Oktober2026 — consumertransport10 Original lengkap; job cancelled
+
+4477093/run40094861326/job120874876131: Nativeanchor1+races6+AuthHTTP3 PASS.
+Original12561657183 SHA9c952dd8ad074fb841a704851c7b46d7d01f5076b4f74c2bc31da2fb755455ea
+dibaca lengkap:10ID/count, cp6/advisor,5packagegatestrue,Auth0/0/0/0pulih,
+copyrace/http0. Paket sempat ditulis sebelum45mincancel; job tetapCANCELLED,
+bukan suksesCI penuh. Always cleanup/artifact sukses. Full log disimpan.
+Fresh target setelahrace, sameUUID/CAS, semua tiga wait/revoke, stocksource
+berubah, HTTPnew/retained/CLEAR/provenance lulus. Tidak ulang demi badge.
+
+## 89. B24 Oktober2026 — policy Native first admission failure dan client69
+
+e0284f6/run40097458641:6INCOMPLETE karena deklarasi belum memasukkan tepat2
+triggerFK di sisi registry. Seluruh kasus berhenti di admission; bukanPASS
+fungsi. FirstOriginal12561642820 SHA83e52f944a0d00b0b0b399f9d20a8e8c8b1507f64cdac70175f626c27b984b0c
+dan log lengkap dipertahankan. Koreksi hanya deklarasi2identitasFK exact,
+manifest/verify; SQL/ACL/budgettetap, tidak whitelist seluruhparenttable.
+
+Form kebijakanterpisah dari evaluasiv1, kosongtanpaambang/metodebawaan,
+copyversitersimpan eksplisit; reviewresetsetiapeditor; SET/SUSPEND recovery
+UUID/payload/prior exact, locks, stale-tab dan403retireparentFG/HPP.69client/DOM
+PASS,TS/CSS64PASS. ActualSQLfixturefull8model, bukanactualAuthbrowser.
+Registryproposal22pair(20lama+2policy),373files/317RPCpass pada salinanusulan;
+filebersamaA tidakdiubah. CorrectedNative6 danactualBrowser2dideklarasikan,
+hasilmenunggu. Induk5/16, modelactivation/fullOW11/productiontetapfalse.

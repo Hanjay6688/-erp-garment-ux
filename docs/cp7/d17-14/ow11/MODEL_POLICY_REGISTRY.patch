@@ -1,0 +1,5 @@
+--- a/scripts/check-source-ownership.mjs
++++ b/scripts/check-source-ownership.mjs
+@@ -387,0 +388,2 @@
++  'src/nativeModelPolicy.ts:erp_cp7_get_model_activation_policy_v1',
++  'src/nativeModelPolicy.ts:erp_cp7_save_model_activation_policy_v1',
