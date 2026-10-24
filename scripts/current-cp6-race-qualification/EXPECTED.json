@@ -1,0 +1,54 @@
+{
+  "count": 36,
+  "retained_case_credit": 36,
+  "new_business_case_credit": 0,
+  "executions": 72,
+  "families": {
+    "AF": [
+      "AF_POST_FIRST",
+      "AF_POST_ABORT",
+      "AF_CHILD_FIRST",
+      "AF_DOUBLE_POST"
+    ],
+    "AG": [
+      "AG_EDIT_FIRST",
+      "AG_EDIT_ABORT",
+      "AG_POST_FIRST",
+      "AG_POST_ABORT"
+    ],
+    "AH": [
+      "ALLOCATION_MAIN_COMMIT",
+      "ALLOCATION_MAIN_ABORT",
+      "ALLOCATION_OTHER_COMMIT",
+      "ALLOCATION_OTHER_ABORT",
+      "RETURN_COMMIT",
+      "RETURN_ABORT",
+      "SALE_REVERSE_COMMIT",
+      "SALE_REVERSE_ABORT"
+    ],
+    "AI": [
+      "HEADER_POST_COMMIT",
+      "HEADER_POST_ABORT",
+      "POST_HEADER_COMMIT",
+      "POST_HEADER_ABORT",
+      "CHILD_HEADER_COMMIT",
+      "CHILD_HEADER_ABORT",
+      "HEADER_CHILD_COMMIT",
+      "HEADER_CHILD_ABORT"
+    ],
+    "AI_PEER": [
+      "PEER_DOUBLE_POST_COMMIT",
+      "PEER_DOUBLE_POST_ABORT",
+      "PEER_QTY_POST_COMMIT",
+      "PEER_QTY_POST_ABORT",
+      "PEER_POST_QTY_COMMIT",
+      "PEER_POST_QTY_ABORT",
+      "PEER_DELETE_POST_COMMIT",
+      "PEER_DELETE_POST_ABORT",
+      "PEER_POST_DELETE_COMMIT",
+      "PEER_POST_DELETE_ABORT",
+      "PEER_GROUP_TWO_POST_COMMIT",
+      "PEER_GROUP_TWO_POST_ABORT"
+    ]
+  }
+}
