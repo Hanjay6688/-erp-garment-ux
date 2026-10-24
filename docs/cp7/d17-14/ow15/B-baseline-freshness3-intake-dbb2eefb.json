@@ -1,0 +1,35 @@
+{
+  "contract": "cp7.B-component-original-intake.v1",
+  "name": "CP7_OW11_BASELINE_FRESHNESS.json",
+  "status": "PASS",
+  "head": "dbb2eefbed27e9370f8db6c67bffb0bf752fb046",
+  "run_id": 40107539505,
+  "job_id": 120912239496,
+  "artifact_id": 12565218414,
+  "zip_bytes": 136635,
+  "zip_sha256": "e072a65a783e17ee76b8b4f6951801626585710550dbc0527a24de4ee156c7c0",
+  "bytes": 1171524,
+  "sha256": "d899e2838474214ebd234d6b7e385006c03f05adba252fb7184d8e5029b30f58",
+  "whole_job_status": "completed",
+  "whole_job_conclusion": "success",
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "source_pins_verified": 4,
+  "native_counts": {
+    "PASS": 3
+  },
+  "actual_false_stale_regression_fixed": true,
+  "immutable_history_and_UUID_exact": true,
+  "current_profile_posted_SALE_and_access": true,
+  "full22_component_inverse": true,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "full_A_chain_credit": false,
+  "production_go": false,
+  "independent_acceptance": false
+}
