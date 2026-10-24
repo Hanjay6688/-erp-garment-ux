@@ -1,0 +1,57 @@
+{
+  "run": 40085550449,
+  "job": 120847621662,
+  "artifact": 12556924163,
+  "zip_bytes": 1934785,
+  "zip_sha256": "3f16888ff32baaaef0094f67fd5e308e5ee05eea016a13d5dcd697fe9eff02ac",
+  "label": "CP7_CURRENT_RETURN_AUTH_READY2",
+  "status": "INCOMPLETE",
+  "qualification_commit": "b18853dfe5229564c537ef2a984fb3988ebed735",
+  "report": {
+    "name": "CP7_CURRENT_RETURN_AUTH_READY2.json",
+    "raw_bytes": 1432748,
+    "raw_sha256": "047bb684afe2d083a1fe6e48cb09cfc402102d182f350fd3171282d457b6fe1e"
+  },
+  "counts": {
+    "INCOMPLETE": 2
+  },
+  "case_errors": {
+    "CURRENT_RETURN_HTTP_BAD_DRAFT_GRADE_A": "value too long for type character varying(30)",
+    "CURRENT_RETURN_HTTP_BAD_DRAFT_GRADE_B": "value too long for type character varying(30)"
+  },
+  "business_settlement_oracles_reached": false,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "auth_counts": {
+    "before": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "after": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "restored": true
+  },
+  "cleanup": {
+    "users_created": 2,
+    "cleanup_failures": [],
+    "rest_remaining": false
+  },
+  "database_remaining": 0,
+  "production_go": false,
+  "independent_acceptance": false,
+  "new_business_case_credit": 0,
+  "disposition": "Both cases stop before quote: explicit customer fixture used6-character Native prefix+11-character label prefix+32 hex=49characters, exceeds actual Native varchar30. Preserve original bytes. Bounded successor uses12 hex=29characters with preDB and precreation length assertions; original business oracles unchanged, no schema or product change."
+}
