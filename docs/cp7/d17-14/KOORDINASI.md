@@ -1685,3 +1685,16 @@ sudahpunya suite tersendiri. Tidakbackdatehistory/registryuntukpositivewinner.
 StaticPython/Node/YAML/declaration/sourcepins/budgetnegativePASS; belumkredit
 runtime sebelum completeOriginal. Native6headerbaru1d2318ea/run40104010474 dan
 retainedpolicyBrowser2/run40104010507 masihjalan, hasilbelumditandaiPASS.
+
+## 97. B24 Oktober2026 — v2 Transport10 candidate
+
+Separate1catalog+6races+3actualAuthHTTPbudget. Catalog anchor tidak menambah
+kredit fiturlama; dua backend harus terbukti menunggu envelope/request lock.
+SameUUID menghasilkan satu immutable run, changedpayloadsameUUID tepat satu
+refusal; currentaccess setelah kedua wait, policycommit saat envelopewait tidak
+mengesahkanhistorylama, actualSALE saat wait membuat stale capturebaru ditolak.
+HTTP memakai actualAuth dan actualNativehistorycapture, read/replay immutable,
+closedquery/foreign/anonymous/currentrevoked serta policy/source retirement.
+Tidakbackdatehistory, tidakforecastactivation. StaticPython/YAML/sourcepins/
+declaration/group-budget guardsPASS; runtime belumdikreditkan. F05flagbaru
+terpisah, default/migrasi/Atypes/sharedregistry tidakdiubah, 8s/45mintetap.
