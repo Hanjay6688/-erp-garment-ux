@@ -13,7 +13,7 @@ scripts/chain-p21-qualification/EXPECTED_CHAIN_STEPS.json; a TODO step keeps the
 from copy import deepcopy
 from hashlib import sha256
 from pathlib import Path
-from datetime import date
+from datetime import date,timedelta
 import importlib.util,json,os,subprocess,sys,time,traceback,uuid
 
 sys.dont_write_bytecode=True
@@ -26,6 +26,7 @@ helper=importlib.util.module_from_spec(spec);spec.loader.exec_module(helper)
 import cp7_p21_chain_adapter as adapter
 import cp7_chain_restore as chain_restore
 import cp7_r3_hpp_pool_cases as hp
+import cp7_period_cases as period
 import mandor_fixture
 from cp7_supplier_transfer import cases as ow06
 from cp7_kasbon_source import cases as kasbon
@@ -98,7 +99,39 @@ def prepare_attendance_pools(cur,today):
     missing=[r for r in before if r['code']=='ATTENDANCE_POOL_POLICY_MISSING']
     if missing:raise ValueError('P21_CHAIN_ATTENDANCE_POLICY_FIXTURE_TODO: '+json.dumps(missing,default=str)[:2000])
     days=sorted({r['impact_date']for r in before if r['code']=='ATTENDANCE_POOL_NOT_ACTIVE'})
-    pools=[]
+    pools=[];reopening=None
+    if days:
+        owner=hp.owner(cur)
+        # The aligned fixture contains old attendance inside a closed period.
+        # Reopen only through the reviewed Native facade, with an explicit
+        # fixture reason. Never bypass the closed-period guard or edit control.
+        control=period.read(cur,today,owner)
+        closed=control['control']['closed_through']
+        first=date.fromisoformat(days[0])
+        if closed is not None and date.fromisoformat(closed)>=first:
+            target=str(first-timedelta(days=1))
+            business_before=period.business(cur);filings_before=period.filings(cur)
+            request=uuid.uuid4()
+            payload=dict(period.intent(control,'REOPEN',target),reason=FIXTURE_REASON+'; buka periode lama sebelum membagi pool')
+            receipt=period.command(cur,'REOPEN',payload,request,owner)
+            assert receipt['closed_through']==target
+            assert period.command(cur,'REOPEN',payload,request,owner)==receipt
+            assert period.read(cur,today,owner)['control']['closed_through']==target
+            assert period.business(cur)==business_before and period.filings(cur)==filings_before
+            reopening=dict(from_closed_through=closed,to_closed_through=target,
+                request_id=str(request),receipt=receipt,exact_replay=True,
+                existing_filed_history_unchanged=True,GL_and_stock_unchanged_by_reopen=True,
+                path='erp_cp7_save_period_control_v1:REOPEN',fixture_only=True)
+    # Complete the existing attendance/payroll sources BEFORE freezing their
+    # allocation in ACTIVE pools. E01's unchanged quiet_seed cannot approve
+    # old payroll while its attendance cost is locked by an active pool.
+    seed_completion=period.aw.quiet_seed(cur,today-timedelta(days=3),today)
+    hp.b.api.admin(cur)
+    assert not seed_completion['refused'],('P21_CHAIN_PRE_POOL_SEED_COMPLETION',seed_completion)
+    after_sources=attendance_rows(cur,today)
+    missing=[r for r in after_sources if r['code']=='ATTENDANCE_POOL_POLICY_MISSING']
+    if missing:raise ValueError('P21_CHAIN_ATTENDANCE_POLICY_FIXTURE_TODO: '+json.dumps(missing,default=str)[:2000])
+    days=sorted({r['impact_date']for r in after_sources if r['code']=='ATTENDANCE_POOL_NOT_ACTIVE'})
     if days:
         owner=hp.owner(cur)
         for day in days:
@@ -110,7 +143,7 @@ def prepare_attendance_pools(cur,today):
     left=[r for r in attendance_rows(cur,today)if r['code']=='ATTENDANCE_POOL_NOT_ACTIVE']
     if left:raise ValueError('P21_CHAIN_ATTENDANCE_POOL_STILL_NOT_ACTIVE: '+json.dumps(left,default=str)[:2000])
     return dict(step='OW07_ATTENDANCE_POOLS_ACTIVE_BEFORE_E01',status='PASS',not_active_before=sum(r['code']=='ATTENDANCE_POOL_NOT_ACTIVE'for r in before),
-        days=days,pools=pools,fixture_reason=FIXTURE_REASON,owner_figures_used=False,E01_READY_assertions_changed=False)
+        days=days,pools=pools,period_reopening=reopening,seed_completion_before_pool_activation=seed_completion,fixture_reason=FIXTURE_REASON,owner_figures_used=False,E01_READY_assertions_changed=False)
 
 
 def admitted():
@@ -434,9 +467,33 @@ def run():
                 used_removal_refused_before_mutation=True,administrative_fixture_seeded=seeded,test_usage_grant_revoked=granted))
         # Chain steps that write business rows: after the used-state refusal, before the trusted dump.
         with psycopg.connect(package.boundary.ADMIN)as conn,conn.cursor()as cur:
+            cash_before=dict(cur.execute('select id::text,to_jsonb(c)from erp.cash_accounts c').fetchall())
             chain_source_steps(cur,today,report);conn.commit()
         with psycopg.connect(package.boundary.ADMIN)as conn,conn.cursor()as cur:
             cur.execute("set local timezone='UTC'")
+            cash_after=dict(cur.execute('select id::text,to_jsonb(c)from erp.cash_accounts c').fetchall())
+            assert all(cash_after.get(key)==value for key,value in cash_before.items()),'P21_CHAIN_FIXTURE_CHANGED_EXISTING_CASH_ACCOUNT'
+            added_cash=sorted(set(cash_after)-set(cash_before))
+            # The later kasbon/QC/transfer fixtures add their own bank options.
+            # Compare the restored DB with the SOURCE AT DUMP, not an earlier
+            # source snapshot. Existing options and every financial fact must
+            # still be exact; this does not remove cash_accounts from the oracle.
+            for index,item in enumerate(fixtures):
+                actual=read(cur,item,'SOURCE_AFTER_ALL_CHAIN_STEPS_BEFORE_DUMP')
+                old_options=item['before_read']['workspace']['cash_accounts']
+                new_options=actual['workspace']['cash_accounts']
+                assert old_options['next_offset']is None and new_options['next_offset']is None,'P21_FIXTURE_OPTION_CENSUS_MUST_BE_COMPLETE'
+                old_rows={row['id']:row for row in old_options['rows']}
+                new_rows={row['id']:row for row in new_options['rows']}
+                assert all(new_rows.get(key)==value for key,value in old_rows.items()),'P21_CHAIN_FIXTURE_CHANGED_EXISTING_CASH_OPTION'
+                assert set(new_rows)-set(old_rows)==set(added_cash),'P21_CHAIN_FIXTURE_UNEXPLAINED_CASH_OPTION'
+                assert int(new_options['total'])-int(old_options['total'])==len(added_cash)
+                expected=deepcopy(item['before_read']);expected['workspace']['cash_accounts']=new_options
+                assert not differences(expected,actual),'P21_CHAIN_FIXTURE_CHANGED_EXISTING_AUTHORITATIVE_FACTS'
+                report.setdefault('source_at_dump_baselines',[]).append(dict(fixture=index,
+                    before=item['before_read'],at_dump=actual,added_fixture_cash_account_ids=added_cash,
+                    every_existing_option_and_other_authoritative_fact_unchanged=True))
+                item['before_read']=actual
             mandor_before=mandor_fixture.read(cur,mandor);conn.rollback()
         used_data=drill.data_hashes(database.SOURCE);used_profile=database._database_profile(database.SOURCE)
         with psycopg.connect(package.boundary.ADMIN)as conn,conn.cursor()as cur:

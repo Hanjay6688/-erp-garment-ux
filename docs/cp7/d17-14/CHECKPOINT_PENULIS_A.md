@@ -1,8 +1,24 @@
 ## 24 Okt 2026 — batas source A/B
 
 Run40001235110 menolak perubahan dua harness pendahulu yang dikunci trigger guard A. Original disimpan. Harness A dipulihkan persis; penerus B diberi nama sendiri dan delapan entrypoint B diarahkan kepadanya, dengan assertion netting tambahan B tetap dipanggil. Penerimaan source guard tetap utuh dan kini diperiksa sebelum database. Uji integrasi/restore masih wajib. production_go=false.
+## 24 Okt 2026 — P21 source at dump
+
+Run39999210667 preserved INCOMPLETE: exact full dump/fresh restore and binding controls passed; the read oracle was taken before three later fixture bank options. Expected reads now come from the source immediately before dump, with an explicit assertion that all earlier options and every other authoritative fact stayed identical. Full restored comparison remains exact. No hosted write or production_go.
+
+## Astra A — P21 urutan payroll/pool, 24 Okt 2026
+
+Run39997562338 pada dd2fb30c lolos install, exact preuse rollback, reinstall, serta reopening Native beserta replay. E01 berhenti karena fixture mengaktifkan pool sebelum payroll seed lama disahkan; penjaga ACTIVE pool menolak dengan benar. Original dipertahankan pada receipt `ow15/p21-dd2fb30c-first-payroll-pool.json`. Kandidat berikut menyelesaikan sumber payroll melalui helper Native yang sama sebelum alokasi pool diaktifkan, lalu membaca ulang blocker; tidak mengubah produk, assertion READY, atau oracle keuangan. Belum PASS keseluruhan.
 
 # Checkpoint penulis A (cabang `claude/d17-14-uang`)
+
+## P21 run pertama penerus A — kegagalan dipertahankan
+
+Run39995579424/86fe7a64: pasang22, copot pra-pakai tepat22 dan pasang ulang
+lulus. Persiapan pool lama ditolak CP7_HPP_POOL_PERIOD_CLOSED (Jan1 berada
+di bawah tutup buku20 Okt). CP6/advisor pulih tepat. Receipt di
+`ow15/p21-86fe7a64-first-closed-pool.json`. Perbaikan hanya fixture: REOPEN
+melalui facade periode dengan alasan fixture sebelum membagi pool; replay,
+arsip lama, GL dan stok diperiksa. READY/oracle/produk tidak dilonggarkan.
 
 ## Posisi penerus A — 24 Oktober 2026
 
