@@ -1,0 +1,184 @@
+{
+  "status": "PASS",
+  "head": "2fefc56f9ba2572b049bbbefdc2c3540457e5982",
+  "run_id": 40050761536,
+  "job_id": 120742680986,
+  "artifact_id": 12543283807,
+  "zip_bytes": 5611450,
+  "zip_sha256": "414875022af217d4cbbe97e871e0cf9c4bb26a45b09a16ba6243cf6c235538d6",
+  "original_name": "CP7_AB_BOUNDED_BROWSER4.json",
+  "original_bytes": 496654,
+  "original_sha256": "bd2d7c5e868475cb167eb64dccb729328c0e32a9fa59090b45fd877e6aaaf925",
+  "case_ids": [
+    "OW13C_BOUNDED_ENTRY_DESKTOP_STALE_DIRTY",
+    "OW13C_BOUNDED_ENTRY_MOBILE_LOST_REPLY",
+    "OW13C_QUANTITY_MOBILE_CHECKED_SAVE_REPLY_RECOVERY",
+    "OW13C_QUANTITY_DESKTOP_DENSE2000_PAGED_FRESHNESS"
+  ],
+  "counts": {
+    "PASS": 4
+  },
+  "cases": {
+    "OW13C_BOUNDED_ENTRY_DESKTOP_STALE_DIRTY": {
+      "status": "PASS",
+      "actual_Auth_PostgREST_browser": true,
+      "viewport": 1440,
+      "no_horizontal_overflow": true,
+      "dirty_form_stale_refusal": true,
+      "first_confirmed_refusal_releases_only_new_request": true,
+      "lost_committed_response_same_UUID_reopen": false,
+      "current_token_denied": true,
+      "shots": [
+        "cp6-proof/t3/SCHEDULE_DESKTOP_REVIEWED.png"
+      ],
+      "production_quantity_claim": false,
+      "source_method": "BOUNDED",
+      "explicit_bounded_coverage_and_receipt": true,
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    "OW13C_BOUNDED_ENTRY_MOBILE_LOST_REPLY": {
+      "status": "PASS",
+      "actual_Auth_PostgREST_browser": true,
+      "viewport": 390,
+      "no_horizontal_overflow": true,
+      "dirty_form_stale_refusal": false,
+      "first_confirmed_refusal_releases_only_new_request": false,
+      "lost_committed_response_same_UUID_reopen": true,
+      "current_token_denied": true,
+      "shots": [
+        "cp6-proof/t3/SCHEDULE_MOBILE_REVIEWED.png"
+      ],
+      "production_quantity_claim": false,
+      "source_method": "BOUNDED",
+      "explicit_bounded_coverage_and_receipt": true,
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    "OW13C_QUANTITY_MOBILE_CHECKED_SAVE_REPLY_RECOVERY": {
+      "status": "PASS",
+      "actual_Auth_PostgREST_browser": true,
+      "real_Native_job_DONE": true,
+      "source_method": "BOUNDED",
+      "old_whole_netting_call_count": 0,
+      "expected_targets": 4,
+      "large_2000_products_202000_movements": false,
+      "raw_history_INCOMPLETE_preserved": false,
+      "actual_stock_change_and_new_UUID": false,
+      "checked_SAVE_lost_reply_exact_UUID_payload_result_recovery": true,
+      "direct_cutting_entry": true,
+      "direct_cutting_reuses_same_job": true,
+      "no_client_money_HPP_or_stock_effect": true,
+      "no_horizontal_overflow": true,
+      "table_value_contrast": 12.338097631837336,
+      "table_values_contrast_at_least4_5": true,
+      "viewport": 390,
+      "shots": [
+        "cp6-proof/t3/QUANTITY_SMALL_MOBILE_REVIEWED.png"
+      ],
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    "OW13C_QUANTITY_DESKTOP_DENSE2000_PAGED_FRESHNESS": {
+      "status": "PASS",
+      "actual_Auth_PostgREST_browser": true,
+      "real_Native_job_DONE": true,
+      "source_method": "BOUNDED",
+      "old_whole_netting_call_count": 0,
+      "expected_targets": 2005,
+      "large_2000_products_202000_movements": true,
+      "raw_history_INCOMPLETE_preserved": true,
+      "actual_stock_change_and_new_UUID": true,
+      "checked_SAVE_lost_reply_exact_UUID_payload_result_recovery": false,
+      "direct_cutting_entry": true,
+      "direct_cutting_reuses_same_job": false,
+      "no_client_money_HPP_or_stock_effect": true,
+      "no_horizontal_overflow": true,
+      "table_value_contrast": 12.338097631837336,
+      "table_values_contrast_at_least4_5": true,
+      "viewport": 1440,
+      "shots": [
+        "cp6-proof/t3/QUANTITY_LARGE_DESKTOP_REVIEWED.png"
+      ],
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    }
+  },
+  "real_auth": true,
+  "jwt_signed_by_runtime": false,
+  "test_only_usage_grant": false,
+  "auth_counts": {
+    "before": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "after": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "restored": true
+  },
+  "session_leaks": [],
+  "console_errors": 0,
+  "database_remaining": 0,
+  "host_exit": 0,
+  "host_status": "RUN_COMPLETE",
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "copy_authority_admission_count": 1,
+  "images": [
+    {
+      "name": "QUANTITY_LARGE_DESKTOP_REVIEWED.png",
+      "bytes": 699915,
+      "sha256": "0fd1b4680281e3484781d7a899a9dce16eec539bc3cbcc5b51a7d69df9baa6af",
+      "original_viewed": true
+    },
+    {
+      "name": "QUANTITY_SMALL_MOBILE_REVIEWED.png",
+      "bytes": 707280,
+      "sha256": "3d754fea7bdd37caa8ea1ecc3bafdf98e900e9958af65607519e5d755fe02e0d",
+      "original_viewed": true
+    },
+    {
+      "name": "SCHEDULE_DESKTOP_REVIEWED.png",
+      "bytes": 2002583,
+      "sha256": "0aa359bfade7afa4c3ec13ae1f72a3b9ed337ec47f8ab3423b4a75673cb9a2d5",
+      "original_viewed": true
+    },
+    {
+      "name": "SCHEDULE_MOBILE_REVIEWED.png",
+      "bytes": 660819,
+      "sha256": "ea8060ac6bd9ad089b94c9f7d5e8dd6d9856ba4f2c687e1cd2ee500efa7842b1",
+      "original_viewed": true
+    }
+  ],
+  "scope": "Four retained B bounded work and quantity browser journeys executed on complete A/B/quote/bounded installation; real Auth/PostgREST, desktop1440 and phone390. Dense target count2005 includes prior committed fixture targets. Assertions remain distinct by case.",
+  "A_financial_UI_rerun": false,
+  "factory3600_qualified": false,
+  "full_OW13c_complete": false,
+  "production_go": false,
+  "independent_acceptance": false
+}
