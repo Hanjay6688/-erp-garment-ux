@@ -1572,3 +1572,24 @@ anon/auditor/foreign epoch dan owner kedua memakai epoch miliknya sendiri.
 Global policy bukan snapshot pribadi. Tidak ada orphan pada triple registry/
 policy/command; angka stok/uang/HPP tetap. Static declarations/guard/parse PASS;
 runtime belum. SQL/default/qualified cases tidak berubah; 8s/45min tetap.
+
+## 91. B24 Oktober2026 — model policy Native6 PASS; browser first incomplete
+
+2b3ddd26/run40098897360/job120886791596 Original12562431835
+SHAce323897d96b3dda84d206a8ce8ea91436bfa5d0edf52e24b9b70d5f63960d86:
+6PASS, ID/count/cp6/advisor/5packagegates true; Auth0→0, seluruh kasus
+pulih dan lock/session0. Metadata append/replay/suspend, microsecond clock,
+owner/admin/current access,11 invalid cases, exact catalog22/dependency and
+last-command atomic fault lolos. SQL sama dengan first failure retained.
+
+Browser2 run40098897426/job120886791954 Original12562595876
+SHA9dad67f7a19c597014ab407446a0712f28fae95b8614058bac0da23729442d09:
+2INCOMPLETE, bukanPASS. Kedua journey melewati actual commit/lost reply/reload
+exact replay/suspend/no-effects/403 assertions; screenshot REVOKED kemudian
+menunggu panel yang memang sudah unmounted oleh parent access retirement.
+Capture diarahkan ke search yang bertahan setelah explicit policy/model count0;
+firstOriginal/log tetap. Actual mobile review diperiksa; input/checkbox memakai
+style terisolasi agar checkbox tidak mewarisi width100%. DOM16/TS/CSS64 PASS;
+behavior/SQL/ambang/budget tetap. Corrected actual browser masih perlu Original.
+Transport10 fc6ff132/run40099304591 masih berjalan; tidak diberi kredit dulu.
+Induk5/16, fullOW11/fullAchain/forecastactivation/production tetapfalse.

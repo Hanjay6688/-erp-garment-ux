@@ -9,7 +9,7 @@ async function journey(ui,today,mobile){
  const f=fixture('prepare',{today}),user=await ui.login('OWNER',{label:'model-policy-'+mobile,mobile,timezoneId:mobile?'America/Los_Angeles':'Asia/Jakarta'}),page=user.page,actor=user.user.id
  const demand=page.getByRole('region',{name:'Data permintaan ERP',exact:true}),model=page.getByRole('region',{name:'Evaluasi ramalan ERP',exact:true}),panel=page.getByRole('region',{name:'Kebijakan penggunaan model',exact:true}),shots=[]
  const state=()=>fixture('state',{actor});let lost=null
- const shot=async suffix=>{await ui.expect.poll(()=>page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true);const path=`cp6-proof/t3/MODEL_POLICY_${mobile?'MOBILE':'DESKTOP'}_${suffix}.png`;await panel.scrollIntoViewIfNeeded();await page.screenshot({path,fullPage:true});shots.push(path)}
+ const shot=async(suffix,focus=panel)=>{await ui.expect.poll(()=>page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true);const path=`cp6-proof/t3/MODEL_POLICY_${mobile?'MOBILE':'DESKTOP'}_${suffix}.png`;await focus.scrollIntoViewIfNeeded();await page.screenshot({path,fullPage:true});shots.push(path)}
  async function open(){
   await navigate(page);await demand.getByRole('button',{name:'Data permintaan & stok',exact:true}).click()
   const from=new Date(Date.parse(today+'T00:00:00Z')-12*86400000).toISOString().slice(0,10)
@@ -42,9 +42,12 @@ async function journey(ui,today,mobile){
   const dirty=page.getByLabel('Cari barang jadi',{exact:true});await dirty.fill('MODEL POLICY KEEP SEARCH')
   fixture('deactivate',{actor});const denied=await response(page,GET,()=>panel.getByRole('button',{name:'Baca ulang kebijakan',exact:true}).click());assert.equal(denied.status,403)
   await ui.expect(panel.locator('dl')).toHaveCount(0);await ui.expect(page.locator('.cfg-totals')).toHaveCount(0);assert.equal(await dirty.inputValue(),'MODEL POLICY KEEP SEARCH')
-  await shot('REVOKED')
+  // Revocation retires the history and its child model/policy panels. Capture
+  // the surviving search field after proving retirement, not a removed panel.
+  await ui.expect(panel).toHaveCount(0);await ui.expect(model).toHaveCount(0)
+  await shot('REVOKED',dirty)
   return{status:'PASS',actual_Auth_PostgREST_browser:true,explicit_fields_no_default_threshold:true,actual_policy_registry_command_pair:true,lost_reply_reload_exact_UUID_payload_receipt:true,append_suspend_old_configuration_preserved:true,current403_retires_policy_parent_FG_HPP:true,no_business_write_or_model_forecast_activation:true,model_rows:0,no_horizontal_overflow:true,shots,full_OW11_acceptance:false}
- }catch(e){writeFileSync(`cp6-proof/t3/MODEL_POLICY_${mobile?'MOBILE':'DESKTOP'}_FAILURE.json`,JSON.stringify({error:String(e),lost,alerts:await page.getByRole('alert').allTextContents().catch(()=>[])},null,2));await shot('FAILURE').catch(()=>{});throw e}
+ }catch(e){writeFileSync(`cp6-proof/t3/MODEL_POLICY_${mobile?'MOBILE':'DESKTOP'}_FAILURE.json`,JSON.stringify({error:String(e),lost,alerts:await page.getByRole('alert').allTextContents().catch(()=>[])},null,2));await shot('FAILURE',page.locator('body')).catch(()=>{});throw e}
  finally{fixture('restore',{actor});await user.context.close()}
 }
 export function cases(ui,today){return[

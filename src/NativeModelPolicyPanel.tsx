@@ -44,7 +44,7 @@ export default function NativeModelPolicyPanel({client,scope,actor,canManage,onA
  const useStored=()=>{const c=w?.current?.policy.config;if(!c)return;setForm({training:c.minimum_training_days,horizon:c.maximum_horizon_days,folds:c.promotion.minimum_complete_folds,improvement:c.promotion.minimum_mae_improvement,bias:c.promotion.maximum_bias_worsening,tail:c.promotion.maximum_tail_worsening,season:c.promotion.season_lag});setMethods([...c.allowed_methods]);setReviewed(false)}
  const locked=busy||Boolean(held.pending||held.error)||!canManage||!w?.canWrite,current=w?.current?.policy
  let valid=false;try{config(form,methods);valid=true}catch{/* Empty or incomplete entries stay disabled. */}
- return<section className="native-analysis panel" aria-label="Kebijakan penggunaan model">
+ return<section className="native-analysis native-model-policy panel" aria-label="Kebijakan penggunaan model">
   <h3>Syarat penggunaan model</h3><p>Tentukan syarat bukti sebelum model boleh dipakai. Kebijakan baru berlaku untuk pengujian berikutnya; hasil lama tidak dianggap sudah memenuhi kebijakan baru. Menyimpan syarat ini belum mengaktifkan ramalan pada target produksi.</p>
   {busy?<p role="status">Memeriksa kebijakan model…</p>:null}{notice?<p role="status">{notice}</p>:null}{error||held.error?<p role="alert">{error||held.error}</p>:null}
   {held.pending?<><p>Hasil permintaan sebelumnya belum dipastikan. Periksa permintaan yang sama sebelum membuat perubahan lain.</p><button disabled={busy||!canManage} onClick={()=>void send('RETRY')}>Periksa hasil kebijakan yang sama</button></>:null}

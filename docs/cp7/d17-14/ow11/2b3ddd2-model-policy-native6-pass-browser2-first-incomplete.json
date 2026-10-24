@@ -1,0 +1,216 @@
+{
+  "contract": "cp7.model-policy-originals-receipt.v1",
+  "head": "2b3ddd26c1701fe33a562a047e9f4a37b173b85a",
+  "verified_at": "2026-10-24",
+  "Originals": [
+    {
+      "suite": "native6",
+      "run_id": 40098897360,
+      "job_id": 120886791596,
+      "artifact_id": 12562431835,
+      "artifact_sha256": "ce323897d96b3dda84d206a8ce8ea91436bfa5d0edf52e24b9b70d5f63960d86",
+      "bytes": 203909,
+      "Original_read_complete": true,
+      "status": "PASS",
+      "workflow_conclusion": "success",
+      "observed_case_count": 6,
+      "counts": {
+        "PASS": 6
+      },
+      "required_case_ids_pass": true,
+      "required_case_counts_pass": true,
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "package_gates": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "auth_users_before": 0,
+      "auth_users_after": 0,
+      "cases": {
+        "OW11_MODEL_POLICY_CATALOG22_PREUSE_DEPENDENCY": {
+          "status": "PASS",
+          "source_sha256": {
+            "cp7_model_policy_stage/MANIFEST.json": "1786495190478f6f339093f9c8c2b49ae1675212e7a7fb987e567c86b3f09196",
+            "cp7_model_policy_stage/__init__.py": "a2d8c50c2bb8b75c345f93f218e7c06ad80b3d7cccae3f5f9d36d0b86ff7b7c8",
+            "cp7_model_policy_stage/policy.sql": "36eb75182f9100331d1afea39f7d2e48d690eef167b03a7919a897d6d5c1279a",
+            "cp7_model_activation_gate/MANIFEST.json": "51789bcc72c631b405180fa599093651950a9bded164c69ff8ddb99e2784c77e",
+            "cp7_model_activation_gate/__init__.py": "adff8b84726d5c6f867aeb2001a335a8340121d214ff06ff45e9f084f6cd22f0",
+            "cp7_model_activation_gate/gate.sql": "6f3cff8ab5989a325603e7200696a5b838b2a3f54b0815b5c96cdb0c88af8d3c"
+          },
+          "exact_catalog22_inverse": true,
+          "private7_public2_tables2_replacements0": true,
+          "dependent_view_failure_restores_partial_DDL": true,
+          "full_boundary_restored": true,
+          "public_schema_unchanged": true,
+          "session_leaks": {
+            "advisory_locks": 0,
+            "advisory_lock_keys": [],
+            "other_sessions": []
+          },
+          "business_day": {
+            "planned": "2026-10-24",
+            "before": "2026-10-24",
+            "after": "2026-10-24"
+          }
+        },
+        "OW11_MODEL_POLICY_EXPLICIT_APPEND_SUSPEND_REACTIVATE_REPLAY": {
+          "status": "PASS",
+          "actual_public_metadata_lifecycle": true,
+          "no_default_threshold": true,
+          "old_UUID_exact": true,
+          "append_suspend_and_new_reactivation": true,
+          "no_physical_stock_money_HPP_change": true,
+          "forecast_applied": false,
+          "full_boundary_restored": true,
+          "public_schema_unchanged": true,
+          "session_leaks": {
+            "advisory_locks": 0,
+            "advisory_lock_keys": [],
+            "other_sessions": []
+          },
+          "business_day": {
+            "planned": "2026-10-24",
+            "before": "2026-10-24",
+            "after": "2026-10-24"
+          }
+        },
+        "OW11_MODEL_POLICY_PROSPECTIVE_CLOCK_AND_IMMUTABLE_HISTORY": {
+          "status": "PASS",
+          "actual_recorded_registry_policy_clock_equal": true,
+          "no_backdated_policy": true,
+          "microsecond_cutoff_exact": true,
+          "policy_command_and_registry_immutable": true,
+          "full_boundary_restored": true,
+          "public_schema_unchanged": true,
+          "session_leaks": {
+            "advisory_locks": 0,
+            "advisory_lock_keys": [],
+            "other_sessions": []
+          },
+          "business_day": {
+            "planned": "2026-10-24",
+            "before": "2026-10-24",
+            "after": "2026-10-24"
+          }
+        },
+        "OW11_MODEL_POLICY_CURRENT_ACCESS_OWNER_ADMIN_AND_REPLAY": {
+          "status": "PASS",
+          "actual_Native_permissions": true,
+          "OWNER_ADMIN_only_write": true,
+          "revoked_access_precedes_saved_UUID_replay": true,
+          "last_owner_protection_kept": true,
+          "actual_Auth_HTTP_credit": false,
+          "full_boundary_restored": true,
+          "public_schema_unchanged": true,
+          "session_leaks": {
+            "advisory_locks": 0,
+            "advisory_lock_keys": [],
+            "other_sessions": []
+          },
+          "business_day": {
+            "planned": "2026-10-24",
+            "before": "2026-10-24",
+            "after": "2026-10-24"
+          }
+        },
+        "OW11_MODEL_POLICY_EXPLICIT_VALIDATION_CAS_TEMPLATE": {
+          "status": "PASS",
+          "invalid_cases": 11,
+          "no_implicit_thresholds": true,
+          "no_orphan_policy_or_registry": true,
+          "full_boundary_restored": true,
+          "public_schema_unchanged": true,
+          "session_leaks": {
+            "advisory_locks": 0,
+            "advisory_lock_keys": [],
+            "other_sessions": []
+          },
+          "business_day": {
+            "planned": "2026-10-24",
+            "before": "2026-10-24",
+            "after": "2026-10-24"
+          }
+        },
+        "OW11_MODEL_POLICY_ATOMIC_REGISTRY_POLICY_COMMAND": {
+          "status": "PASS",
+          "last_command_table_fault": true,
+          "registry_policy_command_atomic": true,
+          "full_boundary_restored": true,
+          "public_schema_unchanged": true,
+          "session_leaks": {
+            "advisory_locks": 0,
+            "advisory_lock_keys": [],
+            "other_sessions": []
+          },
+          "business_day": {
+            "planned": "2026-10-24",
+            "before": "2026-10-24",
+            "after": "2026-10-24"
+          }
+        }
+      },
+      "full_log_file": "2b3ddd2-model-policy-native6.log"
+    },
+    {
+      "suite": "browser2-first",
+      "run_id": 40098897426,
+      "job_id": 120886791954,
+      "artifact_id": 12562595876,
+      "artifact_sha256": "9dad67f7a19c597014ab407446a0712f28fae95b8614058bac0da23729442d09",
+      "bytes": 46098,
+      "Original_read_complete": true,
+      "status": "INCOMPLETE",
+      "workflow_conclusion": "failure",
+      "observed_case_count": 2,
+      "counts": {
+        "INCOMPLETE": 2
+      },
+      "required_case_ids_pass": true,
+      "required_case_counts_pass": false,
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "package_gates": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": false
+      },
+      "auth_users_before": 0,
+      "auth_users_after": 0,
+      "cases": {
+        "OW11_MODEL_POLICY_BROWSER_MOBILE_EXACT_RECOVERY_SUSPEND": {
+          "status": "INCOMPLETE",
+          "error": "locator.scrollIntoViewIfNeeded: Timeout 20000ms exceeded.\nCall log:\n  - waiting for getByRole('region', { name: 'Kebijakan penggunaan model', exact: true })\n\n    at shot (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow11_model_policy_browser.mjs:12:229)\n    at async journey (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow11_model_policy_browser.mjs:45:3)\n    at async main (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:243:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:259:3",
+          "business_day": {
+            "planned": "2026-10-24",
+            "before": "2026-10-24",
+            "after": "2026-10-24"
+          }
+        },
+        "OW11_MODEL_POLICY_BROWSER_DESKTOP_REVIEW_ACCESS_REVOKED": {
+          "status": "INCOMPLETE",
+          "error": "locator.scrollIntoViewIfNeeded: Timeout 20000ms exceeded.\nCall log:\n  - waiting for getByRole('region', { name: 'Kebijakan penggunaan model', exact: true })\n\n    at shot (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow11_model_policy_browser.mjs:12:229)\n    at async journey (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow11_model_policy_browser.mjs:45:3)\n    at async main (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:243:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:259:3",
+          "business_day": {
+            "planned": "2026-10-24",
+            "before": "2026-10-24",
+            "after": "2026-10-24"
+          }
+        }
+      },
+      "full_log_file": "2b3ddd2-model-policy-browser2-first.log"
+    }
+  ],
+  "browser_first_failure_cause": "After real revoked read403, the parent correctly unmounted model/policy and retired FG facts. Both journeys completed earlier exact replay/suspend/no-effects assertions, then screenshot helper waited for the removed policy panel. No Browser PASS credit yet. Capture surviving search field after explicit zero-panel assertions; preserve failure files and full log.",
+  "visual_followup": "Inspected actual mobile review: scope input/checkbox styling to policy panel so checkboxes no longer inherit width100%. No policy value or behavior changed.",
+  "first_native_admission_failure_retained": true,
+  "full_OW11_acceptance": false,
+  "full_A_chain_qualified": false,
+  "independent_acceptance": false,
+  "forecast_applied": false,
+  "production_go": false
+}
