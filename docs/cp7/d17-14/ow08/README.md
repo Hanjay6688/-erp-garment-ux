@@ -1,5 +1,26 @@
 # OW-08 — cek uang dan pembaca pemeriksa keuangan
 
+## Status current, 24 Oktober 2026
+
+Tahap laporan kredit sudah terpasang pada current A/B. Native62 membuktikan
+kredit sah READY dan selisih nyata tetap tertangkap. P21 current seluruh uang
+run40064922630/head d18f5d26 membuktikan empat pemeriksa AR/kredit0, dua
+readback finansial sama sesudah restore, serta sumber kasbon/FG dan cuci
+UNKNOWN yang tetap menahan sampai harga sah diisi sekali. Lihat
+[Native62](../ow15/owner62-28abdeef-pass.json) dan
+[P21 uang+status](../ow15/full-money-d18f5d26-status-pass.json).
+
+Kasbon, koreksi FG/QC dan cuci tanpa tarif sudah mempunyai bukti mesin dan
+pemulihan. Piutang/kelebihan bayar vendor laundry tetap batas kebijakan
+[OW08b](OW08B.md). Tidak mengklaim semua perjalanan browser OW08 atau seluruh
+kebutuhan telah ditutup. Audit independen dan production_go tetap belum.
+
+## Riwayat awal sebelum komposisi current
+
+Bagian berikut mempertahankan pengamatan dan checkpoint23Oktober. Kata
+"belum" dan BLOCKED di riwayat ini mengacu kandidat yang disebut, bukan
+status current di atas.
+
 Belum dikerjakan pada produk. Temuan berikut disimpan dari latihan P21 sesuai syarat7 penutupan OW-04; urutan owner tetap OW-05, OW-06, lalu OW-07/08.
 
 ## Pemeriksa piutang lama belum memasukkan kredit

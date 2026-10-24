@@ -1640,3 +1640,13 @@ Tidak ada perubahan produk, SQLbeku, oracle lama, atau scopeB.12batas arsip
 CP6/fullNative286/factory3600/audit tetap terbuka sesuai cakupan yang belum
 terbukti. Parentformal5/16, production_go=false; main/integrasi resmi/hosted
 sertaWA nyata tidak disentuh.
+
+## A — status kebutuhan diselaraskan dengan bukti terakhir (24 Oktober 2026)
+
+OPEN_WORK baris A OW04/06/08/09/15 dan pengantar diperbarui dengan pemulihan
+seluruh uang, grup transfer,43layar tambahan serta sumber bukti current.
+OW08README sekarang membedakan status current dari catatanBLOCKED/belum
+23Oktober; OW06 dan daftar lima butir awal tidak lagi membuat laporan kredit
+historis seolah status current. Bukti lama dan kebijakan terbuka dipertahankan;
+tidak mengubah baris produk B atau menaikkan formal5/16. Dua runCP6 tetap
+berjalan dan belum diberi kreditPASS.

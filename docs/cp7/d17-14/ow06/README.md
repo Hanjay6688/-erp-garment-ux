@@ -16,7 +16,7 @@ Uji checkpoint: enam kasus baru (uang400+600=1000; penolakan atomik/replay; pemb
 
 Pemeriksaan lokal hanya lulus kompilasi tipe Native, bentuk masukan, jumlah alokasi dan penolakan draf tanpa kapabilitas. Tidak dihitung sebagai bukti jurnal Native. Hasil CI dan kegagalan pertama dicatat terpisah setelah selesai.
 
-Batas tetap: tidak menyentuh main, kandidat auditor55c885d1, Enteng, database hosted/produksi atau WA nyata. CP7C formal belum mulai. Laporan sesudah kredit pelanggan masih BLOCKED di OW-08.
+Batas tetap: tidak menyentuh main, kandidat auditor55c885d1, Enteng, database hosted/produksi atau WA nyata. CP7C formal belum mulai. Pada checkpoint awal ini laporan kredit masih BLOCKED; status current sudah dibuktikan oleh Native62 dan P21 seluruh uang di bagian terbaru, dengan kasus kredit sah READY dan pemeriksa AR/kredit0.
 
 Hasil final: f764c508, run39808778963/job119929044980, enam kontrol grup dan empat oracle lama semuanya PASS. Seluruh22 kelompok, pencopotan sebelum dipakai, pengembalian CP6 dan advisor lulus. Dua kegagalan pemasangan asli tetap disimpan; satu run versi lama masih dilaporkan berjalan pada persiapan alat dan tidak dipakai sebagai bukti. Claude mengambil alih sisa OW06 sesuai handoff; jangan menambah hitungan selesai menjadi6 sebelum layar, hak/race, perjalanan nyata serta pemulihan sesudah dipakai terbukti.
 
