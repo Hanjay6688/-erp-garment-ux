@@ -1,0 +1,9 @@
+{
+  "status": "PRE_DB_LOCAL_REFUSAL",
+  "source": "d3aff865",
+  "observed": "Closure qualification accepts no arguments",
+  "cause": "Second Native CLI entry was imported after the P21 helper had admitted its flags.",
+  "fix": "Reuse the P21 helper control/native runner already admitted; do not clear or relax argv contracts.",
+  "database_started": false,
+  "production_go": false
+}
