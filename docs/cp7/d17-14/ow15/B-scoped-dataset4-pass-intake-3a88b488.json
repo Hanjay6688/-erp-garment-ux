@@ -1,0 +1,71 @@
+{
+  "contract": "cp7.B-component-original-intake.v1",
+  "name": "CP7_OW11_MODEL_SCOPED_DATASET.json",
+  "status": "PASS",
+  "head": "3a88b4887f8e443b683c023b350fee5f1d4ba715",
+  "run_id": 40126610556,
+  "job_id": 120969308831,
+  "artifact_id": 12574000715,
+  "zip_bytes": 159357,
+  "zip_sha256": "1aa0b3d10cd847822d5e7987d649b71043bea2dfaa3cb8498919e8035b968bb5",
+  "bytes": 1390060,
+  "sha256": "2ef0bd9e331c7f96d608ebd6d6c7abf418e8e13051d4e81372b97c69bb27c550",
+  "whole_job_status": "completed",
+  "whole_job_conclusion": "success",
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "full_A_chain_credit": false,
+  "after_use_restore_credit": false,
+  "model_target_consumer_credit": false,
+  "positive_forecast_credit": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "source_pins_verified": 20,
+  "source_files": {
+    "scripts/cp7_model_scoped_dataset/MANIFEST.json": "a8173b1615cf12c7f53fac7d66d9be09a6d8c4b68c6db048130eba9a3e24afda",
+    "scripts/cp7_model_scoped_dataset/__init__.py": "40a4ded256a30daecaf69a9fef5deeac3f96144a56ddddf9458310146378dbe0",
+    "scripts/cp7_model_scoped_dataset/binding.sql": "8a65561d962c503fd79bd1f90b90698b2dbc8e989ec9c7d8490f77941c395d8e",
+    "scripts/cp7_model_scoped_dataset/dataset.sql": "c4fb9b15306583b2c9d1dca87855eee97a33266dc0e47d5e9ef3a460cd349a83",
+    "scripts/cp7_model_scoped_dataset/render.py": "788521c7671fc3b61bda09f04af07ed48549dd4d795b4fcb4828dc6925eb8bfd",
+    "scripts/cp7_model_history_runtime/MANIFEST.json": "6dd4c16e93581ddc283183e5fe3d6f7aa612baff8ed628498b2be6030f5515fc",
+    "scripts/cp7_model_history_runtime/__init__.py": "d19503c565d5cd85431f7fef52528e36fecae6314adfb4121172b709e88cd7bf",
+    "scripts/cp7_model_history_runtime/runtime.sql": "40a61d71d143de14d93502a2aba84ffbe04ab8fe78c3a83e9c71111a46c2c0f5",
+    "scripts/cp7_model_history_scope/MANIFEST.json": "c9721c0f3492caefa3f3c132b2fb11d6677b5176a1ae2379ab57db7df339225b",
+    "scripts/cp7_model_history_scope/__init__.py": "2209a7d648cc49b9e21a186edb5700be73eac511eb02d2179aaf8f0c7f940e2b",
+    "scripts/cp7_model_history_scope/capture.sql": "edc5d63dcfd75e99bcd83de3e1b03765c5057ccdbd76d9f06f92a0bec31fa8b7",
+    "scripts/cp7_model_history_scope/identity.sql": "271afb029f0dfbdf0889055b4d830e1f26e95c1b7800caf2310d3aa6b8555123",
+    "scripts/cp7_model_history_scope/render.py": "99f21eb92a2517940d08e5c3104940a4bdfd68f80e24115aacf908cbcc6d21e4",
+    "scripts/cp7_model_history_scope/scope.sql": "607c7fbb42673af963fa4b02bc3939ce6d9ca20e5b501a77c9ed9c31fc7895aa",
+    "scripts/cp7_model_evaluation_v2_stage/MANIFEST.json": "a4eb6586d8f347a1cf59fa21387dd23d23eb8ce06d077c1336ca5d4b8fd0a806",
+    "scripts/cp7_model_evaluation_v2_stage/__init__.py": "e8aef726e4aab7adee7dfd7293a43bd62ab3d12e1e4b55d0239bce948440fe90",
+    "scripts/cp7_model_evaluation_v2_stage/runtime.sql": "4506428f312ea20c47c3d0f4ade748f915dcd091825cf20178ced91be219d6dc",
+    "scripts/cp7_model_registry_adapter/MANIFEST.json": "1a117a702f1ceb4f2d8bd6a3cacd2c907526c19d9c6e45cfbbcd191559293a1e",
+    "scripts/cp7_model_registry_adapter/__init__.py": "d44293832c89caf5f470c937ddd548c713cad7a67992bfbb832b615064fd5333",
+    "scripts/cp7_model_registry_adapter/adapter.sql": "2f01cdf56ce6d2e4528af00d92c355ad5b6c2bfe728432355b9eadae6ce94343"
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "observed_case_count": 4,
+  "native_counts": {
+    "PASS": 4
+  },
+  "all_native_boundaries_catalog_sessions_restored": true,
+  "private_dataset_four_cases_PASS": true,
+  "dense_actual_scoped_capture": {
+    "products": 2000,
+    "movements": 202000,
+    "millis": 233.932,
+    "wall_limit_ms": 8000,
+    "factory_SLA": false
+  },
+  "first_failures_preserved_artifacts": [
+    12571489356,
+    12572752014
+  ],
+  "actual_Auth_credit": false
+}

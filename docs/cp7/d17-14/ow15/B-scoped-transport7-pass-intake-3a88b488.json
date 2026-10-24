@@ -1,0 +1,62 @@
+{
+  "contract": "cp7.B-component-original-intake.v1",
+  "name": "CP7_OW11_MODEL_SCOPED_EVALUATION_TRANSPORT.json",
+  "status": "PASS",
+  "head": "3a88b4887f8e443b683c023b350fee5f1d4ba715",
+  "run_id": 40126610522,
+  "job_id": 120969308794,
+  "artifact_id": 12574455285,
+  "zip_bytes": 92999,
+  "zip_sha256": "605228940323f76d9b8ebf873234afb04cc528533a3373612c0aee5c130ee16b",
+  "bytes": 744186,
+  "sha256": "285da2e03b8fc8e79ea509c89cb37076688bdf02932ded352e147d75f6f7deaa",
+  "whole_job_status": "completed",
+  "whole_job_conclusion": "success",
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "full_A_chain_credit": false,
+  "after_use_restore_credit": false,
+  "model_target_consumer_credit": false,
+  "positive_forecast_credit": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "source_pins_verified": 12,
+  "source_files": {
+    "scripts/cp7_model_scoped_evaluation/MANIFEST.json": "f5cd1f8ed4723e54ce2421acab4de0f91c1c19687d8e7f1f31528d313aaf68e1",
+    "scripts/cp7_model_scoped_evaluation/__init__.py": "0950502d6d6974062a9e386bc4709a06713a4a4e9064b9a1af3d61e16a4ca48e",
+    "scripts/cp7_model_scoped_evaluation/runtime.sql": "b1af1dcc77c213ceaa14b85cf4d9fe054f39738c3dfaa394da6ddf13ccb2b4b6",
+    "scripts/cp7_model_scoped_dataset/MANIFEST.json": "a8173b1615cf12c7f53fac7d66d9be09a6d8c4b68c6db048130eba9a3e24afda",
+    "scripts/cp7_model_scoped_dataset/__init__.py": "40a4ded256a30daecaf69a9fef5deeac3f96144a56ddddf9458310146378dbe0",
+    "scripts/cp7_model_scoped_dataset/binding.sql": "8a65561d962c503fd79bd1f90b90698b2dbc8e989ec9c7d8490f77941c395d8e",
+    "scripts/cp7_model_scoped_dataset/dataset.sql": "c4fb9b15306583b2c9d1dca87855eee97a33266dc0e47d5e9ef3a460cd349a83",
+    "scripts/cp7_model_scoped_dataset/render.py": "788521c7671fc3b61bda09f04af07ed48549dd4d795b4fcb4828dc6925eb8bfd",
+    "scripts/cp7_ow11_model_scoped_evaluation_transport_cases.py": "fe1e206f1cc68ce8b1c4759b3dd383386fff20bd277cdff38d4ae767ff673020",
+    "scripts/cp7_ow11_model_scoped_evaluation_cases.py": "23afa650f11f73bd0e52d47886ec193431724088f62d31f080ca552caed7ebe8",
+    "scripts/cp7_ow11_model_scoped_dataset_cases.py": "f77e47767ac6a6e6209476b3f2b5ceb7291ebf2bb1b681732201369311030d26",
+    "scripts/cp7_ow11_model_scoped_evaluation_transport_probe.py": "2b98d0d2fd1d76abae7b61862faaff3a31224b2435181465ec00d68734d93692"
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "observed_case_count": 7,
+  "native_counts": {
+    "PASS": 1
+  },
+  "all_native_boundaries_catalog_sessions_restored": true,
+  "race_counts": {
+    "PASS": 4
+  },
+  "http_counts": {
+    "PASS": 2
+  },
+  "repeated_catalog_anchor_new_case_credit": 0,
+  "actual_Auth_PostgREST": true,
+  "Auth0000_restored": true,
+  "five_clone_authorities_exact": true,
+  "copy_session_cleanup_exact": true,
+  "first_routing_failure_preserved_artifact": 12573351083
+}
