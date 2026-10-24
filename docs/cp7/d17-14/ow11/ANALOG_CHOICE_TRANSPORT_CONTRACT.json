@@ -1,0 +1,77 @@
+{
+  "contract": "cp7.ow11.analog-choice-transport.v1",
+  "expected_case_count": 10,
+  "required_case_counts": {
+    "native": 1,
+    "races": 6,
+    "http": 3
+  },
+  "required_case_ids": {
+    "native": [
+      "OW11_ANALOG_CHOICE_CATALOG22_PREUSE_AND_DEPENDENCY"
+    ],
+    "races": [
+      "OW11_ANALOG_CHOICE_RACE_SAME_UUID",
+      "OW11_ANALOG_CHOICE_RACE_REVISION",
+      "OW11_ANALOG_CHOICE_RACE_ACCESS_AFTER_ENVELOPE",
+      "OW11_ANALOG_CHOICE_RACE_REPLAY_ACCESS_AFTER_REQUEST",
+      "OW11_ANALOG_CHOICE_RACE_ACCESS_AFTER_TARGET",
+      "OW11_ANALOG_CHOICE_RACE_SOURCE_AFTER_ENVELOPE"
+    ],
+    "http": [
+      "OW11_ANALOG_CHOICE_AUTH_CONFIRM_CLEAR_EXACT_REPLAY",
+      "OW11_ANALOG_CHOICE_AUTH_REVOKED_COMMITTED_REPLAY",
+      "OW11_ANALOG_CHOICE_AUTH_ANON_AND_FOREIGN_REFERENCE"
+    ]
+  },
+  "public_rpcs": [
+    "erp_cp7_get_alerts_v1",
+    "erp_cp7_get_wa_settings_v1",
+    "erp_cp7_save_wa_settings_v1",
+    "erp_cp7_set_wa_key_v1",
+    "erp_cp7_send_wa_test_v1",
+    "erp_cp7_resolve_wa_dispatch_v1",
+    "erp_cp7_get_fg_reorder_v1",
+    "erp_cp7_refresh_fg_reorder_v1",
+    "erp_cp7_save_fg_reorder_manual_v1",
+    "erp_cp7_save_stock_formula_settings_v1",
+    "erp_cp7_get_material_reorder_v1",
+    "erp_cp7_refresh_material_reorder_v1",
+    "erp_cp7_save_material_reorder_v1",
+    "erp_cp7_request_staged_analysis_v1",
+    "erp_cp7_get_staged_analysis_v1",
+    "erp_cp7_step_staged_analysis_v1",
+    "erp_cp7_get_planning_profiles_v1",
+    "erp_cp7_save_planning_profile_v1",
+    "erp_cp7_capture_baseline_v1",
+    "erp_cp7_save_cutting_suggestion_v1",
+    "erp_cp7_get_staged_production_schedule_v1",
+    "erp_cp7_save_staged_production_schedule_v1",
+    "erp_cp7_request_bounded_staged_analysis_v1",
+    "erp_cp7_read_product_analog_candidates_v1",
+    "erp_cp7_get_product_analog_choices_v1",
+    "erp_cp7_save_product_analog_choice_v1"
+  ],
+  "schedules": [
+    "erp-wa-collect",
+    "erp-wa-send",
+    "erp-wa-analysis"
+  ],
+  "repeated_catalog_anchor_case_credit": 0,
+  "new_race_cases": 6,
+  "new_Auth_PostgREST_cases": 3,
+  "actual_browser_cases": 0,
+  "forecast_applied": false,
+  "full_OW11_acceptance": false,
+  "analog_confirmation_qualified": false,
+  "after_use_restore_qualified": false,
+  "full_A_chain_qualified": false,
+  "production_go": false,
+  "statement_timeout": "8s",
+  "wall_limit_ms": 8000,
+  "locks_observed": [
+    "FG_HPP_SALES_V2620C",
+    "CP7:ANALOG:REQUEST:<actor>:<UUID>",
+    "CP7:ANALOG:TARGET:<root:size>"
+  ]
+}

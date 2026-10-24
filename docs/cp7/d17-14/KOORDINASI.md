@@ -1247,3 +1247,26 @@ validasi, stale/current actor/K2, atomic last-table fault, dense2000 tiga writer
 atau layar konfirmasi yang diaktifkan. A tetap pemilik default/fullchain/after-use,
 registry/type/installer; proposal18 pasangan pembaca terdahulu tetap menunggu A.
 Induk5/16, OW11 OPEN, production_go/independent_acceptance=false.
+
+
+## 73. B24 Oktober2026 — konfirmasi Native6 dan transport10 berjalan terpisah
+
+Kandidat9532ba0e/run40085123363 gagal bootstrap sebelum database dimulai:
+copy workflow salah mengganti pin jsonschema4.25.1 menjadi6.25.1. Receipt pertama
+tersimpan;528ba773 mengembalikan pin persis dan run40085273832 menguji Native6.
+714d66f5 memperbaiki identitas katalog fungsi source_at ke ejaan PostgreSQL
+`timestamp with time zone`; SQL/bisnis/oracle tidak diubah. Run40085746207 memakai
+kandidat tersebut. Kedua Original belum dikreditkan sebelum diperiksa.
+
+Pemeriksaan yang otomatis terpicu oleh perubahan routing probe pada9532ba0e:
+OW16 run40085123316/job120846382173 actual16/16 PASS; OW13b
+run40085123327/job120846382159 actual20/20 PASS. Original diperiksa, seluruh5 gate
+paket true serta restore/advisor true. Ini bukti retensi, bukan tambahan penyelesaian
+OW. OW14b run40085123322 masih berjalan pada catatan ini.
+
+Transport10 dideklarasikan terpisah:1 katalog anchor tanpa kredit baru,6 race dua
+backend (UUID/CAS dan actual envelope/request/target waits),3 Auth/PostgREST.
+Pembaca/pilihan hanya dipasang pada salinan masing-masing uji; parent12 dan installer
+bawaan A tetap. Peta consumer lintas chunk, exact numerator, kedua clock dan source
+hash disimpan di `ow11/CONSUMER_INTEGRATION_MAP.md`; implementasi consumer belum ada.
+Jangan menganggap konfirmasi metadata atau transport sebagai forecast aktif.
