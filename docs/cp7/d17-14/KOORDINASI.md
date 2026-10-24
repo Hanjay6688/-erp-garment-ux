@@ -1470,3 +1470,41 @@ UNKNOWN pada job baru. Profil OWN eksplisit; historis zero tetap fixture SYNTHET
 declaration/negative-budget checks PASS, runtime belum. Perbaikan label sumber
 report mengambil choice-stage yang sebenarnya, tidak salah menamai source
 consumer/provenance sebagai choice. Bukan default/fullAchain/after-use/OW11 close.
+
+
+## 84. B24 Oktober2026 — consumer actual Browser2 PASS
+
+587586eee306a7aa202cbf82a3af8eda86996c44/run40094445687/job120873653810
+Original12560532939 SHAb99bffe3821fcd2e863df3b252b8ea86da60885199e86aa56c48791930d1a1a3
+diperiksa actual2/2 PASS, Auth0/0/0/0 pulih, console0, copy terhapus, cp6/advisor
+dan5gate true. HP390: posted sale1PCS/3 AVAILABLEdays, scale1, fresh target1PCS,
+reload tetap, CLEAR lalu UNKNOWN. Desktop1440:2000/202000,1PCS/1day scale0.5,
+fresh target2PCS, own sales/hari0 tetap, raw INCOMPLETE tidak dinaikkan.
+Historical opening eksplisit SYNTHETIC; bukan seluruh histori pabrik public.
+Dua screenshot diperiksa lokal: asal angka/skala/revisi/alasan terbaca tanpa
+overflow. Tidak ada efek pilihan pada stok/uang/HPP/draft/receipt.
+
+Retained legacy reader Browser2 run40094445670 dan metadata choice Browser2
+run40094445616 juga Original2/2/5gate/Auth/restore PASS. Ini mempertahankan
+kompatibilitas v1 dan recovery, bukan menambah kredit OW. Native6, provenance
+Native3 dan consumertransport10 masih menunggu hasil; public ROP UI belum
+dikualifikasi. Receipt tepat587586e tersimpan.
+
+## 85. B24 Oktober2026 — private model admission gate13 lokal
+
+Dua fungsi privat baru,0 facade/table/replacement/default. Kebijakan wajib
+eksplisit: minimum training, maksimum horizon, metode yang diizinkan, promotion
+settings existing, alasan dan identitas/revisi/recorded clock terikat registry
+prospektif. Registry usulan teknis bukan approval owner. Tidak membuat nilai
+kebijakan pabrik atau memundurkan clock agar hasil menang.
+
+Gate membangun ulang hasil evaluasi existing dari input immutable, mengikat
+current target/ukuran/source/engine, cutoff, horizon tepat serta tanggal awal
+forecast WIB. Pilihan/score/vector palsu ditolak; current-only captures, censored,
+tie, short training, suspended/missing/late policy dan stale origin fallback
+ke baseline dengan alasan. Vector harian dipertahankan, tidak dijadikan satu
+mean yang menghapus horizon.13 actual SQL lokal PASS memakai synthetic trend
+dengan oracle NAIVE100x7 dan pairedMAE4. First duplicate-schema bootstrap failure
+disimpan; SQL/PLpgSQL/clash PASS. Tidak ada Native/Auth/catalog22/activation
+atau accuracy credit. Policy writer/registry adapter dan target consumer masih
+berikutnya; seluruh default A/qualified files tetap. Induk5/16, productionfalse.

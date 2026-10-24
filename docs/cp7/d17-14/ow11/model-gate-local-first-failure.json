@@ -1,0 +1,12 @@
+{
+  "contract": "cp7.model-gate-local-first-failure.v1",
+  "status": "INCOMPLETE",
+  "observed_cases": 0,
+  "sqlstate": "42P06",
+  "error": "schema \"cp7_models\" already exists",
+  "cause": "The local harness created cp7_models before loading demand/bootstrap.sql, which already creates it.",
+  "fix": "Remove the duplicate local schema declaration. Existing bootstrap and proposed gate SQL unchanged.",
+  "Native": false,
+  "forecast_applied": false,
+  "production_go": false
+}
