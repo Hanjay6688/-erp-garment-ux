@@ -129,3 +129,13 @@ diff bila gagal. Semua delapan kontrol kemudianPASS; bukan oracle dilonggarkan.
 Layar/newAuth/race/current-wait/DONE-retention/FAILED context/defaultA belum
 terbukti dari suiteNative-only ini.1 positive no-write yang dahulu tertahan
 sekarangPASS; seluruhOriginal/rawlog tetap tersedia.
+
+
+**Quantity actualbrowser2 PASS**, candidate5c40e455/sourcea4317635,
+run40044408796/job120722693609. Receipt5c40e45-quantity2-pass.json:2/2,
+47qualifiedbackendfilesunchanged/12preuse22/Authcleanup/1exactcloneauthority/
+restore/advisor/all5gates,229clienttests14files+TS/CSS. HPexactjob/UUID/payload/
+result recovery after200replyloss viaDirectcutting,1draft1receipt/noERP effects.
+Desktop2003targets/202000moves fullNativeDONE/rawINCOMPLETE+derivedcoverage,
+actualFGsourcechange=>STALE/newUUID. Realcontrast12.338 and390/1440nooverflow;
+screensviewed. Firstd2f+45620Originals kept. FullOW13c/afteruse/Achain stillOPEN.

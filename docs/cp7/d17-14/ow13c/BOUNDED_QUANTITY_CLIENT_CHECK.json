@@ -1,7 +1,7 @@
 {
   "contract": "cp7.bounded-quantity-client.v1",
-  "tests": 184,
-  "test_files": 12,
+  "tests": 229,
+  "test_files": 14,
   "typescript": "PASS",
   "source_method": "BOUNDED",
   "real_Native_driver_and_page_parsers_reused": true,
@@ -12,7 +12,7 @@
   "raw_source_unknown_not_zero": true,
   "source_hash_and_microsecond_reference_bound": true,
   "existing_checked_cutting_form_reused": true,
-  "actual_quantity_UI_qualified": false,
+  "actual_quantity_UI_qualified": true,
   "shared_checker_modified": false,
   "shared_checker_sha256": "f1148cb535181a28a1792723400746a88f6025e217ebef58264ece39d2140333",
   "actual_shared_gate": "FAIL_17_UNMERGED_RPC_PAIRS",
@@ -73,9 +73,13 @@
     "read_entry_accessible": true,
     "overlaps_prior184_do_not_sum": true
   },
-  "latest_actual_quantity_UI_result": "45620dd-quantity-mobile-recovery-incomplete.json",
+  "latest_actual_quantity_UI_result": "5c40e45-quantity2-pass.json",
   "quantity_own_scoped_CSS": true,
   "css_ownership": "PASS",
   "direct_cutting_card_full_width": true,
-  "actual_contrast_4_5_predeclared": true
+  "actual_contrast_4_5_predeclared": true,
+  "CI_run_id": 40044408796,
+  "CI_job_id": 120722693609,
+  "minimum_actual_table_value_contrast": 12.338097631837336,
+  "desktop_and_mobile_visual_QA": "PASS"
 }

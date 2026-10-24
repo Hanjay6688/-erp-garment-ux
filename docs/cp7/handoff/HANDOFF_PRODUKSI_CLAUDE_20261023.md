@@ -34,34 +34,32 @@ nilai kebijakan owner tidak dikarang. Uji penulis bukan audit independen/GO.
 
 ## Status aktif dan tindakan berikut
 
-Kandidat UI tersimpan `5c40e455e39755600d434c671c9525093afc60ae`, sumber UI
-`a43176357578f93b159de63b30f5fc7206eb44a7`. Quantity browser2 berjalan:
+**Checkpoint quantity layar PASS.** Kandidat5c40e455/sourcea4317635,
 [run40044408796](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/40044408796)
-/job120722693609. Tunggu Original lengkap; jangan menyimpulkan PASS dari warna job.
+/job120722693609 PASS2/2, Original lengkap telah diperiksa sendiri.
+[Receipt](../d17-14/ow13c/5c40e45-quantity2-pass.json):47hashsama/12invers22/
+Authcleanup/cloneauthority1/restore/advisor/5gate paket tepat.229uji klien14berkas,
+TS/CSS lulus. Tidak ada job CI yang masih berjalan pada checkpoint ini.
 
-Kandidat sebelumnya45620dd0, run40042756850/job120717391564, INCOMPLETE:
-komputer PASS2003target/directcutting/DONE/fullsource→stok nyata berubah→STALE/
-UUIDbaru; HP sudah SAVE200SAVED lalu reply terputus, tetapi entry di Buat Potongan
-terkunci oleh pending plan sehingga belum bisa reconcile. [Receipt](../d17-14/ow13c/45620dd-quantity-mobile-recovery-incomplete.json).
+HP: work→quantity→SAVE200SAVED yang reply-nya diputus→reload Buat Potongan,
+job DONE/UUID/payload/hasil persis sama,1draft1receipt tanpa efek stok/uang/HPP.
+Komputer:2003target/202000gerakan/directcutting/DONE/rawINCOMPLETE tetap,
+fullsourceUNCHANGED→stok Native berubah→STALE→UUID baru/DONE. Legacy whole-netting
+nol panggilan. Screenshot390/1440 sudah dilihat; nol luapan, angka terbaca,
+kontras aktual12.338≥4.5. Semua penulis tetap menjaga global envelope lock.
+Dua gagal sebelumnya tetap disimpan di receipt d2fdf31 dan45620dd; tidak diubah
+menjadi PASS. Bukan klaim after-use/globalchain atau OW13c penuh.
 
-Perbaikan aktif: entry baca/recovery diblokir hanya selama send aktif; semua
-penulis tetap memakai global writerLocked. Uji parent dengan hook recovery asli
-RED1/4 lalu PASS62/5berkas+TS; envelope lama tetap. Visual QA menemukan angka pucat
-pada kartu putih; CSS quantity sendiri, angka14px gelap, kartu selebar form dan
-label HP sudah dibuat. Browser baru juga menuntut kontras angka≥4.5 dan nol
-luapan390/1440. CSS ownership64 lulus.184/12uji klien sebelumnya dan62/5 ini
-bertumpang tindih; jangan dijumlahkan.
-
-1. Ambil Original, full artifact dan log quantity terbaru; cek deklarasi, seluruh
-   kasus,47 hash sumber,12invers22, Authcleanup/cloneauthority, restore/advisor/
-   gate paket. Simpan gagal pertama. Jika gagal, betulkan sebab tepat dan ulang
-   hanya suite terpengaruh. Kedua kegagalan quantity sebelumnya tetap disimpan.
-2. Setelah quantity lulus, catat komponen di matrix/receipt. OW13c penuh tetap
-   menunggu after-use restore/globalcensus dan rantai A. Tidak ada klaim GO.
-3. Lanjut OW11a/b (model benar-benar dapat dipakai bila terbukti lebih baik;
-   produk pembanding disarankan dengan alasan lalu dikonfirmasi), dan OW12b
-   gabungan sumber keuangan resmi A/parity/bentuk data pabrik/waktu sebelum-sesudah.
-   Jangan mengarang threshold owner atau menyebut fallback/tampilan sebagai selesai.
+1. B lanjut OW11a/b: model yang terbukti lebih baik benar-benar dapat dipakai;
+   produk pembanding disarankan dengan alasan lalu dikonfirmasi. Baca Native
+   registry/kernels/callers dahulu; tidak mengarang threshold atau menyebut
+   tampilan/fallback sebagai selesai. Jangan meminta ulang keputusan tercatat.
+2. OW12b: profil fungsi pada request3600 nyata (7832.927ms dekat8s) sebelum
+   mengoptimalkan; semua hash/hasil/dua clock/UNKNOWN/batas8s tetap. Gabungan
+   keuangan resmi A/parity/bentuk1200SKU×3 dan waktu sebelum-sesudah tetap OPEN.
+3. A: komposisi hook request/financebridge, registry17/pemasang/tipe,
+   sensus dan restore sesudah-pakai/globalchain. B berkoordinasi di repo,
+   tidak mengambil berkas A atau mengubah cabang integrasi. Checkpoint dilanjutkan.
 
 ## Komponen yang benar-benar lulus
 
@@ -71,6 +69,7 @@ bertumpang tindih; jangan dijumlahkan.
 | Bounded work Entry2 |8f8728bc /40036980136 /[receipt](../d17-14/ow13c/8f8728b-bounded-entry2-pass.json)|2/2 komputer/HP; stale, izin,200replyloss→sameUUID/payload/result |
 | Actual SAVE2000 |8f8728bc /40036980183 /[receipt](../d17-14/ow13c/8f8728b-bounded-save2-pass.json)|2/2: satu jangkar lama+single-session committed;5354.884/5375.739/5307.551ms,0racecredit |
 | Operational3600 |36444aed /40043712317 /[receipt](../d17-14/ow12b/36444ae-operational3600-pass.json)|2/2: satu jangkar katalog+kasus operasional3600/363600, bukan finance/fullfactory |
+| Quantity layar |5c40e455 /40044408796 /[receipt](../d17-14/ow13c/5c40e45-quantity2-pass.json)|2/2 komputer/HP; recovery transaksi sama, directcutting2003target, kontras12.338 dan geometry |
 
 Operational3600 Original12540657975/113258bytes/SHA
 df4ebe425e879c3c8b89644b1a616f024cc25927a1d30bb4205cca34f5d95804
@@ -105,9 +104,10 @@ Pointer DONE disimpan untuk reload; permintaan baru mengganti atomik dengan UUID
 baru. Metode/payload pending lama tetap melalui facade asal. Buat Potongan baru
 memakai quantitydriver sama; “analisis & arsip” mempertahankan jalur lama.
 
-Log/Original lengkap di artifact; repo hanya receipt kecil. Arsip privat versi31
+Log/Original lengkap di artifact; repo hanya receipt kecil. Arsip privat versi32
 memuat bukti lama dan helper publisher yang memverifikasi tree/SHA commit secara
 lokal lewat connector; tidak menaruh repo/git atau screenshot baru ke arsip itu.
-Bukti45620 dan3600 terbaru perlu ditambahkan saat checkpoint berikutnya.
+Bukti45620 dan3600 sudah tersimpan; Original/log quantity PASS sedang ditambahkan
+pada arsip yang sama. Screenshot baru tetap hanya di artifact/scratch untuk QA.
 [Seluruh histori checkpoint lama](HISTORI_HANDOFF_PRODUKSI_20261024.md)
 dipertahankan utuh; status di histori bukan status aktif.

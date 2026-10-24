@@ -59,7 +59,7 @@
   "repeated_positive_anchor_case_credit": 0,
   "committed_scale_concurrency_test": false,
   "race_case_credit": 0,
-  "actual_large_quantity_screen_qualified": false,
+  "actual_large_quantity_screen_qualified": true,
   "after_use_restore_qualified": false,
   "full_OW13c_acceptance": false,
   "full_A_chain_qualified": false,
@@ -68,5 +68,10 @@
   "operational3600_run_id": 40043712317,
   "operational3600_same47backend": true,
   "operational3600_real_DONE_all_pages_freshness_qualified": true,
-  "operational3600_full_finance_factory_acceptance": false
+  "operational3600_full_finance_factory_acceptance": false,
+  "quantity_UI_candidate": "5c40e455e39755600d434c671c9525093afc60ae",
+  "quantity_UI_run_id": 40044408796,
+  "work_to_direct_cutting_exact_recovery_qualified": true,
+  "quantity_UI_same47backend": true,
+  "quantity_UI_readability_and_geometry_qualified": true
 }
