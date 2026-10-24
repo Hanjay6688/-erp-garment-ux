@@ -61,7 +61,8 @@
   "formal_acceptance": "5/16",
   "CP7C_accepted": false,
   "qualified_browser_original": "4e2dca5f-model-target-browser2-original-pass.json (exact predecessor; 2 PASS baseline/analog paths only)",
-  "current_timeline_overlay_Native_qualified": false,
+  "current_timeline_overlay_Native_qualified": true,
   "qualified_transport_original": "3c19c5e4-model-target-transport11-original-pass.json (exact 20/8 predecessor; 11 PASS actual concurrent backend and Auth HTTP baseline/analog cases)",
-  "current_cache_guard_Native_qualified": false
+  "current_cache_guard_Native_qualified": false,
+  "qualified_native_original": "4c3623bb-model-target-native6-original-pass.json (exact 20/8 predecessor; 6 PASS, including actual FG-only refresh/read and queued/raw report after-use inverse guards)"
 }

@@ -2089,3 +2089,39 @@ budgets unchanged. SQL/Python/YAML/exact declarations PASS; source SQL unchanged
 from local8PASS. Actual Native Original remains required. Immutable capture,
 current access/exact UUID/replay/source rechecks, Auth/browser and model adapter
 integration remain open. Formal5/16, production/independent acceptance false.
+
+## 116. B24 Oktober2026 UTC — Native6 qualified; retain cancelled transport and partition exact11
+
+4c3623bb/run40117732530/job120942453043 completed success. Complete
+Original12570805197 (205822 bytes, SHA256
+6626e720f0ec72826ebb71bf46c6920b2d341a85eaeea4d84a45cee6d47fe90f)
+has6PASS, exact20/8 sources, required IDs/counts, CP6/advisor/all package gates
+true, all boundary/public catalog restored, locks0/sessions[]. Actual FG-only
+refresh then cached read returns baseline100/point30 without private model
+policy/history. Raw report and queued job alone each block pre-use removal.
+This qualifies the dated target/report overlay's Native fallback/current-source
+controls, not positive model activation or the newer21/8 cache read guard.
+
+161d4c9f Native6/run40116196572 retained5PASS/1INCOMPLETE at the same old
+missing-refresh fixture. Original12569253461 SHA256
+de31c106646609136d2737204b0070b977d84ffe847d782487c53f1bc3a40cc2
+also proves queued-job-only inverse refusal; no full-suite credit.
+
+Transport runs038740bd/40115520425 and161d4c9f/40116196549 were cancelled
+at45min. Originals12569789043/12570424873 retain INCOMPLETE, no race/HTTP
+aggregate, cp6_restored=false and advisor_gate=false after disposable DB
+shutdown. Per-case logs show five/six races passing at roughly5.2–5.6min
+intervals, including setup/clone/installation/boundary work; this is not RPC
+latency or suite credit. Receipts and full timing/failure artifacts retained.
+
+New separate transport workflow partitions the SAME11 existing operations:
+A=catalog+first4races (5); B=catalog+last3races+3HTTP (7). Catalog anchor is
+repeated for zero extra credit. No cases/assertions/locks/restoration or8s RPC
+limits are changed; each disposable job still45min. The original Native6,
+Browser2 and fullTransport11 declarations remain unchanged. Source-pinned
+partition declarations, exact union11 and invalid-budget controls PASS.
+Neither partition alone sets full transport qualified; both complete same-head
+Originals with all package/advisor/restore gates are required. This addresses
+repeated cancellation without discarding unfinished controls. Current21/8
+Native/browser/full-transport are running, and private history Native4 runs
+on7ae6f4db/40119748745. Formal5/16 and production/independent acceptance false.
