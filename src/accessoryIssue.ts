@@ -1,4 +1,5 @@
 import type { Json } from './types/database.preconnect'
+import { sameRecordList, type RecordList } from './recordList'
 
 export type AccessoryChoice = { id: string; sku: string; name: string; unit: string; category: string; stock: string;
   price_version_id: string | null; master_price: string | null; price_unit: string | null; factor: string | null
@@ -13,10 +14,15 @@ export type AccessoryDocument = { id: string; number: string; contractor_id: str
     price: string; factor: string; price_unit: string; price_version_id: string | null; amount: string; payroll_status: string
     /** BC: a Special free line; what payroll still collects after note return credits and rounding. */
     free?: boolean; collectible?: string }[] }
+/** OW-09 (owner D17-16): note search, status and order over the whole history, applied by the reader before it cuts the page. */
+export type AccessoryHistoryList = RecordList<AccessoryDocument['status']>
+export type AccessoryHistoryPage = { offset: number; limit: number; next_offset: number | null; list: AccessoryHistoryList }
 export type AccessoryWorkspace = { filters: Json; contractor_id: string | null; location_id: string | null; physical_local: string;
   contractors: { id: string; name: string }[]; locations: { id: string; name: string }[]; orders: { id: string; name: string }[];
   materials: AccessoryChoice[]; material_count: number; history_count: number; document: AccessoryDocument | null;
-  history: { id: string; number: string; contractor: string; status: string; row_version: string; date: string; total: string }[] }
+  history: { id: string; number: string; contractor: string; status: string; row_version: string; date: string; total: string }[]
+  /** Present exactly when the request carried the history list keys; history_count then counts every matching note. */
+  history_page?: AccessoryHistoryPage }
 export const accessoryUuid = (v: unknown): v is string => typeof v === 'string' && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(v)
 const text = (v: unknown): v is string => typeof v === 'string'
 const nullableId = (v: unknown) => v === null || accessoryUuid(v)
@@ -33,7 +39,7 @@ function list(value: unknown) {
   for (const r of rows) { if (!accessoryUuid(r.id) || seen.has(r.id)) throw new Error('Identitas aksesori tidak valid atau ganda.'); seen.add(r.id) }
   return rows
 }
-export function parseAccessoryWorkspace(value: unknown): AccessoryWorkspace {
+export function parseAccessoryWorkspace(value: unknown, page?: { offset: number; limit: number; list: AccessoryHistoryList }): AccessoryWorkspace {
   const w = object(value)
   object(w.filters)
   if (!localDate(w.physical_local) || !nullableId(w.contractor_id) || !nullableId(w.location_id)) throw new Error('Konteks nota tidak valid.')
@@ -53,6 +59,14 @@ export function parseAccessoryWorkspace(value: unknown): AccessoryWorkspace {
     || !version(h.row_version) || !decimal(h.total,2) || !text(h.date) || !/^\d{4}-\d{2}-\d{2}$/.test(h.date)) throw new Error('Riwayat nota tidak valid.')
   for (const [name, length] of [['material_count',materials.length],['history_count',history.length]] as const)
     if (!Number.isSafeInteger(w[name]) || Number(w[name]) < length) throw new Error('Jumlah hasil nota tidak valid.')
+  if (!page) { if (Object.hasOwn(w,'history_page')) throw new Error('Daftar nota tidak cocok dengan pilihan.') }
+  else {
+    // The page must be the one asked for, over the list asked for; count, offset and next page must agree (fail closed).
+    const p = object(w.history_page), keys = Object.keys(p).sort().join(), count = Number(w.history_count), end = page.offset + history.length
+    if (keys !== 'limit,list,next_offset,offset' || p.offset !== page.offset || p.limit !== page.limit || !sameRecordList(p.list,page.list)
+      || history.length > page.limit || (history.length > 0 && end > count) || (page.list.status !== null && history.some(h => h.status !== page.list.status))
+      || (end < count ? p.next_offset !== end || history.length === 0 : p.next_offset !== null)) throw new Error('Daftar nota tidak cocok dengan pilihan.')
+  }
   if (w.document !== null) {
     const d = object(w.document)
     if (!accessoryUuid(d.id) || !accessoryUuid(d.contractor_id) || !accessoryUuid(d.location_id) || !nullableId(d.po_id)

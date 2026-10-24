@@ -691,3 +691,9 @@ source-ownership dan access-catalog;3 MandorCorrection sudah ada sehingga
 tidak digandakan. Tidak menghapus pemeriksa atau melonggarkan daftar.
 TypeScript lulus; pengujian klien gabungan berjalan. Pemasang tahap B, tipe
 generator, jadwal/callback dan kualifikasi rantai tetap belum selesai.
+## A/20261024-02 — OW09 layar di cabang persiapan
+
+A melanjutkan delapan daftar OW09 dan RecordTools sesuai kontrak22 Okt;
+`astra-a/d17-14-ow09-screens-20261024` terpisah dari kandidat P21 yang berjalan.
+Patch tersimpan diterapkan dengan mempertahankan uji OW04b terbaru. Layar
+harus dikualifikasi bersama pemasang rantai; belum dipromosikan ke integrasi.

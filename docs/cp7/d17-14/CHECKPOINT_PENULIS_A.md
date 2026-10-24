@@ -8,6 +8,9 @@ Run39999210667 preserved INCOMPLETE: exact full dump/fresh restore and binding c
 ## Astra A — P21 urutan payroll/pool, 24 Okt 2026
 
 Run39997562338 pada dd2fb30c lolos install, exact preuse rollback, reinstall, serta reopening Native beserta replay. E01 berhenti karena fixture mengaktifkan pool sebelum payroll seed lama disahkan; penjaga ACTIVE pool menolak dengan benar. Original dipertahankan pada receipt `ow15/p21-dd2fb30c-first-payroll-pool.json`. Kandidat berikut menyelesaikan sumber payroll melalui helper Native yang sama sebelum alokasi pool diaktifkan, lalu membaca ulang blocker; tidak mengubah produk, assertion READY, atau oracle keuangan. Belum PASS keseluruhan.
+## 24 Okt 2026 — no-credit quote capability
+
+Browser run39999618000 retained: 11 PASS/2 INCOMPLETE. Actual HTTP200 READY quote was rejected by strict parser. SQL nullable mode comparison produced refund_cash=null. A counted one-expression stage now returns false for explicit no choice, preserving CREDIT/REFUND, complete22 metadata, ownership and global before-DDL used guard. Parser is unchanged; raw browser quote is now retained. Native browser rerun and integrated used restore remain gates. production_go=false.
 
 # Checkpoint penulis A (cabang `claude/d17-14-uang`)
 

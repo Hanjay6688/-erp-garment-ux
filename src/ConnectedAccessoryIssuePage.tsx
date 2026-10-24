@@ -6,15 +6,17 @@ import { normalizeClientError } from './lib/clientError'
 import { useProductionMutation, type ProductionMutationHandlers } from './useProductionMutation'
 import ProductionRecoveryNotice from './ProductionRecoveryNotice'
 import { useTransactionSource } from './TransactionSourceNavigation'
-import RecordTools, { orderRecordPage, type RecordPageOrder } from './RecordTools'
+import RecordTools, { type RecordPageOrder } from './RecordTools'
 import { accessoryUuid, displayDecimal, displayMoney, micro, parseAccessoryWorkspace, previewAccessoryLine,
-  type AccessoryDocument, type AccessoryLine, type AccessoryWorkspace } from './accessoryIssue'
+  type AccessoryDocument, type AccessoryHistoryList, type AccessoryLine, type AccessoryWorkspace } from './accessoryIssue'
 import type { Json } from './types/database.preconnect'
 import './initial-import.css'
 
 type Form = { id: string | null; version: string | null; number: string; contractor: string; location: string; po: string;
   at: string; notes: string; lines: AccessoryLine[] }
 const emptyForm = (at = ''): Form => ({ id:null,version:null,number:'',contractor:'',location:'',po:'',at,notes:'',lines:[] })
+const HISTORY_PAGE = 50
+const STATUSES = ['DRAFT','POSTED','REVERSED'] as const
 const contextKey = (contractor: string | null, location: string | null, at: string) => JSON.stringify([contractor || null,location || null,at])
 const fromDocument = (d: AccessoryDocument): Form => ({ id:d.id,version:d.row_version,number:d.number,contractor:d.contractor_id,
   location:d.location_id,po:d.po_id ?? '',at:d.physical_local,notes:d.notes,lines:d.items.map(i => ({ material_id:i.material_id,
@@ -37,16 +39,18 @@ function AccessoryWorkspace({ initialIssueId }: { initialIssueId: string | null 
   const [data, setData] = useState<AccessoryWorkspace | null>(null), [error, setError] = useState(''), [loading, setLoading] = useState(false)
   const [form, setForm] = useState<Form>(() => emptyForm()), formRef = useRef(form)
   const selected = useRef<string | null>(initialIssueId), opening = useRef(true), sequence = useRef(0)
-  const [query, setQuery] = useState(''), [materialQuery, setMaterialQuery] = useState(''), filters = useRef({ query:'',material_query:'' })
+  // OW-09 (owner D17-16): search, status and order of the note history go to the reader, which applies them to every note before paging.
+  const [query, setQuery] = useState(''), [materialQuery, setMaterialQuery] = useState('')
+  const filters = useRef({ query:'',material_query:'',history_status:null as AccessoryHistoryList['status'],history_order:'SOURCE' as RecordPageOrder,history_offset:0,history_limit:HISTORY_PAGE })
   const [pageOrder, setPageOrder] = useState<RecordPageOrder>('SOURCE')
-  const [historyStatus, setHistoryStatus] = useState('ALL')
+  const [historyStatus, setHistoryStatus] = useState<AccessoryHistoryList['status']>(null)
   const [reason, setReason] = useState('Pengambilan aksesori'), [reverseReason, setReverseReason] = useState('')
   const [review, setReview] = useState<'POST' | 'DELETE' | 'REVERSE' | null>(null)
   const setEditor = useCallback((next: Form) => { formRef.current=next; setForm(next); setReview(null) }, [])
   const change = (patch: Partial<Form>) => setEditor({ ...formRef.current,...patch })
   const load = useCallback(async () => {
-    const number = ++sequence.current, ticket = beginRead(), replace = opening.current, id = selected.current, editor = formRef.current
-    const request: Record<string, Json> = { ...filters.current, id }
+    const number = ++sequence.current, ticket = beginRead(), replace = opening.current, id = selected.current, editor = formRef.current, wanted = { ...filters.current }
+    const request: Record<string, Json> = { ...wanted, id }
     if (!replace) Object.assign(request,{ contractor_id:editor.contractor || null,location_id:editor.location || null,
       ...(editor.at ? { physical_at:editor.at + '+07:00' } : {}),material_ids:editor.lines.map(i => i.material_id) })
     setLoading(true); setError(''); setReview(null); setData(null)
@@ -54,7 +58,7 @@ function AccessoryWorkspace({ initialIssueId }: { initialIssueId: string | null 
       const result = await client.rpc('erp_get_accessory_issue_workspace_v1',{ p_filters:request })
       if (!isReadCurrent(ticket) || number !== sequence.current || (!replace && editor !== formRef.current)) return false
       if (result.error) throw result.error
-      const value = parseAccessoryWorkspace(result.data)
+      const value = parseAccessoryWorkspace(result.data,{ offset:wanted.history_offset,limit:wanted.history_limit,list:{ q:wanted.query,status:wanted.history_status,order:wanted.history_order } })
       if (JSON.stringify(value.filters) !== JSON.stringify(request) && JSON.stringify(Object.entries(value.filters as object).sort()) !== JSON.stringify(Object.entries(request).sort())) throw new Error('Hasil pembacaan nota tidak cocok.')
       if ((id !== null && value.document?.id !== id) || (id === null && value.document !== null)) throw new Error('Identitas nota tidak cocok.')
       if (!replace && contextKey(value.contractor_id,value.location_id,value.physical_local) !== contextKey(editor.contractor,editor.location,editor.at || value.physical_local)) throw new Error('Harga dan stok memakai konteks berbeda.')
@@ -98,6 +102,8 @@ function AccessoryWorkspace({ initialIssueId }: { initialIssueId: string | null 
     }
     void run(action,payload,null,handlers)
   }
+  // A changed search, status or order starts again at the first page; the page buttons move the offset only.
+  const listHistory = (change: Partial<typeof filters.current>) => { Object.assign(filters.current,{ history_offset:0 },change); void load() }
   const open = (id: string | null) => { selected.current=id; opening.current=true; filters.current.material_query=''; setMaterialQuery(''); setReview(null); void load() }
   const updateLine = (id: string, patch: Partial<AccessoryLine>) => change({ lines:form.lines.map(line => line.material_id===id ? { ...line,...patch } : line) })
   return <section className="initial-import">
@@ -105,15 +111,18 @@ function AccessoryWorkspace({ initialIssueId }: { initialIssueId: string | null 
       <button type="button" disabled={locked || !canCreate} onClick={() => open(null)}>Nota baru</button><button type="button" disabled={mutation.busy || loading} onClick={() => void load()}>Muat ulang</button></header>
     <ProductionRecoveryNotice recovery={mutation} onReconcile={() => reconcile(handlers)} className="initial-import-message"/>
     {error && <p role="alert" className="initial-import-message">{error}</p>}
-    <RecordTools title="nota aksesori" busy={loading || mutation.busy} order={pageOrder} onOrder={setPageOrder} submitLabel="Cari nota" filterScope="PAGE"
-      onSubmit={e => { e.preventDefault(); filters.current.query=query.trim(); void load() }}
-      onBrowse={() => { setQuery('');setHistoryStatus('ALL');setPageOrder('SOURCE');filters.current.query='';void load() }}
+    <RecordTools title="nota aksesori" busy={loading || mutation.busy} order={pageOrder} orderScope="ALL_MATCHING" onOrder={value => { setPageOrder(value); listHistory({ history_order:value }) }} submitLabel="Cari nota"
+      onSubmit={e => { e.preventDefault(); listHistory({ query:query.trim() }) }}
+      onBrowse={() => { setQuery('');setHistoryStatus(null);setPageOrder('SOURCE');listHistory({ query:'',history_status:null,history_order:'SOURCE' }) }}
       search={<label>Cari nota atau mandor<input aria-label="Cari nota aksesori" maxLength={120} value={query} onChange={e => setQuery(e.target.value)}/></label>}
-      filters={<label>Status pada 50 nota tampil<select aria-label="Status halaman nota aksesori" value={historyStatus} onChange={e=>setHistoryStatus(e.target.value)}><option value="ALL">Semua status</option><option value="DRAFT">Draft</option><option value="POSTED">Disahkan</option><option value="REVERSED">Dibatalkan</option></select></label>}/>
-    {data ? <p>{data.history.length} dari {data.history_count} nota. Persempit pencarian untuk nota lama; filter status hanya berlaku pada daftar yang tampil.</p> : <p role="status">Riwayat nota belum dapat dipastikan. Muat ulang data.</p>}
-    <section className="panel initial-import-table" aria-label="Riwayat nota aksesori"><table><thead><tr><th>Nota</th><th>Mandor</th><th>Tanggal</th><th>Status</th><th>Tagihan</th><th/></tr></thead><tbody>{orderRecordPage(data?.history.filter(h=>historyStatus==='ALL'||h.status===historyStatus),pageOrder,h=>h.number).map(h => <tr key={h.id}>
+      filters={<label>Status nota<select aria-label="Status nota aksesori" value={historyStatus ?? 'ALL'} onChange={e => { const value=STATUSES.find(s => s===e.target.value) ?? null; setHistoryStatus(value); listHistory({ history_status:value }) }}><option value="ALL">Semua status</option><option value="DRAFT">Draft</option><option value="POSTED">Disahkan</option><option value="REVERSED">Dibatalkan</option></select></label>}/>
+    {data ? <p>{data.history_count} nota cocok dengan pencarian dan filter; halaman ini menampilkan {data.history.length}.</p> : <p role="status">Riwayat nota belum dapat dipastikan. Muat ulang data.</p>}
+    <section className="panel initial-import-table" aria-label="Riwayat nota aksesori"><table><thead><tr><th>Nota</th><th>Mandor</th><th>Tanggal</th><th>Status</th><th>Tagihan</th><th/></tr></thead><tbody>{data?.history.map(h => <tr key={h.id}>
       <td>{h.number}</td><td>{h.contractor}</td><td>{h.date}</td><td>{h.status}</td><td>{displayMoney(micro(h.total))}</td><td><button disabled={locked} onClick={() => open(h.id)}>Buka {h.number}</button></td>
-    </tr>)}</tbody></table>{data?.history.length===0 && <p>Belum ada nota aksesori hitung yang cocok.</p>}</section>
+    </tr>)}</tbody></table>{data?.history.length===0 && <p>Belum ada nota aksesori hitung yang cocok.</p>}
+      {data?.history_page && <div className="initial-import-toolbar"><span>Total {data.history_count}</span>
+        <button type="button" disabled={locked || !data.history_page.offset} onClick={() => listHistory({ history_offset:Math.max(0,data.history_page!.offset-HISTORY_PAGE) })}>Nota sebelumnya</button>
+        <button type="button" disabled={locked || data.history_page.next_offset===null} onClick={() => listHistory({ history_offset:data.history_page!.next_offset ?? 0 })}>Nota berikutnya</button></div>}</section>
     <section className="panel initial-import-advances" aria-label="Form nota aksesori"><h2>{form.id ? form.number : 'Nota baru'} · {data ? document?.status ?? 'Draft' : 'Status belum dipastikan'}</h2>
       <p>{isDraft ? 'Draft belum mengurangi stok atau membentuk kasbon. Pengesahan memakai isi formulir terakhir.' : 'Nota disahkan tersimpan sebagai sumber. Koreksi dilakukan melalui pembatalan tertaut.'}</p>
       <div className="initial-import-toolbar">

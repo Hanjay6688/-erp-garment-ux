@@ -1,9 +1,12 @@
 import type { Json } from './types/database.preconnect'
 import type { MaterialPage } from './materialContract'
+import {sameRecordList,type RecordList} from './recordList'
 export type FgAdjustmentHeader={id:string;number:string;location_id:string;location_name:string;physical_at:string;reason_code:string;reason:string;notes:string|null;status:'DRAFT'|'POSTED'|'REVERSED';row_version:string;managed:boolean;line_count:string}
 export type FgAdjustmentItem={id:string;product_id:string;product_sku:string;commercial_sku:string;size_code:string;lot_id:string;lot_number:string;quality_grade:string;qty_signed:string;notes:string|null;valuation?:{state:'KNOWN'|'UNKNOWN';hpp_version_id:string|null;hpp_version:string|null;cost_state:string|null;calculated_at:string|null;unit_cost:string|null;value:string|null;basis:'CURRENT_RESTATED_LOT_VALUE'}}
 export type FgAdjustmentDetail=FgAdjustmentHeader&{items:FgAdjustmentItem[];editable:boolean}
-export type FgAdjustments={contract_version:'cp7.fg-adjustments.v1';read_at:string;financial_captured:boolean;can_adjust:boolean;page:MaterialPage<FgAdjustmentHeader>;detail:FgAdjustmentDetail|null}
+export type FgAdjustments={contract_version:'cp7.fg-adjustments.v1';read_at:string;financial_captured:boolean;can_adjust:boolean;page:MaterialPage<FgAdjustmentHeader>&{list?:FgAdjustmentList};detail:FgAdjustmentDetail|null}
+/** OW-09: adjustment documents searched by number, filtered by status and ordered over the whole list before paging. */
+export type FgAdjustmentList=RecordList<FgAdjustmentHeader['status']>
 const fail=():never=>{throw Error('Dokumen penyesuaian FG belum lengkap atau tidak sesuai. Muat ulang.')}
 const text=(v:unknown):v is string=>typeof v==='string'
 const nullable=(v:unknown)=>v===null||text(v)
@@ -20,12 +23,14 @@ function header(v:unknown,detail=false){
  if(!id(r.id)||!id(r.location_id)||!['number','location_name','reason_code','reason'].every(k=>text(r[k]))||!nullable(r.notes)||!instant(r.physical_at)||!['DRAFT','POSTED','REVERSED'].includes(String(r.status))||!whole(r.row_version)||r.row_version==='0'||typeof r.managed!=='boolean'||!whole(r.line_count))fail()
  return r
 }
-export function parseFgAdjustments(v:unknown,finance:boolean):FgAdjustments{
+export function parseFgAdjustments(v:unknown,finance:boolean,list?:FgAdjustmentList):FgAdjustments{
  const w=closed(v,['contract_version','read_at','financial_captured','can_adjust','page','detail'])
  if(w.contract_version!=='cp7.fg-adjustments.v1'||!instant(w.read_at)||w.financial_captured!==finance||typeof w.can_adjust!=='boolean')fail()
- const p=closed(w.page,['rows','total','offset','limit','next_offset'])
+ const p=closed(w.page,['rows','total','offset','limit','next_offset',...(list?['list']:[])])
  if(!Array.isArray(p.rows)||!whole(p.total)||!Number.isSafeInteger(p.offset)||Number(p.offset)<0||!Number.isSafeInteger(p.limit)||Number(p.limit)<1||Number(p.limit)>100||p.rows.length>Number(p.limit))return fail()
- const rows=p.rows.map(x=>header(x)),end=BigInt(Number(p.offset))+BigInt(rows.length),total=BigInt(p.total)
+ if(list&&!sameRecordList(p.list,list))fail()
+ const rows=p.rows.map(x=>header(x));if(list?.status&&rows.some(r=>r.status!==list.status))fail()
+ const end=BigInt(Number(p.offset))+BigInt(rows.length),total=BigInt(p.total)
  if(new Set(rows.map(r=>r.id)).size!==rows.length||rows.length&&end>total||end<total&&p.next_offset===null||p.next_offset!==null&&(p.next_offset!==Number(p.offset)+rows.length||!rows.length||end>=total))fail()
  if(w.detail!==null){
   const d=header(w.detail,true)

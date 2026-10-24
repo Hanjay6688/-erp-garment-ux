@@ -1,0 +1,411 @@
+{
+  "classification": "FIRST_ORIGINAL_PRESERVED",
+  "head": "21441a4a07abfb5f8875d4e62a3bf3ceb5b337f5",
+  "run": 39996828237,
+  "job": 120562419911,
+  "artifact": 12520362626,
+  "original": {
+    "name": "CP7_OW09_CHAIN_BROWSER13.json",
+    "bytes": 360070,
+    "sha256": "b5165cf2f8094f8581eed9c03023ee29f7e444af96bdab84ed0498d1ba02cd44"
+  },
+  "status": "INCOMPLETE",
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "browser": {
+    "status": "INCOMPLETE",
+    "label": "AUDITOR_SCENARIO",
+    "database": "cp6_auditor_browser",
+    "real_auth": true,
+    "jwt_signed_by_runtime": false,
+    "test_only_usage_grant": false,
+    "frontend": "candidate branch checkout (auditor)",
+    "script_sha256": "4706c0576844d20563a0a2cfd589907374dc68656ce8fb6321a12c7297737945",
+    "cases": {
+      "F03_CASH_BROWSER_DESKTOP": {
+        "status": "PASS",
+        "mobile": false,
+        "actual_connected_cash_route": true,
+        "real_auth_native_read": true,
+        "source_pages": [
+          25,
+          8
+        ],
+        "source_count": 33,
+        "O14_cash137_50_debit1337_50_credit1200": true,
+        "transfer1000_net0": true,
+        "complete_public_rows_match_native": true,
+        "no_business_read_side_effect": true,
+        "failed_network_or_current403_clears_all_old_money_and_rows": true,
+        "actual_server_revocation": false,
+        "financial_writer_claim": false,
+        "screenshots": [
+          "F03_CASH_PAGE1_DESKTOP.png",
+          "F03_CASH_PAGE2_DESKTOP.png",
+          "F03_CASH_RETIRED_DESKTOP.png"
+        ],
+        "business_day": {
+          "planned": "2026-10-24",
+          "before": "2026-10-24",
+          "after": "2026-10-24"
+        }
+      },
+      "F03_CASH_BROWSER_MOBILE_CURRENT_AUTH": {
+        "status": "PASS",
+        "mobile": true,
+        "actual_connected_cash_route": true,
+        "real_auth_native_read": true,
+        "source_pages": [
+          25,
+          8
+        ],
+        "source_count": 33,
+        "O14_cash137_50_debit1337_50_credit1200": true,
+        "transfer1000_net0": true,
+        "complete_public_rows_match_native": true,
+        "no_business_read_side_effect": true,
+        "failed_network_or_current403_clears_all_old_money_and_rows": true,
+        "actual_server_revocation": true,
+        "financial_writer_claim": false,
+        "screenshots": [
+          "F03_CASH_PAGE1_MOBILE.png",
+          "F03_CASH_PAGE2_MOBILE.png",
+          "F03_CASH_RETIRED_MOBILE.png"
+        ],
+        "business_day": {
+          "planned": "2026-10-24",
+          "before": "2026-10-24",
+          "after": "2026-10-24"
+        }
+      },
+      "P11_RETURN_BROWSER_R10_DESKTOP_A": {
+        "status": "INCOMPLETE",
+        "error": "locator.check: Timeout 20000ms exceeded.\nCall log:\n  - waiting for locator('.csales').getByRole('region', { name: 'Retur fisik invoice' }).getByRole('form', { name: 'Catat retur pelanggan' }).getByLabel('Retur pelanggan sudah diperiksa', { exact: true })\n    - locator resolved to <input disabled type=\"checkbox\" aria-label=\"Retur pelanggan sudah diperiksa\"/>\n  - attempting click action\n    2 \u00d7 waiting for element to be visible, enabled and stable\n      - element is not enabled\n    - retrying click action\n    - waiting 20ms\n    2 \u00d7 waiting for element to be visible, enabled and stable\n      - element is not enabled\n    - retrying click action\n      - waiting 100ms\n    38 \u00d7 waiting for element to be visible, enabled and stable\n       - element is not enabled\n     - retrying click action\n       - waiting 500ms\n    - waiting for element to be visible, enabled and stable\n\n    at lifecycle (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_p11_returns_browser.mjs:57:608)\n    at async main (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:243:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:259:3",
+        "business_day": {
+          "planned": "2026-10-24",
+          "before": "2026-10-24",
+          "after": "2026-10-24"
+        }
+      },
+      "P11_RETURN_BROWSER_R10_MOBILE_B_RECOVERY": {
+        "status": "INCOMPLETE",
+        "error": "locator.check: Timeout 20000ms exceeded.\nCall log:\n  - waiting for locator('.csales').getByRole('region', { name: 'Retur fisik invoice' }).getByRole('form', { name: 'Catat retur pelanggan' }).getByLabel('Retur pelanggan sudah diperiksa', { exact: true })\n    - locator resolved to <input disabled type=\"checkbox\" aria-label=\"Retur pelanggan sudah diperiksa\"/>\n  - attempting click action\n    2 \u00d7 waiting for element to be visible, enabled and stable\n      - element is not enabled\n    - retrying click action\n    - waiting 20ms\n    2 \u00d7 waiting for element to be visible, enabled and stable\n      - element is not enabled\n    - retrying click action\n      - waiting 100ms\n    39 \u00d7 waiting for element to be visible, enabled and stable\n       - element is not enabled\n     - retrying click action\n       - waiting 500ms\n\n    at lifecycle (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_p11_returns_browser.mjs:57:608)\n    at async main (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:243:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:259:3",
+        "business_day": {
+          "planned": "2026-10-24",
+          "before": "2026-10-24",
+          "after": "2026-10-24"
+        }
+      },
+      "P10_FG_BROWSER_DESKTOP": {
+        "status": "PASS",
+        "mobile": false,
+        "real_ui_auth_rpc_database_reads": true,
+        "ordinary_fixture_writes_not_P11_browser": true,
+        "initial": [
+          10,
+          4,
+          6
+        ],
+        "cancelled": [
+          10,
+          0,
+          10
+        ],
+        "posted": [
+          6,
+          0,
+          6
+        ],
+        "ops_money_hidden": null,
+        "failed_read_clears_stale_stock": null,
+        "screenshot": "P10_FG_DESKTOP.png",
+        "business_day": {
+          "planned": "2026-10-24",
+          "before": "2026-10-24",
+          "after": "2026-10-24"
+        }
+      },
+      "P10_FG_BROWSER_OPERATIONS_MOBILE": {
+        "status": "PASS",
+        "mobile": true,
+        "real_ui_auth_rpc_database_reads": true,
+        "ordinary_fixture_writes_not_P11_browser": true,
+        "initial": [
+          10,
+          4,
+          6
+        ],
+        "cancelled": [
+          10,
+          0,
+          10
+        ],
+        "posted": [
+          6,
+          0,
+          6
+        ],
+        "ops_money_hidden": true,
+        "failed_read_clears_stale_stock": true,
+        "screenshot": "P10_FG_MOBILE.png",
+        "business_day": {
+          "planned": "2026-10-24",
+          "before": "2026-10-24",
+          "after": "2026-10-24"
+        }
+      },
+      "P10_ADJUST_BROWSER_DESKTOP": {
+        "status": "PASS",
+        "mobile": false,
+        "real_ui_auth_native_write": true,
+        "complete_line_count": 2,
+        "draft_edit_post_inverse": true,
+        "stock_after": [
+          8,
+          11
+        ],
+        "inverse_stock": [
+          10,
+          10
+        ],
+        "all_accounts_restored": true,
+        "ops_money_hidden": null,
+        "lost_reply_exact_uuid_payload": null,
+        "screenshot": "P10_ADJUST_DESKTOP.png",
+        "business_day": {
+          "planned": "2026-10-24",
+          "before": "2026-10-24",
+          "after": "2026-10-24"
+        }
+      },
+      "P10_ADJUST_BROWSER_MOBILE_RECOVERY": {
+        "status": "PASS",
+        "mobile": true,
+        "real_ui_auth_native_write": true,
+        "complete_line_count": 1,
+        "draft_edit_post_inverse": true,
+        "stock_after": [
+          7,
+          10
+        ],
+        "inverse_stock": [
+          10,
+          10
+        ],
+        "all_accounts_restored": true,
+        "ops_money_hidden": true,
+        "lost_reply_exact_uuid_payload": true,
+        "screenshot": "P10_ADJUST_MOBILE.png",
+        "business_day": {
+          "planned": "2026-10-24",
+          "before": "2026-10-24",
+          "after": "2026-10-24"
+        }
+      },
+      "P12_NOTA_BROWSER_DESKTOP_DRAG": {
+        "status": "PASS",
+        "mobile": false,
+        "fixture_and_browser_date_bound_to_elapsed_wib_midnight": true,
+        "real_auth_browser_native_save_post": true,
+        "review_card_text_contrast_at_least_4_5": true,
+        "posted_quantity_label_is_historical": true,
+        "desktop_native_drag": true,
+        "touch_button_fallback": false,
+        "two_complete_cards": true,
+        "component_qty": 3,
+        "labor": "6000",
+        "native_calculated_not_paid": true,
+        "no_duplicate_fg_hpp_or_journal": true,
+        "native_cancel_control_not_connected_payroll_reverse": true,
+        "source_cards_return_after_cancel": true,
+        "ops_money_hidden": null,
+        "lost_reply_exact_uuid_payload_version": null,
+        "failed_refresh_retires_stale_cards": null,
+        "screenshot": "P12_NOTA_DESKTOP.png",
+        "business_day": {
+          "planned": "2026-10-24",
+          "before": "2026-10-24",
+          "after": "2026-10-24"
+        }
+      },
+      "P12_NOTA_BROWSER_MOBILE_RECOVERY": {
+        "status": "PASS",
+        "mobile": true,
+        "fixture_and_browser_date_bound_to_elapsed_wib_midnight": true,
+        "real_auth_browser_native_save_post": true,
+        "review_card_text_contrast_at_least_4_5": true,
+        "posted_quantity_label_is_historical": true,
+        "desktop_native_drag": false,
+        "touch_button_fallback": true,
+        "two_complete_cards": true,
+        "component_qty": 3,
+        "labor": "6000",
+        "native_calculated_not_paid": true,
+        "no_duplicate_fg_hpp_or_journal": true,
+        "native_cancel_control_not_connected_payroll_reverse": true,
+        "source_cards_return_after_cancel": true,
+        "ops_money_hidden": true,
+        "lost_reply_exact_uuid_payload_version": true,
+        "failed_refresh_retires_stale_cards": true,
+        "screenshot": "P12_NOTA_MOBILE.png",
+        "business_day": {
+          "planned": "2026-10-24",
+          "before": "2026-10-24",
+          "after": "2026-10-24"
+        }
+      },
+      "P09_BROWSER_COUNT_MULTI_DESKTOP": {
+        "status": "PASS",
+        "mobile": false,
+        "ordinary_multi_input_browser_save_edit_post_reverse": true,
+        "zero_difference_input_preserved": true,
+        "native_movement_count": 1,
+        "physical_inputs": 2,
+        "edited_quantity": "7",
+        "original_document_time_retained": true,
+        "price_preserved": false,
+        "exact_lost_save_reply": null,
+        "final_stock_and_all_accounts_restored": true,
+        "screenshot": "P09_COUNT_MULTI_DESKTOP.png",
+        "business_day": {
+          "planned": "2026-10-24",
+          "before": "2026-10-24",
+          "after": "2026-10-24"
+        }
+      },
+      "P09_BROWSER_COUNT_MULTI_MOBILE_RECOVERY": {
+        "status": "PASS",
+        "mobile": true,
+        "ordinary_multi_input_browser_save_edit_post_reverse": true,
+        "zero_difference_input_preserved": true,
+        "native_movement_count": 1,
+        "physical_inputs": 2,
+        "edited_quantity": "13",
+        "original_document_time_retained": true,
+        "price_preserved": true,
+        "exact_lost_save_reply": true,
+        "final_stock_and_all_accounts_restored": true,
+        "screenshot": "P09_COUNT_MULTI_MOBILE.png",
+        "business_day": {
+          "planned": "2026-10-24",
+          "before": "2026-10-24",
+          "after": "2026-10-24"
+        }
+      },
+      "BC_BROWSER:NOTE_PAGE_D09_DESKTOP_PHONE": {
+        "status": "PASS",
+        "seed_mandors_active": 6,
+        "seed_mandor": "a1000000-0000-0000-0000-000000000001",
+        "v4_mandor": "b207e2d9-a358-4ab4-89fe-7cfea47db2f8",
+        "ids": {
+          "v4_control": true,
+          "seed_non_rfc": true,
+          "seeds_still_active": true
+        },
+        "load_error_alerts": 0,
+        "after_reload": {
+          "notes": "0|",
+          "stock": "20",
+          "form_number": ""
+        },
+        "desktop": {
+          "notes": "1|POSTED",
+          "stock": "13",
+          "confirm_mentions_7_pcs": true
+        },
+        "empty": true,
+        "error_state": {
+          "alert": "uji galat baca nota",
+          "stale_notice": 1,
+          "post_enabled": false
+        },
+        "loading_disabled_reload": true,
+        "recovered_after_error": true,
+        "mobile": {
+          "notes": "1|POSTED",
+          "stock": "6",
+          "contractor": "a1000000-0000-0000-0000-000000000001"
+        },
+        "business_day": {
+          "planned": "2026-10-24",
+          "before": "2026-10-24",
+          "after": "2026-10-24"
+        }
+      }
+    },
+    "production_go": false,
+    "independent_acceptance": false,
+    "release_evidence": false,
+    "copy_runtime": {
+      "status": "OW04BC_EXACT_SOURCE_AND_ALL22_CATALOG_GROUPS_VERIFIED",
+      "lower_objects": "OW04BB_EXACT_STAGE_OBJECTS_VERIFIED",
+      "changed_credit_functions": [
+        "cp7_credit.build_initial_return_for_draft_v1(jsonb,text,jsonb,uuid)",
+        "cp7_credit.native_return_guard(uuid,numeric,numeric,numeric)",
+        "cp7_credit.assert_source_admission(uuid)",
+        "cp7_credit.native_return_complete(uuid,numeric,numeric)",
+        "cp7_credit_followups.initial_family_reasons_v1(uuid,jsonb)",
+        "cp7_credit._consumer_root_source_profile_v1(uuid,uuid,uuid,jsonb)",
+        "cp7_credit.opening_return_hpp_owner_v1(uuid)"
+      ],
+      "new_private_readers": [
+        "cp7_credit_incoming.incoming_applied_v1(uuid)"
+      ],
+      "U_from": "cp7_credit_incoming.incoming_applied_v1",
+      "native_empty_direct_route_C8_unchanged": true,
+      "OW04b_complete": false,
+      "production_go": false,
+      "independent_acceptance": false
+    },
+    "host_exit": 0,
+    "host_status": "RUN_COMPLETE",
+    "planned_case_ids": [
+      "F03_CASH_BROWSER_DESKTOP",
+      "F03_CASH_BROWSER_MOBILE_CURRENT_AUTH",
+      "P11_RETURN_BROWSER_R10_DESKTOP_A",
+      "P11_RETURN_BROWSER_R10_MOBILE_B_RECOVERY",
+      "P10_FG_BROWSER_DESKTOP",
+      "P10_FG_BROWSER_OPERATIONS_MOBILE",
+      "P10_ADJUST_BROWSER_DESKTOP",
+      "P10_ADJUST_BROWSER_MOBILE_RECOVERY",
+      "P12_NOTA_BROWSER_DESKTOP_DRAG",
+      "P12_NOTA_BROWSER_MOBILE_RECOVERY",
+      "P09_BROWSER_COUNT_MULTI_DESKTOP",
+      "P09_BROWSER_COUNT_MULTI_MOBILE_RECOVERY",
+      "BC_BROWSER:NOTE_PAGE_D09_DESKTOP_PHONE"
+    ],
+    "console_errors": 0,
+    "users_created": 14,
+    "auth_cleanup_failures": [],
+    "host_error": null,
+    "session_leaks": [],
+    "cleanup": {
+      "users_created": 0,
+      "cleanup_failures": [],
+      "rest_remaining": false
+    },
+    "cleanup_failures": false,
+    "database_remaining": 0,
+    "auth_counts": {
+      "before": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "after": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "restored": true
+    },
+    "counts": {
+      "PASS": 11,
+      "INCOMPLETE": 2
+    }
+  },
+  "adaptation": "Retain GL, stock, time, inverse, full-list and UUID recovery assertions; use explicit current OW04 quote and settlement facade in two chain-only journeys.",
+  "production_go": false
+}

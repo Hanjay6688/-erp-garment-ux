@@ -31,14 +31,27 @@ async function click(label:string){await act(async()=>button(label).click());awa
 const writes=()=>client.rpc.mock.calls.filter(([name])=>name==='erp_save_accessory_issue_action_v1')
 function documentFixture(){return {id:doc,number:'ACC-001',contractor_id:id,location_id:id,po_id:null,physical_local:at,status:'DRAFT',row_version:'1',notes:'',total:'22.75',payroll_locked:false,
   items:[{id:lineId,material_id:id,sku:'BTN',name:'Kancing silver',unit:'PCS',qty:'7.000000',manual_price:'3.25',price:'3.250000',factor:'1.000000',price_unit:'PCS',price_version_id:null,amount:'22.750000',payroll_status:'UNALLOCATED'}]}}
+type HistoryRow={id:string;number:string;contractor:string;status:string;row_version:string;date:string;total:string}
+const historyRows=(numbers:string[],status=(i:number)=>i%3?'POSTED':'DRAFT')=>numbers.map((number,i)=>({id:`99999999-9999-4999-8999-${String(i+1).padStart(12,'0')}`,number,contractor:'Afui',status:status(i),row_version:'1',date:'2026-09-22',total:'1.00'}))
+const reads=()=>client.rpc.mock.calls.filter(([name])=>name==='erp_get_accessory_issue_workspace_v1').map(([,args])=>args.p_filters as Record<string,unknown>)
+const shown=()=>[...container.querySelectorAll('[aria-label="Riwayat nota aksesori"] tbody tr td:first-child')].map(cell=>cell.textContent)
 function server(){
-  const s={document:null as ReturnType<typeof documentFixture>|null,lose:false,effects:0,invalid:false,reject:false,stock:'300.000000',badReceipt:false};const cache=new Map<string,unknown>()
+  const s={document:null as ReturnType<typeof documentFixture>|null,history:null as HistoryRow[]|null,lose:false,effects:0,invalid:false,reject:false,stock:'300.000000',badReceipt:false};const cache=new Map<string,unknown>()
+  const collator=new Intl.Collator('id',{numeric:true,sensitivity:'base'})
   client.rpc.mockImplementation(async(name:string,args:Record<string,unknown>)=>{
     if(name==='erp_get_accessory_issue_workspace_v1'){
       const f=args.p_filters as Record<string,unknown>,d=f.id?s.document:null
+      const all=s.history??(s.document?[{id:doc,number:s.document.number,contractor:'Afui',status:s.document.status,row_version:s.document.row_version,date:'2026-09-22',total:s.document.total}]:[])
+      // Like the stage reader: with the history keys, search, status and order apply to every note before the page is cut.
+      const listed=['history_status','history_order','history_offset','history_limit'].some(k=>k in f),q=String(f.query??'').trim(),status=(f.history_status??null) as string|null
+      const order=String(f.history_order??'SOURCE'),offset=Number(f.history_offset??0),limit=Number(f.history_limit??50)
+      const matching=listed?all.filter(h=>(!status||h.status===status)&&(!q||`${h.number} ${h.contractor}`.toLowerCase().includes(q.toLowerCase()))):all
+      const sorted=order==='SOURCE'?matching:[...matching].sort((a,b)=>(order==='LABEL_DESC'?-1:1)*collator.compare(a.number,b.number))
+      const history=listed?sorted.slice(offset,offset+limit):sorted.slice(0,50)
       const w={filters:f,contractor_id:f.contractor_id??d?.contractor_id??null,location_id:f.location_id??d?.location_id??null,physical_local:typeof f.physical_at==='string'?f.physical_at.slice(0,19):d?.physical_local??at,
         contractors:[{id,name:'Afui'}],locations:[{id,name:'Gudang aksesori'}],orders:[],materials:[{...quote,stock:s.stock}],material_count:1,
-        history:s.document?[{id:doc,number:s.document.number,contractor:'Afui',status:s.document.status,row_version:s.document.row_version,date:'2026-09-22',total:s.document.total}]:[],history_count:s.document?1:0,document:d}
+        history,history_count:matching.length,document:d,
+        ...(listed?{history_page:{offset,limit,next_offset:offset+history.length<matching.length?offset+history.length:null,list:{q,status,order}}}:{})}
       return {data:s.invalid?{...w,materials:[{...quote,stock:300}]}:structuredClone(w),error:null}
     }
     if(s.reject)return {data:null,error:{code:'P0001',message:'Stok sudah berubah'}}
@@ -75,13 +88,14 @@ describe('connected accessory issue',()=>{
     client.rpc.mockImplementation(async(name,args)=>{
       if(name==='erp_cp7_resolve_transaction_source_v1')return{data:{contract_version:'cp7.transaction-source.v1',actor_scope_id:id,source:args.p_source,status:'AVAILABLE',business_DML:false,read_at:'2026-10-03T00:00:00Z',document:{domain:'ACCESSORY_ISSUE',route:'contractor-issue',id:doc,number:'ACC-001',status:'POSTED',revision:'1',focus:null}},error:null}
       const result=await ordinary(name,args)
-      if(name==='erp_get_accessory_issue_workspace_v1')return{...result,data:{...result.data,history_count:51,history:Array.from({length:50},(_,i)=>({...result.data.history[0],id:`99999999-9999-4999-8999-${String(i+1).padStart(12,'0')}`,number:`LATEST-${i}`}))}}
+      if(name==='erp_get_accessory_issue_workspace_v1')return{...result,data:{...result.data,history_count:51,history:Array.from({length:50},(_,i)=>({...result.data.history[0],id:`99999999-9999-4999-8999-${String(i+1).padStart(12,'0')}`,number:`LATEST-${i}`})),
+        history_page:{...result.data.history_page,next_offset:50}}}
       return result
     })
     await act(async()=>root.render(<TransactionSourceProvider scope="accessory-source" onNavigate={navigate}><TransactionSourceLink sourceType="CONTRACTOR_MATERIAL_ISSUE_ITEM" sourceId={lineId}/><ConnectedAccessoryIssuePage/></TransactionSourceProvider>));await flush()
     await click('Buka transaksi asal')
     expect(navigate).toHaveBeenCalledWith('contractor-issue')
-    expect(client.rpc.mock.calls.filter(([name])=>name==='erp_get_accessory_issue_workspace_v1').at(-1)?.[1]).toEqual({p_filters:{query:'',material_query:'',id:doc}})
+    expect(client.rpc.mock.calls.filter(([name])=>name==='erp_get_accessory_issue_workspace_v1').at(-1)?.[1]).toEqual({p_filters:{query:'',material_query:'',history_status:null,history_order:'SOURCE',history_offset:0,history_limit:50,id:doc}})
     expect(container.querySelector('[aria-label="Form nota aksesori"] h2')?.textContent).toContain('ACC-001 · POSTED')
     expect(container.querySelector('[aria-label="Riwayat nota aksesori"]')?.textContent).not.toContain('ACC-001')
     expect(container.querySelector('[aria-label="Konfirmasi nota"]')).toBeNull();expect(writes()).toHaveLength(0);expect(s.effects).toBe(0)
@@ -98,25 +112,61 @@ describe('connected accessory issue',()=>{
     expect(container.querySelector('[aria-label="Form nota aksesori"] h2')?.textContent).toContain('Status belum dipastikan')
     expect(button('Simpan draft').disabled).toBe(true);expect(writes()).toHaveLength(0)
   })
-  it('keeps unsent quantities and the selected note unchanged while ordering its history page',async()=>{
-    const s=server();s.document={...documentFixture(),number:'ACC-10'}
-    const ordinary=client.rpc.getMockImplementation()!
-    client.rpc.mockImplementation(async(name,args)=>{const r=await ordinary(name,args);return name==='erp_get_accessory_issue_workspace_v1'?{...r,data:{...r.data,history_count:3,history:['ACC-10','ACC-2','ACC-1'].map((number,i)=>({...r.data.history[0],number,id:i?`99999999-9999-4999-8999-${String(i).padStart(12,'0')}`:doc}))}}:r})
-    await mount();await click('Buka ACC-10');await change('Jumlah PCS 1','9');const calls=client.rpc.mock.calls.length
-    await change('Urutkan halaman nota aksesori','LABEL_ASC')
-    expect([...container.querySelectorAll('[aria-label="Riwayat nota aksesori"] tbody tr td:first-child')].map(row=>row.textContent)).toEqual(['ACC-1','ACC-2','ACC-10'])
+  it('keeps unsent quantities and the selected note unchanged while the server orders the whole history (D17-16)',async()=>{
+    const s=server();s.document={...documentFixture(),number:'ACC-10'};s.history=historyRows(['ACC-10','ACC-2','ACC-1'],()=>'DRAFT');s.history[0].id=doc
+    await mount();await click('Buka ACC-10');await change('Jumlah PCS 1','9');const before=reads().length
+    await change('Urutkan nota aksesori','LABEL_ASC')
+    expect(reads().slice(before)).toHaveLength(1)
+    expect(reads().at(-1)).toMatchObject({id:doc,history_order:'LABEL_ASC',history_status:null,history_offset:0,history_limit:50,contractor_id:id,location_id:id,material_ids:[id]})
+    expect(shown()).toEqual(['ACC-1','ACC-2','ACC-10'])
     expect(container.querySelector<HTMLInputElement>('[aria-label="Jumlah PCS 1"]')!.value).toBe('9')
     expect(container.querySelector('[aria-label="Form nota aksesori"] h2')?.textContent).toContain('ACC-10')
-    expect(client.rpc.mock.calls).toHaveLength(calls);expect(writes()).toHaveLength(0)
-  })
-  it('browses through the unchanged capped Native history reader and keeps unsent form edits',async()=>{
-    server();await mount();await prepare();await change('Cari nota aksesori','ACC lama');await change('Status halaman nota aksesori','POSTED');await change('Urutkan halaman nota aksesori','LABEL_DESC')
-    await click('Browse semua')
-    const request=client.rpc.mock.calls.filter(([name])=>name==='erp_get_accessory_issue_workspace_v1').at(-1)![1].p_filters
-    expect(request.query).toBe('');expect(request.id).toBeNull();expect(request).not.toHaveProperty('limit');expect(request).not.toHaveProperty('status')
-    expect(container.querySelector<HTMLInputElement>('[aria-label="Jumlah PCS 1"]')!.value).toBe('7')
-    expect(container.querySelector<HTMLSelectElement>('[aria-label="Status halaman nota aksesori"]')!.value).toBe('ALL')
     expect(writes()).toHaveLength(0)
+  })
+  it('says sort and filter cover every note and shows the count of the whole filtered history (D17-16)',async()=>{
+    server();await mount()
+    const tools=container.querySelector('[aria-label="Cari, browse, urutkan dan filter nota aksesori"]')!
+    expect(tools.textContent).toContain('Urutkan semua hasil');expect(tools.textContent).toContain('Filter dan urutan berlaku untuk seluruh hasil, termasuk halaman lain; jumlah hasil mengikuti filter yang sama.')
+    expect(tools.textContent).not.toContain('halaman yang sedang tampil')
+    expect(container.querySelector('[aria-label="Urutkan nota aksesori"]')).not.toBeNull();expect(container.querySelector('[aria-label="Urutkan halaman nota aksesori"]')).toBeNull()
+    expect(container.textContent).toContain('0 nota cocok dengan pencarian dan filter; halaman ini menampilkan 0.');expect(container.textContent).not.toContain('hanya berlaku pada daftar yang tampil')
+  })
+  it('browses the whole history from the first page with every list key reset and keeps unsent form edits (D17-16)',async()=>{
+    server();await mount();await prepare();await change('Cari nota aksesori','ACC lama');await change('Status nota aksesori','POSTED');await change('Urutkan nota aksesori','LABEL_DESC')
+    expect(reads().at(-1)).toMatchObject({history_status:'POSTED',history_order:'LABEL_DESC',history_offset:0})
+    await click('Browse semua')
+    const request=reads().at(-1)!
+    expect(request).toMatchObject({query:'',id:null,history_status:null,history_order:'SOURCE',history_offset:0,history_limit:50});expect(request).not.toHaveProperty('limit');expect(request).not.toHaveProperty('status')
+    expect(container.querySelector<HTMLInputElement>('[aria-label="Jumlah PCS 1"]')!.value).toBe('7')
+    expect(container.querySelector<HTMLSelectElement>('[aria-label="Status nota aksesori"]')!.value).toBe('ALL')
+    expect(container.querySelector<HTMLSelectElement>('[aria-label="Urutkan nota aksesori"]')!.value).toBe('SOURCE')
+    expect(writes()).toHaveLength(0)
+  })
+  it('pages through every matching note on the server; a new status or search starts again at the first page (D17-16)',async()=>{
+    const s=server();s.history=historyRows(Array.from({length:120},(_,i)=>`ACC-${i+1}`));await mount()
+    expect(container.textContent).toContain('120 nota cocok dengan pencarian dan filter; halaman ini menampilkan 50.');expect(button('Nota sebelumnya').disabled).toBe(true)
+    await click('Nota berikutnya');expect(reads().at(-1)).toMatchObject({history_offset:50,history_limit:50});expect(shown()[0]).toBe('ACC-51')
+    await click('Nota berikutnya');expect(reads().at(-1)!.history_offset).toBe(100);expect(shown()).toHaveLength(20);expect(button('Nota berikutnya').disabled).toBe(true)
+    await change('Status nota aksesori','DRAFT');expect(reads().at(-1)).toMatchObject({history_status:'DRAFT',history_offset:0})
+    expect(container.textContent).toContain('40 nota cocok dengan pencarian dan filter; halaman ini menampilkan 40.');expect(button('Nota berikutnya').disabled).toBe(true)
+    await change('Status nota aksesori','ALL');await click('Nota berikutnya');await change('Cari nota aksesori','acc-11');await act(async()=>button('Cari nota').click());await flush()
+    expect(reads().at(-1)).toMatchObject({query:'acc-11',history_status:null,history_offset:0});expect(shown()).toEqual(['ACC-11','ACC-110','ACC-111','ACC-112','ACC-113','ACC-114','ACC-115','ACC-116','ACC-117','ACC-118','ACC-119'])
+    expect(writes()).toHaveLength(0)
+  })
+  it('refuses a history page that is not the one asked for, without showing rows (fail closed)',async()=>{
+    const s=server();s.history=historyRows(['ACC-1','ACC-2']);const ordinary=client.rpc.getMockImplementation()!
+    const ask={offset:0,limit:50,list:{q:'',status:null,order:'SOURCE'}} as const
+    const valid=(await ordinary('erp_get_accessory_issue_workspace_v1',{p_filters:{query:'',material_query:'',history_status:null,history_order:'SOURCE',history_offset:0,history_limit:50,id:null}})).data
+    expect(parseAccessoryWorkspace(valid,ask).history_page).toEqual({offset:0,limit:50,next_offset:null,list:ask.list})
+    const {history_page:_,...missing}=valid,page=valid.history_page
+    for(const bad of [missing,{...valid,history_page:{...page,list:{...page.list,status:'POSTED'}}},{...valid,history_page:{...page,list:{...page.list,order:'LABEL_ASC'}}},
+      {...valid,history_page:{...page,list:{...page.list,q:'acc'}}},{...valid,history_page:{...page,offset:50}},{...valid,history_page:{...page,limit:25}},{...valid,history_page:{...page,next_offset:2}},
+      {...valid,history_page:{...page,total:'2'}},{...valid,history_page:{...page,list:{...page.list,extra:1}}},{...valid,history_count:3}])expect(()=>parseAccessoryWorkspace(bad,ask)).toThrow()
+    expect(()=>parseAccessoryWorkspace(valid)).toThrow('Daftar nota tidak cocok dengan pilihan.')
+    expect(()=>parseAccessoryWorkspace({...valid,history_page:{...page,list:{...page.list,status:'POSTED'}}},{...ask,list:{...ask.list,status:'POSTED'}})).toThrow('Daftar nota tidak cocok dengan pilihan.')
+    client.rpc.mockImplementation(async(name,args)=>{const r=await ordinary(name,args);return name==='erp_get_accessory_issue_workspace_v1'?{...r,data:{...r.data,history_page:{...r.data.history_page,list:{...r.data.history_page.list,order:'SOURCE'}}}}:r})
+    await mount();await change('Urutkan nota aksesori','LABEL_DESC')
+    expect([...container.querySelectorAll('[role="alert"]')].map(a=>a.textContent)).toContain('Daftar nota tidak cocok dengan pilihan.');expect(shown()).toEqual([]);expect(writes()).toHaveLength(0)
   })
   it('retires old totals and history on a failed refresh while preserving unsent quantity and price',async()=>{
     server();await mount();await prepare();expect(container.textContent).toContain('Rp 22,75')

@@ -1,4 +1,5 @@
 import type { MaterialPage } from './materialContract'
+import type { RecordPageOrder } from './RecordTools'
 
 export type FgPurpose = 'SUMMARY' | 'CARD' | 'MOVEMENTS'
 export type FgPosition = { product_id:string; product_sku:string; commercial_sku:string; product_name:string; size_code:string; brand_name:string; lot_id:string|null; lot_number:string|null; location_id:string; location_name:string; quality_grade:string }
@@ -8,7 +9,9 @@ export type FgRow = FgPosition & Balances & { last_movement_at:string; valuation
 export type FgWorkspace = { contract_version:'cp7.fg-workspace.v1'; purpose:FgPurpose; read_at:string; knowledge:'CURRENT'; quantity_basis:'PHYSICAL_EQUALS_AVAILABLE_PLUS_ACTIVE_RESERVATION'; financial_captured:boolean; capabilities:{card:boolean}; unit_code:'PCS'; totals:Balances; page:MaterialPage<FgRow> }
 export type FgMovement = { id:string; physical_at:string; recorded_at:string; movement_type:string; source_type:string; source_id:string|null; reversal_of_id:string|null; customer_name:string|null; notes:string|null; book_order:string; commercial_sku_at_transaction:string; qty_signed:string; reservation_delta:string; physical_delta:string; available_balance:string; reserved_balance:string; physical_balance:string; valuation?:{state:'KNOWN'|'UNKNOWN';unit_cost:string|null;basis:'CURRENT_RESTATED_MOVEMENT_SNAPSHOT'}; original_physical_delta?:string;correction_count?:string;correction_recorded_at?:string|null;audit_movements?:FgAuditMovement[] }
 export type FgAuditMovement={id:string;physical_at:string;recorded_at:string;lot_id:string|null;source_type:string;source_id:string|null;reversal_of_id:string|null;available_delta:string;reservation_delta:string}
-export type FgLedger = { contract_version:'cp7.fg-ledger.v1'|'cp7.fg-ledger.v2'; purpose:'CARD'|'MOVEMENTS'; read_at:string; knowledge:'CURRENT'; financial_captured:boolean; position:FgPosition; balances:Balances; balance_basis:'COMPLETE_CHRONOLOGICAL_PREFIX_BEFORE_SEARCH_AND_PAGE'; page:MaterialPage<FgMovement> }
+/** OW-09: movements of one position searched, filtered by type and ordered over the whole card before paging. */
+export type FgMovementList = { q:string; movement_type:string|null; order:RecordPageOrder }
+export type FgLedger = { contract_version:'cp7.fg-ledger.v1'|'cp7.fg-ledger.v2'; purpose:'CARD'|'MOVEMENTS'; read_at:string; knowledge:'CURRENT'; financial_captured:boolean; position:FgPosition; balances:Balances; balance_basis:'COMPLETE_CHRONOLOGICAL_PREFIX_BEFORE_SEARCH_AND_PAGE'; page:MaterialPage<FgMovement>&{list?:FgMovementList&{movement_types:string[]}} }
 const fail = ():never => { throw Error('Data barang jadi belum lengkap atau tidak cocok dengan hak akses. Muat ulang.') }
 const text = (v:unknown):v is string => typeof v==='string'
 const id = (v:unknown):v is string => text(v)&&/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(v)
@@ -33,8 +36,17 @@ function balances(r:Record<string,unknown>){
   if(BigInt(r.physical_qty)!==BigInt(r.available_qty)+BigInt(r.reserved_qty))fail()
   if(r.quality==='KNOWN'&&[r.available_qty,r.reserved_qty,r.physical_qty].some(x=>BigInt(x)<0n))fail()
 }
-function page(v:unknown,check:(r:unknown)=>string){
-  const p=closed(v,['rows','total','offset','limit','next_offset'])
+const movementType = (v:unknown):v is string => text(v)&&/^[A-Z][A-Z_]{0,39}$/.test(v)
+// The echo names the applied search, type and order exactly; the type choices are the position's whole history,
+// unique and in byte order, so every type on other pages can be chosen.
+function movementList(v:unknown,list:FgMovementList){
+  const l=closed(v,['q','movement_type','order','movement_types'])
+  if(l.q!==list.q||l.movement_type!==list.movement_type||l.order!==list.order||!Array.isArray(l.movement_types)||!l.movement_types.every(movementType))return fail()
+  const types=l.movement_types as string[];if(types.some((t,i)=>i>0&&!(types[i-1]<t)))fail()
+}
+function page(v:unknown,check:(r:unknown)=>string,list?:FgMovementList){
+  const p=closed(v,['rows','total','offset','limit','next_offset',...(list?['list']:[])])
+  if(list)movementList(p.list,list)
   if(!Array.isArray(p.rows)||!whole(p.total)||!Number.isSafeInteger(p.offset)||Number(p.offset)<0||!Number.isSafeInteger(p.limit)||Number(p.limit)<1||Number(p.limit)>100||p.rows.length>Number(p.limit))return fail()
   const end=BigInt(Number(p.offset))+BigInt(p.rows.length),total=BigInt(p.total)
   if(p.rows.length&&end>total||end<total&&p.next_offset===null||p.next_offset!==null&&(p.next_offset!==Number(p.offset)+p.rows.length||!p.rows.length||end>=total))fail()
@@ -58,12 +70,13 @@ export function parseFgWorkspace(v:unknown,finance:boolean,purpose:FgPurpose):Fg
     return fgPositionKey(r as unknown as FgPosition)
   });return w as unknown as FgWorkspace
 }
-export function parseFgLedger(v:unknown,finance:boolean,purpose:'CARD'|'MOVEMENTS',corrected=false):FgLedger{
+export function parseFgLedger(v:unknown,finance:boolean,purpose:'CARD'|'MOVEMENTS',corrected=false,list?:FgMovementList):FgLedger{
   const w=closed(v,['contract_version','purpose','read_at','knowledge','financial_captured','position','balances','balance_basis','page'])
   if(w.contract_version!==(corrected?'cp7.fg-ledger.v2':'cp7.fg-ledger.v1')||w.purpose!==purpose||!instant(w.read_at)||w.knowledge!=='CURRENT'||w.financial_captured!==finance||w.balance_basis!=='COMPLETE_CHRONOLOGICAL_PREFIX_BEFORE_SEARCH_AND_PAGE')fail()
   position(closed(w.position,positionKeys));balances(closed(w.balances,['available_qty','reserved_qty','physical_qty','quality']))
   page(w.page,v=>{
     const r=closed(v,['id','physical_at','recorded_at','movement_type','source_type','source_id','reversal_of_id','customer_name','notes','book_order','commercial_sku_at_transaction','qty_signed','reservation_delta','physical_delta','available_balance','reserved_balance','physical_balance',...(corrected?['original_physical_delta','correction_count','correction_recorded_at','audit_movements']:[])],finance?['valuation']:[])
+    if(list?.movement_type&&r.movement_type!==list.movement_type)fail()
     if(!id(r.id)||!instant(r.physical_at)||!instant(r.recorded_at)||![r.movement_type,r.source_type,r.commercial_sku_at_transaction].every(text)||!nullableId(r.source_id)||!nullableId(r.reversal_of_id)||!nullableText(r.customer_name)||!nullableText(r.notes)||!signed(r.book_order)||!['qty_signed','reservation_delta','physical_delta','available_balance','reserved_balance','physical_balance'].every(k=>signed(r[k])))return fail()
     if(BigInt(String(r.physical_balance))!==BigInt(String(r.available_balance))+BigInt(String(r.reserved_balance))||BigInt(String(r.physical_delta))!==BigInt(String(r.qty_signed))+BigInt(String(r.reservation_delta)))fail()
     if(corrected){
@@ -78,5 +91,5 @@ export function parseFgLedger(v:unknown,finance:boolean,purpose:'CARD'|'MOVEMENT
     }
     if(finance){const f=closed(r.valuation,['state','unit_cost','basis']);if(f.basis!=='CURRENT_RESTATED_MOVEMENT_SNAPSHOT'||(f.state==='KNOWN'?!decimal(f.unit_cost):f.state!=='UNKNOWN'||f.unit_cost!==null))fail()}
     return r.id
-  });return w as unknown as FgLedger
+  },list);return w as unknown as FgLedger
 }
