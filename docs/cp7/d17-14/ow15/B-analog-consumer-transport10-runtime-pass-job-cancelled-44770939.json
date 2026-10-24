@@ -1,0 +1,107 @@
+{
+  "status": "PASS",
+  "head": "44770939c47cb62e06ec32852e94e72e44322481",
+  "run_id": 40094861326,
+  "job_id": 120874876131,
+  "artifact_id": 12561657183,
+  "workflow_conclusion": "cancelled",
+  "workflow_success_claimed": false,
+  "zip_bytes": 93235,
+  "zip_sha256": "9c952dd8ad074fb841a704851c7b46d7d01f5076b4f74c2bc31da2fb755455ea",
+  "original_name": "CP7_OW11_ANALOG_CONSUMER_TRANSPORT.json",
+  "original_bytes": 745916,
+  "original_sha256": "fd49f45afa92ef8cc0c32e4c5176185762cee4e8c5ce0b246968853697da2b81",
+  "observed_case_count": 10,
+  "required_case_ids": {
+    "native": [
+      "OW11_ANALOG_PROVENANCE_CATALOG22_PREUSE_DEPENDENCY"
+    ],
+    "races": [
+      "OW11_CONSUMER_RACE_SAME_UUID",
+      "OW11_CONSUMER_RACE_REVISION",
+      "OW11_CONSUMER_RACE_ACCESS_AFTER_ENVELOPE",
+      "OW11_CONSUMER_RACE_REPLAY_ACCESS_AFTER_REQUEST",
+      "OW11_CONSUMER_RACE_ACCESS_AFTER_TARGET",
+      "OW11_CONSUMER_RACE_SOURCE_AFTER_ENVELOPE"
+    ],
+    "http": [
+      "OW11_CONSUMER_AUTH_CONFIRM_CLEAR_EXACT_REPLAY",
+      "OW11_CONSUMER_AUTH_REVOKED_COMMITTED_REPLAY",
+      "OW11_CONSUMER_AUTH_ANON_AND_FOREIGN_REFERENCE"
+    ]
+  },
+  "groups": {
+    "native": {
+      "status": "PASS",
+      "counts": {
+        "PASS": 1
+      },
+      "missing": [],
+      "complete_boundary_restored": true
+    },
+    "races": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 6
+      },
+      "database_remaining": 0
+    },
+    "http": {
+      "status": "RUN_COMPLETE",
+      "counts": {
+        "PASS": 3
+      },
+      "database_remaining": 0,
+      "cleanup_failures": false,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      }
+    }
+  },
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "exact_product_sources": {
+    "scripts/cp7_product_analog_consumer/MANIFEST.json": "6d8e7b40a9e8b254a9387c479181e4ad39a5708239c82bdaa7122cce9fbd30e3",
+    "scripts/cp7_product_analog_consumer/__init__.py": "347268de2580aa703dc1fe5d45852b70023828dafbfa0eac0a9751c841272ee7",
+    "scripts/cp7_product_analog_consumer/baseline.sql": "eeb927430f4ed36bab11e62a27fc34e1cbe9e8d938d083f5364865611b6b9a6b",
+    "scripts/cp7_product_analog_consumer/kernel.sql": "26885f7d83c4ad4301f3e81727c6bc3555903e65598941f726bd24e395fa2992",
+    "scripts/cp7_product_analog_consumer_stage/MANIFEST.json": "9ab3fd6d12729dead611d66d4d839ba3ca1bba231395a9018164c81f68dfb4ae",
+    "scripts/cp7_product_analog_consumer_stage/__init__.py": "dc9d5c9030eeeada1b046131f35a95dd344169ca2dff08f657ace7ca22cfc306",
+    "scripts/cp7_product_analog_consumer_stage/confirmation.sql": "80d4836927bafd493e1642798034650ac3d1f089d9cca288c9a29af10636116f",
+    "scripts/cp7_product_analog_consumer_stage/hooks.sql": "b02245f76a4039593200f8424fd234cf2779d71c67b9ea87dee03ca44239c8aa",
+    "scripts/cp7_product_analog_consumer_stage/render.py": "26862dbf1edf23eee73e9056485f2dc82a6749b6f9d868bc3b0c4e884d3c363d",
+    "scripts/cp7_product_analog_provenance_stage/MANIFEST.json": "7d407b2b618c7f9021ee9f86fec39d53d0bea41c4b81e13675e59025055dc50c",
+    "scripts/cp7_product_analog_provenance_stage/__init__.py": "966ce49f8dc4b51489a887e42a7a8e8ba3b4b6a87782b363bd678f6433c81096",
+    "scripts/cp7_product_analog_provenance_stage/hooks.sql": "22d732d58456635bff9e2c546f32081c0564fed54a75a57d513b224354c0c02f",
+    "scripts/cp7_product_analog_provenance_stage/provenance.sql": "a849cef63c8d292d7a8f44ea38424af59e43371e702fa9a3ede6cc818e20ce1e",
+    "scripts/cp7_product_analog_provenance_stage/render.py": "e51cd3ed6dc6367695b911209b2580018e69af9de7cae8af14e3f4cc17562841"
+  },
+  "product_source_count": 14,
+  "full_A_chain_qualified": false,
+  "independent_acceptance": false,
+  "production_go": false,
+  "public_evidence": "Statuses, case identifiers and source hashes only; complete Original retained separately.",
+  "cancellation_observation": "Job reports The operation was canceled at 2026-10-24T13:25:03Z after runtime, full backup drill and package summary were emitted; cause not established.",
+  "qualification_scope": "Exact runtime Original and five package gates PASS; entire job is cancelled and is not claimed successful.",
+  "new_business_case_credit": 9,
+  "repeated_catalog_anchor_cases": 1
+}
