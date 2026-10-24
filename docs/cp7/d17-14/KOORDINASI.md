@@ -1985,3 +1985,28 @@ This qualifies actual baseline/analog UI paths under20/8; no positive model or
 raw-use guard credit is inferred. Exact04eaad40 workflow success is now also
 confirmed and its earlier pending workflow receipt updated without altering
 the preserved Original.
+
+## 112. B24 Oktober2026 UTC — retain rollover/cache-reader failures; refresh FG fixture correctly
+
+04eaad40/run40113567267 failed across WIB24→25Oct: all6 INCOMPLETE under
+the unchanged business-day oracle. Five operations had PASS before rollover
+classification; warehouse also retained its old StopIteration. No5/6 credit.
+Exact Original12569565118 SHA256 d070ff694fc390186cb1259ffda5f7604706c2273cc12c2332503832b8113f1d retained.
+
+75db5817/run40114425599 and3c19c5e4/run40115032213 each completed failure,
+5PASS/1INCOMPLETE with exact source hashes and no rollover. Correct SKU lookup
+still returned0: the public warehouse workspace reads cached evaluations and
+does not refresh new products/profiles. The case now calls the actual existing
+erp_cp7_refresh_fg_reorder_v1 as the same FG-only actor before reading. No
+admin cache seed, permission change, new RPC, relaxed assertion or case budget.
+Fresh actual Native proof remains required; the raw/queued-guard runs already
+in progress retain their same old fixture sequence. Complete Originals12569621429
+and12570156407 and exact failure receipts retained; all boundary/public/advisor
+checks passed but required counts/writer-runtime gates remained false.
+
+038740bd/run40115520449 and161d4c9f/run40116196607 Browser2 completed success:
+complete Originals12568816393/12570306413 each2PASS, exact20/8 source hashes,
+required IDs/counts, CP6/advisor/all package gates true. Auth0000→0000, console0,
+sessions[]/copy0. These qualify actual baseline/analog browser paths only, not
+positive models, FG-only refresh or after-use restoration. Receipts in ow11/.
+Formal5/16, CP7C unaccepted, independent acceptance/production_go false.

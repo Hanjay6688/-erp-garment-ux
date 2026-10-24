@@ -1,0 +1,170 @@
+{
+  "contract": "cp7.model-target-native6-original-receipt.v1",
+  "head": "3c19c5e4413f1321683e98d150a9dcd1db42d327",
+  "run_id": 40115032213,
+  "job_id": 120934446787,
+  "workflow_conclusion": "failure",
+  "artifact_id": 12570156407,
+  "bytes": 205995,
+  "artifact_sha256": "102de9e80f6ffc8ad00a5d1e258a8656991de6d290b690c5283db8ed75d02540",
+  "Original_read_complete": true,
+  "exact_head_source_hashes_match": true,
+  "status": "INCOMPLETE",
+  "counts": {
+    "PASS": 5,
+    "INCOMPLETE": 1
+  },
+  "cases": {
+    "OW11_MODEL_TARGET_CATALOG22_COMPOSED_PREUSE": {
+      "status": "PASS",
+      "exact_catalog22_composed_inverse": true,
+      "private8_replacements20_no_new_RPC_or_table": true,
+      "dependent_view_partial_inverse_restored": true,
+      "source_sha256": {
+        "cp7_model_target_consumer_stage/MANIFEST.json": "e3943d15b3aa3e3f39421f1e55c5a7ec1f6357827a0e1df94fd6cbdd2621fd3d",
+        "cp7_model_target_consumer_stage/__init__.py": "b4744591755c37d100abb1e5f30753026db7c91f9fb26c2131fee8401ed72f48",
+        "cp7_model_target_consumer_stage/hooks.sql": "59e64e1ee71a74d6873f4c50ba8e83759e2daa8e7b1b48ff33469c201723744b",
+        "cp7_model_target_consumer_stage/render.py": "9bb2395fefb92fab4b73b08870ce1b3bdf2cb4cc57b9b9e5013a3feeeab5c76a",
+        "cp7_model_target_source/MANIFEST.json": "5b59da3a09f54616115caffe8b17d3ea2a27a90925399f6ee6892412439aea17",
+        "cp7_model_target_source/__init__.py": "9a4ea1b1485d202105aca7d4fed590b4990a8b0db975d091bf752fc37499f2e6",
+        "cp7_model_target_source/source.sql": "94f856526c37ca14f5b2d5e44ee69a8845eee38524de648489256c56ebe60135",
+        "cp7_model_target_projection/MANIFEST.json": "df37cce0f27656606634fac61f26579f255ea291dc9f5a1696f28d1cbf2bd51a",
+        "cp7_model_target_projection/__init__.py": "2e2be38a043353af1d45f124d9f69e9c92fa1316c94eac826d133dad56c3b75c",
+        "cp7_model_target_projection/projection.sql": "1e96c6389c3537dcaf59bcf79383754f0b5716ad3c1d9010c77fb0918535e6b7",
+        "cp7_model_target_consumer/MANIFEST.json": "30d6ff9b8f41081e8cbe0aebdadda7d747de8ef6e23220b9658dd651ebb7684d",
+        "cp7_model_target_consumer/__init__.py": "4f965d8cf63a7d1f7671f0efc416a2a01ea9bf005278c69d71edeef772236e00",
+        "cp7_model_target_consumer/consumer.sql": "aea32bb1f7f07be6e65bbc613e8d3e5a38ed9db61f0cba510b3f84812d431600",
+        "cp7_model_target_consumer/timeline.py": "a23bbb9be67e24f7f3de8363eac2ebc8459142112e310ff11b0b6c783aca1825",
+        "cp7_model_target_consumer/timeline.sql": "869b9d35d10cfbdb64e7516562233e5dce8765950071ba72a69c69e5d2d4af49"
+      },
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-25",
+        "before": "2026-10-25",
+        "after": "2026-10-25"
+      }
+    },
+    "OW11_MODEL_TARGET_NATIVE_BASELINE_REPLAY_IMMUTABLE": {
+      "status": "PASS",
+      "actual_Native_v3_baseline100_current": true,
+      "exact_UUID_replay_and_immutable_result": true,
+      "no_model_fabricated": true,
+      "no_stock_money_HPP_change": true,
+      "after_use_requires_composed_restore": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-25",
+        "before": "2026-10-25",
+        "after": "2026-10-25"
+      }
+    },
+    "OW11_MODEL_TARGET_NATIVE_CURRENT_POLICY_AND_LATEST_V2": {
+      "status": "PASS",
+      "actual_policy_clock_and_latest_own_v2_selection": true,
+      "no_posthoc_model_promotion": true,
+      "old_baseline_stale_but_immutable": true,
+      "old_v2_result_immutable": true,
+      "actual_historical_positive_winner": false,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-25",
+        "before": "2026-10-25",
+        "after": "2026-10-25"
+      }
+    },
+    "OW11_MODEL_TARGET_NATIVE_POST_PROFILE_ACCESS": {
+      "status": "PASS",
+      "actual_profile_and_posted_SALE_retire_source": true,
+      "manual_target200_retained": true,
+      "current_access_before_read_replay": true,
+      "foreign_actor_refused": true,
+      "old_history_immutable": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-25",
+        "before": "2026-10-25",
+        "after": "2026-10-25"
+      }
+    },
+    "OW11_MODEL_TARGET_NATIVE_WAREHOUSE_ONLY_READ": {
+      "status": "INCOMPLETE",
+      "error": "('MODEL_TARGET_FG_FIXTURE_LOOKUP', 'AX-0302b9e91f', {'rows': [], 'limit': 100, 'total': '0', 'offset': 0, 'next_offset': None})",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py\", line 165, in _strict_group_once\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow11_model_target_consumer_cases.py\", line 136, in warehouse\n    assert len(found)==1,('MODEL_TARGET_FG_FIXTURE_LOOKUP',sku,w['page'])\n           ^^^^^^^^^^^^^\nAssertionError: ('MODEL_TARGET_FG_FIXTURE_LOOKUP', 'AX-0302b9e91f', {'rows': [], 'limit': 100, 'total': '0', 'offset': 0, 'next_offset': None})\n",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-25",
+        "before": "2026-10-25",
+        "after": "2026-10-25"
+      }
+    },
+    "OW11_MODEL_TARGET_NATIVE_BOUNDED_ANALOG_PARITY": {
+      "status": "PASS",
+      "actual_bounded_and_staged_analog_target_parity": true,
+      "direct_same_target_and_history_operands": true,
+      "analog_not_silently_promoted_to_model": true,
+      "actual_positive_model_target": false,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-25",
+        "before": "2026-10-25",
+        "after": "2026-10-25"
+      }
+    }
+  },
+  "required_case_ids_pass": true,
+  "required_case_counts_pass": false,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "first_failure": "Explicit SKU lookup returns zero rows because workspace is a cached reader and the new fixture was not refreshed. Corrected candidate calls the actual existing public FG refresh as the same warehouse-only actor before reading; rerun required.",
+  "actual_Auth_HTTP_credit": false,
+  "positive_model_target_qualified": false,
+  "after_use_restore_qualified": false,
+  "full_OW11_acceptance": false,
+  "formal_acceptance": "5/16",
+  "CP7C_accepted": false,
+  "independent_acceptance": false,
+  "production_go": false
+}
