@@ -1,0 +1,49 @@
+{
+  "label": "CP7_DRAFT_RETURN_USED_RESTORE",
+  "status": "INCOMPLETE",
+  "qualification_commit": "4d99d0e17d52fcfb9711a058d3116586b0794270",
+  "run": 40079815056,
+  "job": 120830827876,
+  "artifact": 12554024552,
+  "zip_bytes": 3733207,
+  "zip_sha256": "93f9a9748a4ba610a48623acfe26503c26d03d38b75c49d9736fb641eed1749a",
+  "report": {
+    "name": "CP7_DRAFT_RETURN_USED_RESTORE.json",
+    "raw_bytes": 848852,
+    "raw_sha256": "1fbc52ff080fcf4df8d2b40a9feeccb56d49d43e943b2ae6556f5c5740d20cc2"
+  },
+  "steps": [
+    {
+      "step": "EXACT_INSTALL_AND_PREUSE_INVERSE",
+      "status": "PASS"
+    },
+    {
+      "step": "COMMITTED_VALID_RETURN_WITH_MALFORMED_DRAFT",
+      "status": "PASS"
+    },
+    {
+      "step": "USED_INVERSE_REFUSED_BEFORE_DDL",
+      "status": "PASS"
+    },
+    {
+      "step": "FULL_USED_BACKUP_RESTORED",
+      "status": "PASS"
+    }
+  ],
+  "cp6_restored": true,
+  "baseline_advisors_equal": true,
+  "error": "DRAFT_ROW_DRIFT negative-control savepoint rollback does not restore all data/sequence hashes to backup",
+  "original_error": "",
+  "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/draft-return-restore-qualification/probe.py\", line 142, in run\n    step(STEPS[4],old_census_refused=True,controls=controls(cur,backup,digest,rid,f['customers'][0]))\n                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/draft-return-restore-qualification/probe.py\", line 74, in controls\n    refused('DRAFT_ROW_DRIFT',row,'DRAFT_RESTORE_BUSINESS_ROWS_OR_SEQUENCE_CHANGED')\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/draft-return-restore-qualification/probe.py\", line 52, in refused\n    assert catalog._data(cur)==backup['data']\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "disposition": "Preserve INCOMPLETE. Install/inverse, committed sibling return, used guard, full fresh restore pass. Negative live draft mutation is refused but savepoint rollback leaves an all-data/sequence mismatch. Native audit sequence advancement is the source-based hypothesis; successor records exact differences and restores full used backup again before binding. Never reset sequences or relax recovery proof.",
+  "production_go": false,
+  "independent_acceptance": false,
+  "new_business_case_credit": 0
+}

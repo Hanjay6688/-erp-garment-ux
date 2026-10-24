@@ -1,0 +1,50 @@
+{
+  "label": "CP7_DRAFT_RETURN_ISOLATION_NATIVE4",
+  "status": "INCOMPLETE",
+  "qualification_commit": "d2a90e16542b843314c3a3862c7fb1d4cfb49306",
+  "run": 40079527400,
+  "job": 120829975825,
+  "artifact": 12554812052,
+  "zip_bytes": 1993163,
+  "zip_sha256": "bbb4a57a21bbef324cf14bcee5c6d0265ebb358ccdd6a418b5eeca25b75bacd0",
+  "report": {
+    "name": "CP7_DRAFT_RETURN_ISOLATION_NATIVE4.json",
+    "raw_bytes": 2979209,
+    "raw_sha256": "102d8cf2dea33dc1d68c012a1a678e8e911d5812a96a5134fc6faba2b60b308e"
+  },
+  "baseline": {
+    "INCOMPLETE": 2,
+    "PASS": 2
+  },
+  "native": {
+    "PASS": 4
+  },
+  "execution_count": 8,
+  "unfixed_counterexamples_reproduced": true,
+  "cp6_restored": false,
+  "advisor_gate": false,
+  "restore_error": "DRAFT_RETURN_ISOLATION_AFTER_USE_REQUIRES_BACKUP_RESTORE",
+  "package_gate": {
+    "installed": false,
+    "primary_unchanged": true,
+    "backup_restore_drill": false,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "strict_group_originals": [
+    {
+      "path": "strict-groups/CP7_DRAFT_RETURN_ISOLATION_NATIVE4.json",
+      "bytes": 77006,
+      "sha256": "63745fd1a85b6d8a1b7d6a9d9d1fd8b4f22302b3683af3d584763f36973c96e2"
+    },
+    {
+      "path": "strict-groups/CP7_DRAFT_RETURN_ISOLATION_NATIVE4_UNFIXED.json",
+      "bytes": 33774,
+      "sha256": "45d91256fdffb319be485775777ee24cf5ae13d33e82fcf76360942c3765cf0c"
+    }
+  ],
+  "disposition": "All four fixed controls pass; whole qualification INCOMPLETE because all-data/sequence preuse guard refuses final removal. Strict-group boundary is narrower. Preserve guard and original result; successor will capture exact differences and fully restore pre-install backup.",
+  "production_go": false,
+  "independent_acceptance": false,
+  "new_business_case_credit": 0
+}
