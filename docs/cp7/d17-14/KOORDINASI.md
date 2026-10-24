@@ -3081,3 +3081,18 @@ minute schedule60x8s,300s completion window, same UUID and immutable money/stock
 checks remain. Imports/AST/bash36steps/productbinding/schedulerfunctions PASS locally.
 SOURCE stays absent until actual current Native20 and current Cron1 PASS. This is
 preparation, not factory runtime, positive forecast, independent or production credit.
+
+
+## A25 Oktober2026 WIB — preserve current21/8 Native first refusal-tuple failure
+
+B d7Native6/run40119284264/job120947092103 wholejobfailure, Original
+artifact12571712143 ZIP206030 SHA256c91fe3601c35f579a73add5cc70c1e78eaa5df53b1cfb38c0bb7220948fe7851.
+RawCP7_OW11_MODEL_TARGET_CONSUMER.json1829651 SHA256ef7fb066e8d588d862ec829805efb25901b49ec3d94a57103236ce8f088cc622.
+A verified exact15sourcepins,5PASS/1INCOMPLETE, all per-case fullboundary/public
+catalog/zero locks and sessions, CP6/advisors and four package gates; writerfalse.
+Warehouse line164 compares helper's three-value return to a two-tuple. Raw
+Original does not store returned values; no retrospective exact refusal claim.
+B190c1d78 fixes expected three values and records actual mismatch; run40122499063
+active. Product21/8 unchanged. This third Native failure is now a mandatory
+sixth prerequisite Original for A Native20, alongside both earlier failures.
+No failure is relabelled PASS; Native20 remains SOURCE absent.

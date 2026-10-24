@@ -41,8 +41,12 @@ satu perbedaan ialah koreksi freshness baseline yang sudah dinyatakan.
 [Browser2 B pada `d7d3033b`](B-model-target-browser2-intake-d7d3033b.json)
 sudah PASS: dua alur baseline/analog melalui Auth nyata, tepat sumber21/8,
 CP6/advisor/lima gate serta pengguna/sesi/database bersih. Ini belum menjadi
-bukti browser untuk cache FG atau model historis unggul. Native6 dan Transport11
-masih menunggu hasil: run `40119284264` dan `40119284316`.
+bukti browser untuk cache FG atau model historis unggul. [Native6 pertama21/8](B-target-cache-native6-first-intake-d7d3033b.json)
+(run `40119284264`) menghasilkan5PASS/1INCOMPLETE: helper mengembalikan
+tiga nilai, tetapi kasus gudang membandingkannya dengan dua nilai. Nilai error
+aktual tidak tersimpan; CP6/advisor/semua boundary kasus pulih. B `190c1d78`
+membetulkan pembanding menjadi tepat tiga nilai tanpa mengubah SQL produk;
+run `40122499063` masih berjalan. Transport11 `40119284316` masih menunggu hasil.
 A Native20 kemudian menjadi prasyarat lima pengujian gabungan yang sudah siap:
 Browser6, UsedRestore8, model Auth9/races19, keuangan Auth3/races7 dan cron1.
 Deklarasi SOURCE sengaja belum dibuat sebelum Original prasyarat benar-benar

@@ -16,7 +16,7 @@ for variable,proof in pins['actual_qualification_originals'].items():
         assert gate==dict(installed=True,primary_unchanged=True,backup_restore_drill=True,security_advisors=True,writer_runtime=proof['status']=='PASS'),(variable,gate)
     assert len(original)==proof['bytes']and sha256(original).hexdigest()==proof['sha256'],variable
     actual=json.loads(original);assert actual['status']==proof['status']and actual['cp6_restored'],variable
-    # PASS and both first-failure Originals share a basename. Preserve each
+    # PASS and all preserved first-failure Originals share a basename. Preserve each
     # exact artifact independently so later fetches cannot overwrite its input.
     target=Path(os.environ['RUNNER_TEMP'])/(variable+'-'+proof['name']);target.write_bytes(original)
     with open(os.environ['GITHUB_ENV'],'a')as out:out.write(variable+'='+str(target)+'\n')

@@ -1,0 +1,40 @@
+{
+  "contract": "cp7.B-component-original-intake.v1",
+  "name": "CP7_OW11_MODEL_TARGET_CONSUMER.json",
+  "status": "INCOMPLETE",
+  "head": "d7d3033b97a08d8bfc180dac638ea60b90e19c23",
+  "run_id": 40119284264,
+  "job_id": 120947092103,
+  "artifact_id": 12571712143,
+  "zip_bytes": 206030,
+  "zip_sha256": "c91fe3601c35f579a73add5cc70c1e78eaa5df53b1cfb38c0bb7220948fe7851",
+  "bytes": 1829651,
+  "sha256": "ef7fb066e8d588d862ec829805efb25901b49ec3d94a57103236ce8f088cc622",
+  "whole_job_status": "completed",
+  "whole_job_conclusion": "failure",
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "source_pins_verified": 15,
+  "native_counts": {
+    "PASS": 5,
+    "INCOMPLETE": 1
+  },
+  "failed_case": "OW11_MODEL_TARGET_NATIVE_WAREHOUSE_ONLY_READ",
+  "error": "",
+  "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py\", line 165, in _strict_group_once\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow11_model_target_consumer_cases.py\", line 164, in warehouse\n    assert plan.refusal(cur,lambda:call(cur,'erp_cp7_get_fg_reorder_v1',(json.dumps(query),),subject))==('40001','CP7_MODEL_TARGET_REORDER_REFRESH_REQUIRED')\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+  "source_diagnosis": "Documented refusal helper returns 3 values; this case compared to a 2-tuple. Actual tuple not retained in this Original.",
+  "exact_observed_refusal_known": false,
+  "all_case_boundaries_catalogs_and_sessions_restored": true,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "suite_credit": false,
+  "current_target_replacements": 21,
+  "full_A_chain_credit": false,
+  "production_go": false,
+  "independent_acceptance": false
+}
