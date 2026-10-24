@@ -1,0 +1,987 @@
+{
+  "classification": "SOURCE_AND_RETAINED_ORIGINAL_DIAGNOSTIC_ONLY",
+  "status": "DIAGNOSED_NOT_REQUALIFIED",
+  "original_name": "CP7_CURRENT_CP6_RACE36.json",
+  "original_bytes": 2817657,
+  "original_sha256": "a9a7360a6894660497d851a7043df96a7a59f3f2f3f1ef8ab99d7eaecba67269",
+  "source_pins": {
+    "scripts/cp6_v2620ai_concurrency.py": "bd99c2e84c4d75b015a06fa137f8e1962715e6fe0c64d66c1f6eba7d16d5131a",
+    "scripts/cp6_ai_independent_review.py": "0a4949a5f5c1b02ada3a29b369e225d8b3f6c962a9946708b02e4875c7688e83"
+  },
+  "observations": [
+    {
+      "group": "baseline",
+      "case_id": "HEADER_POST_ABORT",
+      "status": "INCOMPLETE",
+      "readiness": "BLOCKED",
+      "blockers": [
+        {
+          "code": "PAYROLL_WORK_UNCOVERED",
+          "scope": "AS_OF",
+          "family": "PAYROLL",
+          "reason": "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum 2026-10-24 belum masuk payroll.",
+          "severity": "POLICY",
+          "reference": {
+            "lines": 1,
+            "contractor_id": "a1000000-0000-0000-0000-000000000001",
+            "remaining_qty": 10,
+            "remaining_amount": 12.5,
+            "first_eligible_at": "2026-10-19T10:00:00+07:00"
+          },
+          "impact_date": "2026-10-19"
+        }
+      ],
+      "info": [
+        {
+          "code": "GRNI_ESTIMATE_OPEN",
+          "scope": "CURRENT_STATE",
+          "family": "GRNI",
+          "reason": "2 penerimaan bahan masih memakai estimasi GRNI (total 200.000000000000); boleh ditutup dengan estimasi.",
+          "severity": "INFO",
+          "reference": {
+            "receipts": 2,
+            "estimated_amount": 200.0
+          },
+          "impact_date": "2026-10-18"
+        }
+      ]
+    },
+    {
+      "group": "baseline",
+      "case_id": "POST_HEADER_COMMIT",
+      "status": "INCOMPLETE",
+      "readiness": "BLOCKED",
+      "blockers": [
+        {
+          "code": "PAYROLL_WORK_UNCOVERED",
+          "scope": "AS_OF",
+          "family": "PAYROLL",
+          "reason": "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum 2026-10-24 belum masuk payroll.",
+          "severity": "POLICY",
+          "reference": {
+            "lines": 1,
+            "contractor_id": "a1000000-0000-0000-0000-000000000001",
+            "remaining_qty": 10,
+            "remaining_amount": 12.5,
+            "first_eligible_at": "2026-10-19T10:00:00+07:00"
+          },
+          "impact_date": "2026-10-19"
+        }
+      ],
+      "info": [
+        {
+          "code": "GRNI_ESTIMATE_OPEN",
+          "scope": "CURRENT_STATE",
+          "family": "GRNI",
+          "reason": "2 penerimaan bahan masih memakai estimasi GRNI (total 200.000000000000); boleh ditutup dengan estimasi.",
+          "severity": "INFO",
+          "reference": {
+            "receipts": 2,
+            "estimated_amount": 200.0
+          },
+          "impact_date": "2026-10-18"
+        }
+      ]
+    },
+    {
+      "group": "baseline",
+      "case_id": "HEADER_CHILD_ABORT",
+      "status": "INCOMPLETE",
+      "readiness": "BLOCKED",
+      "blockers": [
+        {
+          "code": "PAYROLL_WORK_UNCOVERED",
+          "scope": "AS_OF",
+          "family": "PAYROLL",
+          "reason": "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (9 pcs) pada atau sebelum 2026-10-24 belum masuk payroll.",
+          "severity": "POLICY",
+          "reference": {
+            "lines": 1,
+            "contractor_id": "a1000000-0000-0000-0000-000000000001",
+            "remaining_qty": 9,
+            "remaining_amount": 11.25,
+            "first_eligible_at": "2026-10-19T10:00:00+07:00"
+          },
+          "impact_date": "2026-10-19"
+        }
+      ],
+      "info": [
+        {
+          "code": "GRNI_ESTIMATE_OPEN",
+          "scope": "CURRENT_STATE",
+          "family": "GRNI",
+          "reason": "2 penerimaan bahan masih memakai estimasi GRNI (total 200.000000000000); boleh ditutup dengan estimasi.",
+          "severity": "INFO",
+          "reference": {
+            "receipts": 2,
+            "estimated_amount": 200.0
+          },
+          "impact_date": "2026-10-18"
+        }
+      ]
+    },
+    {
+      "group": "baseline",
+      "case_id": "PEER_DOUBLE_POST_COMMIT",
+      "status": "INCOMPLETE",
+      "readiness": "BLOCKED",
+      "blockers": [
+        {
+          "code": "PAYROLL_WORK_UNCOVERED",
+          "scope": "AS_OF",
+          "family": "PAYROLL",
+          "reason": "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum 2026-10-21 belum masuk payroll.",
+          "severity": "POLICY",
+          "reference": {
+            "lines": 1,
+            "contractor_id": "a1000000-0000-0000-0000-000000000001",
+            "remaining_qty": 10,
+            "remaining_amount": 12.5,
+            "first_eligible_at": "2026-10-19T10:00:00+07:00"
+          },
+          "impact_date": "2026-10-19"
+        }
+      ],
+      "info": [
+        {
+          "code": "GRNI_ESTIMATE_OPEN",
+          "scope": "CURRENT_STATE",
+          "family": "GRNI",
+          "reason": "1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.",
+          "severity": "INFO",
+          "reference": {
+            "receipts": 1,
+            "estimated_amount": 100.0
+          },
+          "impact_date": "2026-10-18"
+        }
+      ]
+    },
+    {
+      "group": "baseline",
+      "case_id": "PEER_DOUBLE_POST_ABORT",
+      "status": "INCOMPLETE",
+      "readiness": "BLOCKED",
+      "blockers": [
+        {
+          "code": "PAYROLL_WORK_UNCOVERED",
+          "scope": "AS_OF",
+          "family": "PAYROLL",
+          "reason": "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum 2026-10-21 belum masuk payroll.",
+          "severity": "POLICY",
+          "reference": {
+            "lines": 1,
+            "contractor_id": "a1000000-0000-0000-0000-000000000001",
+            "remaining_qty": 10,
+            "remaining_amount": 12.5,
+            "first_eligible_at": "2026-10-19T10:00:00+07:00"
+          },
+          "impact_date": "2026-10-19"
+        }
+      ],
+      "info": [
+        {
+          "code": "GRNI_ESTIMATE_OPEN",
+          "scope": "CURRENT_STATE",
+          "family": "GRNI",
+          "reason": "1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.",
+          "severity": "INFO",
+          "reference": {
+            "receipts": 1,
+            "estimated_amount": 100.0
+          },
+          "impact_date": "2026-10-18"
+        }
+      ]
+    },
+    {
+      "group": "baseline",
+      "case_id": "PEER_QTY_POST_COMMIT",
+      "status": "INCOMPLETE",
+      "readiness": "BLOCKED",
+      "blockers": [
+        {
+          "code": "PAYROLL_WORK_UNCOVERED",
+          "scope": "AS_OF",
+          "family": "PAYROLL",
+          "reason": "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (4 pcs) pada atau sebelum 2026-10-21 belum masuk payroll.",
+          "severity": "POLICY",
+          "reference": {
+            "lines": 1,
+            "contractor_id": "a1000000-0000-0000-0000-000000000001",
+            "remaining_qty": 4,
+            "remaining_amount": 5.0,
+            "first_eligible_at": "2026-10-19T10:00:00+07:00"
+          },
+          "impact_date": "2026-10-19"
+        }
+      ],
+      "info": [
+        {
+          "code": "GRNI_ESTIMATE_OPEN",
+          "scope": "CURRENT_STATE",
+          "family": "GRNI",
+          "reason": "1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.",
+          "severity": "INFO",
+          "reference": {
+            "receipts": 1,
+            "estimated_amount": 100.0
+          },
+          "impact_date": "2026-10-18"
+        }
+      ]
+    },
+    {
+      "group": "baseline",
+      "case_id": "PEER_QTY_POST_ABORT",
+      "status": "INCOMPLETE",
+      "readiness": "BLOCKED",
+      "blockers": [
+        {
+          "code": "PAYROLL_WORK_UNCOVERED",
+          "scope": "AS_OF",
+          "family": "PAYROLL",
+          "reason": "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum 2026-10-21 belum masuk payroll.",
+          "severity": "POLICY",
+          "reference": {
+            "lines": 1,
+            "contractor_id": "a1000000-0000-0000-0000-000000000001",
+            "remaining_qty": 10,
+            "remaining_amount": 12.5,
+            "first_eligible_at": "2026-10-19T10:00:00+07:00"
+          },
+          "impact_date": "2026-10-19"
+        }
+      ],
+      "info": [
+        {
+          "code": "GRNI_ESTIMATE_OPEN",
+          "scope": "CURRENT_STATE",
+          "family": "GRNI",
+          "reason": "1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.",
+          "severity": "INFO",
+          "reference": {
+            "receipts": 1,
+            "estimated_amount": 100.0
+          },
+          "impact_date": "2026-10-18"
+        }
+      ]
+    },
+    {
+      "group": "baseline",
+      "case_id": "PEER_POST_QTY_COMMIT",
+      "status": "INCOMPLETE",
+      "readiness": "BLOCKED",
+      "blockers": [
+        {
+          "code": "PAYROLL_WORK_UNCOVERED",
+          "scope": "AS_OF",
+          "family": "PAYROLL",
+          "reason": "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum 2026-10-21 belum masuk payroll.",
+          "severity": "POLICY",
+          "reference": {
+            "lines": 1,
+            "contractor_id": "a1000000-0000-0000-0000-000000000001",
+            "remaining_qty": 10,
+            "remaining_amount": 12.5,
+            "first_eligible_at": "2026-10-19T10:00:00+07:00"
+          },
+          "impact_date": "2026-10-19"
+        }
+      ],
+      "info": [
+        {
+          "code": "GRNI_ESTIMATE_OPEN",
+          "scope": "CURRENT_STATE",
+          "family": "GRNI",
+          "reason": "1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.",
+          "severity": "INFO",
+          "reference": {
+            "receipts": 1,
+            "estimated_amount": 100.0
+          },
+          "impact_date": "2026-10-18"
+        }
+      ]
+    },
+    {
+      "group": "baseline",
+      "case_id": "PEER_POST_QTY_ABORT",
+      "status": "INCOMPLETE",
+      "readiness": "BLOCKED",
+      "blockers": [
+        {
+          "code": "PAYROLL_WORK_UNCOVERED",
+          "scope": "AS_OF",
+          "family": "PAYROLL",
+          "reason": "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (4 pcs) pada atau sebelum 2026-10-21 belum masuk payroll.",
+          "severity": "POLICY",
+          "reference": {
+            "lines": 1,
+            "contractor_id": "a1000000-0000-0000-0000-000000000001",
+            "remaining_qty": 4,
+            "remaining_amount": 5.0,
+            "first_eligible_at": "2026-10-19T10:00:00+07:00"
+          },
+          "impact_date": "2026-10-19"
+        }
+      ],
+      "info": [
+        {
+          "code": "GRNI_ESTIMATE_OPEN",
+          "scope": "CURRENT_STATE",
+          "family": "GRNI",
+          "reason": "1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.",
+          "severity": "INFO",
+          "reference": {
+            "receipts": 1,
+            "estimated_amount": 100.0
+          },
+          "impact_date": "2026-10-18"
+        }
+      ]
+    },
+    {
+      "group": "baseline",
+      "case_id": "PEER_DELETE_POST_ABORT",
+      "status": "INCOMPLETE",
+      "readiness": "BLOCKED",
+      "blockers": [
+        {
+          "code": "PAYROLL_WORK_UNCOVERED",
+          "scope": "AS_OF",
+          "family": "PAYROLL",
+          "reason": "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum 2026-10-21 belum masuk payroll.",
+          "severity": "POLICY",
+          "reference": {
+            "lines": 1,
+            "contractor_id": "a1000000-0000-0000-0000-000000000001",
+            "remaining_qty": 10,
+            "remaining_amount": 12.5,
+            "first_eligible_at": "2026-10-19T10:00:00+07:00"
+          },
+          "impact_date": "2026-10-19"
+        }
+      ],
+      "info": [
+        {
+          "code": "GRNI_ESTIMATE_OPEN",
+          "scope": "CURRENT_STATE",
+          "family": "GRNI",
+          "reason": "1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.",
+          "severity": "INFO",
+          "reference": {
+            "receipts": 1,
+            "estimated_amount": 100.0
+          },
+          "impact_date": "2026-10-18"
+        }
+      ]
+    },
+    {
+      "group": "baseline",
+      "case_id": "PEER_POST_DELETE_COMMIT",
+      "status": "INCOMPLETE",
+      "readiness": "BLOCKED",
+      "blockers": [
+        {
+          "code": "PAYROLL_WORK_UNCOVERED",
+          "scope": "AS_OF",
+          "family": "PAYROLL",
+          "reason": "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum 2026-10-21 belum masuk payroll.",
+          "severity": "POLICY",
+          "reference": {
+            "lines": 1,
+            "contractor_id": "a1000000-0000-0000-0000-000000000001",
+            "remaining_qty": 10,
+            "remaining_amount": 12.5,
+            "first_eligible_at": "2026-10-19T10:00:00+07:00"
+          },
+          "impact_date": "2026-10-19"
+        }
+      ],
+      "info": [
+        {
+          "code": "GRNI_ESTIMATE_OPEN",
+          "scope": "CURRENT_STATE",
+          "family": "GRNI",
+          "reason": "1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.",
+          "severity": "INFO",
+          "reference": {
+            "receipts": 1,
+            "estimated_amount": 100.0
+          },
+          "impact_date": "2026-10-18"
+        }
+      ]
+    },
+    {
+      "group": "baseline",
+      "case_id": "PEER_GROUP_TWO_POST_COMMIT",
+      "status": "INCOMPLETE",
+      "readiness": "BLOCKED",
+      "blockers": [
+        {
+          "code": "PAYROLL_WORK_UNCOVERED",
+          "scope": "AS_OF",
+          "family": "PAYROLL",
+          "reason": "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (6 pcs) pada atau sebelum 2026-10-21 belum masuk payroll.",
+          "severity": "POLICY",
+          "reference": {
+            "lines": 1,
+            "contractor_id": "a1000000-0000-0000-0000-000000000001",
+            "remaining_qty": 6,
+            "remaining_amount": 7.5,
+            "first_eligible_at": "2026-10-19T10:00:00+07:00"
+          },
+          "impact_date": "2026-10-19"
+        }
+      ],
+      "info": [
+        {
+          "code": "GRNI_ESTIMATE_OPEN",
+          "scope": "CURRENT_STATE",
+          "family": "GRNI",
+          "reason": "1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.",
+          "severity": "INFO",
+          "reference": {
+            "receipts": 1,
+            "estimated_amount": 100.0
+          },
+          "impact_date": "2026-10-18"
+        }
+      ]
+    },
+    {
+      "group": "baseline",
+      "case_id": "PEER_GROUP_TWO_POST_ABORT",
+      "status": "INCOMPLETE",
+      "readiness": "BLOCKED",
+      "blockers": [
+        {
+          "code": "PAYROLL_WORK_UNCOVERED",
+          "scope": "AS_OF",
+          "family": "PAYROLL",
+          "reason": "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (6 pcs) pada atau sebelum 2026-10-21 belum masuk payroll.",
+          "severity": "POLICY",
+          "reference": {
+            "lines": 1,
+            "contractor_id": "a1000000-0000-0000-0000-000000000001",
+            "remaining_qty": 6,
+            "remaining_amount": 7.5,
+            "first_eligible_at": "2026-10-19T10:00:00+07:00"
+          },
+          "impact_date": "2026-10-19"
+        }
+      ],
+      "info": [
+        {
+          "code": "GRNI_ESTIMATE_OPEN",
+          "scope": "CURRENT_STATE",
+          "family": "GRNI",
+          "reason": "1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.",
+          "severity": "INFO",
+          "reference": {
+            "receipts": 1,
+            "estimated_amount": 100.0
+          },
+          "impact_date": "2026-10-18"
+        }
+      ]
+    },
+    {
+      "group": "races",
+      "case_id": "HEADER_POST_ABORT",
+      "status": "INCOMPLETE",
+      "readiness": "BLOCKED",
+      "blockers": [
+        {
+          "code": "PAYROLL_WORK_UNCOVERED",
+          "scope": "AS_OF",
+          "family": "PAYROLL",
+          "reason": "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum 2026-10-24 belum masuk payroll.",
+          "severity": "POLICY",
+          "reference": {
+            "lines": 1,
+            "contractor_id": "a1000000-0000-0000-0000-000000000001",
+            "remaining_qty": 10,
+            "remaining_amount": 12.5,
+            "first_eligible_at": "2026-10-19T10:00:00+07:00"
+          },
+          "impact_date": "2026-10-19"
+        }
+      ],
+      "info": [
+        {
+          "code": "GRNI_ESTIMATE_OPEN",
+          "scope": "CURRENT_STATE",
+          "family": "GRNI",
+          "reason": "2 penerimaan bahan masih memakai estimasi GRNI (total 200.000000000000); boleh ditutup dengan estimasi.",
+          "severity": "INFO",
+          "reference": {
+            "receipts": 2,
+            "estimated_amount": 200.0
+          },
+          "impact_date": "2026-10-18"
+        }
+      ]
+    },
+    {
+      "group": "races",
+      "case_id": "POST_HEADER_COMMIT",
+      "status": "INCOMPLETE",
+      "readiness": "BLOCKED",
+      "blockers": [
+        {
+          "code": "PAYROLL_WORK_UNCOVERED",
+          "scope": "AS_OF",
+          "family": "PAYROLL",
+          "reason": "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum 2026-10-24 belum masuk payroll.",
+          "severity": "POLICY",
+          "reference": {
+            "lines": 1,
+            "contractor_id": "a1000000-0000-0000-0000-000000000001",
+            "remaining_qty": 10,
+            "remaining_amount": 12.5,
+            "first_eligible_at": "2026-10-19T10:00:00+07:00"
+          },
+          "impact_date": "2026-10-19"
+        }
+      ],
+      "info": [
+        {
+          "code": "GRNI_ESTIMATE_OPEN",
+          "scope": "CURRENT_STATE",
+          "family": "GRNI",
+          "reason": "2 penerimaan bahan masih memakai estimasi GRNI (total 200.000000000000); boleh ditutup dengan estimasi.",
+          "severity": "INFO",
+          "reference": {
+            "receipts": 2,
+            "estimated_amount": 200.0
+          },
+          "impact_date": "2026-10-18"
+        }
+      ]
+    },
+    {
+      "group": "races",
+      "case_id": "HEADER_CHILD_ABORT",
+      "status": "INCOMPLETE",
+      "readiness": "BLOCKED",
+      "blockers": [
+        {
+          "code": "PAYROLL_WORK_UNCOVERED",
+          "scope": "AS_OF",
+          "family": "PAYROLL",
+          "reason": "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (9 pcs) pada atau sebelum 2026-10-24 belum masuk payroll.",
+          "severity": "POLICY",
+          "reference": {
+            "lines": 1,
+            "contractor_id": "a1000000-0000-0000-0000-000000000001",
+            "remaining_qty": 9,
+            "remaining_amount": 11.25,
+            "first_eligible_at": "2026-10-19T10:00:00+07:00"
+          },
+          "impact_date": "2026-10-19"
+        }
+      ],
+      "info": [
+        {
+          "code": "GRNI_ESTIMATE_OPEN",
+          "scope": "CURRENT_STATE",
+          "family": "GRNI",
+          "reason": "2 penerimaan bahan masih memakai estimasi GRNI (total 200.000000000000); boleh ditutup dengan estimasi.",
+          "severity": "INFO",
+          "reference": {
+            "receipts": 2,
+            "estimated_amount": 200.0
+          },
+          "impact_date": "2026-10-18"
+        }
+      ]
+    },
+    {
+      "group": "races",
+      "case_id": "PEER_DOUBLE_POST_COMMIT",
+      "status": "INCOMPLETE",
+      "readiness": "BLOCKED",
+      "blockers": [
+        {
+          "code": "PAYROLL_WORK_UNCOVERED",
+          "scope": "AS_OF",
+          "family": "PAYROLL",
+          "reason": "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum 2026-10-21 belum masuk payroll.",
+          "severity": "POLICY",
+          "reference": {
+            "lines": 1,
+            "contractor_id": "a1000000-0000-0000-0000-000000000001",
+            "remaining_qty": 10,
+            "remaining_amount": 12.5,
+            "first_eligible_at": "2026-10-19T10:00:00+07:00"
+          },
+          "impact_date": "2026-10-19"
+        }
+      ],
+      "info": [
+        {
+          "code": "GRNI_ESTIMATE_OPEN",
+          "scope": "CURRENT_STATE",
+          "family": "GRNI",
+          "reason": "1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.",
+          "severity": "INFO",
+          "reference": {
+            "receipts": 1,
+            "estimated_amount": 100.0
+          },
+          "impact_date": "2026-10-18"
+        }
+      ]
+    },
+    {
+      "group": "races",
+      "case_id": "PEER_DOUBLE_POST_ABORT",
+      "status": "INCOMPLETE",
+      "readiness": "BLOCKED",
+      "blockers": [
+        {
+          "code": "PAYROLL_WORK_UNCOVERED",
+          "scope": "AS_OF",
+          "family": "PAYROLL",
+          "reason": "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum 2026-10-21 belum masuk payroll.",
+          "severity": "POLICY",
+          "reference": {
+            "lines": 1,
+            "contractor_id": "a1000000-0000-0000-0000-000000000001",
+            "remaining_qty": 10,
+            "remaining_amount": 12.5,
+            "first_eligible_at": "2026-10-19T10:00:00+07:00"
+          },
+          "impact_date": "2026-10-19"
+        }
+      ],
+      "info": [
+        {
+          "code": "GRNI_ESTIMATE_OPEN",
+          "scope": "CURRENT_STATE",
+          "family": "GRNI",
+          "reason": "1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.",
+          "severity": "INFO",
+          "reference": {
+            "receipts": 1,
+            "estimated_amount": 100.0
+          },
+          "impact_date": "2026-10-18"
+        }
+      ]
+    },
+    {
+      "group": "races",
+      "case_id": "PEER_QTY_POST_COMMIT",
+      "status": "INCOMPLETE",
+      "readiness": "BLOCKED",
+      "blockers": [
+        {
+          "code": "PAYROLL_WORK_UNCOVERED",
+          "scope": "AS_OF",
+          "family": "PAYROLL",
+          "reason": "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (4 pcs) pada atau sebelum 2026-10-21 belum masuk payroll.",
+          "severity": "POLICY",
+          "reference": {
+            "lines": 1,
+            "contractor_id": "a1000000-0000-0000-0000-000000000001",
+            "remaining_qty": 4,
+            "remaining_amount": 5.0,
+            "first_eligible_at": "2026-10-19T10:00:00+07:00"
+          },
+          "impact_date": "2026-10-19"
+        }
+      ],
+      "info": [
+        {
+          "code": "GRNI_ESTIMATE_OPEN",
+          "scope": "CURRENT_STATE",
+          "family": "GRNI",
+          "reason": "1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.",
+          "severity": "INFO",
+          "reference": {
+            "receipts": 1,
+            "estimated_amount": 100.0
+          },
+          "impact_date": "2026-10-18"
+        }
+      ]
+    },
+    {
+      "group": "races",
+      "case_id": "PEER_QTY_POST_ABORT",
+      "status": "INCOMPLETE",
+      "readiness": "BLOCKED",
+      "blockers": [
+        {
+          "code": "PAYROLL_WORK_UNCOVERED",
+          "scope": "AS_OF",
+          "family": "PAYROLL",
+          "reason": "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum 2026-10-21 belum masuk payroll.",
+          "severity": "POLICY",
+          "reference": {
+            "lines": 1,
+            "contractor_id": "a1000000-0000-0000-0000-000000000001",
+            "remaining_qty": 10,
+            "remaining_amount": 12.5,
+            "first_eligible_at": "2026-10-19T10:00:00+07:00"
+          },
+          "impact_date": "2026-10-19"
+        }
+      ],
+      "info": [
+        {
+          "code": "GRNI_ESTIMATE_OPEN",
+          "scope": "CURRENT_STATE",
+          "family": "GRNI",
+          "reason": "1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.",
+          "severity": "INFO",
+          "reference": {
+            "receipts": 1,
+            "estimated_amount": 100.0
+          },
+          "impact_date": "2026-10-18"
+        }
+      ]
+    },
+    {
+      "group": "races",
+      "case_id": "PEER_POST_QTY_COMMIT",
+      "status": "INCOMPLETE",
+      "readiness": "BLOCKED",
+      "blockers": [
+        {
+          "code": "PAYROLL_WORK_UNCOVERED",
+          "scope": "AS_OF",
+          "family": "PAYROLL",
+          "reason": "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum 2026-10-21 belum masuk payroll.",
+          "severity": "POLICY",
+          "reference": {
+            "lines": 1,
+            "contractor_id": "a1000000-0000-0000-0000-000000000001",
+            "remaining_qty": 10,
+            "remaining_amount": 12.5,
+            "first_eligible_at": "2026-10-19T10:00:00+07:00"
+          },
+          "impact_date": "2026-10-19"
+        }
+      ],
+      "info": [
+        {
+          "code": "GRNI_ESTIMATE_OPEN",
+          "scope": "CURRENT_STATE",
+          "family": "GRNI",
+          "reason": "1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.",
+          "severity": "INFO",
+          "reference": {
+            "receipts": 1,
+            "estimated_amount": 100.0
+          },
+          "impact_date": "2026-10-18"
+        }
+      ]
+    },
+    {
+      "group": "races",
+      "case_id": "PEER_POST_QTY_ABORT",
+      "status": "INCOMPLETE",
+      "readiness": "BLOCKED",
+      "blockers": [
+        {
+          "code": "PAYROLL_WORK_UNCOVERED",
+          "scope": "AS_OF",
+          "family": "PAYROLL",
+          "reason": "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (4 pcs) pada atau sebelum 2026-10-21 belum masuk payroll.",
+          "severity": "POLICY",
+          "reference": {
+            "lines": 1,
+            "contractor_id": "a1000000-0000-0000-0000-000000000001",
+            "remaining_qty": 4,
+            "remaining_amount": 5.0,
+            "first_eligible_at": "2026-10-19T10:00:00+07:00"
+          },
+          "impact_date": "2026-10-19"
+        }
+      ],
+      "info": [
+        {
+          "code": "GRNI_ESTIMATE_OPEN",
+          "scope": "CURRENT_STATE",
+          "family": "GRNI",
+          "reason": "1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.",
+          "severity": "INFO",
+          "reference": {
+            "receipts": 1,
+            "estimated_amount": 100.0
+          },
+          "impact_date": "2026-10-18"
+        }
+      ]
+    },
+    {
+      "group": "races",
+      "case_id": "PEER_DELETE_POST_ABORT",
+      "status": "INCOMPLETE",
+      "readiness": "BLOCKED",
+      "blockers": [
+        {
+          "code": "PAYROLL_WORK_UNCOVERED",
+          "scope": "AS_OF",
+          "family": "PAYROLL",
+          "reason": "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum 2026-10-21 belum masuk payroll.",
+          "severity": "POLICY",
+          "reference": {
+            "lines": 1,
+            "contractor_id": "a1000000-0000-0000-0000-000000000001",
+            "remaining_qty": 10,
+            "remaining_amount": 12.5,
+            "first_eligible_at": "2026-10-19T10:00:00+07:00"
+          },
+          "impact_date": "2026-10-19"
+        }
+      ],
+      "info": [
+        {
+          "code": "GRNI_ESTIMATE_OPEN",
+          "scope": "CURRENT_STATE",
+          "family": "GRNI",
+          "reason": "1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.",
+          "severity": "INFO",
+          "reference": {
+            "receipts": 1,
+            "estimated_amount": 100.0
+          },
+          "impact_date": "2026-10-18"
+        }
+      ]
+    },
+    {
+      "group": "races",
+      "case_id": "PEER_POST_DELETE_COMMIT",
+      "status": "INCOMPLETE",
+      "readiness": "BLOCKED",
+      "blockers": [
+        {
+          "code": "PAYROLL_WORK_UNCOVERED",
+          "scope": "AS_OF",
+          "family": "PAYROLL",
+          "reason": "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (10 pcs) pada atau sebelum 2026-10-21 belum masuk payroll.",
+          "severity": "POLICY",
+          "reference": {
+            "lines": 1,
+            "contractor_id": "a1000000-0000-0000-0000-000000000001",
+            "remaining_qty": 10,
+            "remaining_amount": 12.5,
+            "first_eligible_at": "2026-10-19T10:00:00+07:00"
+          },
+          "impact_date": "2026-10-19"
+        }
+      ],
+      "info": [
+        {
+          "code": "GRNI_ESTIMATE_OPEN",
+          "scope": "CURRENT_STATE",
+          "family": "GRNI",
+          "reason": "1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.",
+          "severity": "INFO",
+          "reference": {
+            "receipts": 1,
+            "estimated_amount": 100.0
+          },
+          "impact_date": "2026-10-18"
+        }
+      ]
+    },
+    {
+      "group": "races",
+      "case_id": "PEER_GROUP_TWO_POST_COMMIT",
+      "status": "INCOMPLETE",
+      "readiness": "BLOCKED",
+      "blockers": [
+        {
+          "code": "PAYROLL_WORK_UNCOVERED",
+          "scope": "AS_OF",
+          "family": "PAYROLL",
+          "reason": "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (6 pcs) pada atau sebelum 2026-10-21 belum masuk payroll.",
+          "severity": "POLICY",
+          "reference": {
+            "lines": 1,
+            "contractor_id": "a1000000-0000-0000-0000-000000000001",
+            "remaining_qty": 6,
+            "remaining_amount": 7.5,
+            "first_eligible_at": "2026-10-19T10:00:00+07:00"
+          },
+          "impact_date": "2026-10-19"
+        }
+      ],
+      "info": [
+        {
+          "code": "GRNI_ESTIMATE_OPEN",
+          "scope": "CURRENT_STATE",
+          "family": "GRNI",
+          "reason": "1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.",
+          "severity": "INFO",
+          "reference": {
+            "receipts": 1,
+            "estimated_amount": 100.0
+          },
+          "impact_date": "2026-10-18"
+        }
+      ]
+    },
+    {
+      "group": "races",
+      "case_id": "PEER_GROUP_TWO_POST_ABORT",
+      "status": "INCOMPLETE",
+      "readiness": "BLOCKED",
+      "blockers": [
+        {
+          "code": "PAYROLL_WORK_UNCOVERED",
+          "scope": "AS_OF",
+          "family": "PAYROLL",
+          "reason": "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (6 pcs) pada atau sebelum 2026-10-21 belum masuk payroll.",
+          "severity": "POLICY",
+          "reference": {
+            "lines": 1,
+            "contractor_id": "a1000000-0000-0000-0000-000000000001",
+            "remaining_qty": 6,
+            "remaining_amount": 7.5,
+            "first_eligible_at": "2026-10-19T10:00:00+07:00"
+          },
+          "impact_date": "2026-10-19"
+        }
+      ],
+      "info": [
+        {
+          "code": "GRNI_ESTIMATE_OPEN",
+          "scope": "CURRENT_STATE",
+          "family": "GRNI",
+          "reason": "1 penerimaan bahan masih memakai estimasi GRNI (total 100.000000000000); boleh ditutup dengan estimasi.",
+          "severity": "INFO",
+          "reference": {
+            "receipts": 1,
+            "estimated_amount": 100.0
+          },
+          "impact_date": "2026-10-18"
+        }
+      ]
+    }
+  ],
+  "findings": [
+    "Thirteen shared failures in each baseline/current occur at the final READY assertion after a work-source race.",
+    "Every actual report has exactly PAYROLL_WORK_UNCOVERED as blocker; GRNI_ESTIMATE_OPEN is INFO, not a blocker.",
+    "Native work posting and source/header/quantity assertions precede the failed readiness read.",
+    "The race outcomes do not prove the whole legacy case passed; original status remains INCOMPLETE.",
+    "A lawful successor must explicitly link newly posted payable work through Native payroll before retaining the unchanged final READY assertion.",
+    "Known positive work rates and quantities must be preserved exactly; the separate known-zero CashLinked3 prerequisite cannot be reused unchanged.",
+    "Any successor must preserve actual two-session waits, commit/abort assertions, exact work journals, immutable source rows, Native overlap guard and previous payroll history."
+  ],
+  "new_runtime_execution": false,
+  "production_go": false,
+  "independent_acceptance": false
+}
