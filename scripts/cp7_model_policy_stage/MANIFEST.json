@@ -1,0 +1,40 @@
+{
+  "contract": "cp7.model-policy-stage.v1",
+  "sql_sha256": "36eb75182f9100331d1afea39f7d2e48d690eef167b03a7919a897d6d5c1279a",
+  "functions": [
+    "cp7_model_activation_gate.policy(jsonb)",
+    "cp7_model_activation_gate.decide(jsonb,jsonb,jsonb,jsonb)",
+    "cp7_model_policy.access_now(boolean)",
+    "cp7_model_policy.template()",
+    "cp7_model_policy.source_at(timestamp with time zone)",
+    "cp7_model_policy.workspace()",
+    "cp7_model_policy.apply(jsonb,uuid)",
+    "public.erp_cp7_get_model_activation_policy_v1()",
+    "public.erp_cp7_save_model_activation_policy_v1(jsonb,uuid)"
+  ],
+  "dependencies": [
+    "cp7_schedule_native.access_now(boolean)",
+    "cp7_private.access_now()",
+    "cp7_private.immutable_run()",
+    "erp.has_permission(text)",
+    "cp7_planning.utc(timestamp with time zone)",
+    "cp7_wip.fields(jsonb,text[])",
+    "cp7_wip.key(jsonb)",
+    "cp7_wip.pcs(jsonb)",
+    "cp7_demand.instant(jsonb)",
+    "cp7_demand.items(jsonb,integer)",
+    "cp7_models.promotion(jsonb,jsonb,jsonb)",
+    "cp7_model_native.build(jsonb)"
+  ],
+  "private_functions": 7,
+  "public_rpcs": 2,
+  "new_tables": 2,
+  "existing_replacements": 0,
+  "default_policy_created": false,
+  "forecast_applied": false,
+  "production_go": false,
+  "registry_fk_triggers": [
+    "cp7_model_native.registry:cp7_model_policy.policies:policies_registry_id_fkey:\"RI_FKey_noaction_del\"():9",
+    "cp7_model_native.registry:cp7_model_policy.policies:policies_registry_id_fkey:\"RI_FKey_noaction_upd\"():17"
+  ]
+}

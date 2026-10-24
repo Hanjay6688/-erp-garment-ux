@@ -1,0 +1,157 @@
+{
+  "contract": "cp7.model-evaluation-v2-native6-original-receipt.v1",
+  "head": "2263a57690d632776c115ef63c1ce152182dc978",
+  "run_id": 40102386940,
+  "job_id": 120897019843,
+  "job_conclusion": "success",
+  "original_json_artifact_id": 12563199519,
+  "original_zip_sha256": "fc7bb1bebf0e75ad8296d8169af3ade8db1c98c7870a1b7807c8b534aca4c4d7",
+  "status": "PASS",
+  "counts": {
+    "PASS": 6
+  },
+  "required_case_ids_pass": true,
+  "required_case_counts_pass": true,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "auth_users_before": 0,
+  "auth_users_after": 0,
+  "cases": {
+    "OW11_MODEL_V2_CATALOG22_COMPOSED_PREUSE_DEPENDENCY": {
+      "status": "PASS",
+      "exact_catalog22_composed_preuse_inverse": true,
+      "private7_public2_table1_replacements0": true,
+      "dependent_view_partial_DDL_restored": true,
+      "source_sha256": {
+        "cp7_model_evaluation_v2_stage/MANIFEST.json": "a4eb6586d8f347a1cf59fa21387dd23d23eb8ce06d077c1336ca5d4b8fd0a806",
+        "cp7_model_evaluation_v2_stage/__init__.py": "e8aef726e4aab7adee7dfd7293a43bd62ab3d12e1e4b55d0239bce948440fe90",
+        "cp7_model_evaluation_v2_stage/runtime.sql": "4506428f312ea20c47c3d0f4ade748f915dcd091825cf20178ced91be219d6dc",
+        "cp7_model_registry_adapter/MANIFEST.json": "35d1dc241ba7dd604ce262a33b71fc71e2d6d8ff9d7b79b8a0a0a3ee37e10a6c",
+        "cp7_model_registry_adapter/__init__.py": "d44293832c89caf5f470c937ddd548c713cad7a67992bfbb832b615064fd5333",
+        "cp7_model_registry_adapter/adapter.sql": "c41132090a6b8d2b45c30473e43716f1b2519a244b6339841fb28222a31751d3"
+      },
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    "OW11_MODEL_V2_NATIVE_BASELINE_EXACT_REPLAY_V1_UNCHANGED": {
+      "status": "PASS",
+      "actual_Native_history_explicit_baseline": true,
+      "exact_UUID_one_v2_run": true,
+      "same_UUID_v1_separate_immutable_namespace": true,
+      "no_stock_money_HPP_change": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    "OW11_MODEL_V2_ACTUAL_POLICY_CLOCK_NO_POSTHOC_APPROVAL": {
+      "status": "PASS",
+      "actual_recorded_policy_not_backdated": true,
+      "old_capture_never_posthoc_approved": true,
+      "new_capture_uses_explicit_late_registry_baseline": true,
+      "actual_Native_knowledge_clock": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    "OW11_MODEL_V2_NATIVE_POST_SOURCE_WITHDRAWAL_OLD_RESULT": {
+      "status": "PASS",
+      "actual_posted_sale24_retires_source": true,
+      "old_input_result_immutable": true,
+      "stale_new_capture_refused": true,
+      "unknown_availability_never_observed_zero": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    "OW11_MODEL_V2_CURRENT_ACCESS_FOREIGN_CLOSED_QUERY": {
+      "status": "PASS",
+      "actual_current_permission_precedes_committed_replay": true,
+      "foreign_run_history_denied": true,
+      "closed_input_cannot_supply_history_policy_forecast": true,
+      "actual_Auth_HTTP_credit": false,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    "OW11_MODEL_V2_IMMUTABLE_ATOMIC_LAST_ROW_AND_GUARD": {
+      "status": "PASS",
+      "actual_immutable_v2_table": true,
+      "last_row_fault_atomic": true,
+      "unchanged_stored_result_after_failed_capture": true,
+      "changed_engine_current_guard_baseline": true,
+      "no_stock_money_HPP_change": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    }
+  },
+  "assessment_source_header_added_after_this_run": true,
+  "actual_Auth_HTTP_credit": false,
+  "positive_model_winner_only_separate_synthetic_local_fixture": true,
+  "full_OW11_acceptance": false,
+  "full_A_chain_qualified": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

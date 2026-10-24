@@ -1,0 +1,123 @@
+{
+  "contract": "cp7.model-registry-adapter-local.v1",
+  "status": "PASS",
+  "expected": 13,
+  "counts": {
+    "PASS": 13
+  },
+  "cases": [
+    {
+      "id": "LEGACY_DATASET_RESULT_AND_NAMESPACE_UNCHANGED",
+      "status": "PASS",
+      "observed": {
+        "v1_dataset_and_result_byte_meaning_unchanged": true,
+        "no_v1_run_insert_or_UUID_reuse": true
+      }
+    },
+    {
+      "id": "NO_POLICY_RETAINS_BASELINE_WITHOUT_DEFAULT",
+      "status": "PASS",
+      "observed": {
+        "same_capture_knowledge_and_series": true,
+        "no_policy_invented": true
+      }
+    },
+    {
+      "id": "EXPLICIT_PROSPECTIVE_ALLOWED_MODEL_AND_DATED_VECTOR",
+      "status": "PASS",
+      "observed": {
+        "explicit_synthetic_NAIVE100_each_day": true,
+        "paired_MAE": "4",
+        "only_allowed_candidates_compete": true,
+        "no_forecast_consumer_changed": true
+      }
+    },
+    {
+      "id": "ACTUAL_POLICY_WRITE_CANNOT_APPROVE_OLDER_CAPTURE",
+      "status": "PASS",
+      "observed": {
+        "actual_clock_write_not_backdated": true,
+        "old_capture_hash_and_admission_unchanged": true,
+        "controlled_access_only": true
+      }
+    },
+    {
+      "id": "ONE_MICROSECOND_SOURCE_CUTOFF",
+      "status": "PASS",
+      "observed": {
+        "one_microsecond_late_policy_unavailable": true
+      }
+    },
+    {
+      "id": "LATE_REGISTRY_NEVER_BORROWS_OLDER_TECHNICAL_CLOCK",
+      "status": "PASS",
+      "observed": {
+        "technical_registration_does_not_approve_later_thresholds": true
+      }
+    },
+    {
+      "id": "SUSPEND_AND_NEW_POLICY_INVALIDATE_CURRENT_ADMISSION_ONLY",
+      "status": "PASS",
+      "observed": {
+        "historical_evaluation_retained": true,
+        "current_policy_recheck_required_and_fails_closed": true
+      }
+    },
+    {
+      "id": "SUSPENDED_AT_CAPTURE_AND_NO_ALLOWED_METHOD",
+      "status": "PASS",
+      "observed": {
+        "no_implicit_challenger_permission": true
+      }
+    },
+    {
+      "id": "ACTIVE_POLICY_WITH_NO_ALLOWED_METHOD_IS_EXPLICIT_BASELINE",
+      "status": "PASS",
+      "observed": {
+        "empty_permission_is_supported_without_invented_candidate_or_fake_backtest": true
+      }
+    },
+    {
+      "id": "REGISTRY_ID_CLOCK_POLICY_TEMPLATE_AND_NATIVE_DIGEST_SEALED",
+      "status": "PASS",
+      "observed": {
+        "five_registry_mutations_and_native_series_mutation_refused": true
+      }
+    },
+    {
+      "id": "ASSESSMENT_HASH_ENGINE_SOURCE_HORIZON_AND_DAY_BOUND",
+      "status": "PASS",
+      "observed": {
+        "no_mutated_dataset_or_stale_vector_used": true
+      }
+    },
+    {
+      "id": "ACTOR_SCOPE_AND_UNKNOWN_SIZE_STAY_NATIVE_FAIL_CLOSED",
+      "status": "PASS",
+      "observed": {
+        "actual_native_dataset_ownership_checks_reused": true,
+        "actual_Auth_HTTP_credit": false
+      }
+    },
+    {
+      "id": "SOURCE_HASH_BINDS_QUERY_POLICY_AND_ENGINE_NO_NEW_WRITES",
+      "status": "PASS",
+      "observed": {
+        "query_and_engine_in_digest": true,
+        "private4_public0_table0_replacement0": true,
+        "no_automatic_evaluation_capture": true
+      }
+    }
+  ],
+  "sql_sha256": "c41132090a6b8d2b45c30473e43716f1b2519a244b6339841fb28222a31751d3",
+  "actual_SQL": true,
+  "actual_existing_native_dataset_and_model_build": true,
+  "explicit_synthetic_history_capture_rows_and_past_policy": true,
+  "controlled_access_and_sha256_digest_adapter": true,
+  "actual_Native_capture": false,
+  "actual_Auth_HTTP_credit": false,
+  "catalog22_qualified": false,
+  "public_v2_capture_or_target_consumer": false,
+  "forecast_applied": false,
+  "production_go": false
+}

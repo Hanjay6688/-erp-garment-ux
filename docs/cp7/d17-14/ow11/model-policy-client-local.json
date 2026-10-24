@@ -1,0 +1,44 @@
+{
+  "contract": "cp7.model-policy-client-local.v1",
+  "actual_SQL_fixture": true,
+  "controlled_access_standins": true,
+  "tests": {
+    "total": 69,
+    "passed": 69,
+    "failed": 0
+  },
+  "test_files": [
+    {
+      "name": "NativeDemandHistoryPanel.dom.test.tsx",
+      "count": 9,
+      "status": "passed"
+    },
+    {
+      "name": "NativeModelEvaluationPanel.dom.test.tsx",
+      "count": 6,
+      "status": "passed"
+    },
+    {
+      "name": "NativeModelPolicyPanel.dom.test.tsx",
+      "count": 10,
+      "status": "passed"
+    },
+    {
+      "name": "nativeModelEvaluation.test.ts",
+      "count": 15,
+      "status": "passed"
+    },
+    {
+      "name": "nativeModelPolicy.test.ts",
+      "count": 29,
+      "status": "passed"
+    }
+  ],
+  "typescript": true,
+  "css_ownership64": true,
+  "shared_source_registry_pending_pairs": 22,
+  "shared_registry_modified": false,
+  "actual_Auth_HTTP_credit": false,
+  "actual_browser": false,
+  "production_go": false
+}

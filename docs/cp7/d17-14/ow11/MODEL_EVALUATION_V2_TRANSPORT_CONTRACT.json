@@ -1,0 +1,77 @@
+{
+  "contract": "cp7.ow11.model-evaluation-v2-transport.v1",
+  "expected_case_count": 10,
+  "required_case_counts": {
+    "native": 1,
+    "races": 6,
+    "http": 3
+  },
+  "required_case_ids": {
+    "native": [
+      "OW11_MODEL_V2_CATALOG22_COMPOSED_PREUSE_DEPENDENCY"
+    ],
+    "races": [
+      "OW11_MODEL_V2_RACE_SAME_UUID",
+      "OW11_MODEL_V2_RACE_CHANGED_SAME_UUID",
+      "OW11_MODEL_V2_RACE_ACCESS_AFTER_ENVELOPE",
+      "OW11_MODEL_V2_RACE_REPLAY_AFTER_REQUEST",
+      "OW11_MODEL_V2_RACE_POLICY_AFTER_ENVELOPE",
+      "OW11_MODEL_V2_RACE_SOURCE_AFTER_ENVELOPE"
+    ],
+    "http": [
+      "OW11_MODEL_V2_AUTH_CAPTURE_READ_EXACT_REPLAY",
+      "OW11_MODEL_V2_AUTH_REVOKED_FOREIGN_ANON",
+      "OW11_MODEL_V2_AUTH_CURRENT_POLICY_AND_POSTED_SOURCE"
+    ]
+  },
+  "public_rpcs": [
+    "erp_cp7_get_alerts_v1",
+    "erp_cp7_get_wa_settings_v1",
+    "erp_cp7_save_wa_settings_v1",
+    "erp_cp7_set_wa_key_v1",
+    "erp_cp7_send_wa_test_v1",
+    "erp_cp7_resolve_wa_dispatch_v1",
+    "erp_cp7_get_fg_reorder_v1",
+    "erp_cp7_refresh_fg_reorder_v1",
+    "erp_cp7_save_fg_reorder_manual_v1",
+    "erp_cp7_save_stock_formula_settings_v1",
+    "erp_cp7_get_material_reorder_v1",
+    "erp_cp7_refresh_material_reorder_v1",
+    "erp_cp7_save_material_reorder_v1",
+    "erp_cp7_request_staged_analysis_v1",
+    "erp_cp7_get_staged_analysis_v1",
+    "erp_cp7_step_staged_analysis_v1",
+    "erp_cp7_get_planning_profiles_v1",
+    "erp_cp7_save_planning_profile_v1",
+    "erp_cp7_capture_baseline_v1",
+    "erp_cp7_save_cutting_suggestion_v1",
+    "erp_cp7_get_staged_production_schedule_v1",
+    "erp_cp7_save_staged_production_schedule_v1",
+    "erp_cp7_request_bounded_staged_analysis_v1",
+    "erp_cp7_get_model_activation_policy_v1",
+    "erp_cp7_save_model_activation_policy_v1",
+    "erp_cp7_capture_model_evaluation_v2",
+    "erp_cp7_read_model_evaluation_v2"
+  ],
+  "schedules": [
+    "erp-wa-collect",
+    "erp-wa-send",
+    "erp-wa-analysis"
+  ],
+  "private_functions_added": 7,
+  "new_public_rpcs": 2,
+  "new_tables": 1,
+  "existing_replacements": 0,
+  "parent_preuse_stages": 12,
+  "policy_and_v2_inside_rollback_cases": true,
+  "Native_historical_clock_backdated": false,
+  "legacy_model_v1_unchanged": true,
+  "positive_winner_credit": "SEPARATE_LOCAL_SYNTHETIC_FIXTURE_ONLY",
+  "actual_Auth_HTTP_credit": false,
+  "concurrency_test": true,
+  "forecast_applied": false,
+  "full_A_chain_qualified": false,
+  "production_go": false,
+  "repeated_catalog_anchor_case_credit": 0,
+  "qualification_requires_complete_original": true
+}

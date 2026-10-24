@@ -1,0 +1,39 @@
+{
+  "contract": "cp7.model-policy-v2-source-integration-local-checks.v1",
+  "A_parent": "b8aea6e3e02b4bb8c21bbe7cc5505d0e7b2e612e",
+  "B_parent": "077ff7feb25be69a3a37f8cd6573a67b95e4ad62",
+  "true_merge": true,
+  "A_driver_byte_identical": true,
+  "B_driver_retained_byte_identical": "scripts/cp7_b_model_f05_candidate.py",
+  "frontend_tests": {
+    "files": 15,
+    "PASS": 264
+  },
+  "typescript": "PASS",
+  "source_ownership": {
+    "runtime_files": 380,
+    "RPC_boundaries": 322,
+    "orphan_sources": 0,
+    "direct_table_access": 0
+  },
+  "access_ownership": {
+    "backend_permissions": 111,
+    "navigation_labels": 47,
+    "routes": 48,
+    "sensitive_actions": 21,
+    "browser_RPC_boundaries": 322
+  },
+  "css_ownership": {
+    "stylesheets": 64,
+    "unowned_selector_branches": 0
+  },
+  "first_local_access_check": {
+    "actual": 322,
+    "expected_old_sum": 318,
+    "status": "FAIL",
+    "correction": "Include the exact lengths of the two newly declared RPC arrays in the existing total formula; no product/oracle change"
+  },
+  "new_composed_model_installation_or_runtime_claim": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

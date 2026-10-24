@@ -1,0 +1,81 @@
+{
+  "contract": "cp7.ow11.model-policy-transport.v1",
+  "expected_case_count": 10,
+  "required_case_counts": {
+    "native": 1,
+    "races": 6,
+    "http": 3
+  },
+  "required_case_ids": {
+    "native": [
+      "OW11_MODEL_POLICY_CATALOG22_PREUSE_DEPENDENCY"
+    ],
+    "races": [
+      "OW11_MODEL_POLICY_RACE_SAME_UUID",
+      "OW11_MODEL_POLICY_RACE_REVISION",
+      "OW11_MODEL_POLICY_RACE_ACCESS_AFTER_ENVELOPE",
+      "OW11_MODEL_POLICY_RACE_REPLAY_AFTER_REQUEST",
+      "OW11_MODEL_POLICY_RACE_ACCESS_AFTER_POLICY",
+      "OW11_MODEL_POLICY_RACE_ROLE_CHANGE_AFTER_ENVELOPE"
+    ],
+    "http": [
+      "OW11_MODEL_POLICY_AUTH_SET_SUSPEND_EXACT_REPLAY",
+      "OW11_MODEL_POLICY_AUTH_REVOKED_COMMITTED_REPLAY",
+      "OW11_MODEL_POLICY_AUTH_ANON_READER_FOREIGN_EPOCH"
+    ]
+  },
+  "public_rpcs": [
+    "erp_cp7_get_alerts_v1",
+    "erp_cp7_get_wa_settings_v1",
+    "erp_cp7_save_wa_settings_v1",
+    "erp_cp7_set_wa_key_v1",
+    "erp_cp7_send_wa_test_v1",
+    "erp_cp7_resolve_wa_dispatch_v1",
+    "erp_cp7_get_fg_reorder_v1",
+    "erp_cp7_refresh_fg_reorder_v1",
+    "erp_cp7_save_fg_reorder_manual_v1",
+    "erp_cp7_save_stock_formula_settings_v1",
+    "erp_cp7_get_material_reorder_v1",
+    "erp_cp7_refresh_material_reorder_v1",
+    "erp_cp7_save_material_reorder_v1",
+    "erp_cp7_request_staged_analysis_v1",
+    "erp_cp7_get_staged_analysis_v1",
+    "erp_cp7_step_staged_analysis_v1",
+    "erp_cp7_get_planning_profiles_v1",
+    "erp_cp7_save_planning_profile_v1",
+    "erp_cp7_capture_baseline_v1",
+    "erp_cp7_save_cutting_suggestion_v1",
+    "erp_cp7_get_staged_production_schedule_v1",
+    "erp_cp7_save_staged_production_schedule_v1",
+    "erp_cp7_request_bounded_staged_analysis_v1",
+    "erp_cp7_get_model_activation_policy_v1",
+    "erp_cp7_save_model_activation_policy_v1"
+  ],
+  "schedules": [
+    "erp-wa-collect",
+    "erp-wa-send",
+    "erp-wa-analysis"
+  ],
+  "parent_install_preuse_stages": 12,
+  "policy_only_in_disposable_copies": true,
+  "repeated_catalog_anchor_case_credit": 0,
+  "explicit_SYNTHETIC_thresholds": {
+    "minimum_training_days": "20",
+    "maximum_horizon_days": "90",
+    "allowed_methods": [
+      "NAIVE"
+    ],
+    "promotion": {
+      "minimum_complete_folds": "3",
+      "minimum_mae_improvement": "0",
+      "maximum_bias_worsening": "0",
+      "maximum_tail_worsening": "0",
+      "season_lag": "7"
+    }
+  },
+  "concurrency_test": true,
+  "actual_Auth_HTTP": true,
+  "forecast_applied": false,
+  "full_OW11_acceptance": false,
+  "production_go": false
+}

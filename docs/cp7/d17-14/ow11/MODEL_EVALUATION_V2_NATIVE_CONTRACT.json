@@ -1,0 +1,65 @@
+{
+  "contract": "cp7.ow11.model-evaluation-v2-native.v1",
+  "expected_case_count": 6,
+  "required_case_counts": {
+    "native": 6
+  },
+  "required_case_ids": {
+    "native": [
+      "OW11_MODEL_V2_CATALOG22_COMPOSED_PREUSE_DEPENDENCY",
+      "OW11_MODEL_V2_NATIVE_BASELINE_EXACT_REPLAY_V1_UNCHANGED",
+      "OW11_MODEL_V2_ACTUAL_POLICY_CLOCK_NO_POSTHOC_APPROVAL",
+      "OW11_MODEL_V2_NATIVE_POST_SOURCE_WITHDRAWAL_OLD_RESULT",
+      "OW11_MODEL_V2_CURRENT_ACCESS_FOREIGN_CLOSED_QUERY",
+      "OW11_MODEL_V2_IMMUTABLE_ATOMIC_LAST_ROW_AND_GUARD"
+    ]
+  },
+  "public_rpcs": [
+    "erp_cp7_get_alerts_v1",
+    "erp_cp7_get_wa_settings_v1",
+    "erp_cp7_save_wa_settings_v1",
+    "erp_cp7_set_wa_key_v1",
+    "erp_cp7_send_wa_test_v1",
+    "erp_cp7_resolve_wa_dispatch_v1",
+    "erp_cp7_get_fg_reorder_v1",
+    "erp_cp7_refresh_fg_reorder_v1",
+    "erp_cp7_save_fg_reorder_manual_v1",
+    "erp_cp7_save_stock_formula_settings_v1",
+    "erp_cp7_get_material_reorder_v1",
+    "erp_cp7_refresh_material_reorder_v1",
+    "erp_cp7_save_material_reorder_v1",
+    "erp_cp7_request_staged_analysis_v1",
+    "erp_cp7_get_staged_analysis_v1",
+    "erp_cp7_step_staged_analysis_v1",
+    "erp_cp7_get_planning_profiles_v1",
+    "erp_cp7_save_planning_profile_v1",
+    "erp_cp7_capture_baseline_v1",
+    "erp_cp7_save_cutting_suggestion_v1",
+    "erp_cp7_get_staged_production_schedule_v1",
+    "erp_cp7_save_staged_production_schedule_v1",
+    "erp_cp7_request_bounded_staged_analysis_v1",
+    "erp_cp7_get_model_activation_policy_v1",
+    "erp_cp7_save_model_activation_policy_v1",
+    "erp_cp7_capture_model_evaluation_v2",
+    "erp_cp7_read_model_evaluation_v2"
+  ],
+  "schedules": [
+    "erp-wa-collect",
+    "erp-wa-send",
+    "erp-wa-analysis"
+  ],
+  "private_functions_added": 7,
+  "new_public_rpcs": 2,
+  "new_tables": 1,
+  "existing_replacements": 0,
+  "parent_preuse_stages": 12,
+  "policy_and_v2_inside_rollback_cases": true,
+  "Native_historical_clock_backdated": false,
+  "legacy_model_v1_unchanged": true,
+  "positive_winner_credit": "SEPARATE_LOCAL_SYNTHETIC_FIXTURE_ONLY",
+  "actual_Auth_HTTP_credit": false,
+  "concurrency_test": false,
+  "forecast_applied": false,
+  "full_A_chain_qualified": false,
+  "production_go": false
+}

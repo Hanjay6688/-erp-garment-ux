@@ -2225,3 +2225,217 @@ dengan oracle NAIVE100x7 dan pairedMAE4. First duplicate-schema bootstrap failur
 disimpan; SQL/PLpgSQL/clash PASS. Tidak ada Native/Auth/catalog22/activation
 atau accuracy credit. Policy writer/registry adapter dan target consumer masih
 berikutnya; seluruh default A/qualified files tetap. Induk5/16, productionfalse.
+
+## 86. B24 Oktober2026 — consumer Native6 dan provenance Native3 PASS
+
+Original lengkap diverifikasi: consumer587586e/run40094445617/job120873653730
+artifact12560738865 SHA97a393c135b1ef686bda27ff2d0230f33158f0e5fa34aa7754372e89e0c4667e
+dan provenance5b8b207/run40096022119/job120878349700 artifact12560648419
+SHA3191539542571e76a05b5ce0f79a6ecfd2e14a26748a3c305a52b633b92000ed.
+6/6 dan3/3, seluruh ID/count, cp6/advisor/5packagegates true; Auth0 kembali0,
+session/lock bocor0. First incomplete masing-masing tetap tersimpan.
+Native posted sale1PCS/3hari menghasilkan target1PCS identik direct/staged/
+bounded/reorder, own sales/hari tetap; CLEAR kembaliUNKNOWN, manual6 menang,
+source lain/atomic fault ditolak. Dense2023produk/202022digest: confirm5494.422ms,
+step terlama380.392ms, dua source checks, batas8s tetap; bukan SLA pabrik.
+Provenance reader v2/current access/hasil lama dan public reorder v2/CLEAR
+cache lolos. Browser2 consumer terpisah sudah qualified; ROP UI belum.
+
+## 87. B24 Oktober2026 — explicit model policy metadata candidate
+
+Stage terpisah7private+2public/2tables/2schemas/0replacement; tidak dipasang
+default dan tidak mengaktifkanforecast. OWNER/ADMIN meninjau semua ambang
+secara eksplisit; SET/SUSPEND menambah policy+registry+command atomik dengan
+clockaktual, tidak mengubah riwayat. Tidak ada nilai kebijakan pabrik bawaan.
+10 actual SQL lokal PASS (controlled access, bukan Native/Auth); first salah
+nama pesan immutable disimpan. Native6 dideklarasikan untuk katalog22,
+lifecycle/clock/permission/CAS/atomic; menunggu CI. Consumertransport10 lama
+masih berjalan. FullAchain/afteruse/modelactivation/OW11 belum selesai.
+
+## 88. B24 Oktober2026 — consumertransport10 Original lengkap; job cancelled
+
+4477093/run40094861326/job120874876131: Nativeanchor1+races6+AuthHTTP3 PASS.
+Original12561657183 SHA9c952dd8ad074fb841a704851c7b46d7d01f5076b4f74c2bc31da2fb755455ea
+dibaca lengkap:10ID/count, cp6/advisor,5packagegatestrue,Auth0/0/0/0pulih,
+copyrace/http0. Paket sempat ditulis sebelum45mincancel; job tetapCANCELLED,
+bukan suksesCI penuh. Always cleanup/artifact sukses. Full log disimpan.
+Fresh target setelahrace, sameUUID/CAS, semua tiga wait/revoke, stocksource
+berubah, HTTPnew/retained/CLEAR/provenance lulus. Tidak ulang demi badge.
+
+## 89. B24 Oktober2026 — policy Native first admission failure dan client69
+
+e0284f6/run40097458641:6INCOMPLETE karena deklarasi belum memasukkan tepat2
+triggerFK di sisi registry. Seluruh kasus berhenti di admission; bukanPASS
+fungsi. FirstOriginal12561642820 SHA83e52f944a0d00b0b0b399f9d20a8e8c8b1507f64cdac70175f626c27b984b0c
+dan log lengkap dipertahankan. Koreksi hanya deklarasi2identitasFK exact,
+manifest/verify; SQL/ACL/budgettetap, tidak whitelist seluruhparenttable.
+
+Form kebijakanterpisah dari evaluasiv1, kosongtanpaambang/metodebawaan,
+copyversitersimpan eksplisit; reviewresetsetiapeditor; SET/SUSPEND recovery
+UUID/payload/prior exact, locks, stale-tab dan403retireparentFG/HPP.69client/DOM
+PASS,TS/CSS64PASS. ActualSQLfixturefull8model, bukanactualAuthbrowser.
+Registryproposal22pair(20lama+2policy),373files/317RPCpass pada salinanusulan;
+filebersamaA tidakdiubah. CorrectedNative6 danactualBrowser2dideklarasikan,
+hasilmenunggu. Induk5/16, modelactivation/fullOW11/productiontetapfalse.
+
+## 90. B24 Oktober2026 — policy transport10 candidate
+
+Kandidat2b3ddd26 menjalankan corrected Native6 run40098897360 dan actual
+Browser2 run40098897426. Kandidat tetap; tahap berikut terpisah policytransport10:
+catalog anchor1, actual backend races6, AuthHTTP3. Race mencakup UUID sama,
+CAS, pencabutan akses di envelope/request/policy wait serta perubahan owner
+ke auditor. HTTP membuktikan SET/SUSPEND, exact old replay, revoked token,
+anon/auditor/foreign epoch dan owner kedua memakai epoch miliknya sendiri.
+Global policy bukan snapshot pribadi. Tidak ada orphan pada triple registry/
+policy/command; angka stok/uang/HPP tetap. Static declarations/guard/parse PASS;
+runtime belum. SQL/default/qualified cases tidak berubah; 8s/45min tetap.
+
+## 91. B24 Oktober2026 — model policy Native6 PASS; browser first incomplete
+
+2b3ddd26/run40098897360/job120886791596 Original12562431835
+SHAce323897d96b3dda84d206a8ce8ea91436bfa5d0edf52e24b9b70d5f63960d86:
+6PASS, ID/count/cp6/advisor/5packagegates true; Auth0→0, seluruh kasus
+pulih dan lock/session0. Metadata append/replay/suspend, microsecond clock,
+owner/admin/current access,11 invalid cases, exact catalog22/dependency and
+last-command atomic fault lolos. SQL sama dengan first failure retained.
+
+Browser2 run40098897426/job120886791954 Original12562595876
+SHA9dad67f7a19c597014ab407446a0712f28fae95b8614058bac0da23729442d09:
+2INCOMPLETE, bukanPASS. Kedua journey melewati actual commit/lost reply/reload
+exact replay/suspend/no-effects/403 assertions; screenshot REVOKED kemudian
+menunggu panel yang memang sudah unmounted oleh parent access retirement.
+Capture diarahkan ke search yang bertahan setelah explicit policy/model count0;
+firstOriginal/log tetap. Actual mobile review diperiksa; input/checkbox memakai
+style terisolasi agar checkbox tidak mewarisi width100%. DOM16/TS/CSS64 PASS;
+behavior/SQL/ambang/budget tetap. Corrected actual browser masih perlu Original.
+Transport10 fc6ff132/run40099304591 masih berjalan; tidak diberi kredit dulu.
+Induk5/16, fullOW11/fullAchain/forecastactivation/production tetapfalse.
+
+## 92. B24 Oktober2026 — policy Browser2 PASS dan registry adapter13 lokal
+
+7027ac9/run40100084308/job120890262684 Original12562127995
+SHA6e3883fc3324b945dae2c6e06e99e01c016882cb11d63353ad26b3df3b7e7517:
+2PASS, requiredIDs/count/cp6/advisor/5packagegates true, Auth0/0/0/0pulih,
+copyDB0/session0/console0. Actual commit→lost reply→reload exactUUID/payload/
+receipt, appendSUSPEND dan revoke403→retirepolicy/model/parentFG/HPP terbukti
+di390/1440. Reviewdesktop/revokemobile diperiksa; gambar tetap lokal. First
+2INCOMPLETE tidak dihapus. Kebijakan tetap metadata, belum forecastactivation.
+
+Private prospective registryadapterv2 baru4fungsi/0RPC/table/replacement:
+reuses actual Native extractor/build, policy selected at actual capture clock,
+exact registry/clock/template/promotions binding, only explicitly allowed
+challengers compete, full vector retained. Later policy never approves old
+capture; current policy withdrawal defeats admission while old evaluation stays.
+13actualSQL lokalPASS pada100 synthetic capture rows/past policy, bukanNative
+history/Auth/catalog22/accuracy. First8PASS4FAIL retained: empty challengers
+needed explicit baseline-only path; expected-refusal tests needed savepoints.
+Legacyv1 tetap identik. Berikutnya immutablev2 capture/read dan targetconsumer.
+
+## 93. B24 Oktober2026 — policy transport10 Original PASS
+
+fc6ff132/run40099304591/job120887966560 Original12563070704
+SHA2d87674ccafa1639bec5fc37d70285085356c2c3128b5e20b58bf9692164aa53:
+Nativeanchor1+races6+actualAuthHTTP3PASS, jobsuccess, ID/count/cp6/advisor/
+5packagegatestrue. Auth0/0/0/0pulih, race/httpcopyDB0, sessionleaks0. SameUUID
+exactonepair, CASonewinner; observed envelope/request/policy waits recheck
+currentactive/role before replay; no orphan policy/registry/command. Actual
+HTTP SET/SUSPEND/replay, revoked oldtoken, anon/auditor/foreign epoch and
+authorized secondownerownfresh epoch terbukti. Scope tetapmetadata; tidak
+mengaktifkanforecast atau memberikredit fullOW11/fullAchain/independentaudit.
+
+## 94. B24 Oktober2026 — immutable model evaluationv2 candidate
+
+Stage terpisah7private+2public/1table/1schema/0replacement; policyparent harus
+diverifikasi eksplisit, bukan defaultinstaller. V2 menyimpan dataset/assessment
+immutable dengan requestnamespace tersendiri dan exactrawpayload. Read mengirim
+assessment lama utuh +current_guard terpisah (source/policy/engine/date/access),
+tidak mengulang model. Globalenvelope/requestwait recheckaccess; stalehistory
+menolak capturebaru. Forecast belum dipakai target. Exact4parentFKtrigger
+dideklarasikan, preuseinverseRESTRICT/savepoint; afteruserequirescomposedrestore.
+
+8actualSQL lokalPASS, registry13retainedPASS; fixturehistoris/policy synthetic
+dan access/freshnesscontrolled, bukanNative/Auth. First8FAIL karena localstub
+belum meniru existingextensionsUSAGEgrant disimpan; SQL tidakdiubah untuk itu.
+Native6 terpisahdideklarasikan untuk actualcapturereplay/v1/clock/sourcepost/
+access/atomic/catalog22, tidakbackdatehistorydemimodelwin. Python/SQL/sourcepins/
+negativeparent-budget/narrowFKguardsPASS, lama31/25/19 dan8s/45mintetap.
+Clientv2/actualAuth-races-browser/activation-targetconsumer/fullAchain masih
+berikutnya; induk5/16 danproductionfalse.
+
+## 95. B24 Oktober2026 — model evaluationv2 Native6 Original PASS; client candidate
+
+2263a57/run40102386940/job120897019843 Original12563199519
+SHAfc7bb1bebf0e75ad8296d8169af3ade8db1c98c7870a1b7807c8b534aca4c4d7:
+6PASS, requiredIDs/count/cp6/advisor/5packagegatestrue, Auth0→0; setiapcase
+fullboundary/publicunchanged, advisory/sessionleaks0. Actualhistory baseline,
+namespacev1/2terpisah, actualpolicyclock/noposthocapproval, SALE24sourceretirement,
+currentaccess/foreign/closedquery, immutable/finalrowatomic terbukti. Positive
+modelwinner tetap hanya fixturesynthetic; bukanactualNativehistoricalaccuracy.
+
+Clientv2 terpisah memakai exactactor/method/UUID/query, durablepending sebelum
+RPC, replaytanpabuatUUIDbaru, current403retiresfacts, stale-tab/late-reply guard,
+sharedbrowserlock, dan current_guard terpisah dari immutableassessment. UI
+menampilkan arsipvectorbertanggal, syaratkebijakan dan alasanmetodedasar. Belum
+memakai forecastpada target. Header sumber selaluada ditambah ke assessment
+agar policytanpachallenger tetapmengidentifikasi snapshot; Native6 diatas
+mendahului perubahanheader ini dan tidak diberikredituntukheaderbaru.
+
+Lokal9actualSQLPASS (controlled synthetic, bukanNative/Auth); 102client/DOM
+PASS6files, TypeScript/CSS64PASS. Firstclient24PASS4FAIL tersimpan: test salah
+mengharapkan trailingzeros pada fallbackmean, actualSQL string tetap50.5;
+oracle diperbaiki ke stringactual tanpaformatulang. A sourcechecker tetapSHA
+f1148cb535181a28a1792723400746a88f6025e217ebef58264ece39d2140333.
+Usulan tambahan2RPCv2 (combined24pairs) diuji hanya pada copy:375runtimefiles,
+319RPCboundariesPASS; fileA/default/types/installer tidakdiubah.
+ActualAuth/races/browserv2 dan targetconsumer/fullAchain masihterbuka;
+induk5/16, independentacceptancefalse, productionfalse.
+
+## 96. B24 Oktober2026 — v2 actual Browser2 candidate
+
+Separate2browserbudget menambah isolated policy+v2install hanya pada disposable
+browsercopy. Native6tetap6; lama31/25/19 dan8s/45mintetap. ActualAuth mobile390/
+desktop1440 menguji actualcommit/lostreply/reload/exactactorUUIDmethodpayload,
+immutableassessment vs currentpolicyguard, explicitallowedempty dengan source
+header tanpafakebacktest, actualpostedSALEsource retirement, current403retire
+parentFG/HPP dan dirtysearchtetap. Policychange lewat actualAuthHTTP; policyUI
+sudahpunya suite tersendiri. Tidakbackdatehistory/registryuntukpositivewinner.
+StaticPython/Node/YAML/declaration/sourcepins/budgetnegativePASS; belumkredit
+runtime sebelum completeOriginal. Native6headerbaru1d2318ea/run40104010474 dan
+retainedpolicyBrowser2/run40104010507 masihjalan, hasilbelumditandaiPASS.
+
+## 97. B24 Oktober2026 — v2 Transport10 candidate
+
+Separate1catalog+6races+3actualAuthHTTPbudget. Catalog anchor tidak menambah
+kredit fiturlama; dua backend harus terbukti menunggu envelope/request lock.
+SameUUID menghasilkan satu immutable run, changedpayloadsameUUID tepat satu
+refusal; currentaccess setelah kedua wait, policycommit saat envelopewait tidak
+mengesahkanhistorylama, actualSALE saat wait membuat stale capturebaru ditolak.
+HTTP memakai actualAuth dan actualNativehistorycapture, read/replay immutable,
+closedquery/foreign/anonymous/currentrevoked serta policy/source retirement.
+Tidakbackdatehistory, tidakforecastactivation. StaticPython/YAML/sourcepins/
+declaration/group-budget guardsPASS; runtime belumdikreditkan. F05flagbaru
+terpisah, default/migrasi/Atypes/sharedregistry tidakdiubah, 8s/45mintetap.
+
+
+## A — kandidat true merge policy dan model v2 dari B077ff7fe (24 Oktober 2026)
+
+A memasukkan perubahan B sampai077ff7fe ke kandidat terpisah, di atas current
+consumer8693874b beserta intakeb8aea6e3. Native6 policy/Browser2/Transport10
+dan Native6 v2 headerbaru telah dibaca dari Original aktual; rincian intake
+tersimpan di ow15. Browser/transport v2 belum menjadi klaim lulus A.
+
+Konflik tunggal driver bersama diselesaikan dengan mempertahankan byte driver
+A `cp7_f05_analysis_probe.py`; driver B077 disalin utuh sebagai
+`cp7_b_model_f05_candidate.py`. Tidak menggabungkan flag atau melonggarkan budget
+lama. Checker source/access A menerima tepat empat boundary RPC baru dari
+kontrak policy/v2 milik B. SourceSQL, test asli dan UI B dipertahankan.
+
+Ini kandidat integrasi sumber; pemasang model fullA/usedrestore/UI/Auth current
+masih harus disusun dan dibuktikan. Tiga run aktif pada kandidat sebelumnya
+(UI6/Auth5race6/financeNative5) tidak diubah. Forecast belum diterapkan ke target.
+Productionfalse/parent5of16/independentacceptancefalse tetap.
+
+Validasi kandidat sumber:264tests/15filesPASS,TypeScriptPASS,380runtimefiles/322RPC
+boundaries/source+accessPASS,CSS64PASS. First localaccesssum318vs322 dipertahankan;
+rumusjumlah ditambah panjang duaarrayRPC baru secaraeksak, bukanmelonggarkan
+batas. Belum ada klaim runtime model pada fullAchain.
