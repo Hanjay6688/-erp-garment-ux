@@ -1708,3 +1708,19 @@ hanya pada periodOFF buatan qualifier yang paid_fraction=0. Di kasus lain
 lubang itu diisiOFF di savepoint. Paidattendance kasus tidakautoapprove;
 ketidakcocokanREADY kebijakan lama tetapakanterlihat. TidakmengubahCP6 beku,
 B,SQLproduk atau oracle lama. Formal5/16/production_go=false tetap.
+
+## A / 24 Oktober 2026 — enam kontrol kontrak eksplisit untuk tujuh ID lama
+
+AI135 pada27ff04fa tetap INCOMPLETE: baseline132/135, current128/135.
+Tiga ekspektasi READY lama bertabrakan dengan kewajiban payroll kerja AW;
+empat penolakan retur memakai pesan guard yang telah berubah. Native6 baru
+menyatakan expected terpisah dan mengikat byte/hash Original AI135 tersebut:
+blokir payroll dengan jumlah/nilai tepat, penyisipan OWNER tanpa perluasan hak,
+penolakan retur atomik pada semua data/sequence/katalog22, serta kontrol retur
+sah dan batas3pcs/refund60. Satu kontrol rebind mewakili dua ID historis.
+
+Dua belas eksekusi baseline/current direncanakan, nol kredit skenario bisnis
+baru. Kegagalan lama tidak dilabel ulang, dikecualikan atau ditutup; penerimaan
+pemetaan tetap pekerjaan auditor independen. Belum ada hasil runtime Native6.
+Race36 dan Crossflow142 pada368ce870 masih berjalan di database disposable.
+SQL produk, integrasi resmi, hosted dan production_go tetap tidak berubah.

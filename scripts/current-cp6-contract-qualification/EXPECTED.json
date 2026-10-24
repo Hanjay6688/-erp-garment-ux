@@ -1,0 +1,50 @@
+{
+  "count": 6,
+  "phases": {
+    "explicit_successor": [
+      "UNPAYROLLED_PARTIAL_WORK_BLOCKS_REPORT",
+      "OWNER_WORK_REFERENCE_BLOCKS_UNTIL_PAYROLLED",
+      "OWNER_VENDOR_REFERENCE_BLOCKS_UNTIL_PAYROLLED",
+      "RETURN_REBOUND_SOURCE_ATOMIC_REFUSAL",
+      "RETURN_ALLOCATION_LIMIT_ATOMIC_REFUSAL",
+      "RETURN_REBOUND_CUSTOMER_ATOMIC_REFUSAL"
+    ]
+  },
+  "legacy_ids": {
+    "UNPAYROLLED_PARTIAL_WORK_BLOCKS_REPORT": [
+      "PARTIAL_WORK"
+    ],
+    "OWNER_WORK_REFERENCE_BLOCKS_UNTIL_PAYROLLED": [
+      "AH_REFERENCE_WORK"
+    ],
+    "OWNER_VENDOR_REFERENCE_BLOCKS_UNTIL_PAYROLLED": [
+      "AH_REFERENCE_VENDOR"
+    ],
+    "RETURN_REBOUND_SOURCE_ATOMIC_REFUSAL": [
+      "SOURCE_REBIND",
+      "AH_SOURCE_REBIND"
+    ],
+    "RETURN_ALLOCATION_LIMIT_ATOMIC_REFUSAL": [
+      "AH_AG_RETURN_SPLIT"
+    ],
+    "RETURN_REBOUND_CUSTOMER_ATOMIC_REFUSAL": [
+      "AH_AG_RETURN_REBIND_CUSTOMER"
+    ]
+  },
+  "refusals": {
+    "SOURCE": {
+      "baseline": "AH_RETURN_ALLOCATION_SOURCE_MISMATCH",
+      "current": "CP7_CREDIT_RETURN_SOURCE_OR_DESTINATION_CHANGED"
+    },
+    "LIMIT": {
+      "baseline": "exceeds quantity originally sold",
+      "current": "AH_RETURN_EXCEEDS_ORIGINAL_ALLOCATION"
+    },
+    "CUSTOMER": {
+      "baseline": "customer does not match original sale customer",
+      "current": "OW04_SOURCE_CUSTOMER_MISMATCH"
+    }
+  },
+  "new_business_cases": 0,
+  "legacy_results_relabelled": false
+}
