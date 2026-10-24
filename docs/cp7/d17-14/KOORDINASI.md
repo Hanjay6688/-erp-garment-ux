@@ -2473,3 +2473,40 @@ disposable Auth/browser copy. Actual browser credit awaits complete Original.
 53bc7b68 correctedTransport7/run40126109440 remains active. Model-target v3
 consumption, shared installer/registry coordination, after-use restore and
 independent acceptance remain open. Formal5/16 and production_go=false.
+
+## 133. B25 Oktober2026 WIB — version-bound latest model selector candidate
+
+New private `cp7_model_evaluation_selection`: two functions, no public method,
+table, replacement or default installation. Select latest actor/physical target
+across immutable global-v2 and scoped-v3; carry runtime, exact reader and UUID.
+Never filter backwards for an eligible winner. Exact timestamp ties prefer v3,
+then UUID within runtime. Read twice, bind original body, compare current guard,
+then recheck actor access, latest selection and WIB date; no forecast arithmetic.
+
+Actual SQL on local PGlite:9PASS with explicitly synthetic tables/readers/access.
+Includes same UUID across runtimes, new baseline over old winner, actor/cutoff,
+source/access/new-run changes during reads and private ACL. First local runner
+syntax failure retained; fixed only invalid await placement. No Native/Auth credit.
+Opt-in installer checks exact22 catalog, private owner/ACL/source/dependencies,
+RESTRICT inverse and external callers. New isolated Native4 candidate declares
+catalog inverse, actual v2/v3 same-request methods, SALE/access and dense2000
+controls. Closed F05 admission and source pins pass; actual Original pending.
+Target source/provenance/cache integration still open. Formal5/16 unchanged.
+
+## 134. B25 Oktober2026 WIB — first scoped browser finding and unreviewed target entry
+
+3a88b488/run40126610568/job120969308934: Original12573743824 (46389 bytes,
+SHA256 a4fad1a86b712705d95eab158b5f9e3e43960db9126ca8a4817c39afeed146a1)
+has2INCOMPLETE before history/model capture. Three current physical targets all
+had unreviewed production policy; server correctly returned zero recommendations.
+The model action existed only on recommendation rows, hiding the feature for
+these products. Exact head sources, CP6/advisor, Auth cleanup and database removal
+verified; no Browser2 recovery/access qualification claimed.
+
+Add history/model entry to the existing unreviewed-target section on each page.
+Parser binds unique warning targets to header labels, no recommendation overlap,
+and each exact review-policy action. No production policy is invented and no
+planning/AI action or forecast is enabled for these unreviewed rows. Browser
+journey uses the actual section; firstfailure retained. Focused client checks
+cover next-page unreviewed entry, exact target/query and no automatic capture or
+policy write. Corrected Browser2 still requires a new complete Original.

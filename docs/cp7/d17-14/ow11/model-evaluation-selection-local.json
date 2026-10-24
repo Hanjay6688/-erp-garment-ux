@@ -1,0 +1,83 @@
+{
+  "contract": "cp7.model-evaluation-selection-local.v1",
+  "status": "PASS",
+  "expected": 9,
+  "counts": {
+    "PASS": 9
+  },
+  "cases": [
+    {
+      "id": "NO_EVALUATION_NO_READER_NO_FAKE_ZERO",
+      "status": "PASS",
+      "observed": {
+        "empty_reference_no_reader": true
+      }
+    },
+    {
+      "id": "UUID_COLLISION_KEEPS_RUNTIME_AND_EXACT_READER",
+      "status": "PASS",
+      "observed": {
+        "same_UUID_distinct_namespace": true,
+        "no_old_winner_reused": true
+      }
+    },
+    {
+      "id": "NEWER_GLOBAL_BASELINE_BEATS_OLDER_SCOPED_WINNER",
+      "status": "PASS",
+      "observed": {
+        "time_precedes_version_preference": true
+      }
+    },
+    {
+      "id": "DETERMINISTIC_EXACT_TIMESTAMP_TIES",
+      "status": "PASS",
+      "observed": {
+        "version_then_UUID_breaks_exact_time_ties": true
+      }
+    },
+    {
+      "id": "ACTOR_TARGET_AND_KNOWLEDGE_CUTOFF",
+      "status": "PASS",
+      "observed": {
+        "closed_actor_target_cutoff": true
+      }
+    },
+    {
+      "id": "CHANGED_ACCESS_AND_SOURCE_REFUSE_REFERENCE",
+      "status": "PASS",
+      "observed": {
+        "current_access_after_read": true,
+        "source_changes_between_reads_refused": true
+      }
+    },
+    {
+      "id": "NEWER_EVALUATION_DURING_READER_REFUSES_WHOLE_REFERENCE",
+      "status": "PASS",
+      "observed": {
+        "post_read_selection_rechecked": true
+      }
+    },
+    {
+      "id": "WRONG_READER_CONTRACT_NEVER_RELABELLED",
+      "status": "PASS",
+      "observed": {
+        "runtime_contract_bound": true
+      }
+    },
+    {
+      "id": "BOUNDED_QUERY_AND_PRIVATE_ACL",
+      "status": "PASS",
+      "observed": {
+        "bounded_inputs_no_public_entry": true
+      }
+    }
+  ],
+  "sql_sha256": "ad8d57619a24837f39626246168f37f3f4f0a27105eab3dc449e4ef820448de6",
+  "actual_SQL": true,
+  "synthetic_rows_and_controlled_readers_access": true,
+  "actual_Native": false,
+  "actual_Auth_HTTP_credit": false,
+  "actual_concurrency": false,
+  "target_caller_integrated": false,
+  "production_go": false
+}

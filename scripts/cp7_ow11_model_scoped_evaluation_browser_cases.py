@@ -19,5 +19,5 @@ def sources():
     paths += [Path(__file__).with_name('cp7_ow11_model_scoped_evaluation_browser' + suffix)
               for suffix in ('.mjs', '_probe.py', '_fixture.py')]
     paths += [root / 'src' / name for name in ('nativeScopedModel.ts', 'NativeScopedModelPanel.tsx',
-              'NativeAnalysisPanel.tsx', 'NativeStagedAnalysisView.tsx')]
+              'NativeAnalysisPanel.tsx', 'NativeStagedAnalysisView.tsx', 'nativeAnalysisPages.ts')]
     return {str(p.relative_to(root)): sha256(p.read_bytes()).hexdigest() for p in paths}

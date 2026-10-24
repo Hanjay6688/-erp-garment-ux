@@ -49,16 +49,17 @@
     "erp-wa-analysis"
   ],
   "browser_source_sha256": {
-    "scripts/cp7_ow11_model_scoped_evaluation_browser_cases.py": "5a2460187e6c4c3a1f3448e9c7241daa8c69bb113c7aabafc009f0ad99732be4",
+    "scripts/cp7_ow11_model_scoped_evaluation_browser_cases.py": "7d6ae0ace4ec3d1cefeacd6499eacc3b0f7a510ed89b78e573cfb50b23a9aaba",
     "scripts/cp7_ow11_model_scoped_evaluation_cases.py": "23afa650f11f73bd0e52d47886ec193431724088f62d31f080ca552caed7ebe8",
     "scripts/cp7_ow11_model_scoped_dataset_cases.py": "f77e47767ac6a6e6209476b3f2b5ceb7291ebf2bb1b681732201369311030d26",
-    "scripts/cp7_ow11_model_scoped_evaluation_browser.mjs": "b90fe27e786293080aca9c7d29c00154c4a55b41e925ebf53c0eac675800f134",
+    "scripts/cp7_ow11_model_scoped_evaluation_browser.mjs": "4f364caf03906f8ea08a1cd19c8927f94d5d363d30fd7f48f5fa589a5f2db42a",
     "scripts/cp7_ow11_model_scoped_evaluation_browser_probe.py": "f9fb01c6c2cda027819274bf7bf6a72f44f4e55db94635c3dd2c7d7903053009",
     "scripts/cp7_ow11_model_scoped_evaluation_browser_fixture.py": "fdf4e605f8fb8518787533353dfd0afc74774e3ecb7afb421dad40abf5f5626a",
     "src/nativeScopedModel.ts": "b5ae92e569b39dcdf1d70722bb98cc9c9d9048f6a67b796ce345178ddfd259f7",
     "src/NativeScopedModelPanel.tsx": "8c02a0160592af7e69c134ff52614eb004c70f13d820ed25976958701a96d894",
     "src/NativeAnalysisPanel.tsx": "ed1babe4025c6f62935f965f7b75b2d12958fffdd3d5d9a4f03ba810808faffe",
-    "src/NativeStagedAnalysisView.tsx": "fa8eb0c1cb76d1717924dacb8bd7a23044f0d1342c2d5da97646848b99ed9f53"
+    "src/NativeStagedAnalysisView.tsx": "5518ee241507e1b198d3fd010f1ab08615410d4b6d6843d9ede30f58fc516e43",
+    "src/nativeAnalysisPages.ts": "5a409a8e54948cb2b5d8740722db99488a311149777d0753e203d9e028e1fa17"
   },
   "model_scoped_evaluation_source_sha256": {
     "cp7_model_scoped_evaluation/MANIFEST.json": "f5cd1f8ed4723e54ce2421acab4de0f91c1c19687d8e7f1f31528d313aaf68e1",

@@ -28,10 +28,12 @@ async function journey(ui,today,mobile){
   const parent=await open(page,f.query)
   await parent.getByRole('button',{name:'Analisis bertahap (hingga 5.000 target)',exact:true}).click()
   await ui.expect(staged).toBeVisible({timeout:180000})
-  const row=staged.locator(`[data-analysis-target="${f.query.target_key}"]`),select=staged.getByLabel('Pilih rentang target',{exact:true})
+  const row=staged.locator(`[data-analysis-target="${f.query.target_key}"], [data-model-target="${f.query.target_key}"]`),select=staged.getByLabel('Pilih rentang target',{exact:true})
   const pages=await select.locator('option').count()
   for(let i=0;i<pages&&!await row.count();i++){await select.selectOption(String(i));await ui.expect(staged.locator('[data-page-index]')).toHaveAttribute('data-page-index',String(i),{timeout:60000})}
-  await ui.expect(row).toHaveCount(1);await row.getByRole('button',{name:/^Riwayat dan model /}).click()
+  await ui.expect(row).toHaveCount(1)
+  if(!await row.isVisible())await staged.getByText('Target pada halaman ini dengan status produksi belum diperiksa',{exact:true}).click()
+  await row.getByRole('button',{name:/^Riwayat dan model /}).click()
   await ui.expect(panel).toBeVisible();assert.equal(state().history_rows,0);assert.equal(calls.filter(n=>n===HC||n===MC).length,0)
   if(mobile)for(const method of[HC,MC])await page.route('**/rest/v1/rpc/'+method,async route=>{
    if(!lost[method]){const r=await route.fetch();assert.equal(r.status(),200);lost[method]={args:route.request().postDataJSON(),body:await r.json()};await route.abort('failed')}else await route.continue()
