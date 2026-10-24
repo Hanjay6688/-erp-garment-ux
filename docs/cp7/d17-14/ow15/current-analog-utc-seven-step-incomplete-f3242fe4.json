@@ -1,0 +1,117 @@
+{
+  "status": "INCOMPLETE",
+  "candidate": "f3242fe4ed71f2de0b58c7ad86d833f0add232b6",
+  "run_id": 40090775497,
+  "job_id": 120862799466,
+  "artifact": {
+    "status": "INCOMPLETE",
+    "name": "CP7_CURRENT_ANALOG_UTC_INSTALLATION_RESTORE.json",
+    "artifact_id": 12559149089,
+    "zip_bytes": 3870166,
+    "zip_sha256": "47fa47d791a8cc4bc0d6bae659bf4e5451d8ce4d353c9fc407b8b12fd85d7aa8",
+    "bytes": 1771465,
+    "sha256": "746b2e9ba6dbe9c5ba59ef342b051e4081da091d8a9f26c8638de723f1c9d375"
+  },
+  "steps": [
+    {
+      "step": "EXACT_INSTALL_AND_PREUSE_INVERSE",
+      "status": "PASS"
+    },
+    {
+      "step": "COMMITTED_RETURN_AND_ANALOG_CHOICE",
+      "status": "PASS"
+    },
+    {
+      "step": "USED_INVERSE_REFUSED_BEFORE_DDL",
+      "status": "PASS"
+    },
+    {
+      "step": "FULL_USED_BACKUP_RESTORED",
+      "status": "PASS"
+    },
+    {
+      "step": "RESTORE_NEGATIVE_CONTROLS",
+      "status": "PASS"
+    },
+    {
+      "step": "FULL_RESTORE_AFTER_NEGATIVE_WRITE",
+      "status": "PASS"
+    },
+    {
+      "step": "ONLY_LOCAL_NATIVE_OID_SEAL",
+      "status": "PASS"
+    }
+  ],
+  "readiness_blockers": [
+    {
+      "code": "FG_CACHE_MISMATCH",
+      "scope": "CURRENT_STATE",
+      "family": "INTEGRITY",
+      "reason": "FG cache differs from ledger source of truth",
+      "severity": "CRITICAL",
+      "reference": {
+        "class": "SYSTEMIC",
+        "source": "run_integrity_checks",
+        "dated_by": null,
+        "check_name": "FG_CACHE_MISMATCH",
+        "date_policy": "BLOCKS_EVERY_DATE",
+        "issue_count": 10,
+        "dated_detector_confirmed": false
+      },
+      "impact_date": null
+    },
+    {
+      "code": "LAUNDRY_PRICE_UNKNOWN",
+      "scope": "AS_OF",
+      "family": "LAUNDRY",
+      "reason": "Harga laundry kiriman LDR-261021-6E1134AECE364AD78379B72EB5C22446 belum diketahui untuk 10 pcs; isi estimasi owner.",
+      "severity": "POLICY",
+      "reference": {
+        "po_id": "24f0695a-1136-4d65-8646-357881b02270",
+        "delivery_id": "6e1134ae-ce36-4ad7-8379-b72eb5c22446",
+        "uncosted_qty": 10,
+        "delivery_number": "LDR-261021-6E1134AECE364AD78379B72EB5C22446",
+        "delivery_line_id": "9b58f3ba-fefd-4ec3-bef6-099092ef4c4c"
+      },
+      "impact_date": "2026-10-21"
+    },
+    {
+      "code": "PAYROLL_WORK_UNCOVERED",
+      "scope": "AS_OF",
+      "family": "PAYROLL",
+      "reason": "Hasil kerja kontraktor a1000000-0000-0000-0000-000000000001: 1 baris (100 pcs) pada atau sebelum 2026-10-21 belum masuk payroll.",
+      "severity": "POLICY",
+      "reference": {
+        "lines": 1,
+        "contractor_id": "a1000000-0000-0000-0000-000000000001",
+        "remaining_qty": 100,
+        "remaining_amount": 0.0,
+        "first_eligible_at": "2026-10-21T03:00:00+00:00"
+      },
+      "impact_date": "2026-10-21"
+    }
+  ],
+  "DRAFT_checks": [
+    {
+      "label": "AFTER_ANALOG_PREPARATION_AND_CHOICE",
+      "all_header_and_item_fields_equal": true
+    },
+    {
+      "label": "AFTER_FULL_RESTORE_AND_CLEAR",
+      "all_header_and_item_fields_equal": true
+    }
+  ],
+  "first_timezone_observation": {
+    "before": "UTC",
+    "after": "Asia/Jakarta"
+  },
+  "cp6_restored": true,
+  "baseline_advisors_equal": true,
+  "advisor_gate": true,
+  "all_five_package_gates_pass": false,
+  "writer_runtime": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "first_failure_preserved": true,
+  "interpretation": "Full package remains INCOMPLETE. Seven completed steps and seven negative controls are component observations, not eight-step PASS. Next Native return reached unchanged READY assertion and detected fixture blockers. Existing source and test bytes remain frozen."
+}
