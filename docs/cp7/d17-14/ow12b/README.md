@@ -71,3 +71,15 @@ tersedia. Batas8s dan UNKNOWN tetap; fixture diberi label sintetis.
 Belum ada hasil runtime komponen ini. Ini persiapan bukti operasional3600,
 bukan kesamaan uang/HPP dengan laporan A, gabungan financebridge, waktu layar,
 SAVE3600, uji pasang/pulih global atau penutupan OW12b/skala pabrik penuh.
+
+
+**Operational3600 component PASS**, candidate36444aed/source8cf6f2c2,
+run40043712317/job120720445162. Receipt36444ae-operational3600-pass.json:
+2/2 (oldcataloganchor0newcredit+oneoperationalcase),47exactsource/12preuse22/
+restore/advisors/5packagegates.3602targets/76realNativeunits/allpages;
+request7832.927ms/maxunit454.456ms/freshness4336.496/4278.379/4335.070ms.
+Request has167.073ms headroom to8s inthisrun; noownerlatency/SLAacceptance.
+LegacyactualFAILEDcapture incomplete, nocompletebefore-result/parityclaim.
+RawINCOMPLETEpreserved, full363601rowdigest, realNativeFGchange=>STALE.
+Fixture360models/3600products/onecopiedsize isvolumecomponent, notreal1200SKU×3.
+FinanceDEFERRED, fullfactory/financialparity/SAVE3600/afteruse/Achain stillOPEN.

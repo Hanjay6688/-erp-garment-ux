@@ -63,5 +63,10 @@
   "after_use_restore_qualified": false,
   "full_OW13c_acceptance": false,
   "full_A_chain_qualified": false,
-  "production_go": false
+  "production_go": false,
+  "operational3600_candidate": "36444aedf8d7bb7bc6882b2e835fcaeec7f23b7b",
+  "operational3600_run_id": 40043712317,
+  "operational3600_same47backend": true,
+  "operational3600_real_DONE_all_pages_freshness_qualified": true,
+  "operational3600_full_finance_factory_acceptance": false
 }
