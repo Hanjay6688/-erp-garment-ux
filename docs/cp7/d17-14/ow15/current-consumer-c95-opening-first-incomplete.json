@@ -1,0 +1,94 @@
+{
+  "status": "INCOMPLETE",
+  "head": "c95c4a2a9ec82e63af3d6b9f23a9b352401f8ea6",
+  "run_id": 40099925418,
+  "job_id": 120889791674,
+  "artifact_id": 12563161383,
+  "name": "CP7_CURRENT_ANALOG_CONSUMER_RESTORE8.json",
+  "zip_bytes": 1797417,
+  "zip_sha256": "8622070ccb96f1675bf17645184ba920445cb3fe38d1c772d5fff21145408126",
+  "bytes": 1120752,
+  "sha256": "83c2fb8356889d89fefcbea234dcc0016d77b8ff0a960acfe818751a36508a48",
+  "workflow_conclusion": "failure",
+  "steps_pass": [
+    "EXACT_INSTALL_AND_PREUSE_INVERSE"
+  ],
+  "first_failure": "fixture.assert_fresh expected available_days == '3'",
+  "root_cause": "Native opening occurred on first query day; unchanged start-of-day-positive availability excludes that day. Exact source SQL boundary witness produces two days for original facts and three when opening precedes the window.",
+  "actual_failed_row_not_captured": true,
+  "local_sql_witness": {
+    "status": "PASS",
+    "classification": "ACTUAL_SQL_OVER_CONTROLLED_FACTS_PGLITE_NOT_NATIVE",
+    "sources": {
+      "scripts/cp7-src/planning/history.sql": "074f0508d6515c13b5d38c0d8a4a605f79a5460acfc7e1b25dddcd9a24ea53cd"
+    },
+    "cases": [
+      {
+        "name": "FIRST_FIXTURE_OPENING_ON_FIRST_QUERY_DAY",
+        "status": "PASS",
+        "opening": "2026-10-21T00:00:00+07:00",
+        "query": {
+          "from_date": "2026-10-21",
+          "through_date": "2026-10-23",
+          "group_mode": "AS_SOLD"
+        },
+        "days": [
+          {
+            "date": "2026-10-21",
+            "state": "STOCKOUT"
+          },
+          {
+            "date": "2026-10-22",
+            "state": "AVAILABLE"
+          },
+          {
+            "date": "2026-10-23",
+            "state": "AVAILABLE"
+          }
+        ],
+        "available_days": 2
+      },
+      {
+        "name": "SUCCESSOR_OPENING_PRECEDES_THREE_QUERY_DAYS",
+        "status": "PASS",
+        "opening": "2026-10-20T00:00:00+07:00",
+        "query": {
+          "from_date": "2026-10-21",
+          "through_date": "2026-10-23",
+          "group_mode": "AS_SOLD"
+        },
+        "days": [
+          {
+            "date": "2026-10-21",
+            "state": "AVAILABLE"
+          },
+          {
+            "date": "2026-10-22",
+            "state": "AVAILABLE"
+          },
+          {
+            "date": "2026-10-23",
+            "state": "AVAILABLE"
+          }
+        ],
+        "available_days": 3
+      }
+    ],
+    "product_rule_changed": false,
+    "production_go": false
+  },
+  "cp6_restored": true,
+  "baseline_advisors_equal": true,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "old_source_files_changed": false,
+  "product_sources_changed": false,
+  "successor_runtime_status": "NOT_RUN",
+  "production_go": false,
+  "independent_acceptance": false
+}
