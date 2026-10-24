@@ -11,7 +11,7 @@ Checkpoint berarti simpan lalu teruskan, tidak menunggu pesan “lanjut”.
 VENI. VIDI. VICI. ERP. — I CONQUERED ERP.
 Reliable data adalah dewa. Keuangan termasuk laporan, stok, dan HPP adalah raja.
 
-Bekerja hanya di `astra/d17-14-produksi`. Claude/A memegang uang/stok/HPP/laporan,
+Bekerja hanya di `astra/d17-14-produksi`. Penulis A/integrator memegang uang/stok/HPP/laporan,
 pemasang/bundle/tipe/registry, integrasi, sensus/pemulihan global dan paket auditor.
 B memegang produksi/perencanaan/model/gudang. Jangan mengubah main, cabang
 integrasi, versi audit beku, Enteng, hosted atau WA nyata. OW07 milik A.
@@ -72,6 +72,10 @@ persis sama. Lihat koordinasi62–63 dan ANALOG_PRIVATE_CONTRACT.json. Native3 t
 sudah dideklarasikan (catalog/source-pagination/Native minimum2 vs1hari);
 DDL prototype hanya di transaksi kasus lalu RESTRICT drop, bukan defaultstage.
 Different-size positive fixture/publicreader/konfirmasi/forecast belum terbukti.
+FirstNative3 8c1a4bfa/run40047065038/job120731119748 INCOMPLETE1/3:
+privatecatalogpassed,2readers stoppedNativekey(text)42883. Receipt8c1a4bf
+preserved. Fixuses to_jsonb(p_target) andpinsNativeWIPhelper, noNativebodychange;
+nextcatalogincludesobservedprototypeManifest. RerunonlyNative3, thencontinue.
 Jangan menyebut OW11 selesai.
 
 ## Komponen yang benar-benar lulus

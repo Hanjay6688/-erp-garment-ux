@@ -72,7 +72,8 @@ def cases(cur,today):
         assert prototype.verify_sources()['runtime_qualified']is False
         assert plan.monetary_state(cur)==physical
         remove(cur,before)
-        return dict(status='PASS',one_private_no_public_no_table_no_existing_replacement=True,
+        return dict(status='PASS',prototype_source_manifest=prototype.verify_sources(),
+                    one_private_no_public_no_table_no_existing_replacement=True,
                     exact_source_owner_ACL_GUC_and_catalog22_restored=True,actual_Auth_HTTP_credit=False)
 
     def dense():

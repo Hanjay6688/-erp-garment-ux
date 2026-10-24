@@ -1085,3 +1085,20 @@ andworkflow prepared; f05newoptinflagdefaultfalse/ownNative3group leavesold6/31/
 files unchanged. No runtime result yet. Nexttriggeronlythissuite theninspect
 completeOriginal andpreservefirstfailure; finishsize/confirmation/commonengine
 laterbeforeclosingOW11. Parent5/16, Afinancialbridge/afteruse/fullchain stillOPEN.
+
+
+## 64. First analog Native3 retained; Native JSONB helper call corrected (24 Oktober2026 WIB)
+
+Candidate8c1a4bfa/source2027880d/run40047065038/job120731119748 INCOMPLETE:
+1PASSprivatecatalog/2INCOMPLETEreaders. CompleteOriginal12542480098/136079bytes/
+SHAf67da6d6eed5e058785be7e76ecedab3bbe8ca1016cca71a3d3ec8717ddac03a
+independentlyverified47source/12preuse22/restore/advisors; writer_runtimefalse.
+Exactprivatebody/owner/ACL/GUC/22restorationpassed. Bothreads stopped42883:
+cp7_wip.key(text)doesnotexist; NativehelpertakesJSONB. No candidate selected,
+reviewed orapplied, noclaimedreadsuccess, noERP effect.
+
+Fixexplicitto_jsonb(p_target), dependency pin addsactualNativewip/bootstrap.sql;
+Nativekeyfunctionunchanged. Nextcatalogresult includesobservedprototypeManifest.
+Same3casebudget; source/AST/clash pass, all47qualifiedbackendfiles unchanged.
+RerunonlyanalogNative3 onthissource, keepthefirstOriginal/log/fullartifact.
+OW11/fullAchain/afteruse stillOPEN,parent5/16. NoAfiles/defaults/types edited.

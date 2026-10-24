@@ -13,7 +13,7 @@ begin
   'target_key',p_target,'source_captured_at',c->'captured_at','query',c->'bounded_query',
   'history_hash',prepared->'history_hash','source_hash',prepared->'source_hash',
   'selected',false,'reviewed',false,'forecast_applied',false,'production_go',false);
- perform cp7_wip.key(p_target);
+ perform cp7_wip.key(to_jsonb(p_target));
  select count(*),(jsonb_agg(product))->0 into matching_count,target_product
   from jsonb_array_elements(c->'facts'->'products')product
   where(product->>'root_id')||':'||(product->>'size_id')=p_target;
