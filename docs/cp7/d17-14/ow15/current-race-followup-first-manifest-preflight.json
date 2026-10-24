@@ -1,0 +1,15 @@
+{
+  "status": "LOCAL_PREFLIGHT_INCOMPLETE_NOT_RUNTIME",
+  "original_source_manifest_sha256": "be6d92d5be5bb46f3834d075e8a5b0f2a74dc81423f19b10e298e6cae42f3ecc",
+  "original_source_manifest_bytes": 143373,
+  "unexpected_non_repository_entries": [
+    "tsconfig.app.tsbuildinfo",
+    "tsconfig.contracts.tsbuildinfo"
+  ],
+  "cause": "The new manifest builder included compiler incremental caches through its broad configuration filename glob. Fresh CI checkout correctly has no ignored caches.",
+  "correction": "Restrict new configuration input pins to actual config source extensions, retaining every frozen predecessor declaration unchanged.",
+  "additional_race_issue": "Loaded original cp6_v2620ah_concurrency.py had no manifest entry; add exact original transitive module pins, do not skip the loaded-source check.",
+  "product_changed": false,
+  "DB_started": false,
+  "production_go": false
+}

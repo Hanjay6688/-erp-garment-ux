@@ -1,0 +1,280 @@
+{
+  "status": "PASS",
+  "all_five_package_gates_pass": true,
+  "head": "469ed1e8b2edf80f7988feba38162a5be7251b8c",
+  "run_id": 40092990595,
+  "job_id": 120869326971,
+  "artifact_id": 12559379615,
+  "zip_bytes": 3864848,
+  "zip_sha256": "636cabf17dc6c5749932fe7bac71572f2019cc167a4357ac39f2ad4d664280bc",
+  "original_name": "CP7_CURRENT_ANALOG_NATIVE_FIXTURE_RESTORE.json",
+  "original_bytes": 1792636,
+  "original_sha256": "4828caaf57ad0392db03694e05844a13c44842f8075f992af260757a6f69608f",
+  "scope": "CURRENT_AB_RETURN_ANALOG_METADATA_FULL_USED_RESTORE8_WITH_NATIVE_STOCK_FIXTURE",
+  "runtime_status": "PASS",
+  "required_steps_pass": true,
+  "steps": [
+    {
+      "step": "EXACT_INSTALL_AND_PREUSE_INVERSE",
+      "status": "PASS"
+    },
+    {
+      "step": "COMMITTED_RETURN_AND_ANALOG_CHOICE",
+      "status": "PASS"
+    },
+    {
+      "step": "USED_INVERSE_REFUSED_BEFORE_DDL",
+      "status": "PASS"
+    },
+    {
+      "step": "FULL_USED_BACKUP_RESTORED",
+      "status": "PASS"
+    },
+    {
+      "step": "RESTORE_NEGATIVE_CONTROLS",
+      "status": "PASS"
+    },
+    {
+      "step": "FULL_RESTORE_AFTER_NEGATIVE_WRITE",
+      "status": "PASS"
+    },
+    {
+      "step": "ONLY_LOCAL_NATIVE_OID_SEAL",
+      "status": "PASS"
+    },
+    {
+      "step": "EXACT_READS_REPLAY_CLEAR_AND_NEXT_RETURN",
+      "status": "PASS"
+    }
+  ],
+  "negative_controls": [
+    {
+      "id": "WRONG_TRUSTED_HASH",
+      "status": "PASS",
+      "refusal": "ANALOG_RESTORE_TRUSTED_BACKUP_HASH_REQUIRED"
+    },
+    {
+      "id": "CHANGED_COMPOSED_ENTRYPOINT_SOURCE",
+      "status": "PASS",
+      "refusal": "ANALOG_RESTORE_SOURCE_OR_CONTRACT_CHANGED"
+    },
+    {
+      "id": "WRONG_DATABASE",
+      "status": "PASS",
+      "refusal": "ANALOG_RESTORE_FRESH_EXPECTED_DATABASE_REQUIRED"
+    },
+    {
+      "id": "CHANGED_ANALOG_CHOICE_SOURCE",
+      "status": "PASS",
+      "refusal": "ANALOG_RESTORE_SOURCE_OR_CONTRACT_CHANGED"
+    },
+    {
+      "id": "MISSING_CATALOG_GROUP",
+      "status": "PASS",
+      "refusal": "ANALOG_RESTORE_CATALOG_CHANGED"
+    },
+    {
+      "id": "DELTA_FUNCTION_METADATA_DRIFT",
+      "status": "PASS",
+      "refusal": "ANALOG_RESTORE_CATALOG_CHANGED"
+    },
+    {
+      "id": "DRAFT_ROW_DRIFT",
+      "status": "PASS",
+      "refusal": "ANALOG_RESTORE_ROWS_OR_SEQUENCES_CHANGED",
+      "savepoint_sequence_changes": {
+        "sequence:erp.audit_logs_id_seq": {
+          "before": [
+            "852",
+            true
+          ],
+          "after": [
+            "853",
+            true
+          ]
+        }
+      },
+      "requires_full_restore_before_binding": true
+    }
+  ],
+  "actual_draft_checks": [
+    {
+      "label": "AFTER_ANALOG_PREPARATION_AND_CHOICE",
+      "all_header_and_item_fields_equal": true
+    },
+    {
+      "label": "AFTER_FULL_RESTORE_AND_CLEAR",
+      "all_header_and_item_fields_equal": true
+    },
+    {
+      "label": "AFTER_NEXT_VALID_RETURN",
+      "all_header_and_item_fields_equal": true
+    }
+  ],
+  "Native_fixture": {
+    "historical_master_fixture": "TEN_NEW_SYNTHETIC_MASTERS_WITH_DECLARED_131_DAY_CLOCKS",
+    "opening_header": "99033f17-7191-4642-910c-bbb3ae04c24f",
+    "opening_day": "2026-10-21",
+    "Native_stock_cache_lots_HPP": [
+      [
+        "212bd163-5bf6-4723-a8e1-9deb50a4511d",
+        800,
+        800,
+        800,
+        "8000.000000"
+      ],
+      [
+        "4c996df5-438d-4ead-8ff7-8bafb5328ab9",
+        800,
+        800,
+        800,
+        "8000.000000"
+      ],
+      [
+        "70f9946b-73fb-4049-9d7d-dc34287752ff",
+        800,
+        800,
+        800,
+        "8000.000000"
+      ],
+      [
+        "7f2ed99f-9351-42b3-a09c-b06dad5e41cc",
+        800,
+        800,
+        800,
+        "8000.000000"
+      ],
+      [
+        "81d32766-0a79-4d34-b5ac-0baab32d296b",
+        800,
+        800,
+        800,
+        "8000.000000"
+      ],
+      [
+        "a0840941-7085-437c-9a01-af482e5b822e",
+        800,
+        800,
+        800,
+        "8000.000000"
+      ],
+      [
+        "bc2f078d-4524-447a-acbe-a62552033c21",
+        800,
+        800,
+        800,
+        "8000.000000"
+      ],
+      [
+        "c88e0329-2b2f-449c-9dab-692bca4aaa89",
+        800,
+        800,
+        800,
+        "8000.000000"
+      ],
+      [
+        "dd55b74d-ca57-40d1-815b-069c3835ab2b",
+        800,
+        800,
+        800,
+        "8000.000000"
+      ],
+      [
+        "fd35d4d5-50ec-4d0d-8d32-1d2f6ae2b69a",
+        800,
+        800,
+        800,
+        "8000.000000"
+      ]
+    ],
+    "Native_balanced_journal": [
+      [
+        "OPENING_BALANCE",
+        "POSTED",
+        "80000.00",
+        "80000.00"
+      ]
+    ],
+    "stock_inserted_directly": false,
+    "existing_source_clocks_changed": false,
+    "new_import_creation_clocks_changed": false,
+    "production_laundry_work_payroll_and_HPP_pools_unchanged": true
+  },
+  "readiness_checkpoints": {
+    "before": {
+      "status": "READY",
+      "balance_difference": 0.0
+    },
+    "after_public_import": {
+      "status": "READY",
+      "balance_difference": 0.0
+    },
+    "after_Native_opening": {
+      "status": "READY",
+      "balance_difference": 0.0
+    },
+    "after_explicit_planning_reviews": {
+      "status": "READY",
+      "balance_difference": 0.0
+    },
+    "after_actual_bounded_DONE": {
+      "status": "READY",
+      "balance_difference": 0.0
+    }
+  },
+  "after_choice_READY": "READY",
+  "after_restored_CLEAR_READY": "READY",
+  "next_return_READY": "READY",
+  "next_return_count_qty_refund": [
+    2,
+    2,
+    "40.00"
+  ],
+  "choice_and_CLEAR_no_money_stock_HPP_effect": true,
+  "full_source_exact_after_restore": true,
+  "all22_catalog_permissions_rows_and_sequences_preserved": true,
+  "only_local_Native_OID_seal": {
+    "contract": "cp7.current-AB-return-analog.offline-full-backup.v1",
+    "status": "EXACT_CURRENT_ANALOG_FULL_RESTORE_BOUND",
+    "trusted_backup_sha256": "410bfc5314dda7d7e55fb663c815cc98e369650c882696748cd3f137ea5b6eb1",
+    "fresh_database_verified": true,
+    "all_rows_and_sequences_equal": true,
+    "all22_portable_catalog_groups_equal": true,
+    "analog_choices_and_receipts_preserved": true,
+    "changed_functions": [
+      "cp7_credit.assert_source_native_trigger_census_v1()"
+    ],
+    "local_raw_oid_census_enforced": true,
+    "runtime_capture_sha256_pg": "994f0a4775c1fa9c3558defff47dd13c3a8e72f4a3c156690683a07f325df0dc",
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "full_used_manifest": {
+    "bytes": 19831998,
+    "sha256": "e77888cbbdcc5a49a1613c13390570eec6fb0dc76d7fbd929b731602abe30802",
+    "trusted_digest": "410bfc5314dda7d7e55fb663c815cc98e369650c882696748cd3f137ea5b6eb1"
+  },
+  "cp6_restored": true,
+  "raw_public_restored": true,
+  "baseline_advisors_equal": true,
+  "advisor_gate": true,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "product_sources_equal_immutable_469_current_declaration": true,
+  "first_attempts": [
+    "b7dd5143f922464e1fdbd207ae1e370f82b63e1d",
+    "f3242fe4ed71f2de0b58c7ad86d833f0add232b6"
+  ],
+  "first_attempt_results_remain_INCOMPLETE": true,
+  "original_positive_return_READY_assertion_unchanged": true,
+  "source_product_SQL_unchanged": true,
+  "production_go": false,
+  "independent_acceptance": false,
+  "full_OW11_acceptance": false,
+  "forecast_applied": false
+}
