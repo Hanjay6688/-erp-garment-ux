@@ -1242,3 +1242,27 @@ Registry access mencantumkan9nama yang sama dan memasukkannya ke penjumlahan ter
 Original e4a51da5/run40049851897/job120739899705 terverifikasi12/12: lima kasus keuangan resmi, enam bounded, satu isolasi UUID antarmetode. 24 metrik sesuai laporan resmi;11 UNKNOWN tetap tanpa angka. Bounded2000/202000 gerakan selesai; request3106.974ms dan pembacaan sumber1604.599–1629.921ms, batas8s. Ini bukan SAVE2000 ulang, login/browser atau factory3600. Seluruh katalog22, pemulihan CP6, advisors dan lima gate paket tepat. Receipt `ow12/ab-bounded-e4a51da5-native12-pass.json`.
 
 Pekerjaan A berikutnya: satu pintu pemasang gabungan yang memeriksa referensi minimum lama, uji pakai/pulih yang memakai pintu itu, dan ekspor tipe langsung dari database disposable terpasang. Entry historis yang dipin tetap utuh; jalur baru diberi nama eksplisit. Tidak memasang ke Enteng atau mengubah keputusan kebijakan.
+
+## A — pemasang, pemulihan dan penjalan server aktual (24 Oktober 2026)
+
+Head650ff0e4 mempertahankan kegagalan kedua restore49203e88: delapan langkah
+lulus termasuk pengikatan identitas lokal dan enam penolakan. Kegagalan berikut
+ada pada baca pembayaran sebelum/sesudah pulih; pengganti menserialisasi kedua
+baca utuh dalam UTC dan menyimpan semua kolom yang berbeda. Tidak ada field
+uang/tanggal yang dibuang. Pemasangbc2c23c0 lulus pasang/inventaris/invers/pasang
+ulang, lalu pembuat tipe menolak peran ADMIN. Caller kini memakai koneksi PG
+sekali pakai yang memang diwajibkan pemeriksa. Run40053703660 dan40053703656
+menentukan hasil perbaikannya; belum dianggap PASS.
+
+Native62 delapan keluarga A pada pemasang current berjalan run40052986498,
+head79647fa9. Ini62 kasus lama dijalankan pada gabungan baru, bukan62 kasus baru.
+
+Penjalan FINANCE sudah ada di modul A dan cp7_background.run_next; tidak perlu
+menambah caller tick B. Kandidat current-runner-qualification milik integrator
+menambah satu perjalanan cron nyata: request STAGED+finance dan bounded DEFERRED
+selesai lewat jadwal satu menit asli,60 transaksi terbatas, tanpa tick manual,
+perubahan jam atau percepatan jadwal. Angka dibandingkan laporan resmi, sidik
+buku dihitung mandiri, halaman tersegel/UUID dan tabel Native diperiksa.
+Jadwal hanya dipasang pada clone cp6_rollback kosong-jadwal, dicabut dan ditunggu
+selesai sebelum sembilan langkah used restore. Ini bukan klaim cron hosted,
+WA, login/browser atau1200SKU×3ukuran. API/pemilik B dan semua oracle lama tetap.
