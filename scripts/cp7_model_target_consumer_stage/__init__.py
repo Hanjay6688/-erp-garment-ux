@@ -51,7 +51,7 @@ def own_catalog(catalog):
 def usage_state(cur):
     state=analog.usage_state(cur)
     names=cur.execute("select quote_ident(n.nspname)||'.'||quote_ident(c.relname)from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname=any(%s)and c.relkind='r'order by 1",
-       (['cp7_model_registry_adapter','cp7_model_policy','cp7_model_native','cp7_planning'],)).fetchall()
+       (['cp7_model_registry_adapter','cp7_model_policy','cp7_model_native','cp7_planning','cp7_analysis_native'],)).fetchall()
     for(name,)in names:
         state[name]=cur.execute("select count(*),md5(coalesce(jsonb_agg(to_jsonb(x)order by to_jsonb(x)::text),'[]')::text)from "+name+' x').fetchone()
     return state

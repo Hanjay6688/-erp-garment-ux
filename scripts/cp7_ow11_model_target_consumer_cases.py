@@ -18,7 +18,7 @@ IDS=dict(native=['OW11_MODEL_TARGET_CATALOG22_COMPOSED_PREUSE',
 REQUIRED=dict(native=6)
 EXPECTED=DECLARED=6
 FUNCTIONS=(*fresh.FUNCTIONS,'erp_cp7_get_model_activation_policy_v1','erp_cp7_save_model_activation_policy_v1',
- 'erp_cp7_capture_model_evaluation_v2','erp_cp7_read_model_evaluation_v2')
+ 'erp_cp7_capture_model_evaluation_v2','erp_cp7_read_model_evaluation_v2','erp_cp7_capture_operational_analysis_v1')
 SCHEDULES=fresh.SCHEDULES
 INSTALL_STATES,REORDER_STATES,CHECKED_STATE,SCHEDULE_STATE,BOUNDED_STATE,REFERENCE_STATE,STAGE_STATE={},{},{},{},{},{},{}
 PARENT_CHECKER=None
@@ -72,6 +72,20 @@ def cases(cur,today):
     def replay():
         s=install(cur);f=baseline.history.fixture(cur,today);p=baseline.payload(cur,f);baseline.save(cur,p)
         q=baseline.history.query(today);key=uuid.uuid4();physical=plan.monetary_state(cur)
+        # A raw operational capture persists no staged job/baseline/history run.
+        # That sole immutable analysis run must still make pre-use removal fail.
+        before_raw=stage.usage_state(cur);raw_key=uuid.uuid4()
+        raw=call(cur,'erp_cp7_capture_operational_analysis_v1',(json.dumps(q),raw_key))
+        after_raw=stage.usage_state(cur)
+        assert [name for name in after_raw if after_raw[name]!=before_raw.get(name)]==['cp7_analysis_native.runs']
+        assert raw['analysis']['versions']['models']=='policy-gated-dated-model-target-1'
+        assert raw['source_state']=='UNCHANGED'and raw['production_go']is False
+        raw_frozen=cur.execute('select to_jsonb(r)from cp7_analysis_native.runs r where id=%s',(raw['run_id'],)).fetchone()[0]
+        try:stage.rollback_preuse(cur,s['current'])
+        except ValueError as e:assert str(e)=='MODEL_TARGET_AFTER_USE_REQUIRES_COMPOSED_BACKUP_RESTORE'
+        else:raise AssertionError('MODEL_TARGET_RAW_REPORT_AFTER_USE_INVERSE_ALLOWED')
+        assert call(cur,'erp_cp7_capture_operational_analysis_v1',(json.dumps(q),raw_key))==raw
+        assert cur.execute('select to_jsonb(r)from cp7_analysis_native.runs r where id=%s',(raw['run_id'],)).fetchone()[0]==raw_frozen
         one=capture(cur,q,key);frozen=fresh.stored(cur,one['run_id'])
         assert one['contract_version']=='cp7.native-baseline.v3'and one['source_state']=='UNCHANGED'
         r=baseline.row(one,f);assert r['target']['target_pcs']=='100'
@@ -84,6 +98,7 @@ def cases(cur,today):
         except ValueError as e:assert str(e)=='MODEL_TARGET_AFTER_USE_REQUIRES_COMPOSED_BACKUP_RESTORE'
         else:raise AssertionError('MODEL_TARGET_USED_INVERSE_ALLOWED')
         return dict(status='PASS',actual_Native_v3_baseline100_current=True,exact_UUID_replay_and_immutable_result=True,
+          actual_raw_operational_capture_replay_immutable=True,raw_report_alone_blocks_preuse_inverse=True,
           no_model_fabricated=True,no_stock_money_HPP_change=True,after_use_requires_composed_restore=True)
 
     def current_policy():

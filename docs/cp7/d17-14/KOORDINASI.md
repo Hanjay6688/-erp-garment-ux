@@ -1941,3 +1941,21 @@ test are explicitly controlled, not Native or finance evidence. Source14 and
 client257/9files PASS. Initial local JS syntax failure retained, then corrected.
 20/8 Native/browser/races remain to run after publication. Native75db5817/run40114425599
 checks the prior19/8 corrected SKU lookup; Transport45b784e3/run40114038398 checks19/8.
+
+## 110. B24 Oktober2026 UTC — raw analysis after-use guard candidate
+
+3c19c5e4 publishes20/8 operational-report parity; Native6/run40115032213,
+Browser2/run40115032195 and Transport11/run40115032232 are pending complete
+Originals. Review found usage_state did not include cp7_analysis_native tables:
+a raw operational report alone need not create a baseline/history/staged row.
+The candidate now includes those immutable analysis runs before allowing the
+pre-use inverse. No SQL/ACL/default/finance changes are made by this guard fix.
+
+Existing Native replay case additionally captures via the actual existing
+erp_cp7_capture_operational_analysis_v1 facade, requires that only raw runs
+changed in the tracked usage snapshot, then refuses pre-use inverse before DDL,
+replays the exact UUID and compares the immutable row. It then runs the existing
+baseline assertions. Existing public facade is added to the explicit RPC
+declarations; no new RPC or case count (6/2/11) is introduced. Native execution
+is pending. This guards removal after use; it does not qualify a composed
+after-use backup/restore. The first Native5PASS/1INCOMPLETE remains retained.
