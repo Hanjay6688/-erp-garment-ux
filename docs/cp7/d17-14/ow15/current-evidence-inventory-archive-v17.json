@@ -1,0 +1,1032 @@
+{
+  "contract": "cp7.current-composition-evidence-inventory.archive-v17.v1",
+  "classification": "READ_ONLY_ARCHIVE_RECONCILIATION_NOT_RUNTIME_OR_AUDIT",
+  "archive_version": 17,
+  "archive_bytes": 41000540,
+  "archive_sha256": "67ce9acdc99ae1704fec3312e495e64afe6592fbb246dafcdeffc8647beb64cc",
+  "current_product_source_sha256": {
+    "LEGACY_AB": "454757fb018e9df175513474668c4a6c01cba0b2a79c0ed3131067a55fe94031",
+    "CORRECTED_RETURN_AB": "5eff884a89a7b6c41af1fee678c572d95910c9ec290cada25f1fe115bf1eb075",
+    "ANALOG_CORRECTED_RETURN_AB": "67bc1667c8b280822e6360803ed2e7fdcb9e9ff2fcf1243c7764f09995ed1c90"
+  },
+  "entries_verified": 224,
+  "original_count": 47,
+  "statuses": {
+    "PASS": 27,
+    "INCOMPLETE": 20
+  },
+  "direct_source_class_counts": {
+    "LEGACY_AB": 17,
+    "NO_DIRECT_ENTRYPOINT_DECLARATION": 17,
+    "CORRECTED_RETURN_AB": 12,
+    "ANALOG_CORRECTED_RETURN_AB": 1
+  },
+  "current_analog_direct_observations": [
+    {
+      "status": "INCOMPLETE",
+      "run_id": 40088953334,
+      "head": "b7dd5143f922464e1fdbd207ae1e370f82b63e1d"
+    }
+  ],
+  "interpretation": [
+    "Only direct source_declaration.current_installation is classified here. Missing direct declarations do not establish whether nested declarations or other evidence exist.",
+    "Exact source declaration equality binds code provenance only. A PASS runtime, complete required cases, cleanup, restore and package gates must still be assessed separately.",
+    "Older PASS reports retain their original scope; they do not automatically qualify analog composition or a changed private function.",
+    "A failed report stays INCOMPLETE even when some steps passed. No tests were rerun by this inventory.",
+    "Case budgets overlap across historical suites. This report does not sum them into new unique case credit.",
+    "The pending UTC successor run40090775497 has no actual Original in archivev17 and earns no result here.",
+    "Separate B writer_component_intake and immutable prerequisites are not counted as A current runtime reports."
+  ],
+  "reports": [
+    {
+      "original_path": "12545347571/CP7_CURRENT_INSTALLATION_RESTORE.json",
+      "original_sha256": "054e396e467180fba15dc4b1dca4692bc364645ae8cbdccf3ed8ada0bb68a31b",
+      "observed_status": "PASS",
+      "source_head": "28abdeef65348e42ad1b1947830890e3e55adcd3",
+      "run_id": 40055821451,
+      "artifact_id": 12545347571,
+      "direct_current_installation_class": "LEGACY_AB",
+      "direct_declared_contract": "cp7.current-AB-installation-with-legacy-inventory.v1",
+      "full_direct_source_declaration_equal": true,
+      "package_gates_observed": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "raw_cp6_restored": true,
+      "raw_advisor_gate": null,
+      "automatic_credit_for_analog_composition": false
+    },
+    {
+      "original_path": "12545971796/CP7_CURRENT_RUNNER_RESTORE.json",
+      "original_sha256": "f6f4b84c69638df693ff307ec4b071cedb5fb53bec10ccee1879dfca1dc5047f",
+      "observed_status": "PASS",
+      "source_head": "28abdeef65348e42ad1b1947830890e3e55adcd3",
+      "run_id": 40055821284,
+      "artifact_id": 12545971796,
+      "direct_current_installation_class": "LEGACY_AB",
+      "direct_declared_contract": "cp7.current-AB-installation-with-legacy-inventory.v1",
+      "full_direct_source_declaration_equal": true,
+      "package_gates_observed": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "raw_cp6_restored": true,
+      "raw_advisor_gate": null,
+      "automatic_credit_for_analog_composition": false
+    },
+    {
+      "original_path": "12546051523/CP7_AB_OWNER_FAMILIES_NATIVE62.json",
+      "original_sha256": "b79ff46acbd27783f9b9cf0230adc8d00bdd926cf1f3fabb18023b5bbce761f4",
+      "observed_status": "PASS",
+      "source_head": "28abdeef65348e42ad1b1947830890e3e55adcd3",
+      "run_id": 40055821343,
+      "artifact_id": 12546051523,
+      "direct_current_installation_class": "LEGACY_AB",
+      "direct_declared_contract": "cp7.current-AB-installation-with-legacy-inventory.v1",
+      "full_direct_source_declaration_equal": true,
+      "package_gates_observed": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "raw_cp6_restored": true,
+      "raw_advisor_gate": true,
+      "automatic_credit_for_analog_composition": false
+    },
+    {
+      "original_path": "12545851287/CP7_AB_OWNER_AUTH8.json",
+      "original_sha256": "bdeccae3c4b4b6aa6bf451565879714a59d25b0f901f5c2df8c7086ffface400",
+      "observed_status": "PASS",
+      "source_head": "28abdeef65348e42ad1b1947830890e3e55adcd3",
+      "run_id": 40055821394,
+      "artifact_id": 12545851287,
+      "direct_current_installation_class": "NO_DIRECT_ENTRYPOINT_DECLARATION",
+      "direct_declared_contract": null,
+      "full_direct_source_declaration_equal": false,
+      "package_gates_observed": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "raw_cp6_restored": true,
+      "raw_advisor_gate": true,
+      "automatic_credit_for_analog_composition": false
+    },
+    {
+      "original_path": "12545711289/CP7_AB_BOUNDED_FINANCE_NATIVE12.json",
+      "original_sha256": "d64c3a4bc8db463fa0042414e52e0bb9c57e43382dc28c2afd72fb9c03469d4d",
+      "observed_status": "PASS",
+      "source_head": "28abdeef65348e42ad1b1947830890e3e55adcd3",
+      "run_id": 40055821416,
+      "artifact_id": 12545711289,
+      "direct_current_installation_class": "NO_DIRECT_ENTRYPOINT_DECLARATION",
+      "direct_declared_contract": null,
+      "full_direct_source_declaration_equal": false,
+      "package_gates_observed": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "raw_cp6_restored": true,
+      "raw_advisor_gate": true,
+      "automatic_credit_for_analog_composition": false
+    },
+    {
+      "original_path": "12545304242/CP7_OW14B_INSTALLATION_NATIVE4.json",
+      "original_sha256": "e4a301e98c2de22396e1db04026edca74070e534c6851a2b8875fc9a388a6524",
+      "observed_status": "PASS",
+      "source_head": "28abdeef65348e42ad1b1947830890e3e55adcd3",
+      "run_id": 40055821460,
+      "artifact_id": 12545304242,
+      "direct_current_installation_class": "NO_DIRECT_ENTRYPOINT_DECLARATION",
+      "direct_declared_contract": null,
+      "full_direct_source_declaration_equal": false,
+      "package_gates_observed": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "raw_cp6_restored": true,
+      "raw_advisor_gate": true,
+      "automatic_credit_for_analog_composition": false
+    },
+    {
+      "original_path": "12545498053/CP7_AB_BOUNDED_BROWSER4.json",
+      "original_sha256": "634d36939a6268d540a6258dd6fc7e71d1b77effb5f8eacf5f2a328a000339f4",
+      "observed_status": "PASS",
+      "source_head": "28abdeef65348e42ad1b1947830890e3e55adcd3",
+      "run_id": 40055821301,
+      "artifact_id": 12545498053,
+      "direct_current_installation_class": "NO_DIRECT_ENTRYPOINT_DECLARATION",
+      "direct_declared_contract": null,
+      "full_direct_source_declaration_equal": false,
+      "package_gates_observed": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "raw_cp6_restored": true,
+      "raw_advisor_gate": true,
+      "automatic_credit_for_analog_composition": false
+    },
+    {
+      "original_path": "12546240832/CP7_AB_BOUNDED_CHAIN_RESTORE.json",
+      "original_sha256": "65148843fac586ae94faa99db13d24c0c97af5f9a5624c88ffeac169f023d6d1",
+      "observed_status": "PASS",
+      "source_head": "28abdeef65348e42ad1b1947830890e3e55adcd3",
+      "run_id": 40055821320,
+      "artifact_id": 12546240832,
+      "direct_current_installation_class": "NO_DIRECT_ENTRYPOINT_DECLARATION",
+      "direct_declared_contract": null,
+      "full_direct_source_declaration_equal": false,
+      "package_gates_observed": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "raw_cp6_restored": true,
+      "raw_advisor_gate": null,
+      "automatic_credit_for_analog_composition": false
+    },
+    {
+      "original_path": "12545938072/CP7_AB_OWNER_BROWSER19.json",
+      "original_sha256": "437a6b7b59fda0e542b1aba232a7bc9830cb9d943ecad327a86584010e76cf3a",
+      "observed_status": "PASS",
+      "source_head": "7b26351f0a0bcfcf0e23a631bb041e7f407de0d3",
+      "run_id": 40056087759,
+      "artifact_id": 12545938072,
+      "direct_current_installation_class": "NO_DIRECT_ENTRYPOINT_DECLARATION",
+      "direct_declared_contract": null,
+      "full_direct_source_declaration_equal": false,
+      "package_gates_observed": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "raw_cp6_restored": true,
+      "raw_advisor_gate": true,
+      "automatic_credit_for_analog_composition": false
+    },
+    {
+      "original_path": "12546922026/CP7_CURRENT_TRANSFER_RESTORE.json",
+      "original_sha256": "a9ec119013b8e565140081810fba164be7b0f1b24e84f07573a8bc3e5dccd9bd",
+      "observed_status": "PASS",
+      "source_head": "aea44fa9687241300c3530da07fa16284a22ab7d",
+      "run_id": 40058216568,
+      "artifact_id": 12546922026,
+      "direct_current_installation_class": "LEGACY_AB",
+      "direct_declared_contract": "cp7.current-AB-installation-with-legacy-inventory.v1",
+      "full_direct_source_declaration_equal": true,
+      "package_gates_observed": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "raw_cp6_restored": true,
+      "raw_advisor_gate": null,
+      "automatic_credit_for_analog_composition": false
+    },
+    {
+      "original_path": "12547475257/CP7_CURRENT_MANDOR_NATIVE34.json",
+      "original_sha256": "84b45470c44be16befd387a019399f4a311236991bbc32d480156e7bba59ca7c",
+      "observed_status": "PASS",
+      "source_head": "c99ca612987c8dca24f26152417239fe76683735",
+      "run_id": 40059271805,
+      "artifact_id": 12547475257,
+      "direct_current_installation_class": "LEGACY_AB",
+      "direct_declared_contract": "cp7.current-AB-installation-with-legacy-inventory.v1",
+      "full_direct_source_declaration_equal": true,
+      "package_gates_observed": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "raw_cp6_restored": true,
+      "raw_advisor_gate": true,
+      "automatic_credit_for_analog_composition": false
+    },
+    {
+      "original_path": "12545674828/CP7_CURRENT_INVOICE_HISTORY_BROWSER2.json",
+      "original_sha256": "b37f2c686371dc2ac683c71f1d8e904ac6109d4c240fc40bf9263b11b26101e2",
+      "observed_status": "INCOMPLETE",
+      "source_head": "a17b34cf3402eea8996028345fcf6d715367e684",
+      "run_id": 40058716148,
+      "artifact_id": 12545674828,
+      "direct_current_installation_class": "NO_DIRECT_ENTRYPOINT_DECLARATION",
+      "direct_declared_contract": null,
+      "full_direct_source_declaration_equal": false,
+      "package_gates_observed": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": false
+      },
+      "raw_cp6_restored": true,
+      "raw_advisor_gate": true,
+      "automatic_credit_for_analog_composition": false
+    },
+    {
+      "original_path": "12547262919/CP7_CURRENT_INVOICE_HISTORY_BROWSER2.json",
+      "original_sha256": "2caaaf044920485aa0785619ee6553798f3b5d11dd8f043042163ef1e27ccaad",
+      "observed_status": "PASS",
+      "source_head": "6c3e5a9ee560a7fb03141e0b421ecdacd1c7928c",
+      "run_id": 40059653484,
+      "artifact_id": 12547262919,
+      "direct_current_installation_class": "NO_DIRECT_ENTRYPOINT_DECLARATION",
+      "direct_declared_contract": null,
+      "full_direct_source_declaration_equal": false,
+      "package_gates_observed": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "raw_cp6_restored": true,
+      "raw_advisor_gate": true,
+      "automatic_credit_for_analog_composition": false
+    },
+    {
+      "original_path": "12546894777/CP7_CURRENT_TRANSFER_PAGES_BROWSER2.json",
+      "original_sha256": "2582f984a3532ed3b61c6852efc7b1218969da68c0960c840a8e392dd70dc7cb",
+      "observed_status": "PASS",
+      "source_head": "28f73c0fb3f0e6da7002fcb4779e08ee0214a371",
+      "run_id": 40060328159,
+      "artifact_id": 12546894777,
+      "direct_current_installation_class": "NO_DIRECT_ENTRYPOINT_DECLARATION",
+      "direct_declared_contract": null,
+      "full_direct_source_declaration_equal": false,
+      "package_gates_observed": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "raw_cp6_restored": true,
+      "raw_advisor_gate": true,
+      "automatic_credit_for_analog_composition": false
+    },
+    {
+      "original_path": "12547527921/CP7_CURRENT_TRANSFER_PAGES_BROWSER2.json",
+      "original_sha256": "8d6115b2e3185e9740e07285e12156364efdce0593973fc9e2bf5c21cec5be31",
+      "observed_status": "PASS",
+      "source_head": "535c97af52b3a6348a4f82cdb7f6b518c21864fe",
+      "run_id": 40061613739,
+      "artifact_id": 12547527921,
+      "direct_current_installation_class": "NO_DIRECT_ENTRYPOINT_DECLARATION",
+      "direct_declared_contract": null,
+      "full_direct_source_declaration_equal": false,
+      "package_gates_observed": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "raw_cp6_restored": true,
+      "raw_advisor_gate": true,
+      "automatic_credit_for_analog_composition": false
+    },
+    {
+      "original_path": "12547676193/CP7_CURRENT_OWNER_LISTS_BROWSER10.json",
+      "original_sha256": "fac0d7205b7a51b8e4202bda7300e08b9ba42f07fb18723c948da225c7f2d11c",
+      "observed_status": "INCOMPLETE",
+      "source_head": "23ec565d4817f7b333a2129d46d669bb7dbe61f3",
+      "run_id": 40060889064,
+      "artifact_id": 12547676193,
+      "direct_current_installation_class": "NO_DIRECT_ENTRYPOINT_DECLARATION",
+      "direct_declared_contract": null,
+      "full_direct_source_declaration_equal": false,
+      "package_gates_observed": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": false
+      },
+      "raw_cp6_restored": true,
+      "raw_advisor_gate": true,
+      "automatic_credit_for_analog_composition": false
+    },
+    {
+      "original_path": "12547624512/CP7_CURRENT_OWNER_LISTS_BROWSER10.json",
+      "original_sha256": "d7fdcd9e931783262aea0d9fbfee129e87836a51073c8497b5e4d688bb571c70",
+      "observed_status": "PASS",
+      "source_head": "fefb20f36079341abf392dc9f977b23dd7a00e2e",
+      "run_id": 40062079889,
+      "artifact_id": 12547624512,
+      "direct_current_installation_class": "NO_DIRECT_ENTRYPOINT_DECLARATION",
+      "direct_declared_contract": null,
+      "full_direct_source_declaration_equal": false,
+      "package_gates_observed": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "raw_cp6_restored": true,
+      "raw_advisor_gate": true,
+      "automatic_credit_for_analog_composition": false
+    },
+    {
+      "original_path": "12547777967/CP7_CURRENT_LEGACY_UI_BROWSER31.json",
+      "original_sha256": "cbfd3ac9c94d3e810099b23fc3913b47379a44501c3522b33b29398637524918",
+      "observed_status": "PASS",
+      "source_head": "5681edbd5b60eda26d15c97c999429a554d3a557",
+      "run_id": 40061341301,
+      "artifact_id": 12547777967,
+      "direct_current_installation_class": "NO_DIRECT_ENTRYPOINT_DECLARATION",
+      "direct_declared_contract": null,
+      "full_direct_source_declaration_equal": false,
+      "package_gates_observed": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "raw_cp6_restored": true,
+      "raw_advisor_gate": true,
+      "automatic_credit_for_analog_composition": false
+    },
+    {
+      "original_path": "12547784688/CP7_CURRENT_FULL_MONEY_RESTORE.json",
+      "original_sha256": "d024ba499542b0c6bcf0771f7631ffa0878f64db7e4e6ef0144b1a62bb0c558e",
+      "observed_status": "PASS",
+      "source_head": "bc4dd575caeb127d0f6348d3172f4601ec2ba3a8",
+      "run_id": 40063578444,
+      "artifact_id": 12547784688,
+      "direct_current_installation_class": "NO_DIRECT_ENTRYPOINT_DECLARATION",
+      "direct_declared_contract": null,
+      "full_direct_source_declaration_equal": false,
+      "package_gates_observed": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "raw_cp6_restored": true,
+      "raw_advisor_gate": null,
+      "automatic_credit_for_analog_composition": false
+    },
+    {
+      "original_path": "12549124412/CP7_CURRENT_FULL_MONEY_RESTORE.json",
+      "original_sha256": "fd42f972c0dbe639ea157743f0a10e15c0f3d24a48ca179a0677600e75e0fd72",
+      "observed_status": "PASS",
+      "source_head": "d18f5d26f4e46a3287b04703bfe8fbeae6414c9f",
+      "run_id": 40064922630,
+      "artifact_id": 12549124412,
+      "direct_current_installation_class": "NO_DIRECT_ENTRYPOINT_DECLARATION",
+      "direct_declared_contract": null,
+      "full_direct_source_declaration_equal": false,
+      "package_gates_observed": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "raw_cp6_restored": true,
+      "raw_advisor_gate": null,
+      "automatic_credit_for_analog_composition": false
+    },
+    {
+      "original_path": "12552247099/CP7_CURRENT_CP6_AI_NATIVE135.json",
+      "original_sha256": "2f12932157a47e5d11d125bcc03657cd87a820114b750fabd781261d7c8a284c",
+      "observed_status": "INCOMPLETE",
+      "source_head": "1e0c840f8b0095f287763ee88b8afbdeff856ffe",
+      "run_id": 40072719573,
+      "artifact_id": 12552247099,
+      "direct_current_installation_class": "LEGACY_AB",
+      "direct_declared_contract": "cp7.current-AB-installation-with-legacy-inventory.v1",
+      "full_direct_source_declaration_equal": true,
+      "package_gates_observed": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": false
+      },
+      "raw_cp6_restored": true,
+      "raw_advisor_gate": true,
+      "automatic_credit_for_analog_composition": false
+    },
+    {
+      "original_path": "12553016437/CP7_CURRENT_CP6_RACE36.json",
+      "original_sha256": "924388c6104ffb2105540dd2c0e8b22458212ba8d5627184f6584dcf03a59661",
+      "observed_status": "INCOMPLETE",
+      "source_head": "1273950bad8195d5a2c0edc9b5a649e92510dbee",
+      "run_id": 40073243436,
+      "artifact_id": 12553016437,
+      "direct_current_installation_class": "LEGACY_AB",
+      "direct_declared_contract": "cp7.current-AB-installation-with-legacy-inventory.v1",
+      "full_direct_source_declaration_equal": true,
+      "package_gates_observed": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": false
+      },
+      "raw_cp6_restored": true,
+      "raw_advisor_gate": true,
+      "automatic_credit_for_analog_composition": false
+    },
+    {
+      "original_path": "12553365295/CP7_CURRENT_CP6_CROSSFLOW_NATIVE142.json",
+      "original_sha256": "b33825fbfb8e8b4050fbbf3c90f5e74a2061ae79b6657c58380a02f9697b3538",
+      "observed_status": "INCOMPLETE",
+      "source_head": "c38271b6d77038fe9043fc03e5b8109f8e5ebfac",
+      "run_id": 40074793087,
+      "artifact_id": 12553365295,
+      "direct_current_installation_class": "LEGACY_AB",
+      "direct_declared_contract": "cp7.current-AB-installation-with-legacy-inventory.v1",
+      "full_direct_source_declaration_equal": true,
+      "package_gates_observed": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": false
+      },
+      "raw_cp6_restored": null,
+      "raw_advisor_gate": null,
+      "automatic_credit_for_analog_composition": false
+    },
+    {
+      "original_path": "12552283657/CP7_CURRENT_CP6_AI_NATIVE135.json",
+      "original_sha256": "9f8c00ded0bee193c7ee7d344d4f8f09112e1058ae1e58f735f9b5bfbe8e9fdf",
+      "observed_status": "INCOMPLETE",
+      "source_head": "27ff04fa0dbfad271da8c490ca6a869cfd988eaa",
+      "run_id": 40074044695,
+      "artifact_id": 12552283657,
+      "direct_current_installation_class": "LEGACY_AB",
+      "direct_declared_contract": "cp7.current-AB-installation-with-legacy-inventory.v1",
+      "full_direct_source_declaration_equal": true,
+      "package_gates_observed": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": false
+      },
+      "raw_cp6_restored": true,
+      "raw_advisor_gate": true,
+      "automatic_credit_for_analog_composition": false
+    },
+    {
+      "original_path": "12553294724/CP7_CURRENT_CP6_CROSSFLOW_NATIVE142.json",
+      "original_sha256": "f992c82877d71e988f3a44f543295a0ac2d6817bf7940d425fa1013320fff329",
+      "observed_status": "INCOMPLETE",
+      "source_head": "368ce8701f0649c8f18d33051b72969a6d26cc57",
+      "run_id": 40076046443,
+      "artifact_id": 12553294724,
+      "direct_current_installation_class": "LEGACY_AB",
+      "direct_declared_contract": "cp7.current-AB-installation-with-legacy-inventory.v1",
+      "full_direct_source_declaration_equal": true,
+      "package_gates_observed": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": false
+      },
+      "raw_cp6_restored": true,
+      "raw_advisor_gate": true,
+      "automatic_credit_for_analog_composition": false
+    },
+    {
+      "original_path": "12554330089/CP7_CURRENT_CP6_RACE36.json",
+      "original_sha256": "a9a7360a6894660497d851a7043df96a7a59f3f2f3f1ef8ab99d7eaecba67269",
+      "observed_status": "INCOMPLETE",
+      "source_head": "368ce8701f0649c8f18d33051b72969a6d26cc57",
+      "run_id": 40076046451,
+      "artifact_id": 12554330089,
+      "direct_current_installation_class": "LEGACY_AB",
+      "direct_declared_contract": "cp7.current-AB-installation-with-legacy-inventory.v1",
+      "full_direct_source_declaration_equal": true,
+      "package_gates_observed": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": false
+      },
+      "raw_cp6_restored": true,
+      "raw_advisor_gate": true,
+      "automatic_credit_for_analog_composition": false
+    },
+    {
+      "original_path": "12554390190/CP7_CURRENT_CP6_CONTRACT_NATIVE6.json",
+      "original_sha256": "25be83a8e79dc1073da1daeb1c47c39d987838932c8405ff11ccd9b78336b55a",
+      "observed_status": "INCOMPLETE",
+      "source_head": "7a7110f72417e9ff8ea7354e35b4e8856802fa60",
+      "run_id": 40076878768,
+      "artifact_id": 12554390190,
+      "direct_current_installation_class": "LEGACY_AB",
+      "direct_declared_contract": "cp7.current-AB-installation-with-legacy-inventory.v1",
+      "full_direct_source_declaration_equal": true,
+      "package_gates_observed": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": false
+      },
+      "raw_cp6_restored": true,
+      "raw_advisor_gate": true,
+      "automatic_credit_for_analog_composition": false
+    },
+    {
+      "original_path": "12553328751/CP7_CURRENT_RETAINED_NATIVE153.json",
+      "original_sha256": "b2cb4edb026301d4f1375d30f6e13ae502882fee374a402756eaa40b465c6309",
+      "observed_status": "INCOMPLETE",
+      "source_head": "04033ae39a81029a1a9cbf9d9b61e5431ef202c9",
+      "run_id": 40077317395,
+      "artifact_id": 12553328751,
+      "direct_current_installation_class": "LEGACY_AB",
+      "direct_declared_contract": "cp7.current-AB-installation-with-legacy-inventory.v1",
+      "full_direct_source_declaration_equal": true,
+      "package_gates_observed": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": false
+      },
+      "raw_cp6_restored": true,
+      "raw_advisor_gate": true,
+      "automatic_credit_for_analog_composition": false
+    },
+    {
+      "original_path": "12554812052/CP7_DRAFT_RETURN_ISOLATION_NATIVE4.json",
+      "original_sha256": "102d8cf2dea33dc1d68c012a1a678e8e911d5812a96a5134fc6faba2b60b308e",
+      "observed_status": "INCOMPLETE",
+      "source_head": "d2a90e16542b843314c3a3862c7fb1d4cfb49306",
+      "run_id": 40079527400,
+      "artifact_id": 12554812052,
+      "direct_current_installation_class": "LEGACY_AB",
+      "direct_declared_contract": "cp7.current-AB-installation-with-legacy-inventory.v1",
+      "full_direct_source_declaration_equal": true,
+      "package_gates_observed": {
+        "installed": false,
+        "primary_unchanged": true,
+        "backup_restore_drill": false,
+        "security_advisors": true,
+        "writer_runtime": false
+      },
+      "raw_cp6_restored": false,
+      "raw_advisor_gate": false,
+      "automatic_credit_for_analog_composition": false
+    },
+    {
+      "original_path": "12554024552/CP7_DRAFT_RETURN_USED_RESTORE.json",
+      "original_sha256": "1fbc52ff080fcf4df8d2b40a9feeccb56d49d43e943b2ae6556f5c5740d20cc2",
+      "observed_status": "INCOMPLETE",
+      "source_head": "4d99d0e17d52fcfb9711a058d3116586b0794270",
+      "run_id": 40079815056,
+      "artifact_id": 12554024552,
+      "direct_current_installation_class": "NO_DIRECT_ENTRYPOINT_DECLARATION",
+      "direct_declared_contract": null,
+      "full_direct_source_declaration_equal": false,
+      "package_gates_observed": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": false
+      },
+      "raw_cp6_restored": true,
+      "raw_advisor_gate": null,
+      "automatic_credit_for_analog_composition": false
+    },
+    {
+      "original_path": "12555041826/CP7_DRAFT_RETURN_REGRESSION_NATIVE32.json",
+      "original_sha256": "bfdfd0021dacdde900d361895234c1d3c2bd299470a1659a82816f2bdfb5c10b",
+      "observed_status": "INCOMPLETE",
+      "source_head": "666356baea89412c2e4077ea71e160e016b19046",
+      "run_id": 40080017329,
+      "artifact_id": 12555041826,
+      "direct_current_installation_class": "LEGACY_AB",
+      "direct_declared_contract": "cp7.current-AB-installation-with-legacy-inventory.v1",
+      "full_direct_source_declaration_equal": true,
+      "package_gates_observed": {
+        "installed": false,
+        "primary_unchanged": true,
+        "backup_restore_drill": false,
+        "security_advisors": true,
+        "writer_runtime": false
+      },
+      "raw_cp6_restored": false,
+      "raw_advisor_gate": false,
+      "automatic_credit_for_analog_composition": false
+    },
+    {
+      "original_path": "12555735321/CP7_CURRENT_CP6_FUNDED_NATIVE12.json",
+      "original_sha256": "190232afd1c59ba418e3dc5e3d73f522f497f55323467451eba70269c55d6402",
+      "observed_status": "PASS",
+      "source_head": "f127234b995dcb9485b86bfc4360cda98fe13c75",
+      "run_id": 40080319691,
+      "artifact_id": 12555735321,
+      "direct_current_installation_class": "LEGACY_AB",
+      "direct_declared_contract": "cp7.current-AB-installation-with-legacy-inventory.v1",
+      "full_direct_source_declaration_equal": true,
+      "package_gates_observed": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "raw_cp6_restored": true,
+      "raw_advisor_gate": true,
+      "automatic_credit_for_analog_composition": false
+    },
+    {
+      "original_path": "12555491670/CP7_DRAFT_RETURN_CLOSURE_NATIVE32.json",
+      "original_sha256": "7085322d357c37c776015a718a06b2859dd6f38ffdf75b6d28d9a88631f2e066",
+      "observed_status": "PASS",
+      "source_head": "fbc04b53b7ccf45845f239b1bd95ed8cdeae872a",
+      "run_id": 40080795563,
+      "artifact_id": 12555491670,
+      "direct_current_installation_class": "LEGACY_AB",
+      "direct_declared_contract": "cp7.current-AB-installation-with-legacy-inventory.v1",
+      "full_direct_source_declaration_equal": true,
+      "package_gates_observed": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "raw_cp6_restored": true,
+      "raw_advisor_gate": true,
+      "automatic_credit_for_analog_composition": false
+    },
+    {
+      "original_path": "12555745676/CP7_DRAFT_RETURN_RESTORED.json",
+      "original_sha256": "503536b4d282052aa6e99906db5bb95821e528746a29dadc3e938b8c5e785681",
+      "observed_status": "PASS",
+      "source_head": "fbc04b53b7ccf45845f239b1bd95ed8cdeae872a",
+      "run_id": 40080795607,
+      "artifact_id": 12555745676,
+      "direct_current_installation_class": "NO_DIRECT_ENTRYPOINT_DECLARATION",
+      "direct_declared_contract": null,
+      "full_direct_source_declaration_equal": false,
+      "package_gates_observed": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "raw_cp6_restored": true,
+      "raw_advisor_gate": null,
+      "automatic_credit_for_analog_composition": false
+    },
+    {
+      "original_path": "12556450449/CP7_CURRENT_RETURN_INSTALLATION_RESTORE.json",
+      "original_sha256": "8cd8d526218c2e6336c4d3c60cc540767469a13617ed610d05536001a787c59f",
+      "observed_status": "PASS",
+      "source_head": "4541499eb5d4d2b8ae99432430bd055e9726aca1",
+      "run_id": 40081846443,
+      "artifact_id": 12556450449,
+      "direct_current_installation_class": "CORRECTED_RETURN_AB",
+      "direct_declared_contract": "cp7.current-AB-with-draft-return-isolation.v1",
+      "full_direct_source_declaration_equal": true,
+      "package_gates_observed": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "raw_cp6_restored": true,
+      "raw_advisor_gate": null,
+      "automatic_credit_for_analog_composition": false
+    },
+    {
+      "original_path": "12556210979/CP7_CURRENT_RETURN_RACE2.json",
+      "original_sha256": "4a76ae4fc78dfabd0049f36a7f5dbd8bbda5dc2b05250fd6d8cd25c38cec8b95",
+      "observed_status": "PASS",
+      "source_head": "6b7dab37d58523865c9d6e724c87d5b10d4b1aa0",
+      "run_id": 40082444870,
+      "artifact_id": 12556210979,
+      "direct_current_installation_class": "CORRECTED_RETURN_AB",
+      "direct_declared_contract": "cp7.current-AB-with-draft-return-isolation.v1",
+      "full_direct_source_declaration_equal": true,
+      "package_gates_observed": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "raw_cp6_restored": true,
+      "raw_advisor_gate": true,
+      "automatic_credit_for_analog_composition": false
+    },
+    {
+      "original_path": "12556022938/CP7_CURRENT_OPENING_REPLAY_NATIVE10.json",
+      "original_sha256": "74d48c0d772bc8c9a0e419fe148a1752fd2b925cdb485e8c12a543873b2151f6",
+      "observed_status": "INCOMPLETE",
+      "source_head": "0e29c8343ec725279c01e44e1efe646731ba74be",
+      "run_id": 40082679978,
+      "artifact_id": 12556022938,
+      "direct_current_installation_class": "CORRECTED_RETURN_AB",
+      "direct_declared_contract": "cp7.current-AB-with-draft-return-isolation.v1",
+      "full_direct_source_declaration_equal": true,
+      "package_gates_observed": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": false
+      },
+      "raw_cp6_restored": false,
+      "raw_advisor_gate": false,
+      "automatic_credit_for_analog_composition": false
+    },
+    {
+      "original_path": "12556896192/CP7_CURRENT_OPENING_REPLAY_READY_NATIVE10.json",
+      "original_sha256": "adc8f801c858ec71395ce5851fe50f37f8d03443f0ce3030bdd3a49c14b3e25e",
+      "observed_status": "PASS",
+      "source_head": "e99c1ca70202ac76196b2570bf7f50faae62c640",
+      "run_id": 40083710530,
+      "artifact_id": 12556896192,
+      "direct_current_installation_class": "CORRECTED_RETURN_AB",
+      "direct_declared_contract": "cp7.current-AB-with-draft-return-isolation.v1",
+      "full_direct_source_declaration_equal": true,
+      "package_gates_observed": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "raw_cp6_restored": true,
+      "raw_advisor_gate": true,
+      "automatic_credit_for_analog_composition": false
+    },
+    {
+      "original_path": "12557000872/CP7_CURRENT_RETURN_AUTH2.json",
+      "original_sha256": "5cd09f46aba1c4558ecca7ce2ed4df47ba35394e1412fd7d3e2a4ae5f3cb7daa",
+      "observed_status": "INCOMPLETE",
+      "source_head": "c52f392359518ee17523d3c1989fe5d1190ceb33",
+      "run_id": 40084287050,
+      "artifact_id": 12557000872,
+      "direct_current_installation_class": "CORRECTED_RETURN_AB",
+      "direct_declared_contract": "cp7.current-AB-with-draft-return-isolation.v1",
+      "full_direct_source_declaration_equal": true,
+      "package_gates_observed": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": false
+      },
+      "raw_cp6_restored": true,
+      "raw_advisor_gate": true,
+      "automatic_credit_for_analog_composition": false
+    },
+    {
+      "original_path": "12556917922/CP7_CURRENT_CASH_FIXTURE_DIAGNOSTIC3.json",
+      "original_sha256": "8b7ac552f2578fac075f3c50108006b528e4ef04fe90b4cbf61fc35b2d2b9a1a",
+      "observed_status": "INCOMPLETE",
+      "source_head": "e59e5e5a1f527dcb5194ffceaab4f702294a97b7",
+      "run_id": 40085047355,
+      "artifact_id": 12556917922,
+      "direct_current_installation_class": "CORRECTED_RETURN_AB",
+      "direct_declared_contract": "cp7.current-AB-with-draft-return-isolation.v1",
+      "full_direct_source_declaration_equal": true,
+      "package_gates_observed": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": false
+      },
+      "raw_cp6_restored": true,
+      "raw_advisor_gate": true,
+      "automatic_credit_for_analog_composition": false
+    },
+    {
+      "original_path": "12556924163/CP7_CURRENT_RETURN_AUTH_READY2.json",
+      "original_sha256": "047bb684afe2d083a1fe6e48cb09cfc402102d182f350fd3171282d457b6fe1e",
+      "observed_status": "INCOMPLETE",
+      "source_head": "b18853dfe5229564c537ef2a984fb3988ebed735",
+      "run_id": 40085550449,
+      "artifact_id": 12556924163,
+      "direct_current_installation_class": "CORRECTED_RETURN_AB",
+      "direct_declared_contract": "cp7.current-AB-with-draft-return-isolation.v1",
+      "full_direct_source_declaration_equal": true,
+      "package_gates_observed": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": false
+      },
+      "raw_cp6_restored": true,
+      "raw_advisor_gate": true,
+      "automatic_credit_for_analog_composition": false
+    },
+    {
+      "original_path": "12556548927/CP7_CURRENT_RETURN_BROWSER2.json",
+      "original_sha256": "4551138af787c3c841a6a0b4a4bc2909639a354a383142d183a041c642eee49e",
+      "observed_status": "INCOMPLETE",
+      "source_head": "b18853dfe5229564c537ef2a984fb3988ebed735",
+      "run_id": 40085550446,
+      "artifact_id": 12556548927,
+      "direct_current_installation_class": "CORRECTED_RETURN_AB",
+      "direct_declared_contract": "cp7.current-AB-with-draft-return-isolation.v1",
+      "full_direct_source_declaration_equal": true,
+      "package_gates_observed": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": false
+      },
+      "raw_cp6_restored": true,
+      "raw_advisor_gate": true,
+      "automatic_credit_for_analog_composition": false
+    },
+    {
+      "original_path": "12557645633/CP7_CURRENT_CASH_READY_NATIVE3.json",
+      "original_sha256": "c8f7eba186198389633e3c17d074c2ce86d672d19ec06f7f2c3142dddb2d4f62",
+      "observed_status": "INCOMPLETE",
+      "source_head": "4cec061c9292513b28f7080c310557468af5f2e3",
+      "run_id": 40086198827,
+      "artifact_id": 12557645633,
+      "direct_current_installation_class": "CORRECTED_RETURN_AB",
+      "direct_declared_contract": "cp7.current-AB-with-draft-return-isolation.v1",
+      "full_direct_source_declaration_equal": true,
+      "package_gates_observed": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": false
+      },
+      "raw_cp6_restored": true,
+      "raw_advisor_gate": true,
+      "automatic_credit_for_analog_composition": false
+    },
+    {
+      "original_path": "12558005753/CP7_CURRENT_RETURN_AUTH_BOUNDED2.json",
+      "original_sha256": "b51a1d4acaa580a52d4f32ac83ceba6abe52b877d5b64569d219629a8f170d33",
+      "observed_status": "PASS",
+      "source_head": "66d41d2e81d092c00b05d7af33ce4641b587d0a9",
+      "run_id": 40086882133,
+      "artifact_id": 12558005753,
+      "direct_current_installation_class": "CORRECTED_RETURN_AB",
+      "direct_declared_contract": "cp7.current-AB-with-draft-return-isolation.v1",
+      "full_direct_source_declaration_equal": true,
+      "package_gates_observed": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "raw_cp6_restored": true,
+      "raw_advisor_gate": true,
+      "automatic_credit_for_analog_composition": false
+    },
+    {
+      "original_path": "12557483809/CP7_CURRENT_RETURN_BROWSER_BOUNDED2.json",
+      "original_sha256": "f8aae07f82192d71c41ce806a472f277ed4b61aa87cc762f08391b2e08c33977",
+      "observed_status": "PASS",
+      "source_head": "66d41d2e81d092c00b05d7af33ce4641b587d0a9",
+      "run_id": 40086882093,
+      "artifact_id": 12557483809,
+      "direct_current_installation_class": "CORRECTED_RETURN_AB",
+      "direct_declared_contract": "cp7.current-AB-with-draft-return-isolation.v1",
+      "full_direct_source_declaration_equal": true,
+      "package_gates_observed": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "raw_cp6_restored": true,
+      "raw_advisor_gate": true,
+      "automatic_credit_for_analog_composition": false
+    },
+    {
+      "original_path": "12557079772/CP7_CURRENT_CASH_LINKED_NATIVE3.json",
+      "original_sha256": "a116882c8f061db1956fd8c342eea4d8f9c24a468f8bfb4d688cd7ffc9b48c3d",
+      "observed_status": "PASS",
+      "source_head": "31b77abbfad6c2af88ebcfccaeda08e941508197",
+      "run_id": 40087715870,
+      "artifact_id": 12557079772,
+      "direct_current_installation_class": "CORRECTED_RETURN_AB",
+      "direct_declared_contract": "cp7.current-AB-with-draft-return-isolation.v1",
+      "full_direct_source_declaration_equal": true,
+      "package_gates_observed": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "raw_cp6_restored": true,
+      "raw_advisor_gate": true,
+      "automatic_credit_for_analog_composition": false
+    },
+    {
+      "original_path": "12558513245/CP7_CURRENT_ANALOG_INSTALLATION_RESTORE.json",
+      "original_sha256": "2bf56a3557b0ec7781956fcb909b181b4ec502855c8a3ceb1de7725b3d802b72",
+      "observed_status": "INCOMPLETE",
+      "source_head": "b7dd5143f922464e1fdbd207ae1e370f82b63e1d",
+      "run_id": 40088953334,
+      "artifact_id": 12558513245,
+      "direct_current_installation_class": "ANALOG_CORRECTED_RETURN_AB",
+      "direct_declared_contract": "cp7.current-AB-return-with-analog-metadata.v1",
+      "full_direct_source_declaration_equal": true,
+      "package_gates_observed": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": false
+      },
+      "raw_cp6_restored": true,
+      "raw_advisor_gate": true,
+      "automatic_credit_for_analog_composition": false
+    }
+  ],
+  "production_go": false,
+  "independent_acceptance": false,
+  "new_runtime_execution": false
+}

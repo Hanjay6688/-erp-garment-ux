@@ -1,0 +1,104 @@
+{
+  "contract": "cp7.B-analog-choice.component-writer-intake.v1",
+  "status": "PASS",
+  "qualified_head": "32cb39dde5281561091a32f32934c62fcffdfd69",
+  "run_id": 40089245589,
+  "job_id": 120858347121,
+  "artifact_id": 12559421355,
+  "artifact_zip": {
+    "bytes": 92046,
+    "sha256": "baf261d80c51f0ab625d2255572bf798225b7fdf146b013738f73ef082d2e1ff"
+  },
+  "original": {
+    "name": "CP7_OW11_ANALOG_CHOICE_TRANSPORT.json",
+    "bytes": 743542,
+    "sha256": "dc6d4a0c9ac3a8c9ace2adc867f09fbce2915b52e25c6e84bce15094ce0b6308"
+  },
+  "groups": {
+    "native": {
+      "counts": {
+        "PASS": 1
+      },
+      "cases": {
+        "OW11_ANALOG_CHOICE_CATALOG22_PREUSE_AND_DEPENDENCY": "PASS"
+      },
+      "auth_counts": null,
+      "database_remaining": null,
+      "host_status": null,
+      "host_exit": null,
+      "console_errors": null,
+      "cleanup_failures": null
+    },
+    "races": {
+      "counts": {
+        "PASS": 6
+      },
+      "cases": {
+        "OW11_ANALOG_CHOICE_RACE_SAME_UUID": "PASS",
+        "OW11_ANALOG_CHOICE_RACE_REVISION": "PASS",
+        "OW11_ANALOG_CHOICE_RACE_ACCESS_AFTER_ENVELOPE": "PASS",
+        "OW11_ANALOG_CHOICE_RACE_REPLAY_ACCESS_AFTER_REQUEST": "PASS",
+        "OW11_ANALOG_CHOICE_RACE_ACCESS_AFTER_TARGET": "PASS",
+        "OW11_ANALOG_CHOICE_RACE_SOURCE_AFTER_ENVELOPE": "PASS"
+      },
+      "auth_counts": null,
+      "database_remaining": 0,
+      "host_status": null,
+      "host_exit": null,
+      "console_errors": null,
+      "cleanup_failures": null
+    },
+    "http": {
+      "counts": {
+        "PASS": 3
+      },
+      "cases": {
+        "OW11_ANALOG_CHOICE_AUTH_CONFIRM_CLEAR_EXACT_REPLAY": "PASS",
+        "OW11_ANALOG_CHOICE_AUTH_REVOKED_COMMITTED_REPLAY": "PASS",
+        "OW11_ANALOG_CHOICE_AUTH_ANON_AND_FOREIGN_REFERENCE": "PASS"
+      },
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      },
+      "database_remaining": 0,
+      "host_status": null,
+      "host_exit": null,
+      "console_errors": null,
+      "cleanup_failures": false
+    }
+  },
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "analog_choice_sources_exact_to_A_candidate": {
+    "MANIFEST.json": "19b2e5724539a9892761dea881b9aac5d4e798fae3ab985384c917a598988699",
+    "__init__.py": "66f9412b1c73e717535507d933552a135dc264eae0946f73c8258e75e107b09e",
+    "choice.sql": "16f84ef04b71183d0e70ad0eca72aa748000dd7b4c4436fa7fd922090f285a0d"
+  },
+  "A_writer_intake_only": true,
+  "combined_A_runtime": false,
+  "full_OW11_acceptance": false,
+  "forecast_applied": false,
+  "independent_acceptance": false,
+  "production_go": false,
+  "first_B_failures_preserved_by_B": true,
+  "no_source_or_oracle_relabel": true
+}
