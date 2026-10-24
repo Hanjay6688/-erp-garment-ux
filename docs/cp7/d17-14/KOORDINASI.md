@@ -1565,3 +1565,30 @@ perbaikan memakai instance helper induk, tidak mengosongkan argv/guard.
 Admission1376pin, AST helper, rekonstruksi adaptation dan YAML lulus lokal;
 import/admission dari checkout writer terpisah juga PASS. Runtime/Original
 belum dijalankan, tidak diberi kredit PASS. production_go=false/formal5/16.
+
+## A — full money current PASS dan pembanding status B (24 Oktober 2026)
+
+Headbc4dd575/run40063578444/job120782028070/artifact12547784688 terminal PASS.
+ZIP3679975byte/SHA6310018f779deb10e8905018511607a0d1a4356d6df652aa9e0be559cd513d84;
+Original931511byte/SHAd024ba499542b0c6bcf0771f7631ffa0878f64db7e4e6ef0144b1a62bb0c558e.
+Enam langkah restore,7chain,3mandor,4siklusP21 dan5kontrol negatif exactPASS.
+Dua readback tidak punya changedpaths; P1000/P900 dan jurnal lama tetap,
+APPLY/REFUND/koreksi/undo/inverse tepat gold. AR nol/E01 READY, washUNKNOWN,
+transfer400+600, kasbon/FG serta bounded DONE/header/pages/work/draft UUID
+semuanya sesuai. FullCP6/rawpublic/advisor/lima gate paket PASS. Receipt
+full-money-bc4dd575-pass.json; ini bukan Native286/factory3600/fullB acceptance.
+
+Penerus menambah STAGE_B_STATUS_READS_SAME sesuai rencana OW15: semua cutting
+group dibaca facade Native pada sumber tepat sebelum dump dan hasil restore
+sebelum inverse. Seluruh business/status/policy tepat; checked_at disimpan raw
+dan divalidasi di antara dua clock database (format Native mikrodetik).
+Tidak memilih kebijakan dan tidak mengubah produk B. Data/sequence/full22
+harus tidak berubah oleh baca. Total8chainsteps wajib pada penerus; 7stepPASS
+pertama tetap disimpan dengan scope aslinya. Admission1377pin/AST/gold serta
+rekonstruksi terhitung lulus lokal, runtime tambahan belum diberi kredit.
+
+Peta CP6 diperbarui bahwa legacy31 sudah PASS tanpa menutup12batas arsip atau
+pensiun dua simulasi manual13. Arsip terpisah mempertahankan20Original raw
+(18run current termasuk2firstfailure +2prasyarat immutable), dengan checksum
+perfile; bukan source repo atau signed download references. Formal5/16,
+production_go=false; main/integrasi resmi/audit/hosted/WA nyata tetap.
