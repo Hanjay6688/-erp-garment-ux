@@ -1,0 +1,429 @@
+{
+  "contract": "cp7.current-cp6-retained-result.v1",
+  "qualified_head": "c38271b6d77038fe9043fc03e5b8109f8e5ebfac",
+  "run_id": 40074793087,
+  "job_id": 120815732561,
+  "artifact_id": 12553365295,
+  "artifact_zip": {
+    "bytes": 1723987,
+    "sha256": "25d490a34a6a15a5493f6b75ca2720ca287e7f036d0b6ae3aaf0de9735de5fcb"
+  },
+  "original": {
+    "name": "CP7_CURRENT_CP6_CROSSFLOW_NATIVE142.json",
+    "bytes": 419728,
+    "sha256": "b33825fbfb8e8b4050fbbf3c90f5e74a2061ae79b6657c58380a02f9697b3538"
+  },
+  "status": "INCOMPLETE",
+  "error": "dict() got multiple values for keyword argument 'case'",
+  "cp6_restored": null,
+  "restore_raw_public_equal": null,
+  "advisor_gate": null,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "groups": {},
+  "production_go": false,
+  "independent_acceptance": false,
+  "new_business_case_credit": 0,
+  "partial_baseline_logged_results": {
+    "counts": {
+      "PASS": 60,
+      "INCOMPLETE": 15
+    },
+    "logged_case_count": 75,
+    "cases": [
+      {
+        "case": "DAY:FABRIC:DIRECT:Asia/Jakarta",
+        "status": "PASS",
+        "error": ""
+      },
+      {
+        "case": "DAY:FABRIC:DIRECT:UTC",
+        "status": "PASS",
+        "error": ""
+      },
+      {
+        "case": "DAY:FABRIC:DIRECT:Asia/Tokyo",
+        "status": "PASS",
+        "error": ""
+      },
+      {
+        "case": "DAY:FABRIC:DIRECT:Pacific/Kiritimati",
+        "status": "PASS",
+        "error": ""
+      },
+      {
+        "case": "DAY:FABRIC:DIRECT:Etc/GMT+12",
+        "status": "PASS",
+        "error": ""
+      },
+      {
+        "case": "DAY:FABRIC:IMPORT:Asia/Jakarta",
+        "status": "PASS",
+        "error": ""
+      },
+      {
+        "case": "DAY:FABRIC:IMPORT:UTC",
+        "status": "PASS",
+        "error": ""
+      },
+      {
+        "case": "DAY:FABRIC:IMPORT:Asia/Tokyo",
+        "status": "PASS",
+        "error": ""
+      },
+      {
+        "case": "DAY:FABRIC:IMPORT:Pacific/Kiritimati",
+        "status": "PASS",
+        "error": ""
+      },
+      {
+        "case": "DAY:FABRIC:IMPORT:Etc/GMT+12",
+        "status": "PASS",
+        "error": ""
+      },
+      {
+        "case": "DAY:FABRIC_ROLL:DIRECT:Asia/Jakarta",
+        "status": "PASS",
+        "error": ""
+      },
+      {
+        "case": "DAY:FABRIC_ROLL:DIRECT:UTC",
+        "status": "PASS",
+        "error": ""
+      },
+      {
+        "case": "DAY:FABRIC_ROLL:DIRECT:Asia/Tokyo",
+        "status": "PASS",
+        "error": ""
+      },
+      {
+        "case": "DAY:FABRIC_ROLL:DIRECT:Pacific/Kiritimati",
+        "status": "PASS",
+        "error": ""
+      },
+      {
+        "case": "DAY:FABRIC_ROLL:DIRECT:Etc/GMT+12",
+        "status": "PASS",
+        "error": ""
+      },
+      {
+        "case": "DAY:FABRIC_ROLL:IMPORT:Asia/Jakarta",
+        "status": "INCOMPLETE",
+        "error": "AD_REFUSAL_FAILED:Opening balance must be DRAFT:AK_OPENING_REQUIRES_CURRENT_VALIDATED_BATCH\nCONTEXT:  PL/pgSQL function post_opening_balance(uuid) line 20 at RAISE:True"
+      },
+      {
+        "case": "DAY:FABRIC_ROLL:IMPORT:UTC",
+        "status": "INCOMPLETE",
+        "error": "AD_REFUSAL_FAILED:Opening balance must be DRAFT:AK_OPENING_REQUIRES_CURRENT_VALIDATED_BATCH\nCONTEXT:  PL/pgSQL function post_opening_balance(uuid) line 20 at RAISE:True"
+      },
+      {
+        "case": "DAY:FABRIC_ROLL:IMPORT:Asia/Tokyo",
+        "status": "INCOMPLETE",
+        "error": "AD_REFUSAL_FAILED:Opening balance must be DRAFT:AK_OPENING_REQUIRES_CURRENT_VALIDATED_BATCH\nCONTEXT:  PL/pgSQL function post_opening_balance(uuid) line 20 at RAISE:True"
+      },
+      {
+        "case": "DAY:FABRIC_ROLL:IMPORT:Pacific/Kiritimati",
+        "status": "INCOMPLETE",
+        "error": "AD_REFUSAL_FAILED:Opening balance must be DRAFT:AK_OPENING_REQUIRES_CURRENT_VALIDATED_BATCH\nCONTEXT:  PL/pgSQL function post_opening_balance(uuid) line 20 at RAISE:True"
+      },
+      {
+        "case": "DAY:FABRIC_ROLL:IMPORT:Etc/GMT+12",
+        "status": "INCOMPLETE",
+        "error": "AD_REFUSAL_FAILED:Opening balance must be DRAFT:AK_OPENING_REQUIRES_CURRENT_VALIDATED_BATCH\nCONTEXT:  PL/pgSQL function post_opening_balance(uuid) line 20 at RAISE:True"
+      },
+      {
+        "case": "DAY:ACCESSORY:DIRECT:Asia/Jakarta",
+        "status": "PASS",
+        "error": ""
+      },
+      {
+        "case": "DAY:ACCESSORY:DIRECT:UTC",
+        "status": "PASS",
+        "error": ""
+      },
+      {
+        "case": "DAY:ACCESSORY:DIRECT:Asia/Tokyo",
+        "status": "PASS",
+        "error": ""
+      },
+      {
+        "case": "DAY:ACCESSORY:DIRECT:Pacific/Kiritimati",
+        "status": "PASS",
+        "error": ""
+      },
+      {
+        "case": "DAY:ACCESSORY:DIRECT:Etc/GMT+12",
+        "status": "PASS",
+        "error": ""
+      },
+      {
+        "case": "DAY:ACCESSORY:IMPORT:Asia/Jakarta",
+        "status": "INCOMPLETE",
+        "error": "AD_REFUSAL_FAILED:Opening balance must be DRAFT:AK_OPENING_REQUIRES_CURRENT_VALIDATED_BATCH\nCONTEXT:  PL/pgSQL function post_opening_balance(uuid) line 20 at RAISE:True"
+      },
+      {
+        "case": "DAY:ACCESSORY:IMPORT:UTC",
+        "status": "INCOMPLETE",
+        "error": "AD_REFUSAL_FAILED:Opening balance must be DRAFT:AK_OPENING_REQUIRES_CURRENT_VALIDATED_BATCH\nCONTEXT:  PL/pgSQL function post_opening_balance(uuid) line 20 at RAISE:True"
+      },
+      {
+        "case": "DAY:ACCESSORY:IMPORT:Asia/Tokyo",
+        "status": "INCOMPLETE",
+        "error": "AD_REFUSAL_FAILED:Opening balance must be DRAFT:AK_OPENING_REQUIRES_CURRENT_VALIDATED_BATCH\nCONTEXT:  PL/pgSQL function post_opening_balance(uuid) line 20 at RAISE:True"
+      },
+      {
+        "case": "DAY:ACCESSORY:IMPORT:Pacific/Kiritimati",
+        "status": "INCOMPLETE",
+        "error": "AD_REFUSAL_FAILED:Opening balance must be DRAFT:AK_OPENING_REQUIRES_CURRENT_VALIDATED_BATCH\nCONTEXT:  PL/pgSQL function post_opening_balance(uuid) line 20 at RAISE:True"
+      },
+      {
+        "case": "DAY:ACCESSORY:IMPORT:Etc/GMT+12",
+        "status": "INCOMPLETE",
+        "error": "AD_REFUSAL_FAILED:Opening balance must be DRAFT:AK_OPENING_REQUIRES_CURRENT_VALIDATED_BATCH\nCONTEXT:  PL/pgSQL function post_opening_balance(uuid) line 20 at RAISE:True"
+      },
+      {
+        "case": "DAY:FINISHED_GOODS:DIRECT:Asia/Jakarta",
+        "status": "PASS",
+        "error": ""
+      },
+      {
+        "case": "DAY:FINISHED_GOODS:DIRECT:UTC",
+        "status": "PASS",
+        "error": ""
+      },
+      {
+        "case": "DAY:FINISHED_GOODS:DIRECT:Asia/Tokyo",
+        "status": "PASS",
+        "error": ""
+      },
+      {
+        "case": "DAY:FINISHED_GOODS:DIRECT:Pacific/Kiritimati",
+        "status": "PASS",
+        "error": ""
+      },
+      {
+        "case": "DAY:FINISHED_GOODS:DIRECT:Etc/GMT+12",
+        "status": "PASS",
+        "error": ""
+      },
+      {
+        "case": "DAY:FINISHED_GOODS_PRICE:DIRECT:Asia/Jakarta",
+        "status": "PASS",
+        "error": ""
+      },
+      {
+        "case": "DAY:FINISHED_GOODS_PRICE:DIRECT:UTC",
+        "status": "PASS",
+        "error": ""
+      },
+      {
+        "case": "DAY:FINISHED_GOODS_PRICE:DIRECT:Asia/Tokyo",
+        "status": "PASS",
+        "error": ""
+      },
+      {
+        "case": "DAY:FINISHED_GOODS_PRICE:DIRECT:Pacific/Kiritimati",
+        "status": "PASS",
+        "error": ""
+      },
+      {
+        "case": "DAY:FINISHED_GOODS_PRICE:DIRECT:Etc/GMT+12",
+        "status": "PASS",
+        "error": ""
+      },
+      {
+        "case": "DAY:BS:DIRECT:Asia/Jakarta",
+        "status": "PASS",
+        "error": ""
+      },
+      {
+        "case": "DAY:BS:DIRECT:UTC",
+        "status": "PASS",
+        "error": ""
+      },
+      {
+        "case": "DAY:BS:DIRECT:Asia/Tokyo",
+        "status": "PASS",
+        "error": ""
+      },
+      {
+        "case": "DAY:BS:DIRECT:Pacific/Kiritimati",
+        "status": "PASS",
+        "error": ""
+      },
+      {
+        "case": "DAY:BS:DIRECT:Etc/GMT+12",
+        "status": "PASS",
+        "error": ""
+      },
+      {
+        "case": "DAY:BS_PRODUCT:DIRECT:Asia/Jakarta",
+        "status": "PASS",
+        "error": ""
+      },
+      {
+        "case": "DAY:BS_PRODUCT:DIRECT:UTC",
+        "status": "PASS",
+        "error": ""
+      },
+      {
+        "case": "DAY:BS_PRODUCT:DIRECT:Asia/Tokyo",
+        "status": "PASS",
+        "error": ""
+      },
+      {
+        "case": "DAY:BS_PRODUCT:DIRECT:Pacific/Kiritimati",
+        "status": "PASS",
+        "error": ""
+      },
+      {
+        "case": "DAY:BS_PRODUCT:DIRECT:Etc/GMT+12",
+        "status": "PASS",
+        "error": ""
+      },
+      {
+        "case": "DAY:ATTENDANCE:DIRECT:Asia/Jakarta",
+        "status": "INCOMPLETE",
+        "error": "Active attendance periods for one contractor cannot overlap\nCONTEXT:  PL/pgSQL function guard_attendance_period_overlap() line 16 at RAISE\nSQL statement \"insert into erp.attendance_periods(\n      peri"
+      },
+      {
+        "case": "DAY:ATTENDANCE:DIRECT:UTC",
+        "status": "INCOMPLETE",
+        "error": "Active attendance periods for one contractor cannot overlap\nCONTEXT:  PL/pgSQL function guard_attendance_period_overlap() line 16 at RAISE\nSQL statement \"insert into erp.attendance_periods(\n      peri"
+      },
+      {
+        "case": "DAY:ATTENDANCE:DIRECT:Asia/Tokyo",
+        "status": "INCOMPLETE",
+        "error": "Active attendance periods for one contractor cannot overlap\nCONTEXT:  PL/pgSQL function guard_attendance_period_overlap() line 16 at RAISE\nSQL statement \"insert into erp.attendance_periods(\n      peri"
+      },
+      {
+        "case": "DAY:ATTENDANCE:DIRECT:Pacific/Kiritimati",
+        "status": "INCOMPLETE",
+        "error": "Active attendance periods for one contractor cannot overlap\nCONTEXT:  PL/pgSQL function guard_attendance_period_overlap() line 16 at RAISE\nSQL statement \"insert into erp.attendance_periods(\n      peri"
+      },
+      {
+        "case": "DAY:ATTENDANCE:DIRECT:Etc/GMT+12",
+        "status": "INCOMPLETE",
+        "error": "Active attendance periods for one contractor cannot overlap\nCONTEXT:  PL/pgSQL function guard_attendance_period_overlap() line 16 at RAISE\nSQL statement \"insert into erp.attendance_periods(\n      peri"
+      },
+      {
+        "case": "OPENING_SUBLEDGER:OPENING_READY",
+        "status": "PASS",
+        "error": ""
+      },
+      {
+        "case": "OPENING_SUBLEDGER:OPENING_LAST_CENT",
+        "status": "PASS",
+        "error": ""
+      },
+      {
+        "case": "OPENING_SUBLEDGER:OPENING_OVERPAY",
+        "status": "PASS",
+        "error": ""
+      },
+      {
+        "case": "OPENING_SUBLEDGER:OPENING_CORRECTION",
+        "status": "PASS",
+        "error": ""
+      },
+      {
+        "case": "OPENING_SUBLEDGER:OPENING_REVERSE_CORRECTION",
+        "status": "PASS",
+        "error": ""
+      },
+      {
+        "case": "OPENING_SUBLEDGER:OPENING_REVERSE_SETTLEMENT",
+        "status": "PASS",
+        "error": ""
+      },
+      {
+        "case": "OPENING_SUBLEDGER:SUPPLIER_LAST_CENT",
+        "status": "PASS",
+        "error": ""
+      },
+      {
+        "case": "OPENING_SUBLEDGER:SUPPLIER_OVERPAY",
+        "status": "PASS",
+        "error": ""
+      },
+      {
+        "case": "OPENING_SUBLEDGER:SUPPLIER_REVERSE_PAYMENT",
+        "status": "PASS",
+        "error": ""
+      },
+      {
+        "case": "OPENING_SUBLEDGER:SUPPLIER_CORRECTION",
+        "status": "PASS",
+        "error": ""
+      },
+      {
+        "case": "OPENING_SUBLEDGER:SUPPLIER_REVERSE_CORRECTION",
+        "status": "PASS",
+        "error": ""
+      },
+      {
+        "case": "OPENING_SUBLEDGER:SUPPLIER_RETURN",
+        "status": "PASS",
+        "error": ""
+      },
+      {
+        "case": "OPENING_SUBLEDGER:OPENING_PARTIES",
+        "status": "PASS",
+        "error": ""
+      },
+      {
+        "case": "OPENING_SUBLEDGER:SUPPLIER_VALID_LIFECYCLE",
+        "status": "PASS",
+        "error": ""
+      },
+      {
+        "case": "OPENING_SUBLEDGER:SUPPLIER_INVOICE_LIFECYCLE",
+        "status": "PASS",
+        "error": ""
+      },
+      {
+        "case": "OPENING_SUBLEDGER:FRACTIONAL_PURCHASES",
+        "status": "PASS",
+        "error": ""
+      },
+      {
+        "case": "OPENING_SUBLEDGER:SUPPLIER_AMOUNT_WASH",
+        "status": "PASS",
+        "error": ""
+      },
+      {
+        "case": "OPENING_SUBLEDGER:OPENING_PARTY_WASH",
+        "status": "PASS",
+        "error": ""
+      },
+      {
+        "case": "OPENING_SUBLEDGER:OPENING_STATUS_FAULT",
+        "status": "PASS",
+        "error": ""
+      },
+      {
+        "case": "OPENING_SUBLEDGER:PAYMENT_INVERSE_FAULT",
+        "status": "PASS",
+        "error": ""
+      }
+    ]
+  },
+  "interpretation": [
+    "Outer Original has no completed baseline group and current installation was not reached.75 case results are independently visible in the job log:60 PASS/15 INCOMPLETE. This is partial log evidence, not142 or284 executions.",
+    "Ten import paths stop on old refusal text versus AK_OPENING_REQUIRES_CURRENT_VALIDATED_BATCH; five attendance paths collide with synthetic OFF periods.",
+    "Strict runner log emission rejects an original result with its own case key. Fix only the new adapter to nest original_result and retain raw group outputs.",
+    "Do not fill or approve the scenario own paid attendance merely to force old READY expectations. Preserve subsequent policy-related failures if observed."
+  ],
+  "job_log": {
+    "name": "JOB_LOG.txt.gz",
+    "bytes": 180651,
+    "sha256": "09caec879a754ed96bcde5fb1bb375af49c8d94091744e4b73bf9ddddf1f6728",
+    "uncompressed_bytes": 665648,
+    "uncompressed_sha256": "ece99f272c2130904ac65a97fc3764ecfb445df0bdb782b5bbb2e66af8a4d15e"
+  }
+}

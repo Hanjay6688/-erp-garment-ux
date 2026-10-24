@@ -16,3 +16,10 @@ installation is never used for committed fixtures; copies/session leaks and
 source CP6 restore are checked. This is writer Native SQL evidence with explicit
 test-only schema USAGE, not Auth/browser, original pre-AE bug reproduction,
 maintenance guards, independent audit acceptance or production readiness.
+
+First run1273950b remains INCOMPLETE: AF4PASS and32INCOMPLETE on each boundary.
+The next fixture prepares only existing seed prerequisites before each original
+schedule, using the same Native helper as AI135. It retains the complete
+original exception and preparation even when a schedule fails; the old generic
+runner's3000-character truncation no longer discards the cause. No original
+lock, money, status or refusal assertion is changed or waived.

@@ -1,6 +1,9 @@
 """Original concurrent operations, money and lock assertions, one fresh copy each."""
 from datetime import timedelta
 from urllib.parse import urlparse
+import traceback
+import cp7_retained_cp6_fixture as fixture
+CURRENT=False
 import cp6_v2620af_concurrency as af
 import cp6_v2620ag_concurrency as ag
 import cp6_v2620ah_concurrency as ah
@@ -32,6 +35,7 @@ def races(tools,today):
     result=[]
     for name,family,mode,abort,operation,open_days in plans:
         def run(fn=operation,f=family,m=mode,a=abort,n=name,days=open_days):
+            preparation={}
             previous=af.CLONE
             af.CLONE=tools.admin
             try:
@@ -40,13 +44,20 @@ def races(tools,today):
                     day=af.base.one(cur,"select (statement_timestamp() at time zone 'Asia/Jakarta')::date")-timedelta(days=3)
                     assert day==today-timedelta(days=3),'RETAINED_RACE_BUSINESS_DAY_CHANGED'
                     af.prior.set_open_period(cur,day-timedelta(days=days))
+                    fixture.prepare(cur,today,current=CURRENT,closed_through=day-timedelta(days=days),evidence=preparation)
                 raw=fn()
                 expected='CONTROL_PASS'if f=='AI_PEER'else 'PASS'
                 assert raw['status']==expected,raw
                 # Vocabulary adapter only. The original result is retained verbatim.
                 return dict(status='PASS',retained_family=f,retained_case_id=n,
                     retained_mode=m,retained_first_aborted=a if f=='AI_PEER'else None,
-                    original_result=raw,fixture_day=str(day),business_oracle_changed=False)
+                    original_result=raw,fixture_day=str(day),business_oracle_changed=False,
+                    seed_prerequisite_preparation=preparation)
+            except Exception as error:
+                # The generic old race runner truncates exceptions at3000chars.
+                # Retain the entire original failure and completed fixture here.
+                return dict(status='INCOMPLETE',retained_case_id=n,error=str(error),
+                    traceback=traceback.format_exc(),seed_prerequisite_preparation=preparation)
             finally:
                 af.CLONE=previous
         result.append((name,run))

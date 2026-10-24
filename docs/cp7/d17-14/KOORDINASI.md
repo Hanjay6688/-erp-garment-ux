@@ -1679,3 +1679,32 @@ Inventaris enam suite lama menunjukkan labelNative286=180Native satu sesi
 dan peta current. Penamaan lama dipertahankan sebagai label historis, bukan
 kredit286Native. Factory asli diperiksa tanpa DB; belumada eksekusi180current.
 A/B produk tetap sama; officiala255e48f dan Ba1043452 diverifikasi tetap.
+
+## A / 24 Oktober 2026 — hasil135/36/142 nyata dan perbaikan harness [bersama]
+
+AI135 seed27ff04fa selesai: baseline132PASS/3INCOMPLETE, current128PASS/
+7INCOMPLETE. Kedua seed READY, completeboundary/CP6/advisor serta4gate paket
+PASS; writer_runtime tetapfalse. Tiga ekspektasiREADY lama berhenti karena
+pekerjaan yang dibuat kasus belum masuk payroll; tidakautoapprove demi hijau.
+Empat perbedaan current hanya teramati sampai assertion teks refusal lama:
+CP7_CREDIT_RETURN_SOURCE_OR_DESTINATION_CHANGED (dua ID),
+AH_RETURN_EXCEEDS_ORIGINAL_ALLOCATION, OW04_SOURCE_CUSTOMER_MISMATCH.
+Atomicity assertion lama setelah assertion teks itu belum dicapai; perlu
+kontrol penerus eksplisit, bukan mengganti hasil lama atau mengubah produk
+agar memakai teks lama. Receipt current-cp6-ai135-seed-result-27ff04fa.json.
+
+Race36 pertama1273950b selesai4PASS/32INCOMPLETE pada kedua batas.72copy,
+masing-masing36exactcatalogadmission,DB0/CP6/advisor dan4gatePASS. Fixture
+berikut menyelesaikan prasyarat seed sebelum tiap jadwal asli, menyimpan
+exception utuh. Lock/uang/refusal oracle tetap. Receipt race36-first-failure.
+
+Crossflow142 pertama c38271b6 berhenti saat log strict menerima hasil asli
+dengan kunci `case`.75hasil terlihat di log baseline:60PASS/15INCOMPLETE;
+bukan142/284eksekusi, currentbelumterpasang.10kasusimport memakai teks guard
+lama versus AK,5absensi bertabrakan dengan seedOFF. Original+log lengkap
+dipertahankan. Adapter baru menaruh hasil asli di original_result, menyimpan
+raw strict-group, serta menyediakan lubang2hari kalender lewat namedinverse
+hanya pada periodOFF buatan qualifier yang paid_fraction=0. Di kasus lain
+lubang itu diisiOFF di savepoint. Paidattendance kasus tidakautoapprove;
+ketidakcocokanREADY kebijakan lama tetapakanterlihat. TidakmengubahCP6 beku,
+B,SQLproduk atau oracle lama. Formal5/16/production_go=false tetap.

@@ -6,6 +6,7 @@ no hosted effects, real-Auth claim, factory-scale claim or audit acceptance.
 """
 from pathlib import Path
 from hashlib import sha256
+from contextlib import contextmanager
 import json,os,subprocess,sys,traceback
 sys.dont_write_bytecode=True
 HERE=Path(__file__).resolve().parent
@@ -70,6 +71,14 @@ def verify(cur):
         return installation.verify(cur,STATE)
 
 
+@contextmanager
+def keep_group_originals():
+    old=native.r1.OUT
+    native.r1.OUT=OUT.parent/'strict-groups'
+    try:yield
+    finally:native.r1.OUT=old
+
+
 def run():
     global STATE
     report=dict(label=LABEL,status='INCOMPLETE',source_declaration=admitted(),
@@ -80,7 +89,7 @@ def run():
     try:
         # Observe the identical retained cases before CP7 without granting any new
         # table/function rights or changing their original expectations.
-        with exact_public_catalog(native,retain_raw=True)as baseline_catalog:
+        with keep_group_originals(),exact_public_catalog(native,retain_raw=True)as baseline_catalog:
             report['baseline']=native.strict_group(LABEL+'_BASELINE',cases,p09.wip.policy.bf.verified)
         report['baseline_public_catalog_comparison']=baseline_catalog
         assert report['baseline']['complete_boundary_restored'],'CP6_CROSSFLOW_BASELINE_NOT_RESTORED'
@@ -99,7 +108,7 @@ def run():
             report['verified_predecessor_info_manifest']=core.predecessor_info_manifest(cur)
             conn.commit();installed=True
         report['advisors_with_cp7']=advisors(package.boundary.PG)
-        with exact_public_catalog(native,retain_raw=True)as catalog:
+        with keep_group_originals(),exact_public_catalog(native,retain_raw=True)as catalog:
             report['native']=native.strict_group(LABEL,cases,verify)
         report['native_public_catalog_comparison']=catalog
     except Exception as error:
@@ -120,6 +129,7 @@ def run():
                 report['advisor_gate']=report['advisor_disposition']['gate']
             except Exception as error:
                 report.update(restore_error=str(error),restore_traceback=traceback.format_exc(),cp6_restored=False,advisor_gate=False)
+        report['strict_group_originals']=[dict(path=str(p.relative_to(OUT.parent)),bytes=p.stat().st_size,sha256=sha256(p.read_bytes()).hexdigest())for p in sorted((OUT.parent/'strict-groups').glob('*.json'))]
         report['seed_prerequisite_preparation']=FIXTURES
         group=report.get('native',{})
         baseline=report.get('baseline',{})

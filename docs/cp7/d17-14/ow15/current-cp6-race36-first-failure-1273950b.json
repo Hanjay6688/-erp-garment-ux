@@ -1,0 +1,57 @@
+{
+  "contract": "cp7.current-cp6-retained-result.v1",
+  "qualified_head": "1273950bad8195d5a2c0edc9b5a649e92510dbee",
+  "run_id": 40073243436,
+  "job_id": 120811028346,
+  "artifact_id": 12553016437,
+  "artifact_zip": {
+    "bytes": 1741193,
+    "sha256": "c39ccccbbbf2837d3f73e74318f4f48cf206dd1a31b03361e41fee98bc1393b2"
+  },
+  "original": {
+    "name": "CP7_CURRENT_CP6_RACE36.json",
+    "bytes": 1365180,
+    "sha256": "924388c6104ffb2105540dd2c0e8b22458212ba8d5627184f6584dcf03a59661"
+  },
+  "status": "INCOMPLETE",
+  "error": null,
+  "cp6_restored": true,
+  "restore_raw_public_equal": true,
+  "advisor_gate": true,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "groups": {
+    "baseline": {
+      "counts": {
+        "PASS": 4,
+        "INCOMPLETE": 32
+      },
+      "status": "INCOMPLETE",
+      "database_remaining": 0,
+      "complete_boundary_restored": null
+    },
+    "races": {
+      "counts": {
+        "PASS": 4,
+        "INCOMPLETE": 32
+      },
+      "status": "INCOMPLETE",
+      "database_remaining": 0,
+      "complete_boundary_restored": null
+    }
+  },
+  "production_go": false,
+  "independent_acceptance": false,
+  "new_business_case_credit": 0,
+  "interpretation": [
+    "All36 schedules attempted on each installation; AF4 PASS, other32 INCOMPLETE in both.",
+    "Seed readiness prevents AG/AH fixture controls and AI/peer final report checks. Same status counts do not prove equal blockers.",
+    "Both copy databases removed, exact72 copy-authority admissions retained in Original, CP6 restore and advisors pass.",
+    "Next candidate completes labelled Native seed prerequisites on each copy before original schedules; keep exact lock, money and refusal assertions."
+  ]
+}

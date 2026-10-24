@@ -19,3 +19,15 @@ This is writer evidence for these retained business paths. It does not execute
 old install admission, maintenance, rollback files, browser paths, or races.
 It does not close whole archive boundaries, grant independent acceptance,
 or advance production_go. Old source pins and case bodies remain untouched.
+
+First run c38271b6 is retained INCOMPLETE. Its baseline log records75results
+(60PASS/15INCOMPLETE) before an original result's `case` key collides with
+the strict logger; current installation was not reached. The adapter now nests
+the entire original result and preserves separate raw strict-group files.
+
+The original two-day attendance window is reserved by reversing only this
+qualifier's own zero-cost OFF fixture periods through the Native named inverse,
+then refilling their days outside that window. Other cases fill the reserved
+window with OFF inside their savepoint; attendance cases supply their original
+PRESENT records. No paid attendance or new scenario work is auto-approved.
+Old READY/refusal-contract failures remain visible and cannot yield a PASS.

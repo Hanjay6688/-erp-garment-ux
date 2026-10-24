@@ -71,6 +71,7 @@ def run():
         copies.STATE=dict(installed_catalog=baseline_catalog)
         copies.ORIGINAL_COPY_DATABASE=original_copy
         modes.copy_db=copies.copy_database
+        business.CURRENT=False
         report['baseline']=modes.run_races(business,p09.wip.policy.bf.verified,'current_cp6_baseline36')
         report['baseline_copy_catalog_admissions']=list(copies.COPY_ADMISSIONS)
         assert report['baseline']['database_remaining']==0,'CP6_RACE_BASELINE_COPY_NOT_REMOVED'
@@ -92,6 +93,7 @@ def run():
         report['advisors_with_cp7']=advisors(package.boundary.PG)
         copies.PRODUCT=SimpleNamespace(catalog=product.catalog,verify=installation.verify)
         copies.STATE=dict(STATE,installed_catalog=STATE['after'])
+        business.CURRENT=True
         report['races']=modes.run_races(business,verify,'current_cp6_36')
         report['copy_catalog_admissions']=list(copies.COPY_ADMISSIONS)
     except Exception as error:
