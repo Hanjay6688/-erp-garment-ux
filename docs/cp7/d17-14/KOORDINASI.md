@@ -2193,3 +2193,22 @@ transport budgets. Seven retained/new workflow declarations, Python AST and
 invalid-budget/parent-admission controls PASS. Actual transport qualification
 awaits its complete Original; no model/default caller integration or acceptance
 credit is inferred. Formal5/16, CP7C unaccepted, production_go=false.
+
+## 119. B24 Oktober2026 UTC — retain cache admission Native first failure
+
+d7d3033b/run40119284264/job120947092103 qualification failed. Complete
+Original12571712143 (206030 bytes, SHA256
+c91fe3601c35f579a73add5cc70c1e78eaa5df53b1cfb38c0bb7220948fe7851)
+contains5PASS/1INCOMPLETE; exact21/8 source pins, all per-case boundaries and
+CP6/advisor restoration pass, required-count/writer-runtime gates fail. The
+warehouse control compared plan.refusal's documented three-tuple against a
+two-tuple, so the assertion could never pass. Original does not record the
+returned tuple; no exact runtime refusal claim is inferred. The correction
+requires all three exact values40001/CP7_MODEL_TARGET_REORDER_REFRESH_REQUIRED/
+None and prints the observed tuple on mismatch. No product SQL, permission,
+cache rule or assertion oracle is weakened. Native6 must rerun to qualify the
+current cache guard; source4 and earlier20/8 Native6 remain separate evidence.
+
+aca11228 starts scoped-history transport7/run40121788270/job120954747798 and
+retained Native6/run40121788182;2201e9ed Native6/run40121381881 still pending.
+Formal5/16 and all production/independent acceptance flags stay false.

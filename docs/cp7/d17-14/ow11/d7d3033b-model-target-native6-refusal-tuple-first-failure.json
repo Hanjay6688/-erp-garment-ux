@@ -1,0 +1,52 @@
+{
+  "contract": "cp7.model-target-native-original-receipt.v1",
+  "head": "d7d3033b97a08d8bfc180dac638ea60b90e19c23",
+  "run_id": 40119284264,
+  "job_id": 120947092103,
+  "qualification_step_conclusion": "failure",
+  "artifact_id": 12571712143,
+  "bytes": 206030,
+  "artifact_sha256": "c91fe3601c35f579a73add5cc70c1e78eaa5df53b1cfb38c0bb7220948fe7851",
+  "Original_read_complete": true,
+  "exact_head_source_hashes_match": true,
+  "status": "INCOMPLETE",
+  "counts": {
+    "PASS": 5,
+    "INCOMPLETE": 1
+  },
+  "failure": {
+    "status": "INCOMPLETE",
+    "error": "",
+    "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py\", line 165, in _strict_group_once\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow11_model_target_consumer_cases.py\", line 164, in warehouse\n    assert plan.refusal(cur,lambda:call(cur,'erp_cp7_get_fg_reorder_v1',(json.dumps(query),),subject))==('40001','CP7_MODEL_TARGET_REORDER_REFRESH_REQUIRED')\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+    "full_boundary_restored": true,
+    "public_schema_unchanged": true,
+    "session_leaks": {
+      "advisory_locks": 0,
+      "advisory_lock_keys": [],
+      "other_sessions": []
+    },
+    "business_day": {
+      "planned": "2026-10-25",
+      "before": "2026-10-25",
+      "after": "2026-10-25"
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "required_case_ids_pass": true,
+  "required_case_counts_pass": false,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "diagnosis": "Test compared three-field refusal result with a two-field tuple; the exact observed refusal tuple was not printed by the old assertion.",
+  "correction": "Require exactly SQLSTATE 40001, CP7_MODEL_TARGET_REORDER_REFRESH_REQUIRED and DETAIL None; print observed tuple if mismatched. No runtime SQL or expected refusal relaxed.",
+  "cache_guard_Native_qualified": false,
+  "formal_acceptance": "5/16",
+  "CP7C_accepted": false,
+  "independent_acceptance": false,
+  "production_go": false
+}
