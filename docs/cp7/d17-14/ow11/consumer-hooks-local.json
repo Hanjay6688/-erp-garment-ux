@@ -1,0 +1,117 @@
+{
+  "contract": "cp7.analog-consumer-hooks-local.v1",
+  "classification": "ACTUAL_SELECTED_PROPOSED_HOOKS_WITH_CONTROLLED_SOURCE_NOT_NATIVE",
+  "status": "PASS",
+  "sources": {
+    "scripts/cp7-src/wip/bootstrap.sql": "f13d218d6ef6c38bea1968081368cdf253538c79d36b67a51e61d126927c2769",
+    "scripts/cp7-src/demand/bootstrap.sql": "9ce00d27b69656d385df150dacfa155571c5cfa9fb818181746838d0c9fc1455",
+    "scripts/cp7-src/demand/estimate.sql": "c17c125d5139f06ce5a3ea9fd4ff15d32f5fc8952a73270a526913f18a5ff2f2",
+    "scripts/cp7_production_stage/sql/cp7_baseline__target.sql": "4b6ce8053dca12162188c62b6f6eb7b595ba5b6acfb431485026e150a064f71a",
+    "scripts/cp7_product_analog_choice_stage/choice.sql": "16f84ef04b71183d0e70ad0eca72aa748000dd7b4c4436fa7fd922090f285a0d",
+    "scripts/cp7_product_analog_consumer/kernel.sql": "26885f7d83c4ad4301f3e81727c6bc3555903e65598941f726bd24e395fa2992",
+    "scripts/cp7_product_analog_consumer/baseline.sql": "eeb927430f4ed36bab11e62a27fc34e1cbe9e8d938d083f5364865611b6b9a6b",
+    "scripts/cp7_product_analog_consumer_stage/confirmation.sql": "80d4836927bafd493e1642798034650ac3d1f089d9cca288c9a29af10636116f",
+    "scripts/cp7_product_analog_consumer_stage/hooks.sql": "b02245f76a4039593200f8424fd234cf2779d71c67b9ea87dee03ca44239c8aa",
+    "scripts/cp7_bounded_analysis_stage/source.sql": "2d1b11e14d9ac960b5c2adf94dbeb6e5c93c76c02d84bf5944622fcb7ec36a44",
+    "scripts/cp7-src/planning/schedule-scenario.sql": "b1e79a087e52b750b5209387874069d463624856fa1d689b11609a835f94babe",
+    "scripts/cp7_production_stage/sql/cp7_netting_native__fingerprint.sql": "5e0ff2cb60b236db41f65ec1fbd4522071120fa5ee4fa2466e396b99c151a1fe",
+    "scripts/cp7-src/planning/analysis.sql": "885f72eb5dbafaf90d591aadb9758cbbdc66698cabc7267eb74c901349950a01"
+  },
+  "cases": [
+    {
+      "id": "GETTERS_SAME_CAPTURE_CHOICES_AND_ENGINE",
+      "status": "PASS",
+      "observed": {
+        "baseline_reorder_same_capture": true
+      }
+    },
+    {
+      "id": "EXACT_OWN_DELTA_NORMALIZES_FULL_FINGERPRINT",
+      "status": "PASS",
+      "observed": {
+        "own_only_change_allowed": true,
+        "unmodified_choice_fingerprint_changes": true
+      }
+    },
+    {
+      "id": "SECOND_CHECK_STILL_SEES_ALL_OTHER_SOURCE_FIELDS",
+      "status": "PASS",
+      "observed": {
+        "other_source_changes_still_detected": 4
+      }
+    },
+    {
+      "id": "SIBLING_CHOICE_AND_WRONG_RECEIPT_REFUSED",
+      "status": "PASS",
+      "observed": {
+        "unexpected_deltas_refused": 7,
+        "revision_jump_refused": true
+      }
+    },
+    {
+      "id": "BOUNDED_FINGERPRINT_RETAINS_EXACT_CHOICE_DELTA",
+      "status": "PASS",
+      "observed": {
+        "actual_existing_bounded_work_fingerprint": true,
+        "stock_digest_still_checked": true
+      }
+    },
+    {
+      "id": "DIRECT_AND_STAGED_HOOKS_USE_ONE_ADAPTER",
+      "status": "PASS",
+      "observed": {
+        "direct_and_target_chunk_same_full_JSON": true,
+        "exact_repeating_fraction": true
+      }
+    },
+    {
+      "id": "ENGINE_SIGNATURE_BINDS_PRIVATE_IMPLEMENTATION",
+      "status": "PASS",
+      "observed": {
+        "function_change_changes_signature": true,
+        "drop_restores_signature": true
+      }
+    },
+    {
+      "id": "DIRECT_ORDER_PRESERVES_QUALIFIED_TARGET_SORT",
+      "status": "PASS",
+      "observed": {
+        "old_sort_preserved": true
+      }
+    },
+    {
+      "id": "COMPLETE_HISTORY_TWO_PASS_CROSS_CHUNK",
+      "status": "PASS",
+      "observed": {
+        "one_target_per_chunk": true,
+        "source_in_second_chunk": true,
+        "target": "1"
+      }
+    },
+    {
+      "id": "BOUNDED_SUMMARY_TWO_PASS_KEEP_RAW_INCOMPLETE",
+      "status": "PASS",
+      "observed": {
+        "controlled_summary_branch": true,
+        "source_in_second_chunk": true,
+        "raw_status_unchanged": true,
+        "Native_credit": false
+      }
+    },
+    {
+      "id": "REORDER_COMPLETE_AND_SUMMARY_SAME_TARGET_PROVENANCE",
+      "status": "PASS",
+      "observed": {
+        "both_paths_one_target_engine": true,
+        "actual_own_sales_remain_zero": true,
+        "analog_demand_separate_provenance": true
+      }
+    }
+  ],
+  "all18_hooks_runtime_tested": false,
+  "Native_qualified": false,
+  "Auth_qualified": false,
+  "catalog22_qualified": false,
+  "frontend_provenance_integrated": false,
+  "production_go": false
+}
