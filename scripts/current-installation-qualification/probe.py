@@ -146,7 +146,7 @@ def run():
             bounded_used=used.create(cur,today)
             report['payment_read_zone_before']=cur.execute('show TimeZone').fetchone()[0]
             with catalog._catalog(cur):payment_before=dump.create.state(cur,f)
-            policy_before=fabric.formula.material_evaluation(cur,g['material'])
+            with catalog._catalog(cur):policy_before=fabric.formula.material_evaluation(cur,g['material'])
             cur.execute('set constraints all immediate')
             if granted:cur.execute('revoke usage on schema erp from authenticated')
             conn.commit();installation.verify(cur,state)
@@ -188,7 +188,10 @@ def run():
             report['payment_read_comparison']={k:dict(before=payment_before[k],after=payment_after[k])
                 for k in payment_before if payment_before[k]!=payment_after[k]}
             assert payment_after==payment_before,('RESTORED_SUPPLIER_PAYMENT_CHANGED',report['payment_read_comparison'])
-            assert fabric.formula.material_evaluation(cur,g['material'])==policy_before
+            with catalog._catalog(cur):policy_after=fabric.formula.material_evaluation(cur,g['material'])
+            report['fabric_policy_read_comparison']={k:dict(before=policy_before[k],after=policy_after[k])
+                for k in policy_before if policy_before[k]!=policy_after[k]}
+            assert policy_after==policy_before,('RESTORED_FABRIC_POLICY_CHANGED',report['fabric_policy_read_comparison'])
             bounded_replay=used.after_restore(cur,bounded_used)
             held=catalog._data(cur)
             assert dump.create.command(cur,payload,key)==payment

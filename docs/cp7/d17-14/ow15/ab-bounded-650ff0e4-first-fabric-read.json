@@ -1,0 +1,41 @@
+{
+  "status": "INCOMPLETE",
+  "head": "650ff0e4ffab32d190d84be2a5f0c5a549645f1b",
+  "run_id": 40053703660,
+  "job_id": 120751837992,
+  "artifact_id": 12545211435,
+  "zip_bytes": 3562022,
+  "zip_sha256": "bda7e567ca5113e8fbbff83fa20350333085999f75d0aa40c151b34c8e40850f",
+  "original_name": "CP7_AB_BOUNDED_CHAIN_RESTORE.json",
+  "original_bytes": 316830,
+  "original_sha256": "3fa8318aa6eb4ce2ad927c695e9f6b74c93a64437629f8364060727ee51cd121",
+  "log_bytes": 407165,
+  "log_sha256": "29638b8080473b3fd88fafe4f29c161242a5cacc99050d988856398dcc3cf809",
+  "error": "",
+  "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/ab-bounded-restore-qualification/probe.py\", line 181, in run\n    assert fabric.formula.material_evaluation(cur,g['material'])==policy_before\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+  "passed_steps": [
+    "INSTALL_ALL22",
+    "PREUSE_EXACT_RESTORE",
+    "REINSTALL_ALL22",
+    "COMMITTED_A_PAYMENT_B_FABRIC_BOUNDED_WORK_DRAFT",
+    "GLOBAL_USED_GUARD_BEFORE_DDL",
+    "FULL_USED_BACKUP_RESTORED",
+    "RESTORE_NEGATIVE_CONTROLS",
+    "LOCAL_OID_BINDING_ONLY"
+  ],
+  "cp6_restored": true,
+  "baseline_advisors_equal": true,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "payment_read_zone_before": "Asia/Jakarta",
+  "payment_read_zone_after": "UTC",
+  "payment_read_comparison": {},
+  "diagnosis": "Whole payment equality now passes in canonical UTC, with no differing fields; original source zone Asia/Jakarta and restored zone UTC. The next whole fabric evaluation JSON failed. The successor retains all fields, reads both evaluation rows and bounded job rows in UTC and records complete field differences. No business data, SQL body, equality oracle or stored timestamp changed.",
+  "production_go": false,
+  "independent_acceptance": false
+}

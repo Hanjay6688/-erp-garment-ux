@@ -8,7 +8,7 @@ import uuid
 import cp7_ow13c_bounded_stage_cases as bounded
 import cp7_ow13c_checked_cases as checked
 import cp7_k2_retention_cases as retention
-from cp7_ow04_restore_bundle import _data,_catalog_rows
+from cp7_ow04_restore_bundle import _data,_catalog_rows,_catalog
 
 plan=bounded.plan
 
@@ -29,8 +29,11 @@ def create(cur,today):
     assert draft['state']=='SAVED'and draft['cutting_save_guard']['feasible']is True
     assert plan.monetary_state(cur)==physical
     plan.b.api.admin(cur)
+    # row_to_json includes timestamptz: retain the whole row in one zone on both
+    # sides of a fresh restore; no field is removed or business timestamp changed.
+    with _catalog(cur):job=plan.staged.job_row(cur,key)
     return dict(work_key=work_key,work_payload=payload,work_result=work_result,
-        request=key,job=plan.staged.job_row(cur,key),run=current['done']['run_id'],
+        request=key,job=job,run=current['done']['run_id'],
         original=current['original'],pages=current['pages'],page_meta=current['page_meta'],
         draft_key=draft_key,draft_payload=checked_payload,draft=draft,
         draft_read=plan.read(cur,draft['draft_id']),
@@ -40,7 +43,9 @@ def create(cur,today):
 
 
 def after_restore(cur,f):
-    assert plan.staged.job_row(cur,f['request'])==f['job']
+    with _catalog(cur):job=plan.staged.job_row(cur,f['request'])
+    changed={k:dict(before=f['job'][k],after=job[k])for k in f['job']if f['job'][k]!=job[k]}
+    assert job==f['job'],('RESTORED_BOUNDED_JOB_CHANGED',changed)
     original,pages,meta=plan.staged.fetch(cur,f['run'])
     assert original==f['original']and pages==f['pages']and meta==f['page_meta']
     assert plan.read(cur,f['draft']['draft_id'])==f['draft_read']

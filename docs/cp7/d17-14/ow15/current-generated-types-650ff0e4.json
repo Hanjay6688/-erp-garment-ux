@@ -1,0 +1,26 @@
+{
+  "status": "GENERATED_COMPONENT_PASS_FULL_RESTORE_INCOMPLETE",
+  "source_head": "650ff0e4ffab32d190d84be2a5f0c5a549645f1b",
+  "run_id": 40053703656,
+  "job_id": 120751837989,
+  "artifact_id": 12544288484,
+  "generator": "supabase gen types --db-url <isolated loopback database> --schema public --lang typescript",
+  "cli_version": "2.116.0",
+  "raw_path": "src/types/database.current-disposable.generated.ts",
+  "raw_bytes": 48805,
+  "raw_sha256": "0ad5befcff49385225a1b5b45150dd428d7c5e3b7ad8968f0705cca07da2757f",
+  "original_report": "CP7_CURRENT_INSTALLATION_RESTORE.json",
+  "original_sha256": "881b78f60075207283a17ce92823313a514b7d392c4bb9cbf13f796f0dfa9e49",
+  "stdout_byte_exact": true,
+  "all22_rows_sequences_unchanged": true,
+  "narrow_client_facades": [
+    "erp_cp7_get_staged_production_schedule_v1",
+    "erp_cp7_save_staged_production_schedule_v1",
+    "erp_cp7_request_bounded_staged_analysis_v1"
+  ],
+  "browser_tables_exposed": false,
+  "legacy_declarations_remain_handwritten": true,
+  "STATUS_ENSURE_null_request_contract_retained": true,
+  "full_current_qualification": false,
+  "production_go": false
+}

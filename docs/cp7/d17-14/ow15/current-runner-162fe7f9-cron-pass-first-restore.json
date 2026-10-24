@@ -1,0 +1,132 @@
+{
+  "status": "INCOMPLETE",
+  "component_status": "ACTUAL_MINUTE_CRON_PASS_USED_RESTORE_INCOMPLETE",
+  "head": "162fe7f9545f005a091a60ac862aac11cefdeb4f",
+  "run_id": 40054032624,
+  "job_id": 120752889960,
+  "artifact_id": 12545415985,
+  "zip_bytes": 3613049,
+  "zip_sha256": "8d6dd3ad80dcea0f2fbc6d498dcd2a978a8f8bf1694111c709bf7ffbdbf48860",
+  "original_name": "CP7_CURRENT_RUNNER_RESTORE.json",
+  "original_bytes": 556204,
+  "original_sha256": "e831532eb5e97d5bfd1ba71023e8aa28dfe4c38c5871060f48aac337bf6adfa7",
+  "log_bytes": 2954086,
+  "log_sha256": "9f289239273f20a1f6f6497176582eb70cfe7c6c026379371058b619d2aba1f3",
+  "server_runner": {
+    "case_id": "OW12_AB_ACTUAL_MINUTE_CRON_FINISHES_OPERATIONAL_AND_FINANCE",
+    "status": "PASS",
+    "definition": {
+      "name": "cp7-staged-runner",
+      "command": "set statement_timeout to '8s'; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit;",
+      "meaning": "every minute: up to 60 units, each in its own transaction under the 8 s limit",
+      "schedule": "* * * * *",
+      "timezone": "UTC"
+    },
+    "test_schedule_override": null,
+    "page_or_test_ticks": 0,
+    "real_Auth_browser_claim": false,
+    "finance_request": "fbdf2ee4-f155-4f1d-929c-ba0e18285ec9",
+    "bounded_request": "e00f761b-ce0c-44d9-b7da-13bf1a150626",
+    "finance_capture_id": "93915e5b-7f28-4a83-9b4c-b1943256476f",
+    "production_go": false,
+    "pg_cron": "1.6.4",
+    "schedule_ids": {
+      "cp7-staged-runner": 1
+    },
+    "observed_job_states": {
+      "e00f761b-ce0c-44d9-b7da-13bf1a150626": "DONE",
+      "fbdf2ee4-f155-4f1d-929c-ba0e18285ec9": "DONE"
+    },
+    "observed_finance_state": "READY",
+    "elapsed_seconds": 36.032,
+    "cron_runs": [
+      {
+        "runid": 1,
+        "status": "succeeded",
+        "message": "COMMIT",
+        "start": "2026-10-24 02:42:00.007878+00:00",
+        "end": "2026-10-24 02:42:00.957490+00:00"
+      }
+    ],
+    "all_runs_recorded": true,
+    "removed": [
+      "cp7-staged-runner@cp6_rollback"
+    ],
+    "schedules_removed_and_unrelated_jobs_unchanged": true,
+    "same_UUID_no_second_effect": true,
+    "official_sections_and_metrics_exact": true,
+    "independent_book_signature": true,
+    "metric_count": 24,
+    "readiness": "BLOCKED",
+    "unknown_metric_ids": [
+      "NATIVE_FINANCE:performance:net_profit",
+      "NATIVE_FINANCE:performance:gross_profit",
+      "NATIVE_FINANCE:financial_position:assets",
+      "NATIVE_FINANCE:financial_position:liabilities",
+      "NATIVE_FINANCE:financial_position:fg_inventory",
+      "NATIVE_FINANCE:financial_position:wip_inventory",
+      "NATIVE_FINANCE:financial_position:recorded_equity",
+      "NATIVE_FINANCE:financial_position:current_earnings",
+      "NATIVE_FINANCE:financial_position:balance_difference",
+      "NATIVE_FINANCE:financial_position:material_inventory",
+      "NATIVE_FINANCE:financial_position:liabilities_plus_equity"
+    ],
+    "unknown_never_zero": true,
+    "server_runner_active": true,
+    "pages": {
+      "fbdf2ee4-f155-4f1d-929c-ba0e18285ec9": {
+        "run_id": "8563819c-9810-4a8e-9291-9e82e48d39e7",
+        "page_meta": {
+          "page_count": 1,
+          "targets_total": 5,
+          "header_utf8_bytes": 13505,
+          "page_utf8_bytes_max": 210657,
+          "page_utf8_bytes_total": 210657,
+          "uneven_ranges": false
+        },
+        "identity_hash": "7ee718cb9649c5ca8739461de465681725d6936e90ddcb54f6e8544958794817",
+        "units": 20
+      },
+      "e00f761b-ce0c-44d9-b7da-13bf1a150626": {
+        "run_id": "b9c603d9-8329-4dbc-a361-1fb3cec87581",
+        "page_meta": {
+          "page_count": 1,
+          "targets_total": 5,
+          "header_utf8_bytes": 13049,
+          "page_utf8_bytes_max": 207295,
+          "page_utf8_bytes_total": 207295,
+          "uneven_ranges": false
+        },
+        "identity_hash": "5454a07e091b160afdfbb9fb7cb8803e857c221d7dcf6b7cf529acbe765b542c",
+        "units": 17
+      }
+    },
+    "all22_catalog_exact": true,
+    "Native_money_stock_HPP_unchanged": true
+  },
+  "error": "",
+  "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/current-runner-qualification/probe.py\", line 188, in run\n    assert fabric.formula.material_evaluation(cur,g['material'])==policy_before\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+  "passed_steps": [
+    "INSTALL_ALL22",
+    "PREUSE_EXACT_RESTORE",
+    "REINSTALL_ALL22",
+    "COMMITTED_A_PAYMENT_B_FABRIC_BOUNDED_WORK_DRAFT",
+    "GLOBAL_USED_GUARD_BEFORE_DDL",
+    "FULL_USED_BACKUP_RESTORED",
+    "RESTORE_NEGATIVE_CONTROLS",
+    "LOCAL_OID_BINDING_ONLY"
+  ],
+  "payment_read_comparison": {},
+  "cp6_restored": true,
+  "baseline_advisors_equal": true,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "followup": "The actual pg_cron component passed with unchanged minute schedule and zero manual ticks. Full used restore stopped at the whole fabric evaluation comparison, with the same Asia/Jakarta versus UTC read contexts as the preserved 650ff failure. Canonical whole-row observations are the next candidate, no field or assertion removed.",
+  "production_go": false,
+  "independent_acceptance": false
+}

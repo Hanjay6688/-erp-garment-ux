@@ -1,0 +1,26 @@
+{
+  "status": "CLIENT_PASS_NATIVE_RUNTIME_UNAVAILABLE",
+  "command": "npm test (vitest run --exclude 'tests/browser/**')",
+  "log_bytes": 56725,
+  "log_sha256": "3e49b47afdb720da3160931dfafd537b1a40da2674642b7bbddbf7f29d2f2f98",
+  "client_files_pass": 222,
+  "client_tests_pass": 2372,
+  "native_files_failed": 34,
+  "native_tests_failed": 50,
+  "native_tests_skipped": 37,
+  "unavailable_reason": "F04 native PostgreSQL unavailable/non-root required. No WASM override selected and no green skip.",
+  "typescript": "PASS",
+  "source_ownership": {
+    "status": "PASS",
+    "runtime_files": 370,
+    "owned_RPC_boundaries": 315
+  },
+  "access_catalog": "PASS",
+  "type_only_emit_before_after_equal": true,
+  "type_only_emit": "export {};\n",
+  "runtime_observability": "The optional TypeScript JS API is unavailable in installed 7.0.2; comparison was performed using the installed tsc CLI and succeeded.",
+  "full_suite_pass": false,
+  "production_go": false,
+  "current_successor_source_admissions_pass": 8,
+  "historical_quote_qualifier": "Historical pre-bounded declaration still refuses changed B probe. Its SOURCE remains unchanged; no current-head credit or historical repin."
+}

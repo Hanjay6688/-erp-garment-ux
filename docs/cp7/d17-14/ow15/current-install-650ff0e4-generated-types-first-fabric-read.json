@@ -1,0 +1,61 @@
+{
+  "status": "INCOMPLETE",
+  "head": "650ff0e4ffab32d190d84be2a5f0c5a549645f1b",
+  "run_id": 40053703656,
+  "job_id": 120751837989,
+  "artifact_id": 12544288484,
+  "zip_bytes": 3621833,
+  "zip_sha256": "ee2d180a30d5455cc67282f1c954449fe4dbdb13a20c8b9012249f5d83a1518c",
+  "original_name": "CP7_CURRENT_INSTALLATION_RESTORE.json",
+  "original_bytes": 550168,
+  "original_sha256": "881b78f60075207283a17ce92823313a514b7d392c4bb9cbf13f796f0dfa9e49",
+  "log_bytes": 2959474,
+  "log_sha256": "6cc3ab62855355808fca0c4fdfbaaae452ed09e5bda71519ddeb58bd5023ef31",
+  "error": "",
+  "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/current-installation-qualification/probe.py\", line 191, in run\n    assert fabric.formula.material_evaluation(cur,g['material'])==policy_before\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+  "passed_steps": [
+    "INSTALL_ALL22",
+    "PREUSE_EXACT_RESTORE",
+    "REINSTALL_ALL22",
+    "COMMITTED_A_PAYMENT_B_FABRIC_BOUNDED_WORK_DRAFT",
+    "GLOBAL_USED_GUARD_BEFORE_DDL",
+    "FULL_USED_BACKUP_RESTORED",
+    "RESTORE_NEGATIVE_CONTROLS",
+    "LOCAL_OID_BINDING_ONLY"
+  ],
+  "cp6_restored": true,
+  "baseline_advisors_equal": true,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "payment_read_zone_before": "Asia/Jakarta",
+  "payment_read_zone_after": "UTC",
+  "payment_read_comparison": {},
+  "diagnosis": "Whole payment equality now passes in canonical UTC, with no differing fields; original source zone Asia/Jakarta and restored zone UTC. The next whole fabric evaluation JSON failed. The successor retains all fields, reads both evaluation rows and bounded job rows in UTC and records complete field differences. No business data, SQL body, equality oracle or stored timestamp changed.",
+  "production_go": false,
+  "independent_acceptance": false,
+  "generated_types": {
+    "status": "PASS",
+    "generator": "supabase gen types",
+    "cli_version": "2.116.0",
+    "schema": "public",
+    "database": "cp6_rollback",
+    "hosted": false,
+    "raw_name": "database.current-disposable.generated.ts",
+    "raw_bytes": 48805,
+    "raw_sha256": "0ad5befcff49385225a1b5b45150dd428d7c5e3b7ad8968f0705cca07da2757f",
+    "required_facades": [
+      "erp_cp7_get_staged_production_schedule_v1",
+      "erp_cp7_save_staged_production_schedule_v1",
+      "erp_cp7_request_bounded_staged_analysis_v1"
+    ],
+    "generator_help_sha256": "6fe7dee33ec3bfe8eb49ec9b1839dbe1b7012219f641ae89abbd0c16618a63d8",
+    "client_contract_replaced": false,
+    "production_go": false,
+    "all22_rows_sequences_unchanged": true
+  }
+}

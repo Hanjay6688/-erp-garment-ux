@@ -1,10 +1,13 @@
 /**
- * Narrow, hand-written pre-connect read contract.
+ * Narrow pre-connect facade contract.
  *
- * This is deliberately NOT presented as generated database coverage. Phase 0
- * types only the approved public facades. The private `erp` schema remains
+ * Legacy declarations remain hand-written. Three current staged facades below
+ * use exact types generated from the qualified disposable public schema. This
+ * contract exposes only approved public facades. The private `erp` schema remains
  * unexposed and there are no browser-writable tables in this contract.
  */
+import type { Database as CurrentDisposableDatabase } from './database.current-disposable.generated'
+
 export type Json = string | number | boolean | null | { [key: string]: Json | undefined } | Json[]
 
 export type PreconnectDatabase = {
@@ -24,6 +27,9 @@ export type PreconnectDatabase = {
       }
     }
     Functions: {
+      erp_cp7_get_staged_production_schedule_v1: CurrentDisposableDatabase['public']['Functions']['erp_cp7_get_staged_production_schedule_v1']
+      erp_cp7_save_staged_production_schedule_v1: CurrentDisposableDatabase['public']['Functions']['erp_cp7_save_staged_production_schedule_v1']
+      erp_cp7_request_bounded_staged_analysis_v1: CurrentDisposableDatabase['public']['Functions']['erp_cp7_request_bounded_staged_analysis_v1']
       erp_cp7_save_plan_draft_v1: { Args: { p_payload: Json; p_request: string }; Returns: Json }
       erp_cp7_preview_plan_action_v1: { Args: { p_draft: string }; Returns: Json }
       erp_cp7_apply_plan_action_v1: { Args: { p_payload: Json; p_request: string }; Returns: Json }
