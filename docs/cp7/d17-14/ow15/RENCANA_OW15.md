@@ -1,5 +1,24 @@
 # OW-15 — rencana rantai tahap linear (penulis A, penggabung)
 
+Posisi 24 Oktober 2026: Astra A menjadi integrator pengganti Claude. Bagian
+di bawah tetap merupakan rencana dan temuan 23 Oktober. Sumber SQL B sudah
+dipisahkan menjadi tahap dan digabung dalam pemasang current
+`scripts/cp7_current_installation.py`; bukti seluruh22 katalog, pemulihan,
+Native/Auth/browser dan batas per lingkup ada di
+[peta current](CURRENT_QUALIFICATION_MAP_20261024.md).
+
+P21 seluruh uang current A/B headbc4dd575/run40063578444 telah PASS dengan
+gold uang lama tetap:6langkah restore,7chain,3mandor,4siklusP21 dan5kontrol.
+[Receipt](full-money-bc4dd575-pass.json) tidak mengklaim Native286/factory3600
+atau seluruh B. [Penerus8chainstep](full-money-d18f5d26-status-pass.json),
+headd18f5d26/run40064922630, juga PASS: semua15cutting group pada data uji
+mempunyai status/kebijakan/fakta yang sama setelah restore, tanpa perubahan
+data/sequence/full22 oleh pembaca. Waktu observasi raw masing-masing dibatasi
+dua clock database;30jendela waktu dan seluruh fakta diperiksa ulang dari
+Original. Default historis dan kandidat audit tetap beku. Daftar
+kualifikasi lengkap,12batas arsip CP6 serta penerimaan independen tetap terbuka;
+formal5/16 dan `production_go=false`.
+
 Ringkas untuk owner: semua perubahan uang/stok dibuat sebagai "tahap" di atas SQL dasar yang dibekukan. Untuk paket auditor,
 tahap-tahap itu dipasang berurutan dalam satu rantai, lalu satu uji pemulihan database terpakai (P21) memasang ujung rantai.
 Perkiraan 20–25 run CI berurutan (sekitar 1,5–2 hari), lalu kualifikasi penuh. Tidak ada keputusan bisnis baru yang

@@ -1,0 +1,138 @@
+{
+  "status": "PASS",
+  "head": "d18f5d26f4e46a3287b04703bfe8fbeae6414c9f",
+  "run_id": 40064922630,
+  "job_id": 120786031258,
+  "artifact_id": 12549124412,
+  "zip_bytes": 3682716,
+  "zip_sha256": "599b9d72eb10e841832d6d5a0c3ab2cfd9fccf88bf2f04520b00b9705afa675b",
+  "original_name": "CP7_CURRENT_FULL_MONEY_RESTORE.json",
+  "original_bytes": 1010312,
+  "original_sha256": "fd42f972c0dbe639ea157743f0a10e15c0f3d24a48ca179a0677600e75e0fd72",
+  "required_restore_steps": [
+    "COMMITTED_CURRENT_APPLY_REFUND_CORRECTION_CHAINS",
+    "EXACT_FULL_DUMP_AND_FRESH_RESTORE",
+    "RESTORE_BINDING_REFUSAL_CONTROLS",
+    "VERIFIED_CURRENT_CENSUS_REBIND",
+    "EXACT_RESTORED_READS_AND_OLD_RECEIPT_REPLAYS",
+    "RESTORED_NAMED_UNDOS_AND_RETURN_INVERSES"
+  ],
+  "required_chain_steps": [
+    "OW07_ATTENDANCE_POOLS_ACTIVE_BEFORE_E01",
+    "OW08A_AR_AND_CREDIT_REPORT_CHECKS_ZERO",
+    "OW06_TRANSFER_400_600_RESTORE_REPLAY_REVERSE",
+    "KASBON_FGQC_RESOLVE_SAME_AFTER_RESTORE",
+    "OW12A_SEALED_CAPTURE_EQUALS_FINANCE_REPORT",
+    "WASH_UNKNOWN_PRICE_HOLDS_CLOSE_UNTIL_PRICED_ONCE",
+    "CURRENT_B_BOUNDED_RESTORE_READS_AND_RECEIPTS",
+    "STAGE_B_STATUS_READS_SAME"
+  ],
+  "restore_step_count": 6,
+  "chain_step_count": 8,
+  "mandor_step_count": 3,
+  "p21_cycle_step_count": 4,
+  "negative_controls": [
+    {
+      "id": "WRONG_TRUSTED_HASH",
+      "status": "PASS",
+      "error": "CHAIN_RESTORE_TRUSTED_BACKUP_HASH_REQUIRED"
+    },
+    {
+      "id": "CHANGED_FINANCIAL_SOURCE",
+      "status": "PASS",
+      "error": "CHAIN_RESTORE_SOURCE_OR_CONTRACT_CHANGED"
+    },
+    {
+      "id": "WRONG_TARGET_DATABASE",
+      "status": "PASS",
+      "error": "CHAIN_RESTORE_FRESH_EXPECTED_DATABASE_REQUIRED"
+    },
+    {
+      "id": "ACTUAL_FUNCTION_METADATA_DRIFT",
+      "status": "PASS",
+      "error": "CHAIN_RESTORE_CATALOG_CHANGED"
+    },
+    {
+      "id": "ACTUAL_BUSINESS_ROW_DRIFT",
+      "status": "PASS",
+      "error": "CHAIN_RESTORE_BUSINESS_ROWS_OR_SEQUENCE_CHANGED"
+    }
+  ],
+  "exact_two_readbacks_no_changed_paths": true,
+  "original_P1000_P900_and_consumption_journals_retained": true,
+  "immutable_gold_after_named_undos": {
+    "source_net": "1000.00",
+    "source_P": "1000.00",
+    "I": "0.00",
+    "C": "0.00",
+    "available": "0.00",
+    "source_AR": "0.00",
+    "target_P": "0.00",
+    "target_U": "0.00",
+    "target_AR": "500.00",
+    "cash": "1000.00"
+  },
+  "bounded_restore_and_UUID_replays": {
+    "bounded_reference_header_pages_all_exact": true,
+    "work_receipt_exact_replay": true,
+    "checked_draft_exact_replay": true,
+    "all_rows_sequences_unchanged_by_replays": true
+  },
+  "mandor_steps": [
+    {
+      "step": "COMMITTED_OW05_MANDOR_NEW24_AND_NOTA",
+      "status": "PASS",
+      "new_wage_and_nota": "24.00",
+      "old_work_retained": true
+    },
+    {
+      "step": "RESTORED_OW05_EXACT_READS_AND_FOUR_RECEIPT_REPLAYS",
+      "status": "PASS",
+      "all_raw_business_reads_equal": true,
+      "four_original_receipts_replayed": true,
+      "every_table_and_sequence_unchanged": true
+    },
+    {
+      "step": "RESTORED_OW05_NAMED_INVERSES_NEXT_ASSIGNMENT",
+      "status": "PASS",
+      "restored_nota24_cancelled_through_Native": true,
+      "restored_wage24_undone": true,
+      "next_generation_after_restore": true,
+      "current_original_mandor_payable": "16.00",
+      "previous_mandor_payable": "0.00",
+      "original_history_unchanged": true,
+      "history_generations": 2,
+      "private_contexts": 0
+    }
+  ],
+  "trusted_backup_manifest_sha256": "9022eb0c3b64ee9d8ef4c75835583ace46868b095a00b26eb4d7a3488eaf4b5a",
+  "cp6_restored": true,
+  "raw_public_equal": true,
+  "baseline_advisors_equal": true,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "production_status_readback_in_this_run": true,
+  "production_go": false,
+  "independent_acceptance": false,
+  "full_AB_chain_qualified": false,
+  "Native286_rerun": false,
+  "real_Auth_browser_claim": false,
+  "scope": "Full retained A monetary P21 on the current A/B installation, actual bounded work/draft restore interoperability and all15 cutting-group public status readbacks. Not Native286/factory3600/full B or independent acceptance.",
+  "production_status_groups": 15,
+  "production_status_proof": {
+    "all_groups": 15,
+    "every_status_and_business_field_exact": true,
+    "only_checked_at_separately_validated": true,
+    "raw_observations_preserved": true,
+    "current_policy_only_no_policy_write": true
+  },
+  "status_raw_clock_bounds_independently_rechecked": true,
+  "all_status_business_fields_independently_rechecked": true,
+  "all15_public_reads_preserve_data_sequences_full22_catalog": true,
+  "previous_seven_step_result_retained": "full-money-bc4dd575-pass.json"
+}

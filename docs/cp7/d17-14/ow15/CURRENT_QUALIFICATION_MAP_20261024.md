@@ -64,12 +64,13 @@ ancestor SOURCE tetap memerlukan penelusuran admission dan bukti masing-masing.
 | Seluruh komposisi UI lama +dua connected draft successors | `5681edbd`, run40061341301/job120775316058 | PASS31 ID lama tanpa perubahan modul; Auth0000/DB0/console0/CP6/advisor/lima gate; receipt legacy-ui31-5681edbd-pass.json. Bukan31kasus baru atau penerimaan pensiun D13-9c/D13-12. |
 | Nota/FG/hitung fisik/aksesori/kartuFG, desktop+HP | `fefb20f3`, run40062079889/job120777559166 | PASS10; halaman nyata25+6,50+6,25+7; filter tetap lintas halaman, Native/DOM dan saldo prefix tepat,0writerRPC; Auth/DB/CP6/advisor/lima gate PASS. Firstfailure23ec tetap; receipt owner-lists-fefb20f3-pass.json. |
 | P21 seluruh uang A pada current A/B dan bounded work/draft | `bc4dd575`, run40063578444/job120782028070 | PASS6langkah restore+7chain+3mandor+4siklusP21,5kontrol negatif, dua readback tepat, goldP1000/P900/undo/inverse tetap; CP6/advisor/lima gate PASS. Receipt full-money-bc4dd575-pass.json. Status seluruh cutting group ditambahkan pada penerus8langkah, belum dikreditkan pada run ini. |
+| P21 seluruh uang +status produksi B | `d18f5d26`, run40064922630/job120786031258 | PASS6restore+8chain+3mandor+4siklusP21,5kontrol; semua15status cutting group tepat,30jendela clock raw divalidasi ulang, pembaca tidak mengubah data/sequence/full22; CP6/advisor/lima gate PASS. Receipt full-money-d18f5d26-status-pass.json. |
 
 Ketiga run Browser31/Transfer2/OwnerLists10 telah terminal dan Original diperiksa;
 tidak ada lagi run aktif dari kelompok ini. Delapan daftar OW09 kini mempunyai
 bukti lintas halaman dari Browser19, InvoiceHistory2 dan OwnerLists10.
 Peta12batas CP6 ada di CP6_CURRENT_BOUNDARIES_20261024.md. Target berikut:
-penerus P21 dengan pembandingan semua status produksi B, penerimaan pemetaan pengganti
+penerimaan pemetaan pengganti
 layar CP6 yang dipensiunkan, dan daftar
 kualifikasi satu kandidat beserta pembanding CP6 lengkap. **21 kegagalan CP6
 dan empat kasus browser baseline tetap ditampilkan sesuai hasil asli**;

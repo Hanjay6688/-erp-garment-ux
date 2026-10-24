@@ -40,6 +40,7 @@ Catatan di atas adalah posisi 23 Oktober. Bukti berikut memperbarui bagian pemul
 | Hak/rebutan/login nyata | [Auth8](../ow15/owner-auth8-28abdeef-pass.json) mencakup empat ID OW06; hak diperiksa sesudah wait/replay. |
 | Pemasangan current | [Current installer](../ow15/current-install-28abdeef-used-restore-pass.json): inventaris resmi, seluruh22 kelompok katalog, inverse pra-pakai, penolakan pencopotan sesudah dipakai, full backup/restore dan tipe hasil generator. |
 | Transfer sesudah full restore | [Group restore](../ow15/current-transfer-aea44fa9-used-restore-pass.json):400+600, seluruh pembacaan sama, replay tanpa efek, empat koreksi beserta tanggal/sejarah, inverse induk mengembalikan kas neto0; stok/HPP tetap. |
+| P21 seluruh rantai uang current | [Full money dan status B](../ow15/full-money-d18f5d26-status-pass.json): transfer ikut bersama dua rantai kredit/refund/koreksi pelanggan, mandor, kasbon/FG, AR nol, HPP dan bounded B; seluruh pembacaan/replay/undo/inverse sesuai gold setelah full restore. Status semua15cutting group dalam data uji juga tepat. |
 | Pilihan penerimaan lintas halaman | [Desktop dan HP390](../ow15/transfer-pages-535c97af-final-ui-pass.json), head535c97af/run40061613739:31penerimaan25+6; pilihan halaman1/2 bertahan;400+600→250+500→inverse0. Sebanyak29penerimaan lain tidak dibayar. Desktop memulihkan balasan committed yang hilang dengan UUID sama. |
 | Tampilan setelah pembalikan | Kedua perjalanan menunggu refresh selesai, memeriksa status sudah dibalik, jurnal pembalik dan kedua penerimaan, serta tombol transfer baru siap. Gambar pilihan halaman2 dan tampilan akhir turut diperiksa. |
 
@@ -50,6 +51,7 @@ PASS, tetapi gambar akhir dapat mendahului refresh; penguatan535c97af menutup
 batas pengamatan itu tanpa mengubah produk atau oracle lama.
 
 Batas yang masih terbuka adalah penerimaan auditor atas seluruh scope dan
-kualifikasi satu kandidat lengkap, termasuk perjalanan seluruh uang P21.
-Restore group OW06 tidak otomatis membuktikan setiap perjalanan A/B.
+kualifikasi satu kandidat lengkap beserta arsip CP6 dan seluruh lingkup B.
+P21 full money dan pembandingan semua status produksi B sudah mempunyai
+bukti penulis PASS. Ini bukan penerimaan fullB.
 Integrasi resmi/main/kandidat audit lama tetap; `production_go=false`.
