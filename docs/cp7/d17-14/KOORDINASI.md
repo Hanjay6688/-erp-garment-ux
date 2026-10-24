@@ -1353,3 +1353,21 @@ kelompok tambahan. Receipt `ow15/current-install-28abdeef-used-restore-pass.json
 Inventory Native4 run40055821460, finance/bounded Native12 run40055821416,
 bounded Browser4 run40055821301 juga seluruh gate PASS pada head28ab. Empat
 screenshot asli ditinjau; Auth0/DB0/console0/host0. Bukti lama tidak ditimpa.
+
+## A — sembilan suite current selesai, kelanjutan bukti OW06 (24 Oktober 2026)
+
+Semua sembilan suite current yang dijalankan selesai PASS: current installer9,
+current actual-minute cron+restore9, owner Native62, Auth8, bounded Native12,
+inventory Native4, bounded Browser4, bounded restore9 pada28abdeef; owner
+Browser19 pada7b26351f. Original ZIP/JSON diverifikasi ukuran+SHA, semua gate
+paket/CP6/advisor dan case IDs sesuai. Browser19 Auth20 dibersihkan, DB0/console0;
+transfer400+600, koreksi250+500 dan pembalikan penuh dibuktikan desktop/390px.
+Jawaban hilang desktop pulih dengan UUID sama; fixture master tetap synthetic.
+Bukti bukan seluruh117workflow/independent acceptance.
+
+A melanjutkan satu celah OW06: perjalanan transfer kelompok400+600 sesudah
+full-backup/fresh-restore di pemasang current. Bukti lama P21 membuktikan langkah
+ini pada A saja; current9 menggunakan pembayaran satu penerimaan. Qualifier
+tambahan memakai helper/assertion OW06 yang tidak diubah, read utuh, replay
+zero-effect, larangan membalik anak, koreksi empat generasi dan pembalikan
+parent dengan stok/HPP tetap; tidak mengubah SQL produk atau expected lama.
