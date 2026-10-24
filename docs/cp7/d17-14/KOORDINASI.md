@@ -1560,3 +1560,15 @@ PASS,TS/CSS64PASS. ActualSQLfixturefull8model, bukanactualAuthbrowser.
 Registryproposal22pair(20lama+2policy),373files/317RPCpass pada salinanusulan;
 filebersamaA tidakdiubah. CorrectedNative6 danactualBrowser2dideklarasikan,
 hasilmenunggu. Induk5/16, modelactivation/fullOW11/productiontetapfalse.
+
+## 90. B24 Oktober2026 — policy transport10 candidate
+
+Kandidat2b3ddd26 menjalankan corrected Native6 run40098897360 dan actual
+Browser2 run40098897426. Kandidat tetap; tahap berikut terpisah policytransport10:
+catalog anchor1, actual backend races6, AuthHTTP3. Race mencakup UUID sama,
+CAS, pencabutan akses di envelope/request/policy wait serta perubahan owner
+ke auditor. HTTP membuktikan SET/SUSPEND, exact old replay, revoked token,
+anon/auditor/foreign epoch dan owner kedua memakai epoch miliknya sendiri.
+Global policy bukan snapshot pribadi. Tidak ada orphan pada triple registry/
+policy/command; angka stok/uang/HPP tetap. Static declarations/guard/parse PASS;
+runtime belum. SQL/default/qualified cases tidak berubah; 8s/45min tetap.
