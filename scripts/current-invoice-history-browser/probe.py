@@ -39,6 +39,7 @@ def admitted():
     for path,digest in pins['files'].items():
         assert sha256((REPO/path).read_bytes()).hexdigest()==digest,('OW09_CHAIN_BROWSER_SOURCE_CHANGED',path)
     assert pins['case_ids']==list(IDS)and len(IDS)==2
+    assert pins['retained_case_credit']==0 and pins['new_browser_case_count']==2
     assert not subprocess.check_output(['git','-C',str(REPO),'status','--porcelain','--',str(HERE)],text=True).strip()
     return dict(predecessor_source_binding=predecessor,qualifier_source=pins,composed_product=product.sources(),Native8_or_P21_rerun_here=False)
 

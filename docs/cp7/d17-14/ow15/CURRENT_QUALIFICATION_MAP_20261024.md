@@ -58,7 +58,7 @@ ancestor SOURCE tetap memerlukan penelusuran admission dan bukti masing-masing.
 | Lingkup | Kandidat/run | Status saat catatan ditulis |
 |---|---|---|
 | Group transfer400+600 sesudah current full restore, empat koreksi dan inverse | `aea44fa9`, run40058216568/job120765815354 | Berjalan; sumber834 lulus, belum ada Original akhir |
-| Riwayat pembayaran/retur31 dokumen:25+6 dan filter30:25+5, desktop/390px | `a17b34cf`, run40058716148/job120767330087 | Berjalan; sumber909 lulus, belum ada Original akhir |
+| Riwayat pembayaran/retur31 dokumen:25+6 dan filter30:25+5, desktop/390px | `a17b34cf`, run40058716148/job120767330087 | INCOMPLETE sebelum kasus: fixture import; Auth/DB/CP6/advisor bersih; firstfailure disimpan, perbaikan menunggu rerun |
 | Mandor correction14 +edge3 +rate11 +guidance6 | `c99ca612`, run40059271805 | Baru berjalan; sumber874 lulus, 34 ID lama tanpa oracle baru |
 
 Target berikut: terima Original tiga run itu; selesaikan sisa bukti lintas

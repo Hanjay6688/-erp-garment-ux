@@ -1,8 +1,11 @@
 """Synthetic Native invoice histories, restricted to the disposable browser DB."""
 from datetime import date
 from hashlib import sha256
+from pathlib import Path
 from urllib.parse import urlparse
 import json,os,sys
+sys.dont_write_bytecode=True
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
 import psycopg
 import cp7_sales_payment_cases as payments
 import cp7_sales_return_cases as returns

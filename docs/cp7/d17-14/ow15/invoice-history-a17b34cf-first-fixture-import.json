@@ -1,0 +1,49 @@
+{
+  "status": "INCOMPLETE",
+  "classification": "WRITER_BROWSER_FIXTURE_IMPORT_FAILURE_BEFORE_CASES",
+  "head": "a17b34cf3402eea8996028345fcf6d715367e684",
+  "run_id": 40058716148,
+  "job_id": 120767330087,
+  "artifact_id": 12545674828,
+  "zip_bytes": 1700160,
+  "zip_sha256": "ebb97da3efbc2da76b82d4808ba9d54d493b5308dbbb17257cc26950070b00ba",
+  "original_name": "CP7_CURRENT_INVOICE_HISTORY_BROWSER2.json",
+  "original_bytes": 504788,
+  "original_sha256": "b37f2c686371dc2ac683c71f1d8e904ac6109d4c240fc40bf9263b11b26101e2",
+  "observed_case_count": 0,
+  "cases": {},
+  "host_exit": 1,
+  "host_error": "Error: Command failed: python ../auditor/scripts/current-invoice-history-browser/fixture.py prepare\nTraceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/current-invoice-history-browser/fixture.py\", line 7, in <module>\n    import cp7_sales_payment_cases as payments\nModuleNotFoundError: No module named 'cp7_sales_payment_cases'\n\n    at genericNodeError (node:internal/errors:983:15)\n    at wrappedFn (node:internal/errors:537:14)\n    at checkExecSyncError (node:child_process:916:11)\n    at execFileSync (node:child_process:952:15)\n    at fixture (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-invoice-history-browser/browser.mjs:5:37)\n    at Module.cases (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-invoice-history-browser/browser.mjs:119:10)\n    at main (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:233:32)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:259:3",
+  "console_errors": 0,
+  "database_remaining": 0,
+  "auth_counts": {
+    "before": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "after": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "restored": true
+  },
+  "cleanup_failures": false,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "first_failure_preserved": true,
+  "fix": "Insert the resolved parent scripts directory before fixture imports; validate import with an external cwd and no scripts PYTHONPATH. No SQL product or business assertion change.",
+  "metadata_correction": "The new qualifier inherited retained_case_credit=19 from Browser19. Corrected to zero retained and two new browser cases; its actual required IDs and observed zero cases remain unchanged. Added explicit admission assertion.",
+  "production_go": false,
+  "independent_acceptance": false
+}

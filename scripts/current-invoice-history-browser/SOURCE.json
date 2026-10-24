@@ -306,8 +306,8 @@
     "scripts/current-installation-qualification/probe.py": "84258879db28fd62038141f48eb6095a2c979cb8a9c293250a15607db5d3a850",
     "scripts/current-invoice-history-browser/EXPECTED.json": "37c61c25644e93bd674663e106abd072ba669841cad1f57598af8401a6ad2330",
     "scripts/current-invoice-history-browser/browser.mjs": "707db20842adf6ca0393f99fb0f00c314ac183fd7379c101ba0873fd8c02c7c8",
-    "scripts/current-invoice-history-browser/fixture.py": "aae2dc56f98c32a931c60c80f59c96e3a0176bedf5f6417f1f68bc80dbe0234f",
-    "scripts/current-invoice-history-browser/probe.py": "db5a90daec72f500d26b523c412104364ce66ff3365f0d1eb1ecd031a0c6a525",
+    "scripts/current-invoice-history-browser/fixture.py": "6995b9b454ceb041f4db99665f638bafce322799b66db159e7323f48908ccdc8",
+    "scripts/current-invoice-history-browser/probe.py": "e1186902966520c4ac1472e84df7d2e505bbbd8a48424a1d1214852d8a92060f",
     "scripts/finance-bridge-chain-qualification/README.md": "ba44cd776c2b440a23de41c8880a4ffe62868228d07444effce0da06e20eb976",
     "scripts/finance-bridge-chain-qualification/cases.py": "24977a359062afdf761ecc2658d48e964fb8ae9d7b51ec43831599efcc85ae3d",
     "scripts/finance-bridge-chain-qualification/probe.py": "8107682a20085c58d6f8c08059aff80e1d875812884d9d41bb63e00f235a2f4d",
@@ -915,7 +915,8 @@
     "src/workspace-refinements.css": "c8a744029aaeca203026f83d66f1acbf4da7e1894e4e403b074b4bfd2a2831a0",
     "tests/fixtures/financeAnalysis.ts": "dce495bcb0d2ddc4e6f87c793bbedaaa6bc1ee87c049f12f51eee8bc93cc733d"
   },
+  "new_browser_case_count": 2,
   "new_business_case_credit": 0,
   "production_go": false,
-  "retained_case_credit": 19
+  "retained_case_credit": 0
 }
