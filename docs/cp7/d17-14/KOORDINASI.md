@@ -1231,3 +1231,7 @@ OW11/fullAchain/afteruse stillOPEN,parent5/16. NoAfiles/defaults/types edited.
 Paket B digabung di cabang persiapan terisolasi. Native31, boundedNative6, SAVE2000, layar quantity2 dan operational3600 dibaca dari Original lengkap, bukan dari warna job; hash arsip sesuai receipt. Tidak memberi kredit rantai A atau keuangan pada boundedDEFERRED.
 
 Harness A lama tetap byte-identik. Perluasan probe B ditempatkan di `cp7_b_f05_analysis_probe.py`; fixture WIB B pada `cp7_b_stock_formula_cases.py`, dan seluruh caller B diarahkan eksplisit. Oracle lama tidak dilonggarkan. Endpoint bersama akan ditambahkan sekali sesuai caller nyata. Penggabungan request finance/initial/bounded memakai adapter dan manifest tersendiri, semua sumber server B asal tetap sama. Sesudahnya wajib Native gabungan, global before-DDL used guard dan full backup/restore. `production_go=false`.
+
+[bersama] Registry caller gabungan menambah9 pasangan yang benar-benar belum ada (3jadwal,1boundedrequest,5pembacaquantity); delapanusulan lama sudah tercakup. Daftar sebelumnya306 kini315; aturan scanner tetap. Tidak memberi typed/generateddatabase atau deploymentcredit.
+
+Registry access mencantumkan9nama yang sama dan memasukkannya ke penjumlahan tertutup (bukan sekadar menggantiangka). Source369/RPC315, access111izin/47menu/48rute/21aksi, CSS64 dan TypeScript lulus. Kegagalan lokal pertama tersimpan di `ow15/bounded-merge-local-first-admissions.json`.

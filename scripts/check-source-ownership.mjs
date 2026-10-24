@@ -397,6 +397,15 @@ assert.deepEqual([...rpcOwnership].sort(), [
   'src/useLaundryQcWorkspace.ts:erp_save_laundry_qc_action_v1',
   'src/useLaundryQcWorkspace.ts:erp_search_final_sku_products_v1',
   'src/useLaundryQcWorkspace.ts:erp_search_laundry_bs_products_v1',
+  'src/NativeProductionPlanningPanel.tsx:erp_cp7_request_staged_analysis_v1',
+  'src/nativeStagedSchedule.ts:erp_cp7_get_staged_production_schedule_v1',
+  'src/nativeStagedSchedule.ts:erp_cp7_save_staged_production_schedule_v1',
+  'src/nativeBoundedAnalysis.ts:erp_cp7_request_bounded_staged_analysis_v1',
+  'src/nativeBoundedQuantity.ts:erp_cp7_get_staged_analysis_v1',
+  'src/nativeBoundedQuantity.ts:erp_cp7_step_staged_analysis_v1',
+  'src/nativeBoundedQuantity.ts:erp_cp7_read_staged_analysis_pages_v1',
+  'src/nativeBoundedQuantity.ts:erp_cp7_read_staged_analysis_page_v1',
+  'src/nativeBoundedQuantity.ts:erp_cp7_check_staged_analysis_source_v1',
 ].sort(), 'Browser RPC ownership drift')
 
 console.log(`Source ownership passed: ${reachable.size} runtime files, ${rpcOwnership.size} owned RPC boundaries, no orphan or direct table access.`)

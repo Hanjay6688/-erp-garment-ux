@@ -1,0 +1,19 @@
+{
+  "contract": "ow15.bounded-merge-first-local-admissions.v1",
+  "candidate": "b3d0eef3",
+  "source_gate_first": {
+    "error": "Browser RPC ownership drift",
+    "missing_pairs": 9
+  },
+  "access_gate_first": {
+    "error": "315 != 306",
+    "missing_named_boundaries": 9
+  },
+  "fix": "Register the nine actual callers in both exact closed registries; scanner logic unchanged",
+  "current_source": {
+    "runtime_files": 369,
+    "rpc_boundaries": 315
+  },
+  "native_or_browser_credit": false,
+  "production_go": false
+}
