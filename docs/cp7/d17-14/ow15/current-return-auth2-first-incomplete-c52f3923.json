@@ -1,0 +1,58 @@
+{
+  "run": 40084287050,
+  "job": 120843921751,
+  "artifact": 12557000872,
+  "zip_bytes": 1934032,
+  "zip_sha256": "a0edab12c5f85b2a60149035aa62b181ed601dd1b691757caadc615da772eb36",
+  "label": "CP7_CURRENT_RETURN_AUTH2",
+  "status": "INCOMPLETE",
+  "qualification_commit": "c52f392359518ee17523d3c1989fe5d1190ceb33",
+  "report": {
+    "name": "CP7_CURRENT_RETURN_AUTH2.json",
+    "raw_bytes": 1431007,
+    "raw_sha256": "5cd09f46aba1c4558ecca7ce2ed4df47ba35394e1412fd7d3e2a4ae5f3cb7daa"
+  },
+  "counts": {
+    "INCOMPLETE": 2
+  },
+  "case_errors": {
+    "CURRENT_RETURN_HTTP_BAD_DRAFT_GRADE_A": "SECOND_FIXTURE_CUSTOMER_REQUIRED",
+    "CURRENT_RETURN_HTTP_BAD_DRAFT_GRADE_B": "SECOND_FIXTURE_CUSTOMER_REQUIRED"
+  },
+  "observed_case_count": 2,
+  "business_settlement_oracles_reached": false,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "auth_counts": {
+    "before": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "after": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "restored": true
+  },
+  "cleanup": {
+    "users_created": 2,
+    "cleanup_failures": [],
+    "rest_remaining": false
+  },
+  "database_remaining": 0,
+  "production_go": false,
+  "independent_acceptance": false,
+  "new_business_case_credit": 0,
+  "disposition": "Both first cases stop at SECOND_FIXTURE_CUSTOMER_REQUIRED before quote or settlement. Fresh aligned copy has no second active customer. Preserve Original unchanged. Explicit successor creates one with unchanged Native master-data fixture; every financial, replay, permission and inverse assertion unchanged. Source strict inverse, CP6/advisors and real Auth cleanup passed."
+}
