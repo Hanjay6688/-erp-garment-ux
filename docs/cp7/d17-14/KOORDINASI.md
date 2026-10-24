@@ -2379,3 +2379,25 @@ candidate; B does not edit the shared registry/default bundle. Source check is
 not green and no full build claim is made. Model-target integration, actual
 Auth/browser, after-use restore and independent acceptance remain open.
 Formal5/16, CP7C unaccepted and production_go=false.
+
+## 128. B24 Oktober2026 UTC — retained scoped-model transport7 candidate
+
+6fac955f publishes the bounded-page scoped-model client and historyTransport7
+Original receipt. New separate transport7 declaration/probe/workflow for the
+retained v3 evaluation: repeatedcatalog1, four actual backend races, two real
+Auth/PostgREST groups. SameUUID one immutable model; actor access after observed
+envelope wait and committed replay request wait; actual Native SALE while
+waiting must refuse the pinned older history before any model insert, then a
+fresh scoped history may feed a new baseline evaluation. Actual Auth flow calls
+both history and model facades; no global history is manufactured. Same UUID
+across distinct methods and actors, exact payload, anonymous/foreign/revoked
+access, immutable old assessment and actual knowledge time are asserted.
+
+Exact clone-authority wrapper retained from qualified history transport. Source
+pins include transport cases/probe, Native6 cases and dataset parent composition.
+Python AST, declaration/source pins, missing-parent budget refusal and controlled
+wrapper success/exception restoration PASS. Seven-case/45min/8s budgets fixed;
+no Native/Auth/concurrency credit before complete Original. Model policy defaults,
+product runtime SQL, existing count or catalog oracle unchanged. Scoped-model
+Native6/datasetNative4 remain active; target consumption and Auth browser remain
+open. Formal5/16, CP7C and production/independent acceptance remain false.
