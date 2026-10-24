@@ -16,7 +16,7 @@ TABLES=(SCHEMA+'.choices',SCHEMA+'.commands')
 PUBLIC=('public.erp_cp7_get_product_analog_choices_v1(text[])',
         'public.erp_cp7_save_product_analog_choice_v1(jsonb,uuid)')
 FUNCTIONS={SCHEMA+'.material(jsonb,text,text)':('i',False),
-           SCHEMA+'.source_at(text[],timestamptz)':('s',False),
+           SCHEMA+'.source_at(text[],timestamp with time zone)':('s',False),
            SCHEMA+'.workspace(text[])':('v',False),
            SCHEMA+'.apply(jsonb,uuid)':('v',False),
            PUBLIC[0]:('v',True),PUBLIC[1]:('v',True)}

@@ -3,7 +3,7 @@
   "sql_sha256": "16f84ef04b71183d0e70ad0eca72aa748000dd7b4c4436fa7fd922090f285a0d",
   "functions": [
     "cp7_product_analog_choice.material(jsonb,text,text)",
-    "cp7_product_analog_choice.source_at(text[],timestamptz)",
+    "cp7_product_analog_choice.source_at(text[],timestamp with time zone)",
     "cp7_product_analog_choice.workspace(text[])",
     "cp7_product_analog_choice.apply(jsonb,uuid)",
     "public.erp_cp7_get_product_analog_choices_v1(text[])",
