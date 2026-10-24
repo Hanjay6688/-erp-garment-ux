@@ -1,0 +1,88 @@
+{
+  "contract": "ow15.current-full-money.expected-chain-steps.v1",
+  "plan": "docs/cp7/d17-14/ow15/RENCANA_OW15.md section 4 (CHAIN_STEPS)",
+  "rule": "All six unchanged A steps plus the current B bounded read/receipt step must PASS; immutable money gold remains scripts/ow05-p21-qualification/EXPECTED_P21_RESTORE.json.",
+  "steps": [
+    {
+      "id": "OW07_ATTENDANCE_POOLS_ACTIVE_BEFORE_E01",
+      "stage": "OW07 (cp7_hpp_close)",
+      "status": "IMPLEMENTED",
+      "expect": "Before the unchanged E01 READY assertions: every ATTENDANCE_POOL_NOT_ACTIVE period of the data copy is divided through the Native HPP pool facade (preview READY, CREATE, ACTIVATE; reason labelled P21 RANTAI FIXTURE) and none remains; a missing contractor policy refuses (labelled fixture policy step still to be written if it ever appears).",
+      "calls": "cp7_r3_hpp_pool_cases.owner/read/save/create_body/pool_body/facade_pool, as scripts/cp7_hpp_close/cases.py attendance_pool()"
+    },
+    {
+      "id": "OW08A_AR_AND_CREDIT_REPORT_CHECKS_ZERO",
+      "stage": "OW08a (cp7_report_credit)",
+      "status": "IMPLEMENTED",
+      "expect": [
+        [
+          "CP7_CUSTOMER_CREDIT_REPORT_UNPROVEN",
+          "CRITICAL",
+          0
+        ],
+        [
+          "V2620H_CUSTOMER_AR_BY_CUSTOMER_MISMATCH",
+          "CRITICAL",
+          0
+        ],
+        [
+          "V2620H_CUSTOMER_AR_STATUS_MISMATCH",
+          "CRITICAL",
+          0
+        ],
+        [
+          "V268_AR_GL_SUBLEDGER_MISMATCH",
+          "CRITICAL",
+          0
+        ]
+      ],
+      "when": "before OW04 credit use and after actual credit use; history docs/cp7/d17-14/ow04/p21-36a6b880-readiness-boundary.json (2/3/1) unchanged"
+    },
+    {
+      "id": "OW06_TRANSFER_400_600_RESTORE_REPLAY_REVERSE",
+      "stage": "OW06 (cp7_supplier_transfer)",
+      "status": "IMPLEMENTED",
+      "expect": "transfer 400 + 600 committed, equal after restore, one replay gives one effect, full reversal",
+      "when": "source after the used-state refusal, before the trusted dump (last, its oracle compares the whole stock/HPP state); restored database before any other restored write",
+      "calls": "cp7_supplier_transfer/cases.py fixture, payload, command, observe, snapshot, reverse_payload (oracles of exact() and reverse())"
+    },
+    {
+      "id": "KASBON_FGQC_RESOLVE_SAME_AFTER_RESTORE",
+      "stage": "kasbon + fgqc (cp7_kasbon_source, cp7_fg_correction_source)",
+      "status": "IMPLEMENTED",
+      "expect": "cp7_transaction_source.resolve gives the same answer on the source and the restored database for a kasbon and an FG reversal row",
+      "when": "source after the used-state refusal; compared on the restored database",
+      "calls": "cp7_kasbon_source/cases.py given, resolve, expected, same (give()); cp7_fg_correction_source/cases.py chain, reverse, resolve, strip, one (opens() for QC, without the original-reader comparison that needs the stage install state)"
+    },
+    {
+      "id": "OW12A_SEALED_CAPTURE_EQUALS_FINANCE_REPORT",
+      "stage": "OW12a (cp7_finance_capture)",
+      "status": "IMPLEMENTED",
+      "expect": "a sealed capture has the same figures as the finance report on the same state, before and after restore",
+      "when": "source after the used-state refusal, before the trusted dump",
+      "calls": "the stage case itself: dict(cp7_finance_capture.cases.cases(cur,today))['OW12A_CAPTURE_SAME_FIGURES_AS_FINANCE_REPORT']() (its own fixture, capture run, independent book signature, owner report parts, direct analysis metrics, fingerprint)"
+    },
+    {
+      "id": "WASH_UNKNOWN_PRICE_HOLDS_CLOSE_UNTIL_PRICED_ONCE",
+      "stage": "wash (cp7_laundry_unknown_wash)",
+      "status": "IMPLEMENTED",
+      "expect": "failed wash with unknown vendor price holds close; the price set once releases it",
+      "when": "source after the used-state refusal, before the trusted dump",
+      "calls": "cp7_laundry_unknown_wash/cases.py fixture, failed, readiness, mine, kinds, savepoint, known_rate, money, close_refused, price, preflight_codes (oracles of close_and_twin() and set_once(), without the original-engine comparison that needs the stage install state)"
+    },
+    {
+      "id": "CURRENT_B_BOUNDED_RESTORE_READS_AND_RECEIPTS",
+      "stage": "Current A/B bounded installation",
+      "status": "IMPLEMENTED",
+      "expect": "Actual DONE bounded job, full reference/header/pages and checked draft are identical after full restore; original work/draft UUID replay changes no business row or sequence.",
+      "calls": "ab-bounded-restore-qualification/used.py create() and after_restore(), unchanged"
+    }
+  ],
+  "scope_notes": [
+    {
+      "id": "FULL_B_QUALIFICATION_NOT_CLAIMED",
+      "required": false,
+      "note": "All declared B stages are installed; this adds bounded work/draft restore interoperability. Native286/factory3600 and full B acceptance are not rerun or claimed."
+    }
+  ]
+}
