@@ -34,3 +34,15 @@ reload, mobile CLEAR/UNKNOWN and desktop 2000 products/202000 stock movements.
 The twelve-stage default parent and older 31/25/19 case budgets remain unchanged.
 Model backtest/promotion, full A financial integration, independent acceptance,
 and production_go remain open/false.
+
+
+First Native3 on587586e/run40094445688:2 PASS/1 INCOMPLETE, exact catalog22
+inverse and public reorder/CLEAR passed. The current-access case correctly hit
+LAST_ACTIVE_OWNER_PROTECTED while trying to deactivate its sole owner. It now
+seeds a separate active owner before the fixture, preserving the actual guard
+and the required42501 reader refusal. SQL/source pins and case budget remain
+unchanged. Full first Original/log retained; cp6/advisor true, runtime gate false.
+
+Actual consumer Browser2 on587586e/run40094445687 PASS2, full Original/5gates/
+Auth cleanup verified and mobile/desktop screenshots inspected. This does not
+replace the missing Native current-access proof or actual ROP UI qualification.

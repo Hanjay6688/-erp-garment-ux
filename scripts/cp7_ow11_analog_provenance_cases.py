@@ -42,7 +42,11 @@ def cases(cur,today):
                     exact_catalog22_inverse=True,dependent_view_failure_restores_partial_DDL=True)
 
     def retained_reader():
-        _,_,_,_,ps=install(cur);f=consumer.prepare(cur,today);p=consumer.payload(f)
+        _,_,_,_,ps=install(cur)
+        # Keep the authoritative last-active-owner protection intact. This case
+        # revokes its reader while another explicitly seeded owner remains.
+        backup_owner=bounded.work.base.retained.master.role_actor(cur,'OWNER')
+        f=consumer.prepare(cur,today);p=consumer.payload(f)
         initial,_=reader.call(cur,f,f['target'])
         assert initial['contract_version']=='cp7.product-analog-candidates-read.v2'
         assert initial['consumer_capability']=='REVIEWED_ANALOG_FOR_FRESH_CAPTURES'
@@ -55,6 +59,7 @@ def cases(cur,today):
         assert d['analog']['choice_id']==receipt['choice_id']and d['analog']['scale_factor']=='1'
         assert reader.call(cur,f,f['target'])[0]==initial # Immutable old result, explicitly captured.
         plan.b.api.admin(cur);actor=receipt['actor_scope_id']
+        assert actor!=backup_owner
         cur.execute('update erp.app_users set is_active=false where auth_user_id=%s',(actor,))
         assert plan.refusal(cur,lambda:reader.call(cur,new,new['target']))[0]=='42501'
         plan.b.api.admin(cur)
