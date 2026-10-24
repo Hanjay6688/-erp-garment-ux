@@ -1768,3 +1768,26 @@ Inventaris mode tersisa juga diperinci:106 entri historis=58race+21HTTP+
 27browser. Factory menunjukkan95 kontrol unik (53+19+23),11warisan identik.
 Total286 historis=248unik+38pengulangan; ini statis, bukan hasil runtime.
 Native153 pada04033ae3/run40077317395 masih berjalan. Production_go=false.
+
+## A / 24 Oktober 2026 — Native153 nyata dan kandidat perbaikan draft sumber
+
+Native153 pada04033ae3 selesai140PASS/13INCOMPLETE.153ID lengkap, completeboundary,
+CP6/rawpublic/advisor/4gatepaketPASS; writer_runtimefalse.13kegagalan terbatas
+pada kontrol FG reorder/formula warisan (evaluasi hilang, nilai manual/sumber,
+volume tanpa titik hitung). Jangan klaim penyebab sebelum kebijakan/fixture B
+dicocokkan; kode B tidak diubah. Original dan strict-group dicatat receipt.
+
+Kandidat terpisah cp7_draft_return_isolation menurunkan satu perubahan kondisi
+dari source.sql beku: mismatchcustomer pada DRAFT RETURN tidak menolak seluruh
+keluarga sumber. Row aktual/hash/lock draft tetap; Native posting draft yang
+salah tetap ditolak oleh pemeriksaan active-source miliknya. Empat kontrol
+akan dijalankan sebelum dan sesudah delta: dua counterexample wajib nyata,
+retur sah dengan draft buruk tetapada, perubahan draft tetap mengubah hash
+sumber tanpa efek keuangan, rebindsource dan batas3pcs/refund60 tetap.
+
+Admission hanya mengizinkan satu body fungsi berubah; metadata/hak/21grup lain
+identik. Inverse memeriksa semua data/sequence sebelum DDL; kasus yang sudah
+memposting transaksi harus menolak inverse tanpa efek. Ini kandidat belum
+runtimequalified, belum ditambahkan ke current installation. Used fullbackup/
+restore dan regresi lebih luas tetap syarat sebelum integrasi. Sumber beku,
+currententrypoint, official dan hosted tidak disentuh.

@@ -1,0 +1,190 @@
+{
+  "contract": "cp7.current-retained-native-result.v1",
+  "qualified_head": "04033ae39a81029a1a9cbf9d9b61e5431ef202c9",
+  "run_id": 40077317395,
+  "job_id": 120823368071,
+  "artifact_id": 12553328751,
+  "artifact_zip": {
+    "name": "retained153-first.zip",
+    "bytes": 5433735,
+    "sha256": "06c2e790ed44f660433766f68a6749c20bbfb7b04cac3638a634312585c61b19"
+  },
+  "original": {
+    "name": "CP7_CURRENT_RETAINED_NATIVE153.json",
+    "bytes": 35715708,
+    "sha256": "b2cb4edb026301d4f1375d30f6e13ae502882fee374a402756eaa40b465c6309"
+  },
+  "status": "INCOMPLETE",
+  "counts": {
+    "PASS": 140,
+    "INCOMPLETE": 13
+  },
+  "observed_case_count": 153,
+  "historical_native_entries": 180,
+  "unique_executed": 153,
+  "identical_inherited_entries_not_reexecuted": 27,
+  "non_native_mode_entries_not_executed": 106,
+  "failures": [
+    {
+      "case": "WAF_FG_REORDER_POINT_FORWARDED",
+      "status": "INCOMPLETE",
+      "error_head": "{'job': 'COLLECT', 'ran': True, 'kinds': {'AP_DUE': {'open': 0, 'opened': 0, 'resolved': 0, 'refreshed': 0}, 'AR_DUE': {'open': 0, 'opened': 0, 'resolved': 0, 'refreshed': 0}, 'LAUNDRY_AP': {'open': 0, 'opened': 0, 'resolved': 0, 'refreshed': 0}, 'OPENING_AP': {'open': 0, 'opened': 0, 'resolved': 0, 'refreshed': 0}, 'OPENING_AR': {'open': 0, 'opened': 0, 'resolved': 0, 'refreshed': 0}, 'PAYROLL_AP",
+      "trace_locations": [
+        "File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-retained-native-qualification/cases.py\", line 54, in run",
+        "File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_forward_cases.py\", line 965, in fg_forwarded"
+      ],
+      "full_error_preserved_in_original": true
+    },
+    {
+      "case": "WAF_FG_RESOLVED_BEFORE_SEND",
+      "status": "INCOMPLETE",
+      "error_head": "'NoneType' object is not subscriptable",
+      "trace_locations": [
+        "File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_forward_cases.py\", line 995, in fg_resolved_before_send",
+        "File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_forward_cases.py\", line 311, in alert_item",
+        "File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_wa_forward_cases.py\", line 107, in one"
+      ],
+      "full_error_preserved_in_original": true
+    },
+    {
+      "case": "SS1_FORMULA_FROM_POSTED_SALES",
+      "status": "INCOMPLETE",
+      "error_head": "'NoneType' object is not subscriptable",
+      "trace_locations": [
+        "File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-retained-native-qualification/cases.py\", line 54, in run",
+        "File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_stock_formula_cases.py\", line 472, in formula_from_sales",
+        "File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_stock_formula_cases.py\", line 129, in evaluation"
+      ],
+      "full_error_preserved_in_original": true
+    },
+    {
+      "case": "SS1_OUT_OF_STOCK_DAYS_NOT_ZERO_DEMAND",
+      "status": "INCOMPLETE",
+      "error_head": "'NoneType' object is not subscriptable",
+      "trace_locations": [
+        "File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-retained-native-qualification/cases.py\", line 54, in run",
+        "File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_stock_formula_cases.py\", line 490, in out_of_stock_days",
+        "File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_stock_formula_cases.py\", line 129, in evaluation"
+      ],
+      "full_error_preserved_in_original": true
+    },
+    {
+      "case": "SS1_LEAD_TIME_MEASURED_FROM_PRODUCTION",
+      "status": "INCOMPLETE",
+      "error_head": "'NoneType' object is not subscriptable",
+      "trace_locations": [
+        "File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-retained-native-qualification/cases.py\", line 54, in run",
+        "File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_stock_formula_cases.py\", line 511, in lead_time_measured",
+        "File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_stock_formula_cases.py\", line 129, in evaluation"
+      ],
+      "full_error_preserved_in_original": true
+    },
+    {
+      "case": "SS1_DAYS_BUFFER_NOT_STACKED",
+      "status": "INCOMPLETE",
+      "error_head": "'NoneType' object is not subscriptable",
+      "trace_locations": [
+        "File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-retained-native-qualification/cases.py\", line 54, in run",
+        "File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_stock_formula_cases.py\", line 523, in days_buffer",
+        "File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_stock_formula_cases.py\", line 129, in evaluation"
+      ],
+      "full_error_preserved_in_original": true
+    },
+    {
+      "case": "SS1_SETTINGS_SERVICE_LEVEL_AND_WINDOW",
+      "status": "INCOMPLETE",
+      "error_head": "'NoneType' object is not subscriptable",
+      "trace_locations": [
+        "File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-retained-native-qualification/cases.py\", line 54, in run",
+        "File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_stock_formula_cases.py\", line 556, in settings_level_and_window",
+        "File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_stock_formula_cases.py\", line 129, in evaluation"
+      ],
+      "full_error_preserved_in_original": true
+    },
+    {
+      "case": "SS1_MANUAL_POINT_REPLACES_AND_CLEARS",
+      "status": "INCOMPLETE",
+      "error_head": "{'z': None, 'sku': 'AX-99abded98e', 'basis': 'MANUAL', 'point': '83', 'state': 'AT_OR_BELOW', 'reason': None, 'root_id': '99abded9-8e8f-405d-9c44-e4d169c17ac6', 'size_id': 'c8c10000-0000-4000-8000-000000000002', 'wip_pcs': None, 'daily_sd': None, 'free_pcs': '83', 'model_id': 'dbb1abd8-d61f-4f09-ab4f-33aa07a3e6cc', 'lead_days': '7', 'lead_lots': None, 'sale_days': 0, 'sales_pcs': '0', 'size_code':",
+      "trace_locations": [
+        "File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-retained-native-qualification/cases.py\", line 54, in run",
+        "File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_stock_formula_cases.py\", line 577, in manual_point"
+      ],
+      "full_error_preserved_in_original": true
+    },
+    {
+      "case": "SS1_NOT_ENOUGH_DATA_NEVER_GUESSES",
+      "status": "INCOMPLETE",
+      "error_head": "'NoneType' object is not subscriptable",
+      "trace_locations": [
+        "File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-retained-native-qualification/cases.py\", line 54, in run",
+        "File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_stock_formula_cases.py\", line 596, in not_enough_data",
+        "File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_stock_formula_cases.py\", line 129, in evaluation"
+      ],
+      "full_error_preserved_in_original": true
+    },
+    {
+      "case": "SS1_REVERSED_SALE_NOT_DEMAND",
+      "status": "INCOMPLETE",
+      "error_head": "'NoneType' object is not subscriptable",
+      "trace_locations": [
+        "File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-retained-native-qualification/cases.py\", line 54, in run",
+        "File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_stock_formula_cases.py\", line 609, in reversed_sale",
+        "File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_stock_formula_cases.py\", line 129, in evaluation"
+      ],
+      "full_error_preserved_in_original": true
+    },
+    {
+      "case": "SS1_IN_PRODUCTION_COUNTS_TOWARD_POSITION",
+      "status": "INCOMPLETE",
+      "error_head": "'NoneType' object is not subscriptable",
+      "trace_locations": [
+        "File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-retained-native-qualification/cases.py\", line 54, in run",
+        "File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_stock_formula_cases.py\", line 627, in in_production",
+        "File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_stock_formula_cases.py\", line 129, in evaluation"
+      ],
+      "full_error_preserved_in_original": true
+    },
+    {
+      "case": "SS1_SOURCE_AND_ACCESS",
+      "status": "INCOMPLETE",
+      "error_head": "{'sku': 'AX-bec34bcae1', 'basis': 'MANUAL', 'root_id': 'bec34bca-e136-4499-a1ee-0fb74a3f78af', 'size_id': 'c8c10000-0000-4000-8000-000000000002', 'wip_pcs': None, 'free_pcs': '83', 'lead_days': '7', 'size_code': 'CP6-RACE-S', 'daily_mean': None, 'lead_basis': 'PROFILE', 'projection': {'basis': 'GLOBAL_PROJECTED_GOOD_ON_TIME', 'analysis_at': None, 'candidate_pcs': None, 'threshold_source': 'PLANNIN",
+      "trace_locations": [
+        "File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-retained-native-qualification/cases.py\", line 54, in run",
+        "File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_stock_formula_cases.py\", line 660, in source_and_access"
+      ],
+      "full_error_preserved_in_original": true
+    },
+    {
+      "case": "SS1_VOLUME_2000_ITEMS_EVERY_MINUTE",
+      "status": "INCOMPLETE",
+      "error_head": "(202000, 0, {'items': 2001, 'wip_read': 0, 'materials': 1, 'at_or_below': 0, 'computed_at': '2026-10-24T08:22:52.499745+00:00', 'materials_at_or_below': 0})",
+      "trace_locations": [
+        "File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-retained-native-qualification/cases.py\", line 54, in run",
+        "File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_stock_formula_cases.py\", line 704, in volume"
+      ],
+      "full_error_preserved_in_original": true
+    }
+  ],
+  "complete_boundary_restored": true,
+  "cp6_restored": true,
+  "restore_raw_public_equal": true,
+  "advisor_gate": true,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "strict_group_originals": [
+    {
+      "path": "strict-groups/CP7_CURRENT_RETAINED_NATIVE153.json",
+      "bytes": 166149,
+      "sha256": "de9cda817de69a8022c44c3b5f495fea2c0bb453c9487e862b82c7a3d7478a02"
+    }
+  ],
+  "new_business_case_credit": 0,
+  "production_go": false,
+  "independent_acceptance": false,
+  "disposition": "13 failures are confined to inherited FG reorder/formula controls: absent evaluations, changed manual/source values and no computed points in volume control. Preserve the actual legacy result; current owner policy/fixture versus product cause remains to be checked within B ownership. Other140 controls PASS; whole153 or286 is not accepted."
+}

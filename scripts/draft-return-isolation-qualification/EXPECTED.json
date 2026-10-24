@@ -1,0 +1,21 @@
+{
+  "count": 4,
+  "case_ids": [
+    "VALID_RETURN_WITH_BAD_CUSTOMER_SIBLING_DRAFT",
+    "DRAFT_CUSTOMER_REMAINS_HASHED_DEPENDENCY",
+    "RETAINED_SOURCE_REBIND_REFUSAL",
+    "RETAINED_THREE_PIECE_ALLOCATION_LIMIT"
+  ],
+  "unfixed_counterexamples": [
+    "VALID_RETURN_WITH_BAD_CUSTOMER_SIBLING_DRAFT",
+    "DRAFT_CUSTOMER_REMAINS_HASHED_DEPENDENCY"
+  ],
+  "fixed_counts": {
+    "PASS": 4
+  },
+  "unfixed_counts": {
+    "INCOMPLETE": 2,
+    "PASS": 2
+  },
+  "production_go": false
+}
