@@ -1,0 +1,36 @@
+{
+  "status": "PASS",
+  "head": "28abdeef65348e42ad1b1947830890e3e55adcd3",
+  "run_id": 40055821460,
+  "job_id": 120758460322,
+  "artifact_id": 12545304242,
+  "zip_bytes": 1814752,
+  "zip_sha256": "1c6adc276d1aa20a3759400db79a727e47d319d80007ad19655c5a5626c3149c",
+  "original_name": "CP7_OW14B_INSTALLATION_NATIVE4.json",
+  "original_bytes": 1624769,
+  "original_sha256": "e4a301e98c2de22396e1db04026edca74070e534c6851a2b8875fc9a388a6524",
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "production_go": false,
+  "independent_acceptance": false,
+  "full_owner_scope_acceptance": false,
+  "case_ids": [
+    "OW14B_INSTALL_IDENTITY_UNIT_SIX_DECIMALS",
+    "OW14B_INSTALL_PINNED_RULE_OLD_REFERENCE",
+    "OW14B_INSTALL_KNOWN_ZERO_UNKNOWN",
+    "OW14B_INSTALL_SOURCE_AND_REFERENCE_DRIFT_REFUSED"
+  ],
+  "counts": {
+    "PASS": 4
+  },
+  "all_case_boundaries_restored": true,
+  "all_case_public_catalog_exact": true,
+  "all_case_session_leaks_zero": true
+}

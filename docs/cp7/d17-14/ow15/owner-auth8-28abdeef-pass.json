@@ -1,0 +1,66 @@
+{
+  "status": "PASS",
+  "head": "28abdeef65348e42ad1b1947830890e3e55adcd3",
+  "run_id": 40055821394,
+  "job_id": 120758459777,
+  "artifact_id": 12545851287,
+  "zip_bytes": 1698123,
+  "zip_sha256": "e3e70e0910408d83bdfe6abc7f6fc5bb9ac649a791e13c38c0a8c4baaf493434",
+  "original_name": "CP7_AB_OWNER_AUTH8.json",
+  "original_bytes": 500358,
+  "original_sha256": "bdeccae3c4b4b6aa6bf451565879714a59d25b0f901f5c2df8c7086ffface400",
+  "actual_HTTP_counts": {
+    "PASS": 8
+  },
+  "case_ids": [
+    "OW05_REAL_AUTH_UNDO_CORRECT_NEW_RATE_AND_NOTA24",
+    "OW05_TWO_DISTINCT_AUTH_USERS_SAME_PO_ONE_EFFECT",
+    "OW05_REAL_AUTH_RIGHT_REVOKED_AFTER_WAIT_AND_BEFORE_REPLAY",
+    "OW05_REAL_SEWING_FLOW_AND_PO_ROW_CONTENTION_REFUSED_ATOMICALLY",
+    "OW06_REAL_AUTH_CREATE_REPLAY_CORRECT_REVERSE_EXACT_CASH",
+    "OW06_REAL_AUTH_RIGHT_REVOKED_WHILE_WAITING_REFUSED_ATOMICALLY",
+    "OW06_TWO_DISTINCT_AUTH_USERS_SAME_RECEIPTS_ONE_EFFECT",
+    "OW06_REAL_AUTH_ROLE_WITHOUT_PAY_RIGHT_DENIED_NO_EFFECT"
+  ],
+  "real_auth": true,
+  "jwt_signed_by_runtime": false,
+  "test_only_usage_grant": false,
+  "all_case_session_leaks_zero": true,
+  "auth_counts": {
+    "before": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "after": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "restored": true
+  },
+  "cleanup": {
+    "users_created": 11,
+    "cleanup_failures": [],
+    "rest_remaining": false
+  },
+  "database_remaining": 0,
+  "all22_preuse_inverse": true,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "retained_cases": true,
+  "new_business_case_credit": 0,
+  "real_browser_claim": false,
+  "full_current_qualification": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

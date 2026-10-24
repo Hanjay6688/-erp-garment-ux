@@ -1,0 +1,39 @@
+{
+  "component_status": "PASS",
+  "workflow_conclusion": "success",
+  "head": "f94df96ad8ff637dc45967a6a0354a87dd2129c5",
+  "run_id": 40048832540,
+  "job_id": 120736651060,
+  "artifact_id": 12542157909,
+  "zip_bytes": 136281,
+  "zip_sha256": "efb1fe376007db5837619d109941d88e404251732930758cb7a5d0889caabb8b",
+  "original_name": "CP7_OW11_ANALOG_PRIVATE.json",
+  "original_bytes": 1170871,
+  "original_sha256": "80495c4c3bf5807fff00f632de3b86bd39a5f826d075899e1c126b6747dc0730",
+  "actual_native_counts": {
+    "PASS": 3
+  },
+  "case_ids": [
+    "OW11_ANALOG_PRIVATE_CATALOG22_EXACT",
+    "OW11_ANALOG_NATIVE_SOURCE_DENSE_PAGINATION_ADVISORY",
+    "OW11_ANALOG_NATIVE_PROFILE_INSUFFICIENT_AND_PAGE_GUARDS"
+  ],
+  "all_per_case_boundaries_restored": true,
+  "all_per_case_public_catalog_unchanged": true,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "reviewed_by": "Integrator A, Original verification; not independent audit",
+  "integrated_with_A": false,
+  "full_OW11_acceptance": false,
+  "analog_confirmation_qualified": false,
+  "forecast_applied": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

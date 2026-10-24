@@ -1,0 +1,44 @@
+{
+  "status": "INCOMPLETE",
+  "head": "a1043452fa35400fa25fab9ac9cda81f4275cb41",
+  "run_id": 40053109319,
+  "job_id": 120749930012,
+  "artifact_id": 12544367842,
+  "zip_bytes": 43941,
+  "zip_sha256": "b538d499271d656039ad5ddabaaa36f6512546385f1af586baf4ad402a5dad6d",
+  "original_name": "CP7_OW11_ANALOG_BROWSER.json",
+  "original_bytes": 292966,
+  "original_sha256": "bca31fcef420c28e1ded26a5866a6fccc85b0fa2d080e1d0ff41b5a1d283120f",
+  "log_bytes": 184068,
+  "log_sha256": "48bc8ccb9578a22ac90310db12af9f07bcb9854f8803b50b8db011782738a8cd",
+  "reported_cases": {
+    "OW11_ANALOG_BROWSER_MOBILE_AVAILABLE_ZERO_SIZE_ACCESS": "PASS"
+  },
+  "host_exit": 1,
+  "host_status": "INCOMPLETE",
+  "console_errors": 0,
+  "database_remaining": 0,
+  "auth_counts": {
+    "before": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "after": [
+      3,
+      3,
+      6,
+      6
+    ],
+    "restored": false
+  },
+  "cleanup_failures": true,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "observed_failure": "Unhandled page.waitForResponse Timeout20000ms in reply line19/open line23/journey line37 of scripts/cp7_ow11_analog_browser.mjs. Desktop case never returned a case result. Three Auth users remained; package primary_unchanged=false and writer_runtime=false.",
+  "owning_followup": "B must retain this original, ensure response wait rejection is observed immediately with the UI action, diagnose why response is absent, and prove actual cleanup. Do not extend the timeout or suppress failure as an oracle substitute.",
+  "integrated_with_A": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

@@ -1,0 +1,110 @@
+{
+  "status": "PASS",
+  "head": "28abdeef65348e42ad1b1947830890e3e55adcd3",
+  "run_id": 40055821451,
+  "job_id": 120758460232,
+  "artifact_id": 12545347571,
+  "zip_bytes": 3609133,
+  "zip_sha256": "c4e4805ebb7b09a9588d9e6d0458254bc400ae4c68ae32421b8a647f6568b1a4",
+  "original_name": "CP7_CURRENT_INSTALLATION_RESTORE.json",
+  "original_bytes": 550411,
+  "original_sha256": "054e396e467180fba15dc4b1dca4692bc364645ae8cbdccf3ed8ada0bb68a31b",
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "production_go": false,
+  "independent_acceptance": false,
+  "full_owner_scope_acceptance": false,
+  "steps": [
+    "INSTALL_ALL22",
+    "PREUSE_EXACT_RESTORE",
+    "REINSTALL_ALL22",
+    "COMMITTED_A_PAYMENT_B_FABRIC_BOUNDED_WORK_DRAFT",
+    "GLOBAL_USED_GUARD_BEFORE_DDL",
+    "FULL_USED_BACKUP_RESTORED",
+    "RESTORE_NEGATIVE_CONTROLS",
+    "LOCAL_OID_BINDING_ONLY",
+    "EXACT_A_B_READS_AND_UUID_REPLAY"
+  ],
+  "negative_controls": [
+    {
+      "id": "WRONG_TRUSTED_HASH",
+      "status": "PASS",
+      "refusal": "CHAIN_RESTORE_TRUSTED_BACKUP_HASH_REQUIRED"
+    },
+    {
+      "id": "CHANGED_COMPOSED_SOURCE",
+      "status": "PASS",
+      "refusal": "CHAIN_RESTORE_SOURCE_OR_CONTRACT_CHANGED"
+    },
+    {
+      "id": "WRONG_DATABASE",
+      "status": "PASS",
+      "refusal": "CHAIN_RESTORE_FRESH_EXPECTED_DATABASE_REQUIRED"
+    },
+    {
+      "id": "B_FUNCTION_METADATA_DRIFT",
+      "status": "PASS",
+      "refusal": "CHAIN_RESTORE_CATALOG_CHANGED"
+    },
+    {
+      "id": "BOUNDED_COMPOSITE_METADATA_DRIFT",
+      "status": "PASS",
+      "refusal": "CHAIN_RESTORE_CATALOG_CHANGED"
+    },
+    {
+      "id": "B_EVALUATION_ROW_DRIFT",
+      "status": "PASS",
+      "refusal": "CHAIN_RESTORE_BUSINESS_ROWS_OR_SEQUENCE_CHANGED"
+    }
+  ],
+  "payment_whole_read_differences": {},
+  "fabric_policy_whole_read_differences": {},
+  "exact_replay": {
+    "step": "EXACT_A_B_READS_AND_UUID_REPLAY",
+    "status": "PASS",
+    "A_and_B_authoritative_reads_exact": true,
+    "same_UUID_no_second_effect": true,
+    "changed_policy_payload_refused": true,
+    "bounded": {
+      "bounded_reference_header_pages_all_exact": true,
+      "work_receipt_exact_replay": true,
+      "checked_draft_exact_replay": true,
+      "all_rows_sequences_unchanged_by_replays": true
+    }
+  },
+  "generated_types": {
+    "status": "PASS",
+    "generator": "supabase gen types",
+    "cli_version": "2.116.0",
+    "schema": "public",
+    "database": "cp6_rollback",
+    "hosted": false,
+    "raw_name": "database.current-disposable.generated.ts",
+    "raw_bytes": 48805,
+    "raw_sha256": "0ad5befcff49385225a1b5b45150dd428d7c5e3b7ad8968f0705cca07da2757f",
+    "required_facades": [
+      "erp_cp7_get_staged_production_schedule_v1",
+      "erp_cp7_save_staged_production_schedule_v1",
+      "erp_cp7_request_bounded_staged_analysis_v1"
+    ],
+    "generator_help_sha256": "6fe7dee33ec3bfe8eb49ec9b1839dbe1b7012219f641ae89abbd0c16618a63d8",
+    "client_contract_replaced": false,
+    "production_go": false,
+    "all22_rows_sequences_unchanged": true
+  },
+  "committed_source_raw_types_identical": true,
+  "first_failures_retained": [
+    "ab-bounded-8b9ae4c9-first-restore.json",
+    "ab-bounded-49203e88-first-payment-read.json",
+    "current-install-bc2c23c0-first-types.json",
+    "current-install-650ff0e4-generated-types-first-fabric-read.json"
+  ],
+  "scope": "Current A/B installer including inventory, committed supplier payment and fabric rule, bounded analysis work receipt and checked draft, global used guard before DDL, complete backup/restore, local OID rebinding and exact UUID replay. Not full CP7 qualification or independent acceptance."
+}

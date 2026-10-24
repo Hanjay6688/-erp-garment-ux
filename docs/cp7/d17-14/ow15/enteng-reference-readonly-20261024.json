@@ -1,0 +1,21 @@
+{
+  "status": "HOSTED_READ_ONLY_INVENTORY_EMPTY_NOT_ZERO_MINIMUM",
+  "project_name": "ERP Enteng",
+  "observed_at": "2026-10-24 02:57:58.350161+00",
+  "read_only": true,
+  "transaction_isolation": "repeatable read",
+  "all_materials": 0,
+  "all_fabric_profiles": 0,
+  "fabric_count": 0,
+  "orphan_or_nonfabric_profiles": 0,
+  "reader_bypasses_RLS": true,
+  "cp7_stock_formula_present": false,
+  "source_read_bytes": 3324,
+  "source_read_sha256": "25ad51ec6efb601e63d2a043f849518208ccffd3650406a689b9997f7841eb32",
+  "inventory_json_sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+  "conclusion": "No Native material/profile rows exist in the observed Enteng database. This is absence of a reference, not a minimum value of zero, not proof that historical references never existed, and not approval to choose a stock rule. The installer must capture live inventory again in its own transaction.",
+  "hosted_write": false,
+  "fixtures_installed": false,
+  "installation_acceptance": false,
+  "production_go": false
+}
