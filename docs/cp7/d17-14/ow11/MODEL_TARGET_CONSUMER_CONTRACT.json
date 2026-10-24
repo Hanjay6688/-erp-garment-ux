@@ -4,10 +4,10 @@
   "new_private_functions": 8,
   "new_public_rpcs": 0,
   "new_tables": 0,
-  "existing_replacement_candidates": 19,
+  "existing_replacement_candidates": 20,
   "local_SQL": {
     "source_cases_PASS": 14,
-    "consumer_and_selected_hook_cases_PASS": 28,
+    "consumer_and_selected_hook_cases_PASS": 29,
     "explicit_synthetic_history_policy": true,
     "live_source_and_access_controlled": true,
     "actual_Native_capture": false,
@@ -32,7 +32,8 @@
     "warehouse-only reader gets baseline without model rows, policy, or model-history scans",
     "posted history and prior captures remain immutable",
     "model timeline consumes exact dated windows through lead+review, excludes buffer demand and preserves earlier gaps after late supply",
-    "original baseline timeline remains byte-identical for legacy/manual fallback; evaluated report does not replace vector with historical daily rate"
+    "original baseline timeline remains byte-identical for legacy/manual fallback; evaluated report does not replace vector with historical daily rate",
+    "raw operational and staged analysis report the same evaluated model and dated timeline; complete manual report retained except engine version/semantic hash"
   ],
   "first_failure_retained": "18 PASS / 1 FAIL exposed unreviewed-profile reorder provenance referring to the earlier UNKNOWN target; candidate points hook now binds explanation to actual retained default kernel",
   "open": [

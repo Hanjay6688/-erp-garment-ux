@@ -18,7 +18,8 @@ IDS=dict(native=['OW11_MODEL_TARGET_CATALOG22_COMPOSED_PREUSE',
 REQUIRED=dict(native=6)
 EXPECTED=DECLARED=6
 FUNCTIONS=(*fresh.FUNCTIONS,'erp_cp7_get_model_activation_policy_v1','erp_cp7_save_model_activation_policy_v1',
- 'erp_cp7_capture_model_evaluation_v2','erp_cp7_read_model_evaluation_v2')
+ 'erp_cp7_capture_model_evaluation_v2','erp_cp7_read_model_evaluation_v2','erp_cp7_capture_operational_analysis_v1',
+ 'erp_cp7_request_operational_analysis_job_v1')
 SCHEDULES=fresh.SCHEDULES
 INSTALL_STATES,REORDER_STATES,CHECKED_STATE,SCHEDULE_STATE,BOUNDED_STATE,REFERENCE_STATE,STAGE_STATE={},{},{},{},{},{},{}
 PARENT_CHECKER=None
@@ -57,7 +58,7 @@ def read(cur,run,subject=None):return call(cur,'erp_cp7_read_baseline_v1',(run,)
 def cases(cur,today):
     def catalog():
         before=_catalog_rows(cur);s=install(cur);v=stage.verify(cur,s['current'])
-        assert(v['new_private_functions'],v['existing_replacements'],v['new_public_rpcs'],v['new_tables'])==(8,19,0,0)
+        assert(v['new_private_functions'],v['existing_replacements'],v['new_public_rpcs'],v['new_tables'])==(8,20,0,0)
         snap=_catalog_rows(cur);cur.execute('create view public.ow11_model_target_inverse_guard as select cp7_model_target_source.engine()value')
         guarded=_catalog_rows(cur)
         try:stage.rollback_preuse(cur,s['current'])
@@ -66,12 +67,38 @@ def cases(cur,today):
         assert _catalog_rows(cur)==guarded
         cur.execute('drop view public.ow11_model_target_inverse_guard');assert _catalog_rows(cur)==snap
         unwind(cur,s);assert _catalog_rows(cur)==before
-        return dict(status='PASS',exact_catalog22_composed_inverse=True,private8_replacements19_no_new_RPC_or_table=True,
+        return dict(status='PASS',exact_catalog22_composed_inverse=True,private8_replacements20_no_new_RPC_or_table=True,
           dependent_view_partial_inverse_restored=True,source_sha256=stage.sources())
 
     def replay():
         s=install(cur);f=baseline.history.fixture(cur,today);p=baseline.payload(cur,f);baseline.save(cur,p)
         q=baseline.history.query(today);key=uuid.uuid4();physical=plan.monetary_state(cur)
+        before_job=stage.usage_state(cur);cur.execute('savepoint model_target_queued_usage')
+        try:
+            queued=call(cur,'erp_cp7_request_operational_analysis_job_v1',(json.dumps(q),uuid.uuid4()))
+            assert queued['state']=='WAITING'and queued['run_id']is None
+            after_job=stage.usage_state(cur)
+            assert [name for name in after_job if after_job[name]!=before_job.get(name)]==['cp7_analysis_jobs.jobs']
+            try:stage.rollback_preuse(cur,s['current'])
+            except ValueError as e:assert str(e)=='MODEL_TARGET_AFTER_USE_REQUIRES_COMPOSED_BACKUP_RESTORE'
+            else:raise AssertionError('MODEL_TARGET_QUEUED_JOB_AFTER_USE_INVERSE_ALLOWED')
+        finally:
+            cur.execute('rollback to savepoint model_target_queued_usage');cur.execute('release savepoint model_target_queued_usage')
+        assert stage.usage_state(cur)==before_job
+        # A raw operational capture persists no staged job/baseline/history run.
+        # That sole immutable analysis run must still make pre-use removal fail.
+        before_raw=stage.usage_state(cur);raw_key=uuid.uuid4()
+        raw=call(cur,'erp_cp7_capture_operational_analysis_v1',(json.dumps(q),raw_key))
+        after_raw=stage.usage_state(cur)
+        assert [name for name in after_raw if after_raw[name]!=before_raw.get(name)]==['cp7_analysis_native.runs']
+        assert raw['analysis']['versions']['models']=='policy-gated-dated-model-target-1'
+        assert raw['source_state']=='UNCHANGED'and raw['production_go']is False
+        raw_frozen=cur.execute('select to_jsonb(r)from cp7_analysis_native.runs r where id=%s',(raw['run_id'],)).fetchone()[0]
+        try:stage.rollback_preuse(cur,s['current'])
+        except ValueError as e:assert str(e)=='MODEL_TARGET_AFTER_USE_REQUIRES_COMPOSED_BACKUP_RESTORE'
+        else:raise AssertionError('MODEL_TARGET_RAW_REPORT_AFTER_USE_INVERSE_ALLOWED')
+        assert call(cur,'erp_cp7_capture_operational_analysis_v1',(json.dumps(q),raw_key))==raw
+        assert cur.execute('select to_jsonb(r)from cp7_analysis_native.runs r where id=%s',(raw['run_id'],)).fetchone()[0]==raw_frozen
         one=capture(cur,q,key);frozen=fresh.stored(cur,one['run_id'])
         assert one['contract_version']=='cp7.native-baseline.v3'and one['source_state']=='UNCHANGED'
         r=baseline.row(one,f);assert r['target']['target_pcs']=='100'
@@ -84,6 +111,8 @@ def cases(cur,today):
         except ValueError as e:assert str(e)=='MODEL_TARGET_AFTER_USE_REQUIRES_COMPOSED_BACKUP_RESTORE'
         else:raise AssertionError('MODEL_TARGET_USED_INVERSE_ALLOWED')
         return dict(status='PASS',actual_Native_v3_baseline100_current=True,exact_UUID_replay_and_immutable_result=True,
+          actual_raw_operational_capture_replay_immutable=True,raw_report_alone_blocks_preuse_inverse=True,
+          actual_queued_job_without_run_alone_blocks_preuse_inverse=True,
           no_model_fabricated=True,no_stock_money_HPP_change=True,after_use_requires_composed_restore=True)
 
     def current_policy():
@@ -127,9 +156,14 @@ def cases(cur,today):
         subject,role=baseline.custom_writer(cur);plan.b.api.admin(cur)
         cur.execute('delete from erp.app_role_permissions where role_id=%s',(role,))
         cur.execute("insert into erp.app_role_permissions(role_id,permission_key)values(%s,'warehouse.fg.view')",(role,))
-        query=dict(q='',filter='ALL',offset=0,limit=100)
+        # The factory already has more than one page of products. Bind the
+        # actual Native fixture SKU instead of assuming it sorts in page one.
+        sku=cur.execute('select sku from erp.products where id=%s',(f['product'],)).fetchone()[0]
+        query=dict(q=sku,filter='ALL',offset=0,limit=100)
         w=call(cur,'erp_cp7_get_fg_reorder_v1',(json.dumps(query),),subject)
-        r=next(x for x in w['page']['rows']if x['root_id']==str(f['product']))
+        found=[x for x in w['page']['rows']if x['root_id']==str(f['product'])]
+        assert len(found)==1,('MODEL_TARGET_FG_FIXTURE_LOOKUP',sku,w['page'])
+        r=found[0]
         m=r['projection']['target_demand']['model']
         assert r['projection']['contract_version']=='cp7.fg-reorder-projection.v3'
         assert r['projection']['target_pcs']=='100'and r['formula_point']=='30'

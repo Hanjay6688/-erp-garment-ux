@@ -2716,3 +2716,107 @@ remain checked by exact BigInt binding and old v1/v2 digit bounds are unchanged.
 Native6 on5770 remains pending complete Original. This expanded19/8 overlay
 requires fresh exact Native/browser runtime. FullOW11, factory/SAVE/restore,
 independent acceptance remain open; formal5/16, CP7C unaccepted, productionfalse.
+
+## 107. B24 Oktober2026 — model target Transport11 candidate
+
+04eaad40 publishes the19-replacement/8-private dated timeline candidate and
+Browser2 predecessor Original. Exact new Native6/run40113567267 and
+Browser2/run40113567313 started; no credit before their complete Originals.
+Separate Transport11 now declares1 repeated catalog anchor,7 actual observed
+lock races and3 actual Auth HTTP controls under the full model-target overlay.
+The extra race commits an actual model-policy change while CONFIRM waits for
+the global envelope, then requires SOURCE_CHANGED and no orphan choice/command.
+Existing stock change, access after envelope/request/target, exact same UUID,
+revision CAS, HTTP fresh provenancev2/CLEAR/replay/foreign/anon remain explicit.
+Original transport10 providers and their exact1/6/3 budget stay unchanged;
+new1/7/3 admission requires its own flag and rejects cross-budget use.
+
+New sources/declaration/workflow syntax and old31/25/19 checks PASS; actual
+runtime remains pending. Positive model admission is not fabricated. The
+45min workflow and8s RPC boundaries are unchanged. Continue on complete
+Originals, failures and remaining bounded history/SAVE/after-use restoration.
+
+## 108. B24 Oktober2026 — retain model target Native6 first failure; fix fixture lookup
+
+5770baa5/run40111136202/job120922915049 completed failure: complete Original
+12567672813 (205733 bytes, SHA256 7de04353b0b39ab811f3ec877a25c87818144acd2596f5ba3d1eecdeddeb4b59)
+read and exact-head source hashes verified. Five PASS:17/7 catalog/preuse inverse,
+actual v3 baseline/replay, actual current policy/latest v2, profile/posted SALE/
+access, bounded/direct/staged analog parity. Warehouse-only case INCOMPLETE:
+next() did not find the fixture in an unfiltered first100-products page. Candidate
+now queries the actual Native SKU and asserts exactly one matching root, with
+no product permission or production SQL change. That correction needs a rerun.
+
+All six cases restored full boundary/public catalog; advisory/session leaks0.
+CP6/advisor gates true but required-count and package writer-runtime gates false.
+No complete Native6, FG-only, positive model, actual Auth or fullOW11 credit.
+The already running04eaad40 Native6 still contains that old lookup; do not
+relabel its forthcoming Original. Expanded19/8 correction will get a new run.
+Receipt: ow11/5770baa5-model-target-native6-first-failure.json.
+
+## 109. B24 Oktober2026 UTC — dated19/8 Browser Original PASS; full report correction
+
+04eaad40/run40113567313/job120930106523 complete Browser2 Original12567667414,
+45819 bytes SHA256207f2870be49ae9720399f7a747e2f33098a054580459c1c6e3ce690ec2d5b7a:
+2 PASS with exact-head source hashes, required IDs/counts, CP6/advisor/all package
+gates true. Auth0000→0000, console0, no sessions/copy left. Both actual journeys
+ran on WIB25Oct, kept analog provenance and reload/CLEAR behavior. No positive
+model or complete Native19/8 claim. Receipt names its exact04eaad40 head.
+
+Follow-up found the raw operational compiler (renamed build_operational by the
+unchanged finance wrapper) still labelled a model target with historical50.5/day.
+The candidate now replaces20 exact predecessors with the same8 private functions;
+raw and staged compilers share the evaluated-method/N/A-single-rate/date-policy
+transforms. Finance wrapper, defaults, registry and shared contract remain untouched.
+Current source also binds operational compiler definitions. Controlled SQL29 PASS:
+actual raw compiler reproduces old wrong fallback then agrees exactly with staged
+models/timeline/recommendations; complete manual report matches predecessor except
+model engine version/semantic hash. Netting/fabric/fingerprints in this raw compiler
+test are explicitly controlled, not Native or finance evidence. Source14 and
+client257/9files PASS. Initial local JS syntax failure retained, then corrected.
+20/8 Native/browser/races remain to run after publication. Native75db5817/run40114425599
+checks the prior19/8 corrected SKU lookup; Transport45b784e3/run40114038398 checks19/8.
+
+## 110. B24 Oktober2026 UTC — raw analysis after-use guard candidate
+
+3c19c5e4 publishes20/8 operational-report parity; Native6/run40115032213,
+Browser2/run40115032195 and Transport11/run40115032232 are pending complete
+Originals. Review found usage_state did not include cp7_analysis_native tables:
+a raw operational report alone need not create a baseline/history/staged row.
+The candidate now includes those immutable analysis runs before allowing the
+pre-use inverse. No SQL/ACL/default/finance changes are made by this guard fix.
+
+Existing Native replay case additionally captures via the actual existing
+erp_cp7_capture_operational_analysis_v1 facade, requires that only raw runs
+changed in the tracked usage snapshot, then refuses pre-use inverse before DDL,
+replays the exact UUID and compares the immutable row. It then runs the existing
+baseline assertions. Existing public facade is added to the explicit RPC
+declarations; no new RPC or case count (6/2/11) is introduced. Native execution
+is pending. This guards removal after use; it does not qualify a composed
+after-use backup/restore. The first Native5PASS/1INCOMPLETE remains retained.
+
+## 111. B24 Oktober2026 UTC — queued legacy jobs also count as use
+
+The same after-use review includes cp7_analysis_jobs.jobs/documents/segments:
+an actual queued operational job has no raw analysis run yet. Candidate pre-use
+removal now observes both schemas; installation also refuses an existing WAITING
+raw job (including a worker-held RUNNING job) as well as a RUNNING staged job.
+The Native replay case requests a real existing operational job inside a test
+savepoint, proves only its job table changed and requires inverse refusal, then
+rolls back that test-only subcase before independently proving raw-run-only use.
+No direct historical seed, job deletion, or production mutation is introduced.
+
+Existing operational request facade is explicitly declared alongside capture;
+budgets remain Native6/Browser2/Transport11, RPC8s and workflow45min. The exact
+three workflow declarations and source/Python checks pass; Native proof pending.
+038740bd guard candidate has Native6/run40115520428, Browser2/run40115520449,
+Transport11/run40115520425 running and does not yet include this queued-job guard.
+
+3c19c5e4/run40115032195/job120934446584 Browser2 completed success. Complete
+Original12568121993 (45822 bytes, SHA256 fabcb7587ecc3c40f35a4b63a143623b438fc50ccbd4d4b39e957554a8289d6b)
+has2 PASS, exact20/8 head source hashes, required IDs/counts and all package/
+CP6/advisor gates true; Auth0000→0000, console0, sessions[] and no copy remain.
+This qualifies actual baseline/analog UI paths under20/8; no positive model or
+raw-use guard credit is inferred. Exact04eaad40 workflow success is now also
+confirmed and its earlier pending workflow receipt updated without altering
+the preserved Original.

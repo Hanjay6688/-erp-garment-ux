@@ -115,7 +115,7 @@
       }
     }
   ],
-  "sql_sha256": "f8a171212baf2f4640c8af46e2acbb07000180eae4ccc11e38c8035ef28e7e96",
+  "sql_sha256": "94f856526c37ca14f5b2d5e44ee69a8845eee38524de648489256c56ebe60135",
   "actual_SQL": true,
   "explicit_synthetic_history_and_policy": true,
   "actual_v2_and_original_serve_history_SQL": true,
