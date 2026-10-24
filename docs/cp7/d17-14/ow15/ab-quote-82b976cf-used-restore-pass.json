@@ -1,0 +1,64 @@
+{
+  "status": "PASS",
+  "head": "82b976cf0ac6b929963bf9fd0bd2eb35d1885fc5",
+  "run_id": 40047298685,
+  "job_id": 120731850166,
+  "artifact_id": 12542561200,
+  "run_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/40047298685",
+  "zip_bytes": 3521134,
+  "zip_sha256": "3c81244a51c5b9af1c013f963d9e57ecf65a727439ae663f58d5060cdd0665f0",
+  "original_name": "CP7_AB_QUOTE_CHAIN_RESTORE.json",
+  "original_bytes": 233154,
+  "original_sha256": "1ccc71aa50d77060b3824f3748560308cd3b7b8052db5ef84e39db5c297e6d26",
+  "steps": [
+    {
+      "step": "INSTALL_ALL22",
+      "status": "PASS"
+    },
+    {
+      "step": "PREUSE_EXACT_RESTORE",
+      "status": "PASS"
+    },
+    {
+      "step": "REINSTALL_ALL22",
+      "status": "PASS"
+    },
+    {
+      "step": "COMMITTED_A_PAYMENT_B_FABRIC",
+      "status": "PASS"
+    },
+    {
+      "step": "GLOBAL_USED_GUARD_BEFORE_DDL",
+      "status": "PASS"
+    },
+    {
+      "step": "FULL_USED_BACKUP_RESTORED",
+      "status": "PASS"
+    },
+    {
+      "step": "RESTORE_NEGATIVE_CONTROLS",
+      "status": "PASS"
+    },
+    {
+      "step": "LOCAL_OID_BINDING_ONLY",
+      "status": "PASS"
+    },
+    {
+      "step": "EXACT_A_B_READS_AND_UUID_REPLAY",
+      "status": "PASS"
+    }
+  ],
+  "cp6_restored": true,
+  "baseline_advisors_equal": true,
+  "scope": "All A and B stages declared through85b9d646 plus exact quote correction; actual committed A supplier payment and B six-decimal fabric policy.",
+  "excludes": [
+    "later B bounded/history/schedule/analog stages",
+    "Native286 on A",
+    "full factory finance3600",
+    "cron",
+    "real browser on full chain",
+    "independent audit"
+  ],
+  "production_go": false,
+  "independent_acceptance": false
+}

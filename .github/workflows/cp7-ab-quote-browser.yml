@@ -116,7 +116,7 @@ jobs:
       env:
         GH_TOKEN: ${{ github.token }}
       working-directory: auditor
-      run: python scripts/ow05b_native_original.py
+      run: python scripts/cp7_ab_ow05b_original.py
     - name: Fetch and verify qualified actual OW08a chain Native6 original before DB
       env:
         GH_TOKEN: ${{ github.token }}
@@ -255,7 +255,7 @@ jobs:
     - name: Remove disposable database
       if: always()
       working-directory: base
-      run: supabase stop --workdir cp5-local --no-backup
+      run: if command -v supabase >/dev/null 2>&1 && test -d cp5-local; then supabase stop --workdir cp5-local --no-backup; fi
     - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
       if: always()
       with:

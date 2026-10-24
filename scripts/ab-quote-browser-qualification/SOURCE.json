@@ -1,7 +1,7 @@
 {
   "classification": "RETAINED_OW09_BROWSER13_COMPLETE_A_B_QUOTE_COMPOSITION",
   "files": {
-    ".github/workflows/cp7-ab-quote-browser.yml": "2502c275dea842cad4c15c288475b498ad6c3577818fe9d97b23610ce33b35f5",
+    ".github/workflows/cp7-ab-quote-browser.yml": "ba4aabcbcfbf6cf8377ae446263d2f7a82bddc1a4a139b482795fda3b3215e4b",
     ".github/workflows/cp7-ab-quote-chain.yml": "b681ad127a5d029c69766c3bdc6298a72fc5afb22b2213beae218f760a733eea",
     "scripts/ab-quote-browser-qualification/EXPECTED.json": "2a393dfe96a6be58a61d18642dad2e4fe76e8690f5128bc3a92a53bf354f9594",
     "scripts/ab-quote-browser-qualification/README.md": "fae7923a7763f9664500c13c7ebeb2beb89eb1622cac50aca7a803579f1e2c52",
@@ -224,7 +224,7 @@
     "src/ConnectedLaundryQcInput.dom.test.tsx": "db6e9a714373fadb22ed6b009d3fdb682dbe6a9c52782c7cbfc22df1e1513e7f",
     "src/ConnectedLaundryQcSelectors.dom.test.tsx": "13da1b45f92fe4df17b92bb4a1c51e08a84da2305754a793c827e7dde716aa6e",
     "src/ConnectedMasterPage.dom.test.tsx": "b5514c69e78e72fccb07d1f305f18e65d3652c571caf0fd9e0bb7c6f7de1940c",
-    "src/ConnectedMasterPage.tsx": "21e3f4571808e391d6d77f9065cc294f50e3990f0a89c24f0e4115a12d5b3b58",
+    "src/ConnectedMasterPage.tsx": "72e2e99a36c7ebed7029434d11e7a3ece6ab310b512f9acdafd2b327e7dc5885",
     "src/ConnectedMaterialCountPage.dom.test.tsx": "58e26463bd5467b9efaa274192d677ec0a0e2885be20f127672d3f7cff7457ac",
     "src/ConnectedMaterialCountPage.tsx": "738df353ac01bbc4f786ad37fda408e6bcaf43be22c67c044c93816dc6190980",
     "src/ConnectedMaterialsPage.dom.test.tsx": "cb2c5b2e32324694b779c8bd341dd8efbf769d04fe10c52a9e8c4f4a117d54c2",
@@ -726,7 +726,9 @@
     "src/wipControlPolicy.ts": "706dc41ee6a821fc120936265d4b7e1aa7003e206eb219ee14c4deed8e403268",
     "src/workspace-refinements.css": "c8a744029aaeca203026f83d66f1acbf4da7e1894e4e403b074b4bfd2a2831a0",
     "tests/fixtures/financeAnalysis.ts": "dce495bcb0d2ddc4e6f87c793bbedaaa6bc1ee87c049f12f51eee8bc93cc733d",
-    "scripts/cp7_ab_ui_admission.py": "4be7d21e02abb4478f7d1692c140a43327faac086cce824f2a2e0ae125d5eb32"
+    "scripts/cp7_ab_ui_admission.py": "d907a3fdca276cc0de736b50778755a24ba4bb632231bbda4bccd3cd13829684",
+    "scripts/cp7_ab_master_navigation.py": "8cf8c00d576f02d5c740f9ffb5b0cb2063160d0acb39731981a2c126ff1aabb7",
+    "scripts/cp7_ab_ow05b_original.py": "5639eeda85c5a399df9a9c6f3003f8035f552b5dc3524056d13c5a31f91ec909"
   },
   "case_ids": [
     "F03_CASH_BROWSER_DESKTOP",

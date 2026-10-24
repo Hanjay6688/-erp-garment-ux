@@ -1,0 +1,19 @@
+{
+  "status": "PRE_DB_INCOMPLETE",
+  "head": "e91a4062e9d31b8575eb544d3b08bb65bb7474d2",
+  "run_id": 40048411871,
+  "job_id": 120735310809,
+  "first_failed_step": "Fetch and verify qualified actual OW05b chain Native6 original before DB",
+  "observed": [
+    "QUALIFIED_OW05B_SOURCE_CHANGED",
+    "src/App.tsx"
+  ],
+  "raw_job_log_bytes": 201931,
+  "raw_job_log_sha256": "ef5634be306ea39e0343a089b3edd663cb38a1de035415f1ca8595b7524dbfea",
+  "cause": "Historical Original downloader also checks old App bytes, before the current candidate admission runs.",
+  "fix": "Current successor downloader retains exact Original identity and every historical source; admits only the counted two-callback App successor. Legacy downloader and declarations unchanged.",
+  "secondary_cleanup": "Supabase CLI was not yet installed; cleanup now checks its presence.",
+  "database_started": false,
+  "browser_cases_run": 0,
+  "production_go": false
+}
