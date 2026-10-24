@@ -41,3 +41,26 @@ ukuran/versi/profil berubah, CLEAR dan recorded clock, source di chunk berbeda,
 reorder/produksi memakai angka identik, freshness, skala2000 dan Auth/browser.
 Model kompleks tetap memerlukan kebijakan aktivasi berversi dan bukti backtest
 yang sah; peta analog ini tidak mengesahkan registry usulan menjadi keputusan owner.
+
+## Temuan tambahan sebelum hook diaktifkan
+
+`choice.apply` saat ini membandingkan full source sebelum dan sesudah insert.
+Begitu pilihan masuk fingerprint consumer, insert pilihannya sendiri pasti mengubah
+fingerprint. Overlay consumer harus membandingkan konfigurasi sesudah dengan tepat
+satu delta target/revisi/receipt yang baru committed dalam transaksi, lalu memeriksa
+seluruh sumber lain terhadap snapshot semula. Jangan sekadar menghapus seluruh
+pilihan dari freshness atau menonaktifkan pemeriksaan kedua. Revision/CLEAR/actor/
+reason/evidence/recorded clock harus tetap bagian identitas sumber perhitungan.
+Untuk confirmation berikutnya, ambil snapshot baru bila pilihan sudah berubah.
+
+Tidak boleh menambahkan captured_at baru yang bergerak pada objek fingerprint
+pilihan. Gunakan baris pilihan immutable (recorded_at sudah tetap); clock penangkapan
+mengikuti c.captured_at yang sudah ada dan menjadi batas pemilihan source_at.
+
+Kernel estimate menerima analog.reason lewat cp7_wip.key (maksimal200 karakter),
+sedangkan alasan konfirmasi memang mengizinkan1000. Input kernel harus menunjuk
+ID/revisi pilihan yang sudah direview; simpan alasan lengkap dalam provenance,
+jangan memotong alasan pengguna. Gabungkan refs secara distinct sebelum memanggil
+kernel yang menolak duplikasi; jangan diam-diam membuang refs melewati batas existing.
+Kernel target saat ini maksimum3660 counted days, meski query historis inklusif bisa
+3661 hari. Consumer tidak memperluas batas kernel atau menciptakan threshold baru.
