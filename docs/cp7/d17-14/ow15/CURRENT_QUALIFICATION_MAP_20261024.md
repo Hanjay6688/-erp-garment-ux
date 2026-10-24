@@ -58,7 +58,7 @@ ancestor SOURCE tetap memerlukan penelusuran admission dan bukti masing-masing.
 | Lingkup | Kandidat/run | Status saat catatan ditulis |
 |---|---|---|
 | Group transfer400+600 sesudah current full restore, empat koreksi dan inverse | `aea44fa9`, run40058216568/job120765815354 | PASS9langkah+6kontrol; seluruh group read/replay/empat koreksi/inverse tepat; CP6/advisor/lima gate PASS |
-| Transfer alokasi31penerimaan lintas25+6, desktop/390px | `28f73c0f`, run40060328159 | Berjalan; admission915/statis lulus, belum bukti runtime |
+| Transfer alokasi31penerimaan lintas25+6, desktop/390px | `28f73c0f`, run40060328159/job120772213423 | PASS2uang/aksi/paging, Auth/DB/CP6/advisor/lima gate; penguatan tunggu tampilan akhir sedang disiapkan setelah inspeksi PNG |
 | Riwayat pembayaran/retur31 dokumen:25+6 dan filter30:25+5, desktop/390px | `6c3e5a9e`, run40059653484/job120770175605 | PASS2; dua riwayat25+6/filter25+5; Native/DOM tepat,0writer; Auth/DB/CP6/advisor/lima gate PASS; firstfailurea17 tetap |
 | Mandor correction14 +edge3 +rate11 +guidance6 | `c99ca612`, run40059271805 | PASS34 ID lama, boundary utuh/CP6/advisor/lima gate PASS; Original8561436byte SHA84b45470c44be16befd387a019399f4a311236991bbc32d480156e7bba59ca7c |
 

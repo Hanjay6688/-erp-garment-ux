@@ -1474,3 +1474,23 @@ SALES_MANUAL_13; D13-9c/D13-12 tetap perlu penerimaan auditor, kasus CP6 asli
 tidak dihapus. Peta historis37=14PASSlama+11successor+12batas direkonsiliasi
 di ow15/CP6_CURRENT_BOUNDARIES_20261024.md/json. Daftar r6 berisi116workflow,
 bukan bukti117run current. Dua belas batas arsip dan baseline merah tetap.
+
+## A — transfer lintas halaman PASS, tindak lanjut tampilan akhir (24 Oktober 2026)
+
+Transferpages28f73c0f/run40060328159/job120772213423 PASS2/2. Original505899byte
+SHA2582f984a3532ed3b61c6852efc7b1218969da68c0960c840a8e392dd70dc7cb;ZIP4037570byte
+SHA3b813b84d2b0469fc4673ddaca82af208756b02dc418a8218b19b09b56295c53.
+Desktop/HP390:31penerimaan25+6, nilai halaman1bertahan,400+600 menjadi250+500,
+inverse kas0;29lain tidak dibayar/stokHPP tetap. Auth0000pulih/DB0/console0/host0,
+CP6/advisor/lima gate PASS. Receipt transfer-pages-28f73c0f-pass.json.
+
+Inspeksi PNG menemukan gambar akhir dapat diambil sebelum dependent refresh
+selesai (HPmasih menunggu baca). Itu bukan bukti kegagalan produk atau alasan
+menghapus PASS uang/aksi. Assertion diperkuat: rincian successor sudah dibalik,
+jurnal pembalik dan dua penerimaan terlihat, tombol pembatalan tidak ada, tombol
+transfer baru siap; dua pilihan halaman2difoto sebelum create/correct. Admission
+915pin/Node lulus; uji server tambahan diperlukan untuk batas visual ini.
+
+Legacy31head5681edbd/run40061341301 dan daftar10head23ec565d/run40060889064
+berjalan. B upstream astra/d17-14-produksi masih a1043452fa35400fa25fab9ac9cda81f4275cb41
+pada baca terbaru; tidak ada merge atau perbaikan B yang diasumsikan.
