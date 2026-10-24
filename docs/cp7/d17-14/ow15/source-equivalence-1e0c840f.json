@@ -1,0 +1,631 @@
+{
+  "contract": "cp7.preserved-evidence-source-reconciliation.v1",
+  "evidence_type": "WRITER_STATIC_SOURCE_COMPARISON",
+  "current_head": "1e0c840f8b0095f287763ee88b8afbdeff856ffe",
+  "current_tree": "8c952302a78246806258dafc11078b8cabef4592",
+  "archive_bytes": 6007496,
+  "archive_sha256": "077604f83c240988912e0159998bde80f78da7496f1fcf2f94183dcf9c383c82",
+  "product_paths": [
+    "src",
+    "supabase/release",
+    "supabase/migrations",
+    "supabase/dev",
+    "scripts/cp7-src",
+    "package.json",
+    "package-lock.json"
+  ],
+  "current_product_trees": {
+    "src": "9dc4b0c03123fcbb8132d3b7a889e7bb60fe540f",
+    "supabase/release": "be1e91c172ffb5c05b694a3a54c69562700c6d5e",
+    "supabase/migrations": "8f6053bbd0bda80da18065418ad43371cdfd9461",
+    "supabase/dev": "88759f4fc51864a1ec9e224fcb4f236204b5c853",
+    "scripts/cp7-src": "d658df72610f1a9c4a3da7ac997fa168e8697935",
+    "package.json": "8707f6817acfc294caeab8aa54496df5b8dde04e",
+    "package-lock.json": "ca9159d26989e0263b6b757f5f824bd9333d8cf6"
+  },
+  "reports": [
+    {
+      "original": "CP7_CURRENT_INSTALLATION_RESTORE.json",
+      "historical_status": "PASS",
+      "run_id": 40055821451,
+      "artifact_id": 12545347571,
+      "qualified_head": "28abdeef65348e42ad1b1947830890e3e55adcd3",
+      "original_bytes": 550411,
+      "original_sha256": "054e396e467180fba15dc4b1dca4692bc364645ae8cbdccf3ed8ada0bb68a31b",
+      "product_path_changes": [],
+      "matching_installed_source_objects": [
+        {
+          "path": "/source_declaration/current_installation",
+          "identity": "CURRENT_INSTALLATION"
+        },
+        {
+          "path": "/steps/2/installation/receipt/sources",
+          "identity": "CURRENT_INSTALLATION"
+        }
+      ],
+      "declared_file_map_comparisons": [
+        {
+          "path": "/source_declaration/qualification/files",
+          "checked_files": 831,
+          "differences": []
+        }
+      ],
+      "receipt": "https://github.com/Hanjay6688/-erp-garment-ux/blob/304918d24d6f324fd8eb50fcabb76118c8e06f07/docs/cp7/d17-14/ow15/current-install-28abdeef-used-restore-pass.json",
+      "runtime_rerun_here": false,
+      "historical_status_reclassified": false
+    },
+    {
+      "original": "CP7_CURRENT_RUNNER_RESTORE.json",
+      "historical_status": "PASS",
+      "run_id": 40055821284,
+      "artifact_id": 12545971796,
+      "qualified_head": "28abdeef65348e42ad1b1947830890e3e55adcd3",
+      "original_bytes": 556496,
+      "original_sha256": "f6f4b84c69638df693ff307ec4b071cedb5fb53bec10ccee1879dfca1dc5047f",
+      "product_path_changes": [],
+      "matching_installed_source_objects": [
+        {
+          "path": "/source_declaration/current_installation",
+          "identity": "CURRENT_INSTALLATION"
+        },
+        {
+          "path": "/steps/2/installation/receipt/sources",
+          "identity": "CURRENT_INSTALLATION"
+        }
+      ],
+      "declared_file_map_comparisons": [
+        {
+          "path": "/source_declaration/qualification/files",
+          "checked_files": 836,
+          "differences": []
+        }
+      ],
+      "receipt": "https://github.com/Hanjay6688/-erp-garment-ux/blob/304918d24d6f324fd8eb50fcabb76118c8e06f07/docs/cp7/d17-14/ow15/current-runner-28abdeef-cron-used-restore-pass.json",
+      "runtime_rerun_here": false,
+      "historical_status_reclassified": false
+    },
+    {
+      "original": "CP7_AB_OWNER_FAMILIES_NATIVE62.json",
+      "historical_status": "PASS",
+      "run_id": 40055821343,
+      "artifact_id": 12546051523,
+      "qualified_head": "28abdeef65348e42ad1b1947830890e3e55adcd3",
+      "original_bytes": 14943018,
+      "original_sha256": "b79ff46acbd27783f9b9cf0230adc8d00bdd926cf1f3fabb18023b5bbce761f4",
+      "product_path_changes": [],
+      "matching_installed_source_objects": [
+        {
+          "path": "/source_declaration/complete_AB_product",
+          "identity": "CURRENT_PRODUCT"
+        },
+        {
+          "path": "/source_declaration/current_installation",
+          "identity": "CURRENT_INSTALLATION"
+        }
+      ],
+      "declared_file_map_comparisons": [
+        {
+          "path": "/source_declaration/qualification/files",
+          "checked_files": 866,
+          "differences": []
+        }
+      ],
+      "receipt": "https://github.com/Hanjay6688/-erp-garment-ux/blob/304918d24d6f324fd8eb50fcabb76118c8e06f07/docs/cp7/d17-14/ow15/owner62-28abdeef-pass.json",
+      "runtime_rerun_here": false,
+      "historical_status_reclassified": false
+    },
+    {
+      "original": "CP7_AB_OWNER_AUTH8.json",
+      "historical_status": "PASS",
+      "run_id": 40055821394,
+      "artifact_id": 12545851287,
+      "qualified_head": "28abdeef65348e42ad1b1947830890e3e55adcd3",
+      "original_bytes": 500358,
+      "original_sha256": "bdeccae3c4b4b6aa6bf451565879714a59d25b0f901f5c2df8c7086ffface400",
+      "product_path_changes": [],
+      "matching_installed_source_objects": [
+        {
+          "path": "/source_declaration/composed_product",
+          "identity": "CURRENT_INSTALLATION"
+        }
+      ],
+      "declared_file_map_comparisons": [
+        {
+          "path": "/source_declaration/qualifier_source/files",
+          "checked_files": 838,
+          "differences": []
+        }
+      ],
+      "receipt": "https://github.com/Hanjay6688/-erp-garment-ux/blob/304918d24d6f324fd8eb50fcabb76118c8e06f07/docs/cp7/d17-14/ow15/owner-auth8-28abdeef-pass.json",
+      "runtime_rerun_here": false,
+      "historical_status_reclassified": false
+    },
+    {
+      "original": "CP7_AB_BOUNDED_FINANCE_NATIVE12.json",
+      "historical_status": "PASS",
+      "run_id": 40055821416,
+      "artifact_id": 12545711289,
+      "qualified_head": "28abdeef65348e42ad1b1947830890e3e55adcd3",
+      "original_bytes": 3440148,
+      "original_sha256": "d64c3a4bc8db463fa0042414e52e0bb9c57e43382dc28c2afd72fb9c03469d4d",
+      "product_path_changes": [],
+      "matching_installed_source_objects": [
+        {
+          "path": "/source_declaration/complete_AB_product",
+          "identity": "CURRENT_PRODUCT"
+        }
+      ],
+      "declared_file_map_comparisons": [
+        {
+          "path": "/source_declaration/qualification/files",
+          "checked_files": 823,
+          "differences": []
+        }
+      ],
+      "receipt": "https://github.com/Hanjay6688/-erp-garment-ux/blob/304918d24d6f324fd8eb50fcabb76118c8e06f07/docs/cp7/d17-14/ow15/ab-bounded-28abdeef-native12-pass.json",
+      "runtime_rerun_here": false,
+      "historical_status_reclassified": false
+    },
+    {
+      "original": "CP7_OW14B_INSTALLATION_NATIVE4.json",
+      "historical_status": "PASS",
+      "run_id": 40055821460,
+      "artifact_id": 12545304242,
+      "qualified_head": "28abdeef65348e42ad1b1947830890e3e55adcd3",
+      "original_bytes": 1624769,
+      "original_sha256": "e4a301e98c2de22396e1db04026edca74070e534c6851a2b8875fc9a388a6524",
+      "product_path_changes": [],
+      "matching_installed_source_objects": [
+        {
+          "path": "/source_declaration/complete_AB_product",
+          "identity": "CURRENT_PRODUCT"
+        }
+      ],
+      "declared_file_map_comparisons": [
+        {
+          "path": "/source_declaration/qualification/files",
+          "checked_files": 827,
+          "differences": []
+        }
+      ],
+      "receipt": "https://github.com/Hanjay6688/-erp-garment-ux/blob/304918d24d6f324fd8eb50fcabb76118c8e06f07/docs/cp7/d17-14/ow15/ow14b-28abdeef-native4-pass.json",
+      "runtime_rerun_here": false,
+      "historical_status_reclassified": false
+    },
+    {
+      "original": "CP7_AB_BOUNDED_BROWSER4.json",
+      "historical_status": "PASS",
+      "run_id": 40055821301,
+      "artifact_id": 12545498053,
+      "qualified_head": "28abdeef65348e42ad1b1947830890e3e55adcd3",
+      "original_bytes": 496784,
+      "original_sha256": "634d36939a6268d540a6258dd6fc7e71d1b77effb5f8eacf5f2a328a000339f4",
+      "product_path_changes": [],
+      "matching_installed_source_objects": [
+        {
+          "path": "/source_declaration/composed_product",
+          "identity": "CURRENT_PRODUCT"
+        }
+      ],
+      "declared_file_map_comparisons": [
+        {
+          "path": "/source_declaration/qualifier_source/files",
+          "checked_files": 868,
+          "differences": []
+        }
+      ],
+      "receipt": "https://github.com/Hanjay6688/-erp-garment-ux/blob/304918d24d6f324fd8eb50fcabb76118c8e06f07/docs/cp7/d17-14/ow15/ab-bounded-browser4-28abdeef-pass.json",
+      "runtime_rerun_here": false,
+      "historical_status_reclassified": false
+    },
+    {
+      "original": "CP7_AB_BOUNDED_CHAIN_RESTORE.json",
+      "historical_status": "PASS",
+      "run_id": 40055821320,
+      "artifact_id": 12546240832,
+      "qualified_head": "28abdeef65348e42ad1b1947830890e3e55adcd3",
+      "original_bytes": 317075,
+      "original_sha256": "65148843fac586ae94faa99db13d24c0c97af5f9a5624c88ffeac169f023d6d1",
+      "product_path_changes": [],
+      "matching_installed_source_objects": [],
+      "declared_file_map_comparisons": [
+        {
+          "path": "/source_declaration/qualification/files",
+          "checked_files": 827,
+          "differences": []
+        }
+      ],
+      "receipt": "https://github.com/Hanjay6688/-erp-garment-ux/blob/304918d24d6f324fd8eb50fcabb76118c8e06f07/docs/cp7/d17-14/ow15/ab-bounded-28abdeef-used-restore-pass.json",
+      "runtime_rerun_here": false,
+      "historical_status_reclassified": false
+    },
+    {
+      "original": "CP7_AB_OWNER_BROWSER19.json",
+      "historical_status": "PASS",
+      "run_id": 40056087759,
+      "artifact_id": 12545938072,
+      "qualified_head": "7b26351f0a0bcfcf0e23a631bb041e7f407de0d3",
+      "original_bytes": 525382,
+      "original_sha256": "437a6b7b59fda0e542b1aba232a7bc9830cb9d943ecad327a86584010e76cf3a",
+      "product_path_changes": [],
+      "matching_installed_source_objects": [
+        {
+          "path": "/source_declaration/composed_product",
+          "identity": "CURRENT_INSTALLATION"
+        }
+      ],
+      "declared_file_map_comparisons": [
+        {
+          "path": "/source_declaration/qualifier_source/files",
+          "checked_files": 904,
+          "differences": []
+        }
+      ],
+      "receipt": "https://github.com/Hanjay6688/-erp-garment-ux/blob/304918d24d6f324fd8eb50fcabb76118c8e06f07/docs/cp7/d17-14/ow15/owner-browser19-7b26351f-pass.json",
+      "runtime_rerun_here": false,
+      "historical_status_reclassified": false
+    },
+    {
+      "original": "CP7_CURRENT_TRANSFER_RESTORE.json",
+      "historical_status": "PASS",
+      "run_id": 40058216568,
+      "artifact_id": 12546922026,
+      "qualified_head": "aea44fa9687241300c3530da07fa16284a22ab7d",
+      "original_bytes": 551074,
+      "original_sha256": "a9ec119013b8e565140081810fba164be7b0f1b24e84f07573a8bc3e5dccd9bd",
+      "product_path_changes": [],
+      "matching_installed_source_objects": [
+        {
+          "path": "/source_declaration/current_installation",
+          "identity": "CURRENT_INSTALLATION"
+        },
+        {
+          "path": "/steps/2/installation/receipt/sources",
+          "identity": "CURRENT_INSTALLATION"
+        }
+      ],
+      "declared_file_map_comparisons": [
+        {
+          "path": "/source_declaration/qualification/files",
+          "checked_files": 834,
+          "differences": []
+        }
+      ],
+      "receipt": "https://github.com/Hanjay6688/-erp-garment-ux/blob/304918d24d6f324fd8eb50fcabb76118c8e06f07/docs/cp7/d17-14/ow15/current-transfer-aea44fa9-used-restore-pass.json",
+      "runtime_rerun_here": false,
+      "historical_status_reclassified": false
+    },
+    {
+      "original": "CP7_CURRENT_MANDOR_NATIVE34.json",
+      "historical_status": "PASS",
+      "run_id": 40059271805,
+      "artifact_id": 12547475257,
+      "qualified_head": "c99ca612987c8dca24f26152417239fe76683735",
+      "original_bytes": 8561436,
+      "original_sha256": "84b45470c44be16befd387a019399f4a311236991bbc32d480156e7bba59ca7c",
+      "product_path_changes": [],
+      "matching_installed_source_objects": [
+        {
+          "path": "/source_declaration/complete_AB_product",
+          "identity": "CURRENT_PRODUCT"
+        },
+        {
+          "path": "/source_declaration/current_installation",
+          "identity": "CURRENT_INSTALLATION"
+        }
+      ],
+      "declared_file_map_comparisons": [
+        {
+          "path": "/source_declaration/qualification/files",
+          "checked_files": 874,
+          "differences": []
+        }
+      ],
+      "receipt": "https://github.com/Hanjay6688/-erp-garment-ux/blob/304918d24d6f324fd8eb50fcabb76118c8e06f07/docs/cp7/d17-14/ow15/mandor34-c99ca612-pass.json",
+      "runtime_rerun_here": false,
+      "historical_status_reclassified": false
+    },
+    {
+      "original": "CP7_CURRENT_INVOICE_HISTORY_BROWSER2.json",
+      "historical_status": "INCOMPLETE",
+      "run_id": 40058716148,
+      "artifact_id": 12545674828,
+      "qualified_head": "a17b34cf3402eea8996028345fcf6d715367e684",
+      "original_bytes": 504788,
+      "original_sha256": "b37f2c686371dc2ac683c71f1d8e904ac6109d4c240fc40bf9263b11b26101e2",
+      "product_path_changes": [],
+      "matching_installed_source_objects": [
+        {
+          "path": "/source_declaration/composed_product",
+          "identity": "CURRENT_INSTALLATION"
+        }
+      ],
+      "declared_file_map_comparisons": [
+        {
+          "path": "/source_declaration/qualifier_source/files",
+          "checked_files": 909,
+          "differences": [
+            {
+              "path": "scripts/current-invoice-history-browser/fixture.py",
+              "expected": "aae2dc56f98c32a931c60c80f59c96e3a0176bedf5f6417f1f68bc80dbe0234f",
+              "observed": "6995b9b454ceb041f4db99665f638bafce322799b66db159e7323f48908ccdc8"
+            },
+            {
+              "path": "scripts/current-invoice-history-browser/probe.py",
+              "expected": "db5a90daec72f500d26b523c412104364ce66ff3365f0d1eb1ecd031a0c6a525",
+              "observed": "e1186902966520c4ac1472e84df7d2e505bbbd8a48424a1d1214852d8a92060f"
+            }
+          ]
+        }
+      ],
+      "receipt": "https://github.com/Hanjay6688/-erp-garment-ux/blob/304918d24d6f324fd8eb50fcabb76118c8e06f07/docs/cp7/d17-14/ow15/invoice-history-a17b34cf-first-fixture-import.json",
+      "runtime_rerun_here": false,
+      "historical_status_reclassified": false
+    },
+    {
+      "original": "CP7_CURRENT_INVOICE_HISTORY_BROWSER2.json",
+      "historical_status": "PASS",
+      "run_id": 40059653484,
+      "artifact_id": 12547262919,
+      "qualified_head": "6c3e5a9ee560a7fb03141e0b421ecdacd1c7928c",
+      "original_bytes": 506234,
+      "original_sha256": "2caaaf044920485aa0785619ee6553798f3b5d11dd8f043042163ef1e27ccaad",
+      "product_path_changes": [],
+      "matching_installed_source_objects": [
+        {
+          "path": "/source_declaration/composed_product",
+          "identity": "CURRENT_INSTALLATION"
+        }
+      ],
+      "declared_file_map_comparisons": [
+        {
+          "path": "/source_declaration/qualifier_source/files",
+          "checked_files": 909,
+          "differences": []
+        }
+      ],
+      "receipt": "https://github.com/Hanjay6688/-erp-garment-ux/blob/304918d24d6f324fd8eb50fcabb76118c8e06f07/docs/cp7/d17-14/ow15/invoice-history-6c3e5a9e-pass.json",
+      "runtime_rerun_here": false,
+      "historical_status_reclassified": false
+    },
+    {
+      "original": "CP7_CURRENT_TRANSFER_PAGES_BROWSER2.json",
+      "historical_status": "PASS",
+      "run_id": 40060328159,
+      "artifact_id": 12546894777,
+      "qualified_head": "28f73c0fb3f0e6da7002fcb4779e08ee0214a371",
+      "original_bytes": 505899,
+      "original_sha256": "2582f984a3532ed3b61c6852efc7b1218969da68c0960c840a8e392dd70dc7cb",
+      "product_path_changes": [],
+      "matching_installed_source_objects": [
+        {
+          "path": "/source_declaration/composed_product",
+          "identity": "CURRENT_INSTALLATION"
+        }
+      ],
+      "declared_file_map_comparisons": [
+        {
+          "path": "/source_declaration/qualifier_source/files",
+          "checked_files": 915,
+          "differences": [
+            {
+              "path": "scripts/current-transfer-pages-browser/browser.mjs",
+              "expected": "7c553224cf49774afd2a5fd9037b99de406c22dea92ac27b85d20fb44808f306",
+              "observed": "f9b97bd6ccabc65c336e74e0027fc39ccb242d8c3e48a73dbcf0d7d2fb18c9d9"
+            }
+          ]
+        }
+      ],
+      "receipt": "https://github.com/Hanjay6688/-erp-garment-ux/blob/304918d24d6f324fd8eb50fcabb76118c8e06f07/docs/cp7/d17-14/ow15/transfer-pages-28f73c0f-pass.json",
+      "runtime_rerun_here": false,
+      "historical_status_reclassified": false
+    },
+    {
+      "original": "CP7_CURRENT_TRANSFER_PAGES_BROWSER2.json",
+      "historical_status": "PASS",
+      "run_id": 40061613739,
+      "artifact_id": 12547527921,
+      "qualified_head": "535c97af52b3a6348a4f82cdb7f6b518c21864fe",
+      "original_bytes": 506069,
+      "original_sha256": "8d6115b2e3185e9740e07285e12156364efdce0593973fc9e2bf5c21cec5be31",
+      "product_path_changes": [],
+      "matching_installed_source_objects": [
+        {
+          "path": "/source_declaration/composed_product",
+          "identity": "CURRENT_INSTALLATION"
+        }
+      ],
+      "declared_file_map_comparisons": [
+        {
+          "path": "/source_declaration/qualifier_source/files",
+          "checked_files": 915,
+          "differences": []
+        }
+      ],
+      "receipt": "https://github.com/Hanjay6688/-erp-garment-ux/blob/304918d24d6f324fd8eb50fcabb76118c8e06f07/docs/cp7/d17-14/ow15/transfer-pages-535c97af-final-ui-pass.json",
+      "runtime_rerun_here": false,
+      "historical_status_reclassified": false
+    },
+    {
+      "original": "CP7_CURRENT_OWNER_LISTS_BROWSER10.json",
+      "historical_status": "INCOMPLETE",
+      "run_id": 40060889064,
+      "artifact_id": 12547676193,
+      "qualified_head": "23ec565d4817f7b333a2129d46d669bb7dbe61f3",
+      "original_bytes": 507195,
+      "original_sha256": "fac0d7205b7a51b8e4202bda7300e08b9ba42f07fb18723c948da225c7f2d11c",
+      "product_path_changes": [],
+      "matching_installed_source_objects": [
+        {
+          "path": "/source_declaration/composed_product",
+          "identity": "CURRENT_INSTALLATION"
+        }
+      ],
+      "declared_file_map_comparisons": [
+        {
+          "path": "/source_declaration/qualifier_source/files",
+          "checked_files": 915,
+          "differences": [
+            {
+              "path": "scripts/current-owner-lists-browser/EXPECTED.json",
+              "expected": "081a3667b027775ce93b8168e637dd4fa0f122a84aa7e524b7fade4c6615a5c7",
+              "observed": "c133b8b915233ed69aa0a899690f3c527f68b2d66557ac2682466271122a8928"
+            },
+            {
+              "path": "scripts/current-owner-lists-browser/README.md",
+              "expected": "cf67f9f6d3460e37b5b4b65aff03ed38aa013b7abab1f7567c06a68011cc2528",
+              "observed": "23721f64b82b16d74cf93955b87235b8c222aba0575df0bcb05e3dcd23067976"
+            },
+            {
+              "path": "scripts/current-owner-lists-browser/browser.mjs",
+              "expected": "39da9aee1b953e784dc5e0e184fdacbc2e8ad489e2cd275ee537fc78baba2a49",
+              "observed": "3ff0a9a574160cddbfb53913636cbd7fb62d3e5b693bf7337f8a90ac95dc375b"
+            },
+            {
+              "path": "scripts/current-owner-lists-browser/fixture.py",
+              "expected": "93b098491d2e16f09f4caad4ac0165a8e11faa171d747e071de81dc1bf1f718e",
+              "observed": "16b08e1a05d5706f309481be1eb2389e7239402d45b76c60b009af9181ee74e9"
+            }
+          ]
+        }
+      ],
+      "receipt": "https://github.com/Hanjay6688/-erp-garment-ux/blob/304918d24d6f324fd8eb50fcabb76118c8e06f07/docs/cp7/d17-14/ow15/owner-lists-23ec565d-first-fixture.json",
+      "runtime_rerun_here": false,
+      "historical_status_reclassified": false
+    },
+    {
+      "original": "CP7_CURRENT_OWNER_LISTS_BROWSER10.json",
+      "historical_status": "PASS",
+      "run_id": 40062079889,
+      "artifact_id": 12547624512,
+      "qualified_head": "fefb20f36079341abf392dc9f977b23dd7a00e2e",
+      "original_bytes": 513580,
+      "original_sha256": "d7fdcd9e931783262aea0d9fbfee129e87836a51073c8497b5e4d688bb571c70",
+      "product_path_changes": [],
+      "matching_installed_source_objects": [
+        {
+          "path": "/source_declaration/composed_product",
+          "identity": "CURRENT_INSTALLATION"
+        }
+      ],
+      "declared_file_map_comparisons": [
+        {
+          "path": "/source_declaration/qualifier_source/files",
+          "checked_files": 915,
+          "differences": []
+        }
+      ],
+      "receipt": "https://github.com/Hanjay6688/-erp-garment-ux/blob/304918d24d6f324fd8eb50fcabb76118c8e06f07/docs/cp7/d17-14/ow15/owner-lists-fefb20f3-pass.json",
+      "runtime_rerun_here": false,
+      "historical_status_reclassified": false
+    },
+    {
+      "original": "CP7_CURRENT_LEGACY_UI_BROWSER31.json",
+      "historical_status": "PASS",
+      "run_id": 40061341301,
+      "artifact_id": 12547777967,
+      "qualified_head": "5681edbd5b60eda26d15c97c999429a554d3a557",
+      "original_bytes": 648018,
+      "original_sha256": "cbfd3ac9c94d3e810099b23fc3913b47379a44501c3522b33b29398637524918",
+      "product_path_changes": [],
+      "matching_installed_source_objects": [
+        {
+          "path": "/source_declaration/composed_product",
+          "identity": "CURRENT_INSTALLATION"
+        }
+      ],
+      "declared_file_map_comparisons": [
+        {
+          "path": "/source_declaration/qualifier_source/files",
+          "checked_files": 1376,
+          "differences": []
+        }
+      ],
+      "receipt": "https://github.com/Hanjay6688/-erp-garment-ux/blob/304918d24d6f324fd8eb50fcabb76118c8e06f07/docs/cp7/d17-14/ow15/legacy-ui31-5681edbd-pass.json",
+      "runtime_rerun_here": false,
+      "historical_status_reclassified": false
+    },
+    {
+      "original": "CP7_CURRENT_FULL_MONEY_RESTORE.json",
+      "historical_status": "PASS",
+      "run_id": 40063578444,
+      "artifact_id": 12547784688,
+      "qualified_head": "bc4dd575caeb127d0f6348d3172f4601ec2ba3a8",
+      "original_bytes": 931511,
+      "original_sha256": "d024ba499542b0c6bcf0771f7631ffa0878f64db7e4e6ef0144b1a62bb0c558e",
+      "product_path_changes": [],
+      "matching_installed_source_objects": [
+        {
+          "path": "/actual_chain_binding/installation",
+          "identity": "CURRENT_INSTALLATION"
+        },
+        {
+          "path": "/current_financial_sources",
+          "identity": "CURRENT_INSTALLATION"
+        },
+        {
+          "path": "/administrative_restore_sources/financial_product",
+          "identity": "CURRENT_PRODUCT"
+        },
+        {
+          "path": "/current_P21_adapter_sources",
+          "identity": "CURRENT_INSTALLATION"
+        }
+      ],
+      "declared_file_map_comparisons": [],
+      "receipt": "https://github.com/Hanjay6688/-erp-garment-ux/blob/1c4e5ed6d35508787ffc19ae042e0991a551771c/docs/cp7/d17-14/ow15/full-money-bc4dd575-pass.json",
+      "runtime_rerun_here": false,
+      "historical_status_reclassified": false
+    },
+    {
+      "original": "CP7_CURRENT_FULL_MONEY_RESTORE.json",
+      "historical_status": "PASS",
+      "run_id": 40064922630,
+      "artifact_id": 12549124412,
+      "qualified_head": "d18f5d26f4e46a3287b04703bfe8fbeae6414c9f",
+      "original_bytes": 1010312,
+      "original_sha256": "fd42f972c0dbe639ea157743f0a10e15c0f3d24a48ca179a0677600e75e0fd72",
+      "product_path_changes": [],
+      "matching_installed_source_objects": [
+        {
+          "path": "/actual_chain_binding/installation",
+          "identity": "CURRENT_INSTALLATION"
+        },
+        {
+          "path": "/current_financial_sources",
+          "identity": "CURRENT_INSTALLATION"
+        },
+        {
+          "path": "/administrative_restore_sources/financial_product",
+          "identity": "CURRENT_PRODUCT"
+        },
+        {
+          "path": "/current_P21_adapter_sources",
+          "identity": "CURRENT_INSTALLATION"
+        }
+      ],
+      "declared_file_map_comparisons": [],
+      "receipt": "https://github.com/Hanjay6688/-erp-garment-ux/blob/c22fc1907ac2bf0853cf165d48407fe127e970f9/docs/cp7/d17-14/ow15/full-money-d18f5d26-status-pass.json",
+      "runtime_rerun_here": false,
+      "historical_status_reclassified": false
+    }
+  ],
+  "newly_executed_cases": 0,
+  "full_qualification_complete": false,
+  "independent_acceptance": false,
+  "production_go": false,
+  "historical_status_counts": {
+    "PASS": 18,
+    "INCOMPLETE": 2
+  },
+  "all_product_paths_unchanged": true,
+  "reports_with_direct_current_installation_or_product_identity": 19,
+  "limitations": [
+    "Source equivalence is not runtime or independent acceptance.",
+    "A missing direct installation object is reported, never inferred from UI/source trees.",
+    "File-map checks cover repository-relative maps only; stage-local basenames are compared inside recursive product identities, never guessed as repository paths.",
+    "Harness/source-map differences remain explicit and do not reclassify historical outcomes.",
+    "Archive first failures and earlier narrower PASS runs are preserved; do not add their case budgets twice.",
+    "CP6 archive gaps, Native286/current B and factory3600 remain separate qualification obligations."
+  ]
+}
