@@ -1,0 +1,336 @@
+{
+  "contract": "cp7.current-cp6-ai135.first-failure.v1",
+  "qualified_head": "1e0c840f8b0095f287763ee88b8afbdeff856ffe",
+  "run_id": 40072719573,
+  "job_id": 120809435637,
+  "artifact_id": 12552247099,
+  "artifact_zip": {
+    "bytes": 5099611,
+    "sha256": "2086c1d6ea83ed477e89b8819b99ada0432e44386abf337fd20d3445a50b04b5"
+  },
+  "original": {
+    "name": "CP7_CURRENT_CP6_AI_NATIVE135.json",
+    "bytes": 40296166,
+    "sha256": "2f12932157a47e5d11d125bcc03657cd87a820114b750fabd781261d7c8a284c"
+  },
+  "status": "INCOMPLETE",
+  "baseline_counts": {
+    "PASS": 28,
+    "INCOMPLETE": 107
+  },
+  "current_counts": {
+    "PASS": 28,
+    "INCOMPLETE": 107
+  },
+  "execution_count": 270,
+  "retained_case_credit": 135,
+  "new_business_case_credit": 0,
+  "changed_case_statuses": {},
+  "cp6_restored": true,
+  "restore_raw_public_equal": true,
+  "advisor_gate": true,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "production_go": false,
+  "independent_acceptance": false,
+  "observed_REBUILD_blockers": {
+    "baseline": [
+      {
+        "code": "ATTENDANCE_CELL_MISSING",
+        "reference": {
+          "worker_id": "0b505ff4-4063-4137-8c72-9ce9d99a3b26",
+          "sample_days": [
+            "2026-10-18",
+            "2026-10-19",
+            "2026-10-20",
+            "2026-10-21"
+          ],
+          "window_from": "2026-10-18",
+          "worker_name": "CP3 R3 Worker B",
+          "last_missing": "2026-10-21",
+          "missing_days": 4,
+          "contractor_id": "a1000000-0000-0000-0000-000000000002",
+          "first_missing": "2026-10-18",
+          "contractor_name": "CP3 R3 Normal B"
+        }
+      },
+      {
+        "code": "ATTENDANCE_CELL_MISSING",
+        "reference": {
+          "worker_id": "1ce58d14-5555-4e6e-abbc-7c0f73137f9a",
+          "sample_days": [
+            "2026-10-18",
+            "2026-10-19",
+            "2026-10-20",
+            "2026-10-21"
+          ],
+          "window_from": "2026-10-18",
+          "worker_name": "CP3 R3 Worker Special",
+          "last_missing": "2026-10-21",
+          "missing_days": 4,
+          "contractor_id": "a1000000-0000-0000-0000-000000000003",
+          "first_missing": "2026-10-18",
+          "contractor_name": "CP3 R3 Special"
+        }
+      },
+      {
+        "code": "ATTENDANCE_CELL_MISSING",
+        "reference": {
+          "worker_id": "6f39beee-8cee-4495-8787-520b763786dd",
+          "sample_days": [
+            "2026-10-18",
+            "2026-10-19",
+            "2026-10-20",
+            "2026-10-21"
+          ],
+          "window_from": "2026-10-18",
+          "worker_name": "CP3 R4 Worker C",
+          "last_missing": "2026-10-21",
+          "missing_days": 4,
+          "contractor_id": "a1000000-0000-0000-0000-000000000005",
+          "first_missing": "2026-10-18",
+          "contractor_name": "CP3 R4 Pending Approval C"
+        }
+      },
+      {
+        "code": "ATTENDANCE_CELL_MISSING",
+        "reference": {
+          "worker_id": "a574732b-579a-4d87-9d4c-8310649c1bfd",
+          "sample_days": [
+            "2026-10-18",
+            "2026-10-19",
+            "2026-10-20",
+            "2026-10-21"
+          ],
+          "window_from": "2026-10-18",
+          "worker_name": "CP3 R3 Worker A",
+          "last_missing": "2026-10-21",
+          "missing_days": 4,
+          "contractor_id": "a1000000-0000-0000-0000-000000000001",
+          "first_missing": "2026-10-18",
+          "contractor_name": "CP3 R3 Normal A"
+        }
+      },
+      {
+        "code": "PAYROLL_NOT_APPROVED",
+        "reference": {
+          "status": "CALCULATED",
+          "payroll_id": "a6000000-0000-0000-0000-000000000021",
+          "period_end": "2026-02-01",
+          "period_start": "2026-02-01",
+          "contractor_id": "a1000000-0000-0000-0000-000000000005",
+          "payroll_number": "CP3R4-PAY-C-FEB-PENDING"
+        }
+      },
+      {
+        "code": "PAYROLL_WORK_UNCOVERED",
+        "reference": {
+          "lines": 1,
+          "contractor_id": "a1000000-0000-0000-0000-000000000004",
+          "remaining_qty": 100,
+          "remaining_amount": 100.0,
+          "first_eligible_at": "2026-01-01T13:00:00+07:00"
+        }
+      },
+      {
+        "code": "PAYROLL_WORK_UNCOVERED",
+        "reference": {
+          "lines": 1,
+          "contractor_id": "a1000000-0000-0000-0000-000000000006",
+          "remaining_qty": 5,
+          "remaining_amount": 0.0,
+          "first_eligible_at": "2026-04-01T10:00:00+07:00"
+        }
+      },
+      {
+        "code": "PAYROLL_WORK_UNCOVERED",
+        "reference": {
+          "lines": 2,
+          "contractor_id": "a1000000-0000-0000-0000-000000000001",
+          "remaining_qty": 20,
+          "remaining_amount": 0.0,
+          "first_eligible_at": "2026-08-30T17:00:00+07:00"
+        }
+      }
+    ],
+    "native": [
+      {
+        "code": "ATTENDANCE_CELL_MISSING",
+        "reference": {
+          "worker_id": "0270338d-e13b-448e-bc02-3bd2c2c8b603",
+          "sample_days": [
+            "2026-10-18",
+            "2026-10-19",
+            "2026-10-20",
+            "2026-10-21"
+          ],
+          "window_from": "2026-10-18",
+          "worker_name": "CP3 R4 Worker C",
+          "last_missing": "2026-10-21",
+          "missing_days": 4,
+          "contractor_id": "a1000000-0000-0000-0000-000000000005",
+          "first_missing": "2026-10-18",
+          "contractor_name": "CP3 R4 Pending Approval C"
+        }
+      },
+      {
+        "code": "ATTENDANCE_CELL_MISSING",
+        "reference": {
+          "worker_id": "2ce35069-070c-4e43-ad42-f4dc1297a524",
+          "sample_days": [
+            "2026-10-18",
+            "2026-10-19",
+            "2026-10-20",
+            "2026-10-21"
+          ],
+          "window_from": "2026-10-18",
+          "worker_name": "CP3 R3 Worker B",
+          "last_missing": "2026-10-21",
+          "missing_days": 4,
+          "contractor_id": "a1000000-0000-0000-0000-000000000002",
+          "first_missing": "2026-10-18",
+          "contractor_name": "CP3 R3 Normal B"
+        }
+      },
+      {
+        "code": "ATTENDANCE_CELL_MISSING",
+        "reference": {
+          "worker_id": "7285c132-aebe-485f-bc3d-e4adbe4325c2",
+          "sample_days": [
+            "2026-10-18",
+            "2026-10-19",
+            "2026-10-20",
+            "2026-10-21"
+          ],
+          "window_from": "2026-10-18",
+          "worker_name": "CP3 R3 Worker A",
+          "last_missing": "2026-10-21",
+          "missing_days": 4,
+          "contractor_id": "a1000000-0000-0000-0000-000000000001",
+          "first_missing": "2026-10-18",
+          "contractor_name": "CP3 R3 Normal A"
+        }
+      },
+      {
+        "code": "ATTENDANCE_CELL_MISSING",
+        "reference": {
+          "worker_id": "eaeb4466-663f-4635-9d5e-5811d10eeac6",
+          "sample_days": [
+            "2026-10-18",
+            "2026-10-19",
+            "2026-10-20",
+            "2026-10-21"
+          ],
+          "window_from": "2026-10-18",
+          "worker_name": "CP3 R3 Worker Special",
+          "last_missing": "2026-10-21",
+          "missing_days": 4,
+          "contractor_id": "a1000000-0000-0000-0000-000000000003",
+          "first_missing": "2026-10-18",
+          "contractor_name": "CP3 R3 Special"
+        }
+      },
+      {
+        "code": "ATTENDANCE_POOL_NOT_ACTIVE",
+        "reference": {
+          "amount": "150.00",
+          "period_end": "2026-01-01",
+          "payroll_ids": [
+            "a6000000-0000-0000-0000-000000000001",
+            "a6000000-0000-0000-0000-000000000002"
+          ],
+          "active_pools": [],
+          "period_start": "2026-01-01"
+        }
+      },
+      {
+        "code": "ATTENDANCE_POOL_NOT_ACTIVE",
+        "reference": {
+          "amount": "100.00",
+          "period_end": "2026-02-01",
+          "payroll_ids": [
+            "a6000000-0000-0000-0000-000000000020"
+          ],
+          "active_pools": [],
+          "period_start": "2026-02-01"
+        }
+      },
+      {
+        "code": "ATTENDANCE_POOL_NOT_ACTIVE",
+        "reference": {
+          "amount": "100.00",
+          "period_end": "2026-03-01",
+          "payroll_ids": [
+            "a6000000-0000-0000-0000-000000000030"
+          ],
+          "active_pools": [],
+          "period_start": "2026-03-01"
+        }
+      },
+      {
+        "code": "ATTENDANCE_POOL_NOT_ACTIVE",
+        "reference": {
+          "amount": "100.00",
+          "period_end": "2026-04-01",
+          "payroll_ids": [
+            "a6000000-0000-0000-0000-000000000040"
+          ],
+          "active_pools": [],
+          "period_start": "2026-04-01"
+        }
+      },
+      {
+        "code": "PAYROLL_NOT_APPROVED",
+        "reference": {
+          "status": "CALCULATED",
+          "payroll_id": "a6000000-0000-0000-0000-000000000021",
+          "period_end": "2026-02-01",
+          "period_start": "2026-02-01",
+          "contractor_id": "a1000000-0000-0000-0000-000000000005",
+          "payroll_number": "CP3R4-PAY-C-FEB-PENDING"
+        }
+      },
+      {
+        "code": "PAYROLL_WORK_UNCOVERED",
+        "reference": {
+          "lines": 1,
+          "contractor_id": "a1000000-0000-0000-0000-000000000004",
+          "remaining_qty": 100,
+          "remaining_amount": 100.0,
+          "first_eligible_at": "2026-01-01T13:00:00+07:00"
+        }
+      },
+      {
+        "code": "PAYROLL_WORK_UNCOVERED",
+        "reference": {
+          "lines": 1,
+          "contractor_id": "a1000000-0000-0000-0000-000000000006",
+          "remaining_qty": 5,
+          "remaining_amount": 0.0,
+          "first_eligible_at": "2026-04-01T10:00:00+07:00"
+        }
+      },
+      {
+        "code": "PAYROLL_WORK_UNCOVERED",
+        "reference": {
+          "lines": 2,
+          "contractor_id": "a1000000-0000-0000-0000-000000000001",
+          "remaining_qty": 20,
+          "remaining_amount": 0.0,
+          "first_eligible_at": "2026-08-30T17:00:00+07:00"
+        }
+      }
+    ]
+  },
+  "interpretation": [
+    "107 cases stop at original readiness assertions on both installations; equal status is not a claim of equal blocker contents.",
+    "REBUILD shows missing seed attendance, a pending seed payroll and uncovered seed work; current also reports four inactive attendance HPP pools.",
+    "The original report and cash/stock/HPP assertions remain unchanged. No product regression is ruled out by this incomplete run.",
+    "Next candidate completes labelled seed prerequisites before original scenarios through existing Native routines, with current OW07 pool preparation. No after-scenario auto-approval or report interception."
+  ]
+}

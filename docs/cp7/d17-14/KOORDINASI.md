@@ -1650,3 +1650,19 @@ OW08README sekarang membedakan status current dari catatanBLOCKED/belum
 historis seolah status current. Bukti lama dan kebijakan terbuka dipertahankan;
 tidak mengubah baris produk B atau menaikkan formal5/16. Dua runCP6 tetap
 berjalan dan belum diberi kreditPASS.
+
+## A / 24 Oktober 2026 — AI135 first failure dipertahankan [bersama]
+
+Run40072719573 di1e0c840f selesai INCOMPLETE: baseline28PASS/107INCOMPLETE,
+current28PASS/107INCOMPLETE,270eksekusi; status per kasus sama, isi blocker
+tidak identik. Current menambah kewajiban pool absen HPP. Full restore,
+public raw equality, advisor dan empat gate paket lulus; writer_runtime=false.
+Receipt `ow15/current-cp6-ai135-first-failure-1e0c840f.json` mengikat Original
+40.296.166byte SHA2f129321 dan ZIP/artifact pertama, tanpa klaim lulus135.
+
+Kandidat berikut hanya menyiapkan data seed Native sebelum skenario asli:
+absensi OFF sintetis seluruh jendela yang dipakai kasus, payroll seed, serta
+pool lama lewat CREATE/ACTIVATE yang sudah diuji. Cutoff awal kasus dipulihkan;
+case/oracle/frozen SQL tidak diubah, tidak ada auto-approve setelah skenario.
+Race36 pertama tetap berjalan dan belum diklaim lulus. Parent5/16 serta
+production_go=false tetap.

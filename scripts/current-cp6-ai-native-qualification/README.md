@@ -16,3 +16,13 @@ acceptance or production readiness. The twelve historical archive boundaries
 remain open except for the exact subscenarios supported by the resulting Original.
 
 No old source, oracle, audit branch or B product is changed.
+
+The first current run is retained as INCOMPLETE (28 PASS, 107 INCOMPLETE both
+before and after CP7). Seed attendance, unapproved payroll and uncovered seed
+work blocked original READY checks; current additionally requires attendance
+HPP pools. The new fixture-only preparation completes those prerequisites
+through existing Native routines before any original scenario, records every
+step, and fills the full retained Sep-1-through-today attendance window with
+explicit synthetic OFF entries. Current uses the already-qualified pool
+CREATE/ACTIVATE preparation and restores the original fixture cutoff. No case
+result is intercepted or made READY, and no after-scenario work is auto-approved.

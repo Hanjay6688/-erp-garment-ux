@@ -27,6 +27,7 @@ IDS=business.IDS
 LABEL='CP7_CURRENT_CP6_AI_NATIVE135'
 OUT=REPO/'cp6-proof/t3'/f'{LABEL}.json'
 STATE=None
+FIXTURES={}
 
 
 def admitted():
@@ -45,7 +46,9 @@ def admitted():
 
 
 def cases(cur,today):
-    result=business.cases(cur,today)
+    stage='current'if STATE is not None else 'baseline'
+    evidence=FIXTURES.setdefault(stage,{})
+    result=business.cases(cur,today,current=STATE is not None,evidence=evidence)
     assert tuple(key for key,_ in result)==IDS
     return result
 
@@ -108,6 +111,7 @@ def run():
                 report['advisor_gate']=report['advisor_disposition']['gate']
             except Exception as error:
                 report.update(restore_error=str(error),restore_traceback=traceback.format_exc(),cp6_restored=False,advisor_gate=False)
+        report['seed_prerequisite_preparation']=FIXTURES
         group=report.get('native',{})
         baseline=report.get('baseline',{})
         report['baseline_observed_case_count']=sum(baseline.get('counts',{}).values())

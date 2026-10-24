@@ -6,6 +6,7 @@ No table/function grant, facade substitution, expected value or case body change
 """
 from datetime import timedelta
 import cp6_v2620ai_family as original
+import cp7_retained_cp6_fixture as fixture
 
 PHASES=('focused','detector')
 PHASE_IDS={phase:tuple(name for name,_ in original.phase_cases(phase))for phase in PHASES}
@@ -13,10 +14,11 @@ IDS=tuple(name for phase in PHASES for name in PHASE_IDS[phase])
 assert len(IDS)==len(set(IDS))==135
 assert {phase:len(ids)for phase,ids in PHASE_IDS.items()}=={'focused':99,'detector':36}
 
-def cases(cur,today):
+def cases(cur,today,*,current,evidence):
     day=today-timedelta(days=3)
     original.actors.admin(cur)
     original.prior.set_open_period(cur,day-timedelta(days=5))
+    fixture.prepare(cur,today,current=current,closed_through=day-timedelta(days=5),evidence=evidence)
     result=[]
     for phase in PHASES:
         found=original.phase_cases(phase)
