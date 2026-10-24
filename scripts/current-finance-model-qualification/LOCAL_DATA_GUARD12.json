@@ -1,0 +1,52 @@
+{
+  "status": "PASS",
+  "kind": "local_data_admission_negative_controls",
+  "actual_prior_used_backup_sha256": "59f6fed63928199682f6741a1b090cd3819458b247048c2e4c8f7a88574285e3",
+  "prior_data_keys": 686,
+  "allowed_additions": 3,
+  "positive_transitions": 2,
+  "rejections": [
+    {
+      "name": "Existing row count changed",
+      "status": "PASS"
+    },
+    {
+      "name": "Existing row hash changed",
+      "status": "PASS"
+    },
+    {
+      "name": "Existing sequence value changed",
+      "status": "PASS"
+    },
+    {
+      "name": "Existing sequence called flag changed",
+      "status": "PASS"
+    },
+    {
+      "name": "Existing table missing",
+      "status": "PASS"
+    },
+    {
+      "name": "Existing sequence missing",
+      "status": "PASS"
+    },
+    {
+      "name": "Undeclared table added",
+      "status": "PASS"
+    },
+    {
+      "name": "New table missing",
+      "status": "PASS"
+    },
+    {
+      "name": "New table not empty",
+      "status": "PASS"
+    },
+    {
+      "name": "New table hash not empty",
+      "status": "PASS"
+    }
+  ],
+  "Native_runtime": false,
+  "production_go": false
+}

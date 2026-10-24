@@ -2471,3 +2471,25 @@ dipertahankan; konflik hanya append KOORD dan kedua catatan tetap utuh.
 Seluruh file produk/qualifier dari kedua cabang identik dengan sumber masing-masing.
 Ini integrasi sumber; hasil runtime kandidat terpisah belum memberi kredit
 full model+finance chain. Productionfalse, parent5of16, independentacceptancefalse.
+
+## A — current consumer Auth11 PASS; first browser/finance packages retained
+
+8693874b/run40105718163/job120906877128 actual Auth5+race6 PASS, all five package
+checks true, full22 inverse/ALLrows/ALLsequences/CP6/advisors and all copy/Auth
+cleanup exact. Raw Original and source1327pins verified; safe receipt in ow15.
+UI6 samehead run40105718128 is INCOMPLETE: return2+choice2 PASS, consumer host
+could not import unexported shared open helper. Product/oracles stay frozen;
+local helper exports successor c13a1101/run40108006638 is running.
+
+Finance3bdc/run40105754846 remains INCOMPLETE despite five business assertions
+PASS: post-case all-data preuse guard refused inverse. Exact difference was not
+recorded in that first report. Successor05bad4f4/run40107643859 proves inverse
+before writes, records differences, then restores full preinstall backup. Product
+and five original case bodies unchanged; no sequence reset or guard relaxation.
+
+New opt-in A finance+policy+v2 composer and used recovery are prepared. Each
+actual predecessor and full22 transition is bound; policy/v2 add only their three
+empty tables. Every older row/sequence must remain exact. Local data admission
+on an actual prior 686-key backup:2allowed transitions and10rejections PASS;
+this is not Native execution. Full chain runtime/used restoration are pending.
+No owner policy defaults, forecast activation, production or independent credit.

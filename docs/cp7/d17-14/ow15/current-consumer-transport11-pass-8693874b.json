@@ -1,0 +1,51 @@
+{
+  "name": "CP7_CURRENT_CONSUMER_TRANSPORT11.json",
+  "status": "PASS",
+  "head": "8693874b3539394c14808c7fc61ab8f3219cd28b",
+  "run_id": 40105718163,
+  "job_id": 120906877128,
+  "artifact_id": 12564544003,
+  "zip_bytes": 1882107,
+  "zip_sha256": "3beb46cc893905b5ab86d114c995e842a3a1fbe28098a32515d1639c0fa5d22b",
+  "original_bytes": 1282508,
+  "original_sha256": "deffe7adf1298378f4e7cbaf321442f18b813c0f61e0f029b739afd7d854581f",
+  "contract": "cp7.current-writer-raw-evidence-intake.v1",
+  "whole_job_status": "completed",
+  "whole_job_conclusion": "success",
+  "exact_current_source_pins_verified": 1327,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "details": {
+    "exact_case_ids": [
+      "CURRENT_RETURN_HTTP_BAD_DRAFT_GRADE_A",
+      "CURRENT_RETURN_HTTP_BAD_DRAFT_GRADE_B",
+      "OW11_CONSUMER_AUTH_CONFIRM_CLEAR_EXACT_REPLAY",
+      "OW11_CONSUMER_AUTH_REVOKED_COMMITTED_REPLAY",
+      "OW11_CONSUMER_AUTH_ANON_AND_FOREIGN_REFERENCE",
+      "OW11_CONSUMER_RACE_SAME_UUID",
+      "OW11_CONSUMER_RACE_REVISION",
+      "OW11_CONSUMER_RACE_ACCESS_AFTER_ENVELOPE",
+      "OW11_CONSUMER_RACE_REPLAY_ACCESS_AFTER_REQUEST",
+      "OW11_CONSUMER_RACE_ACCESS_AFTER_TARGET",
+      "OW11_CONSUMER_RACE_SOURCE_AFTER_ENVELOPE"
+    ],
+    "actual_Auth_cases": 5,
+    "actual_two_backend_races": 6,
+    "all_case_statuses": "PASS",
+    "Auth_and_copy_DB_cleanup": true,
+    "session_leaks": 0,
+    "race_only_erp_usage_grant": true,
+    "HTTP_extra_erp_usage_grant": false,
+    "cp6_restored": true,
+    "advisor_gate": true,
+    "full22_inverse_all_rows_sequences_equal": true
+  },
+  "production_go": false,
+  "independent_acceptance": false,
+  "formal_parent": "5/16"
+}
