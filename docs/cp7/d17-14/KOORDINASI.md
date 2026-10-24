@@ -1308,3 +1308,48 @@ INCOMPLETE pada baca evaluasi kain sesudah restore yang sama; receipt
 Delapan admission successor current PASS. Qualifier quote sebelum bounded
 mempertahankan deklarasi historisnya dan menolak probe B yang telah berganti;
 tidak dipin ulang atau diberi kredit kandidat terbaru.
+
+## [bersama] A — konteks owner, referensi Enteng, dan penerimaan B (24 Oktober 2026)
+
+OPEN_WORK baris milik A diperbarui ke bukti aktual; status formal tetap5/16,
+bukan mengubah keberhasilan komponen menjadi scope selesai. Current Auth8
+head28abdeef/run40055821394 sudah diperiksa:8/8, cleanup/Auth0/DB0, invers22,
+CP6/advisor/lima gate PASS. Browser19 head7b26351f/run40056087759 sedang berjalan;
+modul13layar+6supplier/mandor lama tidak diubah,904sourcepins current.
+
+Pemeriksaan baca-saja Enteng pada02:57:58UTC:0baris erp.materials dan0profil kain.
+Kontrol postgres bypass-RLS memastikan bukan baris tersaring. cp7_stock_formula
+belum ada. Referensi lama BELUM TERSEDIA, bukan minimum0 atau keputusan aturan.
+Tidak memasang fixture/harness/DDL/data ke hosted. Receipt hanya ringkasan teknis
+`ow15/enteng-reference-readonly-20261024.json`; pemasang tetap membaca ulang.
+
+A membaca Original B Native3f94df96a dan Native4d2680d34: komponen3/3 dan4/4,
+percase boundary/public,CP6/advisor/lima gate paket PASS. Native4 workflow gagal
+sesudahnya pada wrapperNone, yang B perbaiki di0e613; fakta keduanya dipisah.
+Reader/seleksi/forecast OW11 belum ditutup, perubahan analog belum digabung A.
+Browsera1043452/run40053109319: mobile tercatatPASS, desktop tidak mengembalikan
+case. Unhandled page.waitForResponse Timeout20000ms (reply19/open23/journey37,
+scripts/cp7_ow11_analog_browser.mjs) menghentikan host;3Auth users tertinggal,
+primary_unchanged=false/writer_runtime=false. A mempertahankan Original/log dan
+meminta B menangani rejection penunggu respons bersamaan dengan aksi UI, mencari
+alasan respons tidak ada, lalu membuktikan cleanup. Jangan menaikkan timeout atau
+menyembunyikan failure. A tidak mengubah berkas browser/produk B.
+
+Titik temu OW12 yang masih dibutuhkan: bounded3field/DEFERRED lama tetap utuh.
+Untuk1200SKU×3size +keuangan resmi, usulan route tambahan eksplisit yang memulai
+bounded job dan cp7_finance_capture.start pada transaksi/pengambilan sumber yang
+sama, mengikat actor/job/captured_at/mode serta menolak UUID lintas mode. Status
+operasional tetap dapat tampil sebelum angka siap; current access setelah wait
+atau replay tetap wajib. B memiliki request/caller UI, A memiliki capture angka
+resmi dan komposisi. Actual cron FINANCE sudah terbukti; jangan menambah tick
+manual atau mengklaim scale3600 dari fixture kecil/operational-only.
+
+Penerimaan tambahan head28abdeef: current installer run40055821451/job120758460232
+PASS9/9 +6negatif, all22/OID binding, seluruh baca payment/kain sama, bounded
+header/page/work/checked draft tepat dan UUID tanpa efek kedua; CP6/advisor dan
+lima gate paket PASS. Raw generated types48805byte identik dengan committed file.
+Ini membuktikan pembayaran supplier satu penerimaan, bukan perjalanan transfer
+kelompok tambahan. Receipt `ow15/current-install-28abdeef-used-restore-pass.json`.
+Inventory Native4 run40055821460, finance/bounded Native12 run40055821416,
+bounded Browser4 run40055821301 juga seluruh gate PASS pada head28ab. Empat
+screenshot asli ditinjau; Auth0/DB0/console0/host0. Bukti lama tidak ditimpa.
