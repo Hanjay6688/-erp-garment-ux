@@ -57,7 +57,7 @@ export type PreconnectDatabase = {
       erp_cp7_get_analysis_job_v1: { Args: { p_request: string }; Returns: Json }
       erp_cp7_read_analysis_manifest_v1: { Args: { p_run: string }; Returns: Json }
       erp_cp7_read_analysis_segment_v1: { Args: { p_run: string; p_index: number; p_access: string }; Returns: Json }
-      erp_cp7_request_staged_analysis_v1: { Args: { p_query: Json; p_request: string }; Returns: Json }
+      erp_cp7_request_staged_analysis_v1: { Args: { p_query: Json; p_request: string } | { p_query: { initial_auto: 'STATUS' | 'ENSURE' }; p_request: null }; Returns: Json }
       erp_cp7_step_staged_analysis_v1: { Args: { p_request: string }; Returns: Json }
       erp_cp7_get_staged_analysis_v1: { Args: { p_request: string }; Returns: Json }
       erp_cp7_read_staged_analysis_pages_v1: { Args: { p_run: string }; Returns: Json }

@@ -1,3 +1,12 @@
+## A / 25 Oktober 2026 WIB — sambungan Master dan tipe awal [bersama]
+
+Menindaklanjuti permintaan bagian11: `ConnectedFgStockPage` meneruskan
+`onOpenMaster`; dua host App (kartu stok dan ringkasan FG) membuka rute
+`master-products` yang sudah ada. Kontrak klien preconnect menerima request
+null hanya untuk payload initial_auto STATUS/ENSURE; mode manual tetap UUID.
+Ini tipe tulisan tangan, bukan klaim hasil generator database lengkap.
+Tidak mengubah modul B, rumus, sumber beku, hak atau kebijakan awal otomatis.
+
 ## A / 24 Oktober 2026 — gabungan terbaru dan batas berikutnya [bersama]
 
 Astra A tetap integrator pengganti Claude. Money5f1e dan layar1107 digabung

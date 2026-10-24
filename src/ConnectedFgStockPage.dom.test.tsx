@@ -7,6 +7,7 @@ import { parseFgWorkspace, parseFgLedger, type FgMovementList } from './fgContra
 import { recoveryIdentity } from '../tests/fixtures/productionRecovery'
 import { demandWire } from '../tests/fixtures/nativeDemandHistory'
 import { reorderWire } from '../tests/fixtures/fgReorder'
+import initialReady from '../tests/fixtures/initialAnalysisReadyActual.json'
 const state=vi.hoisted(()=>({auth:null as unknown}))
 const client=vi.hoisted(()=>({rpc:vi.fn()}))
 // OW-09 declared card-reader stand-in: whatever a test serves, the wrapper applies the requested movement type to the
@@ -35,6 +36,18 @@ async function click(label:string){const b=[...container.querySelectorAll('butto
 const withReorder=(answer:(name:string,args?:never)=>unknown)=>async(name:string,args?:never)=>name==='erp_cp7_get_fg_reorder_v1'?{data:reorderWire(),error:null}:answer(name,args)
 function server(finance=true){client.rpc.mockImplementation(withReorder(async(name:string)=>({data:name==='erp_cp7_get_fg_v1'?stock(finance):ledger(finance),error:null})))}
 describe('FG current stock and complete ledger boundary',()=>{
+  it('opens product master from the real initial-analysis panel when there are no active products',async()=>{
+    const a=state.auth as typeof recoveryIdentity
+    Object.assign(a.runtime,{mode:'DISPOSABLE_TEST',projectRef:'cp6-disposable'})
+    Object.assign(a.identity.profile,{authUserId:initialReady.actor,id:initialReady.actor,rowVersion:'1',roleRowVersion:'1'})
+    a.identity.permissions.push('master.product.view','sales.invoice.view')
+    const missing={...initialReady,state:'NOT_READY',readiness:{...initialReady.readiness,ready:false,reasons:['NO_ACTIVE_PRODUCTS'],products_total:0,active_products:0,eligible_targets:0,candidates:[]}}
+    client.rpc.mockImplementation(withReorder(async(name:string)=>({data:name==='erp_cp7_request_staged_analysis_v1'?missing:stock(),error:null})))
+    const master=vi.fn();await act(async()=>root.render(<ConnectedFgStockPage onOpenMaster={master}/>));await flush()
+    await click('Lengkapi produk di Data Master')
+    expect(master).toHaveBeenCalledTimes(1)
+    expect(client.rpc.mock.calls.filter(([name])=>name==='erp_cp7_request_staged_analysis_v1')).toEqual([['erp_cp7_request_staged_analysis_v1',{p_query:{initial_auto:'STATUS'},p_request:null}]])
+  })
   it('orders current positions locally and resets browse/zero filters through the current owning reader',async()=>{
     const w=stock(),p=w.page.rows[0];w.page.rows.push({...p,lot_id:id,lot_number:'LOT-02',commercial_sku:'ALPHA'});w.page.total='2';client.rpc.mockImplementation(withReorder(async()=>({data:w,error:null})));await mount();const calls=client.rpc.mock.calls.length
     await act(async()=>{const order=container.querySelector<HTMLSelectElement>('[aria-label="Urutkan halaman barang jadi"]')!;order.value='LABEL_ASC';order.dispatchEvent(new Event('change',{bubbles:true}))});expect(client.rpc).toHaveBeenCalledTimes(calls);expect(container.querySelector('.cfg-position h3')!.textContent).toBe('ALPHA');expect(container.querySelector('.cfg-totals')!.textContent).toContain('10 PCS')

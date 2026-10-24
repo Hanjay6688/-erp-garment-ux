@@ -17,12 +17,12 @@ const permission:Record<FgPurpose,string>={SUMMARY:'warehouse.fg.view',CARD:'war
 const labels:Record<string,string>={QC_GOOD:'Hasil QC',SALE_RESERVE:'Dicadangkan untuk penjualan',SALE:'Penjualan',REVERSAL:'Pembatalan',SALES_RETURN:'Retur penjualan',OPENING:'Saldo awal',REWORK_IN:'Hasil rework',TRANSFER_IN:'Masuk gudang',TRANSFER_OUT:'Keluar gudang'}
 import TransactionSourceLink from './TransactionSourceNavigation'
 
-export default function ConnectedFgStockPage({purpose='SUMMARY'}:{purpose?:FgPurpose}){
+export default function ConnectedFgStockPage({purpose='SUMMARY',onOpenMaster}:{purpose?:FgPurpose;onOpenMaster?:()=>void}){
   const {runtime,identity}=useAuth()
   if(!isConnectedRuntime(runtime)||identity.status!=='AUTHORIZED'||!identity.permissions.includes(permission[purpose]))return <section className="panel" role="alert">Hak melihat stok barang jadi belum diberikan.</section>
-  return <Workspace purpose={purpose} key={`${purpose}:${runtime.projectRef}:${identity.profile.id}:${identity.profile.rowVersion}:${identity.profile.roleRowVersion}:${identity.permissions.join('|')}`}/>
+  return <Workspace purpose={purpose} onOpenMaster={onOpenMaster} key={`${purpose}:${runtime.projectRef}:${identity.profile.id}:${identity.profile.rowVersion}:${identity.profile.roleRowVersion}:${identity.permissions.join('|')}`}/>
 }
-function Workspace({purpose}:{purpose:FgPurpose}){
+function Workspace({purpose,onOpenMaster}:{purpose:FgPurpose;onOpenMaster?:()=>void}){
   const {runtime,identity}=useAuth()
   if(!isConnectedRuntime(runtime)||identity.status!=='AUTHORIZED')throw Error('Sesi gudang belum siap.')
   const client=useMemo(()=>getUatSupabaseClient(runtime),[runtime]),finance=identity.permissions.includes('finance.hpp.view')
@@ -56,7 +56,7 @@ function Workspace({purpose}:{purpose:FgPurpose}){
   const movements=(change:Partial<typeof requested.current>)=>{Object.assign(requested.current,change,{movementOffset:0});void load()}
   const visible=workspaceStale?null:data,currentLedger=workspaceStale?null:ledger
   const title=purpose==='SUMMARY'?'Barang jadi':purpose==='CARD'?'Kartu stok barang jadi':'Mutasi barang jadi'
-  return <><NativeDemandHistoryPanel onSourceReadStart={retireSource} onSourceReadEnd={refreshSource}/><section className="cproc cfg"><header className="panel cproc-heading"><div><div className="eyebrow">GUDANG · BARANG JADI</div><h1>{title}</h1><p>Stok per ukuran, lot, grade, dan gudang. Cadangan penjualan ditampilkan terpisah.</p></div><button disabled={busy} onClick={()=>void load()}>Muat ulang stok</button></header>
+  return <><NativeDemandHistoryPanel onOpenMaster={onOpenMaster} onSourceReadStart={retireSource} onSourceReadEnd={refreshSource}/><section className="cproc cfg"><header className="panel cproc-heading"><div><div className="eyebrow">GUDANG · BARANG JADI</div><h1>{title}</h1><p>Stok per ukuran, lot, grade, dan gudang. Cadangan penjualan ditampilkan terpisah.</p></div><button disabled={busy} onClick={()=>void load()}>Muat ulang stok</button></header>
     {(error||blockReason)?<p className="panel" role="alert">{error||blockReason}</p>:null}
     <RecordTools title="barang jadi" busy={busy} order={stockOrder} onOrder={setStockOrder} submitLabel="Cari stok" onSubmit={e=>{e.preventDefault();requested.current={q:search.trim(),zero,offset:0,position:null,movementQ:'',movementOffset:0,movementType:null,movementOrder:'SOURCE'};setMovementSearch('');setMovementType(null);setMovementOrder('SOURCE');void load()}} onBrowse={()=>{setSearch('');setZero(false);requested.current={q:'',zero:false,offset:0,position:null,movementQ:'',movementOffset:0,movementType:null,movementOrder:'SOURCE'};setMovementSearch('');setMovementType(null);setMovementOrder('SOURCE');void load()}} search={<label>Cari SKU, ukuran, lot, atau gudang<input aria-label="Cari barang jadi" maxLength={120} value={search} onChange={e=>setSearch(e.target.value)}/></label>} filters={<label className="cfg-check"><input type="checkbox" checked={zero} onChange={e=>setZero(e.target.checked)}/>Sertakan stok habis</label>}/>
     {busy?<p role="status">Memuat stok barang jadi…</p>:null}
