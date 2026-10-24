@@ -45,7 +45,8 @@
     "erp_cp7_save_model_activation_policy_v1",
     "erp_cp7_capture_model_evaluation_v2",
     "erp_cp7_read_model_evaluation_v2",
-    "erp_cp7_capture_operational_analysis_v1"
+    "erp_cp7_capture_operational_analysis_v1",
+    "erp_cp7_request_operational_analysis_job_v1"
   ],
   "schedules": [
     "erp-wa-collect",

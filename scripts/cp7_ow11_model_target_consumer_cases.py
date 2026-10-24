@@ -18,7 +18,8 @@ IDS=dict(native=['OW11_MODEL_TARGET_CATALOG22_COMPOSED_PREUSE',
 REQUIRED=dict(native=6)
 EXPECTED=DECLARED=6
 FUNCTIONS=(*fresh.FUNCTIONS,'erp_cp7_get_model_activation_policy_v1','erp_cp7_save_model_activation_policy_v1',
- 'erp_cp7_capture_model_evaluation_v2','erp_cp7_read_model_evaluation_v2','erp_cp7_capture_operational_analysis_v1')
+ 'erp_cp7_capture_model_evaluation_v2','erp_cp7_read_model_evaluation_v2','erp_cp7_capture_operational_analysis_v1',
+ 'erp_cp7_request_operational_analysis_job_v1')
 SCHEDULES=fresh.SCHEDULES
 INSTALL_STATES,REORDER_STATES,CHECKED_STATE,SCHEDULE_STATE,BOUNDED_STATE,REFERENCE_STATE,STAGE_STATE={},{},{},{},{},{},{}
 PARENT_CHECKER=None
@@ -72,6 +73,18 @@ def cases(cur,today):
     def replay():
         s=install(cur);f=baseline.history.fixture(cur,today);p=baseline.payload(cur,f);baseline.save(cur,p)
         q=baseline.history.query(today);key=uuid.uuid4();physical=plan.monetary_state(cur)
+        before_job=stage.usage_state(cur);cur.execute('savepoint model_target_queued_usage')
+        try:
+            queued=call(cur,'erp_cp7_request_operational_analysis_job_v1',(json.dumps(q),uuid.uuid4()))
+            assert queued['state']=='WAITING'and queued['run_id']is None
+            after_job=stage.usage_state(cur)
+            assert [name for name in after_job if after_job[name]!=before_job.get(name)]==['cp7_analysis_jobs.jobs']
+            try:stage.rollback_preuse(cur,s['current'])
+            except ValueError as e:assert str(e)=='MODEL_TARGET_AFTER_USE_REQUIRES_COMPOSED_BACKUP_RESTORE'
+            else:raise AssertionError('MODEL_TARGET_QUEUED_JOB_AFTER_USE_INVERSE_ALLOWED')
+        finally:
+            cur.execute('rollback to savepoint model_target_queued_usage');cur.execute('release savepoint model_target_queued_usage')
+        assert stage.usage_state(cur)==before_job
         # A raw operational capture persists no staged job/baseline/history run.
         # That sole immutable analysis run must still make pre-use removal fail.
         before_raw=stage.usage_state(cur);raw_key=uuid.uuid4()
@@ -99,6 +112,7 @@ def cases(cur,today):
         else:raise AssertionError('MODEL_TARGET_USED_INVERSE_ALLOWED')
         return dict(status='PASS',actual_Native_v3_baseline100_current=True,exact_UUID_replay_and_immutable_result=True,
           actual_raw_operational_capture_replay_immutable=True,raw_report_alone_blocks_preuse_inverse=True,
+          actual_queued_job_without_run_alone_blocks_preuse_inverse=True,
           no_model_fabricated=True,no_stock_money_HPP_change=True,after_use_requires_composed_restore=True)
 
     def current_policy():

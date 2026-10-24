@@ -3,7 +3,7 @@
   "head": "04eaad406c94a2b841630d3d583d484c8766827b",
   "run_id": 40113567313,
   "job_id": 120930106523,
-  "workflow_conclusion": null,
+  "workflow_conclusion": "success",
   "artifact_id": 12567667414,
   "bytes": 45819,
   "artifact_sha256": "207f2870be49ae9720399f7a747e2f33098a054580459c1c6e3ce690ec2d5b7a",
@@ -103,6 +103,5 @@
   "formal_acceptance": "5/16",
   "CP7C_accepted": false,
   "independent_acceptance": false,
-  "production_go": false,
-  "workflow_completion_pending": true
+  "production_go": false
 }

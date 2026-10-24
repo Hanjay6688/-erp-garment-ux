@@ -1959,3 +1959,29 @@ baseline assertions. Existing public facade is added to the explicit RPC
 declarations; no new RPC or case count (6/2/11) is introduced. Native execution
 is pending. This guards removal after use; it does not qualify a composed
 after-use backup/restore. The first Native5PASS/1INCOMPLETE remains retained.
+
+## 111. B24 Oktober2026 UTC — queued legacy jobs also count as use
+
+The same after-use review includes cp7_analysis_jobs.jobs/documents/segments:
+an actual queued operational job has no raw analysis run yet. Candidate pre-use
+removal now observes both schemas; installation also refuses an existing WAITING
+raw job (including a worker-held RUNNING job) as well as a RUNNING staged job.
+The Native replay case requests a real existing operational job inside a test
+savepoint, proves only its job table changed and requires inverse refusal, then
+rolls back that test-only subcase before independently proving raw-run-only use.
+No direct historical seed, job deletion, or production mutation is introduced.
+
+Existing operational request facade is explicitly declared alongside capture;
+budgets remain Native6/Browser2/Transport11, RPC8s and workflow45min. The exact
+three workflow declarations and source/Python checks pass; Native proof pending.
+038740bd guard candidate has Native6/run40115520428, Browser2/run40115520449,
+Transport11/run40115520425 running and does not yet include this queued-job guard.
+
+3c19c5e4/run40115032195/job120934446584 Browser2 completed success. Complete
+Original12568121993 (45822 bytes, SHA256 fabcb7587ecc3c40f35a4b63a143623b438fc50ccbd4d4b39e957554a8289d6b)
+has2 PASS, exact20/8 head source hashes, required IDs/counts and all package/
+CP6/advisor gates true; Auth0000→0000, console0, sessions[] and no copy remain.
+This qualifies actual baseline/analog UI paths under20/8; no positive model or
+raw-use guard credit is inferred. Exact04eaad40 workflow success is now also
+confirmed and its earlier pending workflow receipt updated without altering
+the preserved Original.
