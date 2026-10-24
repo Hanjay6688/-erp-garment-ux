@@ -3096,3 +3096,164 @@ B190c1d78 fixes expected three values and records actual mismatch; run4012249906
 active. Product21/8 unchanged. This third Native failure is now a mandatory
 sixth prerequisite Original for A Native20, alongside both earlier failures.
 No failure is relabelled PASS; Native20 remains SOURCE absent.
+
+## 115. B24 Oktober2026 UTC — qualify the private scoped history installer
+
+d7d3033b publishes cache admission21/8. Actual Native6/run40119284264,
+Browser2/run40119284296 and Transport11/run40119284316 are in progress;
+4c3623bb Native6/run40117732530 remains pending. No premature result credit.
+
+Single-root history now has an opt-in exact22-catalog installer: four private
+invoker functions, zero table/facade/replacement/ERP DML, unchanged predecessor
+checked before installation, exact dependencies and owner/ACL/GUC verified.
+Removal is savepoint-atomic with RESTRICT and refuses an external function
+caller. This source alone retains no usage rows; any future immutable runtime
+requires composed restoration. No existing model/history call is replaced.
+
+A separate declared Native4 workflow/probe covers dependent-view partial-inverse
+restoration and direct client-role denial; actual draft/post/return/inverse
+operands versus unchanged whole Native kernels; synthetic2000/202000 universe
+with a complete single-root source while old global1000 stays INCOMPLETE; and
+actual Native stock posting with physical/system clocks and stable old cutoff.
+Each measured source call keeps8s; workflow45min and old31/25/19 and6/2/11 case
+budgets unchanged. SQL/Python/YAML/exact declarations PASS; source SQL unchanged
+from local8PASS. Actual Native Original remains required. Immutable capture,
+current access/exact UUID/replay/source rechecks, Auth/browser and model adapter
+integration remain open. Formal5/16, production/independent acceptance false.
+
+## 116. B24 Oktober2026 UTC — Native6 qualified; retain cancelled transport and partition exact11
+
+4c3623bb/run40117732530/job120942453043 completed success. Complete
+Original12570805197 (205822 bytes, SHA256
+6626e720f0ec72826ebb71bf46c6920b2d341a85eaeea4d84a45cee6d47fe90f)
+has6PASS, exact20/8 sources, required IDs/counts, CP6/advisor/all package gates
+true, all boundary/public catalog restored, locks0/sessions[]. Actual FG-only
+refresh then cached read returns baseline100/point30 without private model
+policy/history. Raw report and queued job alone each block pre-use removal.
+This qualifies the dated target/report overlay's Native fallback/current-source
+controls, not positive model activation or the newer21/8 cache read guard.
+
+161d4c9f Native6/run40116196572 retained5PASS/1INCOMPLETE at the same old
+missing-refresh fixture. Original12569253461 SHA256
+de31c106646609136d2737204b0070b977d84ffe847d782487c53f1bc3a40cc2
+also proves queued-job-only inverse refusal; no full-suite credit.
+
+Transport runs038740bd/40115520425 and161d4c9f/40116196549 were cancelled
+at45min. Originals12569789043/12570424873 retain INCOMPLETE, no race/HTTP
+aggregate, cp6_restored=false and advisor_gate=false after disposable DB
+shutdown. Per-case logs show five/six races passing at roughly5.2–5.6min
+intervals, including setup/clone/installation/boundary work; this is not RPC
+latency or suite credit. Receipts and full timing/failure artifacts retained.
+
+New separate transport workflow partitions the SAME11 existing operations:
+A=catalog+first4races (5); B=catalog+last3races+3HTTP (7). Catalog anchor is
+repeated for zero extra credit. No cases/assertions/locks/restoration or8s RPC
+limits are changed; each disposable job still45min. The original Native6,
+Browser2 and fullTransport11 declarations remain unchanged. Source-pinned
+partition declarations, exact union11 and invalid-budget controls PASS.
+Neither partition alone sets full transport qualified; both complete same-head
+Originals with all package/advisor/restore gates are required. This addresses
+repeated cancellation without discarding unfinished controls. Current21/8
+Native/browser/full-transport are running, and private history Native4 runs
+on7ae6f4db/40119748745. Formal5/16 and production/independent acceptance false.
+
+## 117. B24 Oktober2026 UTC — immutable scoped-history runtime candidate
+
+2b335934 publishes exact transport partitioning. Both jobs run under
+run40120202292 (A/job120949897510, B/job120949897608); neither has a complete
+Original yet. Cache Native6/run40119284264 remains pending.
+
+Private source7ae6f4db/run40119748745/job120948490158 completed success.
+Complete Original12571037094 (158837 bytes, SHA256
+09c7556b2a6059a4f7790a92b6d5fb8cef88e2a7a95908db997be0e9756bd7f0)
+has4PASS, exact source/declaration pins, all package/CP6/advisor/required
+gates true. Actual Native draft/post/return/inverse gives physical/reserved/
+available100/24/76 →76/0/76 →77/0/77 →100/0/100 without double subtraction.
+Dense synthetic2000/202000 source reads71.133/63.758ms, not factory SLA.
+Both physical/system visibility clocks, no historical rewrite, exact catalog22
+inverse and direct client denial PASS; every case restores boundary with zero
+lock/session leaks. Immutable runtime, Auth and model integration remain open.
+
+d7d3033b/run40119284296/job120947092145 Browser2 completed success. Complete
+Original12570114724 (45803 bytes, SHA256
+9db3d1b0cf8037241d3ac8017535ae38ffc1c5cbe4ecda4cb93b058a1453e826)
+has2PASS, exact21/8 sources, all package/CP6/advisor/required gates true,
+Auth0000→0000, console0/sessions[]/copy0. Actual mobile unknown→analog1→clear
+and dense desktop analog2/reload remain qualified. This does not exercise the
+new warehouse cache refusal UI or positive forecast activation.
+
+New opt-in cp7_model_history_runtime stores one explicit root/size over closed
+WIB≤366days in an immutable private RLS table. Five private functions/two
+facades/one table; no old replacement or default/model caller change. Actual
+Native four-permission helper, global envelope then actor/method/UUID lock,
+current-access checks after each wait, exact original payload replay, source/
+engine recheck before insertion and before return. Reading returns old history
+verbatim plus separate current guard; changed/unavailable scope retires it,
+unexpected errors propagate. No source-row or historical knowledge rewrite.
+
+Local11PASS with actual runtime/scoped-source/history/access SQL on controlled
+ERP/auth primitives covers replay/payload, equal-total row changes, identity
+unavailability, current/foreign access, each admission boundary with no orphan,
+mid-calculation source change, runtime engine change, unexpected fault,
+immutability/last-row fault/ACL, and5504-product single-root capture. It is not
+actual Native/Auth/concurrency evidence. Exact22 opt-in installer and inverse
+refuse retained rows or an external caller; after-use composed restore open.
+Separate Native6 declared for catalog, actual capture/replay, SALE source,
+current access, dense2000/202000 and final-row/engine controls. Source/static/
+declaration checks PASS; Native/HTTP/concurrent/browser and model integration
+remain open. Formal5/16, CP7C unaccepted, production/independent acceptance false.
+
+## 118. B24 Oktober2026 UTC — scoped history real Auth/concurrency candidate
+
+2201e9ed publishes immutable runtime Native6. Run40121381881/job120953455379
+is active; no complete Original yet. Runtime SQL and Native6 declaration stay
+unchanged while a separate seven-case transport suite is added: one repeated
+catalog anchor (zero new Native credit), four actual separate-backend races
+and two Auth/PostgREST cases. Exact same UUID stores one row; actual observed
+envelope wait and request-lock committed replay must recheck current access.
+Actual Native SALE committed by the envelope holder must become the waiting
+new capture's current source (gross24/available76), never double subtraction.
+
+Actual HTTP covers exact replay/read, changed payload and forged source fields,
+actual post retiring the immutable old archive, fresh capture, anonymous/foreign
+read denial, old-token revocation, and identical UUID independently scoped to
+two authorized actors. Every race/call retains the existing8s limit and strict
+boundary/lock/session/Auth restoration; disposable job remains45min. Explicit
+transport7 group budget refuses accidental inheritance of Native6 or other
+transport budgets. Seven retained/new workflow declarations, Python AST and
+invalid-budget/parent-admission controls PASS. Actual transport qualification
+awaits its complete Original; no model/default caller integration or acceptance
+credit is inferred. Formal5/16, CP7C unaccepted, production_go=false.
+
+## 119. B24 Oktober2026 UTC — retain cache admission Native first failure
+
+d7d3033b/run40119284264/job120947092103 qualification failed. Complete
+Original12571712143 (206030 bytes, SHA256
+c91fe3601c35f579a73add5cc70c1e78eaa5df53b1cfb38c0bb7220948fe7851)
+contains5PASS/1INCOMPLETE; exact21/8 source pins, all per-case boundaries and
+CP6/advisor restoration pass, required-count/writer-runtime gates fail. The
+warehouse control compared plan.refusal's documented three-tuple against a
+two-tuple, so the assertion could never pass. Original does not record the
+returned tuple; no exact runtime refusal claim is inferred. The correction
+requires all three exact values40001/CP7_MODEL_TARGET_REORDER_REFRESH_REQUIRED/
+None and prints the observed tuple on mismatch. No product SQL, permission,
+cache rule or assertion oracle is weakened. Native6 must rerun to qualify the
+current cache guard; source4 and earlier20/8 Native6 remain separate evidence.
+
+aca11228 starts scoped-history transport7/run40121788270/job120954747798 and
+retained Native6/run40121788182;2201e9ed Native6/run40121381881 still pending.
+Formal5/16 and all production/independent acceptance flags stay false.
+
+
+## A25 Oktober2026 WIB — integrate B190 Native assertion correction, preserve frozen harness
+
+True-merge B190c1d78 imports the exact Native warehouse refusal three-tuple
+correction. A full target product remains byte exact21/8; nine declared client
+differences from frozen Native15 remain unchanged. Frozen F05 and earlier B driver
+copies stay byte exact; new B190 F05 is retained separately, byte for byte, as
+cp7_b_model_history_f05_candidate.py. Incoming B history/partition source and
+workflows are retained reference candidates, not A runtime or default-install
+credit. A Native20 uses its own full-current case adapter and does not execute
+the B F05 source workflows. Scoped history remains opt-in, absent from A current
+installation; its independent acceptance and after-use composition are still open.
+Current Native20 remains SOURCE absent until corrected B190 Native6 Original PASS.

@@ -161,7 +161,8 @@ def cases(cur,today):
         # actual Native fixture SKU instead of assuming it sorts in page one.
         sku=cur.execute('select sku from erp.products where id=%s',(f['product'],)).fetchone()[0]
         query=dict(q=sku,filter='ALL',offset=0,limit=100)
-        assert plan.refusal(cur,lambda:call(cur,'erp_cp7_get_fg_reorder_v1',(json.dumps(query),),subject))==('40001','CP7_MODEL_TARGET_REORDER_REFRESH_REQUIRED')
+        refused=plan.refusal(cur,lambda:call(cur,'erp_cp7_get_fg_reorder_v1',(json.dumps(query),),subject))
+        assert refused==('40001','CP7_MODEL_TARGET_REORDER_REFRESH_REQUIRED',None),refused
         # Workspace reads the committed evaluation cache; it does not refresh
         # after a newly posted product/profile. Exercise the actual refresh as
         # the FG-only actor before reading, not a private/admin seed.

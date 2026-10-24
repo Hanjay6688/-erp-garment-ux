@@ -1,0 +1,13 @@
+{
+  "status": "LOCAL_CORRECTED_CASE_BINDING_PASS_NOT_RUNTIME",
+  "current_product15pins_unchanged": true,
+  "retained_Native_business_cases": 20,
+  "current_B_case_blob_exact": true,
+  "B_driver_candidate_only": true,
+  "history_runtime_not_installed": true,
+  "frozen_harness_unchanged": true,
+  "SOURCE_absent": true,
+  "corrected_B_Native6_run": 40122499063,
+  "actual_runtime_still_required": true,
+  "production_go": false
+}

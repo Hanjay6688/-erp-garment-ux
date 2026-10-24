@@ -21,11 +21,12 @@ producer definitions. Capture time remains the actual server clock and the
 earliest possible availability knowledge. Clock text alone does not retire an
 unchanged source. Equal aggregate totals cannot conceal changed physical rows.
 
-Four private invoker functions, no public facade/table/old replacement. This is
-source code only: no installer/default registration or immutable capture runtime.
+Four private invoker functions, no public facade/table/old replacement. An opt-in exact catalog installer and savepoint-atomic inverse are provided;
+there is no default registration or immutable capture runtime.
 The current v1/v2 model/history callers and their bounds remain unchanged.
 Persistence, exact UUID replay, actor/current access, current-source rechecks,
-Native catalog/races/Auth/browser and model-consumer integration remain open.
+Native catalog qualification is declared as four new controls; its Original is
+pending. Races/Auth/browser and model-consumer integration remain open.
 
 Controlled SQL8 PASS: exact whole-Native row/current-stock parity,5504 product
 universe, ambiguous root/wrong size, previous identity versions and both clocks,

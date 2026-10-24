@@ -1,0 +1,175 @@
+{
+  "contract": "cp7.model-history-scope-native-original-receipt.v1",
+  "head": "7ae6f4db3205ce5700a211774cc6d8ad2756e163",
+  "run_id": 40119748745,
+  "job_id": 120948490158,
+  "workflow_conclusion": "success",
+  "artifact_id": 12571037094,
+  "bytes": 158837,
+  "artifact_sha256": "09c7556b2a6059a4f7790a92b6d5fb8cef88e2a7a95908db997be0e9756bd7f0",
+  "Original_read_complete": true,
+  "exact_head_source_hashes_match": true,
+  "status": "PASS",
+  "counts": {
+    "PASS": 4
+  },
+  "cases": {
+    "OW11_MODEL_HISTORY_SCOPE_CATALOG22_PRIVATE_INVERSE": {
+      "status": "PASS",
+      "exact_catalog22_inverse": true,
+      "private4_tables0_RPC0_replacements0": true,
+      "partial_inverse_restored_after_dependent_view": true,
+      "direct_client_roles_denied": true,
+      "source_sha256": {
+        "MANIFEST.json": "c9721c0f3492caefa3f3c132b2fb11d6677b5176a1ae2379ab57db7df339225b",
+        "__init__.py": "2209a7d648cc49b9e21a186edb5700be73eac511eb02d2179aaf8f0c7f940e2b",
+        "capture.sql": "edc5d63dcfd75e99bcd83de3e1b03765c5057ccdbd76d9f06f92a0bec31fa8b7",
+        "identity.sql": "271afb029f0dfbdf0889055b4d830e1f26e95c1b7800caf2310d3aa6b8555123",
+        "render.py": "99f21eb92a2517940d08e5c3104940a4bdfd68f80e24115aacf908cbcc6d21e4",
+        "scope.sql": "607c7fbb42673af963fa4b02bc3939ce6d9ca20e5b501a77c9ed9c31fc7895aa"
+      },
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-25",
+        "before": "2026-10-25",
+        "after": "2026-10-25"
+      }
+    },
+    "OW11_MODEL_HISTORY_SCOPE_ACTUAL_DRAFT_POST_RETURN_INVERSE": {
+      "status": "PASS",
+      "actual_Native_draft_post_return_inverse": true,
+      "whole_Native_operands_exact": true,
+      "no_double_stock_subtraction": true,
+      "closed_query_absent_target_and_wrong_size_refused": true,
+      "readings": [
+        {
+          "millis": 23.65,
+          "gross": "0",
+          "returned": "0",
+          "stock": [
+            "100",
+            "24",
+            "76"
+          ]
+        },
+        {
+          "millis": 12.086,
+          "gross": "24",
+          "returned": "0",
+          "stock": [
+            "76",
+            "0",
+            "76"
+          ]
+        },
+        {
+          "millis": 12.95,
+          "gross": "24",
+          "returned": "1",
+          "stock": [
+            "77",
+            "0",
+            "77"
+          ]
+        },
+        {
+          "millis": 9.745,
+          "gross": "0",
+          "returned": "0",
+          "stock": [
+            "100",
+            "0",
+            "100"
+          ]
+        }
+      ],
+      "no_persisted_model_or_backfilled_knowledge": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-25",
+        "before": "2026-10-25",
+        "after": "2026-10-25"
+      }
+    },
+    "OW11_MODEL_HISTORY_SCOPE_DENSE2000_202000_SINGLE_ROOT": {
+      "status": "PASS",
+      "label": "SYNTHETIC_VOLUME_WITH_ACTUAL_PRIVATE_SOURCE",
+      "products": 2000,
+      "movements": 202000,
+      "original1000_global_bound_unchanged": true,
+      "single_explicit_root_only": true,
+      "unrelated_products_do_not_change_source": true,
+      "selected_stock_rows": 101,
+      "millis": [
+        71.133,
+        63.758
+      ],
+      "wall_limit_ms": 8000,
+      "no_factory_SLA_claim": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-25",
+        "before": "2026-10-25",
+        "after": "2026-10-25"
+      }
+    },
+    "OW11_MODEL_HISTORY_SCOPE_ACTUAL_SOURCE_AND_BOTH_CLOCKS": {
+      "status": "PASS",
+      "actual_Native_stock_writer": true,
+      "physical_before_system_recording": true,
+      "prior_cutoff_still_excludes_later_recorded_stock": true,
+      "current_source_changes_without_rewriting_old_input": true,
+      "actual_server_training_clock": true,
+      "no_clock_or_posted_row_rewrite": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-25",
+        "before": "2026-10-25",
+        "after": "2026-10-25"
+      }
+    }
+  },
+  "required_case_ids_pass": true,
+  "required_case_counts_pass": true,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "actual_Auth_HTTP_credit": false,
+  "immutable_capture_runtime_qualified": false,
+  "model_caller_integrated": false,
+  "full_OW11_acceptance": false,
+  "formal_acceptance": "5/16",
+  "CP7C_accepted": false,
+  "independent_acceptance": false,
+  "production_go": false
+}
