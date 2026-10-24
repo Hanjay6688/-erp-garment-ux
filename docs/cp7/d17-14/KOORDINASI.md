@@ -1611,3 +1611,32 @@ pemulihan seluruh rantai uang current serta pembacaan status B pada data uji,
 bukan semua Native286/factory3600/seluruh B atau audit independen. Formal5/16,
 12batas arsip CP6 dan21fail+4browserbaseline tetap. Integrasi resmi a255e48f,
 B a1043452 pada baca terbaru; main/audit/hosted/WA nyata tidak disentuh.
+
+## A — penerus arsip CP6 dan sumber bukti current (24 Oktober 2026)
+
+Sumber produk/UI/SQL tetap identik dengan qualifiedhead28abdeef hingga1e0c840f.
+`source-equivalence-1e0c840f.json` memeriksa byte+SHA seluruh20Original current
+beserta packageproof:18PASS dan2INCOMPLETE historis dipertahankan.19memuat
+objek sumber current installation/product yang sama persis; boundedrestore
+lama mempunyai827pin file sama tetapi tidak memuat objek installation langsung,
+sehingga tidak dinaikkan klaimnya. Perubahan alat uji pada invoice/ownerlists
+firstfailure dan transferfirstPASS tetap terlihat. Perbandingan ini statis,
+0kasus baru dijalankan dan bukan satu kualifikasi runtime lengkap.
+
+Run40072719573/job120809435637 pada1e0c840f sedang menjalankan99focused+36detector
+CP6AI asli, sebelum CP7 dan sesudah pemasangan A/B.135kasus retained,
+270eksekusi; semua oracle/casebody lama tetap. Kegagalan baseline tidak
+menjadi pengecualian hijau. Belum ada klaimPASS sebelum membaca Original.
+
+Penerus `current-cp6-race-qualification` menyiapkan36jadwal unik:
+AF4+AG4+AH8+AI8+AIpeer12, pada baseline dan current,72eksekusi.
+KasusAF yang diwarisiAG dan AH yang diwarisiAI tidak dihitung dobel.
+Satu salinan fisik perkasus, helper authority lama memeriksa full22katalog,
+endpoint lokal diikat ulang hanya selama operasi, angka/lock/commit/abort
+assertions asli tetap. CONTROL_PASS asli disimpan utuh; ini bukti penulis,
+bukan audit independen. Admission lokal967pin dan budget36PASS; runtime belum.
+
+Tidak ada perubahan produk, SQLbeku, oracle lama, atau scopeB.12batas arsip
+CP6/fullNative286/factory3600/audit tetap terbuka sesuai cakupan yang belum
+terbukti. Parentformal5/16, production_go=false; main/integrasi resmi/hosted
+sertaWA nyata tidak disentuh.
