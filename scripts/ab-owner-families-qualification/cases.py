@@ -18,6 +18,19 @@ FAMILY_IDS={name:business.IDS+(business.RETAINED if name=='cp7_supplier_transfer
     for name,business,_ in FAMILIES}
 IDS=tuple(case for names in FAMILY_IDS.values()for case in names)
 STATE=None
+REPORTS_REQUIRING_READY=('OW12A_REPORT_V2_FINANCE_THROUGH_CAPTURE',
+    'OW12A_REPORT_V2_DEFERRED_UNCHANGED','OW12A_REPORT_V2_PERIOD_COMPARISON')
+
+
+def with_current_attendance_pools(cur,today,operation):
+    def prepared():
+        # OW07 adds a real prerequisite after the historical finance cases.
+        # Use the qualified P21 Native reopen/approve/CREATE/ACTIVATE fixture;
+        # do not change report readiness or the retained business assertion.
+        preparation=chain.prepare_attendance_pools(cur,today)
+        result=operation()
+        return dict(result,current_chain_attendance_fixture=preparation)
+    return prepared
 
 
 def stage_state(wanted):
@@ -53,11 +66,13 @@ def cases(cur,today):
         elif name=='cp7_fg_correction_source':
             business.AS_OWNER=owner.function_ddl;business.AS_POSTGRES=owner.as_owner
             business.BEFORE=installed['before']
+        elif name=='cp7_ow09_lists':business.REPLACE=owner.replace
         elif hasattr(business,'AS_OWNER'):business.AS_OWNER=owner.as_owner
         found=business.cases(cur,today)
         if tuple(case for case,_ in found)!=FAMILY_IDS[name]:
             raise ValueError('OWNER_FAMILY_ORIGINAL_CASE_SET_CHANGED: '+name)
-        result.extend(found)
+        result.extend((key,with_current_attendance_pools(cur,today,operation)
+            if key in REPORTS_REQUIRING_READY else operation)for key,operation in found)
     if tuple(case for case,_ in result)!=IDS or len(set(IDS))!=len(IDS):
         raise ValueError('OWNER_FAMILY_COMBINED_CASE_SET_CHANGED')
     return result
