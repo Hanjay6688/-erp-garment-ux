@@ -2857,3 +2857,26 @@ separately; it is no full A runtime or positive forecast credit. The earlier04ea
 Native6 INCOMPLETE with5 day-rollover cases and warehouse first-page miss stays
 a mandatory exact prerequisite. No main/hosted/official/default policy changes;
 production_go=false, formalparent5/16, writer proof is not independent acceptance.
+
+## A continuation: current target restore and transport preparations
+
+Prepared full dated-target UsedRestore8 and Transport28 after the exact guarded
+20/8 source integration. SOURCE remains absent until current full A Native20
+passes; target Transport28 also requires actual current B Transport11. Neither
+preparation claims new runtime credit.
+
+Restore retains four byte-identical predecessor fixtures and adds actual baseline
+v3/provenance v2 snapshots before the committed full22/ALLrows/ALLsequences
+backup. Four restore/clear/policy/next-return checkpoints require every immutable
+stored column and original target/model input unchanged; current source-state
+staleness is checked separately. Fourteen negative controls include dated-target
+source, timeline metadata and raw operational compiler metadata drift. Only the
+existing local Native OID seal may be rebound; full baseline/roles/CP6/advisors
+cleanup remains mandatory. Local8-step/14-control source preflight PASS.
+
+Transport28 reuses the exact policy/v2/target Auth9 and races19 bodies. The three
+component catalog anchors receive no business-case credit. Existing Native20
+setup hooks bind every case to the complete current installation; each HTTP/race
+copy requires exact full catalog and all session/database/Auth cleanup. Actual
+permission checks after waits, source/policy/revision checks and UUID replay
+remain unchanged. No main/hosted/default policy/production changes.
