@@ -1270,3 +1270,37 @@ Pembaca/pilihan hanya dipasang pada salinan masing-masing uji; parent12 dan inst
 bawaan A tetap. Peta consumer lintas chunk, exact numerator, kedua clock dan source
 hash disimpan di `ow11/CONSUMER_INTEGRATION_MAP.md`; implementasi consumer belum ada.
 Jangan menganggap konfirmasi metadata atau transport sebagai forecast aktif.
+
+## 74. B24 Oktober2026 — Native6 PASS; form konfirmasi disiapkan, belum default
+
+Original528ba77/run40085273832 memuat enam refusal katalog identitas timestamp;
+bukan kegagalan bisnis. Receipt lengkap tetap disimpan. Kandidat714d66f5,
+run40085746207/job120848196696, Native6 actual6/6 PASS, katalog22 pulih,
+cp6/advisor true dan seluruh5 gate paket true. Pada2023 produk termasuk2000 dense,
+202022 baris digest, tiga write UUID baru5415.949/5379.084/5392.534ms; dua full
+source checks di setiap writer, batas8s tetap. Ini bukti metadata konfirmasi,
+bukan aktivasi demand/forecast, SLA pabrik, after-use/fullAchain atau OW11 selesai.
+
+Regresi9532ba0 Original OW16=16/16, OW13b=20/20, OW14b=113/113, semuanya
+5gate/restore/advisor true. Receipt masing-masing tersimpan tanpa penambahan
+kredit OW. Archive produksi v36 mempertahankan296 anggota lama byte-identik dan
+menambah10 Original/receipt/log. Native6 PASS baru disimpan terpisah setelah v36.
+Transport10 kandidat93c096dc/run40086565713/job120850606120 masih berjalan;
+penilaian menunggu Original, bukan disimpulkan dari Native6.
+
+Client konfirmasi menuntut produk yang terlihat, skala positif eksplisit, alasan,
+review, epoch/revisi/snapshot tepat; nilai desimal dan PCS tetap string. Form
+opt-in menyimpan command+review sebelum send, memakai kunci writer browser,
+menolak transaksi domain lain yang belum selesai, replay UUID/payload sama setelah
+reload, membedakan refusal pertama dari replay tidak pasti, dan menahan late reply
+sesudah perubahan tab. CLEAR append dapat memakai workspace terbaru tanpa snapshot
+lama. Layar utama belum memasang prop choiceReview; tidak ada aktivasi diam-diam.
+Uji client/DOM terkait62/62, TypeScript danCSS64 PASS. React review dilakukan:
+callback/read dengan dependensi primitive, cleanup seq/listener, field berlabel,
+checkbox eksplisit, no numeric coercion/no default scale. Browser nyata konfirmasi
+belum dibuktikan; penyambungan consumer lintas chunk tetap pekerjaan berikut.
+
+Shared checker A byte-identik f1148cb...; proposal tepat20 pasangan (18 sebelumnya
++2 choice facade) lulus369 runtime/315RPC tanpa orphan/direct table. Patch baru
+hanya2 pasangan setelah proposal18; A tetap pemilik registry/generated types/
+installer/default/fullchain. Induk5/16, independent_acceptance/production_go=false.

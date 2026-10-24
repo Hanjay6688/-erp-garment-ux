@@ -2,10 +2,11 @@ import {useCallback,useEffect,useRef,useState} from 'react'
 import {formatCp6WibDateTime} from './cp6BusinessTime'
 import {normalizeClientError} from './lib/clientError'
 import {readProductAnalogCandidates,type AnalogCandidates,type AnalogReadContext} from './nativeProductAnalog'
+import NativeProductAnalogChoicePanel from './NativeProductAnalogChoicePanel'
 
-type Props={client:unknown;context:AnalogReadContext;label:string;onClose:()=>void;onAccessLost:(message:string)=>void}
+type Props={client:unknown;context:AnalogReadContext;label:string;onClose:()=>void;onAccessLost:(message:string)=>void;choiceReview?:{scope:string;canManage:boolean}}
 const reasonLabel=(v:string)=>v==='SAME_PHYSICAL_SIZE'?'Ukuran fisik sama':v==='SAME_CAPTURED_MODEL'?'Model yang tercatat sama':v==='SAME_CAPTURED_BRAND'?'Merek yang tercatat sama':v
-export default function NativeProductAnalogPanel({client,context,label,onClose,onAccessLost}:Props){
+export default function NativeProductAnalogPanel({client,context,label,onClose,onAccessLost,choiceReview}:Props){
  const seq=useRef(0),[result,setResult]=useState<AnalogCandidates|null>(null),[busy,setBusy]=useState(false),[error,setError]=useState('')
  const load=useCallback(async(offset:number,previous?:AnalogCandidates)=>{
   const n=++seq.current;setBusy(true);setError('');setResult(null)
@@ -28,5 +29,6 @@ export default function NativeProductAnalogPanel({client,context,label,onClose,o
     <div className="responsive-table"><table><thead><tr><th>Produk pembanding</th><th>Alasan kandidat</th><th>Hari tersedia</th><th>Hari stok habis</th><th>Hari belum diketahui</th><th>Rata-rata penjualan saat tersedia (PCS/hari)</th></tr></thead><tbody>{result.rows.map(r=><tr key={r.key} data-analog-target={r.key}><td data-label="Produk pembanding">{r.sku} · {r.name}{r.active?'':' · Tidak aktif'}</td><td data-label="Alasan kandidat">{r.reasons.map(reasonLabel).join('; ')}{r.manualReasonRequired?' · Alasan kesamaan perlu diperiksa':''}</td><td data-label="Hari tersedia">{r.availableDays}</td><td data-label="Hari stok habis">{r.stockoutDays}</td><td data-label="Hari belum diketahui">{r.unknownDays}</td><td data-label="PCS/hari">{r.mean}</td></tr>)}</tbody></table></div>
     <nav aria-label="Halaman produk pembanding"><button disabled={busy||result.offset===0} onClick={()=>void load(Math.max(0,result.offset-50),result)}>50 kandidat sebelumnya</button><button disabled={busy||result.offset+50>=result.total} onClick={()=>void load(result.offset+50,result)}>50 kandidat berikutnya</button></nav></>:null}
   </>:null}
+  {choiceReview?<NativeProductAnalogChoicePanel key={choiceReview.scope+':'+context.actor+':'+context.targetKey} client={client} context={context} candidates={result} scope={choiceReview.scope} canManage={choiceReview.canManage} onAccessLost={onAccessLost}/>:null}
  </section>
 }

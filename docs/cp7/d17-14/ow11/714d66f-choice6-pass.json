@@ -1,0 +1,182 @@
+{
+  "contract": "cp7.analog-choice-native6-component-pass.v1",
+  "candidate_sha": "714d66f5e10f0a8095a5658305e044a271052a0f",
+  "run_id": 40085746207,
+  "job_id": 120848196696,
+  "run_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/40085746207",
+  "status": "PASS",
+  "expected_case_count": 6,
+  "observed_case_count": 6,
+  "required_case_ids_pass": true,
+  "required_case_counts_pass": true,
+  "native_cases": {
+    "OW11_ANALOG_CHOICE_CATALOG22_PREUSE_AND_DEPENDENCY": {
+      "status": "PASS",
+      "source_owner_ACL_RLS_GUC_exact": true,
+      "private4_public2_tables2_replacements0": true,
+      "exact_preuse_catalog22_inverse": true,
+      "dependent_view_failure_restores_partial_DDL": true,
+      "forecast_applied": false,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    "OW11_ANALOG_CHOICE_APPEND_CLEAR_REPLAY_CAS_AND_CLOCKS": {
+      "status": "PASS",
+      "explicit_scale_reason_and_AVAILABLE_zero": true,
+      "append_clear_revision_CAS": true,
+      "exact_UUID_payload_replay_after_later_clear": true,
+      "recorded_clock_no_backdate": true,
+      "immutable_choice_update_denied": true,
+      "used_inverse_refused_before_DDL": true,
+      "no_physical_stock_money_HPP_change": true,
+      "write_millis": 101.349,
+      "forecast_applied": false,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    "OW11_ANALOG_CHOICE_REVIEW_SCALE_SIZE_UNKNOWN_AND_SELF": {
+      "status": "PASS",
+      "explicit_review_scale_reason_required": true,
+      "self_and_cross_size_refused": true,
+      "actual_new_import_UNKNOWN_not_zero": true,
+      "all_refusals_leave_both_tables_exact": true,
+      "no_default_scale_or_minimum": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    "OW11_ANALOG_CHOICE_STALE_FOREIGN_K2_AND_CURRENT_ACCESS": {
+      "status": "PASS",
+      "actual_Native_stock_change_refuses_new_confirmation": true,
+      "foreign_current_actor_epoch_and_K2_refused": true,
+      "committed_receipt_survives_source_change_and_K2": true,
+      "current_deactivated_actor_cannot_replay_or_read": true,
+      "actual_Auth_HTTP_credit": false,
+      "concurrency_test": false,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    "OW11_ANALOG_CHOICE_ATOMIC_LAST_TABLE_FAULT": {
+      "status": "PASS",
+      "failure_after_choice_insert_rolls_both_metadata_tables_back": true,
+      "no_physical_stock_money_HPP_change": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    "OW11_ANALOG_CHOICE_DENSE2000_202000_THREE_WRITES_UNDER8S": {
+      "status": "PASS",
+      "products": 2000,
+      "movements": 202000,
+      "actual_products": 2023,
+      "full_stock_digest_rows": 202022,
+      "actual_DONE_reference": true,
+      "raw_native_INCOMPLETE_not_promoted": true,
+      "fresh_unique_UUIDs": 3,
+      "exact_first_UUID_replay": true,
+      "write_millis": [
+        5415.949,
+        5379.084,
+        5392.534
+      ],
+      "full_source_checks_inside_measured_writer": 2,
+      "statement_limit": "8s",
+      "wall_limit_ms": 8000,
+      "no_source_or_hash_override": true,
+      "factory_SLA": false,
+      "forecast_applied": false,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    }
+  },
+  "source_sha256": "e7701eaada592cfd74a8555cf4cdcb7df8d180448213d3bbf5698c3bfa025127",
+  "analog_choice_source_sha256": {
+    "MANIFEST.json": "19b2e5724539a9892761dea881b9aac5d4e798fae3ab985384c917a598988699",
+    "__init__.py": "66f9412b1c73e717535507d933552a135dc264eae0946f73c8258e75e107b09e",
+    "choice.sql": "16f84ef04b71183d0e70ad0eca72aa748000dd7b4c4436fa7fd922090f285a0d"
+  },
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "artifact": {
+    "artifact_id": 12557970850,
+    "file_name": "ow11-714d66f-choice6-complete-json.zip",
+    "bytes": 203858,
+    "sha256": "fad982ba07a86f471bd6118b17c59f21d1555007d1a19d2a24f6d5d696e40696"
+  },
+  "first_failures_retained": [
+    "9532ba0-choice6-bootstrap-failure.json",
+    "528ba77-choice6-first-incomplete.json"
+  ],
+  "actual_Auth_HTTP_credit": false,
+  "concurrency_test": false,
+  "browser_confirmation_qualified": false,
+  "forecast_applied": false,
+  "full_OW11_acceptance": false,
+  "independent_acceptance": false,
+  "production_go": false
+}
