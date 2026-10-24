@@ -1,0 +1,9 @@
+{
+  "status": "INCOMPLETE",
+  "classification": "LOCAL_HELPER_FAILURE_OBSERVED_TOOL_STDERR_NOT_NATIVE_ORIGINAL",
+  "error": "multiple assignments to same column \"finance_allowed\"",
+  "code": "42601",
+  "query": "update test_control set calls=0,change_access_at=0,revoke_finance_at=0,finance_allowed=true,product_count=1,finance_allowed=false",
+  "correction": "Use separate default reset and override statements; product source unchanged",
+  "production_go": false
+}
