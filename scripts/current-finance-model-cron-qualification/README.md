@@ -20,3 +20,12 @@ must refuse before DDL. The complete preinstall backup is then restored and ever
 catalog group, row, sequence, role, CP6 assertion and advisor comparison must match.
 This is baseline cleanup, separate from the committed used-backup restore suite.
 No real Auth/browser, factory3600, production release or independent audit credit.
+
+## Bound prerequisites; runtime pending
+
+SOURCE.json now binds actual full-chain Native15 PASS on6d056959, with the exact
+raw Original and all five package gates verified. The committed used-restore
+suite additionally binds finance Restore8 PASS on81c7eff7; browser and retained
+transport suites bind their actual B component Originals. Local full admission
+passed3073 pins for each suite. The earlier preparation text describes scope;
+there is no runtime credit until this suite produces its own complete Original.
