@@ -1,0 +1,22 @@
+{
+  "contract": "cp7.work-payroll-child9.explicit-prerequisite.v1",
+  "functions": [
+    {
+      "original": "scripts/cp6_v2620ai_concurrency.py",
+      "successor": "scripts/current-work-payroll-child9-qualification/ai_oracle.py",
+      "function": "run_case",
+      "original_function_sha256": "9e541127fd159af6e5ec005b3bba9255b3c8af38e1fc653cacf8f886c82606d5",
+      "successor_function_sha256": "097e15669ec916a1e599eab1a8ee4332fd90307894020768eeb3f6ee3a061c8a",
+      "replacements": [
+        [
+          "  report=family.report(cur,day)",
+          "  linkage=prerequisites.complete(cur,day,[f['first']['completion'],f['other']['completion']])\n  report=family.report(cur,day)"
+        ],
+        [
+          "return dict(status='PASS',mode=mode,observed_lock=lock",
+          "return dict(status='PASS',payroll_linkage=linkage,mode=mode,observed_lock=lock"
+        ]
+      ]
+    }
+  ]
+}
