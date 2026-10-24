@@ -2065,3 +2065,27 @@ fe856675f828f0524db6e57b7c1981e67bb0deea47043fe5e8250f6cd4d4036f retained.
 no complete transport runtime/restore Original and no suite credit. Later3c
 completed at the same budgets, so no budget/assertion relaxation. Receipts in
 ow11/. Formal5/16, CP7C unaccepted, production/independent acceptance false.
+
+## 115. B24 Oktober2026 UTC — qualify the private scoped history installer
+
+d7d3033b publishes cache admission21/8. Actual Native6/run40119284264,
+Browser2/run40119284296 and Transport11/run40119284316 are in progress;
+4c3623bb Native6/run40117732530 remains pending. No premature result credit.
+
+Single-root history now has an opt-in exact22-catalog installer: four private
+invoker functions, zero table/facade/replacement/ERP DML, unchanged predecessor
+checked before installation, exact dependencies and owner/ACL/GUC verified.
+Removal is savepoint-atomic with RESTRICT and refuses an external function
+caller. This source alone retains no usage rows; any future immutable runtime
+requires composed restoration. No existing model/history call is replaced.
+
+A separate declared Native4 workflow/probe covers dependent-view partial-inverse
+restoration and direct client-role denial; actual draft/post/return/inverse
+operands versus unchanged whole Native kernels; synthetic2000/202000 universe
+with a complete single-root source while old global1000 stays INCOMPLETE; and
+actual Native stock posting with physical/system clocks and stable old cutoff.
+Each measured source call keeps8s; workflow45min and old31/25/19 and6/2/11 case
+budgets unchanged. SQL/Python/YAML/exact declarations PASS; source SQL unchanged
+from local8PASS. Actual Native Original remains required. Immutable capture,
+current access/exact UUID/replay/source rechecks, Auth/browser and model adapter
+integration remain open. Formal5/16, production/independent acceptance false.
