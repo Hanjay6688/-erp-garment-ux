@@ -1,0 +1,88 @@
+{
+  "status": "PASS",
+  "head": "28abdeef65348e42ad1b1947830890e3e55adcd3",
+  "run_id": 40055821320,
+  "job_id": 120758459661,
+  "artifact_id": 12546240832,
+  "zip_bytes": 3564392,
+  "zip_sha256": "3321ee57b820fa7600b6b6c0b3d846c160508aa8810f5e99a1cdf271e8dc4adc",
+  "original_name": "CP7_AB_BOUNDED_CHAIN_RESTORE.json",
+  "original_bytes": 317075,
+  "original_sha256": "65148843fac586ae94faa99db13d24c0c97af5f9a5624c88ffeac169f023d6d1",
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "production_go": false,
+  "independent_acceptance": false,
+  "full_owner_scope_acceptance": false,
+  "steps": [
+    "INSTALL_ALL22",
+    "PREUSE_EXACT_RESTORE",
+    "REINSTALL_ALL22",
+    "COMMITTED_A_PAYMENT_B_FABRIC_BOUNDED_WORK_DRAFT",
+    "GLOBAL_USED_GUARD_BEFORE_DDL",
+    "FULL_USED_BACKUP_RESTORED",
+    "RESTORE_NEGATIVE_CONTROLS",
+    "LOCAL_OID_BINDING_ONLY",
+    "EXACT_A_B_READS_AND_UUID_REPLAY"
+  ],
+  "negative_controls": [
+    {
+      "id": "WRONG_TRUSTED_HASH",
+      "status": "PASS",
+      "refusal": "CHAIN_RESTORE_TRUSTED_BACKUP_HASH_REQUIRED"
+    },
+    {
+      "id": "CHANGED_COMPOSED_SOURCE",
+      "status": "PASS",
+      "refusal": "CHAIN_RESTORE_SOURCE_OR_CONTRACT_CHANGED"
+    },
+    {
+      "id": "WRONG_DATABASE",
+      "status": "PASS",
+      "refusal": "CHAIN_RESTORE_FRESH_EXPECTED_DATABASE_REQUIRED"
+    },
+    {
+      "id": "B_FUNCTION_METADATA_DRIFT",
+      "status": "PASS",
+      "refusal": "CHAIN_RESTORE_CATALOG_CHANGED"
+    },
+    {
+      "id": "BOUNDED_COMPOSITE_METADATA_DRIFT",
+      "status": "PASS",
+      "refusal": "CHAIN_RESTORE_CATALOG_CHANGED"
+    },
+    {
+      "id": "B_EVALUATION_ROW_DRIFT",
+      "status": "PASS",
+      "refusal": "CHAIN_RESTORE_BUSINESS_ROWS_OR_SEQUENCE_CHANGED"
+    }
+  ],
+  "payment_whole_read_differences": {},
+  "fabric_policy_whole_read_differences": {},
+  "exact_replay": {
+    "step": "EXACT_A_B_READS_AND_UUID_REPLAY",
+    "status": "PASS",
+    "A_and_B_authoritative_reads_exact": true,
+    "same_UUID_no_second_effect": true,
+    "changed_policy_payload_refused": true,
+    "bounded": {
+      "bounded_reference_header_pages_all_exact": true,
+      "work_receipt_exact_replay": true,
+      "checked_draft_exact_replay": true,
+      "all_rows_sequences_unchanged_by_replays": true
+    }
+  },
+  "scope": "Complete AB bounded installation and used restore, single-receipt supplier payment plus fabric policy and bounded work/checked draft. Does not prove a current group-transfer used restore or the inventory/type-export successor.",
+  "first_failures_retained": [
+    "ab-bounded-8b9ae4c9-first-restore.json",
+    "ab-bounded-49203e88-first-payment-read.json",
+    "ab-bounded-650ff0e4-first-fabric-read.json"
+  ]
+}

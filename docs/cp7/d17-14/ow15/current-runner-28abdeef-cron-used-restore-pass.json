@@ -1,0 +1,173 @@
+{
+  "status": "PASS",
+  "head": "28abdeef65348e42ad1b1947830890e3e55adcd3",
+  "run_id": 40055821284,
+  "job_id": 120758459145,
+  "artifact_id": 12545971796,
+  "zip_bytes": 3615782,
+  "zip_sha256": "d534468abe1fce00db24577174f5ebaaea753aae078caa4839b5b4350ca49176",
+  "original_name": "CP7_CURRENT_RUNNER_RESTORE.json",
+  "original_bytes": 556496,
+  "original_sha256": "f6f4b84c69638df693ff307ec4b071cedb5fb53bec10ccee1879dfca1dc5047f",
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "production_go": false,
+  "independent_acceptance": false,
+  "full_owner_scope_acceptance": false,
+  "server_runner": {
+    "case_id": "OW12_AB_ACTUAL_MINUTE_CRON_FINISHES_OPERATIONAL_AND_FINANCE",
+    "status": "PASS",
+    "definition": {
+      "name": "cp7-staged-runner",
+      "command": "set statement_timeout to '8s'; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit; begin; select cp7_ops.analysis_tick(); commit;",
+      "meaning": "every minute: up to 60 units, each in its own transaction under the 8 s limit",
+      "schedule": "* * * * *",
+      "timezone": "UTC"
+    },
+    "test_schedule_override": null,
+    "page_or_test_ticks": 0,
+    "real_Auth_browser_claim": false,
+    "finance_request": "557b38a1-fb41-46bc-80d9-4039ab0158b6",
+    "bounded_request": "4be3724e-563e-488c-a743-053de91229fd",
+    "finance_capture_id": "9ea914d6-e0a3-4a1a-ac21-21b2edc6d113",
+    "production_go": false,
+    "pg_cron": "1.6.4",
+    "schedule_ids": {
+      "cp7-staged-runner": 1
+    },
+    "observed_job_states": {
+      "4be3724e-563e-488c-a743-053de91229fd": "DONE",
+      "557b38a1-fb41-46bc-80d9-4039ab0158b6": "DONE"
+    },
+    "observed_finance_state": "READY",
+    "elapsed_seconds": 8.014,
+    "cron_runs": [
+      {
+        "runid": 1,
+        "status": "succeeded",
+        "message": "COMMIT",
+        "start": "2026-10-24 03:05:00.006552+00:00",
+        "end": "2026-10-24 03:05:00.750445+00:00"
+      }
+    ],
+    "all_runs_recorded": true,
+    "removed": [
+      "cp7-staged-runner@cp6_rollback"
+    ],
+    "schedules_removed_and_unrelated_jobs_unchanged": true,
+    "same_UUID_no_second_effect": true,
+    "official_sections_and_metrics_exact": true,
+    "independent_book_signature": true,
+    "metric_count": 24,
+    "readiness": "BLOCKED",
+    "unknown_metric_ids": [
+      "NATIVE_FINANCE:performance:net_profit",
+      "NATIVE_FINANCE:performance:gross_profit",
+      "NATIVE_FINANCE:financial_position:assets",
+      "NATIVE_FINANCE:financial_position:liabilities",
+      "NATIVE_FINANCE:financial_position:fg_inventory",
+      "NATIVE_FINANCE:financial_position:wip_inventory",
+      "NATIVE_FINANCE:financial_position:recorded_equity",
+      "NATIVE_FINANCE:financial_position:current_earnings",
+      "NATIVE_FINANCE:financial_position:balance_difference",
+      "NATIVE_FINANCE:financial_position:material_inventory",
+      "NATIVE_FINANCE:financial_position:liabilities_plus_equity"
+    ],
+    "unknown_never_zero": true,
+    "server_runner_active": true,
+    "pages": {
+      "557b38a1-fb41-46bc-80d9-4039ab0158b6": {
+        "run_id": "3dfab36a-f387-4d96-b458-d7be14d15510",
+        "page_meta": {
+          "page_count": 1,
+          "targets_total": 5,
+          "header_utf8_bytes": 13505,
+          "page_utf8_bytes_max": 210657,
+          "page_utf8_bytes_total": 210657,
+          "uneven_ranges": false
+        },
+        "identity_hash": "ca393b3a30c826ea5963a62163eb8abd863b1212694b828d16eb56793b9ab36f",
+        "units": 20
+      },
+      "4be3724e-563e-488c-a743-053de91229fd": {
+        "run_id": "2dc33662-e786-43f9-b75c-fb12dde8801e",
+        "page_meta": {
+          "page_count": 1,
+          "targets_total": 5,
+          "header_utf8_bytes": 13049,
+          "page_utf8_bytes_max": 207295,
+          "page_utf8_bytes_total": 207295,
+          "uneven_ranges": false
+        },
+        "identity_hash": "9c2cf12525898cf1a8fd6e0cf76e7679851ae9c01c3f10a7c5e4f02a6ff5ce21",
+        "units": 17
+      }
+    },
+    "all22_catalog_exact": true,
+    "Native_money_stock_HPP_unchanged": true
+  },
+  "steps": [
+    "INSTALL_ALL22",
+    "PREUSE_EXACT_RESTORE",
+    "REINSTALL_ALL22",
+    "COMMITTED_A_PAYMENT_B_FABRIC_BOUNDED_WORK_DRAFT",
+    "GLOBAL_USED_GUARD_BEFORE_DDL",
+    "FULL_USED_BACKUP_RESTORED",
+    "RESTORE_NEGATIVE_CONTROLS",
+    "LOCAL_OID_BINDING_ONLY",
+    "EXACT_A_B_READS_AND_UUID_REPLAY"
+  ],
+  "negative_controls": [
+    {
+      "id": "WRONG_TRUSTED_HASH",
+      "status": "PASS",
+      "refusal": "CHAIN_RESTORE_TRUSTED_BACKUP_HASH_REQUIRED"
+    },
+    {
+      "id": "CHANGED_COMPOSED_SOURCE",
+      "status": "PASS",
+      "refusal": "CHAIN_RESTORE_SOURCE_OR_CONTRACT_CHANGED"
+    },
+    {
+      "id": "WRONG_DATABASE",
+      "status": "PASS",
+      "refusal": "CHAIN_RESTORE_FRESH_EXPECTED_DATABASE_REQUIRED"
+    },
+    {
+      "id": "B_FUNCTION_METADATA_DRIFT",
+      "status": "PASS",
+      "refusal": "CHAIN_RESTORE_CATALOG_CHANGED"
+    },
+    {
+      "id": "BOUNDED_COMPOSITE_METADATA_DRIFT",
+      "status": "PASS",
+      "refusal": "CHAIN_RESTORE_CATALOG_CHANGED"
+    },
+    {
+      "id": "B_EVALUATION_ROW_DRIFT",
+      "status": "PASS",
+      "refusal": "CHAIN_RESTORE_BUSINESS_ROWS_OR_SEQUENCE_CHANGED"
+    }
+  ],
+  "whole_payment_and_fabric_reads_equal": true,
+  "exact_replay": {
+    "step": "EXACT_A_B_READS_AND_UUID_REPLAY",
+    "status": "PASS",
+    "A_and_B_authoritative_reads_exact": true,
+    "same_UUID_no_second_effect": true,
+    "changed_policy_payload_refused": true,
+    "bounded": {
+      "bounded_reference_header_pages_all_exact": true,
+      "work_receipt_exact_replay": true,
+      "checked_draft_exact_replay": true,
+      "all_rows_sequences_unchanged_by_replays": true
+    }
+  }
+}

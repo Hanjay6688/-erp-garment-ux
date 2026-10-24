@@ -1,0 +1,673 @@
+{
+  "status": "PASS",
+  "head": "7b26351f0a0bcfcf0e23a631bb041e7f407de0d3",
+  "run_id": 40056087759,
+  "job_id": 120759276449,
+  "artifact_id": 12545938072,
+  "zip_bytes": 24012697,
+  "zip_sha256": "fa7efad0ed7270dcab854223e48d0659254879deb4191e39af078a5bb6f615f7",
+  "original_name": "CP7_AB_OWNER_BROWSER19.json",
+  "original_bytes": 525382,
+  "original_sha256": "437a6b7b59fda0e542b1aba232a7bc9830cb9d943ecad327a86584010e76cf3a",
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "production_go": false,
+  "independent_acceptance": false,
+  "full_owner_scope_acceptance": false,
+  "counts": {
+    "PASS": 19
+  },
+  "case_ids": [
+    "F03_CASH_BROWSER_DESKTOP",
+    "F03_CASH_BROWSER_MOBILE_CURRENT_AUTH",
+    "P11_RETURN_BROWSER_R10_DESKTOP_A",
+    "P11_RETURN_BROWSER_R10_MOBILE_B_RECOVERY",
+    "P10_FG_BROWSER_DESKTOP",
+    "P10_FG_BROWSER_OPERATIONS_MOBILE",
+    "P10_ADJUST_BROWSER_DESKTOP",
+    "P10_ADJUST_BROWSER_MOBILE_RECOVERY",
+    "P12_NOTA_BROWSER_DESKTOP_DRAG",
+    "P12_NOTA_BROWSER_MOBILE_RECOVERY",
+    "P09_BROWSER_COUNT_MULTI_DESKTOP",
+    "P09_BROWSER_COUNT_MULTI_MOBILE_RECOVERY",
+    "BC_BROWSER:NOTE_PAGE_D09_DESKTOP_PHONE",
+    "OW05_DESKTOP_NATIVE_UNDO_CORRECT_REPOST_NEW24",
+    "OW05_MOBILE390_NATIVE_UNDO_CORRECT_REPOST_NEW24",
+    "OW05B_DESKTOP_GUIDE_OPEN_NOTA_CANCEL_CORRECT_HISTORY",
+    "OW05B_MOBILE390_GUIDE_OPEN_NOTA_CANCEL_CORRECT_HISTORY",
+    "OW06_DESKTOP_TRANSFER_TWO_RECEIPTS_LOST_REPLY_CORRECT_REVERSE",
+    "OW06_MOBILE390_TRANSFER_TWO_RECEIPTS_CORRECT_REVERSE"
+  ],
+  "cases": {
+    "F03_CASH_BROWSER_DESKTOP": {
+      "status": "PASS",
+      "mobile": false,
+      "actual_connected_cash_route": true,
+      "real_auth_native_read": true,
+      "source_pages": [
+        25,
+        8
+      ],
+      "source_count": 33,
+      "O14_cash137_50_debit1337_50_credit1200": true,
+      "transfer1000_net0": true,
+      "complete_public_rows_match_native": true,
+      "no_business_read_side_effect": true,
+      "failed_network_or_current403_clears_all_old_money_and_rows": true,
+      "actual_server_revocation": false,
+      "financial_writer_claim": false,
+      "screenshots": [
+        "F03_CASH_PAGE1_DESKTOP.png",
+        "F03_CASH_PAGE2_DESKTOP.png",
+        "F03_CASH_RETIRED_DESKTOP.png"
+      ],
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    "F03_CASH_BROWSER_MOBILE_CURRENT_AUTH": {
+      "status": "PASS",
+      "mobile": true,
+      "actual_connected_cash_route": true,
+      "real_auth_native_read": true,
+      "source_pages": [
+        25,
+        8
+      ],
+      "source_count": 33,
+      "O14_cash137_50_debit1337_50_credit1200": true,
+      "transfer1000_net0": true,
+      "complete_public_rows_match_native": true,
+      "no_business_read_side_effect": true,
+      "failed_network_or_current403_clears_all_old_money_and_rows": true,
+      "actual_server_revocation": true,
+      "financial_writer_claim": false,
+      "screenshots": [
+        "F03_CASH_PAGE1_MOBILE.png",
+        "F03_CASH_PAGE2_MOBILE.png",
+        "F03_CASH_RETIRED_MOBILE.png"
+      ],
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    "P11_RETURN_BROWSER_R10_DESKTOP_A": {
+      "status": "PASS",
+      "mobile": false,
+      "reviewed_settlement_facade": "erp_cp7_settle_sales_return_v1",
+      "quote_no_credit_and_AR60_verified": true,
+      "only_master_and_FG_stock_are_native_fixtures": true,
+      "real_browser_source_create_post_return_payment_and_full_inverse": true,
+      "dedicated_return_and_payment_navigation_connected": true,
+      "sale80_return20_cash60": true,
+      "grade": "GRADE_A",
+      "destination": "OTHER_ACTIVE_FG_WAREHOUSE",
+      "source_available6_after_sale_total7_after_return_final10": true,
+      "exact_cash_AR_revenue_FG_COGS_assertions": true,
+      "all_final_GL_accounts_neutral": true,
+      "lost_return_response_replay_identical": null,
+      "original_payment_and_return_history_retained": true,
+      "return_history_page_tools": {
+        "actual_Native_posted_original_retained": true,
+        "whole_history_search_status_order_and_complete_reset": true,
+        "all_Native_document_payment_return_FG_positions_and_accounts_unchanged": true,
+        "writer_RPC": 0,
+        "owning_reader_reads": 18,
+        "unsent_return_number_preserved_review_cancelled_by_read": true,
+        "paid_invoice_new_payment_form_absent": null
+      },
+      "payment_history_page_tools": {
+        "actual_Native_posted_original_retained": true,
+        "whole_history_search_status_order_and_complete_reset": true,
+        "all_Native_document_payment_return_FG_positions_and_accounts_unchanged": true,
+        "writer_RPC": 0,
+        "owning_reader_reads": 6,
+        "unsent_return_number_preserved_review_cancelled_by_read": null,
+        "paid_invoice_new_payment_form_absent": true
+      },
+      "actual_named_dependencies_preserve_all_Native_source_facts": true,
+      "Native_resolver_opens_exact_payment_and_return_UUIDs_with_focus": null,
+      "source_resolver_scope": "CHAIN_INSTALLED_SOURCE_LINK_JOURNEY_NOT_SELECTED",
+      "active_dependency_refresh_excludes_reversed_payment": true,
+      "dependency_screenshot": "P11_DEPENDENCIES_DESKTOP.png",
+      "screenshot": "P11_RETURN_DESKTOP.png",
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    "P11_RETURN_BROWSER_R10_MOBILE_B_RECOVERY": {
+      "status": "PASS",
+      "mobile": true,
+      "reviewed_settlement_facade": "erp_cp7_settle_sales_return_v1",
+      "quote_no_credit_and_AR60_verified": true,
+      "only_master_and_FG_stock_are_native_fixtures": true,
+      "real_browser_source_create_post_return_payment_and_full_inverse": true,
+      "dedicated_return_and_payment_navigation_connected": true,
+      "sale80_return20_cash60": true,
+      "grade": "GRADE_B",
+      "destination": "OTHER_ACTIVE_FG_WAREHOUSE",
+      "source_available6_after_sale_total7_after_return_final10": true,
+      "exact_cash_AR_revenue_FG_COGS_assertions": true,
+      "all_final_GL_accounts_neutral": true,
+      "lost_return_response_replay_identical": true,
+      "original_payment_and_return_history_retained": true,
+      "return_history_page_tools": {
+        "actual_Native_posted_original_retained": true,
+        "whole_history_search_status_order_and_complete_reset": true,
+        "all_Native_document_payment_return_FG_positions_and_accounts_unchanged": true,
+        "writer_RPC": 0,
+        "owning_reader_reads": 18,
+        "unsent_return_number_preserved_review_cancelled_by_read": true,
+        "paid_invoice_new_payment_form_absent": null
+      },
+      "payment_history_page_tools": {
+        "actual_Native_posted_original_retained": true,
+        "whole_history_search_status_order_and_complete_reset": true,
+        "all_Native_document_payment_return_FG_positions_and_accounts_unchanged": true,
+        "writer_RPC": 0,
+        "owning_reader_reads": 6,
+        "unsent_return_number_preserved_review_cancelled_by_read": null,
+        "paid_invoice_new_payment_form_absent": true
+      },
+      "actual_named_dependencies_preserve_all_Native_source_facts": true,
+      "Native_resolver_opens_exact_payment_and_return_UUIDs_with_focus": null,
+      "source_resolver_scope": "CHAIN_INSTALLED_SOURCE_LINK_JOURNEY_NOT_SELECTED",
+      "active_dependency_refresh_excludes_reversed_payment": true,
+      "dependency_screenshot": "P11_DEPENDENCIES_MOBILE.png",
+      "screenshot": "P11_RETURN_MOBILE.png",
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    "P10_FG_BROWSER_DESKTOP": {
+      "status": "PASS",
+      "mobile": false,
+      "real_ui_auth_rpc_database_reads": true,
+      "ordinary_fixture_writes_not_P11_browser": true,
+      "initial": [
+        10,
+        4,
+        6
+      ],
+      "cancelled": [
+        10,
+        0,
+        10
+      ],
+      "posted": [
+        6,
+        0,
+        6
+      ],
+      "ops_money_hidden": null,
+      "failed_read_clears_stale_stock": null,
+      "screenshot": "P10_FG_DESKTOP.png",
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    "P10_FG_BROWSER_OPERATIONS_MOBILE": {
+      "status": "PASS",
+      "mobile": true,
+      "real_ui_auth_rpc_database_reads": true,
+      "ordinary_fixture_writes_not_P11_browser": true,
+      "initial": [
+        10,
+        4,
+        6
+      ],
+      "cancelled": [
+        10,
+        0,
+        10
+      ],
+      "posted": [
+        6,
+        0,
+        6
+      ],
+      "ops_money_hidden": true,
+      "failed_read_clears_stale_stock": true,
+      "screenshot": "P10_FG_MOBILE.png",
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    "P10_ADJUST_BROWSER_DESKTOP": {
+      "status": "PASS",
+      "mobile": false,
+      "real_ui_auth_native_write": true,
+      "complete_line_count": 2,
+      "draft_edit_post_inverse": true,
+      "stock_after": [
+        8,
+        11
+      ],
+      "inverse_stock": [
+        10,
+        10
+      ],
+      "all_accounts_restored": true,
+      "ops_money_hidden": null,
+      "lost_reply_exact_uuid_payload": null,
+      "screenshot": "P10_ADJUST_DESKTOP.png",
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    "P10_ADJUST_BROWSER_MOBILE_RECOVERY": {
+      "status": "PASS",
+      "mobile": true,
+      "real_ui_auth_native_write": true,
+      "complete_line_count": 1,
+      "draft_edit_post_inverse": true,
+      "stock_after": [
+        7,
+        10
+      ],
+      "inverse_stock": [
+        10,
+        10
+      ],
+      "all_accounts_restored": true,
+      "ops_money_hidden": true,
+      "lost_reply_exact_uuid_payload": true,
+      "screenshot": "P10_ADJUST_MOBILE.png",
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    "P12_NOTA_BROWSER_DESKTOP_DRAG": {
+      "status": "PASS",
+      "mobile": false,
+      "fixture_and_browser_date_bound_to_elapsed_wib_midnight": true,
+      "real_auth_browser_native_save_post": true,
+      "review_card_text_contrast_at_least_4_5": true,
+      "posted_quantity_label_is_historical": true,
+      "desktop_native_drag": true,
+      "touch_button_fallback": false,
+      "two_complete_cards": true,
+      "component_qty": 3,
+      "labor": "6000",
+      "native_calculated_not_paid": true,
+      "no_duplicate_fg_hpp_or_journal": true,
+      "native_cancel_control_not_connected_payroll_reverse": true,
+      "source_cards_return_after_cancel": true,
+      "ops_money_hidden": null,
+      "lost_reply_exact_uuid_payload_version": null,
+      "failed_refresh_retires_stale_cards": null,
+      "screenshot": "P12_NOTA_DESKTOP.png",
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    "P12_NOTA_BROWSER_MOBILE_RECOVERY": {
+      "status": "PASS",
+      "mobile": true,
+      "fixture_and_browser_date_bound_to_elapsed_wib_midnight": true,
+      "real_auth_browser_native_save_post": true,
+      "review_card_text_contrast_at_least_4_5": true,
+      "posted_quantity_label_is_historical": true,
+      "desktop_native_drag": false,
+      "touch_button_fallback": true,
+      "two_complete_cards": true,
+      "component_qty": 3,
+      "labor": "6000",
+      "native_calculated_not_paid": true,
+      "no_duplicate_fg_hpp_or_journal": true,
+      "native_cancel_control_not_connected_payroll_reverse": true,
+      "source_cards_return_after_cancel": true,
+      "ops_money_hidden": true,
+      "lost_reply_exact_uuid_payload_version": true,
+      "failed_refresh_retires_stale_cards": true,
+      "screenshot": "P12_NOTA_MOBILE.png",
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    "P09_BROWSER_COUNT_MULTI_DESKTOP": {
+      "status": "PASS",
+      "mobile": false,
+      "ordinary_multi_input_browser_save_edit_post_reverse": true,
+      "zero_difference_input_preserved": true,
+      "native_movement_count": 1,
+      "physical_inputs": 2,
+      "edited_quantity": "7",
+      "original_document_time_retained": true,
+      "price_preserved": false,
+      "exact_lost_save_reply": null,
+      "final_stock_and_all_accounts_restored": true,
+      "screenshot": "P09_COUNT_MULTI_DESKTOP.png",
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    "P09_BROWSER_COUNT_MULTI_MOBILE_RECOVERY": {
+      "status": "PASS",
+      "mobile": true,
+      "ordinary_multi_input_browser_save_edit_post_reverse": true,
+      "zero_difference_input_preserved": true,
+      "native_movement_count": 1,
+      "physical_inputs": 2,
+      "edited_quantity": "13",
+      "original_document_time_retained": true,
+      "price_preserved": true,
+      "exact_lost_save_reply": true,
+      "final_stock_and_all_accounts_restored": true,
+      "screenshot": "P09_COUNT_MULTI_MOBILE.png",
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    "BC_BROWSER:NOTE_PAGE_D09_DESKTOP_PHONE": {
+      "status": "PASS",
+      "seed_mandors_active": 6,
+      "seed_mandor": "a1000000-0000-0000-0000-000000000001",
+      "v4_mandor": "aeb1b3f4-855e-427e-873b-04d0fa461600",
+      "ids": {
+        "v4_control": true,
+        "seed_non_rfc": true,
+        "seeds_still_active": true
+      },
+      "load_error_alerts": 0,
+      "after_reload": {
+        "notes": "0|",
+        "stock": "20",
+        "form_number": ""
+      },
+      "desktop": {
+        "notes": "1|POSTED",
+        "stock": "13",
+        "confirm_mentions_7_pcs": true
+      },
+      "empty": true,
+      "error_state": {
+        "alert": "uji galat baca nota",
+        "stale_notice": 1,
+        "post_enabled": false
+      },
+      "loading_disabled_reload": true,
+      "recovered_after_error": true,
+      "mobile": {
+        "notes": "1|POSTED",
+        "stock": "6",
+        "contractor": "a1000000-0000-0000-0000-000000000001"
+      },
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    "OW05_DESKTOP_NATIVE_UNDO_CORRECT_REPOST_NEW24": {
+      "status": "PASS",
+      "real_login": true,
+      "fixture_created_by_Native_SQL": true,
+      "all_journey_writes_from_actual_UI": true,
+      "timezone": "America/Los_Angeles",
+      "physical_time_WIB_preserved": true,
+      "mobile": false,
+      "viewport": {
+        "width": 1440,
+        "scroll": 1440
+      },
+      "progress": {
+        "active_wage_refused": true,
+        "assignment_preserves_old_history_stock_HPP_and_physical_time": true
+      },
+      "old_mandor_payable": "0.00",
+      "new_mandor_payable": "24.00",
+      "WIP_increment": "24.00",
+      "posted_work_count": 1,
+      "one_correction_one_history": true,
+      "private_contexts": 0,
+      "nota_UI_not_claimed": true,
+      "production_go": false,
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    "OW05_MOBILE390_NATIVE_UNDO_CORRECT_REPOST_NEW24": {
+      "status": "PASS",
+      "real_login": true,
+      "fixture_created_by_Native_SQL": true,
+      "all_journey_writes_from_actual_UI": true,
+      "timezone": "America/Los_Angeles",
+      "physical_time_WIB_preserved": true,
+      "mobile": true,
+      "viewport": {
+        "width": 390,
+        "scroll": 390
+      },
+      "progress": {
+        "active_wage_refused": true,
+        "assignment_preserves_old_history_stock_HPP_and_physical_time": true
+      },
+      "old_mandor_payable": "0.00",
+      "new_mandor_payable": "24.00",
+      "WIP_increment": "24.00",
+      "posted_work_count": 1,
+      "one_correction_one_history": true,
+      "private_contexts": 0,
+      "nota_UI_not_claimed": true,
+      "production_go": false,
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    "OW05B_DESKTOP_GUIDE_OPEN_NOTA_CANCEL_CORRECT_HISTORY": {
+      "status": "PASS",
+      "real_login": true,
+      "fixture_created_by_Native_SQL": true,
+      "all_journey_writes_from_actual_UI": true,
+      "timezone": "America/Los_Angeles",
+      "mobile": false,
+      "viewport": {
+        "width": 1440,
+        "scroll": 1440
+      },
+      "progress": {
+        "blocker_link_opened_payroll": true,
+        "history_visible": true
+      },
+      "blocker_menus_real": true,
+      "old_screen_names_absent": [
+        "layar Nota/Gaji",
+        "WIP & Jahit",
+        "layar PO",
+        "Bahan Mandor",
+        "layar BS",
+        "layar Pool HPP",
+        "layar Kain Kantong"
+      ],
+      "nota_opened_from_blocker_and_cancelled_on_its_screen": true,
+      "redo_steps": 9,
+      "history_row": {
+        "reason": "Ganti seluruh PO ke mandor yang mengerjakan jahitan",
+        "actor_name": "Auditor browser ow05b-desktop",
+        "recorded_at": "2026-10-24T03:12:51.647742+00:00",
+        "pickup_count": 1,
+        "generation_no": 3,
+        "new_contractor_id": "dba1b0d4-bf14-4711-9884-059bc0b37107",
+        "old_contractor_id": "da62d3e9-fd2c-4eb5-9b7a-a72c57975fee",
+        "new_contractor_name": "OW05-B-f671af33",
+        "old_contractor_name": "CP17-SG01-A-6b658f5f"
+      },
+      "old_mandor_payable": "0.00",
+      "new_mandor_payable": "24.00",
+      "WIP_increment": "24.00",
+      "production_go": false,
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    "OW05B_MOBILE390_GUIDE_OPEN_NOTA_CANCEL_CORRECT_HISTORY": {
+      "status": "PASS",
+      "real_login": true,
+      "fixture_created_by_Native_SQL": true,
+      "all_journey_writes_from_actual_UI": true,
+      "timezone": "America/Los_Angeles",
+      "mobile": true,
+      "viewport": {
+        "width": 390,
+        "scroll": 390
+      },
+      "progress": {
+        "blocker_link_opened_payroll": true,
+        "history_visible": true
+      },
+      "blocker_menus_real": true,
+      "old_screen_names_absent": [
+        "layar Nota/Gaji",
+        "WIP & Jahit",
+        "layar PO",
+        "Bahan Mandor",
+        "layar BS",
+        "layar Pool HPP",
+        "layar Kain Kantong"
+      ],
+      "nota_opened_from_blocker_and_cancelled_on_its_screen": true,
+      "redo_steps": 9,
+      "history_row": {
+        "reason": "Ganti seluruh PO ke mandor yang mengerjakan jahitan",
+        "actor_name": "Auditor browser ow05b-phone",
+        "recorded_at": "2026-10-24T03:13:02.059198+00:00",
+        "pickup_count": 1,
+        "generation_no": 4,
+        "new_contractor_id": "a9815db5-ef06-4d26-9694-1f30932c73f7",
+        "old_contractor_id": "07dddbc2-7648-4b3d-a361-95143e62c903",
+        "new_contractor_name": "OW05-B-cf53c5e9",
+        "old_contractor_name": "CP17-SG01-A-6d658101"
+      },
+      "old_mandor_payable": "0.00",
+      "new_mandor_payable": "24.00",
+      "WIP_increment": "24.00",
+      "production_go": false,
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    "OW06_DESKTOP_TRANSFER_TWO_RECEIPTS_LOST_REPLY_CORRECT_REVERSE": {
+      "status": "PASS",
+      "real_login": true,
+      "fixture_created_by_Native_SQL": true,
+      "all_journey_writes_from_actual_UI": true,
+      "timezone": "America/Los_Angeles",
+      "mobile": false,
+      "viewport": {
+        "width": 1440,
+        "scroll": 1440
+      },
+      "created": "400.00+600.00",
+      "bank_after_create": "-1000.00",
+      "lost_committed_reply_same_UUID_recovered": true,
+      "corrected": "250.00+500.00",
+      "bank_after_correction": "-750.00",
+      "reversed_whole_transfer": true,
+      "bank_after_reverse": "0.00",
+      "second_receipt_chosen_after_new_search": true,
+      "production_go": false,
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    "OW06_MOBILE390_TRANSFER_TWO_RECEIPTS_CORRECT_REVERSE": {
+      "status": "PASS",
+      "real_login": true,
+      "fixture_created_by_Native_SQL": true,
+      "all_journey_writes_from_actual_UI": true,
+      "timezone": "America/Los_Angeles",
+      "mobile": true,
+      "viewport": {
+        "width": 390,
+        "scroll": 390
+      },
+      "created": "400.00+600.00",
+      "bank_after_create": "-1000.00",
+      "lost_committed_reply_same_UUID_recovered": false,
+      "corrected": "250.00+500.00",
+      "bank_after_correction": "-750.00",
+      "reversed_whole_transfer": true,
+      "bank_after_reverse": "0.00",
+      "second_receipt_chosen_after_new_search": true,
+      "production_go": false,
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    }
+  },
+  "real_auth": true,
+  "self_signed_jwt": false,
+  "test_only_usage_grant": false,
+  "host_exit": 0,
+  "host_status": "RUN_COMPLETE",
+  "console_errors": 0,
+  "users_created": 20,
+  "auth_counts": {
+    "before": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "after": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "restored": true
+  },
+  "cleanup_failures": false,
+  "database_remaining": 0,
+  "session_leaks": [],
+  "screenshots_visually_reviewed": [
+    "CP7_OW06_TRANSFER_DESKTOP.png",
+    "CP7_OW06_TRANSFER_MOBILE390.png",
+    "CP7_OW05B_GUIDANCE_MOBILE390.png"
+  ],
+  "scope": "Nineteen unchanged retained owner journeys on the current inventory-aware AB installation: thirteen OW09, two mandor correction, two mandor guidance, two grouped supplier transfer. SQL fixtures are synthetic; journey commands use actual UI and real Auth. Not new cases, full OW09 semantics, all owner scope, or independent audit."
+}
