@@ -51,7 +51,7 @@
     "erp-wa-send",
     "erp-wa-analysis"
   ],
-  "existing_replacements": 19,
+  "existing_replacements": 20,
   "new_private_functions": 8,
   "new_public_rpcs": 0,
   "new_tables": 0,

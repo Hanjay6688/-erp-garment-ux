@@ -51,7 +51,7 @@
         "model_input": {
           "state": "MODEL_PROJECTED",
           "reason": "ONE_DATED_VECTOR_WITH_ONE_EXPLICIT_DAYS_BUFFER",
-          "run_id": "06350615-6a05-4b0c-bece-efcc9906c1d2",
+          "run_id": "d2e46fdf-c214-4ce7-b803-9cd844e6bcf0",
           "forecast": {
             "method": "NAIVE",
             "params": {},
@@ -69,18 +69,18 @@
             "kernel_version": "naive-1",
             "training_count": 100
           },
-          "captured_at": "2026-10-24T16:49:00.968000Z",
+          "captured_at": "2026-10-24T17:08:22.779000Z",
           "engine_hash": "5ef36981b325a7f2e7790a300294c572",
-          "source_hash": "518678fab760e389ab7589c8e90d52107acb8978d5f430b8e77fa9a70e96f8c1",
+          "source_hash": "a56fd3d44959ba46ac8d7178c76d63d1247eefa54b240d4082be1e2e54cb94a6",
           "access_epoch": "b0429b3c110f468be41ce1cf71d1138021701ccef057c2c622c8bce02fc12f7c",
           "history_query": {
-            "from_date": "2026-07-16",
+            "from_date": "2026-07-17",
             "group_mode": "AS_SOLD",
-            "through_date": "2026-10-23"
+            "through_date": "2026-10-24"
           },
           "policy_source": {
             "policy": {
-              "id": "e8c88423-1b07-4b27-b823-3c939249e944",
+              "id": "95b7eda1-eca1-41e8-98dd-057fbcf435d8",
               "state": "ACTIVE",
               "config": {
                 "promotion": {
@@ -99,15 +99,15 @@
               "reason": "EXPLICIT SYNTHETIC historical fixture, not owner/factory approval",
               "revision": "1",
               "recorded_at": "2026-06-02T00:00:00.123456Z",
-              "registry_id": "cp7.owner-model-policy.e8c88423-1b07-4b27-b823-3c939249e944"
+              "registry_id": "cp7.owner-model-policy.95b7eda1-eca1-41e8-98dd-057fbcf435d8"
             },
-            "request_id": "32f23800-e04d-44ce-9321-667bfe7620cb",
+            "request_id": "13690fb4-061c-4f95-bc75-d3d1e426fd44",
             "template_hash": "21e1ea8e303853f5d2e6f07041ad4c91555ebba944605151a2941519a6c081f7",
             "actor_scope_id": "11111111-1111-4111-8111-111111111111"
           },
           "production_go": false,
           "actor_scope_id": "11111111-1111-4111-8111-111111111111",
-          "history_run_id": "a63209f1-1006-41a2-92de-d461f7cc1850",
+          "history_run_id": "adb31dfa-757b-4a44-a220-823d7a58557d",
           "selected_model": {
             "id": "naive-1",
             "method": "NAIVE",
@@ -153,9 +153,9 @@
           },
           "contract_version": "cp7.model-target-resolution.v1",
           "forecast_applied": true,
-          "model_source_hash": "e1ff581801dac2bf50944ff9cb69115ad864316b2f3a1cb5bc36b90d97dfe5fd",
-          "forecast_from_date": "2026-10-24",
-          "consumer_engine_hash": "c16061462e3437ff60a718f8710955b9"
+          "model_source_hash": "ce5d20d419987bbcb5762be885a134027829d68f71ad0d9c235593709394251f",
+          "forecast_from_date": "2026-10-25",
+          "consumer_engine_hash": "869347bfe8c741b5066106582cd4dff9"
         },
         "buffer_basis": "ONE_EXPLICIT_DAYS_BUFFER",
         "horizon_days": "3",
@@ -238,7 +238,7 @@
       "model_resolution": {
         "state": "MODEL_PROJECTED",
         "reason": "ONE_DATED_VECTOR_WITH_ONE_EXPLICIT_DAYS_BUFFER",
-        "run_id": "06350615-6a05-4b0c-bece-efcc9906c1d2",
+        "run_id": "d2e46fdf-c214-4ce7-b803-9cd844e6bcf0",
         "forecast": {
           "method": "NAIVE",
           "params": {},
@@ -256,18 +256,18 @@
           "kernel_version": "naive-1",
           "training_count": 100
         },
-        "captured_at": "2026-10-24T16:49:00.968000Z",
+        "captured_at": "2026-10-24T17:08:22.779000Z",
         "engine_hash": "5ef36981b325a7f2e7790a300294c572",
-        "source_hash": "518678fab760e389ab7589c8e90d52107acb8978d5f430b8e77fa9a70e96f8c1",
+        "source_hash": "a56fd3d44959ba46ac8d7178c76d63d1247eefa54b240d4082be1e2e54cb94a6",
         "access_epoch": "b0429b3c110f468be41ce1cf71d1138021701ccef057c2c622c8bce02fc12f7c",
         "history_query": {
-          "from_date": "2026-07-16",
+          "from_date": "2026-07-17",
           "group_mode": "AS_SOLD",
-          "through_date": "2026-10-23"
+          "through_date": "2026-10-24"
         },
         "policy_source": {
           "policy": {
-            "id": "e8c88423-1b07-4b27-b823-3c939249e944",
+            "id": "95b7eda1-eca1-41e8-98dd-057fbcf435d8",
             "state": "ACTIVE",
             "config": {
               "promotion": {
@@ -286,15 +286,15 @@
             "reason": "EXPLICIT SYNTHETIC historical fixture, not owner/factory approval",
             "revision": "1",
             "recorded_at": "2026-06-02T00:00:00.123456Z",
-            "registry_id": "cp7.owner-model-policy.e8c88423-1b07-4b27-b823-3c939249e944"
+            "registry_id": "cp7.owner-model-policy.95b7eda1-eca1-41e8-98dd-057fbcf435d8"
           },
-          "request_id": "32f23800-e04d-44ce-9321-667bfe7620cb",
+          "request_id": "13690fb4-061c-4f95-bc75-d3d1e426fd44",
           "template_hash": "21e1ea8e303853f5d2e6f07041ad4c91555ebba944605151a2941519a6c081f7",
           "actor_scope_id": "11111111-1111-4111-8111-111111111111"
         },
         "production_go": false,
         "actor_scope_id": "11111111-1111-4111-8111-111111111111",
-        "history_run_id": "a63209f1-1006-41a2-92de-d461f7cc1850",
+        "history_run_id": "adb31dfa-757b-4a44-a220-823d7a58557d",
         "selected_model": {
           "id": "naive-1",
           "method": "NAIVE",
@@ -340,16 +340,16 @@
         },
         "contract_version": "cp7.model-target-resolution.v1",
         "forecast_applied": true,
-        "model_source_hash": "e1ff581801dac2bf50944ff9cb69115ad864316b2f3a1cb5bc36b90d97dfe5fd",
-        "forecast_from_date": "2026-10-24",
-        "consumer_engine_hash": "c16061462e3437ff60a718f8710955b9"
+        "model_source_hash": "ce5d20d419987bbcb5762be885a134027829d68f71ad0d9c235593709394251f",
+        "forecast_from_date": "2026-10-25",
+        "consumer_engine_hash": "869347bfe8c741b5066106582cd4dff9"
       },
       "demand_provenance": {
         "basis": "OWN_AVAILABLE_HISTORY_ASSUMED_REPRESENTATIVE",
         "model": {
           "state": "MODEL_PROJECTED",
           "reason": "ONE_DATED_VECTOR_WITH_ONE_EXPLICIT_DAYS_BUFFER",
-          "run_id": "06350615-6a05-4b0c-bece-efcc9906c1d2",
+          "run_id": "d2e46fdf-c214-4ce7-b803-9cd844e6bcf0",
           "forecast": {
             "method": "NAIVE",
             "params": {},
@@ -367,18 +367,18 @@
             "kernel_version": "naive-1",
             "training_count": 100
           },
-          "captured_at": "2026-10-24T16:49:00.968000Z",
+          "captured_at": "2026-10-24T17:08:22.779000Z",
           "engine_hash": "5ef36981b325a7f2e7790a300294c572",
-          "source_hash": "518678fab760e389ab7589c8e90d52107acb8978d5f430b8e77fa9a70e96f8c1",
+          "source_hash": "a56fd3d44959ba46ac8d7178c76d63d1247eefa54b240d4082be1e2e54cb94a6",
           "access_epoch": "b0429b3c110f468be41ce1cf71d1138021701ccef057c2c622c8bce02fc12f7c",
           "history_query": {
-            "from_date": "2026-07-16",
+            "from_date": "2026-07-17",
             "group_mode": "AS_SOLD",
-            "through_date": "2026-10-23"
+            "through_date": "2026-10-24"
           },
           "policy_source": {
             "policy": {
-              "id": "e8c88423-1b07-4b27-b823-3c939249e944",
+              "id": "95b7eda1-eca1-41e8-98dd-057fbcf435d8",
               "state": "ACTIVE",
               "config": {
                 "promotion": {
@@ -397,15 +397,15 @@
               "reason": "EXPLICIT SYNTHETIC historical fixture, not owner/factory approval",
               "revision": "1",
               "recorded_at": "2026-06-02T00:00:00.123456Z",
-              "registry_id": "cp7.owner-model-policy.e8c88423-1b07-4b27-b823-3c939249e944"
+              "registry_id": "cp7.owner-model-policy.95b7eda1-eca1-41e8-98dd-057fbcf435d8"
             },
-            "request_id": "32f23800-e04d-44ce-9321-667bfe7620cb",
+            "request_id": "13690fb4-061c-4f95-bc75-d3d1e426fd44",
             "template_hash": "21e1ea8e303853f5d2e6f07041ad4c91555ebba944605151a2941519a6c081f7",
             "actor_scope_id": "11111111-1111-4111-8111-111111111111"
           },
           "production_go": false,
           "actor_scope_id": "11111111-1111-4111-8111-111111111111",
-          "history_run_id": "a63209f1-1006-41a2-92de-d461f7cc1850",
+          "history_run_id": "adb31dfa-757b-4a44-a220-823d7a58557d",
           "selected_model": {
             "id": "naive-1",
             "method": "NAIVE",
@@ -451,21 +451,21 @@
           },
           "contract_version": "cp7.model-target-resolution.v1",
           "forecast_applied": true,
-          "model_source_hash": "e1ff581801dac2bf50944ff9cb69115ad864316b2f3a1cb5bc36b90d97dfe5fd",
-          "forecast_from_date": "2026-10-24",
-          "consumer_engine_hash": "c16061462e3437ff60a718f8710955b9"
+          "model_source_hash": "ce5d20d419987bbcb5762be885a134027829d68f71ad0d9c235593709394251f",
+          "forecast_from_date": "2026-10-25",
+          "consumer_engine_hash": "869347bfe8c741b5066106582cd4dff9"
         },
         "query": {
-          "from_date": "2026-07-16",
+          "from_date": "2026-07-17",
           "group_mode": "AS_SOLD",
-          "through_date": "2026-10-23"
+          "through_date": "2026-10-24"
         },
         "analog": null,
         "size_id": "33333333-3333-4333-8333-333333333333",
         "daily_sd": null,
         "target_key": "22222222-2222-4222-8222-222222222222:33333333-3333-4333-8333-333333333333",
         "target_pcs": "400",
-        "captured_at": "2026-10-24T16:49:01.158000Z",
+        "captured_at": "2026-10-24T17:08:23.027000Z",
         "counted_days": "100",
         "own_total_pcs": "5050",
         "daily_total_pcs": "5050",
@@ -608,20 +608,20 @@
       "model_resolution": {
         "state": "BASELINE_RETAINED",
         "reason": "EXPLICIT_MANUAL_DEMAND_RETAINS_PRIORITY",
-        "run_id": "7c093fc3-040a-408d-85b6-cb83bc47dd1e",
+        "run_id": "3cdc2d3d-14a6-4605-8cb7-dc74d6d51cee",
         "forecast": null,
-        "captured_at": "2026-10-24T16:49:01.233000Z",
+        "captured_at": "2026-10-24T17:08:23.114000Z",
         "engine_hash": "5ef36981b325a7f2e7790a300294c572",
-        "source_hash": "dca4b8faefdfc3ac47068a2d2d2f37ea327a8118834c1a2a249abf1fc96d0ff5",
+        "source_hash": "3a965a2d8ea35081030df9ec4bfb3009b7b38a89e2dd43b5734ed925e68aad86",
         "access_epoch": "b0429b3c110f468be41ce1cf71d1138021701ccef057c2c622c8bce02fc12f7c",
         "history_query": {
-          "from_date": "2026-07-16",
+          "from_date": "2026-07-17",
           "group_mode": "AS_SOLD",
-          "through_date": "2026-10-23"
+          "through_date": "2026-10-24"
         },
         "policy_source": {
           "policy": {
-            "id": "98c5c017-f597-45fb-9579-f20eaf2d4f7c",
+            "id": "4ab38092-9d5b-4d0e-8e5b-1ddf2ef35703",
             "state": "ACTIVE",
             "config": {
               "promotion": {
@@ -640,15 +640,15 @@
             "reason": "EXPLICIT SYNTHETIC historical fixture, not owner/factory approval",
             "revision": "1",
             "recorded_at": "2026-06-02T00:00:00.123456Z",
-            "registry_id": "cp7.owner-model-policy.98c5c017-f597-45fb-9579-f20eaf2d4f7c"
+            "registry_id": "cp7.owner-model-policy.4ab38092-9d5b-4d0e-8e5b-1ddf2ef35703"
           },
-          "request_id": "cb07ecc4-a2c6-4f8a-843f-e10ced65a18f",
+          "request_id": "f8cb926c-9bb5-4325-a2e0-dcc7caeab84f",
           "template_hash": "21e1ea8e303853f5d2e6f07041ad4c91555ebba944605151a2941519a6c081f7",
           "actor_scope_id": "11111111-1111-4111-8111-111111111111"
         },
         "production_go": false,
         "actor_scope_id": "11111111-1111-4111-8111-111111111111",
-        "history_run_id": "a63209f1-1006-41a2-92de-d461f7cc1850",
+        "history_run_id": "adb31dfa-757b-4a44-a220-823d7a58557d",
         "selected_model": {
           "id": "naive-1",
           "method": "NAIVE",
@@ -694,29 +694,29 @@
         },
         "contract_version": "cp7.model-target-resolution.v1",
         "forecast_applied": false,
-        "model_source_hash": "f9b7f3a1e1cad10e9062c23a8e259aa5c5ee132866b8c34b11c52f18b5300d47",
-        "forecast_from_date": "2026-10-24",
-        "consumer_engine_hash": "c16061462e3437ff60a718f8710955b9"
+        "model_source_hash": "a68c5a254260fe138456ac3c0720e02dc81171aca4f2fb2d929fe8e7271cd7db",
+        "forecast_from_date": "2026-10-25",
+        "consumer_engine_hash": "869347bfe8c741b5066106582cd4dff9"
       },
       "demand_provenance": {
         "basis": "SELECTED_MANUAL_ASSUMPTION",
         "model": {
           "state": "BASELINE_RETAINED",
           "reason": "EXPLICIT_MANUAL_DEMAND_RETAINS_PRIORITY",
-          "run_id": "7c093fc3-040a-408d-85b6-cb83bc47dd1e",
+          "run_id": "3cdc2d3d-14a6-4605-8cb7-dc74d6d51cee",
           "forecast": null,
-          "captured_at": "2026-10-24T16:49:01.233000Z",
+          "captured_at": "2026-10-24T17:08:23.114000Z",
           "engine_hash": "5ef36981b325a7f2e7790a300294c572",
-          "source_hash": "dca4b8faefdfc3ac47068a2d2d2f37ea327a8118834c1a2a249abf1fc96d0ff5",
+          "source_hash": "3a965a2d8ea35081030df9ec4bfb3009b7b38a89e2dd43b5734ed925e68aad86",
           "access_epoch": "b0429b3c110f468be41ce1cf71d1138021701ccef057c2c622c8bce02fc12f7c",
           "history_query": {
-            "from_date": "2026-07-16",
+            "from_date": "2026-07-17",
             "group_mode": "AS_SOLD",
-            "through_date": "2026-10-23"
+            "through_date": "2026-10-24"
           },
           "policy_source": {
             "policy": {
-              "id": "98c5c017-f597-45fb-9579-f20eaf2d4f7c",
+              "id": "4ab38092-9d5b-4d0e-8e5b-1ddf2ef35703",
               "state": "ACTIVE",
               "config": {
                 "promotion": {
@@ -735,15 +735,15 @@
               "reason": "EXPLICIT SYNTHETIC historical fixture, not owner/factory approval",
               "revision": "1",
               "recorded_at": "2026-06-02T00:00:00.123456Z",
-              "registry_id": "cp7.owner-model-policy.98c5c017-f597-45fb-9579-f20eaf2d4f7c"
+              "registry_id": "cp7.owner-model-policy.4ab38092-9d5b-4d0e-8e5b-1ddf2ef35703"
             },
-            "request_id": "cb07ecc4-a2c6-4f8a-843f-e10ced65a18f",
+            "request_id": "f8cb926c-9bb5-4325-a2e0-dcc7caeab84f",
             "template_hash": "21e1ea8e303853f5d2e6f07041ad4c91555ebba944605151a2941519a6c081f7",
             "actor_scope_id": "11111111-1111-4111-8111-111111111111"
           },
           "production_go": false,
           "actor_scope_id": "11111111-1111-4111-8111-111111111111",
-          "history_run_id": "a63209f1-1006-41a2-92de-d461f7cc1850",
+          "history_run_id": "adb31dfa-757b-4a44-a220-823d7a58557d",
           "selected_model": {
             "id": "naive-1",
             "method": "NAIVE",
@@ -789,21 +789,21 @@
           },
           "contract_version": "cp7.model-target-resolution.v1",
           "forecast_applied": false,
-          "model_source_hash": "f9b7f3a1e1cad10e9062c23a8e259aa5c5ee132866b8c34b11c52f18b5300d47",
-          "forecast_from_date": "2026-10-24",
-          "consumer_engine_hash": "c16061462e3437ff60a718f8710955b9"
+          "model_source_hash": "a68c5a254260fe138456ac3c0720e02dc81171aca4f2fb2d929fe8e7271cd7db",
+          "forecast_from_date": "2026-10-25",
+          "consumer_engine_hash": "869347bfe8c741b5066106582cd4dff9"
         },
         "query": {
-          "from_date": "2026-07-16",
+          "from_date": "2026-07-17",
           "group_mode": "AS_SOLD",
-          "through_date": "2026-10-23"
+          "through_date": "2026-10-24"
         },
         "analog": null,
         "size_id": "33333333-3333-4333-8333-333333333333",
         "daily_sd": null,
         "target_key": "22222222-2222-4222-8222-222222222222:33333333-3333-4333-8333-333333333333",
         "target_pcs": "12",
-        "captured_at": "2026-10-24T16:49:01.414000Z",
+        "captured_at": "2026-10-24T17:08:23.326000Z",
         "counted_days": "1",
         "own_total_pcs": "5050",
         "daily_total_pcs": "3",
@@ -929,20 +929,20 @@
       "model_resolution": {
         "state": "BASELINE_RETAINED",
         "reason": "OWN_HISTORY_MINIMUM_REQUIRED_BEFORE_MODEL",
-        "run_id": "c274e4bb-10ff-44c3-9e6c-e7141c1b237e",
+        "run_id": "c3a323e1-b58c-447e-a926-75427ca53ebd",
         "forecast": null,
-        "captured_at": "2026-10-24T16:49:01.470000Z",
+        "captured_at": "2026-10-24T17:08:23.403000Z",
         "engine_hash": "5ef36981b325a7f2e7790a300294c572",
-        "source_hash": "49a0c9e41f6e0c1e50ad774284d4041287d00c4346af712117dfb809e7b5615f",
+        "source_hash": "76b67fc04e23c374328b98334667a02ec5e66aa5143e6701a0f7ab4c3631c53d",
         "access_epoch": "b0429b3c110f468be41ce1cf71d1138021701ccef057c2c622c8bce02fc12f7c",
         "history_query": {
-          "from_date": "2026-07-16",
+          "from_date": "2026-07-17",
           "group_mode": "AS_SOLD",
-          "through_date": "2026-10-23"
+          "through_date": "2026-10-24"
         },
         "policy_source": {
           "policy": {
-            "id": "ca131403-59b3-4068-b5a8-4890b4c77a5d",
+            "id": "6fa005d1-b5ee-4077-a273-7dc641cb71b4",
             "state": "ACTIVE",
             "config": {
               "promotion": {
@@ -961,15 +961,15 @@
             "reason": "EXPLICIT SYNTHETIC historical fixture, not owner/factory approval",
             "revision": "1",
             "recorded_at": "2026-06-02T00:00:00.123456Z",
-            "registry_id": "cp7.owner-model-policy.ca131403-59b3-4068-b5a8-4890b4c77a5d"
+            "registry_id": "cp7.owner-model-policy.6fa005d1-b5ee-4077-a273-7dc641cb71b4"
           },
-          "request_id": "2b5335e5-ca20-4764-af94-e2d5e4e1d6a7",
+          "request_id": "c4c29900-cd81-4401-98d2-f63e5fc18d62",
           "template_hash": "21e1ea8e303853f5d2e6f07041ad4c91555ebba944605151a2941519a6c081f7",
           "actor_scope_id": "11111111-1111-4111-8111-111111111111"
         },
         "production_go": false,
         "actor_scope_id": "11111111-1111-4111-8111-111111111111",
-        "history_run_id": "a63209f1-1006-41a2-92de-d461f7cc1850",
+        "history_run_id": "adb31dfa-757b-4a44-a220-823d7a58557d",
         "selected_model": {
           "id": "naive-1",
           "method": "NAIVE",
@@ -1009,29 +1009,29 @@
         },
         "contract_version": "cp7.model-target-resolution.v1",
         "forecast_applied": false,
-        "model_source_hash": "5a1e026a510aa6ca885e2dfc6f67bb8202ba817e107091316377f881bbf4395c",
-        "forecast_from_date": "2026-10-24",
-        "consumer_engine_hash": "c16061462e3437ff60a718f8710955b9"
+        "model_source_hash": "e4d4555da20bd700f3eb6bc9ac655bd39cf1295323aa0bfd17b9133605181d3f",
+        "forecast_from_date": "2026-10-25",
+        "consumer_engine_hash": "869347bfe8c741b5066106582cd4dff9"
       },
       "demand_provenance": {
         "basis": "UNKNOWN",
         "model": {
           "state": "BASELINE_RETAINED",
           "reason": "OWN_HISTORY_MINIMUM_REQUIRED_BEFORE_MODEL",
-          "run_id": "c274e4bb-10ff-44c3-9e6c-e7141c1b237e",
+          "run_id": "c3a323e1-b58c-447e-a926-75427ca53ebd",
           "forecast": null,
-          "captured_at": "2026-10-24T16:49:01.470000Z",
+          "captured_at": "2026-10-24T17:08:23.403000Z",
           "engine_hash": "5ef36981b325a7f2e7790a300294c572",
-          "source_hash": "49a0c9e41f6e0c1e50ad774284d4041287d00c4346af712117dfb809e7b5615f",
+          "source_hash": "76b67fc04e23c374328b98334667a02ec5e66aa5143e6701a0f7ab4c3631c53d",
           "access_epoch": "b0429b3c110f468be41ce1cf71d1138021701ccef057c2c622c8bce02fc12f7c",
           "history_query": {
-            "from_date": "2026-07-16",
+            "from_date": "2026-07-17",
             "group_mode": "AS_SOLD",
-            "through_date": "2026-10-23"
+            "through_date": "2026-10-24"
           },
           "policy_source": {
             "policy": {
-              "id": "ca131403-59b3-4068-b5a8-4890b4c77a5d",
+              "id": "6fa005d1-b5ee-4077-a273-7dc641cb71b4",
               "state": "ACTIVE",
               "config": {
                 "promotion": {
@@ -1050,15 +1050,15 @@
               "reason": "EXPLICIT SYNTHETIC historical fixture, not owner/factory approval",
               "revision": "1",
               "recorded_at": "2026-06-02T00:00:00.123456Z",
-              "registry_id": "cp7.owner-model-policy.ca131403-59b3-4068-b5a8-4890b4c77a5d"
+              "registry_id": "cp7.owner-model-policy.6fa005d1-b5ee-4077-a273-7dc641cb71b4"
             },
-            "request_id": "2b5335e5-ca20-4764-af94-e2d5e4e1d6a7",
+            "request_id": "c4c29900-cd81-4401-98d2-f63e5fc18d62",
             "template_hash": "21e1ea8e303853f5d2e6f07041ad4c91555ebba944605151a2941519a6c081f7",
             "actor_scope_id": "11111111-1111-4111-8111-111111111111"
           },
           "production_go": false,
           "actor_scope_id": "11111111-1111-4111-8111-111111111111",
-          "history_run_id": "a63209f1-1006-41a2-92de-d461f7cc1850",
+          "history_run_id": "adb31dfa-757b-4a44-a220-823d7a58557d",
           "selected_model": {
             "id": "naive-1",
             "method": "NAIVE",
@@ -1098,21 +1098,21 @@
           },
           "contract_version": "cp7.model-target-resolution.v1",
           "forecast_applied": false,
-          "model_source_hash": "5a1e026a510aa6ca885e2dfc6f67bb8202ba817e107091316377f881bbf4395c",
-          "forecast_from_date": "2026-10-24",
-          "consumer_engine_hash": "c16061462e3437ff60a718f8710955b9"
+          "model_source_hash": "e4d4555da20bd700f3eb6bc9ac655bd39cf1295323aa0bfd17b9133605181d3f",
+          "forecast_from_date": "2026-10-25",
+          "consumer_engine_hash": "869347bfe8c741b5066106582cd4dff9"
         },
         "query": {
-          "from_date": "2026-07-16",
+          "from_date": "2026-07-17",
           "group_mode": "AS_SOLD",
-          "through_date": "2026-10-23"
+          "through_date": "2026-10-24"
         },
         "analog": null,
         "size_id": "33333333-3333-4333-8333-333333333333",
         "daily_sd": null,
         "target_key": "22222222-2222-4222-8222-222222222222:33333333-3333-4333-8333-333333333333",
         "target_pcs": null,
-        "captured_at": "2026-10-24T16:49:01.644000Z",
+        "captured_at": "2026-10-24T17:08:23.601000Z",
         "counted_days": "1",
         "own_total_pcs": "5050",
         "daily_total_pcs": null,
@@ -1244,20 +1244,20 @@
       "model_resolution": {
         "state": "BASELINE_RETAINED",
         "reason": "NO_EXPLICITLY_ALLOWED_CHALLENGER",
-        "run_id": "7829c01c-6627-4138-adb3-6eaa09fc1089",
+        "run_id": "729448ab-265a-402b-92fb-fe91ddb851e6",
         "forecast": null,
-        "captured_at": "2026-10-24T16:49:01.696000Z",
+        "captured_at": "2026-10-24T17:08:23.646000Z",
         "engine_hash": "5ef36981b325a7f2e7790a300294c572",
-        "source_hash": "f03c36a23f8635240fed297f14bd0cff76ffc8330d253a2e8dbce9fb18750f32",
+        "source_hash": "0dfd6ca8c6c1f31cf00080435b3d4d6ffca73a2c84752ccc2e3c8607c4e47c8c",
         "access_epoch": "b0429b3c110f468be41ce1cf71d1138021701ccef057c2c622c8bce02fc12f7c",
         "history_query": {
-          "from_date": "2026-07-16",
+          "from_date": "2026-07-17",
           "group_mode": "AS_SOLD",
-          "through_date": "2026-10-23"
+          "through_date": "2026-10-24"
         },
         "policy_source": {
           "policy": {
-            "id": "7cb143d0-8e93-4e62-84c5-4f67c21261be",
+            "id": "f1c74dc0-d3fe-4607-acc8-d31b2718fba4",
             "state": "ACTIVE",
             "config": {
               "promotion": {
@@ -1274,15 +1274,15 @@
             "reason": "EXPLICIT SYNTHETIC historical fixture, not owner/factory approval",
             "revision": "1",
             "recorded_at": "2026-06-02T00:00:00.123456Z",
-            "registry_id": "cp7.owner-model-policy.7cb143d0-8e93-4e62-84c5-4f67c21261be"
+            "registry_id": "cp7.owner-model-policy.f1c74dc0-d3fe-4607-acc8-d31b2718fba4"
           },
-          "request_id": "15504da8-7313-4dba-824c-ab800e6126bd",
+          "request_id": "1b653f14-f623-42e1-9cca-915234781287",
           "template_hash": "21e1ea8e303853f5d2e6f07041ad4c91555ebba944605151a2941519a6c081f7",
           "actor_scope_id": "11111111-1111-4111-8111-111111111111"
         },
         "production_go": false,
         "actor_scope_id": "11111111-1111-4111-8111-111111111111",
-        "history_run_id": "a63209f1-1006-41a2-92de-d461f7cc1850",
+        "history_run_id": "adb31dfa-757b-4a44-a220-823d7a58557d",
         "selected_model": null,
         "baseline_target": {
           "inputs": {
@@ -1323,29 +1323,29 @@
         },
         "contract_version": "cp7.model-target-resolution.v1",
         "forecast_applied": false,
-        "model_source_hash": "895b11b5eefa19f9dbe2484a09cd056adb341c2fd2f57c10d1e895d807203ab4",
-        "forecast_from_date": "2026-10-24",
-        "consumer_engine_hash": "c16061462e3437ff60a718f8710955b9"
+        "model_source_hash": "e75eb6387c44c1f636df01f4f5659afd4bef53c5bffd4ba4cdb732970b111c85",
+        "forecast_from_date": "2026-10-25",
+        "consumer_engine_hash": "869347bfe8c741b5066106582cd4dff9"
       },
       "demand_provenance": {
         "basis": "OWN_AVAILABLE_HISTORY_ASSUMED_REPRESENTATIVE",
         "model": {
           "state": "BASELINE_RETAINED",
           "reason": "NO_EXPLICITLY_ALLOWED_CHALLENGER",
-          "run_id": "7829c01c-6627-4138-adb3-6eaa09fc1089",
+          "run_id": "729448ab-265a-402b-92fb-fe91ddb851e6",
           "forecast": null,
-          "captured_at": "2026-10-24T16:49:01.696000Z",
+          "captured_at": "2026-10-24T17:08:23.646000Z",
           "engine_hash": "5ef36981b325a7f2e7790a300294c572",
-          "source_hash": "f03c36a23f8635240fed297f14bd0cff76ffc8330d253a2e8dbce9fb18750f32",
+          "source_hash": "0dfd6ca8c6c1f31cf00080435b3d4d6ffca73a2c84752ccc2e3c8607c4e47c8c",
           "access_epoch": "b0429b3c110f468be41ce1cf71d1138021701ccef057c2c622c8bce02fc12f7c",
           "history_query": {
-            "from_date": "2026-07-16",
+            "from_date": "2026-07-17",
             "group_mode": "AS_SOLD",
-            "through_date": "2026-10-23"
+            "through_date": "2026-10-24"
           },
           "policy_source": {
             "policy": {
-              "id": "7cb143d0-8e93-4e62-84c5-4f67c21261be",
+              "id": "f1c74dc0-d3fe-4607-acc8-d31b2718fba4",
               "state": "ACTIVE",
               "config": {
                 "promotion": {
@@ -1362,15 +1362,15 @@
               "reason": "EXPLICIT SYNTHETIC historical fixture, not owner/factory approval",
               "revision": "1",
               "recorded_at": "2026-06-02T00:00:00.123456Z",
-              "registry_id": "cp7.owner-model-policy.7cb143d0-8e93-4e62-84c5-4f67c21261be"
+              "registry_id": "cp7.owner-model-policy.f1c74dc0-d3fe-4607-acc8-d31b2718fba4"
             },
-            "request_id": "15504da8-7313-4dba-824c-ab800e6126bd",
+            "request_id": "1b653f14-f623-42e1-9cca-915234781287",
             "template_hash": "21e1ea8e303853f5d2e6f07041ad4c91555ebba944605151a2941519a6c081f7",
             "actor_scope_id": "11111111-1111-4111-8111-111111111111"
           },
           "production_go": false,
           "actor_scope_id": "11111111-1111-4111-8111-111111111111",
-          "history_run_id": "a63209f1-1006-41a2-92de-d461f7cc1850",
+          "history_run_id": "adb31dfa-757b-4a44-a220-823d7a58557d",
           "selected_model": null,
           "baseline_target": {
             "inputs": {
@@ -1411,21 +1411,21 @@
           },
           "contract_version": "cp7.model-target-resolution.v1",
           "forecast_applied": false,
-          "model_source_hash": "895b11b5eefa19f9dbe2484a09cd056adb341c2fd2f57c10d1e895d807203ab4",
-          "forecast_from_date": "2026-10-24",
-          "consumer_engine_hash": "c16061462e3437ff60a718f8710955b9"
+          "model_source_hash": "e75eb6387c44c1f636df01f4f5659afd4bef53c5bffd4ba4cdb732970b111c85",
+          "forecast_from_date": "2026-10-25",
+          "consumer_engine_hash": "869347bfe8c741b5066106582cd4dff9"
         },
         "query": {
-          "from_date": "2026-07-16",
+          "from_date": "2026-07-17",
           "group_mode": "AS_SOLD",
-          "through_date": "2026-10-23"
+          "through_date": "2026-10-24"
         },
         "analog": null,
         "size_id": "33333333-3333-4333-8333-333333333333",
         "daily_sd": null,
         "target_key": "22222222-2222-4222-8222-222222222222:33333333-3333-4333-8333-333333333333",
         "target_pcs": "202",
-        "captured_at": "2026-10-24T16:49:01.701000Z",
+        "captured_at": "2026-10-24T17:08:23.651000Z",
         "counted_days": "100",
         "own_total_pcs": "5050",
         "daily_total_pcs": "5050",
@@ -1557,20 +1557,20 @@
       "model_resolution": {
         "state": "BASELINE_RETAINED",
         "reason": "MODEL_HISTORY_QUERY_DIFFERS_FROM_TARGET",
-        "run_id": "161973bd-4a50-4b1e-a823-7e9b870ed054",
+        "run_id": "156e4ecf-8b65-4b0e-974c-d347b6ed25d2",
         "forecast": null,
-        "captured_at": "2026-10-24T16:49:01.766000Z",
+        "captured_at": "2026-10-24T17:08:23.702000Z",
         "engine_hash": "5ef36981b325a7f2e7790a300294c572",
-        "source_hash": "58d4309cf1c1a913ddeccbe71404e093d6de74b42ca4278ffee7b5004656dc5a",
+        "source_hash": "8796e2fc12eec440e770f5e9a71f55ed0ca769a77586d041de47da2e7bd8dd3c",
         "access_epoch": "b0429b3c110f468be41ce1cf71d1138021701ccef057c2c622c8bce02fc12f7c",
         "history_query": {
-          "from_date": "2026-07-16",
+          "from_date": "2026-07-17",
           "group_mode": "AS_SOLD",
-          "through_date": "2026-10-23"
+          "through_date": "2026-10-24"
         },
         "policy_source": {
           "policy": {
-            "id": "62517310-dff1-487e-8201-25ab2d60b955",
+            "id": "c1dcf708-ca0a-403f-8d6c-70ed2406d6d0",
             "state": "ACTIVE",
             "config": {
               "promotion": {
@@ -1589,15 +1589,15 @@
             "reason": "EXPLICIT SYNTHETIC historical fixture, not owner/factory approval",
             "revision": "1",
             "recorded_at": "2026-06-02T00:00:00.123456Z",
-            "registry_id": "cp7.owner-model-policy.62517310-dff1-487e-8201-25ab2d60b955"
+            "registry_id": "cp7.owner-model-policy.c1dcf708-ca0a-403f-8d6c-70ed2406d6d0"
           },
-          "request_id": "99895f4d-ffe7-4f45-92f8-9a8f718b407c",
+          "request_id": "a89b70bd-6098-42b0-9050-b9dbde960f52",
           "template_hash": "21e1ea8e303853f5d2e6f07041ad4c91555ebba944605151a2941519a6c081f7",
           "actor_scope_id": "11111111-1111-4111-8111-111111111111"
         },
         "production_go": false,
         "actor_scope_id": "11111111-1111-4111-8111-111111111111",
-        "history_run_id": "a63209f1-1006-41a2-92de-d461f7cc1850",
+        "history_run_id": "adb31dfa-757b-4a44-a220-823d7a58557d",
         "selected_model": {
           "id": "naive-1",
           "method": "NAIVE",
@@ -1643,29 +1643,29 @@
         },
         "contract_version": "cp7.model-target-resolution.v1",
         "forecast_applied": false,
-        "model_source_hash": "a79542f1cc54e0033ec507697af0e4e68aed7c921ae95fc3facd6706c4ceb675",
-        "forecast_from_date": "2026-10-24",
-        "consumer_engine_hash": "c16061462e3437ff60a718f8710955b9"
+        "model_source_hash": "953f42f867ccdf737dce4583f8e22c412526890f7220c985fa0c0c70736b8835",
+        "forecast_from_date": "2026-10-25",
+        "consumer_engine_hash": "869347bfe8c741b5066106582cd4dff9"
       },
       "demand_provenance": {
         "basis": "OWN_AVAILABLE_HISTORY_ASSUMED_REPRESENTATIVE",
         "model": {
           "state": "BASELINE_RETAINED",
           "reason": "MODEL_HISTORY_QUERY_DIFFERS_FROM_TARGET",
-          "run_id": "161973bd-4a50-4b1e-a823-7e9b870ed054",
+          "run_id": "156e4ecf-8b65-4b0e-974c-d347b6ed25d2",
           "forecast": null,
-          "captured_at": "2026-10-24T16:49:01.766000Z",
+          "captured_at": "2026-10-24T17:08:23.702000Z",
           "engine_hash": "5ef36981b325a7f2e7790a300294c572",
-          "source_hash": "58d4309cf1c1a913ddeccbe71404e093d6de74b42ca4278ffee7b5004656dc5a",
+          "source_hash": "8796e2fc12eec440e770f5e9a71f55ed0ca769a77586d041de47da2e7bd8dd3c",
           "access_epoch": "b0429b3c110f468be41ce1cf71d1138021701ccef057c2c622c8bce02fc12f7c",
           "history_query": {
-            "from_date": "2026-07-16",
+            "from_date": "2026-07-17",
             "group_mode": "AS_SOLD",
-            "through_date": "2026-10-23"
+            "through_date": "2026-10-24"
           },
           "policy_source": {
             "policy": {
-              "id": "62517310-dff1-487e-8201-25ab2d60b955",
+              "id": "c1dcf708-ca0a-403f-8d6c-70ed2406d6d0",
               "state": "ACTIVE",
               "config": {
                 "promotion": {
@@ -1684,15 +1684,15 @@
               "reason": "EXPLICIT SYNTHETIC historical fixture, not owner/factory approval",
               "revision": "1",
               "recorded_at": "2026-06-02T00:00:00.123456Z",
-              "registry_id": "cp7.owner-model-policy.62517310-dff1-487e-8201-25ab2d60b955"
+              "registry_id": "cp7.owner-model-policy.c1dcf708-ca0a-403f-8d6c-70ed2406d6d0"
             },
-            "request_id": "99895f4d-ffe7-4f45-92f8-9a8f718b407c",
+            "request_id": "a89b70bd-6098-42b0-9050-b9dbde960f52",
             "template_hash": "21e1ea8e303853f5d2e6f07041ad4c91555ebba944605151a2941519a6c081f7",
             "actor_scope_id": "11111111-1111-4111-8111-111111111111"
           },
           "production_go": false,
           "actor_scope_id": "11111111-1111-4111-8111-111111111111",
-          "history_run_id": "a63209f1-1006-41a2-92de-d461f7cc1850",
+          "history_run_id": "adb31dfa-757b-4a44-a220-823d7a58557d",
           "selected_model": {
             "id": "naive-1",
             "method": "NAIVE",
@@ -1738,21 +1738,21 @@
           },
           "contract_version": "cp7.model-target-resolution.v1",
           "forecast_applied": false,
-          "model_source_hash": "a79542f1cc54e0033ec507697af0e4e68aed7c921ae95fc3facd6706c4ceb675",
-          "forecast_from_date": "2026-10-24",
-          "consumer_engine_hash": "c16061462e3437ff60a718f8710955b9"
+          "model_source_hash": "953f42f867ccdf737dce4583f8e22c412526890f7220c985fa0c0c70736b8835",
+          "forecast_from_date": "2026-10-25",
+          "consumer_engine_hash": "869347bfe8c741b5066106582cd4dff9"
         },
         "query": {
-          "from_date": "2026-07-16",
+          "from_date": "2026-07-17",
           "group_mode": "RESTATED",
-          "through_date": "2026-10-23"
+          "through_date": "2026-10-24"
         },
         "analog": null,
         "size_id": "33333333-3333-4333-8333-333333333333",
         "daily_sd": null,
         "target_key": "22222222-2222-4222-8222-222222222222:33333333-3333-4333-8333-333333333333",
         "target_pcs": "202",
-        "captured_at": "2026-10-24T16:49:01.940000Z",
+        "captured_at": "2026-10-24T17:08:23.921000Z",
         "counted_days": "100",
         "own_total_pcs": "5050",
         "daily_total_pcs": "5050",
@@ -1884,20 +1884,20 @@
       "model_resolution": {
         "state": "BASELINE_RETAINED",
         "reason": "FULL_DATED_TARGET_AND_REORDER_VECTOR_REQUIRED",
-        "run_id": "10122e03-e1f8-4c47-ae22-2783a5964899",
+        "run_id": "198ecfad-f40c-422e-b9af-cf4cd15490ce",
         "forecast": null,
-        "captured_at": "2026-10-24T16:49:01.992000Z",
+        "captured_at": "2026-10-24T17:08:23.992000Z",
         "engine_hash": "5ef36981b325a7f2e7790a300294c572",
-        "source_hash": "fc48d0a134686fceb014cc9822bb80acc450edd7d35fdca7d7b5a812f7a1e9a4",
+        "source_hash": "9ab74824cad82f1b25be7184b7eb99ea9bc091232799c78abed62c8b8ee1c3a1",
         "access_epoch": "b0429b3c110f468be41ce1cf71d1138021701ccef057c2c622c8bce02fc12f7c",
         "history_query": {
-          "from_date": "2026-07-16",
+          "from_date": "2026-07-17",
           "group_mode": "AS_SOLD",
-          "through_date": "2026-10-23"
+          "through_date": "2026-10-24"
         },
         "policy_source": {
           "policy": {
-            "id": "4ad14d02-ad15-41dc-84cc-6e288d6bf481",
+            "id": "1d98ca1b-da3c-4cf5-931b-c8f0756fafb2",
             "state": "ACTIVE",
             "config": {
               "promotion": {
@@ -1916,15 +1916,15 @@
             "reason": "EXPLICIT SYNTHETIC historical fixture, not owner/factory approval",
             "revision": "1",
             "recorded_at": "2026-06-02T00:00:00.123456Z",
-            "registry_id": "cp7.owner-model-policy.4ad14d02-ad15-41dc-84cc-6e288d6bf481"
+            "registry_id": "cp7.owner-model-policy.1d98ca1b-da3c-4cf5-931b-c8f0756fafb2"
           },
-          "request_id": "0b8ffb99-bcad-42a5-90f8-683d7c951f36",
+          "request_id": "423577e3-d9a3-480b-b100-93b5273491b4",
           "template_hash": "21e1ea8e303853f5d2e6f07041ad4c91555ebba944605151a2941519a6c081f7",
           "actor_scope_id": "11111111-1111-4111-8111-111111111111"
         },
         "production_go": false,
         "actor_scope_id": "11111111-1111-4111-8111-111111111111",
-        "history_run_id": "a63209f1-1006-41a2-92de-d461f7cc1850",
+        "history_run_id": "adb31dfa-757b-4a44-a220-823d7a58557d",
         "selected_model": {
           "id": "naive-1",
           "method": "NAIVE",
@@ -1970,29 +1970,29 @@
         },
         "contract_version": "cp7.model-target-resolution.v1",
         "forecast_applied": false,
-        "model_source_hash": "c0baf4ae944d304438644915305bd530bc93034a64b8ba320847a8768e59e91c",
-        "forecast_from_date": "2026-10-24",
-        "consumer_engine_hash": "c16061462e3437ff60a718f8710955b9"
+        "model_source_hash": "f346d18bafe36dbc668af94f205944ae79270b41820212898631850beb5a3f9e",
+        "forecast_from_date": "2026-10-25",
+        "consumer_engine_hash": "869347bfe8c741b5066106582cd4dff9"
       },
       "demand_provenance": {
         "basis": "OWN_AVAILABLE_HISTORY_ASSUMED_REPRESENTATIVE",
         "model": {
           "state": "BASELINE_RETAINED",
           "reason": "FULL_DATED_TARGET_AND_REORDER_VECTOR_REQUIRED",
-          "run_id": "10122e03-e1f8-4c47-ae22-2783a5964899",
+          "run_id": "198ecfad-f40c-422e-b9af-cf4cd15490ce",
           "forecast": null,
-          "captured_at": "2026-10-24T16:49:01.992000Z",
+          "captured_at": "2026-10-24T17:08:23.992000Z",
           "engine_hash": "5ef36981b325a7f2e7790a300294c572",
-          "source_hash": "fc48d0a134686fceb014cc9822bb80acc450edd7d35fdca7d7b5a812f7a1e9a4",
+          "source_hash": "9ab74824cad82f1b25be7184b7eb99ea9bc091232799c78abed62c8b8ee1c3a1",
           "access_epoch": "b0429b3c110f468be41ce1cf71d1138021701ccef057c2c622c8bce02fc12f7c",
           "history_query": {
-            "from_date": "2026-07-16",
+            "from_date": "2026-07-17",
             "group_mode": "AS_SOLD",
-            "through_date": "2026-10-23"
+            "through_date": "2026-10-24"
           },
           "policy_source": {
             "policy": {
-              "id": "4ad14d02-ad15-41dc-84cc-6e288d6bf481",
+              "id": "1d98ca1b-da3c-4cf5-931b-c8f0756fafb2",
               "state": "ACTIVE",
               "config": {
                 "promotion": {
@@ -2011,15 +2011,15 @@
               "reason": "EXPLICIT SYNTHETIC historical fixture, not owner/factory approval",
               "revision": "1",
               "recorded_at": "2026-06-02T00:00:00.123456Z",
-              "registry_id": "cp7.owner-model-policy.4ad14d02-ad15-41dc-84cc-6e288d6bf481"
+              "registry_id": "cp7.owner-model-policy.1d98ca1b-da3c-4cf5-931b-c8f0756fafb2"
             },
-            "request_id": "0b8ffb99-bcad-42a5-90f8-683d7c951f36",
+            "request_id": "423577e3-d9a3-480b-b100-93b5273491b4",
             "template_hash": "21e1ea8e303853f5d2e6f07041ad4c91555ebba944605151a2941519a6c081f7",
             "actor_scope_id": "11111111-1111-4111-8111-111111111111"
           },
           "production_go": false,
           "actor_scope_id": "11111111-1111-4111-8111-111111111111",
-          "history_run_id": "a63209f1-1006-41a2-92de-d461f7cc1850",
+          "history_run_id": "adb31dfa-757b-4a44-a220-823d7a58557d",
           "selected_model": {
             "id": "naive-1",
             "method": "NAIVE",
@@ -2065,21 +2065,21 @@
           },
           "contract_version": "cp7.model-target-resolution.v1",
           "forecast_applied": false,
-          "model_source_hash": "c0baf4ae944d304438644915305bd530bc93034a64b8ba320847a8768e59e91c",
-          "forecast_from_date": "2026-10-24",
-          "consumer_engine_hash": "c16061462e3437ff60a718f8710955b9"
+          "model_source_hash": "f346d18bafe36dbc668af94f205944ae79270b41820212898631850beb5a3f9e",
+          "forecast_from_date": "2026-10-25",
+          "consumer_engine_hash": "869347bfe8c741b5066106582cd4dff9"
         },
         "query": {
-          "from_date": "2026-07-16",
+          "from_date": "2026-07-17",
           "group_mode": "AS_SOLD",
-          "through_date": "2026-10-23"
+          "through_date": "2026-10-24"
         },
         "analog": null,
         "size_id": "33333333-3333-4333-8333-333333333333",
         "daily_sd": null,
         "target_key": "22222222-2222-4222-8222-222222222222:33333333-3333-4333-8333-333333333333",
         "target_pcs": "404",
-        "captured_at": "2026-10-24T16:49:02.176000Z",
+        "captured_at": "2026-10-24T17:08:24.214000Z",
         "counted_days": "100",
         "own_total_pcs": "5050",
         "daily_total_pcs": "5050",
@@ -2136,7 +2136,7 @@
         "model_input": {
           "state": "MODEL_PROJECTED",
           "reason": "DATED_POINT_FORECAST_WITH_EXISTING_HISTORICAL_VARIATION_ASSUMPTION",
-          "run_id": "8273d189-ab2e-43f0-aca6-921a187d0352",
+          "run_id": "aa587263-80d8-4f76-8a07-559bf6c36cb0",
           "forecast": {
             "method": "NAIVE",
             "params": {},
@@ -2154,18 +2154,18 @@
             "kernel_version": "naive-1",
             "training_count": 100
           },
-          "captured_at": "2026-10-24T16:49:02.231000Z",
+          "captured_at": "2026-10-24T17:08:24.288000Z",
           "engine_hash": "5ef36981b325a7f2e7790a300294c572",
-          "source_hash": "6649784d8f02b59e4c69f0a8f67e10c2e81aa5118a4dd08f2ffc0745c0b82647",
+          "source_hash": "7276a32c2bd424d3db692647e9e90a201864098b09b5d07c17dbe9f2c6fa4698",
           "access_epoch": "b0429b3c110f468be41ce1cf71d1138021701ccef057c2c622c8bce02fc12f7c",
           "history_query": {
-            "from_date": "2026-07-16",
+            "from_date": "2026-07-17",
             "group_mode": "AS_SOLD",
-            "through_date": "2026-10-23"
+            "through_date": "2026-10-24"
           },
           "policy_source": {
             "policy": {
-              "id": "0cd5ca14-c4f6-43cf-8d1f-b7397fdd880c",
+              "id": "73be3d93-371d-4610-bddc-34e7ec41b7a7",
               "state": "ACTIVE",
               "config": {
                 "promotion": {
@@ -2184,15 +2184,15 @@
               "reason": "EXPLICIT SYNTHETIC historical fixture, not owner/factory approval",
               "revision": "1",
               "recorded_at": "2026-06-02T00:00:00.123456Z",
-              "registry_id": "cp7.owner-model-policy.0cd5ca14-c4f6-43cf-8d1f-b7397fdd880c"
+              "registry_id": "cp7.owner-model-policy.73be3d93-371d-4610-bddc-34e7ec41b7a7"
             },
-            "request_id": "f73f9d59-71c3-44cc-8b7b-1ba69780ddd7",
+            "request_id": "cce4207d-248d-4382-9f47-817e25339b0d",
             "template_hash": "21e1ea8e303853f5d2e6f07041ad4c91555ebba944605151a2941519a6c081f7",
             "actor_scope_id": "11111111-1111-4111-8111-111111111111"
           },
           "production_go": false,
           "actor_scope_id": "11111111-1111-4111-8111-111111111111",
-          "history_run_id": "a63209f1-1006-41a2-92de-d461f7cc1850",
+          "history_run_id": "adb31dfa-757b-4a44-a220-823d7a58557d",
           "selected_model": {
             "id": "naive-1",
             "method": "NAIVE",
@@ -2238,9 +2238,9 @@
           },
           "contract_version": "cp7.model-target-resolution.v1",
           "forecast_applied": true,
-          "model_source_hash": "c0ad01bb70824072aeee00817c37aa26968f68375af2681997091b0a4b458c28",
-          "forecast_from_date": "2026-10-24",
-          "consumer_engine_hash": "c16061462e3437ff60a718f8710955b9"
+          "model_source_hash": "a55380df4a10e6ef6fd47f22191cdb614aa90af1d30dc64ef6825f4bbbba2e2c",
+          "forecast_from_date": "2026-10-25",
+          "consumer_engine_hash": "869347bfe8c741b5066106582cd4dff9"
         },
         "buffer_basis": "BASELINE_INDEPENDENT_DAILY_VARIATION_ASSUMPTION",
         "horizon_days": "3",
@@ -2325,7 +2325,7 @@
       "model_resolution": {
         "state": "MODEL_PROJECTED",
         "reason": "DATED_POINT_FORECAST_WITH_EXISTING_HISTORICAL_VARIATION_ASSUMPTION",
-        "run_id": "8273d189-ab2e-43f0-aca6-921a187d0352",
+        "run_id": "aa587263-80d8-4f76-8a07-559bf6c36cb0",
         "forecast": {
           "method": "NAIVE",
           "params": {},
@@ -2343,18 +2343,18 @@
           "kernel_version": "naive-1",
           "training_count": 100
         },
-        "captured_at": "2026-10-24T16:49:02.231000Z",
+        "captured_at": "2026-10-24T17:08:24.288000Z",
         "engine_hash": "5ef36981b325a7f2e7790a300294c572",
-        "source_hash": "6649784d8f02b59e4c69f0a8f67e10c2e81aa5118a4dd08f2ffc0745c0b82647",
+        "source_hash": "7276a32c2bd424d3db692647e9e90a201864098b09b5d07c17dbe9f2c6fa4698",
         "access_epoch": "b0429b3c110f468be41ce1cf71d1138021701ccef057c2c622c8bce02fc12f7c",
         "history_query": {
-          "from_date": "2026-07-16",
+          "from_date": "2026-07-17",
           "group_mode": "AS_SOLD",
-          "through_date": "2026-10-23"
+          "through_date": "2026-10-24"
         },
         "policy_source": {
           "policy": {
-            "id": "0cd5ca14-c4f6-43cf-8d1f-b7397fdd880c",
+            "id": "73be3d93-371d-4610-bddc-34e7ec41b7a7",
             "state": "ACTIVE",
             "config": {
               "promotion": {
@@ -2373,15 +2373,15 @@
             "reason": "EXPLICIT SYNTHETIC historical fixture, not owner/factory approval",
             "revision": "1",
             "recorded_at": "2026-06-02T00:00:00.123456Z",
-            "registry_id": "cp7.owner-model-policy.0cd5ca14-c4f6-43cf-8d1f-b7397fdd880c"
+            "registry_id": "cp7.owner-model-policy.73be3d93-371d-4610-bddc-34e7ec41b7a7"
           },
-          "request_id": "f73f9d59-71c3-44cc-8b7b-1ba69780ddd7",
+          "request_id": "cce4207d-248d-4382-9f47-817e25339b0d",
           "template_hash": "21e1ea8e303853f5d2e6f07041ad4c91555ebba944605151a2941519a6c081f7",
           "actor_scope_id": "11111111-1111-4111-8111-111111111111"
         },
         "production_go": false,
         "actor_scope_id": "11111111-1111-4111-8111-111111111111",
-        "history_run_id": "a63209f1-1006-41a2-92de-d461f7cc1850",
+        "history_run_id": "adb31dfa-757b-4a44-a220-823d7a58557d",
         "selected_model": {
           "id": "naive-1",
           "method": "NAIVE",
@@ -2427,16 +2427,16 @@
         },
         "contract_version": "cp7.model-target-resolution.v1",
         "forecast_applied": true,
-        "model_source_hash": "c0ad01bb70824072aeee00817c37aa26968f68375af2681997091b0a4b458c28",
-        "forecast_from_date": "2026-10-24",
-        "consumer_engine_hash": "c16061462e3437ff60a718f8710955b9"
+        "model_source_hash": "a55380df4a10e6ef6fd47f22191cdb614aa90af1d30dc64ef6825f4bbbba2e2c",
+        "forecast_from_date": "2026-10-25",
+        "consumer_engine_hash": "869347bfe8c741b5066106582cd4dff9"
       },
       "demand_provenance": {
         "basis": "OWN_AVAILABLE_HISTORY_ASSUMED_REPRESENTATIVE",
         "model": {
           "state": "MODEL_PROJECTED",
           "reason": "DATED_POINT_FORECAST_WITH_EXISTING_HISTORICAL_VARIATION_ASSUMPTION",
-          "run_id": "8273d189-ab2e-43f0-aca6-921a187d0352",
+          "run_id": "aa587263-80d8-4f76-8a07-559bf6c36cb0",
           "forecast": {
             "method": "NAIVE",
             "params": {},
@@ -2454,18 +2454,18 @@
             "kernel_version": "naive-1",
             "training_count": 100
           },
-          "captured_at": "2026-10-24T16:49:02.231000Z",
+          "captured_at": "2026-10-24T17:08:24.288000Z",
           "engine_hash": "5ef36981b325a7f2e7790a300294c572",
-          "source_hash": "6649784d8f02b59e4c69f0a8f67e10c2e81aa5118a4dd08f2ffc0745c0b82647",
+          "source_hash": "7276a32c2bd424d3db692647e9e90a201864098b09b5d07c17dbe9f2c6fa4698",
           "access_epoch": "b0429b3c110f468be41ce1cf71d1138021701ccef057c2c622c8bce02fc12f7c",
           "history_query": {
-            "from_date": "2026-07-16",
+            "from_date": "2026-07-17",
             "group_mode": "AS_SOLD",
-            "through_date": "2026-10-23"
+            "through_date": "2026-10-24"
           },
           "policy_source": {
             "policy": {
-              "id": "0cd5ca14-c4f6-43cf-8d1f-b7397fdd880c",
+              "id": "73be3d93-371d-4610-bddc-34e7ec41b7a7",
               "state": "ACTIVE",
               "config": {
                 "promotion": {
@@ -2484,15 +2484,15 @@
               "reason": "EXPLICIT SYNTHETIC historical fixture, not owner/factory approval",
               "revision": "1",
               "recorded_at": "2026-06-02T00:00:00.123456Z",
-              "registry_id": "cp7.owner-model-policy.0cd5ca14-c4f6-43cf-8d1f-b7397fdd880c"
+              "registry_id": "cp7.owner-model-policy.73be3d93-371d-4610-bddc-34e7ec41b7a7"
             },
-            "request_id": "f73f9d59-71c3-44cc-8b7b-1ba69780ddd7",
+            "request_id": "cce4207d-248d-4382-9f47-817e25339b0d",
             "template_hash": "21e1ea8e303853f5d2e6f07041ad4c91555ebba944605151a2941519a6c081f7",
             "actor_scope_id": "11111111-1111-4111-8111-111111111111"
           },
           "production_go": false,
           "actor_scope_id": "11111111-1111-4111-8111-111111111111",
-          "history_run_id": "a63209f1-1006-41a2-92de-d461f7cc1850",
+          "history_run_id": "adb31dfa-757b-4a44-a220-823d7a58557d",
           "selected_model": {
             "id": "naive-1",
             "method": "NAIVE",
@@ -2538,21 +2538,21 @@
           },
           "contract_version": "cp7.model-target-resolution.v1",
           "forecast_applied": true,
-          "model_source_hash": "c0ad01bb70824072aeee00817c37aa26968f68375af2681997091b0a4b458c28",
-          "forecast_from_date": "2026-10-24",
-          "consumer_engine_hash": "c16061462e3437ff60a718f8710955b9"
+          "model_source_hash": "a55380df4a10e6ef6fd47f22191cdb614aa90af1d30dc64ef6825f4bbbba2e2c",
+          "forecast_from_date": "2026-10-25",
+          "consumer_engine_hash": "869347bfe8c741b5066106582cd4dff9"
         },
         "query": {
-          "from_date": "2026-07-16",
+          "from_date": "2026-07-17",
           "group_mode": "AS_SOLD",
-          "through_date": "2026-10-23"
+          "through_date": "2026-10-24"
         },
         "analog": null,
         "size_id": "33333333-3333-4333-8333-333333333333",
         "daily_sd": "29.0114919758820171",
         "target_key": "22222222-2222-4222-8222-222222222222:33333333-3333-4333-8333-333333333333",
         "target_pcs": "383",
-        "captured_at": "2026-10-24T16:49:02.408000Z",
+        "captured_at": "2026-10-24T17:08:24.533000Z",
         "counted_days": "100",
         "own_total_pcs": "5050",
         "daily_total_pcs": "5050",
@@ -2684,20 +2684,20 @@
       "model_resolution": {
         "state": "BASELINE_RETAINED",
         "reason": "ACTIVATION_POLICY_CHANGED",
-        "run_id": "0e1e21c1-fbb2-41ff-8730-d17309bf850a",
+        "run_id": "f572072d-db83-4741-bbf2-7e76b3d2faba",
         "forecast": null,
-        "captured_at": "2026-10-24T16:49:02.461000Z",
+        "captured_at": "2026-10-24T17:08:24.601000Z",
         "engine_hash": "5ef36981b325a7f2e7790a300294c572",
-        "source_hash": "2aa0c2b5f4f36c5b5d2675ca5b7f717e4c3d1a6510d7f6c4b2cd005f449174a1",
+        "source_hash": "ae98a51d754c0ccebfded0091b2f7e7f073d457da2648d40256075c50f425c7d",
         "access_epoch": "b0429b3c110f468be41ce1cf71d1138021701ccef057c2c622c8bce02fc12f7c",
         "history_query": {
-          "from_date": "2026-07-16",
+          "from_date": "2026-07-17",
           "group_mode": "AS_SOLD",
-          "through_date": "2026-10-23"
+          "through_date": "2026-10-24"
         },
         "policy_source": {
           "policy": {
-            "id": "b0d352d4-aba4-4447-9934-840d607a38b7",
+            "id": "137e57a8-184b-4e9d-aef1-006392d03ef6",
             "state": "SUSPENDED",
             "config": {
               "promotion": {
@@ -2715,16 +2715,16 @@
             },
             "reason": "EXPLICIT SYNTHETIC historical fixture, not owner/factory approval",
             "revision": "2",
-            "recorded_at": "2026-10-24T16:49:02.634000Z",
-            "registry_id": "cp7.owner-model-policy.b0d352d4-aba4-4447-9934-840d607a38b7"
+            "recorded_at": "2026-10-24T17:08:24.845000Z",
+            "registry_id": "cp7.owner-model-policy.137e57a8-184b-4e9d-aef1-006392d03ef6"
           },
-          "request_id": "3be62d3c-097c-4d57-8701-661a45a92854",
+          "request_id": "68d02b84-2606-4c00-a8c6-70906f876a9a",
           "template_hash": "21e1ea8e303853f5d2e6f07041ad4c91555ebba944605151a2941519a6c081f7",
           "actor_scope_id": "11111111-1111-4111-8111-111111111111"
         },
         "production_go": false,
         "actor_scope_id": "11111111-1111-4111-8111-111111111111",
-        "history_run_id": "a63209f1-1006-41a2-92de-d461f7cc1850",
+        "history_run_id": "adb31dfa-757b-4a44-a220-823d7a58557d",
         "selected_model": null,
         "baseline_target": {
           "inputs": {
@@ -2765,29 +2765,29 @@
         },
         "contract_version": "cp7.model-target-resolution.v1",
         "forecast_applied": false,
-        "model_source_hash": "69abe545ada6b018c33abc2e4f6455e84af1b6f0d530ed079806501cd9858e3b",
-        "forecast_from_date": "2026-10-24",
-        "consumer_engine_hash": "c16061462e3437ff60a718f8710955b9"
+        "model_source_hash": "8b61fa949bcf8c0649ea7fd970fe4f25fbec21888c233f744ac9d1f98c70bee4",
+        "forecast_from_date": "2026-10-25",
+        "consumer_engine_hash": "869347bfe8c741b5066106582cd4dff9"
       },
       "demand_provenance": {
         "basis": "OWN_AVAILABLE_HISTORY_ASSUMED_REPRESENTATIVE",
         "model": {
           "state": "BASELINE_RETAINED",
           "reason": "ACTIVATION_POLICY_CHANGED",
-          "run_id": "0e1e21c1-fbb2-41ff-8730-d17309bf850a",
+          "run_id": "f572072d-db83-4741-bbf2-7e76b3d2faba",
           "forecast": null,
-          "captured_at": "2026-10-24T16:49:02.461000Z",
+          "captured_at": "2026-10-24T17:08:24.601000Z",
           "engine_hash": "5ef36981b325a7f2e7790a300294c572",
-          "source_hash": "2aa0c2b5f4f36c5b5d2675ca5b7f717e4c3d1a6510d7f6c4b2cd005f449174a1",
+          "source_hash": "ae98a51d754c0ccebfded0091b2f7e7f073d457da2648d40256075c50f425c7d",
           "access_epoch": "b0429b3c110f468be41ce1cf71d1138021701ccef057c2c622c8bce02fc12f7c",
           "history_query": {
-            "from_date": "2026-07-16",
+            "from_date": "2026-07-17",
             "group_mode": "AS_SOLD",
-            "through_date": "2026-10-23"
+            "through_date": "2026-10-24"
           },
           "policy_source": {
             "policy": {
-              "id": "b0d352d4-aba4-4447-9934-840d607a38b7",
+              "id": "137e57a8-184b-4e9d-aef1-006392d03ef6",
               "state": "SUSPENDED",
               "config": {
                 "promotion": {
@@ -2805,16 +2805,16 @@
               },
               "reason": "EXPLICIT SYNTHETIC historical fixture, not owner/factory approval",
               "revision": "2",
-              "recorded_at": "2026-10-24T16:49:02.634000Z",
-              "registry_id": "cp7.owner-model-policy.b0d352d4-aba4-4447-9934-840d607a38b7"
+              "recorded_at": "2026-10-24T17:08:24.845000Z",
+              "registry_id": "cp7.owner-model-policy.137e57a8-184b-4e9d-aef1-006392d03ef6"
             },
-            "request_id": "3be62d3c-097c-4d57-8701-661a45a92854",
+            "request_id": "68d02b84-2606-4c00-a8c6-70906f876a9a",
             "template_hash": "21e1ea8e303853f5d2e6f07041ad4c91555ebba944605151a2941519a6c081f7",
             "actor_scope_id": "11111111-1111-4111-8111-111111111111"
           },
           "production_go": false,
           "actor_scope_id": "11111111-1111-4111-8111-111111111111",
-          "history_run_id": "a63209f1-1006-41a2-92de-d461f7cc1850",
+          "history_run_id": "adb31dfa-757b-4a44-a220-823d7a58557d",
           "selected_model": null,
           "baseline_target": {
             "inputs": {
@@ -2855,21 +2855,21 @@
           },
           "contract_version": "cp7.model-target-resolution.v1",
           "forecast_applied": false,
-          "model_source_hash": "69abe545ada6b018c33abc2e4f6455e84af1b6f0d530ed079806501cd9858e3b",
-          "forecast_from_date": "2026-10-24",
-          "consumer_engine_hash": "c16061462e3437ff60a718f8710955b9"
+          "model_source_hash": "8b61fa949bcf8c0649ea7fd970fe4f25fbec21888c233f744ac9d1f98c70bee4",
+          "forecast_from_date": "2026-10-25",
+          "consumer_engine_hash": "869347bfe8c741b5066106582cd4dff9"
         },
         "query": {
-          "from_date": "2026-07-16",
+          "from_date": "2026-07-17",
           "group_mode": "AS_SOLD",
-          "through_date": "2026-10-23"
+          "through_date": "2026-10-24"
         },
         "analog": null,
         "size_id": "33333333-3333-4333-8333-333333333333",
         "daily_sd": null,
         "target_key": "22222222-2222-4222-8222-222222222222:33333333-3333-4333-8333-333333333333",
         "target_pcs": "202",
-        "captured_at": "2026-10-24T16:49:02.636000Z",
+        "captured_at": "2026-10-24T17:08:24.847000Z",
         "counted_days": "100",
         "own_total_pcs": "5050",
         "daily_total_pcs": "5050",
@@ -2914,7 +2914,7 @@
           "lead_days": "2",
           "buffer_days": "1",
           "review_days": "1",
-          "snapshot_id": "717570101d5be483c73d4664a9c1d22258b816183e0c361a71852660dcdea98b",
+          "snapshot_id": "f8b1555bb1e2412a20c615bb87d25858084e3047502f42c1eef2b8d29f45df7e",
           "counted_days": "100",
           "service_level": null,
           "daily_total_pcs": "5050",
@@ -2990,7 +2990,7 @@
           "size_id": "33333333-3333-4333-8333-333333333333",
           "scope_id": "GLOBAL_CURRENT_PHYSICAL_ROOTS",
           "target_key": "22222222-2222-4222-8222-222222222222:33333333-3333-4333-8333-333333333333",
-          "snapshot_id": "717570101d5be483c73d4664a9c1d22258b816183e0c361a71852660dcdea98b",
+          "snapshot_id": "f8b1555bb1e2412a20c615bb87d25858084e3047502f42c1eef2b8d29f45df7e",
           "contract_version": "cp7.demand-estimate-input.v1",
           "minimum_own_available_days": "20"
         },
@@ -3005,7 +3005,7 @@
         "forecast": null,
         "captured_at": null,
         "engine_hash": "5ef36981b325a7f2e7790a300294c572",
-        "source_hash": "df3b9831af6e2a927093c04812d2b54582bc462e409954f1defcd14e1a796749",
+        "source_hash": "8e2b98a5f7803674d97d8674b50cebacbe514f46ad0d2210d47ad9f5105a3522",
         "access_epoch": "e8dad41ed3c324da8ef67891de4d1d626dfbbd71fb2172dfd19e353babf057b7",
         "history_query": null,
         "policy_source": null,
@@ -3033,7 +3033,7 @@
             "lead_days": "2",
             "buffer_days": "1",
             "review_days": "1",
-            "snapshot_id": "717570101d5be483c73d4664a9c1d22258b816183e0c361a71852660dcdea98b",
+            "snapshot_id": "f8b1555bb1e2412a20c615bb87d25858084e3047502f42c1eef2b8d29f45df7e",
             "counted_days": "100",
             "service_level": null,
             "daily_total_pcs": "5050",
@@ -3054,7 +3054,7 @@
         "forecast_applied": false,
         "model_source_hash": null,
         "forecast_from_date": null,
-        "consumer_engine_hash": "40be62a857e87e88d752f9dcf32ea1bf"
+        "consumer_engine_hash": "c1bc6043e2ce8cdebb59e2c66f5b1d35"
       },
       "demand_provenance": {
         "basis": "OWN_AVAILABLE_HISTORY_ASSUMED_REPRESENTATIVE",
@@ -3065,7 +3065,7 @@
           "forecast": null,
           "captured_at": null,
           "engine_hash": "5ef36981b325a7f2e7790a300294c572",
-          "source_hash": "df3b9831af6e2a927093c04812d2b54582bc462e409954f1defcd14e1a796749",
+          "source_hash": "8e2b98a5f7803674d97d8674b50cebacbe514f46ad0d2210d47ad9f5105a3522",
           "access_epoch": "e8dad41ed3c324da8ef67891de4d1d626dfbbd71fb2172dfd19e353babf057b7",
           "history_query": null,
           "policy_source": null,
@@ -3093,7 +3093,7 @@
               "lead_days": "2",
               "buffer_days": "1",
               "review_days": "1",
-              "snapshot_id": "717570101d5be483c73d4664a9c1d22258b816183e0c361a71852660dcdea98b",
+              "snapshot_id": "f8b1555bb1e2412a20c615bb87d25858084e3047502f42c1eef2b8d29f45df7e",
               "counted_days": "100",
               "service_level": null,
               "daily_total_pcs": "5050",
@@ -3114,19 +3114,19 @@
           "forecast_applied": false,
           "model_source_hash": null,
           "forecast_from_date": null,
-          "consumer_engine_hash": "40be62a857e87e88d752f9dcf32ea1bf"
+          "consumer_engine_hash": "c1bc6043e2ce8cdebb59e2c66f5b1d35"
         },
         "query": {
-          "from_date": "2026-07-16",
+          "from_date": "2026-07-17",
           "group_mode": "AS_SOLD",
-          "through_date": "2026-10-23"
+          "through_date": "2026-10-24"
         },
         "analog": null,
         "size_id": "33333333-3333-4333-8333-333333333333",
         "daily_sd": null,
         "target_key": "22222222-2222-4222-8222-222222222222:33333333-3333-4333-8333-333333333333",
         "target_pcs": "202",
-        "captured_at": "2026-10-24T16:49:05.760000Z",
+        "captured_at": "2026-10-24T17:08:28.767000Z",
         "counted_days": "100",
         "own_total_pcs": "5050",
         "daily_total_pcs": "5050",
@@ -3174,7 +3174,7 @@
             "lead_days": "2",
             "buffer_days": "1",
             "review_days": "1",
-            "snapshot_id": "90782c3704554c69b39621d1ab50905a44f7586c71909bb4d3b841454028d958",
+            "snapshot_id": "f0867be66d279d834f6fcaf43ac8c358e1b41fcea23db57292dadf6c6ee49c6c",
             "counted_days": "100",
             "service_level": null,
             "daily_total_pcs": "5050",
@@ -3186,7 +3186,7 @@
           "model_input": {
             "state": "MODEL_PROJECTED",
             "reason": "ONE_DATED_VECTOR_WITH_ONE_EXPLICIT_DAYS_BUFFER",
-            "run_id": "d0f9cbaa-2291-4160-a61f-8a1c545442b6",
+            "run_id": "8fba6e75-0d8c-4039-8634-ed7f86d84d23",
             "forecast": {
               "method": "NAIVE",
               "params": {},
@@ -3204,18 +3204,18 @@
               "kernel_version": "naive-1",
               "training_count": 100
             },
-            "captured_at": "2026-10-24T16:49:04.387000Z",
+            "captured_at": "2026-10-24T17:08:27.250000Z",
             "engine_hash": "5ef36981b325a7f2e7790a300294c572",
-            "source_hash": "9ff160b03b3b527cc753b1c68234060232062b47e20c81f0f03ab9ac3200ad48",
+            "source_hash": "6a5354648422c6b2844abdc50d6618c240ec056a28602d0fa12fb5d89c1bbcf7",
             "access_epoch": "b0429b3c110f468be41ce1cf71d1138021701ccef057c2c622c8bce02fc12f7c",
             "history_query": {
-              "from_date": "2026-07-16",
+              "from_date": "2026-07-17",
               "group_mode": "AS_SOLD",
-              "through_date": "2026-10-23"
+              "through_date": "2026-10-24"
             },
             "policy_source": {
               "policy": {
-                "id": "9978362b-9816-46d9-8b7e-67cf353efc1d",
+                "id": "b84264e0-7692-4026-912c-1f860ead7a3c",
                 "state": "ACTIVE",
                 "config": {
                   "promotion": {
@@ -3234,15 +3234,15 @@
                 "reason": "EXPLICIT SYNTHETIC historical fixture, not owner/factory approval",
                 "revision": "1",
                 "recorded_at": "2026-06-02T00:00:00.123456Z",
-                "registry_id": "cp7.owner-model-policy.9978362b-9816-46d9-8b7e-67cf353efc1d"
+                "registry_id": "cp7.owner-model-policy.b84264e0-7692-4026-912c-1f860ead7a3c"
               },
-              "request_id": "38870a21-9514-4378-9137-64b3c2689058",
+              "request_id": "66ee621f-3f60-4eca-b404-e4e57b81f34f",
               "template_hash": "21e1ea8e303853f5d2e6f07041ad4c91555ebba944605151a2941519a6c081f7",
               "actor_scope_id": "11111111-1111-4111-8111-111111111111"
             },
             "production_go": false,
             "actor_scope_id": "11111111-1111-4111-8111-111111111111",
-            "history_run_id": "a63209f1-1006-41a2-92de-d461f7cc1850",
+            "history_run_id": "adb31dfa-757b-4a44-a220-823d7a58557d",
             "selected_model": {
               "id": "naive-1",
               "method": "NAIVE",
@@ -3269,7 +3269,7 @@
                 "lead_days": "2",
                 "buffer_days": "1",
                 "review_days": "1",
-                "snapshot_id": "90782c3704554c69b39621d1ab50905a44f7586c71909bb4d3b841454028d958",
+                "snapshot_id": "f0867be66d279d834f6fcaf43ac8c358e1b41fcea23db57292dadf6c6ee49c6c",
                 "counted_days": "100",
                 "service_level": null,
                 "daily_total_pcs": "5050",
@@ -3288,9 +3288,9 @@
             },
             "contract_version": "cp7.model-target-resolution.v1",
             "forecast_applied": true,
-            "model_source_hash": "2e96ce29888dcbf1a5f5968f81b01df398ca84c9e7ef5f7ec57338013e950970",
-            "forecast_from_date": "2026-10-24",
-            "consumer_engine_hash": "40be62a857e87e88d752f9dcf32ea1bf"
+            "model_source_hash": "54fae0d135745785c4b101d4aa3162467427d60abc6d142d36330fe1f2924adb",
+            "forecast_from_date": "2026-10-25",
+            "consumer_engine_hash": "c1bc6043e2ce8cdebb59e2c66f5b1d35"
           },
           "buffer_basis": "ONE_EXPLICIT_DAYS_BUFFER",
           "horizon_days": "3",
@@ -3362,7 +3362,7 @@
             "size_id": "33333333-3333-4333-8333-333333333333",
             "scope_id": "GLOBAL_CURRENT_PHYSICAL_ROOTS",
             "target_key": "22222222-2222-4222-8222-222222222222:33333333-3333-4333-8333-333333333333",
-            "snapshot_id": "90782c3704554c69b39621d1ab50905a44f7586c71909bb4d3b841454028d958",
+            "snapshot_id": "f0867be66d279d834f6fcaf43ac8c358e1b41fcea23db57292dadf6c6ee49c6c",
             "contract_version": "cp7.demand-estimate-input.v1",
             "minimum_own_available_days": "20"
           },
@@ -3373,7 +3373,7 @@
         "model_resolution": {
           "state": "MODEL_PROJECTED",
           "reason": "ONE_DATED_VECTOR_WITH_ONE_EXPLICIT_DAYS_BUFFER",
-          "run_id": "d0f9cbaa-2291-4160-a61f-8a1c545442b6",
+          "run_id": "8fba6e75-0d8c-4039-8634-ed7f86d84d23",
           "forecast": {
             "method": "NAIVE",
             "params": {},
@@ -3391,18 +3391,18 @@
             "kernel_version": "naive-1",
             "training_count": 100
           },
-          "captured_at": "2026-10-24T16:49:04.387000Z",
+          "captured_at": "2026-10-24T17:08:27.250000Z",
           "engine_hash": "5ef36981b325a7f2e7790a300294c572",
-          "source_hash": "9ff160b03b3b527cc753b1c68234060232062b47e20c81f0f03ab9ac3200ad48",
+          "source_hash": "6a5354648422c6b2844abdc50d6618c240ec056a28602d0fa12fb5d89c1bbcf7",
           "access_epoch": "b0429b3c110f468be41ce1cf71d1138021701ccef057c2c622c8bce02fc12f7c",
           "history_query": {
-            "from_date": "2026-07-16",
+            "from_date": "2026-07-17",
             "group_mode": "AS_SOLD",
-            "through_date": "2026-10-23"
+            "through_date": "2026-10-24"
           },
           "policy_source": {
             "policy": {
-              "id": "9978362b-9816-46d9-8b7e-67cf353efc1d",
+              "id": "b84264e0-7692-4026-912c-1f860ead7a3c",
               "state": "ACTIVE",
               "config": {
                 "promotion": {
@@ -3421,15 +3421,15 @@
               "reason": "EXPLICIT SYNTHETIC historical fixture, not owner/factory approval",
               "revision": "1",
               "recorded_at": "2026-06-02T00:00:00.123456Z",
-              "registry_id": "cp7.owner-model-policy.9978362b-9816-46d9-8b7e-67cf353efc1d"
+              "registry_id": "cp7.owner-model-policy.b84264e0-7692-4026-912c-1f860ead7a3c"
             },
-            "request_id": "38870a21-9514-4378-9137-64b3c2689058",
+            "request_id": "66ee621f-3f60-4eca-b404-e4e57b81f34f",
             "template_hash": "21e1ea8e303853f5d2e6f07041ad4c91555ebba944605151a2941519a6c081f7",
             "actor_scope_id": "11111111-1111-4111-8111-111111111111"
           },
           "production_go": false,
           "actor_scope_id": "11111111-1111-4111-8111-111111111111",
-          "history_run_id": "a63209f1-1006-41a2-92de-d461f7cc1850",
+          "history_run_id": "adb31dfa-757b-4a44-a220-823d7a58557d",
           "selected_model": {
             "id": "naive-1",
             "method": "NAIVE",
@@ -3456,7 +3456,7 @@
               "lead_days": "2",
               "buffer_days": "1",
               "review_days": "1",
-              "snapshot_id": "90782c3704554c69b39621d1ab50905a44f7586c71909bb4d3b841454028d958",
+              "snapshot_id": "f0867be66d279d834f6fcaf43ac8c358e1b41fcea23db57292dadf6c6ee49c6c",
               "counted_days": "100",
               "service_level": null,
               "daily_total_pcs": "5050",
@@ -3475,16 +3475,16 @@
           },
           "contract_version": "cp7.model-target-resolution.v1",
           "forecast_applied": true,
-          "model_source_hash": "2e96ce29888dcbf1a5f5968f81b01df398ca84c9e7ef5f7ec57338013e950970",
-          "forecast_from_date": "2026-10-24",
-          "consumer_engine_hash": "40be62a857e87e88d752f9dcf32ea1bf"
+          "model_source_hash": "54fae0d135745785c4b101d4aa3162467427d60abc6d142d36330fe1f2924adb",
+          "forecast_from_date": "2026-10-25",
+          "consumer_engine_hash": "c1bc6043e2ce8cdebb59e2c66f5b1d35"
         },
         "demand_provenance": {
           "basis": "OWN_AVAILABLE_HISTORY_ASSUMED_REPRESENTATIVE",
           "model": {
             "state": "MODEL_PROJECTED",
             "reason": "ONE_DATED_VECTOR_WITH_ONE_EXPLICIT_DAYS_BUFFER",
-            "run_id": "d0f9cbaa-2291-4160-a61f-8a1c545442b6",
+            "run_id": "8fba6e75-0d8c-4039-8634-ed7f86d84d23",
             "forecast": {
               "method": "NAIVE",
               "params": {},
@@ -3502,18 +3502,18 @@
               "kernel_version": "naive-1",
               "training_count": 100
             },
-            "captured_at": "2026-10-24T16:49:04.387000Z",
+            "captured_at": "2026-10-24T17:08:27.250000Z",
             "engine_hash": "5ef36981b325a7f2e7790a300294c572",
-            "source_hash": "9ff160b03b3b527cc753b1c68234060232062b47e20c81f0f03ab9ac3200ad48",
+            "source_hash": "6a5354648422c6b2844abdc50d6618c240ec056a28602d0fa12fb5d89c1bbcf7",
             "access_epoch": "b0429b3c110f468be41ce1cf71d1138021701ccef057c2c622c8bce02fc12f7c",
             "history_query": {
-              "from_date": "2026-07-16",
+              "from_date": "2026-07-17",
               "group_mode": "AS_SOLD",
-              "through_date": "2026-10-23"
+              "through_date": "2026-10-24"
             },
             "policy_source": {
               "policy": {
-                "id": "9978362b-9816-46d9-8b7e-67cf353efc1d",
+                "id": "b84264e0-7692-4026-912c-1f860ead7a3c",
                 "state": "ACTIVE",
                 "config": {
                   "promotion": {
@@ -3532,15 +3532,15 @@
                 "reason": "EXPLICIT SYNTHETIC historical fixture, not owner/factory approval",
                 "revision": "1",
                 "recorded_at": "2026-06-02T00:00:00.123456Z",
-                "registry_id": "cp7.owner-model-policy.9978362b-9816-46d9-8b7e-67cf353efc1d"
+                "registry_id": "cp7.owner-model-policy.b84264e0-7692-4026-912c-1f860ead7a3c"
               },
-              "request_id": "38870a21-9514-4378-9137-64b3c2689058",
+              "request_id": "66ee621f-3f60-4eca-b404-e4e57b81f34f",
               "template_hash": "21e1ea8e303853f5d2e6f07041ad4c91555ebba944605151a2941519a6c081f7",
               "actor_scope_id": "11111111-1111-4111-8111-111111111111"
             },
             "production_go": false,
             "actor_scope_id": "11111111-1111-4111-8111-111111111111",
-            "history_run_id": "a63209f1-1006-41a2-92de-d461f7cc1850",
+            "history_run_id": "adb31dfa-757b-4a44-a220-823d7a58557d",
             "selected_model": {
               "id": "naive-1",
               "method": "NAIVE",
@@ -3567,7 +3567,7 @@
                 "lead_days": "2",
                 "buffer_days": "1",
                 "review_days": "1",
-                "snapshot_id": "90782c3704554c69b39621d1ab50905a44f7586c71909bb4d3b841454028d958",
+                "snapshot_id": "f0867be66d279d834f6fcaf43ac8c358e1b41fcea23db57292dadf6c6ee49c6c",
                 "counted_days": "100",
                 "service_level": null,
                 "daily_total_pcs": "5050",
@@ -3586,21 +3586,21 @@
             },
             "contract_version": "cp7.model-target-resolution.v1",
             "forecast_applied": true,
-            "model_source_hash": "2e96ce29888dcbf1a5f5968f81b01df398ca84c9e7ef5f7ec57338013e950970",
-            "forecast_from_date": "2026-10-24",
-            "consumer_engine_hash": "40be62a857e87e88d752f9dcf32ea1bf"
+            "model_source_hash": "54fae0d135745785c4b101d4aa3162467427d60abc6d142d36330fe1f2924adb",
+            "forecast_from_date": "2026-10-25",
+            "consumer_engine_hash": "c1bc6043e2ce8cdebb59e2c66f5b1d35"
           },
           "query": {
-            "from_date": "2026-07-16",
+            "from_date": "2026-07-17",
             "group_mode": "AS_SOLD",
-            "through_date": "2026-10-23"
+            "through_date": "2026-10-24"
           },
           "analog": null,
           "size_id": "33333333-3333-4333-8333-333333333333",
           "daily_sd": null,
           "target_key": "22222222-2222-4222-8222-222222222222:33333333-3333-4333-8333-333333333333",
           "target_pcs": "400",
-          "captured_at": "2026-10-24T16:49:04.597000Z",
+          "captured_at": "2026-10-24T17:08:27.449000Z",
           "counted_days": "100",
           "own_total_pcs": "5050",
           "daily_total_pcs": "5050",
@@ -3645,7 +3645,7 @@
             "lead_days": "2",
             "buffer_days": "1",
             "review_days": "1",
-            "snapshot_id": "90782c3704554c69b39621d1ab50905a44f7586c71909bb4d3b841454028d958",
+            "snapshot_id": "f0867be66d279d834f6fcaf43ac8c358e1b41fcea23db57292dadf6c6ee49c6c",
             "counted_days": "100",
             "service_level": null,
             "daily_total_pcs": "5050",
@@ -3721,7 +3721,7 @@
             "size_id": "33333333-3333-4333-8333-333333333333",
             "scope_id": "GLOBAL_CURRENT_PHYSICAL_ROOTS",
             "target_key": "44444444-4444-4444-8444-444444444444:33333333-3333-4333-8333-333333333333",
-            "snapshot_id": "90782c3704554c69b39621d1ab50905a44f7586c71909bb4d3b841454028d958",
+            "snapshot_id": "f0867be66d279d834f6fcaf43ac8c358e1b41fcea23db57292dadf6c6ee49c6c",
             "contract_version": "cp7.demand-estimate-input.v1",
             "minimum_own_available_days": "20"
           },
@@ -3736,12 +3736,12 @@
           "forecast": null,
           "captured_at": null,
           "engine_hash": "5ef36981b325a7f2e7790a300294c572",
-          "source_hash": "9ff160b03b3b527cc753b1c68234060232062b47e20c81f0f03ab9ac3200ad48",
+          "source_hash": "6a5354648422c6b2844abdc50d6618c240ec056a28602d0fa12fb5d89c1bbcf7",
           "access_epoch": "b0429b3c110f468be41ce1cf71d1138021701ccef057c2c622c8bce02fc12f7c",
           "history_query": null,
           "policy_source": {
             "policy": {
-              "id": "9978362b-9816-46d9-8b7e-67cf353efc1d",
+              "id": "b84264e0-7692-4026-912c-1f860ead7a3c",
               "state": "ACTIVE",
               "config": {
                 "promotion": {
@@ -3760,9 +3760,9 @@
               "reason": "EXPLICIT SYNTHETIC historical fixture, not owner/factory approval",
               "revision": "1",
               "recorded_at": "2026-06-02T00:00:00.123456Z",
-              "registry_id": "cp7.owner-model-policy.9978362b-9816-46d9-8b7e-67cf353efc1d"
+              "registry_id": "cp7.owner-model-policy.b84264e0-7692-4026-912c-1f860ead7a3c"
             },
-            "request_id": "38870a21-9514-4378-9137-64b3c2689058",
+            "request_id": "66ee621f-3f60-4eca-b404-e4e57b81f34f",
             "template_hash": "21e1ea8e303853f5d2e6f07041ad4c91555ebba944605151a2941519a6c081f7",
             "actor_scope_id": "11111111-1111-4111-8111-111111111111"
           },
@@ -3790,7 +3790,7 @@
               "lead_days": "2",
               "buffer_days": "1",
               "review_days": "1",
-              "snapshot_id": "90782c3704554c69b39621d1ab50905a44f7586c71909bb4d3b841454028d958",
+              "snapshot_id": "f0867be66d279d834f6fcaf43ac8c358e1b41fcea23db57292dadf6c6ee49c6c",
               "counted_days": "100",
               "service_level": null,
               "daily_total_pcs": "5050",
@@ -3811,7 +3811,7 @@
           "forecast_applied": false,
           "model_source_hash": null,
           "forecast_from_date": null,
-          "consumer_engine_hash": "40be62a857e87e88d752f9dcf32ea1bf"
+          "consumer_engine_hash": "c1bc6043e2ce8cdebb59e2c66f5b1d35"
         },
         "demand_provenance": {
           "basis": "OWN_AVAILABLE_HISTORY_ASSUMED_REPRESENTATIVE",
@@ -3822,12 +3822,12 @@
             "forecast": null,
             "captured_at": null,
             "engine_hash": "5ef36981b325a7f2e7790a300294c572",
-            "source_hash": "9ff160b03b3b527cc753b1c68234060232062b47e20c81f0f03ab9ac3200ad48",
+            "source_hash": "6a5354648422c6b2844abdc50d6618c240ec056a28602d0fa12fb5d89c1bbcf7",
             "access_epoch": "b0429b3c110f468be41ce1cf71d1138021701ccef057c2c622c8bce02fc12f7c",
             "history_query": null,
             "policy_source": {
               "policy": {
-                "id": "9978362b-9816-46d9-8b7e-67cf353efc1d",
+                "id": "b84264e0-7692-4026-912c-1f860ead7a3c",
                 "state": "ACTIVE",
                 "config": {
                   "promotion": {
@@ -3846,9 +3846,9 @@
                 "reason": "EXPLICIT SYNTHETIC historical fixture, not owner/factory approval",
                 "revision": "1",
                 "recorded_at": "2026-06-02T00:00:00.123456Z",
-                "registry_id": "cp7.owner-model-policy.9978362b-9816-46d9-8b7e-67cf353efc1d"
+                "registry_id": "cp7.owner-model-policy.b84264e0-7692-4026-912c-1f860ead7a3c"
               },
-              "request_id": "38870a21-9514-4378-9137-64b3c2689058",
+              "request_id": "66ee621f-3f60-4eca-b404-e4e57b81f34f",
               "template_hash": "21e1ea8e303853f5d2e6f07041ad4c91555ebba944605151a2941519a6c081f7",
               "actor_scope_id": "11111111-1111-4111-8111-111111111111"
             },
@@ -3876,7 +3876,7 @@
                 "lead_days": "2",
                 "buffer_days": "1",
                 "review_days": "1",
-                "snapshot_id": "90782c3704554c69b39621d1ab50905a44f7586c71909bb4d3b841454028d958",
+                "snapshot_id": "f0867be66d279d834f6fcaf43ac8c358e1b41fcea23db57292dadf6c6ee49c6c",
                 "counted_days": "100",
                 "service_level": null,
                 "daily_total_pcs": "5050",
@@ -3897,19 +3897,19 @@
             "forecast_applied": false,
             "model_source_hash": null,
             "forecast_from_date": null,
-            "consumer_engine_hash": "40be62a857e87e88d752f9dcf32ea1bf"
+            "consumer_engine_hash": "c1bc6043e2ce8cdebb59e2c66f5b1d35"
           },
           "query": {
-            "from_date": "2026-07-16",
+            "from_date": "2026-07-17",
             "group_mode": "AS_SOLD",
-            "through_date": "2026-10-23"
+            "through_date": "2026-10-24"
           },
           "analog": null,
           "size_id": "33333333-3333-4333-8333-333333333333",
           "daily_sd": null,
           "target_key": "44444444-4444-4444-8444-444444444444:33333333-3333-4333-8333-333333333333",
           "target_pcs": "202",
-          "captured_at": "2026-10-24T16:49:04.597000Z",
+          "captured_at": "2026-10-24T17:08:27.449000Z",
           "counted_days": "100",
           "own_total_pcs": "5050",
           "daily_total_pcs": "5050",
@@ -3921,9 +3921,9 @@
       }
     ],
     "scope": "GLOBAL_CURRENT_PHYSICAL_ROOTS",
-    "captured_at": "2026-10-24T16:49:04.597000Z",
+    "captured_at": "2026-10-24T17:08:27.449000Z",
     "model_basis": "CURRENT_POLICY_GATED_DATED_NATIVE_MODELS",
-    "source_hash": "90782c3704554c69b39621d1ab50905a44f7586c71909bb4d3b841454028d958",
+    "source_hash": "f0867be66d279d834f6fcaf43ac8c358e1b41fcea23db57292dadf6c6ee49c6c",
     "target_basis": "UNIFIED_TARGET_WITH_SELECTED_PROFILE_ASSUMPTIONS",
     "apply_enabled": false,
     "production_go": false,
@@ -3935,700 +3935,700 @@
           {
             "days": [
               {
-                "date": "2026-07-16",
+                "date": "2026-07-17",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "1",
                 "gross_observed_pcs": "1"
               },
               {
-                "date": "2026-07-17",
+                "date": "2026-07-18",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "2",
                 "gross_observed_pcs": "2"
               },
               {
-                "date": "2026-07-18",
+                "date": "2026-07-19",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "3",
                 "gross_observed_pcs": "3"
               },
               {
-                "date": "2026-07-19",
+                "date": "2026-07-20",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "4",
                 "gross_observed_pcs": "4"
               },
               {
-                "date": "2026-07-20",
+                "date": "2026-07-21",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "5",
                 "gross_observed_pcs": "5"
               },
               {
-                "date": "2026-07-21",
+                "date": "2026-07-22",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "6",
                 "gross_observed_pcs": "6"
               },
               {
-                "date": "2026-07-22",
+                "date": "2026-07-23",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "7",
                 "gross_observed_pcs": "7"
               },
               {
-                "date": "2026-07-23",
+                "date": "2026-07-24",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "8",
                 "gross_observed_pcs": "8"
               },
               {
-                "date": "2026-07-24",
+                "date": "2026-07-25",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "9",
                 "gross_observed_pcs": "9"
               },
               {
-                "date": "2026-07-25",
+                "date": "2026-07-26",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "10",
                 "gross_observed_pcs": "10"
               },
               {
-                "date": "2026-07-26",
+                "date": "2026-07-27",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "11",
                 "gross_observed_pcs": "11"
               },
               {
-                "date": "2026-07-27",
+                "date": "2026-07-28",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "12",
                 "gross_observed_pcs": "12"
               },
               {
-                "date": "2026-07-28",
+                "date": "2026-07-29",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "13",
                 "gross_observed_pcs": "13"
               },
               {
-                "date": "2026-07-29",
+                "date": "2026-07-30",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "14",
                 "gross_observed_pcs": "14"
               },
               {
-                "date": "2026-07-30",
+                "date": "2026-07-31",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "15",
                 "gross_observed_pcs": "15"
               },
               {
-                "date": "2026-07-31",
+                "date": "2026-08-01",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "16",
                 "gross_observed_pcs": "16"
               },
               {
-                "date": "2026-08-01",
+                "date": "2026-08-02",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "17",
                 "gross_observed_pcs": "17"
               },
               {
-                "date": "2026-08-02",
+                "date": "2026-08-03",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "18",
                 "gross_observed_pcs": "18"
               },
               {
-                "date": "2026-08-03",
+                "date": "2026-08-04",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "19",
                 "gross_observed_pcs": "19"
               },
               {
-                "date": "2026-08-04",
+                "date": "2026-08-05",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "20",
                 "gross_observed_pcs": "20"
               },
               {
-                "date": "2026-08-05",
+                "date": "2026-08-06",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "21",
                 "gross_observed_pcs": "21"
               },
               {
-                "date": "2026-08-06",
+                "date": "2026-08-07",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "22",
                 "gross_observed_pcs": "22"
               },
               {
-                "date": "2026-08-07",
+                "date": "2026-08-08",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "23",
                 "gross_observed_pcs": "23"
               },
               {
-                "date": "2026-08-08",
+                "date": "2026-08-09",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "24",
                 "gross_observed_pcs": "24"
               },
               {
-                "date": "2026-08-09",
+                "date": "2026-08-10",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "25",
                 "gross_observed_pcs": "25"
               },
               {
-                "date": "2026-08-10",
+                "date": "2026-08-11",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "26",
                 "gross_observed_pcs": "26"
               },
               {
-                "date": "2026-08-11",
+                "date": "2026-08-12",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "27",
                 "gross_observed_pcs": "27"
               },
               {
-                "date": "2026-08-12",
+                "date": "2026-08-13",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "28",
                 "gross_observed_pcs": "28"
               },
               {
-                "date": "2026-08-13",
+                "date": "2026-08-14",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "29",
                 "gross_observed_pcs": "29"
               },
               {
-                "date": "2026-08-14",
+                "date": "2026-08-15",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "30",
                 "gross_observed_pcs": "30"
               },
               {
-                "date": "2026-08-15",
+                "date": "2026-08-16",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "31",
                 "gross_observed_pcs": "31"
               },
               {
-                "date": "2026-08-16",
+                "date": "2026-08-17",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "32",
                 "gross_observed_pcs": "32"
               },
               {
-                "date": "2026-08-17",
+                "date": "2026-08-18",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "33",
                 "gross_observed_pcs": "33"
               },
               {
-                "date": "2026-08-18",
+                "date": "2026-08-19",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "34",
                 "gross_observed_pcs": "34"
               },
               {
-                "date": "2026-08-19",
+                "date": "2026-08-20",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "35",
                 "gross_observed_pcs": "35"
               },
               {
-                "date": "2026-08-20",
+                "date": "2026-08-21",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "36",
                 "gross_observed_pcs": "36"
               },
               {
-                "date": "2026-08-21",
+                "date": "2026-08-22",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "37",
                 "gross_observed_pcs": "37"
               },
               {
-                "date": "2026-08-22",
+                "date": "2026-08-23",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "38",
                 "gross_observed_pcs": "38"
               },
               {
-                "date": "2026-08-23",
+                "date": "2026-08-24",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "39",
                 "gross_observed_pcs": "39"
               },
               {
-                "date": "2026-08-24",
+                "date": "2026-08-25",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "40",
                 "gross_observed_pcs": "40"
               },
               {
-                "date": "2026-08-25",
+                "date": "2026-08-26",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "41",
                 "gross_observed_pcs": "41"
               },
               {
-                "date": "2026-08-26",
+                "date": "2026-08-27",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "42",
                 "gross_observed_pcs": "42"
               },
               {
-                "date": "2026-08-27",
+                "date": "2026-08-28",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "43",
                 "gross_observed_pcs": "43"
               },
               {
-                "date": "2026-08-28",
+                "date": "2026-08-29",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "44",
                 "gross_observed_pcs": "44"
               },
               {
-                "date": "2026-08-29",
+                "date": "2026-08-30",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "45",
                 "gross_observed_pcs": "45"
               },
               {
-                "date": "2026-08-30",
+                "date": "2026-08-31",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "46",
                 "gross_observed_pcs": "46"
               },
               {
-                "date": "2026-08-31",
+                "date": "2026-09-01",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "47",
                 "gross_observed_pcs": "47"
               },
               {
-                "date": "2026-09-01",
+                "date": "2026-09-02",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "48",
                 "gross_observed_pcs": "48"
               },
               {
-                "date": "2026-09-02",
+                "date": "2026-09-03",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "49",
                 "gross_observed_pcs": "49"
               },
               {
-                "date": "2026-09-03",
+                "date": "2026-09-04",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "50",
                 "gross_observed_pcs": "50"
               },
               {
-                "date": "2026-09-04",
+                "date": "2026-09-05",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "51",
                 "gross_observed_pcs": "51"
               },
               {
-                "date": "2026-09-05",
+                "date": "2026-09-06",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "52",
                 "gross_observed_pcs": "52"
               },
               {
-                "date": "2026-09-06",
+                "date": "2026-09-07",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "53",
                 "gross_observed_pcs": "53"
               },
               {
-                "date": "2026-09-07",
+                "date": "2026-09-08",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "54",
                 "gross_observed_pcs": "54"
               },
               {
-                "date": "2026-09-08",
+                "date": "2026-09-09",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "55",
                 "gross_observed_pcs": "55"
               },
               {
-                "date": "2026-09-09",
+                "date": "2026-09-10",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "56",
                 "gross_observed_pcs": "56"
               },
               {
-                "date": "2026-09-10",
+                "date": "2026-09-11",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "57",
                 "gross_observed_pcs": "57"
               },
               {
-                "date": "2026-09-11",
+                "date": "2026-09-12",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "58",
                 "gross_observed_pcs": "58"
               },
               {
-                "date": "2026-09-12",
+                "date": "2026-09-13",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "59",
                 "gross_observed_pcs": "59"
               },
               {
-                "date": "2026-09-13",
+                "date": "2026-09-14",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "60",
                 "gross_observed_pcs": "60"
               },
               {
-                "date": "2026-09-14",
+                "date": "2026-09-15",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "61",
                 "gross_observed_pcs": "61"
               },
               {
-                "date": "2026-09-15",
+                "date": "2026-09-16",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "62",
                 "gross_observed_pcs": "62"
               },
               {
-                "date": "2026-09-16",
+                "date": "2026-09-17",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "63",
                 "gross_observed_pcs": "63"
               },
               {
-                "date": "2026-09-17",
+                "date": "2026-09-18",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "64",
                 "gross_observed_pcs": "64"
               },
               {
-                "date": "2026-09-18",
+                "date": "2026-09-19",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "65",
                 "gross_observed_pcs": "65"
               },
               {
-                "date": "2026-09-19",
+                "date": "2026-09-20",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "66",
                 "gross_observed_pcs": "66"
               },
               {
-                "date": "2026-09-20",
+                "date": "2026-09-21",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "67",
                 "gross_observed_pcs": "67"
               },
               {
-                "date": "2026-09-21",
+                "date": "2026-09-22",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "68",
                 "gross_observed_pcs": "68"
               },
               {
-                "date": "2026-09-22",
+                "date": "2026-09-23",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "69",
                 "gross_observed_pcs": "69"
               },
               {
-                "date": "2026-09-23",
+                "date": "2026-09-24",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "70",
                 "gross_observed_pcs": "70"
               },
               {
-                "date": "2026-09-24",
+                "date": "2026-09-25",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "71",
                 "gross_observed_pcs": "71"
               },
               {
-                "date": "2026-09-25",
+                "date": "2026-09-26",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "72",
                 "gross_observed_pcs": "72"
               },
               {
-                "date": "2026-09-26",
+                "date": "2026-09-27",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "73",
                 "gross_observed_pcs": "73"
               },
               {
-                "date": "2026-09-27",
+                "date": "2026-09-28",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "74",
                 "gross_observed_pcs": "74"
               },
               {
-                "date": "2026-09-28",
+                "date": "2026-09-29",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "75",
                 "gross_observed_pcs": "75"
               },
               {
-                "date": "2026-09-29",
+                "date": "2026-09-30",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "76",
                 "gross_observed_pcs": "76"
               },
               {
-                "date": "2026-09-30",
+                "date": "2026-10-01",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "77",
                 "gross_observed_pcs": "77"
               },
               {
-                "date": "2026-10-01",
+                "date": "2026-10-02",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "78",
                 "gross_observed_pcs": "78"
               },
               {
-                "date": "2026-10-02",
+                "date": "2026-10-03",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "79",
                 "gross_observed_pcs": "79"
               },
               {
-                "date": "2026-10-03",
+                "date": "2026-10-04",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "80",
                 "gross_observed_pcs": "80"
               },
               {
-                "date": "2026-10-04",
+                "date": "2026-10-05",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "81",
                 "gross_observed_pcs": "81"
               },
               {
-                "date": "2026-10-05",
+                "date": "2026-10-06",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "82",
                 "gross_observed_pcs": "82"
               },
               {
-                "date": "2026-10-06",
+                "date": "2026-10-07",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "83",
                 "gross_observed_pcs": "83"
               },
               {
-                "date": "2026-10-07",
+                "date": "2026-10-08",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "84",
                 "gross_observed_pcs": "84"
               },
               {
-                "date": "2026-10-08",
+                "date": "2026-10-09",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "85",
                 "gross_observed_pcs": "85"
               },
               {
-                "date": "2026-10-09",
+                "date": "2026-10-10",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "86",
                 "gross_observed_pcs": "86"
               },
               {
-                "date": "2026-10-10",
+                "date": "2026-10-11",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "87",
                 "gross_observed_pcs": "87"
               },
               {
-                "date": "2026-10-11",
+                "date": "2026-10-12",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "88",
                 "gross_observed_pcs": "88"
               },
               {
-                "date": "2026-10-12",
+                "date": "2026-10-13",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "89",
                 "gross_observed_pcs": "89"
               },
               {
-                "date": "2026-10-13",
+                "date": "2026-10-14",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "90",
                 "gross_observed_pcs": "90"
               },
               {
-                "date": "2026-10-14",
+                "date": "2026-10-15",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "91",
                 "gross_observed_pcs": "91"
               },
               {
-                "date": "2026-10-15",
+                "date": "2026-10-16",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "92",
                 "gross_observed_pcs": "92"
               },
               {
-                "date": "2026-10-16",
+                "date": "2026-10-17",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "93",
                 "gross_observed_pcs": "93"
               },
               {
-                "date": "2026-10-17",
+                "date": "2026-10-18",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "94",
                 "gross_observed_pcs": "94"
               },
               {
-                "date": "2026-10-18",
+                "date": "2026-10-19",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "95",
                 "gross_observed_pcs": "95"
               },
               {
-                "date": "2026-10-19",
+                "date": "2026-10-20",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "96",
                 "gross_observed_pcs": "96"
               },
               {
-                "date": "2026-10-20",
+                "date": "2026-10-21",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "97",
                 "gross_observed_pcs": "97"
               },
               {
-                "date": "2026-10-21",
+                "date": "2026-10-22",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "98",
                 "gross_observed_pcs": "98"
               },
               {
-                "date": "2026-10-22",
+                "date": "2026-10-23",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "99",
                 "gross_observed_pcs": "99"
               },
               {
-                "date": "2026-10-23",
+                "date": "2026-10-24",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "100",
@@ -4655,700 +4655,700 @@
           {
             "days": [
               {
-                "date": "2026-07-16",
+                "date": "2026-07-17",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "1",
                 "gross_observed_pcs": "1"
               },
               {
-                "date": "2026-07-17",
+                "date": "2026-07-18",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "2",
                 "gross_observed_pcs": "2"
               },
               {
-                "date": "2026-07-18",
+                "date": "2026-07-19",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "3",
                 "gross_observed_pcs": "3"
               },
               {
-                "date": "2026-07-19",
+                "date": "2026-07-20",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "4",
                 "gross_observed_pcs": "4"
               },
               {
-                "date": "2026-07-20",
+                "date": "2026-07-21",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "5",
                 "gross_observed_pcs": "5"
               },
               {
-                "date": "2026-07-21",
+                "date": "2026-07-22",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "6",
                 "gross_observed_pcs": "6"
               },
               {
-                "date": "2026-07-22",
+                "date": "2026-07-23",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "7",
                 "gross_observed_pcs": "7"
               },
               {
-                "date": "2026-07-23",
+                "date": "2026-07-24",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "8",
                 "gross_observed_pcs": "8"
               },
               {
-                "date": "2026-07-24",
+                "date": "2026-07-25",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "9",
                 "gross_observed_pcs": "9"
               },
               {
-                "date": "2026-07-25",
+                "date": "2026-07-26",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "10",
                 "gross_observed_pcs": "10"
               },
               {
-                "date": "2026-07-26",
+                "date": "2026-07-27",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "11",
                 "gross_observed_pcs": "11"
               },
               {
-                "date": "2026-07-27",
+                "date": "2026-07-28",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "12",
                 "gross_observed_pcs": "12"
               },
               {
-                "date": "2026-07-28",
+                "date": "2026-07-29",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "13",
                 "gross_observed_pcs": "13"
               },
               {
-                "date": "2026-07-29",
+                "date": "2026-07-30",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "14",
                 "gross_observed_pcs": "14"
               },
               {
-                "date": "2026-07-30",
+                "date": "2026-07-31",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "15",
                 "gross_observed_pcs": "15"
               },
               {
-                "date": "2026-07-31",
+                "date": "2026-08-01",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "16",
                 "gross_observed_pcs": "16"
               },
               {
-                "date": "2026-08-01",
+                "date": "2026-08-02",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "17",
                 "gross_observed_pcs": "17"
               },
               {
-                "date": "2026-08-02",
+                "date": "2026-08-03",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "18",
                 "gross_observed_pcs": "18"
               },
               {
-                "date": "2026-08-03",
+                "date": "2026-08-04",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "19",
                 "gross_observed_pcs": "19"
               },
               {
-                "date": "2026-08-04",
+                "date": "2026-08-05",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "20",
                 "gross_observed_pcs": "20"
               },
               {
-                "date": "2026-08-05",
+                "date": "2026-08-06",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "21",
                 "gross_observed_pcs": "21"
               },
               {
-                "date": "2026-08-06",
+                "date": "2026-08-07",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "22",
                 "gross_observed_pcs": "22"
               },
               {
-                "date": "2026-08-07",
+                "date": "2026-08-08",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "23",
                 "gross_observed_pcs": "23"
               },
               {
-                "date": "2026-08-08",
+                "date": "2026-08-09",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "24",
                 "gross_observed_pcs": "24"
               },
               {
-                "date": "2026-08-09",
+                "date": "2026-08-10",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "25",
                 "gross_observed_pcs": "25"
               },
               {
-                "date": "2026-08-10",
+                "date": "2026-08-11",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "26",
                 "gross_observed_pcs": "26"
               },
               {
-                "date": "2026-08-11",
+                "date": "2026-08-12",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "27",
                 "gross_observed_pcs": "27"
               },
               {
-                "date": "2026-08-12",
+                "date": "2026-08-13",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "28",
                 "gross_observed_pcs": "28"
               },
               {
-                "date": "2026-08-13",
+                "date": "2026-08-14",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "29",
                 "gross_observed_pcs": "29"
               },
               {
-                "date": "2026-08-14",
+                "date": "2026-08-15",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "30",
                 "gross_observed_pcs": "30"
               },
               {
-                "date": "2026-08-15",
+                "date": "2026-08-16",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "31",
                 "gross_observed_pcs": "31"
               },
               {
-                "date": "2026-08-16",
+                "date": "2026-08-17",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "32",
                 "gross_observed_pcs": "32"
               },
               {
-                "date": "2026-08-17",
+                "date": "2026-08-18",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "33",
                 "gross_observed_pcs": "33"
               },
               {
-                "date": "2026-08-18",
+                "date": "2026-08-19",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "34",
                 "gross_observed_pcs": "34"
               },
               {
-                "date": "2026-08-19",
+                "date": "2026-08-20",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "35",
                 "gross_observed_pcs": "35"
               },
               {
-                "date": "2026-08-20",
+                "date": "2026-08-21",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "36",
                 "gross_observed_pcs": "36"
               },
               {
-                "date": "2026-08-21",
+                "date": "2026-08-22",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "37",
                 "gross_observed_pcs": "37"
               },
               {
-                "date": "2026-08-22",
+                "date": "2026-08-23",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "38",
                 "gross_observed_pcs": "38"
               },
               {
-                "date": "2026-08-23",
+                "date": "2026-08-24",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "39",
                 "gross_observed_pcs": "39"
               },
               {
-                "date": "2026-08-24",
+                "date": "2026-08-25",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "40",
                 "gross_observed_pcs": "40"
               },
               {
-                "date": "2026-08-25",
+                "date": "2026-08-26",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "41",
                 "gross_observed_pcs": "41"
               },
               {
-                "date": "2026-08-26",
+                "date": "2026-08-27",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "42",
                 "gross_observed_pcs": "42"
               },
               {
-                "date": "2026-08-27",
+                "date": "2026-08-28",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "43",
                 "gross_observed_pcs": "43"
               },
               {
-                "date": "2026-08-28",
+                "date": "2026-08-29",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "44",
                 "gross_observed_pcs": "44"
               },
               {
-                "date": "2026-08-29",
+                "date": "2026-08-30",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "45",
                 "gross_observed_pcs": "45"
               },
               {
-                "date": "2026-08-30",
+                "date": "2026-08-31",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "46",
                 "gross_observed_pcs": "46"
               },
               {
-                "date": "2026-08-31",
+                "date": "2026-09-01",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "47",
                 "gross_observed_pcs": "47"
               },
               {
-                "date": "2026-09-01",
+                "date": "2026-09-02",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "48",
                 "gross_observed_pcs": "48"
               },
               {
-                "date": "2026-09-02",
+                "date": "2026-09-03",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "49",
                 "gross_observed_pcs": "49"
               },
               {
-                "date": "2026-09-03",
+                "date": "2026-09-04",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "50",
                 "gross_observed_pcs": "50"
               },
               {
-                "date": "2026-09-04",
+                "date": "2026-09-05",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "51",
                 "gross_observed_pcs": "51"
               },
               {
-                "date": "2026-09-05",
+                "date": "2026-09-06",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "52",
                 "gross_observed_pcs": "52"
               },
               {
-                "date": "2026-09-06",
+                "date": "2026-09-07",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "53",
                 "gross_observed_pcs": "53"
               },
               {
-                "date": "2026-09-07",
+                "date": "2026-09-08",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "54",
                 "gross_observed_pcs": "54"
               },
               {
-                "date": "2026-09-08",
+                "date": "2026-09-09",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "55",
                 "gross_observed_pcs": "55"
               },
               {
-                "date": "2026-09-09",
+                "date": "2026-09-10",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "56",
                 "gross_observed_pcs": "56"
               },
               {
-                "date": "2026-09-10",
+                "date": "2026-09-11",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "57",
                 "gross_observed_pcs": "57"
               },
               {
-                "date": "2026-09-11",
+                "date": "2026-09-12",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "58",
                 "gross_observed_pcs": "58"
               },
               {
-                "date": "2026-09-12",
+                "date": "2026-09-13",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "59",
                 "gross_observed_pcs": "59"
               },
               {
-                "date": "2026-09-13",
+                "date": "2026-09-14",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "60",
                 "gross_observed_pcs": "60"
               },
               {
-                "date": "2026-09-14",
+                "date": "2026-09-15",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "61",
                 "gross_observed_pcs": "61"
               },
               {
-                "date": "2026-09-15",
+                "date": "2026-09-16",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "62",
                 "gross_observed_pcs": "62"
               },
               {
-                "date": "2026-09-16",
+                "date": "2026-09-17",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "63",
                 "gross_observed_pcs": "63"
               },
               {
-                "date": "2026-09-17",
+                "date": "2026-09-18",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "64",
                 "gross_observed_pcs": "64"
               },
               {
-                "date": "2026-09-18",
+                "date": "2026-09-19",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "65",
                 "gross_observed_pcs": "65"
               },
               {
-                "date": "2026-09-19",
+                "date": "2026-09-20",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "66",
                 "gross_observed_pcs": "66"
               },
               {
-                "date": "2026-09-20",
+                "date": "2026-09-21",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "67",
                 "gross_observed_pcs": "67"
               },
               {
-                "date": "2026-09-21",
+                "date": "2026-09-22",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "68",
                 "gross_observed_pcs": "68"
               },
               {
-                "date": "2026-09-22",
+                "date": "2026-09-23",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "69",
                 "gross_observed_pcs": "69"
               },
               {
-                "date": "2026-09-23",
+                "date": "2026-09-24",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "70",
                 "gross_observed_pcs": "70"
               },
               {
-                "date": "2026-09-24",
+                "date": "2026-09-25",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "71",
                 "gross_observed_pcs": "71"
               },
               {
-                "date": "2026-09-25",
+                "date": "2026-09-26",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "72",
                 "gross_observed_pcs": "72"
               },
               {
-                "date": "2026-09-26",
+                "date": "2026-09-27",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "73",
                 "gross_observed_pcs": "73"
               },
               {
-                "date": "2026-09-27",
+                "date": "2026-09-28",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "74",
                 "gross_observed_pcs": "74"
               },
               {
-                "date": "2026-09-28",
+                "date": "2026-09-29",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "75",
                 "gross_observed_pcs": "75"
               },
               {
-                "date": "2026-09-29",
+                "date": "2026-09-30",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "76",
                 "gross_observed_pcs": "76"
               },
               {
-                "date": "2026-09-30",
+                "date": "2026-10-01",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "77",
                 "gross_observed_pcs": "77"
               },
               {
-                "date": "2026-10-01",
+                "date": "2026-10-02",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "78",
                 "gross_observed_pcs": "78"
               },
               {
-                "date": "2026-10-02",
+                "date": "2026-10-03",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "79",
                 "gross_observed_pcs": "79"
               },
               {
-                "date": "2026-10-03",
+                "date": "2026-10-04",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "80",
                 "gross_observed_pcs": "80"
               },
               {
-                "date": "2026-10-04",
+                "date": "2026-10-05",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "81",
                 "gross_observed_pcs": "81"
               },
               {
-                "date": "2026-10-05",
+                "date": "2026-10-06",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "82",
                 "gross_observed_pcs": "82"
               },
               {
-                "date": "2026-10-06",
+                "date": "2026-10-07",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "83",
                 "gross_observed_pcs": "83"
               },
               {
-                "date": "2026-10-07",
+                "date": "2026-10-08",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "84",
                 "gross_observed_pcs": "84"
               },
               {
-                "date": "2026-10-08",
+                "date": "2026-10-09",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "85",
                 "gross_observed_pcs": "85"
               },
               {
-                "date": "2026-10-09",
+                "date": "2026-10-10",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "86",
                 "gross_observed_pcs": "86"
               },
               {
-                "date": "2026-10-10",
+                "date": "2026-10-11",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "87",
                 "gross_observed_pcs": "87"
               },
               {
-                "date": "2026-10-11",
+                "date": "2026-10-12",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "88",
                 "gross_observed_pcs": "88"
               },
               {
-                "date": "2026-10-12",
+                "date": "2026-10-13",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "89",
                 "gross_observed_pcs": "89"
               },
               {
-                "date": "2026-10-13",
+                "date": "2026-10-14",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "90",
                 "gross_observed_pcs": "90"
               },
               {
-                "date": "2026-10-14",
+                "date": "2026-10-15",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "91",
                 "gross_observed_pcs": "91"
               },
               {
-                "date": "2026-10-15",
+                "date": "2026-10-16",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "92",
                 "gross_observed_pcs": "92"
               },
               {
-                "date": "2026-10-16",
+                "date": "2026-10-17",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "93",
                 "gross_observed_pcs": "93"
               },
               {
-                "date": "2026-10-17",
+                "date": "2026-10-18",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "94",
                 "gross_observed_pcs": "94"
               },
               {
-                "date": "2026-10-18",
+                "date": "2026-10-19",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "95",
                 "gross_observed_pcs": "95"
               },
               {
-                "date": "2026-10-19",
+                "date": "2026-10-20",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "96",
                 "gross_observed_pcs": "96"
               },
               {
-                "date": "2026-10-20",
+                "date": "2026-10-21",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "97",
                 "gross_observed_pcs": "97"
               },
               {
-                "date": "2026-10-21",
+                "date": "2026-10-22",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "98",
                 "gross_observed_pcs": "98"
               },
               {
-                "date": "2026-10-22",
+                "date": "2026-10-23",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "99",
                 "gross_observed_pcs": "99"
               },
               {
-                "date": "2026-10-23",
+                "date": "2026-10-24",
                 "state": "AVAILABLE",
                 "returned_pcs": "0",
                 "training_pcs": "100",
@@ -5375,14 +5375,14 @@
         ],
         "status": "CAPTURE_COMPLETE",
         "scope_id": "GLOBAL_CURRENT_PHYSICAL_ROOTS",
-        "from_date": "2026-07-16",
+        "from_date": "2026-07-17",
         "group_mode": "AS_SOLD",
-        "known_as_of": "2026-10-24T16:49:04.597000Z",
+        "known_as_of": "2026-10-24T17:08:27.449000Z",
         "snapshot_id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
         "group_events": [],
-        "through_date": "2026-10-23",
+        "through_date": "2026-10-24",
         "kernel_version": "demand-1",
-        "effective_as_of": "2026-10-24T16:49:04.597000Z",
+        "effective_as_of": "2026-10-24T17:08:27.449000Z",
         "selected_events": [],
         "contract_version": "cp7.demand-result.v1"
       },
@@ -5391,7 +5391,7 @@
         "producer": "native-demand-1",
         "availability": "availability-1"
       },
-      "captured_at": "2026-10-24T16:49:04.597000Z",
+      "captured_at": "2026-10-24T17:08:27.449000Z",
       "source_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
       "current_stock": [
         {
@@ -5465,7 +5465,7 @@
       "capture_complete": true,
       "contract_version": "cp7.native-demand-history.v1",
       "model_eligibility": "HISTORICAL_AVAILABILITY_KNOWLEDGE_NOT_BACKFILLED",
-      "training_known_at": "2026-10-24T16:49:04.597000Z",
+      "training_known_at": "2026-10-24T17:08:27.449000Z",
       "availability_knowledge_basis": "CURRENT_CAPTURE_RESTATED_LEDGER"
     }
   },
@@ -5488,7 +5488,7 @@
       "sale_days": 100,
       "sales_pcs": "5050",
       "size_code": null,
-      "changed_at": "2026-10-24T16:49:05.055000Z",
+      "changed_at": "2026-10-24T17:08:27.992000Z",
       "daily_mean": "50.5000000000000000",
       "lead_basis": "PROFILE",
       "product_id": "22222222-2222-4222-8222-222222222222",
@@ -5503,7 +5503,7 @@
           "model": {
             "state": "MODEL_PROJECTED",
             "reason": "ONE_DATED_VECTOR_WITH_ONE_EXPLICIT_DAYS_BUFFER",
-            "run_id": "c0fd3e80-f5a4-48e2-a964-b5ecf9fce19b",
+            "run_id": "0ef98de3-7464-4bca-9b79-1459f00e19b5",
             "forecast": {
               "method": "NAIVE",
               "params": {},
@@ -5521,18 +5521,18 @@
               "kernel_version": "naive-1",
               "training_count": 100
             },
-            "captured_at": "2026-10-24T16:49:04.895000Z",
+            "captured_at": "2026-10-24T17:08:27.837000Z",
             "engine_hash": "5ef36981b325a7f2e7790a300294c572",
-            "source_hash": "7b83975d802f9b03d41a93338a3bd9100dd95ef5a5e3dd377d37a0c887639344",
+            "source_hash": "b2462db166955f95af55c8d7eb2369489698d2b360afe7b0c302fdd2e7e189f4",
             "access_epoch": "b0429b3c110f468be41ce1cf71d1138021701ccef057c2c622c8bce02fc12f7c",
             "history_query": {
-              "from_date": "2026-07-16",
+              "from_date": "2026-07-17",
               "group_mode": "AS_SOLD",
-              "through_date": "2026-10-23"
+              "through_date": "2026-10-24"
             },
             "policy_source": {
               "policy": {
-                "id": "c9ade03a-f8b6-4003-bc9d-6356be7f7095",
+                "id": "266a6fda-2323-45a0-a688-fe4ea53a5809",
                 "state": "ACTIVE",
                 "config": {
                   "promotion": {
@@ -5551,15 +5551,15 @@
                 "reason": "EXPLICIT SYNTHETIC historical fixture, not owner/factory approval",
                 "revision": "1",
                 "recorded_at": "2026-06-02T00:00:00.123456Z",
-                "registry_id": "cp7.owner-model-policy.c9ade03a-f8b6-4003-bc9d-6356be7f7095"
+                "registry_id": "cp7.owner-model-policy.266a6fda-2323-45a0-a688-fe4ea53a5809"
               },
-              "request_id": "1d730574-3bbe-4de9-8dc3-2d28ff9be4d7",
+              "request_id": "77d6970d-f232-4246-892b-1dd0b956c303",
               "template_hash": "21e1ea8e303853f5d2e6f07041ad4c91555ebba944605151a2941519a6c081f7",
               "actor_scope_id": "11111111-1111-4111-8111-111111111111"
             },
             "production_go": false,
             "actor_scope_id": "11111111-1111-4111-8111-111111111111",
-            "history_run_id": "a63209f1-1006-41a2-92de-d461f7cc1850",
+            "history_run_id": "adb31dfa-757b-4a44-a220-823d7a58557d",
             "selected_model": {
               "id": "naive-1",
               "method": "NAIVE",
@@ -5586,7 +5586,7 @@
                 "lead_days": "2",
                 "buffer_days": "1",
                 "review_days": "1",
-                "snapshot_id": "2f6460b6a45f46014b192dc9f8c03c74cd1e392e9134382cc63c3590774e9b33",
+                "snapshot_id": "1875088c2784dfc8140a5cc07c6f753bcec1093056e4e11f53eb901ea630498e",
                 "counted_days": "100",
                 "service_level": null,
                 "daily_total_pcs": "5050",
@@ -5605,21 +5605,21 @@
             },
             "contract_version": "cp7.model-target-resolution.v1",
             "forecast_applied": true,
-            "model_source_hash": "fd7b4f86b495bc3320ab1a1f5ab9b450f0d67b6305e5ccb80ff9e642e8a76cee",
-            "forecast_from_date": "2026-10-24",
-            "consumer_engine_hash": "40be62a857e87e88d752f9dcf32ea1bf"
+            "model_source_hash": "c1c3c6876a0a29430abb8b135b73ac4458f388ab753e5ae62c8ae65fdb3f80cf",
+            "forecast_from_date": "2026-10-25",
+            "consumer_engine_hash": "c1bc6043e2ce8cdebb59e2c66f5b1d35"
           },
           "query": {
-            "from_date": "2026-07-16",
+            "from_date": "2026-07-17",
             "group_mode": "AS_SOLD",
-            "through_date": "2026-10-23"
+            "through_date": "2026-10-24"
           },
           "analog": null,
           "size_id": "33333333-3333-4333-8333-333333333333",
           "daily_sd": null,
           "target_key": "22222222-2222-4222-8222-222222222222:33333333-3333-4333-8333-333333333333",
           "target_pcs": "400",
-          "captured_at": "2026-10-24T16:49:05.055000Z",
+          "captured_at": "2026-10-24T17:08:27.992000Z",
           "counted_days": "100",
           "own_total_pcs": "5050",
           "daily_total_pcs": "5050",
@@ -5631,11 +5631,11 @@
         "contract_version": "cp7.fg-reorder-projection.v3",
         "manual_reference": null,
         "raw_WIP_credited": false,
-        "stock_checked_at": "2026-10-24T16:49:05.055000Z",
+        "stock_checked_at": "2026-10-24T17:08:27.992000Z",
         "threshold_source": "PLANNING_PROFILE",
         "base_position_pcs": null,
         "production_base_pcs": null,
-        "threshold_checked_at": "2026-10-24T16:49:05.055000Z",
+        "threshold_checked_at": "2026-10-24T17:08:27.992000Z",
         "candidate_mutes_alert": false,
         "conditional_position_pcs": null,
         "production_conditional_pcs": null
@@ -5673,7 +5673,7 @@
       "sale_days": 100,
       "sales_pcs": "5050",
       "size_code": null,
-      "changed_at": "2026-10-24T16:49:05.055000Z",
+      "changed_at": "2026-10-24T17:08:27.992000Z",
       "daily_mean": "50.5000000000000000",
       "lead_basis": "PROFILE",
       "product_id": "44444444-4444-4444-8444-444444444444",
@@ -5692,12 +5692,12 @@
             "forecast": null,
             "captured_at": null,
             "engine_hash": "5ef36981b325a7f2e7790a300294c572",
-            "source_hash": "7b83975d802f9b03d41a93338a3bd9100dd95ef5a5e3dd377d37a0c887639344",
+            "source_hash": "b2462db166955f95af55c8d7eb2369489698d2b360afe7b0c302fdd2e7e189f4",
             "access_epoch": "b0429b3c110f468be41ce1cf71d1138021701ccef057c2c622c8bce02fc12f7c",
             "history_query": null,
             "policy_source": {
               "policy": {
-                "id": "c9ade03a-f8b6-4003-bc9d-6356be7f7095",
+                "id": "266a6fda-2323-45a0-a688-fe4ea53a5809",
                 "state": "ACTIVE",
                 "config": {
                   "promotion": {
@@ -5716,9 +5716,9 @@
                 "reason": "EXPLICIT SYNTHETIC historical fixture, not owner/factory approval",
                 "revision": "1",
                 "recorded_at": "2026-06-02T00:00:00.123456Z",
-                "registry_id": "cp7.owner-model-policy.c9ade03a-f8b6-4003-bc9d-6356be7f7095"
+                "registry_id": "cp7.owner-model-policy.266a6fda-2323-45a0-a688-fe4ea53a5809"
               },
-              "request_id": "1d730574-3bbe-4de9-8dc3-2d28ff9be4d7",
+              "request_id": "77d6970d-f232-4246-892b-1dd0b956c303",
               "template_hash": "21e1ea8e303853f5d2e6f07041ad4c91555ebba944605151a2941519a6c081f7",
               "actor_scope_id": "11111111-1111-4111-8111-111111111111"
             },
@@ -5746,7 +5746,7 @@
                 "lead_days": "2",
                 "buffer_days": "1",
                 "review_days": "1",
-                "snapshot_id": "2f6460b6a45f46014b192dc9f8c03c74cd1e392e9134382cc63c3590774e9b33",
+                "snapshot_id": "1875088c2784dfc8140a5cc07c6f753bcec1093056e4e11f53eb901ea630498e",
                 "counted_days": "100",
                 "service_level": null,
                 "daily_total_pcs": "5050",
@@ -5767,19 +5767,19 @@
             "forecast_applied": false,
             "model_source_hash": null,
             "forecast_from_date": null,
-            "consumer_engine_hash": "40be62a857e87e88d752f9dcf32ea1bf"
+            "consumer_engine_hash": "c1bc6043e2ce8cdebb59e2c66f5b1d35"
           },
           "query": {
-            "from_date": "2026-07-16",
+            "from_date": "2026-07-17",
             "group_mode": "AS_SOLD",
-            "through_date": "2026-10-23"
+            "through_date": "2026-10-24"
           },
           "analog": null,
           "size_id": "33333333-3333-4333-8333-333333333333",
           "daily_sd": null,
           "target_key": "44444444-4444-4444-8444-444444444444:33333333-3333-4333-8333-333333333333",
           "target_pcs": "202",
-          "captured_at": "2026-10-24T16:49:05.055000Z",
+          "captured_at": "2026-10-24T17:08:27.992000Z",
           "counted_days": "100",
           "own_total_pcs": "5050",
           "daily_total_pcs": "5050",
@@ -5791,11 +5791,11 @@
         "contract_version": "cp7.fg-reorder-projection.v3",
         "manual_reference": null,
         "raw_WIP_credited": false,
-        "stock_checked_at": "2026-10-24T16:49:05.055000Z",
+        "stock_checked_at": "2026-10-24T17:08:27.992000Z",
         "threshold_source": "PLANNING_PROFILE",
         "base_position_pcs": null,
         "production_base_pcs": null,
-        "threshold_checked_at": "2026-10-24T16:49:05.055000Z",
+        "threshold_checked_at": "2026-10-24T17:08:27.992000Z",
         "candidate_mutes_alert": false,
         "conditional_position_pcs": null,
         "production_conditional_pcs": null
@@ -5870,20 +5870,20 @@
       "model": {
         "state": "BASELINE_RETAINED",
         "reason": "EXISTING_REORDER_DEFAULTS_RETAINED_UNREVIEWED_PROFILE",
-        "run_id": "d754eb49-3746-471f-943b-9fc0bc3a07e5",
+        "run_id": "1332fe82-74f9-40ec-8285-136f764368b6",
         "forecast": null,
-        "captured_at": "2026-10-24T16:49:05.348000Z",
+        "captured_at": "2026-10-24T17:08:28.307000Z",
         "engine_hash": "5ef36981b325a7f2e7790a300294c572",
-        "source_hash": "593193f62ec614674f62e0b164ed0677fd60424c4a24a779e9d936fb2905fbbe",
+        "source_hash": "4d561215fc1bbca07050cc8293690fa423682e2117ff54e74805622fedaef2fe",
         "access_epoch": "b0429b3c110f468be41ce1cf71d1138021701ccef057c2c622c8bce02fc12f7c",
         "history_query": {
-          "from_date": "2026-07-16",
+          "from_date": "2026-07-17",
           "group_mode": "AS_SOLD",
-          "through_date": "2026-10-23"
+          "through_date": "2026-10-24"
         },
         "policy_source": {
           "policy": {
-            "id": "b210b211-431c-41c5-a92e-aae1c20844a2",
+            "id": "79033c52-16a2-4851-b5e3-9b3b8c09696c",
             "state": "ACTIVE",
             "config": {
               "promotion": {
@@ -5902,15 +5902,15 @@
             "reason": "EXPLICIT SYNTHETIC historical fixture, not owner/factory approval",
             "revision": "1",
             "recorded_at": "2026-06-02T00:00:00.123456Z",
-            "registry_id": "cp7.owner-model-policy.b210b211-431c-41c5-a92e-aae1c20844a2"
+            "registry_id": "cp7.owner-model-policy.79033c52-16a2-4851-b5e3-9b3b8c09696c"
           },
-          "request_id": "2d1dd7cd-61b9-44bf-a1cb-28a8d6718dc2",
+          "request_id": "77e9ad56-6b38-4c44-955a-89d4d743ed38",
           "template_hash": "21e1ea8e303853f5d2e6f07041ad4c91555ebba944605151a2941519a6c081f7",
           "actor_scope_id": "11111111-1111-4111-8111-111111111111"
         },
         "production_go": false,
         "actor_scope_id": "11111111-1111-4111-8111-111111111111",
-        "history_run_id": "a63209f1-1006-41a2-92de-d461f7cc1850",
+        "history_run_id": "adb31dfa-757b-4a44-a220-823d7a58557d",
         "selected_model": {
           "id": "naive-1",
           "method": "NAIVE",
@@ -5951,21 +5951,21 @@
         },
         "contract_version": "cp7.model-target-resolution.v1",
         "forecast_applied": false,
-        "model_source_hash": "3110dd5c07cdbacbabe446a56ece7807f04b1e8a69fed603ea971f82db7efcfa",
-        "forecast_from_date": "2026-10-24",
-        "consumer_engine_hash": "40be62a857e87e88d752f9dcf32ea1bf"
+        "model_source_hash": "369937c74a8443a8e6698b25f2b458187ee205758df7077f95f33f504128540a",
+        "forecast_from_date": "2026-10-25",
+        "consumer_engine_hash": "c1bc6043e2ce8cdebb59e2c66f5b1d35"
       },
       "query": {
-        "from_date": "2026-07-16",
+        "from_date": "2026-07-17",
         "group_mode": "AS_SOLD",
-        "through_date": "2026-10-23"
+        "through_date": "2026-10-24"
       },
       "analog": null,
       "size_id": "33333333-3333-4333-8333-333333333333",
       "daily_sd": "29.0114919758820171",
       "target_key": "22222222-2222-4222-8222-222222222222:33333333-3333-4333-8333-333333333333",
       "target_pcs": "169",
-      "captured_at": "2026-10-24T16:49:05.532000Z",
+      "captured_at": "2026-10-24T17:08:28.502000Z",
       "counted_days": "100",
       "own_total_pcs": "5050",
       "daily_total_pcs": "5050",
@@ -5996,7 +5996,7 @@
       "sale_days": 100,
       "sales_pcs": "5050",
       "size_code": null,
-      "changed_at": "2026-10-24T16:49:05.532000Z",
+      "changed_at": "2026-10-24T17:08:28.502000Z",
       "daily_mean": "50.5000000000000000",
       "lead_basis": "MEASURED",
       "product_id": "22222222-2222-4222-8222-222222222222",
@@ -6011,20 +6011,20 @@
           "model": {
             "state": "BASELINE_RETAINED",
             "reason": "EXISTING_REORDER_DEFAULTS_RETAINED_UNREVIEWED_PROFILE",
-            "run_id": "d754eb49-3746-471f-943b-9fc0bc3a07e5",
+            "run_id": "1332fe82-74f9-40ec-8285-136f764368b6",
             "forecast": null,
-            "captured_at": "2026-10-24T16:49:05.348000Z",
+            "captured_at": "2026-10-24T17:08:28.307000Z",
             "engine_hash": "5ef36981b325a7f2e7790a300294c572",
-            "source_hash": "593193f62ec614674f62e0b164ed0677fd60424c4a24a779e9d936fb2905fbbe",
+            "source_hash": "4d561215fc1bbca07050cc8293690fa423682e2117ff54e74805622fedaef2fe",
             "access_epoch": "b0429b3c110f468be41ce1cf71d1138021701ccef057c2c622c8bce02fc12f7c",
             "history_query": {
-              "from_date": "2026-07-16",
+              "from_date": "2026-07-17",
               "group_mode": "AS_SOLD",
-              "through_date": "2026-10-23"
+              "through_date": "2026-10-24"
             },
             "policy_source": {
               "policy": {
-                "id": "b210b211-431c-41c5-a92e-aae1c20844a2",
+                "id": "79033c52-16a2-4851-b5e3-9b3b8c09696c",
                 "state": "ACTIVE",
                 "config": {
                   "promotion": {
@@ -6043,15 +6043,15 @@
                 "reason": "EXPLICIT SYNTHETIC historical fixture, not owner/factory approval",
                 "revision": "1",
                 "recorded_at": "2026-06-02T00:00:00.123456Z",
-                "registry_id": "cp7.owner-model-policy.b210b211-431c-41c5-a92e-aae1c20844a2"
+                "registry_id": "cp7.owner-model-policy.79033c52-16a2-4851-b5e3-9b3b8c09696c"
               },
-              "request_id": "2d1dd7cd-61b9-44bf-a1cb-28a8d6718dc2",
+              "request_id": "77e9ad56-6b38-4c44-955a-89d4d743ed38",
               "template_hash": "21e1ea8e303853f5d2e6f07041ad4c91555ebba944605151a2941519a6c081f7",
               "actor_scope_id": "11111111-1111-4111-8111-111111111111"
             },
             "production_go": false,
             "actor_scope_id": "11111111-1111-4111-8111-111111111111",
-            "history_run_id": "a63209f1-1006-41a2-92de-d461f7cc1850",
+            "history_run_id": "adb31dfa-757b-4a44-a220-823d7a58557d",
             "selected_model": {
               "id": "naive-1",
               "method": "NAIVE",
@@ -6092,21 +6092,21 @@
             },
             "contract_version": "cp7.model-target-resolution.v1",
             "forecast_applied": false,
-            "model_source_hash": "3110dd5c07cdbacbabe446a56ece7807f04b1e8a69fed603ea971f82db7efcfa",
-            "forecast_from_date": "2026-10-24",
-            "consumer_engine_hash": "40be62a857e87e88d752f9dcf32ea1bf"
+            "model_source_hash": "369937c74a8443a8e6698b25f2b458187ee205758df7077f95f33f504128540a",
+            "forecast_from_date": "2026-10-25",
+            "consumer_engine_hash": "c1bc6043e2ce8cdebb59e2c66f5b1d35"
           },
           "query": {
-            "from_date": "2026-07-16",
+            "from_date": "2026-07-17",
             "group_mode": "AS_SOLD",
-            "through_date": "2026-10-23"
+            "through_date": "2026-10-24"
           },
           "analog": null,
           "size_id": "33333333-3333-4333-8333-333333333333",
           "daily_sd": "29.0114919758820171",
           "target_key": "22222222-2222-4222-8222-222222222222:33333333-3333-4333-8333-333333333333",
           "target_pcs": "169",
-          "captured_at": "2026-10-24T16:49:05.532000Z",
+          "captured_at": "2026-10-24T17:08:28.502000Z",
           "counted_days": "100",
           "own_total_pcs": "5050",
           "daily_total_pcs": "5050",
@@ -6118,11 +6118,11 @@
         "contract_version": "cp7.fg-reorder-projection.v3",
         "manual_reference": null,
         "raw_WIP_credited": false,
-        "stock_checked_at": "2026-10-24T16:49:05.532000Z",
+        "stock_checked_at": "2026-10-24T17:08:28.502000Z",
         "threshold_source": "NATIVE_HISTORY_WITH_EXISTING_DEFAULTS",
         "base_position_pcs": null,
         "production_base_pcs": null,
-        "threshold_checked_at": "2026-10-24T16:49:05.532000Z",
+        "threshold_checked_at": "2026-10-24T17:08:28.502000Z",
         "candidate_mutes_alert": false,
         "conditional_position_pcs": null,
         "production_conditional_pcs": null
@@ -6160,7 +6160,7 @@
       "sale_days": 100,
       "sales_pcs": "5050",
       "size_code": null,
-      "changed_at": "2026-10-24T16:49:05.532000Z",
+      "changed_at": "2026-10-24T17:08:28.502000Z",
       "daily_mean": "50.5000000000000000",
       "lead_basis": "MEASURED",
       "product_id": "44444444-4444-4444-8444-444444444444",
@@ -6179,12 +6179,12 @@
             "forecast": null,
             "captured_at": null,
             "engine_hash": "5ef36981b325a7f2e7790a300294c572",
-            "source_hash": "593193f62ec614674f62e0b164ed0677fd60424c4a24a779e9d936fb2905fbbe",
+            "source_hash": "4d561215fc1bbca07050cc8293690fa423682e2117ff54e74805622fedaef2fe",
             "access_epoch": "b0429b3c110f468be41ce1cf71d1138021701ccef057c2c622c8bce02fc12f7c",
             "history_query": null,
             "policy_source": {
               "policy": {
-                "id": "b210b211-431c-41c5-a92e-aae1c20844a2",
+                "id": "79033c52-16a2-4851-b5e3-9b3b8c09696c",
                 "state": "ACTIVE",
                 "config": {
                   "promotion": {
@@ -6203,9 +6203,9 @@
                 "reason": "EXPLICIT SYNTHETIC historical fixture, not owner/factory approval",
                 "revision": "1",
                 "recorded_at": "2026-06-02T00:00:00.123456Z",
-                "registry_id": "cp7.owner-model-policy.b210b211-431c-41c5-a92e-aae1c20844a2"
+                "registry_id": "cp7.owner-model-policy.79033c52-16a2-4851-b5e3-9b3b8c09696c"
               },
-              "request_id": "2d1dd7cd-61b9-44bf-a1cb-28a8d6718dc2",
+              "request_id": "77e9ad56-6b38-4c44-955a-89d4d743ed38",
               "template_hash": "21e1ea8e303853f5d2e6f07041ad4c91555ebba944605151a2941519a6c081f7",
               "actor_scope_id": "11111111-1111-4111-8111-111111111111"
             },
@@ -6249,19 +6249,19 @@
             "forecast_applied": false,
             "model_source_hash": null,
             "forecast_from_date": null,
-            "consumer_engine_hash": "40be62a857e87e88d752f9dcf32ea1bf"
+            "consumer_engine_hash": "c1bc6043e2ce8cdebb59e2c66f5b1d35"
           },
           "query": {
-            "from_date": "2026-07-16",
+            "from_date": "2026-07-17",
             "group_mode": "AS_SOLD",
-            "through_date": "2026-10-23"
+            "through_date": "2026-10-24"
           },
           "analog": null,
           "size_id": "33333333-3333-4333-8333-333333333333",
           "daily_sd": "29.0114919758820171",
           "target_key": "44444444-4444-4444-8444-444444444444:33333333-3333-4333-8333-333333333333",
           "target_pcs": "169",
-          "captured_at": "2026-10-24T16:49:05.532000Z",
+          "captured_at": "2026-10-24T17:08:28.502000Z",
           "counted_days": "100",
           "own_total_pcs": "5050",
           "daily_total_pcs": "5050",
@@ -6273,11 +6273,11 @@
         "contract_version": "cp7.fg-reorder-projection.v3",
         "manual_reference": null,
         "raw_WIP_credited": false,
-        "stock_checked_at": "2026-10-24T16:49:05.532000Z",
+        "stock_checked_at": "2026-10-24T17:08:28.502000Z",
         "threshold_source": "NATIVE_HISTORY_WITH_EXISTING_DEFAULTS",
         "base_position_pcs": null,
         "production_base_pcs": null,
-        "threshold_checked_at": "2026-10-24T16:49:05.532000Z",
+        "threshold_checked_at": "2026-10-24T17:08:28.502000Z",
         "candidate_mutes_alert": false,
         "conditional_position_pcs": null,
         "production_conditional_pcs": null

@@ -16,6 +16,16 @@ export async function timelineCases(f,{block,hooks,fixture,rows}){
  await db.exec(`create function cp7_analysis_native.material_needs(jsonb,jsonb,jsonb)returns jsonb language sql immutable as $$select null::jsonb$$;
  create function cp7_fabric_native.needs(jsonb,jsonb,jsonb,jsonb)returns jsonb language sql immutable as $$select null::jsonb$$;`)
  await db.exec(block(hooks,'cp7_analysis_stage.analysis_targets'))
+ // Full operational report compiler with controlled upstream netting/fabric
+ // and fingerprint producers. No Native capture/finance credit from this test.
+ await db.exec(`create schema cp7_supply_native;
+ create table public.model_timeline_report_fixture(n jsonb);
+ create function cp7_netting_native.build(jsonb,jsonb)returns jsonb language sql stable as $$select n from public.model_timeline_report_fixture$$;
+ create function cp7_fabric_native.plan(jsonb,jsonb)returns jsonb language sql immutable as $$select '{}'::jsonb$$;
+ create function cp7_analysis_native.fingerprint(jsonb)returns text language sql immutable as $$select repeat('b',64)$$;
+ create function cp7_supply_native.fingerprint(jsonb)returns text language sql immutable as $$select repeat('c',64)$$;`)
+ await db.exec(block(hooks,'cp7_analysis_native.build_operational'))
+ await db.exec(block(analysis,'cp7_analysis_native.build').replace('cp7_analysis_native.build(','cp7_analysis_native.legacy_operational('))
  async function sample(){await ready();const x=await fixture();return{x,r:(await rows(x))[0]}}
  async function vector(r,values,config={}){
   r=structuredClone(r);Object.assign(r.profile.config,config)
@@ -85,5 +95,30 @@ export async function timelineCases(f,{block,hooks,fixture,rows}){
   const m=out.targets[0].models[0];assert.equal(m.method_id,'NAIVE');assert.equal(m.mode,'EVALUATED');assert.equal(m.demand_rate.state,'NOT_APPLICABLE');assert.ok(m.selection_reason.includes(r.model_resolution.run_id));assert.deepEqual(m.validation_fold_ids,[])
   assert.deepEqual(out.targets[0].timeline.map(v=>decimal(v.demand.value)),['100','100','100']);assert.ok(out.targets[0].timeline.every(v=>v.timing_policy_id==='dated-model-each24h-from-capture-1'))
   return{actual_report_hook_dated_method_not_historical_fallback:true,no_invented_rate_fold_or_score:true}
+ })
+ await test('FULL_OPERATIONAL_AND_STAGED_REPORT_MODEL_TIMELINE_PARITY',async()=>{
+  const{x,r}=await sample();r.production_policy={policy:{state:'ACTIVE'}};r.available_fg_pcs='150';r.timeline=await line(x,r)
+  Object.assign(x.c,{schedule:null,production_sources:{facts:{}},matching_products:[],planning_time_bucket:'CONTROLLED',analysis_engine_signature:'a'.repeat(64),material_source:{},fabric_source:{selected:[]}})
+  const hist={target_key:r.target_key,available_days:100,stockout_days:0,unknown_days:0},stock={target_key:r.target_key,availability:{physical_fg_pcs:'150',reserved_pcs:'0'},refs:r.refs}
+  const history_run_result={current_stock:[stock],history:{rows:[hist]}}
+  const scenario={wip:{status:'COMPLETE',positions:[]},capacity:{status:'UNKNOWN'},etas:[],supply_run_result:{baseline_run_result:{history_run_result}}}
+  const n={rows:[r],allocation:{status:'UNKNOWN'},matching:{sources:[]},match_results:[],schedule_run_result:scenario}
+  await db.query('insert into public.model_timeline_report_fixture values($1::jsonb)',[JSON.stringify(n)])
+  const out=await sql('select cp7_analysis_native.build_operational($1::jsonb,$2::jsonb,$3::uuid,$4::jsonb)v',[JSON.stringify(x.c),JSON.stringify(x.q),f.actor,JSON.stringify({actor:f.actor})])
+  const args=[x.c,[r],{[r.target_key.split(':')[0]]:[x.c.facts.products[0]]},{[r.target_key]:[stock]},{[r.target_key]:[hist]},{},{},[],{}]
+  const staged=await sql('select cp7_analysis_stage.analysis_targets('+args.map((_,i)=>'$'+(i+1)+'::jsonb').join(',')+')v',args.map(v=>JSON.stringify(v)))
+  assert.deepEqual(out.demand_models,staged.targets[0].models);assert.deepEqual(out.timeline,staged.targets[0].timeline)
+  assert.deepEqual(out.recommendations,staged.targets[0].recommendations);assert.equal(out.versions.models,'policy-gated-dated-model-target-1')
+  assert.equal(out.demand_models[0].method_id,'NAIVE');assert.equal(out.demand_models[0].demand_rate.state,'NOT_APPLICABLE')
+  const legacy=await sql('select cp7_analysis_native.legacy_operational($1::jsonb,$2::jsonb,$3::uuid,$4::jsonb)v',[JSON.stringify(x.c),JSON.stringify(x.q),f.actor,JSON.stringify({actor:f.actor})])
+  assert.equal(legacy.demand_models[0].mode,'FALLBACK');assert.equal(decimal(legacy.demand_models[0].demand_rate.value),'50.5')
+  Object.assign(x.c.profiles[0].config,{mean_mode:'SELECTED_MANUAL',daily_pcs:'3'})
+  const manual=(await rows(x))[0];manual.production_policy={policy:{state:'ACTIVE'}};manual.available_fg_pcs='150';manual.timeline=await line(x,manual)
+  n.rows=[manual];await db.query('update public.model_timeline_report_fixture set n=$1::jsonb',[JSON.stringify(n)])
+  const pair=[]
+  for(const name of['build_operational','legacy_operational'])pair.push(await sql('select cp7_analysis_native.'+name+'($1::jsonb,$2::jsonb,$3::uuid,$4::jsonb)v',[JSON.stringify(x.c),JSON.stringify(x.q),f.actor,JSON.stringify({actor:f.actor})]))
+  for(const v of pair){delete v.semantic_hash;delete v.versions.models}
+  assert.deepEqual(pair[0],pair[1])
+  return{actual_full_operational_compiler:true,controlled_netting_fabric_and_fingerprints:true,staged_models_timeline_recommendations_exact:true,legacy_false_mean_reproduced:true,complete_manual_report_unchanged_except_model_engine_version_and_semantic_hash:true,finance_wrapper_unchanged:true}
  })
 }

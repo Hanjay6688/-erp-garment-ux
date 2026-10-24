@@ -57,7 +57,7 @@ def read(cur,run,subject=None):return call(cur,'erp_cp7_read_baseline_v1',(run,)
 def cases(cur,today):
     def catalog():
         before=_catalog_rows(cur);s=install(cur);v=stage.verify(cur,s['current'])
-        assert(v['new_private_functions'],v['existing_replacements'],v['new_public_rpcs'],v['new_tables'])==(8,19,0,0)
+        assert(v['new_private_functions'],v['existing_replacements'],v['new_public_rpcs'],v['new_tables'])==(8,20,0,0)
         snap=_catalog_rows(cur);cur.execute('create view public.ow11_model_target_inverse_guard as select cp7_model_target_source.engine()value')
         guarded=_catalog_rows(cur)
         try:stage.rollback_preuse(cur,s['current'])
@@ -66,7 +66,7 @@ def cases(cur,today):
         assert _catalog_rows(cur)==guarded
         cur.execute('drop view public.ow11_model_target_inverse_guard');assert _catalog_rows(cur)==snap
         unwind(cur,s);assert _catalog_rows(cur)==before
-        return dict(status='PASS',exact_catalog22_composed_inverse=True,private8_replacements19_no_new_RPC_or_table=True,
+        return dict(status='PASS',exact_catalog22_composed_inverse=True,private8_replacements20_no_new_RPC_or_table=True,
           dependent_view_partial_inverse_restored=True,source_sha256=stage.sources())
 
     def replay():

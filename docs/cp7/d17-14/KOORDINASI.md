@@ -1918,3 +1918,26 @@ No complete Native6, FG-only, positive model, actual Auth or fullOW11 credit.
 The already running04eaad40 Native6 still contains that old lookup; do not
 relabel its forthcoming Original. Expanded19/8 correction will get a new run.
 Receipt: ow11/5770baa5-model-target-native6-first-failure.json.
+
+## 109. B24 Oktober2026 UTC — dated19/8 Browser Original PASS; full report correction
+
+04eaad40/run40113567313/job120930106523 complete Browser2 Original12567667414,
+45819 bytes SHA256207f2870be49ae9720399f7a747e2f33098a054580459c1c6e3ce690ec2d5b7a:
+2 PASS with exact-head source hashes, required IDs/counts, CP6/advisor/all package
+gates true. Auth0000→0000, console0, no sessions/copy left. Both actual journeys
+ran on WIB25Oct, kept analog provenance and reload/CLEAR behavior. No positive
+model or complete Native19/8 claim. Receipt names its exact04eaad40 head.
+
+Follow-up found the raw operational compiler (renamed build_operational by the
+unchanged finance wrapper) still labelled a model target with historical50.5/day.
+The candidate now replaces20 exact predecessors with the same8 private functions;
+raw and staged compilers share the evaluated-method/N/A-single-rate/date-policy
+transforms. Finance wrapper, defaults, registry and shared contract remain untouched.
+Current source also binds operational compiler definitions. Controlled SQL29 PASS:
+actual raw compiler reproduces old wrong fallback then agrees exactly with staged
+models/timeline/recommendations; complete manual report matches predecessor except
+model engine version/semantic hash. Netting/fabric/fingerprints in this raw compiler
+test are explicitly controlled, not Native or finance evidence. Source14 and
+client257/9files PASS. Initial local JS syntax failure retained, then corrected.
+20/8 Native/browser/races remain to run after publication. Native75db5817/run40114425599
+checks the prior19/8 corrected SKU lookup; Transport45b784e3/run40114038398 checks19/8.

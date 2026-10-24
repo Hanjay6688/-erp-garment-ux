@@ -1,9 +1,9 @@
 {
   "contract": "cp7.model-target-consumer-local.v1",
   "status": "PASS",
-  "expected": 28,
+  "expected": 29,
   "counts": {
-    "PASS": 28
+    "PASS": 29
   },
   "cases": [
     {
@@ -226,10 +226,22 @@
         "actual_report_hook_dated_method_not_historical_fallback": true,
         "no_invented_rate_fold_or_score": true
       }
+    },
+    {
+      "id": "FULL_OPERATIONAL_AND_STAGED_REPORT_MODEL_TIMELINE_PARITY",
+      "status": "PASS",
+      "observed": {
+        "actual_full_operational_compiler": true,
+        "controlled_netting_fabric_and_fingerprints": true,
+        "staged_models_timeline_recommendations_exact": true,
+        "legacy_false_mean_reproduced": true,
+        "complete_manual_report_unchanged_except_model_engine_version_and_semantic_hash": true,
+        "finance_wrapper_unchanged": true
+      }
     }
   ],
   "sql_sha256": "aea32bb1f7f07be6e65bbc613e8d3e5a38ed9db61f0cba510b3f84812d431600",
-  "hooks_sql_sha256": "eb5da57c223af96fb9a9a550019c0add649528597e41fa66608556ad608ec4a8",
+  "hooks_sql_sha256": "59e64e1ee71a74d6873f4c50ba8e83759e2daa8e7b1b48ff33469c201723744b",
   "actual_private_SQL_pipeline": true,
   "selected_actual_SQL_hooks": true,
   "explicit_synthetic_history_policy": true,

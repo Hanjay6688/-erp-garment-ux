@@ -21,6 +21,7 @@ def originals():
     all_functions['cp7_analysis_stage.analysis_skeleton(jsonb,jsonb,uuid,jsonb,jsonb,jsonb,jsonb,jsonb,boolean,text)']=analog.block('cp7_bounded_analysis_stage/stage.sql','cp7_analysis_stage.analysis_skeleton')
     all_functions['cp7_netting_native.timeline(jsonb,jsonb,jsonb,jsonb,jsonb,jsonb)']=analog.block('cp7-src/planning/netting.sql','cp7_netting_native.timeline')
     all_functions['cp7_analysis_stage.analysis_targets(jsonb,jsonb,jsonb,jsonb,jsonb,jsonb,jsonb,jsonb,jsonb)']=analog.block('cp7-src/planning/analysis-stages.sql','cp7_analysis_stage.analysis_targets')
+    all_functions['cp7_analysis_native.build_operational(jsonb,jsonb,uuid,jsonb)']=analog.block('cp7-src/planning/analysis.sql','cp7_analysis_native.build').replace('cp7_analysis_native.build(', 'cp7_analysis_native.build_operational(',1)
     signatures=[
       'cp7_baseline_native.source_within(integer)','cp7_reorder_inputs.capture_baseline(integer)',
       'cp7_baseline_native.build(jsonb,jsonb)','cp7_baseline_native.serve(uuid)',
@@ -35,6 +36,7 @@ def originals():
       'cp7_analysis_stage.analysis_skeleton(jsonb,jsonb,uuid,jsonb,jsonb,jsonb,jsonb,jsonb,boolean,text)',
       'cp7_netting_native.timeline(jsonb,jsonb,jsonb,jsonb,jsonb,jsonb)',
       'cp7_analysis_stage.analysis_targets(jsonb,jsonb,jsonb,jsonb,jsonb,jsonb,jsonb,jsonb,jsonb)',
+      'cp7_analysis_native.build_operational(jsonb,jsonb,uuid,jsonb)',
     ]
     return {sig:all_functions[sig]for sig in signatures}
 
@@ -98,19 +100,22 @@ def replacements():
       """'events',to_jsonb(events),'refs',r->'refs');
  timeline_result:=case when model_applied then cp7_model_target_consumer.timeline(timeline_input)else cp7_baseline.timeline(timeline_input)end;
  return timeline_result||jsonb_build_object('timing_basis',case when model_applied then'DATED_MODEL_VECTOR_AT_EACH_24H_END_FROM_CAPTURE'else'SELECTED_DAILY_RESIDUAL_AT_EACH_24H_END_FROM_CAPTURE'end,""")
-    sig='cp7_analysis_stage.analysis_targets(jsonb,jsonb,jsonb,jsonb,jsonb,jsonb,jsonb,jsonb,jsonb)'
-    # A dated vector is not a single daily rate. Keep the existing closed
-    # analysis wire; expose its evaluated method and an explicit N/A rate.
-    out[sig]=once(out[sig],"'method_id',coalesce(r->'demand_estimate'->>'basis','NATIVE_AVAILABLE_HISTORY')",
-      "'method_id',case when r->'model_resolution'->>'state'='MODEL_PROJECTED'then r->'model_resolution'->'selected_model'->>'method'else coalesce(r->'demand_estimate'->>'basis','NATIVE_AVAILABLE_HISTORY')end")
-    out[sig]=once(out[sig],"'version','native-available-history-fallback-1','mode','FALLBACK',",
-      "'version',case when r->'model_resolution'->>'state'='MODEL_PROJECTED'then'policy-gated-dated-model-target-1'else'native-available-history-fallback-1'end,'mode',case when r->'model_resolution'->>'state'='MODEL_PROJECTED'then'EVALUATED'else'FALLBACK'end,")
-    out[sig]=once(out[sig],"'demand_rate',cp7_analysis_native.fact(r->'demand_estimate'->>'daily_pcs','PCS/DAY',refs,row_aids)",
-      "'demand_rate',case when r->'model_resolution'->>'state'='MODEL_PROJECTED'then jsonb_build_object('state','NOT_APPLICABLE','unit','PCS/DAY','reason','DATED_VECTOR_HAS_NO_SINGLE_DAILY_RATE','refs',refs)else cp7_analysis_native.fact(r->'demand_estimate'->>'daily_pcs','PCS/DAY',refs,row_aids)end")
-    out[sig]=once(out[sig],"'selection_reason','Native available-history/manual fallback; no backtest promotion without earlier-known training evidence'",
-      "'selection_reason',case when r->'model_resolution'->>'state'='MODEL_PROJECTED'then 'Current policy-gated dated vector; immutable model run '||(r->'model_resolution'->>'run_id')||'; historical variation remains a selected assumption'else'Native available-history/manual fallback; no backtest promotion without earlier-known training evidence'end")
-    out[sig]=once(out[sig],"'timing_policy_id','selected-native-each24h-from-capture-1'",
-      "'timing_policy_id',case when r->'model_resolution'->>'state'='MODEL_PROJECTED'then'dated-model-each24h-from-capture-1'else'selected-native-each24h-from-capture-1'end")
+    for sig in ['cp7_analysis_stage.analysis_targets(jsonb,jsonb,jsonb,jsonb,jsonb,jsonb,jsonb,jsonb,jsonb)',
+                'cp7_analysis_native.build_operational(jsonb,jsonb,uuid,jsonb)']:
+        # A dated vector is not a single daily rate. Keep the existing closed
+        # analysis wire; expose its evaluated method and an explicit N/A rate.
+        out[sig]=once(out[sig],"'method_id',coalesce(r->'demand_estimate'->>'basis','NATIVE_AVAILABLE_HISTORY')",
+          "'method_id',case when r->'model_resolution'->>'state'='MODEL_PROJECTED'then r->'model_resolution'->'selected_model'->>'method'else coalesce(r->'demand_estimate'->>'basis','NATIVE_AVAILABLE_HISTORY')end")
+        out[sig]=once(out[sig],"'version','native-available-history-fallback-1','mode','FALLBACK',",
+          "'version',case when r->'model_resolution'->>'state'='MODEL_PROJECTED'then'policy-gated-dated-model-target-1'else'native-available-history-fallback-1'end,'mode',case when r->'model_resolution'->>'state'='MODEL_PROJECTED'then'EVALUATED'else'FALLBACK'end,")
+        out[sig]=once(out[sig],"'demand_rate',cp7_analysis_native.fact(r->'demand_estimate'->>'daily_pcs','PCS/DAY',refs,row_aids)",
+          "'demand_rate',case when r->'model_resolution'->>'state'='MODEL_PROJECTED'then jsonb_build_object('state','NOT_APPLICABLE','unit','PCS/DAY','reason','DATED_VECTOR_HAS_NO_SINGLE_DAILY_RATE','refs',refs)else cp7_analysis_native.fact(r->'demand_estimate'->>'daily_pcs','PCS/DAY',refs,row_aids)end")
+        out[sig]=once(out[sig],"'selection_reason','Native available-history/manual fallback; no backtest promotion without earlier-known training evidence'",
+          "'selection_reason',case when r->'model_resolution'->>'state'='MODEL_PROJECTED'then 'Current policy-gated dated vector; immutable model run '||(r->'model_resolution'->>'run_id')||'; historical variation remains a selected assumption'else'Native available-history/manual fallback; no backtest promotion without earlier-known training evidence'end")
+        out[sig]=once(out[sig],"'timing_policy_id','selected-native-each24h-from-capture-1'",
+          "'timing_policy_id',case when r->'model_resolution'->>'state'='MODEL_PROJECTED'then'dated-model-each24h-from-capture-1'else'selected-native-each24h-from-capture-1'end")
+    sig='cp7_analysis_native.build_operational(jsonb,jsonb,uuid,jsonb)'
+    out[sig]=once(out[sig],"'models','native-available-history-fallback-1'","'models','policy-gated-dated-model-target-1'")
     return out
 
 
@@ -121,7 +126,7 @@ def manifest():
     return dict(contract='cp7.model-target-consumer-hooks.candidate.v1',
       predecessor_body_sha256={sig:sha256(_body(sql).encode()).hexdigest()for sig,sql in originals().items()},
       replacement_body_sha256={sig:sha256(_body(sql).encode()).hexdigest()for sig,sql in replacements().items()},
-      hooks_sql_sha256=sha256(render().encode()).hexdigest(),existing_replacements=19,
+      hooks_sql_sha256=sha256(render().encode()).hexdigest(),existing_replacements=20,
       new_private_functions=8,new_schemas=3,new_public_rpcs=0,new_tables=0,
       exact_installer_catalog_qualified=False,public_client_qualified=False,
       actual_Native_capture=False,actual_Auth_HTTP_credit=False,production_go=False)
