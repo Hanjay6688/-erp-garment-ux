@@ -2327,3 +2327,55 @@ prepared for actual capture, prospective policy, Native SALE/access, dense2000/
 202000 and atomic fault/engine controls. Public client, model-target consumption,
 Auth/concurrency and after-use restore remain open. Formal5/16, CP7C unaccepted,
 production_go=false; writer tests are not independent acceptance.
+
+## 126. B24 Oktober2026 UTC — scoped history transport7 complete Original PASS
+
+c8b652ab/run40123046496/job120958543810 completed success. Complete Original
+12572228902 (92922 bytes, SHA256
+ede706a22898befafb5b96a30c6e0cf378d06b5e758921459b6c844c5fe00e5a)
+has catalog1+races4+actualAuthHTTP2PASS, exact runtime/case/probe source pins,
+all required/package/CP6/advisor/restoration gates true. Auth0000→0000,
+copy0/sessions[]. Same UUID one immutable actor-owned run; current access after
+observed envelope/request waits including committed replay; actual SALE during
+wait freshly capturesgross24/available76. Actual Auth capture/read/replay,
+foreign/anonymous/revoked old token denial and sameUUID actor isolation pass.
+No retained v3 model, model-target consumer or after-use restore credit.
+
+2b335934 fullTransport11/run40120202220/job120949897417 cancelled. Complete
+Original12572102321 (81443 bytes, SHA256
+2444e4953b8bf6859d957cfa345c96f536fa3dafea1146751e42f84cb4b85eb6)
+contains onlycatalog1PASS aggregate; race/HTTP aggregates absent and CP6/advisor
+restorefalse. Retain this failure separately; same-head two-part union from123
+is the complete qualifying transport evidence.
+
+## 127. B24 Oktober2026 UTC — scoped model client and bounded-page entry candidate
+
+23d4be61 publishes retained modelv3 and composed dataset checker repair.
+Native6/run40124207922/job120962032546 and datasetNative4/run40124207815/
+job120962032149 remain pending; current cacheNative6/40122499063 also pending.
+
+Client now strictly binds scoped history and v3 envelopes to actor/query/UUID,
+actual knowledge clock, root/size, immutable archive and current guard. Reuses
+exact existing history math and reviewed v2 assessment parser with explicitly
+validated v3 envelope. Distinct versioned local recovery for history/model;
+current browser lock and pending-state checks before send, uncertain response
+retained on remount/late completion, exact retry, changed access hides results.
+
+Per-target action on the bounded paged analysis opens the new flow without a
+global1000-product history capture. No request runs on mount; explicit capture
+and explicit horizon precede evaluation. Original policy/admission and current
+eligibility are displayed separately; forecast is not applied.155 tests across
+8 files and TypeScript pass; literal-RPC follow-up passes. First type/DOM/dynamic
+RPC failures retained; no Auth-browser or full3600 journey credit inferred.
+
+Integrator A: shared scripts/check-source-ownership.mjs remains untouched
+(SHA256 f1148cb535181a28a1792723400746a88f6025e217ebef58264ece39d2140333).
+It currently reports24 preexisting added RPC entries plus four new explicit
+entries in src/nativeScopedModel.ts: erp_cp7_capture_model_history_v1,
+erp_cp7_read_model_history_v1, erp_cp7_capture_model_evaluation_v3 and
+erp_cp7_read_model_evaluation_v3. Please incorporate exact reviewed ownership,
+generated client types and opt-in composed installer into the integration
+candidate; B does not edit the shared registry/default bundle. Source check is
+not green and no full build claim is made. Model-target integration, actual
+Auth/browser, after-use restore and independent acceptance remain open.
+Formal5/16, CP7C unaccepted and production_go=false.

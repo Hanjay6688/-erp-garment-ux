@@ -293,12 +293,31 @@ it('offers a plan per target of the page to a user who may view cutting, bound t
  const a=state.auth as {identity:{permissions:string[]}};a.identity.permissions.push('production.cutting.view')
  client.rpc.mockImplementation(server({steps:1}));await render();await click(STAGED);await until(()=>Boolean(region())&&rows()>0&&freshnessState()!=='')
  const all=[...region()!.querySelectorAll('[data-analysis-target] button')],buttons=all.filter(b=>b.textContent!.startsWith('Rencanakan Potongan '))
- // One plan button and one AI selection button per target row.
- expect(buttons.length).toBe(rows());expect(all.filter(b=>b.textContent!.startsWith('Pilih untuk AI ')).length).toBe(rows());expect(all.length).toBe(2*rows())
+ // Plan, scoped model, and AI selection are separately bound to each target row.
+ expect(buttons.length).toBe(rows());expect(all.filter(b=>b.textContent!.startsWith('Pilih untuk AI ')).length).toBe(rows());expect(all.filter(b=>b.textContent!.startsWith('Riwayat dan model ')).length).toBe(rows());expect(all.length).toBe(3*rows())
  expect(region()!.textContent).toContain(`Rencana Potongan dibuat per target dari halaman di bawah memakai data per ${formatCp6WibDateTime(s.reference.captured_at)}`)
  expect(region()!.textContent).not.toContain('ruang kerja kain, draf rencana dan arsip')
  const before=client.rpc.mock.calls.length;await act(async()=>(buttons[0] as HTMLButtonElement).click())
  // The panel opens on the staged kind and reads nothing until asked.
  expect(container.querySelector('[data-plan-kind="STAGED"]')?.textContent).toContain(`data per ${formatCp6WibDateTime(s.reference.captured_at)}`)
  expect(client.rpc.mock.calls.length).toBe(before);expect(region()).toBeTruthy()
+})
+
+it('opens scoped history from a bounded page target without a global history capture',async()=>{
+ Object.defineProperty(navigator,'locks',{configurable:true,value:{request:async(_n:string,_o:unknown,fn:(lock:object)=>unknown)=>fn({})}})
+ const existing=server({steps:1})
+ client.rpc.mockImplementation((name:string,args:Args)=>name==='erp_cp7_capture_model_history_v1'?Promise.resolve({data:null,error:new TypeError('response deliberately lost')}):existing(name,args))
+ await render();await click(STAGED);await until(()=>Boolean(region())&&rows()>0&&freshnessState()!=='')
+ const row=region()!.querySelector('[data-analysis-target]')!,target=row.getAttribute('data-analysis-target')!
+ const open=[...row.querySelectorAll('button')].find(b=>b.textContent!.startsWith('Riwayat dan model '))!
+ const before=client.rpc.mock.calls.length
+ await act(async()=>open.click());expect(client.rpc.mock.calls.length).toBe(before)
+ expect(container.querySelector('[aria-label="Riwayat dan model per produk"]')).not.toBeNull()
+ await click('Simpan riwayat produk saat ini')
+ const sent=client.rpc.mock.calls.find(c=>c[0]==='erp_cp7_capture_model_history_v1')!
+ expect(sent[1].p_query).toEqual({...s.query,target_key:target})
+ expect(sent[1].p_request).toMatch(/^[0-9a-f-]{36}$/)
+ expect(names()).not.toContain('erp_cp7_capture_demand_history_v1')
+ expect(names()).not.toContain('erp_cp7_capture_model_evaluation_v2')
+ expect(button('Periksa riwayat yang sama')).toBeDefined()
 })

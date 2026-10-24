@@ -58,9 +58,11 @@ await db.exec(await read('scripts/cp7_model_scoped_evaluation/runtime.sql'))
 const evaluate=(p,request=randomUUID())=>sql('select public.erp_cp7_capture_model_evaluation_v3($1::jsonb,$2::uuid)v',[JSON.stringify(p),request])
 const readModel=run=>sql('select public.erp_cp7_read_model_evaluation_v3($1::uuid)v',[run])
 const modelStored=run=>sql('select to_jsonb(r)v from cp7_model_scoped_evaluation.runs r where id=$1::uuid',[run])
+const clientWire={actual_SQL:true,controlled_ERP_auth_primitives:true,actual_Native_capture:false,actual_Auth_HTTP_credit:false,actor}
 const modelCount=()=>sql('select count(*)::integer v from cp7_model_scoped_evaluation.runs')
 await test('SCOPED_HISTORY_EVALUATES_WITH_SAME_POLICY_KERNEL_AND_ACTUAL_CLOCK',async()=>{
  const h=await capture(),m=await evaluate(mq(h.run_id)),r=await modelStored(m.run_id)
+ Object.assign(clientWire,{history:h,model:m});
  assert.equal(m.contract_version,'cp7.scoped-model-run.v3');assert.equal(m.assessment.activation.state,'BASELINE_REQUIRED')
  assert.equal(m.assessment.activation.reason,'EXPLICIT_ACTIVATION_POLICY_REQUIRED')
  assert.equal(r.input.known_as_of,h.captured_at);assert.equal(r.input.no_retrospective_availability_backfill,true)
@@ -88,6 +90,7 @@ await test('CURRENT_SOURCE_CORRECTION_RETIRES_OLD_MODEL_PRESERVES_BOTH_CLOCKS',a
  const h=await capture(),m=await evaluate(mq(h.run_id)),frozen=await modelStored(m.run_id)
  await db.query('update erp.sales_items set qty_pcs=20 where id=$1',[id(200)])
  const old=await readModel(m.run_id);sameArchive(m,old)
+ Object.assign(clientWire,{beforeSourceChange:m,afterSourceChange:old});
  assert.equal(old.current_guard.source_state,'ARCHIVED_STALE');assert.equal(old.current_guard.reason,'NATIVE_HISTORY_SOURCE_CHANGED')
  await rejects(()=>evaluate(mq(h.run_id)),/CP7_SCOPED_EVALUATION_HISTORY_STALE/)
  const freshHistory=await capture(),fresh=await evaluate(mq(freshHistory.run_id)),r=await modelStored(fresh.run_id)
@@ -156,4 +159,5 @@ const report={contract:'cp7.model-scoped-evaluation-local.v1',status:cases.every
  actual_Auth_HTTP_credit:false,actual_concurrency:false,model_target_caller_integrated:false,
  exact_catalog_installer_qualified:false,forecast_applied:false,production_go:false}
 await writeFile('docs/cp7/d17-14/ow11/model-scoped-evaluation-local.json',JSON.stringify(report,null,2)+'\n')
+await writeFile('tests/fixtures/nativeScopedModelSql.json',JSON.stringify(clientWire,null,2)+'\n')
 console.log(JSON.stringify(report,null,2));await db.close();if(report.status!=='PASS')process.exitCode=1
