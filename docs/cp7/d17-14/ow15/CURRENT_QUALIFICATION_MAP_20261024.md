@@ -59,10 +59,10 @@ ancestor SOURCE tetap memerlukan penelusuran admission dan bukti masing-masing.
 |---|---|---|
 | Group transfer400+600 sesudah current full restore, empat koreksi dan inverse | `aea44fa9`, run40058216568/job120765815354 | PASS9langkah+6kontrol; seluruh group read/replay/empat koreksi/inverse tepat; CP6/advisor/lima gate PASS |
 | Transfer alokasi31penerimaan lintas25+6, desktop/390px | `28f73c0f`, run40060328159 | Berjalan; admission915/statis lulus, belum bukti runtime |
-| Riwayat pembayaran/retur31 dokumen:25+6 dan filter30:25+5, desktop/390px | `a17b34cf`, run40058716148/job120767330087 | INCOMPLETE sebelum kasus: fixture import; Auth/DB/CP6/advisor bersih; firstfailure disimpan, perbaikan6c3e5a9e/run40059653484 masih berjalan |
+| Riwayat pembayaran/retur31 dokumen:25+6 dan filter30:25+5, desktop/390px | `6c3e5a9e`, run40059653484/job120770175605 | PASS2; dua riwayat25+6/filter25+5; Native/DOM tepat,0writer; Auth/DB/CP6/advisor/lima gate PASS; firstfailurea17 tetap |
 | Mandor correction14 +edge3 +rate11 +guidance6 | `c99ca612`, run40059271805 | PASS34 ID lama, boundary utuh/CP6/advisor/lima gate PASS; Original8561436byte SHA84b45470c44be16befd387a019399f4a311236991bbc32d480156e7bba59ca7c |
 
-Target berikut: terima Original rerun invoice dan transfer lintas halaman; selesaikan sisa bukti lintas
+Target berikut: terima Original transfer lintas halaman, lima daftar tambahan10kasus (23ec565d/run40060889064), dan31kasus UI lama. Peta12batas CP6 ada di CP6_CURRENT_BOUNDARIES_20261024.md. Selesaikan sisa bukti lintas
 halaman OW09; petakan pengganti layar CP6 yang dipensiunkan; jalankan daftar
 kualifikasi satu kandidat beserta pembanding CP6 lengkap. **21 kegagalan CP6
 dan empat kasus browser baseline tetap ditampilkan sesuai hasil asli**;

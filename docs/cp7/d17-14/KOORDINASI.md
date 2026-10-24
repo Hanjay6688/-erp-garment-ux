@@ -1455,3 +1455,22 @@ writer terpisah lulus;10kasus belum diberi kredit PASS sebelum Original server.
 
 Invoice fix6c3e5a9e/run40059653484 dan transferpages28f73c0f/run40060328159
 masih berjalan saat catatan ini. Main/integrasi resmi/audit tetap.
+
+## A — invoice history PASS dan current legacy UI31 (24 Oktober 2026)
+
+Invoice6c3e5a9e/run40059653484/job120770175605 selesai2/2PASS. Original506234byte
+SHA2caaaf044920485aa0785619ee6553798f3b5d11dd8f043042163ef1e27ccaad;ZIP7547061byte
+SHAf9f8e848a7b88529bbbe72458a8c6f38bc50d963519a4a9806776cbc5d8bfee1.
+Riwayat pembayaran/retur31:25+6, filter30:25+5, cari halaman2/urut/reset tepat;
+0writerRPC, fullrows/sequences tetap, Auth0000pulih/DB0/console0/host0, CP6/advisor
+dan lima gate PASS. PNG desktop pembayaran dan HPretur dibaca. Firstfailurea17
+tetap disimpan. Daftar lima layar10kasus head23ec565d/run40060889064 berjalan.
+
+A menambah adapter current-legacy-ui-browser31 untuk seluruh komposisi lama
+cp7_prefreeze_legacy_browser tanpa mengubah assertion atau modul. Dua READINESS
+dan dua P11 real draft/lusin successors termasuk di dalamnya. Pin1376/Node/AST
+admission lulus; runtime31 belum diberi kredit. Bukan keputusan pensiun dua
+SALES_MANUAL_13; D13-9c/D13-12 tetap perlu penerimaan auditor, kasus CP6 asli
+tidak dihapus. Peta historis37=14PASSlama+11successor+12batas direkonsiliasi
+di ow15/CP6_CURRENT_BOUNDARIES_20261024.md/json. Daftar r6 berisi116workflow,
+bukan bukti117run current. Dua belas batas arsip dan baseline merah tetap.

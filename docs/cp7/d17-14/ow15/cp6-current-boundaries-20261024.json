@@ -1,0 +1,185 @@
+{
+  "status": "CURRENT_QUALIFICATION_BOUNDARIES_NOT_ACCEPTANCE",
+  "prepared": "2026-10-24",
+  "candidate_before_new_legacy_qualifier": "23ec565d4817f7b333a2129d46d669bb7dbe61f3",
+  "historical_source": "docs/cp7/audit-candidate/cp1-7-r3-20261017/R3_08_CP6_WORKFLOW_SUCCESSORS.json",
+  "historical_source_sha256": "fa5e3259e671a555096406aa580c39e6d4ab9f5886ae18419c9ca462f7cc50ac",
+  "historical_qualification_source": "docs/cp7/audit-candidate/cp1-7-r6-20261019/QUALIFICATION_WORKFLOWS.json",
+  "historical_qualification_sha256": "8aa489ab98a1c83014038e680a2a1cc1435a7cfdcec47f69623a0096c5eac0ce",
+  "historical_qualification_file_count": 116,
+  "historical_workflow_files_missing_now": [],
+  "historical_successor_map_counts": {
+    "entries": 37,
+    "by_status": {
+      "BOUNDARY_NO_SUCCESSOR": 12,
+      "SUCCESSOR_MAPPED": 11,
+      "PASSES_ON_CANDIDATE": 14
+    },
+    "by_failure_kind": {
+      "OTHER": 1,
+      "EXPIRED_ARTIFACT": 1,
+      "SOURCE_SCOPE_GUARD": 20,
+      "PASS": 14,
+      "INCOMPLETE_CASES": 1
+    },
+    "by_failure_kind_and_status": {
+      "EXPIRED_ARTIFACT": {
+        "BOUNDARY_NO_SUCCESSOR": 1
+      },
+      "INCOMPLETE_CASES": {
+        "SUCCESSOR_MAPPED": 1
+      },
+      "OTHER": {
+        "BOUNDARY_NO_SUCCESSOR": 1
+      },
+      "PASS": {
+        "PASSES_ON_CANDIDATE": 14
+      },
+      "SOURCE_SCOPE_GUARD": {
+        "BOUNDARY_NO_SUCCESSOR": 10,
+        "SUCCESSOR_MAPPED": 10
+      }
+    },
+    "scope_guard_types": {
+      "NO_MERGE_AFTER_PIN": 9,
+      "CHANGED_FILE_LIST": 11
+    },
+    "bootstrap_step_r2": {
+      "NOT_RUN": 1,
+      "NOT_REACHED": 17,
+      "SUCCESS": 19
+    },
+    "receipt_red_runs_covered": 22
+  },
+  "unclosed_archive_boundaries": [
+    {
+      "workflow_path": ".github/workflows/cp6-ac-independent-audit.yml",
+      "what_it_tested": "AD whole-family qualification on the restored AC runtime: 55 predecessor cases and admission controls before AD, AD install with 274 pinned objects, family cases and detector controls (scripts/cp6_v2620ad_family_proof.py), reuse check of 20 Native5 AD maintenance schedules (scripts/cp6_v2620ad_reuse_matrix.py), closed admission and exact AC restore (scripts/cp6_v2620ad_rollback_guards.py).",
+      "uncovered": [
+        "55 predecessor cases and admission controls",
+        "AD family cases and detector controls",
+        "20 Native5 AD maintenance schedules",
+        "AD rollback guards on the original (not re-pinned) file before the release chain"
+      ],
+      "boundary_reason": "The AD family cases and maintenance schedules have no current runner; only install/rollback of the AD file is re-exercised."
+    },
+    {
+      "workflow_path": ".github/workflows/cp6-ad-roll-opening-check.yml",
+      "what_it_tested": "AF posted-child integrity family: 7 AF admission checks on AE, AE two-session comparison (original bug), AF install (278 objects), focused shared guard and opening cases, owner report controls, Combined134 stock/cost/payment/return/date oracles, 4 AF two-session schedules, 20 maintenance schedules, 8 rollback refusals and exact AE restore (scripts/cp6_v2620af_family.py, cp6_v2620af_concurrency.py, cp6_v2620af_maintenance_schedules.py, cp6_v2620af_rollback_guards.py).",
+      "uncovered": [
+        "7 admission checks on AE",
+        "AE two-session original-bug comparison",
+        "focused 30 and owner report 11 controls",
+        "4 AF two-session schedules",
+        "20 AF maintenance schedules",
+        "8 rollback refusals on the original AF file"
+      ],
+      "boundary_reason": "Combined134 business oracles are re-run, but the AF focused/detector/concurrency/maintenance sets have no current runner."
+    },
+    {
+      "workflow_path": ".github/workflows/cp6-af-independent-review.yml",
+      "what_it_tested": "Independent original AF transactions on the frozen AF candidate f4669986 (scripts/cp6_af_independent_review.py), after re-using the AF writer artifact 10429202482 and rebuilding AC..AF.",
+      "uncovered": [
+        "independent AF transaction checks (cp6_af_independent_review.py)"
+      ],
+      "boundary_reason": "No current workflow runs the independent AF checks."
+    },
+    {
+      "workflow_path": ".github/workflows/cp6-ag-residual-review.yml",
+      "what_it_tested": "Twenty-one additional writer checks on frozen AG 119f8f13 (scripts/cp6_ag_residual_review.py) after AC..AG install and verification of the incoming AF writer and AG native artifacts.",
+      "uncovered": [
+        "21 additional AG writer checks (cp6_ag_residual_review.py)"
+      ],
+      "boundary_reason": "The 21 residual checks have no current runner."
+    },
+    {
+      "workflow_path": ".github/workflows/cp6-ag-sale-reservation.yml",
+      "what_it_tested": "AG sale-reservation family: AG admission against the exact AF boundary, AG install (533 functions, 157 relations), focused and report checks, relevant combined business oracles, 8 concurrent transactions, 20 maintenance schedules, 8 rollback refusals and exact AF restore (scripts/cp6_v2620ag_family.py and siblings).",
+      "uncovered": [
+        "AG admission checks",
+        "AG focused and report checks",
+        "8 AG concurrent transactions",
+        "20 AG maintenance schedules",
+        "AF counterexample artifact verification"
+      ],
+      "boundary_reason": "Combined business oracles are re-run; the AG focused/detector/concurrency/maintenance sets have no current runner."
+    },
+    {
+      "workflow_path": ".github/workflows/cp6-ah-independent-review.yml",
+      "what_it_tested": "Independent original AH business cases on frozen AH 965ceac4 (scripts/cp6_ah_independent_review.py) after AC..AH install and incoming AH artifact verification.",
+      "uncovered": [
+        "independent AH business cases (later folded into the AI focused set, which itself has no current runner)"
+      ],
+      "boundary_reason": "No current workflow runs the independent AH cases."
+    },
+    {
+      "workflow_path": ".github/workflows/cp6-ah-return-allocation.yml",
+      "what_it_tested": "AH return-allocation family: original AG reference validation paths, AH admission, AH install, focused and report checks, relevant combined business oracles, 8 concurrent transactions, 20 maintenance schedules, 8 rollback refusals and exact AG restore (scripts/cp6_v2620ah_family.py and siblings).",
+      "uncovered": [
+        "original AG reference validation paths",
+        "AH admission, focused and report checks",
+        "8 AH concurrent transactions",
+        "20 AH maintenance schedules"
+      ],
+      "boundary_reason": "Combined business oracles are re-run; the AH focused/detector/concurrency/maintenance sets have no current runner."
+    },
+    {
+      "workflow_path": ".github/workflows/cp6-ai-independent-review.yml",
+      "what_it_tested": "Independent AI-R2 review (scripts/cp6_ai_independent_review.py): capture of the exact AH boundary, business phase (work, accounting and role cases), 12 new two-session business schedules, restore and compare with the captured AH.",
+      "uncovered": [
+        "12 two-session business schedules (concurrency phase)",
+        "independent AH capture and restore comparison"
+      ],
+      "boundary_reason": "The work/accounting/role cases are re-run, but the 12 two-session schedules have no current runner."
+    },
+    {
+      "workflow_path": ".github/workflows/cp6-ai-work-source.yml",
+      "what_it_tested": "AI work-source family: original AH checks with valid two-allocation fixtures, AI admission, AI install, 99 focused and 36 report controls, 142 unchanged combined business expectations, 16 work/return two-session schedules, 20 maintenance schedules, 8 rollback refusals and exact AH restore (scripts/cp6_v2620ai_family.py and siblings).",
+      "uncovered": [
+        "AI admission checks",
+        "99 focused + 36 report controls",
+        "16 work/return two-session schedules",
+        "20 AI maintenance schedules",
+        "original AH checks with two-allocation fixtures"
+      ],
+      "boundary_reason": "The 142 combined expectations are re-run; focused/report/concurrency/maintenance sets have no current runner."
+    },
+    {
+      "workflow_path": ".github/workflows/cp6-ap-flow.yml",
+      "what_it_tested": "AP real-Auth HTTP and browser flow with business races on an AN clone (scripts/cp6_ap_flow_runtime.py, cp6_ap_flow_ui.mjs, cp6_ap_flow_races.py): accessory edit and linked inverse, import edit/finalize races, pocket period busy/stale retry, cancel/post period.",
+      "uncovered": [
+        "AP browser business cases (accessory edit 5->7 manual price, linked inverse, import edit/finalize)",
+        "AP HTTP races (pocket period busy/stale retry, same-UUID finalize)"
+      ],
+      "boundary_reason": "No current workflow runs the AP flow cases or races."
+    },
+    {
+      "workflow_path": ".github/workflows/cp6-final-boundary-audit.yml",
+      "what_it_tested": "Final CP6 boundary audit on AI-R2..AN: AJ..AN installs with read-only security advisors, AM SQL trial, AN late-PO draft selectors, 142 combined business oracles, staged late invoices, AI independent cases, all 230 business cases on AM, value/import oracles, 16+12+12+4 schedules, 20 maintenance schedules, midnight transaction, transfer crossflow, HTTP role/lifecycle oracle (cp6_auth_permission_e2e.mjs), restores AN..AH.",
+      "uncovered": [
+        "AM SQL trial and AN late-PO-draft selector qualification",
+        "two-session schedules (16 original, 12 work, 12 transfer, 4 import draft, 12 DRAFT BS/WIP)",
+        "20 AM/AN maintenance schedules",
+        "controlled midnight transaction",
+        "warehouse transfer crossflow",
+        "HTTP role/lifecycle oracle and disposable frontend qualification"
+      ],
+      "boundary_reason": "The business/import/value groups are re-run; the schedules, AM/AN trials and HTTP oracle have no current runner."
+    },
+    {
+      "workflow_path": ".github/workflows/cp6-initial-import-review.yml",
+      "what_it_tested": "Initial import native trial on AN: proposed AP import RPCs in one rolled-back transaction (scripts/cp6_initial_import_trial.py), invoice-date and manual retail AO family (scripts/cp6_initial_import_ao_trial.py), connected form and file parser (8 vitest files, check-source/access/css, check-production-recovery).",
+      "uncovered": [
+        "proposed AP import RPC trial (cp6_initial_import_trial.py)",
+        "scripts/check-production-recovery.mjs"
+      ],
+      "boundary_reason": "The AP import proposal trial and check-production-recovery.mjs have no current runner."
+    }
+  ],
+  "new_current_legacy_adapter": "scripts/current-legacy-ui-browser",
+  "new_current_legacy_case_count": 31,
+  "new_current_legacy_runtime_status": "NOT_YET_OBSERVED",
+  "independent_retirement_acceptance": false,
+  "full_CP6_archive_acceptance": false,
+  "production_go": false
+}
