@@ -1,0 +1,96 @@
+{
+  "status": "PASS",
+  "scope": "LOCAL_STRUCTURAL_CONTROLS_ON_REAL_PRIOR_BACKUP_NOT_NATIVE",
+  "actual_backup_sha256": "7c6aa0e6a2a46ef1c4f47e549c8c208e5e071ed13be608130637b9ed79979593",
+  "catalog_groups": 22,
+  "real_data_keys": 686,
+  "cases": [
+    {
+      "id": "ALL_686_REAL_BACKUP_DATA_KEYS_UNCHANGED",
+      "status": "PASS"
+    },
+    {
+      "id": "MISSING_DATA_KEY",
+      "status": "PASS",
+      "refusal": "CURRENT_MODEL_TARGET_INSTALL_CHANGED_ROWS_OR_SEQUENCES"
+    },
+    {
+      "id": "UNKNOWN_NEW_TABLE",
+      "status": "PASS",
+      "refusal": "CURRENT_MODEL_TARGET_INSTALL_CHANGED_ROWS_OR_SEQUENCES"
+    },
+    {
+      "id": "CHANGED_EXISTING_ROW_HASH",
+      "status": "PASS",
+      "refusal": "CURRENT_MODEL_TARGET_INSTALL_CHANGED_ROWS_OR_SEQUENCES"
+    },
+    {
+      "id": "CHANGED_EXISTING_SEQUENCE",
+      "status": "PASS",
+      "refusal": "CURRENT_MODEL_TARGET_INSTALL_CHANGED_ROWS_OR_SEQUENCES"
+    },
+    {
+      "id": "BASELINE_FRESHNESS_EXACT_DECLARED_TRANSITION",
+      "status": "PASS"
+    },
+    {
+      "id": "BASELINE_FRESHNESS_MISSING_GROUP",
+      "status": "PASS",
+      "refusal": "CURRENT_MODEL_TARGET_CATALOG_GROUPS_CHANGED"
+    },
+    {
+      "id": "BASELINE_FRESHNESS_EXTRA_PUBLIC_FUNCTION",
+      "status": "PASS",
+      "refusal": "CURRENT_MODEL_TARGET_UNDECLARED_CATALOG_DELTA: functions:public.unlisted()"
+    },
+    {
+      "id": "BASELINE_FRESHNESS_UNRELATED_FUNCTION_CHANGED",
+      "status": "PASS",
+      "refusal": "CURRENT_MODEL_TARGET_UNDECLARED_CATALOG_DELTA: functions:pgbouncer.get_auth(text)"
+    },
+    {
+      "id": "BASELINE_FRESHNESS_MISSING_REPLACEMENT",
+      "status": "PASS",
+      "refusal": "CURRENT_MODEL_TARGET_STAGE_CATALOG_CHANGED"
+    },
+    {
+      "id": "BASELINE_FRESHNESS_EXTRA_SCHEMA",
+      "status": "PASS",
+      "refusal": "CURRENT_MODEL_TARGET_UNDECLARED_CATALOG_DELTA: schemas:unlisted_schema"
+    },
+    {
+      "id": "DATED_MODEL_TARGET_EXACT_DECLARED_TRANSITION",
+      "status": "PASS"
+    },
+    {
+      "id": "DATED_MODEL_TARGET_MISSING_GROUP",
+      "status": "PASS",
+      "refusal": "CURRENT_MODEL_TARGET_CATALOG_GROUPS_CHANGED"
+    },
+    {
+      "id": "DATED_MODEL_TARGET_EXTRA_PUBLIC_FUNCTION",
+      "status": "PASS",
+      "refusal": "CURRENT_MODEL_TARGET_UNDECLARED_CATALOG_DELTA: functions:public.unlisted()"
+    },
+    {
+      "id": "DATED_MODEL_TARGET_UNRELATED_FUNCTION_CHANGED",
+      "status": "PASS",
+      "refusal": "CURRENT_MODEL_TARGET_UNDECLARED_CATALOG_DELTA: functions:pgbouncer.get_auth(text)"
+    },
+    {
+      "id": "DATED_MODEL_TARGET_MISSING_REPLACEMENT",
+      "status": "PASS",
+      "refusal": "CURRENT_MODEL_TARGET_STAGE_CATALOG_CHANGED"
+    },
+    {
+      "id": "DATED_MODEL_TARGET_EXTRA_SCHEMA",
+      "status": "PASS",
+      "refusal": "CURRENT_MODEL_TARGET_UNDECLARED_CATALOG_DELTA: schemas:unlisted_schema"
+    }
+  ],
+  "count": 17,
+  "new_stage_source_render_exact": true,
+  "Native_runtime_credit": false,
+  "production_go": false,
+  "independent_acceptance": false
+}
