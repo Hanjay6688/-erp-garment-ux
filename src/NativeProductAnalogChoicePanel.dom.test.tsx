@@ -29,6 +29,7 @@ it('persists before sending, blocks duplicates, then reconciles the identical co
   return{data:{...f.outcome,request_id:args.p_request,reason:(args.p_payload as {reason:string}).reason},error:null}
  })
  await mount();expect((container.querySelector('input[inputmode="decimal"]')as HTMLInputElement).value).toBe('')
+ const select=container.querySelector('select')!;expect([...select.labels!].map(label=>label.textContent)).toEqual(['Produk pembanding'])
  await fill();await click('Simpan pilihan pembanding');expect(stored().pending).not.toBeNull()
  expect((container.querySelector('fieldset')as HTMLFieldSetElement).disabled).toBe(true)
  await act(async()=>root.unmount());root=createRoot(container);await mount()

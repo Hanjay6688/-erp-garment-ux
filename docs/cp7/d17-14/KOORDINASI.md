@@ -1345,3 +1345,17 @@ Python/YAML PASS. Rerun diperlukan untuk Original lengkap dan seluruh gate.
 Browser2 pilihan f67fa402/run40088215221 juga selesai INCOMPLETE; bukti dan
 penyebab sedang diperiksa terpisah. Consumer masih dikerjakan lokal, belum
 termasuk kandidat perbaikan laporan ini. Induk5/16 dan production_go=false.
+
+## 77. B24 Oktober2026 — Browser2 pertama: label select diperbaiki
+
+Original f67fa402/run40088215221/job120855364135 lengkap:2/2 INCOMPLETE,
+masing-masing berhenti sebelum SAVE. Form dan kandidat tampil, GET200 tanpa alert,
+namun label select membungkus seluruh opsi sehingga locator exact tidak menemukan
+nama Produk pembanding. Dua screenshot diperiksa lokal, tidak dimasukkan archive.
+cp6/advisor/auth-restored true; paket4/5 gate true, writer=false. Kegagalan pertama
+serta Original/log utuh disimpan. Tidak ada kredit actual confirmation/recovery.
+
+Label dipisah dari select dengan htmlFor/useId; uji31/31, TypeScript PASS,
+regresi memastikan text label tepat dan berasosiasi dengan select. Oracle browser
+exact-label, kedua journey, timeout serta semua pemeriksaan transaksi tetap.
+Rerun diperbaiki ini diperlukan. Consumer lokal belum dipublikasikan.

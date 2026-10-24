@@ -1,0 +1,76 @@
+{
+  "contract": "cp7.analog-choice-browser-first-incomplete.v1",
+  "candidate_sha": "f67fa40272e175b285e710300266b261fec5c9cd",
+  "run_id": 40088215221,
+  "job_id": 120855364135,
+  "status": "INCOMPLETE",
+  "expected_case_count": 2,
+  "observed_case_count": 2,
+  "browser_counts": {
+    "INCOMPLETE": 2
+  },
+  "cases": {
+    "OW11_CHOICE_BROWSER_MOBILE_LOSS_RELOAD_REPLAY_CLEAR": {
+      "status": "INCOMPLETE",
+      "error": "locator.selectOption: Timeout 20000ms exceeded.\nCall log:\n  - waiting for getByRole('region', { name: 'Kebutuhan seluruh produk', exact: true }).getByRole('region', { name: 'Kandidat produk pembanding', exact: true }).getByRole('region', { name: 'Konfirmasi produk pembanding', exact: true }).getByLabel('Produk pembanding', { exact: true })\n\n    at fill (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow11_choice_browser.mjs:18:58)\n    at journey (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow11_choice_browser.mjs:41:9)\n    at async main (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:243:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:259:3",
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    "OW11_CHOICE_BROWSER_DESKTOP_DENSE_STALE_AND_REVOKED": {
+      "status": "INCOMPLETE",
+      "error": "locator.selectOption: Timeout 20000ms exceeded.\nCall log:\n  - waiting for getByRole('region', { name: 'Kebutuhan seluruh produk', exact: true }).getByRole('region', { name: 'Kandidat produk pembanding', exact: true }).getByRole('region', { name: 'Konfirmasi produk pembanding', exact: true }).getByLabel('Produk pembanding', { exact: true })\n\n    at fill (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow11_choice_browser.mjs:18:58)\n    at journey (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow11_choice_browser.mjs:41:9)\n    at async main (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:243:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:259:3",
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "auth_counts": {
+    "before": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "after": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "restored": true
+  },
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "complete_original_present": true,
+  "no_SAVE_RPC_sent": true,
+  "first_failure": "Exact select label included descendant option text; both real journeys timed out before confirmation.",
+  "screenshots_reviewed_locally": true,
+  "local_fix": "Explicit separate label htmlFor/useId on select; existing browser exact-label oracle unchanged.",
+  "actual_confirmation_browser_PASS": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "complete_json": {
+    "filename": "ow11-f67fa40-choice-browser2-complete-json.zip",
+    "artifact_id": 12558450467,
+    "bytes": 45035,
+    "sha256": "795fa49fd17862f1940d0f5a09b66c9901454bdf7db2e859be3665210710afa1"
+  },
+  "full_log": {
+    "filename": "ow11-f67fa40-choice-browser2-first.log",
+    "artifact_id": null,
+    "bytes": 186679,
+    "sha256": "d733bbd7f5bc61d0ea87cefa7001cd6abf3f4c8651bbe7a12846b13fca8905fd"
+  }
+}

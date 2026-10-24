@@ -1,4 +1,4 @@
-import {useCallback,useEffect,useRef,useState} from 'react'
+import {useCallback,useEffect,useId,useRef,useState} from 'react'
 import {normalizeClientError} from './lib/clientError'
 import {formatCp6WibDateTime} from './cp6BusinessTime'
 import {isDefiniteInitialRejection,productionLockManager,productionLockName,readProductionRecovery,hasProductionPending} from './productionRecovery'
@@ -7,6 +7,7 @@ import {readProductAnalogChoice,saveProductAnalogChoice,prepareAnalogConfirmatio
 
 type Props={client:unknown;context:AnalogReadContext;candidates:AnalogCandidates|null;scope:string;canManage:boolean;onAccessLost:(message:string)=>void}
 export default function NativeProductAnalogChoicePanel({client,context,candidates,scope,canManage,onAccessLost}:Props){
+ const selectId=useId()
  const seq=useRef(0),active=useRef(false)
  const[workspace,setWorkspace]=useState<AnalogChoiceWorkspace|null>(null),[busy,setBusy]=useState(false),[error,setError]=useState(''),[notice,setNotice]=useState('')
  const[held,setHeld]=useState(()=>readAnalogChoiceRequest(scope,context.actor,context.targetKey))
@@ -70,7 +71,7 @@ export default function NativeProductAnalogChoicePanel({client,context,candidate
   {!canManage?<p>Izin mengelola produk diperlukan untuk mengubah pilihan.</p>:null}
   <fieldset disabled={locked||!workspace}>
    <legend>Pemeriksaan pilihan</legend>
-   <label>Produk pembanding<select value={candidates?.rows.some(r=>r.key===selected)?selected:''} onChange={e=>{setSelected(e.target.value);setReviewed(false)}}><option value="">Pilih setelah memeriksa kandidat</option>{candidates?.rows.map(r=><option key={r.key} value={r.key}>{r.sku} · {r.name}</option>)}</select></label>
+   <label htmlFor={selectId}>Produk pembanding</label><select id={selectId} value={candidates?.rows.some(r=>r.key===selected)?selected:''} onChange={e=>{setSelected(e.target.value);setReviewed(false)}}><option value="">Pilih setelah memeriksa kandidat</option>{candidates?.rows.map(r=><option key={r.key} value={r.key}>{r.sku} · {r.name}</option>)}</select>
    <label>Skala terhadap produk pembanding<input inputMode="decimal" value={scale} onChange={e=>{setScale(e.target.value);setReviewed(false)}}/></label>
    <p>Skala 1 berarti sama, 0.5 berarti setengah. Isi skala sesuai pemeriksaan Anda.</p>
    <label>Alasan kesamaan atau pencabutan<textarea value={reason} onChange={e=>{setReason(e.target.value);setReviewed(false)}}/></label>
