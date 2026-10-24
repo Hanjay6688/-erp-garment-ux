@@ -7,9 +7,11 @@ completeOriginal; all47sources/12preuse22/restore/advisors exact, writergatefals
 Fixedonlyclientargument; regression checks actualunchangedNativeSQLsignature,
 redbeforefix/passafter.160clienttests/10files+TS PASS, two demand testsuites
 checkedseparately. DirectBuatPotongan now reuses samequantitydriver; original
-analysis/archive/recovery remainsavailable. Next focusedbrowser2 rerun includes
+analysis/archive/recovery remainsavailable. Focusedbrowser2 rerun45620dd0/run40042756850/job120717391564 is running; includes
 work→cutting sameDONEjob/checkedSAVEreplay anddense2000directcuttingentry.
 Native6+Entry2+SAVE2000 stayqualified; after-use/Afullchain/fullOW13c open, parent5/16.
+Separateoperational3600 Native2 prepared underow12b/OPERATIONAL3600_CONTRACT,
+3600synthetic/363600moves, same47serverfiles; nofinance/fullfactoryclaim.
 
 **A integration:** [bounded composition and remaining acceptance](../d17-14/ow13c/INTEGRASI_CLAUDE_BOUNDED.md)
 lists request overlap withfinancialbridge, exact17 registry pairs/order,

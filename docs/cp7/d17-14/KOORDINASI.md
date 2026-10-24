@@ -966,3 +966,21 @@ anddense2000directcuttingentry; terminalpagealerts nowfailimmediatelyinstead
 ofwaiting180s. Freshness/UUID/geometry/physicaleffectsassertions kept. All47
 Native6qualifiedbackendfiles unchanged. Rerunonlyquantitybrowser2 afterfix;
 Aregistry17/defaults/types/after-use/fullchain stillownedA, parent5/16.
+
+
+## 58. Quantity corrected rerun active; separate operational3600 component prepared (24 Oktober2026 UTC)
+
+Quantitycandidate45620dd0/sourcebc93efed/run40042756850/job120717391564
+running, no PASS yet.184 localclienttests/disjoint12files+TS PASS; firstd2f
+Original/log andNativeargfirstred retainedprivatelyversion31. Handoff/A
+composition alreadypushed; exactpublishedcommit synchronizedlocally through
+connector andSHA/tree proof when shellgitfetch approval cancelled, no force.
+
+B prepares separate OW12b OPERATIONAL3600_CONTRACT: oneoldcataloganchor0credit+
+oneNative3600synthetic/363600moves. Old2000fixture and47qualifiedbackendfiles
+unchanged. ReallegacyFAILEDhistory vsnewrealDONE/allpages/threefullfreshness
+checks/actualNativeFGstale; eachrequest/step/check8s unchanged. Bprobe opt-in
+flag defaultfalse andownNative2budget; quantitycandidate remainsfrozenonits
+owncommit. No runtimeproofyet; nofinance/completebefore-result/parity/fullfactory
+orUI/SAVE3600 claim. Afinancialbridge/after-use/globalchain stillownedA,
+OW11a-b remainopen, parent5/16. Nootherwriterfiles/defaults/types edited.
