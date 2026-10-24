@@ -1,0 +1,359 @@
+name: CP7 full current finance policy model Native15
+'on':
+  push:
+    branches:
+    - astra-a/d17-14-finance-model-native-20261024
+    paths:
+    - .github/workflows/cp7-current-finance-model-native.yml
+    - scripts/current-finance-model-qualification/**
+    - scripts/cp7_current_finance_model_installation.py
+    - scripts/cp7_current_finance_model_recovery.py
+    - scripts/cp7_bounded_finance_bridge/**
+    - scripts/cp7_current_bounded_finance_installation.py
+    - scripts/cp7_current_bounded_finance_recovery.py
+  workflow_dispatch: {}
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: cp7-current-finance-model-native-${{ github.run_id }}
+  cancel-in-progress: false
+jobs:
+  p21:
+    name: CP7 full current finance policy model Native15
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      CURRENT_ANALOG_FROZEN_SOURCE_ROOT: ${{ github.workspace }}/frozen
+      CURRENT_FINANCE_FROZEN_SOURCE_ROOT: ${{ github.workspace }}/finance-frozen
+      PGURL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
+      CP6_AC_INDEPENDENT_CONFIRM: postgres
+      CP6_AF_INDEPENDENT_CONFIRM: postgres
+      CP6_AH_CONFIRM: postgres
+      CP6_AI_CONFIRM: postgres
+      CP6_AH_INDEPENDENT_CONFIRM: postgres
+      CP6_AI_INDEPENDENT_CONFIRM: postgres
+      CP6_AUDIT_HARNESS_HEAD: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
+      CP6_AF_HARNESS_HEAD: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
+      CP6_DATABASE_CONTAINER: supabase_db_cp5-local
+      CP6_MAINTENANCE_CONFIRM_DATABASE: cp6_rollback
+      CP6_AR_CONFIRM: cp6_rollback
+      CP6_AU_BROWSER_CONFIRM: cp6_rollback
+    steps:
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      with:
+        path: writer
+        fetch-depth: 0
+        ref: ca7f09556397801c50a2277bdb65b1bf019f9a05
+        persist-credentials: 'false'
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      with:
+        path: auditor
+        fetch-depth: 0
+        persist-credentials: 'false'
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      with:
+        path: harness
+        fetch-depth: 0
+        ref: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
+        persist-credentials: 'false'
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      with:
+        path: candidate
+        fetch-depth: 0
+        ref: 25fa4736329e5148dfdb3572bc169952cba23251
+        persist-credentials: 'false'
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      with:
+        path: base
+        fetch-depth: 0
+        ref: 1bdca3766f7c9800d68295ff5122798060b8a05d
+        persist-credentials: 'false'
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      with:
+        path: frozen
+        fetch-depth: 0
+        ref: 469ed1e8b2edf80f7988feba38162a5be7251b8c
+        persist-credentials: 'false'
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      with:
+        path: finance-frozen
+        fetch-depth: 0
+        ref: 05bad4f465c61caabddfc0e8f4d5914b39aab22a
+        persist-credentials: 'false'
+    - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+      with:
+        python-version: '3.12'
+    - name: Install pinned disposable runtime
+      shell: bash
+      run: "set -euo pipefail\npython -m pip install --quiet 'psycopg[binary]==3.2.10' 'PyYAML==6.0.2'\
+        \ 'jsonschema==4.25.1'\nsudo apt-get update -qq\nsudo apt-get install -y -qq ca-certificates curl\
+        \ gnupg\nsudo install -d /usr/share/postgresql-common/pgdg\nsudo curl --fail --silent --show-error\
+        \ \\\n  -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc \\\n  https://www.postgresql.org/media/keys/ACCC4CF8.asc\n\
+        key_fingerprint=\"$(gpg --show-keys --with-colons \\\n  /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc\
+        \ \\\n  | awk -F: '$1 == \"fpr\" { print $10; exit }')\"\ntest \"$key_fingerprint\" = 'B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8'\n\
+        . /etc/os-release\narchitecture=\"$(dpkg --print-architecture)\"\nsudo tee /etc/apt/sources.list.d/pgdg.sources\
+        \ >/dev/null <<EOF\nTypes: deb\nURIs: https://apt.postgresql.org/pub/repos/apt\nSuites: ${VERSION_CODENAME}-pgdg\n\
+        Architectures: ${architecture}\nComponents: main\nSigned-By: /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc\n\
+        EOF\nsudo apt-get update -qq\nsudo apt-get install -y -qq postgresql-client-17\ntest -x /usr/lib/postgresql/17/bin/psql\n\
+        echo '/usr/lib/postgresql/17/bin' >> \"$GITHUB_PATH\"\n"
+    - name: Fetch and verify immutable actual Native32 original before DB
+      env:
+        GH_TOKEN: ${{ github.token }}
+      shell: bash
+      run: "set -euo pipefail\n gh api repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12407224140/zip\
+        \ > \"$RUNNER_TEMP/accepted-native32.zip\"\n python - <<'PY'\nimport hashlib,os,zipfile\nfrom\
+        \ pathlib import Path\np=Path(os.environ['RUNNER_TEMP']);rawzip=(p/'accepted-native32.zip').read_bytes()\n\
+        assert len(rawzip)==2460112 and hashlib.sha256(rawzip).hexdigest()=='46db3ad31ef447a073a24630a7af5a87c667b545d797ef612b0a1b4598f2e100'\n\
+        with zipfile.ZipFile(p/'accepted-native32.zip')as z:\n names=[n for n in z.namelist()if Path(n).name=='CP7_OW04_CONSUMER_CLOSURE_NATIVE32.json'];assert\
+        \ len(names)==1;raw=z.read(names[0])\nassert len(raw)==8166263 and hashlib.sha256(raw).hexdigest()=='9a66b07743087e107e3d7d9298d9e517b786077f848cee79ffc326a8246c3a50'\n\
+        target=p/'ow04-native32-original.json';target.write_bytes(raw)\nwith open(os.environ['GITHUB_ENV'],'a')as\
+        \ f:f.write('OW04_NATIVE32_ORIGINAL_REPORT='+str(target)+'\\n')\nprint('ACTUAL_NATIVE32_ORIGINAL_BYTES_VERIFIED_NO_PRODUCT_EXECUTION')\n\
+        PY\n"
+    - name: Fetch and verify qualified actual Native28 original before DB
+      env:
+        GH_TOKEN: ${{ github.token }}
+      working-directory: auditor
+      run: python scripts/ow05_native_original.py
+    - name: Fetch and verify qualified actual OW06 Native10 original before DB
+      env:
+        GH_TOKEN: ${{ github.token }}
+      working-directory: auditor
+      run: python scripts/ow06_native_original.py
+    - name: Fetch and verify qualified actual OW08b kasbon Native4 original before DB
+      env:
+        GH_TOKEN: ${{ github.token }}
+      working-directory: auditor
+      run: python scripts/ow08b_kasbon_native_original.py
+    - name: Fetch and verify qualified actual OW08b fgqc Native9 original before DB
+      env:
+        GH_TOKEN: ${{ github.token }}
+      working-directory: auditor
+      run: python scripts/ow08b_fgqc_native_original.py
+    - name: Fetch and verify qualified actual OW05b chain Native6 original before DB
+      env:
+        GH_TOKEN: ${{ github.token }}
+      working-directory: auditor
+      run: python scripts/cp7_ab_ow05b_original.py
+    - name: Fetch and verify qualified actual OW08a chain Native6 original before DB
+      env:
+        GH_TOKEN: ${{ github.token }}
+      working-directory: auditor
+      run: python scripts/ow08a_native_original.py
+    - name: Fetch and verify qualified actual OW12a chain Native7 original before DB
+      env:
+        GH_TOKEN: ${{ github.token }}
+      working-directory: auditor
+      run: python scripts/ow12a_native_original.py
+    - name: Fetch and verify qualified actual OW09 chain Native8 original before DB
+      env:
+        GH_TOKEN: ${{ github.token }}
+      working-directory: auditor
+      run: python scripts/ow09_native_original.py
+    - name: Fetch and verify qualified actual OW07 chain Native7 original before DB
+      env:
+        GH_TOKEN: ${{ github.token }}
+      working-directory: auditor
+      run: PYTHONDONTWRITEBYTECODE=1 python scripts/cp7_laundry_unknown_wash/ow07_original.py
+    - name: Fetch and verify qualified actual OW08b wash chain Native11 original before DB
+      env:
+        GH_TOKEN: ${{ github.token }}
+      working-directory: auditor
+      run: python scripts/ow08b_wash_native_original.py
+    - name: Fetch and verify qualified actual OW04b followups chain Native9+Race3 original before DB
+      env:
+        GH_TOKEN: ${{ github.token }}
+      working-directory: auditor
+      run: python scripts/ow04b_followups_native_original.py
+    - name: Fetch and verify qualified actual OW04b slice A chain Native6+Race2 original before DB
+      env:
+        GH_TOKEN: ${{ github.token }}
+      working-directory: auditor
+      run: python scripts/ow04ba_native_original.py
+    - name: Fetch and verify qualified actual OW04b slice B chain Native6+Race1 original before DB
+      env:
+        GH_TOKEN: ${{ github.token }}
+      working-directory: auditor
+      run: python scripts/ow04bb_native_original.py
+    - name: Fetch and verify qualified actual OW04b slice C chain Native7+Race1 original before DB
+      env:
+        GH_TOKEN: ${{ github.token }}
+      working-directory: auditor
+      run: python scripts/ow04bc_native_original.py
+    - name: Verify actual draft return counterexample before DB
+      working-directory: auditor
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: "set -euo pipefail\npython - <<'PYCODE'\nimport hashlib,io,json,os,subprocess,zipfile\nfrom\
+        \ pathlib import Path\nraw=subprocess.check_output(['gh','api','repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12554390190/zip'])\n\
+        assert len(raw)==1943043 and hashlib.sha256(raw).hexdigest()=='bfa2b2384ea5628c63822eb2d43b981c1b4a11d30802e5496ddbd5f504a59896'\n\
+        with zipfile.ZipFile(io.BytesIO(raw))as z:\n names=[n for n in z.namelist()if n=='CP7_CURRENT_CP6_CONTRACT_NATIVE6.json']\n\
+        \ assert len(names)==1\n original=z.read(names[0])\nassert len(original)==2741967 and hashlib.sha256(original).hexdigest()=='25be83a8e79dc1073da1daeb1c47c39d987838932c8405ff11ccd9b78336b55a'\n\
+        d=json.loads(original)\nassert d['status']=='INCOMPLETE' and d['baseline']['counts']=={'PASS':6}\
+        \ and d['native']['counts']=={'PASS':5,'INCOMPLETE':1}\nout=Path(os.environ['RUNNER_TEMP'])/'DRAFT_RETURN_COUNTEREXAMPLE_ORIGINAL.json';out.write_bytes(original)\n\
+        with open(os.environ['GITHUB_ENV'],'a')as f:f.write('DRAFT_RETURN_COUNTEREXAMPLE_ORIGINAL_REPORT='+str(out)+'\\\
+        n')\nprint('Actual immutable draft-return counterexample Original verified')\nPYCODE\n"
+    - name: Verify actual Native32 closure and used restore8 PASS Originals before DB
+      working-directory: auditor
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: "set -euo pipefail\npython - <<'PYCODE'\nimport hashlib,io,json,os,subprocess,zipfile\nfrom\
+        \ pathlib import Path\nproofs={'DRAFT_RETURN_CLOSURE_ORIGINAL_REPORT': {'artifact': 12555491670,\
+        \ 'zip_bytes': 3341211, 'zip_sha256': 'a19f9aa888529783737f4418df10330ba555f3447340a0e1684ac4c0aa9c928c',\
+        \ 'name': 'CP7_DRAFT_RETURN_CLOSURE_NATIVE32.json', 'bytes': 16090323, 'sha256': '7085322d357c37c776015a718a06b2859dd6f38ffdf75b6d28d9a88631f2e066'},\
+        \ 'DRAFT_RETURN_RESTORED_ORIGINAL_REPORT': {'artifact': 12555745676, 'zip_bytes': 3722714, 'zip_sha256':\
+        \ 'aebab9db100cca395dd900160bd05ede3f05328c85346a99dbe2750fdfeffb0f', 'name': 'CP7_DRAFT_RETURN_RESTORED.json',\
+        \ 'bytes': 855544, 'sha256': '503536b4d282052aa6e99906db5bb95821e528746a29dadc3e938b8c5e785681'}}\n\
+        for variable,p in proofs.items():\n raw=subprocess.check_output(['gh','api',f\"repos/Hanjay6688/-erp-garment-ux/actions/artifacts/{p['artifact']}/zip\"\
+        ])\n assert len(raw)==p['zip_bytes']and hashlib.sha256(raw).hexdigest()==p['zip_sha256']\n with\
+        \ zipfile.ZipFile(io.BytesIO(raw))as z:original=z.read(p['name'])\n assert len(original)==p['bytes']and\
+        \ hashlib.sha256(original).hexdigest()==p['sha256']\n d=json.loads(original);assert d['status']=='PASS'and\
+        \ d['cp6_restored']and d['baseline_advisors_equal']\n out=Path(os.environ['RUNNER_TEMP'])/p['name'];out.write_bytes(original)\n\
+        \ with open(os.environ['GITHUB_ENV'],'a')as f:f.write(variable+'='+str(out)+'\\n')\n print(variable+'\
+        \ actual raw PASS Original verified')\nPYCODE\n"
+    - name: Verify actual composed return8 and B choice6 PASS Original bytes before DB
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: "python - <<'PYFETCH'\nimport os,subprocess,hashlib,zipfile,io,pathlib\nproofs=[('COMPOSED_RETURN_ORIGINAL_REPORT',12556450449,3814659,'bfb45063e0f008f1662158d30526d35337b155dc3259e909484f5e7f5ec8f06f','CP7_CURRENT_RETURN_INSTALLATION_RESTORE.json',1133688,'8cd8d526218c2e6336c4d3c60cc540767469a13617ed610d05536001a787c59f'),('ANALOG_CHOICE_ORIGINAL_REPORT',12557970850,203858,'fad982ba07a86f471bd6118b17c59f21d1555007d1a19d2a24f6d5d696e40696','CP7_OW11_ANALOG_CHOICE.json',1824516,'34b3d68b042069d4248719952e883a858ddcab342146cfd543298be8ccab7fbf')]\n\
+        for variable,artifact,size,digest,name,raw_size,raw_digest in proofs:\n data=subprocess.check_output(['gh','api',f'repos/Hanjay6688/-erp-garment-ux/actions/artifacts/{artifact}/zip'])\n\
+        \ assert len(data)==size and hashlib.sha256(data).hexdigest()==digest\n with zipfile.ZipFile(io.BytesIO(data))as\
+        \ z:\n  assert z.testzip()is None\n  paths=[n for n in z.namelist()if n.rsplit('/',1)[-1]==name];assert\
+        \ len(paths)==1\n  raw=z.read(paths[0])\n assert len(raw)==raw_size and hashlib.sha256(raw).hexdigest()==raw_digest\n\
+        \ path=pathlib.Path(os.environ['RUNNER_TEMP'])/name;path.write_bytes(raw)\n with open(os.environ['GITHUB_ENV'],'a')as\
+        \ env:env.write(variable+'='+str(path)+'\\n')\n print(variable,artifact,raw_size,raw_digest,flush=True)\n\
+        PYFETCH\n"
+    - name: Admit first failed analog Original before DB
+      working-directory: auditor
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: python scripts/current-analog-installation-utc-qualification/fetch_first.py
+    - name: Admit seven-step UTC INCOMPLETE Original before DB
+      working-directory: auditor
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: python scripts/current-analog-native-fixture-qualification/fetch_utc.py
+    - name: Fetch exact composed used restore8 and all three browser2 PASS Originals before DB
+      working-directory: auditor
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: python scripts/current-analog-choice-browser-qualification/fetch_originals.py
+    - name: Fetch exact consumer6, provenance3, transport10 and first current failure Originals
+      working-directory: auditor
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: python scripts/current-analog-consumer-opening-qualification/fetch_originals.py
+    - name: Fetch exact current consumer Native restore8 PASS prerequisite
+      env:
+        GH_TOKEN: ${{ github.token }}
+      working-directory: auditor
+      run: python scripts/current-bounded-finance-restored-native-qualification/fetch_originals.py
+    - name: Fetch exact finance Native5 and model policy-v2 Native6 PASS prerequisites
+      env:
+        GH_TOKEN: ${{ github.token }}
+      working-directory: auditor
+      run: python scripts/current-finance-model-qualification/fetch_originals.py
+    - name: Admit exact A and all declared B extension sources before DB
+      working-directory: auditor
+      run: 'PYTHONPATH=scripts python - <<''PY''
+
+        import importlib.util
+
+        spec=importlib.util.spec_from_file_location(''production_chain_probe'',''scripts/current-finance-model-qualification/probe.py'')
+
+        p=importlib.util.module_from_spec(spec);spec.loader.exec_module(p);p.admitted();print(''AB_FINANCE_BRIDGE_SOURCE_ADMITTED'')
+
+        PY
+
+        '
+    - name: Install pinned Supabase CLI
+      uses: supabase/setup-cli@ab058987d8d6c725971f6cf9d0b5c98467e30bd1
+      with:
+        version: 2.116.0
+    - name: Record proposed source and prepare isolated proof paths
+      id: source_scope
+      working-directory: writer
+      run: 'set -euo pipefail
+
+        PYTHONPATH=scripts python -c "import cp6_au_trial; cp6_au_trial.source()"
+
+        mkdir -p ../candidate/cp6-proof/writer-{ae,af,ah,ai,aj,ak,al,am,an}
+
+        '
+    - name: Start disposable database
+      working-directory: base
+      shell: bash
+      env:
+        GHCR_TOKEN: ${{ github.token }}
+      run: "set -euo pipefail\ntest \"$(git rev-parse HEAD)\" = 1bdca3766f7c9800d68295ff5122798060b8a05d\n\
+        test \"$(git rev-parse HEAD^{tree})\" = 334629c626257b8b713826f491cdf62385d5299b\ntest -z \"$(git\
+        \ status --porcelain)\"\nsupabase --help >/dev/null\nsupabase init --help >/dev/null\nsupabase\
+        \ start --help >/dev/null\n# Authenticated pulls: anonymous ghcr.io/public.ecr.aws pulls were\
+        \ refused (toomanyrequests,\n# Data limit exceeded) before any test ran (OW12a run 39847548230).\n\
+        printf '%s' \"$GHCR_TOKEN\" | docker login ghcr.io -u \"$GITHUB_ACTOR\" --password-stdin\nmkdir\
+        \ cp5-local\nsupabase init --force --workdir cp5-local\nmkdir -p cp5-local/supabase/.temp\necho\
+        \ '17.6.1.165' > cp5-local/supabase/.temp/postgres-version\nsed -i '0,/^enable_signup = true$/s//enable_signup\
+        \ = false/' cp5-local/supabase/config.toml\n# ghcr.io can rate-limit image pulls before anything\
+        \ runs. Retry the start\n# only (no test has run), falling back to the same image tags on public.ecr.aws.\n\
+        for attempt in 1 2 3 4; do\n  if [ \"$attempt\" -ge 2 ]; then export SUPABASE_INTERNAL_IMAGE_REGISTRY=public.ecr.aws;\
+        \ fi\n  if supabase start --workdir cp5-local \\\n    -x realtime,imgproxy,studio,postgres-meta,edge-runtime,logflare,vector,supavisor\
+        \ \\\n    > \"$RUNNER_TEMP/cp6-local-start.log\" 2>&1; then\n    echo \"supabase start succeeded\
+        \ on attempt $attempt from ${SUPABASE_INTERNAL_IMAGE_REGISTRY:-default}\"\n    break\n  fi\n \
+        \ tail -n 20 \"$RUNNER_TEMP/cp6-local-start.log\"\n  supabase stop --workdir cp5-local --no-backup\
+        \ || true\n  if [ \"$attempt\" = 4 ]; then exit 1; fi\n  sleep $((attempt * 60))\ndone\n"
+    - name: Rebuild to v2.6.20, align with hosted, continue the frozen path to AB
+      working-directory: base
+      env:
+        GITHUB_SHA: 1bdca3766f7c9800d68295ff5122798060b8a05d
+        GH_TOKEN: ${{ github.token }}
+      shell: bash
+      run: "set -euo pipefail\nexport CP6_AC_WRITER_ARTIFACT=\"$RUNNER_TEMP/ac-native200.zip\"\ngh api\
+        \ repos/Hanjay6688/-erp-garment-ux/actions/artifacts/10392910720/zip \\\n  > \"$CP6_AC_WRITER_ARTIFACT\"\
+        \ || { rm -f \"$CP6_AC_WRITER_ARTIFACT\"; echo 'AC writer artifact 10392910720 unavailable (kept\
+        \ 30 days, expired 15 Oct 2026, owner D14-17); cp6_pre_u_inventory captures the pre-U table set\
+        \ before U'; }\nmkdir -p ../auditor/cp6-proof/t3\nstatus=0\nPYTHONPATH=scripts python ../auditor/scripts/cp6_t3_aligned_chain.py\
+        \ ../auditor/cp6-proof/t3/ALIGNED_CHAIN.json --stop-after-ab || status=$?\npython - <<'PY'\nimport\
+        \ json\nd=json.load(open('../auditor/cp6-proof/t3/ALIGNED_CHAIN.json'))\nprint(json.dumps({k:d.get(k)\
+        \ for k in ('status','refused_step','alignment')},default=str)[:6000])\nprint(json.dumps([(s['name'],s['exit_code'],s['after_alignment'])\
+        \ for s in d['steps']])[:6000])\nPY\nexit \"$status\"\n"
+    - name: Provision isolated rollback authority
+      working-directory: writer
+      shell: bash
+      run: "set -euo pipefail\nmaintenance_password=\"$(openssl rand -hex 32)\"\nmaintenance_pgurl=\"\
+        postgresql://cp6_maintenance_admission:${maintenance_password}@127.0.0.1:54322/template1\"\necho\
+        \ \"::add-mask::$maintenance_password\"\necho \"::add-mask::$maintenance_pgurl\"\ndocker exec\
+        \ -i \"$CP6_DATABASE_CONTAINER\" \\\n  psql -U supabase_admin -d template1 -X -v ON_ERROR_STOP=1\
+        \ \\\n    -v cp6_password=\"$maintenance_password\" <<'SQL'\ncreate role cp6_maintenance_admission\n\
+        \  login superuser noinherit nocreatedb nocreaterole noreplication\n  connection limit 4 password\
+        \ :'cp6_password';\nSQL\nprintf 'CP6_ADMISSION_CONTROL_PGURL=%s\\n' \"$maintenance_pgurl\" >>\
+        \ \"$GITHUB_ENV\"\n"
+    - name: Clone the aligned AB state for install
+      working-directory: writer
+      run: "set -euo pipefail\nmkdir -p '../auditor/cp6-proof/t3'\nbash scripts/clone-cp6-disposable-database.sh\
+        \ \\\n  'postgresql://postgres:postgres@127.0.0.1:54322/postgres' \\\n  'postgresql://postgres:postgres@127.0.0.1:54322/template1'\
+        \ \\\n  'postgresql://postgres:postgres@127.0.0.1:54322/cp6_rollback' \\\n  cp6_rollback supabase_db_cp5-local\
+        \ '../auditor/cp6-proof/t3/CLONE_install'\n"
+    - name: Execute 15 unchanged finance-policy-model business cases on full current chain
+      working-directory: writer
+      run: python '../auditor/scripts/current-finance-model-qualification/probe.py'
+    - name: Preserve exact original JSON report bytes in a bounded compressed log receipt
+      if: always()
+      working-directory: auditor
+      run: "python - <<'PY'\nimport base64,gzip,hashlib,json\nfrom pathlib import Path\nroot=Path('cp6-proof/t3')\n\
+        for name in ('CP7_CURRENT_FINANCE_MODEL_NATIVE15.json','T3_PACKAGE_INSTALL.json','T3_BACKUP_RESTORE_DRILL.json','T3_PACKAGE_FILES_INSTALL.json'):\n\
+        \    path=root/name\n    if not path.is_file():\n        continue\n    raw=path.read_bytes();packed=gzip.compress(raw,mtime=0)\n\
+        \    print(json.dumps(dict(ow04_original_report_bytes=True,name=name,raw_bytes=len(raw),\n   \
+        \     raw_sha256=hashlib.sha256(raw).hexdigest(),gzip_bytes=len(packed),\n        gzip_sha256=hashlib.sha256(packed).hexdigest(),\n\
+        \        gzip_base64=base64.b64encode(packed).decode('ascii'))),flush=True)\nPY\n"
+    - name: Remove disposable database
+      if: always()
+      working-directory: base
+      run: if command -v supabase >/dev/null 2>&1 && test -d cp5-local; then supabase stop --workdir cp5-local
+        --no-backup; fi
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      if: always()
+      with:
+        name: cp7-current-finance-model-native15
+        path: auditor/cp6-proof/t3
+        retention-days: 30
+        if-no-files-found: error

@@ -2493,3 +2493,12 @@ empty tables. Every older row/sequence must remain exact. Local data admission
 on an actual prior 686-key backup:2allowed transitions and10rejections PASS;
 this is not Native execution. Full chain runtime/used restoration are pending.
 No owner policy defaults, forecast activation, production or independent credit.
+
+A intake lanjut: B v2Browser2 3cc08e21/run40104357916 dan Transport10
+077ff7fe/run40104679399 wholejob/completeOriginal PASS.12sourcepins cocok,
+ID/count/5gates/CP6/advisors/cleanup valid. Auth3+races6+cataloganchor1 dan
+actualmobile/desktop2; hasil immutable vs currentpolicy/source/access terbukti.
+Tidak ada actualpositivewinner/forecastactivation atau fullAchain credit.
+Raw12JSON baru tersimpan bersama semua bukti lama; safeintake ada di ow15.
+Native15 fullA disiapkan dengan casebodies asli dan dua setuphook yang eksplisit,
+menunggu financeNative5 successor PASS sebelum SOURCE dan branchrun dibuat.
