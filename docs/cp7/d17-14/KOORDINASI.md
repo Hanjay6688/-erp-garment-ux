@@ -1235,3 +1235,10 @@ Harness A lama tetap byte-identik. Perluasan probe B ditempatkan di `cp7_b_f05_a
 [bersama] Registry caller gabungan menambah9 pasangan yang benar-benar belum ada (3jadwal,1boundedrequest,5pembacaquantity); delapanusulan lama sudah tercakup. Daftar sebelumnya306 kini315; aturan scanner tetap. Tidak memberi typed/generateddatabase atau deploymentcredit.
 
 Registry access mencantumkan9nama yang sama dan memasukkannya ke penjumlahan tertutup (bukan sekadar menggantiangka). Source369/RPC315, access111izin/47menu/48rute/21aksi, CSS64 dan TypeScript lulus. Kegagalan lokal pertama tersimpan di `ow15/bounded-merge-local-first-admissions.json`.
+
+
+## A — gabungan bounded dan angka keuangan resmi (24 Oktober2026 UTC)
+
+Original e4a51da5/run40049851897/job120739899705 terverifikasi12/12: lima kasus keuangan resmi, enam bounded, satu isolasi UUID antarmetode. 24 metrik sesuai laporan resmi;11 UNKNOWN tetap tanpa angka. Bounded2000/202000 gerakan selesai; request3106.974ms dan pembacaan sumber1604.599–1629.921ms, batas8s. Ini bukan SAVE2000 ulang, login/browser atau factory3600. Seluruh katalog22, pemulihan CP6, advisors dan lima gate paket tepat. Receipt `ow12/ab-bounded-e4a51da5-native12-pass.json`.
+
+Pekerjaan A berikutnya: satu pintu pemasang gabungan yang memeriksa referensi minimum lama, uji pakai/pulih yang memakai pintu itu, dan ekspor tipe langsung dari database disposable terpasang. Entry historis yang dipin tetap utuh; jalur baru diberi nama eksplisit. Tidak memasang ke Enteng atau mengubah keputusan kebijakan.
