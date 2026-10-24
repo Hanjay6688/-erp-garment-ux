@@ -81,8 +81,14 @@ tetap kurang data.47sumber/12invers22/restore/advisors/5gates tepat. First8c1
 Pembaca publik opt-in sudah ditulis di cp7_product_analog_reader_stage:
 2privat/1facade/0tabel/0penggantian. OwnedDONE/epoch/K2/query/clock/identity/
 producer danK3, hasil CAPTURED_NOT_CHECKED. Kontrak READER_CONTRACT.md.
-Native4 frozen0a1deb1f/sourceb00d843d/run40049365973 sedang berjalan; belum
-ada kredit runtime4/Auth/browser/konfirmasi/forecast. Lanjutkan setelah hasil
+Native4 pertama0a1deb1f/run40049365973 INCOMPLETE2/4: katalog danDONE/K3 lulus;
+fixture akses/impor baru dibetulkan tanpa perubahan reader/kernel. Newimports
+tetapUNKNOWN;10komparatorhistoris SYNTHETIC terpisah,0allpublichistorycredit.
+Rerun d2680d34/source58068918/run40050851768 actual4/4+5gate lulus; workflow
+merah hanya karena penutup membaca None. Penutup sudah dibetulkan, sourceSQL
+sama; [receipt](../d17-14/ow11/d2680d3-reader4-component-pass-wrapper-failed.json). UI baca kandidat sudah
+tersambung;255uji/16berkas+TS/CSS64 lulus lokal. Browser2 nyata disiapkan,
+belum hasil. Native4 komponen lulus; Auth/browser/konfirmasi/forecast belum diterima. Lanjutkan setelah hasil
 jelas, selesaikan konfirmasi dan satu mesin; jangan menyebutOW11 selesai.
 
 ## Komponen yang benar-benar lulus
@@ -117,9 +123,9 @@ Pertahankan initial_auto, reorder_supply, financehook dan penolakan UUID lintas
 metode. Facade bounded saat ini q3 tepat/financeDEFERRED. A memegang komposisi
 manifest predecessor/owner/ACL, sensus after-use dan fullchain; jangan hapus pin.
 
-Gate sumber aktual masih17 pasangan RPC belum masuk daftar milik A. Usulan17
-persis lulus364runtime/312RPC; checker A SHA f1148cb... tidak diubah. Terapkan
-patch registry bounded1 setelah11 lama, quantity5 setelah12; jangan duplikasi.
+Gate sumber aktual masih18 pasangan RPC belum masuk daftar milik A. Usulan18
+persis lulus367runtime/313RPC; checker A SHA f1148cb... tidak diubah. Terapkan
+patch registry bounded1 setelah11 lama, quantity5 setelah12, analogreader1 setelah17; jangan duplikasi.
 B tidak mengubah sharedanalysis/finance/defaults/generatedtypes/Achecker.
 
 Worksource memakai `work-schedule:project:profile`, quantity

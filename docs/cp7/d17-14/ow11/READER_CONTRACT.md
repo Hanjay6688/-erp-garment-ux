@@ -30,12 +30,42 @@ A tetap mengomposisikan ke pemasang/full-chain/after-use/global census.
 
 Native4 dideklarasikan terpisah di `ANALOG_READER_CONTRACT.json`: source/catalog22/
 ACL/invers/caller luar; DONE binding/replay/K3/sumber berubah tetap captured;
-aktor lain dengan epoch sendiri/epoch salah/nonaktif/RUNNING/K2; 11 produk asli
-lewat import BB Native pada10 ukuran fisik, satu pembanding AVAILABLE nol ukuran
-sama serta9 ukuran lain dikeluarkan meskipun merek sama. Delta dibuat/dilepas di
+aktor lain dengan epoch sendiri/epoch salah/nonaktif/RUNNING/K2; 11 produk baru
+lewat import BB Native pada10 ukuran fisik tetap UNKNOWN pada hari sebelumnya.
+Sepuluh pembanding historis Native SYNTHETIC terpisah dinyatakan jelas: satu
+AVAILABLE nol ukuran sama serta9 ukuran lain dikeluarkan meskipun merek sama.
+Tidak ada kredit semua histori berasal dari impor publik. Delta dibuat/dilepas di
 setiap kasus rollback di atas parent12; bukan diam-diam tahap bawaan ke13.
 
-Belum ada bukti runtime Native4 saat dokumen ini ditulis. Auth/PostgREST/browser,
+Native4 pertama0a1deb1f INCOMPLETE2/4; katalog dan DONE/K3/advisory lulus.
+Kesalahan fixture epoch/riwayat impor diperbaiki tanpa mengubah reader SQL atau
+memajukan UNKNOWN menjadi tersedia; rerun d2680d34/run40050851768 actual4/4 lulus dan semua5 gate paket lulus.
+Workflow masih merah karena penutup probe membaca nilai balik None sebagai dict;
+penutup dibetulkan dan kasus gagal pertamanya tetap disimpan. Native4 tidak
+diulang hanya demi badge hijau; Browser2 menguji penutup yang sudah benar. Auth/PostgREST/browser,
 mid-call revocation/concurrency, konfirmasi/CAS/UUID/scale/alasan, satu mesin target,
 model aktif dan paket auditor tetap terbuka. Native4 tidak dijumlahkan dengan
 Native3 lama untuk mengarang penerimaan penuh. Parent tetap5/16.
+
+
+## Layar baca kandidat
+
+`nativeProductAnalog.ts` memakai facade bernama tepat dari SQL dan parser ketat:
+aktor/request/run/target/query/epoch/identity/reference sampai mikrodetik, hash
+histori/producer/profil dan angka total lintas halaman. Ukuran berbeda, target
+sendiri, duplikat, hari UNKNOWN/STOCKOUT yang dipromosikan, mean null dan flag
+selected/reviewed/applied ditolak. Mean desimal tetap string; nol AVAILABLE sah.
+
+`NativeProductAnalogPanel` membaca50 kandidat per permintaan, membersihkan halaman
+lama saat membaca berikutnya dan mengabaikan balasan sesudah target/tab/aktor
+berganti. Akses ditolak membersihkan induk dan kandidat. Pencarian target memakai
+seluruh label hasil yang telah diverifikasi, termasuk target tanpa rekomendasi;
+pilihan layar maksimal20, bukan pembatas sumber perhitungan. Permintaan UUID
+analisis tetap, pemilihan kandidat belum disediakan dan target belum diubah.
+
+Uji lokal terbaru:38/4 untuk parser, page binding, respons terlambat,403, induk
+dan pencarian lintas halaman; kumpulan terkait255 uji/16 berkas lulus sebelum push.
+TS dan CSS diperiksa. Browser2/Auth nyata dideklarasikan terpisah; belum ada
+kredit lulus saat persiapan. Registry A tetap tidak diubah; proposal satu pasangan
+baru setelah17 terdahulu, total18 persis, graph367 runtime/313RPC lulus dengan
+proposal tersebut. Gate asli masih terbuka sampai A menerapkannya.

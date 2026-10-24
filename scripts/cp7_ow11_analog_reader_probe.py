@@ -9,5 +9,5 @@ if __name__=='__main__':
                          ow13c_bounded_stage=True,ow11_analog_reader=True)
 
     probe.package._writer_runtime=runtime
-    report=probe.package.run('install')
-    assert all(report['gate'].values()),(report['status'],report['gate'],report.get('error'))
+    # The package records and asserts every gate itself; its success return is None.
+    probe.package.run('install')
