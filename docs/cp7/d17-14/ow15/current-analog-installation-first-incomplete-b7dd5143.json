@@ -1,0 +1,670 @@
+{
+  "contract": "cp7.current-analog-installation.first-original.v1",
+  "status": "INCOMPLETE",
+  "qualified_head": "b7dd5143f922464e1fdbd207ae1e370f82b63e1d",
+  "run_id": 40088953334,
+  "job_id": 120857491086,
+  "artifact_id": 12558513245,
+  "artifact_zip": {
+    "name": "current-analog-installation-first.zip",
+    "bytes": 1931951,
+    "sha256": "21d5d765db10ef3fb3cac708439c71684d248b225893c889fbb8f4526aec87f5"
+  },
+  "original": {
+    "name": "CP7_CURRENT_ANALOG_INSTALLATION_RESTORE.json",
+    "bytes": 1703255,
+    "sha256": "2bf56a3557b0ec7781956fcb909b181b4ec502855c8a3ceb1de7725b3d802b72"
+  },
+  "observed_steps": [
+    {
+      "step": "EXACT_INSTALL_AND_PREUSE_INVERSE",
+      "status": "PASS",
+      "inverse": {
+        "contract": "cp7.current-AB-return-with-analog-metadata.v1",
+        "status": "EXACT_CURRENT_ANALOG_PREUSE_INVERSE",
+        "predecessor": {
+          "contract": "cp7.current-AB-with-draft-return-isolation.v1",
+          "status": "EXACT_FULL_PREUSE_INVERSE",
+          "delta": {
+            "status": "EXACT_PREUSE_INVERSE",
+            "full22_restored": true,
+            "all_data_and_sequences_equal": true,
+            "used_guard_before_DDL": true,
+            "production_go": false
+          },
+          "predecessor": {
+            "product": {
+              "status": "OW15_AB_BOUNDED_CHAIN_PREUSE_EXACT_RESTORE",
+              "all22_preinstall_equal": true,
+              "used_guard_before_any_DDL": true,
+              "financial_facts_deleted": false,
+              "predecessor_removed": {
+                "status": "OW15_AB_QUOTE_PREUSE_EXACT_RESTORE",
+                "used_guard_before_any_DDL": true,
+                "all22_preinstall_equal": true,
+                "predecessor_removed": {
+                  "status": "OW15_B_CHAIN_PREUSE_EXACT_RESTORE",
+                  "all22_preinstall_equal": true,
+                  "used_guard_before_any_DDL": true,
+                  "financial_facts_deleted": false,
+                  "predecessor_removed": {
+                    "status": "OW15_PRODUCTION_CHAIN_PREUSE_EXACT_RESTORE",
+                    "predecessor_removed": {
+                      "status": "OW04BC_PREUSE_EXACT_RESTORE",
+                      "predecessor_verified": {
+                        "status": "OW04BB_EXACT_SOURCE_AND_ALL22_CATALOG_GROUPS_VERIFIED",
+                        "lower_objects": "OW04BA_EXACT_STAGE_OBJECTS_VERIFIED",
+                        "changed_credit_functions": [
+                          "cp7_credit.build_initial_return_for_draft_v1(jsonb,text,jsonb,uuid)",
+                          "cp7_credit.native_return_guard(uuid,numeric,numeric,numeric)",
+                          "cp7_credit.assert_source_admission(uuid)",
+                          "cp7_credit.native_return_complete(uuid,numeric,numeric)",
+                          "cp7_credit_followups.initial_family_reasons_v1(uuid,jsonb)",
+                          "cp7_credit._consumer_root_source_profile_v1(uuid,uuid,uuid,jsonb)",
+                          "cp7_credit.opening_return_hpp_owner_v1(uuid)"
+                        ],
+                        "new_private_readers": [
+                          "cp7_credit_multi.later_family_returns_v1(uuid,bigint)",
+                          "cp7_credit_multi.family_before_events_v1(uuid,bigint)",
+                          "cp7_credit_multi.family_preserved_source_v1(uuid,bigint)",
+                          "cp7_credit_multi.prior_recognized_v1(uuid,bigint)",
+                          "cp7_credit_multi.assert_prior_families_reconciled_v1(uuid,jsonb,uuid)"
+                        ],
+                        "profile_loop_B9_present": true,
+                        "OW04b_complete": false,
+                        "production_go": false,
+                        "independent_acceptance": false
+                      },
+                      "predecessor_removed": {
+                        "status": "OW04BB_PREUSE_EXACT_RESTORE",
+                        "predecessor_verified": {
+                          "status": "OW04BA_EXACT_SOURCE_AND_ALL22_CATALOG_GROUPS_VERIFIED",
+                          "followups_objects": "OW04B_EXACT_STAGE_OBJECTS_VERIFIED",
+                          "changed_credit_functions": [
+                            "cp7_credit.native_source_enter(text,uuid)",
+                            "cp7_credit.source_request_enter_v1(text,jsonb,uuid,text)"
+                          ],
+                          "new_private_admission": [
+                            "cp7_credit_remaining.payment_admitted_v1(text,uuid,uuid)",
+                            "cp7_credit_remaining.request_admitted_v1(text,jsonb,uuid)"
+                          ],
+                          "refusal_messages_or_details_changed": false,
+                          "business_tables_triggers_or_writers_changed": false,
+                          "OW04b_complete": false,
+                          "production_go": false,
+                          "independent_acceptance": false
+                        },
+                        "predecessor_removed": {
+                          "status": "OW04BA_PREUSE_EXACT_RESTORE",
+                          "predecessor_verified": {
+                            "status": "OW04B_EXACT_SOURCE_AND_ALL22_CATALOG_GROUPS_VERIFIED",
+                            "changed_credit_functions": [
+                              "cp7_credit.build_initial_return_for_draft_v1(jsonb,text,jsonb,uuid)",
+                              "cp7_credit.native_source_enter(text,uuid)",
+                              "cp7_credit.assert_simple_native_base_v1(uuid)"
+                            ],
+                            "new_private_readers": [
+                              "cp7_credit_followups.detail_v1(text,text,jsonb,jsonb)",
+                              "cp7_credit_followups.initial_family_reasons_v1(uuid,jsonb)",
+                              "cp7_credit_followups.correction_reasons_v1(uuid)",
+                              "cp7_credit_followups.source_mutation_reasons_v1(text,uuid)"
+                            ],
+                            "refusal_conditions_or_messages_changed": false,
+                            "business_tables_triggers_or_writers_changed": false,
+                            "OW04b_complete": false,
+                            "production_go": false,
+                            "independent_acceptance": false
+                          },
+                          "predecessor_removed": {
+                            "status": "OW04B_PREUSE_EXACT_RESTORE",
+                            "predecessor_verified": {
+                              "status": "OW08B_WASH_EXACT_SOURCE_AND_ALL22_CATALOG_GROUPS_VERIFIED",
+                              "Native_changed_functions": [
+                                "erp.save_laundry_qc_action_v1(text,jsonb,uuid,bigint)",
+                                "erp.validate_laundry_receipt_line()",
+                                "erp.guard_cp6_laundry_receipt_lineage_on_post_v2620()",
+                                "erp.period_blockers_v1(date,date)",
+                                "erp.rebuild_po_hpp(uuid,text)",
+                                "erp.bd_lot_laundry_unknown_v1(uuid)",
+                                "erp.bd_pending_cost_json_v1(uuid,boolean)",
+                                "erp.bd_save_invoice_draft_v1(jsonb,uuid)",
+                                "erp.save_laundry_bd_action_v1(text,jsonb,uuid)",
+                                "erp.get_laundry_bd_workspace_v1(jsonb)"
+                              ],
+                              "new_private_functions": [
+                                "cp7_laundry_unknown_wash.guard_v1()",
+                                "cp7_laundry_unknown_wash.unknown_v1()",
+                                "cp7_laundry_unknown_wash.po_pending_v1(uuid)",
+                                "cp7_laundry_unknown_wash.blockers_v1(date)",
+                                "cp7_laundry_unknown_wash.workspace_v1(uuid,boolean)",
+                                "cp7_laundry_unknown_wash.set_price_v1(jsonb,uuid)"
+                              ],
+                              "price_register": "cp7_laundry_unknown_wash.prices_v1",
+                              "new_close_codes": [
+                                "LAUNDRY_FAILED_WASH_PRICE_UNKNOWN",
+                                "LAUNDRY_FAILED_WASH_PRICE_STATE_MISMATCH"
+                              ],
+                              "new_bd_action": "SET_FAILED_WASH_PRICE",
+                              "Native_tables_triggers_or_grants_changed": false,
+                              "OW08b_complete": false,
+                              "production_go": false,
+                              "independent_acceptance": false
+                            },
+                            "predecessor_removed": {
+                              "status": "OW08B_WASH_PREUSE_EXACT_RESTORE",
+                              "predecessor_verified": {
+                                "status": "OW07_EXACT_SOURCE_AND_ALL22_CATALOG_GROUPS_VERIFIED",
+                                "Native_changed_functions": [
+                                  "erp.period_blockers_v1(date,date)",
+                                  "erp.activate_attendance_hpp_pool_v1(uuid,text,uuid,bigint)",
+                                  "erp.cancel_attendance_hpp_pool_v1(uuid,text,uuid,bigint)"
+                                ],
+                                "new_private_reader": "cp7_hpp_close.blockers_v1(date)",
+                                "new_blocker_codes": [
+                                  "POCKET_USAGE_UNALLOCATED",
+                                  "ATTENDANCE_POOL_NOT_ACTIVE",
+                                  "ATTENDANCE_POOL_POLICY_MISSING",
+                                  "ATTENDANCE_POOL_SOURCE_UNCLEAR",
+                                  "ATTENDANCE_POOL_ZERO_OUTPUT"
+                                ],
+                                "business_tables_triggers_or_grants_changed": false,
+                                "OW07_complete": false,
+                                "production_go": false,
+                                "independent_acceptance": false
+                              },
+                              "predecessor_removed": {
+                                "status": "OW07_PREUSE_EXACT_RESTORE",
+                                "predecessor_verified": {
+                                  "status": "OW09_EXACT_SOURCE_AND_ALL22_CATALOG_GROUPS_VERIFIED",
+                                  "changed_readers": [
+                                    "cp7_finance.analysis(jsonb)",
+                                    "cp7_sales.cash_workspace(jsonb)",
+                                    "cp7_sales.return_workspace(jsonb)",
+                                    "cp7_payroll.note_workspace(text,jsonb)",
+                                    "cp7_fg.adjust_workspace(jsonb)",
+                                    "cp7_fg.corrected_ledger(jsonb)",
+                                    "cp7_material.count_workspace(jsonb)",
+                                    "erp.get_accessory_issue_workspace_v1(jsonb)"
+                                  ],
+                                  "owners": {
+                                    "cp7_finance.analysis(jsonb)": "cp7_finance_read",
+                                    "cp7_sales.cash_workspace(jsonb)": "cp7_sales_read",
+                                    "cp7_sales.return_workspace(jsonb)": "cp7_sales_read",
+                                    "cp7_payroll.note_workspace(text,jsonb)": "cp7_payroll_read",
+                                    "cp7_fg.adjust_workspace(jsonb)": "cp7_fg_read",
+                                    "cp7_fg.corrected_ledger(jsonb)": "cp7_fg_read",
+                                    "cp7_material.count_workspace(jsonb)": "cp7_material_read",
+                                    "erp.get_accessory_issue_workspace_v1(jsonb)": "postgres"
+                                  },
+                                  "new_objects": [],
+                                  "tables_triggers_grants_or_writers_changed": false,
+                                  "base_cp7_sql_edited": false,
+                                  "OW09_complete": false,
+                                  "production_go": false,
+                                  "independent_acceptance": false
+                                },
+                                "predecessor_removed": {
+                                  "status": "OW09_PREUSE_EXACT_RESTORE",
+                                  "predecessor_verified": {
+                                    "status": "OW12A_FINANCE_CAPTURE_EXACT_SOURCE_AND_ALL22_CATALOG_GROUPS_VERIFIED",
+                                    "changed_functions": [
+                                      "cp7_analysis_stage.report_run_unit(cp7_analysis_stage.report_jobs,jsonb)",
+                                      "cp7_analysis_stage.report_step(uuid)",
+                                      "cp7_analysis_stage.report_status(uuid)",
+                                      "cp7_analysis_stage.report_summary_text(jsonb,jsonb,jsonb,jsonb,jsonb,jsonb,text)",
+                                      "cp7_background.run_next()"
+                                    ],
+                                    "new_functions": [
+                                      "cp7_finance_capture.book_chunk(text,date,text,integer,pg_snapshot)",
+                                      "cp7_finance_capture.chunk_rows()",
+                                      "cp7_finance_capture.for_report(uuid,jsonb)",
+                                      "cp7_finance_capture.report_unit(jsonb)",
+                                      "cp7_finance_capture.result(uuid)",
+                                      "cp7_finance_capture.run_next()",
+                                      "cp7_finance_capture.run_unit(uuid)",
+                                      "cp7_finance_capture.seal_hash(jsonb,text)",
+                                      "cp7_finance_capture.start(text,uuid,jsonb,timestamp with time zone)",
+                                      "cp7_finance_capture.status(uuid)",
+                                      "cp7_finance_capture.status_of(text,uuid)",
+                                      "cp7_finance_capture.status_row(cp7_finance_capture.captures)",
+                                      "cp7_finance_capture.step(uuid)"
+                                    ],
+                                    "comparison": [
+                                      "cp7_analysis_stage.report_compare(uuid,uuid)",
+                                      "public.erp_cp7_compare_reports_v2(uuid,uuid)"
+                                    ],
+                                    "reads_owned_by": "cp7_finance_read",
+                                    "figures_from": "cp7_finance.workspace (accepted owner report, one statement)",
+                                    "business_rows_or_writers_changed": false,
+                                    "OW12a_complete": false,
+                                    "production_go": false,
+                                    "independent_acceptance": false
+                                  },
+                                  "predecessor_removed": {
+                                    "status": "OW12A_FINANCE_CAPTURE_PREUSE_EXACT_RESTORE",
+                                    "predecessor_verified": {
+                                      "status": "OW08A_EXACT_SOURCE_AND_ALL22_CATALOG_GROUPS_VERIFIED",
+                                      "Native_changed_functions": [
+                                        "erp.run_v268_financial_report_checks()",
+                                        "erp._v268_financial_report_checks_pre_scope()"
+                                      ],
+                                      "new_private_reader": "cp7_report_credit.adjustment_v1(uuid)",
+                                      "business_tables_triggers_or_writers_changed": false,
+                                      "OW08_complete": false,
+                                      "production_go": false,
+                                      "independent_acceptance": false
+                                    },
+                                    "predecessor_removed": {
+                                      "status": "OW08A_PREUSE_EXACT_RESTORE",
+                                      "predecessor_verified": {
+                                        "status": "OW05B_EXACT_SOURCE_AND_ALL22_CATALOG_GROUPS_VERIFIED",
+                                        "changed_OW05_readers": [
+                                          "cp7_contractor_correction.blockers_v1(uuid)",
+                                          "cp7_contractor_correction.workspace_v1(uuid)"
+                                        ],
+                                        "new_private_readers": [
+                                          "cp7_contractor_guidance.guide_v1(jsonb)",
+                                          "cp7_contractor_guidance.after_step_v1()",
+                                          "cp7_contractor_guidance.after_steps_v1()",
+                                          "cp7_contractor_guidance.history_v1(uuid)"
+                                        ],
+                                        "guided_kinds": [
+                                          "PO_STATE",
+                                          "PICKUP_SOURCE",
+                                          "PAYROLL",
+                                          "ATTENDANCE_POOL",
+                                          "POCKET_POOL",
+                                          "QC",
+                                          "FG_LOT",
+                                          "LAUNDRY",
+                                          "SEWING",
+                                          "WORK",
+                                          "WORK_JOURNAL",
+                                          "ACCESSORY_NOTE",
+                                          "MATERIAL_ISSUE",
+                                          "REWORK",
+                                          "BS",
+                                          "SCRAP",
+                                          "PICKUP_DRAFT",
+                                          "GROUP_STATE",
+                                          "WIP_HISTORY"
+                                        ],
+                                        "command_tables_triggers_or_grants_changed": false,
+                                        "OW05b_complete": false,
+                                        "production_go": false,
+                                        "independent_acceptance": false
+                                      },
+                                      "predecessor_removed": {
+                                        "status": "OW05B_PREUSE_EXACT_RESTORE",
+                                        "predecessor_verified": {
+                                          "status": "OW08B_FG_EXACT_SOURCE_AND_ALL22_CATALOG_GROUPS_VERIFIED",
+                                          "changed_functions": [
+                                            "cp7_transaction_source.resolve(jsonb)",
+                                            "erp.reverse_qc(uuid,text)",
+                                            "erp.get_laundry_qc_workspace_v1(text,text)"
+                                          ],
+                                          "new_private_readers": [
+                                            "cp7_fg_correction_source.qc_blockers_v1(uuid)",
+                                            "cp7_fg_correction_source.qc_blocker_text_v1(uuid)"
+                                          ],
+                                          "fg_inverse_families_opened": {
+                                            "QC_ITEM": "QC",
+                                            "SALE_ITEM": "SALE",
+                                            "SALES_RETURN_ITEM": "SALE",
+                                            "FG_ADJUSTMENT_ITEM": "FG_ADJUSTMENT",
+                                            "REWORK_ORDER": "BS_REWORK"
+                                          },
+                                          "fg_families_still_unsupported": [
+                                            "PRODUCT_CONVERSION",
+                                            "OPENING_BALANCE_ITEM",
+                                            "FG_UNSOURCED_RECEIPT",
+                                            "INITIAL_IMPORT_WIP",
+                                            "BB_OPENING_SALE_RETURN"
+                                          ],
+                                          "refusal_conditions_changed": false,
+                                          "business_tables_triggers_grants_or_writers_changed": false,
+                                          "OW08b_complete": false,
+                                          "production_go": false,
+                                          "independent_acceptance": false
+                                        },
+                                        "predecessor_removed": {
+                                          "status": "OW08B_FG_PREUSE_EXACT_RESTORE",
+                                          "predecessor_verified": {
+                                            "status": "OW08B_KASBON_EXACT_SOURCE_AND_ALL22_CATALOG_GROUPS_VERIFIED",
+                                            "changed_reader": [
+                                              "cp7_transaction_source.resolve(jsonb)"
+                                            ],
+                                            "new_private_reader": "cp7_kasbon_source.document_v1(uuid)",
+                                            "reader_granted_only_to": "cp7_transaction_source_read",
+                                            "kasbon_tables_writers_or_journals_changed": false,
+                                            "OW08b_complete": false,
+                                            "production_go": false,
+                                            "independent_acceptance": false
+                                          },
+                                          "predecessor_removed": {
+                                            "status": "OW08B_KASBON_PREUSE_EXACT_RESTORE",
+                                            "predecessor_verified": {
+                                              "status": "OW06_EXACT_SOURCE_AND_ALL22_CATALOG_GROUPS_VERIFIED",
+                                              "Native_changed_functions": [
+                                                "erp.post_supplier_payment(uuid)",
+                                                "erp.reverse_supplier_payment(uuid,text)",
+                                                "erp.reverse_journal(uuid,text)",
+                                                "cp7_invoice.payment_detail(uuid,jsonb)",
+                                                "cp7_invoice.reverse_payment_locked(jsonb)",
+                                                "cp7_supplier_payment_correction.apply(jsonb,uuid)",
+                                                "erp.run_v267_financial_truth_checks()",
+                                                "cp7_receipt_fix.blockers(uuid)",
+                                                "cp7_transaction_source.resolve(jsonb)"
+                                              ],
+                                              "ERP_trigger_attachments_unchanged": true,
+                                              "one_real_cash_journal_per_transfer": true,
+                                              "private_parent_allocation_links": true,
+                                              "default_installer_or_UI_changed": false,
+                                              "OW06_complete": false,
+                                              "production_go": false,
+                                              "independent_acceptance": false
+                                            },
+                                            "predecessor_removed": {
+                                              "status": "OW06_PREUSE_EXACT_RESTORE",
+                                              "predecessor_verified": {
+                                                "status": "OW05_EXACT_SOURCE_AND_22_CATALOG_GROUPS_VERIFIED",
+                                                "predecessor_verified_before_extension": true,
+                                                "Native_delta": "erp.save_cutting_pickup_v1(jsonb,uuid,bigint)",
+                                                "rate_revision_assignment_generation": "cp7_cutting_correction.sewing_revision(uuid,uuid,numeric,uuid,timestamp with time zone,uuid)",
+                                                "Native_financial_writers_unchanged": true,
+                                                "Native_trigger_attachments_unchanged": true,
+                                                "production_go": false,
+                                                "formal_CP7C_started": false,
+                                                "independent_acceptance": false
+                                              },
+                                              "predecessor_removed": {
+                                                "status": "OW05_PREUSE_EXACT_RESTORE",
+                                                "predecessor_verified": {
+                                                  "classification": "SOURCE_VALIDATED_COMPLETE_PAYMENT_CORRECTION_COMPOSITION_NOT_RAW_LEGACY_PASS",
+                                                  "catalog_groups": 22,
+                                                  "catalog_members": 27734,
+                                                  "payment": {
+                                                    "status": "EXACT_DECLARED_PAYMENT_SOURCE_STAGE_VERIFIED",
+                                                    "complete_catalog_groups": 22,
+                                                    "changed_functions": 25,
+                                                    "new_functions": 30,
+                                                    "actual_Native_header_primitives": {
+                                                      "erp.touch_updated_at()": "c763f2b528a413cba95d9e5b3915c50eb7da52c83a3fea9fbdad9e39e9eddc7a",
+                                                      "erp.bump_row_version()": "3283792bd1b93077533711a4b3c8c09f1d80e0524f45eb575b5b4b1f7272b340"
+                                                    },
+                                                    "new_Native_foreign_keys": 0,
+                                                    "Native_existing_triggers_changed": 0,
+                                                    "production_go": false
+                                                  },
+                                                  "predecessor_verified_before_source_derived_extension": true,
+                                                  "legacy_definitions_projected": false,
+                                                  "production_go": false,
+                                                  "feature_complete": false,
+                                                  "formal_CP7C_started": false,
+                                                  "independent_acceptance": false
+                                                },
+                                                "predecessor_removed": {
+                                                  "status": "COMPLETE_PAYMENT_SOURCE_PREUSE_REMOVED",
+                                                  "payment": {
+                                                    "status": "PAYMENT_SOURCE_UNUSED_STAGE_EXACTLY_REMOVED",
+                                                    "financial_facts_deleted": false
+                                                  },
+                                                  "predecessor_restored_verification": {
+                                                    "classification": "SOURCE_VALIDATED_COMPLETE_COMPOSED_CATALOG_NOT_RAW_LEGACY_PASS",
+                                                    "catalog_groups": 22,
+                                                    "catalog_members": 27607,
+                                                    "exact_catalog_sha256": "ecd8d3626be1651068571ab88079476500319ba023088da03bb3878b276192aa",
+                                                    "consumer": {
+                                                      "status": "VERIFIED_SOURCE_AND_METADATA_NOT_NATIVE_EXECUTION",
+                                                      "new_function_count": 48,
+                                                      "Native_cases_added": 0,
+                                                      "production_go": false
+                                                    },
+                                                    "predecessor_verified_before_source_derived_extension": true,
+                                                    "legacy_definitions_projected": false,
+                                                    "production_go": false,
+                                                    "feature_complete": false,
+                                                    "independent_acceptance": false
+                                                  },
+                                                  "predecessor_removed": {
+                                                    "status": "COMPLETE_COMPOSED_PREUSE_REMOVED",
+                                                    "consumer": {
+                                                      "status": "EXACT_PREUSE_RESTORE",
+                                                      "financial_facts_deleted": false,
+                                                      "production_go": false
+                                                    },
+                                                    "predecessor_restored_verification": {
+                                                      "stage": "FULL_CP7_WITH_OW04",
+                                                      "credit": {
+                                                        "classification": "INTERNAL_WRITER_NATIVE_CANDIDATE_VERIFICATION",
+                                                        "native": {
+                                                          "contract_version": "ow04.native-install-verification.v1",
+                                                          "plan_sha256": "c33c475ff291e52375325fa696d9f51587436cfe83695195ec3e0f0617b1d257",
+                                                          "functions_verified": 21,
+                                                          "original_poster_unchanged": true,
+                                                          "immutable_helper_sources_unchanged": true
+                                                        },
+                                                        "legacy_composition": {
+                                                          "classification": "COMPOSED_LEGACY_VERIFICATION_NOT_RAW_LEGACY_PASS",
+                                                          "live_proof": {
+                                                            "contract_version": "ow04.native-install-verification.v1",
+                                                            "plan_sha256": "c33c475ff291e52375325fa696d9f51587436cfe83695195ec3e0f0617b1d257",
+                                                            "functions_verified": 21,
+                                                            "original_poster_unchanged": true,
+                                                            "immutable_helper_sources_unchanged": true
+                                                          },
+                                                          "direct_legacy_first_failures": [
+                                                            {
+                                                              "verifier": "scripts/cp7_note_correction_verify.py",
+                                                              "direct_legacy_assertion": "(('NOTE_NATIVE_DEFINITION_CHANGED', 'erp.reverse_journal(uuid,text)'),)"
+                                                            },
+                                                            {
+                                                              "verifier": "scripts/cp7_sales_return_correction_bundle.py",
+                                                              "direct_legacy_assertion": "(('cp7_sales_return_correction._cp3_r4_reverse_journal_internal(uuid,text)', 'Undeclared private Native delta'),)"
+                                                            }
+                                                          ],
+                                                          "projected_definition_reads": [
+                                                            [
+                                                              "erp.reverse_journal(uuid,text)",
+                                                              "erp.reverse_sale(uuid,text)",
+                                                              "erp.reverse_sales_return(uuid,text)",
+                                                              "erp.reverse_sales_payment(uuid,text)"
+                                                            ],
+                                                            [
+                                                              "cp7_sales_return_correction.reverse_fg_movement(uuid,text)",
+                                                              "cp7_sales_return_correction._cp3_r4_reverse_journal_internal(uuid,text)",
+                                                              "erp.reverse_journal(uuid,text)",
+                                                              "cp7_sales_return_correction.reverse_journal(uuid,text)",
+                                                              "erp.reverse_sales_return(uuid,text)",
+                                                              "cp7_sales_return_correction.reverse_sales_return(uuid,text)"
+                                                            ]
+                                                          ],
+                                                          "legacy_results": [
+                                                            {
+                                                              "owning_note_source_sha256": "e76810c17c1f6e7f03539dcf6d6897965672d1f666bfcc2207f2ebe8739268a4",
+                                                              "accepted_six_native_helpers_unchanged": true,
+                                                              "exact_owner_report_read_delta": true,
+                                                              "native_owner_report_original_sha256": "f82a4589d05a8282ead7491d67aa6107fbd763a37690bd65276f740d7885e303",
+                                                              "native_owner_report_overlay_sha256": "1c751785b8a64b13b6d10d5023938055db255ba9c1fb09f4ffceaa21197a9dd1",
+                                                              "private_helpers_not_callable": true,
+                                                              "original_financial_and_stock_rules_retained": true,
+                                                              "production_go": false
+                                                            },
+                                                            {
+                                                              "private_return_atomic_Native_inverse_post": true,
+                                                              "all4_Native_helpers_unchanged": true,
+                                                              "exact_private_derivation": true,
+                                                              "source_links_immutable": true,
+                                                              "no_app_ERP_DML": true
+                                                            }
+                                                          ],
+                                                          "immutable_baselines_rewritten": false
+                                                        },
+                                                        "context_inventory": {
+                                                          "contract_version": "ow04.typed-context-census-verified.v1",
+                                                          "contexts": 30,
+                                                          "catalog_sha256": "a6749ed799549a0d6ceb1ae8a11f787a3053f897a631ddd878dac41efbc4c287",
+                                                          "exact_new_schema_exclusions": [
+                                                            "cp7_credit",
+                                                            "ow04_ordinal_wrapper",
+                                                            "ow04_source_proposal",
+                                                            "ow04_pure_kernel"
+                                                          ],
+                                                          "plan_reader": {
+                                                            "signature": "cp7_credit._has_ambient_plan_apply_scope()",
+                                                            "owner": "cp7_plan_writer",
+                                                            "predicate_sha256": "db420f714d536a9d06c24b58cc751e0f3b5fcfd06aa834e14b043f9663ca92a2",
+                                                            "private_acl_exact": true
+                                                          }
+                                                        },
+                                                        "private_inventory_sha256": "576ff574a09601e1b3f2ec6f801e98f9e0aeff299d13ae2eb951c8a5ec9d1be0",
+                                                        "native_empty": {
+                                                          "classification": "SOURCE_AND_METADATA_VERIFICATION_NOT_NATIVE_EXECUTION",
+                                                          "overlays": 14,
+                                                          "relations": 7,
+                                                          "production_go": false
+                                                        },
+                                                        "source_triggers": {
+                                                          "phase": "OW04_COMPOSED_NATIVE_EMPTY",
+                                                          "ordinary_attachments": 25,
+                                                          "ordinary_functions": 18,
+                                                          "internal_attachments": 250,
+                                                          "foreign_keys": 119,
+                                                          "capture_sha256": "67044b743dbe3f9968434bbf3a88db4a7715f534aaa1ed50ca805cf992453a3d",
+                                                          "classification": "SOURCE_AND_METADATA_ONLY_NOT_NATIVE_EXECUTION"
+                                                        },
+                                                        "production_go": false
+                                                      },
+                                                      "alerts": {
+                                                        "stage": "WA_SYSTEM_REMINDERS_AND_WHATSAPP_FORWARDING_BUILT_NOT_INSTALLED_NO_KEY_NO_SCHEDULE",
+                                                        "source_sha256": "e7701eaada592cfd74a8555cf4cdcb7df8d180448213d3bbf5698c3bfa025127",
+                                                        "full_family_acceptance": false,
+                                                        "real_message_sent": false
+                                                      },
+                                                      "production_go": false,
+                                                      "feature_complete": false,
+                                                      "independent_acceptance": false
+                                                    },
+                                                    "used_guard_before_any_uninstall": true,
+                                                    "financial_facts_deleted": false,
+                                                    "production_go": false
+                                                  },
+                                                  "used_guard_before_any_uninstall": true,
+                                                  "financial_facts_deleted": false,
+                                                  "production_go": false
+                                                },
+                                                "financial_facts_deleted": false,
+                                                "production_go": false
+                                              },
+                                              "used_guard_before_any_DDL": true,
+                                              "financial_facts_deleted": false,
+                                              "production_go": false
+                                            },
+                                            "financial_facts_deleted": false,
+                                            "production_go": false
+                                          },
+                                          "financial_facts_deleted": false,
+                                          "production_go": false
+                                        },
+                                        "financial_facts_deleted": false,
+                                        "production_go": false
+                                      },
+                                      "financial_facts_deleted": false,
+                                      "production_go": false
+                                    },
+                                    "financial_facts_deleted": false,
+                                    "production_go": false
+                                  },
+                                  "financial_facts_deleted": false,
+                                  "production_go": false
+                                },
+                                "financial_facts_deleted": false,
+                                "production_go": false
+                              },
+                              "financial_facts_deleted": false,
+                              "production_go": false
+                            },
+                            "financial_facts_deleted": false,
+                            "production_go": false
+                          },
+                          "financial_facts_deleted": false,
+                          "production_go": false
+                        },
+                        "financial_facts_deleted": false,
+                        "production_go": false
+                      },
+                      "financial_facts_deleted": false,
+                      "production_go": false,
+                      "p21_original_all22_catalog_groups_equal": true,
+                      "catalog_comparison_not_normalized": true,
+                      "p21_chain_used_guard_before_any_DDL": true,
+                      "p21_chain_private_tables_locked_nowait": 254
+                    },
+                    "all22_preinstall_equal": true,
+                    "used_guard_before_any_DDL": true,
+                    "financial_facts_deleted": false,
+                    "production_go": false
+                  },
+                  "production_go": false
+                },
+                "production_go": false
+              },
+              "production_go": false
+            },
+            "legacy_native_references_preserved": true,
+            "production_go": false
+          },
+          "full22_preinstall_equal": true,
+          "all_rows_and_sequences_preinstall_equal": true,
+          "used_guard_before_DDL": true,
+          "production_go": false,
+          "independent_acceptance": false
+        },
+        "all22_preinstall_equal": true,
+        "all_rows_and_sequences_equal": true,
+        "global_used_guard_before_any_DDL": true,
+        "production_go": false,
+        "independent_acceptance": false
+      },
+      "composed": {
+        "contract": "cp7.current-AB-return-with-analog-metadata.v1",
+        "status": "EXACT_CURRENT_AB_RETURN_ANALOG_ALL22",
+        "stages": [
+          "ANALOG_READER",
+          "ANALOG_CHOICE"
+        ],
+        "new_analog_tables": 2,
+        "new_analog_public_rpcs": 3,
+        "old_functions_replaced_by_analog": 0,
+        "predecessor_verified_before_actual_delta": true,
+        "all22_transition_chain_verified": true,
+        "substituted_catalog_or_definitions": false,
+        "installed_schedules": false,
+        "forecast_applied": false,
+        "hosted_installation": false,
+        "production_go": false,
+        "independent_acceptance": false
+      }
+    }
+  ],
+  "failure_traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/current-analog-installation-qualification/probe.py\", line 172, in run\n    assert cur.execute('select to_jsonb(r)from erp.sales_returns r where id=%s',(rid,)).fetchone()[0]==bad_draft\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+  "cp6_restored": true,
+  "restore_raw_public_equal": true,
+  "baseline_advisors_equal": true,
+  "advisor_gate": true,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "observations": [
+    "Exact composed installation and preuse inverse passed. Failure occurred at raw DRAFT JSON equality after analog.prepare, before used backup export.",
+    "The original has no before/after DRAFT values. Exact changed fields are not established by this Original.",
+    "Source inspection proves analog.prepare -> plan.fixture -> procurement.fixture explicitly changes session timezone to Asia/Jakarta. Timestamp JSON comparison must use the same timezone on both reads.",
+    "A source-frozen successor will capture all DRAFT header/item fields under explicit UTC before/after and retain actual raw/session diagnostics, without altering dates or product functions."
+  ],
+  "production_go": false,
+  "independent_acceptance": false
+}
