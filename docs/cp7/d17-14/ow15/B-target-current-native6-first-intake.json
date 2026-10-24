@@ -1,0 +1,37 @@
+{
+  "contract": "cp7.B-component-original-intake.v1",
+  "name": "CP7_OW11_MODEL_TARGET_CONSUMER.json",
+  "status": "INCOMPLETE",
+  "head": "04eaad406c94a2b841630d3d583d484c8766827b",
+  "run_id": 40113567267,
+  "job_id": 120930106459,
+  "artifact_id": 12569565118,
+  "zip_bytes": 205917,
+  "zip_sha256": "d070ff694fc390186cb1259ffda5f7604706c2273cc12c2332503832b8113f1d",
+  "bytes": 1829917,
+  "sha256": "6322a1328b19fe9cadc5108fd08d702688046d93835c6acae3359e65e6c88ed5",
+  "whole_job_status": "completed",
+  "whole_job_conclusion": "failure",
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "source_pins_verified": 15,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "first_INCOMPLETE_preserved": true,
+  "production_go": false,
+  "independent_acceptance": false,
+  "native_counts": {
+    "INCOMPLETE": 6
+  },
+  "business_day_planned": "2026-10-24",
+  "business_day_after": "2026-10-25",
+  "day_rollover_cases": 5,
+  "warehouse_fixture_not_in_first_page": true,
+  "warehouse_exception": "StopIteration",
+  "full_A_chain_credit": false
+}

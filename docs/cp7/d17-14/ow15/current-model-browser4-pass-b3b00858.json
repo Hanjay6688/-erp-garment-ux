@@ -1,0 +1,44 @@
+{
+  "contract": "cp7.current-writer-raw-evidence-intake.v1",
+  "name": "CP7_CURRENT_FINANCE_MODEL_BROWSER4.json",
+  "status": "PASS",
+  "head": "b3b00858b68e2915e67c7ab8d4dab4bb66439d9f",
+  "run_id": 40115139570,
+  "job_id": 120934763281,
+  "artifact_id": 12569730677,
+  "zip_bytes": 15562839,
+  "zip_sha256": "6bb10d9717c9f19dafb865116280a8930118261b801d8956c30690bc068f3ef3",
+  "bytes": 1464029,
+  "sha256": "40d4f68cdf2c431096d702448fbac3792df8af47fae5f0d5198dd9464514882c",
+  "whole_job_status": "completed",
+  "whole_job_conclusion": "success",
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "exact_current_source_pins_verified": 3073,
+  "browser_counts": {
+    "PASS": 4
+  },
+  "exact_required_case_ids": [
+    "OW11_MODEL_POLICY_BROWSER_MOBILE_EXACT_RECOVERY_SUSPEND",
+    "OW11_MODEL_POLICY_BROWSER_DESKTOP_REVIEW_ACCESS_REVOKED",
+    "OW11_MODEL_V2_BROWSER_MOBILE_EXACT_RECOVERY_POLICY_SOURCE",
+    "OW11_MODEL_V2_BROWSER_DESKTOP_BASELINE_CURRENT_ACCESS"
+  ],
+  "actual_full22_copy_admissions": 2,
+  "actual_Auth_browser": true,
+  "extra_HTTP_ERP_grant": false,
+  "Auth_database_session_console_cleanup_exact": true,
+  "complete_full22_preuse_inverse": true,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "positive_model_winner": false,
+  "target_overlay_credit": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "formal_parent": "5/16"
+}
