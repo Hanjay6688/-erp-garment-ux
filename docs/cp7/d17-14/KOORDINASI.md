@@ -1546,3 +1546,22 @@ atau perbaikan B yang diasumsikan. FullP21 seluruh uang pada current A/B dan
 Native286 belum dijalankan oleh tambahan ini. Peta12batas arsip CP6,21fail+4
 browser baseline dan penerimaan satu kandidat tetap terbuka. Formal5/16,
 production_go=false; main/kandidat audit/hosted/WA nyata tidak disentuh.
+
+## A — penerus full money P21 pada current A/B (24 Oktober 2026)
+
+Setelah tiga run UI terminal, A melanjutkan current-full-money-qualification.
+Enam helper/keluarga langkah A, tiga mandor, empat siklus P21 dan enam langkah
+restore gold tetap; satu langkah B membuktikan DONE bounded job/header/pages,
+work receipt dan checked draft sesudah restore serta replay tanpa efek.
+Semua helper induk mempertahankan AST yang sama; gold P1000/P900, APPLY/REFUND,
+koreksi, undo/inverse, AR nol dan E01 READY tidak diubah. ADAPTATION.json
+merekam penggantian terhitung; induk, SQL produk dan source B tetap beku.
+
+Pemasang current beserta legacy inventory dan full22 mengganti adapter lama;
+recovery current mempertahankan semua row/sequence sebelum rebind seal OID
+lokal dan verifier composite yang sudah qualified. FullB/factory3600/Native286
+bukan klaim suite ini. CLI lokal pertama menolak helper diimpor dua kali;
+perbaikan memakai instance helper induk, tidak mengosongkan argv/guard.
+Admission1376pin, AST helper, rekonstruksi adaptation dan YAML lulus lokal;
+import/admission dari checkout writer terpisah juga PASS. Runtime/Original
+belum dijalankan, tidak diberi kredit PASS. production_go=false/formal5/16.
