@@ -1,0 +1,13 @@
+{
+  "contract": "cp7.baseline-freshness-stage.v1",
+  "existing_replacements": 1,
+  "new_private_functions": 0,
+  "new_public_rpcs": 0,
+  "new_tables": 0,
+  "predecessor_body_sha256": "23bbc774ca50c7a453dbe5fd404180cb8b472ad56a772368d3da01887857b69b",
+  "replacement_body_sha256": "24567c93bd31ccf3504aa45edadf154990624fc753370ac984cd1513e2993761",
+  "sql_sha256": "63cc580afd9fdcee3500a84716aee80c67f591d54dbcdea92470fda3835a7ab0",
+  "old_immutable_results_rewritten": false,
+  "default_installed": false,
+  "production_go": false
+}

@@ -1747,3 +1747,21 @@ First12PASS checkpoint retained. Existing v2 Native history bound1000 explicit;
 INCOMPLETE retires model, bounded factory history adapter remains open. Source
 and projection still private prototypes; caller/staged/checked-save integration
 is next. FullOW11/fullAchain/independentacceptance false; formal5/16 unchanged.
+
+## 100. B24 Oktober2026 — direct baseline freshness correction candidate
+
+Penelusuran targetconsumer menemukan pembaca direct baseline masih memakai
+fingerprint sebelum analogconsumer, sedangkan build sudah memasukkan pilihan
+dan engineconsumer. Actual predecessorSQL lokal mereproduksi false STALE pada
+sumber yang tidak berubah. Successor opt-in satu replacement serve(uuid), tanpa
+fungsi/RPC/tabel baru, memakai ekspresi identitas persis milik producer. Hasil
+dan UUID tersimpan tidak diubah; sumber lama yang berbeda tetap ARCHIVED_STALE.
+
+8actualSQL localPASS: regression/fix/clock/choiceCLEAR/engine/profile/stock/
+policy/INCOMPLETE/currentaccess/foreign/immutable/ACL. First7PASS1FAIL retained:
+test penolakan belum memakai savepoint sebelum mencoba penolakan kedua;
+harness diperbaiki, SQL tidakdiubah. Native3 tersendiri disiapkan untuk exact
+catalog22/preuse, reproduksi actualpublic capture sebelumfix lalu read/replay/
+CLEAR, actualprofile/postSALE/currentaccess. Runtime belumdikreditkan; old
+31/25/19 budgets dan8s/45mintetap. Forecasttarget integration tetapdilanjutkan
+setelah celah jalur dasar ini; fullOW11/fullAchain/productionfalse.
