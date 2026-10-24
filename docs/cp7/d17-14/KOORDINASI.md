@@ -1114,3 +1114,20 @@ from P19 against1day, so consumer correctly returned insufficienthistory.
 Positive case now sets explicit SYNTHETIC minimum1 through actual Native
 profile writer; negative minimum2 retained. No SQL/oracle/8s/budget relaxation.
 Both failed Originals/logs retained. OW11 OPEN,parent5/16. Next sameNative3.
+
+
+## 66. Advisory analog reader Native4 declared, not selected/applied (24 Oktober2026 WIB)
+
+B adds opt-in cp7_product_analog_reader_stage: unchanged qualified-in-progress
+private kernel+one reader/one authenticated facade, 0tables/0oldreplacements.
+Strict parent12checker required before DDL; Native dependency rows/own catalog
+body/owner/ACL/GUC pinned; RESTRICT read-only inverse blocks external callers
+before DDL. Default installers/global registry/types remain A-owned and untouched.
+Actual job DONE/owned/retained/page epoch/query/reference/producer bind; source
+state explicitly CAPTURED_NOT_CHECKED, never fake UNCHANGED. Native4 predeclared
+for catalog22/anon SQL/external inverse; DONE replay/K3/stale advisory; current
+actor/token/K2/RUNNING; Native BB import11 products10sizes with real AVAILABLE
+zero same-size candidate and9 other available sizes excluded. No runtime4 yet.
+No Auth HTTP/browser/concurrency/confirmation/forecast/fullOW11 credit. All47
+qualified backend files unchanged. Parent5/16. Private Native3 run40048832540
+on frozenf94df96 continues separately; trigger readerNative4 only next.

@@ -1,0 +1,53 @@
+{
+  "contract": "cp7.product-analog-reader-stage.v1",
+  "reader_sql_sha256": "b1475fcbc2dc6fefc2f66d41485dd08570b23021b5f2aa555ff6b06c3ad9f6b9",
+  "kernel_manifest": {
+    "contract": "cp7.product-analog-candidates.prototype.v1",
+    "sql_sha256": "f36b629eeb12cd16dd10eb4910f10490fc54b462d6a88768493d774b3c16a8b6",
+    "private_functions": 1,
+    "public_facades": 0,
+    "new_tables": 0,
+    "old_replacements": 0,
+    "selected": false,
+    "reviewed": false,
+    "forecast_applied": false,
+    "runtime_qualified": false,
+    "default_installed": false,
+    "production_go": false,
+    "dependency_files_sha256": {
+      "cp7_bounded_analysis_stage/stage.sql": "3d24ce30e643c60d965601eacfb5ae407da10b58e2fd638ff7116d7dd3f4b24c",
+      "cp7_reorder_inputs/capture.sql": "a4921aa90111709dfbde026e6b98beb6d977dcd46d212d3cc0fbd97a159f7e78",
+      "cp7-src/demand/history.sql": "01c0fb8c51758e933c2f43079690a8a9e99e96d7346cb018ee916077bd7260c8",
+      "cp7-src/demand/estimate.sql": "c17c125d5139f06ce5a3ea9fd4ff15d32f5fc8952a73270a526913f18a5ff2f2",
+      "cp7-src/wip/bootstrap.sql": "f13d218d6ef6c38bea1968081368cdf253538c79d36b67a51e61d126927c2769"
+    }
+  },
+  "functions": [
+    "cp7_product_analog_stage.candidates(jsonb,text,integer,integer)",
+    "cp7_product_analog_stage.read_candidates(uuid,text,integer,integer,text)",
+    "public.erp_cp7_read_product_analog_candidates_v1(uuid,text,integer,integer,text)"
+  ],
+  "dependencies": [
+    "cp7_analysis_stage.job_of(uuid,uuid)",
+    "cp7_analysis_stage.page_set(uuid)",
+    "cp7_analysis_stage.require_kept(uuid)",
+    "cp7_schedule_native.access_now(boolean)",
+    "cp7_private.access_now()",
+    "cp7_bounded_analysis_stage.producer_hash()",
+    "cp7_bounded_analysis_stage.require_inputs(jsonb,jsonb)",
+    "cp7_wip.key(jsonb)",
+    "cp7_wip.pcs(jsonb)"
+  ],
+  "private_functions": 2,
+  "public_rpcs": 1,
+  "new_tables": 0,
+  "old_replacements": 0,
+  "default_installed": false,
+  "runtime_qualified": false,
+  "actual_Auth_HTTP_credit": false,
+  "selected": false,
+  "reviewed": false,
+  "forecast_applied": false,
+  "full_OW11_acceptance": false,
+  "production_go": false
+}

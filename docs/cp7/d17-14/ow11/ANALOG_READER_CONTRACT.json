@@ -1,0 +1,65 @@
+{
+  "contract": "cp7.ow11.analog-reader-native.v1",
+  "expected_case_count": 4,
+  "required_case_counts": {
+    "native": 4
+  },
+  "required_case_ids": {
+    "native": [
+      "OW11_ANALOG_READER_CATALOG22_INVERSE_AND_EXTERNAL_CALLER",
+      "OW11_ANALOG_READER_DONE_BINDING_CLEANUP_AND_STALE_ADVISORY",
+      "OW11_ANALOG_READER_CURRENT_ACTOR_EPOCH_K2_AND_RUNNING",
+      "OW11_ANALOG_READER_NATIVE_IMPORT_PHYSICAL_SIZE_AND_AVAILABLE_ZERO"
+    ]
+  },
+  "public_rpcs": [
+    "erp_cp7_get_alerts_v1",
+    "erp_cp7_get_wa_settings_v1",
+    "erp_cp7_save_wa_settings_v1",
+    "erp_cp7_set_wa_key_v1",
+    "erp_cp7_send_wa_test_v1",
+    "erp_cp7_resolve_wa_dispatch_v1",
+    "erp_cp7_get_fg_reorder_v1",
+    "erp_cp7_refresh_fg_reorder_v1",
+    "erp_cp7_save_fg_reorder_manual_v1",
+    "erp_cp7_save_stock_formula_settings_v1",
+    "erp_cp7_get_material_reorder_v1",
+    "erp_cp7_refresh_material_reorder_v1",
+    "erp_cp7_save_material_reorder_v1",
+    "erp_cp7_request_staged_analysis_v1",
+    "erp_cp7_get_staged_analysis_v1",
+    "erp_cp7_step_staged_analysis_v1",
+    "erp_cp7_get_planning_profiles_v1",
+    "erp_cp7_save_planning_profile_v1",
+    "erp_cp7_capture_baseline_v1",
+    "erp_cp7_save_cutting_suggestion_v1",
+    "erp_cp7_get_staged_production_schedule_v1",
+    "erp_cp7_save_staged_production_schedule_v1",
+    "erp_cp7_request_bounded_staged_analysis_v1",
+    "erp_cp7_read_product_analog_candidates_v1"
+  ],
+  "schedules": [
+    "erp-wa-collect",
+    "erp-wa-send",
+    "erp-wa-analysis"
+  ],
+  "private_functions": 2,
+  "public_facades_added": 1,
+  "new_tables": 0,
+  "old_replacements": 0,
+  "delta_created_and_removed_inside_each_rollback_case": true,
+  "parent_install_preuse_stages": 12,
+  "parent_checker_required": true,
+  "source_state": "CAPTURED_NOT_CHECKED",
+  "actual_public_BB_import_products": 11,
+  "actual_physical_sizes": 10,
+  "actual_Auth_HTTP_credit": false,
+  "analog_confirmation_qualified": false,
+  "forecast_applied": false,
+  "full_OW11_acceptance": false,
+  "after_use_restore_qualified": false,
+  "full_A_chain_qualified": false,
+  "statement_timeout": "8s",
+  "wall_limit_ms": 8000,
+  "production_go": false
+}
