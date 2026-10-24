@@ -1,0 +1,48 @@
+{
+  "label": "CURRENT_RETAINED_NATIVE153_FG_FAILURE_TRIAGE",
+  "status": "SOURCE_EXPLANATION_ONLY_NOT_RUNTIME_ACCEPTANCE",
+  "original": {
+    "run": 40077317395,
+    "artifact": 12553328751,
+    "sha256": "b2cb4edb026301d4f1375d30f6e13ae502882fee374a402756eaa40b465c6309",
+    "counts": {
+      "PASS": 140,
+      "INCOMPLETE": 13
+    }
+  },
+  "case_ids": [
+    "WAF_FG_REORDER_POINT_FORWARDED",
+    "WAF_FG_RESOLVED_BEFORE_SEND",
+    "SS1_FORMULA_FROM_POSTED_SALES",
+    "SS1_OUT_OF_STOCK_DAYS_NOT_ZERO_DEMAND",
+    "SS1_LEAD_TIME_MEASURED_FROM_PRODUCTION",
+    "SS1_DAYS_BUFFER_NOT_STACKED",
+    "SS1_SETTINGS_SERVICE_LEVEL_AND_WINDOW",
+    "SS1_MANUAL_POINT_REPLACES_AND_CLEARS",
+    "SS1_NOT_ENOUGH_DATA_NEVER_GUESSES",
+    "SS1_REVERSED_SALE_NOT_DEMAND",
+    "SS1_IN_PRODUCTION_COUNTS_TOWARD_POSITION",
+    "SS1_SOURCE_AND_ACCESS",
+    "SS1_VOLUME_2000_ITEMS_EVERY_MINUTE"
+  ],
+  "actual_current_definition": {
+    "observed_in_used_restore_run": 40079815056,
+    "backup_manifest_sha256": "132af4f3e6caf7300297d03f8ff811bc440e5f17cb18890d9bb3df0b6c7b30bf",
+    "signature": "cp7_stock_formula.compute(timestamp with time zone,interval)",
+    "source_path": "scripts/cp7_reorder_caller_stage/compute.sql",
+    "source_sha256": "021ffaac52ad2d3a6e45b99cebd86fb0d15a07826c4a7d3a0b58cda73051b286",
+    "prosrc_sha256": "495210ebbfb107d680c61f426b8e7285a8860485ec5ede716801971aeec0e537",
+    "body_byte_exact": true
+  },
+  "observations": [
+    "Current compute writes cp7_reorder_caller.evaluations; inherited SS1 evaluation() queries cp7_stock_formula.evaluations. The absence is an old reader against the new declared caller path.",
+    "Current compute requires matching completed retained global analysis for WIP projection; otherwise supply status UNKNOWN with GLOBAL_ANALYSIS_NEEDED/IN_PROGRESS or explicit budget/source reason. Inherited WAF/source controls expect COMPLETE and zero WIP without that completed analysis.",
+    "Two manual old controls also compare old formula_point or unconditional COMPLETE WIP; exact observed payloads remain in the Original.",
+    "The inherited2000-SKU test observes items2001 from the new run count but queries2000 FORMULA rows from the old table, returning0."
+  ],
+  "disposition": "Coordinate B-owned modern FG oracle mapping and current-engine execution. Do not rewrite frozen SS1/WAF tests, label these13 PASS, invent zero WIP, or change B product unilaterally. Source explanation does not replace equivalent financial/stock/threshold runtime controls.",
+  "business_oracles_changed": false,
+  "B_product_changed": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

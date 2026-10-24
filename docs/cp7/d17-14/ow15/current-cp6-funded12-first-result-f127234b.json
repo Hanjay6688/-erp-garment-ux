@@ -1,0 +1,61 @@
+{
+  "label": "CP7_CURRENT_CP6_FUNDED_NATIVE12",
+  "status": "PASS",
+  "qualification_commit": "f127234b995dcb9485b86bfc4360cda98fe13c75",
+  "run": 40080319691,
+  "job": 120832324639,
+  "artifact": 12555735321,
+  "zip_bytes": 2079076,
+  "zip_sha256": "8f616e6b66c379420c2d7c904b93784a84f4342b725726d1b08cdc785b7f8b02",
+  "report": {
+    "name": "CP7_CURRENT_CP6_FUNDED_NATIVE12.json",
+    "raw_bytes": 4341254,
+    "raw_sha256": "190232afd1c59ba418e3dc5e3d73f522f497f55323467451eba70269c55d6402"
+  },
+  "baseline": {
+    "PASS": 12
+  },
+  "native": {
+    "PASS": 12
+  },
+  "execution_count": 24,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "strict_group_originals": [
+    {
+      "path": "strict-groups/CP7_CURRENT_CP6_FUNDED_NATIVE12.json",
+      "bytes": 33830,
+      "sha256": "8febe457ace115fa4a0f379f5fd3835c02808d111deb17df45b67065bff4de27"
+    },
+    {
+      "path": "strict-groups/CP7_CURRENT_CP6_FUNDED_NATIVE12_BASELINE.json",
+      "bytes": 77043,
+      "sha256": "ed4885f37ccaafa54ba425a36edf745a2a35acf3102ab0098efbb7c75cda8b18"
+    }
+  ],
+  "case_ids": [
+    "OPENING_SUBLEDGER:SUPPLIER_LAST_CENT",
+    "OPENING_SUBLEDGER:SUPPLIER_REVERSE_PAYMENT",
+    "OPENING_SUBLEDGER:SUPPLIER_CORRECTION",
+    "OPENING_SUBLEDGER:SUPPLIER_REVERSE_CORRECTION",
+    "OPENING_SUBLEDGER:SUPPLIER_RETURN",
+    "OPENING_SUBLEDGER:OPENING_PARTIES",
+    "OPENING_SUBLEDGER:SUPPLIER_VALID_LIFECYCLE",
+    "OPENING_SUBLEDGER:SUPPLIER_INVOICE_LIFECYCLE",
+    "OPENING_SUBLEDGER:FRACTIONAL_PURCHASES",
+    "OPENING_SUBLEDGER:SUPPLIER_AMOUNT_WASH",
+    "SUPPLIER_CENT:INVOICE_PAY_REVERSE",
+    "SUPPLIER_RETURN:LOW_CREDIT_PAYMENT_CAPACITY"
+  ],
+  "disposition": "Twelve prior empty-cash failures pass with identical Native capital fixture on baseline and current. Original money/report oracles and cash guard unchanged; all24 executions and full restoration pass. Earlier Crossflow142 remains INCOMPLETE; no new business-case credit.",
+  "production_go": false,
+  "independent_acceptance": false,
+  "new_business_case_credit": 0
+}
