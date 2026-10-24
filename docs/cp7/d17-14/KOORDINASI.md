@@ -1131,3 +1131,17 @@ zero same-size candidate and9 other available sizes excluded. No runtime4 yet.
 No Auth HTTP/browser/concurrency/confirmation/forecast/fullOW11 credit. All47
 qualified backend files unchanged. Parent5/16. Private Native3 run40048832540
 on frozenf94df96 continues separately; trigger readerNative4 only next.
+
+
+## 67. Private analog Native3 PASS; reader Native4 executing (24 Oktober2026 WIB)
+
+Frozenf94df96/sourceaa9344c3/run40048832540/job120736651060 PASS3/3. Complete
+Original12542157909/136281bytes/SHAefb1fe376007db5837619d109941d88e404251732930758cb7a5d0889caabb8b
+independentlychecked47samefiles/12preuse22/restore/advisors/all5gates. Actual
+2000/202000 reference yields1999candidates;2pages100unique, reader197.485ms
+under8s. Positive syntheticminimum1 explicit; minimum2vs1day correctlynone.
+No public/Auth/selection/forecast/other-size credit. Bothfirstfailures retained.
+
+ReaderNative4 sourceb00d843d/candidate0a1deb1f/run40049365973 executing.
+It adds actualownedDONE/currentepoch/K2/K3/advisory andNativeBB11products10sizes
+controls; result notyetclaimed. OW11/fullAchain/afteruse OPEN,parent5/16.

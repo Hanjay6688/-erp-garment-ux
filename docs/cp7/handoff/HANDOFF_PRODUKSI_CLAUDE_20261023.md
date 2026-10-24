@@ -72,11 +72,18 @@ persis sama. Lihat koordinasi62–63 dan ANALOG_PRIVATE_CONTRACT.json. Native3 t
 sudah dideklarasikan (catalog/source-pagination/Native minimum2 vs1hari);
 DDL prototype hanya di transaksi kasus lalu RESTRICT drop, bukan defaultstage.
 Different-size positive fixture/publicreader/konfirmasi/forecast belum terbukti.
-FirstNative3 8c1a4bfa/run40047065038/job120731119748 INCOMPLETE1/3:
-privatecatalogpassed,2readers stoppedNativekey(text)42883. Receipt8c1a4bf
-preserved. Fixuses to_jsonb(p_target) andpinsNativeWIPhelper, noNativebodychange;
-nextcatalogincludesobservedprototypeManifest. RerunonlyNative3, thencontinue.
-Jangan menyebut OW11 selesai.
+PrivateNative3 f94df96/sourceaa9344c3/run40048832540/job120736651060 PASS3/3.
+[Receipt](../d17-14/ow11/f94df96-analog3-pass.json): actual2000/202000,1999kandidat,
+2halaman100unik/197.485ms; profilminimum1 synthetic eksplisit, minimum2vs1hari
+tetap kurang data.47sumber/12invers22/restore/advisors/5gates tepat. First8c1
+1/3helperJSONB dansecond2bc2/3fixtureminimum20 disimpan, tidak ditimpa.
+
+Pembaca publik opt-in sudah ditulis di cp7_product_analog_reader_stage:
+2privat/1facade/0tabel/0penggantian. OwnedDONE/epoch/K2/query/clock/identity/
+producer danK3, hasil CAPTURED_NOT_CHECKED. Kontrak READER_CONTRACT.md.
+Native4 frozen0a1deb1f/sourceb00d843d/run40049365973 sedang berjalan; belum
+ada kredit runtime4/Auth/browser/konfirmasi/forecast. Lanjutkan setelah hasil
+jelas, selesaikan konfirmasi dan satu mesin; jangan menyebutOW11 selesai.
 
 ## Komponen yang benar-benar lulus
 
@@ -121,9 +128,9 @@ Pointer DONE disimpan untuk reload; permintaan baru mengganti atomik dengan UUID
 baru. Metode/payload pending lama tetap melalui facade asal. Buat Potongan baru
 memakai quantitydriver sama; “analisis & arsip” mempertahankan jalur lama.
 
-Log/Original lengkap di artifact; repo hanya receipt kecil. Arsip privat versi33
+Log/Original lengkap di artifact; repo hanya receipt kecil. Arsip privat versi34
 memuat bukti lama dan helper publisher yang memverifikasi tree/SHA commit secara
 lokal lewat connector; tidak menaruh repo/git atau screenshot baru ke arsip itu.
-Bukti45620,3600 dan Original/log quantity PASS sudah tersimpan pada arsip yang sama. Screenshot baru tetap hanya di artifact/scratch untuk QA.
+Bukti45620,3600, quantity PASS dan kedua kegagalan serta PASS private analog disimpan pada arsip yang sama. Screenshot baru tetap hanya di artifact/scratch untuk QA.
 [Seluruh histori checkpoint lama](HISTORI_HANDOFF_PRODUKSI_20261024.md)
 dipertahankan utuh; status di histori bukan status aktif.
