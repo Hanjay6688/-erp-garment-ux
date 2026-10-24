@@ -1266,3 +1266,45 @@ buku dihitung mandiri, halaman tersegel/UUID dan tabel Native diperiksa.
 Jadwal hanya dipasang pada clone cp6_rollback kosong-jadwal, dicabut dan ditunggu
 selesai sebelum sembilan langkah used restore. Ini bukan klaim cron hosted,
 WA, login/browser atau1200SKU×3ukuran. API/pemilik B dan semua oracle lama tetap.
+
+## A — Native62 aktual lulus; tipe generator dipakai secara sempit (24 Oktober 2026)
+
+Original2e9e1041/run40054324433 membuktikan62/62 delapan keluarga pada pemasang
+current: semua boundary/public perkasus tepat, kebocoran sesi0, invers22/CP6/
+advisors/lima gate paket PASS. Kegagalan pertama79647fa9 tetap tersimpan.
+Tujuh daftar memakai binding callback asli; tiga laporan mendapat fixture
+CREATE/ACTIVATE pool absen Native yang telah dikualifikasi. Oracle tidak diubah.
+Receipt `ow15/owner62-2e9e1041-pass.json`; bukan kasus baru atau bukti login/layar.
+
+Original650ff0e4 membuktikan seluruh baca pembayaran sama sesudah UTC canonical;
+zona asli WIB versus UTC tercatat. Pemulihan belum PASS: perbandingan berikutnya
+pada seluruh evaluasi kain gagal. Pengganti membaca evaluasi dan baris job lengkap
+dalam UTC pada kedua sisi, mempertahankan semua field dan diagnostik selisih.
+Hash semua tabel serta enam kontrol negatif telah lulus; tidak mengganti data,
+tanggal bisnis, SQL B atau kriteria equality. Kedua Original gagal dipertahankan.
+
+Pada run40053703656 pembuat tipe2.116.0 berhasil dan tidak mengubah katalog22/
+baris/sequence. Stdout48805byte/SHA0ad5befcff49385225a1b5b45150dd428d7c5e3b7ad8968f0705cca07da2757f
+disimpan byte-persis di `src/types/database.current-disposable.generated.ts`.
+Preconnect mengindeks hanya3facade staged schedule/get/save/boundedrequest;
+tabel browser tetap kosong, kontrak nullable STATUS/ENSURE tetap. Deklarasi
+lama tidak dipresentasikan sebagai hasil generator. Receipt komponen terpisah
+dari restore yang masih INCOMPLETE. Source declaration successor A dipin ke
+berkas aktual; bukti head lama tidak dilabeli sebagai rerun head baru.
+
+TypeScript/source370-RPC315/access PASS; keluaran JS preconnect sebelum/sesudah
+identik. Pemanggilan npm test luas menghasilkan222file/2372tes klien PASS;
+34file Native tidak dapat berjalan tanpa PostgreSQL lokal (50gagal,37skip).
+Ini bukan suite penuh PASS; log/receipt tetap. Native nyata tetap melalui CI.
+Uji cron162fe7f9 dan Auth8cd6fb9f0 masih menunggu Original.
+
+Original162fe7f9/run40054032624 sudah dibaca: komponen cron asli PASS. Satu
+jadwal menit berjalan36.032detik hingga kedua pekerjaan DONE dan pengambilan
+angka selesai;24metrik sama dengan laporan resmi,11UNKNOWN tetap tanpa angka
+(dan kelayakan laporan tetap BLOCKED). Tidak ada tick manual; uang/stok/HPP dan
+katalog22 tetap. Jadwal dicabut, jadwal lain utuh. Keseluruhan run tetap
+INCOMPLETE pada baca evaluasi kain sesudah restore yang sama; receipt
+`ow15/current-runner-162fe7f9-cron-pass-first-restore.json` menyimpan kedua fakta.
+Delapan admission successor current PASS. Qualifier quote sebelum bounded
+mempertahankan deklarasi historisnya dan menolak probe B yang telah berganti;
+tidak dipin ulang atau diberi kredit kandidat terbaru.
