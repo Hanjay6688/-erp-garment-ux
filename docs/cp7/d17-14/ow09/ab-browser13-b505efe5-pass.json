@@ -1,0 +1,74 @@
+{
+  "contract": "ow15.ab-quote-browser13-verified-original.v1",
+  "candidate": "b505efe56c50dd0f316afef103ff8501020b0224",
+  "run_id": 40048953917,
+  "job_id": 120737029828,
+  "artifact": {
+    "id": 12542579590,
+    "bytes": 21272126,
+    "sha256": "907566080aa70693095fa0fd09e8a6204cc24b5abebb94d058bf5d41cf6ee3c2"
+  },
+  "original": {
+    "name": "CP7_AB_QUOTE_BROWSER13.json",
+    "bytes": 479575,
+    "sha256": "dc79eb9dc1d06bf248d396b28727e003961b32abbfc890d85334bbbd6e34ca39"
+  },
+  "status": "PASS",
+  "expected": 13,
+  "observed": 13,
+  "case_ids": {
+    "F03_CASH_BROWSER_DESKTOP": "PASS",
+    "F03_CASH_BROWSER_MOBILE_CURRENT_AUTH": "PASS",
+    "P11_RETURN_BROWSER_R10_DESKTOP_A": "PASS",
+    "P11_RETURN_BROWSER_R10_MOBILE_B_RECOVERY": "PASS",
+    "P10_FG_BROWSER_DESKTOP": "PASS",
+    "P10_FG_BROWSER_OPERATIONS_MOBILE": "PASS",
+    "P10_ADJUST_BROWSER_DESKTOP": "PASS",
+    "P10_ADJUST_BROWSER_MOBILE_RECOVERY": "PASS",
+    "P12_NOTA_BROWSER_DESKTOP_DRAG": "PASS",
+    "P12_NOTA_BROWSER_MOBILE_RECOVERY": "PASS",
+    "P09_BROWSER_COUNT_MULTI_DESKTOP": "PASS",
+    "P09_BROWSER_COUNT_MULTI_MOBILE_RECOVERY": "PASS",
+    "BC_BROWSER:NOTE_PAGE_D09_DESKTOP_PHONE": "PASS"
+  },
+  "browser": {
+    "real_auth": true,
+    "test_only_usage_grant": false,
+    "jwt_signed_by_runtime": false,
+    "database_remaining": 0,
+    "console_errors": 0,
+    "host_exit": 0,
+    "host_status": "RUN_COMPLETE",
+    "cleanup_failures": false,
+    "auth_cleanup_failures": [],
+    "auth_counts": {
+      "before": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "after": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "restored": true
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "first_failure_preserved": "docs/cp7/d17-14/ow15/ab-browser-e91a4062-first-source-admission.json",
+  "scope": "complete A plus B through85b9d646 and exact return quote correction; excludes later bounded stages",
+  "full_latest_B_browser": false,
+  "independent_acceptance": false,
+  "production_go": false
+}
