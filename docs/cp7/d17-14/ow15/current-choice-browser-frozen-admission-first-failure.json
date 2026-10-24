@@ -1,0 +1,25 @@
+{
+  "status": "LOCAL_PREFLIGHT_INCOMPLETE",
+  "database_started": false,
+  "error": "Current used-state restore accepts no arguments",
+  "cause": "The new isolated-admission child passed its own --frozen-child and source-root routing arguments into imported immutable recovery modules.",
+  "correction": "Consume the adapter arguments before importing; preserve the original recovery modules and their empty CLI contract.",
+  "original_sources_unchanged": true,
+  "runtime_case_credit": 0,
+  "production_go": false,
+  "successor_local_preflight": {
+    "current-return-browser-bounded-qualification": {
+      "admitted": true,
+      "source_manifest_sha256": "1b2f063a85484a36f013a7e869d3999d98f30e642bd7a29af7f50cab429aff7b",
+      "complete_admission_receipt_sha256": "7039f93c52f1b85ad2657059c495a42e48e58e168797db6aa81362dbd357c821",
+      "pin_count": 1142
+    },
+    "current-analog-native-fixture-qualification": {
+      "admitted": true,
+      "source_manifest_sha256": "7c38234e15d2aadb6f8eb7872971acbb806bc9a5918a04f04bcd7045dba651d0",
+      "complete_admission_receipt_sha256": "d1d2e04747eb95e8562165e601eaecf702256bdacaefa53eff552f787b8a68cc",
+      "pin_count": 53
+    }
+  },
+  "successor_local_preflight_status": "PASS_NO_DB_RUNTIME"
+}
