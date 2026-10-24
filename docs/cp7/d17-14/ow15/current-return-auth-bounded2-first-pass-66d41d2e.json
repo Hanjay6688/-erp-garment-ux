@@ -1,0 +1,91 @@
+{
+  "run": 40086882133,
+  "job": 120851528991,
+  "artifact": 12558005753,
+  "zip_bytes": 1934257,
+  "zip_sha256": "e1a1a714992cbed45ad1674d147537a1983ae72ad36876ff699062c9cff4fde4",
+  "label": "CP7_CURRENT_RETURN_AUTH_BOUNDED2",
+  "status": "PASS",
+  "candidate_commit": "66d41d2e81d092c00b05d7af33ce4641b587d0a9",
+  "report": {
+    "name": "CP7_CURRENT_RETURN_AUTH_BOUNDED2.json",
+    "raw_bytes": 1430274,
+    "raw_sha256": "b51a1d4acaa580a52d4f32ac83ceba6abe52b877d5b64569d219629a8f170d33"
+  },
+  "counts": {
+    "PASS": 2
+  },
+  "cases": {
+    "CURRENT_RETURN_HTTP_BAD_DRAFT_GRADE_A": {
+      "status": "PASS",
+      "grade": "GRADE_A",
+      "real_Auth_actor_receipt_verified": true,
+      "malformed_sibling_DRAFT_unchanged": true,
+      "exact_AR_minus20_revenue_plus20_FG_plus10_COGS_minus10": true,
+      "quote_anonymous_changed_request_replay_full22_rows_sequences_exact": true,
+      "revoked_replay_refused": true,
+      "named_return_and_sale_inverse_GL_neutral_stock10": true,
+      "real_browser_claim": false,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    "CURRENT_RETURN_HTTP_BAD_DRAFT_GRADE_B": {
+      "status": "PASS",
+      "grade": "GRADE_B",
+      "real_Auth_actor_receipt_verified": true,
+      "malformed_sibling_DRAFT_unchanged": true,
+      "exact_AR_minus20_revenue_plus20_FG_plus10_COGS_minus10": true,
+      "quote_anonymous_changed_request_replay_full22_rows_sequences_exact": true,
+      "revoked_replay_refused": true,
+      "named_return_and_sale_inverse_GL_neutral_stock10": true,
+      "real_browser_claim": false,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    }
+  },
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "source_preuse_inverse": "EXACT_FULL_PREUSE_INVERSE",
+  "auth_counts": {
+    "before": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "after": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "restored": true
+  },
+  "cleanup": {
+    "users_created": 2,
+    "cleanup_failures": [],
+    "rest_remaining": false
+  },
+  "database_remaining": 0,
+  "real_auth": true,
+  "real_browser_claim": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "new_business_case_credit": 0,
+  "disposition": "Two explicit corrected-installation Auth follow-ups PASS; earlier missing-customer and code-length results remain INCOMPLETE. Actual money/stock/HPP, permission, replay, anonymous read/write and named inverse assertions reached. UI proof remains separate."
+}

@@ -1,0 +1,50 @@
+{
+  "run": 40086198827,
+  "job": 120849529895,
+  "artifact": 12557645633,
+  "zip_bytes": 2053660,
+  "zip_sha256": "d0bd2db2b01691dde3414852ef5ba855780036d5c9737a7b49a4c9ea53d7fadf",
+  "label": "CP7_CURRENT_CASH_READY_NATIVE3",
+  "status": "INCOMPLETE",
+  "qualification_commit": "4cec061c9292513b28f7080c310557468af5f2e3",
+  "report": {
+    "name": "CP7_CURRENT_CASH_READY_NATIVE3.json",
+    "raw_bytes": 2733914,
+    "raw_sha256": "c8f7eba186198389633e3c17d074c2ce86d672d19ec06f7f2c3142dddb2d4f62"
+  },
+  "baseline_counts": {
+    "INCOMPLETE": 3
+  },
+  "current_counts": {
+    "INCOMPLETE": 3
+  },
+  "execution_count": 6,
+  "case_errors": {
+    "baseline": {
+      "CURRENT_VENDOR_PAYMENT_LINKED_INVERSE_READY": "Payroll period overlaps another active payroll for this contractor\nCONTEXT:  PL/pgSQL function guard_payroll_period_overlap() line 10 at RAISE",
+      "CURRENT_VENDOR_PAYMENT_DATE_DETECTOR_READY": "Payroll period overlaps another active payroll for this contractor\nCONTEXT:  PL/pgSQL function guard_payroll_period_overlap() line 10 at RAISE",
+      "CURRENT_FAILED_WASH_CHRONOLOGY_READY": "Payroll period overlaps another active payroll for this contractor\nCONTEXT:  PL/pgSQL function guard_payroll_period_overlap() line 10 at RAISE"
+    },
+    "native": {
+      "CURRENT_VENDOR_PAYMENT_LINKED_INVERSE_READY": "Payroll period overlaps another active payroll for this contractor\nCONTEXT:  PL/pgSQL function guard_payroll_period_overlap() line 10 at RAISE",
+      "CURRENT_VENDOR_PAYMENT_DATE_DETECTOR_READY": "Payroll period overlaps another active payroll for this contractor\nCONTEXT:  PL/pgSQL function guard_payroll_period_overlap() line 10 at RAISE",
+      "CURRENT_FAILED_WASH_CHRONOLOGY_READY": "Payroll period overlaps another active payroll for this contractor\nCONTEXT:  PL/pgSQL function guard_payroll_period_overlap() line 10 at RAISE"
+    }
+  },
+  "explicit_fixture_prerequisite_receipts": [],
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "baseline_all22_rows_sequences_exact": true,
+  "business_oracles_reached": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "new_business_case_credit": 0,
+  "disposition": "Correct Native overlap guard stops fresh1September payroll because seed payroll spans30August through1September. No financial oracle reached; preserve six failures. Explicit successor links the unchanged1September known-zero work into free2September Native payroll using documented actual populate backlog rule; all preexisting payroll, work links, HPP pools, source work and GL must stay exact."
+}

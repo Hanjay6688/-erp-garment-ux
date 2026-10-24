@@ -1,0 +1,30 @@
+{
+  "contract": "cp7.current-cash-linked-native3.v1",
+  "case_ids": [
+    "CURRENT_VENDOR_PAYMENT_LINKED_INVERSE_READY",
+    "CURRENT_VENDOR_PAYMENT_DATE_DETECTOR_READY",
+    "CURRENT_FAILED_WASH_CHRONOLOGY_READY"
+  ],
+  "inherited_source": "scripts/current-cash-ready-qualification/SOURCE.json",
+  "files": {
+    "scripts/current-cash-ready-qualification/SOURCE.json": "6ce61f4e772eb3e6e084f64a705c36b27c26b0930a055f81166d14452ab4ffaa",
+    ".github/workflows/cp7-current-cash-linked.yml": "43a0990e1ac58e4a2d45fa0d03e7a8f179a2b8437f5e6f3323086e514c829481",
+    "scripts/current-cash-linked-qualification/README.md": "1447894e5f90f07562673afd226ebf5451cd8693738cf29fa64c9891e1f77b4a",
+    "scripts/current-cash-linked-qualification/TRANSFORMS.json": "c02ab784c9ce0331b6fe022f883fb20f14977e5cbf0888d9267174ffd92e96cc",
+    "scripts/current-cash-linked-qualification/cases.py": "942ac4dfcde494a8ca23c85ac6a7334c1421b0877997e3f0d3ee033fefde2b32",
+    "scripts/current-cash-linked-qualification/cash_oracle.py": "d1a05485aedbbbdac601069fdcc92b39c78d5b9dbdb86435e577bf3efd1ce22e",
+    "scripts/current-cash-linked-qualification/payment_oracle.py": "f037a3b6ea9d0695c9b6ec5c9a7afe621ccc5482600ad73ae212c185d86c0d86",
+    "scripts/current-cash-linked-qualification/prerequisites.py": "fd37efe73e864bc9221f2c415fef276df314e51818fec89ed3ada0689af278a3",
+    "scripts/current-cash-linked-qualification/probe.py": "f6e87b31cf3d5ae1b3ccc2208b5b262122d9f87fa78dbaa0aef2cb59fe705c8a",
+    "scripts/current-cash-linked-qualification/wash_oracle.py": "5cb2416e4730a2d065647c09412e2aaae3862482445f967b02fdd4816356ad70",
+    "scripts/cp7_sales_bundle.py": "d98d7e79ea5e53c68f6fda9c04888b528ae25add4c21928c5c66666b80e48df5",
+    "scripts/cp7_sales_cases.py": "c76d05c381f712d50e61ab1d8efa367981e7619a842581fecc21a73ed9b6e185",
+    "scripts/cp7_sales_chain_bundle.py": "fa6c6e050df8383451f1ab89d5d88c2663f8026f6b32295fe33e7d3be157666c",
+    "scripts/cp7_sales_command_cases.py": "b6d6e0b6995e3dee2ae7f0e69ab6b48c6c965ee31f15cca4027c47b5159885df",
+    "scripts/cp7_sales_draft_cases.py": "9795a983aaeeae20793b6b7741d18a4486ac05193af97776882ce8014c2a84f4",
+    "scripts/cp7_sales_payment_cases.py": "a28bdaa916775ccfe14e5eb1bb492ec94d0b2b614169141d60f73e06cd575786",
+    "scripts/cp7_sales_payment_correction_bundle.py": "39e8ea6c99cd4c2470d47e36c1cfb5fc764563bbce2e9a0d424f86a9a46468bc",
+    "scripts/cp7_sales_return_cases.py": "abe194d5e2fbc3f425a9ae4b2deda19acf26519f758c099764dec07e8cb5f360",
+    "scripts/cp7_sales_return_correction_bundle.py": "26b1a1d7068b7f18a97aa366515610f564cb5faee0593ca827f2aa09d6e6da53"
+  }
+}

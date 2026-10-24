@@ -52,9 +52,15 @@ CP6/advisor dan pembersihan Auth tetap lulus. Receipt:
 `current-return-auth2-first-incomplete-c52f3923.json`.
 Penerus head`b18853df` menyiapkan pelanggan aktif kedua secara eksplisit memakai
 helper Native yang sama; seluruh oracle uang/stok/replay/izin/inverse tetap.
-Run40085550449 menguji Auth2 dan run40085550446 menguji desktop/HP Browser2,
-termasuk respons hilang lalu reconcile satu retur. Keduanya belum dinyatakan
-lulus sebelum Original dan seluruh gate diperiksa.
+Run40085550449 INCOMPLETE: kode pelanggan fixture49karakter melebihi batas30.
+Run40085550446 INCOMPLETE sebelum login: argumen fixture masuk ke CLI pemulihan.
+Keduanya mempertahankan CP6/advisor dan pembersihan. Receipt pertama tetap utuh.
+Penerus head66d41d2e memakai kode29karakter yang diperiksa sebelum DB serta
+isolasi argumen fixture yang diuji lewat subprocess sebenarnya. Auth run40086882133 sudah lulus dua kasus, lima gate paket, CP6/advisor dan
+pembersihan Auth. Quote/replay/refusal membuktikan seluruh data/sequence/katalog
+tepat; angka AR/revenue/FG/COGS dan dua inverse Native tepat. Receipt:
+`current-return-auth-bounded2-first-pass-66d41d2e.json`.
+Browser run40086882093 masih berjalan; bukti UI tetap terpisah.
 
 Diagnostik tiga kasus laporan, run40085047355, menangkap seluruh enam kegagalan
 baseline/current. Masing-masing memiliki satu `PAYROLL_WORK_UNCOVERED`:10 pcs
@@ -66,7 +72,12 @@ Penerus Native3 melengkapi payroll baru melalui populate/approve Native,
 memeriksa linkage tepat satu sumber dan saldo eligible nol, serta modal bank
 Native untuk pembayaran0.03. Lima tubuh fungsi oracle diperiksa terhadap
 transformasi eksplisit yang hanya menambah prasyarat. Semua pemeriksaan lama
-READY/tanggal/sen/inverse/korupsi tetap utuh; belum ada klaim hasil runtime.
+READY/tanggal/sen/inverse/korupsi tetap utuh. Run40086198827 INCOMPLETE pada seluruh3 baseline+3 current:
+periode payroll fixture1September bertabrakan dengan payroll seed30Agustus–1September.
+Receipt: `current-cash-ready3-first-incomplete-4cec061c.json`.
+Penerus `current-cash-linked-qualification` memakai periode kosong2September,
+sesuai aturan backlog fungsi populate Native. Sumber pekerjaan tetap1September;
+nota/link lama, pool HPP dan seluruh jurnal harus persis tetap. Belum ada hasil runtime.
 
 Original composed installation: run40081846443/job120836847789,
 artifact12556450449. JSON1133688byte,

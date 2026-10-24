@@ -1,0 +1,43 @@
+{
+  "run": 40085746207,
+  "job": 120848196696,
+  "artifact": 12557970850,
+  "zip_bytes": 203858,
+  "zip_sha256": "fad982ba07a86f471bd6118b17c59f21d1555007d1a19d2a24f6d5d696e40696",
+  "head": "714d66f5e10f0a8095a5658305e044a271052a0f",
+  "label": "CP7_OW11_ANALOG_CHOICE",
+  "status": "PASS",
+  "report": {
+    "name": "CP7_OW11_ANALOG_CHOICE.json",
+    "raw_bytes": 1824516,
+    "raw_sha256": "34b3d68b042069d4248719952e883a858ddcab342146cfd543298be8ccab7fbf"
+  },
+  "counts": {
+    "PASS": 6
+  },
+  "source_sha256": "e7701eaada592cfd74a8555cf4cdcb7df8d180448213d3bbf5698c3bfa025127",
+  "analog_choice_source_sha256": {
+    "MANIFEST.json": "19b2e5724539a9892761dea881b9aac5d4e798fae3ab985384c917a598988699",
+    "__init__.py": "66f9412b1c73e717535507d933552a135dc264eae0946f73c8258e75e107b09e",
+    "choice.sql": "16f84ef04b71183d0e70ad0eca72aa748000dd7b4c4436fa7fd922090f285a0d"
+  },
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "production_go": false,
+  "independent_acceptance": false,
+  "A_writer_intake_only": true,
+  "not_merged_into_A": true,
+  "full_A_chain_qualified": false,
+  "after_use_restore_qualified": false,
+  "actual_Auth_HTTP_credit": false,
+  "analog_confirmation_qualified": false,
+  "forecast_applied": false,
+  "concurrency_test": false
+}
