@@ -1,0 +1,291 @@
+{
+  "contract": "cp7.model-evaluation-v2-transport-original-receipt.v1",
+  "head": "077ff7feb25be69a3a37f8cd6573a67b95e4ad62",
+  "run_id": 40104679399,
+  "job_id": 120903796453,
+  "workflow_conclusion": "success",
+  "artifact_id": 12564693169,
+  "artifact_sha256": "a35e1761ad8dc2edb1604fad16a32e38eb9763e36a16a8b735b57e5d447d20dd",
+  "bytes": 92881,
+  "Original_read_complete": true,
+  "status": "PASS",
+  "counts": {
+    "native_PASS": 1,
+    "races_PASS": 6,
+    "HTTP_PASS": 3
+  },
+  "required_case_ids_pass": true,
+  "required_case_counts_pass": true,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "auth_counts": {
+    "before": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "after": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "restored": true
+  },
+  "race_database_remaining": 0,
+  "http_database_remaining": 0,
+  "cases": {
+    "OW11_MODEL_V2_CATALOG22_COMPOSED_PREUSE_DEPENDENCY": {
+      "status": "PASS",
+      "exact_catalog22_composed_preuse_inverse": true,
+      "private7_public2_table1_replacements0": true,
+      "dependent_view_partial_DDL_restored": true,
+      "source_sha256": {
+        "cp7_model_evaluation_v2_stage/MANIFEST.json": "a4eb6586d8f347a1cf59fa21387dd23d23eb8ce06d077c1336ca5d4b8fd0a806",
+        "cp7_model_evaluation_v2_stage/__init__.py": "e8aef726e4aab7adee7dfd7293a43bd62ab3d12e1e4b55d0239bce948440fe90",
+        "cp7_model_evaluation_v2_stage/runtime.sql": "4506428f312ea20c47c3d0f4ade748f915dcd091825cf20178ced91be219d6dc",
+        "cp7_model_registry_adapter/MANIFEST.json": "1a117a702f1ceb4f2d8bd6a3cacd2c907526c19d9c6e45cfbbcd191559293a1e",
+        "cp7_model_registry_adapter/__init__.py": "d44293832c89caf5f470c937ddd548c713cad7a67992bfbb832b615064fd5333",
+        "cp7_model_registry_adapter/adapter.sql": "2f01cdf56ce6d2e4528af00d92c355ad5b6c2bfe728432355b9eadae6ce94343"
+      },
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    "OW11_MODEL_V2_RACE_SAME_UUID": {
+      "status": "PASS",
+      "two_actual_backends": true,
+      "one_UUID_one_immutable_run": true,
+      "exact_replay": true,
+      "changed_same_UUID_one_refusal": false,
+      "no_physical_stock_money_HPP_change": true,
+      "copy_runtime": {
+        "stage": "cp7.bounded-analysis-stage.v1",
+        "private_functions": 13,
+        "public_rpcs": 1,
+        "new_tables": 0,
+        "existing_function_replacements": 7,
+        "Native_ERP_DML": false,
+        "real_Native_job_rows": true,
+        "raw_native_status_overridden": false,
+        "actual_checked_SAVE2000_qualified": false,
+        "full_A_chain_qualified": false,
+        "production_go": false
+      },
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    "OW11_MODEL_V2_RACE_CHANGED_SAME_UUID": {
+      "status": "PASS",
+      "two_actual_backends": true,
+      "one_UUID_one_immutable_run": true,
+      "exact_replay": false,
+      "changed_same_UUID_one_refusal": true,
+      "no_physical_stock_money_HPP_change": true,
+      "copy_runtime": {
+        "stage": "cp7.bounded-analysis-stage.v1",
+        "private_functions": 13,
+        "public_rpcs": 1,
+        "new_tables": 0,
+        "existing_function_replacements": 7,
+        "Native_ERP_DML": false,
+        "real_Native_job_rows": true,
+        "raw_native_status_overridden": false,
+        "actual_checked_SAVE2000_qualified": false,
+        "full_A_chain_qualified": false,
+        "production_go": false
+      },
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    "OW11_MODEL_V2_RACE_ACCESS_AFTER_ENVELOPE": {
+      "status": "PASS",
+      "actual_lock_wait_observed": "envelope",
+      "two_actual_backends": true,
+      "actual_committed_replay_wait": false,
+      "current_policy_after_wait": false,
+      "current_posted_source_after_wait": false,
+      "current_access_after_wait": true,
+      "no_orphan_model_run": true,
+      "forecast_applied": false,
+      "copy_runtime": {
+        "stage": "cp7.bounded-analysis-stage.v1",
+        "private_functions": 13,
+        "public_rpcs": 1,
+        "new_tables": 0,
+        "existing_function_replacements": 7,
+        "Native_ERP_DML": false,
+        "real_Native_job_rows": true,
+        "raw_native_status_overridden": false,
+        "actual_checked_SAVE2000_qualified": false,
+        "full_A_chain_qualified": false,
+        "production_go": false
+      },
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    "OW11_MODEL_V2_RACE_REPLAY_AFTER_REQUEST": {
+      "status": "PASS",
+      "actual_lock_wait_observed": "request",
+      "two_actual_backends": true,
+      "actual_committed_replay_wait": true,
+      "current_policy_after_wait": false,
+      "current_posted_source_after_wait": false,
+      "current_access_after_wait": true,
+      "no_orphan_model_run": true,
+      "forecast_applied": false,
+      "copy_runtime": {
+        "stage": "cp7.bounded-analysis-stage.v1",
+        "private_functions": 13,
+        "public_rpcs": 1,
+        "new_tables": 0,
+        "existing_function_replacements": 7,
+        "Native_ERP_DML": false,
+        "real_Native_job_rows": true,
+        "raw_native_status_overridden": false,
+        "actual_checked_SAVE2000_qualified": false,
+        "full_A_chain_qualified": false,
+        "production_go": false
+      },
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    "OW11_MODEL_V2_RACE_POLICY_AFTER_ENVELOPE": {
+      "status": "PASS",
+      "actual_lock_wait_observed": "policy",
+      "two_actual_backends": true,
+      "actual_committed_replay_wait": false,
+      "current_policy_after_wait": true,
+      "current_posted_source_after_wait": false,
+      "current_access_after_wait": false,
+      "no_orphan_model_run": true,
+      "forecast_applied": false,
+      "copy_runtime": {
+        "stage": "cp7.bounded-analysis-stage.v1",
+        "private_functions": 13,
+        "public_rpcs": 1,
+        "new_tables": 0,
+        "existing_function_replacements": 7,
+        "Native_ERP_DML": false,
+        "real_Native_job_rows": true,
+        "raw_native_status_overridden": false,
+        "actual_checked_SAVE2000_qualified": false,
+        "full_A_chain_qualified": false,
+        "production_go": false
+      },
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    "OW11_MODEL_V2_RACE_SOURCE_AFTER_ENVELOPE": {
+      "status": "PASS",
+      "actual_lock_wait_observed": "source",
+      "two_actual_backends": true,
+      "actual_committed_replay_wait": false,
+      "current_policy_after_wait": false,
+      "current_posted_source_after_wait": true,
+      "current_access_after_wait": false,
+      "no_orphan_model_run": true,
+      "forecast_applied": false,
+      "copy_runtime": {
+        "stage": "cp7.bounded-analysis-stage.v1",
+        "private_functions": 13,
+        "public_rpcs": 1,
+        "new_tables": 0,
+        "existing_function_replacements": 7,
+        "Native_ERP_DML": false,
+        "real_Native_job_rows": true,
+        "raw_native_status_overridden": false,
+        "actual_checked_SAVE2000_qualified": false,
+        "full_A_chain_qualified": false,
+        "production_go": false
+      },
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    "OW11_MODEL_V2_AUTH_CAPTURE_READ_EXACT_REPLAY": {
+      "status": "PASS",
+      "actual_Auth_capture_read_replay_immutable": true,
+      "exact_changed_payload_and_closed_query_refused": true,
+      "no_business_effect": true,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    "OW11_MODEL_V2_AUTH_REVOKED_FOREIGN_ANON": {
+      "status": "PASS",
+      "actual_old_token_read_and_committed_replay_refused": true,
+      "foreign_run_history_and_anonymous_refused": true,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    },
+    "OW11_MODEL_V2_AUTH_CURRENT_POLICY_AND_POSTED_SOURCE": {
+      "status": "PASS",
+      "current_policy_change_retires_old_model": true,
+      "actual_posted_sale_retires_source": true,
+      "old_assessment_immutable": true,
+      "stale_new_capture_refused": true,
+      "forecast_applied": false,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    }
+  },
+  "actual_Auth_HTTP_credit": true,
+  "positive_historical_model_winner_qualified": false,
+  "forecast_applied": false,
+  "full_OW11_acceptance": false,
+  "full_A_chain_qualified": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

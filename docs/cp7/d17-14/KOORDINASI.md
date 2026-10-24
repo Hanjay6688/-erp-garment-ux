@@ -1725,3 +1725,25 @@ missingrequiredrefs retained; onlyfixturefixed, SQL/predecessorvalidatorssame.
 Prototype tidak memilih/mengesahkanmodel atau mengganticaller. Currentrun/source
 binding, staged/checked-save integration dan densequalification masihberikutnya.
 Transport077ff7fe/run40104679399 masihjalan; tidakdikreditkansebelumOriginal.
+
+## 99. B24 Oktober2026 — v2 Transport10 Original PASS; current target source13
+
+077ff7fe/run40104679399/job120903796453 success. Original12564693169
+SHAa35e1761ad8dc2edb1604fad16a32e38eb9763e36a16a8b735b57e5d447d20dd:
+1catalog+6races+3actualAuthHTTP PASS, IDs/count/cp6/advisor/5packagegatestrue,
+Auth0000pulih, race/httpcopyDB0, sessionleaks0. Actual two-backend sameUUID
+one immutable result, changedpayloadone refusal, current access after observed
+envelope/request waits, policy and actual SALE commit duringwait, immutable
+assessment on reread and stale new capture refused. No positive historical
+winner or target activation credit; repeated catalog anchor adds no old credit.
+
+Private source prototype3functions/0RPC/table/replacement selects latest own
+v2 run, never older favorable winner. Shared two global source scans surround
+all selected rows; policy/model/consumer engine/date/currentaccess rechecked.
+Access epoch participates in source identity; unchanged clocks do not churn it.
+13actualSQL localPASS with originalv2/currentguard/serve_history; historical
+fixtures synthetic and live source/access controlled, not Native/Auth credit.
+First12PASS checkpoint retained. Existing v2 Native history bound1000 explicit;
+INCOMPLETE retires model, bounded factory history adapter remains open. Source
+and projection still private prototypes; caller/staged/checked-save integration
+is next. FullOW11/fullAchain/independentacceptance false; formal5/16 unchanged.
