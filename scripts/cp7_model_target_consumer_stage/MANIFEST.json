@@ -20,7 +20,8 @@
     "cp7_analysis_stage.analysis_skeleton(jsonb,jsonb,uuid,jsonb,jsonb,jsonb,jsonb,jsonb,boolean,text)": "3efd130e7245845c100272ac47082a66d087591e320fbe5346372f4274430f4a",
     "cp7_netting_native.timeline(jsonb,jsonb,jsonb,jsonb,jsonb,jsonb)": "1287df58da9399bb1144f0cbd92627d0292e63ba96bd8be26b4cffa24fefdd29",
     "cp7_analysis_stage.analysis_targets(jsonb,jsonb,jsonb,jsonb,jsonb,jsonb,jsonb,jsonb,jsonb)": "4012f83d772b164c3ca0c73b48c5cab56153952b3642d92e496d921202fc5451",
-    "cp7_analysis_native.build_operational(jsonb,jsonb,uuid,jsonb)": "3e0d1380c0d7b7014d7903b003026760e6217401ec8c23bca98cbb5afe09f307"
+    "cp7_analysis_native.build_operational(jsonb,jsonb,uuid,jsonb)": "3e0d1380c0d7b7014d7903b003026760e6217401ec8c23bca98cbb5afe09f307",
+    "cp7_stock_formula.workspace(jsonb)": "aac7109912f28c6be3cf414687ce0e2806b8ea6e0b98afe84ee52cd7dccf8387"
   },
   "replacement_body_sha256": {
     "cp7_baseline_native.source_within(integer)": "3e49f2f4d7983fd78a3596f70dc6524e78bd26372d403640d99ed5871c868b5d",
@@ -42,10 +43,11 @@
     "cp7_analysis_stage.analysis_skeleton(jsonb,jsonb,uuid,jsonb,jsonb,jsonb,jsonb,jsonb,boolean,text)": "02a66fba6b205ddc971c98b61999c8f2cffcbdf1ac63c02af1d7ba363f67196c",
     "cp7_netting_native.timeline(jsonb,jsonb,jsonb,jsonb,jsonb,jsonb)": "b6466c863ac54e21a134549fcc4d52026b8b72c7790762635757195f13b1ed64",
     "cp7_analysis_stage.analysis_targets(jsonb,jsonb,jsonb,jsonb,jsonb,jsonb,jsonb,jsonb,jsonb)": "337e2efccc8a5f64f00484defd7329c6b005eaf8cc01821648f450d76ef84fd2",
-    "cp7_analysis_native.build_operational(jsonb,jsonb,uuid,jsonb)": "6d906f17fd97e480c495d3071a30dbea6e923325ce14cc372dbf8d076931bbd3"
+    "cp7_analysis_native.build_operational(jsonb,jsonb,uuid,jsonb)": "6d906f17fd97e480c495d3071a30dbea6e923325ce14cc372dbf8d076931bbd3",
+    "cp7_stock_formula.workspace(jsonb)": "149a81ae75dfeabc8b647e5478e6493bbf8e1582ae1d0177e6ee6a2ec81754a1"
   },
-  "hooks_sql_sha256": "59e64e1ee71a74d6873f4c50ba8e83759e2daa8e7b1b48ff33469c201723744b",
-  "existing_replacements": 20,
+  "hooks_sql_sha256": "91f4ba662d22bb3ba25d3a54e0f9dc93278259505cc7dfee9c0e1e330cb2ba80",
+  "existing_replacements": 21,
   "new_private_functions": 8,
   "new_schemas": 3,
   "new_public_rpcs": 0,

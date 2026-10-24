@@ -241,7 +241,7 @@
     }
   ],
   "sql_sha256": "aea32bb1f7f07be6e65bbc613e8d3e5a38ed9db61f0cba510b3f84812d431600",
-  "hooks_sql_sha256": "59e64e1ee71a74d6873f4c50ba8e83759e2daa8e7b1b48ff33469c201723744b",
+  "hooks_sql_sha256": "91f4ba662d22bb3ba25d3a54e0f9dc93278259505cc7dfee9c0e1e330cb2ba80",
   "actual_private_SQL_pipeline": true,
   "selected_actual_SQL_hooks": true,
   "explicit_synthetic_history_policy": true,

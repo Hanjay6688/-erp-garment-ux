@@ -2032,3 +2032,36 @@ audit sequencing failure and5PASS/3FAIL comparison retained before correction.
 Immutable capture/runtime, exact UUID/current access/replay and integration stay
 open. Current shared FG cache also needs actor/access/source admission before
 exposing private model provenance; that is the next security seam under review.
+
+## 114. B24 Oktober2026 UTC — shared warehouse model cache admission
+
+Controlled actual-source/workspace reproduction retained1PASS/4FAIL: a shared
+FG cache could disclose the refresher's private model/policy to a different
+FG-only actor or after model access was removed. Candidate21/8 now checks the
+current actor/access/source before and after workspace assembly and binds every
+returned v3 row to that source. A v3 response appearing after legacy preflight
+also refuses. Explicit existing refresh rebuilds for the current actor; no
+silent model relabel, read-time mutation or invented forecast. Legacy v2 read
+is unchanged. Local9PASS and consumer29PASS; the Native warehouse case now
+requires exact stale-cache refusal before FG-only refresh/read. UI offers the
+existing Hitung sekarang action after that refusal; other writes remain locked.
+Relevant client147/5files and TypeScript PASS. Current21/8 Native/Auth proof open.
+
+3c19c5e4/run40115032232/job120934446766 Transport11 completed success.
+Complete Original12570116821 (94409 bytes, SHA256
+5db7fd70ce791a42c66943ff12311ef60f9a63718ffc241223085edea3ca6116)
+has11PASS, exact source hashes, required IDs/counts, CP6/advisor/all package
+gates true. Includes same UUID and revision races, current access after waits,
+actual SALE and policy SET during wait, and actual Auth HTTP confirm/clear/
+replay/foreign denial. Disposable race harness retains its disclosed test-only
+USAGE grant; HTTP has none. Auth0000→0000 and copies/sessions0. This is exact
+20/8 baseline/analog transport credit, not positive model or current cache proof.
+
+038740bd/run40115520428 completed failure5PASS/1INCOMPLETE; actual raw-report
+only inverse guard/replay PASS, warehouse cached read still lacked the refresh
+later fixed4c3623bb. Complete Original12570077865 SHA256
+fe856675f828f0524db6e57b7c1981e67bb0deea47043fe5e8250f6cd4d4036f retained.
+45b784e3/run40114038398 cancelled at45min with only partial artifact12570475052;
+no complete transport runtime/restore Original and no suite credit. Later3c
+completed at the same budgets, so no budget/assertion relaxation. Receipts in
+ow11/. Formal5/16, CP7C unaccepted, production/independent acceptance false.

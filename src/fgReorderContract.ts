@@ -342,6 +342,7 @@ export function settingsPayload(d: SettingsDraft, expectedRevision: number): Set
 const refusals: Record<string, string> = {
   CP7_FORMULA_ACCESS_DENIED: 'Akun ini belum boleh membuka atau mengubah titik pesan ulang. Melihat butuh hak Ringkasan Barang Jadi; mengubah hanya untuk Owner atau Admin. Minta Owner memeriksa akun ini di Pengguna & Hak Akses.',
   CP7_FORMULA_ACCESS_CHANGED: 'Hak akses akun berubah saat permintaan diproses. Muat ulang halaman untuk memeriksa hak akses terbaru.',
+  CP7_MODEL_TARGET_REORDER_REFRESH_REQUIRED: 'Data atau hak akses untuk hitungan ini sudah berubah. Tekan "Hitung sekarang" untuk memperoleh hitungan sesuai akses terbaru.',
   CP7_FORMULA_BUSY_SOURCE_CHANGED: 'Data barang atau aturan perhitungan berubah saat server masih menghitung. Pengingat menunggu pemeriksaan baru; tekan "Hitung sekarang" setelah proses selesai.',
   CP7_FORMULA_BUSY: 'Server sedang menghitung titik pesan ulang (hitungan otomatis tiap menit, atau tombol "Hitung sekarang" dari layar lain). Coba lagi sekitar satu menit lagi.',
   CP7_FORMULA_MANUAL_STALE: 'Angka manual barang ini baru saja diubah di layar atau perangkat lain. Tekan "Muat ulang", periksa angkanya, lalu simpan lagi bila masih perlu.',
@@ -357,7 +358,7 @@ const refusals: Record<string, string> = {
 export function fgReorderRefusalCode(error: unknown): string | null {
   const message = error && typeof error === 'object' ? (error as { message?: unknown }).message : null
   if (typeof message !== 'string') return null
-  const code = /\bCP7_(?:FORMULA_[A-Z_]+|FRESH_ACCESS_REQUIRED)\b/.exec(message)?.[0]
+  const code = /\bCP7_(?:FORMULA_[A-Z_]+|MODEL_TARGET_REORDER_REFRESH_REQUIRED|FRESH_ACCESS_REQUIRED)\b/.exec(message)?.[0]
   return code && code in refusals ? code : null
 }
 /** A read error in plain words: a known refusal first, then the shared client wording. */

@@ -7,7 +7,7 @@ import { formatCp6WibDateTime } from './cp6BusinessTime'
 import { formatWaDay } from './waContract'
 import TargetDemandDetails from './TargetDemandDetails'
 import {
-  MANUAL_POINT_MAX, REASON_MAX, REORDER_PAGE, REORDER_QUERY_MAX, WINDOW_MAX, WINDOW_MIN, fgReorderErrorText, fgReorderWriteErrorText, formatReorderQty,
+  MANUAL_POINT_MAX, REASON_MAX, REORDER_PAGE, REORDER_QUERY_MAX, WINDOW_MAX, WINDOW_MIN, fgReorderErrorText, fgReorderRefusalCode, fgReorderWriteErrorText, formatReorderQty,
   formatReorderWhole, manualPayload, manualProblem, parseFgReorderManualResult, parseFgReorderRefresh, parseFgReorderSettingsResult, parseFgReorderWorkspace,
   reorderChip, reorderFormulaLines, reorderReasonText, reorderSourceText, reorderWipNote, reorderWipText, serviceLevels, servicePercent, settingsChanged,
   settingsDraftOf, settingsPayload, settingsProblem, type ReorderFilter, type ReorderQuery, type ReorderRow, type ReorderWorkspace, type ServiceLevel,
@@ -36,6 +36,7 @@ export default function FgReorderPanel() {
   const client = useMemo(() => getUatSupabaseClient(runtime), [runtime])
   const serial = useRef(0), requested = useRef<ReorderQuery>({ q: '', filter: 'ALL', offset: 0, limit: REORDER_PAGE })
   const [data, setData] = useState<ReorderWorkspace | null>(null), [busy, setBusy] = useState(false), [error, setError] = useState('')
+  const [refreshRequired, setRefreshRequired] = useState(false)
   const [filter, setFilter] = useState<ReorderFilter>('ALL'), [search, setSearch] = useState('')
   const [writing, setWriting] = useState<string | null>(null), [notes, setNotes] = useState<Record<string, Note>>({})
   const [manual, setManual] = useState<ManualDraft | null>(null)
@@ -52,7 +53,7 @@ export default function FgReorderPanel() {
   // reload never drops what the owner is typing, and a form kept over a newer revision is refused as stale by the server.
   const load = useCallback(async (reset = false) => {
     const query = { ...requested.current }, n = ++serial.current
-    setBusy(true); setError(''); setData(null)
+    setBusy(true); setError(''); setData(null); setRefreshRequired(false)
     try {
       const reply = await client.rpc('erp_cp7_get_fg_reorder_v1', { p_query: query })
       if (n !== serial.current) return
@@ -64,19 +65,23 @@ export default function FgReorderPanel() {
       }
       setData(parsed)
     } catch (e) {
-      if (n === serial.current) { setData(null); setError(fgReorderErrorText(e)) }
+      if (n === serial.current) {
+        setData(null); setError(fgReorderErrorText(e))
+        setRefreshRequired(fgReorderRefusalCode(e) === 'CP7_MODEL_TARGET_REORDER_REFRESH_REQUIRED')
+      }
     } finally { if (n === serial.current) setBusy(false) }
   }, [client])
   useEffect(() => { void load(true) }, [load])
   useEffect(() => () => { ++serial.current }, [])
 
   const locked = busy || writing !== null || !data
+  const refreshLocked = busy || writing !== null || (!data && !refreshRequired)
   // A newer question may start while a read is under way (filter, search): the sequence number keeps only its answer.
   const ask = (next: Partial<ReorderQuery>) => { requested.current = { ...requested.current, ...next }; void load() }
   const reload = () => { setNotes({}); void load() }
 
   const refresh = async () => {
-    if (locked) return
+    if (refreshLocked) return
     setWriting('REFRESH'); note('REFRESH', null)
     try {
       const reply = await client.rpc('erp_cp7_refresh_fg_reorder_v1')
@@ -160,7 +165,7 @@ export default function FgReorderPanel() {
           hitungan berikutnya.</p> : null}
       </div>
       <div className="cfr-actions">
-        <button type="button" className="primary-btn" disabled={locked} onClick={() => { void refresh() }}>Hitung sekarang</button>
+        <button type="button" className="primary-btn" disabled={refreshLocked} onClick={() => { void refresh() }}>Hitung sekarang</button>
         <button type="button" aria-label="Muat ulang titik pesan ulang" disabled={writing !== null} onClick={reload}>Muat ulang</button>
       </div>
     </header>

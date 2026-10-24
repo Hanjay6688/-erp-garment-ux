@@ -1,0 +1,44 @@
+{
+  "contract": "cp7.model-target-cache-local.v1",
+  "phase": "BEFORE",
+  "status": "FAIL",
+  "counts": {
+    "PASS": 1,
+    "FAIL": 4
+  },
+  "cases": [
+    {
+      "id": "CURRENT_OWNER_SAME_SOURCE_MAY_READ_OWN_CACHED_PROVENANCE",
+      "status": "PASS",
+      "observed": {
+        "same_owned_cached_result_retained": true
+      }
+    },
+    {
+      "id": "OTHER_FG_ACTOR_CANNOT_READ_PRIVATE_OWNER_MODEL_CACHE",
+      "status": "FAIL",
+      "error": "AssertionError [ERR_ASSERTION]: Missing expected rejection.\n    at async rejects (file:///workspace/scratch/282188edcd04/erp-produksi/scripts/cp7_ow11_model_registry_local_fixture.mjs:61:85)\n    at async file:///workspace/scratch/282188edcd04/erp-produksi/scripts/cp7_ow11_model_target_cache_local.mjs:34:2\n    at async test (file:///workspace/scratch/282188edcd04/erp-produksi/scripts/cp7_ow11_model_target_cache_local.mjs:27:92)\n    at async file:///workspace/scratch/282188edcd04/erp-produksi/scripts/cp7_ow11_model_target_cache_local.mjs:32:1"
+    },
+    {
+      "id": "SAME_ACTOR_REVOKED_MODEL_ACCESS_CANNOT_READ_OLD_CACHE",
+      "status": "FAIL",
+      "error": "AssertionError [ERR_ASSERTION]: Missing expected rejection.\n    at async rejects (file:///workspace/scratch/282188edcd04/erp-produksi/scripts/cp7_ow11_model_registry_local_fixture.mjs:61:85)\n    at async file:///workspace/scratch/282188edcd04/erp-produksi/scripts/cp7_ow11_model_target_cache_local.mjs:38:59\n    at async test (file:///workspace/scratch/282188edcd04/erp-produksi/scripts/cp7_ow11_model_target_cache_local.mjs:27:92)\n    at async file:///workspace/scratch/282188edcd04/erp-produksi/scripts/cp7_ow11_model_target_cache_local.mjs:37:1"
+    },
+    {
+      "id": "CURRENT_PERMISSION_EPOCH_REQUIRES_NEW_COMPUTATION",
+      "status": "FAIL",
+      "error": "AssertionError [ERR_ASSERTION]: Missing expected rejection.\n    at async rejects (file:///workspace/scratch/282188edcd04/erp-produksi/scripts/cp7_ow11_model_registry_local_fixture.mjs:61:85)\n    at async file:///workspace/scratch/282188edcd04/erp-produksi/scripts/cp7_ow11_model_target_cache_local.mjs:42:55\n    at async test (file:///workspace/scratch/282188edcd04/erp-produksi/scripts/cp7_ow11_model_target_cache_local.mjs:27:92)\n    at async file:///workspace/scratch/282188edcd04/erp-produksi/scripts/cp7_ow11_model_target_cache_local.mjs:41:1"
+    },
+    {
+      "id": "CURRENT_POLICY_AND_PHYSICAL_SOURCE_RETIRE_CACHED_MODEL",
+      "status": "FAIL",
+      "error": "AssertionError [ERR_ASSERTION]: Missing expected rejection.\n    at async rejects (file:///workspace/scratch/282188edcd04/erp-produksi/scripts/cp7_ow11_model_registry_local_fixture.mjs:61:85)\n    at async file:///workspace/scratch/282188edcd04/erp-produksi/scripts/cp7_ow11_model_target_cache_local.mjs:46:54\n    at async test (file:///workspace/scratch/282188edcd04/erp-produksi/scripts/cp7_ow11_model_target_cache_local.mjs:27:92)\n    at async file:///workspace/scratch/282188edcd04/erp-produksi/scripts/cp7_ow11_model_target_cache_local.mjs:45:1"
+    }
+  ],
+  "source_sha256": "f5fa326190cbdf29ef1e046fa82a765dce644795690030e489693223df8feb4f",
+  "actual_current_source_and_workspace_SQL": true,
+  "controlled_access_cache_and_history": true,
+  "actual_Native_capture": false,
+  "actual_Auth_HTTP_credit": false,
+  "production_go": false
+}

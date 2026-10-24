@@ -82,7 +82,7 @@ def verify(cur,state):
     if cur.execute("select has_schema_privilege('cp7_capture','public','CREATE')").fetchone()[0]:
         raise ValueError('MODEL_TARGET_PUBLIC_CREATE_OPEN')
     return dict(stage='cp7.model-target-consumer-stage.v1',new_private_functions=8,
-      existing_replacements=20,new_public_rpcs=0,new_tables=0,Native_ERP_DML=False,
+      existing_replacements=21,new_public_rpcs=0,new_tables=0,Native_ERP_DML=False,
       actual_Auth_HTTP_credit=False,full_OW11_acceptance=False,production_go=False)
 
 

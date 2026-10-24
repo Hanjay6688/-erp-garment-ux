@@ -1,0 +1,83 @@
+{
+  "contract": "cp7.model-target-cache-local.v1",
+  "phase": "AFTER",
+  "status": "PASS",
+  "counts": {
+    "PASS": 9
+  },
+  "cases": [
+    {
+      "id": "CURRENT_OWNER_SAME_SOURCE_MAY_READ_OWN_CACHED_PROVENANCE",
+      "status": "PASS",
+      "observed": {
+        "same_owned_cached_result_retained": true
+      }
+    },
+    {
+      "id": "OTHER_FG_ACTOR_CANNOT_READ_PRIVATE_OWNER_MODEL_CACHE",
+      "status": "PASS",
+      "observed": {
+        "foreign_actor_refused_before_returning_cached_policy_or_run": true
+      }
+    },
+    {
+      "id": "SAME_ACTOR_REVOKED_MODEL_ACCESS_CANNOT_READ_OLD_CACHE",
+      "status": "PASS",
+      "observed": {
+        "FG_permission_alone_does_not_admit_private_old_model": true
+      }
+    },
+    {
+      "id": "CURRENT_PERMISSION_EPOCH_REQUIRES_NEW_COMPUTATION",
+      "status": "PASS",
+      "observed": {
+        "same_actor_changed_authority_not_replayed": true
+      }
+    },
+    {
+      "id": "CURRENT_POLICY_AND_PHYSICAL_SOURCE_RETIRE_CACHED_MODEL",
+      "status": "PASS",
+      "observed": {
+        "old_policy_and_old_physical_source_refused": true
+      }
+    },
+    {
+      "id": "SOURCE_CHANGE_DURING_CACHED_READ_REFUSES_BEFORE_RETURN",
+      "status": "PASS",
+      "observed": {
+        "source_checked_again_after_actual_workspace_assembly": true,
+        "controlled_mid_read_change": true
+      }
+    },
+    {
+      "id": "MODEL_CACHE_APPEARING_AFTER_LEGACY_PREFLIGHT_IS_NOT_RETURNED",
+      "status": "PASS",
+      "observed": {
+        "no_unchecked_model_response_after_legacy_preflight": true,
+        "controlled_mid_read_cache_change": true
+      }
+    },
+    {
+      "id": "CURRENT_FG_ONLY_BASELINE_CACHE_HAS_NO_PRIVATE_MODEL_CONTEXT",
+      "status": "PASS",
+      "observed": {
+        "FG_only_current_reference_readable": true,
+        "no_global_model_history_scan_or_private_model_context": true,
+        "cache_rebuild_controlled_not_Native_refresh": true
+      }
+    },
+    {
+      "id": "LEGACY_CACHE_PATH_REMAINS_UNCHANGED",
+      "status": "PASS",
+      "observed": {
+        "legacy_without_private_model_provenance_keeps_existing_FG_read": true
+      }
+    }
+  ],
+  "source_sha256": "efce3370fcebf71e7d3de0df29f4477ec33116f8075363f5c855134bbeceaf67",
+  "actual_current_source_and_workspace_SQL": true,
+  "controlled_access_cache_and_history": true,
+  "actual_Native_capture": false,
+  "actual_Auth_HTTP_credit": false,
+  "production_go": false
+}
