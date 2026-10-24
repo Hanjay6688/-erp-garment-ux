@@ -2510,3 +2510,38 @@ planning/AI action or forecast is enabled for these unreviewed rows. Browser
 journey uses the actual section; firstfailure retained. Focused client checks
 cover next-page unreviewed entry, exact target/query and no automatic capture or
 policy write. Corrected Browser2 still requires a new complete Original.
+
+## 135. B25 Oktober2026 WIB — scoped model Transport7 Original PASS
+
+53bc7b68/run40126109440/job120967759134: complete Original12574350234,
+92978 bytes, SHA256 ee3ff43d44927f3775540b222c3d47050400bc44319d8aa04b2a0bfee488b93f.
+Exact1catalog+4races+2Auth HTTP PASS. Exact head test pins and current scoped
+runtime SQL pins match. Case IDs/counts, all package gates, CP6/advisor, full
+Native boundaries, session/Auth restoration and disposable-copy removal verified.
+Repeated catalog earns no duplicate coverage. First routing failure remains.
+
+Actual two-backend same-UUID capture/replay produces one immutable row. Current
+access is rechecked after envelope wait and committed replay request-lock wait.
+Actual SALE during envelope wait rejects the old history; fresh scoped history
+permits a new assessment. Real Auth/PostgREST binds method/actor/UUID/payload,
+rejects foreign/anonymous/revoked old-token calls and preserves old archives.
+No positive model target, browser, after-use restore or independent acceptance
+follows from Transport7. Formal5/16 and production_go=false remain.
+
+## 136. B25 Oktober2026 WIB — captured physical binding candidate for scoped targets
+
+Private two-function binding derives a target's complete non-stock subset from
+captured global baseline facts, preserving sales/returns and reversal chains.
+It binds a complete server stock-row digest at that exact capture clock to the
+same pinned scoped-history identity. A stock-omitted global source remains raw
+INCOMPLETE; no empty-stock substitution or fabricated COMPLETE scoped source.
+All global non-stock caps/ambiguity/posting checks remain; complete raw stock
+must independently match the supplied digest. No default caller/replacement.
+
+Local actual SQL + existing scoped identity7PASS on synthetic facts/digests:
+exact subset parity, unrelated/own change, raw omission, stock clock/digest
+mismatch, global non-stock overflow and private ACL. New isolated Native4
+candidate covers exact22 inverse, real draft/post/return/inverse, dense2000
+with202000 movements and old/new system-clock binding. Closed declaration,
+source pins and F05 admission checked; actual Native Original pending. This is
+preparation for versioned source/provenance/cache integration, still open.
