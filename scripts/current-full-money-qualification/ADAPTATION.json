@@ -58,6 +58,22 @@
     {
       "before": "spec=importlib.util.spec_from_file_location('p21_current_restore_helpers',REPO/'scripts/ow04-payment-used-restore-qualification/probe.py')\nhelper=importlib.util.module_from_spec(spec);spec.loader.exec_module(helper)",
       "after": "import cp7_p21_current_chain_rehearsal_probe as inherited\nhelper=inherited.helper  # Reuse the already-admitted closed-CLI helper once."
+    },
+    {
+      "before": "bounded_use=importlib.util.module_from_spec(_used_spec);_used_spec.loader.exec_module(bounded_use)",
+      "after": "bounded_use=importlib.util.module_from_spec(_used_spec);_used_spec.loader.exec_module(bounded_use)\n_status_spec=importlib.util.spec_from_file_location('current_full_money_status_readback',HERE/'status_readback.py')\nstatus_readback=importlib.util.module_from_spec(_status_spec);_status_spec.loader.exec_module(status_readback)"
+    },
+    {
+      "before": "            mandor_before=mandor_fixture.read(cur,mandor);conn.rollback()",
+      "after": "            mandor_before=mandor_fixture.read(cur,mandor)\n            production_status_before=status_readback.read(cur)\n            report['production_status_before_restore']=production_status_before\n            conn.rollback()"
+    },
+    {
+      "before": "            bounded_read=bounded_use.after_restore(cur,bounded)",
+      "after": "            production_status_after=status_readback.read(cur)\n            report['production_status_after_restore']=production_status_after\n            status_comparison=status_readback.compare(production_status_before,production_status_after)\n            report['chain_steps'].append(dict(step='STAGE_B_STATUS_READS_SAME',status='PASS',proof=status_comparison))\n            bounded_read=bounded_use.after_restore(cur,bounded)"
+    },
+    {
+      "before": "All seven chain steps are required.",
+      "after": "All eight chain steps are required."
     }
   ]
 }

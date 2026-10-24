@@ -31,3 +31,13 @@ ulang setelah pemasang mengatur argv install. Perbaikan memakai instance helper
 milik modul induk yang telah diimpor, sehingga kontrak CLI tetap utuh; tidak
 mengosongkan argv atau melonggarkan guard. Belum ada database yang dijalankan
 pada kegagalan import tersebut.
+
+Penerus berikutnya juga menjalankan STAGE_B_STATUS_READS_SAME yang diminta
+rencana OW15: semua cutting group dibaca melalui facade Native pada sumber
+tepat sebelum dump dan pada hasil restore sebelum inverse apa pun. Seluruh
+status/kebijakan/angka/fakta dibandingkan tepat; checked_at tetap direkam raw
+dan harus di antara dua clock database. Satu kolom waktu observasi itu saja
+dibandingkan terpisah; timestamp bisnis tidak dibuang. Tidak memilih kebijakan
+baru. Pembacaan harus menjaga seluruh22 katalog, baris dan sequence tetap.
+First run bc4dd575 tanpa tambahan status tetap disimpan dengan scope7langkah;
+run berikut membutuhkan8langkah, bukan mengganti expected hasil terdahulu.

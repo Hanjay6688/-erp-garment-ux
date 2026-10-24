@@ -2,7 +2,7 @@
 
 The parent helper bodies and immutable gold remain unchanged. Counted
 adaptations select the current installer/recovery and add actual bounded
-work/draft restore and UUID replays. All seven chain steps are required.
+work/draft restore and UUID replays. All eight chain steps are required.
 No hosted connection, production admission or full B qualification is claimed.
 """
 from copy import deepcopy
@@ -29,6 +29,8 @@ adapter=SimpleNamespace(owner=installation,install=installation.install,verify=i
     rollback_preuse=installation.rollback_preuse,sources=installation.sources,base=current_product.base)
 _used_spec=importlib.util.spec_from_file_location('current_full_money_bounded_use',REPO/'scripts/ab-bounded-restore-qualification/used.py')
 bounded_use=importlib.util.module_from_spec(_used_spec);_used_spec.loader.exec_module(bounded_use)
+_status_spec=importlib.util.spec_from_file_location('current_full_money_status_readback',HERE/'status_readback.py')
+status_readback=importlib.util.module_from_spec(_status_spec);_status_spec.loader.exec_module(status_readback)
 import cp7_r3_hpp_pool_cases as hp
 import cp7_period_cases as period
 import mandor_fixture
@@ -487,7 +489,10 @@ def run():
                     before=item['before_read'],at_dump=actual,added_fixture_cash_account_ids=added_cash,
                     every_existing_option_and_other_authoritative_fact_unchanged=True))
                 item['before_read']=actual
-            mandor_before=mandor_fixture.read(cur,mandor);conn.rollback()
+            mandor_before=mandor_fixture.read(cur,mandor)
+            production_status_before=status_readback.read(cur)
+            report['production_status_before_restore']=production_status_before
+            conn.rollback()
         used_data=drill.data_hashes(database.SOURCE);used_profile=database._database_profile(database.SOURCE)
         with psycopg.connect(package.boundary.ADMIN)as conn,conn.cursor()as cur:
             backup,digest=restore.export_manifest(cur,state);dump.dump(database.SOURCE,USED_DUMP);conn.rollback()
@@ -531,6 +536,10 @@ def run():
             assert restore.catalog._data(cur)==held
             report['steps'].append(dict(step=gold['required_steps'][4],status='PASS',exact_authoritative_reads=True,
                 original_P1000_P900_facts_unchanged=True,old_and_current_eight_receipts_replayed=True,every_table_and_sequence_unchanged=True))
+            production_status_after=status_readback.read(cur)
+            report['production_status_after_restore']=production_status_after
+            status_comparison=status_readback.compare(production_status_before,production_status_after)
+            report['chain_steps'].append(dict(step='STAGE_B_STATUS_READS_SAME',status='PASS',proof=status_comparison))
             bounded_read=bounded_use.after_restore(cur,bounded)
             report['chain_steps'].append(dict(step='CURRENT_B_BOUNDED_RESTORE_READS_AND_RECEIPTS',status='PASS',proof=bounded_read))
             chain_restored_steps(cur,report)

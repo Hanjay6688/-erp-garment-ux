@@ -1,7 +1,7 @@
 {
   "contract": "ow15.current-full-money.expected-chain-steps.v1",
   "plan": "docs/cp7/d17-14/ow15/RENCANA_OW15.md section 4 (CHAIN_STEPS)",
-  "rule": "All six unchanged A steps plus the current B bounded read/receipt step must PASS; immutable money gold remains scripts/ow05-p21-qualification/EXPECTED_P21_RESTORE.json.",
+  "rule": "All six unchanged A steps, current B bounded read/receipt and B status readback steps must PASS; immutable money gold remains scripts/ow05-p21-qualification/EXPECTED_P21_RESTORE.json.",
   "steps": [
     {
       "id": "OW07_ATTENDANCE_POOLS_ACTIVE_BEFORE_E01",
@@ -76,6 +76,13 @@
       "status": "IMPLEMENTED",
       "expect": "Actual DONE bounded job, full reference/header/pages and checked draft are identical after full restore; original work/draft UUID replay changes no business row or sequence.",
       "calls": "ab-bounded-restore-qualification/used.py create() and after_restore(), unchanged"
+    },
+    {
+      "id": "STAGE_B_STATUS_READS_SAME",
+      "stage": "OW16 current automatic cutting status",
+      "status": "IMPLEMENTED",
+      "expect": "Read every cutting group through the public Native facade at dump and after restore; all returned status/policy/business facts identical. checked_at is retained raw and validated between database clocks on each read. No policy is set and no money/stock/HPP/sequence/catalog changes.",
+      "calls": "status_readback.py using unchanged cp7_ow16_status_cases.read"
     }
   ],
   "scope_notes": [
