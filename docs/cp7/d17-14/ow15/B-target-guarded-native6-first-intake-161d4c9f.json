@@ -1,0 +1,37 @@
+{
+  "contract": "cp7.B-component-original-intake.v1",
+  "name": "CP7_OW11_MODEL_TARGET_CONSUMER.json",
+  "status": "INCOMPLETE",
+  "head": "161d4c9f4081086e60f55f4d35ca000e9895ade3",
+  "run_id": 40116196572,
+  "job_id": 120937866295,
+  "artifact_id": 12569253461,
+  "zip_bytes": 206052,
+  "zip_sha256": "de31c106646609136d2737204b0070b977d84ffe847d782487c53f1bc3a40cc2",
+  "bytes": 1829681,
+  "sha256": "3202112fdd7a085a10922ac635a8a9b2b75f4ba85561438eed5e409d9d0c3f5a",
+  "whole_job_status": "completed",
+  "whole_job_conclusion": "failure",
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "source_pins_verified": 15,
+  "native_counts": {
+    "PASS": 5,
+    "INCOMPLETE": 1
+  },
+  "failed_case": "OW11_MODEL_TARGET_NATIVE_WAREHOUSE_ONLY_READ",
+  "exact_failure": "('MODEL_TARGET_FG_FIXTURE_LOOKUP', 'AX-f392a64069', {'rows': [], 'limit': 100, 'total': '0', 'offset': 0, 'next_offset': None})",
+  "no_business_day_rollover": true,
+  "raw_report_and_queued_job_inverse_guards_pass": true,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "suite_credit": false,
+  "full_A_chain_credit": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

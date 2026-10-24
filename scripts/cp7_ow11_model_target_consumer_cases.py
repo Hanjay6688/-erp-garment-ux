@@ -58,7 +58,7 @@ def read(cur,run,subject=None):return call(cur,'erp_cp7_read_baseline_v1',(run,)
 def cases(cur,today):
     def catalog():
         before=_catalog_rows(cur);s=install(cur);v=stage.verify(cur,s['current'])
-        assert(v['new_private_functions'],v['existing_replacements'],v['new_public_rpcs'],v['new_tables'])==(8,20,0,0)
+        assert(v['new_private_functions'],v['existing_replacements'],v['new_public_rpcs'],v['new_tables'])==(8,21,0,0)
         snap=_catalog_rows(cur);cur.execute('create view public.ow11_model_target_inverse_guard as select cp7_model_target_source.engine()value')
         guarded=_catalog_rows(cur)
         try:stage.rollback_preuse(cur,s['current'])
@@ -67,7 +67,7 @@ def cases(cur,today):
         assert _catalog_rows(cur)==guarded
         cur.execute('drop view public.ow11_model_target_inverse_guard');assert _catalog_rows(cur)==snap
         unwind(cur,s);assert _catalog_rows(cur)==before
-        return dict(status='PASS',exact_catalog22_composed_inverse=True,private8_replacements20_no_new_RPC_or_table=True,
+        return dict(status='PASS',exact_catalog22_composed_inverse=True,private8_replacements21_no_new_RPC_or_table=True,
           dependent_view_partial_inverse_restored=True,source_sha256=stage.sources())
 
     def replay():
@@ -153,6 +153,7 @@ def cases(cur,today):
 
     def warehouse():
         install(cur);f=baseline.history.fixture(cur,today);baseline.save(cur,baseline.payload(cur,f))
+        call(cur,'erp_cp7_refresh_fg_reorder_v1',())
         subject,role=baseline.custom_writer(cur);plan.b.api.admin(cur)
         cur.execute('delete from erp.app_role_permissions where role_id=%s',(role,))
         cur.execute("insert into erp.app_role_permissions(role_id,permission_key)values(%s,'warehouse.fg.view')",(role,))
@@ -160,6 +161,12 @@ def cases(cur,today):
         # actual Native fixture SKU instead of assuming it sorts in page one.
         sku=cur.execute('select sku from erp.products where id=%s',(f['product'],)).fetchone()[0]
         query=dict(q=sku,filter='ALL',offset=0,limit=100)
+        assert plan.refusal(cur,lambda:call(cur,'erp_cp7_get_fg_reorder_v1',(json.dumps(query),),subject))==('40001','CP7_MODEL_TARGET_REORDER_REFRESH_REQUIRED')
+        # Workspace reads the committed evaluation cache; it does not refresh
+        # after a newly posted product/profile. Exercise the actual refresh as
+        # the FG-only actor before reading, not a private/admin seed.
+        refreshed=call(cur,'erp_cp7_refresh_fg_reorder_v1',(),subject)
+        assert refreshed['items']>0
         w=call(cur,'erp_cp7_get_fg_reorder_v1',(json.dumps(query),),subject)
         found=[x for x in w['page']['rows']if x['root_id']==str(f['product'])]
         assert len(found)==1,('MODEL_TARGET_FG_FIXTURE_LOOKUP',sku,w['page'])
@@ -171,7 +178,7 @@ def cases(cur,today):
         assert plan.refusal(cur,lambda:capture(cur,baseline.history.query(today),subject=subject))[0]=='42501'
         plan.b.api.admin(cur);cur.execute('delete from erp.app_role_permissions where role_id=%s',(role,))
         assert plan.refusal(cur,lambda:call(cur,'erp_cp7_get_fg_reorder_v1',(json.dumps(query),),subject))[0]=='42501'
-        return dict(status='PASS',actual_existing_FG_only_permission=True,baseline_target100_point30_preserved=True,
+        return dict(status='PASS',actual_existing_FG_only_permission=True,actual_FG_only_refresh_then_cached_read=True,baseline_target100_point30_preserved=True,
           no_model_policy_history_disclosed=True,strict_model_and_revoked_FG_denied=True,actual_Auth_HTTP_credit=False)
 
     def bounded_analog():

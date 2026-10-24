@@ -2899,3 +2899,101 @@ True integration parents are472c75d9 and963ac6d8. This completes the five
 followup families for the prior full finance/model composition. It does not
 claim runtime credit for the new guarded dated-target overlay. Current B161
 Native6/Transport11 and then A Native20 remain prerequisites for that overlay.
+
+## 112. B24 Oktober2026 UTC — retain rollover/cache-reader failures; refresh FG fixture correctly
+
+04eaad40/run40113567267 failed across WIB24→25Oct: all6 INCOMPLETE under
+the unchanged business-day oracle. Five operations had PASS before rollover
+classification; warehouse also retained its old StopIteration. No5/6 credit.
+Exact Original12569565118 SHA256 d070ff694fc390186cb1259ffda5f7604706c2273cc12c2332503832b8113f1d retained.
+
+75db5817/run40114425599 and3c19c5e4/run40115032213 each completed failure,
+5PASS/1INCOMPLETE with exact source hashes and no rollover. Correct SKU lookup
+still returned0: the public warehouse workspace reads cached evaluations and
+does not refresh new products/profiles. The case now calls the actual existing
+erp_cp7_refresh_fg_reorder_v1 as the same FG-only actor before reading. No
+admin cache seed, permission change, new RPC, relaxed assertion or case budget.
+Fresh actual Native proof remains required; the raw/queued-guard runs already
+in progress retain their same old fixture sequence. Complete Originals12569621429
+and12570156407 and exact failure receipts retained; all boundary/public/advisor
+checks passed but required counts/writer-runtime gates remained false.
+
+038740bd/run40115520449 and161d4c9f/run40116196607 Browser2 completed success:
+complete Originals12568816393/12570306413 each2PASS, exact20/8 source hashes,
+required IDs/counts, CP6/advisor/all package gates true. Auth0000→0000, console0,
+sessions[]/copy0. These qualify actual baseline/analog browser paths only, not
+positive models, FG-only refresh or after-use restoration. Receipts in ow11/.
+Formal5/16, CP7C unaccepted, independent acceptance/production_go false.
+
+## 113. B24 Oktober2026 UTC — private per-product history source candidate
+
+4c3623bb publishes the actual FG-only refresh fixture correction; Native6
+run40117732530 is in progress. Current model/history callers are unchanged.
+New cp7_model_history_scope source-only component selects one explicit physical
+root before Native completeness checks. The1,000-global-product limit stays
+unchanged; all prior product versions and both physical/system clocks remain.
+Raw stock overflow remains INCOMPLETE, while the existing full-row digest and
+SQL summary feed the same demand/reservation kernels. No target/profile/model
+call is made, avoiding a recursive model/history source. Four private invoker
+functions, no facade/table/old replacement/default installer or persistence.
+
+Controlled SQL8PASS includes exact whole-Native history/current-stock operands,
+5504 products, ambiguous root/wrong size, both clocks and old versions, equal
+totals with changed row metadata, all50005 selected stock rows versus explicit
+controlled full-array oracle, non-stock refusal, private ACL/zero versus unknown.
+No Native/Auth/past-knowledge/model-activation/factory-SLA credit. Initial local
+audit sequencing failure and5PASS/3FAIL comparison retained before correction.
+Immutable capture/runtime, exact UUID/current access/replay and integration stay
+open. Current shared FG cache also needs actor/access/source admission before
+exposing private model provenance; that is the next security seam under review.
+
+## 114. B24 Oktober2026 UTC — shared warehouse model cache admission
+
+Controlled actual-source/workspace reproduction retained1PASS/4FAIL: a shared
+FG cache could disclose the refresher's private model/policy to a different
+FG-only actor or after model access was removed. Candidate21/8 now checks the
+current actor/access/source before and after workspace assembly and binds every
+returned v3 row to that source. A v3 response appearing after legacy preflight
+also refuses. Explicit existing refresh rebuilds for the current actor; no
+silent model relabel, read-time mutation or invented forecast. Legacy v2 read
+is unchanged. Local9PASS and consumer29PASS; the Native warehouse case now
+requires exact stale-cache refusal before FG-only refresh/read. UI offers the
+existing Hitung sekarang action after that refusal; other writes remain locked.
+Relevant client147/5files and TypeScript PASS. Current21/8 Native/Auth proof open.
+
+3c19c5e4/run40115032232/job120934446766 Transport11 completed success.
+Complete Original12570116821 (94409 bytes, SHA256
+5db7fd70ce791a42c66943ff12311ef60f9a63718ffc241223085edea3ca6116)
+has11PASS, exact source hashes, required IDs/counts, CP6/advisor/all package
+gates true. Includes same UUID and revision races, current access after waits,
+actual SALE and policy SET during wait, and actual Auth HTTP confirm/clear/
+replay/foreign denial. Disposable race harness retains its disclosed test-only
+USAGE grant; HTTP has none. Auth0000→0000 and copies/sessions0. This is exact
+20/8 baseline/analog transport credit, not positive model or current cache proof.
+
+038740bd/run40115520428 completed failure5PASS/1INCOMPLETE; actual raw-report
+only inverse guard/replay PASS, warehouse cached read still lacked the refresh
+later fixed4c3623bb. Complete Original12570077865 SHA256
+fe856675f828f0524db6e57b7c1981e67bb0deea47043fe5e8250f6cd4d4036f retained.
+45b784e3/run40114038398 cancelled at45min with only partial artifact12570475052;
+no complete transport runtime/restore Original and no suite credit. Later3c
+completed at the same budgets, so no budget/assertion relaxation. Receipts in
+ow11/. Formal5/16, CP7C unaccepted, production/independent acceptance false.
+
+## A intake: guarded Native first failure and current cache-source correction
+
+Exact161d4c9f Native6/run40116196572 completed failure:5PASS/1INCOMPLETE.
+Original12569253461 is retained byte-exact: correct Native SKU still finds zero
+rows in the shared cached workspace. No day rollover. Raw-report/queued-job
+inverse guards and immutable replay pass, while suite/writer runtime remains
+false; complete CP6/advisors and other four package gates pass.
+
+True source merge of d7d3033b includes the explicit warehouse actor refresh
+fixture and21st declared replacement cp7_stock_formula.workspace(jsonb). It
+rechecks current actor/model/source around cached reads and requires an explicit
+refresh when stale; UI retains that action while other writes stay locked. The
+private single-root history component is source-only and is not added to A's
+installation or claimed as Native runtime. A composition/admission must now bind
+21/8 and exact current client differences; actual d7 Native6/Browser2/Transport11
+runs40119284264/40119284296/40119284316 are still pending. No old20/8 runtime
+credit transfers. Both earlier Native failures remain immutable prerequisites.

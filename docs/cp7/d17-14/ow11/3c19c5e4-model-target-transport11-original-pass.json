@@ -1,0 +1,333 @@
+{
+  "contract": "cp7.model-target-transport-original-receipt.v1",
+  "head": "3c19c5e4413f1321683e98d150a9dcd1db42d327",
+  "run_id": 40115032232,
+  "job_id": 120934446766,
+  "workflow_conclusion": "success",
+  "artifact_id": 12570116821,
+  "bytes": 94409,
+  "artifact_sha256": "5db7fd70ce791a42c66943ff12311ef60f9a63718ffc241223085edea3ca6116",
+  "Original_read_complete": true,
+  "exact_head_source_hashes_match": true,
+  "status": "PASS",
+  "counts": {
+    "PASS": 11
+  },
+  "native": {
+    "OW11_MODEL_TARGET_CATALOG22_COMPOSED_PREUSE": {
+      "status": "PASS",
+      "exact_catalog22_composed_inverse": true,
+      "private8_replacements20_no_new_RPC_or_table": true,
+      "dependent_view_partial_inverse_restored": true,
+      "source_sha256": {
+        "cp7_model_target_consumer_stage/MANIFEST.json": "e3943d15b3aa3e3f39421f1e55c5a7ec1f6357827a0e1df94fd6cbdd2621fd3d",
+        "cp7_model_target_consumer_stage/__init__.py": "b4744591755c37d100abb1e5f30753026db7c91f9fb26c2131fee8401ed72f48",
+        "cp7_model_target_consumer_stage/hooks.sql": "59e64e1ee71a74d6873f4c50ba8e83759e2daa8e7b1b48ff33469c201723744b",
+        "cp7_model_target_consumer_stage/render.py": "9bb2395fefb92fab4b73b08870ce1b3bdf2cb4cc57b9b9e5013a3feeeab5c76a",
+        "cp7_model_target_source/MANIFEST.json": "5b59da3a09f54616115caffe8b17d3ea2a27a90925399f6ee6892412439aea17",
+        "cp7_model_target_source/__init__.py": "9a4ea1b1485d202105aca7d4fed590b4990a8b0db975d091bf752fc37499f2e6",
+        "cp7_model_target_source/source.sql": "94f856526c37ca14f5b2d5e44ee69a8845eee38524de648489256c56ebe60135",
+        "cp7_model_target_projection/MANIFEST.json": "df37cce0f27656606634fac61f26579f255ea291dc9f5a1696f28d1cbf2bd51a",
+        "cp7_model_target_projection/__init__.py": "2e2be38a043353af1d45f124d9f69e9c92fa1316c94eac826d133dad56c3b75c",
+        "cp7_model_target_projection/projection.sql": "1e96c6389c3537dcaf59bcf79383754f0b5716ad3c1d9010c77fb0918535e6b7",
+        "cp7_model_target_consumer/MANIFEST.json": "30d6ff9b8f41081e8cbe0aebdadda7d747de8ef6e23220b9658dd651ebb7684d",
+        "cp7_model_target_consumer/__init__.py": "4f965d8cf63a7d1f7671f0efc416a2a01ea9bf005278c69d71edeef772236e00",
+        "cp7_model_target_consumer/consumer.sql": "aea32bb1f7f07be6e65bbc613e8d3e5a38ed9db61f0cba510b3f84812d431600",
+        "cp7_model_target_consumer/timeline.py": "a23bbb9be67e24f7f3de8363eac2ebc8459142112e310ff11b0b6c783aca1825",
+        "cp7_model_target_consumer/timeline.sql": "869b9d35d10cfbdb64e7516562233e5dce8765950071ba72a69c69e5d2d4af49"
+      },
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-25",
+        "before": "2026-10-25",
+        "after": "2026-10-25"
+      }
+    }
+  },
+  "races": {
+    "OW11_MODEL_TARGET_RACE_SAME_UUID": {
+      "status": "PASS",
+      "fresh_target_after_race_uses_single_committed_choice": true,
+      "two_actual_backends": true,
+      "same_UUID_exact_replay": true,
+      "different_UUID_CAS_one_winner": false,
+      "one_choice_one_command": true,
+      "no_physical_stock_money_HPP_change": true,
+      "copy_runtime": {
+        "stage": "cp7.bounded-analysis-stage.v1",
+        "private_functions": 13,
+        "public_rpcs": 1,
+        "new_tables": 0,
+        "existing_function_replacements": 7,
+        "Native_ERP_DML": false,
+        "real_Native_job_rows": true,
+        "raw_native_status_overridden": false,
+        "actual_checked_SAVE2000_qualified": false,
+        "full_A_chain_qualified": false,
+        "production_go": false
+      },
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-25",
+        "before": "2026-10-25",
+        "after": "2026-10-25"
+      }
+    },
+    "OW11_MODEL_TARGET_RACE_REVISION": {
+      "status": "PASS",
+      "fresh_target_after_race_uses_single_committed_choice": true,
+      "two_actual_backends": true,
+      "same_UUID_exact_replay": false,
+      "different_UUID_CAS_one_winner": true,
+      "one_choice_one_command": true,
+      "no_physical_stock_money_HPP_change": true,
+      "copy_runtime": {
+        "stage": "cp7.bounded-analysis-stage.v1",
+        "private_functions": 13,
+        "public_rpcs": 1,
+        "new_tables": 0,
+        "existing_function_replacements": 7,
+        "Native_ERP_DML": false,
+        "real_Native_job_rows": true,
+        "raw_native_status_overridden": false,
+        "actual_checked_SAVE2000_qualified": false,
+        "full_A_chain_qualified": false,
+        "production_go": false
+      },
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-25",
+        "before": "2026-10-25",
+        "after": "2026-10-25"
+      }
+    },
+    "OW11_MODEL_TARGET_RACE_ACCESS_AFTER_ENVELOPE": {
+      "status": "PASS",
+      "actual_lock_wait_observed": "envelope",
+      "actual_committed_replay_wait": false,
+      "access_revoked_during_wait": true,
+      "Native_stock_changed_during_wait": false,
+      "current_model_policy_changed_during_wait": false,
+      "no_orphan_choice_or_command": true,
+      "two_actual_backends": true,
+      "copy_runtime": {
+        "stage": "cp7.bounded-analysis-stage.v1",
+        "private_functions": 13,
+        "public_rpcs": 1,
+        "new_tables": 0,
+        "existing_function_replacements": 7,
+        "Native_ERP_DML": false,
+        "real_Native_job_rows": true,
+        "raw_native_status_overridden": false,
+        "actual_checked_SAVE2000_qualified": false,
+        "full_A_chain_qualified": false,
+        "production_go": false
+      },
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-25",
+        "before": "2026-10-25",
+        "after": "2026-10-25"
+      }
+    },
+    "OW11_MODEL_TARGET_RACE_REPLAY_ACCESS_AFTER_REQUEST": {
+      "status": "PASS",
+      "actual_lock_wait_observed": "request",
+      "actual_committed_replay_wait": true,
+      "access_revoked_during_wait": true,
+      "Native_stock_changed_during_wait": false,
+      "current_model_policy_changed_during_wait": false,
+      "no_orphan_choice_or_command": true,
+      "two_actual_backends": true,
+      "copy_runtime": {
+        "stage": "cp7.bounded-analysis-stage.v1",
+        "private_functions": 13,
+        "public_rpcs": 1,
+        "new_tables": 0,
+        "existing_function_replacements": 7,
+        "Native_ERP_DML": false,
+        "real_Native_job_rows": true,
+        "raw_native_status_overridden": false,
+        "actual_checked_SAVE2000_qualified": false,
+        "full_A_chain_qualified": false,
+        "production_go": false
+      },
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-25",
+        "before": "2026-10-25",
+        "after": "2026-10-25"
+      }
+    },
+    "OW11_MODEL_TARGET_RACE_ACCESS_AFTER_TARGET": {
+      "status": "PASS",
+      "actual_lock_wait_observed": "target",
+      "actual_committed_replay_wait": false,
+      "access_revoked_during_wait": true,
+      "Native_stock_changed_during_wait": false,
+      "current_model_policy_changed_during_wait": false,
+      "no_orphan_choice_or_command": true,
+      "two_actual_backends": true,
+      "copy_runtime": {
+        "stage": "cp7.bounded-analysis-stage.v1",
+        "private_functions": 13,
+        "public_rpcs": 1,
+        "new_tables": 0,
+        "existing_function_replacements": 7,
+        "Native_ERP_DML": false,
+        "real_Native_job_rows": true,
+        "raw_native_status_overridden": false,
+        "actual_checked_SAVE2000_qualified": false,
+        "full_A_chain_qualified": false,
+        "production_go": false
+      },
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-25",
+        "before": "2026-10-25",
+        "after": "2026-10-25"
+      }
+    },
+    "OW11_MODEL_TARGET_RACE_SOURCE_AFTER_ENVELOPE": {
+      "status": "PASS",
+      "actual_lock_wait_observed": "envelope",
+      "actual_committed_replay_wait": false,
+      "access_revoked_during_wait": false,
+      "Native_stock_changed_during_wait": true,
+      "current_model_policy_changed_during_wait": false,
+      "no_orphan_choice_or_command": true,
+      "two_actual_backends": true,
+      "copy_runtime": {
+        "stage": "cp7.bounded-analysis-stage.v1",
+        "private_functions": 13,
+        "public_rpcs": 1,
+        "new_tables": 0,
+        "existing_function_replacements": 7,
+        "Native_ERP_DML": false,
+        "real_Native_job_rows": true,
+        "raw_native_status_overridden": false,
+        "actual_checked_SAVE2000_qualified": false,
+        "full_A_chain_qualified": false,
+        "production_go": false
+      },
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-25",
+        "before": "2026-10-25",
+        "after": "2026-10-25"
+      }
+    },
+    "OW11_MODEL_TARGET_RACE_POLICY_AFTER_ENVELOPE": {
+      "status": "PASS",
+      "actual_lock_wait_observed": "envelope",
+      "actual_committed_replay_wait": false,
+      "access_revoked_during_wait": false,
+      "Native_stock_changed_during_wait": false,
+      "current_model_policy_changed_during_wait": true,
+      "no_orphan_choice_or_command": true,
+      "two_actual_backends": true,
+      "copy_runtime": {
+        "stage": "cp7.bounded-analysis-stage.v1",
+        "private_functions": 13,
+        "public_rpcs": 1,
+        "new_tables": 0,
+        "existing_function_replacements": 7,
+        "Native_ERP_DML": false,
+        "real_Native_job_rows": true,
+        "raw_native_status_overridden": false,
+        "actual_checked_SAVE2000_qualified": false,
+        "full_A_chain_qualified": false,
+        "production_go": false
+      },
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-25",
+        "before": "2026-10-25",
+        "after": "2026-10-25"
+      }
+    }
+  },
+  "http": {
+    "OW11_MODEL_TARGET_AUTH_CONFIRM_CLEAR_EXACT_REPLAY": {
+      "status": "PASS",
+      "actual_Auth_PostgREST_confirm_clear_workspace": true,
+      "exact_committed_UUID_replay_after_clear": true,
+      "changed_payload_same_UUID_refused": true,
+      "no_physical_stock_money_HPP_change": true,
+      "metadata_receipt_forecast_applied": false,
+      "actual_HTTP_fresh_provenance": true,
+      "CLEAR_fresh_UNKNOWN": true,
+      "retained_old_provenance_unchanged": true,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-25",
+        "before": "2026-10-25",
+        "after": "2026-10-25"
+      }
+    },
+    "OW11_MODEL_TARGET_AUTH_REVOKED_COMMITTED_REPLAY": {
+      "status": "PASS",
+      "actual_old_token_revoked_read_and_committed_replay_refused": true,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-25",
+        "before": "2026-10-25",
+        "after": "2026-10-25"
+      }
+    },
+    "OW11_MODEL_TARGET_AUTH_ANON_AND_FOREIGN_REFERENCE": {
+      "status": "PASS",
+      "anonymous_both_facades_denied": true,
+      "authorized_shared_config_read": true,
+      "foreign_actor_own_epoch_cannot_confirm_private_reference": true,
+      "session_leaks": [],
+      "business_day": {
+        "planned": "2026-10-25",
+        "before": "2026-10-25",
+        "after": "2026-10-25"
+      }
+    }
+  },
+  "required_case_ids_pass": true,
+  "required_case_counts_pass": true,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "auth_counts": {
+    "before": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "after": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "restored": true
+  },
+  "race_copies_remaining": 0,
+  "http_copy_remaining": 0,
+  "actual_Auth_HTTP_credit": true,
+  "positive_model_target_qualified": false,
+  "after_use_restore_qualified": false,
+  "full_OW11_acceptance": false,
+  "formal_acceptance": "5/16",
+  "CP7C_accepted": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

@@ -22,6 +22,7 @@ def originals():
     all_functions['cp7_netting_native.timeline(jsonb,jsonb,jsonb,jsonb,jsonb,jsonb)']=analog.block('cp7-src/planning/netting.sql','cp7_netting_native.timeline')
     all_functions['cp7_analysis_stage.analysis_targets(jsonb,jsonb,jsonb,jsonb,jsonb,jsonb,jsonb,jsonb,jsonb)']=analog.block('cp7-src/planning/analysis-stages.sql','cp7_analysis_stage.analysis_targets')
     all_functions['cp7_analysis_native.build_operational(jsonb,jsonb,uuid,jsonb)']=analog.block('cp7-src/planning/analysis.sql','cp7_analysis_native.build').replace('cp7_analysis_native.build(', 'cp7_analysis_native.build_operational(',1)
+    all_functions['cp7_stock_formula.workspace(jsonb)']=(ROOT.parent/'cp7_reorder_caller_stage'/'workspace.sql').read_text().strip()
     signatures=[
       'cp7_baseline_native.source_within(integer)','cp7_reorder_inputs.capture_baseline(integer)',
       'cp7_baseline_native.build(jsonb,jsonb)','cp7_baseline_native.serve(uuid)',
@@ -37,12 +38,40 @@ def originals():
       'cp7_netting_native.timeline(jsonb,jsonb,jsonb,jsonb,jsonb,jsonb)',
       'cp7_analysis_stage.analysis_targets(jsonb,jsonb,jsonb,jsonb,jsonb,jsonb,jsonb,jsonb,jsonb)',
       'cp7_analysis_native.build_operational(jsonb,jsonb,uuid,jsonb)',
+      'cp7_stock_formula.workspace(jsonb)',
     ]
     return {sig:all_functions[sig]for sig in signatures}
 
 
 def replacements():
     consumer.verify_sources();out=originals()
+    # The existing ROP cache is shared, while model runs are actor-owned.
+    # Do not expose another actor's model/policy or silently relabel a stale
+    # model as baseline. The existing explicit FG refresh can rebuild it using
+    # this actor's current authority; reading itself remains read-only.
+    sig='cp7_stock_formula.workspace(jsonb)'
+    out[sig]=once(out[sig],'result jsonb;','result jsonb;model_targets text[];model_source jsonb;')
+    out[sig]=once(out[sig],' -- Count, rows and totals share this statement snapshot.',""" select array_agg(e.target_key order by e.target_key)into model_targets
+ from cp7_reorder_caller.evaluations e where e.row#>>'{projection,contract_version}'='cp7.fg-reorder-projection.v3';
+ if model_targets is not null then
+  model_source:=cp7_model_target_source.capture_for_reorder(model_targets,clock_timestamp());
+  if exists(select 1 from cp7_reorder_caller.evaluations e
+   where e.row#>>'{projection,contract_version}'='cp7.fg-reorder-projection.v3'
+    and e.row#>'{projection,target_demand,model,source_hash}'is distinct from model_source->'source_hash')then
+   raise exception using errcode='40001',message='CP7_MODEL_TARGET_REORDER_REFRESH_REQUIRED';end if;
+ end if;
+ -- Count, rows and totals share this statement snapshot.""")
+    out[sig]=once(out[sig],' return result;',""" if model_targets is null and exists(select 1 from jsonb_array_elements(result#>'{page,rows}')r
+  where r#>>'{projection,contract_version}'='cp7.fg-reorder-projection.v3')then
+  raise exception using errcode='40001',message='CP7_MODEL_TARGET_REORDER_REFRESH_REQUIRED';end if;
+ if model_targets is not null then
+  if cp7_model_target_source.capture_for_reorder(model_targets,clock_timestamp())->'source_hash'is distinct from model_source->'source_hash'
+   or exists(select 1 from jsonb_array_elements(result#>'{page,rows}')r
+    where r#>>'{projection,contract_version}'='cp7.fg-reorder-projection.v3'
+     and r#>'{projection,target_demand,model,source_hash}'is distinct from model_source->'source_hash')then
+   raise exception using errcode='40001',message='CP7_MODEL_TARGET_REORDER_REFRESH_REQUIRED';end if;
+ end if;
+ return result;""")
     for sig in ['cp7_baseline_native.source_within(integer)','cp7_reorder_inputs.capture_baseline(integer)']:
         out[sig]=once(out[sig],"select value||jsonb_build_object('product_analog_choices',",
          "select value||jsonb_build_object('model_target_source',cp7_model_target_source.capture(\n   coalesce((select array_agg((p->>'root_id')||':'||(p->>'size_id')order by p->>'root_id')\n    from jsonb_array_elements(value->'facts'->'products')p),array[]::text[]),\n   (value->>'captured_at')::timestamptz),'product_analog_choices',")
@@ -126,7 +155,7 @@ def manifest():
     return dict(contract='cp7.model-target-consumer-hooks.candidate.v1',
       predecessor_body_sha256={sig:sha256(_body(sql).encode()).hexdigest()for sig,sql in originals().items()},
       replacement_body_sha256={sig:sha256(_body(sql).encode()).hexdigest()for sig,sql in replacements().items()},
-      hooks_sql_sha256=sha256(render().encode()).hexdigest(),existing_replacements=20,
+      hooks_sql_sha256=sha256(render().encode()).hexdigest(),existing_replacements=21,
       new_private_functions=8,new_schemas=3,new_public_rpcs=0,new_tables=0,
       exact_installer_catalog_qualified=False,public_client_qualified=False,
       actual_Native_capture=False,actual_Auth_HTTP_credit=False,production_go=False)

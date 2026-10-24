@@ -341,6 +341,20 @@ describe('Titik pesan ulang on Ringkasan Barang Jadi (SS-1)', () => {
     expect(container.textContent).not.toContain('CP7_FORMULA')
   })
 
+  it('retires a refused model cache and recovers with the existing explicit refresh', async () => {
+    server({ canManage: false })
+    await mount()
+    client.rpc.mockImplementationOnce(async () => refuse('40001', 'CP7_MODEL_TARGET_REORDER_REFRESH_REQUIRED'))
+    await click('Muat ulang')
+    expect(container.textContent).toContain('Data atau hak akses untuk hitungan ini sudah berubah.')
+    expect(container.textContent).not.toContain('CP7_MODEL_TARGET')
+    expect(container.querySelectorAll('article.cfr-row')).toHaveLength(0)
+    expect(button('Hitung sekarang').disabled).toBe(false)
+    await click('Hitung sekarang')
+    expect(container.textContent).not.toContain('Data atau hak akses untuk hitungan ini sudah berubah.')
+    expect(container.querySelectorAll('article.cfr-row')).toHaveLength(1)
+  })
+
   it('shows a viewer the numbers without any edit control', async () => {
     const fake = server({ canManage: false, rows: [reorderRow(1), manualAbove(2)] })
     auth.current = { ...recoveryIdentity, identity: { ...recoveryIdentity.identity, profile: { ...recoveryIdentity.identity.profile, role: 'GUDANG' } } }

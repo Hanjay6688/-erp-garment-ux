@@ -1,0 +1,87 @@
+{
+  "contract": "cp7.model-history-scope-local.v1",
+  "status": "PASS",
+  "cases": [
+    {
+      "id": "SCOPED_ROWS_MATCH_WHOLE_NATIVE_HISTORY_AND_RESERVATIONS",
+      "status": "PASS",
+      "observed": {
+        "whole_Native_row_and_stock_exact": true,
+        "capture_clock_not_backdated": true,
+        "zero_DML": true
+      }
+    },
+    {
+      "id": "MORE_THAN_5000_UNRELATED_PRODUCTS_DO_NOT_TRUNCATE_SINGLE_ROOT",
+      "status": "PASS",
+      "observed": {
+        "controlled_factory_products": 5504,
+        "old_global_limit_unchanged": true,
+        "explicit_single_root_only": true
+      }
+    },
+    {
+      "id": "AMBIGUOUS_ACTIVE_ROOT_AND_WRONG_SIZE_REFUSED",
+      "status": "PASS",
+      "observed": {
+        "no_size_filter_hides_duplicate_root": true,
+        "no_absent_target_as_zero": true
+      }
+    },
+    {
+      "id": "ALL_IDENTITY_VERSIONS_AND_BOTH_VISIBILITY_CLOCKS_RETAINED",
+      "status": "PASS",
+      "observed": {
+        "old_identity_stock_included": true,
+        "physical_and_system_clock_both_filter": true,
+        "explicit_controlled_clock_fixture": true
+      }
+    },
+    {
+      "id": "FULL_ROW_DIGEST_DETECTS_EQUAL_TOTAL_METADATA_CHANGE",
+      "status": "PASS",
+      "observed": {
+        "equal_totals_not_same_source": true,
+        "full_stock_reference_read_without_history_recalculation": true
+      }
+    },
+    {
+      "id": "DENSE_SINGLE_ROOT_FULL_SUMMARY_EQUALS_WHOLE_RAW_CALCULATION",
+      "status": "PASS",
+      "observed": {
+        "all_selected_stock_rows": 50005,
+        "no_raw_prefix_used": true,
+        "exact_full_array_formula_parity": true,
+        "controlled_oracle_not_Native_admission": true
+      }
+    },
+    {
+      "id": "NON_STOCK_INCOMPLETENESS_NEVER_ACCEPTED_AS_STOCK_OVERFLOW",
+      "status": "PASS",
+      "observed": {
+        "missing_posting_journal_refused": true,
+        "incomplete_without_full_stock_reference_refused": true
+      }
+    },
+    {
+      "id": "CLOSED_QUERY_PRIVATE_ACL_AND_KNOWN_ZERO",
+      "status": "PASS",
+      "observed": {
+        "known_zero_separate_from_unavailable": true,
+        "private_invoker_only": true,
+        "old_global_history_unchanged": true
+      }
+    }
+  ],
+  "counts": {
+    "PASS": 8
+  },
+  "source_sha256": "607c7fbb42673af963fa4b02bc3939ce6d9ca20e5b501a77c9ed9c31fc7895aa",
+  "actual_SQL": true,
+  "controlled_relational_fixtures": true,
+  "actual_Native_capture": false,
+  "actual_Auth_HTTP_credit": false,
+  "immutable_capture_runtime_qualified": false,
+  "model_caller_integrated": false,
+  "production_go": false
+}
