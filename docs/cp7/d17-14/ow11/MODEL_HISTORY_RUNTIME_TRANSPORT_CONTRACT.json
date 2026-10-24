@@ -1,0 +1,76 @@
+{
+  "contract": "cp7.ow11.model-history-runtime-transport.v1",
+  "required_case_ids": {
+    "native": [
+      "OW11_MODEL_HISTORY_RUNTIME_CATALOG22_COMPOSED_INVERSE"
+    ],
+    "races": [
+      "OW11_MODEL_HISTORY_RUNTIME_RACE_SAME_UUID",
+      "OW11_MODEL_HISTORY_RUNTIME_RACE_ACCESS_AFTER_ENVELOPE",
+      "OW11_MODEL_HISTORY_RUNTIME_RACE_REPLAY_ACCESS_AFTER_REQUEST",
+      "OW11_MODEL_HISTORY_RUNTIME_RACE_POSTED_SOURCE_AFTER_ENVELOPE"
+    ],
+    "http": [
+      "OW11_MODEL_HISTORY_RUNTIME_AUTH_CAPTURE_REPLAY_CURRENT_SOURCE",
+      "OW11_MODEL_HISTORY_RUNTIME_AUTH_REVOKED_FOREIGN_ANONYMOUS"
+    ]
+  },
+  "required_case_counts": {
+    "native": 1,
+    "races": 4,
+    "http": 2
+  },
+  "expected_case_count": 7,
+  "public_rpcs": [
+    "erp_cp7_get_alerts_v1",
+    "erp_cp7_get_wa_settings_v1",
+    "erp_cp7_save_wa_settings_v1",
+    "erp_cp7_set_wa_key_v1",
+    "erp_cp7_send_wa_test_v1",
+    "erp_cp7_resolve_wa_dispatch_v1",
+    "erp_cp7_get_fg_reorder_v1",
+    "erp_cp7_refresh_fg_reorder_v1",
+    "erp_cp7_save_fg_reorder_manual_v1",
+    "erp_cp7_save_stock_formula_settings_v1",
+    "erp_cp7_get_material_reorder_v1",
+    "erp_cp7_refresh_material_reorder_v1",
+    "erp_cp7_save_material_reorder_v1",
+    "erp_cp7_request_staged_analysis_v1",
+    "erp_cp7_get_staged_analysis_v1",
+    "erp_cp7_step_staged_analysis_v1",
+    "erp_cp7_get_planning_profiles_v1",
+    "erp_cp7_save_planning_profile_v1",
+    "erp_cp7_capture_baseline_v1",
+    "erp_cp7_save_cutting_suggestion_v1",
+    "erp_cp7_get_staged_production_schedule_v1",
+    "erp_cp7_save_staged_production_schedule_v1",
+    "erp_cp7_request_bounded_staged_analysis_v1",
+    "erp_cp7_capture_model_history_v1",
+    "erp_cp7_read_model_history_v1"
+  ],
+  "schedules": [
+    "erp-wa-collect",
+    "erp-wa-send",
+    "erp-wa-analysis"
+  ],
+  "private_functions": 5,
+  "new_public_rpcs": 2,
+  "new_tables": 1,
+  "existing_replacements": 0,
+  "scope": "SINGLE_CURRENT_PHYSICAL_ROOT",
+  "actual_Auth_HTTP_credit": false,
+  "actual_concurrency": false,
+  "model_caller_integrated": false,
+  "after_use_restore_qualified": false,
+  "full_OW11_acceptance": false,
+  "formal_acceptance": "5/16",
+  "CP7C_accepted": false,
+  "independent_acceptance": false,
+  "production_go": false,
+  "transport_source_sha256": {
+    "cp7_ow11_model_history_runtime_transport_cases.py": "9e0ea1b4f8d996016753b4c86a79df8fd75308406950e1dba1d5fdb1b1ee4ab8",
+    "cp7_ow11_model_history_runtime_cases.py": "9911806d440d1a1546476f494804753e50fbc8eebe32276e43e80e5c31bd950e"
+  },
+  "repeated_catalog_anchor_case_credit": 0,
+  "concurrency_test": true
+}

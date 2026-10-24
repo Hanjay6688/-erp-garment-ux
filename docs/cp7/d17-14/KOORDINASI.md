@@ -2171,3 +2171,25 @@ Separate Native6 declared for catalog, actual capture/replay, SALE source,
 current access, dense2000/202000 and final-row/engine controls. Source/static/
 declaration checks PASS; Native/HTTP/concurrent/browser and model integration
 remain open. Formal5/16, CP7C unaccepted, production/independent acceptance false.
+
+## 118. B24 Oktober2026 UTC — scoped history real Auth/concurrency candidate
+
+2201e9ed publishes immutable runtime Native6. Run40121381881/job120953455379
+is active; no complete Original yet. Runtime SQL and Native6 declaration stay
+unchanged while a separate seven-case transport suite is added: one repeated
+catalog anchor (zero new Native credit), four actual separate-backend races
+and two Auth/PostgREST cases. Exact same UUID stores one row; actual observed
+envelope wait and request-lock committed replay must recheck current access.
+Actual Native SALE committed by the envelope holder must become the waiting
+new capture's current source (gross24/available76), never double subtraction.
+
+Actual HTTP covers exact replay/read, changed payload and forged source fields,
+actual post retiring the immutable old archive, fresh capture, anonymous/foreign
+read denial, old-token revocation, and identical UUID independently scoped to
+two authorized actors. Every race/call retains the existing8s limit and strict
+boundary/lock/session/Auth restoration; disposable job remains45min. Explicit
+transport7 group budget refuses accidental inheritance of Native6 or other
+transport budgets. Seven retained/new workflow declarations, Python AST and
+invalid-budget/parent-admission controls PASS. Actual transport qualification
+awaits its complete Original; no model/default caller integration or acceptance
+credit is inferred. Formal5/16, CP7C unaccepted, production_go=false.
