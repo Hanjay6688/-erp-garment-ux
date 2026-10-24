@@ -1,0 +1,28 @@
+{
+  "contract": "cp7.bounded-official-finance-route.v1",
+  "generated_sql_sha256": "61dde55926d73315d24f38d1e538ffb663b25b533f6da4117f07fb2db49d046e",
+  "predecessor_request_sha256": "dc8ad151083e3a2e49a8943a28033944c304f83b5c25523cc255c546a8f025ac",
+  "admitted_A_patcher_sha256": "aff34b118681994b8f081f6cd7652015e3c369d40310f5d4dd3e19892bebfe67",
+  "admitted_B_renderer_sha256": "619b7c28246c7971bb001c64a600b03838a6339441bc2552694af2ae88295242",
+  "existing_replacements": [
+    "cp7_bounded_analysis_stage.request(jsonb,uuid)"
+  ],
+  "new_private_functions": [
+    "cp7_bounded_analysis_stage.request_finance(jsonb,uuid)"
+  ],
+  "new_public_rpcs": [
+    "public.erp_cp7_request_bounded_finance_analysis_v1(jsonb,uuid)"
+  ],
+  "new_tables": 0,
+  "financial_math_added": false,
+  "official_source": "cp7_finance_capture",
+  "explicit_mode": "STAGED",
+  "operational_route_query_fields": [
+    "from_date",
+    "through_date",
+    "group_mode"
+  ],
+  "full_A_chain_qualified": false,
+  "factory3600_financial_parity": false,
+  "production_go": false
+}

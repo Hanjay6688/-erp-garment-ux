@@ -2225,3 +2225,27 @@ dengan oracle NAIVE100x7 dan pairedMAE4. First duplicate-schema bootstrap failur
 disimpan; SQL/PLpgSQL/clash PASS. Tidak ada Native/Auth/catalog22/activation
 atau accuracy credit. Policy writer/registry adapter dan target consumer masih
 berikutnya; seluruh default A/qualified files tetap. Induk5/16, productionfalse.
+
+
+## A — kontrak tambahan bounded + angka resmi, kandidat terpisah (24 Oktober 2026)
+
+Implementasi usulan OW12a tersedia di `scripts/cp7_bounded_finance_bridge` pada
+branch `astra-a/d17-14-bounded-finance-proposal-20261024`, basis current a1414f8e.
+Route tambahan `erp_cp7_request_bounded_finance_analysis_v1(jsonb,uuid)` memakai
+empat field dengan `finance_mode=STAGED` eksplisit; request bounded dan capture
+keuangan resmi mulai dalam transaksi yang sama, actor/job/query/captured_at terikat.
+Reuse UUID lintas mode dan query berubah ditolak, current finance permission
+dibaca lagi sesudah lock dan sesudah start capture. Tidak ada rumus angka baru.
+
+Query bounded operasional tetap tiga field/DEFERRED. Satu perubahan tubuh request
+lama dideklarasikan: menolak UUID yang sudah dimiliki mode STAGED. Ini tambahan
+komposisi A, bukan edit source renderer/request asli atau UI milik B. B dapat
+membaca kontrak route; caller UI belum diubah. Pemasang default juga belum berubah.
+
+Local SQL17 PASS memakai route/query validator/capture.start asli dengan akses,
+source dan storage job terkontrol. Ada first helper failure42601 (assignment
+kolom kontrol ganda) yang dipertahankan; helper diperbaiki, SQL produk sama.
+Ini bukan Native/real Auth/actual wait/full current/3600 finance. Selanjutnya A
+membuktikan komposisi22katalog, inverse sebelum pakai, used backup/restore lengkap,
+angka resmi dan FINANCE cron. B tetap pemilik request/caller UI pada pembagianV2.
+Parent formal5/16, production_go=false, tidak ada klaim audit independen.

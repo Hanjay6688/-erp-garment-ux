@@ -1,0 +1,137 @@
+{
+  "status": "PASS",
+  "classification": "ACTUAL_ROUTE_AND_CAPTURE_START_OVER_CONTROLLED_DEPENDENCIES_PGLITE_NOT_NATIVE",
+  "sources": {
+    "scripts/cp7-src/wip/bootstrap.sql": "f13d218d6ef6c38bea1968081368cdf253538c79d36b67a51e61d126927c2769",
+    "scripts/cp7-src/demand/bootstrap.sql": "9ce00d27b69656d385df150dacfa155571c5cfa9fb818181746838d0c9fc1455",
+    "scripts/cp7-src/planning/bootstrap.sql": "81e6e636f174529e124d6d352a7072dda1b005e0466dbf0751133c1a4df237ce",
+    "scripts/cp7_finance_capture/finance_capture.sql": "c6704e726c5fbc7a6e9b8ae266075ec6777e8b7f6bc6d7b10ddc074f3706d8bb",
+    "scripts/cp7_bounded_finance_bridge/bridge.sql": "61dde55926d73315d24f38d1e538ffb663b25b533f6da4117f07fb2db49d046e"
+  },
+  "cases": [
+    {
+      "id": "PUBLIC_FACADE_EXACT_EXECUTE_AUTHORITY",
+      "status": "PASS"
+    },
+    {
+      "id": "MISSING_EXPLICIT_MODE",
+      "status": "PASS",
+      "expected_refusal": "CP7_BOUNDED_FINANCE_EXPLICIT_STAGED_REQUIRED",
+      "all_three_row_counts_unchanged": true
+    },
+    {
+      "id": "DEFERRED_NOT_STAGED",
+      "status": "PASS",
+      "expected_refusal": "CP7_BOUNDED_FINANCE_EXPLICIT_STAGED_REQUIRED",
+      "all_three_row_counts_unchanged": true
+    },
+    {
+      "id": "MODE_MUST_BE_STRING",
+      "status": "PASS",
+      "expected_refusal": "CP7_ANALYSIS_FINANCE_MODE",
+      "all_three_row_counts_unchanged": true
+    },
+    {
+      "id": "UNKNOWN_FIELD_REFUSED",
+      "status": "PASS",
+      "expected_refusal": "CP7_WIP_FIELDS",
+      "all_three_row_counts_unchanged": true
+    },
+    {
+      "id": "OPERATIONAL_QUERY_STAYS_THREE_FIELDS",
+      "status": "PASS",
+      "expected_refusal": "CP7_WIP_FIELDS",
+      "all_three_row_counts_unchanged": true
+    },
+    {
+      "id": "EXACT_ONCE_ACTOR_JOB_QUERY_CAPTURE_DATE_BINDING",
+      "status": "PASS",
+      "job_count": 1,
+      "capture_count": 1,
+      "mark_count": 1
+    },
+    {
+      "id": "STAGED_UUID_CANNOT_REPLAY_OPERATIONAL",
+      "status": "PASS",
+      "expected_refusal": "CP7_ANALYSIS_REQUEST_CHANGED",
+      "all_three_row_counts_unchanged": true
+    },
+    {
+      "id": "STAGED_UUID_QUERY_IMMUTABLE",
+      "status": "PASS",
+      "expected_refusal": "CP7_ANALYSIS_REQUEST_CHANGED",
+      "all_three_row_counts_unchanged": true
+    },
+    {
+      "id": "OPERATIONAL_CREATES_NO_FINANCE_CAPTURE",
+      "status": "PASS"
+    },
+    {
+      "id": "OPERATIONAL_UUID_CANNOT_REPLAY_STAGED",
+      "status": "PASS",
+      "expected_refusal": "CP7_ANALYSIS_REQUEST_CHANGED",
+      "all_three_row_counts_unchanged": true
+    },
+    {
+      "id": "REVOKED_FINANCE_REPLAY_REFUSED",
+      "status": "PASS",
+      "expected_refusal": "CP7_ANALYSIS_FINANCE_ACCESS_CHANGED",
+      "all_three_row_counts_unchanged": true
+    },
+    {
+      "id": "INJECTED_ACCESS_CHANGE_AT_POST_LOCK_CHECK",
+      "status": "PASS",
+      "expected_refusal": "CP7_ANALYSIS_FINANCE_ACCESS_CHANGED",
+      "all_three_row_counts_unchanged": true
+    },
+    {
+      "id": "INJECTED_FINANCE_CHANGE_AT_POST_LOCK_CHECK",
+      "status": "PASS",
+      "expected_refusal": "CP7_ANALYSIS_FINANCE_ACCESS_CHANGED",
+      "all_three_row_counts_unchanged": true
+    },
+    {
+      "id": "INJECTED_FINAL_PERMISSION_FAILURE_ATOMIC_ROLLBACK",
+      "status": "PASS",
+      "expected_refusal": "CP7_ANALYSIS_FINANCE_ACCESS_CHANGED",
+      "all_three_row_counts_unchanged": true
+    },
+    {
+      "id": "CAPACITY_REFUSED_BEFORE_JOB_OR_CAPTURE",
+      "status": "PASS",
+      "expected_refusal": "CP7_ANALYSIS_STAGED_TARGET_LIMIT",
+      "all_three_row_counts_unchanged": true
+    },
+    {
+      "id": "LEGACY_DIRECT_UUID_REFUSED",
+      "status": "PASS",
+      "expected_refusal": "CP7_ANALYSIS_REQUEST_CHANGED",
+      "all_three_row_counts_unchanged": true
+    }
+  ],
+  "count": 17,
+  "actual_sql": [
+    "both request routes",
+    "public facade",
+    "history_query",
+    "fields",
+    "day",
+    "finance_capture.start",
+    "finance_capture.captures table"
+  ],
+  "controlled_dependencies": [
+    "access_now",
+    "report_finance_access",
+    "bounded source",
+    "bounds",
+    "job_of",
+    "create_job",
+    "status",
+    "minimal job tables"
+  ],
+  "no_actual_wait_or_concurrency": true,
+  "official_finance_report_not_executed": true,
+  "full_A_chain_qualified": false,
+  "factory3600_financial_parity": false,
+  "production_go": false
+}
