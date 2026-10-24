@@ -1,0 +1,176 @@
+{
+  "run": 40081846443,
+  "job": 120836847789,
+  "artifact": 12556450449,
+  "zip_bytes": 3814659,
+  "zip_sha256": "bfb45063e0f008f1662158d30526d35337b155dc3259e909484f5e7f5ec8f06f",
+  "label": "CP7_CURRENT_RETURN_INSTALLATION_RESTORE",
+  "status": "PASS",
+  "qualification_commit": "4541499eb5d4d2b8ae99432430bd055e9726aca1",
+  "report": {
+    "name": "CP7_CURRENT_RETURN_INSTALLATION_RESTORE.json",
+    "raw_bytes": 1133688,
+    "raw_sha256": "8cd8d526218c2e6336c4d3c60cc540767469a13617ed610d05536001a787c59f"
+  },
+  "cp6_restored": true,
+  "baseline_advisors_equal": true,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "required_steps_pass": true,
+  "steps": [
+    {
+      "step": "EXACT_INSTALL_AND_PREUSE_INVERSE",
+      "status": "PASS",
+      "inverse": {
+        "contract": "cp7.current-AB-with-draft-return-isolation.v1",
+        "status": "EXACT_FULL_PREUSE_INVERSE",
+        "full22_preinstall_equal": true,
+        "all_rows_and_sequences_preinstall_equal": true,
+        "used_guard_before_DDL": true,
+        "production_go": false,
+        "independent_acceptance": false
+      },
+      "composed": {
+        "contract": "cp7.current-AB-with-draft-return-isolation.v1",
+        "status": "CURRENT_AB_DRAFT_RETURN_EXACT_ALL22",
+        "predecessor_verified_before_actual_delta": true,
+        "delta": {
+          "status": "EXACT_SINGLE_FUNCTION_DELTA",
+          "signature": "ow04_source_proposal.locked_source_family(uuid)",
+          "unchanged_authority_and_all_other_catalog_fields": true,
+          "draft_rows_still_dependencies": true,
+          "posted_proofs_unchanged": true,
+          "production_go": false
+        },
+        "installation_inventory_sha256": "6e7193dbad75ebac8d00a9baeb9c86354ab30363d04e052f6abe1e5e4bda6d43",
+        "legacy_inventory_checked": true,
+        "substituted_catalog_or_definitions": false,
+        "installed_schedules": false,
+        "hosted_installation": false,
+        "production_go": false,
+        "independent_acceptance": false
+      }
+    },
+    {
+      "step": "COMMITTED_VALID_RETURN_WITH_MALFORMED_DRAFT",
+      "status": "PASS"
+    },
+    {
+      "step": "USED_INVERSE_REFUSED_BEFORE_DDL",
+      "status": "PASS",
+      "all_rows_sequences_and_full22_unchanged": true
+    },
+    {
+      "step": "FULL_USED_BACKUP_RESTORED",
+      "status": "PASS",
+      "all_table_hashes_equal": true,
+      "trusted_manifest_sha256": "597d506f96861b996d4285a75f5be0f9043acf3ca36867df09226775f9e34ef3"
+    },
+    {
+      "step": "RESTORE_NEGATIVE_CONTROLS",
+      "status": "PASS",
+      "old_census_refused": true,
+      "controls": [
+        {
+          "id": "WRONG_TRUSTED_HASH",
+          "status": "PASS",
+          "refusal": "CURRENT_RETURN_RESTORE_TRUSTED_BACKUP_HASH_REQUIRED"
+        },
+        {
+          "id": "CHANGED_COMPOSED_ENTRYPOINT_SOURCE",
+          "status": "PASS",
+          "refusal": "CURRENT_RETURN_RESTORE_SOURCE_OR_CONTRACT_CHANGED"
+        },
+        {
+          "id": "WRONG_DATABASE",
+          "status": "PASS",
+          "refusal": "DRAFT_RESTORE_FRESH_EXPECTED_DATABASE_REQUIRED"
+        },
+        {
+          "id": "WRONG_INNER_BACKUP_HASH",
+          "status": "PASS",
+          "refusal": "DRAFT_RESTORE_TRUSTED_BACKUP_HASH_REQUIRED"
+        },
+        {
+          "id": "MISSING_CATALOG_GROUP",
+          "status": "PASS",
+          "refusal": "DRAFT_RESTORE_CATALOG_CHANGED"
+        },
+        {
+          "id": "DELTA_FUNCTION_METADATA_DRIFT",
+          "status": "PASS",
+          "refusal": "DRAFT_RESTORE_CATALOG_CHANGED"
+        },
+        {
+          "id": "DRAFT_ROW_DRIFT",
+          "status": "PASS",
+          "refusal": "DRAFT_RESTORE_BUSINESS_ROWS_OR_SEQUENCE_CHANGED",
+          "savepoint_sequence_changes": {
+            "sequence:erp.audit_logs_id_seq": {
+              "before": [
+                "740",
+                true
+              ],
+              "after": [
+                "741",
+                true
+              ]
+            }
+          },
+          "requires_full_restore_before_binding": true
+        }
+      ]
+    },
+    {
+      "step": "FULL_RESTORE_AFTER_NEGATIVE_WRITE",
+      "status": "PASS",
+      "all_table_hashes_equal": true
+    },
+    {
+      "step": "ONLY_LOCAL_NATIVE_OID_SEAL",
+      "status": "PASS",
+      "receipt": {
+        "contract": "cp7.current-AB-draft-return.full-backup.v1",
+        "trusted_composed_backup_sha256": "597d506f96861b996d4285a75f5be0f9043acf3ca36867df09226775f9e34ef3",
+        "composed_entrypoint_and_recovery_sources_verified": true,
+        "qualified_binding": {
+          "contract_version": "ow15.draft-return-isolation.verified-restore-binding.v1",
+          "trusted_backup_sha256": "04e28029a4fbb56300c61c92995eca194f1a4d4abc8fa081d40a15ab4d8c6617",
+          "fresh_database_verified": true,
+          "all_rows_and_sequences_equal": true,
+          "all22_portable_catalog_groups_equal": true,
+          "changed_functions": [
+            "cp7_credit.assert_source_native_trigger_census_v1()"
+          ],
+          "local_raw_oid_census_enforced": true,
+          "runtime_capture_sha256_pg": "6a55fd6d4fa02010ff18bc9193e8e58f2ef11b1449d3cd09a0a8be9e8a97b4cc",
+          "chain_depth_to_ow05": 17,
+          "production_go": false
+        },
+        "production_go": false,
+        "independent_acceptance": false
+      }
+    },
+    {
+      "step": "EXACT_FINANCIAL_READS_AND_NEXT_VALID_RETURN",
+      "status": "PASS",
+      "exact_full_source_state": true,
+      "malformed_draft_unchanged": true,
+      "posted_count_qty_refund": [
+        2,
+        2,
+        "40.00"
+      ],
+      "all_catalog_and_permissions_unchanged": true
+    }
+  ],
+  "production_go": false,
+  "independent_acceptance": false,
+  "new_business_case_credit": 0,
+  "disposition": "Composed current A/B plus draft-return correction passes all eight steps and seven negative controls. Exact full preuse inverse, unchanged used guard, full fresh used restore, exact financial/dependency reads and next lawful return. Underlying predecessor entrypoint and earlier Originals remain unchanged."
+}

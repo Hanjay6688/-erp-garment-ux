@@ -1,0 +1,52 @@
+# Perbaikan retur pada instalasi current A/B
+
+**VENI. VIDI. VICI. ERP. — Reliable data adalah dewa.**
+Keuangan termasuk laporan, stok, dan HPP adalah raja.
+
+Retur DRAFT dengan pelanggan yang salah sebelumnya menghalangi retur sah lain
+pada penjualan yang sama. Perbaikan mempertahankan seluruh baris draft dalam
+hash dependensi dan seluruh penguncian sumber. Hanya pemeriksaan pelanggan
+pada sibling DRAFT yang dipisahkan dari fakta keuangan POSTED. Memilih draft
+yang salah tetap ditolak pengaman Native yang sama.
+
+Entrypoint baru `scripts/cp7_current_return_installation.py` memasang komposisi
+A/B, memverifikasi pendahulunya pada database yang sebenarnya, lalu memasang
+delta satu fungsi. Entrypoint pendahulu dan sumber SQL yang sudah dibekukan
+tetap utuh. `scripts/cp7_current_return_recovery.py` mengikat backup penuh pada
+hash sumber komposisi, delta, dan adapter pemulihan.
+
+| Bukti asli | Hasil dan batas |
+|---|---|
+| Contract Native6, head7a7110f7 | Baseline6 lulus; current5 lulus dan1 counterexample draft. Tetap INCOMPLETE. |
+| Closure Native32, headfbc04b53 | Sebelum perbaikan30 lulus+2 counterexample; setelah perbaikan32 lulus.64 eksekusi. Inverse awal tepat; guard setelah penggunaan dan pemulihan penuh tepat. |
+| Used restore8, headfbc04b53 | Delapan tahap dan enam kontrol negatif lulus. Backup dipulihkan lagi setelah fault yang menaikkan sequence audit. Retur berikutnya sah; draft salah tetap ditolak. |
+| Composed installation8, head4541499e | Delapan tahap, tujuh kontrol negatif dan lima gate paket lulus. Seluruh komposisi membuktikan inverse sebelum penggunaan dan pemulihan setelah penggunaan. |
+| Return Race2, head6b7dab37 | Run40082444870 sedang berjalan saat catatan ini dibuat. Baseline dan current masing-masing menguji commit pembatalan penjualan serta kontrol abort. Belum dikreditkan lulus. |
+| Opening replay Native10, head0e29c834 | Run40082679978 sedang berjalan saat catatan ini dibuat. Dua jenis impor pada lima zona waktu;20 eksekusi direncanakan. Belum dikreditkan lulus. |
+
+Original composed installation: run40081846443/job120836847789,
+artifact12556450449. JSON1133688byte,
+SHA256 `8cd8d526218c2e6336c4d3c60cc540767469a13617ed610d05536001a787c59f`.
+Receipt rinci: `current-return-installation-first-pass-4541499e.json`.
+Backup yang sudah dipakai dipulihkan ke database baru dengan seluruh baris,
+sequence, dan22 kelompok katalog tepat; hanya seal OID Native lokal yang
+diikat ulang. Pembacaan sumber keuangan/dependensi sama, retur sah berikutnya
+berhasil, dan draft salah tetap utuh. CP6 dipulihkan dan advisor identik.
+
+Rekonsiliasi arsip v9 memverifikasi34 Original (21PASS,13INCOMPLETE) beserta
+hash setiap berkas yang dipertahankan.28 deklarasi cocok dengan instalasi
+pendahulu; enam tidak memuat objek entrypoint lengkap. Arsip v9 belum memuat
+hasil composed installation di atas. Kesamaan pohon UI/migrasi tidak meniadakan
+perubahan semantik fungsi privat yang terpasang. Karena itu hasil lama tidak
+otomatis dipindahkan menjadi penerimaan instalasi yang diperbaiki.
+
+Hasil pertama yang gagal, pengujian lama dan anggaran kasusnya tetap utuh.
+Funded12 sudah lulus12 baseline+12 current dengan modal awal fixture yang sah;
+hasil Crossflow142 sebelumnya tetap INCOMPLETE. Lima kasus attendance tanpa
+jahit,13 kasus FG lama, serta kasus lintas mode yang belum dijalankan tetap
+terbuka. Total historis286 terdiri dari248 kontrol unik dan38 duplikasi;
+153 Native dan95 lintas mode tidak boleh saling menggantikan.
+
+Ini bukti penulis pada kandidat terpisah. Formal parent tetap5/16,
+`production_go=false`; tidak mengubah cabang resmi, hosted, kandidat audit
+beku, atau kebijakan owner yang belum diputuskan.
