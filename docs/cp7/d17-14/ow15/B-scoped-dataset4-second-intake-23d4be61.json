@@ -1,0 +1,51 @@
+{
+  "contract": "cp7.B-component-original-intake.v1",
+  "name": "CP7_OW11_MODEL_SCOPED_DATASET.json",
+  "status": "INCOMPLETE",
+  "head": "23d4be6160166968a5c550a1b7fa2061a752716d",
+  "run_id": 40124207815,
+  "job_id": 120962032149,
+  "artifact_id": 12572752014,
+  "zip_bytes": 159501,
+  "zip_sha256": "b832229a58a5448fe669c63d6e2e5b4c4a426b1017c34309a26be1246589890e",
+  "bytes": 1392128,
+  "sha256": "b3f64e5332bf7f54d9e6fadd7caeef9444cf8f70053844541420aa6c06c12a61",
+  "whole_job_status": "completed",
+  "whole_job_conclusion": "failure",
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "source_pin_sets_verified": {
+    "model_scoped_dataset_source_sha256": 5,
+    "model_history_runtime_source_sha256": 9,
+    "model_evaluation_v2_source_sha256": 6
+  },
+  "unique_source_pins_verified": 20,
+  "native_counts": {
+    "PASS": 1,
+    "INCOMPLETE": 3
+  },
+  "all_returned_boundaries_catalogs_locks_and_sessions_restored": true,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "actual_Auth_credit": false,
+  "actual_concurrency_credit": false,
+  "full_A_chain_credit": false,
+  "model_caller_integrated": false,
+  "positive_forecast_credit": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "failed_cases": [
+    "OW11_MODEL_SCOPED_DATASET_ACTUAL_CAPTURE_AND_POLICY_CLOCK",
+    "OW11_MODEL_SCOPED_DATASET_ACTUAL_POST_REVISION_AND_ACCESS",
+    "OW11_MODEL_SCOPED_DATASET_DENSE2000_SINGLE_TARGET"
+  ],
+  "failure_prefix": "permission denied to set role \"cp7_capture\"",
+  "full_error_sha256": "b1a2506a8fa83e51f574913dd559e46ceb44931611c3b868c13e7f31fd33d5b9",
+  "representative_traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py\", line 165, in _strict_group_once\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow11_model_scoped_dataset_cases.py\", line 120, in clocks\n    before, _ = dataset(cur, query(run, q), actor)\n                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow11_model_scoped_dataset_cases.py\", line 65, in dataset\n    cur.execute('set local role cp7_capture')\n  File \"/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.InsufficientPrivilege: permission denied to set role \"cp7_capture\"\n",
+  "suite_credit": false
+}

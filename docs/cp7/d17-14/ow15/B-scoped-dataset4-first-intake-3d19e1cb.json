@@ -1,0 +1,50 @@
+{
+  "contract": "cp7.B-component-original-intake.v1",
+  "name": "CP7_OW11_MODEL_SCOPED_DATASET.json",
+  "status": "INCOMPLETE",
+  "head": "3d19e1cb4743b80af8afbd510827f183b93d3856",
+  "run_id": 40122702164,
+  "job_id": 120957501265,
+  "artifact_id": 12571489356,
+  "zip_bytes": 161087,
+  "zip_sha256": "0f2a5917a27864bfd6de9612e7bb6e617b0ed7fc3037e485e856dba2dd1fcc3b",
+  "bytes": 1454496,
+  "sha256": "90d27b4817b3639469c0064a6ada1c54d2fbab7093e8bde6ad31db770765c486",
+  "whole_job_status": "completed",
+  "whole_job_conclusion": "failure",
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "source_pin_sets_verified": {
+    "model_scoped_dataset_source_sha256": 5,
+    "model_history_runtime_source_sha256": 9,
+    "model_evaluation_v2_source_sha256": 6
+  },
+  "unique_source_pins_verified": 20,
+  "native_counts": {
+    "INCOMPLETE": 4
+  },
+  "all_returned_boundaries_catalogs_locks_and_sessions_restored": true,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "actual_Auth_credit": false,
+  "actual_concurrency_credit": false,
+  "full_A_chain_credit": false,
+  "model_caller_integrated": false,
+  "positive_forecast_credit": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "failed_cases": [
+    "OW11_MODEL_SCOPED_DATASET_CATALOG22_COMPOSED_INVERSE",
+    "OW11_MODEL_SCOPED_DATASET_ACTUAL_CAPTURE_AND_POLICY_CLOCK",
+    "OW11_MODEL_SCOPED_DATASET_ACTUAL_POST_REVISION_AND_ACCESS",
+    "OW11_MODEL_SCOPED_DATASET_DENSE2000_SINGLE_TARGET"
+  ],
+  "failure_prefix": "OW13A_LEGACY_ORACLE_NOT_EXACT_PREDECESSOR_22",
+  "full_error_sha256": "651685a4f32dfc5c462b8298b52f1004f00593f6b9cc02b724e4715c577b6ead",
+  "suite_credit": false
+}
