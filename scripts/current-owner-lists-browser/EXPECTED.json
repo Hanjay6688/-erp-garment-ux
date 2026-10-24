@@ -1,0 +1,40 @@
+{
+  "count": 10,
+  "case_ids": [
+    "OW09_WHOLE_LIST_NOTES_DESKTOP",
+    "OW09_WHOLE_LIST_NOTES_MOBILE390",
+    "OW09_WHOLE_LIST_FG_DESKTOP",
+    "OW09_WHOLE_LIST_FG_MOBILE390",
+    "OW09_WHOLE_LIST_COUNT_DESKTOP",
+    "OW09_WHOLE_LIST_COUNT_MOBILE390",
+    "OW09_WHOLE_LIST_ACCESSORY_DESKTOP",
+    "OW09_WHOLE_LIST_ACCESSORY_MOBILE390",
+    "OW09_WHOLE_LIST_CARD_DESKTOP",
+    "OW09_WHOLE_LIST_CARD_MOBILE390"
+  ],
+  "lists": [
+    "notes",
+    "fg",
+    "count",
+    "accessory",
+    "card"
+  ],
+  "regular_pages": [
+    25,
+    6
+  ],
+  "regular_filtered_pages": [
+    25,
+    5
+  ],
+  "accessory_pages": [
+    50,
+    6
+  ],
+  "accessory_filtered_pages": [
+    50,
+    5
+  ],
+  "independent_Native_table_oracles": true,
+  "production_go": false
+}

@@ -46,7 +46,7 @@ berlabel **REUSED_WRITER_EVIDENCE**, bukan audit independen atau izin produksi.
 | `ow06-browser-qualification` Browser2 | Dua ID transfer asli termasuk Browser19 tanpa perubahan modul perjalanan. |
 | `finance-bridge-chain-qualification` Native5 | Lima ID asli merupakan lima kasus pertama Native12; bukan klaim factory3600. |
 | `production-chain-qualification`, `b-extension-chain-qualification`, `ab-quote-chain-qualification` restore | Current installer menguji sembilan langkah pada seluruh gabungan dan enam kontrol negatif. Ini penerus preflight komposisi/restore, bukan pengganti Native286, perjalanan P21 seluruh uang, atau seluruh kasus B. |
-| `cp7_contractor_guidance` Native6 | **Belum mempunyai Original current** dalam sembilan suite di atas. Adapter mandor Native34 baru menambahkan 28+6 ID lama, menunggu hasil server. |
+| `cp7_contractor_guidance` Native6 | Native34 current headc99ca612/run40059271805 telah PASS28+6 ID asli; Original dan lima gate terverifikasi di mandor34-c99ca612-pass.json. |
 
 Peta ini tidak menghapus workflow/pin historis. Mengganti trigger atau menyatakan
 workflow lama selesai memerlukan pemetaan kasus/expected/observed per lingkup,
@@ -58,10 +58,11 @@ ancestor SOURCE tetap memerlukan penelusuran admission dan bukti masing-masing.
 | Lingkup | Kandidat/run | Status saat catatan ditulis |
 |---|---|---|
 | Group transfer400+600 sesudah current full restore, empat koreksi dan inverse | `aea44fa9`, run40058216568/job120765815354 | PASS9langkah+6kontrol; seluruh group read/replay/empat koreksi/inverse tepat; CP6/advisor/lima gate PASS |
-| Riwayat pembayaran/retur31 dokumen:25+6 dan filter30:25+5, desktop/390px | `a17b34cf`, run40058716148/job120767330087 | INCOMPLETE sebelum kasus: fixture import; Auth/DB/CP6/advisor bersih; firstfailure disimpan, perbaikan menunggu rerun |
-| Mandor correction14 +edge3 +rate11 +guidance6 | `c99ca612`, run40059271805 | Baru berjalan; sumber874 lulus, 34 ID lama tanpa oracle baru |
+| Transfer alokasi31penerimaan lintas25+6, desktop/390px | `28f73c0f`, run40060328159 | Berjalan; admission915/statis lulus, belum bukti runtime |
+| Riwayat pembayaran/retur31 dokumen:25+6 dan filter30:25+5, desktop/390px | `a17b34cf`, run40058716148/job120767330087 | INCOMPLETE sebelum kasus: fixture import; Auth/DB/CP6/advisor bersih; firstfailure disimpan, perbaikan6c3e5a9e/run40059653484 masih berjalan |
+| Mandor correction14 +edge3 +rate11 +guidance6 | `c99ca612`, run40059271805 | PASS34 ID lama, boundary utuh/CP6/advisor/lima gate PASS; Original8561436byte SHA84b45470c44be16befd387a019399f4a311236991bbc32d480156e7bba59ca7c |
 
-Target berikut: terima Original tiga run itu; selesaikan sisa bukti lintas
+Target berikut: terima Original rerun invoice dan transfer lintas halaman; selesaikan sisa bukti lintas
 halaman OW09; petakan pengganti layar CP6 yang dipensiunkan; jalankan daftar
 kualifikasi satu kandidat beserta pembanding CP6 lengkap. **21 kegagalan CP6
 dan empat kasus browser baseline tetap ditampilkan sesuai hasil asli**;

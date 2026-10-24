@@ -1,0 +1,7 @@
+# Five remaining OW09 lists across actual browser pages
+
+Ten independent desktop/390px journeys exercise saved mandor notes, FG adjustment documents, material counts, accessory notes and one FG movement card on the full current A/B installation. This supplements Native8 and Browser19; no old source/oracle is replaced and no product SQL/TSX changes.
+
+Four lists contain31matching rows (25+6); the real accessory UI has50rows per page, so its fixture contains56 (50+6). A status/type filter still spans two pages:30 or55. Each journey checks exact Native UUID order against the public reply, visible DOM row order, next/previous, global natural descending sort, filtered totals/pages, searching a row originally on page2, empty results and Browse reset against an independently read whole-table oracle. FG card DOM UUIDs and Native cumulative physical/available balances stay exact through filtering and sorting.
+
+Synthetic fixture master data and accepted domain commands run only on the loopback browser copy. FG positive adjustments avoid negative stock; drafts do not post. Actual journey actions only read; full current business rows/sequences must remain identical and writer RPC count must be zero. Real Auth cleanup, complete22catalog copy admission, CP6 restoration, advisors and all five package gates remain mandatory. Local checks are not runtime credit. production_go=false, independent_acceptance=false, OW09 whole-scope acceptance remains separate.
