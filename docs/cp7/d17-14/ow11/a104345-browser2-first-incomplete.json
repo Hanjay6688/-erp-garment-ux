@@ -1,0 +1,84 @@
+{
+  "classification": "FIRST_INCOMPLETE_ACTUAL_BROWSER_RESULT_NOT_FULL_OW11_ACCEPTANCE",
+  "candidate_commit": "a1043452fa35400fa25fab9ac9cda81f4275cb41",
+  "run_id": 40053109319,
+  "job_id": 120749930012,
+  "status": "INCOMPLETE",
+  "declared_browser_cases": 2,
+  "aggregate_observed_case_count": 0,
+  "browser_cases": {
+    "OW11_ANALOG_BROWSER_MOBILE_AVAILABLE_ZERO_SIZE_ACCESS": {
+      "status": "PASS",
+      "actual_Auth_PostgREST_browser": true,
+      "real_Native_DONE_snapshot": true,
+      "source_state": "CAPTURED_NOT_CHECKED",
+      "actual_available_zero_and_nine_other_sizes_excluded": true,
+      "actual_anon_foreign_bad_epoch_and_deactivated_denied": true,
+      "actual_dense2000_202000_pages_unique100": false,
+      "actual_reload_same_request_result": false,
+      "actual_K2_expired_refused_and_rows_cleared": false,
+      "no_stock_money_HPP_or_draft_receipt_write_by_reader": true,
+      "no_old_whole_netting": true,
+      "no_horizontal_overflow": true,
+      "viewport": 390,
+      "shots": [
+        "cp6-proof/t3/ANALOG_MOBILE_AVAILABLE_ZERO_REVIEWED.png"
+      ],
+      "selected": false,
+      "reviewed": false,
+      "forecast_applied": false,
+      "full_OW11_acceptance": false,
+      "business_day": {
+        "planned": "2026-10-24",
+        "before": "2026-10-24",
+        "after": "2026-10-24"
+      }
+    }
+  },
+  "first_failure": "Unhandled page.waitForResponse timeout while desktop exact-SKU click was pending; host exited before second case and Auth cleanup. Desktop has no PASS.",
+  "auth_counts": {
+    "before": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "after": [
+      3,
+      3,
+      6,
+      6
+    ],
+    "restored": false
+  },
+  "auth_cleanup_failures": true,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": false,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "original": {
+    "name": "CP7_OW11_ANALOG_BROWSER.json",
+    "bytes": 292966,
+    "sha256": "bca31fcef420c28e1ded26a5866a6fccc85b0fa2d080e1d0ff41b5a1d283120f"
+  },
+  "artifact": {
+    "full_id": 12544930613,
+    "full_bytes": 1703075,
+    "full_sha256": "8ddbdf14ae9750e188eb0f43d3fd99ca7975b5bd7e1d679e0f494ef7aac87975",
+    "json_id": 12544367842,
+    "json_bytes": 43941,
+    "json_sha256": "b538d499271d656039ad5ddabaaa36f6512546385f1af586baf4ad402a5dad6d"
+  },
+  "root_cause_evidence": {
+    "browser": "exact SKU click produced no matching RPC before response timeout; screenshot/desktop failure JSON missing due host exit",
+    "local_reproduction": "Verified 1200-target header with reverse label order: SKU-11 hidden behind first20 of111 matching SKUs; failed before fix, all111 reachable once after fix.",
+    "limitations": "No claim original browser reached catalog pagination/reload/K2 on desktop. Native SQL unchanged."
+  },
+  "production_go": false,
+  "full_OW11_acceptance": false
+}

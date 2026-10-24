@@ -32,13 +32,13 @@ function Workspace({query,onSourceReadStart,onSourceReadEnd,onClose}:Props){
  const seq=useRef(0),active=useRef(false),pageSeq=useRef(0),checkSeq=useRef(0),sleeps=useRef(new Set<{timer:ReturnType<typeof setTimeout>;wake:()=>void}>())
  const[held,setHeld]=useState(()=>readBoundedAnalysisRequest(scope)),[job,setJob]=useState<StagedJob|null>(null),[staged,setStaged]=useState<StagedAnalysis|null>(null),[page,setPage]=useState<AnalysisPage|null>(null)
  const[busy,setBusy]=useState(false),[pageLoading,setPageLoading]=useState(false),[checking,setChecking]=useState(false),[check,setCheck]=useState<StagedSourceCheck|null>(null),[error,setError]=useState(''),[slice,setSlice]=useState(0),[plan,setPlan]=useState<StagedPlanContext|null>(null)
- const[analog,setAnalog]=useState<AnalogReadContext|null>(null),[analogSearch,setAnalogSearch]=useState('')
+ const[analog,setAnalog]=useState<AnalogReadContext|null>(null),[analogSearch,setAnalogSearch]=useState(''),[analogOffset,setAnalogOffset]=useState(0)
  const[refusedBeforeJob,setRefusedBeforeJob]=useState(false)
  const stop=useCallback(()=>{++seq.current;++pageSeq.current;++checkSeq.current;for(const entry of sleeps.current){clearTimeout(entry.timer);entry.wake()}sleeps.current.clear();if(active.current){active.current=false;onSourceReadEnd()}},[onSourceReadEnd])
  const sleep=useCallback((ms:number)=>new Promise<void>(wake=>{const entry={timer:setTimeout(()=>{sleeps.current.delete(entry);wake()},ms),wake};sleeps.current.add(entry)}),[])
  const retire=useCallback((message:string)=>{setStaged(null);setPage(null);setJob(null);setCheck(null);setAnalog(null);setRefusedBeforeJob(false);setError(message)},[])
  const run=useCallback(async(request:BoundedAnalysisRequest,start:boolean)=>{
-  const n=++seq.current;let observed=false;active.current=true;setBusy(true);setError('');setRefusedBeforeJob(false);setStaged(null);setPage(null);setCheck(null);setJob(null);setAnalog(null);setSlice(0);++pageSeq.current;++checkSeq.current;onSourceReadStart()
+  const n=++seq.current;let observed=false;active.current=true;setBusy(true);setError('');setRefusedBeforeJob(false);setStaged(null);setPage(null);setCheck(null);setJob(null);setAnalog(null);setAnalogOffset(0);setSlice(0);++pageSeq.current;++checkSeq.current;onSourceReadStart()
   try{
    const status=await driveBoundedQuantity(client,request,{start,aborted:()=>seq.current!==n,sleep,onStatus:s=>{observed=true;if(seq.current===n)setJob(s)}})
    if(!status||seq.current!==n)return
@@ -78,7 +78,16 @@ function Workspace({query,onSourceReadStart,onSourceReadEnd,onClose}:Props){
  }
  const blocked=busy||pageLoading||checking||plan!==null||analog!==null,canNew=Boolean(staged||refusedBeforeJob||job?.state==='FAILED'||job?.retention?.state==='EXPIRED'),m=staged?.set
  const labels=useMemo(()=>new Map(staged?.header.labels.map(p=>[p.key,`${p.sku} · ${p.name}`])??[]),[staged])
- const analogMatches=useMemo(()=>{const term=analogSearch.trim().toLocaleLowerCase('id-ID');return term?staged?.header.labels.filter(p=>p.sku.toLocaleLowerCase('id-ID').includes(term)||p.name.toLocaleLowerCase('id-ID').includes(term))??[]:[]},[analogSearch,staged])
+ const analogMatches=useMemo(()=>{
+  const term=analogSearch.trim().toLocaleLowerCase('id-ID');if(!term)return[]
+  const exact=[],partial=[]
+  for(const p of staged?.header.labels??[]){
+   const sku=p.sku.toLocaleLowerCase('id-ID')
+   if(sku===term)exact.push(p)
+   else if(sku.includes(term)||p.name.toLocaleLowerCase('id-ID').includes(term))partial.push(p)
+  }
+  return[...exact,...partial]
+ },[analogSearch,staged])
  const rows=page?.items.recommendations??[],visible=rows.slice(slice,slice+50),pageIndex=page?.index??0
  return <section className="native-production-result native-bounded-quantity" aria-label="Kebutuhan seluruh produk"><header><h3>Kebutuhan seluruh produk</h3><button onClick={()=>{stop();onClose()}}>Tutup perhitungan kebutuhan</button></header>
   <p>Perhitungan memakai jadwal terakhir yang sudah disimpan. Isian jadwal yang belum disimpan belum masuk perhitungan.</p>
@@ -89,7 +98,7 @@ function Workspace({query,onSourceReadStart,onSourceReadEnd,onClose}:Props){
   {staged&&m?<>
    <p>Data per {formatCp6WibDateTime(m.reference.capturedAt)} · {stagedNumber(m.targetsTotal)} target · jadwal versi {staged.header.analysisHeader.scenario.version}.</p>
    <p>Status seluruh target: {stagedNumber(m.totals.recommendations.ACTIVE)} aktif, {stagedNumber(m.totals.recommendations.PAUSED)} ditunda, {stagedNumber(m.totals.recommendations.STOPPED)} dihentikan, {stagedNumber(m.totals.recommendations.OTHER)} status lain. Kebijakan produksi belum diperiksa: {stagedNumber(m.totals.policyUnreviewed)} target.</p>
-   <details><summary>Cari produk untuk melihat pembanding</summary><label>Cari SKU atau nama produk yang memerlukan pembanding<input type="search" value={analogSearch} disabled={blocked} onChange={e=>setAnalogSearch(e.target.value)}/></label>{analogSearch.trim()?<><p>{analogMatches.length} produk ditemukan dalam seluruh hasil perhitungan. Maksimal 20 pilihan ditampilkan; persempit pencarian bila perlu.</p>{analogMatches.slice(0,20).map(p=><p key={p.key}>{p.sku} · {p.name} <button disabled={blocked} onClick={()=>setAnalog(analogReadContext(staged,actor,p.key))}>Lihat pembanding {p.sku}</button></p>)}</>:null}</details>
+   <details><summary>Cari produk untuk melihat pembanding</summary><label>Cari SKU atau nama produk yang memerlukan pembanding<input type="search" value={analogSearch} disabled={blocked} onChange={e=>{setAnalogSearch(e.target.value);setAnalogOffset(0)}}/></label>{analogSearch.trim()?<><p>{analogMatches.length} produk ditemukan dalam seluruh hasil perhitungan. Pilihan {analogMatches.length?analogOffset+1:0}–{Math.min(analogOffset+20,analogMatches.length)}. SKU yang sama persis ditampilkan lebih dahulu.</p>{analogMatches.slice(analogOffset,analogOffset+20).map(p=><p key={p.key} data-analog-choice={p.key}>{p.sku} · {p.name} <button disabled={blocked} onClick={()=>setAnalog(analogReadContext(staged,actor,p.key))}>Lihat pembanding {p.sku}</button></p>)}<nav aria-label="Halaman pencarian produk"><button disabled={blocked||analogOffset===0} onClick={()=>setAnalogOffset(n=>Math.max(0,n-20))}>20 produk sebelumnya</button><button disabled={blocked||analogOffset+20>=analogMatches.length} onClick={()=>setAnalogOffset(n=>n+20)}>20 produk berikutnya</button></nav></>:null}</details>
    <button disabled={blocked} onClick={()=>void checkSource()}>Periksa sumber kebutuhan</button>
    {checking?<p role="status">Memeriksa sumber kebutuhan…</p>:null}
    {check?<p className={check.sourceState==='UNCHANGED'?'native-demand-current':'native-demand-stale'}>Pemeriksaan {formatCp6WibDateTime(check.checkedAt)}: {check.sourceState==='UNCHANGED'?'sama dengan data saat itu.':'sumber sudah berubah; hitung kebutuhan terbaru.'}</p>:null}

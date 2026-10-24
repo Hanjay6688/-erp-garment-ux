@@ -16,11 +16,21 @@ async function quantity(ui,page,f){
  await ui.expect(q.locator('[data-quantity-target]').first()).toBeVisible()
  return q
 }
-async function reply(page,action){const pending=page.waitForResponse(r=>r.request().method()==='POST'&&r.url().endsWith('/rpc/'+RPC));await action();const r=await pending;return{status:r.status(),args:r.request().postDataJSON(),body:await r.json()}}
+export async function reply(page,action){
+ // Observe both promises immediately: a slow/failed click must never leave the
+ // response timeout unhandled and terminate the host before Auth cleanup.
+ const[r]=await Promise.all([
+  page.waitForResponse(r=>r.request().method()==='POST'&&r.url().endsWith('/rpc/'+RPC)),
+  Promise.resolve().then(action),
+ ])
+ return{status:r.status(),args:r.request().postDataJSON(),body:await r.json()}
+}
 async function open(ui,page,q,f){
  await q.locator('summary').filter({hasText:'Cari produk untuk melihat pembanding'}).click()
  await q.getByLabel('Cari SKU atau nama produk yang memerlukan pembanding',{exact:true}).fill(f.sku)
- const read=await reply(page,()=>q.getByRole('button',{name:'Lihat pembanding '+f.sku,exact:true}).click())
+ const choice=q.locator(`[data-analog-choice="${f.target_key}"]`)
+ await ui.expect(choice).toBeVisible()
+ const read=await reply(page,()=>choice.getByRole('button',{name:'Lihat pembanding '+f.sku,exact:true}).click())
  assert.equal(read.status,200,JSON.stringify(read.body))
  const a=q.getByRole('region',{name:'Kandidat produk pembanding',exact:true})
  await ui.expect(a.locator('[data-analog-target]').first()).toBeVisible()

@@ -1206,3 +1206,24 @@ rerunsolelyforgreenbadge; componentPASS distinguishedfromwholeworkflowfailure.
 Browser2nextwillusecorrectedwrapper andqualifyactual13stage/Auth/UI. Source
 UI255/16+TS/CSS64 assection69. NoAuth/browser/selection/forecast/fullOW11yet.
 Parent5/16; firstNative4failureandthiswrapperfailureOriginal/logretained.
+
+## 71. Continuation B: exact-SKU search and failed browser cleanup (24 Oktober2026 WIB)
+
+Current browser a1043452/run40053109319/job120749930012 is INCOMPLETE, not PASS:
+mobile passed, desktop waitForResponse timed out before a response while the
+click was pending. Unhandled rejection terminated the host before Auth cleanup;
+actual Auth counts0/0/0/0→3/3/6/6; package primary_unchanged/writer_runtime false.
+Full Original and both archive hashes retained in a104345-browser2-first-incomplete.json.
+Do not replace its aggregate0 case count with the one observed mobile PASS.
+
+Local adversarial reproduction with1200 verified labels/111 prefix matches:
+exact SKU-11 can be hidden after20 choices. Fix ranks exact SKU matches first
+without dropping identities; all matches now accessible in pages20 and query
+change resets pagination. Search remains across every verified header label.
+Browser response/action promises now observed together, so either failure is
+caught, original diagnostics recorded and host cleanup reached. Three Node
+controls include early response timeout and late rejection after a failed click.
+Native SQL/47 backend sources, money/stock/HPP/source/8s oracles unchanged.
+Same Browser2 is rerun for this product/harness fix; no reduced cases, no mocks.
+OW11 confirmation/model selection still OPEN; A default registry/fullchain/restore
+untouched. B continues on astra/d17-14-produksi only, no additional agents.

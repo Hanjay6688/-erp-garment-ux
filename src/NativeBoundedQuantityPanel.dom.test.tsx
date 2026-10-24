@@ -103,3 +103,27 @@ it('searches all verified product labels beyond the displayed50 suggestions befo
  expect(button('Lihat pembanding SKU-1199')).toBeTruthy()
  expect(container.querySelectorAll('[data-quantity-target]')).toHaveLength(50)
 })
+
+it('keeps an exact SKU selectable after more than20 prefix matches and makes every match reachable',async()=>{
+ f=await stagedRun({targets:1200,pageSizes:[500,450,250],reverseLabels:true})
+ persistBoundedAnalysisRequest(scope,request());client.rpc.mockImplementation(server())
+ await render();await until(()=>container.querySelectorAll('tbody tr').length===50)
+ const input=container.querySelector('input[type="search"]')as HTMLInputElement
+ const setter=Object.getOwnPropertyDescriptor(HTMLInputElement.prototype,'value')!.set!
+ await act(async()=>{setter.call(input,'  sku-11  ');input.dispatchEvent(new Event('input',{bubbles:true}))})
+ expect(container.textContent).toContain('111 produk ditemukan dalam seluruh hasil perhitungan')
+ const choices=()=>[...container.querySelectorAll<HTMLButtonElement>('button')].filter(b=>b.textContent?.startsWith('Lihat pembanding SKU-'))
+ expect(choices()).toHaveLength(20);expect(choices()[0].textContent).toBe('Lihat pembanding SKU-11')
+ const seen=new Set<string>()
+ while(true){
+  for(const choice of choices()){expect(seen.has(choice.textContent!)).toBe(false);seen.add(choice.textContent!)}
+  if(button('20 produk berikutnya').disabled)break
+  await click('20 produk berikutnya')
+ }
+ expect(seen.size).toBe(111)
+ await act(async()=>{setter.call(input,'SKU-1199');input.dispatchEvent(new Event('input',{bubbles:true}))})
+ expect(choices()).toHaveLength(1);expect(choices()[0].textContent).toBe('Lihat pembanding SKU-1199')
+ expect(button('20 produk sebelumnya').disabled).toBe(true)
+ expect(readBoundedAnalysisRequest(scope).pending?.id).toBe(f.pageSet.request_id)
+ expect(client.rpc.mock.calls.some(([name])=>name==='erp_cp7_request_bounded_staged_analysis_v1')).toBe(false)
+})

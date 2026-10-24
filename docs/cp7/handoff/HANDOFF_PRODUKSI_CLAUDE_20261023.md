@@ -34,6 +34,17 @@ nilai kebijakan owner tidak dikarang. Uji penulis bukan audit independen/GO.
 
 ## Status aktif dan tindakan berikut
 
+Update takeover24Oktober: source head a1043452 recovered. Browser2 actual run40053109319
+FAILED/INCOMPLETE: mobile PASS, desktop unhandled response timeout; Auth cleanup
+not reached, package2gates false. Original retained at ow11/a104345-browser2-first-incomplete.json.
+Exact-SKU hidden after20 prefix matches reproduced locally and fixed; every
+match paginates20 with exact SKU first. Response and click failures observed
+concurrently, preserving original error and cleanup. Same Browser2 must pass
+on new candidate; do not report old source as browser-qualified. SQL/backend
+unchanged. Continue OW11 confirmation/versioning/one-engine after this check.
+See coordination71. Earlier descriptions below are historical where superseded.
+
+
 **Checkpoint quantity layar PASS.** Kandidat5c40e455/sourcea4317635,
 [run40044408796](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/40044408796)
 /job120722693609 PASS2/2, Original lengkap telah diperiksa sendiri.

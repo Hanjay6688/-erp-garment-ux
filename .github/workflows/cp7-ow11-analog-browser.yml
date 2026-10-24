@@ -1,4 +1,4 @@
-# Qualify source0e613308: actual Native analog advisory on mobile/desktop, correct package gate propagation.
+# Qualify exact-SKU pagination and safe response waits with unchanged Native analog advisory oracles.
 name: CP7 Analog Advisory Actual Browser2
 'on':
   push:
@@ -175,6 +175,8 @@ jobs:
         src/NativeDemandHistoryPanel.dom.test.tsx src/nativeDemandHistory.test.ts src/nativeBoundedAnalysis.test.ts src/nativeBoundedQuantity.test.ts src/NativeBoundedQuantityPanel.dom.test.tsx src/nativeProductAnalog.test.ts src/NativeProductAnalogPanel.dom.test.tsx src/NativeDemandInitial.integration.dom.test.tsx
         src/NativeCuttingSuggestionsPanel.dom.test.tsx src/nativeCuttingSuggestion.test.ts src/NativePlanDraftPanel.staged.dom.test.tsx
         src/ConnectedCuttingAutoPo.dom.test.tsx src/ConnectedProductionRecovery.dom.test.tsx
+
+        node --test scripts/cp7_ow11_analog_browser_helper.test.mjs
 
         node --check scripts/cp7_ow13c_schedule_browser.mjs
 
