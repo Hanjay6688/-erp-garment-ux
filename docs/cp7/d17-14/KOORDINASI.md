@@ -1512,3 +1512,37 @@ Notes/materialtetap31/filter30;aksesori56/filter55. UUID/naturalorder/DOM/full
 rowssequence/prefixbalance tidak dilonggarkan; SQLproduk/oldoracles tetap.
 Admission915/AST/NodePASS, rerun diperlukan. Receipt owner-lists-23ec565d-first-fixture.json.
 Legacy31run40061341301 dan strengthenedtransfer2run40061613739 tetap berjalan.
+
+## A — current UI31, transfer final2 dan daftar10 PASS (24 Oktober 2026)
+
+Tiga Original terbaru terminal PASS dan byte+SHA diverifikasi:
+
+- Legacy31head5681edbd/run40061341301/job120775316058, artifact12547777967;
+  Original648018byte/SHAcbfd3ac9c94d3e810099b23fc3913b47379a44501c3522b33b29398637524918.
+  Seluruh31 ID komposisi lama tidak diubah. Dua connected draft successors
+  termasuk; pensiun dua simulasi manual13 tetap memerlukan auditor. Ini31
+  retained cases,0kasus baru; bukan seluruh Native/race/HTTP CP6.
+- Transfer2head535c97af/run40061613739/job120776139818, artifact12547527921;
+  Original506069byte/SHA8d6115b2e3185e9740e07285e12156364efdce0593973fc9e2bf5c21cec5be31.
+  Desktop/HP: pilihan31penerimaan25+6,400+600→250+500→inverse0; halaman2
+  dan layar akhir sesudah refresh diperiksa, tombol transfer baru siap.
+  Bukti28f73c0f tetap. Tidak ada perubahan produk karena timing gambar awal.
+- Daftar10headfefb20f3/run40062079889/job120777559166, artifact12547624512;
+  Original513580byte/SHAd7fdcd9e931783262aea0d9fbfee129e87836a51073c8497b5e4d688bb571c70.
+  Nota31/filter30,FG31/filter29,hitung31/filter30,aksesori56/filter55,
+  kartuFG32/filter31. UUID Native/nomorDOM/urutan global/halaman2/kosong/reset
+  tepat, saldo prefix tepat,0writerRPC dan fullrows/sequences tidak berubah.
+  Firstfailure23ec tetap; satu inverse Native sah membuat fixture dua jenis.
+
+Ketiganya Auth0000pulih,DB0,console0,host0/RUN_COMPLETE,CP6/advisor dan lima
+ gate paket PASS. Receipt lengkap di ow15/, README OW06/OW09 diperbarui agar
+ tidak lagi menyebut bukti current belum dijalankan atau menunggu Claude.
+43/43 pada tiga run ini adalah bukti penulis, bukan43scope selesai.
+Tidak ada run aktif dari kelompok ini. Semua gambar yang disebut di receipt
+sudah dilihat; tidak ada klaim seluruh layar ideal hanya karena screenshot.
+
+B terakhir tetap a1043452, integrasi resmi tetap a255e48f; tidak ada merge
+atau perbaikan B yang diasumsikan. FullP21 seluruh uang pada current A/B dan
+Native286 belum dijalankan oleh tambahan ini. Peta12batas arsip CP6,21fail+4
+browser baseline dan penerimaan satu kandidat tetap terbuka. Formal5/16,
+production_go=false; main/kandidat audit/hosted/WA nyata tidak disentuh.
