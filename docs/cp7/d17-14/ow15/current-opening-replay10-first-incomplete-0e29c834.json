@@ -1,0 +1,40 @@
+{
+  "run": 40082679978,
+  "job": 120839282338,
+  "artifact": 12556022938,
+  "zip_bytes": 1955764,
+  "zip_sha256": "affe5eb4fa86fe793b0f421ac6a66eaa8876ea0717574ff2b0fd60108e5d4b16",
+  "label": "CP7_CURRENT_OPENING_REPLAY_NATIVE10",
+  "status": "INCOMPLETE",
+  "qualification_commit": "0e29c8343ec725279c01e44e1efe646731ba74be",
+  "report": {
+    "name": "CP7_CURRENT_OPENING_REPLAY_NATIVE10.json",
+    "raw_bytes": 1965605,
+    "raw_sha256": "74d48c0d772bc8c9a0e419fe148a1752fd2b925cdb485e8c12a543873b2151f6"
+  },
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "baseline": {
+    "PASS": 10
+  },
+  "current": {},
+  "execution_count": 10,
+  "cp6_restored": false,
+  "advisor_gate": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "new_business_case_credit": 0,
+  "error": "could not obtain lock on relation \"erp.attendance_records\"",
+  "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/current-opening-replay-qualification/probe.py\", line 101, in run\n    report['initial_preuse_inverse']=installation.rollback_preuse(cur,STATE)\n                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_current_return_installation.py\", line 74, in rollback_preuse\n    corrected=delta.rollback_preuse(cur,state['delta'])\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_draft_return_isolation.py\", line 88, in rollback_preuse\n    catalog._lock_tables(cur)\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow04_restore_bundle.py\", line 90, in _lock_tables\n    cur.execute(sql.SQL('lock table {} in share mode nowait').format(sql.SQL(',').join(sql.Identifier(*n)for n in names)))\n  File \"/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.LockNotAvailable: could not obtain lock on relation \"erp.attendance_records\"\n",
+  "restore_error": "'advisors_with_cp7'",
+  "restore_traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/current-opening-replay-qualification/probe.py\", line 161, in run\n    report['advisor_delta']=advisor_delta(advisors(package.boundary.PG),report['advisors_with_cp7'])\n                                                                        ~~~~~~^^^^^^^^^^^^^^^^^^^^^\nKeyError: 'advisors_with_cp7'\n",
+  "baseline_all22_rows_sequences_exact": true,
+  "baseline_advisors_equal": true,
+  "observed_current_cases": 0,
+  "disposition": "Baseline10 PASS. Initial composed preuse inverse could not obtain SHARE NOWAIT lock on attendance_records, before current cases. Complete source rows/sequences/full22 and advisors were restored, but the later diagnostic assumed advisors_with_cp7 existed and reported cp6_restored/advisor_gate false. Preserve original status; add bounded qualifier-only lock acquisition and safe partial-failure advisor reporting. Product locks and business oracles stay unchanged."
+}

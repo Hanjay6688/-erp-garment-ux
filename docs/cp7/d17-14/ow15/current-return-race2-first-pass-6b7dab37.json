@@ -1,0 +1,164 @@
+{
+  "run": 40082444870,
+  "job": 120838591345,
+  "artifact": 12556210979,
+  "zip_bytes": 1972458,
+  "zip_sha256": "cd3c8e9d64fef0e8f98fe9360cdfeaaaba45dfb4dde7f9e843261de9873a8866",
+  "label": "CP7_CURRENT_RETURN_RACE2",
+  "status": "PASS",
+  "qualification_commit": "6b7dab37d58523865c9d6e724c87d5b10d4b1aa0",
+  "report": {
+    "name": "CP7_CURRENT_RETURN_RACE2.json",
+    "raw_bytes": 1707621,
+    "raw_sha256": "4a76ae4fc78dfabd0049f36a7f5dbd8bbda5dc2b05250fd6d8cd25c38cec8b95"
+  },
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "baseline": {
+    "PASS": 2
+  },
+  "current": {
+    "PASS": 2
+  },
+  "execution_count": 4,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "production_go": false,
+  "independent_acceptance": false,
+  "new_business_case_credit": 0,
+  "complete_preuse_removal": {
+    "contract": "cp7.current-AB-with-draft-return-isolation.v1",
+    "status": "EXACT_FULL_PREUSE_INVERSE",
+    "full22_preinstall_equal": true,
+    "all_rows_and_sequences_preinstall_equal": true,
+    "used_guard_before_DDL": true,
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "copy_catalog_admissions": [
+    {
+      "classification": "LOCAL_RACE_TEMPLATE_COPY_AUTHORITY_PRESERVATION",
+      "before_changed_catalog_members": {
+        "database_authority": [
+          "CURRENT"
+        ]
+      },
+      "all22_groups_equal_original_install": true,
+      "exact_catalog_sha256": "daf3dad88308f4a6c949fb47e609d4c98ff07666d2c082e40c4592cb06813b3c"
+    },
+    {
+      "classification": "LOCAL_RACE_TEMPLATE_COPY_AUTHORITY_PRESERVATION",
+      "before_changed_catalog_members": {
+        "database_authority": [
+          "CURRENT"
+        ]
+      },
+      "all22_groups_equal_original_install": true,
+      "exact_catalog_sha256": "daf3dad88308f4a6c949fb47e609d4c98ff07666d2c082e40c4592cb06813b3c"
+    },
+    {
+      "classification": "LOCAL_RACE_TEMPLATE_COPY_AUTHORITY_PRESERVATION",
+      "before_changed_catalog_members": {
+        "database_authority": [
+          "CURRENT"
+        ]
+      },
+      "all22_groups_equal_original_install": true,
+      "exact_catalog_sha256": "e9754f5b8b83f07c1dc22fab205a1597b5b64ca699f0bb37a60e5a1493ffed35"
+    },
+    {
+      "classification": "LOCAL_RACE_TEMPLATE_COPY_AUTHORITY_PRESERVATION",
+      "before_changed_catalog_members": {
+        "database_authority": [
+          "CURRENT"
+        ]
+      },
+      "all22_groups_equal_original_install": true,
+      "exact_catalog_sha256": "e9754f5b8b83f07c1dc22fab205a1597b5b64ca699f0bb37a60e5a1493ffed35"
+    }
+  ],
+  "cases": {
+    "baseline": {
+      "SALE_REVERSE_COMMIT_RETURN_ATOMIC_CURRENT_GUARD": {
+        "observed_lock": [
+          "Lock",
+          "advisory",
+          [
+            245
+          ]
+        ],
+        "final_state": [
+          "REVERSED",
+          0,
+          0
+        ],
+        "expected_refusal_primary": "Original sale must be active/posted",
+        "first_reversal_only_data_sha256": "3670dc39d232b081eaf93e4c95d70172821caf9e0e899c74fe6510e83bcd4bbd",
+        "refused_return_data_sha256": "3670dc39d232b081eaf93e4c95d70172821caf9e0e899c74fe6510e83bcd4bbd",
+        "first_reversal_only_catalog_sha256": "daf3dad88308f4a6c949fb47e609d4c98ff07666d2c082e40c4592cb06813b3c",
+        "refused_return_catalog_sha256": "daf3dad88308f4a6c949fb47e609d4c98ff07666d2c082e40c4592cb06813b3c",
+        "catalog_group_count": 22,
+        "all22_equal": true,
+        "refused_return_zero_persisted_effects": true
+      },
+      "SALE_REVERSE_ABORT_RETURN_RETAINED_SUCCESS": {
+        "observed_lock": [
+          "Lock",
+          "advisory",
+          [
+            278
+          ]
+        ],
+        "final_state": [
+          "POSTED",
+          2,
+          1
+        ]
+      }
+    },
+    "races": {
+      "SALE_REVERSE_COMMIT_RETURN_ATOMIC_CURRENT_GUARD": {
+        "observed_lock": [
+          "Lock",
+          "advisory",
+          [
+            564
+          ]
+        ],
+        "final_state": [
+          "REVERSED",
+          0,
+          0
+        ],
+        "expected_refusal_primary": "CP7_NATIVE_EMPTY_ACTIVE_SOURCE_REQUIRED",
+        "first_reversal_only_data_sha256": "a4fac90aff00942b01095098c2673f851bdeee1b8ab200cdfb3fb33fb1a0d872",
+        "refused_return_data_sha256": "a4fac90aff00942b01095098c2673f851bdeee1b8ab200cdfb3fb33fb1a0d872",
+        "first_reversal_only_catalog_sha256": "e9754f5b8b83f07c1dc22fab205a1597b5b64ca699f0bb37a60e5a1493ffed35",
+        "refused_return_catalog_sha256": "e9754f5b8b83f07c1dc22fab205a1597b5b64ca699f0bb37a60e5a1493ffed35",
+        "catalog_group_count": 22,
+        "all22_equal": true,
+        "refused_return_zero_persisted_effects": true
+      },
+      "SALE_REVERSE_ABORT_RETURN_RETAINED_SUCCESS": {
+        "observed_lock": [
+          "Lock",
+          "advisory",
+          [
+            606
+          ]
+        ],
+        "final_state": [
+          "POSTED",
+          2,
+          1
+        ]
+      }
+    }
+  },
+  "disposition": "Both baseline and corrected current pass commit and abort schedules. Refused second return has exact all-row/all-sequence/full22 equality against first reversal alone. Original READY/final-state oracles and strict full preuse inverse pass. Old Race36 INCOMPLETE remains unchanged."
+}
