@@ -1,0 +1,47 @@
+{
+  "status": "LOCAL_HISTORY_USED_RESTORE_PREPARATION_PASS_NOT_RUNTIME",
+  "required_steps": [
+    "EXACT_INSTALL_AND_PREUSE_INVERSE",
+    "COMMITTED_RETURN_AND_ANALOG_CHOICE",
+    "USED_INVERSE_REFUSED_BEFORE_DDL",
+    "FULL_USED_BACKUP_RESTORED",
+    "RESTORE_NEGATIVE_CONTROLS",
+    "FULL_RESTORE_AFTER_NEGATIVE_WRITE",
+    "ONLY_LOCAL_NATIVE_OID_SEAL",
+    "EXACT_READS_REPLAY_CLEAR_AND_NEXT_RETURN"
+  ],
+  "negative_controls": [
+    "WRONG_TRUSTED_HASH",
+    "CHANGED_COMPOSED_ENTRYPOINT_SOURCE",
+    "WRONG_DATABASE",
+    "CHANGED_ANALOG_CHOICE_SOURCE",
+    "MISSING_CATALOG_GROUP",
+    "DELTA_FUNCTION_METADATA_DRIFT",
+    "FINANCE_FACADE_AUTHORITY_METADATA_DRIFT",
+    "CHANGED_MODEL_V2_SOURCE",
+    "MODEL_POLICY_AUTHORITY_METADATA_DRIFT",
+    "MODEL_V2_AUTHORITY_METADATA_DRIFT",
+    "CHANGED_DATED_TARGET_SOURCE",
+    "DATED_TIMELINE_METADATA_DRIFT",
+    "RAW_OPERATIONAL_COMPILER_METADATA_DRIFT",
+    "IMMUTABLE_HISTORY_FUNCTION_METADATA_DRIFT",
+    "NEW_HISTORY_CAPTURE_DRIFT",
+    "DRAFT_ROW_DRIFT",
+    "CHANGED_SCOPED_HISTORY_SOURCE",
+    "CHANGED_IMMUTABLE_HISTORY_RUNTIME_SOURCE"
+  ],
+  "unchanged_predecessor_fixtures": [
+    "fixture.py",
+    "opening_fixture.py",
+    "finance_fixture.py",
+    "model_fixture.py",
+    "target_fixture.py"
+  ],
+  "actual_roots_to_retain": 2,
+  "post_restore_checks_per_root": 4,
+  "workflow_steps": 49,
+  "shell_steps_syntax_checked": 38,
+  "SOURCE_absent": true,
+  "actual_database_execution": false,
+  "production_go": false
+}
