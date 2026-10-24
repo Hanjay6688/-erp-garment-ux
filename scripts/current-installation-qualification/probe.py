@@ -127,7 +127,7 @@ def run():
             # The generator reads the actually committed current installation.
             # Check every business row, sequence and all22 fields around it.
             gen_before=catalog._data(cur);gen_catalog=catalog._catalog_rows(cur)
-            report['generated_types']=types_export.generate(package.boundary.ADMIN,
+            report['generated_types']=types_export.generate(package.boundary.PG,
                 OUT.with_name('database.current-disposable.generated.ts'))
             assert catalog._data(cur)==gen_before and catalog._catalog_rows(cur)==gen_catalog
             installation.verify(cur,state)
@@ -144,7 +144,9 @@ def run():
             assert Decimal(str(saved['evaluation']['point']))==Decimal('500.123456')
             assert fabric.formula.business(cur)==business,'B_POLICY_CHANGED_NATIVE_FINANCE_OR_STOCK'
             bounded_used=used.create(cur,today)
-            payment_before=dump.create.state(cur,f);policy_before=fabric.formula.material_evaluation(cur,g['material'])
+            report['payment_read_zone_before']=cur.execute('show TimeZone').fetchone()[0]
+            with catalog._catalog(cur):payment_before=dump.create.state(cur,f)
+            policy_before=fabric.formula.material_evaluation(cur,g['material'])
             cur.execute('set constraints all immediate')
             if granted:cur.execute('revoke usage on schema erp from authenticated')
             conn.commit();installation.verify(cur,state)
@@ -181,7 +183,11 @@ def run():
             assert catalog._catalog_rows(cur)['functions'][product.predecessor.quote.SIGNATURE]==state['after']['functions'][product.predecessor.quote.SIGNATURE]
             conn.commit();step(STEPS[7],receipt=rebound,quote_definition_metadata_exact=True)
             granted,_=database._foundation(cur)
-            assert dump.create.state(cur,f)==payment_before
+            report['payment_read_zone_after']=cur.execute('show TimeZone').fetchone()[0]
+            with catalog._catalog(cur):payment_after=dump.create.state(cur,f)
+            report['payment_read_comparison']={k:dict(before=payment_before[k],after=payment_after[k])
+                for k in payment_before if payment_before[k]!=payment_after[k]}
+            assert payment_after==payment_before,('RESTORED_SUPPLIER_PAYMENT_CHANGED',report['payment_read_comparison'])
             assert fabric.formula.material_evaluation(cur,g['material'])==policy_before
             bounded_replay=used.after_restore(cur,bounded_used)
             held=catalog._data(cur)

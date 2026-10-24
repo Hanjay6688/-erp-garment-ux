@@ -17,7 +17,9 @@ REQUIRED=('erp_cp7_get_staged_production_schedule_v1',
 def generate(url,out):
     info=conninfo_to_dict(url)
     if info.get('host')not in('127.0.0.1','localhost') or info.get('dbname')!='cp6_rollback' \
-            or info.get('user')!='postgres' or info.get('port')!='54322':
+            or info.get('user')!='postgres' or info.get('port')!='54322' \
+            or info.get('hostaddr')not in(None,'127.0.0.1') \
+            or any(key in info for key in ('service','servicefile')):
         raise ValueError('GENERATED_TYPES_DISPOSABLE_DATABASE_REQUIRED')
     version=subprocess.run(['supabase','--version'],capture_output=True,check=True).stdout.decode().strip()
     if version!=CLI_VERSION:raise ValueError('GENERATED_TYPES_PINNED_CLI_REQUIRED')
