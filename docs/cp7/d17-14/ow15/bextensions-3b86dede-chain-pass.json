@@ -1,0 +1,65 @@
+{
+  "status": "PASS",
+  "head": "3b86dedee440f1cd9bc3cafb17371caa96679a01",
+  "run_id": 40003304641,
+  "job_id": 120584729719,
+  "run_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/40003304641",
+  "artifact_id": 12522914578,
+  "zip_bytes": 3509365,
+  "zip_sha256": "b845eb71b7a02881289d4f948be20484beb529d096f1bff8cbe7b388a29669c8",
+  "original": {
+    "name": "CP7_B_EXTENSIONS_A_CHAIN_RESTORE.json",
+    "bytes": 231076,
+    "sha256": "5c08ee088a92ec6604790848e081f0ccbd389437627575ee488dbc046b79fd84",
+    "status": "PASS",
+    "steps": [
+      [
+        "INSTALL_ALL22",
+        "PASS"
+      ],
+      [
+        "PREUSE_EXACT_RESTORE",
+        "PASS"
+      ],
+      [
+        "REINSTALL_ALL22",
+        "PASS"
+      ],
+      [
+        "COMMITTED_A_PAYMENT_B_FABRIC",
+        "PASS"
+      ],
+      [
+        "GLOBAL_USED_GUARD_BEFORE_DDL",
+        "PASS"
+      ],
+      [
+        "FULL_USED_BACKUP_RESTORED",
+        "PASS"
+      ],
+      [
+        "RESTORE_NEGATIVE_CONTROLS",
+        "PASS"
+      ],
+      [
+        "LOCAL_OID_BINDING_ONLY",
+        "PASS"
+      ],
+      [
+        "EXACT_A_B_READS_AND_UUID_REPLAY",
+        "PASS"
+      ]
+    ],
+    "counts": null,
+    "cp6_restored": true,
+    "advisor_gate": true,
+    "required_case_ids_pass": null,
+    "required_steps_pass": true,
+    "error": null,
+    "restore_error": null
+  },
+  "production_go": false,
+  "independent_acceptance": false,
+  "full_AB_chain_qualified": false,
+  "scope": "Exact committed used recovery preflight on named source; not full business qualification"
+}

@@ -1,0 +1,53 @@
+{
+  "status": "PASS",
+  "head": "5f1e0de1f9725fe2d0c19c143817deb33ed3bee7",
+  "run_id": 40002586422,
+  "job_id": 120582231896,
+  "run_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/40002586422",
+  "artifact_id": 12524280140,
+  "zip_bytes": 3484328,
+  "zip_sha256": "28f4de3ea46c77a301a24ff042b67b509c3406f32141f92ad883d4b65d4b9f23",
+  "original": {
+    "name": "CP7_P21_CURRENT_CHAIN_REHEARSAL.json",
+    "bytes": 404470,
+    "sha256": "d14b5e6fd48dfe67ad8752c4c5e85dc4188abdf74abca1623ba910925e95efc6",
+    "status": "PASS",
+    "steps": [
+      [
+        "COMMITTED_CURRENT_APPLY_REFUND_CORRECTION_CHAINS",
+        "PASS"
+      ],
+      [
+        "EXACT_FULL_DUMP_AND_FRESH_RESTORE",
+        "PASS"
+      ],
+      [
+        "RESTORE_BINDING_REFUSAL_CONTROLS",
+        "PASS"
+      ],
+      [
+        "VERIFIED_CURRENT_CENSUS_REBIND",
+        "PASS"
+      ],
+      [
+        "EXACT_RESTORED_READS_AND_OLD_RECEIPT_REPLAYS",
+        "PASS"
+      ],
+      [
+        "RESTORED_NAMED_UNDOS_AND_RETURN_INVERSES",
+        "PASS"
+      ]
+    ],
+    "counts": null,
+    "cp6_restored": true,
+    "advisor_gate": true,
+    "required_case_ids_pass": null,
+    "required_steps_pass": true,
+    "error": null,
+    "restore_error": null
+  },
+  "production_go": false,
+  "independent_acceptance": false,
+  "full_AB_chain_qualified": false,
+  "scope": "Exact committed used recovery preflight on named source; not full business qualification"
+}
