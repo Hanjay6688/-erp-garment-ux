@@ -1,0 +1,39 @@
+{
+  "recorded_at_utc": "2026-10-25T13:48:38.261209+00:00",
+  "scope": "Writer visual review of three exact target-v2 viewport screenshots plus overview contact sheets",
+  "artifact_id": 12600594822,
+  "source_head": "055cbc9ab2458ccf1c88fa224f568ef5111f6eae",
+  "screenshots": [
+    {
+      "name": "MODEL_TARGET_V2_MOBILE_TARGET.png",
+      "bytes": 94510,
+      "sha256": "087488f82fabde7b76f0d71331b72a809eb3e81c2be7e1c582307ecfb6080ce7"
+    },
+    {
+      "name": "MODEL_TARGET_V2_MOBILE_ACCESS_REVOKED.png",
+      "bytes": 80690,
+      "sha256": "d9179d2e587eb0d3020a6f94593adf11b773fb0fa021cd9c24e3abe1323f5525"
+    },
+    {
+      "name": "MODEL_TARGET_V2_DESKTOP_TARGET.png",
+      "bytes": 231250,
+      "sha256": "a3e60e63ee0127a1a76436307c7de02edd69860d86ca51d0ef84dfe454f8c3b4"
+    }
+  ],
+  "observed": [
+    "Synthetic test data explicitly labelled.",
+    "Own product sales 0 PCS / 0 available days presented separately from comparator history.",
+    "Mobile comparator 1 PCS / 3 available days, scale 1, planned target 1 PCS.",
+    "Desktop comparator 1 PCS / 1 available day, scale 0.5, planned target 2 PCS; one candidate displayed.",
+    "Candidate selection described as explicit, with model/brand similarity limits.",
+    "Revoked mobile viewport omits the privileged target panel; ordinary production cards remain visible.",
+    "Inspected target text is legible and wraps within the viewport."
+  ],
+  "limits": [
+    "Legacy full-page contact sheets reviewed for broad layout only; no claim of reading all legacy text.",
+    "DOM access revocation is established by the runtime Original, not screenshots alone.",
+    "Writer review only; no independent acceptance or production approval."
+  ],
+  "production_go": false,
+  "independent_acceptance": false
+}

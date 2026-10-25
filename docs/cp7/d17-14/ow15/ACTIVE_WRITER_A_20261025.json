@@ -1,5 +1,5 @@
 {
-  "recorded_at_utc": "2026-10-25T13:19:12.696485+00:00",
+  "recorded_at_utc": "2026-10-25T13:48:38.261209+00:00",
   "role": "A finance writer/integrator replacing Claude",
   "slogan": [
     "VENI. VIDI. VICI. ERP. \u2014 I CONQUERED ERP.",
@@ -30,17 +30,6 @@
       "actual_originals": 2,
       "complete_local_source_admission": "PASS",
       "execution_branch": "astra-a/d17-14-versioned-target-cron-20261025"
-    },
-    {
-      "scope": "Current versioned browser",
-      "head": "055cbc9ab2458ccf1c88fa224f568ef5111f6eae",
-      "run_id": 40195881993,
-      "job_id": 121176482740,
-      "status": "CI_IN_PROGRESS",
-      "source_pins": 3477,
-      "actual_originals": 3,
-      "complete_local_source_admission": "PASS",
-      "execution_branch": "astra-a/d17-14-versioned-target-browser-20261025"
     },
     {
       "scope": "Current versioned finance",
@@ -1650,5 +1639,41 @@
       }
     },
     "production_go": false
+  },
+  "actual_current_versioned_followups": {
+    "browser": {
+      "name": "CP7_CURRENT_VERSIONED_TARGET_BROWSER6.json",
+      "status": "PASS",
+      "head": "055cbc9ab2458ccf1c88fa224f568ef5111f6eae",
+      "run_id": 40195881993,
+      "job_id": 121176482740,
+      "artifact_id": 12600594822,
+      "zip_bytes": 15948402,
+      "zip_sha256": "d4b0f334435b6ea86c92adf3fd6ad33a0fdc8b837ebf8133a942d07f264941f2",
+      "bytes": 2111144,
+      "sha256": "58eb6d5781bdf92f004e62ed4ffe9b1c9404d749192f3011207ac831da122ecd",
+      "archive_member": "CP7_CURRENT_VERSIONED_TARGET_BROWSER6.json",
+      "source_pins_verified": 3477,
+      "actual_prerequisites_verified": 3,
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "production_go": false,
+      "independent_acceptance": false,
+      "counts": {
+        "policy": 2,
+        "evaluation": 2,
+        "target": 2
+      },
+      "copy_catalog_admissions": 3,
+      "race_copy_catalog_admissions": 0,
+      "writer_visual_review": "versioned-current-browser6-visual-review.json"
+    }
   }
 }
