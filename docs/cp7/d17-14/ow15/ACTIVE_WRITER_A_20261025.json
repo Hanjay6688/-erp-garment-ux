@@ -1,5 +1,5 @@
 {
-  "recorded_at_utc": "2026-10-25T06:48:26.720787+00:00",
+  "recorded_at_utc": "2026-10-25T06:58:47.112045+00:00",
   "role": "A finance writer/integrator replacing Claude",
   "slogan": [
     "VENI. VIDI. VICI. ERP. \u2014 I CONQUERED ERP.",
@@ -23,10 +23,19 @@
       "head": "862bedbaa04afa130b984c1f474f71d03d0380e6",
       "run_id": 40170086669,
       "job_id": 121098981598,
-      "status": "IN_PROGRESS_PREREQUISITES",
+      "status": "IN_PROGRESS_RUNTIME",
       "full_local_source_admission": "PASS",
       "source_pins": 3300,
       "actual_originals": 6
+    },
+    {
+      "scope": "factory1200x3 official finance actual minute after Native date correction",
+      "head": "daab807531816353e499d7842897320ce42e8949",
+      "run_id": 40170449276,
+      "job_id": 121100033764,
+      "status": "IN_PROGRESS_RUNTIME",
+      "full_local_source_admission": "PASS",
+      "source_pins": 3223
     }
   ],
   "actual_new_component": {
@@ -71,11 +80,12 @@
   "prepared": [
     {
       "scope": "selected-return full used restore8",
-      "head": "1e9a1134697e58064be5ab49c0470964790b591e",
+      "head": "6013d0e3666cf6216bf69e121a17d84fbb0a8e3f",
       "next": "Bind actual corrected Native20 PASS and prior target restore8 PASS, admit, launch",
       "execution_branch": "astra-a/d17-14-selected-return-restore-20261025",
       "SOURCE_bound": false,
-      "native20_SOURCE_true_merged": true
+      "native20_SOURCE_true_merged": true,
+      "exact_head_binder": "scripts/current-selected-return-used-restore-qualification/bind_source.py"
     },
     {
       "scope": "isolated future versioned-target integration",
@@ -95,6 +105,21 @@
       "changed_hook_bodies": 14,
       "unchanged_hook_bodies": 7,
       "legacy_target_objects_preserved": true
+    },
+    {
+      "scope": "full scoped model used restore8",
+      "head": "5f51fdf9cf3b9e693bd6a38963de163352b1900a",
+      "execution_branch": "astra-a/d17-14-scoped-model-restore-20261025",
+      "SOURCE_bound": false,
+      "retained_steps": 8,
+      "retained_negative_controls": 18,
+      "additional_negative_controls": 4,
+      "unchanged_fixture_files": 6,
+      "new_scoped_model_archives": 2,
+      "post_restore_scoped_model_checks": 8,
+      "bash_steps_checked": 38,
+      "exact_head_binder": "scripts/current-scoped-model-used-restore-qualification/bind_source.py",
+      "next": "Bind actual Native30 PASS and preserved history restore8 PASS, complete source admission, launch"
     }
   ],
   "first_failures_preserved": [
@@ -240,7 +265,7 @@
     "default_oracle_changed": false
   },
   "factory_correction": {
-    "status": "PUBLISHED_AFTER_FULL_LOCAL_ADMISSION_PASS",
+    "status": "IN_PROGRESS_RUNTIME",
     "change": "Create current commercial membership after posted historical sale facts; verify exact nine history/stock/journal/HPP tables",
     "physical_scope_unchanged": "1200x3",
     "old_business_oracles_changed": false,
