@@ -1,14 +1,14 @@
-# Status gabungan uang, model dan target — 25 Oktober 2026
+# Status gabungan uang, model dan target — 26 Oktober 2026 WIB
 
 VENI. VIDI. VICI. ERP. — I CONQUERED ERP.
 Reliable data adalah dewa. Keuangan termasuk laporan, stok, dan HPP adalah raja.
 
 **Enam kelompok uji pada susunan target berversi terbaru sudah lulus, termasuk
 pemulihan setelah dipakai. Kandidat performa juga lulus 36 kasus; lima kelompok
-lanjutannya sudah lulus pemeriksaan sumber dan menunggu eksekusi.
+lanjutannya sudah lulus pemeriksaan sumber dan sedang diuji.
 Skala pabrik bersama keuangan resmi belum selesai. Formal tetap 5/16; belum ada
-penerimaan independen atau izin produksi.** Posisi ini dicatat 25 Oktober 2026
-pukul 23.51 WIB. Status run berikutnya ada di
+penerimaan independen atau izin produksi.** Posisi ini dicatat 26 Oktober 2026
+pukul 00.03 WIB. Status run berikutnya ada di
 [catatan aktif A](ACTIVE_WRITER_A_20261025.json).
 
 Astra A menjalankan estafet Claude: uang, stok, HPP, laporan dan penggabungan.
@@ -58,8 +58,9 @@ menyimpan16titik diagnosis; durasi pemasangan dan pemulihan bukan SLA aplikasi.
 [Lima uji lanjutan `4608b478`](performance-five-followups-prepared-4608b478.json)
 sudah diikat ke Original Native36 tersebut. Masing-masing3.571pin dan seluruh
 prasyarat lulus pemeriksaan sumber lengkap: restore8/finance10/cron1/browser6/
-transport28. Eksekusi belum dimulai ketika catatan ini ditulis; mulai sesudah
-00.00WIB/17.00UTC agar data uji bertanggal tetap tidak melintasi pergantian hari.
+transport28. [Kelima job sudah berjalan](performance-five-followups-running-4608b478.json)
+mulai17.00–17.01UTC/00.00–00.01WIB pada26Oktober, agar data uji bertanggal tetap
+tidak melintasi pergantian hari. Semua hasil runtime lanjutan masih menunggu.
 SOURCE uji pabrik tetap belum diikat. Uji1.200SKU×tiga ukuran dengan angka
 keuangan/HPP resmi menunggu enam kelompok performa aktual lulus.
 

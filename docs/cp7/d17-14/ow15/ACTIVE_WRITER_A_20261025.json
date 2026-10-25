@@ -1,5 +1,5 @@
 {
-  "recorded_at_utc": "2026-10-25T16:50:58.880435+00:00",
+  "recorded_at_utc": "2026-10-25T17:03:09.618724+00:00",
   "role": "A finance writer/integrator replacing Claude",
   "slogan": [
     "VENI. VIDI. VICI. ERP. \u2014 I CONQUERED ERP.",
@@ -8,7 +8,63 @@
   "formal_accepted": "5/16",
   "production_go": false,
   "independent_acceptance": false,
-  "running": [],
+  "running": [
+    {
+      "suite": "transport",
+      "head": "4608b478ac50b52eba69e938488402b296a0f46e",
+      "branch": "astra-a/d17-14-versioned-performance-transport-20261025",
+      "run_id": 40214423675,
+      "job_id": 121232367315,
+      "status": "in_progress",
+      "conclusion": null,
+      "started_at_utc": "2026-10-25T17:01:04Z",
+      "source_pins": 3571
+    },
+    {
+      "suite": "browser",
+      "head": "4608b478ac50b52eba69e938488402b296a0f46e",
+      "branch": "astra-a/d17-14-versioned-performance-browser-20261025",
+      "run_id": 40214418227,
+      "job_id": 121232350763,
+      "status": "in_progress",
+      "conclusion": null,
+      "started_at_utc": "2026-10-25T17:01:01Z",
+      "source_pins": 3571
+    },
+    {
+      "suite": "cron",
+      "head": "4608b478ac50b52eba69e938488402b296a0f46e",
+      "branch": "astra-a/d17-14-versioned-performance-cron-20261025",
+      "run_id": 40214412847,
+      "job_id": 121232334981,
+      "status": "in_progress",
+      "conclusion": null,
+      "started_at_utc": "2026-10-25T17:00:57Z",
+      "source_pins": 3571
+    },
+    {
+      "suite": "finance",
+      "head": "4608b478ac50b52eba69e938488402b296a0f46e",
+      "branch": "astra-a/d17-14-versioned-performance-finance-20261025",
+      "run_id": 40214409750,
+      "job_id": 121232325844,
+      "status": "in_progress",
+      "conclusion": null,
+      "started_at_utc": "2026-10-25T17:00:55Z",
+      "source_pins": 3571
+    },
+    {
+      "suite": "restore",
+      "head": "4608b478ac50b52eba69e938488402b296a0f46e",
+      "branch": "astra-a/d17-14-versioned-performance-restore-20261025",
+      "run_id": 40214404451,
+      "job_id": 121232310569,
+      "status": "in_progress",
+      "conclusion": null,
+      "started_at_utc": "2026-10-25T17:00:52Z",
+      "source_pins": 3571
+    }
+  ],
   "actual_new_component": {
     "name": "CP7_OW11_MODEL_TARGET_SOURCE_V2.json",
     "status": "PASS",
@@ -201,7 +257,7 @@
       "full_restore_code_prepared": true,
       "actual_A_runtime_qualified": true,
       "qualification_workflows_prepared": true,
-      "next": "Dispatch five source-qualified followups after 17:00 UTC; intake actual reports once. Factory binding still waits all six current performance PASS Originals.",
+      "next": "Intake each actual followup Original once; all six actual performance PASS then bind factory. No source or runtime result invented.",
       "prepared_workflows": [
         "Native36",
         "used restore8",
@@ -270,7 +326,7 @@
       "Native36_execution_branch_current_head": "88f36937ef7c0a42cc7761142678da5411ece68f",
       "restore_target_capture_after_all_scoped_evaluations": true,
       "restore_freshness_before_backup_checked": true,
-      "status": "ACTUAL_NATIVE36_PASS_FIVE_FOLLOWUPS_SOURCE_ADMITTED",
+      "status": "ACTUAL_NATIVE36_PASS_FIVE_FOLLOWUPS_RUNNING",
       "Native36_SOURCE_bound": true,
       "Native36_source_pins": 3569,
       "Native36_actual_source_admission": {
@@ -2236,9 +2292,137 @@
       }
     },
     "actual_Native36_receipt": "versioned-performance-native36-actual-88f36937.json",
-    "followup_execution_status": "NOT_DISPATCHED",
+    "followup_execution_status": "IN_PROGRESS",
     "planned_execution_not_before_UTC": "2026-10-25T17:00:00Z",
     "reason": "Avoid spanning the Asia/Jakarta business-day rollover inside a long fixed-date qualification fixture.",
+    "factory_SOURCE_absent": true,
+    "production_go": false,
+    "independent_acceptance": false,
+    "actual_runs": [
+      {
+        "suite": "transport",
+        "head": "4608b478ac50b52eba69e938488402b296a0f46e",
+        "branch": "astra-a/d17-14-versioned-performance-transport-20261025",
+        "run_id": 40214423675,
+        "job_id": 121232367315,
+        "status": "in_progress",
+        "conclusion": null,
+        "started_at_utc": "2026-10-25T17:01:04Z",
+        "source_pins": 3571
+      },
+      {
+        "suite": "browser",
+        "head": "4608b478ac50b52eba69e938488402b296a0f46e",
+        "branch": "astra-a/d17-14-versioned-performance-browser-20261025",
+        "run_id": 40214418227,
+        "job_id": 121232350763,
+        "status": "in_progress",
+        "conclusion": null,
+        "started_at_utc": "2026-10-25T17:01:01Z",
+        "source_pins": 3571
+      },
+      {
+        "suite": "cron",
+        "head": "4608b478ac50b52eba69e938488402b296a0f46e",
+        "branch": "astra-a/d17-14-versioned-performance-cron-20261025",
+        "run_id": 40214412847,
+        "job_id": 121232334981,
+        "status": "in_progress",
+        "conclusion": null,
+        "started_at_utc": "2026-10-25T17:00:57Z",
+        "source_pins": 3571
+      },
+      {
+        "suite": "finance",
+        "head": "4608b478ac50b52eba69e938488402b296a0f46e",
+        "branch": "astra-a/d17-14-versioned-performance-finance-20261025",
+        "run_id": 40214409750,
+        "job_id": 121232325844,
+        "status": "in_progress",
+        "conclusion": null,
+        "started_at_utc": "2026-10-25T17:00:55Z",
+        "source_pins": 3571
+      },
+      {
+        "suite": "restore",
+        "head": "4608b478ac50b52eba69e938488402b296a0f46e",
+        "branch": "astra-a/d17-14-versioned-performance-restore-20261025",
+        "run_id": 40214404451,
+        "job_id": 121232310569,
+        "status": "in_progress",
+        "conclusion": null,
+        "started_at_utc": "2026-10-25T17:00:52Z",
+        "source_pins": 3571
+      }
+    ]
+  },
+  "performance_followups_running": {
+    "recorded_at_utc": "2026-10-25T17:03:09.618724+00:00",
+    "head": "4608b478ac50b52eba69e938488402b296a0f46e",
+    "tree": "81822993ec6047a8a7a858e3c0fcdab38e25d110",
+    "local_head": "09d8cc0a15767f51cf4f9ab234f14668bd8f70d6",
+    "parent": "88f36937ef7c0a42cc7761142678da5411ece68f",
+    "actual_Native36_PASS_receipt": "versioned-performance-native36-actual-88f36937.json",
+    "full_source_admission_receipt": "performance-five-followups-prepared-4608b478.json",
+    "runs": [
+      {
+        "suite": "transport",
+        "head": "4608b478ac50b52eba69e938488402b296a0f46e",
+        "branch": "astra-a/d17-14-versioned-performance-transport-20261025",
+        "run_id": 40214423675,
+        "job_id": 121232367315,
+        "status": "in_progress",
+        "conclusion": null,
+        "started_at_utc": "2026-10-25T17:01:04Z",
+        "source_pins": 3571
+      },
+      {
+        "suite": "browser",
+        "head": "4608b478ac50b52eba69e938488402b296a0f46e",
+        "branch": "astra-a/d17-14-versioned-performance-browser-20261025",
+        "run_id": 40214418227,
+        "job_id": 121232350763,
+        "status": "in_progress",
+        "conclusion": null,
+        "started_at_utc": "2026-10-25T17:01:01Z",
+        "source_pins": 3571
+      },
+      {
+        "suite": "cron",
+        "head": "4608b478ac50b52eba69e938488402b296a0f46e",
+        "branch": "astra-a/d17-14-versioned-performance-cron-20261025",
+        "run_id": 40214412847,
+        "job_id": 121232334981,
+        "status": "in_progress",
+        "conclusion": null,
+        "started_at_utc": "2026-10-25T17:00:57Z",
+        "source_pins": 3571
+      },
+      {
+        "suite": "finance",
+        "head": "4608b478ac50b52eba69e938488402b296a0f46e",
+        "branch": "astra-a/d17-14-versioned-performance-finance-20261025",
+        "run_id": 40214409750,
+        "job_id": 121232325844,
+        "status": "in_progress",
+        "conclusion": null,
+        "started_at_utc": "2026-10-25T17:00:55Z",
+        "source_pins": 3571
+      },
+      {
+        "suite": "restore",
+        "head": "4608b478ac50b52eba69e938488402b296a0f46e",
+        "branch": "astra-a/d17-14-versioned-performance-restore-20261025",
+        "run_id": 40214404451,
+        "job_id": 121232310569,
+        "status": "in_progress",
+        "conclusion": null,
+        "started_at_utc": "2026-10-25T17:00:52Z",
+        "source_pins": 3571
+      }
+    ],
+    "started_after_Asia_Jakarta_business_day_rollover": true,
+    "all_followup_runtime_results_pending": true,
     "factory_SOURCE_absent": true,
     "production_go": false,
     "independent_acceptance": false
