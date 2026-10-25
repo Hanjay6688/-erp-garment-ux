@@ -1,0 +1,13 @@
+{
+  "status": "PREPARED_SQL_PARSE_PASS_RUNTIME_UNQUALIFIED",
+  "PG_major_required": 17,
+  "explicit_UTF8_bytea_text_fields": 4,
+  "projection_fields": 15,
+  "Native_projection_and_both_visibility_clocks_byte_identical": true,
+  "parent_v1_sha256": "fe4c1b7c930fe73b7a6cc79b21edaff592490d52818f925c6a2b3930033fe89f",
+  "prepared_v2_sha256": "5eb3bf0fa0bfe204a103187bed8981b1ec145eb4e867b22816d982eeff153bde",
+  "layout_sha256": "9fa5d22b53d337a6472898a5eec99ae7b221aea93313d693588e69cc6e83f32a",
+  "production_candidate_applied": false,
+  "actual_Native": false,
+  "production_go": false
+}

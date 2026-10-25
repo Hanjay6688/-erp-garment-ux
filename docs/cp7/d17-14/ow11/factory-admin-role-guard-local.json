@@ -1,0 +1,15 @@
+{
+  "status": "PASS_LOCAL_FIXTURE_ROLE_GUARD",
+  "actual_source_SQL_executed": true,
+  "roles": {
+    "postgres": true,
+    "supabase_admin": true,
+    "authenticated": false,
+    "anon": false,
+    "service_role": false
+  },
+  "fixture_DML_executed": false,
+  "actual_Native": false,
+  "production_permission_changes": false,
+  "production_go": false
+}

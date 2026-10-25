@@ -48,7 +48,9 @@ EXPECTED=(3600,1200,3,3600,3600,363600,0)
 
 def seed(cur,base_product,location,actor):
  """Bulk labelled fixture only; restore caller role setting even on refusal."""
- assert cur.execute("select current_user='postgres'").fetchone()[0],'FACTORY3600_TEST_ADMIN_REQUIRED'
+ # The frozen Native harness selects supabase_admin; local PGlite uses postgres.
+ # These are fixture administrators, never application-user permission grants.
+ assert cur.execute("select current_user in('postgres','supabase_admin')").fetchone()[0],'FACTORY3600_TEST_ADMIN_REQUIRED'
  assert cur.execute("select count(*)from erp.products where sku like 'OW12BF36-%%'").fetchone()[0]==0,'FACTORY3600_FIXTURE_ALREADY_PRESENT'
  prior=cur.execute('show session_replication_role').fetchone()[0]
  cur.execute('savepoint ow12b_factory3600_seed')

@@ -1,0 +1,117 @@
+{
+  "contract": "cp7.original-runtime-first-failure-receipt.v1",
+  "head": "9bc3237903c44cfbc23f08bed6340dae8670b5fd",
+  "run_id": 40185105228,
+  "job_id": 121144122892,
+  "artifact_id": 12595364192,
+  "bytes": 117496,
+  "artifact_sha256": "697598489bce6e85f0a84bde675691d20b59634815b6b334aec05dabd415f70f",
+  "status": "INCOMPLETE",
+  "counts": {
+    "PASS": 1,
+    "INCOMPLETE": 1
+  },
+  "Original_read_complete": true,
+  "all_Original_JSON_files_read": 5,
+  "original_json_sha256": {
+    "T3_BACKUP_RESTORE_DRILL.json": "1e2ccddd5192b190167ad8442a982006b24520380d635ee60a29ef42479a6c17",
+    "T3_PACKAGE_FILES_INSTALL.json": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+    "ALIGNED_CHAIN.json": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b",
+    "CP7_OW11_MODEL_TARGET_V2_FACTORY.json": "395a3b9c32d5359e0b3d8de5f8682cdf436afbbe87dc9b70199e7499eed17203",
+    "T3_PACKAGE_INSTALL.json": "7b771438e4604a0988b30a8f83acdddf1dcdce3b841b97efa8d21b272edf7cdc"
+  },
+  "source_pins_exact": 59,
+  "actual_current_F05_source_prefix_compared": [
+    "source_sha256",
+    "expected_case_count",
+    "required_case_counts",
+    "required_case_ids",
+    "predeclared_case_contract",
+    "predeclared_case_sha256",
+    "target_v2_source_sha256"
+  ],
+  "product_paths_byte_identical_between_recorded_refs": true,
+  "case_facts": {
+    "OW11_MODEL_TARGET_V2_CATALOG22_COMPOSED_PREUSE": {
+      "status": "PASS",
+      "exact_catalog22_composed_inverse": true,
+      "private4_replacements21_no_new_RPC_or_table": true,
+      "dependent_view_partial_inverse_restored": true,
+      "source_sha256": {
+        "cp7_model_target_consumer_v2_stage/MANIFEST.json": "1cc831d70a921a3cc34ddcc37a76d9d0ed35588f9d44ed4a7d0cfbd5b9cc8955",
+        "cp7_model_target_consumer_v2_stage/__init__.py": "c77a917a67865f8b3fc0165beb948664e756601dbcf3edfa94fc283fd33ce54b",
+        "cp7_model_target_consumer_v2_stage/hooks.sql": "fa6eca09c000c418f9e2ba50243976f7590d005847d79e4d64cc8e7309d19f6b",
+        "cp7_model_target_consumer_v2_stage/render.py": "195063c1b83e35ffc2ca21bba7a578afe8c13b3c3fae1ec4b46fcb2d3bf7d657",
+        "cp7_model_target_source_v2/MANIFEST.json": "aa67fe30c9336d7dc91dae40e18ac233411f7ad7f0396e41a1181abade55e396",
+        "cp7_model_target_source_v2/__init__.py": "e644854f4a9f28d84dd443750fdeb4598ccf48a4823aa1aa7f53f6182868e8ef",
+        "cp7_model_target_source_v2/non-stock.sql": "9c4f437ef463d8877078b192e7ffb36d52ba4a70e7cf43f7920b719d9aacf4fa",
+        "cp7_model_target_source_v2/physical.sql": "bf6c6cd37d634e0a894952bafe6b74abf32b77c77545276c037b49fc3837b23f",
+        "cp7_model_target_source_v2/reorder.sql": "784c0778e10c117d78d6e7eb8874224ddc99fce6b4a548b03e4c6838c4b44d4c",
+        "cp7_model_target_source_v2/source.sql": "aa5312f92feb62982b460e871226d8133c5aa90b5b6ed9568b3304e10bd21d3b",
+        "cp7_model_target_source_v2/stock.sql": "41087a56255b082ba4a8f223a57682221119a1d756975ce5f16c853209070370",
+        "cp7_model_target_projection/MANIFEST.json": "df37cce0f27656606634fac61f26579f255ea291dc9f5a1696f28d1cbf2bd51a",
+        "cp7_model_target_projection/__init__.py": "2e2be38a043353af1d45f124d9f69e9c92fa1316c94eac826d133dad56c3b75c",
+        "cp7_model_target_projection/projection.sql": "1e96c6389c3537dcaf59bcf79383754f0b5716ad3c1d9010c77fb0918535e6b7",
+        "cp7_model_target_consumer_v2/MANIFEST.json": "30110d095bd9893ba44bd849b557f89a66ab78034e0a50614ae8ef6b6522f38b",
+        "cp7_model_target_consumer_v2/__init__.py": "ac1648f3ac76e4d032e8d13512eafab1fbb98f1de5e755e34d61e9674379d6d5",
+        "cp7_model_target_consumer_v2/consumer.sql": "48526a5ab9fa7468475b6ba76955b61b2868fa1590e6296d65ee5da390fc6dde",
+        "cp7_model_target_consumer_v2/render.py": "66eb18f6b9362861a7246be6ac569291f0274534758724abb59bc73a26a3ca01",
+        "cp7_model_target_consumer_v2/timeline.sql": "53d7e913df51aecd78598fcba3bdcf9cf1980c25ed100e747731782c16de67e9"
+      },
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-25",
+        "before": "2026-10-25",
+        "after": "2026-10-25"
+      }
+    },
+    "OW11_MODEL_TARGET_V2_FACTORY1200X3_ALL_PHYSICAL_TARGET_PARITY_SOURCE": {
+      "status": "INCOMPLETE",
+      "error": "FACTORY3600_TEST_ADMIN_REQUIRED",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow11_model_target_v2_scale_cases.py\", line 228, in profiled_scale\n    try:return scale()\n               ^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow11_model_target_v2_scale_cases.py\", line 159, in scale\n    size=volume.seed(cur)if fixture_seed is None else fixture_seed(cur,x)\n                                                      ^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow11_model_target_v2_factory_cases.py\", line 35, in seed\n    return fixture.seed(cur,base.BASE_PRODUCT,base.LOCATION,actor)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_factory3600_fixture.py\", line 51, in seed\n    assert cur.execute(\"select current_user='postgres'\").fetchone()[0],'FACTORY3600_TEST_ADMIN_REQUIRED'\n           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^\nAssertionError: FACTORY3600_TEST_ADMIN_REQUIRED\n",
+      "observations": {},
+      "full_factory3600_qualified": false,
+      "production_go": false,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-25",
+        "before": "2026-10-25",
+        "after": "2026-10-25"
+      }
+    }
+  },
+  "all_package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "CP6_advisor_boundary_public_catalog_WIB_session_Auth_cleanup_restored": true,
+  "error": "FACTORY3600_TEST_ADMIN_REQUIRED",
+  "fixture_DML_and_before_current_capture_not_reached": true,
+  "performance_observed": false,
+  "source_inference": "The actual frozen admin helper selects supabase_admin, while the test-only fixture guard admits postgres only.",
+  "planned_fix": "Admit the two explicit isolated test administrators postgres and supabase_admin, keeping the admin guard and ordinary roles refused. No business permission or Native SQL changes.",
+  "job_log_bytes": 183311,
+  "job_log_sha256": "a8d0dfb9cdf3ec339ebbe6e43f3191e1c00b93aa9dd8099da45d7500064169af",
+  "actual_Auth_HTTP_credit": false,
+  "actual_concurrency": false,
+  "full_factory1200SKU3size_qualified": false,
+  "formal_acceptance": "5/16",
+  "CP7C_accepted": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

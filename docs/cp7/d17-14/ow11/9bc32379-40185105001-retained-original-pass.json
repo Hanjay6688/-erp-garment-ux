@@ -1,0 +1,82 @@
+{
+  "contract": "cp7.retained-default-route-regression-receipt.v1",
+  "head": "9bc3237903c44cfbc23f08bed6340dae8670b5fd",
+  "run_id": 40185105001,
+  "job_id": 121144121924,
+  "artifact_id": 12595393192,
+  "bytes": 251220,
+  "artifact_sha256": "54827cce96f8ed01ff80c0b0246555cc70923d69235c087a3d88b2b6543c4775",
+  "status": "PASS",
+  "label": "CP7_OW16_AUTOMATIC_STATUS",
+  "Original_read_complete": true,
+  "all_Original_JSON_files_read": 5,
+  "original_json_sha256": {
+    "CP7_OW16_AUTOMATIC_STATUS.json": "f6ff7e1f1aae4192af8e5a8c447aa4ef884c0146ec505bb485f8c34a0fede232",
+    "T3_BACKUP_RESTORE_DRILL.json": "a379347cf49aa54bf2b3d1bd759693fbc5715497eb3facfaa980c0e9c1b1113c",
+    "T3_PACKAGE_FILES_INSTALL.json": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+    "ALIGNED_CHAIN.json": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b",
+    "T3_PACKAGE_INSTALL.json": "16ab313681e15e105b00cf1dd6c049df1c67abe13d359f17e3061b07dd92190a"
+  },
+  "actual_current_F05_source_prefix_compared": [
+    "source_sha256",
+    "expected_case_count",
+    "required_case_counts",
+    "required_case_ids",
+    "predeclared_case_contract",
+    "predeclared_case_sha256",
+    "automatic_status_source_sha256"
+  ],
+  "all_recorded_source_fields_and_declaration_match": true,
+  "source_prefix_database_executed": false,
+  "product_ref": "dbc0d3ffda3a839dddb41821dcd027254a62d739",
+  "product_paths_byte_identical_between_refs": true,
+  "counts": {
+    "native": 10,
+    "races": 2,
+    "http": 2,
+    "browser": 2
+  },
+  "required_case_ids": {
+    "native": [
+      "OW16_NO_GUESSED_POLICY",
+      "OW16_FACTORY_CURRENT_CONTEXT",
+      "OW16_LOW_HIGH_TOTAL_PCS",
+      "OW16_READ_ONLY_NATIVE_FACTS",
+      "OW16_OWNER_POLICY_REPLAY_IMMUTABLE",
+      "OW16_INVALID_POLICY_ZERO_EFFECT",
+      "OW16_PAUSED_INSUFFICIENT_UNPOSTED",
+      "OW16_NEGATIVE_LOOKUP_SEALS_REQUEST",
+      "OW16_NATIVE_HISTORY_REOPEN_REPOST",
+      "OW16_PRIVATE_CATALOG_AND_CURRENT_ACCESS"
+    ],
+    "races": [
+      "OW16_WAIT_REVOKED_OWNER_REFUSED",
+      "OW16_TWO_OWNERS_ONE_REVISION"
+    ],
+    "http": [
+      "OW16_REAL_AUTH_FACTORY_STATUS_POLICY",
+      "OW16_REAL_AUTH_CURRENT_REVOKE"
+    ],
+    "browser": [
+      "OW16_BROWSER_DESKTOP_AUTO_AFTER_POST",
+      "OW16_BROWSER_MOBILE_UUID_RECOVERY"
+    ]
+  },
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "CP6_advisor_boundary_WIB_session_Auth_cleanup_gates": true,
+  "actual_Auth_HTTP": true,
+  "actual_concurrency": true,
+  "new_visual_screenshot_review": false,
+  "new_versioned_target_case_credit": 0,
+  "full_A_chain_qualified": false,
+  "formal_acceptance": "5/16",
+  "CP7C_accepted": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

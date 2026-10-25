@@ -1,0 +1,133 @@
+{
+  "contract": "cp7.stock-UTF8-binary-framing-private-experiment.v1",
+  "status": "PASS_LOCAL_EXPERIMENT_ONLY",
+  "pgVersion": "PostgreSQL 18.6 (PGlite 0.5.11) on wasm32-unknown-emscripten, compiled by emcc (Emscripten gcc/clang-like replacement + linker emulating GNU ld) 3.1.74 (1092ec30a3fb1d46b1782ff1b4db5094d3d06ae5), 32-bit",
+  "synthetic_1200SKU3size": true,
+  "movements": 363600,
+  "fields": [
+    [
+      "id",
+      "uuid",
+      2950
+    ],
+    [
+      "root_id",
+      "uuid",
+      2950
+    ],
+    [
+      "size_id",
+      "uuid",
+      2950
+    ],
+    [
+      "product_id",
+      "uuid",
+      2950
+    ],
+    [
+      "lot_id",
+      "uuid",
+      2950
+    ],
+    [
+      "location_id",
+      "uuid",
+      2950
+    ],
+    [
+      "quality_grade",
+      "text",
+      17
+    ],
+    [
+      "qty_signed",
+      "text",
+      17
+    ],
+    [
+      "physical_at",
+      "timestamptz",
+      1184
+    ],
+    [
+      "system_created_at",
+      "timestamptz",
+      1184
+    ],
+    [
+      "movement_type",
+      "text",
+      17
+    ],
+    [
+      "source_type",
+      "text",
+      17
+    ],
+    [
+      "source_id",
+      "uuid",
+      2950
+    ],
+    [
+      "reversal_of_id",
+      "uuid",
+      2950
+    ],
+    [
+      "book_order",
+      "bigint",
+      20
+    ]
+  ],
+  "client_encoding_LATIN1_UTF8_bytes_identical": true,
+  "text_fields_explicitly_encoded_as_UTF8_bytea": true,
+  "all15_fields_independently_decoded": true,
+  "Native_rows_decoded": 32,
+  "field_mutations_detected": 15,
+  "wide_int64_UTF8_newline_microseconds_NULL_infinity_preserved": true,
+  "measurements": [
+    {
+      "name": "cp7_history_reference.stock_digest",
+      "millis": 5512.882,
+      "row_count": "363600",
+      "rows_sha256": "dc5a8aaa5acf8d17f252141fd80b99ae5699eb8ae336111181d1b45625cabeba"
+    },
+    {
+      "name": "public.b_binary_v2_digest",
+      "millis": 2895.126,
+      "row_count": "363600",
+      "rows_sha256": "e9ee14f53adb9d75448d2223a8e2865d0dc805ce88e585169abe4693d629a930"
+    },
+    {
+      "name": "public.b_binary_v2_digest",
+      "millis": 2878.117,
+      "row_count": "363600",
+      "rows_sha256": "e9ee14f53adb9d75448d2223a8e2865d0dc805ce88e585169abe4693d629a930"
+    },
+    {
+      "name": "cp7_history_reference.stock_digest",
+      "millis": 5287.057,
+      "row_count": "363600",
+      "rows_sha256": "dc5a8aaa5acf8d17f252141fd80b99ae5699eb8ae336111181d1b45625cabeba"
+    }
+  ],
+  "old_v1_hash_stable": true,
+  "new_v2_hash_intentionally_different": true,
+  "not_a_v1_optimization_or_dropin": true,
+  "frozen_PG17_source_read": true,
+  "custom_type_OIDs_not_encoded": true,
+  "no_performance_fastest_run_selection": true,
+  "pgcrypto_wrapper_controlled": true,
+  "actual_Native": false,
+  "full_factory3600_qualified": false,
+  "production_candidate_applied": false,
+  "production_go": false,
+  "PG17_primary_source_sha256": "b50bb446c940caf4ba2f5e8437307be2666c620a6479f28dfd21bb1f2bcd7746",
+  "PG17_primary_source_url": "https://raw.githubusercontent.com/postgres/postgres/REL_17_STABLE/src/backend/utils/adt/rowtypes.c",
+  "runtime_is_PGlite_PG18_not_Native_PG17": true,
+  "Native_PG17_binary_protocol_and_latency_qualified": false,
+  "old_v1_remains_unchanged": true,
+  "text_proto_not_selected_due_unqualified_client_encoding": true
+}

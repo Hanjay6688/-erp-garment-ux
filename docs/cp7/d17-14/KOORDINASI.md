@@ -3049,7 +3049,7 @@ DB connection attempts; both YAML cleanup guards parse. Keep both first failures
 rerun only changed focused declarations/workflows; other13 jobs continue at8f.
 Formal5/16, CP7C/independent false, production_go=false; continue qualifications.
 
-## 161. B26 Oktober2026 WIB — stock-copy full component Originals qualified
+## 161. B25 Oktober2026 WIB — stock-copy full component Originals qualified
 
 Read all16 complete Original archives/85JSON for13 successful8f runs plus the
 two corrected a8 declarations; transport A/B are separate complete archives.
@@ -3081,7 +3081,7 @@ current explicit heads and all older evidence retained. Continue separate Native
 dimensional qualification using unchanged common all-target parity assertions.
 Formal5/16, CP7C/independent false, production_go=false.
 
-## 162. B26 Oktober2026 WIB — separate1200SKUx3 physical-size Native2 prepared
+## 162. B25 Oktober2026 WIB — separate1200SKUx3 physical-size Native2 prepared
 
 Add explicit factory Native2 provider/probe/declaration/workflow,59pinned sources.
 Reuse common scale capture/profile/old staged archive/all-target and quantity
@@ -3107,3 +3107,82 @@ corrected to readable multiline assertion. Current preflights/AST/YAML PASS.
 Dedicated runtime not yet qualified; Original Native2 required, plus retained
 one-size Native2 regression because common test code changed. Formal5/16,
 CP7C/independent false, production_go=false. Continue actual isolated qualification.
+
+## 163. B25 Oktober2026 WIB — first1200x3 Native admin-fixture refusal retained
+
+9bc32379/run40185105228/job121144122892 complete Original12595364192,117496bytes,
+SHA697598489bce6e85f0a84bde675691d20b59634815b6b334aec05dabd415f70f. All5JSON/
+59exact-head/current pins/actual F05 prefix/declaration checked. Catalog anchor
+PASS; dimensional case INCOMPLETE at FACTORY3600_TEST_ADMIN_REQUIRED BEFORE
+fixture DML/capture/profile. No performance or dimensional credit. Package4 gates
+true/writerfalse; CP6/advisor/exact public/boundaries/WIB/session/Auth0->0 restored.
+Complete183311byte job log retained, SHAa8d0dfb9cdf3ec339ebbe6e43f3191e1c00b93aa9dd8099da45d7500064169af.
+
+Frozen Native admin helper selects supabase_admin, while the new fixture admitted
+only local postgres. Correct only this fixture assertion to the two explicit test
+admins postgres/supabase_admin. Real local SQL admits both and refuses authenticated/
+anon/service_role. AST proves all DML, dimensions, assertions, session restoration
+and original3600 fixture unchanged. Current actual F05/31negative routes/six shape
+mutations/26retained assertions PASS. Only one of59source hashes changes; old54
+scale pins and all51 business backend files unchanged. Publish and qualify only
+the changed dimensional suite; do not rerun an unchanged failed one-size suite.
+
+Current9bc OW13b20 and OW16 16 complete Originals12596396084/12595393192 read and
+verified: all5JSON each, actual F05 prefix/declaration/ID/count, package/CP6/advisor/
+public/22-boundary/WIB/session/Auth cleanup. Native14+race2+HTTP2+browser2 and
+Native10+race2+HTTP2+browser2 PASS respectively. No new visual screenshot review
+or versioned-target case credit. Local receipt observer briefly expected26Oct
+from file display; actual run10:31UTC=25Oct WIB and all planned/before/after25Oct.
+Retain observer failure, correct exact date; KOORD161/162/handoff headers corrected.
+
+Read A prepared231befa5: Native36 SOURCE3468files binds12 prerequisite Originals.
+This is source preparation, no combined Native36 job found at that exact head,
+not runtime qualification.40of B51source paths exact;11differ, including analog
+lookup and stock-copy optimizations/dependency manifests/case pins. A owns merge/
+full composer/after-use/finance/shared defaults; no A file/branch changed by B.
+Formal5/16, CP7C/independent false, production_go=false; continue corrected Native2.
+
+## 164. B25 Oktober2026 WIB — separate lossless binary-reference experiment only
+
+Private old-v1/new-binary/new-binary/old-v1 order on the same explicit1200SKUx3size/
+363600rows: plain record text5364.301/2696.762/2654.585/5153.191ms; retain as first
+experiment, not selected because client-encoding stability had not been qualified.
+Improved explicit UTF8 bytea for four text fields5512.882/2895.126/2878.117/5287.057ms.
+Independent decoder verifies15typed fields,32actual-DDL rows, per-field mutations,
+NULL/wide int64/UTF8/newline/microseconds/infinity. Explicit bytes equal under
+LATIN1 and UTF8 clients. Actual runtime is PGlite0.5.11/PG18.6 with controlled
+pgcrypto wrapper, NOT Native PG17 timing/qualification. No fastest-run selection.
+
+Official PG17 rowtypes.c read: record_send stores count, built-in OID, signed
+length(-1NULL), exact type bytes. Normalize enum/text fields to UTF8 bytea; all
+remaining OIDs are builtin UUID/timestamptz/int8. New version/layout/domain/hash
+INTENTIONALLY differs from v1; never substitute under the old contract. Existing
+v1 hash is unchanged. Private generator pins the full15-field Native projection/
+two clocks/guards/UUID sort/owner/ACL, explicit v2 encoding/layout hash, PG17+UTF8
+server and builtin-type gate. SQL AST/clash PASS; local PG18 correctly refused and
+external roles denied; inverse empty schema exact. No new helper installed or
+caller changed in ERP. Native PG17 correctness/latency and an explicit bounded
+source/request/replay/unit adapter remain required before adoption. No fake
+COMPLETE/clock-only reread/posted mutation/new policy/forecast/finance/SLA credit.
+Formal5/16, CP7C/independent false, production_go=false.
+
+## 165. B25 Oktober2026 WIB — latest unchanged one-size predecessor exceeds8s
+
+9bc32379/run40185105039/job121144122092 Original12595809170,118826bytes, SHA
+7aa4d5ad9ba5103495b00bc0d9fe02fe9a5280d39087c9d6b737919341c5d35e. All5JSON/
+54exact-head/current pins/actual source prefix/declarations checked; catalogPASS,
+scaleINCOMPLETE PREDECESSOR57014 at8006.721ms during unchanged target validation.
+Stock_digest completed3883.490ms/self3509.127ms; current overlay/capture comparison
+not reached, observations empty. Four package gates true/writerfalse; CP6/advisor/
+public/22-boundary/WIB/session/Auth0->0 restored. Full traceback/profile retained.
+
+This differs from the earlier complete8f/c7 runs and confirms stable factory
+latency is NOT established. Keep those actual complete Original results at their
+recorded heads and retain this failure; no bare rerun or higher limit. Continue
+corrected dimensional fixture for actual geometry/source observations, and develop
+a measured explicit-version optimization rather than removing fields/guards or
+choosing the fastest run. Binary-reference draft generator/SQL/README/refusal proof
+now preserved under scripts/cp7_ow12b_stock_reference_v2_prepared, not referenced by
+any default installer/current59candidate source. It remains Native17-unqualified
+and uninstalled; no old-v1 hash alias or caller adoption. FullOW12b stays open.
+Formal5/16, CP7C/independent false, production_go=false.

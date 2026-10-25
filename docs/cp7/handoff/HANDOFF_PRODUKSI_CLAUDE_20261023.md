@@ -1,4 +1,31 @@
-# Titik lanjut aktif —26 Oktober2026 WIB: stock-copy lulus komponen, lanjut susunan barang
+# Lanjutan aktif25 Oktober2026 WIB — koreksi admin fixture1200x3
+
+Native factory9bc32379/run40185105228/Original12595364192 first1PASS/1INCOMPLETE:
+fixture guard hanya mengenali postgres, frozen Native admin helper memilih
+supabase_admin. Tidak mencapai seed DML/capture/waktu. All59pins/all5OriginalJSON/
+CP6/advisor/boundary/public/WIB/Auth cleanup checked; writer gatefalse retained.
+Koreksi hanya daftar dua admin uji; pengguna biasa tetap ditolak. Semua DML/
+dimensions/oracles/26assertions/old54scale/all51business source unchanged. Publish
+koreksi dan tunggu corrected complete Original; jangan relabel first failure.
+One-size9bc/run40185105039/Original12595809170 first1PASS/1INCOMPLETE:
+PREDECESSOR57014 at8006.721ms; stockdigest3883.490/self3509.127ms, currentoverlay
+belum tercapai. All54pins/5JSON/boundary/CP6/advisor verified; keep firsttimeout,
+no bare rerun. Stable factory latency NOT established. OW14b/run40185104955 masih
+berjalan; OW13b20/run40185104969 dan OW16 16/run40185105001 complete PASS verified.
+
+A prepared231befa5 now SOURCE3468files/12prerequisite Originals;40of B51paths same,
+11differ including both optimizations. No combined runtime qualification by B.
+Private binary-v2 speed trial promising locally but measured PGlite18, hash
+INTENTIONALLY new; Native17 contract/caller adapter not qualified or applied.
+Draft generator/SQL/README/refusal proof at scripts/cp7_ow12b_stock_reference_v2_prepared;
+local experiment receipts in ow12b. Keep old v1 exact and immutable.
+Read KOORD163–164 and current matrix. Solo B, no A/default/native-hosted edits;
+formal5/16/CP7C/independent/production_go=false. Archive last confirmed68; later
+replacement outcome unknown and no automatic second write. Continue qualification.
+
+---
+
+# Titik lanjut aktif —25 Oktober2026 WIB: stock-copy lulus komponen, lanjut susunan barang
 
 Kandidat stock-copy8f2cee88 dan koreksi deklarasia8f21545 kini qualified untuk
 komponen yang diuji:16 complete Original archives/85JSON dibaca, all package/CP6/

@@ -1,0 +1,489 @@
+{
+  "contract": "cp7.original-runtime-first-failure-receipt.v1",
+  "head": "9bc3237903c44cfbc23f08bed6340dae8670b5fd",
+  "run_id": 40185105039,
+  "job_id": 121144122092,
+  "artifact_id": 12595809170,
+  "size": 118826,
+  "sha": "7aa4d5ad9ba5103495b00bc0d9fe02fe9a5280d39087c9d6b737919341c5d35e",
+  "status": "INCOMPLETE",
+  "Original_read_complete": true,
+  "all_Original_JSON_files_read": 5,
+  "original_json_sha256": {
+    "T3_BACKUP_RESTORE_DRILL.json": "997c4b60d0c8aa3e3a4961bab21a017caee4ae57356dad58bb18946123a50390",
+    "T3_PACKAGE_FILES_INSTALL.json": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+    "ALIGNED_CHAIN.json": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b",
+    "T3_PACKAGE_INSTALL.json": "691da9456e51154708b467eec87c4d2375442121d9f42e257bec34d297a2e501",
+    "CP7_OW11_MODEL_TARGET_V2_SCALE.json": "dc5a903d6c67dd0843b116ea89585fe35620c5bdb2302433049cbc0054dbb8ac"
+  },
+  "source_pins_exact": 54,
+  "actual_current_F05_source_prefix_compared": [
+    "source_sha256",
+    "expected_case_count",
+    "required_case_counts",
+    "required_case_ids",
+    "predeclared_case_contract",
+    "predeclared_case_sha256",
+    "target_v2_source_sha256"
+  ],
+  "product_paths_byte_identical_between_recorded_refs": true,
+  "counts": {
+    "PASS": 1,
+    "INCOMPLETE": 1
+  },
+  "all_case_facts": {
+    "OW11_MODEL_TARGET_V2_CATALOG22_COMPOSED_PREUSE": {
+      "status": "PASS",
+      "exact_catalog22_composed_inverse": true,
+      "private4_replacements21_no_new_RPC_or_table": true,
+      "dependent_view_partial_inverse_restored": true,
+      "source_sha256": {
+        "cp7_model_target_consumer_v2_stage/MANIFEST.json": "1cc831d70a921a3cc34ddcc37a76d9d0ed35588f9d44ed4a7d0cfbd5b9cc8955",
+        "cp7_model_target_consumer_v2_stage/__init__.py": "c77a917a67865f8b3fc0165beb948664e756601dbcf3edfa94fc283fd33ce54b",
+        "cp7_model_target_consumer_v2_stage/hooks.sql": "fa6eca09c000c418f9e2ba50243976f7590d005847d79e4d64cc8e7309d19f6b",
+        "cp7_model_target_consumer_v2_stage/render.py": "195063c1b83e35ffc2ca21bba7a578afe8c13b3c3fae1ec4b46fcb2d3bf7d657",
+        "cp7_model_target_source_v2/MANIFEST.json": "aa67fe30c9336d7dc91dae40e18ac233411f7ad7f0396e41a1181abade55e396",
+        "cp7_model_target_source_v2/__init__.py": "e644854f4a9f28d84dd443750fdeb4598ccf48a4823aa1aa7f53f6182868e8ef",
+        "cp7_model_target_source_v2/non-stock.sql": "9c4f437ef463d8877078b192e7ffb36d52ba4a70e7cf43f7920b719d9aacf4fa",
+        "cp7_model_target_source_v2/physical.sql": "bf6c6cd37d634e0a894952bafe6b74abf32b77c77545276c037b49fc3837b23f",
+        "cp7_model_target_source_v2/reorder.sql": "784c0778e10c117d78d6e7eb8874224ddc99fce6b4a548b03e4c6838c4b44d4c",
+        "cp7_model_target_source_v2/source.sql": "aa5312f92feb62982b460e871226d8133c5aa90b5b6ed9568b3304e10bd21d3b",
+        "cp7_model_target_source_v2/stock.sql": "41087a56255b082ba4a8f223a57682221119a1d756975ce5f16c853209070370",
+        "cp7_model_target_projection/MANIFEST.json": "df37cce0f27656606634fac61f26579f255ea291dc9f5a1696f28d1cbf2bd51a",
+        "cp7_model_target_projection/__init__.py": "2e2be38a043353af1d45f124d9f69e9c92fa1316c94eac826d133dad56c3b75c",
+        "cp7_model_target_projection/projection.sql": "1e96c6389c3537dcaf59bcf79383754f0b5716ad3c1d9010c77fb0918535e6b7",
+        "cp7_model_target_consumer_v2/MANIFEST.json": "30110d095bd9893ba44bd849b557f89a66ab78034e0a50614ae8ef6b6522f38b",
+        "cp7_model_target_consumer_v2/__init__.py": "ac1648f3ac76e4d032e8d13512eafab1fbb98f1de5e755e34d61e9674379d6d5",
+        "cp7_model_target_consumer_v2/consumer.sql": "48526a5ab9fa7468475b6ba76955b61b2868fa1590e6296d65ee5da390fc6dde",
+        "cp7_model_target_consumer_v2/render.py": "66eb18f6b9362861a7246be6ac569291f0274534758724abb59bc73a26a3ca01",
+        "cp7_model_target_consumer_v2/timeline.sql": "53d7e913df51aecd78598fcba3bdcf9cf1980c25ed100e747731782c16de67e9"
+      },
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-25",
+        "before": "2026-10-25",
+        "after": "2026-10-25"
+      }
+    },
+    "OW11_MODEL_TARGET_V2_OPERATIONAL3600_ALL_TARGET_PARITY_SOURCE": {
+      "status": "INCOMPLETE",
+      "error": "canceling statement due to statement timeout\nCONTEXT:  SQL expression \"jsonb_typeof(v) is distinct from 'object'\n    or (select count(*) from jsonb_object_keys(v))<>cardinality(names)\n    or not v ?& names\"\nPL/pgSQL function cp7_wip.fields(jsonb,text[]) line 3 at IF\nSQL statement \"SELECT cp7_wip.fields(v,array['contract_version','snapshot_id','scope_id','mode','daily_total_pcs','counted_days',\n   'daily_sd','lead_days','review_days','buffer_days','service_level','refs'])\"\nPL/pgSQL function cp7_baseline.target(jsonb) line 10 at PERFORM\nPL/pgSQL function cp7_product_analog_consumer.baseline_rows(jsonb,jsonb,jsonb,text,jsonb) line 44 at assignment\nPL/pgSQL function cp7_analysis_stage.baseline_rows(jsonb,jsonb,jsonb,text) line 3 at RETURN\nPL/pgSQL function cp7_history_bounded.compile(jsonb,jsonb,jsonb,integer) line 87 at assignment\nPL/pgSQL function cp7_bounded_analysis_stage.source(jsonb,boolean) line 19 at assignment\nSQL statement \"select cp7_bounded_analysis_stage.source(q,true),\n  case when pg_current_xact_id_if_assigned()is null then pg_current_snapshot()end\"\nPL/pgSQL function cp7_bounded_analysis_stage.request(jsonb,uuid) line 26 at SQL statement\nSQL function \"erp_cp7_request_bounded_staged_analysis_v1\" statement 1",
+      "sqlstate": "57014",
+      "phase": "PREDECESSOR",
+      "request_millis": 8006.721,
+      "session_function_profile": {
+        "functions": [
+          {
+            "function": "cp7_history_reference.stock_digest(jsonb,timestamp with time zone)",
+            "calls": 1,
+            "total_ms": 3883.49,
+            "self_ms": 3509.127
+          },
+          {
+            "function": "cp7_reorder_inputs.stock_summary(jsonb,timestamp with time zone,jsonb)",
+            "calls": 1,
+            "total_ms": 716.563,
+            "self_ms": 712.174
+          },
+          {
+            "function": "cp7_wip.refs(jsonb)",
+            "calls": 14306,
+            "total_ms": 794.572,
+            "self_ms": 528.721
+          },
+          {
+            "function": "cp7_wip.fields(jsonb,text[])",
+            "calls": 32224,
+            "total_ms": 393.112,
+            "self_ms": 393.112
+          },
+          {
+            "function": "cp7_wip.key(jsonb)",
+            "calls": 100090,
+            "total_ms": 264.463,
+            "self_ms": 264.463
+          },
+          {
+            "function": "cp7_product_analog_consumer.prepare(jsonb,jsonb,jsonb)",
+            "calls": 1,
+            "total_ms": 221.789,
+            "self_ms": 169.409
+          },
+          {
+            "function": "cp7_demand.availability(jsonb)",
+            "calls": 3602,
+            "total_ms": 530.198,
+            "self_ms": 163.387
+          },
+          {
+            "function": "cp7_product_analog_consumer.provenance(jsonb,jsonb,jsonb,jsonb,jsonb,jsonb)",
+            "calls": 3529,
+            "total_ms": 164.046,
+            "self_ms": 129.636
+          },
+          {
+            "function": "cp7_analysis_stage.history_rows(jsonb)",
+            "calls": 1,
+            "total_ms": 121.49,
+            "self_ms": 121.399
+          },
+          {
+            "function": "cp7_reorder_inputs.current_stock(jsonb,jsonb,text)",
+            "calls": 1,
+            "total_ms": 649.246,
+            "self_ms": 118.994
+          },
+          {
+            "function": "cp7_demand.estimate(jsonb)",
+            "calls": 3530,
+            "total_ms": 451.923,
+            "self_ms": 110.377
+          },
+          {
+            "function": "cp7_demand.context(jsonb,text)",
+            "calls": 10662,
+            "total_ms": 170.205,
+            "self_ms": 109.038
+          },
+          {
+            "function": "cp7_reorder_inputs.capture_history(integer)",
+            "calls": 1,
+            "total_ms": 105.028,
+            "self_ms": 104.899
+          },
+          {
+            "function": "cp7_baseline.target(jsonb)",
+            "calls": 3529,
+            "total_ms": 395.638,
+            "self_ms": 93.834
+          },
+          {
+            "function": "cp7_analysis_stage.history_validate(jsonb)",
+            "calls": 1,
+            "total_ms": 331.358,
+            "self_ms": 77.506
+          },
+          {
+            "function": "cp7_bounded_analysis_stage.netting_source(integer,integer)",
+            "calls": 1,
+            "total_ms": 413.296,
+            "self_ms": 75.423
+          },
+          {
+            "function": "cp7_bounded_analysis_stage.analysis_source(integer,integer)",
+            "calls": 1,
+            "total_ms": 488.256,
+            "self_ms": 47.112
+          },
+          {
+            "function": "cp7_profile.source(uuid[],timestamp with time zone)",
+            "calls": 1,
+            "total_ms": 44.513,
+            "self_ms": 44.513
+          },
+          {
+            "function": "cp7_wip.pcs(jsonb)",
+            "calls": 10707,
+            "total_ms": 42.624,
+            "self_ms": 42.624
+          },
+          {
+            "function": "cp7_bounded_analysis_stage.source_parts(integer)",
+            "calls": 1,
+            "total_ms": 315.479,
+            "self_ms": 39.775
+          },
+          {
+            "function": "cp7_reorder_inputs.capture_baseline(integer)",
+            "calls": 1,
+            "total_ms": 227.136,
+            "self_ms": 36.006
+          },
+          {
+            "function": "cp7_product_analog_choice.source_at(text[],timestamp with time zone)",
+            "calls": 1,
+            "total_ms": 34.389,
+            "self_ms": 34.389
+          },
+          {
+            "function": "cp7_bounded_analysis_stage.schedule_source(integer)",
+            "calls": 1,
+            "total_ms": 337.872,
+            "self_ms": 22.01
+          },
+          {
+            "function": "cp7_analysis_native.material_source(jsonb,timestamp with time zone)",
+            "calls": 1,
+            "total_ms": 21.552,
+            "self_ms": 21.552
+          },
+          {
+            "function": "cp7_wip.capture_cutting_sources(uuid[],timestamp with time zone)",
+            "calls": 3,
+            "total_ms": 18.846,
+            "self_ms": 18.846
+          },
+          {
+            "function": "cp7_analysis_stage.events_validate(jsonb)",
+            "calls": 1,
+            "total_ms": 12.433,
+            "self_ms": 12.328
+          },
+          {
+            "function": "cp7_demand.\"decimal\"(jsonb)",
+            "calls": 3622,
+            "total_ms": 9.765,
+            "self_ms": 9.765
+          },
+          {
+            "function": "cp7_demand.items(jsonb,integer)",
+            "calls": 3604,
+            "total_ms": 7.367,
+            "self_ms": 7.367
+          },
+          {
+            "function": "cp7_wip.normalize_cutting(jsonb)",
+            "calls": 1,
+            "total_ms": 15.345,
+            "self_ms": 5.262
+          },
+          {
+            "function": "cp7_product_analog_consumer.capture(jsonb)",
+            "calls": 1,
+            "total_ms": 39.213,
+            "self_ms": 4.824
+          },
+          {
+            "function": "cp7_wip.capture_other_sources(uuid[],uuid[],timestamp with time zone)",
+            "calls": 1,
+            "total_ms": 3.729,
+            "self_ms": 3.729
+          },
+          {
+            "function": "cp7_wip.reconcile(jsonb)",
+            "calls": 2,
+            "total_ms": 6.512,
+            "self_ms": 3.591
+          },
+          {
+            "function": "cp7_fabric_native.physical_source(jsonb,timestamp with time zone)",
+            "calls": 1,
+            "total_ms": 2.958,
+            "self_ms": 2.958
+          },
+          {
+            "function": "cp7_fabric_native.source(jsonb,timestamp with time zone)",
+            "calls": 1,
+            "total_ms": 5.768,
+            "self_ms": 2.81
+          },
+          {
+            "function": "cp7_supply_native.proof_kernel()",
+            "calls": 1,
+            "total_ms": 2.525,
+            "self_ms": 2.463
+          },
+          {
+            "function": "cp7_supply_native.batch_reuse(jsonb,text)",
+            "calls": 1,
+            "total_ms": 2.445,
+            "self_ms": 2.429
+          },
+          {
+            "function": "cp7_planning.history_events(jsonb)",
+            "calls": 1,
+            "total_ms": 2.295,
+            "self_ms": 2.295
+          },
+          {
+            "function": "cp7_supply_native.wip_source_parts(timestamp with time zone)",
+            "calls": 1,
+            "total_ms": 48.568,
+            "self_ms": 1.923
+          },
+          {
+            "function": "cp7_supply_native.merge_facts(jsonb,jsonb)",
+            "calls": 1,
+            "total_ms": 1.318,
+            "self_ms": 1.318
+          },
+          {
+            "function": "cp7_product_analog_consumer.engine_hash()",
+            "calls": 1,
+            "total_ms": 1.311,
+            "self_ms": 1.27
+          },
+          {
+            "function": "cp7_wip.settle_bs(jsonb,jsonb,jsonb,timestamp with time zone)",
+            "calls": 1,
+            "total_ms": 5.512,
+            "self_ms": 1.224
+          },
+          {
+            "function": "cp7_supply_native.classify(jsonb)",
+            "calls": 1,
+            "total_ms": 16.423,
+            "self_ms": 1.078
+          },
+          {
+            "function": "cp7_wip.redispatch_valid(jsonb)",
+            "calls": 1,
+            "total_ms": 0.895,
+            "self_ms": 0.895
+          },
+          {
+            "function": "cp7_supply_native.capture_at(jsonb,timestamp with time zone)",
+            "calls": 1,
+            "total_ms": 18.667,
+            "self_ms": 0.703
+          },
+          {
+            "function": "cp7_identity.workspace_data(uuid[],timestamp with time zone)",
+            "calls": 1,
+            "total_ms": 1.066,
+            "self_ms": 0.643
+          },
+          {
+            "function": "cp7_supply_native.batch_verdict(jsonb,text)",
+            "calls": 1,
+            "total_ms": 19.445,
+            "self_ms": 0.577
+          },
+          {
+            "function": "erp.has_permission(text)",
+            "calls": 5,
+            "total_ms": 0.537,
+            "self_ms": 0.537
+          },
+          {
+            "function": "cp7_wip.transition(jsonb,text,text,text,text,numeric,jsonb)",
+            "calls": 8,
+            "total_ms": 1.284,
+            "self_ms": 0.494
+          },
+          {
+            "function": "cp7_planning.utc(timestamp with time zone)",
+            "calls": 9,
+            "total_ms": 0.489,
+            "self_ms": 0.489
+          },
+          {
+            "function": "cp7_identity.membership(uuid,timestamp with time zone)",
+            "calls": 2,
+            "total_ms": 0.423,
+            "self_ms": 0.423
+          },
+          {
+            "function": "cp7_demand.day(jsonb)",
+            "calls": 21,
+            "total_ms": 0.346,
+            "self_ms": 0.346
+          },
+          {
+            "function": "cp7_schedule_native.source_at(timestamp with time zone)",
+            "calls": 1,
+            "total_ms": 0.359,
+            "self_ms": 0.311
+          },
+          {
+            "function": "cp7_demand.instant(jsonb)",
+            "calls": 5,
+            "total_ms": 0.399,
+            "self_ms": 0.308
+          },
+          {
+            "function": "cp7_private.access_now()",
+            "calls": 1,
+            "total_ms": 0.981,
+            "self_ms": 0.249
+          },
+          {
+            "function": "cp7_analysis_stage.bounds()",
+            "calls": 4,
+            "total_ms": 0.18,
+            "self_ms": 0.18
+          },
+          {
+            "function": "cp7_planning.history_query(jsonb)",
+            "calls": 2,
+            "total_ms": 0.336,
+            "self_ms": 0.178
+          },
+          {
+            "function": "cp7_wip.ref(text,text,text)",
+            "calls": 6,
+            "total_ms": 0.168,
+            "self_ms": 0.168
+          },
+          {
+            "function": "erp.role_permission_keys(uuid)",
+            "calls": 1,
+            "total_ms": 0.11,
+            "self_ms": 0.11
+          },
+          {
+            "function": "cp7_analysis_stage.job_of(uuid,uuid)",
+            "calls": 1,
+            "total_ms": 0.1,
+            "self_ms": 0.1
+          },
+          {
+            "function": "erp.get_my_access_v1()",
+            "calls": 1,
+            "total_ms": 0.194,
+            "self_ms": 0.084
+          }
+        ],
+        "completed_calls_only": true,
+        "inlined_SQL_functions_may_be_absent": true,
+        "instrumentation_overhead_uncalibrated": true,
+        "canceled_active_frames_may_be_absent": true
+      },
+      "statement_limit": "8s",
+      "gateway_limit_increased": false,
+      "production_functions_replaced_for_profiling": false,
+      "factory_SLA_claim": false,
+      "production_go": false,
+      "observations": {},
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-25",
+        "before": "2026-10-25",
+        "after": "2026-10-25"
+      }
+    }
+  },
+  "all_package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "CP6_advisor_boundary_public_catalog_WIB_session_Auth_cleanup_restored": true,
+  "current_overlay_not_reached": true,
+  "before_after_comparison_observed": false,
+  "previous_complete8f_Original_retained": true,
+  "stable_latency_or_SLA_established": false,
+  "bare_rerun_authorized_by_this_receipt": false,
+  "unchanged8s": true,
+  "actual_Auth_HTTP_credit": false,
+  "actual_concurrency": false,
+  "full_factory1200SKU3size_qualified": false,
+  "formal_acceptance": "5/16",
+  "CP7C_accepted": false,
+  "independent_acceptance": false,
+  "production_go": false
+}
