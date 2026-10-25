@@ -2,6 +2,7 @@
 from pathlib import Path
 from hashlib import sha256
 import json,os,subprocess
+from cp7_current_transport_original_schema import checked_group
 PARTS=('B_PERFORMANCE_TRANSPORT_A_ORIGINAL_REPORT','B_PERFORMANCE_TRANSPORT_B_ORIGINAL_REPORT')
 VARS={'CURRENT_VERSIONED_PERFORMANCE_NATIVE_ORIGINAL_REPORT','CURRENT_MODEL_TARGET_TRANSPORT_ORIGINAL_REPORT',*PARTS}
 
@@ -35,11 +36,11 @@ def admitted(repo,here,ids,product,native,transport):
                 path='scripts/'+Path(transport.MODULES[component].__file__).name
                 assert actual['source_declaration']['qualification']['files'][path]==sha256((repo/path).read_bytes()).hexdigest()
                 for kind in('http','races'):assert set(actual['transport_groups'][component+'_'+kind]['races'if kind=='races'else'cases'])==set(transport.GROUPS[component+'_'+kind])
+            expected_groups=actual['source_declaration']['qualification']['groups']
+            assert set(actual['transport_groups'])==set(expected_groups)
             for name,g in actual['transport_groups'].items():
-                assert g['status']=='RUN_COMPLETE'and g['database_remaining']==0 and not g['cleanup_failures']and not g['session_leaks']
+                checked_group(g,expected_groups[name],races=name.endswith('_races'))
                 rows=g['races'if name.endswith('_races')else'cases'];assert all(r['status']=='PASS'for r in rows.values())
-                if name.endswith('_http'):
-                    assert g['real_auth']and not g['jwt_signed_by_runtime']and not g['test_only_usage_grant']and g['auth_counts']['restored']and not g['auth_cleanup_failures']
         else:
             assert proof==parent['qualification']['actual_qualification_originals'][variable]
             heads.add(proof['head']);runs.add(proof['run_id'])
@@ -52,8 +53,7 @@ def admitted(repo,here,ids,product,native,transport):
                 g=actual[group];rows=g['races'if group=='races'else'cases'];assert set(rows)==set(names)and g['counts']=={'PASS':len(names)}
                 unique.update(names);assert all(r['status']=='PASS'for r in rows.values())
                 if group=='native':assert all(r['full_boundary_restored']and r['public_schema_unchanged']for r in rows.values())
-                else:assert g['status']=='RUN_COMPLETE'and g['database_remaining']==0 and not g['cleanup_failures']and not g['session_leaks']
-                if group=='http':assert g['real_auth']and not g['jwt_signed_by_runtime']and not g['test_only_usage_grant']and g['auth_counts']['restored']and not g['auth_cleanup_failures']
+                else:checked_group(g,names,races=group=='races')
             found=0
             for name,values in actual.items():
                 if name.endswith('source_sha256')and isinstance(values,dict):

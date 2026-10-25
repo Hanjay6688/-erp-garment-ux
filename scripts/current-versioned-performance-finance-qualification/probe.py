@@ -12,6 +12,7 @@ sys.dont_write_bytecode=True
 HERE=Path(__file__).resolve().parent
 REPO=HERE.parents[1]
 sys.path.insert(0,str(REPO/'scripts'))
+from cp7_current_transport_original_schema import checked_group
 import cp7_p21_current_chain_rehearsal_probe as chain_proof
 import cp7_p21_chain_adapter as chain_adapter
 import cp7_ab_ui_admission as current_admission
@@ -42,15 +43,9 @@ def admitted():
 
 
 def group_ok(group,ids,races=False):
-    rows=group.get('races'if races else'cases',{})
-    common=(set(rows)==set(ids)and all(c.get('status')=='PASS'for c in rows.values())
-        and group.get('counts')=={'PASS':len(ids)}and group.get('status')=='RUN_COMPLETE'
-        and group.get('database_remaining')==0 and not group.get('error')
-        and not group.get('cleanup_failures')and not group.get('session_leaks'))
-    if races:return common and group.get('test_only_usage_grant')is True
-    return(common and(group.get('auth_counts')or{}).get('restored')and not group.get('auth_cleanup_failures')
-        and group.get('real_auth')is True and group.get('jwt_signed_by_runtime')is False
-        and group.get('test_only_usage_grant')is False)
+    try:checked_group(group,list(ids),races=races)
+    except (AssertionError,KeyError,TypeError):return False
+    return True
 
 
 def verify(cur):

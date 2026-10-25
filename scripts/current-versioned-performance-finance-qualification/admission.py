@@ -2,6 +2,7 @@
 from pathlib import Path
 from hashlib import sha256
 import json,os,subprocess
+from cp7_current_transport_original_schema import checked_group
 
 
 def admitted(repo,here,ids,product,native):
@@ -43,8 +44,9 @@ def admitted(repo,here,ids,product,native):
                 assert actual['label']=='CP7_CURRENT_MODEL_TARGET_FINANCE10'
                 groups=actual['transport_groups'];assert groups['finance_auth']['counts']=={'PASS':3}and groups['finance_races']['counts']=={'PASS':7}
                 assert groups['finance_auth']['real_auth']and not groups['finance_auth']['jwt_signed_by_runtime']and not groups['finance_auth']['test_only_usage_grant']
-                assert groups['finance_auth']['auth_counts']['restored']and not groups['finance_auth']['auth_cleanup_failures']
-                assert all(g['status']=='RUN_COMPLETE'and g['database_remaining']==0 and not g['cleanup_failures']and not g['session_leaks']for g in groups.values())
+                expected_groups={'finance_auth':list(ids[:3]),'finance_races':list(ids[3:])}
+                assert set(groups)==set(expected_groups)
+                for name,g in groups.items():checked_group(g,expected_groups[name],races=name.endswith('_races'))
                 assert len(actual['full_capture_snapshot_observations'])==7
                 assert all(o['all_fields_retained']==23 and o['session_timezone_restored']for o in actual['full_capture_snapshot_observations'])
             else:

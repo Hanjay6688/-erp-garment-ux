@@ -1,6 +1,7 @@
 """Admit six complete current regressions and preserve the failed factory Original."""
 from hashlib import sha256
 import json
+from cp7_current_transport_original_schema import checked_group
 
 LABELS=dict(native='CP7_CURRENT_VERSIONED_PERFORMANCE_NATIVE36',restore='CP7_CURRENT_VERSIONED_PERFORMANCE_USED_RESTORE8',
     finance='CP7_CURRENT_VERSIONED_PERFORMANCE_FINANCE10',cron='CP7_CURRENT_VERSIONED_PERFORMANCE_CRON1',
@@ -70,7 +71,7 @@ def validate(repo,config,proofs,actuals,product):
                     assert group['counts']=={'PASS':len(rows)}and rows and all(row['status']=='PASS'for row in rows.values())
                     assert group['database_remaining']==0 and not group.get('cleanup_failures')and not group.get('session_leaks')
                     if kind=='browser':assert group['host_status']=='RUN_COMPLETE'and group['host_exit']==0 and group['console_errors']==0 and len(rows)==2
-                    else:assert group['status']=='RUN_COMPLETE'
+                    else:checked_group(group,list(rows),races=races)
                     if not races:
                         assert group['real_auth']and not group['jwt_signed_by_runtime']and not group['test_only_usage_grant']
                         assert group['auth_counts']['restored']and not group.get('auth_cleanup_failures')
