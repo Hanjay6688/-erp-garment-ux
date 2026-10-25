@@ -3287,3 +3287,36 @@ public/22-boundary/WIB/session/real Auth cleanup checked. Respective counts14/2/
 All51business backend files remain exact qualified8f. Formal5/16, CP7C/independent
 false, production_go=false; continue safe source capture/deferred deterministic
 compilation on frozen complete summaries, not a weaker assertion.
+
+## 170. B25 Oktober2026 WIB — private frozen source v2 Native4 candidate
+
+Separate cp7_frozen_analysis_v2:11private helpers/one schema, no table/RPC/old
+replacement or default caller. One STABLE capture freezes the actual full
+non-stock source, qualified PG17 binary reference and complete SQL stock
+summary. Exact full-count equality, both clocks, query, producer and entire
+base/summary are sealed. Raw INCOMPLETE stays; coverage PENDING is explicit.
+Pure prepare validates the capsule and calls the unchanged current B21 compiler
+with those frozen arguments; no later stock/clock read or jobs.reference update.
+Old v1 hash/request/archives remain untouched. Work identity is explicitly v2.
+
+7local binding groups PASS on PGlite18.6 with explicitly controlled compiler,
+no Native/arithmetic/factory credit. Retain first missing fixture dependency and
+SQL NULL versus JSON null transport errors. Exact compiler-derived non-stock
+admission, SQL AST/clash, own closed F05prefix/67pins/86negative routes PASS;
+old binary/factory preflights/26parity assertions retained. Source-map preparer
+first stopped at unchanged one-size map; corrected only factory/F05 and binary
+pins. All51qualified current business source files unchanged.
+
+Own Native4 checks exact22catalog/inverse, real capture/full compiler JSON parity,
+exact1200SKUx3 physical sizes/363600movements with separate capture/prepare8s
+calls, and real Native posting between capture and repeated prepare. First
+Original pending; no request/unit integration, finance/HPP or factory SLA credit.
+Do not rerun unchanged failed factory merely for green. Continue explicit unit
+adapter while this isolated candidate qualifies. A/default/integration/after-use
+and independent acceptance remain separate; formal5/16/production_go=false.
+
+Evidence-only29f6bb8d README change automatically triggered binary workflow
+40193227282. Treat as an unrequested diagnostic repeat, not new speed/acceptance
+credit; retain its complete Original too. Narrow the two own private workflow
+source folder paths to .py/.sql/.json so later README-only evidence updates do
+not launch the same expensive runtime again. No manual rerun issued.

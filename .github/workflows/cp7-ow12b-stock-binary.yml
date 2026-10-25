@@ -4,8 +4,12 @@ name: CP7 Private Stock Binary Reference Native4
     branches:
     - astra/d17-14-produksi
     paths:
-    - scripts/cp7_history_reference/**
-    - scripts/cp7_history_reference_binary_v2/**
+    - scripts/cp7_history_reference/*.py
+    - scripts/cp7_history_reference/*.sql
+    - scripts/cp7_history_reference/*.json
+    - scripts/cp7_history_reference_binary_v2/*.py
+    - scripts/cp7_history_reference_binary_v2/*.sql
+    - scripts/cp7_history_reference_binary_v2/*.json
     - scripts/cp7_ow12b_stock_binary*
     - scripts/cp7_ow12b_factory3600_fixture.py
     - scripts/cp7_f05_analysis_probe.py

@@ -1,0 +1,23 @@
+{
+  "status": "LOCAL_PREPARATION_FAILURES_RETAINED",
+  "failures": [
+    {
+      "path": "frozen-capsule-local-first.log",
+      "bytes": 32646,
+      "sha256": "45f75395886543044028cc878e80df34212b2f33eb641aa8c6323ee202618731",
+      "reason": "Controlled fixture omitted the predecessor producer_hash SQL dependency; no Native execution."
+    },
+    {
+      "path": "frozen-capsule-local-second.log",
+      "bytes": 22609,
+      "sha256": "4a3380ce16463d9f34bf6e70da2d5182be6345f66493cd7bc478802997fe586f",
+      "reason": "Controlled Node wrapper encoded absent SQL summary as JSON null; corrected only argument transport, not the seal guard."
+    },
+    {
+      "stage": "source-map-publication-preflight",
+      "reason": "One-size source map does not pin F05; preparer wrongly required exactly one changed pin and stopped before factory map update. Correct conditional map inspection; Native not run."
+    }
+  ],
+  "actual_Native": false,
+  "production_go": false
+}
