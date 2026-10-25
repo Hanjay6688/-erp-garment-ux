@@ -1,0 +1,27 @@
+{
+  "name": "CP7_CURRENT_MODEL_HISTORY_NATIVE25.json",
+  "status": "PASS",
+  "head": "e3261d84ae217d1d37374990dec5804fd1970934",
+  "run_id": 40129877025,
+  "job_id": 120979117948,
+  "artifact_id": 12575033929,
+  "zip_bytes": 2625152,
+  "zip_sha256": "7f2bb3c1b33850560743f93a2945535ff2348a7b108d1fbee0aafac7dc69d723",
+  "bytes": 7654638,
+  "sha256": "35bd17b9adca5aa9ea9833b1fd8785d2286e40fa2aa22056ff0681c5daa0d3e2",
+  "archive_member": "CP7_CURRENT_MODEL_HISTORY_NATIVE25.json",
+  "source_pins_verified": 3255,
+  "actual_prerequisites_verified": 5,
+  "case_records_inspected": 25,
+  "gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "production_go": false,
+  "independent_acceptance": false
+}

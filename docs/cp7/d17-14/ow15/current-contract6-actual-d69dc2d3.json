@@ -1,0 +1,71 @@
+{
+  "name": "CP7_CURRENT_MODEL_TARGET_CONTRACT6.json",
+  "status": "INCOMPLETE",
+  "head": "d69dc2d3eee3757ee7e92421c202ee3756d3f723",
+  "run_id": 40129523155,
+  "job_id": 120978054710,
+  "artifact_id": 12575971138,
+  "zip_bytes": 2227065,
+  "zip_sha256": "fb241d6f35473f9813e86c1620100af6dd82cafac4cbc8c532970234af778bf3",
+  "bytes": 3792030,
+  "sha256": "ca4a4d002ca8b64fe7e1eaad3d783a81f8e512ecaddfb1d7ecb906020923870d",
+  "archive_member": "CP7_CURRENT_MODEL_TARGET_CONTRACT6.json",
+  "source_pins_verified": 3221,
+  "actual_prerequisites_verified": 2,
+  "case_records_inspected": 12,
+  "gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "production_go": false,
+  "independent_acceptance": false,
+  "case_status_comparison": {
+    "UNPAYROLLED_PARTIAL_WORK_BLOCKS_REPORT": {
+      "baseline": "PASS",
+      "current": "PASS"
+    },
+    "OWNER_WORK_REFERENCE_BLOCKS_UNTIL_PAYROLLED": {
+      "baseline": "PASS",
+      "current": "PASS"
+    },
+    "OWNER_VENDOR_REFERENCE_BLOCKS_UNTIL_PAYROLLED": {
+      "baseline": "PASS",
+      "current": "PASS"
+    },
+    "RETURN_REBOUND_SOURCE_ATOMIC_REFUSAL": {
+      "baseline": "PASS",
+      "current": "PASS"
+    },
+    "RETURN_ALLOCATION_LIMIT_ATOMIC_REFUSAL": {
+      "baseline": "PASS",
+      "current": "PASS"
+    },
+    "RETURN_REBOUND_CUSTOMER_ATOMIC_REFUSAL": {
+      "baseline": "PASS",
+      "current": "INCOMPLETE"
+    }
+  },
+  "first_failure": {
+    "status": "INCOMPLETE",
+    "error": "('OW04_SOURCE_CUSTOMER_MISMATCH', {'identity': ('authenticated', 'authenticated', 'OWNER'), 'refused': True, 'error': {'sqlstate': 'P0001', 'message': 'CP7_NATIVE_EMPTY_ACTIVE_SOURCE_REQUIRED\\nCONTEXT:  PL/pgSQL function cp7_credit.native_empty_enter_v1(uuid) line 26 at RAISE\\nSQL statement \"SELECT cp7_credit.native_empty_enter_v1(p_return)\"\\nPL/pgSQL function cp7_credit.native_return_enter(uuid) line 4 at PERFORM\\nSQL statement \"SELECT cp7_credit.native_return_enter(p_return_id)\"\\nPL/pgSQL function post_sales_return(uuid) line 29 at PERFORM'}, 'rows': None, 'changed': 0})",
+    "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py\", line 165, in _strict_group_once\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-cp6-contract-qualification/cases.py\", line 180, in run\n    row=fn(cur,day,today,current)\n        ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-cp6-contract-qualification/cases.py\", line 156, in run\n    result=reject(cur,rid,kind,current)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-cp6-contract-qualification/cases.py\", line 128, in reject\n    assert (first==expected if current else expected in first),(expected,result)\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ('OW04_SOURCE_CUSTOMER_MISMATCH', {'identity': ('authenticated', 'authenticated', 'OWNER'), 'refused': True, 'error': {'sqlstate': 'P0001', 'message': 'CP7_NATIVE_EMPTY_ACTIVE_SOURCE_REQUIRED\\nCONTEXT:  PL/pgSQL function cp7_credit.native_empty_enter_v1(uuid) line 26 at RAISE\\nSQL statement \"SELECT cp7_credit.native_empty_enter_v1(p_return)\"\\nPL/pgSQL function cp7_credit.native_return_enter(uuid) line 4 at PERFORM\\nSQL statement \"SELECT cp7_credit.native_return_enter(p_return_id)\"\\nPL/pgSQL function post_sales_return(uuid) line 29 at PERFORM'}, 'rows': None, 'changed': 0})\n",
+    "full_boundary_restored": true,
+    "public_schema_unchanged": true,
+    "session_leaks": {
+      "advisory_locks": 0,
+      "advisory_lock_keys": [],
+      "other_sessions": []
+    },
+    "business_day": {
+      "planned": "2026-10-25",
+      "before": "2026-10-25",
+      "after": "2026-10-25"
+    }
+  },
+  "diagnosis": "Bad customer is still refused atomically; current callback emits CP7_NATIVE_EMPTY_ACTIVE_SOURCE_REQUIRED instead of the retained OW04_SOURCE_CUSTOMER_MISMATCH. The positive control was not reached; no positive-control claim."
+}

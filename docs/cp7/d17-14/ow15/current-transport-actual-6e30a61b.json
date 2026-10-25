@@ -1,0 +1,27 @@
+{
+  "name": "CP7_CURRENT_MODEL_TARGET_TRANSPORT28.json",
+  "status": "PASS",
+  "head": "6e30a61b0f6c1bbcc50b3a6a82c0ebd52af47ae3",
+  "run_id": 40129473907,
+  "job_id": 120977898281,
+  "artifact_id": 12577841332,
+  "zip_bytes": 2015321,
+  "zip_sha256": "409b9c12e680176d2a6c436fb702b607ad57aa8ef7b9376938601bd88e362f29",
+  "bytes": 1678284,
+  "sha256": "ce3f9e88bf14fac95b9a691a159a5ad38a37b9aba30f0b54f9f33c03b3f970de",
+  "archive_member": "CP7_CURRENT_MODEL_TARGET_TRANSPORT28.json",
+  "source_pins_verified": 3215,
+  "actual_prerequisites_verified": 5,
+  "case_records_inspected": 28,
+  "gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "production_go": false,
+  "independent_acceptance": false
+}

@@ -1,0 +1,27 @@
+{
+  "name": "CP7_CURRENT_MODEL_TARGET_USED_RESTORE8.json",
+  "status": "PASS",
+  "head": "dd9d05ea61f74a05a5f91f52b6b668992d31acf1",
+  "run_id": 40129512263,
+  "job_id": 120978023253,
+  "artifact_id": 12576490040,
+  "zip_bytes": 4019512,
+  "zip_sha256": "5e85fbe0d7f9a0fdbd75e5b0aa373c9cbf540654191fca0c7d16eb4993ffeb92",
+  "bytes": 2074787,
+  "sha256": "0336cadecfc7bc0f10784f7d23878696bde303bbd04cf581a68da2cfd8a858cf",
+  "archive_member": "CP7_CURRENT_MODEL_TARGET_USED_RESTORE8.json",
+  "source_pins_verified": 3215,
+  "actual_prerequisites_verified": 2,
+  "case_records_inspected": 0,
+  "gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "production_go": false,
+  "independent_acceptance": false
+}

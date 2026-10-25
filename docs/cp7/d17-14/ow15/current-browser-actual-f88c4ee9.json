@@ -1,0 +1,27 @@
+{
+  "name": "CP7_CURRENT_MODEL_TARGET_BROWSER6.json",
+  "status": "PASS",
+  "head": "f88c4ee99fb5d18cf11caada5fab86ad161b007a",
+  "run_id": 40129468846,
+  "job_id": 120977882239,
+  "artifact_id": 12575297063,
+  "zip_bytes": 15474033,
+  "zip_sha256": "5eb188cb033eb533652f60b2300261d39d300f9c04a2d3541728797767073126",
+  "bytes": 1539916,
+  "sha256": "6076ef5d3b53d50d3ce302b63c1e75757d7d5c78aeb0301e00b43d353e754c51",
+  "archive_member": "CP7_CURRENT_MODEL_TARGET_BROWSER6.json",
+  "source_pins_verified": 3215,
+  "actual_prerequisites_verified": 4,
+  "case_records_inspected": 6,
+  "gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "production_go": false,
+  "independent_acceptance": false
+}

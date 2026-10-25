@@ -64,8 +64,13 @@ pemakaian, pemulihan seluruh 22 kelompok/semua baris/sequence serta lima gate
 paket terverifikasi. Ini bukti penulis, bukan penerimaan independen.
 [Ketujuh followup telah diikat dan diluncurkan](CURRENT_TARGET_FOLLOWUPS_20261025.json)
 setelah admission lengkap masing-masing: Browser6, UsedRestore8, Transport28,
-Finance10, Cron1, HistoryNative25 dan kontrak retur6. Hasil runtime ketujuhnya
-masih menunggu; run hijau tanpa Original lengkap belum dihitung sebagai PASS.
+Finance10, Cron1, HistoryNative25 dan kontrak retur6. Laporan mentah enam paket sudah diverifikasi PASS: Browser6, UsedRestore8,
+Transport28, Finance10, Cron1 dan HistoryNative25, beserta seluruh pin sumber,
+prasyarat Original, pemulihan CP6, advisor dan lima gate. Kontrak retur6 tetap
+INCOMPLETE: baseline6 PASS, susunan terbaru5 PASS/1 INCOMPLETE. Retur dengan
+pelanggan salah ditolak tanpa perubahan data, tetapi mengeluarkan kode
+CP7_NATIVE_EMPTY_ACTIVE_SOURCE_REQUIRED, bukan OW04_SOURCE_CUSTOMER_MISMATCH.
+Kontrol retur sah berikutnya belum tercapai pada kasus itu. Tes asli dipertahankan.
 Komponen riwayat belum dipasang dalam susunan target ini. Cabang A riwayat
 terpisah menyiapkan Native25 dan UsedRestore8; komponen B riwayat sudah
 Native6 dan Auth/concurrency7 PASS, tetapi bukti gabungan A masih terbuka.
@@ -100,6 +105,6 @@ Prepared25Oct WIB: exact1200commercialSKU x3 physical sizes Native fixture and
 actual-minute official-finance runner are in
 see
 [scripts/current-factory-finance-qualification](../../../../scripts/current-factory-finance-qualification/README.md).
-SOURCE absent; actual current Native20 PASS is available, current Cron1 PASS remains pending. No factory
+SOURCE absent; actual current Native20 PASS is available, current Cron1 PASS is now verified; factory binding and qualification are next. No factory
 runtime credit. All28 current transport cases stay unchanged; B target11 may
 qualify through both complete same-head partitions only, with no duplicate credit.

@@ -16,11 +16,25 @@
         {
           "id": 40129468846,
           "name": "CP7 full current model dated target browser6",
-          "status": "in_progress",
-          "conclusion": null,
+          "status": "completed",
+          "conclusion": "success",
           "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/40129468846"
         }
-      ]
+      ],
+      "actual_original": {
+        "name": "CP7_CURRENT_MODEL_TARGET_BROWSER6.json",
+        "status": "PASS",
+        "head": "f88c4ee99fb5d18cf11caada5fab86ad161b007a",
+        "run_id": 40129468846,
+        "job_id": 120977882239,
+        "artifact_id": 12575297063,
+        "zip_bytes": 15474033,
+        "zip_sha256": "5eb188cb033eb533652f60b2300261d39d300f9c04a2d3541728797767073126",
+        "bytes": 1539916,
+        "sha256": "6076ef5d3b53d50d3ce302b63c1e75757d7d5c78aeb0301e00b43d353e754c51",
+        "archive_member": "CP7_CURRENT_MODEL_TARGET_BROWSER6.json"
+      },
+      "writer_result": "PASS"
     },
     {
       "kind": "restore",
@@ -30,11 +44,25 @@
         {
           "id": 40129512263,
           "name": "CP7 full current finance model dated target used restore8",
-          "status": "in_progress",
-          "conclusion": null,
+          "status": "completed",
+          "conclusion": "success",
           "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/40129512263"
         }
-      ]
+      ],
+      "actual_original": {
+        "name": "CP7_CURRENT_MODEL_TARGET_USED_RESTORE8.json",
+        "status": "PASS",
+        "head": "dd9d05ea61f74a05a5f91f52b6b668992d31acf1",
+        "run_id": 40129512263,
+        "job_id": 120978023253,
+        "artifact_id": 12576490040,
+        "zip_bytes": 4019512,
+        "zip_sha256": "5e85fbe0d7f9a0fdbd75e5b0aa373c9cbf540654191fca0c7d16eb4993ffeb92",
+        "bytes": 2074787,
+        "sha256": "0336cadecfc7bc0f10784f7d23878696bde303bbd04cf581a68da2cfd8a858cf",
+        "archive_member": "CP7_CURRENT_MODEL_TARGET_USED_RESTORE8.json"
+      },
+      "writer_result": "PASS"
     },
     {
       "kind": "transport",
@@ -44,11 +72,25 @@
         {
           "id": 40129473907,
           "name": "CP7 full current model dated target Auth9 races19",
-          "status": "in_progress",
-          "conclusion": null,
+          "status": "completed",
+          "conclusion": "success",
           "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/40129473907"
         }
-      ]
+      ],
+      "actual_original": {
+        "name": "CP7_CURRENT_MODEL_TARGET_TRANSPORT28.json",
+        "status": "PASS",
+        "head": "6e30a61b0f6c1bbcc50b3a6a82c0ebd52af47ae3",
+        "run_id": 40129473907,
+        "job_id": 120977898281,
+        "artifact_id": 12577841332,
+        "zip_bytes": 2015321,
+        "zip_sha256": "409b9c12e680176d2a6c436fb702b607ad57aa8ef7b9376938601bd88e362f29",
+        "bytes": 1678284,
+        "sha256": "ce3f9e88bf14fac95b9a691a159a5ad38a37b9aba30f0b54f9f33c03b3f970de",
+        "archive_member": "CP7_CURRENT_MODEL_TARGET_TRANSPORT28.json"
+      },
+      "writer_result": "PASS"
     },
     {
       "kind": "finance",
@@ -58,11 +100,25 @@
         {
           "id": 40129517530,
           "name": "CP7 full current dated target finance Auth3 races7",
-          "status": "in_progress",
-          "conclusion": null,
+          "status": "completed",
+          "conclusion": "success",
           "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/40129517530"
         }
-      ]
+      ],
+      "actual_original": {
+        "name": "CP7_CURRENT_MODEL_TARGET_FINANCE10.json",
+        "status": "PASS",
+        "head": "1167a4f163aed719d1622194cc7aef30bab3ca8c",
+        "run_id": 40129517530,
+        "job_id": 120978039076,
+        "artifact_id": 12576825559,
+        "zip_bytes": 2062623,
+        "zip_sha256": "c2eb11de0c5ca5be12c5d25118cbcb9cfa3142c9087853153299463428c49b1f",
+        "bytes": 2185940,
+        "sha256": "1904e85b5be4c5d0f9b3febceadc7622e4b080e781bc6eb0426091e1c0a65131",
+        "archive_member": "CP7_CURRENT_MODEL_TARGET_FINANCE10.json"
+      },
+      "writer_result": "PASS"
     },
     {
       "kind": "cron",
@@ -72,11 +128,25 @@
         {
           "id": 40129478997,
           "name": "CP7 full current dated target actual minute cron1",
-          "status": "in_progress",
-          "conclusion": null,
+          "status": "completed",
+          "conclusion": "success",
           "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/40129478997"
         }
-      ]
+      ],
+      "actual_original": {
+        "name": "CP7_CURRENT_MODEL_TARGET_CRON1.json",
+        "status": "PASS",
+        "head": "390823868c5d4cf132005cba6f82d6c58a807697",
+        "run_id": 40129478997,
+        "job_id": 120977915144,
+        "artifact_id": 12575496460,
+        "zip_bytes": 2020713,
+        "zip_sha256": "9af1cffb96b53e2365b81918932c44cf4085c4e61959961d03db7d364a0a0d49",
+        "bytes": 1716369,
+        "sha256": "e2a2b8c727cdb369de3ce1ca012045f3350b8d57f2ebb3561ae453f40b196284",
+        "archive_member": "CP7_CURRENT_MODEL_TARGET_CRON1.json"
+      },
+      "writer_result": "PASS"
     },
     {
       "kind": "history25",
@@ -86,11 +156,25 @@
         {
           "id": 40129877025,
           "name": "CP7 full current scoped history Native25",
-          "status": "in_progress",
-          "conclusion": null,
+          "status": "completed",
+          "conclusion": "success",
           "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/40129877025"
         }
-      ]
+      ],
+      "actual_original": {
+        "name": "CP7_CURRENT_MODEL_HISTORY_NATIVE25.json",
+        "status": "PASS",
+        "head": "e3261d84ae217d1d37374990dec5804fd1970934",
+        "run_id": 40129877025,
+        "job_id": 120979117948,
+        "artifact_id": 12575033929,
+        "zip_bytes": 2625152,
+        "zip_sha256": "7f2bb3c1b33850560743f93a2945535ff2348a7b108d1fbee0aafac7dc69d723",
+        "bytes": 7654638,
+        "sha256": "35bd17b9adca5aa9ea9833b1fd8785d2286e40fa2aa22056ff0681c5daa0d3e2",
+        "archive_member": "CP7_CURRENT_MODEL_HISTORY_NATIVE25.json"
+      },
+      "writer_result": "PASS"
     },
     {
       "kind": "contract6",
@@ -100,15 +184,30 @@
         {
           "id": 40129523155,
           "name": "CP7 full current target retained contract6 comparison",
-          "status": "in_progress",
-          "conclusion": null,
+          "status": "completed",
+          "conclusion": "failure",
           "html_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/40129523155"
         }
-      ]
+      ],
+      "actual_original": {
+        "name": "CP7_CURRENT_MODEL_TARGET_CONTRACT6.json",
+        "status": "INCOMPLETE",
+        "head": "d69dc2d3eee3757ee7e92421c202ee3756d3f723",
+        "run_id": 40129523155,
+        "job_id": 120978054710,
+        "artifact_id": 12575971138,
+        "zip_bytes": 2227065,
+        "zip_sha256": "fb241d6f35473f9813e86c1620100af6dd82cafac4cbc8c532970234af778bf3",
+        "bytes": 3792030,
+        "sha256": "ca4a4d002ca8b64fe7e1eaad3d783a81f8e512ecaddfb1d7ecb906020923870d",
+        "archive_member": "CP7_CURRENT_MODEL_TARGET_CONTRACT6.json"
+      },
+      "writer_result": "INCOMPLETE"
     }
   ],
   "source_admission": "All seven complete source admissions passed before launch; each binds actual Native20 Original.",
   "production_go": false,
   "independent_acceptance": false,
-  "formal_accepted": "5/16"
+  "formal_accepted": "5/16",
+  "conclusion": "Six complete Original-verified PASS packets; retained contract6 baseline PASS6/current PASS5 INCOMPLETE1. No old failure relabelled."
 }
