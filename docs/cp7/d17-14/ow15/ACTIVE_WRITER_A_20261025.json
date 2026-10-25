@@ -1,5 +1,5 @@
 {
-  "recorded_at_utc": "2026-10-25T06:31:41.285792+00:00",
+  "recorded_at_utc": "2026-10-25T06:48:26.720787+00:00",
   "role": "A finance writer/integrator replacing Claude",
   "slogan": [
     "VENI. VIDI. VICI. ERP. \u2014 I CONQUERED ERP.",
@@ -10,34 +10,23 @@
   "independent_acceptance": false,
   "running": [
     {
-      "scope": "factory1200x3 official finance actual minute cron",
-      "head": "b7a69c2c9b2568b5a148e9067ee739b981a20435",
-      "run_id": 40166794564,
-      "job_id": 121089393147,
-      "status": "IN_PROGRESS_RUNTIME"
-    },
-    {
-      "scope": "immutable history complete used restore8",
-      "head": "85411344dbf7a134bdf315cb8be72a819c568b1f",
-      "run_id": 40166765382,
-      "job_id": 121089307360,
-      "status": "IN_PROGRESS_RUNTIME"
-    },
-    {
-      "scope": "B versioned target consumer Native6",
-      "head": "dbc0d3ffda3a839dddb41821dcd027254a62d739",
-      "run_id": 40167211154,
-      "job_id": 121090610067,
-      "status": "IN_PROGRESS_RUNTIME"
-    },
-    {
       "scope": "selected-return unchanged Native20 regression",
       "head": "5cba3b3bcd0d7182255c9b5cde6daea078377008",
       "run_id": 40169046409,
       "job_id": 121095967944,
-      "status": "IN_PROGRESS_SOURCE_ADMISSION",
+      "status": "IN_PROGRESS_RUNTIME",
       "full_local_source_admission": "PASS",
       "source_pins": 3237
+    },
+    {
+      "scope": "complete finance history scoped model Native30",
+      "head": "862bedbaa04afa130b984c1f474f71d03d0380e6",
+      "run_id": 40170086669,
+      "job_id": 121098981598,
+      "status": "IN_PROGRESS_PREREQUISITES",
+      "full_local_source_admission": "PASS",
+      "source_pins": 3300,
+      "actual_originals": 6
     }
   ],
   "actual_new_component": {
@@ -89,41 +78,31 @@
       "native20_SOURCE_true_merged": true
     },
     {
-      "scope": "full scoped model Native30",
-      "head": "85b9226a29bc488cf170fb64d5c96e9fd3b95af0",
-      "next": "Bind actual history restore8 PASS plus verified history25 and four B component Originals; full source admission, launch",
-      "execution_branch": "astra-a/d17-14-scoped-model-native30-20261025",
-      "SOURCE_bound": false,
-      "local_controls": {
-        "catalog_positive": 2,
-        "catalog_negative": 9,
-        "component_source_pins": [
-          20,
-          8,
-          12,
-          19
-        ],
-        "frozen_history_source_admission": "PASS"
-      }
-    },
-    {
       "scope": "isolated future versioned-target integration",
-      "head": "78a2ce03157debaa57a22fa77cf66629066450b2",
+      "head": "fab1b156985d21a78131a712a4531c1440085a2e",
       "branch": "astra-a/d17-14-versioned-target-integration-prepared-20261025",
       "client_tests": 303,
       "client_test_files": 12,
       "typescript": "PASS",
       "source_access_CSS_inventories": "PASS",
       "predecessor_backend_source_ownership": "PASS",
-      "full_A_composer_installs_versioned_target": false,
-      "full_A_Native_qualification": false
+      "full_A_composer_installs_versioned_target": "IMPLEMENTED_NOT_NATIVE_QUALIFIED",
+      "full_A_Native_qualification": false,
+      "local_positive_stages": 3,
+      "local_negative_guards": 10,
+      "new_private_functions": 13,
+      "new_schemas": 4,
+      "changed_hook_bodies": 14,
+      "unchanged_hook_bodies": 7,
+      "legacy_target_objects_preserved": true
     }
   ],
   "first_failures_preserved": [
     "factory-first-admission-receipt.json",
     "history-restore-first-fetch-receipt.json",
     "B-source-v2-first-verified-04551081.json",
-    "current-contract6-actual-d69dc2d3.json"
+    "current-contract6-actual-d69dc2d3.json",
+    "factory-corrected-actual-b7a69c2c.json"
   ],
   "next_rules": [
     "Preserve and verify exact Original bytes, source pins, every case and full restoration before credit",
@@ -151,5 +130,122 @@
     "source_pins_verified": 3230,
     "actual_prerequisites_verified": 3,
     "full_restoration_and_five_gates": true
+  },
+  "actual_history_used_restore8": {
+    "name": "CP7_CURRENT_MODEL_HISTORY_USED_RESTORE8.json",
+    "status": "PASS",
+    "head": "85411344dbf7a134bdf315cb8be72a819c568b1f",
+    "run_id": 40166765382,
+    "job_id": 121089307360,
+    "artifact_id": 12589508473,
+    "zip_bytes": 4180543,
+    "zip_sha256": "2816a45d214bfca7092e33c56779ce3d435d51315ebdd0c5d0c6211f3cbb1058",
+    "bytes": 2518963,
+    "sha256": "ab4ead74ef1f703e1ba58d2dc1b411d5fa6a3c2f2cb4ea4b1999c7a64478fbc9",
+    "archive_member": "CP7_CURRENT_MODEL_HISTORY_USED_RESTORE8.json",
+    "source_pins_verified": 3257,
+    "actual_prerequisites_verified": 2,
+    "steps": 8,
+    "negative_controls": 18,
+    "finance_restore_checks": 2,
+    "model_restore_checks": 4,
+    "target_restore_checks": 4,
+    "scoped_history_restore_checks": 8,
+    "full22_all_rows_all_sequences": true,
+    "two_full_used_restores": true,
+    "gate": {
+      "installed": true,
+      "primary_unchanged": true,
+      "backup_restore_drill": true,
+      "security_advisors": true,
+      "writer_runtime": true
+    },
+    "cp6_restored": true,
+    "advisor_gate": true,
+    "first_failure_relabelled": false,
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "actual_B_versioned_consumer6": {
+    "name": "CP7_OW11_MODEL_TARGET_CONSUMER_V2.json",
+    "status": "PASS",
+    "head": "dbc0d3ffda3a839dddb41821dcd027254a62d739",
+    "run_id": 40167211154,
+    "job_id": 121090610067,
+    "artifact_id": 12589057824,
+    "zip_bytes": 206245,
+    "zip_sha256": "010f5de305269424fd2c156766fb11a1d35cc9a6670c694085886c04fb0a8337",
+    "bytes": 1834093,
+    "sha256": "99782952a585ee7ef62a09ef10361e12810f2098fd46bcf6e1389bb4b5755ab3",
+    "archive_member": "CP7_OW11_MODEL_TARGET_CONSUMER_V2.json",
+    "source_pins_verified": 33,
+    "gate": {
+      "installed": true,
+      "primary_unchanged": true,
+      "backup_restore_drill": true,
+      "security_advisors": true,
+      "writer_runtime": true
+    },
+    "cp6_restored": true,
+    "advisor_gate": true,
+    "production_go": false,
+    "independent_acceptance": false,
+    "case_ids": [
+      "OW11_MODEL_TARGET_V2_CATALOG22_COMPOSED_PREUSE",
+      "OW11_MODEL_TARGET_V2_NATIVE_BASELINE_REPLAY_IMMUTABLE",
+      "OW11_MODEL_TARGET_V2_NATIVE_CURRENT_POLICY_AND_LATEST_NAMESPACED",
+      "OW11_MODEL_TARGET_V2_NATIVE_POST_PROFILE_ACCESS",
+      "OW11_MODEL_TARGET_V2_NATIVE_WAREHOUSE_ONLY_READ",
+      "OW11_MODEL_TARGET_V2_NATIVE_BOUNDED_ANALOG_PARITY"
+    ],
+    "counts": {
+      "PASS": 6
+    },
+    "source_pins_equal_current_isolated_candidate": true,
+    "all_boundaries_catalogs_and_sessions_restored": true,
+    "full_A_chain_qualified": false,
+    "actual_Auth_HTTP_credit": false,
+    "positive_historical_forecast_credit": false
+  },
+  "actual_factory_first_runtime_failure": {
+    "name": "CP7_CURRENT_FACTORY_FINANCE1.json",
+    "status": "INCOMPLETE",
+    "head": "b7a69c2c9b2568b5a148e9067ee739b981a20435",
+    "run_id": 40166794564,
+    "job_id": 121089393147,
+    "artifact_id": 12589057730,
+    "zip_bytes": 2013376,
+    "zip_sha256": "8573e6dfd261f34b9eefdf6cf39eaf2cc50510a507e6893a594c734958ee5204",
+    "bytes": 1679842,
+    "sha256": "70b3ca3e999294f59254dfd55e2e9c955167e357c24c83d7dfa6244b25048f5b",
+    "archive_member": "CP7_CURRENT_FACTORY_FINANCE1.json",
+    "source_pins_verified": 3223,
+    "gate": {
+      "installed": true,
+      "primary_unchanged": true,
+      "backup_restore_drill": true,
+      "security_advisors": true,
+      "writer_runtime": false
+    },
+    "cp6_restored": true,
+    "advisor_gate": true,
+    "production_go": false,
+    "independent_acceptance": false,
+    "first_runtime_failure": "BF_HISTORY: master baru hanya mulai sekarang atau mendatang",
+    "failure_phase": "New commercial SKU SAVE_GROUPS before any cron",
+    "imported_variants": 3600,
+    "business_case_PASS": 0,
+    "actual_cron_claim": false,
+    "full22_all_rows_all_sequences_baseline_restored": true,
+    "default_oracle_changed": false
+  },
+  "factory_correction": {
+    "status": "PUBLISHED_AFTER_FULL_LOCAL_ADMISSION_PASS",
+    "change": "Create current commercial membership after posted historical sale facts; verify exact nine history/stock/journal/HPP tables",
+    "physical_scope_unchanged": "1200x3",
+    "old_business_oracles_changed": false,
+    "head": "daab807531816353e499d7842897320ce42e8949",
+    "source_pins": 3223,
+    "execution_branch": "astra-a/d17-14-factory-finance-20261025"
   }
 }
