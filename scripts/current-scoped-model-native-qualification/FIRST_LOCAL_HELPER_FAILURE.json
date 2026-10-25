@@ -1,0 +1,7 @@
+{
+  "status": "LOCAL_IMPORT_FAILED_BEFORE_GUARD_OR_DATABASE",
+  "cause": "Initial command ran from scratch root; frozen CP6 import requires writer cwd, could not find docs/evidence/cp6-ao-predecessor-input.json",
+  "fix": "Use writer cwd and remove helper CLI arguments before frozen CP6 imports",
+  "product_runtime_cases_executed": 0,
+  "product_oracle_changed": false
+}
