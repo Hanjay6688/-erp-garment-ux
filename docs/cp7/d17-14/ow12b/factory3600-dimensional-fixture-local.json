@@ -1,0 +1,44 @@
+{
+  "status": "PASS",
+  "observed_shape": [
+    3600,
+    1200,
+    3,
+    3600,
+    3600,
+    363600,
+    0
+  ],
+  "expected_shape": [
+    3600,
+    1200,
+    3,
+    3600,
+    3600,
+    363600,
+    0
+  ],
+  "products": 3600,
+  "commercial_SKUs": 1200,
+  "distinct_physical_sizes": 3,
+  "exactly_three_distinct_sizes_each_SKU": true,
+  "physical_roots_unique": true,
+  "all_member_links_captured_once": true,
+  "movements": 363600,
+  "rollback_no_fixture_rows": true,
+  "synthetic_fixture": true,
+  "actual_Native_qualification": false,
+  "actual_Auth_HTTP_credit": false,
+  "money_HPP_report_parity_qualified": false,
+  "production_go": false,
+  "DDL_from_Native_Original": true,
+  "capture_products_fragment_executed_locally": true,
+  "full_Native_capture_executed": false,
+  "DDL_original_artifact_id": 12591636817,
+  "DDL_original_artifact_sha256": "b729ec7c5bd57e86f52149dd4daa65b18fd76dad967cd42fa39d0b85e1e591a5",
+  "source_sha256": {
+    "scripts/cp7_ow12b_factory3600_fixture.py": "424901c342a6d5fa2930c393023488dee3dd4055844f51cff9b1076887ba56f4",
+    "scripts/cp6_bf_objects_master.sql": "7fa3a2d19b5e6163135b9e950c7f4c0180aa3a6cfbec40202873547baa8a6e9a",
+    "scripts/cp7_reorder_inputs/capture.sql": "a4921aa90111709dfbde026e6b98beb6d977dcd46d212d3cc0fbd97a159f7e78"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "status": "FAIL",
+  "phase": "LOCAL_OBSERVER",
+  "expected_shape": [
+    3600,
+    1200,
+    3,
+    3600,
+    3600,
+    363600,
+    0
+  ],
+  "observed_object_values": [
+    0
+  ],
+  "reason": "Seven duplicate SQL count column names collapsed into one PGlite row-object key",
+  "correction": "Distinct projection aliases; DML, positional Native tuple and expected dimensions unchanged",
+  "actual_Native": false,
+  "production_go": false
+}

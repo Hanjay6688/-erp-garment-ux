@@ -2952,3 +2952,24 @@ not applied to product before an actual Native function profile is emitted.
 Active handoff now points to current source/receipts and concrete next test fix;
 latest confirmed archive68 retained. A prepared378f13cc stays separate. Formal5/16,
 CP7C/independent false, production_go=false; continue Native seal/profile correction.
+
+## 157. B25 Oktober2026 WIB — separate1200SKUx3size fixture local PASS
+
+While seal/profile correctionc7f06b85/run40177861698/job121122357646 executes,
+prepare independent cp7_ow12b_factory3600_fixture.py; no running source pin changes.
+Exact existing Native DDL from Browser182 Original and BF three master tables,
+plus actual capture_history products CTE executed locally on controlled PGlite.
+3600unique physical roots,1200commercial SKUs,3sizes,3600one-time member links,
+363600labelled synthetic movements; every SKU has exactly3distinct sizes. All
+commercial memberships captured once and rollback leaves0fixture rows. Original
+qualified2000/3600 fixtures remain unchanged, new fixture not yet in a Native suite.
+
+First local observer failed because seven count columns shared a name and its
+row-object retained only the last0. Retained first receipt/log; distinct projection
+aliases preserve the Native positional tuple and all DML/expected dimensions.
+Corrected local PASS with vector3600/1200/3/3600/3600/363600/0. Native entrypoint,
+full history capture/target comparison/finance/report/UI not qualified here.
+Price/rates/default policy/positive model not inferred; movement history explicitly
+synthetic and not a posted customer-sales journey. Source/DDL hashes recorded.
+No new production function, schema, RPC, table, role, grant or default activation.
+Formal5/16, CP7C/independent false, production_go=false. Continue actual profiles.
