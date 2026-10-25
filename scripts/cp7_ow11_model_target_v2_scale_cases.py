@@ -146,7 +146,7 @@ def staged_frozen(cur,run):
  return value
 
 
-def cases(cur,today):
+def cases(cur,today,*,fixture_seed=None,profile_roots=None,capture_check=None):
  native.PARENT_CHECKER=PARENT_CHECKER
  catalog=native.cases(cur,today)[0][1]
  observed={}
@@ -155,14 +155,20 @@ def cases(cur,today):
   # Install only the new source/model/target composition afterwards.
   native.fresh.PARENT_CHECKER=PARENT_CHECKER
   parents,fresh_state=native.fresh.install(cur)
-  x=plan.fixture(cur,today);size=volume.seed(cur)
+  x=plan.fixture(cur,today)
+  size=volume.seed(cur)if fixture_seed is None else fixture_seed(cur,x)
   plan.b.api.admin(cur)
-  roots=[str(r[0])for r in cur.execute("select identity_root_id from erp.products where sku in('OW12B36-1','OW12B36-2')order by sku").fetchall()]
+  if profile_roots is None:
+   roots=[str(r[0])for r in cur.execute("select identity_root_id from erp.products where sku in('OW12B36-1','OW12B36-2')order by sku").fetchall()]
+  else:roots=profile_roots(cur)
   assert len(roots)==2
+  assert len(set(roots))==2
   for root in roots:native.fresh.consumer.profile(cur,root,mean_mode='SELECTED_MANUAL',daily_pcs='1000',lead_days='3',review_days='2',buffer_days='1')
   actor=native.policy.master.role_actor(cur,'OWNER')
   physical=plan.monetary_state(cur)
   old=capture(cur,today,actor,'PREDECESSOR',observed)
+  dimensions={}
+  if capture_check is not None:dimensions['PREDECESSOR']=capture_check(cur,old)
   old_rows=old['row']['reference']['bounded_history_inputs']['inputs']['targets']
   old_domains={r['target_key']:target_domain(r)for r in old_rows}
   old_recommendations={r['target']['key']:recommendation_domain(r)for r in old['original']['analysis']['recommendations']}
@@ -180,6 +186,7 @@ def cases(cur,today):
    model,_=native.source.scoped.capture(cur,native.source.scoped.parent.query(history,hq),actor)
    references[key]=dict(run_id=model['run_id'],history_run_id=history['run_id'])
   new=capture(cur,today,actor,'CURRENT',observed)
+  if capture_check is not None:dimensions['CURRENT']=capture_check(cur,new)
   rows=new['row']['reference']['bounded_history_inputs']['inputs']['targets']
   assert len(rows)==len({r['target_key']for r in rows})==len(old_domains)
   assert {r['target_key']:target_domain(r)for r in rows}==old_domains,'MODEL_TARGET_V2_3600_KERNEL_OR_OBSERVED_OPERANDS_CHANGED'
@@ -211,6 +218,7 @@ def cases(cur,today):
    predecessor_request_function_profile=old['request_function_profile'],current_request_function_profile=new['request_function_profile'],
    current_request_millis=new['request_millis'],current_step_millis=[c['ms']for c in new['calls']],full_source_check_millis=timings,
    all_pages_verified=True,explicit_capture_clock_engine_refs_retained=True,old_result_immutable=True,
+   dimensional_capture_checks=dimensions,
    raw_native_INCOMPLETE_preserved=True,actual_native_post_retires_source=True,no_business_write_by_analysis=True,
    statement_limit='8s',factory_SLA_claim=False,financial_capture='DEFERRED',official_finance_included=False,
    full_factory3600_qualified=False,actual_historical_positive_winner=False,after_use_restore_qualified=False,

@@ -1,0 +1,20 @@
+{
+  "status": "PASS",
+  "observed_command": "python -B scripts/cp7_ow11_model_target_v2_factory_preflight.py",
+  "native_cases_declared": 2,
+  "source_pins": 59,
+  "actual_F05_source_only_route": true,
+  "invalid_parent_or_mixed_routes_refused": 31,
+  "qualified_existing_assertions_preserved": 26,
+  "dimensional_mutations_refused": 6,
+  "database_executed": false,
+  "actual_Native": false,
+  "actual_Auth_HTTP_credit": false,
+  "production_go": false,
+  "observed_source_sha256": {
+    "scripts/cp7_ow11_model_target_v2_factory_preflight.py": "9132403f0a44aadb4cf1f178b1954e5945ecb501243397e00a90cd8692ff2b01",
+    "scripts/cp7_f05_analysis_probe.py": "43100d91f592c403e27219f887ea218ce2977fd483d86ce7ab36853f0dc6ca90",
+    "scripts/cp7_ow11_model_target_v2_factory_cases.py": "b0f992ce98d68a84ae82c56f242c24a5a7a95882ca63f0bac00dcbfecf244b6e",
+    "scripts/cp7_ow11_model_target_v2_scale_cases.py": "7545ee6a38734b6c8ae313b2b017a7604cfe5f89c614a7bc3e4d961a84683512"
+  }
+}

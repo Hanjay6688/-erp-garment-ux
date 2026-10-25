@@ -637,5 +637,16 @@
       "actual_Native": false,
       "production_go": false
     }
+  },
+  "new_factory1200x3_candidate": {
+    "status": "LOCAL_PREPARED_RUNTIME_PENDING",
+    "required_cases": 2,
+    "source_pins": 59,
+    "common_qualified_assertions_preserved": 26,
+    "original_3600_fixture_unchanged": true,
+    "actual_Native": false,
+    "full_factory1200SKU3size_qualified": false,
+    "statement_limit": "8s",
+    "production_go": false
   }
 }

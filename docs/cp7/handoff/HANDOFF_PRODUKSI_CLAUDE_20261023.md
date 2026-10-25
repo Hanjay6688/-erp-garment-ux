@@ -17,6 +17,13 @@ immutable, posting stok nyata membuat hasil stale. Batas8s tetap. Selisih terhad
 c7 current7315.921ms/digest2666.671ms kecil dan belum membuktikan speedup Native
 yang stabil atau SLA. Local1200SKUx3size improvement tetap pengukuran lokal.
 
+**Kandidat Native berikut siap:** suite factory1200x3 Native2 dengan59pins;
+25actual declarations/16old source-only routes PASS,31mixed/missing routes dan
+6dimensional corruptions refused. All26qualified parity assertions retained,
+all51business backend files unchanged. First local parse failure retained, fixed
+before DB/CI. Native2 actual belum qualified, baca complete Original dan tetap
+uji one-size scale Native2 setelah common test code berubah.
+
 **Langkah aktif berikut:** fixture cp7_ow12b_factory3600_fixture.py yang sudah
 lokal PASS belum ada di Native suite. Buat suite Native2 terpisah1200commercial
 SKUx3physicalsize=3600roots/3600members/363600syntheticmoves. Pertahankan seluruh

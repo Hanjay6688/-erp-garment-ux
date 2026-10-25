@@ -1,0 +1,10 @@
+{
+  "contract": "cp7.local-first-failure.v1",
+  "status": "INCOMPLETE_LOCAL_PARSE",
+  "file": "scripts/cp7_f05_analysis_probe.py",
+  "source_sha256": "9b9a3ef43790eb47cdaf065f4297d52e98fc9003a3c1b6b983adfc2a101bf712",
+  "error": "SyntaxError: unmatched ')' in newly added factory route admission assertion",
+  "database_executed": false,
+  "CI_run_started": false,
+  "production_go": false
+}

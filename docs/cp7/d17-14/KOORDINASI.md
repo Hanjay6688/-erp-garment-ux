@@ -3080,3 +3080,30 @@ A composer/after-use/audit and fullOW11/12b remain open. Matrix/handoff updated 
 current explicit heads and all older evidence retained. Continue separate Native
 dimensional qualification using unchanged common all-target parity assertions.
 Formal5/16, CP7C/independent false, production_go=false.
+
+## 162. B26 Oktober2026 WIB — separate1200SKUx3 physical-size Native2 prepared
+
+Add explicit factory Native2 provider/probe/declaration/workflow,59pinned sources.
+Reuse common scale capture/profile/old staged archive/all-target and quantity
+parity; original3600 seed/root query/default path unchanged. All26 qualified
+assertion ASTs retained exactly, plus unique two profile roots. Explicitly choose
+physical S1 for SKU1/2 only after asserting their full six rows/three distinct
+sizes each. At BOTH actual references compare all3600physical product/commercial
+member/version tuples to actual Native tables,1200commercial SKUs/three sizes,
+exactly three distinct sizes each, every physical target once. No DISTINCT or
+arbitrary LIMIT hides member ambiguity; same original8s calls and full pages.
+
+New explicit F05 flag requires all12parents and its own native2 budget;31missing
+parent/mixed-route controls refused. Six independent dimensional corruptions
+refused. Actual whole source-only prefix reaches the new declaration/provider/
+report label without database. All25 actual workflow inline declarations and
+16existing Original route identities/counts/IDs verified; only the common scale
+source/declaration changed intentionally. All51 qualified business backend files
+remain byte-identical. No new production function/schema/table/RPC/default or
+permission. Fixture bulk rows remain labelled SYNTHETIC, not actual sales/finance.
+
+First local syntax error in added admission parentheses retained before any DB/CI;
+corrected to readable multiline assertion. Current preflights/AST/YAML PASS.
+Dedicated runtime not yet qualified; Original Native2 required, plus retained
+one-size Native2 regression because common test code changed. Formal5/16,
+CP7C/independent false, production_go=false. Continue actual isolated qualification.

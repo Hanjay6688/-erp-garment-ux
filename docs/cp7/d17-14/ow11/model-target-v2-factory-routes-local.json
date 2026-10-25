@@ -1,0 +1,237 @@
+{
+  "status": "PASS",
+  "actual_workflow_inline_declarations": [
+    {
+      "workflow": ".github/workflows/cp7-ow11-model-evaluation-v2-browser.yml",
+      "step": "Check v2 Browser2 declaration, immutable wire and recovery client",
+      "status": "PASS"
+    },
+    {
+      "workflow": ".github/workflows/cp7-ow11-model-evaluation-v2-transport.yml",
+      "step": "Check focused declaration, unchanged legacy budgets and client types",
+      "status": "PASS"
+    },
+    {
+      "workflow": ".github/workflows/cp7-ow11-model-evaluation-v2.yml",
+      "step": "Check focused declaration, unchanged legacy budgets and client types",
+      "status": "PASS"
+    },
+    {
+      "workflow": ".github/workflows/cp7-ow11-model-history-runtime-transport.yml",
+      "step": "Check focused declaration, unchanged legacy budgets and client types",
+      "status": "PASS"
+    },
+    {
+      "workflow": ".github/workflows/cp7-ow11-model-history-runtime.yml",
+      "step": "Check focused declaration, unchanged legacy budgets and client types",
+      "status": "PASS"
+    },
+    {
+      "workflow": ".github/workflows/cp7-ow11-model-history-scope.yml",
+      "step": "Check focused declaration, unchanged legacy budgets and client types",
+      "status": "PASS"
+    },
+    {
+      "workflow": ".github/workflows/cp7-ow11-model-policy-browser.yml",
+      "step": "Check consumer Browser2 declaration and demand provenance client",
+      "status": "PASS"
+    },
+    {
+      "workflow": ".github/workflows/cp7-ow11-model-policy-transport.yml",
+      "step": "Check focused declaration, unchanged legacy budgets and client types",
+      "status": "PASS"
+    },
+    {
+      "workflow": ".github/workflows/cp7-ow11-model-policy.yml",
+      "step": "Check focused declaration, unchanged legacy budgets and client types",
+      "status": "PASS"
+    },
+    {
+      "workflow": ".github/workflows/cp7-ow11-model-scoped-dataset.yml",
+      "step": "Check focused declaration, unchanged legacy budgets and client types",
+      "status": "PASS"
+    },
+    {
+      "workflow": ".github/workflows/cp7-ow11-model-scoped-evaluation-browser.yml",
+      "step": "Check scoped Browser2 exact sources, routing and retained client controls",
+      "status": "PASS"
+    },
+    {
+      "workflow": ".github/workflows/cp7-ow11-model-scoped-evaluation-transport.yml",
+      "step": "Check focused declaration, unchanged legacy budgets and client types",
+      "status": "PASS"
+    },
+    {
+      "workflow": ".github/workflows/cp7-ow11-model-scoped-evaluation.yml",
+      "step": "Check focused declaration, unchanged legacy budgets and client types",
+      "status": "PASS"
+    },
+    {
+      "workflow": ".github/workflows/cp7-ow11-model-selection.yml",
+      "step": "Check focused declaration, unchanged legacy budgets and client types",
+      "status": "PASS"
+    },
+    {
+      "workflow": ".github/workflows/cp7-ow11-model-target-binding.yml",
+      "step": "Check focused declaration, unchanged legacy budgets and client types",
+      "status": "PASS"
+    },
+    {
+      "workflow": ".github/workflows/cp7-ow11-model-target-browser.yml",
+      "step": "Check consumer Browser2 declaration and demand provenance client",
+      "status": "PASS"
+    },
+    {
+      "workflow": ".github/workflows/cp7-ow11-model-target-consumer-v2.yml",
+      "step": "Check focused declaration, unchanged legacy budgets and client types",
+      "status": "PASS"
+    },
+    {
+      "workflow": ".github/workflows/cp7-ow11-model-target-consumer.yml",
+      "step": "Check focused declaration, unchanged legacy budgets and client types",
+      "status": "PASS"
+    },
+    {
+      "workflow": ".github/workflows/cp7-ow11-model-target-source-v2.yml",
+      "step": "Check focused declaration, unchanged legacy budgets and client types",
+      "status": "PASS"
+    },
+    {
+      "workflow": ".github/workflows/cp7-ow11-model-target-transport-parts.yml",
+      "step": "Check focused declaration, unchanged legacy budgets and client types",
+      "status": "PASS"
+    },
+    {
+      "workflow": ".github/workflows/cp7-ow11-model-target-transport-v2.yml",
+      "step": "Check focused declaration, unchanged legacy budgets and client types",
+      "status": "PASS"
+    },
+    {
+      "workflow": ".github/workflows/cp7-ow11-model-target-transport.yml",
+      "step": "Check focused declaration, unchanged legacy budgets and client types",
+      "status": "PASS"
+    },
+    {
+      "workflow": ".github/workflows/cp7-ow11-model-target-v2-browser.yml",
+      "step": "Check consumer Browser2 declaration and demand provenance client",
+      "status": "PASS"
+    },
+    {
+      "workflow": ".github/workflows/cp7-ow11-model-target-v2-factory.yml",
+      "step": "Check focused declaration, unchanged legacy budgets and client types",
+      "status": "PASS"
+    },
+    {
+      "workflow": ".github/workflows/cp7-ow11-model-target-v2-scale.yml",
+      "step": "Check focused declaration, unchanged legacy budgets and client types",
+      "status": "PASS"
+    }
+  ],
+  "existing_Original_routes_checked": [
+    {
+      "run_id": 40181000864,
+      "label": "CP7_OW11_MODEL_SCOPED_EVALUATION",
+      "actual_route_budget_and_identity_unchanged": true,
+      "deliberate_new_common_scale_fixture_source_changes": []
+    },
+    {
+      "run_id": 40181000917,
+      "label": "CP7_OW13C_HISTORY_REFERENCE",
+      "actual_route_budget_and_identity_unchanged": true,
+      "deliberate_new_common_scale_fixture_source_changes": []
+    },
+    {
+      "run_id": 40181000790,
+      "label": "CP7_OW11_MODEL_HISTORY_SCOPE",
+      "actual_route_budget_and_identity_unchanged": true,
+      "deliberate_new_common_scale_fixture_source_changes": []
+    },
+    {
+      "run_id": 40181000781,
+      "label": "CP7_OW11_MODEL_TARGET_V2_BROWSER",
+      "actual_route_budget_and_identity_unchanged": true,
+      "deliberate_new_common_scale_fixture_source_changes": []
+    },
+    {
+      "run_id": 40181000778,
+      "label": "CP7_OW11_MODEL_HISTORY_RUNTIME",
+      "actual_route_budget_and_identity_unchanged": true,
+      "deliberate_new_common_scale_fixture_source_changes": []
+    },
+    {
+      "run_id": 40181000798,
+      "label": "CP7_OW11_MODEL_TARGET_V2_SCALE",
+      "actual_route_budget_and_identity_unchanged": true,
+      "deliberate_new_common_scale_fixture_source_changes": [
+        "predeclared_case_contract",
+        "predeclared_case_sha256",
+        "target_v2_source_sha256"
+      ]
+    },
+    {
+      "run_id": 40181001205,
+      "label": "CP7_OW11_MODEL_SELECTION",
+      "actual_route_budget_and_identity_unchanged": true,
+      "deliberate_new_common_scale_fixture_source_changes": []
+    },
+    {
+      "run_id": 40181000870,
+      "label": "CP7_OW11_MODEL_SCOPED_EVALUATION_TRANSPORT",
+      "actual_route_budget_and_identity_unchanged": true,
+      "deliberate_new_common_scale_fixture_source_changes": []
+    },
+    {
+      "run_id": 40181000888,
+      "label": "CP7_OW11_MODEL_HISTORY_RUNTIME_TRANSPORT",
+      "actual_route_budget_and_identity_unchanged": true,
+      "deliberate_new_common_scale_fixture_source_changes": []
+    },
+    {
+      "run_id": 40181000940,
+      "label": "CP7_OW11_MODEL_SCOPED_DATASET",
+      "actual_route_budget_and_identity_unchanged": true,
+      "deliberate_new_common_scale_fixture_source_changes": []
+    },
+    {
+      "run_id": 40181000820,
+      "label": "CP7_OW11_MODEL_TARGET_V2_TRANSPORT_PART_A",
+      "actual_route_budget_and_identity_unchanged": true,
+      "deliberate_new_common_scale_fixture_source_changes": []
+    },
+    {
+      "run_id": 40181000820,
+      "label": "CP7_OW11_MODEL_TARGET_V2_TRANSPORT_PART_B",
+      "actual_route_budget_and_identity_unchanged": true,
+      "deliberate_new_common_scale_fixture_source_changes": []
+    },
+    {
+      "run_id": 40182051599,
+      "label": "CP7_OW11_MODEL_TARGET_SOURCE_V2",
+      "actual_route_budget_and_identity_unchanged": true,
+      "deliberate_new_common_scale_fixture_source_changes": []
+    },
+    {
+      "run_id": 40182051613,
+      "label": "CP7_OW11_MODEL_TARGET_BINDING",
+      "actual_route_budget_and_identity_unchanged": true,
+      "deliberate_new_common_scale_fixture_source_changes": []
+    },
+    {
+      "run_id": 40181000804,
+      "label": "CP7_OW11_MODEL_TARGET_CONSUMER_V2",
+      "actual_route_budget_and_identity_unchanged": true,
+      "deliberate_new_common_scale_fixture_source_changes": []
+    },
+    {
+      "run_id": 40181000914,
+      "label": "CP7_OW11_MODEL_TARGET_CONSUMER",
+      "actual_route_budget_and_identity_unchanged": true,
+      "deliberate_new_common_scale_fixture_source_changes": []
+    }
+  ],
+  "database_connection_attempts": 0,
+  "business_backend51_unchanged": true,
+  "actual_Native": false,
+  "actual_Auth_HTTP_credit": false,
+  "production_go": false
+}
