@@ -1,0 +1,53 @@
+{
+  "name": "CP7_OW11_MODEL_TARGET_V2_TRANSPORT_PART_B.json",
+  "status": "PASS",
+  "head": "182c8b174f7d1d4e3355c24263cf1866357510b5",
+  "run_id": 40173569413,
+  "job_id": 121109392300,
+  "artifact_id": 12591903113,
+  "zip_bytes": 95563,
+  "zip_sha256": "6483faad92743f3266bd58898d3b62d6d8d909033740724a2a0e9b25b81df939",
+  "bytes": 755624,
+  "sha256": "ef879adde3a8ce77a298c1b1624bab2b5a83c2c9c6d35be9cb04f1e84b4ce2fa",
+  "archive_member": "CP7_OW11_MODEL_TARGET_V2_TRANSPORT_PART_B.json",
+  "source_pins_verified": 50,
+  "gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "production_go": false,
+  "independent_acceptance": false,
+  "case_ids": [
+    "OW11_MODEL_TARGET_V2_CATALOG22_COMPOSED_PREUSE",
+    "OW11_MODEL_TARGET_V2_RACE_ACCESS_AFTER_TARGET",
+    "OW11_MODEL_TARGET_V2_RACE_SOURCE_AFTER_ENVELOPE",
+    "OW11_MODEL_TARGET_V2_RACE_POLICY_AFTER_ENVELOPE",
+    "OW11_MODEL_TARGET_V2_AUTH_CONFIRM_CLEAR_EXACT_REPLAY",
+    "OW11_MODEL_TARGET_V2_AUTH_REVOKED_COMMITTED_REPLAY",
+    "OW11_MODEL_TARGET_V2_AUTH_ANON_AND_FOREIGN_REFERENCE"
+  ],
+  "counts": {
+    "PASS": 7
+  },
+  "source_pins_equal_current_isolated_candidate": false,
+  "changed_current_candidate_paths": [
+    "scripts/cp7_model_target_consumer_v2/MANIFEST.json",
+    "scripts/cp7_product_analog_consumer/MANIFEST.json",
+    "scripts/cp7_product_analog_consumer/kernel.sql",
+    "scripts/cp7_product_analog_consumer/baseline.sql",
+    "scripts/cp7_product_analog_provenance_stage/MANIFEST.json",
+    "scripts/cp7_product_analog_provenance_stage/hooks.sql",
+    "scripts/cp7_ow11_model_target_consumer_v2_cases.py"
+  ],
+  "full_A_chain_qualified": false,
+  "positive_historical_forecast_credit": false,
+  "factory_capacity_or_SLA": false,
+  "actual_concurrency": true,
+  "transport_part": "B",
+  "repeated_catalog_anchor_has_no_extra_case_credit": true
+}

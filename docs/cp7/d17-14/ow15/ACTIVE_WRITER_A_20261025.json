@@ -1,5 +1,5 @@
 {
-  "recorded_at_utc": "2026-10-25T08:07:51.410727+00:00",
+  "recorded_at_utc": "2026-10-25T08:18:36.511677+00:00",
   "role": "A finance writer/integrator replacing Claude",
   "slogan": [
     "VENI. VIDI. VICI. ERP. \u2014 I CONQUERED ERP.",
@@ -82,7 +82,7 @@
     },
     {
       "scope": "isolated future versioned-target integration",
-      "head": "3f0af16cd998e35a32514e41b1b99eea660a9b04",
+      "head": "378f13ccc0fdfe92307e57c6d7af64eb34a20e28",
       "branch": "astra-a/d17-14-versioned-target-integration-prepared-20261025",
       "client_tests": 303,
       "client_test_files": 12,
@@ -98,7 +98,7 @@
       "changed_hook_bodies": 14,
       "unchanged_hook_bodies": 7,
       "legacy_target_objects_preserved": true,
-      "tree": "dc5cda0a94e7d16f1f8918af355ef29b6460c5b6",
+      "tree": "869396f43e6cdf62fa42dd4910232eda0b6fdbc9",
       "true_merge_B_head": "36b81fcee8ee801a96793c89df6e14388263ad33",
       "browser_source_pins_current": 50,
       "first_source_export_mismatch_preserved": true,
@@ -123,7 +123,18 @@
       "finance_retained_assertions": 55,
       "actual_minute_cron1_prepared": true,
       "cron_retained_assertions": 36,
-      "all_followup_SOURCE_absent": true
+      "all_followup_SOURCE_absent": true,
+      "browser6_prepared": true,
+      "browser6_retained_policy_model_cases": 4,
+      "browser6_exact_B_versioned_cases": 2,
+      "transport28_prepared": true,
+      "transport_real_Auth_cases": 9,
+      "transport_two_backend_races": 19,
+      "transport_retained_policy_model_cases": 18,
+      "transport_exact_B_versioned_cases": 10,
+      "transport_target_retained_assertions": 51,
+      "transport_one_HTTP_full_verifier_adaptation": true,
+      "transport_actual_state_routing_preflight": "PASS"
     },
     {
       "scope": "full scoped model used restore8",
@@ -585,6 +596,138 @@
       "legacy_full3600_parity_qualified": false,
       "official_finance_included": false
     },
-    "integration_status": "NOT_MERGED_IN_A; changed frozen analog parents require exact overlay or separately qualified integration. Browser2 PASS64pins; scale 1PASS1INCOMPLETE50pins before v2 installation. No capacity credit."
+    "integration_status": "NOT_MERGED_IN_A; changed frozen analog parents require exact overlay or separately qualified integration. Browser2 PASS64pins; scale 1PASS1INCOMPLETE50pins before v2 installation. No capacity credit.",
+    "transport11": {
+      "status": "PASS",
+      "scope": "B versioned target transport only",
+      "head": "182c8b174f7d1d4e3355c24263cf1866357510b5",
+      "run_id": 40173569413,
+      "unique_case_count": 11,
+      "case_ids": [
+        "OW11_MODEL_TARGET_V2_AUTH_ANON_AND_FOREIGN_REFERENCE",
+        "OW11_MODEL_TARGET_V2_AUTH_CONFIRM_CLEAR_EXACT_REPLAY",
+        "OW11_MODEL_TARGET_V2_AUTH_REVOKED_COMMITTED_REPLAY",
+        "OW11_MODEL_TARGET_V2_CATALOG22_COMPOSED_PREUSE",
+        "OW11_MODEL_TARGET_V2_RACE_ACCESS_AFTER_ENVELOPE",
+        "OW11_MODEL_TARGET_V2_RACE_ACCESS_AFTER_TARGET",
+        "OW11_MODEL_TARGET_V2_RACE_POLICY_AFTER_ENVELOPE",
+        "OW11_MODEL_TARGET_V2_RACE_REPLAY_ACCESS_AFTER_REQUEST",
+        "OW11_MODEL_TARGET_V2_RACE_REVISION",
+        "OW11_MODEL_TARGET_V2_RACE_SAME_UUID",
+        "OW11_MODEL_TARGET_V2_RACE_SOURCE_AFTER_ENVELOPE"
+      ],
+      "original_count": 2,
+      "total_case_executions": 12,
+      "repeated_catalog_anchor_extra_credit": 0,
+      "production_go": false,
+      "independent_acceptance": false,
+      "full_A_chain_qualified": false
+    },
+    "transport_Originals": [
+      {
+        "name": "CP7_OW11_MODEL_TARGET_V2_TRANSPORT_PART_A.json",
+        "status": "PASS",
+        "head": "182c8b174f7d1d4e3355c24263cf1866357510b5",
+        "run_id": 40173569413,
+        "job_id": 121109392482,
+        "artifact_id": 12591992672,
+        "zip_bytes": 95050,
+        "zip_sha256": "b9869cbf682c434c6b3e4499c05a22838c45f401247cc052c7a69265813e7d69",
+        "bytes": 753449,
+        "sha256": "3c1efa46be4c814e9d325ff8dac231d498dee9be3b03546697f2749d5bab7c17",
+        "archive_member": "CP7_OW11_MODEL_TARGET_V2_TRANSPORT_PART_A.json",
+        "source_pins_verified": 50,
+        "gate": {
+          "installed": true,
+          "primary_unchanged": true,
+          "backup_restore_drill": true,
+          "security_advisors": true,
+          "writer_runtime": true
+        },
+        "cp6_restored": true,
+        "advisor_gate": true,
+        "production_go": false,
+        "independent_acceptance": false,
+        "case_ids": [
+          "OW11_MODEL_TARGET_V2_CATALOG22_COMPOSED_PREUSE",
+          "OW11_MODEL_TARGET_V2_RACE_SAME_UUID",
+          "OW11_MODEL_TARGET_V2_RACE_REVISION",
+          "OW11_MODEL_TARGET_V2_RACE_ACCESS_AFTER_ENVELOPE",
+          "OW11_MODEL_TARGET_V2_RACE_REPLAY_ACCESS_AFTER_REQUEST"
+        ],
+        "counts": {
+          "PASS": 5
+        },
+        "source_pins_equal_current_isolated_candidate": false,
+        "changed_current_candidate_paths": [
+          "scripts/cp7_model_target_consumer_v2/MANIFEST.json",
+          "scripts/cp7_product_analog_consumer/MANIFEST.json",
+          "scripts/cp7_product_analog_consumer/kernel.sql",
+          "scripts/cp7_product_analog_consumer/baseline.sql",
+          "scripts/cp7_product_analog_provenance_stage/MANIFEST.json",
+          "scripts/cp7_product_analog_provenance_stage/hooks.sql",
+          "scripts/cp7_ow11_model_target_consumer_v2_cases.py"
+        ],
+        "full_A_chain_qualified": false,
+        "positive_historical_forecast_credit": false,
+        "factory_capacity_or_SLA": false,
+        "actual_concurrency": true,
+        "transport_part": "A",
+        "repeated_catalog_anchor_has_no_extra_case_credit": true
+      },
+      {
+        "name": "CP7_OW11_MODEL_TARGET_V2_TRANSPORT_PART_B.json",
+        "status": "PASS",
+        "head": "182c8b174f7d1d4e3355c24263cf1866357510b5",
+        "run_id": 40173569413,
+        "job_id": 121109392300,
+        "artifact_id": 12591903113,
+        "zip_bytes": 95563,
+        "zip_sha256": "6483faad92743f3266bd58898d3b62d6d8d909033740724a2a0e9b25b81df939",
+        "bytes": 755624,
+        "sha256": "ef879adde3a8ce77a298c1b1624bab2b5a83c2c9c6d35be9cb04f1e84b4ce2fa",
+        "archive_member": "CP7_OW11_MODEL_TARGET_V2_TRANSPORT_PART_B.json",
+        "source_pins_verified": 50,
+        "gate": {
+          "installed": true,
+          "primary_unchanged": true,
+          "backup_restore_drill": true,
+          "security_advisors": true,
+          "writer_runtime": true
+        },
+        "cp6_restored": true,
+        "advisor_gate": true,
+        "production_go": false,
+        "independent_acceptance": false,
+        "case_ids": [
+          "OW11_MODEL_TARGET_V2_CATALOG22_COMPOSED_PREUSE",
+          "OW11_MODEL_TARGET_V2_RACE_ACCESS_AFTER_TARGET",
+          "OW11_MODEL_TARGET_V2_RACE_SOURCE_AFTER_ENVELOPE",
+          "OW11_MODEL_TARGET_V2_RACE_POLICY_AFTER_ENVELOPE",
+          "OW11_MODEL_TARGET_V2_AUTH_CONFIRM_CLEAR_EXACT_REPLAY",
+          "OW11_MODEL_TARGET_V2_AUTH_REVOKED_COMMITTED_REPLAY",
+          "OW11_MODEL_TARGET_V2_AUTH_ANON_AND_FOREIGN_REFERENCE"
+        ],
+        "counts": {
+          "PASS": 7
+        },
+        "source_pins_equal_current_isolated_candidate": false,
+        "changed_current_candidate_paths": [
+          "scripts/cp7_model_target_consumer_v2/MANIFEST.json",
+          "scripts/cp7_product_analog_consumer/MANIFEST.json",
+          "scripts/cp7_product_analog_consumer/kernel.sql",
+          "scripts/cp7_product_analog_consumer/baseline.sql",
+          "scripts/cp7_product_analog_provenance_stage/MANIFEST.json",
+          "scripts/cp7_product_analog_provenance_stage/hooks.sql",
+          "scripts/cp7_ow11_model_target_consumer_v2_cases.py"
+        ],
+        "full_A_chain_qualified": false,
+        "positive_historical_forecast_credit": false,
+        "factory_capacity_or_SLA": false,
+        "actual_concurrency": true,
+        "transport_part": "B",
+        "repeated_catalog_anchor_has_no_extra_case_credit": true
+      }
+    ]
   }
 }
