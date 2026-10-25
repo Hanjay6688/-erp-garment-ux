@@ -1,4 +1,5 @@
 import type {ProductionEnvelope} from './productionRecovery'
+import {planInstantMicros} from './nativePlanInstant'
 import {parseCuttingSaveResult} from './cuttingPersistence'
 import {fail,rec,text,guid,hash,qty,revision,target,flags,optionsBody,previewBody,planPayload,type StagedPlanContext,type PlanOptions,type PlanForm,type PlanSaved,type PlanPreview} from './nativePlanDraft'
 
@@ -75,7 +76,8 @@ export function parseStagedPlanPreview(v:unknown,actor:string,s:PlanSaved):Stage
  // The capacity left: the snapshot's less every other plan outside its load.
  const left=sub(dec(body.capacity),dec(live.capacityUsed)),capacityNow=live.capacityNow.startsWith('-')?{n:-dec(live.capacityNow.slice(1)).n,d:dec(live.capacityNow.slice(1)).d}:dec(live.capacityNow)
  if(!eq(left,capacityNow))fail()
- const expired=live.throughAt===null||Date.parse(live.throughAt)<=Date.parse(live.checkedAt)
+ const checkedAt=planInstantMicros(live.checkedAt)
+ const expired=live.throughAt===null||planInstantMicros(live.throughAt)<=checkedAt
  if(by.CAPACITY.code!==(expired?'CP7_PLAN_V2_CAPACITY_EXPIRED':gt(dec(body.selected),capacityNow)?'CP7_PLAN_V2_CAPACITY_USED':null))fail()
  return{...body,dataAsOf:instant(r.data_as_of),live,alreadyApplied:r.already_applied as boolean}
 }

@@ -48,6 +48,35 @@ it('recomputes the capacity left: 10 used by other plans leaves 50, below 60, re
  const x=f.stagedPreview('5','10');x.live.capacity_now_pcs='60';expect(()=>parseStagedPlanPreview(x,f.actor,saved())).toThrow()
  const y=f.stagedPreview('5','10');y.live.verdicts[6]={check:'CAPACITY',status:'REFUSED',code:'CP7_PLAN_V2_CAPACITY_EXPIRED'};expect(()=>parseStagedPlanPreview(y,f.actor,saved())).toThrow()
 })
+it.each([
+ ['2026-10-23T00:00:00.123456Z','2026-10-23T00:00:00.123457Z'],
+ ['2026-10-23T00:00:00.000001Z','2026-10-23T07:00:00.000002+07:00'],
+ ['2026-10-22T17:00:00.999998-07:00','2026-10-23T00:00:00.999999Z'],
+])('preserves one remaining microsecond of capacity (%s)',(checked,through)=>{
+ const x=f.stagedPreview();x.live.checked_at=checked;x.live.capacity_through_at=through;const original=structuredClone(x)
+ expect(parseStagedPlanPreview(x,f.actor,saved()).live.applyReady).toBe(true)
+ expect(x).toEqual(original)
+ const expired=structuredClone(x);expired.live.verdicts[6]={check:'CAPACITY',status:'REFUSED',code:'CP7_PLAN_V2_CAPACITY_EXPIRED'};expired.live.apply_ready=false;expired.status='REVIEW_REQUIRED'
+ expect(()=>parseStagedPlanPreview(expired,f.actor,saved())).toThrow()
+})
+it.each([
+ ['2026-10-23T00:00:00.123456Z','2026-10-23T00:00:00.123456Z'],
+ ['2026-10-23T00:00:00.123456Z','2026-10-23T07:00:00.123455+07:00'],
+ ['2026-10-22T17:00:00.999999-07:00','2026-10-23T00:00:00.999998Z'],
+])('treats equal or earlier capacity deadlines as expired (%s)',(checked,through)=>{
+ const x=f.stagedPreview();x.live.checked_at=checked;x.live.capacity_through_at=through
+ expect(()=>parseStagedPlanPreview(x,f.actor,saved())).toThrow()
+ x.live.verdicts[6]={check:'CAPACITY',status:'REFUSED',code:'CP7_PLAN_V2_CAPACITY_EXPIRED'};x.live.apply_ready=false;x.status='REVIEW_REQUIRED'
+ expect(parseStagedPlanPreview(x,f.actor,saved()).live.applyReady).toBe(false)
+})
+it.each(['2026-02-30T00:00:00Z','2026-10-23T24:00:00Z','2026-10-23T00:00:00.1234567Z','2026-10-23T00:00:00'])('refuses unmeasurable capacity boundary clocks: %s',time=>{
+ const x=f.stagedPreview();x.live.checked_at='2026-01-01T00:00:00Z';x.live.capacity_through_at=time
+ expect(()=>parseStagedPlanPreview(x,f.actor,saved())).toThrow()
+ x.live.checked_at=time;x.live.capacity_through_at='2027-01-01T00:00:00Z'
+ expect(()=>parseStagedPlanPreview(x,f.actor,saved())).toThrow()
+ Object.assign(x.live,{capacity_through_at:null,apply_ready:false});x.live.verdicts[6]={check:'CAPACITY',status:'REFUSED',code:'CP7_PLAN_V2_CAPACITY_EXPIRED'};x.status='REVIEW_REQUIRED'
+ expect(()=>parseStagedPlanPreview(x,f.actor,saved())).toThrow()
+})
 it('keeps the need unknown when WIP is unknown, and refuses a reply that still states it',()=>{
  const x=f.stagedPreview();Object.assign(x.live,{wip_status:'UNKNOWN',wip_now_pcs:null,increase_pcs:null,need_now_pcs:null,cut_limit_now_pcs:null,apply_ready:false});x.status='REVIEW_REQUIRED'
  x.live.verdicts[4]={check:'WIP',status:'REFUSED',code:'CP7_PLAN_V2_WIP_UNKNOWN'};x.live.verdicts[5]={check:'NEED',status:'UNKNOWN',code:null}

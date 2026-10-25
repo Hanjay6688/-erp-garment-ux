@@ -38,6 +38,7 @@ name: CP7 Explicit Frozen Cutting Transport10
     - scripts/cp7-src/plan-native/**
     - src/nativeCuttingSuggestion.ts
     - src/nativeStagedPlan.ts
+    - src/nativePlanInstant.ts
     - src/nativePlanDraft.ts
   workflow_dispatch: {}
 permissions:

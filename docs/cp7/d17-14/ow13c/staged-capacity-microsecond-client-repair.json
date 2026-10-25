@@ -1,0 +1,45 @@
+{
+  "contract": "cp7.staged-capacity-microsecond-client-repair.v1",
+  "base_head": "716dc6273409328d82f24b442b74e30fbad9ecab",
+  "status": "CLIENT_REPAIR_VERIFIED",
+  "source_sha256": {
+    "src/nativePlanInstant.ts": "adc980769664b1fa8e83f0ab7152a2cb949cbefd2510ae66705a92fcf9bce45a",
+    "src/nativeCuttingSuggestion.ts": "86ce85c2f573fe013b68a102659c6200ca5db9bfaf35be423f0efe03372ac41b",
+    "src/nativeStagedPlan.ts": "b8b6889ecb861decdcbeb1d5fc0d75002b83d3acf5a43ad4b9c4d0a1d13b0bbd",
+    "src/nativeStagedPlan.test.ts": "805c4aec4f79b2dc82b9c4b10de1e7dae404d1058e0ec7a4665f4d707691205c",
+    ".github/workflows/cp7-ow12b-frozen-cutting-transport.yml": "ab216c819f2f2c5ac4542206d03d7b786b6f6fd55a1d1177e8b6c2d03fd96b24"
+  },
+  "server_rule": "scripts/cp7-src/plan-native/staged.sql: deadline<=checked_at means expired, using native timestamptz full microseconds.",
+  "confirmed_before": "Client truncated both capacity clocks to milliseconds, so a valid preview with one remaining microsecond was rejected. Malformed calendar/time/precision/source-zone wires could pass.",
+  "first_regression": {
+    "failed": 7,
+    "passed": 11,
+    "total": 18
+  },
+  "first_failure_log_sha256": "65c2daca922fe9ca9208453da20421f71c44069b2cdf5562bb5269ffa733f663",
+  "after": {
+    "passed": 68,
+    "files": 5,
+    "failed": 0
+  },
+  "after_log_sha256": "d7a874997a441b5501fad9fae4ba23bf1059768a6a4bc00d39f65da07e725248",
+  "full_TypeScript": "PASS",
+  "TypeScript_log_sha256": "7125f194612fcff2f454c05d848e7cb71facc1967b4d5017e25b34fdee3ba74f",
+  "strict_microsecond_parser_shared_with_checked_save_receipt": true,
+  "checked_save_prior23_regressions_retained": true,
+  "capacity_boundary_verified": [
+    "one microsecond later remains valid across Z/+07/-07",
+    "equal or earlier deadline is expired",
+    "contradictory server expiry refused",
+    "malformed checked clock refused even when deadline is null",
+    "original receipt strings unchanged"
+  ],
+  "workflow_shell_steps_checked": 16,
+  "new_helper_path_triggers_cutting_transport_workflow": true,
+  "SQL_and_timeout_and_default_install_unchanged": true,
+  "actual_new_Native_or_Auth_browser_credit": false,
+  "formal_acceptance": "5/16",
+  "CP7C_accepted": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

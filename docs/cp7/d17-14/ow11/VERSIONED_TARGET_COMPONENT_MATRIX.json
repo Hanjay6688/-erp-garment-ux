@@ -1833,5 +1833,14 @@
       },
       "Original_read_complete": true
     }
-  ]
+  ],
+  "staged_capacity_microsecond_client_repair": {
+    "status": "CLIENT_REPAIR_VERIFIED",
+    "receipt": "docs/cp7/d17-14/ow13c/staged-capacity-microsecond-client-repair.json",
+    "first_failed": 7,
+    "focused_tests_pass": 68,
+    "full_TypeScript": "PASS",
+    "actual_new_runtime_credit": false,
+    "production_go": false
+  }
 }

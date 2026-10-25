@@ -4224,3 +4224,21 @@ Do not relabel that failure as K3 or credit later98c optimization to oldab.
 All5JSON/head/source/declaration/public/CP6/Auth/WIB26/restoration verified each.
 Continue actual choice/cutting/quantity and measured K3 repair. Formal5/16;
 CP7C/independent/production_go=false.
+
+
+## 206. B26 Oktober2026 WIB — exact capacity deadline in staged preview
+
+Concrete second clock defect reproduced: a valid server preview with one
+microsecond of remaining capacity was rejected because client Date.parse
+collapsed both instants to the same millisecond. First targeted run7FAIL/11PASS
+retained, including invalid calendar/time/precision/timezone acceptance.
+Capacity now compares full integer microseconds with the same strict helper
+as checked SAVE receipts. Equal/earlier means expired exactly as Native SQL;
+contradictory verdicts and malformed checked clocks (also null deadline) refused.
+Original times are not rewritten. No SQL, policy, timeout or default adoption.
+
+68client/parser/form tests PASS; full TypeScript PASS;16workflow shell steps
+parse. New helper path included in cutting Transport10 trigger. Previous checked
+receipt regressions retained. Actual cutting Native6/Transport10 and repaired
+quantity Auth runs continue separately; no new runtime credit. Formal5/16;
+CP7C/independent/production_go=false.
