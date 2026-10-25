@@ -4275,3 +4275,36 @@ minimum14px table text and each value rectangle within visible panel/table width
 Screenshots precede assertions. Local39module choice/43module quantity builds
 retain corrections; corrected actual runtime pending. Two closed declarations
 repinned;98missing/mixed refusals each. Formal5/16; production_go=false.
+
+
+## 208. B26 Oktober2026 WIB — takeover recovered; frozen cutting fixture review corrected
+
+Owner asked this new session to take over Writer B completely and continue
+without questions. Read active `handoff/WRITER_B_TAKEOVER_20261026.md`; inherited
+B712e and all old/untracked work preserved. New isolated worktree; no agents.
+A owns finance/stock/HPP/reports/defaults/final integration as before.
+
+New complete Originals independently retained and exact-head checked: ffc choice
+Native6 PASS6 (1200SKUx3sizes,3602targets; cached/K3 writes4722.703/6840.128ms),
+712e controlled cutting Browser4 PASS4,716d controlled analog Browser4 PASS4.
+All110/61/39source pins respectively; two browser sources remain controlled
+identity/RPC. No stable-SLA/fullfactory/finance/default/wholefeature credit.
+First ffc cutting Native6 is1PASS5INCOMPLETE;6f69 Transport10 is1PASS9INCOMPLETE,
+both fail fixture null needed_pcs before substantive SAVE/waits. Full Originals,
+source-prefix/declaration/CP6/advisor/restore/public/WIB/session/Auth verified;
+failed package writer_runtime=false remains intact.
+
+Published correction ee1ebfd1a104cbbdf5d0c4a14cbb1e8cc00a3573, tree
+dc3bcfe34c44914cc4c1ff1583535faa70af5d12, parent712e. Local43c88685 has same
+tree/parent; API publication used exact blobs/tree and nonforced parent lease.
+Two provider files now review the SAME calendar using actual frozen public
+workspace/SAVE, assert full config/physical/reference preservation, then capture
+a NEW analysis. No SQL/math/guard/ACL/default changes, no invented known need.
+Local134tests/10files + app/prepared TS +94/97pin closed preflights PASS.
+
+Actual corrected Native6 run40235295230 and Transport10 run40235295219 are
+QUEUED, not PASS. Prior queued cutting candidates still have the old fixture;
+retain their eventual results separately. Full workflow/Native/Auth/browser
+acceptance must use the matching source, and first failures are not overwritten.
+OPEN_WORK changed only six B-owned status cells; all A-owned rows byte-identical.
+Formal5/16, independent_acceptance=false, production_go=false. Continue scope.
