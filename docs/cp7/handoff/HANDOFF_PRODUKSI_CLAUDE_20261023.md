@@ -1,3 +1,25 @@
+# Lanjutan aktif25 Oktober2026 WIB — koreksi predecessor unit, lalu Native4 ulang
+
+First unit e33/run40206240957/Original12604733290 all4INCOMPLETE retained.
+Strict guard refused older bounded scenario-unit body before adapter DDL/fixture/
+request. Real admitted analog parent includes per-chunk context. Correct renderer
+and inverse to that body; independent analog-renderer preflight rejects old body.
+Only1of8original/replacement bodies changes;24signatures/SQLAST/87route controls/
+79pins pass. Installer/oracles/8s unchanged. Need corrected Native4 full Original.
+
+Capsule Native4 on e33 complete PASS; all four old regressions full PASS, old
+factory CURRENT57014 retained. See KOORD175–178 and exact receipts.
+Prepared facade/client now has exclusive actor/scope browser locks around all
+async pointer mutations/send.35local tests15new+20v1 and TS PASS under controlled
+lock manager; actual two-tab browser not qualified. Native3/races3/HTTP2 provider
+prepared but not wired; public/default/UI not adopted. See KOORD179.
+Main B erp-produksi; client prep is stale against corrected unit renderer, copy
+only explicit owned client files. Continue private proof then public/UI/access.
+No A/shared/default/production changes. Formal5/16, CP7C/independent/go false.
+Archive confirmed68, replacement unknown/no retry. Lower blocks are history.
+
+---
+
 # Lanjutan aktif25 Oktober2026 WIB — capsule Native4 PASS, unit Native4 berjalan
 
 Current qualified source candidate e33f3095612d7274b2780b1a3ee18c68a4d14533:

@@ -1,0 +1,138 @@
+{
+  "contract": "cp7.complete-original-outcome-retained.v1",
+  "head": "e33f3095612d7274b2780b1a3ee18c68a4d14533",
+  "run_id": 40206240957,
+  "job_id": 121207674321,
+  "artifact_id": 12604733290,
+  "bytes": 162795,
+  "artifact_sha256": "c3b95381950c650d81bd2772191c165fe9b6eea7af6a0edcfcea77e066a84214",
+  "status": "INCOMPLETE",
+  "Original_read_complete": true,
+  "all_Original_JSON_files_read": 5,
+  "original_json_sha256": {
+    "T3_BACKUP_RESTORE_DRILL.json": "737f2fb65a0e08a21363e56c4563fbd58f1943c22b6f70681ee6b48523f48cae",
+    "T3_PACKAGE_FILES_INSTALL.json": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+    "ALIGNED_CHAIN.json": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b",
+    "CP7_OW12B_FROZEN_UNITS.json": "41ce25181d945df17297b891da3bce781232515f40bffa872640cd0564921f15",
+    "T3_PACKAGE_INSTALL.json": "0db9019441a45a5fe0823dc2b80be3e172dc675b4d9b683ba5c3a6f8c8ea3408"
+  },
+  "actual_current_F05_source_prefix_compared": [
+    "source_sha256",
+    "expected_case_count",
+    "required_case_counts",
+    "required_case_ids",
+    "predeclared_case_contract",
+    "predeclared_case_sha256",
+    "target_v2_source_sha256",
+    "frozen_units_source_sha256"
+  ],
+  "all_source_fields_and_declaration_match": true,
+  "source_prefix_database_executed": false,
+  "product_paths_byte_identical_between_recorded_refs": true,
+  "counts": {
+    "INCOMPLETE": 4
+  },
+  "case_facts": {
+    "OW12B_FROZEN_UNITS_V2_CATALOG22_EXACT_PREUSE": {
+      "status": "INCOMPLETE",
+      "error": "FROZEN_UNITS_PREDECESSOR_CHANGED:cp7_analysis_stage.run_scenario_unit(cp7_analysis_stage.jobs,cp7_analysis_stage.units,jsonb)",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_frozen_units_cases.py\", line 157, in run\n    try:return fn()\n               ^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_frozen_units_cases.py\", line 89, in catalog\n    before=_catalog_rows(cur);s=install(cur);verified=stage.verify(cur,s['current'])\n                                ^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_frozen_units_cases.py\", line 39, in install\n    current=stage.install_delta(cur,checked)\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_frozen_analysis_units_v2/__init__.py\", line 93, in install_delta\n    if old[sig][1]!=_body(sql)or old[sig][2]!='cp7_capture':raise ValueError('FROZEN_UNITS_PREDECESSOR_CHANGED:'+sig)\n                                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nValueError: FROZEN_UNITS_PREDECESSOR_CHANGED:cp7_analysis_stage.run_scenario_unit(cp7_analysis_stage.jobs,cp7_analysis_stage.units,jsonb)\n",
+      "observations": {},
+      "production_go": false,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-25",
+        "before": "2026-10-25",
+        "after": "2026-10-25"
+      }
+    },
+    "OW12B_FROZEN_UNITS_V2_ACTUAL_REQUEST_UNITS_PAGES_REPLAY": {
+      "status": "INCOMPLETE",
+      "error": "FROZEN_UNITS_PREDECESSOR_CHANGED:cp7_analysis_stage.run_scenario_unit(cp7_analysis_stage.jobs,cp7_analysis_stage.units,jsonb)",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_frozen_units_cases.py\", line 157, in run\n    try:return fn()\n               ^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_frozen_units_cases.py\", line 101, in flow\n    install(cur);plan.fixture(cur,today);actor=native.policy.master.role_actor(cur,'OWNER')\n    ^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_frozen_units_cases.py\", line 39, in install\n    current=stage.install_delta(cur,checked)\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_frozen_analysis_units_v2/__init__.py\", line 93, in install_delta\n    if old[sig][1]!=_body(sql)or old[sig][2]!='cp7_capture':raise ValueError('FROZEN_UNITS_PREDECESSOR_CHANGED:'+sig)\n                                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nValueError: FROZEN_UNITS_PREDECESSOR_CHANGED:cp7_analysis_stage.run_scenario_unit(cp7_analysis_stage.jobs,cp7_analysis_stage.units,jsonb)\n",
+      "observations": {},
+      "production_go": false,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-25",
+        "before": "2026-10-25",
+        "after": "2026-10-25"
+      }
+    },
+    "OW12B_FROZEN_UNITS_V2_FACTORY1200X3_ALL_TARGETS_PAGES": {
+      "status": "INCOMPLETE",
+      "error": "FROZEN_UNITS_PREDECESSOR_CHANGED:cp7_analysis_stage.run_scenario_unit(cp7_analysis_stage.jobs,cp7_analysis_stage.units,jsonb)",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_frozen_units_cases.py\", line 157, in run\n    try:return fn()\n               ^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_frozen_units_cases.py\", line 119, in volume\n    install(cur);plan.fixture(cur,today);plan.b.api.admin(cur)\n    ^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_frozen_units_cases.py\", line 39, in install\n    current=stage.install_delta(cur,checked)\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_frozen_analysis_units_v2/__init__.py\", line 93, in install_delta\n    if old[sig][1]!=_body(sql)or old[sig][2]!='cp7_capture':raise ValueError('FROZEN_UNITS_PREDECESSOR_CHANGED:'+sig)\n                                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nValueError: FROZEN_UNITS_PREDECESSOR_CHANGED:cp7_analysis_stage.run_scenario_unit(cp7_analysis_stage.jobs,cp7_analysis_stage.units,jsonb)\n",
+      "observations": {},
+      "production_go": false,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-25",
+        "before": "2026-10-25",
+        "after": "2026-10-25"
+      }
+    },
+    "OW12B_FROZEN_UNITS_V2_POST_STALE_IMMUTABLE_USED_INVERSE": {
+      "status": "INCOMPLETE",
+      "error": "FROZEN_UNITS_PREDECESSOR_CHANGED:cp7_analysis_stage.run_scenario_unit(cp7_analysis_stage.jobs,cp7_analysis_stage.units,jsonb)",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_frozen_units_cases.py\", line 157, in run\n    try:return fn()\n               ^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_frozen_units_cases.py\", line 133, in stale\n    s=install(cur);x=plan.fixture(cur,today);actor=native.policy.master.role_actor(cur,'OWNER')\n      ^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_frozen_units_cases.py\", line 39, in install\n    current=stage.install_delta(cur,checked)\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_frozen_analysis_units_v2/__init__.py\", line 93, in install_delta\n    if old[sig][1]!=_body(sql)or old[sig][2]!='cp7_capture':raise ValueError('FROZEN_UNITS_PREDECESSOR_CHANGED:'+sig)\n                                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nValueError: FROZEN_UNITS_PREDECESSOR_CHANGED:cp7_analysis_stage.run_scenario_unit(cp7_analysis_stage.jobs,cp7_analysis_stage.units,jsonb)\n",
+      "observations": {},
+      "production_go": false,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-25",
+        "before": "2026-10-25",
+        "after": "2026-10-25"
+      }
+    }
+  },
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "CP6_advisor_boundary_public_catalog_WIB_session_Auth_cleanup_gates": true,
+  "manual_unchanged_rerun": false,
+  "actual_Auth_HTTP_credit": false,
+  "new_cross_suite_aggregate_acceptance_credit": 0,
+  "full_factory3600_qualified": false,
+  "full_OW11_acceptance": false,
+  "full_OW12b_acceptance": false,
+  "formal_acceptance": "5/16",
+  "CP7C_accepted": false,
+  "independent_acceptance": false,
+  "production_go": false,
+  "all_four_refused_before_adapter_DDL_or_fixture": true,
+  "actual_private_request_units_pages_reached": false,
+  "source_pins": 79,
+  "predecessor_correction": "Use already admitted analog-consumer-stage run_scenario_unit body including per-chunk analog context; preserve exact original for inverse",
+  "installer_guard_relaxed": false,
+  "case_oracles_changed": false,
+  "statement_limit_increased": false
+}

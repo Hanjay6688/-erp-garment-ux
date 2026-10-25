@@ -1,0 +1,26 @@
+{
+  "contract": "cp7.frozen-units-predecessor-correction.v2",
+  "status": "PASS_SOURCE_ONLY",
+  "first_Native_head": "e33f3095612d7274b2780b1a3ee18c68a4d14533",
+  "first_run_id": 40206240957,
+  "first_counts": {
+    "INCOMPLETE": 4
+  },
+  "actual_request_or_units_reached": false,
+  "changed_function": "cp7_analysis_stage.run_scenario_unit(cp7_analysis_stage.jobs,cp7_analysis_stage.units,jsonb)",
+  "old_expected_body_sha256": "db3886d9716856ed9049a5b724780f1ca870c19334566102ae6839d467c1480d",
+  "actual_admitted_analog_body_sha256": "08895ed00c0f054b11c1abf36b8b88935d2b6d20c8b68d8e555a9f814aac5cde",
+  "only_one_of_eight_original_and_replacement_bodies_changed": true,
+  "independent_actual_analog_renderer_matches": true,
+  "per_chunk_analog_context_and_inverse_retained": true,
+  "old_v1_dispatch_and_math_unchanged": true,
+  "strict_installer_guard_relaxed": false,
+  "case_oracles_changed": false,
+  "SQL_AST": "PASS",
+  "SQL_signatures": 24,
+  "source_pins": 79,
+  "missing_or_mixed_routes_refused": 87,
+  "first_local_generator_invocation": "ModuleNotFoundError: cp7_production_stage; corrected PYTHONPATH=scripts",
+  "actual_Native_qualified": false,
+  "production_go": false
+}

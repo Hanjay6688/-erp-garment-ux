@@ -32,3 +32,11 @@ replay), and two real Auth HTTP cases. It is not wired into F05/a workflow.
 PGRST202 schema-cache readiness is bounded5s; business refusals are not retried.
 No actual concurrency or browser credit follows from local storage tests. Atomic
 cross-tab arbitration and the explicit v2 work parser remain adoption tasks.
+
+Subsequent lock preparation: the same actor/scope namespace uses exclusive
+browser locks for every create/clear/replace/send; a send holds the lock until
+its reply/rejection. Missing lock support refuses before touching storage or
+network. All mutation APIs are now asynchronous and require await.35local tests
+(15new+20retained) and TypeScript pass with a controlled FIFO lock manager.
+The actual two-tab browser qualification is still required. No active UI adopts
+the package; prior32-test preparation evidence remains historical and retained.

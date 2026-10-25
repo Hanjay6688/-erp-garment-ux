@@ -25,30 +25,49 @@ export function readFrozenAnalysisRequest(actor:string,scope:string):{pending:Fr
  try{const raw=localStorage.getItem(frozenAnalysisRequestKey(actor,scope));return{pending:raw===null?null:parse(JSON.parse(raw),actor),error:''}}
  catch{return{pending:null,error:'Permintaan analisis tersimpan belum bisa dibaca. Pulihkan catatan sebelum membuat permintaan baru.'}}
 }
-export function persistFrozenAnalysisRequest(actor:string,scope:string,request:FrozenAnalysisRequest){
+function persistFrozenAnalysisRequestUnlocked(actor:string,scope:string,request:FrozenAnalysisRequest){
  const held=readFrozenAnalysisRequest(actor,scope);if(held.error||held.pending)throw Error('Pastikan hasil permintaan analisis tersimpan terlebih dahulu.')
  const parsed=parse(request,actor),raw=JSON.stringify(parsed),key=frozenAnalysisRequestKey(actor,scope)
  localStorage.setItem(key,raw)
  if(localStorage.getItem(key)!==raw||JSON.stringify(readFrozenAnalysisRequest(actor,scope).pending)!==raw)throw Error('Permintaan belum tersimpan. Periksa penyimpanan sebelum mencoba lagi.')
 }
-export function clearFrozenAnalysisRequest(actor:string,scope:string,expected:FrozenAnalysisRequest){
+function clearFrozenAnalysisRequestUnlocked(actor:string,scope:string,expected:FrozenAnalysisRequest){
  const held=readFrozenAnalysisRequest(actor,scope)
  if(held.error||JSON.stringify(held.pending)!==JSON.stringify(parse(expected,actor)))throw Error('Catatan permintaan berubah. Ulangi permintaan tersimpan yang sama.')
  const key=frozenAnalysisRequestKey(actor,scope);localStorage.removeItem(key)
  if(localStorage.getItem(key)!==null)throw Error('Catatan permintaan belum bisa diselesaikan.')
 }
-export function replaceFrozenAnalysisRequest(actor:string,scope:string,expected:FrozenAnalysisRequest,next:FrozenAnalysisRequest){
+function replaceFrozenAnalysisRequestUnlocked(actor:string,scope:string,expected:FrozenAnalysisRequest,next:FrozenAnalysisRequest){
  const held=readFrozenAnalysisRequest(actor,scope),before=parse(expected,actor),after=parse(next,actor)
  if(held.error||JSON.stringify(held.pending)!==JSON.stringify(before))throw Error('Catatan permintaan berubah. Ulangi permintaan tersimpan yang sama.')
  if(after.id===before.id)throw Error('Perhitungan baru harus memakai nomor permintaan baru.')
  const raw=JSON.stringify(after),key=frozenAnalysisRequestKey(actor,scope);localStorage.setItem(key,raw)
  if(localStorage.getItem(key)!==raw)throw Error('Permintaan baru belum tersimpan. Periksa penyimpanan.')
 }
+// Every storage mutation and send in this namespace uses the same browser
+// lock across tabs. An in-flight send holds it until completion/rejection;
+// a queued recovery attempt then rereads the durable request under the lock.
+async function exclusive<T>(actor:string,scope:string,action:()=>T|PromiseLike<T>):Promise<T>{
+ const key=frozenAnalysisRequestKey(actor,scope),locks=globalThis.navigator?.locks
+ if(!locks)throw Error('Penyimpanan permintaan belum dapat dikunci. Buka kembali aplikasi pada peramban yang mendukung penguncian.')
+ return await locks.request(key,{mode:'exclusive'},async()=>await action())
+}
+export async function persistFrozenAnalysisRequest(actor:string,scope:string,request:FrozenAnalysisRequest){
+ return await exclusive(actor,scope,()=>persistFrozenAnalysisRequestUnlocked(actor,scope,request))
+}
+export async function clearFrozenAnalysisRequest(actor:string,scope:string,expected:FrozenAnalysisRequest){
+ return await exclusive(actor,scope,()=>clearFrozenAnalysisRequestUnlocked(actor,scope,expected))
+}
+export async function replaceFrozenAnalysisRequest(actor:string,scope:string,expected:FrozenAnalysisRequest,next:FrozenAnalysisRequest){
+ return await exclusive(actor,scope,()=>replaceFrozenAnalysisRequestUnlocked(actor,scope,expected,next))
+}
 // Read the durable request immediately before each attempt. The actor stays
 // client metadata; the server derives its own current actor and access.
 export async function requestFrozenAnalysis(client:unknown,actor:string,scope:string){
+ return await exclusive(actor,scope,async()=>{
  const held=readFrozenAnalysisRequest(actor,scope)
  if(held.error||held.pending===null)throw Error('Permintaan belum tersimpan. Periksa penyimpanan sebelum mencoba lagi.')
  const checked=parse(held.pending,actor)
  return await(client as FrozenAnalysisClient).rpc('erp_cp7_request_bounded_staged_analysis_v2',{p_query:checked.q,p_request:checked.id})
+ })
 }

@@ -1,0 +1,21 @@
+{
+  "contract": "cp7.frozen-client-shared-lock-local.v2",
+  "status": "PASS_LOCAL_ONLY",
+  "tests": {
+    "new_v2": 15,
+    "retained_v1": 20,
+    "total": 35
+  },
+  "TypeScript": "PASS",
+  "log_sha256": "9928118d2b32b783a875b705c13da7763a1aa467aef6a89b3234105d36bbee7e",
+  "shared_key": "exact actor/scope v2 durable pointer key",
+  "lock_mode": "exclusive",
+  "lock_unavailable": "REFUSE_BEFORE_STORAGE_OR_NETWORK",
+  "mutations_and_network_send_share_lock": true,
+  "network_call_holds_lock_until_reply_or_rejection": true,
+  "controlled_lock_manager": true,
+  "actual_browser_or_cross_tab_runtime": false,
+  "actual_Auth_HTTP_credit": false,
+  "public_or_default_adopted": false,
+  "production_go": false
+}

@@ -12,6 +12,17 @@ import cp7_f05_analysis_probe as probe
 stage.verify_sources();stage.capsule.verify_sources()
 originals=stage.render.originals();replacements=stage.render.replacements()
 assert len(originals)==len(replacements)==len(stage.FUNCTIONS)==8
+# Derive the predecessor independently through the already admitted analog
+# renderer. The earlier bounded body lacks its per-chunk context and must
+# never become the expected installed body or the pre-use inverse.
+import cp7_product_analog_consumer_stage.render as analog_parent
+scenario='cp7_analysis_stage.run_scenario_unit(cp7_analysis_stage.jobs,cp7_analysis_stage.units,jsonb)'
+actual_analog=analog_parent.replacements()[scenario]
+assert stage._body(originals[scenario])==stage._body(actual_analog)
+earlier=stage.render.block(stage.render.BOUNDED.read_text(),scenario.split('(')[0])
+assert stage._body(originals[scenario])!=stage._body(earlier)
+assert "'analog_consumer_context',cp7_product_analog_consumer.prepare(c," in originals[scenario]
+assert stage._body(replacements[scenario]).replace("c->>'bounded_request_contract'in('cp7.bounded-analysis-request.v1','cp7.bounded-analysis-request.v2')", "c->>'bounded_request_contract'='cp7.bounded-analysis-request.v1'")==stage._body(actual_analog)
 assert len(cases.IDS['native'])==cases.EXPECTED==cases.DECLARED==4
 assert cases.REQUIRED==dict(native=4)
 count=0
@@ -76,6 +87,7 @@ assert output['public_or_default_request_adopted']is False and output['private_r
 report=dict(status='PASS',exact_SQL_signatures_checked=count,private_functions=8,existing_replacements=8,
  source_pins=len(cases.sources()),Native4_provider_prepared=True,Native4_F05_route_wired=True,actual_F05_prefix_and_contract=True,missing_or_mixed_routes_refused=refused,
  actual_outer_unit_math_unchanged=True,actual_request_access_lock_replay_and_scope_guards_unchanged=True,
+ actual_analog_scenario_predecessor_and_inverse_preserved=True,earlier_bounded_predecessor_refused=True,
  no_live_source_in_unit_cache=True,jobs_reference_never_updated=True,
  actual_Native=False,actual_Auth_HTTP_credit=False,default_request_adopted=False,production_go=False)
 print(json.dumps(report))

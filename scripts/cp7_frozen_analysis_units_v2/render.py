@@ -10,6 +10,7 @@ from cp7_frozen_analysis_v2.render import block
 ROOT=Path(__file__).resolve().parent
 BOUNDED=ROOT.parent/'cp7_bounded_analysis_stage/stage.sql'
 TARGET=ROOT.parent/'cp7_model_target_consumer_v2_stage/hooks.sql'
+ANALOG=ROOT.parent/'cp7_product_analog_consumer_stage/hooks.sql'
 
 
 def original_run():
@@ -45,7 +46,9 @@ def originals():
       'cp7_supply_native.fingerprint(jsonb)':TARGET,
       'cp7_bounded_analysis_stage.require_inputs(jsonb,jsonb)':BOUNDED,
       'cp7_bounded_analysis_stage.source_for(jsonb,jsonb)':BOUNDED,
-      'cp7_analysis_stage.run_scenario_unit(cp7_analysis_stage.jobs,cp7_analysis_stage.units,jsonb)':BOUNDED,
+      # The installed analog parent adds per-chunk analog_consumer_context.
+      # Preserve that admitted body on both the v2 branch and the inverse.
+      'cp7_analysis_stage.run_scenario_unit(cp7_analysis_stage.jobs,cp7_analysis_stage.units,jsonb)':ANALOG,
       'cp7_analysis_stage.analysis_skeleton(jsonb,jsonb,uuid,jsonb,jsonb,jsonb,jsonb,jsonb,boolean,text)':TARGET,
       'cp7_schedule_staged_review.workspace(uuid)':BOUNDED,
       'cp7_schedule_staged_review.save(jsonb,uuid)':BOUNDED,

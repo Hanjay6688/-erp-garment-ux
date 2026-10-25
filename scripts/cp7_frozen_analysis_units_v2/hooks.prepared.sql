@@ -497,6 +497,8 @@ begin
   return jsonb_build_object('rows',jsonb_array_length(rows));
  end if;
  if u.kind='BASE_ROWS'then
+  c:=c||jsonb_build_object('analog_consumer_context',cp7_product_analog_consumer.prepare(c,
+   (select coalesce(jsonb_agg(x.payload order by x.ord),'[]')from cp7_analysis_stage.target_rows x where x.job_id=j.id and x.kind='HIST'),j.query));
   rows:=cp7_analysis_stage.baseline_rows(c,
    (select coalesce(jsonb_agg(x.payload order by x.ord),'[]')from cp7_analysis_stage.target_rows x where x.job_id=j.id and x.kind='HIST'and x.ord between u.lo and u.hi),
    (select coalesce(jsonb_agg(x.payload order by x.ord),'[]')from cp7_analysis_stage.target_rows x where x.job_id=j.id and x.kind='STOCK'),g->>'baseline_hash');

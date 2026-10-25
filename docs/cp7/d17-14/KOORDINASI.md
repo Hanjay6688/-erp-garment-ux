@@ -3480,3 +3480,31 @@ observer failure remains retained, correction did not alter product SQL/oracles.
 No request/unit/public/Auth/browser/default/factory-SLA credit from this suite.
 Privateunits Native4 still running; continue through its complete Original.
 Formal5/16, CP7C/independent/production_go=false.
+
+## 178. B25 Oktober2026 WIB — first private unit Native4 refused exact predecessor
+
+e33/run40206240957/job121207674321 Original12604733290,162795bytes/SHA
+c3b95381950c650d81bd2772191c165fe9b6eea7af6a0edcfcea77e066a84214. Complete
+5JSON/79pins/F05prefix/declaration/case IDs/counts/product paths verified;4
+INCOMPLETE before adapter DDL, fixture or request. Guard refused scenario-unit
+predecessor: renderer used earlier bounded body, admitted analog-consumer parent
+already adds per-chunk analog context. All4package gates true/writerfalse and
+CP6/advisor/public22/WIB/session/Auth cleanup restored. No runtime step/page credit.
+
+Correct parent source AND inverse to the existing admitted analog body; retain
+its exact context, only expand method dispatch. Other7original/replacement bodies
+unchanged. Independent analog renderer/preflight rejects old bounded predecessor,
+24signatures/SQLAST/87route controls/79pins pass. Installer assertion/Native case
+oracles/fixtures/8s unchanged. First local generation command lacked PYTHONPATH;
+ModuleNotFoundError and stale-generated-source refusal retained in local receipt.
+Corrected Native4 qualification required. Do not proceed to public adoption.
+
+## 179. B25 Oktober2026 WIB — async recovery namespace lock preparation
+
+All v2 pointer create/clear/replace/send operations share exclusive browser lock
+key bound to actor+scope. In-flight RPC holds lock until completion/rejection;
+queued attempt rereads durable exact method/query/UUID. Missing lock support
+refuses before storage/network. API now async/await.35local tests15new+20v1
+pass and TypeScript passes; FIFO lock manager controlled, not actual two-tab
+browser/Auth proof. Public/client/default not adopted. No A registry/type changes.
+Formal5/16, CP7C/independent/production_go false; continue corrected Native4.

@@ -38,3 +38,16 @@ No public facade, client contract or default installer adopts this adapter.
 Full request-to-pages Native qualification, current access/races,
 public Auth/client adoption and after-use recovery remain required. Never
 install a prepared replacement alone or infer readiness from generated SQL.
+
+First Native4 e33/run40206240957/Original12604733290 retained:4INCOMPLETE
+before adapter DDL, Native fixture or request. Strict predecessor guard correctly
+refused run_scenario_unit: the renderer expected the older bounded stage body,
+but the admitted analog stage already inserts per-chunk analog_consumer_context.
+The corrected renderer derives that exact analog body for replacement AND inverse;
+only its method dispatch changes. Preflight derives the parent independently
+through analog.render.replacements and rejects the earlier bounded body. Other
+7original/replacement bodies stay byte-identical; installer/oracles/8s unchanged.
+Local generator first invocation missed PYTHONPATH=scripts; it failed closed with
+ModuleNotFoundError, then generated-source validation refused stale hooks. Correct
+invocation regenerates hooks/manifest and79source pins. No Native runtime credit
+until the corrected candidate completes the same four cases and restores all gates.
