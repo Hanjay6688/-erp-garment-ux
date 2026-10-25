@@ -1,0 +1,58 @@
+{
+  "name": "CP7_OW11_MODEL_TARGET_V2_FACTORY.json",
+  "status": "INCOMPLETE",
+  "head": "d68beec9c79425f92113be1158622f6859ff0a39",
+  "run_id": 40186939121,
+  "job_id": 121149638226,
+  "artifact_id": 12597526134,
+  "zip_bytes": 120971,
+  "zip_sha256": "8299b8e940a945c5b0aad09c1605222310338fd81a0afd14ccb7a77246c2d681",
+  "bytes": 1000163,
+  "sha256": "99c8ee0a34058a2bd7fe95a5f18397d04362b24600b95c258ee599034a935fea",
+  "archive_member": "CP7_OW11_MODEL_TARGET_V2_FACTORY.json",
+  "source_pins_verified": 59,
+  "source_prefix_fields_verified": 9,
+  "counts": {
+    "PASS": 1,
+    "INCOMPLETE": 1
+  },
+  "all_original_JSON_files": 5,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "full_boundary_public_and_sessions_restored": true,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "older_qualified_8f_result_preserved": true,
+  "product_SQL_changed_by_A": false,
+  "full_A_chain_qualified": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "first_failure_phase": "Result construction after inner scale assertions; dimensional wrapper completion not reached",
+  "failure": "dict() got multiple values for keyword argument 'official_finance_included'",
+  "observed_staged_executions": {
+    "PREDECESSOR": {
+      "request_millis": 6244.366,
+      "targets_total": 3602,
+      "completed": true,
+      "steps": 76,
+      "max_step_millis": 642.472
+    },
+    "CURRENT": {
+      "request_millis": 7661.88,
+      "targets_total": 3602,
+      "completed": true,
+      "steps": 76,
+      "max_step_millis": 865.106
+    }
+  },
+  "prior_fixture_authority_failure_preserved_artifact": 12595364192,
+  "actual_1200x3_comparison_qualified": false,
+  "final_dimensional_equality_not_reached": true,
+  "statement_limit": "8s",
+  "stable_latency_or_factory_SLA_claim": false
+}
