@@ -1,0 +1,40 @@
+{
+  "name": "CP7_OW11_MODEL_TARGET_SOURCE_V2.json",
+  "status": "INCOMPLETE",
+  "head": "04551081b658b4f230afd78dd72a5053bba21f78",
+  "run_id": 40165537093,
+  "job_id": 121085696390,
+  "artifact_id": 12588657272,
+  "zip_bytes": 160089,
+  "zip_sha256": "f5a90636fc227e6ef4958952c763330a96f43d01a3614fbabf91a6318441f7ca",
+  "bytes": 1395131,
+  "sha256": "5228fd756871e6b9b180a342e7634bf1e15fd6ace49e17cb49230c3b1fa12214",
+  "source_pins_verified": 19,
+  "counts": {
+    "PASS": 2,
+    "INCOMPLETE": 2
+  },
+  "case_statuses": {
+    "OW11_MODEL_SOURCE_V2_CATALOG22_COMPOSED_INVERSE": "PASS",
+    "OW11_MODEL_SOURCE_V2_ACTUAL_LATEST_VERSION_AND_POST": "INCOMPLETE",
+    "OW11_MODEL_SOURCE_V2_ACTUAL_ACCESS_AND_WAREHOUSE_BOUNDARY": "INCOMPLETE",
+    "OW11_MODEL_SOURCE_V2_DENSE2000_BATCHED_PHYSICAL_SOURCE": "PASS"
+  },
+  "first_failures": {
+    "OW11_MODEL_SOURCE_V2_ACTUAL_LATEST_VERSION_AND_POST": "CP7_MODEL_TARGET_V2_PARENT_BINDING",
+    "OW11_MODEL_SOURCE_V2_ACTUAL_ACCESS_AND_WAREHOUSE_BOUNDARY": "CP7_FORMULA_ACCESS_DENIED"
+  },
+  "gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "all_boundaries_catalogs_and_sessions_restored": true,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "full_A_chain_qualified": false,
+  "production_go": false,
+  "independent_acceptance": false
+}
