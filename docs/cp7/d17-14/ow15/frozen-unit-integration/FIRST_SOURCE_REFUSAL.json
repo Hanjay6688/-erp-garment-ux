@@ -1,0 +1,12 @@
+{
+  "status": "SOURCE_ONLY_PREFLIGHT_REFUSED",
+  "error": "STOCK_REFERENCE_V2_PARENT_CHANGED",
+  "A_parent": "4608b478ac50b52eba69e938488402b296a0f46e",
+  "B_head": "10a36e35b956febd9e34907f20fc5b782ec48dc1",
+  "A_v1_digest_sha256": "cc61d676da2d1777b3e22af361c8ba33d1913ad48d644c682c93478e96ed41f5",
+  "B_expected_v1_digest_sha256": "fe4c1b7c930fe73b7a6cc79b21edaff592490d52818f925c6a2b3930033fe89f",
+  "copied_B_files_unchanged": true,
+  "old_A_files_changed": false,
+  "database_executed": false,
+  "production_go": false
+}

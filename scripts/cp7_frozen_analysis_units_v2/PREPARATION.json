@@ -1,0 +1,37 @@
+{
+  "contract": "cp7.frozen-analysis-unit-adapter.prepared.v2",
+  "original_run_body_sha256": "191d51b5085d644abcfd4cc9783158b03abe22f661efb64249c3c31fc2748ba0",
+  "prepared_run_body_sha256": "c1d401a5cacc7c947adf88143b28cf6239db2a5c68ccdd0c36f4220db83e0632",
+  "original_bodies_sha256": {
+    "cp7_analysis_stage.run_unit(cp7_analysis_stage.jobs,cp7_analysis_stage.units)": "191d51b5085d644abcfd4cc9783158b03abe22f661efb64249c3c31fc2748ba0",
+    "cp7_supply_native.fingerprint(jsonb)": "fefeb4263e0c6435dd57c4f276a4b35232e2c80f18966c24780a573735244170",
+    "cp7_bounded_analysis_stage.require_inputs(jsonb,jsonb)": "4aa4f5cf102cb55191ea23a7a5f5a3b167a564adde6f8a4e3e2d142942dc6216",
+    "cp7_bounded_analysis_stage.source_for(jsonb,jsonb)": "501c1578187a9dbc8335db28683ceb6550ce7374e95961b46c326d316cd4f085",
+    "cp7_analysis_stage.run_scenario_unit(cp7_analysis_stage.jobs,cp7_analysis_stage.units,jsonb)": "08895ed00c0f054b11c1abf36b8b88935d2b6d20c8b68d8e555a9f814aac5cde",
+    "cp7_analysis_stage.analysis_skeleton(jsonb,jsonb,uuid,jsonb,jsonb,jsonb,jsonb,jsonb,boolean,text)": "ae30c46a1a3aaa19a0343472e1e47652a1a4ff0870dabf68942f20b7c44042d4",
+    "cp7_schedule_staged_review.workspace(uuid)": "73b4d0e97009f2ce629bd3e4a242004e334540704045b83f33360a797250040d",
+    "cp7_schedule_staged_review.save(jsonb,uuid)": "57d1566d4ed4f1d8b50d86deb983844e6aa270bf79e02d3780305acfb3a3683e"
+  },
+  "replacement_bodies_sha256": {
+    "cp7_analysis_stage.run_unit(cp7_analysis_stage.jobs,cp7_analysis_stage.units)": "c1d401a5cacc7c947adf88143b28cf6239db2a5c68ccdd0c36f4220db83e0632",
+    "cp7_supply_native.fingerprint(jsonb)": "437f4aec04f91ce8e8e23f1fdd02c7f66bcdc4963b40beca8fdf45d3ed6eea81",
+    "cp7_bounded_analysis_stage.require_inputs(jsonb,jsonb)": "281744d060dcf93839fdc3c49918f49978be5c91c3ffb2c419479eac4ea79567",
+    "cp7_bounded_analysis_stage.source_for(jsonb,jsonb)": "573ed07315ed5b3141fb6d0272041ccc0bd68d906135dc34b966a05f7e8dbf4b",
+    "cp7_analysis_stage.run_scenario_unit(cp7_analysis_stage.jobs,cp7_analysis_stage.units,jsonb)": "86b6f48e3a9ba524a190a3074cc54c4a2674d8e34ff7afdacdbcbb043c4ee37e",
+    "cp7_analysis_stage.analysis_skeleton(jsonb,jsonb,uuid,jsonb,jsonb,jsonb,jsonb,jsonb,boolean,text)": "2e885f47ee79019d9cd8f80ddbb6fc756d5bd6e47687fa3394e7a9c3bbc870fb",
+    "cp7_schedule_staged_review.workspace(uuid)": "b308d7dd9443848f70724fe6e8d98610463a607112bbb74e94a485edca64b86b",
+    "cp7_schedule_staged_review.save(jsonb,uuid)": "6b34d553684a7777066089d0943e01d2e98b7d069dde4c4894ec03512e7bf613"
+  },
+  "compiler_called_only_in_HIST_PREP": true,
+  "jobs_reference_update": false,
+  "new_table": false,
+  "default_installer": false,
+  "public_RPC_added": false,
+  "version_dispatch_workspace_skeleton_prepared": true,
+  "private_catalog_installer_prepared": true,
+  "catalog_installer_Native_qualified": false,
+  "private_request_and_hooks_prepared": true,
+  "actual_Native_qualified": false,
+  "request_or_unit_integrated": false,
+  "production_go": false
+}
