@@ -783,7 +783,7 @@
     "predecessor_request_millis": 7288.263,
     "predecessor_actual_DONE_all3602_targets": true
   },
-  "latest_attempted_head": "10a36e35b956febd9e34907f20fc5b782ec48dc1",
+  "latest_attempted_head": "9855395d28c4767490b7e7e24b7cf311a0b88072",
   "latest_scale_regression_qualified": true,
   "latest_scale_regression": {
     "status": "PASS_ONE_SIZE_COMPONENT_ONLY",
@@ -1017,7 +1017,7 @@
   },
   "latest_A_read_only_intake": "A7de9d4b9-read-only-intake.json",
   "frozen_facade_preparation": {
-    "status": "TRANSPORT8_F05_WORKFLOW_PREPARED_NOT_RUN",
+    "status": "FIRST_TRANSPORT8_CI_IN_PROGRESS",
     "new_public_RPC": 1,
     "old_replacements": 0,
     "local_client_tests_PASS": 35,
@@ -1028,22 +1028,26 @@
     "production_go": false,
     "receipt": "../ow12b/frozen-client-facade-preparation-local.json",
     "exclusive_actor_scope_browser_locks_prepared": true,
-    "actual_browser_lock_runtime": false,
+    "actual_browser_lock_runtime": true,
     "Native3_races3_HTTP2_route_wired": true,
     "source_pins": 87,
-    "missing_or_mixed_routes_refused": 89,
+    "missing_or_mixed_routes_refused": 90,
     "changed_group_budgets_refused": 5,
     "preflight_receipt": "../ow12b/frozen-facade-preflight.json",
-    "last_active_owner_guard_preserved_in_revocation_fixtures": true
+    "last_active_owner_guard_preserved_in_revocation_fixtures": true,
+    "run_id": 40212762856,
+    "head": "9855395d28c4767490b7e7e24b7cf311a0b88072",
+    "browser_lock_receipt": "../ow12b/f153b99f-frozen-recovery-browser3-pass.json",
+    "controlled_RPC_not_Native_Auth_browser": true
   },
   "frozen_reader_preparation": {
-    "status": "NATIVE4_F05_WORKFLOW_PREPARED_NOT_RUN",
+    "status": "FIRST_NATIVE4_CI_IN_PROGRESS",
     "new_private_functions": 2,
     "new_public_RPC": 1,
     "existing_replacements": 0,
     "new_tables": 0,
     "source_pins": 96,
-    "missing_or_mixed_routes_refused": 89,
+    "missing_or_mixed_routes_refused": 90,
     "local_PGlite18_controls": 6,
     "frontend_tests": 77,
     "frontend_new": 16,
@@ -1055,6 +1059,59 @@
     "public_UI_adopted": false,
     "choice_confirm_adapter_still_required": true,
     "production_go": false,
-    "receipt": "../ow12b/frozen-reader-preflight.json"
+    "receipt": "../ow12b/frozen-reader-preflight.json",
+    "run_id": 40212762911,
+    "head": "9855395d28c4767490b7e7e24b7cf311a0b88072"
+  },
+  "latest_retained_regressions_985": [
+    {
+      "run_id": 40212764958,
+      "receipt": "9855395d-40212764958-original-pass.json"
+    },
+    {
+      "run_id": 40212762808,
+      "receipt": "9855395d-40212762808-original-pass.json"
+    },
+    {
+      "run_id": 40212762887,
+      "receipt": "9855395d-40212762887-original-pass.json"
+    },
+    {
+      "run_id": 40212762843,
+      "receipt": "9855395d-40212762843-original-pass.json"
+    },
+    {
+      "run_id": 40212762824,
+      "receipt": "9855395d-40212762824-original-pass.json"
+    }
+  ],
+  "latest_old_factory_985": {
+    "status": "INCOMPLETE",
+    "receipt": "9855395d-factory-original-incomplete.json",
+    "phase": "CURRENT",
+    "sqlstate": "57014",
+    "request_millis": 8026.972,
+    "manual_unchanged_rerun": false,
+    "factory_SLA_claim": false
+  },
+  "frozen_choice_preparation": {
+    "status": "NATIVE6_F05_WORKFLOW_PREPARED_NOT_RUN",
+    "private_functions": 2,
+    "new_public_rpcs": 1,
+    "new_tables": 0,
+    "existing_replacements": 0,
+    "source_pins": 108,
+    "missing_or_mixed_routes_refused": 90,
+    "SQL_local_controls": 7,
+    "frontend_tests": 52,
+    "frontend_new": 29,
+    "frontend_retained": 23,
+    "preflight_receipt": "../ow12b/frozen-choice-preflight.json",
+    "client_receipt": "../ow12b/frozen-choice-client-preparation-local.json",
+    "actual_Native_qualified": false,
+    "actual_Auth_HTTP_credit": false,
+    "actual_browser": false,
+    "UI_or_default_adopted": false,
+    "production_go": false
   }
 }

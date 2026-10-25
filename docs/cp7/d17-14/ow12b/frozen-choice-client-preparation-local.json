@@ -1,0 +1,25 @@
+{
+  "contract": "cp7.frozen-choice-client-preparation.v2",
+  "status": "PASS",
+  "tests": 52,
+  "new_tests": 29,
+  "retained_tests": 23,
+  "dedicated_TypeScript": "PASS",
+  "source_sha256": {
+    "cp7_frozen_analysis_choice_v2/PREPARATION.json": "5161a593d39cbf7da4df1adca40f88de15cd132b572fcbbf09a3156305d80b0e",
+    "cp7_frozen_analysis_choice_v2/__init__.py": "52b13d1e25b1c57f7d32030088fb60e8a0a28ae7cd0f4945b675f09f28b86dbc",
+    "cp7_frozen_analysis_choice_v2/choice.prepared.sql": "81ace2835f6d1907977f73bf8b798dc0a0d095dc35334a8b9936619041133d59",
+    "cp7_frozen_analysis_choice_v2/client/nativeFrozenChoice.test.ts": "d7ed1b792dd01b3ab8e81fb013be2e49dcf03c8fd29df7085f59752eac0a621b",
+    "cp7_frozen_analysis_choice_v2/client/nativeFrozenChoice.ts": "31e38f42560f1a52daa041833dce3bf791a295250f45bfdbe5a39669668e383f",
+    "cp7_frozen_analysis_choice_v2/client/tsconfig.json": "24253b5a09dc97d3fe2ad6d9c0ed64ea7875978259568ce39a654e193ed40fe6",
+    "cp7_frozen_analysis_choice_v2/render.py": "007eff94d39acca50fe1789b3d3db2d10084a7eaa050112a56005d2b182b6fab"
+  },
+  "first_TypeScript_failure": "TS6133 unused readProductAnalogChoice import after prepared transport rewrite; added meaningful unchanged workspace-read coverage, no assertion relaxation.",
+  "actual_browser_locks": false,
+  "controlled_FIFO_lock_manager": true,
+  "actual_Native_CONFIRM_CLEAR_executed": false,
+  "actual_Auth_HTTP_credit": false,
+  "UI_or_default_adopted": false,
+  "qualified_business51_unchanged": true,
+  "production_go": false
+}

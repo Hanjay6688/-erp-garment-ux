@@ -1,0 +1,13 @@
+{
+  "status": "PASS",
+  "native_cases_declared": 4,
+  "source_pins": 15,
+  "actual_source_only_route": true,
+  "invalid_or_missing_route_controls": 90,
+  "independent_codec_controls": true,
+  "malformed_frames_refused": 3,
+  "actual_Native": false,
+  "actual_Auth_HTTP_credit": false,
+  "caller_integrated": false,
+  "production_go": false
+}

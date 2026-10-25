@@ -1,0 +1,21 @@
+{
+  "status": "PASS_PREPARATION_ONLY",
+  "SQL_statements": 12,
+  "private_functions": 2,
+  "new_public_rpc": 1,
+  "new_tables": 0,
+  "source_pins": 108,
+  "exact_case_budget": {
+    "native": 6
+  },
+  "missing_or_mixed_routes_refused": 90,
+  "actual_F05_prefix_and_contract": true,
+  "exact_admitted_consumer_parent_and_own_delta_guard": true,
+  "global_FG_envelope_shared_UUID_locks_current_access_and_freshness_unchanged": true,
+  "existing_choice_tables_and_material_math_unchanged": true,
+  "command_outcome_and_normalizer_explicit_v2": true,
+  "actual_Native": false,
+  "actual_Auth_HTTP_credit": false,
+  "default_or_UI_adopted": false,
+  "production_go": false
+}

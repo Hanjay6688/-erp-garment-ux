@@ -1,3 +1,26 @@
+# Lanjutan aktif26 Oktober2026 WIB — frozen choice qualification; retained proofs saved
+
+Real recovery Browser3 f153b99f/run40213155779 Original12605999988 fully
+verified PASS (actual two tabs/WebLocks/localStorage, controlled RPC replies).
+985 retained binary4/analogBrowser2/OW16 16/OW13b20/OW14b113 full Originals PASS;
+old factory remains1PASS/1INCOMPLETE CURRENT57014 at8026.972ms. See KOORD183.
+No complete-factory-SLA or aggregate acceptance credit.
+
+New frozen choice adapter/client default-off Native6 is prepared:108pins,
+90negative routes,7pureSQL local controls,52frontend tests29new+23retained,
+dedicated TS and56actual workflow declarations pass. Current source51exact.
+No actual new choice command, HTTP or browser credit yet; see KOORD184 and
+ow12b/frozen-choice-* receipts. Explicit v2 method retains global envelope,
+access/replay/two freshness checks, append-only metadata and own-delta guard.
+
+Remaining985 units/capsule/facade/reader Originals must be verified against
+exact985 source in own erp-produksi-proof-985; main candidate F05/declarations
+now include choice6 and must not be substituted for that old source. Main B
+and own clientprep share prepared files; stale stockprep remains separate.
+Continue actual choice Native6 then current-access races/HTTP, work-v2 parser,
+complete UI/browser and A integration/finance/after-use within assigned scope.
+Formal5/16; CP7C/independent/production_go=false. Do not stop at this checkpoint.
+
 # Lanjutan aktif25 Oktober2026 WIB — private units Native4 PASS; public/read qualification next
 
 Private10a36e35/run40209309494/job121216934173/Original12605623860 complete

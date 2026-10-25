@@ -1,0 +1,14 @@
+{
+  "status": "PASS",
+  "native_cases_declared": 4,
+  "source_pins": 67,
+  "actual_F05_prefix_and_contract": true,
+  "missing_or_mixed_routes_refused": 90,
+  "actual_shared_refusal_three_value_contract": true,
+  "original_non_stock_admission_copied_exactly": true,
+  "compiler_unchanged": true,
+  "actual_Native": false,
+  "actual_Auth_HTTP_credit": false,
+  "request_or_unit_integrated": false,
+  "production_go": false
+}

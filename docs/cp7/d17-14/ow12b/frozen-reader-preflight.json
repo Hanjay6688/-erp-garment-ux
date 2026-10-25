@@ -4,7 +4,7 @@
   "exact_case_budget": {
     "native": 4
   },
-  "missing_or_mixed_routes_refused": 89,
+  "missing_or_mixed_routes_refused": 90,
   "actual_F05_prefix_and_contract": true,
   "actual_admitted_reader_guards_and_candidate_math_unchanged": true,
   "actual_Native": false,

@@ -3576,3 +3576,55 @@ JSON with exact client/script source hashes; it never starts a database or
 calls ERP/hosted services. Existing client/F05/declarations unchanged, so the
 9855395d Transport8/readerNative4/regression candidates keep their exact sources.
 No production/default adoption, formal5/16 and CP7C/independent/go remain false.
+
+
+## 183. B26 Oktober2026 WIB — real Browser3 and five complete retained regressions
+
+f153b99f/run40213155779/job121228541935/Original12605999988:931B,
+SHA55d311ec3df6b3c75441a19968e181cef1ab0d5dcd7197fbce913b84c20e8717.
+Complete oneJSON/head/two source pins verified. Real Chromium151 two tabs,
+WebLocks/localStorage and observed pending locks: competing creates, send holds
+replacement, queued send rereads new UUID/payload, reply loss/reload exact retry
+all3PASS. Controlled RPC replies, no Native/Auth/productionUI credit. Prior local
+SOURCE_SERVING_ONLY remains historical; duplicate receipt-contract constructor
+failure corrected without changing Original or assertions.
+
+985 complete Originals: binary4 run40212764958; old analog Browser2
+40212762808; OW16 16 run40212762887; OW13b20 run40212762843; OW14b113
+run40212762824 allPASS. Every JSON/ZIP byte/hash, actual F05 source prefix,
+declaration/product paths/package/CP6/advisor/public/WIB/session/Auth checked.
+Browser archive has6JSON including exact clone authority; first5-file and
+Native-only audit-field verifier assumptions refused, corrected to actual
+browser contract with empty Native audit, preuse22/all3restore gates. No fresh
+screenshot QA. One wrong local OW14 probe filename refused and corrected to
+observed cp7_ow14b_rule_probe.py; no runtime/Original change.
+Old factory run40212762816/Original12606892596 retained1PASS/1INCOMPLETE:
+CURRENT57014 at8026.972ms. Unchanged8s/no factory SLA/manual rerun. Separate
+985 frozen units/capsule/facade/reader runs remain in progress at this entry.
+
+## 184. B26 Oktober2026 WIB — explicit frozen choice Native6 preparation
+
+New schema2private+1authenticatedRPC/0table/0oldreplacement; strict actual
+admitted consumer body, own-confirmation-only delta normalizer, unchanged
+material math/shared append-only choice-command tables/global FG envelope.
+Four current-access rechecks/two full source checks, exact v2 command/outcome,
+actor+UUID identity and crossmethod collision refusal retained. Exact22 owner/
+ACL/publicCREATE/dependency/preuse inverse guards. Seven controlled PG18 pure
+normalizer/DDL controls PASS; actual CONFIRM/CLEAR not locally executed.
+
+Prepared client outside app graph explicitly requires FROZEN_V2 context and
+v2 command/outcome. Actor/scope/target key, exclusive WebLock around all storage
+mutations and complete send, reread exact durable UUID/payload; no actor sent.
+52tests29new+23retained and dedicated TS PASS; controlled FIFO locks only.
+First TS6133 unused import corrected by genuine unchanged workspace-read test;
+no assertion relaxed. Browser/Auth/Native command proofs still required.
+
+Default-off F05 Native6 covers exact catalog/inverse, confirm→fresh target→
+CLEAR→UNKNOWN/replay/clocks, invalid review/scale/size/UNKNOWN/oldmethod,
+foreign/stale/K2/current access, atomic last-table fault and actual1200x3 cached/
+K3 confirmations with unchanged8s calls.108pins/90negative route controls; all
+56actualworkflow declarations/new shell syntax PASS. Existing5closed routes
+now reject90missing/mixed routes; old case budgets and business51unchanged.
+No UI/default/finance/A integration changes. Formal5/16, CP7C/independent/go
+false. Continue first complete Originals, actual current-access races/HTTP,
+work-v2 parser, full browser flow and A composition; checkpoint is not completion.
