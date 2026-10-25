@@ -1,0 +1,63 @@
+{
+  "contract": "cp7.frozen-cutting-ui-bridge-preparation.v1",
+  "base_head": "94a5b7669ac47b426c4bd251d39310889c57e8da",
+  "status": "PREPARED_LOCAL112_PASS_BROWSER4_PENDING",
+  "source_sha256": {
+    "src/NativePlanDraftPanel.tsx": "484a8158e50a548ce07a22f64989366187b9d88faebadda66fcf0a5a0d2353f6",
+    "scripts/cp7_frozen_quantity_ui/client/nativeFrozenQuantity.ts": "7b43229206b1c7a0221d58868dc6561c07c1a90c5c7060b780c57e3a36b627c8",
+    "scripts/cp7_frozen_quantity_ui/client/nativeFrozenQuantity.test.ts": "e94cdf0965248246ca9572395ed4e9af83b2db0e2e72e88b56ba0f249590f941",
+    "scripts/cp7_frozen_quantity_ui/client/NativeFrozenQuantityPanel.tsx": "3cc308b321625768bdbbf2a7221c69ab536cffcb403255065fea6bd2fd884d41",
+    "scripts/cp7_ow12b_frozen_cutting_ui_browser.mjs": "dd205be29fb12e924e24c1aa19dc534e4fcae6baab35392dd27600a9baf4745a",
+    ".github/workflows/cp7-ow12b-frozen-cutting-ui-browser.yml": "61117a233d61318397721aafe15571787107477e41c8554b911737b409dbc941",
+    "scripts/cp7_frozen_cutting_ui/client/NativeFrozenCuttingPanel.dom.test.tsx": "8165a0c54dc656be0641093d60d075d2e3e1dac039a88e12d1fe43f4ca5826a9",
+    "scripts/cp7_frozen_cutting_ui/client/tsconfig.json": "29784cccc26d8d879ab2073589eb7299082f0722fe741a3d1d88d084a56e3984",
+    "scripts/cp7_frozen_cutting_ui/client/frozen-cutting.css": "f80c61f87fe339f73b8aeeb00c594d77fc48a17669c1b2d9d1a652f13411f31b",
+    "scripts/cp7_frozen_cutting_ui/client/NativeFrozenCuttingPanel.tsx": "d5a84e6ae00f647f26e5fe0d0fea3a2b3adaf35ca599434edde917a20fdc9bcd"
+  },
+  "checked_SOURCE_to_existing_form_prepared": true,
+  "ordinary_quantity_entry_remains_read_only_without_explicit_renderer": true,
+  "default_screen_unchanged": true,
+  "admitted_WeakMap_v2_method_actor_query_UUID_identity_microsecond_guard": true,
+  "unknown_or_zero_not_recomputed": true,
+  "original_checked_SAVE_and_recovery_hook_reused": true,
+  "parent_source_controls_blocked_while_form_open": true,
+  "stale_source_refuses_new_form": true,
+  "current_permission_and_real_StorageEvent_retire_form": true,
+  "optional_access_loss_callback_retires_parent_after_shared_recovery_classification": true,
+  "refused_replay_retains_original_UUID_payload_bytes": true,
+  "first_before_callback_tests": {
+    "failed": 2,
+    "passed": 3
+  },
+  "before_log_sha256": "3b6f4e020d969b94194af1ff968a205fd5ca68100c08e0d82cc4a4be29974bba",
+  "initial_harness_failure": "Two vi.hoisted declarations in one declaration were rejected before tests. Split declarations; original first log retained.",
+  "local_tests": {
+    "files": 8,
+    "passed": 112,
+    "failed": 0
+  },
+  "tests_sha256": "42d296068daf97eb6923e399ceedd2bac959e7799ddd0e1b67b2fdbd98527a5d",
+  "prepared_and_full_TypeScript": "PASS",
+  "controlled_browser_required_cases": [
+    "FROZEN_CUTTING_UI_DESKTOP_VERIFIED_SOURCE_EXISTING_FORM",
+    "FROZEN_CUTTING_UI_MOBILE_FORM_TEXT_AND_INPUTS",
+    "FROZEN_CUTTING_UI_REAL_STORAGE_RETIRES_DIRTY_FORM",
+    "FROZEN_CUTTING_UI_CURRENT_ACCESS_RETIRES_PARENT_RETAINS_REPLAY"
+  ],
+  "source_serving_only": true,
+  "source_serving_modules_observed": 33,
+  "actual_controlled_browser_ran": false,
+  "actual_Native_checked_SAVE_qualified": false,
+  "actual_Auth_HTTP_credit": false,
+  "SQL_hook_recovery_default_install_unchanged": true,
+  "react_review": [
+    "Existing heavy form imported only by explicit cutting host; read-only quantity does not import it.",
+    "Render callback returns existing component; no inline component type or duplicated formula.",
+    "Stable retire callback and current-session read tickets; deferred access notification preserves shared command classification.",
+    "Native button/label/fieldset controls and bounded visible rows retained."
+  ],
+  "formal_acceptance": "5/16",
+  "CP7C_accepted": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

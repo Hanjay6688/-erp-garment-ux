@@ -1842,5 +1842,31 @@
     "full_TypeScript": "PASS",
     "actual_new_runtime_credit": false,
     "production_go": false
+  },
+  "frozen_cutting_UI_preparation": {
+    "status": "PREPARED_LOCAL112_PASS_BROWSER4_PENDING",
+    "receipt": "docs/cp7/d17-14/ow12b/frozen-cutting-ui-bridge-preparation.json",
+    "actual_browser": false,
+    "actual_Auth_HTTP_credit": false,
+    "actual_Native_checked_SAVE_qualified": false,
+    "default_application_adopted": false,
+    "production_go": false
+  },
+  "frozen_choice_actual_Auth_Browser2": {
+    "status": "FUNCTIONAL_PASS_VISUAL_INCOMPLETE",
+    "head": "dd45e8ec2316705298cafd26dfc9b07511e92396",
+    "run_id": 40225000047,
+    "receipt": "docs/cp7/d17-14/ow12b/dd45e8ec-40225000047-browser-original.json",
+    "Original_read_complete": true,
+    "source_pins": 139,
+    "browser_source_pins": 39,
+    "functional_counts": {
+      "PASS": 2
+    },
+    "visual_qualified": false,
+    "visual_repair_receipt": "docs/cp7/d17-14/ow12b/frozen-choice-actual-table-visual-repair.json",
+    "corrected_actual_runtime_pending": true,
+    "new_cross_suite_aggregate_acceptance_credit": 0,
+    "production_go": false
   }
 }

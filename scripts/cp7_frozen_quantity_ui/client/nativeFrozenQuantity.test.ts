@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 import {beforeEach,afterEach,it,expect,vi} from 'vitest'
 import {FROZEN_ANALYSIS_REQUEST,frozenAnalysisRequestKey,persistFrozenAnalysisRequest,replaceFrozenAnalysisRequest,readFrozenAnalysisRequest} from '../../cp7_frozen_analysis_facade_v2/client/nativeFrozenAnalysis'
-import {driveFrozenQuantity,readFrozenQuantity,readFrozenQuantityPage,checkFrozenQuantity,frozenQuantityAnalogContext,type FrozenQuantitySession} from './nativeFrozenQuantity'
+import {driveFrozenQuantity,readFrozenQuantity,readFrozenQuantityPage,checkFrozenQuantity,frozenQuantityAnalogContext,frozenQuantityCuttingContext,type FrozenQuantitySession} from './nativeFrozenQuantity'
 import {parseStagedJob} from '../../../src/nativeStagedJob'
 import {stagedRun} from '../../../tests/fixtures/nativeAnalysisPages'
 
@@ -103,4 +103,14 @@ it('retains exact request after lost response and denies all RPC when locks are 
  const bytes=localStorage.getItem(frozenAnalysisRequestKey(s.actor,s.scope)),rpc=vi.fn().mockRejectedValueOnce(Error('reply lost'))
  await expect(driveFrozenQuantity({rpc},s,{})).rejects.toThrow('reply lost');expect(localStorage.getItem(frozenAnalysisRequestKey(s.actor,s.scope))).toBe(bytes)
  vi.stubGlobal('navigator',{});await expect(driveFrozenQuantity({rpc},s,{})).rejects.toThrow('dikunci');expect(rpc).toHaveBeenCalledOnce()
+})
+
+it('hands an admitted v2 result to checked cutting with exact identity, target and original microseconds',async()=>{
+ const rpc=vi.fn(route),v=await readFrozenQuantity({rpc},s,done()),target=v.header.labels[0].key
+ expect(frozenQuantityCuttingContext(s,v,target)).toEqual({kind:'STAGED',runId:f.runId,targetKey:target,identityHash:f.identityHash,dataAsOf:f.reference.captured_at})
+ expect(()=>frozenQuantityCuttingContext(s,structuredClone(v),target)).toThrow()
+ expect(()=>frozenQuantityCuttingContext(s,v,'00000000-0000-4000-8000-000000000999:00000000-0000-4000-8000-000000000888')).toThrow()
+ localStorage.setItem(frozenAnalysisRequestKey(s.actor,s.scope),JSON.stringify({...s.request,id:crypto.randomUUID()}))
+ expect(()=>frozenQuantityCuttingContext(s,v,target)).toThrow()
+ expect(rpc).toHaveBeenCalledTimes(2)
 })

@@ -4242,3 +4242,36 @@ parse. New helper path included in cutting Transport10 trigger. Previous checked
 receipt regressions retained. Actual cutting Native6/Transport10 and repaired
 quantity Auth runs continue separately; no new runtime credit. Formal5/16;
 CP7C/independent/production_go=false.
+
+
+## 207. B26 Oktober2026 WIB — prepared cutting bridge and actual analog visual finding
+
+Explicit disposable cutting host now connects admitted frozen v2 quantity to the
+one existing checked-save plan form. Exact actor/method/query/UUID/run/identity/
+source microseconds remain bound; ordinary quantity has no cutting renderer.
+No new calculation or recovery engine. Parent source controls lock while form is
+open; current read permission, stale source and real storage replacement covered.
+A new current-access callback retires parent quantities/form only after the shared
+mutation hook classifies the result; denied replay preserves exact original
+UUID/payload bytes. First bridge tests2FAIL/3PASS retained, then112tests across8
+files PASS, prepared/full TypeScript PASS. Initial vi.hoisted harness syntax error
+retained. Chromium Browser4 preparation uses controlled RPC/identity, source
+serving only locally; no Native/auth/SAVE credit. Default app/SQL/recovery hook exact.
+
+Actual dd45 choice Auth run40225000047/job121264383870 Original12612692948 now
+fully verified2PASS:6JSON,139pins,39actual buildmodules, exacthead F05/source,
+CP6/advisor/preuse22/publicrestore/Authcleanup/WIB26 and clone authority exact.
+CONFIRM200 lost reply recovers one exact command; fresh target0, CLEARrevision2
+restoresUNKNOWN; old receipt exact. Real Native post gives40001; foreign/anon/
+revoked403 retire candidates/form and retain uncertain command. No physical effect.
+
+All5actual screenshots inspected: functionalPASS is not visual qualification.
+Global responsive-table CSS makes values pale9.5px;900px minimum table hides
+mobile value columns despite document-width assertion passing. Checkbox shrink
+was already repaired separately. Compound analog CSS now scopes readable14.4/16px
+text and min-width0/wrapped mobile cards, also when nested under quantity.
+Actual browser oracle now checks all visible text/pseudo-label contrast>=4.5,
+minimum14px table text and each value rectangle within visible panel/table width.
+Screenshots precede assertions. Local39module choice/43module quantity builds
+retain corrections; corrected actual runtime pending. Two closed declarations
+repinned;98missing/mixed refusals each. Formal5/16; production_go=false.

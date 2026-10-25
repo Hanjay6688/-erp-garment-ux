@@ -1,0 +1,64 @@
+name: CP7 Prepared Frozen Cutting UI Browser4
+'on':
+  push:
+    branches: [astra/d17-14-produksi]
+    paths:
+      - scripts/cp7_frozen_cutting_ui/client/**
+      - scripts/cp7_frozen_quantity_ui/client/**
+      - src/NativePlanDraftPanel.tsx
+      - src/nativePlanDraft.ts
+      - src/nativeStagedPlan.ts
+      - src/nativeCuttingSuggestion.ts
+      - src/nativePlanInstant.ts
+      - src/native-plan-draft.css
+      - src/productionRecovery.ts
+      - src/useProductionMutation.ts
+      - src/styles.css
+      - tests/fixtures/nativePlan.ts
+      - scripts/cp7_ow12b_frozen_cutting_ui_browser.mjs
+      - .github/workflows/cp7-ow12b-frozen-cutting-ui-browser.yml
+      - scripts/cp7_frozen_analysis_facade_v2/client/nativeFrozenAnalysis.ts
+      - scripts/cp7_frozen_choice_ui/client/**
+      - src/nativeAnalysisPages.ts
+      - src/nativeStagedJob.ts
+      - src/nativeBoundedQuantity.ts
+      - src/native-bounded-quantity.css
+      - tests/fixtures/nativeAnalysisPages.ts
+      - tests/fixtures/nativeAnalysisStandin.json
+  workflow_dispatch: {}
+permissions:
+  contents: read
+concurrency:
+  group: cp7-frozen-cutting-ui-browser-${{ github.run_id }}
+  cancel-in-progress: false
+jobs:
+  browser:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22'
+      - run: npm ci --ignore-scripts
+      - run: npx playwright install --with-deps chromium
+      - run: npx tsc --noEmit -p scripts/cp7_frozen_cutting_ui/client/tsconfig.json
+      - run: npx vitest run scripts/cp7_frozen_cutting_ui/client scripts/cp7_frozen_quantity_ui/client src/NativePlanDraftPanel.staged.dom.test.tsx src/nativeCuttingSuggestion.test.ts src/nativeStagedPlan.test.ts scripts/cp7_frozen_analysis_facade_v2/client/nativeFrozenAnalysis.test.ts src/nativeBoundedQuantity.test.ts src/nativeAnalysisPages.test.ts src/nativeStagedJob.test.ts
+      - name: Prepared cutting panel in desktop and mobile Chromium with controlled identity and RPC
+        run: node scripts/cp7_ow12b_frozen_cutting_ui_browser.mjs
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: frozen-cutting-ui-browser4-complete-original
+          path: cp6-proof/t3/FROZEN_CUTTING_UI_BROWSER4.json
+          if-no-files-found: error
+          retention-days: 30
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: frozen-cutting-ui-browser4-screenshots
+          path: cp6-proof/t3/frozen-cutting-*.png
+          if-no-files-found: warn
+          retention-days: 30

@@ -1,4 +1,4 @@
-import {useCallback,useEffect,useMemo,useRef,useState} from 'react'
+import {useCallback,useEffect,useMemo,useRef,useState,type ReactNode} from 'react'
 import {useAuth} from '../../../src/auth/AuthProvider'
 import {getUatSupabaseClient} from '../../../src/lib/supabase'
 import {normalizeClientError} from '../../../src/lib/clientError'
@@ -7,15 +7,16 @@ import {formatFact} from '../../../src/cp7/workspace'
 import {analysisWarningLabel} from '../../../src/nativeAnalysis'
 import type {NativeDemandQuery} from '../../../src/nativeDemandHistory'
 import {FROZEN_ANALYSIS_REQUEST,frozenAnalysisRequestKey,readFrozenAnalysisRequest,persistFrozenAnalysisRequest,replaceFrozenAnalysisRequest,type FrozenAnalysisRequest} from '../../cp7_frozen_analysis_facade_v2/client/nativeFrozenAnalysis'
-import {driveFrozenQuantity,readFrozenQuantity,readFrozenQuantityPage,checkFrozenQuantity,frozenQuantityAnalogContext,type FrozenQuantitySession} from './nativeFrozenQuantity'
+import {driveFrozenQuantity,readFrozenQuantity,readFrozenQuantityPage,checkFrozenQuantity,frozenQuantityAnalogContext,frozenQuantityCuttingContext,type FrozenQuantitySession} from './nativeFrozenQuantity'
 import {stagedFailureText,stagedRetentionText,type StagedJob} from '../../../src/nativeStagedJob'
 import {stagedRangeLabel,stagedNumber,type StagedAnalysis,type AnalysisPage,type StagedSourceCheck} from '../../../src/nativeAnalysisPages'
 import NativeFrozenAnalogPanel from '../../cp7_frozen_choice_ui/client/NativeFrozenAnalogPanel'
+import type {StagedPlanContext} from '../../../src/nativePlanDraft'
 import {type AnalogReadContext} from '../../../src/nativeProductAnalog'
 import '../../../src/native-bounded-quantity.css'
 import '../../cp7_frozen_choice_ui/client/frozen-choice.css'
 
-type Props={query:NativeDemandQuery;onSourceReadStart:()=>void;onSourceReadEnd:()=>void;onClose:()=>void}
+type Props={query:NativeDemandQuery;onSourceReadStart:()=>void;onSourceReadEnd:()=>void;onClose:()=>void;renderCuttingPlan?:(context:StagedPlanContext,onClose:()=>void,onAccessLost:(message:string)=>void)=>ReactNode}
 const permissions=['master.product.view','production.wip.view','warehouse.stock.view','sales.invoice.view']
 const stateLabel=(s:string)=>s==='ACTIVE'?'Aktif':s==='PAUSED'?'Ditunda':s==='STOPPED'?'Dihentikan':'Perlu diperiksa'
 const warningLabel=(s:string)=>s==='RAW_NATIVE_CAPTURE_INCOMPLETE_COMPLETE_SQL_HISTORY_INPUTS'?'Riwayat stok telah dibaca seluruhnya untuk perhitungan ini.':analysisWarningLabel(s)
@@ -25,19 +26,20 @@ export default function NativeFrozenQuantityPanel(props:Props){
  if(runtime.mode!=='DISPOSABLE_TEST'||identity.status!=='AUTHORIZED'||!permissions.every(p=>identity.permissions.includes(p)))return null
  return <Workspace {...props} key={`${runtime.projectRef}:${identity.profile.id}:${identity.profile.authUserId}:${identity.profile.rowVersion}:${identity.profile.roleRowVersion}:${identity.permissions.join('|')}`}/>
 }
-function Workspace({query,onSourceReadStart,onSourceReadEnd,onClose}:Props){
+function Workspace({query,onSourceReadStart,onSourceReadEnd,onClose,renderCuttingPlan}:Props){
  const{runtime,identity}=useAuth();if(runtime.mode!=='DISPOSABLE_TEST'||identity.status!=='AUTHORIZED')throw Error('Sesi perhitungan belum siap.')
  const client=useMemo(()=>getUatSupabaseClient(runtime),[runtime]),scope='frozen-quantity:'+runtime.projectRef+':'+identity.profile.id,actor=identity.profile.authUserId
  const seq=useRef(0),active=useRef(false),pageSeq=useRef(0),checkSeq=useRef(0),sleeps=useRef(new Set<{timer:ReturnType<typeof setTimeout>;wake:()=>void}>())
  const[held,setHeld]=useState(()=>readFrozenAnalysisRequest(actor,scope)),[job,setJob]=useState<StagedJob|null>(null),[staged,setStaged]=useState<StagedAnalysis|null>(null),[page,setPage]=useState<AnalysisPage|null>(null)
  const[busy,setBusy]=useState(false),[pageLoading,setPageLoading]=useState(false),[checking,setChecking]=useState(false),[check,setCheck]=useState<StagedSourceCheck|null>(null),[error,setError]=useState(''),[slice,setSlice]=useState(0),[session,setSession]=useState<FrozenQuantitySession|null>(null)
+ const[plan,setPlan]=useState<StagedPlanContext|null>(null)
  const[analog,setAnalog]=useState<AnalogReadContext|null>(null),[analogSearch,setAnalogSearch]=useState(''),[analogOffset,setAnalogOffset]=useState(0)
  const[refusedBeforeJob,setRefusedBeforeJob]=useState(false)
  const stop=useCallback(()=>{++seq.current;++pageSeq.current;++checkSeq.current;for(const entry of sleeps.current){clearTimeout(entry.timer);entry.wake()}sleeps.current.clear();if(active.current){active.current=false;onSourceReadEnd()}},[onSourceReadEnd])
  const sleep=useCallback((ms:number)=>new Promise<void>(wake=>{const entry={timer:setTimeout(()=>{sleeps.current.delete(entry);wake()},ms),wake};sleeps.current.add(entry)}),[])
- const retire=useCallback((message:string)=>{setStaged(null);setPage(null);setJob(null);setCheck(null);setAnalog(null);setSession(null);setRefusedBeforeJob(false);setError(message)},[])
+ const retire=useCallback((message:string)=>{setStaged(null);setPage(null);setJob(null);setCheck(null);setPlan(null);setAnalog(null);setSession(null);setRefusedBeforeJob(false);setError(message)},[])
  const run=useCallback(async(request:FrozenAnalysisRequest)=>{
-  const n=++seq.current,current={actor,scope,request};setSession(current);let observed=false;active.current=true;setBusy(true);setError('');setRefusedBeforeJob(false);setStaged(null);setPage(null);setCheck(null);setJob(null);setAnalog(null);setAnalogOffset(0);setSlice(0);++pageSeq.current;++checkSeq.current;onSourceReadStart()
+  const n=++seq.current,current={actor,scope,request};setSession(current);let observed=false;active.current=true;setBusy(true);setError('');setRefusedBeforeJob(false);setStaged(null);setPage(null);setCheck(null);setJob(null);setPlan(null);setAnalog(null);setAnalogOffset(0);setSlice(0);++pageSeq.current;++checkSeq.current;onSourceReadStart()
   try{
    const status=await driveFrozenQuantity(client,current,{aborted:()=>seq.current!==n,sleep,onStatus:s=>{observed=true;if(seq.current===n)setJob(s)}})
    if(!status||seq.current!==n)return
@@ -90,17 +92,21 @@ function Workspace({query,onSourceReadStart,onSourceReadEnd,onClose}:Props){
   if(!session||!staged)return
   try{setAnalog(frozenQuantityAnalogContext(session,staged,target))}catch(e){retire(normalizeClientError(e).message)}
  }
+ const openCutting=(target:string)=>{
+  if(!renderCuttingPlan||!identity.permissions.includes('production.cutting.view')||!session||!staged||blocked||check?.sourceState==='ARCHIVED_STALE')return
+  try{setPlan(frozenQuantityCuttingContext(session,staged,target))}catch(e){retire(normalizeClientError(e).message)}
+ }
  const loadPage=async(index:number)=>{
-  if(!staged||!session||busy||pageLoading||checking||analog)return
+  if(!staged||!session||busy||pageLoading||checking||analog||plan)return
   const current=staged,n=++pageSeq.current;setPageLoading(true);setPage(null);setError('');setSlice(0)
   try{const next=await readFrozenQuantityPage(client,session,current,index);if(n===pageSeq.current)setPage(next)}catch(e){if(n===pageSeq.current){const failure=normalizeClientError(e);setError(failure.message);if(failure.code==='FORBIDDEN'||failure.code==='AUTH_REQUIRED')retire(failure.message)}}finally{if(n===pageSeq.current)setPageLoading(false)}
  }
  const checkSource=async()=>{
-  if(!staged||!session||busy||pageLoading||checking||analog)return
+  if(!staged||!session||busy||pageLoading||checking||analog||plan)return
   const n=++checkSeq.current;setChecking(true);setCheck(null);setError('')
   try{const next=await checkFrozenQuantity(client,session,staged);if(n===checkSeq.current)setCheck(next)}catch(e){if(n===checkSeq.current){const failure=normalizeClientError(e);setError(failure.message);if(failure.code==='FORBIDDEN'||failure.code==='AUTH_REQUIRED')retire(failure.message)}}finally{if(n===checkSeq.current)setChecking(false)}
  }
- const blocked=busy||pageLoading||checking||analog!==null,canNew=Boolean(staged||refusedBeforeJob||job?.state==='FAILED'||job?.retention?.state==='EXPIRED'),m=staged?.set
+ const blocked=busy||pageLoading||checking||analog!==null||plan!==null,canNew=Boolean(staged||refusedBeforeJob||job?.state==='FAILED'||job?.retention?.state==='EXPIRED'),m=staged?.set
  const labels=useMemo(()=>new Map(staged?.header.labels.map(p=>[p.key,`${p.sku} · ${p.name}`])??[]),[staged])
  const analogMatches=useMemo(()=>{
   const term=analogSearch.trim().toLocaleLowerCase('id-ID');if(!term)return[]
@@ -112,6 +118,7 @@ function Workspace({query,onSourceReadStart,onSourceReadEnd,onClose}:Props){
   }
   return[...exact,...partial]
  },[analogSearch,staged])
+ const cuttingAvailable=Boolean(renderCuttingPlan)&&identity.permissions.includes('production.cutting.view')
  const rows=page?.items.recommendations??[],visible=rows.slice(slice,slice+50),pageIndex=page?.index??0
  return <section className="native-production-result native-bounded-quantity frozen-choice-panel" aria-label="Kebutuhan seluruh produk"><header><h3>Kebutuhan seluruh produk</h3><button onClick={()=>{stop();onClose()}}>Tutup perhitungan kebutuhan</button></header>
   <p>Perhitungan memakai jadwal terakhir yang sudah disimpan. Isian jadwal yang belum disimpan belum masuk perhitungan.</p>
@@ -130,9 +137,10 @@ function Workspace({query,onSourceReadStart,onSourceReadEnd,onClose}:Props){
    <details><summary>Rincian pemeriksaan kebutuhan</summary>{[...staged.header.analysisHeader.generation_warnings,...(page?.items.generation_warnings??[])].map((w,i)=><p key={`${i}:${w}`}>{warningLabel(w)}</p>)}</details>
    {m.pageCount?<><nav aria-label="Halaman sumber kebutuhan"><button disabled={blocked||pageIndex===0} onClick={()=>void loadPage(pageIndex-1)}>Sumber sebelumnya</button><span>Halaman {pageIndex+1} dari {m.pageCount}</span><button disabled={blocked||pageIndex>=m.pageCount-1} onClick={()=>void loadPage(pageIndex+1)}>Sumber berikutnya</button></nav>
     {pageLoading?<p role="status">Mengambil halaman target…</p>:page?<><h4>{stagedRangeLabel(page.targetLo,page.targetHi,m.targetsTotal)}</h4>{page.summary.policyUnreviewed?<p>{stagedNumber(page.summary.policyUnreviewed)} target pada halaman ini masih memerlukan pemeriksaan kebijakan produksi dan belum memiliki rekomendasi jumlah.</p>:null}<p>Saran {rows.length?slice+1:0}–{Math.min(slice+50,rows.length)} dari {stagedNumber(rows.length)} baris pada halaman target ini.</p>
-    <div className="responsive-table"><table><thead><tr><th>Produk</th><th>Status produksi</th><th>Stok fisik</th><th>Target</th><th>Kurang sebelum pembagian global</th><th>Kurang sesudah pembagian global</th><th>Saran sebelum cek bahan dan kapasitas</th><th>Tambahan kelipatan</th><th>Produksi baru layak</th><th>Pembanding</th></tr></thead><tbody>{visible.map(r=><tr key={r.target.key} data-quantity-target={r.target.key}><td data-label="Produk">{labels.get(r.target.key)??r.target.key}</td><td data-label="Status produksi">{stateLabel(r.production_state)}</td><td data-label="Stok fisik">{formatFact(r.actual_fg)}</td><td data-label="Target">{formatFact(r.target_qty)}</td><td data-label="Kurang sebelum pembagian global">{formatFact(r.q_base)}</td><td data-label="Kurang sesudah pembagian global">{formatFact(r.q_conditional)}</td><td data-label="Saran sebelum cek bahan dan kapasitas">{formatFact(r.suggested_new)}</td><td data-label="Tambahan kelipatan">{formatFact(r.rounding_extra)}</td><td data-label="Produksi baru layak">{formatFact(r.feasible_new)}</td><td data-label="Pembanding"><button disabled={blocked} onClick={()=>openAnalog(r.target.key)}>Lihat produk pembanding</button></td></tr>)}</tbody></table></div>
+    <div className="responsive-table"><table><thead><tr><th>Produk</th><th>Status produksi</th><th>Stok fisik</th><th>Target</th><th>Kurang sebelum pembagian global</th><th>Kurang sesudah pembagian global</th><th>Saran sebelum cek bahan dan kapasitas</th><th>Tambahan kelipatan</th><th>Produksi baru layak</th><th>Pembanding</th>{cuttingAvailable?<th>Potongan</th>:null}</tr></thead><tbody>{visible.map(r=><tr key={r.target.key} data-quantity-target={r.target.key}><td data-label="Produk">{labels.get(r.target.key)??r.target.key}</td><td data-label="Status produksi">{stateLabel(r.production_state)}</td><td data-label="Stok fisik">{formatFact(r.actual_fg)}</td><td data-label="Target">{formatFact(r.target_qty)}</td><td data-label="Kurang sebelum pembagian global">{formatFact(r.q_base)}</td><td data-label="Kurang sesudah pembagian global">{formatFact(r.q_conditional)}</td><td data-label="Saran sebelum cek bahan dan kapasitas">{formatFact(r.suggested_new)}</td><td data-label="Tambahan kelipatan">{formatFact(r.rounding_extra)}</td><td data-label="Produksi baru layak">{formatFact(r.feasible_new)}</td><td data-label="Pembanding"><button disabled={blocked} onClick={()=>openAnalog(r.target.key)}>Lihat produk pembanding</button></td>{cuttingAvailable?<td data-label="Potongan"><button disabled={blocked||check?.sourceState==='ARCHIVED_STALE'} onClick={()=>openCutting(r.target.key)}>Periksa saran potong</button></td>:null}</tr>)}</tbody></table></div>
     <nav aria-label="Baris saran kebutuhan"><button disabled={blocked||slice===0} onClick={()=>setSlice(s=>Math.max(0,s-50))}>50 saran sebelumnya</button><button disabled={blocked||slice+50>=rows.length} onClick={()=>setSlice(s=>s+50)}>50 saran berikutnya</button></nav></>:null}</>:<p>Tidak ada target produk pada sumber ini.</p>}
   </>:null}
   {analog?<NativeFrozenAnalogPanel context={analog} label={labels.get(analog.targetKey)??analog.targetKey} onClose={()=>setAnalog(null)} onAccessLost={retire}/>:null}
+  {plan&&renderCuttingPlan?renderCuttingPlan(plan,()=>setPlan(null),retire):null}
  </section>
 }

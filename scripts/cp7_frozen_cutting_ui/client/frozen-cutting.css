@@ -1,0 +1,5 @@
+.frozen-cutting-plan .native-plan-controls { color: #172c24; background: #f8fbf9; }
+.frozen-cutting-plan .native-plan-result { color: #172c24; background: #fff; }
+.frozen-cutting-plan input, .frozen-cutting-plan select, .frozen-cutting-plan textarea { color: #172c24; background: #fff; }
+.frozen-cutting-plan input::placeholder, .frozen-cutting-plan textarea::placeholder { color: #5a6b60; opacity: 1; }
+.frozen-cutting-plan .native-plan-controls input[type="checkbox"] { flex: 0 0 20px; width: 20px; min-width: 20px; height: 20px; }

@@ -1,0 +1,40 @@
+{
+  "contract": "cp7.frozen-choice-actual-table-visual-repair.v1",
+  "status": "PREPARED_REPAIR_RUNTIME_PENDING",
+  "first_actual_Original": "docs/cp7/d17-14/ow12b/dd45e8ec-40225000047-browser-original.json",
+  "actual_functional_Browser2": "PASS",
+  "actual_visual_qualified": false,
+  "actual_screens_inspected": 5,
+  "first_visual_defects": [
+    "Pale9.5px candidate values on desktop from global dark-table palette.",
+    "Global900px minimum table width places mobile values outside visible surface; document-width-only assertion misses local overflow.",
+    "Mobile review checkbox shrink already separately corrected; original dd45 failure retained."
+  ],
+  "fix": "Compound prepared analog selectors set readable colors and14.4px desktop/16px mobile text, min-width0, fixed table layout and wrapped two-column mobile label/value cards, including inside quantity.",
+  "actual_browser_oracle_strengthened": [
+    "Every visible direct text and mobile pseudo-label contrast>=4.5 at every screenshot state.",
+    "Table values use font>=14px and every direct-text rectangle lies inside panel and table viewport.",
+    "Capture screenshot before assertion; keep offending label/style/rectangle diagnostics.",
+    "Existing20px checkbox assertion retained."
+  ],
+  "build_only": [
+    {
+      "name": "choice",
+      "modules": 39,
+      "scoped_rules": 7
+    },
+    {
+      "name": "quantity",
+      "modules": 43,
+      "scoped_rules": 7
+    }
+  ],
+  "compiled_CSS_verified": true,
+  "new_actual_Auth_qualified": false,
+  "source_sha256": {
+    "scripts/cp7_frozen_choice_ui/client/frozen-choice.css": "5958d5b437662bde184691c6670665ec23ac4549e722d4031c348a71d3000229",
+    "scripts/cp7_ow12b_frozen_choice_auth_browser.mjs": "58bf3e3e3e27d2d009ad4c299fe53c0c7dc56c83a6fbb48a3e4383f8b670fb3b"
+  },
+  "formal_acceptance": "5/16",
+  "production_go": false
+}

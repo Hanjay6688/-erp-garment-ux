@@ -31,3 +31,18 @@
 .frozen-choice-panel input::placeholder, .frozen-choice-panel textarea::placeholder { color: #5a6b60; opacity: 1; }
 .frozen-choice-panel small, .frozen-choice-panel .eyebrow { color: #46594e; }
 .frozen-choice-panel [role="alert"] { color: #8d2020; }
+
+/* The prepared analog table must not inherit the global dark-table palette or
+   900px/quantity1080px minimum width, including when nested in quantity. */
+.native-product-analog.frozen-choice-panel .responsive-table table { min-width: 0; width: 100%; table-layout: fixed; }
+.native-product-analog.frozen-choice-panel .responsive-table th,
+.native-product-analog.frozen-choice-panel .responsive-table td { color: #172c24; font-size: 0.9rem; white-space: normal; overflow-wrap: anywhere; letter-spacing: normal; text-transform: none; }
+.native-product-analog.frozen-choice-panel .responsive-table th { color: #46594e; }
+@media (max-width: 680px) {
+ .native-product-analog.frozen-choice-panel .responsive-table table,
+ .native-product-analog.frozen-choice-panel .responsive-table tbody,
+ .native-product-analog.frozen-choice-panel .responsive-table tr { display: block; min-width: 0; width: 100%; }
+ .native-product-analog.frozen-choice-panel .responsive-table thead { display: none; }
+ .native-product-analog.frozen-choice-panel .responsive-table td { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 0.5rem; width: 100%; min-width: 0; box-sizing: border-box; font-size: 1rem; }
+ .native-product-analog.frozen-choice-panel .responsive-table td[data-label]::before { color: #46594e; font-size: 0.85rem; }
+}

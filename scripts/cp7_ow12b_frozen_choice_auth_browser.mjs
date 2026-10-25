@@ -6,12 +6,37 @@ import {buildPreparedChoice} from './cp7_ow12b_frozen_choice_auth_build.mjs'
 const fixture=(op,p)=>JSON.parse(execFileSync('python',['../auditor/scripts/cp7_ow12b_frozen_choice_auth_fixture.py',op],{input:JSON.stringify(p),cwd:'../writer',encoding:'utf8',maxBuffer:16*1024*1024}).trim())
 const SAVE='erp_cp7_save_product_analog_choice_v2',GET='erp_cp7_get_product_analog_choices_v1',READ='erp_cp7_read_product_analog_candidates_v2'
 async function response(page,name,action){const[r]=await Promise.all([page.waitForResponse(r=>r.request().method()==='POST'&&r.url().endsWith('/rpc/'+name)),Promise.resolve().then(action)]);return{status:r.status(),args:r.request().postDataJSON(),body:await r.json()}}
+async function readable(panel){
+ const rows=await panel.evaluate(root=>{
+  const rgb=v=>v.match(/[\d.]+/g).map(Number),lum=c=>c.slice(0,3).map(x=>x/255).map(x=>x<=.04045?x/12.92:((x+.055)/1.055)**2.4).reduce((s,x,i)=>s+x*[.2126,.7152,.0722][i],0)
+  const out=[]
+  for(const el of[root,...root.querySelectorAll('*')]){
+   const s=getComputedStyle(el),label=[...el.childNodes].filter(n=>n.nodeType===Node.TEXT_NODE).map(n=>n.textContent).join(' ').trim()
+   if(!label||!el.getClientRects().length||s.visibility!=='visible')continue
+   const layers=[];let bg=null
+   for(let p=el;p;p=p.parentElement){const c=getComputedStyle(p),v=rgb(c.backgroundColor);if(c.backgroundImage!=='none'||c.opacity!=='1')throw Error('UNMEASURED_CHOICE_TEXT_SURFACE:'+JSON.stringify({label:label.slice(0,90),tag:p.tagName,classes:p.className,backgroundImage:c.backgroundImage,opacity:c.opacity}));if(v.length===3||v[3]===1){bg=v.slice(0,3);break}layers.push(v)}
+   if(!bg)throw Error('MISSING_CHOICE_SURFACE')
+   for(const v of layers.reverse())bg=bg.map((x,i)=>v[i]*(v[3]??1)+x*(1-(v[3]??1)))
+   const record=(label,color)=>{const f=rgb(color),fg=bg.map((x,i)=>f[i]*(f[3]??1)+x*(1-(f[3]??1))),a=lum(fg),b=lum(bg);out.push({label:label.slice(0,90),ratio:(Math.max(a,b)+.05)/(Math.min(a,b)+.05)})}
+   record(label,s.color)
+   if(el.closest('table')){
+    const bounds=root.getBoundingClientRect(),clip=el.closest('.responsive-table').getBoundingClientRect()
+    if(parseFloat(s.fontSize)<14)throw Error('UNREADABLE_CHOICE_TABLE_FONT:'+JSON.stringify({label:label.slice(0,90),font:s.fontSize}))
+    for(const node of el.childNodes){if(node.nodeType!==Node.TEXT_NODE||!node.textContent.trim())continue;const range=document.createRange();range.selectNodeContents(node)
+     for(const r of range.getClientRects())if(r.width>0&&(r.left<Math.max(bounds.left,clip.left)-1||r.right>Math.min(bounds.right,clip.right)+1))throw Error('CLIPPED_CHOICE_TABLE_VALUE:'+JSON.stringify({label:label.slice(0,90),left:r.left,right:r.right,clip:[clip.left,clip.right]}))
+    }
+   }
+   if(el.hasAttribute('data-label')){const pseudo=getComputedStyle(el,'::before');if(pseudo.display!=='none'&&pseudo.content!=='none')record(el.getAttribute('data-label'),pseudo.color)}
+  }
+  return out
+ });assert.ok(rows.length>0&&rows.every(x=>x.ratio>=4.5),JSON.stringify(rows.filter(x=>x.ratio<4.5)));return rows
+}
 async function journey(ui,today,built,mobile){
  const user=await ui.login('OWNER',{label:'frozen-choice-'+mobile,mobile,timezoneId:mobile?'America/Los_Angeles':'Asia/Jakarta'}),page=user.page,actor=user.user.id
- const observed=[],shots=[];let other=null,lost=null
+ const observed=[],shots=[],textContrasts=[];let other=null,lost=null
  const panel=page.getByRole('region',{name:'Kandidat produk pembanding',exact:true}),form=panel.getByRole('region',{name:'Konfirmasi produk pembanding',exact:true})
  const pending=()=>page.evaluate(()=>Object.entries(localStorage).filter(([k])=>k.startsWith('erp.cp7.analog-choice.v2:')).map(([,v])=>JSON.parse(v)))
- const state=()=>fixture('state',{actor}),shot=async suffix=>{mkdirSync('cp6-proof/t3',{recursive:true});const path=`cp6-proof/t3/FROZEN_CHOICE_AUTH_${mobile?'MOBILE':'DESKTOP'}_${suffix}.png`;await page.screenshot({path,fullPage:true});shots.push(path)}
+ const state=()=>fixture('state',{actor}),shot=async suffix=>{mkdirSync('cp6-proof/t3',{recursive:true});const path=`cp6-proof/t3/FROZEN_CHOICE_AUTH_${mobile?'MOBILE':'DESKTOP'}_${suffix}.png`;await page.screenshot({path,fullPage:true});shots.push(path);if(suffix!=='FAILURE')textContrasts.push({state:suffix,rows:await readable(panel)})}
  const open=async f=>{const read=await response(page,READ,()=>page.goto(built.url+'?context='+encodeURIComponent(JSON.stringify(f.context))));observed.push(read);assert.equal(read.status,200,JSON.stringify(read));assert.deepEqual(read.body,f.exact_read);await ui.expect(panel).toBeVisible();return read}
  const choices=async()=>{const r=await response(page,GET,()=>panel.getByRole('button',{name:'Atur pilihan pembanding',exact:true}).click());observed.push(r);assert.equal(r.status,200);await ui.expect(form.getByRole('button',{name:'Baca ulang pilihan tersimpan',exact:true})).toBeEnabled()}
  const fill=async source=>{await form.getByLabel('Produk pembanding',{exact:true}).selectOption(source);await form.getByLabel('Skala terhadap produk pembanding',{exact:true}).fill('1.25');await form.getByLabel('Alasan kesamaan atau pencabutan',{exact:true}).fill('Actual Auth review of matching physical size and captured history');await form.getByRole('checkbox').check();const box=await form.getByRole('checkbox').boundingBox();assert.ok(box&&box.width>=20&&box.height>=20,JSON.stringify(box))}
@@ -50,7 +75,7 @@ async function journey(ui,today,built,mobile){
    await ui.expect(form).toHaveCount(0);await ui.expect(panel.locator('[data-analog-target]')).toHaveCount(0);assert.deepEqual(await pending(),held);assert.deepEqual(state(),posted);await shot('ACCESS_REVOKED')
   }
   assert.deepEqual(await page.evaluate(()=>navigator.locks.query()),{held:[],pending:[]})
-  return{status:'PASS',actual_Auth_PostgREST_browser:true,actual_AuthProvider:true,actual_AuthGate:true,actual_Native_frozen_DONE:true,actual_form_submission:true,review_checkbox_min20px:true,visible_button_contrasts:contrasts,exact_frozen_candidate_envelope:true,same_physical_size_AVAILABLE_zero_not_UNKNOWN:true,viewport:mobile?390:1440,no_horizontal_overflow:true,actual_confirm_lost_reply_exact_recovery:!mobile,fresh_zero_target_then_CLEAR_UNKNOWN:!mobile,committed_receipt_exact_after_CLEAR:!mobile,actual_Native_stock_post_stale_refusal:mobile,dirty_form_durable_command_retained:mobile,actual_anon_foreign_revoked_access_refused:mobile,actual403_clears_candidates_and_form:mobile,no_money_stock_HPP_effect_by_choice:true,source_paths:built.source_paths,source_sha256:built.source_sha256,shots,default_application_adopted:false,production_go:false}
+  return{status:'PASS',actual_Auth_PostgREST_browser:true,actual_AuthProvider:true,actual_AuthGate:true,actual_Native_frozen_DONE:true,actual_form_submission:true,review_checkbox_min20px:true,visible_button_contrasts:contrasts,visible_text_contrasts:textContrasts,table_values_within_visible_surface:true,table_text_min14px:true,exact_frozen_candidate_envelope:true,same_physical_size_AVAILABLE_zero_not_UNKNOWN:true,viewport:mobile?390:1440,no_horizontal_overflow:true,actual_confirm_lost_reply_exact_recovery:!mobile,fresh_zero_target_then_CLEAR_UNKNOWN:!mobile,committed_receipt_exact_after_CLEAR:!mobile,actual_Native_stock_post_stale_refusal:mobile,dirty_form_durable_command_retained:mobile,actual_anon_foreign_revoked_access_refused:mobile,actual403_clears_candidates_and_form:mobile,no_money_stock_HPP_effect_by_choice:true,source_paths:built.source_paths,source_sha256:built.source_sha256,shots,default_application_adopted:false,production_go:false}
  }catch(e){mkdirSync('cp6-proof/t3',{recursive:true});writeFileSync(`cp6-proof/t3/FROZEN_CHOICE_AUTH_${mobile?'MOBILE':'DESKTOP'}_FAILURE.json`,JSON.stringify({error:String(e),observed,alerts:await page.getByRole('alert').allTextContents().catch(()=>[])},null,2));await shot('FAILURE').catch(()=>{});throw e}
  finally{fixture('restore',{actor});await other?.context.close();await user.context.close()}
 }

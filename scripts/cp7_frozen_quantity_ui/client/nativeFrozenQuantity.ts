@@ -2,6 +2,7 @@ import {FROZEN_ANALYSIS_REQUEST,frozenAnalysisRequestKey,readFrozenAnalysisReque
 import {driveStagedJob,parseStagedJob,type StagedDriveOptions,type StagedJob} from '../../../src/nativeStagedJob'
 import {parseAnalysisPageSet,parseAnalysisHeader,parseAnalysisPage,parseStagedSourceCheck,type StagedAnalysis} from '../../../src/nativeAnalysisPages'
 import {sameBoundedReference} from '../../../src/nativeBoundedQuantity'
+import type {StagedPlanContext} from '../../../src/nativePlanDraft'
 import {analogReadContext,type AnalogReadContext} from '../../../src/nativeProductAnalog'
 
 export type FrozenQuantitySession={actor:string;scope:string;request:FrozenAnalysisRequest}
@@ -77,4 +78,12 @@ export function frozenQuantityAnalogContext(s:FrozenQuantitySession,v:StagedAnal
  checked(s,v)
  if(!v.header.labels.some(p=>p.key===targetKey))fail()
  return{...analogReadContext(v,s.actor,targetKey),sourceMethod:'FROZEN_V2'}
+}
+
+// Optional prepared cutting host only. Admission belongs to the real v2 read;
+// the ordinary dated-plan form receives its exact verified identity and clock.
+export function frozenQuantityCuttingContext(s:FrozenQuantitySession,v:StagedAnalysis,targetKey:string):StagedPlanContext{
+ checked(s,v)
+ if(!v.header.labels.some(p=>p.key===targetKey))fail()
+ return{kind:'STAGED',runId:v.set.runId,targetKey,identityHash:v.set.identityHash,dataAsOf:v.set.reference.capturedAt}
 }
