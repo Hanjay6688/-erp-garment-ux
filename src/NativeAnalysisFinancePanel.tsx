@@ -3,7 +3,7 @@ import {formatCp6WibDateTime} from './cp6BusinessTime'
 import {formatReceiptDecimal} from './procurementContract'
 import {normalizeClientError} from './lib/clientError'
 import {analysisFinanceMetricLabel} from './nativeAnalysis'
-import {financeFiguresVisible,type AnalysisFinance} from './nativeAnalysisFinanceSidecar'
+import {financeFiguresVisible,sameAnalysisFinanceInstant,type AnalysisFinance} from './nativeAnalysisFinanceSidecar'
 import {parseStagedJob,type StagedReply,type StagedRequest} from './nativeStagedJob'
 import type {StagedReference} from './nativeAnalysisPages'
 
@@ -37,7 +37,7 @@ export default function NativeAnalysisFinancePanel({request,runId,reference,allo
   try{
    const r=await get(request.id);if(n!==seq.current)return;if(r.error)throw r.error
    const status=parseStagedJob(r.data,request.id,request)
-   if(status.state!=='DONE'||status.runId!==runId||status.reference.sourceHash!==reference.sourceHash||Date.parse(status.reference.capturedAt)!==Date.parse(reference.capturedAt)||!status.financeCapture)throw Error('finance binding')
+   if(status.state!=='DONE'||status.runId!==runId||status.reference.sourceHash!==reference.sourceHash||!sameAnalysisFinanceInstant(status.reference.capturedAt,reference.capturedAt)||!status.financeCapture)throw Error('finance binding')
    if(status.retention?.state==='EXPIRED')throw Error('finance expired')
    setShown({runId,data:status.financeCapture})
    if(status.financeCapture.state==='RUNNING')timer.current=setTimeout(()=>{void load()},5000)
@@ -47,7 +47,7 @@ export default function NativeAnalysisFinancePanel({request,runId,reference,allo
  useEffect(()=>{busy.current=false;setShown(null);setError('');setLoading(false);void load();return()=>{++seq.current;busy.current=false;clearTimer()}},[load])
  useEffect(()=>{const focus=()=>{if(document.visibilityState==='visible')void load()};addEventListener('focus',focus);document.addEventListener('visibilitychange',focus);return()=>{removeEventListener('focus',focus);document.removeEventListener('visibilitychange',focus)}},[load])
  const data=shown?.runId===runId&&shown.data.requestId===request.id&&shown.data.reference.sourceHash===reference.sourceHash
-  &&Date.parse(shown.data.reference.capturedAt)===Date.parse(reference.capturedAt)
+  &&sameAnalysisFinanceInstant(shown.data.reference.capturedAt,reference.capturedAt)
   &&shown.data.query.from_date===request.q.from_date&&shown.data.query.through_date===request.q.through_date&&shown.data.query.group_mode===request.q.group_mode?shown.data:null
  return<section className="native-analysis-finance" aria-label="Keuangan analisis dari laporan resmi"><h3>Angka keuangan dari laporan resmi</h3>
   {!allowed?<p>Akun saat ini belum boleh membaca angka keuangan analisis.</p>:<>

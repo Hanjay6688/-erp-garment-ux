@@ -1,0 +1,68 @@
+{
+  "contract": "cp7.writer-b-takeover-original-receipt.v1",
+  "head": "5fe53d44822b4b292b8ff15daf8796c7bb4a58d6",
+  "run_id": 40238448773,
+  "artifact_id": 12616156621,
+  "artifact_bytes": 75813,
+  "artifact_sha256": "a74451b8bc086aedf14f7cd2ece44a486064ef09355b6b37725bb9fe417886f1",
+  "Original_read_complete": true,
+  "original_json_sha256": {
+    "FROZEN_CUTTING_AUTH_MOBILE_FAILURE.json": "c2127762345d660d223a82540e7af1d8370b2f5ce52411bc19d0da2cfdee7e9c",
+    "T3_BACKUP_RESTORE_DRILL.json": "e8d46516a07fdd17ef96431fd1d8bf1d1feff1122da628f01af527f1e7b18823",
+    "T3_PACKAGE_FILES_INSTALL.json": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+    "ALIGNED_CHAIN.json": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b",
+    "CP7_OW12B_FROZEN_CUTTING_AUTH.json": "e9c6d29e5f0e897826e416aec4ae38894f320b2cc9eda332b97057c1dffc3f0c",
+    "T3_PACKAGE_INSTALL.json": "dd288b48a5d7fd4d3fb9d22e4e9db8f6545eb3040df55ecd9e26363acc3568e7",
+    "CP7_OW12B_FROZEN_CUTTING_AUTH_CLONE_AUTHORITY.json": "9623122aa25b61d64f8070e8075a1f274418b89d01fa292e29fc5aa98b581300"
+  },
+  "source_pins_verified": 164,
+  "status": "INCOMPLETE",
+  "production_go": false,
+  "independent_acceptance": false,
+  "whole_feature_closed": false,
+  "counts": {
+    "browser": {
+      "INCOMPLETE": 1,
+      "PASS": 1
+    }
+  },
+  "first_failures": [
+    {
+      "id": "OW12B_FROZEN_CUTTING_AUTH_BROWSER_MOBILE_CURRENT_ACCESS_RETAINS_COMMAND",
+      "status": "INCOMPLETE",
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n\n0 !== 1\n\n    at journey (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_frozen_cutting_auth_browser.mjs:113:38)\n    at async main (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:243:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:259:3"
+    }
+  ],
+  "all_original_package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "public_catalog_preserved": true,
+  "full_native_boundaries_and_sessions_restored": false,
+  "exact_head_source_prefix_fields": [
+    "label",
+    "scope",
+    "source_sha256",
+    "expected_case_count",
+    "required_case_counts",
+    "required_case_ids",
+    "predeclared_case_contract",
+    "predeclared_case_sha256",
+    "target_v2_source_sha256",
+    "frozen_cutting_auth_source_sha256"
+  ],
+  "clone_authority_copies_exact": 1,
+  "actual_Auth_HTTP_credit": false,
+  "actual_AuthProvider_and_Gate_observed_in_passing_cases": true,
+  "actual_compiled_modules": 59,
+  "passing_case_compiled_module_hashes_verified": true,
+  "strict_visible_text_contrast_rows": 196,
+  "default_adopted": false,
+  "official_finance_included": false,
+  "full_factory3600_qualified": false
+}

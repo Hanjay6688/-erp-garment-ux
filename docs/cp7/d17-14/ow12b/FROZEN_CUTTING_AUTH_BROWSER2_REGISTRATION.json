@@ -1,7 +1,7 @@
 {
   "contract": "cp7.frozen-cutting-auth-browser2-registration.v2",
   "base_head": "997c23c1d74a019417b81477a0bdb619763ab143",
-  "status": "REGISTERED_RUNTIME_PENDING",
+  "status": "REGISTERED_FIRST_RUNTIME_INCOMPLETE_FIX_PREPARED",
   "required_case_ids": [
     "OW12B_FROZEN_CUTTING_AUTH_BROWSER_DESKTOP_SAVE_LOST_REPLY_REPLAY",
     "OW12B_FROZEN_CUTTING_AUTH_BROWSER_MOBILE_CURRENT_ACCESS_RETAINS_COMMAND"
@@ -278,5 +278,18 @@
   "full_factory3600_qualified": false,
   "official_finance_qualified": false,
   "independent_acceptance": false,
-  "production_go": false
+  "production_go": false,
+  "first_actual_runtime": {
+    "head": "5fe53d44822b4b292b8ff15daf8796c7bb4a58d6",
+    "run_id": 40238448773,
+    "artifact_id": 12616156621,
+    "counts": {
+      "PASS": 1,
+      "INCOMPLETE": 1
+    },
+    "writer_runtime_gate": false,
+    "first_failure_preserved": true,
+    "repair": "Mobile now establishes a committed reply loss before revocation and exact replay; the original uncertain UUID/payload must still remain.",
+    "shared_recovery_contract_or_case_budget_relaxed": false
+  }
 }

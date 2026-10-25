@@ -48,8 +48,12 @@ def install(cur):
 def metadata(cur):
  plan.b.api.admin(cur)
  tables=('cp7_plan_native.drafts','cp7_plan_native.staged_drafts','cp7_plan_native.intents','cp7_plan_native.commands','cp7_cutting_checked.receipts','erp.cutting_groups')
- return dict(physical=plan.monetary_state(cur),rows={table:cur.execute(
-  "select count(*),md5(coalesce(jsonb_agg(to_jsonb(x)order by to_jsonb(x)::text),'[]'::jsonb)::text)from "+table+' x').fetchone()for table in tables})
+ zone=cur.execute("select current_setting('TimeZone')").fetchone()[0]
+ cur.execute("select set_config('TimeZone','UTC',true)")
+ try:
+  return dict(physical=plan.monetary_state(cur),rows={table:cur.execute(
+   "select count(*),md5(coalesce(jsonb_agg(to_jsonb(x)order by to_jsonb(x)::text),'[]'::jsonb)::text)from "+table+' x').fetchone()for table in tables})
+ finally:cur.execute("select set_config('TimeZone',%s,true)",(zone,))
 
 
 def timed(cur,name,args,actor,observed):
@@ -103,6 +107,70 @@ def reviewed_capture(cur,today,actor,observed):
  return f
 
 
+def select_synthetic_volume_assumptions(cur,x,actor,observed):
+ # The common dimensional fixture deliberately creates NO planning profile or
+ # production policy. A positive global-allocation SAVE needs reviewed inputs
+ # for every target. Validate templates through the real public commands, then
+ # bulk-clone them only into the labelled synthetic fixture. Thousands of public
+ # profile saves in one rollback-only case would hold >7200 request/root locks.
+ # No product lock is disabled and no UNKNOWN recommendation is filled.
+ plan.b.api.admin(cur);physical=plan.monetary_state(cur)
+ roots=[str(r[0])for r in cur.execute("select identity_root_id from erp.products where sku like 'OW12BF36-%%'order by identity_root_id").fetchall()]
+ skus=[str(r[0])for r in cur.execute("select id from erp.bf_skus_v1 where sku like 'OW12BF36-%%'order by id").fetchall()]
+ assert len(roots)==len(set(roots))==3600 and len(skus)==len(set(skus))==1200
+ calls={}
+ def public(name,args):
+  started=monotonic()
+  result=plan.staged.limited(cur,name,args,actor)
+  elapsed=round((monotonic()-started)*1000,3);assert elapsed<8000,('FROZEN_VOLUME_FIXTURE_CALL_OVER8S',name,elapsed)
+  row=calls.setdefault(name,dict(count=0,max_millis=0));row['count']+=1;row['max_millis']=max(row['max_millis'],elapsed)
+  return result
+ selected=public('erp_cp7_get_planning_profiles_v1',([uuid.UUID(x['root'])],))['rows'][0]
+ assert selected['quality']=='SELECTED_ASSUMPTION'and selected['config']['mean_mode']=='SELECTED_MANUAL'
+ config=deepcopy(selected['config']);config['daily_pcs']='0'
+ before=cur.execute('select root_id::text,revision,config from cp7_profile.profiles where not(root_id=any(%s::uuid[]))order by root_id,revision',(roots,)).fetchall()
+ assert cur.execute('select count(*)from cp7_profile.profiles where root_id=any(%s::uuid[])',(roots,)).fetchone()[0]==0
+ assert cur.execute('select count(*)from cp7_identity.production_policy where sku_id=any(%s::uuid[])',(skus,)).fetchone()[0]==0
+ policies=plan.previous.policies
+ sample=public('erp_cp7_get_production_policy_v1',([uuid.UUID(skus[0])],))['rows'][0]
+ assert sample['policy_revision']=='0'and len(sample['members'])==3
+ samples=[str(r)for r in sample['members']];assert set(samples)<=set(roots)
+ rows=public('erp_cp7_get_planning_profiles_v1',([uuid.UUID(r)for r in samples],))['rows']
+ assert len(rows)==3 and len({r['size_id']for r in rows})==3
+ for row in rows:
+  assert row['quality']=='UNREVIEWED'and row['revision']=='0'
+  public('erp_cp7_save_planning_profile_v1',(json.dumps(dict(root_id=row['root_id'],product_version_id=row['product_version_id'],expected_revision=row['revision'],
+   reason='EXPLICIT SYNTHETIC checked-cutting comparison: zero selected manual demand; not a factory default',config=config)),str(uuid.uuid4())))
+ public('erp_cp7_set_production_policy_v1',(json.dumps([dict(policies.proposal(sample,'ACTIVE'),reason='EXPLICIT SYNTHETIC checked-cutting policy template; not an owner production default')]),str(uuid.uuid4())))
+ plan.b.api.admin(cur)
+ cur.execute("""insert into cp7_profile.profiles(root_id,product_version_id,size_id,revision,config,reason,actor,request_id)
+  select p.identity_root_id,p.id,p.size_id,1,t.config,
+   'EXPLICIT SYNTHETIC bulk fixture copied from publicly validated same-size zero-manual profile',%s,gen_random_uuid()
+  from erp.products p join cp7_profile.profiles t on t.root_id=any(%s::uuid[])and t.size_id=p.size_id and t.revision=1
+  where p.identity_root_id=any(%s::uuid[])and not exists(select 1 from cp7_profile.profiles x where x.root_id=p.identity_root_id)""",(actor,samples,roots))
+ cur.execute("""insert into cp7_identity.production_policy(sku_id,revision,state,reason,review_at,actor,request_id,
+  reviewed_commercial_version,reviewed_commercial_revision,reviewed_members)
+  select s.id,1,t.state,'EXPLICIT SYNTHETIC bulk fixture copied from publicly validated ACTIVE policy',t.review_at,%s,gen_random_uuid(),
+   v.id,v.revision,array(select m.product_root from erp.bf_sku_members_v1 m where m.version_id=v.id order by m.product_root)
+  from erp.bf_skus_v1 s join erp.bf_sku_versions_v1 v on v.sku_id=s.id and v.revision=1
+  cross join(select state,review_at from cp7_identity.production_policy where sku_id=%s and revision=1)t
+  where s.id=any(%s::uuid[])and not exists(select 1 from cp7_identity.production_policy x where x.sku_id=s.id)""",(actor,skus[0],skus))
+ for start in range(0,len(roots),200):
+  rows=public('erp_cp7_get_planning_profiles_v1',([uuid.UUID(r)for r in roots[start:start+200]],))['rows']
+  assert len(rows)==len(roots[start:start+200])and all(r['quality']=='SELECTED_ASSUMPTION'and r['revision']=='1'and r['config']==config for r in rows)
+ for start in range(0,len(skus),200):
+  rows=public('erp_cp7_get_production_policy_v1',([uuid.UUID(s)for s in skus[start:start+200]],))['rows']
+  assert len(rows)==len(skus[start:start+200])and all(r['policy_revision']=='1'and r['policy']['quality']=='KNOWN'and r['policy']['state']=='ACTIVE'for r in rows)
+ plan.b.api.admin(cur)
+ assert cur.execute('select count(*)from cp7_profile.profiles where root_id=any(%s::uuid[])and revision=1 and config=%s::jsonb',(roots,json.dumps(config))).fetchone()[0]==3600
+ assert cur.execute('select root_id::text,revision,config from cp7_profile.profiles where not(root_id=any(%s::uuid[]))order by root_id,revision',(roots,)).fetchall()==before
+ assert plan.monetary_state(cur)==physical
+ observed['synthetic_volume_assumptions']=dict(products=3600,commercial_SKUs=1200,public_calls=calls,selected_manual_comparison_demand='0',
+  public_profile_templates=3,public_policy_templates=1,bulk_fixture_profiles=3597,bulk_fixture_policies=1199,all_source_rows_reverified_through_public_workspaces=True,
+  source_config_cloned_from_existing_explicit_fixture=True,synthetic_roots_only=True,non_synthetic_profiles_unchanged=True,
+  no_physical_effect=True,owner_defaults_invented=False,original_dimensional_fixture_unchanged=True)
+
+
 def prepare(cur,today,observed,volume=False):
  install(cur);x=plan.fixture(cur,today)
  native.native.policy.master.role_actor(cur,'OWNER')
@@ -110,6 +178,7 @@ def prepare(cur,today,observed,volume=False):
  if volume:
   base=native.native.bounded.work.base.retained.formula.sales.fg.base
   size=native.frozen.geometry.fixture.seed(cur,base.BASE_PRODUCT,base.LOCATION,actor)
+  select_synthetic_volume_assumptions(cur,x,actor,observed)
  f=reviewed_capture(cur,today,actor,observed)
  assert f['row']['reference']['bounded_request_contract']=='cp7.bounded-analysis-request.v2'
  assert f['row']['reference']['bounded_input_coverage']=='PENDING'and f['row']['reference']['bounded_history_inputs']is None

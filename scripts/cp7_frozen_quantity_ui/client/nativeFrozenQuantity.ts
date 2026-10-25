@@ -1,4 +1,4 @@
-import {FROZEN_ANALYSIS_REQUEST,frozenAnalysisRequestKey,readFrozenAnalysisRequest,type FrozenAnalysisRequest} from '../../cp7_frozen_analysis_facade_v2/client/nativeFrozenAnalysis'
+import {FROZEN_ANALYSIS_REQUEST,frozenAnalysisRequestKey,frozenAnalysisRequestQuery,readFrozenAnalysisRequest,type FrozenAnalysisRequest} from '../../cp7_frozen_analysis_facade_v2/client/nativeFrozenAnalysis'
 import {driveStagedJob,parseStagedJob,type StagedDriveOptions,type StagedJob} from '../../../src/nativeStagedJob'
 import {parseAnalysisPageSet,parseAnalysisHeader,parseAnalysisPage,parseStagedSourceCheck,type StagedAnalysis} from '../../../src/nativeAnalysisPages'
 import {sameBoundedReference} from '../../../src/nativeBoundedQuantity'
@@ -8,14 +8,15 @@ import {analogReadContext,type AnalogReadContext} from '../../../src/nativeProdu
 export type FrozenQuantitySession={actor:string;scope:string;request:FrozenAnalysisRequest}
 type Reply={data:unknown;error:unknown}
 type Client={
- rpc(name:'erp_cp7_request_bounded_staged_analysis_v2',args:{p_request:string;p_query:FrozenAnalysisRequest['q']}):PromiseLike<Reply>
+ rpc(name:'erp_cp7_request_bounded_staged_analysis_v2',args:{p_request:string;p_query:ReturnType<typeof frozenAnalysisRequestQuery>}):PromiseLike<Reply>
  rpc(name:'erp_cp7_get_staged_analysis_v1'|'erp_cp7_step_staged_analysis_v1',args:{p_request:string}):PromiseLike<Reply>
  rpc(name:'erp_cp7_read_staged_analysis_pages_v1'|'erp_cp7_check_staged_analysis_source_v1',args:{p_run:string}):PromiseLike<Reply>
  rpc(name:'erp_cp7_read_staged_analysis_page_v1',args:{p_run:string;p_index:number;p_access:string}):PromiseLike<Reply>
 }
 const fail=():never=>{throw Error('Acuan permintaan tersimpan berubah. Buka kembali perhitungan tersimpan yang sama.')}
 const data=(reply:Reply)=>{if(reply.error)throw reply.error;return reply.data}
-const key=(s:FrozenQuantitySession)=>JSON.stringify([s.actor,s.scope,s.request.id,s.request.method,s.request.q.from_date,s.request.q.through_date,s.request.q.group_mode])
+const key=(s:FrozenQuantitySession)=>JSON.stringify([s.actor,s.scope,s.request.id,s.request.method,s.request.q.from_date,s.request.q.through_date,s.request.q.group_mode,s.request.finance??null])
+export const frozenQuantityStagedRequest=(r:FrozenAnalysisRequest)=>({id:r.id,q:r.q,...(r.finance?{finance:r.finance}:{})})
 function retained(s:FrozenQuantitySession){
  const held=readFrozenAnalysisRequest(s.actor,s.scope),r=s.request,p=held.pending
  if(held.error||!p||r.actor!==s.actor||r.method!==FROZEN_ANALYSIS_REQUEST||key({...s,request:p})!==key(s))return fail()
@@ -35,8 +36,8 @@ async function locked<T>(s:FrozenQuantitySession,action:(r:FrozenAnalysisRequest
 // shared get/status response does not attest the stored method by itself.
 export function driveFrozenQuantity(client:unknown,s:FrozenQuantitySession,options:Omit<StagedDriveOptions,'rpc'|'request'|'start'>){
  const c=client as Client
- return driveStagedJob({...options,start:true,request:{id:s.request.id,q:s.request.q},rpc:{
-  request:async()=>locked(s,async r=>await c.rpc('erp_cp7_request_bounded_staged_analysis_v2',{p_request:r.id,p_query:r.q})),
+ return driveStagedJob({...options,start:true,request:frozenQuantityStagedRequest(s.request),rpc:{
+  request:async()=>locked(s,async r=>await c.rpc('erp_cp7_request_bounded_staged_analysis_v2',{p_request:r.id,p_query:frozenAnalysisRequestQuery(r)})),
   get:async()=>locked(s,async r=>await c.rpc('erp_cp7_get_staged_analysis_v1',{p_request:r.id})),
   step:async()=>locked(s,async r=>await c.rpc('erp_cp7_step_staged_analysis_v1',{p_request:r.id})),
  }})
@@ -53,7 +54,7 @@ export async function readFrozenQuantity(client:unknown,s:FrozenQuantitySession,
  return locked(s,async r=>{
   // A caller cannot relabel an old-method DONE job. The server must accept
   // this exact v2 method/query/UUID again before any page is requested.
-  const current=parseStagedJob(data(await c.rpc('erp_cp7_request_bounded_staged_analysis_v2',{p_request:r.id,p_query:r.q})),r.id,{id:r.id,q:r.q})
+  const current=parseStagedJob(data(await c.rpc('erp_cp7_request_bounded_staged_analysis_v2',{p_request:r.id,p_query:frozenAnalysisRequestQuery(r)})),r.id,frozenQuantityStagedRequest(r))
   if(current.state!=='DONE'||current.retention?.state==='EXPIRED'||current.runId!==job.runId||current.targetsTotal!==job.targetsTotal||!sameBoundedReference(current.reference,job.reference))fail()
   const set=await parseAnalysisPageSet(data(await c.rpc('erp_cp7_read_staged_analysis_pages_v1',{p_run:current.runId!})),current.runId!,r.id)
   if(set.targetsTotal!==current.targetsTotal||!sameBoundedReference(set.reference,current.reference))fail()
@@ -73,6 +74,17 @@ export async function readFrozenQuantityPage(client:unknown,s:FrozenQuantitySess
 export async function checkFrozenQuantity(client:unknown,s:FrozenQuantitySession,v:StagedAnalysis){
  checked(s,v)
  return locked(s,async()=>{checked(s,v);return parseStagedSourceCheck(data(await(client as Client).rpc('erp_cp7_check_staged_analysis_source_v1',{p_run:v.set.runId})),v.set.runId)})
+}
+export async function readFrozenQuantityFinanceStatus(client:unknown,s:FrozenQuantitySession,v:StagedAnalysis):Promise<Reply>{
+ checked(s,v)
+ if(s.request.finance!=='STAGED')throw Error('Permintaan tersimpan tidak menyertakan laporan keuangan.')
+ return locked(s,async r=>{
+  checked(s,v)
+  const raw=data(await(client as Client).rpc('erp_cp7_get_staged_analysis_v1',{p_request:r.id}))
+  const current=parseStagedJob(raw,r.id,frozenQuantityStagedRequest(r))
+  if(current.state!=='DONE'||current.runId!==v.set.runId||!sameBoundedReference(current.reference,v.set.reference)||current.retention?.state==='EXPIRED'||!current.financeCapture)fail()
+  return{data:raw,error:null}
+ })
 }
 export function frozenQuantityAnalogContext(s:FrozenQuantitySession,v:StagedAnalysis,targetKey:string):AnalogReadContext{
  checked(s,v)

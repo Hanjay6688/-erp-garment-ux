@@ -23,6 +23,7 @@ const query=(v:unknown):NativeDemandQuery=>{const q=obj(v);keys(q,['from_date','
 const sameQuery=(a:NativeDemandQuery,b:NativeDemandQuery)=>a.from_date===b.from_date&&a.through_date===b.through_date&&a.group_mode===b.group_mode
 const instant=(v:unknown)=>{const at=stagedInstant(v);try{planInstantMicros(at)}catch{return fail()}return at}
 const sameInstant=(a:string,b:string)=>planInstantMicros(instant(a))===planInstantMicros(instant(b))
+export const sameAnalysisFinanceInstant=(a:string,b:string)=>{try{return sameInstant(a,b)}catch{return false}}
 const sameReference=(a:StagedReference,b:StagedReference)=>a.sourceHash===b.sourceHash&&sameInstant(a.capturedAt,b.capturedAt)
 const wibDay=(v:string)=>{const p=new Map(new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Jakarta',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date(v)).map(x=>[x.type,x.value]));return`${p.get('year')}-${p.get('month')}-${p.get('day')}`}
 function datesOf(v:unknown,q:NativeDemandQuery,at:string){const d=obj(v);keys(d,['from','to','as_of']);const from=day(d.from),to=day(d.to),asOf=day(d.as_of)

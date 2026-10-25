@@ -78,20 +78,21 @@
     "code_head": "ee1ebfd1a104cbbdf5d0c4a14cbb1e8cc00a3573",
     "shared_status_head": "714766d1c2d52c8e91bc79671a6ea0f6187ed2e4",
     "active_handoff": "docs/cp7/handoff/WRITER_B_TAKEOVER_20261026.md",
-    "complete_Originals_verified": 9,
+    "complete_Originals_verified": 11,
     "first_cutting_failures_preserved": true,
     "corrected_runs": {
       "Native6": 40235295230,
       "Transport10": 40235295219
     },
-    "corrected_status_last_observed": "ACTUAL_CASES_IN_PROGRESS",
+    "corrected_status_last_observed": "NATIVE6_5PASS_1INCOMPLETE_TRANSPORT_INCOMPLETE_NO_RESTORE_CREDIT",
     "local_tests": {
       "PASS": 134,
       "files": 10
     },
     "full_factory3600_qualified": false,
     "official_finance_included": false,
-    "production_go": false
+    "production_go": false,
+    "interrupted_Originals_retained_without_complete_gates": 1
   },
   "frozen_cutting_actual_Auth_browser_preparation": {
     "status": "PREPARED_NOT_WIRED_RUNTIME_PENDING",
@@ -105,15 +106,16 @@
     "production_go": false
   },
   "frozen_cutting_actual_Auth_Browser2_registration": {
-    "status": "REGISTERED_RUNTIME_PENDING",
+    "status": "FIRST_RUNTIME_1PASS_1INCOMPLETE_FIX_PREPARED",
     "contract": "docs/cp7/d17-14/ow12b/FROZEN_CUTTING_AUTH_BROWSER2_CONTRACT.json",
     "registration": "docs/cp7/d17-14/ow12b/FROZEN_CUTTING_AUTH_BROWSER2_REGISTRATION.json",
     "expected_case_count": 2,
-    "observed_case_count": 0,
+    "observed_case_count": 2,
     "actual_Auth_HTTP_credit": false,
     "actual_Native_checked_SAVE_qualified": false,
     "default_application_adopted": false,
-    "production_go": false
+    "production_go": false,
+    "first_runtime_run": 40238448773
   },
   "frozen_actual_Auth_component_Originals_712e": {
     "choice": {
@@ -139,6 +141,18 @@
     "full_factory3600_qualified": false,
     "official_finance_qualified": false,
     "cutting_SAVE_qualified": false,
+    "production_go": false
+  },
+  "frozen_finance_B_caller_prepared": {
+    "contract": "docs/cp7/d17-14/ow12b/FROZEN_FINANCE_CONTRACT.md",
+    "preparation": "docs/cp7/d17-14/ow12b/FROZEN_FINANCE_PREPARATION.json",
+    "local_SQL_groups_PASS": 7,
+    "local_client_tests_PASS": 186,
+    "official_A_private_API_bodies_pinned": 3,
+    "actual_Native": false,
+    "actual_Auth_HTTP_credit": false,
+    "official_report_factory_parity": false,
+    "default_application_adopted": false,
     "production_go": false
   }
 }

@@ -203,3 +203,85 @@ Continue that B-owned integration against A's actual API, preserving the sealed
 operational header, permission checks, exact request mode and independent result.
 Do not infer official-factory parity from either the old local adapter or these
 browser passes. A retains its module, default installer and final composition.
+
+## Continuing B implementation and first actual cutting outcomes
+
+Clock/source repair published **e2ef3a9eeeaae93a861bfabee7c52f01ee8a5e13**,
+treef58053522f4049192f6b22568327de55b5947f44. A second display-level clock gap was
+then reproduced1FAIL/8PASS: same-hash operational context+1microsecond still
+showed money. The finance panel now shares the exact comparator for both status
+admission and rendered facts; the earlier24 parser cases stay intact.
+
+B's missing frozen-v2 finance caller and optional UI are now implemented.
+Contract `ow12b/FROZEN_FINANCE_CONTRACT.md` preceded the code. The stage requires
+A's verified combined predecessor, pins the three actual A API bodies to the
+qualified efa800cd SQL, reuses the existing private consumer/finance_apply,
+and changes only the frozen private request plus staged status. Legacy DEFERRED
+shape stays exact. The selected mode is durable across lost reply/reload and
+cannot upgrade an old UUID; A.start failure and access change roll back job,
+unit,mark,capture together. Finance remains separate from sealed operational
+header/pages. The optional finance host uses actual AuthProvider/AuthGate and
+the existing finance panel; ordinary cutting keeps the same59 compiled paths.
+
+Local7 SQL groups PASS with actual A.start/status/result bodies and A capture
+table (identity, operational source and READY report remain controlled). Exact22
+install/inverse/reapply,5 undeclared deltas and changed-A-body refusal, and
+purged-job/retained-A-capture refusal before DDL pass.186client/DOM tests across12
+files, full/prepared TypeScript,52module new host/4disposable-host refusals pass.
+No Native/Auth/factory official-report parity or default/A-chain claim. A must
+compose this stage instead of the older legacy bridge, keep its global after-use
+guard and qualify the actual report/runner/restore. See preparation JSON.
+
+Actual cutting Auth5fe/run40238448773/art12616156621 is **1PASS/1INCOMPLETE**.
+Desktop really committed checked SAVE, lost only its response, reloaded and
+replayed exactly one receipt. Mobile incorrectly expected an uncertain envelope
+after its first definite SQL42501 rejection. The unchanged shared hook correctly
+clears a definite initial rejection. Corrected mobile preparation first makes a
+real committed reply loss, then revokes access before exact Reconcile403 and
+requires the original UUID/payload to remain. No recovery/oracle/budget relaxation.
+All complete Original/source164/F05/package/CP6/public/Auth/clone checks retained;
+writer_runtime=false stays false. No whole Browser2 PASS credited.
+
+Corrected cutting Nativeee1/run40235295230/art12616698835 is **5PASS/1INCOMPLETE**.
+Real SAVE/replay, post→STALE/K2 receipt, current access and last-receipt atomicity
+pass. Factory3600 still has UNKNOWN conditional need: its common dimensional
+seed deliberately creates no planning profiles/production policies, so global
+allocation correctly remains unknown. A new cutting-only setup selects explicit
+zero-manual comparison assumptions and ACTIVE policies on those3600synthetic
+roots/1200synthetic SKUs from publicly validated same-size profile/policy templates
+and bounded bulk fixture clones, then reviews the same
+calendar and captures afresh. Non-synthetic profiles/physical hashes must stay
+exact; the original dimensional fixture, UNKNOWN behavior, math and8s remain.
+The positive factory checked-SAVE result is still unexecuted at this new source.
+Eleven complete Originals verified.
+
+Transportee1/run40235295219/art12615959850 is also INCOMPLETE. The main Original
+kept only Native1; five INCOMPLETE race observations survive in the original
+job log, all at metadata equality. At60minutes the job was cancelled before
+race6/HTTP; stopping the disposable service then caused dropdb/connection errors
+and masked the race dictionary. Package gates/drill are absent; CP6 restoration
+and advisor_gate=false. The twelfth Original is retained and source97/exact F05
+prefix verified, with **no missing restore/Auth/concurrency credit**.
+
+Actual old metadata() was reproduced on real local PG18 SQL: the same stored
+timestamptz rows hash differently under UTC vs Jakarta because to_jsonb uses
+the session zone. The helper now serializes every field in UTC and restores
+the caller's zone, just as its existing monetary-state reader already did.
+Three-zone equality passes; a real stored+1microsecond change still fails.
+No fields dropped/rounded, no product SQL or Native/CP6 harness changed. Added
+table/before/after diagnostics and append-only per-case observations before a
+cleanup failure; those observations carry zero qualification credit.
+
+The owned transport workflow's **CI job window** is now90minutes instead of60,
+so six isolated restores, all real Auth cases and cleanup can finish. This is
+an explicit infrastructure budget change, not a production latency change:
+every application statement stays8s, all10 IDs/semantic assertions stay exact.
+See `FROZEN_CUTTING_TRANSPORT_REPAIR.json`; the corrected actual run is pending
+publication. No first failure was overwritten or rerun unchanged for green.
+
+The actual volume-preparation helper now also passes a local PG18 fixture check:
+3600 profiles and1200 ACTIVE policies are read back through the real public
+workspace bodies. Three profile templates and one policy template use the real
+write bodies; only the remaining explicitly synthetic rows are bulk fixture
+clones. The original non-synthetic profile stays unchanged. This controlled
+identity/dimensional-table test earns no Native/Auth/factory-SAVE credit.

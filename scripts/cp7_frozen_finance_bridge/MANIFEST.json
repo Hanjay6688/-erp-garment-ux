@@ -1,0 +1,52 @@
+{
+  "contract": "cp7.frozen-finance-bridge.prepared.v2",
+  "official_A_head": "f898a71fc13654d217f987949f126290083a0225",
+  "official_A_qualified_component": "efa800cd/run39886155240/Native7",
+  "official_A_finance_SQL_sha256": "c6704e726c5fbc7a6e9b8ae266075ec6777e8b7f6bc6d7b10ddc074f3706d8bb",
+  "official_dependencies": {
+    "cp7_finance_capture.start(text,uuid,jsonb,timestamp with time zone)": {
+      "body_sha256": "ad4a5c22faf14ba59fa00698b6eafb7016e8a53b427a9c766682d1898de1b7de",
+      "authority": [
+        "cp7_capture",
+        false,
+        "v",
+        [
+          "search_path=\"\"",
+          "TimeZone=UTC"
+        ]
+      ]
+    },
+    "cp7_finance_capture.status_of(text,uuid)": {
+      "body_sha256": "331518e4e63ba385e766f8c3b147b68b30adccea3863ef4ba6eaac27d2185758",
+      "authority": [
+        "cp7_capture",
+        false,
+        "s",
+        [
+          "search_path=\"\"",
+          "TimeZone=UTC"
+        ]
+      ]
+    },
+    "cp7_finance_capture.result(uuid)": {
+      "body_sha256": "1705055737b0f4f5d5d223cd6629b6681197bdfeb9f6a17d17451db2302566c0",
+      "authority": [
+        "cp7_capture",
+        false,
+        "s",
+        [
+          "search_path=\"\"",
+          "TimeZone=UTC"
+        ]
+      ]
+    }
+  },
+  "before_body_sha256": {
+    "cp7_frozen_analysis_units_v2.request(jsonb,uuid)": "44e86d7b1500297ef85d371c46caac1092b9eb443e0d1c51d64e7ed7cbe506af",
+    "cp7_analysis_stage.status(uuid)": "431c028f62c3239868e9f646ec95beda790087bed728b49fa0ea1487ed22b01b"
+  },
+  "no_new_financial_formula": true,
+  "default_adopted": false,
+  "actual_Native": false,
+  "production_go": false
+}

@@ -8,10 +8,12 @@ from threading import Event
 from time import monotonic,sleep
 from copy import deepcopy
 from decimal import Decimal
-from datetime import datetime
+from datetime import datetime,timezone
 from hashlib import sha256
 from pathlib import Path
 import uuid
+import json
+import traceback
 import psycopg
 import cp7_ow12b_frozen_cutting_cases as native
 
@@ -78,10 +80,10 @@ def prepare_frozen(cur,today,actor):
 
 def check(cur,before,delta):
  after=native.metadata(cur)
- assert after['physical']==before['physical']
+ assert after['physical']==before['physical'],dict(kind='PHYSICAL_STATE_CHANGED',before=before['physical'],after=after['physical'])
  for table,value in before['rows'].items():
-  if table in GROWING and delta:assert after['rows'][table][0]==value[0]+delta
-  else:assert after['rows'][table]==value
+  if table in GROWING and delta:assert after['rows'][table][0]==value[0]+delta,dict(table=table,before=value,after=after['rows'][table],expected_delta=delta)
+  else:assert after['rows'][table]==value,dict(table=table,before=value,after=after['rows'][table],expected_delta=0)
 
 
 def receipt(out,f,key):
@@ -160,9 +162,23 @@ def races(tools,today):
    current_access_revoked_during_wait=not stock,actual_Native_stock_post_during_wait=stock,
    no_denied_draft_snapshot_receipt_or_physical_effect=True)
 
- return list(zip(IDS['races'],[lambda:simultaneous(False),lambda:simultaneous(True),
+ def retained(key,operation):
+  def run():
+   def record(result):
+    path=Path(__file__).resolve().parents[1]/'cp6-proof/t3/CP7_OW12B_FROZEN_CUTTING_TRANSPORT_CASE_PROGRESS.json'
+    progress=json.loads(path.read_text())if path.exists()else dict(contract='cp7.frozen-cutting-race-observations.v2',required_ids=IDS['races'],observations=[],qualification_credit=False)
+    progress['observations'].append(dict(case_id=key,recorded_at=datetime.now(timezone.utc).isoformat(),result=result))
+    progress['provider_sha256']=sha256(Path(__file__).read_bytes()).hexdigest()
+    path.parent.mkdir(parents=True,exist_ok=True);temporary=path.with_suffix('.tmp');temporary.write_text(json.dumps(progress,indent=2,default=str)+'\n');temporary.replace(path)
+   try:result=operation()
+   except BaseException as error:
+    record(dict(status='INCOMPLETE',error=str(error),traceback=traceback.format_exc()));raise
+   record(result);return result
+  return run
+ planned=list(zip(IDS['races'],[lambda:simultaneous(False),lambda:simultaneous(True),
   lambda:waiting('request'),lambda:waiting('capacity'),lambda:waiting('request',replay=True),
   lambda:waiting('capacity',stock=True)]))
+ return[(key,retained(key,operation))for key,operation in planned]
 
 
 def http_cases(http,today):

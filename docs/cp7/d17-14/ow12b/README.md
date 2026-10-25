@@ -95,3 +95,12 @@ The sidecar client now compares full PostgreSQL microseconds for capture/report
 binding and rejects calendar normalization. First4FAIL/20PASS, then75PASS/4files
 and full TypeScript retained in `finance-clock-binding-repair.json`. No financial
 formula, SQL or A module changed. This repair is not Native financial parity.
+
+The optional frozen-v2 caller/UI now exists under `scripts/cp7_frozen_finance_bridge`
+and `scripts/cp7_frozen_finance_ui/client`. Read `FROZEN_FINANCE_CONTRACT.md` and
+`FROZEN_FINANCE_PREPARATION.json` for exact installation ownership and evidence.
+It pins A's actual three private API bodies and reuses the earlier B consumer;
+local7 SQL groups plus186client/DOM tests pass. Identity/operational source/READY
+report stay controlled in the local SQL proof. The52module Auth host was only
+built, not logged into. Actual combined Native/Auth/report parity and factory
+timing/after-use restoration remain open for the real A+B composition.

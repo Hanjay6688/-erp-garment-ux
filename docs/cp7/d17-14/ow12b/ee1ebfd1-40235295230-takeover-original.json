@@ -1,0 +1,87 @@
+{
+  "contract": "cp7.writer-b-takeover-original-receipt.v1",
+  "head": "ee1ebfd1a104cbbdf5d0c4a14cbb1e8cc00a3573",
+  "run_id": 40235295230,
+  "artifact_id": 12616698835,
+  "artifact_bytes": 211711,
+  "artifact_sha256": "575646156636aa0ff1a9176ef1c44f6ddc0faedf22dbeefb7186f88f565420c3",
+  "Original_read_complete": true,
+  "original_json_sha256": {
+    "CP7_OW12B_FROZEN_CUTTING.json": "02d6dbf42ef06a1d5cc8e04e182ab564dec7497d774fb91a6404ea931f0f50cc",
+    "T3_BACKUP_RESTORE_DRILL.json": "42fe94b126639c73253a6fb900b9e74caa4fffc71ed0baafe1e12099104b07fc",
+    "T3_PACKAGE_FILES_INSTALL.json": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+    "ALIGNED_CHAIN.json": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b",
+    "T3_PACKAGE_INSTALL.json": "bfa0f676bab2d751ec346ddd9b59a3f9076c9955d7b7c9a4d315a53dd0ee05ff"
+  },
+  "source_pins_verified": 94,
+  "status": "INCOMPLETE",
+  "production_go": false,
+  "independent_acceptance": false,
+  "whole_feature_closed": false,
+  "counts": {
+    "native": {
+      "INCOMPLETE": 1,
+      "PASS": 5
+    }
+  },
+  "first_failures": [
+    {
+      "id": "OW12B_FROZEN_CUTTING_V2_FACTORY1200X3_K3_CHECKED_SAVE",
+      "status": "INCOMPLETE",
+      "error": "Factory preparation returned needed_pcs=None and UNKNOWN conditional quantity before the checked SAVE; full error retained in the complete Original.",
+      "full_original_error_sha256": "fce620f13a00eb2c89854dfa3f72688ea40472e19375665bc2fe9d6b80f7d4f2",
+      "diagnostic": {
+        "needed_pcs": null,
+        "capacity_pcs": "60",
+        "conditional_state": "UNKNOWN",
+        "target_qty": "100",
+        "available_fg": "15",
+        "actual_factory_checked_SAVE_reached": false,
+        "source_based_diagnosis": "The dimensional seed explicitly omits profiles and production policies; global allocation requires every target reviewed. New candidate configures only the isolated synthetic scope from publicly validated templates and explicit isolated bulk fixture clones; runtime confirmation pending."
+      }
+    }
+  ],
+  "all_original_package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "public_catalog_preserved": true,
+  "full_native_boundaries_and_sessions_restored": true,
+  "exact_head_source_prefix_fields": [
+    "label",
+    "scope",
+    "source_sha256",
+    "expected_case_count",
+    "required_case_counts",
+    "required_case_ids",
+    "predeclared_case_contract",
+    "predeclared_case_sha256",
+    "target_v2_source_sha256",
+    "frozen_cutting_source_sha256"
+  ],
+  "repair_preparation_local_fixture_SQL": {
+    "status": "PASS_LOCAL_FIXTURE_SQL_ONLY",
+    "actual_volume_preparation_helper": true,
+    "actual_profile_policy_functions": true,
+    "products": 3600,
+    "commercial_SKUs": 1200,
+    "public_profile_templates": 3,
+    "public_policy_templates": 1,
+    "bulk_fixture_profiles": 3597,
+    "bulk_fixture_policies": 1199,
+    "all_public_workspace_rows_verified": true,
+    "identity_and_dimensional_tables_controlled": true,
+    "actual_Native": false,
+    "actual_Auth_HTTP_credit": false,
+    "source_sha256": {
+      "scripts/cp7_ow12b_frozen_cutting_cases.py": "56057e12011b20575d15f14fcbf20619007929ec1ddd4c2d4763ab1b43d9b1a4",
+      "scripts/cp7_ow12b_frozen_cutting_volume_local.py": "1639a46eb2a960adfc949f3cc0cd0c57a16f149208c28b9ba51251aff735eafa",
+      "scripts/cp7_ow12b_frozen_cutting_volume_local.mjs": "fd439743ce39938f219cb361c495a844a8959e444e83adfc3027d4a9e0acd808"
+    }
+  }
+}

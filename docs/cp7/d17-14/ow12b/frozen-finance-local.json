@@ -1,0 +1,93 @@
+{
+  "contract": "cp7.frozen-finance-local-controls.v2",
+  "status": "PASS_LOCAL_PREPARATION_ONLY",
+  "results": [
+    {
+      "id": "FROZEN_FINANCE_LEGACY_DEFAULT_AND_EXPLICIT_DEFERRED",
+      "status": "PASS",
+      "observed": {
+        "legacy_response_has_no_sidecar": true,
+        "official_capture_not_started": true
+      }
+    },
+    {
+      "id": "FROZEN_FINANCE_EXACT_QUERY_MODE_UUID_AND_MICROSECOND_CAPTURE",
+      "status": "PASS",
+      "observed": {
+        "actual_A_start_and_status_bodies": true,
+        "one_capture_on_exact_replay": true,
+        "original_reference_not_updated": true,
+        "mode_and_query_identity_closed": true
+      }
+    },
+    {
+      "id": "FROZEN_FINANCE_EXISTING_DEFERRED_UUID_CANNOT_BE_UPGRADED",
+      "status": "PASS",
+      "observed": {
+        "no_late_finance_attachment_to_immutable_job": true
+      }
+    },
+    {
+      "id": "FROZEN_FINANCE_INVALID_MODES_AND_CURRENT_PERMISSION_REFUSED",
+      "status": "PASS",
+      "observed": {
+        "invalid_modes": 6,
+        "permission_refusal_before_job": true,
+        "controlled_access_not_Auth": true
+      }
+    },
+    {
+      "id": "FROZEN_FINANCE_START_FAILURE_AND_POST_START_REVOCATION_ATOMIC",
+      "status": "PASS",
+      "observed": {
+        "actual_A_start_with_controlled_insert_fault": true,
+        "no_partial_job_units_mark_or_capture": true,
+        "current_permission_checked_after_A_start": true,
+        "actual_concurrency": false
+      }
+    },
+    {
+      "id": "FROZEN_FINANCE_READY_USES_A_RESULT_AND_EXISTING_OFFICIAL_OVERLAY",
+      "status": "PASS",
+      "observed": {
+        "actual_A_result_body": true,
+        "actual_existing_finance_apply": true,
+        "large_decimal_preserved": true,
+        "revocation_hides_capture_and_figures": true,
+        "READY_report_explicitly_controlled_not_actual_report_read": true
+      }
+    },
+    {
+      "id": "FROZEN_FINANCE_PURGED_OPERATIONAL_JOBS_KEEP_AFTER_USE_GUARD",
+      "status": "PASS",
+      "observed": {
+        "status": "PASS_LOCAL_PREPARATION_ONLY",
+        "actual_B_installer_and_22_catalog_groups": true,
+        "preuse_inverse_and_reapply_exact": true,
+        "actual_A_three_private_API_bodies_pinned": true,
+        "identity_operational_source_and_ready_financial_source_controlled": true,
+        "undeclared_catalog_mutations_refused": 5,
+        "changed_actual_official_A_body_refused": true,
+        "actual_Native": false,
+        "actual_Auth_HTTP_credit": false,
+        "official_report_factory_parity": false,
+        "production_go": false,
+        "purged_operational_jobs_with_official_capture_retained_refused_before_DDL": true
+      }
+    }
+  ],
+  "counts": {
+    "PASS": 7,
+    "FAIL": 0
+  },
+  "engine": "PostgreSQL 18.6 (PGlite 0.5.11) on wasm32-unknown-emscripten, compiled by emcc (Emscripten gcc/clang-like replacement + linker emulating GNU ld) 3.1.74 (1092ec30a3fb1d46b1782ff1b4db5094d3d06ae5), 32-bit",
+  "official_A_head": "f898a71fc13654d217f987949f126290083a0225",
+  "official_A_finance_SQL_sha256": "c6704e726c5fbc7a6e9b8ae266075ec6777e8b7f6bc6d7b10ddc074f3706d8bb",
+  "actual_A_three_API_bodies_and_capture_table": true,
+  "identity_and_operational_source_controlled": true,
+  "READY_report_controlled": true,
+  "actual_Native": false,
+  "actual_Auth_HTTP_credit": false,
+  "official_report_factory_parity": false,
+  "production_go": false
+}

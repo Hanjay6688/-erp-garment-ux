@@ -48,9 +48,9 @@ it('rejects a status for another operational result',async()=>{
  await render(async()=>wire(fixture,'77777777-7777-4777-8777-777777777777'))
  expect(container.textContent).not.toContain('Rp');expect(container.textContent).toContain('Status keuangan belum bisa dibaca')
 })
-it('retires figures when the operational capture time changes even if its source hash stays the same',async()=>{
+it.each(['2026-10-23T00:01:00Z','2026-10-23T00:00:00.000001Z'])('retires figures when operational capture changes to %s even if its source hash stays the same',async capturedAt=>{
  const get=vi.fn(async()=>wire());await render(get);expect(container.textContent).toContain('Rp123,45')
- const next={...reference,capturedAt:'2026-10-23T00:01:00Z'}
+ const next={...reference,capturedAt}
  await act(async()=>{root.render(<NativeAnalysisFinancePanel request={request} reference={next} runId={run} allowed={true} get={get}/>);await flush()})
  expect(container.textContent).not.toContain('Rp');expect(container.textContent).toContain('Status keuangan belum bisa dibaca')
 })

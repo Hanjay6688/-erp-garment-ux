@@ -3,8 +3,9 @@ import type {NativeDemandQuery} from '../../../src/nativeDemandHistory'
 
 export const FROZEN_ANALYSIS_REQUEST='cp7.bounded-analysis-request.v2'
 export const FROZEN_ANALYSIS_REFERENCE='cp7.bounded-analysis-reference.v2'
-export type FrozenAnalysisRequest={id:string;actor:string;q:NativeDemandQuery;method:typeof FROZEN_ANALYSIS_REQUEST}
-type FrozenAnalysisClient={rpc(name:'erp_cp7_request_bounded_staged_analysis_v2',args:{p_query:NativeDemandQuery;p_request:string}):PromiseLike<{data:unknown;error:unknown}>}
+export type FrozenAnalysisRequest={id:string;actor:string;q:NativeDemandQuery;method:typeof FROZEN_ANALYSIS_REQUEST;finance?:'STAGED'|'DEFERRED'}
+export const frozenAnalysisRequestQuery=(r:FrozenAnalysisRequest)=>r.finance?{...r.q,finance_mode:r.finance}:r.q
+type FrozenAnalysisClient={rpc(name:'erp_cp7_request_bounded_staged_analysis_v2',args:{p_query:NativeDemandQuery&{finance_mode?:'STAGED'|'DEFERRED'};p_request:string}):PromiseLike<{data:unknown;error:unknown}>}
 
 const invalid=():never=>{throw Error('Catatan permintaan analisis berubah. Pulihkan catatan asal sebelum mencoba lagi.')}
 const object=(v:unknown):Record<string,unknown>=>v!==null&&typeof v==='object'&&!Array.isArray(v)?v as Record<string,unknown>:invalid()
@@ -12,10 +13,11 @@ const exact=(v:Record<string,unknown>,keys:string[])=>{if(Object.keys(v).sort().
 const uuid=(v:unknown)=>typeof v==='string'&&/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/.test(v)?v:invalid()
 function day(v:unknown):string{if(typeof v!=='string'||!/^\d{4}-\d{2}-\d{2}$/.test(v)||!Number.isFinite(Date.parse(v))||new Date(v).toISOString().slice(0,10)!==v)return invalid();return v}
 function parse(raw:unknown,actor:string):FrozenAnalysisRequest{
- const v=object(raw),q=object(v.q);exact(v,['id','actor','q','method']);exact(q,['from_date','through_date','group_mode'])
+ const v=object(raw),q=object(v.q);exact(v,Object.hasOwn(v,'finance')?['id','actor','q','method','finance']:['id','actor','q','method']);exact(q,['from_date','through_date','group_mode'])
+ if(Object.hasOwn(v,'finance')&&v.finance!=='STAGED'&&v.finance!=='DEFERRED')return invalid()
  if(uuid(v.actor)!==uuid(actor)||v.method!==FROZEN_ANALYSIS_REQUEST||q.group_mode!=='AS_SOLD'&&q.group_mode!=='RESTATED')return invalid()
  const from=day(q.from_date),through=day(q.through_date);if(from>through)invalid()
- return{id:uuid(v.id),actor,q:{from_date:from,through_date:through,group_mode:q.group_mode},method:FROZEN_ANALYSIS_REQUEST}
+ return{id:uuid(v.id),actor,q:{from_date:from,through_date:through,group_mode:q.group_mode},method:FROZEN_ANALYSIS_REQUEST,...(v.finance?{finance:v.finance as 'STAGED'|'DEFERRED'}:{})}
 }
 export function frozenAnalysisRequestKey(actor:string,scope:string){
  if(typeof scope!=='string'||scope.length===0||scope.length>200)invalid()
@@ -68,6 +70,6 @@ export async function requestFrozenAnalysis(client:unknown,actor:string,scope:st
  const held=readFrozenAnalysisRequest(actor,scope)
  if(held.error||held.pending===null)throw Error('Permintaan belum tersimpan. Periksa penyimpanan sebelum mencoba lagi.')
  const checked=parse(held.pending,actor)
- return await(client as FrozenAnalysisClient).rpc('erp_cp7_request_bounded_staged_analysis_v2',{p_query:checked.q,p_request:checked.id})
+ return await(client as FrozenAnalysisClient).rpc('erp_cp7_request_bounded_staged_analysis_v2',{p_query:frozenAnalysisRequestQuery(checked),p_request:checked.id})
  })
 }

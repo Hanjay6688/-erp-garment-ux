@@ -1,7 +1,8 @@
 // @vitest-environment jsdom
 import {beforeEach,afterEach,it,expect,vi} from 'vitest'
 import {FROZEN_ANALYSIS_REQUEST,frozenAnalysisRequestKey,persistFrozenAnalysisRequest,replaceFrozenAnalysisRequest,readFrozenAnalysisRequest} from '../../cp7_frozen_analysis_facade_v2/client/nativeFrozenAnalysis'
-import {driveFrozenQuantity,readFrozenQuantity,readFrozenQuantityPage,checkFrozenQuantity,frozenQuantityAnalogContext,frozenQuantityCuttingContext,type FrozenQuantitySession} from './nativeFrozenQuantity'
+import {driveFrozenQuantity,readFrozenQuantity,readFrozenQuantityPage,checkFrozenQuantity,readFrozenQuantityFinanceStatus,frozenQuantityAnalogContext,frozenQuantityCuttingContext,type FrozenQuantitySession} from './nativeFrozenQuantity'
+import {frozenFinanceFixture} from '../../../tests/fixtures/frozenAnalysisFinance'
 import {parseStagedJob} from '../../../src/nativeStagedJob'
 import {stagedRun} from '../../../tests/fixtures/nativeAnalysisPages'
 
@@ -29,6 +30,22 @@ it('replays explicit v2 on every reopen and drives only the original durable que
  await driveFrozenQuantity({rpc},s,{});await driveFrozenQuantity({rpc},s,{})
  expect(calls).toEqual(['erp_cp7_request_bounded_staged_analysis_v2','erp_cp7_step_staged_analysis_v1','erp_cp7_request_bounded_staged_analysis_v2','erp_cp7_step_staged_analysis_v1'])
  expect(readFrozenAnalysisRequest(s.actor,s.scope).pending).toEqual(s.request)
+})
+it('keeps selected finance mode through DONE and reads its separate status without reloading pages',async()=>{
+ localStorage.clear();s.request={...s.request,finance:'STAGED'};await persistFrozenAnalysisRequest(s.actor,s.scope,s.request)
+ const raw=f.job('DONE',{finance_capture:frozenFinanceFixture(f)}),rpc=vi.fn(async(name:string,args:any)=>name==='erp_cp7_request_bounded_staged_analysis_v2'||name==='erp_cp7_get_staged_analysis_v1'?{data:raw,error:null}:route(name,args))
+ const job=await driveFrozenQuantity({rpc},s,{});expect(job?.financeCapture?.state).toBe('READY')
+ expect(rpc).toHaveBeenCalledWith('erp_cp7_request_bounded_staged_analysis_v2',{p_request:s.request.id,p_query:{...f.query,finance_mode:'STAGED'}})
+ const source=await readFrozenQuantity({rpc},s,job!);rpc.mockClear()
+ const status=await readFrozenQuantityFinanceStatus({rpc},s,source);expect((status.data as any).finance_capture.result.metrics).toHaveLength(3)
+ expect(rpc.mock.calls).toEqual([['erp_cp7_get_staged_analysis_v1',{p_request:s.request.id}]])
+ const bytes=localStorage.getItem(frozenAnalysisRequestKey(s.actor,s.scope))
+ rpc.mockImplementation(async()=>{
+  localStorage.setItem(frozenAnalysisRequestKey(s.actor,s.scope),JSON.stringify({...s.request,finance:'DEFERRED'}))
+  return{data:raw,error:null}
+ })
+ await expect(readFrozenQuantityFinanceStatus({rpc},s,source)).rejects.toThrow()
+ expect(localStorage.getItem(frozenAnalysisRequestKey(s.actor,s.scope))).not.toBe(bytes)
 })
 it('requires server v2 method acceptance again before any result page and binds the verified source to analog v2',async()=>{
  const rpc=vi.fn(route),v=await readFrozenQuantity({rpc},s,done()),p=await readFrozenQuantityPage({rpc},s,v,1)

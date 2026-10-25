@@ -65,7 +65,7 @@ async function journey(ui,today,built,mobile){
   await page.route('**/rest/v1/rpc/*',async route=>{
    const name=new URL(route.request().url()).pathname.split('/').at(-1),args=route.request().postDataJSON(),r=await route.fetch(),body=await r.json()
    calls.push({name,args,status:r.status(),body})
-   if(!mobile&&name===SAVE&&!lost){assert.equal(r.status(),200);lost=calls.at(-1);await route.abort('failed')}
+   if(name===SAVE&&!lost){assert.equal(r.status(),200);lost=calls.at(-1);await route.abort('failed')}
    else await route.fulfill({response:r})
   })
   await page.goto(url);await ui.expect(row).toBeVisible({timeout:180000})
@@ -109,15 +109,26 @@ async function journey(ui,today,built,mobile){
   }else{
    other=await ui.login('OWNER',{label:'frozen-cutting-foreign'})
    assert.equal((await other.rpc(OPTIONS,loaded.args)).status,403);assert.ok([401,403].includes((await ui.anonRpc(OPTIONS,loaded.args)).status))
-   fixture('deactivate',{actor});const prior=state(),denied=await response(page,SAVE,()=>submit.click());assert.equal(denied.status,403)
-   const held=await pending();assert.equal(held.length,1);assert.equal(held[0].value.id,denied.args.p_request);assert.deepEqual(held[0].value.payload,denied.args.p_payload)
+   // A first SQL42501 is a definite statement rejection under the unchanged
+   // shared recovery contract. Establish a genuinely uncertain earlier COMMIT
+   // before revocation, then require the refused replay to retain that command.
+   await submit.click();await ui.expect.poll(()=>lost?.status).toBe(200);await ui.expect(form.getByRole('button',{name:'Reconcile transaksi',exact:true})).toBeEnabled()
+   const original=await pending();assert.equal(original.length,1);assert.equal(original[0].value.id,lost.args.p_request);assert.deepEqual(original[0].value.payload,lost.args.p_payload)
+   checked(lost.body,original[0].value.id,exact.page_set,f.target)
+   const committed=state();noPhysical(captured.metadata,committed.metadata,1)
+   const native=fixture('receipt',{actor,request:original[0].value.id});assert.deepEqual(native.result,lost.body);assert.deepEqual(native.payload,lost.args.p_payload)
+   await shot('UNCERTAIN')
+   fixture('deactivate',{actor});const prior=state(),denied=await response(page,SAVE,()=>form.getByRole('button',{name:'Reconcile transaksi',exact:true}).click());assert.equal(denied.status,403)
+   assert.deepEqual(denied.args,lost.args)
+   const held=await pending();assert.deepEqual(held,original);assert.equal(held[0].value.id,denied.args.p_request);assert.deepEqual(held[0].value.payload,denied.args.p_payload)
    await ui.expect(form).toHaveCount(0);await ui.expect(panel.locator('[data-quantity-target]')).toHaveCount(0)
-   assert.deepEqual(await storedAnalysis(),analysis);assert.deepEqual(state(),prior);noPhysical(captured.metadata,prior.metadata,0);assert.deepEqual(await pending(),held);await shot('ACCESS_REVOKED')
+   assert.deepEqual(await storedAnalysis(),analysis);assert.deepEqual(state(),prior);noPhysical(captured.metadata,prior.metadata,1);assert.deepEqual(await pending(),held);await shot('ACCESS_REVOKED')
   }
   assert.deepEqual(await page.evaluate(()=>navigator.locks.query()),{held:[],pending:[]})
   return{status:'PASS',actual_AuthProvider:true,actual_AuthGate:true,actual_Auth_PostgREST_browser:true,
    actual_browser_created_distinct_v2_request_and_completed_DONE:true,setup_jobs_retained_without_deletion:true,
    actual_existing_checked_form:true,displayed_need_equals_own_Native_Original:true,actual_committed_SAVE_and_exact_replyloss_recovery:!mobile,
+   actual_committed_mobile_SAVE_before_denied_exact_replay:mobile,
    actual_current_foreign_anon_access_refused:mobile,current403_retires_quantities_and_form_preserves_original_command:mobile,
    no_physical_stock_money_HPP_effect:true,viewport:mobile?390:1440,no_horizontal_overflow:true,form_checkbox_min20px:true,
    visible_text_contrasts:contrasts,source_paths:built.source_paths,source_sha256:built.source_sha256,shots,

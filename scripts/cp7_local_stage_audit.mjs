@@ -3,8 +3,8 @@
 import {spawn} from 'node:child_process'
 import {createInterface} from 'node:readline'
 
-export async function beginLocalStageAudit(db,stage){
- const child=spawn('python',['-B','scripts/cp7_local_stage_audit.py',stage],{stdio:['pipe','pipe','pipe']})
+export async function beginLocalStageAudit(db,stage,script='scripts/cp7_local_stage_audit.py'){
+ const child=spawn('python',['-B',script,stage],{stdio:['pipe','pipe','pipe']})
  let readyResolve,readyReject,doneResolve,doneReject,stderr='',finished=false
  const ready=new Promise((resolve,reject)=>{readyResolve=resolve;readyReject=reject})
  const done=new Promise((resolve,reject)=>{doneResolve=resolve;doneReject=reject});done.catch(()=>{})

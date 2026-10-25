@@ -59,7 +59,9 @@ jobs:
         include:
         - suite: ow12b-frozen-cutting-transport10
           probe: cp7_ow12b_frozen_cutting_transport_probe.py
-          timeout: 60
+          # Six isolated restores, real Auth and cleanup exceeded the prior
+          # 60-minute job. Every application statement remains limited to8s.
+          timeout: 90
     env:
       PGURL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
       CP6_AC_INDEPENDENT_CONFIRM: postgres

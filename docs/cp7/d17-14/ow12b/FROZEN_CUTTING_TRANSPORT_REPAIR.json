@@ -1,0 +1,57 @@
+{
+  "contract": "cp7.frozen-cutting-transport-repair.v2",
+  "base_head": "e2ef3a9eeeaae93a861bfabee7c52f01ee8a5e13",
+  "first_actual_source": "ee1ebfd1a104cbbdf5d0c4a14cbb1e8cc00a3573",
+  "first_run_id": 40235295219,
+  "first_artifact_id": 12615959850,
+  "first_status": "INCOMPLETE",
+  "main_report_counts": {
+    "native": {
+      "PASS": 1
+    }
+  },
+  "job_log_race_rows": {
+    "INCOMPLETE": 5
+  },
+  "required_counts": {
+    "native": 1,
+    "races": 6,
+    "http": 3
+  },
+  "original_package_gates_missing": true,
+  "original_backup_restore_drill_missing": true,
+  "original_cp6_restored": false,
+  "original_advisor_gate": false,
+  "first_failures_preserved": true,
+  "diagnosis": {
+    "actual_original_metadata_function_reproduced_session_zone_mismatch": true,
+    "old_source": "ee1ebfd1a104cbbdf5d0c4a14cbb1e8cc00a3573",
+    "session_zones": [
+      "UTC",
+      "Asia/Jakarta",
+      "America/Los_Angeles"
+    ],
+    "actual_stored_microsecond_change_still_refused": true,
+    "comparison_fields_dropped_or_rounded": false
+  },
+  "repair": {
+    "metadata_hash_serialization": "UTC_WITH_CALLER_ZONE_RESTORED",
+    "case_progress_retained_before_cleanup_exception": true,
+    "case_progress_qualification_credit": false,
+    "CI_job_minutes_before": 60,
+    "CI_job_minutes_after": 90,
+    "application_statement_limit_seconds": 8,
+    "public_case_ids_counts_assertions_unchanged": true,
+    "Native_CP6_harness_files_changed": false,
+    "product_SQL_or_grants_changed": false
+  },
+  "source_sha256": {
+    "scripts/cp7_ow12b_frozen_cutting_cases.py": "56057e12011b20575d15f14fcbf20619007929ec1ddd4c2d4763ab1b43d9b1a4",
+    "scripts/cp7_ow12b_frozen_cutting_transport_cases.py": "9ecef7f7eb7d90fe3be7ded546f244f793e8dd42b2ecae864c5b5c0b79ac790d",
+    "scripts/cp7_ow12b_frozen_cutting_metadata_local.py": "80c8c5d9b8b47a5c94a6dc1959abedb2f7c60a9da83ddcd1e899e8f2fde5f9a7",
+    "scripts/cp7_ow12b_frozen_cutting_metadata_local.mjs": "4786902b188d71469e1bb32932efdb9bd0b6b940e1149c990ca520329302411f",
+    ".github/workflows/cp7-ow12b-frozen-cutting-transport.yml": "33b2df2e6454c0a5f5b785f15c16b6a68af0f77f4fbe76acf342f1aad09725af"
+  },
+  "actual_fixed_Native_or_Auth_qualified": false,
+  "production_go": false
+}
