@@ -1,0 +1,18 @@
+{
+  "status": "LOCAL_ACCESS_INVENTORY_INCOMPLETE",
+  "candidate": "46898fbe8fd8f3308811c5b71d3e5fc929d26fdf",
+  "command": "node scripts/check-access-catalog.mjs",
+  "observed_assertion": "326 !== 322",
+  "location": "scripts/check-access-catalog.mjs:315",
+  "diagnosis": "Four exact scoped-model/history boundaries were already owned by check-source-ownership and actual B Auth/browser proofs, but absent from the current access extension inventory.",
+  "added_exact_boundaries": [
+    "src/nativeScopedModel.ts:erp_cp7_capture_model_evaluation_v3",
+    "src/nativeScopedModel.ts:erp_cp7_capture_model_history_v1",
+    "src/nativeScopedModel.ts:erp_cp7_read_model_evaluation_v3",
+    "src/nativeScopedModel.ts:erp_cp7_read_model_history_v1"
+  ],
+  "frozen_evidence_counts_changed": false,
+  "runtime_permissions_changed": false,
+  "new_Native_or_Auth_credit": false,
+  "production_go": false
+}

@@ -3785,3 +3785,13 @@ contracts are present but not installed by the full A composer. Native source-v2
 first failure remains 2PASS/2INCOMPLETE; corrected source4 and consumer6 actual
 Originals are pending. Current factory/history/selected-return candidates are
 unchanged. No full-A, production, or independent-acceptance claim.
+
+
+## A25 Oktober2026 — [bersama] exact scoped-model access inventory
+
+Current access checker first failed326!=322 on isolated target preparation.
+Its extension list now explicitly names the same four scoped history/model
+RPC boundaries already present in source ownership and actual B Browser2.
+Every frozen evidence count, existing permission and old named boundary remains.
+This is a current integration inventory correction, not a new permission grant
+or an Auth/Native acceptance. First assertion recorded separately.

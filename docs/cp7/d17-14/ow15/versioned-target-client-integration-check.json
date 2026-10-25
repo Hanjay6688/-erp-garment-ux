@@ -1,0 +1,23 @@
+{
+  "status": "LOCAL_CLIENT_AND_INVENTORY_PASS",
+  "candidate_parent": "46898fbe8fd8f3308811c5b71d3e5fc929d26fdf",
+  "client_test_files": 4,
+  "client_tests": 165,
+  "typescript_build": "PASS",
+  "source_ownership": {
+    "runtime_files": 383,
+    "owned_RPC_boundaries": 326
+  },
+  "access_ownership": {
+    "permissions": 111,
+    "nav_labels": 47,
+    "routes": 48,
+    "sensitive_actions": 21,
+    "owned_RPC_boundaries": 326
+  },
+  "CSS_stylesheets": 64,
+  "dependencies": "Exact package-lock installed from local cache; lock unchanged",
+  "first_access_inventory_failure_preserved": true,
+  "new_Native_or_Auth_credit": false,
+  "production_go": false
+}
