@@ -1,5 +1,5 @@
 {
-  "recorded_at_utc": "2026-10-25T11:45:14.368058+00:00",
+  "recorded_at_utc": "2026-10-25T12:05:23.938011+00:00",
   "role": "A finance writer/integrator replacing Claude",
   "slogan": [
     "VENI. VIDI. VICI. ERP. \u2014 I CONQUERED ERP.",
@@ -10,15 +10,14 @@
   "independent_acceptance": false,
   "running": [
     {
-      "scope": "Complete versioned-target selected-return Native36",
-      "head": "a19b370b706ed5d96fdce275c187c2db78f65f69",
-      "run_id": 40186914903,
-      "job_id": 121149556413,
-      "status": "CI_EXECUTING_CURRENT_NATIVE36",
-      "source_pins": 3473,
+      "scope": "Corrected complete versioned-target selected-return Native36",
+      "head": "014019a612260525e9c3b9459e354a86209336c1",
+      "run_id": 40191412940,
+      "job_id": 121163008682,
+      "status": "CI_IN_PROGRESS_PRE_DB",
+      "source_pins": 3475,
       "actual_originals": 12,
       "complete_local_source_admission": "PASS",
-      "exact_archive_member_correction": true,
       "execution_branch": "astra-a/d17-14-versioned-target-native36-20261025"
     }
   ],
@@ -78,7 +77,7 @@
     },
     {
       "scope": "isolated future versioned-target integration",
-      "head": "a19b370b706ed5d96fdce275c187c2db78f65f69",
+      "head": "014019a612260525e9c3b9459e354a86209336c1",
       "branch": "astra-a/d17-14-versioned-target-integration-prepared-20261025",
       "client_tests": 303,
       "client_test_files": 12,
@@ -94,7 +93,7 @@
       "changed_hook_bodies": 14,
       "unchanged_hook_bodies": 7,
       "legacy_target_objects_preserved": true,
-      "tree": "ce0f3f0af562ed463304ee696eb2e9950bfc1b63",
+      "tree": "1992c1dad5dbcbb41ffe7767d2a12e61731d60ef",
       "true_merge_B_head": "36b81fcee8ee801a96793c89df6e14388263ad33",
       "browser_source_pins_current": 50,
       "first_source_export_mismatch_preserved": true,
@@ -102,7 +101,7 @@
       "recovery_prepared": true,
       "actual_prerequisites_required": 12,
       "SOURCE_bound": true,
-      "next": "Intake actual Native36; then bind and run prepared used restore8, finance10, cron1, browser6 and transport28",
+      "next": "Intake actual corrected Native36; bind five followups only after complete actual PASS",
       "Native36_prepared": true,
       "cases": 36,
       "retained_assertion_sets": 25,
@@ -142,16 +141,18 @@
       "all_restore_global_names_resolved": true,
       "restore_metadata_signature_paths": 8,
       "restore_negative_source_paths": 11,
-      "source_pins": 3473,
-      "complete_local_source_admission": "PASS3473pins12Originals",
+      "source_pins": 3475,
+      "complete_local_source_admission": "PASS3475pins12Originals",
       "exact_B_component_source_schemas": true,
       "source_v2_sha256_explicit_19pins": true,
       "first_local_admission_failure_preserved_head": "231befa58c87eff21c9f38a7b48c58d4b6dfd508",
-      "run_id": 40186914903,
-      "job_id": 121149556413,
+      "run_id": 40191412940,
+      "job_id": 121163008682,
       "first_CI_fetch_failure_preserved": true,
       "exact_archive_member_eight_actual_zip_checks": true,
-      "wrong_member_negative_controls": 3
+      "wrong_member_negative_controls": 3,
+      "first_runtime_INCOMPLETE_artifact": 12598360114,
+      "retained_scoped_replay_full_composer_guard": true
     },
     {
       "scope": "full scoped model used restore8",
@@ -190,8 +191,8 @@
     {
       "scope": "late exact B performance on unchanged full A versioned predecessor",
       "branch": "astra-a/d17-14-versioned-performance-prepared-20261025",
-      "head": "1be14ddfdffcfe9740fcddbb05303866b669e7bc",
-      "tree": "5e7da904818fa49f7ab2d8651a65da0e3382ca9a",
+      "head": "81b8860ac934d9944a20ad9e7891b6fba4863ce2",
+      "tree": "eae618c38b5aa720a8845926422250130415e701",
       "B_qualified_source_head": "c7f06b855512e0c8d450522c36e84f4cab570a2a",
       "exact_function_replacements": 2,
       "direct_JSON_path_substitutions": 6,
@@ -243,7 +244,27 @@
       "seven_archive_fetch_checks": "PASS",
       "Native36_source_corrections_true_merged": true,
       "all_3473_current_Native36_source_pins_exact": true,
-      "current_Native36_runtime_still_pending": true
+      "current_Native36_runtime_still_pending": true,
+      "current_parent_pins_exact": 3475,
+      "scoped_replay_guard": {
+        "status": "PASS_LOCAL_ADAPTER_CHECKS",
+        "case_ids": 36,
+        "retained_original_assertions": 11,
+        "explicit_AST_changes": {
+          "rollback_calls": 1,
+          "refusal_constants": 1
+        },
+        "negative_AST_controls": 4,
+        "correct_full_state_routing": true,
+        "wrong_state_refused": true,
+        "all_hooks_restored": true,
+        "real_full_inverse_used_guard_executed_with_instrumented_catalog": true,
+        "DDL_executed": false,
+        "database_runtime_executed": false,
+        "production_SQL_changed": false,
+        "production_go": false
+      },
+      "all_seven_SOURCE_absent": true
     }
   ],
   "first_failures_preserved": [
@@ -1114,13 +1135,13 @@
     "two_full_used_restores": true
   },
   "current_native36_source_admission": {
-    "head": "a19b370b706ed5d96fdce275c187c2db78f65f69",
-    "tree": "ce0f3f0af562ed463304ee696eb2e9950bfc1b63",
+    "head": "014019a612260525e9c3b9459e354a86209336c1",
+    "tree": "1992c1dad5dbcbb41ffe7767d2a12e61731d60ef",
     "status": "PASS",
-    "source_pins": 3473,
+    "source_pins": 3475,
     "actual_Originals": 12,
-    "receipt_bytes": 1162933,
-    "receipt_sha256": "c7a2cc49ecb88ca84203d39ca64d66239a2606007af5a7334e386ef1a6e5ac83",
+    "receipt_bytes": 1163728,
+    "receipt_sha256": "2b2ed4ceaf1eab570b920824d95093d692ea77610f271db6aae6d59d415c897f",
     "current_database_runtime_qualified": false,
     "production_go": false
   },
@@ -1304,5 +1325,36 @@
     "final_dimensional_equality_not_reached": true,
     "statement_limit": "8s",
     "stable_latency_or_factory_SLA_claim": false
+  },
+  "actual_current_versioned_native36_first_failure": {
+    "first_failure": {
+      "name": "CP7_CURRENT_VERSIONED_TARGET_NATIVE36.json",
+      "status": "INCOMPLETE",
+      "head": "a19b370b706ed5d96fdce275c187c2db78f65f69",
+      "run_id": 40186914903,
+      "job_id": 121149556413,
+      "artifact_id": 12598360114,
+      "zip_bytes": 2925518,
+      "zip_sha256": "0a67dcb33cc6f27f8a60af93557e111ae1e9af83d110bc2b40658677985e49b2",
+      "bytes": 10467458,
+      "sha256": "69034475f816f089b98db2efa2e7afddf7ba51801dee15844c13ce3aa935ad47",
+      "archive_member": "CP7_CURRENT_VERSIONED_TARGET_NATIVE36.json"
+    },
+    "counts": {
+      "PASS": 35,
+      "INCOMPLETE": 1
+    },
+    "case_id": "OW11_SCOPED_EVALUATION_ACTUAL_CAPTURE_REPLAY_IMMUTABLE",
+    "observed_refusal": "MODEL_SCOPED_EVALUATION_DEPENDENCY_CHANGED: cp7_analysis_native.build_operational(jsonb,jsonb,uuid,jsonb)",
+    "old_expected_refusal": "MODEL_SCOPED_EVALUATION_AFTER_USE_REQUIRES_COMPOSED_BACKUP_RESTORE",
+    "correction": "Invoke real full current composer inverse and exact CURRENT_VERSIONED_TARGET_AFTER_USE_REQUIRES_FULL_BACKUP_RESTORE refusal; preserve every replay, immutable history, UNKNOWN, clock, money, stock and row-count assertion",
+    "all36_case_ids_retained": true,
+    "baseline_full22_all_rows_all_sequences_restored": true,
+    "cp6_restored": true,
+    "advisor_gate": true,
+    "production_SQL_changed": false,
+    "predecessor_catalog_rewritten": false,
+    "old_Original_unchanged": true,
+    "production_go": false
   }
 }
