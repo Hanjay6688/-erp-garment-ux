@@ -2754,3 +2754,31 @@ now qualified at this source, with HTTP/concurrency/browser still separate.
 40b72fbe transport parts A/B and Browser2 actual runtime Originals pending.
 New scale Native2 remains candidate. Full A composer/after-use/defaults stay A;
 formal5/16, CP7C/independent false, production_go=false.
+
+## 147. B25 Oktober2026 WIB — versioned target actual Browser2 Original PASS
+
+40b72fbe/run40169049615/job121095977010: complete JSON12588948272,47457 bytes,
+SHAafed95b9bf79e73a199040b69262d996c30b0edb629eeef4eea6ef7d0e1d21e9.
+Full12588913485,2045422 bytes, SHAb1757a1c5fb1c7f37e8381c9ee5857932dcd24fced6fb5a8021e26824c731cf8.
+All6 Original JSON files read, all50 head/current source pins matched, three
+screenshots visually reviewed. Both actual Auth/PostgREST Browser cases PASS:
+mobile scoped history/model lost-response+reload exact method/UUID/payload
+recovery, selected scoped reference in new target provenance.v3/resolution.v2,
+UNKNOWN -> confirmed analog target1 -> CLEAR -> UNKNOWN, current403 hides results;
+desktop2000/202000 preserves raw INCOMPLETE, confirmed analog target2 and identical
+job/provenance after reload. Observed own sales/days remain0, historical openings
+explicitly synthetic, no stock/money/HPP/draft/receipt change by model/choice/read.
+
+Exact clone authority, business-day controls, Auth counts0->0, sessions/containers/
+copy cleanup, all package gates/CP6/advisor verified. Browser host RUN_COMPLETE
+with2PASS is the frozen runner's success vocabulary. Its tool/GitHub head40b72fbe
+records product_refdbc0d3ff; every recorded product path is byte-identical across
+those two commits, and all50 runtime/script/client pins bind exact40b72fbe.
+No false same-head assertion or rerun. VERSIONED_TARGET_COMPONENT_MATRIX proves
+all33 backend files identical between Native6 and Browser2/currented82e7e9.
+
+A finance request/status/bounded-request hook names have no direct intersection
+with B's21 replacements (static check only); runtime/full-composer and after-use
+still require A's composition, with fresh parent rather than replacing a used
+old target-v1 stage. Transport11 same-head union and actual Native3600 pending;
+formal5/16, CP7C/independent false, production_go=false. Continue pending work.
