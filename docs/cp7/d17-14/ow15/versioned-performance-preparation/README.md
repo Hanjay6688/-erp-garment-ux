@@ -19,8 +19,10 @@ existing local Native OID seal after restoring the whole database.
 LOCAL_PREFLIGHT records source comparison, PostgreSQL parsing, catalog negative
 controls and pre-DDL refusal. These are preparation checks, not actual A
 database execution. No Native36/restore/Auth/browser/cron or factory result is
-credited to this composer. Its qualification workflows and complete followups
-are not yet prepared. The current combined candidate remains separate.
+credited to this composer. The separate Native36 workflow is now prepared with seven required actual
+Originals; SOURCE remains unbound until the full versioned Native36 and used
+restore8 both pass. Its finance/restore/Auth/browser/cron/factory followups
+remain pending. The current combined candidate remains separate.
 
 Next: take the actual complete current Native36 and used-restore Originals;
 bind B Native6/browser2/transport11/scale2 evidence at its exact unchanged source
