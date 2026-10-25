@@ -1,0 +1,46 @@
+{
+  "status": "LOCAL_REFUSAL_CORRECTION_PASS",
+  "first_failed_head": "e127aebf1a69ea3af7f3727287bf3f922b60c731",
+  "first_failed_run": 40176745608,
+  "first_failed_artifact": 12593961498,
+  "first_failure_preserved": true,
+  "original_report_raw_sha256": "99d5070250d48192b5a0e1fa65173bbe6a6628857bc789a2982e5fc0c10a51bb",
+  "source_binding": {
+    "exact_retained_business_assertions": true,
+    "only_expected_selected_customer_code_changed": true,
+    "original_helper_unchanged": true,
+    "expected_sqlstate": "P0001",
+    "expected_error": "OW04_SOURCE_CUSTOMER_MISMATCH",
+    "all_rows_sequences_and_full22_checks_retained": true
+  },
+  "controls": [
+    {
+      "id": "ACTUAL_OBSERVED_REFUSAL",
+      "status": "PASS",
+      "retained_full_checks": true
+    },
+    {
+      "id": "WRONG_SQLSTATE",
+      "status": "PASS",
+      "refused": true
+    },
+    {
+      "id": "WRONG_REFUSAL_CODE",
+      "status": "PASS",
+      "refused": true
+    },
+    {
+      "id": "DATA_CHANGED",
+      "status": "PASS",
+      "refused": true
+    },
+    {
+      "id": "CATALOG_CHANGED",
+      "status": "PASS",
+      "refused": true
+    }
+  ],
+  "product_SQL_changed": false,
+  "current_full_restore_runtime_qualified": false,
+  "production_go": false
+}

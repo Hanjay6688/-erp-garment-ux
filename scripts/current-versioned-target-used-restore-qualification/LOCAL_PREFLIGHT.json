@@ -36,5 +36,18 @@
       "reason": "RETAINED_RESTORE_ASSERTION_REMOVED_OR_CHANGED"
     }
   ],
-  "SOURCE_bound": false
+  "SOURCE_bound": false,
+  "retained_refusal_business_source": {
+    "exact_retained_business_assertions": true,
+    "only_expected_selected_customer_code_changed": true,
+    "original_helper_unchanged": true,
+    "expected_sqlstate": "P0001",
+    "expected_error": "OW04_SOURCE_CUSTOMER_MISMATCH",
+    "all_rows_sequences_and_full22_checks_retained": true
+  },
+  "selected_refusal_failure_prevented": {
+    "first_failed_head": "e127aebf1a69ea3af7f3727287bf3f922b60c731",
+    "first_failed_artifact": 12593961498,
+    "selected_refusal_helper_byte_identical": true
+  }
 }

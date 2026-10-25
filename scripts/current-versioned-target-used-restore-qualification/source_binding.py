@@ -2,7 +2,7 @@
 from collections import Counter
 from hashlib import sha256
 from pathlib import Path
-import ast,json
+import ast,importlib.util,json
 
 HERE=Path(__file__).resolve().parent
 OLD=HERE.parent/'current-scoped-model-used-restore-qualification'
@@ -29,6 +29,12 @@ class TargetProtocol(ast.NodeTransformer):
 
 
 def verify(target_text=None,probe_text=None):
+    def module(name,path):
+        spec=importlib.util.spec_from_file_location(name,path)
+        value=importlib.util.module_from_spec(spec);spec.loader.exec_module(value);return value
+    helper=module('combined_restore_selected_refusal_guard',HERE.parent/'current-selected-return-used-restore-qualification/selected_refusal.py')
+    business=module('combined_restore_retained_refusal_business',HERE.parent/'draft-return-isolation-qualification/cases.py')
+    refusal=helper.source_binding(business)
     unchanged={}
     for name in UNCHANGED:
         raw=(HERE/name).read_bytes()
@@ -46,7 +52,7 @@ def verify(target_text=None,probe_text=None):
     assert steps(previous)==steps(current)and len(steps(current))==8
     return dict(unchanged_fixture_sha256=unchanged,target_entire_AST_equal_after_exact_provider_and_protocol_changes=True,
         retained_probe_assertions=sum(before.values()),new_probe_assertions=sum(after.values())-sum(before.values()),
-        required_steps=8,production_go=False,Native_credit=False)
+        required_steps=8,retained_refusal_business_source=refusal,production_go=False,Native_credit=False)
 
 
 if __name__=='__main__':print(json.dumps(verify(),indent=2))

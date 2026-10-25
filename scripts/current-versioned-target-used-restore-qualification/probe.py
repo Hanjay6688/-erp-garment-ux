@@ -27,6 +27,9 @@ target_composed=history_composed.predecessor
 from cp6_t3_aligned_install import advisor_delta
 a=prior.a
 delta,installation,business=prior.delta,prior.installation,prior.business
+_spec=importlib.util.spec_from_file_location('versioned_restore_customer_refusal',HERE.parent/'current-selected-return-used-restore-qualification/selected_refusal.py')
+selected_refusal=importlib.util.module_from_spec(_spec);_spec.loader.exec_module(selected_refusal)
+selected_refusal.source_binding(business)
 old=business.old
 catalog=delta.catalog
 choice=target_composed.predecessor.predecessor.predecessor.choice
@@ -240,7 +243,7 @@ def run():
             draft_before=draft_rows(cur,rid);bad_draft=draft_before['header']
             report['initial_DRAFT_snapshot']=dict(session_timezone=cur.execute('show TimeZone').fetchone()[0],
                 original_raw_header=original_raw_draft,exact_UTC=draft_before)
-            refused=business.customer_refusal(cur,rid)
+            refused=selected_refusal.customer_refusal(business,cur,rid)
             good=old.positive_return(cur,day,f)
             old.actors.admin(cur)
             # Native opening precedes the three complete query days. The real
@@ -352,7 +355,7 @@ def run():
             target_fixture.assert_restored(cur,held_target,report,'AFTER_POLICY_WITHDRAWAL',source_changed=True)
             history_fixture.assert_restored(cur,held_history,report,'AFTER_POLICY_WITHDRAWAL',native_return_changed=False)
             scoped_model_fixture.assert_restored(cur,held_scoped_model,report,'AFTER_POLICY_WITHDRAWAL',native_return_changed=False,policy_changed=True)
-            refused_after=business.customer_refusal(cur,rid)
+            refused_after=selected_refusal.customer_refusal(business,cur,rid)
             second=old.positive_return(cur,day,f);old.actors.admin(cur)
             unchanged_draft(cur,rid,draft_before,report,'AFTER_NEXT_VALID_RETURN')
             totals=cur.execute("select count(*),sum(i.qty_pcs),sum(i.refund_amount)from erp.sales_return_items i join erp.sales_returns r on r.id=i.return_id where r.sale_id=%s and r.status='POSTED'",(f['sale']['sale_id'],)).fetchone()
