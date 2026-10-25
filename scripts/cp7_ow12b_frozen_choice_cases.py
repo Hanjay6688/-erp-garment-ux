@@ -31,6 +31,7 @@ def sources():
  root=Path(__file__).resolve().parent
  return {**reader.sources(),**{'cp7_frozen_analysis_choice_v2/'+k:v for k,v in stage.sources().items()},
   **{p.name:sha256(p.read_bytes()).hexdigest()for p in(Path(__file__),root/'cp7_ow12b_frozen_choice_local.mjs',
+   root/'cp7_ow12b_frozen_choice_calibration_local.py',root/'cp7_ow12b_frozen_choice_calibration_local.mjs',
    root/'cp7_ow12b_frozen_choice_probe.py',root/'cp7_ow12b_frozen_choice_preflight.py',Path(choice.__file__),
    Path(native.geometry.common.__file__))}}
 
@@ -79,6 +80,33 @@ def save(cur,f,p=None,key=None,observed=None):
 def target(f):return next(x for x in f['expected']['inputs']['targets']if x['target_key']==f['target'])
 
 
+def calibrate_timeout(cur,f,p,key,prior,phase):
+ # Diagnostic only after an already-failed instrumented command. The original
+ # 57014 is always rethrown. Repeat the same UUID/payload at the caller's prior
+ # tracking setting and the SAME 8s RPC limit, then roll back every effect.
+ plan.b.api.admin(cur);before=choice.metadata(cur);physical=plan.monetary_state(cur)
+ result=dict(phase=phase,qualification_credit=False,original_timeout_not_replaced=True,
+  same_UUID_and_payload=True,statement_limit='8s',instrumented_tracking='all',baseline_tracking=prior)
+ if prior=='all':return dict(result,status='NOT_CALIBRATED_PRIOR_ALREADY_ALL')
+ cur.execute("select set_config('track_functions',%s,true)",(prior,))
+ cur.execute('savepoint frozen_choice_calibration')
+ observations={}
+ try:
+  save(cur,f,p,key,observed=observations)
+  result['status']='DIAGNOSTIC_COMPLETED_NOT_QUALIFICATION'
+ except Exception as error:
+  result.update(status='DIAGNOSTIC_FAILED',sqlstate=getattr(error,'sqlstate',None),error=str(error))
+ finally:
+  cur.execute('rollback to savepoint frozen_choice_calibration')
+  cur.execute('release savepoint frozen_choice_calibration')
+  plan.b.api.admin(cur)
+  cur.execute("select set_config('track_functions','all',true)")
+ result['observations']=observations
+ assert choice.metadata(cur)==before and plan.monetary_state(cur)==physical,'FROZEN_CHOICE_CALIBRATION_EFFECT'
+ result['all_effects_rolled_back']=True
+ return result
+
+
 def profiled_save(cur,f,p=None,observed=None,phase=None):
  # Observe the actual bounded authenticated command, including a failed K3
  # attempt. Transaction-local counters exclude other sessions. No production
@@ -90,14 +118,19 @@ def profiled_save(cur,f,p=None,observed=None,phase=None):
  cur.execute("select set_config('track_functions','all',true)")
  before=profiler.function_times(cur)
  cur.execute('savepoint frozen_choice_profile')
- failed=False
+ failed=False;key=str(uuid.uuid4())
  try:
-  return save(cur,f,p,observed=observed)
- except Exception:
+  return save(cur,f,p,key,observed=observed)
+ except Exception as error:
   failed=True
   # An ordinary 57014 aborts the statement transaction. Restore the command
   # savepoint before observing completed frames, then rethrow that same error.
   cur.execute('rollback to savepoint frozen_choice_profile')
+  if getattr(error,'sqlstate',None)=='57014':
+   try:calibration=calibrate_timeout(cur,f,p,key,prior,phase)
+   except Exception as diagnostic_error:
+    calibration=dict(status='DIAGNOSTIC_ERROR',error=str(diagnostic_error),qualification_credit=False,original_timeout_not_replaced=True)
+   observed.setdefault('timeout_calibrations',[]).append(calibration)
   raise
  finally:
   plan.b.api.admin(cur)

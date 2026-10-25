@@ -296,3 +296,35 @@ same pre-correction mobile initial-denial fixture, not the repaired scenario.
 All13 Originals are retained:12 with complete package gates checked (including
 failed writer_runtime), plus one interrupted Transport Original without restore
 or advisor credit. First failures remain. See coordination209 for A composition.
+
+
+## Later complete outcomes and bounded next diagnostics
+
+Original12616931246:94a5b766/run40229831311 retains1PASS/9INCOMPLETE,97pins and
+complete package/restore/public/session/clone gates. All nine substantive cases
+hit the old null-needed calendar fixture; no race/HTTP acceptance. Original
+12615919246:712e0128/run40230455082 has5PASS/1INCOMPLETE and111 source pins. Cached confirmation7425.644ms, K3 fails at the unchanged8s limit.
+Choice/reader/history/binary product sources are identical to the earlier ffc
+PASS; the later provider added uncalibrated function profiling. Do not assume
+profiling causes the timeout. Completed K3 compile/prepare frames cost3882.822/
+4494.262ms. New provider diagnoses only an already-failed57014 using the SAME
+UUID/payload at the caller's original tracking mode, same8s limit, then rolls
+back all effects and rethrows the ORIGINAL timeout. It earns no qualification
+credit. Two actual local-PG control-flow cases verify original exception identity,
+metadata/physical rollback and settings restoration whether the paired attempt
+succeeds or fails; controlled command/identity, no Native/latency credit.
+
+Actual repaired cutting Auth4826/run40244633432/art12618163466 remains1PASS/
+1INCOMPLETE,164pins/59compiled modules. Mobile now reaches actual committed SAVE,
+retained uncertain envelope and exact receipt checks, but strict readability
+stops at a disabled SELECT opacity0.7 BEFORE actor revocation. No mobile403
+acceptance. Full archive12617369818 matches all seven complete Original JSON
+members byte-for-byte; mobile failure screenshot inspected. Scoped opaque
+form-control colors now fix that surface;4.5 contrast/opacity rejection and all
+case expectations remain exact.59-module real Auth host rebuild passes locally;
+actual fixed browser still required. See both new preparation receipts.
+
+Sixteen complete Originals now retained/read:15 with complete package-gate
+verification, plus interrupted ee1 Transport without restore/advisor credit.
+Native6/40244633440 and Transport10/40244633462 on4826 remain separate pending
+results. Formal5/16, independent_acceptance=false, production_go=false.

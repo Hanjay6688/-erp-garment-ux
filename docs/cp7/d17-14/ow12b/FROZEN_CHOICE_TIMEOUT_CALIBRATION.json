@@ -1,0 +1,65 @@
+{
+  "contract": "cp7.frozen-choice-timeout-calibration.prepared.v2",
+  "base_head": "2f2bdfe5a5748515961422a755b14f880072c07e",
+  "first_failed_source": "712e01285c525f61de402b949de74201029d6cc6",
+  "run_id": 40230455082,
+  "artifact_id": 12615919246,
+  "original_status": "INCOMPLETE",
+  "original_counts": {
+    "PASS": 5,
+    "INCOMPLETE": 1
+  },
+  "original_cached_SAVE_ms": 7425.644,
+  "original_K3_error": "57014 statement timeout at8s",
+  "same_product_choice_reader_history_binary_sources_as_earlier_ffc_pass": true,
+  "uncalibrated_instrumentation_not_assumed_causal": true,
+  "original_K3_completed_profiles": {
+    "frozen_prepare_ms": 4494.262,
+    "reader_ms": 4800.176,
+    "history_compiler_ms": 3882.822,
+    "completed_stock_digest_ms": 1319.614
+  },
+  "diagnostic_contract": {
+    "only_after_original_57014": true,
+    "same_UUID_and_payload": true,
+    "same_RPC_8second_limit": true,
+    "prior_tracking_setting_restored_for_paired_attempt": true,
+    "all_metadata_and_physical_effects_rolled_back": true,
+    "original_failure_always_rethrown": true,
+    "qualification_credit": false,
+    "all_six_case_ids_and_expectations_unchanged": true
+  },
+  "source_sha256": {
+    "scripts/cp7_ow12b_frozen_choice_cases.py": "5d662260254ee8c4e8e9d0f22056601ae8cdfdd2f8daedf9d90fc739afbc4561",
+    "scripts/cp7_ow12b_frozen_choice_calibration_local.py": "70ddec96945dc7280669b1a44a43405ad4943a8d7a8f6b9902c6baa693e74f75",
+    "scripts/cp7_ow12b_frozen_choice_calibration_local.mjs": "20d587391a82ad5e6307e3332f129538a4fb37baf05ecb94c44a96ef2638c333"
+  },
+  "local_control_flow": {
+    "status": "PASS_LOCAL_CONTROL_FLOW_ONLY",
+    "cases": [
+      {
+        "baseline_also_failed": false,
+        "original_exception_rethrown": true,
+        "same_UUID_payload": true,
+        "metadata_and_physical_rollback": true,
+        "tracking_and_timeout_restored": true,
+        "qualification_credit": false
+      },
+      {
+        "baseline_also_failed": true,
+        "original_exception_rethrown": true,
+        "same_UUID_payload": true,
+        "metadata_and_physical_rollback": true,
+        "tracking_and_timeout_restored": true,
+        "qualification_credit": false
+      }
+    ],
+    "actual_profiled_save_and_calibration_helpers": true,
+    "controlled_command_and_identity": true,
+    "latency_or_Native_or_Auth_credit": false,
+    "production_go": false
+  },
+  "initial_local_fixture_SQL_spacing_failure_retained": true,
+  "actual_Native_calibration": false,
+  "production_go": false
+}

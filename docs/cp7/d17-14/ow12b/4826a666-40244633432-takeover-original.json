@@ -1,0 +1,68 @@
+{
+  "contract": "cp7.writer-b-takeover-original-receipt.v1",
+  "head": "4826a666925309ea93aa0421ec544cd2d9b145f3",
+  "run_id": 40244633432,
+  "artifact_id": 12618163466,
+  "artifact_bytes": 76259,
+  "artifact_sha256": "58268f14ce5519220a2925b7db49153cf45b8c991528d00e22fdf4d2ea684794",
+  "Original_read_complete": true,
+  "original_json_sha256": {
+    "FROZEN_CUTTING_AUTH_MOBILE_FAILURE.json": "eed113fc4527604ebb3f0ecee6df9ece41a03d36ad0505613a9c0dd07a224fe9",
+    "T3_BACKUP_RESTORE_DRILL.json": "7a3d340b3b6917adab57b94c53a7a883b0b9706f0e04f1534cfd4ab7c9fdf412",
+    "T3_PACKAGE_FILES_INSTALL.json": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+    "ALIGNED_CHAIN.json": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b",
+    "CP7_OW12B_FROZEN_CUTTING_AUTH.json": "80e5c57c4960ca5f2589edf2e038eae55f0eb567f6613863a292f7b8b406bbcd",
+    "T3_PACKAGE_INSTALL.json": "98b7ad1b30a80c4c80cb711efda552343e918c35fc0da119d29191393b1537cc",
+    "CP7_OW12B_FROZEN_CUTTING_AUTH_CLONE_AUTHORITY.json": "9623122aa25b61d64f8070e8075a1f274418b89d01fa292e29fc5aa98b581300"
+  },
+  "source_pins_verified": 164,
+  "status": "INCOMPLETE",
+  "production_go": false,
+  "independent_acceptance": false,
+  "whole_feature_closed": false,
+  "counts": {
+    "browser": {
+      "INCOMPLETE": 1,
+      "PASS": 1
+    }
+  },
+  "first_failures": [
+    {
+      "id": "OW12B_FROZEN_CUTTING_AUTH_BROWSER_MOBILE_CURRENT_ACCESS_RETAINS_COMMAND",
+      "status": "INCOMPLETE",
+      "error": "locator.evaluate: Error: UNMEASURED_QUANTITY_TEXT_SURFACE:{\"label\":\"Pilih lalu muat pilihan terbaru\",\"tag\":\"SELECT\",\"classes\":\"\",\"backgroundImage\":\"none\",\"opacity\":\"0.7\"}\n    at eval (eval at evaluate (:311:30), <anonymous>:10:144)\n    at UtilityScript.evaluate (<anonymous>:313:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at readable (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_frozen_cutting_auth_browser.mjs:33:25)\n    at shot (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_frozen_cutting_auth_browser.mjs:62:283)\n    at async journey (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_frozen_cutting_auth_browser.mjs:120:4)\n    at async main (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:243:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:259:3"
+    }
+  ],
+  "all_original_package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "public_catalog_preserved": true,
+  "full_native_boundaries_and_sessions_restored": false,
+  "exact_head_source_prefix_fields": [
+    "label",
+    "scope",
+    "source_sha256",
+    "expected_case_count",
+    "required_case_counts",
+    "required_case_ids",
+    "predeclared_case_contract",
+    "predeclared_case_sha256",
+    "target_v2_source_sha256",
+    "frozen_cutting_auth_source_sha256"
+  ],
+  "clone_authority_copies_exact": 1,
+  "actual_Auth_HTTP_credit": false,
+  "actual_AuthProvider_and_Gate_observed_in_passing_cases": true,
+  "actual_compiled_modules": 59,
+  "passing_case_compiled_module_hashes_verified": true,
+  "strict_visible_text_contrast_rows": 196,
+  "default_adopted": false,
+  "official_finance_included": false,
+  "full_factory3600_qualified": false
+}

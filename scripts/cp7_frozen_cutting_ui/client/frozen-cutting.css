@@ -2,4 +2,5 @@
 .frozen-cutting-plan .native-plan-result { color: #172c24; background: #fff; }
 .frozen-cutting-plan input, .frozen-cutting-plan select, .frozen-cutting-plan textarea { color: #172c24; background: #fff; }
 .frozen-cutting-plan input::placeholder, .frozen-cutting-plan textarea::placeholder { color: #5a6b60; opacity: 1; }
+.frozen-cutting-plan :is(input, select, textarea, button):disabled { opacity: 1; color: #536357; -webkit-text-fill-color: currentColor; background: #eef3ef; border-color: #9caaa1; cursor: not-allowed; }
 .frozen-cutting-plan .native-plan-controls input[type="checkbox"] { flex: 0 0 20px; width: 20px; min-width: 20px; height: 20px; }

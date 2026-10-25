@@ -78,7 +78,7 @@
     "code_head": "ee1ebfd1a104cbbdf5d0c4a14cbb1e8cc00a3573",
     "shared_status_head": "714766d1c2d52c8e91bc79671a6ea0f6187ed2e4",
     "active_handoff": "docs/cp7/handoff/WRITER_B_TAKEOVER_20261026.md",
-    "complete_Originals_verified": 12,
+    "complete_Originals_verified": 15,
     "first_cutting_failures_preserved": true,
     "corrected_runs": {
       "Native6": 40235295230,
@@ -109,6 +109,27 @@
         "INCOMPLETE": 1
       },
       "original_read_complete": true
+    },
+    "latest_cutting_Auth_status": {
+      "head": "4826a666925309ea93aa0421ec544cd2d9b145f3",
+      "run_id": 40244633432,
+      "artifact_id": 12618163466,
+      "counts": {
+        "PASS": 1,
+        "INCOMPLETE": 1
+      },
+      "disabled_SELECT_surface_fix_prepared": true
+    },
+    "later_inherited_choice_factory_result": {
+      "head": "712e01285c525f61de402b949de74201029d6cc6",
+      "run_id": 40230455082,
+      "artifact_id": 12615919246,
+      "counts": {
+        "PASS": 5,
+        "INCOMPLETE": 1
+      },
+      "K3_8s_timeout_retained": true,
+      "paired_diagnostic_prepared_no_failure_credit_override": true
     }
   },
   "frozen_cutting_actual_Auth_browser_preparation": {

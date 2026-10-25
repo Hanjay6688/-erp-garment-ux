@@ -1,0 +1,31 @@
+{
+  "contract": "cp7.frozen-cutting-disabled-surface-repair.prepared.v2",
+  "base_head": "2f2bdfe5a5748515961422a755b14f880072c07e",
+  "first_actual_source": "4826a666925309ea93aa0421ec544cd2d9b145f3",
+  "run_id": 40244633432,
+  "artifact_id": 12618163466,
+  "full_visual_artifact_id": 12617369818,
+  "original_counts": {
+    "PASS": 1,
+    "INCOMPLETE": 1
+  },
+  "first_failure": "MOBILE UNCERTAIN screenshot strict surface reader refuses SELECT opacity0.7 before access revocation",
+  "full_and_complete_Original_JSON_members_byte_identical": 7,
+  "original_mobile_failure_image_inspected": true,
+  "prior_SQL_denial_semantic_fixture_corrected": true,
+  "current_mobile403_scenario_qualified": false,
+  "repair": "Opaque scoped disabled form controls, explicit dark text and pale background; native disabled behavior retained",
+  "disabled_color": "#536357",
+  "disabled_background": "#eef3ef",
+  "static_color_contrast_ratio": 5.684,
+  "browser_contrast_threshold_unchanged": 4.5,
+  "unmeasured_surface_refusal_unchanged": true,
+  "source_sha256": {
+    "scripts/cp7_frozen_cutting_ui/client/frozen-cutting.css": "fd8ef0959f74d970e2fd1b693ce48e8db0df7c4c36f386a4408b59dbb08292ac",
+    "scripts/cp7_ow12b_frozen_cutting_auth_browser.mjs": "24ac50214e45db2a6c13427054bb58c03415d40cccc51bcdb2f30a8685e9effa"
+  },
+  "rebuilt_actual_Auth_modules": 59,
+  "default_application_adopted": false,
+  "actual_fixed_browser_qualified": false,
+  "production_go": false
+}
