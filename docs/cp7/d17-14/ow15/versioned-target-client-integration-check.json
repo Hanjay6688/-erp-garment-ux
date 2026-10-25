@@ -19,5 +19,11 @@
   "dependencies": "Exact package-lock installed from local cache; lock unchanged",
   "first_access_inventory_failure_preserved": true,
   "new_Native_or_Auth_credit": false,
-  "production_go": false
+  "production_go": false,
+  "related_UI_test_files": 8,
+  "related_UI_tests": 138,
+  "total_distinct_files": 12,
+  "total_tests": 303,
+  "related_UI_log_sha256": "b2ccc2c8c42200535f72e58d819eea18116ba96e6b777f03d81133e66fd663e3",
+  "predecessor_backend_ownership": "PASS_AT_EXACT_CP5_BASE_6d4cda118f5d28d1f039cc0ecf318d0866f55c2c"
 }
