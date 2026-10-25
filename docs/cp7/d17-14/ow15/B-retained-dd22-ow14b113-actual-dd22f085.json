@@ -1,0 +1,38 @@
+{
+  "name": "CP7_OW14B_RULES.json",
+  "status": "PASS",
+  "head": "dd22f085a6da43f186e5f92e6f5989a0bd595b21",
+  "run_id": 40202855167,
+  "job_id": 121197502440,
+  "artifact_id": 12603331503,
+  "zip_bytes": 1438198,
+  "zip_sha256": "9aeeffecc2a7eb894749d306bb8f813b13cf5931694588b00f7df1a5f710b65b",
+  "bytes": 13689926,
+  "sha256": "f289677af0193ec8db2f10ec88af53da9ae51b500d0c3a5d6431d2911f69201c",
+  "archive_member": "CP7_OW14B_RULES.json",
+  "counts": {
+    "native": 61,
+    "races": 34,
+    "http": 7,
+    "browser": 11
+  },
+  "all_original_JSON_files": 5,
+  "source_prefix_fields_verified": 8,
+  "source_prefix_database_executed": false,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "full_boundary_public_WIB_sessions_preserved": true,
+  "diagnostic_repeat": false,
+  "new_speed_or_acceptance_credit": false,
+  "full_A_chain_qualified": false,
+  "actual_visual_QA_in_this_intake": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

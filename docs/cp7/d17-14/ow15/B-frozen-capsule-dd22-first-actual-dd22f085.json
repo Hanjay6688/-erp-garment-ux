@@ -1,0 +1,62 @@
+{
+  "name": "CP7_OW12B_FROZEN_CAPSULE.json",
+  "status": "INCOMPLETE",
+  "head": "dd22f085a6da43f186e5f92e6f5989a0bd595b21",
+  "run_id": 40202855125,
+  "job_id": 121197502074,
+  "artifact_id": 12602988498,
+  "zip_bytes": 162661,
+  "zip_sha256": "0c3f9ba1e91a53a3ab1af1b32685d13274b3a807b6cca4f465329681260635cc",
+  "bytes": 1422210,
+  "sha256": "33f33663660cc1addfae58b3315ccff079d48f20d7dde1e0a890fb0624961268",
+  "archive_member": "CP7_OW12B_FROZEN_CAPSULE.json",
+  "source_pins_verified": 67,
+  "source_prefix_fields_verified": 10,
+  "counts": {
+    "PASS": 3,
+    "INCOMPLETE": 1
+  },
+  "all_original_JSON_files": 5,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "full_boundary_public_and_sessions_restored": true,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "older_qualified_8f_result_preserved": true,
+  "product_SQL_changed_by_A": false,
+  "full_A_chain_qualified": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "first_failure_phase": "Negative tampering control unpacked a three-value refusal as two values",
+  "failure": "too many values to unpack (expected 2)",
+  "source_line": "state,message=native.plan.refusal(cur,lambda:prepare(cur,changed,q))",
+  "observed_volume_case_PASS": true,
+  "ordered_volume_calls": [
+    {
+      "phase": "CAPTURE_FROZEN",
+      "name": "cp7_frozen_analysis_v2.source",
+      "millis": 3368.637
+    },
+    {
+      "phase": "UNCHANGED_COMPILER_SAME_ARGUMENTS",
+      "name": "cp7_history_bounded.compile",
+      "millis": 4474.139
+    },
+    {
+      "phase": "PREPARE_SEALED",
+      "name": "cp7_frozen_analysis_v2.prepare",
+      "millis": 4970.474
+    }
+  ],
+  "Native_component_qualified": false,
+  "request_or_unit_integrated": false,
+  "source_preflight_pass_is_not_runtime_pass": true,
+  "all_nine_tampering_controls_NOT_qualified": true,
+  "statement_limit": "8s",
+  "stable_latency_or_factory_SLA_claim": false
+}

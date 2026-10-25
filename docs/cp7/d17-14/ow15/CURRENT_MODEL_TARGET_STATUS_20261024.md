@@ -51,14 +51,23 @@ akses/keuangan/proses server, terakhir 1.200 SKU × tiga ukuran dengan angka
 keuangan dan HPP resmi. Semua tujuh deklarasi uji performa belum diikat;
 belum ada hasil runtime A untuk kandidat ini.
 
-[Kandidat terbaru B `dd22f085`](B-dd22-initial-component-intake.json)
+[Kandidat terbaru B `dd22f085`](B-dd22-complete-intake.json)
 menambah fungsi privat untuk mengambil satu salinan sumber lengkap lalu
 menjalankan mesin hitung yang sama terhadap salinan tersebut. Belum ada
 pemasangan ke jalur permintaan aplikasi atau unit pekerjaan, dan belum masuk
-susunan A. Uji komponen pengambilan sumber baru masih berjalan. Pada kepala
-kode ini, komponen stok empat kasus dan dua regresi lama berjumlah 36 kasus
-sudah lulus; pengulangan diagnostik empat kasus pada kepala sebelumnya
-disimpan terpisah tanpa menambah klaim kecepatan atau penerimaan.
+susunan A. Pada kepala kode ini, komponen stok empat kasus dan tiga kelompok
+regresi lama berjumlah 149 kasus sudah lulus. Pengulangan diagnostik empat
+kasus pada kepala sebelumnya disimpan terpisah tanpa menambah klaim kecepatan
+atau penerimaan.
+
+[Pengambilan sumber baru menghasilkan tiga PASS dan satu INCOMPLETE](B-frozen-capsule-dd22-first-actual-dd22f085.json).
+Alat uji kontrol penolakan menerima tiga bagian hasil, tetapi membukanya sebagai
+dua bagian. Kontrol penolakan belum lengkap, sehingga komponen tetap belum
+lulus. Katalog, perbandingan seluruh hasil 1.200 SKU × tiga ukuran, dan hasil
+tersimpan sesudah transaksi baru lulus pada kasus masing-masing. Pemulihan
+data, CP6 dan advisor juga lulus. Pengambilan sumber sekitar 3,37 detik dan persiapan
+4,97 detik adalah pengamatan dua panggilan terpisah dalam satu kasus; bukan
+waktu seluruh aplikasi, jaminan kapasitas, atau kelulusan keuangan pabrik.
 
 [Uji pabrik B terbaru](B-factory-dd22-first-actual-dd22f085.json) tetap
 INCOMPLETE: permintaan pendahulu melewati batas delapan detik. Pemulihan

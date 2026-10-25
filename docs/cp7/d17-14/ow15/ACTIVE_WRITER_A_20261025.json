@@ -1,5 +1,5 @@
 {
-  "recorded_at_utc": "2026-10-25T15:03:32.389013+00:00",
+  "recorded_at_utc": "2026-10-25T15:09:19.225643+00:00",
   "role": "A finance writer/integrator replacing Claude",
   "slogan": [
     "VENI. VIDI. VICI. ERP. \u2014 I CONQUERED ERP.",
@@ -1800,13 +1800,10 @@
   },
   "B_frozen_capsule_candidate_intake": {
     "head": "dd22f085a6da43f186e5f92e6f5989a0bd595b21",
-    "receipt": "B-dd22-initial-component-intake.json",
+    "receipt": "B-dd22-complete-intake.json",
     "latest_head_verified_cases": 40,
     "previous_head_diagnostic_cases": 4,
-    "remaining_runs": {
-      "private_frozen_capsule4": 40202855125,
-      "retained_ow14b113": 40202855167
-    },
+    "remaining_runs": {},
     "request_or_unit_integrated": false,
     "merged_into_A": false,
     "full_factory3600_qualified": false,
@@ -1854,6 +1851,19 @@
       "prior_result_assembly_failure_preserved_artifact": 12597526134,
       "actual_complete_1200x3_comparison_qualified": false,
       "stable_latency_or_factory_SLA_claim": false
-    }
+    },
+    "latest_head_case_counts": {
+      "PASS": 157,
+      "INCOMPLETE": 2
+    },
+    "all_case_counts": {
+      "PASS": 161,
+      "INCOMPLETE": 2
+    },
+    "all_original_JSON_files": 35,
+    "frozen_capsule_status": "INCOMPLETE_3PASS_1INCOMPLETE",
+    "frozen_capsule_failure": "Test unpacks two values from an established three-value refusal helper; source and first failure preserved",
+    "frozen_capsule_first_failure_receipt": "B-frozen-capsule-dd22-first-actual-dd22f085.json",
+    "all_nine_tampering_controls_qualified": false
   }
 }

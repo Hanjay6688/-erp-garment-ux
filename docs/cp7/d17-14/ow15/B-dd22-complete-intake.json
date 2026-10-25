@@ -1,0 +1,160 @@
+{
+  "recorded_at_utc": "2026-10-25T15:09:19.225643+00:00",
+  "head": "dd22f085a6da43f186e5f92e6f5989a0bd595b21",
+  "components": [
+    {
+      "kind": "B-binary-dd22-native4",
+      "name": "CP7_OW12B_STOCK_BINARY.json",
+      "status": "PASS",
+      "head": "dd22f085a6da43f186e5f92e6f5989a0bd595b21",
+      "run_id": 40202855134,
+      "job_id": 121197502158,
+      "artifact_id": 12602568285,
+      "zip_bytes": 158736,
+      "zip_sha256": "0fd91b552c87de02dd5580ce48d1c6d4923dd352e8bb014950969cadf335eeff",
+      "bytes": 1387670,
+      "sha256": "1d480dd3c0b2666196dc0ae5eb4358617db3ce8881056c4318c031d41e61d941",
+      "archive_member": "CP7_OW12B_STOCK_BINARY.json",
+      "case_counts": {
+        "PASS": 4
+      }
+    },
+    {
+      "kind": "B-retained-dd22-ow16-16",
+      "name": "CP7_OW16_AUTOMATIC_STATUS.json",
+      "status": "PASS",
+      "head": "dd22f085a6da43f186e5f92e6f5989a0bd595b21",
+      "run_id": 40202855197,
+      "job_id": 121197502661,
+      "artifact_id": 12602786503,
+      "zip_bytes": 251219,
+      "zip_sha256": "8545d4f9510f6b10446a2ad5858211d25a1b75ff449a0d2ef69b1ab35503844e",
+      "bytes": 2287819,
+      "sha256": "df3e3ddec2d25e17a30b292a32e8b98aea415bee29132fbd82ac3f5288d31050",
+      "archive_member": "CP7_OW16_AUTOMATIC_STATUS.json",
+      "case_counts": {
+        "PASS": 16
+      }
+    },
+    {
+      "kind": "B-retained-dd22-ow13b20",
+      "name": "CP7_OW13B_COMPLETE_HISTORY.json",
+      "status": "PASS",
+      "head": "dd22f085a6da43f186e5f92e6f5989a0bd595b21",
+      "run_id": 40202855119,
+      "job_id": 121197502086,
+      "artifact_id": 12602448417,
+      "zip_bytes": 324989,
+      "zip_sha256": "694512997f5acae270ab480ef67fca542a83214e0e3c65a13886054f2a3bc6d2",
+      "bytes": 2989044,
+      "sha256": "81e91fdf09f34083da708c4ed3116250689abfb80debcb93623ec0b89274f435",
+      "archive_member": "CP7_OW13B_COMPLETE_HISTORY.json",
+      "case_counts": {
+        "PASS": 20
+      }
+    },
+    {
+      "kind": "B-retained-dd22-ow14b113",
+      "name": "CP7_OW14B_RULES.json",
+      "status": "PASS",
+      "head": "dd22f085a6da43f186e5f92e6f5989a0bd595b21",
+      "run_id": 40202855167,
+      "job_id": 121197502440,
+      "artifact_id": 12603331503,
+      "zip_bytes": 1438198,
+      "zip_sha256": "9aeeffecc2a7eb894749d306bb8f813b13cf5931694588b00f7df1a5f710b65b",
+      "bytes": 13689926,
+      "sha256": "f289677af0193ec8db2f10ec88af53da9ae51b500d0c3a5d6431d2911f69201c",
+      "archive_member": "CP7_OW14B_RULES.json",
+      "case_counts": {
+        "PASS": 113
+      }
+    },
+    {
+      "kind": "B-factory-dd22-first",
+      "name": "CP7_OW11_MODEL_TARGET_V2_FACTORY.json",
+      "status": "INCOMPLETE",
+      "head": "dd22f085a6da43f186e5f92e6f5989a0bd595b21",
+      "run_id": 40202855089,
+      "job_id": 121197502084,
+      "artifact_id": 12602769430,
+      "zip_bytes": 119239,
+      "zip_sha256": "f6466f639a67d3305cb774b35b52df6a33e5f8473827cc10bf08aa8e14d52663",
+      "bytes": 981710,
+      "sha256": "b802370d9c67fa9026a9514905cb21f914478675a895937d23884c76edca5891",
+      "archive_member": "CP7_OW11_MODEL_TARGET_V2_FACTORY.json",
+      "case_counts": {
+        "PASS": 1,
+        "INCOMPLETE": 1
+      }
+    },
+    {
+      "kind": "B-frozen-capsule-dd22-first",
+      "name": "CP7_OW12B_FROZEN_CAPSULE.json",
+      "status": "INCOMPLETE",
+      "head": "dd22f085a6da43f186e5f92e6f5989a0bd595b21",
+      "run_id": 40202855125,
+      "job_id": 121197502074,
+      "artifact_id": 12602988498,
+      "zip_bytes": 162661,
+      "zip_sha256": "0c3f9ba1e91a53a3ab1af1b32685d13274b3a807b6cca4f465329681260635cc",
+      "bytes": 1422210,
+      "sha256": "33f33663660cc1addfae58b3315ccff079d48f20d7dde1e0a890fb0624961268",
+      "archive_member": "CP7_OW12B_FROZEN_CAPSULE.json",
+      "case_counts": {
+        "PASS": 3,
+        "INCOMPLETE": 1
+      }
+    },
+    {
+      "kind": "B-binary-29f-diagnostic4",
+      "name": "CP7_OW12B_STOCK_BINARY.json",
+      "status": "PASS",
+      "head": "29f6bb8dc8326ef5e24608dd4cd0f7c4aad2258c",
+      "run_id": 40193227282,
+      "job_id": 121168502956,
+      "artifact_id": 12599401139,
+      "zip_bytes": 158750,
+      "zip_sha256": "318ecce62c68e25d55198deb173a8c60d664f5ed8a126d458d55e46d070f5940",
+      "bytes": 1387669,
+      "sha256": "400f38af223fc4fe44dfa26548724e16fbe141c0410f8e7c5f21fe8d96af76cc",
+      "archive_member": "CP7_OW12B_STOCK_BINARY.json",
+      "case_counts": {
+        "PASS": 4
+      }
+    }
+  ],
+  "all_original_JSON_files": 35,
+  "case_executions": 163,
+  "case_counts": {
+    "PASS": 161,
+    "INCOMPLETE": 2
+  },
+  "latest_head_case_counts": {
+    "PASS": 157,
+    "INCOMPLETE": 2
+  },
+  "prior_diagnostic_case_executions": 4,
+  "frozen_capsule_status": "INCOMPLETE_3PASS_1INCOMPLETE",
+  "frozen_capsule_failure": "Test unpacks two values from an established three-value refusal helper; source and first failure preserved",
+  "factory_status": "INCOMPLETE_PREDECESSOR_8S_TIMEOUT",
+  "source_preflight": {
+    "status": "PASS",
+    "native_cases_declared": 4,
+    "source_pins": 67,
+    "actual_F05_prefix_and_contract": true,
+    "missing_or_mixed_routes_refused": 86,
+    "original_non_stock_admission_copied_exactly": true,
+    "compiler_unchanged": true,
+    "actual_Native": false,
+    "actual_Auth_HTTP_credit": false,
+    "request_or_unit_integrated": false,
+    "production_go": false
+  },
+  "B_product_SQL_changed_by_A": false,
+  "request_or_unit_integrated": false,
+  "merged_into_A": false,
+  "full_factory3600_qualified": false,
+  "production_go": false,
+  "independent_acceptance": false
+}
