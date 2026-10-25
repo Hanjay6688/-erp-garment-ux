@@ -1,0 +1,17 @@
+{
+  "status": "LOCAL_ADMISSION_FAILED_BEFORE_DB",
+  "candidate_head": "231befa58c87eff21c9f38a7b48c58d4b6dfd508",
+  "candidate_tree": "e8dd9e5f5fd8b8548ad091527c846acaafa952b9",
+  "local_head": "17f69d5bb01d6827cd1411a364fb6ce7c421e7b7",
+  "source_pins": 3468,
+  "actual_prerequisites": 12,
+  "error": "component source scan found no suffix source_sha256 dictionary for MODEL_TARGET_SOURCE_V2_ORIGINAL_REPORT",
+  "actual_source_field": "source_v2_sha256",
+  "actual_source_pins": 19,
+  "actual_source_artifact": 12589590761,
+  "actual_source_head": "621eab2301de59685c01cd59d082ccb36fa135b0",
+  "product_SQL_changed": false,
+  "business_assertions_changed": false,
+  "database_started": false,
+  "production_go": false
+}

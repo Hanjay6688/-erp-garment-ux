@@ -23,6 +23,8 @@ CONTRACT='cp7.current-versioned-target-native36-qualification.v1'
 
 
 def admitted(repo,here,ids,product,business):
+    spec=importlib.util.spec_from_file_location('versioned_exact_component_source_fields',here/'component_sources.py')
+    component_sources=importlib.util.module_from_spec(spec);spec.loader.exec_module(component_sources)
     spec=importlib.util.spec_from_file_location('qualified_scoped_model_native30',here/'frozen_admission.py')
     frozen=importlib.util.module_from_spec(spec);spec.loader.exec_module(frozen)
     predecessor=frozen.invoke()
@@ -92,14 +94,7 @@ def admitted(repo,here,ids,product,business):
             assert actual['required_case_ids_pass'] and actual['required_case_counts_pass']
             assert actual['observed_case_count']==sum(map(len,expected.values()))
             assert all(actual['restore_components'].values())
-            found=0
-            for key,values in actual.items():
-                if key.endswith('source_sha256')and isinstance(values,dict):
-                    found+=1
-                    for path,digest in values.items():
-                        relative=path if path.startswith(('scripts/','src/'))else'scripts/'+path
-                        assert sha256((repo/relative).read_bytes()).hexdigest()==digest,(variable,relative)
-            assert found
+            component_sources.verify(repo,variable,actual)
             for group,names in expected.items():
                 row=actual[group];cases=row['races'if group=='races'else'cases']
                 assert set(cases)==set(names)and row['counts']=={'PASS':len(names)}
