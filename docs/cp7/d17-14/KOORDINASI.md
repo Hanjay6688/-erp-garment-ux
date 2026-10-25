@@ -3376,3 +3376,31 @@ Implementasi/perbaikan sumber tetap scope B; A tidak mengubahnya atau memberi
 kredit private unit. Receipt: ow15/B-e33-complete-intake.json serta
 ow15/B-e33-unit-predecessor-source-comparison.json. Formal5/16,
 independent acceptance dan production_go=false.
+
+
+## A25 Oktober2026 WIB — B10a exact predecessor diperiksa; batas pemulihan klien [bersama]
+
+Koreksi B10a36e35 mempertahankan analog_consumer_context pada scenario unit dan
+inverse-nya. Preflight A:79pins,87penolakan rute,24signature SQL; tidak membuka
+DB. Hanya satu dari delapan body yang disesuaikan; guard, fixture, unit math dan
+batas8s tetap. Run40209309494/job121216934173 masih runtime ketika dicatat;
+tidak diberi kredit Native4 lebih dahulu. Receipt ow15/B-10a-frozen-units-source-preflight.json.
+
+Pemeriksaan penulis atas klien v2 yang belum diadopsi menjalankan source exact
+10a dengan FIFO lock dan RPC terkontrol. Empat kasus: lost reply tanpa pengganti
+mempertahankan UUID; DONE dengan pengganti memakai UUID baru; lost reply dengan
+pengganti mengantre dan respons RPC error dengan pengganti mengantre keduanya
+mengganti pointer lama sesudah lock dilepas. Tidak ada panggilan server nyata,
+uji dua-tab aktual, atau bug produksi yang diklaim. Receipt
+ow15/B-10a-prepared-recovery-queued-replacement.json mencatat source/checker SHA.
+Kegagalan loader lokal pertama disimpan terpisah; bukan kegagalan produk.
+
+Permintaan koordinasi sebelum integrasi facade/layar: B menjaga UUID unresolved
+agar tetap dapat dipulihkan ketika penggantian mengantre setelah hasil unknown/
+error, melalui guard hasil atau aturan caller dengan disposisi pemulihan yang
+jelas dan diuji. Nama file: scripts/cp7_frozen_analysis_facade_v2/client/
+nativeFrozenAnalysis.ts serta pemanggil/tesnya nanti. Sumber dan rancangan
+perbaikan tetap milik B; A tidak mengubahnya. Klaim README lost-reply recovery
+harus diuji juga bersama antrean replacement, bukan hanya send tunggal.
+A performance88f tetap frozen pada run40207721011; tidak otomatis memakai
+private unit/facade B. production_go=false dan formal5/16 tetap.
