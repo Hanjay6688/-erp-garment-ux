@@ -18,7 +18,7 @@ async function readable(panel){
    const s=getComputedStyle(el),label=[...el.childNodes].filter(n=>n.nodeType===Node.TEXT_NODE).map(n=>n.textContent).join(' ').trim()
    if(!label||!el.getClientRects().length||s.visibility!=='visible')continue
    const layers=[];let bg=null
-   for(let p=el;p;p=p.parentElement){const c=getComputedStyle(p),v=rgb(c.backgroundColor);if(c.backgroundImage!=='none'||c.opacity!=='1')throw Error('UNMEASURED_QUANTITY_TEXT_SURFACE');if(v.length===3||v[3]===1){bg=v.slice(0,3);break}layers.push(v)}
+   for(let p=el;p;p=p.parentElement){const c=getComputedStyle(p),v=rgb(c.backgroundColor);if(c.backgroundImage!=='none'||c.opacity!=='1')throw Error('UNMEASURED_QUANTITY_TEXT_SURFACE:'+JSON.stringify({label:label.slice(0,90),tag:p.tagName,classes:p.className,backgroundImage:c.backgroundImage,opacity:c.opacity}));if(v.length===3||v[3]===1){bg=v.slice(0,3);break}layers.push(v)}
    if(!bg)throw Error('MISSING_QUANTITY_SURFACE')
    for(const v of layers.reverse())bg=bg.map((x,i)=>v[i]*(v[3]??1)+x*(1-(v[3]??1)))
    const record=(label,color)=>{const f=rgb(color),fg=bg.map((x,i)=>f[i]*(f[3]??1)+x*(1-(f[3]??1))),a=lum(fg),b=lum(bg);out.push({label:label.slice(0,90),ratio:(Math.max(a,b)+.05)/(Math.min(a,b)+.05)})}
@@ -64,8 +64,13 @@ async function journey(ui,today,built,mobile){
   assert.ok(unknown>0);assert.deepEqual(await stored(),held)
   await ui.expect.poll(()=>page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true);await shot('READY')
   if(!mobile){
-   const target=panel.locator(`[data-quantity-target="${f.target}"]`);await ui.expect(target).toBeVisible()
-   const read=await response(page,ANALOG,()=>target.getByRole('button',{name:'Lihat produk pembanding',exact:true}).click());assert.equal(read.status,200);assert.equal(read.body.request_id,request);assert.equal(read.body.run_id,exact.page_set.run_id);assert.equal(read.body.bounded_request_contract,'cp7.bounded-analysis-request.v2');assert.deepEqual(read.body.reference,exact.page_set.reference);assert.equal(read.body.identity_hash,exact.page_set.identity_hash);assert.equal(read.body.actor_scope_id,actor)
+   // An unreviewed target need not have a production recommendation. Search the
+   // complete immutable header, just as a user does for a new product.
+   const labels=JSON.parse(exact.page_set.header.body).product_labels.filter(p=>p.target_key===f.target);assert.equal(labels.length,1)
+   await panel.getByText('Cari produk untuk melihat pembanding',{exact:true}).click()
+   await panel.getByRole('searchbox',{name:'Cari SKU atau nama produk yang memerlukan pembanding',exact:true}).fill(labels[0].sku)
+   const target=panel.locator(`[data-analog-choice="${f.target}"]`);await ui.expect(target).toBeVisible()
+   const read=await response(page,ANALOG,()=>target.getByRole('button',{name:'Lihat pembanding '+labels[0].sku,exact:true}).click());assert.equal(read.status,200);assert.equal(read.body.request_id,request);assert.equal(read.body.run_id,exact.page_set.run_id);assert.equal(read.body.bounded_request_contract,'cp7.bounded-analysis-request.v2');assert.deepEqual(read.body.reference,exact.page_set.reference);assert.equal(read.body.identity_hash,exact.page_set.identity_hash);assert.equal(read.body.actor_scope_id,actor)
    await ui.expect(page.getByRole('region',{name:'Kandidat produk pembanding',exact:true})).toBeVisible();await shot('ANALOG');await page.getByRole('button',{name:'Tutup produk pembanding',exact:true}).click()
    await page.reload();await ui.expect(rows().first()).toBeVisible({timeout:180000});assert.deepEqual(await stored(),held);assert.deepEqual(state(),after);await shot('RECOVERED')
   }else{

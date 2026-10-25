@@ -1,0 +1,47 @@
+{
+  "contract": "cp7.frozen-quantity-actual-browser-repair.v1",
+  "base_head": "8b25f0261e2d11949bd01caf1d9d8de357fa3127",
+  "status": "PREPARED_REPAIR_ACTUAL_BROWSER_PENDING",
+  "first_failure": "docs/cp7/d17-14/ow12b/ffc775d0-40227891691-browser-original-incomplete.json",
+  "actual_first_run": "40227891691",
+  "first_outcomes": {
+    "INCOMPLETE": 2
+  },
+  "original_failure_preserved": true,
+  "repair": [
+    "Scoped prepared quantity disabled buttons use explicit dark text, muted opaque background, opacity1; unrelated panels unchanged.",
+    "Desktop analog journey finds target SKU in complete immutable Native header and uses existing full-target search; no assumption that an unreviewed target has a production recommendation.",
+    "Unmeasured-surface exception retains offending label, ancestor tag/classes, background image and opacity."
+  ],
+  "oracle_unchanged": "Every visible direct text and mobile pseudo-label requires measured solid/composited background and contrast>=4.5; disabled controls are included.",
+  "compiled_disabled_surface": {
+    "selector": ".native-bounded-quantity.frozen-choice-panel button:disabled",
+    "compiled_rule": ".native-bounded-quantity.frozen-choice-panel button:disabled{color:#46594e;opacity:1;cursor:not-allowed;background:#edf1ee}",
+    "compound_specificity_exceeds_shared_quantity_rule": true,
+    "actual_browser_computed_style_verified": false
+  },
+  "client_DOM_tests": {
+    "files": 4,
+    "passed": 57,
+    "failed": 0
+  },
+  "client_test_log_sha256": "654eb24084432f2c47383ee22c21ff288b45afaf38a2b980e395925b2d4b3f3f",
+  "prepared_quantity_TypeScript": "PASS",
+  "prepared_Auth_build_modules": 43,
+  "actual_Auth_build_only": true,
+  "closed_preflight_checks": {
+    "quantity_source_pins": 153,
+    "choice_source_pins": 140,
+    "missing_mixed_refusals_each": 98
+  },
+  "source_sha256": {
+    "scripts/cp7_frozen_choice_ui/client/frozen-choice.css": "d95922400710031a30e69dc1afc151c07005c7c2eb36d43f2ba9f1ca49d89144",
+    "scripts/cp7_ow12b_frozen_quantity_auth_browser.mjs": "af0fbeef8c7f3111333a59f57655767979e2df0536ea8f25a10178bbd6471d62"
+  },
+  "SQL_and_fixture_and_default_app_unchanged": true,
+  "actual_new_Auth_Browser2_qualified": false,
+  "full_factory3600_qualified": false,
+  "cutting_SAVE_qualified": false,
+  "formal_acceptance": "5/16",
+  "production_go": false
+}

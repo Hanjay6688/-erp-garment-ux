@@ -4196,3 +4196,31 @@ and payload strings are never rewritten. Shared ordinary staged routes unchanged
 build PASS. No SQL/default installation or new Native/browser qualification.
 A read-only head remains7de9d4b9. Continue actual prepared cutting/quantity/choice
 and measured K3 performance work. Formal5/16; production_go=false.
+
+
+## 205. B26 Oktober2026 WIB — first actual quantity Auth failure retained and repaired
+
+ffc775d0 actual Auth Browser2 run40227891691/job121273111015 produced2INCOMPLETE
+at READY all-text surface validation. Original12612308060: all8JSON,152pins,
+exacthead F05, actual public request/units17/DONE/page bytes/hash/identity,
+CP6/advisor/preuse22/publicrestore/Authcleanup/WIB26 fullyverified. Four retained
+screenshots viewed; mobile24card full text is not independently inspected.
+No later analog/stale/revoked journey credit. Buildmodule pins absent because
+both cases failed before return; no invented43runtime-module verification.
+
+Concrete CSS shared disabled opacity.6 conflicts with the strict all-text oracle.
+Compound prepared quantity selector now enforces opaque muted background and
+dark text with opacity1. Desktop target can lack a production recommendation;
+journey now uses full immutable header labels and existing all-target search.
+No fixture/policy/SQL change. Diagnostics include offending label/ancestor/style.
+Threshold4.5 and disabled-control inclusion unchanged.57client/DOM tests and
+prepared TypeScript PASS;43module local build retains compound CSS rule. Actual
+corrected Auth runtime remains pending. Two closed preflights PASS,98refusals each.
+
+Additional Original98c Reader4 run40222957664 andab Work6 run40222386724 fully
+verifiedPASS. Oldab Choice6 run40222386774 remains5PASS/1INCOMPLETE: first cached
+SAVE8100.183ms cancels in second current source stock_digest, before any K3SAVE.
+Do not relabel that failure as K3 or credit later98c optimization to oldab.
+All5JSON/head/source/declaration/public/CP6/Auth/WIB26/restoration verified each.
+Continue actual choice/cutting/quantity and measured K3 repair. Formal5/16;
+CP7C/independent/production_go=false.

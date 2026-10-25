@@ -1789,5 +1789,49 @@
     "TypeScript": "PASS",
     "actual_Native_new_credit": false,
     "production_go": false
-  }
+  },
+  "frozen_quantity_actual_Auth_first_failure": {
+    "status": "2INCOMPLETE_AT_READY_ALL_TEXT_SURFACE",
+    "receipt": "docs/cp7/d17-14/ow12b/ffc775d0-40227891691-browser-original-incomplete.json",
+    "repair_receipt": "docs/cp7/d17-14/ow12b/frozen-quantity-actual-browser-repair.json",
+    "actual_Auth_ran": true,
+    "actual_Browser2_qualified": false,
+    "later_analog_stale_access_not_executed": true,
+    "source_pins": 152,
+    "corrected_runtime_pending": true,
+    "production_go": false
+  },
+  "additional_complete_Originals_reader_work_choice": [
+    {
+      "receipt": "docs/cp7/d17-14/ow12b/98c39dd5-40222957664-original-pass.json",
+      "head": "98c39dd57270baefd2eb3bbed642d68b25b9faab",
+      "run_id": 40222957664,
+      "status": "PASS",
+      "counts": {
+        "native": 4
+      },
+      "Original_read_complete": true
+    },
+    {
+      "receipt": "docs/cp7/d17-14/ow12b/ab37505d-40222386724-original-pass.json",
+      "head": "ab37505de365d4345d9af0f9ba552fb7f9b1b913",
+      "run_id": 40222386724,
+      "status": "PASS",
+      "counts": {
+        "native": 6
+      },
+      "Original_read_complete": true
+    },
+    {
+      "receipt": "docs/cp7/d17-14/ow12b/ab37505d-40222386774-original-incomplete.json",
+      "head": "ab37505de365d4345d9af0f9ba552fb7f9b1b913",
+      "run_id": 40222386774,
+      "status": "INCOMPLETE",
+      "counts": {
+        "PASS": 5,
+        "INCOMPLETE": 1
+      },
+      "Original_read_complete": true
+    }
+  ]
 }

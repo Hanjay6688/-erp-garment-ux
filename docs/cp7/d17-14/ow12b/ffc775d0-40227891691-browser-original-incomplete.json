@@ -1,0 +1,148 @@
+{
+  "contract": "cp7.complete-original-outcome-retained.v1",
+  "head": "ffc775d01c5b1ae8ae5de71fa548d41cc3a25447",
+  "run_id": 40227891691,
+  "job_id": 121273111015,
+  "artifact_id": 12612308060,
+  "bytes": 103802,
+  "artifact_sha256": "f7c5c61dd25ee8af3ca8f7a4396bc7ec5467f15175d9c0e644827301be5cbc72",
+  "status": "INCOMPLETE",
+  "Original_read_complete": true,
+  "all_Original_JSON_files_read": 8,
+  "original_json_sha256": {
+    "CP7_OW12B_FROZEN_QUANTITY_AUTH.json": "99ce62b688cb65f94ed2b9f813f5a2bee21dcd15b5cda11ef910a77ebf16890d",
+    "T3_BACKUP_RESTORE_DRILL.json": "3ad7ccdfc642456dcd8213677db9b6e6e070f90a9ed2e8d218af510c7233634b",
+    "T3_PACKAGE_FILES_INSTALL.json": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+    "ALIGNED_CHAIN.json": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b",
+    "FROZEN_QUANTITY_AUTH_DESKTOP_FAILURE.json": "d1a2a15ee00df80ca6073e0e877675adde628b00d390098a441a852c8c39175a",
+    "FROZEN_QUANTITY_AUTH_MOBILE_FAILURE.json": "68bca6f912f1ec762f9274cf2ecb362b982df13aa96610aa030e41cdd7e67a02",
+    "T3_PACKAGE_INSTALL.json": "5012f5e92a27eb7c47d3651c26eddc8f157f60cb752f48227a6049cf6e7142bd",
+    "CP7_OW12B_FROZEN_QUANTITY_AUTH_CLONE_AUTHORITY.json": "9623122aa25b61d64f8070e8075a1f274418b89d01fa292e29fc5aa98b581300"
+  },
+  "actual_exact_head_F05_source_prefix_compared": [
+    "source_sha256",
+    "expected_case_count",
+    "required_case_counts",
+    "required_case_ids",
+    "predeclared_case_contract",
+    "predeclared_case_sha256",
+    "target_v2_source_sha256",
+    "frozen_quantity_auth_source_sha256"
+  ],
+  "all_source_fields_and_declaration_match": true,
+  "source_prefix_database_executed": false,
+  "source_pins": 152,
+  "browser_built_module_pins_not_returned_due_to_failure": true,
+  "product_paths_byte_identical_between_recorded_refs": true,
+  "counts": {
+    "INCOMPLETE": 2
+  },
+  "case_facts": {
+    "OW12B_FROZEN_QUANTITY_AUTH_BROWSER_DESKTOP_DONE_RECOVERY_ANALOG": {
+      "status": "INCOMPLETE",
+      "error": "locator.evaluate: Error: UNMEASURED_QUANTITY_TEXT_SURFACE\n    at eval (eval at evaluate (:311:30), <anonymous>:8:144)\n    at UtilityScript.evaluate (<anonymous>:313:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at readable (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_frozen_quantity_auth_browser.mjs:14:25)\n    at shot (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_frozen_quantity_auth_browser.mjs:38:288)\n    at async journey (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_frozen_quantity_auth_browser.mjs:65:110)\n    at async main (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:243:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:259:3",
+      "business_day": {
+        "planned": "2026-10-26",
+        "before": "2026-10-26",
+        "after": "2026-10-26"
+      }
+    },
+    "OW12B_FROZEN_QUANTITY_AUTH_BROWSER_MOBILE_STALE_CURRENT_ACCESS": {
+      "status": "INCOMPLETE",
+      "error": "locator.evaluate: Error: UNMEASURED_QUANTITY_TEXT_SURFACE\n    at eval (eval at evaluate (:311:30), <anonymous>:8:144)\n    at UtilityScript.evaluate (<anonymous>:313:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at readable (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_frozen_quantity_auth_browser.mjs:14:25)\n    at shot (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_frozen_quantity_auth_browser.mjs:38:288)\n    at async journey (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_frozen_quantity_auth_browser.mjs:65:110)\n    at async main (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:243:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:259:3",
+      "business_day": {
+        "planned": "2026-10-26",
+        "before": "2026-10-26",
+        "after": "2026-10-26"
+      }
+    }
+  },
+  "partial_recorded_HTTP_facts": {
+    "DESKTOP": {
+      "recorded_HTTP_calls": {
+        "erp_cp7_request_bounded_staged_analysis_v2": 3,
+        "erp_cp7_read_staged_analysis_page_v1": 1,
+        "erp_cp7_read_staged_analysis_pages_v1": 1,
+        "erp_get_my_access_v1": 4,
+        "erp_cp7_step_staged_analysis_v1": 17
+      },
+      "all_recorded_HTTP_status200": true,
+      "one_request_UUID": true,
+      "exact_query_and_reference_preserved": true,
+      "actual_units_DONE": true,
+      "full_original_header_page_bytes_hash_identity_exact": true,
+      "recommendations": 2,
+      "source_hash": "3048950a87fd927bc718d62eb8adee3617d8ab4e7fee8c1c6238c3e64762eb35",
+      "later_analog_stale_access_not_executed": true
+    },
+    "MOBILE": {
+      "recorded_HTTP_calls": {
+        "erp_cp7_request_bounded_staged_analysis_v2": 2,
+        "erp_cp7_read_staged_analysis_page_v1": 1,
+        "erp_cp7_read_staged_analysis_pages_v1": 1,
+        "erp_get_my_access_v1": 2,
+        "erp_cp7_step_staged_analysis_v1": 17
+      },
+      "all_recorded_HTTP_status200": true,
+      "one_request_UUID": true,
+      "exact_query_and_reference_preserved": true,
+      "actual_units_DONE": true,
+      "full_original_header_page_bytes_hash_identity_exact": true,
+      "recommendations": 24,
+      "source_hash": "77cadcfe36359ef34ef84fdf92620b90fade08d00050f79d2c8c71634eb00f55",
+      "later_analog_stale_access_not_executed": true
+    }
+  },
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "CP6_advisor_boundary_public_catalog_session_Auth_cleanup_gates": true,
+  "business_day_preserved": true,
+  "business_days": [
+    {
+      "planned": "2026-10-26",
+      "before": "2026-10-26",
+      "after": "2026-10-26"
+    },
+    {
+      "planned": "2026-10-26",
+      "before": "2026-10-26",
+      "after": "2026-10-26"
+    }
+  ],
+  "manual_unchanged_rerun": false,
+  "actual_Auth_ran": true,
+  "actual_Auth_Browser2_qualified": false,
+  "later_analog_stale_access_not_executed": true,
+  "clone_authority_exact": true,
+  "Native_public_snapshots_not_run": true,
+  "complete_preuse22_and_restore_components_verified": true,
+  "screenshot_archive": {
+    "artifact_id": 12612567334,
+    "bytes": 4248072,
+    "sha256": "3de09a33f4fe9b93ad1e5b07afbc0d33c310894e871de763d87e4b6a7f44c0db"
+  },
+  "screenshots_sha256": {
+    "FROZEN_QUANTITY_AUTH_MOBILE_READY.png": "3c5a6f3befb3dbc0c20d21a7eb7ede1e7e4d24fe3b56bea81e19bbfd15fbcd13",
+    "FROZEN_QUANTITY_AUTH_DESKTOP_READY.png": "50c24572aecc08bfd96c8906e6b58ff58eaa0fb5954c57e75737280361cb3be6",
+    "FROZEN_QUANTITY_AUTH_DESKTOP_FAILURE.png": "50c24572aecc08bfd96c8906e6b58ff58eaa0fb5954c57e75737280361cb3be6",
+    "FROZEN_QUANTITY_AUTH_MOBILE_FAILURE.png": "3c5a6f3befb3dbc0c20d21a7eb7ede1e7e4d24fe3b56bea81e19bbfd15fbcd13"
+  },
+  "all_four_screenshots_viewed": true,
+  "full_mobile_text_visually_inspected": false,
+  "visual_qualified": false,
+  "first_visual_failure_preserved": true,
+  "finding": "Both actual Auth journeys reached READY and failed the unchanged all-text surface oracle. Shared quantity CSS sets disabled button opacity .6; repair must use explicit readable colors and opacity1. Full mobile screenshot has24cards and is not fully text-inspected. Desktop analog target is not necessarily a recommendation; use complete immutable header labels and existing full-target search.",
+  "new_cross_suite_aggregate_acceptance_credit": 0,
+  "full_factory3600_qualified": false,
+  "full_OW11_acceptance": false,
+  "full_OW12b_acceptance": false,
+  "formal_acceptance": "5/16",
+  "CP7C_accepted": false,
+  "independent_acceptance": false,
+  "production_go": false
+}
