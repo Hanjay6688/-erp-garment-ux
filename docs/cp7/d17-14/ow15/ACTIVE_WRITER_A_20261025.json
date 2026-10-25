@@ -1,5 +1,5 @@
 {
-  "recorded_at_utc": "2026-10-25T14:27:47.825943+00:00",
+  "recorded_at_utc": "2026-10-25T14:54:24.791521+00:00",
   "role": "A finance writer/integrator replacing Claude",
   "slogan": [
     "VENI. VIDI. VICI. ERP. \u2014 I CONQUERED ERP.",
@@ -1797,5 +1797,20 @@
     "baseline_advisors_equal": true,
     "restore_raw_public_equal": true,
     "correction": "Capture target after scoped model fixture creation; preserve all assertions and add exact prebackup target check"
+  },
+  "B_frozen_capsule_candidate_intake": {
+    "head": "dd22f085a6da43f186e5f92e6f5989a0bd595b21",
+    "receipt": "B-dd22-initial-component-intake.json",
+    "latest_head_verified_cases": 40,
+    "previous_head_diagnostic_cases": 4,
+    "remaining_runs": {
+      "private_frozen_capsule4": 40202855125,
+      "factory1200x3": 40202855089,
+      "retained_ow14b113": 40202855167
+    },
+    "request_or_unit_integrated": false,
+    "merged_into_A": false,
+    "full_factory3600_qualified": false,
+    "production_go": false
   }
 }
