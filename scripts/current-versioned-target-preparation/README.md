@@ -16,6 +16,12 @@ declared objects with RESTRICT. The complete-chain used guard runs before any
 inverse DDL. Posted history, model policy and stored financial results are not
 rewritten. No default installer or owner activation policy is created.
 
+The final fourth stage applies the exact selected-return customer refusal delta
+after the target layer. Only that one callback body changes; its authority and
+all other catalog fields remain exact. Reverse removal restores the callback
+before the target stage verifies its real earlier dependencies. Full recovery
+also checks the corrected callback before the sole Native OID reseal.
+
 Local catalog controls use an actual predecessor backup and synthetic new
 catalog rows. Native runtime qualification, composed used restore, permission
 withdrawal and real Auth/browser coverage remain open. SOURCE and an execution

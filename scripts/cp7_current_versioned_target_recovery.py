@@ -59,6 +59,9 @@ def rebind_restored(cur,backup,expected_sha256,*,expected_database):
         (target_installation.predecessor.predecessor.predecessor.predecessor.predecessor.delta.SIGNATURE,)).fetchone()[0]
     if body!=target_installation.predecessor.predecessor.predecessor.predecessor.predecessor.delta.bodies()[1]:
         raise ValueError('VERSIONED_TARGET_RESTORE_RETURN_DELTA_CHANGED')
+    selected=installation.selected.delta
+    selected_body=cur.execute('select prosrc from pg_proc where oid=%s::regprocedure',(selected.SIGNATURE,)).fetchone()[0]
+    if selected_body!=selected.bodies()[1]:raise ValueError('VERSIONED_TARGET_RESTORE_SELECTED_CUSTOMER_DELTA_CHANGED')
     for signature,definition in target_installation.predecessor.predecessor.finance.render.definitions().items():
         actual_body=cur.execute('select prosrc from pg_proc where oid=%s::regprocedure',(signature,)).fetchone()[0]
         if actual_body!=target_installation.predecessor.predecessor.finance._body(definition):
@@ -91,5 +94,6 @@ def rebind_restored(cur,backup,expected_sha256,*,expected_database):
         immutable_scoped_history_source_payload_and_runtime_preserved=True,
         immutable_scoped_model_v3_and_parent_foreign_keys_preserved=True,
         legacy_and_versioned_target_objects_and_archives_preserved=True,changed_functions=[catalog.GUARD],
+        selected_customer_refusal_body_and_authority_preserved=True,
         local_raw_oid_census_enforced=True,runtime_capture_sha256_pg=expected,
         production_go=False,independent_acceptance=False)

@@ -1,4 +1,4 @@
-"""25 unchanged finance/history/model cases plus five explicit versioned cases."""
+"""Finance/history/model, versioned target and selected-return business controls."""
 from contextlib import contextmanager
 from pathlib import Path
 from hashlib import sha256
@@ -15,10 +15,12 @@ def module(name,path):
 previous=module('retained_full_scoped_model_cases',ROOT/'current-scoped-model-native-qualification/cases.py')
 target=module('full_versioned_target_business_cases',HERE/'target_cases.py')
 history_replay=module('full_versioned_history_replay',HERE/'history_replay.py')
+selected_contract=module('full_versioned_selected_contract_cases',ROOT/'current-cp6-contract-qualification/cases.py')
+SELECTED_FIXTURES={}
 old_target_ids=tuple(previous.previous.previous.target.IDS['native'][1:])
 retained_ids=tuple(x for x in previous.IDS if x not in old_target_ids)
-IDS=(*retained_ids,*target.IDS)
-assert len(retained_ids)==25 and len(IDS)==len(set(IDS))==30
+IDS=(*retained_ids,*target.IDS,*selected_contract.IDS)
+assert len(retained_ids)==25 and len(selected_contract.IDS)==6 and len(IDS)==len(set(IDS))==36
 
 
 def source_binding():
@@ -57,6 +59,8 @@ def source_binding():
         B_original_sha256=sha256(p.read_bytes()).hexdigest(),explicit_AST_changes=changes,
         target_business_assertions_and_limits_unchanged=True,full_A_setup_and_real_full_guard=True,
         history_replay_guard=history_replay.source_binding(),unchanged_complete_retained_case_bodies=24,
+        selected_contract_case_ids=list(selected_contract.IDS),selected_contract_file_sha256=sha256(Path(selected_contract.__file__).read_bytes()).hexdigest(),
+        selected_contract_business_source_unchanged=True,
         full_A_runtime_qualified=False,production_go=False)
 
 
@@ -77,5 +81,15 @@ def cases(cur,today):
     result=[(key,case)for key,case in previous.cases(cur,today)if key not in old_target_ids]+target.cases(cur,today)
     replacement=dict(history_replay.cases(cur,today));assert set(replacement)=={history_replay.ID}
     result=[(key,replacement.get(key,case))for key,case in result]
+    def selected_case(name):
+        def run():
+            assert target.STATE is not None and callable(target.CHECKER)
+            target.CHECKER(cur)
+            # Prepare the retained physical fixture only inside its own case,
+            # never before unrelated finance/model cases are selected.
+            operations=dict(selected_contract.cases(cur,today,current=True,evidence=SELECTED_FIXTURES.setdefault(name,{})))
+            return operations[name]()
+        return run
+    result.extend((key,selected_case(key))for key in selected_contract.IDS)
     assert tuple(key for key,_ in result)==IDS
     return result

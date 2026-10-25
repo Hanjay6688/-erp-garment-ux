@@ -7,7 +7,8 @@
   "positive_stages": [
     "MODEL_SELECTION",
     "PHYSICAL_BINDING",
-    "VERSIONED_TARGET"
+    "VERSIONED_TARGET",
+    "SELECTED_RETURN_CUSTOMER"
   ],
   "negative_controls": [
     {
@@ -49,6 +50,14 @@
     {
       "id": "undeclared_data_key",
       "refusal": "CURRENT_VERSIONED_TARGET_INSTALL_CHANGED_ROWS_OR_SEQUENCES"
+    },
+    {
+      "id": "selected_customer_authority_changed",
+      "refusal": "CURRENT_VERSIONED_SELECTED_RETURN_UNDECLARED_CATALOG_DELTA"
+    },
+    {
+      "id": "selected_customer_delta_omitted",
+      "refusal": "CURRENT_VERSIONED_SELECTED_RETURN_UNDECLARED_CATALOG_DELTA"
     }
   ],
   "new_private_functions": 13,
@@ -56,6 +65,7 @@
   "hook_bodies_changed": 14,
   "hook_bodies_retained": 7,
   "legacy_source_projection_consumer_retained": true,
+  "selected_customer_refusal_body_changes": 1,
   "Native_runtime_qualified": false,
   "production_go": false,
   "independent_acceptance": false

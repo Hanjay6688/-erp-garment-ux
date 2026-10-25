@@ -19,6 +19,8 @@
   "production_go": false,
   "independent_acceptance": false,
   "unchanged_complete_retained_case_bodies": 24,
+  "unchanged_selected_contract_cases": 6,
+  "total_cases": 36,
   "explicit_history_replay_guard": {
     "rollback_calls": 1,
     "refusal_constants": 1

@@ -1,4 +1,4 @@
-"""Bind nine verified actual PASS Originals once; no manufactured prerequisites."""
+"""Bind twelve verified actual PASS Originals once; no manufactured prerequisites."""
 from pathlib import Path
 from hashlib import sha256
 import argparse,json,subprocess,sys
@@ -37,8 +37,25 @@ def bind(args):
     assert r['source_declaration']['qualification']['actual_qualification_originals']['CURRENT_SCOPED_MODEL_ORIGINAL_REPORT']==proofs['CURRENT_SCOPED_MODEL_ORIGINAL_REPORT']
     assert r['required_steps_pass']and len(r['steps'])==8 and all(x['status']=='PASS'for x in r['steps'])
     assert r['baseline_full22_all_rows_all_sequences_equal']and r['baseline_advisors_equal']and r['restore_raw_public_equal']
+    for variable in admission.SELECTED_VARIABLES:
+        actual=actuals[variable];proof=proofs[variable]
+        assert(actual.get('qualification_commit')or actual.get('candidate_commit'))==proof['head']
+        assert actual['source_declaration']['current_installation']['delta']==product.selected.delta.sources()
+        assert actual['baseline_full22_all_rows_all_sequences_equal']and actual['baseline_advisors_equal']
+        if variable=='CURRENT_SELECTED_RETURN_CONTRACT_ORIGINAL_REPORT':
+            assert proof['head']=='e0a4721f586476b36de2f5941d4970ea7de2bb8e'
+            assert actual['baseline']['counts']==actual['native']['counts']=={'PASS':6}and actual['execution_count']==12
+            assert actual['required_case_ids']==list(cases.selected_contract.IDS)and actual['required_case_ids_pass']
+        elif variable=='CURRENT_SELECTED_RETURN_NATIVE_ORIGINAL_REPORT':
+            assert proof['head']=='8e878ed6c95a7249734f5d53b5d33ee1114ec599'
+            assert actual['native']['counts']=={'PASS':20}and actual['observed_case_count']==20 and actual['required_case_ids_pass']
+        else:
+            assert proof['head']==args.expected_selected_restore_head
+            assert actual['label']=='CP7_CURRENT_SELECTED_RETURN_USED_RESTORE8'
+            assert actual['required_steps_pass']and len(actual['steps'])==8 and all(row['status']=='PASS'for row in actual['steps'])
+            assert actual['source_declaration']['qualification']['actual_qualification_originals']['CURRENT_SELECTED_RETURN_NATIVE_ORIGINAL_REPORT']==proofs['CURRENT_SELECTED_RETURN_NATIVE_ORIGINAL_REPORT']
     for variable,actual in actuals.items():
-        if variable.startswith('CURRENT_SCOPED_MODEL_'):continue
+        if variable.startswith('CURRENT_SCOPED_MODEL_')or variable in admission.SELECTED_VARIABLES:continue
         expected=(admission.transport.PARTS[admission.TRANSPORT_VARIABLES[variable]]if variable in admission.TRANSPORT_VARIABLES else admission.PROVIDERS[variable].IDS)
         assert actual['required_case_ids']==expected and actual['required_case_ids_pass']and actual['required_case_counts_pass']
         assert actual['observed_case_count']==sum(map(len,expected.values()))
@@ -53,9 +70,11 @@ def bind(args):
         explicit_current_source_changes=changes,actual_qualification_originals=proofs,production_go=False,independent_acceptance=False)
     cases.source_binding()
     with(HERE/'SOURCE.json').open('x')as f:f.write(json.dumps(manifest,indent=2)+'\n')
-    print(json.dumps(dict(status='SOURCE_BOUND',files=len(files),cases=30,actual_originals=len(proofs))))
+    assert len(cases.IDS)==36
+    print(json.dumps(dict(status='SOURCE_BOUND',files=len(files),cases=36,actual_originals=len(proofs))))
 
 
 if __name__=='__main__':
     parser=argparse.ArgumentParser();parser.add_argument('--bindings',required=True);parser.add_argument('--expected-restore-head',required=True)
+    parser.add_argument('--expected-selected-restore-head',required=True)
     bind(parser.parse_args())

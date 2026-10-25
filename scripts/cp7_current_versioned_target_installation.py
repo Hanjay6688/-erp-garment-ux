@@ -10,12 +10,13 @@ import cp7_current_scoped_model_installation as predecessor
 import cp7_model_evaluation_selection as selection
 import cp7_model_target_binding as physical
 import cp7_current_versioned_target_delta as target
+import cp7_current_versioned_selected_return as selected
 
 CONTRACT='cp7.current-AB-finance-scoped-versioned-target.v1'
 USED_ERROR='CURRENT_VERSIONED_TARGET_AFTER_USE_REQUIRES_FULL_BACKUP_RESTORE'
 catalog,atomic=predecessor.catalog,predecessor.atomic
-STAGES=(('MODEL_SELECTION',selection),('PHYSICAL_BINDING',physical),('VERSIONED_TARGET',target))
-STAGE_CONTRACTS=('cp7.model-evaluation-selection-stage.v1','cp7.model-target-physical-binding-stage.v1',target.CONTRACT)
+STAGES=(('MODEL_SELECTION',selection),('PHYSICAL_BINDING',physical),('VERSIONED_TARGET',target),('SELECTED_RETURN_CUSTOMER',selected))
+STAGE_CONTRACTS=('cp7.model-evaluation-selection-stage.v1','cp7.model-target-physical-binding-stage.v1',target.CONTRACT,selected.CONTRACT)
 
 
 def sources():
@@ -31,6 +32,8 @@ def binding(prior,proof):
 def admit_catalog(before,after,state,name):
     if name == 'VERSIONED_TARGET':
         return target.admit_catalog(before,after,state)
+    if name == 'SELECTED_RETURN_CUSTOMER':
+        return selected.admit_catalog(before,after,state)
     modules = {'MODEL_SELECTION':selection,'PHYSICAL_BINDING':physical}
     if name not in modules:
         raise ValueError('CURRENT_VERSIONED_TARGET_UNDECLARED_STAGE')
@@ -128,6 +131,7 @@ def verify(cur,state):
     return dict(contract=CONTRACT,status='EXACT_CURRENT_VERSIONED_TARGET_ALL22',
         predecessor_verified_before_actual_delta=True,all22_transition_chain_verified=True,
         substituted_catalog_or_definitions=False,target_replacements=14,named_hooks_verified=21,unchanged_hooks_retained=7,
+        selected_customer_refusal_replacements=1,selected_customer_refusal_preserved=True,
         new_private_functions=len(selection.FUNCTIONS)+len(physical.FUNCTIONS)+len(target.FUNCTIONS),
         new_schemas=4,new_tables=0,new_public_rpcs=0,legacy_target_objects_retained=True,
         every_old_row_and_sequence_preserved=True,default_owner_policy_created=False,

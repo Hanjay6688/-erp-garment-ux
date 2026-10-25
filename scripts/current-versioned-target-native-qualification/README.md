@@ -7,6 +7,9 @@ Its archive, money, stock and time assertions remain exact, guarded by AST check
 The five old target-v1 controls remain in their original suite;
 the new suite uses B's five target-v2 controls with their exact business assertions
 and 8-second limits. It does not claim to rerun the obsolete target-v1 contracts.
+Six unchanged selected-return/payroll contract controls also run on the final
+complete composition, for 36 cases. Each prepares its fixture inside its own
+case; the preceding 30 cases do not inherit that fixture.
 
 Installation setup, three target inverse calls and one history inverse use the full A composer.
 Those calls assert its real named global used-state refusal. An AST comparison
@@ -18,9 +21,12 @@ including legacy/v2 target objects and old archives, before regenerating only th
 existing Native OID seal. Runtime recovery qualification remains open.
 
 SOURCE is intentionally absent until actual full scoped Native30 and its complete
-used restore8 pass. Seven actual B component Originals are also required: selection,
+used restore8 pass, and the selected-return contract6, Native20 and complete used
+restore8 also pass. Seven actual B component Originals are also required: selection,
 physical binding, source-v2, consumer-v2, both same-head transport partitions and
 browser2. The transport union has 11 unique cases, not 12.
+These are twelve actual prerequisite Originals, with both separate complete
+recovery paths qualified before the combined candidate is allowed to execute.
 
 Bind with bind_source.py from the writer working directory, then commit SOURCE and
 run the complete admission before publishing the execution branch. Its previous

@@ -18,6 +18,13 @@ def run(path):
     baseline=backup['catalog'];data=backup['data'];assert len(baseline)==22
     before=deepcopy(baseline);positive=[];negative=[]
     for name,module in product.STAGES:
+        if module is product.selected:
+            after=module.delta.expected(before)
+            state=dict(sources=module.verify_sources(),delta=dict(before=before,after=after))
+            product.admit_catalog(before,after,state,name);product.admit_data(data,dict(data))
+            selected_before,selected_after,selected_state=before,after,state
+            positive.append(name);before=after
+            continue
         after=deepcopy(before)
         schemas=module.SCHEMAS if module is product.target else (module.SCHEMA,)
         for schema in schemas:
@@ -58,10 +65,15 @@ def run(path):
     for label,key in [('old_row_changed',next(k for k in data if not k.startswith('sequence:'))),('old_sequence_advanced',next(k for k in data if k.startswith('sequence:'))),('undeclared_data_key','unexpected.table')]:
         changed=dict(data);changed[key]=['changed']
         rejected(label,lambda changed=changed:product.admit_data(data,changed))
+    changed=deepcopy(selected_after);changed['functions'][product.selected.delta.SIGNATURE][1:]=['altered-authority']
+    rejected('selected_customer_authority_changed',lambda:product.admit_catalog(selected_before,changed,selected_state,'SELECTED_RETURN_CUSTOMER'))
+    changed=deepcopy(selected_after);changed['functions'][product.selected.delta.SIGNATURE]=selected_before['functions'][product.selected.delta.SIGNATURE]
+    rejected('selected_customer_delta_omitted',lambda:product.admit_catalog(selected_before,changed,selected_state,'SELECTED_RETURN_CUSTOMER'))
     return dict(status='PASS',scope='LOCAL_GUARD_ONLY_SYNTHETIC_NEW_CATALOG_ROWS',
         trusted_manifest_sha256=sha256(raw).hexdigest(),baseline_groups=22,baseline_data_keys=len(data),
         positive_stages=positive,negative_controls=negative,new_private_functions=13,new_schemas=4,
         hook_bodies_changed=14,hook_bodies_retained=7,legacy_source_projection_consumer_retained=True,
+        selected_customer_refusal_body_changes=1,
         Native_runtime_qualified=False,production_go=False,independent_acceptance=False)
 
 

@@ -1,7 +1,7 @@
-"""Native30 on the complete current finance/model and dated-target composition.
+"""Native36 on the complete current finance/model, target and selected-return composition.
 
 The latest full A source admission and all declared B/correction hashes are
-checked before DB. Thirty real Native business cases, strict rollback and full22 inverse;
+checked before DB. Thirty-six real Native business cases, strict rollback and full22 inverse;
 no hosted effects, real-Auth claim, factory-scale claim or audit acceptance.
 """
 from pathlib import Path
@@ -24,7 +24,7 @@ from cp7_catalog_state import exact_public_catalog
 control=chain.helper.control
 previous,native,package,core,p09=chain.previous,control.native,chain.package,chain.core,chain.p09
 IDS=business.IDS
-LABEL='CP7_CURRENT_VERSIONED_TARGET_NATIVE30'
+LABEL='CP7_CURRENT_VERSIONED_TARGET_NATIVE36'
 PRE_DUMP='/tmp/current_versioned_target_native_pre.dump'
 database,drill,dump=current_native.database,current_native.drill,current_native.dump
 sql=current_native.sql
@@ -91,6 +91,7 @@ def run():
         with business.installed(STATE,verify)as source_binding,exact_public_catalog(native,retain_raw=True)as catalog:
             report['retained_business_source_binding']=source_binding
             report['native']=native.strict_group(LABEL,cases,verify)
+        report['selected_contract_fixtures']=business.SELECTED_FIXTURES
         report['versioned_target_setup_admissions']=business.target.SETUP_ADMISSIONS
         report['retained_scoped_model_setup_admissions']=business.previous.SETUP_ADMISSIONS
         report['retained_history_setup_admissions']=business.previous.previous.SETUP_ADMISSIONS

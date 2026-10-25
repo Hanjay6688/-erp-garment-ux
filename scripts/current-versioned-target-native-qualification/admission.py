@@ -17,8 +17,9 @@ PROVIDERS={
     'MODEL_TARGET_BROWSER_V2_ORIGINAL_REPORT':browser,
 }
 TRANSPORT_VARIABLES={'MODEL_TARGET_TRANSPORT_V2_A_ORIGINAL_REPORT':'A','MODEL_TARGET_TRANSPORT_V2_B_ORIGINAL_REPORT':'B'}
-VARIABLES=set(PROVIDERS)|set(TRANSPORT_VARIABLES)|{'CURRENT_SCOPED_MODEL_ORIGINAL_REPORT','CURRENT_SCOPED_MODEL_RESTORE_ORIGINAL_REPORT'}
-CONTRACT='cp7.current-versioned-target-native30-qualification.v1'
+SELECTED_VARIABLES={'CURRENT_SELECTED_RETURN_CONTRACT_ORIGINAL_REPORT','CURRENT_SELECTED_RETURN_NATIVE_ORIGINAL_REPORT','CURRENT_SELECTED_RETURN_RESTORE_ORIGINAL_REPORT'}
+VARIABLES=set(PROVIDERS)|set(TRANSPORT_VARIABLES)|SELECTED_VARIABLES|{'CURRENT_SCOPED_MODEL_ORIGINAL_REPORT','CURRENT_SCOPED_MODEL_RESTORE_ORIGINAL_REPORT'}
+CONTRACT='cp7.current-versioned-target-native36-qualification.v1'
 
 
 def admitted(repo,here,ids,product,business):
@@ -27,7 +28,7 @@ def admitted(repo,here,ids,product,business):
     predecessor=frozen.invoke()
     assert predecessor['current_installation']==product.predecessor.sources()
     pins=json.loads((here/'SOURCE.json').read_bytes())
-    assert pins['contract']==CONTRACT and pins['case_ids']==list(ids) and len(ids)==len(set(ids))==30
+    assert pins['contract']==CONTRACT and pins['case_ids']==list(ids) and len(ids)==len(set(ids))==36
     declaration=pins['frozen_declaration']
     assert declaration==dict(path='scripts/current-scoped-model-native-qualification/SOURCE.json',head=frozen.FROZEN_HEAD,sha256=predecessor['source_manifest_sha256'])
     assert sha256((repo/declaration['path']).read_bytes()).hexdigest()==declaration['sha256']
@@ -59,6 +60,27 @@ def admitted(repo,here,ids,product,business):
                 assert actual['required_steps_pass'] and len(actual['steps'])==8
                 assert [row['step']for row in actual['steps']]==actual['required_steps']
                 assert all(row['status']=='PASS'for row in actual['steps']) and actual['restore_raw_public_equal']
+        elif variable in SELECTED_VARIABLES:
+            assert(actual.get('qualification_commit')or actual.get('candidate_commit'))==proof['head']
+            assert actual['source_declaration']['current_installation']['delta']==product.selected.delta.sources()
+            assert actual['baseline_full22_all_rows_all_sequences_equal']and actual['baseline_advisors_equal']
+            if variable=='CURRENT_SELECTED_RETURN_CONTRACT_ORIGINAL_REPORT':
+                assert proof['head']=='e0a4721f586476b36de2f5941d4970ea7de2bb8e'
+                assert actual['baseline']['counts']==actual['native']['counts']=={'PASS':6}and actual['execution_count']==12
+                assert actual['required_case_ids']==list(business.selected_contract.IDS)and actual['required_case_ids_pass']
+                path='scripts/current-cp6-contract-qualification/cases.py'
+                assert actual['source_declaration']['qualification']['files'][path]==sha256((repo/path).read_bytes()).hexdigest()
+                assert all(row['status']=='PASS'and row['full_boundary_restored']and row['public_schema_unchanged']for group in('baseline','native')for row in actual[group]['cases'].values())
+            elif variable=='CURRENT_SELECTED_RETURN_NATIVE_ORIGINAL_REPORT':
+                assert proof['head']=='8e878ed6c95a7249734f5d53b5d33ee1114ec599'
+                assert actual['native']['counts']=={'PASS':20}and actual['observed_case_count']==20
+                assert actual['required_case_ids_pass']and actual['complete_preuse_removal']
+                assert all(row['status']=='PASS'and row['full_boundary_restored']and row['public_schema_unchanged']for row in actual['native']['cases'].values())
+            else:
+                assert actual['label']=='CP7_CURRENT_SELECTED_RETURN_USED_RESTORE8'
+                assert actual['required_steps_pass']and len(actual['steps'])==8 and all(row['status']=='PASS'for row in actual['steps'])
+                assert actual['restore_raw_public_equal']
+                assert actual['source_declaration']['qualification']['actual_qualification_originals']['CURRENT_SELECTED_RETURN_NATIVE_ORIGINAL_REPORT']==pins['actual_qualification_originals']['CURRENT_SELECTED_RETURN_NATIVE_ORIGINAL_REPORT']
         else:
             if variable in TRANSPORT_VARIABLES:
                 part=TRANSPORT_VARIABLES[variable]
