@@ -1,0 +1,127 @@
+{
+  "previous_guard": {
+    "unchanged_fixture_sha256": {
+      "fixture.py": "bba6452cb85487db804e6203449f10c1faadc4e7b9e22df822928fb447661b3a",
+      "opening_fixture.py": "7d54d9c4c2256d297f5e2869c598599c9761f4bfa02808e40a631f1d0c4a81ea",
+      "finance_fixture.py": "eb1645be30abce150573071e549cc771b25473e72dadd9d992823729f4f5f65f",
+      "model_fixture.py": "c2e31231ad1fb464fc9b425d7a1e3566db1ccb5816555fbe5dd236587a2a0df6",
+      "history_fixture.py": "1c3b14662a147aabea3bff61c38df4af28629f4f6e02ea5635d3cd6ba63cc668",
+      "scoped_model_fixture.py": "122db8af50655c4af2f1365395a61d5aec1ee93b9ccb49d351f13c099cdef92a"
+    },
+    "target_entire_AST_equal_after_exact_provider_and_protocol_changes": true,
+    "retained_probe_assertions": 44,
+    "new_probe_assertions": 1,
+    "required_steps": 8,
+    "retained_refusal_business_source": {
+      "exact_retained_business_assertions": true,
+      "only_expected_selected_customer_code_changed": true,
+      "original_helper_unchanged": true,
+      "expected_sqlstate": "P0001",
+      "expected_error": "OW04_SOURCE_CUSTOMER_MISMATCH",
+      "all_rows_sequences_and_full22_checks_retained": true
+    },
+    "production_go": false,
+    "Native_credit": false
+  },
+  "unchanged_fixture_sha256": {
+    "fixture.py": "bba6452cb85487db804e6203449f10c1faadc4e7b9e22df822928fb447661b3a",
+    "opening_fixture.py": "7d54d9c4c2256d297f5e2869c598599c9761f4bfa02808e40a631f1d0c4a81ea",
+    "finance_fixture.py": "eb1645be30abce150573071e549cc771b25473e72dadd9d992823729f4f5f65f",
+    "model_fixture.py": "c2e31231ad1fb464fc9b425d7a1e3566db1ccb5816555fbe5dd236587a2a0df6",
+    "target_fixture.py": "0a6d51e718960795b9542842ebfd32339a1777ac7e27b9765d6d29a072d9e00a",
+    "history_fixture.py": "1c3b14662a147aabea3bff61c38df4af28629f4f6e02ea5635d3cd6ba63cc668",
+    "scoped_model_fixture.py": "122db8af50655c4af2f1365395a61d5aec1ee93b9ccb49d351f13c099cdef92a"
+  },
+  "whole_previous_runner_AST_retained": true,
+  "explicit_composer_and_context_changes": [
+    {
+      "before": "cp7_current_versioned_target_recovery",
+      "after": "cp7_current_versioned_performance_recovery",
+      "count": 1
+    },
+    {
+      "before": "cp7_current_versioned_target_installation",
+      "after": "cp7_current_versioned_performance_installation",
+      "count": 1
+    },
+    {
+      "before": "VERSIONED_TARGET_RESTORE_",
+      "after": "VERSIONED_PERFORMANCE_RESTORE_",
+      "count": 24
+    },
+    {
+      "before": "CP7_CURRENT_VERSIONED_TARGET_USED_RESTORE8",
+      "after": "CP7_CURRENT_VERSIONED_PERFORMANCE_USED_RESTORE8",
+      "count": 1
+    },
+    {
+      "before": "CURRENT_VERSIONED_TARGET_USED_RESTORE_MANIFEST.json",
+      "after": "CURRENT_VERSIONED_PERFORMANCE_USED_RESTORE_MANIFEST.json",
+      "count": 1
+    },
+    {
+      "before": "/tmp/current_versioned_target_",
+      "after": "/tmp/current_versioned_performance_",
+      "count": 2
+    },
+    {
+      "before": "scoped_composed=composed.predecessor",
+      "after": "scoped_composed=composed.predecessor.predecessor",
+      "count": 1
+    },
+    {
+      "before": "['current_installation']['predecessor']",
+      "after": "['current_installation']['predecessor']['predecessor']",
+      "count": 5
+    },
+    {
+      "before": "['current_installation']['stages']",
+      "after": "['current_installation']['predecessor']['stages']",
+      "count": 1
+    },
+    {
+      "before": "composed.selected.delta.SIGNATURE",
+      "after": "composed.predecessor.selected.delta.SIGNATURE",
+      "count": 1
+    },
+    {
+      "before": "import scoped_model_fixture\n",
+      "after": "import scoped_model_fixture\nimport performance_controls\n",
+      "count": 1
+    },
+    {
+      "before": "    def row():\n",
+      "after": "    performance_controls.run(cur,backup,refused,bind,model_metadata,catalog,composed)\n    def row():\n",
+      "count": 1
+    }
+  ],
+  "retained_runner_assertions": 45,
+  "prior_negative_controls": 29,
+  "added_performance_negative_controls": 5,
+  "required_steps": 8,
+  "production_go": false,
+  "Native_runtime_qualified": false,
+  "status": "LOCAL_PREPARATION_PASS",
+  "python_files_parsed": 13,
+  "bash_steps_parsed": 41,
+  "metadata_controls_resolved": [
+    "public.erp_cp7_save_model_activation_policy_v1(jsonb,uuid)",
+    "public.erp_cp7_capture_model_evaluation_v2(jsonb,uuid)",
+    "cp7_netting_native.timeline(jsonb,jsonb,jsonb,jsonb,jsonb,jsonb)",
+    "cp7_analysis_native.build_operational(jsonb,jsonb,uuid,jsonb)",
+    "public.erp_cp7_capture_model_history_v1(jsonb,uuid)",
+    "public.erp_cp7_capture_model_evaluation_v3(jsonb,uuid)",
+    "cp7_model_target_consumer_v2.rows(jsonb,jsonb,jsonb,text,jsonb)",
+    "cp7_credit.native_empty_enter_v1(uuid)"
+  ],
+  "all_source_paths_verified": 13,
+  "global_names_resolved": true,
+  "new_controls_before_last_sequence_changing_fault": true,
+  "negative_source_controls": [
+    "history_reference",
+    "wrong_used_guard",
+    "money_assertion"
+  ],
+  "SOURCE_bound": false,
+  "actual_database_runtime": false
+}
