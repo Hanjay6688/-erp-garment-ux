@@ -1,110 +1,98 @@
-# Status gabungan uang, model dan target — 24 Oktober 2026
+# Status gabungan uang, model dan target — 25 Oktober 2026
 
 VENI. VIDI. VICI. ERP. — I CONQUERED ERP.
 Reliable data adalah dewa. Keuangan termasuk laporan, stok, dan HPP adalah raja.
 
-**Formal tetap 5/16; produksi dan penerimaan independen belum disetujui.**
-Catatan ini membedakan bukti yang sudah berjalan dari persiapan versi berikutnya.
-Angka kasus tidak dijumlahkan sebagai fitur baru; banyak kasus memakai ulang
-kontrak yang sama pada susunan modul berbeda.
+**Lima kelompok uji pada susunan target berversi terbaru sudah lulus. Uji
+pemulihan yang dibetulkan masih berjalan. Skala pabrik bersama keuangan resmi
+belum selesai. Formal tetap 5/16; belum ada penerimaan independen atau izin
+produksi.** Posisi ini dicatat 25 Oktober 2026 pukul 22.00 WIB. Status run
+berikutnya dicatat di [catatan aktif A](ACTIVE_WRITER_A_20261025.json).
 
-## Susunan keuangan dan model yang sudah terbukti
+Astra A menjalankan estafet Claude: uang, stok, HPP, laporan dan penggabungan.
+Penulis B tetap menangani produksi, perencanaan dan bagian analisis yang
+sudah dibagi. Bukti komponen B tidak otomatis menjadi bukti susunan gabungan A.
 
-| Bukti aktual | Kandidat | Hasil dan cakupan |
+## Hasil aktual pada susunan terbaru
+
+| Kelompok uji | Hasil yang sudah diperiksa | Bukti |
 |---|---|---|
-| [Native15](current-finance-model-native15-pass-6d056959.json) | `6d056959` | 5 keuangan, 5 kebijakan model, 5 evaluasi v2; seluruhnya PASS. Pemulihan baseline mencakup 22 kelompok katalog, seluruh baris dan seluruh sequence. |
-| [UsedRestore8](model-used-restore8-pass-b3b00858.json) | `b3b00858` | Backup sesudah dipakai, restore penuh, 11 kontrol penolakan, riwayat keuangan/model tetap, CLEAR/penarikan kebijakan/retur Native berikutnya. |
-| [Browser4](current-model-browser4-pass-b3b00858.json) | `b3b00858` | Kebijakan dan evaluasi v2 melalui browser dengan Auth nyata; pengguna, sesi dan database uji bersih. |
-| [Auth6 dan races12](model-retained-transport18-pass-b3b00858.json) | `b3b00858` | Kebijakan dan v2: izin terbaru sesudah menunggu, UUID/revisi, sumber/kebijakan berubah, riwayat lama tetap. |
-| [Cron1](model-cron1-pass-b3b00858.json) | `b3b00858` | Jadwal menit asli, tanpa tick manual atau perubahan frekuensi; operasional DONE dan keuangan READY, 24 metrik resmi, signature pembukuan independen, UNKNOWN tetap UNKNOWN. |
-| [Keuangan Auth3 dan races7](model-finance-transport-utc10-pass-963ac6d8.json) | `963ac6d8` | Sepuluh kasus asli PASS. Seluruh 23 kolom capture dibandingkan dalam UTC; pengamatan mentah juga disimpan. Nilai uang, JSON bertingkat dan timestamp tidak dibuang. |
+| Mesin gabungan, 36 kasus | Semua lulus; keuangan, riwayat, evaluasi model, target berversi dan retur terpilih. Seluruh 22 kelompok katalog, baris, nomor urut, CP6 dan pemeriksaan advisor pulih. | [Native36, `014019a6`](versioned-native36-scoped-fixed-actual-014019a6.json) |
+| Layar, 6 kasus | Kebijakan, evaluasi dan target melalui login nyata. Izin yang dicabut menutup panel target. Tampilan target HP/komputer diperiksa; riwayat sendiri dibedakan dari produk pembanding. | [Browser6](versioned-current-browser6-actual-055cbc9a.json), [pemeriksaan tampilan](versioned-current-browser6-visual-review.json) |
+| Keuangan, 10 kasus | Tiga alur login dan tujuh persaingan transaksi lulus. Semua 23 kolom hasil perhitungan tetap dibandingkan, termasuk waktu yang dinormalisasi ke UTC; sesi dibersihkan. | [Finance10, `34ecfe89`](versioned-current-finance10-actual-34ecfe89.json) |
+| Hak akses dan transaksi bersamaan, 28 kasus | Sembilan alur login dan 19 persaingan transaksi lulus; hak akses terbaru, riwayat, pengulangan perintah dan pemulihan tetap diperiksa. | [Transport28, `34ecfe89`](versioned-current-transport28-actual-34ecfe89.json) |
+| Proses server terjadwal | Jadwal menit asli benar-benar berjalan tanpa langkah manual. Operasional selesai, keuangan siap, 24 metrik sama dengan laporan resmi dan pemeriksaan pembukuan terpisah. Nilai belum diketahui tetap UNKNOWN. | [Cron1, `055cbc9a`](versioned-current-cron1-actual-055cbc9a.json) |
 
-Semua enam laporan mempunyai CP6, advisor dan lima gate paket yang lulus.
-Kegagalan keuangan pertama pada `b3b00858` tetap disimpan. Run berikutnya
-mengamati capture yang sama dalam Jakarta/UTC: empat kolom waktu tampil berbeda
-tetapi instan dan seluruh baris UTC sama. Nilai pembanding yang tidak direkam
-pada run pertama tidak diklaim dapat dibuktikan kembali.
+Setiap kelompok mempunyai versi sumber dan laporan asli sendiri; hubungan
+prasyaratnya diperiksa. Angka kasus bukan jumlah fitur baru. Hasil ini juga
+belum membuktikan skala pabrik atau model historis yang unggul.
 
-## Susunan target terbaru: 21 penggantian dan 8 fungsi privat
+## Pemulihan sesudah dipakai: satu koreksi urutan data uji
 
-Sumber B `d7d3033b` sudah masuk melalui true merge `b21e60fc`; persiapan A
-`7d035ec7` mengikat tepat 21 penggantian, 8 fungsi privat dan 3 schema tanpa
-RPC/tabel baru. Pembacaan cache gudang memeriksa pengguna, izin dan sumber model
-sebelum serta sesudah menyusun hasil. Cache yang tidak sesuai meminta tindakan
-**Hitung sekarang**; pembacaan tidak diam-diam mengubah hasil.
+[Percobaan pertama](versioned-current-restore8-first-actual-055cbc9a.json)
+menghasilkan tujuh dari delapan langkah lulus. Kedua pemulihan backup penuh,
+29 kontrol penolakan, dan pemulihan akhir data lulus. Langkah terakhir gagal
+karena target dibuat lebih dahulu daripada dua evaluasi model dalam data uji;
+evaluasi yang lebih baru memang membuat target tadi tidak mutakhir.
 
-Pemeriksaan lokal lulus: 17 kontrol struktur pada backup nyata, 82 tes klien,
-TypeScript, kepemilikan sumber/akses dan admission lengkap kandidat Native15
-beku. Dua puluh dari 21 badan fungsi pendahulu cocok dengan backup keuangan;
-satu perbedaan ialah koreksi freshness baseline yang sudah dinyatakan.
+[Kandidat koreksi `7de9d4b9`](versioned-restore-order2-running-7de9d4b9.json)
+menyiapkan target sesudah seluruh evaluasi, kemudian memeriksa bahwa target
+masih mutakhir sebelum backup diambil. Semua pemeriksaan bisnis, tujuh berkas
+data uji, batas waktu dan 29 kontrol penolakan dipertahankan. Kegagalan pertama
+tetap disimpan. Run `40202238928` masih menjalankan pemulihan aktual pada
+pembaruan ini; hasil lulus belum diklaim.
 
-[Browser2 B pada `d7d3033b`](B-model-target-browser2-intake-d7d3033b.json)
-sudah PASS: dua alur baseline/analog melalui Auth nyata, tepat sumber21/8,
-CP6/advisor/lima gate serta pengguna/sesi/database bersih. Ini belum menjadi
-bukti browser untuk cache FG atau model historis unggul. [Native6 pertama21/8](B-target-cache-native6-first-intake-d7d3033b.json)
-(run `40119284264`) menghasilkan5PASS/1INCOMPLETE: helper mengembalikan
-tiga nilai, tetapi kasus gudang membandingkannya dengan dua nilai. Nilai error
-aktual tidak tersimpan; CP6/advisor/semua boundary kasus pulih. B `190c1d78`
-membetulkan pembanding menjadi tepat tiga nilai tanpa mengubah SQL produk;
-[run `40122499063` sudah PASS6](B-target-corrected-native6-pass-intake-190c1d78.json),
-dengan semua boundary, CP6/advisor dan lima gate paket pulih. [Transport11 pertama21/8](B-target-cache-transport11-cancelled-d7d3033b.json)
-`40119284316` dibatalkan pada45menit: satu katalog dan tujuh race PASS, kelompok
-Auth belum kembali, pemulihan/advisor akhir false. [PartA](B-target-transport-part-A-intake-2b335934.json)
-`40120202292` lulus satu katalog+empat race beserta seluruh gate. [PartB dan
-gabungan tepat11](B-target-transport-pair-intake-2b335934.json) sudah lulus:
-PartB satu katalog+tiga race+tiga Auth; kedua head/provider/source sama,
-pemulihan/advisor/lima gate dan Auth0000 kembali bersih. Katalog berulang tidak
-dihitung dua kali; ini bukti komponen B, belum uji gabungan A.
-A Native20 kemudian menjadi prasyarat lima pengujian gabungan yang sudah siap:
-Browser6, UsedRestore8, model Auth9/races19, keuangan Auth3/races7 dan cron1.
-[Native20 A pada `3776a052`](current-target-native20-first-3776a052.json),
-run `40125980689`, sudah **20 PASS**: 3.213 pin sumber dan enam Original
-prasyarat, setiap boundary kasus, inverse sebelum pemakaian, guard sesudah
-pemakaian, pemulihan seluruh 22 kelompok/semua baris/sequence serta lima gate
-paket terverifikasi. Ini bukti penulis, bukan penerimaan independen.
-[Ketujuh followup telah diikat dan diluncurkan](CURRENT_TARGET_FOLLOWUPS_20261025.json)
-setelah admission lengkap masing-masing: Browser6, UsedRestore8, Transport28,
-Finance10, Cron1, HistoryNative25 dan kontrak retur6. Laporan mentah enam paket sudah diverifikasi PASS: Browser6, UsedRestore8,
-Transport28, Finance10, Cron1 dan HistoryNative25, beserta seluruh pin sumber,
-prasyarat Original, pemulihan CP6, advisor dan lima gate. Kontrak retur6 tetap
-INCOMPLETE: baseline6 PASS, susunan terbaru5 PASS/1 INCOMPLETE. Retur dengan
-pelanggan salah ditolak tanpa perubahan data, tetapi mengeluarkan kode
-CP7_NATIVE_EMPTY_ACTIVE_SOURCE_REQUIRED, bukan OW04_SOURCE_CUSTOMER_MISMATCH.
-Kontrol retur sah berikutnya belum tercapai pada kasus itu. Tes asli dipertahankan.
-Komponen riwayat belum dipasang dalam susunan target ini. Cabang A riwayat
-terpisah menyiapkan Native25 dan UsedRestore8; komponen B riwayat sudah
-Native6 dan Auth/concurrency7 PASS, tetapi bukti gabungan A masih terbuka.
+## Performa dan skala pabrik
 
-Kegagalan B sebelumnya tetap terlihat:
+Kandidat A `1b7dbf30` sudah menyiapkan penggabungan tepat dua fungsi optimasi B
+yang mempunyai bukti komponen sebelumnya. Rantai uji berikutnya menunggu hasil
+pemulihan aktual di atas: mesin 36 kasus, lalu lima kelompok pemulihan/layar/
+akses/keuangan/proses server, terakhir 1.200 SKU × tiga ukuran dengan angka
+keuangan dan HPP resmi. Semua tujuh deklarasi uji performa belum diikat;
+belum ada hasil runtime A untuk kandidat ini.
 
-- [Native6 `161d4c9f`](B-target-guarded-native6-first-intake-161d4c9f.json):
-  5 PASS, 1 INCOMPLETE; SKU Native belum ada dalam cache yang belum dihitung ulang.
-  CP6/advisor pulih, suite tetap gagal.
-- [Transport11 `161d4c9f`](B-target-guarded-transport11-cancelled-161d4c9f.json):
-  job dibatalkan, hanya satu pengulangan pemeriksaan katalog tercatat; hasil
-  Auth/races tidak kembali. Drop database uji gagal dan koneksi restore ditolak;
-  CP6/advisor serta gate akhir tidak terbukti.
-- [Native6 `04eaad40`](B-target-current-native6-first-intake.json): enam kasus
-  INCOMPLETE, termasuk pergantian hari bisnis dan pencarian SKU pada halaman awal.
+[Kandidat terbaru B `dd22f085`](B-dd22-initial-component-intake.json)
+menambah fungsi privat untuk mengambil satu salinan sumber lengkap lalu
+menjalankan mesin hitung yang sama terhadap salinan tersebut. Belum ada
+pemasangan ke jalur permintaan aplikasi atau unit pekerjaan, dan belum masuk
+susunan A. Uji komponen pengambilan sumber baru masih berjalan. Pada kepala
+kode ini, komponen stok empat kasus dan dua regresi lama berjumlah 36 kasus
+sudah lulus; pengulangan diagnostik empat kasus pada kepala sebelumnya
+disimpan terpisah tanpa menambah klaim kecepatan atau penerimaan.
 
-## Pekerjaan yang tetap terbuka
+[Uji pabrik B terbaru](B-factory-dd22-first-actual-dd22f085.json) tetap
+INCOMPLETE: permintaan pendahulu melewati batas delapan detik. Pemulihan
+katalog/data, CP6 dan advisor lulus, tetapi perbandingan pabrik lengkap belum
+tercapai. Uji tersebut masih memakai jalur permintaan lama; ia tidak menguji
+pemasangan fungsi pengambilan sumber baru ke aplikasi. Tidak ada pelonggaran
+batas waktu atau pemilihan hanya hasil tercepat.
 
-Factory 1.200 SKU × 3 ukuran bersama keuangan resmi, runtime susunan terbaru,
-pemetaan seluruh batas CP6 dan paket satu kandidat masih terbuka. Hasil AI135
-dan Race36 sebelumnya **INCOMPLETE**, bukan masih berjalan dan bukan diterima
-sebagai PASS. Dua puluh satu kegagalan CP6 serta empat browser baseline tetap
-dipertahankan dengan pembanding; keputusan pensiun layar milik auditor.
+## Lingkup A yang tetap dijaga
 
-Kebijakan laundry kelebihan bayar/piutang vendor, kredit retur yang sudah
-terpakai, pembagian absen tanpa jahit dan batas umur koreksi HPP tidak dikarang.
-Metode dengan bukti/data belum cukup tetap baseline atau UNKNOWN; tidak ada
-klaim model unggul historis, factory SLA atau izin produksi dari hasil di atas.
+| Lingkup | Posisi dan batas |
+|---|---|
+| Pembayaran supplier (OW-06) | Bukti satu transfer, alokasi lintas halaman, bayar sebagian, pembalikan dan pemulihan tersedia; penerimaan paket gabungan belum ditutup. |
+| HPP dan tutup buku (OW-07) | Penahanan karena prasyarat pool serta aktivasi/pembatalan pada PO selesai teruji; aturan pembagian absen tanpa jahit tidak dikarang. |
+| Koreksi uang/HPP (OW-08) | Kredit sah dalam laporan, sumber kasbon, koreksi FG/QC dan cuci tanpa tarif mempunyai bukti; kelebihan bayar/piutang vendor laundry masih menunggu keputusan bisnis. |
+| Delapan daftar (OW-09) | Urutan dan filter seluruh hasil lintas halaman mempunyai bukti; fitur ekspor baru tidak diklaim. |
+| Keuangan skala pabrik (OW-12a) | Sumber angka resmi, 24 metrik dan proses server sudah teruji pada cakupan yang disebut di atas; 3.600 varian bersama keuangan/HPP belum selesai. |
+| Penggabungan dan paket auditor (OW-15) | Menjaga satu versi yang dapat ditelusuri, kegagalan pertama, pemulihan penuh dan pembanding CP6. Audit independen tetap terpisah. |
 
+Rincian bukti penutupan awal tetap ada di
+[peta pekerjaan](../../OPEN_WORK_D17_14_20261020.md) dan
+[peta kualifikasi](CURRENT_QUALIFICATION_MAP_20261024.md).
+Perubahan terakhir ini memperbarui posisi pengujian A, bukan menutup butir B.
 
-Prepared25Oct WIB: exact1200commercialSKU x3 physical sizes Native fixture and
-actual-minute official-finance runner are in
-see
-[scripts/current-factory-finance-qualification](../../../../scripts/current-factory-finance-qualification/README.md).
-SOURCE absent; actual current Native20 PASS is available, current Cron1 PASS is now verified; factory binding and qualification are next. No factory
-runtime credit. All28 current transport cases stay unchanged; B target11 may
-qualify through both complete same-head partitions only, with no duplicate credit.
+## Pekerjaan terbuka dan aturan penerimaan
+
+Selesaikan pemulihan terkoreksi, rantai performa, skala pabrik dengan keuangan
+resmi, pemetaan seluruh batas CP6, lalu paket satu kandidat untuk pemeriksa.
+Hasil AI135 dan Race36 sebelumnya tetap INCOMPLETE. Dua puluh satu kegagalan
+CP6 dan empat kasus browser baseline tetap ditampilkan bersama pembanding;
+keputusan pensiun layar mengikuti ruang lingkup pemeriksaan yang disetujui.
+
+Kebijakan kelebihan bayar laundry, kredit retur yang sudah terpakai, pembagian
+absen tanpa jahit dan batas umur koreksi HPP tetap mengikuti keputusan owner.
+Metode yang datanya belum cukup memakai baseline atau UNKNOWN sesuai kontrak.
+Kegagalan dan laporan asli lama tidak diubah; tes penulis yang lulus bukan izin
+produksi. Checkpoint disimpan, lalu pekerjaan yang sudah diotorisasi diteruskan.
