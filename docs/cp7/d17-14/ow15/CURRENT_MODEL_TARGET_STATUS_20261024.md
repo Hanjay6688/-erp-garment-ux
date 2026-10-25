@@ -3,19 +3,19 @@
 VENI. VIDI. VICI. ERP. — I CONQUERED ERP.
 Reliable data adalah dewa. Keuangan termasuk laporan, stok, dan HPP adalah raja.
 
-**Enam kelompok uji pada susunan target berversi terbaru sudah lulus, termasuk
-pemulihan setelah dipakai. Kandidat performa juga lulus36kasus, layar6, keuangan10dan akses/transaksi
-bersamaan28; pemulihan8langkah dan jadwal menit masih diuji.
-Skala pabrik bersama keuangan resmi belum selesai. Formal tetap 5/16; belum ada
-penerimaan independen atau izin produksi.** Posisi ini dicatat 26 Oktober 2026
-pukul 00.03 WIB. Status run berikutnya ada di
+**Keenam kelompok uji kandidat optimasi sudah lulus, termasuk jadwal menit asli
+serta pemulihan8langkah/34kontrol. Integrasi privat Native40 juga lulus40/40;
+seluruh3602target/halaman cocok dan seluruh data/katalog pulih. Uji keuangan
+privat Native45 serta pabrik1200SKU×3ukuran sudah dikirim ke server pengujian dari bukti aktual tersebut; hasilnya
+masih menunggu laporan asli. Formal tetap5/16; penerimaan independen dan izin produksi belum ada.**
+Posisi26Oktober2026 WIB; status eksekusi terbaru ada di
 [catatan aktif A](ACTIVE_WRITER_A_20261025.json).
 
 Astra A menjalankan estafet Claude: uang, stok, HPP, laporan dan penggabungan.
 Penulis B tetap menangani produksi, perencanaan dan bagian analisis yang
 sudah dibagi. Bukti komponen B tidak otomatis menjadi bukti susunan gabungan A.
 
-## Hasil aktual pada susunan terbaru
+## Baseline gabungan sebelum optimasi: enam kelompok lulus
 
 | Kelompok uji | Hasil yang sudah diperiksa | Bukti |
 |---|---|---|
@@ -56,19 +56,30 @@ baris/nomor urut, CP6 dan advisor diperiksa. [Catatan fase aktual](versioned-per
 menyimpan16titik diagnosis; durasi pemasangan dan pemulihan bukan SLA aplikasi.
 
 [Lima uji lanjutan `4608b478`](performance-five-followups-prepared-4608b478.json)
-sudah diikat ke Original Native36 tersebut. Masing-masing3.571pin dan seluruh
-prasyarat lulus pemeriksaan sumber lengkap: restore8/finance10/cron1/browser6/
-transport28. [Kelima job sudah berjalan](performance-five-followups-running-4608b478.json)
-mulai17.00–17.01UTC/00.00–00.01WIB pada26Oktober, agar data uji bertanggal tetap
-tidak melintasi pergantian hari. [Browser6](versioned-performance-browser6-actual-4608b478.json) dan
-[Auth9/races19](versioned-performance-transport28-actual-4608b478.json) kini
-lulus aktual pada4608b478. Masing-masing3571pin, prasyarat3/4Original, seluruh
-kasus, sesi/Auth, pemulihan serta lima gate diperiksa; Original diarsipkan sekali.
-[Finance10](versioned-performance-finance10-actual-4608b478.json) juga lulus
-aktual: Auth3/races7, seluruh23kolom hasil termasuk waktuUTC, sesi bersih,
-seluruh3571pin/2Original dan lima gate. Restore8dancron1 masih berjalan.
-SOURCE uji pabrik tetap belum diikat. Uji1.200SKU×tiga ukuran dengan angka
-keuangan/HPP resmi menunggu enam kelompok performa aktual lulus.
+sekarang semuanya lulus aktual: [layar6](versioned-performance-browser6-actual-4608b478.json),
+[Auth9/races19](versioned-performance-transport28-actual-4608b478.json),
+[keuangan Auth3/races7](versioned-performance-finance10-actual-4608b478.json),
+[jadwal menit asli](versioned-performance-cron1-actual-4608b478.json), dan
+[pemulihan8langkah](versioned-performance-restore8-actual-4608b478.json).
+Masing-masing3571pin dan seluruh prasyarat, lima gate, CP6/advisor serta
+pemulihan penuh diperiksa. Finance membandingkan23kolom termasuk waktuUTC.
+Restore memeriksa34kontrol penolakan dan target mutakhir sebelum backup.
+Jadwal berjalan tanpa langkah manual atau perubahan jadwal. Semua Original
+sudah diarsipkan tepat sekali; keenam kelompok termasuk Native36 sekarang PASS.
+
+Pemeriksa intake restore lokal pertama menggabungkan dua daftar kontrol yang
+masing-masing sudah terurut tanpa mengurutkan gabungannya. Seluruh34ID unik
+sebenarnya tepat dan PASS. Satu koreksi pengurutan pemeriksa diterapkan; kontrol
+hilang, duplikat, tambahan dan bukanPASS tetap ditolak. Original, oracle dan uji
+server tidak diubah atau diulang. Unduhan awal cron berhenti dengan0byte saat
+ruang lokal habis; ZIP yang sama diambil kembali dan lolos hash/CRC, tanpa
+pengulangan uji server. Kedua kejadian lokal tetap tersimpan.
+
+SOURCE pabrik3581pin kini terikat pada keenam kelompokPASS tersebut dan
+Original pertama daab8075 yang tetap INCOMPLETE. Pemeriksaan sumber lengkap3581pin/7Original lulus.
+[Run40222575218 pada25c5c4fb](performance-factory-running-25c5c4fb.json)
+sudah dikirim ke server; belum ada hasil runtime. Uji ini tetap memeriksa1200SKU×3ukuran beserta
+keuangan/HPP resmi; fixture dan batas8detik tidak dilonggarkan.
 
 [Kandidat B sebelumnya `dd22f085`](B-dd22-complete-intake.json)
 menambah fungsi privat untuk mengambil satu salinan sumber lengkap lalu
@@ -143,7 +154,7 @@ caller untuk mempertahankan UUID unresolved setelah respons gagal.
 menjaga pemisahan metode, izin keuangan terbaru dan keutuhan salinan sumber
 sejak permintaan dibuat. Tidak ada klaim Auth/browser aktual dari pemeriksaan lokal.
 
-## Integrasi privat baru A: sumber lulus, Native40 sedang berjalan
+## Integrasi privat A: Native40 lulus, keuangan berikutnya terikat
 
 A menyiapkan composer opt-in pada d71ea82d tanpa mengubah sumber A lama atau
 20berkas produk B yang terikat persis ke10a36e35. Adaptor binary menggunakan
@@ -153,15 +164,14 @@ inverse tetap identik secara AST dengan B. Empat belas kontrol negatif lokal
 menolak perubahan sumber, otoritas, objek tidak dideklarasikan dan inverse
 sesudah perubahan baris/sequence. Kegagalan sumber awal dipertahankan.
 
-[Native40 pada8de2ae69](frozen-unit-native40-running-8de2ae69.json) sudah berjalan
-pada run40216890593/job121239848652 sejak26Oktober00.31WIB. Sebelum DB,
-pemeriksaan sumber lengkap lulus3.618pin dan empat Original prasyarat, termasuk
-A performance36 serta tiga komponen B. Seluruh36kasus A tetap dipertahankan;
-empat tambahan mencakup katalog privat/dependent-view, request-unit/replay,
-seluruh3602target/halaman dan arsip sesudah post/purge. Tiga tubuh kasus bisnis
-B dijaga AST; hanya inverse stale dialihkan ke inverse penuh A dan kode penolakannya.
-Batas8detik, seluruh hasil compiler, pemulihan semua22kelompok/baris/sequence,
-CP6 dan advisor tetap wajib. Hasil database gabungan ini belum tersedia.
+[Native40 pada8de2ae69](private-frozen-native40-actual-8de2ae69.json)
+lulus40/40 pada run40216890593/job121239848652/art12608589007. Seluruh3618pin,
+empat Original prasyarat, lima gate, sesi, CP6/advisor dan pemulihan penuh22
+kelompok/baris/sequence diperiksa. Seluruh36kasus A dipertahankan; empat
+kasus privat memeriksa katalog/dependent-view, request-unit/replay, seluruh3602
+target/halaman serta arsip sesudah post/purge. Perbandingan compiler utuh cocok;
+panggilan unit terlama3683.266ms, tetap di bawah8detik. Ini pengamatan kasus,
+bukan SLA aplikasi atau kelulusan keuangan pabrik. Original diarsipkan sekali.
 
 Jalur ini belum mengaktifkan permintaan publik, default, layar B atau keuangan
 v2. Keuangan pabrik tetap membutuhkan mode yang diikat sebelum capsule disegel,
@@ -175,19 +185,26 @@ sudah disiapkan pada cabang terpisah. Dua fungsi privat baru memakai sumber
 laporan resmi; flagSTAGED terikat sebelum seal pertama, UUID lintas mode ditolak,
 izin diperiksa lima kali dan producer mengikat definisi A. Dua penggantian privat
 B hanya berada di delta A; berkas B lama tetap utuh. Sepuluh pernyataan SQL,
-tiga tubuhPL/pgSQL dan sepuluh kontrol negatif lokal lulus. Ini belum pengujian
-perilaku DB: SOURCE/eksekusi belum diikat, menunggu Native40 aktual. Tidak ada
+tiga tubuhPL/pgSQL dan sepuluh kontrol negatif lokal lulus. SOURCE Native45 kini diikat hanya setelah Native40 aktual PASS;
+pemeriksaan sumber lengkap3644pin/1Original lulus dan
+[run40222596942 padaa3088e21](frozen-finance-native45-running-a3088e21.json)
+sudah dikirim ke server. Hasil perilaku keuangan masih menunggu Original. Tidak ada
 fasad publik, aktivasi default atau kelulusan keuangan pabrik dari persiapan ini.
 
 [Paket Native45 pada01350114](frozen-finance-native45-prepared-01350114.json)
-sudah disiapkan tanpa SOURCE/eksekusi. Ia mempertahankan36kasus A dan tiga tubuh
+kini sudah SOURCE-bound3644pin terhadap Native40 aktualPASS. Ia mempertahankan36kasus A dan tiga tubuh
 bisnis privat B, menambah satu penolakan dependent view oleh katalog penuh,
 serta lima tubuh kasus keuangan lama yang seluruh oraclenya sama. Transport dua
 permintaan diarahkan ke endpoint privat di bawah8detik; setiap request juga
 memverifikasi hash capsule dan mode dalam dasar yang disegel. Sebanyak42langkah
 bash dan routing45closure diperiksa lokal, tanpa menjalankan tubuh kasus/DB.
 Binder menolak mengikat sebelum Original Native40 pada8de2ae69 benar-benar
-PASS40, seluruh22/baris/sequence pulih dan lima gate lulus. Tidak ada izin produksi.
+PASS40, seluruh22/baris/sequence pulih dan lima gate lulus. Prasyarat ini sudah
+terpenuhi dan Native45 sedang menunggu eksekusi/hasil server; hasil kelulusan
+baru dicatat sesudah laporan aslinya tersedia.
+Paket pabrik privat juga disiapkan pada3d5f1152, tetapi menunggu Native45
+aktualPASS; enam uji performa lama hanya baseline, bukan kredit akses jalur privat.
+Tidak ada izin produksi.
 
 ## Lingkup A yang tetap dijaga
 

@@ -1,0 +1,29 @@
+{
+  "name": "CP7_CURRENT_VERSIONED_PERFORMANCE_CRON1.json",
+  "status": "PASS",
+  "head": "4608b478ac50b52eba69e938488402b296a0f46e",
+  "run_id": 40214412847,
+  "job_id": 121232334981,
+  "artifact_id": 12608852903,
+  "zip_bytes": 2218855,
+  "zip_sha256": "8162d0bd594649e5e66396d1d4bb1a8f4e8e35cc698c72793a6f9c5699f53998",
+  "bytes": 2365937,
+  "sha256": "bf187466087eab50ac7db691096cdb7443afb15dc40fb49d27c6638d1275dbc6",
+  "archive_member": "CP7_CURRENT_VERSIONED_PERFORMANCE_CRON1.json",
+  "source_pins_verified": 3571,
+  "actual_prerequisites_verified": 2,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "production_go": false,
+  "independent_acceptance": false,
+  "actual_minute_cron": true,
+  "manual_steps": 0,
+  "changed_schedule": false
+}

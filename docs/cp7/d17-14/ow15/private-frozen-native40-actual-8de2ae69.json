@@ -1,0 +1,37 @@
+{
+  "name": "CP7_CURRENT_FROZEN_UNITS_NATIVE40.json",
+  "status": "PASS",
+  "head": "8de2ae694c6eda60a6724415eb60772c4f7a20b2",
+  "run_id": 40216890593,
+  "job_id": 121239848652,
+  "artifact_id": 12608589007,
+  "zip_bytes": 3234103,
+  "zip_sha256": "b44f062290d07d11d9ca00924757e963df315b1cde5cacc2a8bdfb40e5739006",
+  "bytes": 12122365,
+  "sha256": "4a204be83c8b31ef9ee3aeab2ec7259246f45b53e26eaaaaa29202f15ebe54ee",
+  "archive_member": "CP7_CURRENT_FROZEN_UNITS_NATIVE40.json",
+  "source_pins_verified": 3618,
+  "actual_prerequisites_verified": 4,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "production_go": false,
+  "independent_acceptance": false,
+  "counts": {
+    "PASS": 40
+  },
+  "retained_A_cases": 36,
+  "private_unit_cases": 4,
+  "all3602_targets_and_pages_compared": true,
+  "maximum_unit_millis": 3683.266,
+  "full22_all_rows_all_sequences_restored": true,
+  "official_factory_finance_qualified": false,
+  "public_or_default_adopted": false,
+  "actual_Auth_HTTP_credit": false
+}

@@ -1,0 +1,33 @@
+{
+  "kind": "performance-factory",
+  "head": "25c5c4fb5a16a1622663f87106506e0845105914",
+  "prepared_branch": "astra-a/d17-14-versioned-performance-prepared-20261025",
+  "execution_branch": "astra-a/d17-14-versioned-performance-factory-20261025",
+  "run_id": 40222575218,
+  "admission": {
+    "status": "PASS",
+    "source_pins": 3581,
+    "actual_originals": 7,
+    "receipt_bytes": 1841516,
+    "receipt_sha256": "bd264d772cda8f7c257de45958a4a5fdfe5a81e6dd68c749f5bcba42d77e3796"
+  },
+  "runtime_qualified": false,
+  "production_go": false,
+  "parent": "4608b478ac50b52eba69e938488402b296a0f46e",
+  "tree": "da508c1d28cccac7ab5b10bdc9fb7e14fc4047c7",
+  "local": "e3e4951d244a672ad0932e575161346294529d6f",
+  "files": [
+    {
+      "path": "scripts/current-versioned-performance-factory-qualification/SOURCE.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "97a78457120edf68a1070a41621c7f5e8df520ad"
+    }
+  ],
+  "job_id": 121257125693,
+  "status": "queued",
+  "conclusion": null,
+  "run_observation_pending": false,
+  "runtime_dispatched": true,
+  "recorded_at_utc": "2026-10-25T18:44:23.835587+00:00"
+}

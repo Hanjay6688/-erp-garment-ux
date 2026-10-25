@@ -1,0 +1,34 @@
+{
+  "kind": "frozen-finance-native45",
+  "head": "a3088e214f5babc46e4016734cce11925acd34d8",
+  "prepared_branch": "astra-a/d17-14-frozen-finance-integration-prepared-20261026",
+  "execution_branch": "astra-a/d17-14-frozen-finance-native45-20261026",
+  "run_observation_pending": false,
+  "admission": {
+    "status": "PASS",
+    "source_pins": 3644,
+    "actual_originals": 1,
+    "case_count": 45,
+    "receipt_bytes": 2532357,
+    "receipt_sha256": "7f8e6ac41832d2306b22f6eea61992dd42e886458e876821e3a9937e791943c3"
+  },
+  "runtime_qualified": false,
+  "production_go": false,
+  "parent": "01350114ee74c3643e8c54feee1b02a3fec7f851",
+  "tree": "5dc21c1f50341caac57f958f30caef576ea08079",
+  "local": "7fa9c15f00b0fbba704032cacfdc8be0f1c6dcfd",
+  "files": [
+    {
+      "path": "scripts/current-frozen-finance-native-qualification/SOURCE.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3144bd9c1ac54b424e09b82f6bc9ab69bc799c18"
+    }
+  ],
+  "run_id": 40222596942,
+  "job_id": 121257191700,
+  "status": "queued",
+  "conclusion": null,
+  "runtime_dispatched": true,
+  "recorded_at_utc": "2026-10-25T18:44:23.835903+00:00"
+}

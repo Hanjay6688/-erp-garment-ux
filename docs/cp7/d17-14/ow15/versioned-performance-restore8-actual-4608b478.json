@@ -1,0 +1,37 @@
+{
+  "name": "CP7_CURRENT_VERSIONED_PERFORMANCE_USED_RESTORE8.json",
+  "status": "PASS",
+  "head": "4608b478ac50b52eba69e938488402b296a0f46e",
+  "run_id": 40214404451,
+  "job_id": 121232310569,
+  "artifact_id": 12608783478,
+  "zip_bytes": 4244561,
+  "zip_sha256": "f4de524db5c31b998f5135a86921db25e1135852c417fb831fe70b11ad1d3bd1",
+  "bytes": 2768457,
+  "sha256": "a13003ea8b700fdc1259d04a789aa1e4a3954c748509e3bc85d44121e6f6a809",
+  "archive_member": "CP7_CURRENT_VERSIONED_PERFORMANCE_USED_RESTORE8.json",
+  "source_pins_verified": 3571,
+  "actual_prerequisites_verified": 2,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "production_go": false,
+  "independent_acceptance": false,
+  "steps": 8,
+  "negative_controls": 34,
+  "restored_domain_checks": {
+    "finance_full_restore_checks": 2,
+    "model_full_restore_checks": 4,
+    "dated_target_full_restore_checks": 4,
+    "scoped_history_full_restore_checks": 8,
+    "scoped_model_full_restore_checks": 8
+  },
+  "two_full_used_restores": true,
+  "exact_target_freshness_before_used_backup": true
+}

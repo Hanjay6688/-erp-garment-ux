@@ -1,0 +1,12 @@
+{
+  "status": "LOCAL_ARTIFACT_DOWNLOAD_FAILED",
+  "error": "No space left on device while writing cron artifact before metadata/Original extraction.",
+  "run_id": 40214412847,
+  "artifact_id": 12608852903,
+  "partial_bytes": 0,
+  "partial_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "restore_artifact_download_completed": true,
+  "server_job_repeated": false,
+  "Original_modified": false,
+  "recovery": "Sparse reproducible completed checkouts; fetch cron ZIP only again from the same immutable artifact."
+}
