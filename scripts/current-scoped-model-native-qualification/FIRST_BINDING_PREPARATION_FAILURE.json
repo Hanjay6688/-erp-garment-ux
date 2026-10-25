@@ -1,0 +1,8 @@
+{
+  "status": "LOCAL_BINDING_FAILED_BEFORE_DB",
+  "failure": "Missing scripts/current-model-history-native-qualification/SOURCE.json in prepared branch",
+  "cause": "Frozen Native25 gate ran in exact separate checkout but its declared SOURCE had not yet been true-merged into candidate",
+  "correction": "True merge actual qualified e3261d84 preserving exact predecessor SOURCE bytes before binding Native30",
+  "business_test_or_source_hash_relaxed": false,
+  "Native_credit": false
+}
