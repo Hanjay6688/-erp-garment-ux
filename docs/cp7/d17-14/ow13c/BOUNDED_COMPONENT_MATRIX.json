@@ -92,5 +92,16 @@
     "full_factory3600_qualified": false,
     "official_finance_included": false,
     "production_go": false
+  },
+  "frozen_cutting_actual_Auth_browser_preparation": {
+    "status": "PREPARED_NOT_WIRED_RUNTIME_PENDING",
+    "receipt": "docs/cp7/d17-14/ow12b/FROZEN_CUTTING_AUTH_BROWSER2_PREPARATION.json",
+    "local_build_modules": 59,
+    "disposable_guard_refusals": 4,
+    "expected_browser_cases": 2,
+    "observed_browser_cases": 0,
+    "actual_Auth_HTTP_browser_executed": false,
+    "default_application_adopted": false,
+    "production_go": false
   }
 }

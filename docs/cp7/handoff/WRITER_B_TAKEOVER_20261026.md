@@ -135,3 +135,18 @@ do not discard their eventual first outcome or claim the new repair ran there.
 Then continue actual source-bound recovery/access/visuals, measured factory
 performance, full cutting UI and A integration boundaries. Checkpoints save work;
 they are not a reason to stop or ask the owner to repeat 'continue'.
+
+
+## Follow-up actual-Auth cutting browser preparation
+
+While the corrected Native6/Transport10 jobs wait in the server queue, three
+new owned build/fixture/browser modules now prepare two real-login journeys.
+See `d17-14/ow12b/FROZEN_CUTTING_AUTH_BROWSER2_PREPARATION.md` and JSON. Desktop
+will require real committed SAVE/replyloss/reload/exact replay; mobile requires
+real current-access refusal and exact uncertain-envelope preservation. Setup
+calendar jobs stay immutable, browser creates its own distinct request.
+Local build59actual modules/no mocks, four disposable-host guard refusals,
+Python AST/JS syntax/exact hashes PASS. No new runtime case executed or workflow
+registered; no default/F05/old Auth provider/source/budget change. Actual Native
+results must precede registering the closed two-case provider. Continue this
+preparation after fixing any actual current-source failure; do not count it PASS.
