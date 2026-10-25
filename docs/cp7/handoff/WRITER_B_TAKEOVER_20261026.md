@@ -62,7 +62,7 @@ Never write main, frozen audit55c885d1, CP6/Native frozen sources, Enteng/hosted
 production or real WA. Formal overall completion stays **5/16**; independent
 acceptance and production permission remain false.
 
-## New complete Originals read during this takeover
+## New complete Originals read during this takeover (seven sources)
 
 All JSON files, ZIP byte/hash/CRC, exact committed source pins and declarations,
 original case budgets, package gates, full Native boundaries/current public
@@ -91,6 +91,13 @@ by that comparison. Compact receipts are in `d17-14/ow12b/*takeover-original.jso
 Full Originals are private; no raw bulk evidence or screenshots were added to
 the public repository. First failure receipts retain writer_runtime=false.
 
+Additional retained complete results: `6f69b761` units Native4 run40228962102/
+job121276369749/art12614855549 PASS4,79pins/exact F05 source prefix/all package
+and restoration gates; `716dc627` quantity Browser4 run40229609553/
+job121278304549/art12614439139 PASS4,41actual module pins. All three quantity
+screenshots inspected. This uses controlled identity/RPC and1200 example labels;
+it is not a real-Auth or3600factory proof. Original cases and budgets unchanged.
+
 ## Current repair and immediate continuation
 
 The inherited fixture reviewed work through legacy supply capture. Frozen v2
@@ -108,7 +115,12 @@ missing/mixed routes refused each; changed transport budgets5 refused. Client
 and form tests **134/134 across10files**; full app and prepared cutting TS PASS.
 This is preparation, awaiting its own corrected Native6/Transport10 Originals.
 
-Publish the correction with a non-forced expected-head lease on B only; retain
+The correction was published as **ee1ebfd1** and dispatched Native6
+run40235295230/job121295451004 and Transport10 run40235295219/job121295450913.
+Both were last observed QUEUED. Shared B-only status/coordination is published
+at714766d1 (local515401a7, exact same tree). No A-owned status row changed.
+
+Publish further changes with a non-forced expected-head lease on B only; retain
 the exact candidate and read complete results. Continue other pending B proofs
 while actual jobs run. Do not rerun an unchanged source just to obtain green.
 The inherited712 head has choice/quantity/cutting/Auth runs queued; newer code

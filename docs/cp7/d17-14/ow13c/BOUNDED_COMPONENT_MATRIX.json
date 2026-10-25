@@ -73,5 +73,24 @@
   "quantity_UI_run_id": 40044408796,
   "work_to_direct_cutting_exact_recovery_qualified": true,
   "quantity_UI_same47backend": true,
-  "quantity_UI_readability_and_geometry_qualified": true
+  "quantity_UI_readability_and_geometry_qualified": true,
+  "writer_B_takeover_20261026": {
+    "code_head": "ee1ebfd1a104cbbdf5d0c4a14cbb1e8cc00a3573",
+    "shared_status_head": "714766d1c2d52c8e91bc79671a6ea0f6187ed2e4",
+    "active_handoff": "docs/cp7/handoff/WRITER_B_TAKEOVER_20261026.md",
+    "complete_Originals_verified": 7,
+    "first_cutting_failures_preserved": true,
+    "corrected_runs": {
+      "Native6": 40235295230,
+      "Transport10": 40235295219
+    },
+    "corrected_status_last_observed": "QUEUED",
+    "local_tests": {
+      "PASS": 134,
+      "files": 10
+    },
+    "full_factory3600_qualified": false,
+    "official_finance_included": false,
+    "production_go": false
+  }
 }

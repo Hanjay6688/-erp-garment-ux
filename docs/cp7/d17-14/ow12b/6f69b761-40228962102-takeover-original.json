@@ -1,0 +1,51 @@
+{
+  "contract": "cp7.writer-b-takeover-original-receipt.v1",
+  "head": "6f69b761e32d1a60ba0857c797981c99d911d550",
+  "run_id": 40228962102,
+  "artifact_id": 12614855549,
+  "artifact_bytes": 163522,
+  "artifact_sha256": "98a25ff1b0f362ae14eaa6dbd3fb302b0695766d4882c67cab159a457a2602ae",
+  "Original_read_complete": true,
+  "original_json_sha256": {
+    "T3_BACKUP_RESTORE_DRILL.json": "ca3fc14fa47ddd6d0342883e2306ad097b85bb658c5635d16dfa8403f943e9e4",
+    "T3_PACKAGE_FILES_INSTALL.json": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+    "ALIGNED_CHAIN.json": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b",
+    "CP7_OW12B_FROZEN_UNITS.json": "eeddf429557acb7c8e8431034e654fbc15d5ffe4a00697a713d1cdc9cd1e6912",
+    "T3_PACKAGE_INSTALL.json": "b16fbb7dd11f8530b09dce6526b643c63d336a0113fafffe2b5accc196b0c3ed"
+  },
+  "source_pins_verified": 79,
+  "status": "PASS",
+  "production_go": false,
+  "independent_acceptance": false,
+  "whole_feature_closed": false,
+  "counts": {
+    "native": {
+      "PASS": 4
+    }
+  },
+  "first_failures": [],
+  "all_original_package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "public_catalog_preserved": true,
+  "full_native_boundaries_and_sessions_restored": true,
+  "exact_head_source_prefix_fields": [
+    "label",
+    "scope",
+    "source_sha256",
+    "expected_case_count",
+    "required_case_counts",
+    "required_case_ids",
+    "predeclared_case_contract",
+    "predeclared_case_sha256",
+    "target_v2_source_sha256",
+    "frozen_units_source_sha256"
+  ],
+  "job_id": 121276369749
+}
