@@ -4,7 +4,8 @@ import type {ReorderRow} from './fgReorderContract'
 
 type Obj=Record<string,unknown>
 type Fraction=readonly[bigint,bigint]
-export type ModelTarget={state:'MODEL_PROJECTED'|'BASELINE_RETAINED';reason:string;model:ModelDefinition|null;forecastFrom:string|null;forecasts:string[]|null;policy:ModelPolicySource|null;baselineTarget:string|null;baselineReorderPoint:string|null;mode:'DAYS'|'STATISTICAL';expectedTarget:Obj;signature:string}
+export type ModelTargetReference={runtime:'GLOBAL_V2'|'SCOPED_V3';readMethod:'erp_cp7_read_model_evaluation_v2'|'erp_cp7_read_model_evaluation_v3';runId:string;historyRunId:string;historyScope:'GLOBAL_CURRENT_PHYSICAL_ROOTS'|'SINGLE_CURRENT_PHYSICAL_ROOT'}
+export type ModelTarget={state:'MODEL_PROJECTED'|'BASELINE_RETAINED';reason:string;model:ModelDefinition|null;forecastFrom:string|null;forecasts:string[]|null;policy:ModelPolicySource|null;baselineTarget:string|null;baselineReorderPoint:string|null;mode:'DAYS'|'STATISTICAL';expectedTarget:Obj;signature:string;reference?:ModelTargetReference|null}
 function fail():never{throw Error('Dasar model dan target tersimpan tidak cocok. Muat ulang sumber perhitungan.')}
 const obj=(x:unknown):Obj=>x!==null&&typeof x==='object'&&!Array.isArray(x)?x as Obj:fail()
 const exact=(x:Obj,ks:string[])=>{if(Object.keys(x).sort().join('|')!==[...ks].sort().join('|'))fail()}
@@ -37,9 +38,21 @@ function sum(values:string[],from:Fraction,to:Fraction):Fraction{
 // Validate the server-owned admission and exact vector arithmetic. This is a
 // wire consistency check, not a client authorization or an independent backtest.
 export function parseModelTarget(value:unknown,d:TargetDemand):ModelTarget{
- const m=obj(value);exact(m,['contract_version','state','reason','source_hash','actor_scope_id','access_epoch','run_id','history_run_id','history_query','model_source_hash','captured_at','policy_source','engine_hash','consumer_engine_hash','forecast_from_date','selected_model','forecast','baseline_target','forecast_applied','production_go'])
- if(m.contract_version!=='cp7.model-target-resolution.v1'||!['MODEL_PROJECTED','BASELINE_RETAINED'].includes(String(m.state))||m.production_go!==false||m.forecast_applied!==(m.state==='MODEL_PROJECTED'))fail()
- hash(m.source_hash);hash(m.access_epoch);hash(m.engine_hash,32);hash(m.consumer_engine_hash,32);uuid(m.actor_scope_id)
+ const m=obj(value),versioned=m.contract_version==='cp7.model-target-resolution.v2';exact(m,['contract_version','state','reason','source_hash','actor_scope_id','access_epoch','run_id','history_run_id','history_query','model_source_hash','captured_at','policy_source','engine_hash','consumer_engine_hash','forecast_from_date','selected_model','forecast','baseline_target','forecast_applied','production_go',...(versioned?['runtime','read_method','history_scope','history_source_hash','physical_source_hash','global_engine_hash','scoped_engine_hash','history_engine_hash']:[])])
+ if(!versioned&&m.contract_version!=='cp7.model-target-resolution.v1'||!['MODEL_PROJECTED','BASELINE_RETAINED'].includes(String(m.state))||m.production_go!==false||m.forecast_applied!==(m.state==='MODEL_PROJECTED'))fail()
+ hash(m.source_hash);hash(m.access_epoch);hash(m.engine_hash,32);hash(m.consumer_engine_hash,versioned?64:32);uuid(m.actor_scope_id)
+ let reference:ModelTargetReference|null=null
+ if(versioned){
+  hash(m.global_engine_hash,32);hash(m.scoped_engine_hash,32);hash(m.history_engine_hash)
+  if(m.run_id===null){if([m.runtime,m.read_method,m.history_scope,m.history_source_hash,m.physical_source_hash].some(x=>x!==null)||m.engine_hash!==m.global_engine_hash)fail()}
+  else{
+   const scoped=m.runtime==='SCOPED_V3'
+   if(!scoped&&m.runtime!=='GLOBAL_V2'||m.read_method!==(scoped?'erp_cp7_read_model_evaluation_v3':'erp_cp7_read_model_evaluation_v2')||m.history_scope!==(scoped?'SINGLE_CURRENT_PHYSICAL_ROOT':'GLOBAL_CURRENT_PHYSICAL_ROOTS')||m.engine_hash!==(scoped?m.scoped_engine_hash:m.global_engine_hash))fail()
+   hash(m.history_source_hash);hash(m.physical_source_hash)
+   if(m.state==='MODEL_PROJECTED'&&m.history_source_hash!==m.physical_source_hash)fail()
+   reference={runtime:m.runtime as ModelTargetReference['runtime'],readMethod:m.read_method as ModelTargetReference['readMethod'],runId:uuid(m.run_id),historyRunId:uuid(m.history_run_id),historyScope:m.history_scope as ModelTargetReference['historyScope']}
+  }
+ }
  const reason=text(m.reason),policy=maybe(m.policy_source,parseModelPolicySource),captured=micros(d.capturedAt),forecastFrom=maybe(m.forecast_from_date,day)
  if(policy&&micros(policy.policy.recorded_at)>captured)fail()
  if(m.run_id===null){if([m.history_run_id,m.history_query,m.model_source_hash,m.captured_at,m.forecast_from_date,m.selected_model,m.forecast].some(x=>x!==null))fail()}
@@ -81,7 +94,7 @@ export function parseModelTarget(value:unknown,d:TargetDemand):ModelTarget{
   if(reason!==expectedReason||d.targetPcs!==ceil(add(add(lead,review),hs))||d.reorderPointPcs!==ceil(add(lead,ls)))fail()
   expectedTarget={...base,kernel_version:'target-forecast-vector-1',reason,model_input:structuredClone(m),forecast_applied:true,calibrated_forecast_interval:false,buffer_basis:i.mode==='DAYS'?'ONE_EXPLICIT_DAYS_BUFFER':'BASELINE_INDEPENDENT_DAILY_VARIATION_ASSUMPTION',lead_demand_pcs:stringify(lead),review_demand_pcs:stringify(review),lead_safety_pcs:stringify(ls),horizon_safety_pcs:stringify(hs),target_pcs:d.targetPcs,reorder_point_pcs:d.reorderPointPcs}
  }else if(m.forecast!==null||d.targetPcs!==baselineTarget||d.reorderPointPcs!==baselineReorderPoint||['ONE_DATED_VECTOR_WITH_ONE_EXPLICIT_DAYS_BUFFER','DATED_POINT_FORECAST_WITH_EXISTING_HISTORICAL_VARIATION_ASSUMPTION'].includes(reason))fail()
- return{state:m.state as ModelTarget['state'],reason,model,forecastFrom,forecasts,policy,baselineTarget,baselineReorderPoint,mode:i.mode as ModelTarget['mode'],expectedTarget,signature:canonical(m)}
+ return{state:m.state as ModelTarget['state'],reason,model,forecastFrom,forecasts,policy,baselineTarget,baselineReorderPoint,mode:i.mode as ModelTarget['mode'],expectedTarget,signature:canonical(m),...(versioned?{reference}:{})}
 }
 export function assertModelTargetBinding(value:unknown,resolution:unknown,m:ModelTarget){
  const t=obj(value),expected=m.expectedTarget;exact(t,Object.keys(expected));if(canonical(resolution)!==m.signature)fail()

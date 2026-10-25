@@ -1,0 +1,120 @@
+{
+  "contract": "cp7.original-first-failure.v1",
+  "head": "04551081b658b4f230afd78dd72a5053bba21f78",
+  "run_id": 40165537093,
+  "job_id": 121085696390,
+  "artifact_id": 12588657272,
+  "bytes": 160089,
+  "artifact_sha256": "f5a90636fc227e6ef4958952c763330a96f43d01a3614fbabf91a6318441f7ca",
+  "Original_read_complete": true,
+  "exact_head_pins_verified": true,
+  "status": "INCOMPLETE",
+  "counts": {
+    "PASS": 2,
+    "INCOMPLETE": 2
+  },
+  "cases": {
+    "OW11_MODEL_SOURCE_V2_CATALOG22_COMPOSED_INVERSE": {
+      "status": "PASS",
+      "exact_catalog22_composed_inverse": true,
+      "legacy4_verbatim_plus_batched7": true,
+      "private11_RPC0_table0_replacement0": true,
+      "partial_inverse_atomic": true,
+      "both_owned_schema_callers_protected": true,
+      "physical_parent_cannot_be_removed": true,
+      "source_sha256": {
+        "cp7_model_target_source_v2/MANIFEST.json": "68f17723f89a56e306a3881c7b638d2f7e501e5a7a77d04a9d2a6a9b6a8d5f27",
+        "cp7_model_target_source_v2/__init__.py": "e644854f4a9f28d84dd443750fdeb4598ccf48a4823aa1aa7f53f6182868e8ef",
+        "cp7_model_target_source_v2/non-stock.sql": "9c4f437ef463d8877078b192e7ffb36d52ba4a70e7cf43f7920b719d9aacf4fa",
+        "cp7_model_target_source_v2/physical.sql": "bf6c6cd37d634e0a894952bafe6b74abf32b77c77545276c037b49fc3837b23f",
+        "cp7_model_target_source_v2/reorder.sql": "784c0778e10c117d78d6e7eb8874224ddc99fce6b4a548b03e4c6838c4b44d4c",
+        "cp7_model_target_source_v2/source.sql": "8afee4e2799c61a8f04938528af6f07de527c293b2184421c7ac596b31376194",
+        "cp7_model_target_source_v2/stock.sql": "41087a56255b082ba4a8f223a57682221119a1d756975ce5f16c853209070370"
+      },
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-25",
+        "before": "2026-10-25",
+        "after": "2026-10-25"
+      }
+    },
+    "OW11_MODEL_SOURCE_V2_ACTUAL_LATEST_VERSION_AND_POST": {
+      "status": "INCOMPLETE",
+      "error": "CP7_MODEL_TARGET_V2_PARENT_BINDING\nCONTEXT:  PL/pgSQL function cp7_model_target_source_v2.capture(jsonb,integer) line 28 at RAISE",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py\", line 165, in _strict_group_once\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow11_model_target_source_v2_cases.py\", line 122, in versions_post\n    v2,_,_ = private(cur,actor)\n             ^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow11_model_target_source_v2_cases.py\", line 56, in private\n    answer = cur.execute('select cp7_model_target_source_v2.'+fn+'(%s::jsonb,5000)', (json.dumps(capture),)).fetchone()[0]\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.RaiseException: CP7_MODEL_TARGET_V2_PARENT_BINDING\nCONTEXT:  PL/pgSQL function cp7_model_target_source_v2.capture(jsonb,integer) line 28 at RAISE\n",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-25",
+        "before": "2026-10-25",
+        "after": "2026-10-25"
+      }
+    },
+    "OW11_MODEL_SOURCE_V2_ACTUAL_ACCESS_AND_WAREHOUSE_BOUNDARY": {
+      "status": "INCOMPLETE",
+      "error": "CP7_FORMULA_ACCESS_DENIED\nCONTEXT:  PL/pgSQL function cp7_stock_formula.access_now(boolean) line 8 at RAISE\nPL/pgSQL function cp7_model_target_source_v2.capture_for_reorder(jsonb,integer) line 6 at assignment",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py\", line 165, in _strict_group_once\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow11_model_target_source_v2_cases.py\", line 150, in access\n    warehouse,_,_ = private(cur,actor,c,True)\n                    ^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow11_model_target_source_v2_cases.py\", line 56, in private\n    answer = cur.execute('select cp7_model_target_source_v2.'+fn+'(%s::jsonb,5000)', (json.dumps(capture),)).fetchone()[0]\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.InsufficientPrivilege: CP7_FORMULA_ACCESS_DENIED\nCONTEXT:  PL/pgSQL function cp7_stock_formula.access_now(boolean) line 8 at RAISE\nPL/pgSQL function cp7_model_target_source_v2.capture_for_reorder(jsonb,integer) line 6 at assignment\n",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-25",
+        "before": "2026-10-25",
+        "after": "2026-10-25"
+      }
+    },
+    "OW11_MODEL_SOURCE_V2_DENSE2000_BATCHED_PHYSICAL_SOURCE": {
+      "status": "PASS",
+      "label": "SYNTHETIC_VOLUME_ACTUAL_NATIVE_MULTI_MODEL_BATCH_SOURCE",
+      "products": 2000,
+      "movements": 202000,
+      "millis": 365.214,
+      "wall_limit_ms": 8000,
+      "rows": 2002,
+      "scoped_models": 2,
+      "all_missing_models_explicit": true,
+      "raw_stock_omitted_not_zero": true,
+      "exact_scoped_physical_identity": true,
+      "factory_SLA_claim": false,
+      "target_caller_integrated": false,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-25",
+        "before": "2026-10-25",
+        "after": "2026-10-25"
+      }
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "all_case_boundaries_and_public_schemas_restored": true,
+  "root_causes": {
+    "product": "JSON null policy from the legacy source was compared with SQL NULL from source_at; the valid no-policy global baseline was incorrectly refused.",
+    "fixture": "The four-permission model custom actor did not have warehouse.fg.view; the warehouse-only positive control correctly received CP7_FORMULA_ACCESS_DENIED."
+  },
+  "product_guard_relaxed": false,
+  "full_OW11_acceptance": false,
+  "formal_acceptance": "5/16",
+  "production_go": false
+}

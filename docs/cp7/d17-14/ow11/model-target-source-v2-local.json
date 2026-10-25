@@ -1,0 +1,119 @@
+{
+  "contract": "cp7.model-target-source-v2-local.v1",
+  "status": "PASS",
+  "expected": 11,
+  "counts": {
+    "PASS": 11
+  },
+  "cases": [
+    {
+      "id": "STOCK_BATCH_EXACT_ROW_FIELDS_VERSIONS_EMPTY_AND_BOTH_CLOCKS",
+      "status": "PASS",
+      "observed": {
+        "full_existing_digest_parity": true,
+        "product_versions_and_empty_target_retained": true,
+        "physical_and_system_cutoffs": true
+      }
+    },
+    {
+      "id": "NONSTOCK_AND_PHYSICAL_BATCH_EXACT_SINGLE_BINDER_PARITY",
+      "status": "PASS",
+      "observed": {
+        "same_document_multiple_roots_and_items": true,
+        "journals_not_duplicated": true,
+        "reversal_links_preserved": true,
+        "global_caps_before_filter": true,
+        "raw_omission_never_zero": true
+      }
+    },
+    {
+      "id": "EMPTY_COMPLETE_AND_UNKNOWN_BOUNDARY_DIFFER",
+      "status": "PASS",
+      "observed": {
+        "empty_only_when_complete": true
+      }
+    },
+    {
+      "id": "NO_MODEL_EXPLICIT_NULL_WITHOUT_PHYSICAL_OR_HISTORY_READ",
+      "status": "PASS",
+      "observed": {
+        "missing_model_not_zero_or_forecast": true
+      }
+    },
+    {
+      "id": "GLOBAL_BASELINE_WITHOUT_ACTIVATION_POLICY_IS_VALID",
+      "status": "PASS",
+      "observed": {
+        "JSON_null_SQL_null_policy_equivalent": true,
+        "unknown_policy_does_not_hide_valid_baseline": true
+      }
+    },
+    {
+      "id": "SCOPED_BASELINE_VERSION_AND_SOURCE_BOUND",
+      "status": "PASS",
+      "observed": {
+        "actual_current_guard_SQL": true,
+        "unknown_policy_not_invented": true,
+        "runtime_namespace_retained": true
+      }
+    },
+    {
+      "id": "CONTROLLED_ELIGIBLE_EXACT_FORECAST_AND_CLOCK_STABLE_IDENTITY",
+      "status": "PASS",
+      "observed": {
+        "synthetic_positive_only": true,
+        "actual_assessment_and_guard_SQL": true,
+        "immutable_input_result_unchanged": true,
+        "clock_not_identity": true
+      }
+    },
+    {
+      "id": "NEWER_GLOBAL_BASELINE_DISPLACES_OLDER_SCOPED_WINNER",
+      "status": "PASS",
+      "observed": {
+        "latest_unfiltered_across_runtimes": true,
+        "no_fallback_to_older_winner": true
+      }
+    },
+    {
+      "id": "CHANGED_CAPTURE_AND_CURRENT_ACCESS_FAIL_CLOSED",
+      "status": "PASS",
+      "observed": {
+        "source_access_and_latest_rechecked_after_physical_read": true,
+        "actual_concurrency": false
+      }
+    },
+    {
+      "id": "STORED_HISTORY_OR_MODEL_BINDING_TAMPER_REFUSED",
+      "status": "PASS",
+      "observed": {
+        "synthetic_corruption_refused": true,
+        "no_global_scoped_aliasing": true
+      }
+    },
+    {
+      "id": "WAREHOUSE_ONLY_READ_HAS_NO_MODEL_POLICY_HISTORY_DISCLOSURE",
+      "status": "PASS",
+      "observed": {
+        "warehouse_access_preserved": true,
+        "model_and_policy_not_disclosed": true,
+        "full_capture_requires_model_access": true
+      }
+    }
+  ],
+  "source_sha256": {
+    "stock.sql": "41087a56255b082ba4a8f223a57682221119a1d756975ce5f16c853209070370",
+    "non-stock.sql": "9c4f437ef463d8877078b192e7ffb36d52ba4a70e7cf43f7920b719d9aacf4fa",
+    "physical.sql": "bf6c6cd37d634e0a894952bafe6b74abf32b77c77545276c037b49fc3837b23f",
+    "source.sql": "aa5312f92feb62982b460e871226d8133c5aa90b5b6ed9568b3304e10bd21d3b",
+    "reorder.sql": "784c0778e10c117d78d6e7eb8874224ddc99fce6b4a548b03e4c6838c4b44d4c"
+  },
+  "PGlite": "0.5.11",
+  "actual_SQL": true,
+  "synthetic_rows_and_controlled_physical_recapture": true,
+  "actual_Native": false,
+  "actual_Auth_HTTP": false,
+  "actual_concurrency": false,
+  "target_caller_integrated": false,
+  "production_go": false
+}

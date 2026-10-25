@@ -1,0 +1,18 @@
+{
+  "contract": "cp7.model-target-versioned-client-verification.v1",
+  "status": "PASS",
+  "local_SQL_cases": 26,
+  "client_files": 4,
+  "client_tests": 165,
+  "typescript_build": "PASS",
+  "old_v1_and_new_v2_resolution_preserved": true,
+  "actual_generated_baseline_v4_and_reorder_v4_wires": true,
+  "source_history_runtime_method_namespaces_validated": true,
+  "downgrade_or_relabel_refused": true,
+  "sql_report_sha256": "aae724c577838217ca8e4a3ec0247c5ac6d6a2d745f79d9b87f878d1a111b1b7",
+  "wire_fixture_sha256": "77e49bfdf956abf4c5764461662fab8c11180342904164d33fa20003f9739516",
+  "actual_Native": false,
+  "actual_Auth_HTTP_credit": false,
+  "full_OW11_acceptance": false,
+  "production_go": false
+}

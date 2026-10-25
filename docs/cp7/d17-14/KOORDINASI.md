@@ -3694,3 +3694,94 @@ Target consumer/provenance/cache/hooks integrasi masih terbuka; formal5/16, prod
 
 
 A25 Oktober: B physical-binding source merged into isolated preparation only. Frozen F05 remains byte-exact; B8063 candidate retained separately at scripts/cp7_b_physical_binding_f05_candidate.py. No full-current runtime or target caller credit.
+## 139. B25 Oktober2026 WIB — environment recovery and completed selection Original
+
+Fresh clone8063c35f restored the committed tree; the old scratch workspace and
+unpublished source drafts were gone. Rebuilt source-v2 from the retained design
+and actual parent SQL, with fresh verification rather than inheriting old PASS.
+Selection8ab4b7e1/run40127943408/Original12573938163 now fully verified: seven exact
+head/current pins, all Native4 cases, package/CP6/advisor/boundary/cleanup. Original
+observation stays retained; new completed receipt has the same archive SHA/bytes.
+
+## 140. B25 Oktober2026 WIB — rebuilt batched source-v2 Native4 candidate
+
+Private source composes unchanged legacy source4 plus batched source7 functions
+(two private schemas, no RPC/table/replacement). Latest actor-owned evaluation is
+selected across GLOBAL_V2/SCOPED_V3 with explicit method/history namespace. One
+stock scan per captured boundary retains all row fields/both clocks; grouped
+non-stock facts preserve original/reversal journals, global caps and UNKNOWN.
+Existing assessment/current_guard supplies eligibility; warehouse-only reads
+carry no model archive/policy. Recheck physical source/latest/access/policy/engine
+before return. Both owned schemas are protected from external-caller removal.
+
+Fresh PGlite0.5.11 actual SQL10PASS, synthetic rows/controlled recapture: digest
+parity across product versions/empty/physical+system clocks; multi-root documents
+with inverses; incomplete versus empty; versioned baseline/controlled eligible;
+newer baseline displaces old winner; source/access/new-run change and stored
+corruption refusal; warehouse boundary. No Native/Auth/race credit from these.
+SQL AST/clash and own/unchanged selector+binding preflights PASS. Four Native
+cases are predeclared for exact22 inverse, actual versions/SALE, access/warehouse
+and dense2000/202000 with two scoped models. Original pending, not accepted.
+Target consumer/provenance/cache/hooks integration remains open; formal5/16,
+independent acceptance false and production_go=false.
+
+## 141. B25 Oktober2026 WIB — first source-v2 Native4 retained and corrected
+
+04551081/run40165537093/job121085696390 complete JSON12588657272,160089 bytes,
+SHA f5a90636fc227e6ef4958952c763330a96f43d01a3614fbabf91a6318441f7ca.
+Original2PASS/2INCOMPLETE: exact22 inverse and dense2000/202000 with two scoped
+models365.214ms passed; global v2 without activation policy was incorrectly
+refused because JSON null was compared against SQL NULL. Normalize the parent
+policy comparison to JSON null; retain the current policy guard. The warehouse
+positive fixture lacked warehouse.fg.view; give only that documented permission
+and verify revoking it still denies access. Product permission checks unchanged.
+
+All19 exact-head pins, CP6/advisor, case boundaries and cleanup verified. First
+Original stays retained; no acceptance credit for incomplete cases. Fresh local
+11PASS includes the no-policy global-baseline regression. Own Native4 declaration
+and SQL clash pass. Corrected code qualifies on a new head; no bare rerun.
+Versioned consumer/hooks/client drafts continue separately; not yet Native
+qualified or default-installed. Formal5/16, independent acceptance/prod false.
+
+## 142. B25 Oktober2026 WIB — versioned target consumer/hooks/client candidate
+
+Private consumer binds cp7.model-target-source.v2 to captured full target stock
+references and complete grouped non-stock facts. The consumer stays IMMUTABLE;
+stock tables are read only by the source producer at its capture clock. Same
+projection/timeline kernels, manual/own/analog priorities and observed operands
+are retained. New resolution.v2/provenance.v3 carry exact runtime/read method,
+history scope and hashes; global/scoped histories never alias one another.
+
+New opt-in stage: unchanged projection2 + immutable consumer/timeline2, 21 exact
+replacements, two schemas, no table/RPC/default change. Source-v2 is a separate
+prerequisite. Direct baseline.v4, reorder projection.v4, staged/operational
+targets and dated timelines use this path. Cached reorder rows from older
+versions require refresh; all model authority is checked across the full
+current source, before and after a filtered/paged read. Existing immutable
+archives keep their contracts; new client parsers bind each version explicitly.
+
+Local actual SQL26PASS, including generated direct/staged/reorder/reader hooks,
+manual priority, actual forecast projection arithmetic on synthetic history,
+policy retirement, warehouse-only, exact partial-day/tiny/wide dated vectors
+and full operational/staged output parity. Client165PASS/four files plus tsc.
+First fixture failures retained: session-local setup facts and an empty controlled
+physical producer, both correctly rejected by the unchanged physical guard.
+No actual historical Native winner/forecast calibration claimed.
+
+Closed Native6 candidate composes analog/freshness + scoped/source parents,
+exact22 inverse/after-use refusal, actual public v4 replay, current policy/latest
+v2+v3, post/profile/access, FG-only refresh/read and bounded analog parity.
+Own/new and existing source preflights, actual workflow declaration, SQL AST/
+clash and shell/YAML checked. Native Original/HTTP/races/browser/after-use
+composed restore remain open. Formal5/16 and production_go=false unchanged.
+
+
+## A25 Oktober2026 — isolated versioned-target source intake
+
+True merge of B dbc0d3ff into the separate versioned-target preparation branch.
+Frozen F05 remains unchanged; exact B entrypoint is retained separately as
+cp7_b_versioned_target_f05_candidate.py. New consumer/source stages and client
+contracts are present but not installed by the full A composer. Native source-v2
+first failure remains 2PASS/2INCOMPLETE; corrected source4 and consumer6 actual
+Originals are pending. Current factory/history/selected-return candidates are
+unchanged. No full-A, production, or independent-acceptance claim.

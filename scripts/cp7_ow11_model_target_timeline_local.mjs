@@ -2,7 +2,7 @@
 // No Native historical admission or owner-policy approval is claimed.
 import assert from 'node:assert/strict'
 
-export async function timelineCases(f,{block,hooks,fixture,rows}){
+export async function timelineCases(f,{block,hooks,fixture,rows,modelVersion='policy-gated-dated-model-target-1'}){
  const {db,read,sql,test,ready,rejects}=f
  await db.exec('create schema cp7_netting_native;create schema cp7_analysis_native;create schema cp7_fabric_native')
  await db.exec(await read('scripts/cp7-src/baseline/timeline.sql'))
@@ -108,7 +108,7 @@ export async function timelineCases(f,{block,hooks,fixture,rows}){
   const args=[x.c,[r],{[r.target_key.split(':')[0]]:[x.c.facts.products[0]]},{[r.target_key]:[stock]},{[r.target_key]:[hist]},{},{},[],{}]
   const staged=await sql('select cp7_analysis_stage.analysis_targets('+args.map((_,i)=>'$'+(i+1)+'::jsonb').join(',')+')v',args.map(v=>JSON.stringify(v)))
   assert.deepEqual(out.demand_models,staged.targets[0].models);assert.deepEqual(out.timeline,staged.targets[0].timeline)
-  assert.deepEqual(out.recommendations,staged.targets[0].recommendations);assert.equal(out.versions.models,'policy-gated-dated-model-target-1')
+  assert.deepEqual(out.recommendations,staged.targets[0].recommendations);assert.equal(out.versions.models,modelVersion)
   assert.equal(out.demand_models[0].method_id,'NAIVE');assert.equal(out.demand_models[0].demand_rate.state,'NOT_APPLICABLE')
   const legacy=await sql('select cp7_analysis_native.legacy_operational($1::jsonb,$2::jsonb,$3::uuid,$4::jsonb)v',[JSON.stringify(x.c),JSON.stringify(x.q),f.actor,JSON.stringify({actor:f.actor})])
   assert.equal(legacy.demand_models[0].mode,'FALLBACK');assert.equal(decimal(legacy.demand_models[0].demand_rate.value),'50.5')
