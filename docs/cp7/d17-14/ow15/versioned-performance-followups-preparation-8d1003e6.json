@@ -1,0 +1,25 @@
+{
+  "recorded_at_utc": "2026-10-25T10:11:15.201978+00:00",
+  "head": "8d1003e60ad67ce1135a55bb55f6a4a212e4a39e",
+  "tree": "251d9a3c9cea000da4abc9519d5b90b0cc3623cd",
+  "branch": "astra-a/d17-14-versioned-performance-prepared-20261025",
+  "prepared_only": true,
+  "actual_A_database_runtime": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "formal_accepted": "5/16",
+  "workflows": [
+    "Native36",
+    "used restore8",
+    "finance10",
+    "minute cron1"
+  ],
+  "SOURCE_bound": false,
+  "exact_B_functions": 2,
+  "source_paths_changed": 6,
+  "qualifying_B_head": "c7f06b855512e0c8d450522c36e84f4cab570a2a",
+  "waiting_for_actual_full_versioned_Native36_and_restore8": true,
+  "combined_versioned_candidate_head": "638fb25cbf83daf0839075156007d46568f9fa3f",
+  "combined_restore_symbol_corrected": true,
+  "selected_restore_run": 40180905749
+}

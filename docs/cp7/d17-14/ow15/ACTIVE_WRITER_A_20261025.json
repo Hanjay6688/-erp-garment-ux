@@ -1,5 +1,5 @@
 {
-  "recorded_at_utc": "2026-10-25T09:46:05.272858+00:00",
+  "recorded_at_utc": "2026-10-25T10:11:15.201978+00:00",
   "role": "A finance writer/integrator replacing Claude",
   "slogan": [
     "VENI. VIDI. VICI. ERP. \u2014 I CONQUERED ERP.",
@@ -76,7 +76,7 @@
     },
     {
       "scope": "isolated future versioned-target integration",
-      "head": "ae0b7b9fbc9b9c5ffb7d8d12a2427d2d24bfc34c",
+      "head": "638fb25cbf83daf0839075156007d46568f9fa3f",
       "branch": "astra-a/d17-14-versioned-target-integration-prepared-20261025",
       "client_tests": 303,
       "client_test_files": 12,
@@ -92,7 +92,7 @@
       "changed_hook_bodies": 14,
       "unchanged_hook_bodies": 7,
       "legacy_target_objects_preserved": true,
-      "tree": "531b43b46e686380187557abb10a71d2972b0bad",
+      "tree": "2ab96befe3120ab12f0667d6129c4aab11839d59",
       "true_merge_B_head": "36b81fcee8ee801a96793c89df6e14388263ad33",
       "browser_source_pins_current": 50,
       "first_source_export_mismatch_preserved": true,
@@ -100,7 +100,7 @@
       "recovery_prepared": true,
       "actual_prerequisites_required": 12,
       "SOURCE_bound": false,
-      "next": "Wait both actual full used restores, bind12 exact Originals, full admission, launch Native36",
+      "next": "Intake only remaining selected-return restore; then bind12 exact Originals and launch full Native36",
       "Native36_prepared": true,
       "cases": 36,
       "retained_assertion_sets": 25,
@@ -137,7 +137,11 @@
       "selected_and_scoped_restore_SOURCE_true_merged": true,
       "exact_selected_restore_head_required": "625fc55e161726ab9f4ccf420384b4fdb4713fe9",
       "combined_used_restore_named_refusal_corrected": true,
-      "frozen_source_changes_still_exactly7": true
+      "frozen_source_changes_still_exactly7": true,
+      "history_metadata_control_reference_corrected_before_binding": true,
+      "all_restore_global_names_resolved": true,
+      "restore_metadata_signature_paths": 8,
+      "restore_negative_source_paths": 11
     },
     {
       "scope": "full scoped model used restore8",
@@ -176,8 +180,8 @@
     {
       "scope": "late exact B performance on unchanged full A versioned predecessor",
       "branch": "astra-a/d17-14-versioned-performance-prepared-20261025",
-      "head": "c0f17aa46dba414bb3b691674befa8aa4ab98f55",
-      "tree": "229442d8034b93288402b0cad9e9082c64587784",
+      "head": "8d1003e60ad67ce1135a55bb55f6a4a212e4a39e",
+      "tree": "251d9a3c9cea000da4abc9519d5b90b0cc3623cd",
       "B_qualified_source_head": "c7f06b855512e0c8d450522c36e84f4cab570a2a",
       "exact_function_replacements": 2,
       "direct_JSON_path_substitutions": 6,
@@ -188,8 +192,26 @@
       "used_inverse_and_forged_rollback_refused_before_SQL": true,
       "full_restore_code_prepared": true,
       "actual_A_runtime_qualified": false,
-      "qualification_workflows_prepared": false,
-      "next": "Bind actual predecessor Native36 and restore; qualify retained cases under new full verifier before factory finance"
+      "qualification_workflows_prepared": true,
+      "next": "Take actual full versioned Native36 plus restore8; bind7 actuals, full frozen A/B admission, qualify performance Native36; then full restore/finance/cron, browser/transport preparation and corrected factory finance",
+      "prepared_workflows": [
+        "Native36",
+        "used restore8",
+        "finance10",
+        "minute cron1"
+      ],
+      "all_SOURCE_absent": true,
+      "Native36_actual_prerequisites": 7,
+      "Native36_B_actuals_verified": 5,
+      "Native36_business_source_negatives": 4,
+      "Native36_evidence_negatives": 4,
+      "used_restore_unchanged_fixtures": 7,
+      "used_restore_retained_assertions": 45,
+      "used_restore_negative_controls": 34,
+      "used_restore_new_controls": 5,
+      "finance_retained_assertions": 55,
+      "cron_retained_assertions": 36,
+      "corrected_selected_refusal_true_merged": true
     }
   ],
   "first_failures_preserved": [
