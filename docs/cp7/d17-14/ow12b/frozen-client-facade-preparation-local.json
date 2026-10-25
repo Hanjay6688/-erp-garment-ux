@@ -1,0 +1,56 @@
+{
+  "contract": "cp7.frozen-client-facade-preparation.v2",
+  "status": "LOCAL_PREPARATION_ONLY",
+  "base_head": "e33f3095612d7274b2780b1a3ee18c68a4d14533",
+  "client_tests": {
+    "new": 12,
+    "retained_v1": 20,
+    "total_pass": 32
+  },
+  "client_log_sha256": "300ea0dc910a091635f90c818a75d8e0f500f4b4c56b5d0003b5c5520076013d",
+  "dedicated_TypeScript_check": "PASS",
+  "facade_PGlite18_controls": 4,
+  "controlled_private_request": true,
+  "actual_Native_PG17": false,
+  "actual_Auth_HTTP_credit": false,
+  "actual_browser_credit": false,
+  "public_or_default_adoption": false,
+  "production_go": false,
+  "source_access_checker_baseline": {
+    "source": {
+      "identical_baseline_outcome": true,
+      "baseline_normalized_sha256": "8cf26eedb424b235ddd90d2d5a3551c8a9995cb66fefbbeecc7a5f0235021960",
+      "candidate_normalized_sha256": "8cf26eedb424b235ddd90d2d5a3551c8a9995cb66fefbbeecc7a5f0235021960",
+      "first_error": "AssertionError [ERR_ASSERTION]: Browser RPC ownership drift"
+    },
+    "access": {
+      "identical_baseline_outcome": true,
+      "baseline_normalized_sha256": "3a23f9aff83f91ddf343953941abf450a95cb4db6421ee5f2e7c0ed796dd5946",
+      "candidate_normalized_sha256": "3a23f9aff83f91ddf343953941abf450a95cb4db6421ee5f2e7c0ed796dd5946",
+      "first_error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:"
+    }
+  },
+  "first_preparation_check_failure": {
+    "error": "New runtime module under src was unreferenced",
+    "resolution": "Moved genuinely unadopted transport and tests into own scripts preparation package",
+    "guard_or_allowlist_relaxed": false,
+    "dummy_import_added": false,
+    "original_failure_log_not_retained": true
+  },
+  "prepared_actual_provider": {
+    "native": 3,
+    "races": 3,
+    "http": 2,
+    "total": 8,
+    "wired": false,
+    "runtime_executed": false,
+    "current_access_source_and_replay_waits_require_actual_blocker_observation": true
+  },
+  "limitations": [
+    "Real Native installer and exact22 inverse not yet qualified",
+    "Actual GoTrue/PostgREST and lock races are prepared, not run",
+    "No current UI integration or workspace-v2 parser adoption",
+    "Local storage comparisons do not establish atomic cross-tab arbitration",
+    "Existing source ownership and access catalog checks fail identically on baseline and candidate; A owns shared registry adoption"
+  ]
+}

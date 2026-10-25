@@ -708,7 +708,7 @@
     }
   },
   "new_factory1200x3_candidate": {
-    "status": "LATEST_PREDECESSOR_8S_TIMEOUT_RETAINED",
+    "status": "LATEST_CURRENT_8S_TIMEOUT_RETAINED",
     "required_cases": 2,
     "source_pins": 59,
     "common_qualified_assertions_preserved": 26,
@@ -727,24 +727,63 @@
       "supabase_admin"
     ],
     "ordinary_application_roles_still_refused": true,
-    "latest_head": "dd22f085a6da43f186e5f92e6f5989a0bd595b21",
-    "latest_run_id": 40202855089,
-    "latest_artifact_id": 12602769430,
-    "latest_error": "PREDECESSOR57014_STATEMENT_TIMEOUT",
+    "latest_head": "e33f3095612d7274b2780b1a3ee18c68a4d14533",
+    "latest_run_id": 40206240973,
+    "latest_artifact_id": 12604286540,
+    "latest_error": "CURRENT57014_STATEMENT_TIMEOUT",
     "full_PASS_returned": false,
     "result_assembly_mapping_fix_prepared": true,
-    "latest_request_millis": 8006.622,
-    "latest_stock_digest_total_ms": 3820.164,
-    "current_overlay_reached": false,
+    "latest_request_millis": 8060.272,
+    "latest_stock_digest_total_ms": 2961.161,
+    "current_overlay_reached": true,
     "result_assembly_fix_reached_in_latest_execution": false,
     "bare_rerun": false,
     "prior_d68_completed_but_report_INCOMPLETE": {
       "predecessor_request_millis": 6244.366,
       "current_request_millis": 7661.88,
       "both_actual_captures_DONE": true
-    }
+    },
+    "retained_dd22_prior": {
+      "status": "LATEST_PREDECESSOR_8S_TIMEOUT_RETAINED",
+      "required_cases": 2,
+      "source_pins": 59,
+      "common_qualified_assertions_preserved": 26,
+      "original_3600_fixture_unchanged": true,
+      "actual_Native": false,
+      "full_factory1200SKU3size_qualified": false,
+      "statement_limit": "8s",
+      "production_go": false,
+      "first_head": "9bc3237903c44cfbc23f08bed6340dae8670b5fd",
+      "first_run_id": 40185105228,
+      "first_artifact_id": 12595364192,
+      "first_error": "FACTORY3600_TEST_ADMIN_REQUIRED",
+      "first_request_or_fixture_DML_reached": false,
+      "corrected_fixture_admins": [
+        "postgres",
+        "supabase_admin"
+      ],
+      "ordinary_application_roles_still_refused": true,
+      "latest_head": "dd22f085a6da43f186e5f92e6f5989a0bd595b21",
+      "latest_run_id": 40202855089,
+      "latest_artifact_id": 12602769430,
+      "latest_error": "PREDECESSOR57014_STATEMENT_TIMEOUT",
+      "full_PASS_returned": false,
+      "result_assembly_mapping_fix_prepared": true,
+      "latest_request_millis": 8006.622,
+      "latest_stock_digest_total_ms": 3820.164,
+      "current_overlay_reached": false,
+      "result_assembly_fix_reached_in_latest_execution": false,
+      "bare_rerun": false,
+      "prior_d68_completed_but_report_INCOMPLETE": {
+        "predecessor_request_millis": 6244.366,
+        "current_request_millis": 7661.88,
+        "both_actual_captures_DONE": true
+      }
+    },
+    "predecessor_request_millis": 7288.263,
+    "predecessor_actual_DONE_all3602_targets": true
   },
-  "latest_attempted_head": "dd22f085a6da43f186e5f92e6f5989a0bd595b21",
+  "latest_attempted_head": "e33f3095612d7274b2780b1a3ee18c68a4d14533",
   "latest_scale_regression_qualified": true,
   "latest_scale_regression": {
     "status": "PASS_ONE_SIZE_COMPONENT_ONLY",
@@ -807,10 +846,10 @@
     "production_go": false
   },
   "latest_retained_regressions": {
-    "head": "dd22f085a6da43f186e5f92e6f5989a0bd595b21",
+    "head": "e33f3095612d7274b2780b1a3ee18c68a4d14533",
     "OW13b": {
-      "run_id": 40202855119,
-      "artifact_id": 12602448417,
+      "run_id": 40206240934,
+      "artifact_id": 12604130655,
       "counts": {
         "native": 14,
         "races": 2,
@@ -819,8 +858,8 @@
       }
     },
     "OW16": {
-      "run_id": 40202855197,
-      "artifact_id": 12602786503,
+      "run_id": 40206240945,
+      "artifact_id": 12603519956,
       "counts": {
         "native": 10,
         "races": 2,
@@ -829,8 +868,8 @@
       }
     },
     "OW14b": {
-      "run_id": 40202855167,
-      "artifact_id": 12603331503,
+      "run_id": 40206240917,
+      "artifact_id": 12604462347,
       "counts": {
         "native": 61,
         "races": 34,
@@ -843,9 +882,9 @@
     "new_cross_suite_target_credit": 0
   },
   "binary_private_latest_regression": {
-    "head": "dd22f085a6da43f186e5f92e6f5989a0bd595b21",
-    "run_id": 40202855134,
-    "artifact_id": 12602568285,
+    "head": "e33f3095612d7274b2780b1a3ee18c68a4d14533",
+    "run_id": 40206240916,
+    "artifact_id": 12604405073,
     "status": "PASS",
     "cases": 4,
     "Original_JSON_files_read": 5,
@@ -853,29 +892,61 @@
     "caller_integrated": false
   },
   "frozen_capsule_candidate": {
-    "head": "dd22f085a6da43f186e5f92e6f5989a0bd595b21",
-    "run_id": 40202855125,
-    "status": "FIRST_NATIVE4_3PASS_1INCOMPLETE_OBSERVER_ARITY",
+    "status": "PRIVATE_NATIVE4_ALL4PASS",
+    "head": "e33f3095612d7274b2780b1a3ee18c68a4d14533",
+    "run_id": 40206240919,
+    "job_id": 121207674048,
+    "artifact_id": 12604112580,
+    "artifact_sha256": "7fa3be5f54bfbe0d2c1583edffff1d0edcffd648cb50daffd3fdb7139adf069f",
+    "counts": {
+      "PASS": 4
+    },
+    "source_pins": 67,
     "private_functions": 11,
     "new_tables": 0,
     "existing_replacements": 0,
+    "whole_Native4_qualified": true,
+    "actual_PG17": true,
+    "tamper_controls": 9,
+    "ordered_volume_millis": [
+      3058.299,
+      3687.066,
+      4184.157
+    ],
+    "whole_compiler_JSON_exact": true,
     "request_or_unit_integrated": false,
+    "caller_latency_or_factory_SLA_qualified": false,
     "production_go": false,
-    "artifact_id": 12602988498,
-    "counts": {
-      "PASS": 3,
-      "INCOMPLETE": 1
-    },
-    "first_error": "too many values to unpack (expected 2)",
-    "private_volume_capture_millis": 3368.637,
-    "private_volume_prepare_millis": 4970.474,
-    "all3602_compiler_fields_exact": true,
-    "whole_Native4_qualified": false,
-    "observer_only_fix_prepared": true,
-    "observer_fix_with_shared_return_shape_preflight": true
+    "retained_first_dd22_INCOMPLETE": {
+      "head": "dd22f085a6da43f186e5f92e6f5989a0bd595b21",
+      "run_id": 40202855125,
+      "status": "FIRST_NATIVE4_3PASS_1INCOMPLETE_OBSERVER_ARITY",
+      "private_functions": 11,
+      "new_tables": 0,
+      "existing_replacements": 0,
+      "request_or_unit_integrated": false,
+      "production_go": false,
+      "artifact_id": 12602988498,
+      "counts": {
+        "PASS": 3,
+        "INCOMPLETE": 1
+      },
+      "first_error": "too many values to unpack (expected 2)",
+      "private_volume_capture_millis": 3368.637,
+      "private_volume_prepare_millis": 4970.474,
+      "all3602_compiler_fields_exact": true,
+      "whole_Native4_qualified": false,
+      "observer_only_fix_prepared": true,
+      "observer_fix_with_shared_return_shape_preflight": true,
+      "observer_correction_qualification": {
+        "head": "e33f3095612d7274b2780b1a3ee18c68a4d14533",
+        "run_id": 40206240919,
+        "status": "RUNNING_COMPLETE_ORIGINAL_PENDING"
+      }
+    }
   },
   "frozen_units_preparation": {
-    "status": "PRIVATE_NATIVE4_CANDIDATE_ORIGINAL_PENDING",
+    "status": "PRIVATE_NATIVE4_RUNNING_COMPLETE_ORIGINAL_PENDING",
     "private_functions": 8,
     "existing_replacements": 8,
     "new_tables": 0,
@@ -889,7 +960,22 @@
     "public_or_default_adoption": false,
     "production_go": false,
     "source_pins": 79,
-    "missing_or_mixed_routes_refused": 87
+    "missing_or_mixed_routes_refused": 87,
+    "head": "e33f3095612d7274b2780b1a3ee18c68a4d14533",
+    "run_id": 40206240957,
+    "job_id": 121207674321
   },
-  "latest_A_read_only_intake": "A7de9d4b9-read-only-intake.json"
+  "latest_A_read_only_intake": "A7de9d4b9-read-only-intake.json",
+  "frozen_facade_preparation": {
+    "status": "LOCAL_ONLY_NOT_WIRED_NOT_ADOPTED",
+    "new_public_RPC": 1,
+    "old_replacements": 0,
+    "local_client_tests_PASS": 32,
+    "local_PGlite18_controlled_request_controls": 4,
+    "prepared_Native_races_HTTP_cases": 8,
+    "actual_Native_qualified": false,
+    "actual_Auth_HTTP_credit": false,
+    "production_go": false,
+    "receipt": "../ow12b/frozen-client-facade-preparation-local.json"
+  }
 }

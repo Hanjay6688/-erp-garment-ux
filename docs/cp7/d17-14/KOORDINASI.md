@@ -3418,3 +3418,65 @@ PASS; no frontend/default/A/shared/native migration changes. Capsule observer
 correction qualifies in its separate own run on this same candidate. Do not
 select fastest results or erase automatically triggered old-factory failures.
 Formal5/16, CP7C/independent false, production_go=false; continue actual results.
+
+## 175. B25 Oktober2026 WIB — e33 complete retained regressions and current factory timeout
+
+e33f3095 full Original5JSON each verified against actual current F05 prefix,
+declarations/source maps/product paths/case IDs/counts and complete restoration:
+OW13b20/run40206240934/Original12604130655, OW16 16/run40206240945/12603519956,
+OW14b113/run40206240917/12604462347, privatebinary4/run40206240916/12604405073
+PASS. No new screenshot review or extra repeated/cross-suite acceptance.
+
+Oldfactory/run40206240973/job121207674377/Original12604286540,120756bytes/SHA
+b11b6a73abba0036d76acee478486388a9339de44ef5ccecff2e586db26ed6da retains
+1PASS/1INCOMPLETE: predecessor actually DONE/all3602targets at7288.263ms,
+CURRENT57014 at8060.272ms. Stockdigest2961.161ms/compiler3136.834ms observed
+completed-frame totals; no aggregation into unobserved latency. All59pins/5JSON/
+package4gates+writerfalse/CP6/advisors/public22/WIB/session/Auth0->0 restored.
+Current overlay reached; no complete parity outcome/assembly or factory SLA
+credit. Earlier predecessor failures remain intact; no manual unchanged rerun.
+Privatecapsule/run40206240919 and units/run40206240957 remain running on e33;
+new evidence/preparation does not alter those sources or restart those jobs.
+
+## 176. B25 Oktober2026 WIB — explicit facade/recovery preparation, not adopted
+
+Own separate package prepares one authenticated public request-v2 wrapper, exact
+query/UUID forwarding, cp7_capture owner/empty search_path/no public CREATE,
+no other role grants/table/old replacement. Preuse Python catalog/inverse prepared.
+PGlite18.6 four controls PASS with controlled private request; no actual Native/
+Auth policy or catalog-installer qualification. Client12 new+20 retained tests
+and dedicated TypeScript PASS; actor/scope/method/query/UUID durable recovery,
+exact retry after lost reply, no v1 pointer overwrite. No active panel imports.
+
+First src placement was rejected as unreferenced; move genuine preparation out
+of app graph, no dummy import/allowlist relaxation. Original diagnostic log not
+retained. Source/access checker normalized output identical to e33 baseline
+(existing RPC registry drift); shared A registry remains untouched. Local
+comparison guards are not proof of atomic cross-tab arbitration.
+
+Own unexecuted provider prepares3Native/3observed races/2real Auth HTTP cases;
+source capture wait and committed replay wait require actual blocking backends,
+current revoke must refuse with no orphan job. Public route/schema reload/HTTP
+full pages/foreign users/anonymous/current token checks prepared, not F05-wired.
+Private-unit Native4 result must be read before progressing public qualification.
+No default/public activation, new browser credit or production_go; formal5/16.
+
+## 177. B25 Oktober2026 WIB — frozen capsule Native4 complete PASS
+
+e33/run40206240919/job121207674048 Original12604112580,162442bytes/SHA
+7fa3be5f54bfbe0d2c1583edffff1d0edcffd648cb50daffd3fdb7139adf069f. Complete
+5JSON/67source pins/actual F05 prefix/declaration/product paths/all4case IDs
++counts/all5package gates/CP6/advisors/public22/WIB/session/Auth0->0 verified.
+Nine tampered capsule bindings refuse. Entire unchanged compiler JSON/all
+operands/quantities/reasons/references exact, full target sets and raw status
+retained. Actual1200SKUx3/3602products/363601rows ordered capture3058.299ms,
+unchanged compiler3687.066ms, pure prepare4184.157ms, each below unchanged8s.
+No end-to-end sum or fastest-run selection. Actual Native post between prepares
+keeps old capsule/whole inputs exact; fresh full reference/work identity changes.
+Private11/schema1/no tables/RPC/old replacement, exact22 preuse inverse.
+
+Whole private capsule component now qualified; dd22first3PASS/1INCOMPLETE
+observer failure remains retained, correction did not alter product SQL/oracles.
+No request/unit/public/Auth/browser/default/factory-SLA credit from this suite.
+Privateunits Native4 still running; continue through its complete Original.
+Formal5/16, CP7C/independent/production_go=false.

@@ -1,3 +1,43 @@
+# Lanjutan aktif25 Oktober2026 WIB — capsule Native4 PASS, unit Native4 berjalan
+
+Current qualified source candidate e33f3095612d7274b2780b1a3ee18c68a4d14533:
+capsule/run40206240919/Original12604112580 complete PASS4/67pins/all5JSON/allgates.
+Actual1200x3 capture3058.299ms/compile3687.066ms/prepare4184.157ms<8s each,
+whole JSON exact/nine tamper controls/real late post preserved. Private component
+only; no request/unit/Auth/UI/SLA credit. Units/run40206240957/job121207674321
+still in progress. See KOORD177 and retained first dd22failure.
+Read complete five Original JSON and actual current source/declaration pins;
+do not infer success from local controlled tests or a badge. dd22capsule first
+3PASS/1INCOMPLETE observer arity failure retained; only3-tuple unpack fixed.
+Units8private/8replacements immutable reference/PENDING until HIST_PREP cache,
+Native4 wired79pins/87negative route guards;11PGlite18 controls not Native credit.
+
+e33 retained OW13b20/OW16 16/OW14b113/privatebinary4 full Originals PASS.
+Factory oldroute1PASS/1INCOMPLETE: PREDECESSOR DONE7288.263ms/all3602targets,
+CURRENT57014/8060.272ms, no timeout increase/manual unchanged rerun/SLA claim.
+All5JSON/actual pins/product path equivalence/CP6/advisor/public22/WIB/session/
+Auth cleanup verified, first failures retained. See KOORD175 and matrix.
+
+New scripts/cp7_frozen_analysis_facade_v2 is preparation only: one explicit
+authenticated RPC, no old function/table/default changes. Client32tests +TS and
+4PGlite18 facade controls PASS; controlled private callee, no Native/Auth credit.
+Prepared provider Native3/races3/HTTP2 is not wired. Source/access gates produce
+byte-exact existing baseline registry drift; A owns adoption. Atomic cross-tab
+arbitration, explicit work-v2 parser and actual public/browser proofs still open.
+No src runtime changes in this preparation. See KOORD176 and local receipts.
+
+B primary erp-produksi; separate client prep erp-produksi-frozen-client-prep
+based e33, node_modules independent verified copy. Old stock-reference prep is
+stale: never copy it wholesale. Private full evidence b-evidence-private.
+Next read pending private Originals, preserve any first failure, correct cause
+without weakening oracle; then qualify public request/access/recovery and UI.
+A read-only intake7de9d4b9 retained; do not change A/main/integration/defaults/
+registry/types/frozen/supabase/hosted/Enteng/realWA. Formal5/16, CP7C/independent/
+production_go false. Archive confirmed68, replacement outcome unknown; no retry.
+Checkpoint is a save; continue authorized work. All lower blocks are history.
+
+---
+
 # Lanjutan aktif25 Oktober2026 — binary Native4 qualified; lanjut frozen-source adapter
 
 c352db0a binary/run40190390062/Original12597797025 Native4 complete PASS, all5JSON/

@@ -1,0 +1,34 @@
+{
+  "contract": "cp7.frozen-facade-local-controls.v2",
+  "status": "PASS",
+  "cases": [
+    {
+      "id": "ACTUAL_FACADE_OWNER_SEARCH_PATH_AND_ONLY_AUTHENTICATED_EXECUTE",
+      "status": "PASS"
+    },
+    {
+      "id": "WRAPPER_FORWARDS_EXACT_QUERY_UUID_WITH_PRIVATE_OWNER_ONLY",
+      "status": "PASS"
+    },
+    {
+      "id": "ANON_SERVICE_AND_ALERT_CANNOT_EXECUTE_FACADE",
+      "status": "PASS"
+    },
+    {
+      "id": "DEPENDENT_VIEW_BLOCKS_DROP_WITHOUT_PARTIAL_REMOVAL",
+      "status": "PASS"
+    }
+  ],
+  "counts": {
+    "PASS": 4
+  },
+  "sql_sha256": "1f0ef7f78f50dd730988c553861e14011f3514a34a372f9fecabf52d41e12de4",
+  "server_version": "PostgreSQL 18.6 (PGlite 0.5.11) on wasm32-unknown-emscripten, compiled by emcc (Emscripten gcc/clang-like replacement + linker emulating GNU ld) 3.1.74 (1092ec30a3fb1d46b1782ff1b4db5094d3d06ae5), 32-bit",
+  "controlled_private_request": true,
+  "actual_Auth_HTTP_credit": false,
+  "actual_Native": false,
+  "actual_private_access_policy_qualified": false,
+  "Python_catalog_installer_qualified": false,
+  "public_or_default_request_adopted": false,
+  "production_go": false
+}
