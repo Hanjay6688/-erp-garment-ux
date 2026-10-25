@@ -3902,3 +3902,29 @@ CP6/advisor/public/WIB26/session/Auth/restore verified. 5749 factory Original
 stock digest completed3858.065ms. No stable factory SLA; no oracle change or
 unchanged manual rerun. A read-only head remains7de9d4b9. Continue corrected
 Native/Auth/real-browser CI; formal5/16, CP7C/independent/production_go=false.
+
+
+## 195. B26 Oktober2026 WIB — Native schedule qualified; repair real Auth fixture and contrast
+
+c1dd complete Original12610004041 verified6PASS. Actual PENDING SAVE, exact
+replay/old-method distinction, real posted-source/K2 refusals, current access,
+atomic last-table fault,1200SKU x3/all3602compiler inputs and DONE/K3 SAVE.
+Factory request3844.600/3616.884ms; SAVE5423.822/5339.305ms; exact old receipt
+3.643ms. All5JSON/exacthead/source/declarations/public/CP6/advisor/WIB26/session/
+Auth/restore verified. Component qualification only, no factory SLA or real UI
+SAVE qualification. ab OW13b Original12610322823 fully verified20PASS; ab
+Transport9 Original12610461532 preserves1anchorPASS/8unexecuted at old gate.
+
+ab real Auth Browser2 Original12609744316 has8JSON, all verified with exact
+source/clone authority and cleanup/restore. Both actual request/workspace HTTP200
+reached PENDING/COMPLETE physical form. Fixture had only4/8company positions,
+zero customer work; required customer label correctly stopped both before SAVE.
+Full archive12609719427 and mobile screenshot inspected: actual dark-theme
+buttons also lacked readable contrast. First failures retained. Fix adds customer
+ownership to ordinary Native import payload BEFORE FINALIZE, asserts posted8PCS
+customer source/45minutes/no company yield, and checks exact position in real
+HTTP workspace/form. No posted rewrite or disabled trigger. Scoped panel colors
+plus live computed contrast>=4.5 check; actual default app unchanged.153localPASS,
+TypeScript,40module actual Auth build and120pin/93closed-route preflight PASS.
+Corrected real Auth run still required; continue active CI. Formal5/16,
+CP7C/independent/production_go remain false.

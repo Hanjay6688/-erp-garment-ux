@@ -1374,10 +1374,15 @@
     "contract": "docs/cp7/d17-14/ow12b/FROZEN_WORK_AUTH_BROWSER2_CONTRACT.json",
     "receipt": "docs/cp7/d17-14/ow12b/frozen-work-auth-browser2-preparation.json",
     "required_cases": 2,
-    "status": "PREPARED_LOCAL_ONLY",
+    "status": "FIRST_BROWSER2_INCOMPLETE_FIXTURE_AND_STYLE_REPAIR_PREPARED",
     "actual_Auth_HTTP_credit": false,
     "default_application_adopted": false,
-    "production_go": false
+    "production_go": false,
+    "first_run_id": 40222386670,
+    "first_receipt": "docs/cp7/d17-14/ow12b/ab37505d-frozen-work-auth-missing-customer-first.json",
+    "repair_receipt": "docs/cp7/d17-14/ow12b/frozen-work-auth-customer-style-repair.json",
+    "actual_Auth_request_workspace_200": true,
+    "actual_Auth_SAVE_qualified": false
   },
   "frozen_units_latest_regression_5e0": {
     "status": "PASS",
@@ -1474,5 +1479,15 @@
       "run_id": 40222386719,
       "receipt": "docs/cp7/d17-14/ow12b/ab37505d-40222386719-original-pass.json"
     }
-  ]
+  ],
+  "frozen_work_latest_qualified": {
+    "head": "c1dd6b5cd231701be3be35bb7dd45c3856ace8fa",
+    "run_id": 40219663441,
+    "artifact_id": 12610004041,
+    "status": "PASS",
+    "Native_cases": 6,
+    "receipt": "docs/cp7/d17-14/ow12b/c1dd6b5c-40219663441-original-pass.json",
+    "actual_Auth_HTTP_credit": false,
+    "factory_SLA_claim": false
+  }
 }

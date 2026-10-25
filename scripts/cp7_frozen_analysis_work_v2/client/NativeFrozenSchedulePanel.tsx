@@ -9,6 +9,7 @@ import {FROZEN_ANALYSIS_REQUEST,frozenAnalysisRequestKey,readFrozenAnalysisReque
 import {readFrozenScheduleWorkspace,prepareFrozenScheduleRequest,frozenScheduleRequestKey,readFrozenScheduleRequest,persistFrozenScheduleRequest,saveFrozenSchedule,clearFrozenScheduleRequest,type FrozenWorkContext,type FrozenScheduleWorkspace} from './nativeFrozenWork'
 import FrozenScheduleForm,{formFrom,configFrom,type Form} from './FrozenScheduleForm'
 import '../../../src/native-production-planning.css'
+import './frozen-schedule.css'
 
 type Props={query:NativeDemandQuery;onSourceReadStart:()=>void;onSourceReadEnd:()=>void;onClose:()=>void}
 type Source={context:FrozenWorkContext;workspace:FrozenScheduleWorkspace}
@@ -94,7 +95,7 @@ function Workspace({query,onSourceReadStart,onSourceReadEnd,onClose}:Props){
  const pending=Boolean(readHeld.pending||readHeld.error||saveHeld.pending||saveHeld.error)
  const stale=Boolean(source&&base&&(source.workspace.state!=='UNCHANGED'||source.workspace.sourceRun!==base.workspace.sourceRun||source.workspace.sourceHash!==base.workspace.sourceHash||source.workspace.revision!==base.workspace.revision||source.workspace.staged.analysisHash!==base.workspace.staged.analysisHash))
  const canSubmit=Boolean(canSave&&!busy&&!pending&&source&&base&&!stale&&source.workspace.staged.productionState==='COMPLETE'&&!message)
- return<section className="native-production panel" aria-label="Jadwal produksi"><header><div><div className="eyebrow">PERENCANAAN SELURUH PRODUK</div><h2>Jadwal produksi</h2><p>Periksa waktu kerja dan perkiraan hasil. Pekerjaan pelanggan ikut memakai waktu kerja.</p></div><button onClick={()=>{retire();onClose()}}>Tutup jadwal produksi</button></header>
+ return<section className="native-production panel frozen-schedule-panel" aria-label="Jadwal produksi"><header><div><div className="eyebrow">PERENCANAAN SELURUH PRODUK</div><h2>Jadwal produksi</h2><p>Periksa waktu kerja dan perkiraan hasil. Pekerjaan pelanggan ikut memakai waktu kerja.</p></div><button onClick={()=>{retire();onClose()}}>Tutup jadwal produksi</button></header>
   <div className="native-production-actions"><button disabled={busy||pending} onClick={()=>void load()}>Ambil stok proses terbaru</button>{source?<button disabled={busy||pending} onClick={()=>void check()}>Periksa sumber stok proses</button>:null}</div>
   {busy?<p role="status">Memeriksa stok proses dan jadwal…</p>:null}
   {error||readHeld.error||saveHeld.error?<p role="alert">{error||readHeld.error||saveHeld.error}</p>:null}{message?<p role="status">{message}</p>:null}
