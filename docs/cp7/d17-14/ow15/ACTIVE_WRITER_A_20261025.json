@@ -1,5 +1,5 @@
 {
-  "recorded_at_utc": "2026-10-25T09:37:36.667303+00:00",
+  "recorded_at_utc": "2026-10-25T09:46:05.272858+00:00",
   "role": "A finance writer/integrator replacing Claude",
   "slogan": [
     "VENI. VIDI. VICI. ERP. \u2014 I CONQUERED ERP.",
@@ -19,16 +19,6 @@
       "source_pins": 3257,
       "actual_originals": 2,
       "previous_failed_run": 40176745608
-    },
-    {
-      "scope": "Complete scoped-model used restore8",
-      "head": "eb860bfa7e91ea4e290f43361071aeb118971e9c",
-      "run_id": 40177072193,
-      "job_id": 121119950464,
-      "status": "IN_PROGRESS",
-      "full_local_source_admission": "PASS",
-      "source_pins": 3317,
-      "actual_originals": 2
     }
   ],
   "actual_new_component": {
@@ -140,10 +130,9 @@
       "transport_one_HTTP_full_verifier_adaptation": true,
       "transport_actual_state_routing_preflight": "PASS",
       "frozen_scoped_full_source_gate": "PASS3302pins7Originals",
-      "ready_actual_prerequisites": 10,
+      "ready_actual_prerequisites": 11,
       "pending_actual_prerequisites": [
-        "selected-return used restore8",
-        "scoped-model used restore8"
+        "selected-return used restore8 corrected named refusal"
       ],
       "selected_and_scoped_restore_SOURCE_true_merged": true,
       "exact_selected_restore_head_required": "625fc55e161726ab9f4ccf420384b4fdb4713fe9",
@@ -163,8 +152,9 @@
       "post_restore_scoped_model_checks": 8,
       "bash_steps_checked": 38,
       "exact_head_binder": "scripts/current-scoped-model-used-restore-qualification/bind_source.py",
-      "next": "Intake actual running restore8; no runtime credit before complete Original",
-      "required_native_head": "ffa0b63dbb6f0b7888eeaec59d0f39347cd58e0e"
+      "next": "Complete Original admitted and archived; Native36 binding ready",
+      "required_native_head": "ffa0b63dbb6f0b7888eeaec59d0f39347cd58e0e",
+      "status": "ACTUAL_PASS8"
     },
     {
       "scope": "versioned full factory1200x3 official finance1",
@@ -989,5 +979,25 @@
     "actual_refusal_and_zero_changes": true,
     "full_baseline_restored": true,
     "first_failure_preserved": true
+  },
+  "actual_scoped_model_used_restore8": {
+    "name": "CP7_CURRENT_SCOPED_MODEL_USED_RESTORE8.json",
+    "status": "PASS",
+    "head": "eb860bfa7e91ea4e290f43361071aeb118971e9c",
+    "run_id": 40177072193,
+    "job_id": 121119950464,
+    "artifact_id": 12594413905,
+    "zip_bytes": 4188860,
+    "zip_sha256": "0f80787367e135f97e0b53a3aff539c727ca2abbbdb72b6b1604f18eeafc1c7d",
+    "bytes": 2567576,
+    "sha256": "5a1ed67c638b000c74bfff619b7b3b6f80bd908e1cecddaa89e1e68a01e1e298",
+    "archive_member": "CP7_CURRENT_SCOPED_MODEL_USED_RESTORE8.json",
+    "receipt": "scoped-restore-corrected-actual-eb860bfa.json",
+    "source_pins_verified": 3317,
+    "steps": 8,
+    "negative_controls": 22,
+    "scoped_model_restore_checks": 8,
+    "two_full_restores": true,
+    "full22_all_rows_sequences_and_CP6_restored": true
   }
 }
