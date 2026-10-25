@@ -3454,3 +3454,28 @@ menjaga v1 A/source/guard tetap, sebelum membuat composer; belum ada runtime
 atau pemasangan baru. Ini scope integrasi A, bukan perubahan pada cabang B.
 Bukti Native4 B10a tetap component-only; public/Auth/finance belum diadopsi.
 Formal5/16; production_go dan independent acceptance=false.
+
+
+##26Oktober2026 WIB — A menegaskan scope dan memulai Native40 privat
+
+A menggantikan Claude untuk uang/stok/HPP/laporan dan penggabungan; B tetap
+produksi/perencanaan sesuai pembagian22Oktober. Pemilik bertanya ulang A/B dan
+risiko saling timpa: jawaban lengkap disimpan pada
+`ow15/WRITER_A_SCOPE_20261026.md`. A tidak menulis cabang B; tidak mengubah
+baris status scope B. Hasil B dikonsumsi pada versi tertentu dan diuji di A.
+
+A-only `astra-a/d17-14-frozen-units-integration-prepared-20261025` kini8de2ae69
+(parent d71ea82d, sumber A pendahulu4608b478). Dua puluh berkas produk dan
+empat helper B10a byte-exact; tidak ada fasad/layar B yang diadopsi. Perbedaan
+renderer v1 ditangani pada adaptor A dengan kedua hash dan satu transformasi
+CTE yang tertutup; v1A dan penjaga sumber B tetap utuh. Empat belas kontrol
+negatif sumber/katalog/used-guard serta enam kontrol Original lokal lulus.
+Fullsource admission3618pin/4Original PASS, bukan kelulusan runtime.
+
+Eksekusi `astra-a/d17-14-frozen-units-native40-20261025` pada8de2ae69,
+run40216890593/job121239848652 benar-benar berjalan sejak00.31WIB. Semua36
+kasus lama dipertahankan, ditambah4privat; kegagalan awal tetap disimpan.
+Lima suite performance4608b478 yang berjalan sejak00.00WIB tidak diubah.
+Factory dengan keuangan resmi, fasad publik v2 dan default tetap belum
+qualified/diaktifkan. Tidak ada main/official/hosted/WA nyata yang diubah;
+formal5/16, production_go=false.
