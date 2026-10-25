@@ -1,5 +1,5 @@
 {
-  "recorded_at_utc": "2026-10-25T13:48:38.261209+00:00",
+  "recorded_at_utc": "2026-10-25T13:59:16.224803+00:00",
   "role": "A finance writer/integrator replacing Claude",
   "slogan": [
     "VENI. VIDI. VICI. ERP. \u2014 I CONQUERED ERP.",
@@ -30,17 +30,6 @@
       "actual_originals": 2,
       "complete_local_source_admission": "PASS",
       "execution_branch": "astra-a/d17-14-versioned-target-cron-20261025"
-    },
-    {
-      "scope": "Current versioned finance",
-      "head": "34ecfe89db86fb2fcf1dc6bba2ab44ba023eb808",
-      "run_id": 40196753855,
-      "job_id": 121179129721,
-      "status": "CI_IN_PROGRESS",
-      "source_pins": 3488,
-      "actual_originals": 2,
-      "complete_local_source_admission": "PASS",
-      "execution_branch": "astra-a/d17-14-versioned-target-finance-admission2-20261025"
     },
     {
       "scope": "Current versioned transport",
@@ -117,8 +106,8 @@
       "typescript": "PASS",
       "source_access_CSS_inventories": "PASS",
       "predecessor_backend_source_ownership": "PASS",
-      "full_A_composer_installs_versioned_target": "IMPLEMENTED_NOT_NATIVE_QUALIFIED",
-      "full_A_Native_qualification": false,
+      "full_A_composer_installs_versioned_target": "ACTUAL_NATIVE36_PASS",
+      "full_A_Native_qualification": true,
       "local_positive_stages": 4,
       "local_negative_guards": 12,
       "new_private_functions": 13,
@@ -186,9 +175,11 @@
       "wrong_member_negative_controls": 3,
       "first_runtime_INCOMPLETE_artifact": 12598360114,
       "retained_scoped_replay_full_composer_guard": true,
-      "status": "ACTUAL_NATIVE36_PASS_FIVE_FOLLOWUPS_RUNNING",
+      "status": "ACTUAL_NATIVE36_BROWSER6_FINANCE10_PASS_THREE_FOLLOWUPS_RUNNING",
       "actual_native_head": "014019a612260525e9c3b9459e354a86209336c1",
-      "artifact_id": 12598724977
+      "artifact_id": 12598724977,
+      "qualified_Native_head": "014019a612260525e9c3b9459e354a86209336c1",
+      "qualified_Native_run": 40191412940
     },
     {
       "scope": "full scoped model used restore8",
@@ -240,7 +231,7 @@
       "full_restore_code_prepared": true,
       "actual_A_runtime_qualified": false,
       "qualification_workflows_prepared": true,
-      "next": "Wait actual combined Native36 and restore8; true-merge qualified sources; bind7 actual prerequisites for performance Native36; run all six current suites before factory",
+      "next": "Actual current Native36 already PASS and corrected sources true-merged; current restore8 PASS unlocks binding seven actual prerequisites and full admission before performance Native36; all six actual suites required before factory.",
       "prepared_workflows": [
         "Native36",
         "used restore8",
@@ -1674,6 +1665,38 @@
       "copy_catalog_admissions": 3,
       "race_copy_catalog_admissions": 0,
       "writer_visual_review": "versioned-current-browser6-visual-review.json"
+    },
+    "finance": {
+      "name": "CP7_CURRENT_VERSIONED_TARGET_FINANCE10.json",
+      "status": "PASS",
+      "head": "34ecfe89db86fb2fcf1dc6bba2ab44ba023eb808",
+      "run_id": 40196753855,
+      "job_id": 121179129721,
+      "artifact_id": 12600942081,
+      "zip_bytes": 2246572,
+      "zip_sha256": "986052278a85b8f237a50d5c5d922864ae49a946c5bb92d2c543946cd9658ed4",
+      "bytes": 2766474,
+      "sha256": "d95f88581a930448f03ad59aa28ed69ca2022aacdd5240950df7d2eadaaf1daa",
+      "archive_member": "CP7_CURRENT_VERSIONED_TARGET_FINANCE10.json",
+      "source_pins_verified": 3488,
+      "actual_prerequisites_verified": 2,
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "production_go": false,
+      "independent_acceptance": false,
+      "counts": {
+        "finance_auth": 3,
+        "finance_races": 7
+      },
+      "copy_catalog_admissions": 1,
+      "race_copy_catalog_admissions": 7
     }
   }
 }
