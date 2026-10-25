@@ -3535,3 +3535,32 @@ Cabang B terbaru ab37505d dibaca saja. Tambahan reader/choice/work/ACL/UI/Auth
 B belum diadopsi atau diberi kredit gabungan A. Perubahan A ini tidak menulis
 cabang B, baris OW10/11/13/14/16, main/official/hosted/WA nyata.
 Formal5/16, independent_acceptance=false, production_go=false.
+
+
+##26Oktober2026 WIB — A: batas keluaran pabrik dan fasad publik terpisah
+
+Factory25c5c4fb/run40222575218/job121257125693 berhenti di admission sesudah
+alignment/clone: seluruh gitstatus memasukkan keluaran cp6-proof/t3. Tidak ada
+Original runtime/T3package dan kasus bisnis belum mulai. ZIP12610673463 dan
+seluruh decodedCIlog dipertahankan; tidak diberi label gagal angka/pabrikPASS.
+
+Koreksi A terpisah qcurrent-versioned-performance-factory-output2-qualification
+menjaga semua source lama persis, menolak tracked drift/kodebaru/symlink/lokasi
+asing dan hanya menerima berkas bukti nonkode pada keluaran yang dibatasi.
+9kontrol negatif dan3bukti lokal sah lulus,63assert/fixture/runner/probe semua
+sama. Fulladmission3597pin/7Original PASS. SOURCEc17b56ed,
+run40227300626/job121271278040 sudah dikirim, belum diberi kredit runtime.
+Tidak ada perubahan produk, batas8s/300s, metric,UNKNOWN atau restoreguard.
+
+Fasad Bc1dd6b5c/run40219663475/completeOriginal12609969578 sudah diperiksa
+90pin/6JSON/3Native+3race+2Auth,empat cloneauthority,semua sesi/CP6/advisor/
+restore dan diarsipkan sekali. Wait3 benar-benar diamati; kredit ini komponenB.
+
+A-only opt-inpublic composer a7908f73 menambah2RPC authenticated tanpa rumus,
+tabel atau penggantian lama: delegasi operasional SQLB byteexact dan endpoint
+keuangan ke privateownerA. Parent3644pin tetap sama;25kontrol negatif lokal.
+Native52 f184d793 menyiapkan45retained+7public;5tubuh finance tetap ASTexact,
+52closure/3routing/43bashstep lokal lulus tanpaDB. SOURCE belum diikat; actual
+Native45 a3088e21/run40222596942 masih berjalan dan wajib PASS dahulu.
+B tidak perlu mengadopsi persiapanA; A tidak menulis branch/fileprodukB.
+Default/main/official/hosted/WA nyata utuh;formal5/16,production_go=false.
