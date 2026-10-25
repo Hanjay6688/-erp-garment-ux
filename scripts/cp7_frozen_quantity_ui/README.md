@@ -29,3 +29,13 @@ source pins. Separate Browser4 declares real Chromium desktop/mobile, three
 source pages, whole-label search, exact reload recovery, actual StorageEvent
 and access-loss retirement. RPC/identity replies are controlled; actual Auth
 and Native credit require their own complete Originals.
+
+
+A separate actual Auth Browser2 is now prepared. The real AuthProvider/AuthGate
+host starts the public v2 request, drives all units to DONE, reads hashed pages
+and compares every displayed fact with the complete Native Original. Fixture
+setup does not create the browser job. Desktop loses the first committed200
+response and recovers the exact durable request, then follows its frozen analog
+link. Mobile performs a real stock post and current access revocation; source
+status and result retirement preserve the original request. Source preparation,
+43module real-host build and closed admission PASS; actual runtime remains open.

@@ -4067,3 +4067,33 @@ CP6/advisor/WIB26/Auth/session/restore. Facade4cloneauthority receipts exact.
 no stable SLA. Keep prior failures and unchanged-run outcomes; no manual rerun.
 Continue corrected choice latency/Transport9 and prepared browser/cutting scope.
 Formal5/16; CP7C/independent/production_go remain false.
+
+
+## 200. B26 Oktober2026 WIB — quantity actual Auth Browser2 preparation
+
+Explicit quantity Browser2 now composes existing choice/readers with the public
+v2 request only inside disposable browser clone. Actual AuthProvider/AuthGate
+and Supabase client, no substituted replies. Fixture seeds ordinary Native data
+but does not create its analysis job. Desktop commits the first real request200,
+loses delivery, reloads exact method/query/UUID, drives actual units toDONE and
+reads result pages. Every displayed fact compared with the full Native Original,
+UNKNOWN preserved; exact frozen analog request/run/actor/identity/reference
+handoff and reopening one job. Mobile390 uses non-WIB browser timezone, actual
+Native stock post/source stale, foreign/anonymous/current revoked access and
+403clears quantities while preserving original request. All text and mobile
+pseudo-label contrasts checked against actual composited background. Screens
+saved before assertion to retain visual failures. No cutting SAVE or finance
+credit; prepared UI/default application and SQL unchanged.
+
+152pins/97missing-mixed routes refused. Actual F05 selectors select browser only;
+newflagfalse reduces entire F05 AST exactly to ab611 predecessor.13closed
+preflights,60actual inline declarations,15new shell steps,43module actual-host
+build, JS syntax and Python AST PASS; all51backend bytes exact. Static review
+corrected fixture actor location, durable namespace, structural query comparison
+and copied workflow reader-path spelling before runtime. Native/Auth/browser
+qualification pending. No unmodified manual rerun.
+
+98ccapsule Original12611204191/40222957690 complete5JSON/source/head/public/
+CP6/advisor/WIB26/session/Auth/restore verified4PASS. Retain component-only credit.
+Continue pending corrected choice/Transport9 and actual browser/cutting results.
+Formal5/16; CP7C/independent/production_go=false.

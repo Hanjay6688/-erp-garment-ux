@@ -1,0 +1,71 @@
+{
+  "contract": "cp7.frozen-quantity-auth-browser2-preparation.v1",
+  "base_head": "ab611d31e24d7b4fe492f2660cf2589d5c759464",
+  "status": "PREPARATION_ONLY",
+  "source_sha256": {
+    "scripts/cp7_ow12b_frozen_quantity_auth_fixture.py": "eb0fcf94e369de181a1c11c348c24786a0c1210c31da19abda4262bb0d3856d9",
+    "scripts/cp7_ow12b_frozen_quantity_auth_build.mjs": "83a85997b876998fa7ac6dd1b8ed967c340795b968876775e1720e4c6c762fef",
+    "scripts/cp7_ow12b_frozen_quantity_auth_preflight.py": "1cc493f9e23b3af2bed83410cf94f3e6b527ecb2fef4026531067fb8e814df0a",
+    "scripts/cp7_ow12b_frozen_quantity_auth_browser.mjs": "cf01270a98a07ad30c01fbfd24dc5337ab7fbebf82288a6e2b1413565af323cb",
+    "scripts/cp7_ow12b_frozen_quantity_auth_probe.py": "1e8cbb8f103e08070c622b34183f745b872cd301b0f3557732c1125cf96c788a",
+    "scripts/cp7_ow12b_frozen_quantity_auth_cases.py": "1491e0313c900fc29943a8c475196913bfbfebd4a59a879e4c4cb35f1ed2ec56",
+    "scripts/cp7_f05_analysis_probe.py": "e68b7c8f35849a1d311b0c54774b52c30e0afe1aa312bbe46d860b0f8bbcfe50",
+    ".github/workflows/cp7-ow12b-frozen-quantity-auth-browser.yml": "784b5436dd76d66213a0d5b008b5cde9edea900bc3a69e5e813eecc3b6960db6",
+    "docs/cp7/d17-14/ow12b/FROZEN_QUANTITY_AUTH_BROWSER2_CONTRACT.json": "7b9e6a4e4370979fa808d617807871d5ddb1b70af0603788a9773e0e21699845"
+  },
+  "source_pins": 152,
+  "required_cases": 2,
+  "actual_auth_runtime_qualified": false,
+  "browser_fixture_creates_test_job": false,
+  "actual_public_request_then_units_DONE_pages_driven_by_browser": true,
+  "desktop_prepared": [
+    "real200request committed then response lost; unresolved pointer blocks replacement",
+    "reload same v2 method/query/UUID one job; actual steps/DONE/pages",
+    "each displayed fact equals complete Native Original, including UNKNOWN",
+    "actual v2 analog handoff exact request/run/actor/reference/identity",
+    "reopen same completed job; original microseconds and reference preserved"
+  ],
+  "mobile_prepared": [
+    "390px in America/Los_Angeles with WIB source display",
+    "actual Native stock post marks archived source without changing original quantities",
+    "anonymous/foreign/current-deactivated access refused;403clears result retains durable pointer"
+  ],
+  "real_AuthProvider_AuthGate_and_Supabase_client": true,
+  "loopback_disposable_only": true,
+  "all_visible_text_and_mobile_pseudo_labels_contrast_asserted": true,
+  "alpha_background_composited_for_contrast": true,
+  "screenshots_before_assertion_preserve_first_visual_failure": true,
+  "no_test_replacement_RPC_responses": true,
+  "composed_choice_then_public_facade_installed_only_in_browser_clone": true,
+  "SQL_product_changes": 0,
+  "existing_quantity_client_unchanged": true,
+  "default_app_unchanged": true,
+  "business_backend51_exact": true,
+  "closed_route_preflights": 13,
+  "actual_workflow_inline_declarations": 60,
+  "new_workflow_shell_steps": 15,
+  "missing_or_mixed_routes_refused": 97,
+  "old_F05_default_false_AST_exact": {
+    "new_flag_default_false": true,
+    "old_F05_AST_exact_after_new_flag_false": true,
+    "base_sha256": "379e565948e1128b7d5a8bbfb27fe8b31fb0b379b1cba9020bd027643aa3f694",
+    "candidate_sha256": "e68b7c8f35849a1d311b0c54774b52c30e0afe1aa312bbe46d860b0f8bbcfe50"
+  },
+  "actual_Auth_build_modules": 43,
+  "script_syntax_and_Python_AST": "PASS",
+  "prepublication_review_corrections": [
+    "Fixture actor checked against actual analysis scope, not nonexistent pages.actor_scope_id.",
+    "Browser storage prefix corrected against existing durable module.",
+    "Query/reference assertions use structural exact equality without inventing JSON property-order requirements.",
+    "Copied workflow removed nonexistent singular reader path; proper readers/source paths retained."
+  ],
+  "actual_Native": false,
+  "actual_Auth_HTTP_credit": false,
+  "cutting_SAVE_qualified": false,
+  "full_factory3600_qualified": false,
+  "default_application_adopted": false,
+  "formal_acceptance": "5/16",
+  "CP7C_accepted": false,
+  "independent_acceptance": false,
+  "production_go": false
+}
