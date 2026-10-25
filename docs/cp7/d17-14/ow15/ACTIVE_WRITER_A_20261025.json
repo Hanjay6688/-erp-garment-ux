@@ -1,5 +1,5 @@
 {
-  "recorded_at_utc": "2026-10-25T14:13:11.135878+00:00",
+  "recorded_at_utc": "2026-10-25T14:27:47.825943+00:00",
   "role": "A finance writer/integrator replacing Claude",
   "slogan": [
     "VENI. VIDI. VICI. ERP. \u2014 I CONQUERED ERP.",
@@ -10,26 +10,16 @@
   "independent_acceptance": false,
   "running": [
     {
-      "scope": "Current versioned restore",
-      "head": "055cbc9ab2458ccf1c88fa224f568ef5111f6eae",
-      "run_id": 40195877841,
-      "job_id": 121176469627,
+      "scope": "Current versioned restore8 corrected fixture order",
+      "head": "7de9d4b9fc1a59fd09282b46dee7812ac740c426",
+      "run_id": 40202238928,
+      "job_id": 121195657688,
       "status": "CI_IN_PROGRESS",
-      "source_pins": 3477,
+      "source_pins": 3492,
       "actual_originals": 2,
       "complete_local_source_admission": "PASS",
-      "execution_branch": "astra-a/d17-14-versioned-target-restore-20261025"
-    },
-    {
-      "scope": "Current versioned transport",
-      "head": "34ecfe89db86fb2fcf1dc6bba2ab44ba023eb808",
-      "run_id": 40196755984,
-      "job_id": 121179136235,
-      "status": "CI_IN_PROGRESS",
-      "source_pins": 3487,
-      "actual_originals": 4,
-      "complete_local_source_admission": "PASS",
-      "execution_branch": "astra-a/d17-14-versioned-target-transport-admission2-20261025"
+      "execution_branch": "astra-a/d17-14-versioned-target-restore-order2-20261025",
+      "required_intake_qualification_dir": "current-versioned-target-used-restore-order2-qualification"
     }
   ],
   "actual_new_component": {
@@ -88,7 +78,7 @@
     },
     {
       "scope": "isolated future versioned-target integration",
-      "head": "34ecfe89db86fb2fcf1dc6bba2ab44ba023eb808",
+      "head": "7de9d4b9fc1a59fd09282b46dee7812ac740c426",
       "branch": "astra-a/d17-14-versioned-target-integration-prepared-20261025",
       "client_tests": 303,
       "client_test_files": 12,
@@ -104,7 +94,7 @@
       "changed_hook_bodies": 14,
       "unchanged_hook_bodies": 7,
       "legacy_target_objects_preserved": true,
-      "tree": "5195df6742d1ae96555d22c6f3660fcc929d77f9",
+      "tree": "5d041ea9d07ba346edd329d1f8f3c404444d8e94",
       "true_merge_B_head": "36b81fcee8ee801a96793c89df6e14388263ad33",
       "browser_source_pins_current": 50,
       "first_source_export_mismatch_preserved": true,
@@ -112,7 +102,7 @@
       "recovery_prepared": true,
       "actual_prerequisites_required": 12,
       "SOURCE_bound": true,
-      "next": "Intake exact actual followup reports; current restore8 PASS unlocks performance Native36",
+      "next": "Intake corrected restore8 using explicit order2 qualification directory; actual PASS unlocks prepared performance Native36",
       "Native36_prepared": true,
       "cases": 36,
       "retained_assertion_sets": 25,
@@ -164,7 +154,7 @@
       "wrong_member_negative_controls": 3,
       "first_runtime_INCOMPLETE_artifact": 12598360114,
       "retained_scoped_replay_full_composer_guard": true,
-      "status": "ACTUAL_NATIVE36_BROWSER6_FINANCE10_CRON1_PASS_RESTORE_AND_TRANSPORT_RUNNING",
+      "status": "FIVE_ACTUAL_SUITES_PASS_CORRECTED_RESTORE8_RUNNING",
       "actual_native_head": "014019a612260525e9c3b9459e354a86209336c1",
       "artifact_id": 12598724977,
       "qualified_Native_head": "014019a612260525e9c3b9459e354a86209336c1",
@@ -207,8 +197,8 @@
     {
       "scope": "late exact B performance on unchanged full A versioned predecessor",
       "branch": "astra-a/d17-14-versioned-performance-prepared-20261025",
-      "head": "3216a84d75da6cbfca08f817c7e90caaea31df0b",
-      "tree": "45f135d103e9ffe228009eaacb244e9b53bfee87",
+      "head": "1b7dbf30884319933c63dab865b636912e244029",
+      "tree": "12bf37a9a37ef5ace3fc7ad1781a632c614a3d7c",
       "B_qualified_source_head": "c7f06b855512e0c8d450522c36e84f4cab570a2a",
       "exact_function_replacements": 2,
       "direct_JSON_path_substitutions": 6,
@@ -220,7 +210,7 @@
       "full_restore_code_prepared": true,
       "actual_A_runtime_qualified": false,
       "qualification_workflows_prepared": true,
-      "next": "Current Native36 PASS; actual current restore8 PASS unlocks seven-prerequisite SOURCE binding and full admission on prepared3216. Publish bound child and advance Native execution fromd378 only after that. All six performance actual PASS suites still required before factory.",
+      "next": "Await actual corrected current restore8; bind7 prerequisites on performance1b7, full admission, then advance Native execution branch fromd378 to the bound child. All seven performance SOURCE declarations remain absent.",
       "prepared_workflows": [
         "Native36",
         "used restore8",
@@ -286,7 +276,9 @@
       "HTTP_nested_cleanup_mandatory": true,
       "Native36_phase_diagnostics": 18,
       "Native36_business_AST_unchanged": true,
-      "Native36_execution_branch_current_head": "d3786aa0eb537ca7e34075b3c08583fda95f8a80"
+      "Native36_execution_branch_current_head": "d3786aa0eb537ca7e34075b3c08583fda95f8a80",
+      "restore_target_capture_after_all_scoped_evaluations": true,
+      "restore_freshness_before_backup_checked": true
     }
   ],
   "first_failures_preserved": [
@@ -1731,6 +1723,79 @@
         "case_observation_elapsed_seconds": 36.033,
         "factory_capacity_or_SLA": false
       }
+    },
+    "transport": {
+      "name": "CP7_CURRENT_VERSIONED_TARGET_TRANSPORT28.json",
+      "status": "PASS",
+      "head": "34ecfe89db86fb2fcf1dc6bba2ab44ba023eb808",
+      "run_id": 40196755984,
+      "job_id": 121179136235,
+      "artifact_id": 12602275262,
+      "zip_bytes": 2198428,
+      "zip_sha256": "23f654483b417e4e3ee1bf911b88cf200dbf25643f8c0d974e2fb1595ddd5603",
+      "bytes": 2260207,
+      "sha256": "b4d00aa4383856235255f32d270985878ed64ebc628e8346de18a3bfa52bfe30",
+      "archive_member": "CP7_CURRENT_VERSIONED_TARGET_TRANSPORT28.json",
+      "source_pins_verified": 3487,
+      "actual_prerequisites_verified": 4,
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "production_go": false,
+      "independent_acceptance": false,
+      "counts": {
+        "policy_http": 3,
+        "policy_races": 6,
+        "evaluation_http": 3,
+        "evaluation_races": 6,
+        "target_http": 3,
+        "target_races": 7
+      },
+      "copy_catalog_admissions": 3,
+      "race_copy_catalog_admissions": 19
     }
+  },
+  "actual_current_versioned_restore8_first_failure": {
+    "name": "CP7_CURRENT_VERSIONED_TARGET_USED_RESTORE8.json",
+    "status": "INCOMPLETE",
+    "head": "055cbc9ab2458ccf1c88fa224f568ef5111f6eae",
+    "run_id": 40195877841,
+    "job_id": 121176469627,
+    "artifact_id": 12601664790,
+    "zip_bytes": 4228336,
+    "zip_sha256": "90e89c0053a50e8442a0b3ab1431e18d3e302a7ad099cb3e8aad11e9c604b7f0",
+    "bytes": 2651702,
+    "sha256": "88a778623917cd69bea467589544c6eff03736913cb1d05cffe9968ce03c9917",
+    "archive_member": "CP7_CURRENT_VERSIONED_TARGET_USED_RESTORE8.json",
+    "source_pins_verified": 3477,
+    "actual_prerequisites_verified": 2,
+    "package_gate": {
+      "installed": true,
+      "primary_unchanged": true,
+      "backup_restore_drill": true,
+      "security_advisors": true,
+      "writer_runtime": false
+    },
+    "cp6_restored": true,
+    "advisor_gate": true,
+    "production_go": false,
+    "independent_acceptance": false,
+    "first_failure_preserved": true,
+    "error": "",
+    "completed_steps": 7,
+    "negative_controls_pass": 29,
+    "failed_step": "EXACT_READS_REPLAY_CLEAR_AND_NEXT_RETURN",
+    "failed_assertion": "target source_state expected UNCHANGED before restored clear",
+    "first_failure_traceback_preserved": true,
+    "baseline_full22_all_rows_all_sequences_equal": true,
+    "baseline_advisors_equal": true,
+    "restore_raw_public_equal": true,
+    "correction": "Capture target after scoped model fixture creation; preserve all assertions and add exact prebackup target check"
   }
 }
