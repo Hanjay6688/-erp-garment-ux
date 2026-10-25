@@ -1,0 +1,48 @@
+name: CP7 Prepared Frozen Schedule UI Browser4
+'on':
+  push:
+    branches: [astra/d17-14-produksi]
+    paths:
+      - scripts/cp7_frozen_analysis_work_v2/client/**
+      - scripts/cp7_ow12b_frozen_work_ui_browser.mjs
+      - .github/workflows/cp7-ow12b-frozen-work-ui-browser.yml
+      - src/nativeProductionPlanning.ts
+      - src/native-production-planning.css
+      - scripts/cp7_frozen_analysis_facade_v2/client/nativeFrozenAnalysis.ts
+  workflow_dispatch: {}
+permissions:
+  contents: read
+concurrency:
+  group: cp7-frozen-work-ui-browser-${{ github.run_id }}
+  cancel-in-progress: false
+jobs:
+  browser:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22'
+      - run: npm ci --ignore-scripts
+      - run: npx playwright install --with-deps chromium
+      - run: npx tsc --noEmit -p scripts/cp7_frozen_analysis_work_v2/client/tsconfig.json
+      - run: npx vitest run scripts/cp7_frozen_analysis_work_v2/client/NativeFrozenSchedulePanel.dom.test.tsx scripts/cp7_frozen_analysis_work_v2/client/nativeFrozenWork.test.ts scripts/cp7_frozen_analysis_work_v2/client/nativeFrozenScheduleSave.test.ts src/nativeProductionPlanning.test.ts src/NativeProductionPlanningPanel.dom.test.tsx
+      - name: Prepared panel in desktop and mobile Chromium with controlled identity and RPC
+        run: node scripts/cp7_ow12b_frozen_work_ui_browser.mjs
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: frozen-work-ui-browser4-complete-original
+          path: cp6-proof/t3/FROZEN_WORK_UI_BROWSER4.json
+          if-no-files-found: error
+          retention-days: 30
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: frozen-work-ui-browser4-screenshots
+          path: cp6-proof/t3/frozen-schedule-*.png
+          if-no-files-found: warn
+          retention-days: 30

@@ -30,3 +30,23 @@ Still required: actual frozen-source Native schedule SAVE/replay/current-access
 and lock-wait qualification; production UI adoption and Auth/browser journeys.
 Production remains disabled. See the preparation receipt and complete CI
 Originals for exact source binding and first failures.
+
+## Prepared schedule screen
+
+`client/NativeFrozenSchedulePanel.tsx` and its separate physical-work form use
+the actual existing Auth boundary and Supabase client but are not imported by
+the application. Explicit DISPOSABLE_TEST only; four read permissions and
+current manage permission. Actor storage uses auth UUID, not app profile ID.
+Identity/query changes unmount pending work. Storage events and close retire
+late replies without clearing retained commands. 401/403/42501 retire visible
+work and retain recovery. Coexisting read and save recover independently.
+
+The form preserves original microseconds when WIB input is unchanged, leaves
+unknown assumptions blank, includes customer work without assigning company
+stock, and keeps dirty input until explicit adoption after source/revision
+change. Local 15 DOM journeys plus existing client/planning checks total153
+PASS; dedicated TypeScript PASS. First failures are retained in the UI receipt.
+Separate Browser4 renders desktop/mobile, submits the actual form, exercises
+reload, actual cross-tab storage events and held replies on permission change.
+Identity and RPC are controlled; it does not qualify real Auth or Native SAVE.
+Screenshots require visual inspection after the complete original is returned.

@@ -3750,3 +3750,28 @@ functions, qualified51 backend, generated types or default installer changed.
 Four declaration routes repinned/validated; current candidates retain their
 first outcomes. Prepared UI remains separate and unqualified. Continue actual
 Native/Auth and UI journeys; formal5/16/CP7C/independent/production_go false.
+
+
+## 189. B26 Oktober2026 WIB — prepared schedule form and UI recovery
+
+Explicit DISPOSABLE_TEST frozen schedule panel remains outside default app
+imports. Uses actual Auth/Supabase boundaries, auth UUID storage namespace,
+four read permissions/current manage permission, PENDING physical work and
+UNKNOWN refusal, exact source/revision/microseconds, customer ownership, dirty
+form preservation and explicit latest-source adoption. Identity/query changes,
+close and cross-tab storage retire late replies without erasing recovery.
+Coexisting read/save records independently recover; neither is overwritten.
+
+15 new DOM journeys + existing client/planning tests total153PASS; dedicated
+TS PASS. First DOM run13PASS/2FAIL found 401/403 retained visible data; fixed
+normalized access/session handling while keeping durable requests. Collection
+and literal-type fixture failures retained. React review covers split form,
+linear keyed lookup, cleanup, stable hooks and labels; no new dependencies.
+
+Separate actual Chromium Browser4 prepared for desktop/mobile form submission,
+reload exact SAVE, real storage event/late reply and permission change while
+SAVE waits. Local serving preflight only; identity/RPC controlled. Source
+assertion path mismatch retained/fixed. Await complete Browser4 plus visual
+inspection, Native schedule outcomes, real Auth and observed database waits.
+No SQL/default UI/shared installer/types/registry or qualified51 backend change.
+Formal5/16/CP7C/independent/production_go remain false. Continue assigned scope.
