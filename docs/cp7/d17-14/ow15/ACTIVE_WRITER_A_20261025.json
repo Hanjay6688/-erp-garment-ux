@@ -12,14 +12,12 @@
     {
       "scope": "Complete selected-return used restore8",
       "head": "625fc55e161726ab9f4ccf420384b4fdb4713fe9",
-      "run_id": 40176745608,
-      "job_id": 121118943586,
+      "run_id": 40180905749,
+      "job_id": 121131566954,
       "status": "RUNNING_AFTER_EXACT_NAMED_REFUSAL_CORRECTION",
       "full_local_source_admission": "PASS",
-      "source_pins": 3254,
+      "source_pins": 3257,
       "actual_originals": 2,
-      "run": 40180905749,
-      "job": 121131566954,
       "previous_failed_run": 40176745608
     },
     {
