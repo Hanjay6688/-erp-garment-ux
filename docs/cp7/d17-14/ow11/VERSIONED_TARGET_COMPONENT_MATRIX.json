@@ -1770,5 +1770,15 @@
     "receipt": "docs/cp7/d17-14/ow12b/frozen-choice-k3-profile-preparation.json",
     "actual_command_or_database_changed": false,
     "production_go": false
+  },
+  "frozen_cutting_transport_preparation": {
+    "status": "NATIVE1_RACES6_HTTP3_PREPARED_RUNTIME_PENDING",
+    "receipt": "docs/cp7/d17-14/ow12b/frozen-cutting-transport10-preparation.json",
+    "repeated_catalog_anchor_new_credit": 0,
+    "actual_Native": false,
+    "actual_Auth_HTTP_credit": false,
+    "actual_concurrency": false,
+    "default_application_adopted": false,
+    "production_go": false
   }
 }

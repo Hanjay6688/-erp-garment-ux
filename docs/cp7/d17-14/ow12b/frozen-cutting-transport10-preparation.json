@@ -1,0 +1,73 @@
+{
+  "contract": "cp7.frozen-cutting-transport10.preparation.v1",
+  "base_head": "0e1cc5fb167b7a245bdfab9835ae3f3d1f2f9024",
+  "status": "PREPARATION_ONLY",
+  "source_sha256": {
+    "scripts/cp7_ow12b_frozen_cutting_transport_preflight.py": "dff8530d5330db16414071aff34f3c6599c9d29bef788a14e3021ba24c256845",
+    "scripts/cp7_ow12b_frozen_cutting_transport_probe.py": "dde0b1f842b046fa783094ed23ed1ff3efdc9e09b5b48d2313be67a96dd0d720",
+    "scripts/cp7_ow12b_frozen_cutting_transport_cases.py": "2cab70ed0579855c8fcd126fcf9633d9338a3fe265fb8be2594d2be0fd81c988",
+    "scripts/cp7_f05_analysis_probe.py": "9cc6adaaebafe001d385b61c20b77cfd3704b801352a49d8e37bfe8714491fa6",
+    ".github/workflows/cp7-ow12b-frozen-cutting-transport.yml": "ed6445f6a34d7f5cab62ec9d9f7e9cecfb7f496d3b6bc23e242f5dc528dfda2a",
+    "docs/cp7/d17-14/ow12b/FROZEN_CUTTING_TRANSPORT10_CONTRACT.json": "cbac2ae5e4906b80301d20fc7ee4dabcaa896f3ca9af891b4e1bd69aaa2f642f"
+  },
+  "required_cases": {
+    "native": 1,
+    "races": 6,
+    "http": 3
+  },
+  "catalog_anchor_repeated_no_new_credit": true,
+  "prepared_races": [
+    "same UUID two observed blocked workers one exact checked receipt",
+    "changed payload same UUID two observed blocked workers one winner and explicit refusal",
+    "current access after request wait",
+    "current access after capacity wait",
+    "current access after committed receipt request wait",
+    "actual Native stock post during capacity wait refuses stale new SAVE"
+  ],
+  "prepared_HTTP": [
+    "real Auth options equal complete Native Original, checked SAVE/exact replay/changed payload refusal",
+    "actual K3 leaves options exact, checked SAVE succeeds, actual stock post refuses new UUID while committed receipt remains exact",
+    "foreign and anonymous options/SAVE denied, actual old-token current revoked options/newSAVE/replay denied"
+  ],
+  "actual_frozen_v2_job_source_created_by_fixture": true,
+  "public_request_browser_credit": false,
+  "saved_draft_not_physical_cutting_group": true,
+  "no_test_auth_or_replaced_HTTP_replies": true,
+  "metadata_checks": [
+    "drafts",
+    "staged snapshots",
+    "checked receipts",
+    "intents",
+    "commands",
+    "cutting groups",
+    "money stock HPP"
+  ],
+  "SQL_product_unchanged": true,
+  "qualified_backend_files_exact": 24,
+  "default_app_and_cutting_client_exact": true,
+  "closed_preflights": 14,
+  "missing_or_mixed_routes_refused_each": 98,
+  "actual_postinstall_native_races_HTTP_execution_selectors_checked": true,
+  "workflow_shell_steps": 16,
+  "actual_new_workflow_inline_declarations": 1,
+  "old_F05_AST_after_new_flag_false_exact": {
+    "new_flag_default_false": true,
+    "old_F05_AST_exact_after_new_flag_false": true,
+    "base_sha256": "e68b7c8f35849a1d311b0c54774b52c30e0afe1aa312bbe46d860b0f8bbcfe50",
+    "candidate_sha256": "9cc6adaaebafe001d385b61c20b77cfd3704b801352a49d8e37bfe8714491fa6"
+  },
+  "prepublication_failures_retained": [
+    "Initial generator matched an unrelated declaration_bytes initialization; narrowed selection before file write.",
+    "Copied preflight called nonexistent facade.verify_sources; corrected to actual units/capsule source validators with exact facade contract pins.",
+    "Receipt count assertion caught a copied51 estimate against24actually selected backend files; count corrected to observed24. All tracked product files are also unchanged by git diff."
+  ],
+  "actual_Native": false,
+  "actual_Auth_HTTP_credit": false,
+  "actual_concurrency": false,
+  "default_application_adopted": false,
+  "full_OW13c_acceptance": false,
+  "formal_acceptance": "5/16",
+  "CP7C_accepted": false,
+  "independent_acceptance": false,
+  "production_go": false
+}
