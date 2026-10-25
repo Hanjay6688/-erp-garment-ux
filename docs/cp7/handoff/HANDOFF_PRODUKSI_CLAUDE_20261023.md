@@ -1,60 +1,58 @@
-# Titik lanjut aktif —25 Oktober2026: target versi2 lulus, profil3600 terbuka
+# Titik lanjut aktif —25 Oktober2026: Native3600 PASS, lanjut profil stok
 
-Cabang B `astra/d17-14-produksi`, checkpoint `5a90076062cbae91f03549c0839519a44ed5d2a5`.
-Arahan owner tetap: lanjut tanpa pertanyaan, checkpoint bukan selesai; kerja solo.
-Baca koordinasi148–154 dan `ow11/VERSIONED_TARGET_COMPONENT_MATRIX.json` untuk
-status terbaru. Semua catatan aktif bertanggal24Oktober di bawah adalah histori
-bila berbeda dengan blok ini. Formal5/16; CP7C/independent/production_go=false.
+B hanya `astra/d17-14-produksi`; checkpoint3b1d70c4 dan penerus receipt Native3600.
+Kerja solo, lanjut tanpa bertanya; checkpoint bukan akhir scope. Formal5/16,
+CP7C/independent/production_go=false. Sumber konteks aktif: koordinasi148–158,
+`ow11/VERSIONED_TARGET_COMPONENT_MATRIX.json` dan receipt masing-masing Original.
+Catatan bertanggal24Oktober di bawah adalah histori bila berbeda dari blok ini.
 
-**Sudah teruji:** source-v2 Native4, consumer target-v2 Native6, Browser2 dan
-transport11 aktual. Native6/run40173569440 Original12592039704, Browser2/
-run40173569416 Original12591551904, transport/run40173569413 Originals12591992672
-+12591903113 semuanya mengikat source182c8b17, dengan47backend pins yang identik.
-Browser64/transport50 mengandung semua47; catalog22, pemulihan UUID/metode/payload,
-hak terkini sesudah tunggu/replay, dua clock, latest own global/scoped model,
-FG-only tanpa bocor model, analog/UNKNOWN/CLEAR dan posted/profile retirement tetap.
-Tidak ada model historis positif yang dikarang atau kebijakan diaktifkan otomatis.
+**Teruji sekarang:** source-v2 Native4; current consumer-v2 Native6, Browser2,
+transport11 dan complete before/current operational3600 Native2. Native6/
+run40173569440 Original12592039704, Browser2/run40173569416 Original12591551904,
+transport/run40173569413 Originals12591992672+12591903113 mengikat182c8b17 dan
+shared47source pins exact. Native3600c7f06b85/run40177861698/job121122357646
+Original12593480203/SHAa9558c161e17ac09dfbdd090b40ff25410b7dca97364fcb3f2c4d24d9850f9db
+2PASS/all50pins/all5package+CP6/advisor/boundary/session/Auth gates true.
+Seluruh3602target, observed operands, profil/buffer, recommendation quantities,
+semua halaman dan arsip lama persis;2actual scoped history/model refs. Tidak ada
+forecast positif palsu/kebijakan aktif otomatis. FG-only tetap tak membocorkan model.
 
-**Masih dikerjakan:** actual request3600 sebelum dan sesudah target overlay.
-Firsted82e7e9/run40170067161 Original12590645783 dan182c8b17/run40173569646
-Original12591957005 sama-sama1PASS/1INCOMPLETE karena predecessor request melewati
-8detik, sebelum current overlay terpasang. Enam akses JSONB langsung mempercepat
-bagian baseline lokal2.353x dengan hasil/ref utuh identik, tetapi belum cukup
-untuk seluruh request. Kedua kegagalan tetap, tidak menaikkan limit/bare rerun.
+**Waktu aktual Native3600:** predecessor6014.692ms, current7315.921ms.76langkah
+masing-masing, max496.860/777.226ms; source checks3698.489/3528.826ms. Batas8s tetap.
+Bukan klaim speedup model layer/factory SLA; olded82/182timeouts danb117 lookup arsip
+whole-Native yang salah tetap dipertahankan. Helper uji kini memakai actual staged
+header/page-set/allpages/reference dan menyimpan profil pada kegagalan lanjutan.
+Raw Native INCOMPLETE tidak dipalsukan, finance DEFERRED. Full factory/money/HPP,
+actualSAVE3600/fullOW11/fullOW12b/A composer/after-use/audit tetap terbuka.
 
-Follow-up instrumentasi `b11781b3be3ea5e2cef0d67c1d00619489ec8c78`, actual run
-`40176182382`, job121117250164 sudah berakhir1PASS/1INCOMPLETE. Original12592402397
-menunjuk lookup arsip whole-Native yang salah sesudah complete predecessor. Koreksi
-uji kini membaca actual staged header/page_set/allpages/reference dan menyimpan
-profil request yang sudah sukses pada kegagalan langkah berikut. Hanya test/kontrak berubah;
-request dan8s sama. Pada kandidat koreksi berikut, unduh complete Original JSON, baca seluruh
-JSON/case/gate/source pins dan profil fungsi transaksi. Waktu hanya panggilan
-selesai; frame yang dibatalkan dan SQL ter-inline mungkin tidak muncul, overhead
-profil belum dikalibrasi. Pakai biaya nyata untuk perbaikan berikut, jangan menebak
-atau mengganti kernel/penjaga bersama. Target+demand snapshot satu run harus sama;
-hanya ID capture berbeda pada pasangan sebelum/sesudah dinormalisasi bersamaan.
-Semua nilai/UNKNOWN/profil/buffer/observed operands tetap dibandingkan.
+**Langkah aktif:** profil Native menempatkan stock_digest sebagai biaya terbesar:
+total2666.671ms/self2331.436ms. Hanya1dispatch baseline_rows pada request ini;
+patch privat target-pass tidak diterapkan. Eksperimen lokal long-history600/3600
+2.460x tetap bukti terbatas, bukan hot path Native saat ini. Lanjut uji stok framing/
+materialization dengan15kolom Native lengkap, sorted UUID, dua clock, full SHA256
+identik dan semua cap/permission tetap. Profil track_functions hanya completed calls,
+SQL inline mungkin tak muncul; overhead belum dikalibrasi. Jangan merekayasa SLA.
 
-**Batas integrasi:** A prepared branch terakhir terbaca378f13cc. Full versioned
-composer/recovery, Native36/restore8/finance/cron/browser/transport baru persiapan,
-belum qualified oleh inspeksi B. A mencakupBthrough36b81fce, belum perbaikan
-parent182c8b17. Jangan memasang fresh-only B installer di atas target-v1 yang dipakai;
-A memiliki transisi/after-use/globalchain/defaults/shared registry/types/keuangan.
-B tidak mengubah main/integration/frozen audit/supabase/Enteng/hosted/WA nyata.
+**Fixture susunan barang:** cp7_ow12b_factory3600_fixture.py lokal PASS dengan DDL
+Native dan actual products CTE:1200commercialSKUx3size=3600unique physical roots,
+3600memberlinks/363600syntheticmoves. Semua SKU tepat3size; rollback0rows. First
+local observer count-column collision retained, aliases fixed without changing DML.
+Fixture belum masuk Native suite, bukan bukti actual customer-sale/finance journey.
+Jangan mengubah fixture2000/3600 lama yang qualified; beri budget/suite tersendiri.
 
-**Bukti:** semua receipt kecil dan kode terbaru tersimpan di cabang B. Empat
-Original regresi40b72fbe (target-v1 partA/OW13b20/OW1616/OW14b113) telah dipulihkan
-serta diperiksa ulang; source/deklarasi prefix F05 kini persis, tidak menambah
-kredit versioned/full-chain. Arsip privat terakhir pasti berhasil versi68.
-Penggantian berikutnya timeout dan hasil tulis tidak diketahui; pencarian baca-saja
-masih menampilkan68. Jangan otomatis retry/shrink/ganti jalur penulisan.
-Simpan raw Original terbaru di folder privat sendiri; pertahankan seluruh entri lama.
+**Integrasi A:** prepared terakhir terbaca378f13cc; full versioned composer/recovery/
+Native36/restore8/finance/cron/browser/transport hanya persiapan pada inspeksi B.
+A mencakupBthrough36b81fce, belum parent optimization182c8b17. A memiliki transisi
+used target-v1/full restore/defaults/shared registry/types/keuangan; B jangan memakai
+fresh-only installer di atas used target-v1 atau mengubah cabang A/main/integration,
+frozen audit/supabase/Enteng/hosted/WA nyata. Namespace/method/UUID/payload recovery,
+posted immutable/latest corrected/two clock/global envelope/current access tetap.
 
-Selanjutnya kualifikasi koreksi seal/profil dan eksperimen biaya antar-chunk yang
-terpisah. Eksperimenlokal3600:8.292s->3.371s, seluruhJSON/ref persis; optimisasi
-antarchunk belum diterapkan karena profil Native belum terekam di Original. Bentuk1200SKUx3size, keuangan
-resmi A/parity, actualSAVE3600/fullfactory, positive historical winner dan audit
-independen masih terbuka, bukan diganti oleh fixture360model/1size3600produk.
+**Kontinuitas bukti:** kode/receipt tersimpan di B, raw Originals di artifacts/private.
+Arsip privat terakhir pasti berhasil68. Replacement berikut timeout/outcome unknown,
+read-only terakhir masih68; jangan otomatis retry/shrink/ganti write route. Raw baru
+belum boleh diklaim sudah tersimpan di arsip itu. Empat default regressions40b72fbe
+juga recovered/verified; tidak dicampur ke transport-v2/full-chain acceptance.
 
 ---
 

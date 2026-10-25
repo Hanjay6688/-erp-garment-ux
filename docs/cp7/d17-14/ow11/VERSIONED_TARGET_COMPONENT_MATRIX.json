@@ -226,7 +226,7 @@
       ]
     },
     "operational3600": {
-      "status": "INCOMPLETE",
+      "status": "PASS_COMPONENT_ONLY",
       "run_id": 40173569646,
       "artifact_id": 12591957005,
       "predecessor_timeout_before_current_overlay": true,
@@ -240,7 +240,22 @@
       "predecessor_returned_source_control_flow": true,
       "exact_predecessor_time_unobserved": true,
       "current_overlay_not_reached": true,
-      "next_test_correction": "Actual staged seal and persistent profile observations"
+      "next_test_correction": "Actual staged seal and persistent profile observations",
+      "latest_head": "c7f06b855512e0c8d450522c36e84f4cab570a2a",
+      "latest_run_id": 40177861698,
+      "latest_artifact_id": 12593480203,
+      "source_pins": 50,
+      "predecessor_request_millis": 6014.692,
+      "current_request_millis": 7315.921,
+      "full_source_check_millis": [
+        3698.489,
+        3528.826
+      ],
+      "comparison_all3602_targets_exact": true,
+      "staged_original_immutable": true,
+      "raw_native_INCOMPLETE_preserved": true,
+      "factory1200SKU3size_qualified": false,
+      "first_failures_retained": true
     }
   },
   "A_read_only_intake": {
@@ -252,5 +267,15 @@
     "no_A_branch_or_shared_file_modified_by_B": true
   },
   "current_Native6_Browser2_transport11_qualified": true,
-  "shared_47_source_pins_exact_between_native_browser_transport": true
+  "shared_47_source_pins_exact_between_native_browser_transport": true,
+  "Native_profile_findings": {
+    "baseline_target_dispatches_per_request": 1,
+    "private_long_history_chunk_experiment_not_current_hot_path": true,
+    "production_single_target_pass_patch_applied": false,
+    "largest_self_time_function": "cp7_history_reference.stock_digest(jsonb,timestamp with time zone)",
+    "current_total_ms": 2666.671,
+    "current_self_ms": 2331.436,
+    "source_limit_unchanged": "8s",
+    "factory_SLA_claim": false
+  }
 }

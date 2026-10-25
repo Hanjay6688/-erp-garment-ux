@@ -2973,3 +2973,30 @@ Price/rates/default policy/positive model not inferred; movement history explici
 synthetic and not a posted customer-sales journey. Source/DDL hashes recorded.
 No new production function, schema, RPC, table, role, grant or default activation.
 Formal5/16, CP7C/independent false, production_go=false. Continue actual profiles.
+
+## 158. B25 Oktober2026 WIB — complete3600 before/current parity Native2 PASS
+
+c7f06b85/run40177861698/job121122357646 complete Original12593480203,120103bytes,
+SHAa9558c161e17ac09dfbdd090b40ff25410b7dca97364fcb3f2c4d24d9850f9db.
+All5JSON/all50head/current pins verified;2PASS, exact catalog22/preuse inverse,
+all package/CP6/advisor/public/boundary/WIB/session/Auth0->0 cleanup gates true.
+Complete predecessor and current actual3602target results match every target kernel,
+profile/observed operand and recommendation quantity state/value/unit/reason.
+Two actual scoped model/history refs retained, no invented positive forecast.
+All pages/76steps each verified, old staged header/page set/all pages/reference
+immutable; actual stock post retires current source; no analysis business write.
+Raw Native INCOMPLETE stays raw; bounded SQL inputs complete, finance DEFERRED.
+
+Actual profiled request6014.692ms predecessor vs7315.921ms current; maximum steps
+496.860ms vs777.226ms, full source checks3698.489/3528.826ms, all below unchanged8s.
+These are not a speedup claim for adding the model layer or a factory SLA; earlier
+ed82/182 timeouts andb117 archive lookup first failure remain retained. Actual
+1200SKUx3size fixture is locally prepared, not runtime-qualified by this one-size
+component. Full money/HPP/A composer/after-use/fullOW11/fullOW12b still open.
+
+Profiler gives one baseline_rows dispatch per request, so the private long-history
+chunking experiment is NOT this run's hot path and its patch is not applied.
+Actual dominant stock_digest totals2666.671ms/self2331.436ms. Continue isolated
+stock-row framing/materialization tests retaining every15Native field, sorted IDs,
+exact SHA256 result and both visibility clocks; do not replace evidence with guess.
+Formal5/16, CP7C/independent false, production_go=false; continue actual performance.
