@@ -1,5 +1,5 @@
 {
-  "recorded_at_utc": "2026-10-25T13:59:16.224803+00:00",
+  "recorded_at_utc": "2026-10-25T14:13:11.135878+00:00",
   "role": "A finance writer/integrator replacing Claude",
   "slogan": [
     "VENI. VIDI. VICI. ERP. \u2014 I CONQUERED ERP.",
@@ -19,17 +19,6 @@
       "actual_originals": 2,
       "complete_local_source_admission": "PASS",
       "execution_branch": "astra-a/d17-14-versioned-target-restore-20261025"
-    },
-    {
-      "scope": "Current versioned cron",
-      "head": "055cbc9ab2458ccf1c88fa224f568ef5111f6eae",
-      "run_id": 40195880391,
-      "job_id": 121176478203,
-      "status": "CI_IN_PROGRESS",
-      "source_pins": 3477,
-      "actual_originals": 2,
-      "complete_local_source_admission": "PASS",
-      "execution_branch": "astra-a/d17-14-versioned-target-cron-20261025"
     },
     {
       "scope": "Current versioned transport",
@@ -175,7 +164,7 @@
       "wrong_member_negative_controls": 3,
       "first_runtime_INCOMPLETE_artifact": 12598360114,
       "retained_scoped_replay_full_composer_guard": true,
-      "status": "ACTUAL_NATIVE36_BROWSER6_FINANCE10_PASS_THREE_FOLLOWUPS_RUNNING",
+      "status": "ACTUAL_NATIVE36_BROWSER6_FINANCE10_CRON1_PASS_RESTORE_AND_TRANSPORT_RUNNING",
       "actual_native_head": "014019a612260525e9c3b9459e354a86209336c1",
       "artifact_id": 12598724977,
       "qualified_Native_head": "014019a612260525e9c3b9459e354a86209336c1",
@@ -218,8 +207,8 @@
     {
       "scope": "late exact B performance on unchanged full A versioned predecessor",
       "branch": "astra-a/d17-14-versioned-performance-prepared-20261025",
-      "head": "d3786aa0eb537ca7e34075b3c08583fda95f8a80",
-      "tree": "25895e360713af27ccd8620d91477b49e52cb84c",
+      "head": "3216a84d75da6cbfca08f817c7e90caaea31df0b",
+      "tree": "45f135d103e9ffe228009eaacb244e9b53bfee87",
       "B_qualified_source_head": "c7f06b855512e0c8d450522c36e84f4cab570a2a",
       "exact_function_replacements": 2,
       "direct_JSON_path_substitutions": 6,
@@ -231,7 +220,7 @@
       "full_restore_code_prepared": true,
       "actual_A_runtime_qualified": false,
       "qualification_workflows_prepared": true,
-      "next": "Actual current Native36 already PASS and corrected sources true-merged; current restore8 PASS unlocks binding seven actual prerequisites and full admission before performance Native36; all six actual suites required before factory.",
+      "next": "Current Native36 PASS; actual current restore8 PASS unlocks seven-prerequisite SOURCE binding and full admission on prepared3216. Publish bound child and advance Native execution fromd378 only after that. All six performance actual PASS suites still required before factory.",
       "prepared_workflows": [
         "Native36",
         "used restore8",
@@ -294,7 +283,10 @@
       "all_seven_SOURCE_absent": true,
       "actual_Original_schema_checked": true,
       "case_level_session_lists_mandatory": true,
-      "HTTP_nested_cleanup_mandatory": true
+      "HTTP_nested_cleanup_mandatory": true,
+      "Native36_phase_diagnostics": 18,
+      "Native36_business_AST_unchanged": true,
+      "Native36_execution_branch_current_head": "d3786aa0eb537ca7e34075b3c08583fda95f8a80"
     }
   ],
   "first_failures_preserved": [
@@ -1697,6 +1689,48 @@
       },
       "copy_catalog_admissions": 1,
       "race_copy_catalog_admissions": 7
+    },
+    "cron": {
+      "name": "CP7_CURRENT_VERSIONED_TARGET_CRON1.json",
+      "status": "PASS",
+      "head": "055cbc9ab2458ccf1c88fa224f568ef5111f6eae",
+      "run_id": 40195880391,
+      "job_id": 121176478203,
+      "artifact_id": 12601813716,
+      "zip_bytes": 2202899,
+      "zip_sha256": "fdf0fd01d676517d7a84eed434d077ca50e5ab02f5f65ed2e3937a0c59a29e60",
+      "bytes": 2288055,
+      "sha256": "91a5ecce3c51877f9468bf8953332f01e6fc1327069b405339533bb400e6a7a3",
+      "archive_member": "CP7_CURRENT_VERSIONED_TARGET_CRON1.json",
+      "source_pins_verified": 3477,
+      "actual_prerequisites_verified": 2,
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "production_go": false,
+      "independent_acceptance": false,
+      "actual_minute_cron": true,
+      "manual_steps": 0,
+      "changed_schedule": false,
+      "actual_cron_business_checks": {
+        "metric_count": 24,
+        "official_sections_and_metrics_exact": true,
+        "independent_book_signature": true,
+        "unknown_never_zero": true,
+        "Native_money_stock_HPP_unchanged": true,
+        "unchanged_production_minute_schedule": true,
+        "same_UUID_no_second_effect": true,
+        "manual_finance_or_operational_steps": 0,
+        "successful_scheduled_runs": 1,
+        "case_observation_elapsed_seconds": 36.033,
+        "factory_capacity_or_SLA": false
+      }
     }
   }
 }
