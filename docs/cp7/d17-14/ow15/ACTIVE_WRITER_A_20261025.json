@@ -1,5 +1,5 @@
 {
-  "recorded_at_utc": "2026-10-25T21:45:44.378739+00:00",
+  "recorded_at_utc": "2026-10-25T22:22:33.148615+00:00",
   "role": "A finance writer/integrator replacing Claude; B remains separate production/planning writer",
   "slogan": [
     "VENI. VIDI. VICI. ERP. — I CONQUERED ERP.",
@@ -25,7 +25,7 @@
       "head": "778ac17e0be417841ad144ff2f85367752341f69",
       "run_id": 40234971454,
       "job_id": 121294477378,
-      "status": "queued",
+      "status": "in_progress",
       "conclusion": null,
       "source_pins": 3666,
       "actual_originals": 8,
@@ -3050,5 +3050,68 @@
     "runtime_qualified": false,
     "previous_failure_preserved": true,
     "prior_date_corrected_fixture_claims_superseded": true
+  },
+  "public_followups_prepared": {
+    "head": "14d5b4448446f6794be4f6b20751b330997f72f1",
+    "local": "ea5e0d17b19fd41995b8170a41d9445022362138",
+    "tree": "ba2950c119a08fbcd539488eb3f3e81e6c0b16bf",
+    "branch": "astra-a/d17-14-frozen-public-followups-prepared-20261026",
+    "required_actual_Native52_head": "6dceb3d3530a2144217047360613808af3249e4a",
+    "SOURCE_bound": false,
+    "runtime_dispatched": false,
+    "finance": {
+      "Auth": 3,
+      "races": 7,
+      "retained_assertions": 55,
+      "negative_source_controls": 8,
+      "request_routes_checked": 3,
+      "bash_steps": 44,
+      "prior_actual_Original_verified": true
+    },
+    "cron": {
+      "cases": 1,
+      "retained_runner_assertions": 36,
+      "restore_assertions": 10,
+      "negative_source_controls": 8,
+      "bash_steps": 44,
+      "prior_actual_Original_verified": true
+    },
+    "restore": {
+      "steps": 8,
+      "retained_controls": 34,
+      "added_controls": 8,
+      "retained_fixtures": 7,
+      "new_public_frozen_finance_fixture": true,
+      "two_complete_used_restores": true,
+      "early_recovery_refusals_local": 9,
+      "recovery_source_negatives": 5,
+      "negative_runner_source_controls": 8,
+      "bash_steps": 44,
+      "prior_actual_Original_verified": true
+    },
+    "actual_Auth_HTTP_credit": false,
+    "actual_cron_credit": false,
+    "actual_restore_qualified": false,
+    "production_go": false
+  },
+  "B_latest_read_only_20261026": {
+    "head": "e2ef3a9eeeaae93a861bfabee7c52f01ee8a5e13",
+    "takeover_note_read": true,
+    "coordination_read_through": 208,
+    "financial_clock_binding": {
+      "prior_failed_tests": 4,
+      "reported_passed_tests": 75,
+      "reported_test_files": 4,
+      "strict_microseconds_and_calendar": true,
+      "source_sha256": "55fe0d0d4a2e5fc04e68c88eda630c32142a2a6268574f00d21b37b4499005fc",
+      "adopted_into_A": false,
+      "source_boundary": "B actual caller/client component; no financial formula or SQL change"
+    },
+    "B_reported_actual_Auth_choice2_artifact": 12615241859,
+    "B_reported_actual_Auth_quantity2_artifact": 12614619347,
+    "A_independently_intaken_these_new_B_Originals": false,
+    "B_owned_caller_integration_open": true,
+    "A_API_contract": "docs/cp7/d17-14/ow15/FROZEN_PUBLIC_FINANCE_INTEGRATION_CONTRACT_20261026.md",
+    "no_B_branch_written": true
   }
 }
