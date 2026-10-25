@@ -5,6 +5,11 @@ import importlib.util, json, os, subprocess
 
 
 def admitted(repo, here, steps, product, recovery):
+    spec = importlib.util.spec_from_file_location('selected_restore_refusal_guard',here/'selected_refusal.py')
+    refusal = importlib.util.module_from_spec(spec);spec.loader.exec_module(refusal)
+    spec = importlib.util.spec_from_file_location('selected_restore_retained_business',repo/'scripts/draft-return-isolation-qualification/cases.py')
+    business = importlib.util.module_from_spec(spec);spec.loader.exec_module(business)
+    refusal_binding=refusal.source_binding(business)
     spec = importlib.util.spec_from_file_location('selected_return_native20_gate',
         repo / 'scripts/current-selected-return-native-qualification/probe.py')
     native = importlib.util.module_from_spec(spec)
@@ -52,4 +57,5 @@ def admitted(repo, here, steps, product, recovery):
         originals[variable] = dict(proof, observed_status='PASS')
     return dict(qualified_selected_return_native=predecessor, current_installation=product.sources(),
                 recovery=recovery.sources(), qualification=pins, actual_originals_verified=originals,
+                retained_refusal_business_source=refusal_binding,
                 production_go=False, independent_acceptance=False)
