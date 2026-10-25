@@ -1,0 +1,32 @@
+{
+  "name": "CP7_OW11_MODEL_TARGET_BINDING.json",
+  "status": "PASS",
+  "head": "7b70bb2e5b34180c5767d50fb643ad53880b7cd3",
+  "run_id": 40128497581,
+  "job_id": 120974960124,
+  "artifact_id": 12574910914,
+  "zip_bytes": 158852,
+  "zip_sha256": "c402171c72f249f5f32a84ba4a0ddc3d8552579286cb18af0c28fc03b744eb90",
+  "bytes": 1389536,
+  "sha256": "9c515232c35c07a3c33fa20afe0b889ce5b2308d5680b13823ee8be4991add00",
+  "source_pins_verified": 6,
+  "case_ids": [
+    "OW11_MODEL_TARGET_BINDING_CATALOG22_COMPOSED_INVERSE",
+    "OW11_MODEL_TARGET_BINDING_ACTUAL_DRAFT_POST_RETURN_INVERSE",
+    "OW11_MODEL_TARGET_BINDING_DENSE2000_OMITTED_GLOBAL_STOCK",
+    "OW11_MODEL_TARGET_BINDING_ACTUAL_SYSTEM_CLOCK_SOURCE_CHANGE"
+  ],
+  "gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "full_A_chain_qualified": false,
+  "model_target_caller_integrated": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

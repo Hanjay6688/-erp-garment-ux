@@ -1,0 +1,88 @@
+{
+  "recorded_at": "2026-10-25",
+  "first_failures": [
+    {
+      "status": "INCOMPLETE_BEFORE_PACKAGE_INSTALL",
+      "head": "8bffb0352083996351bed6b0191ae009539784f1",
+      "run_id": 40165673478,
+      "job_id": 121086101754,
+      "artifact_id": 12588636807,
+      "zip_bytes": 1605733,
+      "zip_sha256": "7b5901db100ef05d126e9e469e4f55c285106eee19f93d4b5e4004ed0b7668b0",
+      "writer_original_exists": false,
+      "package_report_exists": false,
+      "business_cases": 0,
+      "aligned_database_created": true,
+      "disposable_cleanup_completed": true,
+      "error": "Unscoped git status cleanliness assertion rejected generated output before package installation",
+      "evidence": "admission.py:16 asserted empty whole-worktree porcelain after workflow created cp6-proof/t3 alignment and clone outputs. Exact porcelain output was not printed in the failed job.",
+      "fix": "Preserve all tracked-source checks and exact source pins; allow only the ten explicitly named generated proof files. Reject any other untracked path.",
+      "log_bytes": 577824,
+      "log_sha256": "ab266cd38cbe5c76bf7ad86fc1f648f2ad546129c740683674849196d4caaa20",
+      "production_go": false
+    },
+    {
+      "status": "INCOMPLETE_BEFORE_DATABASE",
+      "run_id": 40165680153,
+      "job_id": 121086122259,
+      "head": "07a3ca89158d8b8181660e7333cfb3886d95840b",
+      "writer_original_exists": false,
+      "case_count": 0,
+      "database_started": false,
+      "error": "FileNotFoundError: scripts/current-model-target-used-restore-qualification/SOURCE.json",
+      "fix": "Remove obsolete target-restore fetch: this history candidate already fetches Native25 lineage and its own Native25/current-target-restore Originals.",
+      "log_bytes": 528978,
+      "log_sha256": "a9cf8bbb16ac4c8eae7c5b41174af507595800b11390dfb9d6d16833a042d567",
+      "all_remaining_fetchers_have_source_declarations": true,
+      "production_go": false,
+      "independent_acceptance": false
+    }
+  ],
+  "corrected_executions": {
+    "factory_corrected": {
+      "branch": "astra-a/d17-14-factory-finance-20261025",
+      "parent": "8bffb0352083996351bed6b0191ae009539784f1",
+      "tree": "6b93b32b10d0b44abad87b11c91e3ea6d25f9903",
+      "remote": "b7a69c2c9b2568b5a148e9067ee739b981a20435",
+      "run_id": 40166794564,
+      "job_id": 121089393147
+    },
+    "history_corrected": {
+      "branch": "astra-a/d17-14-model-history-restore-20261025",
+      "parent": "07a3ca89158d8b8181660e7333cfb3886d95840b",
+      "tree": "47e34fa7191b9a050218a8feea0852f533311f19",
+      "remote": "85411344dbf7a134bdf315cb8be72a819c568b1f",
+      "run_id": 40166765382,
+      "job_id": 121089307360
+    }
+  },
+  "selected_return_contract": {
+    "head": "e0a4721f586476b36de2f5941d4970ea7de2bb8e",
+    "run_id": 40165877589,
+    "job_id": 121086690923,
+    "status": "RUNNING",
+    "unchanged_cases": 6
+  },
+  "selected_return_native20_prepared": {
+    "head": "15e73a072dfebb4cd120629d15b3ddb9d59c9d6c",
+    "status": "SOURCE_ABSENT_WAIT_ACTUAL_CONTRACT6_PASS",
+    "unchanged_cases": 20
+  },
+  "scoped_model_true_merge": {
+    "head": "0271dc405f73be9749221d085a6f959e4bace2a1",
+    "parents": [
+      "35cf2bd4fc24b55799a72606cbc4ac6d08b14215",
+      "8063c35f24177c6e9d262e4fbed543d311ce1627"
+    ],
+    "full_A_chain_qualified": false,
+    "model_target_caller_integrated": false
+  },
+  "B_component_receipts": [
+    "B-scoped-browser2-verified-8ab4b7e1.json",
+    "B-model-selection4-verified-8ab4b7e1.json",
+    "B-physical-binding4-verified-7b70bb2e.json"
+  ],
+  "production_go": false,
+  "formal_accepted": "5/16",
+  "independent_acceptance": false
+}

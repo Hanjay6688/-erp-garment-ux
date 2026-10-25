@@ -1,0 +1,30 @@
+{
+  "name": "CP7_OW11_MODEL_SCOPED_EVALUATION_BROWSER.json",
+  "status": "PASS",
+  "head": "8ab4b7e1a1d2a623d5557502ae581f52caedee39",
+  "run_id": 40127943416,
+  "job_id": 120973286302,
+  "artifact_id": 12574265268,
+  "zip_bytes": 44955,
+  "zip_sha256": "337baec60a45fb0d2fc36bcbb684ce5a1661800342b7657937b0ff7d118ba87c",
+  "bytes": 298445,
+  "sha256": "f53d73c620dfbd41c843cf2feb60420192152e2b6df609908648f20975b6c864",
+  "source_pins_verified": 19,
+  "case_ids": [
+    "OW11_SCOPED_MODEL_BROWSER_MOBILE_HISTORY_MODEL_EXACT_RECOVERY",
+    "OW11_SCOPED_MODEL_BROWSER_DESKTOP_BOUNDED_ENTRY_SOURCE_ACCESS"
+  ],
+  "gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "full_A_chain_qualified": false,
+  "model_target_caller_integrated": false,
+  "production_go": false,
+  "independent_acceptance": false
+}
