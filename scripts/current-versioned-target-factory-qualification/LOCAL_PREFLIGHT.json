@@ -1,0 +1,38 @@
+{
+  "status": "PREPARED_NOT_RUNTIME",
+  "python_files": 7,
+  "bash_steps": 39,
+  "actual_module_graph_loaded": true,
+  "current_product_binding_exact": true,
+  "actual_Native36_gate_loaded": true,
+  "source_absent": true,
+  "exact_date_corrected_fixture_head": "daab807531816353e499d7842897320ce42e8949",
+  "fixture_sha256": "6dceb87ae35bb87527eba3176f80b292e5ab9ef2a4a4b5a813bf6d3f3097724e",
+  "retained_assertions": {
+    "runner.py": 36,
+    "fixture.py": 17,
+    "probe.py": 10
+  },
+  "all_business_oracles_unchanged": true,
+  "all24_official_metrics_and_independent_signature_retained": true,
+  "original_300s_window_and60_bounded8s_transactions": true,
+  "new_factory_runtime_credit": false,
+  "production_go": false,
+  "negative_business_source_guards": [
+    {
+      "id": "RELAXED_COMPLETION_WINDOW",
+      "status": "PASS",
+      "refusal": "VERSIONED_FACTORY_BUSINESS_GUARD_CHANGED"
+    },
+    {
+      "id": "MISSING_OFFICIAL_METRIC",
+      "status": "PASS",
+      "refusal": "VERSIONED_FACTORY_BUSINESS_GUARD_CHANGED"
+    },
+    {
+      "id": "REMOVED_MONEY_STOCK_HPP_ASSERTION",
+      "status": "PASS",
+      "refusal": "VERSIONED_FACTORY_BUSINESS_GUARD_CHANGED"
+    }
+  ]
+}
