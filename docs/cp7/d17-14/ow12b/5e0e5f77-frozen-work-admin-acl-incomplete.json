@@ -1,0 +1,202 @@
+{
+  "contract": "cp7.complete-original-outcome-retained.v1",
+  "head": "5e0e5f778aa308dd6f76b6ac699fe1cce0a0e992",
+  "run_id": 40218592824,
+  "job_id": 121245015709,
+  "artifact_id": 12610265216,
+  "bytes": 209553,
+  "artifact_sha256": "8d90d9c5931f70b541c8b706875c790bc72d00a6799d3f6b2f928a349f66d787",
+  "status": "INCOMPLETE",
+  "Original_read_complete": true,
+  "all_Original_JSON_files_read": 5,
+  "original_json_sha256": {
+    "T3_BACKUP_RESTORE_DRILL.json": "a50ba64b85a76e70922ebe59364fa24304a9c45db4641675360e4f7c20f2ad0b",
+    "CP7_OW12B_FROZEN_WORK.json": "faad3ce1b8dd39929e3d43a71c05168bc20d14efdfbd906defc70f204ca28a03",
+    "T3_PACKAGE_FILES_INSTALL.json": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+    "ALIGNED_CHAIN.json": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b",
+    "T3_PACKAGE_INSTALL.json": "835c8058ae22ed26ccec132e8100331e98a0019517b39a25c704dd13091372aa"
+  },
+  "actual_current_F05_source_prefix_compared": [
+    "source_sha256",
+    "expected_case_count",
+    "required_case_counts",
+    "required_case_ids",
+    "predeclared_case_contract",
+    "predeclared_case_sha256",
+    "target_v2_source_sha256",
+    "frozen_work_source_sha256"
+  ],
+  "all_source_fields_and_declaration_match": true,
+  "source_prefix_database_executed": false,
+  "product_paths_byte_identical_between_recorded_refs": true,
+  "counts": {
+    "INCOMPLETE": 6
+  },
+  "case_facts": {
+    "OW12B_FROZEN_WORK_V2_CATALOG22_EXACT_PREUSE": {
+      "status": "INCOMPLETE",
+      "error": "{'status': 'INCOMPLETE', 'error': 'FROZEN_FACADE_GRANTS_CHANGED', 'traceback': 'Traceback (most recent call last):\\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_frozen_facade_cases.py\", line 126, in run\\n    try: return fn()\\n                ^^^^\\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_frozen_facade_cases.py\", line 78, in catalog\\n    before = _catalog_rows(cur); s = install(cur)\\n                                     ^^^^^^^^^^^^\\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_frozen_facade_cases.py\", line 46, in install\\n    own = stage.install_delta(cur, lambda c: native.stage.verify(c, parents[\\'current\\']))\\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_frozen_analysis_facade_v2/__init__.py\", line 63, in install_delta\\n    verify(cur,state);return state\\n    ^^^^^^^^^^^^^^^^^\\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_frozen_analysis_facade_v2/__init__.py\", line 38, in verify\\n    verify_grants(state[\\'catalog_row\\'][-1])\\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_frozen_analysis_facade_v2/__init__.py\", line 21, in verify_grants\\n    raise ValueError(\\'FROZEN_FACADE_GRANTS_CHANGED\\')\\nValueError: FROZEN_FACADE_GRANTS_CHANGED\\n', 'production_go': False}",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_frozen_work_cases.py\", line 163, in run\n    try:return fn()\n               ^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_frozen_work_cases.py\", line 98, in catalog\n    assert r['status']=='PASS',r;return dict(r,existing_work_read_save_SQL_unchanged=True,repeated_catalog_anchor_not_new_feature_credit=True)\n           ^^^^^^^^^^^^^^^^^^^\nAssertionError: {'status': 'INCOMPLETE', 'error': 'FROZEN_FACADE_GRANTS_CHANGED', 'traceback': 'Traceback (most recent call last):\\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_frozen_facade_cases.py\", line 126, in run\\n    try: return fn()\\n                ^^^^\\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_frozen_facade_cases.py\", line 78, in catalog\\n    before = _catalog_rows(cur); s = install(cur)\\n                                     ^^^^^^^^^^^^\\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_frozen_facade_cases.py\", line 46, in install\\n    own = stage.install_delta(cur, lambda c: native.stage.verify(c, parents[\\'current\\']))\\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_frozen_analysis_facade_v2/__init__.py\", line 63, in install_delta\\n    verify(cur,state);return state\\n    ^^^^^^^^^^^^^^^^^\\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_frozen_analysis_facade_v2/__init__.py\", line 38, in verify\\n    verify_grants(state[\\'catalog_row\\'][-1])\\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_frozen_analysis_facade_v2/__init__.py\", line 21, in verify_grants\\n    raise ValueError(\\'FROZEN_FACADE_GRANTS_CHANGED\\')\\nValueError: FROZEN_FACADE_GRANTS_CHANGED\\n', 'production_go': False}\n",
+      "observations": {},
+      "production_go": false,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-26",
+        "before": "2026-10-26",
+        "after": "2026-10-26"
+      }
+    },
+    "OW12B_FROZEN_WORK_V2_PENDING_SAVE_REPLAY_OLD_METHOD": {
+      "status": "INCOMPLETE",
+      "error": "FROZEN_FACADE_GRANTS_CHANGED",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_frozen_work_cases.py\", line 163, in run\n    try:return fn()\n               ^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_frozen_work_cases.py\", line 100, in running\n    f=prepare(cur,today,observed);physical=plan.monetary_state(cur);reference=deepcopy(f['row']['reference']);p=f['payload'];key=str(uuid.uuid4())\n      ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_frozen_work_cases.py\", line 84, in prepare\n    s=install(cur);x=plan.fixture(cur,today);plan.b.api.admin(cur)\n      ^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_frozen_work_cases.py\", line 41, in install\n    configure();return facade.install(cur)\n                       ^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_frozen_facade_cases.py\", line 46, in install\n    own = stage.install_delta(cur, lambda c: native.stage.verify(c, parents['current']))\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_frozen_analysis_facade_v2/__init__.py\", line 63, in install_delta\n    verify(cur,state);return state\n    ^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_frozen_analysis_facade_v2/__init__.py\", line 38, in verify\n    verify_grants(state['catalog_row'][-1])\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_frozen_analysis_facade_v2/__init__.py\", line 21, in verify_grants\n    raise ValueError('FROZEN_FACADE_GRANTS_CHANGED')\nValueError: FROZEN_FACADE_GRANTS_CHANGED\n",
+      "observations": {},
+      "production_go": false,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-26",
+        "before": "2026-10-26",
+        "after": "2026-10-26"
+      }
+    },
+    "OW12B_FROZEN_WORK_V2_ACTUAL_POST_STALE_K2_RECEIPT": {
+      "status": "INCOMPLETE",
+      "error": "FROZEN_FACADE_GRANTS_CHANGED",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_frozen_work_cases.py\", line 163, in run\n    try:return fn()\n               ^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_frozen_work_cases.py\", line 116, in stale\n    f=prepare(cur,today,observed);bounded.finish(cur,f);key=str(uuid.uuid4());first=save(cur,f,f['payload'],key,observed)\n      ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_frozen_work_cases.py\", line 84, in prepare\n    s=install(cur);x=plan.fixture(cur,today);plan.b.api.admin(cur)\n      ^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_frozen_work_cases.py\", line 41, in install\n    configure();return facade.install(cur)\n                       ^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_frozen_facade_cases.py\", line 46, in install\n    own = stage.install_delta(cur, lambda c: native.stage.verify(c, parents['current']))\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_frozen_analysis_facade_v2/__init__.py\", line 63, in install_delta\n    verify(cur,state);return state\n    ^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_frozen_analysis_facade_v2/__init__.py\", line 38, in verify\n    verify_grants(state['catalog_row'][-1])\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_frozen_analysis_facade_v2/__init__.py\", line 21, in verify_grants\n    raise ValueError('FROZEN_FACADE_GRANTS_CHANGED')\nValueError: FROZEN_FACADE_GRANTS_CHANGED\n",
+      "observations": {},
+      "production_go": false,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-26",
+        "before": "2026-10-26",
+        "after": "2026-10-26"
+      }
+    },
+    "OW12B_FROZEN_WORK_V2_FOREIGN_CURRENT_ACCESS": {
+      "status": "INCOMPLETE",
+      "error": "FROZEN_FACADE_GRANTS_CHANGED",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_frozen_work_cases.py\", line 163, in run\n    try:return fn()\n               ^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_frozen_work_cases.py\", line 127, in access\n    f=prepare(cur,today,observed);stranger=native.native.policy.master.role_actor(cur,'OWNER');foreign=dict(f,subject=stranger);before=work.metadata(cur)\n      ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_frozen_work_cases.py\", line 84, in prepare\n    s=install(cur);x=plan.fixture(cur,today);plan.b.api.admin(cur)\n      ^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_frozen_work_cases.py\", line 41, in install\n    configure();return facade.install(cur)\n                       ^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_frozen_facade_cases.py\", line 46, in install\n    own = stage.install_delta(cur, lambda c: native.stage.verify(c, parents['current']))\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_frozen_analysis_facade_v2/__init__.py\", line 63, in install_delta\n    verify(cur,state);return state\n    ^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_frozen_analysis_facade_v2/__init__.py\", line 38, in verify\n    verify_grants(state['catalog_row'][-1])\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_frozen_analysis_facade_v2/__init__.py\", line 21, in verify_grants\n    raise ValueError('FROZEN_FACADE_GRANTS_CHANGED')\nValueError: FROZEN_FACADE_GRANTS_CHANGED\n",
+      "observations": {},
+      "production_go": false,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-26",
+        "before": "2026-10-26",
+        "after": "2026-10-26"
+      }
+    },
+    "OW12B_FROZEN_WORK_V2_ATOMIC_LAST_TABLE_FAULT": {
+      "status": "INCOMPLETE",
+      "error": "FROZEN_FACADE_GRANTS_CHANGED",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_frozen_work_cases.py\", line 163, in run\n    try:return fn()\n               ^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_frozen_work_cases.py\", line 138, in atomic\n    f=prepare(cur,today,observed);plan.b.api.admin(cur)\n      ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_frozen_work_cases.py\", line 84, in prepare\n    s=install(cur);x=plan.fixture(cur,today);plan.b.api.admin(cur)\n      ^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_frozen_work_cases.py\", line 41, in install\n    configure();return facade.install(cur)\n                       ^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_frozen_facade_cases.py\", line 46, in install\n    own = stage.install_delta(cur, lambda c: native.stage.verify(c, parents['current']))\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_frozen_analysis_facade_v2/__init__.py\", line 63, in install_delta\n    verify(cur,state);return state\n    ^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_frozen_analysis_facade_v2/__init__.py\", line 38, in verify\n    verify_grants(state['catalog_row'][-1])\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_frozen_analysis_facade_v2/__init__.py\", line 21, in verify_grants\n    raise ValueError('FROZEN_FACADE_GRANTS_CHANGED')\nValueError: FROZEN_FACADE_GRANTS_CHANGED\n",
+      "observations": {},
+      "production_go": false,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-26",
+        "before": "2026-10-26",
+        "after": "2026-10-26"
+      }
+    },
+    "OW12B_FROZEN_WORK_V2_FACTORY1200X3_PENDING_AND_DONE_SAVE": {
+      "status": "INCOMPLETE",
+      "error": "FROZEN_FACADE_GRANTS_CHANGED",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_frozen_work_cases.py\", line 163, in run\n    try:return fn()\n               ^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_frozen_work_cases.py\", line 144, in volume\n    f=prepare(cur,today,observed,volume=True);physical=plan.monetary_state(cur);c=f['row']['reference'];signature=native.frozen.geometry.dimensional_signature(c['facts']['products'])\n      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_frozen_work_cases.py\", line 84, in prepare\n    s=install(cur);x=plan.fixture(cur,today);plan.b.api.admin(cur)\n      ^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_frozen_work_cases.py\", line 41, in install\n    configure();return facade.install(cur)\n                       ^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_frozen_facade_cases.py\", line 46, in install\n    own = stage.install_delta(cur, lambda c: native.stage.verify(c, parents['current']))\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_frozen_analysis_facade_v2/__init__.py\", line 63, in install_delta\n    verify(cur,state);return state\n    ^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_frozen_analysis_facade_v2/__init__.py\", line 38, in verify\n    verify_grants(state['catalog_row'][-1])\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_frozen_analysis_facade_v2/__init__.py\", line 21, in verify_grants\n    raise ValueError('FROZEN_FACADE_GRANTS_CHANGED')\nValueError: FROZEN_FACADE_GRANTS_CHANGED\n",
+      "observations": {},
+      "production_go": false,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-26",
+        "before": "2026-10-26",
+        "after": "2026-10-26"
+      }
+    }
+  },
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "CP6_advisor_boundary_public_catalog_session_Auth_cleanup_gates": true,
+  "business_day_preserved": true,
+  "business_days": [
+    {
+      "planned": "2026-10-26",
+      "before": "2026-10-26",
+      "after": "2026-10-26"
+    },
+    {
+      "planned": "2026-10-26",
+      "before": "2026-10-26",
+      "after": "2026-10-26"
+    },
+    {
+      "planned": "2026-10-26",
+      "before": "2026-10-26",
+      "after": "2026-10-26"
+    },
+    {
+      "planned": "2026-10-26",
+      "before": "2026-10-26",
+      "after": "2026-10-26"
+    },
+    {
+      "planned": "2026-10-26",
+      "before": "2026-10-26",
+      "after": "2026-10-26"
+    },
+    {
+      "planned": "2026-10-26",
+      "before": "2026-10-26",
+      "after": "2026-10-26"
+    }
+  ],
+  "manual_unchanged_rerun": false,
+  "actual_Auth_HTTP_credit": false,
+  "new_cross_suite_aggregate_acceptance_credit": 0,
+  "full_factory3600_qualified": false,
+  "full_OW11_acceptance": false,
+  "full_OW12b_acceptance": false,
+  "formal_acceptance": "5/16",
+  "CP7C_accepted": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

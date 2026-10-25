@@ -1,0 +1,87 @@
+{
+  "contract": "cp7.complete-original-outcome-retained.v1",
+  "head": "5749a78d4f297d0c2ad5671725121c516d46a103",
+  "run_id": 40221646667,
+  "job_id": 121254290367,
+  "artifact_id": 12608979796,
+  "bytes": 95691,
+  "artifact_sha256": "27dddb1c25871625a57ade4b8189a3b07fd8eb40e289c8b6423391d41d75eb07",
+  "status": "INCOMPLETE",
+  "Original_read_complete": true,
+  "all_Original_JSON_files_read": 5,
+  "original_json_sha256": {
+    "T3_BACKUP_RESTORE_DRILL.json": "60964eae654df574aa7825a0ffd1a7003c6a60b3067906a2961a0366da66475c",
+    "T3_PACKAGE_FILES_INSTALL.json": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+    "CP7_OW12B_FROZEN_WORK_TRANSPORT.json": "569fd51f5db7e71cda78c666a94f3cb60aaeb92133b7dcf7b4a1b8c9e11b754b",
+    "ALIGNED_CHAIN.json": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b",
+    "T3_PACKAGE_INSTALL.json": "7db3fc5951e56183695a0f592704801929970e8359f5f5f8e0688a8b4ba1f880"
+  },
+  "actual_current_F05_source_prefix_compared": [
+    "source_sha256",
+    "expected_case_count",
+    "required_case_counts",
+    "required_case_ids",
+    "predeclared_case_contract",
+    "predeclared_case_sha256",
+    "target_v2_source_sha256",
+    "frozen_work_transport_source_sha256"
+  ],
+  "all_source_fields_and_declaration_match": true,
+  "source_prefix_database_executed": false,
+  "product_paths_byte_identical_between_recorded_refs": true,
+  "counts": {
+    "PASS": 1
+  },
+  "case_facts": {
+    "OW12B_FROZEN_WORK_V2_TRANSPORT_CATALOG22_ANCHOR": {
+      "status": "PASS",
+      "exact22_composed_inverse": true,
+      "dependent_view_refused_atomically": true,
+      "one_explicit_authenticated_facade_no_old_replacement": true,
+      "existing_work_read_save_SQL_unchanged": true,
+      "repeated_catalog_anchor_not_new_feature_credit": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-26",
+        "before": "2026-10-26",
+        "after": "2026-10-26"
+      }
+    }
+  },
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "CP6_advisor_boundary_public_catalog_session_Auth_cleanup_gates": true,
+  "business_day_preserved": true,
+  "business_days": [
+    {
+      "planned": "2026-10-26",
+      "before": "2026-10-26",
+      "after": "2026-10-26"
+    }
+  ],
+  "manual_unchanged_rerun": false,
+  "actual_Auth_HTTP_credit": false,
+  "new_cross_suite_aggregate_acceptance_credit": 0,
+  "full_factory3600_qualified": false,
+  "full_OW11_acceptance": false,
+  "full_OW12b_acceptance": false,
+  "formal_acceptance": "5/16",
+  "CP7C_accepted": false,
+  "independent_acceptance": false,
+  "production_go": false,
+  "cause": "Declared transport flag omitted from post-install races/HTTP execution gate",
+  "declared_races5_HTTP3_unexecuted": true,
+  "actual_execution_gate_false_verified": true,
+  "repeated_Native_anchor_additional_feature_credit": 0
+}

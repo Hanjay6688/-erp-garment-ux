@@ -1,0 +1,160 @@
+{
+  "contract": "cp7.frozen-choice-reuse-and-transport-gate-repair.v1",
+  "status": "LOCAL_PREPARATION_ONLY",
+  "first_Native_head": "c1dd6b5cd231701be3be35bb7dd45c3856ace8fa",
+  "first_Native_run": 40219663445,
+  "first_Native_counts": {
+    "PASS": 5,
+    "INCOMPLETE": 1
+  },
+  "cached_SAVE_millis": 5694.55,
+  "K3_SAVE_timeout_millis": 8064.232,
+  "sqlstate": "57014",
+  "local_normalization_and_DDL_and_material": {
+    "contract": "cp7.frozen-choice-local-preparation.v2",
+    "status": "PASS",
+    "cases": [
+      {
+        "id": "EXACT_V2_OWN_CHOICE_DELTA_NORMALIZES_ONLY_OWN_METADATA",
+        "status": "PASS"
+      },
+      {
+        "id": "OLD_RECEIPT_CANNOT_MASQUERADE_AS_V2",
+        "status": "PASS"
+      },
+      {
+        "id": "SKIPPED_REVISION_AND_DUPLICATE_TARGET_REFUSED",
+        "status": "PASS"
+      },
+      {
+        "id": "OTHER_CHOICE_CHANGE_INSERTION_OR_REORDER_NOT_HIDDEN",
+        "status": "PASS"
+      },
+      {
+        "id": "OWN_EVIDENCE_REASON_ACTOR_OR_CLOCK_NOT_REPLACED",
+        "status": "PASS"
+      },
+      {
+        "id": "EXTRA_RECEIPT_FIELD_AND_APPLIED_FORECAST_REFUSED",
+        "status": "PASS"
+      },
+      {
+        "id": "ACTUAL_MATERIAL_AND_ADVISORY_REUSE_OUTPUT_REFUSAL_PARITY",
+        "status": "PASS",
+        "cases": [
+          {
+            "label": "zero",
+            "status": "PASS",
+            "refused": false
+          },
+          {
+            "label": "wide integer",
+            "status": "PASS",
+            "refused": false
+          },
+          {
+            "label": "self",
+            "status": "PASS",
+            "refused": true
+          },
+          {
+            "label": "missing",
+            "status": "PASS",
+            "refused": true
+          },
+          {
+            "label": "other size",
+            "status": "PASS",
+            "refused": true
+          },
+          {
+            "label": "unknown",
+            "status": "PASS",
+            "refused": true
+          },
+          {
+            "label": "insufficient",
+            "status": "PASS",
+            "refused": true
+          },
+          {
+            "label": "day count",
+            "status": "PASS",
+            "refused": true
+          },
+          {
+            "label": "profile missing",
+            "status": "PASS",
+            "refused": true
+          },
+          {
+            "label": "duplicate history",
+            "status": "PASS",
+            "refused": true
+          },
+          {
+            "label": "binding changed",
+            "status": "PASS",
+            "refused": true
+          },
+          {
+            "label": "negative PCS",
+            "status": "PASS",
+            "refused": true
+          }
+        ],
+        "actual_old_and_new_material_and_advisory": true,
+        "controlled_upstream_physical_fingerprint": true
+      },
+      {
+        "id": "ACTUAL_NEW_OWNER_ACL_EMPTY_PATH_PRIVATE_CLOSED",
+        "status": "PASS"
+      }
+    ],
+    "counts": {
+      "PASS": 8
+    },
+    "sql_sha256": "021a6e6c67cfb0f47073009c9089567ae0701b4e19e8058264934c317a92a4d1",
+    "server_version": "PostgreSQL 18.6 (PGlite 0.5.11) on wasm32-unknown-emscripten, compiled by emcc (Emscripten gcc/clang-like replacement + linker emulating GNU ld) 3.1.74 (1092ec30a3fb1d46b1782ff1b4db5094d3d06ae5), 32-bit",
+    "actual_pure_normalizer_and_DDL": true,
+    "actual_CONFIRM_or_CLEAR_command_executed": false,
+    "actual_Native": false,
+    "actual_Auth_HTTP_credit": false,
+    "Python_catalog_installer_qualified": false,
+    "default_or_UI_adopted": false,
+    "production_go": false
+  },
+  "ACL_creators": [
+    {
+      "creator": "postgres",
+      "positive": 3,
+      "negative": 32
+    },
+    {
+      "creator": "supabase_admin",
+      "positive": 3,
+      "negative": 32
+    }
+  ],
+  "new_private_helpers": 2,
+  "total_private_functions": 4,
+  "old_replacements": 0,
+  "new_tables": 0,
+  "one_frozen_reference_and_advisory_per_command": true,
+  "actual_command_outcome_guards_and_two_live_freshness_checks_unchanged": true,
+  "actual_8s_limit_unchanged": true,
+  "actual_Native_correction_qualified": false,
+  "actual_Auth_HTTP_credit": false,
+  "transport_first_run": 40221646667,
+  "transport_declared_but_unexecuted_groups": [
+    "races5",
+    "http3"
+  ],
+  "transport_post_install_gate_corrected": true,
+  "production_go": false,
+  "focused_preflights_PASS": 9,
+  "actual_runtime_gate_checked": true,
+  "exact_statement_count": 18,
+  "exact_parent_bodies_including_reader_and_material_reversible": true,
+  "existing_workflow_inline_declarations_PASS": 58
+}

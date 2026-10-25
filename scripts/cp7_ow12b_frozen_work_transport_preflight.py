@@ -52,6 +52,21 @@ for bad in [dict(native=1),dict(native=2,races=5,http=3),dict(native=1,races=4,h
  try:probe.bounded_group_names(bad,transport=True,frozen_work_transport=True)
  except ValueError as e:assert str(e)=='FROZEN_WORK_TRANSPORT_BUDGET_CHANGED'
  else:raise AssertionError('FROZEN_WORK_TRANSPORT_CHANGED_BUDGET_ACCEPTED')
+# Check the actual post-install execution branch as well as declaration admission.
+def group_test(group):
+ matches=[]
+ for node in ast.walk(run):
+  if not isinstance(node,ast.If):continue
+  for child in node.body:
+   if not isinstance(child,ast.Assign):continue
+   if any(isinstance(t,ast.Subscript)and isinstance(t.value,ast.Name)and t.value.id=='report'and isinstance(t.slice,ast.Constant)and t.slice.value==group for t in child.targets):matches.append(node.test)
+ assert len(matches)==1,(group,len(matches))
+ return compile(ast.Expression(matches[0]),'actual-runtime-group-gate','eval')
+values={k:v.default for k,v in inspect.signature(probe.run).parameters.items()};values.update(args)
+assert eval(group_test('native'),{},values)is True
+assert eval(group_test('races'),{},values)is True
+assert eval(group_test('http'),{},values)is True
+assert eval(group_test('browser'),{},values)is False
 print(json.dumps(dict(status='PASS_PREPARATION_ONLY',exact_case_budget=cases.REQUIRED,source_pins=len(cases.sources()),
- missing_or_mixed_routes_refused=refused,changed_group_budgets_refused=5,actual_F05_prefix_and_contract=True,
+ missing_or_mixed_routes_refused=refused,changed_group_budgets_refused=5,actual_F05_prefix_and_contract=True,actual_post_install_native_races_HTTP_execution_gate=True,
  SQL_unchanged=True,actual_Native=False,actual_Auth_HTTP_credit=False,actual_concurrency=False,default_adopted=False,production_go=False)))

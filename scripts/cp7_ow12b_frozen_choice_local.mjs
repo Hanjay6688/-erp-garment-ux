@@ -13,7 +13,7 @@ const receipt={contract_version:'cp7.product-analog-choice-outcome.v2',target_ke
 const chosen=Object.fromEntries(Object.entries(receipt).filter(([k])=>!['contract_version','forecast_applied','production_go'].includes(k)))
 const before={captured_at:'2026-10-25T01:00:00Z',facts:{stock:'9007199254740993'},product_analog_choices:[previous,other]}
 const after={...before,captured_at:'2026-10-25T01:02:03.123457Z',product_analog_choices:[chosen,other]}
-async function test(id,fn){await fn();cases.push({id,status:'PASS'})}
+async function test(id,fn){const result=await fn();cases.push({id,status:'PASS',...result})}
 try{
  await db.exec('create role cp7_capture;create role anon;create role authenticated;create role service_role;create role cp7_alert;create schema cp7_private;create schema cp7_analysis_stage authorization cp7_capture;revoke create on schema public from public;')
  await db.exec(block(await read('scripts/cp7-src/snapshot/bootstrap.sql'),'cp7_private.immutable_run'))
@@ -49,12 +49,34 @@ try{
   await assert.rejects(()=>call(before,after,{...receipt,forecast_applied:true}),/CP7_ANALOG_CONSUMER_OWN_DELTA_SHAPE/)
  })
  await db.exec('reset role')
+ await test('ACTUAL_MATERIAL_AND_ADVISORY_REUSE_OUTPUT_REFUSAL_PARITY',async()=>{
+  // Only the upstream physical fingerprint is controlled here. Input binding,
+  // candidate ranking, integer arithmetic and both material bodies are actual SQL.
+  await db.exec("create schema cp7_bounded_analysis_stage;create function cp7_bounded_analysis_stage.work_fingerprint(jsonb)returns text language sql immutable as $$select 'controlled physical fingerprint'::text$$;")
+  await db.exec(block(await read('scripts/cp7_bounded_analysis_stage/stage.sql'),'cp7_bounded_analysis_stage.require_inputs'))
+  await db.exec(await read('scripts/cp7_product_analog_stage/candidates.sql'))
+  await db.exec(block(choice,'cp7_product_analog_choice.material'))
+  const target='target:size-1',source='source:size-1',other='other:size-2',q={from_date:'2026-10-01',through_date:'2026-10-01',group_mode:'AS_SOLD'},at='2026-10-25T01:00:00.123456Z'
+  const products=[{root_id:'target',size_id:'size-1',sku:'T'},{root_id:'source',size_id:'size-1',sku:'S'},{root_id:'other',size_id:'size-2',sku:'O'}]
+  const histories=[target,source,other].map(target_key=>({target_key,available_days:'1',available_sales_mean:'0',days:[{state:'AVAILABLE',gross_observed_pcs:'0'}],refs:[]}))
+  const base={captured_at:at,status:'INCOMPLETE',bounded_query:q,facts:{products},profiles:[{root_id:'target',profile_id:'profile-1',revision:'1',quality:'SELECTED_ASSUMPTION',config:{minimum_available_days:'1'}}],bounded_history_inputs:{contract_version:'cp7.bounded-history-inputs.v1',coverage:'COMPLETE',captured_at:at,query:q,raw_native_capture_status:'INCOMPLETE',raw_native_status_overridden:false,inputs:{contract_version:'cp7.reorder-native-inputs.v1',captured_at:at,query:q,products,source_hash:'a'.repeat(64),history_hash:'b'.repeat(64),history:histories,current_stock:[target,source,other].map(target_key=>({target_key})),targets:[target,source,other].map(target_key=>({target_key}))}}}
+  const outcomes=[]
+  const scenarios=[['zero',()=>{},source],['wide integer',c=>{c.bounded_history_inputs.inputs.history[1].days[0].gross_observed_pcs='9007199254740993'},source],['self',()=>{},target],['missing',()=>{},'missing:size-1'],['other size',()=>{},other],['unknown',c=>{c.bounded_history_inputs.inputs.history[1].available_sales_mean=null},source],['insufficient',c=>{c.profiles[0].config.minimum_available_days='2'},source],['day count',c=>{c.bounded_history_inputs.inputs.history[1].available_days='2'},source],['profile missing',c=>{c.profiles=[]},source],['duplicate history',c=>{c.bounded_history_inputs.inputs.history[2]=c.bounded_history_inputs.inputs.history[1]},source],['binding changed',c=>{c.bounded_history_inputs.query={...q,group_mode:'RESTATED'}},source],['negative PCS',c=>{c.bounded_history_inputs.inputs.history[1].days[0].gross_observed_pcs='-1'},source]]
+  for(const[label,change,key]of scenarios){
+   const c=structuredClone(base);change(c)
+   const capture=async fn=>{try{return{value:await fn()}}catch(e){return{code:e.code,message:e.message}}}
+   const old=await capture(()=>value('select cp7_product_analog_choice.material($1::jsonb,$2,$3)v',[j(c),target,key]))
+   const next=await capture(async()=>{const envelope=await value('select cp7_product_analog_stage.candidates($1::jsonb,$2,0,1)v',[j(c),target]);return value('select cp7_frozen_analysis_choice_v2.material($1::jsonb,$2,$3,$4::jsonb)v',[j(c),target,key,j(envelope)])})
+   assert.deepEqual(next,old,label);if(label==='zero')assert.equal(next.value.available_total_pcs,'0');if(label==='wide integer')assert.equal(next.value.available_total_pcs,'9007199254740993');if(!['zero','wide integer'].includes(label))assert.ok(next.code,label);outcomes.push({label,status:'PASS',refused:!!next.code})
+  }
+  return{cases:outcomes,actual_old_and_new_material_and_advisory:true,controlled_upstream_physical_fingerprint:true}
+ })
  await test('ACTUAL_NEW_OWNER_ACL_EMPTY_PATH_PRIVATE_CLOSED',async()=>{
-  const names=['cp7_frozen_analysis_choice_v2.normalize_confirmed_delta(jsonb,jsonb,jsonb)','cp7_frozen_analysis_choice_v2.apply(jsonb,uuid)','public.erp_cp7_save_product_analog_choice_v2(jsonb,uuid)']
+  const names=['cp7_frozen_analysis_choice_v2.normalize_confirmed_delta(jsonb,jsonb,jsonb)','cp7_frozen_analysis_choice_v2.material(jsonb,text,text,jsonb)','cp7_frozen_analysis_choice_v2.review_context(uuid,text,integer,integer,text)','cp7_frozen_analysis_choice_v2.apply(jsonb,uuid)','public.erp_cp7_save_product_analog_choice_v2(jsonb,uuid)']
   for(const [i,sig]of names.entries()){
    const row=(await db.query('select pg_get_userbyid(proowner)owner,prosecdef,provolatile,proconfig from pg_proc where oid=$1::regprocedure',[sig])).rows[0]
-   assert.deepEqual(row,{owner:'cp7_capture',prosecdef:i===2,provolatile:i===0?'i':'v',proconfig:['search_path=""','TimeZone=UTC']})
-   for(const role of['anon','authenticated','service_role','cp7_alert'])assert.equal(await value("select has_function_privilege($1,$2,'EXECUTE')v",[role,sig]),i===2&&role==='authenticated')
+   assert.deepEqual(row,{owner:'cp7_capture',prosecdef:i===4,provolatile:i<2?'i':'v',proconfig:['search_path=""','TimeZone=UTC']})
+   for(const role of['anon','authenticated','service_role','cp7_alert'])assert.equal(await value("select has_function_privilege($1,$2,'EXECUTE')v",[role,sig]),i===4&&role==='authenticated')
   }
   for(const role of['anon','authenticated','service_role','cp7_alert'])assert.equal(await value("select has_schema_privilege($1,'cp7_frozen_analysis_choice_v2','USAGE')v",[role]),false)
   assert.equal(await value("select has_schema_privilege('cp7_capture','public','CREATE')v"),false)

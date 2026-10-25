@@ -1087,7 +1087,7 @@ def run(attention=False,p18_e01=False,rule_lifecycle=False,source_navigation=Fal
   if ow13c_bounded_save:
    from cp7_ow13c_bounded_save_probe import committed_group
    report['committed']=committed_group(case_provider,checker,phase)
-  if ow12b_frozen_facade or ow11_model_target_v2_transport_part is not None or ow11_model_scoped_transport or ow11_model_history_transport or ow11_model_target_transport or ow11_model_v2_transport or ow11_model_policy_transport or ow11_consumer_transport or ow11_analog_choice_transport or not(ow13c_history_inputs or ow13c_schedule_entry or p19_scale or ow13c_negatives or ow13c_scale or ow13c_wip or ow13c_schedule or ow13c_schedule_contexts):
+  if ow12b_frozen_work_transport or ow12b_frozen_facade or ow11_model_target_v2_transport_part is not None or ow11_model_scoped_transport or ow11_model_history_transport or ow11_model_target_transport or ow11_model_v2_transport or ow11_model_policy_transport or ow11_consumer_transport or ow11_analog_choice_transport or not(ow13c_history_inputs or ow13c_schedule_entry or p19_scale or ow13c_negatives or ow13c_scale or ow13c_wip or ow13c_schedule or ow13c_schedule_contexts):
    # The scale ladder declares no race/HTTP group: real Auth/PostgREST is
    # measured inside its browser cases on the same seeded copy.
    report['races']=modes.run_races(case_provider,checker,phase)

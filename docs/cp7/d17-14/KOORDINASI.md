@@ -3836,3 +3836,36 @@ ACL install, no choice business-case credit. All5JSON and exact source, cleanup
 and restore gates preserved. New workflow explicitly installs pglast8.7; nine
 closed-route preflights PASS. Legacy ACL-input checker correctly refuses an
 invocation without its required raw report; no fresh database credit claimed.
+
+
+## 192. B26 Oktober2026 WIB — actual reader qualified; bounded correction and transport gate
+
+c1dd reader complete Original12610316148 verified4PASS: physical-size zero vs
+UNKNOWN, old method/access/K2 refusals, K3 and actual later stock post keep
+archived output exact,1200SKU x3/all3602targets; cached reads1392.251/1392.382/
+1315.721ms and K3 reads5320.909/5245.972/5277.737ms, each below8s. All5JSON,
+source/declaration/head/product paths, CP6/advisor/public/WIB26/cleanup/restore
+verified. This qualifies the explicit reader component, not fullOW12b or SLA.
+
+c1dd choice Original12609627598:5PASS/1INCOMPLETE; actual cached factory SAVE
+5694.550ms, after-K3 SAVE57014 at8064.232ms. First failure fully retained.
+The new command previously compiled the same frozen reference twice and
+calculated the same advisory again. Prepared correction keeps one private
+review context and passes its exact advisory into a derived material helper.
+Four private functions (two added helpers), no existing replacement/table or
+public response change. Mechanical reversal of all four bodies equals admitted
+parents; all four access rechecks, shared locks, revision, append-only metadata,
+two full live freshness checks and8s remain. No live recapture at the old clock.
+Local8groups PASS with12 actual material/advisory equality-or-refusal variants;
+both administrative creators pass3positive+32negative strict ACL controls each.
+Actual corrected Native latency remains unqualified until its bounded run.
+
+5749 Transport9 Original12608979796 complete: catalog anchor1PASS but races5/
+HTTP3 never entered. Actual post-install F05 condition omitted the new flag;
+closed declaration alone did not catch execution selection. Correct that one
+branch and check the actual Native/races/HTTP/browser conditions in preflight.
+No concurrency/Auth credit for the incomplete run; all5JSON and source/restore
+verified. Also preserve full5e0 work6 and facade Native3/races3 ACL failures,
+including four exact clone authority receipts and unexecutedHTTP2. No lost
+first outcomes or oracle relaxation. Continue current Native/Auth/browser CI;
+formal5/16, CP7C/independent/production_go=false.

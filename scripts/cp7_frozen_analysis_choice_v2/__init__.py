@@ -10,7 +10,8 @@ from . import render
 
 ROOT=Path(__file__).resolve().parent
 SCHEMA=render.SCHEMA
-FUNCTIONS={SCHEMA+'.normalize_confirmed_delta(jsonb,jsonb,jsonb)':('i',False),
+FUNCTIONS={SCHEMA+'.review_context('+render.reader.ARGS+')':('v',False),
+ SCHEMA+'.material(jsonb,text,text,jsonb)':('i',False),SCHEMA+'.normalize_confirmed_delta(jsonb,jsonb,jsonb)':('i',False),
  SCHEMA+'.apply(jsonb,uuid)':('v',False),render.PUBLIC+'(jsonb,uuid)':('v',True)}
 
 
@@ -57,7 +58,7 @@ def verify(cur,state):
  if cur.execute('select pg_get_userbyid(nspowner)from pg_namespace where nspname=%s',(SCHEMA,)).fetchone()!=('cp7_capture',):raise ValueError('FROZEN_CHOICE_SCHEMA_OWNER_CHANGED')
  if cur.execute("select has_schema_privilege('cp7_capture','public','CREATE')").fetchone()[0]:raise ValueError('FROZEN_CHOICE_PUBLIC_CREATE_OPEN')
  verify_grants(state['catalog'])
- return dict(private_functions=2,new_public_rpcs=1,new_tables=0,existing_replacements=0,
+ return dict(private_functions=4,new_public_rpcs=1,new_tables=0,existing_replacements=0,
   actual_Native_qualified=False,actual_Auth_HTTP_credit=False,default_adopted=False,production_go=False)
 
 

@@ -1399,5 +1399,32 @@
       "artifact_id": 12609602441,
       "cases": 6
     }
-  ]
+  ],
+  "frozen_reader_latest_qualified": {
+    "head": "c1dd6b5cd231701be3be35bb7dd45c3856ace8fa",
+    "run_id": 40219663403,
+    "artifact_id": 12610316148,
+    "status": "PASS",
+    "Native_cases": 4,
+    "receipt": "docs/cp7/d17-14/ow12b/c1dd6b5c-40219663403-original-pass.json",
+    "factory_SLA_claim": false
+  },
+  "frozen_choice_K3_timeout_c1": {
+    "run_id": 40219663445,
+    "artifact_id": 12609627598,
+    "PASS": 5,
+    "INCOMPLETE": 1,
+    "sqlstate": "57014",
+    "millis": 8064.232,
+    "corrected_latency_qualified": false
+  },
+  "frozen_work_transport_execution_gate_first": {
+    "run_id": 40221646667,
+    "artifact_id": 12608979796,
+    "Native_anchor_PASS": 1,
+    "races_executed": 0,
+    "HTTP_executed": 0,
+    "status": "INCOMPLETE",
+    "corrected_execution_gate_prepared": true
+  }
 }

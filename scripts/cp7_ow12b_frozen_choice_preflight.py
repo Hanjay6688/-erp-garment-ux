@@ -13,8 +13,10 @@ s=new[r.SCHEMA+'.apply(jsonb,uuid)']
 changes=[('create function '+r.SCHEMA+'.apply(','create or replace function cp7_product_analog_choice.apply('),
  ('cp7.product-analog-choice-command.v2','cp7.product-analog-choice-command.v1'),
  ('cp7.product-analog-choice-outcome.v2','cp7.product-analog-choice-outcome.v1'),
- ('reviewed:=cp7_frozen_analysis_readers_v2.read_candidates(','reviewed:=cp7_product_analog_stage.read_candidates('),
- ('cp7_product_analog_choice.material(cp7_frozen_analysis_readers_v2.reference(j),target,','cp7_product_analog_choice.material(j.reference,target,'),
+ ("reviewed jsonb;review_context jsonb;material jsonb;","reviewed jsonb;material jsonb;"),
+ ("review_context:="+r.SCHEMA+".review_context((p_payload->>'source_request')::uuid,target,0,1,p_payload->>'access_epoch');\n  reviewed:=review_context->'reviewed';","reviewed:=cp7_product_analog_stage.read_candidates((p_payload->>'source_request')::uuid,target,0,1,p_payload->>'access_epoch');"),
+ (r.SCHEMA+".material(review_context->'reference',target,",'cp7_product_analog_choice.material(j.reference,target,'),
+ ("target,p_payload->>'source_key',reviewed->'result')||jsonb_build_object(","target,p_payload->>'source_key')||jsonb_build_object("),
  (r.SCHEMA+'.normalize_confirmed_delta(','cp7_product_analog_consumer.normalize_confirmed_delta(')]
 for a,b in changes:s=r.once(s,a,b)
 assert s==old[r.APPLY]
@@ -22,7 +24,20 @@ s=new[r.SCHEMA+'.normalize_confirmed_delta(jsonb,jsonb,jsonb)']
 s=r.once(s,r.SCHEMA+'.normalize_confirmed_delta(','cp7_product_analog_consumer.normalize_confirmed_delta(')
 s=r.once(s,'cp7.product-analog-choice-outcome.v2','cp7.product-analog-choice-outcome.v1')
 assert s==old[r.NORMALIZE]
-sql=r.render();assert len(parse_sql(sql))==12
+s=new[r.SCHEMA+'.review_context('+r.reader.ARGS+')']
+s=r.once(s,'create function '+r.SCHEMA+'.review_context(','create function '+r.reader.NEW+'(')
+s=r.once(s,'producer text;c jsonb;reviewed jsonb;','producer text;c jsonb;')
+s=r.once(s,' reviewed:=jsonb_build_object(',' return jsonb_build_object(')
+s=r.once(s," return jsonb_build_object('reviewed',reviewed,'reference',c);\nend $$;",'end $$;')
+assert s==old[r.READ]
+s=new[r.SCHEMA+'.material(jsonb,text,text,jsonb)']
+s=r.once(s,'create function '+r.SCHEMA+'.material(c jsonb,p_target text,p_source text,p_envelope jsonb)','create function cp7_product_analog_choice.material(c jsonb,p_target text,p_source text)')
+s=r.once(s,' envelope:=p_envelope;',' envelope:=cp7_product_analog_stage.candidates(c,p_target,0,1);')
+assert s==old[r.MATERIAL]
+sql=r.render();assert len(parse_sql(sql))==18
+assert sql.count('cp7_frozen_analysis_readers_v2.reference(j)')==1
+assert sql.count('cp7_product_analog_stage.candidates(c,p_target,p_offset,p_limit)')==1
+assert 'cp7_product_analog_stage.candidates(c,p_target,0,1)'not in sql
 assert 'create table'not in sql.lower()and 'create or replace'not in sql.lower()
 assert "hashtextextended('FG_HPP_SALES_V2620C',0)"in sql
 assert "hashtextextended('CP7:ANALOG:REQUEST:'"in sql
@@ -71,7 +86,7 @@ assert result['frozen_choice_source_sha256']==cases.sources()
 assert result['frozen_choice_native_qualified']is False and result['actual_Auth_HTTP_credit']is False
 assert probe.bounded_group_names(cases.REQUIRED)==('native',)
 ast.parse(stage.ROOT.parent.joinpath('cp7_ow12b_frozen_choice_cases.py').read_text())
-print(json.dumps(dict(status='PASS_PREPARATION_ONLY',SQL_statements=12,private_functions=2,new_public_rpc=1,new_tables=0,
+print(json.dumps(dict(status='PASS_PREPARATION_ONLY',SQL_statements=18,private_functions=4,new_public_rpc=1,new_tables=0,
  source_pins=len(cases.sources()),exact_case_budget=cases.REQUIRED,missing_or_mixed_routes_refused=refused,actual_F05_prefix_and_contract=True,
  exact_admitted_consumer_parent_and_own_delta_guard=True,global_FG_envelope_shared_UUID_locks_current_access_and_freshness_unchanged=True,
  existing_choice_tables_and_material_math_unchanged=True,command_outcome_and_normalizer_explicit_v2=True,

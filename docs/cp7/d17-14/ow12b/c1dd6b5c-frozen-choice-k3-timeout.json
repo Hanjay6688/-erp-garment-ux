@@ -1,0 +1,377 @@
+{
+  "contract": "cp7.complete-original-outcome-retained.v1",
+  "head": "c1dd6b5cd231701be3be35bb7dd45c3856ace8fa",
+  "run_id": 40219663445,
+  "job_id": 121248268303,
+  "artifact_id": 12609627598,
+  "bytes": 211334,
+  "artifact_sha256": "d2ed53b2e70997b51e1fc53eb43184c9e075d4887b192ac4bdd62887c7a34527",
+  "status": "INCOMPLETE",
+  "Original_read_complete": true,
+  "all_Original_JSON_files_read": 5,
+  "original_json_sha256": {
+    "T3_BACKUP_RESTORE_DRILL.json": "ca72b0f8307e15445801c958f8f79aeb6cacbef8b959e1d5831644cfe25a9b04",
+    "T3_PACKAGE_FILES_INSTALL.json": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+    "ALIGNED_CHAIN.json": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b",
+    "CP7_OW12B_FROZEN_CHOICE.json": "4216f67a2ca0648e0575e1eb9790d00d67434ad6e2ae014c9a0a4360a2617882",
+    "T3_PACKAGE_INSTALL.json": "6f86cfa8556403b2badab7b370dbeccf3fb26041e39a8b7c05fae01adfcebd78"
+  },
+  "actual_current_F05_source_prefix_compared": [
+    "source_sha256",
+    "expected_case_count",
+    "required_case_counts",
+    "required_case_ids",
+    "predeclared_case_contract",
+    "predeclared_case_sha256",
+    "target_v2_source_sha256",
+    "frozen_choice_source_sha256"
+  ],
+  "all_source_fields_and_declaration_match": true,
+  "source_prefix_database_executed": false,
+  "product_paths_byte_identical_between_recorded_refs": true,
+  "counts": {
+    "PASS": 5,
+    "INCOMPLETE": 1
+  },
+  "case_facts": {
+    "OW12B_FROZEN_CHOICE_V2_CATALOG22_EXACT_PREUSE": {
+      "status": "PASS",
+      "private2_public1_tables0_replacements0": true,
+      "exact22_composed_inverse": true,
+      "dependent_view_refused_atomically": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-26",
+        "before": "2026-10-26",
+        "after": "2026-10-26"
+      }
+    },
+    "OW12B_FROZEN_CHOICE_V2_CONFIRM_FRESH_CLEAR_REPLAY_CLOCKS": {
+      "status": "PASS",
+      "fresh_target_uses_reviewed_zero_same_kernel": true,
+      "CLEAR_restores_UNKNOWN_not_zero": true,
+      "exact_receipt_after_later_clear": true,
+      "recorded_microsecond_visible_only_after_recording": true,
+      "used_inverse_refused": true,
+      "no_money_stock_HPP_change": true,
+      "observations": {
+        "ordered_calls": [
+          {
+            "phase": "PRIVATE_REQUEST",
+            "name": "cp7_frozen_analysis_units_v2.request",
+            "millis": 85.079
+          },
+          {
+            "phase": "UNCHANGED_COMPILER_SAME_ARGUMENTS",
+            "name": "cp7_history_bounded.compile",
+            "millis": 20.369
+          },
+          {
+            "phase": "PRIVATE_REQUEST",
+            "name": "cp7_frozen_analysis_units_v2.request",
+            "millis": 59.744
+          },
+          {
+            "phase": "UNCHANGED_COMPILER_SAME_ARGUMENTS",
+            "name": "cp7_history_bounded.compile",
+            "millis": 21.14
+          },
+          {
+            "phase": "PRIVATE_REQUEST",
+            "name": "cp7_frozen_analysis_units_v2.request",
+            "millis": 59.027
+          },
+          {
+            "phase": "UNCHANGED_COMPILER_SAME_ARGUMENTS",
+            "name": "cp7_history_bounded.compile",
+            "millis": 21.999
+          }
+        ],
+        "completed": {
+          "state": "DONE",
+          "targets": 23,
+          "pages": 1,
+          "step_millis": [
+            26.565,
+            5.446,
+            4.751,
+            4.696,
+            14.406,
+            9.971,
+            5.871,
+            8.964,
+            9.323,
+            6.659,
+            4.727,
+            9.504,
+            6.345,
+            14.925,
+            12.707,
+            8.736,
+            2.296
+          ]
+        },
+        "write_millis": [
+          149.113,
+          2.862
+        ]
+      },
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-26",
+        "before": "2026-10-26",
+        "after": "2026-10-26"
+      }
+    },
+    "OW12B_FROZEN_CHOICE_V2_REVIEW_SIZE_UNKNOWN_OLD_METHOD": {
+      "status": "PASS",
+      "explicit_review_scale_reason_required": true,
+      "self_cross_size_UNKNOWN_refused": true,
+      "v1_payload_and_crossmethod_UUID_refused": true,
+      "exact_v2_replay": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-26",
+        "before": "2026-10-26",
+        "after": "2026-10-26"
+      }
+    },
+    "OW12B_FROZEN_CHOICE_V2_CURRENT_ACCESS_SOURCE_K2": {
+      "status": "PASS",
+      "foreign_stale_K2_refused": true,
+      "committed_receipt_retained_after_source_change_and_K2": true,
+      "current_revoked_actor_cannot_replay": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-26",
+        "before": "2026-10-26",
+        "after": "2026-10-26"
+      }
+    },
+    "OW12B_FROZEN_CHOICE_V2_ATOMIC_LAST_TABLE_FAULT": {
+      "status": "PASS",
+      "last_table_failure_rolls_back_choice_and_command": true,
+      "no_orphan_or_business_write": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-26",
+        "before": "2026-10-26",
+        "after": "2026-10-26"
+      }
+    },
+    "OW12B_FROZEN_CHOICE_V2_FACTORY1200X3_CACHED_K3_CONFIRM": {
+      "status": "INCOMPLETE",
+      "error": "canceling statement due to statement timeout\nCONTEXT:  SQL expression \"exists(select 1 from jsonb_each(jsonb_build_object('history',i->'history','stock',i->'current_stock','targets',i->'targets'))a\n  where jsonb_array_length(a.value)<>n or n<>(select count(distinct x->>'target_key')from jsonb_array_elements(a.value)x)\n   or exists(select 1 from jsonb_array_elements(a.value)x where not(keys?(x->>'target_key'))))\"\nPL/pgSQL function cp7_bounded_analysis_stage.require_inputs(jsonb,jsonb) line 23 at IF\nPL/pgSQL function cp7_product_analog_stage.candidates(jsonb,text,integer,integer) line 7 at assignment\nPL/pgSQL function cp7_product_analog_choice.material(jsonb,text,text) line 7 at assignment\nPL/pgSQL function cp7_frozen_analysis_choice_v2.apply(jsonb,uuid) line 43 at assignment\nSQL function \"erp_cp7_save_product_analog_choice_v2\" statement 1",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_frozen_choice_cases.py\", line 176, in run\n    try:return fn()\n               ^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_frozen_choice_cases.py\", line 169, in volume\n    second=save(cur,new,payload(new,'1'),observed=observed);assert second['revision']=='2'\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_frozen_choice_cases.py\", line 68, in save\n    try:r=plan.staged.limited(cur,RPC,(json.dumps(p or payload(f)),key or str(uuid.uuid4())),f['subject'])\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_p19_staged_cases.py\", line 70, in limited\n    result = cur.execute('select public.' + name + '(' + placeholders + ')', args).fetchone()[0]\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.QueryCanceled: canceling statement due to statement timeout\nCONTEXT:  SQL expression \"exists(select 1 from jsonb_each(jsonb_build_object('history',i->'history','stock',i->'current_stock','targets',i->'targets'))a\n  where jsonb_array_length(a.value)<>n or n<>(select count(distinct x->>'target_key')from jsonb_array_elements(a.value)x)\n   or exists(select 1 from jsonb_array_elements(a.value)x where not(keys?(x->>'target_key'))))\"\nPL/pgSQL function cp7_bounded_analysis_stage.require_inputs(jsonb,jsonb) line 23 at IF\nPL/pgSQL function cp7_product_analog_stage.candidates(jsonb,text,integer,integer) line 7 at assignment\nPL/pgSQL function cp7_product_analog_choice.material(jsonb,text,text) line 7 at assignment\nPL/pgSQL function cp7_frozen_analysis_choice_v2.apply(jsonb,uuid) line 43 at assignment\nSQL function \"erp_cp7_save_product_analog_choice_v2\" statement 1\n",
+      "observations": {
+        "ordered_calls": [
+          {
+            "phase": "PRIVATE_REQUEST",
+            "name": "cp7_frozen_analysis_units_v2.request",
+            "millis": 2620.719
+          },
+          {
+            "phase": "UNCHANGED_COMPILER_SAME_ARGUMENTS",
+            "name": "cp7_history_bounded.compile",
+            "millis": 2395.453
+          },
+          {
+            "phase": "PRIVATE_REQUEST",
+            "name": "cp7_frozen_analysis_units_v2.request",
+            "millis": 2306.484
+          },
+          {
+            "phase": "UNCHANGED_COMPILER_SAME_ARGUMENTS",
+            "name": "cp7_history_bounded.compile",
+            "millis": 2455.193
+          }
+        ],
+        "completed": {
+          "state": "DONE",
+          "targets": 3602,
+          "pages": 1,
+          "step_millis": [
+            3811.469,
+            691.877,
+            642.935,
+            580.476,
+            570.073,
+            567.656,
+            554.667,
+            1103.839,
+            1132.325,
+            1100.56,
+            1099.733,
+            1108.039,
+            1089.968,
+            1140.181,
+            1105.437,
+            1109.179,
+            1112.494,
+            1110.853,
+            1121.494,
+            1109.105,
+            1128.699,
+            1066.935,
+            597.258,
+            666.411,
+            1133.933,
+            546.801,
+            533.877,
+            554.216,
+            553.168,
+            554.796,
+            561.752,
+            615.932,
+            580.927,
+            589.196,
+            591.43,
+            609.943,
+            624.63,
+            614.653,
+            693.169,
+            562.27,
+            627.055,
+            493.18,
+            571.66,
+            563.06,
+            590.467,
+            600.89,
+            594.678,
+            602.28,
+            697.555,
+            612.503,
+            622.38,
+            628.588,
+            649.686,
+            693.403,
+            654.744,
+            643.215,
+            557.484,
+            520.548,
+            560.897,
+            562.966,
+            564.374,
+            566.462,
+            570.844,
+            568.755,
+            581.689,
+            578.733,
+            616.014,
+            611.574,
+            622.171,
+            580.743,
+            583.199,
+            578.481,
+            538.972,
+            1172.422,
+            69.315,
+            3.492
+          ]
+        },
+        "write_millis": [
+          5694.55
+        ],
+        "failed_save": {
+          "millis": 8064.232,
+          "sqlstate": "57014",
+          "error": "canceling statement due to statement timeout\nCONTEXT:  SQL expression \"exists(select 1 from jsonb_each(jsonb_build_object('history',i->'history','stock',i->'current_stock','targets',i->'targets'))a\n  where jsonb_array_length(a.value)<>n or n<>(select count(distinct x->>'target_key')from jsonb_array_elements(a.value)x)\n   or exists(select 1 from jsonb_array_elements(a.value)x where not(keys?(x->>'target_key'))))\"\nPL/pgSQL function cp7_bounded_analysis_stage.require_inputs(jsonb,jsonb) line 23 at IF\nPL/pgSQL function cp7_product_analog_stage.candidates(jsonb,text,integer,integer) line 7 at assignment\nPL/pgSQL function cp7_product_analog_choice.material(jsonb,text,text) line 7 at assignment\nPL/pgSQL function cp7_frozen_analysis_choice_v2.apply(jsonb,uuid) line 43 at assignment\nSQL function \"erp_cp7_save_product_analog_choice_v2\" statement 1"
+        }
+      },
+      "production_go": false,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-26",
+        "before": "2026-10-26",
+        "after": "2026-10-26"
+      }
+    }
+  },
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "CP6_advisor_boundary_public_catalog_session_Auth_cleanup_gates": true,
+  "business_day_preserved": true,
+  "business_days": [
+    {
+      "planned": "2026-10-26",
+      "before": "2026-10-26",
+      "after": "2026-10-26"
+    },
+    {
+      "planned": "2026-10-26",
+      "before": "2026-10-26",
+      "after": "2026-10-26"
+    },
+    {
+      "planned": "2026-10-26",
+      "before": "2026-10-26",
+      "after": "2026-10-26"
+    },
+    {
+      "planned": "2026-10-26",
+      "before": "2026-10-26",
+      "after": "2026-10-26"
+    },
+    {
+      "planned": "2026-10-26",
+      "before": "2026-10-26",
+      "after": "2026-10-26"
+    },
+    {
+      "planned": "2026-10-26",
+      "before": "2026-10-26",
+      "after": "2026-10-26"
+    }
+  ],
+  "manual_unchanged_rerun": false,
+  "actual_Auth_HTTP_credit": false,
+  "new_cross_suite_aggregate_acceptance_credit": 0,
+  "full_factory3600_qualified": false,
+  "full_OW11_acceptance": false,
+  "full_OW12b_acceptance": false,
+  "formal_acceptance": "5/16",
+  "CP7C_accepted": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

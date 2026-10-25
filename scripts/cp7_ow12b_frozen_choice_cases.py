@@ -82,7 +82,7 @@ def cases(cur,today):
  observed={}
  def catalog():
   before=_catalog_rows(cur);s=install(cur);v=stage.verify(cur,s['current'])
-  assert(v['private_functions'],v['new_public_rpcs'],v['new_tables'],v['existing_replacements'])==(2,1,0,0)
+  assert(v['private_functions'],v['new_public_rpcs'],v['new_tables'],v['existing_replacements'])==(4,1,0,0)
   cur.execute('create view public.frozen_choice_inverse_guard as select public.'+RPC+'(null,null)value')
   held=_catalog_rows(cur)
   try:stage.rollback_preuse(cur,s['current'])
@@ -91,7 +91,7 @@ def cases(cur,today):
   assert _catalog_rows(cur)==held;cur.execute('drop view public.frozen_choice_inverse_guard')
   stage.rollback_preuse(cur,s['current']);reader.stage.rollback_preuse(cur,s['parents']['current'])
   native.unwind(cur,s['parents']['parents']);assert _catalog_rows(cur)==before
-  return dict(status='PASS',private2_public1_tables0_replacements0=True,exact22_composed_inverse=True,dependent_view_refused_atomically=True)
+  return dict(status='PASS',private4_public1_tables0_replacements0=True,exact22_composed_inverse=True,dependent_view_refused_atomically=True)
  def lifecycle():
   s=install(cur);f=prepare(cur,today,observed);physical=plan.monetary_state(cur);p=payload(f);key=str(uuid.uuid4())
   assert target(f)['demand_estimate']['status']=='UNKNOWN'
