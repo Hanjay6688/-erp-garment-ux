@@ -9,6 +9,7 @@ from pathlib import Path
 from time import monotonic
 import json
 import uuid
+import traceback
 import psycopg
 import cp7_ow11_model_target_consumer_v2_cases as native
 import cp7_ow12b_operational3600_cases as volume
@@ -97,7 +98,7 @@ def function_profile(cur,before):
  finally:cur.execute('release savepoint model_target_profile_read')
 
 
-def capture(cur,today,actor,phase):
+def capture(cur,today,actor,phase,observed):
  plan.b.api.admin(cur);prior=cur.execute('show track_functions').fetchone()[0]
  cur.execute("select set_config('track_functions','all',true)")
  before=function_times(cur);cur.execute('savepoint model_target_scale_timing')
@@ -119,6 +120,7 @@ def capture(cur,today,actor,phase):
  plan.b.api.admin(cur);profile=function_profile(cur,before)
  cur.execute('release savepoint model_target_scale_timing')
  cur.execute("select set_config('track_functions',%s,true)",(prior,))
+ observed[phase]=dict(request_millis=round(elapsed,3),request_function_profile=profile)
  assert elapsed<8000,('MODEL_TARGET_V2_3600_REQUEST_OVER8S',elapsed)
  plan.staged.checked(initial,key,'RUNNING')
  row=plan.staged.job_row(cur,key,actor)
@@ -127,12 +129,27 @@ def capture(cur,today,actor,phase):
  assert f['pages']['targets_total']==len(row['reference']['facts']['products'])>=3600
  assert row['reference']['status']=='INCOMPLETE'and row['reference']['stock_raw_omitted']is True
  assert int(row['reference']['bounded_stock_reference']['row_count'])>=363600
+ observed[phase].update(complete=True,terminal_state=f['done']['state'],targets_total=f['pages']['targets_total'],page_count=f['pages']['page_count'],step_millis=[c['ms']for c in f['calls']])
  return f
+
+
+def staged_frozen(cur,run):
+ # A staged run is a sealed header/page set/pages, not a whole Native run.
+ # Retain every stored field/body and the immutable captured reference.
+ plan.b.api.admin(cur)
+ value=cur.execute("""select jsonb_build_object(
+  'header',(select to_jsonb(h)from cp7_analysis_stage.headers h where h.run_id=%s),
+  'page_set',(select to_jsonb(s)from cp7_analysis_stage.page_sets s where s.run_id=%s),
+  'pages',(select coalesce(jsonb_agg(to_jsonb(p)order by p.idx),'[]'::jsonb)from cp7_analysis_stage.pages p where p.run_id=%s),
+  'reference',(select j.reference from cp7_analysis_stage.jobs j where j.run_id=%s))""",(run,run,run,run)).fetchone()[0]
+ assert value['header']is not None and value['page_set']is not None and value['pages']and value['reference']is not None,'MODEL_TARGET_V2_3600_STAGED_SEAL_MISSING'
+ return value
 
 
 def cases(cur,today):
  native.PARENT_CHECKER=PARENT_CHECKER
  catalog=native.cases(cur,today)[0][1]
+ observed={}
  def scale():
   # Capture a complete operational predecessor on the same physical facts.
   # Install only the new source/model/target composition afterwards.
@@ -145,12 +162,12 @@ def cases(cur,today):
   for root in roots:native.fresh.consumer.profile(cur,root,mean_mode='SELECTED_MANUAL',daily_pcs='1000',lead_days='3',review_days='2',buffer_days='1')
   actor=native.policy.master.role_actor(cur,'OWNER')
   physical=plan.monetary_state(cur)
-  old=capture(cur,today,actor,'PREDECESSOR')
+  old=capture(cur,today,actor,'PREDECESSOR',observed)
   old_rows=old['row']['reference']['bounded_history_inputs']['inputs']['targets']
   old_domains={r['target_key']:target_domain(r)for r in old_rows}
   old_recommendations={r['target']['key']:recommendation_domain(r)for r in old['original']['analysis']['recommendations']}
   assert len(old_domains)==len(old_rows)==old['pages']['targets_total']
-  old_frozen=cur.execute('select to_jsonb(r)from cp7_analysis_native.runs r where id=%s',(old['done']['run_id'],)).fetchone()[0]
+  old_frozen=staged_frozen(cur,old['done']['run_id'])
   native.source.PARENT_CHECKER=lambda c:native.fresh.stage.verify(c,fresh_state)
   _,_,source_state=native.source.install(cur)
   current=stage.install_delta(cur,lambda c:native.source.stage.verify(c,source_state))
@@ -162,7 +179,7 @@ def cases(cur,today):
    history=native.source.history.capture(cur,hq,subject=actor)
    model,_=native.source.scoped.capture(cur,native.source.scoped.parent.query(history,hq),actor)
    references[key]=dict(run_id=model['run_id'],history_run_id=history['run_id'])
-  new=capture(cur,today,actor,'CURRENT')
+  new=capture(cur,today,actor,'CURRENT',observed)
   rows=new['row']['reference']['bounded_history_inputs']['inputs']['targets']
   assert len(rows)==len({r['target_key']for r in rows})==len(old_domains)
   assert {r['target_key']:target_domain(r)for r in rows}==old_domains,'MODEL_TARGET_V2_3600_KERNEL_OR_OBSERVED_OPERANDS_CHANGED'
@@ -184,7 +201,7 @@ def cases(cur,today):
    timings.append(round(elapsed,3))
   assert plan.monetary_state(cur)==physical
   plan.b.api.admin(cur)
-  assert cur.execute('select to_jsonb(r)from cp7_analysis_native.runs r where id=%s',(old['done']['run_id'],)).fetchone()[0]==old_frozen
+  assert staged_frozen(cur,old['done']['run_id'])==old_frozen
   plan.found_fg(cur,x,'1');posted=plan.monetary_state(cur)
   assert plan.staged.limited(cur,'erp_cp7_check_staged_analysis_source_v1',(new['done']['run_id'],),actor)['source_state']=='ARCHIVED_STALE'
   assert plan.monetary_state(cur)==posted
@@ -199,8 +216,13 @@ def cases(cur,today):
    full_factory3600_qualified=False,actual_historical_positive_winner=False,after_use_restore_qualified=False,
    full_OW11_acceptance=False,full_OW12b_acceptance=False,production_go=False)
  def profiled_scale():
+  observed.clear()
   try:return scale()
-  except ScaleRequestTimeout as error:return error.result
+  except ScaleRequestTimeout as error:
+   return dict(error.result,observations=deepcopy(observed))
+  except Exception as error:
+   return dict(status='INCOMPLETE',error=str(error),traceback=traceback.format_exc(),
+    observations=deepcopy(observed),full_factory3600_qualified=False,production_go=False)
  return[(IDS['native'][0],catalog),(IDS['native'][1],profiled_scale)]
 
 

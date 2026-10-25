@@ -2916,3 +2916,39 @@ only establishes preparation, not successful runtime/composition. It includes
 Bthrough36b81fce, not current182c8b17 parent optimization. Matrix records exact
 source separation; B does not edit A/shared/frozen files or claim A after-use.
 Formal5/16, CP7C/independent false, production_go=false; continue diagnostic.
+
+## 155. B25 Oktober2026 WIB — retain first staged archive lookup failure
+
+b11781b3/run40176182382/job121117250164 complete Original12592402397,116661bytes,
+SHA27e08ba2b5897b740b32452121aad4821e8ab449b1d812677c281506d475b596.
+All5JSON/all50head pins, boundary/public/WIB/session restoration, CP6/advisor,
+primary/Auth0->0 and four non-writer package gates checked.1PASS/1INCOMPLETE.
+Trace reaches old_frozen AFTER capture() returned complete predecessor DONE/allpages
+with unchanged8s assertions. It queried cp7_analysis_native.runs, but staged results
+live in headers/page_sets/pages. No exact successful request time/profile was emitted;
+no full before-after/current-overlay qualification is inferred from this progress.
+
+Correct only test seal lookup to every actual staged header/page-set/page row and
+immutable job reference; initial missing seal refuses. Keep complete body/fields,
+not just a checksum. Local actual extracted SQL verifies tables/order/unchanged
+snapshot/changed page detection with no whole-Native runs table present. Record
+successful request timings/profiles/steps/pages immediately, retain them with the
+original exception/traceback on any later failure; failures remain INCOMPLETE.
+No product SQL, numerical policy, guard, role/ACL, limit or case count changes.
+Earliered82/182 timeouts and this first lookup failure are all retained.
+
+## 156. B25 Oktober2026 WIB — independent target-loop copying experiment
+
+Private isolated reproducer of actual two_pass loop pattern, with frozen5a900760
+provenance baseline function and actual demand/target/ref guards. Explicitly
+SYNTHETIC, no capture/Native/SLA credit.600rows:889.379->661.168ms;3600rows55days,
+43.3MB input:8291.522->3370.551ms (2.460x). Whole JSON, target quantities, refs,
+profile/observed operands/order identical; changed-row context refused by both.
+The experiment replaces repeated conversion/filtering of the entire histories map
+and repeated global-context dispatch with one target pass, while history preparation
+stays bounded. Prototype patch generated privately for three existing functions;
+not applied to product before an actual Native function profile is emitted.
+
+Active handoff now points to current source/receipts and concrete next test fix;
+latest confirmed archive68 retained. A prepared378f13cc stays separate. Formal5/16,
+CP7C/independent false, production_go=false; continue Native seal/profile correction.

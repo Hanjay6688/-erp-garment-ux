@@ -232,7 +232,15 @@
       "predecessor_timeout_before_current_overlay": true,
       "current_comparison_observed": false,
       "followup_diagnostic_head": "b11781b3be3ea5e2cef0d67c1d00619489ec8c78",
-      "followup_run_id": 40176182382
+      "followup_run_id": 40176182382,
+      "latest_diagnostic_head": "b11781b3be3ea5e2cef0d67c1d00619489ec8c78",
+      "latest_diagnostic_run_id": 40176182382,
+      "latest_diagnostic_artifact_id": 12592402397,
+      "latest_diagnostic_status": "INCOMPLETE_STAGED_ARCHIVE_LOOKUP",
+      "predecessor_returned_source_control_flow": true,
+      "exact_predecessor_time_unobserved": true,
+      "current_overlay_not_reached": true,
+      "next_test_correction": "Actual staged seal and persistent profile observations"
     }
   },
   "A_read_only_intake": {

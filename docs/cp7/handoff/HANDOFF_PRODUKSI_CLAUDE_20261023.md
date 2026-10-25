@@ -1,3 +1,63 @@
+# Titik lanjut aktif —25 Oktober2026: target versi2 lulus, profil3600 terbuka
+
+Cabang B `astra/d17-14-produksi`, checkpoint `5a90076062cbae91f03549c0839519a44ed5d2a5`.
+Arahan owner tetap: lanjut tanpa pertanyaan, checkpoint bukan selesai; kerja solo.
+Baca koordinasi148–154 dan `ow11/VERSIONED_TARGET_COMPONENT_MATRIX.json` untuk
+status terbaru. Semua catatan aktif bertanggal24Oktober di bawah adalah histori
+bila berbeda dengan blok ini. Formal5/16; CP7C/independent/production_go=false.
+
+**Sudah teruji:** source-v2 Native4, consumer target-v2 Native6, Browser2 dan
+transport11 aktual. Native6/run40173569440 Original12592039704, Browser2/
+run40173569416 Original12591551904, transport/run40173569413 Originals12591992672
++12591903113 semuanya mengikat source182c8b17, dengan47backend pins yang identik.
+Browser64/transport50 mengandung semua47; catalog22, pemulihan UUID/metode/payload,
+hak terkini sesudah tunggu/replay, dua clock, latest own global/scoped model,
+FG-only tanpa bocor model, analog/UNKNOWN/CLEAR dan posted/profile retirement tetap.
+Tidak ada model historis positif yang dikarang atau kebijakan diaktifkan otomatis.
+
+**Masih dikerjakan:** actual request3600 sebelum dan sesudah target overlay.
+Firsted82e7e9/run40170067161 Original12590645783 dan182c8b17/run40173569646
+Original12591957005 sama-sama1PASS/1INCOMPLETE karena predecessor request melewati
+8detik, sebelum current overlay terpasang. Enam akses JSONB langsung mempercepat
+bagian baseline lokal2.353x dengan hasil/ref utuh identik, tetapi belum cukup
+untuk seluruh request. Kedua kegagalan tetap, tidak menaikkan limit/bare rerun.
+
+Follow-up instrumentasi `b11781b3be3ea5e2cef0d67c1d00619489ec8c78`, actual run
+`40176182382`, job121117250164 sudah berakhir1PASS/1INCOMPLETE. Original12592402397
+menunjuk lookup arsip whole-Native yang salah sesudah complete predecessor. Koreksi
+uji kini membaca actual staged header/page_set/allpages/reference dan menyimpan
+profil request yang sudah sukses pada kegagalan langkah berikut. Hanya test/kontrak berubah;
+request dan8s sama. Pada kandidat koreksi berikut, unduh complete Original JSON, baca seluruh
+JSON/case/gate/source pins dan profil fungsi transaksi. Waktu hanya panggilan
+selesai; frame yang dibatalkan dan SQL ter-inline mungkin tidak muncul, overhead
+profil belum dikalibrasi. Pakai biaya nyata untuk perbaikan berikut, jangan menebak
+atau mengganti kernel/penjaga bersama. Target+demand snapshot satu run harus sama;
+hanya ID capture berbeda pada pasangan sebelum/sesudah dinormalisasi bersamaan.
+Semua nilai/UNKNOWN/profil/buffer/observed operands tetap dibandingkan.
+
+**Batas integrasi:** A prepared branch terakhir terbaca378f13cc. Full versioned
+composer/recovery, Native36/restore8/finance/cron/browser/transport baru persiapan,
+belum qualified oleh inspeksi B. A mencakupBthrough36b81fce, belum perbaikan
+parent182c8b17. Jangan memasang fresh-only B installer di atas target-v1 yang dipakai;
+A memiliki transisi/after-use/globalchain/defaults/shared registry/types/keuangan.
+B tidak mengubah main/integration/frozen audit/supabase/Enteng/hosted/WA nyata.
+
+**Bukti:** semua receipt kecil dan kode terbaru tersimpan di cabang B. Empat
+Original regresi40b72fbe (target-v1 partA/OW13b20/OW1616/OW14b113) telah dipulihkan
+serta diperiksa ulang; source/deklarasi prefix F05 kini persis, tidak menambah
+kredit versioned/full-chain. Arsip privat terakhir pasti berhasil versi68.
+Penggantian berikutnya timeout dan hasil tulis tidak diketahui; pencarian baca-saja
+masih menampilkan68. Jangan otomatis retry/shrink/ganti jalur penulisan.
+Simpan raw Original terbaru di folder privat sendiri; pertahankan seluruh entri lama.
+
+Selanjutnya kualifikasi koreksi seal/profil dan eksperimen biaya antar-chunk yang
+terpisah. Eksperimenlokal3600:8.292s->3.371s, seluruhJSON/ref persis; optimisasi
+antarchunk belum diterapkan karena profil Native belum terekam di Original. Bentuk1200SKUx3size, keuangan
+resmi A/parity, actualSAVE3600/fullfactory, positive historical winner dan audit
+independen masih terbuka, bukan diganti oleh fixture360model/1size3600produk.
+
+---
+
 # Titik lanjut aktif —24 Oktober2026, konfirmasi dan transport
 
 Browser2 PASS2/2 pada624e2786 tetap bukti UI advisory terakhir. Backend pilihan

@@ -1,0 +1,10 @@
+{
+  "status": "PASS",
+  "query_from_actual_Python_helper": true,
+  "staged_header_page_set_all_ordered_pages_and_reference_captured": true,
+  "no_whole_Native_runs_table_created": true,
+  "unchanged_snapshot_exact": true,
+  "changed_page_body_detected": true,
+  "actual_Native": false,
+  "production_go": false
+}

@@ -1,0 +1,66 @@
+{
+  "contract": "cp7.original-runtime-receipt.v1",
+  "head": "b11781b3be3ea5e2cef0d67c1d00619489ec8c78",
+  "run_id": 40176182382,
+  "job_id": 121117250164,
+  "artifact_id": 12592402397,
+  "bytes": 116661,
+  "artifact_sha256": "27e08ba2b5897b740b32452121aad4821e8ab449b1d812677c281506d475b596",
+  "Original_read_complete": true,
+  "all_Original_JSON_files_read": 5,
+  "original_json_sha256": {
+    "T3_BACKUP_RESTORE_DRILL.json": "b71671bbaf729d262ce0a141c09979b5ecd02640e5e5ea35a9b5e9854a35e357",
+    "T3_PACKAGE_FILES_INSTALL.json": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+    "ALIGNED_CHAIN.json": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b",
+    "T3_PACKAGE_INSTALL.json": "6cf2325ecb9f92f103365d388035bf2d02df0239cd5837373ebedb4b7d1d2ecc",
+    "CP7_OW11_MODEL_TARGET_V2_SCALE.json": "6a304c37d7f1fe7682dd82002d8f1688431c62d6451fe1f4e564999fef8e5af0"
+  },
+  "exact_head_source_hashes_match": true,
+  "source_pin_count": 50,
+  "current_followup_changed_paths": [
+    "scripts/cp7_ow11_model_target_v2_scale_cases.py"
+  ],
+  "status": "INCOMPLETE",
+  "counts": {
+    "PASS": 1,
+    "INCOMPLETE": 1
+  },
+  "failure": {
+    "status": "INCOMPLETE",
+    "error": "'NoneType' object is not subscriptable",
+    "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py\", line 165, in _strict_group_once\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow11_model_target_v2_scale_cases.py\", line 202, in profiled_scale\n    try:return scale()\n               ^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow11_model_target_v2_scale_cases.py\", line 153, in scale\n    old_frozen=cur.execute('select to_jsonb(r)from cp7_analysis_native.runs r where id=%s',(old['done']['run_id'],)).fetchone()[0]\n               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^\nTypeError: 'NoneType' object is not subscriptable\n",
+    "full_boundary_restored": true,
+    "public_schema_unchanged": true,
+    "session_leaks": {
+      "advisory_locks": 0,
+      "advisory_lock_keys": [],
+      "other_sessions": []
+    },
+    "business_day": {
+      "planned": "2026-10-25",
+      "before": "2026-10-25",
+      "after": "2026-10-25"
+    }
+  },
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "first_failure_retained": true,
+  "earlier_timeouts_retained": true,
+  "source_control_flow_proves_predecessor_capture_returned": true,
+  "exact_request_time_and_profile_not_emitted": true,
+  "current_overlay_not_reached": true,
+  "fix": "Read actual staged header/page_set/ordered pages/reference; retain successful profiles on every later failure",
+  "production_SQL_changed": false,
+  "source_limit_unchanged": "8s",
+  "formal_acceptance": "5/16",
+  "CP7C_accepted": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

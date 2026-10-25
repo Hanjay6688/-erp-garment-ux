@@ -101,7 +101,7 @@
     "cp7_product_analog_provenance_stage/__init__.py": "966ce49f8dc4b51489a887e42a7a8e8ba3b4b6a87782b363bd678f6433c81096",
     "cp7_ow11_model_target_consumer_v2_cases.py": "54fe7606745c0f56de473188e6b174024e2b23eeb89d110bf1bea6cedd60ca28",
     "cp7_ow11_model_target_consumer_v2_probe.py": "89c57cc7b1e1175729088be0b7bf1cf6cb26946b573a0dda475b58bffc0a0e47",
-    "cp7_ow11_model_target_v2_scale_cases.py": "cba37db259c36ababf6f180026a1f81a02aad7745665f1e89ab75dc9e657c336",
+    "cp7_ow11_model_target_v2_scale_cases.py": "d9d3f761ab7e1c47c6edd27b8ed66fe8f3abd60fba5d7b56fd72973c07a24499",
     "cp7_ow11_model_target_v2_scale_probe.py": "7b5250307b2d09544c1973b65d6c69c4ffdebdec9fa3eb6fc261cba25097cec7",
     "cp7_ow12b_operational3600_cases.py": "73e1527ce0c87d2c74039e41f5560887b9e19099c556cd33bfda62d7a0abd243"
   },
@@ -117,5 +117,7 @@
   "independent_acceptance": false,
   "production_go": false,
   "session_function_profile": "Transaction-local completed-function calls/time around each unchanged authenticated8s request; active canceled frames may be absent; optional reads isolated by savepoint; no shared stats reset, production function replacement or higher limit.",
-  "profiling_reference": "https://www.postgresql.org/docs/17/monitoring-stats.html"
+  "profiling_reference": "https://www.postgresql.org/docs/17/monitoring-stats.html",
+  "sealed_predecessor_archive": "Actual staged header/page_set/all ordered page rows plus immutable job reference; never whole Native runs table.",
+  "profile_observations_retained_on_later_failure": true
 }
