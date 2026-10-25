@@ -1,21 +1,14 @@
 {
-  "recorded_at_utc": "2026-10-25T06:20:03.380852+00:00",
+  "recorded_at_utc": "2026-10-25T06:31:41.285792+00:00",
   "role": "A finance writer/integrator replacing Claude",
   "slogan": [
-    "VENI. VIDI. VICI. ERP. — I CONQUERED ERP.",
+    "VENI. VIDI. VICI. ERP. \u2014 I CONQUERED ERP.",
     "Reliable data adalah dewa. Keuangan termasuk laporan, stok, dan HPP adalah raja."
   ],
   "formal_accepted": "5/16",
   "production_go": false,
   "independent_acceptance": false,
   "running": [
-    {
-      "scope": "selected-return unchanged contract6 baseline/current",
-      "head": "e0a4721f586476b36de2f5941d4970ea7de2bb8e",
-      "run_id": 40165877589,
-      "job_id": 121086690923,
-      "status": "IN_PROGRESS_RUNTIME"
-    },
     {
       "scope": "factory1200x3 official finance actual minute cron",
       "head": "b7a69c2c9b2568b5a148e9067ee739b981a20435",
@@ -36,6 +29,15 @@
       "run_id": 40167211154,
       "job_id": 121090610067,
       "status": "IN_PROGRESS_RUNTIME"
+    },
+    {
+      "scope": "selected-return unchanged Native20 regression",
+      "head": "5cba3b3bcd0d7182255c9b5cde6daea078377008",
+      "run_id": 40169046409,
+      "job_id": 121095967944,
+      "status": "IN_PROGRESS_SOURCE_ADMISSION",
+      "full_local_source_admission": "PASS",
+      "source_pins": 3237
     }
   ],
   "actual_new_component": {
@@ -79,18 +81,12 @@
   },
   "prepared": [
     {
-      "scope": "unchanged selected-return Native20 regression",
-      "head": "15e73a072dfebb4cd120629d15b3ddb9d59c9d6c",
-      "next": "Bind exact corrected contract6 PASS Original, full source admission, then launch execution branch",
-      "execution_branch": "astra-a/d17-14-selected-return-native20-20261025",
-      "SOURCE_bound": false
-    },
-    {
       "scope": "selected-return full used restore8",
-      "head": "9cbefd52a05e00baf034f314ca607326cbf72eb5",
-      "next": "Merge actual corrected Native20 qualification SOURCE; bind Native20 and old target restore8 PASS, admit, launch",
+      "head": "1e9a1134697e58064be5ab49c0470964790b591e",
+      "next": "Bind actual corrected Native20 PASS and prior target restore8 PASS, admit, launch",
       "execution_branch": "astra-a/d17-14-selected-return-restore-20261025",
-      "SOURCE_bound": false
+      "SOURCE_bound": false,
+      "native20_SOURCE_true_merged": true
     },
     {
       "scope": "full scoped model Native30",
@@ -136,5 +132,24 @@
     "True merges only; no force or rebase",
     "Writer component PASS does not imply independent acceptance or complete OW11",
     "Keep owner policy choices explicit; UNKNOWN is not zero"
-  ]
+  ],
+  "actual_selected_return_contract6": {
+    "name": "CP7_CURRENT_SELECTED_RETURN_CONTRACT6.json",
+    "status": "PASS",
+    "head": "e0a4721f586476b36de2f5941d4970ea7de2bb8e",
+    "run_id": 40165877589,
+    "job_id": 121086690923,
+    "artifact_id": 12589761696,
+    "zip_bytes": 2226743,
+    "zip_sha256": "87b4b8b826e2f0980cc5a183e2abe62dbde6bf5a2edd1c51c1dec2b659a1df4b",
+    "bytes": 3801560,
+    "sha256": "fc55eeed027073451686e7c180ada527b6be20c3dcd6efcf68c26315b0094ea6",
+    "archive_member": "CP7_CURRENT_SELECTED_RETURN_CONTRACT6.json",
+    "baseline_PASS": 6,
+    "current_PASS": 6,
+    "execution_count": 12,
+    "source_pins_verified": 3230,
+    "actual_prerequisites_verified": 3,
+    "full_restoration_and_five_gates": true
+  }
 }

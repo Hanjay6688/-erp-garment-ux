@@ -1,0 +1,57 @@
+{
+  "name": "CP7_CURRENT_SELECTED_RETURN_CONTRACT6.json",
+  "status": "PASS",
+  "head": "e0a4721f586476b36de2f5941d4970ea7de2bb8e",
+  "run_id": 40165877589,
+  "job_id": 121086690923,
+  "artifact_id": 12589761696,
+  "zip_bytes": 2226743,
+  "zip_sha256": "87b4b8b826e2f0980cc5a183e2abe62dbde6bf5a2edd1c51c1dec2b659a1df4b",
+  "bytes": 3801560,
+  "sha256": "fc55eeed027073451686e7c180ada527b6be20c3dcd6efcf68c26315b0094ea6",
+  "archive_member": "CP7_CURRENT_SELECTED_RETURN_CONTRACT6.json",
+  "source_pins_verified": 3230,
+  "actual_prerequisites_verified": 3,
+  "case_status_comparison": {
+    "UNPAYROLLED_PARTIAL_WORK_BLOCKS_REPORT": {
+      "baseline": "PASS",
+      "current": "PASS"
+    },
+    "OWNER_WORK_REFERENCE_BLOCKS_UNTIL_PAYROLLED": {
+      "baseline": "PASS",
+      "current": "PASS"
+    },
+    "OWNER_VENDOR_REFERENCE_BLOCKS_UNTIL_PAYROLLED": {
+      "baseline": "PASS",
+      "current": "PASS"
+    },
+    "RETURN_REBOUND_SOURCE_ATOMIC_REFUSAL": {
+      "baseline": "PASS",
+      "current": "PASS"
+    },
+    "RETURN_ALLOCATION_LIMIT_ATOMIC_REFUSAL": {
+      "baseline": "PASS",
+      "current": "PASS"
+    },
+    "RETURN_REBOUND_CUSTOMER_ATOMIC_REFUSAL": {
+      "baseline": "PASS",
+      "current": "PASS"
+    }
+  },
+  "baseline_PASS": 6,
+  "current_PASS": 6,
+  "execution_count": 12,
+  "gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "between_phases_and_final_full22_all_rows_all_sequences_restored": true,
+  "first_failures_relabelled": false,
+  "production_go": false,
+  "independent_acceptance": false
+}
