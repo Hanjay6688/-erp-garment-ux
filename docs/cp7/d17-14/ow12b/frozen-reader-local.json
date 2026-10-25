@@ -1,0 +1,43 @@
+{
+  "contract": "cp7.frozen-reader-local-controls.v2",
+  "status": "PASS",
+  "cases": [
+    {
+      "id": "RUNNING_PENDING_IS_NOT_PROMOTED_TO_FINISHED_READER",
+      "status": "PASS"
+    },
+    {
+      "id": "BOUND_CACHE_READS_EXACT_INPUTS_WITHOUT_COMPILER_OR_WRITES",
+      "status": "PASS"
+    },
+    {
+      "id": "FOREIGN_ACTOR_REQUEST_RUN_QUERY_BINDINGS_REFUSED",
+      "status": "PASS"
+    },
+    {
+      "id": "CHANGED_PRODUCER_REFUSES_BEFORE_CACHE_OR_COMPILATION",
+      "status": "PASS"
+    },
+    {
+      "id": "ACTUAL_K3_THEN_PURE_FROZEN_RECOMPILE_KEEPS_REFERENCE_AND_NO_NEW_CACHE",
+      "status": "PASS"
+    },
+    {
+      "id": "EXPLICIT_PUBLIC_OWNER_ACL_AND_PRIVATE_REFERENCE_CLOSED",
+      "status": "PASS"
+    }
+  ],
+  "counts": {
+    "PASS": 6
+  },
+  "reference_sql_sha256": "594635f84075bbdfeff802e5423bd70fb793b2302274940bb66486b509022fec",
+  "reader_sql_sha256": "4ea1639fbac75a249101f71c15a370e4abf4b7404e883e0831edf7cc0727e8a2",
+  "server_version": "PostgreSQL 18.6 (PGlite 0.5.11) on wasm32-unknown-emscripten, compiled by emcc (Emscripten gcc/clang-like replacement + linker emulating GNU ld) 3.1.74 (1092ec30a3fb1d46b1782ff1b4db5094d3d06ae5), 32-bit",
+  "controlled_compiler_and_producer": true,
+  "actual_Native": false,
+  "actual_Auth_HTTP_credit": false,
+  "Python_catalog_installer_qualified": false,
+  "actual_candidate_math_or_scale_qualified": false,
+  "public_or_default_request_adopted": false,
+  "production_go": false
+}

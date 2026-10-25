@@ -34,7 +34,8 @@ PARENT_CHECKER = None
 
 def sources():
  return {**native.sources(), **{'cp7_frozen_analysis_facade_v2/'+k: v for k, v in stage.sources().items()},
-  Path(__file__).name: sha256(Path(__file__).read_bytes()).hexdigest()}
+  **{p.name: sha256(p.read_bytes()).hexdigest() for p in (Path(__file__),
+   Path(__file__).with_name('cp7_ow12b_frozen_facade_probe.py'), Path(__file__).with_name('cp7_ow12b_frozen_facade_preflight.py'))}}
 
 
 def install(cur):
@@ -107,6 +108,7 @@ def cases(cur, today):
    step_millis=[c['ms'] for c in f['calls']], page_count=f['pages']['page_count'])
  def access():
   s = install(cur); plan.fixture(cur, today)
+  native.native.policy.master.role_actor(cur, 'OWNER') # Preserve last-active-owner protection.
   actor = native.native.policy.master.role_actor(cur, 'OWNER'); f = capture(cur, today, actor)
   held = _catalog_rows(cur)
   try: stage.rollback_preuse(cur, s['current'])
@@ -131,6 +133,7 @@ def races(tools, today):
  def prepare(replay=False):
   with tools.connect() as conn, conn.cursor() as cur:
    install(cur); plan.fixture(cur, today)
+   native.native.policy.master.role_actor(cur, 'OWNER') # Revocation tests retain another active owner.
    actor = str(native.native.policy.master.role_actor(cur, 'OWNER'))
    q, key = plan.staged.query(today), str(uuid.uuid4())
    old = request(cur, q, key, actor) if replay else None

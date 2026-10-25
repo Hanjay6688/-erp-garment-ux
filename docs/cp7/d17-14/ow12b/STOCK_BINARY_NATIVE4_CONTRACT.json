@@ -56,7 +56,7 @@
     "cp7_ow11_model_policy_cases.py": "24d5ed6acf2974342348746c7c2b55bcd45acc68d2860bb4d7b1dec3c295a067",
     "cp7_ow12b_stock_binary_probe.py": "13017d5d2ec1a1e9e13202f7138c0709c726374a6d77d82fddddc59546b747f4",
     "cp7_ow12b_stock_binary_preflight.py": "26e7e56ecbfabb6beb1d27cd612090f217e40314c3e2ed69fc939355c0e78273",
-    "cp7_f05_analysis_probe.py": "57668af21763b9a865451f436ccd500734c33ecb0f266edfc9d355171513ded9"
+    "cp7_f05_analysis_probe.py": "12ccf07090bf324093c37de4a122e88333f99d7fa327596c2942dd5004199335"
   },
   "parent_v1_unchanged": true,
   "v2_hash_intentionally_distinct": true,
@@ -86,5 +86,22 @@
   "formal_acceptance": "5/16",
   "CP7C_accepted": false,
   "independent_acceptance": false,
-  "production_go": false
+  "production_go": false,
+  "target_v2_source_sha256": {
+    "cp7_history_reference/MANIFEST.json": "621ee5f9b7322be818ad57adaed3a33f9514f9b2e7b51a94448ccd3e2e98394d",
+    "cp7_history_reference/__init__.py": "ea192ee8f5da493508e3855ef588982b2e21c996f852e3147af675c0ca26c83e",
+    "cp7_history_reference/digest.sql": "fe4c1b7c930fe73b7a6cc79b21edaff592490d52818f925c6a2b3930033fe89f",
+    "cp7_history_reference/render.py": "da0807bb3f4decd77c0b4af6074d2dc8f90c0ac04a5c42ed4f72bce803ab1ab9",
+    "cp7_history_reference_binary_v2/MANIFEST.json": "ce072915434546aa26ffc121fe2f350063b0ace5fb598c8a843c51d45302e8d6",
+    "cp7_history_reference_binary_v2/__init__.py": "7159b74bd64f089e4000fbcc4988c8b188035c6a8c9afb6fa7b9c02227f108f9",
+    "cp7_history_reference_binary_v2/digest.sql": "5eb3bf0fa0bfe204a103187bed8981b1ec145eb4e867b22816d982eeff153bde",
+    "cp7_history_reference_binary_v2/render.py": "ef8320bddebe27a1b64a222a39da84c9bdcf7095fc1afeb8ed3688d180579b76",
+    "cp7_ow12b_stock_binary_cases.py": "756859aeb127da8655e80c908039068e9a5bebbda4b2bf221decfb91091e920d",
+    "cp7_ow12b_stock_binary_codec.py": "cee7fdbbceab0b062ce4de01eea2584f764ee4de82fb8ba1a73ceda809388614",
+    "cp7_ow12b_factory3600_fixture.py": "c1020f2371ba9ea014496d73105369762361e0b842aa26a769fd196e5a89022b",
+    "cp7_ow11_model_policy_cases.py": "24d5ed6acf2974342348746c7c2b55bcd45acc68d2860bb4d7b1dec3c295a067",
+    "cp7_ow12b_stock_binary_probe.py": "13017d5d2ec1a1e9e13202f7138c0709c726374a6d77d82fddddc59546b747f4",
+    "cp7_ow12b_stock_binary_preflight.py": "26e7e56ecbfabb6beb1d27cd612090f217e40314c3e2ed69fc939355c0e78273",
+    "cp7_f05_analysis_probe.py": "12ccf07090bf324093c37de4a122e88333f99d7fa327596c2942dd5004199335"
+  }
 }

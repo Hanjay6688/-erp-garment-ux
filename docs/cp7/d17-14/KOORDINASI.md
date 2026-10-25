@@ -3508,3 +3508,52 @@ refuses before storage/network. API now async/await.35local tests15new+20v1
 pass and TypeScript passes; FIFO lock manager controlled, not actual two-tab
 browser/Auth proof. Public/client/default not adopted. No A registry/type changes.
 Formal5/16, CP7C/independent/production_go false; continue corrected Native4.
+
+
+## 180. B25 Oktober2026 WIB — corrected private unit Native4 full Original PASS
+
+10a36e35b956febd9e34907f20fc5b782ec48dc1 / run40209309494 /
+job121216934173 / Original12605623860,163545B, SHA256
+2884bee24d56ef2909ed9eb5dc640b0668e20aada351c67eea98c58d595c5bb9.
+All5OriginalJSON,79sourcepins, actual F05 source-only prefix/declaration,
+product-path equivalence, all5package gates, CP6/advisor, canonical22public,
+WIB25, sessions/locks and Auth0→0 verified. All4Native cases PASS.
+First e33 all4INCOMPLETE predecessor refusal stays retained; no relaxed guard.
+
+Actual private v2 request→immutable HIST_PREP/cache→76units→DONE→allpages
+completed for1200commercialSKU×3physicalsizes,3602total targets. Whole compiled
+JSON equals unchanged compiler; request3822.484ms, max unit6060.271ms, original
+compiler4217.974ms; each measured call below8s. One actual page contains the
+full target set; no invented multipage or whole-job8s/factory-SLA claim.
+Oldv1 request/replay, crossmethod/changedquery refusal, real post→ARCHIVED_STALE,
+reference/pages/cache immutability, K3 and used-inverse refusal pass. Private
+component only: public transport, actual browser, official finance and complete
+OW12b still unqualified. Receipt ow12b/10a36e35-frozen-units-native4-pass.json.
+
+## 181. B25 Oktober2026 WIB — explicit public transport and frozen analog read candidates
+
+With private Native4 complete, prepare two separate default-off qualifications:
+facade Transport8 = Native3/races3/HTTP2; reader Native4 = catalog/inverse,
+physical-size/zero-versusUNKNOWN/K3/post, current-access/retention/oldmethod,
+1200×3 cached/K3 first-page parity. Existing8s business limit remains. New
+facade exposes1RPC/0oldreplacement/0table; reader2private/1RPC/0replacement/
+0table. F05 old paths/budgets remain; both new flags reject89missing/mixed
+routes. Facade refuses5changedgroupbudgets. Actual55workflow inline declarations
+and both new shell scripts pass. Source maps repinned to actual F05 bytes.
+
+Reader retains the actual admitted guard/math body, uses bound immutable cache,
+and after K3 recompiles only retained sealed source. No live recapture/cache
+rewrite or PENDING→fakeCOMPLETE database update. Six controlled PG18 checks
+pass; not Native17 proof. Explicit v3 frontend parsing requires FROZEN_V2 and
+bothv2contracts, rejects cross-method pages and wrong-RPC context.77tests
+(16new/61retained), app+dedicated TS pass. First TS raw-module/mock-signature
+refusal corrected without oracle change. Source/access checks retain exact
+baseline registry failures; A owns registry. Qualified51backend files unchanged.
+
+No UI/default adoption, no actual new reader/transport outcome yet. Existing
+analog CONFIRM still calls the old reader/material and needs its own versioned
+adapter; work-v2 parser, actual two-tab/replyloss/browser flows and public Auth
+read/choice cases remain. New source is separate preparation, not business51
+acceptance. Last-active-owner protection preserved in revocation fixtures.
+Formal5/16; CP7C, independent and production_go=false. Continue full Originals,
+retain first outcome and fix causes; do not stop after checkpoint.

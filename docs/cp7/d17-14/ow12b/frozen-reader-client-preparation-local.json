@@ -1,0 +1,42 @@
+{
+  "contract": "cp7.frozen-reader-client-preparation.v2",
+  "status": "PASS_LOCAL_ONLY",
+  "tests": {
+    "new_frozen": 16,
+    "retained": 61,
+    "total": 77
+  },
+  "TypeScript_dedicated": "PASS",
+  "TypeScript_app": "PASS",
+  "first_TypeScript_result": "REFUSED: raw SQL module declaration missing; mock call inferred no arguments",
+  "correction": "Include existing Vite ambient types and type mock RPC arguments; no parser oracle weakened.",
+  "initial_test_log_sha256": "b031834d8de953242886826f431483e47591b2592de859102b775502c471c76a",
+  "explicit_v3_and_v2_request_reference_required": true,
+  "mixed_method_pagination_refused": true,
+  "wrong_method_refused_before_network": true,
+  "actual_browser": false,
+  "actual_Auth_HTTP_credit": false,
+  "Native_read_provider_wired": true,
+  "choice_confirm_adapter_missing": true,
+  "production_UI_adopted": false,
+  "production_go": false,
+  "Native_read_provider_executed": false,
+  "retained_51_backend_source_pins_exact": true,
+  "source_and_access_checker_results": {
+    "source": {
+      "baseline_sha256": "b44f96a3fa9765d5f539c3bee39db305ff8ba03fafe79f6eb3e9ff0cc78195d5",
+      "candidate_sha256": "b44f96a3fa9765d5f539c3bee39db305ff8ba03fafe79f6eb3e9ff0cc78195d5",
+      "identical_baseline_outcome": true,
+      "exit_code": 1,
+      "first_error": "AssertionError [ERR_ASSERTION]: Browser RPC ownership drift"
+    },
+    "access": {
+      "baseline_sha256": "b13112db6a2d9305f34882041b0869847294bc0f279377384c7fdf6d67e1b813",
+      "candidate_sha256": "b13112db6a2d9305f34882041b0869847294bc0f279377384c7fdf6d67e1b813",
+      "identical_baseline_outcome": true,
+      "exit_code": 1,
+      "first_error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:"
+    }
+  },
+  "first_source_pin_verifier_attempt": "REFUSED because helper prepended scripts/ to already repo-relative keys; fixed helper path only; all51 exact."
+}

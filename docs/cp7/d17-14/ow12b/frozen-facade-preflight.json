@@ -1,0 +1,17 @@
+{
+  "status": "PASS",
+  "exact_case_budget": {
+    "native": 3,
+    "races": 3,
+    "http": 2
+  },
+  "source_pins": 87,
+  "missing_or_mixed_routes_refused": 89,
+  "changed_group_budgets_refused": 5,
+  "actual_F05_prefix_and_contract": true,
+  "actual_Native": false,
+  "actual_Auth_HTTP_credit": false,
+  "actual_concurrency": false,
+  "public_or_default_adopted": false,
+  "production_go": false
+}

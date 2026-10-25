@@ -1,0 +1,14 @@
+{
+  "status": "PASS",
+  "source_pins": 96,
+  "exact_case_budget": {
+    "native": 4
+  },
+  "missing_or_mixed_routes_refused": 89,
+  "actual_F05_prefix_and_contract": true,
+  "actual_admitted_reader_guards_and_candidate_math_unchanged": true,
+  "actual_Native": false,
+  "actual_Auth_HTTP_credit": false,
+  "public_or_default_adopted": false,
+  "production_go": false
+}

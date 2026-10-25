@@ -1,3 +1,34 @@
+# Lanjutan aktif25 Oktober2026 WIB — private units Native4 PASS; public/read qualification next
+
+Private10a36e35/run40209309494/job121216934173/Original12605623860 complete
+PASS4. All5JSON/79pins/current-prefix/declaration/package5/CP6/advisor/public22/
+WIB/session/Auth verified.1200SKU×3sizes/3602targets/76units/DONE/all1page:
+request3822.484ms, maxunit6060.271ms; whole compiler JSON exact. Oldv1 and v2
+replay, immutable reference/pages, actual post stale and K3 pass. e33 first
+all4INCOMPLETE predecessor guard failure retained. Private component only;
+no complete factory SLA, official finance, public/Auth/browser acceptance.
+See KOORD180 and ow12b/10a36e35-frozen-units-native4-pass.json.
+
+Next candidate has separate default-off facade Transport8 and reader Native4
+F05/workflows. Both89negative route controls;55inline declarations/both shell
+checks PASS. Facade87pins Native3/races3/HTTP2, no production UI. Reader96pins,
+2private/1public/0table/0replacement, cached inputs or pure sealed-capsule
+recompile after K3; old guard and candidate math exact.6controlledPG18 controls,
+77frontend tests16new+61retained, app/dedicated TS PASS. Newv3 parser explicit
+FROZEN_V2 and bothv2contracts, no cross-method pages or wrong-RPC fallback.
+Source/access baseline failures identical; A registry unchanged, business51exact.
+
+Continue first full Originals for both new routes; never infer runtime PASS
+from preparation. Analog CONFIRM still calls old reader/material: explicit
+versioned adapter required before exposing save. Also pending work-v2 parser,
+actual two-tab/replyloss/wholeUI, Auth reader/choice and A integration/finance/
+after-use. B main erp-produksi; own clientprep local c08fb62b based10a contains
+exact prepared files and dependencies. Other oldprep stale; never copy wholesale.
+No A/shared/default/production changes. Formal5/16/CP7C/independent/go false.
+Archive confirmed68, replacement unknown/no retry. Lower blocks are history.
+
+---
+
 # Lanjutan aktif25 Oktober2026 WIB — koreksi predecessor unit, lalu Native4 ulang
 
 First unit e33/run40206240957/Original12604733290 all4INCOMPLETE retained.
