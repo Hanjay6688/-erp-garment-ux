@@ -1,0 +1,27 @@
+{
+  "status": "ACTUAL_B_COMPONENT_PREREQUISITE_VALIDATOR_PASS",
+  "positive": {
+    "status": "PASS_COMPONENT_PREREQUISITE_ONLY",
+    "counts": {
+      "native": 3,
+      "races": 3,
+      "http": 2
+    },
+    "source_pins": 90,
+    "new_A_Auth_HTTP_credit": false
+  },
+  "negative_controls": [
+    "wrong_head",
+    "non_PASS",
+    "fabricated_Auth_token",
+    "changed_B_delegate",
+    "missing_Auth_case",
+    "unrestored_native",
+    "false_default_adoption",
+    "changed_business_day"
+  ],
+  "Original_unchanged": true,
+  "database_executed": false,
+  "new_A_Auth_HTTP_credit": false,
+  "production_go": false
+}
