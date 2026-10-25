@@ -1,0 +1,140 @@
+{
+  "contract": "cp7.A-read-only-intake.v1",
+  "branch": "astra-a/d17-14-versioned-target-integration-prepared-20261025",
+  "head": "7de9d4b9fc1a59fd09282b46dee7812ac740c426",
+  "source_pins": 3492,
+  "declared_contract": "cp7.current-versioned-target-used-restore8-qualification.v2",
+  "required_steps": [
+    "EXACT_INSTALL_AND_PREUSE_INVERSE",
+    "COMMITTED_RETURN_AND_ANALOG_CHOICE",
+    "USED_INVERSE_REFUSED_BEFORE_DDL",
+    "FULL_USED_BACKUP_RESTORED",
+    "RESTORE_NEGATIVE_CONTROLS",
+    "FULL_RESTORE_AFTER_NEGATIVE_WRITE",
+    "ONLY_LOCAL_NATIVE_OID_SEAL",
+    "EXACT_READS_REPLAY_CLEAR_AND_NEXT_RETURN"
+  ],
+  "original_bindings": {
+    "CURRENT_VERSIONED_TARGET_NATIVE_ORIGINAL_REPORT": {
+      "name": "CP7_CURRENT_VERSIONED_TARGET_NATIVE36.json",
+      "status": "PASS",
+      "head": "014019a612260525e9c3b9459e354a86209336c1",
+      "run_id": 40191412940,
+      "job_id": 121163008682,
+      "artifact_id": 12598724977,
+      "zip_bytes": 2925494,
+      "zip_sha256": "526a00e2439042f4bad14ba1d70598e705c11e4ee0930440be45949c80aaf225",
+      "bytes": 10466398,
+      "sha256": "717163e90d84091126dd786be71cef13e5206c801b5b72be0956719d2d03169c",
+      "archive_member": "CP7_CURRENT_VERSIONED_TARGET_NATIVE36.json"
+    },
+    "CURRENT_SCOPED_MODEL_RESTORE_ORIGINAL_REPORT": {
+      "name": "CP7_CURRENT_SCOPED_MODEL_USED_RESTORE8.json",
+      "status": "PASS",
+      "head": "eb860bfa7e91ea4e290f43361071aeb118971e9c",
+      "run_id": 40177072193,
+      "job_id": 121119950464,
+      "artifact_id": 12594413905,
+      "zip_bytes": 4188860,
+      "zip_sha256": "0f80787367e135f97e0b53a3aff539c727ca2abbbdb72b6b1604f18eeafc1c7d",
+      "bytes": 2567576,
+      "sha256": "5a1ed67c638b000c74bfff619b7b3b6f80bd908e1cecddaa89e1e68a01e1e298",
+      "archive_member": "CP7_CURRENT_SCOPED_MODEL_USED_RESTORE8.json"
+    }
+  },
+  "B_51_comparison": {
+    "same": 40,
+    "different": 11,
+    "missing": 0,
+    "differences": [
+      {
+        "path": "scripts/cp7_model_target_consumer_v2/MANIFEST.json",
+        "B": "30110d095bd9893ba44bd849b557f89a66ab78034e0a50614ae8ef6b6522f38b",
+        "A": "7725effdfbdab5c1bfb87916810b40f0ecf0228150b1fb00e68ad1a6826fd43d"
+      },
+      {
+        "path": "scripts/cp7_model_target_binding/MANIFEST.json",
+        "B": "94833eb100d65b92c3369fc41686c2494fc6c974224d9a6f6c052aa62617fce6",
+        "A": "26c45932b390f8d36f13ed5341e6cce5db1a5b50ab910cca286a66b447dc2438"
+      },
+      {
+        "path": "scripts/cp7_product_analog_consumer/MANIFEST.json",
+        "B": "3bcb95554bec47773e6b0105d12bd8f3b5fdbca8348aaa656246e0f83b387577",
+        "A": "6d8e7b40a9e8b254a9387c479181e4ad39a5708239c82bdaa7122cce9fbd30e3"
+      },
+      {
+        "path": "scripts/cp7_product_analog_consumer/kernel.sql",
+        "B": "1c6d227993758b9670150f326c3cb9b24bc0c7000b2c906544d9c179d5b25561",
+        "A": "26885f7d83c4ad4301f3e81727c6bc3555903e65598941f726bd24e395fa2992"
+      },
+      {
+        "path": "scripts/cp7_product_analog_consumer/baseline.sql",
+        "B": "029ea44ed1c78cabebf87dea07d60b8930840551e50c5e65409b3f0fe26bb5c3",
+        "A": "eeb927430f4ed36bab11e62a27fc34e1cbe9e8d938d083f5364865611b6b9a6b"
+      },
+      {
+        "path": "scripts/cp7_product_analog_provenance_stage/MANIFEST.json",
+        "B": "52d419865b2b10b4facf45cded4b5b6f89372fa091a7bd2d564d80924b5db398",
+        "A": "7d407b2b618c7f9021ee9f86fec39d53d0bea41c4b81e13675e59025055dc50c"
+      },
+      {
+        "path": "scripts/cp7_product_analog_provenance_stage/hooks.sql",
+        "B": "73f591d3ecd4d8977ab39c26be65290abe5b6201a6a5f1ee2ba8a515a2aabd87",
+        "A": "22d732d58456635bff9e2c546f32081c0564fed54a75a57d513b224354c0c02f"
+      },
+      {
+        "path": "scripts/cp7_history_reference/render.py",
+        "B": "da0807bb3f4decd77c0b4af6074d2dc8f90c0ac04a5c42ed4f72bce803ab1ab9",
+        "A": "0d1472c46c7a1fa205800029ca08cdc1883bc81e5e83fa77057dd8850214832a"
+      },
+      {
+        "path": "scripts/cp7_history_reference/digest.sql",
+        "B": "fe4c1b7c930fe73b7a6cc79b21edaff592490d52818f925c6a2b3930033fe89f",
+        "A": "cc61d676da2d1777b3e22af361c8ba33d1913ad48d644c682c93478e96ed41f5"
+      },
+      {
+        "path": "scripts/cp7_history_reference/MANIFEST.json",
+        "B": "621ee5f9b7322be818ad57adaed3a33f9514f9b2e7b51a94448ccd3e2e98394d",
+        "A": "08f0f368102ff24647091fe20568b4dfe8f7d96f74811fd7c05ff928702431d8"
+      },
+      {
+        "path": "scripts/cp7_ow11_model_target_consumer_v2_cases.py",
+        "B": "da4157f60cbd75c995f1cf31d3c3843d6a3a23cd3275669b855373465fa71b5e",
+        "A": "1cc4fedd0014593dab93a032fd88cef0fa9fdad89c86b640880a34ef30ba1a01"
+      }
+    ],
+    "missing_paths": []
+  },
+  "A_first_failure_receipt_read": {
+    "first_failure": {
+      "name": "CP7_CURRENT_VERSIONED_TARGET_USED_RESTORE8.json",
+      "status": "INCOMPLETE",
+      "head": "055cbc9ab2458ccf1c88fa224f568ef5111f6eae",
+      "run_id": 40195877841,
+      "job_id": 121176469627,
+      "artifact_id": 12601664790,
+      "zip_bytes": 4228336,
+      "zip_sha256": "90e89c0053a50e8442a0b3ab1431e18d3e302a7ad099cb3e8aad11e9c604b7f0",
+      "bytes": 2651702,
+      "sha256": "88a778623917cd69bea467589544c6eff03736913cb1d05cffe9968ce03c9917",
+      "archive_member": "CP7_CURRENT_VERSIONED_TARGET_USED_RESTORE8.json"
+    },
+    "failed_assertion": "current['source_state']==('ARCHIVED_STALE'if source_changed else'UNCHANGED')",
+    "passed_steps": 7,
+    "negative_controls": 29,
+    "baseline_full22_rows_sequences_restored": true,
+    "source_reason": "Versioned target source selects latest GLOBAL_V2/SCOPED_V3 evaluations. The earlier fixture captured target before creating two scoped evaluations, then expected its source to remain unchanged.",
+    "correction": "Capture the target after both history and scoped model fixtures; execute the unchanged exact target read/replay/freshness/storage checks before writing the used backup.",
+    "all_seven_fixture_files_byte_exact": true,
+    "all_existing_business_assertions_retained": true,
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "latest_A_Original_package_read_by_B": false,
+  "A_correction_runtime_qualified_by_this_intake": false,
+  "A_branch_or_files_modified_by_B": false,
+  "formal_acceptance": "5/16",
+  "CP7C_accepted": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

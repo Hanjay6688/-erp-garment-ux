@@ -399,3 +399,22 @@ lokal lewat connector; tidak menaruh repo/git atau screenshot baru ke arsip itu.
 Bukti45620,3600, quantity PASS dan kedua kegagalan serta PASS private analog disimpan pada arsip yang sama. Screenshot baru tetap hanya di artifact/scratch untuk QA.
 [Seluruh histori checkpoint lama](HISTORI_HANDOFF_PRODUKSI_20261024.md)
 dipertahankan utuh; status di histori bukan status aktif.
+
+### 25 Oktober2026 WIB — continuation after dd22 private capsule candidate
+
+Complete dd22 binary4/OW13b20/OW16 16/OW14b113 Originals and old-factory
+predecessor8006.622ms timeout are retained under ow11. All source/package/
+restoration checks complete; old factory remains1PASS/1INCOMPLETE, no manual
+unchanged rerun, no stable dimensional SLA. Frozen capsule Native4
+40202855125 Original remains pending at this checkpoint.
+
+Private unit adapter is prepared under scripts/cp7_frozen_analysis_units_v2:
+immutable job reference plus one bound Native work-table cache, unchanged
+compiler, exact v1/v2 dispatch, private installer/inverse, no public/default
+adoption.11local PGlite18 controls use actual Native step/triggers/K3 with
+controlled prepare/unit body;24SQL signatures and unchanged outer unit math/
+request guards checked. Native4 provider prepared, F05/workflow not wired.
+Native correctness/speed, public client/Auth/races and after-use recovery remain
+required. Keep this preparation separate from qualified business source51.
+A7de9d4b9 intake is read-only; its restored capture-order correction has no new
+Original acceptance from B. Formal5/16, CP7C/independent/production_go=false.

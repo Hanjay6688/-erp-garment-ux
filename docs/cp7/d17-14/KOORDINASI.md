@@ -3320,3 +3320,57 @@ Evidence-only29f6bb8d README change automatically triggered binary workflow
 credit; retain its complete Original too. Narrow the two own private workflow
 source folder paths to .py/.sql/.json so later README-only evidence updates do
 not launch the same expensive runtime again. No manual rerun issued.
+
+## 171. B25 Oktober2026 WIB — dd22 retentions verified, old factory timeout retained
+
+dd22f085 complete Originals: binary Native4/run40202855134/Original12602568285,
+OW13b20/run40202855119/Original12602448417, OW16 16/run40202855197/Original12602786503,
+OW14b113/run40202855167/Original12603331503. All5JSON each, exact actual F05 prefix,
+head/source pins/declarations/IDs/counts, product paths, five package gates,
+CP6/advisors/exact public catalog/22 boundaries/WIB/session/Auth cleanup verified.
+No new cross-suite acceptance or visual screenshot review. The README-triggered
+29f binary repeat/run40193227282/Original12599401139 is also fully verified and
+retained, with zero extra acceptance/speed credit and no fastest-run selection.
+
+Old factory1200x3/run40202855089/job121197502084 Original12602769430,
+119239bytes, SHA f6466f639a67d3305cb774b35b52df6a33e5f8473827cc10bf08aa8e14d52663:
+all5JSON/59pins verified;1PASS/1INCOMPLETE. Unchanged predecessor57014 at8006.622ms,
+stock_digest3820.164ms, current capture/report correction not reached. Four
+package gates true/writerfalse, all restoration/cleanup gates true. Automatic
+F05-change qualification, not a manually requested bare rerun. Retain every
+prior failure; full dimensional parity/SLA remain open. New frozen capsule
+Native4/run40202855125 still executing; do not claim qualification yet.
+
+## 172. B25 Oktober2026 WIB — frozen unit adapter prepared and local retry controls
+
+Prepare private cp7_frozen_analysis_units_v2:8helpers/8exact derived replacements,
+one schema, zero new table/public RPC/default routes. HIST_PREP compiles the
+unchanged compiler once over the immutable frozen capsule; Native target_rows
+holds a job/actor/UUID/run/query/capture/capsule/producer-bound input and full
+input hash. Other units use that cache; no live recapture or jobs.reference
+update. Missing/changed cache refuses. Old-v1 branches remain, PAGE early exits
+and outer unit math exact. Own producer binds adapter definitions. Workspace
+v2 reports PENDING until actual first-unit progress; COMPLETE survives K3.
+
+11local controls PASS on PGlite18.6, actual Native work-table DDL/immutable
+triggers/K3/step/status bodies, controlled prepare and unit body. Actual step
+subtransaction cancels after cache insertion: row rolls back, attempt advances,
+retry succeeds once, later unit reads same cache; changed access fails before
+cache. Exact24SQL signatures and actual original request access/lock/replay/
+query guards checked. Initial zero-argument signature-checker TypeError retained
+as a local checker issue, corrected without SQL/oracle change. Existing outer
+run-unit alias scanner k/v warnings are inherited from the unchanged parent.
+
+Private installer/authority/dependency/22catalog admission and savepoint inverse
+are prepared, not Native-qualified. A separate Native4 provider is prepared but
+not wired to F05/workflow. Public facade/client, complete actual request-to-pages
+Native runtime, access races and after-use recovery remain open; no factory speed,
+finance/HPP or production credit. All51qualified business source files exact.
+
+Read-only A intake7de9d4b9:3492source pins,40/51 B files same/11different, eight
+restore steps/two prior Original bindings. A retained first restore8INCOMPLETE
+receipt at055cbc9a/run40195877841:7steps/29negative controls/full restoration,
+expected freshness checked against a target captured before newer scoped
+models. A fixes capture order; this B intake has not read the new full Original
+or granted runtime acceptance. No A/shared/integration/default file modified.
+Formal5/16, CP7C/independent false, production_go=false; continue both proofs.
