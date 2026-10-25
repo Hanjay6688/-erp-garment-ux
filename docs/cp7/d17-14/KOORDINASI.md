@@ -3508,3 +3508,30 @@ seluruh5gate/full22/rows/sequences pulih. B tidak perlu mengadopsi interface
 yang masih persiapan ini; Auth/race/browser/cron/factory/adopsi tetap terbuka.
 A tetap menulis cabang sendiri. Scope B dan versi resmi/hosted/WA nyata utuh;
 formal5/16,production_go=false.
+
+
+##26Oktober2026 WIB — A: enam performaPASS, Native40PASS dan dua eksekusi terpisah
+
+Cron40214412847/art12608852903 dan restore40214404451/art12608783478
+sudah diperiksa/diarsipkan sekali. Seluruh3571pin, prasyarat,5gate, jadwal
+menit/manual0 dan restore8/34kontrol lulus. Pemeriksa intake restore hanya
+memerlukan pengurutan gabunganID; empat kontrol negatif tetap menolak.
+Unduhan awal cron0byte saat disk penuh diulang untuk artifact sama, bukan
+uji server. Semua kegagalan lokal dan Original pertama tetap tersimpan.
+
+Native40 pada8de2ae69/run40216890593/art12608589007 PASS40/40;
+3618pin/4Original/5gate/full22/rows/sequences/CP6/advisor pulih. Semua3602
+target/halaman sama, maxunit3683.266ms, tanpa kredit financefactory/HTTP.
+
+A lalu mengikat SOURCE-only factory25c5c4fb:3581pin/7Original, enamPASS dan
+firstdaabINCOMPLETE. FulladmissionPASS, run40222575218/job121257125693.
+Native45 a3088e21:3644pin/1Original Native40; fulladmissionPASS,
+run40222596942/job121257191700. Keduanya baru dikirim ke server, hasil runtime
+menunggu Original. Eksekusi memakai cabang masing-masing; tidak mengubah
+versi kandidat lain. Factory privat b5d2d0fc sudah true-merge SOURCE Native45,
+namun SOURCE factory belum diikat dan tidak dijalankan sebelum Native45PASS.
+
+Cabang B terbaru ab37505d dibaca saja. Tambahan reader/choice/work/ACL/UI/Auth
+B belum diadopsi atau diberi kredit gabungan A. Perubahan A ini tidak menulis
+cabang B, baris OW10/11/13/14/16, main/official/hosted/WA nyata.
+Formal5/16, independent_acceptance=false, production_go=false.
