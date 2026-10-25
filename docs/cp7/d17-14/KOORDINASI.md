@@ -4179,3 +4179,20 @@ PASS. All24selected backend adapter files, SQL, default app and cutting client e
 local generator selection and copied nonexistent facade validator failures
 corrected before publication and retained. Runtime Native/Auth/concurrency and
 UI remain pending. Formal5/16; CP7C/independent/production_go=false.
+
+
+## 204. B26 Oktober2026 WIB — checked cutting receipt full microseconds
+
+Concrete client defect reproduced: Date.parse accepted three checked-at instants
+one microsecond earlier than their captured source because submillisecond digits
+were discarded. Additional malformed calendar/time/precision/source-zone wires
+were accepted. First regression run7FAIL/16PASS retained. Checked cutting now
+requires valid explicit-offset instants with at most six fractional digits,
+rejects calendar normalization, and compares integer UTC microseconds asBigInt.
+Equal/later instants across offsets and midnight remain valid; original receipt
+and payload strings are never rewritten. Shared ordinary staged routes unchanged.
+
+58tests across client parsers and actual form DOM components PASS; full TypeScript
+build PASS. No SQL/default installation or new Native/browser qualification.
+A read-only head remains7de9d4b9. Continue actual prepared cutting/quantity/choice
+and measured K3 performance work. Formal5/16; production_go=false.

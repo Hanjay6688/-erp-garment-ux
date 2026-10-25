@@ -1,0 +1,40 @@
+{
+  "contract": "cp7.checked-cutting-microsecond-receipt-guard.v1",
+  "base_head": "6f69b761e32d1a60ba0857c797981c99d911d550",
+  "status": "CLIENT_REPAIR_VERIFIED",
+  "source_sha256": {
+    "src/nativeCuttingSuggestion.ts": "d2216c35ffc9409bc6af233dffdcf5ac0fbb0093669da21a1b9d916f7096ac58",
+    "src/nativeCuttingSuggestion.test.ts": "58c8500c6d2eba63057a4fef205db936b804144d9b17973e56ee58a2844e93a3"
+  },
+  "confirmed_before": "Date.parse truncates submillisecond precision; three one-microsecond-older checks were accepted. Calendar normalization, excess fraction precision and a source without timezone were also accepted.",
+  "before_tests": {
+    "failed": 7,
+    "passed": 16,
+    "total": 23
+  },
+  "preserved_before_log_sha256": "d8938f0d3a67c8e8b00e20e8822a1b0f5c017319869f36d4e06c121b1733b0fe",
+  "after_tests": {
+    "files": 5,
+    "passed": 58,
+    "failed": 0
+  },
+  "after_log_sha256": "4a942877f0619d14124a89e0e749bb8f07d6b650839c0f35272c2b988c2bdb31",
+  "full_TypeScript_build": "PASS",
+  "TypeScript_process_exit_code": 0,
+  "TypeScript_log_sha256": "7125f194612fcff2f454c05d848e7cb71facc1967b4d5017e25b34fdee3ba74f",
+  "npm_environment_warning_not_TypeScript_diagnostic": true,
+  "corrected_rules": [
+    "Both clocks require explicit timezone and at most six fractional digits.",
+    "Calendar and clock fields must round-trip exactly without normalization.",
+    "UTC offset is applied to integer seconds; full microseconds compared as BigInt.",
+    "Equal or later instants accepted, including equivalent offsets and crossing midnight.",
+    "Original payload, recovery UUID, receipt and display strings remain unchanged."
+  ],
+  "existing_RPC_route_and_server_guard_unchanged": true,
+  "SQL_or_default_install_changes": false,
+  "actual_Native_or_browser_runtime_new_credit": false,
+  "formal_acceptance": "5/16",
+  "CP7C_accepted": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

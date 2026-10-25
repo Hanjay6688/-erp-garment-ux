@@ -39,3 +39,27 @@ it.each(['missing','run','target','identity','feasible','time','older','extra'] 
  else g.unproved=true
  expect(()=>validateCuttingSuggestion(w,envelope(),f.actor)).toThrow()
 })
+it.each([
+ ['2026-10-23T00:00:00.123456Z','2026-10-23T00:00:00.123455Z'],
+ ['2026-10-23T07:00:00.000001+07:00','2026-10-23T00:00:00Z'],
+ ['2026-10-22T17:00:00.999999-07:00','2026-10-23T00:00:00.999998+00:00'],
+])('rejects a check one microsecond before its source (%s)',(source,checked)=>{
+ const w=wire();w.data_as_of=source;w.cutting_save_guard.checked_at=checked
+ expect(()=>validateCuttingSuggestion(w,envelope(),f.actor)).toThrow()
+})
+it.each([
+ ['2026-10-23T00:00:00.123456Z','2026-10-23T00:00:00.123456+00:00'],
+ ['2026-10-23T00:00:00.123456Z','2026-10-23T07:00:00.123457+07:00'],
+ ['2026-10-23T00:00:00.1Z','2026-10-22T17:00:00.100000-07:00'],
+ ['2026-10-23T23:59:59.999999Z','2026-10-24T00:00:00Z'],
+])('accepts equal or later exact instants without rewriting the receipt (%s)',(source,checked)=>{
+ const w=wire();w.data_as_of=source;w.cutting_save_guard.checked_at=checked;const original=structuredClone(w)
+ expect(validateCuttingSuggestion(w,envelope(),f.actor).id).toBe(f.draft)
+ expect(w).toEqual(original)
+})
+it.each(['2026-02-30T00:00:00Z','2026-10-23T24:00:00Z','2026-10-23T00:00:00.1234567Z','2026-10-23T00:00:00'])('refuses an invalid or overprecision instant on either side: %s',time=>{
+ const w=wire();w.data_as_of='2026-01-01T00:00:00Z';w.cutting_save_guard.checked_at=time
+ expect(()=>validateCuttingSuggestion(w,envelope(),f.actor)).toThrow()
+ w.data_as_of=time;w.cutting_save_guard.checked_at='2027-01-01T00:00:00Z'
+ expect(()=>validateCuttingSuggestion(w,envelope(),f.actor)).toThrow()
+})

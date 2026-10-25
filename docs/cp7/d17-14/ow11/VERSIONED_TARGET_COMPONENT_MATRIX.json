@@ -1780,5 +1780,14 @@
     "actual_concurrency": false,
     "default_application_adopted": false,
     "production_go": false
+  },
+  "cutting_receipt_microsecond_client_repair": {
+    "status": "CLIENT_REPAIR_VERIFIED",
+    "receipt": "docs/cp7/d17-14/ow13c/cutting-checked-microsecond-guard-repair.json",
+    "before_regressions": 7,
+    "focused_tests_pass": 58,
+    "TypeScript": "PASS",
+    "actual_Native_new_credit": false,
+    "production_go": false
   }
 }

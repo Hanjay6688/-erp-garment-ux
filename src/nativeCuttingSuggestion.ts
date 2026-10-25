@@ -36,13 +36,22 @@ export function cuttingSuggestionNotice(error:unknown,recoveryError:string):stri
   :raw.message==='CP7_CUTTING_SUGGESTION_NOT_FEASIBLE'?'Saran potong belum layak atau datanya belum lengkap. Periksa kembali stok, bahan dan kapasitas.':null
  return message?message+suffix:undefined
 }
+function instantMicros(v:unknown):bigint{
+ if(typeof v!=='string')return fail()
+ const m=v.match(/^(\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d)(?:\.(\d{1,6}))?(Z|[+-]\d\d:\d\d)$/)
+ if(!m)return fail()
+ const local=Date.parse(m[1]+'Z'),utc=Date.parse(m[1]+m[3])
+ // Reject calendar normalization (e.g. February 30 or 24:00), then compare
+ // PostgreSQL's full microseconds. Date.parse alone discards the last three.
+ if(!Number.isFinite(local)||!Number.isFinite(utc)||new Date(local).toISOString().slice(0,19)!==m[1])return fail()
+ return BigInt(utc)*1000n+BigInt((m[2]??'').padEnd(6,'0'))
+}
 export function validateCuttingSuggestion(v:unknown,e:ProductionEnvelope,actor:string){
  if(!isCuttingSuggestionSave(e)||rec(e.payload).cutting_save_contract!==CUTTING_SAVE_CONTRACT)fail()
  const saved=validateStagedPlanCommit(v,e,actor),r=rec(v),g=rec(r.cutting_save_guard),p=rec(e.payload)
  const keys=['contract_version','run_id','target_key','identity_hash','checked_at','feasible']
  if(Object.keys(g).length!==keys.length||keys.some(k=>!Object.hasOwn(g,k))||g.contract_version!==CUTTING_SAVE_CONTRACT
   ||g.run_id!==p.run_id||g.target_key!==p.target_key||g.identity_hash!==p.identity_hash||g.feasible!==true
-  ||typeof g.checked_at!=='string'||!/^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d(?:\.\d+)?(?:Z|[+-]\d\d:\d\d)$/.test(g.checked_at)
-  ||!Number.isFinite(Date.parse(g.checked_at))||Date.parse(g.checked_at)<Date.parse(String(r.data_as_of)))fail()
+  ||instantMicros(g.checked_at)<instantMicros(r.data_as_of))fail()
  return saved
 }
