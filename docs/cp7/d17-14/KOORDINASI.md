@@ -4373,3 +4373,40 @@ OPEN_WORK changes only OW12/OW13 B status cells; A rows byte-identical. Full B
 scope remains open: automatic status defaults/policy, target/method activation,
 cutting actual paths, factory finance, warehouse migration and composed restore.
 Formal5/16, independent_acceptance=false, production_go=false. Continue scope.
+
+
+## 210. [bersama] B26 Oktober2026 WIB — later failures retained; mobile surface and paired timeout diagnostic
+
+Published code f843e4ce4fee59ee3e953d032ceed21eeba84c99, exact local/API tree
+189570e74f932bc96841fcbe8d34956ed90991dc, nonforced lease on2f2bdfe5. Five closed
+source declarations repinned only; IDs/counts/limits/oracles unchanged. Preflights
+113/142/116/155/164pins pass99 missing/mixed refusals each. The actual Auth host
+still compiles the same59 module paths. No SQL, financial formula or grants changed.
+
+Later complete Originals:94a5/run40229831311/art12616931246 keeps1PASS/9INCOMPLETE
+from the old calendar/null-needed fixture.712e/run40230455082/art12615919246 has
+5PASS/1INCOMPLETE: cached confirmation7425.644ms, K3 hits8s. Same product choice,
+reader, history and binary source files as the earlier ffc PASS; profiling was
+added to the provider, but causality is not established. K3 completed compiler/
+prepare frames cost3882.822/4494.262ms. The new provider retains the original
+57014 as fatal; only then runs a same-UUID/payload paired diagnostic with prior
+tracking and the same8s RPC limit, rolls back all metadata/physical effects and
+rethrows the original exception. Local PG tests confirm this for successful and
+failed paired attempts. No timeout is turned into qualification. Actual diagnostic
+source f843e4ce Native6/run40246232934 is executing, not a performance fix.
+
+Actual cutting Auth4826/run40244633432/art12618163466 remains1PASS/1INCOMPLETE.
+Mobile now commits and preserves an uncertain SAVE, but strict readability rejects
+disabled SELECT opacity0.7 before revocation. Full artifact12617369818 has the
+same seven complete Original JSON members; mobile failure image inspected. Scoped
+opaque disabled controls now have explicit colors (static ratio5.684); browser
+4.5 threshold, opacity rejection, native disabled state and current403 oracles
+are exact. New actual Auth/run40246233021 on f843e4ce is executing.
+
+Sixteen complete Originals retained/read:15 complete package-gate checks and one
+interrupted transport without restore/advisor credit. The active handoff now
+starts with a consolidated current overview; older then-current notes remain
+history. A finance composition request209 stands.4826 cutting Native6/40244633440
+and Transport10/40244633462 still executing separately. OPEN_WORK changes only
+OW13 B status; all A rows unchanged. Full B scope is not complete. Formal5/16,
+independent_acceptance=false, production_go=false.

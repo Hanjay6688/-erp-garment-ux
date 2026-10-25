@@ -4,6 +4,31 @@ Owner asked the new writer to recover the complete context of **Writer B** and
 continue without questions. This is the active B entrypoint. Earlier checkpoints
 in `HANDOFF_PRODUKSI_CLAUDE_20261023.md` remain history, with their failures intact.
 
+## Current verified position — read this before the historical updates
+
+- Latest B code: **f843e4ce4fee59ee3e953d032ceed21eeba84c99**, tree
+  `189570e74f932bc96841fcbe8d34956ed90991dc`. Finance caller/UI and first fixture
+  repairs came from4826a666; source-specific outcomes below remain separate.
+- Checked cutting Native6/run40244633440 and Transport10/run40244633462 still
+  execute on4826a666. Their new synthetic-volume/UTC repairs are NOT qualified.
+- Cutting actual Auth on4826a666 finished1PASS/1INCOMPLETE. Mobile commits and
+  retains the uncertain command, then fails disabled-SELECT readability before
+  revocation. Scoped CSS repair is in f843e4ce; new Auth/run40246233021 executing.
+- Choice factory on712e0128 finished5PASS/1INCOMPLETE; K3 still hits8s. Cached
+  call7425.644ms. New f843e4ce Native6/run40246232934 keeps the original timeout
+  fatal and adds a rolled-back same-command calibration only AFTER a57014.
+  No claimed performance fix or instrumentation-causality conclusion.
+- B frozen finance caller is implemented/prepared:7 local SQL groups and186
+  client tests; official A APIs pinned and financial formulas reused. Actual
+  A+B Native/Auth/report parity/factory timing/full after-use restore remain
+  open. A composition request is concrete in coordination209.
+-16 complete Originals read/retained:15 with complete package gates checked,
+  plus interrupted ee1 Transport with restore/advisor gates missing. A failed
+  writer_runtime remains false. First failures and prior passes are source-bound.
+- B is **not complete**. Remaining defaults/composition/legacy migration belong
+  to A; unapproved activation/status policy values remain unconfigured. Formal
+  overall5/16, independent_acceptance=false, production_go=false.
+
 ## Business and non-negotiable behavior
 
 VENI. VIDI. VICI. ERP. Reliable data adalah dewa. Keuangan termasuk laporan,
@@ -328,3 +353,10 @@ Sixteen complete Originals now retained/read:15 with complete package-gate
 verification, plus interrupted ee1 Transport without restore/advisor credit.
 Native6/40244633440 and Transport10/40244633462 on4826 remain separate pending
 results. Formal5/16, independent_acceptance=false, production_go=false.
+
+Published surface/calibration candidate f843e4ce, exact tree189570e74f932bc96841fcbe8d34956ed90991dc.
+New cutting Auth/run40246233021 and choice Native6/run40246232934 executing;
+five closed preflights pass with99 missing/mixed refusals each (source pins
+113/142/116/155/164). No source budgets,8s limits, first failure or qualification
+predicate changed. Current overview above is authoritative for continuation;
+the earlier chronological sections intentionally retain their then-current state.

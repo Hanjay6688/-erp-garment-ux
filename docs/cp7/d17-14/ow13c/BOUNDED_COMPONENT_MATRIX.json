@@ -93,11 +93,11 @@
     "official_finance_included": false,
     "production_go": false,
     "interrupted_Originals_retained_without_complete_gates": 1,
-    "latest_code_head": "4826a666925309ea93aa0421ec544cd2d9b145f3",
+    "latest_code_head": "f843e4ce4fee59ee3e953d032ceed21eeba84c99",
     "latest_candidate_runs": {
       "Native6": 40244633440,
       "Transport10": 40244633462,
-      "actual_cutting_Auth_Browser2": 40244633432
+      "actual_cutting_Auth_Browser2": 40246233021
     },
     "latest_candidate_last_observed": "IN_PROGRESS_NOT_QUALIFIED",
     "last_old_candidate_Auth_original": {
@@ -130,7 +130,13 @@
       },
       "K3_8s_timeout_retained": true,
       "paired_diagnostic_prepared_no_failure_credit_override": true
-    }
+    },
+    "latest_candidate_source_heads": {
+      "Native6": "4826a666925309ea93aa0421ec544cd2d9b145f3",
+      "Transport10": "4826a666925309ea93aa0421ec544cd2d9b145f3",
+      "actual_cutting_Auth_Browser2": "f843e4ce4fee59ee3e953d032ceed21eeba84c99"
+    },
+    "latest_choice_diagnostic_run": 40246232934
   },
   "frozen_cutting_actual_Auth_browser_preparation": {
     "status": "PREPARED_NOT_WIRED_RUNTIME_PENDING",
