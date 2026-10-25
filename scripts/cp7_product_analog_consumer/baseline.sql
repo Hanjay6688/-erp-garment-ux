@@ -8,8 +8,10 @@ declare h jsonb:=jsonb_build_object('current_stock',current_stock);r jsonb;cfg j
 begin
  if context->>'contract_version'is distinct from'cp7.analog-consumer-context.v1'
   or context->'captured_at'is distinct from c->'captured_at'then raise exception 'CP7_ANALOG_CONSUMER_CONTEXT';end if;
+ -- Traverse each path directly: an intermediate histories/choices object
+ -- would copy the factory-wide map for every target. Guards and values stay exact.
  for r in select x.value from jsonb_array_elements(history_rows)with ordinality x(value,o)order by x.o loop
-  if context->'histories'->(r->>'target_key')is distinct from r then raise exception 'CP7_ANALOG_CONSUMER_ROW_CONTEXT';end if;
+  if context#>array['histories',r->>'target_key']is distinct from r then raise exception 'CP7_ANALOG_CONSUMER_ROW_CONTEXT';end if;
   root:=split_part(r->>'target_key',':',1);
   if profiles is null then
    select coalesce(jsonb_object_agg(f.k,f.v),'{}'),coalesce(jsonb_object_agg(f.k,true)filter(where f.n>1),'{}')into profiles,profiles_repeated
@@ -34,7 +36,7 @@ begin
   resolution:=null;all_refs:=refs||profile_refs;
   -- Resolve fallback only after the existing manual/own priority is known.
   if manual is null and cfg is not null and cp7_wip.pcs(own->'available_days')<cp7_wip.pcs(cfg->'minimum_available_days')
-   and context->'choices'->(r->>'target_key')->>'state'is distinct from'UNREVIEWED'then
+   and context#>>array['choices',r->>'target_key','state']is distinct from'UNREVIEWED'then
    resolution:=cp7_product_analog_consumer.resolve(context,r->>'target_key',p);
    if resolution->>'state'='READY'then all_refs:=cp7_product_analog_consumer.refs(all_refs||(resolution->'refs'));end if;
   end if;

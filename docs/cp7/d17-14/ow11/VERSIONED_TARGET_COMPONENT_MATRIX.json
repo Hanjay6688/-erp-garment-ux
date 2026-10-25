@@ -126,7 +126,7 @@
     "scoped_RPC_access_inventory_repaired": true,
     "full_composer_versioned_target_installed": false
   },
-  "transport11_union_qualified": false,
+  "transport11_union_qualified": true,
   "operational3600_actual_Native_qualified": false,
   "actual_historical_positive_winner": false,
   "official_finance_parity_qualified": false,
@@ -135,5 +135,14 @@
   "formal_acceptance": "5/16",
   "CP7C_accepted": false,
   "independent_acceptance": false,
-  "production_go": false
+  "production_go": false,
+  "transport11_head": "40b72fbe0d7593f63e6abf383a5adb25ba98e0db",
+  "transport11_run_id": 40169049614,
+  "transport11_unique_case_count": 11,
+  "operational3600_first_failure_artifact": 12590645783,
+  "operational3600_first_failure": "PREDECESSOR_GATEWAY_STATEMENT_TIMEOUT_BEFORE_CURRENT_OVERLAY",
+  "qualified_source_heads_only": true,
+  "current_analog_parent_changed_since_qualification": true,
+  "current_performance_candidate_qualified": false,
+  "current_performance_change": "Direct JSONB paths replace factory map materialization; prior Native6/Browser2/Transport11 receipts remain bound to their original source heads"
 }

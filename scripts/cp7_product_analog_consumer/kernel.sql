@@ -67,7 +67,7 @@ declare choice jsonb;evidence jsonb;target_product jsonb;source_product jsonb;hi
 begin
  if v->>'contract_version'is distinct from'cp7.analog-consumer-context.v1'then raise exception 'CP7_ANALOG_CONSUMER_CONTEXT';end if;
  perform cp7_wip.key(to_jsonb(p_target));
- choice:=v->'choices'->p_target;target_product:=v->'products'->p_target;
+ choice:=v#>array['choices',p_target];target_product:=v#>array['products',p_target];
  if choice is null or target_product is null then raise exception 'CP7_ANALOG_CONSUMER_TARGET';end if;
  outcome:=jsonb_build_object('contract_version','cp7.analog-demand-resolution.v1','state','UNAVAILABLE',
   'choice_id',choice->'choice_id','choice_revision',choice->'revision','reason',null,'analog',null,
@@ -84,14 +84,14 @@ begin
   or evidence->'minimum_available_days'is distinct from p_profile->'config'->'minimum_available_days'
   or p_profile->'root_id'is distinct from target_product->'root_id'or p_profile->'product_version_id'is distinct from target_product->'id'then
   return outcome||jsonb_build_object('reason','ANALOG_PROFILE_CHANGED');end if;
- source_product:=v->'products'->source;
+ source_product:=v#>array['products',source];
  if source_product is null then return outcome||jsonb_build_object('reason','ANALOG_SOURCE_UNAVAILABLE');end if;
  if evidence->'target_product'is distinct from target_product or evidence->'source_product'is distinct from source_product
   or target_product->'size_id'is distinct from source_product->'size_id'then
   return outcome||jsonb_build_object('reason','ANALOG_PRODUCT_IDENTITY_CHANGED');end if;
  minimum:=cp7_wip.pcs(p_profile->'config'->'minimum_available_days');scale:=cp7_demand.decimal(evidence->'scale_factor');
  if minimum<1 or scale<=0 then raise exception 'CP7_ANALOG_CONSUMER_ASSUMPTION';end if;
- history:=v->'histories'->source;
+ history:=v#>array['histories',source];
  if history is null or history->'size_id'is distinct from source_product->'size_id'or jsonb_typeof(history->'days')is distinct from'array'then
   raise exception 'CP7_ANALOG_CONSUMER_SOURCE_HISTORY';end if;
  count_days:=cp7_demand.day(v->'query'->'through_date')-cp7_demand.day(v->'query'->'from_date')+1;

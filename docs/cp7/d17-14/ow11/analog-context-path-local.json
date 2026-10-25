@@ -1,0 +1,39 @@
+{
+  "contract": "cp7.analog-context-path-benchmark-synthetic-local.v1",
+  "status": "PASS",
+  "products": 3600,
+  "actual_Native": false,
+  "actual_Auth_HTTP_credit": false,
+  "factory_SLA_claim": false,
+  "full_factory3600_qualified": false,
+  "production_go": false,
+  "cases": {
+    "COMPLETE_JSON_PARITY": {
+      "status": "PASS",
+      "baseline_millis": 8874.361,
+      "optimized_millis": 3771.492,
+      "ratio": 2.3530106917898808,
+      "rows": 3600,
+      "all_JSON_fields_refs_and_quantities_identical": true
+    },
+    "ROW_CONTEXT_GUARD_RETAINED": {
+      "status": "PASS",
+      "both_variants_refuse_changed_row": true
+    }
+  },
+  "baseline_source_head": "36b81fcee8ee801a96793c89df6e14388263ad33",
+  "frozen_baseline_body_sha256": "e0f38cf159992e02a4f9340ed9212dae11da8bb5a252a67a6cf858e12423e7f0",
+  "current_body_sha256": "98c257ae75eb64b6088253e26b86bfac5b102ac12bf1251c0cbcc46173d7478d",
+  "source_sha256": {
+    "scripts/cp7-src/demand/estimate.sql": "c17c125d5139f06ce5a3ea9fd4ff15d32f5fc8952a73270a526913f18a5ff2f2",
+    "scripts/cp7_production_stage/sql/cp7_baseline__target.sql": "4b6ce8053dca12162188c62b6f6eb7b595ba5b6acfb431485026e150a064f71a",
+    "scripts/cp7_product_analog_consumer/kernel.sql": "1c6d227993758b9670150f326c3cb9b24bc0c7000b2c906544d9c179d5b25561",
+    "scripts/cp7_product_analog_consumer/baseline.sql": "029ea44ed1c78cabebf87dea07d60b8930840551e50c5e65409b3f0fe26bb5c3",
+    "scripts/cp7_product_analog_provenance_stage/provenance.sql": "a849cef63c8d292d7a8f44ea38424af59e43371e702fa9a3ede6cc818e20ce1e",
+    "scripts/cp7_model_target_projection/projection.sql": "1e96c6389c3537dcaf59bcf79383754f0b5716ad3c1d9010c77fb0918535e6b7",
+    "scripts/cp7_model_target_consumer_v2/consumer.sql": "48526a5ab9fa7468475b6ba76955b61b2868fa1590e6296d65ee5da390fc6dde"
+  },
+  "counts": {
+    "PASS": 2
+  }
+}

@@ -2782,3 +2782,56 @@ with B's21 replacements (static check only); runtime/full-composer and after-use
 still require A's composition, with fresh parent rather than replacing a used
 old target-v1 stage. Transport11 same-head union and actual Native3600 pending;
 formal5/16, CP7C/independent false, production_go=false. Continue pending work.
+
+## 148. B25 Oktober2026 WIB — versioned target full transport11 union PASS
+
+40b72fbe/run40169049614: Ajob121095977076 Original12590626305,94355 bytes,
+SHA60a97f3f327976454faf09afdfd9d6893211238ba3c4ae1bd4e4ab89045b2f9f;
+Bjob121095976940 Original12590300605,94861 bytes,
+SHA8fa3297e35ec8eeb1d99750b9517609b03594f764681edf68e5c36ba0244a646.
+Both complete Originals6JSON each read. A1Native+4races, B1repeatedNative+3races
++3AuthHTTP allPASS; one repeated anchor earns0credit:11unique controls total.
+All36 head/current pins, exact clone authority8copies, package/CP6/advisor,
+boundaries/WIB/session/Auth/database cleanup verified before performance edits.
+Actual same/different UUID, four lock/access/replay boundaries, source/policy
+changes after envelope, real Auth/CLEAR/old-token/anonymous/foreign refs qualify.
+No historical positive winner or fullOW11/after-use/A-chain acceptance follows.
+
+## 149. B25 Oktober2026 WIB — first operational3600 Native2 failure retained
+
+ed82e7e9/run40170067161/job121098923669 complete JSON12590645783,116275 bytes,
+SHAb6ba499d2c061b0633bd53e62433ff2eac568315012d6db182b0bd8d1747c521.
+1PASS/1INCOMPLETE: exact22 catalog passes; complete predecessor request exceeds
+unchanged8s inside analog baseline/history compilation. Failure is at
+old=capture(), BEFORE current target overlay installation. All36 exact-head and
+then-current pins, boundaries, CP6/advisor and cleanup checked; writer gate false.
+No complete before-result/current3600 comparison exists and no credit inferred.
+First Original preserved; no bare rerun or higher gateway limit.
+
+## 150. B25 Oktober2026 WIB — context-path performance correction candidate
+
+Execution runtime moved from prior282188edcd04 workspace; recovered B branch36b81fce
+in its own erp-produksi clone on the available runtime. Existing A worktrees/files
+were left alone. Native6/Browser2 evidence already persisted; current transport
+Originals and Native3600 first failure recovered using fresh artifact transfers.
+
+A/B actual SQL experiment isolates per-target context access. Nested -> extraction
+materializes the factory histories map on every row; direct #>/#>> traversal returns
+only the selected value. SYNTHETIC600x55days:1058.435ms->709.833ms. At3600x55days,
+44.7MB input,9297.753ms->3609.967ms; complete JSON including all refs/operands/target
+values identical, changed-row guard refused by both. Local measurement, not Native
+or factory SLA. Frozen36b81fce body retained by benchmark; current-body run follows.
+
+Apply exactly six path substitutions across baseline/analog resolver; no arithmetic,
+priority, UNKNOWN behavior, permissions, volatility, RPC/table or limits changed.
+Regenerate provenance and strict dependency hashes. New qualification manifests
+include the actual analog parent: Native47, Browser64, transport/scale50source pins.
+Prior Native6/Browser2/transport11 PASS remain bound to their original source heads;
+current performance candidate must earn fresh runtime qualification. Local26PASS,
+all four actual declarations/admissions, generated source checks and SQL AST pass.
+Formal5/16, CP7C/independent false, production_go=false; continue qualification.
+
+Current-source benchmark with frozen36b81fce baseline:8874.361ms->3771.492ms
+(2.353x), again complete3600-row JSON/ref/quantity parity and both guards intact.
+Both measurements retained; no fastest-run selection. This repeats after the
+actual product change and explicit frozen/current body hashes were added.

@@ -1,19 +1,19 @@
 {
   "contract": "cp7.product-analog-provenance-overlay.prototype.v1",
   "predecessor_body_sha256": {
-    "cp7_product_analog_consumer.baseline_rows(jsonb,jsonb,jsonb,text,jsonb)": "016cc889cc8f80b55cef1ba09244aa25edb43596c68d24c734d138e34d177c0c",
+    "cp7_product_analog_consumer.baseline_rows(jsonb,jsonb,jsonb,text,jsonb)": "434a6a70b5f4d973cd79340a086a313f0a68ff11873f0a43b2cc3affbe456ebd",
     "cp7_reorder_inputs.points(jsonb,jsonb,jsonb,jsonb)": "4f8d669d1cbf9d3bdfd21cd95151541eeb4f6cf411c22e38f32e6f1973e36057",
     "cp7_product_analog_stage.read_candidates(uuid,text,integer,integer,text)": "8447fd63006d2d04cac1b95138b3c3dd5b1a1c7000effb12ca3212bf7211f278",
     "cp7_reorder_caller.evaluate(jsonb,jsonb)": "47b07d6944dfaa4f1ae743bbb897756b93dc0a37e32ceeb05bb51563905010ed"
   },
   "replacement_body_sha256": {
-    "cp7_product_analog_consumer.baseline_rows(jsonb,jsonb,jsonb,text,jsonb)": "560530cae0daed84f61a8abf3bf2bf2b6eea2cb1d6effbbc0be02d2beab79004",
+    "cp7_product_analog_consumer.baseline_rows(jsonb,jsonb,jsonb,text,jsonb)": "60be1f7b7f8c3e5b64b4287fa9a775a820e50f7c01bcd940db1faecdad75744c",
     "cp7_reorder_inputs.points(jsonb,jsonb,jsonb,jsonb)": "4f5f418a8036d1d22d2adccc4a5bcbb6bff56aa204c0b21eacc8917b305373c0",
     "cp7_product_analog_stage.read_candidates(uuid,text,integer,integer,text)": "8f268a055f6e6896c936c3757c0cfe1cc781b593864578faaef20fe369536047",
     "cp7_reorder_caller.evaluate(jsonb,jsonb)": "4972b0bb23b702f9d504370859872ee8f312c90c4bf9b2b28cdfd59824bfa8a9"
   },
   "helper_sql_sha256": "a849cef63c8d292d7a8f44ea38424af59e43371e702fa9a3ede6cc818e20ce1e",
-  "sql_sha256": "22d732d58456635bff9e2c546f32081c0564fed54a75a57d513b224354c0c02f",
+  "sql_sha256": "73f591d3ecd4d8977ab39c26be65290abe5b6201a6a5f1ee2ba8a515a2aabd87",
   "new_private_functions": 1,
   "existing_replacements": 4,
   "new_public_rpcs": 0,

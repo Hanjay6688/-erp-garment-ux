@@ -28,7 +28,11 @@ def sources():
     from pathlib import Path
     from hashlib import sha256
     root=Path(__file__).resolve().parent
-    return dict(stage.sources(),**source.sources(),**{
+    # Pin the actual analog parent too: its lookup implementation affects
+    # both request latency and the runtime model/source producer identity.
+    parent_paths=[p for name in ('cp7_product_analog_consumer','cp7_product_analog_consumer_stage','cp7_product_analog_provenance_stage')
+      for p in (root/name).iterdir()if p.is_file()and p.suffix in('.py','.sql','.json')]
+    return dict(stage.sources(),**source.sources(),**{str(p.relative_to(root)):sha256(p.read_bytes()).hexdigest()for p in parent_paths},**{
       str(p.relative_to(root)):sha256(p.read_bytes()).hexdigest()
       for p in [Path(__file__),root/'cp7_ow11_model_target_consumer_v2_probe.py']})
 

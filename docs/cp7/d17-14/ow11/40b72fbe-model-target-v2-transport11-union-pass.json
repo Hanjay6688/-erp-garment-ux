@@ -1,0 +1,56 @@
+{
+  "contract": "cp7.model-target-v2-transport-union-receipt.v1",
+  "head": "40b72fbe0d7593f63e6abf383a5adb25ba98e0db",
+  "run_id": 40169049614,
+  "status": "PASS",
+  "parts": [
+    {
+      "part": "A",
+      "artifact_id": 12590626305,
+      "bytes": 94355,
+      "sha256": "60a97f3f327976454faf09afdfd9d6893211238ba3c4ae1bd4e4ab89045b2f9f",
+      "counts": {
+        "native": 1,
+        "races": 4
+      }
+    },
+    {
+      "part": "B",
+      "artifact_id": 12590300605,
+      "bytes": 94861,
+      "sha256": "8fa3297e35ec8eeb1d99750b9517609b03594f764681edf68e5c36ba0244a646",
+      "counts": {
+        "native": 1,
+        "races": 3,
+        "http": 3
+      }
+    }
+  ],
+  "unique_case_ids": [
+    "OW11_MODEL_TARGET_V2_AUTH_ANON_AND_FOREIGN_REFERENCE",
+    "OW11_MODEL_TARGET_V2_AUTH_CONFIRM_CLEAR_EXACT_REPLAY",
+    "OW11_MODEL_TARGET_V2_AUTH_REVOKED_COMMITTED_REPLAY",
+    "OW11_MODEL_TARGET_V2_CATALOG22_COMPOSED_PREUSE",
+    "OW11_MODEL_TARGET_V2_RACE_ACCESS_AFTER_ENVELOPE",
+    "OW11_MODEL_TARGET_V2_RACE_ACCESS_AFTER_TARGET",
+    "OW11_MODEL_TARGET_V2_RACE_POLICY_AFTER_ENVELOPE",
+    "OW11_MODEL_TARGET_V2_RACE_REPLAY_ACCESS_AFTER_REQUEST",
+    "OW11_MODEL_TARGET_V2_RACE_REVISION",
+    "OW11_MODEL_TARGET_V2_RACE_SAME_UUID",
+    "OW11_MODEL_TARGET_V2_RACE_SOURCE_AFTER_ENVELOPE"
+  ],
+  "unique_case_count": 11,
+  "repeated_catalog_anchor_credit": 0,
+  "all_36_source_pins_exact_and_current": true,
+  "all_package_CP6_advisor_boundary_and_cleanup_gates": true,
+  "actual_concurrency": true,
+  "actual_Auth_HTTP_credit": true,
+  "actual_historical_positive_winner": false,
+  "full_OW11_acceptance": false,
+  "formal_acceptance": "5/16",
+  "CP7C_accepted": false,
+  "independent_acceptance": false,
+  "production_go": false,
+  "current_checked_head_when_verified": "36b81fcee8ee801a96793c89df6e14388263ad33",
+  "current_performance_candidate_qualified": false
+}

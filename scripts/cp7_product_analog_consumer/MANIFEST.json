@@ -1,8 +1,8 @@
 {
   "contract": "cp7.product-analog-consumer.prototype.v1",
   "source_files_sha256": {
-    "kernel.sql": "26885f7d83c4ad4301f3e81727c6bc3555903e65598941f726bd24e395fa2992",
-    "baseline.sql": "eeb927430f4ed36bab11e62a27fc34e1cbe9e8d938d083f5364865611b6b9a6b"
+    "kernel.sql": "1c6d227993758b9670150f326c3cb9b24bc0c7000b2c906544d9c179d5b25561",
+    "baseline.sql": "029ea44ed1c78cabebf87dea07d60b8930840551e50c5e65409b3f0fe26bb5c3"
   },
   "dependency_files_sha256": {
     "cp7_product_analog_choice_stage/choice.sql": "16f84ef04b71183d0e70ad0eca72aa748000dd7b4c4436fa7fd922090f285a0d",
