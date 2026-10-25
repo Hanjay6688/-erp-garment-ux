@@ -3593,3 +3593,42 @@ Auth/races/browser/cron/usedrestore publik serta adopsi B terkini masih terpisah
 Formal5/16,independent_acceptance=false,production_go=false. Main/official,
 hosted dan WA nyata tidak berubah. Reliable data adalah dewa; keuangan termasuk
 laporan,stok dan HPP adalah raja.
+
+
+##26Oktober2026 WIB — A: kontrak fasad publik dan lanjutan kualifikasi terkunci
+
+Kontrak integrasi A terbaru tersedia di
+ow15/FROZEN_PUBLIC_FINANCE_INTEGRATION_CONTRACT_20261026.md,
+commit18cc2783/tree02bd77e4. Dua RPC opt-in authenticated ialah
+`erp_cp7_request_bounded_frozen_finance_analysis_v2` dan
+`erp_cp7_request_bounded_staged_analysis_v2`; jalur status/step/page lama tetap,
+keuangan STAGED eksplisit, UUID lintasmetode ditolak. Bukti Native52 wajib pada
+6dceb3d3/run40234978669; saat catatan ini dibuat runtime masih berlangsung.
+B tidak perlu menebak kontrak dari A f898a71f atau label sumber yang lebih lama.
+
+Persiapan lanjutan A tersimpan di branch
+astra-a/d17-14-frozen-public-followups-prepared-20261026,
+head55e1e317a52f4838e3d1f34a7beea7cc64c41403/tree614f8ae4.
+FinanceAuth3+races7 menjaga55assert dan semua23kolom capture; cron1 menjaga
+36+10assert, jadwal menit asli,60transaksi,8s/300s. Usedrestore8 menjaga7fixture
+lama serta fixture keuangan publik tambahan,42kontrol runtime yang masih harus
+dijalankan dan dua pemulihan penuh. Pemeriksaan lokal hanya memvalidasi sumber,
+routing, penjaga, daftar kontrol dan bash; bukan bukti kelulusan server.
+Browser6/transport28 mempertahankan byte oracle lama dengan komposisi penuh
+A baru; Original4608b478,6/28kasus dan seluruh clonecatalog diperiksa lengkap.
+Keduanya bukan pembuktian UI baru yang memakai financeRPC atau adopsi B terbaru.
+SOURCE seluruh lima suite belum diikat, menunggu actualNative52PASS terlebih dahulu.
+
+B terbaru e2ef3a9eeeaae93a861bfabee7c52f01ee8a5e13 dibaca saja. Perbaikan
+nativeAnalysisFinanceSidecar.ts membutuhkan nativePlanInstant.ts agar instan
+mikrodetik, tanggal tidak sah dan kesetaraan offset diperiksa tepat. Belum
+tergabung dalam A6d atau55e; tidak diberi kredit integrasi. B melaporkan
+choiceAuth2/art12615241859 dan quantityAuth2/art12614619347; A belum intake
+independen. CuttingNative6/transport10/browser2 tetap scope B. Tidak ada
+penulisan branch/file B atau perubahan baris OW10/11/13/14/16.
+
+Privatefactory lama778ac17e/run40234971454 dan koreksi sumber5bf4e03a/
+run40236661942 juga masih berjalan; hasil gagal lama wajib dipertahankan.
+Formal5/16,production_go=false,independent_acceptance=false. Main/official/
+hosted/WA nyata tetap. Reliable data adalah dewa; keuangan termasuk laporan,
+stok dan HPP adalah raja. VENI. VIDI. VICI. ERP. — I CONQUERED ERP.
