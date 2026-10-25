@@ -1,5 +1,5 @@
 {
-  "recorded_at_utc": "2026-10-25T10:11:15.201978+00:00",
+  "recorded_at_utc": "2026-10-25T10:45:07.164891+00:00",
   "role": "A finance writer/integrator replacing Claude",
   "slogan": [
     "VENI. VIDI. VICI. ERP. \u2014 I CONQUERED ERP.",
@@ -10,15 +10,15 @@
   "independent_acceptance": false,
   "running": [
     {
-      "scope": "Complete selected-return used restore8",
-      "head": "625fc55e161726ab9f4ccf420384b4fdb4713fe9",
-      "run_id": 40180905749,
-      "job_id": 121131566954,
-      "status": "RUNNING_AFTER_EXACT_NAMED_REFUSAL_CORRECTION",
-      "full_local_source_admission": "PASS",
-      "source_pins": 3257,
-      "actual_originals": 2,
-      "previous_failed_run": 40176745608
+      "scope": "Complete versioned-target selected-return Native36",
+      "head": "b3ac88b148166f815ca58057de29dddfd82c677a",
+      "run_id": 40185876734,
+      "job_id": 121146419961,
+      "status": "CI_IN_PROGRESS_PRE_DB",
+      "source_pins": 3472,
+      "actual_originals": 12,
+      "complete_local_source_admission": "PASS",
+      "execution_branch": "astra-a/d17-14-versioned-target-native36-20261025"
     }
   ],
   "actual_new_component": {
@@ -64,7 +64,7 @@
     {
       "scope": "selected-return full used restore8",
       "head": "625fc55e161726ab9f4ccf420384b4fdb4713fe9",
-      "next": "Intake corrected actual restore8; first INCOMPLETE remains archived",
+      "next": "Original verified and archived; included in current Native36 prerequisites",
       "execution_branch": "astra-a/d17-14-selected-return-restore-20261025",
       "SOURCE_bound": true,
       "native20_SOURCE_true_merged": true,
@@ -72,11 +72,12 @@
       "required_native_head": "8e878ed6c95a7249734f5d53b5d33ee1114ec599",
       "source_pins": 3257,
       "complete_source_admission": "PASS",
-      "retained_business_refusal_AST": "PASS"
+      "retained_business_refusal_AST": "PASS",
+      "status": "ACTUAL_PASS8"
     },
     {
       "scope": "isolated future versioned-target integration",
-      "head": "638fb25cbf83daf0839075156007d46568f9fa3f",
+      "head": "b3ac88b148166f815ca58057de29dddfd82c677a",
       "branch": "astra-a/d17-14-versioned-target-integration-prepared-20261025",
       "client_tests": 303,
       "client_test_files": 12,
@@ -92,15 +93,15 @@
       "changed_hook_bodies": 14,
       "unchanged_hook_bodies": 7,
       "legacy_target_objects_preserved": true,
-      "tree": "2ab96befe3120ab12f0667d6129c4aab11839d59",
+      "tree": "4444568c2a298b17451989277507b31dcb0dcc7b",
       "true_merge_B_head": "36b81fcee8ee801a96793c89df6e14388263ad33",
       "browser_source_pins_current": 50,
       "first_source_export_mismatch_preserved": true,
       "Native30_prepared": false,
       "recovery_prepared": true,
       "actual_prerequisites_required": 12,
-      "SOURCE_bound": false,
-      "next": "Intake only remaining selected-return restore; then bind12 exact Originals and launch full Native36",
+      "SOURCE_bound": true,
+      "next": "Intake actual Native36; then bind and run prepared used restore8, finance10, cron1, browser6 and transport28",
       "Native36_prepared": true,
       "cases": 36,
       "retained_assertion_sets": 25,
@@ -130,10 +131,8 @@
       "transport_one_HTTP_full_verifier_adaptation": true,
       "transport_actual_state_routing_preflight": "PASS",
       "frozen_scoped_full_source_gate": "PASS3302pins7Originals",
-      "ready_actual_prerequisites": 11,
-      "pending_actual_prerequisites": [
-        "selected-return used restore8 corrected named refusal"
-      ],
+      "ready_actual_prerequisites": 12,
+      "pending_actual_prerequisites": [],
       "selected_and_scoped_restore_SOURCE_true_merged": true,
       "exact_selected_restore_head_required": "625fc55e161726ab9f4ccf420384b4fdb4713fe9",
       "combined_used_restore_named_refusal_corrected": true,
@@ -141,7 +140,14 @@
       "history_metadata_control_reference_corrected_before_binding": true,
       "all_restore_global_names_resolved": true,
       "restore_metadata_signature_paths": 8,
-      "restore_negative_source_paths": 11
+      "restore_negative_source_paths": 11,
+      "source_pins": 3472,
+      "complete_local_source_admission": "PASS3472pins12Originals",
+      "exact_B_component_source_schemas": true,
+      "source_v2_sha256_explicit_19pins": true,
+      "first_local_admission_failure_preserved_head": "231befa58c87eff21c9f38a7b48c58d4b6dfd508",
+      "run_id": 40185876734,
+      "job_id": 121146419961
     },
     {
       "scope": "full scoped model used restore8",
@@ -180,8 +186,8 @@
     {
       "scope": "late exact B performance on unchanged full A versioned predecessor",
       "branch": "astra-a/d17-14-versioned-performance-prepared-20261025",
-      "head": "8d1003e60ad67ce1135a55bb55f6a4a212e4a39e",
-      "tree": "251d9a3c9cea000da4abc9519d5b90b0cc3623cd",
+      "head": "7a1b5a78ce22e4d556842eba53109e68d459b0d6",
+      "tree": "b8ee47e9e3516e948fce2cb2535233f6920d1208",
       "B_qualified_source_head": "c7f06b855512e0c8d450522c36e84f4cab570a2a",
       "exact_function_replacements": 2,
       "direct_JSON_path_substitutions": 6,
@@ -193,12 +199,15 @@
       "full_restore_code_prepared": true,
       "actual_A_runtime_qualified": false,
       "qualification_workflows_prepared": true,
-      "next": "Take actual full versioned Native36 plus restore8; bind7 actuals, full frozen A/B admission, qualify performance Native36; then full restore/finance/cron, browser/transport preparation and corrected factory finance",
+      "next": "Wait actual combined Native36 and restore8; true-merge qualified sources; bind7 actual prerequisites for performance Native36; run all six current suites before factory",
       "prepared_workflows": [
         "Native36",
         "used restore8",
         "finance10",
-        "minute cron1"
+        "minute cron1",
+        "browser6",
+        "transport28",
+        "factory1200x3 official finance1"
       ],
       "all_SOURCE_absent": true,
       "Native36_actual_prerequisites": 7,
@@ -211,7 +220,21 @@
       "used_restore_new_controls": 5,
       "finance_retained_assertions": 55,
       "cron_retained_assertions": 36,
-      "corrected_selected_refusal_true_merged": true
+      "corrected_selected_refusal_true_merged": true,
+      "browser_ESM_modules_loaded": 3,
+      "browser_cases_registered": 6,
+      "transport_Auth_cases": 9,
+      "transport_races": 19,
+      "transport_business_assertions": 51,
+      "transport_correct_full_state_routing": true,
+      "wrong_state_refused": true,
+      "all_setup_hooks_restored": true,
+      "all_workflow_Original_receipt_paths_verified": true,
+      "factory_fixture_byte_identical_to_date_corrected_failure": true,
+      "factory_retained_assertions": 63,
+      "factory_required_actual_Originals": 7,
+      "factory_six_current_PASS_suites_plus_first_INCOMPLETE": true,
+      "factory_negative_source_guards": 5
     }
   ],
   "first_failures_preserved": [
@@ -1021,5 +1044,51 @@
     "scoped_model_restore_checks": 8,
     "two_full_restores": true,
     "full22_all_rows_sequences_and_CP6_restored": true
+  },
+  "actual_selected_return_used_restore8": {
+    "name": "CP7_CURRENT_SELECTED_RETURN_USED_RESTORE8.json",
+    "status": "PASS",
+    "head": "625fc55e161726ab9f4ccf420384b4fdb4713fe9",
+    "run_id": 40180905749,
+    "job_id": 121131566954,
+    "artifact_id": 12595203825,
+    "zip_bytes": 4378278,
+    "zip_sha256": "f4fa6b78953dfad258e692467b941ad58a99bda3b791c120a93fbac080bb85f9",
+    "bytes": 3227971,
+    "sha256": "0555e4ebe6b43130adc2a3e498e1f484652a05d193b12d4adc2757cfd5789845",
+    "archive_member": "CP7_CURRENT_SELECTED_RETURN_USED_RESTORE8.json",
+    "source_pins_verified": 3257,
+    "actual_prerequisites_verified": 2,
+    "gate": {
+      "installed": true,
+      "primary_unchanged": true,
+      "backup_restore_drill": true,
+      "security_advisors": true,
+      "writer_runtime": true
+    },
+    "cp6_restored": true,
+    "advisor_gate": true,
+    "production_go": false,
+    "independent_acceptance": false,
+    "steps": 8,
+    "negative_controls": 16,
+    "restored_domain_checks": {
+      "finance_full_restore_checks": 2,
+      "model_full_restore_checks": 4,
+      "dated_target_full_restore_checks": 4
+    },
+    "full22_all_rows_all_sequences": true,
+    "two_full_used_restores": true
+  },
+  "current_native36_source_admission": {
+    "head": "b3ac88b148166f815ca58057de29dddfd82c677a",
+    "tree": "4444568c2a298b17451989277507b31dcb0dcc7b",
+    "status": "PASS",
+    "source_pins": 3472,
+    "actual_Originals": 12,
+    "receipt_bytes": 1162777,
+    "receipt_sha256": "f12ccbab3c0ef409635869c9cdfdfe3928d1f8af90c0139e292be2d831e4c818",
+    "current_database_runtime_qualified": false,
+    "production_go": false
   }
 }
