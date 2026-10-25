@@ -4,8 +4,8 @@ VENI. VIDI. VICI. ERP. — I CONQUERED ERP.
 Reliable data adalah dewa. Keuangan termasuk laporan, stok, dan HPP adalah raja.
 
 **Enam kelompok uji pada susunan target berversi terbaru sudah lulus, termasuk
-pemulihan setelah dipakai. Kandidat performa juga lulus 36 kasus; lima kelompok
-lanjutannya sudah lulus pemeriksaan sumber dan sedang diuji.
+pemulihan setelah dipakai. Kandidat performa juga lulus36kasus, layar6dan akses/transaksi bersamaan28;
+tiga kelompok lanjutannya masih diuji.
 Skala pabrik bersama keuangan resmi belum selesai. Formal tetap 5/16; belum ada
 penerimaan independen atau izin produksi.** Posisi ini dicatat 26 Oktober 2026
 pukul 00.03 WIB. Status run berikutnya ada di
@@ -60,7 +60,11 @@ sudah diikat ke Original Native36 tersebut. Masing-masing3.571pin dan seluruh
 prasyarat lulus pemeriksaan sumber lengkap: restore8/finance10/cron1/browser6/
 transport28. [Kelima job sudah berjalan](performance-five-followups-running-4608b478.json)
 mulai17.00–17.01UTC/00.00–00.01WIB pada26Oktober, agar data uji bertanggal tetap
-tidak melintasi pergantian hari. Semua hasil runtime lanjutan masih menunggu.
+tidak melintasi pergantian hari. [Browser6](versioned-performance-browser6-actual-4608b478.json) dan
+[Auth9/races19](versioned-performance-transport28-actual-4608b478.json) kini
+lulus aktual pada4608b478. Masing-masing3571pin, prasyarat3/4Original, seluruh
+kasus, sesi/Auth, pemulihan serta lima gate diperiksa; Original diarsipkan sekali.
+Restore8,finance10dancron1 masih berjalan.
 SOURCE uji pabrik tetap belum diikat. Uji1.200SKU×tiga ukuran dengan angka
 keuangan/HPP resmi menunggu enam kelompok performa aktual lulus.
 
@@ -163,6 +167,15 @@ izin keuangan mutakhir, replay lintas mode dan sumber laporan resmi. A hanya
 menulis cabang sendiri; cabang B, versi resmi, hosted dan WA nyata tidak diubah.
 [Lingkup dan batas peran A](WRITER_A_SCOPE_20261026.md) memisahkan bagian yang
 sudah teruji dari penerimaan formal yang masih terbuka.
+
+[Jembatan keuangan privat A padaf6ee391c](frozen-finance-private-prepared-f6ee391c.json)
+sudah disiapkan pada cabang terpisah. Dua fungsi privat baru memakai sumber
+laporan resmi; flagSTAGED terikat sebelum seal pertama, UUID lintas mode ditolak,
+izin diperiksa lima kali dan producer mengikat definisi A. Dua penggantian privat
+B hanya berada di delta A; berkas B lama tetap utuh. Sepuluh pernyataan SQL,
+tiga tubuhPL/pgSQL dan sepuluh kontrol negatif lokal lulus. Ini belum pengujian
+perilaku DB: SOURCE/eksekusi belum diikat, menunggu Native40 aktual. Tidak ada
+fasad publik, aktivasi default atau kelulusan keuangan pabrik dari persiapan ini.
 
 ## Lingkup A yang tetap dijaga
 

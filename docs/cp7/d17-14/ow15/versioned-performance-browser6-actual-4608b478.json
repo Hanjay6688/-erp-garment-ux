@@ -1,0 +1,33 @@
+{
+  "name": "CP7_CURRENT_VERSIONED_PERFORMANCE_BROWSER6.json",
+  "status": "PASS",
+  "head": "4608b478ac50b52eba69e938488402b296a0f46e",
+  "run_id": 40214418227,
+  "job_id": 121232350763,
+  "artifact_id": 12607968185,
+  "zip_bytes": 15964872,
+  "zip_sha256": "46de3a67abdc0e94450cd850de129dae6428a198e8ac8bbeb7b23094289568af",
+  "bytes": 2188017,
+  "sha256": "cf71681be36aef3b61b2b92c794d744b5d5faf78ea8f805eb5f44d44bcee02cd",
+  "archive_member": "CP7_CURRENT_VERSIONED_PERFORMANCE_BROWSER6.json",
+  "source_pins_verified": 3571,
+  "actual_prerequisites_verified": 3,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "production_go": false,
+  "independent_acceptance": false,
+  "counts": {
+    "policy": 2,
+    "evaluation": 2,
+    "target": 2
+  },
+  "copy_catalog_admissions": 3,
+  "race_copy_catalog_admissions": 0
+}

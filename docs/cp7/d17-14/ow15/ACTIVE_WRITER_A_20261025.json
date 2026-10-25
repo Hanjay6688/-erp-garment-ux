@@ -1,5 +1,5 @@
 {
-  "recorded_at_utc": "2026-10-25T17:32:47.144397+00:00",
+  "recorded_at_utc": "2026-10-25T17:52:08.495822+00:00",
   "role": "A finance writer/integrator replacing Claude; B remains separate production/planning writer",
   "slogan": [
     "VENI. VIDI. VICI. ERP. \u2014 I CONQUERED ERP.",
@@ -9,28 +9,6 @@
   "production_go": false,
   "independent_acceptance": false,
   "running": [
-    {
-      "suite": "transport",
-      "head": "4608b478ac50b52eba69e938488402b296a0f46e",
-      "branch": "astra-a/d17-14-versioned-performance-transport-20261025",
-      "run_id": 40214423675,
-      "job_id": 121232367315,
-      "status": "in_progress",
-      "conclusion": null,
-      "started_at_utc": "2026-10-25T17:01:04Z",
-      "source_pins": 3571
-    },
-    {
-      "suite": "browser",
-      "head": "4608b478ac50b52eba69e938488402b296a0f46e",
-      "branch": "astra-a/d17-14-versioned-performance-browser-20261025",
-      "run_id": 40214418227,
-      "job_id": 121232350763,
-      "status": "in_progress",
-      "conclusion": null,
-      "started_at_utc": "2026-10-25T17:01:01Z",
-      "source_pins": 3571
-    },
     {
       "suite": "cron",
       "head": "4608b478ac50b52eba69e938488402b296a0f46e",
@@ -337,7 +315,7 @@
       "Native36_execution_branch_current_head": "88f36937ef7c0a42cc7761142678da5411ece68f",
       "restore_target_capture_after_all_scoped_evaluations": true,
       "restore_freshness_before_backup_checked": true,
-      "status": "ACTUAL_NATIVE36_PASS_FIVE_FOLLOWUPS_RUNNING",
+      "status": "ACTUAL_NATIVE36_BROWSER6_TRANSPORT28_PASS_THREE_FOLLOWUPS_RUNNING",
       "Native36_SOURCE_bound": true,
       "Native36_source_pins": 3569,
       "Native36_actual_source_admission": {
@@ -387,7 +365,12 @@
         }
       },
       "Native36_actual_phase_rows": 16,
-      "factory_SOURCE_absent": true
+      "factory_SOURCE_absent": true,
+      "remaining_actual_followups": [
+        "restore8",
+        "finance10",
+        "cron1"
+      ]
     }
   ],
   "first_failures_preserved": [
@@ -2471,5 +2454,88 @@
     "exact_B_helper_files": 4
   },
   "no_B_branch_written": true,
-  "official_and_hosted_unchanged": true
+  "official_and_hosted_unchanged": true,
+  "actual_current_versioned_performance_browser6": {
+    "name": "CP7_CURRENT_VERSIONED_PERFORMANCE_BROWSER6.json",
+    "status": "PASS",
+    "head": "4608b478ac50b52eba69e938488402b296a0f46e",
+    "run_id": 40214418227,
+    "job_id": 121232350763,
+    "artifact_id": 12607968185,
+    "zip_bytes": 15964872,
+    "zip_sha256": "46de3a67abdc0e94450cd850de129dae6428a198e8ac8bbeb7b23094289568af",
+    "bytes": 2188017,
+    "sha256": "cf71681be36aef3b61b2b92c794d744b5d5faf78ea8f805eb5f44d44bcee02cd",
+    "archive_member": "CP7_CURRENT_VERSIONED_PERFORMANCE_BROWSER6.json",
+    "source_pins_verified": 3571,
+    "actual_prerequisites_verified": 3,
+    "package_gate": {
+      "installed": true,
+      "primary_unchanged": true,
+      "backup_restore_drill": true,
+      "security_advisors": true,
+      "writer_runtime": true
+    },
+    "cp6_restored": true,
+    "advisor_gate": true,
+    "production_go": false,
+    "independent_acceptance": false,
+    "counts": {
+      "policy": 2,
+      "evaluation": 2,
+      "target": 2
+    },
+    "copy_catalog_admissions": 3,
+    "race_copy_catalog_admissions": 0
+  },
+  "actual_current_versioned_performance_transport28": {
+    "name": "CP7_CURRENT_VERSIONED_PERFORMANCE_TRANSPORT28.json",
+    "status": "PASS",
+    "head": "4608b478ac50b52eba69e938488402b296a0f46e",
+    "run_id": 40214423675,
+    "job_id": 121232367315,
+    "artifact_id": 12607493768,
+    "zip_bytes": 2213528,
+    "zip_sha256": "3e9d9755f201d15030d13fc1b8bd17224f20ffdcc6bfcf9ec922f2d8648a30ba",
+    "bytes": 2320978,
+    "sha256": "57d540ea094b145a99a9903341dc35a0a1c8b39530160e97d2ce7a40a48086e7",
+    "archive_member": "CP7_CURRENT_VERSIONED_PERFORMANCE_TRANSPORT28.json",
+    "source_pins_verified": 3571,
+    "actual_prerequisites_verified": 4,
+    "package_gate": {
+      "installed": true,
+      "primary_unchanged": true,
+      "backup_restore_drill": true,
+      "security_advisors": true,
+      "writer_runtime": true
+    },
+    "cp6_restored": true,
+    "advisor_gate": true,
+    "production_go": false,
+    "independent_acceptance": false,
+    "counts": {
+      "policy_http": 3,
+      "policy_races": 6,
+      "evaluation_http": 3,
+      "evaluation_races": 6,
+      "target_http": 3,
+      "target_races": 7
+    },
+    "copy_catalog_admissions": 3,
+    "race_copy_catalog_admissions": 19
+  },
+  "private_frozen_finance_prepared": {
+    "parent": "8de2ae694c6eda60a6724415eb60772c4f7a20b2",
+    "base_tree": "3cab7f539f2a90727d8d42a4c9188dddf22e7aeb",
+    "local": "caf599e73d38007aedf9288878998ef937eb4a42",
+    "tree": "66ade4bdf7d1895aefeded8d9cec6311844f3740",
+    "remote": "f6ee391c106bf876309fa5944ed8372adf9fb477",
+    "branch": "astra-a/d17-14-frozen-finance-integration-prepared-20261026",
+    "source_prepared_only": true,
+    "full_runtime_qualification": false,
+    "parent_Native40_still_running": true,
+    "finance_SOURCE_absent": true,
+    "finance_execution_branch_absent": true,
+    "production_go": false
+  }
 }
