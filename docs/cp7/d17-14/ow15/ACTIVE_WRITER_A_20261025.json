@@ -1,5 +1,5 @@
 {
-  "recorded_at_utc": "2026-10-25T09:14:48.773806+00:00",
+  "recorded_at_utc": "2026-10-25T09:37:36.667303+00:00",
   "role": "A finance writer/integrator replacing Claude",
   "slogan": [
     "VENI. VIDI. VICI. ERP. \u2014 I CONQUERED ERP.",
@@ -11,13 +11,16 @@
   "running": [
     {
       "scope": "Complete selected-return used restore8",
-      "head": "e127aebf1a69ea3af7f3727287bf3f922b60c731",
+      "head": "625fc55e161726ab9f4ccf420384b4fdb4713fe9",
       "run_id": 40176745608,
       "job_id": 121118943586,
-      "status": "IN_PROGRESS",
+      "status": "RUNNING_AFTER_EXACT_NAMED_REFUSAL_CORRECTION",
       "full_local_source_admission": "PASS",
       "source_pins": 3254,
-      "actual_originals": 2
+      "actual_originals": 2,
+      "run": 40180905749,
+      "job": 121131566954,
+      "previous_failed_run": 40176745608
     },
     {
       "scope": "Complete scoped-model used restore8",
@@ -72,17 +75,20 @@
   "prepared": [
     {
       "scope": "selected-return full used restore8",
-      "head": "e127aebf1a69ea3af7f3727287bf3f922b60c731",
-      "next": "Intake actual running restore8; no runtime credit before complete Original",
+      "head": "625fc55e161726ab9f4ccf420384b4fdb4713fe9",
+      "next": "Intake corrected actual restore8; first INCOMPLETE remains archived",
       "execution_branch": "astra-a/d17-14-selected-return-restore-20261025",
       "SOURCE_bound": true,
       "native20_SOURCE_true_merged": true,
       "exact_head_binder": "scripts/current-selected-return-used-restore-qualification/bind_source.py",
-      "required_native_head": "8e878ed6c95a7249734f5d53b5d33ee1114ec599"
+      "required_native_head": "8e878ed6c95a7249734f5d53b5d33ee1114ec599",
+      "source_pins": 3257,
+      "complete_source_admission": "PASS",
+      "retained_business_refusal_AST": "PASS"
     },
     {
       "scope": "isolated future versioned-target integration",
-      "head": "6bcb3f17c72b89a23b8fed1961e228b8c0393d85",
+      "head": "ae0b7b9fbc9b9c5ffb7d8d12a2427d2d24bfc34c",
       "branch": "astra-a/d17-14-versioned-target-integration-prepared-20261025",
       "client_tests": 303,
       "client_test_files": 12,
@@ -98,7 +104,7 @@
       "changed_hook_bodies": 14,
       "unchanged_hook_bodies": 7,
       "legacy_target_objects_preserved": true,
-      "tree": "07b35f47c4d9baac720ff1bce0e9d687353fc643",
+      "tree": "531b43b46e686380187557abb10a71d2972b0bad",
       "true_merge_B_head": "36b81fcee8ee801a96793c89df6e14388263ad33",
       "browser_source_pins_current": 50,
       "first_source_export_mismatch_preserved": true,
@@ -141,7 +147,10 @@
         "selected-return used restore8",
         "scoped-model used restore8"
       ],
-      "selected_and_scoped_restore_SOURCE_true_merged": true
+      "selected_and_scoped_restore_SOURCE_true_merged": true,
+      "exact_selected_restore_head_required": "625fc55e161726ab9f4ccf420384b4fdb4713fe9",
+      "combined_used_restore_named_refusal_corrected": true,
+      "frozen_source_changes_still_exactly7": true
     },
     {
       "scope": "full scoped model used restore8",
@@ -175,6 +184,24 @@
       "first_failed_factory_Original_required": true,
       "original_latency_limits_retained": true,
       "next": "Integrate only after current full qualification and relevant capacity source change; do not rerun unchanged failed baseline"
+    },
+    {
+      "scope": "late exact B performance on unchanged full A versioned predecessor",
+      "branch": "astra-a/d17-14-versioned-performance-prepared-20261025",
+      "head": "c0f17aa46dba414bb3b691674befa8aa4ab98f55",
+      "tree": "229442d8034b93288402b0cad9e9082c64587784",
+      "B_qualified_source_head": "c7f06b855512e0c8d450522c36e84f4cab570a2a",
+      "exact_function_replacements": 2,
+      "direct_JSON_path_substitutions": 6,
+      "predecessor_source_files_unchanged": true,
+      "SQL_statements_parsed": 4,
+      "local_catalog_positive": 1,
+      "local_catalog_negatives": 6,
+      "used_inverse_and_forged_rollback_refused_before_SQL": true,
+      "full_restore_code_prepared": true,
+      "actual_A_runtime_qualified": false,
+      "qualification_workflows_prepared": false,
+      "next": "Bind actual predecessor Native36 and restore; qualify retained cases under new full verifier before factory finance"
     }
   ],
   "first_failures_preserved": [
@@ -953,5 +980,16 @@
     "prior_failure_receipt": "B-scale-profile-first-actual-b11781b3.json",
     "full_A_chain_qualified": false,
     "official_finance_included": false
+  },
+  "actual_selected_used_restore_first_failure": {
+    "receipt": "selected-restore-corrected-actual-e127aebf.json",
+    "status": "INCOMPLETE",
+    "completed_steps": 1,
+    "artifact_id": 12593961498,
+    "observed_error": "OW04_SOURCE_CUSTOMER_MISMATCH",
+    "old_harness_expected": "CP7_NATIVE_EMPTY_ACTIVE_SOURCE_REQUIRED",
+    "actual_refusal_and_zero_changes": true,
+    "full_baseline_restored": true,
+    "first_failure_preserved": true
   }
 }

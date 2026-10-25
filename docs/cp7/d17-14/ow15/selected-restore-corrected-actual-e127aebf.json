@@ -1,0 +1,29 @@
+{
+  "name": "CP7_CURRENT_SELECTED_RETURN_USED_RESTORE8.json",
+  "status": "INCOMPLETE",
+  "head": "e127aebf1a69ea3af7f3727287bf3f922b60c731",
+  "run_id": 40176745608,
+  "job_id": 121118943586,
+  "artifact_id": 12593961498,
+  "zip_bytes": 2414713,
+  "zip_sha256": "a808f8e19af880af703d98856507d2a33836680c7130e8c81bbe3ee6d8d4e5cb",
+  "bytes": 3082201,
+  "sha256": "99d5070250d48192b5a0e1fa65173bbe6a6628857bc789a2982e5fc0c10a51bb",
+  "archive_member": "CP7_CURRENT_SELECTED_RETURN_USED_RESTORE8.json",
+  "source_pins_verified": 3254,
+  "actual_prerequisites_verified": 2,
+  "gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "production_go": false,
+  "independent_acceptance": false,
+  "error": "{'identity': ('authenticated', 'authenticated', 'OWNER'), 'refused': True, 'error': {'sqlstate': 'P0001', 'message': 'OW04_SOURCE_CUSTOMER_MISMATCH\\nCONTEXT:  PL/pgSQL function cp7_credit.native_empty_enter_v1(uuid) line 28 at RAISE\\nSQL statement \"SELECT cp7_credit.native_empty_enter_v1(p_return)\"\\nPL/pgSQL function cp7_credit.native_return_enter(uuid) line 4 at PERFORM\\nSQL statement \"SELECT cp7_credit.native_return_enter(p_return_id)\"\\nPL/pgSQL function post_sales_return(uuid) line 29 at PERFORM'}, 'rows': None, 'changed': 0}",
+  "completed_steps": 1,
+  "first_failure_retained": true
+}
