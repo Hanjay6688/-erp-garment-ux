@@ -1,0 +1,18 @@
+{
+  "status": "OPEN_BLOCKER",
+  "owner_scope": "B OW11/OW13 baseline source; A official finance integration remains blocked",
+  "A_actual_head": "daab807531816353e499d7842897320ce42e8949",
+  "A_artifact": 12591645505,
+  "B_actual_head": "ed82e7e9dc0609867f1b455863bc2ea2c048c187",
+  "B_artifact": 12590645783,
+  "observed": "Both actual 3600-variant requests time out in legacy baseline/demand source before new target or finance completion",
+  "source": "scripts/cp7_model_target_consumer_v2/consumer.sql",
+  "source_observation": "Versioned rows still calls cp7_product_analog_consumer.baseline_rows before model resolution",
+  "boundaries": {
+    "ordinary_timeout_ms": 8000,
+    "all_targets_required": true,
+    "full_output_and_UNKNOWN_semantics_required": true,
+    "model_version_change_alone_not_a_capacity_fix": true,
+    "production_go": false
+  }
+}

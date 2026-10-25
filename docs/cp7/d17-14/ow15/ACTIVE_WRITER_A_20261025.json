@@ -1,5 +1,5 @@
 {
-  "recorded_at_utc": "2026-10-25T07:35:00Z",
+  "recorded_at_utc": "2026-10-25T07:51:52.188456+00:00",
   "role": "A finance writer/integrator replacing Claude",
   "slogan": [
     "VENI. VIDI. VICI. ERP. \u2014 I CONQUERED ERP.",
@@ -14,7 +14,7 @@
       "head": "8e878ed6c95a7249734f5d53b5d33ee1114ec599",
       "run_id": 40172876323,
       "job_id": 121107262691,
-      "status": "IN_PROGRESS",
+      "status": "IN_PROGRESS_RUNTIME",
       "full_local_source_admission": "PASS",
       "source_pins": 3240,
       "actual_originals": 3
@@ -22,21 +22,12 @@
     {
       "scope": "complete finance history scoped model Native30",
       "head": "ffa0b63dbb6f0b7888eeaec59d0f39347cd58e0e",
-      "run_id": null,
-      "job_id": null,
-      "status": "PUBLISHED_WAIT_SERVER_RUN",
+      "run_id": 40173245974,
+      "job_id": 121108384680,
+      "status": "IN_PROGRESS_RUNTIME",
       "full_local_source_admission": "PASS",
       "source_pins": 3302,
       "actual_originals": 7
-    },
-    {
-      "scope": "factory1200x3 official finance actual minute after Native date correction",
-      "head": "daab807531816353e499d7842897320ce42e8949",
-      "run_id": 40170449276,
-      "job_id": 121100033764,
-      "status": "IN_PROGRESS_RUNTIME",
-      "full_local_source_admission": "PASS",
-      "source_pins": 3223
     }
   ],
   "actual_new_component": {
@@ -91,7 +82,7 @@
     },
     {
       "scope": "isolated future versioned-target integration",
-      "head": "f54ee4b388e66c85ae9b36709a6fbc87e79a4c23",
+      "head": "681431899539491830272d8e3e8138d2fb8e439f",
       "branch": "astra-a/d17-14-versioned-target-integration-prepared-20261025",
       "client_tests": 303,
       "client_test_files": 12,
@@ -100,26 +91,34 @@
       "predecessor_backend_source_ownership": "PASS",
       "full_A_composer_installs_versioned_target": "IMPLEMENTED_NOT_NATIVE_QUALIFIED",
       "full_A_Native_qualification": false,
-      "local_positive_stages": 3,
-      "local_negative_guards": 10,
+      "local_positive_stages": 4,
+      "local_negative_guards": 12,
       "new_private_functions": 13,
       "new_schemas": 4,
       "changed_hook_bodies": 14,
       "unchanged_hook_bodies": 7,
       "legacy_target_objects_preserved": true,
-      "tree": "7d6579dc396f62c66942da9f9d0b4eaf2dd8349b",
+      "tree": "70152f75ffd00c3012a7348a1868542eda22e873",
       "true_merge_B_head": "36b81fcee8ee801a96793c89df6e14388263ad33",
       "browser_source_pins_current": 50,
       "first_source_export_mismatch_preserved": true,
-      "Native30_prepared": true,
+      "Native30_prepared": false,
       "recovery_prepared": true,
-      "actual_prerequisites_required": 9,
+      "actual_prerequisites_required": 12,
       "SOURCE_bound": false,
-      "next": "Merge corrected scoped Native30 gate; adapt history replay to actual complete versioned guard; wait actual scoped Native30/restore8"
+      "next": "Wait both corrected Native regressions and both full used restores, bind 12 exact Originals, full admission, launch Native36",
+      "Native36_prepared": true,
+      "cases": 36,
+      "retained_assertion_sets": 25,
+      "versioned_target_cases": 5,
+      "selected_contract_cases": 6,
+      "negative_business_source_guards": 4,
+      "selected_customer_refusal_body_replacements": 1,
+      "selected_return_source_true_merged": true
     },
     {
       "scope": "full scoped model used restore8",
-      "head": "5f51fdf9cf3b9e693bd6a38963de163352b1900a",
+      "head": "28187b1efc729c38192b749360a3d9b6f741eab2",
       "execution_branch": "astra-a/d17-14-scoped-model-restore-20261025",
       "SOURCE_bound": false,
       "retained_steps": 8,
@@ -130,7 +129,8 @@
       "post_restore_scoped_model_checks": 8,
       "bash_steps_checked": 38,
       "exact_head_binder": "scripts/current-scoped-model-used-restore-qualification/bind_source.py",
-      "next": "Merge corrected scoped Native30 gate and update binder to ffa0b63d; wait actual PASS"
+      "next": "Wait actual corrected scoped Native30 PASS, bind existing exact-head restore preparation",
+      "required_native_head": "ffa0b63dbb6f0b7888eeaec59d0f39347cd58e0e"
     }
   ],
   "first_failures_preserved": [
@@ -141,7 +141,8 @@
     "factory-corrected-actual-b7a69c2c.json",
     "B-scale-v2-first-actual-ed82e7e9.json",
     "selected-native20-first-actual-5cba3b3b.json",
-    "scoped-native30-first-actual-862bedba.json"
+    "scoped-native30-first-actual-862bedba.json",
+    "factory-date-corrected-actual-daab8075.json"
   ],
   "next_rules": [
     "Preserve and verify exact Original bytes, source pins, every case and full restoration before credit",
@@ -279,13 +280,17 @@
     "default_oracle_changed": false
   },
   "factory_correction": {
-    "status": "IN_PROGRESS_RUNTIME",
+    "status": "ACTUAL_INCOMPLETE_SOURCE_TIMEOUT",
     "change": "Create current commercial membership after posted historical sale facts; verify exact nine history/stock/journal/HPP tables",
     "physical_scope_unchanged": "1200x3",
     "old_business_oracles_changed": false,
     "head": "daab807531816353e499d7842897320ce42e8949",
     "source_pins": 3223,
-    "execution_branch": "astra-a/d17-14-factory-finance-20261025"
+    "execution_branch": "astra-a/d17-14-factory-finance-20261025",
+    "fixture_status": "PASS",
+    "actual_cron_claim": false,
+    "ordinary_timeout_relaxed": false,
+    "next": "Resolve legacy baseline source cost before rerunning scale; target-v2 still calls same baseline function"
   },
   "B_versioned_followups": {
     "B-browser-v2": {
@@ -368,5 +373,44 @@
     "bytes": 8909549,
     "sha256": "a3285c8465a97a80909b5e21a05a63b30a9fdc2551e94b86fec6076daa570192",
     "archive_member": "CP7_CURRENT_SCOPED_MODEL_NATIVE30.json"
+  },
+  "actual_factory_date_corrected_failure": {
+    "name": "CP7_CURRENT_FACTORY_FINANCE1.json",
+    "status": "INCOMPLETE",
+    "head": "daab807531816353e499d7842897320ce42e8949",
+    "run_id": 40170449276,
+    "job_id": 121100033764,
+    "artifact_id": 12591645505,
+    "zip_bytes": 2175958,
+    "zip_sha256": "9f093ea75b0d2aedc3370eda96f6689f31d226061427380dfbf63bbf0f801bf7",
+    "bytes": 2310592,
+    "sha256": "bc4424558d43db085b1a717953011ce932fc35f8689fa07a50126d9e2a962d14",
+    "archive_member": "CP7_CURRENT_FACTORY_FINANCE1.json",
+    "source_pins_verified": 3223,
+    "fixture_status": "PASS",
+    "commercial_skus": 1200,
+    "variants": 3600,
+    "total_targets": 3604,
+    "physical_pcs_per_variant": "45",
+    "all_nine_posted_tables_exact_after_current_membership": true,
+    "first_failure_phase": "First ordinary bounded finance request before minute cron",
+    "first_failure": "8-second statement timeout in legacy baseline/demand source preparation",
+    "actual_cron_claim": false,
+    "manual_steps": 0,
+    "ordinary_timeout_relaxed": false,
+    "official_finance_runtime_qualified": false,
+    "factory_SLA": false,
+    "full22_all_rows_all_sequences_restored": true,
+    "gate": {
+      "installed": true,
+      "primary_unchanged": true,
+      "backup_restore_drill": true,
+      "security_advisors": true,
+      "writer_runtime": false
+    },
+    "cp6_restored": true,
+    "advisor_gate": true,
+    "production_go": false,
+    "independent_acceptance": false
   }
 }
