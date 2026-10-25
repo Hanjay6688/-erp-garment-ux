@@ -1,5 +1,5 @@
 {
-  "recorded_at_utc": "2026-10-25T08:34:09.128748+00:00",
+  "recorded_at_utc": "2026-10-25T08:49:53.030248+00:00",
   "role": "A finance writer/integrator replacing Claude",
   "slogan": [
     "VENI. VIDI. VICI. ERP. \u2014 I CONQUERED ERP.",
@@ -904,5 +904,32 @@
       "production_go": false,
       "independent_acceptance": false
     }
+  },
+  "B_retained_default_component_originals": {
+    "receipt": "B-retained-defaults-actual-40b72fbe.json",
+    "head": "40b72fbe0d7593f63e6abf383a5adb25ba98e0db",
+    "components": 4,
+    "cases": 154,
+    "exact_original_JSON_files": 21,
+    "own_source_prefix_checks": "PASS with database connection forbidden",
+    "new_versioned_case_credit": 0,
+    "full_A_chain_qualified": false
+  },
+  "B_scale_diagnostic_followup": {
+    "first_head": "b11781b3be3ea5e2cef0d67c1d00619489ec8c78",
+    "run_id": 40176182382,
+    "artifact_id": 12592402397,
+    "status": "INCOMPLETE",
+    "counts": {
+      "PASS": 1,
+      "INCOMPLETE": 1
+    },
+    "receipt": "B-scale-profile-first-actual-b11781b3.json",
+    "failure": "Diagnostic used Native-run table instead of staged archive; no row produced NoneType error",
+    "current_B_head": "c7f06b855512e0c8d450522c36e84f4cab570a2a",
+    "current_B_run": 40177861698,
+    "current_status": "RUNNING_UNQUALIFIED",
+    "merged_into_A": false,
+    "factory_capacity_or_SLA": false
   }
 }
