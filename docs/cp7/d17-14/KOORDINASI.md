@@ -2705,3 +2705,52 @@ altered-budget/mixed-route refusal, YAML/shell/declaration and JS syntax PASS.
 These are candidates until complete runtime Originals are read; existing
 consumer Native6 still pending. Formal5/16, CP7C/independent false,
 production_go=false. Continue on real failures and preserve first evidence.
+
+## 145. B25 Oktober2026 WIB — operational3600 parity candidate and A intake read
+
+Local actual immutable SQL on explicit SYNTHETIC3600:2PASS. All3600 manual target
+kernels/observed operands equal predecessor (target6000/ROP4000 under explicit
+local test assumptions);100 selected rows exactly match the same global context.
+Baseline2424.194ms/new2892.077ms/subset387.799ms are local measurements, not a
+speedup, Native timing or factory SLA. First local failure retained: the isolated
+fixture omitted cp7_alert; only fixture role setup corrected, no product grant.
+
+New closed Native2 candidate repeats the exact22 catalog anchor and compares a
+complete operational predecessor with current overlay on the same SYNTHETIC3600/
+363600 facts. Two explicit public test profiles and two actual scoped model
+archives; every target kernel/profile/observed operand and recommendation's
+quantity state/value/unit/reason compared. Distinct capture snapshot/clock/engine
+references stay explicit, all real pages verified. Current full source check and
+actual posted stock change tested; old result must remain immutable. Raw source
+INCOMPLETE retained, no positive model fabricated. Own source pins/admission,
+negative mixed routes and actual workflow declaration PASS; Native pending.
+Copied Native6 declaration assertions were caught locally and corrected only in
+new Native2 workflow; first preflight evidence retained. Old6/4/31/25/19 unchanged.
+
+Read A isolated preparation78a2ce03157debaa57a22fa77cf66629066450b2: it has
+intaken Bdbc0d3ff and explicitly repaired the four scoped RPC access inventory
+entries after retaining326!=322. Frozen F05 stays separate there; full composer
+has not installed this versioned target composition. B does not duplicate or
+edit A registry/default/fullchain/after-use work. Source-v2 corrected Original4
+PASS and receipt are available on B40b72fbe; consumer6 and transport/browser at
+40b72fbe are being checked separately. Formal5/16, independent false, prod false.
+
+## 146. B25 Oktober2026 WIB — versioned target Native6 complete Original PASS
+
+dbc0d3ff/run40167211154/job121090610067: complete JSON12589057824,206245 bytes,
+SHA010f5de305269424fd2c156766fb11a1d35cc9a6670c694085886c04fb0a8337.
+All five Original JSON files read; all33 exact-head/current source pins match.
+Six Native PASS: exact22 composed/partial inverse; actual v4 baseline and raw
+operational exact UUID/immutable replay plus queued/raw after-use refusal;
+latest own GLOBAL_V2/SCOPED_V3 with explicit read/history namespace and policy
+clock; actual posted SALE/profile retirement/current access/foreign actor;
+FG-only refresh/cache preserving baseline100/point30 with no model/policy leak;
+bounded/staged/direct reviewed-analog target and observed-operand parity.
+
+All case boundaries/public schema/session leaks/WIB-day controls, CP6/advisor,
+all five package gates, primary unchanged and Auth0->0 verified. No invented
+positive historical model or automatic activation; Native target integration
+now qualified at this source, with HTTP/concurrency/browser still separate.
+40b72fbe transport parts A/B and Browser2 actual runtime Originals pending.
+New scale Native2 remains candidate. Full A composer/after-use/defaults stay A;
+formal5/16, CP7C/independent false, production_go=false.

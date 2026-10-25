@@ -1,0 +1,37 @@
+{
+  "contract": "cp7.model-target-v2-volume-synthetic-local.v1",
+  "status": "PASS",
+  "products": 3600,
+  "actual_Native": false,
+  "actual_Auth_HTTP_credit": false,
+  "factory_SLA_claim": false,
+  "full_factory3600_qualified": false,
+  "production_go": false,
+  "cases": {
+    "ALL3600_KERNELS_AND_OBSERVED_OPERANDS": {
+      "status": "PASS",
+      "baseline_millis": 2424.194,
+      "current_millis": 2892.077,
+      "manual_target6000_ROP4000": true,
+      "UNKNOWN_model_retains_manual_target": true
+    },
+    "SUBSET100_USES_SAME_GLOBAL_CONTEXT": {
+      "status": "PASS",
+      "rows": 100,
+      "millis": 387.799,
+      "global_source_products": 3600
+    }
+  },
+  "source_sha256": {
+    "scripts/cp7-src/demand/estimate.sql": "c17c125d5139f06ce5a3ea9fd4ff15d32f5fc8952a73270a526913f18a5ff2f2",
+    "scripts/cp7_production_stage/sql/cp7_baseline__target.sql": "4b6ce8053dca12162188c62b6f6eb7b595ba5b6acfb431485026e150a064f71a",
+    "scripts/cp7_product_analog_consumer/kernel.sql": "26885f7d83c4ad4301f3e81727c6bc3555903e65598941f726bd24e395fa2992",
+    "scripts/cp7_product_analog_consumer/baseline.sql": "eeb927430f4ed36bab11e62a27fc34e1cbe9e8d938d083f5364865611b6b9a6b",
+    "scripts/cp7_product_analog_provenance_stage/provenance.sql": "a849cef63c8d292d7a8f44ea38424af59e43371e702fa9a3ede6cc818e20ce1e",
+    "scripts/cp7_model_target_projection/projection.sql": "1e96c6389c3537dcaf59bcf79383754f0b5716ad3c1d9010c77fb0918535e6b7",
+    "scripts/cp7_model_target_consumer_v2/consumer.sql": "48526a5ab9fa7468475b6ba76955b61b2868fa1590e6296d65ee5da390fc6dde"
+  },
+  "counts": {
+    "PASS": 2
+  }
+}

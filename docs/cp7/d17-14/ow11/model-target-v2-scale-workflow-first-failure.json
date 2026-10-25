@@ -1,0 +1,15 @@
+{
+  "contract": "cp7.preflight-first-failure.v1",
+  "status": "INCOMPLETE",
+  "stage": "LOCAL_WORKFLOW_DECLARATION_BEFORE_CI",
+  "expected_native_cases": 2,
+  "copied_predecessor_expected_cases": 6,
+  "observed": "AssertionError in embedded declaration",
+  "fix": "Set only the new workflow declaration to Native2; old Native6 contract remains unchanged",
+  "actual_Native": false,
+  "production_go": false,
+  "copied_predecessor_checks": [
+    "expected case count Native6",
+    "unique native ID count Native6"
+  ]
+}

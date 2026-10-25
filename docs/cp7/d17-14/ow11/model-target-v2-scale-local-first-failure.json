@@ -1,0 +1,13 @@
+{
+  "contract": "cp7.model-target-v2-volume-synthetic-local.v1",
+  "status": "INCOMPLETE",
+  "products": 3600,
+  "actual_Native": false,
+  "actual_Auth_HTTP_credit": false,
+  "factory_SLA_claim": false,
+  "full_factory3600_qualified": false,
+  "production_go": false,
+  "cases": {},
+  "error": "error: role \"cp7_alert\" does not exist",
+  "stack": "error: role \"cp7_alert\" does not exist\n    at pe.Oe (file:///workspace/scratch/282188edcd04/local-sql/node_modules/@electric-sql/pglite/dist/chunk-3OMHRXTA.js:1:18162)\n    at pe.tt (file:///workspace/scratch/282188edcd04/local-sql/node_modules/@electric-sql/pglite/dist/chunk-3OMHRXTA.js:1:15548)\n    at pe.parse (file:///workspace/scratch/282188edcd04/local-sql/node_modules/@electric-sql/pglite/dist/chunk-3OMHRXTA.js:1:14222)\n    at D.Ne (file:///workspace/scratch/282188edcd04/local-sql/node_modules/@electric-sql/pglite/dist/index.js:5:1763)\n    at file:///workspace/scratch/282188edcd04/local-sql/node_modules/@electric-sql/pglite/dist/index.js:5:1155\n    at wasm://wasm/0269dffe:wasm-function[10979]:0x5ad04f\n    at wasm://wasm/0269dffe:wasm-function[3598]:0x281dd2\n    at wasm://wasm/0269dffe:wasm-function[3640]:0x289ccf\n    at wasm://wasm/0269dffe:wasm-function[3650]:0x289f2b\n    at wasm://wasm/0269dffe:wasm-function[9956]:0x55697c"
+}
