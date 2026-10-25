@@ -1,0 +1,20 @@
+{
+  "status": "INCOMPLETE_BEFORE_PACKAGE_INSTALL",
+  "head": "8bffb0352083996351bed6b0191ae009539784f1",
+  "run_id": 40165673478,
+  "job_id": 121086101754,
+  "artifact_id": 12588636807,
+  "zip_bytes": 1605733,
+  "zip_sha256": "7b5901db100ef05d126e9e469e4f55c285106eee19f93d4b5e4004ed0b7668b0",
+  "writer_original_exists": false,
+  "package_report_exists": false,
+  "business_cases": 0,
+  "aligned_database_created": true,
+  "disposable_cleanup_completed": true,
+  "error": "Unscoped git status cleanliness assertion rejected generated output before package installation",
+  "evidence": "admission.py:16 asserted empty whole-worktree porcelain after workflow created cp6-proof/t3 alignment and clone outputs. Exact porcelain output was not printed in the failed job.",
+  "fix": "Preserve all tracked-source checks and exact source pins; allow only the ten explicitly named generated proof files. Reject any other untracked path.",
+  "log_bytes": 577824,
+  "log_sha256": "ab266cd38cbe5c76bf7ad86fc1f648f2ad546129c740683674849196d4caaa20",
+  "production_go": false
+}

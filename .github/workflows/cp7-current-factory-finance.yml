@@ -5,7 +5,7 @@ name: CP7 current factory1200x3 official finance actual minute
     - astra-a/d17-14-factory-finance-20261025
     paths:
     - .github/workflows/cp7-current-factory-finance.yml
-    - scripts/current-factory-finance-qualification/**
+    - scripts/current-factory-finance-runtime-qualification/**
   workflow_dispatch: {}
 permissions:
   contents: read
@@ -261,14 +261,14 @@ jobs:
       env:
         GH_TOKEN: ${{ github.token }}
       working-directory: auditor
-      run: python scripts/current-factory-finance-qualification/fetch_originals.py
+      run: python scripts/current-factory-finance-runtime-qualification/fetch_originals.py
     - name: Admit exact A and all declared B extension sources before DB
       working-directory: auditor
       run: 'PYTHONPATH=scripts python - <<''PY''
 
         import importlib.util
 
-        spec=importlib.util.spec_from_file_location(''production_chain_probe'',''scripts/current-factory-finance-qualification/probe.py'')
+        spec=importlib.util.spec_from_file_location(''production_chain_probe'',''scripts/current-factory-finance-runtime-qualification/probe.py'')
 
         p=importlib.util.module_from_spec(spec);spec.loader.exec_module(p);p.admitted();print(''AB_FINANCE_BRIDGE_SOURCE_ADMITTED'')
 
@@ -340,7 +340,7 @@ jobs:
         \ '../auditor/cp6-proof/t3/CLONE_install'\n"
     - name: Execute actual minute cron with exact bounded official finance and complete baseline restoration
       working-directory: writer
-      run: python '../auditor/scripts/current-factory-finance-qualification/probe.py'
+      run: python '../auditor/scripts/current-factory-finance-runtime-qualification/probe.py'
     - name: Preserve exact original JSON report bytes in a bounded compressed log receipt
       if: always()
       working-directory: auditor

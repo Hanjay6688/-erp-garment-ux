@@ -1,0 +1,16 @@
+{
+  "status": "PREPARED_NOT_RUNTIME",
+  "actual_module_graph_loaded": true,
+  "current_product_binding_exact": true,
+  "unchanged_scheduler_and_cleanup_functions": true,
+  "original_300s_completion_window": true,
+  "original_120min_workflow_budget": true,
+  "all24_official_metrics_and_independent_signature_retained": true,
+  "source_absent": true,
+  "case_ids": [
+    "CURRENT_FACTORY_1200X3_ACTUAL_MINUTE_OFFICIAL_FINANCE"
+  ],
+  "bash_steps_checked": 36,
+  "current_native20_and_cron1_originals_required": true,
+  "production_go": false
+}
