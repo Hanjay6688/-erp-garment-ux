@@ -1,0 +1,27 @@
+{
+  "contract": "cp7.current-frozen-public-official-finance.v1",
+  "qualified_B_candidate": {
+    "head": "c1dd6b5cd231701be3be35bb7dd45c3856ace8fa",
+    "path": "scripts/cp7_frozen_analysis_facade_v2/facade.sql",
+    "sha256": "cbfb6ee4cbe165221c3bcab18750547f0b4952224e5ed7e5e0f2cbcd42ebd7c4"
+  },
+  "new_public_rpcs": 2,
+  "new_tables": 0,
+  "new_schemas": 0,
+  "existing_replacements": 0,
+  "signatures": [
+    "public.erp_cp7_request_bounded_frozen_finance_analysis_v2(jsonb,uuid)",
+    "public.erp_cp7_request_bounded_staged_analysis_v2(jsonb,uuid)"
+  ],
+  "owner": "cp7_capture",
+  "security_definer": true,
+  "authenticated_execute_only": true,
+  "official_finance_owner": "cp7_current_frozen_finance.request_finance",
+  "operational_owner": "cp7_frozen_analysis_units_v2.request",
+  "financial_math_added": false,
+  "private_Native45_PASS_required_before_qualification": true,
+  "B_facade_actual_PASS_required_before_qualification": true,
+  "default_adopted": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

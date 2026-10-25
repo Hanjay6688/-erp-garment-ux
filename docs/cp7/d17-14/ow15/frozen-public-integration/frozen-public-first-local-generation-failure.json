@@ -1,0 +1,7 @@
+{
+  "status": "LOCAL_GENERATOR_SETUP_FAILURE",
+  "cause": "Legacy CP6 import reads docs/evidence/cp6-ao-predecessor-input.json relative to process cwd; first generator used scratch rather than writer",
+  "corrective_action": "Run from existing writer cwd and initialize real qualified probe graph before importing the standalone stage",
+  "product_or_Oracle_changed": false,
+  "database_executed": false
+}
