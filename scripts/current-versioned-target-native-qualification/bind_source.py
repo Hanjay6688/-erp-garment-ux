@@ -65,6 +65,7 @@ def bind(args):
     files=set(parent['files'])|{parent_path,'.github/workflows/cp7-current-versioned-target-native.yml','scripts/cp7_current_versioned_target_installation.py','scripts/cp7_current_versioned_target_delta.py','scripts/cp7_current_versioned_target_recovery.py'}
     files.update(subprocess.check_output(['git','-C',str(REPO),'ls-files','scripts','src'],text=True).splitlines())
     files.update(str(p.relative_to(REPO))for p in HERE.iterdir()if p.is_file())
+    files.discard(str((HERE/'SOURCE.json').relative_to(REPO)))
     manifest=dict(contract=admission.CONTRACT,files={p:sha256((REPO/p).read_bytes()).hexdigest()for p in sorted(files)},case_ids=list(cases.IDS),
         frozen_declaration=dict(path=parent_path,head=frozen_admission.FROZEN_HEAD,sha256=sha256((REPO/parent_path).read_bytes()).hexdigest()),
         explicit_current_source_changes=changes,actual_qualification_originals=proofs,production_go=False,independent_acceptance=False)
