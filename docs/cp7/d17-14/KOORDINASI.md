@@ -3557,3 +3557,22 @@ read/choice cases remain. New source is separate preparation, not business51
 acceptance. Last-active-owner protection preserved in revocation fixtures.
 Formal5/16; CP7C, independent and production_go=false. Continue full Originals,
 retain first outcome and fix causes; do not stop after checkpoint.
+
+
+## 182. B25 Oktober2026 WIB — separate real-browser recovery primitive proof
+
+A separate Browser3 uses the actual prepared v2 client in two Chromium tabs,
+real browser Web Locks/localStorage and controlled RPC replies. It observes
+actual held/pending locks before releasing a barrier, then checks competing
+initial creates, send-versus-replace/queued reread, and reply-loss/reload with
+exact method/UUID/query/retained bytes. No mock lock manager. This is not the
+production UI or a Native/Auth/idempotency qualification; those retain their
+separate obligations. Only three cases are declared; no acceptance aggregate.
+
+Local Vite source-serving and shell syntax PASS; local Chromium unavailable,
+so local status is SOURCE_SERVING_ONLY and actual_browser_locks_qualified=false.
+Own standalone workflow installs Chromium and retains one complete Original
+JSON with exact client/script source hashes; it never starts a database or
+calls ERP/hosted services. Existing client/F05/declarations unchanged, so the
+9855395d Transport8/readerNative4/regression candidates keep their exact sources.
+No production/default adoption, formal5/16 and CP7C/independent/go remain false.

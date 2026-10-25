@@ -1,0 +1,24 @@
+{
+  "contract": "cp7.frozen-recovery-real-browser3.v2",
+  "head": "9855395d28c4767490b7e7e24b7cf311a0b88072",
+  "required_case_ids": [
+    "FROZEN_REAL_TABS_SINGLE_DURABLE_CREATION",
+    "FROZEN_REAL_TABS_SEND_BLOCKS_REPLACEMENT_AND_QUEUED_SEND_REREADS",
+    "FROZEN_REAL_TABS_REPLY_LOSS_RELOAD_EXACT_RETRY"
+  ],
+  "cases": [],
+  "source_sha256": {
+    "scripts/cp7_frozen_analysis_facade_v2/client/nativeFrozenAnalysis.ts": "e8cc561ec6a90a5dc4837b67659ca259c591bb24c742f00262aa15b9832f62ce",
+    "scripts/cp7_ow12b_frozen_recovery_browser.mjs": "1c417924fccc29c398a57cb6dad04806b07758e0885524fb94e476510e4f8898"
+  },
+  "status": "SOURCE_SERVING_ONLY",
+  "controlled_RPC_replies": true,
+  "actual_browser_locks_qualified": false,
+  "actual_Native": false,
+  "actual_Auth_HTTP_credit": false,
+  "production_UI_qualified": false,
+  "production_go": false,
+  "source_serving_verified": true,
+  "workflow_shell_syntax": "PASS",
+  "local_Chromium_executable_present": false
+}
