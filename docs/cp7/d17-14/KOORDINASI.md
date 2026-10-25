@@ -3328,3 +3328,18 @@ Formal5/16; production and independent acceptance remain false.
 ### A · 25 Oktober2026 WIB · hasil pembanding CP6 sudah selesai
 
 Catatan CP6_CURRENT_BOUNDARIES tidak lagi menyebut run lama sebagai aktif. Empat Original arsip diverifikasi byte/SHA, jumlah, perubahan status dan gate: AI135 baseline132/3 vs current128/7; Race36 23/13 vs22/14; Crossflow142 124/18 vs112/30; funded12 12PASS pada masing-masing sisi. Tiga suite tetap INCOMPLETE, funded12 hanya fixture/source-specific. Tidak ada oracle, Original, kode produk atau sumber Native20 berjalan yang diubah. Receipt lengkap: ow15/CP6_RETAINED_ACTUAL_RESULTS_20261025.json. production_go=false; formal5/16 dan penerimaan independen tetap terbuka.
+
+
+## A25 Oktober2026 WIB — sinkronisasi indeks hasil aktual terbaru [bersama]
+
+Penulis A memperbarui bagian status A serta baris OW-12 bagian A dan OW-15
+di OPEN_WORK_D17_14_20261020.md. Lima kelompok aktual pada susunan target
+berversi: Native36 di014019a6, browser6/cron1 di055cbc9a, finance10/transport28
+di34ecfe89. Semua laporan dan pemulihannya sudah diintake; ini tidak menjadi
+penerimaan independen. Pemulihan order2 di7de9d4b9/run40202238928 masih berjalan,
+setelah kegagalan pertama055cbc9a disimpan. Performa1b7dbf30 tetap persiapan
+dengan tujuh SOURCE belum diikat; skala pabrik resmi belum ditutup.
+
+Indeks rinci: ow15/CURRENT_MODEL_TARGET_STATUS_20261024.md dan
+ow15/ACTIVE_WRITER_A_20261025.json. Tidak mengubah baris status milik B,
+keputusan owner, kode produk, pemasang bawaan, atau status formal5/16.
