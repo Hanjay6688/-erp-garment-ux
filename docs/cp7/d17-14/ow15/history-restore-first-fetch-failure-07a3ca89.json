@@ -1,0 +1,16 @@
+{
+  "status": "INCOMPLETE_BEFORE_DATABASE",
+  "run_id": 40165680153,
+  "job_id": 121086122259,
+  "head": "07a3ca89158d8b8181660e7333cfb3886d95840b",
+  "writer_original_exists": false,
+  "case_count": 0,
+  "database_started": false,
+  "error": "FileNotFoundError: scripts/current-model-target-used-restore-qualification/SOURCE.json",
+  "fix": "Remove obsolete target-restore fetch: this history candidate already fetches Native25 lineage and its own Native25/current-target-restore Originals.",
+  "log_bytes": 528978,
+  "log_sha256": "a9cf8bbb16ac4c8eae7c5b41174af507595800b11390dfb9d6d16833a042d567",
+  "all_remaining_fetchers_have_source_declarations": true,
+  "production_go": false,
+  "independent_acceptance": false
+}
