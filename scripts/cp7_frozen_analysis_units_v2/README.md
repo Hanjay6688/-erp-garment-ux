@@ -20,7 +20,9 @@ and survives existing K3 cleanup. The private installer admits only its one
 schema, eight new functions and eight exact replacements, keeps authority,
 requires no running jobs, and refuses a pre-use inverse after usage. Its
 dependency-view inverse remains savepoint-atomic. This installer has not yet
-been qualified on Native; the prepared Native4 provider is not wired to F05.
+been qualified on Native. Its own closed F05 Native4 route defaults off and
+requires the twelve actual parents;87 missing/mixed routes refuse.79 exact
+source pins and a separate disposable workflow bind this private candidate.
 
 Eleven local groups PASS on PGlite18.6 with the actual Native work-table DDL,
 immutable triggers, K3 purge and step/status functions but controlled prepare
@@ -32,7 +34,7 @@ The initial fixture and wider coverage control both passed. A static signature
 checker initially forgot that zero-argument SQL functions have no parameter
 list; the checker was corrected, with all24 real signatures then compared.
 
-No public facade, client contract, F05 route or default installer adopts this
-adapter. Full request-to-pages Native qualification, current access/races,
+No public facade, client contract or default installer adopts this adapter.
+Full request-to-pages Native qualification, current access/races,
 public Auth/client adoption and after-use recovery remain required. Never
 install a prepared replacement alone or infer readiness from generated SQL.

@@ -418,3 +418,20 @@ Native correctness/speed, public client/Auth/races and after-use recovery remain
 required. Keep this preparation separate from qualified business source51.
 A7de9d4b9 intake is read-only; its restored capture-order correction has no new
 Original acceptance from B. Formal5/16, CP7C/independent/production_go=false.
+
+### 25 Oktober2026 WIB — frozen first Original retained; private-unit Native4 wired
+
+Capsule dd22/run40202855125/Original12602988498 is3PASS/1INCOMPLETE: observer
+unpacked2 values from actual3-value refusal helper. Exact one-target fix plus
+shared-return AST preflight, no product SQL/assertion change. Catalog/inverse,
+full1200x3 frozen whole-compiler parity and actual-post immutability PASS;
+3368.637ms capture/4970.474ms prepare are separate private calls, no complete
+request/factory-SLA claim. All5JSON/pins/restoration verified and error retained.
+
+Own frozen-units Native4 now closed/default-off in F05,79pins/87negative route
+controls, eight private helpers/eight exact replacements.45min disposable PG17
+candidate checks full private request→actual units→all pages, old-v1 replay,
+1200x3 geometry, source staleness, immutable archive and K3. No public/default
+adoption and no first Original yet. Keep unit preparation/qualification separate
+from capsule component and A finance/after-use/integration. Formal5/16 and
+CP7C/independent/production_go remain false. Continue actual complete Originals.

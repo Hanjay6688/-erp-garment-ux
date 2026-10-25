@@ -120,7 +120,7 @@ def cases(cur,today):
    elif change=='reference':changed['bounded_reference_contract']='cp7.bounded-analysis-reference.v1'
    elif change=='coverage':changed['bounded_input_coverage']='COMPLETE'
    else:changed['bounded_history_inputs']=actual
-   state,message=native.plan.refusal(cur,lambda:prepare(cur,changed,q))
+   state,message,_detail=native.plan.refusal(cur,lambda:prepare(cur,changed,q))
    assert state in('P0001','22023')and message.startswith(('CP7_FROZEN_','CP7_BOUNDED_')),(change,state,message)
   assert c==immutable and prepare(cur,c,q)==actual
   first=call(cur,'cp7_frozen_analysis_v2.work_fingerprint',(json.dumps(c),))

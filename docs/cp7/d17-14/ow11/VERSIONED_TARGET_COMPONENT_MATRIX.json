@@ -855,15 +855,27 @@
   "frozen_capsule_candidate": {
     "head": "dd22f085a6da43f186e5f92e6f5989a0bd595b21",
     "run_id": 40202855125,
-    "status": "ORIGINAL_PENDING",
+    "status": "FIRST_NATIVE4_3PASS_1INCOMPLETE_OBSERVER_ARITY",
     "private_functions": 11,
     "new_tables": 0,
     "existing_replacements": 0,
     "request_or_unit_integrated": false,
-    "production_go": false
+    "production_go": false,
+    "artifact_id": 12602988498,
+    "counts": {
+      "PASS": 3,
+      "INCOMPLETE": 1
+    },
+    "first_error": "too many values to unpack (expected 2)",
+    "private_volume_capture_millis": 3368.637,
+    "private_volume_prepare_millis": 4970.474,
+    "all3602_compiler_fields_exact": true,
+    "whole_Native4_qualified": false,
+    "observer_only_fix_prepared": true,
+    "observer_fix_with_shared_return_shape_preflight": true
   },
   "frozen_units_preparation": {
-    "status": "LOCAL_CONTROLS_ONLY_UNINSTALLED",
+    "status": "PRIVATE_NATIVE4_CANDIDATE_ORIGINAL_PENDING",
     "private_functions": 8,
     "existing_replacements": 8,
     "new_tables": 0,
@@ -872,10 +884,12 @@
     "actual_Native_step_body_with_controlled_unit": true,
     "SQL_signatures_checked": 24,
     "Native4_prepared": true,
-    "Native4_F05_route_wired": false,
+    "Native4_F05_route_wired": true,
     "actual_Native_qualified": false,
     "public_or_default_adoption": false,
-    "production_go": false
+    "production_go": false,
+    "source_pins": 79,
+    "missing_or_mixed_routes_refused": 87
   },
   "latest_A_read_only_intake": "A7de9d4b9-read-only-intake.json"
 }

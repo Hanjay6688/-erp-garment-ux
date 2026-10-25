@@ -1,0 +1,16 @@
+{
+  "contract": "cp7.frozen-capsule-observer-correction.v1",
+  "original_head": "dd22f085a6da43f186e5f92e6f5989a0bd595b21",
+  "original_run_id": 40202855125,
+  "original_artifact_id": 12602988498,
+  "status": "LOCAL_CONTROL_PASS_NATIVE_REQUALIFICATION_PENDING",
+  "changed_case_file_only_one_unpack_target": true,
+  "actual_shared_helper_returns_three_values": true,
+  "all_case_assertions_and_fixtures_unchanged": true,
+  "product_SQL_changes": 0,
+  "corrected_cases_sha256": "2da7e119e394461e350145f5e9cddef3e345464cccdd7611711fa6ddc8a755a4",
+  "new_case_oracle_relaxed": false,
+  "first_Native_3PASS_1INCOMPLETE_retained": true,
+  "actual_Native_requalification": false,
+  "production_go": false
+}

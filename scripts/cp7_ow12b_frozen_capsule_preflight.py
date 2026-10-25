@@ -14,6 +14,16 @@ assert cases.EXPECTED==cases.DECLARED==4
 assert d['frozen_capsule_source_sha256']==d['target_v2_source_sha256']==cases.sources()
 assert d['public_rpcs']==list(cases.FUNCTIONS)and d['schedules']==cases.SCHEDULES
 cases.capsule.verify_sources();cases.binary.verify_sources()
+# Match the real shared refusal helper's three-value return. This guards the
+# observer contract before a costly Native run; it does not simulate SQL refusal.
+refusal_tree=ast.parse(inspect.getsource(cases.native.plan.refusal))
+returned=[n for n in ast.walk(refusal_tree)if isinstance(n,ast.Return)]
+assert len(returned)==1 and isinstance(returned[0].value,ast.Tuple)and len(returned[0].value.elts)==3
+case_tree=ast.parse(Path(cases.__file__).read_text())
+observers=[n for n in ast.walk(case_tree)if isinstance(n,ast.Assign)and isinstance(n.value,ast.Call)
+ and isinstance(n.value.func,ast.Attribute)and ast.unparse(n.value.func)=='native.plan.refusal']
+assert len(observers)==1 and len(observers[0].targets)==1
+assert isinstance(observers[0].targets[0],ast.Tuple)and len(observers[0].targets[0].elts)==3
 run=next(n for n in ast.parse(Path(probe.__file__).read_text()).body if isinstance(n,ast.FunctionDef)and n.name=='run')
 checks=[]
 for node in run.body:
@@ -52,5 +62,6 @@ assert incomplete.replace('p_cap','p_products')in parent
 assert len(cases.capsule.FUNCTIONS)==11
 print(json.dumps(dict(status='PASS',native_cases_declared=4,source_pins=len(cases.sources()),
  actual_F05_prefix_and_contract=True,missing_or_mixed_routes_refused=refused,
+ actual_shared_refusal_three_value_contract=True,
  original_non_stock_admission_copied_exactly=True,compiler_unchanged=True,
  actual_Native=False,actual_Auth_HTTP_credit=False,request_or_unit_integrated=False,production_go=False)))

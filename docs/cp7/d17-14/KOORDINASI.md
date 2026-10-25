@@ -3374,3 +3374,47 @@ expected freshness checked against a target captured before newer scoped
 models. A fixes capture order; this B intake has not read the new full Original
 or granted runtime acceptance. No A/shared/integration/default file modified.
 Formal5/16, CP7C/independent false, production_go=false; continue both proofs.
+
+## 173. B25 Oktober2026 WIB — frozen Native first Original3PASS/1INCOMPLETE retained
+
+dd22/run40202855125/job121197502074 Original12602988498,162661bytes, SHA
+0c3f9ba1e91a53a3ab1af1b32685d13274b3a807b6cca4f465329681260635cc. All5JSON,
+67pins/actual F05 prefix/declaration/counts/product paths verified; three cases
+PASS, parity-binding case INCOMPLETE: shared refusal helper returns3values,
+observer unpacked2. Its complete capture/compiler comparison had returned,
+then the first tamper refusal caused ValueError; nine tamper cases are not
+claimed complete. Correct exactly one unpack target; preflight reads the real
+shared helper return AST and actual observer arity. All assertions/fixtures/
+product SQL unchanged. Preserve original error/traceback/ordered observations.
+
+Catalog11private helpers/inverse22 PASS. Actual1200SKUx3/3602products/363601rows
+frozen capture3368.637ms, unchanged compiler4474.139ms, verified pure prepare
+4970.474ms under unchanged8s each. Every compiler JSON field/operand/quantity/
+reason/reference and all3600physical targets exact, rawINCOMPLETE/PENDING honest.
+Actual Native post between captures: old full prepared result/capsule unchanged,
+new complete stock reference/work identity changed. No job/request adoption or
+end-to-end latency/finance/SLA acceptance. Whole Native4 still INCOMPLETE.
+Four package gates true/writerfalse; CP6/advisors/public22/WIB/session/Auth0->0
+restored. Requalify the changed observer; retain all earlier outcomes.
+
+## 174. B25 Oktober2026 WIB — closed private frozen-unit Native4 qualification candidate
+
+Wire only an own default-false F05 flag with12required parents;87 missing/mixed
+routes refuse,79source pins including exact generated hooks and the unchanged
+compiler. Own45min disposable PG17 Native4 workflow, same frozen harness/images/
+cleanup/complete5JSON retention. No public RPC/client/default installation.
+Private request uses actual actor/access and old request guards; real ordinary
+staged step/read/page endpoints are tested without claiming real Auth HTTP.
+Cases cover catalog/inverse/dependent-view rollback, small request→units→all
+pages/replay/cross-v1 UUID/workspace, exact1200x3/all3602target compiler parity,
+and actual Native post/stale/immutable archive/used-inverse refusal/K3 retention.
+All ordered times/failures retained; first full Original pending.
+
+Old binary15/capsule67/factory59 source maps rebound only where F05 changed.
+Old one-size54 map has no F05 pin and is untouched. Existing preflights retain
+26parity assertions/6geometry mutations.24SQL signatures, generated SQL AST,
+11local cache/actual-step retry controls and51unchanged qualified business files
+PASS; no frontend/default/A/shared/native migration changes. Capsule observer
+correction qualifies in its separate own run on this same candidate. Do not
+select fastest results or erase automatically triggered old-factory failures.
+Formal5/16, CP7C/independent false, production_go=false; continue actual results.

@@ -1,0 +1,218 @@
+{
+  "contract": "cp7.complete-original-outcome-retained.v1",
+  "head": "dd22f085a6da43f186e5f92e6f5989a0bd595b21",
+  "run_id": 40202855125,
+  "job_id": 121197502074,
+  "artifact_id": 12602988498,
+  "bytes": 162661,
+  "artifact_sha256": "0c3f9ba1e91a53a3ab1af1b32685d13274b3a807b6cca4f465329681260635cc",
+  "status": "INCOMPLETE",
+  "Original_read_complete": true,
+  "all_Original_JSON_files_read": 5,
+  "original_json_sha256": {
+    "CP7_OW12B_FROZEN_CAPSULE.json": "33f33663660cc1addfae58b3315ccff079d48f20d7dde1e0a890fb0624961268",
+    "T3_BACKUP_RESTORE_DRILL.json": "fea091e2302c356bef6584e3e250f636d1c776b519715798722882eec684520a",
+    "T3_PACKAGE_FILES_INSTALL.json": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+    "ALIGNED_CHAIN.json": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b",
+    "T3_PACKAGE_INSTALL.json": "a099944dd95ee68b349136b4845c74302a620cef79102096df310865636fac21"
+  },
+  "actual_current_F05_source_prefix_compared": [
+    "source_sha256",
+    "expected_case_count",
+    "required_case_counts",
+    "required_case_ids",
+    "predeclared_case_contract",
+    "predeclared_case_sha256",
+    "target_v2_source_sha256",
+    "frozen_capsule_source_sha256"
+  ],
+  "all_source_fields_and_declaration_match": true,
+  "source_prefix_database_executed": false,
+  "product_paths_byte_identical_between_recorded_refs": true,
+  "counts": {
+    "PASS": 3,
+    "INCOMPLETE": 1
+  },
+  "case_facts": {
+    "OW12B_FROZEN_V2_CATALOG22_EXACT_PREUSE": {
+      "status": "PASS",
+      "private11_no_table_RPC_replacement": true,
+      "exact22_composed_inverse": true,
+      "unchanged_current_compiler_and_old_request": true,
+      "producer_dependencies_exact": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-25",
+        "before": "2026-10-25",
+        "after": "2026-10-25"
+      }
+    },
+    "OW12B_FROZEN_V2_ACTUAL_CAPTURE_COMPILER_PARITY_AND_BINDINGS": {
+      "status": "INCOMPLETE",
+      "error": "too many values to unpack (expected 2)",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_frozen_capsule_cases.py\", line 173, in run\n    try:return fn()\n               ^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_frozen_capsule_cases.py\", line 123, in parity\n    state,message=native.plan.refusal(cur,lambda:prepare(cur,changed,q))\n    ^^^^^^^^^^^^^\nValueError: too many values to unpack (expected 2)\n",
+      "observations": {
+        "ordered_calls": [
+          {
+            "phase": "CAPTURE_FROZEN",
+            "name": "cp7_frozen_analysis_v2.source",
+            "millis": 71.29
+          },
+          {
+            "phase": "UNCHANGED_COMPILER_SAME_ARGUMENTS",
+            "name": "cp7_history_bounded.compile",
+            "millis": 18.957
+          },
+          {
+            "phase": "PREPARE_SEALED",
+            "name": "cp7_frozen_analysis_v2.prepare",
+            "millis": 14.256
+          }
+        ]
+      },
+      "production_go": false,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-25",
+        "before": "2026-10-25",
+        "after": "2026-10-25"
+      }
+    },
+    "OW12B_FROZEN_V2_SYNTHETIC1200X3_CAPTURE_PREPARE_ALL_TARGET_PARITY": {
+      "products": 3600,
+      "commercial_SKUs": 1200,
+      "physical_sizes": 3,
+      "physical_roots": 3600,
+      "movements": 363600,
+      "exactly_three_distinct_physical_sizes_per_commercial_SKU": true,
+      "synthetic_fixture": true,
+      "actual_Native_qualification": true,
+      "official_finance_included": false,
+      "full_factory3600_qualified": false,
+      "production_go": false,
+      "status": "PASS",
+      "actual_products": 3602,
+      "actual_rows": 363601,
+      "actual_1200_commercial_SKUs_three_distinct_physical_sizes": true,
+      "all3600_physical_targets_once": true,
+      "every_compiled_JSON_field_quantity_operand_reason_reference_identical": true,
+      "raw_INCOMPLETE_and_frozen_PENDING_preserved": true,
+      "full_summary_count_matches_full_raw_reference": true,
+      "ordered_calls": [
+        {
+          "phase": "CAPTURE_FROZEN",
+          "name": "cp7_frozen_analysis_v2.source",
+          "millis": 3368.637
+        },
+        {
+          "phase": "UNCHANGED_COMPILER_SAME_ARGUMENTS",
+          "name": "cp7_history_bounded.compile",
+          "millis": 4474.139
+        },
+        {
+          "phase": "PREPARE_SEALED",
+          "name": "cp7_frozen_analysis_v2.prepare",
+          "millis": 4970.474
+        }
+      ],
+      "statement_limit": "8s",
+      "request_or_unit_integrated": false,
+      "caller_latency_or_factory_SLA_qualified": false,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-25",
+        "before": "2026-10-25",
+        "after": "2026-10-25"
+      }
+    },
+    "OW12B_FROZEN_V2_ACTUAL_POST_FROZEN_INPUTS_UNCHANGED": {
+      "status": "PASS",
+      "actual_Native_post": true,
+      "prepare_after_post_uses_only_frozen_operands": true,
+      "entire_prepared_result_identical_after_post": true,
+      "old_capsule_immutable": true,
+      "new_full_stock_reference_changes": true,
+      "work_identity_changes": true,
+      "no_posted_row_or_date_rewrite": true,
+      "reader_no_ERP_write": true,
+      "ordered_calls": [
+        {
+          "phase": "CAPTURE_FROZEN",
+          "name": "cp7_frozen_analysis_v2.source",
+          "millis": 108.314
+        },
+        {
+          "phase": "PREPARE_SEALED",
+          "name": "cp7_frozen_analysis_v2.prepare",
+          "millis": 18.427
+        },
+        {
+          "phase": "PREPARE_AFTER_ACTUAL_POST",
+          "name": "cp7_frozen_analysis_v2.prepare",
+          "millis": 14.543
+        },
+        {
+          "phase": "CAPTURE_AFTER_ACTUAL_POST",
+          "name": "cp7_frozen_analysis_v2.source",
+          "millis": 105.899
+        }
+      ],
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-25",
+        "before": "2026-10-25",
+        "after": "2026-10-25"
+      }
+    }
+  },
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "CP6_advisor_boundary_public_catalog_WIB_session_Auth_cleanup_gates": true,
+  "manual_unchanged_rerun": false,
+  "actual_Auth_HTTP_credit": false,
+  "new_cross_suite_aggregate_acceptance_credit": 0,
+  "full_factory3600_qualified": false,
+  "full_OW11_acceptance": false,
+  "full_OW12b_acceptance": false,
+  "formal_acceptance": "5/16",
+  "CP7C_accepted": false,
+  "independent_acceptance": false,
+  "production_go": false,
+  "first_failure_class": "SHARED_REFUSAL_OBSERVER_RETURN_ARITY",
+  "correction_exactly_one_two_to_three_value_unpack": true,
+  "shared_refusal_actual_return_shape_preflight_added": true,
+  "product_SQL_or_guard_changed": false,
+  "first_case_full_compiler_parity_reached_before_observer_error": true,
+  "all9_tamper_cases_completed": false,
+  "retained_volume_only_actual_Native_component_PASS": true,
+  "whole_Native4_qualified": false
+}

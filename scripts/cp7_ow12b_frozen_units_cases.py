@@ -1,4 +1,4 @@
-"""Prepared private-request Native4. Not wired to F05 or a workflow yet."""
+"""Closed private-request Native4. No public facade or default adoption."""
 from copy import deepcopy
 from hashlib import sha256
 from pathlib import Path
@@ -25,7 +25,7 @@ PARENT_CHECKER=None
 def sources():
  root=Path(__file__).resolve().parent
  return {**frozen.sources(),**{'cp7_frozen_analysis_units_v2/'+k:v for k,v in stage.sources().items()},
-  **{p.name:sha256(p.read_bytes()).hexdigest()for p in(Path(__file__),root/'cp7_ow12b_frozen_units_local.mjs',root/'cp7_ow12b_frozen_units_preflight.py')}}
+  **{p.name:sha256(p.read_bytes()).hexdigest()for p in(Path(__file__),root/'cp7_ow12b_frozen_units_local.mjs',root/'cp7_ow12b_frozen_units_preflight.py',root/'cp7_ow12b_frozen_units_probe.py')}}
 
 
 def install(cur):
