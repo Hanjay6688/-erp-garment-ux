@@ -1,0 +1,19 @@
+{
+  "status": "FIRST_BINDING_FAILURE_PRESERVED",
+  "phase": "LOCAL_SOURCE_BINDING_BEFORE_DB",
+  "native_actual": "PASS36",
+  "native_head": "014019a612260525e9c3b9459e354a86209336c1",
+  "completed_before_failure": [
+    "restore"
+  ],
+  "error": "ast.literal_eval refused the finance IDS declaration because its AST is a keyword-only dict() call",
+  "qualified_binder_unchanged": true,
+  "product_and_business_cases_unchanged": true,
+  "correction": "External bounded declaration reader accepts only dict(http=<literal string list>, races=<literal string list>)",
+  "production_go": false,
+  "external_reader_negative_controls": 5,
+  "parent_source_pins_unchanged": 3475,
+  "all_five_SOURCE_created": true,
+  "each_SOURCE_pins": 3477,
+  "actual_followup_runtime_qualified": false
+}

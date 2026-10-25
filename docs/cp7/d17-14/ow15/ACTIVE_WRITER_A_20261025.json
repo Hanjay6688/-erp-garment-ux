@@ -1,5 +1,5 @@
 {
-  "recorded_at_utc": "2026-10-25T12:16:55.224623+00:00",
+  "recorded_at_utc": "2026-10-25T13:00:30.138152+00:00",
   "role": "A finance writer/integrator replacing Claude",
   "slogan": [
     "VENI. VIDI. VICI. ERP. \u2014 I CONQUERED ERP.",
@@ -8,19 +8,7 @@
   "formal_accepted": "5/16",
   "production_go": false,
   "independent_acceptance": false,
-  "running": [
-    {
-      "scope": "Corrected complete versioned-target selected-return Native36",
-      "head": "014019a612260525e9c3b9459e354a86209336c1",
-      "run_id": 40191412940,
-      "job_id": 121163008682,
-      "status": "CI_EXECUTING_CURRENT_NATIVE36",
-      "source_pins": 3475,
-      "actual_originals": 12,
-      "complete_local_source_admission": "PASS",
-      "execution_branch": "astra-a/d17-14-versioned-target-native36-20261025"
-    }
-  ],
+  "running": [],
   "actual_new_component": {
     "name": "CP7_OW11_MODEL_TARGET_SOURCE_V2.json",
     "status": "PASS",
@@ -101,7 +89,7 @@
       "recovery_prepared": true,
       "actual_prerequisites_required": 12,
       "SOURCE_bound": true,
-      "next": "Intake actual corrected Native36; bind five followups only after complete actual PASS",
+      "next": "Complete five source admissions; publish only five SOURCE additions and start prepared execution branches",
       "Native36_prepared": true,
       "cases": 36,
       "retained_assertion_sets": 25,
@@ -152,7 +140,10 @@
       "exact_archive_member_eight_actual_zip_checks": true,
       "wrong_member_negative_controls": 3,
       "first_runtime_INCOMPLETE_artifact": 12598360114,
-      "retained_scoped_replay_full_composer_guard": true
+      "retained_scoped_replay_full_composer_guard": true,
+      "status": "ACTUAL_NATIVE36_PASS",
+      "actual_native_head": "014019a612260525e9c3b9459e354a86209336c1",
+      "artifact_id": 12598724977
     },
     {
       "scope": "full scoped model used restore8",
@@ -1463,5 +1454,92 @@
     "new_versioned_A_case_credit": 0,
     "merged_into_A": false,
     "production_go": false
+  },
+  "actual_current_versioned_native36_corrected": {
+    "name": "CP7_CURRENT_VERSIONED_TARGET_NATIVE36.json",
+    "status": "PASS",
+    "head": "014019a612260525e9c3b9459e354a86209336c1",
+    "run_id": 40191412940,
+    "job_id": 121163008682,
+    "artifact_id": 12598724977,
+    "zip_bytes": 2925494,
+    "zip_sha256": "526a00e2439042f4bad14ba1d70598e705c11e4ee0930440be45949c80aaf225",
+    "bytes": 10466398,
+    "sha256": "717163e90d84091126dd786be71cef13e5206c801b5b72be0956719d2d03169c",
+    "archive_member": "CP7_CURRENT_VERSIONED_TARGET_NATIVE36.json",
+    "source_pins_verified": 3475,
+    "actual_prerequisites_verified": 12,
+    "case_ids": [
+      "OW12_BOUNDED_FINANCE_REQUEST_EXACT_ONCE",
+      "OW12_BOUNDED_FINANCE_OPERATIONAL_FIRST_OFFICIAL_FINANCE",
+      "OW12_BOUNDED_FINANCE_CHANGED_BOOK_REFUSED",
+      "OW12_BOUNDED_FINANCE_DEFERRED_NO_CAPTURE",
+      "OW12_BOUNDED_FINANCE_CURRENT_FINANCE_ACCESS",
+      "OW11_MODEL_POLICY_EXPLICIT_APPEND_SUSPEND_REACTIVATE_REPLAY",
+      "OW11_MODEL_POLICY_PROSPECTIVE_CLOCK_AND_IMMUTABLE_HISTORY",
+      "OW11_MODEL_POLICY_CURRENT_ACCESS_OWNER_ADMIN_AND_REPLAY",
+      "OW11_MODEL_POLICY_EXPLICIT_VALIDATION_CAS_TEMPLATE",
+      "OW11_MODEL_POLICY_ATOMIC_REGISTRY_POLICY_COMMAND",
+      "OW11_MODEL_V2_NATIVE_BASELINE_EXACT_REPLAY_V1_UNCHANGED",
+      "OW11_MODEL_V2_ACTUAL_POLICY_CLOCK_NO_POSTHOC_APPROVAL",
+      "OW11_MODEL_V2_NATIVE_POST_SOURCE_WITHDRAWAL_OLD_RESULT",
+      "OW11_MODEL_V2_CURRENT_ACCESS_FOREIGN_CLOSED_QUERY",
+      "OW11_MODEL_V2_IMMUTABLE_ATOMIC_LAST_ROW_AND_GUARD",
+      "OW11_MODEL_HISTORY_RUNTIME_ACTUAL_CAPTURE_REPLAY_IMMUTABLE",
+      "OW11_MODEL_HISTORY_RUNTIME_ACTUAL_POST_RETIRES_ARCHIVE",
+      "OW11_MODEL_HISTORY_RUNTIME_CURRENT_ACCESS_AND_FOREIGN_READ",
+      "OW11_MODEL_HISTORY_RUNTIME_DENSE2000_SINGLE_TARGET",
+      "OW11_MODEL_HISTORY_RUNTIME_ENGINE_AND_FINAL_FAULT",
+      "OW11_SCOPED_EVALUATION_ACTUAL_CAPTURE_REPLAY_IMMUTABLE",
+      "OW11_SCOPED_EVALUATION_PROSPECTIVE_POLICY_CLOCK",
+      "OW11_SCOPED_EVALUATION_ACTUAL_POST_CURRENT_ACCESS",
+      "OW11_SCOPED_EVALUATION_DENSE2000_SINGLE_TARGET",
+      "OW11_SCOPED_EVALUATION_FINAL_FAULT_AND_ENGINE",
+      "OW11_MODEL_TARGET_V2_NATIVE_BASELINE_REPLAY_IMMUTABLE",
+      "OW11_MODEL_TARGET_V2_NATIVE_CURRENT_POLICY_AND_LATEST_NAMESPACED",
+      "OW11_MODEL_TARGET_V2_NATIVE_POST_PROFILE_ACCESS",
+      "OW11_MODEL_TARGET_V2_NATIVE_WAREHOUSE_ONLY_READ",
+      "OW11_MODEL_TARGET_V2_NATIVE_BOUNDED_ANALOG_PARITY",
+      "UNPAYROLLED_PARTIAL_WORK_BLOCKS_REPORT",
+      "OWNER_WORK_REFERENCE_BLOCKS_UNTIL_PAYROLLED",
+      "OWNER_VENDOR_REFERENCE_BLOCKS_UNTIL_PAYROLLED",
+      "RETURN_REBOUND_SOURCE_ATOMIC_REFUSAL",
+      "RETURN_ALLOCATION_LIMIT_ATOMIC_REFUSAL",
+      "RETURN_REBOUND_CUSTOMER_ATOMIC_REFUSAL"
+    ],
+    "counts": {
+      "PASS": 36
+    },
+    "gate": {
+      "installed": true,
+      "primary_unchanged": true,
+      "backup_restore_drill": true,
+      "security_advisors": true,
+      "writer_runtime": true
+    },
+    "full22_all_rows_all_sequences_restored": true,
+    "cp6_restored": true,
+    "advisor_gate": true,
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "versioned_five_followups_prepared": {
+    "status": "FIVE_SOURCES_BOUND_NOT_RUNTIME_QUALIFIED",
+    "native_head": "014019a612260525e9c3b9459e354a86209336c1",
+    "files": {
+      "restore": 3477,
+      "finance": 3477,
+      "cron": 3477,
+      "browser": 3477,
+      "transport": 3477
+    },
+    "local_head": "1f85653edf5450e85368aef017549efda2eaa4e9",
+    "tree": "d6022539123b84bb52a859e9371e3e8d46adaaf2",
+    "external_finance_declaration_reader": true,
+    "negative_declarations_refused": 5,
+    "all3475_qualified_parent_files_unchanged": true,
+    "production_go": false,
+    "full_admission_status": "IN_PROGRESS",
+    "runtime_started": false
   }
 }
