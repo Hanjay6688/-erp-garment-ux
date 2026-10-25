@@ -78,7 +78,7 @@
     "code_head": "ee1ebfd1a104cbbdf5d0c4a14cbb1e8cc00a3573",
     "shared_status_head": "714766d1c2d52c8e91bc79671a6ea0f6187ed2e4",
     "active_handoff": "docs/cp7/handoff/WRITER_B_TAKEOVER_20261026.md",
-    "complete_Originals_verified": 11,
+    "complete_Originals_verified": 12,
     "first_cutting_failures_preserved": true,
     "corrected_runs": {
       "Native6": 40235295230,
@@ -92,7 +92,24 @@
     "full_factory3600_qualified": false,
     "official_finance_included": false,
     "production_go": false,
-    "interrupted_Originals_retained_without_complete_gates": 1
+    "interrupted_Originals_retained_without_complete_gates": 1,
+    "latest_code_head": "4826a666925309ea93aa0421ec544cd2d9b145f3",
+    "latest_candidate_runs": {
+      "Native6": 40244633440,
+      "Transport10": 40244633462,
+      "actual_cutting_Auth_Browser2": 40244633432
+    },
+    "latest_candidate_last_observed": "IN_PROGRESS_NOT_QUALIFIED",
+    "last_old_candidate_Auth_original": {
+      "source_head": "e2ef3a9eeeaae93a861bfabee7c52f01ee8a5e13",
+      "run_id": 40239270120,
+      "artifact_id": 12616557503,
+      "counts": {
+        "PASS": 1,
+        "INCOMPLETE": 1
+      },
+      "original_read_complete": true
+    }
   },
   "frozen_cutting_actual_Auth_browser_preparation": {
     "status": "PREPARED_NOT_WIRED_RUNTIME_PENDING",

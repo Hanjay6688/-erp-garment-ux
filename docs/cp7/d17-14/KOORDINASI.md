@@ -4308,3 +4308,68 @@ retain their eventual results separately. Full workflow/Native/Auth/browser
 acceptance must use the matching source, and first failures are not overwritten.
 OPEN_WORK changed only six B-owned status cells; all A-owned rows byte-identical.
 Formal5/16, independent_acceptance=false, production_go=false. Continue scope.
+
+
+## 209. [bersama] B26 Oktober2026 WIB — cutting repair published; frozen finance caller ready for A composition
+
+Published B code4826a666925309ea93aa0421ec544cd2d9b145f3, exact tree
+1f67f79c1b4999ecee5cc153bf8be8d970385b81, parent e2ef3a9e. All49 intended blobs
+and full tree matched local; only B branch moved by nonforced expected-head lease.
+A remains f898a71fc13654d217f987949f126290083a0225 as last read.
+
+Actual ee1 Native6 is5PASS/1INCOMPLETE: ordinary checked SAVE/replay, actual post
+staleness/K2, foreign/current rights and final-receipt atomic failure pass. The
+3602-target case correctly returns UNKNOWN because the shared dimensional seed
+omits profiles/policies. The new fixture uses three publicly validated zero-manual
+synthetic profile templates and one ACTIVE policy template, then3597/1199 bounded
+synthetic fixture clones; all3600/1200 rows are read back through public workspace
+bodies. The actual helper passes local PG18 with controlled identity/dimensional
+tables. No new Native/factory-SAVE credit and no owner defaults invented.
+
+Actual ee1 Transport10 stopped at60minutes; main report retains only1 native PASS,
+with five failed race observations in its raw log. Package restore/advisor gates
+are missing and earn no credit. Exact old metadata helper reproduces a session
+TimeZone hash mismatch. UTC serialization now preserves all full rows and restores
+the caller zone; three zones pass locally and a stored+1microsecond still fails.
+Case observations are saved before cleanup can throw. Owned CI budget90minutes
+covers six isolated restorations; application RPC8seconds and all10 case IDs,
+assertions, lock waits and physical/monetary checks remain unchanged.
+
+Actual cutting Auth5fe and old e2 each retain1PASS/1INCOMPLETE. Desktop commits
+SAVE, loses only the reply, reloads and reconciles the same UUID/payload exactly.
+Old mobile fixture wrongly expected retention after definite initial SQL denial.
+New mobile first loses an actually committed SAVE reply, then revokes actor before
+same-command replay; shared recovery behavior is unchanged. New actual runs on
+4826a666: Native6/40244633440, Transport10/40244633462, AuthBrowser2/40244633432.
+All last observed IN_PROGRESS.13 complete Originals retained/read;12 have complete
+package-gate verification and one interrupted Transport has missing gates.
+
+A composition request, concrete prepared code:
+
+1. Use `cp7_frozen_finance_bridge.install_delta(cur, predecessor_checker)` after
+   verified official A finance capture plus B frozen-v2 predecessor, **instead of**
+   the old `cp7_analysis_finance_bridge`. It rejects an already-installed reader
+   namespace and changed A API/source/authority. The three pinned A private APIs
+   and full finance SQL match qualified efa800cd/Native7 byte-for-byte. A's money,
+   HPP, report engine, runners and public finance API are unchanged.
+2. Admit exactly the optional private reader/schema and two counted replacements
+   (frozen request and staged status); supply A's actual combined predecessor
+   checker and retain all22 catalog groups. Apply full A usage/backup restoration
+   guard, including official captures remaining after operational jobs are purged.
+   Default installer/composition and acceptance remain A-owned.
+3. Optional host is `scripts/cp7_frozen_finance_ui/client/NativeFrozenFinancePanel.tsx`.
+   New explicit STAGED choice is durable across loss/reload, absent mode remains
+   DEFERRED, no late upgrade of old jobs. Finance stays hidden until A READY and
+   exact query/source/microsecond clock binding. Plain cutting's59-module import
+   set stays unchanged; dedicated finance host52 modules is locally built only.
+4. Run actual combined Native/Auth/official-report parity,3600 timing and complete
+   after-use restore before adopting. Local evidence is7 SQL groups, exact22
+   preuse inverse/reapply,5 catalog tamper refusals, changed-A-body refusal,
+   retained-capture usage refusal,186 client tests/12files plus focused20tests,
+   TypeScript and legacy10 SQL groups. Controlled READY/identity are explicit;
+   none supplies actual report/factory/browser/full-A acceptance.
+
+OPEN_WORK changes only OW12/OW13 B status cells; A rows byte-identical. Full B
+scope remains open: automatic status defaults/policy, target/method activation,
+cutting actual paths, factory finance, warehouse migration and composed restore.
+Formal5/16, independent_acceptance=false, production_go=false. Continue scope.

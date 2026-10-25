@@ -285,3 +285,14 @@ workspace bodies. Three profile templates and one policy template use the real
 write bodies; only the remaining explicitly synthetic rows are bulk fixture
 clones. The original non-synthetic profile stays unchanged. This controlled
 identity/dimensional-table test earns no Native/Auth/factory-SAVE credit.
+
+Published corrected code4826a666925309ea93aa0421ec544cd2d9b145f3, exact local/API
+ tree1f67f79c1b4999ecee5cc153bf8be8d970385b81, nonforced lease on e2ef3a9e.
+Native6/run40244633440, Transport10/run40244633462 and actual cutting Auth
+Browser2/run40244633432 are IN_PROGRESS, not qualification. The later old-code
+Auth run40239270120 on e2ef3a9e is still1PASS/1INCOMPLETE; complete Original
+12616557503 independently read,164pins and59compiled modules verified. It has
+same pre-correction mobile initial-denial fixture, not the repaired scenario.
+All13 Originals are retained:12 with complete package gates checked (including
+failed writer_runtime), plus one interrupted Transport Original without restore
+or advisor credit. First failures remain. See coordination209 for A composition.
