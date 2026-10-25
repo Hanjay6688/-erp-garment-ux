@@ -1,0 +1,282 @@
+{
+  "contract": "cp7.frozen-cutting-auth-browser2-registration.v2",
+  "base_head": "997c23c1d74a019417b81477a0bdb619763ab143",
+  "status": "REGISTERED_RUNTIME_PENDING",
+  "required_case_ids": [
+    "OW12B_FROZEN_CUTTING_AUTH_BROWSER_DESKTOP_SAVE_LOST_REPLY_REPLAY",
+    "OW12B_FROZEN_CUTTING_AUTH_BROWSER_MOBILE_CURRENT_ACCESS_RETAINS_COMMAND"
+  ],
+  "required_case_counts": {
+    "browser": 2
+  },
+  "expected_case_count": 2,
+  "observed_case_count": 0,
+  "closed_F05_workflow_provider_registered": true,
+  "source_pins": 164,
+  "compiled_runtime_module_pins": 59,
+  "local_preflights": {
+    "cp7_ow12b_frozen_capsule_preflight": {
+      "status": "PASS",
+      "native_cases_declared": 4,
+      "source_pins": 67,
+      "actual_F05_prefix_and_contract": true,
+      "missing_or_mixed_routes_refused": 99,
+      "actual_shared_refusal_three_value_contract": true,
+      "original_non_stock_admission_copied_exactly": true,
+      "compiler_unchanged": true,
+      "actual_Native": false,
+      "actual_Auth_HTTP_credit": false,
+      "request_or_unit_integrated": false,
+      "production_go": false
+    },
+    "cp7_ow12b_frozen_choice_auth_preflight": {
+      "status": "PASS_PREPARATION_ONLY",
+      "source_pins": 140,
+      "exact_case_budget": {
+        "browser": 2
+      },
+      "missing_or_mixed_routes_refused": 99,
+      "actual_F05_prefix_and_contract": true,
+      "SQL_unchanged": true,
+      "existing_choice_SQL_unchanged": true,
+      "actual_Native": false,
+      "actual_Auth_HTTP_credit": false,
+      "default_or_UI_adopted": false,
+      "production_go": false
+    },
+    "cp7_ow12b_frozen_choice_preflight": {
+      "status": "PASS_PREPARATION_ONLY",
+      "SQL_statements": 18,
+      "private_functions": 4,
+      "new_public_rpc": 1,
+      "new_tables": 0,
+      "source_pins": 111,
+      "exact_case_budget": {
+        "native": 6
+      },
+      "missing_or_mixed_routes_refused": 99,
+      "actual_F05_prefix_and_contract": true,
+      "exact_admitted_consumer_parent_and_own_delta_guard": true,
+      "global_FG_envelope_shared_UUID_locks_current_access_and_freshness_unchanged": true,
+      "existing_choice_tables_and_material_math_unchanged": true,
+      "command_outcome_and_normalizer_explicit_v2": true,
+      "actual_Native": false,
+      "actual_Auth_HTTP_credit": false,
+      "default_or_UI_adopted": false,
+      "production_go": false
+    },
+    "cp7_ow12b_frozen_choice_transport_preflight": {
+      "status": "PASS_PREPARATION_ONLY",
+      "exact_case_budget": {
+        "native": 1,
+        "races": 6,
+        "http": 3
+      },
+      "source_pins": 114,
+      "missing_or_mixed_routes_refused": 99,
+      "changed_group_budgets_refused": 5,
+      "actual_F05_prefix_and_contract": true,
+      "actual_post_install_native_races_HTTP_execution_gate": true,
+      "SQL_unchanged": true,
+      "actual_Native": false,
+      "actual_Auth_HTTP_credit": false,
+      "actual_concurrency": false,
+      "default_adopted": false,
+      "production_go": false
+    },
+    "cp7_ow12b_frozen_cutting_auth_preflight": {
+      "status": "PASS_PREPARATION_ONLY",
+      "source_pins": 164,
+      "exact_case_budget": {
+        "browser": 2
+      },
+      "missing_or_mixed_routes_refused": 99,
+      "actual_F05_prefix_and_contract": true,
+      "SQL_unchanged": true,
+      "existing_public_request_steps_pages_and_checked_cutting": true,
+      "actual_Native": false,
+      "actual_Auth_HTTP_credit": false,
+      "default_or_UI_adopted": false,
+      "production_go": false
+    },
+    "cp7_ow12b_frozen_cutting_preflight": {
+      "status": "PASS_PREPARATION_ONLY",
+      "source_pins": 94,
+      "exact_case_budget": {
+        "native": 6
+      },
+      "missing_or_mixed_routes_refused": 99,
+      "actual_F05_prefix_and_contract": true,
+      "SQL_unchanged": true,
+      "existing_public_checked_cutting_writer": true,
+      "actual_Native": false,
+      "actual_Auth_HTTP_credit": false,
+      "default_or_UI_adopted": false,
+      "production_go": false
+    },
+    "cp7_ow12b_frozen_cutting_transport_preflight": {
+      "status": "PASS_PREPARATION_ONLY",
+      "exact_case_budget": {
+        "native": 1,
+        "races": 6,
+        "http": 3
+      },
+      "source_pins": 97,
+      "missing_or_mixed_routes_refused": 99,
+      "changed_group_budgets_refused": 5,
+      "actual_F05_prefix_and_contract": true,
+      "actual_post_install_native_races_HTTP_execution_gate": true,
+      "SQL_unchanged": true,
+      "actual_Native": false,
+      "actual_Auth_HTTP_credit": false,
+      "actual_concurrency": false,
+      "default_adopted": false,
+      "production_go": false
+    },
+    "cp7_ow12b_frozen_facade_preflight": {
+      "status": "PASS",
+      "exact_case_budget": {
+        "native": 3,
+        "races": 3,
+        "http": 2
+      },
+      "source_pins": 90,
+      "missing_or_mixed_routes_refused": 99,
+      "changed_group_budgets_refused": 5,
+      "actual_F05_prefix_and_contract": true,
+      "actual_Native": false,
+      "actual_Auth_HTTP_credit": false,
+      "actual_concurrency": false,
+      "public_or_default_adopted": false,
+      "production_go": false
+    },
+    "cp7_ow12b_frozen_quantity_auth_preflight": {
+      "status": "PASS_PREPARATION_ONLY",
+      "source_pins": 153,
+      "exact_case_budget": {
+        "browser": 2
+      },
+      "missing_or_mixed_routes_refused": 99,
+      "actual_F05_prefix_and_contract": true,
+      "SQL_unchanged": true,
+      "existing_public_request_steps_pages_and_analog": true,
+      "actual_Native": false,
+      "actual_Auth_HTTP_credit": false,
+      "default_or_UI_adopted": false,
+      "production_go": false
+    },
+    "cp7_ow12b_frozen_reader_preflight": {
+      "status": "PASS",
+      "source_pins": 98,
+      "exact_case_budget": {
+        "native": 4
+      },
+      "missing_or_mixed_routes_refused": 99,
+      "actual_F05_prefix_and_contract": true,
+      "actual_admitted_reader_guards_and_candidate_math_unchanged": true,
+      "actual_Native": false,
+      "actual_Auth_HTTP_credit": false,
+      "public_or_default_adopted": false,
+      "production_go": false
+    },
+    "cp7_ow12b_frozen_units_preflight": {
+      "status": "PASS",
+      "exact_SQL_signatures_checked": 24,
+      "private_functions": 8,
+      "existing_replacements": 8,
+      "source_pins": 79,
+      "Native4_provider_prepared": true,
+      "Native4_F05_route_wired": true,
+      "actual_F05_prefix_and_contract": true,
+      "missing_or_mixed_routes_refused": 99,
+      "actual_outer_unit_math_unchanged": true,
+      "actual_request_access_lock_replay_and_scope_guards_unchanged": true,
+      "actual_analog_scenario_predecessor_and_inverse_preserved": true,
+      "earlier_bounded_predecessor_refused": true,
+      "no_live_source_in_unit_cache": true,
+      "jobs_reference_never_updated": true,
+      "actual_Native": false,
+      "actual_Auth_HTTP_credit": false,
+      "default_request_adopted": false,
+      "production_go": false
+    },
+    "cp7_ow12b_frozen_work_auth_preflight": {
+      "status": "PASS_PREPARATION_ONLY",
+      "source_pins": 120,
+      "exact_case_budget": {
+        "browser": 2
+      },
+      "missing_or_mixed_routes_refused": 99,
+      "actual_F05_prefix_and_contract": true,
+      "SQL_unchanged": true,
+      "existing_public_work_read_and_save": true,
+      "actual_Native": false,
+      "actual_Auth_HTTP_credit": false,
+      "default_or_UI_adopted": false,
+      "production_go": false
+    },
+    "cp7_ow12b_frozen_work_preflight": {
+      "status": "PASS_PREPARATION_ONLY",
+      "source_pins": 93,
+      "exact_case_budget": {
+        "native": 6
+      },
+      "missing_or_mixed_routes_refused": 99,
+      "actual_F05_prefix_and_contract": true,
+      "SQL_unchanged": true,
+      "existing_public_work_read_and_save": true,
+      "actual_Native": false,
+      "actual_Auth_HTTP_credit": false,
+      "default_or_UI_adopted": false,
+      "production_go": false
+    },
+    "cp7_ow12b_frozen_work_transport_preflight": {
+      "status": "PASS_PREPARATION_ONLY",
+      "exact_case_budget": {
+        "native": 1,
+        "races": 5,
+        "http": 3
+      },
+      "source_pins": 96,
+      "missing_or_mixed_routes_refused": 99,
+      "changed_group_budgets_refused": 5,
+      "actual_F05_prefix_and_contract": true,
+      "actual_post_install_native_races_HTTP_execution_gate": true,
+      "SQL_unchanged": true,
+      "actual_Native": false,
+      "actual_Auth_HTTP_credit": false,
+      "actual_concurrency": false,
+      "default_adopted": false,
+      "production_go": false
+    },
+    "cp7_ow12b_stock_binary_preflight": {
+      "status": "PASS",
+      "native_cases_declared": 4,
+      "source_pins": 15,
+      "actual_source_only_route": true,
+      "invalid_or_missing_route_controls": 99,
+      "independent_codec_controls": true,
+      "malformed_frames_refused": 3,
+      "actual_Native": false,
+      "actual_Auth_HTTP_credit": false,
+      "caller_integrated": false,
+      "production_go": false
+    }
+  },
+  "F05_previous_routes_AST_identical_when_new_flag_false": true,
+  "prior_14_contract_changes_only_F05_sha256": true,
+  "pinned_Actions_runtime_timeouts_and_8s_limits_unchanged": true,
+  "prepared_cutting_TypeScript": true,
+  "first_local_failures_retained": [
+    "New closed guard initially followed legacy parent guards; moved before those guards so missing parents fail with the dedicated Browser2 refusal.",
+    "ACL preflight received no required raw-catalog argument; invocation error retained, no ACL qualification inferred."
+  ],
+  "product_SQL_or_grants_changed": false,
+  "actual_Auth_HTTP_credit": false,
+  "actual_Native_checked_SAVE_qualified": false,
+  "default_installer_or_application_changed": false,
+  "full_factory3600_qualified": false,
+  "official_finance_qualified": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

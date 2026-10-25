@@ -146,7 +146,26 @@ will require real committed SAVE/replyloss/reload/exact replay; mobile requires
 real current-access refusal and exact uncertain-envelope preservation. Setup
 calendar jobs stay immutable, browser creates its own distinct request.
 Local build59actual modules/no mocks, four disposable-host guard refusals,
-Python AST/JS syntax/exact hashes PASS. No new runtime case executed or workflow
-registered; no default/F05/old Auth provider/source/budget change. Actual Native
-results must precede registering the closed two-case provider. Continue this
-preparation after fixing any actual current-source failure; do not count it PASS.
+Python AST/JS syntax/exact hashes PASS at997c23c1. This was the initial preparation;
+no runtime pass was earned. Registration now continues independently while the
+corrected Native suites execute: neither source is credited by the other's result.
+
+## Closed cutting actual-Auth registration
+
+The explicit Browser2 provider, declaration, isolated install wrapper, admission
+preflight and focused workflow are now present. The two existing journeys remain
+the same: actual committed checked SAVE/replyloss/reload/exact replay, and current
+access refusal retaining the uncertain command. No default route or installer is
+adopted. All prior F05 routes are AST-identical when the new flag is false.
+Fifteen closed-route preflights pass, each99 missing/mixed refusals; new provider
+pins164 sources, including59 actual compiled modules and browser host/fixtures.
+Only F05 source hashes changed in14 earlier declarations; IDs, counts, predicates,
+SQL, grants,8s limits, pinned runtime/Actions and all older oracles remain exact.
+An unrelated ACL preflight was initially invoked without its required raw-catalog
+argument; that invocation error is retained, with no ACL/runtime credit claimed.
+
+Actual Browser2 remains unexecuted until this candidate's workflow runs. Read its
+complete Original and restoration/Auth/public boundaries before any qualification.
+Corrected ee1 Native6/Transport10 were last observed executing their actual cases.
+Registration checkpoint is not completion of B: continue source-bound model,
+quantity/cutting, factory/official-finance and A integration work.

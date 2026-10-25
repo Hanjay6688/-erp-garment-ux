@@ -1,4 +1,8 @@
-# Prepared actual-Auth cutting browser journeys — not registered or qualified
+# Initial actual-Auth cutting browser preparation at997c23c1
+
+This records the initial preparation. The subsequent closed Browser2 registration
+is in `FROZEN_CUTTING_AUTH_BROWSER2_REGISTRATION.json`; runtime qualification is
+still separate and pending. The initial three-file hashes remain historical.
 
 Three new B-owned files prepare the remaining real-login cutting flow:
 

@@ -84,7 +84,7 @@
       "Native6": 40235295230,
       "Transport10": 40235295219
     },
-    "corrected_status_last_observed": "QUEUED",
+    "corrected_status_last_observed": "ACTUAL_CASES_IN_PROGRESS",
     "local_tests": {
       "PASS": 134,
       "files": 10
@@ -101,6 +101,17 @@
     "expected_browser_cases": 2,
     "observed_browser_cases": 0,
     "actual_Auth_HTTP_browser_executed": false,
+    "default_application_adopted": false,
+    "production_go": false
+  },
+  "frozen_cutting_actual_Auth_Browser2_registration": {
+    "status": "REGISTERED_RUNTIME_PENDING",
+    "contract": "docs/cp7/d17-14/ow12b/FROZEN_CUTTING_AUTH_BROWSER2_CONTRACT.json",
+    "registration": "docs/cp7/d17-14/ow12b/FROZEN_CUTTING_AUTH_BROWSER2_REGISTRATION.json",
+    "expected_case_count": 2,
+    "observed_case_count": 0,
+    "actual_Auth_HTTP_credit": false,
+    "actual_Native_checked_SAVE_qualified": false,
     "default_application_adopted": false,
     "production_go": false
   }

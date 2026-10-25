@@ -1,4 +1,4 @@
-// PREPARED, NOT WIRED: actual Auth/browser checked cutting journeys.
+// Closed actual Auth/browser checked cutting journeys; default adoption is separate.
 // Existing AuthProvider/AuthGate/client/form/recovery; no mocked RPC or identity.
 import assert from 'node:assert/strict'
 import {execFileSync} from 'node:child_process'
