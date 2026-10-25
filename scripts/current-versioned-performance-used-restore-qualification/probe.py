@@ -273,9 +273,12 @@ def run():
             report['bounded_finance_committed_fixture']={}
             held_finance=finance_fixture.prepare(cur,comparison['row']['query'],report)
             held_model=model_fixture.prepare(cur,today,comparison['row']['query'],comparison['source'],report)
-            held_target=target_fixture.prepare(cur,comparison['row']['query'],comparison['target'],report)
             held_history=history_fixture.prepare(cur,today,comparison['target'],f['products'][0],report)
             held_scoped_model=scoped_model_fixture.prepare(cur,held_history,report)
+            held_target=target_fixture.prepare(cur,comparison['row']['query'],comparison['target'],report)
+            target_before_backup={}
+            target_fixture.assert_restored(cur,held_target,target_before_backup,'BEFORE_USED_BACKUP',source_changed=False)
+            report['dated_target_prebackup_check']=target_before_backup['dated_target_full_restore_checks'][0]
             cur.execute('set constraints all immediate')
             if granted:cur.execute('revoke usage on schema erp from authenticated')
             conn.commit();composed.verify(cur,state)

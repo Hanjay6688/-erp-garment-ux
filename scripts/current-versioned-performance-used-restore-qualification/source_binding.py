@@ -27,6 +27,9 @@ def expected_probe():
     for before,after in changes:
         count=text.count(before);assert count>0,before
         counts.append(dict(before=before,after=after,count=count));text=text.replace(before,after)
+    order_spec=importlib.util.spec_from_file_location('exact_restore_capture_order',HERE/'restore_order.py')
+    order=importlib.util.module_from_spec(order_spec);order_spec.loader.exec_module(order)
+    text=order.correct(text)
     return text,counts
 
 
@@ -40,7 +43,7 @@ def verify(probe_text=None):
     expected,changes=expected_probe();actual=(HERE/'probe.py').read_text()if probe_text is None else probe_text
     assert ast.dump(ast.parse(expected),include_attributes=False)==ast.dump(ast.parse(actual),include_attributes=False),'PERFORMANCE_RESTORE_UNDECLARED_RUNNER_CHANGE'
     assertions=sum(isinstance(n,ast.Assert)for n in ast.walk(ast.parse(expected)))
-    return dict(previous_guard=previous,unchanged_fixture_sha256=files,whole_previous_runner_AST_retained=True,
+    return dict(previous_guard=previous,unchanged_fixture_sha256=files,whole_previous_runner_AST_retained=True,target_capture_after_all_scoped_evaluations=True,exact_existing_target_prebackup_assertions=True,
         explicit_composer_and_context_changes=changes,retained_runner_assertions=assertions,
         prior_negative_controls=29,added_performance_negative_controls=5,required_steps=8,
         production_go=False,Native_runtime_qualified=False)
