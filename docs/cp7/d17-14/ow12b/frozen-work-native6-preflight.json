@@ -1,0 +1,29 @@
+{
+  "status": "PASS_PREPARATION_ONLY",
+  "source_pins": 93,
+  "exact_case_budget": {
+    "native": 6
+  },
+  "missing_or_mixed_routes_refused": 91,
+  "actual_F05_prefix_and_contract": true,
+  "SQL_unchanged": true,
+  "existing_public_work_read_and_save": true,
+  "actual_Native": false,
+  "actual_Auth_HTTP_credit": false,
+  "default_or_UI_adopted": false,
+  "production_go": false,
+  "contract": "cp7.frozen-work-native6-preparation.v1",
+  "client_receipt": "frozen-work-client-preparation-local.json",
+  "real_browser_receipt": "a90538f5-frozen-work-browser3-pass.json",
+  "declared_Native_cases": 6,
+  "all57_workflow_inline_declarations_PASS": true,
+  "qualified51_backend_files_unchanged": true,
+  "SQL_changed": false,
+  "first_local_generation_refusal": "AST parse rejected missing separator before else, before writing F05. Dependent declaration read then refused missing generated probe. Separator corrected and all57 declarations passed; no runtime or oracle change.",
+  "retention_fixture_clock": "Existing explicit K2 synthetic updated_at aging only; no posted physical/recorded timestamp rewrite.",
+  "remaining": [
+    "actual Native6 complete Original",
+    "observed lock waits during real schedule SAVE",
+    "actual Auth/PostgREST and production UI journeys"
+  ]
+}

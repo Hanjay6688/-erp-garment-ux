@@ -3699,3 +3699,31 @@ logs retained;60723f46 installs pinned8.7 before preflight. Only changed choice
 workflow run40217286031 started. No request/unit time budget changed. Continue
 actual browser, Native schedule SAVE and public UI journeys. Formal5/16;
 CP7C/independent/production_go=false. Checkpoint does not stop assigned work.
+
+
+## 187. B26 Oktober2026 WIB — actual schedule Browser3 and separate Native6
+
+Head a90538f5/run40217824625/job121242703513/Original12607809203:1083B,
+SHAebd36bd6f39130564d5f295c4284e61e7ae216e086abcda89e998182060d2500.
+Full oneJSON and four source hashes checked. Actual Chromium151 two tabs,
+observed real pending WebLocks: single durable creation; complete send holds
+clear and queued send rereads empty/refuses before RPC; reply loss/reload exact
+method/actor/UUID/payload/bytes.3PASS, zero remaining locks. Controlled replies,
+no Native/Auth/productionUI credit. Local113tests remain unchanged and passing.
+
+Separate default-off workNative6 route now declares catalog/composed inverse,
+actual public PENDING schedule SAVE/replay/oldv1, real post/stale/K2 receipt,
+foreign/current access, last-command atomic fault,1200SKU×3sizes PENDING and
+actual DONE after K3 SAVE. No SQL changes or new RPC/table; existing qualified
+frozen facade/units and work SQL execute. Unchanged8s per actual public call,
+exact immutable sources and full compiler parity. No factory SLA claim.
+93pins;91missing/mixed routes refused; all57workflow inline declarations and
+new shell syntax pass; qualified51 backend bytes exact. Initial generator AST
+separator refusal retained. Actual Native6 remains unqualified until complete
+Originals; real lock-wait, Auth and production UI journeys remain open.
+
+412 capsule complete Original12608213327 all4PASS with stable WIB26, no retry.
+412 old facade complete Original12607684478 preserves3ACL failures and
+unexecuted3races/2HTTP due old clone authority; corrected513 still qualifying.
+No discarded first outcomes, manual unchanged rerun or default adoption.
+Formal5/16; CP7C/independent/production_go=false. Continue assigned scope.

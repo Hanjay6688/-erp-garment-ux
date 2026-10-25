@@ -1236,15 +1236,36 @@
     "public_Auth_browser_credit": false
   },
   "frozen_work_preparation": {
-    "status": "LOCAL_CLIENT113_PASS_BROWSER3_PREPARED",
+    "status": "CLIENT113_PASS_REAL_BROWSER3_PASS_NATIVE6_PREPARED",
     "receipt": "../ow12b/frozen-work-client-preparation-local.json",
     "client_tests": 113,
     "new_client_tests": 55,
     "retained_tests": 58,
     "actual_Native_schedule_save_qualified": false,
     "actual_Auth_HTTP_credit": false,
-    "actual_browser": false,
+    "actual_browser": true,
     "UI_or_default_adopted": false,
-    "production_go": false
+    "production_go": false,
+    "actual_browser_scope": "Two tabs actual WebLocks/localStorage with controlled RPC replies; no Native/Auth/UI credit",
+    "real_browser_receipt": "../ow12b/a90538f5-frozen-work-browser3-pass.json",
+    "native_preflight_receipt": "../ow12b/frozen-work-native6-preflight.json",
+    "source_pins": 93,
+    "declared_native_cases": 6,
+    "missing_or_mixed_routes_refused": 91
+  },
+  "frozen_capsule_latest_regression_412": {
+    "status": "PASS_COMPLETE_ORIGINAL",
+    "run_id": 40215355839,
+    "receipt": "../ow12b/412b87ed-frozen-capsule-native4-pass.json",
+    "all_calendar_boundaries_preserved": true,
+    "manual_unchanged_rerun": false
+  },
+  "frozen_facade_old_acl_regression_412": {
+    "status": "INCOMPLETE",
+    "receipt": "../ow12b/412b87ed-frozen-facade-old-acl-incomplete.json",
+    "run_id": 40215355831,
+    "Native": 3,
+    "races_not_run": 3,
+    "http_not_run": 2
   }
 }

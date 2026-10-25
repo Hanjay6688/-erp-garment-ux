@@ -1,0 +1,63 @@
+{
+  "receipt_contract": "cp7.frozen-work-real-browser-original.v1",
+  "run_id": 40217824625,
+  "job_id": 121242703513,
+  "artifact_id": 12607809203,
+  "size": 1083,
+  "sha": "ebd36bd6f39130564d5f295c4284e61e7ae216e086abcda89e998182060d2500",
+  "Original_read_complete": true,
+  "original_json_sha256": {
+    "FROZEN_WORK_RECOVERY_BROWSER3.json": "b5fe2d7bcb1e485d5167bf348de670f49f94ad46ddf1253c93f85d18c129fac7"
+  },
+  "all4_source_hashes_exact": true,
+  "contract": "cp7.frozen-work-recovery-real-browser3.v1",
+  "head": "a90538f50f93dd83f201f8419de25728f57a9f16",
+  "required_case_ids": [
+    "FROZEN_WORK_REAL_TABS_SINGLE_DURABLE_CREATION",
+    "FROZEN_WORK_REAL_TABS_SEND_BLOCKS_CLEAR_AND_QUEUED_SEND_REREADS_EMPTY",
+    "FROZEN_WORK_REAL_TABS_REPLY_LOSS_RELOAD_EXACT_RETRY"
+  ],
+  "cases": [
+    {
+      "id": "FROZEN_WORK_REAL_TABS_SINGLE_DURABLE_CREATION",
+      "status": "PASS",
+      "actual_tabs": 2,
+      "observed_real_pending_locks": 2,
+      "single_creation": true,
+      "exact_shared_bytes": true
+    },
+    {
+      "id": "FROZEN_WORK_REAL_TABS_SEND_BLOCKS_CLEAR_AND_QUEUED_SEND_REREADS_EMPTY",
+      "status": "PASS",
+      "actual_tabs": 2,
+      "observed_real_pending_locks": 2,
+      "send_holds_mutation_lock": true,
+      "queued_send_rereads_empty_and_refuses_before_RPC": true,
+      "actor_not_transmitted": true
+    },
+    {
+      "id": "FROZEN_WORK_REAL_TABS_REPLY_LOSS_RELOAD_EXACT_RETRY",
+      "status": "PASS",
+      "actual_reload": true,
+      "reply_loss_controlled": true,
+      "same_method_actor_UUID_payload_and_retained_bytes": true,
+      "no_Native_idempotency_credit": true
+    }
+  ],
+  "source_sha256": {
+    "scripts/cp7_frozen_analysis_work_v2/client/nativeFrozenWork.ts": "0967c63d08819b3c37bd9742b95d9dbe56e9d18d05ee299cb735842375f4c15b",
+    "src/nativeProductionPlanning.ts": "5a160920ecb85595e04923457d409276ec2accffb8965e7673ae79d1cbb3b50b",
+    "scripts/cp7_frozen_analysis_facade_v2/client/nativeFrozenAnalysis.ts": "e8cc561ec6a90a5dc4837b67659ca259c591bb24c742f00262aa15b9832f62ce",
+    "scripts/cp7_ow12b_frozen_work_recovery_browser.mjs": "49edd486426ca2aadb9cde3f77f828583d4f893a1d12f061918bbde3261d2e04"
+  },
+  "status": "PASS",
+  "controlled_RPC_replies": true,
+  "actual_browser_locks_qualified": true,
+  "actual_Native": false,
+  "actual_Auth_HTTP_credit": false,
+  "production_UI_qualified": false,
+  "production_go": false,
+  "browser_version": "151.0.7922.34",
+  "actual_tabs": 2,
+  "no_remaining_locks": true
+}

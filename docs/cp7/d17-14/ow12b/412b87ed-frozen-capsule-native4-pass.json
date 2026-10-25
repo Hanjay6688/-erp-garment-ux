@@ -1,0 +1,218 @@
+{
+  "contract": "cp7.complete-original-outcome-retained.v1",
+  "head": "412b87ed95e8150052f8c579389edc9a94319b50",
+  "run_id": 40215355839,
+  "job_id": 121235199128,
+  "artifact_id": 12608213327,
+  "bytes": 162464,
+  "artifact_sha256": "ed890c374805c1b5b57a1aa89f43b60b7f6a336e7066125662f6e01ed5d7892f",
+  "status": "PASS",
+  "Original_read_complete": true,
+  "all_Original_JSON_files_read": 5,
+  "original_json_sha256": {
+    "CP7_OW12B_FROZEN_CAPSULE.json": "9c0c021a79500929a6cc9e4ef65168b4c9e8d1b8d8f7bb504a34841a186903eb",
+    "T3_BACKUP_RESTORE_DRILL.json": "8f0e4f1243e4d2d18cefd316ad66e119ff6077b103ea20ef33cc3f38fe2075fb",
+    "T3_PACKAGE_FILES_INSTALL.json": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+    "ALIGNED_CHAIN.json": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b",
+    "T3_PACKAGE_INSTALL.json": "dcaafa785ff9e6ae57a760ad8f27d6826f9ab3c31a5e9ea5a12bc11605a32b45"
+  },
+  "actual_current_F05_source_prefix_compared": [
+    "source_sha256",
+    "expected_case_count",
+    "required_case_counts",
+    "required_case_ids",
+    "predeclared_case_contract",
+    "predeclared_case_sha256",
+    "target_v2_source_sha256",
+    "frozen_capsule_source_sha256"
+  ],
+  "all_source_fields_and_declaration_match": true,
+  "source_prefix_database_executed": false,
+  "product_paths_byte_identical_between_recorded_refs": true,
+  "counts": {
+    "PASS": 4
+  },
+  "case_facts": {
+    "OW12B_FROZEN_V2_CATALOG22_EXACT_PREUSE": {
+      "status": "PASS",
+      "private11_no_table_RPC_replacement": true,
+      "exact22_composed_inverse": true,
+      "unchanged_current_compiler_and_old_request": true,
+      "producer_dependencies_exact": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-26",
+        "before": "2026-10-26",
+        "after": "2026-10-26"
+      }
+    },
+    "OW12B_FROZEN_V2_ACTUAL_CAPTURE_COMPILER_PARITY_AND_BINDINGS": {
+      "status": "PASS",
+      "actual_Native_capture": true,
+      "entire_current_compiler_JSON_identical": true,
+      "all_target_sets_exact": true,
+      "capsule_tampering_refused": 9,
+      "raw_capture_and_PENDING_honest": true,
+      "immutable_source_and_old_v1_unchanged": true,
+      "reference_only_same_work_identity": true,
+      "reader_no_ERP_write": true,
+      "ordered_calls": [
+        {
+          "phase": "CAPTURE_FROZEN",
+          "name": "cp7_frozen_analysis_v2.source",
+          "millis": 72.438
+        },
+        {
+          "phase": "UNCHANGED_COMPILER_SAME_ARGUMENTS",
+          "name": "cp7_history_bounded.compile",
+          "millis": 18.854
+        },
+        {
+          "phase": "PREPARE_SEALED",
+          "name": "cp7_frozen_analysis_v2.prepare",
+          "millis": 14.302
+        },
+        {
+          "phase": "REFERENCE_ONLY",
+          "name": "cp7_frozen_analysis_v2.source",
+          "millis": 65.897
+        }
+      ],
+      "actual_Auth_HTTP_credit": false,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-26",
+        "before": "2026-10-26",
+        "after": "2026-10-26"
+      }
+    },
+    "OW12B_FROZEN_V2_SYNTHETIC1200X3_CAPTURE_PREPARE_ALL_TARGET_PARITY": {
+      "products": 3600,
+      "commercial_SKUs": 1200,
+      "physical_sizes": 3,
+      "physical_roots": 3600,
+      "movements": 363600,
+      "exactly_three_distinct_physical_sizes_per_commercial_SKU": true,
+      "synthetic_fixture": true,
+      "actual_Native_qualification": true,
+      "official_finance_included": false,
+      "full_factory3600_qualified": false,
+      "production_go": false,
+      "status": "PASS",
+      "actual_products": 3602,
+      "actual_rows": 363601,
+      "actual_1200_commercial_SKUs_three_distinct_physical_sizes": true,
+      "all3600_physical_targets_once": true,
+      "every_compiled_JSON_field_quantity_operand_reason_reference_identical": true,
+      "raw_INCOMPLETE_and_frozen_PENDING_preserved": true,
+      "full_summary_count_matches_full_raw_reference": true,
+      "ordered_calls": [
+        {
+          "phase": "CAPTURE_FROZEN",
+          "name": "cp7_frozen_analysis_v2.source",
+          "millis": 3376.06
+        },
+        {
+          "phase": "UNCHANGED_COMPILER_SAME_ARGUMENTS",
+          "name": "cp7_history_bounded.compile",
+          "millis": 4437.941
+        },
+        {
+          "phase": "PREPARE_SEALED",
+          "name": "cp7_frozen_analysis_v2.prepare",
+          "millis": 4963.779
+        }
+      ],
+      "statement_limit": "8s",
+      "request_or_unit_integrated": false,
+      "caller_latency_or_factory_SLA_qualified": false,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-26",
+        "before": "2026-10-26",
+        "after": "2026-10-26"
+      }
+    },
+    "OW12B_FROZEN_V2_ACTUAL_POST_FROZEN_INPUTS_UNCHANGED": {
+      "status": "PASS",
+      "actual_Native_post": true,
+      "prepare_after_post_uses_only_frozen_operands": true,
+      "entire_prepared_result_identical_after_post": true,
+      "old_capsule_immutable": true,
+      "new_full_stock_reference_changes": true,
+      "work_identity_changes": true,
+      "no_posted_row_or_date_rewrite": true,
+      "reader_no_ERP_write": true,
+      "ordered_calls": [
+        {
+          "phase": "CAPTURE_FROZEN",
+          "name": "cp7_frozen_analysis_v2.source",
+          "millis": 111.503
+        },
+        {
+          "phase": "PREPARE_SEALED",
+          "name": "cp7_frozen_analysis_v2.prepare",
+          "millis": 19.003
+        },
+        {
+          "phase": "PREPARE_AFTER_ACTUAL_POST",
+          "name": "cp7_frozen_analysis_v2.prepare",
+          "millis": 13.119
+        },
+        {
+          "phase": "CAPTURE_AFTER_ACTUAL_POST",
+          "name": "cp7_frozen_analysis_v2.source",
+          "millis": 103.708
+        }
+      ],
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-26",
+        "before": "2026-10-26",
+        "after": "2026-10-26"
+      }
+    }
+  },
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "CP6_advisor_boundary_public_catalog_WIB_session_Auth_cleanup_gates": true,
+  "manual_unchanged_rerun": false,
+  "actual_Auth_HTTP_credit": false,
+  "new_cross_suite_aggregate_acceptance_credit": 0,
+  "full_factory3600_qualified": false,
+  "full_OW11_acceptance": false,
+  "full_OW12b_acceptance": false,
+  "formal_acceptance": "5/16",
+  "CP7C_accepted": false,
+  "independent_acceptance": false,
+  "production_go": false
+}
