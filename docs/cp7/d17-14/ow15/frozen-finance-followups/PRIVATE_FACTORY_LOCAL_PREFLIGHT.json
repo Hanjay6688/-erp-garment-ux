@@ -1,0 +1,33 @@
+{
+  "status": "LOCAL_PRIVATE_FACTORY_PREPARATION_PASS",
+  "source_binding": {
+    "exact_date_corrected_fixture_head": "daab807531816353e499d7842897320ce42e8949",
+    "fixture_sha256": "6dceb87ae35bb87527eba3176f80b292e5ab9ef2a4a4b5a813bf6d3f3097724e",
+    "retained_assertions": {
+      "runner.py": 36,
+      "fixture.py": 17,
+      "probe.py": 10
+    },
+    "total_assertions": 63,
+    "private_transport_only": true,
+    "all24_official_metrics_and_independent_signature_retained": true,
+    "all_money_stock_HPP_and_UNKNOWN_guards_retained": true,
+    "unchanged_300s_window_and60_bounded8s_transactions": true,
+    "new_factory_runtime_credit": false,
+    "production_go": false
+  },
+  "negative_source_controls": [
+    "fixture.py",
+    "runner.py",
+    "probe.py"
+  ],
+  "bash_steps_parsed": 43,
+  "ordinary_statement_limit_seconds": 8,
+  "unchanged_cron_wait_seconds": 300,
+  "actual_prerequisites_required": 8,
+  "SOURCE_bound": false,
+  "Native45_actual_pending": true,
+  "database_executed": false,
+  "case_executed": false,
+  "production_go": false
+}
