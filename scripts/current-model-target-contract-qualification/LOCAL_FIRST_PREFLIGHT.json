@@ -1,0 +1,9 @@
+{
+  "status": "INCOMPLETE_LOCAL_PREPARATION",
+  "error": "AttributeError: module 'bounded_finance_current_native' has no attribute 'native'",
+  "cause": "The local preflight incorrectly inspected a native attribute that the imported lock helper does not expose.",
+  "correction": "Inspect control.native and acquire_boundary at their actual owning modules; no product or imported source change.",
+  "subsequent_launch_error": "The scratch setup command used writer cwd with relative paths; moved the newly created helper back to scratch and used an absolute invocation.",
+  "database_cases_executed": 0,
+  "production_go": false
+}
