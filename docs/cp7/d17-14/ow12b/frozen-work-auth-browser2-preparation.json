@@ -1,0 +1,31 @@
+{
+  "status": "PASS_PREPARATION_ONLY",
+  "source_pins": 116,
+  "exact_case_budget": {
+    "browser": 2
+  },
+  "missing_or_mixed_routes_refused": 93,
+  "actual_F05_prefix_and_contract": true,
+  "SQL_unchanged": true,
+  "existing_public_work_read_and_save": true,
+  "actual_Native": false,
+  "actual_Auth_HTTP_credit": false,
+  "default_or_UI_adopted": false,
+  "production_go": false,
+  "prepared_build": "PASS_ACTUAL_COMPONENT_AUTH_PROVIDER_GATE_AND_CLIENT_LOCAL_BUILD_ONLY",
+  "module_sources_observed": 39,
+  "typescript": "PASS",
+  "existing_workflow_inline_declarations_pass": 58,
+  "new_workflow_shell_syntax": "PASS",
+  "first_preflight_refusal": {
+    "error": "OW13A_RETAINS_ALL_NATIVE113_GATES",
+    "cause": "New specific admission was after generic parent guard; moved closed transport and browser declarations before generic guards, preserving all refusals."
+  },
+  "first_receipt_verifier_refusal": {
+    "error": "KeyError:frozen_units_component_qualified",
+    "resolution": "Verified actual Original field private_request_and_units_qualified without changing runtime report."
+  },
+  "focused_closed_route_preflights_pass": 9,
+  "legacy_ACL_preflight_invocation_without_required_raw_input_refused": true,
+  "exact5e0_verifier_wrong_checkout_refused_before_receipt_write": true
+}

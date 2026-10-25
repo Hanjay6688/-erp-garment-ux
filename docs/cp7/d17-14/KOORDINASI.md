@@ -3807,3 +3807,32 @@ PASS after retaining verifier env/module-name/stale-factory-pin refusals.
 No SQL/default app/shared installer/generated types/registry change. Actual
 transport qualification and real Auth UI remain open; do not stop at this
 checkpoint. Formal5/16/CP7C/independent/production_go remain false.
+
+
+## 191. B26 Oktober2026 WIB — prepare real Auth frozen schedule UI
+
+5e0 units complete Original12608972771 verified:4PASS, actual1200SKU x3
+physical sizes/all3602 targets and76units exact; request2989.795ms,
+maxunit4668.922ms, unchanged compiler3026.843ms. All5JSON/head/source,
+CP6/advisor/public/WIB26/session/Auth/restore checked. Reader Original12609183079
+preserves4INCOMPLETE at the old strict ACL guard; correctivec1 remains pending.
+No factory SLA, new aggregate acceptance or production adoption inferred.
+
+Prepared separate Browser2 under actual disposable host/GoTrue/PostgREST:
+real AuthProvider/AuthGate/runtime/client, same-origin prepared panel build,
+PENDING physical form SAVE, committed lost-response/reload exact command,
+mobile Native-post stale refusal and retained fields/request, then real
+anonymous/foreign/current revoked access. No mocked identity/RPC. Default app
+import graph unchanged. Local build39modules and TypeScript PASS; closed
+Browser2 preflight116pins/93mixed-or-missing routes refused.58existing workflow
+declarations and new shell syntax PASS. First admission ordering and receipt
+field-name/worktree assumptions retained; wrong-head verifier failed before
+writing a receipt and was run against the exact5e0 checkout. No runtime oracle
+changed. Actual Browser2, current frozen Native/Auth results and visual review
+remain open. Formal5/16; CP7C/independent/production_go=false. Continue scope.
+
+5e0 choice Original12609602441 also fully verified:6INCOMPLETE at old reader
+ACL install, no choice business-case credit. All5JSON and exact source, cleanup
+and restore gates preserved. New workflow explicitly installs pglast8.7; nine
+closed-route preflights PASS. Legacy ACL-input checker correctly refuses an
+invocation without its required raw report; no fresh database credit claimed.

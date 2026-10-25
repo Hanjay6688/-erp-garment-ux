@@ -1369,5 +1369,35 @@
     "strict_expected_owner_authenticated_grants_unchanged": true,
     "global_default_privileges_unchanged": true,
     "first_513_reader4_facade6_and_607_choice6_INCOMPLETE_retained": true
-  }
+  },
+  "frozen_work_real_Auth_browser_preparation": {
+    "contract": "docs/cp7/d17-14/ow12b/FROZEN_WORK_AUTH_BROWSER2_CONTRACT.json",
+    "receipt": "docs/cp7/d17-14/ow12b/frozen-work-auth-browser2-preparation.json",
+    "required_cases": 2,
+    "status": "PREPARED_LOCAL_ONLY",
+    "actual_Auth_HTTP_credit": false,
+    "default_application_adopted": false,
+    "production_go": false
+  },
+  "frozen_units_latest_regression_5e0": {
+    "status": "PASS",
+    "run_id": 40218592794,
+    "artifact_id": 12608972771,
+    "receipt": "docs/cp7/d17-14/ow11/5e0e5f77-40218592794-original-pass.json",
+    "full_factory3600_qualified": false
+  },
+  "frozen_old_ACL_reader_choice_5e0": [
+    {
+      "status": "INCOMPLETE",
+      "run_id": 40218592755,
+      "artifact_id": 12609183079,
+      "cases": 4
+    },
+    {
+      "status": "INCOMPLETE",
+      "run_id": 40218592728,
+      "artifact_id": 12609602441,
+      "cases": 6
+    }
+  ]
 }

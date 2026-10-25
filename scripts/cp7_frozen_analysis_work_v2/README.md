@@ -50,3 +50,16 @@ Separate Browser4 renders desktop/mobile, submits the actual form, exercises
 reload, actual cross-tab storage events and held replies on permission change.
 Identity and RPC are controlled; it does not qualify real Auth or Native SAVE.
 Screenshots require visual inspection after the complete original is returned.
+
+
+Real Auth Browser2 is prepared separately in
+`cp7_ow12b_frozen_work_auth_browser.mjs`. The existing disposable host creates
+actual GoTrue users and signs in through the application. A separate build of
+this panel on that same loopback origin uses the real AuthProvider, AuthGate,
+runtime guard and Supabase client with the session; no identity/RPC mocks.
+Desktop checks actual PENDING read, form SAVE, committed reply loss and reload
+of the exact UUID/payload with only one plan and command. Mobile checks an
+actual Native stock post, stale SAVE without metadata effects, retained input
+and durable command, then anonymous/foreign/current revoked access and cleared
+form on real403. Customer work uses capacity without company stock. This
+preparation is not an actual Browser2 result or default application adoption.
