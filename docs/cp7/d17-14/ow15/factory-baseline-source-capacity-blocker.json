@@ -14,5 +14,8 @@
     "full_output_and_UNKNOWN_semantics_required": true,
     "model_version_change_alone_not_a_capacity_fix": true,
     "production_go": false
-  }
+  },
+  "latest_B_candidate": "182c8b174f7d1d4e3355c24263cf1866357510b5",
+  "latest_B_scale_artifact": 12591957005,
+  "latest_B_scale_result": "1PASS/1INCOMPLETE;8s request timeout remains in cp7_wip.refs under demand estimate; before v2 install"
 }

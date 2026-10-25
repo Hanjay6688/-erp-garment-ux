@@ -1,0 +1,50 @@
+{
+  "name": "CP7_OW11_MODEL_TARGET_V2_SCALE.json",
+  "status": "INCOMPLETE",
+  "head": "182c8b174f7d1d4e3355c24263cf1866357510b5",
+  "run_id": 40173569646,
+  "job_id": 121109393358,
+  "artifact_id": 12591957005,
+  "zip_bytes": 116950,
+  "zip_sha256": "73d8c1c82bdc4bde62b34fef129e0b4dfb3c717bed7be71407fdcf71fccb73fb",
+  "bytes": 968634,
+  "sha256": "a7a129abfb16bdec00c1a1f3106ef867e552853cebabe4a8fd88876bd574bc30",
+  "archive_member": "CP7_OW11_MODEL_TARGET_V2_SCALE.json",
+  "source_pins_verified": 50,
+  "gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "production_go": false,
+  "independent_acceptance": false,
+  "case_ids": [
+    "OW11_MODEL_TARGET_V2_CATALOG22_COMPOSED_PREUSE",
+    "OW11_MODEL_TARGET_V2_OPERATIONAL3600_ALL_TARGET_PARITY_SOURCE"
+  ],
+  "counts": {
+    "PASS": 1,
+    "INCOMPLETE": 1
+  },
+  "source_pins_equal_current_isolated_candidate": false,
+  "changed_current_candidate_paths": [
+    "scripts/cp7_model_target_consumer_v2/MANIFEST.json",
+    "scripts/cp7_product_analog_consumer/MANIFEST.json",
+    "scripts/cp7_product_analog_consumer/kernel.sql",
+    "scripts/cp7_product_analog_consumer/baseline.sql",
+    "scripts/cp7_product_analog_provenance_stage/MANIFEST.json",
+    "scripts/cp7_product_analog_provenance_stage/hooks.sql",
+    "scripts/cp7_ow11_model_target_consumer_v2_cases.py"
+  ],
+  "full_A_chain_qualified": false,
+  "positive_historical_forecast_credit": false,
+  "factory_capacity_or_SLA": false,
+  "first_failure_phase": "Legacy source before new v2 installation at 3600 variants",
+  "first_failure": "statement timeout in legacy bounded request / cp7_wip.refs",
+  "legacy_full3600_parity_qualified": false,
+  "official_finance_included": false
+}

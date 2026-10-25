@@ -1,5 +1,5 @@
 {
-  "recorded_at_utc": "2026-10-25T07:51:52.188456+00:00",
+  "recorded_at_utc": "2026-10-25T08:07:51.410727+00:00",
   "role": "A finance writer/integrator replacing Claude",
   "slogan": [
     "VENI. VIDI. VICI. ERP. \u2014 I CONQUERED ERP.",
@@ -82,7 +82,7 @@
     },
     {
       "scope": "isolated future versioned-target integration",
-      "head": "681431899539491830272d8e3e8138d2fb8e439f",
+      "head": "3f0af16cd998e35a32514e41b1b99eea660a9b04",
       "branch": "astra-a/d17-14-versioned-target-integration-prepared-20261025",
       "client_tests": 303,
       "client_test_files": 12,
@@ -98,7 +98,7 @@
       "changed_hook_bodies": 14,
       "unchanged_hook_bodies": 7,
       "legacy_target_objects_preserved": true,
-      "tree": "70152f75ffd00c3012a7348a1868542eda22e873",
+      "tree": "dc5cda0a94e7d16f1f8918af355ef29b6460c5b6",
       "true_merge_B_head": "36b81fcee8ee801a96793c89df6e14388263ad33",
       "browser_source_pins_current": 50,
       "first_source_export_mismatch_preserved": true,
@@ -114,7 +114,16 @@
       "selected_contract_cases": 6,
       "negative_business_source_guards": 4,
       "selected_customer_refusal_body_replacements": 1,
-      "selected_return_source_true_merged": true
+      "selected_return_source_true_merged": true,
+      "full_used_restore8_prepared": true,
+      "used_restore_existing_negative_controls": 22,
+      "used_restore_new_negative_controls": 7,
+      "used_restore_retained_assertions": 44,
+      "finance_auth3_races7_prepared": true,
+      "finance_retained_assertions": 55,
+      "actual_minute_cron1_prepared": true,
+      "cron_retained_assertions": 36,
+      "all_followup_SOURCE_absent": true
     },
     {
       "scope": "full scoped model used restore8",
@@ -142,7 +151,8 @@
     "B-scale-v2-first-actual-ed82e7e9.json",
     "selected-native20-first-actual-5cba3b3b.json",
     "scoped-native30-first-actual-862bedba.json",
-    "factory-date-corrected-actual-daab8075.json"
+    "factory-date-corrected-actual-daab8075.json",
+    "B-context-path-scale-first-actual-182c8b17.json"
   ],
   "next_rules": [
     "Preserve and verify exact Original bytes, source pins, every case and full restoration before credit",
@@ -412,5 +422,169 @@
     "advisor_gate": true,
     "production_go": false,
     "independent_acceptance": false
+  },
+  "B_context_path_correction": {
+    "browser2": {
+      "name": "CP7_OW11_MODEL_TARGET_V2_BROWSER.json",
+      "status": "PASS",
+      "head": "182c8b174f7d1d4e3355c24263cf1866357510b5",
+      "run_id": 40173569416,
+      "job_id": 121109392509,
+      "artifact_id": 12591551904,
+      "zip_bytes": 48195,
+      "zip_sha256": "b69be4a4f04231e53317f7b32ed7f20bb30bf73fc92b96ffbbb6a7ab37e22b5b",
+      "bytes": 310418,
+      "sha256": "24e40a8eaf99f98d161310a39bfe13c9390a9d09f0f1c00cd89ef523f73df39f",
+      "archive_member": "CP7_OW11_MODEL_TARGET_V2_BROWSER.json",
+      "source_pins_verified": 64,
+      "gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "production_go": false,
+      "independent_acceptance": false,
+      "case_ids": [
+        "OW11_MODEL_TARGET_V2_BROWSER_MOBILE_UNKNOWN_ANALOG_CLEAR",
+        "OW11_MODEL_TARGET_V2_BROWSER_DESKTOP_DENSE_PROVENANCE_RELOAD"
+      ],
+      "counts": {
+        "PASS": 2
+      },
+      "source_pins_equal_current_isolated_candidate": false,
+      "changed_current_candidate_paths": [
+        "scripts/cp7_model_target_consumer_v2/MANIFEST.json",
+        "scripts/cp7_product_analog_consumer/MANIFEST.json",
+        "scripts/cp7_product_analog_consumer/kernel.sql",
+        "scripts/cp7_product_analog_consumer/baseline.sql",
+        "scripts/cp7_product_analog_provenance_stage/MANIFEST.json",
+        "scripts/cp7_product_analog_provenance_stage/hooks.sql",
+        "scripts/cp7_ow11_model_target_consumer_v2_cases.py"
+      ],
+      "full_A_chain_qualified": false,
+      "positive_historical_forecast_credit": false,
+      "factory_capacity_or_SLA": false,
+      "actual_Auth_browser_credit": true,
+      "auth_users_and_sessions_restored": true,
+      "console_errors": 0,
+      "host_exit": 0,
+      "host_status": "RUN_COMPLETE",
+      "case_evidence": {
+        "OW11_MODEL_TARGET_V2_BROWSER_MOBILE_UNKNOWN_ANALOG_CLEAR": {
+          "status": "PASS",
+          "model_target_overlay_actual_Auth_browser": true,
+          "versioned_provenance_v3_and_resolution_v2": true,
+          "actual_scoped_model_reference_retained": true,
+          "actual_scoped_history_model_lost_reply_reload_exact_recovery": true,
+          "current403_hides_quantity_results": true,
+          "positive_model_target_qualified": false,
+          "actual_Auth_PostgREST_browser": true,
+          "actual_Native_posted_sale": true,
+          "synthetic_historical_openings": true,
+          "actual_confirm_then_new_request_and_target": true,
+          "expected_target_pcs": "1",
+          "own_sales_and_days_remain_zero": true,
+          "exact_retained_provenance_after_reload": true,
+          "CLEAR_then_new_UNKNOWN": true,
+          "dense2000_202000": false,
+          "no_physical_money_HPP_or_draft_effect_from_choice": true,
+          "no_horizontal_overflow": true,
+          "shots": [
+            "cp6-proof/t3/MODEL_TARGET_V2_MOBILE_TARGET.png",
+            "cp6-proof/t3/MODEL_TARGET_V2_MOBILE_ACCESS_REVOKED.png"
+          ],
+          "full_OW11_acceptance": false,
+          "business_day": {
+            "planned": "2026-10-25",
+            "before": "2026-10-25",
+            "after": "2026-10-25"
+          }
+        },
+        "OW11_MODEL_TARGET_V2_BROWSER_DESKTOP_DENSE_PROVENANCE_RELOAD": {
+          "status": "PASS",
+          "model_target_overlay_actual_Auth_browser": true,
+          "versioned_provenance_v3_and_resolution_v2": true,
+          "actual_scoped_model_reference_retained": false,
+          "actual_scoped_history_model_lost_reply_reload_exact_recovery": false,
+          "current403_hides_quantity_results": false,
+          "positive_model_target_qualified": false,
+          "actual_Auth_PostgREST_browser": true,
+          "actual_Native_posted_sale": true,
+          "synthetic_historical_openings": true,
+          "actual_confirm_then_new_request_and_target": true,
+          "expected_target_pcs": "2",
+          "own_sales_and_days_remain_zero": true,
+          "exact_retained_provenance_after_reload": true,
+          "CLEAR_then_new_UNKNOWN": false,
+          "dense2000_202000": true,
+          "no_physical_money_HPP_or_draft_effect_from_choice": true,
+          "no_horizontal_overflow": true,
+          "shots": [
+            "cp6-proof/t3/MODEL_TARGET_V2_DESKTOP_TARGET.png"
+          ],
+          "full_OW11_acceptance": false,
+          "business_day": {
+            "planned": "2026-10-25",
+            "before": "2026-10-25",
+            "after": "2026-10-25"
+          }
+        }
+      }
+    },
+    "scale_first": {
+      "name": "CP7_OW11_MODEL_TARGET_V2_SCALE.json",
+      "status": "INCOMPLETE",
+      "head": "182c8b174f7d1d4e3355c24263cf1866357510b5",
+      "run_id": 40173569646,
+      "job_id": 121109393358,
+      "artifact_id": 12591957005,
+      "zip_bytes": 116950,
+      "zip_sha256": "73d8c1c82bdc4bde62b34fef129e0b4dfb3c717bed7be71407fdcf71fccb73fb",
+      "bytes": 968634,
+      "sha256": "a7a129abfb16bdec00c1a1f3106ef867e552853cebabe4a8fd88876bd574bc30",
+      "archive_member": "CP7_OW11_MODEL_TARGET_V2_SCALE.json",
+      "source_pins_verified": 50,
+      "gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": false
+      },
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "production_go": false,
+      "independent_acceptance": false,
+      "case_ids": [
+        "OW11_MODEL_TARGET_V2_CATALOG22_COMPOSED_PREUSE",
+        "OW11_MODEL_TARGET_V2_OPERATIONAL3600_ALL_TARGET_PARITY_SOURCE"
+      ],
+      "counts": {
+        "PASS": 1,
+        "INCOMPLETE": 1
+      },
+      "source_pins_equal_current_isolated_candidate": false,
+      "changed_current_candidate_paths": [
+        "scripts/cp7_model_target_consumer_v2/MANIFEST.json",
+        "scripts/cp7_product_analog_consumer/MANIFEST.json",
+        "scripts/cp7_product_analog_consumer/kernel.sql",
+        "scripts/cp7_product_analog_consumer/baseline.sql",
+        "scripts/cp7_product_analog_provenance_stage/MANIFEST.json",
+        "scripts/cp7_product_analog_provenance_stage/hooks.sql",
+        "scripts/cp7_ow11_model_target_consumer_v2_cases.py"
+      ],
+      "full_A_chain_qualified": false,
+      "positive_historical_forecast_credit": false,
+      "factory_capacity_or_SLA": false,
+      "first_failure_phase": "Legacy source before new v2 installation at 3600 variants",
+      "first_failure": "statement timeout in legacy bounded request / cp7_wip.refs",
+      "legacy_full3600_parity_qualified": false,
+      "official_finance_included": false
+    },
+    "integration_status": "NOT_MERGED_IN_A; changed frozen analog parents require exact overlay or separately qualified integration. Browser2 PASS64pins; scale 1PASS1INCOMPLETE50pins before v2 installation. No capacity credit."
   }
 }
