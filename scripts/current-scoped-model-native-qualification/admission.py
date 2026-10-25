@@ -16,6 +16,7 @@ PROVIDERS = {
 VARIABLES = set(PROVIDERS) | {
     'CURRENT_MODEL_HISTORY_ORIGINAL_REPORT',
     'CURRENT_MODEL_HISTORY_RESTORE_ORIGINAL_REPORT',
+    'FIRST_SCOPED_MODEL_NATIVE_ORIGINAL_REPORT',
 }
 
 
@@ -53,6 +54,15 @@ def admitted(repo, here, ids, product, business):
         raw = Path(os.environ[variable]).read_bytes()
         assert len(raw) == proof['bytes'] and sha256(raw).hexdigest() == proof['sha256'], variable
         actual = json.loads(raw)
+        if variable=='FIRST_SCOPED_MODEL_NATIVE_ORIGINAL_REPORT':
+            assert actual['status']==proof['status']=='INCOMPLETE'
+            assert actual['qualification_commit']==proof['head']=='862bedbaa04afa130b984c1f474f71d03d0380e6'
+            assert actual['cp6_restored']and actual['advisor_gate']and actual['baseline_full22_all_rows_all_sequences_equal']and actual['baseline_advisors_equal']
+            assert actual['native']['counts']=={'PASS':29,'INCOMPLETE':1}and not actual['required_case_ids_pass']
+            assert actual['required_case_ids']==list(ids)and actual['observed_case_count']==30
+            assert actual['native']['cases']['OW11_MODEL_HISTORY_RUNTIME_ACTUAL_CAPTURE_REPLAY_IMMUTABLE']['status']=='INCOMPLETE'
+            originals[variable]=dict(proof,observed_status=actual['status'])
+            continue
         assert actual['status'] == proof['status'] == 'PASS'
         assert actual['cp6_restored'] and actual['advisor_gate']
         if variable == 'CURRENT_MODEL_HISTORY_ORIGINAL_REPORT':
@@ -108,6 +118,8 @@ def admitted(repo, here, ids, product, business):
             path = Path(module.__file__)
             assert sha256(path.read_bytes()).hexdigest() == pins['files']['scripts/' + path.name]
             loaded.append(name)
+    binding=business.source_binding()
+    assert binding['explicit_history_replay_guard']['explicit_AST_changes']==dict(rollback_calls=1,refusal_constants=1)
     return dict(qualified_current_history=predecessor, current_installation=product.sources(),
                 qualification=pins, actual_originals_verified=originals,
                 actual_loaded_modules_verified=loaded, retained_business_cases=business.source_binding(),

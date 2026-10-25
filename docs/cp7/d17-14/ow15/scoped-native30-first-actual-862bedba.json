@@ -1,0 +1,32 @@
+{
+  "name": "CP7_CURRENT_SCOPED_MODEL_NATIVE30.json",
+  "status": "INCOMPLETE",
+  "head": "862bedbaa04afa130b984c1f474f71d03d0380e6",
+  "run_id": 40170086669,
+  "job_id": 121098981598,
+  "artifact_id": 12591251190,
+  "zip_bytes": 2755837,
+  "zip_sha256": "9d26e37a4d5b55dba812b18c66a4c60900ad67f09ed7c7ca952c1475af96cf10",
+  "bytes": 8909549,
+  "sha256": "a3285c8465a97a80909b5e21a05a63b30a9fdc2551e94b86fec6076daa570192",
+  "archive_member": "CP7_CURRENT_SCOPED_MODEL_NATIVE30.json",
+  "source_pins_verified": 3300,
+  "counts": {
+    "PASS": 29,
+    "INCOMPLETE": 1
+  },
+  "failed_case": "OW11_MODEL_HISTORY_RUNTIME_ACTUAL_CAPTURE_REPLAY_IMMUTABLE",
+  "first_failure": "Historical component inverse verifier sees intentional new scoped-model parent FK catalog additions; must use current complete guard without rewriting prior state",
+  "full22_all_rows_all_sequences_restored": true,
+  "gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "production_go": false,
+  "independent_acceptance": false
+}
