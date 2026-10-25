@@ -1,0 +1,48 @@
+{
+  "contract": "cp7.full-public-frozen-recovery-declared-source-changes.v1",
+  "retained_path": "scripts/cp7_current_versioned_performance_recovery.py",
+  "changes": [
+    {
+      "before": "import cp7_current_versioned_performance_installation as installation",
+      "after": "import cp7_current_frozen_public_installation as installation",
+      "count": 1
+    },
+    {
+      "before": "CONTRACT='cp7.current-AB-finance-versioned-performance.offline-full-backup.v1'",
+      "after": "CONTRACT='cp7.current-AB-public-frozen-finance.offline-full-backup.v1'",
+      "count": 1
+    },
+    {
+      "before": "target_installation=installation.predecessor.predecessor.predecessor.predecessor",
+      "after": "target_installation=installation.predecessor.predecessor.predecessor.predecessor.predecessor.predecessor.predecessor",
+      "count": 1
+    },
+    {
+      "before": "current=state['predecessor']['predecessor']['predecessor']['predecessor']['predecessor']['predecessor']['predecessor']['predecessor']['predecessor']['predecessor']",
+      "after": "current=state['predecessor']['predecessor']['predecessor']['predecessor']['predecessor']['predecessor']['predecessor']['predecessor']['predecessor']['predecessor']['predecessor']['predecessor']['predecessor']",
+      "count": 1
+    },
+    {
+      "before": "selected=installation.predecessor.selected.delta",
+      "after": "selected=installation.predecessor.predecessor.predecessor.predecessor.selected.delta",
+      "count": 1
+    },
+    {
+      "before": "installation.performance.",
+      "after": "installation.predecessor.predecessor.predecessor.performance.",
+      "count": 2
+    },
+    {
+      "before": "VERSIONED_PERFORMANCE_RESTORE_",
+      "after": "FROZEN_PUBLIC_RESTORE_",
+      "count": 14
+    },
+    {
+      "before": "EXACT_CURRENT_VERSIONED_PERFORMANCE_FULL_RESTORE_BOUND",
+      "after": "EXACT_CURRENT_FROZEN_PUBLIC_FULL_RESTORE_BOUND",
+      "count": 1
+    }
+  ],
+  "new_Runtime_credit": false,
+  "production_go": false
+}

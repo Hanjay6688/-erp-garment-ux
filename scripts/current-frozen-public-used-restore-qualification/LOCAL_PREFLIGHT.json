@@ -1,0 +1,217 @@
+{
+  "status": "PASS_LOCAL_PREPARATION_ONLY",
+  "source_binding": {
+    "previous_guard": {
+      "previous_guard": {
+        "unchanged_fixture_sha256": {
+          "fixture.py": "bba6452cb85487db804e6203449f10c1faadc4e7b9e22df822928fb447661b3a",
+          "opening_fixture.py": "7d54d9c4c2256d297f5e2869c598599c9761f4bfa02808e40a631f1d0c4a81ea",
+          "finance_fixture.py": "eb1645be30abce150573071e549cc771b25473e72dadd9d992823729f4f5f65f",
+          "model_fixture.py": "c2e31231ad1fb464fc9b425d7a1e3566db1ccb5816555fbe5dd236587a2a0df6",
+          "history_fixture.py": "1c3b14662a147aabea3bff61c38df4af28629f4f6e02ea5635d3cd6ba63cc668",
+          "scoped_model_fixture.py": "122db8af50655c4af2f1365395a61d5aec1ee93b9ccb49d351f13c099cdef92a"
+        },
+        "target_entire_AST_equal_after_exact_provider_and_protocol_changes": true,
+        "retained_probe_assertions": 44,
+        "new_probe_assertions": 1,
+        "required_steps": 8,
+        "retained_refusal_business_source": {
+          "exact_retained_business_assertions": true,
+          "only_expected_selected_customer_code_changed": true,
+          "original_helper_unchanged": true,
+          "expected_sqlstate": "P0001",
+          "expected_error": "OW04_SOURCE_CUSTOMER_MISMATCH",
+          "all_rows_sequences_and_full22_checks_retained": true
+        },
+        "production_go": false,
+        "Native_credit": false
+      },
+      "unchanged_fixture_sha256": {
+        "fixture.py": "bba6452cb85487db804e6203449f10c1faadc4e7b9e22df822928fb447661b3a",
+        "opening_fixture.py": "7d54d9c4c2256d297f5e2869c598599c9761f4bfa02808e40a631f1d0c4a81ea",
+        "finance_fixture.py": "eb1645be30abce150573071e549cc771b25473e72dadd9d992823729f4f5f65f",
+        "model_fixture.py": "c2e31231ad1fb464fc9b425d7a1e3566db1ccb5816555fbe5dd236587a2a0df6",
+        "target_fixture.py": "0a6d51e718960795b9542842ebfd32339a1777ac7e27b9765d6d29a072d9e00a",
+        "history_fixture.py": "1c3b14662a147aabea3bff61c38df4af28629f4f6e02ea5635d3cd6ba63cc668",
+        "scoped_model_fixture.py": "122db8af50655c4af2f1365395a61d5aec1ee93b9ccb49d351f13c099cdef92a"
+      },
+      "whole_previous_runner_AST_retained": true,
+      "target_capture_after_all_scoped_evaluations": true,
+      "exact_existing_target_prebackup_assertions": true,
+      "explicit_composer_and_context_changes": [
+        {
+          "before": "cp7_current_versioned_target_recovery",
+          "after": "cp7_current_versioned_performance_recovery",
+          "count": 1
+        },
+        {
+          "before": "cp7_current_versioned_target_installation",
+          "after": "cp7_current_versioned_performance_installation",
+          "count": 1
+        },
+        {
+          "before": "VERSIONED_TARGET_RESTORE_",
+          "after": "VERSIONED_PERFORMANCE_RESTORE_",
+          "count": 24
+        },
+        {
+          "before": "CP7_CURRENT_VERSIONED_TARGET_USED_RESTORE8",
+          "after": "CP7_CURRENT_VERSIONED_PERFORMANCE_USED_RESTORE8",
+          "count": 1
+        },
+        {
+          "before": "CURRENT_VERSIONED_TARGET_USED_RESTORE_MANIFEST.json",
+          "after": "CURRENT_VERSIONED_PERFORMANCE_USED_RESTORE_MANIFEST.json",
+          "count": 1
+        },
+        {
+          "before": "/tmp/current_versioned_target_",
+          "after": "/tmp/current_versioned_performance_",
+          "count": 2
+        },
+        {
+          "before": "scoped_composed=composed.predecessor",
+          "after": "scoped_composed=composed.predecessor.predecessor",
+          "count": 1
+        },
+        {
+          "before": "['current_installation']['predecessor']",
+          "after": "['current_installation']['predecessor']['predecessor']",
+          "count": 5
+        },
+        {
+          "before": "['current_installation']['stages']",
+          "after": "['current_installation']['predecessor']['stages']",
+          "count": 1
+        },
+        {
+          "before": "composed.selected.delta.SIGNATURE",
+          "after": "composed.predecessor.selected.delta.SIGNATURE",
+          "count": 1
+        },
+        {
+          "before": "import scoped_model_fixture\n",
+          "after": "import scoped_model_fixture\nimport performance_controls\n",
+          "count": 1
+        },
+        {
+          "before": "    def row():\n",
+          "after": "    performance_controls.run(cur,backup,refused,bind,model_metadata,catalog,composed)\n    def row():\n",
+          "count": 1
+        }
+      ],
+      "retained_runner_assertions": 45,
+      "prior_negative_controls": 29,
+      "added_performance_negative_controls": 5,
+      "required_steps": 8,
+      "production_go": false,
+      "Native_runtime_qualified": false
+    },
+    "recovery_source": {
+      "retained_recovery_sha256": "c733553fd8b5db09132efc5e5cc50097ef1e3b4ba466afa7ad00e692fe58c03c",
+      "current_recovery_sha256": "a3754ee5c058eb0b2eca3bc621f82807d4d70fbdf7577a6e23a8ed87f673b559",
+      "all_business_data_and_OID_census_guards_unchanged": true,
+      "extra_composer_levels": 3,
+      "production_go": false
+    },
+    "unchanged_fixture_sha256": {
+      "fixture.py": "bba6452cb85487db804e6203449f10c1faadc4e7b9e22df822928fb447661b3a",
+      "opening_fixture.py": "7d54d9c4c2256d297f5e2869c598599c9761f4bfa02808e40a631f1d0c4a81ea",
+      "finance_fixture.py": "eb1645be30abce150573071e549cc771b25473e72dadd9d992823729f4f5f65f",
+      "model_fixture.py": "c2e31231ad1fb464fc9b425d7a1e3566db1ccb5816555fbe5dd236587a2a0df6",
+      "target_fixture.py": "0a6d51e718960795b9542842ebfd32339a1777ac7e27b9765d6d29a072d9e00a",
+      "history_fixture.py": "1c3b14662a147aabea3bff61c38df4af28629f4f6e02ea5635d3cd6ba63cc668",
+      "scoped_model_fixture.py": "122db8af50655c4af2f1365395a61d5aec1ee93b9ccb49d351f13c099cdef92a"
+    },
+    "entire_retained_runner_AST_preserved": true,
+    "retained_runner_assertions": 45,
+    "prior_negative_controls": 34,
+    "added_public_negative_controls": 8,
+    "required_steps": 8,
+    "legacy_and_public_frozen_finance_both_used": true,
+    "production_go": false,
+    "actual_restore_qualified": false
+  },
+  "required_steps": [
+    "EXACT_INSTALL_AND_PREUSE_INVERSE",
+    "COMMITTED_RETURN_AND_ANALOG_CHOICE",
+    "USED_INVERSE_REFUSED_BEFORE_DDL",
+    "FULL_USED_BACKUP_RESTORED",
+    "RESTORE_NEGATIVE_CONTROLS",
+    "FULL_RESTORE_AFTER_NEGATIVE_WRITE",
+    "ONLY_LOCAL_NATIVE_OID_SEAL",
+    "EXACT_READS_REPLAY_CLEAR_AND_NEXT_RETURN"
+  ],
+  "negative_control_ids": [
+    "CHANGED_ANALOG_CHOICE_SOURCE",
+    "CHANGED_COMPOSED_ENTRYPOINT_SOURCE",
+    "CHANGED_DATED_TARGET_SOURCE",
+    "CHANGED_FROZEN_FINANCE_COMPOSER_SOURCE",
+    "CHANGED_FROZEN_PUBLIC_COMPOSER_SOURCE",
+    "CHANGED_FROZEN_UNITS_COMPOSER_SOURCE",
+    "CHANGED_IMMUTABLE_HISTORY_RUNTIME_SOURCE",
+    "CHANGED_MODEL_V2_SOURCE",
+    "CHANGED_QUALIFIED_KERNEL_SOURCE",
+    "CHANGED_QUALIFIED_PROVENANCE_SOURCE",
+    "CHANGED_SCOPED_HISTORY_SOURCE",
+    "CHANGED_SCOPED_MODEL_DATASET",
+    "CHANGED_SCOPED_MODEL_V3_RUNTIME",
+    "CHANGED_SELECTED_CUSTOMER_SOURCE",
+    "CHANGED_VERSIONED_BINDING_SOURCE",
+    "CHANGED_VERSIONED_SELECTION_SOURCE",
+    "CHANGED_VERSIONED_TARGET_SOURCE",
+    "DATED_TIMELINE_METADATA_DRIFT",
+    "DELTA_FUNCTION_METADATA_DRIFT",
+    "DRAFT_ROW_DRIFT",
+    "FINANCE_FACADE_AUTHORITY_METADATA_DRIFT",
+    "IMMUTABLE_HISTORY_FUNCTION_METADATA_DRIFT",
+    "MISSING_CATALOG_GROUP",
+    "MODEL_POLICY_AUTHORITY_METADATA_DRIFT",
+    "MODEL_V2_AUTHORITY_METADATA_DRIFT",
+    "NEW_FROZEN_PUBLIC_FUNCTION_DEPENDENCY",
+    "NEW_HISTORY_CAPTURE_DRIFT",
+    "NEW_PERFORMANCE_FUNCTION_DEPENDENCY",
+    "NEW_SCOPED_MODEL_V3_CAPTURE_DRIFT",
+    "NEW_VERSIONED_FUNCTION_DEPENDENCY",
+    "PERFORMANCE_BASELINE_AUTHORITY_METADATA_DRIFT",
+    "PERFORMANCE_RESOLVE_AUTHORITY_METADATA_DRIFT",
+    "PRIVATE_FROZEN_FINANCE_AUTHORITY_DRIFT",
+    "PRIVATE_FROZEN_UNITS_AUTHORITY_DRIFT",
+    "PUBLIC_FROZEN_FINANCE_AUTHORITY_DRIFT",
+    "PUBLIC_FROZEN_OPERATIONAL_AUTHORITY_DRIFT",
+    "RAW_OPERATIONAL_COMPILER_METADATA_DRIFT",
+    "SCOPED_MODEL_V3_AUTHORITY_METADATA_DRIFT",
+    "SELECTED_CUSTOMER_AUTHORITY_METADATA_DRIFT",
+    "VERSIONED_CONSUMER_AUTHORITY_METADATA_DRIFT",
+    "WRONG_DATABASE",
+    "WRONG_TRUSTED_HASH"
+  ],
+  "retained_and_added_controls": 42,
+  "source_negative_controls": [
+    "old_composer",
+    "missing_public_fixture",
+    "missing_restored_public_read",
+    "missing_next_return_public_read",
+    "business_data_restore_check_removed",
+    "full_catalog_restore_check_removed",
+    "used_guard_removed",
+    "public_controls_removed"
+  ],
+  "composer_and_recovery_ancestry_exact": true,
+  "bash_steps": 44,
+  "public_finance_fixture_preserves_all_original_assertions": true,
+  "SOURCE_bound": false,
+  "database_executed": false,
+  "actual_restore_qualified": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "actual_prior_Original_validation": {
+    "head": "4608b478ac50b52eba69e938488402b296a0f46e",
+    "status": "PASS",
+    "steps": 8,
+    "negative_controls": 34,
+    "two_full_used_restores": true,
+    "new_public_runtime_claim": false
+  },
+  "preparation_driver_correction": "Load retained chain probe before source guard so existing imported CP6 builders retain their declared working root"
+}
