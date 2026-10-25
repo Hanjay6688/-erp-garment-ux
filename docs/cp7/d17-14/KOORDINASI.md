@@ -3426,3 +3426,31 @@ ow15/future-frozen-finance-integration-constraints.json; penanda finance harus
 masuk sebelum seal/reference pertama, replay operational-finance tetap terpisah.
 Syarat recovery antrean pada catatan sebelumnya tetap terbuka. A performance88f
 run40207721011 masih berjalan dan tidak diubah. Formal5/16; production_go=false.
+
+
+## A26 Oktober2026 WIB — performance Native36 lulus; lima lanjutannya berjalan [bersama]
+
+Native88f36937/run40207721011/job121212148397/art12605748400 lulus36kasus,
+3569pins/7Original/lima gate/full22+rows+sequences/CP6/advisor. Original10516169
+SHA d14bfff0d0d6c9d3a0ce94795df6d3ee8d1da2efc27baec234a921d902c398c3;
+ZIP2937362 SHA fd324ab8b94ba523dbf0fa713eed82a31eca5c1d3b7d3b3246ad53ba679adbb8.
+Intake dan arsip dilakukan sekali.16fase diagnosis tetap ada di ZIP, bukan SLA.
+
+Lima SOURCE baru pada4608b478 semuanya3571pins/fulladmissionPASS. Eksekusi
+sesudah17.00UTC/00.00WIB menjaga tanggal bisnis fixture tetap dalam satu hari:
+restore40214404451/job121232310569; finance40214409750/job121232325844;
+cron40214412847/job121232334981; browser40214418227/job121232350763;
+transport40214423675/job121232367315. Semua masih berjalan; factorySOURCE
+menunggu enam kelompok performa aktual PASS. Native36 dan kode produk tetap.
+OPEN_WORK hanya overview A, OW12 bagian A dan OW15 diperbarui; baris B utuh.
+
+Persiapan A terpisah di erp-frozen-unit-integration dari4608, tanpa perubahan
+kandidat berjalan:20berkas privat B10a byteexact+3bukti komponen. Delapan body
+pendahulu cocok dengan sumber A, tetapi renderer binaryv2 menolak parent v1
+A yang masih memakai stock AS MATERIALIZED; Bqualified memakai NOT MATERIALIZED.
+First local source refusal disimpan; capsule5pin dan units8pin sourcePASS.
+A akan memakai adapter derivasi eksplisit dengan sumber B qualified tersendiri,
+menjaga v1 A/source/guard tetap, sebelum membuat composer; belum ada runtime
+atau pemasangan baru. Ini scope integrasi A, bukan perubahan pada cabang B.
+Bukti Native4 B10a tetap component-only; public/Auth/finance belum diadopsi.
+Formal5/16; production_go dan independent acceptance=false.
