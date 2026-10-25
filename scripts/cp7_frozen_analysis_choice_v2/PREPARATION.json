@@ -8,7 +8,7 @@
     "cp7_frozen_analysis_choice_v2.normalize_confirmed_delta(jsonb,jsonb,jsonb)": "858732d8a90fbe6caac5072c2730f1c8b268abe946f799f808b705c3ca21e760",
     "cp7_frozen_analysis_choice_v2.apply(jsonb,uuid)": "121b29c13e214da20cb22538a28e955d80a7b34a06d9109a894cad5f7218ca4d"
   },
-  "sql_sha256": "81ace2835f6d1907977f73bf8b798dc0a0d095dc35334a8b9936619041133d59",
+  "sql_sha256": "ed876aba78f0c149ea56585d9e91882cbc1dff12bf6950b6adc1bbe6df699b39",
   "private_functions": 2,
   "new_public_rpcs": 1,
   "new_tables": 0,

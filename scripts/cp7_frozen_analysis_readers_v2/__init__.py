@@ -36,7 +36,7 @@ def verify_grants(catalog):
    if sig==render.PUBLIC+'('+render.ARGS+')':expected.add(('authenticated','cp7_capture','EXECUTE',False))
    grants=row[-1]
    if not isinstance(grants,list)or len(grants)!=len(expected)or any(not isinstance(x,list)or len(x)!=4 or x[3]is not False for x in grants)or {tuple(x)for x in grants}!=expected:
-    raise ValueError('FROZEN_READERS_UNDECLARED_GRANT:'+sig)
+    raise ValueError('FROZEN_READERS_UNDECLARED_GRANT:'+sig+':'+repr(grants))
 
 
 def verify(cur,state):

@@ -3727,3 +3727,26 @@ Originals; real lock-wait, Auth and production UI journeys remain open.
 unexecuted3races/2HTTP due old clone authority; corrected513 still qualifying.
 No discarded first outcomes, manual unchanged rerun or default adoption.
 Formal5/16; CP7C/independent/production_go=false. Continue assigned scope.
+
+
+## 188. B26 Oktober2026 WIB — exact ACL under both administrative creators
+
+513 full Originals retained: reader4INCOMPLETE, facade Native3+races3
+INCOMPLETE and HTTP setup refused by the same strict ACL guard. Six facade
+JSONs include all four clone authority receipts: owner/ACL/GUC exact and
+source authority preserved; the prior clone-authority failure is resolved.
+All source/declaration/head/product paths, CP6/advisor/public22, WIB26,
+backup/restore and Auth cleanup checked; no Native/Auth acceptance promoted.
+
+Actual installer admin chain uses supabase_admin. Local actual extension DDL
+with Supabase public defaults reproduces an extra postgres EXECUTE retained
+after owner transfer; postgres-created DDL had hidden that fixture gap. This
+is a causally reproduced inference because failed Native reports did not
+include raw ACL rows. Revoke that grant on only three new public v2 functions.
+Keep exact owner+authenticated ACL and all 8s/identity/math guards; include raw
+ACL on future failures. Both creators now pass3positive+32negative controls
+each (PGlite18, no Native credit). No global/default privileges, existing
+functions, qualified51 backend, generated types or default installer changed.
+Four declaration routes repinned/validated; current candidates retain their
+first outcomes. Prepared UI remains separate and unqualified. Continue actual
+Native/Auth and UI journeys; formal5/16/CP7C/independent/production_go false.

@@ -1,0 +1,438 @@
+{
+  "contract": "cp7.frozen-public-exact-acl-admin-repair.v1",
+  "status": "LOCAL_REPAIR_VERIFIED_NATIVE_PENDING",
+  "native_first_outcomes": [
+    "513175c6-frozen-reader-admin-acl-incomplete.json",
+    "513175c6-frozen-facade-admin-acl-incomplete.json"
+  ],
+  "native_original_acl_rows_unavailable": true,
+  "cause_inferred_from_actual_installer_identity_and_controlled_reproduction": true,
+  "installer_identity_source": "cp6_ao_ap_installed.admin -> cp6_x_independent_audit.admin -> session(supabase_admin)",
+  "primary_default_privilege_source": "https://github.com/supabase/postgres/blob/develop/migrations/db/init-scripts/00000000000000-initial-schema.sql",
+  "before_reproduced_public_grants": {
+    "public.erp_cp7_request_bounded_staged_analysis_v2(jsonb,uuid)": [
+      [
+        "authenticated",
+        "cp7_capture",
+        "EXECUTE",
+        false
+      ],
+      [
+        "cp7_capture",
+        "cp7_capture",
+        "EXECUTE",
+        false
+      ],
+      [
+        "postgres",
+        "cp7_capture",
+        "EXECUTE",
+        false
+      ]
+    ],
+    "public.erp_cp7_save_product_analog_choice_v2(jsonb,uuid)": [
+      [
+        "authenticated",
+        "cp7_capture",
+        "EXECUTE",
+        false
+      ],
+      [
+        "cp7_capture",
+        "cp7_capture",
+        "EXECUTE",
+        false
+      ],
+      [
+        "postgres",
+        "cp7_capture",
+        "EXECUTE",
+        false
+      ]
+    ],
+    "public.erp_cp7_read_product_analog_candidates_v2(uuid,text,integer,integer,text)": [
+      [
+        "authenticated",
+        "cp7_capture",
+        "EXECUTE",
+        false
+      ],
+      [
+        "cp7_capture",
+        "cp7_capture",
+        "EXECUTE",
+        false
+      ],
+      [
+        "postgres",
+        "cp7_capture",
+        "EXECUTE",
+        false
+      ]
+    ]
+  },
+  "repair": "Revoke inherited postgres EXECUTE on only the three new explicit public v2 functions; expected ACL remains owner+authenticated only. Unknown grants still fail and now retain their raw ACL in the error.",
+  "global_or_platform_default_privileges_changed": false,
+  "existing_functions_changed": false,
+  "private_and_public_function_bodies_unchanged": true,
+  "qualified51_backend_unchanged": true,
+  "local_creator_matrix": [
+    {
+      "contract": "cp7.frozen-grantee-first-ACL-verification.v2",
+      "status": "PASS",
+      "actual_PGlite18_DDL": true,
+      "actual_repository_serializer_and_catalog_context": true,
+      "positive_extension_catalogs": 3,
+      "negative_grant_controls": 32,
+      "creator": "postgres",
+      "public_schema_defaults_reproduced": true,
+      "rejected": [
+        "facade:reversed",
+        "facade:missing",
+        "facade:duplicate",
+        "facade:public",
+        "facade:grantor",
+        "facade:grantable",
+        "facade:privilege",
+        "facade:postgres",
+        "reader:reversed",
+        "reader:missing",
+        "reader:duplicate",
+        "reader:public",
+        "reader:grantor",
+        "reader:grantable",
+        "reader:privilege",
+        "reader:postgres",
+        "reader:private_authenticated",
+        "reader:schema_authenticated",
+        "reader:schema_missing_create",
+        "reader:schema_foreign_grantor",
+        "choice:reversed",
+        "choice:missing",
+        "choice:duplicate",
+        "choice:public",
+        "choice:grantor",
+        "choice:grantable",
+        "choice:privilege",
+        "choice:postgres",
+        "choice:private_authenticated",
+        "choice:schema_authenticated",
+        "choice:schema_missing_create",
+        "choice:schema_foreign_grantor"
+      ],
+      "actual_owned_grants": {
+        "reader": {
+          "schemas": {
+            "cp7_frozen_analysis_readers_v2": [
+              [
+                "cp7_capture",
+                "cp7_capture",
+                "CREATE",
+                false
+              ],
+              [
+                "cp7_capture",
+                "cp7_capture",
+                "USAGE",
+                false
+              ]
+            ]
+          },
+          "functions": {
+            "cp7_frozen_analysis_readers_v2.reference(cp7_analysis_stage.jobs)": [
+              [
+                "cp7_capture",
+                "cp7_capture",
+                "EXECUTE",
+                false
+              ]
+            ],
+            "cp7_frozen_analysis_readers_v2.read_candidates(uuid,text,integer,integer,text)": [
+              [
+                "cp7_capture",
+                "cp7_capture",
+                "EXECUTE",
+                false
+              ]
+            ],
+            "public.erp_cp7_read_product_analog_candidates_v2(uuid,text,integer,integer,text)": [
+              [
+                "authenticated",
+                "cp7_capture",
+                "EXECUTE",
+                false
+              ],
+              [
+                "cp7_capture",
+                "cp7_capture",
+                "EXECUTE",
+                false
+              ]
+            ]
+          }
+        },
+        "choice": {
+          "schemas": {
+            "cp7_frozen_analysis_choice_v2": [
+              [
+                "cp7_capture",
+                "cp7_capture",
+                "CREATE",
+                false
+              ],
+              [
+                "cp7_capture",
+                "cp7_capture",
+                "USAGE",
+                false
+              ]
+            ]
+          },
+          "functions": {
+            "public.erp_cp7_save_product_analog_choice_v2(jsonb,uuid)": [
+              [
+                "authenticated",
+                "cp7_capture",
+                "EXECUTE",
+                false
+              ],
+              [
+                "cp7_capture",
+                "cp7_capture",
+                "EXECUTE",
+                false
+              ]
+            ],
+            "cp7_frozen_analysis_choice_v2.normalize_confirmed_delta(jsonb,jsonb,jsonb)": [
+              [
+                "cp7_capture",
+                "cp7_capture",
+                "EXECUTE",
+                false
+              ]
+            ],
+            "cp7_frozen_analysis_choice_v2.apply(jsonb,uuid)": [
+              [
+                "cp7_capture",
+                "cp7_capture",
+                "EXECUTE",
+                false
+              ]
+            ]
+          }
+        }
+      },
+      "facade_grants": [
+        [
+          "authenticated",
+          "cp7_capture",
+          "EXECUTE",
+          false
+        ],
+        [
+          "cp7_capture",
+          "cp7_capture",
+          "EXECUTE",
+          false
+        ]
+      ],
+      "DDL_source_sha256": {
+        "scripts/cp7_frozen_analysis_facade_v2/facade.sql": "cbfb6ee4cbe165221c3bcab18750547f0b4952224e5ed7e5e0f2cbcd42ebd7c4",
+        "scripts/cp7_frozen_analysis_readers_v2/reference.sql": "594635f84075bbdfeff802e5423bd70fb793b2302274940bb66486b509022fec",
+        "scripts/cp7_frozen_analysis_readers_v2/reader.prepared.sql": "05c0152129fa8d47cb0054c5de4b75a549bdc77f34b9bc2bb581ab53820924ab",
+        "scripts/cp7_frozen_analysis_choice_v2/choice.prepared.sql": "ed876aba78f0c149ea56585d9e91882cbc1dff12bf6950b6adc1bbe6df699b39"
+      },
+      "query_sha256": {
+        "schemas": "aad19d7fac619c675188ee257e4c4c1ec4b8b742f91006de6066191dd6af4da6",
+        "functions": "db9e705478792514a94788f5c57a3751f2a4f82394a5b4b44e67af073ceaea26"
+      },
+      "first_local_fixture_failure": "Missing reader reference.sql omitted its schema; added actual installer DDL in order. Initial raw export had default search_path; matched actual _catalog empty path and UTC before assertions.",
+      "actual_Native": false,
+      "actual_command_executed": false,
+      "actual_Auth_HTTP_credit": false,
+      "oracle_relaxed": false,
+      "production_go": false
+    },
+    {
+      "contract": "cp7.frozen-grantee-first-ACL-verification.v2",
+      "status": "PASS",
+      "actual_PGlite18_DDL": true,
+      "actual_repository_serializer_and_catalog_context": true,
+      "positive_extension_catalogs": 3,
+      "negative_grant_controls": 32,
+      "creator": "supabase_admin",
+      "public_schema_defaults_reproduced": true,
+      "rejected": [
+        "facade:reversed",
+        "facade:missing",
+        "facade:duplicate",
+        "facade:public",
+        "facade:grantor",
+        "facade:grantable",
+        "facade:privilege",
+        "facade:postgres",
+        "reader:reversed",
+        "reader:missing",
+        "reader:duplicate",
+        "reader:public",
+        "reader:grantor",
+        "reader:grantable",
+        "reader:privilege",
+        "reader:postgres",
+        "reader:private_authenticated",
+        "reader:schema_authenticated",
+        "reader:schema_missing_create",
+        "reader:schema_foreign_grantor",
+        "choice:reversed",
+        "choice:missing",
+        "choice:duplicate",
+        "choice:public",
+        "choice:grantor",
+        "choice:grantable",
+        "choice:privilege",
+        "choice:postgres",
+        "choice:private_authenticated",
+        "choice:schema_authenticated",
+        "choice:schema_missing_create",
+        "choice:schema_foreign_grantor"
+      ],
+      "actual_owned_grants": {
+        "reader": {
+          "schemas": {
+            "cp7_frozen_analysis_readers_v2": [
+              [
+                "cp7_capture",
+                "cp7_capture",
+                "CREATE",
+                false
+              ],
+              [
+                "cp7_capture",
+                "cp7_capture",
+                "USAGE",
+                false
+              ]
+            ]
+          },
+          "functions": {
+            "cp7_frozen_analysis_readers_v2.reference(cp7_analysis_stage.jobs)": [
+              [
+                "cp7_capture",
+                "cp7_capture",
+                "EXECUTE",
+                false
+              ]
+            ],
+            "cp7_frozen_analysis_readers_v2.read_candidates(uuid,text,integer,integer,text)": [
+              [
+                "cp7_capture",
+                "cp7_capture",
+                "EXECUTE",
+                false
+              ]
+            ],
+            "public.erp_cp7_read_product_analog_candidates_v2(uuid,text,integer,integer,text)": [
+              [
+                "authenticated",
+                "cp7_capture",
+                "EXECUTE",
+                false
+              ],
+              [
+                "cp7_capture",
+                "cp7_capture",
+                "EXECUTE",
+                false
+              ]
+            ]
+          }
+        },
+        "choice": {
+          "schemas": {
+            "cp7_frozen_analysis_choice_v2": [
+              [
+                "cp7_capture",
+                "cp7_capture",
+                "CREATE",
+                false
+              ],
+              [
+                "cp7_capture",
+                "cp7_capture",
+                "USAGE",
+                false
+              ]
+            ]
+          },
+          "functions": {
+            "public.erp_cp7_save_product_analog_choice_v2(jsonb,uuid)": [
+              [
+                "authenticated",
+                "cp7_capture",
+                "EXECUTE",
+                false
+              ],
+              [
+                "cp7_capture",
+                "cp7_capture",
+                "EXECUTE",
+                false
+              ]
+            ],
+            "cp7_frozen_analysis_choice_v2.normalize_confirmed_delta(jsonb,jsonb,jsonb)": [
+              [
+                "cp7_capture",
+                "cp7_capture",
+                "EXECUTE",
+                false
+              ]
+            ],
+            "cp7_frozen_analysis_choice_v2.apply(jsonb,uuid)": [
+              [
+                "cp7_capture",
+                "cp7_capture",
+                "EXECUTE",
+                false
+              ]
+            ]
+          }
+        }
+      },
+      "facade_grants": [
+        [
+          "authenticated",
+          "cp7_capture",
+          "EXECUTE",
+          false
+        ],
+        [
+          "cp7_capture",
+          "cp7_capture",
+          "EXECUTE",
+          false
+        ]
+      ],
+      "DDL_source_sha256": {
+        "scripts/cp7_frozen_analysis_facade_v2/facade.sql": "cbfb6ee4cbe165221c3bcab18750547f0b4952224e5ed7e5e0f2cbcd42ebd7c4",
+        "scripts/cp7_frozen_analysis_readers_v2/reference.sql": "594635f84075bbdfeff802e5423bd70fb793b2302274940bb66486b509022fec",
+        "scripts/cp7_frozen_analysis_readers_v2/reader.prepared.sql": "05c0152129fa8d47cb0054c5de4b75a549bdc77f34b9bc2bb581ab53820924ab",
+        "scripts/cp7_frozen_analysis_choice_v2/choice.prepared.sql": "ed876aba78f0c149ea56585d9e91882cbc1dff12bf6950b6adc1bbe6df699b39"
+      },
+      "query_sha256": {
+        "schemas": "aad19d7fac619c675188ee257e4c4c1ec4b8b742f91006de6066191dd6af4da6",
+        "functions": "db9e705478792514a94788f5c57a3751f2a4f82394a5b4b44e67af073ceaea26"
+      },
+      "first_local_fixture_failure": "Missing reader reference.sql omitted its schema; added actual installer DDL in order. Initial raw export had default search_path; matched actual _catalog empty path and UTC before assertions.",
+      "actual_Native": false,
+      "actual_command_executed": false,
+      "actual_Auth_HTTP_credit": false,
+      "oracle_relaxed": false,
+      "production_go": false
+    }
+  ],
+  "first_local_invocation_failure": "Module launched without PYTHONPATH=scripts; import failed before generator writes. Relaunched with explicit scripts path and verified generated bytes.",
+  "native_requalification_required": true,
+  "actual_Auth_HTTP_credit": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

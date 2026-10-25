@@ -2,7 +2,7 @@
   "contract": "cp7.frozen-analysis-readers.prepared.v2",
   "original_reader_body_sha256": "8f268a055f6e6896c936c3757c0cfe1cc781b593864578faaef20fe369536047",
   "explicit_reader_body_sha256": "fbc6fa9a6020a1c359ae5d8c6b082c77872278e454c978029b3caef2062cebe7",
-  "SQL_sha256": "4ea1639fbac75a249101f71c15a370e4abf4b7404e883e0831edf7cc0727e8a2",
+  "SQL_sha256": "05c0152129fa8d47cb0054c5de4b75a549bdc77f34b9bc2bb581ab53820924ab",
   "reference_SQL_sha256": "594635f84075bbdfeff802e5423bd70fb793b2302274940bb66486b509022fec",
   "private_functions": 2,
   "new_public_rpcs": 1,

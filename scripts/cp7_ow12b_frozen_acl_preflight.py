@@ -26,7 +26,7 @@ for name,stage,public in(('facade',facade,facade.SIGNATURE),('reader',readers,re
  def check(grants):
   if stage is facade:return stage.verify_grants(grants)
   cat=stage.own(deepcopy(actual));cat['functions'][public][-1]=grants;return stage.verify_grants(cat)
- for mutation in('reversed','missing','duplicate','public','grantor','grantable','privilege'):
+ for mutation in('reversed','missing','duplicate','public','grantor','grantable','privilege','postgres'):
   changed=deepcopy(rows);index=next(i for i,x in enumerate(changed)if x[0]=='authenticated')
   if mutation=='reversed':changed[index][:2]=list(reversed(changed[index][:2]))
   if mutation=='missing':changed.pop(index)
@@ -35,6 +35,7 @@ for name,stage,public in(('facade',facade,facade.SIGNATURE),('reader',readers,re
   if mutation=='grantor':changed[index][1]='postgres'
   if mutation=='grantable':changed[index][3]=True
   if mutation=='privilege':changed[index][2]='CREATE'
+  if mutation=='postgres':changed.append(['postgres','cp7_capture','EXECUTE',False])
   refuse(name+':'+mutation,lambda:check(changed))
  if stage is facade:continue
  for mutation in('private_authenticated','schema_authenticated','schema_missing_create','schema_foreign_grantor'):
@@ -47,9 +48,9 @@ for name,stage,public in(('facade',facade,facade.SIGNATURE),('reader',readers,re
    if mutation=='schema_missing_create':grants[:]=[x for x in grants if x[2]!='CREATE']
    if mutation=='schema_foreign_grantor':grants[0][1]='postgres'
   refuse(name+':'+mutation,lambda:stage.verify_grants(cat))
-assert len(rejected)==29
+assert len(rejected)==32
 print(json.dumps(dict(contract='cp7.frozen-grantee-first-ACL-verification.v2',status='PASS',actual_PGlite18_DDL=True,
- actual_repository_serializer_and_catalog_context=True,positive_extension_catalogs=3,negative_grant_controls=29,
+ actual_repository_serializer_and_catalog_context=True,positive_extension_catalogs=3,negative_grant_controls=32,creator=raw['creator'],public_schema_defaults_reproduced=raw['public_schema_defaults_reproduced'],
  rejected=rejected,actual_owned_grants={name:{g:{k:v[-1]for k,v in stage.own(actual)[g].items()}for g in('schemas','functions')}for name,stage in(('reader',readers),('choice',choice))},
  facade_grants=actual['functions'][facade.SIGNATURE][-1],DDL_source_sha256=raw['DDL_source_sha256'],query_sha256=raw['query_sha256'],
  first_local_fixture_failure='Missing reader reference.sql omitted its schema; added actual installer DDL in order. Initial raw export had default search_path; matched actual _catalog empty path and UTC before assertions.',

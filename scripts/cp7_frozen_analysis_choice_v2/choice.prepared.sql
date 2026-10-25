@@ -107,5 +107,5 @@ language sql volatile security definer set search_path=''set TimeZone='UTC'as $$
  select cp7_frozen_analysis_choice_v2.apply(p_payload,p_request)
 $$;
 alter function public.erp_cp7_save_product_analog_choice_v2(jsonb,uuid)owner to cp7_capture;
-revoke all on function public.erp_cp7_save_product_analog_choice_v2(jsonb,uuid)from public,anon,authenticated,service_role;
+revoke all on function public.erp_cp7_save_product_analog_choice_v2(jsonb,uuid)from public,anon,authenticated,service_role,postgres;
 grant execute on function public.erp_cp7_save_product_analog_choice_v2(jsonb,uuid)to authenticated;

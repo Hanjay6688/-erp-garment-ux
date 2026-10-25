@@ -39,7 +39,7 @@ language sql volatile security definer set search_path=''set TimeZone='UTC'as $$
  select {NEW}(p_request,p_target,p_offset,p_limit,p_access)
 $$;
 alter function {PUBLIC}({ARGS})owner to cp7_capture;
-revoke all on function {PUBLIC}({ARGS})from public,anon,authenticated,service_role;
+revoke all on function {PUBLIC}({ARGS})from public,anon,authenticated,service_role,postgres;
 grant execute on function {PUBLIC}({ARGS})to authenticated;
 '''
 

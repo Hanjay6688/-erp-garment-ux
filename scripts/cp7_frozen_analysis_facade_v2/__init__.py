@@ -18,7 +18,7 @@ def verify_grants(rows):
  # _catalog_rows uses [grantee, grantor, privilege, grantable], in that order.
  expected={('cp7_capture','cp7_capture','EXECUTE',False),('authenticated','cp7_capture','EXECUTE',False)}
  if not isinstance(rows,list)or len(rows)!=len(expected)or any(not isinstance(x,list)or len(x)!=4 or x[3]is not False for x in rows)or {tuple(x)for x in rows}!=expected:
-  raise ValueError('FROZEN_FACADE_GRANTS_CHANGED')
+  raise ValueError('FROZEN_FACADE_GRANTS_CHANGED:'+repr(rows))
 
 
 def verify(cur,state):

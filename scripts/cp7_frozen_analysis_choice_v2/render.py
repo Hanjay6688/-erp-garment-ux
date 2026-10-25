@@ -42,7 +42,7 @@ language sql volatile security definer set search_path=''set TimeZone='UTC'as $$
  select {SCHEMA}.apply(p_payload,p_request)
 $$;
 alter function {PUBLIC}(jsonb,uuid)owner to cp7_capture;
-revoke all on function {PUBLIC}(jsonb,uuid)from public,anon,authenticated,service_role;
+revoke all on function {PUBLIC}(jsonb,uuid)from public,anon,authenticated,service_role,postgres;
 grant execute on function {PUBLIC}(jsonb,uuid)to authenticated;
 '''
  return s

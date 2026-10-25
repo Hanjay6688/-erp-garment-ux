@@ -46,5 +46,5 @@ language sql volatile security definer set search_path=''set TimeZone='UTC'as $$
  select cp7_frozen_analysis_readers_v2.read_candidates(p_request,p_target,p_offset,p_limit,p_access)
 $$;
 alter function public.erp_cp7_read_product_analog_candidates_v2(uuid,text,integer,integer,text)owner to cp7_capture;
-revoke all on function public.erp_cp7_read_product_analog_candidates_v2(uuid,text,integer,integer,text)from public,anon,authenticated,service_role;
+revoke all on function public.erp_cp7_read_product_analog_candidates_v2(uuid,text,integer,integer,text)from public,anon,authenticated,service_role,postgres;
 grant execute on function public.erp_cp7_read_product_analog_candidates_v2(uuid,text,integer,integer,text)to authenticated;
