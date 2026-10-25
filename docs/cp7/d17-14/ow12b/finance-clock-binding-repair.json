@@ -1,0 +1,33 @@
+{
+  "contract": "cp7.analysis-finance-exact-instant-repair.v1",
+  "base_head": "5fe53d44822b4b292b8ff15daf8796c7bb4a58d6",
+  "problem": "Distinct PostgreSQL instants within one millisecond were accepted as the same capture/report read; Date.parse also normalized invalid calendar/time values.",
+  "first_failure": {
+    "failed": 4,
+    "passed": 20,
+    "cases": [
+      "reference captured_at +1 microsecond",
+      "result report_read_at +1 microsecond",
+      "February30 report read",
+      "24:00 report read"
+    ]
+  },
+  "repair": "Reuse the existing strict six-digit planInstantMicros parser; compare exact instants and preserve original strings and equivalent timezone offsets.",
+  "verification": {
+    "passed": 75,
+    "files": 4,
+    "full_TypeScript": true,
+    "closed_cutting_auth_preflight": true,
+    "missing_or_mixed_refusals": 99
+  },
+  "source_sha256": {
+    "src/nativeAnalysisFinanceSidecar.ts": "55fe0d0d4a2e5fc04e68c88eda630c32142a2a6268574f00d21b37b4499005fc",
+    "src/nativeAnalysisFinanceSidecar.test.ts": "34e8c7b7b5d47a533b2f8f1f9ebdb2f32ddfa4b1458c85797101c2e2ee0f277e",
+    "src/nativePlanInstant.ts": "adc980769664b1fa8e83f0ab7152a2cb949cbefd2510ae66705a92fcf9bce45a",
+    "src/nativeAnalysisPages.ts": "5a409a8e54948cb2b5d8740722db99488a311149777d0753e203d9e028e1fa17"
+  },
+  "financial_formulas_or_SQL_or_A_module_changed": false,
+  "actual_Auth_HTTP_credit": false,
+  "official_finance_factory_parity_qualified": false,
+  "production_go": false
+}

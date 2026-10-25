@@ -169,3 +169,37 @@ complete Original and restoration/Auth/public boundaries before any qualificatio
 Corrected ee1 Native6/Transport10 were last observed executing their actual cases.
 Registration checkpoint is not completion of B: continue source-bound model,
 quantity/cutting, factory/official-finance and A integration work.
+
+Published registration **5fe53d44822b4b292b8ff15daf8796c7bb4a58d6**, tree
+8177e6c2be7bc460f64d48fd5eb285b77eed9f35; actual Browser2 run40238448773
+was observed queued. This is an independent candidate, not a substitute for
+the corrected ee1 Native6/Transport10 Originals.
+
+## Actual Auth results and exact financial clocks
+
+Two inherited712e actual-Auth suites now have complete verified Originals:
+choice run40230455148/art12615241859 PASS2,140pins/39compiled modules; quantity
+run40230455055/art12614619347 PASS2,153pins/43compiled modules. Exact committed
+source prefix/declaration, all package gates, CP6/public/advisor restoration,
+Auth cleanup, browser sessions, WIB26 and clone authority pass. Browser-only
+suites have zero Native catalog snapshots: no new Native-case credit is claimed.
+All11 existing screenshots were inspected; JSON members match the full archives
+byte for byte. The repaired analog table meets14px/value-bound/contrast oracles.
+The quantity table retains its declared internal desktop scroll. Neither suite
+proves checked cutting SAVE, full factory/official finance, default or A chain.
+Nine complete Originals are now verified during this takeover.
+
+A concrete B finance-sidecar defect was reproduced: reference/report clocks one
+microsecond apart compared equal; February30 and24:00 also normalized through
+Date.parse. First4FAIL/20PASS retained. The existing strict microsecond parser
+now binds both clocks exactly, retaining original text and equivalent offsets.
+75tests/4files and full TypeScript pass; no money formula, SQL or A module changed.
+See `ow12b/finance-clock-binding-repair.json` for the exact source/check boundary.
+
+Current A source read atf898a71f includes official OW12a Native7 evidence at
+efa800cd/run39886155240. B's earlier consumer is still tied to the legacy staged
+request; the explicit frozen-v2 quantity route has no finance choice/caller yet.
+Continue that B-owned integration against A's actual API, preserving the sealed
+operational header, permission checks, exact request mode and independent result.
+Do not infer official-factory parity from either the old local adapter or these
+browser passes. A retains its module, default installer and final composition.

@@ -78,7 +78,7 @@
     "code_head": "ee1ebfd1a104cbbdf5d0c4a14cbb1e8cc00a3573",
     "shared_status_head": "714766d1c2d52c8e91bc79671a6ea0f6187ed2e4",
     "active_handoff": "docs/cp7/handoff/WRITER_B_TAKEOVER_20261026.md",
-    "complete_Originals_verified": 7,
+    "complete_Originals_verified": 9,
     "first_cutting_failures_preserved": true,
     "corrected_runs": {
       "Native6": 40235295230,
@@ -113,6 +113,32 @@
     "actual_Auth_HTTP_credit": false,
     "actual_Native_checked_SAVE_qualified": false,
     "default_application_adopted": false,
+    "production_go": false
+  },
+  "frozen_actual_Auth_component_Originals_712e": {
+    "choice": {
+      "run_id": 40230455148,
+      "artifact_id": 12615241859,
+      "counts": {
+        "PASS": 2
+      },
+      "source_pins": 140,
+      "compiled_modules": 39,
+      "visual_value_bounds_and_14px": true
+    },
+    "quantity": {
+      "run_id": 40230455055,
+      "artifact_id": 12614619347,
+      "counts": {
+        "PASS": 2
+      },
+      "source_pins": 153,
+      "compiled_modules": 43
+    },
+    "default_application_adopted": false,
+    "full_factory3600_qualified": false,
+    "official_finance_qualified": false,
+    "cutting_SAVE_qualified": false,
     "production_go": false
   }
 }

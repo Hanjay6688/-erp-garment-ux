@@ -1,0 +1,69 @@
+{
+  "contract": "cp7.writer-b-takeover-original-receipt.v1",
+  "head": "712e01285c525f61de402b949de74201029d6cc6",
+  "run_id": 40230455148,
+  "artifact_id": 12615241859,
+  "artifact_bytes": 61110,
+  "artifact_sha256": "2204024f10c10c11b144aef97c4f1b5477eed65e791b7dd1373d1036024732d1",
+  "Original_read_complete": true,
+  "original_json_sha256": {
+    "CP7_OW12B_FROZEN_CHOICE_AUTH.json": "9eb3156c7aba423db12aede6cc1f24d878ef450da7752a2620364e7dcf0e8c3d",
+    "T3_BACKUP_RESTORE_DRILL.json": "6e44102aa14ebbb0facff801fa7f106927ab58d26d39e61ccbfa75ff96d9253c",
+    "T3_PACKAGE_FILES_INSTALL.json": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+    "CP7_OW12B_FROZEN_CHOICE_AUTH_CLONE_AUTHORITY.json": "9623122aa25b61d64f8070e8075a1f274418b89d01fa292e29fc5aa98b581300",
+    "ALIGNED_CHAIN.json": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b",
+    "T3_PACKAGE_INSTALL.json": "821c812e27bfdffd227582beffb0b5d963729c83751cf4180994acda8179b4e1"
+  },
+  "source_pins_verified": 140,
+  "status": "PASS",
+  "production_go": false,
+  "independent_acceptance": false,
+  "whole_feature_closed": false,
+  "counts": {
+    "browser": {
+      "PASS": 2
+    }
+  },
+  "first_failures": [],
+  "all_original_package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "public_catalog_preserved": true,
+  "full_native_boundaries_and_sessions_restored": false,
+  "exact_head_source_prefix_fields": [
+    "label",
+    "scope",
+    "source_sha256",
+    "expected_case_count",
+    "required_case_counts",
+    "required_case_ids",
+    "predeclared_case_contract",
+    "predeclared_case_sha256",
+    "target_v2_source_sha256",
+    "frozen_choice_auth_source_sha256"
+  ],
+  "clone_authority_copies_exact": 1,
+  "actual_Auth_HTTP_credit": true,
+  "actual_AuthProvider_and_Gate": true,
+  "actual_compiled_modules": 39,
+  "all_compiled_module_hashes_verified": true,
+  "strict_visible_text_contrast_rows": 142,
+  "default_adopted": false,
+  "official_finance_included": false,
+  "full_factory3600_qualified": false,
+  "visual_review": {
+    "full_artifact_id": 12615585977,
+    "screenshots_inspected": 5,
+    "original_JSON_members_byte_identical_to_full_archive": true,
+    "actual_analog_14px_table_and_value_bounds_verified": true,
+    "quantity_desktop_table_internal_scroll_retained": false,
+    "screenshots_not_in_evidence_archive": true,
+    "whole_feature_or_factory_acceptance": false
+  }
+}

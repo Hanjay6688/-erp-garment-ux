@@ -1,5 +1,6 @@
 import type {NativeDemandQuery} from './nativeDemandHistory'
 import {parseStagedReference,stagedInstant,type StagedReference} from './nativeAnalysisPages'
+import {planInstantMicros} from './nativePlanInstant'
 
 export type AnalysisFinanceState='RUNNING'|'READY'|'FAILED'|'ACCESS_REVOKED'
 export type AnalysisFinanceReadiness='READY'|'LIMITED'|'BLOCKED'
@@ -20,7 +21,9 @@ const readiness=(v:unknown):AnalysisFinanceReadiness=>v==='READY'||v==='LIMITED'
 const query=(v:unknown):NativeDemandQuery=>{const q=obj(v);keys(q,['from_date','through_date','group_mode']);const from=day(q.from_date),to=day(q.through_date)
  if(from>to||q.group_mode!=='AS_SOLD'&&q.group_mode!=='RESTATED')fail();return{from_date:from,through_date:to,group_mode:q.group_mode}}
 const sameQuery=(a:NativeDemandQuery,b:NativeDemandQuery)=>a.from_date===b.from_date&&a.through_date===b.through_date&&a.group_mode===b.group_mode
-const sameReference=(a:StagedReference,b:StagedReference)=>a.sourceHash===b.sourceHash&&Date.parse(a.capturedAt)===Date.parse(b.capturedAt)
+const instant=(v:unknown)=>{const at=stagedInstant(v);try{planInstantMicros(at)}catch{return fail()}return at}
+const sameInstant=(a:string,b:string)=>planInstantMicros(instant(a))===planInstantMicros(instant(b))
+const sameReference=(a:StagedReference,b:StagedReference)=>a.sourceHash===b.sourceHash&&sameInstant(a.capturedAt,b.capturedAt)
 const wibDay=(v:string)=>{const p=new Map(new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Jakarta',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date(v)).map(x=>[x.type,x.value]));return`${p.get('year')}-${p.get('month')}-${p.get('day')}`}
 function datesOf(v:unknown,q:NativeDemandQuery,at:string){const d=obj(v);keys(d,['from','to','as_of']);const from=day(d.from),to=day(d.to),asOf=day(d.as_of)
  if(from!==q.from_date||to!==q.through_date||asOf!==wibDay(at)||to>asOf)fail();return{from,to,asOf}}
@@ -33,8 +36,8 @@ function fact(v:unknown,source:string):AnalysisFinanceFact{const f=obj(v)
 function parseResult(v:unknown,c:AnalysisFinanceCapture,q:NativeDemandQuery,at:string):AnalysisFinanceResult{
  const r=obj(v);keys(r,['contract_version','capture_id','source_hash','dates','report_read_at','readiness','metrics','dependencies','warnings'])
  if(r.contract_version!=='cp7.analysis-finance-result.v1'||uuid(r.capture_id)!==c.id||!c.reportReadAt)fail()
- const sourceHash=hash(r.source_hash),dates=datesOf(r.dates,q,at),ready=readiness(r.readiness),reportReadAt=stagedInstant(r.report_read_at)
- if(ready!==c.readiness||Date.parse(reportReadAt)!==Date.parse(c.reportReadAt)||!Array.isArray(r.metrics)||r.metrics.length===0)fail()
+ const sourceHash=hash(r.source_hash),dates=datesOf(r.dates,q,at),ready=readiness(r.readiness),reportReadAt=instant(r.report_read_at)
+ if(ready!==c.readiness||!sameInstant(reportReadAt,c.reportReadAt)||!Array.isArray(r.metrics)||r.metrics.length===0)fail()
  const ids=new Set<string>(),metrics:AnalysisFinanceMetric[]=r.metrics.map(raw=>{
   const m=obj(raw);keys(m,['metric_id','version','value','formula_ref','operands','readiness','scope_kind','scope_key','period_start','period_end','knowledge_mode'])
   const id=text(m.metric_id),match=/^NATIVE_FINANCE:(performance|financial_position):([a-z][a-z0-9_]*)$/.exec(id)
@@ -62,7 +65,7 @@ export function parseAnalysisFinance(v:unknown,context:{requestId:string;referen
  const s=obj(r.capture);keys(s,['contract_version','capture_id','owner_kind','owner_id','state','units_done','units_total','report_read_at','dates','readiness','failure_code','production_go'])
  if(s.contract_version!=='cp7.finance-capture-status.v1'||s.owner_kind!=='STAGED_ANALYSIS'||uuid(s.owner_id)!==jobId||s.state!==state||s.production_go!==false)fail()
  datesOf(s.dates,q,reference.capturedAt)
- const c:AnalysisFinanceCapture={id:uuid(s.capture_id),unitsDone:count(s.units_done),unitsTotal:s.units_total===null?null:count(s.units_total),reportReadAt:s.report_read_at===null?null:stagedInstant(s.report_read_at),
+ const c:AnalysisFinanceCapture={id:uuid(s.capture_id),unitsDone:count(s.units_done),unitsTotal:s.units_total===null?null:count(s.units_total),reportReadAt:s.report_read_at===null?null:instant(s.report_read_at),
   readiness:s.readiness===null?null:readiness(s.readiness),failureCode:s.failure_code===null?null:typeof s.failure_code==='string'&&/^CP7_[A-Z0-9_]+$/.test(s.failure_code)?s.failure_code:fail()}
  if(c.unitsTotal!==null&&c.unitsDone>c.unitsTotal||(state==='FAILED')!==(c.failureCode!==null)||state==='READY'&&(c.unitsTotal===null||c.unitsDone!==c.unitsTotal||c.reportReadAt===null||c.readiness===null))fail()
  const result=state==='READY'?parseResult(r.result,c,q,reference.capturedAt):r.result===null?null:fail()

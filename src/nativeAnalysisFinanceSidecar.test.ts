@@ -38,3 +38,21 @@ it('keeps unstarted totals unknown, failed results absent, and revoked financial
  expect(parseAnalysisFinance(revoked,context)).toMatchObject({state:'ACCESS_REVOKED',capture:null,result:null})
  expect(()=>parseAnalysisFinance({...revoked,capture:fixture.capture},context)).toThrow()
 })
+it.each(['reference','report'])('refuses a different %s instant within the same millisecond',kind=>{
+ const x=copy()
+ if(kind==='reference')x.reference.captured_at='2026-10-23T00:00:00.000001Z'
+ else x.result.report_read_at='2026-10-23T00:03:00.000001Z'
+ expect(()=>parseAnalysisFinance(x,context)).toThrow()
+})
+it('accepts equivalent offsets and preserves all six fractional digits',()=>{
+ const x=copy();x.reference.captured_at='2026-10-23T07:00:00.123456+07:00'
+ x.capture.report_read_at='2026-10-23T00:03:00.654321Z';x.result.report_read_at='2026-10-23T07:03:00.654321+07:00'
+ const exactContext={...context,reference:{...context.reference,capturedAt:'2026-10-23T00:00:00.123456Z'}}
+ const r=parseAnalysisFinance(x,exactContext)
+ expect(r.reference.capturedAt).toBe(x.reference.captured_at)
+ expect(r.result?.reportReadAt).toBe(x.result.report_read_at)
+})
+it.each(['2026-02-30T00:00:00Z','2026-10-23T24:00:00Z','2026-10-23T00:03:00.0000001Z','2026-10-23T00:03:00+24:00'])('refuses invalid financial clocks: %s',at=>{
+ const x=copy();x.capture.report_read_at=x.result.report_read_at=at
+ expect(()=>parseAnalysisFinance(x,context)).toThrow()
+})

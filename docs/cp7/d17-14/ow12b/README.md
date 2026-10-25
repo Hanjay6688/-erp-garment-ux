@@ -83,3 +83,15 @@ LegacyactualFAILEDcapture incomplete, nocompletebefore-result/parityclaim.
 RawINCOMPLETEpreserved, full363601rowdigest, realNativeFGchange=>STALE.
 Fixture360models/3600products/onecopiedsize isvolumecomponent, notreal1200SKU×3.
 FinanceDEFERRED, fullfactory/financialparity/SAVE3600/afteruse/Achain stillOPEN.
+
+## Current continuation —26 October2026 WIB
+
+Official A sourcef898a71f now records OW12a Native7 PASS at efa800cd/run39886155240;
+the actual module is available in A's lane. B's existing legacy consumer remains
+separate from the newer explicit frozen-v2 request/quantity route, which still
+uses DEFERRED. That integration is current B work, not blocked on writing A's API.
+
+The sidecar client now compares full PostgreSQL microseconds for capture/report
+binding and rejects calendar normalization. First4FAIL/20PASS, then75PASS/4files
+and full TypeScript retained in `finance-clock-binding-repair.json`. No financial
+formula, SQL or A module changed. This repair is not Native financial parity.
