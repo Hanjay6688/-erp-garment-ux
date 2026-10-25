@@ -1,0 +1,40 @@
+{
+  "name": "CP7_OW12B_FROZEN_FACADE.json",
+  "status": "PASS",
+  "head": "c1dd6b5cd231701be3be35bb7dd45c3856ace8fa",
+  "run_id": 40219663475,
+  "job_id": 121248268506,
+  "artifact_id": 12609969578,
+  "zip_bytes": 142264,
+  "zip_sha256": "03712c1367896a65dc39a6958bf002145e73fa945bcf40c18d18afc9dfafb949",
+  "bytes": 1219032,
+  "sha256": "7c35ea64975e4ad0debd63bc3acffe0ece15de43f9ac2275c295435281a7f24e",
+  "archive_member": "CP7_OW12B_FROZEN_FACADE.json",
+  "source_pins_verified": 90,
+  "all_original_JSON_files_verified": 6,
+  "counts": {
+    "native": 3,
+    "races": 3,
+    "http": 2
+  },
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "clone_authority_copies_exact": 4,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "full_boundary_and_sessions_restored": true,
+  "B_delegate_sha256": "cbfb6ee4cbe165221c3bcab18750547f0b4952224e5ed7e5e0f2cbcd42ebd7c4",
+  "B_actual_Auth_HTTP_credit": true,
+  "actual_observed_wait_cases": 3,
+  "merged_into_A": false,
+  "new_A_Auth_HTTP_credit": false,
+  "official_finance_included": false,
+  "public_or_default_adopted": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

@@ -1,5 +1,5 @@
 {
-  "recorded_at_utc": "2026-10-25T18:44:23.836103+00:00",
+  "recorded_at_utc": "2026-10-25T19:49:18.303811+00:00",
   "role": "A finance writer/integrator replacing Claude; B remains separate production/planning writer",
   "slogan": [
     "VENI. VIDI. VICI. ERP. \u2014 I CONQUERED ERP.",
@@ -10,17 +10,6 @@
   "independent_acceptance": false,
   "running": [
     {
-      "suite": "performance-factory",
-      "head": "25c5c4fb5a16a1622663f87106506e0845105914",
-      "branch": "astra-a/d17-14-versioned-performance-factory-20261025",
-      "run_id": 40222575218,
-      "job_id": 121257125693,
-      "status": "queued",
-      "conclusion": null,
-      "source_pins": 3581,
-      "actual_runtime_outcome_pending": true
-    },
-    {
       "suite": "frozen-finance-native45",
       "head": "a3088e214f5babc46e4016734cce11925acd34d8",
       "branch": "astra-a/d17-14-frozen-finance-native45-20261026",
@@ -29,6 +18,17 @@
       "status": "queued",
       "conclusion": null,
       "source_pins": 3644,
+      "actual_runtime_outcome_pending": true
+    },
+    {
+      "suite": "performance-factory-output2",
+      "head": "c17b56ed91262757fb75d73d12b98a12edaa8f35",
+      "branch": "astra-a/d17-14-versioned-performance-factory2-20261026",
+      "run_id": 40227300626,
+      "job_id": 121271278040,
+      "status": "queued",
+      "conclusion": null,
+      "source_pins": 3597,
       "actual_runtime_outcome_pending": true
     }
   ],
@@ -2737,6 +2737,16 @@
       "source_pins": 3618,
       "Original_intake": "PASS",
       "artifact_id": 12608589007
+    },
+    {
+      "suite": "performance-factory-first-CI",
+      "head": "25c5c4fb5a16a1622663f87106506e0845105914",
+      "run_id": 40222575218,
+      "job_id": 121257125693,
+      "status": "completed",
+      "conclusion": "failure",
+      "business_case_started": false,
+      "runtime_Original_created": false
     }
   ],
   "performance_factory_prepared": {
@@ -2754,15 +2764,141 @@
     "remote": "25c5c4fb5a16a1622663f87106506e0845105914",
     "source_admission": "PASS",
     "run_id": 40222575218,
-    "job_id": 121257125693
+    "job_id": 121257125693,
+    "status": "CI_SOURCE_ADMISSION_REFUSAL",
+    "runtime_qualified": false,
+    "runtime_Original_created": false,
+    "qualification_status": "NOT_EXECUTED",
+    "outcome_receipt": "performance-factory-first-CI-source-refusal-25c5c4fb.json"
   },
   "private_frozen_factory_prepared": {
-    "head": "3d5f1152c3d85189990f3cd747ce30437929d32d",
+    "head": "b5d2d0fc354cf3f67cbe61f768bff8aeeb8affcc",
     "branch": "astra-a/d17-14-frozen-finance-followups-prepared-20261026",
     "SOURCE_bound": false,
     "runtime_dispatched": false,
     "required_actual_Native45_PASS": true,
     "old_six_performance_groups_baseline_only": true,
+    "production_go": false,
+    "tree": "2f5fb74775222080bee966e15cf9cf2efc9e18c3",
+    "merged_native45_source": "a3088e214f5babc46e4016734cce11925acd34d8"
+  },
+  "performance_factory_first_CI_source_refusal": {
+    "status": "CI_SOURCE_ADMISSION_REFUSAL",
+    "head": "25c5c4fb5a16a1622663f87106506e0845105914",
+    "run_id": 40222575218,
+    "job_id": 121257125693,
+    "artifact_id": 12610673463,
+    "zip_bytes": 1605866,
+    "zip_sha256": "7b1909f6ca2985ba42df022b3ed780065c4b3e21d9d468635990dbe342ac7d3a",
+    "decoded_job_log_bytes": 1038686,
+    "decoded_job_log_sha256": "b6ccad4a725d6794282d99d4cc176b40299edf36b2b1332e044ffea02f784e5e",
+    "qualification_source_pins": 3581,
+    "source_failed_after_disposable_alignment_and_clone": true,
+    "cause": "Whole-worktree clean assertion includes generated cp6-proof/t3 evidence files",
+    "runtime_Original_created": false,
+    "T3_package_report_created": false,
+    "business_factory_case_started": false,
+    "original_business_oracles_changed": false,
+    "qualification_status": "NOT_EXECUTED",
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "performance_factory_output2": {
+    "head": "c17b56ed91262757fb75d73d12b98a12edaa8f35",
+    "parent": "559a64737dbfeca1d9bb9b7763cd108b0dd88641",
+    "local": "609095c981c6b0081d7d22a4532991cb38c7ab04",
+    "tree": "e9e8551cd8efb54e52695c2737e2a4a1a65fb34a",
+    "prepared_branch": "astra-a/d17-14-versioned-performance-prepared-20261025",
+    "execution_branch": "astra-a/d17-14-versioned-performance-factory2-20261026",
+    "run_id": 40227300626,
+    "job_id": 121271278040,
+    "status": "queued",
+    "admission": {
+      "status": "PASS",
+      "source_pins": 3597,
+      "actual_originals": 7,
+      "receipt_bytes": 1844291,
+      "receipt_sha256": "1b212e6b15bee0a74dd045d7a7a0d4117c38d1e14ea3ac551523bf34d4fc4b20"
+    },
+    "prior_CI_source_refusal_preserved": true,
+    "product_changes": 0,
+    "business_assertions": 63,
+    "runtime_qualified": false,
+    "production_go": false
+  },
+  "actual_B_frozen_public_facade_component": {
+    "name": "CP7_OW12B_FROZEN_FACADE.json",
+    "status": "PASS",
+    "head": "c1dd6b5cd231701be3be35bb7dd45c3856ace8fa",
+    "run_id": 40219663475,
+    "job_id": 121248268506,
+    "artifact_id": 12609969578,
+    "zip_bytes": 142264,
+    "zip_sha256": "03712c1367896a65dc39a6958bf002145e73fa945bcf40c18d18afc9dfafb949",
+    "bytes": 1219032,
+    "sha256": "7c35ea64975e4ad0debd63bc3acffe0ece15de43f9ac2275c295435281a7f24e",
+    "archive_member": "CP7_OW12B_FROZEN_FACADE.json",
+    "source_pins_verified": 90,
+    "all_original_JSON_files_verified": 6,
+    "counts": {
+      "native": 3,
+      "races": 3,
+      "http": 2
+    },
+    "package_gate": {
+      "installed": true,
+      "primary_unchanged": true,
+      "backup_restore_drill": true,
+      "security_advisors": true,
+      "writer_runtime": true
+    },
+    "clone_authority_copies_exact": 4,
+    "cp6_restored": true,
+    "advisor_gate": true,
+    "full_boundary_and_sessions_restored": true,
+    "B_delegate_sha256": "cbfb6ee4cbe165221c3bcab18750547f0b4952224e5ed7e5e0f2cbcd42ebd7c4",
+    "B_actual_Auth_HTTP_credit": true,
+    "actual_observed_wait_cases": 3,
+    "merged_into_A": false,
+    "new_A_Auth_HTTP_credit": false,
+    "official_finance_included": false,
+    "public_or_default_adopted": false,
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "private_frozen_public_product_prepared": {
+    "head": "a7908f73c7a4c60552f0e9809a7b753734fde28e",
+    "local": "c693ddb0c008d4317dd6a0c440b6b2ab8392b659",
+    "tree": "86aa1b347af02ddd842e9b603f4cba667e9b8524",
+    "parent": "a3088e214f5babc46e4016734cce11925acd34d8",
+    "branch": "astra-a/d17-14-frozen-finance-public-prepared-20261026",
+    "new_public_rpcs": 2,
+    "existing_replacements": 0,
+    "new_tables": 0,
+    "source_negative_controls": 25,
+    "private_parent_source_pins_unchanged": 3644,
+    "financial_math_added": false,
+    "SOURCE_bound": false,
+    "runtime_dispatched": false,
+    "production_go": false
+  },
+  "private_frozen_public_native52_prepared": {
+    "head": "f184d79376f66c9654ad4c25b42cda8575d5a146",
+    "local": "176a01ad233c826fb3545ce76adbee5abb675d79",
+    "tree": "eb6ebfb94247e4efed8c07962e87de48b9419a36",
+    "parent": "a7908f73c7a4c60552f0e9809a7b753734fde28e",
+    "branch": "astra-a/d17-14-frozen-finance-public-prepared-20261026",
+    "case_count": 52,
+    "retained_private_cases": 45,
+    "new_public_boundary_cases": 7,
+    "public_finance_business_bodies_exact": 5,
+    "local_route_controls": 3,
+    "workflow_bash_steps": 43,
+    "actual_B_component_PASS_intaken": true,
+    "actual_A_Native45_outcome_pending": true,
+    "SOURCE_bound": false,
+    "runtime_dispatched": false,
+    "actual_A_Auth_HTTP_credit": false,
     "production_go": false
   }
 }

@@ -1,0 +1,16 @@
+{
+  "head": "a7908f73c7a4c60552f0e9809a7b753734fde28e",
+  "local": "c693ddb0c008d4317dd6a0c440b6b2ab8392b659",
+  "tree": "86aa1b347af02ddd842e9b603f4cba667e9b8524",
+  "parent": "a3088e214f5babc46e4016734cce11925acd34d8",
+  "branch": "astra-a/d17-14-frozen-finance-public-prepared-20261026",
+  "new_public_rpcs": 2,
+  "existing_replacements": 0,
+  "new_tables": 0,
+  "source_negative_controls": 25,
+  "private_parent_source_pins_unchanged": 3644,
+  "financial_math_added": false,
+  "SOURCE_bound": false,
+  "runtime_dispatched": false,
+  "production_go": false
+}

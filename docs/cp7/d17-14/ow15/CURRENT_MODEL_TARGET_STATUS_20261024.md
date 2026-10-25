@@ -6,8 +6,10 @@ Reliable data adalah dewa. Keuangan termasuk laporan, stok, dan HPP adalah raja.
 **Keenam kelompok uji kandidat optimasi sudah lulus, termasuk jadwal menit asli
 serta pemulihan8langkah/34kontrol. Integrasi privat Native40 juga lulus40/40;
 seluruh3602target/halaman cocok dan seluruh data/katalog pulih. Uji keuangan
-privat Native45 serta pabrik1200SKU×3ukuran sudah dikirim ke server pengujian dari bukti aktual tersebut; hasilnya
-masih menunggu laporan asli. Formal tetap5/16; penerimaan independen dan izin produksi belum ada.**
+privat Native45 masih berjalan. Uji pabrik pertama berhenti pada pemeriksaan
+berkas keluaran alat uji sebelum kasus bisnis mulai; kandidat koreksi sudah
+dikirim ke server sesudah sumber lengkap lulus. Hasil baru masih menunggu
+laporan asli. Formal tetap5/16; penerimaan independen dan izin produksi belum ada.**
 Posisi26Oktober2026 WIB; status eksekusi terbaru ada di
 [catatan aktif A](ACTIVE_WRITER_A_20261025.json).
 
@@ -75,11 +77,22 @@ server tidak diubah atau diulang. Unduhan awal cron berhenti dengan0byte saat
 ruang lokal habis; ZIP yang sama diambil kembali dan lolos hash/CRC, tanpa
 pengulangan uji server. Kedua kejadian lokal tetap tersimpan.
 
-SOURCE pabrik3581pin kini terikat pada keenam kelompokPASS tersebut dan
-Original pertama daab8075 yang tetap INCOMPLETE. Pemeriksaan sumber lengkap3581pin/7Original lulus.
-[Run40222575218 pada25c5c4fb](performance-factory-running-25c5c4fb.json)
-sudah dikirim ke server; belum ada hasil runtime. Uji ini tetap memeriksa1200SKU×3ukuran beserta
-keuangan/HPP resmi; fixture dan batas8detik tidak dilonggarkan.
+[Percobaan25c5c4fb/run40222575218](performance-factory-first-CI-source-refusal-25c5c4fb.json)
+berhenti pada pemeriksaan kebersihan checkout sesudah alignment/clone.
+Pemeriksa memakai seluruh gitstatus, termasuk keluaran cp6-proof/t3 yang dibuat
+alat uji. Tidak ada Original runtime atau laporan paket; kasus pabrik belum mulai.
+ZIP asli dan seluruh log disimpan sebagai kegagalan admission CI, tanpa kredit
+atau label kegagalan perhitungan bisnis.
+
+[Kandidat koreksi c17b56ed](performance-factory-output2-running-c17b56ed.json)
+mempertahankan kualifikasi lama dan semua63assert bisnis persis. Perubahan
+tracked dan kode baru tetap ditolak; hanya berkas bukti regular nonkode pada
+lokasi keluaran yang diizinkan diterima. Sembilan kontrol negatif, termasuk
+perubahan tracked pada Git nyata, tetap menolak. Fulladmission3597pin/7Original
+PASS; run40227300626/job121271278040 sudah dikirim ke server. Keenam kelompok
+performaPASS dan firstdaabINCOMPLETE tetap prasyarat yang sama. Fixture1200SKU×3,
+semua target/halaman,24metrik/signature resmi,UNKNOWN,uang/stok/HPP,300detik,
+60transaksi8detik,jadwal menit/manual0 dan pemulihan penuh tidak dilonggarkan.
 
 [Kandidat B sebelumnya `dd22f085`](B-dd22-complete-intake.json)
 menambah fungsi privat untuk mengambil satu salinan sumber lengkap lalu
@@ -205,6 +218,29 @@ baru dicatat sesudah laporan aslinya tersedia.
 Paket pabrik privat juga disiapkan pada3d5f1152, tetapi menunggu Native45
 aktualPASS; enam uji performa lama hanya baseline, bukan kredit akses jalur privat.
 Tidak ada izin produksi.
+
+## Akses aplikasi: persiapan Native52 yang terpisah
+
+[Fasad operasional B pada c1dd6b5c](B-public-facade-c1-transport8-actual-c1dd6b5c.json)
+lulus3Native+3race+2Auth nyata. Seluruh90pin,6JSON,empat clone authority,CP6/
+advisor serta pemulihan diperiksa dan Original diarsipkan sekali. Tiga persaingan
+benar-benar mengamati backend yang menunggu; token lama yang haknya dicabut,
+akses akun lain dan anonim ditolak. Ini bukti komponen B, belum kredit A.
+
+[Delta publik A a7908f73](frozen-public-product-prepared-a7908f73.json) menambah
+dua RPC authenticated untuk operasional dan keuangan resmi. SQL operasional B
+byteexact; fungsi uang meneruskan query/UUID ke pemilik privat A. Semua3644pin
+parent tetap sama,25kontrol negatif lokal menolak,dan tidak ada rumus/tabel atau
+penggantian fungsi lama. Seluruh22katalog serta globalrows/sequenceguard tetap
+menjadi batas pemasangan/inverse.
+
+[Paket Native52 f184d793](frozen-public-native52-prepared-f184d793.json)
+mempertahankan45kasus privat dan menambah tujuh kasus publik: katalog/dependent
+view,operasionalPENDING→COMPLETE/replay,serta lima tubuh uji keuangan lama
+melalui dua rute publik. Seluruh52closure,tiga kontrol rute/UUID/actor/8detik,
+dan43langkahbash diperiksa tanpa menjalankan tubuh kasus atau DB. SOURCE belum
+diikat; Original Native45 aktualPASS masih diperlukan. Kredit Auth B tidak
+menjadi kredit Auth/browser A. Default,official,hosted dan produksi belum diubah.
 
 ## Lingkup A yang tetap dijaga
 

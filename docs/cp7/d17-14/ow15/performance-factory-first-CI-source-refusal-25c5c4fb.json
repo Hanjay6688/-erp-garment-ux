@@ -1,0 +1,21 @@
+{
+  "status": "CI_SOURCE_ADMISSION_REFUSAL",
+  "head": "25c5c4fb5a16a1622663f87106506e0845105914",
+  "run_id": 40222575218,
+  "job_id": 121257125693,
+  "artifact_id": 12610673463,
+  "zip_bytes": 1605866,
+  "zip_sha256": "7b1909f6ca2985ba42df022b3ed780065c4b3e21d9d468635990dbe342ac7d3a",
+  "decoded_job_log_bytes": 1038686,
+  "decoded_job_log_sha256": "b6ccad4a725d6794282d99d4cc176b40299edf36b2b1332e044ffea02f784e5e",
+  "qualification_source_pins": 3581,
+  "source_failed_after_disposable_alignment_and_clone": true,
+  "cause": "Whole-worktree clean assertion includes generated cp6-proof/t3 evidence files",
+  "runtime_Original_created": false,
+  "T3_package_report_created": false,
+  "business_factory_case_started": false,
+  "original_business_oracles_changed": false,
+  "qualification_status": "NOT_EXECUTED",
+  "production_go": false,
+  "independent_acceptance": false
+}

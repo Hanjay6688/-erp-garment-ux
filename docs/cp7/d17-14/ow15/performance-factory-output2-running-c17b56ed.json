@@ -1,0 +1,23 @@
+{
+  "head": "c17b56ed91262757fb75d73d12b98a12edaa8f35",
+  "parent": "559a64737dbfeca1d9bb9b7763cd108b0dd88641",
+  "local": "609095c981c6b0081d7d22a4532991cb38c7ab04",
+  "tree": "e9e8551cd8efb54e52695c2737e2a4a1a65fb34a",
+  "prepared_branch": "astra-a/d17-14-versioned-performance-prepared-20261025",
+  "execution_branch": "astra-a/d17-14-versioned-performance-factory2-20261026",
+  "run_id": 40227300626,
+  "job_id": 121271278040,
+  "status": "queued",
+  "admission": {
+    "status": "PASS",
+    "source_pins": 3597,
+    "actual_originals": 7,
+    "receipt_bytes": 1844291,
+    "receipt_sha256": "1b212e6b15bee0a74dd045d7a7a0d4117c38d1e14ea3ac551523bf34d4fc4b20"
+  },
+  "prior_CI_source_refusal_preserved": true,
+  "product_changes": 0,
+  "business_assertions": 63,
+  "runtime_qualified": false,
+  "production_go": false
+}

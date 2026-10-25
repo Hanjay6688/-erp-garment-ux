@@ -1,0 +1,19 @@
+{
+  "head": "f184d79376f66c9654ad4c25b42cda8575d5a146",
+  "local": "176a01ad233c826fb3545ce76adbee5abb675d79",
+  "tree": "eb6ebfb94247e4efed8c07962e87de48b9419a36",
+  "parent": "a7908f73c7a4c60552f0e9809a7b753734fde28e",
+  "branch": "astra-a/d17-14-frozen-finance-public-prepared-20261026",
+  "case_count": 52,
+  "retained_private_cases": 45,
+  "new_public_boundary_cases": 7,
+  "public_finance_business_bodies_exact": 5,
+  "local_route_controls": 3,
+  "workflow_bash_steps": 43,
+  "actual_B_component_PASS_intaken": true,
+  "actual_A_Native45_outcome_pending": true,
+  "SOURCE_bound": false,
+  "runtime_dispatched": false,
+  "actual_A_Auth_HTTP_credit": false,
+  "production_go": false
+}
