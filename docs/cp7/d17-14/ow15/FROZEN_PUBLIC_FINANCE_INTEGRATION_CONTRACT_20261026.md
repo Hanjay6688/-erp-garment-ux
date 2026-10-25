@@ -18,9 +18,9 @@ bukan permintaan mengubah scope atau mengadopsi default sebelum bukti lengkap.
 - Pendahulu private finance: **a3088e214f5babc46e4016734cce11925acd34d8**,
   actual Native45 PASS45/45,24metrik resmi,3602target dan pemulihan penuh.
   Bukti ini tidak memberi kredit HTTP/browser/pabrik publik.
-- Auth3/races7, cron1 dan used restore8/42kontrol disiapkan di branch
+- Auth3/races7, cron1, used restore8/42kontrol, browser6 dan transport28 disiapkan di branch
   `astra-a/d17-14-frozen-public-followups-prepared-20261026`,
-  **14d5b4448446f6794be4f6b20751b330997f72f1**. Ketiganya belum SOURCE-bound
+  **55e1e317a52f4838e3d1f34a7beea7cc64c41403**. Kelimanya belum SOURCE-bound
   atau dieksekusi; wajib menerima complete Original Native52 yang tepat dahulu.
 
 Versi resmi/main/hosted/default tetap terpisah. `production_go=false`,

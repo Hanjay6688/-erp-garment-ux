@@ -1,8 +1,8 @@
 {
-  "recorded_at_utc": "2026-10-25T22:22:33.148615+00:00",
+  "recorded_at_utc": "2026-10-25T22:30:26.167052+00:00",
   "role": "A finance writer/integrator replacing Claude; B remains separate production/planning writer",
   "slogan": [
-    "VENI. VIDI. VICI. ERP. — I CONQUERED ERP.",
+    "VENI. VIDI. VICI. ERP. \u2014 I CONQUERED ERP.",
     "Reliable data adalah dewa. Keuangan termasuk laporan, stok, dan HPP adalah raja."
   ],
   "formal_accepted": "5/16",
@@ -3020,7 +3020,7 @@
   ],
   "writer_A_takeover": {
     "full_context": "docs/cp7/handoff/WRITER_A_TAKEOVER_20261026.md",
-    "B_read_only_head": "714766d1c2d52c8e91bc79671a6ea0f6187ed2e4",
+    "B_read_only_head": "e2ef3a9eeeaae93a861bfabee7c52f01ee8a5e13",
     "no_B_scope_reassigned": true,
     "formal_accepted": "5/16",
     "production_go": false,
@@ -3052,9 +3052,9 @@
     "prior_date_corrected_fixture_claims_superseded": true
   },
   "public_followups_prepared": {
-    "head": "14d5b4448446f6794be4f6b20751b330997f72f1",
-    "local": "ea5e0d17b19fd41995b8170a41d9445022362138",
-    "tree": "ba2950c119a08fbcd539488eb3f3e81e6c0b16bf",
+    "head": "55e1e317a52f4838e3d1f34a7beea7cc64c41403",
+    "local": "e1ec8477a2bfaa08bc02ef38cf395b746ec43343",
+    "tree": "614f8ae4ab0065ea08e51a63bcdd21d478cb0835",
     "branch": "astra-a/d17-14-frozen-public-followups-prepared-20261026",
     "required_actual_Native52_head": "6dceb3d3530a2144217047360613808af3249e4a",
     "SOURCE_bound": false,
@@ -3092,7 +3092,27 @@
     "actual_Auth_HTTP_credit": false,
     "actual_cron_credit": false,
     "actual_restore_qualified": false,
-    "production_go": false
+    "production_go": false,
+    "browser": {
+      "cases": 6,
+      "local_preparation_status": "PASS_LOCAL_PREPARATION_ONLY",
+      "negative_source_controls": 4,
+      "bash_steps": 46,
+      "prior_actual_Original_verified": true,
+      "retained_flow_only": true,
+      "new_public_finance_UI_claim": false,
+      "latest_B_microsecond_fix_adopted": false
+    },
+    "transport": {
+      "cases": 28,
+      "local_preparation_status": "PASS_LOCAL_PREPARATION_ONLY",
+      "negative_source_controls": 4,
+      "bash_steps": 44,
+      "prior_actual_Original_verified": true,
+      "retained_flow_only": true,
+      "new_public_finance_UI_claim": false,
+      "latest_B_microsecond_fix_adopted": false
+    }
   },
   "B_latest_read_only_20261026": {
     "head": "e2ef3a9eeeaae93a861bfabee7c52f01ee8a5e13",

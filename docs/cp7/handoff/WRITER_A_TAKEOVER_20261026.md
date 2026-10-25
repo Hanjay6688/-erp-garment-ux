@@ -105,3 +105,26 @@ field lama membership_effective_before_sales. Public52 tetap memerlukan
 Auth/race/browser/cron/usedrestore tersendiri. Sesudah bukti aktual, lanjut
 adopsi B bertahap, sisa A, kualifikasi terpadu dan paket auditor satu versi.
 Checkpoint menyimpan kemajuan, bukan menyatakan seluruh scope selesai.
+
+
+## Lanjutan takeover: lima suite publik dan pembaruan B
+
+Persiapan A kini55e1e317a52f4838e3d1f34a7beea7cc64c41403/tree614f8ae4,
+branchastra-a/d17-14-frozen-public-followups-prepared-20261026. Finance10
+(Auth3/races7),cron1,usedrestore8/42kontrol,browser6,transport28 telah lolos
+pemeriksaan sumber dan routing lokal; semuanya menunggu completeNative52PASS
+6dceb3d3, SOURCE belum diikat dan belum dieksekusi. Original4608b478 untuk
+masing-masing suite diperiksa utuh. Browser/transport hanya regresi alur lama
+pada backendA baru, bukan bukti UI menggunakan RPC finance baru.
+
+Kontrak caller A: ow15/FROZEN_PUBLIC_FINANCE_INTEGRATION_CONTRACT_20261026.md.
+B dibaca sampaie2ef3a9e, termasuk kebutuhan helper nativePlanInstant.ts untuk
+strict clock mikrodetik pada finance sidecar. Belum diadopsi A; B tetap pemilik
+caller/UI dan scope produksi/perencanaan. Authchoice/quantity baru yang
+dilaporkan B belum diintake independen A. CuttingSAVE masih memerlukan buktiB.
+
+Intaker lengkap terpisah sudah disiapkan untukNative52,dua factory,finance10,
+cron1,browser6,transport28 danrestore8. Masing-masing wajib memeriksa sumber,
+head,fullOriginal,gate,pemulihan,dan mengarsipkan tepat sekali. Helper restore
+baru mempertahankan lima keluarga pemeriksaan lama ditambah dua pemeriksaan
+financepublik; tidak membuang field tambahan agar cocok oracle lama.
