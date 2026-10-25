@@ -1,0 +1,14 @@
+{
+  "status": "SOURCE_COMPARISON_ONLY",
+  "head": "e33f3095612d7274b2780b1a3ee18c68a4d14533",
+  "function": "cp7_analysis_stage.run_scenario_unit(cp7_analysis_stage.jobs,cp7_analysis_stage.units,jsonb)",
+  "unit_expected_source": "cp7_bounded_analysis_stage/stage.sql",
+  "unit_expected_body_sha256": "db3886d9716856ed9049a5b724780f1ca870c19334566102ae6839d467c1480d",
+  "qualified_analog_hook_source": "cp7_product_analog_consumer_stage/hooks.sql",
+  "qualified_analog_hook_body_sha256": "08895ed00c0f054b11c1abf36b8b88935d2b6d20c8b68d8e555a9f814aac5cde",
+  "bodies_equal": false,
+  "runtime_catalog_read_in_this_check": false,
+  "product_SQL_changed": false,
+  "predecessor_guard_must_remain_exact": true,
+  "production_go": false
+}

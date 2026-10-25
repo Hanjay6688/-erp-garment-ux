@@ -1,0 +1,589 @@
+{
+  "status": "STATIC_INVENTORY_ONLY",
+  "base": "a255e48f76ce502d9e571f2bfdd8a52a1a2b1306",
+  "candidate": "88f36937ef7c0a42cc7761142678da5411ece68f",
+  "branch": "astra/d17-14-integrasi",
+  "candidate_tree": "02cd09dd3d0ce5b81edc7594703370a9a8f19a38",
+  "commit_count": 696,
+  "changed_file_count": 2291,
+  "workflow_file_count": 351,
+  "complete_local_diff_matches": 61,
+  "source_declaration_count": 117,
+  "source_declarations_with_drift": 83,
+  "generator_sha256": "365ff0439334425aa8f5296a449a05b3060829f4cb57b69c053873f07207b59b",
+  "automatic_push_coverage_reliable": false,
+  "actual_dispatch_predicted": false,
+  "branch_updated": false,
+  "source_pins_modified": false,
+  "qualified_case_count": 0,
+  "independent_acceptance": false,
+  "production_go": false,
+  "limitations": [
+    "Full local diff matching is a planning aid, not the GitHub-dispatched job list.",
+    "Matching source bytes is not execution of nested admission or business cases.",
+    "Unresolved Python imports and unsupported globs require explicit disposition.",
+    "A workflow file is not necessarily a required qualification suite; scope must be mapped to owner requirements."
+  ],
+  "recorded_at_utc": "2026-10-25T15:47:03.753623+00:00",
+  "raw_inventory": {
+    "bytes": 913649,
+    "sha256": "61e0a3a69ad3633452dfdc82073f82d30892530af236274d55816145b3a8520d",
+    "private_archive_filename": "workflow-inventory-performance-88f36937.json"
+  },
+  "matched_status_counts": {
+    "PIN_DRIFT": 47,
+    "RESOLVED_PIN_BYTES_MATCH_ONLY": 14
+  },
+  "unknown_patterns": 0,
+  "current_qualified_declarations": {
+    "scripts/current-versioned-performance-native-qualification/SOURCE.json": {
+      "status": "PIN_BYTES_MATCH",
+      "pinned_files": 3569,
+      "drift_count": 0
+    },
+    "scripts/current-versioned-target-native-qualification/SOURCE.json": {
+      "status": "PIN_BYTES_MATCH",
+      "pinned_files": 3475,
+      "drift_count": 0
+    }
+  },
+  "matched_workflows": [
+    {
+      "path": ".github/workflows/cp7-ab-bounded-browser.yml",
+      "source_status": "PIN_DRIFT",
+      "directly_resolved_source_declarations": [
+        "scripts/ab-bounded-browser-qualification/SOURCE.json",
+        "scripts/cp7_laundry_unknown_wash/SOURCE.json"
+      ],
+      "runtime_qualified": false
+    },
+    {
+      "path": ".github/workflows/cp7-ab-bounded-native.yml",
+      "source_status": "PIN_DRIFT",
+      "directly_resolved_source_declarations": [
+        "scripts/ab-bounded-native-qualification/SOURCE.json",
+        "scripts/cp7_laundry_unknown_wash/SOURCE.json"
+      ],
+      "runtime_qualified": false
+    },
+    {
+      "path": ".github/workflows/cp7-ab-bounded-restore.yml",
+      "source_status": "PIN_DRIFT",
+      "directly_resolved_source_declarations": [
+        "scripts/ab-bounded-restore-qualification/SOURCE.json",
+        "scripts/cp7_laundry_unknown_wash/SOURCE.json"
+      ],
+      "runtime_qualified": false
+    },
+    {
+      "path": ".github/workflows/cp7-ab-owner-auth.yml",
+      "source_status": "PIN_DRIFT",
+      "directly_resolved_source_declarations": [
+        "scripts/ab-owner-auth-qualification/SOURCE.json",
+        "scripts/cp7_laundry_unknown_wash/SOURCE.json"
+      ],
+      "runtime_qualified": false
+    },
+    {
+      "path": ".github/workflows/cp7-ab-owner-browser.yml",
+      "source_status": "PIN_DRIFT",
+      "directly_resolved_source_declarations": [
+        "scripts/ab-owner-browser-qualification/SOURCE.json",
+        "scripts/cp7_laundry_unknown_wash/SOURCE.json"
+      ],
+      "runtime_qualified": false
+    },
+    {
+      "path": ".github/workflows/cp7-ab-owner-families.yml",
+      "source_status": "PIN_DRIFT",
+      "directly_resolved_source_declarations": [
+        "scripts/ab-owner-families-qualification/SOURCE.json",
+        "scripts/cp7_laundry_unknown_wash/SOURCE.json"
+      ],
+      "runtime_qualified": false
+    },
+    {
+      "path": ".github/workflows/cp7-ab-quote-browser.yml",
+      "source_status": "PIN_DRIFT",
+      "directly_resolved_source_declarations": [
+        "scripts/ab-quote-browser-qualification/SOURCE.json",
+        "scripts/cp7_laundry_unknown_wash/SOURCE.json"
+      ],
+      "runtime_qualified": false
+    },
+    {
+      "path": ".github/workflows/cp7-ab-quote-chain.yml",
+      "source_status": "PIN_DRIFT",
+      "directly_resolved_source_declarations": [
+        "scripts/ab-quote-chain-qualification/SOURCE.json",
+        "scripts/cp7_laundry_unknown_wash/SOURCE.json"
+      ],
+      "runtime_qualified": false
+    },
+    {
+      "path": ".github/workflows/cp7-b-extension-chain.yml",
+      "source_status": "PIN_DRIFT",
+      "directly_resolved_source_declarations": [
+        "scripts/b-extension-chain-qualification/SOURCE.json",
+        "scripts/cp7_laundry_unknown_wash/SOURCE.json"
+      ],
+      "runtime_qualified": false
+    },
+    {
+      "path": ".github/workflows/cp7-chain-p21.yml",
+      "source_status": "RESOLVED_PIN_BYTES_MATCH_ONLY",
+      "directly_resolved_source_declarations": [
+        "scripts/cp7_laundry_unknown_wash/SOURCE.json"
+      ],
+      "runtime_qualified": false
+    },
+    {
+      "path": ".github/workflows/cp7-current-cash-fixture-diagnostic.yml",
+      "source_status": "PIN_DRIFT",
+      "directly_resolved_source_declarations": [
+        "scripts/cp7_laundry_unknown_wash/SOURCE.json",
+        "scripts/current-cash-fixture-diagnostic/SOURCE.json"
+      ],
+      "runtime_qualified": false
+    },
+    {
+      "path": ".github/workflows/cp7-current-cash-linked.yml",
+      "source_status": "RESOLVED_PIN_BYTES_MATCH_ONLY",
+      "directly_resolved_source_declarations": [
+        "scripts/cp7_laundry_unknown_wash/SOURCE.json",
+        "scripts/current-cash-linked-qualification/SOURCE.json"
+      ],
+      "runtime_qualified": false
+    },
+    {
+      "path": ".github/workflows/cp7-current-cash-ready.yml",
+      "source_status": "PIN_DRIFT",
+      "directly_resolved_source_declarations": [
+        "scripts/cp7_laundry_unknown_wash/SOURCE.json",
+        "scripts/current-cash-ready-qualification/SOURCE.json"
+      ],
+      "runtime_qualified": false
+    },
+    {
+      "path": ".github/workflows/cp7-current-cp6-ai-native.yml",
+      "source_status": "PIN_DRIFT",
+      "directly_resolved_source_declarations": [
+        "scripts/cp7_laundry_unknown_wash/SOURCE.json",
+        "scripts/current-cp6-ai-native-qualification/SOURCE.json"
+      ],
+      "runtime_qualified": false
+    },
+    {
+      "path": ".github/workflows/cp7-current-cp6-contract.yml",
+      "source_status": "PIN_DRIFT",
+      "directly_resolved_source_declarations": [
+        "scripts/cp7_laundry_unknown_wash/SOURCE.json",
+        "scripts/current-cp6-contract-qualification/SOURCE.json"
+      ],
+      "runtime_qualified": false
+    },
+    {
+      "path": ".github/workflows/cp7-current-cp6-crossflow.yml",
+      "source_status": "PIN_DRIFT",
+      "directly_resolved_source_declarations": [
+        "scripts/cp7_laundry_unknown_wash/SOURCE.json",
+        "scripts/current-cp6-crossflow-qualification/SOURCE.json"
+      ],
+      "runtime_qualified": false
+    },
+    {
+      "path": ".github/workflows/cp7-current-cp6-funded.yml",
+      "source_status": "PIN_DRIFT",
+      "directly_resolved_source_declarations": [
+        "scripts/cp7_laundry_unknown_wash/SOURCE.json",
+        "scripts/current-cp6-funded-qualification/SOURCE.json"
+      ],
+      "runtime_qualified": false
+    },
+    {
+      "path": ".github/workflows/cp7-current-cp6-race.yml",
+      "source_status": "PIN_DRIFT",
+      "directly_resolved_source_declarations": [
+        "scripts/cp7_laundry_unknown_wash/SOURCE.json",
+        "scripts/current-cp6-race-qualification/SOURCE.json"
+      ],
+      "runtime_qualified": false
+    },
+    {
+      "path": ".github/workflows/cp7-current-full-money.yml",
+      "source_status": "PIN_DRIFT",
+      "directly_resolved_source_declarations": [
+        "scripts/cp7_laundry_unknown_wash/SOURCE.json",
+        "scripts/current-full-money-qualification/SOURCE.json"
+      ],
+      "runtime_qualified": false
+    },
+    {
+      "path": ".github/workflows/cp7-current-installation.yml",
+      "source_status": "PIN_DRIFT",
+      "directly_resolved_source_declarations": [
+        "scripts/cp7_laundry_unknown_wash/SOURCE.json",
+        "scripts/current-installation-qualification/SOURCE.json"
+      ],
+      "runtime_qualified": false
+    },
+    {
+      "path": ".github/workflows/cp7-current-invoice-history-browser.yml",
+      "source_status": "PIN_DRIFT",
+      "directly_resolved_source_declarations": [
+        "scripts/cp7_laundry_unknown_wash/SOURCE.json",
+        "scripts/current-invoice-history-browser/SOURCE.json"
+      ],
+      "runtime_qualified": false
+    },
+    {
+      "path": ".github/workflows/cp7-current-legacy-ui-browser.yml",
+      "source_status": "PIN_DRIFT",
+      "directly_resolved_source_declarations": [
+        "scripts/cp7_laundry_unknown_wash/SOURCE.json",
+        "scripts/current-legacy-ui-browser/SOURCE.json"
+      ],
+      "runtime_qualified": false
+    },
+    {
+      "path": ".github/workflows/cp7-current-mandor-native.yml",
+      "source_status": "PIN_DRIFT",
+      "directly_resolved_source_declarations": [
+        "scripts/cp7_laundry_unknown_wash/SOURCE.json",
+        "scripts/current-mandor-native-qualification/SOURCE.json"
+      ],
+      "runtime_qualified": false
+    },
+    {
+      "path": ".github/workflows/cp7-current-opening-replay-ready.yml",
+      "source_status": "PIN_DRIFT",
+      "directly_resolved_source_declarations": [
+        "scripts/cp7_laundry_unknown_wash/SOURCE.json",
+        "scripts/current-opening-replay-ready-qualification/SOURCE.json"
+      ],
+      "runtime_qualified": false
+    },
+    {
+      "path": ".github/workflows/cp7-current-opening-replay.yml",
+      "source_status": "PIN_DRIFT",
+      "directly_resolved_source_declarations": [
+        "scripts/cp7_laundry_unknown_wash/SOURCE.json",
+        "scripts/current-opening-replay-qualification/SOURCE.json"
+      ],
+      "runtime_qualified": false
+    },
+    {
+      "path": ".github/workflows/cp7-current-owner-lists-browser.yml",
+      "source_status": "PIN_DRIFT",
+      "directly_resolved_source_declarations": [
+        "scripts/cp7_laundry_unknown_wash/SOURCE.json",
+        "scripts/current-owner-lists-browser/SOURCE.json"
+      ],
+      "runtime_qualified": false
+    },
+    {
+      "path": ".github/workflows/cp7-current-retained-native.yml",
+      "source_status": "PIN_DRIFT",
+      "directly_resolved_source_declarations": [
+        "scripts/cp7_laundry_unknown_wash/SOURCE.json",
+        "scripts/current-retained-native-qualification/SOURCE.json"
+      ],
+      "runtime_qualified": false
+    },
+    {
+      "path": ".github/workflows/cp7-current-return-auth-bounded.yml",
+      "source_status": "PIN_DRIFT",
+      "directly_resolved_source_declarations": [
+        "scripts/cp7_laundry_unknown_wash/SOURCE.json",
+        "scripts/current-return-auth-bounded-qualification/SOURCE.json"
+      ],
+      "runtime_qualified": false
+    },
+    {
+      "path": ".github/workflows/cp7-current-return-auth-ready.yml",
+      "source_status": "PIN_DRIFT",
+      "directly_resolved_source_declarations": [
+        "scripts/cp7_laundry_unknown_wash/SOURCE.json",
+        "scripts/current-return-auth-ready-qualification/SOURCE.json"
+      ],
+      "runtime_qualified": false
+    },
+    {
+      "path": ".github/workflows/cp7-current-return-auth.yml",
+      "source_status": "PIN_DRIFT",
+      "directly_resolved_source_declarations": [
+        "scripts/cp7_laundry_unknown_wash/SOURCE.json",
+        "scripts/current-return-auth-qualification/SOURCE.json"
+      ],
+      "runtime_qualified": false
+    },
+    {
+      "path": ".github/workflows/cp7-current-return-browser-bounded.yml",
+      "source_status": "PIN_DRIFT",
+      "directly_resolved_source_declarations": [
+        "scripts/cp7_laundry_unknown_wash/SOURCE.json",
+        "scripts/current-return-browser-bounded-qualification/SOURCE.json"
+      ],
+      "runtime_qualified": false
+    },
+    {
+      "path": ".github/workflows/cp7-current-return-browser.yml",
+      "source_status": "PIN_DRIFT",
+      "directly_resolved_source_declarations": [
+        "scripts/cp7_laundry_unknown_wash/SOURCE.json",
+        "scripts/current-return-browser-qualification/SOURCE.json"
+      ],
+      "runtime_qualified": false
+    },
+    {
+      "path": ".github/workflows/cp7-current-return-installation.yml",
+      "source_status": "PIN_DRIFT",
+      "directly_resolved_source_declarations": [
+        "scripts/cp7_laundry_unknown_wash/SOURCE.json",
+        "scripts/current-return-installation-qualification/SOURCE.json"
+      ],
+      "runtime_qualified": false
+    },
+    {
+      "path": ".github/workflows/cp7-current-return-race.yml",
+      "source_status": "PIN_DRIFT",
+      "directly_resolved_source_declarations": [
+        "scripts/cp7_laundry_unknown_wash/SOURCE.json",
+        "scripts/current-return-race-qualification/SOURCE.json"
+      ],
+      "runtime_qualified": false
+    },
+    {
+      "path": ".github/workflows/cp7-current-runner.yml",
+      "source_status": "PIN_DRIFT",
+      "directly_resolved_source_declarations": [
+        "scripts/cp7_laundry_unknown_wash/SOURCE.json",
+        "scripts/current-runner-qualification/SOURCE.json"
+      ],
+      "runtime_qualified": false
+    },
+    {
+      "path": ".github/workflows/cp7-current-transfer-pages-browser.yml",
+      "source_status": "PIN_DRIFT",
+      "directly_resolved_source_declarations": [
+        "scripts/cp7_laundry_unknown_wash/SOURCE.json",
+        "scripts/current-transfer-pages-browser/SOURCE.json"
+      ],
+      "runtime_qualified": false
+    },
+    {
+      "path": ".github/workflows/cp7-current-transfer-restore.yml",
+      "source_status": "PIN_DRIFT",
+      "directly_resolved_source_declarations": [
+        "scripts/cp7_laundry_unknown_wash/SOURCE.json",
+        "scripts/current-transfer-restore-qualification/SOURCE.json"
+      ],
+      "runtime_qualified": false
+    },
+    {
+      "path": ".github/workflows/cp7-draft-return-closure.yml",
+      "source_status": "PIN_DRIFT",
+      "directly_resolved_source_declarations": [
+        "scripts/cp7_laundry_unknown_wash/SOURCE.json",
+        "scripts/draft-return-closure-qualification/SOURCE.json"
+      ],
+      "runtime_qualified": false
+    },
+    {
+      "path": ".github/workflows/cp7-draft-return-isolation.yml",
+      "source_status": "PIN_DRIFT",
+      "directly_resolved_source_declarations": [
+        "scripts/cp7_laundry_unknown_wash/SOURCE.json",
+        "scripts/draft-return-isolation-qualification/SOURCE.json"
+      ],
+      "runtime_qualified": false
+    },
+    {
+      "path": ".github/workflows/cp7-draft-return-regression.yml",
+      "source_status": "PIN_DRIFT",
+      "directly_resolved_source_declarations": [
+        "scripts/cp7_laundry_unknown_wash/SOURCE.json",
+        "scripts/draft-return-regression-qualification/SOURCE.json"
+      ],
+      "runtime_qualified": false
+    },
+    {
+      "path": ".github/workflows/cp7-draft-return-restored.yml",
+      "source_status": "PIN_DRIFT",
+      "directly_resolved_source_declarations": [
+        "scripts/cp7_laundry_unknown_wash/SOURCE.json",
+        "scripts/draft-return-restored-qualification/SOURCE.json"
+      ],
+      "runtime_qualified": false
+    },
+    {
+      "path": ".github/workflows/cp7-draft-return-used-restore.yml",
+      "source_status": "PIN_DRIFT",
+      "directly_resolved_source_declarations": [
+        "scripts/cp7_laundry_unknown_wash/SOURCE.json",
+        "scripts/draft-return-restore-qualification/SOURCE.json"
+      ],
+      "runtime_qualified": false
+    },
+    {
+      "path": ".github/workflows/cp7-finance-bridge-chain.yml",
+      "source_status": "PIN_DRIFT",
+      "directly_resolved_source_declarations": [
+        "scripts/cp7_laundry_unknown_wash/SOURCE.json",
+        "scripts/finance-bridge-chain-qualification/SOURCE.json"
+      ],
+      "runtime_qualified": false
+    },
+    {
+      "path": ".github/workflows/cp7-ow04b-incoming-native.yml",
+      "source_status": "RESOLVED_PIN_BYTES_MATCH_ONLY",
+      "directly_resolved_source_declarations": [
+        "scripts/cp7_credit_incoming/SOURCE.json",
+        "scripts/cp7_laundry_unknown_wash/SOURCE.json"
+      ],
+      "runtime_qualified": false
+    },
+    {
+      "path": ".github/workflows/cp7-ow04b-multi-native.yml",
+      "source_status": "RESOLVED_PIN_BYTES_MATCH_ONLY",
+      "directly_resolved_source_declarations": [
+        "scripts/cp7_credit_multi/SOURCE.json",
+        "scripts/cp7_laundry_unknown_wash/SOURCE.json"
+      ],
+      "runtime_qualified": false
+    },
+    {
+      "path": ".github/workflows/cp7-ow04b-native.yml",
+      "source_status": "RESOLVED_PIN_BYTES_MATCH_ONLY",
+      "directly_resolved_source_declarations": [
+        "scripts/cp7_credit_followups/SOURCE.json",
+        "scripts/cp7_laundry_unknown_wash/SOURCE.json"
+      ],
+      "runtime_qualified": false
+    },
+    {
+      "path": ".github/workflows/cp7-ow04b-remaining-native.yml",
+      "source_status": "RESOLVED_PIN_BYTES_MATCH_ONLY",
+      "directly_resolved_source_declarations": [
+        "scripts/cp7_credit_remaining/SOURCE.json",
+        "scripts/cp7_laundry_unknown_wash/SOURCE.json"
+      ],
+      "runtime_qualified": false
+    },
+    {
+      "path": ".github/workflows/cp7-ow05b-browser.yml",
+      "source_status": "PIN_DRIFT",
+      "directly_resolved_source_declarations": [
+        "scripts/ow05b-browser-qualification/SOURCE.json"
+      ],
+      "runtime_qualified": false
+    },
+    {
+      "path": ".github/workflows/cp7-ow05b-native.yml",
+      "source_status": "PIN_DRIFT",
+      "directly_resolved_source_declarations": [
+        "scripts/cp7_contractor_guidance/SOURCE.json"
+      ],
+      "runtime_qualified": false
+    },
+    {
+      "path": ".github/workflows/cp7-ow06-auth.yml",
+      "source_status": "RESOLVED_PIN_BYTES_MATCH_ONLY",
+      "directly_resolved_source_declarations": [
+        "scripts/ow06-auth-qualification/SOURCE.json"
+      ],
+      "runtime_qualified": false
+    },
+    {
+      "path": ".github/workflows/cp7-ow06-browser.yml",
+      "source_status": "PIN_DRIFT",
+      "directly_resolved_source_declarations": [
+        "scripts/ow06-browser-qualification/SOURCE.json"
+      ],
+      "runtime_qualified": false
+    },
+    {
+      "path": ".github/workflows/cp7-ow07-native.yml",
+      "source_status": "RESOLVED_PIN_BYTES_MATCH_ONLY",
+      "directly_resolved_source_declarations": [
+        "scripts/cp7_hpp_close/SOURCE.json"
+      ],
+      "runtime_qualified": false
+    },
+    {
+      "path": ".github/workflows/cp7-ow08a-native.yml",
+      "source_status": "RESOLVED_PIN_BYTES_MATCH_ONLY",
+      "directly_resolved_source_declarations": [
+        "scripts/cp7_report_credit/SOURCE.json"
+      ],
+      "runtime_qualified": false
+    },
+    {
+      "path": ".github/workflows/cp7-ow08b-fg-correction-native.yml",
+      "source_status": "RESOLVED_PIN_BYTES_MATCH_ONLY",
+      "directly_resolved_source_declarations": [
+        "scripts/cp7_fg_correction_source/SOURCE.json"
+      ],
+      "runtime_qualified": false
+    },
+    {
+      "path": ".github/workflows/cp7-ow08b-kasbon-native.yml",
+      "source_status": "RESOLVED_PIN_BYTES_MATCH_ONLY",
+      "directly_resolved_source_declarations": [
+        "scripts/cp7_kasbon_source/SOURCE.json"
+      ],
+      "runtime_qualified": false
+    },
+    {
+      "path": ".github/workflows/cp7-ow08b-wash-native.yml",
+      "source_status": "RESOLVED_PIN_BYTES_MATCH_ONLY",
+      "directly_resolved_source_declarations": [
+        "scripts/cp7_laundry_unknown_wash/SOURCE.json"
+      ],
+      "runtime_qualified": false
+    },
+    {
+      "path": ".github/workflows/cp7-ow09-chain-browser.yml",
+      "source_status": "PIN_DRIFT",
+      "directly_resolved_source_declarations": [
+        "scripts/cp7_laundry_unknown_wash/SOURCE.json",
+        "scripts/ow09-chain-browser-qualification/SOURCE.json"
+      ],
+      "runtime_qualified": false
+    },
+    {
+      "path": ".github/workflows/cp7-ow09-native.yml",
+      "source_status": "RESOLVED_PIN_BYTES_MATCH_ONLY",
+      "directly_resolved_source_declarations": [
+        "scripts/cp7_ow09_lists/SOURCE.json"
+      ],
+      "runtime_qualified": false
+    },
+    {
+      "path": ".github/workflows/cp7-ow12a-finance-native.yml",
+      "source_status": "RESOLVED_PIN_BYTES_MATCH_ONLY",
+      "directly_resolved_source_declarations": [
+        "scripts/cp7_finance_capture/SOURCE.json"
+      ],
+      "runtime_qualified": false
+    },
+    {
+      "path": ".github/workflows/cp7-ow14b-installation.yml",
+      "source_status": "PIN_DRIFT",
+      "directly_resolved_source_declarations": [
+        "scripts/cp7_laundry_unknown_wash/SOURCE.json",
+        "scripts/ow14b-installation-qualification/SOURCE.json"
+      ],
+      "runtime_qualified": false
+    },
+    {
+      "path": ".github/workflows/cp7-production-chain.yml",
+      "source_status": "PIN_DRIFT",
+      "directly_resolved_source_declarations": [
+        "scripts/cp7_laundry_unknown_wash/SOURCE.json",
+        "scripts/production-chain-qualification/SOURCE.json"
+      ],
+      "runtime_qualified": false
+    }
+  ]
+}

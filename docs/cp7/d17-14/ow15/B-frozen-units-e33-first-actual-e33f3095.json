@@ -1,0 +1,43 @@
+{
+  "name": "CP7_OW12B_FROZEN_UNITS.json",
+  "status": "INCOMPLETE",
+  "head": "e33f3095612d7274b2780b1a3ee18c68a4d14533",
+  "run_id": 40206240957,
+  "job_id": 121207674321,
+  "artifact_id": 12604733290,
+  "zip_bytes": 162795,
+  "zip_sha256": "c3b95381950c650d81bd2772191c165fe9b6eea7af6a0edcfcea77e066a84214",
+  "bytes": 1429748,
+  "sha256": "41ce25181d945df17297b891da3bce781232515f40bffa872640cd0564921f15",
+  "archive_member": "CP7_OW12B_FROZEN_UNITS.json",
+  "source_pins_verified": 79,
+  "source_prefix_fields_verified": 10,
+  "counts": {
+    "INCOMPLETE": 4
+  },
+  "all_original_JSON_files": 5,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "full_boundary_public_and_sessions_restored": true,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "older_qualified_8f_result_preserved": true,
+  "product_SQL_changed_by_A": false,
+  "full_A_chain_qualified": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "first_failure_phase": "Private installer exact predecessor guard before unit adapter DDL",
+  "failure": "FROZEN_UNITS_PREDECESSOR_CHANGED:cp7_analysis_stage.run_scenario_unit(cp7_analysis_stage.jobs,cp7_analysis_stage.units,jsonb)",
+  "all_four_cases_stopped_before_request_or_unit": true,
+  "request_or_units_or_factory_runtime_qualified": false,
+  "observations_empty_in_all_four": true,
+  "predecessor_guard_not_weakened": true,
+  "private_adapter_adopted_into_A": false,
+  "source_preflight_pass_is_not_runtime_pass": true,
+  "stable_latency_or_factory_SLA_claim": false
+}

@@ -80,13 +80,28 @@ tercapai. Uji tersebut masih memakai jalur permintaan lama; ia tidak menguji
 pemasangan fungsi pengambilan sumber baru ke aplikasi. Tidak ada pelonggaran
 batas waktu atau pemilihan hanya hasil tercepat.
 
-[B terkini `e33f3095`](B-e33-initial-intake.json) membetulkan pembacaan tiga
-bagian hasil kontrol penolakan tadi, serta menyiapkan jalur privat yang menyimpan
-input kompilasi sekali untuk unit pekerjaan berikutnya. Pemeriksaan sumber
-kapsul dan unit lulus; itu belum menjadi kelulusan runtime. Tiga kelompok
-stok/status/riwayat sudah diverifikasi 40 kasus lulus. Empat run lain masih
-berjalan pada pembaruan ini. Jalur privat tersebut belum dipasang ke A, jalur
-publik aplikasi, atau keuangan resmi.
+[Seluruh tujuh laporan B terkini `e33f3095`](B-e33-complete-intake.json)
+sudah diverifikasi dan diarsipkan: 163 eksekusi, 158 PASS dan lima INCOMPLETE.
+Ini bukan jumlah fitur atau penerimaan baru. Empat kelompok stok/status/riwayat/
+aturan lama lulus 153 kasus. [Koreksi pengambilan sumber lulus empat kasus](B-frozen-capsule-e33-native4-actual-e33f3095.json),
+termasuk sembilan penolakan input yang diubah, hasil seluruh compiler identik
+pada 1.200 SKU × tiga ukuran, dan hasil beku tetap utuh setelah transaksi baru.
+
+[Uji pabrik pada kepala ini](B-factory-e33-first-actual-e33f3095.json) menghasilkan
+satu PASS dan satu INCOMPLETE. Pendahulu benar-benar DONE dengan 3.602 target;
+permintaan susunan terbaru kemudian melewati batas delapan detik. Itu belum
+membuktikan perbandingan pabrik lengkap atau keuangan resmi, dan tidak memakai
+jalur privat pengambilan sumber/unit yang baru.
+
+[Keempat kasus unit privat](B-frozen-units-e33-first-actual-e33f3095.json) berhenti
+pada pemeriksaan fungsi pendahulu sebelum pemasangan adapter atau permintaan
+unit. [Perbandingan sumber](B-e33-unit-predecessor-source-comparison.json)
+menemukan bahwa rujukan `run_scenario_unit` mengambil versi bounded sebelum
+penambahan konteks produk pembanding. Pemeriksaan exact predecessor tetap
+menolak; koreksi harus mempertahankan logika yang sudah terpasang. A tidak
+mengubah sumber B atau memberi kredit alur unit. Semua kelompok memulihkan
+katalog/data, CP6, advisor, sesi dan izin yang diuji. Jalur privat belum diadopsi
+ke A, permintaan publik, atau keuangan resmi.
 
 ## Lingkup A yang tetap dijaga
 

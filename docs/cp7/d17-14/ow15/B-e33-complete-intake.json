@@ -1,0 +1,124 @@
+{
+  "recorded_at_utc": "2026-10-25T15:55:02.077296+00:00",
+  "head": "e33f3095612d7274b2780b1a3ee18c68a4d14533",
+  "artifacts": 7,
+  "original_JSON_files": 35,
+  "executed_cases": 163,
+  "case_counts": {
+    "PASS": 158,
+    "INCOMPLETE": 5
+  },
+  "components": [
+    {
+      "kind": "B-binary-e33-native4",
+      "receipt": "B-binary-e33-native4-actual-e33f3095.json",
+      "head": "e33f3095612d7274b2780b1a3ee18c68a4d14533",
+      "run_id": 40206240916,
+      "job_id": 121207674132,
+      "artifact_id": 12604405073,
+      "status": "PASS",
+      "counts": {
+        "PASS": 4
+      },
+      "all_original_JSON_files": 5,
+      "source_prefix_fields_verified": 9
+    },
+    {
+      "kind": "B-retained-e33-ow16-16",
+      "receipt": "B-retained-e33-ow16-16-actual-e33f3095.json",
+      "head": "e33f3095612d7274b2780b1a3ee18c68a4d14533",
+      "run_id": 40206240945,
+      "job_id": 121207674250,
+      "artifact_id": 12603519956,
+      "status": "PASS",
+      "counts": {
+        "PASS": 16
+      },
+      "all_original_JSON_files": 5,
+      "source_prefix_fields_verified": 9
+    },
+    {
+      "kind": "B-retained-e33-ow13b20",
+      "receipt": "B-retained-e33-ow13b20-actual-e33f3095.json",
+      "head": "e33f3095612d7274b2780b1a3ee18c68a4d14533",
+      "run_id": 40206240934,
+      "job_id": 121207674326,
+      "artifact_id": 12604130655,
+      "status": "PASS",
+      "counts": {
+        "PASS": 20
+      },
+      "all_original_JSON_files": 5,
+      "source_prefix_fields_verified": 8
+    },
+    {
+      "kind": "B-retained-e33-ow14b113",
+      "receipt": "B-retained-e33-ow14b113-actual-e33f3095.json",
+      "head": "e33f3095612d7274b2780b1a3ee18c68a4d14533",
+      "run_id": 40206240917,
+      "job_id": 121207674182,
+      "artifact_id": 12604462347,
+      "status": "PASS",
+      "counts": {
+        "PASS": 113
+      },
+      "all_original_JSON_files": 5,
+      "source_prefix_fields_verified": 8
+    },
+    {
+      "kind": "B-factory-e33-first",
+      "receipt": "B-factory-e33-first-actual-e33f3095.json",
+      "head": "e33f3095612d7274b2780b1a3ee18c68a4d14533",
+      "run_id": 40206240973,
+      "job_id": 121207674377,
+      "artifact_id": 12604286540,
+      "status": "INCOMPLETE",
+      "counts": {
+        "PASS": 1,
+        "INCOMPLETE": 1
+      },
+      "all_original_JSON_files": 5,
+      "source_prefix_fields_verified": 9
+    },
+    {
+      "kind": "B-frozen-capsule-e33-native4",
+      "receipt": "B-frozen-capsule-e33-native4-actual-e33f3095.json",
+      "head": "e33f3095612d7274b2780b1a3ee18c68a4d14533",
+      "run_id": 40206240919,
+      "job_id": 121207674048,
+      "artifact_id": 12604112580,
+      "status": "PASS",
+      "counts": {
+        "PASS": 4
+      },
+      "all_original_JSON_files": 5,
+      "source_prefix_fields_verified": 10
+    },
+    {
+      "kind": "B-frozen-units-e33-first",
+      "receipt": "B-frozen-units-e33-first-actual-e33f3095.json",
+      "head": "e33f3095612d7274b2780b1a3ee18c68a4d14533",
+      "run_id": 40206240957,
+      "job_id": 121207674321,
+      "artifact_id": 12604733290,
+      "status": "INCOMPLETE",
+      "counts": {
+        "INCOMPLETE": 4
+      },
+      "all_original_JSON_files": 5,
+      "source_prefix_fields_verified": 10
+    }
+  ],
+  "all_exact_Originals_archived_once": true,
+  "all_actual_F05_prefixes_verified": true,
+  "all_full_boundary_public_WIB_sessions_CP6_advisors_restored": true,
+  "capsule4_component_qualified": true,
+  "private_units4_qualified": false,
+  "full_factory_comparison_qualified": false,
+  "adopted_into_A": false,
+  "actual_Auth_HTTP_for_private_units": false,
+  "official_finance_for_private_units": false,
+  "stable_latency_or_factory_SLA_claim": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

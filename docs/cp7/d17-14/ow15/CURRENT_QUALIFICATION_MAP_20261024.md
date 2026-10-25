@@ -1,5 +1,30 @@
 # Peta kualifikasi current — inventaris, bukan penerimaan
 
+## Pembaruan 25 Oktober 2026 — kandidat performa `88f36937`
+
+[Inventaris sumber terbaru](workflow-inventory-performance-88f36937-summary.json)
+memuat 351 workflow dan 117 deklarasi sumber. Dibandingkan integrasi resmi
+`a255e48f`, ada 2.291 berkas berubah; 61 workflow cocok dengan filter cabang/path
+lokal. Dari 61 itu, 47 mempunyai setidaknya satu deklarasi lama yang berbeda
+dari sumber kandidat, sedangkan 14 hanya cocok pada byte sumber yang terpetakan.
+Angka ini tidak berarti 61 suite wajib, 14 kelulusan runtime, atau kegagalan
+bisnis pada 47 suite. Pemetaan penerus per kasus tetap diperlukan sebelum
+kualifikasi satu kandidat; deklarasi historis tidak diubah agar terlihat cocok.
+
+Pada seluruh 117 deklarasi, 83 memuat perbedaan pin. Deklarasi current Native36
+(3.475 berkas) dan performance Native36 (3.569 berkas) sama persis dengan sumber
+kandidat. Pemeriksaan lengkap performance Native36 beserta tujuh Original
+prasyarat juga lulus secara terpisah; [run aktual](performance-native36-running-88f36937.json)
+masih berjalan. Enam kelompok current sudah mempunyai hasil aktual yang
+diverifikasi di [status gabungan](CURRENT_MODEL_TARGET_STATUS_20261024.md).
+
+Inventaris ini tidak mengubah pemicu, pin atau cabang, dan tidak memberikan
+kredit kasus. Hasil historis di bawah mempertahankan kandidat, tanggal, cakupan
+dan batas awalnya.
+
+## Inventaris awal 24 Oktober 2026
+
+
 Pada kandidat `a17b34cf3402eea8996028345fcf6d715367e684`, repo mempunyai **238 berkas workflow**.
 Angka ini bukan 238 suite wajib atau 238 pengujian lulus. Dibandingkan integrasi
 resmi `a255e48f`, ada 420 commit dan 956 berkas berubah. Inventaris seluruh diff
