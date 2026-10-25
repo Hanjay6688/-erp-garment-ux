@@ -1,0 +1,42 @@
+{
+  "name": "CP7_OW11_MODEL_TARGET_V2_TRANSPORT_PART_A.json",
+  "status": "PASS",
+  "head": "40b72fbe0d7593f63e6abf383a5adb25ba98e0db",
+  "run_id": 40169049614,
+  "job_id": 121095977076,
+  "artifact_id": 12590626305,
+  "zip_bytes": 94355,
+  "zip_sha256": "60a97f3f327976454faf09afdfd9d6893211238ba3c4ae1bd4e4ab89045b2f9f",
+  "bytes": 750046,
+  "sha256": "36840da0a50b9117c4f8c51395dc849f3d2f2ea8aa9883d4c22e071d997bfc1a",
+  "archive_member": "CP7_OW11_MODEL_TARGET_V2_TRANSPORT_PART_A.json",
+  "source_pins_verified": 36,
+  "gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "production_go": false,
+  "independent_acceptance": false,
+  "case_ids": [
+    "OW11_MODEL_TARGET_V2_CATALOG22_COMPOSED_PREUSE",
+    "OW11_MODEL_TARGET_V2_RACE_SAME_UUID",
+    "OW11_MODEL_TARGET_V2_RACE_REVISION",
+    "OW11_MODEL_TARGET_V2_RACE_ACCESS_AFTER_ENVELOPE",
+    "OW11_MODEL_TARGET_V2_RACE_REPLAY_ACCESS_AFTER_REQUEST"
+  ],
+  "counts": {
+    "PASS": 5
+  },
+  "source_pins_equal_current_isolated_candidate": true,
+  "full_A_chain_qualified": false,
+  "positive_historical_forecast_credit": false,
+  "factory_capacity_or_SLA": false,
+  "actual_concurrency": true,
+  "transport_part": "A",
+  "repeated_catalog_anchor_has_no_extra_case_credit": true
+}

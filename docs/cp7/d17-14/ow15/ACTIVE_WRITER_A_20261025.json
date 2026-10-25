@@ -89,7 +89,7 @@
     },
     {
       "scope": "isolated future versioned-target integration",
-      "head": "fab1b156985d21a78131a712a4531c1440085a2e",
+      "head": "e16e9c8e04c19b5c75a98e3bf031c2791e01016d",
       "branch": "astra-a/d17-14-versioned-target-integration-prepared-20261025",
       "client_tests": 303,
       "client_test_files": 12,
@@ -104,7 +104,11 @@
       "new_schemas": 4,
       "changed_hook_bodies": 14,
       "unchanged_hook_bodies": 7,
-      "legacy_target_objects_preserved": true
+      "legacy_target_objects_preserved": true,
+      "tree": "0aeb9cbbcda80bd26307d59a079cd85052182ecf",
+      "true_merge_B_head": "36b81fcee8ee801a96793c89df6e14388263ad33",
+      "browser_source_pins_current": 50,
+      "first_source_export_mismatch_preserved": true
     },
     {
       "scope": "full scoped model used restore8",
@@ -127,7 +131,8 @@
     "history-restore-first-fetch-receipt.json",
     "B-source-v2-first-verified-04551081.json",
     "current-contract6-actual-d69dc2d3.json",
-    "factory-corrected-actual-b7a69c2c.json"
+    "factory-corrected-actual-b7a69c2c.json",
+    "B-scale-v2-first-actual-ed82e7e9.json"
   ],
   "next_rules": [
     "Preserve and verify exact Original bytes, source pins, every case and full restoration before credit",
@@ -272,5 +277,61 @@
     "head": "daab807531816353e499d7842897320ce42e8949",
     "source_pins": 3223,
     "execution_branch": "astra-a/d17-14-factory-finance-20261025"
-  }
+  },
+  "B_versioned_followups": {
+    "B-browser-v2": {
+      "name": "CP7_OW11_MODEL_TARGET_V2_BROWSER.json",
+      "status": "PASS",
+      "head": "40b72fbe0d7593f63e6abf383a5adb25ba98e0db",
+      "run_id": 40169049615,
+      "job_id": 121095977010,
+      "artifact_id": 12588948272,
+      "zip_bytes": 47457,
+      "zip_sha256": "afed95b9bf79e73a199040b69262d996c30b0edb629eeef4eea6ef7d0e1d21e9",
+      "bytes": 307018,
+      "sha256": "c579ab433db9916a75511c6143855824aa47706a65feb4dcaeee4288d081d1ee",
+      "archive_member": "CP7_OW11_MODEL_TARGET_V2_BROWSER.json"
+    },
+    "B-transport-v2-a": {
+      "name": "CP7_OW11_MODEL_TARGET_V2_TRANSPORT_PART_A.json",
+      "status": "PASS",
+      "head": "40b72fbe0d7593f63e6abf383a5adb25ba98e0db",
+      "run_id": 40169049614,
+      "job_id": 121095977076,
+      "artifact_id": 12590626305,
+      "zip_bytes": 94355,
+      "zip_sha256": "60a97f3f327976454faf09afdfd9d6893211238ba3c4ae1bd4e4ab89045b2f9f",
+      "bytes": 750046,
+      "sha256": "36840da0a50b9117c4f8c51395dc849f3d2f2ea8aa9883d4c22e071d997bfc1a",
+      "archive_member": "CP7_OW11_MODEL_TARGET_V2_TRANSPORT_PART_A.json"
+    },
+    "B-transport-v2-b": {
+      "name": "CP7_OW11_MODEL_TARGET_V2_TRANSPORT_PART_B.json",
+      "status": "PASS",
+      "head": "40b72fbe0d7593f63e6abf383a5adb25ba98e0db",
+      "run_id": 40169049614,
+      "job_id": 121095976940,
+      "artifact_id": 12590300605,
+      "zip_bytes": 94861,
+      "zip_sha256": "8fa3297e35ec8eeb1d99750b9517609b03594f764681edf68e5c36ba0244a646",
+      "bytes": 752229,
+      "sha256": "3eb8395c7afc6ec7a1dfc1d458fa78f9929736a062f578a5cbc694621be4eb71",
+      "archive_member": "CP7_OW11_MODEL_TARGET_V2_TRANSPORT_PART_B.json"
+    },
+    "B-scale-v2-first": {
+      "name": "CP7_OW11_MODEL_TARGET_V2_SCALE.json",
+      "status": "INCOMPLETE",
+      "head": "ed82e7e9dc0609867f1b455863bc2ea2c048c187",
+      "run_id": 40170067161,
+      "job_id": 121098923669,
+      "artifact_id": 12590645783,
+      "zip_bytes": 116275,
+      "zip_sha256": "b6ba499d2c061b0633bd53e62433ff2eac568315012d6db182b0bd8d1747c521",
+      "bytes": 965225,
+      "sha256": "01153d2fa1d04eebe47eba980ad32aa240be116464559926e05bc4582c30958b",
+      "archive_member": "CP7_OW11_MODEL_TARGET_V2_SCALE.json"
+    }
+  },
+  "B_versioned_transport_unique_cases": 11,
+  "B_versioned_scale_first_failure": "Legacy bounded request timed out before installing versioned source; 1PASS/1INCOMPLETE, full restoration retained; B-owned fix pending"
 }

@@ -1,0 +1,41 @@
+{
+  "name": "CP7_OW11_MODEL_TARGET_V2_SCALE.json",
+  "status": "INCOMPLETE",
+  "head": "ed82e7e9dc0609867f1b455863bc2ea2c048c187",
+  "run_id": 40170067161,
+  "job_id": 121098923669,
+  "artifact_id": 12590645783,
+  "zip_bytes": 116275,
+  "zip_sha256": "b6ba499d2c061b0633bd53e62433ff2eac568315012d6db182b0bd8d1747c521",
+  "bytes": 965225,
+  "sha256": "01153d2fa1d04eebe47eba980ad32aa240be116464559926e05bc4582c30958b",
+  "archive_member": "CP7_OW11_MODEL_TARGET_V2_SCALE.json",
+  "source_pins_verified": 36,
+  "gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "production_go": false,
+  "independent_acceptance": false,
+  "case_ids": [
+    "OW11_MODEL_TARGET_V2_CATALOG22_COMPOSED_PREUSE",
+    "OW11_MODEL_TARGET_V2_OPERATIONAL3600_ALL_TARGET_PARITY_SOURCE"
+  ],
+  "counts": {
+    "PASS": 1,
+    "INCOMPLETE": 1
+  },
+  "source_pins_equal_current_isolated_candidate": true,
+  "full_A_chain_qualified": false,
+  "positive_historical_forecast_credit": false,
+  "factory_capacity_or_SLA": false,
+  "first_failure_phase": "Legacy source before new v2 installation at 3600 variants",
+  "first_failure": "statement timeout in legacy bounded request / cp7_wip.refs",
+  "legacy_full3600_parity_qualified": false,
+  "official_finance_included": false
+}
