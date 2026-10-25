@@ -1,0 +1,401 @@
+{
+  "contract": "cp7.original-runtime-receipt.v1",
+  "head": "001caa8aa94c3ae73709c218f08402f2488b0e79",
+  "run_id": 40220256683,
+  "job_id": 121250097928,
+  "artifact_id": 12610222699,
+  "bytes": 209881,
+  "artifact_sha256": "b9cd54cd7a17350f82fe66ddcc0ec2376b104e5d958558a583822e66308c1a43",
+  "status": "PASS",
+  "Original_read_complete": true,
+  "all_Original_JSON_files_read": 5,
+  "original_json_sha256": {
+    "T3_BACKUP_RESTORE_DRILL.json": "c5e14cd92fe3357d7aef036fef01bd897cecff73047d44f61e842d3fa607ee74",
+    "CP7_OW12B_FROZEN_WORK.json": "3b2ecc16051313be55f4363ebdaa8bff5bfeaca3a40d8d0c0b80c83c9520188d",
+    "T3_PACKAGE_FILES_INSTALL.json": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+    "ALIGNED_CHAIN.json": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b",
+    "T3_PACKAGE_INSTALL.json": "f0bb43e81965a1c210c2d30522db691c6cd721b70f878cc0773e75d9d064c91d"
+  },
+  "actual_current_F05_source_prefix_compared": [
+    "source_sha256",
+    "expected_case_count",
+    "required_case_counts",
+    "required_case_ids",
+    "predeclared_case_contract",
+    "predeclared_case_sha256",
+    "target_v2_source_sha256",
+    "frozen_work_source_sha256"
+  ],
+  "all_source_fields_and_declaration_match": true,
+  "source_prefix_database_executed": false,
+  "product_paths_byte_identical_between_recorded_refs": true,
+  "counts": {
+    "native": 6
+  },
+  "case_facts": {
+    "native": {
+      "OW12B_FROZEN_WORK_V2_CATALOG22_EXACT_PREUSE": {
+        "status": "PASS",
+        "exact22_composed_inverse": true,
+        "dependent_view_refused_atomically": true,
+        "one_explicit_authenticated_facade_no_old_replacement": true,
+        "existing_work_read_save_SQL_unchanged": true,
+        "repeated_catalog_anchor_not_new_feature_credit": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "OW12B_FROZEN_WORK_V2_PENDING_SAVE_REPLAY_OLD_METHOD": {
+        "status": "PASS",
+        "actual_public_v2_PENDING_work_save": true,
+        "history_not_falsely_completed": true,
+        "exact_receipt_after_later_revision": true,
+        "changed_payload_and_stale_revision_refused": true,
+        "actual_old_v1_receipt_not_relabelled": true,
+        "stored_config_exact": true,
+        "immutable_source_reference": true,
+        "no_money_stock_HPP_change": true,
+        "observations": {
+          "ordered_calls": [
+            {
+              "name": "erp_cp7_request_bounded_staged_analysis_v2",
+              "millis": 69.979
+            },
+            {
+              "name": "erp_cp7_get_staged_production_schedule_v1",
+              "millis": 73.719
+            },
+            {
+              "name": "erp_cp7_save_staged_production_schedule_v1",
+              "millis": 123.164
+            },
+            {
+              "name": "erp_cp7_save_staged_production_schedule_v1",
+              "millis": 2.392
+            },
+            {
+              "name": "erp_cp7_get_staged_production_schedule_v1",
+              "millis": 65.372
+            },
+            {
+              "name": "erp_cp7_save_staged_production_schedule_v1",
+              "millis": 2.466
+            }
+          ],
+          "failed_call": {
+            "name": "erp_cp7_save_staged_production_schedule_v1",
+            "millis": 2.75,
+            "sqlstate": "P0001",
+            "error": "CP7_SCHEDULE_REQUEST_CHANGED\nCONTEXT:  PL/pgSQL function cp7_schedule_staged_review.save(jsonb,uuid) line 14 at RAISE\nSQL function \"erp_cp7_save_staged_production_schedule_v1\" statement 1"
+          }
+        },
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "OW12B_FROZEN_WORK_V2_ACTUAL_POST_STALE_K2_RECEIPT": {
+        "status": "PASS",
+        "actual_post_stale_new_command_refused": true,
+        "committed_receipt_after_source_change_and_K2_exact": true,
+        "K2_read_refused": true,
+        "no_denied_effect": true,
+        "observations": {
+          "ordered_calls": [
+            {
+              "name": "erp_cp7_request_bounded_staged_analysis_v2",
+              "millis": 64.934
+            },
+            {
+              "name": "erp_cp7_get_staged_production_schedule_v1",
+              "millis": 69.49
+            },
+            {
+              "name": "erp_cp7_save_staged_production_schedule_v1",
+              "millis": 128.977
+            },
+            {
+              "name": "erp_cp7_request_bounded_staged_analysis_v2",
+              "millis": 59.228
+            },
+            {
+              "name": "erp_cp7_get_staged_production_schedule_v1",
+              "millis": 65.231
+            },
+            {
+              "name": "erp_cp7_get_staged_production_schedule_v1",
+              "millis": 68.155
+            },
+            {
+              "name": "erp_cp7_save_staged_production_schedule_v1",
+              "millis": 2.549
+            },
+            {
+              "name": "erp_cp7_save_staged_production_schedule_v1",
+              "millis": 2.495
+            }
+          ],
+          "failed_call": {
+            "name": "erp_cp7_get_staged_production_schedule_v1",
+            "millis": 9.659,
+            "sqlstate": "P0001",
+            "error": "CP7_ANALYSIS_RESULT_EXPIRED\nDETAIL:  {\"days\": 7, \"kept_until\": \"2026-10-24T18:35:50.771989+00:00\"}\nCONTEXT:  PL/pgSQL function cp7_analysis_stage.require_kept(uuid) line 6 at RAISE\nSQL statement \"SELECT cp7_analysis_stage.require_kept(r.job_id)\"\nPL/pgSQL function cp7_schedule_staged_review.workspace(uuid) line 12 at PERFORM\nSQL function \"erp_cp7_get_staged_production_schedule_v1\" statement 1"
+          }
+        },
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "OW12B_FROZEN_WORK_V2_FOREIGN_CURRENT_ACCESS": {
+        "status": "PASS",
+        "foreign_owner_read_save_refused": true,
+        "current_deactivated_actor_read_new_and_committed_replay_refused": true,
+        "last_active_owner_guard_preserved": true,
+        "no_denied_effect": true,
+        "observations": {
+          "ordered_calls": [
+            {
+              "name": "erp_cp7_request_bounded_staged_analysis_v2",
+              "millis": 63.32
+            },
+            {
+              "name": "erp_cp7_get_staged_production_schedule_v1",
+              "millis": 69.159
+            },
+            {
+              "name": "erp_cp7_save_staged_production_schedule_v1",
+              "millis": 118.224
+            }
+          ],
+          "failed_call": {
+            "name": "erp_cp7_save_staged_production_schedule_v1",
+            "millis": 1.494,
+            "sqlstate": "42501",
+            "error": "CP7_ACCESS_DENIED\nCONTEXT:  PL/pgSQL function cp7_private.access_now() line 9 at RAISE\nPL/pgSQL assignment \"a:=cp7_private.access_now()\"\nPL/pgSQL function cp7_schedule_native.access_now(boolean) line 4 at assignment\nPL/pgSQL assignment \"a:=cp7_schedule_native.access_now(true)\"\nPL/pgSQL function cp7_schedule_staged_review.save(jsonb,uuid) line 7 at assignment\nSQL function \"erp_cp7_save_staged_production_schedule_v1\" statement 1"
+          }
+        },
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "OW12B_FROZEN_WORK_V2_ATOMIC_LAST_TABLE_FAULT": {
+        "status": "PASS",
+        "last_command_insert_fault_rolls_both_metadata_tables_back": true,
+        "physical_stock_money_HPP_unchanged": true,
+        "observations": {
+          "ordered_calls": [
+            {
+              "name": "erp_cp7_request_bounded_staged_analysis_v2",
+              "millis": 61.39
+            },
+            {
+              "name": "erp_cp7_get_staged_production_schedule_v1",
+              "millis": 65.936
+            }
+          ],
+          "failed_call": {
+            "name": "erp_cp7_save_staged_production_schedule_v1",
+            "millis": 69.227,
+            "sqlstate": "P0001",
+            "error": "FROZEN_WORK_METADATA_FAULT\nCONTEXT:  PL/pgSQL function pg_temp_99.frozen_work_fault() line 1 at RAISE\nSQL statement \"insert into cp7_schedule_native.commands(actor,request_id,payload,result)values((a->>'actor')::uuid,p_request,p_payload,outcome)\"\nPL/pgSQL function cp7_schedule_staged_review.save(jsonb,uuid) line 61 at SQL statement\nSQL function \"erp_cp7_save_staged_production_schedule_v1\" statement 1"
+          }
+        },
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "OW12B_FROZEN_WORK_V2_FACTORY1200X3_PENDING_AND_DONE_SAVE": {
+        "products": 3600,
+        "commercial_SKUs": 1200,
+        "physical_sizes": 3,
+        "physical_roots": 3600,
+        "movements": 363600,
+        "exactly_three_distinct_physical_sizes_per_commercial_SKU": true,
+        "synthetic_fixture": true,
+        "actual_Native_qualification": false,
+        "official_finance_included": false,
+        "full_factory3600_qualified": false,
+        "production_go": false,
+        "status": "PASS",
+        "actual_public_PENDING_and_DONE_after_K3_schedule_SAVE": true,
+        "all3602_compiler_inputs_exact": true,
+        "all_actual_pages_verified": true,
+        "raw_INCOMPLETE_and_initial_PENDING_preserved": true,
+        "exact_old_receipt_after_new_SAVE": true,
+        "whole_reference_immutable": true,
+        "no_money_stock_HPP_change": true,
+        "observations": {
+          "ordered_calls": [
+            {
+              "name": "erp_cp7_request_bounded_staged_analysis_v2",
+              "millis": 3121.89
+            },
+            {
+              "name": "erp_cp7_get_staged_production_schedule_v1",
+              "millis": 2346.54
+            },
+            {
+              "name": "erp_cp7_save_staged_production_schedule_v1",
+              "millis": 4315.563
+            },
+            {
+              "name": "erp_cp7_request_bounded_staged_analysis_v2",
+              "millis": 2864.839
+            },
+            {
+              "name": "erp_cp7_get_staged_production_schedule_v1",
+              "millis": 2268.588
+            },
+            {
+              "phase": "UNCHANGED_COMPILER_SAME_ARGUMENTS",
+              "name": "cp7_history_bounded.compile",
+              "millis": 2987.349
+            },
+            {
+              "name": "erp_cp7_get_staged_production_schedule_v1",
+              "millis": 2258.099
+            },
+            {
+              "name": "erp_cp7_get_staged_production_schedule_v1",
+              "millis": 2269.343
+            },
+            {
+              "name": "erp_cp7_save_staged_production_schedule_v1",
+              "millis": 4242.235
+            },
+            {
+              "name": "erp_cp7_save_staged_production_schedule_v1",
+              "millis": 2.459
+            }
+          ]
+        },
+        "factory_SLA_claim": false,
+        "actual_Auth_HTTP_credit": false,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      }
+    }
+  },
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "CP6_advisor_boundary_public_catalog_WIB_session_Auth_cleanup_gates": true,
+  "actual_Auth_HTTP_credit": false,
+  "actual_concurrency": false,
+  "new_visual_screenshot_review": false,
+  "new_cross_suite_aggregate_acceptance_credit": 0,
+  "full_factory3600_qualified": false,
+  "full_OW11_acceptance": false,
+  "full_OW12b_acceptance": false,
+  "formal_acceptance": "5/16",
+  "CP7C_accepted": false,
+  "independent_acceptance": false,
+  "production_go": false,
+  "explicit_frozen_schedule_Native6_qualified": true,
+  "actual_frozen_PENDING_DONE_K3_save": true,
+  "all3602_compiler_inputs_exact": true,
+  "ordered_factory_calls": [
+    {
+      "name": "erp_cp7_request_bounded_staged_analysis_v2",
+      "millis": 3121.89
+    },
+    {
+      "name": "erp_cp7_get_staged_production_schedule_v1",
+      "millis": 2346.54
+    },
+    {
+      "name": "erp_cp7_save_staged_production_schedule_v1",
+      "millis": 4315.563
+    },
+    {
+      "name": "erp_cp7_request_bounded_staged_analysis_v2",
+      "millis": 2864.839
+    },
+    {
+      "name": "erp_cp7_get_staged_production_schedule_v1",
+      "millis": 2268.588
+    },
+    {
+      "phase": "UNCHANGED_COMPILER_SAME_ARGUMENTS",
+      "name": "cp7_history_bounded.compile",
+      "millis": 2987.349
+    },
+    {
+      "name": "erp_cp7_get_staged_production_schedule_v1",
+      "millis": 2258.099
+    },
+    {
+      "name": "erp_cp7_get_staged_production_schedule_v1",
+      "millis": 2269.343
+    },
+    {
+      "name": "erp_cp7_save_staged_production_schedule_v1",
+      "millis": 4242.235
+    },
+    {
+      "name": "erp_cp7_save_staged_production_schedule_v1",
+      "millis": 2.459
+    }
+  ],
+  "source_reference_immutable": true,
+  "actual_Auth_HTTP_qualified": false,
+  "factory_SLA_claim": false
+}

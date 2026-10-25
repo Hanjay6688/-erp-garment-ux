@@ -1,0 +1,377 @@
+{
+  "contract": "cp7.complete-original-outcome-retained.v1",
+  "head": "5749a78d4f297d0c2ad5671725121c516d46a103",
+  "run_id": 40221646622,
+  "job_id": 121254290144,
+  "artifact_id": 12611265588,
+  "bytes": 211252,
+  "artifact_sha256": "d0c3d3cd5023b8a950b2d4ff6fea10cc40653a2001dda6417606c232b1c33430",
+  "status": "INCOMPLETE",
+  "Original_read_complete": true,
+  "all_Original_JSON_files_read": 5,
+  "original_json_sha256": {
+    "T3_BACKUP_RESTORE_DRILL.json": "f0ba9f65efcb33e8b1fbdc9557510ffb89ee2831c09fe4a8e007f07564710a81",
+    "T3_PACKAGE_FILES_INSTALL.json": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+    "ALIGNED_CHAIN.json": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b",
+    "CP7_OW12B_FROZEN_CHOICE.json": "0f450118bb70882687ab77a450bd1f69929e6a19d63f831febb471cbfb39b13c",
+    "T3_PACKAGE_INSTALL.json": "99ef1d69848ee246c53f8df409c8b45f7858eb456a62ba240f641e4cc07d8fde"
+  },
+  "actual_current_F05_source_prefix_compared": [
+    "source_sha256",
+    "expected_case_count",
+    "required_case_counts",
+    "required_case_ids",
+    "predeclared_case_contract",
+    "predeclared_case_sha256",
+    "target_v2_source_sha256",
+    "frozen_choice_source_sha256"
+  ],
+  "all_source_fields_and_declaration_match": true,
+  "source_prefix_database_executed": false,
+  "product_paths_byte_identical_between_recorded_refs": true,
+  "counts": {
+    "PASS": 5,
+    "INCOMPLETE": 1
+  },
+  "case_facts": {
+    "OW12B_FROZEN_CHOICE_V2_CATALOG22_EXACT_PREUSE": {
+      "status": "PASS",
+      "private2_public1_tables0_replacements0": true,
+      "exact22_composed_inverse": true,
+      "dependent_view_refused_atomically": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-26",
+        "before": "2026-10-26",
+        "after": "2026-10-26"
+      }
+    },
+    "OW12B_FROZEN_CHOICE_V2_CONFIRM_FRESH_CLEAR_REPLAY_CLOCKS": {
+      "status": "PASS",
+      "fresh_target_uses_reviewed_zero_same_kernel": true,
+      "CLEAR_restores_UNKNOWN_not_zero": true,
+      "exact_receipt_after_later_clear": true,
+      "recorded_microsecond_visible_only_after_recording": true,
+      "used_inverse_refused": true,
+      "no_money_stock_HPP_change": true,
+      "observations": {
+        "ordered_calls": [
+          {
+            "phase": "PRIVATE_REQUEST",
+            "name": "cp7_frozen_analysis_units_v2.request",
+            "millis": 100.385
+          },
+          {
+            "phase": "UNCHANGED_COMPILER_SAME_ARGUMENTS",
+            "name": "cp7_history_bounded.compile",
+            "millis": 26.089
+          },
+          {
+            "phase": "PRIVATE_REQUEST",
+            "name": "cp7_frozen_analysis_units_v2.request",
+            "millis": 73.505
+          },
+          {
+            "phase": "UNCHANGED_COMPILER_SAME_ARGUMENTS",
+            "name": "cp7_history_bounded.compile",
+            "millis": 25.703
+          },
+          {
+            "phase": "PRIVATE_REQUEST",
+            "name": "cp7_frozen_analysis_units_v2.request",
+            "millis": 73.336
+          },
+          {
+            "phase": "UNCHANGED_COMPILER_SAME_ARGUMENTS",
+            "name": "cp7_history_bounded.compile",
+            "millis": 26.42
+          }
+        ],
+        "completed": {
+          "state": "DONE",
+          "targets": 23,
+          "pages": 1,
+          "step_millis": [
+            33.346,
+            7.546,
+            6.561,
+            6.606,
+            18.667,
+            13.413,
+            8.005,
+            11.366,
+            12.741,
+            9.006,
+            6.517,
+            12.727,
+            8.546,
+            18.877,
+            13.361,
+            6.164,
+            2.896
+          ]
+        },
+        "write_millis": [
+          179.037,
+          3.965
+        ]
+      },
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-26",
+        "before": "2026-10-26",
+        "after": "2026-10-26"
+      }
+    },
+    "OW12B_FROZEN_CHOICE_V2_REVIEW_SIZE_UNKNOWN_OLD_METHOD": {
+      "status": "PASS",
+      "explicit_review_scale_reason_required": true,
+      "self_cross_size_UNKNOWN_refused": true,
+      "v1_payload_and_crossmethod_UUID_refused": true,
+      "exact_v2_replay": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-26",
+        "before": "2026-10-26",
+        "after": "2026-10-26"
+      }
+    },
+    "OW12B_FROZEN_CHOICE_V2_CURRENT_ACCESS_SOURCE_K2": {
+      "status": "PASS",
+      "foreign_stale_K2_refused": true,
+      "committed_receipt_retained_after_source_change_and_K2": true,
+      "current_revoked_actor_cannot_replay": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-26",
+        "before": "2026-10-26",
+        "after": "2026-10-26"
+      }
+    },
+    "OW12B_FROZEN_CHOICE_V2_ATOMIC_LAST_TABLE_FAULT": {
+      "status": "PASS",
+      "last_table_failure_rolls_back_choice_and_command": true,
+      "no_orphan_or_business_write": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-26",
+        "before": "2026-10-26",
+        "after": "2026-10-26"
+      }
+    },
+    "OW12B_FROZEN_CHOICE_V2_FACTORY1200X3_CACHED_K3_CONFIRM": {
+      "status": "INCOMPLETE",
+      "error": "canceling statement due to statement timeout\nCONTEXT:  PL/pgSQL function cp7_wip.key(jsonb) line 3 at IF\nSQL statement \"SELECT cp7_wip.key(to_jsonb(key))\"\nPL/pgSQL function cp7_product_analog_consumer.provenance(jsonb,jsonb,jsonb,jsonb,jsonb,jsonb) line 4 at PERFORM\nPL/pgSQL function cp7_product_analog_consumer.baseline_rows(jsonb,jsonb,jsonb,text,jsonb) line 60 at assignment\nPL/pgSQL function cp7_model_target_consumer_v2.rows(jsonb,jsonb,jsonb,text,jsonb) line 9 at assignment\nPL/pgSQL function cp7_analysis_stage.baseline_rows(jsonb,jsonb,jsonb,text) line 3 at RETURN\nPL/pgSQL function cp7_history_bounded.compile(jsonb,jsonb,jsonb,integer) line 87 at assignment\nPL/pgSQL function cp7_frozen_analysis_v2.prepare(jsonb,jsonb,integer) line 7 at assignment\nPL/pgSQL function cp7_frozen_analysis_readers_v2.reference(cp7_analysis_stage.jobs) line 19 at assignment\nPL/pgSQL function cp7_frozen_analysis_choice_v2.apply(jsonb,uuid) line 43 at assignment\nSQL function \"erp_cp7_save_product_analog_choice_v2\" statement 1",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_frozen_choice_cases.py\", line 176, in run\n    try:return fn()\n               ^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_frozen_choice_cases.py\", line 169, in volume\n    second=save(cur,new,payload(new,'1'),observed=observed);assert second['revision']=='2'\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_frozen_choice_cases.py\", line 68, in save\n    try:r=plan.staged.limited(cur,RPC,(json.dumps(p or payload(f)),key or str(uuid.uuid4())),f['subject'])\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_p19_staged_cases.py\", line 70, in limited\n    result = cur.execute('select public.' + name + '(' + placeholders + ')', args).fetchone()[0]\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.QueryCanceled: canceling statement due to statement timeout\nCONTEXT:  PL/pgSQL function cp7_wip.key(jsonb) line 3 at IF\nSQL statement \"SELECT cp7_wip.key(to_jsonb(key))\"\nPL/pgSQL function cp7_product_analog_consumer.provenance(jsonb,jsonb,jsonb,jsonb,jsonb,jsonb) line 4 at PERFORM\nPL/pgSQL function cp7_product_analog_consumer.baseline_rows(jsonb,jsonb,jsonb,text,jsonb) line 60 at assignment\nPL/pgSQL function cp7_model_target_consumer_v2.rows(jsonb,jsonb,jsonb,text,jsonb) line 9 at assignment\nPL/pgSQL function cp7_analysis_stage.baseline_rows(jsonb,jsonb,jsonb,text) line 3 at RETURN\nPL/pgSQL function cp7_history_bounded.compile(jsonb,jsonb,jsonb,integer) line 87 at assignment\nPL/pgSQL function cp7_frozen_analysis_v2.prepare(jsonb,jsonb,integer) line 7 at assignment\nPL/pgSQL function cp7_frozen_analysis_readers_v2.reference(cp7_analysis_stage.jobs) line 19 at assignment\nPL/pgSQL function cp7_frozen_analysis_choice_v2.apply(jsonb,uuid) line 43 at assignment\nSQL function \"erp_cp7_save_product_analog_choice_v2\" statement 1\n",
+      "observations": {
+        "ordered_calls": [
+          {
+            "phase": "PRIVATE_REQUEST",
+            "name": "cp7_frozen_analysis_units_v2.request",
+            "millis": 3039.771
+          },
+          {
+            "phase": "UNCHANGED_COMPILER_SAME_ARGUMENTS",
+            "name": "cp7_history_bounded.compile",
+            "millis": 3031.843
+          },
+          {
+            "phase": "PRIVATE_REQUEST",
+            "name": "cp7_frozen_analysis_units_v2.request",
+            "millis": 2831.433
+          },
+          {
+            "phase": "UNCHANGED_COMPILER_SAME_ARGUMENTS",
+            "name": "cp7_history_bounded.compile",
+            "millis": 3011.07
+          }
+        ],
+        "completed": {
+          "state": "DONE",
+          "targets": 3602,
+          "pages": 1,
+          "step_millis": [
+            4464.185,
+            872.988,
+            745.893,
+            718.054,
+            720.204,
+            709.869,
+            705.368,
+            1345.583,
+            1339.178,
+            1350.03,
+            1347.486,
+            1362.218,
+            1338.638,
+            1364.648,
+            1354.084,
+            1354.787,
+            1359.05,
+            1355.892,
+            1368.359,
+            1370.525,
+            1373.945,
+            1318.753,
+            745.579,
+            833.75,
+            1398.525,
+            668.776,
+            677.574,
+            690.155,
+            718.233,
+            712.688,
+            717.346,
+            744.624,
+            734.529,
+            745.241,
+            753.276,
+            762.765,
+            773.784,
+            776.142,
+            787.185,
+            679.352,
+            755.725,
+            614.711,
+            712.106,
+            718.355,
+            731.975,
+            742.206,
+            744.826,
+            758.589,
+            768.494,
+            781.243,
+            787.946,
+            801.182,
+            806.713,
+            826.085,
+            818.448,
+            841.888,
+            706.487,
+            657.876,
+            727.613,
+            722.678,
+            716.611,
+            720.111,
+            717.366,
+            720.547,
+            722.944,
+            722.337,
+            722.798,
+            722.841,
+            722.868,
+            740.294,
+            732.29,
+            735.376,
+            676.955,
+            1328.862,
+            72.377,
+            3.296
+          ]
+        },
+        "write_millis": [
+          6700.231
+        ],
+        "failed_save": {
+          "millis": 8043.617,
+          "sqlstate": "57014",
+          "error": "canceling statement due to statement timeout\nCONTEXT:  PL/pgSQL function cp7_wip.key(jsonb) line 3 at IF\nSQL statement \"SELECT cp7_wip.key(to_jsonb(key))\"\nPL/pgSQL function cp7_product_analog_consumer.provenance(jsonb,jsonb,jsonb,jsonb,jsonb,jsonb) line 4 at PERFORM\nPL/pgSQL function cp7_product_analog_consumer.baseline_rows(jsonb,jsonb,jsonb,text,jsonb) line 60 at assignment\nPL/pgSQL function cp7_model_target_consumer_v2.rows(jsonb,jsonb,jsonb,text,jsonb) line 9 at assignment\nPL/pgSQL function cp7_analysis_stage.baseline_rows(jsonb,jsonb,jsonb,text) line 3 at RETURN\nPL/pgSQL function cp7_history_bounded.compile(jsonb,jsonb,jsonb,integer) line 87 at assignment\nPL/pgSQL function cp7_frozen_analysis_v2.prepare(jsonb,jsonb,integer) line 7 at assignment\nPL/pgSQL function cp7_frozen_analysis_readers_v2.reference(cp7_analysis_stage.jobs) line 19 at assignment\nPL/pgSQL function cp7_frozen_analysis_choice_v2.apply(jsonb,uuid) line 43 at assignment\nSQL function \"erp_cp7_save_product_analog_choice_v2\" statement 1"
+        }
+      },
+      "production_go": false,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-26",
+        "before": "2026-10-26",
+        "after": "2026-10-26"
+      }
+    }
+  },
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "CP6_advisor_boundary_public_catalog_session_Auth_cleanup_gates": true,
+  "business_day_preserved": true,
+  "business_days": [
+    {
+      "planned": "2026-10-26",
+      "before": "2026-10-26",
+      "after": "2026-10-26"
+    },
+    {
+      "planned": "2026-10-26",
+      "before": "2026-10-26",
+      "after": "2026-10-26"
+    },
+    {
+      "planned": "2026-10-26",
+      "before": "2026-10-26",
+      "after": "2026-10-26"
+    },
+    {
+      "planned": "2026-10-26",
+      "before": "2026-10-26",
+      "after": "2026-10-26"
+    },
+    {
+      "planned": "2026-10-26",
+      "before": "2026-10-26",
+      "after": "2026-10-26"
+    },
+    {
+      "planned": "2026-10-26",
+      "before": "2026-10-26",
+      "after": "2026-10-26"
+    }
+  ],
+  "manual_unchanged_rerun": false,
+  "actual_Auth_HTTP_credit": false,
+  "new_cross_suite_aggregate_acceptance_credit": 0,
+  "full_factory3600_qualified": false,
+  "full_OW11_acceptance": false,
+  "full_OW12b_acceptance": false,
+  "formal_acceptance": "5/16",
+  "CP7C_accepted": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

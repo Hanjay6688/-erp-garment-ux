@@ -1,0 +1,45 @@
+{
+  "contract": "cp7.frozen-choice-transport10-preparation.v1",
+  "status": "PREPARATION_ONLY",
+  "parent_head": "dd45e8ec2316705298cafd26dfc9b07511e92396",
+  "required_case_counts": {
+    "native": 1,
+    "races": 6,
+    "http": 3
+  },
+  "new_cases": 9,
+  "repeated_catalog_anchor_credit": 0,
+  "source_pins": 113,
+  "missing_or_mixed_routes_refused": 95,
+  "changed_group_budgets_refused": 5,
+  "all11_closed_routes_PASS": true,
+  "all59_actual_workflow_declarations_PASS": true,
+  "new_workflow_shell_steps_PASS": 16,
+  "existing_F05_paths_exact_if_new_flag_false": {
+    "status": "PASS",
+    "new_flag_default": false,
+    "all_existing_F05_AST_exact_when_new_flag_false": true,
+    "parent": "dd45e8ec2316705298cafd26dfc9b07511e92396",
+    "before_sha256": "e38a11fb272eeac77de4b84fe5bda194a35fa489ff5946a26e1e16d7655e3324",
+    "after_sha256": "c2b66f7b0fcf50118572cc9f3ada7ec471d881574c63cd1de5043e0ed5813029"
+  },
+  "both_workers_observed_blocked_before_release": true,
+  "global_envelope_request_and_target_waits": true,
+  "stock_post_in_lock_holder_reenters_same_Native_envelope": true,
+  "old_v1_test_provider_unchanged": true,
+  "existing51_backend_exact": true,
+  "SQL_changed": false,
+  "Native_qualified": false,
+  "actual_concurrency": false,
+  "actual_Auth_HTTP_credit": false,
+  "default_application_adopted": false,
+  "statement_timeout_seconds": 8,
+  "first_local_refusals": [
+    "Generator removed the new route argument suffix together with a group-helper keyword; Python compilation refused before any execution. Fixed exact argument.",
+    "Copied workflow retained expected9 constants; actual inline declaration refused. Corrected to exact Native1/races6/HTTP3 total10; existing budgets unchanged."
+  ],
+  "formal_acceptance": "5/16",
+  "CP7C_accepted": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

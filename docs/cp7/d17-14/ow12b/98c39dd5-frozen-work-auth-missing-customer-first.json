@@ -1,0 +1,111 @@
+{
+  "contract": "cp7.complete-original-outcome-retained.v1",
+  "head": "98c39dd57270baefd2eb3bbed642d68b25b9faab",
+  "run_id": 40222957687,
+  "job_id": 121258303233,
+  "artifact_id": 12610324847,
+  "bytes": 62324,
+  "artifact_sha256": "4bd85197117dba5c67a7eb7deaec76cae73a6f0b12224073eff1727f3dee55c1",
+  "status": "INCOMPLETE",
+  "Original_read_complete": true,
+  "all_Original_JSON_files_read": 8,
+  "original_json_sha256": {
+    "CP7_OW12B_FROZEN_WORK_AUTH.json": "c42a054dcb70a827bd2fbe83ea813569bd918bd9de605a27d14307f8d5c9b9f0",
+    "FROZEN_AUTH_MOBILE_FAILURE.json": "57dd146cb5cfb43d9cd84290b7efe8bcc69d1752e1ae5070c73d64418a92c049",
+    "T3_BACKUP_RESTORE_DRILL.json": "bab69732369a48740d13d235cd70030bfcefcd3a13ea16fe0d7045e2a5d3ad8b",
+    "T3_PACKAGE_FILES_INSTALL.json": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+    "CP7_OW12B_FROZEN_WORK_AUTH_CLONE_AUTHORITY.json": "9623122aa25b61d64f8070e8075a1f274418b89d01fa292e29fc5aa98b581300",
+    "ALIGNED_CHAIN.json": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b",
+    "FROZEN_AUTH_DESKTOP_FAILURE.json": "42e959f39239a323e5c266c7a187be6d8ccab0bfc47739a6669aad536f18fbee",
+    "T3_PACKAGE_INSTALL.json": "3e27fd4c99741d62f2737decb2755c1b1acf2ccc4da4d1dd9d8eb1604b77bd57"
+  },
+  "actual_current_F05_source_prefix_compared": [
+    "source_sha256",
+    "expected_case_count",
+    "required_case_counts",
+    "required_case_ids",
+    "predeclared_case_contract",
+    "predeclared_case_sha256",
+    "target_v2_source_sha256",
+    "frozen_work_auth_source_sha256"
+  ],
+  "all_source_fields_and_declaration_match": true,
+  "source_prefix_database_executed": false,
+  "product_paths_byte_identical_between_recorded_refs": true,
+  "counts": {
+    "INCOMPLETE": 2
+  },
+  "case_facts": {
+    "OW12B_FROZEN_WORK_AUTH_BROWSER_DESKTOP_PENDING_SAVE_EXACT_RECOVERY": {
+      "status": "INCOMPLETE",
+      "error": "Error: expect(locator).toContainText(expected) failed\n\nLocator: getByRole('region', { name: 'Jadwal produksi', exact: true })\nExpected substring: \"tidak menambah stok perusahaan\"\nReceived string:    \"PERENCANAAN SELURUH PRODUKJadwal produksiPeriksa waktu kerja dan perkiraan hasil. Pekerjaan pelanggan ikut memakai waktu kerja.Tutup jadwal produksiAmbil stok proses terbaruPeriksa sumber stok prosesSumber sesuai saat diperiksa. Diambil 26 Okt 2026, 02.11 WIB \u00b7 jadwal versi 1.Riwayat stok sedang disiapkan; perhitungan kebutuhan belum selesai. Jadwal memakai pekerjaan fisik yang tercatat dan asumsi yang diperiksa.Waktu kerja dan perkiraan hasil yang diperiksaKosong berarti belum diketahui. Isi 0 hanya jika memang sudah diperiksa tidak ada beban lain. Waktu sisa mencakup seluruh pekerjaan pada antrean ini.Tempat kerja pilihanBatas jadwal (WIB)Waktu untuk 1 PCS baru (menit)Waktu kerja 1Mulai (WIB)Selesai (WIB)Beban pekerjaan lain (menit)Hapus waktu kerja 1Tambah waktu kerja4 posisi kerja tercatat. Urutan antrean ini adalah skenario; perhitungan memakai seluruh posisi yang dibaca.Jahit perlu pemeriksaan \u00b7 Milik perusahaan20 PCS tersisa \u00b7 CUT:a91c8b87-5d10-47da-b683-17c6dcdaccc8:c8c10000-0000-4000-8000-000000000002:PREJumlah yang diperiksaTujuan yang diperiksaBelum dipilihCP6-E-P04-743afcdd \u00b7 CP6 E P04-743afcddCP6-RACE-SKU \u00b7 CP6 Race Final SKUTujuan pilihan tidak mengubah identitas fisik barang. Kecocokan tetap diperiksa dari sumber ERP.Perkiraan jumlah bagusDari jumlah acuanJahit: waktu sisa seluruh pekerjaan (menit)Laundry: waktu sisa seluruh pekerjaan (menit)QC: waktu sisa seluruh pekerjaan (menit)Jahit perlu pemeriksaan \u00b7 Milik perusahaan40 PCS tersisa \u00b7 CUT:a91c8b87-5d10-47da-b683-17c6dcdaccc8:e239f46a-ad1d-48cc-bee4-3ed37055fb09:PREJumlah yang diperiksaTujuan yang diperiksaBelum dipilihTujuan pilihan tidak mengubah identitas fisik barang. Kecocokan tetap diperiksa dari sumber ERP.Perkiraan jumlah bagusDari jumlah acuanJahit: waktu sisa seluruh pekerjaan (menit)Laundry: waktu sisa seluruh pekerjaan (menit)QC: waktu sisa seluruh pekerjaan (menit)Laundry \u00b7 Milik perusahaan10 PCS tersisa \u00b7 D:348c5757-363a-45ec-8786-19da7073286d:c8c10000-0000-4000-8000-000000000002Jumlah yang diperiksaTujuan yang diperiksaBelum dipilihCP6-E-P04-743afcdd \u00b7 CP6 E P04-743afcddCP6-RACE-SKU \u00b7 CP6 Race Final SKUTujuan pilihan tidak mengubah identitas fisik barang. Kecocokan tetap diperiksa dari sumber ERP.Perkiraan jumlah bagusDari jumlah acuanLaundry: waktu sisa seluruh pekerjaan (menit)QC: waktu sisa seluruh pekerjaan (menit)Menunggu QC \u00b7 Milik perusahaan10 PCS tersisa \u00b7 R:bf9a2851-7ebb-415a-9391-29afd44b82d5:c8c10000-0000-4000-8000-000000000002Jumlah yang diperiksaTujuan yang diperiksaBelum dipilihCP6-E-P04-743afcdd \u00b7 CP6 E P04-743afcddCP6-RACE-SKU \u00b7 CP6 Race Final SKUTujuan pilihan tidak mengubah identitas fisik barang. Kecocokan tetap diperiksa dari sumber ERP.Perkiraan jumlah bagusDari jumlah acuanQC: waktu sisa seluruh pekerjaan (menit)Alasan pemeriksaan jadwalActual Au",
+      "business_day": {
+        "planned": "2026-10-26",
+        "before": "2026-10-26",
+        "after": "2026-10-26"
+      }
+    },
+    "OW12B_FROZEN_WORK_AUTH_BROWSER_MOBILE_STALE_AND_CURRENT_ACCESS": {
+      "status": "INCOMPLETE",
+      "error": "Error: expect(locator).toContainText(expected) failed\n\nLocator: getByRole('region', { name: 'Jadwal produksi', exact: true })\nExpected substring: \"tidak menambah stok perusahaan\"\nReceived string:    \"PERENCANAAN SELURUH PRODUKJadwal produksiPeriksa waktu kerja dan perkiraan hasil. Pekerjaan pelanggan ikut memakai waktu kerja.Tutup jadwal produksiAmbil stok proses terbaruPeriksa sumber stok prosesSumber sesuai saat diperiksa. Diambil 26 Okt 2026, 02.12 WIB \u00b7 jadwal versi 2.Riwayat stok sedang disiapkan; perhitungan kebutuhan belum selesai. Jadwal memakai pekerjaan fisik yang tercatat dan asumsi yang diperiksa.Waktu kerja dan perkiraan hasil yang diperiksaKosong berarti belum diketahui. Isi 0 hanya jika memang sudah diperiksa tidak ada beban lain. Waktu sisa mencakup seluruh pekerjaan pada antrean ini.Tempat kerja pilihanBatas jadwal (WIB)Waktu untuk 1 PCS baru (menit)Waktu kerja 1Mulai (WIB)Selesai (WIB)Beban pekerjaan lain (menit)Hapus waktu kerja 1Tambah waktu kerja8 posisi kerja tercatat. Urutan antrean ini adalah skenario; perhitungan memakai seluruh posisi yang dibaca.Jahit perlu pemeriksaan \u00b7 Milik perusahaan40 PCS tersisa \u00b7 CUT:7a5e6942-2bc8-4f2f-a690-f89412aec99f:15eed80a-8907-47c2-8166-45e8bb86332a:PREJumlah yang diperiksaTujuan yang diperiksaBelum dipilihTujuan pilihan tidak mengubah identitas fisik barang. Kecocokan tetap diperiksa dari sumber ERP.Perkiraan jumlah bagusDari jumlah acuanJahit: waktu sisa seluruh pekerjaan (menit)Laundry: waktu sisa seluruh pekerjaan (menit)QC: waktu sisa seluruh pekerjaan (menit)Jahit perlu pemeriksaan \u00b7 Milik perusahaan20 PCS tersisa \u00b7 CUT:7a5e6942-2bc8-4f2f-a690-f89412aec99f:c8c10000-0000-4000-8000-000000000002:PREJumlah yang diperiksaTujuan yang diperiksaBelum dipilihCP6-E-P04-17ba0311 \u00b7 CP6 E P04-17ba0311CP6-E-P04-743afcdd \u00b7 CP6 E P04-743afcddCP6-RACE-SKU \u00b7 CP6 Race Final SKUTujuan pilihan tidak mengubah identitas fisik barang. Kecocokan tetap diperiksa dari sumber ERP.Perkiraan jumlah bagusDari jumlah acuanJahit: waktu sisa seluruh pekerjaan (menit)Laundry: waktu sisa seluruh pekerjaan (menit)QC: waktu sisa seluruh pekerjaan (menit)Jahit perlu pemeriksaan \u00b7 Milik perusahaan20 PCS tersisa \u00b7 CUT:a91c8b87-5d10-47da-b683-17c6dcdaccc8:c8c10000-0000-4000-8000-000000000002:PREJumlah yang diperiksaTujuan yang diperiksaBelum dipilihCP6-E-P04-17ba0311 \u00b7 CP6 E P04-17ba0311CP6-E-P04-743afcdd \u00b7 CP6 E P04-743afcddCP6-RACE-SKU \u00b7 CP6 Race Final SKUTujuan pilihan tidak mengubah identitas fisik barang. Kecocokan tetap diperiksa dari sumber ERP.Perkiraan jumlah bagusDari jumlah acuanJahit: waktu sisa seluruh pekerjaan (menit)Laundry: waktu sisa seluruh pekerjaan (menit)QC: waktu sisa seluruh pekerjaan (menit)Jahit perlu pemeriksaan \u00b7 Milik perusahaan40 PCS tersisa \u00b7 CUT:a91c8b87-5d10-47da-b683-17c6dcdaccc8:e239f46a-ad1d-48cc-bee4-3ed37055fb09:PREJumlah yang diperiksaTujuan yang diperiksaBelum dipilihTujuan pilihan tidak mengubah identitas fisik barang. Kecocokan tetap diperiksa dari sumber ERP.Perkiraan jumlah bagusDa",
+      "business_day": {
+        "planned": "2026-10-26",
+        "before": "2026-10-26",
+        "after": "2026-10-26"
+      }
+    }
+  },
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "CP6_advisor_boundary_public_catalog_session_Auth_cleanup_gates": true,
+  "business_day_preserved": true,
+  "business_days": [
+    {
+      "planned": "2026-10-26",
+      "before": "2026-10-26",
+      "after": "2026-10-26"
+    },
+    {
+      "planned": "2026-10-26",
+      "before": "2026-10-26",
+      "after": "2026-10-26"
+    }
+  ],
+  "manual_unchanged_rerun": false,
+  "actual_Auth_HTTP_credit": false,
+  "new_cross_suite_aggregate_acceptance_credit": 0,
+  "full_factory3600_qualified": false,
+  "full_OW11_acceptance": false,
+  "full_OW12b_acceptance": false,
+  "formal_acceptance": "5/16",
+  "CP7C_accepted": false,
+  "independent_acceptance": false,
+  "production_go": false,
+  "cause": "Fixture seeded only company work; required customer-work UI assertion correctly failed before SAVE",
+  "actual_Auth_request_workspace_observations": {
+    "DESKTOP": {
+      "actual_Auth_request_and_workspace_HTTP200": true,
+      "positions": 4,
+      "customer_positions": 0,
+      "SAVE_executed": false,
+      "raw_failure_sha256": "42e959f39239a323e5c266c7a187be6d8ccab0bfc47739a6669aad536f18fbee"
+    },
+    "MOBILE": {
+      "actual_Auth_request_and_workspace_HTTP200": true,
+      "positions": 8,
+      "customer_positions": 0,
+      "SAVE_executed": false,
+      "raw_failure_sha256": "57dd146cb5cfb43d9cd84290b7efe8bcc69d1752e1ae5070c73d64418a92c049"
+    }
+  },
+  "clone_authority_exact": true,
+  "Native_public_snapshots_not_run": true,
+  "complete_preuse22_and_restore_components_verified": true,
+  "actual_form_SAVE_or_reply_recovery_qualified": false,
+  "same_source_previous_visual_issue": "Earlier ab browser screenshot showed low-contrast buttons; this candidate still has identical old UI sources; no fresh visual review claimed"
+}

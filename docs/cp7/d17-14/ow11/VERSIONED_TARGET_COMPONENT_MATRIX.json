@@ -1382,7 +1382,13 @@
     "first_receipt": "docs/cp7/d17-14/ow12b/ab37505d-frozen-work-auth-missing-customer-first.json",
     "repair_receipt": "docs/cp7/d17-14/ow12b/frozen-work-auth-customer-style-repair.json",
     "actual_Auth_request_workspace_200": true,
-    "actual_Auth_SAVE_qualified": false
+    "actual_Auth_SAVE_qualified": false,
+    "second_old_fixture_failure": {
+      "head": "98c39dd57270baefd2eb3bbed642d68b25b9faab",
+      "run_id": 40222957687,
+      "receipt": "docs/cp7/d17-14/ow12b/98c39dd5-frozen-work-auth-missing-customer-first.json",
+      "manually_retried_unchanged": false
+    }
   },
   "frozen_units_latest_regression_5e0": {
     "status": "PASS",
@@ -1525,6 +1531,53 @@
     {
       "run_id": 40222957670,
       "receipt": "docs/cp7/d17-14/ow12b/98c39dd5-40222957670-original-pass.json"
+    }
+  ],
+  "frozen_choice_transport_preparation": {
+    "status": "PREPARATION_ONLY",
+    "receipt": "docs/cp7/d17-14/ow12b/frozen-choice-transport10-preparation.json",
+    "cases": {
+      "native": 1,
+      "races": 6,
+      "http": 3
+    },
+    "actual_concurrency": false,
+    "actual_Auth_HTTP_credit": false
+  },
+  "frozen_choice_K3_timeout_5749": {
+    "status": "INCOMPLETE",
+    "run_id": 40221646622,
+    "artifact_id": 12611265588,
+    "PASS": 5,
+    "INCOMPLETE": 1,
+    "receipt": "docs/cp7/d17-14/ow12b/5749a78d-frozen-choice-k3-timeout.json",
+    "cached_SAVE_millis": 6700.231,
+    "K3_SAVE_timeout_millis": 8043.617,
+    "corrected98c_outcome_pending": true
+  },
+  "latest_old_factory_ab": {
+    "status": "PASS_COMPONENT_ONLY",
+    "run_id": 40222386632,
+    "artifact_id": 12610835218,
+    "receipt": "docs/cp7/d17-14/ow12b/ab37505d-40222386632-original-pass.json",
+    "predecessor_request_millis": 6283.656,
+    "current_request_millis": 7642.19,
+    "full_source_check_millis": [
+      3832.439,
+      3939.033
+    ],
+    "all3602_targets_exact": true,
+    "previous_timeouts_retained": true,
+    "factory_SLA_claim": false
+  },
+  "latest_retained_ab_001c": [
+    {
+      "run_id": 40222386671,
+      "receipt": "docs/cp7/d17-14/ow12b/ab37505d-40222386671-original-pass.json"
+    },
+    {
+      "run_id": 40220256683,
+      "receipt": "docs/cp7/d17-14/ow12b/001caa8a-40220256683-original-pass.json"
     }
   ]
 }

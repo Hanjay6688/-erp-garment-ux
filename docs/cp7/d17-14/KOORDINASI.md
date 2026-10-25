@@ -3963,3 +3963,34 @@ steps PASS after that correction.
 Continue queued recoveryBrowser3/UIBrowser4/correctedAuthBrowser2, corrected
 choice K3 latency and workTransport9. Formal5/16; CP7C/independent/production_go
 remain false. Checkpoint is not completion; no unmodified manual rerun.
+
+
+## 197. B26 Oktober2026 WIB — explicit choice lock/Auth10 preparation and retained outcomes
+
+Default-off choice Transport10 declares one repeated catalog anchor (zero new
+feature credit), six actual waits and three real Auth cases. Both competing
+workers must be observed blocked before release; sameUUID one receipt and
+distinctUUID revisionCAS one winner. Current access after Native envelope,
+request/committed replay and target waits; actual Native stock post reenters the
+same holder envelope before releasing the waiting SAVE. Real Auth CONFIRM,
+CLEAR, exact replay afterCLEAR/changed-payload refusal, revoked old-token read/
+newSAVE/replay and authorized shared config versus private source. No SQL change;
+existing v1 provider and51qualified backend bytes exact. Same8s bounds.
+
+113pins/95missing-or-mixed routes refused, five changed budgets refused, actual
+post-install Native/races/HTTP gates checked.11closed preflights,59actual workflow
+declarations and16new shell steps PASS. Defaultfalse new-flag AST reduction
+exactly equals previous F05: all existing paths preserved. First generator
+argument SyntaxError and copied expected9 declaration refusal retained; exact10
+budget corrected. Actual Native/race/Auth outcomes pending; no runtime credit.
+
+Full Originals: ab factory12610835218 PASS2, request6283.656/7642.190ms, source
+3832.439/3939.033ms/all3602targets exact; abOW14b12610239839 PASS113;001cwork
+12610222699 PASS6. All5JSON/exacthead/source/CP6/advisor/public/WIB26/session/
+Auth/restore checked. No stable SLA or aggregate acceptance inferred.
+5749choice12611265588 keeps5PASS/1K3timeout: cachedSAVE6700.231ms, afterK3SAVE
+57014 at8043.617ms.98c corrected one-compile candidate still running.98cworkAuth
+12610324847 retains old missing-customer failure2 with all8JSON/exactsource/
+clone authority/cleanup verified; correctedac6/dd45 Auth candidates remain queued.
+No unmodified manual rerun, no default application/integration/prod change.
+Formal5/16; CP7C/independent/production_go=false. Continue assigned work.
