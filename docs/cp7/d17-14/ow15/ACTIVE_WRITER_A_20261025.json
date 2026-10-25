@@ -1,5 +1,5 @@
 {
-  "recorded_at_utc": "2026-10-25T13:00:30.138152+00:00",
+  "recorded_at_utc": "2026-10-25T13:19:12.696485+00:00",
   "role": "A finance writer/integrator replacing Claude",
   "slogan": [
     "VENI. VIDI. VICI. ERP. \u2014 I CONQUERED ERP.",
@@ -8,7 +8,63 @@
   "formal_accepted": "5/16",
   "production_go": false,
   "independent_acceptance": false,
-  "running": [],
+  "running": [
+    {
+      "scope": "Current versioned restore",
+      "head": "055cbc9ab2458ccf1c88fa224f568ef5111f6eae",
+      "run_id": 40195877841,
+      "job_id": 121176469627,
+      "status": "CI_IN_PROGRESS",
+      "source_pins": 3477,
+      "actual_originals": 2,
+      "complete_local_source_admission": "PASS",
+      "execution_branch": "astra-a/d17-14-versioned-target-restore-20261025"
+    },
+    {
+      "scope": "Current versioned cron",
+      "head": "055cbc9ab2458ccf1c88fa224f568ef5111f6eae",
+      "run_id": 40195880391,
+      "job_id": 121176478203,
+      "status": "CI_IN_PROGRESS",
+      "source_pins": 3477,
+      "actual_originals": 2,
+      "complete_local_source_admission": "PASS",
+      "execution_branch": "astra-a/d17-14-versioned-target-cron-20261025"
+    },
+    {
+      "scope": "Current versioned browser",
+      "head": "055cbc9ab2458ccf1c88fa224f568ef5111f6eae",
+      "run_id": 40195881993,
+      "job_id": 121176482740,
+      "status": "CI_IN_PROGRESS",
+      "source_pins": 3477,
+      "actual_originals": 3,
+      "complete_local_source_admission": "PASS",
+      "execution_branch": "astra-a/d17-14-versioned-target-browser-20261025"
+    },
+    {
+      "scope": "Current versioned finance",
+      "head": "34ecfe89db86fb2fcf1dc6bba2ab44ba023eb808",
+      "run_id": 40196753855,
+      "job_id": 121179129721,
+      "status": "CI_IN_PROGRESS",
+      "source_pins": 3488,
+      "actual_originals": 2,
+      "complete_local_source_admission": "PASS",
+      "execution_branch": "astra-a/d17-14-versioned-target-finance-admission2-20261025"
+    },
+    {
+      "scope": "Current versioned transport",
+      "head": "34ecfe89db86fb2fcf1dc6bba2ab44ba023eb808",
+      "run_id": 40196755984,
+      "job_id": 121179136235,
+      "status": "CI_IN_PROGRESS",
+      "source_pins": 3487,
+      "actual_originals": 4,
+      "complete_local_source_admission": "PASS",
+      "execution_branch": "astra-a/d17-14-versioned-target-transport-admission2-20261025"
+    }
+  ],
   "actual_new_component": {
     "name": "CP7_OW11_MODEL_TARGET_SOURCE_V2.json",
     "status": "PASS",
@@ -65,7 +121,7 @@
     },
     {
       "scope": "isolated future versioned-target integration",
-      "head": "014019a612260525e9c3b9459e354a86209336c1",
+      "head": "34ecfe89db86fb2fcf1dc6bba2ab44ba023eb808",
       "branch": "astra-a/d17-14-versioned-target-integration-prepared-20261025",
       "client_tests": 303,
       "client_test_files": 12,
@@ -81,7 +137,7 @@
       "changed_hook_bodies": 14,
       "unchanged_hook_bodies": 7,
       "legacy_target_objects_preserved": true,
-      "tree": "1992c1dad5dbcbb41ffe7767d2a12e61731d60ef",
+      "tree": "5195df6742d1ae96555d22c6f3660fcc929d77f9",
       "true_merge_B_head": "36b81fcee8ee801a96793c89df6e14388263ad33",
       "browser_source_pins_current": 50,
       "first_source_export_mismatch_preserved": true,
@@ -89,7 +145,7 @@
       "recovery_prepared": true,
       "actual_prerequisites_required": 12,
       "SOURCE_bound": true,
-      "next": "Complete five source admissions; publish only five SOURCE additions and start prepared execution branches",
+      "next": "Intake exact actual followup reports; current restore8 PASS unlocks performance Native36",
       "Native36_prepared": true,
       "cases": 36,
       "retained_assertion_sets": 25,
@@ -141,7 +197,7 @@
       "wrong_member_negative_controls": 3,
       "first_runtime_INCOMPLETE_artifact": 12598360114,
       "retained_scoped_replay_full_composer_guard": true,
-      "status": "ACTUAL_NATIVE36_PASS",
+      "status": "ACTUAL_NATIVE36_PASS_FIVE_FOLLOWUPS_RUNNING",
       "actual_native_head": "014019a612260525e9c3b9459e354a86209336c1",
       "artifact_id": 12598724977
     },
@@ -182,8 +238,8 @@
     {
       "scope": "late exact B performance on unchanged full A versioned predecessor",
       "branch": "astra-a/d17-14-versioned-performance-prepared-20261025",
-      "head": "81b8860ac934d9944a20ad9e7891b6fba4863ce2",
-      "tree": "eae618c38b5aa720a8845926422250130415e701",
+      "head": "d3786aa0eb537ca7e34075b3c08583fda95f8a80",
+      "tree": "25895e360713af27ccd8620d91477b49e52cb84c",
       "B_qualified_source_head": "c7f06b855512e0c8d450522c36e84f4cab570a2a",
       "exact_function_replacements": 2,
       "direct_JSON_path_substitutions": 6,
@@ -255,7 +311,10 @@
         "production_SQL_changed": false,
         "production_go": false
       },
-      "all_seven_SOURCE_absent": true
+      "all_seven_SOURCE_absent": true,
+      "actual_Original_schema_checked": true,
+      "case_level_session_lists_mandatory": true,
+      "HTTP_nested_cleanup_mandatory": true
     }
   ],
   "first_failures_preserved": [
@@ -1539,7 +1598,57 @@
     "negative_declarations_refused": 5,
     "all3475_qualified_parent_files_unchanged": true,
     "production_go": false,
-    "full_admission_status": "IN_PROGRESS",
-    "runtime_started": false
+    "full_admission_status": "ALL_FIVE_PASS_WITH_ADDITIVE_FINANCE_TRANSPORT_QUALIFIERS",
+    "runtime_started": true,
+    "actual_runtime_qualified": false
+  },
+  "versioned_followup_admission_correction": {
+    "first_local_failures": {
+      "recorded_at": "2026-10-25T13:06:42.067000+00:00",
+      "status": "FIRST_LOCAL_ADMISSION_FAILURES_BEFORE_DB",
+      "head": "055cbc9ab2458ccf1c88fa224f568ef5111f6eae",
+      "native_head": "014019a612260525e9c3b9459e354a86209336c1",
+      "actual_native_status": "PASS36",
+      "passed_source_suites": [
+        "restore",
+        "cron",
+        "browser"
+      ],
+      "failed_source_suites": {
+        "finance": {
+          "exception": "KeyError",
+          "missing_group_field": "auth_cleanup_failures",
+          "actual_auth_cleanup_location": "transport_groups.finance_auth.cleanup.cleanup_failures",
+          "actual_sessions_location": "each cases/races record.session_leaks"
+        },
+        "transport": {
+          "exception": "KeyError",
+          "missing_group_field": "session_leaks",
+          "actual_sessions_location": "each cases/races record.session_leaks",
+          "actual_http_cleanup_location": "http group.cleanup.cleanup_failures and rest_remaining"
+        }
+      },
+      "no_finance_or_transport_CI_started": true,
+      "correction_plan": "New successor qualifier directories/workflows; retain every3475 qualified Native source pin unchanged; validate original proof schema explicitly without adding fields or editing Original bytes",
+      "production_go": false
+    },
+    "additive_candidate_head": "34ecfe89db86fb2fcf1dc6bba2ab44ba023eb808",
+    "all3475_qualified_Native_sources_unchanged": true,
+    "retained_business_helpers_unchanged": true,
+    "actual_prior_case_records": 48,
+    "negative_schema_controls": 81,
+    "full_source_admissions": {
+      "finance": {
+        "pins": 3488,
+        "bytes": 1759739,
+        "sha256": "39e31268ace49e90fd3ace89262709f10a6af3698cb69e5438cad99be7d426c6"
+      },
+      "transport": {
+        "pins": 3487,
+        "bytes": 1766584,
+        "sha256": "c42718f6b939b034297c02df95fdd82dbdcce4f4c8465f36c6189741eff1f22e"
+      }
+    },
+    "production_go": false
   }
 }

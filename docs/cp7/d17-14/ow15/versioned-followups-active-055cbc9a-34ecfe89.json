@@ -1,0 +1,115 @@
+{
+  "recorded_at_utc": "2026-10-25T13:19:12.696485+00:00",
+  "running": [
+    {
+      "scope": "Current versioned restore",
+      "head": "055cbc9ab2458ccf1c88fa224f568ef5111f6eae",
+      "run_id": 40195877841,
+      "job_id": 121176469627,
+      "status": "CI_IN_PROGRESS",
+      "source_pins": 3477,
+      "actual_originals": 2,
+      "complete_local_source_admission": "PASS",
+      "execution_branch": "astra-a/d17-14-versioned-target-restore-20261025"
+    },
+    {
+      "scope": "Current versioned cron",
+      "head": "055cbc9ab2458ccf1c88fa224f568ef5111f6eae",
+      "run_id": 40195880391,
+      "job_id": 121176478203,
+      "status": "CI_IN_PROGRESS",
+      "source_pins": 3477,
+      "actual_originals": 2,
+      "complete_local_source_admission": "PASS",
+      "execution_branch": "astra-a/d17-14-versioned-target-cron-20261025"
+    },
+    {
+      "scope": "Current versioned browser",
+      "head": "055cbc9ab2458ccf1c88fa224f568ef5111f6eae",
+      "run_id": 40195881993,
+      "job_id": 121176482740,
+      "status": "CI_IN_PROGRESS",
+      "source_pins": 3477,
+      "actual_originals": 3,
+      "complete_local_source_admission": "PASS",
+      "execution_branch": "astra-a/d17-14-versioned-target-browser-20261025"
+    },
+    {
+      "scope": "Current versioned finance",
+      "head": "34ecfe89db86fb2fcf1dc6bba2ab44ba023eb808",
+      "run_id": 40196753855,
+      "job_id": 121179129721,
+      "status": "CI_IN_PROGRESS",
+      "source_pins": 3488,
+      "actual_originals": 2,
+      "complete_local_source_admission": "PASS",
+      "execution_branch": "astra-a/d17-14-versioned-target-finance-admission2-20261025"
+    },
+    {
+      "scope": "Current versioned transport",
+      "head": "34ecfe89db86fb2fcf1dc6bba2ab44ba023eb808",
+      "run_id": 40196755984,
+      "job_id": 121179136235,
+      "status": "CI_IN_PROGRESS",
+      "source_pins": 3487,
+      "actual_originals": 4,
+      "complete_local_source_admission": "PASS",
+      "execution_branch": "astra-a/d17-14-versioned-target-transport-admission2-20261025"
+    }
+  ],
+  "corrected_native36_head": "014019a612260525e9c3b9459e354a86209336c1",
+  "actual_native36_PASS": 36,
+  "correction": {
+    "first_local_failures": {
+      "recorded_at": "2026-10-25T13:06:42.067000+00:00",
+      "status": "FIRST_LOCAL_ADMISSION_FAILURES_BEFORE_DB",
+      "head": "055cbc9ab2458ccf1c88fa224f568ef5111f6eae",
+      "native_head": "014019a612260525e9c3b9459e354a86209336c1",
+      "actual_native_status": "PASS36",
+      "passed_source_suites": [
+        "restore",
+        "cron",
+        "browser"
+      ],
+      "failed_source_suites": {
+        "finance": {
+          "exception": "KeyError",
+          "missing_group_field": "auth_cleanup_failures",
+          "actual_auth_cleanup_location": "transport_groups.finance_auth.cleanup.cleanup_failures",
+          "actual_sessions_location": "each cases/races record.session_leaks"
+        },
+        "transport": {
+          "exception": "KeyError",
+          "missing_group_field": "session_leaks",
+          "actual_sessions_location": "each cases/races record.session_leaks",
+          "actual_http_cleanup_location": "http group.cleanup.cleanup_failures and rest_remaining"
+        }
+      },
+      "no_finance_or_transport_CI_started": true,
+      "correction_plan": "New successor qualifier directories/workflows; retain every3475 qualified Native source pin unchanged; validate original proof schema explicitly without adding fields or editing Original bytes",
+      "production_go": false
+    },
+    "additive_candidate_head": "34ecfe89db86fb2fcf1dc6bba2ab44ba023eb808",
+    "all3475_qualified_Native_sources_unchanged": true,
+    "retained_business_helpers_unchanged": true,
+    "actual_prior_case_records": 48,
+    "negative_schema_controls": 81,
+    "full_source_admissions": {
+      "finance": {
+        "pins": 3488,
+        "bytes": 1759739,
+        "sha256": "39e31268ace49e90fd3ace89262709f10a6af3698cb69e5438cad99be7d426c6"
+      },
+      "transport": {
+        "pins": 3487,
+        "bytes": 1766584,
+        "sha256": "c42718f6b939b034297c02df95fdd82dbdcce4f4c8465f36c6189741eff1f22e"
+      }
+    },
+    "production_go": false
+  },
+  "performance_prepared_head": "d3786aa0eb537ca7e34075b3c08583fda95f8a80",
+  "formal_accepted": "5/16",
+  "production_go": false,
+  "independent_acceptance": false
+}
