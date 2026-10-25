@@ -1,0 +1,57 @@
+{
+  "recorded_at_utc": "2026-10-25T11:07:46.150674+00:00",
+  "first_failure": {
+    "status": "FETCH_FAILED_BEFORE_DB",
+    "candidate_head": "b3ac88b148166f815ca58057de29dddfd82c677a",
+    "candidate_tree": "4444568c2a298b17451989277507b31dcb0dcc7b",
+    "run_id": 40185876734,
+    "job_id": 121146419961,
+    "artifact_count": 0,
+    "original_report_created": false,
+    "database_started": false,
+    "native_cases_executed": 0,
+    "error": "basename lookup rejected two distinct archive members despite exact archive_member already present in verified proof",
+    "variable": "CURRENT_SELECTED_RETURN_CONTRACT_ORIGINAL_REPORT",
+    "prerequisite_artifact_id": 12589761696,
+    "exact_original_member": "CP7_CURRENT_SELECTED_RETURN_CONTRACT6.json",
+    "different_strict_group_member": "strict-groups/CP7_CURRENT_SELECTED_RETURN_CONTRACT6.json",
+    "decoded_log_bytes": 682113,
+    "decoded_log_sha256": "7991dda698a50d322f3d3cf8ecaa5d04d5c421efd0a007ac755c3887c80e6a37",
+    "source_pins": 3472,
+    "actual_prerequisites": 12,
+    "product_SQL_changed": false,
+    "business_assertions_changed": false,
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "corrected_running": {
+    "scope": "Complete versioned-target selected-return Native36",
+    "head": "a19b370b706ed5d96fdce275c187c2db78f65f69",
+    "run_id": 40186914903,
+    "job_id": 121149556413,
+    "status": "CI_EXECUTING_CURRENT_NATIVE36",
+    "source_pins": 3473,
+    "actual_originals": 12,
+    "complete_local_source_admission": "PASS",
+    "exact_archive_member_correction": true,
+    "execution_branch": "astra-a/d17-14-versioned-target-native36-20261025"
+  },
+  "complete_local_admission": {
+    "head": "a19b370b706ed5d96fdce275c187c2db78f65f69",
+    "tree": "ce0f3f0af562ed463304ee696eb2e9950bfc1b63",
+    "status": "PASS",
+    "source_pins": 3473,
+    "actual_Originals": 12,
+    "receipt_bytes": 1162933,
+    "receipt_sha256": "c7a2cc49ecb88ca84203d39ca64d66239a2606007af5a7334e386ef1a6e5ac83",
+    "current_database_runtime_qualified": false,
+    "production_go": false
+  },
+  "local_archive_checks": {
+    "actual_zip_archives": 8,
+    "negative_controls": 3
+  },
+  "product_SQL_changed": false,
+  "business_assertions_changed": false,
+  "production_go": false
+}
