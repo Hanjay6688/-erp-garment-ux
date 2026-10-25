@@ -1,0 +1,59 @@
+{
+  "status": "PREPARED_API_INTEGRATION_COUNTEREXAMPLE",
+  "head": "10a36e35b956febd9e34907f20fc5b782ec48dc1",
+  "source_sha256": "e8cc561ec6a90a5dc4837b67659ca259c591bb24c742f00262aa15b9832f62ce",
+  "actual_prepared_module_executed": true,
+  "controlled_FIFO_lock_and_RPC": true,
+  "actual_browser_or_server": false,
+  "active_panel_adopts_module": false,
+  "finding": "A replacement queued during send executes after rejection or RPC error and replaces the unresolved durable UUID.",
+  "boundary": "This is prepared API behavior. It becomes an application risk only if a caller permits replacement before confirmed completion or deliberate recovery disposition.",
+  "required_integration_control": "Keep unresolved original recoverable when queued replacement follows unknown/failed outcome; real browser/Auth qualification remains required.",
+  "cases": [
+    {
+      "outcome": "lost_reply",
+      "queued_replacement": false,
+      "send_resolved": false,
+      "old_pointer_retained": true,
+      "next_pointer_present": false,
+      "replacement_completed": false,
+      "network_calls": 1,
+      "replacement_waited_for_send": true
+    },
+    {
+      "outcome": "DONE",
+      "queued_replacement": true,
+      "send_resolved": true,
+      "old_pointer_retained": false,
+      "next_pointer_present": true,
+      "replacement_completed": true,
+      "network_calls": 1,
+      "replacement_waited_for_send": true
+    },
+    {
+      "outcome": "lost_reply",
+      "queued_replacement": true,
+      "send_resolved": false,
+      "old_pointer_retained": false,
+      "next_pointer_present": true,
+      "replacement_completed": true,
+      "network_calls": 1,
+      "replacement_waited_for_send": true
+    },
+    {
+      "outcome": "rpc_error",
+      "queued_replacement": true,
+      "send_resolved": true,
+      "old_pointer_retained": false,
+      "next_pointer_present": true,
+      "replacement_completed": true,
+      "network_calls": 1,
+      "replacement_waited_for_send": true
+    }
+  ],
+  "product_SQL_or_TS_changed": false,
+  "production_go": false,
+  "checker_sha256": "84374e2018a099ac8558e9a310e944e87e8098a053d5fe0a631e27d2d04f7c46",
+  "execution_engine": "Node v24.22.1 built-in type stripping and VM; type-only syntax removed; eight exports preserved.",
+  "first_local_checker_failure_preserved": true
+}

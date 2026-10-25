@@ -1,0 +1,18 @@
+{
+  "recorded_at_utc": "2026-10-25T16:03:47.972444+00:00",
+  "head": "10a36e35b956febd9e34907f20fc5b782ec48dc1",
+  "parent": "e33f3095612d7274b2780b1a3ee18c68a4d14533",
+  "run_id": 40209309494,
+  "job_id": 121216934173,
+  "workflow": "cp7-ow12b-frozen-units.yml",
+  "runtime_status": "IN_PROGRESS",
+  "only_unit_correction_run_triggered": true,
+  "source_only_A_preflight": "PASS79pins87routes24signatures",
+  "source_preflight_receipt": "B-10a-frozen-units-source-preflight.json",
+  "exact_analog_context_and_inverse_retained": true,
+  "guard_or_business_oracles_relaxed": false,
+  "public_facade_client_and_3Native_3races_2Auth_provider_prepared_only": true,
+  "actual_facade_Native_Auth_browser_qualified": false,
+  "adopted_into_A": false,
+  "production_go": false
+}
