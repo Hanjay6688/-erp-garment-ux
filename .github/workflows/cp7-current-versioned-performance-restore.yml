@@ -406,7 +406,7 @@ jobs:
       if: always()
       working-directory: auditor
       run: "python - <<'PY'\nimport base64,gzip,hashlib,json\nfrom pathlib import Path\nroot=Path('cp6-proof/t3')\n\
-        for name in ('CP7_CURRENT_VERSIONED_TARGET_NATIVE36.json','T3_PACKAGE_INSTALL.json','T3_BACKUP_RESTORE_DRILL.json','T3_PACKAGE_FILES_INSTALL.json'):\n\
+        for name in ('CP7_CURRENT_VERSIONED_PERFORMANCE_USED_RESTORE8.json','T3_PACKAGE_INSTALL.json','T3_BACKUP_RESTORE_DRILL.json','T3_PACKAGE_FILES_INSTALL.json'):\n\
         \    path=root/name\n    if not path.is_file():\n        continue\n    raw=path.read_bytes();packed=gzip.compress(raw,mtime=0)\n\
         \    print(json.dumps(dict(ow04_original_report_bytes=True,name=name,raw_bytes=len(raw),\n        raw_sha256=hashlib.sha256(raw).hexdigest(),gzip_bytes=len(packed),\n\
         \        gzip_sha256=hashlib.sha256(packed).hexdigest(),\n        gzip_base64=base64.b64encode(packed).decode('ascii'))),flush=True)\n\

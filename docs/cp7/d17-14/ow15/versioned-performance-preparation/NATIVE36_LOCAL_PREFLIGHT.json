@@ -212,5 +212,7 @@
     "ordinary_latency_limit_relaxed",
     "wrong_used_refusal_substituted",
     "immutable_history_money_assertion_removed"
-  ]
+  ],
+  "actual_Original_receipt_label_verified": "CP7_CURRENT_VERSIONED_PERFORMANCE_NATIVE36.json",
+  "actual_probe_entrypoints_verified": true
 }

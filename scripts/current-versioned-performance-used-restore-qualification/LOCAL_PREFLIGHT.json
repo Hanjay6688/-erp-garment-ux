@@ -123,5 +123,7 @@
     "money_assertion"
   ],
   "SOURCE_bound": false,
-  "actual_database_runtime": false
+  "actual_database_runtime": false,
+  "actual_Original_receipt_label_verified": "CP7_CURRENT_VERSIONED_PERFORMANCE_USED_RESTORE8.json",
+  "actual_probe_entrypoints_verified": true
 }

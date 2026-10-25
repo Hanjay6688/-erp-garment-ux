@@ -24,5 +24,7 @@
   "actual_database_runtime": false,
   "SOURCE_bound": false,
   "production_go": false,
-  "independent_acceptance": false
+  "independent_acceptance": false,
+  "actual_Original_receipt_label_verified": "CP7_CURRENT_VERSIONED_PERFORMANCE_FINANCE10.json",
+  "actual_probe_entrypoints_verified": true
 }

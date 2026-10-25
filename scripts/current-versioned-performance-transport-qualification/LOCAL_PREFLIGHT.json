@@ -1,0 +1,73 @@
+{
+  "status": "LOCAL_PREPARATION_PASS",
+  "cases": 28,
+  "python_files_parsed": 6,
+  "global_names_resolved": true,
+  "actual_product_module_graph": true,
+  "prior_actual_source_identity_verified": {
+    "name": "CP7_CURRENT_MODEL_TARGET_TRANSPORT28.json",
+    "status": "PASS",
+    "head": "6e30a61b0f6c1bbcc50b3a6a82c0ebd52af47ae3",
+    "run_id": 40129473907,
+    "job_id": 120977898281,
+    "artifact_id": 12577841332,
+    "zip_bytes": 2015321,
+    "zip_sha256": "409b9c12e680176d2a6c436fb702b607ad57aa8ef7b9376938601bd88e362f29",
+    "bytes": 1678284,
+    "sha256": "ce3f9e88bf14fac95b9a691a159a5ad38a37b9aba30f0b54f9f33c03b3f970de",
+    "archive_member": "CP7_CURRENT_MODEL_TARGET_TRANSPORT28.json"
+  },
+  "actual_runtime": false,
+  "SOURCE_bound": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "retained_business_binding": {
+    "retained": {
+      "policy": {
+        "path": "scripts/cp7_ow11_model_policy_transport_cases.py",
+        "file_sha256": "e2feed86e74c36b3e2a577e6424294c83a9277d421a8ca312222a741ddf6b765",
+        "factory_body_sha256": {
+          "races": "f5ce3bba79bd864832f5aa1ce6627e595375ee0c612a82b2cd39274d55238a71",
+          "http_cases": "badc5b933914348309df464b4c86c3d929e250ed8ed4e907bb33da40e668bc90"
+        }
+      },
+      "evaluation": {
+        "path": "scripts/cp7_ow11_model_evaluation_v2_transport_cases.py",
+        "file_sha256": "c1b6e9a34ca7b56964d29d612cf1b0fb72a5c98e6a673bfe89949bd4e8e72a35",
+        "factory_body_sha256": {
+          "races": "0dfa6149a62be11fbe6b39c67e6ee08a665f63f30c252e514ca2b6c145385386",
+          "http_cases": "1b7eb05df4662951fbb108877e5cc561f042b52a2abe30994c93e4d94fbfa31d"
+        }
+      },
+      "target": {
+        "path": "scripts/cp7_ow11_model_target_transport_v2_cases.py",
+        "file_sha256": "1a4db046a7d90a80e31da08463a4a55b491d25136197f527cbe166f081041ea3",
+        "races_entire_body_unchanged": true,
+        "http_AST_equal_except_one_full_verifier": true,
+        "full_verifier_calls_changed": 1
+      }
+    },
+    "excluded_component_catalog_anchors": [
+      "OW11_MODEL_POLICY_CATALOG22_PREUSE_DEPENDENCY",
+      "OW11_MODEL_V2_CATALOG22_COMPOSED_PREUSE_DEPENDENCY",
+      "OW11_MODEL_TARGET_V2_CATALOG22_COMPOSED_PREUSE"
+    ],
+    "retained_18_and_versioned_10_business_assertions_unchanged": true,
+    "only_setup_hooks": [
+      "policy.native.install",
+      "evaluation.native.install",
+      "target.install",
+      "target.http_actual_full_verify"
+    ]
+  },
+  "Auth_cases": 9,
+  "races": 19,
+  "target_business_assertions": 51,
+  "correct_full_state_routing": true,
+  "wrong_state_refused": true,
+  "all_setup_hooks_restored": true,
+  "B_transport_business_sources_equal": true,
+  "bash_steps_parsed": 41,
+  "actual_Original_receipt_label_verified": "CP7_CURRENT_VERSIONED_PERFORMANCE_TRANSPORT28.json",
+  "actual_probe_entrypoints_verified": true
+}
