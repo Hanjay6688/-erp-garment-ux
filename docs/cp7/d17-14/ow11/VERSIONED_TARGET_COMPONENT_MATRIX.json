@@ -708,7 +708,7 @@
     }
   },
   "new_factory1200x3_candidate": {
-    "status": "BOTH_CAPTURES_DONE_FINAL_RESULT_ASSEMBLY_FAILURE_RETAINED_CORRECTION_PREPARED",
+    "status": "LATEST_PREDECESSOR_8S_TIMEOUT_RETAINED",
     "required_cases": 2,
     "source_pins": 59,
     "common_qualified_assertions_preserved": 26,
@@ -727,46 +727,117 @@
       "supabase_admin"
     ],
     "ordinary_application_roles_still_refused": true,
-    "latest_head": "d68beec9c79425f92113be1158622f6859ff0a39",
-    "latest_run_id": 40186939121,
-    "latest_artifact_id": 12597526134,
-    "latest_error": "dict() got multiple values for keyword argument 'official_finance_included'",
+    "latest_head": "c352db0aae300de2b1c50ff34317883e184d96f5",
+    "latest_run_id": 40190389955,
+    "latest_artifact_id": 12598711596,
+    "latest_error": "PREDECESSOR57014_STATEMENT_TIMEOUT",
     "predecessor_request_millis": 6244.366,
     "current_request_millis": 7661.88,
     "both_actual_captures_DONE": true,
     "full_PASS_returned": false,
-    "result_assembly_mapping_fix_prepared": true
-  },
-  "latest_attempted_head": "9bc3237903c44cfbc23f08bed6340dae8670b5fd",
-  "latest_scale_regression_qualified": false,
-  "latest_scale_regression": {
-    "status": "INCOMPLETE_PREDECESSOR_8S_TIMEOUT",
-    "run_id": 40185105039,
-    "artifact_id": 12595809170,
-    "request_millis": 8006.721,
-    "stock_digest_total_ms": 3883.49,
-    "stock_digest_self_ms": 3509.127,
+    "result_assembly_mapping_fix_prepared": true,
+    "latest_request_millis": 8006.226,
+    "latest_stock_digest_total_ms": 3863.343,
     "current_overlay_reached": false,
-    "before_after_comparison_observed": false,
-    "bare_rerun": false,
-    "previous_complete8f_Original_retained": true,
-    "stable_latency_or_SLA_established": false,
+    "result_assembly_fix_reached_in_latest_execution": false,
+    "bare_rerun": false
+  },
+  "latest_attempted_head": "c352db0aae300de2b1c50ff34317883e184d96f5",
+  "latest_scale_regression_qualified": true,
+  "latest_scale_regression": {
+    "status": "PASS_ONE_SIZE_COMPONENT_ONLY",
+    "head": "c352db0aae300de2b1c50ff34317883e184d96f5",
+    "run_id": 40190389940,
+    "artifact_id": 12598406297,
+    "artifact_sha256": "a23f0ee6a78b6b1930a82dad23352ba443ec5ce5c30d0dfdf2d944dab1c419a0",
+    "predecessor_request_millis": 5864.323,
+    "current_request_millis": 7110.506,
+    "full_source_check_millis": [
+      3515.755,
+      3397.674
+    ],
+    "all3602_target_kernels_and_quantities_exact": true,
+    "previous_timeout9bc_retained": true,
+    "stable_factory_SLA_established": false,
     "production_go": false
   },
   "new_binary_stock_reference_candidate": {
-    "status": "CLOSED_NATIVE4_LOCAL_PREPARED_RUNTIME_PENDING",
+    "status": "QUALIFIED_PRIVATE_PG17_COMPONENT_ONLY",
+    "head": "c352db0aae300de2b1c50ff34317883e184d96f5",
+    "run_id": 40190390062,
+    "artifact_id": 12597797025,
+    "artifact_sha256": "59160b13573f04f2b107ec398cbb25d2312e6685757145585d3cab441501dada",
     "source_pins": 15,
     "native_cases": 4,
+    "Original_JSON_files_read": 5,
+    "all_package_CP6_advisor_boundary_public_WIB_session_Auth_cleanup_gates": true,
     "postgres_major": 17,
     "field_count": 15,
+    "actual_rows": 363601,
+    "synthetic_commercial_SKUs": 1200,
+    "synthetic_physical_sizes": 3,
+    "actual_products": 3602,
+    "measurement_order": [
+      "V1_FIRST",
+      "V2_FIRST",
+      "V2_SECOND",
+      "V1_SECOND"
+    ],
+    "ordered_millis": [
+      3874.352,
+      1312.545,
+      1333.034,
+      3814.404
+    ],
+    "no_fastest_run_selection": true,
     "new_private_functions": 1,
+    "new_schemas": 1,
     "new_tables": 0,
     "new_public_RPCS": 0,
     "existing_replacements": 0,
     "v1_unchanged": true,
     "v2_hash_intentionally_distinct": true,
     "caller_integrated": false,
-    "actual_Native": false,
+    "request_latency_qualified": false,
+    "actual_Native": true,
+    "full_OW12b_acceptance": false,
+    "factory_SLA_claim": false,
     "production_go": false
+  },
+  "latest_retained_regressions": {
+    "head": "c352db0aae300de2b1c50ff34317883e184d96f5",
+    "OW13b": {
+      "run_id": 40190389945,
+      "artifact_id": 12598510030,
+      "counts": {
+        "native": 14,
+        "races": 2,
+        "http": 2,
+        "browser": 2
+      }
+    },
+    "OW16": {
+      "run_id": 40190389962,
+      "artifact_id": 12598031406,
+      "counts": {
+        "native": 10,
+        "races": 2,
+        "http": 2,
+        "browser": 2
+      }
+    },
+    "OW14b": {
+      "run_id": 40190389934,
+      "artifact_id": 12598706123,
+      "counts": {
+        "native": 61,
+        "races": 34,
+        "http": 7,
+        "browser": 11
+      }
+    },
+    "all_Originals_read": true,
+    "new_visual_screenshot_review": false,
+    "new_cross_suite_target_credit": 0
   }
 }

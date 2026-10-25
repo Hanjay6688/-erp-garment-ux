@@ -1,5 +1,10 @@
 # Private stock reference v2 — separate Native qualification
 
+Native4 component qualified at c352db0a/run40190390062, complete Original
+12597797025 (all five JSON files/source pins/package and restoration gates checked).
+Actual363601 rows: v1/v2/v2/v1=3874.352/1312.545/1333.034/3814.404ms.
+This is private encoding qualification, with no caller or request-latency credit.
+
 This helper is not called by the ERP, default installer, model source or staged
 analysis. It does not replace the v1 helper. A v2 hash intentionally differs
 from v1 and must never be substituted under the v1 contract.

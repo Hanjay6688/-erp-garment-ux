@@ -1,0 +1,466 @@
+{
+  "contract": "cp7.original-runtime-receipt.v1",
+  "head": "c352db0aae300de2b1c50ff34317883e184d96f5",
+  "run_id": 40190389945,
+  "job_id": 121159951019,
+  "artifact_id": 12598510030,
+  "bytes": 324991,
+  "artifact_sha256": "cdcbfae188fa587fbafdfd81ac9c0144954437ae3842f821ab641b368ba838b9",
+  "status": "PASS",
+  "Original_read_complete": true,
+  "all_Original_JSON_files_read": 5,
+  "original_json_sha256": {
+    "CP7_OW13B_COMPLETE_HISTORY.json": "e2e0a46ea06231146c9aff065b21f03a5941a87f3a907a78680c72248b3c63da",
+    "T3_BACKUP_RESTORE_DRILL.json": "e45727a8cab9c0227d18e68162e486aa574bb83585870ab3b409ec2235e02b54",
+    "T3_PACKAGE_FILES_INSTALL.json": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+    "ALIGNED_CHAIN.json": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b",
+    "T3_PACKAGE_INSTALL.json": "7ca0f2986c3c1ae7c8c343b46a9be96c9fffaf3381caec444d1deae431fb4f3d"
+  },
+  "actual_current_F05_source_prefix_compared": [
+    "source_sha256",
+    "expected_case_count",
+    "required_case_counts",
+    "required_case_ids",
+    "predeclared_case_contract",
+    "predeclared_case_sha256"
+  ],
+  "all_source_fields_and_declaration_match": true,
+  "source_prefix_database_executed": false,
+  "product_paths_byte_identical_between_recorded_refs": true,
+  "counts": {
+    "native": 14,
+    "races": 2,
+    "http": 2,
+    "browser": 2
+  },
+  "case_facts": {
+    "native": {
+      "PL5H_PENDING_WITHOUT_POLICY": {
+        "status": "PASS",
+        "pending_answer_byte_for_byte": true,
+        "decided_package_shown_not_in_force": true,
+        "nothing_written": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-25",
+          "before": "2026-10-25",
+          "after": "2026-10-25"
+        }
+      },
+      "PL5H_POLICY_SIGNED_VERSIONED": {
+        "status": "PASS",
+        "signed_actor_role_reason_time": true,
+        "replay_same_request": true,
+        "changed_request_refused": true,
+        "stale_revision_40001": true,
+        "admin_refused_and_reads": true,
+        "second_revision_new_version_by_owner": true,
+        "rows_immutable": true,
+        "recorded_after": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-25",
+          "before": "2026-10-25",
+          "after": "2026-10-25"
+        }
+      },
+      "PL5H_POLICY_VALUES_AND_AUTHORITY": {
+        "status": "PASS",
+        "invalid_values_refused": 12,
+        "confidence_fixed_at_owner_decision": true,
+        "non_owner_refused": true,
+        "without_manage_refused": true,
+        "read_allowed_without_manage": true,
+        "nothing_written": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-25",
+          "before": "2026-10-25",
+          "after": "2026-10-25"
+        }
+      },
+      "PL5H_PRODUCT_SIZE_SUFFICIENT": {
+        "status": "PASS",
+        "ordinary_finished_groups": 5,
+        "cut": 200,
+        "good": 185,
+        "scrapped_bs": 15,
+        "lower_bound_permille": 897,
+        "cut_for_need_100": 112,
+        "proofs_from_ordinary_capture": true,
+        "history_ms": 53.2,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-25",
+          "before": "2026-10-25",
+          "after": "2026-10-25"
+        }
+      },
+      "PL5H_MODEL_FALLBACK_SAME_MODEL": {
+        "status": "PASS",
+        "product_size_insufficient": [
+          2,
+          80
+        ],
+        "model_level_same_model_other_colour": [
+          5,
+          200,
+          182
+        ],
+        "lower_bound_permille": 880,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-25",
+          "before": "2026-10-25",
+          "after": "2026-10-25"
+        }
+      },
+      "PL5H_INSUFFICIENT_NO_VALUE": {
+        "status": "PASS",
+        "two_groups_80_pcs_no_value": true,
+        "never_assumed_100_percent": true,
+        "plan_falls_back_to_reviewed_A_or_unknown": "PL5H_PLAN_USES_HISTORY_LIVE",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-25",
+          "before": "2026-10-25",
+          "after": "2026-10-25"
+        }
+      },
+      "PL5H_NEVER_CROSS_MODEL": {
+        "status": "PASS",
+        "other_model_target_gets_nothing_from_base_model": true,
+        "re_pointed_order_without_own_qc_unattributed": true,
+        "wrong_model_refused": true,
+        "base_target_unchanged": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-25",
+          "before": "2026-10-25",
+          "after": "2026-10-25"
+        }
+      },
+      "PL5H_NEVER_100_PERCENT": {
+        "status": "PASS",
+        "all_good_200_of_200": true,
+        "lower_bound_permille": 991,
+        "below_1000": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-25",
+          "before": "2026-10-25",
+          "after": "2026-10-25"
+        }
+      },
+      "PL5H_WILSON_EXACT": {
+        "status": "PASS",
+        "pairs_checked": 80600,
+        "proposal_example_180_of_200": 869,
+        "cut_for_need_100": 116,
+        "never_1000": true,
+        "invalid_inputs_refused": 3,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-25",
+          "before": "2026-10-25",
+          "after": "2026-10-25"
+        }
+      },
+      "PL5H_CANCEL_CORRECT_BACKDATE": {
+        "status": "PASS",
+        "reversed_scrap_drops_group": true,
+        "backdated_rescrap_still_out_until_proven": true,
+        "reproven_counts_with_new_proof": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-25",
+          "before": "2026-10-25",
+          "after": "2026-10-25"
+        }
+      },
+      "PL5H_WINDOW_FINISH_DATE": {
+        "status": "PASS",
+        "finished_yesterday_outside_one_day": true,
+        "inside_two_days": true,
+        "window_by_finish_date_WIB": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-25",
+          "before": "2026-10-25",
+          "after": "2026-10-25"
+        }
+      },
+      "OW13B_COMPLETE_HISTORY_200_201_501_UNDER_8S": {
+        "status": "PASS",
+        "observations": {
+          "200": {
+            "milliseconds": 1151.7,
+            "groups": 200,
+            "cut_pcs": 8000,
+            "good_pcs": 7400,
+            "lower_bound_permille": 921,
+            "all_proof_ids_matched": true
+          },
+          "201": {
+            "milliseconds": 1200.7,
+            "groups": 201,
+            "cut_pcs": 8040,
+            "good_pcs": 7437,
+            "lower_bound_permille": 921,
+            "all_proof_ids_matched": true
+          },
+          "501": {
+            "milliseconds": 2864.9,
+            "groups": 501,
+            "cut_pcs": 20040,
+            "good_pcs": 18537,
+            "lower_bound_permille": 922,
+            "all_proof_ids_matched": true
+          }
+        },
+        "synthetic_scale_clones": 500,
+        "native_original_finished_through_ordinary_writers": true,
+        "all_proofs_from_unchanged_prover": true,
+        "ordinary_statement_timeout": "8s",
+        "no_source_truncation": true,
+        "no_proof_writes_during_history_read": true,
+        "limits_raised": false,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-25",
+          "before": "2026-10-25",
+          "after": "2026-10-25"
+        }
+      },
+      "PL5H_PLAN_USES_HISTORY_LIVE": {
+        "status": "PASS",
+        "preview_history_equals_reader": true,
+        "cut_limit_ceil_need_1000_over_k": true,
+        "estimate_refused_while_available": true,
+        "applied_with_live_recheck": true,
+        "paused_policy_A_or_unknown": true,
+        "lower_bound_permille": 897,
+        "applied_plan_keeps_policy_version": "3",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-25",
+          "before": "2026-10-25",
+          "after": "2026-10-25"
+        }
+      },
+      "PL5H_CATALOG_PRIVATE": {
+        "status": "PASS",
+        "two_public_wrappers": [
+          "erp_cp7_get_history_yield_policy_v1",
+          "erp_cp7_save_history_yield_policy_v1"
+        ],
+        "private_functions_closed": 7,
+        "tables_closed": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-25",
+          "before": "2026-10-25",
+          "after": "2026-10-25"
+        }
+      }
+    },
+    "races": {
+      "PL5H_RACE_SAME_REVISION": {
+        "status": "PASS",
+        "one_revision_one_refusal": true,
+        "refusal": "CP7_YIELD_POLICY_REVISION_CHANGED",
+        "copy_runtime": {
+          "stage": "EXPLICIT_F03_COMBINED_DEVELOPMENT_STACK",
+          "source_sha256": "3c0364ceafa88804e5ae8ab0804e2d0902aff036c249d344808ebb9936e40005",
+          "full_family_acceptance": false
+        },
+        "session_leaks": [],
+        "business_day": {
+          "planned": "2026-10-25",
+          "before": "2026-10-25",
+          "after": "2026-10-25"
+        }
+      },
+      "PL5H_RACE_SAME_REQUEST_TWO_SESSIONS": {
+        "status": "PASS",
+        "one_uuid_two_sessions_one_row": true,
+        "copy_runtime": {
+          "stage": "EXPLICIT_F03_COMBINED_DEVELOPMENT_STACK",
+          "source_sha256": "3c0364ceafa88804e5ae8ab0804e2d0902aff036c249d344808ebb9936e40005",
+          "full_family_acceptance": false
+        },
+        "session_leaks": [],
+        "business_day": {
+          "planned": "2026-10-25",
+          "before": "2026-10-25",
+          "after": "2026-10-25"
+        }
+      }
+    },
+    "http": {
+      "PL5H_HTTP_FLOW": {
+        "status": "PASS",
+        "real_Auth_read_save_replay": true,
+        "anonymous_refused": [
+          401,
+          401
+        ],
+        "session_leaks": [],
+        "business_day": {
+          "planned": "2026-10-25",
+          "before": "2026-10-25",
+          "after": "2026-10-25"
+        }
+      },
+      "PL5H_HTTP_REVOKED": {
+        "status": "PASS",
+        "deactivated_user_403": [
+          403,
+          403
+        ],
+        "nothing_written": true,
+        "session_leaks": [],
+        "business_day": {
+          "planned": "2026-10-25",
+          "before": "2026-10-25",
+          "after": "2026-10-25"
+        }
+      }
+    },
+    "browser": {
+      "PL5H_BROWSER_DESKTOP_POLICY": {
+        "status": "PASS",
+        "package_prefilled_not_in_force": true,
+        "saved_version": "1",
+        "role": "OWNER",
+        "no_horizontal_scroll": true,
+        "screenshots": [
+          "PL5H_DESKTOP_POLICY.png"
+        ],
+        "business_day": {
+          "planned": "2026-10-25",
+          "before": "2026-10-25",
+          "after": "2026-10-25"
+        }
+      },
+      "PL5H_BROWSER_MOBILE_POLICY": {
+        "status": "PASS",
+        "package_prefilled_not_in_force": false,
+        "saved_version": "2",
+        "role": "OWNER",
+        "no_horizontal_scroll": true,
+        "screenshots": [
+          "PL5H_MOBILE_POLICY.png"
+        ],
+        "business_day": {
+          "planned": "2026-10-25",
+          "before": "2026-10-25",
+          "after": "2026-10-25"
+        }
+      }
+    }
+  },
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "CP6_advisor_boundary_public_catalog_WIB_session_Auth_cleanup_gates": true,
+  "actual_Auth_HTTP_credit": true,
+  "actual_concurrency": true,
+  "new_visual_screenshot_review": false,
+  "new_cross_suite_aggregate_acceptance_credit": 0,
+  "full_factory3600_qualified": false,
+  "full_OW11_acceptance": false,
+  "full_OW12b_acceptance": false,
+  "formal_acceptance": "5/16",
+  "CP7C_accepted": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

@@ -3241,3 +3241,49 @@ and generated source PASS. All51qualified business backend files unchanged.
 Official PG17 rowtypes.c, uuid_send, timestamptz_send and int8send consulted.
 No new default installer, RPC registry/types, A/shared/frozen/native/hosted code.
 Formal5/16, CP7C/independent false, production_go=false. Continue complete Originals.
+
+## 168. B25 Oktober2026 WIB — actual PG17 binary Native4 complete PASS
+
+c352db0a/run40190390062/job121159951716 complete Original12597797025,158740bytes,
+SHA59160b13573f04f2b107ec398cbb25d2312e6685757145585d3cab441501dada. All5JSON/
+15exact current source pins/actual F05 prefix/declaration/4case IDs checked. All
+4Native PASS, package5 gates, CP6/advisor/exact public/22-boundaries/WIB/session/
+Auth0->0 cleanup verified. Actual Native raw facts match independent Python
+struct encoder/decoder; all15field mutations, NULL/UTF8/newline/int64/microseconds/
+infinity/client encoding, malformed/empty/ordered scopes and late recorded actual
+Native post all pass. V1 retained, V2 hash intentionally distinct and versioned.
+
+Exact synthetic1200SKUx3size/3600roots/363600moves plus base =>3602products and
+363601actual hashed rows. Ordered old/new/new/old3874.352/1312.545/1333.034/3814.404ms,
+all under unchanged8s, both v1 hashes exact/both v2 hashes exact. No fastest-run
+selection. This qualifies the private encoding only: no ERP caller, request
+latency, finance/HPP, factory-SLA/fullOW12b/production adoption. Continue explicit
+versioned frozen-source/compile-unit adapter; preserve old refs, no clock-only
+later stock read and no job.reference rewrite.
+
+## 169. B25 Oktober2026 WIB — one-size parity PASS, three-size predecessor timeout retained
+
+c352 one-size/run40190389940/job121159951203 Original12598406297,120324bytes, SHA
+a23f0ee6a78b6b1930a82dad23352ba443ec5ce5c30d0dfdf2d944dab1c419a0. All5JSON/54pins/
+all gates verified.2PASS, all3602target kernels/operands/quantity states/values/
+units/reasons and pages exact; old staged archive immutable, actual stock post
+retires current. Predecessor5864.323/current7110.506ms, checks3515.755/3397.674ms;
+maxsteps503.996/703.773ms. Earlier9bc timeout retained; no stable factory SLA.
+
+Three-size/run40190389955/job121159951236 Original12598711596,119090bytes, SHA
+2b7151b77db15007f184c9505d4ea5aba6d559a59aa5d00cc6468b0c2b5eb8be. All5JSON/
+59pins/current prefix/IDs checked.1PASS/1INCOMPLETE: predecessor57014 at8006.226ms
+during unchanged target validation; stock_digest3863.343ms/self3478.095ms. Current
+overlay/report-assembly correction not reached. Four package gates true/writerfalse;
+CP6/advisor/exact public/22-boundaries/WIB/session/Auth0->0 restored. Retain the
+whole error/profile and all earlier admin/assembly failures. No unchanged rerun
+or higher limit; full dimensional qualification still open.
+
+Current c352 retentions: OW13b20/run40190389945/Original12598510030, OW16 16/
+run40190389962/Original12598031406, OW14b113/run40190389934/Original12598706123.
+All5JSON each/current actual F05 prefix/declared IDs/counts/package/CP6/advisor/
+public/22-boundary/WIB/session/real Auth cleanup checked. Respective counts14/2/2/2,
+10/2/2/2 and61/34/7/11 PASS. No new screenshot review or extra target credit.
+All51business backend files remain exact qualified8f. Formal5/16, CP7C/independent
+false, production_go=false; continue safe source capture/deferred deterministic
+compilation on frozen complete summaries, not a weaker assertion.

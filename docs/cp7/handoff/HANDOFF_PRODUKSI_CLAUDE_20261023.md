@@ -1,3 +1,40 @@
+# Lanjutan aktif25 Oktober2026 — binary Native4 qualified; lanjut frozen-source adapter
+
+c352db0a binary/run40190390062/Original12597797025 Native4 complete PASS, all5JSON/
+15pins/package5/CP6/advisor/public/22-boundary/WIB/session/Auth verified. Exact15
+fields, independent Python encoding, all typed/client/scope/late-recorded controls.
+Synthetic1200SKUx3size=3600roots/363600moves+base363601actualrows. Actual ordered
+v1/v2/v2/v1=3874.352/1312.545/1333.034/3814.404ms. V1 unchanged, V2 version/hash
+intentionally different. No caller/default/request-latency/finance/factory-SLA
+adoption. Native4 is a private component qualification, not fullOW12b.
+
+One-sizeNative2/run40190389940/Original12598406297 now full PASS2/all54pins/gates,
+all3602target results exact:5864.323/7110.506ms, sourcechecks3515.755/3397.674ms.
+But three-size/run40190389955/Original12598711596 first1PASS/1INCOMPLETE: predecessor
+57014 at8006.226ms, stockdigest3863.343ms. Current overlay/report fix not reached.
+All59pins/5JSON/CP6/advisor/boundary cleanup verified, writerfalse retained. Keep
+9bc timeout and both earlier fixture/assembly failures. No unchanged rerun or
+higher8s limit; stable factory latency/dimensional full PASS remain open.
+
+All currentc352 OW13b20/OW16 16/OW14b113 Originals complete PASS verified, without
+new screenshot or cross-suite credit. All51production backend source files still
+exact8f. Active next: explicit reference-v2 capture/fingerprint and deterministic
+compile from frozen nonstock facts+full SQL summary in first existing job unit.
+Do not change jobs.reference, re-read stock by clock in a later unit, alias v1/
+v2 hashes, invent COMPLETE/zero/policy/forecast or replace the single kernel.
+Need current access/replay/source/provenance/full pages/numeric parity/after-use
+checks before any default/caller adoption. Pure capsule and adapter can be built
+in separate own worktree erp-produksi-stock-reference-prep (currently exactc352).
+Private Native4 preparation stash4478d33d is retained; its intended code is now
+published. B primary repo erp-produksi; private evidence b-evidence-private.
+
+A prepared231befa5 separate, B must not edit A/main/integration/defaults/registry/
+types/frozen/supabase/hosted/Enteng/realWA. Formal5/16/CP7C/independent/production_go
+false. Archive last confirmed68; replacement outcome unknown, no automatic second
+write. Read KOORD168–169/current matrix/Original receipts. All lower blocks history.
+
+---
+
 # Lanjutan aktif25 Oktober2026 — report assembly diperbaiki; binary Native4 siap
 
 Latestfactoryd68beec9/run40186939121/Original12597526134 first1PASS/1INCOMPLETE.
