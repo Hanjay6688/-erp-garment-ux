@@ -1100,7 +1100,7 @@
     "factory_SLA_claim": false
   },
   "frozen_choice_preparation": {
-    "status": "FIRST_NATIVE6_CI_IN_PROGRESS_412_ACL_CORRECTED_NEXT_CANDIDATE",
+    "status": "PREFLIGHT_DEPENDENCY_FIXED_NEW_CANDIDATE_RUNNING",
     "private_functions": 2,
     "new_public_rpcs": 1,
     "new_tables": 0,
@@ -1118,8 +1118,9 @@
     "actual_browser": false,
     "UI_or_default_adopted": false,
     "production_go": false,
-    "head": "412b87ed95e8150052f8c579389edc9a94319b50",
-    "run_id": 40215355935
+    "head": "60723f466a24afc6d7652851df879c6d6f8df28b",
+    "run_id": 40217286031,
+    "first_failure_receipt": "../ow12b/frozen-choice-ci-dependency-first-failure.json"
   },
   "exact_acl_correction": {
     "receipt": "../ow12b/frozen-acl-preflight.json",
@@ -1128,5 +1129,122 @@
     "actual_Native": false,
     "SQL_unchanged": true,
     "oracle_relaxed": false
+  },
+  "latest_retained_regressions_412": [
+    {
+      "run_id": 40215355847,
+      "artifact_id": 12607975757,
+      "counts": {
+        "native": 4
+      },
+      "receipt": "412b87ed-40215355847-original-pass.json"
+    },
+    {
+      "run_id": 40215355872,
+      "artifact_id": 12607770829,
+      "counts": {
+        "native": 10,
+        "races": 2,
+        "http": 2,
+        "browser": 2
+      },
+      "receipt": "412b87ed-40215355872-original-pass.json"
+    },
+    {
+      "run_id": 40215355873,
+      "artifact_id": 12607705973,
+      "counts": {
+        "native": 14,
+        "races": 2,
+        "http": 2,
+        "browser": 2
+      },
+      "receipt": "412b87ed-40215355873-original-pass.json"
+    },
+    {
+      "run_id": 40215355857,
+      "artifact_id": 12608221897,
+      "counts": {
+        "native": 61,
+        "races": 34,
+        "http": 7,
+        "browser": 11
+      },
+      "receipt": "412b87ed-40215355857-original-pass.json"
+    },
+    {
+      "run_id": 40215355841,
+      "artifact_id": 12608117065,
+      "counts": {
+        "native": 2
+      },
+      "receipt": "412b87ed-40215355841-original-pass.json"
+    },
+    {
+      "run_id": 40215355860,
+      "artifact_id": 12607663727,
+      "counts": {
+        "native": 4
+      },
+      "receipt": "412b87ed-40215355860-original-pass.json"
+    }
+  ],
+  "latest_old_factory_412": {
+    "status": "PASS_COMPONENT_ONLY",
+    "head": "412b87ed95e8150052f8c579389edc9a94319b50",
+    "run_id": 40215355841,
+    "receipt": "412b87ed-40215355841-original-pass.json",
+    "predecessor_request_millis": 6215.384,
+    "current_request_millis": 7627.9,
+    "full_source_check_millis": [
+      3838.318,
+      3912.423
+    ],
+    "all3602_targets_exact": true,
+    "previous_timeouts_retained": true,
+    "stable_factory_SLA_established": false,
+    "full_factory3600_qualified": false,
+    "official_finance_included": false
+  },
+  "frozen_capsule_latest_regression_985": {
+    "status": "PASS_FINAL_ATTEMPT_WITH_FIRST_ROLLOVER_RETAINED",
+    "receipt": "../ow12b/9855395d-frozen-capsule-native4-pass.json",
+    "run_id": 40212762870,
+    "first_counts": {
+      "PASS": 3,
+      "INCOMPLETE": 1
+    },
+    "final_counts": {
+      "PASS": 4
+    },
+    "existing_harness_retry": true,
+    "manual_unchanged_rerun": false
+  },
+  "frozen_units_interrupted_regression_985": {
+    "status": "INCOMPLETE_PARTIAL_ORIGINAL",
+    "receipt": "../ow12b/9855395d-frozen-units-interrupted-partial-original.json",
+    "run_id": 40212762814,
+    "Original_read_complete": false,
+    "cp6_restored": false,
+    "advisor_gate": false,
+    "auth_after_known": false
+  },
+  "frozen_units_latest_regression_412": {
+    "status": "PASS_COMPLETE_ORIGINAL_NATIVE4",
+    "receipt": "412b87ed-40215355860-original-pass.json",
+    "run_id": 40215355860,
+    "public_Auth_browser_credit": false
+  },
+  "frozen_work_preparation": {
+    "status": "LOCAL_CLIENT113_PASS_BROWSER3_PREPARED",
+    "receipt": "../ow12b/frozen-work-client-preparation-local.json",
+    "client_tests": 113,
+    "new_client_tests": 55,
+    "retained_tests": 58,
+    "actual_Native_schedule_save_qualified": false,
+    "actual_Auth_HTTP_credit": false,
+    "actual_browser": false,
+    "UI_or_default_adopted": false,
+    "production_go": false
   }
 }

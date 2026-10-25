@@ -568,3 +568,35 @@ candidate checks full private request→actual units→all pages, old-v1 replay,
 adoption and no first Original yet. Keep unit preparation/qualification separate
 from capsule component and A finance/after-use/integration. Formal5/16 and
 CP7C/independent/production_go remain false. Continue actual complete Originals.
+
+
+## Continuation26 October2026 — B26 Oktober2026 WIB — frozen work recovery and complete retained outcomes
+
+Prepared explicit frozen work reader/SAVE client outside the application graph:
+PENDING history remains distinct from captured physical work; UNKNOWN blocks
+SAVE. Exact actor/method/source/UUID/payload/microseconds, v2 outcome, actual
+Web Lock requirement across entire RPC and queued durable reread.55new+58old
+=113 client tests PASS; dedicated TS PASS. Initial reader test no-op mutations
+and missing type import retained in receipt. Separate real Chromium Browser3
+prepared; local source serving only, no Native/Auth/UI credit. No SQL/default
+installer/types/registry or qualified51 backend changes.
+
+985 capsule complete Original12607462199: final4PASS on WIB26; existing harness
+first3PASS/1INCOMPLETE WIB25→26 retained whole. No claim all calendar boundaries
+passed.985 units run40212762814 cancelled after45m30s; only4JSON, no backup
+restore report, connection lost, observed0/expected4, CP6/advisor false,
+Authafter/primary/finalgates unknown. Partial receipt assigns no acceptance.
+No manual unchanged rerun and no cleanup inference from terminal logs.
+
+412 full Originals binary4, OW16 16, OW13b20, OW14b113, factoryNative2 and
+unitsNative4 all verified exact head/source/declaration/product paths, allJSON,
+package/CP6/advisor/public/WIB26/session/Auth. Factory predecessor6215.384ms,
+current7627.900ms, all3602targets exact; earlier timeouts remain, no stable
+factory SLA/finance/fullOW12b credit.412 old reader4INCOMPLETE expected old ACL
+failure retained separately; corrected513 reader/facade still qualifying.
+
+Choice412/513 failed before Native due to missing pglast, no artifacts. First
+logs retained;60723f46 installs pinned8.7 before preflight. Only changed choice
+workflow run40217286031 started. No request/unit time budget changed. Continue
+actual browser, Native schedule SAVE and public UI journeys. Formal5/16;
+CP7C/independent/production_go=false. Checkpoint does not stop assigned work.

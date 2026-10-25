@@ -1,0 +1,2726 @@
+{
+  "contract": "cp7.original-runtime-receipt.v1",
+  "head": "412b87ed95e8150052f8c579389edc9a94319b50",
+  "run_id": 40215355857,
+  "job_id": 121235199079,
+  "artifact_id": 12608221897,
+  "bytes": 1438215,
+  "artifact_sha256": "ab1a2601c63e75eb0d0a86b8842eac51bf04b3aeeff0e136090db02bd0862bfb",
+  "status": "PASS",
+  "Original_read_complete": true,
+  "all_Original_JSON_files_read": 5,
+  "original_json_sha256": {
+    "T3_BACKUP_RESTORE_DRILL.json": "d573b70b2a31de8ac29b0db459828614eca9aba44138f66a6baca2434033bd50",
+    "T3_PACKAGE_FILES_INSTALL.json": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+    "ALIGNED_CHAIN.json": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b",
+    "T3_PACKAGE_INSTALL.json": "546d4725c60f1f5db918e5b3119c28f27cf4a01fa7ae110f1f1a8b3515f6ee89",
+    "CP7_OW14B_RULES.json": "2590cf4d8b497f501eef03d2475600ab155f711a5519e7535cbdc664ec1ae30e"
+  },
+  "actual_current_F05_source_prefix_compared": [
+    "source_sha256",
+    "expected_case_count",
+    "required_case_counts",
+    "required_case_ids",
+    "predeclared_case_contract",
+    "predeclared_case_sha256"
+  ],
+  "all_source_fields_and_declaration_match": true,
+  "source_prefix_database_executed": false,
+  "product_paths_byte_identical_between_recorded_refs": true,
+  "counts": {
+    "native": 61,
+    "races": 34,
+    "http": 7,
+    "browser": 11
+  },
+  "case_facts": {
+    "native": {
+      "WAF_COLLECT_WAITS_FOR_OWNER_SETTINGS": {
+        "status": "PASS",
+        "before_settings": "NOT_CONFIGURED",
+        "staff_refused": "42501",
+        "replay_same": true,
+        "reused_request_refused": true,
+        "stale_refused": true,
+        "digest_in_quiet_refused": true,
+        "enable_without_key_refused": true,
+        "invalid_repeat_refused": true,
+        "settings_append_only": true,
+        "after_settings": "COLLECTED",
+        "kinds_read_without_error": [
+          "ACCESSORY_AP",
+          "ACCESSORY_AT_REORDER_POINT",
+          "AP_DUE",
+          "AR_DUE",
+          "FABRIC_BELOW_MINIMUM",
+          "FG_AT_REORDER_POINT",
+          "LAUNDRY_AP",
+          "LAUNDRY_OPENING_UNINVOICED",
+          "LAUNDRY_RECEIPT",
+          "OPENING_AP",
+          "OPENING_AR",
+          "PAYROLL_AP"
+        ],
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "WAF_FABRIC_EQUALS_WAREHOUSE_SUMMARY": {
+        "status": "PASS",
+        "open_equals_raw_movements": 2,
+        "equals_summary_count_and_first_rows": true,
+        "above_minimum_not_open": true,
+        "received_stock_resolves": "AT_OR_ABOVE_MINIMUM",
+        "fixtures": {
+          "below": "7c86da07-14bd-479f-8ab4-6ad371dd5eb9",
+          "partly": "f53f6c41-99f2-4b3b-acc0-76c126fb27bc",
+          "above": "40429110-5f28-4e81-b345-d0bfccb8ce72"
+        },
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "WAF_AR_AP_FROM_ACCEPTED_SOURCES": {
+        "status": "PASS",
+        "receivable_open_300_overdue": true,
+        "payable_open_500_overdue": true,
+        "party_names_kept_apart": true,
+        "paid_resolves": "ZERO_BALANCE",
+        "payment_reversed_new_episode": 2,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "WAF_OWNER_REMINDERS_ONLY_WHEN_DUE": {
+        "status": "PASS",
+        "owner_due_queued_once": true,
+        "future_not_queued": true,
+        "staff_never_read": true,
+        "rescheduled_new_episode": true,
+        "moved_version": 2,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "WAF_SEND_ONE_REQUEST_EXACT_TEXT": {
+        "status": "PASS",
+        "one_request": true,
+        "phone_text_key_decoded": true,
+        "text_equals_body": true,
+        "items": 1,
+        "header": "\u26a0 ERP Enteng \u00b7",
+        "max_chars": 129,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "WAF_ROLLBACK_QUEUES_NOTHING": {
+        "status": "PASS",
+        "inside": [
+          7,
+          7,
+          1,
+          1
+        ],
+        "after_rollback": [
+          6,
+          6,
+          0,
+          0
+        ],
+        "request_gone_with_transaction": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "WAF_RESOLVED_BEFORE_SEND_NOT_SENT": {
+        "status": "PASS",
+        "stock_received_before_send": "AT_OR_ABOVE_MINIMUM",
+        "reminder_done_before_send": "REMINDER_DONE",
+        "tick": "IDLE",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "WAF_ANSWERS_ACCEPTED_REFUSED_UNKNOWN": {
+        "status": "PASS",
+        "accepted_key_masked": true,
+        "results": {
+          "refused": "PROVIDER_REFUSED",
+          "no_route": "TRANSPORT_FAILED",
+          "timeout": "UNKNOWN",
+          "silence_10_minutes": "UNKNOWN"
+        },
+        "refused_rest_then_resent": true,
+        "unknown_never_resent": true,
+        "owner_not_delivered_waits_again": true,
+        "staff_resolve_refused": true,
+        "silent_tick": "IDLE",
+        "label": "SYNTHETIC_PROVIDER_ANSWER",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "WAF_PACING_BURST_QUIET_DIGEST_REPEAT": {
+        "status": "PASS",
+        "one_per_minute": true,
+        "burst_after_1_then_30_minutes": true,
+        "quiet_held_then_sent": true,
+        "digest_once_per_slot": true,
+        "repeat_after_24h": 3,
+        "label": "TEST_CLOCK_OVERRIDE+SYNTHETIC_PROVIDER_ANSWER",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "WAF_OFF_OR_NO_KEY_SENDS_NOTHING": {
+        "status": "PASS",
+        "wa_off_disabled": true,
+        "key_missing_disabled": true,
+        "test_refused_without_key": true,
+        "requests": 0,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "WAF_KEY_WRITE_ONLY_AND_MASKED": {
+        "status": "PASS",
+        "tables_scanned": 559,
+        "key_in_no_table": true,
+        "key_in_no_answer": true,
+        "provider_text_masked": true,
+        "vault_holds_key": true,
+        "key_functions_private": true,
+        "replayed_request_keeps_first_key": true,
+        "test_dispatch": 16,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "WAF_PRIVACY_AND_LIST_PERMISSIONS": {
+        "status": "PASS",
+        "summary_hides_party_names": true,
+        "detailed_shows_them": true,
+        "owner_visible_kinds": [
+          "ACCESSORY_AP",
+          "ACCESSORY_AT_REORDER_POINT",
+          "ACCESSORY_NEED",
+          "AP_DUE",
+          "AR_DUE",
+          "FABRIC_BELOW_MINIMUM",
+          "FABRIC_NEED",
+          "FG_AT_REORDER_POINT",
+          "LAUNDRY_AP",
+          "LAUNDRY_OPENING_UNINVOICED",
+          "LAUNDRY_RECEIPT",
+          "OPENING_AP",
+          "OPENING_AR",
+          "PAYROLL_AP",
+          "PRODUCTION_GAP"
+        ],
+        "staff_kinds": [
+          "ACCESSORY_AT_REORDER_POINT",
+          "FG_AT_REORDER_POINT"
+        ],
+        "staff_no_wa_status": true,
+        "staff_refused_on_owner_rpcs": true,
+        "anon_no_execute": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "WAF_TICKS_PRIVATE_AND_LIMITED": {
+        "status": "PASS",
+        "refused_without_limit": {
+          "0": "55000",
+          "9s": "55000",
+          "1h": "55000"
+        },
+        "stricter_limit_allowed": true,
+        "schedules": [
+          "erp-wa-collect",
+          "erp-wa-send",
+          "erp-wa-analysis"
+        ],
+        "ticks_postgres_only": true,
+        "authenticated_refused": "42501",
+        "no_public_tick": true,
+        "schedule_not_installed": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "WAF_ANALYSIS_GAP_FORWARDED_AND_RECHECKED": {
+        "status": "PASS",
+        "ticks": [
+          "CONDITION_SET_STEP",
+          "ANALYSIS_CHECKED",
+          "...",
+          "ANALYSIS_CHECKED"
+        ],
+        "set_built_by_tick": true,
+        "checked_outside_analysis_hours": [
+          "02:00",
+          "23:59"
+        ],
+        "opened": [
+          "PRODUCTION_GAP:a3ded5d8-7729-410c-b5ed-aee868d2a447:c8c10000-0000-4000-8000-000000000002"
+        ],
+        "rule_off": 1,
+        "checked": 3,
+        "conditions": [
+          {
+            "key": "PRODUCTION_GAP:a3ded5d8-7729-410c-b5ed-aee868d2a447:c8c10000-0000-4000-8000-000000000002",
+            "snapshot_state": "ACTIVE",
+            "eligibility": "LOCAL_PREVIEW_ELIGIBLE",
+            "live_verdict": "STILL_OPEN",
+            "reason": "NEED_STILL_OPEN_NOW",
+            "partition": "OPEN"
+          },
+          {
+            "key": "ACCESSORY_NEED:a3ded5d8-7729-410c-b5ed-aee868d2a447:c8c10000-0000-4000-8000-000000000002:UNKNOWN_BOM",
+            "snapshot_state": "DATA_REVIEW",
+            "eligibility": "SOURCE_REVIEW_REQUIRED",
+            "live_verdict": "REVIEW_REQUIRED_NOW",
+            "reason": "BOM_NOT_RECORDED",
+            "wa_notice_eligibility": "UNCONFIGURED",
+            "partition": "OFF"
+          },
+          {
+            "key": "ACCESSORY_NEED:c8c10000-0000-4000-8000-000000000004:c8c10000-0000-4000-8000-000000000002:UNKNOWN_BOM",
+            "snapshot_state": "DATA_REVIEW",
+            "eligibility": "SOURCE_REVIEW_REQUIRED",
+            "live_verdict": "RESOLVED_NOW",
+            "reason": "FINISHED_STOCK_AND_WIP_COVER_THE_NEED_NOW",
+            "wa_notice_eligibility": "SOURCE_REVIEW_REQUIRED",
+            "partition": "RESOLVED"
+          }
+        ],
+        "sent_need_now": "84",
+        "snapshot_gap": "85",
+        "resolved_before_send": "RECHECK_RESOLVED_NOW",
+        "reminder_claims": 0,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "WAF_ANALYSIS_AUTOMATIC_RUN": {
+        "status": "PASS",
+        "due_query": {
+          "from_date": "2026-10-25",
+          "through_date": "2026-10-25",
+          "group_mode": "AS_SOLD"
+        },
+        "requested_in_owner_name": true,
+        "job_driven_by_step_rpc": true,
+        "new_run_checked": true,
+        "not_due_after": true,
+        "outside_hours": "OUTSIDE_ANALYSIS_HOURS",
+        "auto_off": "AUTO_ANALYSIS_OFF",
+        "label": "TEST_CLOCK_OVERRIDE on the finished job capture time",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "WAF_FG_REORDER_POINT_FORWARDED": {
+        "status": "PASS",
+        "line": "- AX no reference CP6-RACE-S: sisa 23 pcs, sedang diproduksi 0 pcs, titik pesan ulang 36 pcs",
+        "free": 23,
+        "point": 36,
+        "staff_without_fg_view_sees_none": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "WAF_FG_RESOLVED_BEFORE_SEND": {
+        "status": "PASS",
+        "stock_found_before_send": "ABOVE_REORDER_POINT",
+        "tick": "IDLE",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "WAF_FABRIC_REORDER_POINT_FORWARDED": {
+        "status": "PASS",
+        "line": "- Kain SS2 AE9699CC: sisa 30 YD, dipesan 0 YD, minimum rumus 39,32 YD",
+        "line_minimum": "- Kain SS2 995B129B: sisa 100 YD, minimum 500 YD",
+        "one_heading": "Stok kain di bawah minimum",
+        "ringkasan_gudang_lists_minimums_only": true,
+        "staff_without_fabric_view_sees_none": true,
+        "received_before_send": "ABOVE_REORDER_POINT",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "WAF_ACCESSORY_REORDER_POINT_FORWARDED": {
+        "status": "PASS",
+        "line": "- BC kancing silver: sisa 180 PCS, minimum 250 PCS",
+        "minimum_from_owner_estimate": "250",
+        "staff_without_accessory_view_sees_none": true,
+        "manual_zero_before_send": "NO_REORDER_POINT",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "SS1_FORMULA_FROM_POSTED_SALES": {
+        "status": "PASS",
+        "point": 36,
+        "free": 83,
+        "counted": 30,
+        "mean": "3.9",
+        "sd": "1.8634413844023772",
+        "business_unchanged": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "SS1_OUT_OF_STOCK_DAYS_NOT_ZERO_DEMAND": {
+        "status": "PASS",
+        "counted": 18,
+        "of_days": 30,
+        "point": 28,
+        "point_if_stockout_days_were_zero_demand": 24,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "SS1_LEAD_TIME_MEASURED_FROM_PRODUCTION": {
+        "status": "PASS",
+        "lead_days": "9.25",
+        "lots": 3,
+        "groups": 3,
+        "measured_over_profile": true,
+        "point": 46,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "SS1_DAYS_BUFFER_NOT_STACKED": {
+        "status": "PASS",
+        "point": 39,
+        "safety": "11.7",
+        "sigma_not_used": true,
+        "whole_piece_boundary": {
+          "sold": 20,
+          "days": 30,
+          "lead_days": 2,
+          "buffer_days": 1,
+          "point": 2
+        },
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "SS1_SETTINGS_SERVICE_LEVEL_AND_WINDOW": {
+        "status": "PASS",
+        "point_99": 39,
+        "point_90_14days": 34,
+        "staff_refused": true,
+        "replay": true,
+        "stale_refused": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "SS1_MANUAL_POINT_REPLACES_AND_CLEARS": {
+        "status": "PASS",
+        "manual": 83,
+        "zero_means_never": true,
+        "cleared_back_to_formula": 36,
+        "staff_refused": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "SS1_NOT_ENOUGH_DATA_NEVER_GUESSES": {
+        "status": "PASS",
+        "fewer_days": 10,
+        "no_lead": true,
+        "no_sales": true,
+        "no_guessed_number": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "SS1_REVERSED_SALE_NOT_DEMAND": {
+        "status": "PASS",
+        "with_sale": 71,
+        "after_inverse": 36,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "SS1_IN_PRODUCTION_COUNTS_TOWARD_POSITION": {
+        "status": "PASS",
+        "free": 33,
+        "wip": "60",
+        "point": 36,
+        "state_before": "AT_OR_BELOW",
+        "state": "ABOVE",
+        "groups": 1,
+        "other_size_not_counted": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "SS1_SOURCE_AND_ACCESS": {
+        "status": "PASS",
+        "alert_row_exact": true,
+        "resolved_when_stock_back": true,
+        "fg_view_required": true,
+        "viewer_cannot_manage": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "SS1_VOLUME_2000_ITEMS_EVERY_MINUTE": {
+        "status": "PASS",
+        "label": "SYNTHETIC_VOLUME",
+        "items": 2000,
+        "movements": 202000,
+        "millis": [
+          539,
+          515,
+          519
+        ],
+        "limit_ms": 3000,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "SS2_FABRIC_FORMULA_FROM_CUTTING_USE": {
+        "status": "PASS",
+        "point": "65.29",
+        "free": "56",
+        "usage": "224",
+        "issued": "226.000000",
+        "returned": "2.000000",
+        "lead_days": "6",
+        "counted": 30,
+        "compute_wrote_no_business_row": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "SS2_FABRIC_OUT_OF_STOCK_DAYS_NOT_ZERO_USE": {
+        "status": "PASS",
+        "counted": 25,
+        "empty_days_not_counted": 5,
+        "point": "64.87",
+        "point_if_empty_days_were_zero_use": "58.92",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "SS2_FABRIC_REVERSED_ISSUE_NOT_USE": {
+        "status": "PASS",
+        "cancelled_cutting_and_its_inverse_not_use": true,
+        "usage": "100",
+        "point": "39.32",
+        "point_if_cancelled_cut_counted": "49.87",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "SS2_FABRIC_MINIMUM_STAYS_BELOW_MINIMUM": {
+        "status": "PASS",
+        "minimum_replaces_formula": true,
+        "strict_below_like_fabric_below_minimum": true,
+        "formula_point_kept_for_view": "39.32",
+        "fabric_manual_point_refused": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "SS2_FABRIC_ON_ORDER_COUNTS_TOWARD_POSITION": {
+        "status": "PASS",
+        "free": "30",
+        "on_order": "20",
+        "point": "39.32",
+        "state_before": "AT_OR_BELOW",
+        "state_after": "ABOVE",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "SS2_NO_LEAD_TIME_NEVER_GUESSES": {
+        "status": "PASS",
+        "no_lead_time": "NOT_ENOUGH_DATA",
+        "fewer_than_14_counted": 9,
+        "no_use": "NO_USAGE",
+        "lead_saved_then_formula": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "SS3_ACCESSORY_USAGE_SHOWN_NO_FORMULA": {
+        "status": "PASS",
+        "basis": "NOT_SET",
+        "free": "50",
+        "usage": "220 (224 used, 4 credited back usable)",
+        "daily_mean": "7.3333",
+        "lead_time_alone_no_point": true,
+        "no_reminder_without_minimum": true,
+        "movements": {
+          "ADJUSTMENT:BC_NOTE_RETURN_CREDIT": 1,
+          "CONTRACTOR_ISSUE:CONTRACTOR_MATERIAL_ISSUE_ITEM": 10,
+          "INTERNAL_USE:MATERIAL_ADJUSTMENT_ITEM": 12
+        },
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "SS3_SERVICE_ZONES_NOT_FREE_STOCK": {
+        "status": "PASS",
+        "free_main_only": "160",
+        "service_post_not_free": "25",
+        "damaged_area_not_free": "5",
+        "damaged_credit_not_subtracted_from_use": true,
+        "use_at_service_post_counted": "15",
+        "minimum": "170",
+        "state": "AT_OR_BELOW",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "SS3_ACCESSORY_MANUAL_MINIMUM_ZERO_NEVER": {
+        "status": "PASS",
+        "steps": [
+          {
+            "manual": "80",
+            "basis": "MANUAL",
+            "point": "80.000000",
+            "state": "ABOVE"
+          },
+          {
+            "manual": "180",
+            "basis": "MANUAL",
+            "point": "180.000000",
+            "state": "AT_OR_BELOW"
+          },
+          {
+            "manual": "250",
+            "basis": "MANUAL",
+            "point": "250.000000",
+            "state": "AT_OR_BELOW"
+          },
+          {
+            "manual": "0",
+            "basis": "MANUAL",
+            "point": "0.000000",
+            "state": "NO_POINT"
+          },
+          {
+            "manual": null,
+            "basis": "NOT_SET",
+            "point": null,
+            "state": "NO_POINT"
+          }
+        ],
+        "equal_rings": true,
+        "zero_means_never": true,
+        "cleared_means_no_minimum": true,
+        "history_append_only": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "SS3_MATERIAL_SOURCE_AND_ACCESS": {
+        "status": "PASS",
+        "alert_rows_exact": true,
+        "fabric_needs_material_and_fabric_view": true,
+        "accessory_view_separate": true,
+        "viewer_cannot_change": true,
+        "stale_reused_invalid_unknown_refused": true,
+        "resolved_when_stock_back": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "SS3_ACCESSORY_MINIMUM_FROM_OWNER_ESTIMATE": {
+        "status": "PASS",
+        "minimum": "933.34",
+        "rule": "perkiraan per bulan x (lama kirim + cadangan) / 30, dikali dulu baru dibagi, ke atas 0,01",
+        "steps": [
+          {
+            "manual": null,
+            "changed": {
+              "buffer_days": "0"
+            },
+            "basis": "ESTIMATE",
+            "point": "700.0000000000000000",
+            "state": "AT_OR_BELOW"
+          },
+          {
+            "manual": "100",
+            "changed": {},
+            "basis": "MANUAL",
+            "point": "100.000000",
+            "state": "ABOVE"
+          },
+          {
+            "manual": null,
+            "changed": {},
+            "basis": "ESTIMATE",
+            "point": "700.0000000000000000",
+            "state": "AT_OR_BELOW"
+          },
+          {
+            "manual": null,
+            "changed": {
+              "usage_month_qty": null
+            },
+            "basis": "NOT_SET",
+            "point": null,
+            "state": "NO_POINT"
+          }
+        ],
+        "whole_cent_boundaries": [
+          {
+            "usage_month": "500",
+            "lead_days": 14,
+            "buffer_days": "7",
+            "minimum": "350.00"
+          },
+          {
+            "usage_month": "200",
+            "lead_days": 10,
+            "buffer_days": "5",
+            "minimum": "100.00"
+          }
+        ],
+        "typed_minimum_wins": true,
+        "missing_number_no_minimum": true,
+        "fabric_refuses_estimate": true,
+        "invalid_refused": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "WAF_OTHER_OPENING_AR_AP": {
+        "status": "PASS",
+        "opening_receivable": "70.00",
+        "opening_payable": "65.00",
+        "no_invented_due_date": true,
+        "exact_native_source": true,
+        "one_episode_each": true,
+        "genuine_pg_net_request_queued": true,
+        "provider_delivery_proven_here": false,
+        "business_unchanged": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "WAF_OTHER_PAYROLL_PAYMENT_INVERSE": {
+        "status": "PASS",
+        "exact_native_balances": [
+          "1000",
+          "400",
+          "0",
+          "600"
+        ],
+        "partial_keeps_episode": true,
+        "settled_closes_inverse_new_episode": true,
+        "genuine_pg_net_request_queued": true,
+        "provider_delivery_proven_here": false,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "WAF_OTHER_ACCESSORY_ALLOCATION_NOT_SETTLEMENT": {
+        "status": "PASS",
+        "credit": "12.00",
+        "allocated_not_paid_keeps_episode_and_unknown": true,
+        "paid_closes": true,
+        "no_unknown_zero_or_double_total": true,
+        "genuine_pg_net_request_queued": true,
+        "provider_delivery_proven_here": false,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "WAF_OTHER_LAUNDRY_PAYMENT_INVERSE": {
+        "status": "PASS",
+        "final_payable": "17312.90",
+        "receipt_not_double_payable": true,
+        "send_recheck_sees_paid": true,
+        "inverse_reopens": true,
+        "genuine_pg_net_request_queued": true,
+        "provider_delivery_proven_here": false,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "WAF_OTHER_LAUNDRY_OPENING_UNKNOWN": {
+        "status": "PASS",
+        "two_opening_receipts_unknown": true,
+        "estimate_not_final_payable": true,
+        "genuine_pg_net_request_queued": true,
+        "provider_delivery_proven_here": false,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "WAF_OTHER_NARROWER_PERMISSIONS": {
+        "status": "PASS",
+        "current_domain_permissions_on_cached_rows_and_kind_counts": true,
+        "cases": 5,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "WAF_OTHER_ALL_DOMAINS_SUMMARY_PRIVATE": {
+        "status": "PASS",
+        "seven_default_domains_and_saved_settings": true,
+        "summary_private_and_all_counted": true,
+        "synthetic_render_input": true,
+        "unknown_not_zero": true,
+        "active_without_review_suffix_not_null": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "WAF_ACCESSORY_NEED_NATIVE_UNKNOWN_FORWARDED": {
+        "status": "PASS",
+        "conditional_gap": "93",
+        "Native_BOM_per_FG": "2",
+        "gross_ASSUMED": "186",
+        "installed_unused_external": "UNKNOWN",
+        "raw_detail_keys": 20,
+        "queued_genuine_pg_net_request": true,
+        "provider_delivery_proven_here": false,
+        "body": "\u26a0 ERP Enteng \u00b7 26 Okt 00.18\nAksesori perlu diperiksa \u2014 jumlah tambahan belum diketahui \u00b7 analisis 26 Okt 00.18 (1):\n- BF-SKU-842cb593 \u00b7 BW: perlu diperiksa; jumlah tambahan belum diketahui; BOM (perkiraan) 186 PCS\nBuka ERP > Reminder",
+        "no_local_claim": true,
+        "Native_boundary_unchanged": true,
+        "execution_context": {
+          "setup_current_user": "supabase_admin",
+          "setup_session_user": "supabase_admin",
+          "capture_role_superuser": false,
+          "postgres_role_superuser": false,
+          "reminder_role_superuser": false
+        },
+        "authenticated_public_recheck": {
+          "claims": {
+            "sub": "17985284-4ba0-4fea-887c-a4c463e7cf37",
+            "role": "authenticated"
+          },
+          "current_user": "authenticated",
+          "is_superuser": "off",
+          "session_user": "authenticated"
+        },
+        "auth_transport": "AUTHENTICATED_SQL_ACTOR; actual Auth/PostgREST belongs to transport cases",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "WAF_ACCESSORY_NEED_MISSING_EMPTY": {
+        "status": "PASS",
+        "distinctions": {
+          "missing": "BOM_NOT_RECORDED; gross/external UNKNOWN; source review forwarded",
+          "empty": "explicit Native empty BOM -> four KNOWN zeros; no review or WA"
+        },
+        "no_UNKNOWN_to_zero": true,
+        "isolated_selected_profile_fixtures": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "WAF_ACCESSORY_NEED_BOM_SUCCESSOR": {
+        "status": "PASS",
+        "real_Native_BF_successor_holds_old_notice": true,
+        "original186_fresh279": true,
+        "shared_master_schedule_rebound_through_public_CAS": true,
+        "complete_invalid_source_review": {
+          "INACTIVE": "CATEGORY_UNAVAILABLE",
+          "OVERLAP": "BOM_AMBIGUOUS"
+        },
+        "invalid_source_fixture_kind": "ADMINISTRATIVE_INVALID_MASTER_FIXTURE",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "WAF_ACCESSORY_NEED_CURRENT_PERMISSIONS": {
+        "status": "PASS",
+        "current_source_permissions": [
+          "master.product.view",
+          "production.wip.view",
+          "sales.invoice.view",
+          "warehouse.stock.view"
+        ],
+        "foreign_and_inactive_denied": true,
+        "plan_need_permissions_separate_from_stock_minimum": true,
+        "private_reader_fault_not_missing_BOM": true,
+        "current_retired_owner_no_attempt": true,
+        "no_new_Native_writer_privilege": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "WAF_ACCESSORY_NEED_ISSUE_NOT_INSTALLATION_RESOLVED": {
+        "status": "PASS",
+        "accepted_Native_receipt80_issue80": true,
+        "issue_not_installation_or_allocated_unused": true,
+        "stock0_not_external0_or20": true,
+        "partial_FG1_holds_old_gross": true,
+        "Native_FG93_resolves_target": true,
+        "original_gross186_and_UNKNOWN_coverage_immutable": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "WAF_ACCESSORY_NEED_POLICY_REPLAY_DEDUP": {
+        "status": "PASS",
+        "checks": {
+          "UNCONFIGURED": "no WA review without explicit configured enabled policy",
+          "DISABLED": "no WA review without explicit configured enabled policy",
+          "LOCAL_QUIET": "local claim still refused; WA own quiet=False delivers source review once",
+          "THRESHOLD": "999999 is not evaluated against UNKNOWN external quantity",
+          "CURRENT_DISABLED": "current disabled policy holds a previously queued notice before send"
+        },
+        "same_UUID_one_policy_revision": true,
+        "changed_UUID_body_refused": true,
+        "one_subject_episode_round_attempt": true,
+        "local_UNKNOWN_claim_remains_refused": true,
+        "no_fabricated_local_cooldown_history": true,
+        "provider_answer_fixture": "SYNTHETIC_PROVIDER_ANSWER only; actual fake provider is a separate race case",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "WAF_ACCESSORY_NEED_PAUSE_RESUME": {
+        "status": "PASS",
+        "checks": {
+          "INITIAL_PAUSE_RESUME": "same OPEN episode and round0, one first notice, no immediate repeat after acceptance",
+          "SOURCE_CHANGE_WHILE_OFF": "old snapshot held, same episode refreshed by new immutable analysis, one fresh round0 notice279",
+          "SOURCE_RESOLVED_WHILE_OFF": "complete Native coverage resolves same unattempted item before any queue request",
+          "QUEUED_REPEAT_CURRENT_POLICY": "same queued round1 held by repeat0 and120, sent once when current60 is due",
+          "UNKNOWN_PROVIDER_PAUSE_RESUME": "same UNKNOWN round0/attempt1; kindoff and WAoff/on never retry automatically",
+          "SCHEDULED_DIGEST_PENDING_LINKAGE": {
+            "CURRENT_KIND_OFF": "due digest queues no accessory request and does not link pending round0",
+            "CURRENT_KIND_SELECTED": "repeat0 independent; one fresh reviewed digest links pending round0 once, same-slot acceptance never duplicates"
+          }
+        },
+        "legacy_cases_retained_unchanged": true,
+        "source_fixture": "accepted Native target100-WIP7=gap93; BOM2=>ASSUMED186; coverage remains UNKNOWN",
+        "test_labels": [
+          "SYNTHETIC_PROVIDER_ANSWER",
+          "TEST_CLOCK_OVERRIDE on own WA rows only"
+        ],
+        "transport_scope": "queued pg_net request only; actual fake provider is a retained race case",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "OW14B_PREVIOUS_RULE_THEN_ONE_FORMULA": {
+        "status": "PASS",
+        "independent_oracle": {
+          "basis": "FORMULA",
+          "point": "39.32",
+          "counted": 30,
+          "mean": "3.333333333333333333333333333333333333333",
+          "sd": "4.794633014853841426546368645662117481442",
+          "safety": "19.31837078159471536425703521937641939292",
+          "free": "200",
+          "usage": "100"
+        },
+        "legacy_reference": 500,
+        "active_formula_only": true,
+        "settings_do_not_write_Native_business": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "OW14B_PINNED_REFERENCE_OLD_CLIENT": {
+        "status": "PASS",
+        "pinned": 500,
+        "changed_reference": 600,
+        "ordinary_open_PO": 1000,
+        "physical_stock_only": true,
+        "old_client_preserves_rule": true,
+        "one_reminder": true,
+        "message_names_active_rule": true,
+        "synthetic_long_label_preserves_facts": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "OW14B_CHANGED_REFERENCE_NO_APPEND": {
+        "status": "PASS",
+        "stale_reference_atomic": true,
+        "invalid_closed_shapes_refused": 5,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "OW14B_REPLAY_IMMUTABLE_NO_SWITCH": {
+        "status": "PASS",
+        "immutable_replay_before_reference_fence": true,
+        "changed_UUID_body_refused": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "OW14B_ZERO_AND_UNKNOWN_DISTINCT": {
+        "status": "PASS",
+        "chosen_zero_known": true,
+        "missing_formula_unknown": true,
+        "legacy_not_resurrected": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "OW14B_CLOSED_SCOPE_AND_PRECISE_WIRE": {
+        "status": "PASS",
+        "read_only_staff_denied": true,
+        "accessory_scope_closed": true,
+        "exact_decimal_wire": true,
+        "private_schema_stays_private": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      }
+    },
+    "races": {
+      "WAF_RACE_TWO_SEND_TICKS_ONE_MESSAGE": {
+        "status": "PASS",
+        "concurrent_outcomes": [
+          "BUSY",
+          "SENT"
+        ],
+        "instant_dispatches": 1,
+        "held_lock_busy_s": 0.012,
+        "copy_runtime": null,
+        "session_leaks": [],
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "WAF_RACE_COLLECT_AND_SEND_OPEN_ONCE": {
+        "status": "PASS",
+        "one_alert_one_outbox_row": true,
+        "outcomes": [
+          "COLLECTED",
+          "SENT"
+        ],
+        "copy_runtime": null,
+        "session_leaks": [],
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "WAF_RACE_FAKE_CALLMEBOT_END_TO_END": {
+        "status": "PASS",
+        "delivered_to_fake": true,
+        "phone_text_key_as_sent": true,
+        "stored_answer_masked": true,
+        "test_message_delivered": true,
+        "answer_500_refused": true,
+        "requests": 3,
+        "copy_runtime": null,
+        "session_leaks": [],
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "WAF_RACE_PG_CRON_RUNS_TICKS": {
+        "status": "PASS",
+        "pg_cron_runs": {
+          "succeeded": 6
+        },
+        "owner_reminder_delivered": true,
+        "schedules_removed": true,
+        "test_schedule_override": "5 seconds",
+        "ticks": {
+          "ANALYSIS": "NO_OWNER_ANALYSIS_YET",
+          "SEND": "SENT",
+          "COLLECT": "COLLECTED"
+        },
+        "copy_runtime": null,
+        "session_leaks": [],
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "WAF_RACE_FG_BUSY_RECHECKS_LIVE_STOCK": {
+        "status": "PASS",
+        "resolved_from_live_stock_while_busy": true,
+        "evaluation_untouched_while_busy": true,
+        "refresh_busy": "CP7_FORMULA_BUSY",
+        "next_tick_evaluates": "ABOVE",
+        "copy_runtime": null,
+        "session_leaks": [],
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "WAF_RACE_MATERIAL_BUSY_RECHECKS_LIVE_STOCK": {
+        "status": "PASS",
+        "resolved_from_live_stock_while_busy": true,
+        "evaluation_untouched_while_busy": true,
+        "refresh_busy": "CP7_FORMULA_BUSY",
+        "next_tick_evaluates": "ABOVE",
+        "copy_runtime": null,
+        "session_leaks": [],
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "WAF_RACE_ACCESSORY_NEED_TWO_TICKS_ONE_RECEIPT": {
+        "status": "PASS",
+        "real_fake_provider_receipts": 1,
+        "concurrent_outcomes": [
+          "SENT",
+          "BUSY"
+        ],
+        "one_alert_one_round_one_dispatch": true,
+        "body_equals_provider_receipt": true,
+        "external_quantity_stays_unknown": true,
+        "copy_runtime": null,
+        "session_leaks": [],
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "WAF_RACE_ACCESSORY_NEED_BOM_CHANGE_DURING_WAIT": {
+        "status": "PASS",
+        "actual_native_BOM_writer_wait": true,
+        "wait_observed_by": "pg_blocking_pids",
+        "old_snapshot_dispatches": 0,
+        "same_open_episode_and_outbox_preserved": true,
+        "owner_revoked_during_wait": false,
+        "BOM_successor_committed": true,
+        "sender_refusal": null,
+        "successor_created_by_Native": true,
+        "copy_runtime": null,
+        "session_leaks": [],
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "WAF_RACE_ACCESSORY_NEED_ACCESS_REVOKED_DURING_WAIT": {
+        "status": "PASS",
+        "actual_native_BOM_writer_wait": true,
+        "wait_observed_by": "pg_blocking_pids",
+        "old_snapshot_dispatches": 0,
+        "same_open_episode_and_outbox_preserved": true,
+        "owner_revoked_during_wait": true,
+        "BOM_successor_committed": false,
+        "sender_refusal": "CP7_ALERT_ACCESS_CHANGED_DURING_TICK",
+        "successor_created_by_Native": true,
+        "copy_runtime": null,
+        "session_leaks": [],
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "WAF_RACE_WA_SETTINGS_NEW_REVOKED_AFTER_WAIT": {
+        "status": "PASS",
+        "operation": "SETTINGS",
+        "committed_replay": false,
+        "actual_lock_wait_observed_by": "pg_blocking_pids",
+        "actual_holder_is_blocker": true,
+        "initially_authorized_public_read": true,
+        "fresh_owner_retired_during_wait": true,
+        "existing_owner_rows_unchanged": true,
+        "refusal_sqlstate": "42501",
+        "refusal_message": "CP7_WA_OWNER_ONLY",
+        "returned_receipt": false,
+        "WA_receipts_key_and_transport_state_unchanged": true,
+        "unknown_fixture": null,
+        "provider_delivery_proven": false,
+        "copy_runtime": null,
+        "session_leaks": [],
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "WAF_RACE_WA_SETTINGS_REPLAY_REVOKED_AFTER_WAIT": {
+        "status": "PASS",
+        "operation": "SETTINGS",
+        "committed_replay": true,
+        "actual_lock_wait_observed_by": "pg_blocking_pids",
+        "actual_holder_is_blocker": true,
+        "initially_authorized_public_read": true,
+        "fresh_owner_retired_during_wait": true,
+        "existing_owner_rows_unchanged": true,
+        "refusal_sqlstate": "42501",
+        "refusal_message": "CP7_WA_OWNER_ONLY",
+        "returned_receipt": false,
+        "WA_receipts_key_and_transport_state_unchanged": true,
+        "unknown_fixture": null,
+        "provider_delivery_proven": false,
+        "copy_runtime": null,
+        "session_leaks": [],
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "WAF_RACE_WA_KEY_NEW_REVOKED_AFTER_WAIT": {
+        "status": "PASS",
+        "operation": "KEY",
+        "committed_replay": false,
+        "actual_lock_wait_observed_by": "pg_blocking_pids",
+        "actual_holder_is_blocker": true,
+        "initially_authorized_public_read": true,
+        "fresh_owner_retired_during_wait": true,
+        "existing_owner_rows_unchanged": true,
+        "refusal_sqlstate": "42501",
+        "refusal_message": "CP7_WA_OWNER_ONLY",
+        "returned_receipt": false,
+        "WA_receipts_key_and_transport_state_unchanged": true,
+        "unknown_fixture": null,
+        "provider_delivery_proven": false,
+        "copy_runtime": null,
+        "session_leaks": [],
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "WAF_RACE_WA_KEY_REPLAY_REVOKED_AFTER_WAIT": {
+        "status": "PASS",
+        "operation": "KEY",
+        "committed_replay": true,
+        "actual_lock_wait_observed_by": "pg_blocking_pids",
+        "actual_holder_is_blocker": true,
+        "initially_authorized_public_read": true,
+        "fresh_owner_retired_during_wait": true,
+        "existing_owner_rows_unchanged": true,
+        "refusal_sqlstate": "42501",
+        "refusal_message": "CP7_WA_OWNER_ONLY",
+        "returned_receipt": false,
+        "WA_receipts_key_and_transport_state_unchanged": true,
+        "unknown_fixture": null,
+        "provider_delivery_proven": false,
+        "copy_runtime": null,
+        "session_leaks": [],
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "WAF_RACE_WA_TEST_NEW_REVOKED_AFTER_WAIT": {
+        "status": "PASS",
+        "operation": "TEST",
+        "committed_replay": false,
+        "actual_lock_wait_observed_by": "pg_blocking_pids",
+        "actual_holder_is_blocker": true,
+        "initially_authorized_public_read": true,
+        "fresh_owner_retired_during_wait": true,
+        "existing_owner_rows_unchanged": true,
+        "refusal_sqlstate": "42501",
+        "refusal_message": "CP7_WA_OWNER_ONLY",
+        "returned_receipt": false,
+        "WA_receipts_key_and_transport_state_unchanged": true,
+        "unknown_fixture": null,
+        "provider_delivery_proven": false,
+        "copy_runtime": null,
+        "session_leaks": [],
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "WAF_RACE_WA_TEST_REPLAY_REVOKED_AFTER_WAIT": {
+        "status": "PASS",
+        "operation": "TEST",
+        "committed_replay": true,
+        "actual_lock_wait_observed_by": "pg_blocking_pids",
+        "actual_holder_is_blocker": true,
+        "initially_authorized_public_read": true,
+        "fresh_owner_retired_during_wait": true,
+        "existing_owner_rows_unchanged": true,
+        "refusal_sqlstate": "42501",
+        "refusal_message": "CP7_WA_OWNER_ONLY",
+        "returned_receipt": false,
+        "WA_receipts_key_and_transport_state_unchanged": true,
+        "unknown_fixture": null,
+        "provider_delivery_proven": false,
+        "copy_runtime": null,
+        "session_leaks": [],
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "WAF_RACE_WA_RESOLVE_NEW_REVOKED_AFTER_WAIT": {
+        "status": "PASS",
+        "operation": "RESOLVE",
+        "committed_replay": false,
+        "actual_lock_wait_observed_by": "pg_blocking_pids",
+        "actual_holder_is_blocker": true,
+        "initially_authorized_public_read": true,
+        "fresh_owner_retired_during_wait": true,
+        "existing_owner_rows_unchanged": true,
+        "refusal_sqlstate": "42501",
+        "refusal_message": "CP7_WA_OWNER_ONLY",
+        "returned_receipt": false,
+        "WA_receipts_key_and_transport_state_unchanged": true,
+        "unknown_fixture": "TEST_CLOCK_OVERRIDE_11_MINUTES_THEN_REAL_RECONCILE",
+        "provider_delivery_proven": false,
+        "copy_runtime": null,
+        "session_leaks": [],
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "WAF_RACE_WA_RESOLVE_REPLAY_REVOKED_AFTER_WAIT": {
+        "status": "PASS",
+        "operation": "RESOLVE",
+        "committed_replay": true,
+        "actual_lock_wait_observed_by": "pg_blocking_pids",
+        "actual_holder_is_blocker": true,
+        "initially_authorized_public_read": true,
+        "fresh_owner_retired_during_wait": true,
+        "existing_owner_rows_unchanged": true,
+        "refusal_sqlstate": "42501",
+        "refusal_message": "CP7_WA_OWNER_ONLY",
+        "returned_receipt": false,
+        "WA_receipts_key_and_transport_state_unchanged": true,
+        "unknown_fixture": "TEST_CLOCK_OVERRIDE_11_MINUTES_THEN_REAL_RECONCILE",
+        "provider_delivery_proven": false,
+        "copy_runtime": null,
+        "session_leaks": [],
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "WAF_RACE_ALL_KIND_FG_AT_REORDER_POINT_FAKE_PROVIDER": {
+        "status": "PASS",
+        "kind": "FG_AT_REORDER_POINT",
+        "actual_Native_targets": 1,
+        "actual_dispatched_items": 1,
+        "real_fake_provider_receipts": 1,
+        "selected_kind_only": true,
+        "actual_phone_key_and_body_match": true,
+        "target_value_or_UNKNOWN_in_actual_body": true,
+        "real_response_status": "PROVIDER_ACCEPTED",
+        "accepted_round": 0,
+        "attempts": 1,
+        "next_tick_no_duplicate": true,
+        "business_source_unchanged_after_send_before_commit": true,
+        "business_source_unchanged_after_provider_and_final_tick": true,
+        "Original_identity_unchanged": false,
+        "no_local_preview_claim_or_recorded_recheck": false,
+        "copy_runtime": null,
+        "session_leaks": [],
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "WAF_RACE_ALL_KIND_ACCESSORY_AT_REORDER_POINT_FAKE_PROVIDER": {
+        "status": "PASS",
+        "kind": "ACCESSORY_AT_REORDER_POINT",
+        "actual_Native_targets": 1,
+        "actual_dispatched_items": 1,
+        "real_fake_provider_receipts": 1,
+        "selected_kind_only": true,
+        "actual_phone_key_and_body_match": true,
+        "target_value_or_UNKNOWN_in_actual_body": true,
+        "real_response_status": "PROVIDER_ACCEPTED",
+        "accepted_round": 0,
+        "attempts": 1,
+        "next_tick_no_duplicate": true,
+        "business_source_unchanged_after_send_before_commit": true,
+        "business_source_unchanged_after_provider_and_final_tick": true,
+        "Original_identity_unchanged": false,
+        "no_local_preview_claim_or_recorded_recheck": false,
+        "copy_runtime": null,
+        "session_leaks": [],
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "WAF_RACE_ALL_KIND_AR_DUE_FAKE_PROVIDER": {
+        "status": "PASS",
+        "kind": "AR_DUE",
+        "actual_Native_targets": 1,
+        "actual_dispatched_items": 1,
+        "real_fake_provider_receipts": 1,
+        "selected_kind_only": true,
+        "actual_phone_key_and_body_match": true,
+        "target_value_or_UNKNOWN_in_actual_body": true,
+        "real_response_status": "PROVIDER_ACCEPTED",
+        "accepted_round": 0,
+        "attempts": 1,
+        "next_tick_no_duplicate": true,
+        "business_source_unchanged_after_send_before_commit": true,
+        "business_source_unchanged_after_provider_and_final_tick": true,
+        "Original_identity_unchanged": false,
+        "no_local_preview_claim_or_recorded_recheck": false,
+        "copy_runtime": null,
+        "session_leaks": [],
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "WAF_RACE_ALL_KIND_AP_DUE_FAKE_PROVIDER": {
+        "status": "PASS",
+        "kind": "AP_DUE",
+        "actual_Native_targets": 1,
+        "actual_dispatched_items": 1,
+        "real_fake_provider_receipts": 1,
+        "selected_kind_only": true,
+        "actual_phone_key_and_body_match": true,
+        "target_value_or_UNKNOWN_in_actual_body": true,
+        "real_response_status": "PROVIDER_ACCEPTED",
+        "accepted_round": 0,
+        "attempts": 1,
+        "next_tick_no_duplicate": true,
+        "business_source_unchanged_after_send_before_commit": true,
+        "business_source_unchanged_after_provider_and_final_tick": true,
+        "Original_identity_unchanged": false,
+        "no_local_preview_claim_or_recorded_recheck": false,
+        "copy_runtime": null,
+        "session_leaks": [],
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "WAF_RACE_ALL_KIND_PRODUCTION_GAP_FAKE_PROVIDER": {
+        "status": "PASS",
+        "kind": "PRODUCTION_GAP",
+        "actual_Native_targets": 1,
+        "actual_dispatched_items": 1,
+        "real_fake_provider_receipts": 1,
+        "selected_kind_only": true,
+        "actual_phone_key_and_body_match": true,
+        "target_value_or_UNKNOWN_in_actual_body": true,
+        "real_response_status": "PROVIDER_ACCEPTED",
+        "accepted_round": 0,
+        "attempts": 1,
+        "next_tick_no_duplicate": true,
+        "business_source_unchanged_after_send_before_commit": true,
+        "business_source_unchanged_after_provider_and_final_tick": true,
+        "Original_identity_unchanged": true,
+        "no_local_preview_claim_or_recorded_recheck": true,
+        "copy_runtime": null,
+        "session_leaks": [],
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "WAF_RACE_ALL_KIND_FABRIC_NEED_FAKE_PROVIDER": {
+        "status": "PASS",
+        "kind": "FABRIC_NEED",
+        "actual_Native_targets": 1,
+        "actual_dispatched_items": 1,
+        "real_fake_provider_receipts": 1,
+        "selected_kind_only": true,
+        "actual_phone_key_and_body_match": true,
+        "target_value_or_UNKNOWN_in_actual_body": true,
+        "real_response_status": "PROVIDER_ACCEPTED",
+        "accepted_round": 0,
+        "attempts": 1,
+        "next_tick_no_duplicate": true,
+        "business_source_unchanged_after_send_before_commit": true,
+        "business_source_unchanged_after_provider_and_final_tick": true,
+        "Original_identity_unchanged": true,
+        "no_local_preview_claim_or_recorded_recheck": true,
+        "copy_runtime": null,
+        "session_leaks": [],
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "WAF_RACE_ALL_KIND_OPENING_AR_FAKE_PROVIDER": {
+        "status": "PASS",
+        "kind": "OPENING_AR",
+        "actual_Native_targets": 1,
+        "actual_dispatched_items": 1,
+        "real_fake_provider_receipts": 1,
+        "selected_kind_only": true,
+        "actual_phone_key_and_body_match": true,
+        "target_value_or_UNKNOWN_in_actual_body": true,
+        "real_response_status": "PROVIDER_ACCEPTED",
+        "accepted_round": 0,
+        "attempts": 1,
+        "next_tick_no_duplicate": true,
+        "business_source_unchanged_after_send_before_commit": true,
+        "business_source_unchanged_after_provider_and_final_tick": true,
+        "Original_identity_unchanged": false,
+        "no_local_preview_claim_or_recorded_recheck": false,
+        "copy_runtime": null,
+        "session_leaks": [],
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "WAF_RACE_ALL_KIND_OPENING_AP_FAKE_PROVIDER": {
+        "status": "PASS",
+        "kind": "OPENING_AP",
+        "actual_Native_targets": 1,
+        "actual_dispatched_items": 1,
+        "real_fake_provider_receipts": 1,
+        "selected_kind_only": true,
+        "actual_phone_key_and_body_match": true,
+        "target_value_or_UNKNOWN_in_actual_body": true,
+        "real_response_status": "PROVIDER_ACCEPTED",
+        "accepted_round": 0,
+        "attempts": 1,
+        "next_tick_no_duplicate": true,
+        "business_source_unchanged_after_send_before_commit": true,
+        "business_source_unchanged_after_provider_and_final_tick": true,
+        "Original_identity_unchanged": false,
+        "no_local_preview_claim_or_recorded_recheck": false,
+        "copy_runtime": null,
+        "session_leaks": [],
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "WAF_RACE_ALL_KIND_PAYROLL_AP_FAKE_PROVIDER": {
+        "status": "PASS",
+        "kind": "PAYROLL_AP",
+        "actual_Native_targets": 1,
+        "actual_dispatched_items": 7,
+        "real_fake_provider_receipts": 1,
+        "selected_kind_only": true,
+        "actual_phone_key_and_body_match": true,
+        "target_value_or_UNKNOWN_in_actual_body": true,
+        "real_response_status": "PROVIDER_ACCEPTED",
+        "accepted_round": 0,
+        "attempts": 1,
+        "next_tick_no_duplicate": true,
+        "business_source_unchanged_after_send_before_commit": true,
+        "business_source_unchanged_after_provider_and_final_tick": true,
+        "Original_identity_unchanged": false,
+        "no_local_preview_claim_or_recorded_recheck": false,
+        "copy_runtime": null,
+        "session_leaks": [],
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "WAF_RACE_ALL_KIND_ACCESSORY_AP_FAKE_PROVIDER": {
+        "status": "PASS",
+        "kind": "ACCESSORY_AP",
+        "actual_Native_targets": 1,
+        "actual_dispatched_items": 1,
+        "real_fake_provider_receipts": 1,
+        "selected_kind_only": true,
+        "actual_phone_key_and_body_match": true,
+        "target_value_or_UNKNOWN_in_actual_body": true,
+        "real_response_status": "PROVIDER_ACCEPTED",
+        "accepted_round": 0,
+        "attempts": 1,
+        "next_tick_no_duplicate": true,
+        "business_source_unchanged_after_send_before_commit": true,
+        "business_source_unchanged_after_provider_and_final_tick": true,
+        "Original_identity_unchanged": false,
+        "no_local_preview_claim_or_recorded_recheck": false,
+        "copy_runtime": null,
+        "session_leaks": [],
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "WAF_RACE_ALL_KIND_LAUNDRY_AP_FAKE_PROVIDER": {
+        "status": "PASS",
+        "kind": "LAUNDRY_AP",
+        "actual_Native_targets": 1,
+        "actual_dispatched_items": 1,
+        "real_fake_provider_receipts": 1,
+        "selected_kind_only": true,
+        "actual_phone_key_and_body_match": true,
+        "target_value_or_UNKNOWN_in_actual_body": true,
+        "real_response_status": "PROVIDER_ACCEPTED",
+        "accepted_round": 0,
+        "attempts": 1,
+        "next_tick_no_duplicate": true,
+        "business_source_unchanged_after_send_before_commit": true,
+        "business_source_unchanged_after_provider_and_final_tick": true,
+        "Original_identity_unchanged": false,
+        "no_local_preview_claim_or_recorded_recheck": false,
+        "copy_runtime": null,
+        "session_leaks": [],
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "WAF_RACE_ALL_KIND_LAUNDRY_RECEIPT_FAKE_PROVIDER": {
+        "status": "PASS",
+        "kind": "LAUNDRY_RECEIPT",
+        "actual_Native_targets": 1,
+        "actual_dispatched_items": 1,
+        "real_fake_provider_receipts": 1,
+        "selected_kind_only": true,
+        "actual_phone_key_and_body_match": true,
+        "target_value_or_UNKNOWN_in_actual_body": true,
+        "real_response_status": "PROVIDER_ACCEPTED",
+        "accepted_round": 0,
+        "attempts": 1,
+        "next_tick_no_duplicate": true,
+        "business_source_unchanged_after_send_before_commit": true,
+        "business_source_unchanged_after_provider_and_final_tick": true,
+        "Original_identity_unchanged": false,
+        "no_local_preview_claim_or_recorded_recheck": false,
+        "copy_runtime": null,
+        "session_leaks": [],
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "WAF_RACE_ALL_KIND_LAUNDRY_OPENING_UNINVOICED_FAKE_PROVIDER": {
+        "status": "PASS",
+        "kind": "LAUNDRY_OPENING_UNINVOICED",
+        "actual_Native_targets": 2,
+        "actual_dispatched_items": 2,
+        "real_fake_provider_receipts": 1,
+        "selected_kind_only": true,
+        "actual_phone_key_and_body_match": true,
+        "target_value_or_UNKNOWN_in_actual_body": true,
+        "real_response_status": "PROVIDER_ACCEPTED",
+        "accepted_round": 0,
+        "attempts": 1,
+        "next_tick_no_duplicate": true,
+        "business_source_unchanged_after_send_before_commit": true,
+        "business_source_unchanged_after_provider_and_final_tick": true,
+        "Original_identity_unchanged": false,
+        "no_local_preview_claim_or_recorded_recheck": false,
+        "copy_runtime": null,
+        "session_leaks": [],
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "OW14B_TWO_SESSIONS_ONE_UUID_AND_LIVE_MINIMUM": {
+        "status": "PASS",
+        "two_sessions_same_UUID_one_revision": true,
+        "actual_Native_receipt": 200,
+        "equality_500_resolves_strict_legacy": true,
+        "busy_live_read_does_not_write_cache": true,
+        "copy_runtime": null,
+        "session_leaks": [],
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "OW14B_TWO_USERS_ONE_REVISION": {
+        "status": "PASS",
+        "current_revision_CAS_two_users": true,
+        "copy_runtime": null,
+        "session_leaks": [],
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "OW14B_WAIT_CURRENT_OWNER_REVOKED": {
+        "status": "PASS",
+        "actual_advisory_wait": true,
+        "current_access_before_replay": true,
+        "replaying": false,
+        "no_partial_or_second_revision": true,
+        "copy_runtime": null,
+        "session_leaks": [],
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "OW14B_WAIT_REPLAY_OWNER_REVOKED": {
+        "status": "PASS",
+        "actual_advisory_wait": true,
+        "current_access_before_replay": true,
+        "replaying": true,
+        "no_partial_or_second_revision": true,
+        "copy_runtime": null,
+        "session_leaks": [],
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      }
+    },
+    "http": {
+      "WAF_HTTP_OWNER_SETS_UP_AND_TESTS": {
+        "status": "PASS",
+        "real_Auth_owner": true,
+        "settings_saved": true,
+        "key_set_not_returned": true,
+        "enabled": true,
+        "test_queued": true,
+        "settings_read_without_key": true,
+        "alerts_listed": true,
+        "session_leaks": [],
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "WAF_HTTP_OTHERS_REFUSED": {
+        "status": "PASS",
+        "staff_refused": {
+          "erp_cp7_get_wa_settings_v1": 403,
+          "erp_cp7_save_wa_settings_v1": 403,
+          "erp_cp7_set_wa_key_v1": 403,
+          "erp_cp7_send_wa_test_v1": 403,
+          "erp_cp7_resolve_wa_dispatch_v1": 403
+        },
+        "anon_refused": true,
+        "staff_alerts_without_wa_status": true,
+        "private_functions_not_exposed": true,
+        "session_leaks": [],
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "WAF_HTTP_FG_REORDER_SCREEN": {
+        "status": "PASS",
+        "real_Auth": true,
+        "owner_reads_and_refreshes": true,
+        "admin_manual": true,
+        "owner_level": true,
+        "gudang_reads": true,
+        "staff_cannot_change": true,
+        "anon_refused": true,
+        "session_leaks": [],
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "WAF_HTTP_MATERIAL_REORDER_SCREEN": {
+        "status": "PASS",
+        "real_Auth": true,
+        "owner_reads_and_refreshes": true,
+        "admin_lead_time": true,
+        "accessory_manual_zero": true,
+        "fabric_manual_refused": true,
+        "fabric_moq_refused": true,
+        "accessory_estimate": "250",
+        "staff_reads_by_permission": [
+          "warehouse.accessory.view",
+          "warehouse.material.view"
+        ],
+        "staff_cannot_change": true,
+        "anon_refused": true,
+        "session_leaks": [],
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "WAF_HTTP_ACCESSORY_NEED_SETTINGS_LOST_REPLY_REVOKED_REPLAY": {
+        "status": "PASS",
+        "real_Auth_PostgREST": true,
+        "reply_body_discarded_after_200_headers": true,
+        "exact_UUID_replay_one_revision": true,
+        "changed_UUID_payload_refused": true,
+        "anonymous_replay_refused": true,
+        "same_token_revoked_replay_http": 403,
+        "preserved_unknown_accessory_detail": true,
+        "session_leaks": [],
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "OW14B_REAL_AUTH_CHOICE_AND_EXACT_REPLAY": {
+        "status": "PASS",
+        "actual_Auth_and_PostgREST": true,
+        "two_policy_revisions_only": true,
+        "old_UUID_reports_old_result_without_switching_current_rule": true,
+        "anon_denied": true,
+        "session_leaks": [],
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "OW14B_REAL_AUTH_REPLAY_CURRENT_REVOKE": {
+        "status": "PASS",
+        "current_access_denies_even_committed_replay": true,
+        "one_revision": true,
+        "session_leaks": [],
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      }
+    },
+    "browser": {
+      "WAF_BROWSER_DESKTOP_OWNER_SETS_UP_TESTS_AND_FORWARDS": {
+        "status": "PASS",
+        "phone": false,
+        "test_reset": true,
+        "first_save_starts_system_reminders": true,
+        "key_typed_once_never_returned": true,
+        "vault_holds_typed_key": true,
+        "test_message_received_by_fake": true,
+        "instant_message_received_by_fake": true,
+        "history_text_equals_received": true,
+        "system_reminder_wa_chip": "WA: terkirim",
+        "distinct_request_ids": 4,
+        "quiet_hours_and_digest_cleared": true,
+        "no_horizontal_scroll": true,
+        "screenshots": [
+          "WAF_DESKTOP_SETTINGS_SAVED.png",
+          "WAF_DESKTOP_TEST_ACCEPTED.png",
+          "WAF_DESKTOP_SYSTEM_FORWARDED.png",
+          "WAF_DESKTOP_HISTORY.png"
+        ],
+        "label": "TEST_RESET; fake CallMeBot only",
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "WAF_BROWSER_MOBILE_OWNER_SETS_UP_TESTS_AND_FORWARDS": {
+        "status": "PASS",
+        "phone": true,
+        "test_reset": true,
+        "first_save_starts_system_reminders": true,
+        "key_typed_once_never_returned": true,
+        "vault_holds_typed_key": true,
+        "test_message_received_by_fake": true,
+        "instant_message_received_by_fake": true,
+        "history_text_equals_received": true,
+        "system_reminder_wa_chip": "WA: terkirim",
+        "distinct_request_ids": 4,
+        "quiet_hours_and_digest_cleared": true,
+        "no_horizontal_scroll": true,
+        "screenshots": [
+          "WAF_MOBILE_SETTINGS_SAVED.png",
+          "WAF_MOBILE_TEST_ACCEPTED.png",
+          "WAF_MOBILE_SYSTEM_FORWARDED.png",
+          "WAF_MOBILE_HISTORY.png"
+        ],
+        "label": "TEST_RESET; fake CallMeBot only",
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "WAF_BROWSER_ADMIN_SEES_SYSTEM_REMINDERS_WITHOUT_WA": {
+        "status": "PASS",
+        "tabs": [
+          "Pengingat saya",
+          "Pengingat sistem"
+        ],
+        "visible_kinds": [
+          "ACCESSORY_AP",
+          "ACCESSORY_AT_REORDER_POINT",
+          "ACCESSORY_NEED",
+          "AP_DUE",
+          "AR_DUE",
+          "FABRIC_BELOW_MINIMUM",
+          "FABRIC_NEED",
+          "FG_AT_REORDER_POINT",
+          "LAUNDRY_AP",
+          "LAUNDRY_OPENING_UNINVOICED",
+          "LAUNDRY_RECEIPT",
+          "OPENING_AP",
+          "OPENING_AR",
+          "PAYROLL_AP",
+          "PRODUCTION_GAP"
+        ],
+        "open_rows_checked": 5,
+        "wa_chips": 0,
+        "owner_rpcs_called": 0,
+        "direct_owner_rpc_refused": 403,
+        "screenshots": [
+          "WAF_ADMIN_SYSTEM_REMINDERS.png"
+        ],
+        "label": "TEST_RESET",
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "WAF_BROWSER_FG_REORDER_DESKTOP": {
+        "status": "PASS",
+        "phone": false,
+        "sku": "AX-5619264c96",
+        "free": 23,
+        "formula_point": 36,
+        "manual_point": 22,
+        "chips": [
+          "Perlu produksi",
+          "Aman",
+          "Perlu produksi"
+        ],
+        "basis_after_manual": "MANUAL",
+        "manual_revisions": [
+          1,
+          2
+        ],
+        "formula_point_after_removal": 36,
+        "distinct_request_ids": 2,
+        "no_horizontal_scroll": true,
+        "screenshots": [
+          "WAF_FG_DESKTOP_AT_OR_BELOW.png",
+          "WAF_FG_DESKTOP_MANUAL.png",
+          "WAF_FG_DESKTOP_FORMULA_AGAIN.png"
+        ],
+        "label": "TEST_FIXTURE SS-1 item; real Auth and PostgREST",
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "WAF_BROWSER_FG_REORDER_MOBILE": {
+        "status": "PASS",
+        "phone": true,
+        "sku": "AX-81570031b5",
+        "free": 23,
+        "formula_point": 36,
+        "manual_point": 22,
+        "chips": [
+          "Perlu produksi",
+          "Aman",
+          "Perlu produksi"
+        ],
+        "basis_after_manual": "MANUAL",
+        "manual_revisions": [
+          1,
+          2
+        ],
+        "formula_point_after_removal": 36,
+        "distinct_request_ids": 2,
+        "no_horizontal_scroll": true,
+        "screenshots": [
+          "WAF_FG_MOBILE_AT_OR_BELOW.png",
+          "WAF_FG_MOBILE_MANUAL.png",
+          "WAF_FG_MOBILE_FORMULA_AGAIN.png"
+        ],
+        "label": "TEST_FIXTURE SS-1 item; real Auth and PostgREST",
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "WAF_BROWSER_MATERIAL_REORDER_DESKTOP": {
+        "status": "PASS",
+        "phone": false,
+        "fabric": {
+          "sku": "SS2-798A1718",
+          "free": "30",
+          "point": "39.32",
+          "lead_days": "6",
+          "set_on": "Master Data \u203a Kain & Benchmark",
+          "same_on": "Gudang \u203a Bahan & Roll; Ringkasan Gudang",
+          "warehouse_summary_same_source_and_no_configuration_writes": true,
+          "reminder": "Stok kain di bawah minimum"
+        },
+        "accessory": {
+          "sku": "BC71939CA819",
+          "free": "180",
+          "lead_days": "20",
+          "usage_month_qty": "300",
+          "buffer_days": "5",
+          "moq": "5000",
+          "typed_minimum": null,
+          "minimum": "250.00",
+          "basis": "Dari isian hitungan",
+          "status": "Menipis"
+        },
+        "distinct_request_ids": 2,
+        "no_horizontal_scroll": true,
+        "screenshots": [
+          "WAF_MAT_DESKTOP_MASTER_FABRIC.png",
+          "WAF_MAT_DESKTOP_BAHAN_ROLL.png",
+          "WAF_MAT_DESKTOP_ACCESSORY_ESTIMATE.png"
+        ],
+        "label": "TEST_FIXTURE SS-2/SS-3 materials; real Auth and PostgREST",
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "WAF_BROWSER_MATERIAL_REORDER_MOBILE": {
+        "status": "PASS",
+        "phone": true,
+        "fabric": {
+          "sku": "SS2-10270235",
+          "free": "30",
+          "point": "39.32",
+          "lead_days": "6",
+          "set_on": "Master Data \u203a Kain & Benchmark",
+          "same_on": "Gudang \u203a Bahan & Roll; Ringkasan Gudang",
+          "warehouse_summary_same_source_and_no_configuration_writes": true,
+          "reminder": "Stok kain di bawah minimum"
+        },
+        "accessory": {
+          "sku": "BC02EEC1CED9",
+          "free": "180",
+          "lead_days": "20",
+          "usage_month_qty": "300",
+          "buffer_days": "5",
+          "moq": "5000",
+          "typed_minimum": null,
+          "minimum": "250.00",
+          "basis": "Dari isian hitungan",
+          "status": "Menipis"
+        },
+        "distinct_request_ids": 2,
+        "no_horizontal_scroll": true,
+        "screenshots": [
+          "WAF_MAT_MOBILE_MASTER_FABRIC.png",
+          "WAF_MAT_MOBILE_BAHAN_ROLL.png",
+          "WAF_MAT_MOBILE_ACCESSORY_ESTIMATE.png"
+        ],
+        "label": "TEST_FIXTURE SS-2/SS-3 materials; real Auth and PostgREST",
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "WAF_BROWSER_ACCESSORY_NEED_DESKTOP": {
+        "status": "PASS",
+        "phone": false,
+        "actual_checkbox_chosen_and_persisted": true,
+        "fixture_did_not_save_WA_settings": true,
+        "actual_Auth_and_PostgREST": true,
+        "provider_receipts": 1,
+        "provider_body_equals_stored_history": true,
+        "gross_BOM_assumed": "186",
+        "additional_external": "UNKNOWN",
+        "physical_unknown_stays_unknown_after_delivery": true,
+        "no_local_preview_claim": true,
+        "no_horizontal_scroll": true,
+        "screenshots": [
+          "OW01_DESKTOP_ACCESSORY_CHECKBOX_SAVED.png",
+          "OW01_DESKTOP_ACCESSORY_UNKNOWN.png",
+          "OW01_DESKTOP_ACCESSORY_PROVIDER_ACCEPTED.png",
+          "OW01_DESKTOP_ACCESSORY_HISTORY.png"
+        ],
+        "label": "Native source fixture; real UI settings; fake CallMeBot only",
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "WAF_BROWSER_ACCESSORY_NEED_MOBILE": {
+        "status": "PASS",
+        "phone": true,
+        "actual_checkbox_chosen_and_persisted": true,
+        "fixture_did_not_save_WA_settings": true,
+        "actual_Auth_and_PostgREST": true,
+        "provider_receipts": 1,
+        "provider_body_equals_stored_history": true,
+        "gross_BOM_assumed": "186",
+        "additional_external": "UNKNOWN",
+        "physical_unknown_stays_unknown_after_delivery": true,
+        "no_local_preview_claim": true,
+        "no_horizontal_scroll": true,
+        "screenshots": [
+          "OW01_MOBILE_ACCESSORY_CHECKBOX_SAVED.png",
+          "OW01_MOBILE_ACCESSORY_UNKNOWN.png",
+          "OW01_MOBILE_ACCESSORY_PROVIDER_ACCEPTED.png",
+          "OW01_MOBILE_ACCESSORY_HISTORY.png"
+        ],
+        "label": "Native source fixture; real UI settings; fake CallMeBot only",
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "OW14B_BROWSER_DESKTOP_CHOICE_RELOAD_UUID": {
+        "status": "PASS",
+        "actual_Auth_PostgREST_Native": true,
+        "readonly_reference": 500,
+        "independent_formula_point": "39.32",
+        "two_policy_revisions_only": true,
+        "one_active_rule": true,
+        "intent_saved_before_network": true,
+        "reload_same_UUID": true,
+        "changed_body_fenced": true,
+        "dirty_form_preserved": true,
+        "current403_keeps_intent_and_retires_facts": true,
+        "restored_access_recovers_same_UUID": true,
+        "settings_do_not_write_Native_business": true,
+        "no_horizontal_overflow": true,
+        "viewport": 1440,
+        "shots": [
+          "cp6-proof/t3/OW14B_DESKTOP_FORMULA_REPLY_LOST.png",
+          "cp6-proof/t3/OW14B_DESKTOP_ONE_FORMULA_DIRTY_CHOICE_RETAINED.png",
+          "cp6-proof/t3/OW14B_DESKTOP_CURRENT_ACCESS_DENIED_FACTS_RETIRED.png",
+          "cp6-proof/t3/OW14B_DESKTOP_LEGACY_ONE_RULE_RESTORED.png"
+        ],
+        "policy_values": "TEST_FIXTURE_ONLY_NOT_OWNER_OR_ENTENG",
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "OW14B_BROWSER_MOBILE_CHOICE_RELOAD_CURRENT_ACCESS": {
+        "status": "PASS",
+        "actual_Auth_PostgREST_Native": true,
+        "readonly_reference": 500,
+        "independent_formula_point": "39.32",
+        "two_policy_revisions_only": true,
+        "one_active_rule": true,
+        "intent_saved_before_network": true,
+        "reload_same_UUID": true,
+        "changed_body_fenced": true,
+        "dirty_form_preserved": true,
+        "current403_keeps_intent_and_retires_facts": true,
+        "restored_access_recovers_same_UUID": true,
+        "settings_do_not_write_Native_business": true,
+        "no_horizontal_overflow": true,
+        "viewport": 390,
+        "shots": [
+          "cp6-proof/t3/OW14B_MOBILE_FORMULA_REPLY_LOST.png",
+          "cp6-proof/t3/OW14B_MOBILE_ONE_FORMULA_DIRTY_CHOICE_RETAINED.png",
+          "cp6-proof/t3/OW14B_MOBILE_CURRENT_ACCESS_DENIED_FACTS_RETIRED.png",
+          "cp6-proof/t3/OW14B_MOBILE_LEGACY_ONE_RULE_RESTORED.png"
+        ],
+        "policy_values": "TEST_FIXTURE_ONLY_NOT_OWNER_OR_ENTENG",
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      }
+    }
+  },
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "CP6_advisor_boundary_public_catalog_WIB_session_Auth_cleanup_gates": true,
+  "actual_Auth_HTTP_credit": true,
+  "actual_concurrency": true,
+  "new_visual_screenshot_review": false,
+  "new_cross_suite_aggregate_acceptance_credit": 0,
+  "full_factory3600_qualified": false,
+  "full_OW11_acceptance": false,
+  "full_OW12b_acceptance": false,
+  "formal_acceptance": "5/16",
+  "CP7C_accepted": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

@@ -1,0 +1,832 @@
+{
+  "contract": "cp7.complete-original-outcome-retained.v1",
+  "head": "9855395d28c4767490b7e7e24b7cf311a0b88072",
+  "run_id": 40212762870,
+  "job_id": 121227360199,
+  "artifact_id": 12607462199,
+  "bytes": 276582,
+  "artifact_sha256": "20bac2132e2a95af3f36a6463cdd7ad8e49e5e29aa25426715d6ee78dbc201b7",
+  "status": "PASS",
+  "Original_read_complete": true,
+  "all_Original_JSON_files_read": 5,
+  "original_json_sha256": {
+    "CP7_OW12B_FROZEN_CAPSULE.json": "73dc8665644235c8db7f126c9988bc347ebdf832d4f47ab3e987f412198ee468",
+    "T3_BACKUP_RESTORE_DRILL.json": "9b28f09445744e689f1af36f3e9ee5c875357884d6a2dd18a017d537236f5838",
+    "T3_PACKAGE_FILES_INSTALL.json": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+    "ALIGNED_CHAIN.json": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b",
+    "T3_PACKAGE_INSTALL.json": "cf8690421b338bb1d501aa5911a7c05fba134a9a35cbb1b67c8cdb5b68608e7d"
+  },
+  "actual_current_F05_source_prefix_compared": [
+    "source_sha256",
+    "expected_case_count",
+    "required_case_counts",
+    "required_case_ids",
+    "predeclared_case_contract",
+    "predeclared_case_sha256",
+    "target_v2_source_sha256",
+    "frozen_capsule_source_sha256"
+  ],
+  "all_source_fields_and_declaration_match": true,
+  "source_prefix_database_executed": false,
+  "product_paths_byte_identical_between_recorded_refs": true,
+  "counts": {
+    "PASS": 4
+  },
+  "case_facts": {
+    "OW12B_FROZEN_V2_CATALOG22_EXACT_PREUSE": {
+      "status": "PASS",
+      "private11_no_table_RPC_replacement": true,
+      "exact22_composed_inverse": true,
+      "unchanged_current_compiler_and_old_request": true,
+      "producer_dependencies_exact": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-26",
+        "before": "2026-10-26",
+        "after": "2026-10-26"
+      }
+    },
+    "OW12B_FROZEN_V2_ACTUAL_CAPTURE_COMPILER_PARITY_AND_BINDINGS": {
+      "status": "PASS",
+      "actual_Native_capture": true,
+      "entire_current_compiler_JSON_identical": true,
+      "all_target_sets_exact": true,
+      "capsule_tampering_refused": 9,
+      "raw_capture_and_PENDING_honest": true,
+      "immutable_source_and_old_v1_unchanged": true,
+      "reference_only_same_work_identity": true,
+      "reader_no_ERP_write": true,
+      "ordered_calls": [
+        {
+          "phase": "CAPTURE_FROZEN",
+          "name": "cp7_frozen_analysis_v2.source",
+          "millis": 55.975
+        },
+        {
+          "phase": "UNCHANGED_COMPILER_SAME_ARGUMENTS",
+          "name": "cp7_history_bounded.compile",
+          "millis": 13.263
+        },
+        {
+          "phase": "PREPARE_SEALED",
+          "name": "cp7_frozen_analysis_v2.prepare",
+          "millis": 10.046
+        },
+        {
+          "phase": "REFERENCE_ONLY",
+          "name": "cp7_frozen_analysis_v2.source",
+          "millis": 52.414
+        }
+      ],
+      "actual_Auth_HTTP_credit": false,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-26",
+        "before": "2026-10-26",
+        "after": "2026-10-26"
+      }
+    },
+    "OW12B_FROZEN_V2_SYNTHETIC1200X3_CAPTURE_PREPARE_ALL_TARGET_PARITY": {
+      "products": 3600,
+      "commercial_SKUs": 1200,
+      "physical_sizes": 3,
+      "physical_roots": 3600,
+      "movements": 363600,
+      "exactly_three_distinct_physical_sizes_per_commercial_SKU": true,
+      "synthetic_fixture": true,
+      "actual_Native_qualification": true,
+      "official_finance_included": false,
+      "full_factory3600_qualified": false,
+      "production_go": false,
+      "status": "PASS",
+      "actual_products": 3602,
+      "actual_rows": 363601,
+      "actual_1200_commercial_SKUs_three_distinct_physical_sizes": true,
+      "all3600_physical_targets_once": true,
+      "every_compiled_JSON_field_quantity_operand_reason_reference_identical": true,
+      "raw_INCOMPLETE_and_frozen_PENDING_preserved": true,
+      "full_summary_count_matches_full_raw_reference": true,
+      "ordered_calls": [
+        {
+          "phase": "CAPTURE_FROZEN",
+          "name": "cp7_frozen_analysis_v2.source",
+          "millis": 2643.584
+        },
+        {
+          "phase": "UNCHANGED_COMPILER_SAME_ARGUMENTS",
+          "name": "cp7_history_bounded.compile",
+          "millis": 3192.069
+        },
+        {
+          "phase": "PREPARE_SEALED",
+          "name": "cp7_frozen_analysis_v2.prepare",
+          "millis": 3640.75
+        }
+      ],
+      "statement_limit": "8s",
+      "request_or_unit_integrated": false,
+      "caller_latency_or_factory_SLA_qualified": false,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-26",
+        "before": "2026-10-26",
+        "after": "2026-10-26"
+      }
+    },
+    "OW12B_FROZEN_V2_ACTUAL_POST_FROZEN_INPUTS_UNCHANGED": {
+      "status": "PASS",
+      "actual_Native_post": true,
+      "prepare_after_post_uses_only_frozen_operands": true,
+      "entire_prepared_result_identical_after_post": true,
+      "old_capsule_immutable": true,
+      "new_full_stock_reference_changes": true,
+      "work_identity_changes": true,
+      "no_posted_row_or_date_rewrite": true,
+      "reader_no_ERP_write": true,
+      "ordered_calls": [
+        {
+          "phase": "CAPTURE_FROZEN",
+          "name": "cp7_frozen_analysis_v2.source",
+          "millis": 98.352
+        },
+        {
+          "phase": "PREPARE_SEALED",
+          "name": "cp7_frozen_analysis_v2.prepare",
+          "millis": 13.377
+        },
+        {
+          "phase": "PREPARE_AFTER_ACTUAL_POST",
+          "name": "cp7_frozen_analysis_v2.prepare",
+          "millis": 9.386
+        },
+        {
+          "phase": "CAPTURE_AFTER_ACTUAL_POST",
+          "name": "cp7_frozen_analysis_v2.source",
+          "millis": 93.97
+        }
+      ],
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-26",
+        "before": "2026-10-26",
+        "after": "2026-10-26"
+      }
+    }
+  },
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "CP6_advisor_boundary_public_catalog_session_Auth_cleanup_gates": true,
+  "final_attempt_WIB_day_preserved": true,
+  "final_attempt_WIB_day": "2026-10-26",
+  "all_calendar_boundaries_preserved": false,
+  "business_day_first_attempt": {
+    "status": "INCOMPLETE",
+    "cases": {
+      "OW12B_FROZEN_V2_CATALOG22_EXACT_PREUSE": {
+        "status": "PASS",
+        "private11_no_table_RPC_replacement": true,
+        "exact22_composed_inverse": true,
+        "unchanged_current_compiler_and_old_request": true,
+        "producer_dependencies_exact": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-25",
+          "before": "2026-10-25",
+          "after": "2026-10-25"
+        }
+      },
+      "OW12B_FROZEN_V2_ACTUAL_CAPTURE_COMPILER_PARITY_AND_BINDINGS": {
+        "status": "PASS",
+        "actual_Native_capture": true,
+        "entire_current_compiler_JSON_identical": true,
+        "all_target_sets_exact": true,
+        "capsule_tampering_refused": 9,
+        "raw_capture_and_PENDING_honest": true,
+        "immutable_source_and_old_v1_unchanged": true,
+        "reference_only_same_work_identity": true,
+        "reader_no_ERP_write": true,
+        "ordered_calls": [
+          {
+            "phase": "CAPTURE_FROZEN",
+            "name": "cp7_frozen_analysis_v2.source",
+            "millis": 55.938
+          },
+          {
+            "phase": "UNCHANGED_COMPILER_SAME_ARGUMENTS",
+            "name": "cp7_history_bounded.compile",
+            "millis": 13.055
+          },
+          {
+            "phase": "PREPARE_SEALED",
+            "name": "cp7_frozen_analysis_v2.prepare",
+            "millis": 9.876
+          },
+          {
+            "phase": "REFERENCE_ONLY",
+            "name": "cp7_frozen_analysis_v2.source",
+            "millis": 55.305
+          }
+        ],
+        "actual_Auth_HTTP_credit": false,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-25",
+          "before": "2026-10-25",
+          "after": "2026-10-25"
+        }
+      },
+      "OW12B_FROZEN_V2_SYNTHETIC1200X3_CAPTURE_PREPARE_ALL_TARGET_PARITY": {
+        "products": 3600,
+        "commercial_SKUs": 1200,
+        "physical_sizes": 3,
+        "physical_roots": 3600,
+        "movements": 363600,
+        "exactly_three_distinct_physical_sizes_per_commercial_SKU": true,
+        "synthetic_fixture": true,
+        "actual_Native_qualification": true,
+        "official_finance_included": false,
+        "full_factory3600_qualified": false,
+        "production_go": false,
+        "status": "PASS",
+        "actual_products": 3602,
+        "actual_rows": 363601,
+        "actual_1200_commercial_SKUs_three_distinct_physical_sizes": true,
+        "all3600_physical_targets_once": true,
+        "every_compiled_JSON_field_quantity_operand_reason_reference_identical": true,
+        "raw_INCOMPLETE_and_frozen_PENDING_preserved": true,
+        "full_summary_count_matches_full_raw_reference": true,
+        "ordered_calls": [
+          {
+            "phase": "CAPTURE_FROZEN",
+            "name": "cp7_frozen_analysis_v2.source",
+            "millis": 2650.561
+          },
+          {
+            "phase": "UNCHANGED_COMPILER_SAME_ARGUMENTS",
+            "name": "cp7_history_bounded.compile",
+            "millis": 3171.02
+          },
+          {
+            "phase": "PREPARE_SEALED",
+            "name": "cp7_frozen_analysis_v2.prepare",
+            "millis": 3502.4
+          }
+        ],
+        "statement_limit": "8s",
+        "request_or_unit_integrated": false,
+        "caller_latency_or_factory_SLA_qualified": false,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-25",
+          "before": "2026-10-25",
+          "after": "2026-10-25"
+        }
+      },
+      "OW12B_FROZEN_V2_ACTUAL_POST_FROZEN_INPUTS_UNCHANGED": {
+        "status": "INCOMPLETE",
+        "actual_Native_post": true,
+        "prepare_after_post_uses_only_frozen_operands": true,
+        "entire_prepared_result_identical_after_post": true,
+        "old_capsule_immutable": true,
+        "new_full_stock_reference_changes": true,
+        "work_identity_changes": true,
+        "no_posted_row_or_date_rewrite": true,
+        "reader_no_ERP_write": true,
+        "ordered_calls": [
+          {
+            "phase": "CAPTURE_FROZEN",
+            "name": "cp7_frozen_analysis_v2.source",
+            "millis": 92.251
+          },
+          {
+            "phase": "PREPARE_SEALED",
+            "name": "cp7_frozen_analysis_v2.prepare",
+            "millis": 13.397
+          },
+          {
+            "phase": "PREPARE_AFTER_ACTUAL_POST",
+            "name": "cp7_frozen_analysis_v2.prepare",
+            "millis": 9.616
+          },
+          {
+            "phase": "CAPTURE_AFTER_ACTUAL_POST",
+            "name": "cp7_frozen_analysis_v2.source",
+            "millis": 89.264
+          }
+        ],
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-25",
+          "before": "2026-10-25",
+          "after": "2026-10-26"
+        },
+        "business_day_rollover": true,
+        "status_before_rollover": "PASS",
+        "error": "AUDITOR_BUSINESS_DAY_ROLLOVER"
+      }
+    },
+    "production_go": false,
+    "independent_acceptance": false,
+    "runner": "cp6_auditor_runner.strict_group",
+    "runtime_before": {
+      "stage": "cp7.bounded-analysis-stage.v1",
+      "private_functions": 13,
+      "public_rpcs": 1,
+      "new_tables": 0,
+      "existing_function_replacements": 7,
+      "Native_ERP_DML": false,
+      "real_Native_job_rows": true,
+      "raw_native_status_overridden": false,
+      "actual_checked_SAVE2000_qualified": false,
+      "full_A_chain_qualified": false,
+      "production_go": false
+    },
+    "catalog_observation_start": {
+      "stats": [
+        {
+          "relname": "pg_namespace",
+          "n_live_tup": 114,
+          "last_analyze": null,
+          "last_autovacuum": "2026-10-25T16:45:17.707826+00:00",
+          "autovacuum_count": 1,
+          "last_autoanalyze": "2026-10-25T16:45:17.70819+00:00",
+          "autoanalyze_count": 1,
+          "n_mod_since_analyze": 0
+        },
+        {
+          "relname": "pg_proc",
+          "n_live_tup": 5634,
+          "last_analyze": null,
+          "last_autovacuum": "2026-10-25T16:45:17.597717+00:00",
+          "autovacuum_count": 2,
+          "last_autoanalyze": "2026-10-25T16:45:17.641044+00:00",
+          "autoanalyze_count": 2,
+          "n_mod_since_analyze": 0
+        }
+      ],
+      "public_state_plan": [
+        "Result",
+        "Aggregate",
+        "Sort",
+        "Hash Join",
+        "Seq Scan:pg_class",
+        "Hash",
+        "Index Scan:pg_namespace",
+        "Sort",
+        "Function Scan",
+        "Sort",
+        "Function Scan",
+        "Sort",
+        "Function Scan",
+        "Sort",
+        "Function Scan",
+        "Aggregate",
+        "Sort",
+        "Nested Loop",
+        "Index Scan:pg_namespace",
+        "Bitmap Heap Scan:pg_proc",
+        "Bitmap Index Scan",
+        "Sort",
+        "Function Scan",
+        "Sort",
+        "Function Scan",
+        "Sort",
+        "Function Scan",
+        "Sort",
+        "Function Scan"
+      ]
+    },
+    "planned_case_ids": [
+      "OW12B_FROZEN_V2_CATALOG22_EXACT_PREUSE",
+      "OW12B_FROZEN_V2_ACTUAL_CAPTURE_COMPILER_PARITY_AND_BINDINGS",
+      "OW12B_FROZEN_V2_SYNTHETIC1200X3_CAPTURE_PREPARE_ALL_TARGET_PARITY",
+      "OW12B_FROZEN_V2_ACTUAL_POST_FROZEN_INPUTS_UNCHANGED"
+    ],
+    "session_at_start": {
+      "advisory": [
+        [
+          "36667162",
+          "2014860829",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "166583883",
+          "2669507776",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "297075727",
+          "161456482",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "311295412",
+          "1067755219",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "349455814",
+          "1037345496",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "524727427",
+          "334673770",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "693903571",
+          "2866437828",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "870265598",
+          "2391049911",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "938103959",
+          "442513174",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "1261625026",
+          "2905790439",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "1273295348",
+          "3338780787",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "1356899435",
+          "852029277",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "1366875395",
+          "841090236",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "1367901004",
+          "443200556",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "1659939102",
+          "2638083243",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "1706224961",
+          "574969052",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "1805668485",
+          "392306379",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "1849364187",
+          "2816188665",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "2044838326",
+          "2551635207",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "2074150533",
+          "2301418854",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "2121098030",
+          "4279459386",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "2136949383",
+          "2737685784",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "2362748437",
+          "1193658865",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "2416927398",
+          "1878906677",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "2460545652",
+          "3117448441",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "2640042237",
+          "2188490658",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "2710724889",
+          "349601549",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "2714457412",
+          "1962886268",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "2734145821",
+          "2415067759",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "2852939915",
+          "2555118205",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "2881721593",
+          "3219662216",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "3068959875",
+          "835027079",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "3072845738",
+          "1574063908",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "3210233209",
+          "3470476653",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "3428095272",
+          "2505725820",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "3568397971",
+          "514652479",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "3613867789",
+          "3350003211",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "3788117337",
+          "502267553",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "3802558885",
+          "1165751581",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "3928876196",
+          "2066549782",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "3946174005",
+          "3832170832",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "4056783207",
+          "1845058424",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "4146714525",
+          "2979339049",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "4229748276",
+          "2825527482",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "4269567997",
+          "896485724",
+          1,
+          "ExclusiveLock"
+        ],
+        [
+          "4292245024",
+          "4194829311",
+          1,
+          "ExclusiveLock"
+        ]
+      ],
+      "sessions": []
+    },
+    "runtime_after": {
+      "stage": "cp7.bounded-analysis-stage.v1",
+      "private_functions": 13,
+      "public_rpcs": 1,
+      "new_tables": 0,
+      "existing_function_replacements": 7,
+      "Native_ERP_DML": false,
+      "real_Native_job_rows": true,
+      "raw_native_status_overridden": false,
+      "actual_checked_SAVE2000_qualified": false,
+      "full_A_chain_qualified": false,
+      "production_go": false
+    },
+    "complete_boundary_restored": true,
+    "catalog_observation_end": {
+      "stats": [
+        {
+          "relname": "pg_namespace",
+          "n_live_tup": 114,
+          "last_analyze": null,
+          "last_autovacuum": "2026-10-25T17:04:17.868786+00:00",
+          "autovacuum_count": 2,
+          "last_autoanalyze": "2026-10-25T16:45:17.70819+00:00",
+          "autoanalyze_count": 1,
+          "n_mod_since_analyze": 0
+        },
+        {
+          "relname": "pg_proc",
+          "n_live_tup": 4223,
+          "last_analyze": null,
+          "last_autovacuum": "2026-10-25T17:04:17.868153+00:00",
+          "autovacuum_count": 3,
+          "last_autoanalyze": "2026-10-25T16:45:17.641044+00:00",
+          "autoanalyze_count": 2,
+          "n_mod_since_analyze": 0
+        }
+      ],
+      "public_state_plan": [
+        "Result",
+        "Aggregate",
+        "Sort",
+        "Hash Join",
+        "Seq Scan:pg_class",
+        "Hash",
+        "Index Scan:pg_namespace",
+        "Sort",
+        "Function Scan",
+        "Sort",
+        "Function Scan",
+        "Sort",
+        "Function Scan",
+        "Sort",
+        "Function Scan",
+        "Aggregate",
+        "Sort",
+        "Nested Loop",
+        "Index Scan:pg_namespace",
+        "Bitmap Heap Scan:pg_proc",
+        "Bitmap Index Scan",
+        "Sort",
+        "Function Scan",
+        "Sort",
+        "Function Scan",
+        "Sort",
+        "Function Scan",
+        "Sort",
+        "Function Scan"
+      ]
+    },
+    "final": {
+      "OW12B_FROZEN_V2_CATALOG22_EXACT_PREUSE": "PASS",
+      "OW12B_FROZEN_V2_ACTUAL_CAPTURE_COMPILER_PARITY_AND_BINDINGS": "PASS",
+      "OW12B_FROZEN_V2_SYNTHETIC1200X3_CAPTURE_PREPARE_ALL_TARGET_PARITY": "PASS",
+      "OW12B_FROZEN_V2_ACTUAL_POST_FROZEN_INPUTS_UNCHANGED": "INCOMPLETE"
+    },
+    "counts": {
+      "PASS": 3,
+      "INCOMPLETE": 1
+    },
+    "missing": []
+  },
+  "existing_harness_rollover_retry": true,
+  "first_local_verifier_refusal": "Fixed single-day assumptions encountered retained first rollover attempt; verify all first facts and failure explicitly, final four boundaries separately.",
+  "manual_unchanged_rerun": false,
+  "actual_Auth_HTTP_credit": false,
+  "new_cross_suite_aggregate_acceptance_credit": 0,
+  "full_factory3600_qualified": false,
+  "full_OW11_acceptance": false,
+  "full_OW12b_acceptance": false,
+  "formal_acceptance": "5/16",
+  "CP7C_accepted": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

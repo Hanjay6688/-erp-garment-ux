@@ -1,0 +1,41 @@
+{
+  "contract": "cp7.frozen-work-client-preparation.v1",
+  "status": "PASS_LOCAL_CLIENT_PREPARATION_ONLY",
+  "base_head": "513175c6d203f91c43cb161e3cf718afc214acde",
+  "tests": {
+    "new_reader": 21,
+    "new_save": 34,
+    "retained": 58,
+    "total": 113,
+    "passed": 113
+  },
+  "typescript": "PASS",
+  "source_sha256": {
+    "scripts/cp7_frozen_analysis_work_v2/client/nativeFrozenWork.ts": "0967c63d08819b3c37bd9742b95d9dbe56e9d18d05ee299cb735842375f4c15b",
+    "scripts/cp7_frozen_analysis_work_v2/client/nativeFrozenWork.test.ts": "c6259cd7901f750bc47fd4d5c17aeaf1a5e2407eee726906a5176c46ddda96b0",
+    "scripts/cp7_frozen_analysis_work_v2/client/nativeFrozenScheduleSave.test.ts": "2aa660ee18ca53d9b240daef1e4c157dc4049c0e865b7a044097c07af7430844",
+    "scripts/cp7_frozen_analysis_work_v2/client/tsconfig.json": "24253b5a09dc97d3fe2ad6d9c0ed64ea7875978259568ce39a654e193ed40fe6",
+    "scripts/cp7_ow12b_frozen_work_recovery_browser.mjs": "49edd486426ca2aadb9cde3f77f828583d4f893a1d12f061918bbde3261d2e04",
+    ".github/workflows/cp7-ow12b-frozen-work-recovery-browser.yml": "f65ee57a8c0869f19b4c979faf150f6886b0d396612b98dff66ebe008ea24dd9"
+  },
+  "test_log_sha256": "056a39c3b269e3e51cb2960c72ef57c38397688cd319dd54803205148d2c4ab7",
+  "parser_first_failures_retained": [
+    "Microsecond mutation replaced a value absent from fixture; assertion exposed a no-op.",
+    "Second mutation used the fixture existing value; explicit not-equal assertion refused. Corrected test increments actual microsecond component by one and asserts difference before rejection.",
+    "First TypeScript check found missing ScheduleConfig type import; imported existing type."
+  ],
+  "save_tests_first_attempt": "113/113 PASS; TypeScript PASS",
+  "history_PENDING_not_promoted": true,
+  "UNKNOWN_physical_work_save_refused": true,
+  "old_method_and_actor_recovery_isolated": true,
+  "exact_UUID_payload_microseconds_retained": true,
+  "exclusive_lock_entire_send_and_durable_reread": true,
+  "controlled_local_lock_manager": true,
+  "real_browser_status": "SOURCE_SERVING_ONLY_LOCAL; CI_PREPARED",
+  "actual_browser_locks_qualified": false,
+  "actual_Native_schedule_save_qualified": false,
+  "actual_Auth_HTTP_credit": false,
+  "UI_or_default_adopted": false,
+  "SQL_changed": false,
+  "production_go": false
+}
