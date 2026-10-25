@@ -1,0 +1,121 @@
+{
+  "contract": "cp7.original-runtime-receipt.v1",
+  "head": "8ab4b7e1a1d2a623d5557502ae581f52caedee39",
+  "run_id": 40127943416,
+  "job_id": 120973286302,
+  "artifact_id": 12574265268,
+  "bytes": 44955,
+  "artifact_sha256": "337baec60a45fb0d2fc36bcbb684ce5a1661800342b7657937b0ff7d118ba87c",
+  "Original_read_complete": true,
+  "exact_head_and_current_source_hashes_match": true,
+  "verified_source_paths": [
+    "scripts/cp7_model_scoped_evaluation/MANIFEST.json",
+    "scripts/cp7_model_scoped_evaluation/__init__.py",
+    "scripts/cp7_model_scoped_evaluation/runtime.sql",
+    "scripts/cp7_model_scoped_dataset/MANIFEST.json",
+    "scripts/cp7_model_scoped_dataset/__init__.py",
+    "scripts/cp7_model_scoped_dataset/binding.sql",
+    "scripts/cp7_model_scoped_dataset/dataset.sql",
+    "scripts/cp7_model_scoped_dataset/render.py",
+    "scripts/cp7_ow11_model_scoped_evaluation_browser_cases.py",
+    "scripts/cp7_ow11_model_scoped_evaluation_cases.py",
+    "scripts/cp7_ow11_model_scoped_dataset_cases.py",
+    "scripts/cp7_ow11_model_scoped_evaluation_browser.mjs",
+    "scripts/cp7_ow11_model_scoped_evaluation_browser_probe.py",
+    "scripts/cp7_ow11_model_scoped_evaluation_browser_fixture.py",
+    "src/nativeScopedModel.ts",
+    "src/NativeScopedModelPanel.tsx",
+    "src/NativeAnalysisPanel.tsx",
+    "src/NativeStagedAnalysisView.tsx",
+    "src/nativeAnalysisPages.ts"
+  ],
+  "status": "PASS",
+  "counts": {
+    "PASS": 2
+  },
+  "cases": {
+    "OW11_SCOPED_MODEL_BROWSER_MOBILE_HISTORY_MODEL_EXACT_RECOVERY": {
+      "status": "PASS",
+      "actual_Auth_PostgREST_browser": true,
+      "bounded_page_target_entry": true,
+      "no_history_or_model_capture_on_mount": true,
+      "actual_scoped_history_and_retained_model": true,
+      "actual_history_and_model_lost_reply_reload_exact_recovery": true,
+      "current_posted_sale_archives_immutable_assessment": true,
+      "fresh_history_gross24_available76": false,
+      "no_legacy_global_history_or_v2_model_capture": true,
+      "current403_hides_model_and_staged_results": true,
+      "no_business_write_by_history_or_model": true,
+      "no_horizontal_overflow": true,
+      "positive_model_target_qualified": false,
+      "forecast_applied": false,
+      "full_OW11_acceptance": false,
+      "business_day": {
+        "planned": "2026-10-25",
+        "before": "2026-10-25",
+        "after": "2026-10-25"
+      }
+    },
+    "OW11_SCOPED_MODEL_BROWSER_DESKTOP_BOUNDED_ENTRY_SOURCE_ACCESS": {
+      "status": "PASS",
+      "actual_Auth_PostgREST_browser": true,
+      "bounded_page_target_entry": true,
+      "no_history_or_model_capture_on_mount": true,
+      "actual_scoped_history_and_retained_model": true,
+      "actual_history_and_model_lost_reply_reload_exact_recovery": false,
+      "current_posted_sale_archives_immutable_assessment": true,
+      "fresh_history_gross24_available76": true,
+      "no_legacy_global_history_or_v2_model_capture": true,
+      "current403_hides_model_and_staged_results": true,
+      "no_business_write_by_history_or_model": true,
+      "no_horizontal_overflow": true,
+      "positive_model_target_qualified": false,
+      "forecast_applied": false,
+      "full_OW11_acceptance": false,
+      "business_day": {
+        "planned": "2026-10-25",
+        "before": "2026-10-25",
+        "after": "2026-10-25"
+      }
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "first_failures_retained": true,
+  "actual_Auth_HTTP_credit": true,
+  "actual_concurrency": false,
+  "model_target_caller_integrated": false,
+  "actual_historical_positive_winner": false,
+  "after_use_restore_qualified": false,
+  "full_OW11_acceptance": false,
+  "formal_acceptance": "5/16",
+  "CP7C_accepted": false,
+  "independent_acceptance": false,
+  "production_go": false,
+  "auth_counts": {
+    "before": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "after": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "restored": true
+  },
+  "database_remaining": 0,
+  "session_leaks": [],
+  "qualification": "TWO_ACTUAL_AUTH_BROWSER_TARGET_HISTORY_MODEL_RECOVERY_SOURCE_ACCESS",
+  "page_entry_scope": "EXISTING_PAGED_STAGED_ANALYSIS; NO_FULL3600_OR_BOUNDED_RPC_QUALIFICATION"
+}

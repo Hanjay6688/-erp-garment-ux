@@ -3616,3 +3616,81 @@ policy write. Corrected Browser2 still requires a new complete Original.
 ### A · 25 Oktober2026 WIB · isolated scoped client integration from B8ab4b7e1
 
 True merge only in astra-a/d17-14-scoped-model-integration-prepared-20261025; existing Native20 execution, five followups and history25 preparation are unchanged. Exact B8ab product/client/qualifier blobs retained. Frozen cp7_f05_analysis_probe.py stays d3135a9c; exact B8ab F05 is separately retained as cp7_b_scoped_model_client_f05_candidate.py and is not the A execution entrypoint. Current B dataset4 and scoped transport7 actual PASS are source-bound to3a88b488; first routing package/browser failures retained. B8ab browser/selection results still require actual intake. A will admit the four explicit client RPC ownership entries, preserve strict parsing/recovery, and prepare the optional full current scoped-model composer; generated database types require an actual installed schema capture. No default installer, policy, forecast, main or hosted action. production_go=false; formal5/16.
+## 135. B25 Oktober2026 WIB — scoped model Transport7 Original PASS
+
+53bc7b68/run40126109440/job120967759134: complete Original12574350234,
+92978 bytes, SHA256 ee3ff43d44927f3775540b222c3d47050400bc44319d8aa04b2a0bfee488b93f.
+Exact1catalog+4races+2Auth HTTP PASS. Exact head test pins and current scoped
+runtime SQL pins match. Case IDs/counts, all package gates, CP6/advisor, full
+Native boundaries, session/Auth restoration and disposable-copy removal verified.
+Repeated catalog earns no duplicate coverage. First routing failure remains.
+
+Actual two-backend same-UUID capture/replay produces one immutable row. Current
+access is rechecked after envelope wait and committed replay request-lock wait.
+Actual SALE during envelope wait rejects the old history; fresh scoped history
+permits a new assessment. Real Auth/PostgREST binds method/actor/UUID/payload,
+rejects foreign/anonymous/revoked old-token calls and preserves old archives.
+No positive model target, browser, after-use restore or independent acceptance
+follows from Transport7. Formal5/16 and production_go=false remain.
+
+## 136. B25 Oktober2026 WIB — captured physical binding candidate for scoped targets
+
+Private two-function binding derives a target's complete non-stock subset from
+captured global baseline facts, preserving sales/returns and reversal chains.
+It binds a complete server stock-row digest at that exact capture clock to the
+same pinned scoped-history identity. A stock-omitted global source remains raw
+INCOMPLETE; no empty-stock substitution or fabricated COMPLETE scoped source.
+All global non-stock caps/ambiguity/posting checks remain; complete raw stock
+must independently match the supplied digest. No default caller/replacement.
+
+Local actual SQL + existing scoped identity7PASS on synthetic facts/digests:
+exact subset parity, unrelated/own change, raw omission, stock clock/digest
+mismatch, global non-stock overflow and private ACL. New isolated Native4
+candidate covers exact22 inverse, real draft/post/return/inverse, dense2000
+with202000 movements and old/new system-clock binding. Closed declaration,
+source pins and F05 admission checked; actual Native Original pending. This is
+preparation for versioned source/provenance/cache integration, still open.
+
+## 137. B25 Oktober2026 WIB — scoped dataset Native4 and corrected Browser2 PASS
+
+3a88b488/run40126610556/job120969308831: Original12574000715,159357 bytes,
+SHA256 1aa0b3d10cd847822d5e7987d649b71043bea2dfaa3cb8498919e8035b968bb5.
+Native4PASS after the test-only private-session repair: exact22 inverse,
+actual capture/policy clocks, SALE/current access and dense2000/202000 private
+dataset233.932ms. UNKNOWN and actual known-at clocks retained; no invented winner.
+
+8ab4b7e1/run40127943416/job120973286302: Original12574265268,44955 bytes,
+SHA256 337baec60a45fb0d2fc36bcbb684ce5a1661800342b7657937b0ff7d118ba87c.
+Actual Auth Browser2PASS after adding model entry to unreviewed targets. Mobile
+commits history and evaluation with separately lost replies, reloads and replays
+exact method/actor/UUID/payload with one immutable row each. Desktop fresh history
+after SALE has gross24/available76 and new evaluation/history binding. Both preserve
+old archives, hide model/parent results on current403, never write business data
+through history/model capture, and fit the viewport. Existing paged staged entry
+is exercised; this is not full3600 or the separately bounded RPC qualification.
+
+For both Originals, exact-head and current source hashes, declared counts/IDs,
+all package gates, CP6/advisor and required boundaries/cleanup were checked.
+First failures remain. Model target integration, positive historical model,
+after-use restore and independent acceptance remain open. Formal5/16 unchanged.
+
+## 138. B25 Oktober2026 WIB — Native4 binding/selection dan putusnya lingkungan
+
+Binding7b70bb2e/run40128497581/job120974960124: empat case PASS, complete JSON
+12574910914/158852 bytes/SHA c402171c72f249f5f32a84ba4a0ddc3d8552579286cb18af0c28fc03b744eb90.
+Exact-head/current enam pin, package/CP6/advisor/boundary/cleanup sudah diverifikasi.
+Selection8ab4b7e1/run40127943408/job120973286538: empat case PASS; artifact12573938163,
+158554 bytes/SHA 2fb4da1ad59dc05b76e990c066e7969efc8ca9827d15bda43374c98f05b3de57.
+Semua case dibaca; pemeriksaan akhir seluruh pin/package tertahan karena runtime putus.
+Kedua job success, database disposable dihapus. Tidak mengulang suite.
+
+Batch source-v2 lokal: stock4, nonstock/physical7, full source/warehouse7 PASS
+(actual SQL dengan fixture sintetis; bukan Native/Auth/concurrency). Draft Native4 belum
+lengkap: deklarasi belum dibuat, belum preflight, belum dipublikasikan. Lingkungan dinyatakan
+unavailable; percobaan baca terakhir gagal. Catatan pemulihan dan daftar draft/hash/perintah
+ada di docs/cp7/handoff/ERP_B_SOURCE_V2_INTERRUPTED_20261025.md.
+Commit ini hanya dokumentasi/bukti; kode lokal belum dapat diselamatkan lewat read/diff.
+Target consumer/provenance/cache/hooks integrasi masih terbuka; formal5/16, production_go=false.
+
+
+A25 Oktober: B physical-binding source merged into isolated preparation only. Frozen F05 remains byte-exact; B8063 candidate retained separately at scripts/cp7_b_physical_binding_f05_candidate.py. No full-current runtime or target caller credit.

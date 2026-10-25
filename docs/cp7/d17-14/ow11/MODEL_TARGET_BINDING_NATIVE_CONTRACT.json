@@ -1,0 +1,67 @@
+{
+  "contract": "cp7.ow11.model-target-physical-binding-native.v1",
+  "required_case_ids": {
+    "native": [
+      "OW11_MODEL_TARGET_BINDING_CATALOG22_COMPOSED_INVERSE",
+      "OW11_MODEL_TARGET_BINDING_ACTUAL_DRAFT_POST_RETURN_INVERSE",
+      "OW11_MODEL_TARGET_BINDING_DENSE2000_OMITTED_GLOBAL_STOCK",
+      "OW11_MODEL_TARGET_BINDING_ACTUAL_SYSTEM_CLOCK_SOURCE_CHANGE"
+    ]
+  },
+  "required_case_counts": {
+    "native": 4
+  },
+  "expected_case_count": 4,
+  "public_rpcs": [
+    "erp_cp7_get_alerts_v1",
+    "erp_cp7_get_wa_settings_v1",
+    "erp_cp7_save_wa_settings_v1",
+    "erp_cp7_set_wa_key_v1",
+    "erp_cp7_send_wa_test_v1",
+    "erp_cp7_resolve_wa_dispatch_v1",
+    "erp_cp7_get_fg_reorder_v1",
+    "erp_cp7_refresh_fg_reorder_v1",
+    "erp_cp7_save_fg_reorder_manual_v1",
+    "erp_cp7_save_stock_formula_settings_v1",
+    "erp_cp7_get_material_reorder_v1",
+    "erp_cp7_refresh_material_reorder_v1",
+    "erp_cp7_save_material_reorder_v1",
+    "erp_cp7_request_staged_analysis_v1",
+    "erp_cp7_get_staged_analysis_v1",
+    "erp_cp7_step_staged_analysis_v1",
+    "erp_cp7_get_planning_profiles_v1",
+    "erp_cp7_save_planning_profile_v1",
+    "erp_cp7_capture_baseline_v1",
+    "erp_cp7_save_cutting_suggestion_v1",
+    "erp_cp7_get_staged_production_schedule_v1",
+    "erp_cp7_save_staged_production_schedule_v1",
+    "erp_cp7_request_bounded_staged_analysis_v1"
+  ],
+  "schedules": [
+    "erp-wa-collect",
+    "erp-wa-send",
+    "erp-wa-analysis"
+  ],
+  "private_functions": 2,
+  "new_public_rpcs": 0,
+  "new_tables": 0,
+  "existing_replacements": 0,
+  "binding_source_sha256": {
+    "cp7_model_target_binding/MANIFEST.json": "26c45932b390f8d36f13ed5341e6cce5db1a5b50ab910cca286a66b447dc2438",
+    "cp7_model_target_binding/__init__.py": "1d95f4fa292656856d5f76112712cd90e44936babd61c3553d1a08c22e2906d7",
+    "cp7_model_target_binding/binding.sql": "c9c4624bb6362a483f9c9cf9e7c46f9141aa660b6cb8402d25188410d0b193aa",
+    "cp7_ow11_model_target_binding_cases.py": "c874b43bfc745fbba21125d5d21e6bc64d28e409bae7f2b5124336de60c6b819",
+    "cp7_ow11_model_target_binding_probe.py": "4669c98fc8fd7583c0f29bfb36e037219d2e937928361e94514134660b901138",
+    "cp7_ow11_model_history_scope_cases.py": "afbb974665a2beb0abdedd60b74b21dcf9e350c6309736de1546180d5526d511"
+  },
+  "scope": "PRIVATE_GLOBAL_TO_SCOPED_CAPTURED_PHYSICAL_SOURCE_BINDING",
+  "actual_Auth_HTTP_credit": false,
+  "actual_concurrency": false,
+  "model_target_caller_integrated": false,
+  "after_use_restore_qualified": false,
+  "full_OW11_acceptance": false,
+  "formal_acceptance": "5/16",
+  "CP7C_accepted": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

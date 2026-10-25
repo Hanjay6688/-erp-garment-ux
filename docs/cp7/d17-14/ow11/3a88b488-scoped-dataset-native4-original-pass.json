@@ -1,0 +1,149 @@
+{
+  "contract": "cp7.original-runtime-receipt.v1",
+  "head": "3a88b4887f8e443b683c023b350fee5f1d4ba715",
+  "run_id": 40126610556,
+  "job_id": 120969308831,
+  "artifact_id": 12574000715,
+  "bytes": 159357,
+  "artifact_sha256": "1aa0b3d10cd847822d5e7987d649b71043bea2dfaa3cb8498919e8035b968bb5",
+  "Original_read_complete": true,
+  "exact_head_and_current_source_hashes_match": true,
+  "verified_source_paths": [
+    "scripts/cp7_model_scoped_dataset/MANIFEST.json",
+    "scripts/cp7_model_scoped_dataset/__init__.py",
+    "scripts/cp7_model_scoped_dataset/binding.sql",
+    "scripts/cp7_model_scoped_dataset/dataset.sql",
+    "scripts/cp7_model_scoped_dataset/render.py",
+    "scripts/cp7_model_history_runtime/MANIFEST.json",
+    "scripts/cp7_model_history_runtime/__init__.py",
+    "scripts/cp7_model_history_runtime/runtime.sql",
+    "scripts/cp7_model_history_scope/MANIFEST.json",
+    "scripts/cp7_model_history_scope/__init__.py",
+    "scripts/cp7_model_history_scope/capture.sql",
+    "scripts/cp7_model_history_scope/identity.sql",
+    "scripts/cp7_model_history_scope/render.py",
+    "scripts/cp7_model_history_scope/scope.sql",
+    "scripts/cp7_model_evaluation_v2_stage/MANIFEST.json",
+    "scripts/cp7_model_evaluation_v2_stage/__init__.py",
+    "scripts/cp7_model_evaluation_v2_stage/runtime.sql",
+    "scripts/cp7_model_registry_adapter/MANIFEST.json",
+    "scripts/cp7_model_registry_adapter/__init__.py",
+    "scripts/cp7_model_registry_adapter/adapter.sql"
+  ],
+  "status": "PASS",
+  "counts": {
+    "PASS": 4
+  },
+  "cases": {
+    "OW11_MODEL_SCOPED_DATASET_CATALOG22_COMPOSED_INVERSE": {
+      "status": "PASS",
+      "exact_catalog22_composed_inverse": true,
+      "private3_RPC0_table0_replacement0": true,
+      "partial_inverse_atomic": true,
+      "history_parent_cannot_be_removed": true,
+      "source_sha256": {
+        "MANIFEST.json": "a8173b1615cf12c7f53fac7d66d9be09a6d8c4b68c6db048130eba9a3e24afda",
+        "__init__.py": "40a4ded256a30daecaf69a9fef5deeac3f96144a56ddddf9458310146378dbe0",
+        "binding.sql": "8a65561d962c503fd79bd1f90b90698b2dbc8e989ec9c7d8490f77941c395d8e",
+        "dataset.sql": "c4fb9b15306583b2c9d1dca87855eee97a33266dc0e47d5e9ef3a460cd349a83",
+        "render.py": "788521c7671fc3b61bda09f04af07ed48549dd4d795b4fcb4828dc6925eb8bfd"
+      },
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-25",
+        "before": "2026-10-25",
+        "after": "2026-10-25"
+      }
+    },
+    "OW11_MODEL_SCOPED_DATASET_ACTUAL_CAPTURE_AND_POLICY_CLOCK": {
+      "status": "PASS",
+      "actual_Native_capture_times": true,
+      "unknown_never_zero": true,
+      "unchanged_snapshots_do_not_create_revisions": true,
+      "policy_cannot_approve_older_history": true,
+      "fresh_capture_uses_actual_explicit_test_policy": true,
+      "no_model_run_or_forecast": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-25",
+        "before": "2026-10-25",
+        "after": "2026-10-25"
+      }
+    },
+    "OW11_MODEL_SCOPED_DATASET_ACTUAL_POST_REVISION_AND_ACCESS": {
+      "status": "PASS",
+      "actual_Native_sale_retires_old_source": true,
+      "gross24_available76": true,
+      "unknown_training_not_invented_from_sales": true,
+      "unchanged_unknown_meaning_not_new_revision": true,
+      "current_four_permission_revocation_and_foreign_actor_denied": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-25",
+        "before": "2026-10-25",
+        "after": "2026-10-25"
+      }
+    },
+    "OW11_MODEL_SCOPED_DATASET_DENSE2000_SINGLE_TARGET": {
+      "status": "PASS",
+      "label": "SYNTHETIC_VOLUME_ACTUAL_SCOPED_CAPTURE_AND_PRIVATE_DATASET",
+      "products": 2000,
+      "movements": 202000,
+      "millis": 233.932,
+      "wall_limit_ms": 8000,
+      "original_global_bound_unchanged": true,
+      "factory_SLA_claim": false,
+      "model_evaluation_runtime_integrated": false,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-25",
+        "before": "2026-10-25",
+        "after": "2026-10-25"
+      }
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "first_failures_retained": true,
+  "actual_Auth_HTTP_credit": false,
+  "actual_concurrency": false,
+  "model_target_caller_integrated": false,
+  "actual_historical_positive_winner": false,
+  "after_use_restore_qualified": false,
+  "full_OW11_acceptance": false,
+  "formal_acceptance": "5/16",
+  "CP7C_accepted": false,
+  "independent_acceptance": false,
+  "production_go": false
+}
