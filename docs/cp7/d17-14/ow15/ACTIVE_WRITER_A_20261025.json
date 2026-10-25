@@ -1,5 +1,5 @@
 {
-  "recorded_at_utc": "2026-10-25T08:49:53.030248+00:00",
+  "recorded_at_utc": "2026-10-25T09:14:48.773806+00:00",
   "role": "A finance writer/integrator replacing Claude",
   "slogan": [
     "VENI. VIDI. VICI. ERP. \u2014 I CONQUERED ERP.",
@@ -158,6 +158,23 @@
       "exact_head_binder": "scripts/current-scoped-model-used-restore-qualification/bind_source.py",
       "next": "Intake actual running restore8; no runtime credit before complete Original",
       "required_native_head": "ffa0b63dbb6f0b7888eeaec59d0f39347cd58e0e"
+    },
+    {
+      "scope": "versioned full factory1200x3 official finance1",
+      "branch": "astra-a/d17-14-versioned-factory-finance-prepared-20261025",
+      "head": "935a0b923fcfc56f31e108f2177b1e13becc11e4",
+      "tree": "5ffd9038b04c5df4e4fca62db104da2a0d78945c",
+      "SOURCE_bound": false,
+      "runtime_qualified": false,
+      "exact_date_corrected_fixture_head": "daab807531816353e499d7842897320ce42e8949",
+      "retained_assertions": 63,
+      "negative_source_guards": 3,
+      "python_files": 7,
+      "bash_steps": 39,
+      "actual_Native36_and_versioned_cron1_required": true,
+      "first_failed_factory_Original_required": true,
+      "original_latency_limits_retained": true,
+      "next": "Integrate only after current full qualification and relevant capacity source change; do not rerun unchanged failed baseline"
     }
   ],
   "first_failures_preserved": [
@@ -924,12 +941,17 @@
       "PASS": 1,
       "INCOMPLETE": 1
     },
-    "receipt": "B-scale-profile-first-actual-b11781b3.json",
+    "receipt": "B-scale-staged-corrected-actual-c7f06b85.json",
     "failure": "Diagnostic used Native-run table instead of staged archive; no row produced NoneType error",
     "current_B_head": "c7f06b855512e0c8d450522c36e84f4cab570a2a",
     "current_B_run": 40177861698,
-    "current_status": "RUNNING_UNQUALIFIED",
+    "current_status": "ACTUAL_PASS2",
     "merged_into_A": false,
-    "factory_capacity_or_SLA": false
+    "factory_capacity_or_SLA": false,
+    "current_artifact": 12593480203,
+    "current_request_ms": 7315.921,
+    "prior_failure_receipt": "B-scale-profile-first-actual-b11781b3.json",
+    "full_A_chain_qualified": false,
+    "official_finance_included": false
   }
 }

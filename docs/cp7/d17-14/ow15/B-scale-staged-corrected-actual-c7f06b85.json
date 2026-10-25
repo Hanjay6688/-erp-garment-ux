@@ -1,0 +1,86 @@
+{
+  "name": "CP7_OW11_MODEL_TARGET_V2_SCALE.json",
+  "status": "PASS",
+  "head": "c7f06b855512e0c8d450522c36e84f4cab570a2a",
+  "run_id": 40177861698,
+  "job_id": 121122357646,
+  "artifact_id": 12593480203,
+  "zip_bytes": 120103,
+  "zip_sha256": "a9558c161e17ac09dfbdd090b40ff25410b7dca97364fcb3f2c4d24d9850f9db",
+  "bytes": 993942,
+  "sha256": "0f4d90b4ceadd0c85ecc1768da288aaf26b88d0a60c8a90ed3ca4ace885242a9",
+  "archive_member": "CP7_OW11_MODEL_TARGET_V2_SCALE.json",
+  "source_pins_verified": 50,
+  "counts": {
+    "PASS": 2
+  },
+  "synthetic_variants": 3600,
+  "actual_products": 3602,
+  "movements": 363600,
+  "actual_scoped_models": 2,
+  "predecessor_request_ms": 6014.692,
+  "current_request_ms": 7315.921,
+  "max_predecessor_step_ms": 496.86,
+  "max_current_step_ms": 777.226,
+  "full_source_check_ms": [
+    3698.489,
+    3528.826
+  ],
+  "steps_per_run": 76,
+  "all_target_and_recommendation_operands_preserved": true,
+  "immutable_previous_result": true,
+  "posted_native_change_retires_source": true,
+  "full_boundary_restored": true,
+  "all_prior_failures_retained": true,
+  "gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "official_finance_included": false,
+  "financial_capture": "DEFERRED",
+  "factory_SLA_claim": false,
+  "full_factory3600_qualified": false,
+  "full_A_chain_qualified": false,
+  "merged_into_A": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "prior_component_source_continuity": [
+    {
+      "component": "B-context-path-native6",
+      "pins": 47,
+      "recorded_head": "182c8b174f7d1d4e3355c24263cf1866357510b5",
+      "checked_head": "c7f06b855512e0c8d450522c36e84f4cab570a2a",
+      "all_pinned_bytes_equal": true,
+      "new_runtime_credit": 0
+    },
+    {
+      "component": "B-context-path-browser2",
+      "pins": 64,
+      "recorded_head": "182c8b174f7d1d4e3355c24263cf1866357510b5",
+      "checked_head": "c7f06b855512e0c8d450522c36e84f4cab570a2a",
+      "all_pinned_bytes_equal": true,
+      "new_runtime_credit": 0
+    },
+    {
+      "component": "B-context-path-transport-a",
+      "pins": 50,
+      "recorded_head": "182c8b174f7d1d4e3355c24263cf1866357510b5",
+      "checked_head": "c7f06b855512e0c8d450522c36e84f4cab570a2a",
+      "all_pinned_bytes_equal": true,
+      "new_runtime_credit": 0
+    },
+    {
+      "component": "B-context-path-transport-b",
+      "pins": 50,
+      "recorded_head": "182c8b174f7d1d4e3355c24263cf1866357510b5",
+      "checked_head": "c7f06b855512e0c8d450522c36e84f4cab570a2a",
+      "all_pinned_bytes_equal": true,
+      "new_runtime_credit": 0
+    }
+  ]
+}
