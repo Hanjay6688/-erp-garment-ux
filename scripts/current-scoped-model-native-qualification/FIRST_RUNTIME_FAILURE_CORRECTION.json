@@ -1,0 +1,14 @@
+{
+  "first_head": "862bedbaa04afa130b984c1f474f71d03d0380e6",
+  "first_original_sha256": "a3285c8465a97a80909b5e21a05a63b30a9fdc2551e94b86fec6076daa570192",
+  "old_SOURCE_sha256": "4a5533a885672857c7af1c18b2dd42836263e945837163579a999d06afd318fe",
+  "first_counts": {
+    "PASS": 29,
+    "INCOMPLETE": 1
+  },
+  "change": "Use real complete scoped-model inverse guard after new parent FK catalog additions",
+  "old_catalog_state_rewritten": false,
+  "product_SQL_changed": false,
+  "all_business_assertions_preserved": true,
+  "production_go": false
+}

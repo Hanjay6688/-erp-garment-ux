@@ -3,7 +3,7 @@ from pathlib import Path
 from hashlib import sha256
 import importlib.util,json,os,subprocess,sys
 
-FROZEN_HEAD='862bedbaa04afa130b984c1f474f71d03d0380e6'
+FROZEN_HEAD='ffa0b63dbb6f0b7888eeaec59d0f39347cd58e0e'
 GATE='scripts/current-scoped-model-native-qualification/probe.py'
 
 

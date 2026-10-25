@@ -1,11 +1,14 @@
 # Full current versioned-target qualification preparation
 
 This suite retains 25 existing finance, model-policy, history and scoped-model
-business cases. The five old target-v1 controls remain in their original suite;
+business cases. Twenty-four complete bodies remain unchanged; the history replay
+uses the actual full versioned composer for its one used inverse and refusal.
+Its archive, money, stock and time assertions remain exact, guarded by AST checks.
+The five old target-v1 controls remain in their original suite;
 the new suite uses B's five target-v2 controls with their exact business assertions
 and 8-second limits. It does not claim to rerun the obsolete target-v1 contracts.
 
-Only installation setup and three pre-use inverse calls use the full A composer.
+Installation setup, three target inverse calls and one history inverse use the full A composer.
 Those calls assert its real named global used-state refusal. An AST comparison
 checks that no other business assertion changes. The complete22 pre-use inverse
 is a separate outer gate and gets no extra business-case credit.

@@ -12,9 +12,15 @@
   "negative_controls": [
     "money_history_assertion_removed",
     "ordinary_latency_limit_relaxed",
-    "wrong_used_refusal_substituted"
+    "wrong_used_refusal_substituted",
+    "immutable_history_money_assertion_removed"
   ],
   "Native_runtime_qualified": false,
   "production_go": false,
-  "independent_acceptance": false
+  "independent_acceptance": false,
+  "unchanged_complete_retained_case_bodies": 24,
+  "explicit_history_replay_guard": {
+    "rollback_calls": 1,
+    "refusal_constants": 1
+  }
 }

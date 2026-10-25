@@ -14,6 +14,7 @@ def module(name,path):
 
 previous=module('retained_full_scoped_model_cases',ROOT/'current-scoped-model-native-qualification/cases.py')
 target=module('full_versioned_target_business_cases',HERE/'target_cases.py')
+history_replay=module('full_versioned_history_replay',HERE/'history_replay.py')
 old_target_ids=tuple(previous.previous.previous.target.IDS['native'][1:])
 retained_ids=tuple(x for x in previous.IDS if x not in old_target_ids)
 IDS=(*retained_ids,*target.IDS)
@@ -55,19 +56,26 @@ def source_binding():
         omitted_obsolete_target_v1_business_ids=list(old_target_ids),versioned_case_ids=list(target.IDS),
         B_original_sha256=sha256(p.read_bytes()).hexdigest(),explicit_AST_changes=changes,
         target_business_assertions_and_limits_unchanged=True,full_A_setup_and_real_full_guard=True,
+        history_replay_guard=history_replay.source_binding(),unchanged_complete_retained_case_bodies=24,
         full_A_runtime_qualified=False,production_go=False)
 
 
 @contextmanager
 def installed(state,checker):
     old=target.STATE,target.CHECKER
+    old_history=history_replay.STATE,history_replay.CHECKER
+    history_replay.STATE,history_replay.CHECKER=state,checker
     target.STATE,target.CHECKER=state,checker
     try:
         with previous.installed(state['predecessor'],checker):yield source_binding()
-    finally:target.STATE,target.CHECKER=old
+    finally:
+        target.STATE,target.CHECKER=old
+        history_replay.STATE,history_replay.CHECKER=old_history
 
 
 def cases(cur,today):
     result=[(key,case)for key,case in previous.cases(cur,today)if key not in old_target_ids]+target.cases(cur,today)
+    replacement=dict(history_replay.cases(cur,today));assert set(replacement)=={history_replay.ID}
+    result=[(key,replacement.get(key,case))for key,case in result]
     assert tuple(key for key,_ in result)==IDS
     return result
