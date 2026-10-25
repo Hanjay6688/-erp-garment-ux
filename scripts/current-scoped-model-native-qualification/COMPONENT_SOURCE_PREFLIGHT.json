@@ -1,0 +1,28 @@
+{
+  "status": "LOCAL_COMPONENT_SOURCE_BINDING_PASS",
+  "components": [
+    {
+      "variable": "SCOPED_DATASET_ORIGINAL_REPORT",
+      "verified_source_pins": 20,
+      "declared_cases": 4
+    },
+    {
+      "variable": "SCOPED_EVALUATION_ORIGINAL_REPORT",
+      "verified_source_pins": 8,
+      "declared_cases": 6
+    },
+    {
+      "variable": "SCOPED_EVALUATION_TRANSPORT_ORIGINAL_REPORT",
+      "verified_source_pins": 12,
+      "declared_cases": 7
+    },
+    {
+      "variable": "SCOPED_EVALUATION_BROWSER_ORIGINAL_REPORT",
+      "verified_source_pins": 19,
+      "declared_cases": 2
+    }
+  ],
+  "full_Native30_admission": false,
+  "full_history_restore_pending": true,
+  "first_local_import_failure": "Bare dataset filenames were initially resolved under scripts root; exact report field now selects cp7_model_scoped_dataset/ before hashing. No product, Original or expected hash changed; zero DB cases."
+}
