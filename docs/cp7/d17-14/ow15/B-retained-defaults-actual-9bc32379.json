@@ -1,0 +1,122 @@
+{
+  "head": "9bc3237903c44cfbc23f08bed6340dae8670b5fd",
+  "components": [
+    {
+      "name": "CP7_OW13B_COMPLETE_HISTORY.json",
+      "status": "PASS",
+      "head": "9bc3237903c44cfbc23f08bed6340dae8670b5fd",
+      "run_id": 40185104969,
+      "job_id": 121144121973,
+      "artifact_id": 12596396084,
+      "zip_bytes": 324916,
+      "zip_sha256": "3eb0b0ed28b905290346355190500d8c94b5d0f1105e46e0cfe81311fd844b76",
+      "bytes": 2989026,
+      "sha256": "2db5a8c7ab35e576b2bfc3562c0bfc7b2695b6c06ae3bd5b502d8cfea6697e44",
+      "archive_member": "CP7_OW13B_COMPLETE_HISTORY.json",
+      "counts": {
+        "native": 14,
+        "races": 2,
+        "http": 2,
+        "browser": 2
+      },
+      "all_original_JSON_files": 5,
+      "source_prefix_fields_verified": 8,
+      "source_prefix_database_executed": false,
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "full_boundary_public_WIB_sessions_preserved": true,
+      "new_versioned_case_credit": 0,
+      "full_A_chain_qualified": false,
+      "actual_visual_QA_in_this_intake": false,
+      "production_go": false,
+      "independent_acceptance": false
+    },
+    {
+      "name": "CP7_OW16_AUTOMATIC_STATUS.json",
+      "status": "PASS",
+      "head": "9bc3237903c44cfbc23f08bed6340dae8670b5fd",
+      "run_id": 40185105001,
+      "job_id": 121144121924,
+      "artifact_id": 12595393192,
+      "zip_bytes": 251220,
+      "zip_sha256": "54827cce96f8ed01ff80c0b0246555cc70923d69235c087a3d88b2b6543c4775",
+      "bytes": 2287819,
+      "sha256": "f6ff7e1f1aae4192af8e5a8c447aa4ef884c0146ec505bb485f8c34a0fede232",
+      "archive_member": "CP7_OW16_AUTOMATIC_STATUS.json",
+      "counts": {
+        "native": 10,
+        "races": 2,
+        "http": 2,
+        "browser": 2
+      },
+      "all_original_JSON_files": 5,
+      "source_prefix_fields_verified": 9,
+      "source_prefix_database_executed": false,
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "full_boundary_public_WIB_sessions_preserved": true,
+      "new_versioned_case_credit": 0,
+      "full_A_chain_qualified": false,
+      "actual_visual_QA_in_this_intake": false,
+      "production_go": false,
+      "independent_acceptance": false
+    },
+    {
+      "name": "CP7_OW14B_RULES.json",
+      "status": "PASS",
+      "head": "9bc3237903c44cfbc23f08bed6340dae8670b5fd",
+      "run_id": 40185104955,
+      "job_id": 121144121709,
+      "artifact_id": 12596470304,
+      "zip_bytes": 1438206,
+      "zip_sha256": "94163492991bb737db47ecc55fbbfbcb0fc20fa929dc11a46254865981e15588",
+      "bytes": 13689938,
+      "sha256": "ed3385efed3f047e9962d0248e50f255f6b480ec022d00046611145a2827bcd5",
+      "archive_member": "CP7_OW14B_RULES.json",
+      "counts": {
+        "native": 61,
+        "races": 34,
+        "http": 7,
+        "browser": 11
+      },
+      "all_original_JSON_files": 5,
+      "source_prefix_fields_verified": 8,
+      "source_prefix_database_executed": false,
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "full_boundary_public_WIB_sessions_preserved": true,
+      "new_versioned_case_credit": 0,
+      "full_A_chain_qualified": false,
+      "actual_visual_QA_in_this_intake": false,
+      "production_go": false,
+      "independent_acceptance": false
+    }
+  ],
+  "case_executions": 149,
+  "all_original_JSON_files": 15,
+  "new_versioned_case_credit": 0,
+  "full_A_chain_qualified": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

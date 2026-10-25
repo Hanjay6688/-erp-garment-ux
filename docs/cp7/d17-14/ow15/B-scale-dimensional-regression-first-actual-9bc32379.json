@@ -1,0 +1,41 @@
+{
+  "name": "CP7_OW11_MODEL_TARGET_V2_SCALE.json",
+  "status": "INCOMPLETE",
+  "head": "9bc3237903c44cfbc23f08bed6340dae8670b5fd",
+  "run_id": 40185105039,
+  "job_id": 121144122092,
+  "artifact_id": 12595809170,
+  "zip_bytes": 118826,
+  "zip_sha256": "7aa4d5ad9ba5103495b00bc0d9fe02fe9a5280d39087c9d6b737919341c5d35e",
+  "bytes": 980141,
+  "sha256": "dc5a903d6c67dd0843b116ea89585fe35620c5bdb2302433049cbc0054dbb8ac",
+  "archive_member": "CP7_OW11_MODEL_TARGET_V2_SCALE.json",
+  "source_pins_verified": 54,
+  "source_prefix_fields_verified": 9,
+  "counts": {
+    "PASS": 1,
+    "INCOMPLETE": 1
+  },
+  "all_original_JSON_files": 5,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "full_boundary_public_and_sessions_restored": true,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "older_qualified_8f_result_preserved": true,
+  "product_SQL_changed_by_A": false,
+  "full_A_chain_qualified": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "first_failure_phase": "PREDECESSOR",
+  "failure": "statement timeout",
+  "sqlstate": "57014",
+  "statement_limit": "8s",
+  "request_millis": 8006.721,
+  "actual_complete_3600_comparison_qualified": false
+}

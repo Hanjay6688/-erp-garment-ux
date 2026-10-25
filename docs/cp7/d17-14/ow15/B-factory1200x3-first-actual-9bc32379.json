@@ -1,0 +1,38 @@
+{
+  "name": "CP7_OW11_MODEL_TARGET_V2_FACTORY.json",
+  "status": "INCOMPLETE",
+  "head": "9bc3237903c44cfbc23f08bed6340dae8670b5fd",
+  "run_id": 40185105228,
+  "job_id": 121144122892,
+  "artifact_id": 12595364192,
+  "zip_bytes": 117496,
+  "zip_sha256": "697598489bce6e85f0a84bde675691d20b59634815b6b334aec05dabd415f70f",
+  "bytes": 969562,
+  "sha256": "395a3b9c32d5359e0b3d8de5f8682cdf436afbbe87dc9b70199e7499eed17203",
+  "archive_member": "CP7_OW11_MODEL_TARGET_V2_FACTORY.json",
+  "source_pins_verified": 59,
+  "source_prefix_fields_verified": 9,
+  "counts": {
+    "PASS": 1,
+    "INCOMPLETE": 1
+  },
+  "all_original_JSON_files": 5,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "full_boundary_public_and_sessions_restored": true,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "older_qualified_8f_result_preserved": true,
+  "product_SQL_changed_by_A": false,
+  "full_A_chain_qualified": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "first_failure_phase": "Fixture setup requires current_user postgres; Native caller is not that role",
+  "failure": "FACTORY3600_TEST_ADMIN_REQUIRED",
+  "actual_1200x3_comparison_qualified": false
+}

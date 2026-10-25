@@ -190,8 +190,8 @@
     {
       "scope": "late exact B performance on unchanged full A versioned predecessor",
       "branch": "astra-a/d17-14-versioned-performance-prepared-20261025",
-      "head": "7a1b5a78ce22e4d556842eba53109e68d459b0d6",
-      "tree": "b8ee47e9e3516e948fce2cb2535233f6920d1208",
+      "head": "1be14ddfdffcfe9740fcddbb05303866b669e7bc",
+      "tree": "5e7da904818fa49f7ab2d8651a65da0e3382ca9a",
       "B_qualified_source_head": "c7f06b855512e0c8d450522c36e84f4cab570a2a",
       "exact_function_replacements": 2,
       "direct_JSON_path_substitutions": 6,
@@ -238,7 +238,12 @@
       "factory_retained_assertions": 63,
       "factory_required_actual_Originals": 7,
       "factory_six_current_PASS_suites_plus_first_INCOMPLETE": true,
-      "factory_negative_source_guards": 5
+      "factory_negative_source_guards": 5,
+      "all_prepared_fetchers_use_exact_archive_member": true,
+      "seven_archive_fetch_checks": "PASS",
+      "Native36_source_corrections_true_merged": true,
+      "all_3473_current_Native36_source_pins_exact": true,
+      "current_Native36_runtime_still_pending": true
     }
   ],
   "first_failures_preserved": [
@@ -1144,7 +1149,102 @@
     "head": "8f2cee885403ade48d6fb5596cb476205434cbc8",
     "corrected_declaration_head": "a8f21545180c93d693120a343433925dd864276d",
     "latest_B_head_observed": "9bc3237903c44cfbc23f08bed6340dae8670b5fd",
-    "latest_B_dimensional_factory_runtime_not_yet_intaken": true,
-    "first_binding_and_source_failures_preserved": true
+    "latest_B_dimensional_factory_runtime_not_yet_intaken": false,
+    "first_binding_and_source_failures_preserved": true,
+    "latest_B_dimensional_factory_result": "INCOMPLETE_FIRST_FIXTURE_AUTHORITY_FAILURE",
+    "latest_B_scale_regression_result": "INCOMPLETE_PREDECESSOR_8S_TIMEOUT"
+  },
+  "B_dimensional_first_runtime_results": [
+    {
+      "name": "CP7_OW11_MODEL_TARGET_V2_FACTORY.json",
+      "status": "INCOMPLETE",
+      "head": "9bc3237903c44cfbc23f08bed6340dae8670b5fd",
+      "run_id": 40185105228,
+      "job_id": 121144122892,
+      "artifact_id": 12595364192,
+      "zip_bytes": 117496,
+      "zip_sha256": "697598489bce6e85f0a84bde675691d20b59634815b6b334aec05dabd415f70f",
+      "bytes": 969562,
+      "sha256": "395a3b9c32d5359e0b3d8de5f8682cdf436afbbe87dc9b70199e7499eed17203",
+      "archive_member": "CP7_OW11_MODEL_TARGET_V2_FACTORY.json",
+      "source_pins_verified": 59,
+      "source_prefix_fields_verified": 9,
+      "counts": {
+        "PASS": 1,
+        "INCOMPLETE": 1
+      },
+      "all_original_JSON_files": 5,
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": false
+      },
+      "full_boundary_public_and_sessions_restored": true,
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "older_qualified_8f_result_preserved": true,
+      "product_SQL_changed_by_A": false,
+      "full_A_chain_qualified": false,
+      "production_go": false,
+      "independent_acceptance": false,
+      "first_failure_phase": "Fixture setup requires current_user postgres; Native caller is not that role",
+      "failure": "FACTORY3600_TEST_ADMIN_REQUIRED",
+      "actual_1200x3_comparison_qualified": false
+    },
+    {
+      "name": "CP7_OW11_MODEL_TARGET_V2_SCALE.json",
+      "status": "INCOMPLETE",
+      "head": "9bc3237903c44cfbc23f08bed6340dae8670b5fd",
+      "run_id": 40185105039,
+      "job_id": 121144122092,
+      "artifact_id": 12595809170,
+      "zip_bytes": 118826,
+      "zip_sha256": "7aa4d5ad9ba5103495b00bc0d9fe02fe9a5280d39087c9d6b737919341c5d35e",
+      "bytes": 980141,
+      "sha256": "dc5a903d6c67dd0843b116ea89585fe35620c5bdb2302433049cbc0054dbb8ac",
+      "archive_member": "CP7_OW11_MODEL_TARGET_V2_SCALE.json",
+      "source_pins_verified": 54,
+      "source_prefix_fields_verified": 9,
+      "counts": {
+        "PASS": 1,
+        "INCOMPLETE": 1
+      },
+      "all_original_JSON_files": 5,
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": false
+      },
+      "full_boundary_public_and_sessions_restored": true,
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "older_qualified_8f_result_preserved": true,
+      "product_SQL_changed_by_A": false,
+      "full_A_chain_qualified": false,
+      "production_go": false,
+      "independent_acceptance": false,
+      "first_failure_phase": "PREDECESSOR",
+      "failure": "statement timeout",
+      "sqlstate": "57014",
+      "statement_limit": "8s",
+      "request_millis": 8006.721,
+      "actual_complete_3600_comparison_qualified": false
+    }
+  ],
+  "B_latest_retained_defaults": {
+    "head": "9bc3237903c44cfbc23f08bed6340dae8670b5fd",
+    "case_executions": 149,
+    "all_original_JSON_files": 15,
+    "artifacts": [
+      12596396084,
+      12595393192,
+      12596470304
+    ],
+    "new_versioned_case_credit": 0,
+    "full_A_chain_qualified": false
   }
 }
