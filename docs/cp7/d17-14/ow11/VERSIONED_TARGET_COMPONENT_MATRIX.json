@@ -1717,5 +1717,35 @@
     "receipt": "docs/cp7/d17-14/ow12b/98c39dd5-40222957690-original-pass.json",
     "Original_read_complete": true,
     "new_aggregate_credit": 0
+  },
+  "frozen_work_transport_latest_qualified": {
+    "head": "98c39dd57270baefd2eb3bbed642d68b25b9faab",
+    "run_id": 40222957669,
+    "artifact_id": 12612125533,
+    "status": "PASS",
+    "cases": {
+      "native": 1,
+      "races": 5,
+      "http": 3
+    },
+    "receipt": "docs/cp7/d17-14/ow12b/98c39dd5-40222957669-original-pass.json",
+    "actual_concurrency": true,
+    "actual_blocked_backends": true,
+    "clone_authority_exact": 6,
+    "actual_Auth_HTTP_credit": true,
+    "repeated_Native_anchor_new_feature_credit": 0,
+    "default_application_adopted": false
+  },
+  "frozen_work_controlled_UI_latest_qualified": {
+    "head": "ac6d35f019acb576cbecb43525cd860fda8b77cf",
+    "run_id": 40224418167,
+    "artifact_id": 12611304219,
+    "status": "PASS",
+    "browser_cases": 4,
+    "receipt": "docs/cp7/d17-14/ow12b/ac6d35f0-40224418167-browser-original.json",
+    "controlled_identity_and_RPC": true,
+    "actual_Auth_HTTP_credit": false,
+    "controlled_visual_qualified": true,
+    "actual_application_host_visual_credit": false
   }
 }

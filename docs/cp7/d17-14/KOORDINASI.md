@@ -4097,3 +4097,30 @@ qualification pending. No unmodified manual rerun.
 CP6/advisor/WIB26/session/Auth/restore verified4PASS. Retain component-only credit.
 Continue pending corrected choice/Transport9 and actual browser/cutting results.
 Formal5/16; CP7C/independent/production_go=false.
+
+
+## 201. B26 Oktober2026 WIB — actual frozen schedule wait/Auth9 qualified
+
+Corrected98c Transport9 Original12612125533/40222957669 is completePASS:
+one repeated catalog anchor, five actual lock waits, three real GoTrue/PostgREST
+cases. Two blocked workers verified for sameUUID one receipt and distinctUUID
+revisionCAS one winner; currentaccess after global and committed-replay waits;
+actual Native stock post while schedule SAVE waits. All refusals preserve
+metadata/physical state; original committed receipt immutable. Actual Auth
+request/read/SAVE/replay168.944/91.167/159.422/2.632ms on this small fixture;
+foreign/anonymous/current revoked read/newSAVE/replay refused. No factory SLA.
+
+All6OriginalJSON/exacthead F05/source/declaration/productpaths/public/CP6/advisor/
+WIB26/session/Auth/restore verified. Six clone authority receipts exact; race
+copies use the declared disposable schema usage, real HTTP uses no test-only
+grant. Old5749/ab missing-execution-gate outcomes retained; corrected all9actually
+executed. Native catalog anchor earns no additional feature credit.
+
+ac6controlled schedule UI Browser4 Original12611304219/40224418167 and both
+screens12611523136 verified:38sourcepins, actualChromium151 desktop/mobile,
+exact save/reload/microseconds, UNKNOWN, dirty edits, two-tab actualStorageEvent,
+permission-retired heldSAVE and durable pointer preserved. Both controlled-light
+host screenshots readable. This does not override same-head actualAuth host's
+body-text contrast failure; ab611 correction still awaiting runtime visuals.
+A read-only ref remains7de9d4b9. Continue pending choice latency, actualAuth,
+quantity and cutting; default/integration unchanged, formal5/16 and production_go=false.

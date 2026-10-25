@@ -1,0 +1,80 @@
+{
+  "contract": "cp7.complete-browser-original-receipt.v1",
+  "head": "ac6d35f019acb576cbecb43525cd860fda8b77cf",
+  "run_id": 40224418167,
+  "job_id": 121262642771,
+  "artifact_id": 12611304219,
+  "bytes": 2846,
+  "artifact_sha256": "94e75315d97687d5d460e0873b4685f054ec9ce972dd63e925a5c80094092347",
+  "status": "PASS",
+  "Original_read_complete": true,
+  "all_Original_JSON_files_read": 1,
+  "original_json_sha256": {
+    "FROZEN_WORK_UI_BROWSER4.json": "7660f980ec5591359339bc04f04267b98d13d756a8a00168818f54b2f43a0d0f"
+  },
+  "source_pins": 38,
+  "source_exact_head_verified": true,
+  "case_facts": [
+    {
+      "id": "FROZEN_WORK_UI_DESKTOP_PENDING_CUSTOMER_AND_EXACT_SAVE_RECOVERY",
+      "status": "PASS",
+      "viewport": [
+        1365,
+        900
+      ],
+      "exact_reload_recovery_and_microseconds": true,
+      "actual_form_submission": true,
+      "no_horizontal_overflow": true
+    },
+    {
+      "id": "FROZEN_WORK_UI_MOBILE_LAYOUT_UNKNOWN_AND_STALE_REVIEW",
+      "status": "PASS",
+      "viewport": [
+        390,
+        844
+      ],
+      "UNKNOWN_not_zero": true,
+      "dirty_form_preserved_until_explicit_adoption": true,
+      "no_horizontal_overflow": true
+    },
+    {
+      "id": "FROZEN_WORK_UI_REAL_STORAGE_EVENT_RETIRES_PENDING_REPLY",
+      "status": "PASS",
+      "actual_tabs": 2,
+      "actual_storage_event": true,
+      "late_reply_ignored": true,
+      "replacement_retained_exactly": true
+    },
+    {
+      "id": "FROZEN_WORK_UI_PERMISSION_CHANGE_RETIRES_HELD_SAVE",
+      "status": "PASS",
+      "held_reply_retired_on_permission_change": true,
+      "exact_durable_save_retained": true,
+      "no_remaining_locks": true
+    }
+  ],
+  "actual_Chromium_version": "151.0.7922.34",
+  "actual_tabs_and_WebLocks": true,
+  "controlled_identity": true,
+  "controlled_RPC_replies": true,
+  "actual_Native": false,
+  "actual_Auth_HTTP_credit": false,
+  "screenshot_artifact": {
+    "id": 12611523136,
+    "bytes": 414902,
+    "sha256": "52da25307d83ded6b91aa67494cfdd528f6d9531c59ec06fbf7a7f19d7dcdfa0"
+  },
+  "screenshots_sha256": {
+    "frozen-schedule-desktop.png": "3aa8a630c707c58aa98b671663f5709fc908217b37ba94539400942ce19b9ca2",
+    "frozen-schedule-mobile.png": "516a5f6acbb15e601cf76062023ee757a2c9ea5890ba0a538d9c0211291b12dc"
+  },
+  "all_two_screenshots_visually_inspected": true,
+  "controlled_host_visual_qualified": true,
+  "actual_application_host_visual_credit": false,
+  "visual_scope_note": "Controlled light host screenshots readable. Same-head actual Auth host body-text contrast failure separately retained; these controlled screenshots cannot override that failure.",
+  "full_OW12b_acceptance": false,
+  "default_application_adopted": false,
+  "CP7C_accepted": false,
+  "independent_acceptance": false,
+  "production_go": false
+}
