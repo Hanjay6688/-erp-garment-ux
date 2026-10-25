@@ -137,6 +137,33 @@ caller untuk mempertahankan UUID unresolved setelah respons gagal.
 menjaga pemisahan metode, izin keuangan terbaru dan keutuhan salinan sumber
 sejak permintaan dibuat. Tidak ada klaim Auth/browser aktual dari pemeriksaan lokal.
 
+## Integrasi privat baru A: sumber lulus, Native40 sedang berjalan
+
+A menyiapkan composer opt-in pada d71ea82d tanpa mengubah sumber A lama atau
+20berkas produk B yang terikat persis ke10a36e35. Adaptor binary menggunakan
+salinan qualified B v1 hanya sebagai masukan renderer; salinan itu tidak pernah
+dieksekusi atau mengganti fungsi v1 A. Tujuh fungsi penjaga database/pemasang/
+inverse tetap identik secara AST dengan B. Empat belas kontrol negatif lokal
+menolak perubahan sumber, otoritas, objek tidak dideklarasikan dan inverse
+sesudah perubahan baris/sequence. Kegagalan sumber awal dipertahankan.
+
+[Native40 pada8de2ae69](frozen-unit-native40-running-8de2ae69.json) sudah berjalan
+pada run40216890593/job121239848652 sejak26Oktober00.31WIB. Sebelum DB,
+pemeriksaan sumber lengkap lulus3.618pin dan empat Original prasyarat, termasuk
+A performance36 serta tiga komponen B. Seluruh36kasus A tetap dipertahankan;
+empat tambahan mencakup katalog privat/dependent-view, request-unit/replay,
+seluruh3602target/halaman dan arsip sesudah post/purge. Tiga tubuh kasus bisnis
+B dijaga AST; hanya inverse stale dialihkan ke inverse penuh A dan kode penolakannya.
+Batas8detik, seluruh hasil compiler, pemulihan semua22kelompok/baris/sequence,
+CP6 dan advisor tetap wajib. Hasil database gabungan ini belum tersedia.
+
+Jalur ini belum mengaktifkan permintaan publik, default, layar B atau keuangan
+v2. Keuangan pabrik tetap membutuhkan mode yang diikat sebelum capsule disegel,
+izin keuangan mutakhir, replay lintas mode dan sumber laporan resmi. A hanya
+menulis cabang sendiri; cabang B, versi resmi, hosted dan WA nyata tidak diubah.
+[Lingkup dan batas peran A](WRITER_A_SCOPE_20261026.md) memisahkan bagian yang
+sudah teruji dari penerimaan formal yang masih terbuka.
+
 ## Lingkup A yang tetap dijaga
 
 | Lingkup | Posisi dan batas |

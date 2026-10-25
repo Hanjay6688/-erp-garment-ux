@@ -1,6 +1,6 @@
 {
-  "recorded_at_utc": "2026-10-25T17:03:09.618724+00:00",
-  "role": "A finance writer/integrator replacing Claude",
+  "recorded_at_utc": "2026-10-25T17:32:47.144397+00:00",
+  "role": "A finance writer/integrator replacing Claude; B remains separate production/planning writer",
   "slogan": [
     "VENI. VIDI. VICI. ERP. \u2014 I CONQUERED ERP.",
     "Reliable data adalah dewa. Keuangan termasuk laporan, stok, dan HPP adalah raja."
@@ -63,6 +63,17 @@
       "conclusion": null,
       "started_at_utc": "2026-10-25T17:00:52Z",
       "source_pins": 3571
+    },
+    {
+      "suite": "private-frozen-Native40",
+      "head": "8de2ae694c6eda60a6724415eb60772c4f7a20b2",
+      "branch": "astra-a/d17-14-frozen-units-native40-20261025",
+      "run_id": 40216890593,
+      "job_id": 121239848652,
+      "status": "in_progress",
+      "conclusion": null,
+      "started_at_utc": "2026-10-25T17:31:35Z",
+      "source_pins": 3618
     }
   ],
   "actual_new_component": {
@@ -2426,5 +2437,39 @@
     "factory_SOURCE_absent": true,
     "production_go": false,
     "independent_acceptance": false
-  }
+  },
+  "private_frozen_unit_integration": {
+    "parent": "d71ea82df80d08c69db7cf6fb1992906dc49866b",
+    "base_tree": "e024c8fd09191a37210986b8804ecb0602f46bb4",
+    "local": "4823e49f9318406b1b00077f4e7705bd42ca140d",
+    "tree": "3cab7f539f2a90727d8d42a4c9188dddf22e7aeb",
+    "remote": "8de2ae694c6eda60a6724415eb60772c4f7a20b2",
+    "branch": "astra-a/d17-14-frozen-units-integration-prepared-20261025",
+    "execution_branch": "astra-a/d17-14-frozen-units-native40-20261025",
+    "execution_ref_advanced": true,
+    "run_observation_pending": false,
+    "recorded_at_utc": "2026-10-25T17:31:58.280207+00:00",
+    "source_admission": {
+      "status": "PASS",
+      "source_pins": 3618,
+      "actual_originals": 4,
+      "bytes": 1867012,
+      "sha256": "9f48e6457f7dc085be38a6fee44fea569fb20f7977bc60210ea3d6991846b81b"
+    },
+    "A_runtime_qualified": false,
+    "production_go": false,
+    "run_id": 40216890593,
+    "job_id": 121239848652,
+    "status": "IN_PROGRESS",
+    "started_at_utc": "2026-10-25T17:31:35Z",
+    "source_only_preparation_head": "d71ea82df80d08c69db7cf6fb1992906dc49866b",
+    "source_negative_controls": 14,
+    "actual_evidence_negative_controls": 6,
+    "retained_Native_cases": 36,
+    "new_private_cases": 4,
+    "exact_B_product_files": 20,
+    "exact_B_helper_files": 4
+  },
+  "no_B_branch_written": true,
+  "official_and_hosted_unchanged": true
 }
