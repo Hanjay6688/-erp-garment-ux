@@ -1,0 +1,126 @@
+{
+  "status": "PASS",
+  "actual_prior_groups": [
+    {
+      "original": "current-finance",
+      "group": "finance_auth",
+      "status": "PASS",
+      "cases": 3,
+      "case_level_sessions_checked": 3,
+      "real_auth_cleanup_checked": true,
+      "database_remaining": 0
+    },
+    {
+      "original": "current-finance",
+      "group": "finance_races",
+      "status": "PASS",
+      "cases": 7,
+      "case_level_sessions_checked": 7,
+      "real_auth_cleanup_checked": false,
+      "database_remaining": 0
+    },
+    {
+      "original": "current-transport",
+      "group": "policy_http",
+      "status": "PASS",
+      "cases": 3,
+      "case_level_sessions_checked": 3,
+      "real_auth_cleanup_checked": true,
+      "database_remaining": 0
+    },
+    {
+      "original": "current-transport",
+      "group": "policy_races",
+      "status": "PASS",
+      "cases": 6,
+      "case_level_sessions_checked": 6,
+      "real_auth_cleanup_checked": false,
+      "database_remaining": 0
+    },
+    {
+      "original": "current-transport",
+      "group": "evaluation_http",
+      "status": "PASS",
+      "cases": 3,
+      "case_level_sessions_checked": 3,
+      "real_auth_cleanup_checked": true,
+      "database_remaining": 0
+    },
+    {
+      "original": "current-transport",
+      "group": "evaluation_races",
+      "status": "PASS",
+      "cases": 6,
+      "case_level_sessions_checked": 6,
+      "real_auth_cleanup_checked": false,
+      "database_remaining": 0
+    },
+    {
+      "original": "current-transport",
+      "group": "target_http",
+      "status": "PASS",
+      "cases": 3,
+      "case_level_sessions_checked": 3,
+      "real_auth_cleanup_checked": true,
+      "database_remaining": 0
+    },
+    {
+      "original": "current-transport",
+      "group": "target_races",
+      "status": "PASS",
+      "cases": 7,
+      "case_level_sessions_checked": 7,
+      "real_auth_cleanup_checked": false,
+      "database_remaining": 0
+    },
+    {
+      "original": "B-transport-v2-a",
+      "group": "races",
+      "status": "PASS",
+      "cases": 4,
+      "case_level_sessions_checked": 4,
+      "real_auth_cleanup_checked": false,
+      "database_remaining": 0
+    },
+    {
+      "original": "B-transport-v2-b",
+      "group": "http",
+      "status": "PASS",
+      "cases": 3,
+      "case_level_sessions_checked": 3,
+      "real_auth_cleanup_checked": true,
+      "database_remaining": 0
+    },
+    {
+      "original": "B-transport-v2-b",
+      "group": "races",
+      "status": "PASS",
+      "cases": 3,
+      "case_level_sessions_checked": 3,
+      "real_auth_cleanup_checked": false,
+      "database_remaining": 0
+    }
+  ],
+  "actual_prior_case_records": 48,
+  "negative_schema_controls": 81,
+  "unchanged_business_files": {
+    "finance": [
+      "cases.py",
+      "utc_snapshot.py",
+      "fetch_originals.py"
+    ],
+    "transport": [
+      "cases.py",
+      "target_cases.py",
+      "fetch_originals.py"
+    ]
+  },
+  "unchanged_full_runner_except_stricter_group_predicate": true,
+  "workflow_shell_steps": {
+    "finance": 39,
+    "transport": 39
+  },
+  "all3475_qualified_parent_sources_unchanged": true,
+  "new_database_runtime_qualified": false,
+  "production_go": false
+}

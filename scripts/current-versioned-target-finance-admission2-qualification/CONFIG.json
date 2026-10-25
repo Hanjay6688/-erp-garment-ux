@@ -1,0 +1,9 @@
+{
+  "kind": "finance",
+  "count": 10,
+  "helper": "cases.py",
+  "old_head": "1167a4f163aed719d1622194cc7aef30bab3ca8c",
+  "old_variable": "CURRENT_MODEL_TARGET_FINANCE_ORIGINAL_REPORT",
+  "native_variable": "CURRENT_VERSIONED_TARGET_NATIVE_ORIGINAL_REPORT",
+  "contract": "cp7.current-versioned-target-finance10-qualification.v2"
+}

@@ -1,0 +1,3 @@
+# Additive transport qualification with exact Original schema
+
+The prior Native36 PASS and all of its source pins remain unchanged. The first local admission failure is preserved. Auth cleanup is required at its actual nested location; empty session diagnostics are required for every case/race. No Original is rewritten or supplied with manufactured fields. The retained business helpers, limits, complete installation and restoration runner are unchanged except for a stricter group-result predicate. SOURCE is bound only to actual PASS prerequisites. Production and independent acceptance remain false.

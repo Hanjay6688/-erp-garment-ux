@@ -1,0 +1,30 @@
+{
+  "recorded_at": "2026-10-25T13:06:42.067000+00:00",
+  "status": "FIRST_LOCAL_ADMISSION_FAILURES_BEFORE_DB",
+  "head": "055cbc9ab2458ccf1c88fa224f568ef5111f6eae",
+  "native_head": "014019a612260525e9c3b9459e354a86209336c1",
+  "actual_native_status": "PASS36",
+  "passed_source_suites": [
+    "restore",
+    "cron",
+    "browser"
+  ],
+  "failed_source_suites": {
+    "finance": {
+      "exception": "KeyError",
+      "missing_group_field": "auth_cleanup_failures",
+      "actual_auth_cleanup_location": "transport_groups.finance_auth.cleanup.cleanup_failures",
+      "actual_sessions_location": "each cases/races record.session_leaks"
+    },
+    "transport": {
+      "exception": "KeyError",
+      "missing_group_field": "session_leaks",
+      "actual_sessions_location": "each cases/races record.session_leaks",
+      "actual_http_cleanup_location": "http group.cleanup.cleanup_failures and rest_remaining"
+    }
+  },
+  "no_finance_or_transport_CI_started": true,
+  "correction_plan": "New successor qualifier directories/workflows; retain every3475 qualified Native source pin unchanged; validate original proof schema explicitly without adding fields or editing Original bytes",
+  "production_go": false,
+  "scope": "finance"
+}
