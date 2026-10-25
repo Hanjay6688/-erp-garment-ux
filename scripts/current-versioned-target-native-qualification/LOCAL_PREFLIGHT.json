@@ -161,5 +161,59 @@
   "negative_catalog_controls": 12,
   "SOURCE_present": false,
   "Native_runtime_qualified": false,
-  "production_go": false
+  "production_go": false,
+  "frozen_Native30_full_source_admission": {
+    "status": "PASS",
+    "scope": "Exact frozen Native30 full source gate and explicit current differences only",
+    "frozen_head": "ffa0b63dbb6f0b7888eeaec59d0f39347cd58e0e",
+    "source_manifest_sha256": "d68cbbe76e96820e98857dd871a46f17329b46a5dcc9c15ac1c15e9055108e3f",
+    "complete_admission_receipt_sha256": "629f3604a6da7ccceeec78dca1c0e5bd1cf5b61b6ec3ed8c76ce0f35fb3fc98b",
+    "source_pins": 3302,
+    "actual_originals": 7,
+    "current_installation_equals_actual_predecessor": true,
+    "explicit_current_changes": {
+      "scripts/check-access-catalog.mjs": {
+        "frozen_sha256": "763a88ed2f9f34d3dc582dd06c78343ae2fa127c280389989dcfe18fdaee48f7",
+        "current_sha256": "6e277aa3e1dc9eb54e98a985f2b64359acce9e05afb246caebf6600c1a1aad14"
+      },
+      "scripts/cp7_ow11_analog_browser.mjs": {
+        "frozen_sha256": "773cb777430c6c5b0514325e6ba84ed7ae06937f79fdc3802bb47595db775087",
+        "current_sha256": "e0b28f3156e6036f4cb506d054bc13c37e631e397ae768f7d7749bf9f81c12b6"
+      },
+      "scripts/cp7_ow11_model_target_timeline_local.mjs": {
+        "frozen_sha256": "8f3b8a4f7e30e46aef32df63a8b4378b0da64901c4e814bcffbb3bff7e2ce37b",
+        "current_sha256": "21f8d3957415e87efe1893c81c6616fb7408fde6da009921ba7386709faa1684"
+      },
+      "src/fgReorderContract.ts": {
+        "frozen_sha256": "7e54dc7b2ca1a7659c15fb3cdbdb4087a19fc2bc77eb1234e4860d2c2cd564fb",
+        "current_sha256": "dffc377cd9b6e13fdbf66723d5aedf64f3dd0e6074293324904d56a6e2175b47"
+      },
+      "src/nativeModelTarget.ts": {
+        "frozen_sha256": "91f01d6f873c8080999614a231b9b52c492e3723ff373475c0bf215e337ff048",
+        "current_sha256": "63d4168738553dd99c4b2e0a9598478c9c7376e6107735e37f5b30ddbcc530e2"
+      },
+      "src/nativePlanningProfile.ts": {
+        "frozen_sha256": "e9503fbae7d5d843cfebd9baa3e41bdb075a7e2f7095de514c0f84a1c97df755",
+        "current_sha256": "d3b67194a4015eacc807e489f99591a04a3908aaf81493e11e5f49ec5f255781"
+      },
+      "src/nativeTargetDemand.ts": {
+        "frozen_sha256": "c203dacfa7b4f9b3aae6a678c49571356e89de5fee4cb5928384466cd8076128",
+        "current_sha256": "ab4a531f7e51ae82ddacf00079102f1bef8c0ea6f1be5f3462e9dec2e2fef685"
+      }
+    },
+    "first_local_setup_refusal_preserved": "versioned-native36-first-local-frozen-setup.json",
+    "Native36_SOURCE_bound": false,
+    "Native36_runtime_qualified": false,
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "first_local_frozen_setup_refusal": {
+    "status": "REFUSED_BEFORE_SOURCE_GATE",
+    "failure": "Clean-checkout assertion rejected a still-running new detached checkout",
+    "frozen_head": "ffa0b63dbb6f0b7888eeaec59d0f39347cd58e0e",
+    "database_touched": false,
+    "corrective_action": "Wait for worktree creation process completion and require clean exact HEAD before invoking the source gate",
+    "oracle_relaxed": false,
+    "production_go": false
+  }
 }
