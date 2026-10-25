@@ -1,0 +1,24 @@
+{
+  "contract": "cp7.frozen-schedule-surface-contrast-repair.v1",
+  "observed_head": "ac6d35f019acb576cbecb43525cd860fda8b77cf",
+  "run_id": 40224418153,
+  "receipt": "docs/cp7/d17-14/ow12b/ac6d35f0-40224418153-browser-original.json",
+  "functional_Auth_Browser2_PASS": true,
+  "all_four_screenshots_inspected": true,
+  "original_visual_qualified": false,
+  "cause": "Global .panel gradient loaded later wins over prepared single-class background, while dark text remains; button-only contrast assertion misses body text.",
+  "change": "Use compound prepared panel selector for opaque light background; actual browser verifies root surface, all visible text and controls at >=4.5 in ready/recovered/access-revoked states, including disabled controls; screenshots saved before assertion.",
+  "source_sha256": {
+    "scripts/cp7_frozen_analysis_work_v2/client/frozen-schedule.css": "b925b63555b1124cf768a738ab84aecc93ab732a923e0b2bbbb9faf0897cd71a",
+    "scripts/cp7_ow12b_frozen_work_auth_browser.mjs": "d9d2d2f41555866aa311219088d73185c35270ff76a6dc2b9447d79378bd7a20"
+  },
+  "actual_Auth_build_modules": 40,
+  "script_syntax": "PASS",
+  "closed_source_preflight": {
+    "pins": 120,
+    "missing_mixed_refused": 96
+  },
+  "corrected_actual_browser_pending": true,
+  "default_application_adopted": false,
+  "production_go": false
+}

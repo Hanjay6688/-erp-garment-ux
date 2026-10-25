@@ -1374,21 +1374,24 @@
     "contract": "docs/cp7/d17-14/ow12b/FROZEN_WORK_AUTH_BROWSER2_CONTRACT.json",
     "receipt": "docs/cp7/d17-14/ow12b/frozen-work-auth-browser2-preparation.json",
     "required_cases": 2,
-    "status": "FIRST_BROWSER2_INCOMPLETE_FIXTURE_AND_STYLE_REPAIR_PREPARED",
-    "actual_Auth_HTTP_credit": false,
+    "status": "ACTUAL_AUTH_BROWSER2_FUNCTIONAL_PASS_SURFACE_CONTRAST_REPAIR_PENDING",
+    "actual_Auth_HTTP_credit": true,
     "default_application_adopted": false,
     "production_go": false,
     "first_run_id": 40222386670,
     "first_receipt": "docs/cp7/d17-14/ow12b/ab37505d-frozen-work-auth-missing-customer-first.json",
     "repair_receipt": "docs/cp7/d17-14/ow12b/frozen-work-auth-customer-style-repair.json",
     "actual_Auth_request_workspace_200": true,
-    "actual_Auth_SAVE_qualified": false,
+    "actual_Auth_SAVE_qualified": true,
     "second_old_fixture_failure": {
       "head": "98c39dd57270baefd2eb3bbed642d68b25b9faab",
       "run_id": 40222957687,
       "receipt": "docs/cp7/d17-14/ow12b/98c39dd5-frozen-work-auth-missing-customer-first.json",
       "manually_retried_unchanged": false
-    }
+    },
+    "latest_functional_receipt": "docs/cp7/d17-14/ow12b/ac6d35f0-40224418153-browser-original.json",
+    "visual_qualified": false,
+    "surface_repair_receipt": "docs/cp7/d17-14/ow12b/frozen-schedule-surface-contrast-repair.json"
   },
   "frozen_units_latest_regression_5e0": {
     "status": "PASS",
@@ -1412,12 +1415,12 @@
     }
   ],
   "frozen_reader_latest_qualified": {
-    "head": "c1dd6b5cd231701be3be35bb7dd45c3856ace8fa",
-    "run_id": 40219663403,
-    "artifact_id": 12610316148,
+    "head": "ab37505de365d4345d9af0f9ba552fb7f9b1b913",
+    "run_id": 40222386626,
+    "artifact_id": 12611391202,
     "status": "PASS",
     "Native_cases": 4,
-    "receipt": "docs/cp7/d17-14/ow12b/c1dd6b5c-40219663403-original-pass.json",
+    "receipt": "docs/cp7/d17-14/ow12b/ab37505d-40222386626-original-pass.json",
     "factory_SLA_claim": false
   },
   "frozen_choice_K3_timeout_c1": {
@@ -1500,16 +1503,16 @@
     "factory_SLA_claim": false
   },
   "frozen_facade_latest_qualified": {
-    "head": "c1dd6b5cd231701be3be35bb7dd45c3856ace8fa",
-    "run_id": 40219663475,
-    "artifact_id": 12609969578,
+    "head": "ab37505de365d4345d9af0f9ba552fb7f9b1b913",
+    "run_id": 40222386732,
+    "artifact_id": 12610119127,
     "status": "PASS",
     "cases": {
       "native": 3,
       "races": 3,
       "http": 2
     },
-    "receipt": "docs/cp7/d17-14/ow12b/c1dd6b5c-40219663475-original-pass.json",
+    "receipt": "docs/cp7/d17-14/ow12b/ab37505d-40222386732-original-pass.json",
     "actual_observed_blocking": true,
     "actual_Auth_HTTP_credit": true,
     "default_application_adopted": false
@@ -1609,6 +1612,89 @@
     {
       "run_id": 40221646599,
       "receipt": "docs/cp7/d17-14/ow12b/5749a78d-40221646599-original-pass.json"
+    }
+  ],
+  "frozen_cutting_preparation": {
+    "status": "PREPARED_NATIVE6_NOT_RUNTIME_QUALIFIED",
+    "receipt": "docs/cp7/d17-14/ow12b/frozen-cutting-native6-preparation.json",
+    "required_cases": 6,
+    "actual_Native": false,
+    "actual_Auth_HTTP_credit": false,
+    "UI_cutting_SAVE_wired": false,
+    "production_go": false
+  },
+  "additional_complete_Originals_ab_98c": [
+    {
+      "receipt": "docs/cp7/d17-14/ow12b/ab37505d-40222386626-original-pass.json",
+      "run_id": 40222386626,
+      "artifact_id": 12611391202,
+      "status": "PASS",
+      "Original_read_complete": true,
+      "aggregate_acceptance_credit": 0
+    },
+    {
+      "receipt": "docs/cp7/d17-14/ow12b/ab37505d-40222386699-original-pass.json",
+      "run_id": 40222386699,
+      "artifact_id": 12610816504,
+      "status": "PASS",
+      "Original_read_complete": true,
+      "aggregate_acceptance_credit": 0
+    },
+    {
+      "receipt": "docs/cp7/d17-14/ow12b/ab37505d-40222386732-original-pass.json",
+      "run_id": 40222386732,
+      "artifact_id": 12610119127,
+      "status": "PASS",
+      "Original_read_complete": true,
+      "aggregate_acceptance_credit": 0
+    },
+    {
+      "receipt": "docs/cp7/d17-14/ow12b/ab37505d-40222386747-original-pass.json",
+      "run_id": 40222386747,
+      "artifact_id": 12610424667,
+      "status": "PASS",
+      "Original_read_complete": true,
+      "aggregate_acceptance_credit": 0
+    },
+    {
+      "receipt": "docs/cp7/d17-14/ow12b/98c39dd5-40222957709-original-pass.json",
+      "run_id": 40222957709,
+      "artifact_id": 12610683272,
+      "status": "PASS",
+      "Original_read_complete": true,
+      "aggregate_acceptance_credit": 0
+    },
+    {
+      "receipt": "docs/cp7/d17-14/ow12b/98c39dd5-40222957741-original-pass.json",
+      "run_id": 40222957741,
+      "artifact_id": 12610408999,
+      "status": "PASS",
+      "Original_read_complete": true,
+      "aggregate_acceptance_credit": 0
+    },
+    {
+      "receipt": "docs/cp7/d17-14/ow12b/98c39dd5-40222957720-original-pass.json",
+      "run_id": 40222957720,
+      "artifact_id": 12610917725,
+      "status": "PASS",
+      "Original_read_complete": true,
+      "aggregate_acceptance_credit": 0
+    },
+    {
+      "receipt": "docs/cp7/d17-14/ow12b/98c39dd5-40222957740-original-pass.json",
+      "run_id": 40222957740,
+      "artifact_id": 12611312572,
+      "status": "PASS",
+      "Original_read_complete": true,
+      "aggregate_acceptance_credit": 0
+    },
+    {
+      "receipt": "docs/cp7/d17-14/ow12b/98c39dd5-40222957642-original-pass.json",
+      "run_id": 40222957642,
+      "artifact_id": 12611417783,
+      "status": "PASS",
+      "Original_read_complete": true,
+      "aggregate_acceptance_credit": 0
     }
   ]
 }

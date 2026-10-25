@@ -1,0 +1,1060 @@
+{
+  "contract": "cp7.original-runtime-receipt.v1",
+  "head": "98c39dd57270baefd2eb3bbed642d68b25b9faab",
+  "run_id": 40222957740,
+  "job_id": 121258303444,
+  "artifact_id": 12611312572,
+  "bytes": 121044,
+  "artifact_sha256": "04fa97e4dff02ac9484816ad15a0594d1cbacd7c8360cf858494e63927c6258c",
+  "status": "PASS",
+  "Original_read_complete": true,
+  "all_Original_JSON_files_read": 5,
+  "original_json_sha256": {
+    "T3_BACKUP_RESTORE_DRILL.json": "3c7ddc35dc6e05ab57753b9453e687ade9e3e2e2aeb173e7737bab1d1ed53031",
+    "T3_PACKAGE_FILES_INSTALL.json": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+    "ALIGNED_CHAIN.json": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b",
+    "CP7_OW11_MODEL_TARGET_V2_FACTORY.json": "6e7a5293eb000fa646423a1dab21508f55b4ee78a84618bb99cbee84058a0d8e",
+    "T3_PACKAGE_INSTALL.json": "085e4aa82b0b264989b892482ff189eafd525ff322ae252e8338e3bbf7b46a4a"
+  },
+  "actual_current_F05_source_prefix_compared": [
+    "source_sha256",
+    "expected_case_count",
+    "required_case_counts",
+    "required_case_ids",
+    "predeclared_case_contract",
+    "predeclared_case_sha256",
+    "target_v2_source_sha256"
+  ],
+  "all_source_fields_and_declaration_match": true,
+  "source_prefix_database_executed": false,
+  "product_paths_byte_identical_between_recorded_refs": true,
+  "counts": {
+    "native": 2
+  },
+  "case_facts": {
+    "native": {
+      "OW11_MODEL_TARGET_V2_CATALOG22_COMPOSED_PREUSE": {
+        "status": "PASS",
+        "exact_catalog22_composed_inverse": true,
+        "private4_replacements21_no_new_RPC_or_table": true,
+        "dependent_view_partial_inverse_restored": true,
+        "source_sha256": {
+          "cp7_model_target_consumer_v2_stage/MANIFEST.json": "1cc831d70a921a3cc34ddcc37a76d9d0ed35588f9d44ed4a7d0cfbd5b9cc8955",
+          "cp7_model_target_consumer_v2_stage/__init__.py": "c77a917a67865f8b3fc0165beb948664e756601dbcf3edfa94fc283fd33ce54b",
+          "cp7_model_target_consumer_v2_stage/hooks.sql": "fa6eca09c000c418f9e2ba50243976f7590d005847d79e4d64cc8e7309d19f6b",
+          "cp7_model_target_consumer_v2_stage/render.py": "195063c1b83e35ffc2ca21bba7a578afe8c13b3c3fae1ec4b46fcb2d3bf7d657",
+          "cp7_model_target_source_v2/MANIFEST.json": "aa67fe30c9336d7dc91dae40e18ac233411f7ad7f0396e41a1181abade55e396",
+          "cp7_model_target_source_v2/__init__.py": "e644854f4a9f28d84dd443750fdeb4598ccf48a4823aa1aa7f53f6182868e8ef",
+          "cp7_model_target_source_v2/non-stock.sql": "9c4f437ef463d8877078b192e7ffb36d52ba4a70e7cf43f7920b719d9aacf4fa",
+          "cp7_model_target_source_v2/physical.sql": "bf6c6cd37d634e0a894952bafe6b74abf32b77c77545276c037b49fc3837b23f",
+          "cp7_model_target_source_v2/reorder.sql": "784c0778e10c117d78d6e7eb8874224ddc99fce6b4a548b03e4c6838c4b44d4c",
+          "cp7_model_target_source_v2/source.sql": "aa5312f92feb62982b460e871226d8133c5aa90b5b6ed9568b3304e10bd21d3b",
+          "cp7_model_target_source_v2/stock.sql": "41087a56255b082ba4a8f223a57682221119a1d756975ce5f16c853209070370",
+          "cp7_model_target_projection/MANIFEST.json": "df37cce0f27656606634fac61f26579f255ea291dc9f5a1696f28d1cbf2bd51a",
+          "cp7_model_target_projection/__init__.py": "2e2be38a043353af1d45f124d9f69e9c92fa1316c94eac826d133dad56c3b75c",
+          "cp7_model_target_projection/projection.sql": "1e96c6389c3537dcaf59bcf79383754f0b5716ad3c1d9010c77fb0918535e6b7",
+          "cp7_model_target_consumer_v2/MANIFEST.json": "30110d095bd9893ba44bd849b557f89a66ab78034e0a50614ae8ef6b6522f38b",
+          "cp7_model_target_consumer_v2/__init__.py": "ac1648f3ac76e4d032e8d13512eafab1fbb98f1de5e755e34d61e9674379d6d5",
+          "cp7_model_target_consumer_v2/consumer.sql": "48526a5ab9fa7468475b6ba76955b61b2868fa1590e6296d65ee5da390fc6dde",
+          "cp7_model_target_consumer_v2/render.py": "66eb18f6b9362861a7246be6ac569291f0274534758724abb59bc73a26a3ca01",
+          "cp7_model_target_consumer_v2/timeline.sql": "53d7e913df51aecd78598fcba3bdcf9cf1980c25ed100e747731782c16de67e9"
+        },
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "OW11_MODEL_TARGET_V2_FACTORY1200X3_ALL_PHYSICAL_TARGET_PARITY_SOURCE": {
+        "products": 3600,
+        "commercial_SKUs": 1200,
+        "physical_sizes": 3,
+        "physical_roots": 3600,
+        "movements": 363600,
+        "exactly_three_distinct_physical_sizes_per_commercial_SKU": true,
+        "synthetic_fixture": true,
+        "actual_Native_qualification": true,
+        "official_finance_included": false,
+        "full_factory3600_qualified": false,
+        "production_go": false,
+        "status": "PASS",
+        "actual_products": 3602,
+        "actual_scoped_models": 2,
+        "all_target_kernels_profile_observed_operands_exact": true,
+        "all_recommendation_quantity_states_values_units_reasons_exact": true,
+        "predecessor_complete": true,
+        "predecessor_request_millis": 6240.594,
+        "predecessor_step_millis": [
+          336.567,
+          234.87,
+          94.574,
+          155.029,
+          84.602,
+          73.756,
+          72.762,
+          571.87,
+          578.871,
+          580.656,
+          570.511,
+          546.198,
+          537.229,
+          534.782,
+          540.268,
+          528.21,
+          526.038,
+          532.583,
+          535.073,
+          542.947,
+          526.813,
+          487.851,
+          58.619,
+          97.05,
+          492.058,
+          36.355,
+          36.021,
+          40.674,
+          35.78,
+          36.639,
+          36.52,
+          37.21,
+          36.19,
+          36.767,
+          38.214,
+          36.964,
+          39.424,
+          39.722,
+          36.673,
+          30.535,
+          165.668,
+          34.336,
+          71.709,
+          61.718,
+          65.849,
+          74.619,
+          63.159,
+          61.827,
+          66.758,
+          61.342,
+          60.959,
+          63.407,
+          63.264,
+          76.38,
+          63.578,
+          61.264,
+          41.0,
+          65.109,
+          100.972,
+          98.353,
+          100.011,
+          100.052,
+          100.761,
+          121.295,
+          119.826,
+          121.052,
+          119.328,
+          120.775,
+          120.158,
+          126.519,
+          125.464,
+          120.323,
+          76.783,
+          490.488,
+          72.283,
+          3.728
+        ],
+        "predecessor_request_function_profile": {
+          "functions": [
+            {
+              "function": "cp7_history_reference.stock_digest(jsonb,timestamp with time zone)",
+              "calls": 1,
+              "total_ms": 2506.364,
+              "self_ms": 2215.894
+            },
+            {
+              "function": "cp7_reorder_inputs.stock_summary(jsonb,timestamp with time zone,jsonb)",
+              "calls": 1,
+              "total_ms": 534.774,
+              "self_ms": 530.324
+            },
+            {
+              "function": "cp7_history_bounded.compile(jsonb,jsonb,jsonb,integer)",
+              "calls": 1,
+              "total_ms": 2206.094,
+              "self_ms": 420.56
+            },
+            {
+              "function": "cp7_wip.refs(jsonb)",
+              "calls": 14451,
+              "total_ms": 492.059,
+              "self_ms": 323.411
+            },
+            {
+              "function": "cp7_product_analog_consumer.baseline_rows(jsonb,jsonb,jsonb,text,jsonb)",
+              "calls": 1,
+              "total_ms": 895.914,
+              "self_ms": 265.632
+            },
+            {
+              "function": "cp7_wip.fields(jsonb,text[])",
+              "calls": 32514,
+              "total_ms": 236.158,
+              "self_ms": 236.158
+            },
+            {
+              "function": "cp7_analysis_stage.create_job(uuid,uuid,jsonb,jsonb,jsonb)",
+              "calls": 1,
+              "total_ms": 276.819,
+              "self_ms": 210.95
+            },
+            {
+              "function": "cp7_bounded_analysis_stage.source(jsonb,boolean)",
+              "calls": 1,
+              "total_ms": 5952.097,
+              "self_ms": 194.356
+            },
+            {
+              "function": "cp7_wip.key(jsonb)",
+              "calls": 101105,
+              "total_ms": 180.587,
+              "self_ms": 180.587
+            },
+            {
+              "function": "cp7_product_analog_consumer.prepare(jsonb,jsonb,jsonb)",
+              "calls": 1,
+              "total_ms": 167.483,
+              "self_ms": 132.824
+            },
+            {
+              "function": "cp7_reorder_inputs.capture_history(integer)",
+              "calls": 1,
+              "total_ms": 107.47,
+              "self_ms": 107.358
+            },
+            {
+              "function": "cp7_demand.availability(jsonb)",
+              "calls": 3602,
+              "total_ms": 317.457,
+              "self_ms": 97.11
+            },
+            {
+              "function": "cp7_analysis_stage.history_rows(jsonb)",
+              "calls": 1,
+              "total_ms": 89.577,
+              "self_ms": 89.503
+            },
+            {
+              "function": "cp7_reorder_inputs.current_stock(jsonb,jsonb,text)",
+              "calls": 1,
+              "total_ms": 400.995,
+              "self_ms": 83.49
+            },
+            {
+              "function": "cp7_product_analog_consumer.provenance(jsonb,jsonb,jsonb,jsonb,jsonb,jsonb)",
+              "calls": 3602,
+              "total_ms": 98.953,
+              "self_ms": 77.345
+            },
+            {
+              "function": "cp7_demand.context(jsonb,text)",
+              "calls": 10807,
+              "total_ms": 113.369,
+              "self_ms": 72.318
+            },
+            {
+              "function": "cp7_bounded_analysis_stage.netting_source(integer,integer)",
+              "calls": 1,
+              "total_ms": 446.735,
+              "self_ms": 70.661
+            },
+            {
+              "function": "cp7_demand.estimate(jsonb)",
+              "calls": 3602,
+              "total_ms": 282.27,
+              "self_ms": 69.82
+            },
+            {
+              "function": "cp7_baseline.target(jsonb)",
+              "calls": 3602,
+              "total_ms": 249.058,
+              "self_ms": 58.734
+            },
+            {
+              "function": "cp7_bounded_analysis_stage.source_parts(integer)",
+              "calls": 1,
+              "total_ms": 345.677,
+              "self_ms": 54.066
+            },
+            {
+              "function": "cp7_analysis_stage.history_validate(jsonb)",
+              "calls": 1,
+              "total_ms": 214.835,
+              "self_ms": 51.18
+            },
+            {
+              "function": "cp7_reorder_inputs.capture_baseline(integer)",
+              "calls": 1,
+              "total_ms": 256.07,
+              "self_ms": 43.915
+            },
+            {
+              "function": "cp7_bounded_analysis_stage.analysis_source(integer,integer)",
+              "calls": 1,
+              "total_ms": 508.463,
+              "self_ms": 41.602
+            },
+            {
+              "function": "cp7_bounded_analysis_stage.native_work_fingerprint(jsonb)",
+              "calls": 1,
+              "total_ms": 42.274,
+              "self_ms": 39.243
+            },
+            {
+              "function": "cp7_bounded_analysis_stage.schedule_source(integer)",
+              "calls": 1,
+              "total_ms": 376.074,
+              "self_ms": 30.038
+            },
+            {
+              "function": "cp7_profile.source(uuid[],timestamp with time zone)",
+              "calls": 1,
+              "total_ms": 29.527,
+              "self_ms": 29.527
+            },
+            {
+              "function": "cp7_identity.membership(uuid,timestamp with time zone)",
+              "calls": 1202,
+              "total_ms": 27.264,
+              "self_ms": 27.264
+            },
+            {
+              "function": "cp7_product_analog_choice.source_at(text[],timestamp with time zone)",
+              "calls": 1,
+              "total_ms": 25.619,
+              "self_ms": 25.619
+            },
+            {
+              "function": "cp7_wip.pcs(jsonb)",
+              "calls": 10852,
+              "total_ms": 22.976,
+              "self_ms": 22.976
+            },
+            {
+              "function": "cp7_identity.workspace_data(uuid[],timestamp with time zone)",
+              "calls": 1,
+              "total_ms": 44.403,
+              "self_ms": 17.139
+            },
+            {
+              "function": "cp7_analysis_native.material_source(jsonb,timestamp with time zone)",
+              "calls": 1,
+              "total_ms": 15.456,
+              "self_ms": 15.456
+            },
+            {
+              "function": "cp7_wip.capture_cutting_sources(uuid[],timestamp with time zone)",
+              "calls": 3,
+              "total_ms": 15.047,
+              "self_ms": 15.047
+            },
+            {
+              "function": "cp7_netting_native.fingerprint(jsonb)",
+              "calls": 1,
+              "total_ms": 61.116,
+              "self_ms": 9.938
+            },
+            {
+              "function": "cp7_analysis_stage.events_validate(jsonb)",
+              "calls": 1,
+              "total_ms": 9.133,
+              "self_ms": 9.06
+            },
+            {
+              "function": "cp7_bounded_analysis_stage.request(jsonb,uuid)",
+              "calls": 1,
+              "total_ms": 6238.369,
+              "self_ms": 6.556
+            },
+            {
+              "function": "cp7_demand.\"decimal\"(jsonb)",
+              "calls": 3622,
+              "total_ms": 6.235,
+              "self_ms": 6.235
+            },
+            {
+              "function": "cp7_analysis_native.fingerprint(jsonb)",
+              "calls": 1,
+              "total_ms": 65.77,
+              "self_ms": 4.448
+            },
+            {
+              "function": "cp7_schedule_native.fingerprint(jsonb)",
+              "calls": 1,
+              "total_ms": 50.368,
+              "self_ms": 4.366
+            },
+            {
+              "function": "cp7_product_analog_consumer.capture(jsonb)",
+              "calls": 1,
+              "total_ms": 29.719,
+              "self_ms": 4.099
+            },
+            {
+              "function": "cp7_demand.items(jsonb,integer)",
+              "calls": 3604,
+              "total_ms": 4.063,
+              "self_ms": 4.063
+            },
+            {
+              "function": "cp7_wip.normalize_cutting(jsonb)",
+              "calls": 1,
+              "total_ms": 10.109,
+              "self_ms": 3.538
+            },
+            {
+              "function": "cp7_supply_native.fingerprint(jsonb)",
+              "calls": 1,
+              "total_ms": 45.833,
+              "self_ms": 3.214
+            },
+            {
+              "function": "cp7_wip.capture_other_sources(uuid[],uuid[],timestamp with time zone)",
+              "calls": 1,
+              "total_ms": 2.696,
+              "self_ms": 2.696
+            },
+            {
+              "function": "cp7_wip.reconcile(jsonb)",
+              "calls": 2,
+              "total_ms": 4.075,
+              "self_ms": 2.301
+            },
+            {
+              "function": "cp7_fabric_native.physical_source(jsonb,timestamp with time zone)",
+              "calls": 1,
+              "total_ms": 2.18,
+              "self_ms": 2.18
+            },
+            {
+              "function": "cp7_fabric_native.source(jsonb,timestamp with time zone)",
+              "calls": 1,
+              "total_ms": 4.217,
+              "self_ms": 2.037
+            },
+            {
+              "function": "cp7_bounded_analysis_stage.producer_hash()",
+              "calls": 1,
+              "total_ms": 1.923,
+              "self_ms": 1.864
+            },
+            {
+              "function": "cp7_supply_native.proof_kernel()",
+              "calls": 1,
+              "total_ms": 1.904,
+              "self_ms": 1.846
+            },
+            {
+              "function": "cp7_supply_native.batch_reuse(jsonb,text)",
+              "calls": 1,
+              "total_ms": 1.687,
+              "self_ms": 1.674
+            },
+            {
+              "function": "cp7_supply_native.wip_source_parts(timestamp with time zone)",
+              "calls": 1,
+              "total_ms": 35.541,
+              "self_ms": 1.519
+            },
+            {
+              "function": "cp7_planning.history_events(jsonb)",
+              "calls": 1,
+              "total_ms": 1.491,
+              "self_ms": 1.491
+            },
+            {
+              "function": "erp.has_permission(text)",
+              "calls": 10,
+              "total_ms": 1.094,
+              "self_ms": 1.094
+            },
+            {
+              "function": "cp7_analysis_stage.baseline_rows(jsonb,jsonb,jsonb,text)",
+              "calls": 1,
+              "total_ms": 896.966,
+              "self_ms": 1.052
+            },
+            {
+              "function": "cp7_product_analog_consumer.engine_hash()",
+              "calls": 1,
+              "total_ms": 1.036,
+              "self_ms": 0.999
+            },
+            {
+              "function": "cp7_supply_native.merge_facts(jsonb,jsonb)",
+              "calls": 1,
+              "total_ms": 0.877,
+              "self_ms": 0.877
+            },
+            {
+              "function": "cp7_wip.settle_bs(jsonb,jsonb,jsonb,timestamp with time zone)",
+              "calls": 1,
+              "total_ms": 3.593,
+              "self_ms": 0.85
+            },
+            {
+              "function": "cp7_supply_native.classify(jsonb)",
+              "calls": 1,
+              "total_ms": 10.861,
+              "self_ms": 0.752
+            },
+            {
+              "function": "cp7_wip.redispatch_valid(jsonb)",
+              "calls": 1,
+              "total_ms": 0.652,
+              "self_ms": 0.652
+            },
+            {
+              "function": "cp7_supply_native.capture_at(jsonb,timestamp with time zone)",
+              "calls": 1,
+              "total_ms": 14.32,
+              "self_ms": 0.495
+            },
+            {
+              "function": "cp7_analysis_stage.status(uuid)",
+              "calls": 1,
+              "total_ms": 0.641,
+              "self_ms": 0.492
+            }
+          ],
+          "completed_calls_only": true,
+          "inlined_SQL_functions_may_be_absent": true,
+          "instrumentation_overhead_uncalibrated": true
+        },
+        "current_request_function_profile": {
+          "functions": [
+            {
+              "function": "cp7_history_reference.stock_digest(jsonb,timestamp with time zone)",
+              "calls": 1,
+              "total_ms": 2508.661,
+              "self_ms": 2215.207
+            },
+            {
+              "function": "cp7_history_bounded.compile(jsonb,jsonb,jsonb,integer)",
+              "calls": 1,
+              "total_ms": 2707.696,
+              "self_ms": 525.046
+            },
+            {
+              "function": "cp7_reorder_inputs.stock_summary(jsonb,timestamp with time zone,jsonb)",
+              "calls": 1,
+              "total_ms": 518.957,
+              "self_ms": 514.517
+            },
+            {
+              "function": "cp7_analysis_stage.create_job(uuid,uuid,jsonb,jsonb,jsonb)",
+              "calls": 1,
+              "total_ms": 460.497,
+              "self_ms": 397.077
+            },
+            {
+              "function": "cp7_model_target_consumer_v2.rows(jsonb,jsonb,jsonb,text,jsonb)",
+              "calls": 1,
+              "total_ms": 1317.565,
+              "self_ms": 390.592
+            },
+            {
+              "function": "cp7_wip.refs(jsonb)",
+              "calls": 14451,
+              "total_ms": 492.376,
+              "self_ms": 324.608
+            },
+            {
+              "function": "cp7_wip.fields(jsonb,text[])",
+              "calls": 36124,
+              "total_ms": 268.069,
+              "self_ms": 268.069
+            },
+            {
+              "function": "cp7_bounded_analysis_stage.source(jsonb,boolean)",
+              "calls": 1,
+              "total_ms": 7129.513,
+              "self_ms": 267.894
+            },
+            {
+              "function": "cp7_product_analog_consumer.baseline_rows(jsonb,jsonb,jsonb,text,jsonb)",
+              "calls": 1,
+              "total_ms": 893.342,
+              "self_ms": 260.319
+            },
+            {
+              "function": "cp7_reorder_inputs.capture_history(integer)",
+              "calls": 2,
+              "total_ms": 180.031,
+              "self_ms": 179.798
+            },
+            {
+              "function": "cp7_wip.key(jsonb)",
+              "calls": 101105,
+              "total_ms": 179.323,
+              "self_ms": 179.323
+            },
+            {
+              "function": "cp7_model_target_source_v2.stock_digests(jsonb,timestamp with time zone)",
+              "calls": 3,
+              "total_ms": 158.583,
+              "self_ms": 158.409
+            },
+            {
+              "function": "cp7_model_target_source_v2.non_stock_rows(jsonb,integer)",
+              "calls": 3,
+              "total_ms": 162.902,
+              "self_ms": 136.778
+            },
+            {
+              "function": "cp7_product_analog_consumer.prepare(jsonb,jsonb,jsonb)",
+              "calls": 1,
+              "total_ms": 153.349,
+              "self_ms": 118.81
+            },
+            {
+              "function": "cp7_model_evaluation_selection.latest(text[],uuid,timestamp with time zone)",
+              "calls": 3,
+              "total_ms": 100.093,
+              "self_ms": 99.906
+            },
+            {
+              "function": "cp7_demand.availability(jsonb)",
+              "calls": 3602,
+              "total_ms": 316.511,
+              "self_ms": 97.32
+            },
+            {
+              "function": "cp7_reorder_inputs.current_stock(jsonb,jsonb,text)",
+              "calls": 1,
+              "total_ms": 401.017,
+              "self_ms": 84.439
+            },
+            {
+              "function": "cp7_analysis_stage.history_rows(jsonb)",
+              "calls": 1,
+              "total_ms": 80.918,
+              "self_ms": 80.836
+            },
+            {
+              "function": "cp7_product_analog_consumer.provenance(jsonb,jsonb,jsonb,jsonb,jsonb,jsonb)",
+              "calls": 3602,
+              "total_ms": 99.228,
+              "self_ms": 77.341
+            },
+            {
+              "function": "cp7_demand.context(jsonb,text)",
+              "calls": 10807,
+              "total_ms": 113.188,
+              "self_ms": 72.708
+            },
+            {
+              "function": "cp7_bounded_analysis_stage.netting_source(integer,integer)",
+              "calls": 1,
+              "total_ms": 1062.714,
+              "self_ms": 70.715
+            },
+            {
+              "function": "cp7_demand.estimate(jsonb)",
+              "calls": 3602,
+              "total_ms": 284.178,
+              "self_ms": 70.473
+            },
+            {
+              "function": "cp7_baseline.target(jsonb)",
+              "calls": 3602,
+              "total_ms": 249.617,
+              "self_ms": 58.095
+            },
+            {
+              "function": "cp7_bounded_analysis_stage.source_parts(integer)",
+              "calls": 1,
+              "total_ms": 958.273,
+              "self_ms": 57.624
+            },
+            {
+              "function": "cp7_reorder_inputs.capture_baseline(integer)",
+              "calls": 1,
+              "total_ms": 869.383,
+              "self_ms": 53.241
+            },
+            {
+              "function": "cp7_analysis_stage.history_validate(jsonb)",
+              "calls": 1,
+              "total_ms": 213.217,
+              "self_ms": 51.057
+            },
+            {
+              "function": "cp7_model_target_source_v2.capture(jsonb,integer)",
+              "calls": 1,
+              "total_ms": 572.4,
+              "self_ms": 48.719
+            },
+            {
+              "function": "cp7_bounded_analysis_stage.analysis_source(integer,integer)",
+              "calls": 1,
+              "total_ms": 1123.787,
+              "self_ms": 44.706
+            },
+            {
+              "function": "cp7_model_target_source_v2.physical_rows(jsonb,integer,jsonb,text)",
+              "calls": 2,
+              "total_ms": 149.787,
+              "self_ms": 41.977
+            },
+            {
+              "function": "cp7_bounded_analysis_stage.schedule_source(integer)",
+              "calls": 1,
+              "total_ms": 992.0,
+              "self_ms": 33.331
+            },
+            {
+              "function": "cp7_bounded_analysis_stage.native_work_fingerprint(jsonb)",
+              "calls": 1,
+              "total_ms": 36.073,
+              "self_ms": 33.029
+            },
+            {
+              "function": "cp7_profile.source(uuid[],timestamp with time zone)",
+              "calls": 1,
+              "total_ms": 28.916,
+              "self_ms": 28.916
+            },
+            {
+              "function": "cp7_identity.membership(uuid,timestamp with time zone)",
+              "calls": 1202,
+              "total_ms": 27.483,
+              "self_ms": 27.483
+            },
+            {
+              "function": "cp7_model_target_binding.non_stock(jsonb,text,integer)",
+              "calls": 3,
+              "total_ms": 26.124,
+              "self_ms": 25.62
+            },
+            {
+              "function": "cp7_wip.pcs(jsonb)",
+              "calls": 10854,
+              "total_ms": 23.099,
+              "self_ms": 23.099
+            },
+            {
+              "function": "cp7_product_analog_choice.source_at(text[],timestamp with time zone)",
+              "calls": 1,
+              "total_ms": 22.355,
+              "self_ms": 22.355
+            },
+            {
+              "function": "cp7_identity.workspace_data(uuid[],timestamp with time zone)",
+              "calls": 1,
+              "total_ms": 43.866,
+              "self_ms": 16.384
+            },
+            {
+              "function": "cp7_analysis_native.material_source(jsonb,timestamp with time zone)",
+              "calls": 1,
+              "total_ms": 13.182,
+              "self_ms": 13.182
+            },
+            {
+              "function": "cp7_wip.capture_cutting_sources(uuid[],timestamp with time zone)",
+              "calls": 3,
+              "total_ms": 11.445,
+              "self_ms": 11.445
+            },
+            {
+              "function": "cp7_netting_native.fingerprint(jsonb)",
+              "calls": 1,
+              "total_ms": 57.723,
+              "self_ms": 10.774
+            },
+            {
+              "function": "cp7_analysis_stage.events_validate(jsonb)",
+              "calls": 1,
+              "total_ms": 8.353,
+              "self_ms": 8.27
+            },
+            {
+              "function": "cp7_bounded_analysis_stage.request(jsonb,uuid)",
+              "calls": 1,
+              "total_ms": 7599.382,
+              "self_ms": 7.438
+            },
+            {
+              "function": "cp7_demand.\"decimal\"(jsonb)",
+              "calls": 3622,
+              "total_ms": 6.232,
+              "self_ms": 6.232
+            },
+            {
+              "function": "cp7_model_target_source.engine()",
+              "calls": 2,
+              "total_ms": 6.12,
+              "self_ms": 6.12
+            },
+            {
+              "function": "cp7_analysis_native.fingerprint(jsonb)",
+              "calls": 1,
+              "total_ms": 63.312,
+              "self_ms": 5.381
+            },
+            {
+              "function": "cp7_schedule_native.fingerprint(jsonb)",
+              "calls": 1,
+              "total_ms": 46.137,
+              "self_ms": 5.178
+            },
+            {
+              "function": "cp7_model_registry_adapter.engine()",
+              "calls": 4,
+              "total_ms": 5.078,
+              "self_ms": 5.078
+            },
+            {
+              "function": "cp7_supply_native.fingerprint(jsonb)",
+              "calls": 1,
+              "total_ms": 40.8,
+              "self_ms": 4.568
+            },
+            {
+              "function": "cp7_demand.items(jsonb,integer)",
+              "calls": 3606,
+              "total_ms": 4.026,
+              "self_ms": 4.026
+            },
+            {
+              "function": "cp7_wip.normalize_cutting(jsonb)",
+              "calls": 1,
+              "total_ms": 9.892,
+              "self_ms": 3.572
+            },
+            {
+              "function": "cp7_product_analog_consumer.capture(jsonb)",
+              "calls": 1,
+              "total_ms": 25.415,
+              "self_ms": 3.06
+            },
+            {
+              "function": "cp7_model_target_source_v2.producer()",
+              "calls": 2,
+              "total_ms": 2.876,
+              "self_ms": 2.876
+            },
+            {
+              "function": "cp7_model_history_runtime.engine()",
+              "calls": 4,
+              "total_ms": 2.788,
+              "self_ms": 2.74
+            },
+            {
+              "function": "cp7_wip.capture_other_sources(uuid[],uuid[],timestamp with time zone)",
+              "calls": 1,
+              "total_ms": 2.595,
+              "self_ms": 2.595
+            },
+            {
+              "function": "cp7_bounded_analysis_stage.producer_hash()",
+              "calls": 1,
+              "total_ms": 2.393,
+              "self_ms": 2.263
+            },
+            {
+              "function": "cp7_wip.reconcile(jsonb)",
+              "calls": 2,
+              "total_ms": 3.976,
+              "self_ms": 2.251
+            },
+            {
+              "function": "cp7_model_target_source_v2.engine()",
+              "calls": 2,
+              "total_ms": 8.259,
+              "self_ms": 2.139
+            },
+            {
+              "function": "cp7_supply_native.proof_kernel()",
+              "calls": 1,
+              "total_ms": 1.848,
+              "self_ms": 1.791
+            },
+            {
+              "function": "cp7_model_scoped_evaluation.engine()",
+              "calls": 2,
+              "total_ms": 5.761,
+              "self_ms": 1.694
+            },
+            {
+              "function": "cp7_analysis_stage.baseline_rows(jsonb,jsonb,jsonb,text)",
+              "calls": 1,
+              "total_ms": 1319.239,
+              "self_ms": 1.674
+            }
+          ],
+          "completed_calls_only": true,
+          "inlined_SQL_functions_may_be_absent": true,
+          "instrumentation_overhead_uncalibrated": true
+        },
+        "current_request_millis": 7601.699,
+        "current_step_millis": [
+          491.616,
+          249.821,
+          121.364,
+          96.504,
+          92.859,
+          92.072,
+          83.325,
+          789.127,
+          790.073,
+          777.526,
+          751.829,
+          721.165,
+          724.967,
+          721.902,
+          722.652,
+          742.833,
+          726.623,
+          729.778,
+          724.687,
+          730.8,
+          725.826,
+          669.884,
+          81.147,
+          120.221,
+          751.503,
+          53.905,
+          54.33,
+          56.059,
+          53.662,
+          54.178,
+          53.702,
+          54.78,
+          54.023,
+          53.757,
+          55.999,
+          53.876,
+          57.326,
+          57.048,
+          55.192,
+          44.185,
+          180.876,
+          44.623,
+          91.111,
+          89.694,
+          177.345,
+          89.208,
+          89.892,
+          89.698,
+          89.949,
+          103.894,
+          89.926,
+          91.942,
+          92.04,
+          91.399,
+          92.783,
+          92.218,
+          62.096,
+          80.613,
+          140.544,
+          140.241,
+          140.902,
+          140.165,
+          139.571,
+          140.22,
+          139.852,
+          141.157,
+          141.456,
+          141.166,
+          141.464,
+          153.471,
+          146.398,
+          141.265,
+          89.966,
+          648.143,
+          75.08,
+          3.355
+        ],
+        "full_source_check_millis": [
+          3828.138,
+          3885.655
+        ],
+        "all_pages_verified": true,
+        "explicit_capture_clock_engine_refs_retained": true,
+        "old_result_immutable": true,
+        "dimensional_capture_checks": {
+          "PREDECESSOR": {
+            "products": 3600,
+            "commercial_SKUs": 1200,
+            "physical_sizes": 3,
+            "physical_roots": 3600,
+            "actual_native_members_exact": true,
+            "each_SKU_three_distinct_physical_sizes": true,
+            "all3600_physical_targets_once": true,
+            "member_shape_sha256": "0700d0d01e4ccdc64728a3fd5842b7f8e3fe4b2f314b12e0aef054547f82db44"
+          },
+          "CURRENT": {
+            "products": 3600,
+            "commercial_SKUs": 1200,
+            "physical_sizes": 3,
+            "physical_roots": 3600,
+            "actual_native_members_exact": true,
+            "each_SKU_three_distinct_physical_sizes": true,
+            "all3600_physical_targets_once": true,
+            "member_shape_sha256": "0700d0d01e4ccdc64728a3fd5842b7f8e3fe4b2f314b12e0aef054547f82db44"
+          }
+        },
+        "raw_native_INCOMPLETE_preserved": true,
+        "actual_native_post_retires_source": true,
+        "no_business_write_by_analysis": true,
+        "statement_limit": "8s",
+        "factory_SLA_claim": false,
+        "financial_capture": "DEFERRED",
+        "actual_historical_positive_winner": false,
+        "after_use_restore_qualified": false,
+        "full_OW11_acceptance": false,
+        "full_OW12b_acceptance": false,
+        "dimensional_native_component_qualified": true,
+        "both_captured_references_have1200_SKUs_x3_physical_sizes": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      }
+    }
+  },
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "CP6_advisor_boundary_public_catalog_WIB_session_Auth_cleanup_gates": true,
+  "actual_Auth_HTTP_credit": false,
+  "actual_concurrency": false,
+  "new_visual_screenshot_review": false,
+  "new_cross_suite_aggregate_acceptance_credit": 0,
+  "full_factory3600_qualified": false,
+  "full_OW11_acceptance": false,
+  "full_OW12b_acceptance": false,
+  "formal_acceptance": "5/16",
+  "CP7C_accepted": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

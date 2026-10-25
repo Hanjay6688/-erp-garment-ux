@@ -1,0 +1,310 @@
+{
+  "contract": "cp7.original-runtime-receipt.v1",
+  "head": "ab37505de365d4345d9af0f9ba552fb7f9b1b913",
+  "run_id": 40222386626,
+  "job_id": 121256553351,
+  "artifact_id": 12611391202,
+  "bytes": 164790,
+  "artifact_sha256": "59996a138da0bfdd54651b5ed2f3dea02bd0746165f5107dd7966618a3151cd5",
+  "status": "PASS",
+  "Original_read_complete": true,
+  "all_Original_JSON_files_read": 5,
+  "original_json_sha256": {
+    "T3_BACKUP_RESTORE_DRILL.json": "825b92d88c6eed8124f2664257896ce18e61d974a7ef38b37547cf49eb666800",
+    "T3_PACKAGE_FILES_INSTALL.json": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+    "CP7_OW12B_FROZEN_READER.json": "a32231098df5e7311ebe1986621b9184017308d37221b52719d96e1acebb689c",
+    "ALIGNED_CHAIN.json": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b",
+    "T3_PACKAGE_INSTALL.json": "588a9b76360dd87d5e137f6a9d12837004320b6ce0441b4a2d9d77fed1e1979b"
+  },
+  "actual_current_F05_source_prefix_compared": [
+    "source_sha256",
+    "expected_case_count",
+    "required_case_counts",
+    "required_case_ids",
+    "predeclared_case_contract",
+    "predeclared_case_sha256",
+    "target_v2_source_sha256",
+    "frozen_reader_source_sha256"
+  ],
+  "all_source_fields_and_declaration_match": true,
+  "source_prefix_database_executed": false,
+  "product_paths_byte_identical_between_recorded_refs": true,
+  "counts": {
+    "native": 4
+  },
+  "case_facts": {
+    "native": {
+      "OW12B_FROZEN_READER_V2_CATALOG22_EXACT_PREUSE": {
+        "status": "PASS",
+        "private2_public1_tables0_replacements0": true,
+        "exact22_composed_inverse": true,
+        "dependent_view_refused_atomically": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "OW12B_FROZEN_READER_V2_PHYSICAL_SIZE_ZERO_UNKNOWN_K3_POST": {
+        "status": "PASS",
+        "same_physical_size_available_zero": true,
+        "other_nine_sizes_excluded": true,
+        "own_UNKNOWN_not_zero": true,
+        "whole_candidate_and_provenance_exact": true,
+        "K3_then_real_post_preserves_frozen_read": true,
+        "observations": {
+          "ordered_calls": [
+            {
+              "phase": "PRIVATE_REQUEST",
+              "name": "cp7_frozen_analysis_units_v2.request",
+              "millis": 129.768
+            },
+            {
+              "phase": "UNCHANGED_COMPILER_SAME_ARGUMENTS",
+              "name": "cp7_history_bounded.compile",
+              "millis": 38.477
+            }
+          ],
+          "completed": {
+            "state": "DONE",
+            "targets": 23,
+            "pages": 1,
+            "step_millis": [
+              67.489,
+              12.051,
+              10.978,
+              10.128,
+              28.882,
+              21.935,
+              12.44,
+              20.77,
+              22.711,
+              17.291,
+              10.398,
+              20.776,
+              14.761,
+              32.502,
+              24.596,
+              9.97,
+              4.935
+            ]
+          },
+          "read_millis": [
+            25.958,
+            57.081,
+            54.452
+          ]
+        },
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "OW12B_FROZEN_READER_V2_CURRENT_ACCESS_OLD_METHOD_RETENTION": {
+        "status": "PASS",
+        "running_foreign_wrong_epoch_old_method_expired_revoked_refused": true,
+        "observations": {
+          "failed_read": {
+            "millis": 1.941,
+            "sqlstate": "42501",
+            "error": "CP7_ACCESS_DENIED\nCONTEXT:  PL/pgSQL function cp7_private.access_now() line 9 at RAISE\nPL/pgSQL function cp7_schedule_native.access_now(boolean) line 4 at assignment\nPL/pgSQL function cp7_frozen_analysis_readers_v2.read_candidates(uuid,text,integer,integer,text) line 5 at assignment\nSQL function \"erp_cp7_read_product_analog_candidates_v2\" statement 1"
+          },
+          "read_millis": [
+            20.986
+          ]
+        },
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "OW12B_FROZEN_READER_V2_FACTORY1200X3_CACHED_K3_PARITY": {
+        "products": 3600,
+        "commercial_SKUs": 1200,
+        "physical_sizes": 3,
+        "physical_roots": 3600,
+        "movements": 363600,
+        "exactly_three_distinct_physical_sizes_per_commercial_SKU": true,
+        "synthetic_fixture": true,
+        "actual_Native_qualification": false,
+        "official_finance_included": false,
+        "full_factory3600_qualified": false,
+        "production_go": false,
+        "status": "PASS",
+        "all3602_compiled_targets_exact": true,
+        "one_first_page_per_physical_size_cached_K3_exact": true,
+        "per_read_limit_millis": 8000,
+        "factory_SLA_claim": false,
+        "observations": {
+          "ordered_calls": [
+            {
+              "phase": "PRIVATE_REQUEST",
+              "name": "cp7_frozen_analysis_units_v2.request",
+              "millis": 3899.548
+            },
+            {
+              "phase": "UNCHANGED_COMPILER_SAME_ARGUMENTS",
+              "name": "cp7_history_bounded.compile",
+              "millis": 4374.944
+            }
+          ],
+          "completed": {
+            "state": "DONE",
+            "targets": 3602,
+            "pages": 1,
+            "step_millis": [
+              6346.305,
+              1126.303,
+              911.794,
+              888.067,
+              875.011,
+              882.568,
+              904.804,
+              1851.366,
+              1820.946,
+              1847.51,
+              1818.791,
+              1793.1,
+              1774.139,
+              1743.016,
+              1750.983,
+              1755.473,
+              1769.848,
+              1744.674,
+              1759.047,
+              1748.152,
+              1772.478,
+              1660.647,
+              974.132,
+              1073.74,
+              1765.308,
+              903.119,
+              882.611,
+              882.77,
+              907.505,
+              908.61,
+              926.05,
+              944.285,
+              968.822,
+              964.788,
+              982.626,
+              990.8,
+              1001.806,
+              1003.578,
+              1052.932,
+              858.372,
+              953.953,
+              775.349,
+              950.671,
+              931.229,
+              943.354,
+              951.814,
+              971.718,
+              980.187,
+              987.44,
+              999.503,
+              1013.437,
+              1023.384,
+              1052.772,
+              1048.741,
+              1053.635,
+              1075.749,
+              891.191,
+              813.425,
+              908.519,
+              904.878,
+              903.178,
+              915.883,
+              932.176,
+              929.8,
+              908.515,
+              918.627,
+              920.954,
+              908.354,
+              935.718,
+              920.131,
+              913.144,
+              917.136,
+              837.262,
+              1746.035,
+              98.352,
+              5.309
+            ]
+          },
+          "read_millis": [
+            1417.592,
+            1447.964,
+            1381.981,
+            5441.991,
+            5409.286,
+            5463.637
+          ]
+        },
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      }
+    }
+  },
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "CP6_advisor_boundary_public_catalog_WIB_session_Auth_cleanup_gates": true,
+  "actual_Auth_HTTP_credit": false,
+  "actual_concurrency": false,
+  "new_visual_screenshot_review": false,
+  "new_cross_suite_aggregate_acceptance_credit": 0,
+  "full_factory3600_qualified": false,
+  "full_OW11_acceptance": false,
+  "full_OW12b_acceptance": false,
+  "formal_acceptance": "5/16",
+  "CP7C_accepted": false,
+  "independent_acceptance": false,
+  "production_go": false,
+  "reader_v2_Native4_qualified": true,
+  "cached_and_K3_read_millis": [
+    1417.592,
+    1447.964,
+    1381.981,
+    5441.991,
+    5409.286,
+    5463.637
+  ],
+  "factory_SLA_claim": false
+}

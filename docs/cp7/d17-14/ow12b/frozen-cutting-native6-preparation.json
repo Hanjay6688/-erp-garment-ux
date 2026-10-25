@@ -1,0 +1,61 @@
+{
+  "contract": "cp7.frozen-cutting-native6-preparation.v1",
+  "base_head": "c3dfc7b2ea16cd1b8e48a0bfbb20effa21f22dfd",
+  "status": "PREPARATION_ONLY",
+  "source_sha256": {
+    "scripts/cp7_ow12b_frozen_cutting_cases.py": "69159dbb6d6290e01ded098061518a25c2ea757076e1da20ca5032e5ae6c1d88",
+    "scripts/cp7_ow12b_frozen_cutting_probe.py": "e8b98e02673edd9127d7f2bbb9255dfe6a911806bdfc8b7d917a7f5e2bec51c0",
+    "scripts/cp7_ow12b_frozen_cutting_preflight.py": "f3899ba802523e06660c191c5e0090fa14b7383c20de4cee97c22e8028ed98ab",
+    "scripts/cp7_f05_analysis_probe.py": "379e565948e1128b7d5a8bbfb27fe8b31fb0b379b1cba9020bd027643aa3f694",
+    ".github/workflows/cp7-ow12b-frozen-cutting.yml": "726b023e4e519524f7ea6c78851b0a24a3db819b4dce2918e8da9030ed888014",
+    "docs/cp7/d17-14/ow12b/FROZEN_CUTTING_NATIVE6_CONTRACT.json": "4cd0d1f5236224a1e70ef2b51835b0e5af99abd360f4794c88a499d114990549"
+  },
+  "required_case_counts": {
+    "native": 6
+  },
+  "source_pins": 94,
+  "missing_or_mixed_routes_refused": 96,
+  "scope": "UNCHANGED_CHECKED_CUTTING_WRITER_WITH_ACTUAL_FROZEN_V2_DONE_SOURCE",
+  "repeated_catalog_anchor_new_feature_credit": 0,
+  "actual_public_v2_capture_and_all_pages": true,
+  "options_need_matches_displayed_q_conditional": true,
+  "reference_microseconds_preserved": true,
+  "prepared_cases": [
+    "catalog22 inverse anchor",
+    "actual frozen DONE retained index/options/checked SAVE/exact replay/changed payload/old archive UUID",
+    "actual stock post stale newSAVE refusal; committed replay after stale/K2; old archive preserved",
+    "foreign owner and current deactivated actor options/newSAVE/committed replay refusals",
+    "last receipt fault atomically rolls back draft/staged snapshot/receipt",
+    "1200SKU x3 dimensions all3602 targets; checked SAVE before/after K3 retained index; replay/no physical effect"
+  ],
+  "unchanged_eight_second_calls": true,
+  "closed_route_preflights": 12,
+  "actual_workflow_inline_declarations": 60,
+  "new_workflow_shell_steps": 16,
+  "default_false_old_F05_AST_exact": {
+    "new_flag_default_false": true,
+    "old_F05_AST_exact_after_new_flag_false": true,
+    "base_sha256": "c2b66f7b0fcf50118572cc9f3ada7ec471d881574c63cd1de5043e0ed5813029",
+    "candidate_sha256": "379e565948e1128b7d5a8bbfb27fe8b31fb0b379b1cba9020bd027643aa3f694"
+  },
+  "business_backend51_exact": true,
+  "default_app_exact": true,
+  "focused_client_tests": 68,
+  "dedicated_quantity_TS": "PASS",
+  "new_SQL_objects": 0,
+  "SQL_product_changes": 0,
+  "actual_Native": false,
+  "actual_concurrency": false,
+  "actual_Auth_HTTP_credit": false,
+  "UI_cutting_SAVE_wired": false,
+  "default_application_adopted": false,
+  "factory_SLA_claim": false,
+  "first_preparation_findings_preserved": [
+    "New closed guard initially followed legacy guards, so missing parent refused with old checked route error; moved own guard before legacy controls without changing old defaultfalse AST.",
+    "Copied workflow referenced frozen_work hash label and old schedule tests; corrected to cutting declaration and actual quantity/plan/cutting client tests before runtime."
+  ],
+  "formal_acceptance": "5/16",
+  "CP7C_accepted": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

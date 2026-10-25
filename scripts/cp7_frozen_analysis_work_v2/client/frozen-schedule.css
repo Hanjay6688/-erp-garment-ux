@@ -1,4 +1,4 @@
-.frozen-schedule-panel { color: #172c24; background: #f8fbf9; border: 1px solid #c5d4cb; padding: 1rem; border-radius: 10px; }
+.native-production.frozen-schedule-panel { color: #172c24; background: #f8fbf9; border: 1px solid #c5d4cb; padding: 1rem; border-radius: 10px; }
 .frozen-schedule-panel button { color: #172c24; background: #d5e8dd; border: 1px solid #718f7e; border-radius: 6px; padding: 0.6rem 0.8rem; font: inherit; overflow-wrap: anywhere; }
 .frozen-schedule-panel button:disabled { color: #46594e; background: #edf1ee; opacity: 1; cursor: not-allowed; }
 .frozen-schedule-panel button:focus-visible { outline: 3px solid #1c6951; outline-offset: 2px; }

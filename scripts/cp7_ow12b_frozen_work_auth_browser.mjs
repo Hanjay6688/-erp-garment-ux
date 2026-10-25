@@ -23,11 +23,27 @@ async function fill(panel,c){
  }
  await panel.getByLabel('Alasan jadwal',{exact:true}).fill('Actual Auth frozen schedule review; synthetic fixture assumptions')
 }
+// Evaluate all visible text against its actual opaque ancestor background.
+// A button-only check misses body text when the host overrides the panel surface.
+async function readableText(panel){
+ const rows=await panel.evaluate(root=>{
+  const rgb=color=>{const c=color.match(/[\d.]+/g)?.map(Number);if(!c||c.length<3)throw Error('UNSUPPORTED_COLOR:'+color);return c},lum=c=>c.slice(0,3).map(x=>x/255).map(x=>x<=.04045?x/12.92:((x+.055)/1.055)**2.4).reduce((s,x,i)=>s+x*[.2126,.7152,.0722][i],0)
+  const surface=getComputedStyle(root);if(surface.backgroundColor!=='rgb(248, 251, 249)'||surface.backgroundImage!=='none')throw Error('FROZEN_SCHEDULE_SURFACE_OVERRIDDEN')
+  return[root,...root.querySelectorAll('*')].flatMap(el=>{
+   const s=getComputedStyle(el),text=[...el.childNodes].filter(n=>n.nodeType===Node.TEXT_NODE).map(n=>n.textContent).join(' ').trim(),label=text||(['INPUT','TEXTAREA','SELECT'].includes(el.tagName)?el.value:'')
+   if(!label||!el.getClientRects().length||s.visibility!=='visible')return[]
+   let bg=null
+   for(let at=el;at;at=at.parentElement){const style=getComputedStyle(at),color=rgb(style.backgroundColor);if(style.opacity!=='1'||style.backgroundImage!=='none')throw Error('UNMEASURED_TEXT_SURFACE:'+el.tagName);if(color.length===3||color[3]===1){bg=color;break}if(color[3]!==0)throw Error('UNMEASURED_ALPHA_BACKGROUND')}
+   const fg=rgb(s.color);if(!bg||fg.length===4&&fg[3]!==1)throw Error('UNMEASURED_TEXT_COLOR')
+   const a=lum(fg),b=lum(bg);return[{tag:el.tagName,label:label.slice(0,90),ratio:(Math.max(a,b)+.05)/(Math.min(a,b)+.05)}]
+  })
+ });assert.ok(rows.length>0&&rows.every(x=>x.ratio>=4.5),JSON.stringify(rows.filter(x=>x.ratio<4.5)));return rows
+}
 async function journey(ui,today,built,mobile){
  const user=await ui.login('OWNER',{label:'frozen-work-'+mobile,mobile,timezoneId:mobile?'America/Los_Angeles':'Asia/Jakarta'}),page=user.page,actor=user.user.id
- const f=fixture('prepare',{today}),state=()=>fixture('state',{actor}),before=state(),observed=[],shots=[];let other=null,lost=null
+ const f=fixture('prepare',{today}),state=()=>fixture('state',{actor}),before=state(),observed=[],shots=[],textContrasts=[];let other=null,lost=null
  const url=built.url+'?query='+encodeURIComponent(JSON.stringify(f.query)),panel=page.getByRole('region',{name:'Jadwal produksi',exact:true})
- const shot=async suffix=>{mkdirSync('cp6-proof/t3',{recursive:true});const path=`cp6-proof/t3/FROZEN_AUTH_${mobile?'MOBILE':'DESKTOP'}_${suffix}.png`;await page.screenshot({path,fullPage:true});shots.push(path)}
+ const shot=async suffix=>{mkdirSync('cp6-proof/t3',{recursive:true});const path=`cp6-proof/t3/FROZEN_AUTH_${mobile?'MOBILE':'DESKTOP'}_${suffix}.png`;await page.screenshot({path,fullPage:true});shots.push(path);if(suffix!=='FAILURE')textContrasts.push({state:suffix,rows:await readableText(panel)})}
  const pending=()=>page.evaluate(()=>Object.entries(localStorage).filter(([k])=>k.startsWith('erp.cp7.schedule-request.v2:')).map(([,v])=>JSON.parse(v)))
  try{
   await page.goto(url);await ui.expect(panel).toBeVisible();await page.setViewportSize(mobile?{width:390,height:844}:{width:1440,height:1000})
@@ -58,7 +74,7 @@ async function journey(ui,today,built,mobile){
    await ui.expect(panel.locator('form')).toHaveCount(0);assert.deepEqual(await pending(),held);assert.deepEqual(state(),posted);await shot('ACCESS_REVOKED')
   }
   assert.deepEqual(await page.evaluate(()=>navigator.locks.query()),{held:[],pending:[]})
-  return{status:'PASS',actual_Auth_PostgREST_browser:true,actual_AuthProvider:true,actual_AuthGate:true,actual_pending_v2_source:true,actual_form_submission:true,actual_Native_import_customer_work:true,customer8_uses45_minutes_no_company_yield:true,visible_button_contrasts:contrasts,viewport:mobile?390:1440,no_horizontal_overflow:true,actual_reply_loss_reload_same_UUID_payload_one_receipt:!mobile,actual_Native_stock_post_stale_refusal:mobile,dirty_form_and_durable_request_retained:mobile,actual_anon_foreign_current_access_refusals:mobile,actual403_clears_form:mobile,no_physical_effect_by_schedule:true,source_paths:built.source_paths,source_sha256:built.source_sha256,shots,default_application_adopted:false,production_go:false}
+  return{status:'PASS',actual_Auth_PostgREST_browser:true,actual_AuthProvider:true,actual_AuthGate:true,actual_pending_v2_source:true,actual_form_submission:true,actual_Native_import_customer_work:true,customer8_uses45_minutes_no_company_yield:true,visible_button_contrasts:contrasts,visible_text_contrasts:textContrasts,actual_opaque_panel_background_verified:true,viewport:mobile?390:1440,no_horizontal_overflow:true,actual_reply_loss_reload_same_UUID_payload_one_receipt:!mobile,actual_Native_stock_post_stale_refusal:mobile,dirty_form_and_durable_request_retained:mobile,actual_anon_foreign_current_access_refusals:mobile,actual403_clears_form:mobile,no_physical_effect_by_schedule:true,source_paths:built.source_paths,source_sha256:built.source_sha256,shots,default_application_adopted:false,production_go:false}
  }catch(e){mkdirSync('cp6-proof/t3',{recursive:true});writeFileSync(`cp6-proof/t3/FROZEN_AUTH_${mobile?'MOBILE':'DESKTOP'}_FAILURE.json`,JSON.stringify({error:String(e),observed,alerts:await page.getByRole('alert').allTextContents().catch(()=>[])},null,2));await shot('FAILURE').catch(()=>{});throw e}
  finally{fixture('restore',{actor});await other?.context.close();await user.context.close()}
 }
