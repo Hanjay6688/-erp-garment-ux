@@ -161,7 +161,7 @@ def controls(cur,backup,digest,rid,customer):
         pins=altered['sources']['current_installation']['predecessor']['predecessor']['stages'][stage]
         pins[next(iter(pins))]='0'*64
         refused(name,lambda b=altered:bind(b,catalog.digest(b)),'VERSIONED_TARGET_RESTORE_SOURCE_OR_CONTRACT_CHANGED')
-    refused('IMMUTABLE_HISTORY_FUNCTION_METADATA_DRIFT',lambda:model_metadata(history_scoped_composed.runtime.PUBLIC[0]),'VERSIONED_TARGET_RESTORE_CATALOG_CHANGED')
+    refused('IMMUTABLE_HISTORY_FUNCTION_METADATA_DRIFT',lambda:model_metadata(history_composed.runtime.PUBLIC[0]),'VERSIONED_TARGET_RESTORE_CATALOG_CHANGED')
     for name,stage in [('CHANGED_SCOPED_MODEL_DATASET','SCOPED_MODEL_DATASET'),('CHANGED_SCOPED_MODEL_V3_RUNTIME','IMMUTABLE_SCOPED_MODEL_V3')]:
         altered=deepcopy(backup)
         pins=altered['sources']['current_installation']['predecessor']['stages'][stage]
