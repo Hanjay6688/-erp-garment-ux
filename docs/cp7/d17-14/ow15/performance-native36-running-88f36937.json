@@ -1,0 +1,24 @@
+{
+  "recorded_at_utc": "2026-10-25T15:36:24.526298+00:00",
+  "head": "88f36937ef7c0a42cc7761142678da5411ece68f",
+  "parent": "1b7dbf30884319933c63dab865b636912e244029",
+  "local": "b6d4eb0cf3cc439133e4c811d9cf83229dfad495",
+  "tree": "02cd09dd3d0ce5b81edc7594703370a9a8f19a38",
+  "prepared_branch": "astra-a/d17-14-versioned-performance-prepared-20261025",
+  "execution_branch": "astra-a/d17-14-versioned-performance-native36-20261025",
+  "source_pins": 3569,
+  "actual_originals": 7,
+  "full_admission": {
+    "status": "PASS",
+    "bytes": 1219622,
+    "sha256": "476f21f10a8670f3034ad9aeeee4e87a150a804a805dc729bd2800568a3dff2b"
+  },
+  "only_new_native_SOURCE": true,
+  "existing_3475_current_Native_pins_unchanged": true,
+  "current_restore8_qualified_head": "7de9d4b9fc1a59fd09282b46dee7812ac740c426",
+  "runtime_qualified": false,
+  "production_go": false,
+  "run_id": 40207721011,
+  "job_id": 121212148397,
+  "status": "CI_IN_PROGRESS"
+}

@@ -3,11 +3,12 @@
 VENI. VIDI. VICI. ERP. — I CONQUERED ERP.
 Reliable data adalah dewa. Keuangan termasuk laporan, stok, dan HPP adalah raja.
 
-**Lima kelompok uji pada susunan target berversi terbaru sudah lulus. Uji
-pemulihan yang dibetulkan masih berjalan. Skala pabrik bersama keuangan resmi
-belum selesai. Formal tetap 5/16; belum ada penerimaan independen atau izin
-produksi.** Posisi ini dicatat 25 Oktober 2026 pukul 22.00 WIB. Status run
-berikutnya dicatat di [catatan aktif A](ACTIVE_WRITER_A_20261025.json).
+**Enam kelompok uji pada susunan target berversi terbaru sudah lulus, termasuk
+pemulihan setelah dipakai. Pengujian kandidat performa 36 kasus sudah berjalan.
+Skala pabrik bersama keuangan resmi belum selesai. Formal tetap 5/16; belum ada
+penerimaan independen atau izin produksi.** Posisi ini dicatat 25 Oktober 2026
+pukul 22.37 WIB. Status run berikutnya ada di
+[catatan aktif A](ACTIVE_WRITER_A_20261025.json).
 
 Astra A menjalankan estafet Claude: uang, stok, HPP, laporan dan penggabungan.
 Penulis B tetap menangani produksi, perencanaan dan bagian analisis yang
@@ -22,6 +23,7 @@ sudah dibagi. Bukti komponen B tidak otomatis menjadi bukti susunan gabungan A.
 | Keuangan, 10 kasus | Tiga alur login dan tujuh persaingan transaksi lulus. Semua 23 kolom hasil perhitungan tetap dibandingkan, termasuk waktu yang dinormalisasi ke UTC; sesi dibersihkan. | [Finance10, `34ecfe89`](versioned-current-finance10-actual-34ecfe89.json) |
 | Hak akses dan transaksi bersamaan, 28 kasus | Sembilan alur login dan 19 persaingan transaksi lulus; hak akses terbaru, riwayat, pengulangan perintah dan pemulihan tetap diperiksa. | [Transport28, `34ecfe89`](versioned-current-transport28-actual-34ecfe89.json) |
 | Proses server terjadwal | Jadwal menit asli benar-benar berjalan tanpa langkah manual. Operasional selesai, keuangan siap, 24 metrik sama dengan laporan resmi dan pemeriksaan pembukuan terpisah. Nilai belum diketahui tetap UNKNOWN. | [Cron1, `055cbc9a`](versioned-current-cron1-actual-055cbc9a.json) |
+| Pemulihan setelah dipakai, 8 langkah | Semua langkah dan 29 kontrol penolakan lulus. Dua pemulihan cadangan penuh, sumber target mutakhir sebelum backup, seluruh 22 kelompok katalog, baris, nomor urut dan pemeriksaan keuangan/riwayat kembali sesuai. | [Restore8, `7de9d4b9`](versioned-current-restore8-order2-actual-7de9d4b9.json) |
 
 Setiap kelompok mempunyai versi sumber dan laporan asli sendiri; hubungan
 prasyaratnya diperiksa. Angka kasus bukan jumlah fitur baru. Hasil ini juga
@@ -39,19 +41,21 @@ evaluasi yang lebih baru memang membuat target tadi tidak mutakhir.
 menyiapkan target sesudah seluruh evaluasi, kemudian memeriksa bahwa target
 masih mutakhir sebelum backup diambil. Semua pemeriksaan bisnis, tujuh berkas
 data uji, batas waktu dan 29 kontrol penolakan dipertahankan. Kegagalan pertama
-tetap disimpan. Run `40202238928` masih menjalankan pemulihan aktual pada
-pembaruan ini; hasil lulus belum diklaim.
+tetap disimpan. [Run `40202238928`](versioned-current-restore8-order2-actual-7de9d4b9.json)
+sudah lulus delapan langkah dan 29 kontrol. Seluruh 3.492 sidik sumber, kedua
+laporan prasyarat, berkas asli dan lima gerbang pemasangan/pemulihan diperiksa.
 
 ## Performa dan skala pabrik
 
-Kandidat A `1b7dbf30` sudah menyiapkan penggabungan tepat dua fungsi optimasi B
-yang mempunyai bukti komponen sebelumnya. Rantai uji berikutnya menunggu hasil
-pemulihan aktual di atas: mesin 36 kasus, lalu lima kelompok pemulihan/layar/
-akses/keuangan/proses server, terakhir 1.200 SKU × tiga ukuran dengan angka
-keuangan dan HPP resmi. Semua tujuh deklarasi uji performa belum diikat;
-belum ada hasil runtime A untuk kandidat ini.
+[Kandidat performa A `88f36937`](performance-native36-running-88f36937.json)
+menggabungkan tepat dua fungsi optimasi B yang sudah mempunyai bukti komponen.
+Seluruh 3.569 sidik sumber dan tujuh laporan prasyarat lulus pemeriksaan lengkap.
+Run `40207721011` sekarang menjalankan 36 kasus pada database terpisah. Jika
+lulus, berikutnya lima kelompok pemulihan/layar/akses/keuangan/proses server,
+lalu 1.200 SKU × tiga ukuran dengan angka keuangan dan HPP resmi. Enam deklarasi
+uji lanjutan belum diikat; belum ada kelulusan runtime A untuk kandidat performa.
 
-[Kandidat terbaru B `dd22f085`](B-dd22-complete-intake.json)
+[Kandidat B sebelumnya `dd22f085`](B-dd22-complete-intake.json)
 menambah fungsi privat untuk mengambil satu salinan sumber lengkap lalu
 menjalankan mesin hitung yang sama terhadap salinan tersebut. Belum ada
 pemasangan ke jalur permintaan aplikasi atau unit pekerjaan, dan belum masuk
@@ -69,12 +73,20 @@ data, CP6 dan advisor juga lulus. Pengambilan sumber sekitar 3,37 detik dan pers
 4,97 detik adalah pengamatan dua panggilan terpisah dalam satu kasus; bukan
 waktu seluruh aplikasi, jaminan kapasitas, atau kelulusan keuangan pabrik.
 
-[Uji pabrik B terbaru](B-factory-dd22-first-actual-dd22f085.json) tetap
+[Uji pabrik B pada `dd22f085`](B-factory-dd22-first-actual-dd22f085.json) tetap
 INCOMPLETE: permintaan pendahulu melewati batas delapan detik. Pemulihan
 katalog/data, CP6 dan advisor lulus, tetapi perbandingan pabrik lengkap belum
 tercapai. Uji tersebut masih memakai jalur permintaan lama; ia tidak menguji
 pemasangan fungsi pengambilan sumber baru ke aplikasi. Tidak ada pelonggaran
 batas waktu atau pemilihan hanya hasil tercepat.
+
+[B terkini `e33f3095`](B-e33-initial-intake.json) membetulkan pembacaan tiga
+bagian hasil kontrol penolakan tadi, serta menyiapkan jalur privat yang menyimpan
+input kompilasi sekali untuk unit pekerjaan berikutnya. Pemeriksaan sumber
+kapsul dan unit lulus; itu belum menjadi kelulusan runtime. Tiga kelompok
+stok/status/riwayat sudah diverifikasi 40 kasus lulus. Empat run lain masih
+berjalan pada pembaruan ini. Jalur privat tersebut belum dipasang ke A, jalur
+publik aplikasi, atau keuangan resmi.
 
 ## Lingkup A yang tetap dijaga
 
@@ -94,7 +106,7 @@ Perubahan terakhir ini memperbarui posisi pengujian A, bukan menutup butir B.
 
 ## Pekerjaan terbuka dan aturan penerimaan
 
-Selesaikan pemulihan terkoreksi, rantai performa, skala pabrik dengan keuangan
+Selesaikan rantai performa, skala pabrik dengan keuangan
 resmi, pemetaan seluruh batas CP6, lalu paket satu kandidat untuk pemeriksa.
 Hasil AI135 dan Race36 sebelumnya tetap INCOMPLETE. Dua puluh satu kegagalan
 CP6 dan empat kasus browser baseline tetap ditampilkan bersama pembanding;

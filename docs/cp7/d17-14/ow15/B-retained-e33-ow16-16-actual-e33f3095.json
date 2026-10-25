@@ -1,0 +1,38 @@
+{
+  "name": "CP7_OW16_AUTOMATIC_STATUS.json",
+  "status": "PASS",
+  "head": "e33f3095612d7274b2780b1a3ee18c68a4d14533",
+  "run_id": 40206240945,
+  "job_id": 121207674250,
+  "artifact_id": 12603519956,
+  "zip_bytes": 251282,
+  "zip_sha256": "f594afff2b05c9f0a6e6ba40caa625228837ff4c678ef14e33f6af04f333ad6d",
+  "bytes": 2288041,
+  "sha256": "2d3fbd81e5298219aa7551fd855bd9203a07c3b5902857c3b1aa17463e4a043a",
+  "archive_member": "CP7_OW16_AUTOMATIC_STATUS.json",
+  "counts": {
+    "native": 10,
+    "races": 2,
+    "http": 2,
+    "browser": 2
+  },
+  "all_original_JSON_files": 5,
+  "source_prefix_fields_verified": 9,
+  "source_prefix_database_executed": false,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "full_boundary_public_WIB_sessions_preserved": true,
+  "diagnostic_repeat": false,
+  "new_speed_or_acceptance_credit": false,
+  "full_A_chain_qualified": false,
+  "actual_visual_QA_in_this_intake": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

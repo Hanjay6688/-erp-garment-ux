@@ -1,0 +1,72 @@
+{
+  "recorded_at_utc": "2026-10-25T15:37:35.715204+00:00",
+  "head": "e33f3095612d7274b2780b1a3ee18c68a4d14533",
+  "actual_verified_components": [
+    {
+      "kind": "B-binary-e33-native4",
+      "receipt": "B-binary-e33-native4-actual-e33f3095.json",
+      "counts": {
+        "native": 4
+      },
+      "artifact_id": 12604405073
+    },
+    {
+      "kind": "B-retained-e33-ow16-16",
+      "receipt": "B-retained-e33-ow16-16-actual-e33f3095.json",
+      "counts": {
+        "native": 10,
+        "races": 2,
+        "http": 2,
+        "browser": 2
+      },
+      "artifact_id": 12603519956
+    },
+    {
+      "kind": "B-retained-e33-ow13b20",
+      "receipt": "B-retained-e33-ow13b20-actual-e33f3095.json",
+      "counts": {
+        "native": 14,
+        "races": 2,
+        "http": 2,
+        "browser": 2
+      },
+      "artifact_id": 12604130655
+    }
+  ],
+  "verified_executions": 40,
+  "all_verified_PASS": true,
+  "source_preflight": {
+    "capsule_pins": 67,
+    "units_pins": 79,
+    "missing_or_mixed_routes_refused": 87,
+    "actual_database_executed_by_preflight": false
+  },
+  "remaining_runs": [
+    {
+      "suite": "capsule4",
+      "run_id": 40206240919,
+      "status": "IN_PROGRESS_LAST_OBSERVED"
+    },
+    {
+      "suite": "private_units4",
+      "run_id": 40206240957,
+      "status": "IN_PROGRESS_LAST_OBSERVED"
+    },
+    {
+      "suite": "factory1200x3",
+      "run_id": 40206240973,
+      "status": "IN_PROGRESS_LAST_OBSERVED"
+    },
+    {
+      "suite": "OW14b113",
+      "run_id": 40206240917,
+      "status": "IN_PROGRESS_LAST_OBSERVED"
+    }
+  ],
+  "first_dd22_capsule_and_factory_failures_preserved": true,
+  "adopted_into_A": false,
+  "official_finance_included": false,
+  "public_or_default_request_adopted": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

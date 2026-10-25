@@ -1,5 +1,5 @@
 {
-  "recorded_at_utc": "2026-10-25T15:09:19.225643+00:00",
+  "recorded_at_utc": "2026-10-25T15:37:35.715204+00:00",
   "role": "A finance writer/integrator replacing Claude",
   "slogan": [
     "VENI. VIDI. VICI. ERP. \u2014 I CONQUERED ERP.",
@@ -10,16 +10,15 @@
   "independent_acceptance": false,
   "running": [
     {
-      "scope": "Current versioned restore8 corrected fixture order",
-      "head": "7de9d4b9fc1a59fd09282b46dee7812ac740c426",
-      "run_id": 40202238928,
-      "job_id": 121195657688,
+      "scope": "Full current versioned performance Native36",
+      "head": "88f36937ef7c0a42cc7761142678da5411ece68f",
+      "run_id": 40207721011,
+      "job_id": 121212148397,
       "status": "CI_IN_PROGRESS",
-      "source_pins": 3492,
-      "actual_originals": 2,
+      "source_pins": 3569,
+      "actual_originals": 7,
       "complete_local_source_admission": "PASS",
-      "execution_branch": "astra-a/d17-14-versioned-target-restore-order2-20261025",
-      "required_intake_qualification_dir": "current-versioned-target-used-restore-order2-qualification"
+      "execution_branch": "astra-a/d17-14-versioned-performance-native36-20261025"
     }
   ],
   "actual_new_component": {
@@ -154,11 +153,15 @@
       "wrong_member_negative_controls": 3,
       "first_runtime_INCOMPLETE_artifact": 12598360114,
       "retained_scoped_replay_full_composer_guard": true,
-      "status": "FIVE_ACTUAL_SUITES_PASS_CORRECTED_RESTORE8_RUNNING",
+      "status": "ALL_SIX_CURRENT_SUITES_ACTUAL_PASS",
       "actual_native_head": "014019a612260525e9c3b9459e354a86209336c1",
       "artifact_id": 12598724977,
       "qualified_Native_head": "014019a612260525e9c3b9459e354a86209336c1",
-      "qualified_Native_run": 40191412940
+      "qualified_Native_run": 40191412940,
+      "Native36_qualified_head": "014019a612260525e9c3b9459e354a86209336c1",
+      "restore8_qualified_head": "7de9d4b9fc1a59fd09282b46dee7812ac740c426",
+      "restore8_run_id": 40202238928,
+      "restore8_runtime_pending": false
     },
     {
       "scope": "full scoped model used restore8",
@@ -197,8 +200,8 @@
     {
       "scope": "late exact B performance on unchanged full A versioned predecessor",
       "branch": "astra-a/d17-14-versioned-performance-prepared-20261025",
-      "head": "1b7dbf30884319933c63dab865b636912e244029",
-      "tree": "12bf37a9a37ef5ace3fc7ad1781a632c614a3d7c",
+      "head": "88f36937ef7c0a42cc7761142678da5411ece68f",
+      "tree": "02cd09dd3d0ce5b81edc7594703370a9a8f19a38",
       "B_qualified_source_head": "c7f06b855512e0c8d450522c36e84f4cab570a2a",
       "exact_function_replacements": 2,
       "direct_JSON_path_substitutions": 6,
@@ -210,7 +213,7 @@
       "full_restore_code_prepared": true,
       "actual_A_runtime_qualified": false,
       "qualification_workflows_prepared": true,
-      "next": "Await actual corrected current restore8; bind7 prerequisites on performance1b7, full admission, then advance Native execution branch fromd378 to the bound child. All seven performance SOURCE declarations remain absent.",
+      "next": "Intake actual performance Native36. Only PASS binds five follow-ups; all six actual PASS then factory1200x3 official finance1. Current versioned restore8 prerequisite is order2 actual PASS7de9, not a future performance restore.",
       "prepared_workflows": [
         "Native36",
         "used restore8",
@@ -220,7 +223,7 @@
         "transport28",
         "factory1200x3 official finance1"
       ],
-      "all_SOURCE_absent": true,
+      "all_SOURCE_absent": false,
       "Native36_actual_prerequisites": 7,
       "Native36_B_actuals_verified": 5,
       "Native36_business_source_negatives": 4,
@@ -250,7 +253,7 @@
       "seven_archive_fetch_checks": "PASS",
       "Native36_source_corrections_true_merged": true,
       "all_3473_current_Native36_source_pins_exact": true,
-      "current_Native36_runtime_still_pending": true,
+      "current_Native36_runtime_still_pending": false,
       "current_parent_pins_exact": 3475,
       "scoped_replay_guard": {
         "status": "PASS_LOCAL_ADAPTER_CHECKS",
@@ -270,15 +273,26 @@
         "production_SQL_changed": false,
         "production_go": false
       },
-      "all_seven_SOURCE_absent": true,
+      "all_seven_SOURCE_absent": false,
       "actual_Original_schema_checked": true,
       "case_level_session_lists_mandatory": true,
       "HTTP_nested_cleanup_mandatory": true,
       "Native36_phase_diagnostics": 18,
       "Native36_business_AST_unchanged": true,
-      "Native36_execution_branch_current_head": "d3786aa0eb537ca7e34075b3c08583fda95f8a80",
+      "Native36_execution_branch_current_head": "88f36937ef7c0a42cc7761142678da5411ece68f",
       "restore_target_capture_after_all_scoped_evaluations": true,
-      "restore_freshness_before_backup_checked": true
+      "restore_freshness_before_backup_checked": true,
+      "status": "ACTUAL_NATIVE36_CI_IN_PROGRESS",
+      "Native36_SOURCE_bound": true,
+      "Native36_source_pins": 3569,
+      "Native36_actual_source_admission": {
+        "status": "PASS",
+        "bytes": 1219622,
+        "sha256": "476f21f10a8670f3034ad9aeeee4e87a150a804a805dc729bd2800568a3dff2b"
+      },
+      "Native36_run_id": 40207721011,
+      "Native36_job_id": 121212148397,
+      "remaining_six_SOURCE_absent": true
     }
   ],
   "first_failures_preserved": [
@@ -1759,6 +1773,43 @@
       },
       "copy_catalog_admissions": 3,
       "race_copy_catalog_admissions": 19
+    },
+    "restore": {
+      "name": "CP7_CURRENT_VERSIONED_TARGET_USED_RESTORE8.json",
+      "status": "PASS",
+      "head": "7de9d4b9fc1a59fd09282b46dee7812ac740c426",
+      "run_id": 40202238928,
+      "job_id": 121195657688,
+      "artifact_id": 12604425877,
+      "zip_bytes": 4229165,
+      "zip_sha256": "4f3576d40297d21b2d1c4a69c2bd703e2b42816467d7bd9cfb6ca82e297310b0",
+      "bytes": 2687358,
+      "sha256": "07d57d86e46d837d5ca66edd0439654d78435f0e3813a3822dac908cfa2b7db1",
+      "archive_member": "CP7_CURRENT_VERSIONED_TARGET_USED_RESTORE8.json",
+      "source_pins_verified": 3492,
+      "actual_prerequisites_verified": 2,
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "production_go": false,
+      "independent_acceptance": false,
+      "steps": 8,
+      "negative_controls": 29,
+      "restored_domain_checks": {
+        "finance_full_restore_checks": 2,
+        "model_full_restore_checks": 4,
+        "dated_target_full_restore_checks": 4,
+        "scoped_history_full_restore_checks": 8,
+        "scoped_model_full_restore_checks": 8
+      },
+      "two_full_used_restores": true,
+      "exact_target_freshness_before_used_backup": true
     }
   },
   "actual_current_versioned_restore8_first_failure": {
@@ -1865,5 +1916,77 @@
     "frozen_capsule_failure": "Test unpacks two values from an established three-value refusal helper; source and first failure preserved",
     "frozen_capsule_first_failure_receipt": "B-frozen-capsule-dd22-first-actual-dd22f085.json",
     "all_nine_tampering_controls_qualified": false
+  },
+  "B_frozen_private_units_candidate": {
+    "recorded_at_utc": "2026-10-25T15:37:35.715204+00:00",
+    "head": "e33f3095612d7274b2780b1a3ee18c68a4d14533",
+    "actual_verified_components": [
+      {
+        "kind": "B-binary-e33-native4",
+        "receipt": "B-binary-e33-native4-actual-e33f3095.json",
+        "counts": {
+          "native": 4
+        },
+        "artifact_id": 12604405073
+      },
+      {
+        "kind": "B-retained-e33-ow16-16",
+        "receipt": "B-retained-e33-ow16-16-actual-e33f3095.json",
+        "counts": {
+          "native": 10,
+          "races": 2,
+          "http": 2,
+          "browser": 2
+        },
+        "artifact_id": 12603519956
+      },
+      {
+        "kind": "B-retained-e33-ow13b20",
+        "receipt": "B-retained-e33-ow13b20-actual-e33f3095.json",
+        "counts": {
+          "native": 14,
+          "races": 2,
+          "http": 2,
+          "browser": 2
+        },
+        "artifact_id": 12604130655
+      }
+    ],
+    "verified_executions": 40,
+    "all_verified_PASS": true,
+    "source_preflight": {
+      "capsule_pins": 67,
+      "units_pins": 79,
+      "missing_or_mixed_routes_refused": 87,
+      "actual_database_executed_by_preflight": false
+    },
+    "remaining_runs": [
+      {
+        "suite": "capsule4",
+        "run_id": 40206240919,
+        "status": "IN_PROGRESS_LAST_OBSERVED"
+      },
+      {
+        "suite": "private_units4",
+        "run_id": 40206240957,
+        "status": "IN_PROGRESS_LAST_OBSERVED"
+      },
+      {
+        "suite": "factory1200x3",
+        "run_id": 40206240973,
+        "status": "IN_PROGRESS_LAST_OBSERVED"
+      },
+      {
+        "suite": "OW14b113",
+        "run_id": 40206240917,
+        "status": "IN_PROGRESS_LAST_OBSERVED"
+      }
+    ],
+    "first_dd22_capsule_and_factory_failures_preserved": true,
+    "adopted_into_A": false,
+    "official_finance_included": false,
+    "public_or_default_request_adopted": false,
+    "production_go": false,
+    "independent_acceptance": false
   }
 }

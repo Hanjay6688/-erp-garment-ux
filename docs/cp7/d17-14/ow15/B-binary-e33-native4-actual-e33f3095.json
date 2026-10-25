@@ -1,0 +1,59 @@
+{
+  "name": "CP7_OW12B_STOCK_BINARY.json",
+  "status": "PASS",
+  "head": "e33f3095612d7274b2780b1a3ee18c68a4d14533",
+  "run_id": 40206240916,
+  "job_id": 121207674132,
+  "artifact_id": 12604405073,
+  "zip_bytes": 158735,
+  "zip_sha256": "29de2bca13e5071d897e3ceba99bfcac4528c49b841b211ef006417f40a415b5",
+  "bytes": 1387675,
+  "sha256": "569261e3543f9227a50b77a7e35eee43186458e15cb767b0bf4f56470f3d40de",
+  "archive_member": "CP7_OW12B_STOCK_BINARY.json",
+  "counts": {
+    "native": 4
+  },
+  "all_original_JSON_files": 5,
+  "source_prefix_fields_verified": 9,
+  "source_prefix_database_executed": false,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "full_boundary_public_WIB_sessions_preserved": true,
+  "diagnostic_repeat": false,
+  "new_speed_or_acceptance_credit": false,
+  "full_A_chain_qualified": false,
+  "actual_visual_QA_in_this_intake": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "source_pins_verified": 15,
+  "ordered_measurements": [
+    {
+      "phase": "V1_FIRST",
+      "millis": 3780.602
+    },
+    {
+      "phase": "V2_FIRST",
+      "millis": 1294.813
+    },
+    {
+      "phase": "V2_SECOND",
+      "millis": 1304.511
+    },
+    {
+      "phase": "V1_SECOND",
+      "millis": 3822.126
+    }
+  ],
+  "actual_rows": 363601,
+  "caller_integrated": false,
+  "official_finance_included": false,
+  "full_factory3600_qualified": false,
+  "factory_SLA_claim": false
+}
