@@ -1,0 +1,140 @@
+{
+  "recorded_at_utc": "2026-10-25T06:20:03.380852+00:00",
+  "role": "A finance writer/integrator replacing Claude",
+  "slogan": [
+    "VENI. VIDI. VICI. ERP. — I CONQUERED ERP.",
+    "Reliable data adalah dewa. Keuangan termasuk laporan, stok, dan HPP adalah raja."
+  ],
+  "formal_accepted": "5/16",
+  "production_go": false,
+  "independent_acceptance": false,
+  "running": [
+    {
+      "scope": "selected-return unchanged contract6 baseline/current",
+      "head": "e0a4721f586476b36de2f5941d4970ea7de2bb8e",
+      "run_id": 40165877589,
+      "job_id": 121086690923,
+      "status": "IN_PROGRESS_RUNTIME"
+    },
+    {
+      "scope": "factory1200x3 official finance actual minute cron",
+      "head": "b7a69c2c9b2568b5a148e9067ee739b981a20435",
+      "run_id": 40166794564,
+      "job_id": 121089393147,
+      "status": "IN_PROGRESS_RUNTIME"
+    },
+    {
+      "scope": "immutable history complete used restore8",
+      "head": "85411344dbf7a134bdf315cb8be72a819c568b1f",
+      "run_id": 40166765382,
+      "job_id": 121089307360,
+      "status": "IN_PROGRESS_RUNTIME"
+    },
+    {
+      "scope": "B versioned target consumer Native6",
+      "head": "dbc0d3ffda3a839dddb41821dcd027254a62d739",
+      "run_id": 40167211154,
+      "job_id": 121090610067,
+      "status": "IN_PROGRESS_RUNTIME"
+    }
+  ],
+  "actual_new_component": {
+    "name": "CP7_OW11_MODEL_TARGET_SOURCE_V2.json",
+    "status": "PASS",
+    "head": "621eab2301de59685c01cd59d082ccb36fa135b0",
+    "run_id": 40166582562,
+    "job_id": 121088771177,
+    "artifact_id": 12589590761,
+    "zip_bytes": 159612,
+    "zip_sha256": "e8490b2daedb5a15fc519ebd1b99f978f638a6acc99de9df7f43711f9151206c",
+    "bytes": 1392809,
+    "sha256": "9f401a22e23717e07b1cc30dcdf5f20c2e47b92f8a0dbee0cb4185a12848aac4",
+    "source_pins_verified": 19,
+    "source_pins_equal_current_isolated_candidate": true,
+    "counts": {
+      "PASS": 4
+    },
+    "case_ids": [
+      "OW11_MODEL_SOURCE_V2_CATALOG22_COMPOSED_INVERSE",
+      "OW11_MODEL_SOURCE_V2_ACTUAL_LATEST_VERSION_AND_POST",
+      "OW11_MODEL_SOURCE_V2_ACTUAL_ACCESS_AND_WAREHOUSE_BOUNDARY",
+      "OW11_MODEL_SOURCE_V2_DENSE2000_BATCHED_PHYSICAL_SOURCE"
+    ],
+    "gate": {
+      "installed": true,
+      "primary_unchanged": true,
+      "backup_restore_drill": true,
+      "security_advisors": true,
+      "writer_runtime": true
+    },
+    "all_boundaries_catalogs_and_sessions_restored": true,
+    "cp6_restored": true,
+    "advisor_gate": true,
+    "first_failure_preserved_artifact": 12588657272,
+    "full_A_chain_qualified": false,
+    "actual_Auth_HTTP_credit": false,
+    "positive_historical_forecast_credit": false,
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "prepared": [
+    {
+      "scope": "unchanged selected-return Native20 regression",
+      "head": "15e73a072dfebb4cd120629d15b3ddb9d59c9d6c",
+      "next": "Bind exact corrected contract6 PASS Original, full source admission, then launch execution branch",
+      "execution_branch": "astra-a/d17-14-selected-return-native20-20261025",
+      "SOURCE_bound": false
+    },
+    {
+      "scope": "selected-return full used restore8",
+      "head": "9cbefd52a05e00baf034f314ca607326cbf72eb5",
+      "next": "Merge actual corrected Native20 qualification SOURCE; bind Native20 and old target restore8 PASS, admit, launch",
+      "execution_branch": "astra-a/d17-14-selected-return-restore-20261025",
+      "SOURCE_bound": false
+    },
+    {
+      "scope": "full scoped model Native30",
+      "head": "85b9226a29bc488cf170fb64d5c96e9fd3b95af0",
+      "next": "Bind actual history restore8 PASS plus verified history25 and four B component Originals; full source admission, launch",
+      "execution_branch": "astra-a/d17-14-scoped-model-native30-20261025",
+      "SOURCE_bound": false,
+      "local_controls": {
+        "catalog_positive": 2,
+        "catalog_negative": 9,
+        "component_source_pins": [
+          20,
+          8,
+          12,
+          19
+        ],
+        "frozen_history_source_admission": "PASS"
+      }
+    },
+    {
+      "scope": "isolated future versioned-target integration",
+      "head": "78a2ce03157debaa57a22fa77cf66629066450b2",
+      "branch": "astra-a/d17-14-versioned-target-integration-prepared-20261025",
+      "client_tests": 303,
+      "client_test_files": 12,
+      "typescript": "PASS",
+      "source_access_CSS_inventories": "PASS",
+      "predecessor_backend_source_ownership": "PASS",
+      "full_A_composer_installs_versioned_target": false,
+      "full_A_Native_qualification": false
+    }
+  ],
+  "first_failures_preserved": [
+    "factory-first-admission-receipt.json",
+    "history-restore-first-fetch-receipt.json",
+    "B-source-v2-first-verified-04551081.json",
+    "current-contract6-actual-d69dc2d3.json"
+  ],
+  "next_rules": [
+    "Preserve and verify exact Original bytes, source pins, every case and full restoration before credit",
+    "Do not rerun unchanged failed candidates just for green",
+    "No main, official, hosted, real WA or frozen Original mutation",
+    "True merges only; no force or rebase",
+    "Writer component PASS does not imply independent acceptance or complete OW11",
+    "Keep owner policy choices explicit; UNKNOWN is not zero"
+  ]
+}
