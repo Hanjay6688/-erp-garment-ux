@@ -22,9 +22,13 @@ in `HANDOFF_PRODUKSI_CLAUDE_20261023.md` remain history, with their failures int
   client tests; official A APIs pinned and financial formulas reused. Actual
   A+B Native/Auth/report parity/factory timing/full after-use restore remain
   open. A composition request is concrete in coordination209.
--16 complete Originals read/retained:15 with complete package gates checked,
-  plus interrupted ee1 Transport with restore/advisor gates missing. A failed
-  writer_runtime remains false. First failures and prior passes are source-bound.
+-18 Originals read/retained:13 Native/actual-Auth reports have package gates
+  checked,4 controlled-browser reports have NO Native/restore gates, and one
+  interrupted ee1 Transport lacks complete gates. A failed writer_runtime stays
+  false. Exact evidence types are in `../d17-14/ow12b/WRITER_B_EVIDENCE_LEDGER.json`.
+- Latest confirmed regressions: f843e4ce cutting UI/run40246233009 PASS4 with
+  controlled identity/RPC;4826 quantity actual Auth/run40244633451 PASS2 with
+ 48 actual compiled modules. Neither closes cutting actual Auth or factory finance.
 - B is **not complete**. Remaining defaults/composition/legacy migration belong
   to A; unapproved activation/status policy values remain unconfigured. Formal
   overall5/16, independent_acceptance=false, production_go=false.
@@ -90,8 +94,9 @@ acceptance and production permission remain false.
 ## New complete Originals read during this takeover (seven sources)
 
 All JSON files, ZIP byte/hash/CRC, exact committed source pins and declarations,
-original case budgets, package gates, full Native boundaries/current public
-catalog, CP6/advisors, WIB/session/Auth cleanup were checked. The three database
+original case budgets and applicable gates were checked. Native/Auth reports
+include package/public/CP6/advisor/session/Auth checks; controlled-browser reports
+have no Native/restore qualification. The three database
 reports also match their exact old F05 source-only prefix; no database was run
 by that comparison. Compact receipts are in `d17-14/ow12b/*takeover-original.json`.
 
@@ -318,9 +323,9 @@ Browser2/run40244633432 are IN_PROGRESS, not qualification. The later old-code
 Auth run40239270120 on e2ef3a9e is still1PASS/1INCOMPLETE; complete Original
 12616557503 independently read,164pins and59compiled modules verified. It has
 same pre-correction mobile initial-denial fixture, not the repaired scenario.
-All13 Originals are retained:12 with complete package gates checked (including
-failed writer_runtime), plus one interrupted Transport Original without restore
-or advisor credit. First failures remain. See coordination209 for A composition.
+At this historical13-Original point:9 Native/actual-Auth reports have package
+gates checked (including failed writer_runtime),3 controlled browsers have no
+Native/restore gates, and one interrupted Transport lacks those gates. First failures remain. See coordination209 for A composition.
 
 
 ## Later complete outcomes and bounded next diagnostics
@@ -349,8 +354,9 @@ form-control colors now fix that surface;4.5 contrast/opacity rejection and all
 case expectations remain exact.59-module real Auth host rebuild passes locally;
 actual fixed browser still required. See both new preparation receipts.
 
-Sixteen complete Originals now retained/read:15 with complete package-gate
-verification, plus interrupted ee1 Transport without restore/advisor credit.
+At this historical16-Original point:12 Native/actual-Auth reports have complete
+package-gate checks,3 controlled browsers have no Native/restore gates, and one
+interrupted ee1 Transport lacks restore/advisor credit.
 Native6/40244633440 and Transport10/40244633462 on4826 remain separate pending
 results. Formal5/16, independent_acceptance=false, production_go=false.
 
@@ -360,3 +366,16 @@ five closed preflights pass with99 missing/mixed refusals each (source pins
 113/142/116/155/164). No source budgets,8s limits, first failure or qualification
 predicate changed. Current overview above is authoritative for continuation;
 the earlier chronological sections intentionally retain their then-current state.
+
+
+Evidence accounting correction: earlier aggregate intake totals were mistakenly
+called package-gate counts. The Original receipts always kept controlled UI
+`actual_Native=false`; their files contain no Native package gates. The corrected
+ledger separates13 Native/actual-Auth package-check reports,4 controlled-browser
+reports and one interrupted missing-gates report (18 total). This corrects the
+summary only and earns no additional qualification. New independent regressions:
+f843e4ce UI Browser4/art12619095649 PASS4,61pins, controlled identity/RPC;4826
+quantity Auth Browser2/art12618667843 PASS2,153pins and48 actual compiled modules.
+Both complete Originals read/hash/source-prefix checked as applicable. New-run
+screenshots were not inspected; earlier source-specific screenshots remain
+history. No controlled journey becomes Native/Auth or full-factory credit.

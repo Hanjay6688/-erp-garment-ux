@@ -104,3 +104,10 @@ local7 SQL groups plus186client/DOM tests pass. Identity/operational source/READ
 report stay controlled in the local SQL proof. The52module Auth host was only
 built, not logged into. Actual combined Native/Auth/report parity and factory
 timing/after-use restoration remain open for the real A+B composition.
+
+
+Latest takeover evidence ledger: `WRITER_B_EVIDENCE_LEDGER.json`. It separates
+Native/actual-Auth package checks, controlled browser proofs and interrupted
+reports with missing gates. The active handoff contains the current exact source
+and pending runs; chronological passing observations do not close factory SLA,
+selected official finance, default adoption or full B scope.

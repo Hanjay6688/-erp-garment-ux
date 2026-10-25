@@ -4341,8 +4341,9 @@ Old mobile fixture wrongly expected retention after definite initial SQL denial.
 New mobile first loses an actually committed SAVE reply, then revokes actor before
 same-command replay; shared recovery behavior is unchanged. New actual runs on
 4826a666: Native6/40244633440, Transport10/40244633462, AuthBrowser2/40244633432.
-All last observed IN_PROGRESS.13 complete Originals retained/read;12 have complete
-package-gate verification and one interrupted Transport has missing gates.
+All last observed IN_PROGRESS. At this historical13-Original point:9 Native/Auth
+reports have package-gate checks,3 controlled UI reports have no Native package
+gates, and one interrupted Transport has missing gates.
 
 A composition request, concrete prepared code:
 
@@ -4403,10 +4404,36 @@ opaque disabled controls now have explicit colors (static ratio5.684); browser
 4.5 threshold, opacity rejection, native disabled state and current403 oracles
 are exact. New actual Auth/run40246233021 on f843e4ce is executing.
 
-Sixteen complete Originals retained/read:15 complete package-gate checks and one
-interrupted transport without restore/advisor credit. The active handoff now
+At this historical16-Original point:12 Native/Auth package-gate checks,3 controlled
+UI reports without Native package gates, and one interrupted missing-gates report. The active handoff now
 starts with a consolidated current overview; older then-current notes remain
 history. A finance composition request209 stands.4826 cutting Native6/40244633440
 and Transport10/40244633462 still executing separately. OPEN_WORK changes only
 OW13 B status; all A rows unchanged. Full B scope is not complete. Formal5/16,
+independent_acceptance=false, production_go=false.
+
+
+## 211. [bersama] B26 Oktober2026 WIB — two verified regressions; evidence accounting corrected
+
+f843e4ce UI Browser4/run40246233009/art12619095649 PASS4,61 source pins, complete
+Original read and exact committed hashes checked. Identity/RPC are controlled;
+no Native/Auth/package/restore credit.4826 quantity actual Auth Browser2/
+run40244633451/art12618667843 PASS2,153 pins and48 actual compiled modules,
+exact old F05 prefix/declaration and complete package/current-public/CP6/advisor/
+WIB/session/Auth/clone checks. This validates the plain operational host after
+optional finance caller changes; it does not qualify selected finance or cutting.
+New-run images were not inspected and earn no visual-inspection claim.
+
+Correction to the earlier intake totals in209/210: controlled-browser reports
+were incorrectly included in the phrase "package-gate checks". Their Original
+receipts always had actual_Native=false and no Native package. Summary wording
+now corrected. Source-based ledger `ow12b/WRITER_B_EVIDENCE_LEDGER.json` records
+18 unique Original artifacts:13 Native/actual-Auth reports with package checks,
+4 controlled browser reports without Native/restore gates, and one interrupted
+Transport without complete gates. Package checked still does not imply the
+writer passed; failed writer_runtime remains false. No acceptance credit added.
+
+Cutting Native6/Transport10 on4826 and cutting Auth/choice Native6 on f843e4ce
+remain pending; first failures and required8s/contrast/current-access/full-source
+oracles remain intact. A composition request209 stands. Formal5/16, B incomplete,
 independent_acceptance=false, production_go=false.
