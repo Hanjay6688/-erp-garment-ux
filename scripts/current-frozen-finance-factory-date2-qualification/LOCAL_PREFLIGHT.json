@@ -1,0 +1,40 @@
+{
+  "status": "LOCAL_SOURCE_PREFLIGHT_PASS",
+  "retained_source": {
+    "executed_fixture_head": "daab807531816353e499d7842897320ce42e8949",
+    "executed_fixture_path": "scripts/current-factory-finance-runtime-qualification/fixture.py",
+    "fixture_sha256": "193197b3c288b382970250f2f3db4c38ea21e3fd45bb1729fe25f94ecbe5e3bd",
+    "retained_assertions": {
+      "runner.py": 36,
+      "fixture.py": 19,
+      "probe.py": 10
+    },
+    "total_assertions": 65,
+    "nine_posted_history_tables_checked": true,
+    "private_transport_only": true,
+    "all24_official_metrics_and_independent_signature_retained": true,
+    "all_money_stock_HPP_and_UNKNOWN_guards_retained": true,
+    "unchanged_300s_window_and60_bounded8s_transactions": true,
+    "new_factory_runtime_credit": false,
+    "production_go": false
+  },
+  "negative_controls": [
+    "wrong_executed_path",
+    "wrong_fixture_sha",
+    "wrong_head",
+    "missing_executed_pin",
+    "missing_history_table",
+    "history_rewritten",
+    "sales_relabelled",
+    "old_sibling_fixture",
+    "old_sibling_and_repinned_config",
+    "relaxed_deadline",
+    "relaxed_metrics",
+    "relaxed_restore"
+  ],
+  "shell_steps_checked": 43,
+  "actual_fixture_provenance_verified": true,
+  "runtime_qualified": false,
+  "production_go": false,
+  "independent_acceptance": false
+}
