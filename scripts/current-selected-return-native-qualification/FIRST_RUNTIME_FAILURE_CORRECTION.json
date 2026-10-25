@@ -1,0 +1,10 @@
+{
+  "first_head": "5cba3b3bcd0d7182255c9b5cde6daea078377008",
+  "first_original_sha256": "8613fa159893827415895ec0d3622e531a8241a1ad29b667e4b0722cd0ce4824",
+  "old_SOURCE_sha256": "12360a9c33455790184d63b61c51a538e0ee53d01ed9db6dd879193b39bc70eb",
+  "change": "Route actual predecessor state; use real full-composition used guard for three inverse controls",
+  "business_assertions_and_latency_limits_preserved": true,
+  "product_SQL_changed": false,
+  "first_failure_relabelled": false,
+  "production_go": false
+}
