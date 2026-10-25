@@ -1,5 +1,5 @@
 {
-  "recorded_at_utc": "2026-10-25T15:55:02.077296+00:00",
+  "recorded_at_utc": "2026-10-25T16:37:14.002688+00:00",
   "role": "A finance writer/integrator replacing Claude",
   "slogan": [
     "VENI. VIDI. VICI. ERP. \u2014 I CONQUERED ERP.",
@@ -2052,5 +2052,84 @@
     "matched_source_bytes_only": 14,
     "runtime_credit": 0,
     "source_pins_changed": false
-  }
+  },
+  "actual_B_corrected_private_units": {
+    "receipt": "B-frozen-units-10a-native4-actual-10a36e35.json",
+    "name": "CP7_OW12B_FROZEN_UNITS.json",
+    "status": "PASS",
+    "head": "10a36e35b956febd9e34907f20fc5b782ec48dc1",
+    "run_id": 40209309494,
+    "job_id": 121216934173,
+    "artifact_id": 12605623860,
+    "zip_bytes": 163545,
+    "zip_sha256": "2884bee24d56ef2909ed9eb5dc640b0668e20aada351c67eea98c58d595c5bb9",
+    "bytes": 1429739,
+    "sha256": "a9b3e3f07c6248399f986d400ac5572a333526d5e7d3ebc31f3c184caad19ae6",
+    "archive_member": "CP7_OW12B_FROZEN_UNITS.json",
+    "counts": {
+      "native": 4
+    },
+    "all_original_JSON_files": 5,
+    "source_prefix_fields_verified": 10,
+    "source_prefix_database_executed": false,
+    "package_gate": {
+      "installed": true,
+      "primary_unchanged": true,
+      "backup_restore_drill": true,
+      "security_advisors": true,
+      "writer_runtime": true
+    },
+    "cp6_restored": true,
+    "advisor_gate": true,
+    "full_boundary_public_WIB_sessions_preserved": true,
+    "diagnostic_repeat": false,
+    "new_speed_or_acceptance_credit": false,
+    "full_A_chain_qualified": false,
+    "actual_visual_QA_in_this_intake": false,
+    "production_go": false,
+    "independent_acceptance": false,
+    "source_pins_verified": 79,
+    "private_functions": 8,
+    "existing_replacements": 8,
+    "new_tables": 0,
+    "new_public_RPC": 0,
+    "actual_private_request_and_units": true,
+    "entire_unchanged_compiler_JSON_equal": true,
+    "all3602_targets_and_pages": true,
+    "immutable_reference_and_archived_pages": true,
+    "exact_replay_cross_method_refusals": true,
+    "old_v1_request_complete": true,
+    "K3_cache_purge_preserves_coverage": true,
+    "actual_Auth_HTTP_credit": false,
+    "public_or_default_request_adopted": false,
+    "official_finance_included": false,
+    "full_factory3600_qualified": false,
+    "factory_SLA_claim": false,
+    "retained_fixture_metadata_actual_Native_qualification": false,
+    "ordered_volume_calls": [
+      {
+        "phase": "PRIVATE_REQUEST",
+        "name": "cp7_frozen_analysis_units_v2.request",
+        "millis": 3822.484
+      },
+      {
+        "phase": "UNCHANGED_COMPILER_SAME_ARGUMENTS",
+        "name": "cp7_history_bounded.compile",
+        "millis": 4217.974
+      }
+    ],
+    "actual_targets": 3602,
+    "actual_pages": 1,
+    "unit_calls": 76,
+    "max_unit_millis": 6060.271,
+    "per_statement_limit_millis": 8000,
+    "retained_fixture_label_explained": "actual_Native_qualification=false is seed metadata, retained exactly; explicit private_request_and_units_qualified and four closed case contracts are PASS. This is not public/Auth/official-finance/full-factory acceptance.",
+    "first_local_intake_checker_failure_retained": true,
+    "intake_negative_controls_refused": 6,
+    "server_runtime_repeated": false,
+    "first_e33_guard_refusal_preserved": true
+  },
+  "future_B_recovery_boundary": "B-10a-prepared-recovery-queued-replacement.json",
+  "future_frozen_finance_boundary": "future-frozen-finance-integration-constraints.json",
+  "current_qualification_drift_impact": "qualification-drift-impact-88f36937-summary.json"
 }

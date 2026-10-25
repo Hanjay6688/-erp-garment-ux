@@ -80,7 +80,7 @@ tercapai. Uji tersebut masih memakai jalur permintaan lama; ia tidak menguji
 pemasangan fungsi pengambilan sumber baru ke aplikasi. Tidak ada pelonggaran
 batas waktu atau pemilihan hanya hasil tercepat.
 
-[Seluruh tujuh laporan B terkini `e33f3095`](B-e33-complete-intake.json)
+[Seluruh tujuh laporan B pada `e33f3095`](B-e33-complete-intake.json)
 sudah diverifikasi dan diarsipkan: 163 eksekusi, 158 PASS dan lima INCOMPLETE.
 Ini bukan jumlah fitur atau penerimaan baru. Empat kelompok stok/status/riwayat/
 aturan lama lulus 153 kasus. [Koreksi pengambilan sumber lulus empat kasus](B-frozen-capsule-e33-native4-actual-e33f3095.json),
@@ -102,6 +102,31 @@ menolak; koreksi harus mempertahankan logika yang sudah terpasang. A tidak
 mengubah sumber B atau memberi kredit alur unit. Semua kelompok memulihkan
 katalog/data, CP6, advisor, sesi dan izin yang diuji. Jalur privat belum diadopsi
 ke A, permintaan publik, atau keuangan resmi.
+
+[Koreksi unit privat `10a36e35`](B-frozen-units-10a-native4-actual-10a36e35.json)
+sudah lulus empat kasus aktual pada run40209309494. Seluruh 3.602 target dan
+halaman diperiksa; hasil compiler sama, jalur lama tetap selesai, pengulangan
+lintas metode ditolak, serta referensi dan hasil lama tetap utuh setelah post.
+Pembersihan cache tidak menghilangkan hasil. Seluruh sumber79pin, pemulihan22
+kelompok, CP6, advisor, sesi dan lima gate diperiksa. Kegagalan e33 tetap disimpan.
+Pada kasus volume, permintaan privat3822.484ms dan pembanding compiler4217.974ms
+adalah dua panggilan berbeda;76panggilan unit masing-masing di bawah8s,
+terbesar6060.271ms. Ini pengamatan kasus, bukan SLA atau kelulusan keuangan resmi.
+
+Pemeriksa intake lokal pertama salah menganggap semua label boolean di luar
+empat pengecualian harus true. Data fixture masih membawa label
+`actual_Native_qualification=false`; label itu dipertahankan, bersama
+`official_finance_included=false` dan `full_factory3600_qualified=false`.
+Pemeriksa kini memakai kontrak boolean tertutup untuk tiap kasus; enam perubahan
+negatif ditolak. Original dan uji server tidak diubah atau diulang. Bukti:
+[Batas pemeriksaan label](B-10a-unit-intake-flag-contract-check.json).
+
+Persiapan klien publik B tetap belum diadopsi. [Empat pemeriksaan antrean
+pemulihan](B-10a-prepared-recovery-queued-replacement.json) menemukan syarat
+caller untuk mempertahankan UUID unresolved setelah respons gagal.
+[Catatan integrasi keuangan](future-frozen-finance-integration-constraints.json)
+menjaga pemisahan metode, izin keuangan terbaru dan keutuhan salinan sumber
+sejak permintaan dibuat. Tidak ada klaim Auth/browser aktual dari pemeriksaan lokal.
 
 ## Lingkup A yang tetap dijaga
 

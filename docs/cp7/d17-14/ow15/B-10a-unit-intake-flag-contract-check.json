@@ -1,0 +1,16 @@
+{
+  "status": "PASS",
+  "actual_closed_case_boolean_contracts": 4,
+  "negative_controls_refused": [
+    "missing_private_success",
+    "compiler_parity_false",
+    "restoration_false",
+    "unqualified_finance_true",
+    "fixture_Native_label_rewritten",
+    "unexpected_success_claim"
+  ],
+  "checker_sha256": "1a60b36c385dcfe9e3facfa840ef4a7fb86533fae5de224cb3d7cc28f069964b",
+  "original_unchanged_sha256": "a9b3e3f07c6248399f986d400ac5572a333526d5e7d3ebc31f3c184caad19ae6",
+  "first_local_intake_failure_retained": true,
+  "server_runtime_repeated": false
+}

@@ -1,0 +1,1300 @@
+{
+  "status": "READ_ONLY_HISTORICAL_PIN_IMPACT",
+  "candidate": "88f36937ef7c0a42cc7761142678da5411ece68f",
+  "candidate_tree": "02cd09dd3d0ce5b81edc7594703370a9a8f19a38",
+  "inventory_sha256": "61e0a3a69ad3633452dfdc82073f82d30892530af236274d55816145b3a8520d",
+  "source_declarations": 117,
+  "declarations_with_drift": 83,
+  "unique_changed_pin_paths": 84,
+  "path_kind_counts": {
+    "workflow": 4,
+    "source_declaration": 1,
+    "checker": 2,
+    "python_or_js_source": 15,
+    "sql": 2,
+    "frontend": 42,
+    "frontend_test": 18
+  },
+  "matching_workflow_count": 61,
+  "matching_workflows_with_drift": 47,
+  "matching_workflows_without_resolved_pin_drift": 14,
+  "runtime_or_coverage_credit": false,
+  "workflow_trigger_or_source_pin_changed": false,
+  "interpretation": "Historical pins remain exact evidence of their own source version. Every changed path needs source-specific current qualification or an explicit equivalence argument before a final combined audit package; no automatic repin or rerun follows from this inventory.",
+  "rows": [
+    {
+      "path": ".github/workflows/cp7-ow04-final-p21.yml",
+      "kind": "workflow",
+      "historical_declarations_with_changed_pin": 1,
+      "direct_matching_workflows": []
+    },
+    {
+      "path": ".github/workflows/cp7-ow04-payment-current.yml",
+      "kind": "workflow",
+      "historical_declarations_with_changed_pin": 1,
+      "direct_matching_workflows": []
+    },
+    {
+      "path": ".github/workflows/cp7-ow04-payment-positive.yml",
+      "kind": "workflow",
+      "historical_declarations_with_changed_pin": 1,
+      "direct_matching_workflows": []
+    },
+    {
+      "path": ".github/workflows/cp7-ow04-payment-source.yml",
+      "kind": "workflow",
+      "historical_declarations_with_changed_pin": 1,
+      "direct_matching_workflows": []
+    },
+    {
+      "path": "scripts/chain-p21-qualification/SOURCE.json",
+      "kind": "source_declaration",
+      "historical_declarations_with_changed_pin": 3,
+      "direct_matching_workflows": [
+        ".github/workflows/cp7-b-extension-chain.yml",
+        ".github/workflows/cp7-ow09-chain-browser.yml",
+        ".github/workflows/cp7-production-chain.yml"
+      ]
+    },
+    {
+      "path": "scripts/check-access-catalog.mjs",
+      "kind": "checker",
+      "historical_declarations_with_changed_pin": 29,
+      "direct_matching_workflows": []
+    },
+    {
+      "path": "scripts/check-source-ownership.mjs",
+      "kind": "checker",
+      "historical_declarations_with_changed_pin": 27,
+      "direct_matching_workflows": []
+    },
+    {
+      "path": "scripts/cp7_b_f05_analysis_probe.py",
+      "kind": "python_or_js_source",
+      "historical_declarations_with_changed_pin": 5,
+      "direct_matching_workflows": [
+        ".github/workflows/cp7-ab-quote-browser.yml",
+        ".github/workflows/cp7-ab-quote-chain.yml",
+        ".github/workflows/cp7-b-extension-chain.yml",
+        ".github/workflows/cp7-finance-bridge-chain.yml",
+        ".github/workflows/cp7-production-chain.yml"
+      ]
+    },
+    {
+      "path": "scripts/cp7_current_finance_model_installation.py",
+      "kind": "python_or_js_source",
+      "historical_declarations_with_changed_pin": 1,
+      "direct_matching_workflows": []
+    },
+    {
+      "path": "scripts/cp7_customer_credit/payment_correction/03_owning_callbacks.sql",
+      "kind": "sql",
+      "historical_declarations_with_changed_pin": 1,
+      "direct_matching_workflows": []
+    },
+    {
+      "path": "scripts/cp7_customer_credit/payment_correction/05_consumer_continuation.sql",
+      "kind": "sql",
+      "historical_declarations_with_changed_pin": 1,
+      "direct_matching_workflows": []
+    },
+    {
+      "path": "scripts/cp7_customer_credit/payment_correction/composition.py",
+      "kind": "python_or_js_source",
+      "historical_declarations_with_changed_pin": 2,
+      "direct_matching_workflows": []
+    },
+    {
+      "path": "scripts/cp7_customer_credit/payment_correction/local_full_ddl_compile.mjs",
+      "kind": "python_or_js_source",
+      "historical_declarations_with_changed_pin": 2,
+      "direct_matching_workflows": []
+    },
+    {
+      "path": "scripts/cp7_customer_credit/payment_correction/transform.py",
+      "kind": "python_or_js_source",
+      "historical_declarations_with_changed_pin": 2,
+      "direct_matching_workflows": []
+    },
+    {
+      "path": "scripts/cp7_ow11_analog_browser.mjs",
+      "kind": "python_or_js_source",
+      "historical_declarations_with_changed_pin": 29,
+      "direct_matching_workflows": []
+    },
+    {
+      "path": "scripts/cp7_ow11_model_history_runtime_transport_cases.py",
+      "kind": "python_or_js_source",
+      "historical_declarations_with_changed_pin": 5,
+      "direct_matching_workflows": []
+    },
+    {
+      "path": "scripts/cp7_ow11_model_history_runtime_transport_probe.py",
+      "kind": "python_or_js_source",
+      "historical_declarations_with_changed_pin": 5,
+      "direct_matching_workflows": []
+    },
+    {
+      "path": "scripts/cp7_ow11_model_scoped_dataset_cases.py",
+      "kind": "python_or_js_source",
+      "historical_declarations_with_changed_pin": 1,
+      "direct_matching_workflows": []
+    },
+    {
+      "path": "scripts/cp7_ow11_model_scoped_evaluation_local.mjs",
+      "kind": "python_or_js_source",
+      "historical_declarations_with_changed_pin": 1,
+      "direct_matching_workflows": []
+    },
+    {
+      "path": "scripts/cp7_ow11_model_target_timeline_local.mjs",
+      "kind": "python_or_js_source",
+      "historical_declarations_with_changed_pin": 8,
+      "direct_matching_workflows": []
+    },
+    {
+      "path": "scripts/cp7_ow14b_rule_cases.py",
+      "kind": "python_or_js_source",
+      "historical_declarations_with_changed_pin": 5,
+      "direct_matching_workflows": [
+        ".github/workflows/cp7-ab-quote-browser.yml",
+        ".github/workflows/cp7-ab-quote-chain.yml",
+        ".github/workflows/cp7-b-extension-chain.yml",
+        ".github/workflows/cp7-finance-bridge-chain.yml",
+        ".github/workflows/cp7-production-chain.yml"
+      ]
+    },
+    {
+      "path": "scripts/cp7_p21_current_chain_rehearsal_probe.py",
+      "kind": "python_or_js_source",
+      "historical_declarations_with_changed_pin": 2,
+      "direct_matching_workflows": [
+        ".github/workflows/cp7-b-extension-chain.yml",
+        ".github/workflows/cp7-production-chain.yml"
+      ]
+    },
+    {
+      "path": "scripts/cp7_p21_full_rehearsal_probe.py",
+      "kind": "python_or_js_source",
+      "historical_declarations_with_changed_pin": 1,
+      "direct_matching_workflows": []
+    },
+    {
+      "path": "scripts/ow04-payment-current-qualification/browser_cases.mjs",
+      "kind": "python_or_js_source",
+      "historical_declarations_with_changed_pin": 1,
+      "direct_matching_workflows": []
+    },
+    {
+      "path": "src/App.tsx",
+      "kind": "frontend",
+      "historical_declarations_with_changed_pin": 3,
+      "direct_matching_workflows": [
+        ".github/workflows/cp7-ow05b-browser.yml",
+        ".github/workflows/cp7-ow05b-native.yml",
+        ".github/workflows/cp7-ow09-chain-browser.yml"
+      ]
+    },
+    {
+      "path": "src/ConnectedCuttingAutoPo.dom.test.tsx",
+      "kind": "frontend_test",
+      "historical_declarations_with_changed_pin": 2,
+      "direct_matching_workflows": [
+        ".github/workflows/cp7-ab-quote-browser.yml",
+        ".github/workflows/cp7-ow09-chain-browser.yml"
+      ]
+    },
+    {
+      "path": "src/ConnectedCuttingPage.tsx",
+      "kind": "frontend",
+      "historical_declarations_with_changed_pin": 2,
+      "direct_matching_workflows": [
+        ".github/workflows/cp7-ab-quote-browser.yml",
+        ".github/workflows/cp7-ow09-chain-browser.yml"
+      ]
+    },
+    {
+      "path": "src/ConnectedFgStockPage.dom.test.tsx",
+      "kind": "frontend_test",
+      "historical_declarations_with_changed_pin": 1,
+      "direct_matching_workflows": [
+        ".github/workflows/cp7-ow09-chain-browser.yml"
+      ]
+    },
+    {
+      "path": "src/ConnectedFgStockPage.tsx",
+      "kind": "frontend",
+      "historical_declarations_with_changed_pin": 1,
+      "direct_matching_workflows": [
+        ".github/workflows/cp7-ow09-chain-browser.yml"
+      ]
+    },
+    {
+      "path": "src/ConnectedMasterPage.tsx",
+      "kind": "frontend",
+      "historical_declarations_with_changed_pin": 1,
+      "direct_matching_workflows": [
+        ".github/workflows/cp7-ow09-chain-browser.yml"
+      ]
+    },
+    {
+      "path": "src/ConnectedSalesPage.dom.test.tsx",
+      "kind": "frontend_test",
+      "historical_declarations_with_changed_pin": 1,
+      "direct_matching_workflows": []
+    },
+    {
+      "path": "src/ConnectedWarehouseSummaryPage.dom.test.tsx",
+      "kind": "frontend_test",
+      "historical_declarations_with_changed_pin": 1,
+      "direct_matching_workflows": [
+        ".github/workflows/cp7-ow09-chain-browser.yml"
+      ]
+    },
+    {
+      "path": "src/ConnectedWarehouseSummaryPage.tsx",
+      "kind": "frontend",
+      "historical_declarations_with_changed_pin": 1,
+      "direct_matching_workflows": [
+        ".github/workflows/cp7-ow09-chain-browser.yml"
+      ]
+    },
+    {
+      "path": "src/FgReorderPanel.dom.test.tsx",
+      "kind": "frontend_test",
+      "historical_declarations_with_changed_pin": 58,
+      "direct_matching_workflows": [
+        ".github/workflows/cp7-ab-bounded-browser.yml",
+        ".github/workflows/cp7-ab-bounded-native.yml",
+        ".github/workflows/cp7-ab-bounded-restore.yml",
+        ".github/workflows/cp7-ab-owner-auth.yml",
+        ".github/workflows/cp7-ab-owner-browser.yml",
+        ".github/workflows/cp7-ab-owner-families.yml",
+        ".github/workflows/cp7-ab-quote-browser.yml",
+        ".github/workflows/cp7-current-cash-fixture-diagnostic.yml",
+        ".github/workflows/cp7-current-cash-ready.yml",
+        ".github/workflows/cp7-current-cp6-ai-native.yml",
+        ".github/workflows/cp7-current-cp6-contract.yml",
+        ".github/workflows/cp7-current-cp6-crossflow.yml",
+        ".github/workflows/cp7-current-cp6-funded.yml",
+        ".github/workflows/cp7-current-cp6-race.yml",
+        ".github/workflows/cp7-current-full-money.yml",
+        ".github/workflows/cp7-current-installation.yml",
+        ".github/workflows/cp7-current-invoice-history-browser.yml",
+        ".github/workflows/cp7-current-legacy-ui-browser.yml",
+        ".github/workflows/cp7-current-mandor-native.yml",
+        ".github/workflows/cp7-current-opening-replay-ready.yml",
+        ".github/workflows/cp7-current-opening-replay.yml",
+        ".github/workflows/cp7-current-owner-lists-browser.yml",
+        ".github/workflows/cp7-current-retained-native.yml",
+        ".github/workflows/cp7-current-return-auth-bounded.yml",
+        ".github/workflows/cp7-current-return-auth-ready.yml",
+        ".github/workflows/cp7-current-return-auth.yml",
+        ".github/workflows/cp7-current-return-browser-bounded.yml",
+        ".github/workflows/cp7-current-return-browser.yml",
+        ".github/workflows/cp7-current-return-installation.yml",
+        ".github/workflows/cp7-current-return-race.yml",
+        ".github/workflows/cp7-current-runner.yml",
+        ".github/workflows/cp7-current-transfer-pages-browser.yml",
+        ".github/workflows/cp7-current-transfer-restore.yml",
+        ".github/workflows/cp7-draft-return-closure.yml",
+        ".github/workflows/cp7-draft-return-isolation.yml",
+        ".github/workflows/cp7-draft-return-regression.yml",
+        ".github/workflows/cp7-draft-return-restored.yml",
+        ".github/workflows/cp7-draft-return-used-restore.yml",
+        ".github/workflows/cp7-ow09-chain-browser.yml",
+        ".github/workflows/cp7-ow14b-installation.yml"
+      ]
+    },
+    {
+      "path": "src/FgReorderPanel.tsx",
+      "kind": "frontend",
+      "historical_declarations_with_changed_pin": 58,
+      "direct_matching_workflows": [
+        ".github/workflows/cp7-ab-bounded-browser.yml",
+        ".github/workflows/cp7-ab-bounded-native.yml",
+        ".github/workflows/cp7-ab-bounded-restore.yml",
+        ".github/workflows/cp7-ab-owner-auth.yml",
+        ".github/workflows/cp7-ab-owner-browser.yml",
+        ".github/workflows/cp7-ab-owner-families.yml",
+        ".github/workflows/cp7-ab-quote-browser.yml",
+        ".github/workflows/cp7-current-cash-fixture-diagnostic.yml",
+        ".github/workflows/cp7-current-cash-ready.yml",
+        ".github/workflows/cp7-current-cp6-ai-native.yml",
+        ".github/workflows/cp7-current-cp6-contract.yml",
+        ".github/workflows/cp7-current-cp6-crossflow.yml",
+        ".github/workflows/cp7-current-cp6-funded.yml",
+        ".github/workflows/cp7-current-cp6-race.yml",
+        ".github/workflows/cp7-current-full-money.yml",
+        ".github/workflows/cp7-current-installation.yml",
+        ".github/workflows/cp7-current-invoice-history-browser.yml",
+        ".github/workflows/cp7-current-legacy-ui-browser.yml",
+        ".github/workflows/cp7-current-mandor-native.yml",
+        ".github/workflows/cp7-current-opening-replay-ready.yml",
+        ".github/workflows/cp7-current-opening-replay.yml",
+        ".github/workflows/cp7-current-owner-lists-browser.yml",
+        ".github/workflows/cp7-current-retained-native.yml",
+        ".github/workflows/cp7-current-return-auth-bounded.yml",
+        ".github/workflows/cp7-current-return-auth-ready.yml",
+        ".github/workflows/cp7-current-return-auth.yml",
+        ".github/workflows/cp7-current-return-browser-bounded.yml",
+        ".github/workflows/cp7-current-return-browser.yml",
+        ".github/workflows/cp7-current-return-installation.yml",
+        ".github/workflows/cp7-current-return-race.yml",
+        ".github/workflows/cp7-current-runner.yml",
+        ".github/workflows/cp7-current-transfer-pages-browser.yml",
+        ".github/workflows/cp7-current-transfer-restore.yml",
+        ".github/workflows/cp7-draft-return-closure.yml",
+        ".github/workflows/cp7-draft-return-isolation.yml",
+        ".github/workflows/cp7-draft-return-regression.yml",
+        ".github/workflows/cp7-draft-return-restored.yml",
+        ".github/workflows/cp7-draft-return-used-restore.yml",
+        ".github/workflows/cp7-ow09-chain-browser.yml",
+        ".github/workflows/cp7-ow14b-installation.yml"
+      ]
+    },
+    {
+      "path": "src/MandorCorrectionPanel.dom.test.tsx",
+      "kind": "frontend_test",
+      "historical_declarations_with_changed_pin": 1,
+      "direct_matching_workflows": []
+    },
+    {
+      "path": "src/MandorCorrectionPanel.tsx",
+      "kind": "frontend",
+      "historical_declarations_with_changed_pin": 1,
+      "direct_matching_workflows": []
+    },
+    {
+      "path": "src/MaterialReorderPanel.dom.test.tsx",
+      "kind": "frontend_test",
+      "historical_declarations_with_changed_pin": 1,
+      "direct_matching_workflows": [
+        ".github/workflows/cp7-ow09-chain-browser.yml"
+      ]
+    },
+    {
+      "path": "src/MaterialReorderPanel.tsx",
+      "kind": "frontend",
+      "historical_declarations_with_changed_pin": 1,
+      "direct_matching_workflows": [
+        ".github/workflows/cp7-ow09-chain-browser.yml"
+      ]
+    },
+    {
+      "path": "src/NativeAnalysisPanel.pages.dom.test.tsx",
+      "kind": "frontend_test",
+      "historical_declarations_with_changed_pin": 64,
+      "direct_matching_workflows": [
+        ".github/workflows/cp7-ab-bounded-browser.yml",
+        ".github/workflows/cp7-ab-bounded-native.yml",
+        ".github/workflows/cp7-ab-bounded-restore.yml",
+        ".github/workflows/cp7-ab-owner-auth.yml",
+        ".github/workflows/cp7-ab-owner-browser.yml",
+        ".github/workflows/cp7-ab-owner-families.yml",
+        ".github/workflows/cp7-ab-quote-browser.yml",
+        ".github/workflows/cp7-current-cash-fixture-diagnostic.yml",
+        ".github/workflows/cp7-current-cash-ready.yml",
+        ".github/workflows/cp7-current-cp6-ai-native.yml",
+        ".github/workflows/cp7-current-cp6-contract.yml",
+        ".github/workflows/cp7-current-cp6-crossflow.yml",
+        ".github/workflows/cp7-current-cp6-funded.yml",
+        ".github/workflows/cp7-current-cp6-race.yml",
+        ".github/workflows/cp7-current-full-money.yml",
+        ".github/workflows/cp7-current-installation.yml",
+        ".github/workflows/cp7-current-invoice-history-browser.yml",
+        ".github/workflows/cp7-current-legacy-ui-browser.yml",
+        ".github/workflows/cp7-current-mandor-native.yml",
+        ".github/workflows/cp7-current-opening-replay-ready.yml",
+        ".github/workflows/cp7-current-opening-replay.yml",
+        ".github/workflows/cp7-current-owner-lists-browser.yml",
+        ".github/workflows/cp7-current-retained-native.yml",
+        ".github/workflows/cp7-current-return-auth-bounded.yml",
+        ".github/workflows/cp7-current-return-auth-ready.yml",
+        ".github/workflows/cp7-current-return-auth.yml",
+        ".github/workflows/cp7-current-return-browser-bounded.yml",
+        ".github/workflows/cp7-current-return-browser.yml",
+        ".github/workflows/cp7-current-return-installation.yml",
+        ".github/workflows/cp7-current-return-race.yml",
+        ".github/workflows/cp7-current-runner.yml",
+        ".github/workflows/cp7-current-transfer-pages-browser.yml",
+        ".github/workflows/cp7-current-transfer-restore.yml",
+        ".github/workflows/cp7-draft-return-closure.yml",
+        ".github/workflows/cp7-draft-return-isolation.yml",
+        ".github/workflows/cp7-draft-return-regression.yml",
+        ".github/workflows/cp7-draft-return-restored.yml",
+        ".github/workflows/cp7-draft-return-used-restore.yml",
+        ".github/workflows/cp7-ow09-chain-browser.yml",
+        ".github/workflows/cp7-ow14b-installation.yml"
+      ]
+    },
+    {
+      "path": "src/NativeAnalysisPanel.tsx",
+      "kind": "frontend",
+      "historical_declarations_with_changed_pin": 64,
+      "direct_matching_workflows": [
+        ".github/workflows/cp7-ab-bounded-browser.yml",
+        ".github/workflows/cp7-ab-bounded-native.yml",
+        ".github/workflows/cp7-ab-bounded-restore.yml",
+        ".github/workflows/cp7-ab-owner-auth.yml",
+        ".github/workflows/cp7-ab-owner-browser.yml",
+        ".github/workflows/cp7-ab-owner-families.yml",
+        ".github/workflows/cp7-ab-quote-browser.yml",
+        ".github/workflows/cp7-current-cash-fixture-diagnostic.yml",
+        ".github/workflows/cp7-current-cash-ready.yml",
+        ".github/workflows/cp7-current-cp6-ai-native.yml",
+        ".github/workflows/cp7-current-cp6-contract.yml",
+        ".github/workflows/cp7-current-cp6-crossflow.yml",
+        ".github/workflows/cp7-current-cp6-funded.yml",
+        ".github/workflows/cp7-current-cp6-race.yml",
+        ".github/workflows/cp7-current-full-money.yml",
+        ".github/workflows/cp7-current-installation.yml",
+        ".github/workflows/cp7-current-invoice-history-browser.yml",
+        ".github/workflows/cp7-current-legacy-ui-browser.yml",
+        ".github/workflows/cp7-current-mandor-native.yml",
+        ".github/workflows/cp7-current-opening-replay-ready.yml",
+        ".github/workflows/cp7-current-opening-replay.yml",
+        ".github/workflows/cp7-current-owner-lists-browser.yml",
+        ".github/workflows/cp7-current-retained-native.yml",
+        ".github/workflows/cp7-current-return-auth-bounded.yml",
+        ".github/workflows/cp7-current-return-auth-ready.yml",
+        ".github/workflows/cp7-current-return-auth.yml",
+        ".github/workflows/cp7-current-return-browser-bounded.yml",
+        ".github/workflows/cp7-current-return-browser.yml",
+        ".github/workflows/cp7-current-return-installation.yml",
+        ".github/workflows/cp7-current-return-race.yml",
+        ".github/workflows/cp7-current-runner.yml",
+        ".github/workflows/cp7-current-transfer-pages-browser.yml",
+        ".github/workflows/cp7-current-transfer-restore.yml",
+        ".github/workflows/cp7-draft-return-closure.yml",
+        ".github/workflows/cp7-draft-return-isolation.yml",
+        ".github/workflows/cp7-draft-return-regression.yml",
+        ".github/workflows/cp7-draft-return-restored.yml",
+        ".github/workflows/cp7-draft-return-used-restore.yml",
+        ".github/workflows/cp7-ow09-chain-browser.yml",
+        ".github/workflows/cp7-ow14b-installation.yml"
+      ]
+    },
+    {
+      "path": "src/NativeBoundedQuantityPanel.dom.test.tsx",
+      "kind": "frontend_test",
+      "historical_declarations_with_changed_pin": 7,
+      "direct_matching_workflows": [
+        ".github/workflows/cp7-ab-bounded-browser.yml",
+        ".github/workflows/cp7-ab-owner-browser.yml",
+        ".github/workflows/cp7-current-full-money.yml",
+        ".github/workflows/cp7-current-invoice-history-browser.yml",
+        ".github/workflows/cp7-current-legacy-ui-browser.yml",
+        ".github/workflows/cp7-current-owner-lists-browser.yml",
+        ".github/workflows/cp7-current-transfer-pages-browser.yml"
+      ]
+    },
+    {
+      "path": "src/NativeBoundedQuantityPanel.tsx",
+      "kind": "frontend",
+      "historical_declarations_with_changed_pin": 13,
+      "direct_matching_workflows": [
+        ".github/workflows/cp7-ab-bounded-browser.yml",
+        ".github/workflows/cp7-ab-owner-browser.yml",
+        ".github/workflows/cp7-current-full-money.yml",
+        ".github/workflows/cp7-current-invoice-history-browser.yml",
+        ".github/workflows/cp7-current-legacy-ui-browser.yml",
+        ".github/workflows/cp7-current-owner-lists-browser.yml",
+        ".github/workflows/cp7-current-transfer-pages-browser.yml"
+      ]
+    },
+    {
+      "path": "src/NativeDemandHistoryPanel.dom.test.tsx",
+      "kind": "frontend_test",
+      "historical_declarations_with_changed_pin": 2,
+      "direct_matching_workflows": [
+        ".github/workflows/cp7-ab-quote-browser.yml",
+        ".github/workflows/cp7-ow09-chain-browser.yml"
+      ]
+    },
+    {
+      "path": "src/NativeDemandHistoryPanel.tsx",
+      "kind": "frontend",
+      "historical_declarations_with_changed_pin": 2,
+      "direct_matching_workflows": [
+        ".github/workflows/cp7-ab-quote-browser.yml",
+        ".github/workflows/cp7-ow09-chain-browser.yml"
+      ]
+    },
+    {
+      "path": "src/NativeModelEvaluationPanel.dom.test.tsx",
+      "kind": "frontend_test",
+      "historical_declarations_with_changed_pin": 50,
+      "direct_matching_workflows": [
+        ".github/workflows/cp7-ab-bounded-browser.yml",
+        ".github/workflows/cp7-ab-bounded-native.yml",
+        ".github/workflows/cp7-ab-bounded-restore.yml",
+        ".github/workflows/cp7-ab-owner-auth.yml",
+        ".github/workflows/cp7-ab-owner-browser.yml",
+        ".github/workflows/cp7-ab-owner-families.yml",
+        ".github/workflows/cp7-ab-quote-browser.yml",
+        ".github/workflows/cp7-current-cash-fixture-diagnostic.yml",
+        ".github/workflows/cp7-current-cash-ready.yml",
+        ".github/workflows/cp7-current-cp6-ai-native.yml",
+        ".github/workflows/cp7-current-cp6-contract.yml",
+        ".github/workflows/cp7-current-cp6-crossflow.yml",
+        ".github/workflows/cp7-current-cp6-funded.yml",
+        ".github/workflows/cp7-current-cp6-race.yml",
+        ".github/workflows/cp7-current-full-money.yml",
+        ".github/workflows/cp7-current-installation.yml",
+        ".github/workflows/cp7-current-invoice-history-browser.yml",
+        ".github/workflows/cp7-current-legacy-ui-browser.yml",
+        ".github/workflows/cp7-current-mandor-native.yml",
+        ".github/workflows/cp7-current-opening-replay-ready.yml",
+        ".github/workflows/cp7-current-opening-replay.yml",
+        ".github/workflows/cp7-current-owner-lists-browser.yml",
+        ".github/workflows/cp7-current-retained-native.yml",
+        ".github/workflows/cp7-current-return-auth-bounded.yml",
+        ".github/workflows/cp7-current-return-auth-ready.yml",
+        ".github/workflows/cp7-current-return-auth.yml",
+        ".github/workflows/cp7-current-return-browser-bounded.yml",
+        ".github/workflows/cp7-current-return-browser.yml",
+        ".github/workflows/cp7-current-return-installation.yml",
+        ".github/workflows/cp7-current-return-race.yml",
+        ".github/workflows/cp7-current-runner.yml",
+        ".github/workflows/cp7-current-transfer-pages-browser.yml",
+        ".github/workflows/cp7-current-transfer-restore.yml",
+        ".github/workflows/cp7-draft-return-closure.yml",
+        ".github/workflows/cp7-draft-return-isolation.yml",
+        ".github/workflows/cp7-draft-return-regression.yml",
+        ".github/workflows/cp7-draft-return-restored.yml",
+        ".github/workflows/cp7-draft-return-used-restore.yml",
+        ".github/workflows/cp7-ow09-chain-browser.yml",
+        ".github/workflows/cp7-ow14b-installation.yml"
+      ]
+    },
+    {
+      "path": "src/NativeModelEvaluationPanel.tsx",
+      "kind": "frontend",
+      "historical_declarations_with_changed_pin": 50,
+      "direct_matching_workflows": [
+        ".github/workflows/cp7-ab-bounded-browser.yml",
+        ".github/workflows/cp7-ab-bounded-native.yml",
+        ".github/workflows/cp7-ab-bounded-restore.yml",
+        ".github/workflows/cp7-ab-owner-auth.yml",
+        ".github/workflows/cp7-ab-owner-browser.yml",
+        ".github/workflows/cp7-ab-owner-families.yml",
+        ".github/workflows/cp7-ab-quote-browser.yml",
+        ".github/workflows/cp7-current-cash-fixture-diagnostic.yml",
+        ".github/workflows/cp7-current-cash-ready.yml",
+        ".github/workflows/cp7-current-cp6-ai-native.yml",
+        ".github/workflows/cp7-current-cp6-contract.yml",
+        ".github/workflows/cp7-current-cp6-crossflow.yml",
+        ".github/workflows/cp7-current-cp6-funded.yml",
+        ".github/workflows/cp7-current-cp6-race.yml",
+        ".github/workflows/cp7-current-full-money.yml",
+        ".github/workflows/cp7-current-installation.yml",
+        ".github/workflows/cp7-current-invoice-history-browser.yml",
+        ".github/workflows/cp7-current-legacy-ui-browser.yml",
+        ".github/workflows/cp7-current-mandor-native.yml",
+        ".github/workflows/cp7-current-opening-replay-ready.yml",
+        ".github/workflows/cp7-current-opening-replay.yml",
+        ".github/workflows/cp7-current-owner-lists-browser.yml",
+        ".github/workflows/cp7-current-retained-native.yml",
+        ".github/workflows/cp7-current-return-auth-bounded.yml",
+        ".github/workflows/cp7-current-return-auth-ready.yml",
+        ".github/workflows/cp7-current-return-auth.yml",
+        ".github/workflows/cp7-current-return-browser-bounded.yml",
+        ".github/workflows/cp7-current-return-browser.yml",
+        ".github/workflows/cp7-current-return-installation.yml",
+        ".github/workflows/cp7-current-return-race.yml",
+        ".github/workflows/cp7-current-runner.yml",
+        ".github/workflows/cp7-current-transfer-pages-browser.yml",
+        ".github/workflows/cp7-current-transfer-restore.yml",
+        ".github/workflows/cp7-draft-return-closure.yml",
+        ".github/workflows/cp7-draft-return-isolation.yml",
+        ".github/workflows/cp7-draft-return-regression.yml",
+        ".github/workflows/cp7-draft-return-restored.yml",
+        ".github/workflows/cp7-draft-return-used-restore.yml",
+        ".github/workflows/cp7-ow09-chain-browser.yml",
+        ".github/workflows/cp7-ow14b-installation.yml"
+      ]
+    },
+    {
+      "path": "src/NativePlanDraftPanel.staged.dom.test.tsx",
+      "kind": "frontend_test",
+      "historical_declarations_with_changed_pin": 1,
+      "direct_matching_workflows": [
+        ".github/workflows/cp7-ow09-chain-browser.yml"
+      ]
+    },
+    {
+      "path": "src/NativePlanDraftPanel.tsx",
+      "kind": "frontend",
+      "historical_declarations_with_changed_pin": 1,
+      "direct_matching_workflows": [
+        ".github/workflows/cp7-ow09-chain-browser.yml"
+      ]
+    },
+    {
+      "path": "src/NativePlanningProfilePanel.dom.test.tsx",
+      "kind": "frontend_test",
+      "historical_declarations_with_changed_pin": 1,
+      "direct_matching_workflows": [
+        ".github/workflows/cp7-ow09-chain-browser.yml"
+      ]
+    },
+    {
+      "path": "src/NativePlanningProfilePanel.tsx",
+      "kind": "frontend",
+      "historical_declarations_with_changed_pin": 58,
+      "direct_matching_workflows": [
+        ".github/workflows/cp7-ab-bounded-browser.yml",
+        ".github/workflows/cp7-ab-bounded-native.yml",
+        ".github/workflows/cp7-ab-bounded-restore.yml",
+        ".github/workflows/cp7-ab-owner-auth.yml",
+        ".github/workflows/cp7-ab-owner-browser.yml",
+        ".github/workflows/cp7-ab-owner-families.yml",
+        ".github/workflows/cp7-ab-quote-browser.yml",
+        ".github/workflows/cp7-current-cash-fixture-diagnostic.yml",
+        ".github/workflows/cp7-current-cash-ready.yml",
+        ".github/workflows/cp7-current-cp6-ai-native.yml",
+        ".github/workflows/cp7-current-cp6-contract.yml",
+        ".github/workflows/cp7-current-cp6-crossflow.yml",
+        ".github/workflows/cp7-current-cp6-funded.yml",
+        ".github/workflows/cp7-current-cp6-race.yml",
+        ".github/workflows/cp7-current-full-money.yml",
+        ".github/workflows/cp7-current-installation.yml",
+        ".github/workflows/cp7-current-invoice-history-browser.yml",
+        ".github/workflows/cp7-current-legacy-ui-browser.yml",
+        ".github/workflows/cp7-current-mandor-native.yml",
+        ".github/workflows/cp7-current-opening-replay-ready.yml",
+        ".github/workflows/cp7-current-opening-replay.yml",
+        ".github/workflows/cp7-current-owner-lists-browser.yml",
+        ".github/workflows/cp7-current-retained-native.yml",
+        ".github/workflows/cp7-current-return-auth-bounded.yml",
+        ".github/workflows/cp7-current-return-auth-ready.yml",
+        ".github/workflows/cp7-current-return-auth.yml",
+        ".github/workflows/cp7-current-return-browser-bounded.yml",
+        ".github/workflows/cp7-current-return-browser.yml",
+        ".github/workflows/cp7-current-return-installation.yml",
+        ".github/workflows/cp7-current-return-race.yml",
+        ".github/workflows/cp7-current-runner.yml",
+        ".github/workflows/cp7-current-transfer-pages-browser.yml",
+        ".github/workflows/cp7-current-transfer-restore.yml",
+        ".github/workflows/cp7-draft-return-closure.yml",
+        ".github/workflows/cp7-draft-return-isolation.yml",
+        ".github/workflows/cp7-draft-return-regression.yml",
+        ".github/workflows/cp7-draft-return-restored.yml",
+        ".github/workflows/cp7-draft-return-used-restore.yml",
+        ".github/workflows/cp7-ow09-chain-browser.yml",
+        ".github/workflows/cp7-ow14b-installation.yml"
+      ]
+    },
+    {
+      "path": "src/NativeProductAnalogChoicePanel.tsx",
+      "kind": "frontend",
+      "historical_declarations_with_changed_pin": 1,
+      "direct_matching_workflows": []
+    },
+    {
+      "path": "src/NativeProductAnalogPanel.tsx",
+      "kind": "frontend",
+      "historical_declarations_with_changed_pin": 7,
+      "direct_matching_workflows": []
+    },
+    {
+      "path": "src/NativeProductionPlanningPanel.dom.test.tsx",
+      "kind": "frontend_test",
+      "historical_declarations_with_changed_pin": 2,
+      "direct_matching_workflows": [
+        ".github/workflows/cp7-ab-quote-browser.yml",
+        ".github/workflows/cp7-ow09-chain-browser.yml"
+      ]
+    },
+    {
+      "path": "src/NativeProductionPlanningPanel.tsx",
+      "kind": "frontend",
+      "historical_declarations_with_changed_pin": 58,
+      "direct_matching_workflows": [
+        ".github/workflows/cp7-ab-bounded-browser.yml",
+        ".github/workflows/cp7-ab-bounded-native.yml",
+        ".github/workflows/cp7-ab-bounded-restore.yml",
+        ".github/workflows/cp7-ab-owner-auth.yml",
+        ".github/workflows/cp7-ab-owner-browser.yml",
+        ".github/workflows/cp7-ab-owner-families.yml",
+        ".github/workflows/cp7-ab-quote-browser.yml",
+        ".github/workflows/cp7-current-cash-fixture-diagnostic.yml",
+        ".github/workflows/cp7-current-cash-ready.yml",
+        ".github/workflows/cp7-current-cp6-ai-native.yml",
+        ".github/workflows/cp7-current-cp6-contract.yml",
+        ".github/workflows/cp7-current-cp6-crossflow.yml",
+        ".github/workflows/cp7-current-cp6-funded.yml",
+        ".github/workflows/cp7-current-cp6-race.yml",
+        ".github/workflows/cp7-current-full-money.yml",
+        ".github/workflows/cp7-current-installation.yml",
+        ".github/workflows/cp7-current-invoice-history-browser.yml",
+        ".github/workflows/cp7-current-legacy-ui-browser.yml",
+        ".github/workflows/cp7-current-mandor-native.yml",
+        ".github/workflows/cp7-current-opening-replay-ready.yml",
+        ".github/workflows/cp7-current-opening-replay.yml",
+        ".github/workflows/cp7-current-owner-lists-browser.yml",
+        ".github/workflows/cp7-current-retained-native.yml",
+        ".github/workflows/cp7-current-return-auth-bounded.yml",
+        ".github/workflows/cp7-current-return-auth-ready.yml",
+        ".github/workflows/cp7-current-return-auth.yml",
+        ".github/workflows/cp7-current-return-browser-bounded.yml",
+        ".github/workflows/cp7-current-return-browser.yml",
+        ".github/workflows/cp7-current-return-installation.yml",
+        ".github/workflows/cp7-current-return-race.yml",
+        ".github/workflows/cp7-current-runner.yml",
+        ".github/workflows/cp7-current-transfer-pages-browser.yml",
+        ".github/workflows/cp7-current-transfer-restore.yml",
+        ".github/workflows/cp7-draft-return-closure.yml",
+        ".github/workflows/cp7-draft-return-isolation.yml",
+        ".github/workflows/cp7-draft-return-regression.yml",
+        ".github/workflows/cp7-draft-return-restored.yml",
+        ".github/workflows/cp7-draft-return-used-restore.yml",
+        ".github/workflows/cp7-ow09-chain-browser.yml",
+        ".github/workflows/cp7-ow14b-installation.yml"
+      ]
+    },
+    {
+      "path": "src/NativeStagedAnalysisView.tsx",
+      "kind": "frontend",
+      "historical_declarations_with_changed_pin": 64,
+      "direct_matching_workflows": [
+        ".github/workflows/cp7-ab-bounded-browser.yml",
+        ".github/workflows/cp7-ab-bounded-native.yml",
+        ".github/workflows/cp7-ab-bounded-restore.yml",
+        ".github/workflows/cp7-ab-owner-auth.yml",
+        ".github/workflows/cp7-ab-owner-browser.yml",
+        ".github/workflows/cp7-ab-owner-families.yml",
+        ".github/workflows/cp7-ab-quote-browser.yml",
+        ".github/workflows/cp7-current-cash-fixture-diagnostic.yml",
+        ".github/workflows/cp7-current-cash-ready.yml",
+        ".github/workflows/cp7-current-cp6-ai-native.yml",
+        ".github/workflows/cp7-current-cp6-contract.yml",
+        ".github/workflows/cp7-current-cp6-crossflow.yml",
+        ".github/workflows/cp7-current-cp6-funded.yml",
+        ".github/workflows/cp7-current-cp6-race.yml",
+        ".github/workflows/cp7-current-full-money.yml",
+        ".github/workflows/cp7-current-installation.yml",
+        ".github/workflows/cp7-current-invoice-history-browser.yml",
+        ".github/workflows/cp7-current-legacy-ui-browser.yml",
+        ".github/workflows/cp7-current-mandor-native.yml",
+        ".github/workflows/cp7-current-opening-replay-ready.yml",
+        ".github/workflows/cp7-current-opening-replay.yml",
+        ".github/workflows/cp7-current-owner-lists-browser.yml",
+        ".github/workflows/cp7-current-retained-native.yml",
+        ".github/workflows/cp7-current-return-auth-bounded.yml",
+        ".github/workflows/cp7-current-return-auth-ready.yml",
+        ".github/workflows/cp7-current-return-auth.yml",
+        ".github/workflows/cp7-current-return-browser-bounded.yml",
+        ".github/workflows/cp7-current-return-browser.yml",
+        ".github/workflows/cp7-current-return-installation.yml",
+        ".github/workflows/cp7-current-return-race.yml",
+        ".github/workflows/cp7-current-runner.yml",
+        ".github/workflows/cp7-current-transfer-pages-browser.yml",
+        ".github/workflows/cp7-current-transfer-restore.yml",
+        ".github/workflows/cp7-draft-return-closure.yml",
+        ".github/workflows/cp7-draft-return-isolation.yml",
+        ".github/workflows/cp7-draft-return-regression.yml",
+        ".github/workflows/cp7-draft-return-restored.yml",
+        ".github/workflows/cp7-draft-return-used-restore.yml",
+        ".github/workflows/cp7-ow09-chain-browser.yml",
+        ".github/workflows/cp7-ow14b-installation.yml"
+      ]
+    },
+    {
+      "path": "src/SalesReturnPanel.tsx",
+      "kind": "frontend",
+      "historical_declarations_with_changed_pin": 1,
+      "direct_matching_workflows": []
+    },
+    {
+      "path": "src/SystemRemindersPanel.tsx",
+      "kind": "frontend",
+      "historical_declarations_with_changed_pin": 1,
+      "direct_matching_workflows": [
+        ".github/workflows/cp7-ow09-chain-browser.yml"
+      ]
+    },
+    {
+      "path": "src/TargetDemandDetails.dom.test.tsx",
+      "kind": "frontend_test",
+      "historical_declarations_with_changed_pin": 14,
+      "direct_matching_workflows": []
+    },
+    {
+      "path": "src/TargetDemandDetails.tsx",
+      "kind": "frontend",
+      "historical_declarations_with_changed_pin": 14,
+      "direct_matching_workflows": []
+    },
+    {
+      "path": "src/connected-cutting.css",
+      "kind": "frontend",
+      "historical_declarations_with_changed_pin": 1,
+      "direct_matching_workflows": [
+        ".github/workflows/cp7-ow09-chain-browser.yml"
+      ]
+    },
+    {
+      "path": "src/fg-reorder.css",
+      "kind": "frontend",
+      "historical_declarations_with_changed_pin": 44,
+      "direct_matching_workflows": [
+        ".github/workflows/cp7-ab-bounded-browser.yml",
+        ".github/workflows/cp7-ab-bounded-native.yml",
+        ".github/workflows/cp7-ab-bounded-restore.yml",
+        ".github/workflows/cp7-ab-owner-auth.yml",
+        ".github/workflows/cp7-ab-owner-browser.yml",
+        ".github/workflows/cp7-ab-owner-families.yml",
+        ".github/workflows/cp7-ab-quote-browser.yml",
+        ".github/workflows/cp7-current-cash-fixture-diagnostic.yml",
+        ".github/workflows/cp7-current-cash-ready.yml",
+        ".github/workflows/cp7-current-cp6-ai-native.yml",
+        ".github/workflows/cp7-current-cp6-contract.yml",
+        ".github/workflows/cp7-current-cp6-crossflow.yml",
+        ".github/workflows/cp7-current-cp6-funded.yml",
+        ".github/workflows/cp7-current-cp6-race.yml",
+        ".github/workflows/cp7-current-full-money.yml",
+        ".github/workflows/cp7-current-installation.yml",
+        ".github/workflows/cp7-current-invoice-history-browser.yml",
+        ".github/workflows/cp7-current-legacy-ui-browser.yml",
+        ".github/workflows/cp7-current-mandor-native.yml",
+        ".github/workflows/cp7-current-opening-replay-ready.yml",
+        ".github/workflows/cp7-current-opening-replay.yml",
+        ".github/workflows/cp7-current-owner-lists-browser.yml",
+        ".github/workflows/cp7-current-retained-native.yml",
+        ".github/workflows/cp7-current-return-auth-bounded.yml",
+        ".github/workflows/cp7-current-return-auth-ready.yml",
+        ".github/workflows/cp7-current-return-auth.yml",
+        ".github/workflows/cp7-current-return-browser-bounded.yml",
+        ".github/workflows/cp7-current-return-browser.yml",
+        ".github/workflows/cp7-current-return-installation.yml",
+        ".github/workflows/cp7-current-return-race.yml",
+        ".github/workflows/cp7-current-runner.yml",
+        ".github/workflows/cp7-current-transfer-pages-browser.yml",
+        ".github/workflows/cp7-current-transfer-restore.yml",
+        ".github/workflows/cp7-draft-return-closure.yml",
+        ".github/workflows/cp7-draft-return-isolation.yml",
+        ".github/workflows/cp7-draft-return-regression.yml",
+        ".github/workflows/cp7-draft-return-restored.yml",
+        ".github/workflows/cp7-draft-return-used-restore.yml",
+        ".github/workflows/cp7-ow09-chain-browser.yml",
+        ".github/workflows/cp7-ow14b-installation.yml"
+      ]
+    },
+    {
+      "path": "src/fgReorderContract.ts",
+      "kind": "frontend",
+      "historical_declarations_with_changed_pin": 66,
+      "direct_matching_workflows": [
+        ".github/workflows/cp7-ab-bounded-browser.yml",
+        ".github/workflows/cp7-ab-bounded-native.yml",
+        ".github/workflows/cp7-ab-bounded-restore.yml",
+        ".github/workflows/cp7-ab-owner-auth.yml",
+        ".github/workflows/cp7-ab-owner-browser.yml",
+        ".github/workflows/cp7-ab-owner-families.yml",
+        ".github/workflows/cp7-ab-quote-browser.yml",
+        ".github/workflows/cp7-current-cash-fixture-diagnostic.yml",
+        ".github/workflows/cp7-current-cash-ready.yml",
+        ".github/workflows/cp7-current-cp6-ai-native.yml",
+        ".github/workflows/cp7-current-cp6-contract.yml",
+        ".github/workflows/cp7-current-cp6-crossflow.yml",
+        ".github/workflows/cp7-current-cp6-funded.yml",
+        ".github/workflows/cp7-current-cp6-race.yml",
+        ".github/workflows/cp7-current-full-money.yml",
+        ".github/workflows/cp7-current-installation.yml",
+        ".github/workflows/cp7-current-invoice-history-browser.yml",
+        ".github/workflows/cp7-current-legacy-ui-browser.yml",
+        ".github/workflows/cp7-current-mandor-native.yml",
+        ".github/workflows/cp7-current-opening-replay-ready.yml",
+        ".github/workflows/cp7-current-opening-replay.yml",
+        ".github/workflows/cp7-current-owner-lists-browser.yml",
+        ".github/workflows/cp7-current-retained-native.yml",
+        ".github/workflows/cp7-current-return-auth-bounded.yml",
+        ".github/workflows/cp7-current-return-auth-ready.yml",
+        ".github/workflows/cp7-current-return-auth.yml",
+        ".github/workflows/cp7-current-return-browser-bounded.yml",
+        ".github/workflows/cp7-current-return-browser.yml",
+        ".github/workflows/cp7-current-return-installation.yml",
+        ".github/workflows/cp7-current-return-race.yml",
+        ".github/workflows/cp7-current-runner.yml",
+        ".github/workflows/cp7-current-transfer-pages-browser.yml",
+        ".github/workflows/cp7-current-transfer-restore.yml",
+        ".github/workflows/cp7-draft-return-closure.yml",
+        ".github/workflows/cp7-draft-return-isolation.yml",
+        ".github/workflows/cp7-draft-return-regression.yml",
+        ".github/workflows/cp7-draft-return-restored.yml",
+        ".github/workflows/cp7-draft-return-used-restore.yml",
+        ".github/workflows/cp7-ow09-chain-browser.yml",
+        ".github/workflows/cp7-ow14b-installation.yml"
+      ]
+    },
+    {
+      "path": "src/lib/clientError.ts",
+      "kind": "frontend",
+      "historical_declarations_with_changed_pin": 2,
+      "direct_matching_workflows": []
+    },
+    {
+      "path": "src/mandorCorrectionContract.ts",
+      "kind": "frontend",
+      "historical_declarations_with_changed_pin": 1,
+      "direct_matching_workflows": []
+    },
+    {
+      "path": "src/materialReorderContract.ts",
+      "kind": "frontend",
+      "historical_declarations_with_changed_pin": 1,
+      "direct_matching_workflows": [
+        ".github/workflows/cp7-ow09-chain-browser.yml"
+      ]
+    },
+    {
+      "path": "src/native-analysis.css",
+      "kind": "frontend",
+      "historical_declarations_with_changed_pin": 50,
+      "direct_matching_workflows": [
+        ".github/workflows/cp7-ab-bounded-browser.yml",
+        ".github/workflows/cp7-ab-bounded-native.yml",
+        ".github/workflows/cp7-ab-bounded-restore.yml",
+        ".github/workflows/cp7-ab-owner-auth.yml",
+        ".github/workflows/cp7-ab-owner-browser.yml",
+        ".github/workflows/cp7-ab-owner-families.yml",
+        ".github/workflows/cp7-ab-quote-browser.yml",
+        ".github/workflows/cp7-current-cash-fixture-diagnostic.yml",
+        ".github/workflows/cp7-current-cash-ready.yml",
+        ".github/workflows/cp7-current-cp6-ai-native.yml",
+        ".github/workflows/cp7-current-cp6-contract.yml",
+        ".github/workflows/cp7-current-cp6-crossflow.yml",
+        ".github/workflows/cp7-current-cp6-funded.yml",
+        ".github/workflows/cp7-current-cp6-race.yml",
+        ".github/workflows/cp7-current-full-money.yml",
+        ".github/workflows/cp7-current-installation.yml",
+        ".github/workflows/cp7-current-invoice-history-browser.yml",
+        ".github/workflows/cp7-current-legacy-ui-browser.yml",
+        ".github/workflows/cp7-current-mandor-native.yml",
+        ".github/workflows/cp7-current-opening-replay-ready.yml",
+        ".github/workflows/cp7-current-opening-replay.yml",
+        ".github/workflows/cp7-current-owner-lists-browser.yml",
+        ".github/workflows/cp7-current-retained-native.yml",
+        ".github/workflows/cp7-current-return-auth-bounded.yml",
+        ".github/workflows/cp7-current-return-auth-ready.yml",
+        ".github/workflows/cp7-current-return-auth.yml",
+        ".github/workflows/cp7-current-return-browser-bounded.yml",
+        ".github/workflows/cp7-current-return-browser.yml",
+        ".github/workflows/cp7-current-return-installation.yml",
+        ".github/workflows/cp7-current-return-race.yml",
+        ".github/workflows/cp7-current-runner.yml",
+        ".github/workflows/cp7-current-transfer-pages-browser.yml",
+        ".github/workflows/cp7-current-transfer-restore.yml",
+        ".github/workflows/cp7-draft-return-closure.yml",
+        ".github/workflows/cp7-draft-return-isolation.yml",
+        ".github/workflows/cp7-draft-return-regression.yml",
+        ".github/workflows/cp7-draft-return-restored.yml",
+        ".github/workflows/cp7-draft-return-used-restore.yml",
+        ".github/workflows/cp7-ow09-chain-browser.yml",
+        ".github/workflows/cp7-ow14b-installation.yml"
+      ]
+    },
+    {
+      "path": "src/native-bounded-quantity.css",
+      "kind": "frontend",
+      "historical_declarations_with_changed_pin": 10,
+      "direct_matching_workflows": [
+        ".github/workflows/cp7-ab-bounded-browser.yml",
+        ".github/workflows/cp7-ab-owner-browser.yml",
+        ".github/workflows/cp7-current-full-money.yml",
+        ".github/workflows/cp7-current-invoice-history-browser.yml",
+        ".github/workflows/cp7-current-legacy-ui-browser.yml",
+        ".github/workflows/cp7-current-owner-lists-browser.yml",
+        ".github/workflows/cp7-current-transfer-pages-browser.yml"
+      ]
+    },
+    {
+      "path": "src/native-planning-profile.css",
+      "kind": "frontend",
+      "historical_declarations_with_changed_pin": 1,
+      "direct_matching_workflows": [
+        ".github/workflows/cp7-ow09-chain-browser.yml"
+      ]
+    },
+    {
+      "path": "src/nativeAnalysis.ts",
+      "kind": "frontend",
+      "historical_declarations_with_changed_pin": 1,
+      "direct_matching_workflows": [
+        ".github/workflows/cp7-ow09-chain-browser.yml"
+      ]
+    },
+    {
+      "path": "src/nativeAnalysisPages.test.ts",
+      "kind": "frontend_test",
+      "historical_declarations_with_changed_pin": 64,
+      "direct_matching_workflows": [
+        ".github/workflows/cp7-ab-bounded-browser.yml",
+        ".github/workflows/cp7-ab-bounded-native.yml",
+        ".github/workflows/cp7-ab-bounded-restore.yml",
+        ".github/workflows/cp7-ab-owner-auth.yml",
+        ".github/workflows/cp7-ab-owner-browser.yml",
+        ".github/workflows/cp7-ab-owner-families.yml",
+        ".github/workflows/cp7-ab-quote-browser.yml",
+        ".github/workflows/cp7-current-cash-fixture-diagnostic.yml",
+        ".github/workflows/cp7-current-cash-ready.yml",
+        ".github/workflows/cp7-current-cp6-ai-native.yml",
+        ".github/workflows/cp7-current-cp6-contract.yml",
+        ".github/workflows/cp7-current-cp6-crossflow.yml",
+        ".github/workflows/cp7-current-cp6-funded.yml",
+        ".github/workflows/cp7-current-cp6-race.yml",
+        ".github/workflows/cp7-current-full-money.yml",
+        ".github/workflows/cp7-current-installation.yml",
+        ".github/workflows/cp7-current-invoice-history-browser.yml",
+        ".github/workflows/cp7-current-legacy-ui-browser.yml",
+        ".github/workflows/cp7-current-mandor-native.yml",
+        ".github/workflows/cp7-current-opening-replay-ready.yml",
+        ".github/workflows/cp7-current-opening-replay.yml",
+        ".github/workflows/cp7-current-owner-lists-browser.yml",
+        ".github/workflows/cp7-current-retained-native.yml",
+        ".github/workflows/cp7-current-return-auth-bounded.yml",
+        ".github/workflows/cp7-current-return-auth-ready.yml",
+        ".github/workflows/cp7-current-return-auth.yml",
+        ".github/workflows/cp7-current-return-browser-bounded.yml",
+        ".github/workflows/cp7-current-return-browser.yml",
+        ".github/workflows/cp7-current-return-installation.yml",
+        ".github/workflows/cp7-current-return-race.yml",
+        ".github/workflows/cp7-current-runner.yml",
+        ".github/workflows/cp7-current-transfer-pages-browser.yml",
+        ".github/workflows/cp7-current-transfer-restore.yml",
+        ".github/workflows/cp7-draft-return-closure.yml",
+        ".github/workflows/cp7-draft-return-isolation.yml",
+        ".github/workflows/cp7-draft-return-regression.yml",
+        ".github/workflows/cp7-draft-return-restored.yml",
+        ".github/workflows/cp7-draft-return-used-restore.yml",
+        ".github/workflows/cp7-ow09-chain-browser.yml",
+        ".github/workflows/cp7-ow14b-installation.yml"
+      ]
+    },
+    {
+      "path": "src/nativeAnalysisPages.ts",
+      "kind": "frontend",
+      "historical_declarations_with_changed_pin": 64,
+      "direct_matching_workflows": [
+        ".github/workflows/cp7-ab-bounded-browser.yml",
+        ".github/workflows/cp7-ab-bounded-native.yml",
+        ".github/workflows/cp7-ab-bounded-restore.yml",
+        ".github/workflows/cp7-ab-owner-auth.yml",
+        ".github/workflows/cp7-ab-owner-browser.yml",
+        ".github/workflows/cp7-ab-owner-families.yml",
+        ".github/workflows/cp7-ab-quote-browser.yml",
+        ".github/workflows/cp7-current-cash-fixture-diagnostic.yml",
+        ".github/workflows/cp7-current-cash-ready.yml",
+        ".github/workflows/cp7-current-cp6-ai-native.yml",
+        ".github/workflows/cp7-current-cp6-contract.yml",
+        ".github/workflows/cp7-current-cp6-crossflow.yml",
+        ".github/workflows/cp7-current-cp6-funded.yml",
+        ".github/workflows/cp7-current-cp6-race.yml",
+        ".github/workflows/cp7-current-full-money.yml",
+        ".github/workflows/cp7-current-installation.yml",
+        ".github/workflows/cp7-current-invoice-history-browser.yml",
+        ".github/workflows/cp7-current-legacy-ui-browser.yml",
+        ".github/workflows/cp7-current-mandor-native.yml",
+        ".github/workflows/cp7-current-opening-replay-ready.yml",
+        ".github/workflows/cp7-current-opening-replay.yml",
+        ".github/workflows/cp7-current-owner-lists-browser.yml",
+        ".github/workflows/cp7-current-retained-native.yml",
+        ".github/workflows/cp7-current-return-auth-bounded.yml",
+        ".github/workflows/cp7-current-return-auth-ready.yml",
+        ".github/workflows/cp7-current-return-auth.yml",
+        ".github/workflows/cp7-current-return-browser-bounded.yml",
+        ".github/workflows/cp7-current-return-browser.yml",
+        ".github/workflows/cp7-current-return-installation.yml",
+        ".github/workflows/cp7-current-return-race.yml",
+        ".github/workflows/cp7-current-runner.yml",
+        ".github/workflows/cp7-current-transfer-pages-browser.yml",
+        ".github/workflows/cp7-current-transfer-restore.yml",
+        ".github/workflows/cp7-draft-return-closure.yml",
+        ".github/workflows/cp7-draft-return-isolation.yml",
+        ".github/workflows/cp7-draft-return-regression.yml",
+        ".github/workflows/cp7-draft-return-restored.yml",
+        ".github/workflows/cp7-draft-return-used-restore.yml",
+        ".github/workflows/cp7-ow09-chain-browser.yml",
+        ".github/workflows/cp7-ow14b-installation.yml"
+      ]
+    },
+    {
+      "path": "src/nativeDemandHistory.ts",
+      "kind": "frontend",
+      "historical_declarations_with_changed_pin": 64,
+      "direct_matching_workflows": [
+        ".github/workflows/cp7-ab-bounded-browser.yml",
+        ".github/workflows/cp7-ab-bounded-native.yml",
+        ".github/workflows/cp7-ab-bounded-restore.yml",
+        ".github/workflows/cp7-ab-owner-auth.yml",
+        ".github/workflows/cp7-ab-owner-browser.yml",
+        ".github/workflows/cp7-ab-owner-families.yml",
+        ".github/workflows/cp7-ab-quote-browser.yml",
+        ".github/workflows/cp7-current-cash-fixture-diagnostic.yml",
+        ".github/workflows/cp7-current-cash-ready.yml",
+        ".github/workflows/cp7-current-cp6-ai-native.yml",
+        ".github/workflows/cp7-current-cp6-contract.yml",
+        ".github/workflows/cp7-current-cp6-crossflow.yml",
+        ".github/workflows/cp7-current-cp6-funded.yml",
+        ".github/workflows/cp7-current-cp6-race.yml",
+        ".github/workflows/cp7-current-full-money.yml",
+        ".github/workflows/cp7-current-installation.yml",
+        ".github/workflows/cp7-current-invoice-history-browser.yml",
+        ".github/workflows/cp7-current-legacy-ui-browser.yml",
+        ".github/workflows/cp7-current-mandor-native.yml",
+        ".github/workflows/cp7-current-opening-replay-ready.yml",
+        ".github/workflows/cp7-current-opening-replay.yml",
+        ".github/workflows/cp7-current-owner-lists-browser.yml",
+        ".github/workflows/cp7-current-retained-native.yml",
+        ".github/workflows/cp7-current-return-auth-bounded.yml",
+        ".github/workflows/cp7-current-return-auth-ready.yml",
+        ".github/workflows/cp7-current-return-auth.yml",
+        ".github/workflows/cp7-current-return-browser-bounded.yml",
+        ".github/workflows/cp7-current-return-browser.yml",
+        ".github/workflows/cp7-current-return-installation.yml",
+        ".github/workflows/cp7-current-return-race.yml",
+        ".github/workflows/cp7-current-runner.yml",
+        ".github/workflows/cp7-current-transfer-pages-browser.yml",
+        ".github/workflows/cp7-current-transfer-restore.yml",
+        ".github/workflows/cp7-draft-return-closure.yml",
+        ".github/workflows/cp7-draft-return-isolation.yml",
+        ".github/workflows/cp7-draft-return-regression.yml",
+        ".github/workflows/cp7-draft-return-restored.yml",
+        ".github/workflows/cp7-draft-return-used-restore.yml",
+        ".github/workflows/cp7-ow09-chain-browser.yml",
+        ".github/workflows/cp7-ow14b-installation.yml"
+      ]
+    },
+    {
+      "path": "src/nativeModelTarget.ts",
+      "kind": "frontend",
+      "historical_declarations_with_changed_pin": 8,
+      "direct_matching_workflows": []
+    },
+    {
+      "path": "src/nativePlanningProfile.test.ts",
+      "kind": "frontend_test",
+      "historical_declarations_with_changed_pin": 1,
+      "direct_matching_workflows": [
+        ".github/workflows/cp7-ow09-chain-browser.yml"
+      ]
+    },
+    {
+      "path": "src/nativePlanningProfile.ts",
+      "kind": "frontend",
+      "historical_declarations_with_changed_pin": 66,
+      "direct_matching_workflows": [
+        ".github/workflows/cp7-ab-bounded-browser.yml",
+        ".github/workflows/cp7-ab-bounded-native.yml",
+        ".github/workflows/cp7-ab-bounded-restore.yml",
+        ".github/workflows/cp7-ab-owner-auth.yml",
+        ".github/workflows/cp7-ab-owner-browser.yml",
+        ".github/workflows/cp7-ab-owner-families.yml",
+        ".github/workflows/cp7-ab-quote-browser.yml",
+        ".github/workflows/cp7-current-cash-fixture-diagnostic.yml",
+        ".github/workflows/cp7-current-cash-ready.yml",
+        ".github/workflows/cp7-current-cp6-ai-native.yml",
+        ".github/workflows/cp7-current-cp6-contract.yml",
+        ".github/workflows/cp7-current-cp6-crossflow.yml",
+        ".github/workflows/cp7-current-cp6-funded.yml",
+        ".github/workflows/cp7-current-cp6-race.yml",
+        ".github/workflows/cp7-current-full-money.yml",
+        ".github/workflows/cp7-current-installation.yml",
+        ".github/workflows/cp7-current-invoice-history-browser.yml",
+        ".github/workflows/cp7-current-legacy-ui-browser.yml",
+        ".github/workflows/cp7-current-mandor-native.yml",
+        ".github/workflows/cp7-current-opening-replay-ready.yml",
+        ".github/workflows/cp7-current-opening-replay.yml",
+        ".github/workflows/cp7-current-owner-lists-browser.yml",
+        ".github/workflows/cp7-current-retained-native.yml",
+        ".github/workflows/cp7-current-return-auth-bounded.yml",
+        ".github/workflows/cp7-current-return-auth-ready.yml",
+        ".github/workflows/cp7-current-return-auth.yml",
+        ".github/workflows/cp7-current-return-browser-bounded.yml",
+        ".github/workflows/cp7-current-return-browser.yml",
+        ".github/workflows/cp7-current-return-installation.yml",
+        ".github/workflows/cp7-current-return-race.yml",
+        ".github/workflows/cp7-current-runner.yml",
+        ".github/workflows/cp7-current-transfer-pages-browser.yml",
+        ".github/workflows/cp7-current-transfer-restore.yml",
+        ".github/workflows/cp7-draft-return-closure.yml",
+        ".github/workflows/cp7-draft-return-isolation.yml",
+        ".github/workflows/cp7-draft-return-regression.yml",
+        ".github/workflows/cp7-draft-return-restored.yml",
+        ".github/workflows/cp7-draft-return-used-restore.yml",
+        ".github/workflows/cp7-ow09-chain-browser.yml",
+        ".github/workflows/cp7-ow14b-installation.yml"
+      ]
+    },
+    {
+      "path": "src/nativeProductAnalog.ts",
+      "kind": "frontend",
+      "historical_declarations_with_changed_pin": 7,
+      "direct_matching_workflows": []
+    },
+    {
+      "path": "src/nativeProductionPlanning.test.ts",
+      "kind": "frontend_test",
+      "historical_declarations_with_changed_pin": 2,
+      "direct_matching_workflows": [
+        ".github/workflows/cp7-ab-quote-browser.yml",
+        ".github/workflows/cp7-ow09-chain-browser.yml"
+      ]
+    },
+    {
+      "path": "src/nativeProductionPlanning.ts",
+      "kind": "frontend",
+      "historical_declarations_with_changed_pin": 2,
+      "direct_matching_workflows": [
+        ".github/workflows/cp7-ab-quote-browser.yml",
+        ".github/workflows/cp7-ow09-chain-browser.yml"
+      ]
+    },
+    {
+      "path": "src/nativeStagedJob.ts",
+      "kind": "frontend",
+      "historical_declarations_with_changed_pin": 1,
+      "direct_matching_workflows": [
+        ".github/workflows/cp7-ow09-chain-browser.yml"
+      ]
+    },
+    {
+      "path": "src/nativeTargetDemand.ts",
+      "kind": "frontend",
+      "historical_declarations_with_changed_pin": 22,
+      "direct_matching_workflows": []
+    },
+    {
+      "path": "src/types/database.preconnect.ts",
+      "kind": "frontend",
+      "historical_declarations_with_changed_pin": 5,
+      "direct_matching_workflows": [
+        ".github/workflows/cp7-ab-quote-browser.yml",
+        ".github/workflows/cp7-ow05b-browser.yml",
+        ".github/workflows/cp7-ow06-browser.yml",
+        ".github/workflows/cp7-ow09-chain-browser.yml"
+      ]
+    },
+    {
+      "path": "src/waContract.ts",
+      "kind": "frontend",
+      "historical_declarations_with_changed_pin": 1,
+      "direct_matching_workflows": [
+        ".github/workflows/cp7-ow09-chain-browser.yml"
+      ]
+    },
+    {
+      "path": "src/warehouse-summary.css",
+      "kind": "frontend",
+      "historical_declarations_with_changed_pin": 1,
+      "direct_matching_workflows": [
+        ".github/workflows/cp7-ow09-chain-browser.yml"
+      ]
+    }
+  ],
+  "production_go": false,
+  "raw_receipt_bytes": 507725,
+  "raw_receipt_sha256": "40eaaa8372140033133edd21e56fe51e1cf08a2ebeb0a00c6550cc2de83290fd"
+}

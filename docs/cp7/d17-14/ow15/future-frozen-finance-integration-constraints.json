@@ -1,0 +1,25 @@
+{
+  "status": "FUTURE_FINANCE_INTEGRATION_CONSTRAINTS_SOURCE_ONLY",
+  "A_head": "88f36937ef7c0a42cc7761142678da5411ece68f",
+  "B_head": "10a36e35b956febd9e34907f20fc5b782ec48dc1",
+  "source_sha256": {
+    "A_finance_bridge": "61dde55926d73315d24f38d1e538ffb663b25b533f6da4117f07fb2db49d046e",
+    "B_private_request": "e8221fd102a332ba35c3aa3dd72fc3e582e08f8b4fead1a43c2f7c9be8f10678",
+    "B_frozen_capsule": "3d54d6623ce56686773bbfd1f8f5c033c0c7ac8ceb41b412f807cc148f89bb26"
+  },
+  "facts": [
+    "Current A finance request explicitly accepts STAGED, uses official cp7_finance_capture and binds replay to finance_sidecar_mode and v1 request contract.",
+    "Prepared B v2 private request is operational and only binds replay to query plus v2 request contract; official finance is explicitly outside its qualification.",
+    "B capsule_hash includes the entire unwrapped base; base retains finance_sidecar_mode. Adding this field after sealing changes the base hashed by verify_capsule."
+  ],
+  "required_before_future_A_adoption": [
+    "Do not treat private B Native4 as official-finance evidence.",
+    "Preserve operational versus financial replay identity and fresh finance permissions.",
+    "Build any required finance marker into the capsule before first persisted reference, with exact producer/source identity; never rewrite the stored reference or weaken capsule verification.",
+    "Retain all current source/clock/full-restore checks and qualify official metrics with the actual minute runner on the full factory fixture."
+  ],
+  "runtime_counterexample_executed": false,
+  "product_modified": false,
+  "candidate_changed": false,
+  "production_go": false
+}
