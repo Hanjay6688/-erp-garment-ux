@@ -41,3 +41,13 @@ All four derived bodies mechanically reverse to their admitted parents.
 Local eight groups pass, including12 actual material/advisory output-or-error
 comparisons (zero, wide PCS, size, UNKNOWN, binding and refusal controls).
 Native latency of the correction still requires the actual bounded run.
+
+
+A separate Chromium Browser3 now prepares actual same-origin tabs, real Web
+Locks and localStorage for this v2 confirmation client: two queued creations
+produce one exact durable command; an in-flight send holds the mutation lock
+and a later queued send rereads an empty store after clear; controlled reply
+loss plus reload reuses the exact method/UUID/payload/review bytes. Actual
+browser execution is pending. The controlled reply tests give no Native,
+real Auth, production screen or server idempotency credit. Source serving,
+52client tests and dedicated TypeScript pass locally.

@@ -1,0 +1,40 @@
+name: CP7 Frozen Choice Recovery Real Browser3
+'on':
+  push:
+    branches: [astra/d17-14-produksi]
+    paths:
+      - scripts/cp7_frozen_analysis_choice_v2/client/**
+      - scripts/cp7_ow12b_frozen_choice_recovery_browser.mjs
+      - .github/workflows/cp7-ow12b-frozen-choice-recovery-browser.yml
+      - src/nativeProductAnalogChoice.ts
+      - tests/fixtures/nativeProductAnalogChoice.ts
+  workflow_dispatch: {}
+permissions:
+  contents: read
+concurrency:
+  group: cp7-frozen-choice-recovery-browser-${{ github.run_id }}
+  cancel-in-progress: false
+jobs:
+  browser:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22'
+      - run: npm ci --ignore-scripts
+      - run: npx playwright install --with-deps chromium
+      - run: npx tsc --noEmit -p scripts/cp7_frozen_analysis_choice_v2/client/tsconfig.json
+      - run: npx vitest run scripts/cp7_frozen_analysis_choice_v2/client/nativeFrozenChoice.test.ts src/nativeProductAnalogChoice.test.ts
+      - name: Actual two-tab Web Locks with controlled RPC replies
+        run: node scripts/cp7_ow12b_frozen_choice_recovery_browser.mjs
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: frozen-choice-recovery-browser3-complete-original
+          path: cp6-proof/t3/FROZEN_CHOICE_RECOVERY_BROWSER3.json
+          if-no-files-found: error
+          retention-days: 30

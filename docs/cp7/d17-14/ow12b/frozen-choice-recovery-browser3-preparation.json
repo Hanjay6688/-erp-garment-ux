@@ -1,0 +1,39 @@
+{
+  "contract": "cp7.frozen-choice-browser-lock-preparation.v1",
+  "preflight": {
+    "contract": "cp7.frozen-choice-recovery-real-browser3.v1",
+    "head": "98c39dd57270baefd2eb3bbed642d68b25b9faab",
+    "required_case_ids": [
+      "FROZEN_CHOICE_REAL_TABS_SINGLE_DURABLE_CREATION",
+      "FROZEN_CHOICE_REAL_TABS_SEND_BLOCKS_CLEAR_AND_QUEUED_SEND_REREADS_EMPTY",
+      "FROZEN_CHOICE_REAL_TABS_REPLY_LOSS_RELOAD_EXACT_RETRY"
+    ],
+    "cases": [],
+    "source_sha256": {
+      "scripts/cp7_frozen_analysis_choice_v2/client/nativeFrozenChoice.ts": "31e38f42560f1a52daa041833dce3bf791a295250f45bfdbe5a39669668e383f",
+      "src/nativeProductAnalog.ts": "149277f173bbfcdc91a68157d973eb1ceffd08d66c0b44a1bdfa074f4d9befd9",
+      "src/nativeProductAnalogChoice.ts": "63677e05b1946d277dd4f9f8046c4a15b307eddcf00782c87a7812b7f7bf5540",
+      "tests/fixtures/nativeProductAnalog.ts": "be1404e3a7fe4bc69dda24d173aa7cfebe282f311c493d0b4723265505bdff1c",
+      "tests/fixtures/nativeProductAnalogChoice.ts": "cfd6cdb72350e0b3d7b1ece188c233781f63251a64cd3974f0f04e3d3ebe250c",
+      "scripts/cp7_ow12b_frozen_choice_recovery_browser.mjs": "cc51f17c91aa37b51910d1a74c5471e5f942485c73bf300d0f82861496c573bf"
+    },
+    "status": "SOURCE_SERVING_ONLY",
+    "controlled_RPC_replies": true,
+    "actual_browser_locks_qualified": false,
+    "actual_Native": false,
+    "actual_Auth_HTTP_credit": false,
+    "production_UI_qualified": false,
+    "production_go": false,
+    "source_serving_verified": true
+  },
+  "local_client_tests_PASS": 52,
+  "typescript": "PASS",
+  "workflow_shell_syntax": "PASS",
+  "actual_Chromium_cases_prepared": 3,
+  "actual_browser_executed": false,
+  "controlled_RPC_replies": true,
+  "actual_Native": false,
+  "actual_Auth_HTTP_credit": false,
+  "production_UI_qualified": false,
+  "production_go": false
+}

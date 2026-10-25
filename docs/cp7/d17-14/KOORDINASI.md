@@ -3869,3 +3869,14 @@ verified. Also preserve full5e0 work6 and facade Native3/races3 ACL failures,
 including four exact clone authority receipts and unexecutedHTTP2. No lost
 first outcomes or oracle relaxation. Continue current Native/Auth/browser CI;
 formal5/16, CP7C/independent/production_go=false.
+
+
+## 193. B26 Oktober2026 WIB — explicit choice recovery in real browser tabs
+
+Prepared separate controlled-RPC Chromium Browser3 for v2 confirmation client:
+actual two tabs/WebLocks/storage, competing durable creation, in-flight send
+blocking clear and queued-send reread, reply-loss/reload exact command/review.
+Source serving and dedicated TypeScript PASS; client52PASS. Browser execution
+pending; no Native/realAuth/UI adoption or acceptance credit. New workflow
+changes no F05 route, SQL, app graph or shared installer. Continue current
+corrected Native/Auth runs and inspect complete Originals, not job labels alone.
