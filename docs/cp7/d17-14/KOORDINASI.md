@@ -2878,3 +2878,41 @@ active frames may be absent, so this is diagnostic data, not complete accounting
 Failure stays INCOMPLETE with original error/sqlstate/phase/time, not a green case.
 Two IDs/count2 remain; contract/source pins regenerate; admission checks PASS.
 Formal5/16, CP7C/independent false, production_go=false. Continue actual profiling.
+
+## 153. B25 Oktober2026 WIB — current Native6 Original PASS, shared47 exact
+
+182c8b17/run40173569440/job121109392424 complete Original12592039704,
+206936bytes, SHAb236a744fc0b2d11c1e634429f6414490b707ec0600646ae7a039ea7b36a3501.
+All5JSON read,6PASS, all47head/current source pins match. Same47 are exact subsets
+of current Browser64 and transport50 pins: Native6/Browser2/transport11 all qualify
+the context-path change. All14public catalog snapshots keep every original field,
+signature/hash/owner/ACL and row; adversarial preservation controls pass. All
+package/CP6/advisor/public/boundary/WIB/session/Auth0->0 cleanup gates pass.
+
+Actual v4/raw operational replay immutable, queued-job-only and raw-report-only
+preuse refusal, latest actor-owned scoped/global method/history namespaces,
+policy/profile/SALE/current access/foreign retirement, warehouse-only FG refresh
+and cached target100/point30 with no private model leak, bounded/staged/direct
+analog parity pass. No actual historical positive model, Auth/concurrency credit
+from Native alone, composed after-use or complete3600 qualification is inferred.
+Diagnostic-onlyb11781b3/run40176182382 is now executing its actual Native2 phase.
+
+## 154. B25 Oktober2026 WIB — recover retained regressions and latest A intake
+
+Complete40b72fbe default-route Originals recovered without runtime rerun:
+target-v1-partA12589874503/SHA b465bea423ec9944b843f01a2f9c441674a0972a9a22675e95e82be24744cfa5
+(1Native+4races); OW13b12590115588/SHA9867fe7b0a738bc3ab4fbec35fcdb70ee61c77a13fe919a048106c5d7cf09540
+(14Native+2race+2HTTP+2browser); OW1612589742642/SHA c7c3c6bb45efb7f6b136416968568dd812a5d74ddf30b64a9b9d6c9cee16686b
+(10Native+2race+2HTTP+2browser); OW14b12588914081/SHA d89e6734426405ec97ea61c4c2395d6a8c65b4f1304cafd7f1c4a881803d5ced
+(61Native+34race+7HTTP+11browser). All21JSON parsed, all IDs/counts and package/
+CP6/advisor/boundary/WIB/session/Auth/copy cleanup pass. Actual current F05 prefix
+before its first database try reproduces each exact source bundle/declaration.
+No database re-executed; no new versioned case or browser visual-review credit.
+
+A prepared integration advanced read-only to378f13cc, including explicit full
+versioned installer/recovery, combined Native36/restore8, finance Auth3/races7,
+minute cron1, browser6 and combined Auth9/races19 declarations. This inspection
+only establishes preparation, not successful runtime/composition. It includes
+Bthrough36b81fce, not current182c8b17 parent optimization. Matrix records exact
+source separation; B does not edit A/shared/frozen files or claim A after-use.
+Formal5/16, CP7C/independent false, production_go=false; continue diagnostic.

@@ -144,5 +144,105 @@
   "qualified_source_heads_only": true,
   "current_analog_parent_changed_since_qualification": true,
   "current_performance_candidate_qualified": false,
-  "current_performance_change": "Direct JSONB paths replace factory map materialization; prior Native6/Browser2/Transport11 receipts remain bound to their original source heads"
+  "current_performance_change": "Direct JSONB paths replace factory map materialization; prior Native6/Browser2/Transport11 receipts remain bound to their original source heads",
+  "historical_components_retained_at_recorded_heads": true,
+  "current_candidate_source_head": "182c8b174f7d1d4e3355c24263cf1866357510b5",
+  "current_backend_source_sha256": {
+    "scripts/cp7_model_target_consumer_v2_stage/MANIFEST.json": "1cc831d70a921a3cc34ddcc37a76d9d0ed35588f9d44ed4a7d0cfbd5b9cc8955",
+    "scripts/cp7_model_target_consumer_v2_stage/__init__.py": "c77a917a67865f8b3fc0165beb948664e756601dbcf3edfa94fc283fd33ce54b",
+    "scripts/cp7_model_target_consumer_v2_stage/hooks.sql": "fa6eca09c000c418f9e2ba50243976f7590d005847d79e4d64cc8e7309d19f6b",
+    "scripts/cp7_model_target_consumer_v2_stage/render.py": "195063c1b83e35ffc2ca21bba7a578afe8c13b3c3fae1ec4b46fcb2d3bf7d657",
+    "scripts/cp7_model_target_source_v2/MANIFEST.json": "aa67fe30c9336d7dc91dae40e18ac233411f7ad7f0396e41a1181abade55e396",
+    "scripts/cp7_model_target_source_v2/__init__.py": "e644854f4a9f28d84dd443750fdeb4598ccf48a4823aa1aa7f53f6182868e8ef",
+    "scripts/cp7_model_target_source_v2/non-stock.sql": "9c4f437ef463d8877078b192e7ffb36d52ba4a70e7cf43f7920b719d9aacf4fa",
+    "scripts/cp7_model_target_source_v2/physical.sql": "bf6c6cd37d634e0a894952bafe6b74abf32b77c77545276c037b49fc3837b23f",
+    "scripts/cp7_model_target_source_v2/reorder.sql": "784c0778e10c117d78d6e7eb8874224ddc99fce6b4a548b03e4c6838c4b44d4c",
+    "scripts/cp7_model_target_source_v2/source.sql": "aa5312f92feb62982b460e871226d8133c5aa90b5b6ed9568b3304e10bd21d3b",
+    "scripts/cp7_model_target_source_v2/stock.sql": "41087a56255b082ba4a8f223a57682221119a1d756975ce5f16c853209070370",
+    "scripts/cp7_model_target_projection/MANIFEST.json": "df37cce0f27656606634fac61f26579f255ea291dc9f5a1696f28d1cbf2bd51a",
+    "scripts/cp7_model_target_projection/__init__.py": "2e2be38a043353af1d45f124d9f69e9c92fa1316c94eac826d133dad56c3b75c",
+    "scripts/cp7_model_target_projection/projection.sql": "1e96c6389c3537dcaf59bcf79383754f0b5716ad3c1d9010c77fb0918535e6b7",
+    "scripts/cp7_model_target_consumer_v2/MANIFEST.json": "30110d095bd9893ba44bd849b557f89a66ab78034e0a50614ae8ef6b6522f38b",
+    "scripts/cp7_model_target_consumer_v2/__init__.py": "ac1648f3ac76e4d032e8d13512eafab1fbb98f1de5e755e34d61e9674379d6d5",
+    "scripts/cp7_model_target_consumer_v2/consumer.sql": "48526a5ab9fa7468475b6ba76955b61b2868fa1590e6296d65ee5da390fc6dde",
+    "scripts/cp7_model_target_consumer_v2/render.py": "66eb18f6b9362861a7246be6ac569291f0274534758724abb59bc73a26a3ca01",
+    "scripts/cp7_model_target_consumer_v2/timeline.sql": "53d7e913df51aecd78598fcba3bdcf9cf1980c25ed100e747731782c16de67e9",
+    "scripts/cp7_model_target_binding/MANIFEST.json": "26c45932b390f8d36f13ed5341e6cce5db1a5b50ab910cca286a66b447dc2438",
+    "scripts/cp7_model_target_binding/__init__.py": "1d95f4fa292656856d5f76112712cd90e44936babd61c3553d1a08c22e2906d7",
+    "scripts/cp7_model_target_binding/binding.sql": "c9c4624bb6362a483f9c9cf9e7c46f9141aa660b6cb8402d25188410d0b193aa",
+    "scripts/cp7_model_evaluation_selection/MANIFEST.json": "81802a5a1849442004e00d3fe7bc384eda8a9dc4fed76f60445d4d06ed36283e",
+    "scripts/cp7_model_evaluation_selection/__init__.py": "8867e549be0b7fd15f0b3b79e097651f699a0966e03c49ad8d6cefc972929e2a",
+    "scripts/cp7_model_evaluation_selection/selection.sql": "ad8d57619a24837f39626246168f37f3f4f0a27105eab3dc449e4ef820448de6",
+    "scripts/cp7_ow11_model_selection_cases.py": "de58383854bba54304fd187b19808846dee9bb6a2f4497c48acc93b831d525e4",
+    "scripts/cp7_ow11_model_selection_probe.py": "1e731d85a073ecd16443321662b47020e8693c49da3357f83cec94c29c4ebdc3",
+    "scripts/cp7_ow11_model_scoped_evaluation_cases.py": "23afa650f11f73bd0e52d47886ec193431724088f62d31f080ca552caed7ebe8",
+    "scripts/cp7_ow11_model_scoped_dataset_cases.py": "f77e47767ac6a6e6209476b3f2b5ceb7291ebf2bb1b681732201369311030d26",
+    "scripts/cp7_ow11_model_target_source_v2_cases.py": "0c3ad0901933b01de83b2ab029d7c055d62bf8996a19a9a1b4fe9b335a96d0ea",
+    "scripts/cp7_ow11_model_target_source_v2_probe.py": "805c078162327a8690a80d4421e8b57cdfb25539477349ebcea8023293d61b1b",
+    "scripts/cp7_product_analog_consumer/kernel.sql": "1c6d227993758b9670150f326c3cb9b24bc0c7000b2c906544d9c179d5b25561",
+    "scripts/cp7_product_analog_consumer/baseline.sql": "029ea44ed1c78cabebf87dea07d60b8930840551e50c5e65409b3f0fe26bb5c3",
+    "scripts/cp7_product_analog_consumer/MANIFEST.json": "3bcb95554bec47773e6b0105d12bd8f3b5fdbca8348aaa656246e0f83b387577",
+    "scripts/cp7_product_analog_consumer/__init__.py": "347268de2580aa703dc1fe5d45852b70023828dafbfa0eac0a9751c841272ee7",
+    "scripts/cp7_product_analog_consumer_stage/render.py": "26862dbf1edf23eee73e9056485f2dc82a6749b6f9d868bc3b0c4e884d3c363d",
+    "scripts/cp7_product_analog_consumer_stage/confirmation.sql": "80d4836927bafd493e1642798034650ac3d1f089d9cca288c9a29af10636116f",
+    "scripts/cp7_product_analog_consumer_stage/hooks.sql": "b02245f76a4039593200f8424fd234cf2779d71c67b9ea87dee03ca44239c8aa",
+    "scripts/cp7_product_analog_consumer_stage/MANIFEST.json": "9ab3fd6d12729dead611d66d4d839ba3ca1bba231395a9018164c81f68dfb4ae",
+    "scripts/cp7_product_analog_consumer_stage/__init__.py": "dc9d5c9030eeeada1b046131f35a95dd344169ca2dff08f657ace7ca22cfc306",
+    "scripts/cp7_product_analog_provenance_stage/render.py": "e51cd3ed6dc6367695b911209b2580018e69af9de7cae8af14e3f4cc17562841",
+    "scripts/cp7_product_analog_provenance_stage/provenance.sql": "a849cef63c8d292d7a8f44ea38424af59e43371e702fa9a3ede6cc818e20ce1e",
+    "scripts/cp7_product_analog_provenance_stage/hooks.sql": "73f591d3ecd4d8977ab39c26be65290abe5b6201a6a5f1ee2ba8a515a2aabd87",
+    "scripts/cp7_product_analog_provenance_stage/MANIFEST.json": "52d419865b2b10b4facf45cded4b5b6f89372fa091a7bd2d564d80924b5db398",
+    "scripts/cp7_product_analog_provenance_stage/__init__.py": "966ce49f8dc4b51489a887e42a7a8e8ba3b4b6a87782b363bd678f6433c81096",
+    "scripts/cp7_ow11_model_target_consumer_v2_cases.py": "54fe7606745c0f56de473188e6b174024e2b23eeb89d110bf1bea6cedd60ca28",
+    "scripts/cp7_ow11_model_target_consumer_v2_probe.py": "89c57cc7b1e1175729088be0b7bf1cf6cb26946b573a0dda475b58bffc0a0e47"
+  },
+  "current_runtime_qualifications": {
+    "Native6": {
+      "status": "PASS",
+      "run_id": 40173569440,
+      "artifact_id": 12592039704,
+      "sha256": "b236a744fc0b2d11c1e634429f6414490b707ec0600646ae7a039ea7b36a3501",
+      "source_pins": 47,
+      "counts": {
+        "PASS": 6
+      }
+    },
+    "Browser2": {
+      "status": "PASS",
+      "run_id": 40173569416,
+      "artifact_id": 12591551904,
+      "sha256": "b69be4a4f04231e53317f7b32ed7f20bb30bf73fc92b96ffbbb6a7ab37e22b5b",
+      "source_pins": 64
+    },
+    "transport11": {
+      "status": "PASS",
+      "run_id": 40173569413,
+      "unique_case_count": 11,
+      "repeated_catalog_anchor_credit": 0,
+      "source_pins": 50,
+      "artifacts": [
+        12591992672,
+        12591903113
+      ]
+    },
+    "operational3600": {
+      "status": "INCOMPLETE",
+      "run_id": 40173569646,
+      "artifact_id": 12591957005,
+      "predecessor_timeout_before_current_overlay": true,
+      "current_comparison_observed": false,
+      "followup_diagnostic_head": "b11781b3be3ea5e2cef0d67c1d00619489ec8c78",
+      "followup_run_id": 40176182382
+    }
+  },
+  "A_read_only_intake": {
+    "head": "378f13ccc0fdfe92307e57c6d7af64eb34a20e28",
+    "branch": "astra-a/d17-14-versioned-target-integration-prepared-20261025",
+    "combined_native36_restore8_finance_auth3_races7_cron1_browser6_transport_auth9_races19_prepared": true,
+    "actual_runtime_qualified_by_this_inspection": false,
+    "B_performance_change182_included": false,
+    "no_A_branch_or_shared_file_modified_by_B": true
+  },
+  "current_Native6_Browser2_transport11_qualified": true,
+  "shared_47_source_pins_exact_between_native_browser_transport": true
 }

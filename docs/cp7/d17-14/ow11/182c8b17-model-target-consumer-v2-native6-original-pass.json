@@ -1,0 +1,218 @@
+{
+  "contract": "cp7.original-runtime-receipt.v1",
+  "head": "182c8b174f7d1d4e3355c24263cf1866357510b5",
+  "product_ref": "dbc0d3ffda3a839dddb41821dcd027254a62d739",
+  "product_paths_byte_identical_between_refs": true,
+  "run_id": 40173569440,
+  "job_id": 121109392424,
+  "artifact_id": 12592039704,
+  "bytes": 206936,
+  "artifact_sha256": "b236a744fc0b2d11c1e634429f6414490b707ec0600646ae7a039ea7b36a3501",
+  "Original_read_complete": true,
+  "all_Original_JSON_files_read": 5,
+  "original_json_sha256": {
+    "T3_BACKUP_RESTORE_DRILL.json": "1c7a8633da00b78170acf06f2e95375e5ed15a320e62d37b8095d5009a273341",
+    "CP7_OW11_MODEL_TARGET_CONSUMER_V2.json": "3246a8636c9c67041b5bb0781a562682a54a7a69d47507bdf3ca31ed6c6cb80e",
+    "T3_PACKAGE_FILES_INSTALL.json": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+    "ALIGNED_CHAIN.json": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b",
+    "T3_PACKAGE_INSTALL.json": "b8b1f7fbf2566138c5fb002c80f7fb2727ccfa95e78bed8a4459f79d3551065a"
+  },
+  "exact_head_and_current_source_hashes_match": true,
+  "verified_source_paths": [
+    "scripts/cp7_model_target_consumer_v2_stage/MANIFEST.json",
+    "scripts/cp7_model_target_consumer_v2_stage/__init__.py",
+    "scripts/cp7_model_target_consumer_v2_stage/hooks.sql",
+    "scripts/cp7_model_target_consumer_v2_stage/render.py",
+    "scripts/cp7_model_target_source_v2/MANIFEST.json",
+    "scripts/cp7_model_target_source_v2/__init__.py",
+    "scripts/cp7_model_target_source_v2/non-stock.sql",
+    "scripts/cp7_model_target_source_v2/physical.sql",
+    "scripts/cp7_model_target_source_v2/reorder.sql",
+    "scripts/cp7_model_target_source_v2/source.sql",
+    "scripts/cp7_model_target_source_v2/stock.sql",
+    "scripts/cp7_model_target_projection/MANIFEST.json",
+    "scripts/cp7_model_target_projection/__init__.py",
+    "scripts/cp7_model_target_projection/projection.sql",
+    "scripts/cp7_model_target_consumer_v2/MANIFEST.json",
+    "scripts/cp7_model_target_consumer_v2/__init__.py",
+    "scripts/cp7_model_target_consumer_v2/consumer.sql",
+    "scripts/cp7_model_target_consumer_v2/render.py",
+    "scripts/cp7_model_target_consumer_v2/timeline.sql",
+    "scripts/cp7_model_target_binding/MANIFEST.json",
+    "scripts/cp7_model_target_binding/__init__.py",
+    "scripts/cp7_model_target_binding/binding.sql",
+    "scripts/cp7_model_evaluation_selection/MANIFEST.json",
+    "scripts/cp7_model_evaluation_selection/__init__.py",
+    "scripts/cp7_model_evaluation_selection/selection.sql",
+    "scripts/cp7_ow11_model_selection_cases.py",
+    "scripts/cp7_ow11_model_selection_probe.py",
+    "scripts/cp7_ow11_model_scoped_evaluation_cases.py",
+    "scripts/cp7_ow11_model_scoped_dataset_cases.py",
+    "scripts/cp7_ow11_model_target_source_v2_cases.py",
+    "scripts/cp7_ow11_model_target_source_v2_probe.py",
+    "scripts/cp7_product_analog_consumer/MANIFEST.json",
+    "scripts/cp7_product_analog_consumer/kernel.sql",
+    "scripts/cp7_product_analog_consumer/baseline.sql",
+    "scripts/cp7_product_analog_consumer/__init__.py",
+    "scripts/cp7_product_analog_consumer_stage/render.py",
+    "scripts/cp7_product_analog_consumer_stage/MANIFEST.json",
+    "scripts/cp7_product_analog_consumer_stage/hooks.sql",
+    "scripts/cp7_product_analog_consumer_stage/confirmation.sql",
+    "scripts/cp7_product_analog_consumer_stage/__init__.py",
+    "scripts/cp7_product_analog_provenance_stage/render.py",
+    "scripts/cp7_product_analog_provenance_stage/MANIFEST.json",
+    "scripts/cp7_product_analog_provenance_stage/hooks.sql",
+    "scripts/cp7_product_analog_provenance_stage/provenance.sql",
+    "scripts/cp7_product_analog_provenance_stage/__init__.py",
+    "scripts/cp7_ow11_model_target_consumer_v2_cases.py",
+    "scripts/cp7_ow11_model_target_consumer_v2_probe.py"
+  ],
+  "status": "PASS",
+  "counts": {
+    "PASS": 6
+  },
+  "cases": {
+    "OW11_MODEL_TARGET_V2_CATALOG22_COMPOSED_PREUSE": {
+      "status": "PASS",
+      "exact_catalog22_composed_inverse": true,
+      "private4_replacements21_no_new_RPC_or_table": true,
+      "dependent_view_partial_inverse_restored": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-25",
+        "before": "2026-10-25",
+        "after": "2026-10-25"
+      }
+    },
+    "OW11_MODEL_TARGET_V2_NATIVE_BASELINE_REPLAY_IMMUTABLE": {
+      "status": "PASS",
+      "actual_Native_v4_baseline100_current": true,
+      "exact_UUID_replay_and_immutable_result": true,
+      "actual_raw_operational_capture_replay_immutable": true,
+      "raw_report_alone_blocks_preuse_inverse": true,
+      "actual_queued_job_without_run_alone_blocks_preuse_inverse": true,
+      "no_model_fabricated": true,
+      "no_stock_money_HPP_change": true,
+      "after_use_requires_composed_restore": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-25",
+        "before": "2026-10-25",
+        "after": "2026-10-25"
+      }
+    },
+    "OW11_MODEL_TARGET_V2_NATIVE_CURRENT_POLICY_AND_LATEST_NAMESPACED": {
+      "status": "PASS",
+      "actual_policy_clock_and_latest_own_v2_v3_selection": true,
+      "explicit_scoped_history_method_namespace": true,
+      "no_posthoc_model_promotion": true,
+      "old_baseline_stale_but_immutable": true,
+      "old_v2_result_immutable": true,
+      "actual_historical_positive_winner": false,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-25",
+        "before": "2026-10-25",
+        "after": "2026-10-25"
+      }
+    },
+    "OW11_MODEL_TARGET_V2_NATIVE_POST_PROFILE_ACCESS": {
+      "status": "PASS",
+      "actual_profile_and_posted_SALE_retire_source": true,
+      "manual_target200_retained": true,
+      "current_access_before_read_replay": true,
+      "foreign_actor_refused": true,
+      "old_history_immutable": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-25",
+        "before": "2026-10-25",
+        "after": "2026-10-25"
+      }
+    },
+    "OW11_MODEL_TARGET_V2_NATIVE_WAREHOUSE_ONLY_READ": {
+      "status": "PASS",
+      "actual_existing_FG_only_permission": true,
+      "actual_FG_only_refresh_then_cached_read": true,
+      "baseline_target100_point30_preserved": true,
+      "no_model_policy_history_disclosed": true,
+      "strict_model_and_revoked_FG_denied": true,
+      "actual_Auth_HTTP_credit": false,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-25",
+        "before": "2026-10-25",
+        "after": "2026-10-25"
+      }
+    },
+    "OW11_MODEL_TARGET_V2_NATIVE_BOUNDED_ANALOG_PARITY": {
+      "status": "PASS",
+      "actual_bounded_and_staged_analog_target_parity": true,
+      "direct_same_target_and_history_operands": true,
+      "analog_not_silently_promoted_to_model": true,
+      "actual_positive_model_target": false,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-25",
+        "before": "2026-10-25",
+        "after": "2026-10-25"
+      }
+    }
+  },
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "current_context_path_performance_change_native_qualified": true,
+  "actual_Auth_HTTP_credit": false,
+  "actual_concurrency": false,
+  "actual_historical_positive_winner": false,
+  "full_factory3600_qualified": false,
+  "after_use_restore_qualified": false,
+  "full_OW11_acceptance": false,
+  "formal_acceptance": "5/16",
+  "CP7C_accepted": false,
+  "independent_acceptance": false,
+  "production_go": false
+}
