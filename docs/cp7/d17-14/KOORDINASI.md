@@ -3994,3 +3994,41 @@ Auth/restore checked. No stable SLA or aggregate acceptance inferred.
 clone authority/cleanup verified; correctedac6/dd45 Auth candidates remain queued.
 No unmodified manual rerun, no default application/integration/prod change.
 Formal5/16; CP7C/independent/production_go=false. Continue assigned work.
+
+
+## 198. B26 Oktober2026 WIB — verified browser recovery; frozen quantity UI preparation
+
+Complete Originals: 7cf3 recovery12611072702 verifies actual Chromium3/two tabs,
+observed queued Web Locks, single durable creation, send blocks clear/queued
+send and same method/UUID/query recovery. All6source pins exact.00ff UI12610758509
+verifies4functional browser cases/39pins; all4screens from12610494085 inspected.
+Mobile review checkbox visibly shrinks to a dot despite passing click checks;
+retain first screenshots and mark visual qualification false. Prepared explicit
+non-shrinking20px checkbox and real rectangle checks in both controlled and
+actual Auth browsers. Existing button contrast correction remains scoped.
+Neither controlled suite grants Native/realAuth/default-adoption credit.
+
+5749work Original12611137525 verifies6PASS; facade12611570200 verifies
+Native3/races3/HTTP2. All5/6JSON, exact-head F05/source/declaration/product paths,
+CP6/advisor/public/WIB26/session/Auth/restore checked. Facade four clone authority
+receipts exact; actual source/request waits and real Auth remain qualified at
+that component. No stable factory SLA or aggregate acceptance inferred.
+
+Prepared separate frozen quantity driver/panel: every reopen and result read
+reaffirms exact v2 request before pages, never promotes a shared status to method
+proof. Same durable actor/scope lock guards every request/get/step/page/check;
+replacement or storage/access/identity change retires stale answers. Original
+microseconds/page hashes/actor/query/count/access and source identity verified.
+All-label search and50visible suggestions use exact verified results; UNKNOWN
+is separate from zero. Candidate handoff uses frozen v2 panel. No casting of v2
+request to old request; no cutting SAVE enabled before actual compatibility proof.
+
+19client+15DOM cases and146including retained cases PASS; dedicatedTS/source
+serving PASS. Browser4 prepared, actual execution pending.11closed preflights,
+25workflow shell steps PASS;139pin choiceAuth declaration repinned only changed
+browser/CSS.39module actualAuth build PASS, runtime not yet qualified. First
+fixture progress/source-check shape, hoisted mock, TS narrowing and overly broad
+preflight selector failures retained; strict parsers/oracles unchanged. Default
+app/F05 and all51backend bytes exact. A read-only head remains7de9d4b9.
+Continue corrected Native latency/Transport9, actualAuth browser and frozen
+quantity/cutting scope. Formal5/16; CP7C/independent/production_go=false.

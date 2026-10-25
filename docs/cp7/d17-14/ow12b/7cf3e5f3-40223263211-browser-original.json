@@ -1,0 +1,63 @@
+{
+  "contract": "cp7.original-browser-receipt.v1",
+  "head": "7cf3e5f3ca17ec9fbf48fee4f4be609f3d8cd4fe",
+  "run_id": 40223263211,
+  "job_id": 121259216561,
+  "artifact_id": 12611072702,
+  "bytes": 1178,
+  "artifact_sha256": "8b10fc6e0ad43ed9f49d04dfc3347f1470fce7b63d340b9388e674086b549106",
+  "Original_read_complete": true,
+  "all_Original_JSON_files_read": 1,
+  "Original_JSON_sha256": "e2428cd0baabc72bc931dcc1c75d4f35c79be636262ea948c272d65ab7215456",
+  "status": "PASS_FUNCTIONAL_COMPONENT_ONLY",
+  "source_pins_exact": {
+    "scripts/cp7_frozen_analysis_choice_v2/client/nativeFrozenChoice.ts": "31e38f42560f1a52daa041833dce3bf791a295250f45bfdbe5a39669668e383f",
+    "src/nativeProductAnalog.ts": "149277f173bbfcdc91a68157d973eb1ceffd08d66c0b44a1bdfa074f4d9befd9",
+    "src/nativeProductAnalogChoice.ts": "63677e05b1946d277dd4f9f8046c4a15b307eddcf00782c87a7812b7f7bf5540",
+    "tests/fixtures/nativeProductAnalog.ts": "be1404e3a7fe4bc69dda24d173aa7cfebe282f311c493d0b4723265505bdff1c",
+    "tests/fixtures/nativeProductAnalogChoice.ts": "cfd6cdb72350e0b3d7b1ece188c233781f63251a64cd3974f0f04e3d3ebe250c",
+    "scripts/cp7_ow12b_frozen_choice_recovery_browser.mjs": "cc51f17c91aa37b51910d1a74c5471e5f942485c73bf300d0f82861496c573bf"
+  },
+  "required_case_ids": [
+    "FROZEN_CHOICE_REAL_TABS_SINGLE_DURABLE_CREATION",
+    "FROZEN_CHOICE_REAL_TABS_SEND_BLOCKS_CLEAR_AND_QUEUED_SEND_REREADS_EMPTY",
+    "FROZEN_CHOICE_REAL_TABS_REPLY_LOSS_RELOAD_EXACT_RETRY"
+  ],
+  "cases": [
+    {
+      "id": "FROZEN_CHOICE_REAL_TABS_SINGLE_DURABLE_CREATION",
+      "status": "PASS",
+      "actual_tabs": 2,
+      "observed_real_pending_locks": 2,
+      "single_creation": true,
+      "exact_shared_bytes": true
+    },
+    {
+      "id": "FROZEN_CHOICE_REAL_TABS_SEND_BLOCKS_CLEAR_AND_QUEUED_SEND_REREADS_EMPTY",
+      "status": "PASS",
+      "actual_tabs": 2,
+      "observed_real_pending_locks": 2,
+      "send_holds_mutation_lock": true,
+      "queued_send_rereads_empty_and_refuses_before_RPC": true,
+      "actor_not_transmitted": true
+    },
+    {
+      "id": "FROZEN_CHOICE_REAL_TABS_REPLY_LOSS_RELOAD_EXACT_RETRY",
+      "status": "PASS",
+      "actual_reload": true,
+      "reply_loss_controlled": true,
+      "same_method_actor_UUID_payload_and_retained_bytes": true,
+      "no_Native_idempotency_credit": true
+    }
+  ],
+  "browser_version": "151.0.7922.34",
+  "controlled_RPC_replies": true,
+  "actual_Native": false,
+  "actual_Auth_HTTP_credit": false,
+  "default_application_adopted": false,
+  "formal_acceptance": "5/16",
+  "CP7C_accepted": false,
+  "independent_acceptance": false,
+  "production_go": false,
+  "new_visual_review": false
+}

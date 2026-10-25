@@ -1,0 +1,19 @@
+{
+  "contract": "cp7.frozen-choice-mobile-checkbox-repair.v1",
+  "first_original": "00ff3793-40223837218-browser-original.json",
+  "original_head": "00ff3793fa7a53b0f1b705885cb6f47480ff0297",
+  "first_screenshot_artifact": 12610494085,
+  "finding": "Mobile review checkbox collapsed by flex shrink while its click and boolean assertion passed.",
+  "correction": "Explicit non-shrinking20px checkbox with zero padding; checked real bounding rectangle in controlled mobile/desktop and actual Auth journeys.",
+  "status": "PREPARATION_ONLY",
+  "source_sha256": {
+    "scripts/cp7_frozen_choice_ui/client/frozen-choice.css": "83bde50c51bdc9c6089a71b741188413e8f8bfd8c3c824e4692258bbb08544f1",
+    "scripts/cp7_ow12b_frozen_choice_ui_browser.mjs": "69b8d1c469682e28345a3555bc968a6630d59baf29bfbb7974959e6ab97dbce2",
+    "scripts/cp7_ow12b_frozen_choice_auth_browser.mjs": "73000036848a3864fc6142734ed8a2c0178e5e798716b8a36b913aafb3f3ee7b"
+  },
+  "actual_corrected_browser_qualified": false,
+  "actual_Auth_qualified": false,
+  "old_functional_browser4_credit_retained": true,
+  "default_application_adopted": false,
+  "production_go": false
+}
