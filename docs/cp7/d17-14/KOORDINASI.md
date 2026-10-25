@@ -3928,3 +3928,38 @@ plus live computed contrast>=4.5 check; actual default app unchanged.153localPAS
 TypeScript,40module actual Auth build and120pin/93closed-route preflight PASS.
 Corrected real Auth run still required; continue active CI. Formal5/16,
 CP7C/independent/production_go remain false.
+
+
+## 196. B26 Oktober2026 WIB — real facade transport qualified; prepare actual choice Auth UI
+
+c1dd facade run40219663475/job121248268506/Original12609969578:142264B,
+SHA03712c1367896a65dc39a6958bf002145e73fa945bcf40c18d18afc9dfafb949.
+All6JSON exact-head sources/declaration/product paths, CP6/advisor/public22,
+WIB26/session/Auth/restore checked. Native3/races3/HTTP2 PASS: actual distinct
+blocking backends, sameUUID one job, current access after source/replay waits,
+real GoTrue/PostgREST17steps/allpages and revoked/foreign/anonymous refusals.
+All4clone owner/ACL/config receipts exact. Component qualified, no default
+adoption or independent/aggregate credit. 5749units4/capsule4 and98cOW16 16
+complete Originals also verified PASS. First local verifier syntax error kept.
+
+Separate explicit choice Auth Browser2 now prepared: real AuthProvider/AuthGate/
+client and frozen Native DONE snapshot, exact candidate envelope, AVAILABLE zero
+versus own UNKNOWN, actual form CONFIRM/lost response/reload same durable request,
+fresh target0, CLEAR returnsUNKNOWN, original receipt replay afterCLEAR. Mobile
+actual Native stock-post stale refusal retains edits/command; anonymous/foreign/
+current revoked access;403clears candidates and form. Actual host colors scoped
+for button contrast. Default app and SQL unchanged. No new Native/Auth credit
+before complete actual Originals.139pins,94missing/mixed routes refused in all
+10closed routes; actual post-install branch selects browser only.39module actual
+Auth build and dedicated TS PASS; all51qualified backend bytes exact. First stale
+F05declaration refusal kept then repinned; first workflow extractor saw0 because
+it missed PY_DECL delimiters, no verification credit assigned to empty result.
+Actual factory2 declaration also pinned F05 and first refused; repinned that
+field. Local diff review caught a copied final qualifier moving the old work
+Auth credit assignment; both independent assignments and six final restoration
+controls are now preserved. All58 actual inline declarations and15new shell
+steps PASS after that correction.
+
+Continue queued recoveryBrowser3/UIBrowser4/correctedAuthBrowser2, corrected
+choice K3 latency and workTransport9. Formal5/16; CP7C/independent/production_go
+remain false. Checkpoint is not completion; no unmodified manual rerun.

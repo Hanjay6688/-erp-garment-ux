@@ -1236,12 +1236,12 @@
     "public_Auth_browser_credit": false
   },
   "frozen_work_preparation": {
-    "status": "CLIENT153_PASS_REAL_RECOVERY_BROWSER3_AND_PREPARED_UI_BROWSER4_PASS_NATIVE6_PENDING",
+    "status": "CLIENT153_PASS_CONTROLLED_BROWSER3_4_PASS_NATIVE6_QUALIFIED_REAL_AUTH_PENDING",
     "receipt": "../ow12b/frozen-work-client-preparation-local.json",
     "client_tests": 153,
     "new_client_tests": 55,
     "retained_tests": 58,
-    "actual_Native_schedule_save_qualified": false,
+    "actual_Native_schedule_save_qualified": true,
     "actual_Auth_HTTP_credit": false,
     "actual_browser": true,
     "UI_or_default_adopted": false,
@@ -1364,7 +1364,7 @@
   },
   "frozen_public_admin_ACL_repair": {
     "head": "c1dd6b5cd231701be3be35bb7dd45c3856ace8fa",
-    "status": "LOCAL_CREATOR_MATRIX_PASS_NATIVE_PENDING",
+    "status": "READER_NATIVE4_WORK_NATIVE6_FACADE_TRANSPORT8_QUALIFIED_CHOICE5PASS_K3_CORRECTION_PENDING",
     "receipt": "../ow12b/frozen-admin-default-acl-repair.json",
     "strict_expected_owner_authenticated_grants_unchanged": true,
     "global_default_privileges_unchanged": true,
@@ -1489,5 +1489,42 @@
     "receipt": "docs/cp7/d17-14/ow12b/c1dd6b5c-40219663441-original-pass.json",
     "actual_Auth_HTTP_credit": false,
     "factory_SLA_claim": false
-  }
+  },
+  "frozen_facade_latest_qualified": {
+    "head": "c1dd6b5cd231701be3be35bb7dd45c3856ace8fa",
+    "run_id": 40219663475,
+    "artifact_id": 12609969578,
+    "status": "PASS",
+    "cases": {
+      "native": 3,
+      "races": 3,
+      "http": 2
+    },
+    "receipt": "docs/cp7/d17-14/ow12b/c1dd6b5c-40219663475-original-pass.json",
+    "actual_observed_blocking": true,
+    "actual_Auth_HTTP_credit": true,
+    "default_application_adopted": false
+  },
+  "frozen_choice_real_Auth_browser_preparation": {
+    "status": "PREPARATION_ONLY",
+    "receipt": "docs/cp7/d17-14/ow12b/frozen-choice-auth-browser2-preparation.json",
+    "required_cases": 2,
+    "source_pins": 139,
+    "actual_Auth_HTTP_credit": false,
+    "default_application_adopted": false
+  },
+  "latest_retained_regressions_5749_98c": [
+    {
+      "run_id": 40221646593,
+      "receipt": "docs/cp7/d17-14/ow12b/5749a78d-40221646593-original-pass.json"
+    },
+    {
+      "run_id": 40221646613,
+      "receipt": "docs/cp7/d17-14/ow12b/5749a78d-40221646613-original-pass.json"
+    },
+    {
+      "run_id": 40222957670,
+      "receipt": "docs/cp7/d17-14/ow12b/98c39dd5-40222957670-original-pass.json"
+    }
+  ]
 }

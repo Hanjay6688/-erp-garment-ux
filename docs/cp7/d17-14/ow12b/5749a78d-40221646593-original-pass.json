@@ -1,0 +1,325 @@
+{
+  "contract": "cp7.original-runtime-receipt.v1",
+  "head": "5749a78d4f297d0c2ad5671725121c516d46a103",
+  "run_id": 40221646593,
+  "job_id": 121254290164,
+  "artifact_id": 12610188686,
+  "bytes": 163550,
+  "artifact_sha256": "10ee5f06685e459437a3b5e9f9c2fb80b676c564f7f6c9232942d9338780636e",
+  "status": "PASS",
+  "Original_read_complete": true,
+  "all_Original_JSON_files_read": 5,
+  "original_json_sha256": {
+    "T3_BACKUP_RESTORE_DRILL.json": "b2029e46bd37f8c7f2670f0e295119d3214a01f6a9994845b75d63a46d43754f",
+    "T3_PACKAGE_FILES_INSTALL.json": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+    "ALIGNED_CHAIN.json": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b",
+    "CP7_OW12B_FROZEN_UNITS.json": "7c148fd9e23161240243b88251c7e93223f7a1f009561e12909aae76940c1b4d",
+    "T3_PACKAGE_INSTALL.json": "240888b0e8f1d2430714983223eb5ed00938491c096adedf5dac54cb0566bd04"
+  },
+  "actual_current_F05_source_prefix_compared": [
+    "source_sha256",
+    "expected_case_count",
+    "required_case_counts",
+    "required_case_ids",
+    "predeclared_case_contract",
+    "predeclared_case_sha256",
+    "target_v2_source_sha256",
+    "frozen_units_source_sha256"
+  ],
+  "all_source_fields_and_declaration_match": true,
+  "source_prefix_database_executed": false,
+  "product_paths_byte_identical_between_recorded_refs": true,
+  "counts": {
+    "native": 4
+  },
+  "case_facts": {
+    "native": {
+      "OW12B_FROZEN_UNITS_V2_CATALOG22_EXACT_PREUSE": {
+        "status": "PASS",
+        "private8_replacements8_no_new_RPC_table": true,
+        "exact22_composed_inverse": true,
+        "dependent_view_partial_inverse_atomic": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "OW12B_FROZEN_UNITS_V2_ACTUAL_REQUEST_UNITS_PAGES_REPLAY": {
+        "status": "PASS",
+        "private_request_actual_Native_units_and_pages": true,
+        "unchanged_compiler_entire_JSON_exact": true,
+        "reference_immutable_pending": true,
+        "exact_replay_and_cross_method_refusals": true,
+        "old_v1_request_and_pages_complete": true,
+        "workspace_v2_complete_only_after_HIST_PREP": true,
+        "observations": {
+          "ordered_calls": [
+            {
+              "phase": "PRIVATE_REQUEST",
+              "name": "cp7_frozen_analysis_units_v2.request",
+              "millis": 63.953
+            },
+            {
+              "phase": "UNCHANGED_COMPILER_SAME_ARGUMENTS",
+              "name": "cp7_history_bounded.compile",
+              "millis": 9.05
+            }
+          ],
+          "completed": {
+            "state": "DONE",
+            "targets": 2,
+            "pages": 1,
+            "step_millis": [
+              20.717,
+              4.499,
+              4.362,
+              3.909,
+              7.417,
+              10.979,
+              5.691,
+              8.733,
+              12.23,
+              7.918,
+              4.305,
+              8.946,
+              8.162,
+              16.024,
+              13.071,
+              6.987,
+              3.22
+            ]
+          }
+        },
+        "actual_Auth_HTTP_credit": false,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "OW12B_FROZEN_UNITS_V2_FACTORY1200X3_ALL_TARGETS_PAGES": {
+        "products": 3600,
+        "commercial_SKUs": 1200,
+        "physical_sizes": 3,
+        "physical_roots": 3600,
+        "movements": 363600,
+        "exactly_three_distinct_physical_sizes_per_commercial_SKU": true,
+        "synthetic_fixture": true,
+        "actual_Native_qualification": false,
+        "official_finance_included": false,
+        "full_factory3600_qualified": false,
+        "production_go": false,
+        "status": "PASS",
+        "actual_private_request_complete": true,
+        "all3602_targets_entire_compiler_JSON_exact": true,
+        "exact1200_SKUs_three_physical_sizes": true,
+        "all_actual_pages_verified": true,
+        "raw_INCOMPLETE_preserved": true,
+        "observations": {
+          "ordered_calls": [
+            {
+              "phase": "PRIVATE_REQUEST",
+              "name": "cp7_frozen_analysis_units_v2.request",
+              "millis": 3008.943
+            },
+            {
+              "phase": "UNCHANGED_COMPILER_SAME_ARGUMENTS",
+              "name": "cp7_history_bounded.compile",
+              "millis": 3013.817
+            }
+          ],
+          "completed": {
+            "state": "DONE",
+            "targets": 3602,
+            "pages": 1,
+            "step_millis": [
+              4654.761,
+              833.372,
+              704.559,
+              679.698,
+              680.18,
+              674.487,
+              700.754,
+              1432.173,
+              1436.874,
+              1429.966,
+              1392.091,
+              1392.015,
+              1335.194,
+              1338.856,
+              1343.26,
+              1335.554,
+              1342.394,
+              1362.979,
+              1370.584,
+              1349.382,
+              1357.459,
+              1296.742,
+              758.631,
+              833.676,
+              1408.317,
+              679.636,
+              672.789,
+              685.356,
+              692.852,
+              706.2,
+              716.574,
+              716.43,
+              726.802,
+              736.763,
+              742.434,
+              756.018,
+              759.62,
+              768.655,
+              775.249,
+              676.108,
+              765.402,
+              608.726,
+              723.894,
+              707.945,
+              716.625,
+              724.843,
+              738.562,
+              748.327,
+              752.86,
+              765.527,
+              765.54,
+              775.038,
+              795.3,
+              805.948,
+              809.573,
+              822.724,
+              727.662,
+              647.31,
+              702.585,
+              694.463,
+              694.587,
+              699.547,
+              701.182,
+              713.551,
+              708.794,
+              704.26,
+              714.791,
+              713.71,
+              709.762,
+              718.736,
+              717.716,
+              711.26,
+              656.884,
+              1340.508,
+              74.763,
+              3.692
+            ]
+          }
+        },
+        "factory_SLA_claim": false,
+        "public_request_adopted": false,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "OW12B_FROZEN_UNITS_V2_POST_STALE_IMMUTABLE_USED_INVERSE": {
+        "status": "PASS",
+        "actual_post_marks_source_stale": true,
+        "archived_pages_and_reference_exact": true,
+        "used_inverse_refused": true,
+        "existing_K3_cache_purge_keeps_pages_and_coverage": true,
+        "reader_no_ERP_write": true,
+        "observations": {
+          "ordered_calls": [
+            {
+              "phase": "PRIVATE_REQUEST",
+              "name": "cp7_frozen_analysis_units_v2.request",
+              "millis": 109.114
+            },
+            {
+              "phase": "UNCHANGED_COMPILER_SAME_ARGUMENTS",
+              "name": "cp7_history_bounded.compile",
+              "millis": 7.923
+            }
+          ],
+          "completed": {
+            "state": "DONE",
+            "targets": 2,
+            "pages": 1,
+            "step_millis": [
+              19.083,
+              4.416,
+              4.222,
+              3.949,
+              6.794,
+              10.748,
+              5.0,
+              7.225,
+              10.388,
+              6.728,
+              4.11,
+              7.639,
+              6.822,
+              14.49,
+              12.002,
+              6.235,
+              3.137
+            ]
+          }
+        },
+        "production_go": false,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      }
+    }
+  },
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "CP6_advisor_boundary_public_catalog_WIB_session_Auth_cleanup_gates": true,
+  "actual_Auth_HTTP_credit": false,
+  "actual_concurrency": false,
+  "new_visual_screenshot_review": false,
+  "new_cross_suite_aggregate_acceptance_credit": 0,
+  "full_factory3600_qualified": false,
+  "full_OW11_acceptance": false,
+  "full_OW12b_acceptance": false,
+  "formal_acceptance": "5/16",
+  "CP7C_accepted": false,
+  "independent_acceptance": false,
+  "production_go": false
+}
