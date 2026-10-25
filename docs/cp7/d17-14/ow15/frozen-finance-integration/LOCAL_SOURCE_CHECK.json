@@ -1,0 +1,40 @@
+{
+  "status": "LOCAL_PRIVATE_FROZEN_FINANCE_SOURCE_PASS",
+  "SQL_statements": 10,
+  "PLpgSQL_bodies": [
+    "cp7_frozen_analysis_units_v2.request(jsonb,uuid)",
+    "cp7_current_frozen_finance.source(jsonb,boolean)",
+    "cp7_current_frozen_finance.request_finance(jsonb,uuid)"
+  ],
+  "negative_controls": [
+    "bridge.sql_changed",
+    "MANIFEST.json_changed",
+    "old_authority_changed",
+    "new_public_RPC",
+    "undeclared_table",
+    "missing_producer_replacement",
+    "missing_finance_function",
+    "missing_actual_predecessor",
+    "changed_rows_before_any_inverse",
+    "changed_sequence_before_any_inverse"
+  ],
+  "finance_mode_bound_before_first_seal": true,
+  "capsule_sealed_once": true,
+  "five_fresh_permission_checks": true,
+  "both_cross_mode_UUID_guards_present": true,
+  "official_financial_math_reused": true,
+  "producer_includes_A_finance_functions": true,
+  "all22_closed_delta_admission_checked": true,
+  "global_used_guard_before_inverse": true,
+  "new_private_functions": 2,
+  "private_replacements": 2,
+  "new_public_RPC": 0,
+  "local_mock_guard_test_only": true,
+  "database_executed": false,
+  "parent_Native40_runtime_qualification_pending": true,
+  "production_go": false,
+  "checker_sha256": "e9846e0220c339d2a357022d7333436a97cb8d5cc0ef2819b5548be28d3420d6",
+  "A_parent": "8de2ae694c6eda60a6724415eb60772c4f7a20b2",
+  "parent_run_id": 40216890593,
+  "parent_job_id": 121239848652
+}
