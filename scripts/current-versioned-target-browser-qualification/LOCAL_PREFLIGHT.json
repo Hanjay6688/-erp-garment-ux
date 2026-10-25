@@ -1,0 +1,51 @@
+{
+  "status": "PREPARED_SOURCE_ABSENT",
+  "python_files_parsed": 4,
+  "bash_steps_parsed": 41,
+  "case_ids": [
+    "OW11_MODEL_POLICY_BROWSER_MOBILE_EXACT_RECOVERY_SUSPEND",
+    "OW11_MODEL_POLICY_BROWSER_DESKTOP_REVIEW_ACCESS_REVOKED",
+    "OW11_MODEL_V2_BROWSER_MOBILE_EXACT_RECOVERY_POLICY_SOURCE",
+    "OW11_MODEL_V2_BROWSER_DESKTOP_BASELINE_CURRENT_ACCESS",
+    "OW11_MODEL_TARGET_V2_BROWSER_MOBILE_UNKNOWN_ANALOG_CLEAR",
+    "OW11_MODEL_TARGET_V2_BROWSER_DESKTOP_DENSE_PROVENANCE_RELOAD"
+  ],
+  "actual_ESM_modules_loaded": 3,
+  "retained_policy_evaluation_cases": 4,
+  "exact_versioned_target_cases": 2,
+  "actual_prior_A_browser6": {
+    "name": "CP7_CURRENT_MODEL_TARGET_BROWSER6.json",
+    "status": "PASS",
+    "head": "f88c4ee99fb5d18cf11caada5fab86ad161b007a",
+    "run_id": 40129468846,
+    "job_id": 120977882239,
+    "artifact_id": 12575297063,
+    "zip_bytes": 15474033,
+    "zip_sha256": "5eb188cb033eb533652f60b2300261d39d300f9c04a2d3541728797767073126",
+    "bytes": 1539916,
+    "sha256": "6076ef5d3b53d50d3ce302b63c1e75757d7d5c78aeb0301e00b43d353e754c51",
+    "archive_member": "CP7_CURRENT_MODEL_TARGET_BROWSER6.json"
+  },
+  "actual_B_browser2": {
+    "name": "CP7_OW11_MODEL_TARGET_V2_BROWSER.json",
+    "status": "PASS",
+    "head": "40b72fbe0d7593f63e6abf383a5adb25ba98e0db",
+    "run_id": 40169049615,
+    "job_id": 121095977010,
+    "artifact_id": 12588948272,
+    "zip_bytes": 47457,
+    "zip_sha256": "afed95b9bf79e73a199040b69262d996c30b0edb629eeef4eea6ef7d0e1d21e9",
+    "bytes": 307018,
+    "sha256": "c579ab433db9916a75511c6143855824aa47706a65feb4dcaeee4288d081d1ee",
+    "archive_member": "CP7_OW11_MODEL_TARGET_V2_BROWSER.json"
+  },
+  "B_source_pins_exact_current": 50,
+  "actual_product_predecessor_source_equal": true,
+  "three_auth_browser_copies_required": true,
+  "all_old_business_bodies_unchanged": true,
+  "imports": "PASS",
+  "SOURCE_bound": false,
+  "browser_executed": false,
+  "production_go": false,
+  "independent_acceptance": false
+}
