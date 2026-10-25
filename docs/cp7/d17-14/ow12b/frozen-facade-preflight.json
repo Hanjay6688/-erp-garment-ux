@@ -5,7 +5,7 @@
     "races": 3,
     "http": 2
   },
-  "source_pins": 87,
+  "source_pins": 90,
   "missing_or_mixed_routes_refused": 90,
   "changed_group_budgets_refused": 5,
   "actual_F05_prefix_and_contract": true,

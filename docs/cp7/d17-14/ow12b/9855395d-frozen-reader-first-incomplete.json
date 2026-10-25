@@ -1,0 +1,157 @@
+{
+  "contract": "cp7.complete-original-outcome-retained.v1",
+  "head": "9855395d28c4767490b7e7e24b7cf311a0b88072",
+  "run_id": 40212762911,
+  "job_id": 121227360104,
+  "artifact_id": 12607028927,
+  "bytes": 163943,
+  "artifact_sha256": "d49ef4628b05cbc37110792e406aeee7e723537447864550a76a5c9035687ba6",
+  "status": "INCOMPLETE",
+  "Original_read_complete": true,
+  "all_Original_JSON_files_read": 5,
+  "original_json_sha256": {
+    "T3_BACKUP_RESTORE_DRILL.json": "b633f3533503d77f71929ee76920545fe61877805f0a2c354020be0210217b85",
+    "T3_PACKAGE_FILES_INSTALL.json": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+    "CP7_OW12B_FROZEN_READER.json": "8375e1be1aebc2e22f719bf3f94485f4084f50306eca194d10926c8146f2a69a",
+    "ALIGNED_CHAIN.json": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b",
+    "T3_PACKAGE_INSTALL.json": "0875cd83dd259ed332b8f81cdf1b859d98b28743ee3f12646f6d244dd7308851"
+  },
+  "actual_current_F05_source_prefix_compared": [
+    "source_sha256",
+    "expected_case_count",
+    "required_case_counts",
+    "required_case_ids",
+    "predeclared_case_contract",
+    "predeclared_case_sha256",
+    "target_v2_source_sha256",
+    "frozen_reader_source_sha256"
+  ],
+  "all_source_fields_and_declaration_match": true,
+  "source_prefix_database_executed": false,
+  "product_paths_byte_identical_between_recorded_refs": true,
+  "counts": {
+    "INCOMPLETE": 4
+  },
+  "case_facts": {
+    "OW12B_FROZEN_READER_V2_CATALOG22_EXACT_PREUSE": {
+      "status": "INCOMPLETE",
+      "error": "FROZEN_READERS_UNDECLARED_GRANT:public.erp_cp7_read_product_analog_candidates_v2(uuid,text,integer,integer,text)",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_frozen_reader_cases.py\", line 152, in run\n    try:return fn()\n               ^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_frozen_reader_cases.py\", line 83, in catalog\n    before=_catalog_rows(cur);s=install(cur);v=stage.verify(cur,s['current'])\n                                ^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_frozen_reader_cases.py\", line 43, in install\n    own=stage.install_delta(cur,lambda c:native.stage.verify(c,parents['current']))\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_frozen_analysis_readers_v2/__init__.py\", line 80, in install_delta\n    verify(cur,state);return state\n    ^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_frozen_analysis_readers_v2/__init__.py\", line 50, in verify\n    if grant[0]!='cp7_capture'or grant[1]not in allowed or grant[3]is not False:raise ValueError('FROZEN_READERS_UNDECLARED_GRANT:'+sig)\n                                                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nValueError: FROZEN_READERS_UNDECLARED_GRANT:public.erp_cp7_read_product_analog_candidates_v2(uuid,text,integer,integer,text)\n",
+      "observations": {},
+      "production_go": false,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-25",
+        "before": "2026-10-25",
+        "after": "2026-10-25"
+      }
+    },
+    "OW12B_FROZEN_READER_V2_PHYSICAL_SIZE_ZERO_UNKNOWN_K3_POST": {
+      "status": "INCOMPLETE",
+      "error": "FROZEN_READERS_UNDECLARED_GRANT:public.erp_cp7_read_product_analog_candidates_v2(uuid,text,integer,integer,text)",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_frozen_reader_cases.py\", line 152, in run\n    try:return fn()\n               ^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_frozen_reader_cases.py\", line 94, in history\n    install(cur);x=plan.fixture(cur,today)\n    ^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_frozen_reader_cases.py\", line 43, in install\n    own=stage.install_delta(cur,lambda c:native.stage.verify(c,parents['current']))\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_frozen_analysis_readers_v2/__init__.py\", line 80, in install_delta\n    verify(cur,state);return state\n    ^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_frozen_analysis_readers_v2/__init__.py\", line 50, in verify\n    if grant[0]!='cp7_capture'or grant[1]not in allowed or grant[3]is not False:raise ValueError('FROZEN_READERS_UNDECLARED_GRANT:'+sig)\n                                                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nValueError: FROZEN_READERS_UNDECLARED_GRANT:public.erp_cp7_read_product_analog_candidates_v2(uuid,text,integer,integer,text)\n",
+      "observations": {},
+      "production_go": false,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-25",
+        "before": "2026-10-25",
+        "after": "2026-10-26"
+      },
+      "business_day_rollover": true
+    },
+    "OW12B_FROZEN_READER_V2_CURRENT_ACCESS_OLD_METHOD_RETENTION": {
+      "status": "INCOMPLETE",
+      "error": "FROZEN_READERS_UNDECLARED_GRANT:public.erp_cp7_read_product_analog_candidates_v2(uuid,text,integer,integer,text)",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_frozen_reader_cases.py\", line 152, in run\n    try:return fn()\n               ^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_frozen_reader_cases.py\", line 114, in access\n    install(cur);plan.fixture(cur,today)\n    ^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_frozen_reader_cases.py\", line 43, in install\n    own=stage.install_delta(cur,lambda c:native.stage.verify(c,parents['current']))\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_frozen_analysis_readers_v2/__init__.py\", line 80, in install_delta\n    verify(cur,state);return state\n    ^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_frozen_analysis_readers_v2/__init__.py\", line 50, in verify\n    if grant[0]!='cp7_capture'or grant[1]not in allowed or grant[3]is not False:raise ValueError('FROZEN_READERS_UNDECLARED_GRANT:'+sig)\n                                                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nValueError: FROZEN_READERS_UNDECLARED_GRANT:public.erp_cp7_read_product_analog_candidates_v2(uuid,text,integer,integer,text)\n",
+      "observations": {},
+      "production_go": false,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-25",
+        "before": "2026-10-26",
+        "after": "2026-10-26"
+      },
+      "business_day_rollover": true
+    },
+    "OW12B_FROZEN_READER_V2_FACTORY1200X3_CACHED_K3_PARITY": {
+      "status": "INCOMPLETE",
+      "error": "FROZEN_READERS_UNDECLARED_GRANT:public.erp_cp7_read_product_analog_candidates_v2(uuid,text,integer,integer,text)",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_frozen_reader_cases.py\", line 152, in run\n    try:return fn()\n               ^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_frozen_reader_cases.py\", line 132, in volume\n    install(cur);plan.fixture(cur,today);actor=native.native.policy.master.role_actor(cur,'OWNER')\n    ^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_frozen_reader_cases.py\", line 43, in install\n    own=stage.install_delta(cur,lambda c:native.stage.verify(c,parents['current']))\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_frozen_analysis_readers_v2/__init__.py\", line 80, in install_delta\n    verify(cur,state);return state\n    ^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_frozen_analysis_readers_v2/__init__.py\", line 50, in verify\n    if grant[0]!='cp7_capture'or grant[1]not in allowed or grant[3]is not False:raise ValueError('FROZEN_READERS_UNDECLARED_GRANT:'+sig)\n                                                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nValueError: FROZEN_READERS_UNDECLARED_GRANT:public.erp_cp7_read_product_analog_candidates_v2(uuid,text,integer,integer,text)\n",
+      "observations": {},
+      "production_go": false,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-25",
+        "before": "2026-10-26",
+        "after": "2026-10-26"
+      },
+      "business_day_rollover": true
+    }
+  },
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "CP6_advisor_boundary_public_catalog_session_Auth_cleanup_gates": true,
+  "business_day_preserved": false,
+  "business_days": [
+    {
+      "planned": "2026-10-25",
+      "before": "2026-10-25",
+      "after": "2026-10-25"
+    },
+    {
+      "planned": "2026-10-25",
+      "before": "2026-10-25",
+      "after": "2026-10-26"
+    },
+    {
+      "planned": "2026-10-25",
+      "before": "2026-10-26",
+      "after": "2026-10-26"
+    },
+    {
+      "planned": "2026-10-25",
+      "before": "2026-10-26",
+      "after": "2026-10-26"
+    }
+  ],
+  "manual_unchanged_rerun": false,
+  "actual_Auth_HTTP_credit": false,
+  "new_cross_suite_aggregate_acceptance_credit": 0,
+  "full_factory3600_qualified": false,
+  "full_OW11_acceptance": false,
+  "full_OW12b_acceptance": false,
+  "formal_acceptance": "5/16",
+  "CP7C_accepted": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

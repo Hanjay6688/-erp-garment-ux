@@ -31,6 +31,7 @@ name: CP7 Explicit Frozen Analysis Choice Native6
     - src/nativeProductAnalog.ts
     - scripts/cp7_frozen_analysis_readers_v2/**
     - scripts/cp7_ow12b_frozen_reader*
+    - scripts/cp7_ow12b_frozen_acl*
   workflow_dispatch: {}
 permissions:
   contents: read

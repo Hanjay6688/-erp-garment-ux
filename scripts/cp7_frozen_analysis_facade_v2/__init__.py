@@ -13,6 +13,14 @@ def sources():
  return {str(p.relative_to(ROOT)):sha256(p.read_bytes()).hexdigest()for p in sorted(ROOT.rglob('*'))if p.is_file()and p.suffix in('.py','.sql','.json','.ts')}
 
 
+
+def verify_grants(rows):
+ # _catalog_rows uses [grantee, grantor, privilege, grantable], in that order.
+ expected={('cp7_capture','cp7_capture','EXECUTE',False),('authenticated','cp7_capture','EXECUTE',False)}
+ if not isinstance(rows,list)or len(rows)!=len(expected)or any(not isinstance(x,list)or len(x)!=4 or x[3]is not False for x in rows)or {tuple(x)for x in rows}!=expected:
+  raise ValueError('FROZEN_FACADE_GRANTS_CHANGED')
+
+
 def verify(cur,state):
  if sources()!=state['sources']or units.sources()!=state['parent_sources']:
   raise ValueError('FROZEN_FACADE_SOURCE_CHANGED')
@@ -27,8 +35,7 @@ def verify(cur,state):
    raise ValueError('FROZEN_FACADE_EXECUTE_CHANGED:'+role)
  if cur.execute("select has_schema_privilege('cp7_capture','public','CREATE')").fetchone()[0]:
   raise ValueError('FROZEN_FACADE_OWNER_PUBLIC_CREATE_OPEN')
- expected={('cp7_capture','cp7_capture','EXECUTE',False),('cp7_capture','authenticated','EXECUTE',False)}
- if {tuple(x)for x in state['catalog_row'][-1]}!=expected:raise ValueError('FROZEN_FACADE_GRANTS_CHANGED')
+ verify_grants(state['catalog_row'][-1])
  return dict(contract='cp7.frozen-analysis-facade-stage.v2',new_public_rpcs=1,new_tables=0,
   existing_replacements=0,actual_Auth_HTTP_qualified=False,default_installer=False,production_go=False)
 

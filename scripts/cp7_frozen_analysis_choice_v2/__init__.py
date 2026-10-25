@@ -28,6 +28,18 @@ def own(catalog):
  return {g:{k:v for k,v in rows.items()if g=='schemas'and k==SCHEMA or g=='functions'and k in FUNCTIONS}for g,rows in catalog.items()}
 
 
+
+def verify_grants(catalog):
+ # This is the unchanged _catalog_rows serializer's grantee-first ordering.
+ for group in('schemas','functions'):
+  for sig,row in catalog[group].items():
+   expected={('cp7_capture','cp7_capture','USAGE',False),('cp7_capture','cp7_capture','CREATE',False)}if group=='schemas'else{('cp7_capture','cp7_capture','EXECUTE',False)}
+   if sig==render.PUBLIC+'(jsonb,uuid)':expected.add(('authenticated','cp7_capture','EXECUTE',False))
+   grants=row[-1]
+   if not isinstance(grants,list)or len(grants)!=len(expected)or any(not isinstance(x,list)or len(x)!=4 or x[3]is not False for x in grants)or {tuple(x)for x in grants}!=expected:
+    raise ValueError('FROZEN_CHOICE_UNDECLARED_GRANT:'+sig)
+
+
 def verify(cur,state):
  if verify_sources()!=state['sources']or readers.sources()!=state['parent_sources']or own(_catalog_rows(cur))!=state['catalog']:
   raise ValueError('FROZEN_CHOICE_SOURCE_OR_CATALOG_CHANGED')
@@ -44,11 +56,7 @@ def verify(cur,state):
   if cur.execute("select has_schema_privilege(%s,%s,'USAGE')",(role,SCHEMA)).fetchone()[0]:raise ValueError('FROZEN_CHOICE_SCHEMA_EXPOSED:'+role)
  if cur.execute('select pg_get_userbyid(nspowner)from pg_namespace where nspname=%s',(SCHEMA,)).fetchone()!=('cp7_capture',):raise ValueError('FROZEN_CHOICE_SCHEMA_OWNER_CHANGED')
  if cur.execute("select has_schema_privilege('cp7_capture','public','CREATE')").fetchone()[0]:raise ValueError('FROZEN_CHOICE_PUBLIC_CREATE_OPEN')
- for group in('schemas','functions'):
-  for sig,row in state['catalog'][group].items():
-   allowed={'cp7_capture','authenticated'}if sig==render.PUBLIC+'(jsonb,uuid)'else{'cp7_capture'}
-   for grant in row[-1]:
-    if grant[0]!='cp7_capture'or grant[1]not in allowed or grant[3]is not False:raise ValueError('FROZEN_CHOICE_UNDECLARED_GRANT:'+sig)
+ verify_grants(state['catalog'])
  return dict(private_functions=2,new_public_rpcs=1,new_tables=0,existing_replacements=0,
   actual_Native_qualified=False,actual_Auth_HTTP_credit=False,default_adopted=False,production_go=False)
 

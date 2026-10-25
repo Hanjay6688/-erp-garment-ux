@@ -3628,3 +3628,42 @@ now reject90missing/mixed routes; old case budgets and business51unchanged.
 No UI/default/finance/A integration changes. Formal5/16, CP7C/independent/go
 false. Continue first complete Originals, actual current-access races/HTTP,
 work-v2 parser, full browser flow and A composition; checkpoint is not completion.
+
+
+## 185. B26 Oktober2026 WIB — first transport/read refusal retained; exact ACL correction
+
+985 facade run40212762856/job121227360089/Original12606968561:141541B,
+SHA89467e6247c6c2c2e33cfe2bfddbcd5c87be0339db38acd161b9a5a41fe6f1b3.
+Complete5JSON/exact985source prefix/declaration/product refs/package gates and
+CP6/advisor/public22/session/Auth verified. Native3INCOMPLETE before requests:
+FROZEN_FACADE_GRANTS_CHANGED. Races3/HTTP2 unexecuted because mode clone owner
+failed exact22 database_authority. Observed3/expected8, writer_runtime=false,
+qualifiersfalse. WIB25→26 crossing retained as business_day_preserved=false;
+no all-gates or runtime credit. First local verifier selected package.run rather
+than probe.run; source hash refused; correct receiver selection retains checks.
+
+985 reader run40212762911/job121227360104/Original12607028927:163943B,
+SHAd49ef4628b05cbc37110792e406aeee7e723537447864550a76a5c9035687ba6.
+All4INCOMPLETE at public-reader ACL check. Complete5JSON/source fields8/
+declaration/package4true-writerfalse/CP6/advisor/public22/session/Auth verified;
+WIB crossing separately false. No reader runtime/size/K3/scale credit.
+
+Actual unchanged _catalog_rows ACL order is grantee,grantor,privilege,grantable.
+Three new installers erroneously interpreted grantor first. Correct all three
+to exact sets: authenticated receives EXECUTE from cp7_capture; private
+functions owner-only, schema owner CREATE+USAGE. Missing/duplicate/PUBLIC/
+foreign-grantor/grantable/incorrect privilege/private-schema exposure refused.
+Actual PG18 extension DDL plus actual serializer under empty search_path/UTC
+passes3positive catalogs/29negative controls. First local fixture omitted
+reference.sql/schema; corrected real DDL order. Initial export used default
+search_path; matched _catalog context before asserting. SQL bodies and all51
+qualified business sources unchanged; no ACL broadening/oracle relaxation.
+
+Facade probe now uses existing tested local-clone authority restoration wrapper
+before unchanged mode setup, pins it, and retains its separate full Original.
+Only explicit local race/http copies; primary untouched. Corrected3routes
+facade90pins/reader98/choice110 and90negative route controls, actual inline
+declarations and shell syntax PASS. Six-JSON facade archive expected when
+clone receipt exists. Prior412 qualification jobs still record their original
+candidate; no hidden replacement. Next corrected Native/Auth outcomes required.
+Formal5/16/CP7C/independent/go false. Continue, do not stop at checkpoint.

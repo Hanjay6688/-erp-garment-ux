@@ -1,0 +1,614 @@
+{
+  "contract": "cp7.frozen-facade-first-complete-original.v2",
+  "head": "9855395d28c4767490b7e7e24b7cf311a0b88072",
+  "run_id": 40212762856,
+  "job_id": 121227360089,
+  "artifact_id": 12606968561,
+  "size": 141541,
+  "sha": "89467e6247c6c2c2e33cfe2bfddbcd5c87be0339db38acd161b9a5a41fe6f1b3",
+  "status": "INCOMPLETE",
+  "Original_read_complete": true,
+  "original_json_sha256": {
+    "T3_BACKUP_RESTORE_DRILL.json": "ae6ac0c1b0b5328ee5831aa3384f7f36b393bb00d1d8caa6b4be1590edf5c448",
+    "T3_PACKAGE_FILES_INSTALL.json": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+    "ALIGNED_CHAIN.json": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b",
+    "CP7_OW12B_FROZEN_FACADE.json": "12e9000a1419728f200a408c196392310ceaacb11ae89debad9a81eeccc87da4",
+    "T3_PACKAGE_INSTALL.json": "0b3c7614c32e738b72b6ef82d06e19f8d32c1c8f39fcb92bd0f4526b568cc684"
+  },
+  "all_five_JSON_read": true,
+  "all_source_fields_and_declaration_match": true,
+  "source_prefix_fields_compared": [
+    "source_sha256",
+    "expected_case_count",
+    "required_case_counts",
+    "required_case_ids",
+    "predeclared_case_contract",
+    "predeclared_case_sha256",
+    "target_v2_source_sha256",
+    "frozen_facade_source_sha256"
+  ],
+  "product_paths_byte_identical": true,
+  "expected_groups": {
+    "native": 3,
+    "races": 3,
+    "http": 2
+  },
+  "observed_native_INCOMPLETE": 3,
+  "unexecuted_races": 3,
+  "unexecuted_HTTP": 2,
+  "groups": {
+    "native": {
+      "status": "INCOMPLETE",
+      "cases": {
+        "OW12B_FROZEN_FACADE_V2_CATALOG22_EXACT_PREUSE": {
+          "status": "INCOMPLETE",
+          "error": "FROZEN_FACADE_GRANTS_CHANGED",
+          "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_frozen_facade_cases.py\", line 126, in run\n    try: return fn()\n                ^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_frozen_facade_cases.py\", line 78, in catalog\n    before = _catalog_rows(cur); s = install(cur)\n                                     ^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_frozen_facade_cases.py\", line 46, in install\n    own = stage.install_delta(cur, lambda c: native.stage.verify(c, parents['current']))\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_frozen_analysis_facade_v2/__init__.py\", line 56, in install_delta\n    verify(cur,state);return state\n    ^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_frozen_analysis_facade_v2/__init__.py\", line 31, in verify\n    if {tuple(x)for x in state['catalog_row'][-1]}!=expected:raise ValueError('FROZEN_FACADE_GRANTS_CHANGED')\n                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nValueError: FROZEN_FACADE_GRANTS_CHANGED\n",
+          "production_go": false,
+          "full_boundary_restored": true,
+          "public_schema_unchanged": true,
+          "session_leaks": {
+            "advisory_locks": 0,
+            "advisory_lock_keys": [],
+            "other_sessions": []
+          },
+          "business_day": {
+            "planned": "2026-10-25",
+            "before": "2026-10-25",
+            "after": "2026-10-25"
+          }
+        },
+        "OW12B_FROZEN_FACADE_V2_PUBLIC_REQUEST_UNITS_REPLAY": {
+          "status": "INCOMPLETE",
+          "error": "FROZEN_FACADE_GRANTS_CHANGED",
+          "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_frozen_facade_cases.py\", line 126, in run\n    try: return fn()\n                ^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_frozen_facade_cases.py\", line 96, in flow\n    install(cur); plan.fixture(cur, today)\n    ^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_frozen_facade_cases.py\", line 46, in install\n    own = stage.install_delta(cur, lambda c: native.stage.verify(c, parents['current']))\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_frozen_analysis_facade_v2/__init__.py\", line 56, in install_delta\n    verify(cur,state);return state\n    ^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_frozen_analysis_facade_v2/__init__.py\", line 31, in verify\n    if {tuple(x)for x in state['catalog_row'][-1]}!=expected:raise ValueError('FROZEN_FACADE_GRANTS_CHANGED')\n                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nValueError: FROZEN_FACADE_GRANTS_CHANGED\n",
+          "production_go": false,
+          "full_boundary_restored": true,
+          "public_schema_unchanged": true,
+          "session_leaks": {
+            "advisory_locks": 0,
+            "advisory_lock_keys": [],
+            "other_sessions": []
+          },
+          "business_day": {
+            "planned": "2026-10-25",
+            "before": "2026-10-25",
+            "after": "2026-10-26"
+          },
+          "business_day_rollover": true
+        },
+        "OW12B_FROZEN_FACADE_V2_CURRENT_ACCESS_USED_INVERSE": {
+          "status": "INCOMPLETE",
+          "error": "FROZEN_FACADE_GRANTS_CHANGED",
+          "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_frozen_facade_cases.py\", line 126, in run\n    try: return fn()\n                ^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_frozen_facade_cases.py\", line 110, in access\n    s = install(cur); plan.fixture(cur, today)\n        ^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_frozen_facade_cases.py\", line 46, in install\n    own = stage.install_delta(cur, lambda c: native.stage.verify(c, parents['current']))\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_frozen_analysis_facade_v2/__init__.py\", line 56, in install_delta\n    verify(cur,state);return state\n    ^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_frozen_analysis_facade_v2/__init__.py\", line 31, in verify\n    if {tuple(x)for x in state['catalog_row'][-1]}!=expected:raise ValueError('FROZEN_FACADE_GRANTS_CHANGED')\n                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nValueError: FROZEN_FACADE_GRANTS_CHANGED\n",
+          "production_go": false,
+          "full_boundary_restored": true,
+          "public_schema_unchanged": true,
+          "session_leaks": {
+            "advisory_locks": 0,
+            "advisory_lock_keys": [],
+            "other_sessions": []
+          },
+          "business_day": {
+            "planned": "2026-10-25",
+            "before": "2026-10-26",
+            "after": "2026-10-26"
+          },
+          "business_day_rollover": true
+        }
+      },
+      "production_go": false,
+      "independent_acceptance": false,
+      "runner": "cp6_auditor_runner.strict_group",
+      "runtime_before": {
+        "stage": "cp7.bounded-analysis-stage.v1",
+        "private_functions": 13,
+        "public_rpcs": 1,
+        "new_tables": 0,
+        "existing_function_replacements": 7,
+        "Native_ERP_DML": false,
+        "real_Native_job_rows": true,
+        "raw_native_status_overridden": false,
+        "actual_checked_SAVE2000_qualified": false,
+        "full_A_chain_qualified": false,
+        "production_go": false
+      },
+      "catalog_observation_start": {
+        "stats": [
+          {
+            "relname": "pg_namespace",
+            "n_live_tup": 114,
+            "last_analyze": null,
+            "last_autovacuum": "2026-10-25T16:45:15.691073+00:00",
+            "autovacuum_count": 1,
+            "last_autoanalyze": "2026-10-25T16:45:15.69155+00:00",
+            "autoanalyze_count": 1,
+            "n_mod_since_analyze": 0
+          },
+          {
+            "relname": "pg_proc",
+            "n_live_tup": 5634,
+            "last_analyze": null,
+            "last_autovacuum": "2026-10-25T16:45:15.562053+00:00",
+            "autovacuum_count": 2,
+            "last_autoanalyze": "2026-10-25T16:45:15.613726+00:00",
+            "autoanalyze_count": 2,
+            "n_mod_since_analyze": 0
+          }
+        ],
+        "public_state_plan": [
+          "Result",
+          "Aggregate",
+          "Sort",
+          "Hash Join",
+          "Seq Scan:pg_class",
+          "Hash",
+          "Index Scan:pg_namespace",
+          "Sort",
+          "Function Scan",
+          "Sort",
+          "Function Scan",
+          "Sort",
+          "Function Scan",
+          "Sort",
+          "Function Scan",
+          "Aggregate",
+          "Sort",
+          "Nested Loop",
+          "Index Scan:pg_namespace",
+          "Bitmap Heap Scan:pg_proc",
+          "Bitmap Index Scan",
+          "Sort",
+          "Function Scan",
+          "Sort",
+          "Function Scan",
+          "Sort",
+          "Function Scan",
+          "Sort",
+          "Function Scan"
+        ]
+      },
+      "planned_case_ids": [
+        "OW12B_FROZEN_FACADE_V2_CATALOG22_EXACT_PREUSE",
+        "OW12B_FROZEN_FACADE_V2_PUBLIC_REQUEST_UNITS_REPLAY",
+        "OW12B_FROZEN_FACADE_V2_CURRENT_ACCESS_USED_INVERSE"
+      ],
+      "session_at_start": {
+        "advisory": [
+          [
+            "36667162",
+            "2014860829",
+            1,
+            "ExclusiveLock"
+          ],
+          [
+            "133117323",
+            "1359278775",
+            1,
+            "ExclusiveLock"
+          ],
+          [
+            "166583883",
+            "2669507776",
+            1,
+            "ExclusiveLock"
+          ],
+          [
+            "524727427",
+            "334673770",
+            1,
+            "ExclusiveLock"
+          ],
+          [
+            "693903571",
+            "2866437828",
+            1,
+            "ExclusiveLock"
+          ],
+          [
+            "894888206",
+            "1601726789",
+            1,
+            "ExclusiveLock"
+          ],
+          [
+            "938103959",
+            "442513174",
+            1,
+            "ExclusiveLock"
+          ],
+          [
+            "1210212493",
+            "291108692",
+            1,
+            "ExclusiveLock"
+          ],
+          [
+            "1261625026",
+            "2905790439",
+            1,
+            "ExclusiveLock"
+          ],
+          [
+            "1273295348",
+            "3338780787",
+            1,
+            "ExclusiveLock"
+          ],
+          [
+            "1356899435",
+            "852029277",
+            1,
+            "ExclusiveLock"
+          ],
+          [
+            "1366875395",
+            "841090236",
+            1,
+            "ExclusiveLock"
+          ],
+          [
+            "1367901004",
+            "443200556",
+            1,
+            "ExclusiveLock"
+          ],
+          [
+            "1441992972",
+            "1878292021",
+            1,
+            "ExclusiveLock"
+          ],
+          [
+            "1659939102",
+            "2638083243",
+            1,
+            "ExclusiveLock"
+          ],
+          [
+            "1690951542",
+            "4243755911",
+            1,
+            "ExclusiveLock"
+          ],
+          [
+            "1706224961",
+            "574969052",
+            1,
+            "ExclusiveLock"
+          ],
+          [
+            "1837977695",
+            "2657228365",
+            1,
+            "ExclusiveLock"
+          ],
+          [
+            "1849364187",
+            "2816188665",
+            1,
+            "ExclusiveLock"
+          ],
+          [
+            "2074150533",
+            "2301418854",
+            1,
+            "ExclusiveLock"
+          ],
+          [
+            "2121098030",
+            "4279459386",
+            1,
+            "ExclusiveLock"
+          ],
+          [
+            "2267862113",
+            "2669609847",
+            1,
+            "ExclusiveLock"
+          ],
+          [
+            "2350630185",
+            "376756344",
+            1,
+            "ExclusiveLock"
+          ],
+          [
+            "2362748437",
+            "1193658865",
+            1,
+            "ExclusiveLock"
+          ],
+          [
+            "2416927398",
+            "1878906677",
+            1,
+            "ExclusiveLock"
+          ],
+          [
+            "2622225004",
+            "3785085996",
+            1,
+            "ExclusiveLock"
+          ],
+          [
+            "2710724889",
+            "349601549",
+            1,
+            "ExclusiveLock"
+          ],
+          [
+            "2734145821",
+            "2415067759",
+            1,
+            "ExclusiveLock"
+          ],
+          [
+            "2780795932",
+            "1189126966",
+            1,
+            "ExclusiveLock"
+          ],
+          [
+            "2852939915",
+            "2555118205",
+            1,
+            "ExclusiveLock"
+          ],
+          [
+            "2881721593",
+            "3219662216",
+            1,
+            "ExclusiveLock"
+          ],
+          [
+            "2949406879",
+            "2158421044",
+            1,
+            "ExclusiveLock"
+          ],
+          [
+            "3068959875",
+            "835027079",
+            1,
+            "ExclusiveLock"
+          ],
+          [
+            "3129149112",
+            "3573991330",
+            1,
+            "ExclusiveLock"
+          ],
+          [
+            "3210233209",
+            "3470476653",
+            1,
+            "ExclusiveLock"
+          ],
+          [
+            "3428095272",
+            "2505725820",
+            1,
+            "ExclusiveLock"
+          ],
+          [
+            "3568397971",
+            "514652479",
+            1,
+            "ExclusiveLock"
+          ],
+          [
+            "3613867789",
+            "3350003211",
+            1,
+            "ExclusiveLock"
+          ],
+          [
+            "3788117337",
+            "502267553",
+            1,
+            "ExclusiveLock"
+          ],
+          [
+            "3885010512",
+            "835245671",
+            1,
+            "ExclusiveLock"
+          ],
+          [
+            "3951746258",
+            "3651363396",
+            1,
+            "ExclusiveLock"
+          ],
+          [
+            "4056783207",
+            "1845058424",
+            1,
+            "ExclusiveLock"
+          ],
+          [
+            "4146714525",
+            "2979339049",
+            1,
+            "ExclusiveLock"
+          ],
+          [
+            "4165166564",
+            "719586099",
+            1,
+            "ExclusiveLock"
+          ],
+          [
+            "4229748276",
+            "2825527482",
+            1,
+            "ExclusiveLock"
+          ],
+          [
+            "4269567997",
+            "896485724",
+            1,
+            "ExclusiveLock"
+          ]
+        ],
+        "sessions": []
+      },
+      "runtime_after": {
+        "stage": "cp7.bounded-analysis-stage.v1",
+        "private_functions": 13,
+        "public_rpcs": 1,
+        "new_tables": 0,
+        "existing_function_replacements": 7,
+        "Native_ERP_DML": false,
+        "real_Native_job_rows": true,
+        "raw_native_status_overridden": false,
+        "actual_checked_SAVE2000_qualified": false,
+        "full_A_chain_qualified": false,
+        "production_go": false
+      },
+      "complete_boundary_restored": true,
+      "catalog_observation_end": {
+        "stats": [
+          {
+            "relname": "pg_namespace",
+            "n_live_tup": 114,
+            "last_analyze": null,
+            "last_autovacuum": "2026-10-25T17:07:15.775965+00:00",
+            "autovacuum_count": 2,
+            "last_autoanalyze": "2026-10-25T16:45:15.69155+00:00",
+            "autoanalyze_count": 1,
+            "n_mod_since_analyze": 0
+          },
+          {
+            "relname": "pg_proc",
+            "n_live_tup": 5249,
+            "last_analyze": null,
+            "last_autovacuum": "2026-10-25T17:07:15.775394+00:00",
+            "autovacuum_count": 3,
+            "last_autoanalyze": "2026-10-25T16:45:15.613726+00:00",
+            "autoanalyze_count": 2,
+            "n_mod_since_analyze": 0
+          }
+        ],
+        "public_state_plan": [
+          "Result",
+          "Aggregate",
+          "Sort",
+          "Hash Join",
+          "Seq Scan:pg_class",
+          "Hash",
+          "Index Scan:pg_namespace",
+          "Sort",
+          "Function Scan",
+          "Sort",
+          "Function Scan",
+          "Sort",
+          "Function Scan",
+          "Sort",
+          "Function Scan",
+          "Aggregate",
+          "Sort",
+          "Nested Loop",
+          "Index Scan:pg_namespace",
+          "Bitmap Heap Scan:pg_proc",
+          "Bitmap Index Scan",
+          "Sort",
+          "Function Scan",
+          "Sort",
+          "Function Scan",
+          "Sort",
+          "Function Scan",
+          "Sort",
+          "Function Scan"
+        ]
+      },
+      "final": {
+        "OW12B_FROZEN_FACADE_V2_CATALOG22_EXACT_PREUSE": "INCOMPLETE",
+        "OW12B_FROZEN_FACADE_V2_PUBLIC_REQUEST_UNITS_REPLAY": "INCOMPLETE",
+        "OW12B_FROZEN_FACADE_V2_CURRENT_ACCESS_USED_INVERSE": "INCOMPLETE"
+      },
+      "counts": {
+        "INCOMPLETE": 3
+      },
+      "missing": []
+    },
+    "races": {
+      "status": "INCOMPLETE",
+      "label": "AUDITOR_SCENARIO",
+      "database": "cp6_auditor_race",
+      "copy_per_race": true,
+      "test_only_usage_grant": true,
+      "races": {},
+      "production_go": false,
+      "independent_acceptance": false,
+      "release_evidence": false,
+      "error": "OW13A_LEGACY_ORACLE_NOT_EXACT_PREDECESSOR_22: {'database_authority': ['CURRENT']}",
+      "traceback": "er(cur)\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f05_analysis_probe.py\", line 423, in checker\n    return verify_history_reference(cur,history_reference_legacy_checker,history_reference_state)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow13c_history_reference_probe.py\", line 23, in verify_composed\n    legacy_checker(cur)\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f05_analysis_probe.py\", line 415, in checker\n    return verify_bounded_history(cur,bounded_history_legacy_checker,bounded_history_state)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow13c_history_inputs_probe.py\", line 23, in verify_composed\n    legacy_checker(cur)\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f05_analysis_probe.py\", line 393, in checker\n    return verify_staged_schedule(cur,staged_schedule_legacy_checker,staged_schedule_state)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow13c_schedule_probe.py\", line 24, in verify_composed\n    legacy_checker(cur)\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f05_analysis_probe.py\", line 368, in checker\n    return verify_checked(cur,checked_legacy_checker,checked_state)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow13c_checked_probe.py\", line 24, in verify_composed\n    legacy_checker(cur)\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f05_analysis_probe.py\", line 359, in checker\n    return verify_composed(cur,reorder_legacy_checker,reorder_states)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow10_reorder_probe.py\", line 34, in verify_composed\n    legacy_checker(cur)\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f05_analysis_probe.py\", line 347, in checker\n    verify_composed_install(cur,old_checker,initial_states)\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow13a_initial_probe.py\", line 55, in verify_composed_install\n    verify_initial_delta(cur, legacy_checker, states['initial'], function_oracle)\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow13a_initial_probe.py\", line 27, in verify_initial_delta\n    raise ValueError('OW13A_LEGACY_ORACLE_NOT_EXACT_PREDECESSOR_22: '+str({g:k for g,k in names.items()if k}))\nValueError: OW13A_LEGACY_ORACLE_NOT_EXACT_PREDECESSOR_22: {'database_authority': ['CURRENT']}\n",
+      "database_remaining": 0
+    },
+    "http": {
+      "status": "INCOMPLETE",
+      "label": "AUDITOR_SCENARIO",
+      "database": "cp6_auditor_http",
+      "real_auth": true,
+      "jwt_signed_by_runtime": false,
+      "test_only_usage_grant": false,
+      "cases": {},
+      "production_go": false,
+      "independent_acceptance": false,
+      "release_evidence": false,
+      "error": "OW13A_LEGACY_ORACLE_NOT_EXACT_PREDECESSOR_22: {'database_authority': ['CURRENT']}",
+      "traceback": "er(cur)\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f05_analysis_probe.py\", line 423, in checker\n    return verify_history_reference(cur,history_reference_legacy_checker,history_reference_state)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow13c_history_reference_probe.py\", line 23, in verify_composed\n    legacy_checker(cur)\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f05_analysis_probe.py\", line 415, in checker\n    return verify_bounded_history(cur,bounded_history_legacy_checker,bounded_history_state)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow13c_history_inputs_probe.py\", line 23, in verify_composed\n    legacy_checker(cur)\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f05_analysis_probe.py\", line 393, in checker\n    return verify_staged_schedule(cur,staged_schedule_legacy_checker,staged_schedule_state)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow13c_schedule_probe.py\", line 24, in verify_composed\n    legacy_checker(cur)\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f05_analysis_probe.py\", line 368, in checker\n    return verify_checked(cur,checked_legacy_checker,checked_state)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow13c_checked_probe.py\", line 24, in verify_composed\n    legacy_checker(cur)\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f05_analysis_probe.py\", line 359, in checker\n    return verify_composed(cur,reorder_legacy_checker,reorder_states)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow10_reorder_probe.py\", line 34, in verify_composed\n    legacy_checker(cur)\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_f05_analysis_probe.py\", line 347, in checker\n    verify_composed_install(cur,old_checker,initial_states)\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow13a_initial_probe.py\", line 55, in verify_composed_install\n    verify_initial_delta(cur, legacy_checker, states['initial'], function_oracle)\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow13a_initial_probe.py\", line 27, in verify_initial_delta\n    raise ValueError('OW13A_LEGACY_ORACLE_NOT_EXACT_PREDECESSOR_22: '+str({g:k for g,k in names.items()if k}))\nValueError: OW13A_LEGACY_ORACLE_NOT_EXACT_PREDECESSOR_22: {'database_authority': ['CURRENT']}\n",
+      "database_remaining": 0,
+      "auth_counts": {
+        "before": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "after": [
+          0,
+          0,
+          0,
+          0
+        ],
+        "restored": true
+      }
+    }
+  },
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "CP6_advisor_public22_sessions_Auth_restored": true,
+  "business_days": [
+    {
+      "planned": "2026-10-25",
+      "before": "2026-10-25",
+      "after": "2026-10-25"
+    },
+    {
+      "planned": "2026-10-25",
+      "before": "2026-10-25",
+      "after": "2026-10-26"
+    },
+    {
+      "planned": "2026-10-25",
+      "before": "2026-10-26",
+      "after": "2026-10-26"
+    }
+  ],
+  "business_day_preserved": false,
+  "first_errors_preserved": true,
+  "first_local_verifier_refusal": "Source-prefix extractor selected package.run rather than nested probe.run; restricted actual call receiver to probe; exact source checks retained.",
+  "qualifier_not_promoted": true,
+  "oracle_relaxed": false,
+  "actual_Auth_HTTP_credit": false,
+  "actual_concurrency": false,
+  "production_go": false
+}

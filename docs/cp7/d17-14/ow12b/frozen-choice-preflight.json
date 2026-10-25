@@ -4,7 +4,7 @@
   "private_functions": 2,
   "new_public_rpc": 1,
   "new_tables": 0,
-  "source_pins": 108,
+  "source_pins": 110,
   "exact_case_budget": {
     "native": 6
   },

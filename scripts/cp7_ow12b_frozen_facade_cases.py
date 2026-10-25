@@ -35,7 +35,7 @@ PARENT_CHECKER = None
 def sources():
  return {**native.sources(), **{'cp7_frozen_analysis_facade_v2/'+k: v for k, v in stage.sources().items()},
   **{p.name: sha256(p.read_bytes()).hexdigest() for p in (Path(__file__),
-   Path(__file__).with_name('cp7_ow12b_frozen_facade_probe.py'), Path(__file__).with_name('cp7_ow12b_frozen_facade_preflight.py'))}}
+   Path(__file__).with_name('cp7_ow12b_frozen_acl_local.mjs'), Path(__file__).with_name('cp7_ow12b_frozen_acl_preflight.py'), Path(__file__).with_name('cp7_ow13a_clone_authority.py'), Path(__file__).with_name('cp7_ow12b_frozen_facade_probe.py'), Path(__file__).with_name('cp7_ow12b_frozen_facade_preflight.py'))}}
 
 
 def install(cur):

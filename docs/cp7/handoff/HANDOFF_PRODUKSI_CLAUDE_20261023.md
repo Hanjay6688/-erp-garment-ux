@@ -1,3 +1,20 @@
+# Active26 Oktober2026 WIB — exact ACL/clone correction needs qualification
+
+985 first facade and reader complete Originals INCOMPLETE, preserved under
+ow12b/9855395d-frozen-{facade,reader}-first-incomplete.json. FacadeNative3
+refused ACL before use, races3/HTTP2 did not start due clone authority. Reader4
+same ACL column-order defect. Full source/package/CP6/advisor/public/session/
+Auth verified; WIB25→26 retained as a failed clock boundary, never claimed PASS.
+
+Fix three new installers using actual grantee-first catalog and strict exact
+sets; SQL/qualified business51unchanged. Actual PG18 DDL+serializer3positive/
+29negative controls pass. Facade mode probe uses existing exact local-clone
+owner/ACL/GUC restoration and retains separate clone Original. Corrected
+Native/Auth proofs required; no adoption. See KOORD185.412 choice Native6 and
+nine regressions remain their own active candidate and must be retained.
+Continue owning code, source-bound verification, performance/access/wholeUI,
+work-v2 parsing and A integration boundaries. No production permission inferred.
+
 # Lanjutan aktif26 Oktober2026 WIB — frozen choice qualification; retained proofs saved
 
 Real recovery Browser3 f153b99f/run40213155779 Original12605999988 fully

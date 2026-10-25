@@ -1,6 +1,6 @@
 {
   "status": "PASS",
-  "source_pins": 96,
+  "source_pins": 98,
   "exact_case_budget": {
     "native": 4
   },
