@@ -1,0 +1,22 @@
+.frozen-choice-panel { min-width: 0; }
+.frozen-choice-panel header, .frozen-choice-panel nav { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; justify-content: space-between; }
+.frozen-choice-panel h4 { font-size: 1.15rem; }
+.frozen-choice-panel .responsive-table { overflow-x: auto; max-width: 100%; border: 1px solid #ccd8ce; border-radius: 8px; }
+.frozen-choice-panel table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+.frozen-choice-panel th, .frozen-choice-panel td { padding: 0.65rem; border-bottom: 1px solid #dce5de; text-align: left; vertical-align: top; }
+.frozen-choice-panel nav { margin: 0.75rem 0; }
+.frozen-choice-panel .native-analog-choice { margin-top: 1rem; padding: 1rem; border: 1px solid #ccd8ce; border-radius: 8px; background: #fff; }
+.frozen-choice-panel fieldset { display: grid; gap: 0.65rem; min-width: 0; border: 1px solid #ccd8ce; border-radius: 6px; }
+.frozen-choice-panel input, .frozen-choice-panel select, .frozen-choice-panel textarea { max-width: 100%; min-width: 0; padding: 0.6rem; font: inherit; }
+.frozen-choice-panel textarea { min-height: 5rem; resize: vertical; }
+.frozen-choice-panel .native-analog-review { display: flex; align-items: flex-start; gap: 0.5rem; }
+.frozen-choice-panel button { max-width: 100%; overflow-wrap: anywhere; }
+.frozen-choice-panel [role="alert"] { color: #9b2525; }
+@media (max-width: 600px) {
+ .frozen-choice-panel .native-analog-choice { padding: 0.6rem; }
+ .frozen-choice-panel table, .frozen-choice-panel tbody, .frozen-choice-panel tr, .frozen-choice-panel td { display: block; width: 100%; }
+ .frozen-choice-panel thead { display: none; }
+ .frozen-choice-panel tr { border-bottom: 2px solid #ccd8ce; }
+ .frozen-choice-panel td { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 0.5rem; overflow-wrap: anywhere; }
+ .frozen-choice-panel td::before { content: attr(data-label); font-weight: 600; }
+}

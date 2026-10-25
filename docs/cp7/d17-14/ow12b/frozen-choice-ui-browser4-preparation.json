@@ -1,0 +1,56 @@
+{
+  "contract": "cp7.frozen-choice-ui-preparation.v1",
+  "base_head": "7cf3e5f3ca17ec9fbf48fee4f4be609f3d8cd4fe",
+  "status": "LOCAL_PREPARATION_ONLY",
+  "tests_PASS": 152,
+  "DOM_journeys": 23,
+  "retained_client_tests": 129,
+  "TypeScript": "PASS",
+  "browser_source_serving": "PASS",
+  "actual_browser": false,
+  "actual_Native": false,
+  "actual_Auth_HTTP_credit": false,
+  "prepared_browser_journeys": 4,
+  "default_application_adopted": false,
+  "SQL_or_F05_or_shared_installer_changed": false,
+  "production_go": false,
+  "features": [
+    "explicit v2 frozen reader and confirmation with actual Auth identity gate",
+    "all candidate pages and frozen source/provenance validation",
+    "blank scale; explicit reason and review; available zero not UNKNOWN",
+    "reviewed CLEAR using shared live choice workspace",
+    "persist before send; exact actor/method/UUID/payload/review recovery across reload",
+    "retire old replies on snapshot/identity/permission/storage changes",
+    "redact rendered choices, candidates and fields on current access refusal",
+    "recover committed confirmation even if original candidate snapshot expired",
+    "all errors retain original durable command, clear only validated exact success"
+  ],
+  "first_failures_retained": [
+    "Vitest hoisted declarations combined on one line refused before running reader suite; split declarations",
+    "20/22 DOM passed; required estimate label missing and pagination briefly remounted choice reader, causing duplicate access-loss callback",
+    "Added explicit owner-required estimate label; suspend choice reader while paging, preserve recovery without candidates; corrected23 DOM PASS"
+  ],
+  "source_sha256": {
+    "scripts/cp7_frozen_choice_ui/client/NativeFrozenAnalogPanel.dom.test.tsx": "914d7c990b5a8f5b3636af55b0c023097a9be3ad5de622087b00ef8dffe1552b",
+    "scripts/cp7_frozen_choice_ui/client/NativeFrozenAnalogPanel.tsx": "d25574c76d65cdd85623a3f0866f0ad1a8331d7a59e514553278cebaf3c5cac4",
+    "scripts/cp7_frozen_choice_ui/client/NativeFrozenChoicePanel.dom.test.tsx": "233e0168865c62b2c6864cf1dacda6ad97bbb05dca8b991079a6aedff805e894",
+    "scripts/cp7_frozen_choice_ui/client/NativeFrozenChoicePanel.tsx": "7b696c6cb94373fd2e95c8ba168162ddc0719a485b59e6aaab8d60789c977910",
+    "scripts/cp7_frozen_choice_ui/client/fixtures.ts": "2bd912342e0912c3579636a80fe5e4ce950e724ecc716a5003b99bcb0db53378",
+    "scripts/cp7_frozen_choice_ui/client/frozen-choice.css": "199d0c4f92384dbd1c01dc3be3eca1ad73444f1237cab8fef0609735b6a480f2",
+    "scripts/cp7_frozen_choice_ui/client/tsconfig.json": "e9633ce0d94174a0e42d070d60768844cd0006f5921a03251c68fd2abcedbe55"
+  },
+  "first_logs": {
+    "frozen-choice-ui-dom-second.log": "520e891df177d178f234d7b267f98983c62138f43df5c5b3842f699affa37cb9",
+    "frozen-choice-ui-dom-corrected.log": "c1618960370579786a8da7fbc8cb073a06349acc39dfc11c0c0a5eaf6b382902",
+    "frozen-choice-ui-dom-first.log": "b092e400075061f884c73b79aef5c0ceea2c92f6642ff3f3a4c8f67783990558",
+    "frozen-choice-ui-all-first.log": "11d8c7e9ef76624dd1095457217cff54872f5a5816d4637a8f4defbdc50edb5a",
+    "frozen-choice-ui-local-final.log": "68a9c70527964cec90e64ec92d657ca790a6f3a30b83656fcef229961c419a46"
+  },
+  "React_checklist": {
+    "effect_dependencies_complete": true,
+    "identity_and_source_key_retirement": true,
+    "cleanup_retains_durable_recovery": true,
+    "no_new_dependencies": true,
+    "no_new_shared_global_state": true
+  }
+}

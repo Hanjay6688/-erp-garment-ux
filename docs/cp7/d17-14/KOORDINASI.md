@@ -3880,3 +3880,25 @@ Source serving and dedicated TypeScript PASS; client52PASS. Browser execution
 pending; no Native/realAuth/UI adoption or acceptance credit. New workflow
 changes no F05 route, SQL, app graph or shared installer. Continue current
 corrected Native/Auth runs and inspect complete Originals, not job labels alone.
+
+
+## 194. B26 Oktober2026 WIB — prepare frozen candidates and confirmation UI
+
+Separate disposable panel now connects explicit v2 reader and exact durable
+choice helper. Actual Auth identity/permissions gate; no default app import.
+Candidate pages/provenance, explicit estimate label, blank scale/reason/review,
+CONFIRM/CLEAR and source-independent exact recovery are prepared. All errors
+retain original command. Permission/snapshot/tab changes retire late replies;
+current access denial clears rendered candidates/choice/form. Local152PASS
+(23new DOM), TypeScript/source serving/shell PASS. Preserve first local failures:
+hoisted mock declaration, missing estimate label and duplicate access-loss
+callback while paging. Corrected by separate declarations, explicit label and
+suspending choice read during page load. Browser4 actual execution pending.
+
+5749 complete Originals now verify OW16 16, OW13b20, binary4, OW14b113 and
+reader4 PASS; ab OW16 16/binary4 PASS. Full source/head/declarations/allJSON,
+CP6/advisor/public/WIB26/session/Auth/restore verified. 5749 factory Original
+12610456020 retains1PASS/1INCOMPLETE: old predecessor request57014 at8006.465ms,
+stock digest completed3858.065ms. No stable factory SLA; no oracle change or
+unchanged manual rerun. A read-only head remains7de9d4b9. Continue corrected
+Native/Auth/real-browser CI; formal5/16, CP7C/independent/production_go=false.

@@ -1426,5 +1426,53 @@
     "HTTP_executed": 0,
     "status": "INCOMPLETE",
     "corrected_execution_gate_prepared": true
-  }
+  },
+  "frozen_choice_UI_preparation": {
+    "status": "LOCAL152_PASS_BROWSER4_PREPARED",
+    "receipt": "docs/cp7/d17-14/ow12b/frozen-choice-ui-browser4-preparation.json",
+    "actual_browser": false,
+    "actual_Auth_HTTP_credit": false,
+    "default_application_adopted": false
+  },
+  "latest_old_factory_5749": {
+    "status": "INCOMPLETE",
+    "run_id": 40221646591,
+    "artifact_id": 12610456020,
+    "receipt": "5749a78d-factory-original-incomplete.json",
+    "phase": "PREDECESSOR",
+    "sqlstate": "57014",
+    "request_millis": 8006.465,
+    "manual_unchanged_rerun": false,
+    "factory_SLA_claim": false
+  },
+  "latest_retained_regressions_5749_ab": [
+    {
+      "run_id": 40221646573,
+      "receipt": "docs/cp7/d17-14/ow12b/5749a78d-40221646573-original-pass.json"
+    },
+    {
+      "run_id": 40221646625,
+      "receipt": "docs/cp7/d17-14/ow12b/5749a78d-40221646625-original-pass.json"
+    },
+    {
+      "run_id": 40221646647,
+      "receipt": "docs/cp7/d17-14/ow12b/5749a78d-40221646647-original-pass.json"
+    },
+    {
+      "run_id": 40221646661,
+      "receipt": "docs/cp7/d17-14/ow12b/5749a78d-40221646661-original-pass.json"
+    },
+    {
+      "run_id": 40221646707,
+      "receipt": "docs/cp7/d17-14/ow12b/5749a78d-40221646707-original-pass.json"
+    },
+    {
+      "run_id": 40222386633,
+      "receipt": "docs/cp7/d17-14/ow12b/ab37505d-40222386633-original-pass.json"
+    },
+    {
+      "run_id": 40222386719,
+      "receipt": "docs/cp7/d17-14/ow12b/ab37505d-40222386719-original-pass.json"
+    }
+  ]
 }
