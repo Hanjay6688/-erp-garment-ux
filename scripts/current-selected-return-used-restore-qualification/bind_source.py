@@ -3,7 +3,7 @@ from pathlib import Path
 from hashlib import sha256
 import argparse,ast,json
 
-CONFIG = {'parent': 'current-selected-return-native-qualification', 'workflow': 'cp7-current-selected-return-restore.yml', 'recovery': 'cp7_current_selected_return_recovery.py', 'contract': 'cp7.current-selected-return-used-restore8-qualification.v1', 'count': 20, 'native_head': '5cba3b3bcd0d7182255c9b5cde6daea078377008', 'restore_head': 'dd9d05ea61f74a05a5f91f52b6b668992d31acf1', 'native_variable': 'CURRENT_SELECTED_RETURN_NATIVE_ORIGINAL_REPORT', 'restore_variable': 'CURRENT_MODEL_TARGET_RESTORE_ORIGINAL_REPORT'}
+CONFIG = {'parent': 'current-selected-return-native-qualification', 'workflow': 'cp7-current-selected-return-restore.yml', 'recovery': 'cp7_current_selected_return_recovery.py', 'contract': 'cp7.current-selected-return-used-restore8-qualification.v1', 'count': 20, 'native_head': '8e878ed6c95a7249734f5d53b5d33ee1114ec599', 'restore_head': 'dd9d05ea61f74a05a5f91f52b6b668992d31acf1', 'native_variable': 'CURRENT_SELECTED_RETURN_NATIVE_ORIGINAL_REPORT', 'restore_variable': 'CURRENT_MODEL_TARGET_RESTORE_ORIGINAL_REPORT'}
 HERE=Path(__file__).resolve().parent
 REPO=HERE.parents[1]
 
