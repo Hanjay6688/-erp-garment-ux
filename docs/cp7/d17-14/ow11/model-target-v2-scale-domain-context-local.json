@@ -1,0 +1,13 @@
+{
+  "status": "PASS",
+  "same_run_snapshot_binding_required": true,
+  "distinct_paired_snapshots_only_normalized": true,
+  "observed_operands_and_buffer_changes_still_detected": true,
+  "actual_Native": false,
+  "production_go": false,
+  "function_timing_delta_not_cumulative": true,
+  "completed_function_time_survives_failed_request_savepoint": true,
+  "failed_optional_read_savepoint_restores_transaction": true,
+  "track_functions_restored": true,
+  "active_canceled_frames_may_be_absent": true
+}

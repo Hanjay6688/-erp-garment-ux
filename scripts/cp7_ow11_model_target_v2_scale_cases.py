@@ -9,6 +9,7 @@ from pathlib import Path
 from time import monotonic
 import json
 import uuid
+import psycopg
 import cp7_ow11_model_target_consumer_v2_cases as native
 import cp7_ow12b_operational3600_cases as volume
 
@@ -38,9 +39,14 @@ def target_domain(row):
  target=deepcopy(row['target'])
  snapshot=target['inputs']['snapshot_id']
  assert isinstance(snapshot,str)and len(snapshot)==64 and all(c in '0123456789abcdef'for c in snapshot)
+ estimate=deepcopy(row['demand_estimate'])
+ # Both existing kernels echo the same captured authority. Preserve that
+ # binding while comparing the operands across two deliberately distinct runs.
+ assert estimate['inputs']['snapshot_id']==snapshot,'MODEL_TARGET_V2_3600_DEMAND_TARGET_SNAPSHOT_DIFFERS'
  target['inputs']['snapshot_id']='DISTINCT_CAPTURE_SNAPSHOT'
+ estimate['inputs']['snapshot_id']='DISTINCT_CAPTURE_SNAPSHOT'
  return dict(target_key=row['target_key'],target=target,profile=row['profile'],
-  demand_estimate=row['demand_estimate'],available_fg_pcs=row['available_fg_pcs'])
+  demand_estimate=estimate,available_fg_pcs=row['available_fg_pcs'])
 
 
 def recommendation_domain(row):
@@ -59,13 +65,64 @@ def recommendation_domain(row):
  return dict(target=row['target'],production_state=row['production_state'],facts=facts)
 
 
-def capture(cur,today,actor):
- key=str(uuid.uuid4());start=monotonic();initial=bounded.request(cur,today,key,actor)
+class ScaleRequestTimeout(Exception):
+ def __init__(self,result):
+  super().__init__(result['error']);self.result=result
+
+
+def function_times(cur):
+ # Transaction-local observations include pending calls, without resetting any
+ # shared counters or changing a production function, limit, owner or ACL.
+ rows=cur.execute("select funcid::regprocedure::text,calls,total_time,self_time from pg_stat_xact_user_functions where left(schemaname,4)='cp7_'or schemaname in('public','erp')").fetchall()
+ return {name:dict(calls=calls,total_ms=float(total),self_ms=float(own))for name,calls,total,own in rows}
+
+
+def timing_delta(before,after):
+ rows=[]
+ for name,value in after.items():
+  old=before.get(name,dict(calls=0,total_ms=0,self_ms=0))
+  row=dict(function=name,calls=value['calls']-old['calls'],total_ms=round(value['total_ms']-old['total_ms'],3),self_ms=round(value['self_ms']-old['self_ms'],3))
+  if row['calls']or row['total_ms']:rows.append(row)
+ return sorted(rows,key=lambda r:(-r['self_ms'],r['function']))[:60]
+
+
+def function_profile(cur,before):
+ # A failed optional observation must not leave the actual case transaction
+ # aborted or replace the original gateway error.
+ cur.execute('savepoint model_target_profile_read')
+ try:return dict(functions=timing_delta(before,function_times(cur)),completed_calls_only=True,inlined_SQL_functions_may_be_absent=True,instrumentation_overhead_uncalibrated=True)
+ except Exception as error:
+  cur.execute('rollback to savepoint model_target_profile_read')
+  return dict(unavailable=str(error))
+ finally:cur.execute('release savepoint model_target_profile_read')
+
+
+def capture(cur,today,actor,phase):
+ plan.b.api.admin(cur);prior=cur.execute('show track_functions').fetchone()[0]
+ cur.execute("select set_config('track_functions','all',true)")
+ before=function_times(cur);cur.execute('savepoint model_target_scale_timing')
+ key=str(uuid.uuid4());start=monotonic()
+ try:
+  initial=bounded.request(cur,today,key,actor)
+ except psycopg.Error as error:
+  elapsed=(monotonic()-start)*1000;message=str(error);sqlstate=error.sqlstate
+  cur.execute('rollback to savepoint model_target_scale_timing');plan.b.api.admin(cur)
+  profile=function_profile(cur,before);profile['canceled_active_frames_may_be_absent']=True
+  cur.execute('release savepoint model_target_scale_timing')
+  cur.execute("select set_config('track_functions',%s,true)",(prior,))
+  if sqlstate!='57014':raise
+  raise ScaleRequestTimeout(dict(status='INCOMPLETE',error=message,sqlstate=sqlstate,phase=phase,
+   request_millis=round(elapsed,3),session_function_profile=profile,statement_limit='8s',
+   gateway_limit_increased=False,production_functions_replaced_for_profiling=False,
+   factory_SLA_claim=False,production_go=False))from error
  elapsed=(monotonic()-start)*1000
+ plan.b.api.admin(cur);profile=function_profile(cur,before)
+ cur.execute('release savepoint model_target_scale_timing')
+ cur.execute("select set_config('track_functions',%s,true)",(prior,))
  assert elapsed<8000,('MODEL_TARGET_V2_3600_REQUEST_OVER8S',elapsed)
  plan.staged.checked(initial,key,'RUNNING')
  row=plan.staged.job_row(cur,key,actor)
- f=dict(key=key,initial=initial,row=row,subject=actor,request_millis=round(elapsed,3))
+ f=dict(key=key,initial=initial,row=row,subject=actor,request_millis=round(elapsed,3),request_function_profile=profile)
  bounded.finish(cur,f)
  assert f['pages']['targets_total']==len(row['reference']['facts']['products'])>=3600
  assert row['reference']['status']=='INCOMPLETE'and row['reference']['stock_raw_omitted']is True
@@ -88,7 +145,7 @@ def cases(cur,today):
   for root in roots:native.fresh.consumer.profile(cur,root,mean_mode='SELECTED_MANUAL',daily_pcs='1000',lead_days='3',review_days='2',buffer_days='1')
   actor=native.policy.master.role_actor(cur,'OWNER')
   physical=plan.monetary_state(cur)
-  old=capture(cur,today,actor)
+  old=capture(cur,today,actor,'PREDECESSOR')
   old_rows=old['row']['reference']['bounded_history_inputs']['inputs']['targets']
   old_domains={r['target_key']:target_domain(r)for r in old_rows}
   old_recommendations={r['target']['key']:recommendation_domain(r)for r in old['original']['analysis']['recommendations']}
@@ -105,7 +162,7 @@ def cases(cur,today):
    history=native.source.history.capture(cur,hq,subject=actor)
    model,_=native.source.scoped.capture(cur,native.source.scoped.parent.query(history,hq),actor)
    references[key]=dict(run_id=model['run_id'],history_run_id=history['run_id'])
-  new=capture(cur,today,actor)
+  new=capture(cur,today,actor,'CURRENT')
   rows=new['row']['reference']['bounded_history_inputs']['inputs']['targets']
   assert len(rows)==len({r['target_key']for r in rows})==len(old_domains)
   assert {r['target_key']:target_domain(r)for r in rows}==old_domains,'MODEL_TARGET_V2_3600_KERNEL_OR_OBSERVED_OPERANDS_CHANGED'
@@ -134,13 +191,17 @@ def cases(cur,today):
   return dict(status='PASS',**size,actual_products=len(rows),actual_scoped_models=len(references),
    all_target_kernels_profile_observed_operands_exact=True,all_recommendation_quantity_states_values_units_reasons_exact=True,
    predecessor_complete=True,predecessor_request_millis=old['request_millis'],predecessor_step_millis=[c['ms']for c in old['calls']],
+   predecessor_request_function_profile=old['request_function_profile'],current_request_function_profile=new['request_function_profile'],
    current_request_millis=new['request_millis'],current_step_millis=[c['ms']for c in new['calls']],full_source_check_millis=timings,
    all_pages_verified=True,explicit_capture_clock_engine_refs_retained=True,old_result_immutable=True,
    raw_native_INCOMPLETE_preserved=True,actual_native_post_retires_source=True,no_business_write_by_analysis=True,
    statement_limit='8s',factory_SLA_claim=False,financial_capture='DEFERRED',official_finance_included=False,
    full_factory3600_qualified=False,actual_historical_positive_winner=False,after_use_restore_qualified=False,
    full_OW11_acceptance=False,full_OW12b_acceptance=False,production_go=False)
- return[(IDS['native'][0],catalog),(IDS['native'][1],scale)]
+ def profiled_scale():
+  try:return scale()
+  except ScaleRequestTimeout as error:return error.result
+ return[(IDS['native'][0],catalog),(IDS['native'][1],profiled_scale)]
 
 
 def races(tools,today):return []

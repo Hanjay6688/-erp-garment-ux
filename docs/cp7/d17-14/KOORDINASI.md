@@ -2835,3 +2835,46 @@ Current-source benchmark with frozen36b81fce baseline:8874.361ms->3771.492ms
 (2.353x), again complete3600-row JSON/ref/quantity parity and both guards intact.
 Both measurements retained; no fastest-run selection. This repeats after the
 actual product change and explicit frozen/current body hashes were added.
+
+## 151. B25 Oktober2026 WIB — current performance candidate Browser2/transport11 PASS
+
+182c8b17 Browser2/run40173569416/job121109392509 complete JSON12591551904,
+48195bytes, SHAb69be4a4f04231e53317f7b32ed7f20bb30bf73fc92b96ffbbb6a7ab37e22b5b;
+full12591636817,2044701bytes, SHAb729ec7c5bd57e86f52149dd4daa65b18fd76dad967cd42fa39d0b85e1e591a5.
+All6JSON/all64exact source pins checked; three screenshots visually reviewed.
+Mobile actual Auth scoped capture/reload/exact UUID recovery, UNKNOWN/analog/CLEAR,
+current403 hide and desktop2000/202000 preserved. All package/CP6/advisor/clone,
+WIB/session/Auth0->0/copy cleanup gates pass. Product_refdbc0d3ff is byte-identical
+for every recorded product path; actual tool/GitHub/script head182c8b17.
+
+Transport11/run40173569413: Ajob121109392482 Original12591992672,95050bytes,
+SHAb9869cbf682c434c6b3e4499c05a22838c45f401247cc052c7a69265813e7d69;
+Bjob121109392300 Original12591903113,95563bytes,
+SHA6483faad92743f3266bd58898d3b62d6d8d909033740724a2a0e9b25b81df939.
+Read all6JSON/part and verified all50head/current pins,8exact cloned authorities,
+all package/CP6/advisor/boundary/session/WIB/Auth/copy cleanup. A1Native+4races,
+B1repeatedNative+3races+3realAuthHTTP PASS =11unique, repeated catalog0credit.
+Current context-path change qualifies these runtime paths; Native6 still pending.
+No fullOW11, historical-positive winner, A composer/after-use, or factory SLA credit.
+
+## 152. B25 Oktober2026 WIB — second3600 timeout retained; diagnostic-only follow-up
+
+182c8b17/run40173569646/job121109393358 Original12591957005,116950bytes,
+SHA73d8c1c82bdc4bde62b34fef129e0b4dfb3c717bed7be71407fdcf71fccb73fb.
+1PASS/1INCOMPLETE, same unchanged8s predecessor request fails before current overlay.
+All5JSON/all50head pins read; package writer gatefalse, otherfour gates/CP6/advisor/
+boundary/session cleanup pass. Context-path improvement alone is insufficient.
+The firsted82e7e9 failure remains, no fresh comparison or full3600 credit.
+
+Follow-up only changes scale instrumentation and paired capture oracle: require
+same-run target+demand snapshot binding, normalize their two deliberately different
+capture IDs together, keep every observed operand/profile/buffer/quantity comparison.
+Changed own total/buffer and mismatched same-run hash are locally refused.
+Capture session pg_stat_xact_user_functions before/after the SAME authenticated8s
+request, with track_functions restored and optional read protected by savepoint.
+No shared stats reset or production function replacement. Completed-function time
+survives rollback to the failed request savepoint (actual localSQL proof); canceled
+active frames may be absent, so this is diagnostic data, not complete accounting.
+Failure stays INCOMPLETE with original error/sqlstate/phase/time, not a green case.
+Two IDs/count2 remain; contract/source pins regenerate; admission checks PASS.
+Formal5/16, CP7C/independent false, production_go=false. Continue actual profiling.

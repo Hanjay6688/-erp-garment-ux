@@ -1,0 +1,55 @@
+{
+  "contract": "cp7.model-target-v2-transport-union-receipt.v1",
+  "head": "182c8b174f7d1d4e3355c24263cf1866357510b5",
+  "run_id": 40173569413,
+  "status": "PASS",
+  "parts": [
+    {
+      "part": "A",
+      "artifact_id": 12591992672,
+      "bytes": 95050,
+      "sha256": "b9869cbf682c434c6b3e4499c05a22838c45f401247cc052c7a69265813e7d69",
+      "counts": {
+        "native": 1,
+        "races": 4
+      }
+    },
+    {
+      "part": "B",
+      "artifact_id": 12591903113,
+      "bytes": 95563,
+      "sha256": "6483faad92743f3266bd58898d3b62d6d8d909033740724a2a0e9b25b81df939",
+      "counts": {
+        "native": 1,
+        "races": 3,
+        "http": 3
+      }
+    }
+  ],
+  "unique_case_ids": [
+    "OW11_MODEL_TARGET_V2_AUTH_ANON_AND_FOREIGN_REFERENCE",
+    "OW11_MODEL_TARGET_V2_AUTH_CONFIRM_CLEAR_EXACT_REPLAY",
+    "OW11_MODEL_TARGET_V2_AUTH_REVOKED_COMMITTED_REPLAY",
+    "OW11_MODEL_TARGET_V2_CATALOG22_COMPOSED_PREUSE",
+    "OW11_MODEL_TARGET_V2_RACE_ACCESS_AFTER_ENVELOPE",
+    "OW11_MODEL_TARGET_V2_RACE_ACCESS_AFTER_TARGET",
+    "OW11_MODEL_TARGET_V2_RACE_POLICY_AFTER_ENVELOPE",
+    "OW11_MODEL_TARGET_V2_RACE_REPLAY_ACCESS_AFTER_REQUEST",
+    "OW11_MODEL_TARGET_V2_RACE_REVISION",
+    "OW11_MODEL_TARGET_V2_RACE_SAME_UUID",
+    "OW11_MODEL_TARGET_V2_RACE_SOURCE_AFTER_ENVELOPE"
+  ],
+  "unique_case_count": 11,
+  "repeated_catalog_anchor_credit": 0,
+  "all_50_source_pins_exact_and_current": true,
+  "all_package_CP6_advisor_boundary_and_cleanup_gates": true,
+  "actual_concurrency": true,
+  "actual_Auth_HTTP_credit": true,
+  "current_context_path_performance_change_transport_qualified": true,
+  "actual_historical_positive_winner": false,
+  "full_OW11_acceptance": false,
+  "formal_acceptance": "5/16",
+  "CP7C_accepted": false,
+  "independent_acceptance": false,
+  "production_go": false
+}
