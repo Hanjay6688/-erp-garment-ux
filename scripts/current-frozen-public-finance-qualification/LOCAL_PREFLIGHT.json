@@ -1,0 +1,46 @@
+{
+  "status": "PASS_LOCAL_PREPARATION_ONLY",
+  "retained_source": {
+    "retained_cases_sha256": "21c211380075eb8e25d6b7f159e710db24d66f8c4076a0cdbc14b2debd5ab639",
+    "current_cases_sha256": "dfef946f952b3719c7968739273ea1f4ccecaad1a73e7f04f8368f82c103f6e5",
+    "retained_assertions": 55,
+    "only_product_import_and_two_request_constants_changed": true,
+    "full23_capture_observer_unchanged": true,
+    "actual_Auth_HTTP_credit": false
+  },
+  "rejected_controls": [
+    "legacy_finance_route",
+    "legacy_operational_route",
+    "partial_composer",
+    "relaxed_request_limit",
+    "metrics_dropped",
+    "capture_comparison_dropped",
+    "current_permission_guard_dropped",
+    "capture_columns_dropped"
+  ],
+  "request_routes_checked": 3,
+  "request_hook_restored": true,
+  "case_count": 10,
+  "Auth_cases": 3,
+  "two_backend_races": 7,
+  "python_files": 9,
+  "bash_steps": 44,
+  "database_executed": false,
+  "runtime_qualified": false,
+  "actual_Auth_HTTP_credit": false,
+  "SOURCE_bound": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "actual_prior_Original_validation": {
+    "head": "4608b478ac50b52eba69e938488402b296a0f46e",
+    "status": "PASS",
+    "actual_Auth": 3,
+    "actual_races": 7,
+    "seven_full23_capture_observations": true,
+    "new_public_runtime_claim": false
+  },
+  "preparation_corrections": [
+    "AST reader explicitly accepts literal dict keyword construction for retained IDS; no business source changed",
+    "Composer ancestry assertion corrected to exact declared cp7.current-AB-finance-versioned-performance.v1"
+  ]
+}
