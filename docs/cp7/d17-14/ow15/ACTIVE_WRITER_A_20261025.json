@@ -1,5 +1,5 @@
 {
-  "recorded_at_utc": "2026-10-25T06:58:47.112045+00:00",
+  "recorded_at_utc": "2026-10-25T07:35:00Z",
   "role": "A finance writer/integrator replacing Claude",
   "slogan": [
     "VENI. VIDI. VICI. ERP. \u2014 I CONQUERED ERP.",
@@ -10,23 +10,24 @@
   "independent_acceptance": false,
   "running": [
     {
-      "scope": "selected-return unchanged Native20 regression",
-      "head": "5cba3b3bcd0d7182255c9b5cde6daea078377008",
-      "run_id": 40169046409,
-      "job_id": 121095967944,
-      "status": "IN_PROGRESS_RUNTIME",
+      "scope": "selected-return Native20 corrected setup and actual full used guard",
+      "head": "8e878ed6c95a7249734f5d53b5d33ee1114ec599",
+      "run_id": 40172876323,
+      "job_id": 121107262691,
+      "status": "IN_PROGRESS",
       "full_local_source_admission": "PASS",
-      "source_pins": 3237
+      "source_pins": 3240,
+      "actual_originals": 3
     },
     {
       "scope": "complete finance history scoped model Native30",
-      "head": "862bedbaa04afa130b984c1f474f71d03d0380e6",
-      "run_id": 40170086669,
-      "job_id": 121098981598,
-      "status": "IN_PROGRESS_RUNTIME",
+      "head": "ffa0b63dbb6f0b7888eeaec59d0f39347cd58e0e",
+      "run_id": null,
+      "job_id": null,
+      "status": "PUBLISHED_WAIT_SERVER_RUN",
       "full_local_source_admission": "PASS",
-      "source_pins": 3300,
-      "actual_originals": 6
+      "source_pins": 3302,
+      "actual_originals": 7
     },
     {
       "scope": "factory1200x3 official finance actual minute after Native date correction",
@@ -80,16 +81,17 @@
   "prepared": [
     {
       "scope": "selected-return full used restore8",
-      "head": "6013d0e3666cf6216bf69e121a17d84fbb0a8e3f",
+      "head": "0c6ee70f6411609b2356e53f8ccedc1b25324c20",
       "next": "Bind actual corrected Native20 PASS and prior target restore8 PASS, admit, launch",
       "execution_branch": "astra-a/d17-14-selected-return-restore-20261025",
       "SOURCE_bound": false,
       "native20_SOURCE_true_merged": true,
-      "exact_head_binder": "scripts/current-selected-return-used-restore-qualification/bind_source.py"
+      "exact_head_binder": "scripts/current-selected-return-used-restore-qualification/bind_source.py",
+      "required_native_head": "8e878ed6c95a7249734f5d53b5d33ee1114ec599"
     },
     {
       "scope": "isolated future versioned-target integration",
-      "head": "e16e9c8e04c19b5c75a98e3bf031c2791e01016d",
+      "head": "f54ee4b388e66c85ae9b36709a6fbc87e79a4c23",
       "branch": "astra-a/d17-14-versioned-target-integration-prepared-20261025",
       "client_tests": 303,
       "client_test_files": 12,
@@ -105,10 +107,15 @@
       "changed_hook_bodies": 14,
       "unchanged_hook_bodies": 7,
       "legacy_target_objects_preserved": true,
-      "tree": "0aeb9cbbcda80bd26307d59a079cd85052182ecf",
+      "tree": "7d6579dc396f62c66942da9f9d0b4eaf2dd8349b",
       "true_merge_B_head": "36b81fcee8ee801a96793c89df6e14388263ad33",
       "browser_source_pins_current": 50,
-      "first_source_export_mismatch_preserved": true
+      "first_source_export_mismatch_preserved": true,
+      "Native30_prepared": true,
+      "recovery_prepared": true,
+      "actual_prerequisites_required": 9,
+      "SOURCE_bound": false,
+      "next": "Merge corrected scoped Native30 gate; adapt history replay to actual complete versioned guard; wait actual scoped Native30/restore8"
     },
     {
       "scope": "full scoped model used restore8",
@@ -123,7 +130,7 @@
       "post_restore_scoped_model_checks": 8,
       "bash_steps_checked": 38,
       "exact_head_binder": "scripts/current-scoped-model-used-restore-qualification/bind_source.py",
-      "next": "Bind actual Native30 PASS and preserved history restore8 PASS, complete source admission, launch"
+      "next": "Merge corrected scoped Native30 gate and update binder to ffa0b63d; wait actual PASS"
     }
   ],
   "first_failures_preserved": [
@@ -132,7 +139,9 @@
     "B-source-v2-first-verified-04551081.json",
     "current-contract6-actual-d69dc2d3.json",
     "factory-corrected-actual-b7a69c2c.json",
-    "B-scale-v2-first-actual-ed82e7e9.json"
+    "B-scale-v2-first-actual-ed82e7e9.json",
+    "selected-native20-first-actual-5cba3b3b.json",
+    "scoped-native30-first-actual-862bedba.json"
   ],
   "next_rules": [
     "Preserve and verify exact Original bytes, source pins, every case and full restoration before credit",
@@ -333,5 +342,31 @@
     }
   },
   "B_versioned_transport_unique_cases": 11,
-  "B_versioned_scale_first_failure": "Legacy bounded request timed out before installing versioned source; 1PASS/1INCOMPLETE, full restoration retained; B-owned fix pending"
+  "B_versioned_scale_first_failure": "Legacy bounded request timed out before installing versioned source; 1PASS/1INCOMPLETE, full restoration retained; B-owned fix pending",
+  "actual_selected_native20_first_failure": {
+    "name": "CP7_CURRENT_SELECTED_RETURN_NATIVE20.json",
+    "status": "INCOMPLETE",
+    "head": "5cba3b3bcd0d7182255c9b5cde6daea078377008",
+    "run_id": 40169046409,
+    "job_id": 121095967944,
+    "artifact_id": 12591080953,
+    "zip_bytes": 2701780,
+    "zip_sha256": "77499758b8fdf7f8fcfb968aa8441ba6825530bbe62cff6d2a6671d116d4aa8b",
+    "bytes": 7152634,
+    "sha256": "8613fa159893827415895ec0d3622e531a8241a1ad29b667e4b0722cd0ce4824",
+    "archive_member": "CP7_CURRENT_SELECTED_RETURN_NATIVE20.json"
+  },
+  "actual_scoped_native30_first_failure": {
+    "name": "CP7_CURRENT_SCOPED_MODEL_NATIVE30.json",
+    "status": "INCOMPLETE",
+    "head": "862bedbaa04afa130b984c1f474f71d03d0380e6",
+    "run_id": 40170086669,
+    "job_id": 121098981598,
+    "artifact_id": 12591251190,
+    "zip_bytes": 2755837,
+    "zip_sha256": "9d26e37a4d5b55dba812b18c66a4c60900ad67f09ed7c7ca952c1475af96cf10",
+    "bytes": 8909549,
+    "sha256": "a3285c8465a97a80909b5e21a05a63b30a9fdc2551e94b86fec6076daa570192",
+    "archive_member": "CP7_CURRENT_SCOPED_MODEL_NATIVE30.json"
+  }
 }
