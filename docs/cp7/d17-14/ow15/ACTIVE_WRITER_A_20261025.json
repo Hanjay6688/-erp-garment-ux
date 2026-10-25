@@ -1,5 +1,5 @@
 {
-  "recorded_at_utc": "2026-10-25T16:37:14.002688+00:00",
+  "recorded_at_utc": "2026-10-25T16:50:58.880435+00:00",
   "role": "A finance writer/integrator replacing Claude",
   "slogan": [
     "VENI. VIDI. VICI. ERP. \u2014 I CONQUERED ERP.",
@@ -8,19 +8,7 @@
   "formal_accepted": "5/16",
   "production_go": false,
   "independent_acceptance": false,
-  "running": [
-    {
-      "scope": "Full current versioned performance Native36",
-      "head": "88f36937ef7c0a42cc7761142678da5411ece68f",
-      "run_id": 40207721011,
-      "job_id": 121212148397,
-      "status": "CI_IN_PROGRESS",
-      "source_pins": 3569,
-      "actual_originals": 7,
-      "complete_local_source_admission": "PASS",
-      "execution_branch": "astra-a/d17-14-versioned-performance-native36-20261025"
-    }
-  ],
+  "running": [],
   "actual_new_component": {
     "name": "CP7_OW11_MODEL_TARGET_SOURCE_V2.json",
     "status": "PASS",
@@ -200,8 +188,8 @@
     {
       "scope": "late exact B performance on unchanged full A versioned predecessor",
       "branch": "astra-a/d17-14-versioned-performance-prepared-20261025",
-      "head": "88f36937ef7c0a42cc7761142678da5411ece68f",
-      "tree": "02cd09dd3d0ce5b81edc7594703370a9a8f19a38",
+      "head": "4608b478ac50b52eba69e938488402b296a0f46e",
+      "tree": "81822993ec6047a8a7a858e3c0fcdab38e25d110",
       "B_qualified_source_head": "c7f06b855512e0c8d450522c36e84f4cab570a2a",
       "exact_function_replacements": 2,
       "direct_JSON_path_substitutions": 6,
@@ -211,9 +199,9 @@
       "local_catalog_negatives": 6,
       "used_inverse_and_forged_rollback_refused_before_SQL": true,
       "full_restore_code_prepared": true,
-      "actual_A_runtime_qualified": false,
+      "actual_A_runtime_qualified": true,
       "qualification_workflows_prepared": true,
-      "next": "Intake actual performance Native36. Only PASS binds five follow-ups; all six actual PASS then factory1200x3 official finance1. Current versioned restore8 prerequisite is order2 actual PASS7de9, not a future performance restore.",
+      "next": "Dispatch five source-qualified followups after 17:00 UTC; intake actual reports once. Factory binding still waits all six current performance PASS Originals.",
       "prepared_workflows": [
         "Native36",
         "used restore8",
@@ -282,7 +270,7 @@
       "Native36_execution_branch_current_head": "88f36937ef7c0a42cc7761142678da5411ece68f",
       "restore_target_capture_after_all_scoped_evaluations": true,
       "restore_freshness_before_backup_checked": true,
-      "status": "ACTUAL_NATIVE36_CI_IN_PROGRESS",
+      "status": "ACTUAL_NATIVE36_PASS_FIVE_FOLLOWUPS_SOURCE_ADMITTED",
       "Native36_SOURCE_bound": true,
       "Native36_source_pins": 3569,
       "Native36_actual_source_admission": {
@@ -292,7 +280,47 @@
       },
       "Native36_run_id": 40207721011,
       "Native36_job_id": 121212148397,
-      "remaining_six_SOURCE_absent": true
+      "remaining_six_SOURCE_absent": false,
+      "five_followup_SOURCE_bound": true,
+      "followup_source_admissions": {
+        "restore": {
+          "status": "PASS",
+          "source_pins": 3571,
+          "actual_originals": 2,
+          "bytes": 2103511,
+          "sha256": "a8e547bcc4d7d5da29c03a660a07a18ae25b4a15268485db210cde93d2a52f4a"
+        },
+        "finance": {
+          "status": "PASS",
+          "source_pins": 3571,
+          "actual_originals": 2,
+          "bytes": 1833425,
+          "sha256": "55e1a82b3639dc51cc36e6f32b74533958c8c65060faa8b25a75ae1496b1278b"
+        },
+        "cron": {
+          "status": "PASS",
+          "source_pins": 3571,
+          "actual_originals": 2,
+          "bytes": 1832937,
+          "sha256": "a81adc17ade25728baf0acee5af38e9bb673d849a006936a36552f46252be3cc"
+        },
+        "browser": {
+          "status": "PASS",
+          "source_pins": 3571,
+          "actual_originals": 3,
+          "bytes": 1834544,
+          "sha256": "887f58c8da8055f39cf9dd887aab63da1d5c670c1281e8264cf6909d190d2b9a"
+        },
+        "transport": {
+          "status": "PASS",
+          "source_pins": 3571,
+          "actual_originals": 4,
+          "bytes": 1840399,
+          "sha256": "0c353773cc22e4fee6dadb0e46983c0c35aa92bb2993f14f6c9a52b8f1b84453"
+        }
+      },
+      "Native36_actual_phase_rows": 16,
+      "factory_SOURCE_absent": true
     }
   ],
   "first_failures_preserved": [
@@ -2131,5 +2159,88 @@
   },
   "future_B_recovery_boundary": "B-10a-prepared-recovery-queued-replacement.json",
   "future_frozen_finance_boundary": "future-frozen-finance-integration-constraints.json",
-  "current_qualification_drift_impact": "qualification-drift-impact-88f36937-summary.json"
+  "current_qualification_drift_impact": "qualification-drift-impact-88f36937-summary.json",
+  "actual_current_versioned_performance_native36": {
+    "name": "CP7_CURRENT_VERSIONED_PERFORMANCE_NATIVE36.json",
+    "status": "PASS",
+    "head": "88f36937ef7c0a42cc7761142678da5411ece68f",
+    "run_id": 40207721011,
+    "job_id": 121212148397,
+    "artifact_id": 12605748400,
+    "zip_bytes": 2937362,
+    "zip_sha256": "fd324ab8b94ba523dbf0fa713eed82a31eca5c1d3b7d3b3246ad53ba679adbb8",
+    "bytes": 10516169,
+    "sha256": "d14bfff0d0d6c9d3a0ce94795df6d3ee8d1da2efc27baec234a921d902c398c3",
+    "archive_member": "CP7_CURRENT_VERSIONED_PERFORMANCE_NATIVE36.json",
+    "source_pins_verified": 3569,
+    "actual_prerequisites_verified": 7,
+    "package_gate": {
+      "installed": true,
+      "primary_unchanged": true,
+      "backup_restore_drill": true,
+      "security_advisors": true,
+      "writer_runtime": true
+    },
+    "cp6_restored": true,
+    "advisor_gate": true,
+    "production_go": false,
+    "independent_acceptance": false,
+    "counts": {
+      "PASS": 36
+    },
+    "full22_all_rows_all_sequences_restored": true
+  },
+  "performance_followups_prepared": {
+    "recorded_at_utc": "2026-10-25T16:50:58.880435+00:00",
+    "head": "4608b478ac50b52eba69e938488402b296a0f46e",
+    "local_head": "09d8cc0a15767f51cf4f9ab234f14668bd8f70d6",
+    "tree": "81822993ec6047a8a7a858e3c0fcdab38e25d110",
+    "parent": "88f36937ef7c0a42cc7761142678da5411ece68f",
+    "prepared_branch": "astra-a/d17-14-versioned-performance-prepared-20261025",
+    "changed_files": "five SOURCE.json only",
+    "source_admissions": {
+      "restore": {
+        "status": "PASS",
+        "source_pins": 3571,
+        "actual_originals": 2,
+        "bytes": 2103511,
+        "sha256": "a8e547bcc4d7d5da29c03a660a07a18ae25b4a15268485db210cde93d2a52f4a"
+      },
+      "finance": {
+        "status": "PASS",
+        "source_pins": 3571,
+        "actual_originals": 2,
+        "bytes": 1833425,
+        "sha256": "55e1a82b3639dc51cc36e6f32b74533958c8c65060faa8b25a75ae1496b1278b"
+      },
+      "cron": {
+        "status": "PASS",
+        "source_pins": 3571,
+        "actual_originals": 2,
+        "bytes": 1832937,
+        "sha256": "a81adc17ade25728baf0acee5af38e9bb673d849a006936a36552f46252be3cc"
+      },
+      "browser": {
+        "status": "PASS",
+        "source_pins": 3571,
+        "actual_originals": 3,
+        "bytes": 1834544,
+        "sha256": "887f58c8da8055f39cf9dd887aab63da1d5c670c1281e8264cf6909d190d2b9a"
+      },
+      "transport": {
+        "status": "PASS",
+        "source_pins": 3571,
+        "actual_originals": 4,
+        "bytes": 1840399,
+        "sha256": "0c353773cc22e4fee6dadb0e46983c0c35aa92bb2993f14f6c9a52b8f1b84453"
+      }
+    },
+    "actual_Native36_receipt": "versioned-performance-native36-actual-88f36937.json",
+    "followup_execution_status": "NOT_DISPATCHED",
+    "planned_execution_not_before_UTC": "2026-10-25T17:00:00Z",
+    "reason": "Avoid spanning the Asia/Jakarta business-day rollover inside a long fixed-date qualification fixture.",
+    "factory_SOURCE_absent": true,
+    "production_go": false,
+    "independent_acceptance": false
+  }
 }

@@ -1,0 +1,53 @@
+{
+  "recorded_at_utc": "2026-10-25T16:50:58.880435+00:00",
+  "head": "4608b478ac50b52eba69e938488402b296a0f46e",
+  "local_head": "09d8cc0a15767f51cf4f9ab234f14668bd8f70d6",
+  "tree": "81822993ec6047a8a7a858e3c0fcdab38e25d110",
+  "parent": "88f36937ef7c0a42cc7761142678da5411ece68f",
+  "prepared_branch": "astra-a/d17-14-versioned-performance-prepared-20261025",
+  "changed_files": "five SOURCE.json only",
+  "source_admissions": {
+    "restore": {
+      "status": "PASS",
+      "source_pins": 3571,
+      "actual_originals": 2,
+      "bytes": 2103511,
+      "sha256": "a8e547bcc4d7d5da29c03a660a07a18ae25b4a15268485db210cde93d2a52f4a"
+    },
+    "finance": {
+      "status": "PASS",
+      "source_pins": 3571,
+      "actual_originals": 2,
+      "bytes": 1833425,
+      "sha256": "55e1a82b3639dc51cc36e6f32b74533958c8c65060faa8b25a75ae1496b1278b"
+    },
+    "cron": {
+      "status": "PASS",
+      "source_pins": 3571,
+      "actual_originals": 2,
+      "bytes": 1832937,
+      "sha256": "a81adc17ade25728baf0acee5af38e9bb673d849a006936a36552f46252be3cc"
+    },
+    "browser": {
+      "status": "PASS",
+      "source_pins": 3571,
+      "actual_originals": 3,
+      "bytes": 1834544,
+      "sha256": "887f58c8da8055f39cf9dd887aab63da1d5c670c1281e8264cf6909d190d2b9a"
+    },
+    "transport": {
+      "status": "PASS",
+      "source_pins": 3571,
+      "actual_originals": 4,
+      "bytes": 1840399,
+      "sha256": "0c353773cc22e4fee6dadb0e46983c0c35aa92bb2993f14f6c9a52b8f1b84453"
+    }
+  },
+  "actual_Native36_receipt": "versioned-performance-native36-actual-88f36937.json",
+  "followup_execution_status": "NOT_DISPATCHED",
+  "planned_execution_not_before_UTC": "2026-10-25T17:00:00Z",
+  "reason": "Avoid spanning the Asia/Jakarta business-day rollover inside a long fixed-date qualification fixture.",
+  "factory_SOURCE_absent": true,
+  "production_go": false,
+  "independent_acceptance": false
+}

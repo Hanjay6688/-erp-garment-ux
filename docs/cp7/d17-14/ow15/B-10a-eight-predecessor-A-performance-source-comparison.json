@@ -1,0 +1,53 @@
+{
+  "status": "SOURCE_BODY_COMPARISON_ONLY",
+  "A_head": "88f36937ef7c0a42cc7761142678da5411ece68f",
+  "B_head": "10a36e35b956febd9e34907f20fc5b782ec48dc1",
+  "comparisons": {
+    "cp7_analysis_stage.run_unit(cp7_analysis_stage.jobs,cp7_analysis_stage.units)": {
+      "A_body_sha256": "191d51b5085d644abcfd4cc9783158b03abe22f661efb64249c3c31fc2748ba0",
+      "B_expected_predecessor_sha256": "191d51b5085d644abcfd4cc9783158b03abe22f661efb64249c3c31fc2748ba0",
+      "equal": true
+    },
+    "cp7_supply_native.fingerprint(jsonb)": {
+      "A_body_sha256": "fefeb4263e0c6435dd57c4f276a4b35232e2c80f18966c24780a573735244170",
+      "B_expected_predecessor_sha256": "fefeb4263e0c6435dd57c4f276a4b35232e2c80f18966c24780a573735244170",
+      "equal": true
+    },
+    "cp7_bounded_analysis_stage.require_inputs(jsonb,jsonb)": {
+      "A_body_sha256": "4aa4f5cf102cb55191ea23a7a5f5a3b167a564adde6f8a4e3e2d142942dc6216",
+      "B_expected_predecessor_sha256": "4aa4f5cf102cb55191ea23a7a5f5a3b167a564adde6f8a4e3e2d142942dc6216",
+      "equal": true
+    },
+    "cp7_bounded_analysis_stage.source_for(jsonb,jsonb)": {
+      "A_body_sha256": "501c1578187a9dbc8335db28683ceb6550ce7374e95961b46c326d316cd4f085",
+      "B_expected_predecessor_sha256": "501c1578187a9dbc8335db28683ceb6550ce7374e95961b46c326d316cd4f085",
+      "equal": true
+    },
+    "cp7_analysis_stage.run_scenario_unit(cp7_analysis_stage.jobs,cp7_analysis_stage.units,jsonb)": {
+      "A_body_sha256": "08895ed00c0f054b11c1abf36b8b88935d2b6d20c8b68d8e555a9f814aac5cde",
+      "B_expected_predecessor_sha256": "08895ed00c0f054b11c1abf36b8b88935d2b6d20c8b68d8e555a9f814aac5cde",
+      "equal": true
+    },
+    "cp7_analysis_stage.analysis_skeleton(jsonb,jsonb,uuid,jsonb,jsonb,jsonb,jsonb,jsonb,boolean,text)": {
+      "A_body_sha256": "ae30c46a1a3aaa19a0343472e1e47652a1a4ff0870dabf68942f20b7c44042d4",
+      "B_expected_predecessor_sha256": "ae30c46a1a3aaa19a0343472e1e47652a1a4ff0870dabf68942f20b7c44042d4",
+      "equal": true
+    },
+    "cp7_schedule_staged_review.workspace(uuid)": {
+      "A_body_sha256": "73b4d0e97009f2ce629bd3e4a242004e334540704045b83f33360a797250040d",
+      "B_expected_predecessor_sha256": "73b4d0e97009f2ce629bd3e4a242004e334540704045b83f33360a797250040d",
+      "equal": true
+    },
+    "cp7_schedule_staged_review.save(jsonb,uuid)": {
+      "A_body_sha256": "57d1566d4ed4f1d8b50d86deb983844e6aa270bf79e02d3780305acfb3a3683e",
+      "B_expected_predecessor_sha256": "57d1566d4ed4f1d8b50d86deb983844e6aa270bf79e02d3780305acfb3a3683e",
+      "equal": true
+    }
+  },
+  "equal_count": 8,
+  "expected_count": 8,
+  "database_catalog_observed": false,
+  "full_composition_admitted": false,
+  "product_modified": false,
+  "production_go": false
+}

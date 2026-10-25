@@ -4,10 +4,11 @@ VENI. VIDI. VICI. ERP. — I CONQUERED ERP.
 Reliable data adalah dewa. Keuangan termasuk laporan, stok, dan HPP adalah raja.
 
 **Enam kelompok uji pada susunan target berversi terbaru sudah lulus, termasuk
-pemulihan setelah dipakai. Pengujian kandidat performa 36 kasus sudah berjalan.
+pemulihan setelah dipakai. Kandidat performa juga lulus 36 kasus; lima kelompok
+lanjutannya sudah lulus pemeriksaan sumber dan menunggu eksekusi.
 Skala pabrik bersama keuangan resmi belum selesai. Formal tetap 5/16; belum ada
 penerimaan independen atau izin produksi.** Posisi ini dicatat 25 Oktober 2026
-pukul 22.37 WIB. Status run berikutnya ada di
+pukul 23.51 WIB. Status run berikutnya ada di
 [catatan aktif A](ACTIVE_WRITER_A_20261025.json).
 
 Astra A menjalankan estafet Claude: uang, stok, HPP, laporan dan penggabungan.
@@ -47,13 +48,20 @@ laporan prasyarat, berkas asli dan lima gerbang pemasangan/pemulihan diperiksa.
 
 ## Performa dan skala pabrik
 
-[Kandidat performa A `88f36937`](performance-native36-running-88f36937.json)
-menggabungkan tepat dua fungsi optimasi B yang sudah mempunyai bukti komponen.
-Seluruh 3.569 sidik sumber dan tujuh laporan prasyarat lulus pemeriksaan lengkap.
-Run `40207721011` sekarang menjalankan 36 kasus pada database terpisah. Jika
-lulus, berikutnya lima kelompok pemulihan/layar/akses/keuangan/proses server,
-lalu 1.200 SKU × tiga ukuran dengan angka keuangan dan HPP resmi. Enam deklarasi
-uji lanjutan belum diikat; belum ada kelulusan runtime A untuk kandidat performa.
+[Kandidat performa A `88f36937`](versioned-performance-native36-actual-88f36937.json)
+sudah lulus seluruh36kasus pada run40207721011. Dua fungsi optimasi B tetap
+menjadi satu-satunya perubahan produk terhadap pendahulu. Seluruh3.569pin,
+tujuh laporan prasyarat, lima gate, pemulihan seluruh22kelompok katalog,
+baris/nomor urut, CP6 dan advisor diperiksa. [Catatan fase aktual](versioned-performance-native36-phase-receipt.json)
+menyimpan16titik diagnosis; durasi pemasangan dan pemulihan bukan SLA aplikasi.
+
+[Lima uji lanjutan `4608b478`](performance-five-followups-prepared-4608b478.json)
+sudah diikat ke Original Native36 tersebut. Masing-masing3.571pin dan seluruh
+prasyarat lulus pemeriksaan sumber lengkap: restore8/finance10/cron1/browser6/
+transport28. Eksekusi belum dimulai ketika catatan ini ditulis; mulai sesudah
+00.00WIB/17.00UTC agar data uji bertanggal tetap tidak melintasi pergantian hari.
+SOURCE uji pabrik tetap belum diikat. Uji1.200SKU×tiga ukuran dengan angka
+keuangan/HPP resmi menunggu enam kelompok performa aktual lulus.
 
 [Kandidat B sebelumnya `dd22f085`](B-dd22-complete-intake.json)
 menambah fungsi privat untuk mengambil satu salinan sumber lengkap lalu

@@ -1,0 +1,30 @@
+{
+  "name": "CP7_CURRENT_VERSIONED_PERFORMANCE_NATIVE36.json",
+  "status": "PASS",
+  "head": "88f36937ef7c0a42cc7761142678da5411ece68f",
+  "run_id": 40207721011,
+  "job_id": 121212148397,
+  "artifact_id": 12605748400,
+  "zip_bytes": 2937362,
+  "zip_sha256": "fd324ab8b94ba523dbf0fa713eed82a31eca5c1d3b7d3b3246ad53ba679adbb8",
+  "bytes": 10516169,
+  "sha256": "d14bfff0d0d6c9d3a0ce94795df6d3ee8d1da2efc27baec234a921d902c398c3",
+  "archive_member": "CP7_CURRENT_VERSIONED_PERFORMANCE_NATIVE36.json",
+  "source_pins_verified": 3569,
+  "actual_prerequisites_verified": 7,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "production_go": false,
+  "independent_acceptance": false,
+  "counts": {
+    "PASS": 36
+  },
+  "full22_all_rows_all_sequences_restored": true
+}
