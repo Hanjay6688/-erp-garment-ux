@@ -3,7 +3,11 @@
 Kandidat penerus0fadd2af kini mengubah hanya flag materialisasi CTE stock pada
 helper privat history_reference; hasil hash/15kolom/dua clock/guard/ACL/caps sama.
 Local1200SKUx3size363600moves:5745.055->5150.852ms dengan JSON/hash identik;
-37actualSQL local checks dan admissions/YAML pass. Explicit-JSON variant lebih
+37actualSQL local checks dan admissions/YAML pass. Published stock-copy8f2cee88
+triggered15runs; binding/source-v2 two first preflight declaration failures retained,
+exact stale binding MANIFEST pin fixed, both stop guards corrected for no workdir.
+Other13jobs continue at8f; read complete Originals, not badges.24actual inline
+declaration blocks now pass with0DB attempts. Explicit-JSON variant lebih
 lambat, ditolak; private target-pass patch tetap tidak dipakai. Candidate baru
 BELUM runtime-qualified: wajib baca Native4 reference + Native6/Browser2/transport11/
 Native3600 lengkap; pins51/68/54/54. Bukti PASS di bawah tetap pada source lama.

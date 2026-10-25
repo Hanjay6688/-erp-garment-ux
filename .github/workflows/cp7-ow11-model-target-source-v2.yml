@@ -295,7 +295,7 @@ jobs:
     - name: Remove disposable database
       if: always()
       working-directory: base
-      run: supabase stop --workdir cp5-local --no-backup
+      run: if test -d cp5-local; then supabase stop --workdir cp5-local --no-backup; fi
     - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
       if: always()
       with:

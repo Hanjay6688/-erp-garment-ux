@@ -3027,3 +3027,24 @@ Browser2/transport11/Native3600 stay qualified only at their recorded source hea
 The new materialization candidate is not runtime-qualified. Continue actual Native4
 and current model/browser/transport/scale qualification after publishing this change.
 Formal5/16, CP7C/independent false, production_go=false.
+
+## 160. B25 Oktober2026 WIB — first dependency-declaration failures retained/corrected
+
+8f2cee88 triggered15 dependency qualifications. Binding/run40181000784/
+job121131850194 and source-v2/run40181000783/job121131850442 stopped BEFORE any
+database at the focused declaration's exact source-map assertion. Their6/19pins
+still expected binding MANIFEST26c45932 after its required dependency revision
+became94833eb1. Both full decoded logs read/preserved:79852bytes/SHA
+c211ce1ea1ce53dd01180728175b34d984aa02c360cd4d464d5d26999038c6c5 and79926bytes/SHA
+58e31c2911f9493c36441a9a7fae6d8b77a48d71805663ae0a5dbd75cfdfb218.
+No OriginalJSON/artifact exists and no Native/CP6/Auth/cleanup qualification is
+inferred. Secondary stop command failed because database workdir was never created.
+
+Correct exactly one source hash in each declaration; IDs/count4/oracles unchanged.
+Guard those two stop commands only when workdir exists; genuine database cleanup
+still runs when created. No productSQL/permission/clock/cap/limit or main candidate
+51/68/54 source changes in this correction. Actual binding/source/selection
+admissions PASS, plus24 actual workflow inline declaration blocks checked with0
+DB connection attempts; both YAML cleanup guards parse. Keep both first failures,
+rerun only changed focused declarations/workflows; other13 jobs continue at8f.
+Formal5/16, CP7C/independent false, production_go=false; continue qualifications.

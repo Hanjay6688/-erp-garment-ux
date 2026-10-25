@@ -1,0 +1,64 @@
+{
+  "contract": "cp7.preflight-first-failure-receipt.v1",
+  "head": "8f2cee885403ade48d6fb5596cb476205434cbc8",
+  "status": "FAILED_BEFORE_DATABASE",
+  "failures": [
+    {
+      "run_id": 40181000784,
+      "job_id": 121131850194,
+      "contract_file": "docs/cp7/d17-14/ow11/MODEL_TARGET_BINDING_NATIVE_CONTRACT.json",
+      "source_pin_count": 6,
+      "stale_source_paths": [
+        "cp7_model_target_binding/MANIFEST.json"
+      ],
+      "old_hashes": {
+        "cp7_model_target_binding/MANIFEST.json": "26c45932b390f8d36f13ed5341e6cce5db1a5b50ab910cca286a66b447dc2438"
+      },
+      "new_hashes": {
+        "cp7_model_target_binding/MANIFEST.json": "94833eb100d65b92c3369fc41686c2494fc6c974224d9a6f6c052aa62617fce6"
+      },
+      "complete_decoded_job_log_read": true,
+      "log_bytes": 79852,
+      "log_sha256": "c211ce1ea1ce53dd01180728175b34d984aa02c360cd4d464d5d26999038c6c5",
+      "failure_phase": "SOURCE_DECLARATION_BEFORE_DATABASE",
+      "Original_JSON_emitted": false,
+      "artifact_id": null,
+      "actual_Native_qualification": false,
+      "secondary_cleanup_workdir_missing": true
+    },
+    {
+      "run_id": 40181000783,
+      "job_id": 121131850442,
+      "contract_file": "docs/cp7/d17-14/ow11/MODEL_TARGET_SOURCE_V2_NATIVE_CONTRACT.json",
+      "source_pin_count": 19,
+      "stale_source_paths": [
+        "cp7_model_target_binding/MANIFEST.json"
+      ],
+      "old_hashes": {
+        "cp7_model_target_binding/MANIFEST.json": "26c45932b390f8d36f13ed5341e6cce5db1a5b50ab910cca286a66b447dc2438"
+      },
+      "new_hashes": {
+        "cp7_model_target_binding/MANIFEST.json": "94833eb100d65b92c3369fc41686c2494fc6c974224d9a6f6c052aa62617fce6"
+      },
+      "complete_decoded_job_log_read": true,
+      "log_bytes": 79926,
+      "log_sha256": "58e31c2911f9493c36441a9a7fae6d8b77a48d71805663ae0a5dbd75cfdfb218",
+      "failure_phase": "SOURCE_DECLARATION_BEFORE_DATABASE",
+      "Original_JSON_emitted": false,
+      "artifact_id": null,
+      "actual_Native_qualification": false,
+      "secondary_cleanup_workdir_missing": true
+    }
+  ],
+  "first_failures_retained": true,
+  "correction": "Regenerate exact changed binding manifest source pin in two declarations; skip cleanup only when database workdir never existed",
+  "production_SQL_changed_in_correction": false,
+  "case_ids_counts_oracles_unchanged": true,
+  "current_other51_68_54_source_candidate_unchanged": true,
+  "actual_Native": false,
+  "full_OW11_acceptance": false,
+  "formal_acceptance": "5/16",
+  "CP7C_accepted": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

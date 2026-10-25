@@ -47,7 +47,7 @@
   "new_tables": 0,
   "existing_replacements": 0,
   "binding_source_sha256": {
-    "cp7_model_target_binding/MANIFEST.json": "26c45932b390f8d36f13ed5341e6cce5db1a5b50ab910cca286a66b447dc2438",
+    "cp7_model_target_binding/MANIFEST.json": "94833eb100d65b92c3369fc41686c2494fc6c974224d9a6f6c052aa62617fce6",
     "cp7_model_target_binding/__init__.py": "1d95f4fa292656856d5f76112712cd90e44936babd61c3553d1a08c22e2906d7",
     "cp7_model_target_binding/binding.sql": "c9c4624bb6362a483f9c9cf9e7c46f9141aa660b6cb8402d25188410d0b193aa",
     "cp7_ow11_model_target_binding_cases.py": "c874b43bfc745fbba21125d5d21e6bc64d28e409bae7f2b5124336de60c6b819",

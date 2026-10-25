@@ -1,0 +1,128 @@
+{
+  "status": "PASS",
+  "actual_workflow_inline_declarations": [
+    {
+      "workflow": ".github/workflows/cp7-ow11-model-scoped-dataset.yml",
+      "step": "Check focused declaration, unchanged legacy budgets and client types",
+      "status": "PASS"
+    },
+    {
+      "workflow": ".github/workflows/cp7-ow11-model-evaluation-v2.yml",
+      "step": "Check focused declaration, unchanged legacy budgets and client types",
+      "status": "PASS"
+    },
+    {
+      "workflow": ".github/workflows/cp7-ow11-model-target-source-v2.yml",
+      "step": "Check focused declaration, unchanged legacy budgets and client types",
+      "status": "PASS"
+    },
+    {
+      "workflow": ".github/workflows/cp7-ow11-model-scoped-evaluation.yml",
+      "step": "Check focused declaration, unchanged legacy budgets and client types",
+      "status": "PASS"
+    },
+    {
+      "workflow": ".github/workflows/cp7-ow11-model-target-transport.yml",
+      "step": "Check focused declaration, unchanged legacy budgets and client types",
+      "status": "PASS"
+    },
+    {
+      "workflow": ".github/workflows/cp7-ow11-model-scoped-evaluation-transport.yml",
+      "step": "Check focused declaration, unchanged legacy budgets and client types",
+      "status": "PASS"
+    },
+    {
+      "workflow": ".github/workflows/cp7-ow11-model-policy-browser.yml",
+      "step": "Check consumer Browser2 declaration and demand provenance client",
+      "status": "PASS"
+    },
+    {
+      "workflow": ".github/workflows/cp7-ow11-model-target-transport-parts.yml",
+      "step": "Check focused declaration, unchanged legacy budgets and client types",
+      "status": "PASS"
+    },
+    {
+      "workflow": ".github/workflows/cp7-ow11-model-target-binding.yml",
+      "step": "Check focused declaration, unchanged legacy budgets and client types",
+      "status": "PASS"
+    },
+    {
+      "workflow": ".github/workflows/cp7-ow11-model-policy.yml",
+      "step": "Check focused declaration, unchanged legacy budgets and client types",
+      "status": "PASS"
+    },
+    {
+      "workflow": ".github/workflows/cp7-ow11-model-evaluation-v2-transport.yml",
+      "step": "Check focused declaration, unchanged legacy budgets and client types",
+      "status": "PASS"
+    },
+    {
+      "workflow": ".github/workflows/cp7-ow11-model-target-v2-browser.yml",
+      "step": "Check consumer Browser2 declaration and demand provenance client",
+      "status": "PASS"
+    },
+    {
+      "workflow": ".github/workflows/cp7-ow11-model-scoped-evaluation-browser.yml",
+      "step": "Check scoped Browser2 exact sources, routing and retained client controls",
+      "status": "PASS"
+    },
+    {
+      "workflow": ".github/workflows/cp7-ow11-model-history-runtime-transport.yml",
+      "step": "Check focused declaration, unchanged legacy budgets and client types",
+      "status": "PASS"
+    },
+    {
+      "workflow": ".github/workflows/cp7-ow11-model-history-runtime.yml",
+      "step": "Check focused declaration, unchanged legacy budgets and client types",
+      "status": "PASS"
+    },
+    {
+      "workflow": ".github/workflows/cp7-ow11-model-evaluation-v2-browser.yml",
+      "step": "Check v2 Browser2 declaration, immutable wire and recovery client",
+      "status": "PASS"
+    },
+    {
+      "workflow": ".github/workflows/cp7-ow11-model-selection.yml",
+      "step": "Check focused declaration, unchanged legacy budgets and client types",
+      "status": "PASS"
+    },
+    {
+      "workflow": ".github/workflows/cp7-ow11-model-target-transport-v2.yml",
+      "step": "Check focused declaration, unchanged legacy budgets and client types",
+      "status": "PASS"
+    },
+    {
+      "workflow": ".github/workflows/cp7-ow11-model-target-browser.yml",
+      "step": "Check consumer Browser2 declaration and demand provenance client",
+      "status": "PASS"
+    },
+    {
+      "workflow": ".github/workflows/cp7-ow11-model-history-scope.yml",
+      "step": "Check focused declaration, unchanged legacy budgets and client types",
+      "status": "PASS"
+    },
+    {
+      "workflow": ".github/workflows/cp7-ow11-model-target-consumer-v2.yml",
+      "step": "Check focused declaration, unchanged legacy budgets and client types",
+      "status": "PASS"
+    },
+    {
+      "workflow": ".github/workflows/cp7-ow11-model-target-consumer.yml",
+      "step": "Check focused declaration, unchanged legacy budgets and client types",
+      "status": "PASS"
+    },
+    {
+      "workflow": ".github/workflows/cp7-ow11-model-target-v2-scale.yml",
+      "step": "Check focused declaration, unchanged legacy budgets and client types",
+      "status": "PASS"
+    },
+    {
+      "workflow": ".github/workflows/cp7-ow11-model-policy-transport.yml",
+      "step": "Check focused declaration, unchanged legacy budgets and client types",
+      "status": "PASS"
+    }
+  ],
+  "database_connection_attempts": 0,
+  "actual_Native": false,
+  "production_go": false
+}
