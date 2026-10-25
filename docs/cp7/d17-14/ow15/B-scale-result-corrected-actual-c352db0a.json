@@ -1,0 +1,68 @@
+{
+  "head": "c352db0aae300de2b1c50ff34317883e184d96f5",
+  "components": [
+    {
+      "name": "CP7_OW11_MODEL_TARGET_V2_SCALE.json",
+      "status": "PASS",
+      "head": "c352db0aae300de2b1c50ff34317883e184d96f5",
+      "run_id": 40190389940,
+      "job_id": 121159951203,
+      "artifact_id": 12598406297,
+      "zip_bytes": 120324,
+      "zip_sha256": "a23f0ee6a78b6b1930a82dad23352ba443ec5ce5c30d0dfdf2d944dab1c419a0",
+      "bytes": 994851,
+      "sha256": "7362beee9bb4c9ff4d6f4d93c8954164cbf40c322368d44948ff6c1aff5c7c3a",
+      "archive_member": "CP7_OW11_MODEL_TARGET_V2_SCALE.json",
+      "counts": {
+        "native": 2
+      },
+      "all_original_JSON_files": 5,
+      "source_prefix_fields_verified": 9,
+      "source_prefix_database_executed": false,
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "full_boundary_public_WIB_sessions_preserved": true,
+      "new_versioned_case_credit": 0,
+      "full_A_chain_qualified": false,
+      "actual_visual_QA_in_this_intake": false,
+      "production_go": false,
+      "independent_acceptance": false,
+      "source_pins_verified": 54,
+      "synthetic_variants": 3600,
+      "actual_products": 3602,
+      "movements": 363600,
+      "actual_scoped_models": 2,
+      "predecessor_request_ms": 5864.323,
+      "current_request_ms": 7110.506,
+      "max_predecessor_step_ms": 503.996,
+      "max_current_step_ms": 703.773,
+      "full_source_check_ms": [
+        3515.755,
+        3397.674
+      ],
+      "steps_per_run": 76,
+      "all_target_and_recommendation_operands_preserved": true,
+      "immutable_previous_result": true,
+      "posted_native_change_retires_source": true,
+      "first_timeout_artifact_preserved": 12595809170,
+      "official_finance_included": false,
+      "financial_capture": "DEFERRED",
+      "factory_SLA_claim": false,
+      "full_factory3600_qualified": false,
+      "merged_into_A": false
+    }
+  ],
+  "case_executions": 2,
+  "all_original_JSON_files": 5,
+  "new_versioned_case_credit": 0,
+  "full_A_chain_qualified": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

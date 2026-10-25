@@ -1,0 +1,156 @@
+{
+  "head": "c352db0aae300de2b1c50ff34317883e184d96f5",
+  "components": [
+    {
+      "name": "CP7_OW13B_COMPLETE_HISTORY.json",
+      "status": "PASS",
+      "head": "c352db0aae300de2b1c50ff34317883e184d96f5",
+      "run_id": 40190389945,
+      "job_id": 121159951019,
+      "artifact_id": 12598510030,
+      "zip_bytes": 324991,
+      "zip_sha256": "cdcbfae188fa587fbafdfd81ac9c0144954437ae3842f821ab641b368ba838b9",
+      "bytes": 2989042,
+      "sha256": "e2e0a46ea06231146c9aff065b21f03a5941a87f3a907a78680c72248b3c63da",
+      "archive_member": "CP7_OW13B_COMPLETE_HISTORY.json",
+      "counts": {
+        "native": 14,
+        "races": 2,
+        "http": 2,
+        "browser": 2
+      },
+      "all_original_JSON_files": 5,
+      "source_prefix_fields_verified": 8,
+      "source_prefix_database_executed": false,
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "full_boundary_public_WIB_sessions_preserved": true,
+      "new_versioned_case_credit": 0,
+      "full_A_chain_qualified": false,
+      "actual_visual_QA_in_this_intake": false,
+      "production_go": false,
+      "independent_acceptance": false
+    },
+    {
+      "name": "CP7_OW16_AUTOMATIC_STATUS.json",
+      "status": "PASS",
+      "head": "c352db0aae300de2b1c50ff34317883e184d96f5",
+      "run_id": 40190389962,
+      "job_id": 121159951120,
+      "artifact_id": 12598031406,
+      "zip_bytes": 251228,
+      "zip_sha256": "59c3f52653c880741dffc9355b0f6ac743ebe03dd9954185c80e270bc7606915",
+      "bytes": 2287824,
+      "sha256": "33dc75d42f0e39cbd443798b4521ba8aca854b1b249b5b147ea45d8a91ae4b7a",
+      "archive_member": "CP7_OW16_AUTOMATIC_STATUS.json",
+      "counts": {
+        "native": 10,
+        "races": 2,
+        "http": 2,
+        "browser": 2
+      },
+      "all_original_JSON_files": 5,
+      "source_prefix_fields_verified": 9,
+      "source_prefix_database_executed": false,
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "full_boundary_public_WIB_sessions_preserved": true,
+      "new_versioned_case_credit": 0,
+      "full_A_chain_qualified": false,
+      "actual_visual_QA_in_this_intake": false,
+      "production_go": false,
+      "independent_acceptance": false
+    },
+    {
+      "name": "CP7_OW12B_STOCK_BINARY.json",
+      "status": "PASS",
+      "head": "c352db0aae300de2b1c50ff34317883e184d96f5",
+      "run_id": 40190390062,
+      "job_id": 121159951716,
+      "artifact_id": 12597797025,
+      "zip_bytes": 158740,
+      "zip_sha256": "59160b13573f04f2b107ec398cbb25d2312e6685757145585d3cab441501dada",
+      "bytes": 1387676,
+      "sha256": "91ee99ba74e59e8cbfee153eb5007ff6ace571d71879420279c6844f340a8384",
+      "archive_member": "CP7_OW12B_STOCK_BINARY.json",
+      "counts": {
+        "native": 4
+      },
+      "all_original_JSON_files": 5,
+      "source_prefix_fields_verified": 9,
+      "source_prefix_database_executed": false,
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "full_boundary_public_WIB_sessions_preserved": true,
+      "new_versioned_case_credit": 0,
+      "full_A_chain_qualified": false,
+      "actual_visual_QA_in_this_intake": false,
+      "production_go": false,
+      "independent_acceptance": false,
+      "isolated_stock_binary_v2": {
+        "source_pins_verified": 15,
+        "private_functions": 1,
+        "new_tables": 0,
+        "new_public_RPC": 0,
+        "predecessor_replacements": 0,
+        "postgres_major": 17,
+        "all15_fields_independently_checked": true,
+        "actual_late_recorded_clock_checked": true,
+        "synthetic_commercial_SKUs": 1200,
+        "physical_sizes": 3,
+        "actual_rows": 363601,
+        "ordered_measurements": [
+          {
+            "phase": "V1_FIRST",
+            "millis": 3874.352
+          },
+          {
+            "phase": "V2_FIRST",
+            "millis": 1312.545
+          },
+          {
+            "phase": "V2_SECOND",
+            "millis": 1333.034
+          },
+          {
+            "phase": "V1_SECOND",
+            "millis": 3814.404
+          }
+        ],
+        "old_v1_unchanged": true,
+        "v2_hash_intentionally_distinct": true,
+        "caller_integrated": false,
+        "official_finance_included": false,
+        "full_factory3600_qualified": false,
+        "factory_SLA_claim": false
+      }
+    }
+  ],
+  "case_executions": 40,
+  "all_original_JSON_files": 15,
+  "new_versioned_case_credit": 0,
+  "full_A_chain_qualified": false,
+  "production_go": false,
+  "independent_acceptance": false
+}
