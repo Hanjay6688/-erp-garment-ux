@@ -1,0 +1,50 @@
+{
+  "name": "CP7_OW11_MODEL_TARGET_CONSUMER_V2.json",
+  "status": "PASS",
+  "head": "182c8b174f7d1d4e3355c24263cf1866357510b5",
+  "run_id": 40173569440,
+  "job_id": 121109392424,
+  "artifact_id": 12592039704,
+  "zip_bytes": 206936,
+  "zip_sha256": "b236a744fc0b2d11c1e634429f6414490b707ec0600646ae7a039ea7b36a3501",
+  "bytes": 1837492,
+  "sha256": "3246a8636c9c67041b5bb0781a562682a54a7a69d47507bdf3ca31ed6c6cb80e",
+  "archive_member": "CP7_OW11_MODEL_TARGET_CONSUMER_V2.json",
+  "source_pins_verified": 47,
+  "gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "production_go": false,
+  "independent_acceptance": false,
+  "case_ids": [
+    "OW11_MODEL_TARGET_V2_CATALOG22_COMPOSED_PREUSE",
+    "OW11_MODEL_TARGET_V2_NATIVE_BASELINE_REPLAY_IMMUTABLE",
+    "OW11_MODEL_TARGET_V2_NATIVE_CURRENT_POLICY_AND_LATEST_NAMESPACED",
+    "OW11_MODEL_TARGET_V2_NATIVE_POST_PROFILE_ACCESS",
+    "OW11_MODEL_TARGET_V2_NATIVE_WAREHOUSE_ONLY_READ",
+    "OW11_MODEL_TARGET_V2_NATIVE_BOUNDED_ANALOG_PARITY"
+  ],
+  "counts": {
+    "PASS": 6
+  },
+  "source_pins_equal_current_isolated_candidate": false,
+  "changed_current_candidate_paths": [
+    "scripts/cp7_model_target_consumer_v2/MANIFEST.json",
+    "scripts/cp7_product_analog_consumer/MANIFEST.json",
+    "scripts/cp7_product_analog_consumer/kernel.sql",
+    "scripts/cp7_product_analog_consumer/baseline.sql",
+    "scripts/cp7_product_analog_provenance_stage/MANIFEST.json",
+    "scripts/cp7_product_analog_provenance_stage/hooks.sql",
+    "scripts/cp7_ow11_model_target_consumer_v2_cases.py"
+  ],
+  "full_A_chain_qualified": false,
+  "positive_historical_forecast_credit": false,
+  "factory_capacity_or_SLA": false,
+  "actual_Auth_HTTP_credit": false
+}
