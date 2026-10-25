@@ -2617,3 +2617,21 @@ cases are predeclared for exact22 inverse, actual versions/SALE, access/warehous
 and dense2000/202000 with two scoped models. Original pending, not accepted.
 Target consumer/provenance/cache/hooks integration remains open; formal5/16,
 independent acceptance false and production_go=false.
+
+## 141. B25 Oktober2026 WIB — first source-v2 Native4 retained and corrected
+
+04551081/run40165537093/job121085696390 complete JSON12588657272,160089 bytes,
+SHA f5a90636fc227e6ef4958952c763330a96f43d01a3614fbabf91a6318441f7ca.
+Original2PASS/2INCOMPLETE: exact22 inverse and dense2000/202000 with two scoped
+models365.214ms passed; global v2 without activation policy was incorrectly
+refused because JSON null was compared against SQL NULL. Normalize the parent
+policy comparison to JSON null; retain the current policy guard. The warehouse
+positive fixture lacked warehouse.fg.view; give only that documented permission
+and verify revoking it still denies access. Product permission checks unchanged.
+
+All19 exact-head pins, CP6/advisor, case boundaries and cleanup verified. First
+Original stays retained; no acceptance credit for incomplete cases. Fresh local
+11PASS includes the no-policy global-baseline regression. Own Native4 declaration
+and SQL clash pass. Corrected code qualifies on a new head; no bare rerun.
+Versioned consumer/hooks/client drafts continue separately; not yet Native
+qualified or default-installed. Formal5/16, independent acceptance/prod false.

@@ -48,6 +48,11 @@ await test('NO_MODEL_EXPLICIT_NULL_WITHOUT_PHYSICAL_OR_HISTORY_READ',async()=>{
  assert.equal(a.rows.length,1);assert.equal(a.rows[0].runtime,null);assert.equal(a.rows[0].run_id,null);assert.equal(a.rows[0].reason,'NO_OWN_MODEL_EVALUATION');assert.equal(a.rows[0].forecast,null)
  return{missing_model_not_zero_or_forecast:true}
 })
+await test('GLOBAL_BASELINE_WITHOUT_ACTIVATION_POLICY_IS_VALID',async()=>{
+ const m=await f.capture();await f.reset();const a=await current()
+ assert.equal(a.policy_source,null);assert.equal(a.rows[0].run_id,m.run_id);assert.equal(a.rows[0].runtime,'GLOBAL_V2');assert.equal(a.rows[0].state,'BASELINE_REQUIRED');assert.equal(a.rows[0].forecast,null)
+ return{JSON_null_SQL_null_policy_equivalent:true,unknown_policy_does_not_hide_valid_baseline:true}
+})
 await test('SCOPED_BASELINE_VERSION_AND_SOURCE_BOUND',async()=>{
  const s=await seedScoped(),a=await current(),r=a.rows[0]
  assert.equal(r.run_id,s.id);assert.equal(r.runtime,'SCOPED_V3');assert.equal(r.read_method,'erp_cp7_read_model_evaluation_v3');assert.equal(r.history_source_hash,s.hash);assert.equal(r.physical_source_hash,s.hash)
@@ -85,5 +90,5 @@ await test('WAREHOUSE_ONLY_READ_HAS_NO_MODEL_POLICY_HISTORY_DISCLOSURE',async()=
  return{warehouse_access_preserved:true,model_and_policy_not_disclosed:true,full_capture_requires_model_access:true}
 })
 const pins={};for(const file of['stock.sql','non-stock.sql','physical.sql','source.sql','reorder.sql'])pins[file]=createHash('sha256').update(await read('scripts/cp7_model_target_source_v2/'+file)).digest('hex')
-const report={contract:'cp7.model-target-source-v2-local.v1',status:cases.every(c=>c.status==='PASS')?'PASS':'FAIL',expected:10,counts:cases.reduce((a,c)=>(a[c.status]=(a[c.status]??0)+1,a),{}),cases,source_sha256:pins,PGlite:'0.5.11',actual_SQL:true,synthetic_rows_and_controlled_physical_recapture:true,actual_Native:false,actual_Auth_HTTP:false,actual_concurrency:false,target_caller_integrated:false,production_go:false}
+const report={contract:'cp7.model-target-source-v2-local.v1',status:cases.every(c=>c.status==='PASS')?'PASS':'FAIL',expected:11,counts:cases.reduce((a,c)=>(a[c.status]=(a[c.status]??0)+1,a),{}),cases,source_sha256:pins,PGlite:'0.5.11',actual_SQL:true,synthetic_rows_and_controlled_physical_recapture:true,actual_Native:false,actual_Auth_HTTP:false,actual_concurrency:false,target_caller_integrated:false,production_go:false}
 await writeFile('docs/cp7/d17-14/ow11/model-target-source-v2-local.json',JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report,null,2));await db.close();if(report.status!=='PASS')process.exitCode=1

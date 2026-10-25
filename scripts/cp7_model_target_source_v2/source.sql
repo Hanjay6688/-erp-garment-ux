@@ -44,7 +44,7 @@ begin
  source_engine:=cp7_model_target_source_v2.engine();producer_hash:=cp7_model_target_source_v2.producer();
  if cardinality(global_keys)>0 then
   legacy_source:=cp7_model_target_source.capture(global_keys,known);
-  if legacy_source->>'actor_scope_id'is distinct from v_actor::text or legacy_source->'policy_source'is distinct from policy_value
+  if legacy_source->>'actor_scope_id'is distinct from v_actor::text or legacy_source->'policy_source'is distinct from coalesce(policy_value,'null'::jsonb)
    or legacy_source->>'engine_hash'is distinct from global_engine then raise exception 'CP7_MODEL_TARGET_V2_PARENT_BINDING';end if;
   select coalesce(jsonb_object_agg(x->>'target_key',x),'{}')into legacy_by_target from jsonb_array_elements(legacy_source->'rows')x;
  end if;

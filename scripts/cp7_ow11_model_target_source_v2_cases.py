@@ -137,6 +137,7 @@ def cases(cur, today):
     def access():
         install(cur)
         actor,role = history.history.auth.custom_actor(cur)
+        cur.execute("insert into erp.app_role_permissions(role_id,permission_key)values(%s,'warehouse.fg.view')on conflict do nothing",(role,))
         _,q,h = scoped.parent.prepare(cur,today,actor)
         m,_ = scoped.capture(cur,scoped.parent.query(h,q),actor)
         before = scoped.stored(cur,m['run_id'])
@@ -152,6 +153,8 @@ def cases(cur, today):
         for r in warehouse['rows']:
             assert r['reason']=='MODEL_CURRENT_ACCESS_REQUIRED'
             assert all(r[k] is None for k in ('run_id','runtime','read_method','history_run_id','history_query','history_source_hash','physical_source_hash','model_source_hash','selected_model','forecast'))
+        cur.execute("delete from erp.app_role_permissions where role_id=%s and permission_key='warehouse.fg.view'",(role,))
+        assert plan.refusal(cur,lambda:private(cur,actor,c,True))[0]=='42501'
         assert scoped.stored(cur,m['run_id'])==before
         return dict(status='PASS',current_four_permission_enforced=True,foreign_actor_model_null=True,
           warehouse_only_still_reads_without_archive_or_policy=True,immutable_assessment_unchanged=True)
