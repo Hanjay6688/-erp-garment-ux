@@ -1,0 +1,105 @@
+{
+  "contract": "cp7.writer-b-takeover-original-receipt.v1",
+  "head": "6f69b761e32d1a60ba0857c797981c99d911d550",
+  "run_id": 40228962122,
+  "artifact_id": 12613568855,
+  "artifact_bytes": 97807,
+  "artifact_sha256": "681d4d9cc45a21d8c0245a9075b8da750c65688da0522eb452ae386b36e032fb",
+  "Original_read_complete": true,
+  "original_json_sha256": {
+    "T3_BACKUP_RESTORE_DRILL.json": "9e199f5f7639802dfee5198719e1e52a3a83094c626cf2aa05e970d408b5aaba",
+    "CP7_OW12B_FROZEN_CUTTING_TRANSPORT_CLONE_AUTHORITY.json": "37d0c8c4e5365f2d90cc1171eb64a21ab589a0a93922241dc7a531ef4b464cff",
+    "T3_PACKAGE_FILES_INSTALL.json": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+    "CP7_OW12B_FROZEN_CUTTING_TRANSPORT.json": "b061777411249314b74911d604372af95b406857febc2702af270b94e2cc92e1",
+    "ALIGNED_CHAIN.json": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b",
+    "T3_PACKAGE_INSTALL.json": "b3b20f306350c797ee4c9cad9ecbde0801ac3013362995f0ba2e0c5918b39c6b"
+  },
+  "source_pins_verified": 97,
+  "status": "INCOMPLETE",
+  "production_go": false,
+  "independent_acceptance": false,
+  "whole_feature_closed": false,
+  "counts": {
+    "native": {
+      "PASS": 1
+    },
+    "races": {
+      "INCOMPLETE": 6
+    },
+    "http": {
+      "INCOMPLETE": 3
+    }
+  },
+  "first_failures": [
+    {
+      "id": "OW12B_FROZEN_CUTTING_V2_RACE_SAME_UUID",
+      "status": "INCOMPLETE",
+      "error": "conversion from NoneType to Decimal is not supported"
+    },
+    {
+      "id": "OW12B_FROZEN_CUTTING_V2_RACE_CHANGED_PAYLOAD_SAME_UUID",
+      "status": "INCOMPLETE",
+      "error": "conversion from NoneType to Decimal is not supported"
+    },
+    {
+      "id": "OW12B_FROZEN_CUTTING_V2_RACE_ACCESS_AFTER_REQUEST",
+      "status": "INCOMPLETE",
+      "error": "conversion from NoneType to Decimal is not supported"
+    },
+    {
+      "id": "OW12B_FROZEN_CUTTING_V2_RACE_ACCESS_AFTER_CAPACITY",
+      "status": "INCOMPLETE",
+      "error": "conversion from NoneType to Decimal is not supported"
+    },
+    {
+      "id": "OW12B_FROZEN_CUTTING_V2_RACE_REPLAY_ACCESS_AFTER_REQUEST",
+      "status": "INCOMPLETE",
+      "error": "conversion from NoneType to Decimal is not supported"
+    },
+    {
+      "id": "OW12B_FROZEN_CUTTING_V2_RACE_STOCK_AFTER_CAPACITY",
+      "status": "INCOMPLETE",
+      "error": "conversion from NoneType to Decimal is not supported"
+    },
+    {
+      "id": "OW12B_FROZEN_CUTTING_V2_AUTH_OPTIONS_SAVE_EXACT_REPLAY",
+      "status": "INCOMPLETE",
+      "error": "conversion from NoneType to Decimal is not supported"
+    },
+    {
+      "id": "OW12B_FROZEN_CUTTING_V2_AUTH_K3_STALE_AND_RECEIPT",
+      "status": "INCOMPLETE",
+      "error": "conversion from NoneType to Decimal is not supported"
+    },
+    {
+      "id": "OW12B_FROZEN_CUTTING_V2_AUTH_FOREIGN_ANON_CURRENT_REVOKED",
+      "status": "INCOMPLETE",
+      "error": "conversion from NoneType to Decimal is not supported"
+    }
+  ],
+  "all_original_package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "public_catalog_preserved": true,
+  "full_native_boundaries_and_sessions_restored": true,
+  "exact_head_source_prefix_fields": [
+    "label",
+    "scope",
+    "source_sha256",
+    "expected_case_count",
+    "required_case_counts",
+    "required_case_ids",
+    "predeclared_case_contract",
+    "predeclared_case_sha256",
+    "target_v2_source_sha256",
+    "frozen_cutting_transport_source_sha256"
+  ],
+  "clone_authority_copies_exact": 7,
+  "job_id": 121276369533
+}

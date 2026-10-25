@@ -1,3 +1,10 @@
+# Active Writer B entrypoint —26 October2026 WIB
+
+Read [WRITER_B_TAKEOVER_20261026.md](WRITER_B_TAKEOVER_20261026.md) first.
+The checkpoints below remain historical with their exact outcomes.
+
+---
+
 # Active26 Oktober2026 WIB — exact ACL/clone correction needs qualification
 
 985 first facade and reader complete Originals INCOMPLETE, preserved under

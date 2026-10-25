@@ -1,0 +1,61 @@
+{
+  "contract": "cp7.writer-b-takeover-original-receipt.v1",
+  "head": "ffc775d01c5b1ae8ae5de71fa548d41cc3a25447",
+  "run_id": 40227891855,
+  "artifact_id": 12614021677,
+  "artifact_bytes": 210574,
+  "artifact_sha256": "396258e148a70cda8c1c8ff1fd39d2e24a7d25d63ef56b127aaec46d61dbb46a",
+  "Original_read_complete": true,
+  "original_json_sha256": {
+    "T3_BACKUP_RESTORE_DRILL.json": "e15c858e010f61b2031cc1e28b5b82e4111615f7910e3edd7b6366b281cd9a19",
+    "T3_PACKAGE_FILES_INSTALL.json": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+    "ALIGNED_CHAIN.json": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b",
+    "CP7_OW12B_FROZEN_CHOICE.json": "dfc3e30f94bdb1bab3d9b6c38790a5d27be858a77f7a7b0874a10cd211544a39",
+    "T3_PACKAGE_INSTALL.json": "fd30179a580527f9bd95100db85296050bc913374eacda9d8787cbf8a2ca6c11"
+  },
+  "source_pins_verified": 110,
+  "status": "PASS",
+  "production_go": false,
+  "independent_acceptance": false,
+  "whole_feature_closed": false,
+  "counts": {
+    "native": {
+      "PASS": 6
+    }
+  },
+  "first_failures": [],
+  "all_original_package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "public_catalog_preserved": true,
+  "full_native_boundaries_and_sessions_restored": true,
+  "exact_head_source_prefix_fields": [
+    "label",
+    "scope",
+    "source_sha256",
+    "expected_case_count",
+    "required_case_counts",
+    "required_case_ids",
+    "predeclared_case_contract",
+    "predeclared_case_sha256",
+    "target_v2_source_sha256",
+    "frozen_choice_source_sha256"
+  ],
+  "factory_observation_only": {
+    "cached_and_K3_SAVE_millis": [
+      4722.703,
+      6840.128
+    ],
+    "targets": 3602,
+    "stable_factory_SLA": false,
+    "earlier_timeouts_retained": true,
+    "official_finance_included": false
+  },
+  "job_id": 121273111656
+}

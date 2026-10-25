@@ -1,0 +1,30 @@
+{
+  "contract": "cp7.writer-b-takeover-original-receipt.v1",
+  "head": "716dc6273409328d82f24b442b74e30fbad9ecab",
+  "run_id": 40229609556,
+  "artifact_id": 12613293073,
+  "artifact_bytes": 2922,
+  "artifact_sha256": "a6952fdc1cab88ff3cd2543d599703ac3fef29529209fd48fa02f0f46f240b71",
+  "Original_read_complete": true,
+  "original_json_sha256": {
+    "FROZEN_CHOICE_UI_BROWSER4.json": "fadaaebd67df12de3a49712ab5f84c48ad2c527c10ba9b28ee810248e6a528db"
+  },
+  "source_pins_verified": 39,
+  "status": "PASS",
+  "production_go": false,
+  "independent_acceptance": false,
+  "whole_feature_closed": false,
+  "counts": {
+    "PASS": 4
+  },
+  "controlled_RPC_and_identity": true,
+  "actual_Auth_HTTP_credit": false,
+  "default_adopted": false,
+  "actual_Native": false,
+  "job_id": 121278304478,
+  "visual_review": {
+    "desktop_candidates_and_mobile_review_inspected": true,
+    "controlled_host_only": true,
+    "actual_Auth_host_visual_acceptance": false
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "contract": "cp7.writer-b-takeover-original-receipt.v1",
+  "head": "712e01285c525f61de402b949de74201029d6cc6",
+  "run_id": 40230455121,
+  "artifact_id": 12613332417,
+  "artifact_bytes": 4891,
+  "artifact_sha256": "be0ec3bb53cdafac74c46d60b1981f75f218d9d57785527e8509bbd8f73b64a3",
+  "Original_read_complete": true,
+  "original_json_sha256": {
+    "FROZEN_CUTTING_UI_BROWSER4.json": "0e771b946434af83e4c1d994e160bdc520f2fc5e5c03e17d37b613c5ef7ffefa"
+  },
+  "source_pins_verified": 61,
+  "status": "PASS",
+  "production_go": false,
+  "independent_acceptance": false,
+  "whole_feature_closed": false,
+  "counts": {
+    "PASS": 4
+  },
+  "controlled_RPC_and_identity": true,
+  "actual_Auth_HTTP_credit": false,
+  "default_adopted": false,
+  "actual_Native": false,
+  "job_id": 121280835136,
+  "visual_review": {
+    "desktop_and_mobile_screenshots_inspected": true,
+    "form_text_and_inputs_readable": true,
+    "whole_application_visual_acceptance": false
+  }
+}

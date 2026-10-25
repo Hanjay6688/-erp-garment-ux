@@ -1,0 +1,78 @@
+{
+  "contract": "cp7.writer-b-takeover-original-receipt.v1",
+  "head": "ffc775d01c5b1ae8ae5de71fa548d41cc3a25447",
+  "run_id": 40227891688,
+  "artifact_id": 12613451656,
+  "artifact_bytes": 209117,
+  "artifact_sha256": "612bdc5d320caaf621925a8f324eda2540daa3f8cefda74f2dab5fe851ba3372",
+  "Original_read_complete": true,
+  "original_json_sha256": {
+    "CP7_OW12B_FROZEN_CUTTING.json": "452e5c10768f86886a9216580a126904e73c195f739d1f53e4b1fc7ea61b9e7b",
+    "T3_BACKUP_RESTORE_DRILL.json": "7cc0e87c47dd3a7ba5d05909c04b18c06541971d079d434e655a6271c2de7cc1",
+    "T3_PACKAGE_FILES_INSTALL.json": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+    "ALIGNED_CHAIN.json": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b",
+    "T3_PACKAGE_INSTALL.json": "817992718bec13924993309c8115b89055ba1aad323cf59b30ca9b0bb921fd39"
+  },
+  "source_pins_verified": 94,
+  "status": "INCOMPLETE",
+  "production_go": false,
+  "independent_acceptance": false,
+  "whole_feature_closed": false,
+  "counts": {
+    "native": {
+      "INCOMPLETE": 5,
+      "PASS": 1
+    }
+  },
+  "first_failures": [
+    {
+      "id": "OW12B_FROZEN_CUTTING_V2_INDEX_OPTIONS_SAVE_REPLAY",
+      "status": "INCOMPLETE",
+      "error": "conversion from NoneType to Decimal is not supported"
+    },
+    {
+      "id": "OW12B_FROZEN_CUTTING_V2_ACTUAL_POST_STALE_K2_RECEIPT",
+      "status": "INCOMPLETE",
+      "error": "conversion from NoneType to Decimal is not supported"
+    },
+    {
+      "id": "OW12B_FROZEN_CUTTING_V2_FOREIGN_CURRENT_ACCESS",
+      "status": "INCOMPLETE",
+      "error": "conversion from NoneType to Decimal is not supported"
+    },
+    {
+      "id": "OW12B_FROZEN_CUTTING_V2_ATOMIC_LAST_RECEIPT_FAULT",
+      "status": "INCOMPLETE",
+      "error": "conversion from NoneType to Decimal is not supported"
+    },
+    {
+      "id": "OW12B_FROZEN_CUTTING_V2_FACTORY1200X3_K3_CHECKED_SAVE",
+      "status": "INCOMPLETE",
+      "error": "conversion from NoneType to Decimal is not supported"
+    }
+  ],
+  "all_original_package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "public_catalog_preserved": true,
+  "full_native_boundaries_and_sessions_restored": true,
+  "exact_head_source_prefix_fields": [
+    "label",
+    "scope",
+    "source_sha256",
+    "expected_case_count",
+    "required_case_counts",
+    "required_case_ids",
+    "predeclared_case_contract",
+    "predeclared_case_sha256",
+    "target_v2_source_sha256",
+    "frozen_cutting_source_sha256"
+  ],
+  "job_id": 121273111013
+}

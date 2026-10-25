@@ -1,0 +1,34 @@
+{
+  "contract": "cp7.writer-b-frozen-cutting-fixture-repair.v1",
+  "base_head": "712e01285c525f61de402b949de74201029d6cc6",
+  "status": "PREPARED_FIX_REQUIRES_OWN_ACTUAL_NATIVE_AND_AUTH_RESULTS",
+  "first_failures": [
+    {"head": "ffc775d01c5b1ae8ae5de71fa548d41cc3a25447", "run_id": 40227891688, "artifact_id": 12613451656, "counts": {"PASS": 1, "INCOMPLETE": 5}},
+    {"head": "6f69b761e32d1a60ba0857c797981c99d911d550", "run_id": 40228962122, "artifact_id": 12613568855, "counts": {"PASS": 1, "INCOMPLETE": 9}}
+  ],
+  "observed_failure": "needed_pcs was null; Decimal conversion stopped every substantive checked cutting case before SAVE or an actual lock wait",
+  "source_findings": [
+    "Inherited plan.fixture reviews a calendar through the legacy supply capture",
+    "Frozen v2 deliberately has its own work fingerprint; selected work must be reviewed against that source",
+    "The new helper uses the actual public v2 request/workspace/schedule SAVE and then a new actual frozen analysis"
+  ],
+  "preserved": [
+    "Same selected calendar config with complete equality assertion",
+    "Original captured reference immutable and new request/run required after review",
+    "Physical stock, money and HPP hash equality across the calendar review",
+    "Existing need >=2, capacity >=2 and exact recommendation/options equality",
+    "Existing six Native and ten transport case IDs, numeric expectations and 8-second limit",
+    "All product SQL, guards, role grants, Native writers and default app unchanged"
+  ],
+  "local_validation": {
+    "cutting_native_preflight": "PASS:94 source pins,98 missing/mixed routes refused",
+    "cutting_transport_preflight": "PASS:97 source pins,98 missing/mixed routes and5 changed budgets refused",
+    "retained_client_and_form_tests": {"files": 10, "PASS": 134},
+    "application_and_prepared_cutting_TypeScript": "PASS"
+  },
+  "actual_corrected_Native": false,
+  "actual_corrected_Auth_HTTP_or_races": false,
+  "whole_OW13c_closed": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

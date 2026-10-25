@@ -149,7 +149,7 @@
     "cp7_ow13a_clone_authority.py": "284847c9299ddf37ad18f563b42f37d8bf29a16739b4e1e6d1600132303da1f8",
     "cp7_ow12b_frozen_facade_probe.py": "3e5bb02de23361b1a56008acb63903f7a1453be31abcab14ca71fe78ac9ce0b0",
     "cp7_ow12b_frozen_facade_preflight.py": "7a217af0266b832b84a436f1f97c68de66ea11a26c6cbece2ddd2a628f15f8fe",
-    "cp7_ow12b_frozen_cutting_cases.py": "69159dbb6d6290e01ded098061518a25c2ea757076e1da20ca5032e5ae6c1d88",
+    "cp7_ow12b_frozen_cutting_cases.py": "2c183cc90258ebef7669588dcb4c7b1d2203acf8cd68338164297bba6a67b6e4",
     "cp7_ow12b_frozen_cutting_probe.py": "e8b98e02673edd9127d7f2bbb9255dfe6a911806bdfc8b7d917a7f5e2bec51c0",
     "cp7_ow12b_frozen_cutting_preflight.py": "f3899ba802523e06660c191c5e0090fa14b7383c20de4cee97c22e8028ed98ab",
     "cp7_ow13c_checked_cases.py": "b9563a496d49f4b070667992493fda15b46562c3f99ab0e369c3cc0f4bfc7d9a"
@@ -268,7 +268,7 @@
     "cp7_ow13a_clone_authority.py": "284847c9299ddf37ad18f563b42f37d8bf29a16739b4e1e6d1600132303da1f8",
     "cp7_ow12b_frozen_facade_probe.py": "3e5bb02de23361b1a56008acb63903f7a1453be31abcab14ca71fe78ac9ce0b0",
     "cp7_ow12b_frozen_facade_preflight.py": "7a217af0266b832b84a436f1f97c68de66ea11a26c6cbece2ddd2a628f15f8fe",
-    "cp7_ow12b_frozen_cutting_cases.py": "69159dbb6d6290e01ded098061518a25c2ea757076e1da20ca5032e5ae6c1d88",
+    "cp7_ow12b_frozen_cutting_cases.py": "2c183cc90258ebef7669588dcb4c7b1d2203acf8cd68338164297bba6a67b6e4",
     "cp7_ow12b_frozen_cutting_probe.py": "e8b98e02673edd9127d7f2bbb9255dfe6a911806bdfc8b7d917a7f5e2bec51c0",
     "cp7_ow12b_frozen_cutting_preflight.py": "f3899ba802523e06660c191c5e0090fa14b7383c20de4cee97c22e8028ed98ab",
     "cp7_ow13c_checked_cases.py": "b9563a496d49f4b070667992493fda15b46562c3f99ab0e369c3cc0f4bfc7d9a"

@@ -71,6 +71,38 @@ def save(cur,f,key,observed,p=None,actor=None):
  return result
 
 
+def reviewed_capture(cur,today,actor,observed):
+ # The legacy fixture reviewed its calendar against the v1 supply source.
+ # Frozen v2 has a deliberately different source fingerprint. Review the SAME
+ # selected calendar through its actual public staged command, then capture a
+ # NEW analysis. Never copy a hash, relabel the old reference or invent need.
+ plan.b.api.admin(cur)
+ config=deepcopy(cur.execute('select config from cp7_schedule_native.plans order by revision desc limit 1').fetchone()[0])
+ physical=plan.monetary_state(cur);q=plan.staged.query(today);key=str(uuid.uuid4())
+ initial=timed(cur,facade.REQUEST,(json.dumps(q),key),actor,observed)
+ plan.staged.checked(initial,key,'RUNNING')
+ original=deepcopy(plan.staged.job_row(cur,key,actor)['reference'])
+ w=timed(cur,'erp_cp7_get_staged_production_schedule_v1',(key,),actor,observed)
+ assert w['contract_version']=='cp7.planning-schedule-staged-bounded.v2'
+ assert w['source_state']=='UNCHANGED'and w['history_input_coverage']=='PENDING'
+ assert w['production_capture_state']=='COMPLETE'
+ p=dict(source_run=w['source_run'],source_hash=w['source_hash'],expected_revision=w['revision'],config=config,
+  reason='Frozen checked cutting fixture: review the unchanged selected calendar against its actual v2 source; no factory defaults',
+  staged_review_contract='cp7.schedule-staged-review.v1')
+ receipt=timed(cur,'erp_cp7_save_staged_production_schedule_v1',(json.dumps(p),str(uuid.uuid4())),actor,observed)
+ assert receipt['contract_version']=='cp7.planning-schedule-staged-bounded-outcome.v2'
+ assert receipt['source_hash']==w['source_hash']and int(receipt['revision'])==int(w['revision'])+1
+ plan.b.api.admin(cur)
+ stored=cur.execute('select config from cp7_schedule_native.plans where id=%s',(receipt['plan_id'],)).fetchone()[0]
+ assert stored==config and plan.monetary_state(cur)==physical
+ assert plan.staged.job_row(cur,key,actor)['reference']==original
+ f=facade.capture(cur,today,actor)
+ assert f['key']!=key and f['done']['run_id']!=w['source_run']
+ observed['fixture_calendar_review']=dict(actual_public_v2_command=True,selected_config_unchanged=True,
+  original_reference_immutable=True,new_analysis_after_review=True,no_physical_effect=True)
+ return f
+
+
 def prepare(cur,today,observed,volume=False):
  install(cur);x=plan.fixture(cur,today)
  native.native.policy.master.role_actor(cur,'OWNER')
@@ -78,12 +110,13 @@ def prepare(cur,today,observed,volume=False):
  if volume:
   base=native.native.bounded.work.base.retained.formula.sales.fg.base
   size=native.frozen.geometry.fixture.seed(cur,base.BASE_PRODUCT,base.LOCATION,actor)
- f=facade.capture(cur,today,actor)
+ f=reviewed_capture(cur,today,actor,observed)
  assert f['row']['reference']['bounded_request_contract']=='cp7.bounded-analysis-request.v2'
  assert f['row']['reference']['bounded_input_coverage']=='PENDING'and f['row']['reference']['bounded_history_inputs']is None
  o,q,p=plan.draft_payload(cur,x,f['done']['run_id'],actor)
- assert o['production_state']=='ACTIVE'and Decimal(o['needed_pcs'])>=2 and Decimal(o['capacity_pcs'])>=2,o
  rec=next(r for r in f['original']['analysis']['recommendations']if r['target']['key']==x['target'])
+ assert o['production_state']=='ACTIVE'and o['needed_pcs']is not None and o['capacity_pcs']is not None,dict(options=o,recommendation=rec)
+ assert Decimal(o['needed_pcs'])>=2 and Decimal(o['capacity_pcs'])>=2,o
  assert rec['q_conditional']['state']!='UNKNOWN'and Decimal(rec['q_conditional']['value'])==Decimal(o['needed_pcs'])
  assert o['identity_hash']==f['pages']['identity_hash']
  assert datetime.fromisoformat(o['data_as_of'].replace('Z','+00:00'))==datetime.fromisoformat(f['pages']['reference']['captured_at'].replace('Z','+00:00'))

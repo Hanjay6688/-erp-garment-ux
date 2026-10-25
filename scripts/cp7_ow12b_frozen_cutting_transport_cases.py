@@ -63,11 +63,12 @@ def prepare_frozen(cur,today,actor):
  x=plan.fixture(cur,today)
  # Keep another active owner when the actual capturing actor is deactivated.
  native.native.native.policy.master.role_actor(cur,'OWNER')
- f=native.facade.capture(cur,today,actor)
+ f=native.reviewed_capture(cur,today,actor,{})
  assert f['row']['reference']['bounded_request_contract']=='cp7.bounded-analysis-request.v2'
  o,q,p=plan.draft_payload(cur,x,f['done']['run_id'],actor)
- assert o['production_state']=='ACTIVE'and Decimal(o['needed_pcs'])>=2 and Decimal(o['capacity_pcs'])>=2
  rec=next(r for r in f['original']['analysis']['recommendations']if r['target']['key']==x['target'])
+ assert o['production_state']=='ACTIVE'and o['needed_pcs']is not None and o['capacity_pcs']is not None,dict(options=o,recommendation=rec)
+ assert Decimal(o['needed_pcs'])>=2 and Decimal(o['capacity_pcs'])>=2,o
  assert rec['q_conditional']['state']!='UNKNOWN'and Decimal(rec['q_conditional']['value'])==Decimal(o['needed_pcs'])
  assert o['identity_hash']==f['pages']['identity_hash']
  assert datetime.fromisoformat(o['data_as_of'].replace('Z','+00:00'))==datetime.fromisoformat(f['pages']['reference']['captured_at'].replace('Z','+00:00'))
