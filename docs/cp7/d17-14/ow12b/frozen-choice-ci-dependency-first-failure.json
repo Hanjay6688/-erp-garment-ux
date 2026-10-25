@@ -1,0 +1,29 @@
+{
+  "contract": "cp7.workflow-first-failure-retained.v1",
+  "status": "PREFLIGHT_FAILED_NO_NATIVE_RUN",
+  "cases": [
+    {
+      "head": "412b87ed95e8150052f8c579389edc9a94319b50",
+      "run": 40215355935,
+      "job": 121235199626,
+      "failed_step": 10,
+      "original_artifacts": 0,
+      "log_excerpt": "2026-10-25T17:14:10.1029641Z Traceback (most recent call last):\n2026-10-25T17:14:10.1031489Z   File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_frozen_choice_preflight.py\", line 6, in <module>\n2026-10-25T17:14:10.1033327Z ModuleNotFoundError: No module named 'pglast'\n2026-10-25T17:14:10.1095096Z ##[error]Process completed with exit code 1.\n2026-10-25T17:14:10.3122092Z ##[error]No files were found with the provided path: auditor/cp6-proof/t3. No artifacts will be uploaded.\n2026-10-25T17:14:10.5100679Z ##[error]No files were found with the provided path: auditor/cp6-proof/t3/**/*.json. No artifacts will be uploaded."
+    },
+    {
+      "head": "513175c6d203f91c43cb161e3cf718afc214acde",
+      "run": 40216213167,
+      "job": 121237781881,
+      "failed_step": 10,
+      "original_artifacts": 0,
+      "log_excerpt": "2026-10-25T17:24:14.4139088Z Traceback (most recent call last):\n2026-10-25T17:24:14.4140411Z   File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_frozen_choice_preflight.py\", line 6, in <module>\n2026-10-25T17:24:14.4142449Z ModuleNotFoundError: No module named 'pglast'\n2026-10-25T17:24:14.4202073Z ##[error]Process completed with exit code 1.\n2026-10-25T17:24:14.6230440Z ##[error]No files were found with the provided path: auditor/cp6-proof/t3. No artifacts will be uploaded.\n2026-10-25T17:24:14.8150668Z ##[error]No files were found with the provided path: auditor/cp6-proof/t3/**/*.json. No artifacts will be uploaded."
+    }
+  ],
+  "cause": "pglast imported by prepared choice preflight but absent from disposable CI environment",
+  "fix": "Install pinned pglast==8.7 alongside existing Python dependencies before declaration/preflight",
+  "local_previous_parser_version": "8.7",
+  "native_started": false,
+  "Original_read_complete": false,
+  "business_acceptance_credit": 0,
+  "production_go": false
+}

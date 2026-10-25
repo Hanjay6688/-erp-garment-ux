@@ -120,7 +120,7 @@ jobs:
     - name: Prepare exact PG17 runtime with bounded installation
       shell: bash
       run: "set -euo pipefail\ntimeout 120 python -m pip install --quiet 'psycopg[binary]==3.2.10' 'PyYAML==6.0.2'\
-        \ 'jsonschema==4.25.1'\npg17_bin=/usr/lib/postgresql/17/bin\nif ! test -x \"$pg17_bin/psql\" || ! test -x\
+        \ 'jsonschema==4.25.1' 'pglast==8.7'\npg17_bin=/usr/lib/postgresql/17/bin\nif ! test -x \"$pg17_bin/psql\" || ! test -x\
         \ \"$pg17_bin/pg_dump\" || ! test -x \"$pg17_bin/pg_restore\"; then\n  sudo install -d /usr/share/postgresql-common/pgdg\n\
         \  curl --fail --silent --show-error --connect-timeout 15 --max-time 45 --retry 2 \\\n    https://www.postgresql.org/media/keys/ACCC4CF8.asc\
         \ \\\n    -o \"$RUNNER_TEMP/ow06-postgresql-signing-key.asc\"\n  pg17_fingerprint=\"$(gpg --show-keys --with-colons\
