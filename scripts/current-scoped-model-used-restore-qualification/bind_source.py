@@ -3,7 +3,7 @@ from pathlib import Path
 from hashlib import sha256
 import argparse,ast,json
 
-CONFIG = {'parent': 'current-scoped-model-native-qualification', 'workflow': 'cp7-current-scoped-model-restore.yml', 'recovery': 'cp7_current_scoped_model_recovery.py', 'contract': 'cp7.current-scoped-model-used-restore8-qualification.v1', 'count': 30, 'native_head': '862bedbaa04afa130b984c1f474f71d03d0380e6', 'restore_head': '85411344dbf7a134bdf315cb8be72a819c568b1f', 'native_variable': 'CURRENT_SCOPED_MODEL_ORIGINAL_REPORT', 'restore_variable': 'CURRENT_MODEL_HISTORY_RESTORE_ORIGINAL_REPORT'}
+CONFIG = {'parent': 'current-scoped-model-native-qualification', 'workflow': 'cp7-current-scoped-model-restore.yml', 'recovery': 'cp7_current_scoped_model_recovery.py', 'contract': 'cp7.current-scoped-model-used-restore8-qualification.v1', 'count': 30, 'native_head': 'ffa0b63dbb6f0b7888eeaec59d0f39347cd58e0e', 'restore_head': '85411344dbf7a134bdf315cb8be72a819c568b1f', 'native_variable': 'CURRENT_SCOPED_MODEL_ORIGINAL_REPORT', 'restore_variable': 'CURRENT_MODEL_HISTORY_RESTORE_ORIGINAL_REPORT'}
 HERE=Path(__file__).resolve().parent
 REPO=HERE.parents[1]
 
