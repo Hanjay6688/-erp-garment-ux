@@ -8,12 +8,12 @@ This module neither grants access nor supplies an alternate calculation engine.
 from collections import defaultdict
 from contextlib import contextmanager
 from copy import deepcopy
-from datetime import timedelta
 from decimal import Decimal
 from hashlib import sha256
 import json
 
 import cp7_p19_scale_cases as scale
+from cp7_current_model_target_installation import catalog
 
 SKU_COUNT, SIZE_COUNT, VARIANT_COUNT, BATCH_VARIANTS = 1200, 3, 3600, 300
 LABEL = 'OW12A_FACTORY_1200X3_SYNTHETIC_NOT_OWNER_POLICY'
@@ -40,15 +40,15 @@ def synthetic_inputs():
 
 
 def commercial(cur, today, rows, log, settings):
-    """Bind all three sizes before the physical sale dates, through SAVE_GROUPS."""
+    """Create current membership through SAVE_GROUPS; never backdate a new SKU."""
     groups = defaultdict(list)
     for row in rows:
         groups[(row['code'], row['model'])].append(row['root'])
     assert len(groups) == SKU_COUNT and all(len(set(v)) == SIZE_COUNT for v in groups.values())
-    at = scale.history.receipt.aa.at(today - timedelta(days=settings['cutover_days']), 1)
     ordered, skus = list(groups.values()), []
     for start in range(0, len(ordered), scale.SKU_GROUP_PAGE):
         scale.b.api.admin(cur)
+        at = cur.execute('select clock_timestamp()').fetchone()[0]
         batch = [scale.bf.group(cur, roots, at,
                  settings=dict(price=None, bom=None, work_rates=[], laundry_rates=[]))
                  for roots in ordered[start:start + scale.SKU_GROUP_PAGE]]
@@ -76,8 +76,22 @@ def seed(conn, cur, today, report):
         for _ in range(VARIANT_COUNT // BATCH_VARIANTS):
             rows.extend(scale.import_batch(cur, today, BATCH_VARIANTS, log))
             report['imported_variants'] = len(rows)
-        skus = commercial(cur, today, rows, log, settings)
         scale.sell(cur, today, rows, log)
+        # Historical physical sales belong to their original product identities.
+        # A new current commercial group must not rewrite those facts.
+        protected = {'erp.sales_headers','erp.sales_items','erp.sale_stock_allocations',
+                     'erp.fg_stock_movements','erp.fg_lots','erp.journal_entries',
+                     'erp.journal_lines','erp.hpp_versions','erp.hpp_version_components'}
+        scale.b.api.admin(cur)
+        before_membership = catalog._data(cur)
+        assert protected <= set(before_membership)
+        skus = commercial(cur, today, rows, log, settings)
+        scale.b.api.admin(cur)
+        after_membership = catalog._data(cur)
+        assert all(before_membership[key] == after_membership[key] for key in protected), 'FACTORY_CURRENT_SKU_REWROTE_POSTED_HISTORY'
+        report['current_membership_posted_history_guard'] = dict(
+            tables=sorted(protected), all_rows_exact=True, historical_sales_relabelled=False)
+
         scale.profile(cur, [row['root'] for row in rows], log)
         scale.activate(cur, skus, log)
     scale.b.api.admin(cur)
@@ -111,7 +125,7 @@ def seed(conn, cur, today, report):
                   target_keys_sha256=sha256('\n'.join(targets).encode()).hexdigest(),
                   sku_size_membership_sha256=sha256(json.dumps(members).encode()).hexdigest(),
                   physical_pcs_per_variant=str(expected_pcs), every_variant_stock_exact=True,
-                  membership_effective_before_sales=True, writer_phases=dict(log),
+                  current_native_membership_verified=True, historical_sales_precede_current_membership=True, writer_phases=dict(log),
                   synthetic_module_binding_restored=True)
     conn.commit()
     return report

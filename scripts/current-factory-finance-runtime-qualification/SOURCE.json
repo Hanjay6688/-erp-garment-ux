@@ -2094,7 +2094,7 @@
     "scripts/current-factory-finance-runtime-qualification/README.md": "efa469653b11958016529c1469ac55804f4c6bfa059af691297abc3d1c3b0b1a",
     "scripts/current-factory-finance-runtime-qualification/admission.py": "dc4b9ca4ea687f7de4bf01169e6740b7eca12089e51766d9f844757b4595d7b8",
     "scripts/current-factory-finance-runtime-qualification/fetch_originals.py": "9923ba5c732016f7f72c41cab14564f89c147e9ff26a4d4d8b990771c4328781",
-    "scripts/current-factory-finance-runtime-qualification/fixture.py": "6dceb87ae35bb87527eba3176f80b292e5ab9ef2a4a4b5a813bf6d3f3097724e",
+    "scripts/current-factory-finance-runtime-qualification/fixture.py": "193197b3c288b382970250f2f3db4c38ea21e3fd45bb1729fe25f94ecbe5e3bd",
     "scripts/current-factory-finance-runtime-qualification/probe.py": "c22e0cede9edb505f6752dcf056424ed1199505175279cc44bc90f10f51b2879",
     "scripts/current-factory-finance-runtime-qualification/runner.py": "f22634871853f2a523aaa83f17985fc89cf3406d19f2f7ff1863a2fca45e409e",
     "scripts/current-finance-model-browser-qualification/README.md": "46378e3fb71582745b7b099410fea3a65b84321ef4b51e31bdab1dd4638ac3e0",
@@ -3275,6 +3275,33 @@
     "fix": "Preserve all tracked-source checks and exact source pins; allow only the ten explicitly named generated proof files. Reject any other untracked path.",
     "log_bytes": 577824,
     "log_sha256": "ab266cd38cbe5c76bf7ad86fc1f648f2ad546129c740683674849196d4caaa20",
+    "production_go": false
+  },
+  "first_runtime_failure": {
+    "name": "CP7_CURRENT_FACTORY_FINANCE1.json",
+    "status": "INCOMPLETE",
+    "head": "b7a69c2c9b2568b5a148e9067ee739b981a20435",
+    "run_id": 40166794564,
+    "job_id": 121089393147,
+    "artifact_id": 12589057730,
+    "zip_bytes": 2013376,
+    "zip_sha256": "8573e6dfd261f34b9eefdf6cf39eaf2cc50510a507e6893a594c734958ee5204",
+    "bytes": 1679842,
+    "sha256": "70b3ca3e999294f59254dfd55e2e9c955167e357c24c83d7dfa6244b25048f5b",
+    "archive_member": "CP7_CURRENT_FACTORY_FINANCE1.json",
+    "failure": "BF_HISTORY: new SKU effective_from was incorrectly set to opening cutover ten days before current time",
+    "phase": "after 3600 imported variants; before any successful commercial group or minute cron",
+    "correction": "Retain Native posted sale history first; create commercial groups at server clock_timestamp per batch, then prove nine posted sales/stock/journal/HPP tables unchanged",
+    "retained_scope": {
+      "commercial_skus": 1200,
+      "sizes_per_sku": 3,
+      "variants": 3600,
+      "physical_pcs_per_variant": 45
+    },
+    "product_guard_changed": false,
+    "runner_changed": false,
+    "financial_oracles_changed": false,
+    "first_failure_relabelled": false,
     "production_go": false
   }
 }

@@ -1,0 +1,27 @@
+{
+  "name": "CP7_CURRENT_FACTORY_FINANCE1.json",
+  "status": "INCOMPLETE",
+  "head": "b7a69c2c9b2568b5a148e9067ee739b981a20435",
+  "run_id": 40166794564,
+  "job_id": 121089393147,
+  "artifact_id": 12589057730,
+  "zip_bytes": 2013376,
+  "zip_sha256": "8573e6dfd261f34b9eefdf6cf39eaf2cc50510a507e6893a594c734958ee5204",
+  "bytes": 1679842,
+  "sha256": "70b3ca3e999294f59254dfd55e2e9c955167e357c24c83d7dfa6244b25048f5b",
+  "archive_member": "CP7_CURRENT_FACTORY_FINANCE1.json",
+  "failure": "BF_HISTORY: new SKU effective_from was incorrectly set to opening cutover ten days before current time",
+  "phase": "after 3600 imported variants; before any successful commercial group or minute cron",
+  "correction": "Retain Native posted sale history first; create commercial groups at server clock_timestamp per batch, then prove nine posted sales/stock/journal/HPP tables unchanged",
+  "retained_scope": {
+    "commercial_skus": 1200,
+    "sizes_per_sku": 3,
+    "variants": 3600,
+    "physical_pcs_per_variant": 45
+  },
+  "product_guard_changed": false,
+  "runner_changed": false,
+  "financial_oracles_changed": false,
+  "first_failure_relabelled": false,
+  "production_go": false
+}
