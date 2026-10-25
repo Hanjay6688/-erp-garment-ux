@@ -1,0 +1,25 @@
+{
+  "first_failure": {
+    "name": "CP7_CURRENT_VERSIONED_TARGET_USED_RESTORE8.json",
+    "status": "INCOMPLETE",
+    "head": "055cbc9ab2458ccf1c88fa224f568ef5111f6eae",
+    "run_id": 40195877841,
+    "job_id": 121176469627,
+    "artifact_id": 12601664790,
+    "zip_bytes": 4228336,
+    "zip_sha256": "90e89c0053a50e8442a0b3ab1431e18d3e302a7ad099cb3e8aad11e9c604b7f0",
+    "bytes": 2651702,
+    "sha256": "88a778623917cd69bea467589544c6eff03736913cb1d05cffe9968ce03c9917",
+    "archive_member": "CP7_CURRENT_VERSIONED_TARGET_USED_RESTORE8.json"
+  },
+  "failed_assertion": "current['source_state']==('ARCHIVED_STALE'if source_changed else'UNCHANGED')",
+  "passed_steps": 7,
+  "negative_controls": 29,
+  "baseline_full22_rows_sequences_restored": true,
+  "source_reason": "Versioned target source selects latest GLOBAL_V2/SCOPED_V3 evaluations. The earlier fixture captured target before creating two scoped evaluations, then expected its source to remain unchanged.",
+  "correction": "Capture the target after both history and scoped model fixtures; execute the unchanged exact target read/replay/freshness/storage checks before writing the used backup.",
+  "all_seven_fixture_files_byte_exact": true,
+  "all_existing_business_assertions_retained": true,
+  "production_go": false,
+  "independent_acceptance": false
+}
