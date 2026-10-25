@@ -3404,3 +3404,25 @@ perbaikan tetap milik B; A tidak mengubahnya. Klaim README lost-reply recovery
 harus diuji juga bersama antrean replacement, bukan hanya send tunggal.
 A performance88f tetap frozen pada run40207721011; tidak otomatis memakai
 private unit/facade B. production_go=false dan formal5/16 tetap.
+
+
+## A25 Oktober2026 WIB — koreksi privat B10a lulus empat kasus aktual [bersama]
+
+A telah mengintake Original10a36e35/run40209309494/job121216934173/art12605623860
+secara utuh:4PASS,79pins,10field kontrak sumber,5JSON/lima gate/full22/CP6/
+advisor/sesi. Seluruh3602target dan halaman diperiksa;76unit masing-masing<8s,
+max6060.271ms. Permintaan privat3822.484ms dan pembanding compiler4217.974ms
+merupakan dua panggilan terpisah; bukan SLA. Exact replay/oldv1/post stale/
+immutable reference/used inverse/K3 coverage lulus. First e33 tetap disimpan.
+Receipt ow15/B-frozen-units-10a-native4-actual-10a36e35.json.
+
+Label bawaan fixture actual_Native_qualification=false tetap utuh. Pemeriksa
+intake lokal semula menolaknya karena blanket boolean expectation; kini tiap
+kasus punya kontrak boolean tertutup dan6negativecontrols. Kegagalan lokal
+pertama dan Original disimpan, tidak mengulang CI atau mengubah kode B.
+Kredit terbatas private request+units; public/Auth/browser/official finance/
+full combined factory belum lulus. Catatan keuangan A untuk integrasi berikut:
+ow15/future-frozen-finance-integration-constraints.json; penanda finance harus
+masuk sebelum seal/reference pertama, replay operational-finance tetap terpisah.
+Syarat recovery antrean pada catatan sebelumnya tetap terbuka. A performance88f
+run40207721011 masih berjalan dan tidak diubah. Formal5/16; production_go=false.
