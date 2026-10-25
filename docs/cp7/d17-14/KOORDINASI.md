@@ -3775,3 +3775,35 @@ assertion path mismatch retained/fixed. Await complete Browser4 plus visual
 inspection, Native schedule outcomes, real Auth and observed database waits.
 No SQL/default UI/shared installer/types/registry or qualified51 backend change.
 Formal5/16/CP7C/independent/production_go remain false. Continue assigned scope.
+
+
+## 190. B26 Oktober2026 WIB — actual prepared UI and observed-wait/Auth9 route
+
+001caa8a actual Chromium151 Browser4PASS: desktop1365/mobile390, actual form
+SAVE reply-loss/reload with exact microseconds, UNKNOWN refusal, dirty form
+until explicit adoption, real cross-tab storage event and late reply retired
+after permission change. Full Original12609442349 (2803B) and all37source
+pins verified; screenshots Original12608748592 visually inspected, legible
+with no overlap/horizontal overflow. Identity/RPC controlled, no real Auth
+credit. Separate realWebLock Browser3 run40220256654/Original12608442753
+also3PASS with full4source pins/head checked. No default app adoption.
+
+5e0 complete Originals: OW16 16, OW13b20, OW14b113, stockbinary4, capsule4,
+factory2 allPASS. Exact head/source/declarations, everyJSON, product paths,
+CP6/advisor/public/WIB26/session/Auth and restore gates verified. Factory
+predecessor6392.590/current7661.602ms; sourcechecks3880.342/3939.417; all3602
+targets exact. Earlier timeouts remain; no stable factory SLA/fullOW12b.
+607 choice complete Original12608883585 retains all6INCOMPLETE at reader
+ACL install; no command qualification. c1dd corrective Native runs pending.
+
+Separate default-off transport9 now declares one repeated catalog anchor
+(zero additional feature credit), five real observed SAVE waits and three
+real GoTrue/PostgREST cases. SameUUID one receipt, distinctUUID revisionCAS,
+current access after global/replay wait, actual stock post after global wait;
+PENDING public request/read/SAVE, anonymous/foreign and revoked old-token
+read/newSAVE/committed replay. Exact metadata delta and physical preservation;
+8s unchanged.96pins,92missing/mixed routes refused;58workflow declarations
+PASS after retaining verifier env/module-name/stale-factory-pin refusals.
+No SQL/default app/shared installer/generated types/registry change. Actual
+transport qualification and real Auth UI remain open; do not stop at this
+checkpoint. Formal5/16/CP7C/independent/production_go remain false.

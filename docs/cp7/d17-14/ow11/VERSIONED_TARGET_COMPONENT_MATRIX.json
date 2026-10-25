@@ -1236,9 +1236,9 @@
     "public_Auth_browser_credit": false
   },
   "frozen_work_preparation": {
-    "status": "CLIENT113_PASS_REAL_BROWSER3_PASS_NATIVE6_PREPARED",
+    "status": "CLIENT153_PASS_REAL_RECOVERY_BROWSER3_AND_PREPARED_UI_BROWSER4_PASS_NATIVE6_PENDING",
     "receipt": "../ow12b/frozen-work-client-preparation-local.json",
-    "client_tests": 113,
+    "client_tests": 153,
     "new_client_tests": 55,
     "retained_tests": 58,
     "actual_Native_schedule_save_qualified": false,
@@ -1246,12 +1246,15 @@
     "actual_browser": true,
     "UI_or_default_adopted": false,
     "production_go": false,
-    "actual_browser_scope": "Two tabs actual WebLocks/localStorage with controlled RPC replies; no Native/Auth/UI credit",
-    "real_browser_receipt": "../ow12b/a90538f5-frozen-work-browser3-pass.json",
+    "actual_browser_scope": "Real Chromium desktop/mobile prepared panel and real WebLocks/storage events; controlled identity/RPC, no Native/Auth credit",
+    "real_browser_receipt": "../ow12b/001caa8a-frozen-work-recovery-browser-pass.json",
     "native_preflight_receipt": "../ow12b/frozen-work-native6-preflight.json",
     "source_pins": 93,
     "declared_native_cases": 6,
-    "missing_or_mixed_routes_refused": 91
+    "missing_or_mixed_routes_refused": 92,
+    "new_DOM_journeys": 15,
+    "prepared_UI_receipt": "../ow12b/001caa8a-frozen-work-ui-browser-pass.json",
+    "UI_visual_review": true
   },
   "frozen_capsule_latest_regression_412": {
     "status": "PASS_COMPLETE_ORIGINAL",
@@ -1267,5 +1270,104 @@
     "Native": 3,
     "races_not_run": 3,
     "http_not_run": 2
+  },
+  "latest_retained_regressions_5e0": [
+    {
+      "run_id": 40218592751,
+      "artifact_id": 12609510110,
+      "counts": {
+        "native": 10,
+        "races": 2,
+        "http": 2,
+        "browser": 2
+      },
+      "receipt": "5e0e5f77-40218592751-original-pass.json"
+    },
+    {
+      "run_id": 40218592721,
+      "artifact_id": 12609060977,
+      "counts": {
+        "native": 14,
+        "races": 2,
+        "http": 2,
+        "browser": 2
+      },
+      "receipt": "5e0e5f77-40218592721-original-pass.json"
+    },
+    {
+      "run_id": 40218592725,
+      "artifact_id": 12608541117,
+      "counts": {
+        "native": 4
+      },
+      "receipt": "5e0e5f77-40218592725-original-pass.json"
+    },
+    {
+      "run_id": 40218593152,
+      "artifact_id": 12609001755,
+      "counts": {
+        "native": 2
+      },
+      "receipt": "5e0e5f77-40218593152-original-pass.json"
+    },
+    {
+      "run_id": 40218592724,
+      "artifact_id": 12609397781,
+      "counts": {
+        "native": 61,
+        "races": 34,
+        "http": 7,
+        "browser": 11
+      },
+      "receipt": "5e0e5f77-40218592724-original-pass.json"
+    },
+    {
+      "run_id": 40218592719,
+      "artifact_id": 12609173682,
+      "counts": {
+        "native": 4
+      },
+      "receipt": "5e0e5f77-40218592719-original-pass.json"
+    }
+  ],
+  "latest_old_factory_5e0": {
+    "status": "PASS_COMPONENT_ONLY",
+    "head": "5e0e5f778aa308dd6f76b6ac699fe1cce0a0e992",
+    "run_id": 40218593152,
+    "receipt": "5e0e5f77-40218593152-original-pass.json",
+    "predecessor_request_millis": 6392.59,
+    "current_request_millis": 7661.602,
+    "full_source_check_millis": [
+      3880.342,
+      3939.417
+    ],
+    "all3602_targets_exact": true,
+    "previous_timeouts_retained": true,
+    "stable_factory_SLA_established": false,
+    "full_factory3600_qualified": false,
+    "official_finance_included": false
+  },
+  "frozen_work_transport_preparation": {
+    "status": "PREPARATION_ONLY",
+    "receipt": "../ow12b/frozen-work-transport9-preflight.json",
+    "source_pins": 96,
+    "declared_cases": {
+      "native": 1,
+      "races": 5,
+      "http": 3
+    },
+    "new_cases": 8,
+    "repeated_catalog_anchor_feature_credit": 0,
+    "actual_Auth_HTTP_credit": false,
+    "actual_concurrency": false,
+    "production_go": false
+  },
+  "frozen_public_admin_ACL_repair": {
+    "head": "c1dd6b5cd231701be3be35bb7dd45c3856ace8fa",
+    "status": "LOCAL_CREATOR_MATRIX_PASS_NATIVE_PENDING",
+    "receipt": "../ow12b/frozen-admin-default-acl-repair.json",
+    "strict_expected_owner_authenticated_grants_unchanged": true,
+    "global_default_privileges_unchanged": true,
+    "first_513_reader4_facade6_and_607_choice6_INCOMPLETE_retained": true
   }
 }

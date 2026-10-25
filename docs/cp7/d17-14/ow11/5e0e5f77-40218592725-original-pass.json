@@ -1,0 +1,188 @@
+{
+  "contract": "cp7.original-runtime-receipt.v1",
+  "head": "5e0e5f778aa308dd6f76b6ac699fe1cce0a0e992",
+  "run_id": 40218592725,
+  "job_id": 121245015267,
+  "artifact_id": 12608541117,
+  "bytes": 158782,
+  "artifact_sha256": "768a44024239a44248d617d385d630178ee0903580ca8f78d6925cc54d487591",
+  "status": "PASS",
+  "Original_read_complete": true,
+  "all_Original_JSON_files_read": 5,
+  "original_json_sha256": {
+    "CP7_OW12B_STOCK_BINARY.json": "720a89bba040a731059ffebff8d96955512b26819e4e7e8d551be849d8030975",
+    "T3_BACKUP_RESTORE_DRILL.json": "f4374100f12c885d6bf9eae41707b2f7341c24832e1bfb62a9964dffc0adeb15",
+    "T3_PACKAGE_FILES_INSTALL.json": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+    "ALIGNED_CHAIN.json": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b",
+    "T3_PACKAGE_INSTALL.json": "635132263ae1221e7f7560911c0c9b7ce14b37e35011a05132bd1ea14540f4b0"
+  },
+  "actual_current_F05_source_prefix_compared": [
+    "source_sha256",
+    "expected_case_count",
+    "required_case_counts",
+    "required_case_ids",
+    "predeclared_case_contract",
+    "predeclared_case_sha256",
+    "stock_binary_source_sha256"
+  ],
+  "all_source_fields_and_declaration_match": true,
+  "source_prefix_database_executed": false,
+  "product_paths_byte_identical_between_recorded_refs": true,
+  "counts": {
+    "native": 4
+  },
+  "case_facts": {
+    "native": {
+      "OW12B_STOCK_BINARY_PRIVATE_CATALOG22": {
+        "status": "PASS",
+        "private_one_function_no_table_RPC_replacement": true,
+        "exact22_inverse": true,
+        "v1_unchanged": true,
+        "server_PG17_UTF8_and_builtin_types_bound": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "OW12B_STOCK_BINARY_NATIVE_RAW_AND_TYPED_FRAME_PARITY": {
+        "status": "PASS",
+        "independent_Python_encoder_decoder_exact": true,
+        "all15_field_mutations_change_SHA256": true,
+        "wide_int64_UTF8_newline_microseconds_NULL_infinity_exact": true,
+        "LATIN1_and_UTF8_clients_same_bytes": true,
+        "actual_Native_raw_facts_independent_binary_hash_exact": true,
+        "rows": 1,
+        "all15_fields_retained": true,
+        "v1_hash_unchanged_v2_intentionally_distinct": true,
+        "malformed_duplicate_missing_over5000_scopes_refused": true,
+        "empty_scope_exact": true,
+        "root_scope_order_does_not_change_reference": true,
+        "reader_no_ERP_write": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "OW12B_STOCK_BINARY_SYNTHETIC1200X3_ORDERED_TIMINGS": {
+        "products": 3600,
+        "commercial_SKUs": 1200,
+        "physical_sizes": 3,
+        "physical_roots": 3600,
+        "movements": 363600,
+        "exactly_three_distinct_physical_sizes_per_commercial_SKU": true,
+        "synthetic_fixture": true,
+        "actual_Native_qualification": true,
+        "official_finance_included": false,
+        "full_factory3600_qualified": false,
+        "production_go": false,
+        "status": "PASS",
+        "actual_products": 3602,
+        "actual_rows": 363601,
+        "measurements": [
+          {
+            "phase": "V1_FIRST",
+            "millis": 3823.523,
+            "row_count": "363601",
+            "rows_sha256": "eee47275cbc75eb867be8940dc567e2c9816fa2b70212c3333f86418a0f1e724"
+          },
+          {
+            "phase": "V2_FIRST",
+            "millis": 1309.444,
+            "row_count": "363601",
+            "rows_sha256": "72d5569092b00c25986c260bdff87966908943c071cc993bd15777390ab2f20e"
+          },
+          {
+            "phase": "V2_SECOND",
+            "millis": 1307.351,
+            "row_count": "363601",
+            "rows_sha256": "72d5569092b00c25986c260bdff87966908943c071cc993bd15777390ab2f20e"
+          },
+          {
+            "phase": "V1_SECOND",
+            "millis": 3797.595,
+            "row_count": "363601",
+            "rows_sha256": "eee47275cbc75eb867be8940dc567e2c9816fa2b70212c3333f86418a0f1e724"
+          }
+        ],
+        "no_fastest_run_selection": true,
+        "v1_stable_v2_stable_hashes_intentionally_differ": true,
+        "reader_no_ERP_write": true,
+        "statement_limit": "8s",
+        "caller_integrated": false,
+        "factory_SLA_claim": false,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "OW12B_STOCK_BINARY_ACTUAL_LATE_RECORDED_CLOCK": {
+        "status": "PASS",
+        "actual_Native_writer": true,
+        "physical_backdate_not_visible_before_recorded_time": true,
+        "old_cutoff_immutable": true,
+        "both_clock_predicates_pinned_and_Native_facts_exact": true,
+        "no_posted_row_or_clock_rewrite": true,
+        "reader_no_ERP_write": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      }
+    }
+  },
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "CP6_advisor_boundary_public_catalog_WIB_session_Auth_cleanup_gates": true,
+  "actual_Auth_HTTP_credit": false,
+  "actual_concurrency": false,
+  "new_visual_screenshot_review": false,
+  "new_cross_suite_aggregate_acceptance_credit": 0,
+  "full_factory3600_qualified": false,
+  "full_OW11_acceptance": false,
+  "full_OW12b_acceptance": false,
+  "formal_acceptance": "5/16",
+  "CP7C_accepted": false,
+  "independent_acceptance": false,
+  "production_go": false,
+  "PG17_binary_private_component_qualified": true,
+  "actual_Native_PG17": true,
+  "v1_unchanged_v2_hash_intentionally_distinct": true,
+  "new_caller_or_request_speed_qualified": false
+}
