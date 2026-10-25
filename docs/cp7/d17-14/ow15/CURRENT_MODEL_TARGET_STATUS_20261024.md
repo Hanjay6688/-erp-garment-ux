@@ -4,8 +4,8 @@ VENI. VIDI. VICI. ERP. — I CONQUERED ERP.
 Reliable data adalah dewa. Keuangan termasuk laporan, stok, dan HPP adalah raja.
 
 **Enam kelompok uji pada susunan target berversi terbaru sudah lulus, termasuk
-pemulihan setelah dipakai. Kandidat performa juga lulus36kasus, layar6dan akses/transaksi bersamaan28;
-tiga kelompok lanjutannya masih diuji.
+pemulihan setelah dipakai. Kandidat performa juga lulus36kasus, layar6, keuangan10dan akses/transaksi
+bersamaan28; pemulihan8langkah dan jadwal menit masih diuji.
 Skala pabrik bersama keuangan resmi belum selesai. Formal tetap 5/16; belum ada
 penerimaan independen atau izin produksi.** Posisi ini dicatat 26 Oktober 2026
 pukul 00.03 WIB. Status run berikutnya ada di
@@ -64,7 +64,9 @@ tidak melintasi pergantian hari. [Browser6](versioned-performance-browser6-actua
 [Auth9/races19](versioned-performance-transport28-actual-4608b478.json) kini
 lulus aktual pada4608b478. Masing-masing3571pin, prasyarat3/4Original, seluruh
 kasus, sesi/Auth, pemulihan serta lima gate diperiksa; Original diarsipkan sekali.
-Restore8,finance10dancron1 masih berjalan.
+[Finance10](versioned-performance-finance10-actual-4608b478.json) juga lulus
+aktual: Auth3/races7, seluruh23kolom hasil termasuk waktuUTC, sesi bersih,
+seluruh3571pin/2Original dan lima gate. Restore8dancron1 masih berjalan.
 SOURCE uji pabrik tetap belum diikat. Uji1.200SKU×tiga ukuran dengan angka
 keuangan/HPP resmi menunggu enam kelompok performa aktual lulus.
 
@@ -176,6 +178,16 @@ B hanya berada di delta A; berkas B lama tetap utuh. Sepuluh pernyataan SQL,
 tiga tubuhPL/pgSQL dan sepuluh kontrol negatif lokal lulus. Ini belum pengujian
 perilaku DB: SOURCE/eksekusi belum diikat, menunggu Native40 aktual. Tidak ada
 fasad publik, aktivasi default atau kelulusan keuangan pabrik dari persiapan ini.
+
+[Paket Native45 pada01350114](frozen-finance-native45-prepared-01350114.json)
+sudah disiapkan tanpa SOURCE/eksekusi. Ia mempertahankan36kasus A dan tiga tubuh
+bisnis privat B, menambah satu penolakan dependent view oleh katalog penuh,
+serta lima tubuh kasus keuangan lama yang seluruh oraclenya sama. Transport dua
+permintaan diarahkan ke endpoint privat di bawah8detik; setiap request juga
+memverifikasi hash capsule dan mode dalam dasar yang disegel. Sebanyak42langkah
+bash dan routing45closure diperiksa lokal, tanpa menjalankan tubuh kasus/DB.
+Binder menolak mengikat sebelum Original Native40 pada8de2ae69 benar-benar
+PASS40, seluruh22/baris/sequence pulih dan lima gate lulus. Tidak ada izin produksi.
 
 ## Lingkup A yang tetap dijaga
 

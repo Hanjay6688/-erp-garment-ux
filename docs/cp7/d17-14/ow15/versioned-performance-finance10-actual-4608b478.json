@@ -1,0 +1,32 @@
+{
+  "name": "CP7_CURRENT_VERSIONED_PERFORMANCE_FINANCE10.json",
+  "status": "PASS",
+  "head": "4608b478ac50b52eba69e938488402b296a0f46e",
+  "run_id": 40214409750,
+  "job_id": 121232325844,
+  "artifact_id": 12608465816,
+  "zip_bytes": 2261445,
+  "zip_sha256": "ffba87456147b2d157a5af5d3e134726591b4b1aabd7aa17220e41881238bdc9",
+  "bytes": 2836651,
+  "sha256": "67fd3e68d41caf3a71b6138e286d334cb1281ea64a7817950791467e22da67a2",
+  "archive_member": "CP7_CURRENT_VERSIONED_PERFORMANCE_FINANCE10.json",
+  "source_pins_verified": 3571,
+  "actual_prerequisites_verified": 2,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "production_go": false,
+  "independent_acceptance": false,
+  "counts": {
+    "finance_auth": 3,
+    "finance_races": 7
+  },
+  "copy_catalog_admissions": 1,
+  "race_copy_catalog_admissions": 7
+}

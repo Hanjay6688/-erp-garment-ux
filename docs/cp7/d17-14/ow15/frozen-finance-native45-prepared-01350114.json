@@ -1,0 +1,21 @@
+{
+  "parent": "f6ee391c106bf876309fa5944ed8372adf9fb477",
+  "base_tree": "66ade4bdf7d1895aefeded8d9cec6311844f3740",
+  "local": "d23983a6d212760a0553ac1645d582f67dd26fa7",
+  "tree": "47ecbdca5c4f7389e9d798a48d85124b293ecf38",
+  "remote": "01350114ee74c3643e8c54feee1b02a3fec7f851",
+  "branch": "astra-a/d17-14-frozen-finance-integration-prepared-20261026",
+  "SOURCE_bound": false,
+  "runtime_dispatched": false,
+  "parent_Native40_run": 40216890593,
+  "parent_Native40_job": 121239848652,
+  "parent_Native40_status": "in_progress",
+  "case_count": 45,
+  "retained_A_cases": 36,
+  "B_private_business_cases": 3,
+  "finance_cases_with_unchanged_bodies": 5,
+  "new_full_catalog_dependency_guard": 1,
+  "ordinary_statement_limit_seconds": 8,
+  "workflow_bash_steps": 42,
+  "production_go": false
+}
