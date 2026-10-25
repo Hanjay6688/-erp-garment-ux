@@ -1,0 +1,49 @@
+{
+  "status": "LOCAL_SOURCE_AND_CATALOG_PREFLIGHT_ONLY",
+  "functions": 2,
+  "json_path_substitutions": 6,
+  "exact_B_files_preserved": true,
+  "actual_B_head": "c7f06b855512e0c8d450522c36e84f4cab570a2a",
+  "old_new_PostgreSQL_statements_parsed": 4,
+  "positive_catalog": 1,
+  "negative_catalog": [
+    {
+      "id": "UNDECLARED_FUNCTION",
+      "status": "PASS",
+      "refusal": "CURRENT_VERSIONED_PERFORMANCE_UNDECLARED_CATALOG_CHANGE"
+    },
+    {
+      "id": "OWNER_DRIFT",
+      "status": "PASS",
+      "refusal": "CURRENT_VERSIONED_PERFORMANCE_UNDECLARED_CATALOG_CHANGE"
+    },
+    {
+      "id": "ACL_DRIFT",
+      "status": "PASS",
+      "refusal": "CURRENT_VERSIONED_PERFORMANCE_UNDECLARED_CATALOG_CHANGE"
+    },
+    {
+      "id": "MISSING_GROUP",
+      "status": "PASS",
+      "refusal": "CURRENT_VERSIONED_PERFORMANCE_FULL22_REQUIRED"
+    },
+    {
+      "id": "MISSING_REPLACEMENT",
+      "status": "PASS",
+      "refusal": "CURRENT_VERSIONED_PERFORMANCE_INCOMPLETE_DELTA"
+    },
+    {
+      "id": "NEW_SCHEMA_GROUP",
+      "status": "PASS",
+      "refusal": "CURRENT_VERSIONED_PERFORMANCE_UNDECLARED_CATALOG_CHANGE"
+    }
+  ],
+  "actual_A_database_runtime": false,
+  "production_go": false,
+  "used_delta_inverse_refused_before_any_SQL": true,
+  "actual_recovery_module_graph_and_source_paths": true,
+  "additional_predecessor_state_hop": 1,
+  "only_native_OID_seal_rebound": true,
+  "positive_exact_delta_verification": 1,
+  "forged_old_rollback_SQL_refused_before_any_SQL": true
+}
