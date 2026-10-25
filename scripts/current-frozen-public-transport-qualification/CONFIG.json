@@ -1,0 +1,17 @@
+{
+  "contract": "cp7.current-frozen-public-transport28-qualification.v1",
+  "kind": "transport",
+  "count": 28,
+  "native_variable": "CURRENT_FROZEN_PUBLIC_NATIVE52_ORIGINAL_REPORT",
+  "native_head": "6dceb3d3530a2144217047360613808af3249e4a",
+  "prior_variable": "CURRENT_VERSIONED_PERFORMANCE_TRANSPORT_ORIGINAL_REPORT",
+  "prior_head": "4608b478ac50b52eba69e938488402b296a0f46e",
+  "native_path": "scripts/current-frozen-public-native-qualification/SOURCE.json",
+  "production_go": false,
+  "independent_acceptance": false,
+  "core_business_files": [
+    "scripts/cp7_ow11_model_policy_transport_cases.py",
+    "scripts/cp7_ow11_model_evaluation_v2_transport_cases.py",
+    "scripts/cp7_ow11_model_target_transport_v2_cases.py"
+  ]
+}

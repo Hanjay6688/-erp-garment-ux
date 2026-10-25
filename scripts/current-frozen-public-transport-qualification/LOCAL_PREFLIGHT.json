@@ -1,0 +1,39 @@
+{
+  "status": "PASS_LOCAL_PREPARATION_ONLY",
+  "kind": "transport",
+  "case_count": 28,
+  "source_guard": {
+    "unchanged_business_files": {
+      "cases.py": "f86e9460e5b57b399aa5cc16455a685625e318c2228c79fa31f131dc2ce5f572",
+      "target_cases.py": "68947b0efbda673770877c3383f35a77928f460565f392b218db06106a942a02"
+    },
+    "only_product_native_admission_label_changed": true,
+    "no_new_UI_or_default_adoption_claim": true,
+    "actual_Auth_HTTP_credit": false,
+    "production_go": false
+  },
+  "rejected_controls": [
+    "partial_composer",
+    "old_native_admission",
+    "cleanup_guard_removed",
+    "inverse_guard_removed"
+  ],
+  "local_route_checks": {
+    "full_state_identity_verified": true,
+    "wrong_state_refused": true,
+    "all_setup_hooks_restored": true
+  },
+  "bash_steps": 44,
+  "SOURCE_bound": false,
+  "database_executed": false,
+  "runtime_qualified": false,
+  "new_public_finance_UI_claim": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "prior_actual_Original_independently_verified": {
+    "head": "4608b478ac50b52eba69e938488402b296a0f46e",
+    "cases": 28,
+    "raw_source_pins_checked": true,
+    "all_full_copy_catalogs_checked": true
+  }
+}

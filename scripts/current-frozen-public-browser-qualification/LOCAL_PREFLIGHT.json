@@ -1,0 +1,49 @@
+{
+  "status": "PASS_LOCAL_PREPARATION_ONLY",
+  "kind": "browser",
+  "case_count": 6,
+  "source_guard": {
+    "unchanged_business_files": {
+      "policy.mjs": "61097fcd27e209c1bf8edd0d74376fb79362fad46216289b1246d6734b451dcd",
+      "evaluation.mjs": "3c523b3ced0e47ac07c286bc4af7c523e4d5fbe359feb4eafa1f400d40e018e7",
+      "target.mjs": "9d19c3ddfcfb81bcef3a9bc346822d4874079fb9cdce30c8225f56e99c9af8b6",
+      "check-imports.mjs": "a1243d8f90c3bffb426a9e54e546e3ce2f6066fe2a7cd5a9f9d1801f8b89ef3e"
+    },
+    "only_product_native_admission_label_changed": true,
+    "no_new_UI_or_default_adoption_claim": true,
+    "actual_Auth_HTTP_credit": false,
+    "production_go": false
+  },
+  "rejected_controls": [
+    "partial_composer",
+    "old_native_admission",
+    "cleanup_guard_removed",
+    "inverse_guard_removed"
+  ],
+  "local_route_checks": {
+    "status": "PASS",
+    "actual_ESM_modules_loaded": 3,
+    "case_ids": [
+      "OW11_MODEL_POLICY_BROWSER_MOBILE_EXACT_RECOVERY_SUSPEND",
+      "OW11_MODEL_POLICY_BROWSER_DESKTOP_REVIEW_ACCESS_REVOKED",
+      "OW11_MODEL_V2_BROWSER_MOBILE_EXACT_RECOVERY_POLICY_SOURCE",
+      "OW11_MODEL_V2_BROWSER_DESKTOP_BASELINE_CURRENT_ACCESS",
+      "OW11_MODEL_TARGET_V2_BROWSER_MOBILE_UNKNOWN_ANALOG_CLEAR",
+      "OW11_MODEL_TARGET_V2_BROWSER_DESKTOP_DENSE_PROVENANCE_RELOAD"
+    ],
+    "browser_executed": false
+  },
+  "bash_steps": 46,
+  "SOURCE_bound": false,
+  "database_executed": false,
+  "runtime_qualified": false,
+  "new_public_finance_UI_claim": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "prior_actual_Original_independently_verified": {
+    "head": "4608b478ac50b52eba69e938488402b296a0f46e",
+    "cases": 6,
+    "raw_source_pins_checked": true,
+    "all_full_copy_catalogs_checked": true
+  }
+}
