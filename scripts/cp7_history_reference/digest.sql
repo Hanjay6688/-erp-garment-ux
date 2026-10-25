@@ -11,7 +11,8 @@ begin
   raise exception 'CP7_HISTORY_REFERENCE_ROOTS';end if;
  with clock as materialized(select p_at at),
  products as materialized(select(p->>'root_id')::uuid root_id from jsonb_array_elements(p_products)p),
- stock as materialized(
+ -- One consumer: retain the exact Native projection without a temporary copy.
+ stock as not materialized(
  select m.id,coalesce(p.identity_root_id,p.id)root_id,p.size_id,m.product_id,m.lot_id,m.location_id,
   m.quality_grade,m.qty_signed::text qty_signed,m.physical_at,m.system_created_at,
   m.movement_type,m.source_type,m.source_id,m.reversal_of_id,m.book_order

@@ -30,7 +30,7 @@ def sources():
     root=Path(__file__).resolve().parent
     # Pin the actual analog parent too: its lookup implementation affects
     # both request latency and the runtime model/source producer identity.
-    parent_paths=[p for name in ('cp7_product_analog_consumer','cp7_product_analog_consumer_stage','cp7_product_analog_provenance_stage')
+    parent_paths=[p for name in ('cp7_product_analog_consumer','cp7_product_analog_consumer_stage','cp7_product_analog_provenance_stage','cp7_history_reference')
       for p in (root/name).iterdir()if p.is_file()and p.suffix in('.py','.sql','.json')]
     return dict(stage.sources(),**source.sources(),**{str(p.relative_to(root)):sha256(p.read_bytes()).hexdigest()for p in parent_paths},**{
       str(p.relative_to(root)):sha256(p.read_bytes()).hexdigest()

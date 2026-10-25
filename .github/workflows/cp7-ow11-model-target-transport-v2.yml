@@ -4,6 +4,7 @@ name: CP7 Versioned Model Target Transport11 in Two Parts
     branches:
     - astra/d17-14-produksi
     paths:
+    - scripts/cp7_history_reference/**
     - scripts/cp7_model_target_consumer_v2/**
     - scripts/cp7_model_target_consumer_v2_stage/**
     - scripts/cp7_model_target_source_v2/**

@@ -196,7 +196,25 @@
     "scripts/cp7_ow11_model_target_consumer_v2_cases.py": "54fe7606745c0f56de473188e6b174024e2b23eeb89d110bf1bea6cedd60ca28",
     "scripts/cp7_ow11_model_target_consumer_v2_probe.py": "89c57cc7b1e1175729088be0b7bf1cf6cb26946b573a0dda475b58bffc0a0e47"
   },
-  "current_runtime_qualifications": {
+  "A_read_only_intake": {
+    "head": "378f13ccc0fdfe92307e57c6d7af64eb34a20e28",
+    "branch": "astra-a/d17-14-versioned-target-integration-prepared-20261025",
+    "combined_native36_restore8_finance_auth3_races7_cron1_browser6_transport_auth9_races19_prepared": true,
+    "actual_runtime_qualified_by_this_inspection": false,
+    "B_performance_change182_included": false,
+    "no_A_branch_or_shared_file_modified_by_B": true
+  },
+  "Native_profile_findings": {
+    "baseline_target_dispatches_per_request": 1,
+    "private_long_history_chunk_experiment_not_current_hot_path": true,
+    "production_single_target_pass_patch_applied": false,
+    "largest_self_time_function": "cp7_history_reference.stock_digest(jsonb,timestamp with time zone)",
+    "current_total_ms": 2666.671,
+    "current_self_ms": 2331.436,
+    "source_limit_unchanged": "8s",
+    "factory_SLA_claim": false
+  },
+  "retained_runtime_qualifications_before_stock_copy_candidate": {
     "Native6": {
       "status": "PASS",
       "run_id": 40173569440,
@@ -258,24 +276,23 @@
       "first_failures_retained": true
     }
   },
-  "A_read_only_intake": {
-    "head": "378f13ccc0fdfe92307e57c6d7af64eb34a20e28",
-    "branch": "astra-a/d17-14-versioned-target-integration-prepared-20261025",
-    "combined_native36_restore8_finance_auth3_races7_cron1_browser6_transport_auth9_races19_prepared": true,
-    "actual_runtime_qualified_by_this_inspection": false,
-    "B_performance_change182_included": false,
-    "no_A_branch_or_shared_file_modified_by_B": true
-  },
-  "current_Native6_Browser2_transport11_qualified": true,
-  "shared_47_source_pins_exact_between_native_browser_transport": true,
-  "Native_profile_findings": {
-    "baseline_target_dispatches_per_request": 1,
-    "private_long_history_chunk_experiment_not_current_hot_path": true,
-    "production_single_target_pass_patch_applied": false,
-    "largest_self_time_function": "cp7_history_reference.stock_digest(jsonb,timestamp with time zone)",
-    "current_total_ms": 2666.671,
-    "current_self_ms": 2331.436,
-    "source_limit_unchanged": "8s",
-    "factory_SLA_claim": false
+  "retained_shared_47_source_pins_exact_between_native_browser_transport": true,
+  "retained_Native6_Browser2_transport11_qualified": true,
+  "current_stock_copy_candidate_runtime_qualified": false,
+  "current_stock_copy_candidate": {
+    "status": "UNPUBLISHED_LOCAL",
+    "qualified_source_head_before_change": "182c8b174f7d1d4e3355c24263cf1866357510b5",
+    "stock_digest_SQL_sha256": "fe4c1b7c930fe73b7a6cc79b21edaff592490d52818f925c6a2b3930033fe89f",
+    "change": "One stock CTE materialization flag and comment; identical Native projection, guards and hashes",
+    "source_pin_counts": {
+      "native": 51,
+      "browser": 68,
+      "transport": 54,
+      "scale": 54
+    },
+    "history_reference_Native4_required": true,
+    "no_single_target_pass_patch": true,
+    "actual_Native": false,
+    "production_go": false
   }
 }

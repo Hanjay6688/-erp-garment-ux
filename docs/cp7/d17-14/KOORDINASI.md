@@ -3000,3 +3000,30 @@ Actual dominant stock_digest totals2666.671ms/self2331.436ms. Continue isolated
 stock-row framing/materialization tests retaining every15Native field, sorted IDs,
 exact SHA256 result and both visibility clocks; do not replace evidence with guess.
 Formal5/16, CP7C/independent false, production_go=false; continue actual performance.
+
+## 159. B25 Oktober2026 WIB — measured stock-reference copy reduction candidate
+
+Native3600 profile158 identifies full stock_digest as dominant. Actual isolated
+1200SKUx3size/363600movement fixture, same typed Native projection and query clock:
+materialized5745.055ms -> not-materialized5150.852ms, every returned JSON field and
+rows_sha256 exactly equal. Controlled local pgcrypto wrapper, not Native timing.
+Separate retained explicit-JSON trial is slower:5859.618 baseline,6539.109 explicit
+materialized,6377.286 explicit inline; all hash-equal but both candidates rejected.
+No fastest-run selection or unsupported speedup/SLA assertion.
+
+Change exactly stock CTE materialization flag; one consumer and no volatile data
+expression. Keep Native extraction pin, all15fields, both visibility clocks, UUID
+sort, per-row+outer SHA256 framing, guards5000/duplicate/null, owner/ACL/volatility,
+public contracts/caps and8s unchanged. Generated digest matches measured body;
+SQL AST/clash, unchanged scope/binding SQL bodies and regenerated dependency pins
+checked. No shared/default/A/frozen/Native code modified. PG17 CTE docs support
+inlining a side-effect-free one-consumer CTE; actual latency awaits qualification.
+
+Pin actual history-reference parent: Native51, Browser68, transport54, scale54;
+all five contracts regenerate and four workflows watch that dependency explicitly.
+Native4 reference source-only admission and four current route admissions/YAML PASS;
+actual SQL consumer26 and source-v2 local controls pass. Earlier complete Native6/
+Browser2/transport11/Native3600 stay qualified only at their recorded source heads.
+The new materialization candidate is not runtime-qualified. Continue actual Native4
+and current model/browser/transport/scale qualification after publishing this change.
+Formal5/16, CP7C/independent false, production_go=false.

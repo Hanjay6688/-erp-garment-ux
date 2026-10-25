@@ -1,5 +1,13 @@
 # Titik lanjut aktif —25 Oktober2026: Native3600 PASS, lanjut profil stok
 
+Kandidat penerus0fadd2af kini mengubah hanya flag materialisasi CTE stock pada
+helper privat history_reference; hasil hash/15kolom/dua clock/guard/ACL/caps sama.
+Local1200SKUx3size363600moves:5745.055->5150.852ms dengan JSON/hash identik;
+37actualSQL local checks dan admissions/YAML pass. Explicit-JSON variant lebih
+lambat, ditolak; private target-pass patch tetap tidak dipakai. Candidate baru
+BELUM runtime-qualified: wajib baca Native4 reference + Native6/Browser2/transport11/
+Native3600 lengkap; pins51/68/54/54. Bukti PASS di bawah tetap pada source lama.
+
 B hanya `astra/d17-14-produksi`; checkpoint3b1d70c4 dan penerus receipt Native3600.
 Kerja solo, lanjut tanpa bertanya; checkpoint bukan akhir scope. Formal5/16,
 CP7C/independent/production_go=false. Sumber konteks aktif: koordinasi148–158,

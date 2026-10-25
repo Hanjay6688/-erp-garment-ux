@@ -5,6 +5,7 @@ name: CP7 Versioned Model Target Actual Browser2
     branches:
     - astra/d17-14-produksi
     paths:
+    - scripts/cp7_history_reference/**
     - scripts/cp7_ow11_model_target_v2_browser*
     - scripts/cp7_product_analog_provenance_stage/**
     - scripts/cp7_model_target_consumer_v2_stage/**

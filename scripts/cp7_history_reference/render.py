@@ -44,7 +44,8 @@ begin
   raise exception 'CP7_HISTORY_REFERENCE_ROOTS';end if;
  with clock as materialized(select p_at at),
  products as materialized(select(p->>'root_id')::uuid root_id from jsonb_array_elements(p_products)p),
- stock as materialized(
+ -- One consumer: retain the exact Native projection without a temporary copy.
+ stock as not materialized(
 """+projection+r"""
  ),
  framed as(select count(*)n,coalesce(string_agg(encode(extensions.digest(convert_to(to_jsonb(m)::text,'UTF8'),'sha256'),'hex'),

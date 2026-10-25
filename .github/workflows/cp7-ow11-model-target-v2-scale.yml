@@ -4,6 +4,7 @@ name: CP7 Versioned Model Target Operational3600 Native2
     branches:
     - astra/d17-14-produksi
     paths:
+    - scripts/cp7_history_reference/**
     - scripts/cp7_model_history_scope/**
     - scripts/cp7_model_history_runtime/**
     - scripts/cp7_model_scoped_dataset/**

@@ -10,7 +10,7 @@
     "cp7_reorder_inputs/capture.sql": "a4921aa90111709dfbde026e6b98beb6d977dcd46d212d3cc0fbd97a159f7e78",
     "cp7_reorder_inputs/history.sql": "7aa729ada06c2b93ada2b89e04e5cabb219a498fdca48ab6cdcc5d3a2b65660d",
     "cp7_reorder_inputs/stock.sql": "4cbc58de2cdd3a0af85b7ab09a84c22568a8e36cfcfd96a57a1691b4dabed1b2",
-    "cp7_history_reference/digest.sql": "cc61d676da2d1777b3e22af361c8ba33d1913ad48d644c682c93478e96ed41f5",
+    "cp7_history_reference/digest.sql": "fe4c1b7c930fe73b7a6cc79b21edaff592490d52818f925c6a2b3930033fe89f",
     "cp7-src/planning/history.sql": "074f0508d6515c13b5d38c0d8a4a605f79a5460acfc7e1b25dddcd9a24ea53cd",
     "cp7-src/planning/history-source.sql": "56e681ac104d4d7e1fbe22ae903f73aa7fb4610db5f1073db62eea081390656e",
     "cp7-src/demand/history.sql": "01c0fb8c51758e933c2f43079690a8a9e99e96d7346cb018ee916077bd7260c8"
