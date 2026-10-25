@@ -2667,3 +2667,41 @@ v2+v3, post/profile/access, FG-only refresh/read and bounded analog parity.
 Own/new and existing source preflights, actual workflow declaration, SQL AST/
 clash and shell/YAML checked. Native Original/HTTP/races/browser/after-use
 composed restore remain open. Formal5/16 and production_go=false unchanged.
+
+## 143. B25 Oktober2026 WIB — corrected source-v2 Native4 Original PASS
+
+621eab23/run40166582562/job121088771177: complete JSON12589590761,159612 bytes,
+SHA e8490b2daedb5a15fc519ebd1b99f978f638a6acc99de9df7f43711f9151206c.
+All4PASS after the null-policy product correction and proper FG permission
+fixture. Exact22 inverse; actual v2/v3 latest and posted SALE; current access/
+foreign actor/FG-only boundary; dense2000/202000, two scoped models,2002 explicit
+rows620.799ms (not SLA). All19 head/current pins, package/CP6/advisor, per-case
+boundaries/public schema/session and business-day cleanup verified. First
+2PASS/2INCOMPLETE Original retained. Private source qualification only; target
+consumer Native6 atdbc0d3ff remains pending and no forecast winner is invented.
+Formal5/16, independent acceptance false, production_go=false.
+
+## 144. B25 Oktober2026 WIB — versioned target transport11 and Browser2 candidates
+
+No default installer/RPC/type/registry change. New opt-in F05 routes default
+false and retain all old31/25/19, Native6 and old11 budgets. Transport keeps all
+11 unique controls in two bounded parts: A catalog1+races4, B repeated catalog1
++races3+AuthHTTP3; the repeated anchor earns zero extra credit and both complete
+same-head Originals are required. Fixtures now capture actual scoped history
+and model, then recapture the target source before choice confirmation. Exact
+SCOPED_V3 method/history references must survive the resulting target read.
+Same/different UUID, observed envelope/request/target waits, current access,
+posted source/policy changes, CLEAR/replay/anonymous/foreign controls retained.
+
+Browser2 candidate uses new provenance.v3/resolution.v2 under the full overlay.
+Mobile: actual UI scoped history/model with lost reply and reload exact recovery,
+then UNKNOWN -> reviewed analog -> CLEAR -> UNKNOWN and current403 clearing.
+Desktop: actual2000/202000 bounded target provenance, analog and same-job reload.
+Stored model/history hashes and physical/money/HPP/draft/receipt state unchanged
+by evaluation/choice/read; synthetic historical openings explicitly labeled.
+No historical positive model winner or factory SLA claimed. Own exact budget,
+50 source pins, actual F05 leading admission/negative mixed routes, transport
+altered-budget/mixed-route refusal, YAML/shell/declaration and JS syntax PASS.
+These are candidates until complete runtime Originals are read; existing
+consumer Native6 still pending. Formal5/16, CP7C/independent false,
+production_go=false. Continue on real failures and preserve first evidence.
