@@ -3795,3 +3795,6 @@ RPC boundaries already present in source ownership and actual B Browser2.
 Every frozen evidence count, existing permission and old named boundary remains.
 This is a current integration inventory correction, not a new permission grant
 or an Auth/Native acceptance. First assertion recorded separately.
+
+
+25 Okt 2026 — A: persiapan integrasi target berversi memakai adapter baru milik A, cp7_current_versioned_target_delta.py dan cp7_current_versioned_target_installation.py. Pemasang B bersifat fresh-only dan bertabrakan dengan namespace target lama yang sudah ada; adapter menjaga semua objek target lama, menambah dua namespace/sembilan fungsi privat dan memverifikasi tepat 21 hook dari sumber B (14 body berubah dan 7 tetap identik) tanpa mengubah otoritas. Tahap selector dan physical binding B dipakai persis. Semua 22 grup katalog/seluruh baris/sequence dijaga dan inverse penuh sebelum pemakaian; SOURCE kualifikasi belum dibuat, tidak ada klaim Native/aktivasi/production_go.

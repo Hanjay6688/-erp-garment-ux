@@ -1,0 +1,38 @@
+{
+  "status": "LOCAL_PREFLIGHT_FAILED_BEFORE_DB",
+  "error": "All21 declared hooks incorrectly assumed changed against already installed v1",
+  "named_hooks": 21,
+  "actual_changed_bodies": [
+    "cp7_baseline_native.source_within(integer)",
+    "cp7_reorder_inputs.capture_baseline(integer)",
+    "cp7_baseline_native.build(jsonb,jsonb)",
+    "cp7_analysis_stage.baseline_rows(jsonb,jsonb,jsonb,text)",
+    "cp7_reorder_inputs.source_within(integer)",
+    "cp7_bounded_analysis_stage.analysis_source(integer,integer)",
+    "cp7_analysis_native.source_within(integer,integer)",
+    "cp7_bounded_analysis_stage.producer_hash()",
+    "cp7_reorder_caller.evaluate(jsonb,jsonb)",
+    "cp7_analysis_stage.analysis_skeleton(jsonb,jsonb,uuid,jsonb,jsonb,jsonb,jsonb,jsonb,boolean,text)",
+    "cp7_netting_native.timeline(jsonb,jsonb,jsonb,jsonb,jsonb,jsonb)",
+    "cp7_analysis_stage.analysis_targets(jsonb,jsonb,jsonb,jsonb,jsonb,jsonb,jsonb,jsonb,jsonb)",
+    "cp7_analysis_native.build_operational(jsonb,jsonb,uuid,jsonb)",
+    "cp7_stock_formula.workspace(jsonb)"
+  ],
+  "unchanged_bodies": [
+    "cp7_baseline_native.serve(uuid)",
+    "cp7_analysis_stage.history_prep(jsonb,jsonb,integer,bigint,integer)",
+    "cp7_reorder_inputs.compile(jsonb)",
+    "cp7_history_bounded.compile(jsonb,jsonb,jsonb,integer)",
+    "cp7_bounded_analysis_stage.native_work_fingerprint(jsonb)",
+    "cp7_supply_native.fingerprint(jsonb)",
+    "cp7_reorder_inputs.points(jsonb,jsonb,jsonb,jsonb)"
+  ],
+  "product_business_tests_changed": false,
+  "Native_credit": false,
+  "local_guard_performance_diagnosis": {
+    "observed": "Own catalog predicate regenerated all 21 SQL hooks for every catalog entry; observed over108 CPU seconds. Cross-command PID stop could not address the process namespace; original session was then interrupted through its own stdin (exit130).",
+    "fix": "Cache only the fixed hook signature set; regenerate and verify SQL bodies at source and definition admission",
+    "runtime_oracle_unchanged": true,
+    "corrected_guard_result": "PASS: three positive stages and ten negative controls"
+  }
+}
