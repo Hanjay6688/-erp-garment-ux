@@ -15,6 +15,7 @@ def module(name,path):
 previous=module('retained_full_scoped_model_cases',ROOT/'current-scoped-model-native-qualification/cases.py')
 target=module('full_versioned_target_business_cases',HERE/'target_cases.py')
 history_replay=module('full_versioned_history_replay',HERE/'history_replay.py')
+scoped_model_replay=module('full_versioned_scoped_model_replay',HERE/'scoped_model_replay.py')
 selected_contract=module('full_versioned_selected_contract_cases',ROOT/'current-cp6-contract-qualification/cases.py')
 SELECTED_FIXTURES={}
 old_target_ids=tuple(previous.previous.previous.target.IDS['native'][1:])
@@ -58,7 +59,8 @@ def source_binding():
         omitted_obsolete_target_v1_business_ids=list(old_target_ids),versioned_case_ids=list(target.IDS),
         B_original_sha256=sha256(p.read_bytes()).hexdigest(),explicit_AST_changes=changes,
         target_business_assertions_and_limits_unchanged=True,full_A_setup_and_real_full_guard=True,
-        history_replay_guard=history_replay.source_binding(),unchanged_complete_retained_case_bodies=24,
+        history_replay_guard=history_replay.source_binding(),scoped_model_replay_guard=scoped_model_replay.source_binding(),
+        unchanged_complete_retained_case_bodies=23,
         selected_contract_case_ids=list(selected_contract.IDS),selected_contract_file_sha256=sha256(Path(selected_contract.__file__).read_bytes()).hexdigest(),
         selected_contract_business_source_unchanged=True,
         full_A_runtime_qualified=False,production_go=False)
@@ -68,6 +70,8 @@ def source_binding():
 def installed(state,checker):
     old=target.STATE,target.CHECKER
     old_history=history_replay.STATE,history_replay.CHECKER
+    old_model=scoped_model_replay.STATE,scoped_model_replay.CHECKER
+    scoped_model_replay.STATE,scoped_model_replay.CHECKER=state,checker
     history_replay.STATE,history_replay.CHECKER=state,checker
     target.STATE,target.CHECKER=state,checker
     try:
@@ -75,11 +79,13 @@ def installed(state,checker):
     finally:
         target.STATE,target.CHECKER=old
         history_replay.STATE,history_replay.CHECKER=old_history
+        scoped_model_replay.STATE,scoped_model_replay.CHECKER=old_model
 
 
 def cases(cur,today):
     result=[(key,case)for key,case in previous.cases(cur,today)if key not in old_target_ids]+target.cases(cur,today)
-    replacement=dict(history_replay.cases(cur,today));assert set(replacement)=={history_replay.ID}
+    replacement=dict(history_replay.cases(cur,today)+scoped_model_replay.cases(cur,today))
+    assert set(replacement)=={history_replay.ID,scoped_model_replay.ID}
     result=[(key,replacement.get(key,case))for key,case in result]
     def selected_case(name):
         def run():
