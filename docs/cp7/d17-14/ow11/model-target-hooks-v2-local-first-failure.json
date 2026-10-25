@@ -1,0 +1,32 @@
+{
+  "contract": "cp7.local-first-failure.v1",
+  "status": "FAIL",
+  "counts": {
+    "PASS": 10,
+    "FAIL": 16
+  },
+  "failed_case_ids": [
+    "HOOK_BASELINE_REORDER_CAPTURE_SHARE_MODEL_SOURCE_IDENTITY",
+    "HOOK_DIRECT_AND_STAGED_CHUNK_HAVE_IDENTICAL_MODEL_TARGETS",
+    "HOOK_DIRECT_READER_USES_EXACT_NEW_PRODUCER_IDENTITY",
+    "HOOK_EXISTING_REORDER_POINTS_REUSE_EXACT_KERNEL_AND_MANUAL_TRIGGER",
+    "HOOK_BASELINE_AND_WORK_IDENTITIES_INCLUDE_CURRENT_MODEL_AUTHORITY",
+    "UNREVIEWED_PROFILE_KEEPS_EXISTING_REORDER_DEFAULTS_AND_MATCHING_PROVENANCE",
+    "WAREHOUSE_CAPTURE_HOOK_PRESERVES_BASELINE_WITHOUT_MODEL_READ_ACCESS",
+    "DATED_VECTOR_TIMELINE_FIRST_GAP_DIFFERS_FROM_HISTORICAL_MEAN",
+    "DATED_VECTOR_LATE_SUPPLY_PRESERVES_PRIOR_GAP",
+    "VARIABLE_DATED_VECTOR_PARTIAL_DAY_EXACT_NO_AVERAGING",
+    "DATED_VECTOR_SUB_TWELVE_PLACE_PRECISION_RETAINED",
+    "DATED_VECTOR_WIDE_CUMULATIVE_BALANCE_NO_FIXED_NUMERIC_OVERFLOW",
+    "DATED_TIMELINE_REFUSES_TARGET_SOURCE_OR_ORIGIN_MISMATCH",
+    "LEGACY_TIMELINE_AND_UNKNOWN_SIGNED_GAP_UNCHANGED",
+    "ACTUAL_ANALYSIS_TARGET_HOOK_LABELS_VECTOR_AND_DATED_TIMELINE",
+    "FULL_OPERATIONAL_AND_STAGED_REPORT_MODEL_TIMELINE_PARITY"
+  ],
+  "first_error": "error: CP7_MODEL_TARGET_PHYSICAL_SOURCE_CHANGED_DURING_CAPTURE\n    at pe.Oe (file:///workspace/scratch/282188edcd04/local-sql/node_modules/@electric-sql/pglite/dist/chunk-3OMHRXTA.js:1:18162)\n    at pe.tt (file:///workspace/scratch/282188edcd04/local-sql/node_modules/@electric-sql/pglite/dist/chunk-3OMHRXTA.js:1:15548)\n    at pe.parse (file:///workspace/scratch/282188edcd04/local-sql/node_modules/@electric-sql/pglite/dist/chunk-3OMHRXTA.js:1:14222)\n    at D.Ne (file:///workspace/scratch/282188edcd04/local-sql/node_modules/@electric-sql/pglite/dist/index.js:5:1763)\n    at file:///workspace/scratch/282188edcd04/local-sql/node_modules/@electric-sql/pglite/dist/index.js:5:1155\n    at wasm://wasm/0269dffe:wasm-function[10979]:0x5ad04f\n    at wasm://wasm/0269dffe:wasm-function[3598]:0x281dd2\n    at wasm://wasm/0269dffe:wasm-function[3640]:0x289ccf\n    at wasm://wasm/0269dffe:wasm-function[3650]:0x289f2b\n    at wasm://wasm/0269dffe:wasm-function[9956]:0x55697c",
+  "cause": "The combined local hook fixture replaced the physical recapture producer with a controlled table that was still empty while constructing the first captured source. All later cases correctly refused the missing physical source.",
+  "fix": "Use the fixture capture setting until the controlled hook source table is populated. Keep the exact physical-source guard and assertions.",
+  "product_guard_relaxed": false,
+  "actual_Native": false,
+  "production_go": false
+}

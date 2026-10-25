@@ -1,0 +1,232 @@
+{
+  "contract": "cp7.model-target-consumer-v2-local.v1",
+  "status": "PASS",
+  "expected": 26,
+  "counts": {
+    "PASS": 26
+  },
+  "cases": [
+    {
+      "id": "SCOPED_V3_TO_ONE_TARGET_KERNEL_EXACT_FORECAST_AND_HISTORY",
+      "status": "PASS",
+      "observed": {
+        "model400_ROP300_baseline202_ROP152": true,
+        "observed_totals_unchanged": true,
+        "existing_projection_kernel": true,
+        "explicit_scoped_namespace": true,
+        "synthetic_positive_only": true
+      }
+    },
+    {
+      "id": "NEWER_GLOBAL_V2_ELIGIBLE_PRESERVES_GLOBAL_NAMESPACE",
+      "status": "PASS",
+      "observed": {
+        "latest_v2_consumed_without_scoped_alias": true
+      }
+    },
+    {
+      "id": "MANUAL_AND_OWN_HISTORY_MINIMUM_KEEP_PRIORITY",
+      "status": "PASS",
+      "observed": {
+        "manual12_not_overridden": true,
+        "insufficient_history_UNKNOWN_not_zero": true
+      }
+    },
+    {
+      "id": "QUERY_AND_COMPLETE_FORECAST_WINDOW_REQUIRED",
+      "status": "PASS",
+      "observed": {
+        "no_period_alias_or_vector_extrapolation": true
+      }
+    },
+    {
+      "id": "STATISTICAL_SAFETY_IS_THE_EXISTING_EXPLICIT_ASSUMPTION",
+      "status": "PASS",
+      "observed": {
+        "one_buffer_same_observed_SD_and_service": true,
+        "no_forecast_calibration_invented": true
+      }
+    },
+    {
+      "id": "SCOPED_BINDING_MAY_USE_OMITTED_GLOBAL_STOCK_WITH_FULL_TARGET_DIGEST",
+      "status": "PASS",
+      "observed": {
+        "controlled_global_raw_omission_preserved": true,
+        "target_full_digest_independently_checked": true,
+        "actual_dense_Native_claim": false
+      }
+    },
+    {
+      "id": "CHANGED_CAPTURE_FACTS_CANNOT_BORROW_ELIGIBLE_SCOPED_SOURCE",
+      "status": "PASS",
+      "observed": {
+        "same_capture_clock_not_enough_without_exact_physical_inputs": true
+      }
+    },
+    {
+      "id": "SOURCE_VECTOR_DIGEST_AND_REHASHED_RUNTIME_METHOD_REFUSED",
+      "status": "PASS",
+      "observed": {
+        "source_digest_and_namespace_independently_bound": true
+      }
+    },
+    {
+      "id": "CURRENT_POLICY_WITHDRAWAL_AND_NO_MODEL_RETAIN_BASELINE",
+      "status": "PASS",
+      "observed": {
+        "current_policy_not_capture_policy": true,
+        "missing_model_explicit_null": true
+      }
+    },
+    {
+      "id": "PAGED_TARGET_CHUNK_EQUALS_WHOLE_SOURCE_AND_PRIVATE_VOLATILITY",
+      "status": "PASS",
+      "observed": {
+        "chunk_parity": true,
+        "immutable_captured_stock_binding": true,
+        "public_entry_added": false
+      }
+    },
+    {
+      "id": "HOOK_BASELINE_REORDER_CAPTURE_SHARE_MODEL_SOURCE_IDENTITY",
+      "status": "PASS",
+      "observed": {
+        "actual_generated_capture_hooks": true,
+        "same_server_owned_model_selection": true
+      }
+    },
+    {
+      "id": "HOOK_DIRECT_AND_STAGED_CHUNK_HAVE_IDENTICAL_MODEL_TARGETS",
+      "status": "PASS",
+      "observed": {
+        "actual_direct_and_staged_row_hooks": true,
+        "one_shared_model_target": true
+      }
+    },
+    {
+      "id": "HOOK_DIRECT_READER_USES_EXACT_NEW_PRODUCER_IDENTITY",
+      "status": "PASS",
+      "observed": {
+        "actual_reader_current_then_stale": true,
+        "old_model_target400_immutable": true
+      }
+    },
+    {
+      "id": "HOOK_EXISTING_REORDER_POINTS_REUSE_EXACT_KERNEL_AND_MANUAL_TRIGGER",
+      "status": "PASS",
+      "observed": {
+        "actual_existing_ROP_kernel_reuse": true,
+        "manual_trigger15_formula300_target400": true,
+        "own_history_not_forecast_sales": true
+      }
+    },
+    {
+      "id": "HOOK_BASELINE_AND_WORK_IDENTITIES_INCLUDE_CURRENT_MODEL_AUTHORITY",
+      "status": "PASS",
+      "observed": {
+        "policy_only_change_retires_work_and_baseline": true,
+        "original_baseline202_restored_for_new_capture": true
+      }
+    },
+    {
+      "id": "UNREVIEWED_PROFILE_KEEPS_EXISTING_REORDER_DEFAULTS_AND_MATCHING_PROVENANCE",
+      "status": "PASS",
+      "observed": {
+        "unreviewed_profile_no_model": true,
+        "existing_native_defaults_preserved": true,
+        "provenance_matches_actual_reorder_target": true
+      }
+    },
+    {
+      "id": "WAREHOUSE_CAPTURE_HOOK_PRESERVES_BASELINE_WITHOUT_MODEL_READ_ACCESS",
+      "status": "PASS",
+      "observed": {
+        "actual_generated_reorder_capture_hook": true,
+        "baseline202_no_model_leak": true,
+        "full_model_and_revoked_warehouse_denied": true
+      }
+    },
+    {
+      "id": "DATED_VECTOR_TIMELINE_FIRST_GAP_DIFFERS_FROM_HISTORICAL_MEAN",
+      "status": "PASS",
+      "observed": {
+        "target400_timeline300_one_buffer": true,
+        "model_gap_day2_historical_day3": true,
+        "observed_mean_unchanged": "50.500000000000"
+      }
+    },
+    {
+      "id": "DATED_VECTOR_LATE_SUPPLY_PRESERVES_PRIOR_GAP",
+      "status": "PASS",
+      "observed": {
+        "positive_final_balance_does_not_erase_day2_gap": true
+      }
+    },
+    {
+      "id": "VARIABLE_DATED_VECTOR_PARTIAL_DAY_EXACT_NO_AVERAGING",
+      "status": "PASS",
+      "observed": {
+        "dated_partial_day_0_625_exact": true,
+        "target_buffer_not_consumed": true
+      }
+    },
+    {
+      "id": "DATED_VECTOR_SUB_TWELVE_PLACE_PRECISION_RETAINED",
+      "status": "PASS",
+      "observed": {
+        "half_day_31_decimal_places_not_rounded_up": true
+      }
+    },
+    {
+      "id": "DATED_VECTOR_WIDE_CUMULATIVE_BALANCE_NO_FIXED_NUMERIC_OVERFLOW",
+      "status": "PASS",
+      "observed": {
+        "daily30_digits_cumulative31_digits_exact": true
+      }
+    },
+    {
+      "id": "DATED_TIMELINE_REFUSES_TARGET_SOURCE_OR_ORIGIN_MISMATCH",
+      "status": "PASS",
+      "observed": {
+        "exact_target_source_and_business_origin_binding": true
+      }
+    },
+    {
+      "id": "LEGACY_TIMELINE_AND_UNKNOWN_SIGNED_GAP_UNCHANGED",
+      "status": "PASS",
+      "observed": {
+        "legacy_output_exact_parity": true,
+        "UNKNOWN_not_zero": true
+      }
+    },
+    {
+      "id": "ACTUAL_ANALYSIS_TARGET_HOOK_LABELS_VECTOR_AND_DATED_TIMELINE",
+      "status": "PASS",
+      "observed": {
+        "actual_report_hook_dated_method_not_historical_fallback": true,
+        "no_invented_rate_fold_or_score": true
+      }
+    },
+    {
+      "id": "FULL_OPERATIONAL_AND_STAGED_REPORT_MODEL_TIMELINE_PARITY",
+      "status": "PASS",
+      "observed": {
+        "actual_full_operational_compiler": true,
+        "controlled_netting_fabric_and_fingerprints": true,
+        "staged_models_timeline_recommendations_exact": true,
+        "legacy_false_mean_reproduced": true,
+        "complete_manual_report_unchanged_except_model_engine_version_and_semantic_hash": true,
+        "finance_wrapper_unchanged": true
+      }
+    }
+  ],
+  "consumer_sql_sha256": "48526a5ab9fa7468475b6ba76955b61b2868fa1590e6296d65ee5da390fc6dde",
+  "actual_SQL": true,
+  "selected_generated_hooks_SQL": true,
+  "synthetic_historical_rows_and_policy": true,
+  "actual_Native": false,
+  "actual_Auth_HTTP_credit": false,
+  "complete_stage_installer_qualified": false,
+  "target_caller_integrated": false,
+  "production_go": false
+}

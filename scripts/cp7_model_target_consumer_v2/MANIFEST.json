@@ -1,0 +1,32 @@
+{
+  "contract": "cp7.model-target-versioned-consumer-private.v1",
+  "new_schemas": 1,
+  "private_functions": 1,
+  "new_public_rpcs": 0,
+  "new_tables": 0,
+  "existing_replacements": 0,
+  "source_files_sha256": {
+    "consumer.sql": "48526a5ab9fa7468475b6ba76955b61b2868fa1590e6296d65ee5da390fc6dde",
+    "render.py": "66eb18f6b9362861a7246be6ac569291f0274534758724abb59bc73a26a3ca01",
+    "timeline.sql": "53d7e913df51aecd78598fcba3bdcf9cf1980c25ed100e747731782c16de67e9"
+  },
+  "dependency_files_sha256": {
+    "cp7_model_target_consumer/consumer.sql": "aea32bb1f7f07be6e65bbc613e8d3e5a38ed9db61f0cba510b3f84812d431600",
+    "cp7_model_target_projection/projection.sql": "1e96c6389c3537dcaf59bcf79383754f0b5716ad3c1d9010c77fb0918535e6b7",
+    "cp7_product_analog_provenance_stage/hooks.sql": "22d732d58456635bff9e2c546f32081c0564fed54a75a57d513b224354c0c02f",
+    "cp7_model_target_source_v2/stock.sql": "41087a56255b082ba4a8f223a57682221119a1d756975ce5f16c853209070370",
+    "cp7_model_target_source_v2/non-stock.sql": "9c4f437ef463d8877078b192e7ffb36d52ba4a70e7cf43f7920b719d9aacf4fa",
+    "cp7_model_target_source_v2/physical.sql": "bf6c6cd37d634e0a894952bafe6b74abf32b77c77545276c037b49fc3837b23f",
+    "cp7_model_target_source_v2/source.sql": "aa5312f92feb62982b460e871226d8133c5aa90b5b6ed9568b3304e10bd21d3b",
+    "cp7_model_target_consumer/timeline.sql": "869b9d35d10cfbdb64e7516562233e5dce8765950071ba72a69c69e5d2d4af49"
+  },
+  "source_contract": "cp7.model-target-source.v2",
+  "resolution_contract": "cp7.model-target-resolution.v2",
+  "provenance_contract": "cp7.target-demand-provenance.v3",
+  "stock_validation_volatility": "IMMUTABLE_CAPTURED_REFERENCES",
+  "forecast_projection_kernel_unchanged": true,
+  "target_caller_integrated": false,
+  "actual_Native": false,
+  "actual_Auth_HTTP_credit": false,
+  "production_go": false
+}

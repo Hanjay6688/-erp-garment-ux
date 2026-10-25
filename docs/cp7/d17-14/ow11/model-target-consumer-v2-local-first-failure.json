@@ -1,0 +1,19 @@
+{
+  "contract": "cp7.local-first-failure.v1",
+  "counts": {
+    "PASS": 9,
+    "FAIL": 1
+  },
+  "failed": [
+    {
+      "id": "NEWER_GLOBAL_V2_ELIGIBLE_PRESERVES_GLOBAL_NAMESPACE",
+      "status": "FAIL",
+      "error": "error: CP7_MODEL_CONSUMER_PHYSICAL_SOURCE_MISMATCH\n    at pe.Oe (file:///workspace/scratch/282188edcd04/local-sql/node_modules/@electric-sql/pglite/dist/chunk-3OMHRXTA.js:1:18162)\n    at pe.tt (file:///workspace/scratch/282188edcd04/local-sql/node_modules/@electric-sql/pglite/dist/chunk-3OMHRXTA.js:1:15548)\n    at pe.parse (file:///workspace/scratch/282188edcd04/local-sql/node_modules/@electric-sql/pglite/dist/chunk-3OMHRXTA.js:1:14222)\n    at D.Ne (file:///workspace/scratch/282188edcd04/local-sql/node_modules/@electric-sql/pglite/dist/index.js:5:1763)\n    at file:///workspace/scratch/282188edcd04/local-sql/node_modules/@electric-sql/pglite/dist/index.js:5:1155\n    at wasm://wasm/0269dffe:wasm-function[10979]:0x5ad04f\n    at wasm://wasm/0269dffe:wasm-function[3598]:0x281dd2\n    at wasm://wasm/0269dffe:wasm-function[3640]:0x289ccf\n    at wasm://wasm/0269dffe:wasm-function[3650]:0x289f2b\n    at wasm://wasm/0269dffe:wasm-function[9956]:0x55697c"
+    }
+  ],
+  "cause": "The controlled legacy global history fixture used a transaction-local setting during setup; that setting expired before the test began, so the intended six captured fact arrays were not installed. Product physical-source mismatch refusal was correct.",
+  "fix": "Use an explicit session setting for the setup facts. Keep the exact physical-source equality assertion and original consumer guard.",
+  "product_guard_relaxed": false,
+  "actual_Native": false,
+  "production_go": false
+}

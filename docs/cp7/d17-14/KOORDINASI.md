@@ -2635,3 +2635,35 @@ Original stays retained; no acceptance credit for incomplete cases. Fresh local
 and SQL clash pass. Corrected code qualifies on a new head; no bare rerun.
 Versioned consumer/hooks/client drafts continue separately; not yet Native
 qualified or default-installed. Formal5/16, independent acceptance/prod false.
+
+## 142. B25 Oktober2026 WIB — versioned target consumer/hooks/client candidate
+
+Private consumer binds cp7.model-target-source.v2 to captured full target stock
+references and complete grouped non-stock facts. The consumer stays IMMUTABLE;
+stock tables are read only by the source producer at its capture clock. Same
+projection/timeline kernels, manual/own/analog priorities and observed operands
+are retained. New resolution.v2/provenance.v3 carry exact runtime/read method,
+history scope and hashes; global/scoped histories never alias one another.
+
+New opt-in stage: unchanged projection2 + immutable consumer/timeline2, 21 exact
+replacements, two schemas, no table/RPC/default change. Source-v2 is a separate
+prerequisite. Direct baseline.v4, reorder projection.v4, staged/operational
+targets and dated timelines use this path. Cached reorder rows from older
+versions require refresh; all model authority is checked across the full
+current source, before and after a filtered/paged read. Existing immutable
+archives keep their contracts; new client parsers bind each version explicitly.
+
+Local actual SQL26PASS, including generated direct/staged/reorder/reader hooks,
+manual priority, actual forecast projection arithmetic on synthetic history,
+policy retirement, warehouse-only, exact partial-day/tiny/wide dated vectors
+and full operational/staged output parity. Client165PASS/four files plus tsc.
+First fixture failures retained: session-local setup facts and an empty controlled
+physical producer, both correctly rejected by the unchanged physical guard.
+No actual historical Native winner/forecast calibration claimed.
+
+Closed Native6 candidate composes analog/freshness + scoped/source parents,
+exact22 inverse/after-use refusal, actual public v4 replay, current policy/latest
+v2+v3, post/profile/access, FG-only refresh/read and bounded analog parity.
+Own/new and existing source preflights, actual workflow declaration, SQL AST/
+clash and shell/YAML checked. Native Original/HTTP/races/browser/after-use
+composed restore remain open. Formal5/16 and production_go=false unchanged.
