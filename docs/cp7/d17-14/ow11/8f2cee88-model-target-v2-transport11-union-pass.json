@@ -1,0 +1,62 @@
+{
+  "contract": "cp7.model-target-v2-transport-union-receipt.v1",
+  "head": "8f2cee885403ade48d6fb5596cb476205434cbc8",
+  "run_id": 40181000820,
+  "status": "PASS",
+  "parts": [
+    {
+      "part": "A",
+      "run_id": 40181000820,
+      "artifact_id": 12594547677,
+      "counts": {
+        "native": 1,
+        "races": 4
+      },
+      "source_fields": 8,
+      "file": "docs/cp7/d17-14/ow11/8f2cee88-40181000820-part-a-original-pass.json",
+      "sha256": "9ba78ab15bdb6afc6580ac0f2aa6df78829c3de5d72f1522704298273da4b08d",
+      "head": "8f2cee885403ade48d6fb5596cb476205434cbc8"
+    },
+    {
+      "part": "B",
+      "run_id": 40181000820,
+      "artifact_id": 12595183311,
+      "counts": {
+        "native": 1,
+        "races": 3,
+        "http": 3
+      },
+      "source_fields": 8,
+      "file": "docs/cp7/d17-14/ow11/8f2cee88-40181000820-part-b-original-pass.json",
+      "sha256": "887876c4a79fe769fa19d6e82c2fdfb626e0469f5ffa3bc10c0951eeb2ec0fa0",
+      "head": "8f2cee885403ade48d6fb5596cb476205434cbc8"
+    }
+  ],
+  "unique_case_ids": [
+    "OW11_MODEL_TARGET_V2_AUTH_ANON_AND_FOREIGN_REFERENCE",
+    "OW11_MODEL_TARGET_V2_AUTH_CONFIRM_CLEAR_EXACT_REPLAY",
+    "OW11_MODEL_TARGET_V2_AUTH_REVOKED_COMMITTED_REPLAY",
+    "OW11_MODEL_TARGET_V2_CATALOG22_COMPOSED_PREUSE",
+    "OW11_MODEL_TARGET_V2_RACE_ACCESS_AFTER_ENVELOPE",
+    "OW11_MODEL_TARGET_V2_RACE_ACCESS_AFTER_TARGET",
+    "OW11_MODEL_TARGET_V2_RACE_POLICY_AFTER_ENVELOPE",
+    "OW11_MODEL_TARGET_V2_RACE_REPLAY_ACCESS_AFTER_REQUEST",
+    "OW11_MODEL_TARGET_V2_RACE_REVISION",
+    "OW11_MODEL_TARGET_V2_RACE_SAME_UUID",
+    "OW11_MODEL_TARGET_V2_RACE_SOURCE_AFTER_ENVELOPE"
+  ],
+  "unique_case_count": 11,
+  "repeated_catalog_anchor_credit": 0,
+  "all_54_source_pins_exact_and_current": true,
+  "all_package_CP6_advisor_boundary_and_cleanup_gates": true,
+  "clone_authority_copies_exact": 8,
+  "actual_concurrency": true,
+  "actual_Auth_HTTP_credit": true,
+  "current_stock_copy_candidate_transport_qualified": true,
+  "actual_historical_positive_winner": false,
+  "full_OW11_acceptance": false,
+  "formal_acceptance": "5/16",
+  "CP7C_accepted": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

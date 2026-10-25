@@ -1,0 +1,141 @@
+{
+  "contract": "cp7.original-runtime-receipt.v1",
+  "head": "8f2cee885403ade48d6fb5596cb476205434cbc8",
+  "run_id": 40181001205,
+  "job_id": 121131851553,
+  "artifact_id": 12594826273,
+  "bytes": 158602,
+  "artifact_sha256": "a21b70fa4f3c431d4b49ce7fd51745cb289be243402d334ca62da0196f3c3d68",
+  "status": "PASS",
+  "label": "CP7_OW11_MODEL_SELECTION",
+  "Original_read_complete": true,
+  "all_Original_JSON_files_read": 5,
+  "original_json_sha256": {
+    "T3_BACKUP_RESTORE_DRILL.json": "333ab7c89dd105db6cb03d4305bf19958c578d8606b7f530d878157faddd094c",
+    "T3_PACKAGE_FILES_INSTALL.json": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+    "ALIGNED_CHAIN.json": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b",
+    "T3_PACKAGE_INSTALL.json": "2e00517f31a73e821efa1b9a3e3ec9b2e9e85ae238925b61b7a2fa73e513ca56",
+    "CP7_OW11_MODEL_SELECTION.json": "3f871859550f85cf1e090d7710b0c46d22191c6f45129b8bbdb6a6f5def49541"
+  },
+  "actual_current_F05_source_prefix_compared": [
+    "source_sha256",
+    "expected_case_count",
+    "required_case_counts",
+    "required_case_ids",
+    "predeclared_case_contract",
+    "predeclared_case_sha256",
+    "selection_source_sha256"
+  ],
+  "all_recorded_source_fields_and_declaration_match": true,
+  "source_prefix_database_executed": false,
+  "product_ref": "dbc0d3ffda3a839dddb41821dcd027254a62d739",
+  "product_paths_byte_identical_between_refs": true,
+  "counts": {
+    "native": 4
+  },
+  "case_facts": {
+    "native": {
+      "OW11_MODEL_SELECTION_CATALOG22_COMPOSED_INVERSE": {
+        "status": "PASS",
+        "exact_catalog22_composed_inverse": true,
+        "private2_public0_table0_replacement0": true,
+        "partial_inverse_atomic": true,
+        "scoped_parent_cannot_be_removed": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-25",
+          "before": "2026-10-25",
+          "after": "2026-10-25"
+        }
+      },
+      "OW11_MODEL_SELECTION_ACTUAL_V2_V3_LATEST_METHOD": {
+        "status": "PASS",
+        "actual_public_v2_and_v3_runs": true,
+        "same_request_UUID_distinct_runtime": true,
+        "exact_runtime_reader_body_preserved": true,
+        "newer_v2_beats_older_v3": true,
+        "old_cutoff_refused": true,
+        "latest_baseline_never_searches_older_winner": true,
+        "forecast_applied": false,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-25",
+          "before": "2026-10-25",
+          "after": "2026-10-25"
+        }
+      },
+      "OW11_MODEL_SELECTION_POST_SOURCE_ACTOR_ACCESS": {
+        "status": "PASS",
+        "no_model_is_null_not_zero": true,
+        "current_source_after_actual_SALE": true,
+        "current_access_before_reference": true,
+        "actor_isolation": true,
+        "immutable_assessment_preserved": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-25",
+          "before": "2026-10-25",
+          "after": "2026-10-25"
+        }
+      },
+      "OW11_MODEL_SELECTION_DENSE2000_PRIVATE_CURRENT": {
+        "status": "PASS",
+        "label": "SYNTHETIC_VOLUME_ACTUAL_NATIVE_MODELS_PRIVATE_SELECTOR",
+        "products": 2000,
+        "movements": 202000,
+        "millis": 371.597,
+        "wall_limit_ms": 8000,
+        "factory_SLA_claim": false,
+        "target_caller_integrated": false,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-25",
+          "before": "2026-10-25",
+          "after": "2026-10-25"
+        }
+      }
+    }
+  },
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "CP6_advisor_boundary_WIB_session_Auth_cleanup_gates": true,
+  "actual_Auth_HTTP_credit": false,
+  "actual_concurrency": false,
+  "actual_historical_positive_winner": false,
+  "full_factory1200SKU3size_qualified": false,
+  "full_OW11_acceptance": false,
+  "full_OW12b_acceptance": false,
+  "formal_acceptance": "5/16",
+  "CP7C_accepted": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

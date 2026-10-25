@@ -1,0 +1,1011 @@
+{
+  "contract": "cp7.original-runtime-receipt.v1",
+  "head": "8f2cee885403ade48d6fb5596cb476205434cbc8",
+  "run_id": 40181000798,
+  "job_id": 121131850176,
+  "artifact_id": 12594561596,
+  "bytes": 120318,
+  "artifact_sha256": "e9ecf1aca79930226271573077641520a752c4146d2265aee5aad1ef600eca1c",
+  "status": "PASS",
+  "label": "CP7_OW11_MODEL_TARGET_V2_SCALE",
+  "Original_read_complete": true,
+  "all_Original_JSON_files_read": 5,
+  "original_json_sha256": {
+    "T3_BACKUP_RESTORE_DRILL.json": "b66ae0f0fcdbdae1078184b04a1dedff22ebc40756741eeb49cfd031c627b962",
+    "T3_PACKAGE_FILES_INSTALL.json": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+    "ALIGNED_CHAIN.json": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b",
+    "T3_PACKAGE_INSTALL.json": "9b15cbe3bf5434d1e305bc0fa8f20a71573f01432243b3b82813b1afb0346a1a",
+    "CP7_OW11_MODEL_TARGET_V2_SCALE.json": "1202bc1a7746f816ffba8e11bb00d283204214fc243b7204b34959b507a4f775"
+  },
+  "actual_current_F05_source_prefix_compared": [
+    "source_sha256",
+    "expected_case_count",
+    "required_case_counts",
+    "required_case_ids",
+    "predeclared_case_contract",
+    "predeclared_case_sha256",
+    "target_v2_source_sha256"
+  ],
+  "all_recorded_source_fields_and_declaration_match": true,
+  "source_prefix_database_executed": false,
+  "product_ref": "dbc0d3ffda3a839dddb41821dcd027254a62d739",
+  "product_paths_byte_identical_between_refs": true,
+  "counts": {
+    "native": 2
+  },
+  "case_facts": {
+    "native": {
+      "OW11_MODEL_TARGET_V2_CATALOG22_COMPOSED_PREUSE": {
+        "status": "PASS",
+        "exact_catalog22_composed_inverse": true,
+        "private4_replacements21_no_new_RPC_or_table": true,
+        "dependent_view_partial_inverse_restored": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-25",
+          "before": "2026-10-25",
+          "after": "2026-10-25"
+        }
+      },
+      "OW11_MODEL_TARGET_V2_OPERATIONAL3600_ALL_TARGET_PARITY_SOURCE": {
+        "status": "PASS",
+        "products": 3600,
+        "movements": 363600,
+        "synthetic_fixture": true,
+        "actual_products": 3602,
+        "actual_scoped_models": 2,
+        "all_target_kernels_profile_observed_operands_exact": true,
+        "all_recommendation_quantity_states_values_units_reasons_exact": true,
+        "predecessor_complete": true,
+        "predecessor_request_millis": 5948.232,
+        "predecessor_step_millis": [
+          293.341,
+          229.096,
+          90.445,
+          68.02,
+          68.782,
+          158.353,
+          61.791,
+          511.902,
+          509.101,
+          506.108,
+          486.826,
+          492.232,
+          466.686,
+          470.404,
+          473.851,
+          469.104,
+          464.035,
+          463.463,
+          464.377,
+          463.777,
+          465.409,
+          431.999,
+          45.814,
+          69.049,
+          416.32,
+          31.795,
+          34.71,
+          30.963,
+          31.224,
+          30.859,
+          30.551,
+          30.764,
+          30.647,
+          31.116,
+          33.712,
+          30.917,
+          33.907,
+          31.002,
+          33.07,
+          25.587,
+          296.573,
+          30.497,
+          53.534,
+          55.562,
+          53.275,
+          53.385,
+          53.289,
+          103.137,
+          52.357,
+          52.235,
+          52.609,
+          58.484,
+          52.475,
+          55.238,
+          52.261,
+          54.829,
+          34.957,
+          64.795,
+          90.613,
+          88.042,
+          88.447,
+          88.368,
+          90.123,
+          111.38,
+          108.883,
+          109.703,
+          112.825,
+          117.204,
+          110.254,
+          113.858,
+          110.552,
+          110.671,
+          64.338,
+          405.83,
+          71.999,
+          3.439
+        ],
+        "predecessor_request_function_profile": {
+          "functions": [
+            {
+              "function": "cp7_history_reference.stock_digest(jsonb,timestamp with time zone)",
+              "calls": 1,
+              "total_ms": 2588.472,
+              "self_ms": 2288.417
+            },
+            {
+              "function": "cp7_reorder_inputs.stock_summary(jsonb,timestamp with time zone,jsonb)",
+              "calls": 1,
+              "total_ms": 527.618,
+              "self_ms": 523.819
+            },
+            {
+              "function": "cp7_history_bounded.compile(jsonb,jsonb,jsonb,integer)",
+              "calls": 1,
+              "total_ms": 2082.631,
+              "self_ms": 350.72
+            },
+            {
+              "function": "cp7_wip.refs(jsonb)",
+              "calls": 14451,
+              "total_ms": 493.662,
+              "self_ms": 322.366
+            },
+            {
+              "function": "cp7_wip.fields(jsonb,text[])",
+              "calls": 32514,
+              "total_ms": 236.086,
+              "self_ms": 236.086
+            },
+            {
+              "function": "cp7_product_analog_consumer.baseline_rows(jsonb,jsonb,jsonb,text,jsonb)",
+              "calls": 1,
+              "total_ms": 853.234,
+              "self_ms": 223.34
+            },
+            {
+              "function": "cp7_wip.key(jsonb)",
+              "calls": 101105,
+              "total_ms": 188.134,
+              "self_ms": 188.134
+            },
+            {
+              "function": "cp7_bounded_analysis_stage.source(jsonb,boolean)",
+              "calls": 1,
+              "total_ms": 5734.499,
+              "self_ms": 167.363
+            },
+            {
+              "function": "cp7_analysis_stage.create_job(uuid,uuid,jsonb,jsonb,jsonb)",
+              "calls": 1,
+              "total_ms": 203.493,
+              "self_ms": 156.054
+            },
+            {
+              "function": "cp7_product_analog_consumer.prepare(jsonb,jsonb,jsonb)",
+              "calls": 1,
+              "total_ms": 158.573,
+              "self_ms": 123.943
+            },
+            {
+              "function": "cp7_demand.availability(jsonb)",
+              "calls": 3602,
+              "total_ms": 321.059,
+              "self_ms": 97.28
+            },
+            {
+              "function": "cp7_analysis_stage.history_rows(jsonb)",
+              "calls": 1,
+              "total_ms": 87.879,
+              "self_ms": 87.812
+            },
+            {
+              "function": "cp7_reorder_inputs.capture_history(integer)",
+              "calls": 1,
+              "total_ms": 82.315,
+              "self_ms": 82.206
+            },
+            {
+              "function": "cp7_reorder_inputs.current_stock(jsonb,jsonb,text)",
+              "calls": 1,
+              "total_ms": 400.929,
+              "self_ms": 79.828
+            },
+            {
+              "function": "cp7_product_analog_consumer.provenance(jsonb,jsonb,jsonb,jsonb,jsonb,jsonb)",
+              "calls": 3602,
+              "total_ms": 98.745,
+              "self_ms": 76.99
+            },
+            {
+              "function": "cp7_demand.context(jsonb,text)",
+              "calls": 10807,
+              "total_ms": 115.096,
+              "self_ms": 72.734
+            },
+            {
+              "function": "cp7_demand.estimate(jsonb)",
+              "calls": 3602,
+              "total_ms": 283.35,
+              "self_ms": 69.858
+            },
+            {
+              "function": "cp7_bounded_analysis_stage.netting_source(integer,integer)",
+              "calls": 1,
+              "total_ms": 310.142,
+              "self_ms": 57.542
+            },
+            {
+              "function": "cp7_baseline.target(jsonb)",
+              "calls": 3602,
+              "total_ms": 247.799,
+              "self_ms": 57.408
+            },
+            {
+              "function": "cp7_analysis_stage.history_validate(jsonb)",
+              "calls": 1,
+              "total_ms": 216.223,
+              "self_ms": 50.486
+            },
+            {
+              "function": "cp7_bounded_analysis_stage.analysis_source(integer,integer)",
+              "calls": 1,
+              "total_ms": 366.372,
+              "self_ms": 35.61
+            },
+            {
+              "function": "cp7_bounded_analysis_stage.source_parts(integer)",
+              "calls": 1,
+              "total_ms": 236.216,
+              "self_ms": 29.947
+            },
+            {
+              "function": "cp7_profile.source(uuid[],timestamp with time zone)",
+              "calls": 1,
+              "total_ms": 29.764,
+              "self_ms": 29.764
+            },
+            {
+              "function": "cp7_reorder_inputs.capture_baseline(integer)",
+              "calls": 1,
+              "total_ms": 170.882,
+              "self_ms": 26.671
+            },
+            {
+              "function": "cp7_product_analog_choice.source_at(text[],timestamp with time zone)",
+              "calls": 1,
+              "total_ms": 26.356,
+              "self_ms": 26.356
+            },
+            {
+              "function": "cp7_bounded_analysis_stage.native_work_fingerprint(jsonb)",
+              "calls": 1,
+              "total_ms": 27.484,
+              "self_ms": 25.174
+            },
+            {
+              "function": "cp7_wip.pcs(jsonb)",
+              "calls": 10852,
+              "total_ms": 22.766,
+              "self_ms": 22.766
+            },
+            {
+              "function": "cp7_analysis_native.material_source(jsonb,timestamp with time zone)",
+              "calls": 1,
+              "total_ms": 16.652,
+              "self_ms": 16.652
+            },
+            {
+              "function": "cp7_bounded_analysis_stage.schedule_source(integer)",
+              "calls": 1,
+              "total_ms": 252.601,
+              "self_ms": 16.038
+            },
+            {
+              "function": "cp7_wip.capture_cutting_sources(uuid[],timestamp with time zone)",
+              "calls": 3,
+              "total_ms": 14.492,
+              "self_ms": 14.492
+            },
+            {
+              "function": "cp7_netting_native.fingerprint(jsonb)",
+              "calls": 1,
+              "total_ms": 43.372,
+              "self_ms": 8.813
+            },
+            {
+              "function": "cp7_analysis_stage.events_validate(jsonb)",
+              "calls": 1,
+              "total_ms": 8.875,
+              "self_ms": 8.789
+            },
+            {
+              "function": "cp7_demand.\"decimal\"(jsonb)",
+              "calls": 3622,
+              "total_ms": 6.236,
+              "self_ms": 6.236
+            },
+            {
+              "function": "cp7_bounded_analysis_stage.request(jsonb,uuid)",
+              "calls": 1,
+              "total_ms": 5945.81,
+              "self_ms": 5.614
+            },
+            {
+              "function": "cp7_demand.items(jsonb,integer)",
+              "calls": 3604,
+              "total_ms": 4.188,
+              "self_ms": 4.188
+            },
+            {
+              "function": "cp7_analysis_native.fingerprint(jsonb)",
+              "calls": 1,
+              "total_ms": 47.338,
+              "self_ms": 3.76
+            },
+            {
+              "function": "cp7_product_analog_consumer.capture(jsonb)",
+              "calls": 1,
+              "total_ms": 30.084,
+              "self_ms": 3.729
+            },
+            {
+              "function": "cp7_wip.normalize_cutting(jsonb)",
+              "calls": 1,
+              "total_ms": 10.323,
+              "self_ms": 3.565
+            },
+            {
+              "function": "cp7_schedule_native.fingerprint(jsonb)",
+              "calls": 1,
+              "total_ms": 33.757,
+              "self_ms": 3.173
+            },
+            {
+              "function": "cp7_wip.capture_other_sources(uuid[],uuid[],timestamp with time zone)",
+              "calls": 1,
+              "total_ms": 2.831,
+              "self_ms": 2.831
+            },
+            {
+              "function": "cp7_supply_native.fingerprint(jsonb)",
+              "calls": 1,
+              "total_ms": 30.428,
+              "self_ms": 2.679
+            },
+            {
+              "function": "cp7_wip.reconcile(jsonb)",
+              "calls": 2,
+              "total_ms": 4.295,
+              "self_ms": 2.424
+            },
+            {
+              "function": "cp7_fabric_native.physical_source(jsonb,timestamp with time zone)",
+              "calls": 1,
+              "total_ms": 2.164,
+              "self_ms": 2.164
+            },
+            {
+              "function": "cp7_supply_native.proof_kernel()",
+              "calls": 1,
+              "total_ms": 1.981,
+              "self_ms": 1.923
+            },
+            {
+              "function": "cp7_bounded_analysis_stage.producer_hash()",
+              "calls": 1,
+              "total_ms": 1.929,
+              "self_ms": 1.87
+            },
+            {
+              "function": "cp7_supply_native.batch_reuse(jsonb,text)",
+              "calls": 1,
+              "total_ms": 1.644,
+              "self_ms": 1.63
+            },
+            {
+              "function": "cp7_supply_native.wip_source_parts(timestamp with time zone)",
+              "calls": 1,
+              "total_ms": 35.386,
+              "self_ms": 1.594
+            },
+            {
+              "function": "cp7_fabric_native.source(jsonb,timestamp with time zone)",
+              "calls": 1,
+              "total_ms": 3.506,
+              "self_ms": 1.343
+            },
+            {
+              "function": "cp7_planning.history_events(jsonb)",
+              "calls": 1,
+              "total_ms": 1.291,
+              "self_ms": 1.291
+            },
+            {
+              "function": "cp7_product_analog_consumer.engine_hash()",
+              "calls": 1,
+              "total_ms": 1.223,
+              "self_ms": 1.169
+            },
+            {
+              "function": "cp7_analysis_stage.baseline_rows(jsonb,jsonb,jsonb,text)",
+              "calls": 1,
+              "total_ms": 854.212,
+              "self_ms": 0.979
+            },
+            {
+              "function": "cp7_supply_native.merge_facts(jsonb,jsonb)",
+              "calls": 1,
+              "total_ms": 0.895,
+              "self_ms": 0.895
+            },
+            {
+              "function": "cp7_wip.settle_bs(jsonb,jsonb,jsonb,timestamp with time zone)",
+              "calls": 1,
+              "total_ms": 3.624,
+              "self_ms": 0.87
+            },
+            {
+              "function": "cp7_supply_native.classify(jsonb)",
+              "calls": 1,
+              "total_ms": 11.072,
+              "self_ms": 0.749
+            },
+            {
+              "function": "erp.has_permission(text)",
+              "calls": 10,
+              "total_ms": 0.627,
+              "self_ms": 0.627
+            },
+            {
+              "function": "cp7_wip.redispatch_valid(jsonb)",
+              "calls": 1,
+              "total_ms": 0.626,
+              "self_ms": 0.626
+            },
+            {
+              "function": "cp7_identity.workspace_data(uuid[],timestamp with time zone)",
+              "calls": 1,
+              "total_ms": 0.825,
+              "self_ms": 0.502
+            },
+            {
+              "function": "cp7_analysis_stage.status(uuid)",
+              "calls": 1,
+              "total_ms": 0.626,
+              "self_ms": 0.496
+            },
+            {
+              "function": "cp7_supply_native.capture_at(jsonb,timestamp with time zone)",
+              "calls": 1,
+              "total_ms": 13.937,
+              "self_ms": 0.451
+            },
+            {
+              "function": "cp7_demand.instant(jsonb)",
+              "calls": 8,
+              "total_ms": 0.507,
+              "self_ms": 0.384
+            }
+          ],
+          "completed_calls_only": true,
+          "inlined_SQL_functions_may_be_absent": true,
+          "instrumentation_overhead_uncalibrated": true
+        },
+        "current_request_function_profile": {
+          "functions": [
+            {
+              "function": "cp7_history_reference.stock_digest(jsonb,timestamp with time zone)",
+              "calls": 1,
+              "total_ms": 2595.043,
+              "self_ms": 2297.264
+            },
+            {
+              "function": "cp7_reorder_inputs.stock_summary(jsonb,timestamp with time zone,jsonb)",
+              "calls": 1,
+              "total_ms": 506.03,
+              "self_ms": 502.209
+            },
+            {
+              "function": "cp7_history_bounded.compile(jsonb,jsonb,jsonb,integer)",
+              "calls": 1,
+              "total_ms": 2552.427,
+              "self_ms": 443.303
+            },
+            {
+              "function": "cp7_analysis_stage.create_job(uuid,uuid,jsonb,jsonb,jsonb)",
+              "calls": 1,
+              "total_ms": 456.802,
+              "self_ms": 404.741
+            },
+            {
+              "function": "cp7_model_target_consumer_v2.rows(jsonb,jsonb,jsonb,text,jsonb)",
+              "calls": 1,
+              "total_ms": 1263.049,
+              "self_ms": 375.725
+            },
+            {
+              "function": "cp7_wip.refs(jsonb)",
+              "calls": 14451,
+              "total_ms": 494.106,
+              "self_ms": 324.095
+            },
+            {
+              "function": "cp7_wip.fields(jsonb,text[])",
+              "calls": 36124,
+              "total_ms": 268.22,
+              "self_ms": 268.22
+            },
+            {
+              "function": "cp7_product_analog_consumer.baseline_rows(jsonb,jsonb,jsonb,text,jsonb)",
+              "calls": 1,
+              "total_ms": 854.171,
+              "self_ms": 220.242
+            },
+            {
+              "function": "cp7_bounded_analysis_stage.source(jsonb,boolean)",
+              "calls": 1,
+              "total_ms": 6796.87,
+              "self_ms": 207.814
+            },
+            {
+              "function": "cp7_wip.key(jsonb)",
+              "calls": 101105,
+              "total_ms": 184.177,
+              "self_ms": 184.177
+            },
+            {
+              "function": "cp7_model_target_source_v2.stock_digests(jsonb,timestamp with time zone)",
+              "calls": 3,
+              "total_ms": 148.966,
+              "self_ms": 148.818
+            },
+            {
+              "function": "cp7_reorder_inputs.capture_history(integer)",
+              "calls": 2,
+              "total_ms": 133.76,
+              "self_ms": 133.541
+            },
+            {
+              "function": "cp7_model_target_source_v2.non_stock_rows(jsonb,integer)",
+              "calls": 3,
+              "total_ms": 138.003,
+              "self_ms": 114.349
+            },
+            {
+              "function": "cp7_product_analog_consumer.prepare(jsonb,jsonb,jsonb)",
+              "calls": 1,
+              "total_ms": 141.457,
+              "self_ms": 106.739
+            },
+            {
+              "function": "cp7_model_evaluation_selection.latest(text[],uuid,timestamp with time zone)",
+              "calls": 3,
+              "total_ms": 99.366,
+              "self_ms": 99.205
+            },
+            {
+              "function": "cp7_demand.availability(jsonb)",
+              "calls": 3602,
+              "total_ms": 318.761,
+              "self_ms": 97.745
+            },
+            {
+              "function": "cp7_analysis_stage.history_rows(jsonb)",
+              "calls": 1,
+              "total_ms": 78.523,
+              "self_ms": 78.453
+            },
+            {
+              "function": "cp7_product_analog_consumer.provenance(jsonb,jsonb,jsonb,jsonb,jsonb,jsonb)",
+              "calls": 3602,
+              "total_ms": 100.088,
+              "self_ms": 77.834
+            },
+            {
+              "function": "cp7_reorder_inputs.current_stock(jsonb,jsonb,text)",
+              "calls": 1,
+              "total_ms": 396.4,
+              "self_ms": 77.582
+            },
+            {
+              "function": "cp7_demand.context(jsonb,text)",
+              "calls": 10807,
+              "total_ms": 114.548,
+              "self_ms": 73.063
+            },
+            {
+              "function": "cp7_demand.estimate(jsonb)",
+              "calls": 3602,
+              "total_ms": 285.149,
+              "self_ms": 70.084
+            },
+            {
+              "function": "cp7_bounded_analysis_stage.netting_source(integer,integer)",
+              "calls": 1,
+              "total_ms": 880.288,
+              "self_ms": 60.727
+            },
+            {
+              "function": "cp7_baseline.target(jsonb)",
+              "calls": 3602,
+              "total_ms": 248.692,
+              "self_ms": 57.394
+            },
+            {
+              "function": "cp7_analysis_stage.history_validate(jsonb)",
+              "calls": 1,
+              "total_ms": 214.748,
+              "self_ms": 50.324
+            },
+            {
+              "function": "cp7_model_target_source_v2.capture(jsonb,integer)",
+              "calls": 1,
+              "total_ms": 506.023,
+              "self_ms": 47.109
+            },
+            {
+              "function": "cp7_bounded_analysis_stage.source_parts(integer)",
+              "calls": 1,
+              "total_ms": 793.593,
+              "self_ms": 44.25
+            },
+            {
+              "function": "cp7_reorder_inputs.capture_baseline(integer)",
+              "calls": 1,
+              "total_ms": 718.801,
+              "self_ms": 38.467
+            },
+            {
+              "function": "cp7_bounded_analysis_stage.analysis_source(integer,integer)",
+              "calls": 1,
+              "total_ms": 933.056,
+              "self_ms": 36.4
+            },
+            {
+              "function": "cp7_model_target_source_v2.physical_rows(jsonb,integer,jsonb,text)",
+              "calls": 2,
+              "total_ms": 125.354,
+              "self_ms": 33.059
+            },
+            {
+              "function": "cp7_profile.source(uuid[],timestamp with time zone)",
+              "calls": 1,
+              "total_ms": 28.76,
+              "self_ms": 28.76
+            },
+            {
+              "function": "cp7_bounded_analysis_stage.schedule_source(integer)",
+              "calls": 1,
+              "total_ms": 819.562,
+              "self_ms": 25.618
+            },
+            {
+              "function": "cp7_bounded_analysis_stage.native_work_fingerprint(jsonb)",
+              "calls": 1,
+              "total_ms": 27.017,
+              "self_ms": 24.71
+            },
+            {
+              "function": "cp7_model_target_binding.non_stock(jsonb,text,integer)",
+              "calls": 3,
+              "total_ms": 23.654,
+              "self_ms": 23.238
+            },
+            {
+              "function": "cp7_wip.pcs(jsonb)",
+              "calls": 10854,
+              "total_ms": 23.091,
+              "self_ms": 23.091
+            },
+            {
+              "function": "cp7_product_analog_choice.source_at(text[],timestamp with time zone)",
+              "calls": 1,
+              "total_ms": 22.626,
+              "self_ms": 22.626
+            },
+            {
+              "function": "cp7_analysis_native.material_source(jsonb,timestamp with time zone)",
+              "calls": 1,
+              "total_ms": 13.275,
+              "self_ms": 13.275
+            },
+            {
+              "function": "cp7_wip.capture_cutting_sources(uuid[],timestamp with time zone)",
+              "calls": 3,
+              "total_ms": 11.046,
+              "self_ms": 11.046
+            },
+            {
+              "function": "cp7_netting_native.fingerprint(jsonb)",
+              "calls": 1,
+              "total_ms": 46.792,
+              "self_ms": 10.332
+            },
+            {
+              "function": "cp7_analysis_stage.events_validate(jsonb)",
+              "calls": 1,
+              "total_ms": 8.226,
+              "self_ms": 8.154
+            },
+            {
+              "function": "cp7_bounded_analysis_stage.request(jsonb,uuid)",
+              "calls": 1,
+              "total_ms": 7262.119,
+              "self_ms": 6.695
+            },
+            {
+              "function": "cp7_demand.\"decimal\"(jsonb)",
+              "calls": 3622,
+              "total_ms": 6.37,
+              "self_ms": 6.37
+            },
+            {
+              "function": "cp7_model_target_source.engine()",
+              "calls": 2,
+              "total_ms": 5.966,
+              "self_ms": 5.966
+            },
+            {
+              "function": "cp7_model_registry_adapter.engine()",
+              "calls": 4,
+              "total_ms": 5.031,
+              "self_ms": 5.031
+            },
+            {
+              "function": "cp7_analysis_native.fingerprint(jsonb)",
+              "calls": 1,
+              "total_ms": 51.959,
+              "self_ms": 4.937
+            },
+            {
+              "function": "cp7_schedule_native.fingerprint(jsonb)",
+              "calls": 1,
+              "total_ms": 35.644,
+              "self_ms": 4.394
+            },
+            {
+              "function": "cp7_demand.items(jsonb,integer)",
+              "calls": 3606,
+              "total_ms": 4.191,
+              "self_ms": 4.191
+            },
+            {
+              "function": "cp7_supply_native.fingerprint(jsonb)",
+              "calls": 1,
+              "total_ms": 31.096,
+              "self_ms": 3.899
+            },
+            {
+              "function": "cp7_wip.normalize_cutting(jsonb)",
+              "calls": 1,
+              "total_ms": 9.853,
+              "self_ms": 3.619
+            },
+            {
+              "function": "cp7_product_analog_consumer.capture(jsonb)",
+              "calls": 1,
+              "total_ms": 25.515,
+              "self_ms": 2.888
+            },
+            {
+              "function": "cp7_model_target_source_v2.producer()",
+              "calls": 2,
+              "total_ms": 2.859,
+              "self_ms": 2.859
+            },
+            {
+              "function": "cp7_model_history_runtime.engine()",
+              "calls": 4,
+              "total_ms": 2.73,
+              "self_ms": 2.684
+            },
+            {
+              "function": "cp7_wip.capture_other_sources(uuid[],uuid[],timestamp with time zone)",
+              "calls": 1,
+              "total_ms": 2.434,
+              "self_ms": 2.434
+            },
+            {
+              "function": "cp7_bounded_analysis_stage.producer_hash()",
+              "calls": 1,
+              "total_ms": 2.388,
+              "self_ms": 2.257
+            },
+            {
+              "function": "cp7_wip.reconcile(jsonb)",
+              "calls": 2,
+              "total_ms": 3.979,
+              "self_ms": 2.256
+            },
+            {
+              "function": "cp7_model_target_source_v2.engine()",
+              "calls": 2,
+              "total_ms": 8.075,
+              "self_ms": 2.109
+            },
+            {
+              "function": "cp7_supply_native.proof_kernel()",
+              "calls": 1,
+              "total_ms": 1.801,
+              "self_ms": 1.742
+            },
+            {
+              "function": "cp7_model_scoped_evaluation.engine()",
+              "calls": 2,
+              "total_ms": 5.599,
+              "self_ms": 1.648
+            },
+            {
+              "function": "cp7_fabric_native.physical_source(jsonb,timestamp with time zone)",
+              "calls": 1,
+              "total_ms": 1.592,
+              "self_ms": 1.592
+            },
+            {
+              "function": "cp7_supply_native.batch_reuse(jsonb,text)",
+              "calls": 1,
+              "total_ms": 1.516,
+              "self_ms": 1.506
+            },
+            {
+              "function": "cp7_supply_native.wip_source_parts(timestamp with time zone)",
+              "calls": 1,
+              "total_ms": 30.542,
+              "self_ms": 1.455
+            }
+          ],
+          "completed_calls_only": true,
+          "inlined_SQL_functions_may_be_absent": true,
+          "instrumentation_overhead_uncalibrated": true
+        },
+        "current_request_millis": 7264.157,
+        "current_step_millis": [
+          397.478,
+          241.649,
+          109.002,
+          83.814,
+          78.792,
+          77.98,
+          71.109,
+          680.357,
+          674.549,
+          679.502,
+          672.622,
+          639.07,
+          639.46,
+          622.348,
+          616.661,
+          619.29,
+          615.238,
+          622.723,
+          618.884,
+          617.072,
+          616.614,
+          565.498,
+          60.107,
+          91.049,
+          629.789,
+          47.089,
+          50.25,
+          47.213,
+          49.554,
+          46.714,
+          46.902,
+          47.083,
+          47.138,
+          47.066,
+          49.82,
+          46.73,
+          50.219,
+          46.756,
+          48.61,
+          37.997,
+          257.164,
+          35.083,
+          79.656,
+          80.909,
+          77.773,
+          212.76,
+          79.169,
+          78.495,
+          79.344,
+          79.439,
+          78.772,
+          80.928,
+          79.174,
+          81.207,
+          79.441,
+          85.249,
+          52.369,
+          73.703,
+          130.246,
+          128.349,
+          127.401,
+          130.022,
+          130.085,
+          127.807,
+          128.479,
+          128.3,
+          128.649,
+          134.315,
+          128.847,
+          134.783,
+          129.82,
+          137.623,
+          81.018,
+          568.166,
+          71.064,
+          3.305
+        ],
+        "full_source_check_millis": [
+          3548.153,
+          3447.186
+        ],
+        "all_pages_verified": true,
+        "explicit_capture_clock_engine_refs_retained": true,
+        "old_result_immutable": true,
+        "raw_native_INCOMPLETE_preserved": true,
+        "actual_native_post_retires_source": true,
+        "no_business_write_by_analysis": true,
+        "statement_limit": "8s",
+        "factory_SLA_claim": false,
+        "financial_capture": "DEFERRED",
+        "official_finance_included": false,
+        "full_factory3600_qualified": false,
+        "actual_historical_positive_winner": false,
+        "after_use_restore_qualified": false,
+        "full_OW11_acceptance": false,
+        "full_OW12b_acceptance": false,
+        "production_go": false,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-25",
+          "before": "2026-10-25",
+          "after": "2026-10-25"
+        }
+      }
+    }
+  },
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "CP6_advisor_boundary_WIB_session_Auth_cleanup_gates": true,
+  "actual_Auth_HTTP_credit": false,
+  "actual_concurrency": false,
+  "actual_historical_positive_winner": false,
+  "full_factory1200SKU3size_qualified": false,
+  "full_OW11_acceptance": false,
+  "full_OW12b_acceptance": false,
+  "formal_acceptance": "5/16",
+  "CP7C_accepted": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

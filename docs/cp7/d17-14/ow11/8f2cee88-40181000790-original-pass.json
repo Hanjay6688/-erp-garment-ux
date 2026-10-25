@@ -1,0 +1,188 @@
+{
+  "contract": "cp7.original-runtime-receipt.v1",
+  "head": "8f2cee885403ade48d6fb5596cb476205434cbc8",
+  "run_id": 40181000790,
+  "job_id": 121131850377,
+  "artifact_id": 12594870486,
+  "bytes": 158848,
+  "artifact_sha256": "50cb55adc07fd0235afa0320db63cd1088b7a6c4ea3b290c9332f4577b020f2d",
+  "status": "PASS",
+  "label": "CP7_OW11_MODEL_HISTORY_SCOPE",
+  "Original_read_complete": true,
+  "all_Original_JSON_files_read": 5,
+  "original_json_sha256": {
+    "CP7_OW11_MODEL_HISTORY_SCOPE.json": "752cd8fe9ce0af52dface3acc00b4109111328ff3dde41f6515c8f81e4acaecb",
+    "T3_BACKUP_RESTORE_DRILL.json": "beae3ac7c9aabb9db5b5d395fd23a4bc5ca3e717dfaafb08d391c59bf8afe63d",
+    "T3_PACKAGE_FILES_INSTALL.json": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+    "ALIGNED_CHAIN.json": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b",
+    "T3_PACKAGE_INSTALL.json": "3d5c33d1f2413842be7138abad3ff50d3f2ab2f27dc03d2fef33c3dd6e4f039d"
+  },
+  "actual_current_F05_source_prefix_compared": [
+    "source_sha256",
+    "expected_case_count",
+    "required_case_counts",
+    "required_case_ids",
+    "predeclared_case_contract",
+    "predeclared_case_sha256",
+    "model_history_scope_source_sha256"
+  ],
+  "all_recorded_source_fields_and_declaration_match": true,
+  "source_prefix_database_executed": false,
+  "product_ref": "dbc0d3ffda3a839dddb41821dcd027254a62d739",
+  "product_paths_byte_identical_between_refs": true,
+  "counts": {
+    "native": 4
+  },
+  "case_facts": {
+    "native": {
+      "OW11_MODEL_HISTORY_SCOPE_CATALOG22_PRIVATE_INVERSE": {
+        "status": "PASS",
+        "exact_catalog22_inverse": true,
+        "private4_tables0_RPC0_replacements0": true,
+        "partial_inverse_restored_after_dependent_view": true,
+        "direct_client_roles_denied": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-25",
+          "before": "2026-10-25",
+          "after": "2026-10-25"
+        }
+      },
+      "OW11_MODEL_HISTORY_SCOPE_ACTUAL_DRAFT_POST_RETURN_INVERSE": {
+        "status": "PASS",
+        "actual_Native_draft_post_return_inverse": true,
+        "whole_Native_operands_exact": true,
+        "no_double_stock_subtraction": true,
+        "closed_query_absent_target_and_wrong_size_refused": true,
+        "readings": [
+          {
+            "millis": 26.828,
+            "gross": "0",
+            "returned": "0",
+            "stock": [
+              "100",
+              "24",
+              "76"
+            ]
+          },
+          {
+            "millis": 12.529,
+            "gross": "24",
+            "returned": "0",
+            "stock": [
+              "76",
+              "0",
+              "76"
+            ]
+          },
+          {
+            "millis": 12.565,
+            "gross": "24",
+            "returned": "1",
+            "stock": [
+              "77",
+              "0",
+              "77"
+            ]
+          },
+          {
+            "millis": 10.037,
+            "gross": "0",
+            "returned": "0",
+            "stock": [
+              "100",
+              "0",
+              "100"
+            ]
+          }
+        ],
+        "no_persisted_model_or_backfilled_knowledge": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-25",
+          "before": "2026-10-25",
+          "after": "2026-10-25"
+        }
+      },
+      "OW11_MODEL_HISTORY_SCOPE_DENSE2000_202000_SINGLE_ROOT": {
+        "status": "PASS",
+        "label": "SYNTHETIC_VOLUME_WITH_ACTUAL_PRIVATE_SOURCE",
+        "products": 2000,
+        "movements": 202000,
+        "original1000_global_bound_unchanged": true,
+        "single_explicit_root_only": true,
+        "unrelated_products_do_not_change_source": true,
+        "selected_stock_rows": 101,
+        "millis": [
+          70.676,
+          63.036
+        ],
+        "wall_limit_ms": 8000,
+        "no_factory_SLA_claim": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-25",
+          "before": "2026-10-25",
+          "after": "2026-10-25"
+        }
+      },
+      "OW11_MODEL_HISTORY_SCOPE_ACTUAL_SOURCE_AND_BOTH_CLOCKS": {
+        "status": "PASS",
+        "actual_Native_stock_writer": true,
+        "physical_before_system_recording": true,
+        "prior_cutoff_still_excludes_later_recorded_stock": true,
+        "current_source_changes_without_rewriting_old_input": true,
+        "actual_server_training_clock": true,
+        "no_clock_or_posted_row_rewrite": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-25",
+          "before": "2026-10-25",
+          "after": "2026-10-25"
+        }
+      }
+    }
+  },
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "CP6_advisor_boundary_WIB_session_Auth_cleanup_gates": true,
+  "actual_Auth_HTTP_credit": false,
+  "actual_concurrency": false,
+  "actual_historical_positive_winner": false,
+  "full_factory1200SKU3size_qualified": false,
+  "full_OW11_acceptance": false,
+  "full_OW12b_acceptance": false,
+  "formal_acceptance": "5/16",
+  "CP7C_accepted": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

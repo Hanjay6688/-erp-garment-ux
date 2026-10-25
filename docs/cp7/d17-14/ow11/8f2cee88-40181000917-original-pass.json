@@ -1,0 +1,143 @@
+{
+  "contract": "cp7.original-runtime-receipt.v1",
+  "head": "8f2cee885403ade48d6fb5596cb476205434cbc8",
+  "run_id": 40181000917,
+  "job_id": 121131850535,
+  "artifact_id": 12594397486,
+  "bytes": 157165,
+  "artifact_sha256": "9908c53879abbbce4886f97e50aedaa00f59e2517df4e2fbc63023edd12511df",
+  "status": "PASS",
+  "label": "CP7_OW13C_HISTORY_REFERENCE",
+  "Original_read_complete": true,
+  "all_Original_JSON_files_read": 5,
+  "original_json_sha256": {
+    "CP7_OW13C_HISTORY_REFERENCE.json": "b87076d74606a5347c8844f3ee8e75d5a85dad0756b0868bf7672a8098e17fde",
+    "T3_BACKUP_RESTORE_DRILL.json": "61db1fcd509330037d42c222fada526660dd3a01fb1b790f8c46be96fe2ed86d",
+    "T3_PACKAGE_FILES_INSTALL.json": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+    "ALIGNED_CHAIN.json": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b",
+    "T3_PACKAGE_INSTALL.json": "4c92ef4a15d0883b316aedab80208c8eff5cc78fde7ad0218574ffa596be7c3f"
+  },
+  "actual_current_F05_source_prefix_compared": [
+    "source_sha256",
+    "expected_case_count",
+    "required_case_counts",
+    "required_case_ids",
+    "predeclared_case_contract",
+    "predeclared_case_sha256"
+  ],
+  "all_recorded_source_fields_and_declaration_match": true,
+  "source_prefix_database_executed": false,
+  "product_ref": "dbc0d3ffda3a839dddb41821dcd027254a62d739",
+  "product_paths_byte_identical_between_refs": true,
+  "counts": {
+    "native": 4
+  },
+  "case_facts": {
+    "native": {
+      "OW13C_REFERENCE_PRIVATE_CATALOG22": {
+        "status": "PASS",
+        "one_private_no_public_no_table_no_old_replacement": true,
+        "Native_typed_projection_and_both_visibility_clocks_pinned": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-25",
+          "before": "2026-10-25",
+          "after": "2026-10-25"
+        }
+      },
+      "OW13C_REFERENCE_NATIVE_RAW_PARITY": {
+        "status": "PASS",
+        "exact_actual_Native_raw_facts_digest_parity": true,
+        "every_native_stock_field_preserved": true,
+        "all_ERP_platform_auth_metadata_rows_unchanged": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-25",
+          "before": "2026-10-25",
+          "after": "2026-10-25"
+        }
+      },
+      "OW13C_REFERENCE_DENSE2000_202000_UNDER8S": {
+        "status": "PASS",
+        "products": 2000,
+        "movements": 202000,
+        "actual_rows": 202001,
+        "all_raw_stock_rows_hashed_without_prefix": true,
+        "millis": [
+          1028.274,
+          1036.491,
+          1046.013
+        ],
+        "statement_limit": "8s",
+        "wall_limit_ms": 8000,
+        "raw_capture_remains_INCOMPLETE": true,
+        "all_ERP_platform_auth_metadata_rows_unchanged": true,
+        "staged_source_freshness_integration": false,
+        "actual_checked_SAVE2000_qualified": false,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-25",
+          "before": "2026-10-25",
+          "after": "2026-10-25"
+        }
+      },
+      "OW13C_REFERENCE_LATE_RECORDED_PHYSICAL_BACKDATE": {
+        "status": "PASS",
+        "actual_Native_stock_writer": true,
+        "recorded_visibility_not_only_physical_date": true,
+        "historical_cutoff_from_actual_recorded_time": true,
+        "fresh_digest_changes_old_cutoff_stays_same": true,
+        "no_clock_or_row_date_rewrite": true,
+        "reader_has_no_effect": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-25",
+          "before": "2026-10-25",
+          "after": "2026-10-25"
+        }
+      }
+    }
+  },
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "CP6_advisor_boundary_WIB_session_Auth_cleanup_gates": true,
+  "actual_Auth_HTTP_credit": false,
+  "actual_concurrency": false,
+  "actual_historical_positive_winner": false,
+  "full_factory1200SKU3size_qualified": false,
+  "full_OW11_acceptance": false,
+  "full_OW12b_acceptance": false,
+  "formal_acceptance": "5/16",
+  "CP7C_accepted": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

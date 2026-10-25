@@ -3048,3 +3048,35 @@ admissions PASS, plus24 actual workflow inline declaration blocks checked with0
 DB connection attempts; both YAML cleanup guards parse. Keep both first failures,
 rerun only changed focused declarations/workflows; other13 jobs continue at8f.
 Formal5/16, CP7C/independent false, production_go=false; continue qualifications.
+
+## 161. B26 Oktober2026 WIB — stock-copy full component Originals qualified
+
+Read all16 complete Original archives/85JSON for13 successful8f runs plus the
+two corrected a8 declarations; transport A/B are separate complete archives.
+Every recorded actual F05 source-only prefix, declaration/ID/count, package5 gates,
+CP6/advisor, public catalog exact preservation,22-boundary/WIB/session/Auth cleanup
+verified. Native6/Browser2/transport11/scaleNative2 share all51 current backend
+pins; those files are byte-identical8f->a8. Counts51/68/54/54 are source pins, not
+new business-case credit. Three Browser images visually reviewed; full artifact
+JSON byte-identical to complete-json archive. Eight transport clone authorities
+exact; all HTTP Auth users0->0 and real access/transport controls pass.
+
+Reference Native4, scoped history4, immutable runtime6+transport7, scoped dataset4,
+scoped evaluation6+transport7, selection4 and retained target-v1 Native6 all PASS
+at their recorded heads. Binding4/source-v2 4 corrected Originalsa8 complete PASS;
+retain both8f first preflight failures. Receipt observer initially assumed4copies
+for every transport; actual scoped suites require4race copies+1HTTP copy. Correct
+to exact predeclared mode geometry, verify every5 authority receipts; no product,
+Original or expected case changed and no CI rerun was requested.
+
+Actual scale component3602targets/two scoped models: predecessor5948.232ms,
+current7264.157ms, checks3548.153/3447.186ms; digest2595.043ms/self2297.264ms.
+Previousc7 current7315.921ms/digest2666.671ms: small difference within run
+variability, NOT evidence of a reliable Native speedup or factory SLA. All target
+kernels/operands/quantity states/values/units/reasons, full pages and immutable
+old staged archive exact; actual stock post retires source. Unchanged8s, no fake
+COMPLETE or positive forecast; finance DEFERRED. Full1200SKUx3size suite, money/HPP,
+A composer/after-use/audit and fullOW11/12b remain open. Matrix/handoff updated with
+current explicit heads and all older evidence retained. Continue separate Native
+dimensional qualification using unchanged common all-target parity assertions.
+Formal5/16, CP7C/independent false, production_go=false.

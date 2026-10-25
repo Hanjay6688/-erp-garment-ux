@@ -1,0 +1,179 @@
+{
+  "contract": "cp7.original-runtime-receipt.v1",
+  "head": "8f2cee885403ade48d6fb5596cb476205434cbc8",
+  "run_id": 40181000864,
+  "job_id": 121131850421,
+  "artifact_id": 12594761502,
+  "bytes": 204238,
+  "artifact_sha256": "fe37b2b3939aaa7e45d74a746f47c030f7011604f1c1929f74b7a95079caa7bd",
+  "status": "PASS",
+  "label": "CP7_OW11_MODEL_SCOPED_EVALUATION",
+  "Original_read_complete": true,
+  "all_Original_JSON_files_read": 5,
+  "original_json_sha256": {
+    "T3_BACKUP_RESTORE_DRILL.json": "ff08810331f3d055d12b2cbea23ced829bfc64ba0c36db4403839046385bb04b",
+    "T3_PACKAGE_FILES_INSTALL.json": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+    "ALIGNED_CHAIN.json": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b",
+    "CP7_OW11_MODEL_SCOPED_EVALUATION.json": "d3b079808ac1e4e8fbd8b6928fb39cd52d072fe0703f468639c9bbaa8b6836ce",
+    "T3_PACKAGE_INSTALL.json": "8a14ec496b1489865846cfebebffeb36cd8548b9211dc8a4cd3c78940a95d5e7"
+  },
+  "actual_current_F05_source_prefix_compared": [
+    "source_sha256",
+    "expected_case_count",
+    "required_case_counts",
+    "required_case_ids",
+    "predeclared_case_contract",
+    "predeclared_case_sha256",
+    "model_scoped_evaluation_source_sha256"
+  ],
+  "all_recorded_source_fields_and_declaration_match": true,
+  "source_prefix_database_executed": false,
+  "product_ref": "dbc0d3ffda3a839dddb41821dcd027254a62d739",
+  "product_paths_byte_identical_between_refs": true,
+  "counts": {
+    "native": 6
+  },
+  "case_facts": {
+    "native": {
+      "OW11_SCOPED_EVALUATION_CATALOG22_COMPOSED_INVERSE": {
+        "status": "PASS",
+        "exact_catalog22_composed_inverse": true,
+        "private4_RPC2_table1_replacement0": true,
+        "exact_parent_FK_triggers_declared": true,
+        "partial_inverse_atomic": true,
+        "dataset_parent_cannot_be_removed": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-25",
+          "before": "2026-10-25",
+          "after": "2026-10-25"
+        }
+      },
+      "OW11_SCOPED_EVALUATION_ACTUAL_CAPTURE_REPLAY_IMMUTABLE": {
+        "status": "PASS",
+        "actual_scoped_history_and_retained_model": true,
+        "exact_UUID_replay": true,
+        "same_UUID_separate_method_namespace": true,
+        "old_model_table_unchanged": true,
+        "actual_knowledge_clock_preserved": true,
+        "UNKNOWN_not_zero": true,
+        "after_use_inverse_refused": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-25",
+          "before": "2026-10-25",
+          "after": "2026-10-25"
+        }
+      },
+      "OW11_SCOPED_EVALUATION_PROSPECTIVE_POLICY_CLOCK": {
+        "status": "PASS",
+        "explicit_synthetic_policy_prospective": true,
+        "no_posthoc_approval": true,
+        "fresh_history_uses_recorded_policy": true,
+        "UNKNOWN_has_no_invented_winner": true,
+        "old_assessment_preserved_and_current_policy_rechecked": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-25",
+          "before": "2026-10-25",
+          "after": "2026-10-25"
+        }
+      },
+      "OW11_SCOPED_EVALUATION_ACTUAL_POST_CURRENT_ACCESS": {
+        "status": "PASS",
+        "actual_SALE_retires_old_model_without_rewriting": true,
+        "fresh_gross24_available76": true,
+        "current_access_before_read_and_replay": true,
+        "foreign_read_denied": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-25",
+          "before": "2026-10-25",
+          "after": "2026-10-25"
+        }
+      },
+      "OW11_SCOPED_EVALUATION_DENSE2000_SINGLE_TARGET": {
+        "status": "PASS",
+        "label": "SYNTHETIC_VOLUME_ACTUAL_NATIVE_SCOPED_MODEL_FACADE",
+        "products": 2000,
+        "movements": 202000,
+        "millis": 465.418,
+        "wall_limit_ms": 8000,
+        "factory_SLA_claim": false,
+        "model_target_consumer_integrated": false,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-25",
+          "before": "2026-10-25",
+          "after": "2026-10-25"
+        }
+      },
+      "OW11_SCOPED_EVALUATION_FINAL_FAULT_AND_ENGINE": {
+        "status": "PASS",
+        "actual_public_final_insert_fault_atomic": true,
+        "runtime_engine_change_archives_original": true,
+        "no_after_use_restore_credit": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-25",
+          "before": "2026-10-25",
+          "after": "2026-10-25"
+        }
+      }
+    }
+  },
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "CP6_advisor_boundary_WIB_session_Auth_cleanup_gates": true,
+  "actual_Auth_HTTP_credit": false,
+  "actual_concurrency": false,
+  "actual_historical_positive_winner": false,
+  "full_factory1200SKU3size_qualified": false,
+  "full_OW11_acceptance": false,
+  "full_OW12b_acceptance": false,
+  "formal_acceptance": "5/16",
+  "CP7C_accepted": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

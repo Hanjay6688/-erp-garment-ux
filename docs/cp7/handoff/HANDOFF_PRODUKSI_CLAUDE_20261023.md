@@ -1,3 +1,44 @@
+# Titik lanjut aktif —26 Oktober2026 WIB: stock-copy lulus komponen, lanjut susunan barang
+
+Kandidat stock-copy8f2cee88 dan koreksi deklarasia8f21545 kini qualified untuk
+komponen yang diuji:16 complete Original archives/85JSON dibaca, all package/CP6/
+advisor/public/boundary/WIB/session/Auth gates PASS. Native6/Browser2/transport11/
+scaleNative2 shared51backend files exact8f->a8; source counts51/68/54/54, bukan
+penambahan kasus bisnis. Native4 full-stock reference, seluruh parent history/model/
+selection, binding4/source-v2 4 koreksi dan retained target-v1 Native6 PASS sesuai
+receipt. Dua kegagalan deklarasi pertama8f tetap retained. Observer laporan clone
+sempat mengharapkan4 untuk suite scoped yang sebenarnya4race+1HTTP; dibetulkan
+berdasarkan mode asli, semua5authority diverifikasi, tanpa mengulang CI.
+
+**Waktu aktual skala:** predecessor5948.232ms, current7264.157ms; checks3548.153/
+3447.186ms, digest2595.043ms/self2297.264ms. Seluruh3602target/two actual scoped
+models/operands/profil/buffer/recommendation quantities/allpages persis, arsip lama
+immutable, posting stok nyata membuat hasil stale. Batas8s tetap. Selisih terhadap
+c7 current7315.921ms/digest2666.671ms kecil dan belum membuktikan speedup Native
+yang stabil atau SLA. Local1200SKUx3size improvement tetap pengukuran lokal.
+
+**Langkah aktif berikut:** fixture cp7_ow12b_factory3600_fixture.py yang sudah
+lokal PASS belum ada di Native suite. Buat suite Native2 terpisah1200commercial
+SKUx3physicalsize=3600roots/3600members/363600syntheticmoves. Pertahankan seluruh
+assertion all-target sebelum/sesudah, ukuran komersial dan fisik diperiksa pada
+kedua captured references, budget/ID terpisah, jangan mengubah fixture lama.
+Jangan menerapkan target-loop shortcut: Native hanya1dispatch; explicit JSON
+rewrite lebih lambat dan ditolak. Bila optimasi lain diperlukan, baca actual source
+dan ukur isolasi terlebih dulu; jangan mengganti format hash v1 tanpa versi baru.
+
+B hanya astra/d17-14-produksi, solo, lanjut tanpa bertanya. A memegang finance,
+stok/HPP/laporan, shared/defaults, integrasi dan after-use/fullrestore. Prepared A
+terakhir dibaca378f13cc belum mencakup performance182/8f; tidak qualified oleh
+inspeksi B. Tidak mengubah A/main/integration/frozen/supabase/Enteng/hosted/WA nyata.
+Fullfactory/money/HPP/SAVE3600/A composer/after-use/audit/fullOW11/fullOW12b masih
+terbuka. Formal5/16, CP7C/independent/production_go=false. Kode/receipts di branch B;
+raw Originals di artifact. Arsip privat terakhir terkonfirmasi68, replacement
+berikut timeout/outcome unknown; jangan retry/shrink/ganti write route otomatis
+atau mengklaim raw terbaru sudah tersimpan di sana. Konteks aktif KOORD161 dan
+ow11/VERSIONED_TARGET_COMPONENT_MATRIX.json; semua blok di bawah histori.
+
+---
+
 # Titik lanjut aktif —25 Oktober2026: Native3600 PASS, lanjut profil stok
 
 Kandidat penerus0fadd2af kini mengubah hanya flag materialisasi CTE stock pada
