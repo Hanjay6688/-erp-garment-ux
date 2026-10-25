@@ -8,7 +8,9 @@ for variable,proof in pins['actual_qualification_originals'].items():
     assert len(raw)==proof['zip_bytes']and sha256(raw).hexdigest()==proof['zip_sha256'],variable
     with zipfile.ZipFile(io.BytesIO(raw))as z:
         assert z.testzip()is None
-        names=[n for n in z.namelist()if Path(n).name==proof['name']];assert len(names)==1
+        member=proof.get('archive_member')
+        names=[n for n in z.namelist()if n==member]if member is not None else [n for n in z.namelist()if Path(n).name==proof['name']]
+        assert len(names)==1 and Path(names[0]).name==proof['name'],(variable,'EXACT_ORIGINAL_ARCHIVE_MEMBER_REQUIRED',member,names)
         original=z.read(names[0])
         packages=[n for n in z.namelist()if Path(n).name=='T3_PACKAGE_INSTALL.json'];assert len(packages)==1
         gate=json.loads(z.read(packages[0]))['gate']

@@ -1,0 +1,118 @@
+{
+  "status": "PREPARED_ONLY",
+  "qualifications": 7,
+  "checks": [
+    {
+      "status": "PASS",
+      "qualification": "current-versioned-performance-browser-qualification",
+      "actual_zip_archives": 8,
+      "exact_originals_equal": true,
+      "duplicate_basename_exact_member_verified": true,
+      "negative_controls": [
+        "missing_exact_member",
+        "wrong_strict_group",
+        "ambiguous_legacy_basename"
+      ],
+      "unavailable_local_zips": 4,
+      "database_started": false,
+      "production_go": false
+    },
+    {
+      "status": "PASS",
+      "qualification": "current-versioned-performance-cron-qualification",
+      "actual_zip_archives": 8,
+      "exact_originals_equal": true,
+      "duplicate_basename_exact_member_verified": true,
+      "negative_controls": [
+        "missing_exact_member",
+        "wrong_strict_group",
+        "ambiguous_legacy_basename"
+      ],
+      "unavailable_local_zips": 4,
+      "database_started": false,
+      "production_go": false
+    },
+    {
+      "status": "PASS",
+      "qualification": "current-versioned-performance-factory-qualification",
+      "actual_zip_archives": 8,
+      "exact_originals_equal": true,
+      "duplicate_basename_exact_member_verified": true,
+      "negative_controls": [
+        "missing_exact_member",
+        "wrong_strict_group",
+        "ambiguous_legacy_basename"
+      ],
+      "unavailable_local_zips": 4,
+      "database_started": false,
+      "production_go": false
+    },
+    {
+      "status": "PASS",
+      "qualification": "current-versioned-performance-finance-qualification",
+      "actual_zip_archives": 8,
+      "exact_originals_equal": true,
+      "duplicate_basename_exact_member_verified": true,
+      "negative_controls": [
+        "missing_exact_member",
+        "wrong_strict_group",
+        "ambiguous_legacy_basename"
+      ],
+      "unavailable_local_zips": 4,
+      "database_started": false,
+      "production_go": false
+    },
+    {
+      "status": "PASS",
+      "qualification": "current-versioned-performance-native-qualification",
+      "actual_zip_archives": 8,
+      "exact_originals_equal": true,
+      "duplicate_basename_exact_member_verified": true,
+      "negative_controls": [
+        "missing_exact_member",
+        "wrong_strict_group",
+        "ambiguous_legacy_basename"
+      ],
+      "unavailable_local_zips": 4,
+      "database_started": false,
+      "production_go": false
+    },
+    {
+      "status": "PASS",
+      "qualification": "current-versioned-performance-transport-qualification",
+      "actual_zip_archives": 8,
+      "exact_originals_equal": true,
+      "duplicate_basename_exact_member_verified": true,
+      "negative_controls": [
+        "missing_exact_member",
+        "wrong_strict_group",
+        "ambiguous_legacy_basename"
+      ],
+      "unavailable_local_zips": 4,
+      "database_started": false,
+      "production_go": false
+    },
+    {
+      "status": "PASS",
+      "qualification": "current-versioned-performance-used-restore-qualification",
+      "actual_zip_archives": 8,
+      "exact_originals_equal": true,
+      "duplicate_basename_exact_member_verified": true,
+      "negative_controls": [
+        "missing_exact_member",
+        "wrong_strict_group",
+        "ambiguous_legacy_basename"
+      ],
+      "unavailable_local_zips": 4,
+      "database_started": false,
+      "production_go": false
+    }
+  ],
+  "duplicate_basename_exact_member_verified": true,
+  "all_SOURCE_absent": true,
+  "actual_A_runtime_qualified": false,
+  "product_SQL_changed": false,
+  "business_assertions_changed": false,
+  "source_first_failure_run": 40185876734,
+  "production_go": false
+}
