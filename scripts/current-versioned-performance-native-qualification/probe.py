@@ -30,6 +30,9 @@ database,drill,dump=current_native.database,current_native.drill,current_native.
 sql=current_native.sql
 OUT=REPO/'cp6-proof/t3'/f'{LABEL}.json'
 STATE=None
+_spec=importlib.util.spec_from_file_location('performance_native_phase_diagnostics',HERE/'progress.py')
+phase_diagnostics=importlib.util.module_from_spec(_spec);_spec.loader.exec_module(phase_diagnostics)
+progress=phase_diagnostics.Progress(OUT.with_name(LABEL+'_PROGRESS.jsonl'))
 
 
 def admitted():
@@ -54,10 +57,12 @@ def verify(cur):
 
 def run():
     global STATE
+    progress.mark('WRITER_RUNTIME_START')
     report=dict(label=LABEL,status='INCOMPLETE',source_declaration=admitted(),
         qualification_commit=subprocess.check_output(['git','-C',str(REPO),'rev-parse','HEAD'],text=True).strip(),
         expected_case_count=len(IDS),required_case_ids=list(IDS),formal_CP7C_started=False,real_Auth_browser_claim=False,factory3600_claim=False,
         full_OW11_acceptance=False,production_go=False,independent_acceptance=False)
+    progress.mark('SOURCE_ADMITTED')
     installed=False;pre_dumped=False;before=None;new_roles=set()
     try:
         assert drill.SOURCE==database.SOURCE=='cp6_rollback'and drill.CONTAINER=='supabase_db_cp5-local'
@@ -71,13 +76,18 @@ def run():
             before=previous.restore_state.capture(cur,package.boundary.snapshot,core.predecessor.public_state,p09.functions)
             conn.rollback()
         pre_data=drill.data_hashes(database.SOURCE);pre_profile=database._database_profile(database.SOURCE)
+        progress.mark('BASELINE_CAPTURED')
         dump.dump(database.SOURCE,PRE_DUMP);pre_dumped=True
+        progress.mark('PREINSTALL_DUMP_READY')
         with psycopg.connect(package.boundary.ADMIN)as conn,conn.cursor()as cur:
             try:
                 report['install_boundary_lock']=current_native.acquire_boundary(cur)
                 STATE=product.install(cur)
+                progress.mark('INSTALL_1_RETURNED')
                 report['complete_preuse_removal']=product.rollback_preuse(cur,STATE)
+                progress.mark('PREUSE_INVERSE_RETURNED')
                 STATE=product.install(cur)
+                progress.mark('INSTALL_2_RETURNED')
             except Exception:
                 # Keep the exact predecessor definitions for diagnosis of a changed anchor.
                 report['installation_failed_before_commit']=True
@@ -87,10 +97,13 @@ def run():
             report['verified_predecessor_info_manifest']=core.predecessor_info_manifest(cur)
             new_roles=database._roles(cur)-before_roles
             conn.commit();installed=True
+        progress.mark('INSTALL_COMMITTED')
         report['advisors_with_cp7']=advisors(package.boundary.PG)
         with business.installed(STATE,verify)as source_binding,exact_public_catalog(native,retain_raw=True)as catalog:
             report['retained_business_source_binding']=source_binding
+            progress.mark('NATIVE_GROUP_STARTED')
             report['native']=native.strict_group(LABEL,cases,verify)
+            progress.mark('NATIVE_GROUP_RETURNED')
         report['selected_contract_fixtures']=business.SELECTED_FIXTURES
         report['versioned_target_setup_admissions']=business.target.SETUP_ADMISSIONS
         report['retained_scoped_model_setup_admissions']=business.previous.SETUP_ADMISSIONS
@@ -111,7 +124,9 @@ def run():
                 assert product.catalog._catalog_rows(cur)==held_catalog and product.catalog._data(cur)==actual
                 report['used_guard_refused_before_DDL']=True
             conn.rollback()
+        progress.mark('USED_GUARD_CHECK_RETURNED')
     except Exception as error:
+        progress.mark('WRITER_ERROR')
         report.update(error=str(error),traceback=traceback.format_exc())
     finally:
         if before is not None and pre_dumped:
@@ -119,6 +134,7 @@ def run():
                 # Native nextval is not undone by case savepoints. Restore the
                 # complete preinstall dump; never reset selected sequences or
                 # weaken the product's global all-data guard.
+                progress.mark('RESTORE_STARTED')
                 restored=database._restore(PRE_DUMP,database.SOURCE,pre_profile)
                 assert restored['only_pg_cron_errors']
                 report['baseline_restore']=restored
@@ -138,7 +154,9 @@ def run():
                     report['advisor_disposition']=core.advisor_disposition(report['advisor_delta'],report['verified_predecessor_info_manifest'])
                     report['advisor_gate']=report['advisor_disposition']['gate']and report['baseline_advisors_equal']
                 else:report['advisor_gate']=report['baseline_advisors_equal']
+                progress.mark('BASELINE_RESTORATION_CHECKED')
             except Exception as error:
+                progress.mark('RESTORE_ERROR')
                 report.update(restore_error=str(error),restore_traceback=traceback.format_exc(),cp6_restored=False,advisor_gate=False)
         drill.docker('rm','-f',PRE_DUMP,check=False)
         group=report.get('native',{})
@@ -148,6 +166,7 @@ def run():
             report['status']='PASS'
         OUT.parent.mkdir(parents=True,exist_ok=True)
         OUT.write_text(json.dumps(report,indent=2,default=str)+'\n')
+        progress.mark('ORIGINAL_WRITTEN')
         print(json.dumps({key:report.get(key)for key in('label','status','observed_case_count','cp6_restored','advisor_gate','error','restore_error')},default=str),flush=True)
         for name,case in group.get('cases',{}).items():
             print(json.dumps(dict(case=name,status=case.get('status'),error=case.get('error')),default=str)[:3000],flush=True)
@@ -155,4 +174,6 @@ def run():
 
 
 if __name__=='__main__':
+    progress.mark('PACKAGE_START')
     admitted();package._writer_runtime=lambda browser_mode=False:run();package.run('install')
+    progress.mark('PACKAGE_RETURNED')

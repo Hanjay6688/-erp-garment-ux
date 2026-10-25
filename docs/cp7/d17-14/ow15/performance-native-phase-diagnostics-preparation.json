@@ -1,0 +1,18 @@
+{
+  "status": "LOCAL_DIAGNOSTIC_CHECKS_PASS_NOT_RUNTIME_QUALIFIED",
+  "qualified_current_source_pins_preserved": 3475,
+  "business_AST_after_removing_only_fixed_diagnostics": "IDENTICAL",
+  "phase_markers": 18,
+  "all18fixedlabels": true,
+  "original_report_and_acceptance_logic_unchanged": true,
+  "all_performance_SOURCE_absent": true,
+  "checks": [
+    "ordered append-only phase events",
+    "fixed event fields without payloads/results",
+    "undeclared phase refused without writing",
+    "diagnostic filesystem failure does not prevent continuation",
+    "broken stdout and filesystem failure do not prevent continuation"
+  ],
+  "production_go": false,
+  "independent_acceptance": false
+}
