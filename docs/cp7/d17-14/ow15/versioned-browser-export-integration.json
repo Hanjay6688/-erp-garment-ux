@@ -1,0 +1,12 @@
+{
+  "status": "SOURCE_CORRECTION_ONLY",
+  "first_intake_failure": "Exact B browser pin mismatch: two shared helper exports absent in integrated candidate",
+  "path": "scripts/cp7_ow11_analog_browser.mjs",
+  "before_sha256": "773cb777430c6c5b0514325e6ba84ed7ae06937f79fdc3802bb47595db775087",
+  "after_sha256": "e0b28f3156e6036f4cb506d054bc13c37e631e397ae768f7d7749bf9f81c12b6",
+  "source_head": "40b72fbe0d7593f63e6abf383a5adb25ba98e0db",
+  "change": "Restore exact B exports for quantity and open; both function bodies unchanged",
+  "Native_runtime_credit": false,
+  "full_A_browser_credit": false,
+  "production_go": false
+}

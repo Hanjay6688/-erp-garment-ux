@@ -4,7 +4,7 @@ import {mkdirSync,writeFileSync} from 'node:fs'
 import {openCuttingMenu} from './cp7_ow13c_checked_browser.mjs'
 const RPC='erp_cp7_read_product_analog_candidates_v1'
 const fixture=(op,p)=>JSON.parse(execFileSync('python',['../auditor/scripts/cp7_ow11_analog_browser_fixture.py',op],{input:JSON.stringify(p),cwd:'../writer',encoding:'utf8',maxBuffer:16*1024*1024}).trim())
-async function quantity(ui,page,f){
+export async function quantity(ui,page,f){
  await openCuttingMenu(ui,page,'Produksi','Buat Potongan')
  const panel=page.getByRole('region',{name:'Saran potong',exact:true})
  await panel.getByLabel('Penjualan mulai untuk saran potong',{exact:true}).fill(f.query.from_date)
@@ -25,7 +25,7 @@ export async function reply(page,action){
  ])
  return{status:r.status(),args:r.request().postDataJSON(),body:await r.json()}
 }
-async function open(ui,page,q,f){
+export async function open(ui,page,q,f){
  await q.locator('summary').filter({hasText:'Cari produk untuk melihat pembanding'}).click()
  await q.getByLabel('Cari SKU atau nama produk yang memerlukan pembanding',{exact:true}).fill(f.sku)
  const choice=q.locator(`[data-analog-choice="${f.target_key}"]`)
