@@ -1,4 +1,4 @@
-"""Bind twelve verified actual PASS Originals once; no manufactured prerequisites."""
+"""Bind twelve actual PASS inputs; replace only an explicitly retained failed candidate."""
 from pathlib import Path
 from hashlib import sha256
 import argparse,json,subprocess,sys
@@ -7,7 +7,18 @@ REPO=HERE.parents[1]
 
 
 def bind(args):
-    assert not(HERE/'SOURCE.json').exists(),'SOURCE_ALREADY_BOUND'
+    source_path=HERE/'SOURCE.json';superseded=None
+    if args.superseded_original or args.superseded_proof:
+        assert args.superseded_original and args.superseded_proof
+        proof=json.loads(Path(args.superseded_proof).read_bytes())
+        raw=Path(args.superseded_original).read_bytes();failed=json.loads(raw)
+        assert len(raw)==proof['bytes']and sha256(raw).hexdigest()==proof['sha256']
+        assert failed['status']==proof['status']=='INCOMPLETE'
+        assert failed['qualification_commit']==proof['head']
+        superseded=source_path.read_bytes()
+        assert json.loads(superseded)==failed['source_declaration']['qualification']
+        assert superseded==subprocess.check_output(['git','-C',str(REPO),'show','HEAD:scripts/current-versioned-target-native-qualification/SOURCE.json'])
+    else:assert not source_path.exists(),'SOURCE_ALREADY_BOUND'
     sys.argv=sys.argv[:1];sys.dont_write_bytecode=True
     sys.path.insert(0,str(REPO/'scripts'));sys.path.insert(0,str(HERE))
     import admission,cases,frozen_admission
@@ -70,7 +81,10 @@ def bind(args):
         frozen_declaration=dict(path=parent_path,head=frozen_admission.FROZEN_HEAD,sha256=sha256((REPO/parent_path).read_bytes()).hexdigest()),
         explicit_current_source_changes=changes,actual_qualification_originals=proofs,production_go=False,independent_acceptance=False)
     cases.source_binding()
-    with(HERE/'SOURCE.json').open('x')as f:f.write(json.dumps(manifest,indent=2)+'\n')
+    if superseded is not None:
+        assert source_path.read_bytes()==superseded,'SUPERSEDED_SOURCE_CHANGED_DURING_BINDING'
+        source_path.unlink()
+    with source_path.open('x')as f:f.write(json.dumps(manifest,indent=2)+'\n')
     assert len(cases.IDS)==36
     print(json.dumps(dict(status='SOURCE_BOUND',files=len(files),cases=36,actual_originals=len(proofs))))
 
@@ -78,4 +92,5 @@ def bind(args):
 if __name__=='__main__':
     parser=argparse.ArgumentParser();parser.add_argument('--bindings',required=True);parser.add_argument('--expected-restore-head',required=True)
     parser.add_argument('--expected-selected-restore-head',required=True)
+    parser.add_argument('--superseded-proof');parser.add_argument('--superseded-original')
     bind(parser.parse_args())
