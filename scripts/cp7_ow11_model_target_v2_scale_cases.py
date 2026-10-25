@@ -212,7 +212,7 @@ def cases(cur,today,*,fixture_seed=None,profile_roots=None,capture_check=None):
   plan.found_fg(cur,x,'1');posted=plan.monetary_state(cur)
   assert plan.staged.limited(cur,'erp_cp7_check_staged_analysis_source_v1',(new['done']['run_id'],),actor)['source_state']=='ARCHIVED_STALE'
   assert plan.monetary_state(cur)==posted
-  return dict(status='PASS',**size,actual_products=len(rows),actual_scoped_models=len(references),
+  return dict(size,status='PASS',actual_products=len(rows),actual_scoped_models=len(references),
    all_target_kernels_profile_observed_operands_exact=True,all_recommendation_quantity_states_values_units_reasons_exact=True,
    predecessor_complete=True,predecessor_request_millis=old['request_millis'],predecessor_step_millis=[c['ms']for c in old['calls']],
    predecessor_request_function_profile=old['request_function_profile'],current_request_function_profile=new['request_function_profile'],

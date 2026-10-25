@@ -1,0 +1,9 @@
+{
+  "status": "PASS_LOCAL_ACTUAL_RESULT_ASSEMBLY",
+  "actual_failing_Native_metadata_reused": true,
+  "actual_final_AST_expression_executed": true,
+  "canonical_false_acceptance_flags_preserved": true,
+  "all_math_assertions_and_fixture_calls_unchanged": true,
+  "actual_Native_rerun": false,
+  "production_go": false
+}

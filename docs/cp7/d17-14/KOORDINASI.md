@@ -3186,3 +3186,58 @@ now preserved under scripts/cp7_ow12b_stock_reference_v2_prepared, not reference
 any default installer/current59candidate source. It remains Native17-unqualified
 and uninstalled; no old-v1 hash alias or caller adoption. FullOW12b stays open.
 Formal5/16, CP7C/independent false, production_go=false.
+
+## 166. B25 Oktober2026 WIB — full dimensional calculations reach DONE; report collision retained
+
+d68beec9/run40186939121/job121149638226 Original12597526134,120971bytes, SHA
+8299b8e940a945c5b0aad09c1605222310338fd81a0afd14ccb7a77246c2d681. All5JSON/59
+head/current pins/actual F05 prefix checked. Catalog PASS, second INCOMPLETE after
+both real captures DONE3602targets. Predecessor6244.366ms/current7661.880ms, all
+steps/pages completed. Final dict construction raises duplicate keyword
+official_finance_included because dimensional seed metadata and canonical common
+report both contain that flag (also full_factory/production_go). Preserve the
+original1PASS/1INCOMPLETE and both full profiles; no full dimensional credit.
+Source control flow reaches result assembly after prior arithmetic/quantity/
+source/old-archive assertions; wrapper equality/complete PASS was never returned.
+
+Correct only dict(size,status=PASS,...canonical flags...) instead of **size among
+explicit keywords. Exact AST comparison proves no other calculation/assertion/
+fixture change. Execute the actual return AST with actual retained Native timing
+observations and actual fixture metadata: assembly PASS, all three false
+finance/full-factory/production flags preserved. This is a local serialization
+control, not a rerun or fabricated Native PASS. Preserve26exact assertions, all
+51business sources and original fixtures. Re-pin the common54/59source maps and
+qualify both changed test routes; old9bc timeout remains retained.
+
+OW14b/run40185104955/job121144121709 complete Original12596470304,1438206bytes,
+SHA94163492991bb737db47ecc55fbbfbcb0fc20fa929dc11a46254865981e15588. All5JSON,
+actual current prefix/IDs/counts/source fields, package/CP6/advisor/public/22-boundary/
+WIB/session/Auth cleanup verified.61Native+34races+7HTTP+11browser=113PASS, no new
+visual screenshot review and no extra versioned-target credit. First failure
+receipts remain, formal5/16/CP7C/independent/production_go=false.
+
+## 167. B25 Oktober2026 WIB — opt-in PG17 binary-reference Native4 candidate
+
+Promote the separate prepared renderer into an uninstalled private helper package
+cp7_history_reference_binary_v2: one private function/schema, no RPC/table/existing
+replacement/default/caller change. Same15Native fields, both clocks/root guards/
+UUID order/owner/ACL; explicit UTF8 bytea text, PG17+UTF8+builtin OID gates and
+version2/encoding/layout SHA256 domain. Old v1 remains byte-exact. No hash alias.
+
+Closed F05 flag defaultsfalse and admits only the eight actual parent flags;85
+missing/mixed routes refused. Own Native4 IDs/declaration/15source pins cover
+exact22 catalog/preuse inverse/ACL, actual Native raw facts versus independent
+Python struct encoder/decoder plus every field mutation/NULL/wide-int64/UTF8/
+microseconds/infinity/client encoding and scope controls, exact synthetic1200x3
+volume with v1/v2/v2/v1 timings under8s, and actual Native late recorded post.
+All observations retained on error. No fastest-run selection, inferred policy,
+positive model, money/HPP/caller/factory-SLA acceptance. Native Original pending.
+
+Actual producer expression versus independent Python codec20vectors PASS locally
+on PGlite18, including prepared UTF8/LATIN1 byte equality. Complete PG17-only helper
+correctly refuses PG18. New/old preflights,26retained assertions, all25old actual
+workflow declarations/16old route identities plus new declaration, SQL AST/clash
+and generated source PASS. All51qualified business backend files unchanged.
+Official PG17 rowtypes.c, uuid_send, timestamptz_send and int8send consulted.
+No new default installer, RPC registry/types, A/shared/frozen/native/hosted code.
+Formal5/16, CP7C/independent false, production_go=false. Continue complete Originals.

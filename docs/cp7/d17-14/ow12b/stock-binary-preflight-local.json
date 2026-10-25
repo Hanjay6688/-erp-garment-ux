@@ -1,0 +1,20 @@
+{
+  "status": "PASS",
+  "native_cases_declared": 4,
+  "source_pins": 15,
+  "actual_source_only_route": true,
+  "invalid_or_missing_route_controls": 85,
+  "independent_codec_controls": true,
+  "malformed_frames_refused": 3,
+  "actual_Native": false,
+  "actual_Auth_HTTP_credit": false,
+  "caller_integrated": false,
+  "production_go": false,
+  "command": "python -B scripts/cp7_ow12b_stock_binary_preflight.py",
+  "source_sha256": {
+    "scripts/cp7_f05_analysis_probe.py": "ca8e3a483e86ce52d7e318c19d9d62582862304f0d6884bd5c81ade6bed3f0ec",
+    "scripts/cp7_ow12b_stock_binary_preflight.py": "26e7e56ecbfabb6beb1d27cd612090f217e40314c3e2ed69fc939355c0e78273",
+    "scripts/cp7_ow12b_stock_binary_cases.py": "756859aeb127da8655e80c908039068e9a5bebbda4b2bf221decfb91091e920d",
+    "scripts/cp7_ow12b_stock_binary_codec.py": "cee7fdbbceab0b062ce4de01eea2584f764ee4de82fb8ba1a73ceda809388614"
+  }
+}

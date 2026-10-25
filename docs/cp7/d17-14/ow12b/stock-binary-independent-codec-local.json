@@ -1,0 +1,12 @@
+{
+  "status": "PASS_LOCAL_PYTHON_VS_ACTUAL_PG_ENCODING_EXPRESSION",
+  "vectors": 20,
+  "all15_field_mutations": true,
+  "prepared_UTF8_LATIN1_same_bytes": true,
+  "independent_Python_struct_codec_exact": true,
+  "actual_PG_runtime": "PostgreSQL 18.6 (PGlite 0.5.11) on wasm32-unknown-emscripten, compiled by emcc (Emscripten gcc/clang-like replacement + linker emulating GNU ld) 3.1.74 (1092ec30a3fb1d46b1782ff1b4db5094d3d06ae5), 32-bit",
+  "whole_PG17_guarded_helper_called": false,
+  "actual_Native_PG17": false,
+  "caller_integrated": false,
+  "production_go": false
+}

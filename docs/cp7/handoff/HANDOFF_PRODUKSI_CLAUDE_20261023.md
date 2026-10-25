@@ -1,3 +1,36 @@
+# Lanjutan aktif25 Oktober2026 — report assembly diperbaiki; binary Native4 siap
+
+Latestfactoryd68beec9/run40186939121/Original12597526134 first1PASS/1INCOMPLETE.
+Both actual3602target captures DONE:6244.366/7661.880ms, but final result dict
+collides on seed and canonical finance/full-factory/production flags. All59pins/
+5JSON/package4positive+writerfalse/CP6/advisor/boundaries/cleanup verified. Preserve
+full profiles and failure. Fix only mapping-first dict construction; actual return
+AST with Native observations/local metadata assembles and preserves canonicalfalse
+flags. All26math assertions unchanged. Need corrected Native2 full PASS. Old9bc
+one-size timeout8006.721ms still retained; no stable factory latency claim.
+
+Separate uninstalled cp7_history_reference_binary_v2 package plus closed Native4
+route/workflow/declaration15pins now prepared. Whole helper requires PG17/UTF8;
+old v1 unchanged, new v2 hash intentionally different. Independent Python codec
+20actual PG18 expression vectors/client-encoding controls PASS, not Native17 credit.
+85mixed/missing routes refused; new/old source-only admissions and declarations
+PASS. No caller/default/finance adoption. Next: read complete corrected geometry
+Native2/retained one-size Native2/new binary Native4 Originals; preserve failures.
+If binary Native4 qualifies, separately design explicit versioned bounded source/
+fingerprint/request/replay/unit adapter before adopting it. Frozen facts/SQLsummary
+only for deferred compilation, never later live stock by clock. jobs.reference
+immutable, same actor/method/UUID/payload recovery and current access remain.
+
+OW14b113 latest9bc Original12596470304 now fully verified, plus OW13b20/OW16 16.
+No new screenshot review or extra target credit. A prepared231befa5 still separate;
+B51business sources remain exact qualified8f, A40/51same and11differ. All full
+A/finance/after-use/audit/OW11/OW12b/actual historical winner/SLA remain open.
+Formal5/16/CP7C/independent/production_go=false. Solo B, no A/shared/default changes.
+Archive last confirmed68; replacement outcome unknown, no automatic second write.
+Read KOORD166–167/current matrix. All older blocks below are historical.
+
+---
+
 # Lanjutan aktif25 Oktober2026 WIB — koreksi admin fixture1200x3
 
 Native factory9bc32379/run40185105228/Original12595364192 first1PASS/1INCOMPLETE:

@@ -708,7 +708,7 @@
     }
   },
   "new_factory1200x3_candidate": {
-    "status": "FIRST_NATIVE_FIXTURE_ADMIN_REFUSAL_RETAINED_CORRECTION_PREPARED",
+    "status": "BOTH_CAPTURES_DONE_FINAL_RESULT_ASSEMBLY_FAILURE_RETAINED_CORRECTION_PREPARED",
     "required_cases": 2,
     "source_pins": 59,
     "common_qualified_assertions_preserved": 26,
@@ -726,7 +726,16 @@
       "postgres",
       "supabase_admin"
     ],
-    "ordinary_application_roles_still_refused": true
+    "ordinary_application_roles_still_refused": true,
+    "latest_head": "d68beec9c79425f92113be1158622f6859ff0a39",
+    "latest_run_id": 40186939121,
+    "latest_artifact_id": 12597526134,
+    "latest_error": "dict() got multiple values for keyword argument 'official_finance_included'",
+    "predecessor_request_millis": 6244.366,
+    "current_request_millis": 7661.88,
+    "both_actual_captures_DONE": true,
+    "full_PASS_returned": false,
+    "result_assembly_mapping_fix_prepared": true
   },
   "latest_attempted_head": "9bc3237903c44cfbc23f08bed6340dae8670b5fd",
   "latest_scale_regression_qualified": false,
@@ -742,6 +751,22 @@
     "bare_rerun": false,
     "previous_complete8f_Original_retained": true,
     "stable_latency_or_SLA_established": false,
+    "production_go": false
+  },
+  "new_binary_stock_reference_candidate": {
+    "status": "CLOSED_NATIVE4_LOCAL_PREPARED_RUNTIME_PENDING",
+    "source_pins": 15,
+    "native_cases": 4,
+    "postgres_major": 17,
+    "field_count": 15,
+    "new_private_functions": 1,
+    "new_tables": 0,
+    "new_public_RPCS": 0,
+    "existing_replacements": 0,
+    "v1_unchanged": true,
+    "v2_hash_intentionally_distinct": true,
+    "caller_integrated": false,
+    "actual_Native": false,
     "production_go": false
   }
 }
