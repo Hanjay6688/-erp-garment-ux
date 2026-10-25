@@ -1,0 +1,28 @@
+{
+  "status": "LOCAL_PREPARATION_PASS",
+  "kind": "cron",
+  "cases": 1,
+  "whole_helper_unchanged_except_product_import": true,
+  "helper_assertions": 36,
+  "python_files_parsed": 5,
+  "bash_steps_parsed": 41,
+  "global_names_resolved": true,
+  "actual_module_graph_verified": true,
+  "prior_actual_source_identity_verified": {
+    "name": "CP7_CURRENT_MODEL_TARGET_CRON1.json",
+    "status": "PASS",
+    "head": "390823868c5d4cf132005cba6f82d6c58a807697",
+    "run_id": 40129478997,
+    "job_id": 120977915144,
+    "artifact_id": 12575496460,
+    "zip_bytes": 2020713,
+    "zip_sha256": "9af1cffb96b53e2365b81918932c44cf4085c4e61959961d03db7d364a0a0d49",
+    "bytes": 1716369,
+    "sha256": "e2a2b8c727cdb369de3ce1ca012045f3350b8d57f2ebb3561ae453f40b196284",
+    "archive_member": "CP7_CURRENT_MODEL_TARGET_CRON1.json"
+  },
+  "actual_database_runtime": false,
+  "SOURCE_bound": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

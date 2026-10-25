@@ -23,7 +23,9 @@ credited to this composer. The separate Native36 workflow is now prepared with s
 Originals; SOURCE remains unbound until the full versioned Native36 and used
 restore8 both pass. The full used-restore workflow is also prepared with seven byte-identical
 fixtures, all 45 previous runner assertions, and 29 retained plus five new
-negative controls. Finance/Auth/browser/cron/factory followups remain pending. The current combined candidate remains separate.
+negative controls. Finance10 (Auth3 plus races7) and actual-minute cron1 are now prepared with
+exact retained helpers. Browser, remaining transport and factory followups
+remain pending. The current combined candidate remains separate.
 
 Next: take the actual complete current Native36 and used-restore Originals;
 bind B Native6/browser2/transport11/scale2 evidence at its exact unchanged source
