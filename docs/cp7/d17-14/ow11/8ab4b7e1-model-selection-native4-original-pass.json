@@ -1,0 +1,135 @@
+{
+  "contract": "cp7.original-runtime-receipt.v1",
+  "head": "8ab4b7e1a1d2a623d5557502ae581f52caedee39",
+  "run_id": 40127943408,
+  "job_id": 120973286538,
+  "artifact_id": 12573938163,
+  "bytes": 158554,
+  "artifact_sha256": "2fb4da1ad59dc05b76e990c066e7969efc8ca9827d15bda43374c98f05b3de57",
+  "Original_read_complete": true,
+  "exact_head_and_current_source_hashes_match": true,
+  "verified_source_paths": [
+    "scripts/cp7_model_evaluation_selection/MANIFEST.json",
+    "scripts/cp7_model_evaluation_selection/__init__.py",
+    "scripts/cp7_model_evaluation_selection/selection.sql",
+    "scripts/cp7_ow11_model_selection_cases.py",
+    "scripts/cp7_ow11_model_selection_probe.py",
+    "scripts/cp7_ow11_model_scoped_evaluation_cases.py",
+    "scripts/cp7_ow11_model_scoped_dataset_cases.py"
+  ],
+  "status": "PASS",
+  "counts": {
+    "PASS": 4
+  },
+  "cases": {
+    "OW11_MODEL_SELECTION_CATALOG22_COMPOSED_INVERSE": {
+      "status": "PASS",
+      "exact_catalog22_composed_inverse": true,
+      "private2_public0_table0_replacement0": true,
+      "partial_inverse_atomic": true,
+      "scoped_parent_cannot_be_removed": true,
+      "source_sha256": {
+        "cp7_model_evaluation_selection/MANIFEST.json": "81802a5a1849442004e00d3fe7bc384eda8a9dc4fed76f60445d4d06ed36283e",
+        "cp7_model_evaluation_selection/__init__.py": "8867e549be0b7fd15f0b3b79e097651f699a0966e03c49ad8d6cefc972929e2a",
+        "cp7_model_evaluation_selection/selection.sql": "ad8d57619a24837f39626246168f37f3f4f0a27105eab3dc449e4ef820448de6"
+      },
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-25",
+        "before": "2026-10-25",
+        "after": "2026-10-25"
+      }
+    },
+    "OW11_MODEL_SELECTION_ACTUAL_V2_V3_LATEST_METHOD": {
+      "status": "PASS",
+      "actual_public_v2_and_v3_runs": true,
+      "same_request_UUID_distinct_runtime": true,
+      "exact_runtime_reader_body_preserved": true,
+      "newer_v2_beats_older_v3": true,
+      "old_cutoff_refused": true,
+      "latest_baseline_never_searches_older_winner": true,
+      "forecast_applied": false,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-25",
+        "before": "2026-10-25",
+        "after": "2026-10-25"
+      }
+    },
+    "OW11_MODEL_SELECTION_POST_SOURCE_ACTOR_ACCESS": {
+      "status": "PASS",
+      "no_model_is_null_not_zero": true,
+      "current_source_after_actual_SALE": true,
+      "current_access_before_reference": true,
+      "actor_isolation": true,
+      "immutable_assessment_preserved": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-25",
+        "before": "2026-10-25",
+        "after": "2026-10-25"
+      }
+    },
+    "OW11_MODEL_SELECTION_DENSE2000_PRIVATE_CURRENT": {
+      "status": "PASS",
+      "label": "SYNTHETIC_VOLUME_ACTUAL_NATIVE_MODELS_PRIVATE_SELECTOR",
+      "products": 2000,
+      "movements": 202000,
+      "millis": 472.39,
+      "wall_limit_ms": 8000,
+      "factory_SLA_claim": false,
+      "target_caller_integrated": false,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-25",
+        "before": "2026-10-25",
+        "after": "2026-10-25"
+      }
+    }
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "first_failures_retained": true,
+  "earlier_interrupted_observation_retained": true,
+  "actual_Auth_HTTP_credit": false,
+  "actual_concurrency": false,
+  "model_target_caller_integrated": false,
+  "actual_historical_positive_winner": false,
+  "after_use_restore_qualified": false,
+  "full_OW11_acceptance": false,
+  "formal_acceptance": "5/16",
+  "CP7C_accepted": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

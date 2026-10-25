@@ -2586,3 +2586,34 @@ unavailable; percobaan baca terakhir gagal. Catatan pemulihan dan daftar draft/h
 ada di docs/cp7/handoff/ERP_B_SOURCE_V2_INTERRUPTED_20261025.md.
 Commit ini hanya dokumentasi/bukti; kode lokal belum dapat diselamatkan lewat read/diff.
 Target consumer/provenance/cache/hooks integrasi masih terbuka; formal5/16, production_go=false.
+
+## 139. B25 Oktober2026 WIB — environment recovery and completed selection Original
+
+Fresh clone8063c35f restored the committed tree; the old scratch workspace and
+unpublished source drafts were gone. Rebuilt source-v2 from the retained design
+and actual parent SQL, with fresh verification rather than inheriting old PASS.
+Selection8ab4b7e1/run40127943408/Original12573938163 now fully verified: seven exact
+head/current pins, all Native4 cases, package/CP6/advisor/boundary/cleanup. Original
+observation stays retained; new completed receipt has the same archive SHA/bytes.
+
+## 140. B25 Oktober2026 WIB — rebuilt batched source-v2 Native4 candidate
+
+Private source composes unchanged legacy source4 plus batched source7 functions
+(two private schemas, no RPC/table/replacement). Latest actor-owned evaluation is
+selected across GLOBAL_V2/SCOPED_V3 with explicit method/history namespace. One
+stock scan per captured boundary retains all row fields/both clocks; grouped
+non-stock facts preserve original/reversal journals, global caps and UNKNOWN.
+Existing assessment/current_guard supplies eligibility; warehouse-only reads
+carry no model archive/policy. Recheck physical source/latest/access/policy/engine
+before return. Both owned schemas are protected from external-caller removal.
+
+Fresh PGlite0.5.11 actual SQL10PASS, synthetic rows/controlled recapture: digest
+parity across product versions/empty/physical+system clocks; multi-root documents
+with inverses; incomplete versus empty; versioned baseline/controlled eligible;
+newer baseline displaces old winner; source/access/new-run change and stored
+corruption refusal; warehouse boundary. No Native/Auth/race credit from these.
+SQL AST/clash and own/unchanged selector+binding preflights PASS. Four Native
+cases are predeclared for exact22 inverse, actual versions/SALE, access/warehouse
+and dense2000/202000 with two scoped models. Original pending, not accepted.
+Target consumer/provenance/cache/hooks integration remains open; formal5/16,
+independent acceptance false and production_go=false.
