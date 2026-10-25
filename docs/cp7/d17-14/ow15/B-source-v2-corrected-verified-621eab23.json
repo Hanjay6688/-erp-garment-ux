@@ -1,0 +1,39 @@
+{
+  "name": "CP7_OW11_MODEL_TARGET_SOURCE_V2.json",
+  "status": "PASS",
+  "head": "621eab2301de59685c01cd59d082ccb36fa135b0",
+  "run_id": 40166582562,
+  "job_id": 121088771177,
+  "artifact_id": 12589590761,
+  "zip_bytes": 159612,
+  "zip_sha256": "e8490b2daedb5a15fc519ebd1b99f978f638a6acc99de9df7f43711f9151206c",
+  "bytes": 1392809,
+  "sha256": "9f401a22e23717e07b1cc30dcdf5f20c2e47b92f8a0dbee0cb4185a12848aac4",
+  "source_pins_verified": 19,
+  "source_pins_equal_current_isolated_candidate": true,
+  "counts": {
+    "PASS": 4
+  },
+  "case_ids": [
+    "OW11_MODEL_SOURCE_V2_CATALOG22_COMPOSED_INVERSE",
+    "OW11_MODEL_SOURCE_V2_ACTUAL_LATEST_VERSION_AND_POST",
+    "OW11_MODEL_SOURCE_V2_ACTUAL_ACCESS_AND_WAREHOUSE_BOUNDARY",
+    "OW11_MODEL_SOURCE_V2_DENSE2000_BATCHED_PHYSICAL_SOURCE"
+  ],
+  "gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "all_boundaries_catalogs_and_sessions_restored": true,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "first_failure_preserved_artifact": 12588657272,
+  "full_A_chain_qualified": false,
+  "actual_Auth_HTTP_credit": false,
+  "positive_historical_forecast_credit": false,
+  "production_go": false,
+  "independent_acceptance": false
+}
