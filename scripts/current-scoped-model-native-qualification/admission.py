@@ -19,6 +19,13 @@ VARIABLES = set(PROVIDERS) | {
 }
 
 
+def source_path(key, path):
+    if key == 'model_scoped_dataset_source_sha256':
+        assert '/' not in path
+        return 'scripts/cp7_model_scoped_dataset/' + path
+    return path if path.startswith(('scripts/', 'src/')) else 'scripts/' + path
+
+
 def admitted(repo, here, ids, product, business):
     spec = importlib.util.spec_from_file_location('qualified_history_native25', here / 'frozen_admission.py')
     frozen = importlib.util.module_from_spec(spec)
@@ -74,7 +81,7 @@ def admitted(repo, here, ids, product, business):
                 if key.endswith('source_sha256') and isinstance(sources, dict):
                     source_sets += 1
                     for path, digest in sources.items():
-                        relative = path if path.startswith(('scripts/', 'src/')) else 'scripts/' + path
+                        relative = source_path(key, path)
                         assert sha256((repo / relative).read_bytes()).hexdigest() == digest, (variable, relative)
             assert source_sets > 0
             for group, names in provider.IDS.items():
