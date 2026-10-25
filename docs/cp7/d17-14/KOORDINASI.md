@@ -3798,3 +3798,122 @@ or an Auth/Native acceptance. First assertion recorded separately.
 
 
 25 Okt 2026 — A: persiapan integrasi target berversi memakai adapter baru milik A, cp7_current_versioned_target_delta.py dan cp7_current_versioned_target_installation.py. Pemasang B bersifat fresh-only dan bertabrakan dengan namespace target lama yang sudah ada; adapter menjaga semua objek target lama, menambah dua namespace/sembilan fungsi privat dan memverifikasi tepat 21 hook dari sumber B (14 body berubah dan 7 tetap identik) tanpa mengubah otoritas. Tahap selector dan physical binding B dipakai persis. Semua 22 grup katalog/seluruh baris/sequence dijaga dan inverse penuh sebelum pemakaian; SOURCE kualifikasi belum dibuat, tidak ada klaim Native/aktivasi/production_go.
+
+
+## 143. B25 Oktober2026 WIB — corrected source-v2 Native4 Original PASS
+
+621eab23/run40166582562/job121088771177: complete JSON12589590761,159612 bytes,
+SHA e8490b2daedb5a15fc519ebd1b99f978f638a6acc99de9df7f43711f9151206c.
+All4PASS after the null-policy product correction and proper FG permission
+fixture. Exact22 inverse; actual v2/v3 latest and posted SALE; current access/
+foreign actor/FG-only boundary; dense2000/202000, two scoped models,2002 explicit
+rows620.799ms (not SLA). All19 head/current pins, package/CP6/advisor, per-case
+boundaries/public schema/session and business-day cleanup verified. First
+2PASS/2INCOMPLETE Original retained. Private source qualification only; target
+consumer Native6 atdbc0d3ff remains pending and no forecast winner is invented.
+Formal5/16, independent acceptance false, production_go=false.
+
+## 144. B25 Oktober2026 WIB — versioned target transport11 and Browser2 candidates
+
+No default installer/RPC/type/registry change. New opt-in F05 routes default
+false and retain all old31/25/19, Native6 and old11 budgets. Transport keeps all
+11 unique controls in two bounded parts: A catalog1+races4, B repeated catalog1
++races3+AuthHTTP3; the repeated anchor earns zero extra credit and both complete
+same-head Originals are required. Fixtures now capture actual scoped history
+and model, then recapture the target source before choice confirmation. Exact
+SCOPED_V3 method/history references must survive the resulting target read.
+Same/different UUID, observed envelope/request/target waits, current access,
+posted source/policy changes, CLEAR/replay/anonymous/foreign controls retained.
+
+Browser2 candidate uses new provenance.v3/resolution.v2 under the full overlay.
+Mobile: actual UI scoped history/model with lost reply and reload exact recovery,
+then UNKNOWN -> reviewed analog -> CLEAR -> UNKNOWN and current403 clearing.
+Desktop: actual2000/202000 bounded target provenance, analog and same-job reload.
+Stored model/history hashes and physical/money/HPP/draft/receipt state unchanged
+by evaluation/choice/read; synthetic historical openings explicitly labeled.
+No historical positive model winner or factory SLA claimed. Own exact budget,
+50 source pins, actual F05 leading admission/negative mixed routes, transport
+altered-budget/mixed-route refusal, YAML/shell/declaration and JS syntax PASS.
+These are candidates until complete runtime Originals are read; existing
+consumer Native6 still pending. Formal5/16, CP7C/independent false,
+production_go=false. Continue on real failures and preserve first evidence.
+
+## 145. B25 Oktober2026 WIB — operational3600 parity candidate and A intake read
+
+Local actual immutable SQL on explicit SYNTHETIC3600:2PASS. All3600 manual target
+kernels/observed operands equal predecessor (target6000/ROP4000 under explicit
+local test assumptions);100 selected rows exactly match the same global context.
+Baseline2424.194ms/new2892.077ms/subset387.799ms are local measurements, not a
+speedup, Native timing or factory SLA. First local failure retained: the isolated
+fixture omitted cp7_alert; only fixture role setup corrected, no product grant.
+
+New closed Native2 candidate repeats the exact22 catalog anchor and compares a
+complete operational predecessor with current overlay on the same SYNTHETIC3600/
+363600 facts. Two explicit public test profiles and two actual scoped model
+archives; every target kernel/profile/observed operand and recommendation's
+quantity state/value/unit/reason compared. Distinct capture snapshot/clock/engine
+references stay explicit, all real pages verified. Current full source check and
+actual posted stock change tested; old result must remain immutable. Raw source
+INCOMPLETE retained, no positive model fabricated. Own source pins/admission,
+negative mixed routes and actual workflow declaration PASS; Native pending.
+Copied Native6 declaration assertions were caught locally and corrected only in
+new Native2 workflow; first preflight evidence retained. Old6/4/31/25/19 unchanged.
+
+Read A isolated preparation78a2ce03157debaa57a22fa77cf66629066450b2: it has
+intaken Bdbc0d3ff and explicitly repaired the four scoped RPC access inventory
+entries after retaining326!=322. Frozen F05 stays separate there; full composer
+has not installed this versioned target composition. B does not duplicate or
+edit A registry/default/fullchain/after-use work. Source-v2 corrected Original4
+PASS and receipt are available on B40b72fbe; consumer6 and transport/browser at
+40b72fbe are being checked separately. Formal5/16, independent false, prod false.
+
+## 146. B25 Oktober2026 WIB — versioned target Native6 complete Original PASS
+
+dbc0d3ff/run40167211154/job121090610067: complete JSON12589057824,206245 bytes,
+SHA010f5de305269424fd2c156766fb11a1d35cc9a6670c694085886c04fb0a8337.
+All five Original JSON files read; all33 exact-head/current source pins match.
+Six Native PASS: exact22 composed/partial inverse; actual v4 baseline and raw
+operational exact UUID/immutable replay plus queued/raw after-use refusal;
+latest own GLOBAL_V2/SCOPED_V3 with explicit read/history namespace and policy
+clock; actual posted SALE/profile retirement/current access/foreign actor;
+FG-only refresh/cache preserving baseline100/point30 with no model/policy leak;
+bounded/staged/direct reviewed-analog target and observed-operand parity.
+
+All case boundaries/public schema/session leaks/WIB-day controls, CP6/advisor,
+all five package gates, primary unchanged and Auth0->0 verified. No invented
+positive historical model or automatic activation; Native target integration
+now qualified at this source, with HTTP/concurrency/browser still separate.
+40b72fbe transport parts A/B and Browser2 actual runtime Originals pending.
+New scale Native2 remains candidate. Full A composer/after-use/defaults stay A;
+formal5/16, CP7C/independent false, production_go=false.
+
+## 147. B25 Oktober2026 WIB — versioned target actual Browser2 Original PASS
+
+40b72fbe/run40169049615/job121095977010: complete JSON12588948272,47457 bytes,
+SHAafed95b9bf79e73a199040b69262d996c30b0edb629eeef4eea6ef7d0e1d21e9.
+Full12588913485,2045422 bytes, SHAb1757a1c5fb1c7f37e8381c9ee5857932dcd24fced6fb5a8021e26824c731cf8.
+All6 Original JSON files read, all50 head/current source pins matched, three
+screenshots visually reviewed. Both actual Auth/PostgREST Browser cases PASS:
+mobile scoped history/model lost-response+reload exact method/UUID/payload
+recovery, selected scoped reference in new target provenance.v3/resolution.v2,
+UNKNOWN -> confirmed analog target1 -> CLEAR -> UNKNOWN, current403 hides results;
+desktop2000/202000 preserves raw INCOMPLETE, confirmed analog target2 and identical
+job/provenance after reload. Observed own sales/days remain0, historical openings
+explicitly synthetic, no stock/money/HPP/draft/receipt change by model/choice/read.
+
+Exact clone authority, business-day controls, Auth counts0->0, sessions/containers/
+copy cleanup, all package gates/CP6/advisor verified. Browser host RUN_COMPLETE
+with2PASS is the frozen runner's success vocabulary. Its tool/GitHub head40b72fbe
+records product_refdbc0d3ff; every recorded product path is byte-identical across
+those two commits, and all50 runtime/script/client pins bind exact40b72fbe.
+No false same-head assertion or rerun. VERSIONED_TARGET_COMPONENT_MATRIX proves
+all33 backend files identical between Native6 and Browser2/currented82e7e9.
+
+A finance request/status/bounded-request hook names have no direct intersection
+with B's21 replacements (static check only); runtime/full-composer and after-use
+still require A's composition, with fresh parent rather than replacing a used
+old target-v1 stage. Transport11 same-head union and actual Native3600 pending;
+formal5/16, CP7C/independent false, production_go=false. Continue pending work.
+
+
+25 Okt 2026 - A integrator: true-merge B36b81fce menambahkan kualifikasi transport/browser/operational3600. Semua source produk/klien tetap persis kandidat A; canonical F05 yang frozen tetap d3135a9c. Entry B36b lengkap disimpan persis di cp7_b_versioned_target_f05_candidate.py. Adapter A hanya menyiapkan pemasangan baru melalui predecessor lengkap sebelum pemakaian; tidak mengklaim upgrade target-v1 yang sudah dipakai. B source/consumer/browser tetap bukti komponen terpisah; full A versioned Native dan used-restore belum qualified.
