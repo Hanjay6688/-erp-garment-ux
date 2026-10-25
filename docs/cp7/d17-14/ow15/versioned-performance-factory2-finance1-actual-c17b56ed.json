@@ -1,0 +1,28 @@
+{
+  "name": "CP7_CURRENT_VERSIONED_PERFORMANCE_FACTORY_FINANCE1.json",
+  "status": "INCOMPLETE",
+  "head": "c17b56ed91262757fb75d73d12b98a12edaa8f35",
+  "run_id": 40227300626,
+  "job_id": 121271278040,
+  "artifact_id": 12613688822,
+  "zip_bytes": 2214010,
+  "zip_sha256": "9366e367215480888b7fba2287ee486d4bf82b4488b4feb9295f8f56acc62361",
+  "bytes": 2344058,
+  "sha256": "523f0b9d36d110dd10cda8f5edaf4e448d7aaa4ce2c127c6aa8a77392aaaeed8",
+  "archive_member": "CP7_CURRENT_VERSIONED_PERFORMANCE_FACTORY_FINANCE1.json",
+  "source_pins_verified": 3597,
+  "actual_prerequisites_verified": 7,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "production_go": false,
+  "independent_acceptance": false,
+  "first_failure_preserved": true,
+  "error_summary": "Actual runtime INCOMPLETE; exact private Original retained without PASS credit"
+}

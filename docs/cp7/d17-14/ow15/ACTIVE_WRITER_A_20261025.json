@@ -1,8 +1,8 @@
 {
-  "recorded_at_utc": "2026-10-25T19:49:18.303811+00:00",
+  "recorded_at_utc": "2026-10-25T21:45:44.378739+00:00",
   "role": "A finance writer/integrator replacing Claude; B remains separate production/planning writer",
   "slogan": [
-    "VENI. VIDI. VICI. ERP. \u2014 I CONQUERED ERP.",
+    "VENI. VIDI. VICI. ERP. — I CONQUERED ERP.",
     "Reliable data adalah dewa. Keuangan termasuk laporan, stok, dan HPP adalah raja."
   ],
   "formal_accepted": "5/16",
@@ -10,25 +10,37 @@
   "independent_acceptance": false,
   "running": [
     {
-      "suite": "frozen-finance-native45",
-      "head": "a3088e214f5babc46e4016734cce11925acd34d8",
-      "branch": "astra-a/d17-14-frozen-finance-native45-20261026",
-      "run_id": 40222596942,
-      "job_id": 121257191700,
-      "status": "queued",
+      "suite": "frozen-public-native52",
+      "head": "6dceb3d3530a2144217047360613808af3249e4a",
+      "run_id": 40234978669,
+      "job_id": 121294499742,
+      "status": "in_progress",
       "conclusion": null,
-      "source_pins": 3644,
+      "source_pins": 3677,
+      "actual_originals": 2,
       "actual_runtime_outcome_pending": true
     },
     {
-      "suite": "performance-factory-output2",
-      "head": "c17b56ed91262757fb75d73d12b98a12edaa8f35",
-      "branch": "astra-a/d17-14-versioned-performance-factory2-20261026",
-      "run_id": 40227300626,
-      "job_id": 121271278040,
+      "suite": "frozen-private-factory-first-membership",
+      "head": "778ac17e0be417841ad144ff2f85367752341f69",
+      "run_id": 40234971454,
+      "job_id": 121294477378,
       "status": "queued",
       "conclusion": null,
-      "source_pins": 3597,
+      "source_pins": 3666,
+      "actual_originals": 8,
+      "known_old_fixture": true,
+      "actual_runtime_outcome_pending": true
+    },
+    {
+      "suite": "frozen-private-factory-date2",
+      "head": "5bf4e03a37418545655f07a52582103348b17cd4",
+      "run_id": 40236661942,
+      "job_id": 121299590702,
+      "status": "in_progress",
+      "conclusion": null,
+      "source_pins": 3668,
+      "actual_originals": 9,
       "actual_runtime_outcome_pending": true
     }
   ],
@@ -2772,15 +2784,20 @@
     "outcome_receipt": "performance-factory-first-CI-source-refusal-25c5c4fb.json"
   },
   "private_frozen_factory_prepared": {
-    "head": "b5d2d0fc354cf3f67cbe61f768bff8aeeb8affcc",
+    "head": "778ac17e0be417841ad144ff2f85367752341f69",
     "branch": "astra-a/d17-14-frozen-finance-followups-prepared-20261026",
-    "SOURCE_bound": false,
-    "runtime_dispatched": false,
+    "SOURCE_bound": true,
+    "runtime_dispatched": true,
     "required_actual_Native45_PASS": true,
     "old_six_performance_groups_baseline_only": true,
     "production_go": false,
     "tree": "2f5fb74775222080bee966e15cf9cf2efc9e18c3",
-    "merged_native45_source": "a3088e214f5babc46e4016734cce11925acd34d8"
+    "merged_native45_source": "a3088e214f5babc46e4016734cce11925acd34d8",
+    "run_id": 40234971454,
+    "job_id": 121294477378,
+    "source_pins": 3666,
+    "known_old_fixture": true,
+    "corrected_successor_head": "5bf4e03a37418545655f07a52582103348b17cd4"
   },
   "performance_factory_first_CI_source_refusal": {
     "status": "CI_SOURCE_ADMISSION_REFUSAL",
@@ -2812,7 +2829,7 @@
     "execution_branch": "astra-a/d17-14-versioned-performance-factory2-20261026",
     "run_id": 40227300626,
     "job_id": 121271278040,
-    "status": "queued",
+    "status": "completed",
     "admission": {
       "status": "PASS",
       "source_pins": 3597,
@@ -2824,7 +2841,10 @@
     "product_changes": 0,
     "business_assertions": 63,
     "runtime_qualified": false,
-    "production_go": false
+    "production_go": false,
+    "conclusion": "failure",
+    "Original_intake": "INCOMPLETE",
+    "artifact_id": 12613688822
   },
   "actual_B_frozen_public_facade_component": {
     "name": "CP7_OW12B_FROZEN_FACADE.json",
@@ -2883,7 +2903,7 @@
     "production_go": false
   },
   "private_frozen_public_native52_prepared": {
-    "head": "f184d79376f66c9654ad4c25b42cda8575d5a146",
+    "head": "6dceb3d3530a2144217047360613808af3249e4a",
     "local": "176a01ad233c826fb3545ce76adbee5abb675d79",
     "tree": "eb6ebfb94247e4efed8c07962e87de48b9419a36",
     "parent": "a7908f73c7a4c60552f0e9809a7b753734fde28e",
@@ -2895,10 +2915,140 @@
     "local_route_controls": 3,
     "workflow_bash_steps": 43,
     "actual_B_component_PASS_intaken": true,
-    "actual_A_Native45_outcome_pending": true,
-    "SOURCE_bound": false,
-    "runtime_dispatched": false,
+    "actual_A_Native45_outcome_pending": false,
+    "SOURCE_bound": true,
+    "runtime_dispatched": true,
     "actual_A_Auth_HTTP_credit": false,
-    "production_go": false
+    "production_go": false,
+    "run_id": 40234978669,
+    "job_id": 121294499742,
+    "source_pins": 3677
+  },
+  "actual_current_frozen_finance_native45": {
+    "name": "CP7_CURRENT_FROZEN_FINANCE_NATIVE45.json",
+    "status": "PASS",
+    "head": "a3088e214f5babc46e4016734cce11925acd34d8",
+    "run_id": 40222596942,
+    "job_id": 121257191700,
+    "artifact_id": 12611956497,
+    "zip_bytes": 3554506,
+    "zip_sha256": "243884352b153f4ef5ce81b2c5d0c0f6872a78334bcdab65b6871f4fd986c058",
+    "bytes": 13974975,
+    "sha256": "de482796ee85ad229a74d36e4c825d9f8423c4e856de0bc9e33b60272026f089",
+    "archive_member": "CP7_CURRENT_FROZEN_FINANCE_NATIVE45.json",
+    "source_pins_verified": 3644,
+    "actual_prerequisites_verified": 1,
+    "package_gate": {
+      "installed": true,
+      "primary_unchanged": true,
+      "backup_restore_drill": true,
+      "security_advisors": true,
+      "writer_runtime": true
+    },
+    "cp6_restored": true,
+    "advisor_gate": true,
+    "production_go": false,
+    "independent_acceptance": false,
+    "counts": {
+      "PASS": 45
+    },
+    "retained_A_cases": 36,
+    "private_unit_cases": 4,
+    "official_finance_cases": 5,
+    "all3602_targets_and_pages_compared": true,
+    "maximum_unit_millis": 4219.923,
+    "official_finance_metric_count": 24,
+    "unknown_never_zero": true,
+    "independent_book_signature": true,
+    "full22_all_rows_all_sequences_restored": true,
+    "official_factory_finance_qualified": false,
+    "public_or_default_adopted": false,
+    "actual_Auth_HTTP_credit": false
+  },
+  "actual_performance_factory_membership_failure": {
+    "name": "CP7_CURRENT_VERSIONED_PERFORMANCE_FACTORY_FINANCE1.json",
+    "status": "INCOMPLETE",
+    "head": "c17b56ed91262757fb75d73d12b98a12edaa8f35",
+    "run_id": 40227300626,
+    "job_id": 121271278040,
+    "artifact_id": 12613688822,
+    "zip_bytes": 2214010,
+    "zip_sha256": "9366e367215480888b7fba2287ee486d4bf82b4488b4feb9295f8f56acc62361",
+    "bytes": 2344058,
+    "sha256": "523f0b9d36d110dd10cda8f5edaf4e448d7aaa4ce2c127c6aa8a77392aaaeed8",
+    "archive_member": "CP7_CURRENT_VERSIONED_PERFORMANCE_FACTORY_FINANCE1.json",
+    "source_pins_verified": 3597,
+    "actual_prerequisites_verified": 7,
+    "package_gate": {
+      "installed": true,
+      "primary_unchanged": true,
+      "backup_restore_drill": true,
+      "security_advisors": true,
+      "writer_runtime": false
+    },
+    "cp6_restored": true,
+    "advisor_gate": true,
+    "production_go": false,
+    "independent_acceptance": false,
+    "first_failure_preserved": true,
+    "error_summary": "Actual runtime INCOMPLETE; exact private Original retained without PASS credit",
+    "root_cause": "Generator copied sibling qualification/fixture.py at daab8075, not executed runtime-qualification/fixture.py; Native master history guard correctly refused past membership."
+  },
+  "previous_running_snapshot": [
+    {
+      "suite": "frozen-finance-native45",
+      "head": "a3088e214f5babc46e4016734cce11925acd34d8",
+      "branch": "astra-a/d17-14-frozen-finance-native45-20261026",
+      "run_id": 40222596942,
+      "job_id": 121257191700,
+      "status": "queued",
+      "conclusion": null,
+      "source_pins": 3644,
+      "actual_runtime_outcome_pending": true
+    },
+    {
+      "suite": "performance-factory-output2",
+      "head": "c17b56ed91262757fb75d73d12b98a12edaa8f35",
+      "branch": "astra-a/d17-14-versioned-performance-factory2-20261026",
+      "run_id": 40227300626,
+      "job_id": 121271278040,
+      "status": "queued",
+      "conclusion": null,
+      "source_pins": 3597,
+      "actual_runtime_outcome_pending": true
+    }
+  ],
+  "writer_A_takeover": {
+    "full_context": "docs/cp7/handoff/WRITER_A_TAKEOVER_20261026.md",
+    "B_read_only_head": "714766d1c2d52c8e91bc79671a6ea0f6187ed2e4",
+    "no_B_scope_reassigned": true,
+    "formal_accepted": "5/16",
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "factory_executed_fixture_correction": {
+    "head": "5bf4e03a37418545655f07a52582103348b17cd4",
+    "local": "777320775d2748b2250a370b7d363c2f5e3abb1e",
+    "tree": "1bcf55aae7805ad1ea56a4e6741200e181163739",
+    "parent": "778ac17e0be417841ad144ff2f85367752341f69",
+    "branch": "astra-a/d17-14-frozen-finance-factory2-20261026",
+    "run_id": 40236661942,
+    "job_id": 121299590702,
+    "source_head": "daab807531816353e499d7842897320ce42e8949",
+    "source_path": "scripts/current-factory-finance-runtime-qualification/fixture.py",
+    "source_sha256": "193197b3c288b382970250f2f3db4c38ea21e3fd45bb1729fe25f94ecbe5e3bd",
+    "source_pins": 3668,
+    "actual_originals": 9,
+    "admission_status": "PASS",
+    "admission_bytes": 3211958,
+    "admission_sha256": "f5c4c8b034c59c4ba7f197d480be47064ad884eddce8ca1324c3036812f1ce70",
+    "negative_controls": 12,
+    "bash_steps": 43,
+    "business_assertions": 65,
+    "posted_history_tables_checked": 9,
+    "product_changes": 0,
+    "runtime_qualified": false,
+    "previous_failure_preserved": true,
+    "prior_date_corrected_fixture_claims_superseded": true
   }
 }

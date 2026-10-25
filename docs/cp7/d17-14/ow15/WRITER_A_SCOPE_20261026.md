@@ -32,7 +32,12 @@ menjadi penerimaan independen. production_go=false; versi resmi dan hosted
 belum dipasang. Status run terbaru ada di ACTIVE_WRITER_A_20261025.json.
 
 Posisi eksekusi26Oktober: kandidat optimasi lulus keenam kelompok aktual;
-Native40 privat lulus40/40, seluruh3602target/halaman cocok dan semua data
-pulih. Native45 keuangan resmi serta pabrik1200SKU×3ukuran kini sudah
-SOURCE-bound, lulus pemeriksaan sumber lengkap dan dikirim ke server.
-Keduanya belum mendapat kredit runtime sebelum Original tersedia.
+Native40 privat lulus40/40. Native45 keuangan resmi kini aktual PASS45/45,
+24metrik/3602target dan full22/rows/sequence pulih. Pabrik c17b56ed aktual
+INCOMPLETE karena generator memilih sibling fixture lama; guard riwayat benar
+menolak membership mundur. Fixture runtime daab yang benar kini dipasang persis
+pada5bf4e03a:3668pin/9Original,12kontrol negatif dan65assert. Run40236661942
+berjalan; runtime belum lulus. Native52 publik run40234978669 juga berjalan;
+factory778ac17e/run40234971454 masih antre dan hasilnya harus dipertahankan.
+[Estafet lengkap](../../handoff/WRITER_A_TAKEOVER_20261026.md) memuat kebutuhan,
+batas A/B, sebab koreksi dan langkah lanjut; bukan penutupan scope ERP.
