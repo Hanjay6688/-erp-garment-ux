@@ -4124,3 +4124,32 @@ host screenshots readable. This does not override same-head actualAuth host's
 body-text contrast failure; ab611 correction still awaiting runtime visuals.
 A read-only ref remains7de9d4b9. Continue pending choice latency, actualAuth,
 quantity and cutting; default/integration unchanged, formal5/16 and production_go=false.
+
+
+## 202. B26 Oktober2026 WIB — frozen choice K3 failure retained; command profile prepared
+
+98c Choice6 Original12612196824/40222957697 is5PASS1INCOMPLETE. Single archived
+reference correction is insufficient: cached SAVE7292.876ms; afterK3 SAVE57014
+at8152.730ms in first current source, after frozen reference compilation. Both
+standalone unchanged compiler calls4391.364/4465.086ms. Full5JSON/exact-head F05/
+source/declaration/productpaths/CP6/advisor/public/WIB26/session/Auth/restore
+verified; original failure and prior c1/5749 outcomes retained. No latency pass.
+
+Instrument only the two actual factory SAVE calls with existing transaction-local
+function counters. Ordinary authenticated SAVE, all2fullsource checks, current
+access, locking, immutable receipts and8s timeout unchanged. Failed command rolls
+back its savepoint before reading completed frames, then rethrows the same error.
+Track setting and timeout restored exactly; no shared counter reset, server
+setting or production function modification. Canceled active frames/inlined SQL
+may be absent and observer cost is uncalibrated. Four controlled wrapper paths
+(success, timeout, other error, unavailable profile) PASS; runtime measurement
+pending. Four dependent closed preflights PASS with97missing/mixed refusals each.
+Initial source-pin assumption refused; reusable profiler explicitly added to
+all4closed declarations before publication. No new Native case credit.
+
+98c Work6 Original12611632242/40222957766 and Facade8 Original12612331681/
+40222957684 fullyverifiedPASS. Work factory saves5436.518/5277.580ms, replay3.608ms;
+facade Native3/actualobserved waits3/realAuthHTTP2 and all4cloneauthorities exact.
+All5/6JSON/source/head/public/CP6/advisor/WIB26/Auth/session/restore verified.
+No stable factory SLA, aggregate or default-adoption claim. Continue actual
+choice/quantity/cutting/browser scope. Formal5/16; production_go=false.

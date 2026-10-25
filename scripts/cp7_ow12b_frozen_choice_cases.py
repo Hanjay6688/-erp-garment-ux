@@ -31,7 +31,8 @@ def sources():
  root=Path(__file__).resolve().parent
  return {**reader.sources(),**{'cp7_frozen_analysis_choice_v2/'+k:v for k,v in stage.sources().items()},
   **{p.name:sha256(p.read_bytes()).hexdigest()for p in(Path(__file__),root/'cp7_ow12b_frozen_choice_local.mjs',
-   root/'cp7_ow12b_frozen_choice_probe.py',root/'cp7_ow12b_frozen_choice_preflight.py',Path(choice.__file__))}}
+   root/'cp7_ow12b_frozen_choice_probe.py',root/'cp7_ow12b_frozen_choice_preflight.py',Path(choice.__file__),
+   Path(native.geometry.common.__file__))}}
 
 
 def install(cur):
@@ -76,6 +77,40 @@ def save(cur,f,p=None,key=None,observed=None):
 
 
 def target(f):return next(x for x in f['expected']['inputs']['targets']if x['target_key']==f['target'])
+
+
+def profiled_save(cur,f,p=None,observed=None,phase=None):
+ # Observe the actual bounded authenticated command, including a failed K3
+ # attempt. Transaction-local counters exclude other sessions. No production
+ # function, source, timeout, role grant or cache is changed for profiling.
+ profiler=native.geometry.common
+ plan.b.api.admin(cur)
+ prior=cur.execute('show track_functions').fetchone()[0]
+ timeout=cur.execute('show statement_timeout').fetchone()[0]
+ cur.execute("select set_config('track_functions','all',true)")
+ before=profiler.function_times(cur)
+ cur.execute('savepoint frozen_choice_profile')
+ failed=False
+ try:
+  return save(cur,f,p,observed=observed)
+ except Exception:
+  failed=True
+  # An ordinary 57014 aborts the statement transaction. Restore the command
+  # savepoint before observing completed frames, then rethrow that same error.
+  cur.execute('rollback to savepoint frozen_choice_profile')
+  raise
+ finally:
+  plan.b.api.admin(cur)
+  profile=profiler.function_profile(cur,before)
+  profile.update(phase=phase,canceled_active_frames_may_be_absent=failed,
+   counter_scope='THIS_TRANSACTION_ONLY',statement_limit='8s',
+   gateway_limit_increased=False,production_functions_replaced_for_profiling=False)
+  cur.execute('release savepoint frozen_choice_profile')
+  cur.execute("select set_config('track_functions',%s,true)",(prior,))
+  profile['track_functions_restored']=cur.execute('show track_functions').fetchone()[0]==prior
+  profile['statement_timeout_restored']=cur.execute('show statement_timeout').fetchone()[0]==timeout
+  assert profile['track_functions_restored']and profile['statement_timeout_restored']
+  observed.setdefault('save_function_profiles',[]).append(profile)
 
 
 def cases(cur,today):
@@ -164,9 +199,9 @@ def cases(cur,today):
   consumer.profile(cur,root)
   f=fresh(cur,today,dict(subject=actor,target=root+':'+sz,source=source_root+':'+sz),observed)
   assert len(f['expected']['inputs']['targets'])==3602
-  physical=plan.monetary_state(cur);first=save(cur,f,observed=observed);assert first['revision']=='1'
+  physical=plan.monetary_state(cur);first=profiled_save(cur,f,observed=observed,phase='CACHED');assert first['revision']=='1'
   new=fresh(cur,today,f,observed);reader.purge(cur,new)
-  second=save(cur,new,payload(new,'1'),observed=observed);assert second['revision']=='2'
+  second=profiled_save(cur,new,payload(new,'1'),observed=observed,phase='AFTER_K3');assert second['revision']=='2'
   assert plan.monetary_state(cur)==physical
   return dict(size,status='PASS',actual_cached_and_after_K3_confirmations=True,
    full_source_checks_per_command=2,all3602_compiled_targets=True,factory_SLA_claim=False,observations=deepcopy(observed))

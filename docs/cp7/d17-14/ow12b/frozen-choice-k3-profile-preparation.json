@@ -1,0 +1,61 @@
+{
+  "contract": "cp7.frozen-choice-K3-command-profile.preparation.v1",
+  "base_head": "0ccca861c31bb6b897a5060635f5f09c3e317844",
+  "status": "PREPARATION_ONLY",
+  "source_sha256": {
+    "scripts/cp7_ow12b_frozen_choice_cases.py": "32ef91fc531945033fa4187c55802ed7d8cd4fe121ab7d3674ff4b522d89c2c6",
+    "scripts/cp7_ow11_model_target_v2_scale_cases.py": "cab1eb1d3435b6862887936e7e1da68c575bdb15da1445ad6f62c746d2fb84c2"
+  },
+  "actual_command_body_and_8s_limit_unchanged": true,
+  "existing_completed_transaction_function_counter_helper_reused": true,
+  "only_factory_case_two_actual_SAVE_calls_instrumented": true,
+  "per_call_savepoint_restores_failed_statement_then_same_error_rethrown": true,
+  "track_functions_and_statement_timeout_exact_restoration_checked": true,
+  "shared_counter_resets_or_server_config_changes": false,
+  "production_SQL_function_changes": 0,
+  "current_access_and_both_full_source_checks_unchanged": true,
+  "profiles_include_completed_calls_only": true,
+  "canceled_frames_and_inlined_SQL_may_be_absent": true,
+  "instrumentation_overhead_uncalibrated": true,
+  "closed_source_contract_pins": {
+    "choice": 111,
+    "choice_transport": 114,
+    "choice_auth": 140,
+    "quantity_auth": 153
+  },
+  "closed_preflights_pass": 4,
+  "missing_or_mixed_routes_refused_each": 97,
+  "controlled_wrapper_checks": {
+    "status": "PASS_PREPARATION_ONLY",
+    "checks": [
+      {
+        "case": "SUCCESS",
+        "status": "PASS"
+      },
+      {
+        "case": "TIMEOUT",
+        "status": "PASS"
+      },
+      {
+        "case": "OTHER_ERROR",
+        "status": "PASS"
+      },
+      {
+        "case": "PROFILE_UNAVAILABLE",
+        "status": "PASS"
+      }
+    ],
+    "actual_wrapper_executed": true,
+    "controlled_cursor_and_command": true,
+    "actual_Native": false,
+    "actual_timeout_or_function_counters_observed": false
+  },
+  "first_prepublication_pin_assertion": "Reusable scale profiler was not transitively source-pinned by frozen providers; added its file explicitly to choice and all three dependent declarations before publication.",
+  "actual_Native_profile_observed": false,
+  "performance_repair_qualified": false,
+  "default_application_adopted": false,
+  "formal_acceptance": "5/16",
+  "CP7C_accepted": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

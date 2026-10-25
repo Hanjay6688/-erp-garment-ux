@@ -1,0 +1,315 @@
+{
+  "contract": "cp7.original-runtime-receipt.v1",
+  "head": "98c39dd57270baefd2eb3bbed642d68b25b9faab",
+  "run_id": 40222957684,
+  "job_id": 121258303285,
+  "artifact_id": 12612331681,
+  "bytes": 142275,
+  "artifact_sha256": "6d8eb4d82e779ae8997d888cd1b37983dfe9301428e473ea2e2129ef93dd135b",
+  "status": "PASS",
+  "Original_read_complete": true,
+  "all_Original_JSON_files_read": 6,
+  "original_json_sha256": {
+    "CP7_OW12B_FROZEN_FACADE_CLONE_AUTHORITY.json": "e3a534bdeed4a9db2eb44bbd51f16b28689b8bbfd41d897ec4ef07e5b460b3d3",
+    "T3_BACKUP_RESTORE_DRILL.json": "80ae4273df9deb2244f8203786418545c0faeeed4e27197862d30a5005f84171",
+    "T3_PACKAGE_FILES_INSTALL.json": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+    "ALIGNED_CHAIN.json": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b",
+    "CP7_OW12B_FROZEN_FACADE.json": "489a8512225d3a340a83b6c7e17fe8421b5f771f921bbadaf5610b139bd23e6f",
+    "T3_PACKAGE_INSTALL.json": "689fada764d207d8eea40f0b10050a57cd6ce73f6aa658864f091523a6ae5f45"
+  },
+  "actual_current_F05_source_prefix_compared": [
+    "source_sha256",
+    "expected_case_count",
+    "required_case_counts",
+    "required_case_ids",
+    "predeclared_case_contract",
+    "predeclared_case_sha256",
+    "target_v2_source_sha256",
+    "frozen_facade_source_sha256"
+  ],
+  "all_source_fields_and_declaration_match": true,
+  "source_prefix_database_executed": false,
+  "product_paths_byte_identical_between_recorded_refs": true,
+  "counts": {
+    "native": 3,
+    "races": 3,
+    "http": 2
+  },
+  "case_facts": {
+    "native": {
+      "OW12B_FROZEN_FACADE_V2_CATALOG22_EXACT_PREUSE": {
+        "status": "PASS",
+        "exact22_composed_inverse": true,
+        "dependent_view_refused_atomically": true,
+        "one_explicit_authenticated_facade_no_old_replacement": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "OW12B_FROZEN_FACADE_V2_PUBLIC_REQUEST_UNITS_REPLAY": {
+        "status": "PASS",
+        "real_public_v2_request_and_unchanged_public_steps_pages": true,
+        "whole_cached_inputs_equal_unchanged_compiler": true,
+        "actual_pending_then_complete_coverage": true,
+        "exact_method_query_UUID_replay": true,
+        "reference_immutable": true,
+        "no_ERP_write": true,
+        "step_millis": [
+          34.405,
+          8.291,
+          7.754,
+          5.636,
+          10.325,
+          16.179,
+          7.616,
+          12.444,
+          18.374,
+          12.125,
+          6.257,
+          12.489,
+          11.648,
+          22.45,
+          18.789,
+          9.721,
+          4.813
+        ],
+        "page_count": 1,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "OW12B_FROZEN_FACADE_V2_CURRENT_ACCESS_USED_INVERSE": {
+        "status": "PASS",
+        "used_inverse_refused_before_DDL": true,
+        "current_access_rechecked_on_replay_step_workspace": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      }
+    },
+    "races": {
+      "OW12B_FROZEN_FACADE_V2_SAME_UUID_OBSERVED_WAIT": {
+        "status": "PASS",
+        "actual_blocking_backend_observed": true,
+        "distinct_worker_backends": 2,
+        "same_UUID_one_job": true,
+        "current_access_after_source_wait": false,
+        "current_access_after_committed_replay_wait": false,
+        "no_orphan_job_or_ERP_effect": true,
+        "copy_runtime": {
+          "stage": "cp7.bounded-analysis-stage.v1",
+          "private_functions": 13,
+          "public_rpcs": 1,
+          "new_tables": 0,
+          "existing_function_replacements": 7,
+          "Native_ERP_DML": false,
+          "real_Native_job_rows": true,
+          "raw_native_status_overridden": false,
+          "actual_checked_SAVE2000_qualified": false,
+          "full_A_chain_qualified": false,
+          "production_go": false
+        },
+        "session_leaks": [],
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "OW12B_FROZEN_FACADE_V2_ACCESS_AFTER_SOURCE_WAIT": {
+        "status": "PASS",
+        "actual_blocking_backend_observed": true,
+        "distinct_worker_backends": 1,
+        "same_UUID_one_job": false,
+        "current_access_after_source_wait": true,
+        "current_access_after_committed_replay_wait": false,
+        "no_orphan_job_or_ERP_effect": true,
+        "copy_runtime": {
+          "stage": "cp7.bounded-analysis-stage.v1",
+          "private_functions": 13,
+          "public_rpcs": 1,
+          "new_tables": 0,
+          "existing_function_replacements": 7,
+          "Native_ERP_DML": false,
+          "real_Native_job_rows": true,
+          "raw_native_status_overridden": false,
+          "actual_checked_SAVE2000_qualified": false,
+          "full_A_chain_qualified": false,
+          "production_go": false
+        },
+        "session_leaks": [],
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "OW12B_FROZEN_FACADE_V2_ACCESS_AFTER_REPLAY_WAIT": {
+        "status": "PASS",
+        "actual_blocking_backend_observed": true,
+        "distinct_worker_backends": 1,
+        "same_UUID_one_job": false,
+        "current_access_after_source_wait": false,
+        "current_access_after_committed_replay_wait": true,
+        "no_orphan_job_or_ERP_effect": true,
+        "copy_runtime": {
+          "stage": "cp7.bounded-analysis-stage.v1",
+          "private_functions": 13,
+          "public_rpcs": 1,
+          "new_tables": 0,
+          "existing_function_replacements": 7,
+          "Native_ERP_DML": false,
+          "real_Native_job_rows": true,
+          "raw_native_status_overridden": false,
+          "actual_checked_SAVE2000_qualified": false,
+          "full_A_chain_qualified": false,
+          "production_go": false
+        },
+        "session_leaks": [],
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      }
+    },
+    "http": {
+      "OW12B_FROZEN_FACADE_V2_AUTH_REQUEST_ALL_PAGES": {
+        "status": "PASS",
+        "actual_GoTrue_PostgREST": true,
+        "exact_public_v2_replay": true,
+        "all_actual_pages_hash_checked": true,
+        "actual_HTTP_steps": 17,
+        "no_ERP_write": true,
+        "session_leaks": [],
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      "OW12B_FROZEN_FACADE_V2_AUTH_REVOKED_FOREIGN_ANONYMOUS": {
+        "status": "PASS",
+        "actual_existing_token_revoked_all_six_refused": true,
+        "foreign_pages_source_refused": true,
+        "foreign_request_absent": true,
+        "anonymous_all_six_refused": true,
+        "session_leaks": [],
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      }
+    }
+  },
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "CP6_advisor_boundary_public_catalog_WIB_session_Auth_cleanup_gates": true,
+  "actual_Auth_HTTP_credit": true,
+  "actual_concurrency": true,
+  "new_visual_screenshot_review": false,
+  "new_cross_suite_aggregate_acceptance_credit": 0,
+  "full_factory3600_qualified": false,
+  "full_OW11_acceptance": false,
+  "full_OW12b_acceptance": false,
+  "formal_acceptance": "5/16",
+  "CP7C_accepted": false,
+  "independent_acceptance": false,
+  "production_go": false,
+  "explicit_frozen_facade_transport8_qualified": true,
+  "real_observed_blocking_backends": true,
+  "current_access_after_source_and_replay_wait": true,
+  "all_four_clone_authorities_exact": true,
+  "clone_authority": {
+    "contract_version": "cp7.initial-clone-authority.v1",
+    "copies": [
+      {
+        "database": "cp6_auditor_race",
+        "source": "cp6_rollback",
+        "source_owner": "postgres",
+        "previous_owner": "supabase_admin",
+        "current_owner": "postgres",
+        "source_authority_sha256": "40beebded7c4fdf0cd00051d0a186642f05c036bb91b14641c5f6f6228b6bc6d",
+        "before_authority_sha256": "050a4d892c21c8bb42172e2ac27c2a3b0f2fd47e49c95ee5b476d36042374068",
+        "after_authority_sha256": "40beebded7c4fdf0cd00051d0a186642f05c036bb91b14641c5f6f6228b6bc6d",
+        "authority_exact": true,
+        "oracle_relaxed": false,
+        "primary_modified": false
+      },
+      {
+        "database": "cp6_auditor_race",
+        "source": "cp6_rollback",
+        "source_owner": "postgres",
+        "previous_owner": "supabase_admin",
+        "current_owner": "postgres",
+        "source_authority_sha256": "40beebded7c4fdf0cd00051d0a186642f05c036bb91b14641c5f6f6228b6bc6d",
+        "before_authority_sha256": "050a4d892c21c8bb42172e2ac27c2a3b0f2fd47e49c95ee5b476d36042374068",
+        "after_authority_sha256": "40beebded7c4fdf0cd00051d0a186642f05c036bb91b14641c5f6f6228b6bc6d",
+        "authority_exact": true,
+        "oracle_relaxed": false,
+        "primary_modified": false
+      },
+      {
+        "database": "cp6_auditor_race",
+        "source": "cp6_rollback",
+        "source_owner": "postgres",
+        "previous_owner": "supabase_admin",
+        "current_owner": "postgres",
+        "source_authority_sha256": "40beebded7c4fdf0cd00051d0a186642f05c036bb91b14641c5f6f6228b6bc6d",
+        "before_authority_sha256": "050a4d892c21c8bb42172e2ac27c2a3b0f2fd47e49c95ee5b476d36042374068",
+        "after_authority_sha256": "40beebded7c4fdf0cd00051d0a186642f05c036bb91b14641c5f6f6228b6bc6d",
+        "authority_exact": true,
+        "oracle_relaxed": false,
+        "primary_modified": false
+      },
+      {
+        "database": "cp6_auditor_http",
+        "source": "cp6_rollback",
+        "source_owner": "postgres",
+        "previous_owner": "supabase_admin",
+        "current_owner": "postgres",
+        "source_authority_sha256": "40beebded7c4fdf0cd00051d0a186642f05c036bb91b14641c5f6f6228b6bc6d",
+        "before_authority_sha256": "050a4d892c21c8bb42172e2ac27c2a3b0f2fd47e49c95ee5b476d36042374068",
+        "after_authority_sha256": "40beebded7c4fdf0cd00051d0a186642f05c036bb91b14641c5f6f6228b6bc6d",
+        "authority_exact": true,
+        "oracle_relaxed": false,
+        "primary_modified": false
+      }
+    ],
+    "production_go": false
+  },
+  "factory_SLA_claim": false
+}

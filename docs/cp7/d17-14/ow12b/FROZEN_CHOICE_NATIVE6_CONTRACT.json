@@ -165,11 +165,12 @@
     "cp7_frozen_analysis_choice_v2/client/nativeFrozenChoice.ts": "31e38f42560f1a52daa041833dce3bf791a295250f45bfdbe5a39669668e383f",
     "cp7_frozen_analysis_choice_v2/client/tsconfig.json": "24253b5a09dc97d3fe2ad6d9c0ed64ea7875978259568ce39a654e193ed40fe6",
     "cp7_frozen_analysis_choice_v2/render.py": "ea4db69cee6da91d08197517e2fc2b2ba0decdaa22e30ef91897f311b7145630",
-    "cp7_ow12b_frozen_choice_cases.py": "5abf89e63cce2d16e2cc69e3b68ea46bfe3a9df46007711b2bb2f911ded3e967",
+    "cp7_ow12b_frozen_choice_cases.py": "32ef91fc531945033fa4187c55802ed7d8cd4fe121ab7d3674ff4b522d89c2c6",
     "cp7_ow12b_frozen_choice_local.mjs": "a050978602e7553ba5dd42417900a7b22b90b75be583f3ffc9bbe882b8351056",
     "cp7_ow12b_frozen_choice_probe.py": "34c122043b0ade0916087b21bf0bf91a4a06a8d80c1f610c6204af85627a6ea6",
     "cp7_ow12b_frozen_choice_preflight.py": "958d15a2516384e71dbf1cd31d21e5534f7dd14848309c58360388d3fe18a854",
-    "cp7_ow11_analog_choice_cases.py": "77bd18a20612a1a2845d19b11edfebe09409b01313f88cd1bcf818e075f40df1"
+    "cp7_ow11_analog_choice_cases.py": "77bd18a20612a1a2845d19b11edfebe09409b01313f88cd1bcf818e075f40df1",
+    "cp7_ow11_model_target_v2_scale_cases.py": "cab1eb1d3435b6862887936e7e1da68c575bdb15da1445ad6f62c746d2fb84c2"
   },
   "private_functions": 4,
   "existing_function_replacements": 0,
@@ -304,11 +305,12 @@
     "cp7_frozen_analysis_choice_v2/client/nativeFrozenChoice.ts": "31e38f42560f1a52daa041833dce3bf791a295250f45bfdbe5a39669668e383f",
     "cp7_frozen_analysis_choice_v2/client/tsconfig.json": "24253b5a09dc97d3fe2ad6d9c0ed64ea7875978259568ce39a654e193ed40fe6",
     "cp7_frozen_analysis_choice_v2/render.py": "ea4db69cee6da91d08197517e2fc2b2ba0decdaa22e30ef91897f311b7145630",
-    "cp7_ow12b_frozen_choice_cases.py": "5abf89e63cce2d16e2cc69e3b68ea46bfe3a9df46007711b2bb2f911ded3e967",
+    "cp7_ow12b_frozen_choice_cases.py": "32ef91fc531945033fa4187c55802ed7d8cd4fe121ab7d3674ff4b522d89c2c6",
     "cp7_ow12b_frozen_choice_local.mjs": "a050978602e7553ba5dd42417900a7b22b90b75be583f3ffc9bbe882b8351056",
     "cp7_ow12b_frozen_choice_probe.py": "34c122043b0ade0916087b21bf0bf91a4a06a8d80c1f610c6204af85627a6ea6",
     "cp7_ow12b_frozen_choice_preflight.py": "958d15a2516384e71dbf1cd31d21e5534f7dd14848309c58360388d3fe18a854",
-    "cp7_ow11_analog_choice_cases.py": "77bd18a20612a1a2845d19b11edfebe09409b01313f88cd1bcf818e075f40df1"
+    "cp7_ow11_analog_choice_cases.py": "77bd18a20612a1a2845d19b11edfebe09409b01313f88cd1bcf818e075f40df1",
+    "cp7_ow11_model_target_v2_scale_cases.py": "cab1eb1d3435b6862887936e7e1da68c575bdb15da1445ad6f62c746d2fb84c2"
   },
   "frozen_choice_native_qualified": false,
   "choice_scope": "EXPLICIT_CONFIRM_CLEAR_SHARED_APPEND_ONLY_COMMANDS_FRESH_TARGET_REPLAY_CURRENT_ACCESS_ATOMIC_K3_1200X3",

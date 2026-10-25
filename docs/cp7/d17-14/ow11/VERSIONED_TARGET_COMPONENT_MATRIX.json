@@ -1493,26 +1493,26 @@
     }
   ],
   "frozen_work_latest_qualified": {
-    "head": "c1dd6b5cd231701be3be35bb7dd45c3856ace8fa",
-    "run_id": 40219663441,
-    "artifact_id": 12610004041,
+    "head": "98c39dd57270baefd2eb3bbed642d68b25b9faab",
+    "run_id": 40222957766,
+    "artifact_id": 12611632242,
     "status": "PASS",
     "Native_cases": 6,
-    "receipt": "docs/cp7/d17-14/ow12b/c1dd6b5c-40219663441-original-pass.json",
+    "receipt": "docs/cp7/d17-14/ow12b/98c39dd5-40222957766-original-pass.json",
     "actual_Auth_HTTP_credit": false,
     "factory_SLA_claim": false
   },
   "frozen_facade_latest_qualified": {
-    "head": "ab37505de365d4345d9af0f9ba552fb7f9b1b913",
-    "run_id": 40222386732,
-    "artifact_id": 12610119127,
+    "head": "98c39dd57270baefd2eb3bbed642d68b25b9faab",
+    "run_id": 40222957684,
+    "artifact_id": 12612331681,
     "status": "PASS",
     "cases": {
       "native": 3,
       "races": 3,
       "http": 2
     },
-    "receipt": "docs/cp7/d17-14/ow12b/ab37505d-40222386732-original-pass.json",
+    "receipt": "docs/cp7/d17-14/ow12b/98c39dd5-40222957684-original-pass.json",
     "actual_observed_blocking": true,
     "actual_Auth_HTTP_credit": true,
     "default_application_adopted": false
@@ -1559,7 +1559,7 @@
     "receipt": "docs/cp7/d17-14/ow12b/5749a78d-frozen-choice-k3-timeout.json",
     "cached_SAVE_millis": 6700.231,
     "K3_SAVE_timeout_millis": 8043.617,
-    "corrected98c_outcome_pending": true
+    "corrected98c_outcome_pending": false
   },
   "latest_old_factory_ab": {
     "status": "PASS_COMPONENT_ONLY",
@@ -1747,5 +1747,28 @@
     "actual_Auth_HTTP_credit": false,
     "controlled_visual_qualified": true,
     "actual_application_host_visual_credit": false
+  },
+  "frozen_choice_K3_timeout_98c": {
+    "status": "INCOMPLETE",
+    "head": "98c39dd57270baefd2eb3bbed642d68b25b9faab",
+    "run_id": 40222957697,
+    "artifact_id": 12612196824,
+    "PASS": 5,
+    "INCOMPLETE": 1,
+    "receipt": "docs/cp7/d17-14/ow12b/98c39dd5-40222957697-original-incomplete.json",
+    "single_frozen_reference_correction_insufficient": true,
+    "cached_SAVE_millis": 7292.876,
+    "K3_SAVE_timeout_millis": 8152.73,
+    "failed_sqlstate": "57014",
+    "failed_phase": "first current source after archived-reference compile",
+    "runtime_function_profile_prepared": true,
+    "gateway_limit_seconds": 8,
+    "production_go": false
+  },
+  "frozen_choice_K3_function_profile_preparation": {
+    "status": "PREPARED_RUNTIME_PENDING",
+    "receipt": "docs/cp7/d17-14/ow12b/frozen-choice-k3-profile-preparation.json",
+    "actual_command_or_database_changed": false,
+    "production_go": false
   }
 }
