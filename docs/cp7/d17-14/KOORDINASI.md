@@ -3564,3 +3564,32 @@ Native52 f184d793 menyiapkan45retained+7public;5tubuh finance tetap ASTexact,
 Native45 a3088e21/run40222596942 masih berjalan dan wajib PASS dahulu.
 B tidak perlu mengadopsi persiapanA; A tidak menulis branch/fileprodukB.
 Default/main/official/hosted/WA nyata utuh;formal5/16,production_go=false.
+
+
+##26Oktober2026 WIB — A: takeover lengkap, Native45 aktual dan koreksi sumber fixture
+
+Owner memindahkan estafet Writer A dari chat penuh; A tetap keuangan/stok/HPP/
+laporan dan integrator tunggal. B dibaca sampai714766d1/estafet208, termasuk
+koreksi cutting ee1ebfd1; tidak ada penulisan branch/file B atau adopsi gabungan
+sepihak. Kebutuhan domain, keputusan, slogan dan backlog dipulihkan dalam
+handoff/WRITER_A_TAKEOVER_20261026.md. Baris OW10/11/13/14/16 tetap byteexact.
+
+Native45 a3088e21/run40222596942/job121257191700/Original12611956497 aktual
+PASS45/45,3644pin,24metrik,3602target/fullpages dan full22/rows/sequences pulih.
+Pabrik c17b56ed/run40227300626/Original12613688822 INCOMPLETE BF_HISTORY;
+Original dan pemulihan dipertahankan. Bukti sebelumnya tidak ditulis ulang.
+
+Akar masalah: daab8075 memuat dua fixture; generator memilih sibling lama,
+bukan scripts/current-factory-finance-runtime-qualification/fixture.py yang
+benar-benar dijalankan. Sumber runtime SHA193197b3c288b382970250f2f3db4c38ea21e3fd45bb1729fe25f94ecbe5e3bd
+membuat sales historis dahulu lalu membership sekarang dan menjaga9tabel posted
+persis. Kandidat5bf4e03a/tree1bcf55aa memakai byte sumber tersebut,runner/probe
+privat tetap.3668pin/9Original,65assert,12kontrol negatif dan43bashstep lulus
+lokal tanpaDB; run40236661942/job121299590702 berjalan. Belum pabrikPASS.
+
+Native52 publik6dceb3d3/run40234978669/job121294499742 berjalan. Privatefactory
+lama778ac17e/run40234971454/job121294477378 masih antre; hasilnya tidak dibuang.
+Auth/races/browser/cron/usedrestore publik serta adopsi B terkini masih terpisah.
+Formal5/16,independent_acceptance=false,production_go=false. Main/official,
+hosted dan WA nyata tidak berubah. Reliable data adalah dewa; keuangan termasuk
+laporan,stok dan HPP adalah raja.
