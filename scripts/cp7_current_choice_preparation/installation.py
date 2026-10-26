@@ -10,13 +10,13 @@ import cp7_current_analysis_progress.installation as predecessor
 import cp7_frozen_analysis_readers_v2 as readers
 import cp7_frozen_analysis_choice_v2 as choice
 import cp7_frozen_choice_preparation as preparation
-from . import hooks
+from . import hooks,retention_access
 
 ROOT=Path(__file__).resolve().parent
 CONTRACT='cp7.current-AB-frozen-choice-preparation.v1'
 USED_ERROR='CURRENT_CHOICE_PREPARATION_AFTER_USE_REQUIRES_FULL_BACKUP_RESTORE'
 catalog,atomic=predecessor.catalog,predecessor.atomic
-STAGES=(('READERS',readers),('CHOICE',choice),('PREPARATION',preparation),('SERVER_HOOKS',hooks))
+STAGES=(('READERS',readers),('CHOICE',choice),('PREPARATION',preparation),('SERVER_HOOKS',hooks),('RETENTION_REFERENCE_ACCESS',retention_access))
 PUBLIC={readers.render.PUBLIC+'('+readers.render.ARGS+')':'CANDIDATE_READ',
         choice.render.PUBLIC+'(jsonb,uuid)':'CHOICE_SAVE',
         **{sig:'PREPARATION_'+verb.upper()for sig,verb in preparation.render.PUBLIC.items()}}
@@ -37,6 +37,9 @@ def binding(prior,proof):
 def admit_delta(module,before,after,state):
     if set(before)!=set(after)or len(before)!=22 or module.own(after)!=state['catalog']:
         raise ValueError('CURRENT_CHOICE_FULL22_TRANSITION_REQUIRED')
+    if module is retention_access:
+        retention_access.admit_transition(before,after)
+        return
     replacements=state.get('old_replacements',{})
     changed=set()
     for group in before:
