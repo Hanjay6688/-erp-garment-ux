@@ -1,0 +1,46 @@
+{
+  "name": "CP7_CURRENT_FROZEN_FINANCE_UI_BROWSER2.json",
+  "status": "PASS",
+  "head": "389326f6d251499559f353638adc4fa1d5c76ffa",
+  "run_id": 40267920853,
+  "job_id": 121394261076,
+  "artifact_id": 12629225311,
+  "zip_bytes": 4236877,
+  "zip_sha256": "1d2e5c8f691385c407b27b0d03138810b7487d52983cf4580e95bca4a95d26b7",
+  "bytes": 4451929,
+  "sha256": "6ba8f66ac0520355f77902dc6034eb6f93db461b0cbb2a7f8b71a1f57530949b",
+  "archive_member": "CP7_CURRENT_FROZEN_FINANCE_UI_BROWSER2.json",
+  "source_pins_verified": 3797,
+  "actual_prerequisites_verified": 2,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "production_go": false,
+  "independent_acceptance": false,
+  "actual_Auth_HTTP_browser_credit": true,
+  "actual_finance_UI_cases": 2,
+  "exact_bundle_modules": 54,
+  "READY_figures_and_BLOCKED_suppression": true,
+  "full22_copy_admissions": 2,
+  "visual_screenshots_reviewed": false,
+  "default_adopted": false,
+  "visual_review": {
+    "reviewed_screenshots": [
+      "A_FROZEN_FINANCE_DESKTOP_OFFICIAL_READY24.png",
+      "A_FROZEN_FINANCE_MOBILE_CAPTURE_COMPLETE_REPORT_BLOCKED.png"
+    ],
+    "observations": [
+      "Desktop table renders 24 official metrics; operational and report timestamps are distinguished.",
+      "Mobile wraps source and result details; blocked HPP hides all finance figures with an explicit explanation."
+    ],
+    "reviewed_count": 2,
+    "available_count": 6,
+    "new_D17_18_telemetry_UI_qualified": false
+  }
+}

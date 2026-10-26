@@ -1,5 +1,33 @@
 # Status gabungan uang, model dan target — 26 Oktober 2026 WIB
 
+## Status terkini: bukti UI resmi lolos; dua diagnosis masih gagal dan sedang diperbaiki
+
+UI389326f6/run40267920853 PASS2: desktop menampilkan24 angka persis laporan
+resmi, mobile menahan angka ketika HPP/buku BLOCKED. Reopen dan respons hilang
+memakai capture sama; izin dicabut menyembunyikan keuangan. Dua full22 clone,
+CP6, advisor, pemulihan dan lima gate paket lulus.3797pin/54modul tepat.
+Dua screenshot hasil akhir diperiksa; empat screenshot lain belum diperiksa.
+Ini bukan kualifikasi host progres terbaru0f818812 atau penerimaan akhir.
+
+Profile69078311/run40263535654 tetapINCOMPLETE. Unit operasional11120.770ms;
+finance gagal25006 setelah2593.979ms karena alat ukur READ ONLY bertemu
+SELECT FOR UPDATE pada HPP resmi; status kecil48.276ms. Perbaikan lokal hanya
+mode transaksi diagnosis finance, tetap rollback, batas30s/lock2s/status8s.
+Empat tes lokal lulus. Pengukuran finance lengkap belum tersedia.
+
+Progres54676bcc/run40264118585 tetapINCOMPLETE:3PASS/2INCOMPLETE. Dua kasus
+berhenti pada asumsi semua kunci sudah lepas, walau worker Native dan pembaca
+berada dalam transaksi yang sama. Kandidat lokal memeriksa kunci milik sesi
+secara langsung dan menolak kunci tak terduga; lima tes penolakannya lulus.
+Penyebab serta hasil bisnis tetap harus dibuktikan oleh run server berikutnya.
+
+Sumber Git dan tiga Original telah dipulihkan setelah workspace terputus.
+Native6 pilihan tetap belum terikat karena prasyarat Native5 belumPASS.
+Scope B dan batas kepemilikan tetap; formal5/16, independent_acceptance=false,
+production_go=false. Tidak ada run server aktif pada saat catatan ini dibuat.
+
+## Riwayat sebelum bukti server dipulihkan
+
 ## Status terkini: host progres gabungan lulus lokal; pembuktian server belum selesai
 
 A0f818812 menyiapkan host opsional dengan90berkas B exactb96e2f74,

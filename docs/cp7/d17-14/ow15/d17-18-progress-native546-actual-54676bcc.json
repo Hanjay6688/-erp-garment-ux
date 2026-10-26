@@ -1,0 +1,42 @@
+{
+  "name": "CP7_D17_18_PROGRESS_NATIVE5.json",
+  "status": "INCOMPLETE",
+  "head": "54676bcc969b950dd1ec52eb7feba2d7e58a8cb4",
+  "run_id": 40264118585,
+  "job_id": 121382633732,
+  "artifact_id": 12628665713,
+  "zip_bytes": 2968022,
+  "zip_sha256": "b031294ab1c0161a74a146b8a9fa9f76a0d7cd75c8de787186acf9a95726f800",
+  "bytes": 5877819,
+  "sha256": "8b7720f97d5d122aaa6828390e0683e67d6771e4098b98d2ac422adef7dc8f52",
+  "archive_member": "CP7_D17_18_PROGRESS_NATIVE5.json",
+  "source_pins_verified": 3696,
+  "exact_prior_original_verified": {
+    "name": "CP7_CURRENT_FROZEN_PUBLIC_FINANCE_NATIVE52.json",
+    "status": "PASS",
+    "head": "6dceb3d3530a2144217047360613808af3249e4a",
+    "run_id": 40234978669,
+    "job_id": 121294499742,
+    "artifact_id": 12618120246,
+    "zip_bytes": 3933070,
+    "zip_sha256": "81d74ca3e9e430c7ac04e726779e5cfdbbb7290434ee8ef1bde699cfda4457c0",
+    "bytes": 16388592,
+    "sha256": "93fdf5cedf73dd785dc465f1c6b687358da6c4ae95fe5db58524904474d83dbf",
+    "archive_member": "CP7_CURRENT_FROZEN_PUBLIC_FINANCE_NATIVE52.json"
+  },
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "production_go": false,
+  "independent_acceptance": false,
+  "first_failure_preserved": true,
+  "actual_Auth_HTTP_credit": false,
+  "performance_qualification": false,
+  "error_summary": "INCOMPLETE: full first failure retained, no widened runtime credit"
+}

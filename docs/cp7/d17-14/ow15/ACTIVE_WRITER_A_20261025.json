@@ -1,5 +1,5 @@
 {
-  "recorded_at_utc": "2026-10-26T04:47:10.536282+00:00",
+  "recorded_at_utc": "2026-10-26T06:58:07.380840+00:00",
   "role": "A finance writer/integrator replacing Claude; B remains separate production/planning writer",
   "slogan": [
     "VENI. VIDI. VICI. ERP. \u2014 I CONQUERED ERP.",
@@ -8,32 +8,7 @@
   "formal_accepted": "5/16",
   "production_go": false,
   "independent_acceptance": false,
-  "running": [
-    {
-      "id": 40263535654,
-      "job_id": 121380830712,
-      "head": "690783115765e677e0413d976d90489d86ab57e2",
-      "status": "in_progress",
-      "conclusion": null,
-      "actual_runtime_outcome_pending": true
-    },
-    {
-      "id": 40264118585,
-      "job_id": 121382633732,
-      "head": "54676bcc969b950dd1ec52eb7feba2d7e58a8cb4",
-      "status": "in_progress",
-      "conclusion": null,
-      "actual_runtime_outcome_pending": true
-    },
-    {
-      "id": 40267920853,
-      "job_id": 121394261076,
-      "head": "389326f6d251499559f353638adc4fa1d5c76ffa",
-      "status": "in_progress",
-      "conclusion": null,
-      "actual_runtime_outcome_pending": true
-    }
-  ],
+  "running": [],
   "actual_new_component": {
     "name": "CP7_OW11_MODEL_TARGET_SOURCE_V2.json",
     "status": "PASS",
@@ -4369,5 +4344,171 @@
     "generated_source_checks": "PASS_READERS_CHOICE_PREPARATION_ON_A_PARENT",
     "new_B_Originals_intaken_by_A": false,
     "full_composition_runtime": false
+  },
+  "previous_running_before_recovered_actuals": [
+    {
+      "id": 40263535654,
+      "job_id": 121380830712,
+      "head": "690783115765e677e0413d976d90489d86ab57e2",
+      "status": "in_progress",
+      "conclusion": null,
+      "actual_runtime_outcome_pending": true
+    },
+    {
+      "id": 40264118585,
+      "job_id": 121382633732,
+      "head": "54676bcc969b950dd1ec52eb7feba2d7e58a8cb4",
+      "status": "in_progress",
+      "conclusion": null,
+      "actual_runtime_outcome_pending": true
+    },
+    {
+      "id": 40267920853,
+      "job_id": 121394261076,
+      "head": "389326f6d251499559f353638adc4fa1d5c76ffa",
+      "status": "in_progress",
+      "conclusion": null,
+      "actual_runtime_outcome_pending": true
+    }
+  ],
+  "actual_finance_UI_native_ready": {
+    "name": "CP7_CURRENT_FROZEN_FINANCE_UI_BROWSER2.json",
+    "status": "PASS",
+    "head": "389326f6d251499559f353638adc4fa1d5c76ffa",
+    "run_id": 40267920853,
+    "job_id": 121394261076,
+    "artifact_id": 12629225311,
+    "zip_bytes": 4236877,
+    "zip_sha256": "1d2e5c8f691385c407b27b0d03138810b7487d52983cf4580e95bca4a95d26b7",
+    "bytes": 4451929,
+    "sha256": "6ba8f66ac0520355f77902dc6034eb6f93db461b0cbb2a7f8b71a1f57530949b",
+    "archive_member": "CP7_CURRENT_FROZEN_FINANCE_UI_BROWSER2.json",
+    "source_pins_verified": 3797,
+    "actual_prerequisites_verified": 2,
+    "package_gate": {
+      "installed": true,
+      "primary_unchanged": true,
+      "backup_restore_drill": true,
+      "security_advisors": true,
+      "writer_runtime": true
+    },
+    "cp6_restored": true,
+    "advisor_gate": true,
+    "production_go": false,
+    "independent_acceptance": false,
+    "actual_Auth_HTTP_browser_credit": true,
+    "actual_finance_UI_cases": 2,
+    "exact_bundle_modules": 54,
+    "READY_figures_and_BLOCKED_suppression": true,
+    "full22_copy_admissions": 2,
+    "visual_screenshots_reviewed": false,
+    "default_adopted": false,
+    "visual_review": {
+      "reviewed_screenshots": [
+        "A_FROZEN_FINANCE_DESKTOP_OFFICIAL_READY24.png",
+        "A_FROZEN_FINANCE_MOBILE_CAPTURE_COMPLETE_REPORT_BLOCKED.png"
+      ],
+      "observations": [
+        "Desktop table renders 24 official metrics; operational and report timestamps are distinguished.",
+        "Mobile wraps source and result details; blocked HPP hides all finance figures with an explicit explanation."
+      ],
+      "reviewed_count": 2,
+      "available_count": 6,
+      "new_D17_18_telemetry_UI_qualified": false
+    }
+  },
+  "actual_D17_18_profile_first_runtime": {
+    "name": "CP7_D17_18_FACTORY_STAGE_PROFILE1.json",
+    "status": "INCOMPLETE",
+    "head": "690783115765e677e0413d976d90489d86ab57e2",
+    "run_id": 40263535654,
+    "job_id": 121380830712,
+    "artifact_id": 12627926948,
+    "zip_bytes": 2958962,
+    "zip_sha256": "2a8c33d93afc237e2200ec614769191d4f3001741ed102b56253bec224b0584d",
+    "bytes": 4953515,
+    "sha256": "0d6bd887d69a06dc9337b6383a8844f73016e83b826c0bf4c9470f8beba6a19b",
+    "archive_member": "CP7_D17_18_FACTORY_STAGE_PROFILE1.json",
+    "source_pins_verified": 3689,
+    "exact_prior_original_verified": {
+      "name": "CP7_CURRENT_FROZEN_PRIVATE_FACTORY_FINANCE1.json",
+      "status": "INCOMPLETE",
+      "head": "05d890676f7865896843f94095e65946354a505f",
+      "run_id": 40251928378,
+      "job_id": 121345520777,
+      "artifact_id": 12622604952,
+      "zip_bytes": 22939397,
+      "zip_sha256": "06e36b564f99c91859798a67a3490cf382cea93e95c964dfe3244fd049d52fd9",
+      "bytes": 154433619,
+      "sha256": "61d91fea217a83a12e84fba58a8d45d1a80ab3ee5f047ca258c341b8e8c999d1",
+      "archive_member": "CP7_CURRENT_FROZEN_PRIVATE_FACTORY_FINANCE1.json"
+    },
+    "package_gate": {
+      "installed": true,
+      "primary_unchanged": true,
+      "backup_restore_drill": true,
+      "security_advisors": true,
+      "writer_runtime": false
+    },
+    "cp6_restored": true,
+    "advisor_gate": true,
+    "production_go": false,
+    "independent_acceptance": false,
+    "first_failure_preserved": true,
+    "actual_Auth_HTTP_credit": false,
+    "performance_qualification": false,
+    "error_summary": "INCOMPLETE: full first failure retained, no widened runtime credit"
+  },
+  "actual_D17_18_progress_first_runtime": {
+    "name": "CP7_D17_18_PROGRESS_NATIVE5.json",
+    "status": "INCOMPLETE",
+    "head": "54676bcc969b950dd1ec52eb7feba2d7e58a8cb4",
+    "run_id": 40264118585,
+    "job_id": 121382633732,
+    "artifact_id": 12628665713,
+    "zip_bytes": 2968022,
+    "zip_sha256": "b031294ab1c0161a74a146b8a9fa9f76a0d7cd75c8de787186acf9a95726f800",
+    "bytes": 5877819,
+    "sha256": "8b7720f97d5d122aaa6828390e0683e67d6771e4098b98d2ac422adef7dc8f52",
+    "archive_member": "CP7_D17_18_PROGRESS_NATIVE5.json",
+    "source_pins_verified": 3696,
+    "exact_prior_original_verified": {
+      "name": "CP7_CURRENT_FROZEN_PUBLIC_FINANCE_NATIVE52.json",
+      "status": "PASS",
+      "head": "6dceb3d3530a2144217047360613808af3249e4a",
+      "run_id": 40234978669,
+      "job_id": 121294499742,
+      "artifact_id": 12618120246,
+      "zip_bytes": 3933070,
+      "zip_sha256": "81d74ca3e9e430c7ac04e726779e5cfdbbb7290434ee8ef1bde699cfda4457c0",
+      "bytes": 16388592,
+      "sha256": "93fdf5cedf73dd785dc465f1c6b687358da6c4ae95fe5db58524904474d83dbf",
+      "archive_member": "CP7_CURRENT_FROZEN_PUBLIC_FINANCE_NATIVE52.json"
+    },
+    "package_gate": {
+      "installed": true,
+      "primary_unchanged": true,
+      "backup_restore_drill": true,
+      "security_advisors": true,
+      "writer_runtime": false
+    },
+    "cp6_restored": true,
+    "advisor_gate": true,
+    "production_go": false,
+    "independent_acceptance": false,
+    "first_failure_preserved": true,
+    "actual_Auth_HTTP_credit": false,
+    "performance_qualification": false,
+    "error_summary": "INCOMPLETE: full first failure retained, no widened runtime credit"
+  },
+  "workspace_recovery": {
+    "source_head": "613209db2bc46079fe8c576e71801cc6806bcc23",
+    "immutable_originals_recovered": 3,
+    "profile_successor": "LOCAL_PREPARED_READ_WRITE_ROLLBACK_ONLY",
+    "progress_successor": "LOCAL_PREPARED_EXACT_TRANSACTION_LOCK_ORACLE",
+    "successor_actual_runtime": false,
+    "all_old_failures_preserved": true,
+    "no_B_worktree_written": true,
+    "choice_native6_still_unbound": true
   }
 }
