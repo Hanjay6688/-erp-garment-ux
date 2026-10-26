@@ -1,0 +1,84 @@
+{
+  "status": "METADATA_REFERENCES_RECONCILED",
+  "observed_at_utc": "2026-10-26T19:20:17.152555+00:00",
+  "scope": "Current/historical summary projections only; immutable Originals and their actual status unchanged",
+  "previous_source_commit": "e15067e0a5d8f6a28dd422dd8237592f9c49e6af",
+  "records": [
+    {
+      "key": "D17_18_progress_Native5",
+      "previous_projection": {
+        "head": null,
+        "sha": "54676bcc969b950dd1ec52eb7feba2d7e58a8cb4",
+        "run_id": 40264118585,
+        "job_id": null,
+        "source_pins": 3696,
+        "status": null,
+        "actual_runtime_outcome": "PENDING",
+        "runtime_status": null
+      },
+      "corrected_projection": {
+        "head": "0c86d27739ff74aba65967453465880d1c72e94c",
+        "run_id": 40286627929,
+        "job_id": 121451709620,
+        "artifact_id": 12637959084,
+        "source_pins": 3698,
+        "status": "PASS",
+        "actual_runtime_outcome": "PASS",
+        "runtime_status": null
+      },
+      "actual_proof_reference": "actual_D17_18_progress_corrected"
+    },
+    {
+      "key": "choice_preparation_native6_prepared",
+      "previous_projection": {
+        "head": "8dfe1a19c7b7c61558b25c00f1dd388c8565e3d1",
+        "sha": null,
+        "run_id": 40308822607,
+        "job_id": 121524549120,
+        "source_pins": 3752,
+        "status": "ACTUAL_NATIVE6_PASS",
+        "actual_runtime_outcome": null,
+        "runtime_status": "ACTUAL_NATIVE6_PASS"
+      },
+      "corrected_projection": {
+        "head": "8dfe1a19c7b7c61558b25c00f1dd388c8565e3d1",
+        "run_id": 40338677390,
+        "job_id": 121627045376,
+        "artifact_id": 12663230440,
+        "source_pins": 3758,
+        "status": "ACTUAL_NATIVE6_PASS",
+        "actual_runtime_outcome": "PASS",
+        "runtime_status": null
+      },
+      "actual_proof_reference": "actual_choice_retention_8dfe"
+    },
+    {
+      "key": "choice_native6_observation_successor",
+      "previous_projection": {
+        "head": "8dfe1a19c7b7c61558b25c00f1dd388c8565e3d1",
+        "sha": null,
+        "run_id": 40308822607,
+        "job_id": 121524549120,
+        "source_pins": null,
+        "status": "ACTUAL_NATIVE6_PASS",
+        "actual_runtime_outcome": null,
+        "runtime_status": "ACTUAL_NATIVE6_PASS"
+      },
+      "corrected_projection": {
+        "head": "9a943ea4cc4d24a92a2af1c3e678bd3d0bddfc14",
+        "run_id": 40308822607,
+        "job_id": 121524549120,
+        "artifact_id": 12648237288,
+        "source_pins": null,
+        "status": "ACTUAL_INCOMPLETE",
+        "actual_runtime_outcome": null,
+        "runtime_status": "INCOMPLETE"
+      },
+      "actual_proof_reference": "actual_choice_native9a_failure"
+    }
+  ],
+  "actual_failure_9a_remains_INCOMPLETE": true,
+  "formal_accepted": "5/16",
+  "production_go": false,
+  "independent_acceptance": false
+}

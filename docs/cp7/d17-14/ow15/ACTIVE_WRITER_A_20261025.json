@@ -1,5 +1,5 @@
 {
-  "recorded_at_utc": "2026-10-26T19:14:36.568590+00:00",
+  "recorded_at_utc": "2026-10-26T19:20:17.152555+00:00",
   "role": "A finance writer/integrator replacing Claude; B remains separate production/planning writer",
   "slogan": [
     "VENI. VIDI. VICI. ERP. \u2014 I CONQUERED ERP.",
@@ -3962,20 +3962,18 @@
     "production_go": false
   },
   "D17_18_progress_Native5": {
-    "sha": "54676bcc969b950dd1ec52eb7feba2d7e58a8cb4",
-    "tree": "838ee76df08e18c3cc9a4280e03ed1a20db4371b",
-    "parent": "51d14424f890d3ff493b9cc47a8b56f35af40121",
-    "branch": "astra-a/d17-18-progress-native-qualification-20261026",
-    "source_pins": 3696,
-    "actual_predecessor_cases": 52,
+    "head": "0c86d27739ff74aba65967453465880d1c72e94c",
+    "run_id": 40286627929,
+    "job_id": 121451709620,
+    "artifact_id": 12637959084,
+    "status": "PASS",
+    "actual_runtime_outcome": "PASS",
+    "source_pins": 3698,
     "focused_cases": 5,
-    "full_admission_sha256": "d0b787f4a890aa86e785db6fc3b7e416880cb712b18c1df9333ce743ae9c8cb2",
-    "full_admission_bytes": 3911414,
-    "local_admission": "PASS_NO_DATABASE",
-    "actual_runtime_outcome": "PENDING",
+    "actual_proof_reference": "actual_D17_18_progress_corrected",
     "actual_Auth_HTTP_credit": false,
-    "production_go": false,
-    "run_id": 40264118585
+    "large_factory_acceptance": false,
+    "production_go": false
   },
   "latest_B_readonly_review": {
     "head": "c95428fbb73aeda64beeed008a99c0bd642f90ef",
@@ -4091,126 +4089,17 @@
   },
   "choice_preparation_native6_prepared": {
     "head": "8dfe1a19c7b7c61558b25c00f1dd388c8565e3d1",
-    "tree": "3ca901200455cd98b89d1a2e6dcc976058122590",
-    "local": "7643fa03eb05e089330ff8ca527a30c2d81b4551",
+    "run_id": 40338677390,
+    "job_id": 121627045376,
+    "artifact_id": 12663230440,
     "status": "ACTUAL_NATIVE6_PASS",
-    "source_bound": true,
-    "source_pins": 3752,
-    "actual_predecessor": "0c86d27739ff74aba65967453465880d1c72e94c",
+    "actual_runtime_outcome": "PASS",
+    "source_pins": 3758,
     "focused_cases": 6,
-    "run_id": 40308822607,
-    "job_id": 121524549120,
-    "no_database_admission": "PASS",
-    "full_admission_bytes": 3932778,
-    "full_admission_sha256": "6b647dee0696c0fbf27e06667ae258a1716b8e60c39a71a3553669d03202c62d",
-    "production_go": false,
-    "first_failed_head": "a3ce931748ded1dfbf9a5b972a2b8d8f40cf5b74",
-    "runtime_status": "ACTUAL_NATIVE6_PASS",
-    "actual_proof": {
-      "name": "CP7_D17_18_CHOICE_NATIVE6.json",
-      "status": "PASS",
-      "head": "8dfe1a19c7b7c61558b25c00f1dd388c8565e3d1",
-      "run_id": 40338677390,
-      "job_id": 121627045376,
-      "artifact_id": 12663230440,
-      "zip_bytes": 3007799,
-      "zip_sha256": "9d8d24e9816562b2ff75b622c4da69d3d3cb34494f17cbee4d1b86280916d435",
-      "bytes": 6218156,
-      "sha256": "f2110cf6c2873c18679e3f6654d5232474e46decb5543e6d72b803f28b2d62a9",
-      "archive_member": "CP7_D17_18_CHOICE_NATIVE6.json",
-      "source_pins_verified": 3758,
-      "exact_prior_original_verified": {
-        "name": "CP7_D17_18_PROGRESS_NATIVE5.json",
-        "status": "PASS",
-        "head": "0c86d27739ff74aba65967453465880d1c72e94c",
-        "run_id": 40286627929,
-        "job_id": 121451709620,
-        "artifact_id": 12637959084,
-        "zip_bytes": 2968325,
-        "zip_sha256": "33c1889449edde12aac63c3aba860919c135c77006f813f903e985e0c20e9ecc",
-        "bytes": 5878000,
-        "sha256": "dd72583a82175893be57e0ccdbe10a575e91135e9163951130f8596a7e46f393",
-        "archive_member": "CP7_D17_18_PROGRESS_NATIVE5.json"
-      },
-      "package_gate": {
-        "installed": true,
-        "primary_unchanged": true,
-        "backup_restore_drill": true,
-        "security_advisors": true,
-        "writer_runtime": true
-      },
-      "cp6_restored": true,
-      "advisor_gate": true,
-      "production_go": false,
-      "independent_acceptance": false,
-      "focused_full_ERP_Native_cases": 6,
-      "official_finance_metrics": 24,
-      "private_K4_ticks": 24,
-      "K4_tick_max_ms": 224.701,
-      "injected_cancellation_recovery": true,
-      "corrected_observations": {
-        "same_transaction_ready_observations": 3,
-        "claims_ticks_checked": 5,
-        "current_private_info_reviewed": 1,
-        "direct_schema_and_table_privileges_closed": true
-      },
-      "actual_document_reference_retention": {
-        "actual_private_tick": true,
-        "synthetic_finished_at_aged_days": 8,
-        "frozen_v2_schedule_review": {
-          "request_only_review_job": "b2d4ed3d-3699-4c01-8c20-959b89f171a9",
-          "full_capture_job": "abbcf735-7722-4b0a-af9b-d70f9e4c8a7d",
-          "legacy_source_hash": "a10fd6e319e0f964a7080bf24e26ceff19a4fd567eb25979ae45bf798b93067e",
-          "reviewed_v2_source_hash": "fcf786dd51a011b08b790cd4b8bc71d2796d372077487843662460ff733ace6d",
-          "revision_before": "2",
-          "revision_after": "3",
-          "unchanged_calendar_config": true,
-          "public_review_CAS_and_UUID_replay": true,
-          "old_review_snapshot_stale": true,
-          "fresh_capture_current": true,
-          "review_job_units_executed": 0,
-          "full_captures": 1,
-          "no_money_stock_HPP_change": true
-        },
-        "plan_allocation_and_capacity": "SCENARIO",
-        "real_Native_plan_draft": true,
-        "real_Native_reminder_conditions": true,
-        "private_capture_reference_counts": {
-          "cp7_plan_native.staged_drafts": 1,
-          "cp7_reminder_native.staged_condition_sets": 1
-        },
-        "retained_documents": {
-          "plan_v2_drafts": 1,
-          "reminder_v2_sets": 1
-        },
-        "referenced_pages_and_document_contents_exact": true,
-        "draft_readable_preview_expired": true,
-        "expired_temporary_rows_removed": true,
-        "retention_log_immutable_and_replay_exact": true,
-        "payload_and_write_and_browser_SQL_refused": true,
-        "authority": {
-          "private_run_id_select_columns": 2,
-          "table_select_grants": 0,
-          "write_grants": 0,
-          "browser_or_finance_reader_grants": 0,
-          "owners_RLS_and_reader_role_preserved": true
-        },
-        "no_money_stock_HPP_change": true,
-        "actual_cron_claim": false,
-        "actual_Auth_HTTP_credit": false,
-        "actual_tick_millis": [
-          4.372,
-          0.491,
-          2.303,
-          0.529
-        ]
-      },
-      "actual_minute_cron_claim": false,
-      "actual_Auth_HTTP_credit": false,
-      "UI_mounted": false,
-      "full_final_acceptance": false,
-      "large_factory_acceptance": false
-    }
+    "actual_proof_reference": "actual_choice_retention_8dfe",
+    "actual_Auth_HTTP_credit": false,
+    "large_factory_acceptance": false,
+    "production_go": false
   },
   "progress_finance_UI_prepared": {
     "status": "PREPARED_LOCAL_PASS_ONLY",
@@ -5017,12 +4906,12 @@
     "local_negative_guards": 9,
     "Python_AST_files": 8,
     "shell_steps": 46,
-    "actual_runtime_status": "IN_PROGRESS",
+    "actual_runtime_status": "INCOMPLETE",
     "production_go": false,
     "independent_acceptance": false,
     "run_id": 40308822607,
     "job_id": 121524549120,
-    "status": "ACTUAL_NATIVE6_PASS",
+    "status": "ACTUAL_INCOMPLETE",
     "previous_full_admission_before_receipt_correction": null,
     "full_admission": {
       "bytes": 3933409,
@@ -5030,113 +4919,11 @@
       "source_pins": 3752,
       "status": "PASS"
     },
-    "runtime_status": "ACTUAL_NATIVE6_PASS",
-    "actual_proof": {
-      "name": "CP7_D17_18_CHOICE_NATIVE6.json",
-      "status": "PASS",
-      "head": "8dfe1a19c7b7c61558b25c00f1dd388c8565e3d1",
-      "run_id": 40338677390,
-      "job_id": 121627045376,
-      "artifact_id": 12663230440,
-      "zip_bytes": 3007799,
-      "zip_sha256": "9d8d24e9816562b2ff75b622c4da69d3d3cb34494f17cbee4d1b86280916d435",
-      "bytes": 6218156,
-      "sha256": "f2110cf6c2873c18679e3f6654d5232474e46decb5543e6d72b803f28b2d62a9",
-      "archive_member": "CP7_D17_18_CHOICE_NATIVE6.json",
-      "source_pins_verified": 3758,
-      "exact_prior_original_verified": {
-        "name": "CP7_D17_18_PROGRESS_NATIVE5.json",
-        "status": "PASS",
-        "head": "0c86d27739ff74aba65967453465880d1c72e94c",
-        "run_id": 40286627929,
-        "job_id": 121451709620,
-        "artifact_id": 12637959084,
-        "zip_bytes": 2968325,
-        "zip_sha256": "33c1889449edde12aac63c3aba860919c135c77006f813f903e985e0c20e9ecc",
-        "bytes": 5878000,
-        "sha256": "dd72583a82175893be57e0ccdbe10a575e91135e9163951130f8596a7e46f393",
-        "archive_member": "CP7_D17_18_PROGRESS_NATIVE5.json"
-      },
-      "package_gate": {
-        "installed": true,
-        "primary_unchanged": true,
-        "backup_restore_drill": true,
-        "security_advisors": true,
-        "writer_runtime": true
-      },
-      "cp6_restored": true,
-      "advisor_gate": true,
-      "production_go": false,
-      "independent_acceptance": false,
-      "focused_full_ERP_Native_cases": 6,
-      "official_finance_metrics": 24,
-      "private_K4_ticks": 24,
-      "K4_tick_max_ms": 224.701,
-      "injected_cancellation_recovery": true,
-      "corrected_observations": {
-        "same_transaction_ready_observations": 3,
-        "claims_ticks_checked": 5,
-        "current_private_info_reviewed": 1,
-        "direct_schema_and_table_privileges_closed": true
-      },
-      "actual_document_reference_retention": {
-        "actual_private_tick": true,
-        "synthetic_finished_at_aged_days": 8,
-        "frozen_v2_schedule_review": {
-          "request_only_review_job": "b2d4ed3d-3699-4c01-8c20-959b89f171a9",
-          "full_capture_job": "abbcf735-7722-4b0a-af9b-d70f9e4c8a7d",
-          "legacy_source_hash": "a10fd6e319e0f964a7080bf24e26ceff19a4fd567eb25979ae45bf798b93067e",
-          "reviewed_v2_source_hash": "fcf786dd51a011b08b790cd4b8bc71d2796d372077487843662460ff733ace6d",
-          "revision_before": "2",
-          "revision_after": "3",
-          "unchanged_calendar_config": true,
-          "public_review_CAS_and_UUID_replay": true,
-          "old_review_snapshot_stale": true,
-          "fresh_capture_current": true,
-          "review_job_units_executed": 0,
-          "full_captures": 1,
-          "no_money_stock_HPP_change": true
-        },
-        "plan_allocation_and_capacity": "SCENARIO",
-        "real_Native_plan_draft": true,
-        "real_Native_reminder_conditions": true,
-        "private_capture_reference_counts": {
-          "cp7_plan_native.staged_drafts": 1,
-          "cp7_reminder_native.staged_condition_sets": 1
-        },
-        "retained_documents": {
-          "plan_v2_drafts": 1,
-          "reminder_v2_sets": 1
-        },
-        "referenced_pages_and_document_contents_exact": true,
-        "draft_readable_preview_expired": true,
-        "expired_temporary_rows_removed": true,
-        "retention_log_immutable_and_replay_exact": true,
-        "payload_and_write_and_browser_SQL_refused": true,
-        "authority": {
-          "private_run_id_select_columns": 2,
-          "table_select_grants": 0,
-          "write_grants": 0,
-          "browser_or_finance_reader_grants": 0,
-          "owners_RLS_and_reader_role_preserved": true
-        },
-        "no_money_stock_HPP_change": true,
-        "actual_cron_claim": false,
-        "actual_Auth_HTTP_credit": false,
-        "actual_tick_millis": [
-          4.372,
-          0.491,
-          2.303,
-          0.529
-        ]
-      },
-      "actual_minute_cron_claim": false,
-      "actual_Auth_HTTP_credit": false,
-      "UI_mounted": false,
-      "full_final_acceptance": false,
-      "large_factory_acceptance": false
-    },
-    "head": "8dfe1a19c7b7c61558b25c00f1dd388c8565e3d1"
+    "runtime_status": "INCOMPLETE",
+    "head": "9a943ea4cc4d24a92a2af1c3e678bd3d0bddfc14",
+    "artifact_id": 12648237288,
+    "actual_proof_reference": "actual_choice_native9a_failure",
+    "historical_successor_only": true
   },
   "previous_most_recent_completed_before_choice_native6": [
     {
@@ -10443,5 +10230,10 @@
     "report_calculation_time": false,
     "product_changed": false,
     "production_go": false
+  },
+  "status_reference_reconciliation": {
+    "receipt": "STATUS_EVIDENCE_LINK_RECONCILIATION_20261026.json",
+    "fields_corrected": 3,
+    "Originals_unchanged": true
   }
 }

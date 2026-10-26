@@ -4711,3 +4711,13 @@ sudah lulus: seluruh Auth3/race3 belum berjalan. Tidak ada retryketiga otomatis.
 Finance d05c actualstep63 dan UI d1f4 actualstep62 masih berjalan, belum PASS.
 Formal5/16; production_go=false; independent_acceptance=false; B tetap1dd83782
 ketika dibaca ulang, tanpa penulisan di scope B.
+
+## A / 27 Oktober2026 WIB — rekonsiliasi penunjuk bukti estafet
+
+Tiga proyeksi status lama mencampur status/head penerus dengan nomor run atau
+jumlah sumber pendahulu. ACTIVE kini menunjuk Native5→actual0c86, Native6→
+actual8dfe; observation-successor9a kembali ditandai INCOMPLETE5/6 sesuai
+Originalnya. Receipt STATUS_EVIDENCE_LINK_RECONCILIATION_20261026.json menyimpan
+kolom sebelum/sesudah. Original, bukti gagal, angka kasus dan formal5/16 tidak
+diubah. OPEN_WORK bagian A OW12/OW15 serta indeks status diberi posisi terkini;
+riwayat checkpoint ditandai jelas, bukan diklaim masih berjalan. Scope B tetap.
