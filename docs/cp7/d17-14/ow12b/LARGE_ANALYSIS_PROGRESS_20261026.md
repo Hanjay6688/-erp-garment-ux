@@ -58,11 +58,17 @@ dan hak akses terbaru, serta runner/pemulihan menyeluruh. Bila diperlukan
 status antre/tertahan eksplisit atau waktu awal/akhir resmi, tambahkan melalui
 kontrak versi yang disepakati; jangan menebak status database dari timer.
 
-Langkah B berikutnya: perbaiki observabilitas/progres dan batas tunggu klien;
-pisahkan rekonstruksi berat pembanding setelah K3 dari simpan pilihan dengan
-memakai pekerjaan bertahap. Rekonstruksi tidak boleh mengubah acuan lama,
-menghidupkan cache yang dihapus secara diam-diam, atau melewati dua pemeriksaan
-sumber/hak akses saat simpan.
+Implementasi B kini mencakup progres unit nyata, batas tunggu respons/antrian
+klien, pemulihan permintaan yang sama, serta persiapan opsional sebelum membaca
+kandidat dan menyimpan pilihan. Rekonstruksi memakai sumber yang sudah disegel;
+rumus, dua pemeriksaan sumber terkini dan hak akses saat simpan tetap berlaku.
+Perbaikan pembatalan sebelum tahap hitung pada runner persiapan lulus18kelompok
+uji lokal. Proses baru ini belum dipasang ke scheduler/default dan belum mendapat
+kualifikasi Native/Auth/gabungan; kontrak A di koordinasi213–215 tetap terbuka.
+
+Status tiap persyaratan owner ada di `LARGE_ANALYSIS_ACCEPTANCE_20261026.json`.
+Bukti komponen, browser dengan respons terkendali, login nyata dan gabungan
+skala pabrik dicatat terpisah. Lulus komponen tidak menutup persyaratan gabungan.
 
 ## Bukti sebelum kebijakan baru
 

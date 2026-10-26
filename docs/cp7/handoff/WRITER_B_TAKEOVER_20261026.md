@@ -4,48 +4,40 @@ Owner asked the new writer to recover the complete context of **Writer B** and
 continue without questions. This is the active B entrypoint. Earlier checkpoints
 in `HANDOFF_PRODUKSI_CLAUDE_20261023.md` remain history, with their failures intact.
 
-## Current implementation and evidence — progress policy applied
+## Current implementation and evidence — coordination215
 
-Latest B code **9d8716015c43a06a45752d21e6edc160726215ab**, tree
-`cb7b96043ad1da34a70dcfdf275409f4a760a1af`; previous wait delta4d2d38d4.
-Coordination214 records concrete remaining A composition. Client waits now cover
-analysis request/step/status/result pages/source check, original cross-tab queues,
-analog candidate/current-choice reads and choice/schedule SAVE. Each missing
-reply remains uncertain; exact actor/method/query/UUID/payload/finance selection
-is kept for recovery. Queue timeout never steals an acquired lock; late queued
-callbacks refuse before action. These are client bounds, not increased SQL or a
-new total-analysis deadline. Correction:9cdd wording that all own RPCs were
-bounded was too broad; later deltas close the identified omitted paths.
+Latest B code **b96e2f7402b3373f9ab5fa7ede30d34a7048aea3**, tree
+`64810b6b7010222ec1f3aeb7d4bbc38c128d657f`. Finite client reply/queue waits,
+actual acknowledged progress, retained same-command recovery and explicit
+production/finance separation are implemented in B's prepared callers.
+Optional choice preparation runs before candidates/SAVE and now bounds
+pre-step runner cancellations while restoring caller claims.18 local SQL groups
+pass; no Native/Auth/scheduler/default adoption claimed.31 retirement tests and
+179 parent-client tests are source-specific and overlapping, not summed.
 
-Focused wait proofs:106 tests/10 files on4d2d38d4;179 tests/11 files on9d871601
-with exact timeout recovery, seven source-only contracts, three typechecks and
-four actual build graphs. These counts overlap and are not summed. No new-head
-Auth/Native credit yet. Current remote qualification runs are source-specific;
-workflow green alone is never counted.29 complete Originals retained:20 Native/
-actual-Auth package checks,8 controlled browser-only reports,1 interrupted.
+52 complete Originals retained/read:33 Native/actualAuth package checks,
+11 controlledUI,7 actual two-tab browser reports with controlled RPC,1 interrupted
+without complete gates.4d work Transport9 and facade Transport8 PASS;9d reader
+Native4 PASS.4d/9d each passed all four actualAuth Browser2 suites. Latestd43
+quantity/cutting actualAuth PASS2 each (51/62 actual modules); three recovery
+Browser3 suites PASS3 each with actual served-module hashes including the wait
+helper. No new image-inspection, selected-finance or new preparation credit.
 
-Actual progress9cddf475 passed quantity/cutting Auth Browser2 with complete
-Original/pins/F05/package/current-access/restore verification. Desktop/mobile
-quantity progress images inspected: acknowledged counts, unknown final total
-without percent, enabled Close, exact recovery after reply loss. Cutting Native6/
-run40256759650 now PASS6/94pins with complete Original gates. Factory synthetic
-1200SKU x3: checked SAVE5544.767ms then5421.325ms afterK3; replay3.899ms.
-Compared with earlier5285.194/5339.539ms, observed +4.91%/+1.53% is not an
-explained optimization or a stable SLA; product SQL is identical. Small fixture
-SAVE182.958–187.755ms; exact replay about4ms. No official finance/HPP claim.
-On4d2d38d4 controlled quantity/work Browser4 PASS4/PASS4 (49/44pins), with no
-Native/Auth/restore credit; new images not inspected.
+Actual progress9cdd quantity desktop/mobile images had been inspected earlier.
+9cdd cutting Native6 factory1200x3 SAVE5544.767/5421.325ms, replay3.899ms;
+small SAVE182.958–187.755ms. Against earlier5285.194/5339.539ms: +4.91%/+1.53%
+unexplained, no SLA or optimization claim. Old choice8029.112/8003.031ms failures
+remain INCOMPLETE. More existing source-specific CI runs remain in progress;
+see `../d17-14/ow12b/LARGE_ANALYSIS_PENDING_20261026.json`. Never count a running
+job or green workflow without complete Original checks as acceptance.
 
-Optional choice preparation remains fa402436: prepare BEFORE candidate read,
-reuse sealed inputs during SAVE; parent math/two current-source checks/locks/
-receipt replay exact.15 local SQL groups and81 client/DOM tests are historical
-writer proof, not Native qualification. The Native6 proposal was added atd57233eb,
-source-only repinned at9d871601; six cases, no execution or F05 registration.
-A must compose public RPC registry, K4/retention, parent verifier overlays, full
-restore, actual Auth/factory proof and official finance. Existing defaults,
-Native/supabase and finance A are unchanged. Old choice8029.112/8003.031ms
-failures remain INCOMPLETE. Full B scope open; formal5/16; no independent
-acceptance or production_go. Continue available B work, not a checkpoint stop.
+A contracts209/212–215 remain open: shared registry/K4/retention/verifier/full
+restore, actual new Auth/two-session/factory and official finance/HPP composition.
+Separate Native6 proposal is unregistered/unexecuted; retained stage samples
+add no extra SQL and are not whole-analysis wall time. No shared F05, default,
+Native/supabase or finance A edit. `LARGE_ANALYSIS_ACCEPTANCE_20261026.json`
+explicitly leaves combined owner requirements open. Formal5/16, B incomplete,
+independent_acceptance=false, production_go=false. Continue authorized B work.
 
 ## Owner direction and preceding22-Original position — retained history
 

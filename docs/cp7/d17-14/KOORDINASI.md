@@ -4562,3 +4562,58 @@ registry/K4/retention/full restore/actual Auth and official finance composition.
 Old choice8029.112ms and same-command8003.031ms failures remain INCOMPLETE.
 A branch reread f898a71fc13654d217f987949f126290083a0225 remains unchanged.
 No default, whole-feature closure, audit acceptance or production_go. Formal5/16.
+
+
+## 215. [bersama] B26 Oktober2026 WIB — recovery proofs complete; optional runner cancellation repaired
+
+Latest B code b96e2f7402b3373f9ab5fa7ede30d34a7048aea3, tree64810b6b.
+The optional preparation runner previously let SQL57014 before the compiler
+escape its OTHERS handler, leaving no bounded attempt record. New local injected
+pre-step cancellation first fails on the original code (full log retained), then
+passes with explicit cancellation handling: same row/UUID, at most three attempts,
+no partial payload, successful recovery, immediate non-timeout access refusal,
+and restoration of all three caller claim settings.18 local PGlite groups pass;
+51-statement source preflight preserves exact parent SAVE/two source checks,
+locks/math and only two private reference substitutions. Unit8s unchanged. No
+wall-clock timeout, Native17, two-session, actual Auth or scheduler-adoption
+credit for this optional delta. Old15-group Original kept separately. Source
+pins/readiness/separate unregistered Native6 proposal updated.
+
+Preceding9162d7e7 prevents retired preparation callers from enqueueing or sending
+a next step;31 tests/3files and noEmit pass. Message correctly says three attempts
+on the same step. e9eedca1 retains already measured unit/stage timings in the
+Native6 proposal without another SQL/compiler call; sums are not whole-analysis
+wall time. Neither change registers a shared route or alters A interfaces.
+
+d43f38a4 records actual served recovery module graphs including common wait
+helper; analysis/work/choice real Browser3 runs40264331563/40264331540/40264331541
+PASS3 each,3/18/27 exact pins. Real two-tab Web Locks/localStorage and reload,
+controlled RPC replies. This proves browser serialization and exact retained
+bytes, not Native idempotency/Auth/production UI. Older recovery Originals lack
+the full served graph; their missing pins remain missing, never retroactively
+added. Required three cases unchanged. Local SOURCE_SERVING_ONLY results and two
+missing-local-browser attempts retained, with no actual-browser credit.
+
+New source-specific Originals verified completely:4d work Transport9/40261719673
+PASS9/98pins; facade Transport8/40261719824 PASS8/92pins;9d reader Native4/
+40262245087 PASS4/99pins. Exact old-source F05 prefix/declarations, package gates,
+public catalog, CP6/advisor, full boundaries, sessions and clone authority where
+applicable all verified.4d and9d each pass all four actual Auth Browser2 suites;
+latestd43 quantity/cutting Auth2 runs40264331556/40264331539 PASS2 each,162/168pins,
+51/62 compiled modules, current-access/restore/contrast gates verified. No new
+image-inspection claim. No selected-finance or new preparation Auth credit.
+
+Ledger52 Originals:33 Native/actualAuth package checks,11 controlled UI reports,
+7 real-browser/controlled-RPC reports,1 interrupted without complete gates. Every
+failed old writer_runtime remains false. Full raw Originals are retained; code
+source and evidence types are never combined into unproved whole-feature credit.
+The old choice8029.112/8003.031ms failures stay INCOMPLETE. Current CI snapshot is
+in `ow12b/LARGE_ANALYSIS_PENDING_20261026.json`; running jobs receive no credit.
+
+A still must compose optional public registry/K4/retention/parent verifier
+changes/full restore/actual new Auth/two-session/factory/official finance/HPP.
+No agreement inferred from unchanged A head f898a71fc13654d217f987949f126290083a0225.
+`LARGE_ANALYSIS_ACCEPTANCE_20261026.json` maps every owner requirement to actual
+proof and remaining boundary. Formal5/16; B scope incomplete; no default adoption,
+independent acceptance or production_go. Continue monitoring current CI and
+available B work; this is not a checkpoint stop.

@@ -1,0 +1,58 @@
+{
+  "contract": "cp7.writer-b-takeover-original-receipt.v1",
+  "head": "4d2d38d44a6e9efef323c8c6b7aeb9097a1b4789",
+  "run_id": 40261719824,
+  "artifact_id": 12625827619,
+  "artifact_bytes": 142363,
+  "artifact_sha256": "715eb81e4fe5aff0d332027cdee5b98cdbfe37de6664887f5d79c320ecd3e9b8",
+  "Original_read_complete": true,
+  "original_json_sha256": {
+    "CP7_OW12B_FROZEN_FACADE_CLONE_AUTHORITY.json": "e3a534bdeed4a9db2eb44bbd51f16b28689b8bbfd41d897ec4ef07e5b460b3d3",
+    "T3_BACKUP_RESTORE_DRILL.json": "78382d0a675a7d8fe95d24c67418c6e2d136e85752ff0b78926df5977b389550",
+    "T3_PACKAGE_FILES_INSTALL.json": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+    "ALIGNED_CHAIN.json": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b",
+    "CP7_OW12B_FROZEN_FACADE.json": "046e1fca193d4a9435a5871c377f2f5466e6a829c209340b20357bd4ea9d0c22",
+    "T3_PACKAGE_INSTALL.json": "a5637081246a1c45891c6356f2c539bd2d90a1eb0d1f4dd0a0b5109acb676cb4"
+  },
+  "source_pins_verified": 92,
+  "status": "PASS",
+  "production_go": false,
+  "independent_acceptance": false,
+  "whole_feature_closed": false,
+  "counts": {
+    "native": {
+      "PASS": 3
+    },
+    "races": {
+      "PASS": 3
+    },
+    "http": {
+      "PASS": 2
+    }
+  },
+  "first_failures": [],
+  "all_original_package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "public_catalog_preserved": true,
+  "full_native_boundaries_and_sessions_restored": true,
+  "exact_head_source_prefix_fields": [
+    "label",
+    "scope",
+    "source_sha256",
+    "expected_case_count",
+    "required_case_counts",
+    "required_case_ids",
+    "predeclared_case_contract",
+    "predeclared_case_sha256",
+    "target_v2_source_sha256",
+    "frozen_facade_source_sha256"
+  ],
+  "clone_authority_copies_exact": 4
+}

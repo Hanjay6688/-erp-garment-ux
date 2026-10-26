@@ -1,0 +1,31 @@
+{
+  "contract": "cp7.writer-b-recovery-browser-original-receipt.v1",
+  "head": "d43f38a4bf3c84a06ca6e4f59d3e976fa23fe4c4",
+  "run_id": 40264331541,
+  "artifact_id": 12625193249,
+  "artifact_bytes": 2393,
+  "artifact_sha256": "cd6b43184ad6d2209b5197abbac189570156f9b1eb186b20e792ddb502776675",
+  "Original_read_complete": true,
+  "original_json_sha256": {
+    "FROZEN_CHOICE_RECOVERY_BROWSER3.json": "eade26f0bee2ef0a4f741566668dbaa0a7b041078c592f6bb5a83c8a9d97c577"
+  },
+  "source_pins_verified": 27,
+  "status": "PASS",
+  "counts": {
+    "PASS": 3
+  },
+  "evidence_kind": "REAL_BROWSER_LOCKS_CONTROLLED_RPC_NO_NATIVE_PACKAGE",
+  "actual_browser_locks": true,
+  "actual_tabs": 2,
+  "browser_version": "151.0.7922.34",
+  "controlled_RPC_replies": true,
+  "actual_served_module_graph_recorded": true,
+  "common_wait_helper_pinned": true,
+  "old_missing_helper_pin_not_retroactively_added": false,
+  "actual_Native": false,
+  "actual_Auth_HTTP_credit": false,
+  "production_UI_qualified": false,
+  "whole_feature_closed": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

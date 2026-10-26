@@ -1,0 +1,60 @@
+{
+  "contract": "cp7.writer-b-takeover-original-receipt.v1",
+  "head": "d43f38a4bf3c84a06ca6e4f59d3e976fa23fe4c4",
+  "run_id": 40264331539,
+  "artifact_id": 12626371303,
+  "artifact_bytes": 69566,
+  "artifact_sha256": "e8b89c270422ae6bb16a93dba9f574891e34a82dcceb1ce9d2d049fb56e042e1",
+  "Original_read_complete": true,
+  "original_json_sha256": {
+    "T3_BACKUP_RESTORE_DRILL.json": "699824aeb437b14ee6c53cb9cbdadea87030a0015f83bc721958e10d6191ed54",
+    "T3_PACKAGE_FILES_INSTALL.json": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+    "ALIGNED_CHAIN.json": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b",
+    "CP7_OW12B_FROZEN_CUTTING_AUTH.json": "ec3b1c072f08ccdaecca8c33efad01aba19fd5f2a79b2be9519277917d6912df",
+    "T3_PACKAGE_INSTALL.json": "438cdc748eedf32e114999d4bf1d4fb4895b292b840eeeccdf99bc5db4593477",
+    "CP7_OW12B_FROZEN_CUTTING_AUTH_CLONE_AUTHORITY.json": "9623122aa25b61d64f8070e8075a1f274418b89d01fa292e29fc5aa98b581300"
+  },
+  "source_pins_verified": 168,
+  "status": "PASS",
+  "production_go": false,
+  "independent_acceptance": false,
+  "whole_feature_closed": false,
+  "counts": {
+    "browser": {
+      "PASS": 2
+    }
+  },
+  "first_failures": [],
+  "all_original_package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "public_catalog_preserved": true,
+  "full_native_boundaries_and_sessions_restored": false,
+  "exact_head_source_prefix_fields": [
+    "label",
+    "scope",
+    "source_sha256",
+    "expected_case_count",
+    "required_case_counts",
+    "required_case_ids",
+    "predeclared_case_contract",
+    "predeclared_case_sha256",
+    "target_v2_source_sha256",
+    "frozen_cutting_auth_source_sha256"
+  ],
+  "clone_authority_copies_exact": 1,
+  "actual_Auth_HTTP_credit": true,
+  "actual_AuthProvider_and_Gate_observed_in_passing_cases": true,
+  "actual_compiled_modules": 62,
+  "passing_case_compiled_module_hashes_verified": true,
+  "strict_visible_text_contrast_rows": 484,
+  "default_adopted": false,
+  "official_finance_included": false,
+  "full_factory3600_qualified": false
+}

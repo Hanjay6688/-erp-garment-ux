@@ -1,0 +1,87 @@
+{
+  "contract": "cp7.large-analysis.owner-policy-acceptance.v1",
+  "policy": "LARGE_ANALYSIS_PROGRESS_20261026",
+  "last_prepared_code": "b96e2f7402b3373f9ab5fa7ede30d34a7048aea3",
+  "last_qualified_UI_source": "d43f38a4bf3c84a06ca6e4f59d3e976fa23fe4c4",
+  "overall": "OPEN",
+  "new_policy_not_retroactive": true,
+  "requirements": [
+    {
+      "id": "REAL_PROGRESS_USABLE_PAGE",
+      "status": "PARTIAL",
+      "proved": "Actual Auth quantity desktop/mobile reports acknowledged server units, unknown total without percentage, enabled Close while real STEP response held; production/finance progress separate.",
+      "evidence": [
+        "d43f38a4-40264331556-takeover-original.json",
+        "9cddf475-40256759650-takeover-original.json"
+      ],
+      "remaining": "Factory3602 end-to-end UI with combined official finance remains unqualified; separate factory Native and smaller UI proofs are not merged into this claim."
+    },
+    {
+      "id": "REOPEN_SAME_WORK",
+      "status": "PARTIAL",
+      "proved": "Actual Auth retained original query/method/UUID after loss/reload; optional preparation keyed to original job/source. Local prepared gate reloads same state.",
+      "remaining": "A K4 hook must run optional preparation while page is closed; existing scheduler is reused, not replaced. No current claim that this new extension advances after closure."
+    },
+    {
+      "id": "NO_DUPLICATION",
+      "status": "PARTIAL",
+      "proved": "Original source and command persist under same browser lock; acquired lock not stolen, queued timeout callback cannot run; exact payload/UUID replay after response timeout tested. Existing source-bound Native/Auth receipts and same-UUID races preserved. Real two-tab browser reports now pin actual served modules including common wait helper (d43); RPC replies controlled, no Native dedup credit from these reports.",
+      "remaining": "Actual two-session request/step/purge races for new preparation and combined A path remain open.",
+      "evidence": [
+        "d43f38a4-40264331563-takeover-original.json",
+        "d43f38a4-40264331540-takeover-original.json",
+        "d43f38a4-40264331541-takeover-original.json",
+        "4d2d38d4-40261719673-takeover-original.json",
+        "4d2d38d4-40261719824-takeover-original.json"
+      ]
+    },
+    {
+      "id": "FAILURE_STALL_RECOVERY",
+      "status": "PARTIAL",
+      "proved": "Per-reply/queue waits bounded; unchanged-unit monitoring stops honestly without claiming server cancellation. Local preparation has bounded three attempts and terminal unknown-error failure. Retired caller sends no request/next unit. Optional runner also bounds injected SQL57014 before the step and restores all three caller claim settings; 18 local groups pass. No real wall-clock timeout/backend-loss credit.",
+      "remaining": "New preparation Native cancellation/session-loss/runner recovery and combined UI verification require separate registered route."
+    },
+    {
+      "id": "OFFICIAL_RESULTS_FINANCE_HPP",
+      "status": "BLOCKED_A_COMPOSITION",
+      "proved": "Existing frozen production full JSON parity and all3602 pages; exact parent SAVE/two fresh-source checks/locks/math remain unchanged. B consumes existing A official finance APIs.",
+      "remaining": "A must compose registry/defaults/runner/restore, then prove same official report/HPP and no double WIP end to end. Production completion never counts as finance completion."
+    },
+    {
+      "id": "MEASURED_EFFICIENT_SMALL_AND_LARGE",
+      "status": "PARTIAL",
+      "proved": "Small checked-cut SAVE182.958-187.755ms, large1200SKUx3 SAVE5544.767/5421.325ms, replay3.899ms in source9cdd. Optional preparation reuses valid inputs and moves cold reconstruction before candidate read/SAVE. Native6 proposal retains existing per-unit/stage timing samples with no additional SQL or compiler calls.",
+      "remaining": "Factory execution of separate preparation not yet measured. Prior5285.194/5339.539ms comparison is +4.91%/+1.53% with cause unestablished; no SLA or optimization claim. Call sums are not whole-analysis wall time."
+    }
+  ],
+  "unchanged_guards": [
+    "current authorization",
+    "balance",
+    "stock",
+    "official HPP",
+    "idempotency",
+    "atomic rollback and restore",
+    "no duplicate WIP",
+    "current source and feasibility at SAVE"
+  ],
+  "old_failures_retained": [
+    "choice f843 K3 SQL57014 at8029.112ms",
+    "same-command calibration at8003.031ms",
+    "all prior Original failures in evidence ledger"
+  ],
+  "A_boundary": {
+    "shared_contract_requests": [
+      209,
+      212,
+      213,
+      214,
+      215
+    ],
+    "last_read_head": "f898a71fc13654d217f987949f126290083a0225",
+    "shared_F05_or_registry_edited": false,
+    "default_install_or_supabase_edited": false
+  },
+  "production_go": false,
+  "independent_acceptance": false,
+  "B_scope_complete": false
+}
