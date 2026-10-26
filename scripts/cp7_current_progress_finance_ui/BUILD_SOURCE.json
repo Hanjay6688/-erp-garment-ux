@@ -1,5 +1,6 @@
 {
   "contract": "cp7.current-progress-finance-ui.compiled-source.v1",
+  "served_in_browser": false,
   "files": [
     {
       "path": "scripts/cp7_current_analysis_progress/progress.ts",
@@ -98,8 +99,8 @@
     },
     {
       "path": "scripts/cp7_current_progress_finance_ui/Panel.tsx",
-      "bytes": 5783,
-      "sha256": "23b6606c634b953a32770ac9cef464867d0e848c61fea1e728933b30d64b5244"
+      "bytes": 5835,
+      "sha256": "eeb7526fd70d983a0230253994935da17ba097b9521a0490505be914e28477f4"
     },
     {
       "path": "scripts/cp7_current_progress_finance_ui/client.ts",
@@ -396,6 +397,5 @@
       "bytes": 35955,
       "sha256": "924f150bd2f2b18d7df850db1be035a547321cf32b66a6fb3a97569739635eb6"
     }
-  ],
-  "served_in_browser": false
+  ]
 }

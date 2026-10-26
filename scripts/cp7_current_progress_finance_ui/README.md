@@ -90,3 +90,18 @@ Empat kegagalan lokal sebelum perbaikan dipertahankan. Sesudahnya195tes/17berkas
 TypeScript dan build79modul lulus;91berkas B masih persis. Lima pemeriksaan baru
 meliputi idle/aktif, pembaruan server, laporan selesai, serta tombol GET pada UUID
 yang sama tanpa angka parsial. Bukti ini tetap lokal, belum actualAuth/browser.
+
+## Permukaan teks setelah uji browser c64
+
+Actual c64e5d6f/run40354535892/artifact12671871654 berakhir INCOMPLETE
+pada kedua kasus desktop dan mobile. Keduanya berhenti pada pemeriksaan
+kontras pilihan keuangan: label transparan mewarisi radial-gradient BODY.
+Pemulihan lengkap dan gerbang advisor lulus; belum ada PASS perjalanan penuh.
+Original dan gambar pemeriksaan lokal dipertahankan; gambar bukan keluaran pengguna.
+
+Panel pembungkus A kini mempunyai latar solid #0c101b dan teks #e6edf7,
+agar label serta penjelasan di luarnya mempunyai permukaan yang dapat diukur.
+Ambang kontras4,5:1 dan penguji browser tidak berubah. Seluruh91berkas B,
+alur progres, rumus, hak, UUID dan batas waktu tetap. Bukti lokal terdahulu
+bukan PASS runtime dari koreksi permukaan ini; uji gabungan wajib diulang
+pada sumber baru setelah pemeriksaan lokal yang relevan.

@@ -77,7 +77,7 @@ export default function CurrentProgressFinancePanel(props:Props){
  const{runtime,identity}=useAuth(),[includeFinance,setIncludeFinance]=useState(false)
  const allowed=identity.status==='AUTHORIZED'&&['OWNER','ADMIN'].includes(identity.profile.role)&&identity.permissions.includes('finance.reports.view')
  if(runtime.mode!=='DISPOSABLE_TEST')return null
- return <section aria-label="Analisis produksi dan laporan resmi">
+ return <section aria-label="Analisis produksi dan laporan resmi" style={{backgroundColor:'#0c101b',color:'#e6edf7'}}>
   {allowed?<label><input type="checkbox" checked={includeFinance} onChange={e=>setIncludeFinance(e.target.checked)}/>Sertakan angka keuangan dari laporan resmi</label>:null}
   <p>Pilihan ini berlaku untuk perhitungan baru. Pekerjaan tersimpan tetap memakai pilihan dan sumber asalnya.</p>
   <NativeFrozenQuantityPanel {...props} financeMode={allowed&&includeFinance?'STAGED':undefined} renderFinance={renderFinance}/>

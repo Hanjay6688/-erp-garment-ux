@@ -3,19 +3,19 @@
   "typecheck_no_emit": true,
   "test_files": 17,
   "tests": 195,
-  "vitest_wall_seconds": 7.765,
+  "vitest_wall_seconds": 15.239,
   "compiled_sources": 79,
   "unchanged_B_files": 91,
   "build_assets": [
     {
       "path": "current-progress-finance.html",
       "bytes": 466,
-      "sha256": "567a6057be88494d4d04594e2b1e3cca94f82dfc21d4c62fd4ee4790c69215a9"
+      "sha256": "ccd272a70090c8084f45654014c8b09a4e00e7d2bdb39fd24834fe49fc8d2ded"
     },
     {
-      "path": "assets/current-progress-finance-u29T9Bu5.js",
-      "bytes": 672453,
-      "sha256": "6ee52ac405189767cf216c248ed4038e15ff9ae99719443645d1a7f2da6d87c3"
+      "path": "assets/current-progress-finance-pE3s4fM_.js",
+      "bytes": 672502,
+      "sha256": "e72e2ba105667bedef1cb92d23cf75934d86d0dd53343a828dc59ce7bd44b77c"
     },
     {
       "path": "assets/current-progress-finance-UWpQGvK4.css",
@@ -68,5 +68,34 @@
   "threshold_source": "Unchanged B FROZEN_NO_PROGRESS_MS; display advisory only, no server failure/timeout inference",
   "same_request_GET_recovery": true,
   "new_RPC_calls": false,
-  "client_clock_does_not_create_progress": true
+  "client_clock_does_not_create_progress": true,
+  "prior_surface_verification": {
+    "vitest_wall_seconds": 7.765,
+    "build_assets": [
+      {
+        "path": "current-progress-finance.html",
+        "bytes": 466,
+        "sha256": "567a6057be88494d4d04594e2b1e3cca94f82dfc21d4c62fd4ee4790c69215a9"
+      },
+      {
+        "path": "assets/current-progress-finance-u29T9Bu5.js",
+        "bytes": 672453,
+        "sha256": "6ee52ac405189767cf216c248ed4038e15ff9ae99719443645d1a7f2da6d87c3"
+      },
+      {
+        "path": "assets/current-progress-finance-UWpQGvK4.css",
+        "bytes": 45010,
+        "sha256": "5409c4b84b94c36a2aac253a5c30546b3e8a869ff116fd05551b4f12377adf01"
+      }
+    ]
+  },
+  "opaque_A_surface": {
+    "background": "#0c101b",
+    "foreground": "#e6edf7",
+    "theoretical_text_contrast": 16.1195,
+    "minimum_contrast_unchanged": 4.5,
+    "actual_browser_rerun_required": true,
+    "B_styles_unchanged": true
+  },
+  "recorded_at_utc": "2026-10-26T18:01:06.640448+00:00"
 }
