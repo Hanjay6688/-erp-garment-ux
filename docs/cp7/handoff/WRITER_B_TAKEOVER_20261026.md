@@ -6,27 +6,46 @@ in `HANDOFF_PRODUKSI_CLAUDE_20261023.md` remain history, with their failures int
 
 ## Current implementation and evidence — progress policy applied
 
-Latest code **fa402436d74ab03f91c5aa4c3c7d95d90bc3c70d**, exact tree
-`9af674ee6532e71682f8ee7f719c639edce23c90`. Coordination213 gives A the concrete
-three-RPC optional preparation contract before shared adoption. Actual progress
-code9cddf475 passed quantity Auth Browser2 and cutting Auth Browser2; complete
-Originals/pins/F05/package/current-access/restore checked. Desktop/mobile progress
-images inspected; counts are acknowledged server work, unknown final total has
-no percentage, Close stays usable, lost replies recover the original request.
-26Originals:19Native/Auth package checks,6controlled,1interrupted. Old failures
-remain. Cutting Native6/run40256759650 still executing on9cdd; no new preparation
-runtime credit. Latest A branch f898a71f reread unchanged.
+Latest B code **9d8716015c43a06a45752d21e6edc160726215ab**, tree
+`cb7b96043ad1da34a70dcfdf275409f4a760a1af`; previous wait delta4d2d38d4.
+Coordination214 records concrete remaining A composition. Client waits now cover
+analysis request/step/status/result pages/source check, original cross-tab queues,
+analog candidate/current-choice reads and choice/schedule SAVE. Each missing
+reply remains uncertain; exact actor/method/query/UUID/payload/finance selection
+is kept for recovery. Queue timeout never steals an acquired lock; late queued
+callbacks refuse before action. These are client bounds, not increased SQL or a
+new total-analysis deadline. Correction:9cdd wording that all own RPCs were
+bounded was too broad; later deltas close the identified omitted paths.
 
-The optional preparation extension reuses existing compiler/cache bindings,
-short unit limits and retention. It prepares BEFORE the candidate reader then
-reuses the same inputs during checked SAVE, avoiding duplicate factory compile.
-15 local SQL groups and81 focused client/DOM tests pass; compiler/access/producer
-are controlled in local SQL, not Native qualification. Exact parent SAVE/math/
-locks/two full-source checks/receipt replay remain unchanged. Shared public
-registry, K4/retention composition, Python installer/actual concurrency/Auth/
-factory/restore and official A finance proof remain open. Existing default
-callers are unchanged; no production or acceptance credit. Continue these
-contracts and other B scope; do not stop at this checkpoint.
+Focused wait proofs:106 tests/10 files on4d2d38d4;179 tests/11 files on9d871601
+with exact timeout recovery, seven source-only contracts, three typechecks and
+four actual build graphs. These counts overlap and are not summed. No new-head
+Auth/Native credit yet. Current remote qualification runs are source-specific;
+workflow green alone is never counted.29 complete Originals retained:20 Native/
+actual-Auth package checks,8 controlled browser-only reports,1 interrupted.
+
+Actual progress9cddf475 passed quantity/cutting Auth Browser2 with complete
+Original/pins/F05/package/current-access/restore verification. Desktop/mobile
+quantity progress images inspected: acknowledged counts, unknown final total
+without percent, enabled Close, exact recovery after reply loss. Cutting Native6/
+run40256759650 now PASS6/94pins with complete Original gates. Factory synthetic
+1200SKU x3: checked SAVE5544.767ms then5421.325ms afterK3; replay3.899ms.
+Compared with earlier5285.194/5339.539ms, observed +4.91%/+1.53% is not an
+explained optimization or a stable SLA; product SQL is identical. Small fixture
+SAVE182.958–187.755ms; exact replay about4ms. No official finance/HPP claim.
+On4d2d38d4 controlled quantity/work Browser4 PASS4/PASS4 (49/44pins), with no
+Native/Auth/restore credit; new images not inspected.
+
+Optional choice preparation remains fa402436: prepare BEFORE candidate read,
+reuse sealed inputs during SAVE; parent math/two current-source checks/locks/
+receipt replay exact.15 local SQL groups and81 client/DOM tests are historical
+writer proof, not Native qualification. The Native6 proposal was added atd57233eb,
+source-only repinned at9d871601; six cases, no execution or F05 registration.
+A must compose public RPC registry, K4/retention, parent verifier overlays, full
+restore, actual Auth/factory proof and official finance. Existing defaults,
+Native/supabase and finance A are unchanged. Old choice8029.112/8003.031ms
+failures remain INCOMPLETE. Full B scope open; formal5/16; no independent
+acceptance or production_go. Continue available B work, not a checkpoint stop.
 
 ## Owner direction and preceding22-Original position — retained history
 
@@ -118,7 +137,7 @@ No agents added. A remains the single integrator.
 | OW12b | Faster factory analysis without changing results, calling A's official finance bridge | Complete factory/finance/after-use/default integration; previous8s failures remain open |
 | OW13a | Start once when minimum data/config ready; explain missing inputs; no unchanged repeat | Combined/default qualification |
 | OW13b | Yield history above200 groups | Component20 evidence exists; integration acceptance separate |
-| OW13c | Same-engine cutting suggestion, dated source, editable quantity, fresh feasibility/access check at SAVE | Corrected frozen checked-cut Native6/Transport10 and complete actual UI flow pending |
+| OW13c | Same-engine cutting suggestion, dated source, editable quantity, fresh feasibility/access check at SAVE | Source-specific Native6/Transport10 and actual UI evidence exists; default/full-chain integration open |
 | OW14a/b | Shared warehouse/formula source; legacy minimum reference and one explicitly active rule | Component99/113 evidence exists; A owns default install/legacy inventory steps |
 
 A owns money/stock/HPP/reports, OW06/07/08/09/12a/15, shared registries/types,

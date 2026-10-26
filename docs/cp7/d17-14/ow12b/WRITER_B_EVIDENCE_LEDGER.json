@@ -1,9 +1,9 @@
 {
   "contract": "cp7.writer-b-evidence-intake-ledger.v1",
-  "Originals_read_retained": 26,
+  "Originals_read_retained": 29,
   "evidence_type_counts": {
-    "NATIVE_OR_ACTUAL_AUTH_PACKAGE_GATES_CHECKED": 19,
-    "CONTROLLED_BROWSER_ONLY_NO_NATIVE_PACKAGE_GATES": 6,
+    "NATIVE_OR_ACTUAL_AUTH_PACKAGE_GATES_CHECKED": 20,
+    "CONTROLLED_BROWSER_ONLY_NO_NATIVE_PACKAGE_GATES": 8,
     "INTERRUPTED_NATIVE_NO_COMPLETE_PACKAGE_GATES": 1
   },
   "package_checked_does_not_mean_writer_passed": true,
@@ -414,6 +414,47 @@
       "artifact_bytes": 4985,
       "artifact_sha256": "ba942d04e179db860624b307fc6075359b4fda4d8765f0075a0c8437e624c275",
       "receipt": "docs/cp7/d17-14/ow12b/9cddf475-40256759652-takeover-original.json"
+    },
+    {
+      "artifact_id": 12623704593,
+      "source_head": "4d2d38d44a6e9efef323c8c6b7aeb9097a1b4789",
+      "run_id": 40261719779,
+      "status": "PASS",
+      "counts": {
+        "PASS": 4
+      },
+      "evidence_kind": "CONTROLLED_BROWSER_ONLY_NO_NATIVE_PACKAGE_GATES",
+      "artifact_bytes": 3637,
+      "artifact_sha256": "3e1c7a2632b77cc52d35a152b97968e1c47ab180b53037f4e77014f9ebac0f00",
+      "receipt": "docs/cp7/d17-14/ow12b/4d2d38d4-40261719779-takeover-original.json"
+    },
+    {
+      "artifact_id": 12624088711,
+      "source_head": "4d2d38d44a6e9efef323c8c6b7aeb9097a1b4789",
+      "run_id": 40261719853,
+      "status": "PASS",
+      "counts": {
+        "PASS": 4
+      },
+      "evidence_kind": "CONTROLLED_BROWSER_ONLY_NO_NATIVE_PACKAGE_GATES",
+      "artifact_bytes": 3136,
+      "artifact_sha256": "f5e261bfb717982db3cb785ed1b8b49e94835368b6739def5b31e3d3b237235a",
+      "receipt": "docs/cp7/d17-14/ow12b/4d2d38d4-40261719853-takeover-original.json"
+    },
+    {
+      "artifact_id": 12624652695,
+      "source_head": "9cddf47529eda7d0d23735f8487a0ca3bcfad39d",
+      "run_id": 40256759650,
+      "status": "PASS",
+      "counts": {
+        "native": {
+          "PASS": 6
+        }
+      },
+      "evidence_kind": "NATIVE_OR_ACTUAL_AUTH_PACKAGE_GATES_CHECKED",
+      "artifact_bytes": 210340,
+      "artifact_sha256": "a8829ad8b4dd7cc13436aa337c55c19fb19652343df59bbaec74e4621e2a7e90",
+      "receipt": "docs/cp7/d17-14/ow12b/9cddf475-40256759650-takeover-original.json"
     }
   ]
 }
