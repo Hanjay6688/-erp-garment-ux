@@ -4,7 +4,34 @@ Owner asked the new writer to recover the complete context of **Writer B** and
 continue without questions. This is the active B entrypoint. Earlier checkpoints
 in `HANDOFF_PRODUKSI_CLAUDE_20261023.md` remain history, with their failures intact.
 
-## Latest evidence — coordination216
+## Latest evidence — coordination217, all started runs finished
+
+Latest B code **b96e2f7402b3373f9ab5fa7ede30d34a7048aea3** unchanged. All36 started runs on
+four source heads have finished; all63 unique Original artifacts read/retained.
+Evidence types: 43 Native/actualAuth package checks, 11 controlled UI, 7 real-browser/controlled-RPC, 2 interrupted without complete gates. Full applicable source/package/restore gates checked;
+failed writers and interrupted reports never receive complete-suite credit.
+Latest4d cutting Transport10 PASS10/99pins. Latest unchanged legacy-choice
+observations are recorded below and in `LARGE_ANALYSIS_TIMINGS_20261026.json`:
+
+- d43f38a4, run40264331581, artifact12627801346: 5PASS/1INCOMPLETE.
+  Cached SAVE7119.039ms; K3 timeout8034.576ms; same-command calibration
+  8004.529ms also times out. Full restore verified, calibration effects
+  rolled back; writer_runtime=false.
+- b96e2f74, run40265688096, artifact12628130830: 5PASS/1INCOMPLETE.
+  Cached SAVE7081.885ms; K3 timeout8011.059ms; same-command calibration
+  8040.09ms also times out. Full restore verified, calibration effects
+  rolled back; writer_runtime=false.
+
+No started B qualification run remains running in the last observed snapshot. Existing routes do not
+execute optional preparation or combined official finance. The new optional
+runner fix passes18 local SQL groups; real Native/two-session/backend-loss/Auth/
+factory/whole-report parity/composed restore still requires A's route/registry/
+K4/retention/verifier/default integration. A branch remainsf898a71f. All old
+failures remain unchanged. Formal5/16; full B scope incomplete; independent
+acceptance and production_go false. Read the acceptance matrix before resuming;
+never infer new preparation qualification from old Native or browser regressions.
+
+## Preceding60-Original position — coordination216
 
 Codeb96e2f74 unchanged.60 complete Originals retained/read:40 Native/actualAuth
 package checks,11controlledUI,7 real-browser/controlledRPC,2 interrupted without

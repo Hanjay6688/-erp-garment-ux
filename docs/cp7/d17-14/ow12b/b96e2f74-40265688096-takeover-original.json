@@ -1,0 +1,955 @@
+{
+  "contract": "cp7.writer-b-takeover-original-receipt.v1",
+  "head": "b96e2f7402b3373f9ab5fa7ede30d34a7048aea3",
+  "run_id": 40265688096,
+  "artifact_id": 12628130830,
+  "artifact_bytes": 217062,
+  "artifact_sha256": "a04fe6fb068cd7e3e396542f23ed8d081206206b96d7817c667afb82175d1dac",
+  "Original_read_complete": true,
+  "original_json_sha256": {
+    "T3_BACKUP_RESTORE_DRILL.json": "b205e4c17d530d1cadb38509a9e8c58fd784c5b6c5a2bb2f493a61ac21d4f084",
+    "T3_PACKAGE_FILES_INSTALL.json": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+    "ALIGNED_CHAIN.json": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b",
+    "CP7_OW12B_FROZEN_CHOICE.json": "10c94a6125006c05e18bd0d3cdfbb299b3d56b3443f7a38885b62ee4a16187d9",
+    "T3_PACKAGE_INSTALL.json": "c66783e99306df9e4d1028ff4e24a8d6b4a421ad6e2e85ab1898f5f5d275007a"
+  },
+  "source_pins_verified": 114,
+  "status": "INCOMPLETE",
+  "production_go": false,
+  "independent_acceptance": false,
+  "whole_feature_closed": false,
+  "counts": {
+    "native": {
+      "INCOMPLETE": 1,
+      "PASS": 5
+    }
+  },
+  "first_failures": [
+    {
+      "id": "OW12B_FROZEN_CHOICE_V2_FACTORY1200X3_CACHED_K3_CONFIRM",
+      "status": "INCOMPLETE",
+      "error": "canceling statement due to statement timeout\nCONTEXT:  SQL statement \"with clock as materialized(select p_at at),\n products as materialized(select(p->>'root_id')::uuid root_id from jsonb_array_elements(p_products)p),\n -- One consumer: retain the exact Native projection without a temporary copy.\n stock as not materialized(\n select m.id,coalesce(p.identity_root_id,p.id)root_id,p.size_id,m.product_id,m.lot_id,m.location_id,\n  m.quality_grade,m.qty_signed::text qty_signed,m.physical_at,m.system_created_at,\n  m.movement_type,m.source_type,m.source_id,m.reversal_of_id,m.book_order\n from erp.fg_stock_movements m join erp.products p on p.id=m.product_id cross join clock c\n where coalesce(p.identity_root_id,p.id)in(select root_id from products)\n  and m.physical_at<=c.at and m.system_created_at<=c.at\n ),\n framed as(select count(*)n,coalesce(string_agg(encode(extensions.digest(pg_catalog.record_send(row(m.id::pg_catalog.uuid,m.root_id::pg_catalog.uuid,m.size_id::pg_catalog.uuid,m.product_id::pg_catalog.uuid,m.lot_id::pg_catalog.uuid,m.location_id::pg_catalog.uuid,pg_catalog.convert_to(m.quality_grade::text,'UTF8'),pg_catalog.convert_to(m.qty_signed::text,'UTF8'),m.physical_at::pg_catalog.timestamptz,m.system_created_at::pg_catalog.timestamptz,pg_catalog.convert_to(m.movement_type::text,'UTF8'),pg_catalog.convert_to(m.source_type::text,'UTF8'),m.source_id::pg_catalog.uuid,m.reversal_of_id::pg_catalog.uuid,m.book_order::pg_catalog.int8)),'sha256'),'hex'),\n  E'\\n'order by m.id),'')frames from stock m)\n select jsonb_build_object('contract_version','cp7.native-stock-row-digest.v2',\n  'encoding','POSTGRES17_RECORD_SEND_TEXT_AS_UTF8_BYTEA_V1','layout_sha256','9fa5d22b53d337a6472898a5eec99ae7b221aea93313d693588e69cc6e83f32a',\n  'scope','ALL_NATIVE_STOCK_FIELDS_AND_BOTH_VISIBILITY_CLOCKS','captured_at',cp7_planning.utc(p_at),\n  'row_count',n::text,'rows_sha256',encode(extensions.digest(convert_to(\n   E'cp7.native-stock-row-digest.v2\\nPOSTGRES17_RECORD_SEND_TEXT_AS_UTF8_BYTEA_V1\\n9fa5d22b53d337a6472898a5eec99ae7b221aea93313d693588e69cc6e83f32a\\n'||n::text||E'\\n'||frames,'UTF8'),'sha256'),'hex'),\n  'raw_rows_truncated',false,'raw_rows_materialized_as_JSON_array',false,\n  'raw_native_capture_status_overridden',false,'apply_enabled',false,'production_go',false)\n             from framed\"\nPL/pgSQL function cp7_history_reference_binary_v2.stock_digest(jsonb,timestamp with time zone) line 15 at SQL statement\nPL/pgSQL function cp7_frozen_analysis_v2.source(jsonb,boolean) line 9 at assignment\nPL/pgSQL function cp7_frozen_analysis_units_v2.source(jsonb,boolean) line 4 at assignment\nPL/pgSQL function cp7_bounded_analysis_stage.source_for(jsonb,jsonb) line 6 at RETURN\nPL/pgSQL function cp7_frozen_analysis_choice_v2.apply(jsonb,uuid) line 41 at assignment\nSQL function \"erp_cp7_save_product_analog_choice_v2\" statement 1"
+    }
+  ],
+  "all_original_package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "public_catalog_preserved": true,
+  "full_native_boundaries_and_sessions_restored": true,
+  "exact_head_source_prefix_fields": [
+    "label",
+    "scope",
+    "source_sha256",
+    "expected_case_count",
+    "required_case_counts",
+    "required_case_ids",
+    "predeclared_case_contract",
+    "predeclared_case_sha256",
+    "target_v2_source_sha256",
+    "frozen_choice_source_sha256"
+  ],
+  "factory_failure": {
+    "status": "INCOMPLETE",
+    "error": "canceling statement due to statement timeout\nCONTEXT:  SQL statement \"with clock as materialized(select p_at at),\n products as materialized(select(p->>'root_id')::uuid root_id from jsonb_array_elements(p_products)p),\n -- One consumer: retain the exact Native projection without a temporary copy.\n stock as not materialized(\n select m.id,coalesce(p.identity_root_id,p.id)root_id,p.size_id,m.product_id,m.lot_id,m.location_id,\n  m.quality_grade,m.qty_signed::text qty_signed,m.physical_at,m.system_created_at,\n  m.movement_type,m.source_type,m.source_id,m.reversal_of_id,m.book_order\n from erp.fg_stock_movements m join erp.products p on p.id=m.product_id cross join clock c\n where coalesce(p.identity_root_id,p.id)in(select root_id from products)\n  and m.physical_at<=c.at and m.system_created_at<=c.at\n ),\n framed as(select count(*)n,coalesce(string_agg(encode(extensions.digest(pg_catalog.record_send(row(m.id::pg_catalog.uuid,m.root_id::pg_catalog.uuid,m.size_id::pg_catalog.uuid,m.product_id::pg_catalog.uuid,m.lot_id::pg_catalog.uuid,m.location_id::pg_catalog.uuid,pg_catalog.convert_to(m.quality_grade::text,'UTF8'),pg_catalog.convert_to(m.qty_signed::text,'UTF8'),m.physical_at::pg_catalog.timestamptz,m.system_created_at::pg_catalog.timestamptz,pg_catalog.convert_to(m.movement_type::text,'UTF8'),pg_catalog.convert_to(m.source_type::text,'UTF8'),m.source_id::pg_catalog.uuid,m.reversal_of_id::pg_catalog.uuid,m.book_order::pg_catalog.int8)),'sha256'),'hex'),\n  E'\\n'order by m.id),'')frames from stock m)\n select jsonb_build_object('contract_version','cp7.native-stock-row-digest.v2',\n  'encoding','POSTGRES17_RECORD_SEND_TEXT_AS_UTF8_BYTEA_V1','layout_sha256','9fa5d22b53d337a6472898a5eec99ae7b221aea93313d693588e69cc6e83f32a',\n  'scope','ALL_NATIVE_STOCK_FIELDS_AND_BOTH_VISIBILITY_CLOCKS','captured_at',cp7_planning.utc(p_at),\n  'row_count',n::text,'rows_sha256',encode(extensions.digest(convert_to(\n   E'cp7.native-stock-row-digest.v2\\nPOSTGRES17_RECORD_SEND_TEXT_AS_UTF8_BYTEA_V1\\n9fa5d22b53d337a6472898a5eec99ae7b221aea93313d693588e69cc6e83f32a\\n'||n::text||E'\\n'||frames,'UTF8'),'sha256'),'hex'),\n  'raw_rows_truncated',false,'raw_rows_materialized_as_JSON_array',false,\n  'raw_native_capture_status_overridden',false,'apply_enabled',false,'production_go',false)\n             from framed\"\nPL/pgSQL function cp7_history_reference_binary_v2.stock_digest(jsonb,timestamp with time zone) line 15 at SQL statement\nPL/pgSQL function cp7_frozen_analysis_v2.source(jsonb,boolean) line 9 at assignment\nPL/pgSQL function cp7_frozen_analysis_units_v2.source(jsonb,boolean) line 4 at assignment\nPL/pgSQL function cp7_bounded_analysis_stage.source_for(jsonb,jsonb) line 6 at RETURN\nPL/pgSQL function cp7_frozen_analysis_choice_v2.apply(jsonb,uuid) line 41 at assignment\nSQL function \"erp_cp7_save_product_analog_choice_v2\" statement 1",
+    "observations": {
+      "ordered_calls": [
+        {
+          "phase": "PRIVATE_REQUEST",
+          "name": "cp7_frozen_analysis_units_v2.request",
+          "millis": 3844.982
+        },
+        {
+          "phase": "UNCHANGED_COMPILER_SAME_ARGUMENTS",
+          "name": "cp7_history_bounded.compile",
+          "millis": 4276.605
+        },
+        {
+          "phase": "PRIVATE_REQUEST",
+          "name": "cp7_frozen_analysis_units_v2.request",
+          "millis": 3606.418
+        },
+        {
+          "phase": "UNCHANGED_COMPILER_SAME_ARGUMENTS",
+          "name": "cp7_history_bounded.compile",
+          "millis": 4436.645
+        }
+      ],
+      "completed": {
+        "state": "DONE",
+        "targets": 3602,
+        "pages": 1,
+        "step_millis": [
+          5959.357,
+          1102.374,
+          884.766,
+          847.474,
+          842.771,
+          839.342,
+          835.104,
+          1678.371,
+          1687.637,
+          1678.033,
+          1723.409,
+          1677.799,
+          1661.314,
+          1666.425,
+          1672.984,
+          1683.569,
+          1669.783,
+          1697.059,
+          1676.862,
+          1687.157,
+          1718.867,
+          1618.731,
+          892.342,
+          1017.242,
+          1702.291,
+          911.331,
+          922.451,
+          942.961,
+          970.419,
+          960.402,
+          987.23,
+          1001.859,
+          1005.161,
+          1015.977,
+          1027.843,
+          1042.855,
+          1093.323,
+          1069.369,
+          1094.809,
+          927.891,
+          1010.279,
+          830.24,
+          955.832,
+          965.371,
+          985.464,
+          1003.011,
+          1017.575,
+          1041.984,
+          1060.696,
+          1054.12,
+          1074.119,
+          1103.791,
+          1087.916,
+          1100.974,
+          1117.616,
+          1133.812,
+          951.189,
+          896.78,
+          970.309,
+          963.435,
+          972.323,
+          968.859,
+          962.546,
+          960.279,
+          956.163,
+          956.821,
+          954.291,
+          960.645,
+          964.02,
+          967.77,
+          998.261,
+          980.625,
+          890.55,
+          1697.921,
+          100.787,
+          4.959
+        ]
+      },
+      "write_millis": [
+        7081.885
+      ],
+      "save_function_profiles": [
+        {
+          "functions": [
+            {
+              "function": "cp7_history_reference_binary_v2.stock_digest(jsonb,timestamp with time zone)",
+              "calls": 2,
+              "total_ms": 2608.132,
+              "self_ms": 2011.211
+            },
+            {
+              "function": "cp7_bounded_analysis_stage.require_inputs(jsonb,jsonb)",
+              "calls": 2,
+              "total_ms": 791.748,
+              "self_ms": 614.977
+            },
+            {
+              "function": "cp7_frozen_analysis_units_v2.unpack(cp7_analysis_stage.jobs,jsonb)",
+              "calls": 1,
+              "total_ms": 465.983,
+              "self_ms": 396.605
+            },
+            {
+              "function": "cp7_frozen_analysis_v2.base(jsonb)",
+              "calls": 10,
+              "total_ms": 378.313,
+              "self_ms": 378.313
+            },
+            {
+              "function": "cp7_frozen_analysis_readers_v2.reference(cp7_analysis_stage.jobs)",
+              "calls": 1,
+              "total_ms": 764.597,
+              "self_ms": 285.324
+            },
+            {
+              "function": "cp7_model_evaluation_selection.latest(text[],uuid,timestamp with time zone)",
+              "calls": 6,
+              "total_ms": 273.246,
+              "self_ms": 273.246
+            },
+            {
+              "function": "cp7_reorder_inputs.capture_history(integer)",
+              "calls": 2,
+              "total_ms": 236.014,
+              "self_ms": 235.778
+            },
+            {
+              "function": "cp7_frozen_analysis_choice_v2.review_context(uuid,text,integer,integer,text)",
+              "calls": 1,
+              "total_ms": 1437.339,
+              "self_ms": 210.374
+            },
+            {
+              "function": "cp7_frozen_analysis_v2.reference(jsonb,jsonb,jsonb,text)",
+              "calls": 4,
+              "total_ms": 320.624,
+              "self_ms": 173.542
+            },
+            {
+              "function": "cp7_bounded_analysis_stage.netting_source(integer,integer)",
+              "calls": 2,
+              "total_ms": 1667.349,
+              "self_ms": 165.459
+            },
+            {
+              "function": "cp7_bounded_analysis_stage.native_work_fingerprint(jsonb)",
+              "calls": 4,
+              "total_ms": 159.208,
+              "self_ms": 145.356
+            },
+            {
+              "function": "cp7_bounded_analysis_stage.source_parts(integer)",
+              "calls": 2,
+              "total_ms": 1426.38,
+              "self_ms": 130.456
+            },
+            {
+              "function": "cp7_reorder_inputs.capture_baseline(integer)",
+              "calls": 2,
+              "total_ms": 1214.806,
+              "self_ms": 124.78
+            },
+            {
+              "function": "cp7_model_target_source_v2.capture(jsonb,integer)",
+              "calls": 2,
+              "total_ms": 572.857,
+              "self_ms": 114.229
+            },
+            {
+              "function": "cp7_model_target_source_v2.non_stock_rows(jsonb,integer)",
+              "calls": 2,
+              "total_ms": 129.348,
+              "self_ms": 114.077
+            },
+            {
+              "function": "cp7_bounded_analysis_stage.analysis_source(integer,integer)",
+              "calls": 2,
+              "total_ms": 1811.781,
+              "self_ms": 101.376
+            },
+            {
+              "function": "cp7_identity.membership(uuid,timestamp with time zone)",
+              "calls": 2404,
+              "total_ms": 85.135,
+              "self_ms": 85.135
+            },
+            {
+              "function": "cp7_profile.source(uuid[],timestamp with time zone)",
+              "calls": 2,
+              "total_ms": 76.058,
+              "self_ms": 76.058
+            },
+            {
+              "function": "cp7_bounded_analysis_stage.schedule_source(integer)",
+              "calls": 2,
+              "total_ms": 1501.889,
+              "self_ms": 74.797
+            },
+            {
+              "function": "cp7_product_analog_stage.candidates(jsonb,text,integer,integer)",
+              "calls": 1,
+              "total_ms": 452.901,
+              "self_ms": 72.205
+            },
+            {
+              "function": "cp7_product_analog_choice.source_at(text[],timestamp with time zone)",
+              "calls": 2,
+              "total_ms": 59.678,
+              "self_ms": 59.678
+            },
+            {
+              "function": "cp7_wip.fields(jsonb,text[])",
+              "calls": 169,
+              "total_ms": 58.304,
+              "self_ms": 58.304
+            },
+            {
+              "function": "cp7_frozen_analysis_v2.source(jsonb,boolean)",
+              "calls": 2,
+              "total_ms": 4666.235,
+              "self_ms": 55.945
+            },
+            {
+              "function": "cp7_frozen_analysis_choice_v2.normalize_confirmed_delta(jsonb,jsonb,jsonb)",
+              "calls": 1,
+              "total_ms": 50.591,
+              "self_ms": 50.521
+            },
+            {
+              "function": "cp7_identity.workspace_data(uuid[],timestamp with time zone)",
+              "calls": 2,
+              "total_ms": 132.069,
+              "self_ms": 46.934
+            },
+            {
+              "function": "cp7_frozen_analysis_choice_v2.material(jsonb,text,text,jsonb)",
+              "calls": 1,
+              "total_ms": 453.681,
+              "self_ms": 39.639
+            },
+            {
+              "function": "cp7_wip.capture_cutting_sources(uuid[],timestamp with time zone)",
+              "calls": 6,
+              "total_ms": 38.88,
+              "self_ms": 38.88
+            },
+            {
+              "function": "cp7_analysis_native.material_source(jsonb,timestamp with time zone)",
+              "calls": 2,
+              "total_ms": 36.657,
+              "self_ms": 36.657
+            },
+            {
+              "function": "cp7_bounded_analysis_stage.source_for(jsonb,jsonb)",
+              "calls": 2,
+              "total_ms": 4939.889,
+              "self_ms": 24.758
+            },
+            {
+              "function": "cp7_frozen_analysis_v2.admit(jsonb,jsonb,integer)",
+              "calls": 2,
+              "total_ms": 21.689,
+              "self_ms": 20.843
+            },
+            {
+              "function": "cp7_netting_native.fingerprint(jsonb)",
+              "calls": 2,
+              "total_ms": 175.563,
+              "self_ms": 17.066
+            },
+            {
+              "function": "cp7_bounded_analysis_stage.producer_hash()",
+              "calls": 6,
+              "total_ms": 16.402,
+              "self_ms": 15.54
+            },
+            {
+              "function": "cp7_frozen_analysis_units_v2.binding(cp7_analysis_stage.jobs)",
+              "calls": 1,
+              "total_ms": 15.241,
+              "self_ms": 15.241
+            },
+            {
+              "function": "cp7_model_target_binding.non_stock(jsonb,text,integer)",
+              "calls": 2,
+              "total_ms": 15.271,
+              "self_ms": 14.89
+            },
+            {
+              "function": "cp7_model_target_source.engine()",
+              "calls": 4,
+              "total_ms": 14.544,
+              "self_ms": 14.544
+            },
+            {
+              "function": "cp7_frozen_analysis_v2.work_fingerprint(jsonb)",
+              "calls": 4,
+              "total_ms": 329.716,
+              "self_ms": 12.709
+            },
+            {
+              "function": "cp7_model_registry_adapter.engine()",
+              "calls": 8,
+              "total_ms": 12.277,
+              "self_ms": 12.277
+            },
+            {
+              "function": "cp7_frozen_analysis_units_v2.producer_hash()",
+              "calls": 4,
+              "total_ms": 26.954,
+              "self_ms": 10.191
+            },
+            {
+              "function": "cp7_frozen_analysis_choice_v2.apply(jsonb,uuid)",
+              "calls": 1,
+              "total_ms": 7078.781,
+              "self_ms": 10.058
+            },
+            {
+              "function": "cp7_wip.capture_other_sources(uuid[],uuid[],timestamp with time zone)",
+              "calls": 2,
+              "total_ms": 9.897,
+              "self_ms": 9.897
+            },
+            {
+              "function": "cp7_product_analog_consumer.capture(jsonb)",
+              "calls": 2,
+              "total_ms": 67.767,
+              "self_ms": 8.089
+            },
+            {
+              "function": "cp7_analysis_native.fingerprint(jsonb)",
+              "calls": 2,
+              "total_ms": 183.733,
+              "self_ms": 7.699
+            },
+            {
+              "function": "cp7_frozen_analysis_v2.producer_hash()",
+              "calls": 6,
+              "total_ms": 24.155,
+              "self_ms": 7.656
+            },
+            {
+              "function": "cp7_model_history_runtime.engine()",
+              "calls": 8,
+              "total_ms": 7.355,
+              "self_ms": 7.257
+            },
+            {
+              "function": "cp7_model_target_source_v2.producer()",
+              "calls": 4,
+              "total_ms": 7.161,
+              "self_ms": 7.161
+            },
+            {
+              "function": "erp.has_permission(text)",
+              "calls": 85,
+              "total_ms": 5.578,
+              "self_ms": 5.578
+            },
+            {
+              "function": "cp7_supply_native.proof_kernel()",
+              "calls": 2,
+              "total_ms": 5.592,
+              "self_ms": 5.47
+            },
+            {
+              "function": "cp7_model_target_source_v2.engine()",
+              "calls": 4,
+              "total_ms": 19.864,
+              "self_ms": 5.32
+            },
+            {
+              "function": "cp7_frozen_analysis_units_v2.coverage(uuid)",
+              "calls": 1,
+              "total_ms": 5.254,
+              "self_ms": 5.254
+            },
+            {
+              "function": "cp7_fabric_native.physical_source(jsonb,timestamp with time zone)",
+              "calls": 2,
+              "total_ms": 4.528,
+              "self_ms": 4.528
+            },
+            {
+              "function": "cp7_wip.refs(jsonb)",
+              "calls": 78,
+              "total_ms": 6.432,
+              "self_ms": 4.208
+            },
+            {
+              "function": "cp7_wip.reconcile(jsonb)",
+              "calls": 4,
+              "total_ms": 11.329,
+              "self_ms": 4.111
+            },
+            {
+              "function": "cp7_model_scoped_evaluation.engine()",
+              "calls": 4,
+              "total_ms": 14.782,
+              "self_ms": 4.099
+            },
+            {
+              "function": "cp7_wip.pcs(jsonb)",
+              "calls": 1293,
+              "total_ms": 3.379,
+              "self_ms": 3.379
+            },
+            {
+              "function": "cp7_wip.normalize_cutting(jsonb)",
+              "calls": 2,
+              "total_ms": 20.332,
+              "self_ms": 2.693
+            },
+            {
+              "function": "cp7_supply_native.merge_facts(jsonb,jsonb)",
+              "calls": 2,
+              "total_ms": 2.547,
+              "self_ms": 2.547
+            },
+            {
+              "function": "cp7_frozen_analysis_units_v2.source(jsonb,boolean)",
+              "calls": 2,
+              "total_ms": 4915.131,
+              "self_ms": 2.392
+            },
+            {
+              "function": "cp7_wip.redispatch_valid(jsonb)",
+              "calls": 2,
+              "total_ms": 2.244,
+              "self_ms": 2.244
+            },
+            {
+              "function": "cp7_product_analog_consumer.engine_hash()",
+              "calls": 2,
+              "total_ms": 2.137,
+              "self_ms": 2.061
+            },
+            {
+              "function": "cp7_schedule_native.fingerprint(jsonb)",
+              "calls": 2,
+              "total_ms": 156.641,
+              "self_ms": 1.984
+            }
+          ],
+          "completed_calls_only": true,
+          "inlined_SQL_functions_may_be_absent": true,
+          "instrumentation_overhead_uncalibrated": true,
+          "phase": "CACHED",
+          "canceled_active_frames_may_be_absent": false,
+          "counter_scope": "THIS_TRANSACTION_ONLY",
+          "statement_limit": "8s",
+          "gateway_limit_increased": false,
+          "production_functions_replaced_for_profiling": false,
+          "track_functions_restored": true,
+          "statement_timeout_restored": true
+        },
+        {
+          "functions": [
+            {
+              "function": "cp7_history_bounded.compile(jsonb,jsonb,jsonb,integer)",
+              "calls": 1,
+              "total_ms": 3942.802,
+              "self_ms": 628.073
+            },
+            {
+              "function": "cp7_wip.refs(jsonb)",
+              "calls": 14450,
+              "total_ms": 797.808,
+              "self_ms": 533.859
+            },
+            {
+              "function": "cp7_model_target_consumer_v2.rows(jsonb,jsonb,jsonb,text,jsonb)",
+              "calls": 1,
+              "total_ms": 1979.101,
+              "self_ms": 524.505
+            },
+            {
+              "function": "cp7_wip.fields(jsonb,text[])",
+              "calls": 36121,
+              "total_ms": 453.237,
+              "self_ms": 453.237
+            },
+            {
+              "function": "cp7_product_analog_consumer.baseline_rows(jsonb,jsonb,jsonb,text,jsonb)",
+              "calls": 1,
+              "total_ms": 1400.892,
+              "self_ms": 364.444
+            },
+            {
+              "function": "cp7_frozen_analysis_v2.prepare(jsonb,jsonb,integer)",
+              "calls": 1,
+              "total_ms": 4609.946,
+              "self_ms": 336.422
+            },
+            {
+              "function": "cp7_bounded_analysis_stage.require_inputs(jsonb,jsonb)",
+              "calls": 1,
+              "total_ms": 412.581,
+              "self_ms": 318.59
+            },
+            {
+              "function": "cp7_frozen_analysis_readers_v2.reference(cp7_analysis_stage.jobs)",
+              "calls": 1,
+              "total_ms": 4929.705,
+              "self_ms": 304.915
+            },
+            {
+              "function": "cp7_frozen_analysis_choice_v2.review_context(uuid,text,integer,integer,text)",
+              "calls": 1,
+              "total_ms": 5756.368,
+              "self_ms": 261.127
+            },
+            {
+              "function": "cp7_wip.key(jsonb)",
+              "calls": 101099,
+              "total_ms": 260.908,
+              "self_ms": 260.908
+            },
+            {
+              "function": "cp7_product_analog_consumer.prepare(jsonb,jsonb,jsonb)",
+              "calls": 1,
+              "total_ms": 221.304,
+              "self_ms": 164.373
+            },
+            {
+              "function": "cp7_demand.availability(jsonb)",
+              "calls": 3602,
+              "total_ms": 512.024,
+              "self_ms": 158.293
+            },
+            {
+              "function": "cp7_reorder_inputs.capture_history(integer)",
+              "calls": 1,
+              "total_ms": 154.5,
+              "self_ms": 154.391
+            },
+            {
+              "function": "cp7_analysis_stage.history_rows(jsonb)",
+              "calls": 1,
+              "total_ms": 142.191,
+              "self_ms": 142.096
+            },
+            {
+              "function": "cp7_product_analog_stage.candidates(jsonb,text,integer,integer)",
+              "calls": 1,
+              "total_ms": 556.322,
+              "self_ms": 140.695
+            },
+            {
+              "function": "cp7_model_evaluation_selection.latest(text[],uuid,timestamp with time zone)",
+              "calls": 3,
+              "total_ms": 137.265,
+              "self_ms": 137.265
+            },
+            {
+              "function": "cp7_product_analog_consumer.provenance(jsonb,jsonb,jsonb,jsonb,jsonb,jsonb)",
+              "calls": 3602,
+              "total_ms": 166.727,
+              "self_ms": 131.698
+            },
+            {
+              "function": "cp7_frozen_analysis_v2.base(jsonb)",
+              "calls": 3,
+              "total_ms": 122.341,
+              "self_ms": 122.341
+            },
+            {
+              "function": "cp7_reorder_inputs.current_stock(jsonb,jsonb,text)",
+              "calls": 1,
+              "total_ms": 630.26,
+              "self_ms": 118.128
+            },
+            {
+              "function": "cp7_demand.estimate(jsonb)",
+              "calls": 3602,
+              "total_ms": 464.105,
+              "self_ms": 113.335
+            },
+            {
+              "function": "cp7_demand.context(jsonb,text)",
+              "calls": 10807,
+              "total_ms": 168.797,
+              "self_ms": 108.318
+            },
+            {
+              "function": "cp7_baseline.target(jsonb)",
+              "calls": 3602,
+              "total_ms": 405.611,
+              "self_ms": 96.007
+            },
+            {
+              "function": "cp7_bounded_analysis_stage.netting_source(integer,integer)",
+              "calls": 1,
+              "total_ms": 887.746,
+              "self_ms": 84.468
+            },
+            {
+              "function": "cp7_frozen_analysis_v2.capsule_hash(jsonb,jsonb,jsonb,jsonb,text)",
+              "calls": 1,
+              "total_ms": 83.737,
+              "self_ms": 76.502
+            },
+            {
+              "function": "cp7_analysis_stage.history_validate(jsonb)",
+              "calls": 1,
+              "total_ms": 327.646,
+              "self_ms": 75.908
+            },
+            {
+              "function": "cp7_frozen_analysis_v2.verify_capsule(jsonb,jsonb,integer)",
+              "calls": 1,
+              "total_ms": 330.722,
+              "self_ms": 74.442
+            },
+            {
+              "function": "cp7_bounded_analysis_stage.source_parts(integer)",
+              "calls": 1,
+              "total_ms": 763.878,
+              "self_ms": 65.482
+            },
+            {
+              "function": "cp7_reorder_inputs.capture_baseline(integer)",
+              "calls": 1,
+              "total_ms": 660.612,
+              "self_ms": 63.416
+            },
+            {
+              "function": "cp7_model_target_source_v2.non_stock_rows(jsonb,integer)",
+              "calls": 1,
+              "total_ms": 65.91,
+              "self_ms": 57.914
+            },
+            {
+              "function": "cp7_model_target_source_v2.capture(jsonb,integer)",
+              "calls": 1,
+              "total_ms": 289.566,
+              "self_ms": 57.188
+            },
+            {
+              "function": "cp7_bounded_analysis_stage.analysis_source(integer,integer)",
+              "calls": 1,
+              "total_ms": 961.007,
+              "self_ms": 52.177
+            },
+            {
+              "function": "cp7_identity.membership(uuid,timestamp with time zone)",
+              "calls": 1202,
+              "total_ms": 48.853,
+              "self_ms": 48.853
+            },
+            {
+              "function": "cp7_wip.pcs(jsonb)",
+              "calls": 12056,
+              "total_ms": 46.541,
+              "self_ms": 46.541
+            },
+            {
+              "function": "cp7_frozen_analysis_v2.reference(jsonb,jsonb,jsonb,text)",
+              "calls": 1,
+              "total_ms": 82.121,
+              "self_ms": 43.83
+            },
+            {
+              "function": "cp7_profile.source(uuid[],timestamp with time zone)",
+              "calls": 1,
+              "total_ms": 42.924,
+              "self_ms": 42.924
+            },
+            {
+              "function": "cp7_frozen_analysis_v2.seal(jsonb,jsonb,jsonb,jsonb,text,integer)",
+              "calls": 1,
+              "total_ms": 212.69,
+              "self_ms": 39.617
+            },
+            {
+              "function": "cp7_bounded_analysis_stage.schedule_source(integer)",
+              "calls": 1,
+              "total_ms": 803.278,
+              "self_ms": 38.622
+            },
+            {
+              "function": "cp7_bounded_analysis_stage.native_work_fingerprint(jsonb)",
+              "calls": 1,
+              "total_ms": 40.27,
+              "self_ms": 36.797
+            },
+            {
+              "function": "cp7_product_analog_choice.source_at(text[],timestamp with time zone)",
+              "calls": 1,
+              "total_ms": 30.445,
+              "self_ms": 30.445
+            },
+            {
+              "function": "cp7_identity.workspace_data(uuid[],timestamp with time zone)",
+              "calls": 1,
+              "total_ms": 73.561,
+              "self_ms": 24.708
+            },
+            {
+              "function": "cp7_wip.capture_cutting_sources(uuid[],timestamp with time zone)",
+              "calls": 3,
+              "total_ms": 20.066,
+              "self_ms": 20.066
+            },
+            {
+              "function": "cp7_analysis_native.material_source(jsonb,timestamp with time zone)",
+              "calls": 1,
+              "total_ms": 18.169,
+              "self_ms": 18.169
+            },
+            {
+              "function": "cp7_frozen_analysis_v2.admit(jsonb,jsonb,integer)",
+              "calls": 2,
+              "total_ms": 14.996,
+              "self_ms": 14.113
+            },
+            {
+              "function": "cp7_frozen_analysis_v2.work_fingerprint(jsonb)",
+              "calls": 1,
+              "total_ms": 93.991,
+              "self_ms": 13.038
+            },
+            {
+              "function": "cp7_demand.\"decimal\"(jsonb)",
+              "calls": 3617,
+              "total_ms": 9.497,
+              "self_ms": 9.497
+            },
+            {
+              "function": "cp7_analysis_stage.events_validate(jsonb)",
+              "calls": 1,
+              "total_ms": 9.105,
+              "self_ms": 9.002
+            },
+            {
+              "function": "cp7_model_target_binding.non_stock(jsonb,text,integer)",
+              "calls": 1,
+              "total_ms": 7.996,
+              "self_ms": 7.785
+            },
+            {
+              "function": "cp7_model_target_source.engine()",
+              "calls": 2,
+              "total_ms": 7.361,
+              "self_ms": 7.361
+            },
+            {
+              "function": "cp7_demand.items(jsonb,integer)",
+              "calls": 3617,
+              "total_ms": 6.657,
+              "self_ms": 6.657
+            },
+            {
+              "function": "cp7_model_registry_adapter.engine()",
+              "calls": 4,
+              "total_ms": 6.435,
+              "self_ms": 6.435
+            },
+            {
+              "function": "cp7_frozen_analysis_units_v2.coverage(uuid)",
+              "calls": 1,
+              "total_ms": 5.548,
+              "self_ms": 5.548
+            },
+            {
+              "function": "cp7_frozen_analysis_units_v2.producer_hash()",
+              "calls": 2,
+              "total_ms": 15.247,
+              "self_ms": 5.03
+            },
+            {
+              "function": "cp7_bounded_analysis_stage.producer_hash()",
+              "calls": 2,
+              "total_ms": 5.258,
+              "self_ms": 4.97
+            },
+            {
+              "function": "cp7_frozen_analysis_v2.producer_hash()",
+              "calls": 2,
+              "total_ms": 10.119,
+              "self_ms": 4.827
+            },
+            {
+              "function": "erp.has_permission(text)",
+              "calls": 64,
+              "total_ms": 4.136,
+              "self_ms": 4.136
+            },
+            {
+              "function": "cp7_product_analog_consumer.capture(jsonb)",
+              "calls": 1,
+              "total_ms": 34.563,
+              "self_ms": 4.119
+            },
+            {
+              "function": "cp7_model_target_source_v2.producer()",
+              "calls": 2,
+              "total_ms": 3.665,
+              "self_ms": 3.665
+            },
+            {
+              "function": "cp7_model_history_runtime.engine()",
+              "calls": 4,
+              "total_ms": 3.642,
+              "self_ms": 3.591
+            },
+            {
+              "function": "cp7_wip.capture_other_sources(uuid[],uuid[],timestamp with time zone)",
+              "calls": 1,
+              "total_ms": 3.579,
+              "self_ms": 3.579
+            },
+            {
+              "function": "cp7_supply_native.proof_kernel()",
+              "calls": 1,
+              "total_ms": 3.208,
+              "self_ms": 3.141
+            }
+          ],
+          "completed_calls_only": true,
+          "inlined_SQL_functions_may_be_absent": true,
+          "instrumentation_overhead_uncalibrated": true,
+          "phase": "AFTER_K3",
+          "canceled_active_frames_may_be_absent": true,
+          "counter_scope": "THIS_TRANSACTION_ONLY",
+          "statement_limit": "8s",
+          "gateway_limit_increased": false,
+          "production_functions_replaced_for_profiling": false,
+          "track_functions_restored": true,
+          "statement_timeout_restored": true
+        }
+      ],
+      "failed_save": {
+        "millis": 8011.059,
+        "sqlstate": "57014",
+        "error": "canceling statement due to statement timeout\nCONTEXT:  SQL statement \"with clock as materialized(select p_at at),\n products as materialized(select(p->>'root_id')::uuid root_id from jsonb_array_elements(p_products)p),\n -- One consumer: retain the exact Native projection without a temporary copy.\n stock as not materialized(\n select m.id,coalesce(p.identity_root_id,p.id)root_id,p.size_id,m.product_id,m.lot_id,m.location_id,\n  m.quality_grade,m.qty_signed::text qty_signed,m.physical_at,m.system_created_at,\n  m.movement_type,m.source_type,m.source_id,m.reversal_of_id,m.book_order\n from erp.fg_stock_movements m join erp.products p on p.id=m.product_id cross join clock c\n where coalesce(p.identity_root_id,p.id)in(select root_id from products)\n  and m.physical_at<=c.at and m.system_created_at<=c.at\n ),\n framed as(select count(*)n,coalesce(string_agg(encode(extensions.digest(pg_catalog.record_send(row(m.id::pg_catalog.uuid,m.root_id::pg_catalog.uuid,m.size_id::pg_catalog.uuid,m.product_id::pg_catalog.uuid,m.lot_id::pg_catalog.uuid,m.location_id::pg_catalog.uuid,pg_catalog.convert_to(m.quality_grade::text,'UTF8'),pg_catalog.convert_to(m.qty_signed::text,'UTF8'),m.physical_at::pg_catalog.timestamptz,m.system_created_at::pg_catalog.timestamptz,pg_catalog.convert_to(m.movement_type::text,'UTF8'),pg_catalog.convert_to(m.source_type::text,'UTF8'),m.source_id::pg_catalog.uuid,m.reversal_of_id::pg_catalog.uuid,m.book_order::pg_catalog.int8)),'sha256'),'hex'),\n  E'\\n'order by m.id),'')frames from stock m)\n select jsonb_build_object('contract_version','cp7.native-stock-row-digest.v2',\n  'encoding','POSTGRES17_RECORD_SEND_TEXT_AS_UTF8_BYTEA_V1','layout_sha256','9fa5d22b53d337a6472898a5eec99ae7b221aea93313d693588e69cc6e83f32a',\n  'scope','ALL_NATIVE_STOCK_FIELDS_AND_BOTH_VISIBILITY_CLOCKS','captured_at',cp7_planning.utc(p_at),\n  'row_count',n::text,'rows_sha256',encode(extensions.digest(convert_to(\n   E'cp7.native-stock-row-digest.v2\\nPOSTGRES17_RECORD_SEND_TEXT_AS_UTF8_BYTEA_V1\\n9fa5d22b53d337a6472898a5eec99ae7b221aea93313d693588e69cc6e83f32a\\n'||n::text||E'\\n'||frames,'UTF8'),'sha256'),'hex'),\n  'raw_rows_truncated',false,'raw_rows_materialized_as_JSON_array',false,\n  'raw_native_capture_status_overridden',false,'apply_enabled',false,'production_go',false)\n             from framed\"\nPL/pgSQL function cp7_history_reference_binary_v2.stock_digest(jsonb,timestamp with time zone) line 15 at SQL statement\nPL/pgSQL function cp7_frozen_analysis_v2.source(jsonb,boolean) line 9 at assignment\nPL/pgSQL function cp7_frozen_analysis_units_v2.source(jsonb,boolean) line 4 at assignment\nPL/pgSQL function cp7_bounded_analysis_stage.source_for(jsonb,jsonb) line 6 at RETURN\nPL/pgSQL function cp7_frozen_analysis_choice_v2.apply(jsonb,uuid) line 41 at assignment\nSQL function \"erp_cp7_save_product_analog_choice_v2\" statement 1"
+      },
+      "timeout_calibrations": [
+        {
+          "phase": "AFTER_K3",
+          "qualification_credit": false,
+          "original_timeout_not_replaced": true,
+          "same_UUID_and_payload": true,
+          "statement_limit": "8s",
+          "instrumented_tracking": "all",
+          "baseline_tracking": "none",
+          "status": "DIAGNOSTIC_FAILED",
+          "sqlstate": "57014",
+          "error": "canceling statement due to statement timeout\nCONTEXT:  PL/pgSQL function cp7_frozen_analysis_v2.reference(jsonb,jsonb,jsonb,text) line 3 at IF\nPL/pgSQL function cp7_frozen_analysis_v2.source(jsonb,boolean) line 11 at RETURN\nPL/pgSQL assignment \"c:=cp7_frozen_analysis_v2.source(q,p_with_capsule)\"\nPL/pgSQL function cp7_frozen_analysis_units_v2.source(jsonb,boolean) line 4 at assignment\nSQL expression \"cp7_frozen_analysis_units_v2.source(p_query,false)\"\nPL/pgSQL function cp7_bounded_analysis_stage.source_for(jsonb,jsonb) line 6 at RETURN\nPL/pgSQL assignment \"current_source:=cp7_bounded_analysis_stage.source_for(j.reference,j.query)\"\nPL/pgSQL function cp7_frozen_analysis_choice_v2.apply(jsonb,uuid) line 41 at assignment\nSQL function \"erp_cp7_save_product_analog_choice_v2\" statement 1",
+          "observations": {
+            "failed_save": {
+              "millis": 8040.09,
+              "sqlstate": "57014",
+              "error": "canceling statement due to statement timeout\nCONTEXT:  PL/pgSQL function cp7_frozen_analysis_v2.reference(jsonb,jsonb,jsonb,text) line 3 at IF\nPL/pgSQL function cp7_frozen_analysis_v2.source(jsonb,boolean) line 11 at RETURN\nPL/pgSQL assignment \"c:=cp7_frozen_analysis_v2.source(q,p_with_capsule)\"\nPL/pgSQL function cp7_frozen_analysis_units_v2.source(jsonb,boolean) line 4 at assignment\nSQL expression \"cp7_frozen_analysis_units_v2.source(p_query,false)\"\nPL/pgSQL function cp7_bounded_analysis_stage.source_for(jsonb,jsonb) line 6 at RETURN\nPL/pgSQL assignment \"current_source:=cp7_bounded_analysis_stage.source_for(j.reference,j.query)\"\nPL/pgSQL function cp7_frozen_analysis_choice_v2.apply(jsonb,uuid) line 41 at assignment\nSQL function \"erp_cp7_save_product_analog_choice_v2\" statement 1"
+            }
+          },
+          "all_effects_rolled_back": true
+        }
+      ]
+    },
+    "instrumented_profiles_present": true,
+    "uncalibrated_instrumentation_not_assumed_causal": true,
+    "K3_confirmation_qualified": false,
+    "stable_factory_SLA": false,
+    "official_finance_included": false
+  }
+}

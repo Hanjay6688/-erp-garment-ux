@@ -4667,3 +4667,50 @@ with actual admitted dependencies, keeping the separately required preparation
 route. Current jobs remain monitored and receive no pending acceptance credit.
 A composition contracts213–215 remain open; formal5/16, B incomplete, no default
 adoption, independent acceptance or production_go.
+
+
+## 217. [bersama] B26 Oktober2026 WIB — all36 started runs finished; A composition remains the acceptance boundary
+
+Code remainsb96e2f74, tree64810b6b. All36 automatic runs on4d/9d/d43/b96 have
+finished and every available complete Original has been read against its exact
+source. No workflow was rerun to chase green, no unit/job limit raised, and no
+old failure converted by the new total-time policy.4d cutting Transport10/
+run40261719798/art12627156404 PASS10/99pins, complete exact-source F05/package/
+public/CP6/advisor/clone/full race and Auth restore checked. Its long CI duration
+includes isolated rebuild/restore, not a single ERP operation's latency.
+
+Latest unchanged legacy-choice Native route observations:
+
+- d43f38a4, run40264331581, artifact12627801346: 5PASS/1INCOMPLETE.
+  Cached SAVE7119.039ms; K3 timeout8034.576ms; same-command calibration
+  8004.529ms also times out. Full restore verified, calibration effects
+  rolled back; writer_runtime=false.
+- b96e2f74, run40265688096, artifact12628130830: 5PASS/1INCOMPLETE.
+  Cached SAVE7081.885ms; K3 timeout8011.059ms; same-command calibration
+  8040.09ms also times out. Full restore verified, calibration effects
+  rolled back; writer_runtime=false.
+
+Full Original boundary/package/CP6/advisor/session results are retained in their
+receipts. Each failed writer_runtime remains false. This route has the same
+admitted source prefixes/product paths/workflow as9d; it does not install or
+exercise the optional preparation delta. No inference of a new-policy fix from
+an old-route rerun. Old8s SAVE failures and interrupted60min Transport remain.
+
+Final intake63 unique Original artifacts: 43 Native/actualAuth package checks, 11 controlled UI, 7 real-browser/controlled-RPC, 2 interrupted without complete gates. Package checked never means
+writer passed. Real two-tab browser with controlled RPC has no Native/Auth/
+restore credit. Missing restore gates are not credited. All raw Originals and
+first-failure logs remain byte-exact; detailed source-bound times and remaining
+owner requirements are in LARGE_ANALYSIS_TIMINGS and LARGE_ANALYSIS_ACCEPTANCE.
+
+B's available correction is concrete: honest production progress; bounded
+client replies/queues with the same stored request; preparation before candidates
+and SAVE using sealed inputs; retired callers stop; optional runner catches
+pre-step cancellation with bounded attempts and restored claims.18 local SQL
+groups pass, plus the source-specific client/Auth/browser checks recorded above.
+Actual new preparation Native/two-session/backend-loss/Auth/factory/whole-report
+parity and composed restore are still unqualified. A must register the new route,
+compose public registry/K4/retention/verifier/defaults and official finance/HPP,
+then run full combined qualification. No shared interface/default/Native/finance
+change was made by B. A remainsf898a71f; old integration brancha255e48f is22Oct
+history, not approval of the new contract. Formal5/16; B scope incomplete;
+independent_acceptance=false; production_go=false.

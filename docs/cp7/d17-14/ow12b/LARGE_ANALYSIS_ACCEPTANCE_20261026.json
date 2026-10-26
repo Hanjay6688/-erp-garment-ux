@@ -81,7 +81,8 @@
       213,
       214,
       215,
-      216
+      216,
+      217
     ],
     "last_read_head": "f898a71fc13654d217f987949f126290083a0225",
     "shared_F05_or_registry_edited": false,
@@ -89,5 +90,59 @@
   },
   "production_go": false,
   "independent_acceptance": false,
-  "B_scope_complete": false
+  "B_scope_complete": false,
+  "all_started_existing_route_runs_finished": true,
+  "existing_route_runs_finished_does_not_qualify_new_preparation": true,
+  "latest_existing_route_observations": [
+    {
+      "source": "d43f38a4bf3c84a06ca6e4f59d3e976fa23fe4c4",
+      "run_id": 40264331581,
+      "artifact_id": 12627801346,
+      "status": "INCOMPLETE",
+      "Native_counts": {
+        "PASS": 5,
+        "INCOMPLETE": 1
+      },
+      "cached_and_completed_SAVE_ms": [
+        7119.039
+      ],
+      "failed_SAVE_ms": 8034.576,
+      "same_UUID_tracking_none_calibration": [
+        {
+          "status": "DIAGNOSTIC_FAILED",
+          "millis": 8004.529,
+          "all_effects_rolled_back": true
+        }
+      ],
+      "writer_runtime": false,
+      "complete_package_restore_checked": true,
+      "old_failures_retained": true,
+      "optional_preparation_not_installed": true
+    },
+    {
+      "source": "b96e2f7402b3373f9ab5fa7ede30d34a7048aea3",
+      "run_id": 40265688096,
+      "artifact_id": 12628130830,
+      "status": "INCOMPLETE",
+      "Native_counts": {
+        "PASS": 5,
+        "INCOMPLETE": 1
+      },
+      "cached_and_completed_SAVE_ms": [
+        7081.885
+      ],
+      "failed_SAVE_ms": 8011.059,
+      "same_UUID_tracking_none_calibration": [
+        {
+          "status": "DIAGNOSTIC_FAILED",
+          "millis": 8040.09,
+          "all_effects_rolled_back": true
+        }
+      ],
+      "writer_runtime": false,
+      "complete_package_restore_checked": true,
+      "old_failures_retained": true,
+      "optional_preparation_not_installed": true
+    }
+  ]
 }

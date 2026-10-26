@@ -1,37 +1,9 @@
 {
-  "observed_at": "2026-10-26T04:09:22.438348+00:00",
-  "pending": [
-    {
-      "id": 40265688096,
-      "name": "CP7 Explicit Frozen Analysis Choice Native6",
-      "status": "in_progress",
-      "conclusion": null,
-      "head_sha": "b96e2f7402b3373f9ab5fa7ede30d34a7048aea3",
-      "created_at": "2026-10-26T03:46:07Z",
-      "updated_at": "2026-10-26T03:46:10Z"
-    },
-    {
-      "id": 40264331581,
-      "name": "CP7 Explicit Frozen Analysis Choice Native6",
-      "status": "in_progress",
-      "conclusion": null,
-      "head_sha": "d43f38a4bf3c84a06ca6e4f59d3e976fa23fe4c4",
-      "created_at": "2026-10-26T03:29:34Z",
-      "updated_at": "2026-10-26T03:29:37Z"
-    }
-  ],
-  "completed_without_receipt": [
-    {
-      "id": 40261719798,
-      "name": "CP7 Explicit Frozen Cutting Transport10",
-      "status": "completed",
-      "conclusion": "success",
-      "head_sha": "4d2d38d44a6e9efef323c8c6b7aeb9097a1b4789",
-      "created_at": "2026-10-26T02:58:17Z",
-      "updated_at": "2026-10-26T04:07:58Z"
-    }
-  ],
+  "observed_at": "2026-10-26T04:39:40.989652+00:00",
+  "pending": [],
+  "completed_without_receipt": [],
   "contract": "cp7.writer-b-live-run-snapshot.v1",
   "snapshot_not_acceptance": true,
-  "production_go": false
+  "production_go": false,
+  "all_36_started_runs_completed": true
 }

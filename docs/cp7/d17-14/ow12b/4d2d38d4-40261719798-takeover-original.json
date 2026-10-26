@@ -1,0 +1,59 @@
+{
+  "contract": "cp7.writer-b-takeover-original-receipt.v1",
+  "head": "4d2d38d44a6e9efef323c8c6b7aeb9097a1b4789",
+  "run_id": 40261719798,
+  "artifact_id": 12627156404,
+  "artifact_bytes": 98277,
+  "artifact_sha256": "de9e1a02fab161488ceb42c68f186f9bc8ac131e663ecc018286ac12cfa053c2",
+  "Original_read_complete": true,
+  "original_json_sha256": {
+    "T3_BACKUP_RESTORE_DRILL.json": "494f8c84b6148aecfcc3f8fe519afd9c0783c3d8d9cf8273b04a924cd3cb2416",
+    "CP7_OW12B_FROZEN_CUTTING_TRANSPORT_CLONE_AUTHORITY.json": "37d0c8c4e5365f2d90cc1171eb64a21ab589a0a93922241dc7a531ef4b464cff",
+    "T3_PACKAGE_FILES_INSTALL.json": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+    "CP7_OW12B_FROZEN_CUTTING_TRANSPORT.json": "7840475e2a9bb724a594f2eb4534ba60e5489dedc266cc1ae978f918d16745a4",
+    "ALIGNED_CHAIN.json": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b",
+    "CP7_OW12B_FROZEN_CUTTING_TRANSPORT_CASE_PROGRESS.json": "2e41f783fc4cd43afcf337b043f860244b69120a0c2158c577d074845b834aef",
+    "T3_PACKAGE_INSTALL.json": "ab38a59276431562d5980bbd553dbbb9ac316ecf3c6690806402a412a877a966"
+  },
+  "source_pins_verified": 99,
+  "status": "PASS",
+  "production_go": false,
+  "independent_acceptance": false,
+  "whole_feature_closed": false,
+  "counts": {
+    "native": {
+      "PASS": 1
+    },
+    "races": {
+      "PASS": 6
+    },
+    "http": {
+      "PASS": 3
+    }
+  },
+  "first_failures": [],
+  "all_original_package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "public_catalog_preserved": true,
+  "full_native_boundaries_and_sessions_restored": true,
+  "exact_head_source_prefix_fields": [
+    "label",
+    "scope",
+    "source_sha256",
+    "expected_case_count",
+    "required_case_counts",
+    "required_case_ids",
+    "predeclared_case_contract",
+    "predeclared_case_sha256",
+    "target_v2_source_sha256",
+    "frozen_cutting_transport_source_sha256"
+  ],
+  "clone_authority_copies_exact": 7
+}

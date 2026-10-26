@@ -1,8 +1,8 @@
 {
   "contract": "cp7.writer-b-evidence-intake-ledger.v1",
-  "Originals_read_retained": 60,
+  "Originals_read_retained": 63,
   "evidence_type_counts": {
-    "NATIVE_OR_ACTUAL_AUTH_PACKAGE_GATES_CHECKED": 40,
+    "NATIVE_OR_ACTUAL_AUTH_PACKAGE_GATES_CHECKED": 43,
     "INTERRUPTED_NATIVE_NO_COMPLETE_PACKAGE_GATES": 2,
     "REAL_BROWSER_LOCKS_CONTROLLED_RPC_NO_NATIVE_PACKAGE": 7,
     "CONTROLLED_BROWSER_ONLY_NO_NATIVE_PACKAGE_GATES": 11
@@ -186,6 +186,27 @@
       "artifact_bytes": 3637,
       "artifact_sha256": "3e1c7a2632b77cc52d35a152b97968e1c47ab180b53037f4e77014f9ebac0f00",
       "receipt": "docs/cp7/d17-14/ow12b/4d2d38d4-40261719779-takeover-original.json"
+    },
+    {
+      "artifact_id": 12627156404,
+      "source_head": "4d2d38d44a6e9efef323c8c6b7aeb9097a1b4789",
+      "run_id": 40261719798,
+      "status": "PASS",
+      "counts": {
+        "native": {
+          "PASS": 1
+        },
+        "races": {
+          "PASS": 6
+        },
+        "http": {
+          "PASS": 3
+        }
+      },
+      "evidence_kind": "NATIVE_OR_ACTUAL_AUTH_PACKAGE_GATES_CHECKED",
+      "artifact_bytes": 98277,
+      "artifact_sha256": "de9e1a02fab161488ceb42c68f186f9bc8ac131e663ecc018286ac12cfa053c2",
+      "receipt": "docs/cp7/d17-14/ow12b/4d2d38d4-40261719798-takeover-original.json"
     },
     {
       "artifact_id": 12625210160,
@@ -701,6 +722,22 @@
       "receipt": "docs/cp7/d17-14/ow12b/9d871601-40262245298-takeover-original.json"
     },
     {
+      "artifact_id": 12628130830,
+      "source_head": "b96e2f7402b3373f9ab5fa7ede30d34a7048aea3",
+      "run_id": 40265688096,
+      "status": "INCOMPLETE",
+      "counts": {
+        "native": {
+          "INCOMPLETE": 1,
+          "PASS": 5
+        }
+      },
+      "evidence_kind": "NATIVE_OR_ACTUAL_AUTH_PACKAGE_GATES_CHECKED",
+      "artifact_bytes": 217062,
+      "artifact_sha256": "a04fe6fb068cd7e3e396542f23ed8d081206206b96d7817c667afb82175d1dac",
+      "receipt": "docs/cp7/d17-14/ow12b/b96e2f74-40265688096-takeover-original.json"
+    },
+    {
       "artifact_id": 12626553548,
       "source_head": "b96e2f7402b3373f9ab5fa7ede30d34a7048aea3",
       "run_id": 40265688210,
@@ -798,6 +835,22 @@
       "artifact_bytes": 1028,
       "artifact_sha256": "a5fe05a594b8932f66758d1b2d9258a69318d6f90d4f0be55d53f466313998da",
       "receipt": "docs/cp7/d17-14/ow12b/d43f38a4-40264331563-takeover-original.json"
+    },
+    {
+      "artifact_id": 12627801346,
+      "source_head": "d43f38a4bf3c84a06ca6e4f59d3e976fa23fe4c4",
+      "run_id": 40264331581,
+      "status": "INCOMPLETE",
+      "counts": {
+        "native": {
+          "INCOMPLETE": 1,
+          "PASS": 5
+        }
+      },
+      "evidence_kind": "NATIVE_OR_ACTUAL_AUTH_PACKAGE_GATES_CHECKED",
+      "artifact_bytes": 215225,
+      "artifact_sha256": "0a45f75a422a3e4ed57970df177563c0addbff353fc8449328611b5654276819",
+      "receipt": "docs/cp7/d17-14/ow12b/d43f38a4-40264331581-takeover-original.json"
     },
     {
       "artifact_id": 12616557503,
