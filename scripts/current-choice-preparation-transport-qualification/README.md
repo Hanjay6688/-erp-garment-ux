@@ -60,3 +60,6 @@ Retensi successor bfed0a81: dua belas file A produk/harness diimpor persis;
 Native9a tetap INCOMPLETE5PASS1. Nativebfed masih berjalan. CONFIG.choice_head
 tetap null dan SOURCE belum dibuat; actualPASS dan full admission tetap wajib.
 Tidak ada perubahan host/UI/B atau klaim eksekusi dari persiapan ini.
+
+
+Actual8dfe1a19/run40338677390/job121627045376/artifact12663230440 is now verified PASS6:3758source pins, allpackage gates and exact full22/data/sequence/CP6/advisor restore. Previous failures remain unchanged. CONFIG now names this exact prerequisite; binding/admission and fresh execution still required.
