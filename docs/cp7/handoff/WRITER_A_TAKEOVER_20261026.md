@@ -9,6 +9,27 @@ ERP dan meneruskan A/integrasi. B boleh dibaca tetapi scope tidak ditukar. Ini
 penulis A, bukan auditor independen. Tidak ada subagent baru.
 
 
+## Status terbaru 26 Oktober2026 16:57UTC — tiga pengujian aktif, dua kegagalan lama dipertahankan
+
+Gunakan ACTIVE dan KOORDINASI terbaru. Bagian di bawah ini merupakan riwayat.
+- Keuangan e913 INCOMPLETE: SMALL cocok seluruh laporan (296.967 menjadi220.955ms),
+  nol DML pembaca; setup harga historis ditolak BF_HISTORY. Kandidat e352901d
+  sudah full-admission3729pin dan berjalan run40362500463/job121711369855.
+  Satu harga lama adalah fixture sintetis berlabel; harga sekarang dan opening
+  memakai writer Native. Tidak ada kredit writer harga historis dari fixture.
+- Transport f088 INCOMPLETE,0/6 kasus dijalankan, karena nama tahap penguji salah.
+  Kandidat40f04164 lulus3tes pencatat tahap dan full-admission3775pin; berjalan
+  run40363845158/job121716085842. Oracle, produk dan batas waktu tetap.
+- UI c64e percobaan pertama gagal unduh lingkungan sebelum DB. Log disimpan.
+  Satu retry kode sama berjalan run40354535892/job121696489085 dan kini sudah
+  masuk kasus browser nyata desktop/mobile. Belum lulus.
+- Source-race06387897 belum bound/berjalan; wajib actuale352PASS tiga pasangan.
+  Original e913 dan f088 sudah diintake sekali; jangan intake ulang.
+
+Semua pemulihan kegagalan database lulus. Formal5/16; CP7C belum dimulai;
+production_go=false; independent_acceptance=false. A tetap integrator tunggal,
+B hanya dibaca. Lanjutkan setelah checkpoint, tanpa meminta owner mengetik lanjut.
+
 ## Status aktif 26 Oktober2026 16:10UTC — lanjut dari tiga uji yang sedang berjalan
 
 Rujukan posisi kerja terbaru adalah `../d17-14/ow15/ACTIVE_WRITER_A_20261025.json`

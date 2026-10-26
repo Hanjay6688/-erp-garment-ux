@@ -4581,3 +4581,39 @@ review actual UI screenshots locally, and only bind the prepared source-change
 race when actuale913 PASS is verified. Combined factory, actual scheduler,
 full final regression and independent acceptance remain open. Formal5/16;
 CP7C not started; independent_acceptance=false; production_go=false.
+
+
+## A26 Oktober2026 16:57UTC — two measured first failures fixed in successors; UI retry underway
+
+Actual e913 remains INCOMPLETE: SMALL passed whole-report equality, zero candidate
+writes and readiness2to1/global3to2 (296.967ms to220.955ms), then PRICE_PERCENT
+setup was correctly refused by BF_HISTORY. No factory or performance credit.
+Original4463406bytes SHA24a3adfc561368d6b16f9d43faf5694b2bfb9682b94ae8793e0870d4c76dc55d
+and full restoration were intaken once. Successor e352901d uses one explicitly
+labelled synthetic legacy price20.123456, current Native price25.99, and Native
+historical opening. That one fixture INSERT gives no Native historical-price
+writer credit. No guard is disabled; report measurements must still write zero.
+Seven transformation tests and eight falsified-fixture controls pass; complete
+admission3729pins passes. Run40362500463/job121711369855 is actually running.
+
+Actual transport f088 remains INCOMPLETE before any of six cases: the probe used
+undeclared logger phases. Full22/data/sequence/CP6/advisor restoration passed.
+Original4172156bytes SHA6cd63ee0bfc2e0afb698bd0b746e2c521a432256f9ef215c481d97a62f2616ff
+is intaken once. Successor40f04164 changes only test instrumentation, records
+actual group names and validates every phase against the retained logger before
+DB. Three tests reject the exact failed predecessor and dynamic/unknown phases.
+Complete admission3775pins passes. Run40363845158/job121716085842 is running.
+No product, Auth/race oracle or timeout changed.
+
+UI c64e first job121683314200 failed before DB because both image registries
+refused pulls. No UI case/Original/artifact existed. The raw failed log is retained
+privately with its hash; exactly one justified retry on the same code is running
+as job121696489085 under run40354535892. It has crossed the infrastructure gate
+and reached actual two-clone browser cases. No automatic further retry.
+
+Source-race06387897 is prepared, unbound and unlaunched. It requires actuale352
+PASS of all three pairs, not e913 partial SMALL. Exact3729pins/8AST/48shell checks,
+seven source tests and three invalid-prerequisite controls pass. All old evidence
+remains unchanged. No B writes. Formal5/16, CP7C not started, production_go=false,
+independent_acceptance=false. Continue actual intake, diagnosis, integration and
+combined qualification; this checkpoint is not scope closure.

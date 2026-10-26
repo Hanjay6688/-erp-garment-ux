@@ -1,0 +1,27 @@
+{
+  "head": "e352901d6975346fa6a099770d179ffc6a59475d",
+  "parent": "e913cc60d7b4a14b97d776fe2a9c5cb995c23563",
+  "local": "8c6190764f8333284d3698c0d7c2d9869d736a2e",
+  "tree": "7fecfd2806500a5567b8186ef09464cd49884c83",
+  "execution_branch": "astra-a/d17-18-finance-check-reuse-diagnostic-20261026",
+  "full_admission": {
+    "status": "PASS",
+    "source_pins": 3729,
+    "bytes": 3904149,
+    "sha256": "8942f8dfdef9de522e66197f3fcb377fe12fe0549313a2a521ef79d043ddf0c7"
+  },
+  "run_id": 40362500463,
+  "job_id": 121711369855,
+  "started_at_utc": "2026-10-26T16:47:33Z",
+  "status": "RUNNING_NOT_PASS",
+  "fixture_contract": "SYNTHETIC_LEGACY_PRICE_NATIVE_CURRENT_AND_OPENING_V2",
+  "synthetic_legacy_price_insert_rows": 1,
+  "native_historical_price_writer_credit": false,
+  "statement_limits_unchanged": true,
+  "production_go": false,
+  "quiet_ref_update": {
+    "status": "FAILED_MISSING_REF",
+    "mutation_not_assumed": true,
+    "execution_ref_advance_succeeded": true
+  }
+}

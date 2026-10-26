@@ -1,8 +1,8 @@
 {
-  "recorded_at_utc": "2026-10-26T16:00:34.376945+00:00",
+  "recorded_at_utc": "2026-10-26T16:57:27.705455+00:00",
   "role": "A finance writer/integrator replacing Claude; B remains separate production/planning writer",
   "slogan": [
-    "VENI. VIDI. VICI. ERP. \u2014 I CONQUERED ERP.",
+    "VENI. VIDI. VICI. ERP. — I CONQUERED ERP.",
     "Reliable data adalah dewa. Keuangan termasuk laporan, stok, dan HPP adalah raja."
   ],
   "formal_accepted": "5/16",
@@ -10,22 +10,22 @@
   "independent_acceptance": false,
   "running": [
     {
-      "head": "e913cc60d7b4a14b97d776fe2a9c5cb995c23563",
-      "run_id": 40345264716,
-      "job_id": 121650386194,
-      "scope": "Installed BA same-report readiness reuse; SMALL/PRICE_PERCENT/FACTORY exact reports and full restoration"
+      "head": "e352901d6975346fa6a099770d179ffc6a59475d",
+      "run_id": 40362500463,
+      "job_id": 121711369855,
+      "scope": "Same-report readiness with labelled legacy PRICE_PERCENT fixture; no adoption"
     },
     {
       "head": "c64e5d6fd9f35512b7a0bc9a4654d201a942df92",
       "run_id": 40354535892,
-      "job_id": 121683314200,
-      "scope": "Actual progress UI2, separate desktop/mobile full copies, real Auth and official24 metrics"
+      "job_id": 121696489085,
+      "scope": "Actual UI2 after preserved pre-DB infrastructure failure; one retry only"
     },
     {
-      "head": "f088123ba44b68b09c88e30df04e19b312b8871d",
-      "run_id": 40354149723,
-      "job_id": 121681944860,
-      "scope": "Actual choice Auth3 and two-backend race3, complete composition and exact restoration"
+      "head": "40f041641ce336cac4be263297028172ac152202",
+      "run_id": 40363845158,
+      "job_id": 121716085842,
+      "scope": "Auth3/race3 after actual phase-logger pre-case failure; no old credit"
     }
   ],
   "actual_new_component": {
@@ -2700,16 +2700,16 @@
     {
       "name": "CP7_D17_18_FINANCE_CHECK_REUSE_DIAGNOSTIC1.json",
       "status": "INCOMPLETE",
-      "head": "6bc45a178b1e28ff0265ed42d0f93ea81714105a",
-      "run_id": 40314220814,
-      "job_id": 121542647741,
-      "artifact_id": 12649917732,
-      "zip_bytes": 2816948,
-      "zip_sha256": "73efe5902199fbc965854d2246a06deabc0df99e61b6d25ccab2a2d6fce33b9f",
-      "bytes": 4446629,
-      "sha256": "d72a7fc7a75e62fdc906662103ddbb762277fb13de485fc7706e31b42d98fac0",
+      "head": "e913cc60d7b4a14b97d776fe2a9c5cb995c23563",
+      "run_id": 40345264716,
+      "job_id": 121650386194,
+      "artifact_id": 12665604273,
+      "zip_bytes": 2820182,
+      "zip_sha256": "8fc1bb2dd53c76f4589c210cddff33c9c4d1e4eecb68eed2cad4eaf582130804",
+      "bytes": 4463406,
+      "sha256": "24a3adfc561368d6b16f9d43faf5694b2bfb9682b94ae8793e0870d4c76dc55d",
       "archive_member": "CP7_D17_18_FINANCE_CHECK_REUSE_DIAGNOSTIC1.json",
-      "source_pins_verified": 3716,
+      "source_pins_verified": 3728,
       "exact_prior_original_verified": {
         "name": "CP7_D17_18_FINANCE_READER_DIAGNOSTIC1.json",
         "status": "PASS",
@@ -2738,13 +2738,57 @@
       "actual_Auth_HTTP_credit": false,
       "performance_qualification": false,
       "error_summary": "INCOMPLETE: full first failure retained, no widened runtime credit",
-      "error": "SNAPSHOT_REUSE_LIVE_BODY_CHANGED",
-      "candidate_executed": false,
-      "unchanged_small_ms": 290.916,
-      "counts": {
-        "INCOMPLETE": 1
+      "small_pair_pass": true,
+      "small_official_ms": 296.967,
+      "small_candidate_ms": 220.955,
+      "whole_report_equal": true,
+      "candidate_report_DML": 0,
+      "price_percent_or_factory_or_source_race_credit": false,
+      "cause": "BF_HISTORY rejects new SKU master nine days ago"
+    },
+    {
+      "name": "CP7_D17_18_CHOICE_TRANSPORT6.json",
+      "status": "INCOMPLETE",
+      "head": "f088123ba44b68b09c88e30df04e19b312b8871d",
+      "run_id": 40354149723,
+      "job_id": 121681944860,
+      "artifact_id": 12669065730,
+      "zip_bytes": 2810051,
+      "zip_sha256": "f80f943154f4184151b90030f581655d541e0adf76d06e373786604bfa7c3ef1",
+      "bytes": 4172156,
+      "sha256": "6cd63ee0bfc2e0afb698bd0b746e2c521a432256f9ef215c481d97a62f2616ff",
+      "archive_member": "CP7_D17_18_CHOICE_TRANSPORT6.json",
+      "source_pins_verified": 3773,
+      "exact_native_predecessor": {
+        "name": "CP7_D17_18_CHOICE_NATIVE6.json",
+        "status": "PASS",
+        "head": "8dfe1a19c7b7c61558b25c00f1dd388c8565e3d1",
+        "run_id": 40338677390,
+        "job_id": 121627045376,
+        "artifact_id": 12663230440,
+        "zip_bytes": 3007799,
+        "zip_sha256": "9d8d24e9816562b2ff75b622c4da69d3d3cb34494f17cbee4d1b86280916d435",
+        "bytes": 6218156,
+        "sha256": "f2110cf6c2873c18679e3f6654d5232474e46decb5543e6d72b803f28b2d62a9",
+        "archive_member": "CP7_D17_18_CHOICE_NATIVE6.json"
       },
-      "no_candidate_PRICE_PERCENT_factory_or_performance_credit": true
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": false
+      },
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "production_go": false,
+      "independent_acceptance": false,
+      "first_failure_preserved": true,
+      "actual_Auth_HTTP_credit": false,
+      "error_summary": "Actual runtime INCOMPLETE; full Original retained",
+      "observed_case_count": 0,
+      "cause": "UNDECLARED_QUALIFICATION_PHASE before Auth/race cases",
+      "successor_tests": 3
     }
   ],
   "performance_factory_prepared": {
@@ -4516,8 +4560,16 @@
     "production_go": false,
     "independent_acceptance": false,
     "run_id": 40354535892,
-    "job_id": 121683314200,
-    "started_at_utc": "2026-10-26T15:58:15Z"
+    "job_id": 121696489085,
+    "started_at_utc": "2026-10-26T15:58:15Z",
+    "first_job_id": 121683314200,
+    "retry_count": 1,
+    "first_attempt_status": "FAILED_INFRASTRUCTURE_BEFORE_DATABASE",
+    "first_attempt_business_cases": 0,
+    "first_failure_receipt": "ui-c64-infrastructure-first-failure.json",
+    "retry_decision_receipt": "ui-c64-infrastructure-retry-decision.json",
+    "retry_current_step": "Execute actual progress finance UI2 on two separate full composition clones",
+    "retry_observed_at_utc": "2026-10-26T16:53:42Z"
   },
   "previous_running_before_corrected_profile_intake": [
     {
@@ -4732,27 +4784,27 @@
     "production_go": false
   },
   "choice_preparation_transport6": {
-    "head": "f088123ba44b68b09c88e30df04e19b312b8871d",
-    "parent": "461fcf0958df45bf97e9a81fd57d9f8a2070863a",
-    "local": "9ffccc5d9b1cfc8532af28ccf5b2b6878304fc18",
-    "tree": "79c0d7626dd93e1d987d3438a85a8f76c7fa8f1f",
+    "head": "40f041641ce336cac4be263297028172ac152202",
+    "parent": "f088123ba44b68b09c88e30df04e19b312b8871d",
+    "local": "601b44bb5002db7fc21d82d1cc8f2af2f4f0546c",
+    "tree": "6c0f63f88448807193592307938875ab0169e3cd",
     "execution_branch": "astra-a/d17-18-choice-preparation-transport-20261026",
-    "source_pins": 3773,
-    "cases": 6,
+    "prepared_branch": "astra-a/d17-18-choice-transport-prepared-20261026",
     "full_admission": {
       "status": "PASS",
-      "bytes": 3935431,
-      "sha256": "dadde87bea2787a07edc3dcaf810ab4b167813a32ae57167d98ebc286dccf462"
+      "source_pins": 3775,
+      "bytes": 3935750,
+      "sha256": "c24ceec9a1d8a058346bd3b221238b2b4b3b749b9e89ee1ac4489396cb7afea3"
     },
-    "source_bound": true,
-    "execution_ref_advanced": true,
-    "runtime_status": "RUNNING_NOT_PASS",
-    "actual_runtime_qualified": false,
-    "production_go": false,
-    "independent_acceptance": false,
-    "run_id": 40354149723,
-    "job_id": 121681944860,
-    "started_at_utc": "2026-10-26T15:55:52Z"
+    "run_id": 40363845158,
+    "job_id": 121716085842,
+    "started_at_utc": "2026-10-26T16:56:02Z",
+    "status": "RUNNING_NOT_PASS",
+    "prior_failure": "f088123ba44b68b09c88e30df04e19b312b8871d",
+    "prior_actual_cases": 0,
+    "phase_contract_tests": 3,
+    "product_oracles_or_timeouts_changed": false,
+    "production_go": false
   },
   "previous_running_before_choice_native6_first_failure": [
     {
@@ -8274,91 +8326,31 @@
     ]
   ],
   "finance_check_reuse_diagnostic": {
-    "head": "e913cc60d7b4a14b97d776fe2a9c5cb995c23563",
-    "parent": "f038a6ecc5a71278554eab62ab7df4f4ced9b7bc",
-    "tree": "f4515cf7a8b23b588a56d49cc1783afe58f24fe1",
-    "local": "86db6ad74edfb9d56ea289e0c97861aaabc5db6e",
-    "branch": "astra-a/d17-18-finance-check-reuse-diagnostic-20261026",
-    "files": [
-      {
-        "path": ".github/workflows/cp7-d17-18-finance-check-reuse-diagnostic.yml",
-        "mode": "100644",
-        "type": "blob",
-        "sha": "52d4bbf890fde1557191ee11a5a712e7367477b6"
-      },
-      {
-        "path": "scripts/current-finance-check-reuse-diagnostic/FIRST_RUNTIME_FAILURE_F038.json",
-        "mode": "100644",
-        "type": "blob",
-        "sha": "185c89f124cfbd856f9756b70abdbbcbcd0009ff"
-      },
-      {
-        "path": "scripts/current-finance-check-reuse-diagnostic/INSTALLED_REPORT_SOURCE.json",
-        "mode": "100644",
-        "type": "blob",
-        "sha": "18751660a63c1968d4172055ab6421f432115e25"
-      },
-      {
-        "path": "scripts/current-finance-check-reuse-diagnostic/READINESS_LOCAL_PREFLIGHT.json",
-        "mode": "100644",
-        "type": "blob",
-        "sha": "ebdc2b9ef4fdb88cfec51feafa88d296a80e171e"
-      },
-      {
-        "path": "scripts/current-finance-check-reuse-diagnostic/README.md",
-        "mode": "100644",
-        "type": "blob",
-        "sha": "4e1cd061cb87100108f6e3c0863d9d2abe5ed22a"
-      },
-      {
-        "path": "scripts/current-finance-check-reuse-diagnostic/SOURCE.json",
-        "mode": "100644",
-        "type": "blob",
-        "sha": "7d32c47532f188ee3b78aa5abdf23c58bff42032"
-      },
-      {
-        "path": "scripts/current-finance-check-reuse-diagnostic/readiness_reuse.py",
-        "mode": "100644",
-        "type": "blob",
-        "sha": "26226988f41238dfab7697fd1ff55d927f4f9bcd"
-      },
-      {
-        "path": "scripts/current-finance-check-reuse-diagnostic/readiness_source.py",
-        "mode": "100644",
-        "type": "blob",
-        "sha": "03a418a94fb776ac955ff7b182415638080a6d20"
-      },
-      {
-        "path": "scripts/current-finance-check-reuse-diagnostic/runner.py",
-        "mode": "100644",
-        "type": "blob",
-        "sha": "17a000f5a8b7b3f5d65ff2fae0ba84f559e14bbb"
-      },
-      {
-        "path": "scripts/current-finance-check-reuse-diagnostic/test_readiness.py",
-        "mode": "100644",
-        "type": "blob",
-        "sha": "f088921f357117bdc3b899a64ec572910c12ad5f"
-      }
-    ],
+    "head": "e352901d6975346fa6a099770d179ffc6a59475d",
+    "parent": "e913cc60d7b4a14b97d776fe2a9c5cb995c23563",
+    "local": "8c6190764f8333284d3698c0d7c2d9869d736a2e",
+    "tree": "7fecfd2806500a5567b8186ef09464cd49884c83",
+    "execution_branch": "astra-a/d17-18-finance-check-reuse-diagnostic-20261026",
     "full_admission": {
       "status": "PASS",
-      "source_pins": 3728,
-      "bytes": 3903913,
-      "sha256": "5f937bd59f2737b62505efc6e3edf61195295b3ba6f6bb30afff8fcf8a01e2cf"
+      "source_pins": 3729,
+      "bytes": 3904149,
+      "sha256": "8942f8dfdef9de522e66197f3fcb377fe12fe0549313a2a521ef79d043ddf0c7"
     },
-    "runtime_status": "RUNNING_NOT_PASS",
-    "production_go": false,
-    "run_id": 40345264716,
-    "job_id": 121650386194,
+    "run_id": 40362500463,
+    "job_id": 121711369855,
+    "started_at_utc": "2026-10-26T16:47:33Z",
     "status": "RUNNING_NOT_PASS",
-    "strategy": "SAME_REPORT_OFFICIAL_READINESS",
-    "source_pins": 3728,
-    "local_tests": 7,
-    "actual_runtime_qualified": false,
-    "source_change_race_qualification": false,
-    "product_adoption": false,
-    "prior6bc_and_f038_stay_INCOMPLETE": true
+    "fixture_contract": "SYNTHETIC_LEGACY_PRICE_NATIVE_CURRENT_AND_OPENING_V2",
+    "synthetic_legacy_price_insert_rows": 1,
+    "native_historical_price_writer_credit": false,
+    "statement_limits_unchanged": true,
+    "production_go": false,
+    "quiet_ref_update": {
+      "status": "FAILED_MISSING_REF",
+      "mutation_not_assumed": true,
+      "execution_ref_advance_succeeded": true
+    }
   },
   "finance_check_reuse_diagnostic_previous_local": {
     "local": "8b578b85486e44247c7297e2d22c6b7105bfca26",
@@ -8578,51 +8570,27 @@
     "production_go": false
   },
   "finance_source_race_prepared": {
-    "head": "09bdf08aa956a2ab770d513d92b4eec605c62432",
-    "parent": "5b1c61a1577ff9b1e8ce36f03123f9135679114d",
-    "tree": "7683a613d57183829de254bce637d69427d15d03",
-    "local": "1ebe4581ffd882fb8678ab499ee673edae0cd046",
+    "head": "063878976584792cfdd5c01a905446d9d35b538d",
+    "parent": "09bdf08aa956a2ab770d513d92b4eec605c62432",
+    "local": "f7b7ccff4df798aadcb65f5376418d7f83bc047f",
+    "tree": "5fcf69d6294e86b26b9dad39b14faec7025edb95",
     "branch": "astra-a/d17-18-finance-source-race-prepared-20261026",
-    "files": [
-      ".github/workflows/cp7-d17-18-finance-check-reuse-diagnostic.yml",
-      ".github/workflows/cp7-d17-18-finance-reader-source-race.yml",
-      "scripts/current-finance-check-reuse-diagnostic/FIRST_RUNTIME_FAILURE_F038.json",
-      "scripts/current-finance-check-reuse-diagnostic/INSTALLED_REPORT_SOURCE.json",
-      "scripts/current-finance-check-reuse-diagnostic/READINESS_LOCAL_PREFLIGHT.json",
-      "scripts/current-finance-check-reuse-diagnostic/README.md",
-      "scripts/current-finance-check-reuse-diagnostic/SOURCE.json",
-      "scripts/current-finance-check-reuse-diagnostic/readiness_reuse.py",
-      "scripts/current-finance-check-reuse-diagnostic/readiness_source.py",
-      "scripts/current-finance-check-reuse-diagnostic/runner.py",
-      "scripts/current-finance-check-reuse-diagnostic/test_readiness.py",
-      "scripts/current-finance-reader-source-race-qualification/PREPARED_REUSE_SUCCESSOR.json",
-      "scripts/current-finance-reader-source-race-qualification/READINESS_PREPARED_PREFLIGHT.json",
-      "scripts/current-finance-reader-source-race-qualification/README.md",
-      "scripts/current-finance-reader-source-race-qualification/bind_sources.py",
-      "scripts/current-finance-reader-source-race-qualification/clone_patch.py",
-      "scripts/current-finance-reader-source-race-qualification/evidence.py",
-      "scripts/current-finance-reader-source-race-qualification/runner.py"
-    ],
     "status": "PREPARED_UNBOUND",
-    "required_actual_head": "e913cc60d7b4a14b97d776fe2a9c5cb995c23563",
-    "actual_runtime_credit": false,
-    "production_go": false,
+    "required_actual_head": "e352901d6975346fa6a099770d179ffc6a59475d",
     "source_bound": false,
     "execution_branch_created": false,
-    "actual_runtime_qualified": false,
-    "statement_limit_ms": 8000,
-    "ordinary_lock_limit_ms": 2000,
-    "first_journal_chunk_snapshot_refusal_required": true,
+    "actual_runtime_credit": false,
+    "production_go": false,
     "preflight": {
       "status": "PREPARED_ONLY",
-      "expected_actual_head": "e913cc60d7b4a14b97d776fe2a9c5cb995c23563",
-      "exact_paired_source_pins": 3728,
+      "expected_actual_head": "e352901d6975346fa6a099770d179ffc6a59475d",
+      "exact_paired_source_pins": 3729,
       "AST_files": 8,
       "workflow_shell_steps": 48,
       "unbound_refused_before_DB": true,
       "wrong_failed_or_wrong_bytes_prerequisites_refused": 3,
       "paired_source_transformation_tests": 7,
-      "private_helpers": 2,
+      "fixture_contract": "SYNTHETIC_LEGACY_PRICE_NATIVE_CURRENT_AND_OPENING_V2",
       "actual_database_executed": false,
       "actual_runtime_credit": false,
       "production_go": false
@@ -9606,5 +9574,390 @@
     "new_UI_or_transport_runtime_credit": false,
     "product_changed": false,
     "production_go": false
-  }
+  },
+  "previous_running_before_fixture_and_phase_failures": [
+    {
+      "head": "e913cc60d7b4a14b97d776fe2a9c5cb995c23563",
+      "run_id": 40345264716,
+      "job_id": 121650386194,
+      "scope": "Installed BA same-report readiness reuse; SMALL/PRICE_PERCENT/FACTORY exact reports and full restoration"
+    },
+    {
+      "head": "c64e5d6fd9f35512b7a0bc9a4654d201a942df92",
+      "run_id": 40354535892,
+      "job_id": 121683314200,
+      "scope": "Actual progress UI2, separate desktop/mobile full copies, real Auth and official24 metrics"
+    },
+    {
+      "head": "f088123ba44b68b09c88e30df04e19b312b8871d",
+      "run_id": 40354149723,
+      "job_id": 121681944860,
+      "scope": "Actual choice Auth3 and two-backend race3, complete composition and exact restoration"
+    }
+  ],
+  "finance_check_reuse_diagnostic_before_legacy_price_and_phase_correction": {
+    "head": "e913cc60d7b4a14b97d776fe2a9c5cb995c23563",
+    "parent": "f038a6ecc5a71278554eab62ab7df4f4ced9b7bc",
+    "tree": "f4515cf7a8b23b588a56d49cc1783afe58f24fe1",
+    "local": "86db6ad74edfb9d56ea289e0c97861aaabc5db6e",
+    "branch": "astra-a/d17-18-finance-check-reuse-diagnostic-20261026",
+    "files": [
+      {
+        "path": ".github/workflows/cp7-d17-18-finance-check-reuse-diagnostic.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "52d4bbf890fde1557191ee11a5a712e7367477b6"
+      },
+      {
+        "path": "scripts/current-finance-check-reuse-diagnostic/FIRST_RUNTIME_FAILURE_F038.json",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "185c89f124cfbd856f9756b70abdbbcbcd0009ff"
+      },
+      {
+        "path": "scripts/current-finance-check-reuse-diagnostic/INSTALLED_REPORT_SOURCE.json",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "18751660a63c1968d4172055ab6421f432115e25"
+      },
+      {
+        "path": "scripts/current-finance-check-reuse-diagnostic/READINESS_LOCAL_PREFLIGHT.json",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "ebdc2b9ef4fdb88cfec51feafa88d296a80e171e"
+      },
+      {
+        "path": "scripts/current-finance-check-reuse-diagnostic/README.md",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "4e1cd061cb87100108f6e3c0863d9d2abe5ed22a"
+      },
+      {
+        "path": "scripts/current-finance-check-reuse-diagnostic/SOURCE.json",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "7d32c47532f188ee3b78aa5abdf23c58bff42032"
+      },
+      {
+        "path": "scripts/current-finance-check-reuse-diagnostic/readiness_reuse.py",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "26226988f41238dfab7697fd1ff55d927f4f9bcd"
+      },
+      {
+        "path": "scripts/current-finance-check-reuse-diagnostic/readiness_source.py",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "03a418a94fb776ac955ff7b182415638080a6d20"
+      },
+      {
+        "path": "scripts/current-finance-check-reuse-diagnostic/runner.py",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "17a000f5a8b7b3f5d65ff2fae0ba84f559e14bbb"
+      },
+      {
+        "path": "scripts/current-finance-check-reuse-diagnostic/test_readiness.py",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "f088921f357117bdc3b899a64ec572910c12ad5f"
+      }
+    ],
+    "full_admission": {
+      "status": "PASS",
+      "source_pins": 3728,
+      "bytes": 3903913,
+      "sha256": "5f937bd59f2737b62505efc6e3edf61195295b3ba6f6bb30afff8fcf8a01e2cf"
+    },
+    "runtime_status": "RUNNING_NOT_PASS",
+    "production_go": false,
+    "run_id": 40345264716,
+    "job_id": 121650386194,
+    "status": "RUNNING_NOT_PASS",
+    "strategy": "SAME_REPORT_OFFICIAL_READINESS",
+    "source_pins": 3728,
+    "local_tests": 7,
+    "actual_runtime_qualified": false,
+    "source_change_race_qualification": false,
+    "product_adoption": false,
+    "prior6bc_and_f038_stay_INCOMPLETE": true
+  },
+  "choice_preparation_transport6_before_legacy_price_and_phase_correction": {
+    "head": "f088123ba44b68b09c88e30df04e19b312b8871d",
+    "parent": "461fcf0958df45bf97e9a81fd57d9f8a2070863a",
+    "local": "9ffccc5d9b1cfc8532af28ccf5b2b6878304fc18",
+    "tree": "79c0d7626dd93e1d987d3438a85a8f76c7fa8f1f",
+    "execution_branch": "astra-a/d17-18-choice-preparation-transport-20261026",
+    "source_pins": 3773,
+    "cases": 6,
+    "full_admission": {
+      "status": "PASS",
+      "bytes": 3935431,
+      "sha256": "dadde87bea2787a07edc3dcaf810ab4b167813a32ae57167d98ebc286dccf462"
+    },
+    "source_bound": true,
+    "execution_ref_advanced": true,
+    "runtime_status": "RUNNING_NOT_PASS",
+    "actual_runtime_qualified": false,
+    "production_go": false,
+    "independent_acceptance": false,
+    "run_id": 40354149723,
+    "job_id": 121681944860,
+    "started_at_utc": "2026-10-26T15:55:52Z"
+  },
+  "progress_finance_UI_browser_prepared_before_legacy_price_and_phase_correction": {
+    "head": "c64e5d6fd9f35512b7a0bc9a4654d201a942df92",
+    "parent": "3b06519aafc27fa335aec71de20852b46347ff45",
+    "local": "de783eba4bd94a1892ae92ce91a71d0b3197ee11",
+    "tree": "56dd0b481750d7ef0bf704b27edfecd6fa877a91",
+    "execution_branch": "astra-a/d17-18-progress-finance-ui-browser-20261026",
+    "source_pins": 3894,
+    "cases": 2,
+    "full_admission": {
+      "status": "PASS",
+      "bytes": 3954328,
+      "sha256": "c2e43bfb881ca42a201cf1f0ee0badc59d6a776e9f14f15ab92733873b53876e"
+    },
+    "source_bound": true,
+    "execution_ref_advanced": true,
+    "first_ref_creation_did_not_start_runtime": true,
+    "first_ref_no_run_receipt": "ui-execution-ref-no-run-20261026.json",
+    "runtime_status": "RUNNING_NOT_PASS",
+    "actual_runtime_qualified": false,
+    "host_head": "7bcd24ac7d5ec1bd053808c196ec2eb328e28338",
+    "host_files": 113,
+    "exact_B_files": 91,
+    "local_tests": 195,
+    "production_go": false,
+    "independent_acceptance": false,
+    "run_id": 40354535892,
+    "job_id": 121683314200,
+    "started_at_utc": "2026-10-26T15:58:15Z"
+  },
+  "finance_source_race_prepared_before_legacy_price_and_phase_correction": {
+    "head": "09bdf08aa956a2ab770d513d92b4eec605c62432",
+    "parent": "5b1c61a1577ff9b1e8ce36f03123f9135679114d",
+    "tree": "7683a613d57183829de254bce637d69427d15d03",
+    "local": "1ebe4581ffd882fb8678ab499ee673edae0cd046",
+    "branch": "astra-a/d17-18-finance-source-race-prepared-20261026",
+    "files": [
+      ".github/workflows/cp7-d17-18-finance-check-reuse-diagnostic.yml",
+      ".github/workflows/cp7-d17-18-finance-reader-source-race.yml",
+      "scripts/current-finance-check-reuse-diagnostic/FIRST_RUNTIME_FAILURE_F038.json",
+      "scripts/current-finance-check-reuse-diagnostic/INSTALLED_REPORT_SOURCE.json",
+      "scripts/current-finance-check-reuse-diagnostic/READINESS_LOCAL_PREFLIGHT.json",
+      "scripts/current-finance-check-reuse-diagnostic/README.md",
+      "scripts/current-finance-check-reuse-diagnostic/SOURCE.json",
+      "scripts/current-finance-check-reuse-diagnostic/readiness_reuse.py",
+      "scripts/current-finance-check-reuse-diagnostic/readiness_source.py",
+      "scripts/current-finance-check-reuse-diagnostic/runner.py",
+      "scripts/current-finance-check-reuse-diagnostic/test_readiness.py",
+      "scripts/current-finance-reader-source-race-qualification/PREPARED_REUSE_SUCCESSOR.json",
+      "scripts/current-finance-reader-source-race-qualification/READINESS_PREPARED_PREFLIGHT.json",
+      "scripts/current-finance-reader-source-race-qualification/README.md",
+      "scripts/current-finance-reader-source-race-qualification/bind_sources.py",
+      "scripts/current-finance-reader-source-race-qualification/clone_patch.py",
+      "scripts/current-finance-reader-source-race-qualification/evidence.py",
+      "scripts/current-finance-reader-source-race-qualification/runner.py"
+    ],
+    "status": "PREPARED_UNBOUND",
+    "required_actual_head": "e913cc60d7b4a14b97d776fe2a9c5cb995c23563",
+    "actual_runtime_credit": false,
+    "production_go": false,
+    "source_bound": false,
+    "execution_branch_created": false,
+    "actual_runtime_qualified": false,
+    "statement_limit_ms": 8000,
+    "ordinary_lock_limit_ms": 2000,
+    "first_journal_chunk_snapshot_refusal_required": true,
+    "preflight": {
+      "status": "PREPARED_ONLY",
+      "expected_actual_head": "e913cc60d7b4a14b97d776fe2a9c5cb995c23563",
+      "exact_paired_source_pins": 3728,
+      "AST_files": 8,
+      "workflow_shell_steps": 48,
+      "unbound_refused_before_DB": true,
+      "wrong_failed_or_wrong_bytes_prerequisites_refused": 3,
+      "paired_source_transformation_tests": 7,
+      "private_helpers": 2,
+      "actual_database_executed": false,
+      "actual_runtime_credit": false,
+      "production_go": false
+    }
+  },
+  "actual_finance_readiness_e913_failure": {
+    "name": "CP7_D17_18_FINANCE_CHECK_REUSE_DIAGNOSTIC1.json",
+    "status": "INCOMPLETE",
+    "head": "e913cc60d7b4a14b97d776fe2a9c5cb995c23563",
+    "run_id": 40345264716,
+    "job_id": 121650386194,
+    "artifact_id": 12665604273,
+    "zip_bytes": 2820182,
+    "zip_sha256": "8fc1bb2dd53c76f4589c210cddff33c9c4d1e4eecb68eed2cad4eaf582130804",
+    "bytes": 4463406,
+    "sha256": "24a3adfc561368d6b16f9d43faf5694b2bfb9682b94ae8793e0870d4c76dc55d",
+    "archive_member": "CP7_D17_18_FINANCE_CHECK_REUSE_DIAGNOSTIC1.json",
+    "source_pins_verified": 3728,
+    "exact_prior_original_verified": {
+      "name": "CP7_D17_18_FINANCE_READER_DIAGNOSTIC1.json",
+      "status": "PASS",
+      "head": "7caf6b84a357ab670ac0e4c0c190fadb2738c2e7",
+      "run_id": 40300049475,
+      "job_id": 121495423311,
+      "artifact_id": 12644706605,
+      "zip_bytes": 2987699,
+      "zip_sha256": "a0fe9df8f66e188122347c37a9d58dfb0cea6814920bc1d5b3d73348631baa45",
+      "bytes": 5137654,
+      "sha256": "be866e88e095447c042fa9cdbf93ab225f3b95e1cf5ace8bf0f524de9f5bcdf4",
+      "archive_member": "CP7_D17_18_FINANCE_READER_DIAGNOSTIC1.json"
+    },
+    "package_gate": {
+      "installed": true,
+      "primary_unchanged": true,
+      "backup_restore_drill": true,
+      "security_advisors": true,
+      "writer_runtime": false
+    },
+    "cp6_restored": true,
+    "advisor_gate": true,
+    "production_go": false,
+    "independent_acceptance": false,
+    "first_failure_preserved": true,
+    "actual_Auth_HTTP_credit": false,
+    "performance_qualification": false,
+    "error_summary": "INCOMPLETE: full first failure retained, no widened runtime credit",
+    "small_pair_pass": true,
+    "small_official_ms": 296.967,
+    "small_candidate_ms": 220.955,
+    "whole_report_equal": true,
+    "candidate_report_DML": 0,
+    "price_percent_or_factory_or_source_race_credit": false,
+    "cause": "BF_HISTORY rejects new SKU master nine days ago"
+  },
+  "actual_choice_transport_f088_failure": {
+    "name": "CP7_D17_18_CHOICE_TRANSPORT6.json",
+    "status": "INCOMPLETE",
+    "head": "f088123ba44b68b09c88e30df04e19b312b8871d",
+    "run_id": 40354149723,
+    "job_id": 121681944860,
+    "artifact_id": 12669065730,
+    "zip_bytes": 2810051,
+    "zip_sha256": "f80f943154f4184151b90030f581655d541e0adf76d06e373786604bfa7c3ef1",
+    "bytes": 4172156,
+    "sha256": "6cd63ee0bfc2e0afb698bd0b746e2c521a432256f9ef215c481d97a62f2616ff",
+    "archive_member": "CP7_D17_18_CHOICE_TRANSPORT6.json",
+    "source_pins_verified": 3773,
+    "exact_native_predecessor": {
+      "name": "CP7_D17_18_CHOICE_NATIVE6.json",
+      "status": "PASS",
+      "head": "8dfe1a19c7b7c61558b25c00f1dd388c8565e3d1",
+      "run_id": 40338677390,
+      "job_id": 121627045376,
+      "artifact_id": 12663230440,
+      "zip_bytes": 3007799,
+      "zip_sha256": "9d8d24e9816562b2ff75b622c4da69d3d3cb34494f17cbee4d1b86280916d435",
+      "bytes": 6218156,
+      "sha256": "f2110cf6c2873c18679e3f6654d5232474e46decb5543e6d72b803f28b2d62a9",
+      "archive_member": "CP7_D17_18_CHOICE_NATIVE6.json"
+    },
+    "package_gate": {
+      "installed": true,
+      "primary_unchanged": true,
+      "backup_restore_drill": true,
+      "security_advisors": true,
+      "writer_runtime": false
+    },
+    "cp6_restored": true,
+    "advisor_gate": true,
+    "production_go": false,
+    "independent_acceptance": false,
+    "first_failure_preserved": true,
+    "actual_Auth_HTTP_credit": false,
+    "error_summary": "Actual runtime INCOMPLETE; full Original retained",
+    "observed_case_count": 0,
+    "cause": "UNDECLARED_QUALIFICATION_PHASE before Auth/race cases",
+    "successor_tests": 3
+  },
+  "finance_legacy_fixture_validation": {
+    "validator_unit_checks_only": true,
+    "source_file_sha256": "b606ebc80f0c2268552c8a8bd3386209f1e694fd71de6189791e4afa9ff65602",
+    "valid_explicit_synthetic_fixture_accepted": true,
+    "tampered_fixture_controls_rejected": [
+      "unlabelled_DML",
+      "wrong_historical_basis",
+      "hidden_seed_writes",
+      "disabled_guards",
+      "false_Native_history_credit",
+      "current_price_before_opening",
+      "wrong_HPP",
+      "legacy_source_cannot_claim_seed_DML"
+    ],
+    "actual_runtime_credit": false,
+    "production_go": false
+  },
+  "ui_c64_first_infrastructure_failure": {
+    "run_id": 40354535892,
+    "first_job_id": 121683314200,
+    "first_attempt_failed_before_database": true,
+    "actual_business_cases": 0,
+    "original_report_or_artifact_available": false,
+    "cause": "GHCR toomanyrequests and ECR Data limit exceeded during unchanged image pulls",
+    "raw_log_bytes": 1157449,
+    "raw_log_sha256": "9aa8609a2bc25120b99a3045dc19ca6c4995e1e92073ef79b1af3c8b485eec92",
+    "retry_count": 1,
+    "retry_job_id": 121696489085,
+    "retry_now_running_actual_UI2": true,
+    "code_or_oracles_or_limits_changed": false
+  },
+  "most_recent_completed_before_fixture_and_phase_failure": [
+    {
+      "name": "CP7_D17_18_FINANCE_CHECK_REUSE_DIAGNOSTIC1.json",
+      "status": "INCOMPLETE",
+      "head": "6bc45a178b1e28ff0265ed42d0f93ea81714105a",
+      "run_id": 40314220814,
+      "job_id": 121542647741,
+      "artifact_id": 12649917732,
+      "zip_bytes": 2816948,
+      "zip_sha256": "73efe5902199fbc965854d2246a06deabc0df99e61b6d25ccab2a2d6fce33b9f",
+      "bytes": 4446629,
+      "sha256": "d72a7fc7a75e62fdc906662103ddbb762277fb13de485fc7706e31b42d98fac0",
+      "archive_member": "CP7_D17_18_FINANCE_CHECK_REUSE_DIAGNOSTIC1.json",
+      "source_pins_verified": 3716,
+      "exact_prior_original_verified": {
+        "name": "CP7_D17_18_FINANCE_READER_DIAGNOSTIC1.json",
+        "status": "PASS",
+        "head": "7caf6b84a357ab670ac0e4c0c190fadb2738c2e7",
+        "run_id": 40300049475,
+        "job_id": 121495423311,
+        "artifact_id": 12644706605,
+        "zip_bytes": 2987699,
+        "zip_sha256": "a0fe9df8f66e188122347c37a9d58dfb0cea6814920bc1d5b3d73348631baa45",
+        "bytes": 5137654,
+        "sha256": "be866e88e095447c042fa9cdbf93ab225f3b95e1cf5ace8bf0f524de9f5bcdf4",
+        "archive_member": "CP7_D17_18_FINANCE_READER_DIAGNOSTIC1.json"
+      },
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": false
+      },
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "production_go": false,
+      "independent_acceptance": false,
+      "first_failure_preserved": true,
+      "actual_Auth_HTTP_credit": false,
+      "performance_qualification": false,
+      "error_summary": "INCOMPLETE: full first failure retained, no widened runtime credit",
+      "error": "SNAPSHOT_REUSE_LIVE_BODY_CHANGED",
+      "candidate_executed": false,
+      "unchanged_small_ms": 290.916,
+      "counts": {
+        "INCOMPLETE": 1
+      },
+      "no_candidate_PRICE_PERCENT_factory_or_performance_credit": true
+    }
+  ]
 }

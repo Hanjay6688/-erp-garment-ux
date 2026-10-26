@@ -1,0 +1,27 @@
+{
+  "head": "063878976584792cfdd5c01a905446d9d35b538d",
+  "parent": "09bdf08aa956a2ab770d513d92b4eec605c62432",
+  "local": "f7b7ccff4df798aadcb65f5376418d7f83bc047f",
+  "tree": "5fcf69d6294e86b26b9dad39b14faec7025edb95",
+  "branch": "astra-a/d17-18-finance-source-race-prepared-20261026",
+  "status": "PREPARED_UNBOUND",
+  "required_actual_head": "e352901d6975346fa6a099770d179ffc6a59475d",
+  "source_bound": false,
+  "execution_branch_created": false,
+  "actual_runtime_credit": false,
+  "production_go": false,
+  "preflight": {
+    "status": "PREPARED_ONLY",
+    "expected_actual_head": "e352901d6975346fa6a099770d179ffc6a59475d",
+    "exact_paired_source_pins": 3729,
+    "AST_files": 8,
+    "workflow_shell_steps": 48,
+    "unbound_refused_before_DB": true,
+    "wrong_failed_or_wrong_bytes_prerequisites_refused": 3,
+    "paired_source_transformation_tests": 7,
+    "fixture_contract": "SYNTHETIC_LEGACY_PRICE_NATIVE_CURRENT_AND_OPENING_V2",
+    "actual_database_executed": false,
+    "actual_runtime_credit": false,
+    "production_go": false
+  }
+}
