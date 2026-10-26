@@ -1,3 +1,33 @@
+## Pembaruan 26 Oktober 2026 — kegagalan Native6 tersimpan, penerus sedang diuji
+
+Native6 pertama a3ce9317 selesai INCOMPLETE: 2 PASS dan 4 INCOMPLETE pada
+run40297810688/artifact12642445168. Seluruh 3.748 sumber, ZIP/Original,
+pemulihan 22 kelompok katalog/data/sequence serta CP6 sudah diverifikasi.
+Kasus keuangan membuktikan 24 angka resmi persis dan tidak mengubah uang,
+stok, atau HPP. Internal advisor_gate=false: satu INFO tabel privat baru
+belum ditelaah; ini berbeda dari gerbang security_advisors paket yang true.
+
+Penerus 9a943ea4/run40308822607/job121524549120 sedang berjalan. Sembilan
+uji penjaga, 8 modul Python, 46 langkah shell dan penerimaan 3.752 sumber
+lengkap lulus lokal. Perubahan hanya alat uji A: GET READY membuktikan satu
+kunci transaksi milik koneksi yang sama dan nol kunci asing, seluruh bidang
+lain tetap persis. Pemulihan konteks login membuktikan ketiga nilai mentah
+serta auth.uid()/auth.jwt(); perubahan NULL menjadi kosong masih hipotesis
+penjelasan kegagalan awal karena Original lama tidak mencatat nilainya.
+Batas 8 detik tiap tick tetap. INFO hanya diterima untuk tabel work yang
+terbukti RLS aktif tanpa policy, tanpa ACL PUBLIC dan tanpa hak langsung
+lima peran. Penelaahan lama tetap disimpan, peringatan lain tetap menolak.
+
+Berkas kompilasi Python sempat masuk commit lokal yang belum dipublikasikan;
+sudah dibuang, pembuatan bytecode dicegah, dan seluruh admission diulang.
+Produk, rumus resmi, izin, retry, timeout, serta kode/worktree B tidak diubah.
+UI8cb06927 dan transportc07672ab tetap belum terikat: a3ce gagal tidak boleh
+menjadi prasyarat PASS. Diagnostik pembaca keuangan7caf6b84/run40300049475
+masih berjalan. Formal5/16; independent_acceptance=false; production_go=false;
+CP7C belum dimulai. Semua status di bawah merupakan riwayat checkpoint.
+
+---
+
 ## Pembaruan26 Oktober2026 — uji login dan benturan persiapan sudah disiapkan
 
 Cabang c07672ab menyimpan enam kasus terfokus:3Auth/PostgREST nyata dan3dua

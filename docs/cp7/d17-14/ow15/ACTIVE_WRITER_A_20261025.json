@@ -1,5 +1,5 @@
 {
-  "recorded_at_utc": "2026-10-26T10:04:30.854167+00:00",
+  "recorded_at_utc": "2026-10-26T10:38:49.966444+00:00",
   "role": "A finance writer/integrator replacing Claude; B remains separate production/planning writer",
   "slogan": [
     "VENI. VIDI. VICI. ERP. \u2014 I CONQUERED ERP.",
@@ -10,10 +10,10 @@
   "independent_acceptance": false,
   "running": [
     {
-      "head": "a3ce931748ded1dfbf9a5b972a2b8d8f40cf5b74",
-      "run_id": 40297810688,
-      "job_id": 121488053169,
-      "scope": "focused complete choice preparation Native6; actual result pending"
+      "head": "9a943ea4cc4d24a92a2af1c3e678bd3d0bddfc14",
+      "run_id": 40308822607,
+      "job_id": 121524549120,
+      "scope": "corrected Native observations and exact private INFO review; focused full choice Native6"
     },
     {
       "head": "7caf6b84a357ab670ac0e4c0c190fadb2738c2e7",
@@ -2692,217 +2692,31 @@
   },
   "most_recent_completed": [
     {
-      "name": "CP7_CURRENT_FROZEN_PUBLIC_FINANCE10.json",
-      "status": "PASS",
-      "head": "71e15908972cd10b0b889988faa8d7d7d1ad3e40",
-      "run_id": 40251589438,
-      "job_id": 121344483586,
-      "artifact_id": 12622347557,
-      "zip_bytes": 2866955,
-      "zip_sha256": "51d4ebd03ae20a35c64e5f395d3055a52f65a4aa2950ae0e22cc29a546022d0f",
-      "bytes": 4953473,
-      "sha256": "61084718109ee007b927a7437ca0a3a6da4284d4e49319994fb2e8459e5ea327",
-      "archive_member": "CP7_CURRENT_FROZEN_PUBLIC_FINANCE10.json",
-      "source_pins_verified": 3692,
-      "actual_prerequisites_verified": 2,
-      "package_gate": {
-        "installed": true,
-        "primary_unchanged": true,
-        "backup_restore_drill": true,
-        "security_advisors": true,
-        "writer_runtime": true
-      },
-      "cp6_restored": true,
-      "advisor_gate": true,
-      "production_go": false,
-      "independent_acceptance": false,
-      "counts": {
-        "finance_auth": 3,
-        "finance_races": 7
-      },
-      "copy_catalog_admissions": 1,
-      "race_copy_catalog_admissions": 7,
-      "actual_Auth_HTTP_credit": true,
-      "actual_concurrency": true,
-      "explicit_public_frozen_routes": true,
-      "default_adopted": false
-    },
-    {
-      "name": "CP7_CURRENT_FROZEN_PUBLIC_BROWSER6.json",
-      "status": "PASS",
-      "head": "71e15908972cd10b0b889988faa8d7d7d1ad3e40",
-      "run_id": 40251596793,
-      "job_id": 121344505527,
-      "artifact_id": 12622855994,
-      "zip_bytes": 16217386,
-      "zip_sha256": "b50d9a9f9ca86046432a8b9583a62400f935957092ee76200ec4c1ed115929d9",
-      "bytes": 4303089,
-      "sha256": "4f9f06a09d4c5aad01eb95f2f088cdcc8d1c5faa376d84851b26ec7e1464c07e",
-      "archive_member": "CP7_CURRENT_FROZEN_PUBLIC_BROWSER6.json",
-      "source_pins_verified": 3693,
-      "actual_prerequisites_verified": 2,
-      "package_gate": {
-        "installed": true,
-        "primary_unchanged": true,
-        "backup_restore_drill": true,
-        "security_advisors": true,
-        "writer_runtime": true
-      },
-      "cp6_restored": true,
-      "advisor_gate": true,
-      "production_go": false,
-      "independent_acceptance": false,
-      "counts": {
-        "policy": 2,
-        "evaluation": 2,
-        "target": 2
-      },
-      "copy_catalog_admissions": 3,
-      "race_copy_catalog_admissions": 0,
-      "full_public_composition": true,
-      "default_adopted": false,
-      "retained_flow_only": true,
-      "new_public_finance_UI_claim": false,
-      "latest_B_microsecond_fix_adopted": false
-    },
-    {
-      "name": "CP7_CURRENT_FROZEN_PUBLIC_TRANSPORT28.json",
-      "status": "PASS",
-      "head": "71e15908972cd10b0b889988faa8d7d7d1ad3e40",
-      "run_id": 40251598775,
-      "job_id": 121344511274,
-      "artifact_id": 12623375718,
-      "zip_bytes": 2818664,
-      "zip_sha256": "4f0226b9e21c9c0ab6a022eb570922873a61658c8e5df6c5b5156e65dd42dd6b",
-      "bytes": 4433461,
-      "sha256": "645ed8a04e22b3ea0edbaa60d41e6eba963e82e247a3eca5de23530f65353d28",
-      "archive_member": "CP7_CURRENT_FROZEN_PUBLIC_TRANSPORT28.json",
-      "source_pins_verified": 3691,
-      "actual_prerequisites_verified": 2,
-      "package_gate": {
-        "installed": true,
-        "primary_unchanged": true,
-        "backup_restore_drill": true,
-        "security_advisors": true,
-        "writer_runtime": true
-      },
-      "cp6_restored": true,
-      "advisor_gate": true,
-      "production_go": false,
-      "independent_acceptance": false,
-      "counts": {
-        "policy_http": 3,
-        "policy_races": 6,
-        "evaluation_http": 3,
-        "evaluation_races": 6,
-        "target_http": 3,
-        "target_races": 7
-      },
-      "copy_catalog_admissions": 3,
-      "race_copy_catalog_admissions": 19,
-      "full_public_composition": true,
-      "default_adopted": false,
-      "retained_flow_only": true,
-      "new_public_finance_UI_claim": false,
-      "latest_B_microsecond_fix_adopted": false
-    },
-    {
-      "name": "CP7_CURRENT_FROZEN_PUBLIC_USED_RESTORE8.json",
-      "status": "PASS",
-      "head": "71e15908972cd10b0b889988faa8d7d7d1ad3e40",
-      "run_id": 40251594620,
-      "job_id": 121344498757,
-      "artifact_id": 12622812934,
-      "zip_bytes": 4867583,
-      "zip_sha256": "f991e1b6b139eb6b28f55fbb1de76c59150da076ba7fa64db1b0fc68722f36c3",
-      "bytes": 4920171,
-      "sha256": "22600d75727c73ff0d5f24713c77389512522059396b7aaf016f487ce3e840ae",
-      "archive_member": "CP7_CURRENT_FROZEN_PUBLIC_USED_RESTORE8.json",
-      "source_pins_verified": 3703,
-      "actual_prerequisites_verified": 2,
-      "package_gate": {
-        "installed": true,
-        "primary_unchanged": true,
-        "backup_restore_drill": true,
-        "security_advisors": true,
-        "writer_runtime": true
-      },
-      "cp6_restored": true,
-      "advisor_gate": true,
-      "production_go": false,
-      "independent_acceptance": false,
-      "steps": 8,
-      "negative_controls": 42,
-      "restored_domain_checks": {
-        "finance_full_restore_checks": 2,
-        "public_frozen_finance_full_restore_checks": 2,
-        "model_full_restore_checks": 4,
-        "dated_target_full_restore_checks": 4,
-        "scoped_history_full_restore_checks": 8,
-        "scoped_model_full_restore_checks": 8
-      },
-      "two_full_used_restores": true,
-      "public_frozen_finance_READY_replayed_after_each_restore": true,
-      "exact_target_freshness_before_used_backup": true,
-      "full_public_composition": true,
-      "default_adopted": false
-    },
-    {
-      "name": "CP7_CURRENT_FROZEN_PUBLIC_FINANCE_NATIVE52.json",
-      "status": "PASS",
-      "head": "6dceb3d3530a2144217047360613808af3249e4a",
-      "run_id": 40234978669,
-      "job_id": 121294499742,
-      "artifact_id": 12618120246,
-      "zip_bytes": 3933070,
-      "zip_sha256": "81d74ca3e9e430c7ac04e726779e5cfdbbb7290434ee8ef1bde699cfda4457c0",
-      "bytes": 16388592,
-      "sha256": "93fdf5cedf73dd785dc465f1c6b687358da6c4ae95fe5db58524904474d83dbf",
-      "archive_member": "CP7_CURRENT_FROZEN_PUBLIC_FINANCE_NATIVE52.json",
-      "source_pins_verified": 3677,
-      "actual_prerequisites_verified": 2,
-      "package_gate": {
-        "installed": true,
-        "primary_unchanged": true,
-        "backup_restore_drill": true,
-        "security_advisors": true,
-        "writer_runtime": true
-      },
-      "cp6_restored": true,
-      "advisor_gate": true,
-      "production_go": false,
-      "independent_acceptance": false,
-      "counts": {
-        "PASS": 52
-      },
-      "retained_A_cases": 36,
-      "private_unit_cases": 4,
-      "official_finance_cases": 5,
-      "new_public_boundary_cases": 7,
-      "all3602_targets_and_pages_compared": true,
-      "maximum_unit_millis": 6216.92,
-      "official_finance_metric_count": 24,
-      "unknown_never_zero": true,
-      "independent_book_signature": true,
-      "full22_all_rows_all_sequences_restored": true,
-      "official_factory_finance_qualified": false,
-      "public_or_default_adopted": false,
-      "actual_Auth_HTTP_credit": false
-    },
-    {
-      "name": "CP7_CURRENT_FROZEN_PRIVATE_FACTORY_FINANCE1.json",
+      "name": "CP7_D17_18_CHOICE_NATIVE6.json",
       "status": "INCOMPLETE",
-      "head": "778ac17e0be417841ad144ff2f85367752341f69",
-      "run_id": 40234971454,
-      "job_id": 121294477378,
-      "artifact_id": 12617726099,
-      "zip_bytes": 2616203,
-      "zip_sha256": "d608efc39e81348cf502f0d81c6e855b9ae05bd8f6c67f4b2d09eabdda3a0d21",
-      "bytes": 3735747,
-      "sha256": "50a30cd3f5c716542d3449bebdbc586cde88002cdbb168b7ee972de0f414cc22",
-      "archive_member": "CP7_CURRENT_FROZEN_PRIVATE_FACTORY_FINANCE1.json",
-      "source_pins_verified": 3666,
-      "actual_prerequisites_verified": 8,
+      "head": "a3ce931748ded1dfbf9a5b972a2b8d8f40cf5b74",
+      "run_id": 40297810688,
+      "job_id": 121488053169,
+      "artifact_id": 12642445168,
+      "zip_bytes": 3001595,
+      "zip_sha256": "a95c2babc48cdcbaa7ba97f867fcc8c70b98a8929dfe2e1da6b71ba3e849ac9a",
+      "bytes": 6169733,
+      "sha256": "4bbbb7f708d611c40538c0b76b1a3f90dc60be282fc227aeccb64e004fc92363",
+      "archive_member": "CP7_D17_18_CHOICE_NATIVE6.json",
+      "source_pins_verified": 3748,
+      "exact_prior_original_verified": {
+        "name": "CP7_D17_18_PROGRESS_NATIVE5.json",
+        "status": "PASS",
+        "head": "0c86d27739ff74aba65967453465880d1c72e94c",
+        "run_id": 40286627929,
+        "job_id": 121451709620,
+        "artifact_id": 12637959084,
+        "zip_bytes": 2968325,
+        "zip_sha256": "33c1889449edde12aac63c3aba860919c135c77006f813f903e985e0c20e9ecc",
+        "bytes": 5878000,
+        "sha256": "dd72583a82175893be57e0ccdbe10a575e91135e9163951130f8596a7e46f393",
+        "archive_member": "CP7_D17_18_PROGRESS_NATIVE5.json"
+      },
       "package_gate": {
         "installed": true,
         "primary_unchanged": true,
@@ -2911,39 +2725,20 @@
         "writer_runtime": false
       },
       "cp6_restored": true,
-      "advisor_gate": true,
+      "advisor_gate": false,
       "production_go": false,
       "independent_acceptance": false,
       "first_failure_preserved": true,
-      "error_summary": "Actual runtime INCOMPLETE; exact private Original retained without PASS credit"
-    },
-    {
-      "name": "CP7_CURRENT_FROZEN_PRIVATE_FACTORY_FINANCE1.json",
-      "status": "INCOMPLETE",
-      "head": "5bf4e03a37418545655f07a52582103348b17cd4",
-      "run_id": 40236661942,
-      "job_id": 121299590702,
-      "artifact_id": 12616789776,
-      "zip_bytes": 3107848,
-      "zip_sha256": "c4d67ab64c44760adf76314d1a18dc209db424892432a16e0d9f28858291a5c2",
-      "bytes": 5492050,
-      "sha256": "5e7b9082f359c6c7e59ab1a2dd2779c05359f6237b0a778a765f383f45d1ac44",
-      "archive_member": "CP7_CURRENT_FROZEN_PRIVATE_FACTORY_FINANCE1.json",
-      "source_pins_verified": 3668,
-      "actual_prerequisites_verified": 9,
-      "package_gate": {
-        "installed": true,
-        "primary_unchanged": true,
-        "backup_restore_drill": true,
-        "security_advisors": true,
-        "writer_runtime": false
+      "actual_Auth_HTTP_credit": false,
+      "performance_qualification": false,
+      "error_summary": "INCOMPLETE: full first failure retained, no widened runtime credit",
+      "counts": {
+        "PASS": 2,
+        "INCOMPLETE": 4
       },
-      "cp6_restored": true,
-      "advisor_gate": true,
-      "production_go": false,
-      "independent_acceptance": false,
-      "first_failure_preserved": true,
-      "error_summary": "Actual runtime INCOMPLETE; exact private Original retained without PASS credit"
+      "baseline_full22_all_rows_all_sequences_equal": true,
+      "baseline_advisors_equal": true,
+      "official_metrics_exact": 24
     }
   ],
   "performance_factory_prepared": {
@@ -4292,20 +4087,21 @@
     "production_go": false
   },
   "choice_preparation_native6_prepared": {
-    "head": "a3ce931748ded1dfbf9a5b972a2b8d8f40cf5b74",
-    "tree": "20707baf7012f24a738bf128088b06586425d369",
-    "local": "f622d514189f83584aee2a5c88b212e1505ffb17",
-    "status": "ACTUAL_SERVER_RUNNING",
+    "head": "9a943ea4cc4d24a92a2af1c3e678bd3d0bddfc14",
+    "tree": "3ca901200455cd98b89d1a2e6dcc976058122590",
+    "local": "7643fa03eb05e089330ff8ca527a30c2d81b4551",
+    "status": "BOUND_ACTUAL_PROGRESS5_NATIVE6_RUNNING",
     "source_bound": true,
-    "source_pins": 3748,
+    "source_pins": 3752,
     "actual_predecessor": "0c86d27739ff74aba65967453465880d1c72e94c",
     "focused_cases": 6,
-    "run_id": 40297810688,
-    "job_id": 121488053169,
+    "run_id": 40308822607,
+    "job_id": 121524549120,
     "no_database_admission": "PASS",
     "full_admission_bytes": 3932778,
     "full_admission_sha256": "6b647dee0696c0fbf27e06667ae258a1716b8e60c39a71a3553669d03202c62d",
-    "production_go": false
+    "production_go": false,
+    "first_failed_head": "a3ce931748ded1dfbf9a5b972a2b8d8f40cf5b74"
   },
   "progress_finance_UI_prepared": {
     "status": "PREPARED_LOCAL_PASS_ONLY",
@@ -4598,7 +4394,7 @@
     "total_business_guards": 27,
     "shell_steps_checked": 47,
     "source_bound": false,
-    "actual_predecessor_required": "exact corrected Native6 PASS6 (not yet available)",
+    "actual_predecessor_required": "9a943ea4cc4d24a92a2af1c3e678bd3d0bddfc14 actual PASS6",
     "actual_browser": false,
     "actual_database": false,
     "production_go": false,
@@ -4607,7 +4403,8 @@
     "B_source_head": "d6fad0d2303bfe39531afdbe62f6faec95f79046",
     "host_tests": 190,
     "host_test_files": 17,
-    "host_typecheck": "PASS"
+    "host_typecheck": "PASS",
+    "blocked_by": "Actual corrected Native6 PASS6 unavailable; a3ce first runtime INCOMPLETE"
   },
   "previous_running_before_corrected_profile_intake": [
     {
@@ -4865,6 +4662,417 @@
       "scripts/current-choice-preparation-transport-qualification/bind_source.py": "e90f0ab969390c6aa0ccf0fd39012119153b8ac7da4ceec07c18034b4edfc436",
       "scripts/current-choice-preparation-transport-qualification/fetch_original.py": "cffaa000a1908cb44034cfdba358b88320c3c2521eee67d3a4271fc9c30bdf49"
     },
-    "next": "Bind only to actual full choice Native6 PASS Original, admit all sources, then run scoped real Auth3/race3"
-  }
+    "next": "Bind only to actual full choice Native6 PASS Original, admit all sources, then run scoped real Auth3/race3",
+    "blocked_by": "Actual corrected Native6 PASS6 unavailable; a3ce first runtime INCOMPLETE",
+    "actual_predecessor_required": "9a943ea4cc4d24a92a2af1c3e678bd3d0bddfc14 actual PASS6"
+  },
+  "previous_running_before_choice_native6_first_failure": [
+    {
+      "head": "a3ce931748ded1dfbf9a5b972a2b8d8f40cf5b74",
+      "run_id": 40297810688,
+      "job_id": 121488053169,
+      "scope": "focused complete choice preparation Native6; actual result pending"
+    },
+    {
+      "head": "7caf6b84a357ab670ac0e4c0c190fadb2738c2e7",
+      "run_id": 40300049475,
+      "job_id": 121495423311,
+      "scope": "paired small/factory opening-HPP reader diagnostic; actual result pending"
+    }
+  ],
+  "actual_choice_native6_first_failure": {
+    "name": "CP7_D17_18_CHOICE_NATIVE6.json",
+    "status": "INCOMPLETE",
+    "head": "a3ce931748ded1dfbf9a5b972a2b8d8f40cf5b74",
+    "run_id": 40297810688,
+    "job_id": 121488053169,
+    "artifact_id": 12642445168,
+    "zip_bytes": 3001595,
+    "zip_sha256": "a95c2babc48cdcbaa7ba97f867fcc8c70b98a8929dfe2e1da6b71ba3e849ac9a",
+    "bytes": 6169733,
+    "sha256": "4bbbb7f708d611c40538c0b76b1a3f90dc60be282fc227aeccb64e004fc92363",
+    "archive_member": "CP7_D17_18_CHOICE_NATIVE6.json",
+    "source_pins_verified": 3748,
+    "exact_prior_original_verified": {
+      "name": "CP7_D17_18_PROGRESS_NATIVE5.json",
+      "status": "PASS",
+      "head": "0c86d27739ff74aba65967453465880d1c72e94c",
+      "run_id": 40286627929,
+      "job_id": 121451709620,
+      "artifact_id": 12637959084,
+      "zip_bytes": 2968325,
+      "zip_sha256": "33c1889449edde12aac63c3aba860919c135c77006f813f903e985e0c20e9ecc",
+      "bytes": 5878000,
+      "sha256": "dd72583a82175893be57e0ccdbe10a575e91135e9163951130f8596a7e46f393",
+      "archive_member": "CP7_D17_18_PROGRESS_NATIVE5.json"
+    },
+    "package_gate": {
+      "installed": true,
+      "primary_unchanged": true,
+      "backup_restore_drill": true,
+      "security_advisors": true,
+      "writer_runtime": false
+    },
+    "cp6_restored": true,
+    "advisor_gate": false,
+    "production_go": false,
+    "independent_acceptance": false,
+    "first_failure_preserved": true,
+    "actual_Auth_HTTP_credit": false,
+    "performance_qualification": false,
+    "error_summary": "INCOMPLETE: full first failure retained, no widened runtime credit",
+    "counts": {
+      "PASS": 2,
+      "INCOMPLETE": 4
+    },
+    "baseline_full22_all_rows_all_sequences_equal": true,
+    "baseline_advisors_equal": true,
+    "official_metrics_exact": 24
+  },
+  "choice_native6_observation_successor": {
+    "publication": {
+      "head": "9a943ea4cc4d24a92a2af1c3e678bd3d0bddfc14",
+      "local": "7643fa03eb05e089330ff8ca527a30c2d81b4551",
+      "parent": "a3ce931748ded1dfbf9a5b972a2b8d8f40cf5b74",
+      "tree": "3ca901200455cd98b89d1a2e6dcc976058122590",
+      "files": [
+        {
+          "path": ".github/workflows/cp7-d17-18-choice-preparation-native.yml",
+          "mode": "100644",
+          "type": "blob",
+          "sha": "1197c4f9dddc09151e4926497e2ce1256b7da790"
+        },
+        {
+          "path": "scripts/current-choice-preparation-native-qualification/FIRST_RUNTIME_FAILURE_A3CE.json",
+          "mode": "100644",
+          "type": "blob",
+          "sha": "6576c224df4d0acd557201ce358a2b74cc0ed020"
+        },
+        {
+          "path": "scripts/current-choice-preparation-native-qualification/README.md",
+          "mode": "100644",
+          "type": "blob",
+          "sha": "55f89e3424c0cb050c6091c77e67321c4f5306ad"
+        },
+        {
+          "path": "scripts/current-choice-preparation-native-qualification/SOURCE.json",
+          "mode": "100644",
+          "type": "blob",
+          "sha": "3c85c5fc8fee4c240c92b7c618e3204f433a2a7c"
+        },
+        {
+          "path": "scripts/current-choice-preparation-native-qualification/admission.py",
+          "mode": "100644",
+          "type": "blob",
+          "sha": "9c240655200d5c7c2c31289f018e1782372b47db"
+        },
+        {
+          "path": "scripts/current-choice-preparation-native-qualification/advisor_review.py",
+          "mode": "100644",
+          "type": "blob",
+          "sha": "428eb2bc77dfbde5abfd238020aaa8eeb685c649"
+        },
+        {
+          "path": "scripts/current-choice-preparation-native-qualification/cases.py",
+          "mode": "100644",
+          "type": "blob",
+          "sha": "3465fa623c13dea710890abd0a03bafc4c1728b8"
+        },
+        {
+          "path": "scripts/current-choice-preparation-native-qualification/native_observation.py",
+          "mode": "100644",
+          "type": "blob",
+          "sha": "03d09deead958e81d8ad165d7e66a9e6d741a1e7"
+        },
+        {
+          "path": "scripts/current-choice-preparation-native-qualification/probe.py",
+          "mode": "100644",
+          "type": "blob",
+          "sha": "74afb55c92a89b1c066f3948a8b97e465143050a"
+        },
+        {
+          "path": "scripts/current-choice-preparation-native-qualification/test_native_observation.py",
+          "mode": "100644",
+          "type": "blob",
+          "sha": "f656d0091c7f9cfefb6e454b3d93c5f49c18db55"
+        }
+      ]
+    },
+    "coordination": {
+      "head": "a5355c99eeadfc70756037abb993d8f0f375f1c5",
+      "tree": "aae235bbad8f08c459af1ce54f7c11fa89a11bd2",
+      "parent": "7a696d9d2cea6b45f9375552a37bec09784db937"
+    },
+    "local_full_admission": {
+      "status": "PASS",
+      "source_pins": 3752,
+      "case_count": 6,
+      "bytes": 3933409,
+      "sha256": "5a7bdca4fd44a84138b1154dfc8ea16aeb1c7638fa584a8f6adebe3761eee7d0"
+    },
+    "local_negative_guards": 9,
+    "Python_AST_files": 8,
+    "shell_steps": 46,
+    "actual_runtime_status": "IN_PROGRESS",
+    "production_go": false,
+    "independent_acceptance": false,
+    "run_id": 40308822607,
+    "job_id": 121524549120
+  },
+  "previous_most_recent_completed_before_choice_native6": [
+    {
+      "name": "CP7_CURRENT_FROZEN_PUBLIC_FINANCE10.json",
+      "status": "PASS",
+      "head": "71e15908972cd10b0b889988faa8d7d7d1ad3e40",
+      "run_id": 40251589438,
+      "job_id": 121344483586,
+      "artifact_id": 12622347557,
+      "zip_bytes": 2866955,
+      "zip_sha256": "51d4ebd03ae20a35c64e5f395d3055a52f65a4aa2950ae0e22cc29a546022d0f",
+      "bytes": 4953473,
+      "sha256": "61084718109ee007b927a7437ca0a3a6da4284d4e49319994fb2e8459e5ea327",
+      "archive_member": "CP7_CURRENT_FROZEN_PUBLIC_FINANCE10.json",
+      "source_pins_verified": 3692,
+      "actual_prerequisites_verified": 2,
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "production_go": false,
+      "independent_acceptance": false,
+      "counts": {
+        "finance_auth": 3,
+        "finance_races": 7
+      },
+      "copy_catalog_admissions": 1,
+      "race_copy_catalog_admissions": 7,
+      "actual_Auth_HTTP_credit": true,
+      "actual_concurrency": true,
+      "explicit_public_frozen_routes": true,
+      "default_adopted": false
+    },
+    {
+      "name": "CP7_CURRENT_FROZEN_PUBLIC_BROWSER6.json",
+      "status": "PASS",
+      "head": "71e15908972cd10b0b889988faa8d7d7d1ad3e40",
+      "run_id": 40251596793,
+      "job_id": 121344505527,
+      "artifact_id": 12622855994,
+      "zip_bytes": 16217386,
+      "zip_sha256": "b50d9a9f9ca86046432a8b9583a62400f935957092ee76200ec4c1ed115929d9",
+      "bytes": 4303089,
+      "sha256": "4f9f06a09d4c5aad01eb95f2f088cdcc8d1c5faa376d84851b26ec7e1464c07e",
+      "archive_member": "CP7_CURRENT_FROZEN_PUBLIC_BROWSER6.json",
+      "source_pins_verified": 3693,
+      "actual_prerequisites_verified": 2,
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "production_go": false,
+      "independent_acceptance": false,
+      "counts": {
+        "policy": 2,
+        "evaluation": 2,
+        "target": 2
+      },
+      "copy_catalog_admissions": 3,
+      "race_copy_catalog_admissions": 0,
+      "full_public_composition": true,
+      "default_adopted": false,
+      "retained_flow_only": true,
+      "new_public_finance_UI_claim": false,
+      "latest_B_microsecond_fix_adopted": false
+    },
+    {
+      "name": "CP7_CURRENT_FROZEN_PUBLIC_TRANSPORT28.json",
+      "status": "PASS",
+      "head": "71e15908972cd10b0b889988faa8d7d7d1ad3e40",
+      "run_id": 40251598775,
+      "job_id": 121344511274,
+      "artifact_id": 12623375718,
+      "zip_bytes": 2818664,
+      "zip_sha256": "4f0226b9e21c9c0ab6a022eb570922873a61658c8e5df6c5b5156e65dd42dd6b",
+      "bytes": 4433461,
+      "sha256": "645ed8a04e22b3ea0edbaa60d41e6eba963e82e247a3eca5de23530f65353d28",
+      "archive_member": "CP7_CURRENT_FROZEN_PUBLIC_TRANSPORT28.json",
+      "source_pins_verified": 3691,
+      "actual_prerequisites_verified": 2,
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "production_go": false,
+      "independent_acceptance": false,
+      "counts": {
+        "policy_http": 3,
+        "policy_races": 6,
+        "evaluation_http": 3,
+        "evaluation_races": 6,
+        "target_http": 3,
+        "target_races": 7
+      },
+      "copy_catalog_admissions": 3,
+      "race_copy_catalog_admissions": 19,
+      "full_public_composition": true,
+      "default_adopted": false,
+      "retained_flow_only": true,
+      "new_public_finance_UI_claim": false,
+      "latest_B_microsecond_fix_adopted": false
+    },
+    {
+      "name": "CP7_CURRENT_FROZEN_PUBLIC_USED_RESTORE8.json",
+      "status": "PASS",
+      "head": "71e15908972cd10b0b889988faa8d7d7d1ad3e40",
+      "run_id": 40251594620,
+      "job_id": 121344498757,
+      "artifact_id": 12622812934,
+      "zip_bytes": 4867583,
+      "zip_sha256": "f991e1b6b139eb6b28f55fbb1de76c59150da076ba7fa64db1b0fc68722f36c3",
+      "bytes": 4920171,
+      "sha256": "22600d75727c73ff0d5f24713c77389512522059396b7aaf016f487ce3e840ae",
+      "archive_member": "CP7_CURRENT_FROZEN_PUBLIC_USED_RESTORE8.json",
+      "source_pins_verified": 3703,
+      "actual_prerequisites_verified": 2,
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "production_go": false,
+      "independent_acceptance": false,
+      "steps": 8,
+      "negative_controls": 42,
+      "restored_domain_checks": {
+        "finance_full_restore_checks": 2,
+        "public_frozen_finance_full_restore_checks": 2,
+        "model_full_restore_checks": 4,
+        "dated_target_full_restore_checks": 4,
+        "scoped_history_full_restore_checks": 8,
+        "scoped_model_full_restore_checks": 8
+      },
+      "two_full_used_restores": true,
+      "public_frozen_finance_READY_replayed_after_each_restore": true,
+      "exact_target_freshness_before_used_backup": true,
+      "full_public_composition": true,
+      "default_adopted": false
+    },
+    {
+      "name": "CP7_CURRENT_FROZEN_PUBLIC_FINANCE_NATIVE52.json",
+      "status": "PASS",
+      "head": "6dceb3d3530a2144217047360613808af3249e4a",
+      "run_id": 40234978669,
+      "job_id": 121294499742,
+      "artifact_id": 12618120246,
+      "zip_bytes": 3933070,
+      "zip_sha256": "81d74ca3e9e430c7ac04e726779e5cfdbbb7290434ee8ef1bde699cfda4457c0",
+      "bytes": 16388592,
+      "sha256": "93fdf5cedf73dd785dc465f1c6b687358da6c4ae95fe5db58524904474d83dbf",
+      "archive_member": "CP7_CURRENT_FROZEN_PUBLIC_FINANCE_NATIVE52.json",
+      "source_pins_verified": 3677,
+      "actual_prerequisites_verified": 2,
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "production_go": false,
+      "independent_acceptance": false,
+      "counts": {
+        "PASS": 52
+      },
+      "retained_A_cases": 36,
+      "private_unit_cases": 4,
+      "official_finance_cases": 5,
+      "new_public_boundary_cases": 7,
+      "all3602_targets_and_pages_compared": true,
+      "maximum_unit_millis": 6216.92,
+      "official_finance_metric_count": 24,
+      "unknown_never_zero": true,
+      "independent_book_signature": true,
+      "full22_all_rows_all_sequences_restored": true,
+      "official_factory_finance_qualified": false,
+      "public_or_default_adopted": false,
+      "actual_Auth_HTTP_credit": false
+    },
+    {
+      "name": "CP7_CURRENT_FROZEN_PRIVATE_FACTORY_FINANCE1.json",
+      "status": "INCOMPLETE",
+      "head": "778ac17e0be417841ad144ff2f85367752341f69",
+      "run_id": 40234971454,
+      "job_id": 121294477378,
+      "artifact_id": 12617726099,
+      "zip_bytes": 2616203,
+      "zip_sha256": "d608efc39e81348cf502f0d81c6e855b9ae05bd8f6c67f4b2d09eabdda3a0d21",
+      "bytes": 3735747,
+      "sha256": "50a30cd3f5c716542d3449bebdbc586cde88002cdbb168b7ee972de0f414cc22",
+      "archive_member": "CP7_CURRENT_FROZEN_PRIVATE_FACTORY_FINANCE1.json",
+      "source_pins_verified": 3666,
+      "actual_prerequisites_verified": 8,
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": false
+      },
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "production_go": false,
+      "independent_acceptance": false,
+      "first_failure_preserved": true,
+      "error_summary": "Actual runtime INCOMPLETE; exact private Original retained without PASS credit"
+    },
+    {
+      "name": "CP7_CURRENT_FROZEN_PRIVATE_FACTORY_FINANCE1.json",
+      "status": "INCOMPLETE",
+      "head": "5bf4e03a37418545655f07a52582103348b17cd4",
+      "run_id": 40236661942,
+      "job_id": 121299590702,
+      "artifact_id": 12616789776,
+      "zip_bytes": 3107848,
+      "zip_sha256": "c4d67ab64c44760adf76314d1a18dc209db424892432a16e0d9f28858291a5c2",
+      "bytes": 5492050,
+      "sha256": "5e7b9082f359c6c7e59ab1a2dd2779c05359f6237b0a778a765f383f45d1ac44",
+      "archive_member": "CP7_CURRENT_FROZEN_PRIVATE_FACTORY_FINANCE1.json",
+      "source_pins_verified": 3668,
+      "actual_prerequisites_verified": 9,
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": false
+      },
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "production_go": false,
+      "independent_acceptance": false,
+      "first_failure_preserved": true,
+      "error_summary": "Actual runtime INCOMPLETE; exact private Original retained without PASS credit"
+    }
+  ]
 }

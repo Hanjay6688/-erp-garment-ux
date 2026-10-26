@@ -1,0 +1,90 @@
+{
+  "publication": {
+    "head": "9a943ea4cc4d24a92a2af1c3e678bd3d0bddfc14",
+    "local": "7643fa03eb05e089330ff8ca527a30c2d81b4551",
+    "parent": "a3ce931748ded1dfbf9a5b972a2b8d8f40cf5b74",
+    "tree": "3ca901200455cd98b89d1a2e6dcc976058122590",
+    "files": [
+      {
+        "path": ".github/workflows/cp7-d17-18-choice-preparation-native.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "1197c4f9dddc09151e4926497e2ce1256b7da790"
+      },
+      {
+        "path": "scripts/current-choice-preparation-native-qualification/FIRST_RUNTIME_FAILURE_A3CE.json",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "6576c224df4d0acd557201ce358a2b74cc0ed020"
+      },
+      {
+        "path": "scripts/current-choice-preparation-native-qualification/README.md",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "55f89e3424c0cb050c6091c77e67321c4f5306ad"
+      },
+      {
+        "path": "scripts/current-choice-preparation-native-qualification/SOURCE.json",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "3c85c5fc8fee4c240c92b7c618e3204f433a2a7c"
+      },
+      {
+        "path": "scripts/current-choice-preparation-native-qualification/admission.py",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "9c240655200d5c7c2c31289f018e1782372b47db"
+      },
+      {
+        "path": "scripts/current-choice-preparation-native-qualification/advisor_review.py",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "428eb2bc77dfbde5abfd238020aaa8eeb685c649"
+      },
+      {
+        "path": "scripts/current-choice-preparation-native-qualification/cases.py",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "3465fa623c13dea710890abd0a03bafc4c1728b8"
+      },
+      {
+        "path": "scripts/current-choice-preparation-native-qualification/native_observation.py",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "03d09deead958e81d8ad165d7e66a9e6d741a1e7"
+      },
+      {
+        "path": "scripts/current-choice-preparation-native-qualification/probe.py",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "74afb55c92a89b1c066f3948a8b97e465143050a"
+      },
+      {
+        "path": "scripts/current-choice-preparation-native-qualification/test_native_observation.py",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "f656d0091c7f9cfefb6e454b3d93c5f49c18db55"
+      }
+    ]
+  },
+  "coordination": {
+    "head": "a5355c99eeadfc70756037abb993d8f0f375f1c5",
+    "tree": "aae235bbad8f08c459af1ce54f7c11fa89a11bd2",
+    "parent": "7a696d9d2cea6b45f9375552a37bec09784db937"
+  },
+  "local_full_admission": {
+    "status": "PASS",
+    "source_pins": 3752,
+    "case_count": 6,
+    "bytes": 3933409,
+    "sha256": "5a7bdca4fd44a84138b1154dfc8ea16aeb1c7638fa584a8f6adebe3761eee7d0"
+  },
+  "local_negative_guards": 9,
+  "Python_AST_files": 8,
+  "shell_steps": 46,
+  "actual_runtime_status": "IN_PROGRESS",
+  "production_go": false,
+  "independent_acceptance": false,
+  "run_id": 40308822607,
+  "job_id": 121524549120
+}
