@@ -4,7 +4,56 @@ Owner asked the new writer to recover the complete context of **Writer B** and
 continue without questions. This is the active B entrypoint. Earlier checkpoints
 in `HANDOFF_PRODUKSI_CLAUDE_20261023.md` remain history, with their failures intact.
 
-## Current continuation — coordination218, reopen fix and current A branch
+## Current continuation — coordination219, real-browser recovery verified
+
+Owner challenged the conclusion that B had nothing more to do independently.
+That conclusion was too broad: the d6fad0d2 reopen correction still needed
+actual browser recovery evidence. B has now supplied it on its own branch.
+Browser candidate **e94e80375ecf16919bed2f6d2f3d191f094875b8**,
+run40288589994/art12635213241 **PASS6**, with the complete Original read,
+51source pins and48 actually served source paths verified. TypeScript and the
+same97related tests PASS, not additional nonoverlapping test totals.
+
+The real prepared components cover reload/two-tab GET-only observation,
+mobile input/Close while STEP is held, lost enqueue response/reload/exact-source
+continuation, FAILED/EXPIRED, access403 redaction, and a missing GET response at
+the original30s bound. The measured29527ms starts after the held request is
+observed; it is not analysis latency. Identity and HTTP RPC are controlled,
+fixture size is one product. No Native/Auth/server dedup/K4/factory/finance/HPP,
+composed restore, screenshot review or default adoption credit follows.
+
+First9ff853c3/run40287295045/art12634748141 remains INCOMPLETE:2PASS,
+case3 incomplete and three unreached. The successor reproduces the ambiguous
+fault: Chromium retries one closed socket, giving two HTTP requests and a
+resolved raw fetch. The corrected harness aborts delivery only after confirmed
+controlled HTTP enqueue. Product code, six case IDs, bounds and recovery
+assertions stay unchanged. Both complete Originals and logs are retained.
+Receipts: CHOICE_PREPARATION_BROWSER6_FIRST_FAILURE/PASS.json in ow12b.
+Ledger65Originals =43Native/actualAuth package checks +11controlledUI
++9real-browser/controlledRPC +2interrupted without complete gates.
+
+Evidence supplement ERP_Writer_B_Reopen_Evidence_20261026.zip version1 retains
+all8previous members byte-exact and adds both browser Originals/raw logs,
+local failed browser installation and source-only preflights. Its55522bytes
+hash is e0634902c0d2fbcb35d75163b4d5f3c104fad356a21a2aa350c0f5c3f1544c0a.
+The separate63-Original archive remains unchanged. Receipt commit9749e42f.
+
+Latest read active A **993c4a208a0e429864e2c499de1d38b59bb0dcc0** now records
+published successors a569d322/run40286613815 (diagnostic) and
+0c86d277/run40286627929 (progress Native5), both observed IN_PROGRESS at
+07:55UTC. Do not repeat the older statement that A has no active run.
+Native6 stays unbound until A intakes a qualified predecessor. B has not
+independently intaken these A Originals or changed any A source.
+
+Next concrete ownership: A integrates B d6fad observer into its copied host,
+qualifies its Native5/Native6/current Auth/two-session/K4/retention/restore and
+official finance composition. B must compare that actual copied source and
+continue production/browser/factory validation against the combined candidate;
+this PASS6 cannot close those requirements. All newly started B jobs have ended
+and their Originals are intaken. Formal5/16, B scope incomplete,
+independent_acceptance=false and production_go=false.
+
+## Earlier continuation — coordination218, reopen fix and current A branch
 
 B client **d6fad0d2303bfe39531afdbe62f6faec95f79046** fixes stale preparation
 status after reopening. Six DOM failures reproduced the one-read defect.

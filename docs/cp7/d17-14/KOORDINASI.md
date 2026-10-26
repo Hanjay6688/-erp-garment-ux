@@ -4760,3 +4760,55 @@ the combined browser. B does not edit A's composer/registries/qualification or
 advance integration/default/production. Existing63Original B ledger unchanged;
 all36 previously started B jobs already ended. Formal5/16; full B scope remains
 open; independent_acceptance=false; production_go=false.
+
+
+## 219. [bersama] B26 Oktober2026 WIB — independent browser recovery proof completed; combined scope still open
+
+Owner correctly challenged the premature claim that only A work remained.
+The newest B reopen observer had local evidence only; actual browser recovery
+was still an independently executable B responsibility. B added a focused
+branch-filtered Browser6 route, using real prepared components and Chromium
+with explicitly controlled identity/HTTP RPC, without changing shared/default,
+Native, SQL, financial or production paths.
+
+First9ff853c3/run40287295045/art12634748141 remains INCOMPLETE:2PASS, case3
+failed to observe the expected alert, three later cases not reached. The full
+Original has51verified source pins/48served paths; first failure/raw log retained.
+Successor e94e8037/run40288589994/art12635213241 PASS6, complete Original/CRC/
+SHA/all51pins/48actual source paths verified. TypeScript and the same97related
+client tests PASS. Receipt commit9749e42f; detailed receipts and boundaries in
+ow12b/CHOICE_PREPARATION_BROWSER6_FIRST_FAILURE.json and _PASS.json.
+
+Diagnosis is measured: one socket-close injection produces two identical HTTP
+requests and a resolved raw fetch in Chromium. Thus that fault did not reliably
+lose the reply at the UI. Successor aborts browser delivery after the controlled
+HTTP service confirms one queued work; reload and explicit continuation retain
+exact source/access, two explicit identical requests and one controlled work.
+No product correction, case removal, timeout increase or old failure relabeling
+was used to obtain PASS. This is not proof of actual database idempotency.
+
+Six journeys cover: same-work reload/two tabs through GET only; mobile390x844
+input/Close during held STEP; lost reply/reload/continuation; FAILED/EXPIRED;
+current controlled403 redaction; and held GET stopping at original30s bound.
+Measured29527ms starts after the held request is observed, not at request start
+and not whole-analysis/report duration. No late result or candidate fetch after
+retirement. No claim of Native/Auth/K4/factory/HPP/restore/default or visual
+screenshot qualification. Local browser install failed on corrupt download;
+CI browser installation succeeded. Both facts are retained separately.
+
+Ledger now65complete Original artifacts:43Native/actualAuth package checks,
+11controlledUI,9real-browser/controlledRPC,2interrupted without complete gates.
+Package checked never implies writer_runtime passed. New evidence supplement
+preserves all earlier regression members byte-exact; old63-Original archive is
+unchanged. Both started B browser jobs ended; no B qualification job pending.
+
+Latest A read is993c4a20 on astra-a/d17-14-model-target-integration-prepared-20261024.
+A's a569d322 diagnostic/run40286613815 and0c86d277 progress Native5/run40286627929
+were observed IN_PROGRESS07:55UTC. No new A Original is intaken by B here.
+Native6 stays unbound pending A-qualified predecessor. A remains sole integrator:
+intake B d6fad observer into the copied combined host, refresh exact source pins,
+qualify preparation/actual Auth/two sessions/K4/retention/after-use restore and
+full-factory official finance/HPP. B still owns checking its production behavior
+on that actual combined candidate. The existing official finance facade remains
+authoritative. Formal5/16, full B scope incomplete, independent_acceptance=false,
+production_go=false. No permission question or duplicate A run is introduced.
