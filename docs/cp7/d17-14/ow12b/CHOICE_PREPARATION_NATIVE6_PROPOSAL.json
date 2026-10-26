@@ -142,7 +142,7 @@
     "cp7_frozen_choice_preparation/preparation.prepared.sql": "aa9d27260fbfd1fa3dfc90718df77f4e21ec05d0399713d73dfcf114690ba9c8",
     "cp7_frozen_choice_preparation/render.py": "bee09912f53a6e2075f8df63900666b743e368ae263451b9fc0566ed3f36eb9a",
     "cp7_frozen_choice_preparation/work.sql": "a375d2c4db9373ec2f3d8dc67d8479be74d6a9f0a2bb5f49ff7f04ccd9a58a56",
-    "cp7_ow12b_choice_preparation_cases.py": "7537c22597193e2dba80c9d6443e9da475d0eddc1bd775723090dcd41ffc1cfe",
+    "cp7_ow12b_choice_preparation_cases.py": "9c5b52d38fa3d5ab62614991c7313728beca17e7929d37b3d0457f0a6a19a55c",
     "cp7_ow12b_frozen_choice_preparation_local.mjs": "ef5a8be137f54fa8efb76159aa0be47b66040ae43160b5ad1633dbbabdd52567",
     "cp7_ow12b_frozen_choice_preparation_preflight.py": "77c88c15aa7b2a07daf6bbd420d1bd80548780dc55064157ed4b5719f9d3de4b"
   },
@@ -200,5 +200,6 @@
   "official_finance_included": false,
   "production_go": false,
   "owner_timing_policy": "Large total analysis may exceed8s; each measured request/step/read/SAVE remains bounded",
-  "old_frozen_choice_Native6_unchanged": true
+  "old_frozen_choice_Native6_unchanged": true,
+  "timing_observations": "Existing actual driver calls retained separately for every completed source: per-unit/per-stage and sum of calls, not full wall time; no extra SQL/compiler calls, no 8s total gate."
 }
