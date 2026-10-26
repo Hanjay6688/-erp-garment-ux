@@ -8,6 +8,25 @@ Owner meminta sesi ini menggantikan chat Writer A yang penuh, memulihkan konteks
 ERP dan meneruskan A/integrasi. B boleh dibaca tetapi scope tidak ditukar. Ini
 penulis A, bukan auditor independen. Tidak ada subagent baru.
 
+## Status terbaru — dua pekerjaan aktif setelah hasil browser aktual
+
+UI c64e5d6f actualINCOMPLETE2kasus: label A mewarisi gradien BODY, sehingga
+kontras tidak dapat dibuktikan. Original12671871654 telah diintake sekali.
+Full22/baris/nomor urut/katalog publik/akun Auth/sesi dan advisor dipastikan
+pulih. Gambar hanya untuk pemeriksaan lokal; arsip memuat Original JSON persis.
+
+Perbaikan latar solid dan warna teks hanya di panel A. Host34294076 dan kandidat
+d1f4b529542aba443f3b92986da911db646053e1 telah lulus195tes,5tes progres,
+build79modul,91berkas B persis serta admission3895sumber. Actual baru berjalan
+run40376731797/job121761707561 sejak18:19:34UTC. Belum lulus; jangan rerun
+kandidat lama atau intake ulang c64. Oracle dan batas waktu tetap.
+
+Keuangan e352 run40362500463/job121725919259 tetap menguji tiga pasangan.
+Transport40f satu retry job121734510218 kembali gagal unduh sebelumDB; seluruh
+Auth3/race3 belum dijalankan, tidak ada retry kedua otomatis. Source-race06387897
+tetap PREPARED_UNBOUND, wajibactuale352PASS tiga pasangan. Formal5/16 dan kedua
+izin akhir false. Gunakan ACTIVE untuk posisi terkini; bagian bawah adalah riwayat.
+
 ## Status terbaru — kegagalan unduhan lingkungan dibedakan dari hasil ERP
 
 Keuangan e352 percobaan pertama job121711369855 gagal sebelum database siap:

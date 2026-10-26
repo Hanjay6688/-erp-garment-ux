@@ -41,6 +41,6 @@
     "production_go": false
   },
   "retry_decision_receipt": "finance-e352-infrastructure-retry-decision.json",
-  "retry_observed_at_utc": "2026-10-26T17:23:15.105059+00:00",
-  "retry_current_step": "Admit exact A and all declared B extension sources before DB"
+  "retry_observed_at_utc": "2026-10-26T18:21:11.983843+00:00",
+  "retry_current_step": "Compare unchanged and single check on small percentage and factory fixtures"
 }

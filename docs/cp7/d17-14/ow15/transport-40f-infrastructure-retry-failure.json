@@ -1,0 +1,17 @@
+{
+  "head": "40f041641ce336cac4be263297028172ac152202",
+  "run_id": 40363845158,
+  "first_job_id": 121716085842,
+  "job_id": 121734510218,
+  "status": "RETRY_INFRASTRUCTURE_FAILED_BEFORE_DATABASE",
+  "retry_count": 1,
+  "actual_business_cases": 0,
+  "expected_business_cases": 6,
+  "original_created": false,
+  "artifact_count": 0,
+  "cause": "The one fresh-host retry also exhausted unchanged image registry fallback: GHCR toomanyrequests and ECR Data limit exceeded.",
+  "no_automatic_second_retry": true,
+  "raw_log_bytes": 1169558,
+  "production_go": false,
+  "raw_log_sha256": "edd06fcaf6ebb1a002ad4d92ce89eef6c2d4dc2e16cc2030a98f7bc83fb9aa20"
+}

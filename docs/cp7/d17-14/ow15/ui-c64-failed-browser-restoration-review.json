@@ -1,0 +1,14 @@
+{
+  "status": "FAILED_BROWSER_COMPLETE_RESTORATION_VERIFIED",
+  "original_bytes": 4348349,
+  "original_sha256": "cef0f5eea68a33f9e2315419353d8ba037e646b18276c1e50e43ca891cb0645c",
+  "exact_source_pins": 3894,
+  "full22_rows_sequences": true,
+  "public_schema_raw_equal": true,
+  "advisor_default_deny_verified": true,
+  "full_clone_admissions": 2,
+  "auth_rows_zero_before_and_after": true,
+  "no_backend_or_rest_container_leaks": true,
+  "full_case_PASS_count": 0,
+  "production_go": false
+}

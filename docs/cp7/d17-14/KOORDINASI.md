@@ -4634,3 +4634,25 @@ UI c64 job121696489085 telah melewati penyiapan database dan host; suite
 gabungan aktif sejak16:52:05UTC. Status tahap tidak dipakai mengarang hasil
 kasus. Source-race06387897 menunggu actuale352PASS tiga pasangan; B tidak
 diubah. Formal5/16; production_go=false; independent_acceptance=false.
+
+## A / 27 Oktober2026 WIB — kegagalan browser aktual dipertahankan, permukaan A diperbaiki
+
+UI c64e5d6f/run40354535892/job121696489085/artifact12671871654
+INCOMPLETE pada2kasus desktop/mobile. Label pilihan keuangan mewarisi gradien
+BODY; penguji menolak permukaan yang tidak terukur. Ini bukan PASS dan bukan
+kegagalan unduhan. Verifikasi terpisah memastikan22kelompok/baris/nomor urut,
+katalog publik, advisor, dua salinan penuh, akun Auth dan sesi seluruhnya pulih.
+
+Koreksi hanya pembungkus panel A: latar#0c101b, teks#e6edf7. Ambang4,5:1
+dan seluruh penguji bisnis tidak berubah;91berkas B masih persis. TypeScript,
+195tes/17berkas,5tes progres dan build79modul lulus. Host34294076, pengikatan
+3895sumber dan full-admission SHA4243725b38ab31fead8f7cde4fb165cb526e8dc1a0ee2af227e9ee97f9eb0e09
+lulus. Penerus d1f4b529 berjalan run40376731797/job121761707561 sejak18:19:34UTC;
+belum actualPASS. Original gagal dan gambar pemeriksaan lokal dipertahankan.
+
+Transport40f retry job121734510218 kembali gagal sebelumDB karena penolakan
+unduhan GHCR/ECR. Nol kasus Auth/race; tanpa Original atau artefak. Kedua log
+asli dan keputusan satu retry dipertahankan. Tidak ada retry kedua otomatis.
+Keuangan e352 retry job121725919259 telah melewatiDB dan sedang membandingkan
+SMALL/PRICE_PERCENT/factory. Source-race06387897 tetap menunggu actuale352PASS
+tiga pasangan. Formal5/16; production_go=false; independent_acceptance=false.

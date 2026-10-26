@@ -1,0 +1,31 @@
+{
+  "head": "d1f4b529542aba443f3b92986da911db646053e1",
+  "parent": "61e50eca26035ddc26a34e51caabe1722f0cf6e1",
+  "prior_execution_head": "c64e5d6fd9f35512b7a0bc9a4654d201a942df92",
+  "local": "a4125244d060e5455176b014e175fd42187e953a",
+  "tree": "8a729ddc11538d57a4b734740087ed83230226ed",
+  "host_head": "34294076e99a910dd1ea151c7951b8c77c6fa824",
+  "execution_branch": "astra-a/d17-18-progress-finance-ui-browser-20261026",
+  "prepared_branch": "astra-a/d17-18-progress-finance-surface-prepared-20261026",
+  "full_admission": {
+    "status": "PASS",
+    "source_pins": 3895,
+    "bytes": 3954494,
+    "sha256": "4243725b38ab31fead8f7cde4fb165cb526e8dc1a0ee2af227e9ee97f9eb0e09"
+  },
+  "local_tests": 195,
+  "progress_oracle_tests": 5,
+  "exact_B_files": 91,
+  "compiled_modules": 79,
+  "cases": 2,
+  "first_failure_preserved": "FIRST_RUNTIME_FAILURE_C64.json",
+  "oracle_changed": false,
+  "statement_limits_unchanged": true,
+  "status": "RUNNING_NOT_PASS",
+  "run_id": 40376731797,
+  "job_id": 121761707561,
+  "started_at_utc": "2026-10-26T18:19:34Z",
+  "production_go": false,
+  "independent_acceptance": false,
+  "recorded_at_utc": "2026-10-26T18:19:32.668Z"
+}

@@ -12,9 +12,9 @@
     "sha256": "c24ceec9a1d8a058346bd3b221238b2b4b3b749b9e89ee1ac4489396cb7afea3"
   },
   "run_id": 40363845158,
-  "job_id": 121716085842,
+  "job_id": 121734510218,
   "started_at_utc": "2026-10-26T16:56:02Z",
-  "status": "INFRASTRUCTURE_FAILED_RETRY_HELD",
+  "status": "INFRASTRUCTURE_BLOCKED_AFTER_ONE_RETRY",
   "prior_failure": "f088123ba44b68b09c88e30df04e19b312b8871d",
   "prior_actual_cases": 0,
   "phase_contract_tests": 3,
@@ -47,6 +47,30 @@
     "production_go": false
   },
   "observed_at_utc": "2026-10-26T17:23:15.105059+00:00",
-  "retry_count": 0,
-  "actual_business_cases": 0
+  "retry_count": 1,
+  "actual_business_cases": 0,
+  "first_job_id": 121716085842,
+  "retry_decision": {
+    "head": "40f041641ce336cac4be263297028172ac152202",
+    "run_id": 40363845158,
+    "failed_job_id": 121716085842,
+    "reason": "The finance same-platform fresh-host retry job121725919259 now passed DB startup step58, supplying new registry availability evidence after the held transport retry. One fresh-host retry, unchanged source/platform/oracles/timeouts.",
+    "availability_evidence": {
+      "run_id": 40362500463,
+      "job_id": 121725919259,
+      "database_startup": "PASS",
+      "observed_at_utc": "2026-10-26T17:29:04.101Z"
+    },
+    "retry_count": 1,
+    "same_code_oracles_limits_and_platform": true,
+    "no_automatic_second_retry": true,
+    "business_cases_before_retry": 0,
+    "status": "RETRY_REQUESTED",
+    "requested_at_utc": "2026-10-26T17:29:15.837Z",
+    "result": {
+      "success": true
+    }
+  },
+  "retry_observed_at_utc": "2026-10-26T17:30:13.656022+00:00",
+  "latest_failure_receipt": "transport-40f-infrastructure-retry-failure.json"
 }

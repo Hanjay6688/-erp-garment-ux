@@ -1,5 +1,5 @@
 {
-  "recorded_at_utc": "2026-10-26T17:23:15.105059+00:00",
+  "recorded_at_utc": "2026-10-26T18:21:11.983843+00:00",
   "role": "A finance writer/integrator replacing Claude; B remains separate production/planning writer",
   "slogan": [
     "VENI. VIDI. VICI. ERP. — I CONQUERED ERP.",
@@ -13,13 +13,13 @@
       "head": "e352901d6975346fa6a099770d179ffc6a59475d",
       "run_id": 40362500463,
       "job_id": 121725919259,
-      "scope": "Same e352 source, first fresh-host retry after retained registry refusal; no runtime credit"
+      "scope": "Actual small, PRICE_PERCENT and factory report comparison on unchanged e352 retry"
     },
     {
-      "head": "c64e5d6fd9f35512b7a0bc9a4654d201a942df92",
-      "run_id": 40354535892,
-      "job_id": 121696489085,
-      "scope": "Actual UI2 after preserved pre-DB infrastructure failure; one retry only"
+      "head": "d1f4b529542aba443f3b92986da911db646053e1",
+      "run_id": 40376731797,
+      "job_id": 121761707561,
+      "scope": "UI desktop/mobile opaque A surface successor; first c64 actual failure retained"
     }
   ],
   "actual_new_component": {
@@ -2692,67 +2692,18 @@
   },
   "most_recent_completed": [
     {
-      "name": "CP7_D17_18_FINANCE_CHECK_REUSE_DIAGNOSTIC1.json",
+      "name": "CP7_D17_18_PROGRESS_FINANCE_UI_BROWSER2.json",
       "status": "INCOMPLETE",
-      "head": "e913cc60d7b4a14b97d776fe2a9c5cb995c23563",
-      "run_id": 40345264716,
-      "job_id": 121650386194,
-      "artifact_id": 12665604273,
-      "zip_bytes": 2820182,
-      "zip_sha256": "8fc1bb2dd53c76f4589c210cddff33c9c4d1e4eecb68eed2cad4eaf582130804",
-      "bytes": 4463406,
-      "sha256": "24a3adfc561368d6b16f9d43faf5694b2bfb9682b94ae8793e0870d4c76dc55d",
-      "archive_member": "CP7_D17_18_FINANCE_CHECK_REUSE_DIAGNOSTIC1.json",
-      "source_pins_verified": 3728,
-      "exact_prior_original_verified": {
-        "name": "CP7_D17_18_FINANCE_READER_DIAGNOSTIC1.json",
-        "status": "PASS",
-        "head": "7caf6b84a357ab670ac0e4c0c190fadb2738c2e7",
-        "run_id": 40300049475,
-        "job_id": 121495423311,
-        "artifact_id": 12644706605,
-        "zip_bytes": 2987699,
-        "zip_sha256": "a0fe9df8f66e188122347c37a9d58dfb0cea6814920bc1d5b3d73348631baa45",
-        "bytes": 5137654,
-        "sha256": "be866e88e095447c042fa9cdbf93ab225f3b95e1cf5ace8bf0f524de9f5bcdf4",
-        "archive_member": "CP7_D17_18_FINANCE_READER_DIAGNOSTIC1.json"
-      },
-      "package_gate": {
-        "installed": true,
-        "primary_unchanged": true,
-        "backup_restore_drill": true,
-        "security_advisors": true,
-        "writer_runtime": false
-      },
-      "cp6_restored": true,
-      "advisor_gate": true,
-      "production_go": false,
-      "independent_acceptance": false,
-      "first_failure_preserved": true,
-      "actual_Auth_HTTP_credit": false,
-      "performance_qualification": false,
-      "error_summary": "INCOMPLETE: full first failure retained, no widened runtime credit",
-      "small_pair_pass": true,
-      "small_official_ms": 296.967,
-      "small_candidate_ms": 220.955,
-      "whole_report_equal": true,
-      "candidate_report_DML": 0,
-      "price_percent_or_factory_or_source_race_credit": false,
-      "cause": "BF_HISTORY rejects new SKU master nine days ago"
-    },
-    {
-      "name": "CP7_D17_18_CHOICE_TRANSPORT6.json",
-      "status": "INCOMPLETE",
-      "head": "f088123ba44b68b09c88e30df04e19b312b8871d",
-      "run_id": 40354149723,
-      "job_id": 121681944860,
-      "artifact_id": 12669065730,
-      "zip_bytes": 2810051,
-      "zip_sha256": "f80f943154f4184151b90030f581655d541e0adf76d06e373786604bfa7c3ef1",
-      "bytes": 4172156,
-      "sha256": "6cd63ee0bfc2e0afb698bd0b746e2c521a432256f9ef215c481d97a62f2616ff",
-      "archive_member": "CP7_D17_18_CHOICE_TRANSPORT6.json",
-      "source_pins_verified": 3773,
+      "head": "c64e5d6fd9f35512b7a0bc9a4654d201a942df92",
+      "run_id": 40354535892,
+      "job_id": 121696489085,
+      "artifact_id": 12671871654,
+      "zip_bytes": 4186995,
+      "zip_sha256": "951352825381887162858731ddcc31db0f637206c41057485979f60279e3f87a",
+      "bytes": 4348349,
+      "sha256": "cef0f5eea68a33f9e2315419353d8ba037e646b18276c1e50e43ca891cb0645c",
+      "archive_member": "CP7_D17_18_PROGRESS_FINANCE_UI_BROWSER2.json",
+      "source_pins_verified": 3894,
       "exact_native_predecessor": {
         "name": "CP7_D17_18_CHOICE_NATIVE6.json",
         "status": "PASS",
@@ -2780,9 +2731,11 @@
       "first_failure_preserved": true,
       "actual_Auth_HTTP_credit": false,
       "error_summary": "Actual runtime INCOMPLETE; full Original retained",
-      "observed_case_count": 0,
-      "cause": "UNDECLARED_QUALIFICATION_PHASE before Auth/race cases",
-      "successor_tests": 3
+      "artifact_zip_local_only": "Browser screenshots are not requested deliverables",
+      "observed_case_count": 2,
+      "passed_case_count": 0,
+      "cause": "A outer option label inherits BODY radial-gradient; unchanged contrast oracle refuses UNMEASURED_FINANCE_TEXT_SURFACE in desktop/mobile.",
+      "local_screenshots_reviewed": true
     }
   ],
   "performance_factory_prepared": {
@@ -4529,41 +4482,35 @@
     "actual_predecessor_required": "54676bcc969b950dd1ec52eb7feba2d7e58a8cb4 PASS"
   },
   "progress_finance_UI_browser_prepared": {
-    "head": "c64e5d6fd9f35512b7a0bc9a4654d201a942df92",
-    "parent": "3b06519aafc27fa335aec71de20852b46347ff45",
-    "local": "de783eba4bd94a1892ae92ce91a71d0b3197ee11",
-    "tree": "56dd0b481750d7ef0bf704b27edfecd6fa877a91",
+    "head": "d1f4b529542aba443f3b92986da911db646053e1",
+    "parent": "61e50eca26035ddc26a34e51caabe1722f0cf6e1",
+    "prior_execution_head": "c64e5d6fd9f35512b7a0bc9a4654d201a942df92",
+    "local": "a4125244d060e5455176b014e175fd42187e953a",
+    "tree": "8a729ddc11538d57a4b734740087ed83230226ed",
+    "host_head": "34294076e99a910dd1ea151c7951b8c77c6fa824",
     "execution_branch": "astra-a/d17-18-progress-finance-ui-browser-20261026",
-    "source_pins": 3894,
-    "cases": 2,
+    "prepared_branch": "astra-a/d17-18-progress-finance-surface-prepared-20261026",
     "full_admission": {
       "status": "PASS",
-      "bytes": 3954328,
-      "sha256": "c2e43bfb881ca42a201cf1f0ee0badc59d6a776e9f14f15ab92733873b53876e"
+      "source_pins": 3895,
+      "bytes": 3954494,
+      "sha256": "4243725b38ab31fead8f7cde4fb165cb526e8dc1a0ee2af227e9ee97f9eb0e09"
     },
-    "source_bound": true,
-    "execution_ref_advanced": true,
-    "first_ref_creation_did_not_start_runtime": true,
-    "first_ref_no_run_receipt": "ui-execution-ref-no-run-20261026.json",
-    "runtime_status": "RUNNING_NOT_PASS",
-    "actual_runtime_qualified": false,
-    "host_head": "7bcd24ac7d5ec1bd053808c196ec2eb328e28338",
-    "host_files": 113,
-    "exact_B_files": 91,
     "local_tests": 195,
+    "progress_oracle_tests": 5,
+    "exact_B_files": 91,
+    "compiled_modules": 79,
+    "cases": 2,
+    "first_failure_preserved": "FIRST_RUNTIME_FAILURE_C64.json",
+    "oracle_changed": false,
+    "statement_limits_unchanged": true,
+    "status": "RUNNING_NOT_PASS",
+    "run_id": 40376731797,
+    "job_id": 121761707561,
+    "started_at_utc": "2026-10-26T18:19:34Z",
     "production_go": false,
     "independent_acceptance": false,
-    "run_id": 40354535892,
-    "job_id": 121696489085,
-    "started_at_utc": "2026-10-26T15:58:15Z",
-    "first_job_id": 121683314200,
-    "retry_count": 1,
-    "first_attempt_status": "FAILED_INFRASTRUCTURE_BEFORE_DATABASE",
-    "first_attempt_business_cases": 0,
-    "first_failure_receipt": "ui-c64-infrastructure-first-failure.json",
-    "retry_decision_receipt": "ui-c64-infrastructure-retry-decision.json",
-    "retry_current_step": "Execute actual progress finance UI2 on two separate full composition clones",
-    "retry_observed_at_utc": "2026-10-26T16:53:42Z"
+    "recorded_at_utc": "2026-10-26T18:19:32.668Z"
   },
   "previous_running_before_corrected_profile_intake": [
     {
@@ -4791,9 +4738,9 @@
       "sha256": "c24ceec9a1d8a058346bd3b221238b2b4b3b749b9e89ee1ac4489396cb7afea3"
     },
     "run_id": 40363845158,
-    "job_id": 121716085842,
+    "job_id": 121734510218,
     "started_at_utc": "2026-10-26T16:56:02Z",
-    "status": "INFRASTRUCTURE_FAILED_RETRY_HELD",
+    "status": "INFRASTRUCTURE_BLOCKED_AFTER_ONE_RETRY",
     "prior_failure": "f088123ba44b68b09c88e30df04e19b312b8871d",
     "prior_actual_cases": 0,
     "phase_contract_tests": 3,
@@ -4826,8 +4773,32 @@
       "production_go": false
     },
     "observed_at_utc": "2026-10-26T17:23:15.105059+00:00",
-    "retry_count": 0,
-    "actual_business_cases": 0
+    "retry_count": 1,
+    "actual_business_cases": 0,
+    "first_job_id": 121716085842,
+    "retry_decision": {
+      "head": "40f041641ce336cac4be263297028172ac152202",
+      "run_id": 40363845158,
+      "failed_job_id": 121716085842,
+      "reason": "The finance same-platform fresh-host retry job121725919259 now passed DB startup step58, supplying new registry availability evidence after the held transport retry. One fresh-host retry, unchanged source/platform/oracles/timeouts.",
+      "availability_evidence": {
+        "run_id": 40362500463,
+        "job_id": 121725919259,
+        "database_startup": "PASS",
+        "observed_at_utc": "2026-10-26T17:29:04.101Z"
+      },
+      "retry_count": 1,
+      "same_code_oracles_limits_and_platform": true,
+      "no_automatic_second_retry": true,
+      "business_cases_before_retry": 0,
+      "status": "RETRY_REQUESTED",
+      "requested_at_utc": "2026-10-26T17:29:15.837Z",
+      "result": {
+        "success": true
+      }
+    },
+    "retry_observed_at_utc": "2026-10-26T17:30:13.656022+00:00",
+    "latest_failure_receipt": "transport-40f-infrastructure-retry-failure.json"
   },
   "previous_running_before_choice_native6_first_failure": [
     {
@@ -8391,8 +8362,8 @@
       "production_go": false
     },
     "retry_decision_receipt": "finance-e352-infrastructure-retry-decision.json",
-    "retry_observed_at_utc": "2026-10-26T17:23:15.105059+00:00",
-    "retry_current_step": "Admit exact A and all declared B extension sources before DB"
+    "retry_observed_at_utc": "2026-10-26T18:21:11.983843+00:00",
+    "retry_current_step": "Compare unchanged and single check on small percentage and factory fixtures"
   },
   "finance_check_reuse_diagnostic_previous_local": {
     "local": "8b578b85486e44247c7297e2d22c6b7105bfca26",
@@ -10060,6 +10031,134 @@
     },
     "retry_requested": false,
     "retry_policy": "Hold until the finance retry provides new registry availability evidence. No blind repeated retries.",
+    "production_go": false
+  },
+  "previous_running_before_ui_c64_actual_failure": [
+    {
+      "head": "e352901d6975346fa6a099770d179ffc6a59475d",
+      "run_id": 40362500463,
+      "job_id": 121725919259,
+      "scope": "Same e352 source, first fresh-host retry after retained registry refusal; no runtime credit"
+    },
+    {
+      "head": "c64e5d6fd9f35512b7a0bc9a4654d201a942df92",
+      "run_id": 40354535892,
+      "job_id": 121696489085,
+      "scope": "Actual UI2 after preserved pre-DB infrastructure failure; one retry only"
+    }
+  ],
+  "actual_progress_finance_UI_c64_failure": {
+    "name": "CP7_D17_18_PROGRESS_FINANCE_UI_BROWSER2.json",
+    "status": "INCOMPLETE",
+    "head": "c64e5d6fd9f35512b7a0bc9a4654d201a942df92",
+    "run_id": 40354535892,
+    "job_id": 121696489085,
+    "artifact_id": 12671871654,
+    "zip_bytes": 4186995,
+    "zip_sha256": "951352825381887162858731ddcc31db0f637206c41057485979f60279e3f87a",
+    "bytes": 4348349,
+    "sha256": "cef0f5eea68a33f9e2315419353d8ba037e646b18276c1e50e43ca891cb0645c",
+    "archive_member": "CP7_D17_18_PROGRESS_FINANCE_UI_BROWSER2.json",
+    "source_pins_verified": 3894,
+    "exact_native_predecessor": {
+      "name": "CP7_D17_18_CHOICE_NATIVE6.json",
+      "status": "PASS",
+      "head": "8dfe1a19c7b7c61558b25c00f1dd388c8565e3d1",
+      "run_id": 40338677390,
+      "job_id": 121627045376,
+      "artifact_id": 12663230440,
+      "zip_bytes": 3007799,
+      "zip_sha256": "9d8d24e9816562b2ff75b622c4da69d3d3cb34494f17cbee4d1b86280916d435",
+      "bytes": 6218156,
+      "sha256": "f2110cf6c2873c18679e3f6654d5232474e46decb5543e6d72b803f28b2d62a9",
+      "archive_member": "CP7_D17_18_CHOICE_NATIVE6.json"
+    },
+    "package_gate": {
+      "installed": true,
+      "primary_unchanged": true,
+      "backup_restore_drill": true,
+      "security_advisors": true,
+      "writer_runtime": false
+    },
+    "cp6_restored": true,
+    "advisor_gate": true,
+    "production_go": false,
+    "independent_acceptance": false,
+    "first_failure_preserved": true,
+    "actual_Auth_HTTP_credit": false,
+    "error_summary": "Actual runtime INCOMPLETE; full Original retained",
+    "artifact_zip_local_only": "Browser screenshots are not requested deliverables",
+    "observed_case_count": 2,
+    "passed_case_count": 0,
+    "cause": "A outer option label inherits BODY radial-gradient; unchanged contrast oracle refuses UNMEASURED_FINANCE_TEXT_SURFACE in desktop/mobile.",
+    "local_screenshots_reviewed": true
+  },
+  "previous_progress_UI_before_surface": {
+    "head": "c64e5d6fd9f35512b7a0bc9a4654d201a942df92",
+    "parent": "3b06519aafc27fa335aec71de20852b46347ff45",
+    "local": "de783eba4bd94a1892ae92ce91a71d0b3197ee11",
+    "tree": "56dd0b481750d7ef0bf704b27edfecd6fa877a91",
+    "execution_branch": "astra-a/d17-18-progress-finance-ui-browser-20261026",
+    "source_pins": 3894,
+    "cases": 2,
+    "full_admission": {
+      "status": "PASS",
+      "bytes": 3954328,
+      "sha256": "c2e43bfb881ca42a201cf1f0ee0badc59d6a776e9f14f15ab92733873b53876e"
+    },
+    "source_bound": true,
+    "execution_ref_advanced": true,
+    "first_ref_creation_did_not_start_runtime": true,
+    "first_ref_no_run_receipt": "ui-execution-ref-no-run-20261026.json",
+    "runtime_status": "RUNNING_NOT_PASS",
+    "actual_runtime_qualified": false,
+    "host_head": "7bcd24ac7d5ec1bd053808c196ec2eb328e28338",
+    "host_files": 113,
+    "exact_B_files": 91,
+    "local_tests": 195,
+    "production_go": false,
+    "independent_acceptance": false,
+    "run_id": 40354535892,
+    "job_id": 121696489085,
+    "started_at_utc": "2026-10-26T15:58:15Z",
+    "first_job_id": 121683314200,
+    "retry_count": 1,
+    "first_attempt_status": "FAILED_INFRASTRUCTURE_BEFORE_DATABASE",
+    "first_attempt_business_cases": 0,
+    "first_failure_receipt": "ui-c64-infrastructure-first-failure.json",
+    "retry_decision_receipt": "ui-c64-infrastructure-retry-decision.json",
+    "retry_current_step": "Execute actual progress finance UI2 on two separate full composition clones",
+    "retry_observed_at_utc": "2026-10-26T16:53:42Z"
+  },
+  "transport_40f_retry_infrastructure_failure": {
+    "head": "40f041641ce336cac4be263297028172ac152202",
+    "run_id": 40363845158,
+    "first_job_id": 121716085842,
+    "job_id": 121734510218,
+    "status": "RETRY_INFRASTRUCTURE_FAILED_BEFORE_DATABASE",
+    "retry_count": 1,
+    "actual_business_cases": 0,
+    "expected_business_cases": 6,
+    "original_created": false,
+    "artifact_count": 0,
+    "cause": "The one fresh-host retry also exhausted unchanged image registry fallback: GHCR toomanyrequests and ECR Data limit exceeded.",
+    "no_automatic_second_retry": true,
+    "raw_log_bytes": 1169558,
+    "production_go": false,
+    "raw_log_sha256": "edd06fcaf6ebb1a002ad4d92ce89eef6c2d4dc2e16cc2030a98f7bc83fb9aa20"
+  },
+  "ui_c64_complete_failure_restoration_review": {
+    "status": "FAILED_BROWSER_COMPLETE_RESTORATION_VERIFIED",
+    "original_bytes": 4348349,
+    "original_sha256": "cef0f5eea68a33f9e2315419353d8ba037e646b18276c1e50e43ca891cb0645c",
+    "exact_source_pins": 3894,
+    "full22_rows_sequences": true,
+    "public_schema_raw_equal": true,
+    "advisor_default_deny_verified": true,
+    "full_clone_admissions": 2,
+    "auth_rows_zero_before_and_after": true,
+    "no_backend_or_rest_container_leaks": true,
+    "full_case_PASS_count": 0,
     "production_go": false
   }
 }
