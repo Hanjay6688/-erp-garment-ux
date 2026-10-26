@@ -1,0 +1,52 @@
+{
+  "recorded_at_utc": "2026-10-26T11:32:02.299187+00:00",
+  "head": "389326f6d251499559f353638adc4fa1d5c76ffa",
+  "artifact_id": 12629225311,
+  "scope": "Visual follow-through on the already verified old-host actual UI PASS2 only",
+  "new_screenshots_reviewed": [
+    {
+      "name": "A_FROZEN_FINANCE_DESKTOP_OPERATIONAL_DONE_FINANCE_RUNNING.png",
+      "bytes": 192862,
+      "sha256": "acdd1326eb1a3d4251a1bd0c2ece4696606cb3a413ef011684a9c3d2db368baf",
+      "width": 1440,
+      "height": 1257,
+      "observation": "Operational results stay visible; finance says zero completed steps and unknown total, with no financial figures or false completion."
+    },
+    {
+      "name": "A_FROZEN_FINANCE_DESKTOP_REOPENED_SAME_CAPTURE.png",
+      "bytes": 283742,
+      "sha256": "74e0cada10d828b5e82228ad37a37ca709a2e5a20393ae9db4a8bd4e4dacaab5",
+      "width": 1440,
+      "height": 2324,
+      "observation": "Saved operational date and completed six-step finance appear together; all24financial rows remain readable; saved inclusion choice is explained separately from the unchecked future-run option."
+    },
+    {
+      "name": "A_FROZEN_FINANCE_MOBILE_ACCESS_REVOKED.png",
+      "bytes": 244320,
+      "sha256": "7766ddb1e3263867db18879fe383cb33f612d8b4f1cc8c37ac408392988bfa30",
+      "width": 390,
+      "height": 3075,
+      "observation": "Operational cards remain readable in one column; financial figures and financial capture metadata are absent; current access refusal and reload action are visible."
+    },
+    {
+      "name": "A_FROZEN_FINANCE_MOBILE_OPERATIONAL_DONE_FINANCE_RUNNING.png",
+      "bytes": 253842,
+      "sha256": "249f24b5cbae164f31a8a6e30891d15bfa28426360fda7cbf93db20b3a6a0b09",
+      "width": 390,
+      "height": 3167,
+      "observation": "Cards and actions fit the narrow viewport; unknown planning amounts remain labelled unknown; financial preparation stays distinct and no unfinished financial amount is shown."
+    }
+  ],
+  "previously_reviewed": [
+    "A_FROZEN_FINANCE_DESKTOP_OFFICIAL_READY24.png",
+    "A_FROZEN_FINANCE_MOBILE_CAPTURE_COMPLETE_REPORT_BLOCKED.png"
+  ],
+  "total_screenshots_reviewed": 6,
+  "total_screenshots": 6,
+  "new_visible_blocker_observed": false,
+  "financial_values_are_synthetic_fixture": true,
+  "manual_image_review_is_not_new_runtime": true,
+  "new_D17_18_host_runtime_credit": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

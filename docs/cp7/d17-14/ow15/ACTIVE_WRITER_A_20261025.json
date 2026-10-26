@@ -8070,5 +8070,13 @@
     "product_adoption": false,
     "source_change_race_qualification": false,
     "production_go": false
+  },
+  "finance_UI389_visual_followthrough": {
+    "head": "389326f6d251499559f353638adc4fa1d5c76ffa",
+    "artifact_id": 12629225311,
+    "reviewed": 6,
+    "total": 6,
+    "new_D17_18_host_runtime_credit": false,
+    "receipt": "finance-ui389-visual-review-completed-20261026.json"
   }
 }
