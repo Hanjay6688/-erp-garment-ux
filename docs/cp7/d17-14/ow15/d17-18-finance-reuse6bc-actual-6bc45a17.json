@@ -1,0 +1,42 @@
+{
+  "name": "CP7_D17_18_FINANCE_CHECK_REUSE_DIAGNOSTIC1.json",
+  "status": "INCOMPLETE",
+  "head": "6bc45a178b1e28ff0265ed42d0f93ea81714105a",
+  "run_id": 40314220814,
+  "job_id": 121542647741,
+  "artifact_id": 12649917732,
+  "zip_bytes": 2816948,
+  "zip_sha256": "73efe5902199fbc965854d2246a06deabc0df99e61b6d25ccab2a2d6fce33b9f",
+  "bytes": 4446629,
+  "sha256": "d72a7fc7a75e62fdc906662103ddbb762277fb13de485fc7706e31b42d98fac0",
+  "archive_member": "CP7_D17_18_FINANCE_CHECK_REUSE_DIAGNOSTIC1.json",
+  "source_pins_verified": 3716,
+  "exact_prior_original_verified": {
+    "name": "CP7_D17_18_FINANCE_READER_DIAGNOSTIC1.json",
+    "status": "PASS",
+    "head": "7caf6b84a357ab670ac0e4c0c190fadb2738c2e7",
+    "run_id": 40300049475,
+    "job_id": 121495423311,
+    "artifact_id": 12644706605,
+    "zip_bytes": 2987699,
+    "zip_sha256": "a0fe9df8f66e188122347c37a9d58dfb0cea6814920bc1d5b3d73348631baa45",
+    "bytes": 5137654,
+    "sha256": "be866e88e095447c042fa9cdbf93ab225f3b95e1cf5ace8bf0f524de9f5bcdf4",
+    "archive_member": "CP7_D17_18_FINANCE_READER_DIAGNOSTIC1.json"
+  },
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "production_go": false,
+  "independent_acceptance": false,
+  "first_failure_preserved": true,
+  "actual_Auth_HTTP_credit": false,
+  "performance_qualification": false,
+  "error_summary": "INCOMPLETE: full first failure retained, no widened runtime credit"
+}

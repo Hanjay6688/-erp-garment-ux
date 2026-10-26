@@ -1,5 +1,5 @@
 {
-  "recorded_at_utc": "2026-10-26T12:32:21.464946+00:00",
+  "recorded_at_utc": "2026-10-26T12:50:25.583932+00:00",
   "role": "A finance writer/integrator replacing Claude; B remains separate production/planning writer",
   "slogan": [
     "VENI. VIDI. VICI. ERP. \u2014 I CONQUERED ERP.",
@@ -10,10 +10,10 @@
   "independent_acceptance": false,
   "running": [
     {
-      "head": "6bc45a178b1e28ff0265ed42d0f93ea81714105a",
-      "run_id": 40314220814,
-      "job_id": 121542647741,
-      "scope": "rollback-only single snapshot check and real percentage-HPP small/factory whole-report diagnostic"
+      "head": "bfed0a81252e597842b9b9020ecc061cca936d54",
+      "run_id": 40324974838,
+      "job_id": 121579218692,
+      "scope": "Focused Native6: exact retention column access, actual plan/reminder document preservation, all prior case guards"
     }
   ],
   "actual_new_component": {
@@ -2686,30 +2686,30 @@
   },
   "most_recent_completed": [
     {
-      "name": "CP7_D17_18_CHOICE_NATIVE6.json",
+      "name": "CP7_D17_18_FINANCE_CHECK_REUSE_DIAGNOSTIC1.json",
       "status": "INCOMPLETE",
-      "head": "9a943ea4cc4d24a92a2af1c3e678bd3d0bddfc14",
-      "run_id": 40308822607,
-      "job_id": 121524549120,
-      "artifact_id": 12648237288,
-      "zip_bytes": 3006081,
-      "zip_sha256": "c5445a88a9512d8d45e3cd3d987458d722b094de6a00c08766c9994337ddb357",
-      "bytes": 6205094,
-      "sha256": "b52eb89d8150ffbf8d7e3692be693a339ff0daa9543790c5518eb8d5d4e1134c",
-      "archive_member": "CP7_D17_18_CHOICE_NATIVE6.json",
-      "source_pins_verified": 3752,
+      "head": "6bc45a178b1e28ff0265ed42d0f93ea81714105a",
+      "run_id": 40314220814,
+      "job_id": 121542647741,
+      "artifact_id": 12649917732,
+      "zip_bytes": 2816948,
+      "zip_sha256": "73efe5902199fbc965854d2246a06deabc0df99e61b6d25ccab2a2d6fce33b9f",
+      "bytes": 4446629,
+      "sha256": "d72a7fc7a75e62fdc906662103ddbb762277fb13de485fc7706e31b42d98fac0",
+      "archive_member": "CP7_D17_18_FINANCE_CHECK_REUSE_DIAGNOSTIC1.json",
+      "source_pins_verified": 3716,
       "exact_prior_original_verified": {
-        "name": "CP7_D17_18_PROGRESS_NATIVE5.json",
+        "name": "CP7_D17_18_FINANCE_READER_DIAGNOSTIC1.json",
         "status": "PASS",
-        "head": "0c86d27739ff74aba65967453465880d1c72e94c",
-        "run_id": 40286627929,
-        "job_id": 121451709620,
-        "artifact_id": 12637959084,
-        "zip_bytes": 2968325,
-        "zip_sha256": "33c1889449edde12aac63c3aba860919c135c77006f813f903e985e0c20e9ecc",
-        "bytes": 5878000,
-        "sha256": "dd72583a82175893be57e0ccdbe10a575e91135e9163951130f8596a7e46f393",
-        "archive_member": "CP7_D17_18_PROGRESS_NATIVE5.json"
+        "head": "7caf6b84a357ab670ac0e4c0c190fadb2738c2e7",
+        "run_id": 40300049475,
+        "job_id": 121495423311,
+        "artifact_id": 12644706605,
+        "zip_bytes": 2987699,
+        "zip_sha256": "a0fe9df8f66e188122347c37a9d58dfb0cea6814920bc1d5b3d73348631baa45",
+        "bytes": 5137654,
+        "sha256": "be866e88e095447c042fa9cdbf93ab225f3b95e1cf5ace8bf0f524de9f5bcdf4",
+        "archive_member": "CP7_D17_18_FINANCE_READER_DIAGNOSTIC1.json"
       },
       "package_gate": {
         "installed": true,
@@ -2726,13 +2726,13 @@
       "actual_Auth_HTTP_credit": false,
       "performance_qualification": false,
       "error_summary": "INCOMPLETE: full first failure retained, no widened runtime credit",
+      "error": "SNAPSHOT_REUSE_LIVE_BODY_CHANGED",
+      "candidate_executed": false,
+      "unchanged_small_ms": 290.916,
       "counts": {
-        "PASS": 5,
         "INCOMPLETE": 1
       },
-      "failure_case": "CURRENT_CHOICE_ATOMIC_SAVE_RETENTION_RECEIPT_USED_GUARD",
-      "cause": "cp7_ops.retention_tick runs as cp7_capture; missing SELECT(run_id) on private document-reference tables",
-      "ordinary_timeout_changed": false
+      "no_candidate_PRICE_PERCENT_factory_or_performance_credit": true
     }
   ],
   "performance_factory_prepared": {
@@ -7995,6 +7995,57 @@
         "report_check_reuse_implemented": false,
         "product_adoption": false
       }
+    ],
+    [
+      {
+        "name": "CP7_D17_18_CHOICE_NATIVE6.json",
+        "status": "INCOMPLETE",
+        "head": "9a943ea4cc4d24a92a2af1c3e678bd3d0bddfc14",
+        "run_id": 40308822607,
+        "job_id": 121524549120,
+        "artifact_id": 12648237288,
+        "zip_bytes": 3006081,
+        "zip_sha256": "c5445a88a9512d8d45e3cd3d987458d722b094de6a00c08766c9994337ddb357",
+        "bytes": 6205094,
+        "sha256": "b52eb89d8150ffbf8d7e3692be693a339ff0daa9543790c5518eb8d5d4e1134c",
+        "archive_member": "CP7_D17_18_CHOICE_NATIVE6.json",
+        "source_pins_verified": 3752,
+        "exact_prior_original_verified": {
+          "name": "CP7_D17_18_PROGRESS_NATIVE5.json",
+          "status": "PASS",
+          "head": "0c86d27739ff74aba65967453465880d1c72e94c",
+          "run_id": 40286627929,
+          "job_id": 121451709620,
+          "artifact_id": 12637959084,
+          "zip_bytes": 2968325,
+          "zip_sha256": "33c1889449edde12aac63c3aba860919c135c77006f813f903e985e0c20e9ecc",
+          "bytes": 5878000,
+          "sha256": "dd72583a82175893be57e0ccdbe10a575e91135e9163951130f8596a7e46f393",
+          "archive_member": "CP7_D17_18_PROGRESS_NATIVE5.json"
+        },
+        "package_gate": {
+          "installed": true,
+          "primary_unchanged": true,
+          "backup_restore_drill": true,
+          "security_advisors": true,
+          "writer_runtime": false
+        },
+        "cp6_restored": true,
+        "advisor_gate": true,
+        "production_go": false,
+        "independent_acceptance": false,
+        "first_failure_preserved": true,
+        "actual_Auth_HTTP_credit": false,
+        "performance_qualification": false,
+        "error_summary": "INCOMPLETE: full first failure retained, no widened runtime credit",
+        "counts": {
+          "PASS": 5,
+          "INCOMPLETE": 1
+        },
+        "failure_case": "CURRENT_CHOICE_ATOMIC_SAVE_RETENTION_RECEIPT_USED_GUARD",
+        "cause": "cp7_ops.retention_tick runs as cp7_capture; missing SELECT(run_id) on private document-reference tables",
+        "ordinary_timeout_changed": false
+      }
     ]
   ],
   "finance_check_reuse_diagnostic": {
@@ -8104,8 +8155,9 @@
     "independent_acceptance": false,
     "run_id": 40314220814,
     "job_id": 121542647741,
-    "status": "ACTUAL_DIAGNOSTIC_RUNNING",
-    "local_source_checkout_after_admission": "Unchanged large evidence excluded again after successful full admission; rehydrate before rerunning full admission."
+    "status": "ACTUAL_INCOMPLETE_BEFORE_CANDIDATE_SOURCE_MISMATCH",
+    "local_source_checkout_after_admission": "Unchanged large evidence excluded again after successful full admission; rehydrate before rerunning full admission.",
+    "error": "SNAPSHOT_REUSE_LIVE_BODY_CHANGED"
   },
   "finance_check_reuse_diagnostic_previous_local": {
     "local": "8b578b85486e44247c7297e2d22c6b7105bfca26",
@@ -8196,10 +8248,207 @@
     "ordinary_timeout_changed": false
   },
   "retention_reference_successor": {
-    "status": "LOCAL_PRODUCT_PREPARED",
-    "scope": "Two private SELECT(run_id) grants, exact full22 inverse; positive document retention via actual tick required",
-    "UI_and_transport": "UNBOUND; native9a did not pass",
-    "coordination_head": "48a623214b344c448093f9c9defa5027022da021",
+    "head": "bfed0a81252e597842b9b9020ecc061cca936d54",
+    "parent": "82f9f82ffdce4642c4243942f91f5c219875bf47",
+    "tree": "e514c20c78f638a9888c5b1c7bc15c813543db06",
+    "local": "52bdafdb9df2f92ebc81be4882fef0d0d33594c1",
+    "branch": "astra-a/d17-18-choice-preparation-native-qualification-20261026",
+    "files": [
+      {
+        "path": ".github/workflows/cp7-d17-18-choice-preparation-native.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "3ef29c92a3e4b6325a3c990262cf35652431abf9"
+      },
+      {
+        "path": "scripts/current-choice-preparation-native-qualification/FIRST_RUNTIME_FAILURE_9A.json",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "c7202a0dac216015c95894f30a075adb6cf11012"
+      },
+      {
+        "path": "scripts/current-choice-preparation-native-qualification/README.md",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "12da83b0722a287560f4759aa717293d04dfa0c3"
+      },
+      {
+        "path": "scripts/current-choice-preparation-native-qualification/RETENTION_LOCAL_PREFLIGHT.json",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "a539e29affd4959aa2a0f3a192201cc6cd641104"
+      },
+      {
+        "path": "scripts/current-choice-preparation-native-qualification/SOURCE.json",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "e50ea1907ec55ccbc9f732070dd75a3fa9457250"
+      },
+      {
+        "path": "scripts/current-choice-preparation-native-qualification/bind_sources.py",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "a7a0c726f26875100c9727dded287a134f942570"
+      },
+      {
+        "path": "scripts/current-choice-preparation-native-qualification/cases.py",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "c62da2e3e68b6209102eada9b8e50b2f0ff73908"
+      },
+      {
+        "path": "scripts/current-choice-preparation-native-qualification/retention_cases.py",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "8025314f82eda763132327c1a48b96fed4c0242f"
+      }
+    ],
+    "full_admission": {
+      "status": "PASS",
+      "source_pins": 3757,
+      "bytes": 3934600,
+      "sha256": "0c133aff4827e34c4491b22f09b129ed91e47c375e51cdbf324c7a485b611c25"
+    },
+    "runtime_status": "IN_PROGRESS",
+    "production_go": false,
+    "run_id": 40324974838,
+    "job_id": 121579218692
+  },
+  "previous_running_before_retention_and_reuse_failure": [
+    {
+      "head": "6bc45a178b1e28ff0265ed42d0f93ea81714105a",
+      "run_id": 40314220814,
+      "job_id": 121542647741,
+      "scope": "rollback-only single snapshot check and real percentage-HPP small/factory whole-report diagnostic"
+    }
+  ],
+  "actual_finance_check_reuse_first_failure": {
+    "name": "CP7_D17_18_FINANCE_CHECK_REUSE_DIAGNOSTIC1.json",
+    "status": "INCOMPLETE",
+    "head": "6bc45a178b1e28ff0265ed42d0f93ea81714105a",
+    "run_id": 40314220814,
+    "job_id": 121542647741,
+    "artifact_id": 12649917732,
+    "zip_bytes": 2816948,
+    "zip_sha256": "73efe5902199fbc965854d2246a06deabc0df99e61b6d25ccab2a2d6fce33b9f",
+    "bytes": 4446629,
+    "sha256": "d72a7fc7a75e62fdc906662103ddbb762277fb13de485fc7706e31b42d98fac0",
+    "archive_member": "CP7_D17_18_FINANCE_CHECK_REUSE_DIAGNOSTIC1.json",
+    "source_pins_verified": 3716,
+    "exact_prior_original_verified": {
+      "name": "CP7_D17_18_FINANCE_READER_DIAGNOSTIC1.json",
+      "status": "PASS",
+      "head": "7caf6b84a357ab670ac0e4c0c190fadb2738c2e7",
+      "run_id": 40300049475,
+      "job_id": 121495423311,
+      "artifact_id": 12644706605,
+      "zip_bytes": 2987699,
+      "zip_sha256": "a0fe9df8f66e188122347c37a9d58dfb0cea6814920bc1d5b3d73348631baa45",
+      "bytes": 5137654,
+      "sha256": "be866e88e095447c042fa9cdbf93ab225f3b95e1cf5ace8bf0f524de9f5bcdf4",
+      "archive_member": "CP7_D17_18_FINANCE_READER_DIAGNOSTIC1.json"
+    },
+    "package_gate": {
+      "installed": true,
+      "primary_unchanged": true,
+      "backup_restore_drill": true,
+      "security_advisors": true,
+      "writer_runtime": false
+    },
+    "cp6_restored": true,
+    "advisor_gate": true,
+    "production_go": false,
+    "independent_acceptance": false,
+    "first_failure_preserved": true,
+    "actual_Auth_HTTP_credit": false,
+    "performance_qualification": false,
+    "error_summary": "INCOMPLETE: full first failure retained, no widened runtime credit",
+    "error": "SNAPSHOT_REUSE_LIVE_BODY_CHANGED",
+    "candidate_executed": false,
+    "unchanged_small_ms": 290.916,
+    "counts": {
+      "INCOMPLETE": 1
+    },
+    "no_candidate_PRICE_PERCENT_factory_or_performance_credit": true
+  },
+  "finance_reuse6bc_source_diagnosis": {
+    "name": "CP7_D17_18_FINANCE_CHECK_REUSE_DIAGNOSTIC1.json",
+    "status": "INCOMPLETE",
+    "head": "6bc45a178b1e28ff0265ed42d0f93ea81714105a",
+    "run_id": 40314220814,
+    "job_id": 121542647741,
+    "artifact_id": 12649917732,
+    "zip_bytes": 2816948,
+    "zip_sha256": "73efe5902199fbc965854d2246a06deabc0df99e61b6d25ccab2a2d6fce33b9f",
+    "bytes": 4446629,
+    "sha256": "d72a7fc7a75e62fdc906662103ddbb762277fb13de485fc7706e31b42d98fac0",
+    "archive_member": "CP7_D17_18_FINANCE_CHECK_REUSE_DIAGNOSTIC1.json",
+    "error": "SNAPSHOT_REUSE_LIVE_BODY_CHANGED",
+    "cause_from_source_inspection": "Expected pre-install Native body omits the two installed report transformers; successor must still prove exact live equality",
+    "candidate_ran": false,
+    "unchanged_small_ms": 290.916,
+    "price_percent_qualified": false,
+    "factory_pair_qualified": false,
+    "performance_qualification": false,
+    "source_race_qualified": false,
+    "composed_expected_body_bytes": 12004,
+    "composed_expected_body_sha256": "3fa59773edf43a6f10a60b4fc08bbd1074097c6449b4b5c56f93ff2b64facd69",
+    "actual_live_body_hash_available": false,
     "production_go": false
+  },
+  "finance_source_race_prepared": {
+    "head": "70072fface936ec1cfba6ea2de6d42e8cda5c405",
+    "parent": "6bc45a178b1e28ff0265ed42d0f93ea81714105a",
+    "tree": "6a4d85c6a9b4404b97696e62b2dcd7e48c5789ee",
+    "local": "9a6672d2c5f75e7c125c4f86b3ed6c10a35c257f",
+    "branch": "astra-a/d17-18-finance-source-race-prepared-20261026",
+    "status": "PREPARED_UNBOUND_NOT_EXECUTED",
+    "prior_6bc_status": "INCOMPLETE_SOURCE_BODY_MISMATCH",
+    "files": [
+      {
+        "path": "scripts/current-finance-reader-source-race-qualification/FIRST_LOCAL_PREFLIGHT_FAILURE.json",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "2c529a56fd11fdd1cf4463d60b3f75dfe35e2e5d"
+      },
+      {
+        "path": "scripts/current-finance-reader-source-race-qualification/LOCAL_PREFLIGHT.json",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "e754b30e482243b662885d0ee5c300690a4e0904"
+      },
+      {
+        "path": "scripts/current-finance-reader-source-race-qualification/README.md",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "8d1ab48ae3674b574f4ccba17da6f91aa49382c5"
+      },
+      {
+        "path": "scripts/current-finance-reader-source-race-qualification/clone_patch.py",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "7534436af15cd228086d5d3b05ac204b18955b4d"
+      },
+      {
+        "path": "scripts/current-finance-reader-source-race-qualification/preflight.py",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "5d2e99185127d88a97c6e848569d6bd25176420d"
+      },
+      {
+        "path": "scripts/current-finance-reader-source-race-qualification/runner.py",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "efeb75c402c6bd94bd1fd821aa44a7ed55f1d7e9"
+      }
+    ],
+    "production_go": false
+  },
+  "dependent_qualification_boundary": {
+    "required_actual_native": "bfed0a81252e597842b9b9020ecc061cca936d54 PASS",
+    "ui": "PREPARED_UNBOUND; exact retention source import still required",
+    "transport": "PREPARED_UNBOUND; exact retention source import still required",
+    "source_race": "BLOCKED on corrected reuse actualPASS; prior6bc INCOMPLETE",
+    "no_binding_executed": true
   }
 }
