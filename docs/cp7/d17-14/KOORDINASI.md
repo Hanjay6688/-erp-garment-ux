@@ -4469,3 +4469,57 @@ originaltimeout tetap fatal. Penyebab tidak disederhanakan menjadi bataswaktu.
 22Originals:17Native/actualAuth paket diperiksa,4controlledUI tanpaNativegates,
 1interruptedTransport tanpa gerbang lengkap. Formal5/16; Bbelumselesai,
 independent_acceptance=false,production_go=false.
+
+## 213. [bersama] B26 Oktober2026 WIB — progres actual Auth lulus; kontrak persiapan sebelum kandidat/SAVE
+
+Published B progress9cddf475, tree18200d3e: actual Auth quantity Browser2/run40256759645
+PASS2/160pins/50actual modules; cutting Auth Browser2/run40256759641 PASS2/166pins/
+61actual modules. Complete Originals and exact source-only F05 declarations,
+package/current-public/CP6/advisor/current-access/restore/clone gates checked.
+Quantity actual desktop/mobile proves acknowledged unit counts, no percentage
+when final total is unknown, enabled Close while real STEP reply is held, exact
+same request after loss/reload, and current403 retirement. Full artifact12623735230
+matches all6 complete JSONs byte-for-byte; desktop/mobile PROGRESS images inspected.
+Controlled quantity/cutting Browser4/run40256759643/40256759652 PASS4/PASS4,
+48/63pins, no Native/Auth/restore credit. Ledger26Originals:19 Native/Auth package
+checks,6 controlled,1 interrupted. Cutting Native6/run40256759650 remains running;
+this is an unchanged product-SQL regression, not choice-preparation qualification.
+
+Optional preparation code fa402436d74ab03f91c5aa4c3c7d95d90bc3c70d,
+tree9af674ee6532e71682f8ee7f719c639edce23c90, is ready for A's contract review.
+See scripts/cp7_frozen_choice_preparation/README.md and
+ow12b/CHOICE_PREPARATION_READINESS.json. It reuses the exact compiler, sealed
+source, pack/unpack, Native job/retention guards and worker-lock observation.
+One private work row deduplicates by original job/request. Separate short request,
+step and get; READY is preparation only. Bounded retries, immutable ready payload,
+expiry clears only payload and retains identity. No timer-based work progress.
+
+Concrete A contract before shared changes: three new authenticated wrappers
+erp_cp7_{request,get,step}_frozen_choice_preparation_v1(p_source_request uuid,
+p_access text), original source request and access epoch. Two private reference
+substitutions only: candidate read and choice review_context. Public candidate
+wrapper shape stays exact; missing inputs now require preparation. Prepare BEFORE
+opening the first candidate to avoid compiling once on read then again on SAVE.
+Explicit PreparedFrozenAnalogPanel implements that ordering and keeps exact
+receipt replay available when preparation/source is unavailable. Existing
+qualified/default callers are not rerouted by B. Parent SAVE, two full current
+source checks, global FG lock, actor/request/target locks, math, command tables
+and own-delta guard are unchanged byte-for-byte. CLEAR/exact replay stay in the
+original command path.
+
+A must compose public registry, existing K4 run_next/retention hooks, parent
+verifier overlays, composed restore and a separately declared Native/Auth/factory
+qualification route before adoption. B has not edited shared F05, default
+installers, Native/supabase, A finance, or cron. Until the server hook is composed,
+the UI explicitly asks to reopen the same work and does not promise closed-page
+execution. Original measured prepare4557.743ms justifies keeping the current8s
+UNIT limit; no total8s factory rule is reinstated. No limit was raised.
+
+Focused preparation checks:15 actual local SQL groups on PGlite (controlled
+access/compiler/producer),81 client/DOM tests across6 files, TS noEmit and51SQL
+statement preflight. Exact two substitutions reverse to admitted parents.
+Local fixture/hoist failures are retained and identified; not Native qualification.
+Python catalog installer, two-session races, actual new public Auth, factory
+timing/parity, full restore and official A finance remain open. A branch reread
+f898a71f unchanged. Old choice timeout8029.112ms and calibration8003.031ms remain
+INCOMPLETE. Formal5/16; B incomplete; independent_acceptance=false,production_go=false.

@@ -4,7 +4,31 @@ Owner asked the new writer to recover the complete context of **Writer B** and
 continue without questions. This is the active B entrypoint. Earlier checkpoints
 in `HANDOFF_PRODUKSI_CLAUDE_20261023.md` remain history, with their failures intact.
 
-## Latest owner direction — 26 October 2026
+## Current implementation and evidence — progress policy applied
+
+Latest code **fa402436d74ab03f91c5aa4c3c7d95d90bc3c70d**, exact tree
+`9af674ee6532e71682f8ee7f719c639edce23c90`. Coordination213 gives A the concrete
+three-RPC optional preparation contract before shared adoption. Actual progress
+code9cddf475 passed quantity Auth Browser2 and cutting Auth Browser2; complete
+Originals/pins/F05/package/current-access/restore checked. Desktop/mobile progress
+images inspected; counts are acknowledged server work, unknown final total has
+no percentage, Close stays usable, lost replies recover the original request.
+26Originals:19Native/Auth package checks,6controlled,1interrupted. Old failures
+remain. Cutting Native6/run40256759650 still executing on9cdd; no new preparation
+runtime credit. Latest A branch f898a71f reread unchanged.
+
+The optional preparation extension reuses existing compiler/cache bindings,
+short unit limits and retention. It prepares BEFORE the candidate reader then
+reuses the same inputs during checked SAVE, avoiding duplicate factory compile.
+15 local SQL groups and81 focused client/DOM tests pass; compiler/access/producer
+are controlled in local SQL, not Native qualification. Exact parent SAVE/math/
+locks/two full-source checks/receipt replay remain unchanged. Shared public
+registry, K4/retention composition, Python installer/actual concurrency/Auth/
+factory/restore and official A finance proof remain open. Existing default
+callers are unchanged; no production or acceptance credit. Continue these
+contracts and other B scope; do not stop at this checkpoint.
+
+## Owner direction and preceding22-Original position — retained history
 
 Owner now permits large total analysis beyond8seconds with honest progress,
 short bounded stages, efficiency and safe recovery. Daily saves stay fast; heavy
