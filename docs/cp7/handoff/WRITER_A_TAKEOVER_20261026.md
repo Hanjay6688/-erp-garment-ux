@@ -8,6 +8,28 @@ Owner meminta sesi ini menggantikan chat Writer A yang penuh, memulihkan konteks
 ERP dan meneruskan A/integrasi. B boleh dibaca tetapi scope tidak ditukar. Ini
 penulis A, bukan auditor independen. Tidak ada subagent baru.
 
+## Status terbaru — kegagalan unduhan lingkungan dibedakan dari hasil ERP
+
+Keuangan e352 percobaan pertama job121711369855 gagal sebelum database siap:
+GHCR menolak unduhan dan ECR melaporkan batas data. Nol kasus bisnis, tanpa
+Original atau artefak. Log asli dan receipt tetap disimpan. Satu retry pada
+kode, oracle, platform dan batas yang sama berjalan job121725919259 dalam
+run40362500463; belum ada kredit runtime dari kandidat e352.
+
+Transport40f job121716085842 juga gagal sebelum database dengan penyebab
+unduhan yang sama. Tiga tes kontrak pencatat tahap lulus pada CI; seluruh
+enam kasus Auth/race belum berjalan. Retry belum diminta: tunggu bukti baru
+ketersediaan lingkungan dari percobaan keuangan. Jangan memutar ulang terus.
+
+UI c64 tetap run40354535892/job121696489085, tahap eksekusi suite gabungan
+dimulai16:52:05UTC. API belum menyediakan hasil kasus; tahap aktif bukan
+bukti desktop/mobile telah lulus. Satu retry sebelumnya sudah melewati
+unduhan, pembangunan host dan pemeriksaan sumber. Kandidat tetap dibekukan.
+
+Gunakan ACTIVE terbaru untuk job yang aktif. Kegagalan pertama e913/f088
+tetap INCOMPLETE, source-race06387897 tetap belum bound. Formal5/16,
+production_go=false dan independent_acceptance=false tidak berubah.
+
 
 ## Status terbaru 26 Oktober2026 16:57UTC — tiga pengujian aktif, dua kegagalan lama dipertahankan
 

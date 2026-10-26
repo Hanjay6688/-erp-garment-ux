@@ -14,10 +14,39 @@
   "run_id": 40363845158,
   "job_id": 121716085842,
   "started_at_utc": "2026-10-26T16:56:02Z",
-  "status": "RUNNING_NOT_PASS",
+  "status": "INFRASTRUCTURE_FAILED_RETRY_HELD",
   "prior_failure": "f088123ba44b68b09c88e30df04e19b312b8871d",
   "prior_actual_cases": 0,
   "phase_contract_tests": 3,
   "product_oracles_or_timeouts_changed": false,
-  "production_go": false
+  "production_go": false,
+  "first_attempt": {
+    "head": "40f041641ce336cac4be263297028172ac152202",
+    "run_id": 40363845158,
+    "job_id": 121716085842,
+    "status": "INFRASTRUCTURE_FAILED_BEFORE_DATABASE",
+    "observed_at_utc": "2026-10-26T17:22:10.546Z",
+    "cause": "GHCR toomanyrequests and ECR Data limit exceeded; existing registry fallback exhausted before disposable DB startup",
+    "failed_step": 58,
+    "actual_business_cases": 0,
+    "expected_business_cases": 6,
+    "phase_contract_tests": {
+      "count": 3,
+      "status": "PASS",
+      "workflow_step": 57
+    },
+    "original_created": false,
+    "artifact_count": 0,
+    "raw_log": {
+      "path": "transport-40f-infrastructure-first-failure.log",
+      "bytes": 1177926,
+      "sha256": "e25e288a925a00ed25669fa82a16344556795c2a5a3704c9ddd46289f4f71f21"
+    },
+    "retry_requested": false,
+    "retry_policy": "Hold until the finance retry provides new registry availability evidence. No blind repeated retries.",
+    "production_go": false
+  },
+  "observed_at_utc": "2026-10-26T17:23:15.105059+00:00",
+  "retry_count": 0,
+  "actual_business_cases": 0
 }

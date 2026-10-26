@@ -1,0 +1,14 @@
+{
+  "head": "e352901d6975346fa6a099770d179ffc6a59475d",
+  "run_id": 40362500463,
+  "first_job_id": 121711369855,
+  "status": "FAILED_INFRASTRUCTURE_BEFORE_DATABASE",
+  "actual_business_cases": 0,
+  "original_report_available": false,
+  "artifact_available": false,
+  "cause": "Supabase image pulls refused: GHCR toomanyrequests and public ECR Data limit exceeded; unchanged startup fallback exhausted.",
+  "raw_log_bytes": 1195449,
+  "raw_log_sha256": "86da22a3df5ef95067539e13d615bebf87563547de6397edf55bbbbc828b1957",
+  "observed_at_utc": "2026-10-26T17:13:32.146Z",
+  "production_go": false
+}

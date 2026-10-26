@@ -4617,3 +4617,20 @@ seven source tests and three invalid-prerequisite controls pass. All old evidenc
 remains unchanged. No B writes. Formal5/16, CP7C not started, production_go=false,
 independent_acceptance=false. Continue actual intake, diagnosis, integration and
 combined qualification; this checkpoint is not scope closure.
+
+## A / 27 Oktober2026 WIB — unduhan lingkungan gagal, hasil bisnis belum tersedia
+
+Keuangan e352 run40362500463/job121711369855 dan transport40f
+run40363845158/job121716085842 gagal pada penyiapan database: GHCR menolak
+unduhan dan ECR membatasi data. Kedua log asli dipertahankan; nol kasus bisnis,
+tanpa Original/artefak. Kegagalan ini tidak menjadi PASS atau kegagalan angka.
+
+Keuangan mendapat satu retry kode/platform/oracle/batas sama, job121725919259.
+Transport belum diulang sampai ada bukti baru ketersediaan lingkungan. Tiga tes
+kontrak pencatat tahap transport sudah lulus sebelum DB, tetapi Auth3/race3
+tetap belum diuji. Tidak ada retry otomatis kedua tanpa alasan baru.
+
+UI c64 job121696489085 telah melewati penyiapan database dan host; suite
+gabungan aktif sejak16:52:05UTC. Status tahap tidak dipakai mengarang hasil
+kasus. Source-race06387897 menunggu actuale352PASS tiga pasangan; B tidak
+diubah. Formal5/16; production_go=false; independent_acceptance=false.

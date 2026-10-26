@@ -11,9 +11,9 @@
     "sha256": "8942f8dfdef9de522e66197f3fcb377fe12fe0549313a2a521ef79d043ddf0c7"
   },
   "run_id": 40362500463,
-  "job_id": 121711369855,
+  "job_id": 121725919259,
   "started_at_utc": "2026-10-26T16:47:33Z",
-  "status": "RUNNING_NOT_PASS",
+  "status": "RETRY_RUNNING_NOT_PASS",
   "fixture_contract": "SYNTHETIC_LEGACY_PRICE_NATIVE_CURRENT_AND_OPENING_V2",
   "synthetic_legacy_price_insert_rows": 1,
   "native_historical_price_writer_credit": false,
@@ -23,5 +23,24 @@
     "status": "FAILED_MISSING_REF",
     "mutation_not_assumed": true,
     "execution_ref_advance_succeeded": true
-  }
+  },
+  "first_job_id": 121711369855,
+  "retry_count": 1,
+  "first_attempt": {
+    "head": "e352901d6975346fa6a099770d179ffc6a59475d",
+    "run_id": 40362500463,
+    "first_job_id": 121711369855,
+    "status": "FAILED_INFRASTRUCTURE_BEFORE_DATABASE",
+    "actual_business_cases": 0,
+    "original_report_available": false,
+    "artifact_available": false,
+    "cause": "Supabase image pulls refused: GHCR toomanyrequests and public ECR Data limit exceeded; unchanged startup fallback exhausted.",
+    "raw_log_bytes": 1195449,
+    "raw_log_sha256": "86da22a3df5ef95067539e13d615bebf87563547de6397edf55bbbbc828b1957",
+    "observed_at_utc": "2026-10-26T17:13:32.146Z",
+    "production_go": false
+  },
+  "retry_decision_receipt": "finance-e352-infrastructure-retry-decision.json",
+  "retry_observed_at_utc": "2026-10-26T17:23:15.105059+00:00",
+  "retry_current_step": "Admit exact A and all declared B extension sources before DB"
 }
