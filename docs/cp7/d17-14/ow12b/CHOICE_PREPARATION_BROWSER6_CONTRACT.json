@@ -1,0 +1,24 @@
+{
+  "contract": "cp7.choice-preparation-real-browser6.v1",
+  "expected_case_count": 6,
+  "required_case_ids": [
+    "PREPARATION_REOPEN_TWO_TABS_GET_ONLY",
+    "PREPARATION_MOBILE_HELD_STEP_CLOSE_USABLE",
+    "PREPARATION_LOST_ENQUEUE_RELOAD_SAME_WORK",
+    "PREPARATION_TERMINAL_FAILURE_AND_EXPIRY",
+    "PREPARATION_REVOKED_ACCESS_REDACTS",
+    "PREPARATION_HELD_STATUS_BOUNDED_RECOVERY"
+  ],
+  "actual_browser": "Chromium via pinned repository Playwright",
+  "controlled_identity": true,
+  "controlled_HTTP_RPC": true,
+  "required_actual_source_graph": true,
+  "actual_Native": false,
+  "actual_Auth_HTTP_credit": false,
+  "actual_server_idempotency_credit": false,
+  "actual_K4": false,
+  "official_finance_HPP_credit": false,
+  "production_go": false,
+  "default_adopted": false,
+  "existing_cases_limits_and_oracles_unchanged": true
+}
