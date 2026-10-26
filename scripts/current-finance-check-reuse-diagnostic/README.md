@@ -1,7 +1,8 @@
 # Same-report official readiness diagnostic; no product adoption
 
-The first two runtime failures remain INCOMPLETE, preserved with exact Original
-hashes and tracebacks in FIRST_RUNTIME_FAILURE_6BC.json and FIRST_RUNTIME_FAILURE_F038.json.
+The first three runtime failures remain INCOMPLETE, preserved with exact Original
+hashes and tracebacks in FIRST_RUNTIME_FAILURE_6BC.json, FIRST_RUNTIME_FAILURE_F038.json
+and FIRST_RUNTIME_FAILURE_E913.json.
 The f038 candidate refused the live body before it ran. SMALL official284.902ms
 was observed; no candidate, PRICE_PERCENT, factory or speedup credit exists.
 Full22/data/sequence/CP6 and advisor restoration passed.
@@ -36,6 +37,18 @@ rollback and all22catalog/data/sequence groups restored afterwards. Observed
 readiness calls must fall2to1 and global checks3to2. PRICE_PERCENT uses Native
 master import, shared-SKU price writing and opening posting with independent
 Decimal HPP and posted-stock/journal assertions. Fixture numbers are not policy.
+
+e913 SMALL passed exact whole-report equality and zero candidate writes, 296.967ms
+to220.955ms; readiness2to1/global checks3to2. PRICE_PERCENT setup then correctly
+failed BF_HISTORY for a new shared master nine days ago. No factory pair ran.
+The successor inserts exactly one labelled synthetic legacy price20.123456 in the
+disposable clone before any financial use/membership. This is fixture DML, never
+evidence of a Native historical price writer. No trigger/guard is disabled.
+The unchanged Native shared writer sets current price25.99 at clock_timestamp(),
+using its required two-decimal format. Native opening eight days ago must still
+resolve20.123456, not25.99. Exact price intervals, six-decimal HPP, posted stock
+and balanced cent-rounded journal are asserted. Report measurements begin after
+fixture setup and must still perform zero DML. Entire clone is restored as before.
 
 Actual reader7caf already proved whole-report equality and removed10,800 opening
 UPDATE attempts; factory26,189.214ms became24,800.666ms, SMALL283.237ms became284.047ms.

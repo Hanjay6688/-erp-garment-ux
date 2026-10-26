@@ -2275,14 +2275,14 @@
     "scripts/current-finance-check-reuse-diagnostic/INSTALLED_REPORT_SOURCE.json": "4f992d039416313221908829cb402aab80cf309b39443e767006fd1c7bd895e8",
     "scripts/current-finance-check-reuse-diagnostic/NATIVE_SNAPSHOT_SOURCE.json": "c7660b5f833c98268b37adf80fc83a380039c0665307f80ff56e46d19e970eaf",
     "scripts/current-finance-check-reuse-diagnostic/READINESS_LOCAL_PREFLIGHT.json": "1cac6b1082d45a190eada9bb961c57672ca374eb2fe994bf0b2941dc89a619ab",
-    "scripts/current-finance-check-reuse-diagnostic/README.md": "8578e41820d1e4b59e46582d79f92397d184a84cbca3254e7fc38fbcefe0dbf7",
+    "scripts/current-finance-check-reuse-diagnostic/README.md": "d8536b1f8a7a0dc094eb23d0e54bf5f97ea388a5f7553f5bd259a5630a415753",
     "scripts/current-finance-check-reuse-diagnostic/admission.py": "45449601c8e0f2af172d0b37cc5be1dca3a12fd25371c233d3d1374fe1c2617c",
     "scripts/current-finance-check-reuse-diagnostic/bind_sources.py": "6dce582312f9263120c1592c5b7087bf2f8264976d1c253be4c6c860168d4690",
     "scripts/current-finance-check-reuse-diagnostic/evidence.py": "84247706836ed86df79bfffd1d22c75e8c87bc6ca1240827a5132e7f6f520fa2",
     "scripts/current-finance-check-reuse-diagnostic/fetch_reader.py": "aaa6e2732aa5513998f1eea7c01a498ab09e405adb9deb10924592ec5eb6fdf4",
     "scripts/current-finance-check-reuse-diagnostic/original-snapshot-body.sql": "d8d46c707d7c8edd8500f4366c42a9b055513b8e5f842b6808489c276dfbd4d3",
     "scripts/current-finance-check-reuse-diagnostic/original-snapshot-definition.sql": "0db5c084eeda9172952253137181e0d09ff6d2b4fd9dad01b25a2a73449dedf3",
-    "scripts/current-finance-check-reuse-diagnostic/price_fixture.py": "bd8bec5093758f2b99d10eeb15e5bcc4ab51476be65018980736e4b71cac01ba",
+    "scripts/current-finance-check-reuse-diagnostic/price_fixture.py": "00fbfcd388a91a330f8c13ddd3ae5d7c7a70c13a2e9de6451b52f7e39f721dfa",
     "scripts/current-finance-check-reuse-diagnostic/probe.py": "7417c7b2ea62f6306c6d2af2863ede1112eaf33e5415785fd98ccf3eda38be67",
     "scripts/current-finance-check-reuse-diagnostic/readiness_reuse.py": "b4b4d26608690154e47497e33dee05231fa1163e16595b20ab912e08764bda79",
     "scripts/current-finance-check-reuse-diagnostic/readiness_source.py": "3447d0e13b3e1c348e7281edcd239f2170f25b21a61f6db251407ae5d1c1c099",
@@ -3745,9 +3745,11 @@
     "tsconfig.app.json": "ec45293782914673548ce66cf2727e7192a6a0f80d8650d9fe40aa895caf0b55",
     "tsconfig.contracts.json": "40601c8eae43f0d8287e9708c3e4a7440ad54e3c071b89305ff3831f4e6462ee",
     "tsconfig.json": "d85a225ae3aac2e8df18ec4dd8ac39c4bcf45a7c0c6bc06ab51e0a686c0cc48a",
-    "vite.config.ts": "ccc90fa4b08f58f0658fb9acd4eb6f77abb3affdb4fc79e9bd170ffa8745f355"
+    "vite.config.ts": "ccc90fa4b08f58f0658fb9acd4eb6f77abb3affdb4fc79e9bd170ffa8745f355",
+    "scripts/current-finance-check-reuse-diagnostic/FIRST_RUNTIME_FAILURE_E913.json": "6c9ded2eb2889f8ef9a315e1fd930b95b9e3e1dffdfecf1384e8c9b65d784bfe"
   },
   "diagnostic_only": true,
   "performance_qualification": false,
-  "production_go": false
+  "production_go": false,
+  "fixture_contract": "SYNTHETIC_LEGACY_PRICE_NATIVE_CURRENT_AND_OPENING_V2"
 }
