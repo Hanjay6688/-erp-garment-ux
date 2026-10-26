@@ -1,0 +1,285 @@
+--- a/scripts/cp7_current_progress_finance_ui/vendor/scripts/cp7_frozen_choice_preparation/client/PreparedFrozenChoicePanel.tsx
++++ b/scripts/cp7_current_progress_finance_ui/vendor/scripts/cp7_frozen_choice_preparation/client/PreparedFrozenChoicePanel.tsx
+@@ -3,7 +3,7 @@
+ import {normalizeClientError} from '../../../src/lib/clientError'
+ import {formatCp6WibDateTime} from '../../../src/cp6BusinessTime'
+ import {frozenDuration} from '../../cp7_frozen_quantity_ui/client/nativeFrozenProgress'
+-import {choicePreparationRPC,driveChoicePreparation,type ChoicePreparation} from './nativeFrozenChoicePreparation'
++import {observeChoicePreparation,driveChoicePreparation,type ChoicePreparation} from './nativeFrozenChoicePreparation'
+ 
+ type Props=ComponentProps<typeof NativeFrozenChoicePanel>
+ // Explicit optional host. Existing default/qualified hosts are not rerouted.
+@@ -22,12 +22,14 @@
+   if(f.code==='FORBIDDEN'||f.code==='AUTH_REQUIRED'){setState(null);onAccessLost(f.message)}
+  }
+  useEffect(()=>{
+-  const n=++seq.current
++  const n=++seq.current;let observed=false
+   if(!enabled||context.sourceMethod!=='FROZEN_V2')return
+   active.current=true;setBusy(true)
+-  void choicePreparationRPC(client,'get',context).then(s=>{if(n===seq.current)setState(s)},e=>{
++  void observeChoicePreparation(client,context,{current:()=>n===seq.current,status:s=>{
++   observed=true;setState(s);active.current=false;setBusy(false)
++  }}).catch(e=>{
+    if(n!==seq.current)return
+-   if(!(e&&typeof e==='object'&&'message'in e&&e.message==='CP7_CHOICE_PREPARATION_NOT_STARTED'))report(e)
++   if(observed||!(e&&typeof e==='object'&&'message'in e&&e.message==='CP7_CHOICE_PREPARATION_NOT_STARTED'))report(e)
+   }).finally(()=>{if(n===seq.current){active.current=false;setBusy(false)}})
+   return()=>{++seq.current;active.current=false}
+  // The enclosing immutable identity key remounts on every context/permission change.
+--- a/scripts/cp7_current_progress_finance_ui/vendor/scripts/cp7_frozen_choice_preparation/client/nativeFrozenChoicePreparation.ts
++++ b/scripts/cp7_current_progress_finance_ui/vendor/scripts/cp7_frozen_choice_preparation/client/nativeFrozenChoicePreparation.ts
+@@ -30,18 +30,31 @@
+  if(reply.error)throw reply.error
+  return parseChoicePreparation(reply.data,c)
+ }
+-export async function driveChoicePreparation(client:unknown,c:AnalogReadContext,options:{current:()=>boolean;status:(s:ChoicePreparation)=>void;now?:()=>number;pause?:()=>Promise<void>}){
++type MonitorOptions={current:()=>boolean;status:(s:ChoicePreparation)=>void;now?:()=>number;pause?:()=>Promise<void>}
++export function driveChoicePreparation(client:unknown,c:AnalogReadContext,options:MonitorOptions){
++ return monitorChoicePreparation(client,c,options,true)
++}
++// Reopening observes the original work; it never enqueues or executes a unit.
++// Explicit continuation remains available and retires this read-only monitor.
++export function observeChoicePreparation(client:unknown,c:AnalogReadContext,options:MonitorOptions){
++ return monitorChoicePreparation(client,c,options,false)
++}
++async function monitorChoicePreparation(client:unknown,c:AnalogReadContext,options:MonitorOptions,drive:boolean){
+  const now=options.now??(()=>performance.now()),pause=options.pause??(()=>new Promise(resolve=>setTimeout(resolve,2000)))
+  if(!options.current())return null
+- const started=now();let s=await choicePreparationRPC(client,'request',c)
++ let advancedAt=now(),progress:string|null=null,s=await choicePreparationRPC(client,drive?'request':'get',c)
+  while(options.current()){
+   options.status(s)
+   if(!options.current())return null
+   if(['READY','FAILED','EXPIRED'].includes(s.state))return s
+-  if(now()-started>=FROZEN_NO_PROGRESS_MS)throw Error(FROZEN_STALL_MESSAGE)
++  // Only persisted progress resets the monitor. Lock observations may alternate
++  // QUEUED/RUNNING without any completed work and cannot extend this deadline.
++  const next=JSON.stringify([s.unitsDone,s.attempts,s.updatedAt])
++  if(next!==progress){progress=next;advancedAt=now()}
++  else if(now()-advancedAt>=FROZEN_NO_PROGRESS_MS)throw Error(FROZEN_STALL_MESSAGE)
+   // This is one bounded preparation unit, not a total factory-analysis limit.
+   // No progress is invented while another transaction owns the same unit.
+-  if(s.state==='RUNNING'){await pause();if(!options.current())return null;s=await choicePreparationRPC(client,'get',c)}
++  if(!drive||s.state==='RUNNING'){await pause();if(!options.current())return null;s=await choicePreparationRPC(client,'get',c)}
+   else s=await choicePreparationRPC(client,'step',c)
+  }
+  return null
+--- a/scripts/cp7_current_progress_finance_ui/vendor/scripts/cp7_frozen_choice_preparation/client/nativeFrozenChoicePreparation.test.ts
++++ b/scripts/cp7_current_progress_finance_ui/vendor/scripts/cp7_frozen_choice_preparation/client/nativeFrozenChoicePreparation.test.ts
+@@ -1,6 +1,6 @@
+ import {expect,it,vi} from 'vitest'
+ import {analogContext} from '../../../tests/fixtures/nativeProductAnalog'
+-import {parseChoicePreparation,choicePreparationRPC,driveChoicePreparation} from './nativeFrozenChoicePreparation'
++import {parseChoicePreparation,choicePreparationRPC,driveChoicePreparation,observeChoicePreparation} from './nativeFrozenChoicePreparation'
+ const context=()=>({...analogContext(),sourceMethod:'FROZEN_V2' as const})
+ import {prepReply} from './preparationFixture'
+ it('does not enqueue work after the caller was retired',async()=>{
+@@ -56,3 +56,23 @@
+  const rpc=vi.fn().mockResolvedValue({data:prepReply('FAILED'),error:null})
+  expect((await driveChoicePreparation({rpc},context(),{current:()=>true,status:()=>{}}))?.state).toBe('FAILED');expect(rpc).toHaveBeenCalledOnce()
+ })
++it('persisted retry progress resets observation time even when total time exceeds two minutes',async()=>{
++ let clock=0,index=0
++ const replies=[prepReply('RUNNING'),{...prepReply('RUNNING'),unit_attempts:1,last_progress_at:'2026-10-26T01:00:02.123456Z'},prepReply('READY')]
++ const rpc=vi.fn(async(_name:string)=>({data:replies[index++],error:null})),status=vi.fn()
++ expect((await observeChoicePreparation({rpc},context(),{current:()=>true,status,now:()=>clock,pause:async()=>{clock+=119000}}))?.state).toBe('READY')
++ expect(clock).toBe(238000);expect(rpc.mock.calls.every(([name])=>name==='erp_cp7_get_frozen_choice_preparation_v1')).toBe(true)
++ expect(status.mock.calls.map(([s])=>s.unitsDone)).toEqual([0,0,1])
++})
++it('changing only the observed worker lock never resets the no-progress deadline',async()=>{
++ let clock=0,index=0
++ const rpc=vi.fn(async()=>({data:prepReply(index++%2?'QUEUED':'RUNNING'),error:null}))
++ await expect(observeChoicePreparation({rpc},context(),{current:()=>true,status:()=>{},now:()=>clock,pause:async()=>{clock+=60000}})).rejects.toThrow('proses server belum dinyatakan gagal')
++ expect(rpc).toHaveBeenCalledTimes(3)
++})
++it('retirement while waiting to poll prevents the next read',async()=>{
++ let current=true
++ const rpc=vi.fn().mockResolvedValue({data:prepReply('RUNNING'),error:null})
++ expect(await observeChoicePreparation({rpc},context(),{current:()=>current,status:()=>{},pause:async()=>{current=false}})).toBeNull()
++ expect(rpc).toHaveBeenCalledOnce()
++})
+--- /dev/null
++++ b/scripts/cp7_current_progress_finance_ui/vendor/scripts/cp7_frozen_choice_preparation/client/ChoicePreparationReopen.dom.test.tsx
+@@ -0,0 +1,105 @@
++// @vitest-environment jsdom
++import {act} from 'react'
++import {createRoot,type Root} from 'react-dom/client'
++import {beforeEach,afterEach,it,expect,vi} from 'vitest'
++import {ChoicePreparationGate} from './PreparedFrozenChoicePanel'
++import {analogContext} from '../../../tests/fixtures/nativeProductAnalog'
++import {prepReply} from './preparationFixture'
++
++let root:Root,container:HTMLDivElement
++const client={rpc:vi.fn()},lost=vi.fn()
++const context={...analogContext(),sourceMethod:'FROZEN_V2' as const}
++const response=(state:string)=>({data:prepReply(state),error:null})
++const advance=async(ms:number)=>act(async()=>{await vi.advanceTimersByTimeAsync(ms)})
++const mount=async()=>act(async()=>{
++ root.render(<ChoicePreparationGate client={client} context={context} scope="test:reopen" enabled onAccessLost={lost}>{ready=><span data-ready={String(ready)}/>}</ChoicePreparationGate>)
++ await vi.advanceTimersByTimeAsync(0)
++})
++const continuation=()=>[...container.querySelectorAll('button')].find(b=>b.textContent==='Lanjutkan persiapan yang sama')!
++beforeEach(()=>{
++ vi.useFakeTimers();Object.assign(globalThis,{IS_REACT_ACT_ENVIRONMENT:true})
++ client.rpc.mockReset();lost.mockReset()
++ container=document.createElement('div');document.body.append(container);root=createRoot(container)
++})
++afterEach(async()=>{await act(async()=>root.unmount());container.remove();vi.useRealTimers();vi.restoreAllMocks()})
++
++it('reopened running work reaches READY through status reads alone',async()=>{
++ client.rpc.mockResolvedValueOnce(response('RUNNING')).mockResolvedValue(response('READY'))
++ await mount();expect(container.textContent).toContain('Menyiapkan data pembanding')
++ expect(continuation().disabled).toBe(false)
++ await advance(2000)
++ expect(container.textContent).toContain('Persiapan selesai. Pilihan belum disimpan.')
++ expect(container.querySelector('[data-ready]')?.getAttribute('data-ready')).toBe('true')
++ expect(client.rpc.mock.calls).toEqual(Array(2).fill(['erp_cp7_get_frozen_choice_preparation_v1',{p_source_request:context.requestId,p_access:context.accessEpoch}]))
++ await advance(10000);expect(client.rpc).toHaveBeenCalledTimes(2)
++})
++
++it('reopened queued work observes a real terminal failure without starting work',async()=>{
++ client.rpc.mockResolvedValueOnce(response('QUEUED')).mockResolvedValue(response('FAILED'))
++ await mount();await advance(2000)
++ expect(container.textContent).toContain('Persiapan gagal. Pilihan belum disimpan.')
++ expect(container.querySelector('[data-ready]')?.getAttribute('data-ready')).toBe('false')
++ await advance(10000);expect(client.rpc).toHaveBeenCalledTimes(2)
++ expect(client.rpc.mock.calls.every(([name])=>name==='erp_cp7_get_frozen_choice_preparation_v1')).toBe(true)
++})
++
++it('unchanged reopened work stops monitoring honestly and leaves same-work recovery enabled',async()=>{
++ client.rpc.mockResolvedValue(response('RUNNING'))
++ await mount();await advance(120000)
++ expect(container.querySelector('[role=alert]')?.textContent).toContain('proses server belum dinyatakan gagal')
++ expect(container.textContent).not.toContain('Persiapan gagal.')
++ expect(continuation().disabled).toBe(false)
++ const calls=client.rpc.mock.calls.length
++ await advance(10000);expect(client.rpc).toHaveBeenCalledTimes(calls)
++})
++
++it('revoked access during reopened polling clears the state and stops further reads',async()=>{
++ client.rpc.mockResolvedValueOnce(response('RUNNING')).mockResolvedValue({data:null,error:{code:'42501',status:403,message:'CP7_ACCESS_DENIED'}})
++ await mount();await advance(2000)
++ expect(lost).toHaveBeenCalledOnce();expect(container.textContent).not.toContain('Menyiapkan data pembanding')
++ expect(container.querySelector('[data-ready]')?.getAttribute('data-ready')).toBe('false')
++ await advance(10000);expect(client.rpc).toHaveBeenCalledTimes(2)
++})
++
++it('does not overlap status reads and ignores a poll that completes after closing',async()=>{
++ let resolve!:(r:unknown)=>void
++ client.rpc.mockResolvedValueOnce(response('RUNNING')).mockImplementation(()=>new Promise(r=>{resolve=r}))
++ await mount();await advance(2000);expect(client.rpc).toHaveBeenCalledTimes(2)
++ await advance(6000);expect(client.rpc).toHaveBeenCalledTimes(2)
++ await act(async()=>root.render(null))
++ await act(async()=>{resolve(response('READY'));await vi.advanceTimersByTimeAsync(0)})
++ await advance(10000);expect(container.textContent).toBe('');expect(client.rpc).toHaveBeenCalledTimes(2)
++})
++
++it('an older poll cannot replace the result of explicit continuation of the same work',async()=>{
++ let resolve!:(r:unknown)=>void
++ client.rpc.mockResolvedValueOnce(response('RUNNING')).mockImplementation((name:string)=>{
++  if(name==='erp_cp7_get_frozen_choice_preparation_v1')return new Promise(r=>{resolve=r})
++  return Promise.resolve(response(name==='erp_cp7_request_frozen_choice_preparation_v1'?'QUEUED':'READY'))
++ })
++ await mount();await advance(2000)
++ await act(async()=>{continuation().click();await vi.advanceTimersByTimeAsync(0)})
++ expect(container.querySelector('[data-ready]')?.getAttribute('data-ready')).toBe('true')
++ await act(async()=>{resolve(response('FAILED'));await vi.advanceTimersByTimeAsync(0)})
++ await advance(10000)
++ expect(container.textContent).toContain('Persiapan selesai. Pilihan belum disimpan.')
++ expect(client.rpc.mock.calls.map(([name])=>name)).toEqual(['erp_cp7_get_frozen_choice_preparation_v1','erp_cp7_get_frozen_choice_preparation_v1','erp_cp7_request_frozen_choice_preparation_v1','erp_cp7_step_frozen_choice_preparation_v1'])
++ expect(client.rpc.mock.calls.every(([,args])=>args.p_source_request===context.requestId&&args.p_access===context.accessEpoch)).toBe(true)
++})
++
++it('a lost status response stops after the existing reply bound without creating another work',async()=>{
++ client.rpc.mockResolvedValueOnce(response('RUNNING')).mockImplementation(()=>new Promise(()=>{}))
++ await mount();await advance(32000)
++ expect(container.querySelector('[role=alert]')?.textContent).toContain('Hasil permintaan belum diketahui')
++ expect(continuation().disabled).toBe(false)
++ await advance(10000);expect(client.rpc).toHaveBeenCalledTimes(2)
++ expect(client.rpc.mock.calls.every(([name])=>name==='erp_cp7_get_frozen_choice_preparation_v1')).toBe(true)
++})
++
++it('disappeared work after an observed status is reported instead of silently keeping RUNNING',async()=>{
++ client.rpc.mockResolvedValueOnce(response('RUNNING')).mockResolvedValue({data:null,error:{message:'CP7_CHOICE_PREPARATION_NOT_STARTED'}})
++ await mount();await advance(2000)
++ expect(container.querySelector('[role=alert]')).not.toBeNull()
++ expect(continuation().disabled).toBe(false)
++ await advance(10000);expect(client.rpc).toHaveBeenCalledTimes(2)
++})
+--- a/scripts/cp7_current_progress_finance_ui/B_SOURCE.json
++++ b/scripts/cp7_current_progress_finance_ui/B_SOURCE.json
+@@ -1,6 +1,6 @@
+ {
+   "contract": "cp7.current-progress-finance-ui.sources.v1",
+-  "B_source_head": "b96e2f7402b3373f9ab5fa7ede30d34a7048aea3",
++  "B_source_head": "d6fad0d2303bfe39531afdbe62f6faec95f79046",
+   "A_backend_parent": "821a7e79354ffa1f3fc73b9690c372d38f235a27",
+   "files": [
+     {
+@@ -40,6 +40,12 @@
+       "sha256": "436566225d1df160c19204639bda4cdc10de34e6909e781488f96c3e86dc77b5"
+     },
+     {
++      "path": "scripts/cp7_frozen_choice_preparation/client/ChoicePreparationReopen.dom.test.tsx",
++      "vendored_path": "vendor/scripts/cp7_frozen_choice_preparation/client/ChoicePreparationReopen.dom.test.tsx",
++      "bytes": 6639,
++      "sha256": "7dd1e7804c4d875f124297724aa7278ba1b039ba4ea8de19ee11eb8263e44904"
++    },
++    {
+       "path": "scripts/cp7_frozen_choice_preparation/client/PreparedFrozenAnalogPanel.dom.test.tsx",
+       "vendored_path": "vendor/scripts/cp7_frozen_choice_preparation/client/PreparedFrozenAnalogPanel.dom.test.tsx",
+       "bytes": 6112,
+@@ -60,20 +66,20 @@
+     {
+       "path": "scripts/cp7_frozen_choice_preparation/client/PreparedFrozenChoicePanel.tsx",
+       "vendored_path": "vendor/scripts/cp7_frozen_choice_preparation/client/PreparedFrozenChoicePanel.tsx",
+-      "bytes": 4586,
+-      "sha256": "bc4700de422f411820b0557848e9286264fad46157583745576247beb39dc6a2"
++      "bytes": 4693,
++      "sha256": "1953c19ec41f85e50ab09f17fa2726dd0fb8c06a3a39e60a8f7737773da4e289"
+     },
+     {
+       "path": "scripts/cp7_frozen_choice_preparation/client/nativeFrozenChoicePreparation.test.ts",
+       "vendored_path": "vendor/scripts/cp7_frozen_choice_preparation/client/nativeFrozenChoicePreparation.test.ts",
+-      "bytes": 4700,
+-      "sha256": "4b7279329fa416113b92f6c07a452a8f0179245e4722348157eaa084cdc21cb2"
++      "bytes": 6213,
++      "sha256": "1b788b198903f9a099fc3ca67f8d3d2f9bf393e0351db8492c1b894484801563"
+     },
+     {
+       "path": "scripts/cp7_frozen_choice_preparation/client/nativeFrozenChoicePreparation.ts",
+       "vendored_path": "vendor/scripts/cp7_frozen_choice_preparation/client/nativeFrozenChoicePreparation.ts",
+-      "bytes": 4142,
+-      "sha256": "6d25b9c5e8b869e0ccf89fa0576dd3b019e3ed7a6250d58bf2b6cbf54502c9e5"
++      "bytes": 4993,
++      "sha256": "039ed68488e501eed6044d3ca8bfc4cb1aada43e85b1039f429d9804878bde8b"
+     },
+     {
+       "path": "scripts/cp7_frozen_choice_preparation/client/preparationFixture.ts",
+--- a/scripts/cp7_current_progress_finance_ui/source_guard.py
++++ b/scripts/cp7_current_progress_finance_ui/source_guard.py
+@@ -24,7 +24,7 @@
+ def verify():
+     declaration = json.loads((HERE / 'B_SOURCE.json').read_bytes())
+     files = declaration['files']
+-    assert len(files) == len({f['vendored_path'] for f in files}) == 90
++    assert len(files) == len({f['vendored_path'] for f in files}) == 91
+     for f, original in zip(files, originals(declaration['B_source_head'], files), strict=True):
+         raw = (HERE / f['vendored_path']).read_bytes()
+         assert len(raw) == f['bytes'] and sha256(raw).hexdigest() == f['sha256'], f['path']
+@@ -42,11 +42,11 @@
+         raw = path.read_bytes()
+         assert len(raw) == f['bytes'] and sha256(raw).hexdigest() == f['sha256'], f['path']
+     tests = json.loads((HERE / 'LOCAL_TESTS.json').read_bytes())
+-    assert tests['success'] and tests['numPassedTests'] == tests['numTotalTests'] == 179
++    assert tests['success'] and tests['numPassedTests'] == tests['numTotalTests'] == 190
+     assert tests['numFailedTests'] == tests['numPendingTests'] == 0
+-    assert len(tests['testResults']) == 16 and all(t['status'] == 'passed' for t in tests['testResults'])
++    assert len(tests['testResults']) == 17 and all(t['status'] == 'passed' for t in tests['testResults'])
+     return dict(B_exact_files=len(files), compiled_source_files=len(graph['files']),
+-                local_tests=179, local_test_files=16, runtime_credit=False, production_go=False)
++                local_tests=190, local_test_files=17, runtime_credit=False, production_go=False)
+ 
+ if __name__ == '__main__':
+     print(json.dumps(verify()))

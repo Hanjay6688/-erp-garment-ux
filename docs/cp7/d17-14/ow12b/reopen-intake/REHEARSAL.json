@@ -1,0 +1,171 @@
+{
+  "A_host": "0f818812a79013c926fcb54e949b0923bf1622ea",
+  "A_browser": "1b095460e307160d9700d71c447852367984ee68",
+  "B_product": "d6fad0d2303bfe39531afdbe62f6faec95f79046",
+  "B_browser_qualified": "e94e80375ecf16919bed2f6d2f3d191f094875b8",
+  "files": [
+    {
+      "path": "scripts/cp7_current_progress_finance_ui/vendor/scripts/cp7_frozen_choice_preparation/client/PreparedFrozenChoicePanel.tsx",
+      "before_sha256": "bc4700de422f411820b0557848e9286264fad46157583745576247beb39dc6a2",
+      "after_sha256": "1953c19ec41f85e50ab09f17fa2726dd0fb8c06a3a39e60a8f7737773da4e289",
+      "before_bytes": 4586,
+      "after_bytes": 4693
+    },
+    {
+      "path": "scripts/cp7_current_progress_finance_ui/vendor/scripts/cp7_frozen_choice_preparation/client/nativeFrozenChoicePreparation.ts",
+      "before_sha256": "6d25b9c5e8b869e0ccf89fa0576dd3b019e3ed7a6250d58bf2b6cbf54502c9e5",
+      "after_sha256": "039ed68488e501eed6044d3ca8bfc4cb1aada43e85b1039f429d9804878bde8b",
+      "before_bytes": 4142,
+      "after_bytes": 4993
+    },
+    {
+      "path": "scripts/cp7_current_progress_finance_ui/vendor/scripts/cp7_frozen_choice_preparation/client/nativeFrozenChoicePreparation.test.ts",
+      "before_sha256": "4b7279329fa416113b92f6c07a452a8f0179245e4722348157eaa084cdc21cb2",
+      "after_sha256": "1b788b198903f9a099fc3ca67f8d3d2f9bf393e0351db8492c1b894484801563",
+      "before_bytes": 4700,
+      "after_bytes": 6213
+    },
+    {
+      "path": "scripts/cp7_current_progress_finance_ui/vendor/scripts/cp7_frozen_choice_preparation/client/ChoicePreparationReopen.dom.test.tsx",
+      "before_sha256": null,
+      "after_sha256": "7dd1e7804c4d875f124297724aa7278ba1b039ba4ea8de19ee11eb8263e44904",
+      "before_bytes": 0,
+      "after_bytes": 6639
+    },
+    {
+      "path": "scripts/cp7_current_progress_finance_ui/B_SOURCE.json",
+      "before_sha256": "c80bddedf5c275b6cb287c8c72e37388af753ff2104226af0f0e9d922434f8a9",
+      "after_sha256": "477438f2a6db99756e6ad4d3f4be6637e4e314286d94f2616d5cd7809410f536",
+      "before_bytes": 22644,
+      "after_bytes": 22975
+    },
+    {
+      "path": "scripts/cp7_current_progress_finance_ui/source_guard.py",
+      "before_sha256": "6c89215e55bf8f8f4a1788c88fec508338ad6142854eefcffa2ca103e57ec5e8",
+      "after_sha256": "f4752cc5a478917fd50dcfa09252796745f66812a784eab7e27c092ab900f1de",
+      "before_bytes": 2653,
+      "after_bytes": 2653
+    }
+  ],
+  "patch_sha256": "2cba5a201979937ae4a81eed64e3494a309b3d5bac32a766d8e6ee9532c471b2",
+  "changed_existing_B_files": 3,
+  "unchanged_existing_B_files": 87,
+  "new_B_tests": 1,
+  "expected_after_tests": 190,
+  "expected_after_files": 17,
+  "A_source_unchanged": true,
+  "before_new_regressions": {
+    "PASS": 0,
+    "FAIL": 8
+  },
+  "after": {
+    "PASS": 190,
+    "files": 17,
+    "old179_case_ids_preserved_and_passed": true,
+    "additional_assertions": 11,
+    "typescript": "PASS",
+    "compiled_modules": 79,
+    "compiled_paths_unchanged": true,
+    "changed_compiled_modules": [
+      "scripts/cp7_current_progress_finance_ui/vendor/scripts/cp7_frozen_choice_preparation/client/PreparedFrozenChoicePanel.tsx",
+      "scripts/cp7_current_progress_finance_ui/vendor/scripts/cp7_frozen_choice_preparation/client/nativeFrozenChoicePreparation.ts"
+    ],
+    "source_guard": {
+      "B_exact_files": 91,
+      "compiled_source_files": 79,
+      "local_tests": 190,
+      "local_test_files": 17,
+      "runtime_credit": false,
+      "production_go": false
+    }
+  },
+  "negative_controls": [
+    {
+      "stale_file": "B_SOURCE.json",
+      "rejected": true
+    },
+    {
+      "stale_file": "BUILD_SOURCE.json",
+      "rejected": true
+    },
+    {
+      "stale_file": "LOCAL_TESTS.json",
+      "rejected": true
+    }
+  ],
+  "first_rehearsal_setup_failure": {
+    "cause": "Sparse rehearsal initially omitted exact A dependency roots cp7_current_analysis_progress and cp7_current_frozen_finance_ui",
+    "partial_pass": 173,
+    "failed_to_load_suites": 3,
+    "not_product_failure": true,
+    "fixed_only_by_materializing_same_A_head": true
+  },
+  "old_A_branch_or_worktree_modified": false,
+  "actual_Native": false,
+  "actual_Auth_HTTP_credit": false,
+  "actual_browser": false,
+  "factory_performance_credit": false,
+  "official_finance_HPP_credit": false,
+  "composed_restore_credit": false,
+  "default_adopted": false,
+  "independent_acceptance": false,
+  "production_go": false,
+  "contract": "cp7.B-reopen-A-host-intake-proposal.v1",
+  "A_browser_host_byte_exact_to_host": true,
+  "A_adoption": "NOT_APPLIED; A is sole integrator",
+  "raw_evidence": {
+    "archive": "ERP_Writer_B_Reopen_Evidence_20261026.zip",
+    "version": 2,
+    "bytes": 82297,
+    "sha256": "4f12669bc60daa4ae9fc1ed6b9c5281ad6db513836e2d9c439934b1c5cb0ddef",
+    "prior_members_preserved": 19
+  },
+  "before_assertions": [
+    {
+      "name": "reopened running work reaches READY through status reads alone",
+      "status": "failed"
+    },
+    {
+      "name": "reopened queued work observes a real terminal failure without starting work",
+      "status": "failed"
+    },
+    {
+      "name": "unchanged reopened work stops monitoring honestly and leaves same-work recovery enabled",
+      "status": "failed"
+    },
+    {
+      "name": "revoked access during reopened polling clears the state and stops further reads",
+      "status": "failed"
+    },
+    {
+      "name": "does not overlap status reads and ignores a poll that completes after closing",
+      "status": "failed"
+    },
+    {
+      "name": "an older poll cannot replace the result of explicit continuation of the same work",
+      "status": "failed"
+    },
+    {
+      "name": "a lost status response stops after the existing reply bound without creating another work",
+      "status": "failed"
+    },
+    {
+      "name": "disappeared work after an observed status is reported instead of silently keeping RUNNING",
+      "status": "failed"
+    }
+  ],
+  "raw_report_hashes": {
+    "b-reopen-intake-before.json": {
+      "bytes": 7670,
+      "sha256": "73c5a9077563a728a21bbadb5f8ecdc1b50127a3626979b76758188c9ec634db"
+    },
+    "b-reopen-intake-missing-dependencies.json": {
+      "bytes": 54329,
+      "sha256": "e26cc0c37941ef73a0c0574fc1d00eab41c935f76eeb8bbddaaa21bfe607827c"
+    },
+    "after_LOCAL_TESTS.json": {
+      "bytes": 58675,
+      "sha256": "0c8f535827419e3bda0b033527c7f51ae2fa0a13ca43a1dad3688436511fda1d"
+    }
+  }
+}
