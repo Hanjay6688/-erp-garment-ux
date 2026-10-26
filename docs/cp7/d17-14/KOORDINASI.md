@@ -4321,3 +4321,36 @@ Transport baru c07672ab (Auth3/race3) dan UI8cb06927 tetapUNBOUND, menunggu
 Native6 aktualPASS. Sumber produk tetap sama. Diagnosis pembaca HPP7caf6b84/
 run40300049475 masih berjalan pada pengamatan ini; tidak ada klaim hasilnya.
 Formal5/16; independent_acceptance=false; production_go=false; CP7C belum dimulai.
+
+
+## 26 Oktober2026 — A: pembaca laporan tanpa UPDATE terbukti; pengulangan pemeriksa masih mahal
+
+Actual7caf6b84/run40300049475/job121495423311/artifact12644706605 selesai PASS diagnostik.
+Original5.137.654byte SHA256be866e88e095447c042fa9cdbf93ab225f3b95e1cf5ace8bf0f524de9f5bcdf4;
+ZIP2.987.699byte SHA256a0fe9df8f66e188122347c37a9d58dfb0cea6814920bc1d5b3d73348631baa45.
+A memverifikasi3.702pin, lima gerbang paket, seluruh22katalog/data/sequence, CP6 dan advisor.
+SMALL laporan persis:283,237ms resmi vs284,047ms kandidat; FACTORY1200x3 persis:
+26.189,214ms vs24.800,666ms. Kandidat nol usaha DML; resmi10.800UPDATEopeningitem.
+Hanya report.captured_at dikecualikan dari pembanding laporan lengkap. Ini tidak
+mengesahkan produk, metodePRICE_PERCENT, source-race, kinerja atau pabrik selesai.
+
+Profilea569 sebelumnya11.679,017ms pada jalur resmi tetap bukti asli. Kenaikan pada
+runbaru belum terjelaskan: jumlah panggilan utama tetap, tetapi waktu beberapa
+fungsi naik sekitar2kali. Belum ada bukti cukup untuk menuduh server, planner,
+atau sumber tertentu. Batas waktu tidak dinaikkan; kegagalan terdahulu tetap.
+
+A menyiapkan percobaan berikutnya pada namespacebaru
+scripts/current-finance-check-reuse-diagnostic/ dan workflowmilikA saja. Dua
+pemanggilan run_v268_financial_report_checks di get_owner_financial_snapshot_v2
+akan digabung sementara menjadi satu SELECT: sumCRITICAL/WARNING atas seluruh
+baris dan JSONrincianpositif dengan urutan yang sama. Pratutupbuku tetap menjalankan
+pemeriksa sendiri, sehingga total3menjadi2; tidak ada cache/client-suppliedresult.
+Di luar satu blok agregasi, body asli persis. Kandidat hanya di transaksi rollback,
+rumus/penulisposting asli tetap. Uji NativePRICE_PERCENT melaluiimportmaster,
+hargaSKUbersama danpostingopening ikut membandingkan HPP, stok dan jurnal secara
+terpisah. Source-race tetap terbuka. Btidak perlu mengubah API/produk untuk percobaanAini.
+
+Native6 penerus9a943ea4/run40308822607 sedang berjalan. UIpreparedfd0ffe66 dan
+transportprepared8b3c49b3 menunggu actualPASS6. Bhead1dd83782 dicek baca-saja dan
+belum berubah. Formal5/16, CP7C belum dimulai, independent_acceptance=false,
+production_go=false. Integrator tunggalA; tidak ada edit cabang/worktreeB.
