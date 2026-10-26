@@ -14,6 +14,12 @@
       "run_id": 40324974838,
       "job_id": 121579218692,
       "scope": "Focused Native6: exact retention column access, actual plan/reminder document preservation, all prior case guards"
+    },
+    {
+      "head": "f038a6ecc5a71278554eab62ab7df4f4ced9b7bc",
+      "run_id": 40327902313,
+      "job_id": 121589286821,
+      "scope": "Exact composed-source snapshot-check reuse diagnostic; SMALL, PRICE_PERCENT and FACTORY_1200X3"
     }
   ],
   "actual_new_component": {
@@ -4373,9 +4379,9 @@
     "actual_predecessor_required": "54676bcc969b950dd1ec52eb7feba2d7e58a8cb4 PASS"
   },
   "progress_finance_UI_browser_prepared": {
-    "head": "fd0ffe661e4bbc22a7b541f7422be91b3eec1fbd",
-    "local": "05257053af42926a200a2dad48cb2bb75812405f",
-    "tree": "f459f5042abf9133dfc012c1c846dd2dfbecf54d",
+    "head": "d50dc97e98740f03b1ed104c820ca6353b7f00fa",
+    "local": "a0067047f444ad5cd1f5e0bf3a01237ba9aa2bce",
+    "tree": "7ebe3483c108554a39f51850dc48dbdcaac470ab",
     "branch": "astra-a/d17-18-progress-finance-ui-browser-prepared-20261026",
     "status": "PREPARED_UNBOUND_NOT_EXECUTED",
     "host_exact_files": 113,
@@ -4388,7 +4394,7 @@
     "total_business_guards": 27,
     "shell_steps_checked": 47,
     "source_bound": false,
-    "actual_predecessor_required": "9a943ea4cc4d24a92a2af1c3e678bd3d0bddfc14 actual PASS6",
+    "actual_predecessor_required": "bfed0a81252e597842b9b9020ecc061cca936d54 actual PASS6",
     "actual_browser": false,
     "actual_database": false,
     "production_go": false,
@@ -4398,9 +4404,11 @@
     "host_tests": 190,
     "host_test_files": 17,
     "host_typecheck": "PASS",
-    "blocked_by": "Actual corrected Native6 PASS6 unavailable; a3ce first runtime INCOMPLETE",
-    "imported_Native6_harness_head": "9a943ea4cc4d24a92a2af1c3e678bd3d0bddfc14",
-    "current_private_info_live_review": true
+    "blocked_by": "Actual bfed Native6 still running",
+    "imported_Native6_harness_head": "bfed0a81252e597842b9b9020ecc061cca936d54",
+    "current_private_info_live_review": true,
+    "complete_product_source_equal_Native6": true,
+    "unbound_admission_refused_before_database": true
   },
   "previous_running_before_corrected_profile_intake": [
     {
@@ -4616,8 +4624,8 @@
   },
   "choice_preparation_transport6": {
     "recorded_at_utc": "2026-10-26T10:04:30.854167+00:00",
-    "head": "8b3c49b31b96ea9be3a628d2dad6f5f3028d7c93",
-    "tree": "ccb89f2a91d04365b21bcd12805411daa1e96bd2",
+    "head": "058b8f980f133e94f8e5d8a8810779df1261697f",
+    "tree": "f7acfee2d8597ecb08ac5da5635f313b0aba47a4",
     "local_commit": "785f1ff7204c9addd936aad41ed4f688114e1e8c",
     "branch": "astra-a/d17-18-choice-transport-prepared-20261026",
     "status": "PREPARED_UNBOUND_NOT_EXECUTED",
@@ -4659,10 +4667,10 @@
       "scripts/current-choice-preparation-transport-qualification/fetch_original.py": "cffaa000a1908cb44034cfdba358b88320c3c2521eee67d3a4271fc9c30bdf49"
     },
     "next": "Bind only to actual full choice Native6 PASS Original, admit all sources, then run scoped real Auth3/race3",
-    "blocked_by": "Actual corrected Native6 PASS6 unavailable; a3ce first runtime INCOMPLETE",
-    "actual_predecessor_required": "9a943ea4cc4d24a92a2af1c3e678bd3d0bddfc14 actual PASS6",
-    "local": "0ef43259a07021f7ab8bfb669208af1f4e342d2e",
-    "imported_Native6_harness_head": "9a943ea4cc4d24a92a2af1c3e678bd3d0bddfc14",
+    "blocked_by": "Actual bfed Native6 still running",
+    "actual_predecessor_required": "bfed0a81252e597842b9b9020ecc061cca936d54 actual PASS6",
+    "local": "395a7ad37e7b70fc5eb2bbec553a719813faef67",
+    "imported_Native6_harness_head": "bfed0a81252e597842b9b9020ecc061cca936d54",
     "current_private_info_live_review": true,
     "source_bound": false
   },
@@ -5160,14 +5168,44 @@
     "actual_predecessor_required": "9a943ea4cc4d24a92a2af1c3e678bd3d0bddfc14 actual PASS6"
   },
   "latest_prepared_admission": {
-    "UI_oracle_tests": 5,
-    "UI_guard_negative_controls": 5,
-    "UI_shell_steps": 47,
-    "transport_Python_AST": 10,
-    "transport_shell_steps": 46,
-    "transport_product_source_equal_Native6": true,
-    "unbound_refused_before_database": true,
-    "actual_runtime": false
+    "current-choice-preparation-transport-qualification": {
+      "status": "PREPARED_ONLY",
+      "product_equal_retention_native6": true,
+      "unbound_refused_before_database": true,
+      "case_ids": [
+        "CURRENT_CHOICE_AUTH_COLD_REOPEN_PREPARE_SAVE_REPLAY",
+        "CURRENT_CHOICE_AUTH_CHANGED_SOURCE_REFUSES_SAVE",
+        "CURRENT_CHOICE_AUTH_FOREIGN_EPOCH_ANON_REVOKED",
+        "CURRENT_CHOICE_RACE_ENQUEUE_SAME_WORK",
+        "CURRENT_CHOICE_RACE_STEP_SAME_PAYLOAD",
+        "CURRENT_CHOICE_RACE_REVOKED_AFTER_WORK"
+      ],
+      "actual_runtime_credit": false,
+      "production_go": false
+    },
+    "current-progress-finance-ui-browser-qualification": {
+      "status": "PREPARED_ONLY",
+      "product_equal_retention_native6": true,
+      "unbound_refused_before_database": true,
+      "case_ids": [
+        "A_PROGRESS_FINANCE_BROWSER_DESKTOP_REAL_AUTH_LOST_REPLY_REPLAY_OFFICIAL24",
+        "A_PROGRESS_FINANCE_BROWSER_MOBILE_REAL_AUTH_BLOCKED_REPORT_ACCESS_REVOKED"
+      ],
+      "actual_runtime_credit": false,
+      "production_go": false,
+      "host_guard": {
+        "B_exact_files": 91,
+        "compiled_source_files": 79,
+        "local_tests": 190,
+        "local_test_files": 17,
+        "runtime_credit": false,
+        "production_go": false,
+        "host_exact_files": 113,
+        "business_guards": 27,
+        "separate_full_clones": 2,
+        "actual_browser_executed": false
+      }
+    }
   },
   "previous_running_before_reader7caf_PASS": [
     {
@@ -8049,115 +8087,29 @@
     ]
   ],
   "finance_check_reuse_diagnostic": {
-    "head": "6bc45a178b1e28ff0265ed42d0f93ea81714105a",
-    "parent": "7caf6b84a357ab670ac0e4c0c190fadb2738c2e7",
-    "tree": "0dc6665b86b9a4bbef85e55f8a3ed36feea79cdb",
-    "local": "8b578b85486e44247c7297e2d22c6b7105bfca26",
+    "parent": "6bc45a178b1e28ff0265ed42d0f93ea81714105a",
+    "base_tree": "0dc6665b86b9a4bbef85e55f8a3ed36feea79cdb",
+    "local": "6c619de2984573618d9f67200ff73da486dce548",
+    "tree": "30596bc32e9c65fac7c164c92577ccae88f36e9d",
+    "public_head": "f038a6ecc5a71278554eab62ab7df4f4ced9b7bc",
     "branch": "astra-a/d17-18-finance-check-reuse-diagnostic-20261026",
-    "source_pins": 3716,
-    "files": [
-      {
-        "path": ".github/workflows/cp7-d17-18-finance-check-reuse-diagnostic.yml",
-        "mode": "100644",
-        "type": "blob",
-        "sha": "b473e321a2239260ce079f76708a87f9b2cd0f2c"
-      },
-      {
-        "path": "scripts/current-finance-check-reuse-diagnostic/NATIVE_SNAPSHOT_SOURCE.json",
-        "mode": "100644",
-        "type": "blob",
-        "sha": "0cdec970a626e700dc86b9a13e6e82d6a91245fe"
-      },
-      {
-        "path": "scripts/current-finance-check-reuse-diagnostic/README.md",
-        "mode": "100644",
-        "type": "blob",
-        "sha": "73162a2f925d446837b92edc8d91569fe8379ca9"
-      },
-      {
-        "path": "scripts/current-finance-check-reuse-diagnostic/SOURCE.json",
-        "mode": "100644",
-        "type": "blob",
-        "sha": "7d982290eabde237bd3190f5641187849f596197"
-      },
-      {
-        "path": "scripts/current-finance-check-reuse-diagnostic/admission.py",
-        "mode": "100644",
-        "type": "blob",
-        "sha": "d26dc6b0d9ca27e9a1508ab5af1121f91b906a56"
-      },
-      {
-        "path": "scripts/current-finance-check-reuse-diagnostic/bind_sources.py",
-        "mode": "100644",
-        "type": "blob",
-        "sha": "0dd0e08bc3efb5dfa35e76395534a30b66911ede"
-      },
-      {
-        "path": "scripts/current-finance-check-reuse-diagnostic/evidence.py",
-        "mode": "100644",
-        "type": "blob",
-        "sha": "fe89983b85bc501ea8096e1e1a90dbe20f93b283"
-      },
-      {
-        "path": "scripts/current-finance-check-reuse-diagnostic/fetch_reader.py",
-        "mode": "100644",
-        "type": "blob",
-        "sha": "c2bff23ee4654d33c7f2f2beebe1453f2e456257"
-      },
-      {
-        "path": "scripts/current-finance-check-reuse-diagnostic/original-snapshot-body.sql",
-        "mode": "100644",
-        "type": "blob",
-        "sha": "727324cc51cc59ba583b8ca1c294b3ddb17b61c6"
-      },
-      {
-        "path": "scripts/current-finance-check-reuse-diagnostic/price_fixture.py",
-        "mode": "100644",
-        "type": "blob",
-        "sha": "bc10cdddd347a221b38ff3c1aa240de2b3f6669b"
-      },
-      {
-        "path": "scripts/current-finance-check-reuse-diagnostic/probe.py",
-        "mode": "100644",
-        "type": "blob",
-        "sha": "20fdb0cf95757e985cc72d50f642b120842420bc"
-      },
-      {
-        "path": "scripts/current-finance-check-reuse-diagnostic/reuse.py",
-        "mode": "100644",
-        "type": "blob",
-        "sha": "a00adc07e47035d1faf8e9746047dcb4bb2a8e87"
-      },
-      {
-        "path": "scripts/current-finance-check-reuse-diagnostic/runner.py",
-        "mode": "100644",
-        "type": "blob",
-        "sha": "e9daf527a5de673e9eba46b2062154edd5c3cbfb"
-      },
-      {
-        "path": "scripts/current-finance-check-reuse-diagnostic/test_reuse.py",
-        "mode": "100644",
-        "type": "blob",
-        "sha": "7097a9751aa052cac850d95da03d6558ed6c0088"
-      }
-    ],
-    "full_admission": {
-      "status": "PASS",
-      "source_pins": 3716,
-      "actual_originals": 10,
-      "bytes": 3902094,
-      "sha256": "f049fc256560fc48b2743a5f3fdfea9f7cc7874e88966ebe010b9020a4c06602"
-    },
-    "local_transformation_tests": 3,
-    "Python_AST": 9,
-    "shell_steps": 47,
+    "status": "IN_PROGRESS",
     "production_go": false,
-    "independent_acceptance": false,
-    "run_id": 40314220814,
-    "job_id": 121542647741,
-    "status": "ACTUAL_INCOMPLETE_BEFORE_CANDIDATE_SOURCE_MISMATCH",
-    "local_source_checkout_after_admission": "Unchanged large evidence excluded again after successful full admission; rehydrate before rerunning full admission.",
-    "error": "SNAPSHOT_REUSE_LIVE_BODY_CHANGED"
+    "run_id": 40327902313,
+    "job_id": 121589286821,
+    "head": "f038a6ecc5a71278554eab62ab7df4f4ced9b7bc",
+    "source_pins": 3722,
+    "full_source_admission": {
+      "status": "PASS",
+      "bytes": 3903020,
+      "sha256": "48fc482e3cedec26198fc36d623d71c97710077a42e4965923ecf73d4ca3c734"
+    },
+    "local_tests": 5,
+    "negative_body_mutations": 7,
+    "Python_AST": 10,
+    "shell_steps": 47,
+    "actual_runtime_qualified": false,
+    "prior6bc_stays_INCOMPLETE": true
   },
   "finance_check_reuse_diagnostic_previous_local": {
     "local": "8b578b85486e44247c7297e2d22c6b7105bfca26",
@@ -8397,6 +8349,248 @@
     "production_go": false
   },
   "finance_source_race_prepared": {
+    "public_head": "c0b77a89759caeb78ddaa75fce0f4da3fd6a965a",
+    "local": "411e1a4a9317cc5a1925ec6f53c740e7ec207c13",
+    "tree": "c46feff1ede428a98a44c35e27de9633efd88599",
+    "parent": "70072fface936ec1cfba6ea2de6d42e8cda5c405",
+    "branch": "astra-a/d17-18-finance-source-race-prepared-20261026",
+    "files": [
+      "scripts/current-finance-check-reuse-diagnostic/COMPOSED_LOCAL_PREFLIGHT.json",
+      "scripts/current-finance-check-reuse-diagnostic/COMPOSED_SNAPSHOT_SOURCE.json",
+      "scripts/current-finance-check-reuse-diagnostic/FIRST_LOCAL_COMPOSED_SOURCE_ISSUE.json",
+      "scripts/current-finance-check-reuse-diagnostic/FIRST_RUNTIME_FAILURE_6BC.json",
+      "scripts/current-finance-check-reuse-diagnostic/README.md",
+      "scripts/current-finance-check-reuse-diagnostic/SOURCE.json",
+      "scripts/current-finance-check-reuse-diagnostic/original-snapshot-definition.sql",
+      "scripts/current-finance-check-reuse-diagnostic/reuse.py",
+      "scripts/current-finance-check-reuse-diagnostic/snapshot_source.py",
+      "scripts/current-finance-check-reuse-diagnostic/test_reuse.py",
+      "scripts/current-finance-reader-source-race-qualification/COMPOSED_PREPARED_PREFLIGHT.json",
+      "scripts/current-finance-reader-source-race-qualification/PREPARED_REUSE_SUCCESSOR.json",
+      "scripts/current-finance-reader-source-race-qualification/README.md",
+      "scripts/current-finance-reader-source-race-qualification/admission.py",
+      "scripts/current-finance-reader-source-race-qualification/bind_sources.py",
+      "scripts/current-finance-reader-source-race-qualification/evidence.py",
+      "scripts/current-finance-reader-source-race-qualification/fetch_reuse.py",
+      "scripts/current-finance-reader-source-race-qualification/probe.py",
+      "scripts/current-finance-reader-source-race-qualification/runner.py"
+    ],
+    "status": "PREPARED_UNBOUND",
+    "production_go": false,
+    "head": "c0b77a89759caeb78ddaa75fce0f4da3fd6a965a",
+    "expected_actual_reuse": "f038a6ecc5a71278554eab62ab7df4f4ced9b7bc PASS",
+    "source_bound": false,
+    "workflow_created": false,
+    "outer_probe_full_restore_prepared": true,
+    "preflight": {
+      "AST_files": 8,
+      "unbound_refused_before_DB": true,
+      "prerequisite_negative_controls": 3,
+      "instrumentation_negative_controls": 3
+    },
+    "actual_runtime_qualified": false
+  },
+  "dependent_qualification_boundary": {
+    "required_actual_native": "bfed0a81252e597842b9b9020ecc061cca936d54 PASS",
+    "ui": "Exact bfed product and harness imported; awaiting actualPASS before binding",
+    "transport": "Exact bfed product and harness imported; awaiting actualPASS before binding",
+    "source_race": "Exact f038 sources and full outer boundary prepared; awaiting actualPASS before binding",
+    "no_binding_executed": true
+  },
+  "finance_check_reuse_diagnostic_before_composed_successor": {
+    "head": "6bc45a178b1e28ff0265ed42d0f93ea81714105a",
+    "parent": "7caf6b84a357ab670ac0e4c0c190fadb2738c2e7",
+    "tree": "0dc6665b86b9a4bbef85e55f8a3ed36feea79cdb",
+    "local": "8b578b85486e44247c7297e2d22c6b7105bfca26",
+    "branch": "astra-a/d17-18-finance-check-reuse-diagnostic-20261026",
+    "source_pins": 3716,
+    "files": [
+      {
+        "path": ".github/workflows/cp7-d17-18-finance-check-reuse-diagnostic.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "b473e321a2239260ce079f76708a87f9b2cd0f2c"
+      },
+      {
+        "path": "scripts/current-finance-check-reuse-diagnostic/NATIVE_SNAPSHOT_SOURCE.json",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "0cdec970a626e700dc86b9a13e6e82d6a91245fe"
+      },
+      {
+        "path": "scripts/current-finance-check-reuse-diagnostic/README.md",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "73162a2f925d446837b92edc8d91569fe8379ca9"
+      },
+      {
+        "path": "scripts/current-finance-check-reuse-diagnostic/SOURCE.json",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "7d982290eabde237bd3190f5641187849f596197"
+      },
+      {
+        "path": "scripts/current-finance-check-reuse-diagnostic/admission.py",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "d26dc6b0d9ca27e9a1508ab5af1121f91b906a56"
+      },
+      {
+        "path": "scripts/current-finance-check-reuse-diagnostic/bind_sources.py",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "0dd0e08bc3efb5dfa35e76395534a30b66911ede"
+      },
+      {
+        "path": "scripts/current-finance-check-reuse-diagnostic/evidence.py",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "fe89983b85bc501ea8096e1e1a90dbe20f93b283"
+      },
+      {
+        "path": "scripts/current-finance-check-reuse-diagnostic/fetch_reader.py",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "c2bff23ee4654d33c7f2f2beebe1453f2e456257"
+      },
+      {
+        "path": "scripts/current-finance-check-reuse-diagnostic/original-snapshot-body.sql",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "727324cc51cc59ba583b8ca1c294b3ddb17b61c6"
+      },
+      {
+        "path": "scripts/current-finance-check-reuse-diagnostic/price_fixture.py",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "bc10cdddd347a221b38ff3c1aa240de2b3f6669b"
+      },
+      {
+        "path": "scripts/current-finance-check-reuse-diagnostic/probe.py",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "20fdb0cf95757e985cc72d50f642b120842420bc"
+      },
+      {
+        "path": "scripts/current-finance-check-reuse-diagnostic/reuse.py",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "a00adc07e47035d1faf8e9746047dcb4bb2a8e87"
+      },
+      {
+        "path": "scripts/current-finance-check-reuse-diagnostic/runner.py",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "e9daf527a5de673e9eba46b2062154edd5c3cbfb"
+      },
+      {
+        "path": "scripts/current-finance-check-reuse-diagnostic/test_reuse.py",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "7097a9751aa052cac850d95da03d6558ed6c0088"
+      }
+    ],
+    "full_admission": {
+      "status": "PASS",
+      "source_pins": 3716,
+      "actual_originals": 10,
+      "bytes": 3902094,
+      "sha256": "f049fc256560fc48b2743a5f3fdfea9f7cc7874e88966ebe010b9020a4c06602"
+    },
+    "local_transformation_tests": 3,
+    "Python_AST": 9,
+    "shell_steps": 47,
+    "production_go": false,
+    "independent_acceptance": false,
+    "run_id": 40314220814,
+    "job_id": 121542647741,
+    "status": "ACTUAL_INCOMPLETE_BEFORE_CANDIDATE_SOURCE_MISMATCH",
+    "local_source_checkout_after_admission": "Unchanged large evidence excluded again after successful full admission; rehydrate before rerunning full admission.",
+    "error": "SNAPSHOT_REUSE_LIVE_BODY_CHANGED"
+  },
+  "progress_finance_UI_browser_prepared_before_retention_import": {
+    "head": "fd0ffe661e4bbc22a7b541f7422be91b3eec1fbd",
+    "local": "05257053af42926a200a2dad48cb2bb75812405f",
+    "tree": "f459f5042abf9133dfc012c1c846dd2dfbecf54d",
+    "branch": "astra-a/d17-18-progress-finance-ui-browser-prepared-20261026",
+    "status": "PREPARED_UNBOUND_NOT_EXECUTED",
+    "host_exact_files": 113,
+    "B_exact_files": 91,
+    "fixture_exact_prior_UI_head": "389326f6d251499559f353638adc4fa1d5c76ffa",
+    "compiled_source_modules": 79,
+    "case_module_imports": 2,
+    "oracle_unit_tests": 5,
+    "new_guard_negative_controls": 5,
+    "total_business_guards": 27,
+    "shell_steps_checked": 47,
+    "source_bound": false,
+    "actual_predecessor_required": "9a943ea4cc4d24a92a2af1c3e678bd3d0bddfc14 actual PASS6",
+    "actual_browser": false,
+    "actual_database": false,
+    "production_go": false,
+    "independent_acceptance": false,
+    "host_head": "6213baf1d9226317f279e88f449889e1597c1486",
+    "B_source_head": "d6fad0d2303bfe39531afdbe62f6faec95f79046",
+    "host_tests": 190,
+    "host_test_files": 17,
+    "host_typecheck": "PASS",
+    "blocked_by": "Actual corrected Native6 PASS6 unavailable; a3ce first runtime INCOMPLETE",
+    "imported_Native6_harness_head": "9a943ea4cc4d24a92a2af1c3e678bd3d0bddfc14",
+    "current_private_info_live_review": true
+  },
+  "choice_preparation_transport6_before_retention_import": {
+    "recorded_at_utc": "2026-10-26T10:04:30.854167+00:00",
+    "head": "8b3c49b31b96ea9be3a628d2dad6f5f3028d7c93",
+    "tree": "ccb89f2a91d04365b21bcd12805411daa1e96bd2",
+    "local_commit": "785f1ff7204c9addd936aad41ed4f688114e1e8c",
+    "branch": "astra-a/d17-18-choice-transport-prepared-20261026",
+    "status": "PREPARED_UNBOUND_NOT_EXECUTED",
+    "preflight": {
+      "status": "SOURCE_PREFLIGHT_PASS",
+      "case_ids": [
+        "CURRENT_CHOICE_AUTH_COLD_REOPEN_PREPARE_SAVE_REPLAY",
+        "CURRENT_CHOICE_AUTH_CHANGED_SOURCE_REFUSES_SAVE",
+        "CURRENT_CHOICE_AUTH_FOREIGN_EPOCH_ANON_REVOKED",
+        "CURRENT_CHOICE_RACE_ENQUEUE_SAME_WORK",
+        "CURRENT_CHOICE_RACE_STEP_SAME_PAYLOAD",
+        "CURRENT_CHOICE_RACE_REVOKED_AFTER_WORK"
+      ],
+      "Python_AST_files": 10,
+      "shell_steps_parsed": 46,
+      "actual_Auth_HTTP_credit": false,
+      "actual_race_credit": false,
+      "bound": false,
+      "production_go": false
+    },
+    "complete_product_source_equal_Native6": true,
+    "unbound_admission_refused_before_database": true,
+    "actual_Auth_HTTP_credit": false,
+    "actual_race_credit": false,
+    "production_go": false,
+    "independent_acceptance": false,
+    "files": {
+      "scripts/current-choice-preparation-transport-qualification/cases.py": "76203e8f01179e91dd9d0e4d5a39873f4ba653d74ad764bc36e396ca18ae321e",
+      "scripts/current-choice-preparation-transport-qualification/admission.py": "1aa8f229e28b5d98b8923e08448904e789ebef551b025817fb2aada4abf6415b",
+      "scripts/current-choice-preparation-transport-qualification/race_cases.py": "1bb17d39d9c1aedc6f01de87f677d8d5e09b76d7a6579a818f488d56fea1265e",
+      "scripts/current-choice-preparation-transport-qualification/http_cases.py": "f9642239fdead839d930e25d37d7a81e3ebbf494bc5dd2f332199d1caefa60a2",
+      "scripts/current-choice-preparation-transport-qualification/evidence.py": "8cace2ba4dfe2ee8d84299affa38e3ce19e1fa14ed22ee6c61bf4c934f6e444a",
+      "scripts/current-choice-preparation-transport-qualification/CONFIG.json": "d8a1be39360f24905dac1828bb85010ded6faa85abf47a677f3ef8ffba57be09",
+      "scripts/current-choice-preparation-transport-qualification/README.md": "008469ffc8097a98c6e37497d06cc68a68e4f140390a94869a1c15c24daee022",
+      "scripts/current-choice-preparation-transport-qualification/probe.py": "a31b7b9a42e8b283459ee70e398488371cc3b720fdb3d637658ac45451d4a215",
+      "scripts/current-choice-preparation-transport-qualification/common.py": "486d42cd74c9f2b1f1aff9a258971afaec76df1d252ce38eba7e52d6e2ec480c",
+      "scripts/current-choice-preparation-transport-qualification/preflight.py": "52cf0c3c7583f927afcd27bce4fbdaf3ecb9804cc42812e6f910f1f89b6bf504",
+      "scripts/current-choice-preparation-transport-qualification/bind_source.py": "e90f0ab969390c6aa0ccf0fd39012119153b8ac7da4ceec07c18034b4edfc436",
+      "scripts/current-choice-preparation-transport-qualification/fetch_original.py": "cffaa000a1908cb44034cfdba358b88320c3c2521eee67d3a4271fc9c30bdf49"
+    },
+    "next": "Bind only to actual full choice Native6 PASS Original, admit all sources, then run scoped real Auth3/race3",
+    "blocked_by": "Actual corrected Native6 PASS6 unavailable; a3ce first runtime INCOMPLETE",
+    "actual_predecessor_required": "9a943ea4cc4d24a92a2af1c3e678bd3d0bddfc14 actual PASS6",
+    "local": "0ef43259a07021f7ab8bfb669208af1f4e342d2e",
+    "imported_Native6_harness_head": "9a943ea4cc4d24a92a2af1c3e678bd3d0bddfc14",
+    "current_private_info_live_review": true,
+    "source_bound": false
+  },
+  "finance_source_race_before_composed_import": {
     "head": "70072fface936ec1cfba6ea2de6d42e8cda5c405",
     "parent": "6bc45a178b1e28ff0265ed42d0f93ea81714105a",
     "tree": "6a4d85c6a9b4404b97696e62b2dcd7e48c5789ee",
@@ -8443,12 +8637,5 @@
       }
     ],
     "production_go": false
-  },
-  "dependent_qualification_boundary": {
-    "required_actual_native": "bfed0a81252e597842b9b9020ecc061cca936d54 PASS",
-    "ui": "PREPARED_UNBOUND; exact retention source import still required",
-    "transport": "PREPARED_UNBOUND; exact retention source import still required",
-    "source_race": "BLOCKED on corrected reuse actualPASS; prior6bc INCOMPLETE",
-    "no_binding_executed": true
   }
 }

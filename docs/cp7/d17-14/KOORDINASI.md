@@ -4417,3 +4417,31 @@ Source-race70072ffa sudah tersimpan di cabang prepared milikA, tanpa SOURCE atau
 workflow eksekusi. Prasyarat6bc gagal, maka belum boleh dijalankan. Sesudah
 penerus optimasi aktualPASS, impor sumber persis dan perbarui binding dahulu.
 B tidak diedit. Formal5/16; CP7C belum; independent_acceptance=false; production_go=false.
+
+
+## [bersama] A26 Okt2026 — sumber keuangan gabungan dibetulkan; uji lanjutan tetap berprasyarat
+
+Kegagalan6bc tetap INCOMPLETE: pembanding sebelumnya adalah fungsi Native sebelum
+pemasang resmi menambahkan pembaca siklus nota/retur dan akun. Kandidat f038a6ecc5a71278554eab62ab7df4f4ced9b7bc
+memakai kedua transformasi resmi yang sama dan tetap menolak satu byte sumber live
+yang berbeda. Tidak ada normalisasi hasil, perubahan rumus, cache angka, atau
+kenaikan batas waktu. Pemeriksaan penuh3722sumber lulus;5uji transformasi dengan
+7mutasi negatif,10AST dan47langkah shell lulus. Run40327902313/job121589286821
+sedang berjalan; belum ada bukti runtime maupun kredit performa baru.
+
+Paket layar d50dc97e98740f03b1ed104c820ca6353b7f00fa dan akses/race
+058b8f980f133e94f8e5d8a8810779df1261697f sudah mengimpor12berkas retensi
+bfed persis. Kedua produk sama dengan sumber Native6;113berkas host layar tetap
+tepat. CONFIG tetapnull dan SOURCE belum dibuat. Penolakan prasyarat sebelumDB
+terbukti; pemeriksa layar diberi alasan eksplisit yang sama, sesudah kesalahan
+lokal pertama berupa SOURCE belum ada disimpan. Menunggu bfed actualPASS6.
+
+Persiapan uji sumber berubah c0b77a89759caeb78ddaa75fce0f4da3fd6a965a
+mengimpor10berkas koreksi keuangan persis dan menyiapkan batas luar pasang/copot
+prapakai, penjaga setelahpakai, restore penuh22kelompok/data/urutan/CP6/advisor.
+Prasyarat tiga pasangan uji aktual, panggilan3menjadi2, sumber live lengkap dan
+PRICE_PERCENT tidak dikurangi. SOURCE dan workflow belum dibuat; menunggu
+f038actualPASS. Uji lokal8AST serta3penolakan prasyarat dan3penjaga instrumen
+lulus, bukan bukti database. B tidak ditulis; kandidat berjalan tidak diubah.
+Formal tetap5/16, production_go=false, independent_acceptance=false, CP7Cbelum
+dimulai. Checkpoint bukan akhir tugas; lanjutkan hasil aktual dan integrasi.
