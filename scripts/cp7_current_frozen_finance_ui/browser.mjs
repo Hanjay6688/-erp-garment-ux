@@ -35,6 +35,13 @@ async function journey(ui,today,built,mobile){
   try{
     f=fixture('prepare',{today,actor,scenario:mobile?'BLOCKED_POSTED_FIXTURE':'READY_BASELINE'});before=f.before
     assert.equal(f.browser_job_created,false)
+    if(mobile)assert.equal(f.source_preparation,null)
+    else{
+      assert.equal(f.source_preparation.after.status,'READY')
+      assert.equal(f.source_preparation.readiness_rules_unchanged,true)
+      assert.equal(f.source_preparation.report_output_not_fabricated,true)
+      assert.deepEqual(f.source_preparation.attendance.refused,[])
+    }
     await page.setViewportSize(mobile?{width:390,height:844}:{width:1440,height:1000})
     await page.route('**/rest/v1/rpc/*',async route=>{
       const name=new URL(route.request().url()).pathname.split('/').at(-1),args=route.request().postDataJSON(),started=performance.now(),response=await route.fetch(),body=await response.json(),millis=performance.now()-started
@@ -101,7 +108,7 @@ async function journey(ui,today,built,mobile){
     for(const c of requests)assert.deepEqual(c.args.p_query,{...f.query,finance_mode:'STAGED'})
     assert.ok(calls.some(c=>c.name===PAGES&&c.status===200));assert.ok(calls.filter(c=>c.name===OP).every(c=>!Object.hasOwn(c.args.p_query,'finance_mode')))
     assert.ok(calls.every(c=>c.millis<8000));assert.deepEqual(await page.evaluate(()=>navigator.locks.query()),{held:[],pending:[]})
-    return{status:'PASS',actual_AuthProvider:true,actual_AuthGate:true,actual_Auth_PostgREST_browser:true,actual_public_finance_RPC:true,actual_operational_DEFERRED_no_capture:true,operational_DONE_finance_RUNNING:true,official_sections_and_24_metrics_equal:true,official_readiness:result.readiness,all24_READY_figures_rendered:!mobile,BLOCKED_figures_withheld_UNKNOWN_not_zero:mobile,independent_book_signature:true,private_SQL_finance_advancement_not_cron:true,actual_lost_reply_same_UUID_reopen:!mobile,actual_mobile_finance_permission_revocation:mobile,one_finance_capture:true,sealed_operational_original_unchanged:true,no_stock_money_HPP_effect:true,viewport:mobile?390:1440,no_horizontal_overflow:true,visible_text_contrasts:contrasts,shots,source_paths:built.source_paths,source_sha256:built.source_sha256,actual_call_timings:calls.map(({name,status,millis})=>({name,status,millis})),full_factory_finance_qualified:false,new_B_analog_and_cutting_qualified:false,default_application_adopted:false,production_go:false}
+    return{status:'PASS',fixture_source_preparation:f.source_preparation,actual_AuthProvider:true,actual_AuthGate:true,actual_Auth_PostgREST_browser:true,actual_public_finance_RPC:true,actual_operational_DEFERRED_no_capture:true,operational_DONE_finance_RUNNING:true,official_sections_and_24_metrics_equal:true,official_readiness:result.readiness,all24_READY_figures_rendered:!mobile,BLOCKED_figures_withheld_UNKNOWN_not_zero:mobile,independent_book_signature:true,private_SQL_finance_advancement_not_cron:true,actual_lost_reply_same_UUID_reopen:!mobile,actual_mobile_finance_permission_revocation:mobile,one_finance_capture:true,sealed_operational_original_unchanged:true,no_stock_money_HPP_effect:true,viewport:mobile?390:1440,no_horizontal_overflow:true,visible_text_contrasts:contrasts,shots,source_paths:built.source_paths,source_sha256:built.source_sha256,actual_call_timings:calls.map(({name,status,millis})=>({name,status,millis})),full_factory_finance_qualified:false,new_B_analog_and_cutting_qualified:false,default_application_adopted:false,production_go:false}
   }catch(error){mkdirSync('cp6-proof/t3',{recursive:true});writeFileSync(`cp6-proof/t3/A_FROZEN_FINANCE_${mobile?'MOBILE':'DESKTOP'}_FAILURE.json`,JSON.stringify({error:String(error),calls,alerts:await page.getByRole('alert').allTextContents().catch(()=>[])},null,2));await shot('FAILURE').catch(()=>{});throw error}
   finally{if(revoked)fixture('restore_finance',{actor,permission:revoked.permission});await other?.context.close();await user.context.close()}
 }

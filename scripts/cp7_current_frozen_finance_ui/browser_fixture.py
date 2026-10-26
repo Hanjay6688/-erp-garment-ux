@@ -19,6 +19,26 @@ finally:
     sys.argv=_fixture_argv
 native,staged,plan=helpers.native,helpers.staged,helpers.plan
 
+def prepare_ready_sources(cur,today):
+    """Complete labelled seed obligations in this disposable clone via retained writers.
+
+    The first baseline was correctly BLOCKED. Never alter report output, pool
+    policy, posted sources or readiness rules to manufacture a positive case.
+    """
+    dates={'from':str(today),'to':str(today),'as_of':str(today)}
+    before=native.finance.official(cur,dates)['snapshot']['data_confidence']
+    pools=helpers.chain.prepare_attendance_pools(cur,today)
+    staged.b.api.admin(cur)
+    start=cur.execute('select erp.period_completeness_from_v1()').fetchone()[0]
+    assert start is not None and start<=today
+    attendance=helpers.chain.period.aw.quiet_seed(cur,start,today)
+    assert not attendance['refused'],('POSITIVE_FIXTURE_SOURCE_COMPLETION_REFUSED',attendance)
+    after=native.finance.official(cur,dates)['snapshot']['data_confidence']
+    assert after['status']=='READY',('BASELINE_OFFICIAL_REPORT_NOT_READY',after)
+    return dict(fixture_only=True,path='retained Native period, attendance, payroll and HPP pool writers',
+                before=before,pools=pools,attendance=attendance,after=after,
+                readiness_rules_unchanged=True,report_output_not_fabricated=True)
+
 def state(cur,actor):
     staged.b.api.admin(cur)
     jobs=cur.execute('select request_id::text,id::text,run_id::text,state,reference from cp7_analysis_stage.jobs where actor=%s order by captured_at,request_id',(actor,)).fetchall()
@@ -38,13 +58,14 @@ def main():
             today=date.fromisoformat(p['today'])
             assert p['scenario'] in ('READY_BASELINE','BLOCKED_POSTED_FIXTURE')
             if p['scenario']=='BLOCKED_POSTED_FIXTURE':native.setup(cur,today)
-            # The positive case reads the fresh installed clone without adding
-            # unfinished production. Never repair readiness by editing facts.
+            source_preparation=None
+            # The clone contains deliberately unfinished historical seed sources.
+            # Complete them through the retained Native fixture before capturing
+            # the no-analysis-write baseline. The mobile fixture stays BLOCKED.
             if p['scenario']=='READY_BASELINE':
-                report=native.finance.official(cur,{'from':str(today),'to':str(today),'as_of':str(today)})
-                assert report['snapshot']['data_confidence']['status']=='READY',('BASELINE_OFFICIAL_REPORT_NOT_READY',report['snapshot']['data_confidence'])
+                source_preparation=prepare_ready_sources(cur,today)
             before=state(cur,actor);assert before['jobs']==[] and before['captures']==[]
-            out=dict(query=staged.query(today),before=before,browser_job_created=False,scenario=p['scenario'])
+            out=dict(query=staged.query(today),before=before,browser_job_created=False,scenario=p['scenario'],source_preparation=source_preparation)
         elif op=='state':out=state(cur,actor)
         elif op=='read':
             key=str(uuid.UUID(p['request']));job=staged.status(cur,key,actor);assert job['state']=='DONE'

@@ -6,7 +6,7 @@
     "exact_B_files": 77,
     "qualified_A_backend_unchanged": true,
     "production_go": false,
-    "source_business_guards": 17,
+    "source_business_guards": 22,
     "separate_full_clones": 2,
     "actual_browser_executed": false
   },
@@ -67,6 +67,21 @@
       "status": "REFUSED"
     },
     {
+      "path": "scripts/cp7_current_frozen_finance_ui/browser.mjs",
+      "guard": "assert.equal(f.source_preparation.after.status,'READY')",
+      "status": "REFUSED"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/browser.mjs",
+      "guard": "assert.equal(f.source_preparation.readiness_rules_unchanged,true)",
+      "status": "REFUSED"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/browser.mjs",
+      "guard": "assert.equal(f.source_preparation.report_output_not_fabricated,true)",
+      "status": "REFUSED"
+    },
+    {
       "path": "scripts/cp7_current_frozen_finance_ui/browser_fixture.py",
       "guard": "u.path=='/cp6_auditor_browser'",
       "status": "REFUSED"
@@ -95,6 +110,16 @@
       "path": "scripts/cp7_current_frozen_finance_ui/browser_fixture.py",
       "guard": "private_SQL_advancement_only=True",
       "status": "REFUSED"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/browser_fixture.py",
+      "guard": "helpers.chain.prepare_attendance_pools(cur,today)",
+      "status": "REFUSED"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/browser_fixture.py",
+      "guard": "helpers.chain.period.aw.quiet_seed(cur,start,today)",
+      "status": "REFUSED"
     }
   ],
   "bash_steps": 46,
@@ -107,7 +132,7 @@
   "fixture_CLI_import_with_prepare": true,
   "fixture_CLI_arguments_preserved": true,
   "fixture_import_database_forbidden": true,
-  "readiness_oracle": "Fresh independent desktop clone must prove official report READY; posted mobile fixture must remain BLOCKED as observed in Native52. No source facts rewritten to force READY.",
+  "readiness_oracle": "Desktop disposable seed obligations completed through retained Native period, attendance, payroll and HPP pool writers before the official READY assertion. Mobile remains BLOCKED. No readiness rule or report output rewritten.",
   "positive_baseline_READY_runtime_proven": false,
   "SOURCE_bound": false,
   "actual_database": false,

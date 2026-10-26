@@ -13,6 +13,9 @@ REQUIRED={
   "assert.equal(replay.status,403)",
   "await route.abort('failed')",
   "await route.fulfill({response})",
+  "assert.equal(f.source_preparation.after.status,'READY')",
+  "assert.equal(f.source_preparation.readiness_rules_unchanged,true)",
+  "assert.equal(f.source_preparation.report_output_not_fabricated,true)",
  ],
  'scripts/cp7_current_frozen_finance_ui/browser_fixture.py':[
   "u.path=='/cp6_auditor_browser'",
@@ -21,6 +24,8 @@ REQUIRED={
   "original['financial_source'] is None",
   "helpers.ready(cur,key,actor)",
   'private_SQL_advancement_only=True',
+  'helpers.chain.prepare_attendance_pools(cur,today)',
+  'helpers.chain.period.aw.quiet_seed(cur,start,today)',
  ],
 }
 def check(repo,here,overrides=None):

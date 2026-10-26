@@ -20,7 +20,7 @@ def main():
                 try:guard.check(REPO,HERE,{path:text.replace(required,'REMOVED_BUSINESS_GUARD',1)})
                 except (AssertionError,SyntaxError):negatives.append(dict(path=path,guard=required,status='REFUSED'))
                 else:raise AssertionError(('NEGATIVE_GUARD_ACCEPTED',path,required))
-        assert len(negatives)==17
+        assert len(negatives)==22
         for p in [*HERE.glob('*.py'),REPO/'scripts/cp7_current_frozen_finance_ui/browser_fixture.py']:ast.parse(p.read_text())
         workflow=yaml.safe_load((REPO/'.github/workflows/cp7-current-frozen-finance-ui-browser.yml').read_text())
         steps=[s for j in workflow['jobs'].values() for s in j['steps'] if 'run' in s]
@@ -49,7 +49,7 @@ print('FIXTURE_CLI_IMPORT_PASS')
         assert modules['cases']==2 and modules['browser_executed'] is False
         result=dict(status='PASS_LOCAL_PREPARATION_ONLY',positive=positive,negative_controls=negatives,
                     bash_steps=len(steps),module_check=modules,fixture_CLI_import_with_prepare=True,fixture_CLI_arguments_preserved=True,fixture_import_database_forbidden=True,
-                    readiness_oracle='Fresh independent desktop clone must prove official report READY; posted mobile fixture must remain BLOCKED as observed in Native52. No source facts rewritten to force READY.',
+                    readiness_oracle='Desktop disposable seed obligations completed through retained Native period, attendance, payroll and HPP pool writers before the official READY assertion. Mobile remains BLOCKED. No readiness rule or report output rewritten.',
                     positive_baseline_READY_runtime_proven=False,SOURCE_bound=False,actual_database=False,production_go=False)
         (HERE/'LOCAL_PREFLIGHT.json').write_text(json.dumps(result,indent=2)+'\n')
         print(json.dumps({k:result[k] for k in ('status','bash_steps','SOURCE_bound','actual_database','production_go')}|{'negative_controls':len(negatives)}))
