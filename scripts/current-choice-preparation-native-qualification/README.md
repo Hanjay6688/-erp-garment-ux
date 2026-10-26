@@ -1,5 +1,17 @@
 # D17-18 — komposisi persiapan pilihan dan keuangan
 
+Penerus retensi setelah actual9a943ea4:5 PASS/1 INCOMPLETE. Bukti dan pesan
+kegagalan asli ada di FIRST_RUNTIME_FAILURE_9A.json. A memperbaiki akses baca
+run_id pada dua tabel rujukan privat melalui stage opsional, lalu memperluas
+kasus keempat dengan draf Native dan kondisi pengingat yang benar-benar dibuat
+dari hasil analisis. Actual retention_tick harus menghitung keduanya, menjaga
+halaman dan dokumen persis, menghapus kerja sementara kadaluarsa, menolak
+baca payload/tulis/akses browser, dan tidak mengulang efek. Empat pengujian
+batas katalog lokal bukan bukti runtime; kandidat penerus belum diterima.
+Perubahan sumber diikat ke product-parent82f9f82f; sumber B tetap persis.
+
+## Riwayat penerus harness sebelumnya (bukti lama dipertahankan)
+
 Pembaruan setelah run pertama a3ce9317/run40297810688/art12642445168:
 status INCOMPLETE,2PASS/4INCOMPLETE; kegagalan penuh tetap tersimpan di
 FIRST_RUNTIME_FAILURE_A3CE.json dan Original. Tiga kasus berhenti pada

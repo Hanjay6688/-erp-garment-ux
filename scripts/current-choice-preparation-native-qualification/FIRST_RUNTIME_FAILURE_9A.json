@@ -1,0 +1,32 @@
+{
+  "name": "CP7_D17_18_CHOICE_NATIVE6.json",
+  "status": "INCOMPLETE",
+  "head": "9a943ea4cc4d24a92a2af1c3e678bd3d0bddfc14",
+  "run_id": 40308822607,
+  "job_id": 121524549120,
+  "artifact_id": 12648237288,
+  "zip_bytes": 3006081,
+  "zip_sha256": "c5445a88a9512d8d45e3cd3d987458d722b094de6a00c08766c9994337ddb357",
+  "bytes": 6205094,
+  "sha256": "b52eb89d8150ffbf8d7e3692be693a339ff0daa9543790c5518eb8d5d4e1134c",
+  "archive_member": "CP7_D17_18_CHOICE_NATIVE6.json",
+  "previous_failure_remains_INCOMPLETE": true,
+  "counts": {
+    "PASS": 5,
+    "INCOMPLETE": 1
+  },
+  "failed_cases": {
+    "CURRENT_CHOICE_ATOMIC_SAVE_RETENTION_RECEIPT_USED_GUARD": {
+      "status": "INCOMPLETE",
+      "error": "permission denied for table staged_drafts\nCONTEXT:  SQL statement \"select count(*)from cp7_plan_native.staged_drafts where run_id=$1\"\nPL/pgSQL function cp7_analysis_stage.purge_expired(integer) line 16 at EXECUTE\nSQL function \"retention_tick\" statement 1",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py\", line 165, in _strict_group_once\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-choice-preparation-native-qualification/cases.py\", line 240, in run\n    observed.clear();start=monotonic();result=fn()\n                                              ^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-choice-preparation-native-qualification/cases.py\", line 164, in atomic_retention\n    plan.b.api.admin(cur);retained=cur.execute('select cp7_ops.retention_tick()').fetchone()[0]\n                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.InsufficientPrivilege: permission denied for table staged_drafts\nCONTEXT:  SQL statement \"select count(*)from cp7_plan_native.staged_drafts where run_id=$1\"\nPL/pgSQL function cp7_analysis_stage.purge_expired(integer) line 16 at EXECUTE\nSQL function \"retention_tick\" statement 1\n",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true
+    }
+  },
+  "cp6_restored": true,
+  "baseline_full22_all_rows_all_sequences_equal": true,
+  "baseline_advisors_equal": true,
+  "advisor_gate": true,
+  "production_go": false
+}
