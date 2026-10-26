@@ -104,6 +104,9 @@
     "actual_ESM_modules_loaded": 2,
     "browser_executed": false
   },
+  "fixture_CLI_import_with_prepare": true,
+  "fixture_CLI_arguments_preserved": true,
+  "fixture_import_database_forbidden": true,
   "readiness_oracle": "Fresh independent desktop clone must prove official report READY; posted mobile fixture must remain BLOCKED as observed in Native52. No source facts rewritten to force READY.",
   "positive_baseline_READY_runtime_proven": false,
   "SOURCE_bound": false,

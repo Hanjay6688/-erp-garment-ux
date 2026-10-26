@@ -27,11 +27,28 @@ def main():
         for step in steps:
             script=re.sub(r'\$\{\{.*?\}\}','CI_VALUE',step['run'],flags=re.S)
             subprocess.run(['bash','-n'],input=script,text=True,check=True,capture_output=True)
+        # Exercise the real retained import chain with the browser CLI operation.
+        # Syntax/module checks alone missed the previous import-time argv rejection.
+        fixture=REPO/'scripts/cp7_current_frozen_finance_ui/browser_fixture.py'
+        cli_code="""import runpy,sys,psycopg
+from pathlib import Path
+path=Path(sys.argv[1]);sys.argv=[str(path),'prepare']
+def forbidden(*a,**kw):raise AssertionError('FIXTURE_IMPORT_MUST_NOT_OPEN_DATABASE')
+psycopg.connect=forbidden
+module=runpy.run_path(str(path),run_name='fixture_cli_import_preflight')
+assert sys.argv==[str(path),'prepare']
+assert callable(module['main']) and module['native'] is module['helpers'].native
+print('FIXTURE_CLI_IMPORT_PASS')
+"""
+        cli=subprocess.run([sys.executable,'-c',cli_code,str(fixture)],cwd=REPO,
+                           env={**os.environ,'PYTHONDONTWRITEBYTECODE':'1'},
+                           text=True,capture_output=True,check=True,timeout=90)
+        assert cli.stdout.strip()=='FIXTURE_CLI_IMPORT_PASS' and not cli.stderr
         out=subprocess.check_output(['node','scripts/current-frozen-finance-ui-browser-qualification/check-imports.mjs'],cwd=REPO,text=True)
         modules=json.loads(out)
         assert modules['cases']==2 and modules['browser_executed'] is False
         result=dict(status='PASS_LOCAL_PREPARATION_ONLY',positive=positive,negative_controls=negatives,
-                    bash_steps=len(steps),module_check=modules,
+                    bash_steps=len(steps),module_check=modules,fixture_CLI_import_with_prepare=True,fixture_CLI_arguments_preserved=True,fixture_import_database_forbidden=True,
                     readiness_oracle='Fresh independent desktop clone must prove official report READY; posted mobile fixture must remain BLOCKED as observed in Native52. No source facts rewritten to force READY.',
                     positive_baseline_READY_runtime_proven=False,SOURCE_bound=False,actual_database=False,production_go=False)
         (HERE/'LOCAL_PREFLIGHT.json').write_text(json.dumps(result,indent=2)+'\n')

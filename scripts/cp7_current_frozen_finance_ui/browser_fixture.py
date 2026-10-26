@@ -8,7 +8,15 @@ sys.dont_write_bytecode=True
 ROOT=Path(__file__).resolve().parents[2]
 sys.path.insert(0,str(ROOT/'scripts'))
 spec=importlib.util.spec_from_file_location('A_public_finance_UI_helpers',ROOT/'scripts/current-frozen-public-finance-qualification/cases.py')
-helpers=importlib.util.module_from_spec(spec);spec.loader.exec_module(helpers)
+helpers=importlib.util.module_from_spec(spec)
+# Retained qualification modules validate their own CLI at import time.
+# Keep this fixture's operation private to main while loading those modules.
+_fixture_argv=sys.argv[:]
+try:
+    sys.argv=sys.argv[:1]
+    spec.loader.exec_module(helpers)
+finally:
+    sys.argv=_fixture_argv
 native,staged,plan=helpers.native,helpers.staged,helpers.plan
 
 def state(cur,actor):
