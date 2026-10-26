@@ -13,6 +13,8 @@ ROOT=Path(__file__).resolve().parents[2]
 spec=importlib.util.spec_from_file_location('qualified_choice_public_finance',ROOT/'scripts/current-frozen-public-native-qualification/public_finance_cases.py')
 finance=importlib.util.module_from_spec(spec);spec.loader.exec_module(finance)
 parent,plan,reader=B.parent,B.plan,B.reader
+spec=importlib.util.spec_from_file_location('choice_native_observation',Path(__file__).with_name('native_observation.py'))
+observation=importlib.util.module_from_spec(spec);spec.loader.exec_module(observation)
 IDS=('CURRENT_CHOICE_REGISTRY_FULL22_INVERSE_GUARDS',
      'CURRENT_CHOICE_COLD_PREPARE_READ_SAVE_REPLAY',
      'CURRENT_CHOICE_CURRENT_ACCESS_AND_CHANGED_SOURCE',
@@ -25,7 +27,7 @@ STATE=CHECKER=None
 def installed(state,checker):
     global STATE,CHECKER
     old=STATE,CHECKER;STATE,CHECKER=state,checker
-    try:yield dict(focused_case_ids=list(IDS),B_original_routes_unchanged=True,
+    try:yield dict(ready_observation_source=observation.verify_ready_source(),focused_case_ids=list(IDS),B_original_routes_unchanged=True,
         previous_failures_remain_INCOMPLETE=True,factory_qualification=False,
         B_fixtures_exact=True,official_finance_formulas_unchanged=True,production_go=False)
     finally:STATE,CHECKER=old
@@ -58,10 +60,13 @@ def pre_step_cancellation(cur,today,f,observed):
     prior_fault=cur.execute("select current_setting('cp7_choice_probe.access_cancel',true)").fetchone()[0]
     cur.execute("set local statement_timeout='8s'");cur.execute(faulted);ticks=[]
     def tick():
-        plan.b.api.admin(cur);old_claims=claims(cur);start=monotonic()
-        answer=cur.execute('select cp7_ops.analysis_tick()').fetchone()[0]
+        plan.b.api.admin(cur);old_claims=claims(cur)
+        effective_before=cur.execute('select auth.uid(),auth.jwt()').fetchone()
+        start=monotonic();answer=cur.execute('select cp7_ops.analysis_tick()').fetchone()[0]
         elapsed=round((monotonic()-start)*1000,3)
-        assert elapsed<8000 and claims(cur)==old_claims
+        assert elapsed<8000,('PRESTEP_CANCEL_TICK_OVER8S',elapsed)
+        claim_proof=observation.check_claims(old_claims,claims(cur),effective_before,cur.execute('select auth.uid(),auth.jwt()').fetchone())
+        observed.setdefault('prestep_claims_observations',[]).append(claim_proof)
         assert answer['family']=='CHOICE_PREPARATION'
         ticks.append(dict(state=answer['state'],millis=elapsed))
         return answer
@@ -120,7 +125,7 @@ def cases(cur,today):
         plan.refused(cur,lambda:reader.call(cur,f,f['target'],observed),'CP7_CHOICE_PREPARATION_REQUIRED')
         plan.refused(cur,lambda:parent.save(cur,f),'CP7_CHOICE_PREPARATION_REQUIRED')
         assert B.choice.metadata(cur)==metadata and plan.monetary_state(cur)==money
-        B.ready(cur,f,observed);before=B.work(cur,f)
+        observation.ready(cur,f,observed);before=B.work(cur,f)
         reader.call(cur,f,f['target'],observed);key=str(uuid.uuid4());payload=parent.payload(f)
         result=parent.save(cur,f,payload,key,observed)
         assert parent.save(cur,f,payload,key,observed)==result and B.work(cur,f)==before
@@ -129,7 +134,7 @@ def cases(cur,today):
             same_source_request_deduplicated=True,READY_did_not_save_choice=True,exact_UUID_payload_replay=True,no_money_stock_HPP_change=True)
 
     def access():
-        f=parent.prepare(cur,today,observed);B.ready(cur,f,observed)
+        f=parent.prepare(cur,today,observed);observation.ready(cur,f,observed)
         other=B.native.native.policy.master.role_actor(cur,'OWNER');epoch=reader.reader.epoch(cur,other)
         for verb in ('request','get','step'):
             plan.refused(cur,lambda:B.call(cur,verb,f,observed,actor=other,epoch=epoch),'CP7_PRODUCT_ANALOG_RUN_UNAVAILABLE','42501')
@@ -144,7 +149,7 @@ def cases(cur,today):
             old_analysis_does_not_authorize_new_SAVE=True,real_post_changes_source=True)
 
     def atomic_retention():
-        f=parent.prepare(cur,today,observed);B.ready(cur,f,observed);plan.b.api.admin(cur)
+        f=parent.prepare(cur,today,observed);observation.ready(cur,f,observed);plan.b.api.admin(cur)
         cur.execute("create function pg_temp.current_choice_last_fault()returns trigger language plpgsql as $$begin raise exception 'CURRENT_CHOICE_LAST_TABLE_FAULT';end$$")
         cur.execute('create trigger current_choice_last_fault before insert on cp7_product_analog_choice.commands for each row execute function pg_temp.current_choice_last_fault()')
         metadata=B.choice.metadata(cur);money=plan.monetary_state(cur)
