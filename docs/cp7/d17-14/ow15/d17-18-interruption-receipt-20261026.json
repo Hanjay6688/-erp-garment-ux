@@ -1,0 +1,727 @@
+{
+  "status": "WORKSPACE_UNAVAILABLE_PARTIAL_REMOTE_CHECKPOINT",
+  "formal_accepted": "5/16",
+  "production_go": false,
+  "independent_acceptance": false,
+  "UI": {
+    "status": "PREPARED_LOCAL_PASS_ONLY",
+    "head": "0f818812a79013c926fcb54e949b0923bf1622ea",
+    "local": "fe4367e9f521d81e59c6bd1e04cd7ea09e4900cb",
+    "tree": "04b7233a33acd10757a8769cb15325409400d6d7",
+    "parent": "821a7e79354ffa1f3fc73b9690c372d38f235a27",
+    "branch": "astra-a/d17-18-progress-finance-ui-prepared-20261026",
+    "changed_files": 112,
+    "B_exact_files": 90,
+    "local_tests": 179,
+    "compiled_source_modules": 79,
+    "actual_Auth_HTTP_credit": false,
+    "actual_database_credit": false,
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "profile": {
+    "artifact": {
+      "id": 12627926948,
+      "node_id": "MDg6QXJ0aWZhY3QxMjYyNzkyNjk0OA==",
+      "name": "cp7-d17-18-factory-stage-profile1",
+      "size_in_bytes": 2958962,
+      "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12627926948",
+      "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12627926948/zip",
+      "expired": false,
+      "digest": "sha256:2a8c33d93afc237e2200ec614769191d4f3001741ed102b56253bec224b0584d",
+      "created_at": "2026-10-26T04:43:13Z",
+      "updated_at": "2026-10-26T04:43:13Z",
+      "expires_at": "2026-11-25T04:43:12Z",
+      "workflow_run": {
+        "id": 40263535654,
+        "repository_id": 1348063690,
+        "head_repository_id": 1348063690,
+        "head_branch": "astra-a/d17-18-factory-stage-profile-20261026",
+        "head_sha": "690783115765e677e0413d976d90489d86ab57e2"
+      }
+    },
+    "original": {
+      "ow04_original_report_bytes": true,
+      "name": "CP7_D17_18_FACTORY_STAGE_PROFILE1.json",
+      "raw_bytes": 4953515,
+      "raw_sha256": "0d6bd887d69a06dc9337b6383a8844f73016e83b826c0bf4c9470f8beba6a19b",
+      "gzip_bytes": 1382721,
+      "gzip_sha256": "4c45c17043c7240b90d68d59bed0b65c32f09c2f2d48dfe2d8925c58cd4b7658"
+    },
+    "status": "INCOMPLETE",
+    "source_pins_verified": 3689,
+    "package_gate": {
+      "installed": true,
+      "primary_unchanged": true,
+      "backup_restore_drill": true,
+      "security_advisors": true,
+      "writer_runtime": false
+    },
+    "cp6_restored": true,
+    "advisor_gate": true,
+    "operational_first_unit_instrumented_ms": 11120.77,
+    "small_status_instrumented_ms": 48.276,
+    "finance": {
+      "status": "ERROR_DIAGNOSTIC",
+      "sqlstate": "25006",
+      "elapsed_ms": 2593.979,
+      "message": "cannot execute SELECT FOR UPDATE in a read-only transaction",
+      "function": "erp.resolve_opening_fg_unit_hpp(uuid,date)",
+      "full_report_latency": false
+    },
+    "local_fix": {
+      "published": false,
+      "controlled_regressions_pass": 4,
+      "full_admission": "BLOCKED_LOCAL_IMPORT_SEMANTIC_CONTRACT",
+      "official_read_only": false,
+      "small_status_read_only": true,
+      "diagnostic_limit_ms": 30000,
+      "lock_limit_ms": 2000,
+      "product_unchanged": true
+    }
+  },
+  "progress": {
+    "artifact": {
+      "id": 12628665713,
+      "node_id": "MDg6QXJ0aWZhY3QxMjYyODY2NTcxMw==",
+      "name": "cp7-d17-18-progress-native5",
+      "size_in_bytes": 2968022,
+      "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12628665713",
+      "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12628665713/zip",
+      "expired": false,
+      "digest": "sha256:b031294ab1c0161a74a146b8a9fa9f76a0d7cd75c8de787186acf9a95726f800",
+      "created_at": "2026-10-26T04:48:26Z",
+      "updated_at": "2026-10-26T04:48:26Z",
+      "expires_at": "2026-11-25T04:48:25Z",
+      "workflow_run": {
+        "id": 40264118585,
+        "repository_id": 1348063690,
+        "head_repository_id": 1348063690,
+        "head_branch": "astra-a/d17-18-progress-native-qualification-20261026",
+        "head_sha": "54676bcc969b950dd1ec52eb7feba2d7e58a8cb4"
+      }
+    },
+    "original_raw_bytes": 5877819,
+    "original_raw_sha256": "8b7720f97d5d122aaa6828390e0683e67d6771e4098b98d2ac422adef7dc8f52",
+    "full_original_intaken": false,
+    "log_cases": [
+      {
+        "group": "CP7_D17_18_PROGRESS_NATIVE5",
+        "case": "PROGRESS_FULL22_AUTHORITY_AND_INVERSE_GUARD",
+        "status": "PASS",
+        "full22_delta_exact_one_RPC": true,
+        "authenticated_only": true,
+        "dependent_view_refused_before_DDL": true,
+        "outer_preuse_inverse_required": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      {
+        "group": "CP7_D17_18_PROGRESS_NATIVE5",
+        "case": "PROGRESS_RUNNING_REOPEN_REAL_COUNTS_NO_WRITES",
+        "status": "PASS",
+        "status_read_ms": [
+          7.814,
+          7.422,
+          5.066
+        ],
+        "unknown_totals_preserved": true,
+        "same_request_same_job_and_capture": true,
+        "no_read_or_replay_DML": true,
+        "operational_only_redacted": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      {
+        "group": "CP7_D17_18_PROGRESS_NATIVE5",
+        "case": "PROGRESS_OPERATIONAL_DONE_FINANCE_PENDING_THEN_OFFICIAL_RESULT",
+        "status": "INCOMPLETE",
+        "error": "",
+        "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py\", line 165, in _strict_group_once\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-frozen-progress-native-qualification/cases.py\", line 104, in completed\n    final,t2=read(cur,key);reopened,t3=read(cur,key)\n             ^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-frozen-progress-native-qualification/cases.py\", line 61, in read\n    assert m['worker_observation']=='NO_LOCK_OBSERVED'  # no scheduler/worker in this single-connection case\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      {
+        "group": "CP7_D17_18_PROGRESS_NATIVE5",
+        "case": "PROGRESS_CURRENT_ACCESS_REDACTION_AND_FOREIGN_REQUEST",
+        "status": "PASS",
+        "status_read_ms": [
+          8.61,
+          6.024
+        ],
+        "foreign_request_refused": "CP7_ANALYSIS_JOB_UNAVAILABLE",
+        "current_finance_access_hides_all_metadata_and_figures": true,
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      },
+      {
+        "group": "CP7_D17_18_PROGRESS_NATIVE5",
+        "case": "PROGRESS_CHANGED_BOOK_FAILURE_VISIBLE_AND_FRESH_REQUEST_RECOVERY",
+        "status": "INCOMPLETE",
+        "error": "",
+        "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py\", line 165, in _strict_group_once\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-frozen-progress-native-qualification/cases.py\", line 140, in changed_source\n    observed,t1=read(cur,key)\n                ^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-frozen-progress-native-qualification/cases.py\", line 61, in read\n    assert m['worker_observation']=='NO_LOCK_OBSERVED'  # no scheduler/worker in this single-connection case\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-26",
+          "before": "2026-10-26",
+          "after": "2026-10-26"
+        }
+      }
+    ],
+    "status": "INCOMPLETE",
+    "counts_from_log": {
+      "PASS": 3,
+      "INCOMPLETE": 2
+    },
+    "failed_assertion": "worker_observation == NO_LOCK_OBSERVED",
+    "hypothesis_not_proven": "same transaction still holds capture advisory lock",
+    "Native6_binding_allowed": false
+  },
+  "UI389_job": {
+    "jobs": [
+      {
+        "id": 121394261076,
+        "name": "CP7 current public finance actual UI browser2",
+        "status": "in_progress",
+        "conclusion": null,
+        "run_id": 40267920853,
+        "logs_url": null,
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 10
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 11
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 12
+          },
+          {
+            "name": "Select exact qualified prerequisite heads",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 13
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 14
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 15
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 16
+          },
+          {
+            "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 17
+          },
+          {
+            "name": "Install pinned disposable runtime",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 18
+          },
+          {
+            "name": "Fetch and verify immutable actual Native32 original before DB",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 19
+          },
+          {
+            "name": "Fetch and verify qualified actual Native28 original before DB",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 20
+          },
+          {
+            "name": "Fetch and verify qualified actual OW06 Native10 original before DB",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 21
+          },
+          {
+            "name": "Fetch and verify qualified actual OW08b kasbon Native4 original before DB",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 22
+          },
+          {
+            "name": "Fetch and verify qualified actual OW08b fgqc Native9 original before DB",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 23
+          },
+          {
+            "name": "Fetch and verify qualified actual OW05b chain Native6 original before DB",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 24
+          },
+          {
+            "name": "Fetch and verify qualified actual OW08a chain Native6 original before DB",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 25
+          },
+          {
+            "name": "Fetch and verify qualified actual OW12a chain Native7 original before DB",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 26
+          },
+          {
+            "name": "Fetch and verify qualified actual OW09 chain Native8 original before DB",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 27
+          },
+          {
+            "name": "Fetch and verify qualified actual OW07 chain Native7 original before DB",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 28
+          },
+          {
+            "name": "Fetch and verify qualified actual OW08b wash chain Native11 original before DB",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 29
+          },
+          {
+            "name": "Fetch and verify qualified actual OW04b followups chain Native9+Race3 original before DB",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 30
+          },
+          {
+            "name": "Fetch and verify qualified actual OW04b slice A chain Native6+Race2 original before DB",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 31
+          },
+          {
+            "name": "Fetch and verify qualified actual OW04b slice B chain Native6+Race1 original before DB",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 32
+          },
+          {
+            "name": "Fetch and verify qualified actual OW04b slice C chain Native7+Race1 original before DB",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 33
+          },
+          {
+            "name": "Verify actual draft return counterexample before DB",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 34
+          },
+          {
+            "name": "Verify actual Native32 closure and used restore8 PASS Originals before DB",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 35
+          },
+          {
+            "name": "Verify actual composed return8 and B choice6 PASS Original bytes before DB",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 36
+          },
+          {
+            "name": "Admit first failed analog Original before DB",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 37
+          },
+          {
+            "name": "Admit seven-step UTC INCOMPLETE Original before DB",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 38
+          },
+          {
+            "name": "Fetch exact composed used restore8 and all three browser2 PASS Originals before DB",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 39
+          },
+          {
+            "name": "Fetch exact consumer6, provenance3, transport10 and first current failure Originals",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 40
+          },
+          {
+            "name": "Fetch exact current consumer Native restore8 PASS prerequisite",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 41
+          },
+          {
+            "name": "Fetch exact finance Native5 and model policy-v2 Native6 PASS prerequisites",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 42
+          },
+          {
+            "name": "Fetch exact full-model Native15 and current B target prerequisites",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 43
+          },
+          {
+            "name": "Fetch exact Native20 and scoped-history component Originals including first failure",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 44
+          },
+          {
+            "name": "Fetch actual complete history and scoped model component Originals",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 45
+          },
+          {
+            "name": "Fetch actual scoped-model and selected-return regressions, both restores and seven B component Originals",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 46
+          },
+          {
+            "name": "Fetch exact full Native36 restore8 and five B performance Originals",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 47
+          },
+          {
+            "name": "Fetch exact actual A Native36 and three B private component PASS Originals before DB",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 48
+          },
+          {
+            "name": "Fetch exact actual full A private frozen Native40 PASS Original before DB",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 49
+          },
+          {
+            "name": "Fetch exact actual A Native45 and B facade8 raw PASS Originals before DB",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 50
+          },
+          {
+            "name": "Fetch exact public Native52 and current finance Auth3 races7 PASS Originals before DB",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 51
+          },
+          {
+            "name": "Admit exact A and all declared B extension sources before DB",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 52
+          },
+          {
+            "name": "Install pinned Supabase CLI",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 53
+          },
+          {
+            "name": "Record proposed source and prepare isolated proof paths",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 54
+          },
+          {
+            "name": "Start disposable database",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 55
+          },
+          {
+            "name": "Rebuild to v2.6.20, align with hosted, continue the frozen path to AB",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 56
+          },
+          {
+            "name": "Provision isolated rollback authority",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 57
+          },
+          {
+            "name": "Clone the aligned AB state for install",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 58
+          },
+          {
+            "name": "Install pinned browser runtime and check current client",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 59
+          },
+          {
+            "name": "Import two actual finance UI modules and case IDs",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 60
+          },
+          {
+            "name": "Execute actual finance UI2 on two full public-composition clones",
+            "status": "in_progress",
+            "conclusion": null,
+            "number": 61
+          },
+          {
+            "name": "Preserve exact original JSON report bytes in a bounded compressed log receipt",
+            "status": "pending",
+            "conclusion": null,
+            "number": 62
+          },
+          {
+            "name": "Remove disposable database",
+            "status": "pending",
+            "conclusion": null,
+            "number": 63
+          },
+          {
+            "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+            "status": "pending",
+            "conclusion": null,
+            "number": 64
+          },
+          {
+            "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+            "status": "pending",
+            "conclusion": null,
+            "number": 114
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "pending",
+            "conclusion": null,
+            "number": 115
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "pending",
+            "conclusion": null,
+            "number": 116
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "pending",
+            "conclusion": null,
+            "number": 117
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "pending",
+            "conclusion": null,
+            "number": 118
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "pending",
+            "conclusion": null,
+            "number": 119
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "pending",
+            "conclusion": null,
+            "number": 120
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "pending",
+            "conclusion": null,
+            "number": 121
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "pending",
+            "conclusion": null,
+            "number": 122
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "pending",
+            "conclusion": null,
+            "number": 123
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "pending",
+            "conclusion": null,
+            "number": 124
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "pending",
+            "conclusion": null,
+            "number": 125
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "pending",
+            "conclusion": null,
+            "number": 126
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "pending",
+            "conclusion": null,
+            "number": 127
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "pending",
+            "conclusion": null,
+            "number": 128
+          }
+        ]
+      }
+    ]
+  },
+  "persistence": {
+    "context_version": 108,
+    "archive_version": 95,
+    "latest_local_archive_bytes": 364473782,
+    "latest_local_archive_sha256": "16f3804be71f52dc18cdb5d30a78a35fee3c68a019d26e73163e75f02d8792f3",
+    "latest_changes_uploaded_to_library": false
+  },
+  "workspace": {
+    "status": "unavailable",
+    "last_failure": "exec-server transport disconnected; recovery timed out after25s",
+    "last_observed_disk_free_bytes": 6238208,
+    "duplicate_delete_executed": false
+  }
+}

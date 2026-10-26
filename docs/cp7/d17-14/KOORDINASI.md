@@ -4074,3 +4074,52 @@ Run690/40263535654,546/40264118585,389/40267920853 masih berjalan pada snapshot
 kegagalan produk; tidak diulang atau diberi kelulusan. Lanjutkan intake,
 Native6/fullrestore, Auth/dua-sesi/cron/factory dan browser gabungan.
 formal5/16, independent_acceptance=false, production_go=false.
+
+
+## 26 Oktober 2026 WIB — A: dua hasil INCOMPLETE; workspace terputus, estafet wajib dilanjutkan
+
+Catatan ini menggantikan status RUNNING690/546 pada snapshot terdahulu.
+Main sebelum catatan307ce97a; host progres UI0f818812 tersimpan,179uji lokal
+PASS dan79modul build. Tidak ada adopsi default atau kredit runtime gabungan.
+
+Diagnosis69078311/run40263535654/job121380830712/art12627926948 INCOMPLETE.
+Original4953515byte SHA256 0d6bd887d69a06dc9337b6383a8844f73016e83b826c0bf4c9470f8beba6a19b.
+3689pin sumber diverifikasi; CP6/advisor/backuprestore/primary unchanged PASS,
+writer_runtime=false. Unitproduksi0 instrumented11120.770ms, status48.276ms.
+Finance error25006 pada2593.979ms: resolve_opening_fg_unit_hpp mengambil
+SELECT FOR UPDATE di opening_balance_items, tetapi alatukur mengaktifkan
+READ ONLY. Waktu finance parsial bukan waktu laporan selesai. Ini kesalahan
+mode alatukur, bukan bukti perbaikan atau kerusakan rumus laporan.
+
+Perbaikan lokal belum terpublikasi: official measurement read_only=False;
+rollback setiap panggilan, semua data/sequence/catalog identik, limitdiagnostik
+30s/lock2s dan status8s READ ONLY tetap. Empat regresi terkendali PASS.
+Fulladmission lokal tertahan dependency sparse semantic_contract yang belum
+materialized; tidak ada CI baru. Jangan menerima SOURCE tanpa refresh pin dan
+fulladmission. Branchprofil remote tetap690, tidak memuat perbaikan lokal.
+
+Progres54676bcc/run40264118585/job121382633732/art12628665713 INCOMPLETE:
+3PASS/2INCOMPLETE menurut joblog; Original5877819byte SHA256
+8b7720f97d5d122aaa6828390e0683e67d6771e4098b98d2ac422adef7dc8f52.
+Belum diunduh/intake penuh A. Kasus selesaikeuangan dan changed-source gagal
+di cases.py:61, asumsi worker_observation==NO_LOCK_OBSERVED. SQL produk
+mengamati lock apa pun termasuk transaksi sendiri; kasus baru menjalankan
+capture di transaksi yang sama. Ini hipotesis penyebab, wajib dibuktikan
+melalui lock/transaction yang nyata, bukan mengganti assert dengan accept-any.
+24metrics dan pemulihan kasus tersebut belum mendapat kredit. Log mencatat
+fullboundary/public/session bersih untuk5kasus dan CP6/advisor akhirPASS;
+seluruhOriginal/pin/package masih harus diverifikasi sebelum intake.
+Native6 calon821a7e79 tetap UNBOUND;546 bukan prasyaratPASS yang sah.
+
+UI389326f6/run40267920853/job121394261076 masih in_progress pada pembacaan
+terakhir, langkah actualfinanceUI2. Jangan menyimpulkan hasil atau ulangi.
+
+Lingkungan lokal dilaporkan unavailable setelah exec-server transport terputus.
+Sebelum terputus, ruangdisk sekitar6MB. Dua canonicalarchive C/R hardlinked
+364473782byte SHA25616f3804be71f52dc18cdb5d30a78a35fee3c68a019d26e73163e75f02d8792f3.
+Ada file sementara d17-18 berukuran sama; penghapusan hanya setelah bytehash
+sama belum berjalan karena koneksi putus. Jangan hapus bukti unik, worktree B,
+atau git state bersama. Library terakhir contextv108/archivev95, belum memuat
+hasil terbaru ini. Kode/UI dan catatan ini sudah di GitHub; tidak mengklaim
+percakapan terus bekerja setelah berhenti. Hanya jobserver UI yang terpisah
+masih berjalan. Formal5/16; independent_acceptance=false; production_go=false.
