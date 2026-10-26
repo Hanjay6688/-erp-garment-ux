@@ -4518,3 +4518,34 @@ pemasang percobaan yang sama dan memulihkan kedua helper private. SOURCE tetap
 absen; cabang eksekusi belum dibuat; wajib actuale913PASS sebelum pengikatan.
 Native6retensi8dfe/run40338677390 masih berjalan; UI/transport masih tertahan.
 Formal5/16; production_go=false; independent_acceptance=false. B tidak diubah.
+
+
+### 26 Oktober2026 — A: retensi Native6 lulus; aktivitas keuangan diperjelas
+
+Actual8dfe1a19/run40338677390/job121627045376/artifact12663230440 PASS6/6.
+Original6218156bytes/SHAf2110cf6c2873c18679e3f6654d5232474e46decb5543e6d72b803f28b2d62a9;
+ZIP3007799bytes/SHA9d8d24e9816562b2ff75b622c4da69d3d3cb34494f17cbee4d1b86280916d435.
+3758sumber diverifikasi. Semua lima gatepaket PASS; full22/data/sequence/CP6/
+advisors kembali persis.24angka resmi cocok;24tick privat maksimal224.701ms.
+Review kalender v2 mempertahankan konfigurasi persis, CAS+UUIDreplay,0unit review,
+satu capture baru. Satu draf rencana dan satu kondisi pengingat nyata beserta
+halaman/isinya tetap utuh; temp kedaluwarsa dibuang dan log/replay immutable.
+Empat tick retensi4.372/0.491/2.303/0.529ms; tidak ada efek uang/stok/HPP.
+Umur8hari dibuat sintetis; ini bukan actualminutecron/Auth/browser/factory credit.
+Kegagalan9a/bfed tetap disimpan dengan status aslinya.
+
+HostA7bcd24ac7d5ec1bd053808c196ec2eb328e28338 menampilkan aktivitas keuangan
+terakhir dari server dan apakah proses teramati aktif. Setelah120detik tanpa
+aktivitas tercatat, ada arahan membaca UUID yang sama; tidak menyatakan server
+macet/gagal dari timer atau ketiadaan lock, tidak mengganti batas database.
+Empat pemeriksaan awal gagal dan dipertahankan; sesudahperbaikan195tes/17berkas,
+TypeScript dan build79modul PASS,91berkas B tetap persis. Tidak menambah RPC/timer.
+HOST_SOURCE113file kini terikat host tersebut. UIprepared9b02985322e75ba0ecbd63dd19d207766caf2c14
+serta transportprepared461fcf0958df45bf97e9a81fd57d9f8a2070863a telah memilih
+actual8dfe sebagai prasyarat; pengikatan/admission dan eksekusi baru tetap wajib.
+
+Analisis bukti waktu lama menemukan sumber pemasangan dan jumlahbaris sama,
+namun self-time8fungsi naik bersamaan. Kedua Original lama tidak mencatat mesin/
+konfigurasi, sehingga penyebab2.242x belum dapat ditetapkan; regresi tetap terbuka.
+Financee913/run40345264716 masih menjalankan perbandingan database. Tidak diulang
+atau diberi kredit sebelum bukti selesai. Formal5/16 dan production_go=false.

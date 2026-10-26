@@ -1,0 +1,93 @@
+{
+  "status": "EXISTING_EVIDENCE_ANALYSIS_ONLY",
+  "sources": [
+    {
+      "path": "CP7_D17_18_FACTORY_STAGE_PROFILE1.json",
+      "head": "a569d322bb91162026c7f9cc162facf12f0dd7ea",
+      "bytes": 4939575,
+      "sha256": "06bc1cf49c8963212b6fca7362b7d7080811215900e842bf460e788dd11d7360"
+    },
+    {
+      "path": "CP7_D17_18_FINANCE_READER_DIAGNOSTIC1.json",
+      "head": "7caf6b84a357ab670ac0e4c0c190fadb2738c2e7",
+      "bytes": 5137654,
+      "sha256": "be866e88e095447c042fa9cdbf93ab225f3b95e1cf5ace8bf0f524de9f5bcdf4"
+    }
+  ],
+  "current_installation_declarations_identical": true,
+  "official_elapsed_ms": [
+    11679.017,
+    26189.214
+  ],
+  "elapsed_ratio": 2.242,
+  "row_counts_identical": true,
+  "row_counts": {
+    "book": 33,
+    "cash": 2,
+    "line": 18202,
+    "journal": 106
+  },
+  "matching_call_count_functions": [
+    {
+      "function": "erp.audit_row_change()",
+      "calls": 10800,
+      "earlier_self_ms": 100.268238,
+      "later_self_ms": 306.557714,
+      "ratio": 3.057
+    },
+    {
+      "function": "erp.compute_non_po_product_hpp_book_v2620f(uuid)",
+      "calls": 10803,
+      "earlier_self_ms": 264.830215,
+      "later_self_ms": 643.804449,
+      "ratio": 2.431
+    },
+    {
+      "function": "erp.compute_non_po_product_hpp_targets_v2620f(uuid)",
+      "calls": 10803,
+      "earlier_self_ms": 2712.634904,
+      "later_self_ms": 5662.818408,
+      "ratio": 2.088
+    },
+    {
+      "function": "erp.period_blockers_v1(date,date)",
+      "calls": 2,
+      "earlier_self_ms": 62.136715,
+      "later_self_ms": 92.790842,
+      "ratio": 1.493
+    },
+    {
+      "function": "erp.product_opening_physical_at(uuid,date)",
+      "calls": 10800,
+      "earlier_self_ms": 73.767234,
+      "later_self_ms": 180.389877,
+      "ratio": 2.445
+    },
+    {
+      "function": "erp.resolve_opening_fg_unit_hpp(uuid,date)",
+      "calls": 10800,
+      "earlier_self_ms": 515.265549,
+      "later_self_ms": 1321.533149,
+      "ratio": 2.565
+    },
+    {
+      "function": "erp.run_v267_financial_truth_checks()",
+      "calls": 5,
+      "earlier_self_ms": 51.931442,
+      "later_self_ms": 75.655771,
+      "ratio": 1.457
+    },
+    {
+      "function": "erp.run_v268_financial_report_checks()",
+      "calls": 3,
+      "earlier_self_ms": 7347.200805,
+      "later_self_ms": 16679.097809,
+      "ratio": 2.27
+    }
+  ],
+  "explanation": "Broad self-time growth occurs across unchanged official functions and equal source row counts. Neither old Original records CPU/runtime settings, so machine load, cache, and execution-plan effects cannot be distinguished. This is a narrowed observation, not an explained regression.",
+  "resolved": false,
+  "new_database_execution": false,
+  "performance_acceptance": false,
+  "production_go": false
+}

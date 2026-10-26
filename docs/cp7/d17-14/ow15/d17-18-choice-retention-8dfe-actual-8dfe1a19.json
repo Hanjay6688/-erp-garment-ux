@@ -1,0 +1,105 @@
+{
+  "name": "CP7_D17_18_CHOICE_NATIVE6.json",
+  "status": "PASS",
+  "head": "8dfe1a19c7b7c61558b25c00f1dd388c8565e3d1",
+  "run_id": 40338677390,
+  "job_id": 121627045376,
+  "artifact_id": 12663230440,
+  "zip_bytes": 3007799,
+  "zip_sha256": "9d8d24e9816562b2ff75b622c4da69d3d3cb34494f17cbee4d1b86280916d435",
+  "bytes": 6218156,
+  "sha256": "f2110cf6c2873c18679e3f6654d5232474e46decb5543e6d72b803f28b2d62a9",
+  "archive_member": "CP7_D17_18_CHOICE_NATIVE6.json",
+  "source_pins_verified": 3758,
+  "exact_prior_original_verified": {
+    "name": "CP7_D17_18_PROGRESS_NATIVE5.json",
+    "status": "PASS",
+    "head": "0c86d27739ff74aba65967453465880d1c72e94c",
+    "run_id": 40286627929,
+    "job_id": 121451709620,
+    "artifact_id": 12637959084,
+    "zip_bytes": 2968325,
+    "zip_sha256": "33c1889449edde12aac63c3aba860919c135c77006f813f903e985e0c20e9ecc",
+    "bytes": 5878000,
+    "sha256": "dd72583a82175893be57e0ccdbe10a575e91135e9163951130f8596a7e46f393",
+    "archive_member": "CP7_D17_18_PROGRESS_NATIVE5.json"
+  },
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "production_go": false,
+  "independent_acceptance": false,
+  "focused_full_ERP_Native_cases": 6,
+  "official_finance_metrics": 24,
+  "private_K4_ticks": 24,
+  "K4_tick_max_ms": 224.701,
+  "injected_cancellation_recovery": true,
+  "corrected_observations": {
+    "same_transaction_ready_observations": 3,
+    "claims_ticks_checked": 5,
+    "current_private_info_reviewed": 1,
+    "direct_schema_and_table_privileges_closed": true
+  },
+  "actual_document_reference_retention": {
+    "actual_private_tick": true,
+    "synthetic_finished_at_aged_days": 8,
+    "frozen_v2_schedule_review": {
+      "request_only_review_job": "b2d4ed3d-3699-4c01-8c20-959b89f171a9",
+      "full_capture_job": "abbcf735-7722-4b0a-af9b-d70f9e4c8a7d",
+      "legacy_source_hash": "a10fd6e319e0f964a7080bf24e26ceff19a4fd567eb25979ae45bf798b93067e",
+      "reviewed_v2_source_hash": "fcf786dd51a011b08b790cd4b8bc71d2796d372077487843662460ff733ace6d",
+      "revision_before": "2",
+      "revision_after": "3",
+      "unchanged_calendar_config": true,
+      "public_review_CAS_and_UUID_replay": true,
+      "old_review_snapshot_stale": true,
+      "fresh_capture_current": true,
+      "review_job_units_executed": 0,
+      "full_captures": 1,
+      "no_money_stock_HPP_change": true
+    },
+    "plan_allocation_and_capacity": "SCENARIO",
+    "real_Native_plan_draft": true,
+    "real_Native_reminder_conditions": true,
+    "private_capture_reference_counts": {
+      "cp7_plan_native.staged_drafts": 1,
+      "cp7_reminder_native.staged_condition_sets": 1
+    },
+    "retained_documents": {
+      "plan_v2_drafts": 1,
+      "reminder_v2_sets": 1
+    },
+    "referenced_pages_and_document_contents_exact": true,
+    "draft_readable_preview_expired": true,
+    "expired_temporary_rows_removed": true,
+    "retention_log_immutable_and_replay_exact": true,
+    "payload_and_write_and_browser_SQL_refused": true,
+    "authority": {
+      "private_run_id_select_columns": 2,
+      "table_select_grants": 0,
+      "write_grants": 0,
+      "browser_or_finance_reader_grants": 0,
+      "owners_RLS_and_reader_role_preserved": true
+    },
+    "no_money_stock_HPP_change": true,
+    "actual_cron_claim": false,
+    "actual_Auth_HTTP_credit": false,
+    "actual_tick_millis": [
+      4.372,
+      0.491,
+      2.303,
+      0.529
+    ]
+  },
+  "actual_minute_cron_claim": false,
+  "actual_Auth_HTTP_credit": false,
+  "UI_mounted": false,
+  "full_final_acceptance": false,
+  "large_factory_acceptance": false
+}
