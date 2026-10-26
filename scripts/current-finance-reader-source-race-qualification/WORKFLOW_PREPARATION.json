@@ -1,0 +1,9 @@
+{
+  "status": "PREPARED_ONLY",
+  "retained_shell_steps_plus_fetch": 48,
+  "one_new_fetch_step": true,
+  "existing_timeout_unchanged": true,
+  "SOURCE_created": false,
+  "CI_started": false,
+  "production_go": false
+}

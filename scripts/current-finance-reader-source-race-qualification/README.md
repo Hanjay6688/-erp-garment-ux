@@ -2,7 +2,7 @@
 
 This is a separate A qualification fixture, not product adoption. The exact paired
 single-check diagnostic f038 must first complete successfully and be bound as an
-actual Original. Until then this directory has no SOURCE.json or runnable workflow.
+actual Original. Until then this directory has no SOURCE.json. The prepared workflow cannot pass admission until its actual prerequisite is bound.
 The failed6bc result remains INCOMPLETE; f038 is running. Its exact composed-source correction is imported here without runtime credit.
 
 The prior experiment installs its temporary definitions in the same transaction as
@@ -31,7 +31,7 @@ restore, all22 catalog groups, all data/sequences, CP6, and advisor checks. Admi
 requires the exact f038 actual three-pair proof, including the percentage branch,
 zero candidate writes, unchanged complete reports, actual3-to2 check calls and exact
 live composed source. It refuses an unbound invocation before database access.
-No SOURCE or workflow has been created yet. This preparation is not runtime proof.
+The new scoped workflow retains every predecessor fetch and transformation test, adds the immutable actual reuse fetch, and invokes this probe. Its execution branch has not been created; SOURCE is absent. This preparation is not runtime proof.
 
 The small fixture must fit one journal chunk. Its first scan must reject the
 concurrent posting at unit1, before the final row-count seal; a count-only rejection
