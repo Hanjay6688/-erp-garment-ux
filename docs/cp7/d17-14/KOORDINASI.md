@@ -3706,3 +3706,36 @@ waktu/status dan pemulihan keuangan; pertahankan source B exact dan validasi
 terkini. Suite fokus pada perubahan; pemeriksaan lengkap kandidat gabungan
 tetap wajib sebelum penerimaan. Formal5/16, independent_acceptance=false,
 production_go=false, main/official/hosted/WA nyata utuh.
+
+##26Oktober2026 WIB — A: kontrak telemetry D17-18 terpisah, belum diadopsi B
+
+Keputusan D17-18 sudah dipublikasikan pada A1a96052391a0e09c56cfa958dbbfe958b67f09e7.
+Implementasi persiapan A berada di branch astra-a/d17-18-honest-progress-prepared-20261026,
+b048d3fd9e3525ba71860104f486876ddf2e6d63. Tidak ada source/worktree B yang diubah.
+Kontrak rinci: scripts/cp7_current_analysis_progress/TELEMETRY_CONTRACT.md.
+
+Usulan endpoint opt-in A: erp_cp7_get_frozen_analysis_progress_v1(p_request).
+Envelope cp7.frozen-analysis-progress.v1 berisi status v1 asli tanpa perubahan,
+observed_at server, waktu dibuat/aktivitas/selesai operasional serta finance
+yang terikat capture sama. last_activity_at bukan waktu langkah selesai:
+retry juga dapat mengubahnya. Finance memakai pengamatan advisory lock yang
+sudah ada (LOCK_HELD/NO_LOCK_OBSERVED); tidak menebak nomor antrean. Pekerja
+operasional memakai row lock; statusnya NOT_EXPOSED menunggu kontrak B.
+Hak finance diperiksa sebelum/sesudah baca; bila dicabut seluruh telemetry
+finance null. Satu snapshot SQL, tidak menjalankan unit/membaca ulang laporan.
+
+B belum diminta mengganti parser v1 atau endpoint saat ini. Integrasi nanti
+mengganti satu pembacaan status, bukan menambah polling ganda, lalu mengurai
+status asli dengan parser sumber/UUID/mikrodetik yang sama. Belum ada batas
+stall baru, kenaikan timeout, adopsi default atau instalasi paket ERP penuh.
+Penggabungan progres A memakai unit server dan menahan persen jika total belum
+final. Tidak menjumlahkan persen tahap yang berbeda menjadi persen keseluruhan.
+OperasionalDONE + financeRUNNING tetap belum selesai; captureREADY dengan
+reportBLOCKED/LIMITED tetap tidak lengkap. Jam tidak membuat persen bertambah.
+
+15tes lokal logika/TypeScript lulus. Uji PostgreSQL terisolasi b048 run40256681136,
+job121359922464/art12622567639 aktual9kasus lulus; baca terukur2.713ms pada
+fixture kecil, termasuk lock backend lain, penolakan foreign/anon/service_role,
+redaksi finance dan baris tetap. Dependensi Auth/status pada uji ini controlled:
+bukan realAuth, angka laporan resmi, pabrik atau fullpackage acceptance.
+Fullcomposition/inverse/timing skala besar/layar nyata masih wajib.
