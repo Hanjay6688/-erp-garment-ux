@@ -69,3 +69,16 @@ Host source is now7bcd24ac7d5ec1bd053808c196ec2eb328e28338:195local tests/17file
 ## Actual Native6 prerequisite and execution readiness (2026-10-26)
 
 The exact Native6 retention Original at 8dfe1a19c7b7c61558b25c00f1dd388c8565e3d1 passed all six cases and its package restore gates. Full source admission at 3b06519aafc27fa335aec71de20852b46347ff45 passed 3,894 pins and 195 local UI tests; that is not actual browser qualification. Creating the execution ref at that head produced no Actions run. This documentation-only successor supplies a fast-forward push on the execution branch; no runtime, SQL, case, timeout, permission, or oracle changes. Actual UI2 status remains NOT_STARTED until a server run ID is observed. Production and independent acceptance remain false.
+
+## Corrected A text surface after actual c64 failure
+
+The original c64 desktop/mobile run40354535892, artifact12671871654, is
+INCOMPLETE and retained in FIRST_RUNTIME_FAILURE_C64.json. Both cases reached
+the finance-running screenshot and were refused by the unchanged contrast
+checker because the A option label inherited the body radial-gradient. Complete
+restoration and advisor checks passed; neither full browser case passed.
+
+Host34294076 supplies an opaque A wrapper background and explicit foreground.
+All91 B files and all browser oracles remain unchanged; the two-case suite must
+execute again on the new exact source. Local195 tests, five progress checks,
+TypeScript and79-module build passed. No new runtime credit or production_go.
