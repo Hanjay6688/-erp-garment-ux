@@ -1,5 +1,38 @@
 # Status gabungan uang, model dan target — 26 Oktober 2026 WIB
 
+## Status terkini: izin pengiriman teratasi; dua uji server penerus berjalan
+
+Owner menjawab "lanjut" pada pertanyaan izin publikasi perubahan A/integrasi
+dan ringkasan uji ke repositori publik. Kedua perbaikan sudah dikirim dengan
+tree persis kandidat lokal yang lulus. Profilea569d322/run40286613815 dan
+progres0c86d277/run40286627929 masing-masing memicu satu workflow khusus,
+keduanya teramatiIN_PROGRESS. Belum ada hasil runtimePASS.
+
+Sambil menunggu, persiapan Native6 dilanjutkan dengan sumber induk penerus
+progres. SOURCE tetap belum diikat sebelum Original aktualPASS. Kegagalan
+690/546 tetapINCOMPLETE. Tidak ada perubahan B atau izin produksi.
+Formal5/16; independent_acceptance=false; production_go=false.
+
+## Riwayat sebelum persetujuan pengiriman
+
+## Tambahan terkini: kedua perbaikan alat uji lulus lokal, pengiriman tertahan
+
+Profile f7582147:4tes/3691pin dan fulladmission10Original lulus. Progres
+063f6b2b:5tes/3698pin dan fulladmission Native52 pendahulu lulus. Seluruh
+pemeriksaan dilakukan tanpa koneksi database; CI penerus belum dimulai.
+Kandidat hanya mengubah alat uji, deklarasi dan catatan kegagalan pertama.
+Rumus produk, izin, batas waktu, jadwal dan kode B tetap persis.
+
+Main status5e2cbfdf sudah terverifikasi di GitHub. Pengiriman lanjutan ditahan
+pemeriksaan persetujuan otomatis karena repo Hanjay6688/-erp-garment-ux
+bersifat publik dan izin pengungkapan bukti ERP dinilai belum eksplisit.
+Perubahan dan koordinasi berikutnya disimpan sebagai commit lokal, belum
+remote. Memerlukan izin owner untuk push perbaikan/ringkasan dan menjalankan
+workflow khusus yang sudah ada. Tidak mencari jalur lain untuk melewati
+penolakan. Kegagalan690/546 tetapINCOMPLETE; Native6 belum diikat;
+formal5/16, independent_acceptance=false, production_go=false.
+
+
 ## Status terkini: bukti UI resmi lolos; dua diagnosis masih gagal dan sedang diperbaiki
 
 UI389326f6/run40267920853 PASS2: desktop menampilkan24 angka persis laporan

@@ -1,5 +1,5 @@
 {
-  "recorded_at_utc": "2026-10-26T06:58:07.380840+00:00",
+  "recorded_at_utc": "2026-10-26T07:40:03.566202+00:00",
   "role": "A finance writer/integrator replacing Claude; B remains separate production/planning writer",
   "slogan": [
     "VENI. VIDI. VICI. ERP. \u2014 I CONQUERED ERP.",
@@ -8,7 +8,20 @@
   "formal_accepted": "5/16",
   "production_go": false,
   "independent_acceptance": false,
-  "running": [],
+  "running": [
+    {
+      "head": "a569d322bb91162026c7f9cc162facf12f0dd7ea",
+      "run_id": 40286613815,
+      "job_id": 121451664270,
+      "scope": "factory first-unit diagnostic, not acceptance"
+    },
+    {
+      "head": "0c86d27739ff74aba65967453465880d1c72e94c",
+      "run_id": 40286627929,
+      "job_id": 121451709620,
+      "scope": "focused full-composition progress Native5"
+    }
+  ],
   "actual_new_component": {
     "name": "CP7_OW11_MODEL_TARGET_SOURCE_V2.json",
     "status": "PASS",
@@ -4510,5 +4523,43 @@
     "all_old_failures_preserved": true,
     "no_B_worktree_written": true,
     "choice_native6_still_unbound": true
+  },
+  "history_local_successors_await_publication": {
+    "profile_head": "f7582147e86406a0eb06c8aaaaf55ca090d35859",
+    "profile_pins": 3691,
+    "profile_tests": 4,
+    "progress_head": "063f6b2bd9f1e5baea2b6a58a78495f78f7f7b20",
+    "progress_pins": 3698,
+    "progress_tests": 5,
+    "source_admission_profile": "PASS",
+    "source_admission_progress": "PASS",
+    "actual_successor_runtime": false,
+    "public_repository": true,
+    "auto_review_blocked": true,
+    "permission_requested_for": "Publish prepared test fixes, evidence summaries and coordination to Hanjay6688/-erp-garment-ux; run existing scoped CI.",
+    "admission_receipts": {
+      "profile": {
+        "bytes": 3724508,
+        "sha256": "f1a60a8433690d7d144bf590a1bd95a9ba5d625c9a75c31dd76d51193d3285a4",
+        "database_called": false
+      },
+      "progress": {
+        "bytes": 3911725,
+        "sha256": "cb8a5df213d194f1e4033df564a1447b69542743c0bec7dbbb3f48e72e5b21a3",
+        "database_called": false
+      }
+    }
+  },
+  "successor_publication": {
+    "owner_response": "lanjut",
+    "authorization_context": "Direct answer to explicit public GitHub publication and scoped server testing request.",
+    "approval_block_resolved": true,
+    "public_repository": "Hanjay6688/-erp-garment-ux",
+    "profile_head": "a569d322bb91162026c7f9cc162facf12f0dd7ea",
+    "progress_head": "0c86d27739ff74aba65967453465880d1c72e94c",
+    "source_trees_match_verified_local": true,
+    "expected_workflow_count": 2,
+    "observed_workflow_count": 2,
+    "runtime_result_available": false
   }
 }
