@@ -4462,3 +4462,29 @@ Hambatan ruang lokal saatgitadd diselesaikan dengan membandingkan setiapbyte
 11.379.408.896byte redundan dilepas, ditambah satu salinan lengkap413.417.142byte
 yang hashnyasama. Original, arsip kanonik dan Git tidak berubah. Bukti perfile
 disimpan untuk estafet. Dua CI masihberjalan; tidakada hasil baru yang diluluskan.
+
+
+### 26 Oktober2026 — A: kegagalan retensi bfed disimpan, penerus jadwal v2 berjalan
+
+Actual bfed0a81/run40324974838/job121579218692/artifact12655434029 tetap
+INCOMPLETE5PASS/1: CP7_PLAN_FEASIBILITY_UNKNOWN saat membuat draf nyata.
+Original6207310bytes/SHAea2152f67174cfe78828962c0f5be1bd9f3b572dc81ca14b01d2da6483ddad3f,
+ZIP3006503bytes/SHA4cc5ade3261d9b97dd0be996fffe66d685e9aa8ae1bb6b81cadfd12bd1b0ca4f.
+3757 sumber persis; installed/primary/backup/advisor lulus, writer gagal;
+22 kelompok/data/sequence/CP6/advisor kembali persis. Kegagalan sebelumnya tidak diubah.
+
+Diagnosis sumber: kalender fixture ditinjau lewat fingerprint lama, sedangkan
+frozen v2 mengikat native facts, digest stok penuh, dan producer. Source mismatch
+wajib membuat kapasitas UNKNOWN; preflight draft benar menolak. Perubahan hanya
+harness A: request tanpa unit, GET/SAVE jadwal staged resmi dengan konfigurasi
+persis sama dan CAS/UUID replay, kemudian satu capture penuh baru. Job review lama
+harus stale, baru current; alokasi/kapasitas SCENARIO dan kebutuhan/kapasitas >=2.
+B dan guard produk tetap persis. Tidak menulis referensi dokumen/hash palsu.
+
+Penerus8dfe1a19c7b7c61558b25c00f1dd388c8565e3d1/treebfa5a3a1ad68cf6cbabe038afd40f3bcd6298b60,
+local5eae6bc88269b8a1a30940620ced59dee70720e4, pemeriksaan penuh3758pins PASS
+3934765bytes/SHA4458af6f77a0d3b03d922ba720f23a19ce73e75581014a1ce1b479b8180357ab.
+CI40338677390/job121627045376 mulai14:20:06UTC; belum ada hasil runtime.
+UI/transport tetap unbound dan menunggu PASS6 aktual. Reuse keuanganf038 tetap
+berjalan pada perbandingan SMALL/PRICE_PERCENT/FACTORY; source-race5b belum dijalankan.
+Formal5/16, production_go=false, independent_acceptance=false; bukan izin produksi.

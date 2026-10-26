@@ -1,5 +1,5 @@
 {
-  "recorded_at_utc": "2026-10-26T12:50:25.583932+00:00",
+  "recorded_at_utc": "2026-10-26T14:23:43.312099+00:00",
   "role": "A finance writer/integrator replacing Claude; B remains separate production/planning writer",
   "slogan": [
     "VENI. VIDI. VICI. ERP. \u2014 I CONQUERED ERP.",
@@ -10,10 +10,10 @@
   "independent_acceptance": false,
   "running": [
     {
-      "head": "bfed0a81252e597842b9b9020ecc061cca936d54",
-      "run_id": 40324974838,
-      "job_id": 121579218692,
-      "scope": "Focused Native6: exact retention column access, actual plan/reminder document preservation, all prior case guards"
+      "head": "8dfe1a19c7b7c61558b25c00f1dd388c8565e3d1",
+      "run_id": 40338677390,
+      "job_id": 121627045376,
+      "scope": "Focused Native6: unchanged calendar reviewed through actual frozen v2 CAS; real plan/reminder retention, all prior guards and exact restore"
     },
     {
       "head": "f038a6ecc5a71278554eab62ab7df4f4ced9b7bc",
@@ -4379,9 +4379,9 @@
     "actual_predecessor_required": "54676bcc969b950dd1ec52eb7feba2d7e58a8cb4 PASS"
   },
   "progress_finance_UI_browser_prepared": {
-    "head": "d50dc97e98740f03b1ed104c820ca6353b7f00fa",
-    "local": "a0067047f444ad5cd1f5e0bf3a01237ba9aa2bce",
-    "tree": "7ebe3483c108554a39f51850dc48dbdcaac470ab",
+    "head": "d746fc90b5d1f99daddb81d6257a8d9cd360242c",
+    "local": "8cd68ab77424b474f21a0510a00d3d1969233efd",
+    "tree": "7f06e310bb17655e81a564caab517a3f623e3f3f",
     "branch": "astra-a/d17-18-progress-finance-ui-browser-prepared-20261026",
     "status": "PREPARED_UNBOUND_NOT_EXECUTED",
     "host_exact_files": 113,
@@ -4394,7 +4394,7 @@
     "total_business_guards": 27,
     "shell_steps_checked": 47,
     "source_bound": false,
-    "actual_predecessor_required": "bfed0a81252e597842b9b9020ecc061cca936d54 actual PASS6",
+    "actual_predecessor_required": "8dfe1a19c7b7c61558b25c00f1dd388c8565e3d1 actual PASS6",
     "actual_browser": false,
     "actual_database": false,
     "production_go": false,
@@ -4404,8 +4404,8 @@
     "host_tests": 190,
     "host_test_files": 17,
     "host_typecheck": "PASS",
-    "blocked_by": "Actual bfed Native6 still running",
-    "imported_Native6_harness_head": "bfed0a81252e597842b9b9020ecc061cca936d54",
+    "blocked_by": "Actual8dfe Native6 running; bfed remains INCOMPLETE",
+    "imported_Native6_harness_head": "8dfe1a19c7b7c61558b25c00f1dd388c8565e3d1",
     "current_private_info_live_review": true,
     "complete_product_source_equal_Native6": true,
     "unbound_admission_refused_before_database": true
@@ -4624,8 +4624,8 @@
   },
   "choice_preparation_transport6": {
     "recorded_at_utc": "2026-10-26T10:04:30.854167+00:00",
-    "head": "058b8f980f133e94f8e5d8a8810779df1261697f",
-    "tree": "f7acfee2d8597ecb08ac5da5635f313b0aba47a4",
+    "head": "d664447defde65b870b7d3f6165b5486bec22180",
+    "tree": "affaa82c0f0733b7501701bd9f9fd05e4f97d42d",
     "local_commit": "785f1ff7204c9addd936aad41ed4f688114e1e8c",
     "branch": "astra-a/d17-18-choice-transport-prepared-20261026",
     "status": "PREPARED_UNBOUND_NOT_EXECUTED",
@@ -4667,10 +4667,10 @@
       "scripts/current-choice-preparation-transport-qualification/fetch_original.py": "cffaa000a1908cb44034cfdba358b88320c3c2521eee67d3a4271fc9c30bdf49"
     },
     "next": "Bind only to actual full choice Native6 PASS Original, admit all sources, then run scoped real Auth3/race3",
-    "blocked_by": "Actual bfed Native6 still running",
-    "actual_predecessor_required": "bfed0a81252e597842b9b9020ecc061cca936d54 actual PASS6",
-    "local": "395a7ad37e7b70fc5eb2bbec553a719813faef67",
-    "imported_Native6_harness_head": "bfed0a81252e597842b9b9020ecc061cca936d54",
+    "blocked_by": "Actual8dfe Native6 running; bfed remains INCOMPLETE",
+    "actual_predecessor_required": "8dfe1a19c7b7c61558b25c00f1dd388c8565e3d1 actual PASS6",
+    "local": "2e738a5481505da49ce571f68acfbd79898d21bb",
+    "imported_Native6_harness_head": "8dfe1a19c7b7c61558b25c00f1dd388c8565e3d1",
     "current_private_info_live_review": true,
     "source_bound": false
   },
@@ -8200,71 +8200,51 @@
     "ordinary_timeout_changed": false
   },
   "retention_reference_successor": {
-    "head": "bfed0a81252e597842b9b9020ecc061cca936d54",
-    "parent": "82f9f82ffdce4642c4243942f91f5c219875bf47",
-    "tree": "e514c20c78f638a9888c5b1c7bc15c813543db06",
-    "local": "52bdafdb9df2f92ebc81be4882fef0d0d33594c1",
+    "head": "8dfe1a19c7b7c61558b25c00f1dd388c8565e3d1",
+    "parent": "bfed0a81252e597842b9b9020ecc061cca936d54",
+    "tree": "bfa5a3a1ad68cf6cbabe038afd40f3bcd6298b60",
+    "local": "5eae6bc88269b8a1a30940620ced59dee70720e4",
     "branch": "astra-a/d17-18-choice-preparation-native-qualification-20261026",
     "files": [
       {
-        "path": ".github/workflows/cp7-d17-18-choice-preparation-native.yml",
+        "path": "scripts/current-choice-preparation-native-qualification/FIRST_RUNTIME_FAILURE_BFED.json",
         "mode": "100644",
         "type": "blob",
-        "sha": "3ef29c92a3e4b6325a3c990262cf35652431abf9"
-      },
-      {
-        "path": "scripts/current-choice-preparation-native-qualification/FIRST_RUNTIME_FAILURE_9A.json",
-        "mode": "100644",
-        "type": "blob",
-        "sha": "c7202a0dac216015c95894f30a075adb6cf11012"
+        "sha": "4b8486d22a10ba138dc0659149265f7d17ed996b"
       },
       {
         "path": "scripts/current-choice-preparation-native-qualification/README.md",
         "mode": "100644",
         "type": "blob",
-        "sha": "12da83b0722a287560f4759aa717293d04dfa0c3"
-      },
-      {
-        "path": "scripts/current-choice-preparation-native-qualification/RETENTION_LOCAL_PREFLIGHT.json",
-        "mode": "100644",
-        "type": "blob",
-        "sha": "a539e29affd4959aa2a0f3a192201cc6cd641104"
+        "sha": "8604e679bc1ec6dc07c8fe5fac27690eb088efd8"
       },
       {
         "path": "scripts/current-choice-preparation-native-qualification/SOURCE.json",
         "mode": "100644",
         "type": "blob",
-        "sha": "e50ea1907ec55ccbc9f732070dd75a3fa9457250"
-      },
-      {
-        "path": "scripts/current-choice-preparation-native-qualification/bind_sources.py",
-        "mode": "100644",
-        "type": "blob",
-        "sha": "a7a0c726f26875100c9727dded287a134f942570"
-      },
-      {
-        "path": "scripts/current-choice-preparation-native-qualification/cases.py",
-        "mode": "100644",
-        "type": "blob",
-        "sha": "c62da2e3e68b6209102eada9b8e50b2f0ff73908"
+        "sha": "26176253621c088fdda860d11d0b8fb1a1527d62"
       },
       {
         "path": "scripts/current-choice-preparation-native-qualification/retention_cases.py",
         "mode": "100644",
         "type": "blob",
-        "sha": "8025314f82eda763132327c1a48b96fed4c0242f"
+        "sha": "e7f024634215dd2afc3309008060e966041972c3"
       }
     ],
     "full_admission": {
       "status": "PASS",
-      "source_pins": 3757,
-      "bytes": 3934600,
-      "sha256": "0c133aff4827e34c4491b22f09b129ed91e47c375e51cdbf324c7a485b611c25"
+      "source_pins": 3758,
+      "bytes": 3934765,
+      "sha256": "4458af6f77a0d3b03d922ba720f23a19ce73e75581014a1ce1b479b8180357ab"
     },
-    "runtime_status": "IN_PROGRESS",
+    "actual_runtime_qualified": false,
     "production_go": false,
-    "run_id": 40324974838,
-    "job_id": 121579218692
+    "runtime_status": "IN_PROGRESS",
+    "run_id": 40338677390,
+    "job_id": 121627045376,
+    "source_pins": 3758,
+    "product_changed": false,
+    "B_sources_exact": true
   },
   "previous_running_before_retention_and_reuse_failure": [
     {
@@ -8396,9 +8376,9 @@
     "workflow_shell_steps": 48
   },
   "dependent_qualification_boundary": {
-    "required_actual_native": "bfed0a81252e597842b9b9020ecc061cca936d54 PASS",
-    "ui": "Exact bfed product and harness imported; awaiting actualPASS before binding",
-    "transport": "Exact bfed product and harness imported; awaiting actualPASS before binding",
+    "required_actual_native": "8dfe1a19c7b7c61558b25c00f1dd388c8565e3d1 PASS",
+    "ui": "Prepared exact successor import; no binding before actualPASS",
+    "transport": "Prepared exact successor import; no binding before actualPASS",
     "source_race": "Exact f038 sources and full outer boundary prepared; awaiting actualPASS before binding",
     "no_binding_executed": true
   },
@@ -8698,5 +8678,135 @@
     "canonical_sha256": "25aceaca2782cf130c6fc40907862d5c224025441bc41ed1bb391e7240117198",
     "Originals_unchanged": true,
     "code_and_Git_unchanged": true
+  },
+  "previous_running_before_retention_bfed_intake": [
+    {
+      "head": "bfed0a81252e597842b9b9020ecc061cca936d54",
+      "run_id": 40324974838,
+      "job_id": 121579218692,
+      "scope": "Focused Native6: exact retention column access, actual plan/reminder document preservation, all prior case guards"
+    },
+    {
+      "head": "f038a6ecc5a71278554eab62ab7df4f4ced9b7bc",
+      "run_id": 40327902313,
+      "job_id": 121589286821,
+      "scope": "Exact composed-source snapshot-check reuse diagnostic; SMALL, PRICE_PERCENT and FACTORY_1200X3"
+    }
+  ],
+  "actual_choice_retention_bfed_failure": {
+    "name": "CP7_D17_18_CHOICE_NATIVE6.json",
+    "status": "INCOMPLETE",
+    "head": "bfed0a81252e597842b9b9020ecc061cca936d54",
+    "run_id": 40324974838,
+    "job_id": 121579218692,
+    "artifact_id": 12655434029,
+    "zip_bytes": 3006503,
+    "zip_sha256": "4cc5ade3261d9b97dd0be996fffe66d685e9aa8ae1bb6b81cadfd12bd1b0ca4f",
+    "bytes": 6207310,
+    "sha256": "ea2152f67174cfe78828962c0f5be1bd9f3b572dc81ca14b01d2da6483ddad3f",
+    "archive_member": "CP7_D17_18_CHOICE_NATIVE6.json",
+    "source_pins_verified": 3757,
+    "exact_prior_original_verified": {
+      "name": "CP7_D17_18_PROGRESS_NATIVE5.json",
+      "status": "PASS",
+      "head": "0c86d27739ff74aba65967453465880d1c72e94c",
+      "run_id": 40286627929,
+      "job_id": 121451709620,
+      "artifact_id": 12637959084,
+      "zip_bytes": 2968325,
+      "zip_sha256": "33c1889449edde12aac63c3aba860919c135c77006f813f903e985e0c20e9ecc",
+      "bytes": 5878000,
+      "sha256": "dd72583a82175893be57e0ccdbe10a575e91135e9163951130f8596a7e46f393",
+      "archive_member": "CP7_D17_18_PROGRESS_NATIVE5.json"
+    },
+    "package_gate": {
+      "installed": true,
+      "primary_unchanged": true,
+      "backup_restore_drill": true,
+      "security_advisors": true,
+      "writer_runtime": false
+    },
+    "cp6_restored": true,
+    "advisor_gate": true,
+    "production_go": false,
+    "independent_acceptance": false,
+    "first_failure_preserved": true,
+    "actual_Auth_HTTP_credit": false,
+    "performance_qualification": false,
+    "error_summary": "INCOMPLETE: full first failure retained, no widened runtime credit",
+    "counts": {
+      "PASS": 5,
+      "INCOMPLETE": 1
+    },
+    "failure_code": "CP7_PLAN_FEASIBILITY_UNKNOWN",
+    "baseline_full22_all_rows_all_sequences_equal": true,
+    "full_original_preserved": true
+  },
+  "retention_reference_successor_before_schedule_review": {
+    "head": "bfed0a81252e597842b9b9020ecc061cca936d54",
+    "parent": "82f9f82ffdce4642c4243942f91f5c219875bf47",
+    "tree": "e514c20c78f638a9888c5b1c7bc15c813543db06",
+    "local": "52bdafdb9df2f92ebc81be4882fef0d0d33594c1",
+    "branch": "astra-a/d17-18-choice-preparation-native-qualification-20261026",
+    "files": [
+      {
+        "path": ".github/workflows/cp7-d17-18-choice-preparation-native.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "3ef29c92a3e4b6325a3c990262cf35652431abf9"
+      },
+      {
+        "path": "scripts/current-choice-preparation-native-qualification/FIRST_RUNTIME_FAILURE_9A.json",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "c7202a0dac216015c95894f30a075adb6cf11012"
+      },
+      {
+        "path": "scripts/current-choice-preparation-native-qualification/README.md",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "12da83b0722a287560f4759aa717293d04dfa0c3"
+      },
+      {
+        "path": "scripts/current-choice-preparation-native-qualification/RETENTION_LOCAL_PREFLIGHT.json",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "a539e29affd4959aa2a0f3a192201cc6cd641104"
+      },
+      {
+        "path": "scripts/current-choice-preparation-native-qualification/SOURCE.json",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "e50ea1907ec55ccbc9f732070dd75a3fa9457250"
+      },
+      {
+        "path": "scripts/current-choice-preparation-native-qualification/bind_sources.py",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "a7a0c726f26875100c9727dded287a134f942570"
+      },
+      {
+        "path": "scripts/current-choice-preparation-native-qualification/cases.py",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "c62da2e3e68b6209102eada9b8e50b2f0ff73908"
+      },
+      {
+        "path": "scripts/current-choice-preparation-native-qualification/retention_cases.py",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "8025314f82eda763132327c1a48b96fed4c0242f"
+      }
+    ],
+    "full_admission": {
+      "status": "PASS",
+      "source_pins": 3757,
+      "bytes": 3934600,
+      "sha256": "0c133aff4827e34c4491b22f09b129ed91e47c375e51cdbf324c7a485b611c25"
+    },
+    "runtime_status": "INCOMPLETE_5_PASS_1_FEASIBILITY_FAILURE",
+    "production_go": false,
+    "run_id": 40324974838,
+    "job_id": 121579218692
   }
 }
