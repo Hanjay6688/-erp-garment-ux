@@ -3996,3 +3996,81 @@ juga masih berjalan. Belum ada bukti mahalnya fungsi internal pabrik.
 Lanjutkan intakehasil, komposisiAuth/dua-sesi/cron/restore/factory dan UI B terbaru
 bersama telemetry/finance A. Tidak ada default adoption atau izin produksi;
 formal5/16, independent_acceptance=false, production_go=false.
+
+
+## 217. [bersama] B26 Oktober2026 WIB — all36 started runs finished; A composition remains the acceptance boundary
+
+Code remainsb96e2f74, tree64810b6b. All36 automatic runs on4d/9d/d43/b96 have
+finished and every available complete Original has been read against its exact
+source. No workflow was rerun to chase green, no unit/job limit raised, and no
+old failure converted by the new total-time policy.4d cutting Transport10/
+run40261719798/art12627156404 PASS10/99pins, complete exact-source F05/package/
+public/CP6/advisor/clone/full race and Auth restore checked. Its long CI duration
+includes isolated rebuild/restore, not a single ERP operation's latency.
+
+Latest unchanged legacy-choice Native route observations:
+
+- d43f38a4, run40264331581, artifact12627801346: 5PASS/1INCOMPLETE.
+  Cached SAVE7119.039ms; K3 timeout8034.576ms; same-command calibration
+  8004.529ms also times out. Full restore verified, calibration effects
+  rolled back; writer_runtime=false.
+- b96e2f74, run40265688096, artifact12628130830: 5PASS/1INCOMPLETE.
+  Cached SAVE7081.885ms; K3 timeout8011.059ms; same-command calibration
+  8040.09ms also times out. Full restore verified, calibration effects
+  rolled back; writer_runtime=false.
+
+Full Original boundary/package/CP6/advisor/session results are retained in their
+receipts. Each failed writer_runtime remains false. This route has the same
+admitted source prefixes/product paths/workflow as9d; it does not install or
+exercise the optional preparation delta. No inference of a new-policy fix from
+an old-route rerun. Old8s SAVE failures and interrupted60min Transport remain.
+
+Final intake63 unique Original artifacts: 43 Native/actualAuth package checks, 11 controlled UI, 7 real-browser/controlled-RPC, 2 interrupted without complete gates. Package checked never means
+writer passed. Real two-tab browser with controlled RPC has no Native/Auth/
+restore credit. Missing restore gates are not credited. All raw Originals and
+first-failure logs remain byte-exact; detailed source-bound times and remaining
+owner requirements are in LARGE_ANALYSIS_TIMINGS and LARGE_ANALYSIS_ACCEPTANCE.
+
+B's available correction is concrete: honest production progress; bounded
+client replies/queues with the same stored request; preparation before candidates
+and SAVE using sealed inputs; retired callers stop; optional runner catches
+pre-step cancellation with bounded attempts and restored claims.18 local SQL
+groups pass, plus the source-specific client/Auth/browser checks recorded above.
+Actual new preparation Native/two-session/backend-loss/Auth/factory/whole-report
+parity and composed restore are still unqualified. A must register the new route,
+compose public registry/K4/retention/verifier/defaults and official finance/HPP,
+then run full combined qualification. No shared interface/default/Native/finance
+change was made by B. A remainsf898a71f; old integration brancha255e48f is22Oct
+history, not approval of the new contract. Formal5/16; B scope incomplete;
+independent_acceptance=false; production_go=false.
+
+
+## 26 Oktober 2026 WIB — A: host progres gabungan disiapkan pada kontrak B yang tetap
+
+A mengimpor catatan217 B c95428fb secara persis. Kode B tetapb96e2f74.
+63Original adalah ledger B; belum seluruhnya diintake ulang A dan bukan
+kelulusan gabungan. Kegagalan SAVE sesudahK3 dan dua interrupted tetap terbuka.
+
+Kandidat A0f818812 pada astra-a/d17-18-progress-finance-ui-prepared-20261026
+menambah host opsional di namespace scripts/cp7_current_progress_finance_ui.
+90berkas B byte-exact; extension renderFinance yang sudah ada tidak diubah.
+Hanya import panel kebutuhan dialihkan ke wrapper prepared-choice B dan klien
+routing A. AuthProvider/AuthGate asli; default aplikasi dan pemasang tetap.
+Servertelemetry A memakaiUUID yang sama, hash/waktu sumber ketat, currentACL,
+satu read yang sedang berjalan, tanpa cache respons selesai atau mutasi.
+Durasi dari server; progres produksi/keuangan terpisah; total tak diketahui
+bukan nol. Panel keuangan asli tetap memeriksa24angka resmi dan readiness.
+
+179uji/16berkas lokal, TypeScript dan build79modul lulus. Tujuh uji host
+terkendali mencakupStrictMode, sharedread, RUNNING→READY, pembukaan ulang,
+respons hilang, pencabutan izin, dan jawaban sesudah unmount. Kegagalan awal
+fingerprint urutanJSON ditemukan/dibetulkan dengan identitas kolom eksplisit;
+kegagalan tetap dicatat. Semua bukti ini lokal, tanpaAuth/DB/restore/cron credit.
+Berkas B dengan whitespace lama dipertahankan persis, bukan diedit untuk lint.
+
+Backend induk821a7e79 masih menunggu Native5 aktual sebelum Native6 diikat.
+Run690/40263535654,546/40264118585,389/40267920853 masih berjalan pada snapshot
+26Okt04:43UTC. Native5 joblog belum tersedia (404 BlobNotFound), bukan bukti
+kegagalan produk; tidak diulang atau diberi kelulusan. Lanjutkan intake,
+Native6/fullrestore, Auth/dua-sesi/cron/factory dan browser gabungan.
+formal5/16, independent_acceptance=false, production_go=false.
