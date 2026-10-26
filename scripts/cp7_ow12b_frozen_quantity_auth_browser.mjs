@@ -30,7 +30,7 @@ async function readable(panel){
 }
 async function journey(ui,today,built,mobile){
  const user=await ui.login('OWNER',{label:'frozen-quantity-'+mobile,mobile,timezoneId:mobile?'America/Los_Angeles':'Asia/Jakarta'}),page=user.page,actor=user.user.id
- const f=fixture('prepare',{today,actor}),state=()=>fixture('state',{actor}),before=state(),calls=[],shots=[],textContrasts=[];let lost=null,other=null
+ const f=fixture('prepare',{today,actor}),state=()=>fixture('state',{actor}),before=state(),calls=[],shots=[],textContrasts=[];let lost=null,lostRecord=null,other=null,releaseStep=null,progressStatus=null,heldFirstStep=false
  assert.equal(f.browser_job_created,false);assert.equal(before.jobs.length,0)
  const panel=page.getByRole('region',{name:'Kebutuhan seluruh produk',exact:true}),rows=()=>panel.locator('[data-quantity-target]'),url=built.url+'?query='+encodeURIComponent(JSON.stringify(f.query))
  const stored=()=>page.evaluate(()=>Object.entries(localStorage).filter(([k])=>k.startsWith('erp.cp7.bounded-analysis-request.v2:')).map(([key,bytes])=>({key,bytes,value:JSON.parse(bytes)})))
@@ -41,16 +41,30 @@ async function journey(ui,today,built,mobile){
   // Only lose delivery of the first real committed response; never fabricate a result.
   await page.route('**/rest/v1/rpc/*',async route=>{
    const name=new URL(route.request().url()).pathname.split('/').at(-1),args=route.request().postDataJSON(),r=await route.fetch(),body=await r.json();calls.push({name,args,status:r.status(),body})
+   if(name===STEP&&!heldFirstStep){
+    heldFirstStep=true;progressStatus=calls.filter(c=>c.name===REQUEST&&c.status===200).at(-1).body
+    // Hold only delivery of a real step response until the already acknowledged
+    // request status is inspected. No invented server result or timed animation.
+    await new Promise(resolve=>{releaseStep=resolve})
+   }
    if(!mobile&&name===REQUEST&&!lost){lost=calls.at(-1);await route.abort('failed')}else await route.fulfill({response:r})
   })
   await page.goto(url);await ui.expect(panel).toBeVisible()
   if(!mobile){
    await ui.expect.poll(()=>lost?.status).toBe(200);await ui.expect(panel.getByRole('alert')).toBeVisible();await ui.expect(panel.getByRole('button',{name:'Hitung kebutuhan terbaru',exact:true})).toBeDisabled()
-   const held=await stored();assert.equal(held.length,1);assert.equal(held[0].value.id,lost.args.p_request);assert.deepEqual(held[0].value.q,lost.args.p_query);assert.equal(held[0].value.method,'cp7.bounded-analysis-request.v2')
+   const held=await stored();lostRecord=held;assert.equal(held.length,1);assert.equal(held[0].value.id,lost.args.p_request);assert.deepEqual(held[0].value.q,lost.args.p_query);assert.equal(held[0].value.method,'cp7.bounded-analysis-request.v2')
    const interrupted=state();assert.equal(interrupted.jobs.length,1);assert.equal(interrupted.jobs[0].state,'RUNNING');assert.deepEqual(interrupted.physical,before.physical)
-   await page.reload();await ui.expect(rows().first()).toBeVisible({timeout:180000});assert.deepEqual(await stored(),held)
-  }else await ui.expect(rows().first()).toBeVisible({timeout:180000})
-  const held=await stored();assert.equal(held.length,1);const request=held[0].value.id,after=state(),exact=fixture('read',{actor,request})
+   await page.reload()
+  }
+  await ui.expect.poll(()=>Boolean(releaseStep)).toBe(true)
+  const progress=panel.getByRole('region',{name:'Kemajuan analisis',exact:true})
+  assert.equal(progressStatus.state,'RUNNING');await ui.expect(progress).toContainText(`${progressStatus.units_done} dari ${progressStatus.unit_count} langkah produksi selesai`)
+  if(!progressStatus.plan_final)await ui.expect(progress.getByRole('progressbar')).toHaveCount(0)
+  await ui.expect(panel.getByRole('button',{name:'Tutup perhitungan kebutuhan',exact:true})).toBeEnabled()
+  await ui.expect(progress).toContainText('Durasi sejak data diambil');await shot('PROGRESS')
+  releaseStep();releaseStep=null
+  await ui.expect(rows().first()).toBeVisible({timeout:180000})
+  const held=await stored();if(lostRecord)assert.deepEqual(held,lostRecord);assert.equal(held.length,1);const request=held[0].value.id,after=state(),exact=fixture('read',{actor,request})
   assert.equal(after.jobs.length,1);assert.equal(after.jobs[0].request,request);assert.equal(after.jobs[0].state,'DONE');assert.equal(after.jobs[0].reference.bounded_request_contract,'cp7.bounded-analysis-request.v2');assert.equal(after.jobs[0].reference.bounded_input_coverage,'PENDING');assert.equal(after.jobs[0].reference.bounded_history_inputs,null)
   assert.deepEqual(after.physical,before.physical);assert.deepEqual(after.choices,before.choices)
   const req=calls.filter(c=>c.name===REQUEST);assert.ok(req.length>=2&&req.every(c=>c.status===200&&c.args.p_request===request))
@@ -79,9 +93,9 @@ async function journey(ui,today,built,mobile){
    fixture('deactivate',{actor});const denied=await response(page,CHECK,()=>click('Periksa sumber kebutuhan'));assert.equal(denied.status,403);await ui.expect(rows()).toHaveCount(0);await ui.expect(panel.getByRole('searchbox')).toHaveCount(0);assert.deepEqual(await stored(),held);assert.deepEqual(state(),posted);await shot('ACCESS_REVOKED')
   }
   assert.deepEqual(await page.evaluate(()=>navigator.locks.query()),{held:[],pending:[]})
-  return{status:'PASS',actual_AuthProvider:true,actual_AuthGate:true,actual_Auth_PostgREST_browser:true,actual_public_v2_request_units_DONE_pages:true,actual_reply_loss_reload_exact_method_query_UUID_one_job:!mobile,all_displayed_facts_equal_full_Native_Original:true,unknown_facts:unknown,actual_frozen_analog_handoff:!mobile,actual_Native_stock_post_stale_source:mobile,actual_anon_foreign_current_access_refusals:mobile,actual403_clears_quantities_retains_original_request:mobile,reference_microseconds_preserved:true,no_physical_or_choice_effect:true,viewport:mobile?390:1440,no_horizontal_overflow:true,visible_text_contrasts:textContrasts,request_calls:calls.filter(c=>c.name===REQUEST).length,step_calls:calls.filter(c=>c.name===STEP).length,source_paths:built.source_paths,source_sha256:built.source_sha256,shots,full_factory3600_qualified:false,cutting_SAVE_qualified:false,default_application_adopted:false,production_go:false}
+  return{status:'PASS',actual_AuthProvider:true,actual_AuthGate:true,actual_Auth_PostgREST_browser:true,actual_public_v2_request_units_DONE_pages:true,actual_progress_matches_acknowledged_server_units:true,unknown_final_total_has_no_percentage:true,close_enabled_during_pending_real_step:true,actual_reply_loss_reload_exact_method_query_UUID_one_job:!mobile,all_displayed_facts_equal_full_Native_Original:true,unknown_facts:unknown,actual_frozen_analog_handoff:!mobile,actual_Native_stock_post_stale_source:mobile,actual_anon_foreign_current_access_refusals:mobile,actual403_clears_quantities_retains_original_request:mobile,reference_microseconds_preserved:true,no_physical_or_choice_effect:true,viewport:mobile?390:1440,no_horizontal_overflow:true,visible_text_contrasts:textContrasts,request_calls:calls.filter(c=>c.name===REQUEST).length,step_calls:calls.filter(c=>c.name===STEP).length,source_paths:built.source_paths,source_sha256:built.source_sha256,shots,full_factory3600_qualified:false,cutting_SAVE_qualified:false,default_application_adopted:false,production_go:false}
  }catch(error){mkdirSync('cp6-proof/t3',{recursive:true});writeFileSync(`cp6-proof/t3/FROZEN_QUANTITY_AUTH_${mobile?'MOBILE':'DESKTOP'}_FAILURE.json`,JSON.stringify({error:String(error),calls,alerts:await page.getByRole('alert').allTextContents().catch(()=>[])},null,2));await shot('FAILURE').catch(()=>{});throw error}
- finally{fixture('restore',{actor});await other?.context.close();await user.context.close()}
+ finally{releaseStep?.();fixture('restore',{actor});await other?.context.close();await user.context.close()}
 }
 export async function cases(ui,today){const built=await buildPreparedQuantity(ui);built.source_sha256=Object.fromEntries(built.source_paths.map(p=>[p,createHash('sha256').update(readFileSync(p)).digest('hex')]));return[
  ['OW12B_FROZEN_QUANTITY_AUTH_BROWSER_DESKTOP_DONE_RECOVERY_ANALOG',()=>journey(ui,today,built,false)],

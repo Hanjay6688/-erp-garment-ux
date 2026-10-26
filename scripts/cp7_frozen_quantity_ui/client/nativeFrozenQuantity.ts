@@ -1,3 +1,4 @@
+import {boundedFrozenReply,frozenProgressGuard} from './nativeFrozenProgress'
 import {FROZEN_ANALYSIS_REQUEST,frozenAnalysisRequestKey,frozenAnalysisRequestQuery,readFrozenAnalysisRequest,type FrozenAnalysisRequest} from '../../cp7_frozen_analysis_facade_v2/client/nativeFrozenAnalysis'
 import {driveStagedJob,parseStagedJob,type StagedDriveOptions,type StagedJob} from '../../../src/nativeStagedJob'
 import {parseAnalysisPageSet,parseAnalysisHeader,parseAnalysisPage,parseStagedSourceCheck,type StagedAnalysis} from '../../../src/nativeAnalysisPages'
@@ -35,11 +36,11 @@ async function locked<T>(s:FrozenQuantitySession,action:(r:FrozenAnalysisRequest
 // Always re-enter the explicit v2 idempotent request, including reload. The
 // shared get/status response does not attest the stored method by itself.
 export function driveFrozenQuantity(client:unknown,s:FrozenQuantitySession,options:Omit<StagedDriveOptions,'rpc'|'request'|'start'>){
- const c=client as Client
- return driveStagedJob({...options,start:true,request:frozenQuantityStagedRequest(s.request),rpc:{
-  request:async()=>locked(s,async r=>await c.rpc('erp_cp7_request_bounded_staged_analysis_v2',{p_request:r.id,p_query:frozenAnalysisRequestQuery(r)})),
-  get:async()=>locked(s,async r=>await c.rpc('erp_cp7_get_staged_analysis_v1',{p_request:r.id})),
-  step:async()=>locked(s,async r=>await c.rpc('erp_cp7_step_staged_analysis_v1',{p_request:r.id})),
+ const c=client as Client,checkProgress=frozenProgressGuard()
+ return driveStagedJob({...options,onStatus:status=>{options.onStatus?.(status);checkProgress(status)},start:true,request:frozenQuantityStagedRequest(s.request),rpc:{
+  request:async()=>locked(s,async r=>await boundedFrozenReply(()=>c.rpc('erp_cp7_request_bounded_staged_analysis_v2',{p_request:r.id,p_query:frozenAnalysisRequestQuery(r)}))),
+  get:async()=>locked(s,async r=>await boundedFrozenReply(()=>c.rpc('erp_cp7_get_staged_analysis_v1',{p_request:r.id}))),
+  step:async()=>locked(s,async r=>await boundedFrozenReply(()=>c.rpc('erp_cp7_step_staged_analysis_v1',{p_request:r.id}))),
  }})
 }
 const admitted=new WeakMap<StagedAnalysis,string>()
@@ -54,9 +55,9 @@ export async function readFrozenQuantity(client:unknown,s:FrozenQuantitySession,
  return locked(s,async r=>{
   // A caller cannot relabel an old-method DONE job. The server must accept
   // this exact v2 method/query/UUID again before any page is requested.
-  const current=parseStagedJob(data(await c.rpc('erp_cp7_request_bounded_staged_analysis_v2',{p_request:r.id,p_query:frozenAnalysisRequestQuery(r)})),r.id,frozenQuantityStagedRequest(r))
+  const current=parseStagedJob(data(await boundedFrozenReply(()=>c.rpc('erp_cp7_request_bounded_staged_analysis_v2',{p_request:r.id,p_query:frozenAnalysisRequestQuery(r)}))),r.id,frozenQuantityStagedRequest(r))
   if(current.state!=='DONE'||current.retention?.state==='EXPIRED'||current.runId!==job.runId||current.targetsTotal!==job.targetsTotal||!sameBoundedReference(current.reference,job.reference))fail()
-  const set=await parseAnalysisPageSet(data(await c.rpc('erp_cp7_read_staged_analysis_pages_v1',{p_run:current.runId!})),current.runId!,r.id)
+  const set=await parseAnalysisPageSet(data(await boundedFrozenReply(()=>c.rpc('erp_cp7_read_staged_analysis_pages_v1',{p_run:current.runId!}))),current.runId!,r.id)
   if(set.targetsTotal!==current.targetsTotal||!sameBoundedReference(set.reference,current.reference))fail()
   const header=await parseAnalysisHeader(set,r.q,s.actor,{ownerReports:false,preflight:false})
   const out:StagedAnalysis={kind:'STAGED',set,header};admitted.set(out,binding(s,out));return out

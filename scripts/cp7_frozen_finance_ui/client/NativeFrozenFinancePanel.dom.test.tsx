@@ -60,7 +60,7 @@ it('reopens the original finance choice and UUID after remount even when the cur
 it('retires only protected finance facts when report access is revoked and preserves operational rows',async()=>{
  await startFinance();await until(()=>container.textContent!.includes('Rp123,45'));const stored=readFrozenAnalysisRequest(f.actor,scope).pending
  phase='ACCESS_REVOKED';await click('Muat ulang status keuangan');await until(()=>container.textContent!.includes('Akun saat ini belum boleh membaca angka'))
- expect(container.textContent).not.toContain('Rp');expect(container.textContent).not.toContain('5 dari 5');expect(container.querySelectorAll('[data-quantity-target]')).toHaveLength(2)
+ expect(container.textContent).not.toContain('Rp');expect(container.querySelector('[aria-label="Keuangan analisis dari laporan resmi"]')?.textContent).not.toContain('5 dari 5');expect(container.textContent).toContain('55 dari 55 langkah produksi');expect(container.querySelectorAll('[data-quantity-target]')).toHaveLength(2)
  expect(readFrozenAnalysisRequest(f.actor,scope).pending).toEqual(stored)
 })
 it('retires parent quantities after an operational403 and retains the exact original request',async()=>{

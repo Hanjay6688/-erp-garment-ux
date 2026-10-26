@@ -131,3 +131,12 @@ it('hands an admitted v2 result to checked cutting with exact identity, target a
  expect(()=>frozenQuantityCuttingContext(s,v,target)).toThrow()
  expect(rpc).toHaveBeenCalledTimes(2)
 })
+
+it('stops monitoring unchanged server work without discarding its UUID and resumes that same request',async()=>{
+ let time=0;vi.spyOn(performance,'now').mockImplementation(()=>time)
+ const key=frozenAnalysisRequestKey(s.actor,s.scope),bytes=localStorage.getItem(key),rpc=vi.fn(async()=>({data:f.job('RUNNING',{worker_active:true,targets_done_in_stage:0}),error:null}))
+ await expect(driveFrozenQuantity({rpc},s,{sleep:async()=>{time+=60_000}})).rejects.toThrow('Kemajuan belum berubah selama dua menit')
+ expect(rpc).toHaveBeenCalledTimes(3);expect(localStorage.getItem(key)).toBe(bytes)
+ rpc.mockResolvedValue({data:f.job('DONE'),error:null});await driveFrozenQuantity({rpc},s,{})
+ expect(rpc.mock.calls.at(-1)).toEqual(['erp_cp7_request_bounded_staged_analysis_v2',{p_request:s.request.id,p_query:s.request.q}]);expect(localStorage.getItem(key)).toBe(bytes)
+})

@@ -1,3 +1,4 @@
+import NativeFrozenProgress from './NativeFrozenProgress'
 import {useCallback,useEffect,useMemo,useRef,useState,type ReactNode} from 'react'
 import {useAuth} from '../../../src/auth/AuthProvider'
 import {getUatSupabaseClient} from '../../../src/lib/supabase'
@@ -124,7 +125,7 @@ function Workspace({query,onSourceReadStart,onSourceReadEnd,onClose,renderCuttin
  const rows=page?.items.recommendations??[],visible=rows.slice(slice,slice+50),pageIndex=page?.index??0
  return <section className="native-production-result native-bounded-quantity frozen-choice-panel" aria-label="Kebutuhan seluruh produk"><header><h3>Kebutuhan seluruh produk</h3><button onClick={()=>{stop();onClose()}}>Tutup perhitungan kebutuhan</button></header>
   <p>Perhitungan memakai jadwal terakhir yang sudah disimpan. Isian jadwal yang belum disimpan belum masuk perhitungan.</p>
-  {busy?<p role="status">{job?`Menghitung kebutuhan · ${stagedNumber(job.unitsDone)} dari ${stagedNumber(job.unitCount)} langkah selesai.`:'Mengambil sumber perhitungan…'}</p>:null}
+  <NativeFrozenProgress job={job} busy={busy} interrupted={Boolean(error||held.error)} blocked={refusedBeforeJob} financeSelected={session?.request.finance==='STAGED'}/>
   {job?.retention?<p>{stagedRetentionText(job.retention)}</p>:null}
   {error||held.error?<p role="alert">{error||held.error}</p>:null}
   <div className="native-production-actions"><button disabled={blocked||!held.pending||Boolean(held.error)} onClick={retry}>Buka perhitungan tersimpan</button><button disabled={blocked||!canNew||Boolean(held.error)} onClick={()=>void calculateNew()}>Hitung kebutuhan terbaru</button></div>
