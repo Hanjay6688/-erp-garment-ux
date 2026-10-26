@@ -1,0 +1,33 @@
+{
+  "status": "LOCAL_SOURCE_PROFILE_ONLY",
+  "source_collection": {
+    "elapsed_ms": 4603.652,
+    "file_opens": 7577,
+    "complete_output_equal_existing_admission": true
+  },
+  "full_admission": {
+    "elapsed_seconds": 258.24269926099805,
+    "complete_output_equal_existing_admission": true,
+    "frozen_admission_subprocess_ms": 184695.243,
+    "catalogue_definition_reads_supplier": 864,
+    "catalogue_definition_reads_settlement": 576
+  },
+  "profiles": [
+    {
+      "name": "finance-full-admission-profile-20261026.json",
+      "bytes": 120674,
+      "sha256": "a9447c177cf10a282ad2399f9883a6fa508a6c7583882f1eb9c78b72f6874be2"
+    },
+    {
+      "name": "finance-source-collection-profile-20261026.json",
+      "bytes": 73475,
+      "sha256": "0f457a91bb52c9e307624e39b2ea2502bd2472bb42e2cc74736e2a2050e8291c"
+    }
+  ],
+  "profiling_overhead_explicit": true,
+  "exact_CI_gap_attribution": "NOT_PROVEN",
+  "factory_cross_run_regression_resolved": false,
+  "report_calculation_time": false,
+  "product_changed": false,
+  "production_go": false
+}

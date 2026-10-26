@@ -12,9 +12,9 @@
     "sha256": "c24ceec9a1d8a058346bd3b221238b2b4b3b749b9e89ee1ac4489396cb7afea3"
   },
   "run_id": 40363845158,
-  "job_id": 121734510218,
+  "job_id": 121789562898,
   "started_at_utc": "2026-10-26T16:56:02Z",
-  "status": "INFRASTRUCTURE_BLOCKED_AFTER_ONE_RETRY",
+  "status": "SECOND_MANUAL_RESUME_RUNNING_NOT_PASS",
   "prior_failure": "f088123ba44b68b09c88e30df04e19b312b8871d",
   "prior_actual_cases": 0,
   "phase_contract_tests": 3,
@@ -47,7 +47,7 @@
     "production_go": false
   },
   "observed_at_utc": "2026-10-26T17:23:15.105059+00:00",
-  "retry_count": 1,
+  "retry_count": 2,
   "actual_business_cases": 0,
   "first_job_id": 121716085842,
   "retry_decision": {
@@ -72,5 +72,52 @@
     }
   },
   "retry_observed_at_utc": "2026-10-26T17:30:13.656022+00:00",
-  "latest_failure_receipt": "transport-40f-infrastructure-retry-failure.json"
+  "latest_failure_receipt": "transport-40f-infrastructure-retry-failure.json",
+  "previous_status": "INFRASTRUCTURE_BLOCKED_AFTER_ONE_RETRY",
+  "second_manual_resume": {
+    "head": "40f041641ce336cac4be263297028172ac152202",
+    "run_id": 40363845158,
+    "failed_job_id": 121734510218,
+    "previous_failed_job_id": 121716085842,
+    "status": "SECOND_MANUAL_RESUME_RUNNING_NOT_PASS",
+    "retry_count": 2,
+    "reason": "Two independent subsequent jobs passed byte-identical Ubuntu24.04 / CLI2.116.0 / Postgres17.6.1.165 startup definitions at18:40:44 and19:07:28UTC, after transport retry failed17:45:42UTC. This new availability evidence justifies one manually bounded fresh-host resume; no source, oracle, platform or timeout change and no business case has yet run.",
+    "startup_definition_sha256": "6d53ef2cafa99752076b90121a07e784d19bf697142b33fe78cec423d666e8e3",
+    "startup_definitions_equal": true,
+    "availability_witnesses": [
+      {
+        "run_id": 40376731797,
+        "job_id": 121766073244,
+        "database_startup": {
+          "name": "Start disposable database",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 57,
+          "started_at": "2026-10-26T18:39:31Z",
+          "completed_at": "2026-10-26T18:40:44Z"
+        }
+      },
+      {
+        "run_id": 40381790093,
+        "job_id": 121779660598,
+        "database_startup": {
+          "name": "Start disposable database",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 59,
+          "started_at": "2026-10-26T19:06:15Z",
+          "completed_at": "2026-10-26T19:07:28Z"
+        }
+      }
+    ],
+    "prior_business_cases": 0,
+    "prior_two_raw_logs_preserved": true,
+    "no_automatic_third_retry": true,
+    "recorded_at_utc": "2026-10-26T19:12:21.581Z",
+    "production_go": false,
+    "job_id": 121789562898,
+    "request_succeeded": true,
+    "observed_at_utc": "2026-10-26T19:14:35.451Z"
+  },
+  "no_automatic_third_retry": true
 }

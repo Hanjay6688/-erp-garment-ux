@@ -4685,3 +4685,29 @@ Tahap CI e352 berlangsung3945detik termasuk pasang/pulih; jeda log terbesar
 3677,382detik sebelum pengukuran SMALL belum terurai penyebabnya. Ini bukan
 latensi laporan; tidak ada klaim regresi terselesaikan atau kenaikan batas.
 Formal5/16; production_go=false; independent_acceptance=false; B tidak diubah.
+
+## A / 27 Oktober2026 WIB — waktu tahap terukur dan kelanjutan uji akses berdasarkan bukti baru
+
+Source-race88af70bc70a7b7c302dd46aaec1f3884d6f34d9f tetap PREPARED_UNBOUND,
+wajib actuald05cPASS ketiga pasangan. Pencatat tahap menampilkan mulai/selesai/
+gagal dan durasi aktual pemasangan/pembongkaran/pengujian/pemulihan. Tiga tes
+menjamin hasil operasi dan exception asli tetap, termasuk interruption;
+AST setelah pembungkus pencatat dilepas persis sama dengan pendahulu.
+Tidak ada persentase buatan, perubahan gate, SQL, akses atau batas waktu.
+
+Profil lokal sumber: satu pengumpulan4,604detik dengan7577bukaanberkas;
+pemeriksaan sumber lengkap258,243detik saat diprofil, keluarannya persis sama
+dengan admission yang sudah lulus. Subproses pemeriksaan sumber beku184,695detik,
+reader katalog supplier dipanggil864kali dan settlement576kali. Ini biaya uji
+sumber, bukan latensi laporan; penyebab penuh jeda CI dan regresi factory tetap
+belum terbukti. Detail asli dipertahankan, belum ada optimasi produk diklaim.
+
+Transport40f dua kegagalan sebelumDB tetap disimpan. Sesudahnya UI job121766073244
+berhasil startup18:40:44UTC dan finance job121779660598 berhasil19:07:28UTC.
+Platform, CLI dan seluruh definisi startup ketiganya persis sama (digest6d53ef2c).
+Atas bukti baru ini, satu kelanjutan manual dibatasi pada job gagal; retrykedua
+berjalan run40363845158/job121789562898. Bukan pengulangan kasus bisnis yang
+sudah lulus: seluruh Auth3/race3 belum berjalan. Tidak ada retryketiga otomatis.
+Finance d05c actualstep63 dan UI d1f4 actualstep62 masih berjalan, belum PASS.
+Formal5/16; production_go=false; independent_acceptance=false; B tetap1dd83782
+ketika dibaca ulang, tanpa penulisan di scope B.

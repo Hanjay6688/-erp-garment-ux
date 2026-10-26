@@ -1,0 +1,45 @@
+{
+  "head": "40f041641ce336cac4be263297028172ac152202",
+  "run_id": 40363845158,
+  "failed_job_id": 121734510218,
+  "previous_failed_job_id": 121716085842,
+  "status": "SECOND_MANUAL_RESUME_RUNNING_NOT_PASS",
+  "retry_count": 2,
+  "reason": "Two independent subsequent jobs passed byte-identical Ubuntu24.04 / CLI2.116.0 / Postgres17.6.1.165 startup definitions at18:40:44 and19:07:28UTC, after transport retry failed17:45:42UTC. This new availability evidence justifies one manually bounded fresh-host resume; no source, oracle, platform or timeout change and no business case has yet run.",
+  "startup_definition_sha256": "6d53ef2cafa99752076b90121a07e784d19bf697142b33fe78cec423d666e8e3",
+  "startup_definitions_equal": true,
+  "availability_witnesses": [
+    {
+      "run_id": 40376731797,
+      "job_id": 121766073244,
+      "database_startup": {
+        "name": "Start disposable database",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 57,
+        "started_at": "2026-10-26T18:39:31Z",
+        "completed_at": "2026-10-26T18:40:44Z"
+      }
+    },
+    {
+      "run_id": 40381790093,
+      "job_id": 121779660598,
+      "database_startup": {
+        "name": "Start disposable database",
+        "status": "completed",
+        "conclusion": "success",
+        "number": 59,
+        "started_at": "2026-10-26T19:06:15Z",
+        "completed_at": "2026-10-26T19:07:28Z"
+      }
+    }
+  ],
+  "prior_business_cases": 0,
+  "prior_two_raw_logs_preserved": true,
+  "no_automatic_third_retry": true,
+  "recorded_at_utc": "2026-10-26T19:12:21.581Z",
+  "production_go": false,
+  "job_id": 121789562898,
+  "request_succeeded": true,
+  "observed_at_utc": "2026-10-26T19:14:35.451Z"
+}

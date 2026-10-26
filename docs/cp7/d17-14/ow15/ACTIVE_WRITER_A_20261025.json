@@ -1,5 +1,5 @@
 {
-  "recorded_at_utc": "2026-10-26T18:57:39.294841+00:00",
+  "recorded_at_utc": "2026-10-26T19:14:36.568590+00:00",
   "role": "A finance writer/integrator replacing Claude; B remains separate production/planning writer",
   "slogan": [
     "VENI. VIDI. VICI. ERP. \u2014 I CONQUERED ERP.",
@@ -20,6 +20,12 @@
       "run_id": 40376731797,
       "job_id": 121766073244,
       "scope": "Actual desktop/mobile A surface correction; unchanged-code retry after prerequisite HTTP503"
+    },
+    {
+      "head": "40f041641ce336cac4be263297028172ac152202",
+      "run_id": 40363845158,
+      "job_id": 121789562898,
+      "scope": "Actual Auth3/race3 after manually bounded resume supported by two exact startup witnesses; prior2preDB failures preserved"
     }
   ],
   "actual_new_component": {
@@ -4755,9 +4761,9 @@
       "sha256": "c24ceec9a1d8a058346bd3b221238b2b4b3b749b9e89ee1ac4489396cb7afea3"
     },
     "run_id": 40363845158,
-    "job_id": 121734510218,
+    "job_id": 121789562898,
     "started_at_utc": "2026-10-26T16:56:02Z",
-    "status": "INFRASTRUCTURE_BLOCKED_AFTER_ONE_RETRY",
+    "status": "SECOND_MANUAL_RESUME_RUNNING_NOT_PASS",
     "prior_failure": "f088123ba44b68b09c88e30df04e19b312b8871d",
     "prior_actual_cases": 0,
     "phase_contract_tests": 3,
@@ -4790,7 +4796,7 @@
       "production_go": false
     },
     "observed_at_utc": "2026-10-26T17:23:15.105059+00:00",
-    "retry_count": 1,
+    "retry_count": 2,
     "actual_business_cases": 0,
     "first_job_id": 121716085842,
     "retry_decision": {
@@ -4815,7 +4821,54 @@
       }
     },
     "retry_observed_at_utc": "2026-10-26T17:30:13.656022+00:00",
-    "latest_failure_receipt": "transport-40f-infrastructure-retry-failure.json"
+    "latest_failure_receipt": "transport-40f-infrastructure-retry-failure.json",
+    "previous_status": "INFRASTRUCTURE_BLOCKED_AFTER_ONE_RETRY",
+    "second_manual_resume": {
+      "head": "40f041641ce336cac4be263297028172ac152202",
+      "run_id": 40363845158,
+      "failed_job_id": 121734510218,
+      "previous_failed_job_id": 121716085842,
+      "status": "SECOND_MANUAL_RESUME_RUNNING_NOT_PASS",
+      "retry_count": 2,
+      "reason": "Two independent subsequent jobs passed byte-identical Ubuntu24.04 / CLI2.116.0 / Postgres17.6.1.165 startup definitions at18:40:44 and19:07:28UTC, after transport retry failed17:45:42UTC. This new availability evidence justifies one manually bounded fresh-host resume; no source, oracle, platform or timeout change and no business case has yet run.",
+      "startup_definition_sha256": "6d53ef2cafa99752076b90121a07e784d19bf697142b33fe78cec423d666e8e3",
+      "startup_definitions_equal": true,
+      "availability_witnesses": [
+        {
+          "run_id": 40376731797,
+          "job_id": 121766073244,
+          "database_startup": {
+            "name": "Start disposable database",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 57,
+            "started_at": "2026-10-26T18:39:31Z",
+            "completed_at": "2026-10-26T18:40:44Z"
+          }
+        },
+        {
+          "run_id": 40381790093,
+          "job_id": 121779660598,
+          "database_startup": {
+            "name": "Start disposable database",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 59,
+            "started_at": "2026-10-26T19:06:15Z",
+            "completed_at": "2026-10-26T19:07:28Z"
+          }
+        }
+      ],
+      "prior_business_cases": 0,
+      "prior_two_raw_logs_preserved": true,
+      "no_automatic_third_retry": true,
+      "recorded_at_utc": "2026-10-26T19:12:21.581Z",
+      "production_go": false,
+      "job_id": 121789562898,
+      "request_succeeded": true,
+      "observed_at_utc": "2026-10-26T19:14:35.451Z"
+    },
+    "no_automatic_third_retry": true
   },
   "previous_running_before_choice_native6_first_failure": [
     {
@@ -8586,33 +8639,28 @@
     "production_go": false
   },
   "finance_source_race_prepared": {
-    "parent": "063878976584792cfdd5c01a905446d9d35b538d",
-    "base_tree": "5fcf69d6294e86b26b9dad39b14faec7025edb95",
-    "local": "4b856a1425c57e96c66ac8917fdbf15752d137b7",
-    "tree": "eca3a331fbcff6d566ff793c16005bebc2fb3bb9",
-    "head": "c870b871b066822fcb63d344d8e6299e02042636",
+    "head": "88af70bc70a7b7c302dd46aaec1f3884d6f34d9f",
+    "parent": "c870b871b066822fcb63d344d8e6299e02042636",
+    "local": "426f4c1d29b6522052b2a3a2abd593d0a016aaea",
+    "tree": "64fa65187516f3d4416fc5a65ff612f3ca6057bd",
+    "branch": "astra-a/d17-18-finance-source-race-prepared-20261026",
     "status": "PREPARED_UNBOUND",
-    "expected_actual_reuse_head": "d05c568cca01085f87f7e48fe85c8d15ca43bffd",
-    "exact_source_pins": 3731,
-    "execution_branch_created": false,
+    "required_actual_head": "d05c568cca01085f87f7e48fe85c8d15ca43bffd",
     "source_bound": false,
+    "execution_branch_created": false,
     "actual_runtime_credit": false,
-    "production_go": false,
-    "preflight": {
-      "status": "PREPARED_ONLY",
-      "expected_actual_head": "d05c568cca01085f87f7e48fe85c8d15ca43bffd",
-      "exact_paired_source_pins": 3731,
-      "AST_files": 8,
-      "workflow_shell_steps": 48,
-      "unbound_refused_before_DB": true,
-      "wrong_failed_or_wrong_bytes_prerequisites_refused": 3,
-      "paired_source_transformation_tests": 7,
-      "price_contract_tests": 4,
-      "fixture_contract": "SYNTHETIC_LEGACY_PRICE_NATIVE_CURRENT_AND_OPENING_V2",
-      "actual_database_executed": false,
-      "actual_runtime_credit": false,
-      "production_go": false
-    }
+    "phase_timing_tests": 3,
+    "stripped_probe_AST_equal_previous": true,
+    "unchanged_AST_sha256": "7c7176d64e97ed9382e2707e0d4a2e9af5adc5c1a50d883c8764d4baedf6a462",
+    "files": [
+      ".github/workflows/cp7-d17-18-finance-reader-source-race.yml",
+      "scripts/current-finance-reader-source-race-qualification/PHASE_TIMING_PREFLIGHT.json",
+      "scripts/current-finance-reader-source-race-qualification/README.md",
+      "scripts/current-finance-reader-source-race-qualification/phase_timing.py",
+      "scripts/current-finance-reader-source-race-qualification/probe.py",
+      "scripts/current-finance-reader-source-race-qualification/test_phase_timing.py"
+    ],
+    "production_go": false
   },
   "dependent_qualification_boundary": {
     "required_actual_native": "8dfe1a19c7b7c61558b25c00f1dd388c8565e3d1 PASS6 intaken",
@@ -10333,5 +10381,67 @@
     "retry_count": 1,
     "no_automatic_second_retry": true,
     "actual_business_cases_before_retry": 0
+  },
+  "previous_source_race_before_phase_timing": {
+    "parent": "063878976584792cfdd5c01a905446d9d35b538d",
+    "base_tree": "5fcf69d6294e86b26b9dad39b14faec7025edb95",
+    "local": "4b856a1425c57e96c66ac8917fdbf15752d137b7",
+    "tree": "eca3a331fbcff6d566ff793c16005bebc2fb3bb9",
+    "head": "c870b871b066822fcb63d344d8e6299e02042636",
+    "status": "PREPARED_UNBOUND",
+    "expected_actual_reuse_head": "d05c568cca01085f87f7e48fe85c8d15ca43bffd",
+    "exact_source_pins": 3731,
+    "execution_branch_created": false,
+    "source_bound": false,
+    "actual_runtime_credit": false,
+    "production_go": false,
+    "preflight": {
+      "status": "PREPARED_ONLY",
+      "expected_actual_head": "d05c568cca01085f87f7e48fe85c8d15ca43bffd",
+      "exact_paired_source_pins": 3731,
+      "AST_files": 8,
+      "workflow_shell_steps": 48,
+      "unbound_refused_before_DB": true,
+      "wrong_failed_or_wrong_bytes_prerequisites_refused": 3,
+      "paired_source_transformation_tests": 7,
+      "price_contract_tests": 4,
+      "fixture_contract": "SYNTHETIC_LEGACY_PRICE_NATIVE_CURRENT_AND_OPENING_V2",
+      "actual_database_executed": false,
+      "actual_runtime_credit": false,
+      "production_go": false
+    }
+  },
+  "finance_source_profile": {
+    "status": "LOCAL_SOURCE_PROFILE_ONLY",
+    "source_collection": {
+      "elapsed_ms": 4603.652,
+      "file_opens": 7577,
+      "complete_output_equal_existing_admission": true
+    },
+    "full_admission": {
+      "elapsed_seconds": 258.24269926099805,
+      "complete_output_equal_existing_admission": true,
+      "frozen_admission_subprocess_ms": 184695.243,
+      "catalogue_definition_reads_supplier": 864,
+      "catalogue_definition_reads_settlement": 576
+    },
+    "profiles": [
+      {
+        "name": "finance-full-admission-profile-20261026.json",
+        "bytes": 120674,
+        "sha256": "a9447c177cf10a282ad2399f9883a6fa508a6c7583882f1eb9c78b72f6874be2"
+      },
+      {
+        "name": "finance-source-collection-profile-20261026.json",
+        "bytes": 73475,
+        "sha256": "0f457a91bb52c9e307624e39b2ea2502bd2472bb42e2cc74736e2a2050e8291c"
+      }
+    ],
+    "profiling_overhead_explicit": true,
+    "exact_CI_gap_attribution": "NOT_PROVEN",
+    "factory_cross_run_regression_resolved": false,
+    "report_calculation_time": false,
+    "product_changed": false,
+    "production_go": false
   }
 }

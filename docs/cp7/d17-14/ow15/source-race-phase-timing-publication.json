@@ -1,0 +1,24 @@
+{
+  "head": "88af70bc70a7b7c302dd46aaec1f3884d6f34d9f",
+  "parent": "c870b871b066822fcb63d344d8e6299e02042636",
+  "local": "426f4c1d29b6522052b2a3a2abd593d0a016aaea",
+  "tree": "64fa65187516f3d4416fc5a65ff612f3ca6057bd",
+  "branch": "astra-a/d17-18-finance-source-race-prepared-20261026",
+  "status": "PREPARED_UNBOUND",
+  "required_actual_head": "d05c568cca01085f87f7e48fe85c8d15ca43bffd",
+  "source_bound": false,
+  "execution_branch_created": false,
+  "actual_runtime_credit": false,
+  "phase_timing_tests": 3,
+  "stripped_probe_AST_equal_previous": true,
+  "unchanged_AST_sha256": "7c7176d64e97ed9382e2707e0d4a2e9af5adc5c1a50d883c8764d4baedf6a462",
+  "files": [
+    ".github/workflows/cp7-d17-18-finance-reader-source-race.yml",
+    "scripts/current-finance-reader-source-race-qualification/PHASE_TIMING_PREFLIGHT.json",
+    "scripts/current-finance-reader-source-race-qualification/README.md",
+    "scripts/current-finance-reader-source-race-qualification/phase_timing.py",
+    "scripts/current-finance-reader-source-race-qualification/probe.py",
+    "scripts/current-finance-reader-source-race-qualification/test_phase_timing.py"
+  ],
+  "production_go": false
+}
