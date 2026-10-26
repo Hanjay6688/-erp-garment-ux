@@ -1,0 +1,41 @@
+{
+  "recorded_at_utc": "2026-10-26T01:31:45.757060+00:00",
+  "branch": "astra-a/d17-14-frozen-finance-ui-prepared-20261026",
+  "head": "63d098a0f1a6cc5c4bb78059b7fd2138eda5cf41",
+  "local": "0ef78aacf1729e1f95a24102f7ba7251e4a588c9",
+  "tree": "a560a1fd165e8126d05160fc95313ac03a994463",
+  "A_backend_base": "71e15908972cd10b0b889988faa8d7d7d1ad3e40",
+  "exact_B_source_head": "f843e4ce4fee59ee3e953d032ceed21eeba84c99",
+  "exact_B_vendored_files": 77,
+  "B_branch_written": false,
+  "qualified_A_backend_unchanged": true,
+  "local_client_tests": 125,
+  "local_client_test_files": 9,
+  "typescript": "PASS",
+  "compiled_modules": 54,
+  "exact_panel_imports_adapted": 2,
+  "local_negative_guards": 17,
+  "bash_steps_checked": 46,
+  "browser_cases": 2,
+  "separate_full_clones": 2,
+  "SOURCE_bound": false,
+  "actual_UI_runtime_dispatched": false,
+  "required_actuals": {
+    "Native52": "6dceb3d3530a2144217047360613808af3249e4a",
+    "finance_Auth3_races7": "71e15908972cd10b0b889988faa8d7d7d1ad3e40"
+  },
+  "waiting_for": "Complete verified actual public finance Auth3/races7 PASS Original; no fabricated prerequisite",
+  "transport": "STAGED uses qualified explicit finance RPC in request/reopen/DONE validation; absent mode remains operational; explicit DEFERRED converted only on wire; durable bytes unchanged",
+  "readiness": "Separate desktop fresh-clone official READY required; mobile posted fixture BLOCKED as proven by Native52. Capture READY does not equal report READY. Positive fresh baseline still unproven.",
+  "first_local_failures_preserved": [
+    "build resolver missed both panels; fixed enforce pre, same required two-importer assertion",
+    "presence-only source guard missed removal of one of two state assertions; exact count now required",
+    "raw import query suffix needed path-only lookup; exact source content untouched",
+    "sparse fresh worktree required index materialization and workflow inclusion; no product changes"
+  ],
+  "new_B_analog_or_cutting_qualified": false,
+  "factory_qualified": false,
+  "default_adopted": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

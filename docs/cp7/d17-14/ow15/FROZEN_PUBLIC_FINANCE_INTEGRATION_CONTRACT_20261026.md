@@ -104,3 +104,25 @@ dicatat lebih dulu di KOORDINASI; cabang dan source asli B tetap utuh.
 B melaporkan quantityAuth2/art12618667843 dan controlledBrowser4/art12619095649.
 A belum intake kedua Original; controlled browser bukan full package Native.
 Tidak ada klaim UI finance baru, factoryPASS, default adoption atau produksi.
+
+## Kandidat caller integrator sudah disiapkan
+
+63d098a0f1a6cc5c4bb78059b7fd2138eda5cf41 pada branch
+astra-a/d17-14-frozen-finance-ui-prepared-20261026 menyimpan77berkas caller B
+f843e4ce byte-exact dalam namespace integrator. Dua import client panel terarah
+ke adapter A; AuthProvider/AuthGate asli tetap.125tes/9file,TypeScript,54modul
+build dan17kontrol negatif lokal lulus. Backend qualified A utuh, B tidak ditulis.
+DEFERRED eksplisit diterjemahkan menjadi ketiadaan mode pada payload operasional
+saja; permintaan tersimpan tidak diubah. STAGED selalu ke financeRPC, termasuk
+reopen dan validasi DONE. Tidak ada fallback ke endpoint lain saat gagal.
+
+Suite2layar memakai dua clone penuh terpisah. Desktop meminta laporan resmi
+READY pada baseline segar tanpa menambah pekerjaan produksi belum selesai;
+bila baseline belum READY, tes gagal dengan alasan asli. HP memakai fixture
+posted yang Native52 buktikan BLOCKED dan menuntut angka tetap tersembunyi.
+Capture selesai/READY tidak berarti readiness laporan READY.24metrik dan sumber
+buku tetap dibandingkan; kemajuan capture SQL tidak diklaim cron atau HTTP.
+
+SOURCE belum diikat; menunggu actualfinance10 pada71e15908. Belum bukti login/
+layar baru, factory, analog/cutting B terkini atau default adoption. Detail ada
+pada frozen-finance-ui-browser-prepared-63d098a0.json. Persiapan berlanjut.
