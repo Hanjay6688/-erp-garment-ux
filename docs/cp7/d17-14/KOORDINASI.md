@@ -4382,3 +4382,38 @@ akses browser/payload tidak terbuka. Batas operasi kecil tetap8detik. UI/transpo
 prepared tetap UNBOUND sampai actual Native penerus PASS;9a tidak diberi kredit.
 B tetap pemilik produksi/perencanaan; cabang/worktreeB tidak disentuh. A integrator
 tunggal. Formal5/16; independent_acceptance=false; production_go=false; CP7C belum.
+
+
+## 26 Oktober 2026 — A: retensi diuji; diagnosis 6bc ditahan oleh sumber yang berbeda
+
+Kandidat retensi bfed0a81252e597842b9b9020ecc061cca936d54 (parentproduk82f9f82f)
+berjalan satu kali pada run40324974838/job121579218692. Pemeriksaan lokal penuh
+3.757pin lulus; receipt3.934.600byte SHA256
+0c133aff4827e34c4491b22f09b129ed91e47c375e51cdbf324c7a485b611c25.
+Empat uji batas ACL, sembilan uji observasi lama,14AST,47shell lulus. Ini belum
+hasil database. UI/transport tetap belum terikat; impor source penerus dan
+actualPASS tetap wajib. Tidak ada kelonggaran batas8s operasi kecil.
+
+Percobaan optimasi6bc45a17/run40314220814/job121542647741/art12649917732 selesai
+INCOMPLETE sebelum menjalankan kandidat: SNAPSHOT_REUSE_LIVE_BODY_CHANGED.
+Original4.446.629byte SHA256
+d72a7fc7a75e62fdc906662103ddbb762277fb13de485fc7706e31b42d98fac0;
+ZIP2.816.948byte SHA25673efe5902199fbc965854d2246a06deabc0df99e61b6d25ccab2a2d6fce33b9f.
+Laporan SMALL resmi290,916ms sempat terbaca; pasangan kandidat, PRICE_PERCENT,
+pabrik, pengurangan panggilan dan kinerja belum terbukti. Full22/data/sequence,
+CP6 dan advisor pulih; writer-runtime gagal. Bukti gagal tetap dipertahankan.
+
+Penelusuran sumber menemukan pembanding diagnostik memakai body Native sebelum
+pemasangan CP7. Pemasang resmi sebelumnya menambahkan dua pembaca lifecycle nota,
+satu lifecycle koreksi retur, dan11subquery pemetaan akun. A akan menurunkan body
+pembanding dari definisi Native asli melalui dua transformer pemasang yang sama,
+lalu tetap menuntut byte-equality seluruh body terpasang sebelum percobaan.
+Body turunan12.004byte SHA2563fa59773edf43a6f10a60b4fc08bbd1074097c6449b4b5c56f93ff2b64facd69.
+Belum mengklaim hash ini cocok runtime6bc: laporan gagal tidak merekam body itu;
+kecocokan penuh harus dibuktikan penerus. Anggaran waktu dan pemeriksaan angka
+resmi tidak berubah; diagnosis sumber ini bukan alasan meluluskan kegagalan lama.
+
+Source-race70072ffa sudah tersimpan di cabang prepared milikA, tanpa SOURCE atau
+workflow eksekusi. Prasyarat6bc gagal, maka belum boleh dijalankan. Sesudah
+penerus optimasi aktualPASS, impor sumber persis dan perbarui binding dahulu.
+B tidak diedit. Formal5/16; CP7C belum; independent_acceptance=false; production_go=false.
