@@ -1,0 +1,32 @@
+{
+  "contract": "cp7.choice-preparation-browser-first-failure.v1",
+  "source_head": "9ff853c33400ee506fd83e757f471cf9ebc1dc95",
+  "run_id": 40287295045,
+  "job_id": 121453865256,
+  "artifact_id": 12634748141,
+  "artifact_bytes": 4125,
+  "artifact_sha256": "19ce2cc8ecc7b2ef00f9b8aee6cdfb60fcae0b391d73012fd6868ce99fc32140",
+  "Original_bytes": 12804,
+  "Original_sha256": "6653e7c52e3965d1f9dbc79651b54dea15cc530cf4eb93fe03fe5679c565edcd",
+  "status": "INCOMPLETE",
+  "PASS": 2,
+  "required_cases": 6,
+  "incomplete_case": "PREPARATION_LOST_ENQUEUE_RELOAD_SAME_WORK",
+  "not_reached_cases": [
+    "PREPARATION_TERMINAL_FAILURE_AND_EXPIRY",
+    "PREPARATION_REVOKED_ACCESS_REDACTS",
+    "PREPARATION_HELD_STATUS_BOUNDED_RECOVERY"
+  ],
+  "error": "Error: expect(locator).toBeVisible() failed\n\nLocator: locator('#panel [role=alert]')\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n  - Expect \"to.be.visible\" with timeout 5000ms\n  - waiting for locator('#panel [role=alert]')\n",
+  "all_source_pins_verified": 51,
+  "actual_served_source_paths": 48,
+  "TypeScript": "PASS",
+  "related_tests": "97 PASS/7 files",
+  "root_cause_at_first_intake": "UNESTABLISHED: alert absent after one socket-close injection; successor adds raw-fetch retry diagnostic and deterministic abort after HTTP enqueue. No product behavior changed or oracle removed.",
+  "actual_Native": false,
+  "actual_Auth_HTTP_credit": false,
+  "actual_K4": false,
+  "actual_finance_HPP": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

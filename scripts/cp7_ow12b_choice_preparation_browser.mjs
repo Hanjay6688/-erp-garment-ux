@@ -64,9 +64,21 @@ try{
   await page.getByLabel('Catatan halaman lain').fill('Halaman tetap bisa dipakai');await expect(page.getByLabel('Catatan halaman lain')).toHaveValue('Halaman tetap bisa dipakai');await expect(page.getByRole('button',{name:'Tutup persiapan pembanding',exact:true})).toBeEnabled();assert.equal(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true)
   await page.getByRole('button',{name:'Tutup persiapan pembanding',exact:true}).click();release();await page.waitForTimeout(2200);await expect(page.locator('#panel')).toBeEmpty();assert.equal(calls.filter(c=>c.name==='erp_cp7_read_product_analog_candidates_v2').length,0);finish(ids[1],{viewport:[390,844],real_input_while_step_held:true,close_enabled:true,late_step_retired:true,no_document_overflow:true})
 
-  page=await reset();loseRequest=true;await open(page);await page.getByRole('button',{name:'Siapkan pemeriksaan pilihan',exact:true}).click();await expect(page.locator('#panel [role=alert]')).toBeVisible();assert.equal(creations,1)
+  // Diagnose the first candidate's ambiguous socket-close injection separately.
+  // Chromium may transparently retry it; that is not a lost response at the UI.
+  page=await reset();loseRequest=true;await open(page)
+  const socketProbe=await page.evaluate(async()=>{try{return{outcome:'RESOLVED',reply:await window.proof.client.rpc('erp_cp7_request_frozen_choice_preparation_v1',{p_source_request:window.proof.f.context.requestId,p_access:window.proof.f.context.accessEpoch})}}catch(error){return{outcome:'REJECTED',error:String(error)}}})
+  report.socket_close_diagnostic={...socketProbe,calls:structuredClone(prepCalls()),controlled_work_creations:creations,qualification_credit:false};assertSameSource();console.log(JSON.stringify({diagnostic:'socket-close',outcome:socketProbe.outcome,requests:prepCalls().filter(c=>c.name==='erp_cp7_request_frozen_choice_preparation_v1').length}))
+  // Read the real controlled HTTP response, then abort delivery to Chromium.
+  // This seals the intended failure after enqueue, without browser retry ambiguity.
+  page=await reset();let abortedEnqueue=0
+  await page.route('**/proof-rpc',async route=>{
+   if(route.request().postDataJSON()?.name!=='erp_cp7_request_frozen_choice_preparation_v1'||abortedEnqueue){await route.continue();return}
+   const response=await route.fetch({maxRetries:0});assert.equal(response.status(),200);const body=await response.json();assert.equal(body.data.state,'QUEUED');assert.equal(creations,1);abortedEnqueue++;await route.abort('failed')
+  })
+  await open(page);await page.getByRole('button',{name:'Siapkan pemeriksaan pilihan',exact:true}).click();await expect(page.locator('#panel [role=alert]')).toBeVisible();assert.equal(creations,1);assert.equal(abortedEnqueue,1)
   await page.reload();await expect(page.getByText('Persiapan mengantre.',{exact:true})).toBeVisible();assert.equal(creations,1);await page.getByRole('button',{name:'Lanjutkan persiapan yang sama',exact:true}).click();await expect(page.getByText('Persiapan selesai. Pilihan belum disimpan.',{exact:true})).toBeVisible();assert.equal(creations,1)
-  const requests=prepCalls().filter(c=>c.name==='erp_cp7_request_frozen_choice_preparation_v1');assert.equal(requests.length,2);assert.deepEqual(requests[0],requests[1]);finish(ids[2],{actual_connection_lost_after_controlled_enqueue:true,real_reload:true,exact_request_reused:true,actual_Native_idempotency_credit:false})
+  const requests=prepCalls().filter(c=>c.name==='erp_cp7_request_frozen_choice_preparation_v1');assert.equal(requests.length,2);assert.deepEqual(requests[0],requests[1]);finish(ids[2],{controlled_network_abort_after_HTTP_enqueue:true,aborted_enqueue_responses:abortedEnqueue,real_reload:true,exact_request_reused:true,actual_Native_idempotency_credit:false})
 
   page=await reset();state='RUNNING';await open(page);await expect(page.getByText('Menyiapkan data pembanding…',{exact:true})).toBeVisible();state='FAILED';await expect(page.getByText('Persiapan gagal. Pilihan belum disimpan.',{exact:true})).toBeVisible();await expect(page.getByText(/tiga percobaan pada langkah yang sama/)).toBeVisible();const n=prepCalls().length;await page.waitForTimeout(2200);assert.equal(prepCalls().length,n)
   state='EXPIRED';await page.reload();await expect(page.getByText('Acuan sudah kedaluwarsa.',{exact:true})).toBeVisible();await expect(page.locator('[data-analog-target]')).toHaveCount(0);assert.ok(prepCalls().every(c=>c.name==='erp_cp7_get_frozen_choice_preparation_v1'));finish(ids[3],{failure_and_expiry_observed:true,no_automatic_restart:true,no_partial_success:true})
@@ -80,5 +92,5 @@ try{
   for(const p of[panel,'scripts/cp7_frozen_choice_preparation/client/PreparedFrozenChoicePanel.tsx','scripts/cp7_frozen_choice_preparation/client/nativeFrozenChoicePreparation.ts','scripts/cp7_frozen_analysis_facade_v2/client/nativeFrozenWait.ts'])assert.ok(served.has(p),'ACTUAL_MODULE_NOT_SERVED:'+p)
   report.actual_served_module_graph=true;report.status='PASS'
  }
-}catch(error){report.error=String(error);report.stack=error.stack;process.exitCode=1}
+}catch(error){report.error=String(error);report.stack=error.stack;report.failure_trace={calls:structuredClone(calls),state,controlled_work_creations:creations,page_errors:[...pageErrors],pages:[]};for(const p of context?.pages()??[]){try{report.failure_trace.pages.push(await p.locator('body').innerText({timeout:2000}))}catch{report.failure_trace.pages.push('PAGE_TEXT_UNAVAILABLE')}}process.exitCode=1}
 finally{release();await context?.close();await browser?.close();await server?.close();report.served_source_paths=[...served].sort();for(const p of[...served,self,contractPath,'.github/workflows/cp7-ow12b-choice-preparation-browser.yml'])report.source_sha256[p]=hash(await readFile(p));await mkdir(dirname(out),{recursive:true});await writeFile(out,JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify({status:report.status,cases:report.cases.length,error:report.error,report:out}))}
