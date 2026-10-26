@@ -1,0 +1,34 @@
+{
+  "status": "PASS_LOCAL_SOURCE_AND_GUARDS_ONLY",
+  "B_head": "9162d7e7051616bff95bd151f142a8106d1add31",
+  "B_files": 31,
+  "parent_admission_sha256": "d0b787f4a890aa86e785db6fc3b7e416880cb712b18c1df9333ce743ae9c8cb2",
+  "parent_sources_exact": true,
+  "public_registry": {
+    "public.erp_cp7_read_product_analog_candidates_v2(uuid,text,integer,integer,text)": "CANDIDATE_READ",
+    "public.erp_cp7_save_product_analog_choice_v2(jsonb,uuid)": "CHOICE_SAVE",
+    "public.erp_cp7_request_frozen_choice_preparation_v1(uuid,text)": "PREPARATION_REQUEST",
+    "public.erp_cp7_get_frozen_choice_preparation_v1(uuid,text)": "PREPARATION_GET",
+    "public.erp_cp7_step_frozen_choice_preparation_v1(uuid,text)": "PREPARATION_STEP"
+  },
+  "hooks_reverse_to_exact_parents": true,
+  "finance_dispatch_retained": true,
+  "unit_limits_unchanged": true,
+  "controlled_negative_checks": [
+    "MISSING_FINANCE_ANCHOR_REFUSED",
+    "MISSING_FINANCE_ANCHOR_REFUSED",
+    "OFFICIAL_FUNCTION_REPLACEMENT_REFUSED",
+    "UNDECLARED_PUBLIC_RPC_REFUSED",
+    "UNDECLARED_BUSINESS_TABLE_REFUSED",
+    "MISSING_DECLARED_FUNCTION_REFUSED",
+    "CHANGED_BALANCE_REFUSED",
+    "CHANGED_SEQUENCE_REFUSED",
+    "PREPOPULATED_WORK_REFUSED"
+  ],
+  "actual_database": false,
+  "Python_installer_runtime": false,
+  "actual_Auth_HTTP_credit": false,
+  "factory_qualified": false,
+  "full_final_acceptance": false,
+  "production_go": false
+}
