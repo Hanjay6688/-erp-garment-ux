@@ -3782,3 +3782,81 @@ terbuka. Bukti controlledSQL9 tetap controlled, bukan penerimaan ERP.
 
 Formal5/16, independent_acceptance=false,production_go=false. Checkpoint bukan
 akhir tugas. Reliable data adalah dewa; keuangan,laporan,stok,HPP adalah raja.
+
+
+## 214. [bersama] B26 Oktober2026 WIB — finite client recovery and source-specific evidence
+
+Code4d2d38d4 tree1c559540 bounds result-page/source/finance-status and original
+analysis lock queues; code9d871601 treecb7b9604 extends the same helper to
+candidate/current-choice/schedule reads and choice/schedule SAVE queues/replies.
+30s is the preexisting client transport margin, now also bounded queue time.
+It does not raise DB limits, delay ready results, create background daily saves,
+or reintroduce an8s total factory gate. Timeout retains exact actor/method/query/
+UUID/payload/finance mode; response uncertainty is not server failure. Queue
+timer stops on acquisition, the acquired lock covers the whole action, and an
+expired late queue callback cannot run. Same server idempotency/freshness applies.
+
+Correction:9cdd wording about all own RPCs being bounded was too broad. The
+omitted paths above are now covered; old9cdd proof is retained unchanged.106
+focused tests/10files for4d,179/11 for9d (overlap, not additive), nine then seven
+source-only admissions, noEmit, four compiled Auth-host graphs. Build-only has
+no Auth execution credit. Existing case IDs/counts/oracles unchanged, source
+maps repinned; no F05/shared signatures/default/Native/finance edits.
+
+New complete9cdd cutting Native6/run40256759650/art12624652695 PASS6/94pins,
+210340bytes SHA256a8829ad8b4dd7cc13436aa337c55c19fb19652343df59bbaec74e4621e2a7e90.
+Exact head/F05 declaration/package/public/CP6/advisor/full boundaries/session
+restore verified. Factory1200x3 checked SAVE5544.767/5421.325ms and replay3.899ms.
+Earlier4826 was5285.194/5339.539ms: +4.91%/+1.53%, cause not established, no
+performance-improvement/SLA claim; product SQL is unchanged. Daily fixture SAVE
+182.958–187.755ms. No full factory official-finance/HPP acceptance.
+4d controlled quantity/work Browser4 run40261719779/40261719853 PASS4/PASS4,
+49/44pins; no Native/Auth/restore credit or new image-inspection claim. Ledger
+29Originals =20 Native/Auth package checks +8controlled +1interrupted.
+
+A contract213 remains open. Prepared provider atd57233eb (pins refreshed9d)
+adds six separate new Native cases for optional choice preparation; it is not
+registered or executed and does not replace old failing Native6. Need A public
+registry/K4/retention/full restore/actual Auth and official finance composition.
+Old choice8029.112ms and same-command8003.031ms failures remain INCOMPLETE.
+A branch reread f898a71fc13654d217f987949f126290083a0225 remains unchanged.
+No default, whole-feature closure, audit acceptance or production_go. Formal5/16.
+
+
+## 26 Oktober 2026 WIB — A: komposisi persiapan B tersedia, tiga uji berjalan
+
+A aktif cbe600c810add5b604a7e001da668bb2a8a5f6f6 pada cabang
+astra-a/d17-14-model-target-integration-prepared-20261024; jangan memakai
+f898a71f sebagai status A terbaru. B9162d7e7 dan catatan214 dibaca read-only.
+Klaim29Original B belum menjadi intake independen A; batas bukti masing-masing
+tetap berlaku.
+
+Kandidat komposisi A cd30bd7cddcbeea1df78c28e301d055041a8f581, tree146693c9,
+cabang astra-a/d17-18-choice-preparation-integration-20261026.31 berkas B
+reader/choice/preparation exact9162 diimpor sebagai komponen baru; parent A51d
+dan semua sumber lama tetap. Dibutuhkan dua RPC parent candidate/SAVE ditambah
+tiga preparation, sehingga registry opsional A berisi5 signature baru. Finance
+A dan parser progress server tetap melalui predecessor lengkap. Tidak ada
+perubahan default caller atau overlay Bfinance yang bertabrakan.
+
+A menambahkan urutan install/verifier/inverse22grup, binding verifikasi aktual
+sebelum tiap delta, satu tabelwork kosong tanpa perubahan baris/sekuens lama,
+serta2hook: pilihan keluarga preparation pada K4 dan purge payload200 pada
+retention. Seluruh cabang FINANCE lama, jadwal, batas unit, SQLcommand/freshness/
+FGlock/replay B tetap. Dua hook dapat dibalik ke sumber parent persis.9 kontrol
+negatif lokal menolak perubahan saldo/sekuens/katalog dan hilangnya cabangfinance.
+Statusnya PASS_LOCAL_SOURCE_AND_GUARDS_ONLY; installer database nyata, dua sesi,
+Auth,cron,restore,pabrik,officialfinance parity dan UI gabungan belum lulus.
+
+UI2 aec/run40257369843 INCOMPLETE di impor fixtureprepare, bukan hasil aplikasi;
+Original art12624801922 sudah intaken. CLI diperbaiki pada4d1d2cc0,
+run40263892853. Diagnosis a73/run40261229132 gagal sebelumDB akibatGITHUB_ENV
+satu langkah; log lengkap tetap. Perbaikan69078311/run40263535654 sudah melewati
+penyiapan dan masuk pengukuran. Native progres54676bcc/run40264118585 menguji
+lima kasus terfokus pada ERP penuh dengan actualNative52 sebagai prasyarat.
+Ketiga hasil belum diterima. Kegagalan lama tidak diubah menjadiPASS.
+
+Lanjut: ambil tiga hasil, selesaikan kegagalan berdasarkanbukti, kemudian
+kualifikasi komposisi preparation dan sambungkan UI/progres B terbaru secara
+explicit. Keuangan,stok,HPP tetap milik A; produksi/perencanaan tetap B.
+Formal5/16, independent_acceptance=false, production_go=false.
