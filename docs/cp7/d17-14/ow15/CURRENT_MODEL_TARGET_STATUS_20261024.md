@@ -1,5 +1,25 @@
 # Status gabungan uang, model dan target — 26 Oktober 2026 WIB
 
+## Persiapan lanjutan: sumber progres penerus dan uji layar telah dikunci
+
+Native6 kini disiapkan pada5c30a4ea dan hanya menerima Original progres0c86d277
+yang benar-benar PASS5. Original546 yang gagal tetap ditolak. Kesembilan
+berkas alat uji induk dipertahankan persis. SOURCE belum diikat.
+
+Uji layar baru1b095460 mempertahankan112berkas host0f818812/90berkas B,
+serta fixture keuangan389 yang sudah lulus. Dua kasus memeriksa jumlah kerja
+nyata, waktu server, READY/BLOCKED, buka ulang UUID dan pencabutan akses
+bersama24angka resmi dan seluruh pemeriksaan pemulihan sebelumnya.
+Build79modul,2impor kasus,5uji pembanding,5penolakan penjaga baru,27penjaga
+bisnis dan47langkah shell lulus lokal. Belum ada bukti browser/database baru;
+Native6 aktualPASS menjadi prasyarat. Cabang persiapan tidak menjalankan CI.
+
+Dua uji server a569d322/run40286613815 dan0c86d277/run40286627929 masih
+menjalankan pemeriksaan database. Kegagalan690/546 tetap tersimpan.
+Formal5/16, independent_acceptance=false, production_go=false.
+
+## Catatan checkpoint sebelumnya
+
 ## Status terkini: izin pengiriman teratasi; dua uji server penerus berjalan
 
 Owner menjawab "lanjut" pada pertanyaan izin publikasi perubahan A/integrasi
