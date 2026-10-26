@@ -371,9 +371,10 @@ jobs:
       working-directory: auditor
       env:
         GH_TOKEN: ${{ github.token }}
-      run: 'python scripts/current-frozen-finance-stage-profile/fetch_failure.py
-
-        python scripts/current-frozen-finance-stage-profile/admission.py'
+      run: python scripts/current-frozen-finance-stage-profile/fetch_failure.py
+    - name: Admit exact sources after immutable failed observer environment is available
+      working-directory: auditor
+      run: python scripts/current-frozen-finance-stage-profile/admission.py
     - name: Start disposable database
       working-directory: base
       shell: bash
