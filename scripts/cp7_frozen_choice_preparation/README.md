@@ -76,3 +76,20 @@ local PGlite, with controlled compiler/access/producer; actual compiler scale,
 concurrency, public Auth, Python installer and composed restore are NOT claimed.
 Focused React tests cover gating before candidates, replay after expired source,
 close while pending, current access, source binding and same-work recovery.
+
+Reopening now observes QUEUED/RUNNING work with sequential status reads at the
+existing two-second polling interval. It never enqueues or steps work merely
+because the panel reopened. READY/FAILED/EXPIRED stop observation immediately;
+lost replies and two minutes without persisted progress stop with the existing
+recovery message. A real attempt/progress update resets that observation window;
+alternating worker-lock observations do not. Explicit continuation retires the
+older observer and keeps the same source request/access binding. Unmount or
+identity changes retire late replies. Missing work is silently treated as not
+started only on the first read, never after an existing work was observed.
+
+This corrects a one-read-only reopen defect reproduced by six failing local DOM
+cases. The repaired preparation and related choice clients pass97 tests in7
+files, including42 preparation tests; these overlapping totals are not summed.
+SQL and all RPC shapes/limits remain exact. A's prepared composition at613209db
+has importedb96e2f74; it must explicitly intake this newer client correction.
+Actual new preparation Native/Auth/runner/factory qualification remains open.

@@ -1,0 +1,91 @@
+{
+  "contract": "cp7.writer-b.choice-preparation-reopen.v1",
+  "base_source": "c95428fbb73aeda64beeed008a99c0bd642f90ef",
+  "source_sha256": {
+    "scripts/cp7_frozen_choice_preparation/client/PreparedFrozenChoicePanel.tsx": "1953c19ec41f85e50ab09f17fa2726dd0fb8c06a3a39e60a8f7737773da4e289",
+    "scripts/cp7_frozen_choice_preparation/client/nativeFrozenChoicePreparation.ts": "039ed68488e501eed6044d3ca8bfc4cb1aada43e85b1039f429d9804878bde8b",
+    "scripts/cp7_frozen_choice_preparation/client/nativeFrozenChoicePreparation.test.ts": "1b788b198903f9a099fc3ca67f8d3d2f9bf393e0351db8492c1b894484801563",
+    "scripts/cp7_frozen_choice_preparation/client/ChoicePreparationReopen.dom.test.tsx": "7dd1e7804c4d875f124297724aa7278ba1b039ba4ea8de19ee11eb8263e44904",
+    "scripts/cp7_frozen_choice_preparation/README.md": "f59f4dc527afbf1ca2a1eae76808456577737ce786d04d5b34a1a0d932d210a7"
+  },
+  "first_failure": {
+    "tests": 6,
+    "failed": 6,
+    "before_product_fix": true,
+    "log": "choice-preparation-reopen-before.log",
+    "cause": "Mount read preparation once; QUEUED/RUNNING never polled again. No terminal state, stall or access change observed after reopening."
+  },
+  "harness_failure_retained": {
+    "typecheck": "TS2493: mock had zero declared parameters; test inspected its first argument. Declared the existing name argument. No assertion changed.",
+    "sql_preflight": "Not executed: pglast missing in recovered environment. SQL, render, PREPARATION.json match base byte-exact; no new SQL runtime credit."
+  },
+  "checks": {
+    "preparation_tests": {
+      "PASS": 42,
+      "files": 4
+    },
+    "related_choice_tests": {
+      "PASS": 97,
+      "files": 7,
+      "includes_preparation_tests": true
+    },
+    "prepared_typescript": "PASS",
+    "sql_and_rpc_shapes_unchanged": true,
+    "package_lock_unchanged": true,
+    "react_review": "Sequential reads, no render-side writes, effect retirement and late-response guards, existing status/alert semantics, no dependency added."
+  },
+  "behaviour": [
+    "Reopen performs get-only polling on original source/access",
+    "One outstanding poll per observer; no overlapping periodic status calls",
+    "Terminal states stop polling immediately",
+    "Same persisted attempt/progress can reset unchanged-work deadline; worker lock changes cannot",
+    "Timeout, disappearance and access loss are explicit",
+    "Explicit continuation retires older observer and preserves same request",
+    "Close/identity retirement refuses late result and next read",
+    "Saved-choice receipt recovery remains available"
+  ],
+  "logs": {
+    "choice-preparation-reopen-after.log": {
+      "bytes": 233,
+      "sha256": "b83e761e5f95b59dae8bfafac37a7f03699fe515ea0385911e7ee0f92be89cd4"
+    },
+    "choice-preparation-reopen-before.log": {
+      "bytes": 7166,
+      "sha256": "88f787138e556ea3fa529544b55f296b81b8139099d84d96d5ae5ad948f2eb05"
+    },
+    "choice-preparation-reopen-final.log": {
+      "bytes": 233,
+      "sha256": "f1c7662e21a9dd6d697a0ffe85e6f50c51656a6244f0c187d8229752d1a3cc94"
+    },
+    "choice-preparation-reopen-preflight.log": {
+      "bytes": 246,
+      "sha256": "f52fb49a00aa5563322db84bb6a0d2c2a5d86377d8003952571171ef13f7d67d"
+    },
+    "choice-preparation-reopen-related.log": {
+      "bytes": 233,
+      "sha256": "25155f5f7faa6cc5655265a18a288f4ca865f1c71b03b86440d84ea85078584e"
+    },
+    "choice-preparation-reopen-typecheck-final.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "choice-preparation-reopen-typecheck.log": {
+      "bytes": 164,
+      "sha256": "ebc3f6a06b25cde84d7ca16220a12c8d0d864223a657d40513642c1260e72e88"
+    }
+  },
+  "A_dependency": {
+    "branch": "astra-a/d17-14-model-target-integration-prepared-20261024",
+    "head": "613209db2bc46079fe8c576e71801cc6806bcc23",
+    "prepared_B_code": "b96e2f7402b3373f9ab5fa7ede30d34a7048aea3",
+    "composition": "Prepared in A; Native5 reported INCOMPLETE, prerequisite for Native6 not satisfied. New caller not adopted automatically.",
+    "A_full_Original_intake_by_this_receipt": false
+  },
+  "actual_Native": false,
+  "actual_Auth_HTTP_credit": false,
+  "factory_performance_credit": false,
+  "composed_restore_credit": false,
+  "default_adopted": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

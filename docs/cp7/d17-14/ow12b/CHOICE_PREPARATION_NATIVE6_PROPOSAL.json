@@ -134,9 +134,9 @@
     "cp7_frozen_choice_preparation/client/PreparedFrozenAnalogPanel.dom.test.tsx": "c067116f414109bca034fb181a6363dcf056d7c7a173c228c8e199c0d346633b",
     "cp7_frozen_choice_preparation/client/PreparedFrozenAnalogPanel.tsx": "c06bd4aa0dc134336cbf21def29a8933e3bb54b83beaac30e8146cdd9da84f0e",
     "cp7_frozen_choice_preparation/client/PreparedFrozenChoicePanel.dom.test.tsx": "209226ef172608cace1e482e2f92c4f7082a0fd4aeccbbf35c5090d46bb4ad04",
-    "cp7_frozen_choice_preparation/client/PreparedFrozenChoicePanel.tsx": "bc4700de422f411820b0557848e9286264fad46157583745576247beb39dc6a2",
-    "cp7_frozen_choice_preparation/client/nativeFrozenChoicePreparation.test.ts": "4b7279329fa416113b92f6c07a452a8f0179245e4722348157eaa084cdc21cb2",
-    "cp7_frozen_choice_preparation/client/nativeFrozenChoicePreparation.ts": "6d25b9c5e8b869e0ccf89fa0576dd3b019e3ed7a6250d58bf2b6cbf54502c9e5",
+    "cp7_frozen_choice_preparation/client/PreparedFrozenChoicePanel.tsx": "1953c19ec41f85e50ab09f17fa2726dd0fb8c06a3a39e60a8f7737773da4e289",
+    "cp7_frozen_choice_preparation/client/nativeFrozenChoicePreparation.test.ts": "1b788b198903f9a099fc3ca67f8d3d2f9bf393e0351db8492c1b894484801563",
+    "cp7_frozen_choice_preparation/client/nativeFrozenChoicePreparation.ts": "039ed68488e501eed6044d3ca8bfc4cb1aada43e85b1039f429d9804878bde8b",
     "cp7_frozen_choice_preparation/client/preparationFixture.ts": "18330f17b31fedb321c05ba62a045ac74ec9c3e84d708501cb56632af00febdc",
     "cp7_frozen_choice_preparation/client/tsconfig.json": "29784cccc26d8d879ab2073589eb7299082f0722fe741a3d1d88d084a56e3984",
     "cp7_frozen_choice_preparation/preparation.prepared.sql": "1543d9aeb2e2a074225eb0ff724aea8b13764c53afffa62232c1532ccd09cfe7",
@@ -144,7 +144,8 @@
     "cp7_frozen_choice_preparation/work.sql": "ca22f2ca3eca9d486659b89e8776c5d5323a8bba2db2edd9a5812f866e11103b",
     "cp7_ow12b_choice_preparation_cases.py": "9c5b52d38fa3d5ab62614991c7313728beca17e7929d37b3d0457f0a6a19a55c",
     "cp7_ow12b_frozen_choice_preparation_local.mjs": "515eeeb6ba93c1f60887c97c51a42a9257a728e30124e351ae76c0f8a6ef79c5",
-    "cp7_ow12b_frozen_choice_preparation_preflight.py": "77c88c15aa7b2a07daf6bbd420d1bd80548780dc55064157ed4b5719f9d3de4b"
+    "cp7_ow12b_frozen_choice_preparation_preflight.py": "77c88c15aa7b2a07daf6bbd420d1bd80548780dc55064157ed4b5719f9d3de4b",
+    "cp7_frozen_choice_preparation/client/ChoicePreparationReopen.dom.test.tsx": "7dd1e7804c4d875f124297724aa7278ba1b039ba4ea8de19ee11eb8263e44904"
   },
   "public_rpcs": [
     "erp_cp7_get_alerts_v1",

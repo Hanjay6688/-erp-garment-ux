@@ -1,6 +1,6 @@
 import {expect,it,vi} from 'vitest'
 import {analogContext} from '../../../tests/fixtures/nativeProductAnalog'
-import {parseChoicePreparation,choicePreparationRPC,driveChoicePreparation} from './nativeFrozenChoicePreparation'
+import {parseChoicePreparation,choicePreparationRPC,driveChoicePreparation,observeChoicePreparation} from './nativeFrozenChoicePreparation'
 const context=()=>({...analogContext(),sourceMethod:'FROZEN_V2' as const})
 import {prepReply} from './preparationFixture'
 it('does not enqueue work after the caller was retired',async()=>{
@@ -55,4 +55,24 @@ it('no-progress timeout stops only monitoring without replacing or declaring the
 it('failure is terminal for this work and does not run another step',async()=>{
  const rpc=vi.fn().mockResolvedValue({data:prepReply('FAILED'),error:null})
  expect((await driveChoicePreparation({rpc},context(),{current:()=>true,status:()=>{}}))?.state).toBe('FAILED');expect(rpc).toHaveBeenCalledOnce()
+})
+it('persisted retry progress resets observation time even when total time exceeds two minutes',async()=>{
+ let clock=0,index=0
+ const replies=[prepReply('RUNNING'),{...prepReply('RUNNING'),unit_attempts:1,last_progress_at:'2026-10-26T01:00:02.123456Z'},prepReply('READY')]
+ const rpc=vi.fn(async(_name:string)=>({data:replies[index++],error:null})),status=vi.fn()
+ expect((await observeChoicePreparation({rpc},context(),{current:()=>true,status,now:()=>clock,pause:async()=>{clock+=119000}}))?.state).toBe('READY')
+ expect(clock).toBe(238000);expect(rpc.mock.calls.every(([name])=>name==='erp_cp7_get_frozen_choice_preparation_v1')).toBe(true)
+ expect(status.mock.calls.map(([s])=>s.unitsDone)).toEqual([0,0,1])
+})
+it('changing only the observed worker lock never resets the no-progress deadline',async()=>{
+ let clock=0,index=0
+ const rpc=vi.fn(async()=>({data:prepReply(index++%2?'QUEUED':'RUNNING'),error:null}))
+ await expect(observeChoicePreparation({rpc},context(),{current:()=>true,status:()=>{},now:()=>clock,pause:async()=>{clock+=60000}})).rejects.toThrow('proses server belum dinyatakan gagal')
+ expect(rpc).toHaveBeenCalledTimes(3)
+})
+it('retirement while waiting to poll prevents the next read',async()=>{
+ let current=true
+ const rpc=vi.fn().mockResolvedValue({data:prepReply('RUNNING'),error:null})
+ expect(await observeChoicePreparation({rpc},context(),{current:()=>current,status:()=>{},pause:async()=>{current=false}})).toBeNull()
+ expect(rpc).toHaveBeenCalledOnce()
 })
