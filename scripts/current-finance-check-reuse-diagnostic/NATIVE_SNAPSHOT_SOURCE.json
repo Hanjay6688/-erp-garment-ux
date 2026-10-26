@@ -1,0 +1,10 @@
+{
+  "artifact_id": 12644706605,
+  "zip_sha256": "a0fe9df8f66e188122347c37a9d58dfb0cea6814920bc1d5b3d73348631baa45",
+  "archive_member": "CLONE_install.source-erp.sql",
+  "function": "erp.get_owner_financial_snapshot_v2(date,date,date)",
+  "body_bytes": 11582,
+  "body_sha256": "d8d46c707d7c8edd8500f4366c42a9b055513b8e5f842b6808489c276dfbd4d3",
+  "live_body_must_equal_retained": true,
+  "production_go": false
+}
