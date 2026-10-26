@@ -4199,3 +4199,41 @@ PASS diperlukan sebelum binding dan CI browser. Ini belum kredit browser asli.
 Dua uji server a569d322/profile dan0c86d277/progres masih berjalan saat catatan
 ini dibuat. Tidak ada kenaikan timeout, klaim kelulusan pabrik, atau produksi.
 A tetap integrator; cabang/worktree B tidak disentuh. Formal5/16 tetap.
+
+
+## 26 Oktober 2026 — A: diagnosis resmi lengkap dan perbaikan buka ulang B di host gabungan
+
+A membaca Bc91ca3dd/koordinasi218–219 saja, lalu memverifikasi dua Original
+browser secara mandiri terhadap API artifact/CRC/SHA/51pin dan48modul nyata.
+9ff/run40287295045/art12634748141 tetapINCOMPLETE2PASS; e94/run40288589994/
+art12635213241 PASS6 dengan identity/HTTP terkendali. Tidak ada kredit Native,
+Auth sebenarnya, idempotensi database, K4, HPP, pabrik atau pemulihan gabungan.
+Kedua Original tersimpan penuh; ledger B65 tidak diubah oleh A.
+
+A menyalin d6fad0d2 persis ke host A: dua berkas kode, satu tes berubah, satu
+tes buka ulang baru; keseluruhan91berkas B diverifikasi. Host6213baf1 lulus
+190tes/17berkas, TypeScript dan build79modul. Deklarasi browser kini8cb06927
+menunjuk113berkas host yang tepat, tetapUNBOUND menunggu Native6 aktualPASS.
+Perbaikan tetap memakai pembacaan pekerjaan asal, batas30s/120s yang sudah
+ada, dan tidak membuat/menjalankan pekerjaan otomatis saat buka ulang.
+Cabang/worktree B, backend Native6, serta dua uji server A tidak diubah.
+
+Diagnosis a569d322/run40286613815/art12636473845 kiniPASS diagnostik:3691pin,
+seluruh5gerbang/pasang-pulih/CP6/advisor lulus, seluruh efek pengukuran dibalik.
+Fixture1200SKU x3ukuran=3600varian+4target awal. Unit produksi pertama7353.824ms,
+laporan resmi11679.017ms, status31.923ms; request/identitas4655.877ms. Ini
+bukan analisis pabrik selesai, bukan kualifikasi8s, dan bukan bukti optimasi
+produk; kode produksinya sama, angka unit produksi lama11120.770ms tetap
+tersimpan. Laporan lama2593.979ms berhenti pada25006 dan bukan waktu selesai.
+
+Sasaran B yang terukur: unit_reference6191.429ms termasuk history3988.612ms
+dan persiapan terkait. Angka nested tidak boleh dijumlahkan sebagai total.
+Sasaran A: run_v268_financial_report_checks dipanggil3kali, total11522.262ms
+di dalam laporan11679.017ms; jalur snapshot dan kesiapan tutup buku sedang
+ditelusuri agar hasil pemeriksaan yang masih sah dapat dipakai satu kali.
+Belum ada perubahan rumus, pemeriksaan keuangan atau batas waktu produk.
+
+Progres0c86d277/run40286627929 masih berjalan saat catatan ini dibuat.
+Setelah PASS aktual, A mengikat Native6 dan menguji komposisi penuh; setelah
+itu UI Auth/database baru dapat dijalankan. B tetap memeriksa perilaku produksi
+pada kandidat gabungan yang benar. Formal5/16; production_go=false.
