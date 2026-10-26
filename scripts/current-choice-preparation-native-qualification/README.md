@@ -1,5 +1,27 @@
 # D17-18 — komposisi persiapan pilihan dan keuangan
 
+Pembaruan setelah run pertama a3ce9317/run40297810688/art12642445168:
+status INCOMPLETE,2PASS/4INCOMPLETE; kegagalan penuh tetap tersimpan di
+FIRST_RUNTIME_FAILURE_A3CE.json dan Original. Tiga kasus berhenti pada
+pembanding STEP/GET dalam satu transaksi: GET melihat lock transaksi STEP
+yang masih sah. Adapter A mempertahankan seluruh isi B.ready, mengganti
+hanya assertion GET dengan pemeriksaan PID/kunci tepat dan seluruh field
+lain tetap persis. B tidak diedit, kontrak HTTP antar transaksi tidak diubah.
+
+Kasus pembatalan berhenti pada pemeriksaan konteks pemanggil. Runner secara
+tertulis memulihkan pengaturan yang sebelumnya belum ada menjadi string
+kosong. Penerus mencatat ketiga nilai mentah sebelum/sesudah, menuntut setiap
+nilai non-null tetap persis, dan membandingkan auth.uid()/auth.jwt() efektif.
+Batas8s tetap terpisah dan keras; tidak ada nilai identitas yang diabaikan.
+Hasil runtime penerus masih diperlukan untuk memastikan diagnosis ini.
+
+Satu INFO RLS tanpa policy pada tabel privat baru belum masuk review lama.
+Review baru hanya untuk cp7_frozen_choice_preparation.work setelah pemilik,
+RLS, tidak adanya policy/ACL PUBLIC dan seluruh hak langsung lima role
+terverifikasi tertutup. Review pendahulu disimpan utuh, tidak diperluas;
+warning/tabel lain/privilege baru tetap menahan gate. Produk tidak diubah.
+Sembilan uji penjaga lokal bukan pengganti hasil Native6 aktual.
+
 Status: prasyarat Progress Native5 aktual sudah PASS5 pada0c86d277;
 Native6 ini belum mempunyai hasil runtime. SOURCE diikat hanya ke Original
 tersebut setelah pemeriksaan sumber dan pemulihannya selesai.
