@@ -15,7 +15,7 @@ def check():
  # All pre-existing tracked source remains at the public followup base tree.
  # Only this new opt-in directory may differ, including after it is committed.
  changes=subprocess.check_output(['git','-C',str(ROOT),'diff','--name-only',manifest['A_backend_tree']]).decode().splitlines()
- assert all(p.startswith('scripts/cp7_current_frozen_finance_ui/') for p in changes),changes
+ assert all(p.startswith(('scripts/cp7_current_frozen_finance_ui/','scripts/current-frozen-finance-ui-browser-qualification/')) or p=='.github/workflows/cp7-current-frozen-finance-ui-browser.yml' for p in changes),changes
  return {'status':'PASS','B_source_head':manifest['B_source_head'],'exact_B_files':len(expected),'qualified_A_backend_unchanged':True,'production_go':False}
 
 if __name__=='__main__':print(json.dumps(check()))

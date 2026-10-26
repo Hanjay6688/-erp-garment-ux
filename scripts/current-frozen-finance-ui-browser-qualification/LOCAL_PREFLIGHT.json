@@ -1,0 +1,112 @@
+{
+  "status": "PASS_LOCAL_PREPARATION_ONLY",
+  "positive": {
+    "status": "PASS",
+    "B_source_head": "f843e4ce4fee59ee3e953d032ceed21eeba84c99",
+    "exact_B_files": 77,
+    "qualified_A_backend_unchanged": true,
+    "production_go": false,
+    "source_business_guards": 17,
+    "separate_full_clones": 2,
+    "actual_browser_executed": false
+  },
+  "negative_controls": [
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/browser.mjs",
+      "guard": "assert.equal(result.readiness,mobile?'BLOCKED':'READY')",
+      "status": "REFUSED"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/browser.mjs",
+      "guard": "assert.equal(result.metrics.length,24)",
+      "status": "REFUSED"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/browser.mjs",
+      "guard": "assert.ok(unknown.every(m=>!Object.hasOwn(m.value,'value')))",
+      "status": "REFUSED"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/browser.mjs",
+      "guard": "assert.deepEqual(after.original,exact.original)",
+      "status": "REFUSED"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/browser.mjs",
+      "guard": "assert.deepEqual(after.page_set,exact.page_set)",
+      "status": "REFUSED"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/browser.mjs",
+      "guard": "assert.deepEqual(state(),readyState)",
+      "status": "REFUSED"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/browser.mjs",
+      "guard": "assert.ok(calls.every(c=>c.millis<8000))",
+      "status": "REFUSED"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/browser.mjs",
+      "guard": "rows.every(x=>x.ratio>=4.5)",
+      "status": "REFUSED"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/browser.mjs",
+      "guard": "assert.equal(replay.status,403)",
+      "status": "REFUSED"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/browser.mjs",
+      "guard": "await route.abort('failed')",
+      "status": "REFUSED"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/browser.mjs",
+      "guard": "await route.fulfill({response})",
+      "status": "REFUSED"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/browser_fixture.py",
+      "guard": "u.path=='/cp6_auditor_browser'",
+      "status": "REFUSED"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/browser_fixture.py",
+      "guard": "set local statement_timeout='8s'",
+      "status": "REFUSED"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/browser_fixture.py",
+      "guard": "'BASELINE_OFFICIAL_REPORT_NOT_READY'",
+      "status": "REFUSED"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/browser_fixture.py",
+      "guard": "original['financial_source'] is None",
+      "status": "REFUSED"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/browser_fixture.py",
+      "guard": "helpers.ready(cur,key,actor)",
+      "status": "REFUSED"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/browser_fixture.py",
+      "guard": "private_SQL_advancement_only=True",
+      "status": "REFUSED"
+    }
+  ],
+  "bash_steps": 46,
+  "module_check": {
+    "status": "PASS",
+    "cases": 2,
+    "actual_ESM_modules_loaded": 2,
+    "browser_executed": false
+  },
+  "readiness_oracle": "Fresh independent desktop clone must prove official report READY; posted mobile fixture must remain BLOCKED as observed in Native52. No source facts rewritten to force READY.",
+  "positive_baseline_READY_runtime_proven": false,
+  "SOURCE_bound": false,
+  "actual_database": false,
+  "production_go": false
+}

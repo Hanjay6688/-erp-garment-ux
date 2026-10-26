@@ -1,0 +1,1 @@
+{"status":"FAIL_LOCAL_GUARD_CHECK","removed_assertion":"assert.deepEqual(state(),readyState)","cause":"Presence-only guard accepted removal of one of two independent state comparisons.","correction":"Require the exact count of both comparisons; retain the mutation that removes only one.","business_assertions_removed":false,"database_runtime":false,"production_go":false}

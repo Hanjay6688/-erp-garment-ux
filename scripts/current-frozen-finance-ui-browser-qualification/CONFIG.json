@@ -1,0 +1,24 @@
+{
+  "contract": "cp7.current-frozen-finance-ui-browser2-qualification.v1",
+  "count": 2,
+  "native_variable": "CURRENT_FROZEN_PUBLIC_NATIVE52_ORIGINAL_REPORT",
+  "native_head": "6dceb3d3530a2144217047360613808af3249e4a",
+  "finance_variable": "CURRENT_FROZEN_PUBLIC_FINANCE10_ORIGINAL_REPORT",
+  "finance_head": "71e15908972cd10b0b889988faa8d7d7d1ad3e40",
+  "native_path": "scripts/current-frozen-public-native-qualification/SOURCE.json",
+  "finance_path": "scripts/current-frozen-public-finance-qualification/SOURCE.json",
+  "case_ids": [
+    "A_FROZEN_FINANCE_BROWSER_DESKTOP_REAL_AUTH_LOST_REPLY_REPLAY_OFFICIAL24",
+    "A_FROZEN_FINANCE_BROWSER_MOBILE_REAL_AUTH_BLOCKED_REPORT_ACCESS_REVOKED"
+  ],
+  "groups": {
+    "desktop": [
+      "A_FROZEN_FINANCE_BROWSER_DESKTOP_REAL_AUTH_LOST_REPLY_REPLAY_OFFICIAL24"
+    ],
+    "mobile": [
+      "A_FROZEN_FINANCE_BROWSER_MOBILE_REAL_AUTH_BLOCKED_REPORT_ACCESS_REVOKED"
+    ]
+  },
+  "production_go": false,
+  "independent_acceptance": false
+}
