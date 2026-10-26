@@ -12,7 +12,7 @@ import importlib.util
 HERE=Path(__file__).resolve().parent;ROOT=HERE.parents[1]
 def load(name,path):
     s=importlib.util.spec_from_file_location(name,path);m=importlib.util.module_from_spec(s);s.loader.exec_module(m);return m
-reuse=load('source_race_exact_reuse_bodies',ROOT/'scripts/current-finance-check-reuse-diagnostic/reuse.py')
+reuse=load('source_race_exact_reuse_bodies',ROOT/'scripts/current-finance-check-reuse-diagnostic/readiness_reuse.py')
 opening=reuse.reader
 REPORT_UNIT='cp7_finance_capture.report_unit(jsonb)'
 
@@ -32,27 +32,19 @@ def held_report_definition(original,key):
 def install(cur,catalog,key):
     assert cur.connection.info.host in('localhost','127.0.0.1')and cur.connection.info.port==54322
     assert cur.execute('select current_database()').fetchone()==('cp6_rollback',)
-    assert cur.execute('select to_regprocedure(%s)',(opening.PRIVATE,)).fetchone()[0]is None
     before=catalog._catalog_rows(cur)
-    originals={s:definition(cur,s)for s in(opening.REPORT,reuse.SNAPSHOT,REPORT_UNIT)}
-    native=cur.execute('select prosrc,provolatile,prosecdef,pg_get_userbyid(proowner),proconfig from pg_proc where oid=%s::regprocedure',(opening.ORIGINAL,)).fetchone()
-    assert native[1:]==('v',True,'postgres',['search_path=erp, public'])
-    snapshot=cur.execute('select prosrc,provolatile,prosecdef,pg_get_userbyid(proowner),proconfig from pg_proc where oid=%s::regprocedure',(reuse.SNAPSHOT,)).fetchone()
-    assert snapshot[1:]==('s',True,'postgres',['search_path=erp, public, pg_catalog, pg_temp'])
-    body=reuse.rewrite(snapshot[0]);assert originals[reuse.SNAPSHOT].count(snapshot[0])==1
-    changed={opening.REPORT:opening.report_definition(originals[opening.REPORT]),
-        reuse.SNAPSHOT:originals[reuse.SNAPSHOT].replace(snapshot[0],body,1),
-        REPORT_UNIT:held_report_definition(originals[REPORT_UNIT],key)}
-    cur.execute(opening.definition(native[0]),prepare=False)
-    cur.execute('alter function '+opening.PRIVATE+' owner to postgres')
-    cur.execute('revoke all on function '+opening.PRIVATE+' from public,anon,authenticated,service_role,cp7_capture,cp7_finance_read')
-    for signature,text in changed.items():cur.execute(text,prepare=False);assert definition(cur,signature)==text
-    for role in('anon','authenticated','service_role','cp7_capture','cp7_finance_read'):
-        assert not cur.execute("select has_function_privilege(%s,%s,'EXECUTE')",(role,opening.PRIVATE)).fetchone()[0]
-    assert cur.execute('select prosrc from pg_proc where oid=%s::regprocedure',(opening.ORIGINAL,)).fetchone()[0]==native[0]
+    originals={s:definition(cur,s)for s in(opening.REPORT,reuse.WORKSPACE,REPORT_UNIT)}
+    # Use the exact paired installer, including both private-helper ACL checks,
+    # live body/attribute checks and unchanged Native close/posting commands.
+    paired_patch=reuse.install_for_rollback(cur)
+    changed={s:definition(cur,s)for s in(opening.REPORT,reuse.WORKSPACE)}
+    changed[REPORT_UNIT]=held_report_definition(originals[REPORT_UNIT],key)
+    cur.execute(changed[REPORT_UNIT],prepare=False)
+    for signature,text in changed.items():assert definition(cur,signature)==text
     return dict(before_catalog=before,originals=originals,changed=changed,
         evidence=dict(temporary_disposable_database_patch=True,committed_before_measured_transactions=True,
             original_posting_resolver_unchanged=True,private_helper_browser_worker_denied=True,
+            same_report_readiness_patch=paired_patch,private_helpers=2,
             original_bodies={k:sha256(v.encode()).hexdigest()for k,v in originals.items()},
             patched_bodies={k:sha256(v.encode()).hexdigest()for k,v in changed.items()},
             production_go=False,product_adoption=False))
@@ -66,4 +58,5 @@ def restore(cur,catalog,state):
     for signature,text in state['changed'].items():assert definition(cur,signature)==text,signature
     for signature,text in state['originals'].items():cur.execute(text,prepare=False)
     cur.execute('drop function '+opening.PRIVATE)
+    cur.execute('drop function '+reuse.PRIVATE)
     assert catalog._catalog_rows(cur)==state['before_catalog'],'SOURCE_RACE_PATCH_CATALOG_NOT_RESTORED'

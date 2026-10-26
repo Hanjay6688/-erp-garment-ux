@@ -387,7 +387,7 @@ jobs:
       run: python scripts/current-finance-reader-source-race-qualification/admission.py
     - name: Verify exact snapshot aggregation transformation before database
       working-directory: auditor
-      run: python -m unittest discover -s scripts/current-finance-check-reuse-diagnostic -p test_reuse.py -v
+      run: python -m unittest discover -s scripts/current-finance-check-reuse-diagnostic -p test_readiness.py -v
     - name: Start disposable database
       working-directory: base
       shell: bash

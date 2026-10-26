@@ -1,4 +1,4 @@
-"""Paired, rollback-only single-snapshot-check experiment; no product adoption."""
+"""Paired rollback-only same-report readiness reuse; no product adoption."""
 from pathlib import Path
 from time import monotonic
 from hashlib import sha256
@@ -10,7 +10,7 @@ HERE=Path(__file__).resolve().parent;ROOT=HERE.parents[1]
 def load(name,path):
     s=importlib.util.spec_from_file_location(name,path);m=importlib.util.module_from_spec(s);s.loader.exec_module(m);return m
 profile=load('unchanged_profile_dependencies',ROOT/'scripts/current-frozen-finance-stage-profile/runner.py')
-reader=load('single_snapshot_check_experiment',HERE/'reuse.py')
+reader=load('single_report_readiness_experiment',HERE/'readiness_reuse.py')
 price_fixture=load('real_price_percent_opening_fixture',HERE/'price_fixture.py')
 finance,product=profile.finance,profile.product
 scheduler_quiet=profile.scheduler_quiet
@@ -67,9 +67,12 @@ def pair(admin_url,dates,name,limit,report):
     new_calls={row['function']:row['calls']for row in new['functions']}
     assert old_calls['erp.run_v268_financial_report_checks()']==3
     assert new_calls['erp.run_v268_financial_report_checks()']==2
+    assert old_calls['erp.period_readiness_v1(date,date)']==2
+    assert new_calls['erp.period_readiness_v1(date,date)']==1
     assert new_calls.get('erp.resolve_opening_fg_unit_hpp(uuid,date)',0)==0
     assert new['table_write_attempts']=={}
     evidence.update(official_check_calls_before=3,official_check_calls_after=2,
+        official_readiness_calls_before=2,official_readiness_calls_after=1,
         no_result_cache=True,caller_supplied_check_results=False)
     # Only elapsed server timestamps are omitted. All checks, confidence,
     # warnings, money/HPP, filings and unknown/null fields must match exactly.

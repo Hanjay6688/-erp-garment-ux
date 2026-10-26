@@ -1,9 +1,9 @@
 # Prepared finance source-change qualification
 
 This is a separate A qualification fixture, not product adoption. The exact paired
-single-check diagnostic f038 must first complete successfully and be bound as an
+same-report readiness diagnostic e913 must first complete successfully and be bound as an
 actual Original. Until then this directory has no SOURCE.json. The prepared workflow cannot pass admission until its actual prerequisite is bound.
-The failed6bc result remains INCOMPLETE; f038 is running. Its exact composed-source correction is imported here without runtime credit.
+Both6bc andf038 remain INCOMPLETE. The latest candidate derives from actual installed BA source and reuses readiness between snapshot and preflight. Its exact sources are imported here without runtime credit.
 
 The prior experiment installs its temporary definitions in the same transaction as
 its measurement. It proves paired whole-report arithmetic and write behavior, but
@@ -28,9 +28,9 @@ credit. Earlier failures and unexplained cross-run timings remain open.
 
 The prepared outer probe now keeps the full install/preuse/used-guard and baseline
 restore, all22 catalog groups, all data/sequences, CP6, and advisor checks. Admission
-requires the exact f038 actual three-pair proof, including the percentage branch,
+requires the exact e913 actual three-pair proof, including the percentage branch,
 zero candidate writes, unchanged complete reports, actual3-to2 check calls and exact
-live composed source. It refuses an unbound invocation before database access.
+live installed source and2-to1 readiness calls. Native snapshot/preflight and close commands stay unchanged; two private helpers are installed and removed with exact ACLs. It refuses an unbound invocation before database access.
 The new scoped workflow retains every predecessor fetch and transformation test, adds the immutable actual reuse fetch, and invokes this probe. Its execution branch has not been created; SOURCE is absent. This preparation is not runtime proof.
 
 The small fixture must fit one journal chunk. Its first scan must reject the
