@@ -1,7 +1,8 @@
 # D17-18 — komposisi persiapan pilihan dan keuangan
 
-Status: PREPARED, belum ada hasil runtime. SOURCE baru boleh diikat ke
-Original Progress Native5 yang benar-benar PASS dan persis sesuai sumber.
+Status: prasyarat Progress Native5 aktual sudah PASS5 pada0c86d277;
+Native6 ini belum mempunyai hasil runtime. SOURCE diikat hanya ke Original
+tersebut setelah pemeriksaan sumber dan pemulihannya selesai.
 
 Enam kasus terfokus menjalankan pemasang A lengkap, lima endpoint baru B,
 antrean K4 yang tetap memuat keuangan resmi, retensi, pemeriksaan 22 kelompok
@@ -38,3 +39,11 @@ Induk Native5 kini disiapkan pada0c86d277, menggantikan546 yang gagal.
 Seluruh sembilan berkas harness induk disalin byte-exact; runtime0c masih
 berjalan ketika perubahan ini disiapkan. Binder tetap menolak Original bukan
 PASS dan SOURCE Native6 belum dibuat. Kegagalan546 tetap dipertahankan.
+
+Pembaruan26 Oktober2026: run40286627929/job121451709620 selesai09:02:39UTC,
+artifact12637959084. Lima kasus PASS, 24 ukuran keuangan persis sumber resmi,
+perubahan sumber terlihat gagal dan permintaan baru pulih; seluruh22 kelompok
+katalog, data, sequence, CP6 dan pemeriksa keamanan kembali persis. Pembacaan
+status terukur4,779–11,814ms. Keterangan “masih berjalan” di atas adalah riwayat
+persiapan, bukan keadaan terakhir. Ini tidak memberi kredit Auth/browser,
+analisis pabrik lengkap, audit independen atau produksi kepada Native6.
