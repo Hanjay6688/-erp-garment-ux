@@ -8,6 +8,7 @@ def load(name,path):
 
 def admitted(repo,here,ids,product,native,groups):
     cfg=json.loads((here/'CONFIG.json').read_bytes())
+    assert cfg['choice_head'] is not None,'ACTUAL_NATIVE6_PASS_REQUIRED_BEFORE_BINDING'
     assert groups==cfg['groups']and list(ids)==cfg['case_ids']and len(ids)==2
     guard=load('progress_UI_guard',here/'source_guard.py').check(repo,here)
     pins=json.loads((here/'SOURCE.json').read_bytes())

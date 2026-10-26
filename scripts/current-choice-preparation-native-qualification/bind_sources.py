@@ -4,7 +4,7 @@ from hashlib import sha256
 import argparse,ast,json,subprocess
 
 HERE=Path(__file__).resolve().parent;REPO=HERE.parents[1]
-PRODUCT_PARENT='73b5ada8a6e1c6fbbfc53a3a4fe2b305def6657f'
+PRODUCT_PARENT='82f9f82ffdce4642c4243942f91f5c219875bf47'
 PROGRESS_HEAD='0c86d27739ff74aba65967453465880d1c72e94c'
 
 def main():
@@ -33,6 +33,7 @@ def main():
     fixture=json.loads((HERE/'B_FIXTURE_SOURCE.json').read_bytes())
     own=[str(p.relative_to(REPO))for p in HERE.iterdir()if p.is_file()and p.name!='SOURCE.json']
     for rel in set(additions)|set(retained)|set(fixture['files'])|set(own)|{'.github/workflows/cp7-d17-18-choice-preparation-native.yml'}:
+        if rel==str((HERE/'SOURCE.json').relative_to(REPO)):continue
         files[rel]=sha256((REPO/rel).read_bytes()).hexdigest()
     ids=None
     for statement in ast.parse((HERE/'cases.py').read_text()).body:

@@ -378,6 +378,11 @@ jobs:
     - name: Check Native observation and narrow private INFO review guards
       working-directory: auditor
       run: python scripts/current-choice-preparation-native-qualification/test_native_observation.py
+    - name: Reject widened retention reference authority before database
+      working-directory: auditor
+      env:
+        PYTHONPATH: scripts
+      run: python -m unittest cp7_current_choice_preparation.test_retention_access -v
     - name: Start disposable database
       working-directory: base
       shell: bash

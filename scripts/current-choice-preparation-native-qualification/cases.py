@@ -15,6 +15,8 @@ finance=importlib.util.module_from_spec(spec);spec.loader.exec_module(finance)
 parent,plan,reader=B.parent,B.plan,B.reader
 spec=importlib.util.spec_from_file_location('choice_native_observation',Path(__file__).with_name('native_observation.py'))
 observation=importlib.util.module_from_spec(spec);spec.loader.exec_module(observation)
+spec=importlib.util.spec_from_file_location('choice_actual_retention_cases',Path(__file__).with_name('retention_cases.py'))
+retention_cases=importlib.util.module_from_spec(spec);spec.loader.exec_module(retention_cases)
 IDS=('CURRENT_CHOICE_REGISTRY_FULL22_INVERSE_GUARDS',
      'CURRENT_CHOICE_COLD_PREPARE_READ_SAVE_REPLAY',
      'CURRENT_CHOICE_CURRENT_ACCESS_AND_CHANGED_SOURCE',
@@ -161,15 +163,17 @@ def cases(cur,today):
         plan.b.api.admin(cur);parent.bounded.retention.age(cur,f['done']['run_id'],timedelta(days=8))
         plan.refused(cur,lambda:B.call(cur,'get',f,observed),parent.bounded.retention.EXPIRED)
         assert parent.save(cur,f,payload,key)==saved
-        plan.b.api.admin(cur);retained=cur.execute('select cp7_ops.retention_tick()').fetchone()[0]
+        plan.b.api.admin(cur);retained=retention_cases.tick(cur,plan,observed)
         assert retained['choice_preparation_payloads']==1
         work=B.work(cur,f);assert work['payload']is None and work['state']=='EXPIRED'
         assert work['source_request']==f['key']and work['job_id']==f['row']['id']
         assert parent.save(cur,f,payload,key)==saved
-        assert cur.execute('select cp7_ops.retention_tick()').fetchone()[0]['choice_preparation_payloads']==0
+        assert retention_cases.tick(cur,plan,observed)['choice_preparation_payloads']==0
         used_refused(cur)
+        documents=retention_cases.documents(cur,today,observed,plan,B.native)
         return dict(status='PASS',last_table_fault_atomic=True,used_inverse_refused_before_DDL=True,
-            actual_retention_hook_cleared_only_expired_payload=True,work_identity_and_receipt_survive=True,repeated_retention_no_effect=True)
+            actual_retention_hook_cleared_only_expired_payload=True,work_identity_and_receipt_survive=True,repeated_retention_no_effect=True,
+            actual_document_reference_retention=documents)
 
     def cancellation():
         f=parent.prepare(cur,today,observed);reader.purge(cur,f);B.call(cur,'request',f,observed);plan.b.api.admin(cur)

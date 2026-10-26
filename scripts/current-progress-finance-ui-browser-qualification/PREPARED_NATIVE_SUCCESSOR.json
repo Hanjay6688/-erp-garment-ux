@@ -1,20 +1,44 @@
 {
-  "expected_native6_head": "9a943ea4cc4d24a92a2af1c3e678bd3d0bddfc14",
+  "expected_native6_head": "bfed0a81252e597842b9b9020ecc061cca936d54",
   "imported_files": [
     ".github/workflows/cp7-d17-18-choice-preparation-native.yml",
-    "scripts/current-choice-preparation-native-qualification/FIRST_RUNTIME_FAILURE_A3CE.json",
+    "scripts/cp7_current_choice_preparation/README.md",
+    "scripts/cp7_current_choice_preparation/installation.py",
+    "scripts/cp7_current_choice_preparation/retention_access.py",
+    "scripts/cp7_current_choice_preparation/test_retention_access.py",
+    "scripts/current-choice-preparation-native-qualification/FIRST_RUNTIME_FAILURE_9A.json",
     "scripts/current-choice-preparation-native-qualification/README.md",
+    "scripts/current-choice-preparation-native-qualification/RETENTION_LOCAL_PREFLIGHT.json",
     "scripts/current-choice-preparation-native-qualification/SOURCE.json",
-    "scripts/current-choice-preparation-native-qualification/admission.py",
-    "scripts/current-choice-preparation-native-qualification/advisor_review.py",
+    "scripts/current-choice-preparation-native-qualification/bind_sources.py",
     "scripts/current-choice-preparation-native-qualification/cases.py",
-    "scripts/current-choice-preparation-native-qualification/native_observation.py",
-    "scripts/current-choice-preparation-native-qualification/probe.py",
-    "scripts/current-choice-preparation-native-qualification/test_native_observation.py"
+    "scripts/current-choice-preparation-native-qualification/retention_cases.py"
   ],
   "actual_prerequisite_status": "RUNNING_NOT_PASS",
-  "run_id": 40308822607,
+  "run_id": 40324974838,
+  "job_id": 121579218692,
   "source_bound": false,
+  "previous_preparation": {
+    "expected_native6_head": "9a943ea4cc4d24a92a2af1c3e678bd3d0bddfc14",
+    "imported_files": [
+      ".github/workflows/cp7-d17-18-choice-preparation-native.yml",
+      "scripts/current-choice-preparation-native-qualification/FIRST_RUNTIME_FAILURE_A3CE.json",
+      "scripts/current-choice-preparation-native-qualification/README.md",
+      "scripts/current-choice-preparation-native-qualification/SOURCE.json",
+      "scripts/current-choice-preparation-native-qualification/admission.py",
+      "scripts/current-choice-preparation-native-qualification/advisor_review.py",
+      "scripts/current-choice-preparation-native-qualification/cases.py",
+      "scripts/current-choice-preparation-native-qualification/native_observation.py",
+      "scripts/current-choice-preparation-native-qualification/probe.py",
+      "scripts/current-choice-preparation-native-qualification/test_native_observation.py"
+    ],
+    "actual_prerequisite_status": "RUNNING_NOT_PASS",
+    "run_id": 40308822607,
+    "source_bound": false,
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "previous_native9a_actual_status": "INCOMPLETE_5_PASS_1_RETENTION_FAILURE",
   "production_go": false,
   "independent_acceptance": false
 }
