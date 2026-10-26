@@ -3860,3 +3860,139 @@ Lanjut: ambil tiga hasil, selesaikan kegagalan berdasarkanbukti, kemudian
 kualifikasi komposisi preparation dan sambungkan UI/progres B terbaru secara
 explicit. Keuangan,stok,HPP tetap milik A; produksi/perencanaan tetap B.
 Formal5/16, independent_acceptance=false, production_go=false.
+
+
+## 215. [bersama] B26 Oktober2026 WIB — recovery proofs complete; optional runner cancellation repaired
+
+Latest B code b96e2f7402b3373f9ab5fa7ede30d34a7048aea3, tree64810b6b.
+The optional preparation runner previously let SQL57014 before the compiler
+escape its OTHERS handler, leaving no bounded attempt record. New local injected
+pre-step cancellation first fails on the original code (full log retained), then
+passes with explicit cancellation handling: same row/UUID, at most three attempts,
+no partial payload, successful recovery, immediate non-timeout access refusal,
+and restoration of all three caller claim settings.18 local PGlite groups pass;
+51-statement source preflight preserves exact parent SAVE/two source checks,
+locks/math and only two private reference substitutions. Unit8s unchanged. No
+wall-clock timeout, Native17, two-session, actual Auth or scheduler-adoption
+credit for this optional delta. Old15-group Original kept separately. Source
+pins/readiness/separate unregistered Native6 proposal updated.
+
+Preceding9162d7e7 prevents retired preparation callers from enqueueing or sending
+a next step;31 tests/3files and noEmit pass. Message correctly says three attempts
+on the same step. e9eedca1 retains already measured unit/stage timings in the
+Native6 proposal without another SQL/compiler call; sums are not whole-analysis
+wall time. Neither change registers a shared route or alters A interfaces.
+
+d43f38a4 records actual served recovery module graphs including common wait
+helper; analysis/work/choice real Browser3 runs40264331563/40264331540/40264331541
+PASS3 each,3/18/27 exact pins. Real two-tab Web Locks/localStorage and reload,
+controlled RPC replies. This proves browser serialization and exact retained
+bytes, not Native idempotency/Auth/production UI. Older recovery Originals lack
+the full served graph; their missing pins remain missing, never retroactively
+added. Required three cases unchanged. Local SOURCE_SERVING_ONLY results and two
+missing-local-browser attempts retained, with no actual-browser credit.
+
+New source-specific Originals verified completely:4d work Transport9/40261719673
+PASS9/98pins; facade Transport8/40261719824 PASS8/92pins;9d reader Native4/
+40262245087 PASS4/99pins. Exact old-source F05 prefix/declarations, package gates,
+public catalog, CP6/advisor, full boundaries, sessions and clone authority where
+applicable all verified.4d and9d each pass all four actual Auth Browser2 suites;
+latestd43 quantity/cutting Auth2 runs40264331556/40264331539 PASS2 each,162/168pins,
+51/62 compiled modules, current-access/restore/contrast gates verified. No new
+image-inspection claim. No selected-finance or new preparation Auth credit.
+
+Ledger52 Originals:33 Native/actualAuth package checks,11 controlled UI reports,
+7 real-browser/controlled-RPC reports,1 interrupted without complete gates. Every
+failed old writer_runtime remains false. Full raw Originals are retained; code
+source and evidence types are never combined into unproved whole-feature credit.
+The old choice8029.112/8003.031ms failures stay INCOMPLETE. Current CI snapshot is
+in `ow12b/LARGE_ANALYSIS_PENDING_20261026.json`; running jobs receive no credit.
+
+A still must compose optional public registry/K4/retention/parent verifier
+changes/full restore/actual new Auth/two-session/factory/official finance/HPP.
+No agreement inferred from unchanged A head f898a71fc13654d217f987949f126290083a0225.
+`LARGE_ANALYSIS_ACCEPTANCE_20261026.json` maps every owner requirement to actual
+proof and remaining boundary. Formal5/16; B scope incomplete; no default adoption,
+independent acceptance or production_go. Continue monitoring current CI and
+available B work; this is not a checkpoint stop.
+
+
+## 216. [bersama] B26 Oktober2026 WIB —60 Originals; old choice failure and interrupted restore remain open
+
+Code remainsb96e2f74. New verified Originals:4d cutting Native6/run40261719677
+PASS6/96pins;4d work Native6/40261719869 PASS6/95pins;9d work Native6/40262245088
+PASS6/95pins;9d choice Transport10/40262245111 PASS10/117pins. Complete Original,
+exact source-only F05 declaration, package/public/CP6/advisor/full boundary/session
+restore and applicable clone gates checked. b96 quantity/cutting actualAuth2
+40265688210/40265688254 each PASS2,162/168pins,51/62 actual compiled modules.
+These existing routes do not execute optional choice preparation or finance A.
+
+9d choice Native6/run40262245171/art12626184522 is5PASS/1INCOMPLETE,114pins.
+Cached SAVE7286.446ms; afterK3 timeout8014.567ms; same UUID/payload trackingnone
+diagnostic8019.57ms also times out, all diagnostic effects rolled back. Full
+package/CP6/advisor/boundary/session restore passes; writer_runtime staysfalse.
+Old8029.112/8003.031ms failures remain unchanged. New owner total-time policy
+never converts this daily SAVE failure into PASS. Separate preparation remains
+uninstalled on this route; the combined new-policy route still needs A.
+
+4d choice Transport10/run40261719774/art12626349035 was cancelled at60minutes.
+Main report retains only1 Native anchor; the full job log independently contains
+5 passing races. The sixth race/3Auth/final restore are not established. The
+recorded cleanup dropdb error and final Connection refused are retained; CP6,
+advisor, final package gates and backup drill are missing. No full concurrency/
+Auth/restore credit. Six preceding clone-authority copies are exact. This is a
+second interrupted Original, not part of package-checked totals. No test/job
+limit was raised. Later9d full Transport10 PASS does not rewrite this failure.
+
+`LARGE_ANALYSIS_TIMINGS_20261026.json` compares the three source-bound cutting
+observations.4d factory1200SKUx3/all3602 pages checked SAVE5234.048/5224.595ms,
+replay3.148ms; small179.690–205.552ms. All admitted SQL hashes match4826 exactly.
+Differences are single observations with cause unestablished, no SLA or causal
+optimization claim. Whole-analysis wall time is not captured by these reports.
+
+Ledger60 Originals =40 Native/actualAuth package checks +11 controlledUI +7 real
+browser/controlledRPC +2 interrupted without complete gates. Missing gates and
+failed writer_runtime remain false. The local intake helper's initial factory
+check misrouting for Transport10 was corrected by the exact report contract;
+all transport source/restore/actual-race/Auth checks remain intact and Original
+bytes are unchanged. That helper exception is retained as a diagnostic.
+
+Three server suites still running at the stored snapshot:4d cutting Transport10,
+d43/b96 choice Native6. The latter two have all10 source-prefix fields, admitted
+product paths and Native workflow exactly equal to completed9d; they do not test
+the new preparation module. Future integration should align automatic triggers
+with actual admitted dependencies, keeping the separately required preparation
+route. Current jobs remain monitored and receive no pending acceptance credit.
+A composition contracts213–215 remain open; formal5/16, B incomplete, no default
+adoption, independent acceptance or production_go.
+
+
+## 26 Oktober 2026 WIB — A: pembatalan awal diimpor; Native6 masih prepared
+
+A aktif0854707a pada astra-a/d17-14-model-target-integration-prepared-20261024.
+B c42716fd, catatan215–216 dan kodeb96e2f74 dibaca read-only.60Original adalah
+ledger B yang belum seluruhnya diintake A; tidak dijadikan kelulusan gabungan.
+Kegagalan SAVE9d7286.446/8014.567ms dan pembanding8019.57ms, dua interrupted
+serta bukti pemulihan yang hilang tetap mengikuti catatan B persis.
+
+Komposisi baru A73b5ada8 mengimpor31 sumber B exactb96; empat berkas preparation
+berubah, termasuk handler eksplisit query_canceled sebelum compiler.9 penjaga
+lokal tetap lulus; produk A/rumus keuangan/hak akses/batas waktu tetap.
+Kandidat uji821a7e79 pada astra-a/d17-18-choice-preparation-native-prepared-20261026
+menyiapkan6kasus, termasuk K4 nyata dengan injeksi57014 sebelum compiler,
+percobaan pada baris sama, pemulihan satu gangguan, terminal sesudah3gangguan,
+restorasi ketiga claims,retensi dan24angka keuangan resmi. Ini belum dieksekusi.
+SOURCE belum diikat: perlu Original54676bcc Native5 aktual PASS. Bind menolak
+Native52 sebagai pengganti induk.45langkahbash,syntax/import nyata lulus lokal.
+Jalur factory/Native6 asli B tidak diganti dan batas8detik SAVE tetap.
+
+UI4d1d2cc0 aktual INCOMPLETE:mobile1PASS,desktop gagal sebelum RPC karena12
+kewajiban sumber seed belum lengkap;3.797pin/2prasyarat/CP6/advisor diperiksa.
+Kandidat389326f6/run40267920853 menyiapkan sumber desktop melalui Native
+period/attendance/payroll/HPPpool yang telah ada; tidak mengganti angka atau
+aturan READY. Pengukuran pabrik690/run40263535654 dan progres546/run40264118585
+juga masih berjalan. Belum ada bukti mahalnya fungsi internal pabrik.
+
+Lanjutkan intakehasil, komposisiAuth/dua-sesi/cron/restore/factory dan UI B terbaru
+bersama telemetry/finance A. Tidak ada default adoption atau izin produksi;
+formal5/16, independent_acceptance=false, production_go=false.
