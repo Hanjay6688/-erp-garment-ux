@@ -4,10 +4,19 @@ from time import monotonic
 import json
 
 
+def emit(row):
+    # Match the retained qualification logger: an unavailable diagnostics sink
+    # must never skip an operation, mask its failure, or prevent restoration.
+    try:
+        print(json.dumps(dict(event='QUALIFICATION_PHASE', **row)), flush=True)
+    except OSError:
+        pass
+
+
 def measured(trail, phase, operation, *args, **kwargs):
     row = dict(phase=phase, state='RUNNING', started_at_utc=datetime.now(timezone.utc).isoformat())
     trail.append(row)
-    print(json.dumps(dict(event='QUALIFICATION_PHASE', **row)), flush=True)
+    emit(row)
     started = monotonic()
     try:
         result = operation(*args, **kwargs)
@@ -20,4 +29,4 @@ def measured(trail, phase, operation, *args, **kwargs):
     finally:
         row.update(elapsed_ms=round((monotonic() - started) * 1000, 3),
                    finished_at_utc=datetime.now(timezone.utc).isoformat())
-        print(json.dumps(dict(event='QUALIFICATION_PHASE', **row)), flush=True)
+        emit(row)

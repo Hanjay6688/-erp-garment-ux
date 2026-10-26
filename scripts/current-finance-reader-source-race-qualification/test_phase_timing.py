@@ -3,6 +3,7 @@ import contextlib
 import io
 import json
 import unittest
+from unittest.mock import patch
 from phase_timing import measured
 
 
@@ -46,6 +47,24 @@ class PhaseTiming(unittest.TestCase):
         with contextlib.redirect_stdout(io.StringIO()), self.assertRaises(KeyboardInterrupt):
             measured(trail, 'SOURCE_ADMISSION', stop)
         self.assertEqual(trail[0]['state'], 'FAILED')
+
+    def test_log_sink_failure_does_not_replace_business_failure(self):
+        trail = []
+        original = ValueError('original business refusal')
+        def fail():
+            raise original
+        with patch('builtins.print', side_effect=OSError('log unavailable')):
+            with self.assertRaises(ValueError) as observed:
+                measured(trail, 'CASE', fail)
+        self.assertIs(observed.exception, original)
+        self.assertEqual(trail[0]['state'], 'FAILED')
+
+    def test_log_sink_failure_does_not_skip_the_operation(self):
+        calls, trail = [], []
+        with patch('builtins.print', side_effect=OSError('log unavailable')):
+            self.assertEqual(measured(trail, 'RESTORE', lambda: calls.append('restored') or 7), 7)
+        self.assertEqual(calls, ['restored'])
+        self.assertEqual(trail[0]['state'], 'COMPLETED')
 
 
 if __name__ == '__main__':

@@ -49,7 +49,12 @@ baseline verification, first full install, preuse removal, second full install,
 installed verification, actual source-change/recovery and baseline restoration.
 Every event comes from the actual operation; phase completion is not suite PASS,
 and no percentage or timer-driven progress is fabricated. Exceptions are recorded
-and re-raised unchanged. Three local controls and a stripped-AST equality check
+and re-raised unchanged. Five local controls and a stripped-AST equality check
 prove the instrumentation preserves previous operation order and all gates.
 The prior 3677.382-second quiet interval in e352 remains unexplained until actual
 phase timings are available. This instrumentation adds no runtime credit.
+
+The first injected log-sink controls found two OSError failures before database
+use. FIRST_LOCAL_LOG_SINK_FAILURE.json preserves them. The logger now follows
+the retained Progress logger: an unavailable output sink cannot skip the business
+operation, replace its original exception, or prevent baseline restoration.
