@@ -1,4 +1,5 @@
 // Prepared explicit frozen work metadata reader; no UI/default adoption.
+import {boundedFrozenLock,boundedFrozenReply} from '../../cp7_frozen_analysis_facade_v2/client/nativeFrozenWait'
 import {parseScheduleConfig,STAGED_SCHEDULE_CONTRACT,type ScheduleConfig,type SchedulePayload,type ScheduleWorkspace,type StagedScheduleContext,type WorkPosition} from '../../../src/nativeProductionPlanning'
 import type {StagedReference} from '../../../src/nativeAnalysisPages'
 import {FROZEN_ANALYSIS_REQUEST,FROZEN_ANALYSIS_REFERENCE} from '../../cp7_frozen_analysis_facade_v2/client/nativeFrozenAnalysis'
@@ -46,7 +47,7 @@ type Reply={data:unknown;error:unknown}
 type FrozenWorkClient={rpc(name:'erp_cp7_get_staged_production_schedule_v1',args:{p_source_request:string}):PromiseLike<Reply>;rpc(name:'erp_cp7_save_staged_production_schedule_v1',args:{p_payload:SchedulePayload;p_request:string}):PromiseLike<Reply>}
 export async function readFrozenScheduleWorkspace(client:unknown,context:FrozenWorkContext){
  if(context.method!=='FROZEN_V2')fail();uuid(context.requestId)
- const reply=await(client as FrozenWorkClient).rpc('erp_cp7_get_staged_production_schedule_v1',{p_source_request:context.requestId})
+ const reply=await boundedFrozenReply(()=>(client as FrozenWorkClient).rpc('erp_cp7_get_staged_production_schedule_v1',{p_source_request:context.requestId}))
  if(reply.error)throw reply.error
  return parseFrozenScheduleWorkspace(reply.data,context)
 }
@@ -86,9 +87,7 @@ export function readFrozenScheduleRequest(scope:string,actor:string):{pending:Fr
  catch{return{pending:null,error:'Permintaan jadwal tersimpan belum bisa dibaca. Pulihkan catatan sebelum menyimpan lagi.'}}
 }
 async function exclusive<T>(scope:string,actor:string,action:()=>T|PromiseLike<T>):Promise<T>{
- const key=frozenScheduleRequestKey(scope,actor),locks=globalThis.navigator?.locks
- if(!locks)throw Error('Catatan jadwal belum dapat dikunci. Buka kembali aplikasi pada peramban yang mendukung penguncian.')
- return await locks.request(key,{mode:'exclusive'},async()=>await action())
+ return await boundedFrozenLock(frozenScheduleRequestKey(scope,actor),action)
 }
 export async function persistFrozenScheduleRequest(scope:string,request:FrozenScheduleRequest){
  const r=parseFrozenScheduleRequest(request,request.actor)
@@ -112,7 +111,7 @@ export async function saveFrozenSchedule(client:unknown,scope:string,actor:strin
  return await exclusive(scope,actor,async()=>{
   const held=readFrozenScheduleRequest(scope,actor)
   if(held.error||!held.pending)throw Error('Permintaan jadwal belum tersimpan. Penyimpanan belum dikirim.')
-  const r=held.pending,reply=await(client as FrozenWorkClient).rpc('erp_cp7_save_staged_production_schedule_v1',{p_payload:structuredClone(r.payload),p_request:r.id})
+  const r=held.pending,reply=await boundedFrozenReply(()=>(client as FrozenWorkClient).rpc('erp_cp7_save_staged_production_schedule_v1',{p_payload:structuredClone(r.payload),p_request:r.id}))
   if(reply.error)throw reply.error
   return checkFrozenScheduleOutcome(reply.data,r)
  })

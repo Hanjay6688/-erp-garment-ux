@@ -22,7 +22,19 @@ beforeEach(()=>{
   try{return await action()}finally{release();if(tails.get(name)===tail)tails.delete(name)}
  })}})
 })
-afterEach(()=>{localStorage.clear();vi.restoreAllMocks();vi.unstubAllGlobals()})
+afterEach(()=>{localStorage.clear();vi.useRealTimers();vi.restoreAllMocks();vi.unstubAllGlobals()})
+it.each(['reply','queue'])('bounds a missing schedule %s and replays the exact durable command',async kind=>{
+ const{r,outcome}=fixture();await persistFrozenScheduleRequest(scope,r)
+ const key=frozenScheduleRequestKey(scope,actor),bytes=localStorage.getItem(key),locks=navigator.locks
+ vi.useFakeTimers();if(kind==='queue')vi.stubGlobal('navigator',{locks:{request:()=>new Promise(()=>{})}})
+ const rpc=vi.fn(()=>new Promise(()=>{})),pending=saveFrozenSchedule({rpc},scope,actor)
+ const rejected=expect(pending).rejects.toThrow(kind==='queue'?'dikunci tab lain':'Hasil permintaan belum diketahui')
+ await vi.advanceTimersByTimeAsync(30000);await rejected;expect(localStorage.getItem(key)).toBe(bytes)
+ expect(rpc).toHaveBeenCalledTimes(kind==='reply'?1:0)
+ vi.stubGlobal('navigator',{locks});const retry=vi.fn(async()=>({data:outcome,error:null}));await saveFrozenSchedule({rpc:retry},scope,actor)
+ expect(retry).toHaveBeenCalledWith('erp_cp7_save_staged_production_schedule_v1',{p_payload:r.payload,p_request:r.id})
+ expect(localStorage.getItem(key)).toBe(bytes);expect(vi.getTimerCount()).toBe(0)
+})
 it('prepares physical work while frozen history remains pending without allocating customer stock',()=>{
  const{w,r}=fixture();expect(w.staged.inputCoverage).toBe('PENDING');expect(w.staged.analysisState).toBe('RUNNING')
  expect(r.sourceMethod).toBe('FROZEN_V2');expect(r.payload.reason).toBe('diperiksa');expect(r.payload.config).toEqual(scheduleConfig)

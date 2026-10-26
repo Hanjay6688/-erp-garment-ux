@@ -1,4 +1,4 @@
-import {expect,it,vi} from 'vitest'
+import {expect,it,vi,afterEach} from 'vitest'
 import preparedSQL from '../reader.prepared.sql?raw'
 import {parseAnalogCandidates,readProductAnalogCandidates,type AnalogReadContext} from '../../../src/nativeProductAnalog'
 import {analogContext,analogReply} from '../../../tests/fixtures/nativeProductAnalog'
@@ -10,6 +10,12 @@ function fixture(){
  const reply={...analogReply(c),contract_version:'cp7.product-analog-candidates-read.v3',bounded_request_contract:'cp7.bounded-analysis-request.v2',bounded_reference_contract:'cp7.bounded-analysis-reference.v2',consumer_capability:'REVIEWED_ANALOG_FOR_FRESH_CAPTURES',target_demand:structuredClone(demand.analog)}
  return{c,reply}
 }
+afterEach(()=>vi.useRealTimers())
+it('bounds unreturned candidates without treating missing data as an empty result',async()=>{
+ const{c}=fixture(),original=structuredClone(c);vi.useFakeTimers()
+ const pending=readFrozenAnalogCandidates({rpc:()=>new Promise(()=>{})},c),rejected=expect(pending).rejects.toThrow('Hasil permintaan belum diketahui')
+ await vi.advanceTimersByTimeAsync(30000);await rejected;expect(c).toEqual(original)
+})
 it('calls only the explicit frozen reader with exact SQL named arguments and retains demand provenance',async()=>{
  const{c,reply}=fixture(),rpc=vi.fn(async(_name:string,_args:object)=>({data:reply,error:null}))
  const expected=preparedSQL.match(/create function public\.erp_cp7_read_product_analog_candidates_v2\(([^)]+)\)/)![1].split(',').map(v=>v.trim().split(/\s+/)[0]).sort()

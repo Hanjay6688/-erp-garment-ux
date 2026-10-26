@@ -1,4 +1,5 @@
 // Prepared explicit frozen command; no default/UI adoption.
+import {boundedFrozenLock,boundedFrozenReply} from '../../cp7_frozen_analysis_facade_v2/client/nativeFrozenWait'
 import {stagedInstant} from '../../../src/nativeAnalysisPages'
 import {sameBoundedReference} from '../../../src/nativeBoundedQuantity'
 import type {AnalogReadContext,AnalogCandidates} from '../../../src/nativeProductAnalog'
@@ -81,7 +82,7 @@ export function parseAnalogChoiceOutcome(value:unknown,command:PreparedAnalogCho
  return parsed
 }
 export async function readProductAnalogChoice(client:unknown,actor:string,targetKey:string){
- const reply=await(client as ChoiceClient).rpc('erp_cp7_get_product_analog_choices_v1',{p_targets:[target(targetKey)]})
+ const reply=await boundedFrozenReply(()=>(client as ChoiceClient).rpc('erp_cp7_get_product_analog_choices_v1',{p_targets:[target(targetKey)]}))
  if(reply.error)throw reply.error
  return parseAnalogChoiceWorkspace(reply.data,actor,targetKey)
 }
@@ -121,9 +122,7 @@ export function readAnalogChoiceRequest(scope:string,actor:string,targetKey:stri
  catch{return{pending:null,error:'Catatan konfirmasi belum bisa dibaca. Pulihkan catatan sebelum menyimpan lagi.'}}
 }
 async function exclusive<T>(scope:string,actor:string,targetKey:string,action:()=>T|PromiseLike<T>):Promise<T>{
- const key=analogChoiceRequestKey(scope,actor,targetKey),locks=globalThis.navigator?.locks
- if(!locks)throw Error('Catatan konfirmasi belum dapat dikunci. Buka kembali aplikasi pada peramban yang mendukung penguncian.')
- return await locks.request(key,{mode:'exclusive'},async()=>await action())
+ return await boundedFrozenLock(analogChoiceRequestKey(scope,actor,targetKey),action)
 }
 export async function persistAnalogChoiceRequest(scope:string,r:PreparedAnalogChoice){
  const parsed=parsePreparedAnalogChoice(r,r.actor,r.payload.target_key)
@@ -151,7 +150,7 @@ export async function saveProductAnalogChoice(client:unknown,scope:string,actor:
   const held=readAnalogChoiceRequest(scope,actor,targetKey)
   if(held.error||!held.pending)throw Error('Konfirmasi belum tercatat di perangkat. Penyimpanan belum dikirim.')
   const command=held.pending
-  const reply=await(client as ChoiceClient).rpc('erp_cp7_save_product_analog_choice_v2',{p_payload:structuredClone(command.payload),p_request:command.requestId})
+  const reply=await boundedFrozenReply(()=>(client as ChoiceClient).rpc('erp_cp7_save_product_analog_choice_v2',{p_payload:structuredClone(command.payload),p_request:command.requestId}))
   if(reply.error)throw reply.error
   return parseAnalogChoiceOutcome(reply.data,command)
  })

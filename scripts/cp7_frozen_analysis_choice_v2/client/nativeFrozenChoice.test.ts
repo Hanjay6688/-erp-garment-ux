@@ -19,7 +19,24 @@ beforeEach(()=>{
   try{return await action()}finally{release();if(tails.get(name)===tail)tails.delete(name)}
  })}})
 })
-afterEach(()=>{localStorage.clear();vi.restoreAllMocks();vi.unstubAllGlobals()})
+afterEach(()=>{localStorage.clear();vi.useRealTimers();vi.restoreAllMocks();vi.unstubAllGlobals()})
+it.each(['reply','queue'])('bounds a missing choice %s while exact recovery stays available',async kind=>{
+ const f=setup();await persistAnalogChoiceRequest('work',f.command)
+ const key=analogChoiceRequestKey('work',f.context.actor,f.context.targetKey),bytes=localStorage.getItem(key),locks=navigator.locks
+ vi.useFakeTimers();if(kind==='queue')vi.stubGlobal('navigator',{locks:{request:()=>new Promise(()=>{})}})
+ const rpc=vi.fn(()=>new Promise<{data:unknown;error:null}>(()=>{})),pending=saveProductAnalogChoice({rpc},'work',f.context.actor,f.context.targetKey)
+ const rejected=expect(pending).rejects.toThrow(kind==='queue'?'dikunci tab lain':'Hasil permintaan belum diketahui')
+ await vi.advanceTimersByTimeAsync(30000);await rejected;expect(localStorage.getItem(key)).toBe(bytes)
+ expect(rpc).toHaveBeenCalledTimes(kind==='reply'?1:0)
+ vi.stubGlobal('navigator',{locks});const retry=vi.fn(async()=>({data:f.outcome,error:null}))
+ await saveProductAnalogChoice({rpc:retry},'work',f.context.actor,f.context.targetKey)
+ expect(retry).toHaveBeenCalledWith('erp_cp7_save_product_analog_choice_v2',{p_payload:f.command.payload,p_request:f.command.requestId})
+ expect(localStorage.getItem(key)).toBe(bytes);expect(vi.getTimerCount()).toBe(0)
+})
+it('bounds current choice reads without inventing an empty workspace',async()=>{
+ const f=setup();vi.useFakeTimers();const pending=readProductAnalogChoice({rpc:()=>new Promise(()=>{})},f.context.actor,f.context.targetKey)
+ const rejected=expect(pending).rejects.toThrow('Hasil permintaan belum diketahui');await vi.advanceTimersByTimeAsync(30000);await rejected
+})
 it('reads the shared authorized append-only choice workspace through its unchanged method',async()=>{
  const f=setup(),rpc=vi.fn(async()=>({data:f.raw,error:null}))
  expect((await readProductAnalogChoice({rpc},f.context.actor,f.context.targetKey)).choice.revision).toBe('0')

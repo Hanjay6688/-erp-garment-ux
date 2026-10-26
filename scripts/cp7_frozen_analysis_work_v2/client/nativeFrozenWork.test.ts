@@ -1,4 +1,4 @@
-import {it,expect,vi} from 'vitest'
+import {it,expect,vi,afterEach} from 'vitest'
 import {parseStagedScheduleWorkspace} from '../../../src/nativeProductionPlanning'
 import {boundedWorkspaceWire,scheduleJobWire} from '../../../tests/fixtures/nativeProductionPlanning'
 import {demandRequest,demandRun} from '../../../tests/fixtures/nativeDemandHistory'
@@ -9,6 +9,12 @@ function fixture(){
  const wire={...boundedWorkspaceWire(),contract_version:'cp7.planning-schedule-staged-bounded.v2',bounded_request_contract:'cp7.bounded-analysis-request.v2',bounded_reference_contract:'cp7.bounded-analysis-reference.v2',history_input_coverage:'PENDING'}
  return{context,wire}
 }
+afterEach(()=>vi.useRealTimers())
+it('bounds an unreturned schedule workspace and keeps its original source',async()=>{
+ const{context}=fixture(),original=structuredClone(context);vi.useFakeTimers()
+ const pending=readFrozenScheduleWorkspace({rpc:()=>new Promise(()=>{})},context),rejected=expect(pending).rejects.toThrow('Hasil permintaan belum diketahui')
+ await vi.advanceTimersByTimeAsync(30000);await rejected;expect(context).toEqual(original)
+})
 it.each(['RUNNING','FAILED'])('keeps %s pending history separate from captured physical work',state=>{
  const{context,wire}=fixture();wire.analysis_state=state
  const w=parseFrozenScheduleWorkspace(wire,context)

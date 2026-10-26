@@ -32,7 +32,8 @@ def sources():
   **{p.name:sha256(p.read_bytes()).hexdigest()for p in(Path(__file__),root/'cp7_ow12b_frozen_reader_local.mjs',
     root/'cp7_ow12b_frozen_acl_local.mjs',root/'cp7_ow12b_frozen_acl_preflight.py',root/'cp7_ow12b_frozen_reader_probe.py',root/'cp7_ow12b_frozen_reader_preflight.py',
     Path(consumer.__file__),Path(reader.__file__),Path(reader.historical.__file__),Path(reader.volume.__file__))},
-  '../src/nativeProductAnalog.ts':sha256((root.parent/'src/nativeProductAnalog.ts').read_bytes()).hexdigest()}
+  '../src/nativeProductAnalog.ts':sha256((root.parent/'src/nativeProductAnalog.ts').read_bytes()).hexdigest(),
+  'cp7_frozen_analysis_facade_v2/client/nativeFrozenWait.ts':sha256((root/'cp7_frozen_analysis_facade_v2/client/nativeFrozenWait.ts').read_bytes()).hexdigest()}
 
 
 def install(cur):
