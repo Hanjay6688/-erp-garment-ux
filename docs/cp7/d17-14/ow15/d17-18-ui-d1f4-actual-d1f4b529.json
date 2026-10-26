@@ -1,0 +1,224 @@
+{
+  "name": "CP7_D17_18_PROGRESS_FINANCE_UI_BROWSER2.json",
+  "status": "PASS",
+  "head": "d1f4b529542aba443f3b92986da911db646053e1",
+  "run_id": 40376731797,
+  "job_id": 121766073244,
+  "artifact_id": 12681497673,
+  "zip_bytes": 4838798,
+  "zip_sha256": "0d13717464cdf9d32809c7963e0bfcc69ceeab1d1a9aac489d6155af5c79136e",
+  "bytes": 4531319,
+  "sha256": "e460c51e333c43beebecb99170984b2481804ba60e2076c412c4dc848f8564ab",
+  "archive_member": "CP7_D17_18_PROGRESS_FINANCE_UI_BROWSER2.json",
+  "source_pins_verified": 3895,
+  "exact_native_predecessor": {
+    "name": "CP7_D17_18_CHOICE_NATIVE6.json",
+    "status": "PASS",
+    "head": "8dfe1a19c7b7c61558b25c00f1dd388c8565e3d1",
+    "run_id": 40338677390,
+    "job_id": 121627045376,
+    "artifact_id": 12663230440,
+    "zip_bytes": 3007799,
+    "zip_sha256": "9d8d24e9816562b2ff75b622c4da69d3d3cb34494f17cbee4d1b86280916d435",
+    "bytes": 6218156,
+    "sha256": "f2110cf6c2873c18679e3f6654d5232474e46decb5543e6d72b803f28b2d62a9",
+    "archive_member": "CP7_D17_18_CHOICE_NATIVE6.json"
+  },
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "production_go": false,
+  "independent_acceptance": false,
+  "actual_Auth_HTTP_browser_credit": true,
+  "actual_finance_UI_cases": 2,
+  "exact_bundle_modules": 79,
+  "READY_figures_and_BLOCKED_suppression": true,
+  "full22_copy_admissions": 2,
+  "visual_screenshots_reviewed": false,
+  "default_adopted": false,
+  "host_exact_files": 113,
+  "actual_progress_observations": [
+    {
+      "texts": [
+        "16 langkah selesai dari 16.",
+        "0 langkah selesai; jumlah akhir belum diketahui.",
+        "100% bagian produksi.",
+        "Status server diperiksa 27 Okt 2026, 02.16 WIB.",
+        "Waktu berjalan yang tercatat: 0 detik."
+      ],
+      "bars": [
+        {
+          "name": "produksi",
+          "done": 16,
+          "total": 16
+        }
+      ],
+      "percentages": [
+        "100% bagian produksi."
+      ],
+      "elapsedMs": 851,
+      "state": "RUNNING",
+      "request": "2d8e2a38-e41a-4d9c-b0ed-2c04a0c30ef8",
+      "observed_at": "2026-10-26T19:16:10.97426+00:00",
+      "real_RPC_response": true,
+      "DOM_counts_exact": true,
+      "extra_overall_progressbar": false
+    },
+    {
+      "texts": [
+        "16 langkah selesai dari 16.",
+        "6 langkah selesai dari 6.",
+        "100% bagian produksi.",
+        "100% bagian keuangan dan hpp.",
+        "Status server diperiksa 27 Okt 2026, 02.16 WIB.",
+        "Waktu pemrosesan: 8 detik."
+      ],
+      "bars": [
+        {
+          "name": "produksi",
+          "done": 16,
+          "total": 16
+        },
+        {
+          "name": "keuangan dan hpp",
+          "done": 6,
+          "total": 6
+        }
+      ],
+      "percentages": [
+        "100% bagian produksi.",
+        "100% bagian keuangan dan hpp."
+      ],
+      "elapsedMs": 8197,
+      "state": "COMPLETED",
+      "request": "2d8e2a38-e41a-4d9c-b0ed-2c04a0c30ef8",
+      "observed_at": "2026-10-26T19:16:18.698468+00:00",
+      "real_RPC_response": true,
+      "DOM_counts_exact": true,
+      "extra_overall_progressbar": false
+    },
+    {
+      "texts": [
+        "16 langkah selesai dari 16.",
+        "6 langkah selesai dari 6.",
+        "100% bagian produksi.",
+        "100% bagian keuangan dan hpp.",
+        "Status server diperiksa 27 Okt 2026, 02.16 WIB.",
+        "Waktu pemrosesan: 8 detik."
+      ],
+      "bars": [
+        {
+          "name": "produksi",
+          "done": 16,
+          "total": 16
+        },
+        {
+          "name": "keuangan dan hpp",
+          "done": 6,
+          "total": 6
+        }
+      ],
+      "percentages": [
+        "100% bagian produksi.",
+        "100% bagian keuangan dan hpp."
+      ],
+      "elapsedMs": 8197,
+      "state": "COMPLETED",
+      "request": "2d8e2a38-e41a-4d9c-b0ed-2c04a0c30ef8",
+      "observed_at": "2026-10-26T19:16:23.692355+00:00",
+      "real_RPC_response": true,
+      "DOM_counts_exact": true,
+      "extra_overall_progressbar": false
+    },
+    {
+      "texts": [
+        "17 langkah selesai dari 17.",
+        "0 langkah selesai; jumlah akhir belum diketahui.",
+        "100% bagian produksi.",
+        "Status server diperiksa 27 Okt 2026, 02.17 WIB.",
+        "Waktu berjalan yang tercatat: 0 detik."
+      ],
+      "bars": [
+        {
+          "name": "produksi",
+          "done": 17,
+          "total": 17
+        }
+      ],
+      "percentages": [
+        "100% bagian produksi."
+      ],
+      "elapsedMs": 500,
+      "state": "RUNNING",
+      "request": "64e3e14e-3bcf-4c73-b5b3-3414de1f99fe",
+      "observed_at": "2026-10-26T19:17:05.213187+00:00",
+      "real_RPC_response": true,
+      "DOM_counts_exact": true,
+      "extra_overall_progressbar": false
+    },
+    {
+      "texts": [
+        "17 langkah selesai dari 17.",
+        "6 langkah selesai dari 6.",
+        "100% bagian produksi.",
+        "100% bagian keuangan dan hpp.",
+        "Status server diperiksa 27 Okt 2026, 02.17 WIB.",
+        "Waktu pemrosesan: 7 detik."
+      ],
+      "bars": [
+        {
+          "name": "produksi",
+          "done": 17,
+          "total": 17
+        },
+        {
+          "name": "keuangan dan hpp",
+          "done": 6,
+          "total": 6
+        }
+      ],
+      "percentages": [
+        "100% bagian produksi.",
+        "100% bagian keuangan dan hpp."
+      ],
+      "elapsedMs": 7557,
+      "state": "BLOCKED",
+      "request": "64e3e14e-3bcf-4c73-b5b3-3414de1f99fe",
+      "observed_at": "2026-10-26T19:17:12.6247+00:00",
+      "real_RPC_response": true,
+      "DOM_counts_exact": true,
+      "extra_overall_progressbar": false
+    },
+    {
+      "texts": [
+        "17 langkah selesai dari 17.",
+        "100% bagian produksi.",
+        "Status server diperiksa 27 Okt 2026, 02.17 WIB."
+      ],
+      "bars": [
+        {
+          "name": "produksi",
+          "done": 17,
+          "total": 17
+        }
+      ],
+      "percentages": [
+        "100% bagian produksi."
+      ],
+      "elapsedMs": null,
+      "state": "ACCESS_REVOKED",
+      "request": "64e3e14e-3bcf-4c73-b5b3-3414de1f99fe",
+      "observed_at": "2026-10-26T19:17:20.057262+00:00",
+      "real_RPC_response": true,
+      "DOM_counts_exact": true,
+      "extra_overall_progressbar": false
+    }
+  ],
+  "artifact_zip_local_only": "Browser screenshots are not requested deliverables"
+}

@@ -10,6 +10,43 @@ penulis A, bukan auditor independen. Tidak ada subagent baru.
 
 
 
+## A / 27 Oktober 2026 WIB — progres browser aktual lulus, uji besar tetap berjalan
+
+UI d1f4b529542aba443f3b92986da911db646053e1 selesai PASS2 pada
+run40376731797/job121766073244/artifact12681497673. Original4531319byte,
+SHA e460c51e333c43beebecb99170984b2481804ba60e2076c412c4dc848f8564ab;
+3895pin sumber, lima gerbang paket, pemulihan penuh22kelompok/data/sequence,
+CP6/advisor serta dua salinan database lengkap terverifikasi. Enam gambar
+desktop/mobile ditelaah lokal, tidak disertakan dalam arsip.
+
+Desktop RUNNING→COMPLETED→COMPLETED mempertahankan UUID dan satu capture
+sesudah respons hilang/buka ulang;24angka sama dengan laporan resmi. Mobile
+RUNNING→BLOCKED→ACCESS_REVOKED mempertahankan pekerjaan, menyembunyikan nilai
+belum diketahui serta angka setelah hak dicabut. Progres bagian dari respons
+server, tanpa persentase keseluruhan buatan.108panggilan aktual, maksimum
+130,830ms desktop/170,853ms mobile; kontras minimum6,579 pada553pengamatan.
+Tidak ada galat console, sisa akun/sesi atau limpahan halaman. Batas4,5 tetap.
+Ini bukti dua kasus kecil; bukan actual cron, skala pabrik atau aplikasi bawaan.
+Kegagalan c64 dan503 pertama tetap tersimpan sebagai kegagalan.
+
+Source-race5b1b5ebef2c54dab584c4a0e38f56019a721a160 tetap PREPARED_UNBOUND,
+wajib actuald05cPASS semua tiga pasangan. Dua kontrol I/O tambahan menemukan
+pencatat tahap bisa menutupi exception asli; kegagalan awal disimpan dan
+perbaikan kini lulus5tes. Urutan operasi, gerbang, SQL dan waktu tidak berubah.
+
+Bukti tahap Native8dfe yang sudah tersimpan menunjukkan pasang/pembongkaran/
+pasang ulang2398,377detik, sedangkan enam kasus Native66,85detik. Ini membantu
+memisahkan biaya kualifikasi dari transaksi; tidak menjelaskan pasti jeda
+e352 atau regresi laporan lintasrun. Tidak ada pengukuran ulang atau batas naik.
+
+Finance d05c/run40381790093/job121779660598 masih membandingkan SMALL,
+PRICE_PERCENT dan factory. Transport40f/run40363845158/job121789562898 sudah
+melewati startup database dan menjalankan Auth3/race3; hasil belum tersedia.
+Formal5/16, production_go=false, independent_acceptance=false; CP7C belum mulai.
+Scope B tetap terpisah; paket satu kandidat dan penerimaan penuh masih terbuka.
+
+Catatan berikut merupakan riwayat checkpoint.
+
 ## A / 27 Oktober2026 WIB — waktu tahap terukur dan kelanjutan uji akses berdasarkan bukti baru
 
 Source-race88af70bc70a7b7c302dd46aaec1f3884d6f34d9f tetap PREPARED_UNBOUND,

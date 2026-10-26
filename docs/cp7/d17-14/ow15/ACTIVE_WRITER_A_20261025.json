@@ -1,5 +1,5 @@
 {
-  "recorded_at_utc": "2026-10-26T19:20:17.152555+00:00",
+  "recorded_at_utc": "2026-10-26T19:40:01.415169+00:00",
   "role": "A finance writer/integrator replacing Claude; B remains separate production/planning writer",
   "slogan": [
     "VENI. VIDI. VICI. ERP. \u2014 I CONQUERED ERP.",
@@ -14,12 +14,6 @@
       "run_id": 40381790093,
       "job_id": 121779660598,
       "scope": "Actual SMALL / PRICE_PERCENT / factory comparison with Native cent-price fixture"
-    },
-    {
-      "head": "d1f4b529542aba443f3b92986da911db646053e1",
-      "run_id": 40376731797,
-      "job_id": 121766073244,
-      "scope": "Actual desktop/mobile A surface correction; unchanged-code retry after prerequisite HTTP503"
     },
     {
       "head": "40f041641ce336cac4be263297028172ac152202",
@@ -2699,17 +2693,17 @@
   "most_recent_completed": [
     {
       "name": "CP7_D17_18_PROGRESS_FINANCE_UI_BROWSER2.json",
-      "status": "INCOMPLETE",
-      "head": "c64e5d6fd9f35512b7a0bc9a4654d201a942df92",
-      "run_id": 40354535892,
-      "job_id": 121696489085,
-      "artifact_id": 12671871654,
-      "zip_bytes": 4186995,
-      "zip_sha256": "951352825381887162858731ddcc31db0f637206c41057485979f60279e3f87a",
-      "bytes": 4348349,
-      "sha256": "cef0f5eea68a33f9e2315419353d8ba037e646b18276c1e50e43ca891cb0645c",
+      "status": "PASS",
+      "head": "d1f4b529542aba443f3b92986da911db646053e1",
+      "run_id": 40376731797,
+      "job_id": 121766073244,
+      "artifact_id": 12681497673,
+      "zip_bytes": 4838798,
+      "zip_sha256": "0d13717464cdf9d32809c7963e0bfcc69ceeab1d1a9aac489d6155af5c79136e",
+      "bytes": 4531319,
+      "sha256": "e460c51e333c43beebecb99170984b2481804ba60e2076c412c4dc848f8564ab",
       "archive_member": "CP7_D17_18_PROGRESS_FINANCE_UI_BROWSER2.json",
-      "source_pins_verified": 3894,
+      "source_pins_verified": 3895,
       "exact_native_predecessor": {
         "name": "CP7_D17_18_CHOICE_NATIVE6.json",
         "status": "PASS",
@@ -2728,20 +2722,198 @@
         "primary_unchanged": true,
         "backup_restore_drill": true,
         "security_advisors": true,
-        "writer_runtime": false
+        "writer_runtime": true
       },
       "cp6_restored": true,
       "advisor_gate": true,
       "production_go": false,
       "independent_acceptance": false,
-      "first_failure_preserved": true,
-      "actual_Auth_HTTP_credit": false,
-      "error_summary": "Actual runtime INCOMPLETE; full Original retained",
-      "artifact_zip_local_only": "Browser screenshots are not requested deliverables",
-      "observed_case_count": 2,
-      "passed_case_count": 0,
-      "cause": "A outer option label inherits BODY radial-gradient; unchanged contrast oracle refuses UNMEASURED_FINANCE_TEXT_SURFACE in desktop/mobile.",
-      "local_screenshots_reviewed": true
+      "actual_Auth_HTTP_browser_credit": true,
+      "actual_finance_UI_cases": 2,
+      "exact_bundle_modules": 79,
+      "READY_figures_and_BLOCKED_suppression": true,
+      "full22_copy_admissions": 2,
+      "visual_screenshots_reviewed": false,
+      "default_adopted": false,
+      "host_exact_files": 113,
+      "actual_progress_observations": [
+        {
+          "texts": [
+            "16 langkah selesai dari 16.",
+            "0 langkah selesai; jumlah akhir belum diketahui.",
+            "100% bagian produksi.",
+            "Status server diperiksa 27 Okt 2026, 02.16 WIB.",
+            "Waktu berjalan yang tercatat: 0 detik."
+          ],
+          "bars": [
+            {
+              "name": "produksi",
+              "done": 16,
+              "total": 16
+            }
+          ],
+          "percentages": [
+            "100% bagian produksi."
+          ],
+          "elapsedMs": 851,
+          "state": "RUNNING",
+          "request": "2d8e2a38-e41a-4d9c-b0ed-2c04a0c30ef8",
+          "observed_at": "2026-10-26T19:16:10.97426+00:00",
+          "real_RPC_response": true,
+          "DOM_counts_exact": true,
+          "extra_overall_progressbar": false
+        },
+        {
+          "texts": [
+            "16 langkah selesai dari 16.",
+            "6 langkah selesai dari 6.",
+            "100% bagian produksi.",
+            "100% bagian keuangan dan hpp.",
+            "Status server diperiksa 27 Okt 2026, 02.16 WIB.",
+            "Waktu pemrosesan: 8 detik."
+          ],
+          "bars": [
+            {
+              "name": "produksi",
+              "done": 16,
+              "total": 16
+            },
+            {
+              "name": "keuangan dan hpp",
+              "done": 6,
+              "total": 6
+            }
+          ],
+          "percentages": [
+            "100% bagian produksi.",
+            "100% bagian keuangan dan hpp."
+          ],
+          "elapsedMs": 8197,
+          "state": "COMPLETED",
+          "request": "2d8e2a38-e41a-4d9c-b0ed-2c04a0c30ef8",
+          "observed_at": "2026-10-26T19:16:18.698468+00:00",
+          "real_RPC_response": true,
+          "DOM_counts_exact": true,
+          "extra_overall_progressbar": false
+        },
+        {
+          "texts": [
+            "16 langkah selesai dari 16.",
+            "6 langkah selesai dari 6.",
+            "100% bagian produksi.",
+            "100% bagian keuangan dan hpp.",
+            "Status server diperiksa 27 Okt 2026, 02.16 WIB.",
+            "Waktu pemrosesan: 8 detik."
+          ],
+          "bars": [
+            {
+              "name": "produksi",
+              "done": 16,
+              "total": 16
+            },
+            {
+              "name": "keuangan dan hpp",
+              "done": 6,
+              "total": 6
+            }
+          ],
+          "percentages": [
+            "100% bagian produksi.",
+            "100% bagian keuangan dan hpp."
+          ],
+          "elapsedMs": 8197,
+          "state": "COMPLETED",
+          "request": "2d8e2a38-e41a-4d9c-b0ed-2c04a0c30ef8",
+          "observed_at": "2026-10-26T19:16:23.692355+00:00",
+          "real_RPC_response": true,
+          "DOM_counts_exact": true,
+          "extra_overall_progressbar": false
+        },
+        {
+          "texts": [
+            "17 langkah selesai dari 17.",
+            "0 langkah selesai; jumlah akhir belum diketahui.",
+            "100% bagian produksi.",
+            "Status server diperiksa 27 Okt 2026, 02.17 WIB.",
+            "Waktu berjalan yang tercatat: 0 detik."
+          ],
+          "bars": [
+            {
+              "name": "produksi",
+              "done": 17,
+              "total": 17
+            }
+          ],
+          "percentages": [
+            "100% bagian produksi."
+          ],
+          "elapsedMs": 500,
+          "state": "RUNNING",
+          "request": "64e3e14e-3bcf-4c73-b5b3-3414de1f99fe",
+          "observed_at": "2026-10-26T19:17:05.213187+00:00",
+          "real_RPC_response": true,
+          "DOM_counts_exact": true,
+          "extra_overall_progressbar": false
+        },
+        {
+          "texts": [
+            "17 langkah selesai dari 17.",
+            "6 langkah selesai dari 6.",
+            "100% bagian produksi.",
+            "100% bagian keuangan dan hpp.",
+            "Status server diperiksa 27 Okt 2026, 02.17 WIB.",
+            "Waktu pemrosesan: 7 detik."
+          ],
+          "bars": [
+            {
+              "name": "produksi",
+              "done": 17,
+              "total": 17
+            },
+            {
+              "name": "keuangan dan hpp",
+              "done": 6,
+              "total": 6
+            }
+          ],
+          "percentages": [
+            "100% bagian produksi.",
+            "100% bagian keuangan dan hpp."
+          ],
+          "elapsedMs": 7557,
+          "state": "BLOCKED",
+          "request": "64e3e14e-3bcf-4c73-b5b3-3414de1f99fe",
+          "observed_at": "2026-10-26T19:17:12.6247+00:00",
+          "real_RPC_response": true,
+          "DOM_counts_exact": true,
+          "extra_overall_progressbar": false
+        },
+        {
+          "texts": [
+            "17 langkah selesai dari 17.",
+            "100% bagian produksi.",
+            "Status server diperiksa 27 Okt 2026, 02.17 WIB."
+          ],
+          "bars": [
+            {
+              "name": "produksi",
+              "done": 17,
+              "total": 17
+            }
+          ],
+          "percentages": [
+            "100% bagian produksi."
+          ],
+          "elapsedMs": null,
+          "state": "ACCESS_REVOKED",
+          "request": "64e3e14e-3bcf-4c73-b5b3-3414de1f99fe",
+          "observed_at": "2026-10-26T19:17:20.057262+00:00",
+          "real_RPC_response": true,
+          "DOM_counts_exact": true,
+          "extra_overall_progressbar": false
+        }
+      ],
+      "artifact_zip_local_only": "Browser screenshots are not requested deliverables"
     }
   ],
   "performance_factory_prepared": {
@@ -4399,7 +4571,7 @@
     "first_failure_preserved": "FIRST_RUNTIME_FAILURE_C64.json",
     "oracle_changed": false,
     "statement_limits_unchanged": true,
-    "status": "RETRY_RUNNING_NOT_PASS",
+    "status": "ACTUAL_PASS2",
     "run_id": 40376731797,
     "job_id": 121766073244,
     "started_at_utc": "2026-10-26T18:19:34Z",
@@ -4422,7 +4594,13 @@
       "raw_log_sha256": "6d4689ec889337d47579c674907ec9e0fa51b2ee9685f1922e30af4e6bb07e33"
     },
     "retry_decision_receipt": "ui-d1f4-prerequisite-503-retry-decision.json",
-    "retry_observed_at_utc": "2026-10-26T18:28:20.823839+00:00"
+    "retry_observed_at_utc": "2026-10-26T18:28:20.823839+00:00",
+    "previous_status": "RETRY_RUNNING_NOT_PASS",
+    "artifact_id": 12681497673,
+    "actual_runtime_qualified": true,
+    "visual_images_reviewed": 6,
+    "actual_proof_reference": "actual_progress_finance_UI_d1f4",
+    "default_adopted": false
   },
   "previous_running_before_corrected_profile_intake": [
     {
@@ -4757,7 +4935,9 @@
       "request_succeeded": true,
       "observed_at_utc": "2026-10-26T19:14:35.451Z"
     },
-    "no_automatic_third_retry": true
+    "no_automatic_third_retry": true,
+    "current_stage": "Actual Auth3/race3 execution; database startup passed; outcome pending",
+    "current_completed_business_cases": null
   },
   "previous_running_before_choice_native6_first_failure": [
     {
@@ -8426,27 +8606,19 @@
     "production_go": false
   },
   "finance_source_race_prepared": {
-    "head": "88af70bc70a7b7c302dd46aaec1f3884d6f34d9f",
-    "parent": "c870b871b066822fcb63d344d8e6299e02042636",
-    "local": "426f4c1d29b6522052b2a3a2abd593d0a016aaea",
-    "tree": "64fa65187516f3d4416fc5a65ff612f3ca6057bd",
+    "head": "5b1b5ebef2c54dab584c4a0e38f56019a721a160",
+    "parent": "88af70bc70a7b7c302dd46aaec1f3884d6f34d9f",
+    "local": "525ace187db22900beec321fd3a8982e1c05ba86",
+    "tree": "83bffce6433e9eeb86df7b9fd494e1f3cc0db2af",
     "branch": "astra-a/d17-18-finance-source-race-prepared-20261026",
     "status": "PREPARED_UNBOUND",
     "required_actual_head": "d05c568cca01085f87f7e48fe85c8d15ca43bffd",
     "source_bound": false,
     "execution_branch_created": false,
     "actual_runtime_credit": false,
-    "phase_timing_tests": 3,
-    "stripped_probe_AST_equal_previous": true,
-    "unchanged_AST_sha256": "7c7176d64e97ed9382e2707e0d4a2e9af5adc5c1a50d883c8764d4baedf6a462",
-    "files": [
-      ".github/workflows/cp7-d17-18-finance-reader-source-race.yml",
-      "scripts/current-finance-reader-source-race-qualification/PHASE_TIMING_PREFLIGHT.json",
-      "scripts/current-finance-reader-source-race-qualification/README.md",
-      "scripts/current-finance-reader-source-race-qualification/phase_timing.py",
-      "scripts/current-finance-reader-source-race-qualification/probe.py",
-      "scripts/current-finance-reader-source-race-qualification/test_phase_timing.py"
-    ],
+    "phase_timing_tests": 5,
+    "first_local_io_failure_preserved": true,
+    "probe_operations_and_gates_unchanged": true,
     "production_go": false
   },
   "dependent_qualification_boundary": {
@@ -10235,5 +10407,614 @@
     "receipt": "STATUS_EVIDENCE_LINK_RECONCILIATION_20261026.json",
     "fields_corrected": 3,
     "Originals_unchanged": true
+  },
+  "previous_running_before_ui_d1f4_PASS": [
+    {
+      "head": "d05c568cca01085f87f7e48fe85c8d15ca43bffd",
+      "run_id": 40381790093,
+      "job_id": 121779660598,
+      "scope": "Actual SMALL / PRICE_PERCENT / factory comparison with Native cent-price fixture"
+    },
+    {
+      "head": "d1f4b529542aba443f3b92986da911db646053e1",
+      "run_id": 40376731797,
+      "job_id": 121766073244,
+      "scope": "Actual desktop/mobile A surface correction; unchanged-code retry after prerequisite HTTP503"
+    },
+    {
+      "head": "40f041641ce336cac4be263297028172ac152202",
+      "run_id": 40363845158,
+      "job_id": 121789562898,
+      "scope": "Actual Auth3/race3 after manually bounded resume supported by two exact startup witnesses; prior2preDB failures preserved"
+    }
+  ],
+  "previous_most_recent_completed_before_ui_d1f4_PASS": [
+    {
+      "name": "CP7_D17_18_PROGRESS_FINANCE_UI_BROWSER2.json",
+      "status": "INCOMPLETE",
+      "head": "c64e5d6fd9f35512b7a0bc9a4654d201a942df92",
+      "run_id": 40354535892,
+      "job_id": 121696489085,
+      "artifact_id": 12671871654,
+      "zip_bytes": 4186995,
+      "zip_sha256": "951352825381887162858731ddcc31db0f637206c41057485979f60279e3f87a",
+      "bytes": 4348349,
+      "sha256": "cef0f5eea68a33f9e2315419353d8ba037e646b18276c1e50e43ca891cb0645c",
+      "archive_member": "CP7_D17_18_PROGRESS_FINANCE_UI_BROWSER2.json",
+      "source_pins_verified": 3894,
+      "exact_native_predecessor": {
+        "name": "CP7_D17_18_CHOICE_NATIVE6.json",
+        "status": "PASS",
+        "head": "8dfe1a19c7b7c61558b25c00f1dd388c8565e3d1",
+        "run_id": 40338677390,
+        "job_id": 121627045376,
+        "artifact_id": 12663230440,
+        "zip_bytes": 3007799,
+        "zip_sha256": "9d8d24e9816562b2ff75b622c4da69d3d3cb34494f17cbee4d1b86280916d435",
+        "bytes": 6218156,
+        "sha256": "f2110cf6c2873c18679e3f6654d5232474e46decb5543e6d72b803f28b2d62a9",
+        "archive_member": "CP7_D17_18_CHOICE_NATIVE6.json"
+      },
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": false
+      },
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "production_go": false,
+      "independent_acceptance": false,
+      "first_failure_preserved": true,
+      "actual_Auth_HTTP_credit": false,
+      "error_summary": "Actual runtime INCOMPLETE; full Original retained",
+      "artifact_zip_local_only": "Browser screenshots are not requested deliverables",
+      "observed_case_count": 2,
+      "passed_case_count": 0,
+      "cause": "A outer option label inherits BODY radial-gradient; unchanged contrast oracle refuses UNMEASURED_FINANCE_TEXT_SURFACE in desktop/mobile.",
+      "local_screenshots_reviewed": true
+    }
+  ],
+  "actual_progress_finance_UI_d1f4": {
+    "name": "CP7_D17_18_PROGRESS_FINANCE_UI_BROWSER2.json",
+    "status": "PASS",
+    "head": "d1f4b529542aba443f3b92986da911db646053e1",
+    "run_id": 40376731797,
+    "job_id": 121766073244,
+    "artifact_id": 12681497673,
+    "zip_bytes": 4838798,
+    "zip_sha256": "0d13717464cdf9d32809c7963e0bfcc69ceeab1d1a9aac489d6155af5c79136e",
+    "bytes": 4531319,
+    "sha256": "e460c51e333c43beebecb99170984b2481804ba60e2076c412c4dc848f8564ab",
+    "archive_member": "CP7_D17_18_PROGRESS_FINANCE_UI_BROWSER2.json",
+    "source_pins_verified": 3895,
+    "exact_native_predecessor": {
+      "name": "CP7_D17_18_CHOICE_NATIVE6.json",
+      "status": "PASS",
+      "head": "8dfe1a19c7b7c61558b25c00f1dd388c8565e3d1",
+      "run_id": 40338677390,
+      "job_id": 121627045376,
+      "artifact_id": 12663230440,
+      "zip_bytes": 3007799,
+      "zip_sha256": "9d8d24e9816562b2ff75b622c4da69d3d3cb34494f17cbee4d1b86280916d435",
+      "bytes": 6218156,
+      "sha256": "f2110cf6c2873c18679e3f6654d5232474e46decb5543e6d72b803f28b2d62a9",
+      "archive_member": "CP7_D17_18_CHOICE_NATIVE6.json"
+    },
+    "package_gate": {
+      "installed": true,
+      "primary_unchanged": true,
+      "backup_restore_drill": true,
+      "security_advisors": true,
+      "writer_runtime": true
+    },
+    "cp6_restored": true,
+    "advisor_gate": true,
+    "production_go": false,
+    "independent_acceptance": false,
+    "actual_Auth_HTTP_browser_credit": true,
+    "actual_finance_UI_cases": 2,
+    "exact_bundle_modules": 79,
+    "READY_figures_and_BLOCKED_suppression": true,
+    "full22_copy_admissions": 2,
+    "visual_screenshots_reviewed": false,
+    "default_adopted": false,
+    "host_exact_files": 113,
+    "actual_progress_observations": [
+      {
+        "texts": [
+          "16 langkah selesai dari 16.",
+          "0 langkah selesai; jumlah akhir belum diketahui.",
+          "100% bagian produksi.",
+          "Status server diperiksa 27 Okt 2026, 02.16 WIB.",
+          "Waktu berjalan yang tercatat: 0 detik."
+        ],
+        "bars": [
+          {
+            "name": "produksi",
+            "done": 16,
+            "total": 16
+          }
+        ],
+        "percentages": [
+          "100% bagian produksi."
+        ],
+        "elapsedMs": 851,
+        "state": "RUNNING",
+        "request": "2d8e2a38-e41a-4d9c-b0ed-2c04a0c30ef8",
+        "observed_at": "2026-10-26T19:16:10.97426+00:00",
+        "real_RPC_response": true,
+        "DOM_counts_exact": true,
+        "extra_overall_progressbar": false
+      },
+      {
+        "texts": [
+          "16 langkah selesai dari 16.",
+          "6 langkah selesai dari 6.",
+          "100% bagian produksi.",
+          "100% bagian keuangan dan hpp.",
+          "Status server diperiksa 27 Okt 2026, 02.16 WIB.",
+          "Waktu pemrosesan: 8 detik."
+        ],
+        "bars": [
+          {
+            "name": "produksi",
+            "done": 16,
+            "total": 16
+          },
+          {
+            "name": "keuangan dan hpp",
+            "done": 6,
+            "total": 6
+          }
+        ],
+        "percentages": [
+          "100% bagian produksi.",
+          "100% bagian keuangan dan hpp."
+        ],
+        "elapsedMs": 8197,
+        "state": "COMPLETED",
+        "request": "2d8e2a38-e41a-4d9c-b0ed-2c04a0c30ef8",
+        "observed_at": "2026-10-26T19:16:18.698468+00:00",
+        "real_RPC_response": true,
+        "DOM_counts_exact": true,
+        "extra_overall_progressbar": false
+      },
+      {
+        "texts": [
+          "16 langkah selesai dari 16.",
+          "6 langkah selesai dari 6.",
+          "100% bagian produksi.",
+          "100% bagian keuangan dan hpp.",
+          "Status server diperiksa 27 Okt 2026, 02.16 WIB.",
+          "Waktu pemrosesan: 8 detik."
+        ],
+        "bars": [
+          {
+            "name": "produksi",
+            "done": 16,
+            "total": 16
+          },
+          {
+            "name": "keuangan dan hpp",
+            "done": 6,
+            "total": 6
+          }
+        ],
+        "percentages": [
+          "100% bagian produksi.",
+          "100% bagian keuangan dan hpp."
+        ],
+        "elapsedMs": 8197,
+        "state": "COMPLETED",
+        "request": "2d8e2a38-e41a-4d9c-b0ed-2c04a0c30ef8",
+        "observed_at": "2026-10-26T19:16:23.692355+00:00",
+        "real_RPC_response": true,
+        "DOM_counts_exact": true,
+        "extra_overall_progressbar": false
+      },
+      {
+        "texts": [
+          "17 langkah selesai dari 17.",
+          "0 langkah selesai; jumlah akhir belum diketahui.",
+          "100% bagian produksi.",
+          "Status server diperiksa 27 Okt 2026, 02.17 WIB.",
+          "Waktu berjalan yang tercatat: 0 detik."
+        ],
+        "bars": [
+          {
+            "name": "produksi",
+            "done": 17,
+            "total": 17
+          }
+        ],
+        "percentages": [
+          "100% bagian produksi."
+        ],
+        "elapsedMs": 500,
+        "state": "RUNNING",
+        "request": "64e3e14e-3bcf-4c73-b5b3-3414de1f99fe",
+        "observed_at": "2026-10-26T19:17:05.213187+00:00",
+        "real_RPC_response": true,
+        "DOM_counts_exact": true,
+        "extra_overall_progressbar": false
+      },
+      {
+        "texts": [
+          "17 langkah selesai dari 17.",
+          "6 langkah selesai dari 6.",
+          "100% bagian produksi.",
+          "100% bagian keuangan dan hpp.",
+          "Status server diperiksa 27 Okt 2026, 02.17 WIB.",
+          "Waktu pemrosesan: 7 detik."
+        ],
+        "bars": [
+          {
+            "name": "produksi",
+            "done": 17,
+            "total": 17
+          },
+          {
+            "name": "keuangan dan hpp",
+            "done": 6,
+            "total": 6
+          }
+        ],
+        "percentages": [
+          "100% bagian produksi.",
+          "100% bagian keuangan dan hpp."
+        ],
+        "elapsedMs": 7557,
+        "state": "BLOCKED",
+        "request": "64e3e14e-3bcf-4c73-b5b3-3414de1f99fe",
+        "observed_at": "2026-10-26T19:17:12.6247+00:00",
+        "real_RPC_response": true,
+        "DOM_counts_exact": true,
+        "extra_overall_progressbar": false
+      },
+      {
+        "texts": [
+          "17 langkah selesai dari 17.",
+          "100% bagian produksi.",
+          "Status server diperiksa 27 Okt 2026, 02.17 WIB."
+        ],
+        "bars": [
+          {
+            "name": "produksi",
+            "done": 17,
+            "total": 17
+          }
+        ],
+        "percentages": [
+          "100% bagian produksi."
+        ],
+        "elapsedMs": null,
+        "state": "ACCESS_REVOKED",
+        "request": "64e3e14e-3bcf-4c73-b5b3-3414de1f99fe",
+        "observed_at": "2026-10-26T19:17:20.057262+00:00",
+        "real_RPC_response": true,
+        "DOM_counts_exact": true,
+        "extra_overall_progressbar": false
+      }
+    ],
+    "artifact_zip_local_only": "Browser screenshots are not requested deliverables"
+  },
+  "ui_d1f4_visual_restoration_review": {
+    "status": "ACTUAL_BROWSER2_AND_SIX_LOCAL_IMAGES_REVIEWED",
+    "recorded_at_utc": "2026-10-26T19:39:08.231841+00:00",
+    "head": "d1f4b529542aba443f3b92986da911db646053e1",
+    "run_id": 40376731797,
+    "job_id": 121766073244,
+    "artifact_id": 12681497673,
+    "original_bytes": 4531319,
+    "original_sha256": "e460c51e333c43beebecb99170984b2481804ba60e2076c412c4dc848f8564ab",
+    "groups": {
+      "desktop": {
+        "case_status": "PASS",
+        "viewport": 1440,
+        "minimum_measured_contrast": 6.579179808370011,
+        "contrast_rows": 286,
+        "actual_HTTP_calls": 58,
+        "maximum_HTTP_ms": 130.83011999999871,
+        "observed_states": [
+          "RUNNING",
+          "COMPLETED",
+          "COMPLETED"
+        ],
+        "same_request": true,
+        "auth_cleanup_verified": true,
+        "zero_console_errors": true,
+        "no_horizontal_overflow": true
+      },
+      "mobile": {
+        "case_status": "PASS",
+        "viewport": 390,
+        "minimum_measured_contrast": 6.579179808370011,
+        "contrast_rows": 267,
+        "actual_HTTP_calls": 50,
+        "maximum_HTTP_ms": 170.85305499999959,
+        "observed_states": [
+          "RUNNING",
+          "BLOCKED",
+          "ACCESS_REVOKED"
+        ],
+        "same_request": true,
+        "auth_cleanup_verified": true,
+        "zero_console_errors": true,
+        "no_horizontal_overflow": true
+      }
+    },
+    "screenshots": [
+      {
+        "name": "A_PROGRESS_FINANCE_DESKTOP_OFFICIAL_READY24.png",
+        "bytes": 395498,
+        "sha256": "5a12db64528e39412f535485349960973b69f02ec5b728bcd798e1888f1995b0"
+      },
+      {
+        "name": "A_PROGRESS_FINANCE_DESKTOP_OPERATIONAL_DONE_FINANCE_RUNNING.png",
+        "bytes": 310385,
+        "sha256": "a33d094ab35749aa511eb002d387e5153d371406c0abc5625774130ec23cb0de"
+      },
+      {
+        "name": "A_PROGRESS_FINANCE_DESKTOP_REOPENED_SAME_CAPTURE.png",
+        "bytes": 395498,
+        "sha256": "5a12db64528e39412f535485349960973b69f02ec5b728bcd798e1888f1995b0"
+      },
+      {
+        "name": "A_PROGRESS_FINANCE_MOBILE_ACCESS_REVOKED.png",
+        "bytes": 327502,
+        "sha256": "a49e2a211a7ddc11f0627a91e0ad81fdedb30658ebfad9634864f675038a6cf5"
+      },
+      {
+        "name": "A_PROGRESS_FINANCE_MOBILE_CAPTURE_COMPLETE_REPORT_BLOCKED.png",
+        "bytes": 350290,
+        "sha256": "b9307f158920d17d2b184d56d6cd2d6af1e4f19d63163b4df5489f50e0e7c762"
+      },
+      {
+        "name": "A_PROGRESS_FINANCE_MOBILE_OPERATIONAL_DONE_FINANCE_RUNNING.png",
+        "bytes": 362120,
+        "sha256": "f04c6b382bdac0828168173ce0477114219081f61d2c68dfbb71c4d054806495"
+      }
+    ],
+    "visual_observation": "Desktop READY and reopened report remain legible; mobile running, blocked and revoked states wrap within viewport. Production and finance progress are separate; blocked values and revoked finance are withheld. No visual issue observed in these six states.",
+    "screenshots_local_only": true,
+    "source_only_contrast_correction_confirmed": true,
+    "actual_minute_cron_qualified": false,
+    "full_factory_qualified": false,
+    "new_B_analog_and_cutting_qualified": false,
+    "default_adopted": false,
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "previous_source_race_before_log_sink_fix": {
+    "head": "88af70bc70a7b7c302dd46aaec1f3884d6f34d9f",
+    "parent": "c870b871b066822fcb63d344d8e6299e02042636",
+    "local": "426f4c1d29b6522052b2a3a2abd593d0a016aaea",
+    "tree": "64fa65187516f3d4416fc5a65ff612f3ca6057bd",
+    "branch": "astra-a/d17-18-finance-source-race-prepared-20261026",
+    "status": "PREPARED_UNBOUND",
+    "required_actual_head": "d05c568cca01085f87f7e48fe85c8d15ca43bffd",
+    "source_bound": false,
+    "execution_branch_created": false,
+    "actual_runtime_credit": false,
+    "phase_timing_tests": 3,
+    "stripped_probe_AST_equal_previous": true,
+    "unchanged_AST_sha256": "7c7176d64e97ed9382e2707e0d4a2e9af5adc5c1a50d883c8764d4baedf6a462",
+    "files": [
+      ".github/workflows/cp7-d17-18-finance-reader-source-race.yml",
+      "scripts/current-finance-reader-source-race-qualification/PHASE_TIMING_PREFLIGHT.json",
+      "scripts/current-finance-reader-source-race-qualification/README.md",
+      "scripts/current-finance-reader-source-race-qualification/phase_timing.py",
+      "scripts/current-finance-reader-source-race-qualification/probe.py",
+      "scripts/current-finance-reader-source-race-qualification/test_phase_timing.py"
+    ],
+    "production_go": false
+  },
+  "native8dfe_measured_phase_durations": {
+    "status": "EXACT_RETAINED_PHASE_EVIDENCE",
+    "head": "8dfe1a19c7b7c61558b25c00f1dd388c8565e3d1",
+    "run_id": 40338677390,
+    "job_id": 121627045376,
+    "artifact_id": 12663230440,
+    "artifact_sha256": "9d8d24e9816562b2ff75b622c4da69d3d3cb34494f17cbee4d1b86280916d435",
+    "member": "CP7_D17_18_CHOICE_NATIVE6_PROGRESS.jsonl",
+    "bytes": 2511,
+    "sha256": "ca2cad7c2e26bb8dbb098460247f62186f520ac395a2173c8f94b98b9b3b7f6c",
+    "events": [
+      {
+        "diagnostic_only": true,
+        "elapsed_seconds": 0.001,
+        "phase": "PACKAGE_START",
+        "recorded_at_utc": "2026-10-26T14:34:40.674539+00:00",
+        "sequence": 1
+      },
+      {
+        "diagnostic_only": true,
+        "elapsed_seconds": 149.243,
+        "phase": "WRITER_RUNTIME_START",
+        "recorded_at_utc": "2026-10-26T14:37:09.917076+00:00",
+        "sequence": 2
+      },
+      {
+        "diagnostic_only": true,
+        "elapsed_seconds": 279.391,
+        "phase": "SOURCE_ADMITTED",
+        "recorded_at_utc": "2026-10-26T14:39:20.064361+00:00",
+        "sequence": 3
+      },
+      {
+        "diagnostic_only": true,
+        "elapsed_seconds": 283.189,
+        "phase": "BASELINE_CAPTURED",
+        "recorded_at_utc": "2026-10-26T14:39:23.862494+00:00",
+        "sequence": 4
+      },
+      {
+        "diagnostic_only": true,
+        "elapsed_seconds": 283.964,
+        "phase": "PREINSTALL_DUMP_READY",
+        "recorded_at_utc": "2026-10-26T14:39:24.638097+00:00",
+        "sequence": 5
+      },
+      {
+        "diagnostic_only": true,
+        "elapsed_seconds": 1242.928,
+        "phase": "INSTALL_1_RETURNED",
+        "recorded_at_utc": "2026-10-26T14:55:23.602159+00:00",
+        "sequence": 6
+      },
+      {
+        "diagnostic_only": true,
+        "elapsed_seconds": 1707.591,
+        "phase": "PREUSE_INVERSE_RETURNED",
+        "recorded_at_utc": "2026-10-26T15:03:08.264374+00:00",
+        "sequence": 7
+      },
+      {
+        "diagnostic_only": true,
+        "elapsed_seconds": 2682.341,
+        "phase": "INSTALL_2_RETURNED",
+        "recorded_at_utc": "2026-10-26T15:19:23.015046+00:00",
+        "sequence": 8
+      },
+      {
+        "diagnostic_only": true,
+        "elapsed_seconds": 2688.447,
+        "phase": "INSTALL_COMMITTED",
+        "recorded_at_utc": "2026-10-26T15:19:29.120394+00:00",
+        "sequence": 9
+      },
+      {
+        "diagnostic_only": true,
+        "elapsed_seconds": 2690.197,
+        "phase": "NATIVE_GROUP_STARTED",
+        "recorded_at_utc": "2026-10-26T15:19:30.870975+00:00",
+        "sequence": 10
+      },
+      {
+        "diagnostic_only": true,
+        "elapsed_seconds": 2757.047,
+        "phase": "NATIVE_GROUP_RETURNED",
+        "recorded_at_utc": "2026-10-26T15:20:37.720801+00:00",
+        "sequence": 11
+      },
+      {
+        "diagnostic_only": true,
+        "elapsed_seconds": 2765.383,
+        "phase": "USED_GUARD_CHECK_RETURNED",
+        "recorded_at_utc": "2026-10-26T15:20:46.057130+00:00",
+        "sequence": 12
+      },
+      {
+        "diagnostic_only": true,
+        "elapsed_seconds": 2765.384,
+        "phase": "RESTORE_STARTED",
+        "recorded_at_utc": "2026-10-26T15:20:46.057386+00:00",
+        "sequence": 13
+      },
+      {
+        "diagnostic_only": true,
+        "elapsed_seconds": 2773.756,
+        "phase": "BASELINE_RESTORATION_CHECKED",
+        "recorded_at_utc": "2026-10-26T15:20:54.429842+00:00",
+        "sequence": 14
+      },
+      {
+        "diagnostic_only": true,
+        "elapsed_seconds": 2773.839,
+        "phase": "ORIGINAL_WRITTEN",
+        "recorded_at_utc": "2026-10-26T15:20:54.512881+00:00",
+        "sequence": 15
+      },
+      {
+        "diagnostic_only": true,
+        "elapsed_seconds": 2780.183,
+        "phase": "PACKAGE_RETURNED",
+        "recorded_at_utc": "2026-10-26T15:21:00.857119+00:00",
+        "sequence": 16
+      }
+    ],
+    "intervals": [
+      {
+        "after_phase": "PACKAGE_START",
+        "through_phase": "WRITER_RUNTIME_START",
+        "elapsed_seconds": 149.242
+      },
+      {
+        "after_phase": "WRITER_RUNTIME_START",
+        "through_phase": "SOURCE_ADMITTED",
+        "elapsed_seconds": 130.148
+      },
+      {
+        "after_phase": "SOURCE_ADMITTED",
+        "through_phase": "BASELINE_CAPTURED",
+        "elapsed_seconds": 3.798
+      },
+      {
+        "after_phase": "BASELINE_CAPTURED",
+        "through_phase": "PREINSTALL_DUMP_READY",
+        "elapsed_seconds": 0.775
+      },
+      {
+        "after_phase": "PREINSTALL_DUMP_READY",
+        "through_phase": "INSTALL_1_RETURNED",
+        "elapsed_seconds": 958.964
+      },
+      {
+        "after_phase": "INSTALL_1_RETURNED",
+        "through_phase": "PREUSE_INVERSE_RETURNED",
+        "elapsed_seconds": 464.663
+      },
+      {
+        "after_phase": "PREUSE_INVERSE_RETURNED",
+        "through_phase": "INSTALL_2_RETURNED",
+        "elapsed_seconds": 974.75
+      },
+      {
+        "after_phase": "INSTALL_2_RETURNED",
+        "through_phase": "INSTALL_COMMITTED",
+        "elapsed_seconds": 6.106
+      },
+      {
+        "after_phase": "INSTALL_COMMITTED",
+        "through_phase": "NATIVE_GROUP_STARTED",
+        "elapsed_seconds": 1.75
+      },
+      {
+        "after_phase": "NATIVE_GROUP_STARTED",
+        "through_phase": "NATIVE_GROUP_RETURNED",
+        "elapsed_seconds": 66.85
+      },
+      {
+        "after_phase": "NATIVE_GROUP_RETURNED",
+        "through_phase": "USED_GUARD_CHECK_RETURNED",
+        "elapsed_seconds": 8.336
+      },
+      {
+        "after_phase": "USED_GUARD_CHECK_RETURNED",
+        "through_phase": "RESTORE_STARTED",
+        "elapsed_seconds": 0.001
+      },
+      {
+        "after_phase": "RESTORE_STARTED",
+        "through_phase": "BASELINE_RESTORATION_CHECKED",
+        "elapsed_seconds": 8.372
+      },
+      {
+        "after_phase": "BASELINE_RESTORATION_CHECKED",
+        "through_phase": "ORIGINAL_WRITTEN",
+        "elapsed_seconds": 0.083
+      },
+      {
+        "after_phase": "ORIGINAL_WRITTEN",
+        "through_phase": "PACKAGE_RETURNED",
+        "elapsed_seconds": 6.344
+      }
+    ],
+    "scope": "Existing actual Native6 composition qualification; not finance-e352 and not report latency",
+    "e352_exact_gap_attribution": false,
+    "factory_cross_run_regression_resolved": false,
+    "production_go": false
   }
 }

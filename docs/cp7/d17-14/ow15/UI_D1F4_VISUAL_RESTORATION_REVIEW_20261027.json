@@ -1,0 +1,87 @@
+{
+  "status": "ACTUAL_BROWSER2_AND_SIX_LOCAL_IMAGES_REVIEWED",
+  "recorded_at_utc": "2026-10-26T19:39:08.231841+00:00",
+  "head": "d1f4b529542aba443f3b92986da911db646053e1",
+  "run_id": 40376731797,
+  "job_id": 121766073244,
+  "artifact_id": 12681497673,
+  "original_bytes": 4531319,
+  "original_sha256": "e460c51e333c43beebecb99170984b2481804ba60e2076c412c4dc848f8564ab",
+  "groups": {
+    "desktop": {
+      "case_status": "PASS",
+      "viewport": 1440,
+      "minimum_measured_contrast": 6.579179808370011,
+      "contrast_rows": 286,
+      "actual_HTTP_calls": 58,
+      "maximum_HTTP_ms": 130.83011999999871,
+      "observed_states": [
+        "RUNNING",
+        "COMPLETED",
+        "COMPLETED"
+      ],
+      "same_request": true,
+      "auth_cleanup_verified": true,
+      "zero_console_errors": true,
+      "no_horizontal_overflow": true
+    },
+    "mobile": {
+      "case_status": "PASS",
+      "viewport": 390,
+      "minimum_measured_contrast": 6.579179808370011,
+      "contrast_rows": 267,
+      "actual_HTTP_calls": 50,
+      "maximum_HTTP_ms": 170.85305499999959,
+      "observed_states": [
+        "RUNNING",
+        "BLOCKED",
+        "ACCESS_REVOKED"
+      ],
+      "same_request": true,
+      "auth_cleanup_verified": true,
+      "zero_console_errors": true,
+      "no_horizontal_overflow": true
+    }
+  },
+  "screenshots": [
+    {
+      "name": "A_PROGRESS_FINANCE_DESKTOP_OFFICIAL_READY24.png",
+      "bytes": 395498,
+      "sha256": "5a12db64528e39412f535485349960973b69f02ec5b728bcd798e1888f1995b0"
+    },
+    {
+      "name": "A_PROGRESS_FINANCE_DESKTOP_OPERATIONAL_DONE_FINANCE_RUNNING.png",
+      "bytes": 310385,
+      "sha256": "a33d094ab35749aa511eb002d387e5153d371406c0abc5625774130ec23cb0de"
+    },
+    {
+      "name": "A_PROGRESS_FINANCE_DESKTOP_REOPENED_SAME_CAPTURE.png",
+      "bytes": 395498,
+      "sha256": "5a12db64528e39412f535485349960973b69f02ec5b728bcd798e1888f1995b0"
+    },
+    {
+      "name": "A_PROGRESS_FINANCE_MOBILE_ACCESS_REVOKED.png",
+      "bytes": 327502,
+      "sha256": "a49e2a211a7ddc11f0627a91e0ad81fdedb30658ebfad9634864f675038a6cf5"
+    },
+    {
+      "name": "A_PROGRESS_FINANCE_MOBILE_CAPTURE_COMPLETE_REPORT_BLOCKED.png",
+      "bytes": 350290,
+      "sha256": "b9307f158920d17d2b184d56d6cd2d6af1e4f19d63163b4df5489f50e0e7c762"
+    },
+    {
+      "name": "A_PROGRESS_FINANCE_MOBILE_OPERATIONAL_DONE_FINANCE_RUNNING.png",
+      "bytes": 362120,
+      "sha256": "f04c6b382bdac0828168173ce0477114219081f61d2c68dfbb71c4d054806495"
+    }
+  ],
+  "visual_observation": "Desktop READY and reopened report remain legible; mobile running, blocked and revoked states wrap within viewport. Production and finance progress are separate; blocked values and revoked finance are withheld. No visual issue observed in these six states.",
+  "screenshots_local_only": true,
+  "source_only_contrast_correction_confirmed": true,
+  "actual_minute_cron_qualified": false,
+  "full_factory_qualified": false,
+  "new_B_analog_and_cutting_qualified": false,
+  "default_adopted": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

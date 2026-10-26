@@ -1,0 +1,206 @@
+{
+  "status": "EXACT_RETAINED_PHASE_EVIDENCE",
+  "head": "8dfe1a19c7b7c61558b25c00f1dd388c8565e3d1",
+  "run_id": 40338677390,
+  "job_id": 121627045376,
+  "artifact_id": 12663230440,
+  "artifact_sha256": "9d8d24e9816562b2ff75b622c4da69d3d3cb34494f17cbee4d1b86280916d435",
+  "member": "CP7_D17_18_CHOICE_NATIVE6_PROGRESS.jsonl",
+  "bytes": 2511,
+  "sha256": "ca2cad7c2e26bb8dbb098460247f62186f520ac395a2173c8f94b98b9b3b7f6c",
+  "events": [
+    {
+      "diagnostic_only": true,
+      "elapsed_seconds": 0.001,
+      "phase": "PACKAGE_START",
+      "recorded_at_utc": "2026-10-26T14:34:40.674539+00:00",
+      "sequence": 1
+    },
+    {
+      "diagnostic_only": true,
+      "elapsed_seconds": 149.243,
+      "phase": "WRITER_RUNTIME_START",
+      "recorded_at_utc": "2026-10-26T14:37:09.917076+00:00",
+      "sequence": 2
+    },
+    {
+      "diagnostic_only": true,
+      "elapsed_seconds": 279.391,
+      "phase": "SOURCE_ADMITTED",
+      "recorded_at_utc": "2026-10-26T14:39:20.064361+00:00",
+      "sequence": 3
+    },
+    {
+      "diagnostic_only": true,
+      "elapsed_seconds": 283.189,
+      "phase": "BASELINE_CAPTURED",
+      "recorded_at_utc": "2026-10-26T14:39:23.862494+00:00",
+      "sequence": 4
+    },
+    {
+      "diagnostic_only": true,
+      "elapsed_seconds": 283.964,
+      "phase": "PREINSTALL_DUMP_READY",
+      "recorded_at_utc": "2026-10-26T14:39:24.638097+00:00",
+      "sequence": 5
+    },
+    {
+      "diagnostic_only": true,
+      "elapsed_seconds": 1242.928,
+      "phase": "INSTALL_1_RETURNED",
+      "recorded_at_utc": "2026-10-26T14:55:23.602159+00:00",
+      "sequence": 6
+    },
+    {
+      "diagnostic_only": true,
+      "elapsed_seconds": 1707.591,
+      "phase": "PREUSE_INVERSE_RETURNED",
+      "recorded_at_utc": "2026-10-26T15:03:08.264374+00:00",
+      "sequence": 7
+    },
+    {
+      "diagnostic_only": true,
+      "elapsed_seconds": 2682.341,
+      "phase": "INSTALL_2_RETURNED",
+      "recorded_at_utc": "2026-10-26T15:19:23.015046+00:00",
+      "sequence": 8
+    },
+    {
+      "diagnostic_only": true,
+      "elapsed_seconds": 2688.447,
+      "phase": "INSTALL_COMMITTED",
+      "recorded_at_utc": "2026-10-26T15:19:29.120394+00:00",
+      "sequence": 9
+    },
+    {
+      "diagnostic_only": true,
+      "elapsed_seconds": 2690.197,
+      "phase": "NATIVE_GROUP_STARTED",
+      "recorded_at_utc": "2026-10-26T15:19:30.870975+00:00",
+      "sequence": 10
+    },
+    {
+      "diagnostic_only": true,
+      "elapsed_seconds": 2757.047,
+      "phase": "NATIVE_GROUP_RETURNED",
+      "recorded_at_utc": "2026-10-26T15:20:37.720801+00:00",
+      "sequence": 11
+    },
+    {
+      "diagnostic_only": true,
+      "elapsed_seconds": 2765.383,
+      "phase": "USED_GUARD_CHECK_RETURNED",
+      "recorded_at_utc": "2026-10-26T15:20:46.057130+00:00",
+      "sequence": 12
+    },
+    {
+      "diagnostic_only": true,
+      "elapsed_seconds": 2765.384,
+      "phase": "RESTORE_STARTED",
+      "recorded_at_utc": "2026-10-26T15:20:46.057386+00:00",
+      "sequence": 13
+    },
+    {
+      "diagnostic_only": true,
+      "elapsed_seconds": 2773.756,
+      "phase": "BASELINE_RESTORATION_CHECKED",
+      "recorded_at_utc": "2026-10-26T15:20:54.429842+00:00",
+      "sequence": 14
+    },
+    {
+      "diagnostic_only": true,
+      "elapsed_seconds": 2773.839,
+      "phase": "ORIGINAL_WRITTEN",
+      "recorded_at_utc": "2026-10-26T15:20:54.512881+00:00",
+      "sequence": 15
+    },
+    {
+      "diagnostic_only": true,
+      "elapsed_seconds": 2780.183,
+      "phase": "PACKAGE_RETURNED",
+      "recorded_at_utc": "2026-10-26T15:21:00.857119+00:00",
+      "sequence": 16
+    }
+  ],
+  "intervals": [
+    {
+      "after_phase": "PACKAGE_START",
+      "through_phase": "WRITER_RUNTIME_START",
+      "elapsed_seconds": 149.242
+    },
+    {
+      "after_phase": "WRITER_RUNTIME_START",
+      "through_phase": "SOURCE_ADMITTED",
+      "elapsed_seconds": 130.148
+    },
+    {
+      "after_phase": "SOURCE_ADMITTED",
+      "through_phase": "BASELINE_CAPTURED",
+      "elapsed_seconds": 3.798
+    },
+    {
+      "after_phase": "BASELINE_CAPTURED",
+      "through_phase": "PREINSTALL_DUMP_READY",
+      "elapsed_seconds": 0.775
+    },
+    {
+      "after_phase": "PREINSTALL_DUMP_READY",
+      "through_phase": "INSTALL_1_RETURNED",
+      "elapsed_seconds": 958.964
+    },
+    {
+      "after_phase": "INSTALL_1_RETURNED",
+      "through_phase": "PREUSE_INVERSE_RETURNED",
+      "elapsed_seconds": 464.663
+    },
+    {
+      "after_phase": "PREUSE_INVERSE_RETURNED",
+      "through_phase": "INSTALL_2_RETURNED",
+      "elapsed_seconds": 974.75
+    },
+    {
+      "after_phase": "INSTALL_2_RETURNED",
+      "through_phase": "INSTALL_COMMITTED",
+      "elapsed_seconds": 6.106
+    },
+    {
+      "after_phase": "INSTALL_COMMITTED",
+      "through_phase": "NATIVE_GROUP_STARTED",
+      "elapsed_seconds": 1.75
+    },
+    {
+      "after_phase": "NATIVE_GROUP_STARTED",
+      "through_phase": "NATIVE_GROUP_RETURNED",
+      "elapsed_seconds": 66.85
+    },
+    {
+      "after_phase": "NATIVE_GROUP_RETURNED",
+      "through_phase": "USED_GUARD_CHECK_RETURNED",
+      "elapsed_seconds": 8.336
+    },
+    {
+      "after_phase": "USED_GUARD_CHECK_RETURNED",
+      "through_phase": "RESTORE_STARTED",
+      "elapsed_seconds": 0.001
+    },
+    {
+      "after_phase": "RESTORE_STARTED",
+      "through_phase": "BASELINE_RESTORATION_CHECKED",
+      "elapsed_seconds": 8.372
+    },
+    {
+      "after_phase": "BASELINE_RESTORATION_CHECKED",
+      "through_phase": "ORIGINAL_WRITTEN",
+      "elapsed_seconds": 0.083
+    },
+    {
+      "after_phase": "ORIGINAL_WRITTEN",
+      "through_phase": "PACKAGE_RETURNED",
+      "elapsed_seconds": 6.344
+    }
+  ],
+  "scope": "Existing actual Native6 composition qualification; not finance-e352 and not report latency",
+  "e352_exact_gap_attribution": false,
+  "factory_cross_run_regression_resolved": false,
+  "production_go": false
+}

@@ -1,0 +1,16 @@
+{
+  "head": "5b1b5ebef2c54dab584c4a0e38f56019a721a160",
+  "parent": "88af70bc70a7b7c302dd46aaec1f3884d6f34d9f",
+  "local": "525ace187db22900beec321fd3a8982e1c05ba86",
+  "tree": "83bffce6433e9eeb86df7b9fd494e1f3cc0db2af",
+  "branch": "astra-a/d17-18-finance-source-race-prepared-20261026",
+  "status": "PREPARED_UNBOUND",
+  "required_actual_head": "d05c568cca01085f87f7e48fe85c8d15ca43bffd",
+  "source_bound": false,
+  "execution_branch_created": false,
+  "actual_runtime_credit": false,
+  "phase_timing_tests": 5,
+  "first_local_io_failure_preserved": true,
+  "probe_operations_and_gates_unchanged": true,
+  "production_go": false
+}

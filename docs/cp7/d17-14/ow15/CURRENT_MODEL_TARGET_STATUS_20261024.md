@@ -7,13 +7,17 @@ catatan metadata yang sempat mencampur head penerus dengan nomor run lama
 dibetulkan melalui [rekonsiliasi](STATUS_EVIDENCE_LINK_RECONCILIATION_20261026.json),
 tanpa mengubah Original atau menambah kredit kasus.
 
-Keuangan e352 INCOMPLETE karena presisi fixture; d05c menjalankan perbandingan
-SMALL/PRICE_PERCENT/factory. UI c64 INCOMPLETE; koreksi d1f4 menjalankan dua
-kasus komputer/HP. Transport40f berjalan setelah dua kegagalan unduhan; bukti
-ketersediaan startup yang persis sama mendasari kelanjutan manual terbatas.
-Source-race88af PREPARED_UNBOUND menunggu actuald05cPASS ketiga pasangan.
-Tidak ada hasil akhir baru untuk ketiga pekerjaan berjalan. Formal5/16,
-production_go=false, independent_acceptance=false; CP7C belum dimulai.
+Keuangan e352 tetap INCOMPLETE; d05c menjalankan SMALL/PRICE_PERCENT/factory.
+UI d1f4 telah PASS2, termasuk respons hilang/buka ulang,24angka resmi,
+BLOCKED dan pencabutan akses;3895pin serta seluruh pemulihan terverifikasi.
+Enam gambar lokal ditelaah, kontras minimum6,579 dan108panggilan maksimum170,853ms.
+Lihat [bukti UI](d17-18-ui-d1f4-actual-d1f4b529.json) serta
+[penelaahan tampilan](UI_D1F4_VISUAL_RESTORATION_REVIEW_20261027.json).
+Transport40f sudah melewati startup dan menjalankan Auth3/race3, hasil belum ada.
+Source-race5b1b PREPARED_UNBOUND, lima kontrol tahap lulus, wajib actuald05cPASS
+ketiga pasangan. Pengukuran biaya pemasangan tersedia dari Original Native8dfe;
+regresi laporan lintasrun belum dijelaskan. Formal5/16, production_go=false,
+independent_acceptance=false; CP7C belum dimulai.
 
 Bagian berikut adalah riwayat checkpoint, bukan daftar pekerjaan aktif.
 
