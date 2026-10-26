@@ -1,0 +1,22 @@
+{
+  "contract": "cp7.frozen-choice-preparation.optional.v1",
+  "sql_sha256": "aa9d27260fbfd1fa3dfc90718df77f4e21ec05d0399713d73dfcf114690ba9c8",
+  "parent_reader_bodies_sha256": {
+    "cp7_frozen_analysis_choice_v2.review_context(uuid,text,integer,integer,text)": "d1c4274d4ce6247b3e5d21c92b216162b572da4d8029528a6a9dafc11048a67e",
+    "cp7_frozen_analysis_readers_v2.read_candidates(uuid,text,integer,integer,text)": "9bd29b2dbc15ca7f163b92bb39a08e52cfb399cbbaa6ae310f8ee3d34fa4ec4c"
+  },
+  "exact_parent_command_sha256": "88ba3a087ec510371bd56ec089a48a029abffe93cf8a12c09c6d8793705534d7",
+  "private_functions": 10,
+  "new_public_rpcs": 3,
+  "new_tables": 1,
+  "existing_replacements": [
+    "cp7_frozen_analysis_choice_v2.review_context(uuid,text,integer,integer,text)",
+    "cp7_frozen_analysis_readers_v2.read_candidates(uuid,text,integer,integer,text)"
+  ],
+  "source_request_is_original": true,
+  "default_adopted": false,
+  "server_scheduler_installed": false,
+  "actual_Native_qualified": false,
+  "actual_Auth_HTTP_credit": false,
+  "production_go": false
+}
