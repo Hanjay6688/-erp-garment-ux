@@ -4354,3 +4354,31 @@ Native6 penerus9a943ea4/run40308822607 sedang berjalan. UIpreparedfd0ffe66 dan
 transportprepared8b3c49b3 menunggu actualPASS6. Bhead1dd83782 dicek baca-saja dan
 belum berubah. Formal5/16, CP7C belum dimulai, independent_acceptance=false,
 production_go=false. Integrator tunggalA; tidak ada edit cabang/worktreeB.
+
+
+## 26 Oktober 2026 — A: kegagalan retensi actual Native9a dan batas perbaikannya
+
+Native9a943ea4/run40308822607/job121524549120/artifact12648237288 selesai
+INCOMPLETE:5 PASS,1 INCOMPLETE. Original6.205.094byte
+SHA256b52eb89d8150ffbf8d7e3692be693a339ff0daa9543790c5518eb8d5d4e1134c
+tetap disimpan. Lima gerbang: installed/primary/backup/advisor PASS, writer-runtime
+FAIL; full22/data/sequence/CP6 pulih. Kasus atomic-retention gagal dengan
+permission denied for table staged_drafts saat cp7_ops.retention_tick memanggil
+purge_expired sebagai cp7_capture. Ini kegagalan integrasi hak akses, bukan waktu.
+
+A menambah stage opsional milik integrator dalam cp7_current_choice_preparation:
+hanya SELECT(run_id) untuk cp7_capture pada cp7_plan_native.staged_drafts dan
+cp7_reminder_native.staged_condition_sets. Tidak mengubah sumber frozen/B,
+API bersama, owner/RLS, grant tabel penuh, hak tulis, peran browser atau jadwal.
+Perubahan katalog yang diizinkan persis dua ACL kolom tersebut; sebelum dipakai
+inverse harus mengembalikan seluruh22katalog/data/sequence. Setelah dipakai tetap
+wajib pemulihan penuh. Instalasi diuji dalam kewenangan normal postgres.
+
+Kualifikasi penerus memakai actual retention_tick, bukan panggilan admin langsung
+ke purge. Selain payload kadaluarsa/replay, buktikan draf dan kondisi pengingat
+sungguhan terhitung sehingga halaman rujukannya tetap tersimpan, isi dokumen tidak
+berubah, riwayat retensi immutable, panggilan ulang tidak menggandakan efek dan
+akses browser/payload tidak terbuka. Batas operasi kecil tetap8detik. UI/transport
+prepared tetap UNBOUND sampai actual Native penerus PASS;9a tidak diberi kredit.
+B tetap pemilik produksi/perencanaan; cabang/worktreeB tidak disentuh. A integrator
+tunggal. Formal5/16; independent_acceptance=false; production_go=false; CP7C belum.
