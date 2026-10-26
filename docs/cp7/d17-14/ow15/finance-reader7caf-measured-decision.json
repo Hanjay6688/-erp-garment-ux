@@ -1,0 +1,21 @@
+{
+  "actual_head": "7caf6b84a357ab670ac0e4c0c190fadb2738c2e7",
+  "status": "PASS",
+  "old_factory_ms": 26189.214,
+  "read_only_factory_ms": 24800.666,
+  "paired_reduction_pct": 5.302,
+  "old_profile_ms": 11679.017,
+  "current_old_over_prior_ratio": 2.242,
+  "calls_before": 3,
+  "calls_after": 3,
+  "removed_update_attempts": 10800,
+  "new_update_attempts": 0,
+  "small_old_ms": 283.237,
+  "small_new_ms": 284.047,
+  "cross_run_slowdown_explained": false,
+  "source_or_environment_cause_not_proven": true,
+  "product_adoption": false,
+  "source_change_race_qualification": false,
+  "price_percent_branch_qualification": false,
+  "production_go": false
+}

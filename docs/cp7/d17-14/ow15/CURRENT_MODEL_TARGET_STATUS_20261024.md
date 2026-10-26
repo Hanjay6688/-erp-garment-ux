@@ -1,3 +1,29 @@
+## Pembaruan 26 Oktober2026 — pembaca tanpa UPDATE lulus diagnostik, waktu belum memadai
+
+7caf6b84/run40300049475/job121495423311/artifact12644706605 selesai PASS
+pada10:53:46UTC. Seluruh3.702pin, lima gerbang paket,22katalog/data/sequence,
+CP6 dan advisor lulus. Laporan lengkap persis selain report.captured_at.
+SMALL283,237ms menjadi284,047ms. FACTORY1200x3:26.189,214ms menjadi24.800,666ms
+(5,302% lebih singkat pada pasangan ini),10.800usahaUPDATE menjadi nol.
+
+Jalur resmi pada runini2,242kali waktu profilea56911.679,017ms; penyebab kenaikan
+lintasrun belum terbukti. Panggilan pemeriksa tetap3. Hasil diagnostik tidak
+memberi kredit kinerja, pabrikselesai, PRICE_PERCENT, source-race atau pemasangan.
+
+A menyiapkan percobaan terpisah untuk menggabungkan dua agregasi pemeriksa yang
+sama di snapshot resmi, sehingga total3panggilan menjadi2. Semua rumus/body di
+luar satu blok tetap persis. Tidak ada cache atau hasil pemeriksa dari klien.
+Bukti PRICE_PERCENT melalui Native import/harga/posting serta HPP/stok/jurnal
+terpisah ditambahkan. Tiga uji penolakan perubahan kode,9modul Python dan47
+langkah shell lulus; fulladmission3716pin sedang berlangsung setelah evidence
+checkout yang hilang dipulihkan tanpa mengubah guard. Belum ada runtime kandidatini.
+
+Native9a/run40308822607 masih berjalan. UIpreparedfd0ffe66 dan transport8b3c49b3
+belum terikat dan belum dijalankan. B1dd83782 tetap sama pada pemeriksaan baca-saja.
+Formal5/16; independent_acceptance=false; production_go=false; CP7C belum dimulai.
+
+---
+
 ## Pembaruan 26 Oktober 2026 — persiapan layar dan login mengikuti penerus Native6
 
 UI fd0ffe66 dan transport 8b3c49b3 menyimpan kesepuluh perubahan alat uji
