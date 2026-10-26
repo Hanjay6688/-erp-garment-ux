@@ -27,4 +27,7 @@ def bind(args):
 if __name__=='__main__':
     p=argparse.ArgumentParser()
     for name in('native-proof','native-original','prior-proof','prior-original'):p.add_argument('--'+name,required=True)
-    bind(p.parse_args())
+    args=p.parse_args()
+    # Imported qualification probes enforce their own zero-argument contract.
+    sys.argv=sys.argv[:1]
+    bind(args)

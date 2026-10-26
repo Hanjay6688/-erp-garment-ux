@@ -1,0 +1,17 @@
+{
+  "first_attempt": "refused before SOURCE write",
+  "error": "Current used-state restore accepts no arguments",
+  "cause": "binder CLI arguments leaked into retained probe import",
+  "fix": "parse own CLI then clear process arguments before importing probes",
+  "all_five_SOURCE_absent_at_fix": true,
+  "invalid_CLI_still_refused": [
+    "finance",
+    "cron",
+    "used-restore",
+    "browser",
+    "transport"
+  ],
+  "product_and_business_oracles_changed": false,
+  "database_executed": false,
+  "production_go": false
+}
