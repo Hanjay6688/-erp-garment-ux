@@ -4445,3 +4445,20 @@ f038actualPASS. Uji lokal8AST serta3penolakan prasyarat dan3penjaga instrumen
 lulus, bukan bukti database. B tidak ditulis; kandidat berjalan tidak diubah.
 Formal tetap5/16, production_go=false, independent_acceptance=false, CP7Cbelum
 dimulai. Checkpoint bukan akhir tugas; lanjutkan hasil aktual dan integrasi.
+
+
+## [bersama] A26Okt2026 — uji sumber berubah siap terikat setelah bukti aktual
+
+Persiapan sumber5b1c61a1577ff9b1e8ce36f03123f9135679114d menambah
+workflow berscope yang memakai seluruhfetch/prasyarat lama dan satu fetch actual
+reuse baru.48langkah shell diperiksa; batas job lama tidak diubah. SOURCE tetap
+belum dibuat dan cabang eksekusi belum dibuat. Bukti harus menunjukkan penolakan
+pada pembacaan jurnal pertama sebelum seal berbasis jumlahbaris; semua DDL
+sementara/pemulihan memakai8detik perstatement dan2detik lock. Prasyarat actual
+f038PASS tetapwajib. Pembanding gagal6bc terbukti ditolak oleh helper pengikatan.
+
+Hambatan ruang lokal saatgitadd diselesaikan dengan membandingkan setiapbyte
+56salinan sementara terhadap arsip lengkap sebelum menghapus salinan tersebut;
+11.379.408.896byte redundan dilepas, ditambah satu salinan lengkap413.417.142byte
+yang hashnyasama. Original, arsip kanonik dan Git tidak berubah. Bukti perfile
+disimpan untuk estafet. Dua CI masihberjalan; tidakada hasil baru yang diluluskan.

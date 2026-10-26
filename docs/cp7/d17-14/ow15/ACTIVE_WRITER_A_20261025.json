@@ -8349,9 +8349,9 @@
     "production_go": false
   },
   "finance_source_race_prepared": {
-    "public_head": "c0b77a89759caeb78ddaa75fce0f4da3fd6a965a",
-    "local": "411e1a4a9317cc5a1925ec6f53c740e7ec207c13",
-    "tree": "c46feff1ede428a98a44c35e27de9633efd88599",
+    "public_head": "5b1c61a1577ff9b1e8ce36f03123f9135679114d",
+    "local": "c9eabe0b4cb169b225ee0d6757937494c25b86fe",
+    "tree": "764638aa341e1744b5de87a6a6a0955e67f1a60e",
     "parent": "70072fface936ec1cfba6ea2de6d42e8cda5c405",
     "branch": "astra-a/d17-18-finance-source-race-prepared-20261026",
     "files": [
@@ -8377,10 +8377,10 @@
     ],
     "status": "PREPARED_UNBOUND",
     "production_go": false,
-    "head": "c0b77a89759caeb78ddaa75fce0f4da3fd6a965a",
+    "head": "5b1c61a1577ff9b1e8ce36f03123f9135679114d",
     "expected_actual_reuse": "f038a6ecc5a71278554eab62ab7df4f4ced9b7bc PASS",
     "source_bound": false,
-    "workflow_created": false,
+    "workflow_created": true,
     "outer_probe_full_restore_prepared": true,
     "preflight": {
       "AST_files": 8,
@@ -8388,7 +8388,12 @@
       "prerequisite_negative_controls": 3,
       "instrumentation_negative_controls": 3
     },
-    "actual_runtime_qualified": false
+    "actual_runtime_qualified": false,
+    "execution_branch_created": false,
+    "first_journal_chunk_snapshot_refusal_required": true,
+    "statement_limit_ms": 8000,
+    "ordinary_lock_limit_ms": 2000,
+    "workflow_shell_steps": 48
   },
   "dependent_qualification_boundary": {
     "required_actual_native": "bfed0a81252e597842b9b9020ecc061cca936d54 PASS",
@@ -8637,5 +8642,61 @@
       }
     ],
     "production_go": false
+  },
+  "finance_source_race_before_snapshot_witness": {
+    "public_head": "5b1c61a1577ff9b1e8ce36f03123f9135679114d",
+    "local": "c9eabe0b4cb169b225ee0d6757937494c25b86fe",
+    "tree": "764638aa341e1744b5de87a6a6a0955e67f1a60e",
+    "parent": "70072fface936ec1cfba6ea2de6d42e8cda5c405",
+    "branch": "astra-a/d17-18-finance-source-race-prepared-20261026",
+    "files": [
+      "scripts/current-finance-check-reuse-diagnostic/COMPOSED_LOCAL_PREFLIGHT.json",
+      "scripts/current-finance-check-reuse-diagnostic/COMPOSED_SNAPSHOT_SOURCE.json",
+      "scripts/current-finance-check-reuse-diagnostic/FIRST_LOCAL_COMPOSED_SOURCE_ISSUE.json",
+      "scripts/current-finance-check-reuse-diagnostic/FIRST_RUNTIME_FAILURE_6BC.json",
+      "scripts/current-finance-check-reuse-diagnostic/README.md",
+      "scripts/current-finance-check-reuse-diagnostic/SOURCE.json",
+      "scripts/current-finance-check-reuse-diagnostic/original-snapshot-definition.sql",
+      "scripts/current-finance-check-reuse-diagnostic/reuse.py",
+      "scripts/current-finance-check-reuse-diagnostic/snapshot_source.py",
+      "scripts/current-finance-check-reuse-diagnostic/test_reuse.py",
+      "scripts/current-finance-reader-source-race-qualification/COMPOSED_PREPARED_PREFLIGHT.json",
+      "scripts/current-finance-reader-source-race-qualification/PREPARED_REUSE_SUCCESSOR.json",
+      "scripts/current-finance-reader-source-race-qualification/README.md",
+      "scripts/current-finance-reader-source-race-qualification/admission.py",
+      "scripts/current-finance-reader-source-race-qualification/bind_sources.py",
+      "scripts/current-finance-reader-source-race-qualification/evidence.py",
+      "scripts/current-finance-reader-source-race-qualification/fetch_reuse.py",
+      "scripts/current-finance-reader-source-race-qualification/probe.py",
+      "scripts/current-finance-reader-source-race-qualification/runner.py"
+    ],
+    "status": "PREPARED_UNBOUND",
+    "production_go": false,
+    "head": "5b1c61a1577ff9b1e8ce36f03123f9135679114d",
+    "expected_actual_reuse": "f038a6ecc5a71278554eab62ab7df4f4ced9b7bc PASS",
+    "source_bound": false,
+    "workflow_created": true,
+    "outer_probe_full_restore_prepared": true,
+    "preflight": {
+      "AST_files": 8,
+      "unbound_refused_before_DB": true,
+      "prerequisite_negative_controls": 3,
+      "instrumentation_negative_controls": 3
+    },
+    "actual_runtime_qualified": false,
+    "execution_branch_created": false,
+    "first_journal_chunk_snapshot_refusal_required": true,
+    "statement_limit_ms": 8000,
+    "ordinary_lock_limit_ms": 2000,
+    "workflow_shell_steps": 48
+  },
+  "workspace_redundant_copy_cleanup_20261026": {
+    "verified_prefix_copies_removed": 56,
+    "verified_prefix_bytes": 11379408896,
+    "separate_full_duplicate_bytes": 413417142,
+    "all_removed_bytes_already_retained_in_current_archive": true,
+    "canonical_sha256": "25aceaca2782cf130c6fc40907862d5c224025441bc41ed1bb391e7240117198",
+    "Originals_unchanged": true,
+    "code_and_Git_unchanged": true
   }
 }
