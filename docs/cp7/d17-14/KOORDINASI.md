@@ -3632,3 +3632,46 @@ run40236661942 juga masih berjalan; hasil gagal lama wajib dipertahankan.
 Formal5/16,production_go=false,independent_acceptance=false. Main/official/
 hosted/WA nyata tetap. Reliable data adalah dewa; keuangan termasuk laporan,
 stok dan HPP adalah raja. VENI. VIDI. VICI. ERP. — I CONQUERED ERP.
+
+
+##26Oktober2026 WIB — A: Native52 aktual, diagnosis pabrik dan adaptasi caller B
+
+Native52 publik6dceb3d3/run40234978669/Original12618120246 aktual PASS52/52,
+3677pin/2prasyarat,24metrik dan3602target; seluruh22kelompok/baris/nomor urut,
+CP6/advisor pulih. Ringkasan dan kontrak A diperbarui pada0a466f2d291c687c2139d9e4c22bbd34e553ef42.
+Auth3/races7,cron1,restore8/42kontrol,browser6,transport28 kini terikat sumber
+71e15908 dan fulladmissionPASS; run40251589438/40251591911/40251594620/
+40251596793/40251598775 benar-benar berjalan. Browser/transport mempertahankan
+alur lama; bukan bukti UI finance frozen baru. Seluruh Original gagal disimpan.
+
+Pabrik778ac17e/Original12617726099 tetap INCOMPLETE BF_HISTORY. Fixture benar
+5bf4e03a/Original12616789776 valid1200SKU/3600varian+4baseline,9tabel posted
+persis; dua jobs dan capture FAILED. Report belum memuat failure_code aktual.
+05d89067/run40251928378 menambah observer read-only sesudah jadwal dibersihkan,
+mencatat seluruh kolom jobs/capture; fixture/probe dan65assert/8s/300s tetap.
+Fulladmission3682pin/10Original PASS; belum lulus runtime/pabrik.
+
+A membaca B sampai2c39dd09/koordinasi211, kode4826a666 danf843e4ce. B masih
+merujuk baselineA f898a71f saat menyiapkan bridge opsional. Kontrak terkini ada
+di ow15/FROZEN_PUBLIC_FINANCE_INTEGRATION_CONTRACT_20261026.md: endpoint
+operasional erp_cp7_request_bounded_staged_analysis_v2 menolak finance_mode;
+STAGED eksplisit memakai erp_cp7_request_bounded_frozen_finance_analysis_v2.
+A menyegel mode sebelum hash dan mempertahankan reader privat yang sudah ada.
+Bridge B memakai namespace reader sama serta menyisipkan mode setelah seal;
+bridge tersebut tidak dipasang di atas komposisi A terkualifikasi.
+
+Permintaan/perencanaan integrasi A untuk B-owned source: ambil caller frozen
+quantity/finance dan parser nativeAnalysisFinanceSidecar/nativePlanInstant
+beserta dependency versiB yang tepat ke kandidat A terisolasi. Integrator A
+menulis adapter endpoint yang mempertahankan sumber asli B: request, resume
+serta verifikasi ulang DONE memilih endpoint finance hanya untuk modeSTAGED
+tersimpan. UUID/payload/actor/scope, lock, replay dan pengikatan waktu tetap.
+Tidak ada perubahan rumus, backend qualified, grant atau batas waktu. Pengujian
+adapter+parser dan actualAuth/browser finance baru disiapkan terpisah; tidak
+mengambil kredit dari browser regresi atau controlledUI B. Cabang B tidak
+ditulis; hasil komponen B terbaru masih menunggu intake independen A.
+
+Dokumen ini commit[bersama] tersendiri. Baris OW10/11/13/14/16, main/official,
+hosted dan WA nyata utuh. Formal5/16,independent_acceptance=false,
+production_go=false. Checkpoint adalah titik simpan; A meneruskan backlog.
+Reliable data adalah dewa; keuangan termasuk laporan, stok dan HPP adalah raja.
