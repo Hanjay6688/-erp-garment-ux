@@ -1,0 +1,29 @@
+{
+  "name": "CP7_CURRENT_FROZEN_FINANCE_UI_BROWSER2.json",
+  "status": "INCOMPLETE",
+  "head": "aec3feadb56d201e206fa8da8ef5b0014410e663",
+  "run_id": 40257369843,
+  "job_id": 121361997486,
+  "artifact_id": 12624801922,
+  "zip_bytes": 3096930,
+  "zip_sha256": "f27057626d16744675c0763665b506be401f0f14831720d5212b1430190c37e8",
+  "bytes": 4307028,
+  "sha256": "a3053d4e5a3aaccd98f17a746529b89cb0174645c056976957fe1a3c14d8942e",
+  "archive_member": "CP7_CURRENT_FROZEN_FINANCE_UI_BROWSER2.json",
+  "source_pins_verified": 3797,
+  "actual_prerequisites_verified": 2,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "production_go": false,
+  "independent_acceptance": false,
+  "first_failure_preserved": true,
+  "actual_Auth_HTTP_credit": false,
+  "error_summary": "Actual runtime INCOMPLETE; full Original retained"
+}

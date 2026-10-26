@@ -1,5 +1,5 @@
 {
-  "recorded_at_utc": "2026-10-26T02:53:08.910550+00:00",
+  "recorded_at_utc": "2026-10-26T03:30:23.623994+00:00",
   "role": "A finance writer/integrator replacing Claude; B remains separate production/planning writer",
   "slogan": [
     "VENI. VIDI. VICI. ERP. \u2014 I CONQUERED ERP.",
@@ -10,11 +10,25 @@
   "independent_acceptance": false,
   "running": [
     {
-      "id": 40257369843,
-      "job_id": 121361997486,
-      "name": "CP7 current public finance actual UI browser2",
-      "branch": "astra-a/d17-14-frozen-finance-ui-browser2-20261026",
-      "head": "aec3feadb56d201e206fa8da8ef5b0014410e663",
+      "id": 40263535654,
+      "job_id": 121380830712,
+      "head": "690783115765e677e0413d976d90489d86ab57e2",
+      "status": "in_progress",
+      "conclusion": null,
+      "actual_runtime_outcome_pending": true
+    },
+    {
+      "id": 40263892853,
+      "job_id": 121381925600,
+      "head": "4d1d2cc0846946d921b6f106712a2d21ce8a8dfe",
+      "status": "in_progress",
+      "conclusion": null,
+      "actual_runtime_outcome_pending": true
+    },
+    {
+      "id": 40264118585,
+      "job_id": 121382633732,
+      "head": "54676bcc969b950dd1ec52eb7feba2d7e58a8cb4",
       "status": "in_progress",
       "conclusion": null,
       "actual_runtime_outcome_pending": true
@@ -3901,7 +3915,8 @@
     "no_financial_or_acl_or_recovery_relaxation": true,
     "full_final_composition_required": true,
     "production_go": false,
-    "observed_factory_failure": "Operational unit0 SQL57014/statement timeout after3 attempts; official finance report unit0 time limit after3 attempts. Expensive subfunctions still require profiling; old failures remain INCOMPLETE."
+    "observed_factory_failure": "Operational unit0 SQL57014/statement timeout after3 attempts; official finance report unit0 time limit after3 attempts. Expensive subfunctions still require profiling; old failures remain INCOMPLETE.",
+    "expensive_subfunction_identified": false
   },
   "D17_18_progress_prepared": {
     "head": "b048d3fd9e3525ba71860104f486876ddf2e6d63",
@@ -4018,6 +4033,109 @@
   },
   "D17_18_factory_stage_profile": {
     "branch": "astra-a/d17-18-factory-stage-profile-20261026",
+    "remote": "690783115765e677e0413d976d90489d86ab57e2",
+    "local": "58a2962300283ecef3cac63591e2dce208f4600a",
+    "tree": "81a611ea3f96870f26dac13bde5da66ad0dcfa97",
+    "parent": "a73af7d733cd18412fdff1592d074ea2326df225",
+    "files": [
+      ".github/workflows/cp7-d17-18-factory-stage-profile.yml",
+      "scripts/current-frozen-finance-stage-profile/README.md",
+      "scripts/current-frozen-finance-stage-profile/SOURCE.json",
+      "scripts/current-frozen-finance-stage-profile/admission.py",
+      "scripts/current-frozen-finance-stage-profile/fetch_failure.py",
+      "scripts/current-frozen-finance-stage-profile/probe.py",
+      "scripts/current-frozen-finance-stage-profile/runner.py"
+    ],
+    "source_pins": 3689,
+    "full_source_admission": "PASS",
+    "actual_prerequisites": 10,
+    "old_failure": 12622604952,
+    "diagnostic_statement_limit_ms": 30000,
+    "product_timeout_changed": false,
+    "performance_qualification": false,
+    "production_go": false,
+    "actual_outcome": "PENDING",
+    "small_operations_limit_ms": 8000,
+    "measured_calls_rolled_back": true,
+    "sha": "690783115765e677e0413d976d90489d86ab57e2",
+    "first_failed_run": 40261229132,
+    "first_failure": "GITHUB_ENV consumed in same step before DB",
+    "product_changed": false,
+    "performance_credit": false,
+    "run_id": 40263535654
+  },
+  "D17_18_progress_composition_prepared": {
+    "branch": "astra-a/d17-18-progress-telemetry-integration-20261026",
+    "remote": "51d14424f890d3ff493b9cc47a8b56f35af40121",
+    "local": "a8d00df776375c1967c31d9402b5fdd3795a49d5",
+    "tree": "c72a11dab235823dc4cc5f4778240f197f3a90ac",
+    "parent": "b048d3fd9e3525ba71860104f486876ddf2e6d63",
+    "files": [
+      "scripts/cp7_current_analysis_progress/installation.py",
+      "scripts/cp7_current_analysis_progress/telemetry.test.ts",
+      "scripts/cp7_current_analysis_progress/telemetry.ts",
+      "scripts/cp7_current_analysis_progress/tsconfig.json"
+    ],
+    "tests": 28,
+    "TypeScript": "PASS",
+    "actual_full_composition": false,
+    "UI_mounted": false,
+    "production_go": false
+  },
+  "previous_running_before_harness_failure_intake": [
+    {
+      "id": 40257369843,
+      "job_id": 121361997486,
+      "name": "CP7 current public finance actual UI browser2",
+      "branch": "astra-a/d17-14-frozen-finance-ui-browser2-20261026",
+      "head": "aec3feadb56d201e206fa8da8ef5b0014410e663",
+      "status": "in_progress",
+      "conclusion": null,
+      "actual_runtime_outcome_pending": true
+    }
+  ],
+  "actual_finance_UI_first_failure": {
+    "name": "CP7_CURRENT_FROZEN_FINANCE_UI_BROWSER2.json",
+    "status": "INCOMPLETE",
+    "head": "aec3feadb56d201e206fa8da8ef5b0014410e663",
+    "run_id": 40257369843,
+    "job_id": 121361997486,
+    "artifact_id": 12624801922,
+    "zip_bytes": 3096930,
+    "zip_sha256": "f27057626d16744675c0763665b506be401f0f14831720d5212b1430190c37e8",
+    "bytes": 4307028,
+    "sha256": "a3053d4e5a3aaccd98f17a746529b89cb0174645c056976957fe1a3c14d8942e",
+    "archive_member": "CP7_CURRENT_FROZEN_FINANCE_UI_BROWSER2.json",
+    "source_pins_verified": 3797,
+    "actual_prerequisites_verified": 2,
+    "package_gate": {
+      "installed": true,
+      "primary_unchanged": true,
+      "backup_restore_drill": true,
+      "security_advisors": true,
+      "writer_runtime": false
+    },
+    "cp6_restored": true,
+    "advisor_gate": true,
+    "production_go": false,
+    "independent_acceptance": false,
+    "first_failure_preserved": true,
+    "actual_Auth_HTTP_credit": false,
+    "error_summary": "Actual runtime INCOMPLETE; full Original retained",
+    "root_cause": "Both fixture prepare calls rejected by retained import-time sys.argv guard; no browser RPC executed."
+  },
+  "factory_profile_first_CI_failure": {
+    "head": "a73af7d733cd18412fdff1592d074ea2326df225",
+    "run_id": 40261229132,
+    "job_id": 121373858836,
+    "status": "INCOMPLETE_BEFORE_DATABASE",
+    "cause": "GITHUB_ENV produced and consumed within same workflow step",
+    "artifacts": [],
+    "full_CI_log_retained": true,
+    "product_runtime_executed": false
+  },
+  "factory_profile_previous_candidate": {
+    "branch": "astra-a/d17-18-factory-stage-profile-20261026",
     "remote": "a73af7d733cd18412fdff1592d074ea2326df225",
     "local": "58a2962300283ecef3cac63591e2dce208f4600a",
     "tree": "1e151f81f99aed10fc4fde3e69f4efaf0d9f6cb6",
@@ -4043,22 +4161,42 @@
     "small_operations_limit_ms": 8000,
     "measured_calls_rolled_back": true
   },
-  "D17_18_progress_composition_prepared": {
-    "branch": "astra-a/d17-18-progress-telemetry-integration-20261026",
-    "remote": "51d14424f890d3ff493b9cc47a8b56f35af40121",
-    "local": "a8d00df776375c1967c31d9402b5fdd3795a49d5",
-    "tree": "c72a11dab235823dc4cc5f4778240f197f3a90ac",
-    "parent": "b048d3fd9e3525ba71860104f486876ddf2e6d63",
-    "files": [
-      "scripts/cp7_current_analysis_progress/installation.py",
-      "scripts/cp7_current_analysis_progress/telemetry.test.ts",
-      "scripts/cp7_current_analysis_progress/telemetry.ts",
-      "scripts/cp7_current_analysis_progress/tsconfig.json"
-    ],
-    "tests": 28,
-    "TypeScript": "PASS",
-    "actual_full_composition": false,
-    "UI_mounted": false,
+  "finance_UI_CLI_fix": {
+    "sha": "4d1d2cc0846946d921b6f106712a2d21ce8a8dfe",
+    "tree": "4f4c77614a2d277c88d340713de50227304b0f9a",
+    "parent": "aec3feadb56d201e206fa8da8ef5b0014410e663",
+    "first_failed_run": 40257369843,
+    "first_failed_artifact": 12624801922,
+    "first_failure": "CLI prepare argument reached retained import-time qualifier",
+    "source_pins": 3797,
+    "actual_prerequisites": 2,
+    "local_admission": "PASS_NO_DATABASE",
+    "product_changed": false,
+    "UI_acceptance": false,
     "production_go": false
+  },
+  "D17_18_progress_Native5": {
+    "sha": "54676bcc969b950dd1ec52eb7feba2d7e58a8cb4",
+    "tree": "838ee76df08e18c3cc9a4280e03ed1a20db4371b",
+    "parent": "51d14424f890d3ff493b9cc47a8b56f35af40121",
+    "branch": "astra-a/d17-18-progress-native-qualification-20261026",
+    "source_pins": 3696,
+    "actual_predecessor_cases": 52,
+    "focused_cases": 5,
+    "full_admission_sha256": "d0b787f4a890aa86e785db6fc3b7e416880cb712b18c1df9333ce743ae9c8cb2",
+    "full_admission_bytes": 3911414,
+    "local_admission": "PASS_NO_DATABASE",
+    "actual_runtime_outcome": "PENDING",
+    "actual_Auth_HTTP_credit": false,
+    "production_go": false,
+    "run_id": 40264118585
+  },
+  "latest_B_readonly_review": {
+    "head": "9162d7e7051616bff95bd151f142a8106d1add31",
+    "shared_note": 214,
+    "exact_new_components_imported_to_isolated_A": 31,
+    "generated_source_checks": "PASS_READERS_CHOICE_PREPARATION_ON_A_PARENT",
+    "new_B_Originals_intaken_by_A": false,
+    "full_composition_runtime": false
   }
 }

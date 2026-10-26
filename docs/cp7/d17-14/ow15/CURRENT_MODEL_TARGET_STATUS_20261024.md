@@ -335,3 +335,28 @@ Auth/browser, pemulihan macet serta factory parity belum lulus. B12d9411d
 dibaca saja: progres9cddf475 dan persiapan pilihanfa402436 menunggu komposisi
 A serta intake bukti aktual baru. Formal5/16, independent_acceptance=false,
 production_go=false; pekerjaan tetap berlanjut.
+
+
+## 26 Oktober 2026 — kegagalan penyiapan dipisahkan dari runtime produk
+
+UI2 aec3fead/run40257369843/art12624801922 INCOMPLETE, 3797 pin dan dua
+Original prasyarat terverifikasi. Kedua kasus gagal saat fixture prepare diimpor;
+belum ada panggilan browser. Semua gerbang selain writer_runtime, CP6 dan advisor
+lulus. Perbaikan CLI 4d1d2cc0/run40263892853 berjalan; argumen tetap diterima main,
+tetapi tidak bocor ke modul prasyarat. Tes lokal mereproduksi penolakan versi lama.
+
+Diagnosis pabrik a73af7d7/run40261229132 gagal sebelum DB: GITHUB_ENV belum
+tersedia di langkah yang menulisnya. Log lengkap disimpan, tanpa kredit runtime.
+Perbaikan dua langkah 69078311/run40263535654 berjalan; produk, batas waktu dan
+fixture tidak berubah. Penyebab fungsi mahal dalam timeout pabrik masih terbuka.
+
+Progres Native5 54676bcc/run40264118585 berjalan pada ERP penuh: 3696 pin dan
+Original Native52 cocok, admission tanpa DB lulus. Lima kasus terfokus bukan
+pengulangan Native52 atau penerimaan pabrik/Auth/UI. Pembacaan lokal
+tertahan berkas checkout yang belum tersedia; sumber HEAD utuh dimaterialisasi,
+kegagalan lokal dipertahankan, oracle tidak diubah.
+
+B9162d7e7/koordinasi214 dibaca tanpa menulis worktree B. Tiga komponen reader,
+choice dan preparation (31 berkas exact) mulai dikomposisikan di cabang A baru;
+generator sumbernya cocok pada parent A. Runner/retention/verifier/inverse dan
+kualifikasi gabungan masih dikerjakan. Formal5/16; production_go=false.
