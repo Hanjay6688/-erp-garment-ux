@@ -1,5 +1,26 @@
 # Status gabungan uang, model dan target — 26 Oktober 2026 WIB
 
+## Terkini: diagnosis resmi selesai, perbaikan buka ulang B sudah disalin
+
+Profilea569d322/run40286613815/art12636473845 PASS diagnostik,3691pin dan
+seluruh5gerbang/pemulihan/CP6/advisor terverifikasi. Pada3600varian, unit
+produksi pertama7353.824ms, laporan resmi11679.017ms dan status31.923ms.
+Pemeriksaan integritas resmi berjalan3kali dengan total11522.262ms;
+pengulangan ini menjadi sasaran penelusuran A. Belum ada klaim optimasi
+produk atau analisis pabrik selesai. Kegagalan690 tetap dipertahankan.
+
+B9ff tetapINCOMPLETE2PASS; e94PASS6 diverifikasi terhadap Original, metadata,
+CRC/SHA/51pin/48modul. Bukti ini browser nyata dengan identity/HTTP terkendali,
+bukan Auth/database/HPP gabungan. A memasukkan perbaikan buka ulang d6fad0d2
+ke host6213baf1:91berkas B persis,190tes/17berkas,TypeScript/build79modul lulus.
+Deklarasi uji browser8cb06927 kini mengunci113berkas host terbaru. SOURCE
+tetap belum diikat, menunggu Native6 aktualPASS. Tidak ada edit worktree B.
+
+Progres0c86d277/run40286627929 masih berjalan; Native6 tetap disiapkan pada
+5c30a4ea. Formal5/16; independent_acceptance=false; production_go=false.
+
+## Riwayat checkpoint sebelumnya
+
 ## Persiapan lanjutan: sumber progres penerus dan uji layar telah dikunci
 
 Native6 kini disiapkan pada5c30a4ea dan hanya menerima Original progres0c86d277

@@ -1,5 +1,5 @@
 {
-  "recorded_at_utc": "2026-10-26T08:14:31.760889+00:00",
+  "recorded_at_utc": "2026-10-26T08:49:53.317237+00:00",
   "role": "A finance writer/integrator replacing Claude; B remains separate production/planning writer",
   "slogan": [
     "VENI. VIDI. VICI. ERP. \u2014 I CONQUERED ERP.",
@@ -9,12 +9,6 @@
   "production_go": false,
   "independent_acceptance": false,
   "running": [
-    {
-      "head": "a569d322bb91162026c7f9cc162facf12f0dd7ea",
-      "run_id": 40286613815,
-      "job_id": 121451664270,
-      "scope": "factory first-unit diagnostic, not acceptance"
-    },
     {
       "head": "0c86d27739ff74aba65967453465880d1c72e94c",
       "run_id": 40286627929,
@@ -4561,7 +4555,11 @@
     "source_trees_match_verified_local": true,
     "expected_workflow_count": 2,
     "observed_workflow_count": 2,
-    "runtime_result_available": false
+    "runtime_result_available": true,
+    "runtime_result_status": {
+      "profile": "DIAGNOSTIC_PASS_NOT_FACTORY_ACCEPTANCE",
+      "progress": "IN_PROGRESS"
+    }
   },
   "previous_choice_preparation_before_progress_successor": {
     "head": "821a7e79354ffa1f3fc73b9690c372d38f235a27",
@@ -4575,6 +4573,134 @@
     "actual_predecessor_required": "54676bcc969b950dd1ec52eb7feba2d7e58a8cb4 PASS"
   },
   "progress_finance_UI_browser_prepared": {
+    "head": "8cb0692794ce7ad70495fe2a6839fa23712c84b8",
+    "local": "69f25e51624b62ae0f27eba3a6a490801da57c0b",
+    "tree": "62da7b2b8502ec5ef16c743fe178036fcfd4dd15",
+    "branch": "astra-a/d17-18-progress-finance-ui-browser-prepared-20261026",
+    "status": "PREPARED_UNBOUND_NO_DATABASE",
+    "host_exact_files": 113,
+    "B_exact_files": 91,
+    "fixture_exact_prior_UI_head": "389326f6d251499559f353638adc4fa1d5c76ffa",
+    "compiled_source_modules": 79,
+    "case_module_imports": 2,
+    "oracle_unit_tests": 5,
+    "new_guard_negative_controls": 5,
+    "total_business_guards": 27,
+    "shell_steps_checked": 47,
+    "source_bound": false,
+    "actual_predecessor_required": "exact corrected Native6 PASS6 (not yet available)",
+    "actual_browser": false,
+    "actual_database": false,
+    "production_go": false,
+    "independent_acceptance": false,
+    "host_head": "6213baf1d9226317f279e88f449889e1597c1486",
+    "B_source_head": "d6fad0d2303bfe39531afdbe62f6faec95f79046",
+    "host_tests": 190,
+    "host_test_files": 17,
+    "host_typecheck": "PASS"
+  },
+  "previous_running_before_corrected_profile_intake": [
+    {
+      "head": "a569d322bb91162026c7f9cc162facf12f0dd7ea",
+      "run_id": 40286613815,
+      "job_id": 121451664270,
+      "scope": "factory first-unit diagnostic, not acceptance"
+    },
+    {
+      "head": "0c86d27739ff74aba65967453465880d1c72e94c",
+      "run_id": 40286627929,
+      "job_id": 121451709620,
+      "scope": "focused full-composition progress Native5"
+    }
+  ],
+  "actual_D17_18_profile_corrected": {
+    "name": "CP7_D17_18_FACTORY_STAGE_PROFILE1.json",
+    "status": "PASS",
+    "head": "a569d322bb91162026c7f9cc162facf12f0dd7ea",
+    "run_id": 40286613815,
+    "job_id": 121451664270,
+    "artifact_id": 12636473845,
+    "zip_bytes": 2955667,
+    "zip_sha256": "5f59a603a9fb0247df054964d2c62cc0ed69180d075f503a4b715d5a404c3dac",
+    "bytes": 4939575,
+    "sha256": "06bc1cf49c8963212b6fca7362b7d7080811215900e842bf460e788dd11d7360",
+    "archive_member": "CP7_D17_18_FACTORY_STAGE_PROFILE1.json",
+    "source_pins_verified": 3691,
+    "package_gates_all_pass": true,
+    "diagnostic_only": true,
+    "full_factory_acceptance": false,
+    "measurements": [
+      {
+        "name": "FIRST_OPERATIONAL_UNIT",
+        "status": "COMPLETED_DIAGNOSTIC",
+        "elapsed_ms": 7353.824,
+        "statement_limit_ms": 30000,
+        "read_only": false
+      },
+      {
+        "name": "OFFICIAL_FINANCE_REPORT_UNIT",
+        "status": "COMPLETED_DIAGNOSTIC",
+        "elapsed_ms": 11679.017,
+        "statement_limit_ms": 30000,
+        "read_only": false
+      },
+      {
+        "name": "SMALL_STATUS_READ",
+        "status": "COMPLETED_DIAGNOSTIC",
+        "elapsed_ms": 31.923,
+        "statement_limit_ms": 8000,
+        "read_only": true
+      }
+    ],
+    "ordinary_request_identity_ms": 4655.877,
+    "expensive_finance_function": "erp.run_v268_financial_report_checks()",
+    "calls_per_report": 3,
+    "measured_total_ms": 11522.261961,
+    "performance_optimization_claim": false,
+    "production_go": false
+  },
+  "B_reopen_browser_evidence_20261026": {
+    "read_only_head": "c91ca3dd2c52dcd8e7248705fa136732e87b1952",
+    "product_head": "d6fad0d2303bfe39531afdbe62f6faec95f79046",
+    "actuals": [
+      {
+        "name": "CHOICE_PREPARATION_BROWSER6.json",
+        "status": "INCOMPLETE",
+        "head": "9ff853c33400ee506fd83e757f471cf9ebc1dc95",
+        "run_id": 40287295045,
+        "job_id": 121453865256,
+        "artifact_id": 12634748141,
+        "zip_bytes": 4125,
+        "zip_sha256": "19ce2cc8ecc7b2ef00f9b8aee6cdfb60fcae0b391d73012fd6868ce99fc32140",
+        "bytes": 12804,
+        "sha256": "6653e7c52e3965d1f9dbc79651b54dea15cc530cf4eb93fe03fe5679c565edcd",
+        "archive_member": "CHOICE_PREPARATION_BROWSER6.json"
+      },
+      {
+        "name": "CHOICE_PREPARATION_BROWSER6.json",
+        "status": "PASS",
+        "head": "e94e80375ecf16919bed2f6d2f3d191f094875b8",
+        "run_id": 40288589994,
+        "job_id": 121458060644,
+        "artifact_id": 12635213241,
+        "zip_bytes": 4451,
+        "zip_sha256": "1b4be7894d3917ebb5cedb25edad04253a7168c0cab019472c0b076c6d120f5a",
+        "bytes": 18196,
+        "sha256": "14c196ce733c51829f6db4952ecf36bacd03816e44b45534a5f192d6a846e13d",
+        "archive_member": "CHOICE_PREPARATION_BROWSER6.json"
+      }
+    ],
+    "each_source_pins_verified": 51,
+    "each_served_modules": 48,
+    "B_ledger_declared": 65,
+    "actual_browser": true,
+    "controlled_identity_HTTP": true,
+    "actual_Auth_Native_database_credit": false,
+    "official_finance_HPP_credit": false,
+    "composed_restore_credit": false,
+    "production_go": false
+  },
+  "previous_progress_UI_browser_before_B_reopen": {
     "head": "1b095460e307160d9700d71c447852367984ee68",
     "local": "0d5407dbe3713d5fee87dd798b1b920c6ea1b097",
     "tree": "5292f17e28189f2f70e17f512eb0ebbe6361785b",
