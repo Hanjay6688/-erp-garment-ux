@@ -1,5 +1,5 @@
 {
-  "expected_reuse_head": "e913cc60d7b4a14b97d776fe2a9c5cb995c23563",
+  "expected_reuse_head": "e352901d6975346fa6a099770d179ffc6a59475d",
   "status": "RUNNING_NOT_PASS",
   "run_id": 40345264716,
   "previous_actual_head": "f038a6ecc5a71278554eab62ab7df4f4ced9b7bc",
@@ -42,5 +42,9 @@
   "private_helpers": 2,
   "Native_snapshot_preflight_and_close_commands_unchanged": true,
   "production_go": false,
-  "job_id": 121650386194
+  "job_id": 121650386194,
+  "previous_expected_reuse_head": "e913cc60d7b4a14b97d776fe2a9c5cb995c23563",
+  "actual_prerequisite_PASS_available": false,
+  "fixture_contract": "SYNTHETIC_LEGACY_PRICE_NATIVE_CURRENT_AND_OPENING_V2",
+  "e913_partial_SMALL_is_not_prerequisite_PASS": true
 }

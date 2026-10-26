@@ -2,7 +2,7 @@
 from pathlib import Path
 from hashlib import sha256
 import json
-HEAD='e913cc60d7b4a14b97d776fe2a9c5cb995c23563'
+HEAD='e352901d6975346fa6a099770d179ffc6a59475d'
 
 def validate(repo,proof,raw,product,parent):
     assert proof['head']==HEAD and proof['status']=='PASS'
@@ -38,7 +38,22 @@ def checked_case(repo,d,source):
     assert Decimal(fixture['independently_rounded_unit_hpp'])==expected
     assert Decimal(fixture['independently_rounded_posted_value'])==(expected*fixture['qty']).quantize(Decimal('.01'),rounding=ROUND_HALF_UP)
     assert fixture['real_Native_import_and_shared_price_writer']and fixture['posted_stock_and_journal_exact']
-    assert fixture['direct_business_DML']is fixture['actual_Auth_HTTP_credit']is fixture['source_change_race_qualification']is False
+    assert fixture['actual_Auth_HTTP_credit']is fixture['source_change_race_qualification']is False
+    if source.get('fixture_contract')=='SYNTHETIC_LEGACY_PRICE_NATIVE_CURRENT_AND_OPENING_V2':
+        from datetime import datetime
+        assert fixture['fixture_contract']==source['fixture_contract']
+        assert fixture['direct_business_DML']is True
+        assert fixture['direct_DML_scope']=='ONE_LEGACY_PRICE_FIXTURE_ROW_BEFORE_MEASUREMENTS'
+        historical=fixture['historical_price_fixture']
+        assert historical['synthetic']is True and historical['direct_insert_rows']==1
+        assert historical['guards_disabled']is historical['native_historical_price_writer_credit']is False
+        assert fixture['historical_price_selected_over_current']is True
+        assert Decimal(fixture['price'])!=Decimal(fixture['current_price'])
+        assert datetime.fromisoformat(historical['effective_from'])<=datetime.fromisoformat(fixture['opening_physical_at'])<datetime.fromisoformat(fixture['current_price_effective_from'])
+        assert fixture['current_price_native_version_id'] and historical['id']
+    else:
+        assert 'fixture_contract'not in source
+        assert fixture['direct_business_DML']is False
     snapshot=json.loads((repo/'scripts/current-finance-check-reuse-diagnostic/NATIVE_SNAPSHOT_SOURCE.json').read_bytes())
     composed=None;installed=None
     installed_marker='scripts/current-finance-check-reuse-diagnostic/INSTALLED_REPORT_SOURCE.json'

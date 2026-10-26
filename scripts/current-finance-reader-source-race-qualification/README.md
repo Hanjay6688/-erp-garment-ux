@@ -1,9 +1,9 @@
 # Prepared finance source-change qualification
 
 This is a separate A qualification fixture, not product adoption. The exact paired
-same-report readiness diagnostic e913 must first complete successfully and be bound as an
+same-report readiness diagnostic e352901d must first complete successfully and be bound as an
 actual Original. Until then this directory has no SOURCE.json. The prepared workflow cannot pass admission until its actual prerequisite is bound.
-Both6bc andf038 remain INCOMPLETE. The latest candidate derives from actual installed BA source and reuses readiness between snapshot and preflight. Its exact sources are imported here without runtime credit.
+6bc, f038 and e913 remain INCOMPLETE. e913 passed only SMALL before its historical price fixture was refused. The latest candidate derives from actual installed BA source and reuses readiness between snapshot and preflight. Its exact sources are imported here without runtime credit.
 
 The prior experiment installs its temporary definitions in the same transaction as
 its measurement. It proves paired whole-report arithmetic and write behavior, but
@@ -21,14 +21,17 @@ the current full official report and independently recomputed book signature.
 Keep ordinary statements at8s, observation at5s, no hidden retry. The full original
 function definitions and all22 catalog groups must be restored. Full baseline data,
 sequences, CP6 and advisor restoration remain mandatory in the owning outer probe.
-The PRICE_PERCENT fixture must use the real Native import, SKU price writer, opening
-posting, and independent Decimal oracle already present in the retained diagnostic. This scope provides
+The PRICE_PERCENT fixture must use the exact labelled V2 legacy-price fixture,
+current Native shared-price writer, Native opening and independent Decimal oracle.
+One synthetic legacy-price INSERT happens before measurements in cp6_rollback;
+no guard is disabled and there is no Native historical-price-writer credit.
+The report itself must still perform zero DML and preserve historical HPP. This scope provides
 no Auth/browser/cron, factory-performance, installed-production, or independent-audit
 credit. Earlier failures and unexplained cross-run timings remain open.
 
 The prepared outer probe now keeps the full install/preuse/used-guard and baseline
 restore, all22 catalog groups, all data/sequences, CP6, and advisor checks. Admission
-requires the exact e913 actual three-pair proof, including the percentage branch,
+requires the exact e352901d actual three-pair proof, including the percentage branch,
 zero candidate writes, unchanged complete reports, actual3-to2 check calls and exact
 live installed source and2-to1 readiness calls. Native snapshot/preflight and close commands stay unchanged; two private helpers are installed and removed with exact ACLs. It refuses an unbound invocation before database access.
 The new scoped workflow retains every predecessor fetch and transformation test, adds the immutable actual reuse fetch, and invokes this probe. Its execution branch has not been created; SOURCE is absent. This preparation is not runtime proof.

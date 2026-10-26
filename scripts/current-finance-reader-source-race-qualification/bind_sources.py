@@ -3,7 +3,7 @@ from hashlib import sha256
 import argparse,json,sys
 sys.dont_write_bytecode=True
 HERE=Path(__file__).resolve().parent;REPO=HERE.parents[1]
-HEAD='e913cc60d7b4a14b97d776fe2a9c5cb995c23563'
+HEAD='e352901d6975346fa6a099770d179ffc6a59475d'
 
 def main():
     parser=argparse.ArgumentParser();parser.add_argument('--proof',required=True);parser.add_argument('--original',required=True)

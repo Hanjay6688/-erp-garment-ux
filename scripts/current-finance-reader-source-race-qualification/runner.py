@@ -77,7 +77,7 @@ def exercise(conn,cur,database_module,url,report):
     # No prepared invocation can execute before exact source and actual prior
     # runtime binding. The outer probe will run its complete admission as well.
     pins=json.loads((HERE/'SOURCE.json').read_bytes())
-    assert pins['actual_reuse']['head']=='e913cc60d7b4a14b97d776fe2a9c5cb995c23563'
+    assert pins['actual_reuse']['head']=='e352901d6975346fa6a099770d179ffc6a59475d'
     assert pins['actual_reuse']['status']=='PASS'
     bounded(cur)
     granted,_=database_module._foundation(cur)
