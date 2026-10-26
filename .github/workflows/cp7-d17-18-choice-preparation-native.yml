@@ -375,6 +375,9 @@ jobs:
     - name: Admit exact sources after Progress Native5 predecessor environment is available
       working-directory: auditor
       run: python scripts/current-choice-preparation-native-qualification/admission.py
+    - name: Check Native observation and narrow private INFO review guards
+      working-directory: auditor
+      run: python scripts/current-choice-preparation-native-qualification/test_native_observation.py
     - name: Start disposable database
       working-directory: base
       shell: bash

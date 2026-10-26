@@ -34,6 +34,9 @@ LABEL='CP7_D17_18_PROGRESS_FINANCE_UI_BROWSER2'
 OUT=REPO/'cp6-proof/t3'/f'{LABEL}.json'
 STATE=None
 
+current_advisor=load('current_choice_private_advisor_review',REPO/'scripts/current-choice-preparation-native-qualification/advisor_review.py')
+
+
 def admitted():
     admission=load('current_finance_model_browser_admission',HERE/'admission.py')
     return admission.admitted(REPO,HERE,IDS,product,native,GROUPS)
@@ -73,6 +76,7 @@ def run():
             STATE=product.install(cur)
             report['complete_installed_verification']=product.verify(cur,STATE)
             report['verified_predecessor_info_manifest']=core.predecessor_info_manifest(cur)
+            report['current_private_info_authority']=current_advisor.capture(cur)
             conn.commit();installed=True
         report['advisors_with_cp7']=advisors(package.boundary.PG)
         # The old copy helper only names its catalog field installed_catalog.
@@ -108,7 +112,7 @@ def run():
                         core.predecessor.public_state,p09.functions,report)
                     conn.rollback();p09.wip.policy.bf.verified(cur);conn.rollback()
                 report['advisor_delta']=advisor_delta(advisors(package.boundary.PG),report['advisors_with_cp7'])
-                report['advisor_disposition']=core.advisor_disposition(report['advisor_delta'],report['verified_predecessor_info_manifest'])
+                report['advisor_disposition']=current_advisor.review(report['advisor_delta'],report['verified_predecessor_info_manifest'],report['current_private_info_authority'],core.advisor_disposition)
                 report['advisor_gate']=report['advisor_disposition']['gate']
             except Exception as error:
                 report.update(restore_error=str(error),restore_traceback=traceback.format_exc(),cp6_restored=False,advisor_gate=False)

@@ -28,6 +28,8 @@ STATE=None
 _spec=importlib.util.spec_from_file_location('performance_native_phase_diagnostics',REPO/'scripts/current-frozen-public-native-qualification/progress.py')
 phase_diagnostics=importlib.util.module_from_spec(_spec);_spec.loader.exec_module(phase_diagnostics)
 progress=phase_diagnostics.Progress(OUT.with_name(LABEL+'_PROGRESS.jsonl'))
+_spec=importlib.util.spec_from_file_location('choice_current_private_advisor',HERE/'advisor_review.py')
+current_advisor=importlib.util.module_from_spec(_spec);_spec.loader.exec_module(current_advisor)
 
 
 def admitted():
@@ -90,6 +92,7 @@ def run():
             control.STATE=dict(installed_catalog=STATE['after'])
             report['complete_installed_verification']=product.verify(cur,STATE)
             report['verified_predecessor_info_manifest']=core.predecessor_info_manifest(cur)
+            report['current_private_info_authority']=current_advisor.capture(cur)
             new_roles=database._roles(cur)-before_roles
             conn.commit();installed=True
         progress.mark('INSTALL_COMMITTED')
@@ -141,7 +144,8 @@ def run():
                 report['baseline_advisors_equal']=advisors(package.boundary.PG)==report['baseline_advisors']
                 if 'advisors_with_cp7'in report:
                     report['advisor_delta']=advisor_delta(advisors(package.boundary.PG),report['advisors_with_cp7'])
-                    report['advisor_disposition']=core.advisor_disposition(report['advisor_delta'],report['verified_predecessor_info_manifest'])
+                    report['advisor_disposition']=current_advisor.review(report['advisor_delta'],report['verified_predecessor_info_manifest'],
+                        report['current_private_info_authority'],core.advisor_disposition)
                     report['advisor_gate']=report['advisor_disposition']['gate']and report['baseline_advisors_equal']
                 else:report['advisor_gate']=report['baseline_advisors_equal']
                 progress.mark('BASELINE_RESTORATION_CHECKED')

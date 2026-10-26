@@ -1,3 +1,15 @@
+## Prepared against corrected Native observations, still unbound
+
+The ten Native6 harness/workflow changes are retained byte-for-byte from
+9a943ea4cc4d24a92a2af1c3e678bd3d0bddfc14. Its actual run is still pending;
+CONFIG.choice_head remains null and this suite has no SOURCE.json or runtime
+credit. The first a3ce failure remains INCOMPLETE and cannot unlock this suite.
+
+The probe uses the same narrowly scoped private-table INFO review: it captures
+live owner, RLS, policy and all five direct-role/PUBLIC ACL checks after install.
+Other findings remain blocking, with the unchanged predecessor review retained.
+No product, browser business assertion, source freshness or money guard changes.
+
 # D17-18 — persiapan uji layar progres dan keuangan
 
 VENI. VIDI. VICI. ERP. Reliable data adalah dewa.

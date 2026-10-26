@@ -14,6 +14,7 @@ def admitted(repo,here,ids,product,business):
     assert pins['full_final_acceptance']is pins['actual_Auth_HTTP_credit']is pins['production_go']is False
     for path,digest in pins['files'].items():assert sha256((repo/path).read_bytes()).hexdigest()==digest,path
     assert not subprocess.check_output(['git','-C',str(repo),'status','--porcelain','--untracked-files=no'],text=True).strip()
+    business.observation.verify_ready_source()
     fixture=json.loads((here/'B_FIXTURE_SOURCE.json').read_bytes())
     for path,digest in fixture['files'].items():assert sha256((repo/path).read_bytes()).hexdigest()==digest,path
     assert fixture['head']==product.sources()['B_source']['head']
