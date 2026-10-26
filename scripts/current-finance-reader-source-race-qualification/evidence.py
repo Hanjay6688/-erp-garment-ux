@@ -2,7 +2,7 @@
 from pathlib import Path
 from hashlib import sha256
 import json
-HEAD='e352901d6975346fa6a099770d179ffc6a59475d'
+HEAD='d05c568cca01085f87f7e48fe85c8d15ca43bffd'
 
 def validate(repo,proof,raw,product,parent):
     assert proof['head']==HEAD and proof['status']=='PASS'

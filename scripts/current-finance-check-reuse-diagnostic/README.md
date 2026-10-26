@@ -1,8 +1,8 @@
 # Same-report official readiness diagnostic; no product adoption
 
-The first three runtime failures remain INCOMPLETE, preserved with exact Original
+The first four runtime failures remain INCOMPLETE, preserved with exact Original
 hashes and tracebacks in FIRST_RUNTIME_FAILURE_6BC.json, FIRST_RUNTIME_FAILURE_F038.json
-and FIRST_RUNTIME_FAILURE_E913.json.
+FIRST_RUNTIME_FAILURE_E913.json and FIRST_RUNTIME_FAILURE_E352.json.
 The f038 candidate refused the live body before it ran. SMALL official284.902ms
 was observed; no candidate, PRICE_PERCENT, factory or speedup credit exists.
 Full22/data/sequence/CP6 and advisor restoration passed.
@@ -60,3 +60,24 @@ retained access/date/size guards and refusal of changed or historical bodies.
 These do not replace actual runtime equality, ACL, source-race, browser/Auth,
 full integration, measured budgets or independent acceptance. Factory completion,
 product adoption and production_go remain false until their own evidence exists.
+
+## Exact cent-price input after actual e352 failure
+
+e352 remains INCOMPLETE: SMALL whole-report equality and zero candidate writes
+passed (282.035ms to214.679ms). Its synthetic legacy price20.123456 was actually
+stored as20.12. The exact price-interval assertion refused that coercion before
+the Native opening or PRICE_PERCENT/factory pairs. Full restoration/advisors
+passed. The historical e352 fixture description above is retained evidence.
+
+The corrected fixture uses legacy price20.12 and unchanged current price25.99.
+A pure pre-DB fixture guard matches the unchanged Native BD/BF two-decimal price
+format. Percentage12.3456 still yields six-decimal HPP2.483935; ten PCS post24.84
+after cent rounding. Native opening, stock and journal assertions remain exact.
+The one synthetic legacy insert stays labelled with no Native historical-writer
+credit; report measurements remain zero-DML. No source reader/SQL/timeout change.
+
+Four focused tests bind price format to the actual Native helper, reject the exact
+e352 input and malformed current price/percentage/PCS, and protect six-decimal
+HPP before posted-value rounding. CI runs them before environment setup and heavy
+admission. The seven unchanged report-transformation checks also pass locally.
+These tests do not provide runtime or performance qualification.

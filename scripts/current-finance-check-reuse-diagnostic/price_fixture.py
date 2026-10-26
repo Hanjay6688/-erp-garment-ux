@@ -7,15 +7,30 @@ from datetime import timedelta,datetime,time
 from decimal import Decimal,ROUND_HALF_UP
 from zoneinfo import ZoneInfo
 import uuid
+import re
 import cp6_bb_probe as bb
 import cp6_bf_probe as bf
 
-PRICE=Decimal('20.123456')
+PRICE=Decimal('20.12')
 CURRENT_PRICE=Decimal('25.99')
 PERCENT=Decimal('12.3456')
 PCS=10
+PRICE_PATTERN=r'(0|[1-9][0-9]{0,15})\.[0-9]{2}'
+
+def fixture_amounts(price=PRICE,current_price=CURRENT_PRICE,percent=PERCENT,pcs=PCS):
+    # These are fixture inputs, not a change to any Native money/HPP rule.
+    # Match the Native BD/BF money format before a disposable database is used.
+    for name,value in [('legacy',price),('current',current_price)]:
+        if not isinstance(value,Decimal) or not value.is_finite() or value<=0 or not re.fullmatch(PRICE_PATTERN,str(value)):
+            raise ValueError('FIXTURE_PRICE_REQUIRES_TWO_DECIMALS:'+name)
+    if not isinstance(percent,Decimal) or not percent.is_finite() or percent<=0 or percent!=percent.quantize(Decimal('.0001')):
+        raise ValueError('FIXTURE_PERCENT_REQUIRES_FOUR_DECIMAL_PRECISION')
+    if type(pcs)is not int or pcs<=0:raise ValueError('FIXTURE_PCS_REQUIRES_POSITIVE_INTEGER')
+    hpp=(price*percent/100).quantize(Decimal('.000001'),rounding=ROUND_HALF_UP)
+    return hpp,(hpp*pcs).quantize(Decimal('.01'),rounding=ROUND_HALF_UP)
 
 def seed(cur,today):
+    hpp,value=fixture_amounts()
     assert cur.execute('select current_database()').fetchone()==('cp6_rollback',)
     code='FRP'+uuid.uuid4().hex[:10]
     masters=bb.product_masters()
@@ -43,8 +58,6 @@ def seed(cur,today):
     resolved=cur.execute('select erp.resolve_product_price_at(%s,%s),erp.resolve_product_price_at(%s,%s)',
         (pid,physical,pid,when)).fetchone()
     assert resolved==(PRICE,CURRENT_PRICE),resolved
-    hpp=(PRICE*PERCENT/100).quantize(Decimal('.000001'),rounding=ROUND_HALF_UP)
-    value=(hpp*PCS).quantize(Decimal('.01'),rounding=ROUND_HALF_UP)
     rows=dict(OPENING_BALANCE_ITEM=[dict(balance_type='FINISHED_GOODS',product_sku=code+'P',
         brand_code=code,model_code=code,color_name='Blue',size_code=code,location_code=code+'G',
         qty=str(PCS),hpp_input_method='PRICE_PERCENT',hpp_percent_of_price=str(PERCENT),control_key='FG')],

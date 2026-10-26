@@ -1,9 +1,9 @@
 # Prepared finance source-change qualification
 
 This is a separate A qualification fixture, not product adoption. The exact paired
-same-report readiness diagnostic e352901d must first complete successfully and be bound as an
+same-report readiness diagnostic d05c568c must first complete successfully and be bound as an
 actual Original. Until then this directory has no SOURCE.json. The prepared workflow cannot pass admission until its actual prerequisite is bound.
-6bc, f038 and e913 remain INCOMPLETE. e913 passed only SMALL before its historical price fixture was refused. The latest candidate derives from actual installed BA source and reuses readiness between snapshot and preflight. Its exact sources are imported here without runtime credit.
+6bc, f038, e913 and e352 remain INCOMPLETE. e352 passed SMALL but its 6-decimal legacy PRICE was stored as cents; the exact fixture assertion refused before Native opening. The successor uses the Native 2-decimal PRICE contract while preserving 6-decimal HPP and 2-decimal posting rounding. e913 passed only SMALL before its historical price fixture was refused. The latest candidate derives from actual installed BA source and reuses readiness between snapshot and preflight. Its exact sources are imported here without runtime credit.
 
 The prior experiment installs its temporary definitions in the same transaction as
 its measurement. It proves paired whole-report arithmetic and write behavior, but
@@ -31,7 +31,7 @@ credit. Earlier failures and unexplained cross-run timings remain open.
 
 The prepared outer probe now keeps the full install/preuse/used-guard and baseline
 restore, all22 catalog groups, all data/sequences, CP6, and advisor checks. Admission
-requires the exact e352901d actual three-pair proof, including the percentage branch,
+requires the exact d05c568c actual three-pair proof, including the percentage branch,
 zero candidate writes, unchanged complete reports, actual3-to2 check calls and exact
 live installed source and2-to1 readiness calls. Native snapshot/preflight and close commands stay unchanged; two private helpers are installed and removed with exact ACLs. It refuses an unbound invocation before database access.
 The new scoped workflow retains every predecessor fetch and transformation test, adds the immutable actual reuse fetch, and invokes this probe. Its execution branch has not been created; SOURCE is absent. This preparation is not runtime proof.
