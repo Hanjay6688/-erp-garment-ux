@@ -1,3 +1,27 @@
+## Pembaruan26 Oktober2026 — progres aktual lulus, persiapan pilihan sedang diuji
+
+Progress Native5 pada0c86d277 sudah PASS5: run40286627929/job121451709620,
+artifact12637959084. Seluruh3.698 sumber persis; lima gerbang paket, pemulihan
+22 kelompok katalog/data/sequence, CP6 dan pemeriksa keamanan lulus. Angka24
+keuangan sama persis; unknown tidak menjadi nol; produksi selesai tidak
+menyelesaikan keuangan; perubahan sumber gagal terlihat dan permintaan baru
+pulih. Pembacaan status4,779–11,814ms. Kegagalan546 tetap tercatat.
+
+Native6 persiapan pilihan sekarang terikat ke Original tersebut padaa3ce9317,
+run40297810688/job121488053169 sedang berjalan. Penerimaan3.748 sumber lengkap
+lulus tanpa koneksi database. SOURCE baru tidak menyiratkan hasil runtime.
+Kandidat layar8cb06927 tetap menunggu actualPASS6; belum ada klaim layar baru.
+
+Pengukuran pabrik sebelumnya tetap diagnostik. Penyelidikan lanjut menemukan
+pemeriksa laporan memanggil resolve_opening_fg_unit_hpp, yang mempunyai FOR UPDATE
+dan dua UPDATE snapshot stok awal; profile mencatat10.800 panggilan audit.
+Belum ada perubahan produk atau klaim perbaikan; efek dan kesetaraan hasil perlu
+dibuktikan sebelum pengulangan pemeriksaan boleh dikurangi.
+
+Formal5/16; penerimaan independen dan produksi tetap belum diberikan.
+
+---
+
 # Status gabungan uang, model dan target — 26 Oktober 2026 WIB
 
 ## Terkini: diagnosis resmi selesai, perbaikan buka ulang B sudah disalin

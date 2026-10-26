@@ -1,5 +1,5 @@
 {
-  "recorded_at_utc": "2026-10-26T08:49:53.317237+00:00",
+  "recorded_at_utc": "2026-10-26T09:16:33.285592+00:00",
   "role": "A finance writer/integrator replacing Claude; B remains separate production/planning writer",
   "slogan": [
     "VENI. VIDI. VICI. ERP. \u2014 I CONQUERED ERP.",
@@ -10,10 +10,10 @@
   "independent_acceptance": false,
   "running": [
     {
-      "head": "0c86d27739ff74aba65967453465880d1c72e94c",
-      "run_id": 40286627929,
-      "job_id": 121451709620,
-      "scope": "focused full-composition progress Native5"
+      "head": "a3ce931748ded1dfbf9a5b972a2b8d8f40cf5b74",
+      "run_id": 40297810688,
+      "job_id": 121488053169,
+      "scope": "focused complete choice preparation Native6; prerequisites admitted; result pending"
     }
   ],
   "actual_new_component": {
@@ -4286,15 +4286,19 @@
     "production_go": false
   },
   "choice_preparation_native6_prepared": {
-    "head": "5c30a4ea079afad5139b8fa08dbbad6d8af31227",
-    "local": "710f13624a10814aee2a79922cc7806310b2fd20",
-    "tree": "0f6e64916c82d3808dbf6e9b773436b1aeb8a77d",
-    "status": "PREPARED_UNBOUND_NO_DATABASE",
+    "head": "a3ce931748ded1dfbf9a5b972a2b8d8f40cf5b74",
+    "tree": "20707baf7012f24a738bf128088b06586425d369",
+    "local": "f622d514189f83584aee2a5c88b212e1505ffb17",
+    "status": "ACTUAL_SERVER_RUNNING",
+    "source_bound": true,
+    "source_pins": 3748,
+    "actual_predecessor": "0c86d27739ff74aba65967453465880d1c72e94c",
     "focused_cases": 6,
-    "source_bound": false,
-    "actual_predecessor_required": "0c86d27739ff74aba65967453465880d1c72e94c PASS5",
-    "failed546_explicitly_refused_as_prerequisite": true,
-    "retained_progress_harness_files_exact": 9,
+    "run_id": 40297810688,
+    "job_id": 121488053169,
+    "no_database_admission": "PASS",
+    "full_admission_bytes": 3932778,
+    "full_admission_sha256": "6b647dee0696c0fbf27e06667ae258a1716b8e60c39a71a3553669d03202c62d",
     "production_go": false
   },
   "progress_finance_UI_prepared": {
@@ -4721,5 +4725,94 @@
     "actual_database": false,
     "production_go": false,
     "independent_acceptance": false
+  },
+  "previous_running_before_progress5_PASS": [
+    {
+      "head": "0c86d27739ff74aba65967453465880d1c72e94c",
+      "run_id": 40286627929,
+      "job_id": 121451709620,
+      "scope": "focused full-composition progress Native5"
+    }
+  ],
+  "actual_D17_18_progress_corrected": {
+    "name": "CP7_D17_18_PROGRESS_NATIVE5.json",
+    "status": "PASS",
+    "head": "0c86d27739ff74aba65967453465880d1c72e94c",
+    "run_id": 40286627929,
+    "job_id": 121451709620,
+    "artifact_id": 12637959084,
+    "zip_bytes": 2968325,
+    "zip_sha256": "33c1889449edde12aac63c3aba860919c135c77006f813f903e985e0c20e9ecc",
+    "bytes": 5878000,
+    "sha256": "dd72583a82175893be57e0ccdbe10a575e91135e9163951130f8596a7e46f393",
+    "archive_member": "CP7_D17_18_PROGRESS_NATIVE5.json",
+    "source_pins_verified": 3698,
+    "exact_prior_original_verified": {
+      "name": "CP7_CURRENT_FROZEN_PUBLIC_FINANCE_NATIVE52.json",
+      "status": "PASS",
+      "head": "6dceb3d3530a2144217047360613808af3249e4a",
+      "run_id": 40234978669,
+      "job_id": 121294499742,
+      "artifact_id": 12618120246,
+      "zip_bytes": 3933070,
+      "zip_sha256": "81d74ca3e9e430c7ac04e726779e5cfdbbb7290434ee8ef1bde699cfda4457c0",
+      "bytes": 16388592,
+      "sha256": "93fdf5cedf73dd785dc465f1c6b687358da6c4ae95fe5db58524904474d83dbf",
+      "archive_member": "CP7_CURRENT_FROZEN_PUBLIC_FINANCE_NATIVE52.json"
+    },
+    "package_gate": {
+      "installed": true,
+      "primary_unchanged": true,
+      "backup_restore_drill": true,
+      "security_advisors": true,
+      "writer_runtime": true
+    },
+    "cp6_restored": true,
+    "advisor_gate": true,
+    "production_go": false,
+    "independent_acceptance": false,
+    "focused_full_ERP_Native_cases": 5,
+    "official_finance_metrics": 24,
+    "readiness": "BLOCKED",
+    "unknown_metric_ids": [
+      "NATIVE_FINANCE:performance:net_profit",
+      "NATIVE_FINANCE:performance:gross_profit",
+      "NATIVE_FINANCE:financial_position:assets",
+      "NATIVE_FINANCE:financial_position:liabilities",
+      "NATIVE_FINANCE:financial_position:fg_inventory",
+      "NATIVE_FINANCE:financial_position:wip_inventory",
+      "NATIVE_FINANCE:financial_position:recorded_equity",
+      "NATIVE_FINANCE:financial_position:current_earnings",
+      "NATIVE_FINANCE:financial_position:balance_difference",
+      "NATIVE_FINANCE:financial_position:material_inventory",
+      "NATIVE_FINANCE:financial_position:liabilities_plus_equity"
+    ],
+    "status_read_ms": [
+      8.065,
+      7.452,
+      4.779,
+      8.147,
+      11.814,
+      10.545,
+      9.966,
+      6.034,
+      7.346,
+      10.368
+    ],
+    "actual_Auth_HTTP_credit": false,
+    "UI_mounted": false,
+    "full_final_acceptance": false
+  },
+  "previous_choice_preparation_before_native6_launch": {
+    "head": "5c30a4ea079afad5139b8fa08dbbad6d8af31227",
+    "local": "710f13624a10814aee2a79922cc7806310b2fd20",
+    "tree": "0f6e64916c82d3808dbf6e9b773436b1aeb8a77d",
+    "status": "PREPARED_UNBOUND_NO_DATABASE",
+    "focused_cases": 6,
+    "source_bound": false,
+    "actual_predecessor_required": "0c86d27739ff74aba65967453465880d1c72e94c PASS5",
+    "failed546_explicitly_refused_as_prerequisite": true,
+    "retained_progress_harness_files_exact": 9,
+    "production_go": false
   }
 }
