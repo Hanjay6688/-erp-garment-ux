@@ -2,8 +2,8 @@
   "contract": "cp7.choice-preparation.writer-readiness.v1",
   "owner_policy": "LARGE_ANALYSIS_PROGRESS_20261026",
   "source_sha256": {
-    "scripts/cp7_frozen_choice_preparation/PREPARATION.json": "bf1bae1e6c588afaf1b3072edc0b60e9a6b27f99d0427dcbb12b96a232f1ab81",
-    "scripts/cp7_frozen_choice_preparation/README.md": "0b2612142178853287d5a21a14eeab6cf49b073156d3691fde340bfb250ed669",
+    "scripts/cp7_frozen_choice_preparation/PREPARATION.json": "8f748c8c7ebd8795dbbec9ac20d4ba7ce4f14dbd37fcfec98f5ae43dfd7a18b8",
+    "scripts/cp7_frozen_choice_preparation/README.md": "5a2784bb773ee3953c673d72f8ad26d6f69df866a91098c403c9d2a863f8fbfc",
     "scripts/cp7_frozen_choice_preparation/__init__.py": "4226d3019755057f2131d239e33f7e5a81b36608e2ad6779ddc6faae87ee5a12",
     "scripts/cp7_frozen_choice_preparation/client/PreparedFrozenAnalogPanel.dom.test.tsx": "c067116f414109bca034fb181a6363dcf056d7c7a173c228c8e199c0d346633b",
     "scripts/cp7_frozen_choice_preparation/client/PreparedFrozenAnalogPanel.tsx": "c06bd4aa0dc134336cbf21def29a8933e3bb54b83beaac30e8146cdd9da84f0e",
@@ -13,13 +13,149 @@
     "scripts/cp7_frozen_choice_preparation/client/nativeFrozenChoicePreparation.ts": "6d25b9c5e8b869e0ccf89fa0576dd3b019e3ed7a6250d58bf2b6cbf54502c9e5",
     "scripts/cp7_frozen_choice_preparation/client/preparationFixture.ts": "18330f17b31fedb321c05ba62a045ac74ec9c3e84d708501cb56632af00febdc",
     "scripts/cp7_frozen_choice_preparation/client/tsconfig.json": "29784cccc26d8d879ab2073589eb7299082f0722fe741a3d1d88d084a56e3984",
-    "scripts/cp7_frozen_choice_preparation/preparation.prepared.sql": "aa9d27260fbfd1fa3dfc90718df77f4e21ec05d0399713d73dfcf114690ba9c8",
+    "scripts/cp7_frozen_choice_preparation/preparation.prepared.sql": "1543d9aeb2e2a074225eb0ff724aea8b13764c53afffa62232c1532ccd09cfe7",
     "scripts/cp7_frozen_choice_preparation/render.py": "bee09912f53a6e2075f8df63900666b743e368ae263451b9fc0566ed3f36eb9a",
-    "scripts/cp7_frozen_choice_preparation/work.sql": "a375d2c4db9373ec2f3d8dc67d8479be74d6a9f0a2bb5f49ff7f04ccd9a58a56",
-    "scripts/cp7_ow12b_frozen_choice_preparation_local.mjs": "ef5a8be137f54fa8efb76159aa0be47b66040ae43160b5ad1633dbbabdd52567",
+    "scripts/cp7_frozen_choice_preparation/work.sql": "ca22f2ca3eca9d486659b89e8776c5d5323a8bba2db2edd9a5812f866e11103b",
+    "scripts/cp7_ow12b_frozen_choice_preparation_local.mjs": "515eeeb6ba93c1f60887c97c51a42a9257a728e30124e351ae76c0f8a6ef79c5",
     "scripts/cp7_ow12b_frozen_choice_preparation_preflight.py": "77c88c15aa7b2a07daf6bbd420d1bd80548780dc55064157ed4b5719f9d3de4b"
   },
   "local_sql": {
+    "contract": "cp7.frozen-choice-preparation.local.v1",
+    "status": "PASS",
+    "cases": [
+      {
+        "id": "CHEAP_REQUEST_AND_REOPEN_DEDUP_ORIGINAL_SOURCE_WITHOUT_COMPILATION",
+        "status": "PASS"
+      },
+      {
+        "id": "STATUS_OBSERVES_REAL_WORKER_KEY_WITHOUT_TAKING_A_LOCK",
+        "status": "PASS"
+      },
+      {
+        "id": "EXISTING_VALID_CACHE_REUSED_AND_READY_NEVER_SAVES_A_CHOICE",
+        "status": "PASS"
+      },
+      {
+        "id": "K3_REUSES_EXPLICIT_PREPARATION_WITHOUT_COMPILER_OR_OLD_CACHE_REWRITE",
+        "status": "PASS"
+      },
+      {
+        "id": "MISSING_PREPARATION_REFUSES_SAVE_REFERENCE_THEN_SEPARATE_UNIT_PREPARES",
+        "status": "PASS"
+      },
+      {
+        "id": "CURRENT_ACCESS_ACTOR_EPOCH_AND_PRODUCER_GUARDS_STILL_APPLY",
+        "status": "PASS"
+      },
+      {
+        "id": "THREE_REAL_CANCELLATIONS_FAIL_WITHOUT_PARTIAL_RESULT_OR_ENDLESS_RETRY",
+        "status": "PASS"
+      },
+      {
+        "id": "ONE_CANCEL_THEN_RECOVERY_KEEPS_SAME_ORIGINAL_WORK_ID",
+        "status": "PASS"
+      },
+      {
+        "id": "UNKNOWN_ERROR_IS_FAILED_NOT_TIMEOUT_AND_INTERNAL_DETAIL_IS_PRIVATE",
+        "status": "PASS"
+      },
+      {
+        "id": "INVALID_COMPILED_INPUTS_NEVER_BECOME_READY",
+        "status": "PASS"
+      },
+      {
+        "id": "PRIVATE_RUNNER_REUSES_STEP_AND_RESTORES_CALLER_CLAIMS",
+        "status": "PASS"
+      },
+      {
+        "id": "RUNNER_PRESTEP_CANCELLATIONS_ARE_BOUNDED_AND_RESTORE_CALLER_CLAIMS",
+        "status": "PASS",
+        "injected_SQL57014_not_wall_clock_timeout": true
+      },
+      {
+        "id": "RUNNER_PRESTEP_CANCEL_THEN_RECOVERY_USES_SAME_WORK",
+        "status": "PASS"
+      },
+      {
+        "id": "RUNNER_ACCESS_REFUSAL_IS_TERMINAL_AND_RESTORES_CALLER_CLAIMS",
+        "status": "PASS"
+      },
+      {
+        "id": "EXPIRED_SOURCE_REFUSED_AND_ONLY_EXPIRED_PAYLOAD_CLEARED",
+        "status": "PASS"
+      },
+      {
+        "id": "UNIT_LIMIT_AND_REPEATABLE_READ_REFUSED_WITHOUT_WORK",
+        "status": "PASS"
+      },
+      {
+        "id": "READY_PAYLOAD_AND_IDENTITY_IMMUTABLE_UNTIL_ACTUAL_EXPIRY",
+        "status": "PASS"
+      },
+      {
+        "id": "PRIVATE_OWNER_RLS_CLOSED_AND_ONLY_THREE_AUTHENTICATED_WRAPPERS",
+        "status": "PASS"
+      }
+    ],
+    "counts": {
+      "PASS": 18
+    },
+    "sql_sha256": "1543d9aeb2e2a074225eb0ff724aea8b13764c53afffa62232c1532ccd09cfe7",
+    "server_version": "PostgreSQL 18.6 (PGlite 0.5.11) on wasm32-unknown-emscripten, compiled by emcc (Emscripten gcc/clang-like replacement + linker emulating GNU ld) 3.1.74 (1092ec30a3fb1d46b1782ff1b4db5094d3d06ae5), 32-bit",
+    "controlled_access_producer_and_compiler": true,
+    "actual_Native": false,
+    "actual_Auth_HTTP_credit": false,
+    "two_session_concurrency": false,
+    "actual_factory_performance": false,
+    "Python_installer_qualified": false,
+    "default_adopted": false,
+    "production_go": false
+  },
+  "client_tests": {
+    "files": 6,
+    "PASS": 81,
+    "typescript_no_emit": "PASS",
+    "source_head": "fa402436d74ab03f91c5aa4c3c7d95d90bc3c70d",
+    "historical_followup_below": true
+  },
+  "first_failures_retained": {
+    "local_missing_parent_schema": "choice-preparation-first.log",
+    "local_fixture_job_lookup_before_insert": "choice-preparation-second.log",
+    "vitest_hoisted_fixture_declarations": "choice-preparation-consumer-regression.log",
+    "runner_pre_step_cancellation": "choice-preparation-runner-cancel-first.log"
+  },
+  "exact_two_private_reference_substitutions": true,
+  "parent_save_two_live_source_checks_locks_and_own_delta_unchanged": true,
+  "heavy_work_before_candidates_and_SAVE": true,
+  "old_failure_8029ms_not_reclassified": true,
+  "actual_Native": false,
+  "actual_Auth_HTTP_credit": false,
+  "Python_installer_qualified": false,
+  "composed_restore_qualified": false,
+  "server_scheduler_hook_installed": false,
+  "shared_registry_changed": false,
+  "default_adopted": false,
+  "production_go": false,
+  "remaining": [
+    "A shared RPC registry and integration contract",
+    "A K4 and retention composition",
+    "Native current access, two-session request/step/retention races",
+    "Factory1200x3 complete parity and per-phase timing with old failures retained",
+    "actual Auth caller and full composed restore",
+    "official A finance/HPP parity and combined qualification"
+  ],
+  "client_retirement_followup": {
+    "PASS": 31,
+    "files": 3,
+    "typescript_no_emit": "PASS",
+    "retired_before_request_no_network": true,
+    "retired_during_status_no_next_step": true,
+    "timeout_text_identifies_same_unit_three_attempts": true,
+    "SQL_unchanged": true,
+    "actual_Auth_HTTP_credit": false,
+    "log_sha256": "6935d38f4fe90778f021a3709c90258cc135549c219144510a76914d7529ec15"
+  },
+  "historical_local_sql_before_runner_fix": {
     "contract": "cp7.frozen-choice-preparation.local.v1",
     "status": "PASS",
     "cases": [
@@ -98,47 +234,14 @@
     "default_adopted": false,
     "production_go": false
   },
-  "client_tests": {
-    "files": 6,
-    "PASS": 81,
-    "typescript_no_emit": "PASS",
-    "source_head": "fa402436d74ab03f91c5aa4c3c7d95d90bc3c70d",
-    "historical_followup_below": true
-  },
-  "first_failures_retained": {
-    "local_missing_parent_schema": "choice-preparation-first.log",
-    "local_fixture_job_lookup_before_insert": "choice-preparation-second.log",
-    "vitest_hoisted_fixture_declarations": "choice-preparation-consumer-regression.log"
-  },
-  "exact_two_private_reference_substitutions": true,
-  "parent_save_two_live_source_checks_locks_and_own_delta_unchanged": true,
-  "heavy_work_before_candidates_and_SAVE": true,
-  "old_failure_8029ms_not_reclassified": true,
-  "actual_Native": false,
-  "actual_Auth_HTTP_credit": false,
-  "Python_installer_qualified": false,
-  "composed_restore_qualified": false,
-  "server_scheduler_hook_installed": false,
-  "shared_registry_changed": false,
-  "default_adopted": false,
-  "production_go": false,
-  "remaining": [
-    "A shared RPC registry and integration contract",
-    "A K4 and retention composition",
-    "Native current access, two-session request/step/retention races",
-    "Factory1200x3 complete parity and per-phase timing with old failures retained",
-    "actual Auth caller and full composed restore",
-    "official A finance/HPP parity and combined qualification"
-  ],
-  "client_retirement_followup": {
-    "PASS": 31,
-    "files": 3,
-    "typescript_no_emit": "PASS",
-    "retired_before_request_no_network": true,
-    "retired_during_status_no_next_step": true,
-    "timeout_text_identifies_same_unit_three_attempts": true,
-    "SQL_unchanged": true,
-    "actual_Auth_HTTP_credit": false,
-    "log_sha256": "6935d38f4fe90778f021a3709c90258cc135549c219144510a76914d7529ec15"
+  "runner_cancel_followup": {
+    "first_failure_SQLSTATE": "57014",
+    "first_failure_log_sha256": "e2d234c034e6f63311b932420c84a02542852532709b1cd8d3ba1ca67d05ec56",
+    "pre_step_cancellation_attempts_bounded": true,
+    "all_three_caller_claims_restored": true,
+    "injected_cancellation_not_wall_clock_proof": true,
+    "existing_unit_limit_8s_unchanged": true,
+    "actual_Native": false,
+    "server_scheduler_hook_installed": false
   }
 }

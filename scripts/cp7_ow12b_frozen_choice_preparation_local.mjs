@@ -37,6 +37,7 @@ try{
  await db.exec(native.slice(native.indexOf('create table cp7_analysis_stage.jobs('),native.indexOf('-- Declared bounds, once.')))
  for(const name of['bounds','job_of','purge_intermediates','retention_days','retention','require_kept'])await db.exec(block(native,'cp7_analysis_stage.'+name))
  await db.exec(`create function cp7_schedule_native.access_now(boolean)returns jsonb language plpgsql volatile as $$begin
+ if current_setting('choice_prep_control.access_cancel',true)='true'then raise exception using errcode='57014',message='CONTROLLED_ACCESS_CANCEL';end if;
  if current_setting('choice_prep_control.denied',true)='true'then raise exception using errcode='42501',message='CP7_ACCESS_DENIED';end if;
  return jsonb_build_object('actor',current_setting('choice_prep_control.actor'),'epoch',coalesce(current_setting('choice_prep_control.epoch',true),'old'));end$$;
  create function cp7_frozen_analysis_v2.prepare(c jsonb,q jsonb,n integer)returns jsonb language plpgsql volatile as $$begin
@@ -128,6 +129,33 @@ try{
   assert.equal(await value("select current_setting('request.jwt.claim.sub')v"),'prior-sub')
   assert.equal(await value("select current_setting('request.jwt.claim')v"),'prior-claim')
   assert.equal((await value('select cp7_frozen_choice_preparation.run_next()v')).outcome,'IDLE')
+ })
+ const callerClaims=()=>value("select jsonb_build_array(current_setting('request.jwt.claims'),current_setting('request.jwt.claim.sub'),current_setting('request.jwt.claim'))v")
+ await test('RUNNER_PRESTEP_CANCELLATIONS_ARE_BOUNDED_AND_RESTORE_CALLER_CLAIMS',async()=>{
+  await seed(9);await call('request',9);const before=await row(9),claims=await callerClaims()
+  await setting('access_cancel','true')
+  for(let i=1;i<=3;i++){
+   const s=await value('select cp7_frozen_choice_preparation.run_next()v'),w=await row(9)
+   assert.equal(s.state,i<3?'QUEUED':'FAILED');assert.equal(s.job_id,before.job_id)
+   assert.equal(w.attempts,i);assert.equal(w.payload,null);assert.equal(w.created_at,before.created_at)
+   assert.deepEqual(await callerClaims(),claims)
+  }
+  await setting('access_cancel','false');assert.equal((await call('get',9)).failure_code,'CP7_CHOICE_PREPARATION_TIME_LIMIT')
+  assert.equal((await value('select cp7_frozen_choice_preparation.run_next()v')).outcome,'IDLE')
+  return{injected_SQL57014_not_wall_clock_timeout:true}
+ })
+ await test('RUNNER_PRESTEP_CANCEL_THEN_RECOVERY_USES_SAME_WORK',async()=>{
+  await seed(10);await call('request',10);const before=await row(10),claims=await callerClaims()
+  await setting('access_cancel','true');assert.equal((await value('select cp7_frozen_choice_preparation.run_next()v')).state,'QUEUED')
+  await setting('access_cancel','false');assert.equal((await value('select cp7_frozen_choice_preparation.run_next()v')).state,'READY')
+  const w=await row(10);assert.equal(w.job_id,before.job_id);assert.equal(w.created_at,before.created_at);assert.equal(w.attempts,1)
+  assert.deepEqual((await ref(10)).bounded_history_inputs,inputs);assert.deepEqual(await callerClaims(),claims)
+ })
+ await test('RUNNER_ACCESS_REFUSAL_IS_TERMINAL_AND_RESTORES_CALLER_CLAIMS',async()=>{
+  await seed(11);await call('request',11);const claims=await callerClaims()
+  await setting('denied','true');assert.equal((await value('select cp7_frozen_choice_preparation.run_next()v')).state,'FAILED')
+  assert.deepEqual(await callerClaims(),claims);await setting('denied','false')
+  const w=await row(11);assert.equal(w.attempts,0);assert.equal(w.payload,null);assert.equal(w.failure_code,'CP7_ACCESS_DENIED');assert.equal(w.failure_sqlstate,'42501')
  })
  await test('EXPIRED_SOURCE_REFUSED_AND_ONLY_EXPIRED_PAYLOAD_CLEARED',async()=>{
   const old=await seed(8,{expired:true});await assert.rejects(()=>call('request',8),/CP7_ANALYSIS_RESULT_EXPIRED/)
