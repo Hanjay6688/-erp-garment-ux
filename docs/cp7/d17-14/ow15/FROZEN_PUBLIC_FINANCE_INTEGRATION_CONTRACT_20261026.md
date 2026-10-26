@@ -46,7 +46,10 @@ UUID dan muatan asli, bukan membuat permintaan baru.
 Kedua fasad hanya diberikan kepada authenticated melalui owner yang sempit.
 Hak terkini diperiksa setelah lock dan saat replay; foreign/anon/revoked tetap
 ditolak. Jangan memanggil schema privat dari browser, memakai service_role,
-mengganti actor, memberikan grant uji kepada alur nyata atau melonggarkan8detik.
+mengganti actor atau memberikan grant uji kepada alur nyata. D17-18 mengizinkan
+total analisis besar lebih dari8detik dengan progres nyata. Transaksi/lock
+tetap berbatas; batas tiap tahap ditetapkan lewat pengukuran, bukan dinaikkan
+otomatis. Operasi harian tetap cepat; sumber dan hasil wajib tetap benar.
 
 ## Pengikatan dan tampilan hasil
 
@@ -123,6 +126,32 @@ posted yang Native52 buktikan BLOCKED dan menuntut angka tetap tersembunyi.
 Capture selesai/READY tidak berarti readiness laporan READY.24metrik dan sumber
 buku tetap dibandingkan; kemajuan capture SQL tidak diklaim cron atau HTTP.
 
-SOURCE belum diikat; menunggu actualfinance10 pada71e15908. Belum bukti login/
-layar baru, factory, analog/cutting B terkini atau default adoption. Detail ada
-pada frozen-finance-ui-browser-prepared-63d098a0.json. Persiapan berlanjut.
+Finance10 pada71e15908 sudah aktual PASS Auth3/races7, Original12622347557,
+3692pin/2prasyarat dan lima packagegate/pemulihan penuh diperiksa. SOURCE UI2
+terikat3797pin/dua Original pada aec3feadb56d201e206fa8da8ef5b0014410e663.
+Fulladmission tanpaDB lulus; run40257369843/job121361997486 benar-benar berjalan.
+Belum bukti kelulusan login/layar baru, factory, analog/cutting B terkini atau
+default adoption. Kandidat ini mempertahankan backend dan oracle waktunya;
+tidak diberi kredit telemetry D17-18 yang sedang dikembangkan terpisah.
+
+## D17-18: integrasi progres nyata dan waktu tunggu
+
+Keputusan owner lengkap ada pada
+../../handoff/HANDOFF_ANALISIS_BESAR_PROGRES_20261026.md. Total8detik tidak lagi
+universal untuk pekerjaan besar; tidak ada kenaikan timeout dalam perubahan
+sumber di checkpoint ini. Kegagalan pabrik belum diketahui sebabnya dan tetap
+diselidiki melalui observer aktual, bukan dianggap timeout.
+
+Persiapan A b048d3fd pada branch astra-a/d17-18-honest-progress-prepared-20261026
+menambahkan proyeksi status gabungan dan endpoint telemetry opt-in. Kontrak
+scripts/cp7_current_analysis_progress/TELEMETRY_CONTRACT.md dikoordinasikan di
+KOORDINASI. Status lama tetap utuh di envelope baru; source B asli tidak ditulis.
+Progres memakai unit nyata, total yang belum final tidak diberi persen,
+persen tahap tidak dirata-ratakan menjadi keseluruhan. CaptureREADY dengan
+reportBLOCKED/LIMITED tetap belum lengkap; waktu tidak menambah progres.
+
+15tesklien baru lulus. Reader PostgreSQL terisolasi9kasus/run40256681136/
+Original12622567639 lulus termasuk lockbackend lain dan redaksi hak; pengukuran
+fixture kecil2.713ms bukan klaim kecepatan pabrik. Dependensi Auth/status
+controlled, bukan actualAuth/fullERP. Composer/inverse penuh, kualifikasi
+skala besar, pemasangan layar, deteksi macet serta pemulihan masih terbuka.

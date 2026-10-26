@@ -1,0 +1,41 @@
+{
+  "name": "CP7_CURRENT_FROZEN_PUBLIC_TRANSPORT28.json",
+  "status": "PASS",
+  "head": "71e15908972cd10b0b889988faa8d7d7d1ad3e40",
+  "run_id": 40251598775,
+  "job_id": 121344511274,
+  "artifact_id": 12623375718,
+  "zip_bytes": 2818664,
+  "zip_sha256": "4f0226b9e21c9c0ab6a022eb570922873a61658c8e5df6c5b5156e65dd42dd6b",
+  "bytes": 4433461,
+  "sha256": "645ed8a04e22b3ea0edbaa60d41e6eba963e82e247a3eca5de23530f65353d28",
+  "archive_member": "CP7_CURRENT_FROZEN_PUBLIC_TRANSPORT28.json",
+  "source_pins_verified": 3691,
+  "actual_prerequisites_verified": 2,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "production_go": false,
+  "independent_acceptance": false,
+  "counts": {
+    "policy_http": 3,
+    "policy_races": 6,
+    "evaluation_http": 3,
+    "evaluation_races": 6,
+    "target_http": 3,
+    "target_races": 7
+  },
+  "copy_catalog_admissions": 3,
+  "race_copy_catalog_admissions": 19,
+  "full_public_composition": true,
+  "default_adopted": false,
+  "retained_flow_only": true,
+  "new_public_finance_UI_claim": false,
+  "latest_B_microsecond_fix_adopted": false
+}

@@ -1,0 +1,36 @@
+{
+  "name": "CP7_CURRENT_FROZEN_PUBLIC_FINANCE10.json",
+  "status": "PASS",
+  "head": "71e15908972cd10b0b889988faa8d7d7d1ad3e40",
+  "run_id": 40251589438,
+  "job_id": 121344483586,
+  "artifact_id": 12622347557,
+  "zip_bytes": 2866955,
+  "zip_sha256": "51d4ebd03ae20a35c64e5f395d3055a52f65a4aa2950ae0e22cc29a546022d0f",
+  "bytes": 4953473,
+  "sha256": "61084718109ee007b927a7437ca0a3a6da4284d4e49319994fb2e8459e5ea327",
+  "archive_member": "CP7_CURRENT_FROZEN_PUBLIC_FINANCE10.json",
+  "source_pins_verified": 3692,
+  "actual_prerequisites_verified": 2,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "production_go": false,
+  "independent_acceptance": false,
+  "counts": {
+    "finance_auth": 3,
+    "finance_races": 7
+  },
+  "copy_catalog_admissions": 1,
+  "race_copy_catalog_admissions": 7,
+  "actual_Auth_HTTP_credit": true,
+  "actual_concurrency": true,
+  "explicit_public_frozen_routes": true,
+  "default_adopted": false
+}

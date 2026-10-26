@@ -285,3 +285,23 @@ absen tanpa jahit dan batas umur koreksi HPP tetap mengikuti keputusan owner.
 Metode yang datanya belum cukup memakai baseline atau UNKNOWN sesuai kontrak.
 Kegagalan dan laporan asli lama tidak diubah; tes penulis yang lulus bukan izin
 produksi. Checkpoint disimpan, lalu pekerjaan yang sudah diotorisasi diteruskan.
+
+## Pembaruan26Oktober — empat lanjutan aktual dan keputusan D17-18
+
+Public71e15908 aktual PASS finance10 (Auth3+races7), browser6, transport28,
+serta usedrestore8 dengan42kontrol dan dua fullrestore. Original12622347557,
+12622855994,12623375718,12622812934 diverifikasi masing-masing pada sumber
+3692/3693/3691/3703pin, dua prasyarat dan lima packagegate. Browser/transport
+tetap regresi alur lama. Cron1 masih berjalan; pabrik05d89067 belum memberi
+hasil diagnosis. Kegagalan lama tetap disimpan tanpa diubah menjadiPASS.
+
+Caller UI2 aec3fead memakai77source B exact dan adapter A; fulladmission3797pin
+lulus, actualrun40257369843/job121361997486 sedang berjalan. Lulus125tesklien
+tidak menggantikan bukti realAuth/browser tersebut.
+
+Owner D17-18 mengizinkan total analisis besar lebih dari8detik dengan progres
+nyata, efisiensi, transaksi pendek, pemulihan aman dan operasi kecil tetap cepat.
+Seluruh batas angka/akses/idempotensi/WIP/pemulihan utuh. A b048d3fd menyiapkan
+proyeksi progres gabungan15tes dan telemetry readonly9ujiSQL terisolasiPASS.
+Belum sourcegabungan/defaultadoption atau bukti factory. Formal5/16 dan
+production_go=false; pekerjaan diteruskan.

@@ -40,14 +40,25 @@ dua pekerjaan dan satu capture berakhir FAILED; fixture1200SKU/3600varian,
 membership dan sembilan tabel posted benar. Penyebab terminal belum tersimpan
 pada laporan lama; tidak dianggap lulus atau ditebak sebagai masalah angka.
 
-Lima uji lanjutan publik sudah SOURCE-bound, full admission lokal PASS dan
-benar-benar berjalan dari71e15908: finance10/run40251589438,
-cron1/run40251591911, restore8/run40251594620, browser6/run40251596793,
-transport28/run40251598775. Browser/transport ini mempertahankan alur lama;
+Empat uji lanjutan publik71e15908 sudah aktualPASS dan Original diperiksa:
+financeAuth3/races7, browser6, transport28 dan usedrestore8/42kontrol.
+Lima packagegate, sumber, seluruh kasus dan pemulihan penuh lulus. Cron1 pada
+run40251591911 masih berjalan. Browser/transport mempertahankan alur lama;
 bukan bukti layar keuangan frozen baru atau adopsi caller B terbaru.
 Diagnosis pabrik05d89067/run40251928378 menambah pembacaan read-only seluruh
 kolom dua jobs dan satu capture setelah jadwal dibersihkan; fixture/probe,
 65assert dan batas8s/300s tetap. Full admission3682pin/10Original PASS;
 hasil runtime belum tersedia. Formal5/16; production_go=false.
+
+UI2 gabungan padaaec3fead sudah terikat3797pin/dua Original dan fulladmission
+lulus. Run40257369843/job121361997486 berjalan: desktopREADY dan HPBLOCKED,
+realAuth, jawaban hilang/reopenUUID sama, serta hak finance dicabut. BelumPASS.
+
+D17-18 mengganti batas total8detik universal untuk analisis besar dengan
+proses bertahap efisien dan progres nyata; operasi kecil tetap cepat. Tidak ada
+timeout yang dinaikkan di checkpoint ini. Proyeksi progres dan pembaca metadata
+A b048d3fd lulus15tesklien dan9ujiPostgreSQL terisolasi, belum fullERP/layar.
+Penyebab kegagalan pabrik tetap diselidiki. Composer/pemulihan, deteksi macet,
+pengukuran skala besar dan integrasi layar progres masih harus dituntaskan.
 
 [Estafet lengkap](../../handoff/WRITER_A_TAKEOVER_20261026.md) memuat kebutuhan, batas A/B dan langkah lanjut; scope ERP belum ditutup.

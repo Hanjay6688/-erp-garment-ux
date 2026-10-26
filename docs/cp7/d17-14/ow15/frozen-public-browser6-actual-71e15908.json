@@ -1,0 +1,38 @@
+{
+  "name": "CP7_CURRENT_FROZEN_PUBLIC_BROWSER6.json",
+  "status": "PASS",
+  "head": "71e15908972cd10b0b889988faa8d7d7d1ad3e40",
+  "run_id": 40251596793,
+  "job_id": 121344505527,
+  "artifact_id": 12622855994,
+  "zip_bytes": 16217386,
+  "zip_sha256": "b50d9a9f9ca86046432a8b9583a62400f935957092ee76200ec4c1ed115929d9",
+  "bytes": 4303089,
+  "sha256": "4f9f06a09d4c5aad01eb95f2f088cdcc8d1c5faa376d84851b26ec7e1464c07e",
+  "archive_member": "CP7_CURRENT_FROZEN_PUBLIC_BROWSER6.json",
+  "source_pins_verified": 3693,
+  "actual_prerequisites_verified": 2,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "production_go": false,
+  "independent_acceptance": false,
+  "counts": {
+    "policy": 2,
+    "evaluation": 2,
+    "target": 2
+  },
+  "copy_catalog_admissions": 3,
+  "race_copy_catalog_admissions": 0,
+  "full_public_composition": true,
+  "default_adopted": false,
+  "retained_flow_only": true,
+  "new_public_finance_UI_claim": false,
+  "latest_B_microsecond_fix_adopted": false
+}

@@ -1,0 +1,24 @@
+{
+  "head": "b048d3fd9e3525ba71860104f486876ddf2e6d63",
+  "branch": "astra-a/d17-18-honest-progress-prepared-20261026",
+  "tree": "3e3bc12842e03dbf8a8d75c874a23fd747eff9f2",
+  "local_tests": 15,
+  "TypeScript": "PASS",
+  "SQL_parse": "PASS",
+  "controlled_SQL": {
+    "run_id": 40256681136,
+    "job_id": 121359922464,
+    "artifact_id": 12622567639,
+    "status": "PASS_CONTROLLED_SQL_ONLY",
+    "cases": 9,
+    "bytes": 2218,
+    "sha256": "00c833b4630d9de6ea394c9ab186c6c70247245edb7c65a7f1c9ea0fbb2df82f",
+    "observed_small_read_ms": 2.7128920000052403
+  },
+  "actual_Auth_HTTP": false,
+  "full_ERP_composition": false,
+  "UI_mounted": false,
+  "new_time_limit": false,
+  "B_source_written": false,
+  "production_go": false
+}
