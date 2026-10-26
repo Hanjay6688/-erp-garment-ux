@@ -3705,12 +3705,20 @@
     "vite.config.ts": "ccc90fa4b08f58f0658fb9acd4eb6f77abb3affdb4fc79e9bd170ffa8745f355",
     "scripts/current-frozen-finance-factory-observe-qualification/SOURCE.json": "b3514fd4b2f8bd5120d8e0b48aadb6b9856ccddeca6ea3e3c2437b9099efabd1",
     "scripts/current-frozen-finance-stage-profile/probe.py": "8070355a4ceb552f1043703b5e7272ef46e5aabdf7f2d52334691fda633ef598",
-    "scripts/current-frozen-finance-stage-profile/runner.py": "1662dc8c0e1d76a7038d92e949533dbf8b458c075fd2440b4b75a87862f3e33e",
-    "scripts/current-frozen-finance-stage-profile/README.md": "dd932240e141b9b23bb8f80a7c8372e40fe28bfbefaf213a50f45d5ebaad0718",
-    "scripts/current-frozen-finance-stage-profile/admission.py": "7511f8598cee46e4832315940a3a14741c588a1154b3c766b23ba0e83d8adc41",
+    "scripts/current-frozen-finance-stage-profile/runner.py": "3ed4742f5fb52b139ac82cf328c1e9478d13143d5dc14af17dd09b9853b2fc39",
+    "scripts/current-frozen-finance-stage-profile/README.md": "1a35d8e13a9c9f7850d349ddab8591c2a1560699aab424e54d2890a60c160668",
+    "scripts/current-frozen-finance-stage-profile/admission.py": "be7db0a1941dc641b8a104101436c3f44827e382de0fc47ccae5f52169132d2e",
     "scripts/current-frozen-finance-stage-profile/fetch_failure.py": "cb3791ccd673aa748d8baeca9fe47abf0ab138801a6cfa21b523a03edd16f899",
-    ".github/workflows/cp7-d17-18-factory-stage-profile.yml": "cf1f14d7a2aa1cd17d2f673b081e3a7dbb80d495064257b59fa21acee0b334c6"
+    ".github/workflows/cp7-d17-18-factory-stage-profile.yml": "cf1f14d7a2aa1cd17d2f673b081e3a7dbb80d495064257b59fa21acee0b334c6",
+    "scripts/current-frozen-finance-stage-profile/FIRST_RUNTIME_FAILURE_690.json": "b5b8db42e1a7715e70497e991301fbb5c7698f154dc48884998e5f02b64be8e9",
+    "scripts/current-frozen-finance-stage-profile/test_transaction_mode.py": "cd3d5c04b7c982c322bcc16cec7698c1aef414e35a22ffb92e863417bd9cbe95"
   },
   "performance_qualification": false,
-  "production_go": false
+  "production_go": false,
+  "measurement_transaction_policy": "rollback-only-v2",
+  "measurement_read_only": {
+    "FIRST_OPERATIONAL_UNIT": false,
+    "OFFICIAL_FINANCE_REPORT_UNIT": false,
+    "SMALL_STATUS_READ": true
+  }
 }

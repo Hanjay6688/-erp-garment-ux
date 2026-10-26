@@ -94,7 +94,9 @@ def exercise(conn,cur,database_module,admin_url,report):
         product_timeout_changed=False,production_go=False,measurements=[])
     calls=[
         ('FIRST_OPERATIONAL_UNIT',"select cp7_analysis_stage.run_unit(j,u) from cp7_analysis_stage.jobs j join cp7_analysis_stage.units u on u.job_id=j.id and u.idx=0 where j.request_id=%s",(key,),DIAGNOSTIC_LIMIT_MS,False),
-        ('OFFICIAL_FINANCE_REPORT_UNIT','select cp7_finance_capture.report_unit(%s::jsonb)',(json.dumps(dates),),DIAGNOSTIC_LIMIT_MS,True),
+        # Official HPP resolution takes row locks; READ ONLY prevents measuring
+        # that unchanged path (25006). Savepoint + outer rollback still apply.
+        ('OFFICIAL_FINANCE_REPORT_UNIT','select cp7_finance_capture.report_unit(%s::jsonb)',(json.dumps(dates),),DIAGNOSTIC_LIMIT_MS,False),
         ('SMALL_STATUS_READ','select cp7_analysis_stage.status(j.id) from cp7_analysis_stage.jobs j where j.request_id=%s',(key,),8000,True),
     ]
     for name,statement,args,limit,readonly in calls:

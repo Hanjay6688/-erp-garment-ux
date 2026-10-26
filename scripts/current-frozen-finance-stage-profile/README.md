@@ -26,3 +26,17 @@ Sources: PostgreSQL17 monitoring-stats.html (transaction-local function counters
 and runtime-config-statistics.html (tracking overhead and inlined SQL omission).
 Official Native/Auth/browser/factory parity, efficient staged completion, safe
 recovery, source consistency and combined-candidate acceptance remain open.
+
+The first diagnostic, 69078311 / run40263535654, remains INCOMPLETE. Its
+operational unit completed in 11120.770ms, then the official finance call failed
+after 2593.979ms with SQLSTATE25006: official opening-stock HPP resolution uses
+SELECT FOR UPDATE. This was a harness transaction-mode error, not a timeout.
+The partial finance timing is not a completed report measurement. Small status
+read completed in 48.276ms. FIRST_RUNTIME_FAILURE_690.json binds the original.
+
+The successor uses READ WRITE for both measured calculation paths, retaining
+the savepoint rollback, outer rollback, exact catalog/data/sequence checks and
+unchanged 30s diagnostic/2s lock limits. Small status remains READ ONLY/8s.
+No product source, calculation formula or acceptance ceiling changes.
+See https://www.postgresql.org/docs/17/explicit-locking.html and
+https://www.postgresql.org/docs/17/sql-set-transaction.html.

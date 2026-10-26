@@ -15,6 +15,9 @@ def verify_pins(repo,here):
     assert pins['contract']=='cp7.d17-18.factory-stage-profile.v1'
     assert pins['policy_id']=='D17-18-20261026'
     assert pins['diagnostic_statement_limit_ms']==30000 and pins['small_statement_limit_ms']==8000
+    assert pins['measurement_transaction_policy']=='rollback-only-v2'
+    assert pins['measurement_read_only']=={'FIRST_OPERATIONAL_UNIT':False,
+        'OFFICIAL_FINANCE_REPORT_UNIT':False,'SMALL_STATUS_READ':True}
     assert pins['performance_qualification']is pins['production_go']is False
     for path,digest in pins['files'].items():
         assert sha256((repo/path).read_bytes()).hexdigest()==digest,path
