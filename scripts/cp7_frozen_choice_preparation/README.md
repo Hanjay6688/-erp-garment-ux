@@ -60,6 +60,17 @@ Single-unit8s is retained because the measured frozen preparation frame was
 The client30s RPC wait and120s unchanged-unit monitor reuse the production
 progress limits. A stopped monitor does not mark server work FAILED.
 
+The optional private runner also counts cancellations during access/source
+checks outside the compiler block. Its selected row remains the same work;
+three such cancellations become FAILED and the caller's three claim settings
+are restored after each handled attempt. Other access errors fail immediately.
+PostgreSQL's `OTHERS` handler excludes query cancellation, so that condition
+must be named explicitly (PostgreSQL17, PL/pgSQL Control Structures section41.6.8:
+https://www.postgresql.org/docs/17/plpgsql-control-structures.html#PLPGSQL-ERROR-TRAPPING).
+The local regression injects SQL57014 before the step; it does not claim a real
+wall-clock timeout, backend termination, two-session or Native17 proof. Process
+loss and combined K4 recovery still require A's separate qualification route.
+
 Preparation evidence: actual optional SQL/Native work DDL/cache/retention on
 local PGlite, with controlled compiler/access/producer; actual compiler scale,
 concurrency, public Auth, Python installer and composed restore are NOT claimed.

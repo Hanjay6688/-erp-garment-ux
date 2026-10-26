@@ -1,6 +1,6 @@
 {
   "contract": "cp7.frozen-choice-preparation.optional.v1",
-  "sql_sha256": "aa9d27260fbfd1fa3dfc90718df77f4e21ec05d0399713d73dfcf114690ba9c8",
+  "sql_sha256": "1543d9aeb2e2a074225eb0ff724aea8b13764c53afffa62232c1532ccd09cfe7",
   "parent_reader_bodies_sha256": {
     "cp7_frozen_analysis_choice_v2.review_context(uuid,text,integer,integer,text)": "d1c4274d4ce6247b3e5d21c92b216162b572da4d8029528a6a9dafc11048a67e",
     "cp7_frozen_analysis_readers_v2.read_candidates(uuid,text,integer,integer,text)": "9bd29b2dbc15ca7f163b92bb39a08e52cfb399cbbaa6ae310f8ee3d34fa4ec4c"

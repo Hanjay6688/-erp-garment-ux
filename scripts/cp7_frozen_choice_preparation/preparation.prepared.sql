@@ -191,7 +191,7 @@ end $$;
 -- Each invocation is one original job and the same bounded step as the client.
 create function cp7_frozen_choice_preparation.run_next()returns jsonb
 language plpgsql volatile security invoker set search_path=''set TimeZone='UTC'as $$
-declare w cp7_frozen_choice_preparation.work;a jsonb;s jsonb;prior jsonb;code text;problem text;limit_ms integer;
+declare w cp7_frozen_choice_preparation.work;a jsonb;s jsonb;prior jsonb;code text;problem text;limit_ms integer;timed boolean;
 begin
  select setting::integer into limit_ms from pg_settings where name='statement_timeout';
  if limit_ms is null or limit_ms not between 1 and 8000 then raise exception 'CP7_RUNNER_STATEMENT_LIMIT_REQUIRED';end if;
@@ -205,12 +205,20 @@ begin
  begin
   a:=cp7_schedule_native.access_now(false);
   s:=cp7_frozen_choice_preparation.step(w.source_request,encode(pg_catalog.sha256(convert_to(a::text,'UTF8')),'hex'));
- exception when others then
-  code:=SQLSTATE;problem:=SQLERRM;
-  update cp7_frozen_choice_preparation.work set state='FAILED',payload=null,
-   failure_code=case when problem~'^CP7_[A-Z0-9_]+$'then problem else'CP7_CHOICE_PREPARATION_FAILED'end,
-   failure_sqlstate=code,updated_at=clock_timestamp()where job_id=w.job_id;
-  s:=jsonb_build_object('state','FAILED');
+ exception when query_canceled or others then
+  -- OTHERS excludes57014. Also bound cancellations in access/source checks
+  -- outside step's inner compiler block; never requeue these indefinitely.
+  -- The failed subtransaction rolled back its changes. Count this one attempt
+  -- on the already-selected row, then restore all caller claims below.
+  code:=SQLSTATE;problem:=SQLERRM;timed:=code='57014';
+  update cp7_frozen_choice_preparation.work set
+   attempts=attempts+case when timed then 1 else 0 end,
+   state=case when timed and attempts<2 then'QUEUED'else'FAILED'end,payload=null,
+   failure_code=case when timed and attempts<2 then null when timed then'CP7_CHOICE_PREPARATION_TIME_LIMIT'
+    when problem~'^CP7_[A-Z0-9_]+$'then problem else'CP7_CHOICE_PREPARATION_FAILED'end,
+   failure_sqlstate=case when timed and attempts<2 then null else code end,
+   updated_at=clock_timestamp()where job_id=w.job_id
+   returning jsonb_build_object('state',state)into s;
  end;
  perform set_config('request.jwt.claims',coalesce(prior->>'claims',''),true),
   set_config('request.jwt.claim.sub',coalesce(prior->>'sub',''),true),set_config('request.jwt.claim',coalesce(prior->>'claim',''),true);
