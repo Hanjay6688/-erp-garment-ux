@@ -57,5 +57,19 @@
   "production_go": false,
   "independent_acceptance": false,
   "run_id": 40338677390,
-  "job_id": 121627045376
+  "job_id": 121627045376,
+  "actual_native_verified": {
+    "name": "CP7_D17_18_CHOICE_NATIVE6.json",
+    "status": "PASS",
+    "head": "8dfe1a19c7b7c61558b25c00f1dd388c8565e3d1",
+    "run_id": 40338677390,
+    "job_id": 121627045376,
+    "artifact_id": 12663230440,
+    "zip_bytes": 3007799,
+    "zip_sha256": "9d8d24e9816562b2ff75b622c4da69d3d3cb34494f17cbee4d1b86280916d435",
+    "bytes": 6218156,
+    "sha256": "f2110cf6c2873c18679e3f6654d5232474e46decb5543e6d72b803f28b2d62a9",
+    "archive_member": "CP7_D17_18_CHOICE_NATIVE6.json"
+  },
+  "status": "ACTUAL_NATIVE6_PASS_READY_TO_BIND"
 }

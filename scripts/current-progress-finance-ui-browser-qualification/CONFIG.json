@@ -12,7 +12,7 @@
       "A_PROGRESS_FINANCE_BROWSER_MOBILE_REAL_AUTH_BLOCKED_REPORT_ACCESS_REVOKED"
     ]
   },
-  "choice_head": null,
+  "choice_head": "8dfe1a19c7b7c61558b25c00f1dd388c8565e3d1",
   "choice_declaration": "scripts/current-choice-preparation-native-qualification/SOURCE.json",
   "choice_variable": "D17_18_UI_CHOICE_NATIVE6_ORIGINAL",
   "count": 2,
