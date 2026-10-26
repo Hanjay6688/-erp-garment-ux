@@ -4488,3 +4488,33 @@ CI40338677390/job121627045376 mulai14:20:06UTC; belum ada hasil runtime.
 UI/transport tetap unbound dan menunggu PASS6 aktual. Reuse keuanganf038 tetap
 berjalan pada perbandingan SMALL/PRICE_PERCENT/FACTORY; source-race5b belum dijalankan.
 Formal5/16, production_go=false, independent_acceptance=false; bukan izin produksi.
+
+
+### 26 Oktober2026 — A: sumber laporan terpasang ditemukan, percobaan kesiapan buku berjalan
+
+Actualf038/run40327902313/job121589286821/artifact12659271095 tetap INCOMPLETE.
+Kandidat ditolak sebelum berjalan: pembanding12004bytes SHA3fa59773 berasal dari
+AB sebelum paket memasang AW+BA. Laporan live14417bytes SHA5687c8b4 cocok persis
+bila definisi BA melewati pemasang note lalu accounts. Laporan ini hanya punya
+satu pemeriksaan readiness dan satu pemeriksaan warning; dugaan pengulangan
+agregat di snapshot lama tidak berlaku. Original4447901bytes
+SHA06ff84cfea4908fb3433418dae618a7ecddbcd50264dec0d1a25c73e7e007df6 disimpan;
+full22/data/sequence/CP6/advisors pulih. SMALL official284.902ms bukan bukti kandidat.
+
+Peneruse913cc60d7b4a14b97d776fe2a9c5cb995c23563 menguji pengulangan yang nyata:
+readiness yang sama dipakai snapshot dan preflight dalam satu laporan STABLE.
+Helper private hanya menerima tanggal dan hanya dapat dipanggil reader keuangan;
+seluruh arithmetic, warning, izin, tanggal dan current close-state dipertahankan.
+Native snapshot/preflight/close/reopen tetap utuh, resolver posting tetap utuh.
+Seluruh hasil laporan harus identik; callreadiness2ke1/globalchecks3ke2 diukur;
+SMALL/PRICE_PERCENT8detik dan factorydiagnostic30detik tetap, tanpa retry/kenaikan.
+Ini eksperimen rollback, belum pemasangan produk atau pembuktian performa.
+
+Tujuh pemeriksaan sumber lulus; admission lengkap3728pins/10Originals PASS,
+3903913bytes SHA5f937bd59f2737b62505efc6e3edf61195295b3ba6f6bb30afff8fcf8a01e2cf.
+CI40345264716/job121650386194 berjalan sejak15:01:48UTC. Source-race prepared
+09bdf08aa956a2ab770d513d92b4eec605c62432 mengimpor kandidat persis, memakai
+pemasang percobaan yang sama dan memulihkan kedua helper private. SOURCE tetap
+absen; cabang eksekusi belum dibuat; wajib actuale913PASS sebelum pengikatan.
+Native6retensi8dfe/run40338677390 masih berjalan; UI/transport masih tertahan.
+Formal5/16; production_go=false; independent_acceptance=false. B tidak diubah.

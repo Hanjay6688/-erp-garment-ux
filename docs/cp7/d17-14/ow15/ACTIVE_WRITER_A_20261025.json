@@ -1,5 +1,5 @@
 {
-  "recorded_at_utc": "2026-10-26T14:23:43.312099+00:00",
+  "recorded_at_utc": "2026-10-26T15:07:30.981499+00:00",
   "role": "A finance writer/integrator replacing Claude; B remains separate production/planning writer",
   "slogan": [
     "VENI. VIDI. VICI. ERP. \u2014 I CONQUERED ERP.",
@@ -16,10 +16,10 @@
       "scope": "Focused Native6: unchanged calendar reviewed through actual frozen v2 CAS; real plan/reminder retention, all prior guards and exact restore"
     },
     {
-      "head": "f038a6ecc5a71278554eab62ab7df4f4ced9b7bc",
-      "run_id": 40327902313,
-      "job_id": 121589286821,
-      "scope": "Exact composed-source snapshot-check reuse diagnostic; SMALL, PRICE_PERCENT and FACTORY_1200X3"
+      "head": "e913cc60d7b4a14b97d776fe2a9c5cb995c23563",
+      "run_id": 40345264716,
+      "job_id": 121650386194,
+      "scope": "Installed BA same-report readiness reuse; SMALL/PRICE_PERCENT/FACTORY exact reports and full restoration"
     }
   ],
   "actual_new_component": {
@@ -8087,29 +8087,91 @@
     ]
   ],
   "finance_check_reuse_diagnostic": {
-    "parent": "6bc45a178b1e28ff0265ed42d0f93ea81714105a",
-    "base_tree": "0dc6665b86b9a4bbef85e55f8a3ed36feea79cdb",
-    "local": "6c619de2984573618d9f67200ff73da486dce548",
-    "tree": "30596bc32e9c65fac7c164c92577ccae88f36e9d",
-    "public_head": "f038a6ecc5a71278554eab62ab7df4f4ced9b7bc",
+    "head": "e913cc60d7b4a14b97d776fe2a9c5cb995c23563",
+    "parent": "f038a6ecc5a71278554eab62ab7df4f4ced9b7bc",
+    "tree": "f4515cf7a8b23b588a56d49cc1783afe58f24fe1",
+    "local": "86db6ad74edfb9d56ea289e0c97861aaabc5db6e",
     "branch": "astra-a/d17-18-finance-check-reuse-diagnostic-20261026",
-    "status": "IN_PROGRESS",
-    "production_go": false,
-    "run_id": 40327902313,
-    "job_id": 121589286821,
-    "head": "f038a6ecc5a71278554eab62ab7df4f4ced9b7bc",
-    "source_pins": 3722,
-    "full_source_admission": {
+    "files": [
+      {
+        "path": ".github/workflows/cp7-d17-18-finance-check-reuse-diagnostic.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "52d4bbf890fde1557191ee11a5a712e7367477b6"
+      },
+      {
+        "path": "scripts/current-finance-check-reuse-diagnostic/FIRST_RUNTIME_FAILURE_F038.json",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "185c89f124cfbd856f9756b70abdbbcbcd0009ff"
+      },
+      {
+        "path": "scripts/current-finance-check-reuse-diagnostic/INSTALLED_REPORT_SOURCE.json",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "18751660a63c1968d4172055ab6421f432115e25"
+      },
+      {
+        "path": "scripts/current-finance-check-reuse-diagnostic/READINESS_LOCAL_PREFLIGHT.json",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "ebdc2b9ef4fdb88cfec51feafa88d296a80e171e"
+      },
+      {
+        "path": "scripts/current-finance-check-reuse-diagnostic/README.md",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "4e1cd061cb87100108f6e3c0863d9d2abe5ed22a"
+      },
+      {
+        "path": "scripts/current-finance-check-reuse-diagnostic/SOURCE.json",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "7d32c47532f188ee3b78aa5abdf23c58bff42032"
+      },
+      {
+        "path": "scripts/current-finance-check-reuse-diagnostic/readiness_reuse.py",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "26226988f41238dfab7697fd1ff55d927f4f9bcd"
+      },
+      {
+        "path": "scripts/current-finance-check-reuse-diagnostic/readiness_source.py",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "03a418a94fb776ac955ff7b182415638080a6d20"
+      },
+      {
+        "path": "scripts/current-finance-check-reuse-diagnostic/runner.py",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "17a000f5a8b7b3f5d65ff2fae0ba84f559e14bbb"
+      },
+      {
+        "path": "scripts/current-finance-check-reuse-diagnostic/test_readiness.py",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "f088921f357117bdc3b899a64ec572910c12ad5f"
+      }
+    ],
+    "full_admission": {
       "status": "PASS",
-      "bytes": 3903020,
-      "sha256": "48fc482e3cedec26198fc36d623d71c97710077a42e4965923ecf73d4ca3c734"
+      "source_pins": 3728,
+      "bytes": 3903913,
+      "sha256": "5f937bd59f2737b62505efc6e3edf61195295b3ba6f6bb30afff8fcf8a01e2cf"
     },
-    "local_tests": 5,
-    "negative_body_mutations": 7,
-    "Python_AST": 10,
-    "shell_steps": 47,
+    "runtime_status": "RUNNING_NOT_PASS",
+    "production_go": false,
+    "run_id": 40345264716,
+    "job_id": 121650386194,
+    "status": "RUNNING_NOT_PASS",
+    "strategy": "SAME_REPORT_OFFICIAL_READINESS",
+    "source_pins": 3728,
+    "local_tests": 7,
     "actual_runtime_qualified": false,
-    "prior6bc_stays_INCOMPLETE": true
+    "source_change_race_qualification": false,
+    "product_adoption": false,
+    "prior6bc_and_f038_stay_INCOMPLETE": true
   },
   "finance_check_reuse_diagnostic_previous_local": {
     "local": "8b578b85486e44247c7297e2d22c6b7105bfca26",
@@ -8329,51 +8391,55 @@
     "production_go": false
   },
   "finance_source_race_prepared": {
-    "public_head": "5b1c61a1577ff9b1e8ce36f03123f9135679114d",
-    "local": "c9eabe0b4cb169b225ee0d6757937494c25b86fe",
-    "tree": "764638aa341e1744b5de87a6a6a0955e67f1a60e",
-    "parent": "70072fface936ec1cfba6ea2de6d42e8cda5c405",
+    "head": "09bdf08aa956a2ab770d513d92b4eec605c62432",
+    "parent": "5b1c61a1577ff9b1e8ce36f03123f9135679114d",
+    "tree": "7683a613d57183829de254bce637d69427d15d03",
+    "local": "1ebe4581ffd882fb8678ab499ee673edae0cd046",
     "branch": "astra-a/d17-18-finance-source-race-prepared-20261026",
     "files": [
-      "scripts/current-finance-check-reuse-diagnostic/COMPOSED_LOCAL_PREFLIGHT.json",
-      "scripts/current-finance-check-reuse-diagnostic/COMPOSED_SNAPSHOT_SOURCE.json",
-      "scripts/current-finance-check-reuse-diagnostic/FIRST_LOCAL_COMPOSED_SOURCE_ISSUE.json",
-      "scripts/current-finance-check-reuse-diagnostic/FIRST_RUNTIME_FAILURE_6BC.json",
+      ".github/workflows/cp7-d17-18-finance-check-reuse-diagnostic.yml",
+      ".github/workflows/cp7-d17-18-finance-reader-source-race.yml",
+      "scripts/current-finance-check-reuse-diagnostic/FIRST_RUNTIME_FAILURE_F038.json",
+      "scripts/current-finance-check-reuse-diagnostic/INSTALLED_REPORT_SOURCE.json",
+      "scripts/current-finance-check-reuse-diagnostic/READINESS_LOCAL_PREFLIGHT.json",
       "scripts/current-finance-check-reuse-diagnostic/README.md",
       "scripts/current-finance-check-reuse-diagnostic/SOURCE.json",
-      "scripts/current-finance-check-reuse-diagnostic/original-snapshot-definition.sql",
-      "scripts/current-finance-check-reuse-diagnostic/reuse.py",
-      "scripts/current-finance-check-reuse-diagnostic/snapshot_source.py",
-      "scripts/current-finance-check-reuse-diagnostic/test_reuse.py",
-      "scripts/current-finance-reader-source-race-qualification/COMPOSED_PREPARED_PREFLIGHT.json",
+      "scripts/current-finance-check-reuse-diagnostic/readiness_reuse.py",
+      "scripts/current-finance-check-reuse-diagnostic/readiness_source.py",
+      "scripts/current-finance-check-reuse-diagnostic/runner.py",
+      "scripts/current-finance-check-reuse-diagnostic/test_readiness.py",
       "scripts/current-finance-reader-source-race-qualification/PREPARED_REUSE_SUCCESSOR.json",
+      "scripts/current-finance-reader-source-race-qualification/READINESS_PREPARED_PREFLIGHT.json",
       "scripts/current-finance-reader-source-race-qualification/README.md",
-      "scripts/current-finance-reader-source-race-qualification/admission.py",
       "scripts/current-finance-reader-source-race-qualification/bind_sources.py",
+      "scripts/current-finance-reader-source-race-qualification/clone_patch.py",
       "scripts/current-finance-reader-source-race-qualification/evidence.py",
-      "scripts/current-finance-reader-source-race-qualification/fetch_reuse.py",
-      "scripts/current-finance-reader-source-race-qualification/probe.py",
       "scripts/current-finance-reader-source-race-qualification/runner.py"
     ],
     "status": "PREPARED_UNBOUND",
+    "required_actual_head": "e913cc60d7b4a14b97d776fe2a9c5cb995c23563",
+    "actual_runtime_credit": false,
     "production_go": false,
-    "head": "5b1c61a1577ff9b1e8ce36f03123f9135679114d",
-    "expected_actual_reuse": "f038a6ecc5a71278554eab62ab7df4f4ced9b7bc PASS",
     "source_bound": false,
-    "workflow_created": true,
-    "outer_probe_full_restore_prepared": true,
-    "preflight": {
-      "AST_files": 8,
-      "unbound_refused_before_DB": true,
-      "prerequisite_negative_controls": 3,
-      "instrumentation_negative_controls": 3
-    },
-    "actual_runtime_qualified": false,
     "execution_branch_created": false,
-    "first_journal_chunk_snapshot_refusal_required": true,
+    "actual_runtime_qualified": false,
     "statement_limit_ms": 8000,
     "ordinary_lock_limit_ms": 2000,
-    "workflow_shell_steps": 48
+    "first_journal_chunk_snapshot_refusal_required": true,
+    "preflight": {
+      "status": "PREPARED_ONLY",
+      "expected_actual_head": "e913cc60d7b4a14b97d776fe2a9c5cb995c23563",
+      "exact_paired_source_pins": 3728,
+      "AST_files": 8,
+      "workflow_shell_steps": 48,
+      "unbound_refused_before_DB": true,
+      "wrong_failed_or_wrong_bytes_prerequisites_refused": 3,
+      "paired_source_transformation_tests": 7,
+      "private_helpers": 2,
+      "actual_database_executed": false,
+      "actual_runtime_credit": false,
+      "production_go": false
+    }
   },
   "dependent_qualification_boundary": {
     "required_actual_native": "8dfe1a19c7b7c61558b25c00f1dd388c8565e3d1 PASS",
@@ -8808,5 +8874,142 @@
     "production_go": false,
     "run_id": 40324974838,
     "job_id": 121579218692
-  }
+  },
+  "finance_reuse_before_installed_readiness": {
+    "parent": "6bc45a178b1e28ff0265ed42d0f93ea81714105a",
+    "base_tree": "0dc6665b86b9a4bbef85e55f8a3ed36feea79cdb",
+    "local": "6c619de2984573618d9f67200ff73da486dce548",
+    "tree": "30596bc32e9c65fac7c164c92577ccae88f36e9d",
+    "public_head": "f038a6ecc5a71278554eab62ab7df4f4ced9b7bc",
+    "branch": "astra-a/d17-18-finance-check-reuse-diagnostic-20261026",
+    "status": "INCOMPLETE_INSTALLED_BODY_MISMATCH",
+    "production_go": false,
+    "run_id": 40327902313,
+    "job_id": 121589286821,
+    "head": "f038a6ecc5a71278554eab62ab7df4f4ced9b7bc",
+    "source_pins": 3722,
+    "full_source_admission": {
+      "status": "PASS",
+      "bytes": 3903020,
+      "sha256": "48fc482e3cedec26198fc36d623d71c97710077a42e4965923ecf73d4ca3c734"
+    },
+    "local_tests": 5,
+    "negative_body_mutations": 7,
+    "Python_AST": 10,
+    "shell_steps": 47,
+    "actual_runtime_qualified": false,
+    "prior6bc_stays_INCOMPLETE": true
+  },
+  "actual_finance_composed_reuse_f038_failure": {
+    "name": "CP7_D17_18_FINANCE_CHECK_REUSE_DIAGNOSTIC1.json",
+    "status": "INCOMPLETE",
+    "head": "f038a6ecc5a71278554eab62ab7df4f4ced9b7bc",
+    "run_id": 40327902313,
+    "job_id": 121589286821,
+    "artifact_id": 12659271095,
+    "zip_bytes": 2817645,
+    "zip_sha256": "c9cf71a818b5977feaa1485ac2a80b5d0f5919e4db0fe8b93241531d71e55562",
+    "bytes": 4447901,
+    "sha256": "06ff84cfea4908fb3433418dae618a7ecddbcd50264dec0d1a25c73e7e007df6",
+    "archive_member": "CP7_D17_18_FINANCE_CHECK_REUSE_DIAGNOSTIC1.json",
+    "source_pins_verified": 3722,
+    "exact_prior_original_verified": {
+      "name": "CP7_D17_18_FINANCE_READER_DIAGNOSTIC1.json",
+      "status": "PASS",
+      "head": "7caf6b84a357ab670ac0e4c0c190fadb2738c2e7",
+      "run_id": 40300049475,
+      "job_id": 121495423311,
+      "artifact_id": 12644706605,
+      "zip_bytes": 2987699,
+      "zip_sha256": "a0fe9df8f66e188122347c37a9d58dfb0cea6814920bc1d5b3d73348631baa45",
+      "bytes": 5137654,
+      "sha256": "be866e88e095447c042fa9cdbf93ab225f3b95e1cf5ace8bf0f524de9f5bcdf4",
+      "archive_member": "CP7_D17_18_FINANCE_READER_DIAGNOSTIC1.json"
+    },
+    "package_gate": {
+      "installed": true,
+      "primary_unchanged": true,
+      "backup_restore_drill": true,
+      "security_advisors": true,
+      "writer_runtime": false
+    },
+    "cp6_restored": true,
+    "advisor_gate": true,
+    "production_go": false,
+    "independent_acceptance": false,
+    "first_failure_preserved": true,
+    "actual_Auth_HTTP_credit": false,
+    "performance_qualification": false,
+    "error_summary": "INCOMPLETE: full first failure retained, no widened runtime credit",
+    "error": "SNAPSHOT_REUSE_LIVE_BODY_CHANGED: expected=3fa59773edf43a6f10a60b4fc08bbd1074097c6449b4b5c56f93ff2b64facd69 actual=5687c8b4805f73baa68197121f9a4a90f5f123d6ff7da683e88301a485e3aab2 expected_bytes=12004 actual_bytes=14417",
+    "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/current-finance-check-reuse-diagnostic/probe.py\", line 85, in run\n    runner.exercise(conn,cur,database,package.boundary.ADMIN,case)\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-finance-check-reuse-diagnostic/runner.py\", line 96, in exercise\n    pair(admin_url,dates,'SMALL',8000,report)\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-finance-check-reuse-diagnostic/runner.py\", line 63, in pair\n    new,right=measure(admin_url,dates,True,limit);evidence['single_snapshot_check_candidate']=new\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-finance-check-reuse-diagnostic/runner.py\", line 33, in measure\n    if candidate:out['temporary_patch']=reader.install_for_rollback(cur)\n                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-finance-check-reuse-diagnostic/reuse.py\", line 46, in install_for_rollback\n    body=rewrite(before[0])\n         ^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-finance-check-reuse-diagnostic/reuse.py\", line 32, in rewrite\n    raise ValueError('SNAPSHOT_REUSE_LIVE_BODY_CHANGED: expected='+source['installed_body_sha256']+\nValueError: SNAPSHOT_REUSE_LIVE_BODY_CHANGED: expected=3fa59773edf43a6f10a60b4fc08bbd1074097c6449b4b5c56f93ff2b64facd69 actual=5687c8b4805f73baa68197121f9a4a90f5f123d6ff7da683e88301a485e3aab2 expected_bytes=12004 actual_bytes=14417\n",
+    "candidate_ran": false,
+    "unchanged_small_ms": 284.902,
+    "price_percent_qualified": false,
+    "factory_pair_qualified": false,
+    "source_race_qualified": false,
+    "full22_CP6_advisors_restored": true,
+    "cause_from_source_inspection": "The AB-era reference omitted later AW/BA definitions. Applying exact CP7 transformers to BA yields the observed live 14417-byte body. That body has one readiness and one warning check: the old duplicate snapshot aggregation does not exist. A successor must reuse readiness between the snapshot and preflight instead, without modifying the Native originals."
+  },
+  "finance_source_race_before_readiness_import": {
+    "public_head": "5b1c61a1577ff9b1e8ce36f03123f9135679114d",
+    "local": "c9eabe0b4cb169b225ee0d6757937494c25b86fe",
+    "tree": "764638aa341e1744b5de87a6a6a0955e67f1a60e",
+    "parent": "70072fface936ec1cfba6ea2de6d42e8cda5c405",
+    "branch": "astra-a/d17-18-finance-source-race-prepared-20261026",
+    "files": [
+      "scripts/current-finance-check-reuse-diagnostic/COMPOSED_LOCAL_PREFLIGHT.json",
+      "scripts/current-finance-check-reuse-diagnostic/COMPOSED_SNAPSHOT_SOURCE.json",
+      "scripts/current-finance-check-reuse-diagnostic/FIRST_LOCAL_COMPOSED_SOURCE_ISSUE.json",
+      "scripts/current-finance-check-reuse-diagnostic/FIRST_RUNTIME_FAILURE_6BC.json",
+      "scripts/current-finance-check-reuse-diagnostic/README.md",
+      "scripts/current-finance-check-reuse-diagnostic/SOURCE.json",
+      "scripts/current-finance-check-reuse-diagnostic/original-snapshot-definition.sql",
+      "scripts/current-finance-check-reuse-diagnostic/reuse.py",
+      "scripts/current-finance-check-reuse-diagnostic/snapshot_source.py",
+      "scripts/current-finance-check-reuse-diagnostic/test_reuse.py",
+      "scripts/current-finance-reader-source-race-qualification/COMPOSED_PREPARED_PREFLIGHT.json",
+      "scripts/current-finance-reader-source-race-qualification/PREPARED_REUSE_SUCCESSOR.json",
+      "scripts/current-finance-reader-source-race-qualification/README.md",
+      "scripts/current-finance-reader-source-race-qualification/admission.py",
+      "scripts/current-finance-reader-source-race-qualification/bind_sources.py",
+      "scripts/current-finance-reader-source-race-qualification/evidence.py",
+      "scripts/current-finance-reader-source-race-qualification/fetch_reuse.py",
+      "scripts/current-finance-reader-source-race-qualification/probe.py",
+      "scripts/current-finance-reader-source-race-qualification/runner.py"
+    ],
+    "status": "PREPARED_UNBOUND",
+    "production_go": false,
+    "head": "5b1c61a1577ff9b1e8ce36f03123f9135679114d",
+    "expected_actual_reuse": "f038a6ecc5a71278554eab62ab7df4f4ced9b7bc PASS",
+    "source_bound": false,
+    "workflow_created": true,
+    "outer_probe_full_restore_prepared": true,
+    "preflight": {
+      "AST_files": 8,
+      "unbound_refused_before_DB": true,
+      "prerequisite_negative_controls": 3,
+      "instrumentation_negative_controls": 3
+    },
+    "actual_runtime_qualified": false,
+    "execution_branch_created": false,
+    "first_journal_chunk_snapshot_refusal_required": true,
+    "statement_limit_ms": 8000,
+    "ordinary_lock_limit_ms": 2000,
+    "workflow_shell_steps": 48
+  },
+  "previous_running_before_f038_actual_intake": [
+    {
+      "head": "8dfe1a19c7b7c61558b25c00f1dd388c8565e3d1",
+      "run_id": 40338677390,
+      "job_id": 121627045376,
+      "scope": "Focused Native6: unchanged calendar reviewed through actual frozen v2 CAS; real plan/reminder retention, all prior guards and exact restore"
+    },
+    {
+      "head": "f038a6ecc5a71278554eab62ab7df4f4ced9b7bc",
+      "run_id": 40327902313,
+      "job_id": 121589286821,
+      "scope": "Exact composed-source snapshot-check reuse diagnostic; SMALL, PRICE_PERCENT and FACTORY_1200X3"
+    }
+  ]
 }
