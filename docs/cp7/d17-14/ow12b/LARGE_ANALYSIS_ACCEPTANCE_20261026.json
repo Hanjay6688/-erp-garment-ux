@@ -2,7 +2,7 @@
   "contract": "cp7.large-analysis.owner-policy-acceptance.v1",
   "policy": "LARGE_ANALYSIS_PROGRESS_20261026",
   "last_prepared_code": "b96e2f7402b3373f9ab5fa7ede30d34a7048aea3",
-  "last_qualified_UI_source": "d43f38a4bf3c84a06ca6e4f59d3e976fa23fe4c4",
+  "last_qualified_UI_source": "b96e2f7402b3373f9ab5fa7ede30d34a7048aea3",
   "overall": "OPEN",
   "new_policy_not_retroactive": true,
   "requirements": [
@@ -11,7 +11,7 @@
       "status": "PARTIAL",
       "proved": "Actual Auth quantity desktop/mobile reports acknowledged server units, unknown total without percentage, enabled Close while real STEP response held; production/finance progress separate.",
       "evidence": [
-        "d43f38a4-40264331556-takeover-original.json",
+        "b96e2f74-40265688210-takeover-original.json",
         "9cddf475-40256759650-takeover-original.json"
       ],
       "remaining": "Factory3602 end-to-end UI with combined official finance remains unqualified; separate factory Native and smaller UI proofs are not merged into this claim."
@@ -50,8 +50,11 @@
     {
       "id": "MEASURED_EFFICIENT_SMALL_AND_LARGE",
       "status": "PARTIAL",
-      "proved": "Small checked-cut SAVE182.958-187.755ms, large1200SKUx3 SAVE5544.767/5421.325ms, replay3.899ms in source9cdd. Optional preparation reuses valid inputs and moves cold reconstruction before candidate read/SAVE. Native6 proposal retains existing per-unit/stage timing samples with no additional SQL or compiler calls.",
-      "remaining": "Factory execution of separate preparation not yet measured. Prior5285.194/5339.539ms comparison is +4.91%/+1.53% with cause unestablished; no SLA or optimization claim. Call sums are not whole-analysis wall time."
+      "proved": "Small checked-cut SAVE182.958-187.755ms, large1200SKUx3 SAVE5544.767/5421.325ms, replay3.899ms in source9cdd. Optional preparation reuses valid inputs and moves cold reconstruction before candidate read/SAVE. Native6 proposal retains existing per-unit/stage timing samples with no additional SQL or compiler calls. Later4d checked SAVE5234.048/5224.595ms and replay3.148ms, small179.690-205.552ms. All admitted SQL pins exactly match4826; differences are observations, not an explained performance change.",
+      "remaining": "Factory execution of separate preparation not yet measured. Prior5285.194/5339.539ms comparison is +4.91%/+1.53% with cause unestablished; no SLA or optimization claim. Call sums are not whole-analysis wall time.",
+      "evidence": [
+        "LARGE_ANALYSIS_TIMINGS_20261026.json"
+      ]
     }
   ],
   "unchanged_guards": [
@@ -67,7 +70,9 @@
   "old_failures_retained": [
     "choice f843 K3 SQL57014 at8029.112ms",
     "same-command calibration at8003.031ms",
-    "all prior Original failures in evidence ledger"
+    "all prior Original failures in evidence ledger",
+    "choice9d K3 SQL57014 at8014.567ms; same-command calibration8019.57ms; full restore verified but writer_runtime false",
+    "choice4d Transport10 CI cancelled at60min; complete restore/package gates missing, no full qualification credit"
   ],
   "A_boundary": {
     "shared_contract_requests": [
@@ -75,7 +80,8 @@
       212,
       213,
       214,
-      215
+      215,
+      216
     ],
     "last_read_head": "f898a71fc13654d217f987949f126290083a0225",
     "shared_F05_or_registry_edited": false,

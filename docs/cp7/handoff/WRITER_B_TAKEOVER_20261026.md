@@ -4,7 +4,29 @@ Owner asked the new writer to recover the complete context of **Writer B** and
 continue without questions. This is the active B entrypoint. Earlier checkpoints
 in `HANDOFF_PRODUKSI_CLAUDE_20261023.md` remain history, with their failures intact.
 
-## Current implementation and evidence — coordination215
+## Latest evidence — coordination216
+
+Codeb96e2f74 unchanged.60 complete Originals retained/read:40 Native/actualAuth
+package checks,11controlledUI,7 real-browser/controlledRPC,2 interrupted without
+complete gates.4d cutting/work Native6 and9d work Native6/choice Transport10 PASS;
+b96 quantity/cutting actualAuth2 each PASS2. Full Original source/package/restore
+checks complete where gates exist. Existing routes do not exercise optional
+preparation or selected official finance.
+
+9d choice Native6 remains5PASS/1INCOMPLETE: cached7286.446ms, K3 timeout8014.567ms,
+trackingnone calibration8019.57ms also times out; full restore verified but
+writer_runtime false.4d choice Transport10 cancelled at60min, main1PASS and5PASS
+races only in job log, final restore/package gates missing. No full-suite credit.
+All earlier failures retained. Cutting timings are source-bound in
+`LARGE_ANALYSIS_TIMINGS_20261026.json`; latest5234.048/5224.595ms and3.148ms replay,
+small179.690–205.552ms. Same admitted SQL; variation unexplained, no SLA claim.
+
+Three CI suites still running at the snapshot in `LARGE_ANALYSIS_PENDING_20261026.json`.
+A must compose/register/schedule/restore/qualify optional preparation with
+current access, two sessions, full factory and official finance/HPP. Formal5/16;
+B scope incomplete; independent_acceptance=false; production_go=false.
+
+## Implementation details and preceding52-Original position — coordination215
 
 Latest B code **b96e2f7402b3373f9ab5fa7ede30d34a7048aea3**, tree
 `64810b6b7010222ec1f3aeb7d4bbc38c128d657f`. Finite client reply/queue waits,

@@ -4617,3 +4617,53 @@ No agreement inferred from unchanged A head f898a71fc13654d217f987949f126290083a
 proof and remaining boundary. Formal5/16; B scope incomplete; no default adoption,
 independent acceptance or production_go. Continue monitoring current CI and
 available B work; this is not a checkpoint stop.
+
+
+## 216. [bersama] B26 Oktober2026 WIB —60 Originals; old choice failure and interrupted restore remain open
+
+Code remainsb96e2f74. New verified Originals:4d cutting Native6/run40261719677
+PASS6/96pins;4d work Native6/40261719869 PASS6/95pins;9d work Native6/40262245088
+PASS6/95pins;9d choice Transport10/40262245111 PASS10/117pins. Complete Original,
+exact source-only F05 declaration, package/public/CP6/advisor/full boundary/session
+restore and applicable clone gates checked. b96 quantity/cutting actualAuth2
+40265688210/40265688254 each PASS2,162/168pins,51/62 actual compiled modules.
+These existing routes do not execute optional choice preparation or finance A.
+
+9d choice Native6/run40262245171/art12626184522 is5PASS/1INCOMPLETE,114pins.
+Cached SAVE7286.446ms; afterK3 timeout8014.567ms; same UUID/payload trackingnone
+diagnostic8019.57ms also times out, all diagnostic effects rolled back. Full
+package/CP6/advisor/boundary/session restore passes; writer_runtime staysfalse.
+Old8029.112/8003.031ms failures remain unchanged. New owner total-time policy
+never converts this daily SAVE failure into PASS. Separate preparation remains
+uninstalled on this route; the combined new-policy route still needs A.
+
+4d choice Transport10/run40261719774/art12626349035 was cancelled at60minutes.
+Main report retains only1 Native anchor; the full job log independently contains
+5 passing races. The sixth race/3Auth/final restore are not established. The
+recorded cleanup dropdb error and final Connection refused are retained; CP6,
+advisor, final package gates and backup drill are missing. No full concurrency/
+Auth/restore credit. Six preceding clone-authority copies are exact. This is a
+second interrupted Original, not part of package-checked totals. No test/job
+limit was raised. Later9d full Transport10 PASS does not rewrite this failure.
+
+`LARGE_ANALYSIS_TIMINGS_20261026.json` compares the three source-bound cutting
+observations.4d factory1200SKUx3/all3602 pages checked SAVE5234.048/5224.595ms,
+replay3.148ms; small179.690–205.552ms. All admitted SQL hashes match4826 exactly.
+Differences are single observations with cause unestablished, no SLA or causal
+optimization claim. Whole-analysis wall time is not captured by these reports.
+
+Ledger60 Originals =40 Native/actualAuth package checks +11 controlledUI +7 real
+browser/controlledRPC +2 interrupted without complete gates. Missing gates and
+failed writer_runtime remain false. The local intake helper's initial factory
+check misrouting for Transport10 was corrected by the exact report contract;
+all transport source/restore/actual-race/Auth checks remain intact and Original
+bytes are unchanged. That helper exception is retained as a diagnostic.
+
+Three server suites still running at the stored snapshot:4d cutting Transport10,
+d43/b96 choice Native6. The latter two have all10 source-prefix fields, admitted
+product paths and Native workflow exactly equal to completed9d; they do not test
+the new preparation module. Future integration should align automatic triggers
+with actual admitted dependencies, keeping the separately required preparation
+route. Current jobs remain monitored and receive no pending acceptance credit.
+A composition contracts213–215 remain open; formal5/16, B incomplete, no default
+adoption, independent acceptance or production_go.

@@ -1,78 +1,6 @@
 {
-  "observed_at": "2026-10-26T03:46:51.827549+00:00",
+  "observed_at": "2026-10-26T04:09:22.438348+00:00",
   "pending": [
-    {
-      "id": 40261719798,
-      "name": "CP7 Explicit Frozen Cutting Transport10",
-      "status": "in_progress",
-      "conclusion": null,
-      "head_sha": "4d2d38d44a6e9efef323c8c6b7aeb9097a1b4789",
-      "created_at": "2026-10-26T02:58:17Z",
-      "updated_at": "2026-10-26T02:58:22Z"
-    },
-    {
-      "id": 40261719677,
-      "name": "CP7 Explicit Frozen Checked Cutting Native6",
-      "status": "in_progress",
-      "conclusion": null,
-      "head_sha": "4d2d38d44a6e9efef323c8c6b7aeb9097a1b4789",
-      "created_at": "2026-10-26T02:58:17Z",
-      "updated_at": "2026-10-26T02:58:20Z"
-    },
-    {
-      "id": 40261719774,
-      "name": "CP7 Explicit Frozen Choice Transport10",
-      "status": "in_progress",
-      "conclusion": null,
-      "head_sha": "4d2d38d44a6e9efef323c8c6b7aeb9097a1b4789",
-      "created_at": "2026-10-26T02:58:17Z",
-      "updated_at": "2026-10-26T02:58:21Z"
-    },
-    {
-      "id": 40261719869,
-      "name": "CP7 Explicit Frozen Schedule Native6",
-      "status": "in_progress",
-      "conclusion": null,
-      "head_sha": "4d2d38d44a6e9efef323c8c6b7aeb9097a1b4789",
-      "created_at": "2026-10-26T02:58:17Z",
-      "updated_at": "2026-10-26T02:58:21Z"
-    },
-    {
-      "id": 40262245111,
-      "name": "CP7 Explicit Frozen Choice Transport10",
-      "status": "in_progress",
-      "conclusion": null,
-      "head_sha": "9d8716015c43a06a45752d21e6edc160726215ab",
-      "created_at": "2026-10-26T03:04:36Z",
-      "updated_at": "2026-10-26T03:04:39Z"
-    },
-    {
-      "id": 40262245088,
-      "name": "CP7 Explicit Frozen Schedule Native6",
-      "status": "in_progress",
-      "conclusion": null,
-      "head_sha": "9d8716015c43a06a45752d21e6edc160726215ab",
-      "created_at": "2026-10-26T03:04:36Z",
-      "updated_at": "2026-10-26T03:04:40Z"
-    },
-    {
-      "id": 40262245171,
-      "name": "CP7 Explicit Frozen Analysis Choice Native6",
-      "status": "in_progress",
-      "conclusion": null,
-      "head_sha": "9d8716015c43a06a45752d21e6edc160726215ab",
-      "created_at": "2026-10-26T03:04:36Z",
-      "updated_at": "2026-10-26T03:06:18Z"
-    },
-    {
-      "id": 40264331581,
-      "name": "CP7 Explicit Frozen Analysis Choice Native6",
-      "status": "in_progress",
-      "conclusion": null,
-      "head_sha": "d43f38a4bf3c84a06ca6e4f59d3e976fa23fe4c4",
-      "created_at": "2026-10-26T03:29:34Z",
-      "updated_at": "2026-10-26T03:29:37Z"
-    },
     {
       "id": 40265688096,
       "name": "CP7 Explicit Frozen Analysis Choice Native6",
@@ -83,25 +11,26 @@
       "updated_at": "2026-10-26T03:46:10Z"
     },
     {
-      "id": 40265688254,
-      "name": "CP7 Prepared Frozen Cutting Actual Auth Browser2",
+      "id": 40264331581,
+      "name": "CP7 Explicit Frozen Analysis Choice Native6",
       "status": "in_progress",
       "conclusion": null,
-      "head_sha": "b96e2f7402b3373f9ab5fa7ede30d34a7048aea3",
-      "created_at": "2026-10-26T03:46:07Z",
-      "updated_at": "2026-10-26T03:46:10Z"
-    },
-    {
-      "id": 40265688210,
-      "name": "CP7 Prepared Frozen Quantity Actual Auth Browser2",
-      "status": "in_progress",
-      "conclusion": null,
-      "head_sha": "b96e2f7402b3373f9ab5fa7ede30d34a7048aea3",
-      "created_at": "2026-10-26T03:46:07Z",
-      "updated_at": "2026-10-26T03:46:10Z"
+      "head_sha": "d43f38a4bf3c84a06ca6e4f59d3e976fa23fe4c4",
+      "created_at": "2026-10-26T03:29:34Z",
+      "updated_at": "2026-10-26T03:29:37Z"
     }
   ],
-  "completed_without_receipt": [],
+  "completed_without_receipt": [
+    {
+      "id": 40261719798,
+      "name": "CP7 Explicit Frozen Cutting Transport10",
+      "status": "completed",
+      "conclusion": "success",
+      "head_sha": "4d2d38d44a6e9efef323c8c6b7aeb9097a1b4789",
+      "created_at": "2026-10-26T02:58:17Z",
+      "updated_at": "2026-10-26T04:07:58Z"
+    }
+  ],
   "contract": "cp7.writer-b-live-run-snapshot.v1",
   "snapshot_not_acceptance": true,
   "production_go": false

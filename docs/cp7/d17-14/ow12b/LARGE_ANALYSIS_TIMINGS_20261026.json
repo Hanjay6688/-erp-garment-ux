@@ -1,0 +1,168 @@
+{
+  "contract": "cp7.writer-b-source-bound-timing-observations.v1",
+  "owner_policy": "LARGE_ANALYSIS_PROGRESS_20261026",
+  "observations": [
+    {
+      "source_head": "4826a666925309ea93aa0421ec544cd2d9b145f3",
+      "run_id": 40244633440,
+      "artifact_id": 12619796964,
+      "Original_sha256": "57d5c192c1630220a48b286b997008c35205ccf40a0d0bb0731980c3af8ebfbe",
+      "commercial_SKUs": 1200,
+      "physical_sizes": 3,
+      "movements": 363600,
+      "compiled_targets": 3602,
+      "initial_checked_SAVE_ms": 5285.194,
+      "after_K3_checked_SAVE_ms": 5339.539,
+      "exact_replay_ms": 4.048,
+      "small_fixture_calls": [
+        {
+          "case_id": "OW12B_FROZEN_CUTTING_V2_INDEX_OPTIONS_SAVE_REPLAY",
+          "initial_SAVE_ms": 205.633,
+          "replays_ms": [
+            3.84,
+            3.989
+          ]
+        },
+        {
+          "case_id": "OW12B_FROZEN_CUTTING_V2_ACTUAL_POST_STALE_K2_RECEIPT",
+          "initial_SAVE_ms": 192.732,
+          "replays_ms": [
+            4.166,
+            4.279
+          ]
+        },
+        {
+          "case_id": "OW12B_FROZEN_CUTTING_V2_FOREIGN_CURRENT_ACCESS",
+          "initial_SAVE_ms": 185.675,
+          "replays_ms": []
+        }
+      ],
+      "admitted_SQL_pins_equal_baseline": true,
+      "admitted_SQL_pin_count": 27,
+      "observed_difference_from_baseline_percent": {
+        "initial_checked_SAVE_ms": 0.0,
+        "after_K3_checked_SAVE_ms": 0.0
+      }
+    },
+    {
+      "source_head": "9cddf47529eda7d0d23735f8487a0ca3bcfad39d",
+      "run_id": 40256759650,
+      "artifact_id": 12624652695,
+      "Original_sha256": "aa2c2d40dbb25ca5e51cafd3cc2634e53ee303cc3c44d04dea6d39020db5343f",
+      "commercial_SKUs": 1200,
+      "physical_sizes": 3,
+      "movements": 363600,
+      "compiled_targets": 3602,
+      "initial_checked_SAVE_ms": 5544.767,
+      "after_K3_checked_SAVE_ms": 5421.325,
+      "exact_replay_ms": 3.899,
+      "small_fixture_calls": [
+        {
+          "case_id": "OW12B_FROZEN_CUTTING_V2_INDEX_OPTIONS_SAVE_REPLAY",
+          "initial_SAVE_ms": 187.755,
+          "replays_ms": [
+            4.081,
+            4.32
+          ]
+        },
+        {
+          "case_id": "OW12B_FROZEN_CUTTING_V2_ACTUAL_POST_STALE_K2_RECEIPT",
+          "initial_SAVE_ms": 182.958,
+          "replays_ms": [
+            4.348,
+            3.912
+          ]
+        },
+        {
+          "case_id": "OW12B_FROZEN_CUTTING_V2_FOREIGN_CURRENT_ACCESS",
+          "initial_SAVE_ms": 184.497,
+          "replays_ms": []
+        }
+      ],
+      "admitted_SQL_pins_equal_baseline": true,
+      "admitted_SQL_pin_count": 27,
+      "observed_difference_from_baseline_percent": {
+        "initial_checked_SAVE_ms": 4.911,
+        "after_K3_checked_SAVE_ms": 1.532
+      }
+    },
+    {
+      "source_head": "4d2d38d44a6e9efef323c8c6b7aeb9097a1b4789",
+      "run_id": 40261719677,
+      "artifact_id": 12626063075,
+      "Original_sha256": "63becf95fb9aa719c07b8f3e9457547fa8a69353c4c616902891e532d9ec640a",
+      "commercial_SKUs": 1200,
+      "physical_sizes": 3,
+      "movements": 363600,
+      "compiled_targets": 3602,
+      "initial_checked_SAVE_ms": 5234.048,
+      "after_K3_checked_SAVE_ms": 5224.595,
+      "exact_replay_ms": 3.148,
+      "small_fixture_calls": [
+        {
+          "case_id": "OW12B_FROZEN_CUTTING_V2_INDEX_OPTIONS_SAVE_REPLAY",
+          "initial_SAVE_ms": 191.486,
+          "replays_ms": [
+            3.422,
+            3.78
+          ]
+        },
+        {
+          "case_id": "OW12B_FROZEN_CUTTING_V2_ACTUAL_POST_STALE_K2_RECEIPT",
+          "initial_SAVE_ms": 179.69,
+          "replays_ms": [
+            3.401,
+            3.456
+          ]
+        },
+        {
+          "case_id": "OW12B_FROZEN_CUTTING_V2_FOREIGN_CURRENT_ACCESS",
+          "initial_SAVE_ms": 205.552,
+          "replays_ms": []
+        }
+      ],
+      "admitted_SQL_pins_equal_baseline": true,
+      "admitted_SQL_pin_count": 27,
+      "observed_difference_from_baseline_percent": {
+        "initial_checked_SAVE_ms": -0.968,
+        "after_K3_checked_SAVE_ms": -2.153
+      }
+    }
+  ],
+  "one_run_per_source_not_statistical_benchmark": true,
+  "whole_analysis_wall_time_not_captured_by_these_reports": true,
+  "unit_time_sum_not_whole_analysis_wall_time": true,
+  "cause_of_variation": "UNESTABLISHED: exact admitted SQL matches baseline; controlled repeated paired timings and host load metrics are not available. Do not attribute differences to the client patch or claim an optimization.",
+  "old_choice_K3_timeouts_preserved_ms": [
+    8029.112,
+    8003.031
+  ],
+  "new_optional_preparation_runtime_measured": false,
+  "small_fixtures_not_full_daily_transaction_SLA": true,
+  "all_factory_Original_flags_preserved": {
+    "synthetic_fixture": true,
+    "actual_Native_qualification": false,
+    "official_finance_included": false,
+    "full_factory3600_qualified": false,
+    "factory_SLA_claim": false,
+    "production_go": false
+  },
+  "independent_acceptance": false,
+  "production_go": false,
+  "later_choice_legacy_failure": {
+    "source": "9d8716015c43a06a45752d21e6edc160726215ab",
+    "run_id": 40262245171,
+    "artifact_id": 12626184522,
+    "Native_counts": {
+      "PASS": 5,
+      "INCOMPLETE": 1
+    },
+    "cached_SAVE_ms": 7286.446,
+    "K3_SAVE_timeout_ms": 8014.567,
+    "same_UUID_tracking_none_calibration_timeout_ms": 8019.57,
+    "all_calibration_effects_rolled_back": true,
+    "writer_runtime": false,
+    "original_failure_not_reclassified": true,
+    "optional_preparation_not_installed": true
+  }
+}

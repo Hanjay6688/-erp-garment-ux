@@ -1,0 +1,57 @@
+{
+  "contract": "cp7.writer-b-interrupted-original-receipt.v1",
+  "head": "4d2d38d44a6e9efef323c8c6b7aeb9097a1b4789",
+  "run_id": 40261719774,
+  "artifact_id": 12626349035,
+  "status": "INCOMPLETE",
+  "artifact_bytes": 85615,
+  "artifact_sha256": "c2093a5ab2a20ed70ae6e6a7b39b157ab1761080d50f324d69ba3355d821c916",
+  "Original_read_complete": true,
+  "source_pins_verified": 116,
+  "exact_head_source_prefix_fields": [
+    "label",
+    "scope",
+    "source_sha256",
+    "expected_case_count",
+    "required_case_counts",
+    "required_case_ids",
+    "predeclared_case_contract",
+    "predeclared_case_sha256",
+    "target_v2_source_sha256",
+    "frozen_choice_transport_source_sha256"
+  ],
+  "original_json_sha256": {
+    "CP7_OW12B_FROZEN_CHOICE_TRANSPORT.json": "fc08d0ac06aa27c5b9a531da159257f17016a872e1f9dcc1eb928597b5103029",
+    "CP7_OW12B_FROZEN_CHOICE_TRANSPORT_CLONE_AUTHORITY.json": "fc7b4f6450580a7a9bef8158a506234e1e347896912c4f1c356cc41eb37b7193",
+    "T3_PACKAGE_FILES_INSTALL.json": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+    "ALIGNED_CHAIN.json": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b",
+    "T3_PACKAGE_INSTALL.json": "a9196aa6c84943a1466891cdb025574f630f2e4d1cf28931a95930ce177ac682"
+  },
+  "expected_counts": {
+    "native": 1,
+    "races": 6,
+    "http": 3
+  },
+  "retained_main_counts": {
+    "native": {
+      "PASS": 1
+    }
+  },
+  "job_log_race_observations": {
+    "PASS": 5
+  },
+  "job_log_sha256": "55c7103c5c8188984e6ad941bbe55c255b6aee385f69c122a8b68919bcd27c14",
+  "job_cancelled_at_60_minutes": true,
+  "original_error": "Command '['docker', 'exec', 'supabase_db_cp5-local', 'dropdb', '-U', 'supabase_admin', '--if-exists', '--force', '--maintenance-db=template1', 'cp6_auditor_race']' returned non-zero exit status 1.",
+  "original_restore_error": "connection failed: connection to server at \"127.0.0.1\", port 54322 failed: Connection refused\n\tIs the server running on that host and accepting TCP/IP connections?",
+  "package_gates_missing": true,
+  "backup_restore_drill_missing": true,
+  "cp6_restored": false,
+  "advisor_gate": false,
+  "actual_Auth_HTTP_credit": false,
+  "actual_concurrency": false,
+  "clone_authority_copies_exact": 6,
+  "whole_feature_closed": false,
+  "production_go": false,
+  "independent_acceptance": false
+}
