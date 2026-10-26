@@ -1,3 +1,18 @@
+Pembaruan setelah actual bfed0a81/run40324974838: tetap INCOMPLETE5PASS/1.
+Original lengkap dan kegagalan CP7_PLAN_FEASIBILITY_UNKNOWN dipertahankan
+pada FIRST_RUNTIME_FAILURE_BFED.json. Pemasang, hak kolom terbatas, inverse,
+pemulihan 22 kelompok/data/sequence/CP6, dan pemeriksa keamanan lulus.
+Draf nyata belum terbentuk: fixture meninjau jadwal memakai hash sumber lama,
+lalu menangkap sumber frozen v2 yang mempunyai identitas kerja berbeda.
+Penerus hanya memperbaiki fixture A: buat satu request tanpa menjalankan unit,
+baca sumber v2 melalui endpoint jadwal, simpan ulang konfigurasi kalender yang
+persis sama dengan CAS dan UUID replay, lalu buat satu analisis penuh baru.
+Sumber lama harus menjadi stale; sumber baru harus current/SELECTED_ASSUMPTIONS.
+Alokasi dan kapasitas harus SCENARIO, kebutuhan/kapasitas minimal dua, sebelum
+perintah draf resmi. Tidak ada hash/config tiruan atau pelemahan feasibility.
+Ini persiapan penerus, belum bukti database. B tetap byte-exact. Bukti gagal
+lama tetap INCOMPLETE; paket HTTP/browser tetap menunggu Native6 PASS aktual.
+
 # D17-18 — komposisi persiapan pilihan dan keuangan
 
 Penerus retensi setelah actual9a943ea4:5 PASS/1 INCOMPLETE. Bukti dan pesan

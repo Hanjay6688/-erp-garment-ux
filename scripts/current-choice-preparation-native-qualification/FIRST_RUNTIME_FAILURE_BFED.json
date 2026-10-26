@@ -1,0 +1,43 @@
+{
+  "proof": {
+    "name": "CP7_D17_18_CHOICE_NATIVE6.json",
+    "status": "INCOMPLETE",
+    "head": "bfed0a81252e597842b9b9020ecc061cca936d54",
+    "run_id": 40324974838,
+    "job_id": 121579218692,
+    "artifact_id": 12655434029,
+    "zip_bytes": 3006503,
+    "zip_sha256": "4cc5ade3261d9b97dd0be996fffe66d685e9aa8ae1bb6b81cadfd12bd1b0ca4f",
+    "bytes": 6207310,
+    "sha256": "ea2152f67174cfe78828962c0f5be1bd9f3b572dc81ca14b01d2da6483ddad3f",
+    "archive_member": "CP7_D17_18_CHOICE_NATIVE6.json"
+  },
+  "counts": {
+    "PASS": 5,
+    "INCOMPLETE": 1
+  },
+  "failed_case": {
+    "status": "INCOMPLETE",
+    "error": "CP7_PLAN_FEASIBILITY_UNKNOWN\nCONTEXT:  PL/pgSQL function cp7_plan_native.preflight_v2(jsonb,text,uuid) line 24 at RAISE\nPL/pgSQL function cp7_plan_native.save_v2(jsonb,uuid) line 29 at assignment\nSQL function \"erp_cp7_save_plan_draft_v2\" statement 1",
+    "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py\", line 165, in _strict_group_once\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-choice-preparation-native-qualification/cases.py\", line 244, in run\n    observed.clear();start=monotonic();result=fn()\n                                              ^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-choice-preparation-native-qualification/cases.py\", line 173, in atomic_retention\n    documents=retention_cases.documents(cur,today,observed,plan,B.native)\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-choice-preparation-native-qualification/retention_cases.py\", line 31, in documents\n    draft=plan.save(cur,payload,subject=actor)\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_p19_plan_v2_cases.py\", line 55, in save\n    return rpc(cur, 'erp_cp7_save_plan_draft_v2', (json.dumps(p), key or uuid.uuid4()), subject)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_p19_plan_v2_cases.py\", line 47, in rpc\n    return staged.limited(cur, name, args, subject)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_p19_staged_cases.py\", line 70, in limited\n    result = cur.execute('select public.' + name + '(' + placeholders + ')', args).fetchone()[0]\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.RaiseException: CP7_PLAN_FEASIBILITY_UNKNOWN\nCONTEXT:  PL/pgSQL function cp7_plan_native.preflight_v2(jsonb,text,uuid) line 24 at RAISE\nPL/pgSQL function cp7_plan_native.save_v2(jsonb,uuid) line 29 at assignment\nSQL function \"erp_cp7_save_plan_draft_v2\" statement 1\n",
+    "full_boundary_restored": true,
+    "public_schema_unchanged": true,
+    "session_leaks": {
+      "advisory_locks": 0,
+      "advisory_lock_keys": [],
+      "other_sessions": []
+    },
+    "business_day": {
+      "planned": "2026-10-26",
+      "before": "2026-10-26",
+      "after": "2026-10-26"
+    }
+  },
+  "baseline_full22_all_rows_all_sequences_equal": true,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "diagnosis": "Legacy reviewed calendar source hash differs from frozen v2 work identity; fixture omitted the public staged schedule review before creating a real plan draft.",
+  "repair_scope": "A qualification fixture only; actual public staged schedule CAS with exact same config and real fresh frozen capture; all B product guards and sources unchanged",
+  "runtime_successor_verified": false,
+  "production_go": false
+}
