@@ -24,7 +24,7 @@ def originals(head, files):
 def verify():
     declaration = json.loads((HERE / 'B_SOURCE.json').read_bytes())
     files = declaration['files']
-    assert len(files) == len({f['vendored_path'] for f in files}) == 90
+    assert len(files) == len({f['vendored_path'] for f in files}) == 91
     for f, original in zip(files, originals(declaration['B_source_head'], files), strict=True):
         raw = (HERE / f['vendored_path']).read_bytes()
         assert len(raw) == f['bytes'] and sha256(raw).hexdigest() == f['sha256'], f['path']
@@ -42,11 +42,11 @@ def verify():
         raw = path.read_bytes()
         assert len(raw) == f['bytes'] and sha256(raw).hexdigest() == f['sha256'], f['path']
     tests = json.loads((HERE / 'LOCAL_TESTS.json').read_bytes())
-    assert tests['success'] and tests['numPassedTests'] == tests['numTotalTests'] == 179
+    assert tests['success'] and tests['numPassedTests'] == tests['numTotalTests'] == 190
     assert tests['numFailedTests'] == tests['numPendingTests'] == 0
-    assert len(tests['testResults']) == 16 and all(t['status'] == 'passed' for t in tests['testResults'])
+    assert len(tests['testResults']) == 17 and all(t['status'] == 'passed' for t in tests['testResults'])
     return dict(B_exact_files=len(files), compiled_source_files=len(graph['files']),
-                local_tests=179, local_test_files=16, runtime_credit=False, production_go=False)
+                local_tests=190, local_test_files=17, runtime_credit=False, production_go=False)
 
 if __name__ == '__main__':
     print(json.dumps(verify()))

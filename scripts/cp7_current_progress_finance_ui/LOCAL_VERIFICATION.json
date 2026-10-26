@@ -1,30 +1,41 @@
 {
   "status": "PASS_LOCAL_ONLY",
   "typecheck_no_emit": true,
-  "test_files": 16,
-  "tests": 179,
-  "vitest_wall_seconds": 10.04,
+  "test_files": 17,
+  "tests": 190,
+  "vitest_wall_seconds": 14.826400146484374,
   "compiled_sources": 79,
-  "unchanged_B_files": 90,
+  "unchanged_B_files": 91,
   "build_assets": [
     {
-      "path": "assets/current-progress-finance-CCmpVatc.js",
-      "bytes": 671595,
-      "sha256": "a395983d2b350a206a43554c81b21a39e4096ea49af4b14d0cba80f1b1ef6007"
+      "path": "current-progress-finance.html",
+      "bytes": 466,
+      "sha256": "852b815d2a65c57200754d3b62a6d55001d58e92d8c33ac69187f6359c902c88"
+    },
+    {
+      "path": "assets/current-progress-finance-BVHtAijh.js",
+      "bytes": 671805,
+      "sha256": "84258e2c0207a7e678b87becbef36dab65b3453f0b2fe04e0cfa7841afe81969"
     },
     {
       "path": "assets/current-progress-finance-UWpQGvK4.css",
       "bytes": 45010,
       "sha256": "5409c4b84b94c36a2aac253a5c30546b3e8a869ff116fd05551b4f12377adf01"
-    },
-    {
-      "path": "current-progress-finance.html",
-      "bytes": 466,
-      "sha256": "f862f7ca371bd30e96a6a6144f0978240863329f81ba616bb97256d5323cc524"
     }
   ],
   "actual_Auth_HTTP": false,
   "actual_database": false,
   "production_go": false,
-  "independent_acceptance": false
+  "independent_acceptance": false,
+  "prior_UI_host": "0f818812a79013c926fcb54e949b0923bf1622ea",
+  "B_reopen_source": "d6fad0d2303bfe39531afdbe62f6faec95f79046",
+  "React_review": {
+    "identity_bound_effect": true,
+    "get_only_reopen": true,
+    "sequential_reads": true,
+    "late_response_retired": true,
+    "real_progress_resets_stall_window": true,
+    "new_dependencies": false,
+    "B_product_bytes_unchanged": true
+  }
 }

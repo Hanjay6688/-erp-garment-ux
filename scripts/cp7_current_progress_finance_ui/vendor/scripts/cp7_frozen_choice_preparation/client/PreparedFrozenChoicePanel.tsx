@@ -3,7 +3,7 @@ import NativeFrozenChoicePanel from '../../cp7_frozen_choice_ui/client/NativeFro
 import {normalizeClientError} from '../../../src/lib/clientError'
 import {formatCp6WibDateTime} from '../../../src/cp6BusinessTime'
 import {frozenDuration} from '../../cp7_frozen_quantity_ui/client/nativeFrozenProgress'
-import {choicePreparationRPC,driveChoicePreparation,type ChoicePreparation} from './nativeFrozenChoicePreparation'
+import {observeChoicePreparation,driveChoicePreparation,type ChoicePreparation} from './nativeFrozenChoicePreparation'
 
 type Props=ComponentProps<typeof NativeFrozenChoicePanel>
 // Explicit optional host. Existing default/qualified hosts are not rerouted.
@@ -22,12 +22,14 @@ function Workspace({client,context,enabled,onAccessLost,children}:GateProps){
   if(f.code==='FORBIDDEN'||f.code==='AUTH_REQUIRED'){setState(null);onAccessLost(f.message)}
  }
  useEffect(()=>{
-  const n=++seq.current
+  const n=++seq.current;let observed=false
   if(!enabled||context.sourceMethod!=='FROZEN_V2')return
   active.current=true;setBusy(true)
-  void choicePreparationRPC(client,'get',context).then(s=>{if(n===seq.current)setState(s)},e=>{
+  void observeChoicePreparation(client,context,{current:()=>n===seq.current,status:s=>{
+   observed=true;setState(s);active.current=false;setBusy(false)
+  }}).catch(e=>{
    if(n!==seq.current)return
-   if(!(e&&typeof e==='object'&&'message'in e&&e.message==='CP7_CHOICE_PREPARATION_NOT_STARTED'))report(e)
+   if(observed||!(e&&typeof e==='object'&&'message'in e&&e.message==='CP7_CHOICE_PREPARATION_NOT_STARTED'))report(e)
   }).finally(()=>{if(n===seq.current){active.current=false;setBusy(false)}})
   return()=>{++seq.current;active.current=false}
  // The enclosing immutable identity key remounts on every context/permission change.

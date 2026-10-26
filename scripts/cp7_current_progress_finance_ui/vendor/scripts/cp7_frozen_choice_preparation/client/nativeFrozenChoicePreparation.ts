@@ -30,18 +30,31 @@ export async function choicePreparationRPC(client:unknown,verb:'request'|'get'|'
  if(reply.error)throw reply.error
  return parseChoicePreparation(reply.data,c)
 }
-export async function driveChoicePreparation(client:unknown,c:AnalogReadContext,options:{current:()=>boolean;status:(s:ChoicePreparation)=>void;now?:()=>number;pause?:()=>Promise<void>}){
+type MonitorOptions={current:()=>boolean;status:(s:ChoicePreparation)=>void;now?:()=>number;pause?:()=>Promise<void>}
+export function driveChoicePreparation(client:unknown,c:AnalogReadContext,options:MonitorOptions){
+ return monitorChoicePreparation(client,c,options,true)
+}
+// Reopening observes the original work; it never enqueues or executes a unit.
+// Explicit continuation remains available and retires this read-only monitor.
+export function observeChoicePreparation(client:unknown,c:AnalogReadContext,options:MonitorOptions){
+ return monitorChoicePreparation(client,c,options,false)
+}
+async function monitorChoicePreparation(client:unknown,c:AnalogReadContext,options:MonitorOptions,drive:boolean){
  const now=options.now??(()=>performance.now()),pause=options.pause??(()=>new Promise(resolve=>setTimeout(resolve,2000)))
  if(!options.current())return null
- const started=now();let s=await choicePreparationRPC(client,'request',c)
+ let advancedAt=now(),progress:string|null=null,s=await choicePreparationRPC(client,drive?'request':'get',c)
  while(options.current()){
   options.status(s)
   if(!options.current())return null
   if(['READY','FAILED','EXPIRED'].includes(s.state))return s
-  if(now()-started>=FROZEN_NO_PROGRESS_MS)throw Error(FROZEN_STALL_MESSAGE)
+  // Only persisted progress resets the monitor. Lock observations may alternate
+  // QUEUED/RUNNING without any completed work and cannot extend this deadline.
+  const next=JSON.stringify([s.unitsDone,s.attempts,s.updatedAt])
+  if(next!==progress){progress=next;advancedAt=now()}
+  else if(now()-advancedAt>=FROZEN_NO_PROGRESS_MS)throw Error(FROZEN_STALL_MESSAGE)
   // This is one bounded preparation unit, not a total factory-analysis limit.
   // No progress is invented while another transaction owns the same unit.
-  if(s.state==='RUNNING'){await pause();if(!options.current())return null;s=await choicePreparationRPC(client,'get',c)}
+  if(!drive||s.state==='RUNNING'){await pause();if(!options.current())return null;s=await choicePreparationRPC(client,'get',c)}
   else s=await choicePreparationRPC(client,'step',c)
  }
  return null

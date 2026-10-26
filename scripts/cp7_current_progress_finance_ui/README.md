@@ -3,9 +3,9 @@
 VENI. VIDI. VICI. ERP. Reliable data adalah dewa.
 Keuangan termasuk laporan, stok, dan HPP adalah raja.
 
-Host opsional milik A, integrator, di atas backend `821a7e79354ffa1f3fc73b9690c372d38f235a27`.
-Sumber B sebanyak 90 berkas dipertahankan persis pada
-`b96e2f7402b3373f9ab5fa7ede30d34a7048aea3`, tercatat di `B_SOURCE.json`.
+Host opsional milik A, integrator, di atas backend persiapan `5c30a4ea079afad5139b8fa08dbbad6d8af31227`.
+Sumber B sebanyak 91 berkas dipertahankan persis pada
+`d6fad0d2303bfe39531afdbe62f6faec95f79046`, tercatat di `B_SOURCE.json`.
 Tidak ada perubahan default aplikasi, pemasang, sumber B, rumus uang/HPP, atau batas database.
 
 `Panel.tsx` memakai extension `renderFinance` yang sudah disediakan B. Panel kebutuhan,
@@ -32,7 +32,24 @@ langsung menyembunyikan uang; penolakan server diteruskan ke callback retire mil
 Angka hanya ditampilkan panel keuangan asli setelah status, run, sumber, dan readiness cocok.
 UNKNOWN tidak diubah menjadi nol, dan hasil parsial tidak disebut lengkap.
 
-## Bukti lokal dan batas
+## Pembaruan setelah bukti B tentang buka ulang
+
+Dua berkas kode, satu tes yang berubah, dan satu tes buka ulang baru diambil
+persis dari d6fad0d2; 91 berkas B seluruhnya diperiksa terhadap Git. Pengamat
+persiapan sekarang terus membaca pekerjaan asal setelah buka ulang, tanpa
+membuat atau memajukan pekerjaan otomatis. Kemajuan nyata mengatur batas
+pengamatan; perubahan lock saja tidak dianggap kemajuan. Tutup panel,
+kelanjutan eksplisit, atau pergantian identitas menghentikan pengamat lama.
+
+190 tes dalam 17 berkas, TypeScript, serta build79modul lulus pada salinan A.
+Angka ini menggantikan jumlah lokal179 terdahulu, bukan ditambahkan padanya.
+B mempunyai Original browser e94e8037 PASS6 dengan identity/RPC terkendali;
+A memeriksa kedua Original termasuk kegagalan9ff dan51pin masing-masing.
+Ini belum bukti Auth/database atau keuangan pada host gabungan baru.
+Pemeriksaan React mencakup identitas efek, satu pembacaan berurutan,
+pembersihan pengamat, dan penolakan respons terlambat; tidak menambah pustaka.
+
+## Bukti lokal host sebelumnya dan batas yang tetap
 
 - TypeScript `--noEmit` lulus; 179 uji di 16 berkas lulus dalam 10,04 detik.
 - Tujuh uji host memakai komponen keuangan dan parser asli, dengan RPC/Auth terkendali.

@@ -143,13 +143,13 @@
     },
     {
       "path": "scripts/cp7_current_progress_finance_ui/vendor/scripts/cp7_frozen_choice_preparation/client/PreparedFrozenChoicePanel.tsx",
-      "bytes": 4586,
-      "sha256": "bc4700de422f411820b0557848e9286264fad46157583745576247beb39dc6a2"
+      "bytes": 4693,
+      "sha256": "1953c19ec41f85e50ab09f17fa2726dd0fb8c06a3a39e60a8f7737773da4e289"
     },
     {
       "path": "scripts/cp7_current_progress_finance_ui/vendor/scripts/cp7_frozen_choice_preparation/client/nativeFrozenChoicePreparation.ts",
-      "bytes": 4142,
-      "sha256": "6d25b9c5e8b869e0ccf89fa0576dd3b019e3ed7a6250d58bf2b6cbf54502c9e5"
+      "bytes": 4993,
+      "sha256": "039ed68488e501eed6044d3ca8bfc4cb1aada43e85b1039f429d9804878bde8b"
     },
     {
       "path": "scripts/cp7_current_progress_finance_ui/vendor/scripts/cp7_frozen_choice_ui/client/NativeFrozenAnalogPanel.tsx",

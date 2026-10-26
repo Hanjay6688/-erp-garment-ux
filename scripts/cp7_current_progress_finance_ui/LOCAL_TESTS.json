@@ -1,1 +1,2084 @@
-{"numTotalTestSuites":16,"numPassedTestSuites":16,"numFailedTestSuites":0,"numPendingTestSuites":0,"numTotalTests":179,"numPassedTests":179,"numFailedTests":0,"numPendingTests":0,"numTodoTests":0,"snapshot":{"added":0,"failure":false,"filesAdded":0,"filesRemoved":0,"filesRemovedList":[],"filesUnmatched":0,"filesUpdated":0,"matched":0,"total":0,"unchecked":0,"uncheckedKeysByFile":[],"unmatched":0,"updated":0,"didUpdate":false},"startTime":1792989620115,"success":true,"testResults":[{"assertionResults":[{"ancestorTitles":[],"fullName":"keeps production complete separate from finance with an unknown total","status":"passed","title":"keeps production complete separate from finance with an unknown total","duration":73.71491100000003,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"does not invent elapsed time or progress when only the client clock moves","status":"passed","title":"does not invent elapsed time or progress when only the client clock moves","duration":37.00716299999999,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"keeps completed duration fixed on a later reopening","status":"passed","title":"keeps completed duration fixed on a later reopening","duration":29.920360999999957,"failureMessages":[],"meta":{},"tags":[]}],"startTime":1792989626499,"endTime":1792989626639.9204,"status":"passed","message":"","name":"/workspace/scratch/dd83da97e97c/erp-progress-finance-ui-integration/scripts/cp7_current_progress_finance_ui/CombinedProgress.dom.test.tsx"},{"assertionResults":[{"ancestorTitles":[],"fullName":"survives StrictMode cleanup with one active shared read and no early financial figures","status":"passed","title":"survives StrictMode cleanup with one active shared read and no early financial figures","duration":97.11600500000009,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"shows official figures only after the real finance component reads READY and then stops polling","status":"passed","title":"shows official figures only after the real finance component reads READY and then stops polling","duration":101.42422899999997,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"reopens the same durable UUID without enqueueing, advancing or changing its stored payload","status":"passed","title":"reopens the same durable UUID without enqueueing, advancing or changing its stored payload","duration":57.953933000000006,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"stops after a lost response and permits a read-only retry on the same job","status":"passed","title":"stops after a lost response and permits a read-only retry on the same job","duration":42.223489999999856,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"notifies the owning production panel and retires progress when the current server ACL refuses access","status":"passed","title":"notifies the owning production panel and retires progress when the current server ACL refuses access","duration":50.133978999999954,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"hides existing money immediately on local permission loss and rechecks the current server status","status":"passed","title":"hides existing money immediately on local permission loss and rechecks the current server status","duration":85.07858099999999,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"retires an unresolved read when the panel closes and does not poll from its late answer","status":"passed","title":"retires an unresolved read when the panel closes and does not poll from its late answer","duration":39.785139999999956,"failureMessages":[],"meta":{},"tags":[]}],"startTime":1792989621430,"endTime":1792989621903.7852,"status":"passed","message":"","name":"/workspace/scratch/dd83da97e97c/erp-progress-finance-ui-integration/scripts/cp7_current_progress_finance_ui/Panel.dom.test.tsx"},{"assertionResults":[{"ancestorTitles":[],"fullName":"shares simultaneous reads but rechecks the server for every later read","status":"passed","title":"shares simultaneous reads but rechecks the server for every later read","duration":52.28844300000003,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"a lost response retries only the same read and never creates or advances work","status":"passed","title":"a lost response retries only the same read and never creates or advances work","duration":43.22614299999998,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"current access refusal clears previously visible metadata instead of reusing it","status":"passed","title":"current access refusal clears previously visible metadata instead of reusing it","duration":27.558344000000034,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"rejects a different immutable source even when the request UUID is the same","status":"passed","title":"rejects a different immutable source even when the request UUID is the same","duration":24.520471000000043,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"rejects a late reply after another tab retires the durable request","status":"passed","title":"rejects a late reply after another tab retires the durable request","duration":26.65099299999997,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"disposal prevents late publication and all new reads","status":"passed","title":"disposal prevents late publication and all new reads","duration":26.790881000000013,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"rejects server observation time going backwards","status":"passed","title":"rejects server observation time going backwards","duration":32.79893699999991,"failureMessages":[],"meta":{},"tags":[]}],"startTime":1792989624868,"endTime":1792989625102.7988,"status":"passed","message":"","name":"/workspace/scratch/dd83da97e97c/erp-progress-finance-ui-integration/scripts/cp7_current_progress_finance_ui/reader.test.ts"},{"assertionResults":[{"ancestorTitles":[],"fullName":"routes persisted STAGED requests, reopen and DONE revalidation to finance before reading pages","status":"passed","title":"routes persisted STAGED requests, reopen and DONE revalidation to finance before reading pages","duration":85.98945800000001,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"retains the UUID, mode and exact bytes after a lost finance response and retries only that route","status":"passed","title":"retains the UUID, mode and exact bytes after a lost finance response and retries only that route","duration":25.32124299999998,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"keeps undefined operational with no finance capture and leaves durable mode unchanged","status":"passed","title":"keeps undefined operational with no finance capture and leaves durable mode unchanged","duration":24.83314699999994,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"keeps DEFERRED operational with no finance capture and leaves durable mode unchanged","status":"passed","title":"keeps DEFERRED operational with no finance capture and leaves durable mode unchanged","duration":22.69734500000004,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"preserves FORBIDDEN without switching methods or discarding the request","status":"passed","title":"preserves FORBIDDEN without switching methods or discarding the request","duration":33.68908299999998,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"preserves AUTH_REQUIRED without switching methods or discarding the request","status":"passed","title":"preserves AUTH_REQUIRED without switching methods or discarding the request","duration":28.019751000000042,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"preserves CP7_ANALYSIS_REQUEST_CHANGED without switching methods or discarding the request","status":"passed","title":"preserves CP7_ANALYSIS_REQUEST_CHANGED without switching methods or discarding the request","duration":22.39357499999994,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"refuses an explicit invalid mode null before any RPC","status":"passed","title":"refuses an explicit invalid mode null before any RPC","duration":22.800339000000008,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"refuses an explicit invalid mode undefined before any RPC","status":"passed","title":"refuses an explicit invalid mode undefined before any RPC","duration":21.64319599999999,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"refuses an explicit invalid mode AUTO before any RPC","status":"passed","title":"refuses an explicit invalid mode AUTO before any RPC","duration":30.469459999999913,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"refuses an explicit invalid mode staged before any RPC","status":"passed","title":"refuses an explicit invalid mode staged before any RPC","duration":48.855321,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"refuses an explicit invalid mode 0 before any RPC","status":"passed","title":"refuses an explicit invalid mode 0 before any RPC","duration":27.27882199999999,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"passes all nonrequest calls and their options unchanged, preserving receiver and identity","status":"passed","title":"passes all nonrequest calls and their options unchanged, preserving receiver and identity","duration":24.901518999999894,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"does not mutate frozen payloads during explicit DEFERRED syntax conversion","status":"passed","title":"does not mutate frozen payloads during explicit DEFERRED syntax conversion","duration":22.55397199999993,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"does not bypass the original cross-tab lock or durable-request checks","status":"passed","title":"does not bypass the original cross-tab lock or durable-request checks","duration":72.93162499999994,"failureMessages":[],"meta":{},"tags":[]}],"startTime":1792989623927,"endTime":1792989624440.9316,"status":"passed","message":"","name":"/workspace/scratch/dd83da97e97c/erp-progress-finance-ui-integration/scripts/cp7_current_progress_finance_ui/transport.test.ts"},{"assertionResults":[{"ancestorTitles":[],"fullName":"shows exact official money and the separate operational/report reading times","status":"passed","title":"shows exact official money and the separate operational/report reading times","duration":41.09757400000001,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"never reads or displays figures after the current permission is removed","status":"passed","title":"never reads or displays figures after the current permission is removed","duration":9.723978999999986,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"retires previously shown figures when the next status read is refused","status":"passed","title":"retires previously shown figures when the next status read is refused","duration":16.458878000000027,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"keeps an unknown progress total distinct from zero and shows no early money","status":"passed","title":"keeps an unknown progress total distinct from zero and shows no early money","duration":4.649302999999918,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"withholds financial conclusions while the official report is incomplete","status":"passed","title":"withholds financial conclusions while the official report is incomplete","duration":8.544016000000056,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"rejects a status for another operational result","status":"passed","title":"rejects a status for another operational result","duration":5.324177999999961,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"retires figures when operational capture changes to 2026-10-23T00:01:00Z even if its source hash stays the same","status":"passed","title":"retires figures when operational capture changes to 2026-10-23T00:01:00Z even if its source hash stays the same","duration":12.767511000000013,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"retires figures when operational capture changes to 2026-10-23T00:00:00.000001Z even if its source hash stays the same","status":"passed","title":"retires figures when operational capture changes to 2026-10-23T00:00:00.000001Z even if its source hash stays the same","duration":9.959108000000015,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"ignores a late response belonging to a previous selected request","status":"passed","title":"ignores a late response belonging to a previous selected request","duration":8.552634999999896,"failureMessages":[],"meta":{},"tags":[]}],"startTime":1792989627779,"endTime":1792989627896.5527,"status":"passed","message":"","name":"/workspace/scratch/dd83da97e97c/erp-progress-finance-ui-integration/scripts/cp7_current_progress_finance_ui/vendor/src/NativeAnalysisFinancePanel.dom.test.tsx"},{"assertionResults":[{"ancestorTitles":[],"fullName":"reads the actual SQL consumer output and preserves official IDR decimals beyond safe integers","status":"passed","title":"reads the actual SQL consumer output and preserves official IDR decimals beyond safe integers","duration":16.046583,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"refuses a mismatched financial response: request","status":"passed","title":"refuses a mismatched financial response: request","duration":0.8878220000000283,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"refuses a mismatched financial response: job","status":"passed","title":"refuses a mismatched financial response: job","duration":0.2568820000000187,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"refuses a mismatched financial response: query","status":"passed","title":"refuses a mismatched financial response: query","duration":0.22341199999999617,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"refuses a mismatched financial response: reference","status":"passed","title":"refuses a mismatched financial response: reference","duration":0.23113399999999729,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"refuses a mismatched financial response: date","status":"passed","title":"refuses a mismatched financial response: date","duration":0.41054100000002336,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"refuses a mismatched financial response: source-ref","status":"passed","title":"refuses a mismatched financial response: source-ref","duration":0.4602859999999964,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"refuses a mismatched financial response: version","status":"passed","title":"refuses a mismatched financial response: version","duration":0.48376000000001795,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"refuses a mismatched financial response: operand","status":"passed","title":"refuses a mismatched financial response: operand","duration":0.5003949999999691,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"refuses a mismatched financial response: duplicate","status":"passed","title":"refuses a mismatched financial response: duplicate","duration":0.6263629999999694,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"refuses a mismatched financial response: unknown-ready","status":"passed","title":"refuses a mismatched financial response: unknown-ready","duration":0.47002000000003363,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"refuses a mismatched financial response: number-money","status":"passed","title":"refuses a mismatched financial response: number-money","duration":0.370130999999958,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"refuses a mismatched financial response: premature-result","status":"passed","title":"refuses a mismatched financial response: premature-result","duration":0.27512899999999263,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"refuses a mismatched financial response: wrong-total","status":"passed","title":"refuses a mismatched financial response: wrong-total","duration":0.29716200000001436,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"refuses a mismatched financial response: ready-failure","status":"passed","title":"refuses a mismatched financial response: ready-failure","duration":0.3181539999999927,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"refuses a mismatched financial response: smuggled","status":"passed","title":"refuses a mismatched financial response: smuggled","duration":0.14498600000001716,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"keeps unstarted totals unknown, failed results absent, and revoked financial facts entirely absent","status":"passed","title":"keeps unstarted totals unknown, failed results absent, and revoked financial facts entirely absent","duration":0.8713370000000396,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"refuses a different reference instant within the same millisecond","status":"passed","title":"refuses a different reference instant within the same millisecond","duration":0.21878599999996595,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"refuses a different report instant within the same millisecond","status":"passed","title":"refuses a different report instant within the same millisecond","duration":0.4737650000000144,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"accepts equivalent offsets and preserves all six fractional digits","status":"passed","title":"accepts equivalent offsets and preserves all six fractional digits","duration":0.45101199999999153,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"refuses invalid financial clocks: 2026-02-30T00:00:00Z","status":"passed","title":"refuses invalid financial clocks: 2026-02-30T00:00:00Z","duration":0.40671599999996033,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"refuses invalid financial clocks: 2026-10-23T24:00:00Z","status":"passed","title":"refuses invalid financial clocks: 2026-10-23T24:00:00Z","duration":0.515798000000018,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"refuses invalid financial clocks: 2026-10-23T00:03:00.0000001Z","status":"passed","title":"refuses invalid financial clocks: 2026-10-23T00:03:00.0000001Z","duration":0.4340259999999603,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"refuses invalid financial clocks: 2026-10-23T00:03:00+24:00","status":"passed","title":"refuses invalid financial clocks: 2026-10-23T00:03:00+24:00","duration":0.27228500000001077,"failureMessages":[],"meta":{},"tags":[]}],"startTime":1792989629350,"endTime":1792989629376.434,"status":"passed","message":"","name":"/workspace/scratch/dd83da97e97c/erp-progress-finance-ui-integration/scripts/cp7_current_progress_finance_ui/vendor/src/nativeAnalysisFinanceSidecar.test.ts"},{"assertionResults":[{"ancestorTitles":[],"fullName":"reads every job state strictly: run_id only with DONE, failure only with FAILED, worker_active only when stated","status":"passed","title":"reads every job state strictly: run_id only with DONE, failure only with FAILED, worker_active only when stated","duration":7.112410000000011,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"keeps the staged request under its own key with the single job request protocol, never trusting a broken record","status":"passed","title":"keeps the staged request under its own key with the single job request protocol, never trusting a broken record","duration":2.523106000000041,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"states progress, pause and failure from the server status, with the failure code verbatim","status":"passed","title":"states progress, pause and failure from the server status, with the failure code verbatim","duration":13.389034999999978,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"K4: reads the server runner strictly and, only while it is active, says the page may be closed and the job goes on","status":"passed","title":"K4: reads the server runner strictly and, only while it is active, says the page may be closed and the job goes on","duration":1.8732390000000123,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"drives request → step × n → DONE, reporting each server status as it comes, without waiting between steps","status":"passed","title":"drives request → step × n → DONE, reporting each server status as it comes, without waiting between steps","duration":0.5568190000000186,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"backs off and polls get instead of stepping while another session holds the job","status":"passed","title":"backs off and polls get instead of stepping while another session holds the job","duration":0.32026700000005803,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"stops on FAILED with the server failure, never claiming a run","status":"passed","title":"stops on FAILED with the server failure, never claiming a run","duration":0.24946199999999408,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"resumes a stored request by reading status first, then stepping; a DONE status reads nothing more","status":"passed","title":"resumes a stored request by reading status first, then stepping; a DONE status reads nothing more","duration":0.5122920000000022,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"abandons the loop once aborted: no further call, no result, even from inside a back-off wait","status":"passed","title":"abandons the loop once aborted: no further call, no result, even from inside a back-off wait","duration":0.9362350000000106,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"throws a server refusal or a lost reply after reporting the last known status, and refuses a status of another request","status":"passed","title":"throws a server refusal or a lost reply after reporting the last known status, and refuses a status of another request","duration":1.8565939999999728,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"reads the 7-day retention of a job and words it (owner decision 8 Oct 2026)","status":"passed","title":"reads the 7-day retention of a job and words it (owner decision 8 Oct 2026)","duration":1.086516999999958,"failureMessages":[],"meta":{},"tags":[]}],"startTime":1792989629002,"endTime":1792989629033.0864,"status":"passed","message":"","name":"/workspace/scratch/dd83da97e97c/erp-progress-finance-ui-integration/scripts/cp7_current_progress_finance_ui/vendor/src/nativeStagedJob.test.ts"},{"assertionResults":[{"ancestorTitles":[],"fullName":"cannot issue a new request before its exact method/query/UUID/actor is durable","status":"passed","title":"cannot issue a new request before its exact method/query/UUID/actor is durable","duration":5.242476000000011,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"retries the same retained v2 method and arguments after a lost reply without clearing bytes","status":"passed","title":"retries the same retained v2 method and arguments after a lost reply without clearing bytes","duration":3.1980419999999867,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"keeps actors and old v1 recovery separate even when their request UUID is the same","status":"passed","title":"keeps actors and old v1 recovery separate even when their request UUID is the same","duration":1.3436209999999846,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"preserves corrupt actor bytes and refuses all calls/overwrites","status":"passed","title":"preserves corrupt actor bytes and refuses all calls/overwrites","duration":2.8718860000000177,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"preserves corrupt method bytes and refuses all calls/overwrites","status":"passed","title":"preserves corrupt method bytes and refuses all calls/overwrites","duration":0.9350729999999885,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"preserves corrupt uuid bytes and refuses all calls/overwrites","status":"passed","title":"preserves corrupt uuid bytes and refuses all calls/overwrites","duration":0.8997999999999706,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"preserves corrupt date bytes and refuses all calls/overwrites","status":"passed","title":"preserves corrupt date bytes and refuses all calls/overwrites","duration":0.9228839999999536,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"preserves corrupt scope bytes and refuses all calls/overwrites","status":"passed","title":"preserves corrupt scope bytes and refuses all calls/overwrites","duration":0.7642079999999964,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"preserves corrupt finance bytes and refuses all calls/overwrites","status":"passed","title":"preserves corrupt finance bytes and refuses all calls/overwrites","duration":0.8228560000000016,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"refuses clearing or replacing a different retained query from another tab","status":"passed","title":"refuses clearing or replacing a different retained query from another tab","duration":0.9151430000000005,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"leaves the original finished pointer recoverable after a failed replacement write","status":"passed","title":"leaves the original finished pointer recoverable after a failed replacement write","duration":0.5848310000000083,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"requires a new UUID and same actor for an intentional replacement","status":"passed","title":"requires a new UUID and same actor for an intentional replacement","duration":0.6270539999999869,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"fails closed before storage or network if a shared browser lock is unavailable","status":"passed","title":"fails closed before storage or network if a shared browser lock is unavailable","duration":0.439363999999955,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"serializes competing creates so a second UUID cannot replace an unresolved request","status":"passed","title":"serializes competing creates so a second UUID cannot replace an unresolved request","duration":0.48257900000004383,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"keeps a send and competing replacement in one shared ordering boundary","status":"passed","title":"keeps a send and competing replacement in one shared ordering boundary","duration":0.7126010000000065,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"keeps the explicit STAGED finance choice durable and replays it without changing the operational query","status":"passed","title":"keeps the explicit STAGED finance choice durable and replays it without changing the operational query","duration":1.1074389999999994,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"keeps the explicit DEFERRED finance choice durable and replays it without changing the operational query","status":"passed","title":"keeps the explicit DEFERRED finance choice durable and replays it without changing the operational query","duration":0.8059700000000021,"failureMessages":[],"meta":{},"tags":[]}],"startTime":1792989629697,"endTime":1792989629719.806,"status":"passed","message":"","name":"/workspace/scratch/dd83da97e97c/erp-progress-finance-ui-integration/scripts/cp7_current_progress_finance_ui/vendor/scripts/cp7_frozen_analysis_facade_v2/client/nativeFrozenAnalysis.test.ts"},{"assertionResults":[{"ancestorTitles":[],"fullName":"bounds only the lock queue and never runs a timed-out late callback","status":"passed","title":"bounds only the lock queue and never runs a timed-out late callback","duration":5.180333999999959,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"retains an acquired lock until the bounded action completes even after queue deadline","status":"passed","title":"retains an acquired lock until the bounded action completes even after queue deadline","duration":0.7595309999999813,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"takes the original key, an exclusive lock and an abort signal","status":"passed","title":"takes the original key, an exclusive lock and an abort signal","duration":1.5729929999999968,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"does not leave a queue timer behind on synchronous lock or callback failure","status":"passed","title":"does not leave a queue timer behind on synchronous lock or callback failure","duration":0.724219000000005,"failureMessages":[],"meta":{},"tags":[]}],"startTime":1792989630154,"endTime":1792989630161.724,"status":"passed","message":"","name":"/workspace/scratch/dd83da97e97c/erp-progress-finance-ui-integration/scripts/cp7_current_progress_finance_ui/vendor/scripts/cp7_frozen_analysis_facade_v2/client/nativeFrozenWait.test.ts"},{"assertionResults":[{"ancestorTitles":[],"fullName":"prepares once before the first candidate read and reuses it for later pages","status":"passed","title":"prepares once before the first candidate read and reuses it for later pages","duration":168.70571600000005,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"already-ready reopening reads candidates without requesting or repeating preparation","status":"passed","title":"already-ready reopening reads candidates without requesting or repeating preparation","duration":62.51665800000001,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"a lost SAVE receipt remains recoverable even when preparation source has expired","status":"passed","title":"a lost SAVE receipt remains recoverable even when preparation source has expired","duration":16.323004999999966,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"refuses actor before any preparation or candidate RPC","status":"passed","title":"refuses actor before any preparation or candidate RPC","duration":3.2487969999999677,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"refuses permission before any preparation or candidate RPC","status":"passed","title":"refuses permission before any preparation or candidate RPC","duration":2.8094939999999724,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"refuses method before any preparation or candidate RPC","status":"passed","title":"refuses method before any preparation or candidate RPC","duration":2.5970570000000635,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"allows closing while a real preparation reply is still pending and retires it on unmount","status":"passed","title":"allows closing while a real preparation reply is still pending and retires it on unmount","duration":16.01491699999997,"failureMessages":[],"meta":{},"tags":[]}],"startTime":1792989625719,"endTime":1792989625991.015,"status":"passed","message":"","name":"/workspace/scratch/dd83da97e97c/erp-progress-finance-ui-integration/scripts/cp7_current_progress_finance_ui/vendor/scripts/cp7_frozen_choice_preparation/client/PreparedFrozenAnalogPanel.dom.test.tsx"},{"assertionResults":[{"ancestorTitles":[],"fullName":"separates preparation from saving and exposes candidates only after actual READY","status":"passed","title":"separates preparation from saving and exposes candidates only after actual READY","duration":64.20616199999995,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"reopening displays same queued work and offers resumption without creating new source","status":"passed","title":"reopening displays same queued work and offers resumption without creating new source","duration":11.166575999999964,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"failed unit shows recovery explanation and cannot masquerade as saved or complete analysis","status":"passed","title":"failed unit shows recovery explanation and cannot masquerade as saved or complete analysis","duration":9.682538000000022,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"reader without management never starts preparation or receives write controls","status":"passed","title":"reader without management never starts preparation or receives write controls","duration":6.757832000000008,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"current access rejection retires ready data and delegates parent access loss","status":"passed","title":"current access rejection retires ready data and delegates parent access loss","duration":7.317775999999981,"failureMessages":[],"meta":{},"tags":[]}],"startTime":1792989627132,"endTime":1792989627231.3179,"status":"passed","message":"","name":"/workspace/scratch/dd83da97e97c/erp-progress-finance-ui-integration/scripts/cp7_current_progress_finance_ui/vendor/scripts/cp7_frozen_choice_preparation/client/PreparedFrozenChoicePanel.dom.test.tsx"},{"assertionResults":[{"ancestorTitles":[],"fullName":"does not enqueue work after the caller was retired","status":"passed","title":"does not enqueue work after the caller was retired","duration":2.0091720000000066,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"does not start the next unit if displaying status retires the caller","status":"passed","title":"does not start the next unit if displaying status retires the caller","duration":1.1248250000000155,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"uses original source request and current access for request/get/step","status":"passed","title":"uses original source request and current access for request/get/step","duration":0.828314000000006,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"rejects contradictory source_request before showing success","status":"passed","title":"rejects contradictory source_request before showing success","duration":0.7103579999999852,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"rejects contradictory run_id before showing success","status":"passed","title":"rejects contradictory run_id before showing success","duration":0.223401999999993,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"rejects contradictory stage before showing success","status":"passed","title":"rejects contradictory stage before showing success","duration":0.16114000000001738,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"rejects contradictory unit_count before showing success","status":"passed","title":"rejects contradictory unit_count before showing success","duration":0.15608199999999783,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"rejects contradictory choice_saved before showing success","status":"passed","title":"rejects contradictory choice_saved before showing success","duration":0.11754499999997847,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"rejects contradictory production_go before showing success","status":"passed","title":"rejects contradictory production_go before showing success","duration":0.1943990000000042,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"rejects contradictory state before showing success","status":"passed","title":"rejects contradictory state before showing success","duration":0.23636200000001395,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"rejects contradictory worker_active before showing success","status":"passed","title":"rejects contradictory worker_active before showing success","duration":0.1575849999999832,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"rejects contradictory unit_attempts before showing success","status":"passed","title":"rejects contradictory unit_attempts before showing success","duration":0.20933200000001762,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"rejects contradictory created_at before showing success","status":"passed","title":"rejects contradictory created_at before showing success","duration":0.2281200000000183,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"rejects foreign source clock/hash and partial READY totals","status":"passed","title":"rejects foreign source clock/hash and partial READY totals","duration":0.42147800000000757,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"reports actual queued/running units and never sends SAVE","status":"passed","title":"reports actual queued/running units and never sends SAVE","duration":1.4533349999999814,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"stops a stale response after closing or changing the source","status":"passed","title":"stops a stale response after closing or changing the source","duration":0.33942500000000564,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"lost request delivery retries the same durable source without manufacturing a command UUID","status":"passed","title":"lost request delivery retries the same durable source without manufacturing a command UUID","duration":1.168530000000004,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"no-progress timeout stops only monitoring without replacing or declaring the server job failed","status":"passed","title":"no-progress timeout stops only monitoring without replacing or declaring the server job failed","duration":0.562076999999988,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"failure is terminal for this work and does not run another step","status":"passed","title":"failure is terminal for this work and does not run another step","duration":0.23470899999998096,"failureMessages":[],"meta":{},"tags":[]}],"startTime":1792989629595,"endTime":1792989629605.562,"status":"passed","message":"","name":"/workspace/scratch/dd83da97e97c/erp-progress-finance-ui-integration/scripts/cp7_current_progress_finance_ui/vendor/scripts/cp7_frozen_choice_preparation/client/nativeFrozenChoicePreparation.test.ts"},{"assertionResults":[{"ancestorTitles":[],"fullName":"updates elapsed duration without inventing completed units or a percentage","status":"passed","title":"updates elapsed duration without inventing completed units or a percentage","duration":52.20923399999998,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"keeps completed production separate from financial completeness and never runs a success animation timer","status":"passed","title":"keeps completed production separate from financial completeness and never runs a success animation timer","duration":4.873891999999955,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"distinguishes unknown start, blocked data, interrupted monitoring and confirmed server failure","status":"passed","title":"distinguishes unknown start, blocked data, interrupted monitoring and confirmed server failure","duration":6.2671320000000605,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"warns on stale observed progress and does not promise background work without an active server runner","status":"passed","title":"warns on stale observed progress and does not promise background work without an active server runner","duration":5.381844000000001,"failureMessages":[],"meta":{},"tags":[]}],"startTime":1792989628419,"endTime":1792989628487.3818,"status":"passed","message":"","name":"/workspace/scratch/dd83da97e97c/erp-progress-finance-ui-integration/scripts/cp7_current_progress_finance_ui/vendor/scripts/cp7_frozen_quantity_ui/client/NativeFrozenProgress.dom.test.tsx"},{"assertionResults":[{"ancestorTitles":[],"fullName":"persists before v2 request, shows exact full-run totals, pages and UNKNOWN facts","status":"passed","title":"persists before v2 request, shows exact full-run totals, pages and UNKNOWN facts","duration":1199.0849520000002,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"reopens a lost-response UUID through v2 with its original period and leaves the durable record intact","status":"passed","title":"reopens a lost-response UUID through v2 with its original period and leaves the durable record intact","duration":695.0965840000003,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"keeps a StrictMode double mount on one durable UUID with no losing request sent","status":"passed","title":"keeps a StrictMode double mount on one durable UUID with no losing request sent","duration":619.6700650000002,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"refuses runtime mismatch before storage and RPC","status":"passed","title":"refuses runtime mismatch before storage and RPC","duration":194.11943299999984,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"refuses permission mismatch before storage and RPC","status":"passed","title":"refuses permission mismatch before storage and RPC","duration":196.97298199999977,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"refuses identity mismatch before storage and RPC","status":"passed","title":"refuses identity mismatch before storage and RPC","duration":255.82649399999946,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"preserves corrupt recovery bytes and never generates a replacement request","status":"passed","title":"preserves corrupt recovery bytes and never generates a replacement request","duration":220.91144600000007,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"fails closed if persistence fails or cross-tab locks are unavailable","status":"passed","title":"fails closed if persistence fails or cross-tab locks are unavailable","duration":222.61676499999976,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"retires a held request after real StorageEvent and keeps the other-tab UUID","status":"passed","title":"retires a held request after real StorageEvent and keeps the other-tab UUID","duration":219.93656800000008,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"retires a held page after current identity loses read permission","status":"passed","title":"retires a held page after current identity loses read permission","duration":400.1138769999998,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"clears all rendered quantities and candidate access after a real-shaped access refusal","status":"passed","title":"clears all rendered quantities and candidate access after a real-shaped access refusal","duration":879.9954429999998,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"searches every product label and passes the same v2 request/target/access to the actual candidate panel","status":"passed","title":"searches every product label and passes the same v2 request/target/access to the actual candidate panel","duration":657.1562610000001,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"makes all prefix matches reachable while placing the exact SKU first","status":"passed","title":"makes all prefix matches reachable while placing the exact SKU first","duration":818.9098409999997,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"permits a fresh UUID only after an explicit constructor refusal and never silently retries with another method","status":"passed","title":"permits a fresh UUID only after an explicit constructor refusal and never silently retries with another method","duration":621.4083770000007,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"keeps previous result and UUID when explicit replacement cannot be persisted","status":"passed","title":"keeps previous result and UUID when explicit replacement cannot be persisted","duration":703.7914410000012,"failureMessages":[],"meta":{},"tags":[]}],"startTime":1792989621325,"endTime":1792989629230.7915,"status":"passed","message":"","name":"/workspace/scratch/dd83da97e97c/erp-progress-finance-ui-integration/scripts/cp7_current_progress_finance_ui/vendor/scripts/cp7_frozen_quantity_ui/client/NativeFrozenQuantityPanel.dom.test.tsx"},{"assertionResults":[{"ancestorTitles":[],"fullName":"never gives a percentage while the plan grows, or uses target completion as whole-job completion","status":"passed","title":"never gives a percentage while the plan grows, or uses target completion as whole-job completion","duration":1.9069700000000012,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"allows arbitrarily long total work when real completed units continue advancing","status":"passed","title":"allows arbitrarily long total work when real completed units continue advancing","duration":4.563749999999999,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"does not treat heartbeat timestamps or worker-active flags as completed work","status":"passed","title":"does not treat heartbeat timestamps or worker-active flags as completed work","duration":0.3681880000000035,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"returns ready replies immediately and releases the timeout","status":"passed","title":"returns ready replies immediately and releases the timeout","duration":2.2701900000000137,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"aborts an unresponsive transport with an uncertain-result message and never adopts its late answer","status":"passed","title":"aborts an unresponsive transport with an uncertain-result message and never adopts its late answer","duration":1.7020449999999983,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"preserves real server refusals and cleans up on synchronous transport errors","status":"passed","title":"preserves real server refusals and cleans up on synchronous transport errors","duration":0.7317299999999989,"failureMessages":[],"meta":{},"tags":[]}],"startTime":1792989629769,"endTime":1792989629780.7317,"status":"passed","message":"","name":"/workspace/scratch/dd83da97e97c/erp-progress-finance-ui-integration/scripts/cp7_current_progress_finance_ui/vendor/scripts/cp7_frozen_quantity_ui/client/nativeFrozenProgress.test.ts"},{"assertionResults":[{"ancestorTitles":[],"fullName":"replays explicit v2 on every reopen and drives only the original durable query/UUID","status":"passed","title":"replays explicit v2 on every reopen and drives only the original durable query/UUID","duration":41.613463000000024,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"keeps selected finance mode through DONE and reads its separate status without reloading pages","status":"passed","title":"keeps selected finance mode through DONE and reads its separate status without reloading pages","duration":64.05897200000004,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"requires server v2 method acceptance again before any result page and binds the verified source to analog v2","status":"passed","title":"requires server v2 method acceptance again before any result page and binds the verified source to analog v2","duration":93.753469,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"does not relabel an old-method DONE or fall back after a server method refusal","status":"passed","title":"does not relabel an old-method DONE or fall back after a server method refusal","duration":24.20586299999991,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"refuses request changes without network or discarding durable bytes","status":"passed","title":"refuses request changes without network or discarding durable bytes","duration":54.22000400000002,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"refuses method changes without network or discarding durable bytes","status":"passed","title":"refuses method changes without network or discarding durable bytes","duration":31.001770999999962,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"refuses actor changes without network or discarding durable bytes","status":"passed","title":"refuses actor changes without network or discarding durable bytes","duration":32.15530899999999,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"refuses query changes without network or discarding durable bytes","status":"passed","title":"refuses query changes without network or discarding durable bytes","duration":28.74112600000001,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"refuses corrupt changes without network or discarding durable bytes","status":"passed","title":"refuses corrupt changes without network or discarding durable bytes","duration":26.55107399999997,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"refuses mismatched server run before pages","status":"passed","title":"refuses mismatched server run before pages","duration":26.06757300000004,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"refuses mismatched server count before pages","status":"passed","title":"refuses mismatched server count before pages","duration":30.52425100000005,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"refuses mismatched server clock before pages","status":"passed","title":"refuses mismatched server clock before pages","duration":23.62489699999992,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"refuses mismatched server hash before pages","status":"passed","title":"refuses mismatched server hash before pages","duration":23.392276000000038,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"refuses mismatched server expired before pages","status":"passed","title":"refuses mismatched server expired before pages","duration":28.15286900000001,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"refuses a copied/unadmitted page set before page, source-check or analog reads","status":"passed","title":"refuses a copied/unadmitted page set before page, source-check or analog reads","duration":32.30301899999995,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"does not render a page with a changed exact hash even when other metadata matches","status":"passed","title":"does not render a page with a changed exact hash even when other metadata matches","duration":35.70075900000006,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"holds each in-flight unit against a competing replacement and never steps its new UUID","status":"passed","title":"holds each in-flight unit against a competing replacement and never steps its new UUID","duration":23.545588999999836,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"retires an answer if storage is changed outside the lock while its request is in flight","status":"passed","title":"retires an answer if storage is changed outside the lock while its request is in flight","duration":23.754621000000043,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"backs off for an active worker and cancels before reading another status","status":"passed","title":"backs off for an active worker and cancels before reading another status","duration":22.621682999999848,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"retains exact request after lost response and denies all RPC when locks are unavailable","status":"passed","title":"retains exact request after lost response and denies all RPC when locks are unavailable","duration":20.775094999999965,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"hands an admitted v2 result to checked cutting with exact identity, target and original microseconds","status":"passed","title":"hands an admitted v2 result to checked cutting with exact identity, target and original microseconds","duration":29.782445000000052,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"stops monitoring unchanged server work without discarding its UUID and resumes that same request","status":"passed","title":"stops monitoring unchanged server work without discarding its UUID and resumes that same request","duration":22.36973899999998,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"bounds a never-delivered page response and retains the exact source request","status":"passed","title":"bounds a never-delivered page response and retains the exact source request","duration":25.975727000000006,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"bounds a never-delivered source response and retains the exact source request","status":"passed","title":"bounds a never-delivered source response and retains the exact source request","duration":25.966354000000138,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"bounds a never-delivered finance status without discarding its chosen finance mode","status":"passed","title":"bounds a never-delivered finance status without discarding its chosen finance mode","duration":28.92103300000008,"failureMessages":[],"meta":{},"tags":[]},{"ancestorTitles":[],"fullName":"stops a blocked cross-tab queue before network and keeps the same recovery record","status":"passed","title":"stops a blocked cross-tab queue before network and keeps the same recovery record","duration":27.50303299999996,"failureMessages":[],"meta":{},"tags":[]}],"startTime":1792989622557,"endTime":1792989623404.503,"status":"passed","message":"","name":"/workspace/scratch/dd83da97e97c/erp-progress-finance-ui-integration/scripts/cp7_current_progress_finance_ui/vendor/scripts/cp7_frozen_quantity_ui/client/nativeFrozenQuantity.test.ts"}]}
+{
+  "numTotalTestSuites": 17,
+  "numPassedTestSuites": 17,
+  "numFailedTestSuites": 0,
+  "numPendingTestSuites": 0,
+  "numTotalTests": 190,
+  "numPassedTests": 190,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTodoTests": 0,
+  "snapshot": {
+    "added": 0,
+    "failure": false,
+    "filesAdded": 0,
+    "filesRemoved": 0,
+    "filesRemovedList": [],
+    "filesUnmatched": 0,
+    "filesUpdated": 0,
+    "matched": 0,
+    "total": 0,
+    "unchecked": 0,
+    "uncheckedKeysByFile": [],
+    "unmatched": 0,
+    "updated": 0,
+    "didUpdate": false
+  },
+  "startTime": 1793003576388,
+  "success": true,
+  "testResults": [
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "keeps production complete separate from finance with an unknown total",
+          "status": "passed",
+          "title": "keeps production complete separate from finance with an unknown total",
+          "duration": 90.81370200000003,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "does not invent elapsed time or progress when only the client clock moves",
+          "status": "passed",
+          "title": "does not invent elapsed time or progress when only the client clock moves",
+          "duration": 40.17471999999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "keeps completed duration fixed on a later reopening",
+          "status": "passed",
+          "title": "keeps completed duration fixed on a later reopening",
+          "duration": 33.40002900000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1793003591049,
+      "endTime": 1793003591214.4001,
+      "status": "passed",
+      "message": "",
+      "name": "/workspace/scratch/dd83da97e97c/erp-progress-finance-ui-qualification/scripts/cp7_current_progress_finance_ui/CombinedProgress.dom.test.tsx"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "survives StrictMode cleanup with one active shared read and no early financial figures",
+          "status": "passed",
+          "title": "survives StrictMode cleanup with one active shared read and no early financial figures",
+          "duration": 139.87484300000006,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "shows official figures only after the real finance component reads READY and then stops polling",
+          "status": "passed",
+          "title": "shows official figures only after the real finance component reads READY and then stops polling",
+          "duration": 146.3069109999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "reopens the same durable UUID without enqueueing, advancing or changing its stored payload",
+          "status": "passed",
+          "title": "reopens the same durable UUID without enqueueing, advancing or changing its stored payload",
+          "duration": 58.72061000000008,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "stops after a lost response and permits a read-only retry on the same job",
+          "status": "passed",
+          "title": "stops after a lost response and permits a read-only retry on the same job",
+          "duration": 66.23029999999994,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "notifies the owning production panel and retires progress when the current server ACL refuses access",
+          "status": "passed",
+          "title": "notifies the owning production panel and retires progress when the current server ACL refuses access",
+          "duration": 69.53461199999992,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "hides existing money immediately on local permission loss and rechecks the current server status",
+          "status": "passed",
+          "title": "hides existing money immediately on local permission loss and rechecks the current server status",
+          "duration": 113.40990499999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "retires an unresolved read when the panel closes and does not poll from its late answer",
+          "status": "passed",
+          "title": "retires an unresolved read when the panel closes and does not poll from its late answer",
+          "duration": 43.61808999999994,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1793003581588,
+      "endTime": 1793003582226.6182,
+      "status": "passed",
+      "message": "",
+      "name": "/workspace/scratch/dd83da97e97c/erp-progress-finance-ui-qualification/scripts/cp7_current_progress_finance_ui/Panel.dom.test.tsx"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "shares simultaneous reads but rechecks the server for every later read",
+          "status": "passed",
+          "title": "shares simultaneous reads but rechecks the server for every later read",
+          "duration": 61.421710000000076,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "a lost response retries only the same read and never creates or advances work",
+          "status": "passed",
+          "title": "a lost response retries only the same read and never creates or advances work",
+          "duration": 26.122907000000055,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "current access refusal clears previously visible metadata instead of reusing it",
+          "status": "passed",
+          "title": "current access refusal clears previously visible metadata instead of reusing it",
+          "duration": 31.01760300000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "rejects a different immutable source even when the request UUID is the same",
+          "status": "passed",
+          "title": "rejects a different immutable source even when the request UUID is the same",
+          "duration": 35.82608400000004,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "rejects a late reply after another tab retires the durable request",
+          "status": "passed",
+          "title": "rejects a late reply after another tab retires the durable request",
+          "duration": 25.83844499999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "disposal prevents late publication and all new reads",
+          "status": "passed",
+          "title": "disposal prevents late publication and all new reads",
+          "duration": 29.189873000000034,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "rejects server observation time going backwards",
+          "status": "passed",
+          "title": "rejects server observation time going backwards",
+          "duration": 36.326936000000046,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1793003589044,
+      "endTime": 1793003589289.327,
+      "status": "passed",
+      "message": "",
+      "name": "/workspace/scratch/dd83da97e97c/erp-progress-finance-ui-qualification/scripts/cp7_current_progress_finance_ui/reader.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "routes persisted STAGED requests, reopen and DONE revalidation to finance before reading pages",
+          "status": "passed",
+          "title": "routes persisted STAGED requests, reopen and DONE revalidation to finance before reading pages",
+          "duration": 131.5027990000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "retains the UUID, mode and exact bytes after a lost finance response and retries only that route",
+          "status": "passed",
+          "title": "retains the UUID, mode and exact bytes after a lost finance response and retries only that route",
+          "duration": 54.4006159999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "keeps undefined operational with no finance capture and leaves durable mode unchanged",
+          "status": "passed",
+          "title": "keeps undefined operational with no finance capture and leaves durable mode unchanged",
+          "duration": 29.918586000000005,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "keeps DEFERRED operational with no finance capture and leaves durable mode unchanged",
+          "status": "passed",
+          "title": "keeps DEFERRED operational with no finance capture and leaves durable mode unchanged",
+          "duration": 31.265839000000028,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "preserves FORBIDDEN without switching methods or discarding the request",
+          "status": "passed",
+          "title": "preserves FORBIDDEN without switching methods or discarding the request",
+          "duration": 58.918188999999984,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "preserves AUTH_REQUIRED without switching methods or discarding the request",
+          "status": "passed",
+          "title": "preserves AUTH_REQUIRED without switching methods or discarding the request",
+          "duration": 37.24011500000006,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "preserves CP7_ANALYSIS_REQUEST_CHANGED without switching methods or discarding the request",
+          "status": "passed",
+          "title": "preserves CP7_ANALYSIS_REQUEST_CHANGED without switching methods or discarding the request",
+          "duration": 34.138423999999986,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "refuses an explicit invalid mode null before any RPC",
+          "status": "passed",
+          "title": "refuses an explicit invalid mode null before any RPC",
+          "duration": 37.26595800000007,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "refuses an explicit invalid mode undefined before any RPC",
+          "status": "passed",
+          "title": "refuses an explicit invalid mode undefined before any RPC",
+          "duration": 40.53692099999989,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "refuses an explicit invalid mode AUTO before any RPC",
+          "status": "passed",
+          "title": "refuses an explicit invalid mode AUTO before any RPC",
+          "duration": 33.36390099999994,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "refuses an explicit invalid mode staged before any RPC",
+          "status": "passed",
+          "title": "refuses an explicit invalid mode staged before any RPC",
+          "duration": 48.25805300000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "refuses an explicit invalid mode 0 before any RPC",
+          "status": "passed",
+          "title": "refuses an explicit invalid mode 0 before any RPC",
+          "duration": 35.384276999999884,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "passes all nonrequest calls and their options unchanged, preserving receiver and identity",
+          "status": "passed",
+          "title": "passes all nonrequest calls and their options unchanged, preserving receiver and identity",
+          "duration": 35.23345500000005,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "does not mutate frozen payloads during explicit DEFERRED syntax conversion",
+          "status": "passed",
+          "title": "does not mutate frozen payloads during explicit DEFERRED syntax conversion",
+          "duration": 35.31648100000007,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "does not bypass the original cross-tab lock or durable-request checks",
+          "status": "passed",
+          "title": "does not bypass the original cross-tab lock or durable-request checks",
+          "duration": 35.751591999999846,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1793003582878,
+      "endTime": 1793003583556.7517,
+      "status": "passed",
+      "message": "",
+      "name": "/workspace/scratch/dd83da97e97c/erp-progress-finance-ui-qualification/scripts/cp7_current_progress_finance_ui/transport.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "shows exact official money and the separate operational/report reading times",
+          "status": "passed",
+          "title": "shows exact official money and the separate operational/report reading times",
+          "duration": 60.344025999999985,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "never reads or displays figures after the current permission is removed",
+          "status": "passed",
+          "title": "never reads or displays figures after the current permission is removed",
+          "duration": 11.665600999999924,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "retires previously shown figures when the next status read is refused",
+          "status": "passed",
+          "title": "retires previously shown figures when the next status read is refused",
+          "duration": 20.12946199999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "keeps an unknown progress total distinct from zero and shows no early money",
+          "status": "passed",
+          "title": "keeps an unknown progress total distinct from zero and shows no early money",
+          "duration": 6.418692999999962,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "withholds financial conclusions while the official report is incomplete",
+          "status": "passed",
+          "title": "withholds financial conclusions while the official report is incomplete",
+          "duration": 7.108033000000091,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "rejects a status for another operational result",
+          "status": "passed",
+          "title": "rejects a status for another operational result",
+          "duration": 6.552520999999956,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "retires figures when operational capture changes to 2026-10-23T00:01:00Z even if its source hash stays the same",
+          "status": "passed",
+          "title": "retires figures when operational capture changes to 2026-10-23T00:01:00Z even if its source hash stays the same",
+          "duration": 14.882173999999964,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "retires figures when operational capture changes to 2026-10-23T00:00:00.000001Z even if its source hash stays the same",
+          "status": "passed",
+          "title": "retires figures when operational capture changes to 2026-10-23T00:00:00.000001Z even if its source hash stays the same",
+          "duration": 13.830777000000012,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "ignores a late response belonging to a previous selected request",
+          "status": "passed",
+          "title": "ignores a late response belonging to a previous selected request",
+          "duration": 50.601998000000094,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1793003585631,
+      "endTime": 1793003585822.602,
+      "status": "passed",
+      "message": "",
+      "name": "/workspace/scratch/dd83da97e97c/erp-progress-finance-ui-qualification/scripts/cp7_current_progress_finance_ui/vendor/src/NativeAnalysisFinancePanel.dom.test.tsx"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "reads the actual SQL consumer output and preserves official IDR decimals beyond safe integers",
+          "status": "passed",
+          "title": "reads the actual SQL consumer output and preserves official IDR decimals beyond safe integers",
+          "duration": 18.486910999999992,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "refuses a mismatched financial response: request",
+          "status": "passed",
+          "title": "refuses a mismatched financial response: request",
+          "duration": 1.30609400000003,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "refuses a mismatched financial response: job",
+          "status": "passed",
+          "title": "refuses a mismatched financial response: job",
+          "duration": 0.287715999999989,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "refuses a mismatched financial response: query",
+          "status": "passed",
+          "title": "refuses a mismatched financial response: query",
+          "duration": 0.661549999999977,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "refuses a mismatched financial response: reference",
+          "status": "passed",
+          "title": "refuses a mismatched financial response: reference",
+          "duration": 0.22915000000000418,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "refuses a mismatched financial response: date",
+          "status": "passed",
+          "title": "refuses a mismatched financial response: date",
+          "duration": 0.44430799999997816,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "refuses a mismatched financial response: source-ref",
+          "status": "passed",
+          "title": "refuses a mismatched financial response: source-ref",
+          "duration": 0.5465689999999768,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "refuses a mismatched financial response: version",
+          "status": "passed",
+          "title": "refuses a mismatched financial response: version",
+          "duration": 0.6068280000000073,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "refuses a mismatched financial response: operand",
+          "status": "passed",
+          "title": "refuses a mismatched financial response: operand",
+          "duration": 0.6773529999999823,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "refuses a mismatched financial response: duplicate",
+          "status": "passed",
+          "title": "refuses a mismatched financial response: duplicate",
+          "duration": 0.9090860000000021,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "refuses a mismatched financial response: unknown-ready",
+          "status": "passed",
+          "title": "refuses a mismatched financial response: unknown-ready",
+          "duration": 0.708308000000045,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "refuses a mismatched financial response: number-money",
+          "status": "passed",
+          "title": "refuses a mismatched financial response: number-money",
+          "duration": 0.5235950000000003,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "refuses a mismatched financial response: premature-result",
+          "status": "passed",
+          "title": "refuses a mismatched financial response: premature-result",
+          "duration": 0.4472719999999981,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "refuses a mismatched financial response: wrong-total",
+          "status": "passed",
+          "title": "refuses a mismatched financial response: wrong-total",
+          "duration": 0.4360060000000203,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "refuses a mismatched financial response: ready-failure",
+          "status": "passed",
+          "title": "refuses a mismatched financial response: ready-failure",
+          "duration": 0.4946930000000407,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "refuses a mismatched financial response: smuggled",
+          "status": "passed",
+          "title": "refuses a mismatched financial response: smuggled",
+          "duration": 0.1951090000000022,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "keeps unstarted totals unknown, failed results absent, and revoked financial facts entirely absent",
+          "status": "passed",
+          "title": "keeps unstarted totals unknown, failed results absent, and revoked financial facts entirely absent",
+          "duration": 0.8656510000000139,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "refuses a different reference instant within the same millisecond",
+          "status": "passed",
+          "title": "refuses a different reference instant within the same millisecond",
+          "duration": 0.21316600000000108,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "refuses a different report instant within the same millisecond",
+          "status": "passed",
+          "title": "refuses a different report instant within the same millisecond",
+          "duration": 0.5025949999999852,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "accepts equivalent offsets and preserves all six fractional digits",
+          "status": "passed",
+          "title": "accepts equivalent offsets and preserves all six fractional digits",
+          "duration": 0.5383370000000127,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "refuses invalid financial clocks: 2026-02-30T00:00:00Z",
+          "status": "passed",
+          "title": "refuses invalid financial clocks: 2026-02-30T00:00:00Z",
+          "duration": 0.6340789999999856,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "refuses invalid financial clocks: 2026-10-23T24:00:00Z",
+          "status": "passed",
+          "title": "refuses invalid financial clocks: 2026-10-23T24:00:00Z",
+          "duration": 0.39352300000001605,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "refuses invalid financial clocks: 2026-10-23T00:03:00.0000001Z",
+          "status": "passed",
+          "title": "refuses invalid financial clocks: 2026-10-23T00:03:00.0000001Z",
+          "duration": 0.3848600000000033,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "refuses invalid financial clocks: 2026-10-23T00:03:00+24:00",
+          "status": "passed",
+          "title": "refuses invalid financial clocks: 2026-10-23T00:03:00+24:00",
+          "duration": 0.26245899999997846,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1793003588313,
+      "endTime": 1793003588344.3848,
+      "status": "passed",
+      "message": "",
+      "name": "/workspace/scratch/dd83da97e97c/erp-progress-finance-ui-qualification/scripts/cp7_current_progress_finance_ui/vendor/src/nativeAnalysisFinanceSidecar.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "reads every job state strictly: run_id only with DONE, failure only with FAILED, worker_active only when stated",
+          "status": "passed",
+          "title": "reads every job state strictly: run_id only with DONE, failure only with FAILED, worker_active only when stated",
+          "duration": 13.085088000000042,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "keeps the staged request under its own key with the single job request protocol, never trusting a broken record",
+          "status": "passed",
+          "title": "keeps the staged request under its own key with the single job request protocol, never trusting a broken record",
+          "duration": 9.098795999999993,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "states progress, pause and failure from the server status, with the failure code verbatim",
+          "status": "passed",
+          "title": "states progress, pause and failure from the server status, with the failure code verbatim",
+          "duration": 53.36928799999987,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "K4: reads the server runner strictly and, only while it is active, says the page may be closed and the job goes on",
+          "status": "passed",
+          "title": "K4: reads the server runner strictly and, only while it is active, says the page may be closed and the job goes on",
+          "duration": 11.073824999999943,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "drives request \u2192 step \u00d7 n \u2192 DONE, reporting each server status as it comes, without waiting between steps",
+          "status": "passed",
+          "title": "drives request \u2192 step \u00d7 n \u2192 DONE, reporting each server status as it comes, without waiting between steps",
+          "duration": 8.936564999999973,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "backs off and polls get instead of stepping while another session holds the job",
+          "status": "passed",
+          "title": "backs off and polls get instead of stepping while another session holds the job",
+          "duration": 0.757432000000108,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "stops on FAILED with the server failure, never claiming a run",
+          "status": "passed",
+          "title": "stops on FAILED with the server failure, never claiming a run",
+          "duration": 0.34903699999995297,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "resumes a stored request by reading status first, then stepping; a DONE status reads nothing more",
+          "status": "passed",
+          "title": "resumes a stored request by reading status first, then stepping; a DONE status reads nothing more",
+          "duration": 0.36897700000008626,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "abandons the loop once aborted: no further call, no result, even from inside a back-off wait",
+          "status": "passed",
+          "title": "abandons the loop once aborted: no further call, no result, even from inside a back-off wait",
+          "duration": 0.45152900000016416,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "throws a server refusal or a lost reply after reporting the last known status, and refuses a status of another request",
+          "status": "passed",
+          "title": "throws a server refusal or a lost reply after reporting the last known status, and refuses a status of another request",
+          "duration": 5.974474999999984,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "reads the 7-day retention of a job and words it (owner decision 8 Oct 2026)",
+          "status": "passed",
+          "title": "reads the 7-day retention of a job and words it (owner decision 8 Oct 2026)",
+          "duration": 2.067340999999942,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1793003578152,
+      "endTime": 1793003578258.0674,
+      "status": "passed",
+      "message": "",
+      "name": "/workspace/scratch/dd83da97e97c/erp-progress-finance-ui-qualification/scripts/cp7_current_progress_finance_ui/vendor/src/nativeStagedJob.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "cannot issue a new request before its exact method/query/UUID/actor is durable",
+          "status": "passed",
+          "title": "cannot issue a new request before its exact method/query/UUID/actor is durable",
+          "duration": 11.19663700000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "retries the same retained v2 method and arguments after a lost reply without clearing bytes",
+          "status": "passed",
+          "title": "retries the same retained v2 method and arguments after a lost reply without clearing bytes",
+          "duration": 4.642493999999942,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "keeps actors and old v1 recovery separate even when their request UUID is the same",
+          "status": "passed",
+          "title": "keeps actors and old v1 recovery separate even when their request UUID is the same",
+          "duration": 3.5842569999999796,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "preserves corrupt actor bytes and refuses all calls/overwrites",
+          "status": "passed",
+          "title": "preserves corrupt actor bytes and refuses all calls/overwrites",
+          "duration": 2.3787909999999783,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "preserves corrupt method bytes and refuses all calls/overwrites",
+          "status": "passed",
+          "title": "preserves corrupt method bytes and refuses all calls/overwrites",
+          "duration": 4.897440000000074,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "preserves corrupt uuid bytes and refuses all calls/overwrites",
+          "status": "passed",
+          "title": "preserves corrupt uuid bytes and refuses all calls/overwrites",
+          "duration": 1.2130859999999757,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "preserves corrupt date bytes and refuses all calls/overwrites",
+          "status": "passed",
+          "title": "preserves corrupt date bytes and refuses all calls/overwrites",
+          "duration": 1.297050000000013,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "preserves corrupt scope bytes and refuses all calls/overwrites",
+          "status": "passed",
+          "title": "preserves corrupt scope bytes and refuses all calls/overwrites",
+          "duration": 0.90763400000003,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "preserves corrupt finance bytes and refuses all calls/overwrites",
+          "status": "passed",
+          "title": "preserves corrupt finance bytes and refuses all calls/overwrites",
+          "duration": 1.016905999999949,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "refuses clearing or replacing a different retained query from another tab",
+          "status": "passed",
+          "title": "refuses clearing or replacing a different retained query from another tab",
+          "duration": 1.211603000000082,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "leaves the original finished pointer recoverable after a failed replacement write",
+          "status": "passed",
+          "title": "leaves the original finished pointer recoverable after a failed replacement write",
+          "duration": 2.158902000000012,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "requires a new UUID and same actor for an intentional replacement",
+          "status": "passed",
+          "title": "requires a new UUID and same actor for an intentional replacement",
+          "duration": 1.2169920000000047,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "fails closed before storage or network if a shared browser lock is unavailable",
+          "status": "passed",
+          "title": "fails closed before storage or network if a shared browser lock is unavailable",
+          "duration": 0.8582609999999704,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "serializes competing creates so a second UUID cannot replace an unresolved request",
+          "status": "passed",
+          "title": "serializes competing creates so a second UUID cannot replace an unresolved request",
+          "duration": 0.9183800000000701,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "keeps a send and competing replacement in one shared ordering boundary",
+          "status": "passed",
+          "title": "keeps a send and competing replacement in one shared ordering boundary",
+          "duration": 1.747496999999953,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "keeps the explicit STAGED finance choice durable and replays it without changing the operational query",
+          "status": "passed",
+          "title": "keeps the explicit STAGED finance choice durable and replays it without changing the operational query",
+          "duration": 2.5656079999999974,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "keeps the explicit DEFERRED finance choice durable and replays it without changing the operational query",
+          "status": "passed",
+          "title": "keeps the explicit DEFERRED finance choice durable and replays it without changing the operational query",
+          "duration": 2.299669999999992,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1793003580266,
+      "endTime": 1793003580312.2996,
+      "status": "passed",
+      "message": "",
+      "name": "/workspace/scratch/dd83da97e97c/erp-progress-finance-ui-qualification/scripts/cp7_current_progress_finance_ui/vendor/scripts/cp7_frozen_analysis_facade_v2/client/nativeFrozenAnalysis.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "bounds only the lock queue and never runs a timed-out late callback",
+          "status": "passed",
+          "title": "bounds only the lock queue and never runs a timed-out late callback",
+          "duration": 19.29557699999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "retains an acquired lock until the bounded action completes even after queue deadline",
+          "status": "passed",
+          "title": "retains an acquired lock until the bounded action completes even after queue deadline",
+          "duration": 0.9997700000000123,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "takes the original key, an exclusive lock and an abort signal",
+          "status": "passed",
+          "title": "takes the original key, an exclusive lock and an abort signal",
+          "duration": 2.513360999999918,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "does not leave a queue timer behind on synchronous lock or callback failure",
+          "status": "passed",
+          "title": "does not leave a queue timer behind on synchronous lock or callback failure",
+          "duration": 1.0752519999999777,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1793003590900,
+      "endTime": 1793003590924.0752,
+      "status": "passed",
+      "message": "",
+      "name": "/workspace/scratch/dd83da97e97c/erp-progress-finance-ui-qualification/scripts/cp7_current_progress_finance_ui/vendor/scripts/cp7_frozen_analysis_facade_v2/client/nativeFrozenWait.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "reopened running work reaches READY through status reads alone",
+          "status": "passed",
+          "title": "reopened running work reaches READY through status reads alone",
+          "duration": 118.25339700000006,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "reopened queued work observes a real terminal failure without starting work",
+          "status": "passed",
+          "title": "reopened queued work observes a real terminal failure without starting work",
+          "duration": 14.625924000000055,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "unchanged reopened work stops monitoring honestly and leaves same-work recovery enabled",
+          "status": "passed",
+          "title": "unchanged reopened work stops monitoring honestly and leaves same-work recovery enabled",
+          "duration": 23.698346000000015,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "revoked access during reopened polling clears the state and stops further reads",
+          "status": "passed",
+          "title": "revoked access during reopened polling clears the state and stops further reads",
+          "duration": 9.865786000000071,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "does not overlap status reads and ignores a poll that completes after closing",
+          "status": "passed",
+          "title": "does not overlap status reads and ignores a poll that completes after closing",
+          "duration": 8.83254700000009,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "an older poll cannot replace the result of explicit continuation of the same work",
+          "status": "passed",
+          "title": "an older poll cannot replace the result of explicit continuation of the same work",
+          "duration": 19.26000399999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "a lost status response stops after the existing reply bound without creating another work",
+          "status": "passed",
+          "title": "a lost status response stops after the existing reply bound without creating another work",
+          "duration": 15.45943299999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "disappeared work after an observed status is reported instead of silently keeping RUNNING",
+          "status": "passed",
+          "title": "disappeared work after an observed status is reported instead of silently keeping RUNNING",
+          "duration": 8.614134000000035,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1793003584222,
+      "endTime": 1793003584440.614,
+      "status": "passed",
+      "message": "",
+      "name": "/workspace/scratch/dd83da97e97c/erp-progress-finance-ui-qualification/scripts/cp7_current_progress_finance_ui/vendor/scripts/cp7_frozen_choice_preparation/client/ChoicePreparationReopen.dom.test.tsx"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "prepares once before the first candidate read and reuses it for later pages",
+          "status": "passed",
+          "title": "prepares once before the first candidate read and reuses it for later pages",
+          "duration": 221.0642519999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "already-ready reopening reads candidates without requesting or repeating preparation",
+          "status": "passed",
+          "title": "already-ready reopening reads candidates without requesting or repeating preparation",
+          "duration": 87.53857300000004,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "a lost SAVE receipt remains recoverable even when preparation source has expired",
+          "status": "passed",
+          "title": "a lost SAVE receipt remains recoverable even when preparation source has expired",
+          "duration": 18.31902600000012,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "refuses actor before any preparation or candidate RPC",
+          "status": "passed",
+          "title": "refuses actor before any preparation or candidate RPC",
+          "duration": 9.393117000000075,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "refuses permission before any preparation or candidate RPC",
+          "status": "passed",
+          "title": "refuses permission before any preparation or candidate RPC",
+          "duration": 3.10087099999987,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "refuses method before any preparation or candidate RPC",
+          "status": "passed",
+          "title": "refuses method before any preparation or candidate RPC",
+          "duration": 2.7706419999999525,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "allows closing while a real preparation reply is still pending and retires it on unmount",
+          "status": "passed",
+          "title": "allows closing while a real preparation reply is still pending and retires it on unmount",
+          "duration": 14.785605000000032,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1793003586792,
+      "endTime": 1793003587149.7856,
+      "status": "passed",
+      "message": "",
+      "name": "/workspace/scratch/dd83da97e97c/erp-progress-finance-ui-qualification/scripts/cp7_current_progress_finance_ui/vendor/scripts/cp7_frozen_choice_preparation/client/PreparedFrozenAnalogPanel.dom.test.tsx"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "separates preparation from saving and exposes candidates only after actual READY",
+          "status": "passed",
+          "title": "separates preparation from saving and exposes candidates only after actual READY",
+          "duration": 99.61244499999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "reopening displays same queued work and offers resumption without creating new source",
+          "status": "passed",
+          "title": "reopening displays same queued work and offers resumption without creating new source",
+          "duration": 17.55860599999994,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "failed unit shows recovery explanation and cannot masquerade as saved or complete analysis",
+          "status": "passed",
+          "title": "failed unit shows recovery explanation and cannot masquerade as saved or complete analysis",
+          "duration": 18.737287000000038,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "reader without management never starts preparation or receives write controls",
+          "status": "passed",
+          "title": "reader without management never starts preparation or receives write controls",
+          "duration": 11.92065500000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "current access rejection retires ready data and delegates parent access loss",
+          "status": "passed",
+          "title": "current access rejection retires ready data and delegates parent access loss",
+          "duration": 12.264283999999975,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1793003587897,
+      "endTime": 1793003588057.2644,
+      "status": "passed",
+      "message": "",
+      "name": "/workspace/scratch/dd83da97e97c/erp-progress-finance-ui-qualification/scripts/cp7_current_progress_finance_ui/vendor/scripts/cp7_frozen_choice_preparation/client/PreparedFrozenChoicePanel.dom.test.tsx"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "does not enqueue work after the caller was retired",
+          "status": "passed",
+          "title": "does not enqueue work after the caller was retired",
+          "duration": 3.7015710000000013,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "does not start the next unit if displaying status retires the caller",
+          "status": "passed",
+          "title": "does not start the next unit if displaying status retires the caller",
+          "duration": 1.9781189999999924,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "uses original source request and current access for request/get/step",
+          "status": "passed",
+          "title": "uses original source request and current access for request/get/step",
+          "duration": 2.566900999999973,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "rejects contradictory source_request before showing success",
+          "status": "passed",
+          "title": "rejects contradictory source_request before showing success",
+          "duration": 1.3627569999999878,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "rejects contradictory run_id before showing success",
+          "status": "passed",
+          "title": "rejects contradictory run_id before showing success",
+          "duration": 0.3405440000000226,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "rejects contradictory stage before showing success",
+          "status": "passed",
+          "title": "rejects contradictory stage before showing success",
+          "duration": 0.16378199999996923,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "rejects contradictory unit_count before showing success",
+          "status": "passed",
+          "title": "rejects contradictory unit_count before showing success",
+          "duration": 0.15731300000004467,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "rejects contradictory choice_saved before showing success",
+          "status": "passed",
+          "title": "rejects contradictory choice_saved before showing success",
+          "duration": 0.24959999999998672,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "rejects contradictory production_go before showing success",
+          "status": "passed",
+          "title": "rejects contradictory production_go before showing success",
+          "duration": 0.7582330000000184,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "rejects contradictory state before showing success",
+          "status": "passed",
+          "title": "rejects contradictory state before showing success",
+          "duration": 0.7478469999999788,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "rejects contradictory worker_active before showing success",
+          "status": "passed",
+          "title": "rejects contradictory worker_active before showing success",
+          "duration": 0.4431559999999308,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "rejects contradictory unit_attempts before showing success",
+          "status": "passed",
+          "title": "rejects contradictory unit_attempts before showing success",
+          "duration": 0.25268500000004224,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "rejects contradictory created_at before showing success",
+          "status": "passed",
+          "title": "rejects contradictory created_at before showing success",
+          "duration": 0.36703299999999217,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "rejects foreign source clock/hash and partial READY totals",
+          "status": "passed",
+          "title": "rejects foreign source clock/hash and partial READY totals",
+          "duration": 0.9895650000000842,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "reports actual queued/running units and never sends SAVE",
+          "status": "passed",
+          "title": "reports actual queued/running units and never sends SAVE",
+          "duration": 2.040931999999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "stops a stale response after closing or changing the source",
+          "status": "passed",
+          "title": "stops a stale response after closing or changing the source",
+          "duration": 1.2200960000000123,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "lost request delivery retries the same durable source without manufacturing a command UUID",
+          "status": "passed",
+          "title": "lost request delivery retries the same durable source without manufacturing a command UUID",
+          "duration": 2.293766000000005,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "no-progress timeout stops only monitoring without replacing or declaring the server job failed",
+          "status": "passed",
+          "title": "no-progress timeout stops only monitoring without replacing or declaring the server job failed",
+          "duration": 0.9576769999999897,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "failure is terminal for this work and does not run another step",
+          "status": "passed",
+          "title": "failure is terminal for this work and does not run another step",
+          "duration": 0.25649999999996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "persisted retry progress resets observation time even when total time exceeds two minutes",
+          "status": "passed",
+          "title": "persisted retry progress resets observation time even when total time exceeds two minutes",
+          "duration": 1.0691929999999275,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "changing only the observed worker lock never resets the no-progress deadline",
+          "status": "passed",
+          "title": "changing only the observed worker lock never resets the no-progress deadline",
+          "duration": 0.7007680000000391,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "retirement while waiting to poll prevents the next read",
+          "status": "passed",
+          "title": "retirement while waiting to poll prevents the next read",
+          "duration": 0.4520399999998972,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1793003584958,
+      "endTime": 1793003584982.4521,
+      "status": "passed",
+      "message": "",
+      "name": "/workspace/scratch/dd83da97e97c/erp-progress-finance-ui-qualification/scripts/cp7_current_progress_finance_ui/vendor/scripts/cp7_frozen_choice_preparation/client/nativeFrozenChoicePreparation.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "updates elapsed duration without inventing completed units or a percentage",
+          "status": "passed",
+          "title": "updates elapsed duration without inventing completed units or a percentage",
+          "duration": 54.68042899999989,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "keeps completed production separate from financial completeness and never runs a success animation timer",
+          "status": "passed",
+          "title": "keeps completed production separate from financial completeness and never runs a success animation timer",
+          "duration": 4.467155000000048,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "distinguishes unknown start, blocked data, interrupted monitoring and confirmed server failure",
+          "status": "passed",
+          "title": "distinguishes unknown start, blocked data, interrupted monitoring and confirmed server failure",
+          "duration": 7.203575000000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "warns on stale observed progress and does not promise background work without an active server runner",
+          "status": "passed",
+          "title": "warns on stale observed progress and does not promise background work without an active server runner",
+          "duration": 6.907666999999947,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1793003589914,
+      "endTime": 1793003589987.9077,
+      "status": "passed",
+      "message": "",
+      "name": "/workspace/scratch/dd83da97e97c/erp-progress-finance-ui-qualification/scripts/cp7_current_progress_finance_ui/vendor/scripts/cp7_frozen_quantity_ui/client/NativeFrozenProgress.dom.test.tsx"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "persists before v2 request, shows exact full-run totals, pages and UNKNOWN facts",
+          "status": "passed",
+          "title": "persists before v2 request, shows exact full-run totals, pages and UNKNOWN facts",
+          "duration": 1556.4183670000002,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "reopens a lost-response UUID through v2 with its original period and leaves the durable record intact",
+          "status": "passed",
+          "title": "reopens a lost-response UUID through v2 with its original period and leaves the durable record intact",
+          "duration": 1007.615644,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "keeps a StrictMode double mount on one durable UUID with no losing request sent",
+          "status": "passed",
+          "title": "keeps a StrictMode double mount on one durable UUID with no losing request sent",
+          "duration": 925.8408100000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "refuses runtime mismatch before storage and RPC",
+          "status": "passed",
+          "title": "refuses runtime mismatch before storage and RPC",
+          "duration": 278.1004730000004,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "refuses permission mismatch before storage and RPC",
+          "status": "passed",
+          "title": "refuses permission mismatch before storage and RPC",
+          "duration": 283.08768899999995,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "refuses identity mismatch before storage and RPC",
+          "status": "passed",
+          "title": "refuses identity mismatch before storage and RPC",
+          "duration": 298.717439,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "preserves corrupt recovery bytes and never generates a replacement request",
+          "status": "passed",
+          "title": "preserves corrupt recovery bytes and never generates a replacement request",
+          "duration": 283.17944400000033,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "fails closed if persistence fails or cross-tab locks are unavailable",
+          "status": "passed",
+          "title": "fails closed if persistence fails or cross-tab locks are unavailable",
+          "duration": 248.4138039999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "retires a held request after real StorageEvent and keeps the other-tab UUID",
+          "status": "passed",
+          "title": "retires a held request after real StorageEvent and keeps the other-tab UUID",
+          "duration": 363.9664210000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "retires a held page after current identity loses read permission",
+          "status": "passed",
+          "title": "retires a held page after current identity loses read permission",
+          "duration": 595.8780029999998,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "clears all rendered quantities and candidate access after a real-shaped access refusal",
+          "status": "passed",
+          "title": "clears all rendered quantities and candidate access after a real-shaped access refusal",
+          "duration": 1132.5627890000005,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "searches every product label and passes the same v2 request/target/access to the actual candidate panel",
+          "status": "passed",
+          "title": "searches every product label and passes the same v2 request/target/access to the actual candidate panel",
+          "duration": 1013.1045299999996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "makes all prefix matches reachable while placing the exact SKU first",
+          "status": "passed",
+          "title": "makes all prefix matches reachable while placing the exact SKU first",
+          "duration": 1115.1721610000004,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "permits a fresh UUID only after an explicit constructor refusal and never silently retries with another method",
+          "status": "passed",
+          "title": "permits a fresh UUID only after an explicit constructor refusal and never silently retries with another method",
+          "duration": 872.4377430000004,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "keeps previous result and UUID when explicit replacement cannot be persisted",
+          "status": "passed",
+          "title": "keeps previous result and UUID when explicit replacement cannot be persisted",
+          "duration": 804.6520839999994,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1793003579342,
+      "endTime": 1793003590121.652,
+      "status": "passed",
+      "message": "",
+      "name": "/workspace/scratch/dd83da97e97c/erp-progress-finance-ui-qualification/scripts/cp7_current_progress_finance_ui/vendor/scripts/cp7_frozen_quantity_ui/client/NativeFrozenQuantityPanel.dom.test.tsx"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "never gives a percentage while the plan grows, or uses target completion as whole-job completion",
+          "status": "passed",
+          "title": "never gives a percentage while the plan grows, or uses target completion as whole-job completion",
+          "duration": 2.523596999999995,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "allows arbitrarily long total work when real completed units continue advancing",
+          "status": "passed",
+          "title": "allows arbitrarily long total work when real completed units continue advancing",
+          "duration": 5.443349000000012,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "does not treat heartbeat timestamps or worker-active flags as completed work",
+          "status": "passed",
+          "title": "does not treat heartbeat timestamps or worker-active flags as completed work",
+          "duration": 0.4760840000000144,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "returns ready replies immediately and releases the timeout",
+          "status": "passed",
+          "title": "returns ready replies immediately and releases the timeout",
+          "duration": 2.778433000000007,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "aborts an unresponsive transport with an uncertain-result message and never adopts its late answer",
+          "status": "passed",
+          "title": "aborts an unresponsive transport with an uncertain-result message and never adopts its late answer",
+          "duration": 2.0624830000000145,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "preserves real server refusals and cleans up on synchronous transport errors",
+          "status": "passed",
+          "title": "preserves real server refusals and cleans up on synchronous transport errors",
+          "duration": 0.6545699999999783,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1793003590194,
+      "endTime": 1793003590207.6545,
+      "status": "passed",
+      "message": "",
+      "name": "/workspace/scratch/dd83da97e97c/erp-progress-finance-ui-qualification/scripts/cp7_current_progress_finance_ui/vendor/scripts/cp7_frozen_quantity_ui/client/nativeFrozenProgress.test.ts"
+    },
+    {
+      "assertionResults": [
+        {
+          "ancestorTitles": [],
+          "fullName": "replays explicit v2 on every reopen and drives only the original durable query/UUID",
+          "status": "passed",
+          "title": "replays explicit v2 on every reopen and drives only the original durable query/UUID",
+          "duration": 79.00246500000003,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "keeps selected finance mode through DONE and reads its separate status without reloading pages",
+          "status": "passed",
+          "title": "keeps selected finance mode through DONE and reads its separate status without reloading pages",
+          "duration": 100.38942400000019,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "requires server v2 method acceptance again before any result page and binds the verified source to analog v2",
+          "status": "passed",
+          "title": "requires server v2 method acceptance again before any result page and binds the verified source to analog v2",
+          "duration": 116.51695600000016,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "does not relabel an old-method DONE or fall back after a server method refusal",
+          "status": "passed",
+          "title": "does not relabel an old-method DONE or fall back after a server method refusal",
+          "duration": 39.45210399999996,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "refuses request changes without network or discarding durable bytes",
+          "status": "passed",
+          "title": "refuses request changes without network or discarding durable bytes",
+          "duration": 54.325714999999946,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "refuses method changes without network or discarding durable bytes",
+          "status": "passed",
+          "title": "refuses method changes without network or discarding durable bytes",
+          "duration": 31.243836999999985,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "refuses actor changes without network or discarding durable bytes",
+          "status": "passed",
+          "title": "refuses actor changes without network or discarding durable bytes",
+          "duration": 38.17056199999979,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "refuses query changes without network or discarding durable bytes",
+          "status": "passed",
+          "title": "refuses query changes without network or discarding durable bytes",
+          "duration": 39.90329200000042,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "refuses corrupt changes without network or discarding durable bytes",
+          "status": "passed",
+          "title": "refuses corrupt changes without network or discarding durable bytes",
+          "duration": 68.45298600000024,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "refuses mismatched server run before pages",
+          "status": "passed",
+          "title": "refuses mismatched server run before pages",
+          "duration": 39.530205000000024,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "refuses mismatched server count before pages",
+          "status": "passed",
+          "title": "refuses mismatched server count before pages",
+          "duration": 34.49726400000009,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "refuses mismatched server clock before pages",
+          "status": "passed",
+          "title": "refuses mismatched server clock before pages",
+          "duration": 30.763636000000133,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "refuses mismatched server hash before pages",
+          "status": "passed",
+          "title": "refuses mismatched server hash before pages",
+          "duration": 32.47474900000043,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "refuses mismatched server expired before pages",
+          "status": "passed",
+          "title": "refuses mismatched server expired before pages",
+          "duration": 34.9657629999997,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "refuses a copied/unadmitted page set before page, source-check or analog reads",
+          "status": "passed",
+          "title": "refuses a copied/unadmitted page set before page, source-check or analog reads",
+          "duration": 121.18252600000005,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "does not render a page with a changed exact hash even when other metadata matches",
+          "status": "passed",
+          "title": "does not render a page with a changed exact hash even when other metadata matches",
+          "duration": 50.59051899999986,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "holds each in-flight unit against a competing replacement and never steps its new UUID",
+          "status": "passed",
+          "title": "holds each in-flight unit against a competing replacement and never steps its new UUID",
+          "duration": 29.13652400000001,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "retires an answer if storage is changed outside the lock while its request is in flight",
+          "status": "passed",
+          "title": "retires an answer if storage is changed outside the lock while its request is in flight",
+          "duration": 32.20784700000013,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "backs off for an active worker and cancels before reading another status",
+          "status": "passed",
+          "title": "backs off for an active worker and cancels before reading another status",
+          "duration": 30.194348999999875,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "retains exact request after lost response and denies all RPC when locks are unavailable",
+          "status": "passed",
+          "title": "retains exact request after lost response and denies all RPC when locks are unavailable",
+          "duration": 35.26750799999991,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "hands an admitted v2 result to checked cutting with exact identity, target and original microseconds",
+          "status": "passed",
+          "title": "hands an admitted v2 result to checked cutting with exact identity, target and original microseconds",
+          "duration": 46.78520900000012,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "stops monitoring unchanged server work without discarding its UUID and resumes that same request",
+          "status": "passed",
+          "title": "stops monitoring unchanged server work without discarding its UUID and resumes that same request",
+          "duration": 32.499443999999585,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "bounds a never-delivered page response and retains the exact source request",
+          "status": "passed",
+          "title": "bounds a never-delivered page response and retains the exact source request",
+          "duration": 40.249323000000004,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "bounds a never-delivered source response and retains the exact source request",
+          "status": "passed",
+          "title": "bounds a never-delivered source response and retains the exact source request",
+          "duration": 28.410464000000047,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "bounds a never-delivered finance status without discarding its chosen finance mode",
+          "status": "passed",
+          "title": "bounds a never-delivered finance status without discarding its chosen finance mode",
+          "duration": 42.61842999999999,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        },
+        {
+          "ancestorTitles": [],
+          "fullName": "stops a blocked cross-tab queue before network and keeps the same recovery record",
+          "status": "passed",
+          "title": "stops a blocked cross-tab queue before network and keeps the same recovery record",
+          "duration": 35.223683000000165,
+          "failureMessages": [],
+          "meta": {},
+          "tags": []
+        }
+      ],
+      "startTime": 1793003578250,
+      "endTime": 1793003579514.2236,
+      "status": "passed",
+      "message": "",
+      "name": "/workspace/scratch/dd83da97e97c/erp-progress-finance-ui-qualification/scripts/cp7_current_progress_finance_ui/vendor/scripts/cp7_frozen_quantity_ui/client/nativeFrozenQuantity.test.ts"
+    }
+  ]
+}

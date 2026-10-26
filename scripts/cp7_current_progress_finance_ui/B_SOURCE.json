@@ -1,7 +1,7 @@
 {
   "contract": "cp7.current-progress-finance-ui.sources.v1",
-  "B_source_head": "b96e2f7402b3373f9ab5fa7ede30d34a7048aea3",
-  "A_backend_parent": "821a7e79354ffa1f3fc73b9690c372d38f235a27",
+  "B_source_head": "d6fad0d2303bfe39531afdbe62f6faec95f79046",
+  "A_backend_parent": "5c30a4ea079afad5139b8fa08dbbad6d8af31227",
   "files": [
     {
       "path": "scripts/cp7_frozen_analysis_choice_v2/client/nativeFrozenChoice.ts",
@@ -40,6 +40,12 @@
       "sha256": "436566225d1df160c19204639bda4cdc10de34e6909e781488f96c3e86dc77b5"
     },
     {
+      "path": "scripts/cp7_frozen_choice_preparation/client/ChoicePreparationReopen.dom.test.tsx",
+      "vendored_path": "vendor/scripts/cp7_frozen_choice_preparation/client/ChoicePreparationReopen.dom.test.tsx",
+      "bytes": 6639,
+      "sha256": "7dd1e7804c4d875f124297724aa7278ba1b039ba4ea8de19ee11eb8263e44904"
+    },
+    {
       "path": "scripts/cp7_frozen_choice_preparation/client/PreparedFrozenAnalogPanel.dom.test.tsx",
       "vendored_path": "vendor/scripts/cp7_frozen_choice_preparation/client/PreparedFrozenAnalogPanel.dom.test.tsx",
       "bytes": 6112,
@@ -60,20 +66,20 @@
     {
       "path": "scripts/cp7_frozen_choice_preparation/client/PreparedFrozenChoicePanel.tsx",
       "vendored_path": "vendor/scripts/cp7_frozen_choice_preparation/client/PreparedFrozenChoicePanel.tsx",
-      "bytes": 4586,
-      "sha256": "bc4700de422f411820b0557848e9286264fad46157583745576247beb39dc6a2"
+      "bytes": 4693,
+      "sha256": "1953c19ec41f85e50ab09f17fa2726dd0fb8c06a3a39e60a8f7737773da4e289"
     },
     {
       "path": "scripts/cp7_frozen_choice_preparation/client/nativeFrozenChoicePreparation.test.ts",
       "vendored_path": "vendor/scripts/cp7_frozen_choice_preparation/client/nativeFrozenChoicePreparation.test.ts",
-      "bytes": 4700,
-      "sha256": "4b7279329fa416113b92f6c07a452a8f0179245e4722348157eaa084cdc21cb2"
+      "bytes": 6213,
+      "sha256": "1b788b198903f9a099fc3ca67f8d3d2f9bf393e0351db8492c1b894484801563"
     },
     {
       "path": "scripts/cp7_frozen_choice_preparation/client/nativeFrozenChoicePreparation.ts",
       "vendored_path": "vendor/scripts/cp7_frozen_choice_preparation/client/nativeFrozenChoicePreparation.ts",
-      "bytes": 4142,
-      "sha256": "6d25b9c5e8b869e0ccf89fa0576dd3b019e3ed7a6250d58bf2b6cbf54502c9e5"
+      "bytes": 4993,
+      "sha256": "039ed68488e501eed6044d3ca8bfc4cb1aada43e85b1039f429d9804878bde8b"
     },
     {
       "path": "scripts/cp7_frozen_choice_preparation/client/preparationFixture.ts",
@@ -545,5 +551,9 @@
     }
   ],
   "actual_runtime_qualified": false,
-  "production_go": false
+  "production_go": false,
+  "previous_B_source_head": "b96e2f7402b3373f9ab5fa7ede30d34a7048aea3",
+  "previous_A_UI_host_head": "0f818812a79013c926fcb54e949b0923bf1622ea",
+  "B_reopen_browser_head": "e94e80375ecf16919bed2f6d2f3d191f094875b8",
+  "B_reopen_browser_scope": "real Chromium; controlled identity and HTTP RPC; no Native/Auth/finance credit"
 }
