@@ -32,6 +32,16 @@ legacy Native6 to test this optional UI. No B workflow started for this client
 push at observation; old36runs all ended. Scope5/16 remains open; independent
 acceptance and production_go remain false.
 
+
+Final read of A **5e2cbfdfe7abe7183c5449e2cf5803dc8a11d1f6** supersedes the
+613209db status snapshot above. A now records actual finance UI389 PASS2 and
+complete intake of the two failed690/546 reports; both remain INCOMPLETE.
+Their successors are prepared locally, not qualified; Native6 remains unbound.
+A reports no server run active at that snapshot. This is A's source-bound status,
+not independent Original/visual intake by B, and does not qualify the newer
+combined progress host or this reopened-preparation correction. Ownership and
+the next acceptance boundary above are unchanged.
+
 ## Previous evidence — coordination217, all started runs finished
 
 Latest B code **b96e2f7402b3373f9ab5fa7ede30d34a7048aea3** unchanged. All36 started runs on
