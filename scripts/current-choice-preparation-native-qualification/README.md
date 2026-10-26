@@ -33,3 +33,8 @@ Alur: bind_sources.py memeriksa proof aktual dan mengikat semua berkas;
 admission.py mengulang penerimaan sumber lama dan memeriksa Original induk;
 probe.py menjalankan kasus, inverse dan pemulihan penuh. Fetch Original dan
 admission selalu berada pada langkah workflow yang berbeda.
+
+Induk Native5 kini disiapkan pada0c86d277, menggantikan546 yang gagal.
+Seluruh sembilan berkas harness induk disalin byte-exact; runtime0c masih
+berjalan ketika perubahan ini disiapkan. Binder tetap menolak Original bukan
+PASS dan SOURCE Native6 belum dibuat. Kegagalan546 tetap dipertahankan.

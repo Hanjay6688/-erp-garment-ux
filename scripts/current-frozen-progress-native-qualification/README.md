@@ -23,3 +23,19 @@ factory performance, concurrent current-access race, independent acceptance,
 default adoption or production permission. The controlled SQL9 and client28
 tests remain separately classified evidence. No product/source/time limit is
 changed by this qualification.
+
+The first run at 54676bcc (40264118585) remains INCOMPLETE: three cases passed,
+and the two cases reading after capture steps failed at an unconditional
+NO_LOCK_OBSERVED assertion. There was no captured timeout. The unchanged worker
+takes a transaction advisory lock; these Native fixtures run the worker and
+reader in the same outer transaction. Completion does not release that lock.
+PostgreSQL documents transaction locks at
+https://www.postgresql.org/docs/17/explicit-locking.html#ADVISORY-LOCKS.
+
+The successor checks the exact lock independently before accepting telemetry:
+the reassembled 64-bit lock key must belong to this backend after a step, have
+no foreign holder, and match the returned LOCK_HELD. Before steps it must be
+absent and return NO_LOCK_OBSERVED. READY/FAILED and every timestamp, metric,
+no-write check and recovery assertion remain required. This is a specific
+Native transaction oracle correction; it does not accept either value at will
+or claim a live scheduler exists. Actual successor CI is still required.

@@ -33,7 +33,25 @@ def installed(state,checker):
 
 def at(value):return datetime.fromisoformat(value)
 
-def read(cur,key,subject=None):
+def worker_lock(cur,capture_id,expected_own_lock):
+    # Reassemble the signed bigint lock key, independently of the endpoint's
+    # split-key lookup. Native steps run in this same outer transaction, so
+    # their xact advisory lock remains held after READY/FAILED until rollback.
+    own,foreign=cur.execute("""
+        select count(*) filter(where pid=pg_backend_pid()),
+               count(*) filter(where pid<>pg_backend_pid())
+        from pg_catalog.pg_locks
+        where locktype='advisory' and granted and mode='ExclusiveLock'
+          and objsubid=1
+          and database=(select oid from pg_catalog.pg_database where datname=current_database())
+          and ((classid::bigint<<32)|objid::bigint)=
+              pg_catalog.hashtextextended('CP7:FINANCE_CAPTURE_STEP:'||%s::text,0)
+    """,(capture_id,)).fetchone()
+    assert foreign==0,('UNEXPECTED_CONCURRENT_WORKER',foreign)
+    assert own==int(expected_own_lock),('NATIVE_TRANSACTION_LOCK_MISMATCH',own,expected_own_lock)
+    return 'LOCK_HELD'if expected_own_lock else'NO_LOCK_OBSERVED'
+
+def read(cur,key,subject=None,*,expected_own_lock=False):
     before=product.catalog._data(cur);started=monotonic()
     wire=staged.limited(cur,RPC,(key,),subject)
     elapsed=round((monotonic()-started)*1000,3)
@@ -58,7 +76,8 @@ def read(cur,key,subject=None):
         for key1,key2 in [('created_at','created_at'),('last_activity_at','updated_at'),('finished_at','finished_at')]:
             assert (at(m[key1])if m[key1]is not None else None)==(at(stored[key2])if stored[key2]is not None else None)
         assert m['unit_attempts']==stored['unit_attempts']and m['report_ms']==stored['report_ms']
-        assert m['worker_observation']=='NO_LOCK_OBSERVED'  # no scheduler/worker in this single-connection case
+        expected=worker_lock(cur,m['capture_id'],expected_own_lock)
+        assert m['worker_observation']==expected,('WORKER_OBSERVATION_MISMATCH',m['worker_observation'],expected)
         assert at(m['created_at'])<=at(m['last_activity_at'])<=at(wire['observed_at'])
     return wire,elapsed
 
@@ -101,7 +120,7 @@ def cases(cur,today):
         assert waiting['operational']['finished_at']is not None and waiting['finance']['finished_at']is None
         assert waiting['status']['finance_capture']['state']=='RUNNING'
         ready,trail=finance.run_capture(cur,cid);assert ready['state']=='READY'
-        final,t2=read(cur,key);reopened,t3=read(cur,key)
+        final,t2=read(cur,key,expected_own_lock=True);reopened,t3=read(cur,key,expected_own_lock=True)
         assert final['operational']==reopened['operational']and final['finance']==reopened['finance']
         result=finance.sidecar(final['status'],key,'READY')['result']
         source=finance.finance.call(cur,'select cp7_finance_capture.result(%s)',(cid,))
@@ -116,7 +135,9 @@ def cases(cur,today):
         return dict(status='PASS',status_read_ms=[t1,t2,t3],production_done_did_not_finish_finance=True,
                     reopened_terminal_timestamps_exact=True,official_metrics_exact=24,
                     readiness=readiness,unknown_metric_ids=unknown,unknown_never_zero=True,
-                    operational_steps=len(calls),finance_steps=len(trail))
+                    operational_steps=len(calls),finance_steps=len(trail),
+                    transaction_lock_observations=[waiting['finance']['worker_observation'],
+                        final['finance']['worker_observation'],reopened['finance']['worker_observation']])
 
     def privacy():
         finance.setup(cur,today);subject,role=finance.finance.finance_cases.admin_actor(cur,staged.analysis)
@@ -137,16 +158,17 @@ def cases(cur,today):
         first=finance.run_capture(cur,cid,once=True);assert first['state']=='RUNNING'and first['units_done']==1
         finance.finance.given(cur,today,'900.00')
         failed,trail=finance.run_capture(cur,cid);assert failed['state']=='FAILED'and failed['failure_code']=='CP7_FINANCE_CAPTURE_SOURCE_CHANGED'
-        observed,t1=read(cur,key)
+        observed,t1=read(cur,key,expected_own_lock=True)
         assert observed['finance']['finished_at']is not None
         assert observed['status']['finance_capture']['state']=='FAILED'and observed['status']['finance_capture']['result']is None
         stored=finance.stored_capture(cur,cid)
         next_key=uuid.uuid4();fresh=finance.request(cur,today,next_key)
         new_id=finance.sidecar(fresh,next_key,'RUNNING')['capture']['capture_id'];assert new_id!=cid
         ready,_=finance.run_capture(cur,new_id);assert ready['state']=='READY'
-        recovered,t2=read(cur,next_key)
+        recovered,t2=read(cur,next_key,expected_own_lock=True)
         assert recovered['status']['finance_capture']['state']=='READY'
         assert finance.stored_capture(cur,cid)==stored
         return dict(status='PASS',status_read_ms=[t1,t2],failure_visible=True,failed_result_not_exposed=True,
-                    failure_code=failed['failure_code'],fresh_request_recovered=True,old_failed_capture_immutable=True)
+                    failure_code=failed['failure_code'],fresh_request_recovered=True,old_failed_capture_immutable=True,
+                    transaction_lock_observations=[observed['finance']['worker_observation'],recovered['finance']['worker_observation']])
     return list(zip(IDS,(catalog,running,completed,privacy,changed_source)))

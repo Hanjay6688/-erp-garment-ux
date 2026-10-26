@@ -3703,8 +3703,8 @@
     "scripts/current-frozen-public-native-qualification/SOURCE.json": "08df423368c245524fe2feeb4e3dd6ab6cffbd6f9749c2f47ae5731f733dc698",
     "scripts/current-frozen-progress-native-qualification/probe.py": "a82ffa82266712085bbb9cc72fa565ad7f9dcd4acc6476acf561002b2e6a71da",
     "scripts/current-frozen-progress-native-qualification/fetch_original.py": "490a3dea3e4108bcfd89239971de6471996da5cc6843683151b10fae9bbd596a",
-    "scripts/current-frozen-progress-native-qualification/cases.py": "893e2110f04dc20d479fddfd9023bd139c6a3b9ae379024b953ec88c8dcb1814",
-    "scripts/current-frozen-progress-native-qualification/README.md": "a4c05829e38f918f372f2f10220af00e2534f7f890e098a6729cb8bae9c076a2",
+    "scripts/current-frozen-progress-native-qualification/cases.py": "b3fde45a6611b0646ce35209b6d89784d19e55a1d3b59d80569c9388c45e41c4",
+    "scripts/current-frozen-progress-native-qualification/README.md": "2461f2d623cc0c0222937b94b79636c3dac81ec8fa696a95c93660fe2b8f8696",
     "scripts/current-frozen-progress-native-qualification/admission.py": "7b2fb8824d49bdff3b9c16e15beac6fb3b3a9161acf5f8926a3e57cf5e574c2d",
     ".github/workflows/cp7-d17-18-progress-native.yml": "e869ab6d3d34c2865a58f0aa3acb1137f9cf3718c1216ecead9db69c358ec1ee",
     "scripts/cp7_current_analysis_progress/installation.py": "0be65fd7c1e28abb94757fbef12124560750aff9aa2c33cbe942071ffe82ff42",
@@ -3718,7 +3718,9 @@
     "scripts/cp7_current_analysis_progress/README.md": "e75e60a40ce56c38fa633a1eb957d6220dc5a9f5b55f4127554b923414d284c1",
     "scripts/cp7_current_analysis_progress/TELEMETRY_CONTRACT.md": "ce8ced6f77e511468eceef70ef2a290de8be821b0fc6a6d458202f281e5b4fbc",
     "scripts/cp7_current_analysis_progress/progress.test.ts": "37d696d15e8755c19a1725952accec0fbb5404e4143153cfb679a0ec7731f22b",
-    "scripts/cp7_current_analysis_progress/LOCAL_PREPARATION.json": "63b5072219dd13809c3c65f5eb68f7ad198e345ff41fe714fcb4fe598efe6cd6"
+    "scripts/cp7_current_analysis_progress/LOCAL_PREPARATION.json": "63b5072219dd13809c3c65f5eb68f7ad198e345ff41fe714fcb4fe598efe6cd6",
+    "scripts/current-frozen-progress-native-qualification/FIRST_RUNTIME_FAILURE_546.json": "dfeb687bcce7431107d8fa48578a3c0490ad91d82c3b537066d72b4ec6b9cf0c",
+    "scripts/current-frozen-progress-native-qualification/test_worker_lock.py": "6b63055f5a001e1d7ac12e5d5514d7aa59d321ed32334cc30652ce65352a266f"
   },
   "full_final_acceptance": false,
   "actual_Auth_HTTP_credit": false,

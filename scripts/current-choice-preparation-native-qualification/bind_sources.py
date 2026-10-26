@@ -5,7 +5,7 @@ import argparse,ast,json,subprocess
 
 HERE=Path(__file__).resolve().parent;REPO=HERE.parents[1]
 PRODUCT_PARENT='73b5ada8a6e1c6fbbfc53a3a4fe2b305def6657f'
-PROGRESS_HEAD='54676bcc969b950dd1ec52eb7feba2d7e58a8cb4'
+PROGRESS_HEAD='0c86d27739ff74aba65967453465880d1c72e94c'
 
 def main():
     p=argparse.ArgumentParser();p.add_argument('--proof',required=True);p.add_argument('--original',required=True)
