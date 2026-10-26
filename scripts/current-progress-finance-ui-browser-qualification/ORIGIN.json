@@ -4,8 +4,10 @@
     "scripts/cp7_current_frozen_finance_ui/browser.mjs": "57a416ab0064eabef9d2574d5029259bf7b796abdf63d17e1a6340c2d9b706ec",
     "scripts/cp7_current_frozen_finance_ui/browser_fixture.py": "be167320ad5884cb4f0fd1730a5fbb64ed3616a7e6b0bc3fff5f274cd7e95c4f"
   },
-  "UI_host_head": "0f818812a79013c926fcb54e949b0923bf1622ea",
+  "UI_host_head": "6213baf1d9226317f279e88f449889e1597c1486",
   "status": "PREPARATION_ONLY_UNBOUND",
   "actual_browser_executed": false,
-  "production_go": false
+  "production_go": false,
+  "previous_UI_host_head": "0f818812a79013c926fcb54e949b0923bf1622ea",
+  "B_reopen_source": "d6fad0d2303bfe39531afdbe62f6faec95f79046"
 }
