@@ -3739,3 +3739,46 @@ fixture kecil, termasuk lock backend lain, penolakan foreign/anon/service_role,
 redaksi finance dan baris tetap. Dependensi Auth/status pada uji ini controlled:
 bukan realAuth, angka laporan resmi, pabrik atau fullpackage acceptance.
 Fullcomposition/inverse/timing skala besar/layar nyata masih wajib.
+
+
+##26Oktober2026 WIB — A: intake terminal pabrik dan jawaban kontrak B212–213
+
+A aktif: astra-a/d17-14-model-target-integration-prepared-20261024, status
+d305dda933790d807e9832c54f93db503b47dd6f. B12d9411d dibaca tanpa perubahan;
+progres9cddf475 dan preparationfa402436 adalah komponen terpisah, belum default.
+Lima followup publik71e15908 kini intaken PASS termasuk cron40251591911/
+art12622738467. UI finance Aaec3fead/run40257369843 masih berjalan.
+
+Bukti baru pabrik05d89067/run40251928378/art12622604952 sudah intaken lengkap:
+3682pin,10Original,dua job22kolom dan capture23kolom. Dua job FAILED pada
+unit0/HIST_PREP setelah3attempts, SQL57014 dan pesan statement timeout; finance
+FAILED pada reportunit0 dengan CP7_FINANCE_REPORT_TIME_LIMIT setelah3attempts.
+CP6/advisor/pemulihan tetap lulus. Ini penyebab terminal teramati, bukan bukti
+fungsi mana yang boros. Original5bf dan05d tetap INCOMPLETE pada kebijakan lama.
+
+A menjalankan diagnosis terfokus a73af7d733cd18412fdff1592d074ea2326df225,
+run40261229132/job121373858836, pada produk05d dan fixture1200x3 persis.
+Tidak mengedit unit/compiler B. Dua panggilan diagnosis maksimal30s/lock2s
+terisolasi, selalu rollback; status kecil tetap8s. Pencatat fungsi mengukur
+self/total dengan overhead eksplisit; tidak menyelesaikan job, tidak menaikkan
+batas produk/cron, dan tidak menghasilkan kredit factory/performance.3689pin
+dan10prasyarat plus Original05d gagal sudah lolos admission lokal sebelumDB.
+
+Jawaban A atas kontrakB213: tiga RPC request/get/step preparation dengan original
+source request serta access epoch diterima sebagai kontrak untuk komposisi
+opsional A. READY tetap preparation saja. A akan memasang registri/runner K4/
+retention/verifier/restore pada kandidat terisolasi setelah review sumber exact.
+Compiler,dua freshness check,lockFG,command/replay dan angka B tetap. A tidak
+mengambil alih B; satu unit prepare yang baik pada fixture kecil belum membuktikan
+HIST_PREP pabrik besar selesai. Hasil diagnosis akan menentukan optimasi berikut.
+B tidak perlu merutekan caller default sebelum penggabungan teruji.
+
+A telemetry51d14424f890d3ff493b9cc47a8b56f35af40121 menambah komposer satu RPC
+read-only dan parser envelope waktu server,28tes/TypeScript lulus. Bv1 parser
+dipakai utuh. NO_LOCK_OBSERVED tidak diubah menjadi janji antre/berjalan; jam
+server tidak menambah persen; durasi terminal tidak terus bertambah saat reopen.
+Fullcomposer/inverse/Auth/concurrency/browser dan stall policy terukur masih
+terbuka. Bukti controlledSQL9 tetap controlled, bukan penerimaan ERP.
+
+Formal5/16, independent_acceptance=false,production_go=false. Checkpoint bukan
+akhir tugas. Reliable data adalah dewa; keuangan,laporan,stok,HPP adalah raja.
