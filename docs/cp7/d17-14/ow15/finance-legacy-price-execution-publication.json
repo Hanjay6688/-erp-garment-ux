@@ -13,7 +13,7 @@
   "run_id": 40362500463,
   "job_id": 121725919259,
   "started_at_utc": "2026-10-26T16:47:33Z",
-  "status": "RETRY_RUNNING_NOT_PASS",
+  "status": "ACTUAL_INCOMPLETE_PRICE_FIXTURE_PRECISION",
   "fixture_contract": "SYNTHETIC_LEGACY_PRICE_NATIVE_CURRENT_AND_OPENING_V2",
   "synthetic_legacy_price_insert_rows": 1,
   "native_historical_price_writer_credit": false,
@@ -42,5 +42,9 @@
   },
   "retry_decision_receipt": "finance-e352-infrastructure-retry-decision.json",
   "retry_observed_at_utc": "2026-10-26T18:21:11.983843+00:00",
-  "retry_current_step": "Compare unchanged and single check on small percentage and factory fixtures"
+  "retry_current_step": "Compare unchanged and single check on small percentage and factory fixtures",
+  "previous_status": "RETRY_RUNNING_NOT_PASS",
+  "actual_receipt": "d17-18-finance-precision-e352-actual-e352901d.json",
+  "actual_runtime_qualified": false,
+  "observed_at_utc": "2026-10-26T18:57:39.294841+00:00"
 }

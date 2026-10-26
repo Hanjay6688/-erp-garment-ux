@@ -8,6 +8,38 @@ Owner meminta sesi ini menggantikan chat Writer A yang penuh, memulihkan konteks
 ERP dan meneruskan A/integrasi. B boleh dibaca tetapi scope tidak ditukar. Ini
 penulis A, bukan auditor independen. Tidak ada subagent baru.
 
+
+## A / 27 Oktober2026 WIB — presisi fixture diperbaiki, sumber uji serentak disamakan
+
+Keuangan e352 actualINCOMPLETE, run40362500463/job121725919259/artifact12677002119.
+SMALL cocok seluruh laporan:282,035ms→214,679ms, pembaca kandidat nol DML.
+Fixture PRICE20,123456 tersimpan20,12; pemeriksaan persis menolak sebelum
+Native opening, PRICE_PERCENT dan factory. Seluruh pemulihan22kelompok/baris/
+nomor urut, CP6 dan advisor lulus; writer_runtime tetap false. Kegagalan lama
+dan Original4463092byte/SHA d42dd89cd3b2668252612473d1d1d8e46cbae0cdf24db024040aff0915bd177a
+tetap disimpan; tidak diberi kredit skala pabrik atau source-race.
+
+Penerus d05c568cca01085f87f7e48fe85c8d15ca43bffd memakai PRICE20,12 sesuai
+kontrak Native2desimal, HPP tetap2,483935 dan nilai10PCS24,84. Empat tes harga
+dan tujuh tes transformasi lulus; full-admission3731sumber lulus. Tidak mengubah
+SQL produk, perhitungan resmi, oracle atau batas waktu. Actual baru berjalan
+run40381790093/job121779660598 sejak18:53:39UTC. Belum PASS.
+
+Source-race c870b871b066822fcb63d344d8e6299e02042636 mengimpor persis sumber
+penerus, menolak bukti salah head/gagal/salah byte dan tetap PREPARED_UNBOUND.
+Wajib actuald05cPASS ketiga pasangan sebelum pengikatan/eksekusi.
+UI d1f4 pertama gagal HTTP503 saat mengambil prasyarat sebelumDB; setelah
+artefak yang sama terbukti tersedia, satu retry berjalan job121766073244.
+DB dan host telah lolos; hasil desktop/mobile belum keluar. Transport40f tetap
+tertahan setelah satu retry, tidak diulang otomatis.
+
+Tahap CI e352 berlangsung3945detik termasuk pasang/pulih; jeda log terbesar
+3677,382detik sebelum pengukuran SMALL belum terurai penyebabnya. Ini bukan
+latensi laporan; tidak ada klaim regresi terselesaikan atau kenaikan batas.
+Formal5/16; production_go=false; independent_acceptance=false; B tidak diubah.
+
+Bagian di bawah adalah riwayat. Posisi aktif mengikuti ACTIVE terbaru.
+
 ## Status terbaru — dua pekerjaan aktif setelah hasil browser aktual
 
 UI c64e5d6f actualINCOMPLETE2kasus: label A mewarisi gradien BODY, sehingga

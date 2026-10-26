@@ -1,0 +1,21 @@
+{
+  "name": "Compare unchanged and single check on small percentage and factory fixtures",
+  "status": "completed",
+  "conclusion": "failure",
+  "number": 62,
+  "started_at": "2026-10-26T17:28:53Z",
+  "completed_at": "2026-10-26T18:34:38Z",
+  "run_id": 40362500463,
+  "job_id": 121725919259,
+  "execution_stage_seconds": 3945,
+  "largest_observed_log_gap": {
+    "seconds": 3677.382,
+    "from": "2026-10-26T17:32:37.0715067Z",
+    "to": "2026-10-26T18:33:54.4530669Z",
+    "before": "T3_SECURITY_ADVISORS",
+    "after": "SMALL UNCHANGED_OFFICIAL RUNNING",
+    "cause": "UNRESOLVED: quiet log interval spans source admission, baseline checks, full composition install/preuse removal/reinstall and checks before measurement; not report latency."
+  },
+  "small_official_report_ms": 282.035,
+  "small_candidate_report_ms": 214.679
+}

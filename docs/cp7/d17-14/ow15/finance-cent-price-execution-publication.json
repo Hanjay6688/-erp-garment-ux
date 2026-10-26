@@ -1,0 +1,32 @@
+{
+  "head": "d05c568cca01085f87f7e48fe85c8d15ca43bffd",
+  "parent": "e352901d6975346fa6a099770d179ffc6a59475d",
+  "local": "e29c0caada6ab1a9709e1b657f0d8059fc3b8303",
+  "tree": "5b0bbe14efff32f79583269b9bf5eadb9cddbcee",
+  "execution_branch": "astra-a/d17-18-finance-check-reuse-diagnostic-20261026",
+  "status": "RUNNING_NOT_PASS",
+  "run_id": 40381790093,
+  "job_id": 121779660598,
+  "created_at_utc": "2026-10-26T18:53:39Z",
+  "full_admission": {
+    "status": "PASS",
+    "source_pins": 3731,
+    "bytes": 3904451,
+    "sha256": "f1a41cf5d0b555eb31d5d0cfe20eee00145f9d2fd9a74aeecffa15518dfc724f"
+  },
+  "local_tests": {
+    "price_contract": 4,
+    "readiness_transformation": 7
+  },
+  "previous_actual_status": "INCOMPLETE_PRICE_FIXTURE_PRECISION",
+  "previous_actual_run_id": 40362500463,
+  "previous_actual_job_id": 121725919259,
+  "fixture_contract": "SYNTHETIC_LEGACY_PRICE_NATIVE_CURRENT_AND_OPENING_V2",
+  "legacy_price": "20.12",
+  "native_current_price": "25.99",
+  "hpp_6dp": "2.483935",
+  "posted_value_2dp": "24.84",
+  "product_arithmetic_unchanged": true,
+  "statement_limits_unchanged": true,
+  "production_go": false
+}

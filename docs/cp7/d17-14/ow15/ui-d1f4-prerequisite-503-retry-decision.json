@@ -1,0 +1,11 @@
+{
+  "head": "d1f4b529542aba443f3b92986da911db646053e1",
+  "run_id": 40376731797,
+  "failed_job_id": 121761707561,
+  "status": "RETRY_REQUESTED",
+  "requested_at_utc": "2026-10-26T18:27:51.165Z",
+  "reason": "Exact failing prerequisite artifact12563788280 is available again: successful GitHub download operation observed18:27:21UTC after first HTTP503. One retry on unchanged source/oracles/platform/limits; no automatic second retry.",
+  "retry_count": 1,
+  "no_automatic_second_retry": true,
+  "actual_business_cases_before_retry": 0
+}

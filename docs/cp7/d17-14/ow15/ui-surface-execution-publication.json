@@ -21,11 +21,28 @@
   "first_failure_preserved": "FIRST_RUNTIME_FAILURE_C64.json",
   "oracle_changed": false,
   "statement_limits_unchanged": true,
-  "status": "RUNNING_NOT_PASS",
+  "status": "RETRY_RUNNING_NOT_PASS",
   "run_id": 40376731797,
-  "job_id": 121761707561,
+  "job_id": 121766073244,
   "started_at_utc": "2026-10-26T18:19:34Z",
   "production_go": false,
   "independent_acceptance": false,
-  "recorded_at_utc": "2026-10-26T18:19:32.668Z"
+  "recorded_at_utc": "2026-10-26T18:19:32.668Z",
+  "first_job_id": 121761707561,
+  "retry_count": 1,
+  "first_failure": {
+    "head": "d1f4b529542aba443f3b92986da911db646053e1",
+    "run_id": 40376731797,
+    "job_id": 121761707561,
+    "status": "INFRASTRUCTURE_HTTP_503_BEFORE_DATABASE",
+    "cause": "GitHub returned HTTP 503 downloading exact existing prerequisite artifact12563788280 at step41; no database or browser case started.",
+    "actual_business_cases": 0,
+    "original_created": false,
+    "artifact_count": 0,
+    "raw_log_bytes": 903304,
+    "production_go": false,
+    "raw_log_sha256": "6d4689ec889337d47579c674907ec9e0fa51b2ee9685f1922e30af4e6bb07e33"
+  },
+  "retry_decision_receipt": "ui-d1f4-prerequisite-503-retry-decision.json",
+  "retry_observed_at_utc": "2026-10-26T18:28:20.823839+00:00"
 }
