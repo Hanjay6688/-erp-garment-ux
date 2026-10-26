@@ -4,7 +4,48 @@ Owner asked the new writer to recover the complete context of **Writer B** and
 continue without questions. This is the active B entrypoint. Earlier checkpoints
 in `HANDOFF_PRODUKSI_CLAUDE_20261023.md` remain history, with their failures intact.
 
-## Current continuation — coordination219, real-browser recovery verified
+## Current continuation — coordination220, exact A-host intake proposal verified
+
+B continued with a concrete cross-source check after the owner challenged idle
+waiting. A's host0f818812 and browser candidate1b095460 contain the same112host
+files, verified by Git tree comparison. Both still vendor B b96. The new eight
+reopen regressions fail on that exact copy; this is missing coverage of the old
+one-read gate, not a claim that A's prior179cases had failed.
+
+B proposal **1b53f80c6bf216a984ba16d73eafe68cd52e5a5a** contains a six-path
+patch under `../d17-14/ow12b/reopen-intake/`, exact before/after hashes, and
+intake instructions. Three existing B files are updated from d6fad,87existing
+files stay identical, and one new test makes91. The other two proposed changes
+are B_SOURCE provenance and stricter source-guard counts. No A branch/worktree,
+public interface, SQL, finance, limits, default or backend binding was changed.
+
+An isolated rehearsal applies the exact patch, passes TypeScript and190tests/
+17files, preserving all179old case IDs plus11new assertions. The original A
+build still yields79modules with the same paths and routing; only the two B
+product-module hashes change. The source guard passes91exact B files and rejects
+stale B_SOURCE, BUILD_SOURCE and LOCAL_TESTS. Initial missing dependency roots
+caused173partial passes/3import failures; restoring those same-head A roots
+resolved setup without changing product/oracles. All first failures retained.
+
+Raw evidence supplement version2:82297bytes, SHA
+4f12669bc60daa4ae9fc1ed6b9c5281ad6db513836e2d9c439934b1c5cb0ddef.
+All19prior members remain byte-exact. This local rehearsal adds no Native/Auth/
+actual browser/finance/HPP/factory/restore credit and no new Original to ledger65.
+
+Latest A main read7fdd0d8f records Native6 candidate5c30a4ea (unbound) and browser
+candidate1b095460 (unbound). Diagnostic a569 workflow40286613815 has completed
+successfully at the API; B has not intaken its Original and grants no diagnostic
+or performance acceptance. Progress0c86/run40286627929 remains in progress at
+this observation. These A-owned jobs are not duplicated by B.
+
+Next is A adoption: check exact preimage, apply the six-path proposal, regenerate
+host build/test receipts and browser qualification declarations, then qualify
+its required predecessors and combined runtime. B checks that adopted source
+and production behavior when it exists. The package is not already adopted and
+this rehearsal is not the combined runtime. Formal5/16; B still open;
+independent_acceptance=false; production_go=false.
+
+## Earlier continuation — coordination219, real-browser recovery verified
 
 Owner challenged the conclusion that B had nothing more to do independently.
 That conclusion was too broad: the d6fad0d2 reopen correction still needed

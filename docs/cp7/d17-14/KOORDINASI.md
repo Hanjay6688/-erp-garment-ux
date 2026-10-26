@@ -4812,3 +4812,43 @@ full-factory official finance/HPP. B still owns checking its production behavior
 on that actual combined candidate. The existing official finance facade remains
 authoritative. Formal5/16, full B scope incomplete, independent_acceptance=false,
 production_go=false. No permission question or duplicate A run is introduced.
+
+
+## 220. [bersama] B26 Oktober2026 WIB — exact reopen intake for A host rehearsed, no A source changed
+
+B independently compared A host0f818812 and browser preparation1b095460: all112
+host paths are byte-exact, both still contain B b96's one-read reopen gate.
+Eight new d6fad reopen regressions fail against that copied old gate. A's179
+previous tests are not relabeled failed. Proposal1b53f80c under
+ow12b/reopen-intake supplies an exact six-path patch and before/after hashes:
+three existing B files refreshed, one B regression file added, B_SOURCE updated
+to91files from d6fad, and source-guard counts increased179→190/16→17/90→91.
+87existing B files remain identical. All source/equality/test/graph checks stay.
+
+On an isolated exact A copy, the proposed patch applies cleanly; TypeScript and
+190tests/17files PASS with all179old case IDs retained plus11new assertions.
+The actual A build still compiles79module paths with both routing checks intact;
+only two B product hashes change. Guard validates91exact B files and rejects
+three stale evidence combinations. First8FAIL and setup failure173partialPASS/
+3import failures are retained. Setup was fixed only by restoring two exact A
+dependency roots omitted from the sparse rehearsal. No production patch was
+invented to fix a missing test dependency. Raw supplement version2 preserves
+all19earlier members byte-exact; ledger65 Originals unchanged.
+
+This is a proposal on B's branch, not A adoption or a new runtime qualification.
+No A worktree/branch, SQL, public RPC/payload, finance routing/math, time limit,
+scheduler, default or Native binding was edited. A must apply against exact
+preimages, regenerate LOCAL_TESTS/LOCAL_BUILD/BUILD_SOURCE and browser
+HOST_SOURCE/declarations through its own binder. Old qualification pins must
+not be reused for new source. A's backend-parent field is intentionally untouched
+in this host-only proposal; it does not qualify that historical predecessor.
+
+A main7fdd0d8f records Native6 candidate5c30a4ea and browser1b095460 still UNBOUND.
+Workflow a569/40286613815 is now completed-success at the API, but its Original
+is not intaken by B; no performance/result credit follows. Progress0c86/
+40286627929 still runs at observation. B did not launch or duplicate either.
+A remains sole integrator. Once source is adopted and predecessors qualified,
+B continues checks of production/recovery on that actual combined candidate.
+Local rehearsal190 is no actual Auth/browser/Native/K4/factory/HPP/after-use
+restore credit. Formal5/16, B incomplete, independent_acceptance=false,
+production_go=false. See reopen-intake/README.md and REHEARSAL.json.
