@@ -1,0 +1,42 @@
+{
+  "name": "CP7_CURRENT_FROZEN_PUBLIC_FINANCE_NATIVE52.json",
+  "status": "PASS",
+  "head": "6dceb3d3530a2144217047360613808af3249e4a",
+  "run_id": 40234978669,
+  "job_id": 121294499742,
+  "artifact_id": 12618120246,
+  "zip_bytes": 3933070,
+  "zip_sha256": "81d74ca3e9e430c7ac04e726779e5cfdbbb7290434ee8ef1bde699cfda4457c0",
+  "bytes": 16388592,
+  "sha256": "93fdf5cedf73dd785dc465f1c6b687358da6c4ae95fe5db58524904474d83dbf",
+  "archive_member": "CP7_CURRENT_FROZEN_PUBLIC_FINANCE_NATIVE52.json",
+  "source_pins_verified": 3677,
+  "actual_prerequisites_verified": 2,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "production_go": false,
+  "independent_acceptance": false,
+  "counts": {
+    "PASS": 52
+  },
+  "retained_A_cases": 36,
+  "private_unit_cases": 4,
+  "official_finance_cases": 5,
+  "new_public_boundary_cases": 7,
+  "all3602_targets_and_pages_compared": true,
+  "maximum_unit_millis": 6216.92,
+  "official_finance_metric_count": 24,
+  "unknown_never_zero": true,
+  "independent_book_signature": true,
+  "full22_all_rows_all_sequences_restored": true,
+  "official_factory_finance_qualified": false,
+  "public_or_default_adopted": false,
+  "actual_Auth_HTTP_credit": false
+}

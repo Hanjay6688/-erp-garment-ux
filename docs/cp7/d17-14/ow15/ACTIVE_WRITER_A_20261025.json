@@ -1,8 +1,8 @@
 {
-  "recorded_at_utc": "2026-10-25T22:30:26.167052+00:00",
+  "recorded_at_utc": "2026-10-26T01:00:14.474685+00:00",
   "role": "A finance writer/integrator replacing Claude; B remains separate production/planning writer",
   "slogan": [
-    "VENI. VIDI. VICI. ERP. \u2014 I CONQUERED ERP.",
+    "VENI. VIDI. VICI. ERP. — I CONQUERED ERP.",
     "Reliable data adalah dewa. Keuangan termasuk laporan, stok, dan HPP adalah raja."
   ],
   "formal_accepted": "5/16",
@@ -10,37 +10,63 @@
   "independent_acceptance": false,
   "running": [
     {
-      "suite": "frozen-public-native52",
-      "head": "6dceb3d3530a2144217047360613808af3249e4a",
-      "run_id": 40234978669,
-      "job_id": 121294499742,
+      "id": 40251598775,
+      "name": "CP7 full public frozen retained transport28",
+      "branch": "astra-a/d17-14-frozen-public-transport-20261026",
       "status": "in_progress",
       "conclusion": null,
-      "source_pins": 3677,
-      "actual_originals": 2,
+      "head": "71e15908972cd10b0b889988faa8d7d7d1ad3e40",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/40251598775",
       "actual_runtime_outcome_pending": true
     },
     {
-      "suite": "frozen-private-factory-first-membership",
-      "head": "778ac17e0be417841ad144ff2f85367752341f69",
-      "run_id": 40234971454,
-      "job_id": 121294477378,
+      "id": 40251596793,
+      "name": "CP7 full public frozen retained browser6",
+      "branch": "astra-a/d17-14-frozen-public-browser-20261026",
       "status": "in_progress",
       "conclusion": null,
-      "source_pins": 3666,
-      "actual_originals": 8,
-      "known_old_fixture": true,
+      "head": "71e15908972cd10b0b889988faa8d7d7d1ad3e40",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/40251596793",
       "actual_runtime_outcome_pending": true
     },
     {
-      "suite": "frozen-private-factory-date2",
-      "head": "5bf4e03a37418545655f07a52582103348b17cd4",
-      "run_id": 40236661942,
-      "job_id": 121299590702,
+      "id": 40251594620,
+      "name": "CP7 full public frozen finance used restore8 and42 controls",
+      "branch": "astra-a/d17-14-frozen-public-restore-20261026",
       "status": "in_progress",
       "conclusion": null,
-      "source_pins": 3668,
-      "actual_originals": 9,
+      "head": "71e15908972cd10b0b889988faa8d7d7d1ad3e40",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/40251594620",
+      "actual_runtime_outcome_pending": true
+    },
+    {
+      "id": 40251591911,
+      "name": "CP7 full public frozen official finance actual minute cron1",
+      "branch": "astra-a/d17-14-frozen-public-cron-20261026",
+      "status": "in_progress",
+      "conclusion": null,
+      "head": "71e15908972cd10b0b889988faa8d7d7d1ad3e40",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/40251591911",
+      "actual_runtime_outcome_pending": true
+    },
+    {
+      "id": 40251589438,
+      "name": "CP7 full public frozen official finance Auth3 and races7",
+      "branch": "astra-a/d17-14-frozen-public-finance-20261026",
+      "status": "in_progress",
+      "conclusion": null,
+      "head": "71e15908972cd10b0b889988faa8d7d7d1ad3e40",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/40251589438",
+      "actual_runtime_outcome_pending": true
+    },
+    {
+      "id": 40251928378,
+      "name": "CP7 full private frozen factory1200x3 terminal diagnostics official finance minute",
+      "branch": "astra-a/d17-14-frozen-finance-factory-observe-20261026",
+      "status": "in_progress",
+      "conclusion": null,
+      "head": "05d890676f7865896843f94095e65946354a505f",
+      "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/40251928378",
       "actual_runtime_outcome_pending": true
     }
   ],
@@ -404,7 +430,8 @@
     "No main, official, hosted, real WA or frozen Original mutation",
     "True merges only; no force or rebase",
     "Writer component PASS does not imply independent acceptance or complete OW11",
-    "Keep owner policy choices explicit; UNKNOWN is not zero"
+    "Keep owner policy choices explicit; UNKNOWN is not zero",
+    "Checkpoint is a save point; continue authorized backlog and monitor live jobs until completion or concrete owner-only blocker."
   ],
   "actual_selected_return_contract6": {
     "name": "CP7_CURRENT_SELECTED_RETURN_CONTRACT6.json",
@@ -2712,53 +2739,102 @@
   },
   "most_recent_completed": [
     {
-      "suite": "cron",
-      "head": "4608b478ac50b52eba69e938488402b296a0f46e",
-      "branch": "astra-a/d17-14-versioned-performance-cron-20261025",
-      "run_id": 40214412847,
-      "job_id": 121232334981,
-      "status": "completed",
-      "conclusion": "success",
-      "started_at_utc": "2026-10-25T17:00:57Z",
-      "source_pins": 3571,
-      "Original_intake": "PASS",
-      "artifact_id": 12608852903
+      "name": "CP7_CURRENT_FROZEN_PUBLIC_FINANCE_NATIVE52.json",
+      "status": "PASS",
+      "head": "6dceb3d3530a2144217047360613808af3249e4a",
+      "run_id": 40234978669,
+      "job_id": 121294499742,
+      "artifact_id": 12618120246,
+      "zip_bytes": 3933070,
+      "zip_sha256": "81d74ca3e9e430c7ac04e726779e5cfdbbb7290434ee8ef1bde699cfda4457c0",
+      "bytes": 16388592,
+      "sha256": "93fdf5cedf73dd785dc465f1c6b687358da6c4ae95fe5db58524904474d83dbf",
+      "archive_member": "CP7_CURRENT_FROZEN_PUBLIC_FINANCE_NATIVE52.json",
+      "source_pins_verified": 3677,
+      "actual_prerequisites_verified": 2,
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "production_go": false,
+      "independent_acceptance": false,
+      "counts": {
+        "PASS": 52
+      },
+      "retained_A_cases": 36,
+      "private_unit_cases": 4,
+      "official_finance_cases": 5,
+      "new_public_boundary_cases": 7,
+      "all3602_targets_and_pages_compared": true,
+      "maximum_unit_millis": 6216.92,
+      "official_finance_metric_count": 24,
+      "unknown_never_zero": true,
+      "independent_book_signature": true,
+      "full22_all_rows_all_sequences_restored": true,
+      "official_factory_finance_qualified": false,
+      "public_or_default_adopted": false,
+      "actual_Auth_HTTP_credit": false
     },
     {
-      "suite": "restore",
-      "head": "4608b478ac50b52eba69e938488402b296a0f46e",
-      "branch": "astra-a/d17-14-versioned-performance-restore-20261025",
-      "run_id": 40214404451,
-      "job_id": 121232310569,
-      "status": "completed",
-      "conclusion": "success",
-      "started_at_utc": "2026-10-25T17:00:52Z",
-      "source_pins": 3571,
-      "Original_intake": "PASS",
-      "artifact_id": 12608783478
+      "name": "CP7_CURRENT_FROZEN_PRIVATE_FACTORY_FINANCE1.json",
+      "status": "INCOMPLETE",
+      "head": "778ac17e0be417841ad144ff2f85367752341f69",
+      "run_id": 40234971454,
+      "job_id": 121294477378,
+      "artifact_id": 12617726099,
+      "zip_bytes": 2616203,
+      "zip_sha256": "d608efc39e81348cf502f0d81c6e855b9ae05bd8f6c67f4b2d09eabdda3a0d21",
+      "bytes": 3735747,
+      "sha256": "50a30cd3f5c716542d3449bebdbc586cde88002cdbb168b7ee972de0f414cc22",
+      "archive_member": "CP7_CURRENT_FROZEN_PRIVATE_FACTORY_FINANCE1.json",
+      "source_pins_verified": 3666,
+      "actual_prerequisites_verified": 8,
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": false
+      },
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "production_go": false,
+      "independent_acceptance": false,
+      "first_failure_preserved": true,
+      "error_summary": "Actual runtime INCOMPLETE; exact private Original retained without PASS credit"
     },
     {
-      "suite": "private-frozen-Native40",
-      "head": "8de2ae694c6eda60a6724415eb60772c4f7a20b2",
-      "branch": "astra-a/d17-14-frozen-units-native40-20261025",
-      "run_id": 40216890593,
-      "job_id": 121239848652,
-      "status": "completed",
-      "conclusion": "success",
-      "started_at_utc": "2026-10-25T17:31:35Z",
-      "source_pins": 3618,
-      "Original_intake": "PASS",
-      "artifact_id": 12608589007
-    },
-    {
-      "suite": "performance-factory-first-CI",
-      "head": "25c5c4fb5a16a1622663f87106506e0845105914",
-      "run_id": 40222575218,
-      "job_id": 121257125693,
-      "status": "completed",
-      "conclusion": "failure",
-      "business_case_started": false,
-      "runtime_Original_created": false
+      "name": "CP7_CURRENT_FROZEN_PRIVATE_FACTORY_FINANCE1.json",
+      "status": "INCOMPLETE",
+      "head": "5bf4e03a37418545655f07a52582103348b17cd4",
+      "run_id": 40236661942,
+      "job_id": 121299590702,
+      "artifact_id": 12616789776,
+      "zip_bytes": 3107848,
+      "zip_sha256": "c4d67ab64c44760adf76314d1a18dc209db424892432a16e0d9f28858291a5c2",
+      "bytes": 5492050,
+      "sha256": "5e7b9082f359c6c7e59ab1a2dd2779c05359f6237b0a778a765f383f45d1ac44",
+      "archive_member": "CP7_CURRENT_FROZEN_PRIVATE_FACTORY_FINANCE1.json",
+      "source_pins_verified": 3668,
+      "actual_prerequisites_verified": 9,
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": false
+      },
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "production_go": false,
+      "independent_acceptance": false,
+      "first_failure_preserved": true,
+      "error_summary": "Actual runtime INCOMPLETE; exact private Original retained without PASS credit"
     }
   ],
   "performance_factory_prepared": {
@@ -3020,7 +3096,7 @@
   ],
   "writer_A_takeover": {
     "full_context": "docs/cp7/handoff/WRITER_A_TAKEOVER_20261026.md",
-    "B_read_only_head": "e2ef3a9eeeaae93a861bfabee7c52f01ee8a5e13",
+    "B_read_only_head": "2c39dd0982ca86cbc1f3ca9cee00df0bff3dfa8d",
     "no_B_scope_reassigned": true,
     "formal_accepted": "5/16",
     "production_go": false,
@@ -3052,13 +3128,13 @@
     "prior_date_corrected_fixture_claims_superseded": true
   },
   "public_followups_prepared": {
-    "head": "55e1e317a52f4838e3d1f34a7beea7cc64c41403",
-    "local": "e1ec8477a2bfaa08bc02ef38cf395b746ec43343",
-    "tree": "614f8ae4ab0065ea08e51a63bcdd21d478cb0835",
+    "head": "71e15908972cd10b0b889988faa8d7d7d1ad3e40",
+    "local": "ba5ce3e5feac0df8b369e141ee5e99f36fd929c9",
+    "tree": "1d57cf5651a6fddfbafd01c65a581e8e1ebe778e",
     "branch": "astra-a/d17-14-frozen-public-followups-prepared-20261026",
     "required_actual_Native52_head": "6dceb3d3530a2144217047360613808af3249e4a",
-    "SOURCE_bound": false,
-    "runtime_dispatched": false,
+    "SOURCE_bound": true,
+    "runtime_dispatched": true,
     "finance": {
       "Auth": 3,
       "races": 7,
@@ -3112,12 +3188,97 @@
       "retained_flow_only": true,
       "new_public_finance_UI_claim": false,
       "latest_B_microsecond_fix_adopted": false
-    }
+    },
+    "runs": [
+      {
+        "id": 40251598775,
+        "name": "CP7 full public frozen retained transport28",
+        "branch": "astra-a/d17-14-frozen-public-transport-20261026",
+        "status": "in_progress",
+        "conclusion": null,
+        "head": "71e15908972cd10b0b889988faa8d7d7d1ad3e40",
+        "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/40251598775"
+      },
+      {
+        "id": 40251596793,
+        "name": "CP7 full public frozen retained browser6",
+        "branch": "astra-a/d17-14-frozen-public-browser-20261026",
+        "status": "in_progress",
+        "conclusion": null,
+        "head": "71e15908972cd10b0b889988faa8d7d7d1ad3e40",
+        "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/40251596793"
+      },
+      {
+        "id": 40251594620,
+        "name": "CP7 full public frozen finance used restore8 and42 controls",
+        "branch": "astra-a/d17-14-frozen-public-restore-20261026",
+        "status": "in_progress",
+        "conclusion": null,
+        "head": "71e15908972cd10b0b889988faa8d7d7d1ad3e40",
+        "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/40251594620"
+      },
+      {
+        "id": 40251591911,
+        "name": "CP7 full public frozen official finance actual minute cron1",
+        "branch": "astra-a/d17-14-frozen-public-cron-20261026",
+        "status": "in_progress",
+        "conclusion": null,
+        "head": "71e15908972cd10b0b889988faa8d7d7d1ad3e40",
+        "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/40251591911"
+      },
+      {
+        "id": 40251589438,
+        "name": "CP7 full public frozen official finance Auth3 and races7",
+        "branch": "astra-a/d17-14-frozen-public-finance-20261026",
+        "status": "in_progress",
+        "conclusion": null,
+        "head": "71e15908972cd10b0b889988faa8d7d7d1ad3e40",
+        "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/40251589438"
+      }
+    ],
+    "source_admissions": {
+      "finance": {
+        "status": "PASS",
+        "source_pins": 3692,
+        "actual_originals": 2,
+        "cases": 10
+      },
+      "cron": {
+        "status": "PASS",
+        "source_pins": 3690,
+        "actual_originals": 2,
+        "cases": 1
+      },
+      "restore": {
+        "status": "PASS",
+        "source_pins": 3703,
+        "actual_originals": 2,
+        "cases": 8
+      },
+      "browser": {
+        "status": "PASS",
+        "source_pins": 3693,
+        "actual_originals": 2,
+        "cases": 6
+      },
+      "transport": {
+        "status": "PASS",
+        "source_pins": 3691,
+        "actual_originals": 2,
+        "cases": 28
+      }
+    },
+    "binding_cli_correction": {
+      "head": "bb5df74d5f65c1c2bdaf679b9f8798751d0fe885",
+      "cause": "own CLI arguments reached imported no-argument predecessor; own args parsed then isolated before import",
+      "product_and_oracles_changed": false
+    },
+    "branch_creation_observation": "Creating execution refs at1f2c35f8 produced zero workflow runs. Execution metadata-only push71e15908 on existing refs started five first runs; no runtime rerun."
   },
   "B_latest_read_only_20261026": {
-    "head": "e2ef3a9eeeaae93a861bfabee7c52f01ee8a5e13",
+    "head": "2c39dd0982ca86cbc1f3ca9cee00df0bff3dfa8d",
     "takeover_note_read": true,
-    "coordination_read_through": 208,
+    "coordination_read_through": 211,
     "financial_clock_binding": {
       "prior_failed_tests": 4,
       "reported_passed_tests": 75,
@@ -3128,10 +3289,188 @@
       "source_boundary": "B actual caller/client component; no financial formula or SQL change"
     },
     "B_reported_actual_Auth_choice2_artifact": 12615241859,
-    "B_reported_actual_Auth_quantity2_artifact": 12614619347,
+    "B_reported_actual_Auth_quantity2_artifact": 12618667843,
     "A_independently_intaken_these_new_B_Originals": false,
     "B_owned_caller_integration_open": true,
     "A_API_contract": "docs/cp7/d17-14/ow15/FROZEN_PUBLIC_FINANCE_INTEGRATION_CONTRACT_20261026.md",
-    "no_B_branch_written": true
+    "no_B_branch_written": true,
+    "latest_code_head": "f843e4ce4fee59ee3e953d032ceed21eeba84c99",
+    "optional_finance_bridge_head": "4826a666925309ea93aa0421ec544cd2d9b145f3",
+    "B_reported_controlled_browser4_artifact": 12619095649,
+    "integration_conflict": {
+      "B_caller_finance_uses_operational_RPC": true,
+      "A_operational_RPC_rejects_finance_mode": true,
+      "B_optional_bridge_reuses_installed_private_reader": true,
+      "B_optional_bridge_adds_finance_mode_after_source_seal": true,
+      "A_qualified_finance_seals_mode_before_hash": true,
+      "decision": "Prepare A-only caller adapter selecting qualified explicit finance RPC; preserve B source and qualified A backend; coordinate before integration writes. No B component or browser credit promoted."
+    }
+  },
+  "previous_running_snapshot_before_public52_intake": [
+    {
+      "suite": "frozen-public-native52",
+      "head": "6dceb3d3530a2144217047360613808af3249e4a",
+      "run_id": 40234978669,
+      "job_id": 121294499742,
+      "status": "in_progress",
+      "conclusion": null,
+      "source_pins": 3677,
+      "actual_originals": 2,
+      "actual_runtime_outcome_pending": true
+    },
+    {
+      "suite": "frozen-private-factory-first-membership",
+      "head": "778ac17e0be417841ad144ff2f85367752341f69",
+      "run_id": 40234971454,
+      "job_id": 121294477378,
+      "status": "in_progress",
+      "conclusion": null,
+      "source_pins": 3666,
+      "actual_originals": 8,
+      "known_old_fixture": true,
+      "actual_runtime_outcome_pending": true
+    },
+    {
+      "suite": "frozen-private-factory-date2",
+      "head": "5bf4e03a37418545655f07a52582103348b17cd4",
+      "run_id": 40236661942,
+      "job_id": 121299590702,
+      "status": "in_progress",
+      "conclusion": null,
+      "source_pins": 3668,
+      "actual_originals": 9,
+      "actual_runtime_outcome_pending": true
+    }
+  ],
+  "actual_current_frozen_public_native52": {
+    "name": "CP7_CURRENT_FROZEN_PUBLIC_FINANCE_NATIVE52.json",
+    "status": "PASS",
+    "head": "6dceb3d3530a2144217047360613808af3249e4a",
+    "run_id": 40234978669,
+    "job_id": 121294499742,
+    "artifact_id": 12618120246,
+    "zip_bytes": 3933070,
+    "zip_sha256": "81d74ca3e9e430c7ac04e726779e5cfdbbb7290434ee8ef1bde699cfda4457c0",
+    "bytes": 16388592,
+    "sha256": "93fdf5cedf73dd785dc465f1c6b687358da6c4ae95fe5db58524904474d83dbf",
+    "archive_member": "CP7_CURRENT_FROZEN_PUBLIC_FINANCE_NATIVE52.json",
+    "source_pins_verified": 3677,
+    "actual_prerequisites_verified": 2,
+    "package_gate": {
+      "installed": true,
+      "primary_unchanged": true,
+      "backup_restore_drill": true,
+      "security_advisors": true,
+      "writer_runtime": true
+    },
+    "cp6_restored": true,
+    "advisor_gate": true,
+    "production_go": false,
+    "independent_acceptance": false,
+    "counts": {
+      "PASS": 52
+    },
+    "retained_A_cases": 36,
+    "private_unit_cases": 4,
+    "official_finance_cases": 5,
+    "new_public_boundary_cases": 7,
+    "all3602_targets_and_pages_compared": true,
+    "maximum_unit_millis": 6216.92,
+    "official_finance_metric_count": 24,
+    "unknown_never_zero": true,
+    "independent_book_signature": true,
+    "full22_all_rows_all_sequences_restored": true,
+    "official_factory_finance_qualified": false,
+    "public_or_default_adopted": false,
+    "actual_Auth_HTTP_credit": false
+  },
+  "actual_private_factory_old_membership_failure": {
+    "name": "CP7_CURRENT_FROZEN_PRIVATE_FACTORY_FINANCE1.json",
+    "status": "INCOMPLETE",
+    "head": "778ac17e0be417841ad144ff2f85367752341f69",
+    "run_id": 40234971454,
+    "job_id": 121294477378,
+    "artifact_id": 12617726099,
+    "zip_bytes": 2616203,
+    "zip_sha256": "d608efc39e81348cf502f0d81c6e855b9ae05bd8f6c67f4b2d09eabdda3a0d21",
+    "bytes": 3735747,
+    "sha256": "50a30cd3f5c716542d3449bebdbc586cde88002cdbb168b7ee972de0f414cc22",
+    "archive_member": "CP7_CURRENT_FROZEN_PRIVATE_FACTORY_FINANCE1.json",
+    "source_pins_verified": 3666,
+    "actual_prerequisites_verified": 8,
+    "package_gate": {
+      "installed": true,
+      "primary_unchanged": true,
+      "backup_restore_drill": true,
+      "security_advisors": true,
+      "writer_runtime": false
+    },
+    "cp6_restored": true,
+    "advisor_gate": true,
+    "production_go": false,
+    "independent_acceptance": false,
+    "first_failure_preserved": true,
+    "error_summary": "Actual runtime INCOMPLETE; exact private Original retained without PASS credit"
+  },
+  "actual_private_factory_date2_terminal_failure": {
+    "name": "CP7_CURRENT_FROZEN_PRIVATE_FACTORY_FINANCE1.json",
+    "status": "INCOMPLETE",
+    "head": "5bf4e03a37418545655f07a52582103348b17cd4",
+    "run_id": 40236661942,
+    "job_id": 121299590702,
+    "artifact_id": 12616789776,
+    "zip_bytes": 3107848,
+    "zip_sha256": "c4d67ab64c44760adf76314d1a18dc209db424892432a16e0d9f28858291a5c2",
+    "bytes": 5492050,
+    "sha256": "5e7b9082f359c6c7e59ab1a2dd2779c05359f6237b0a778a765f383f45d1ac44",
+    "archive_member": "CP7_CURRENT_FROZEN_PRIVATE_FACTORY_FINANCE1.json",
+    "source_pins_verified": 3668,
+    "actual_prerequisites_verified": 9,
+    "package_gate": {
+      "installed": true,
+      "primary_unchanged": true,
+      "backup_restore_drill": true,
+      "security_advisors": true,
+      "writer_runtime": false
+    },
+    "cp6_restored": true,
+    "advisor_gate": true,
+    "production_go": false,
+    "independent_acceptance": false,
+    "first_failure_preserved": true,
+    "error_summary": "Actual runtime INCOMPLETE; exact private Original retained without PASS credit"
+  },
+  "private_factory_terminal_diagnostics": {
+    "head": "05d890676f7865896843f94095e65946354a505f",
+    "tree": "554304ec169074d6aa2627a9dd8a666698faf784",
+    "local": "a2a97487326d333abab4716cf74182f85ab65713",
+    "branch": "astra-a/d17-14-frozen-finance-factory-observe-20261026",
+    "runs": [
+      {
+        "id": 40251928378,
+        "name": "CP7 full private frozen factory1200x3 terminal diagnostics official finance minute",
+        "branch": "astra-a/d17-14-frozen-finance-factory-observe-20261026",
+        "status": "in_progress",
+        "conclusion": null,
+        "head": "05d890676f7865896843f94095e65946354a505f",
+        "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/40251928378"
+      }
+    ],
+    "source_admission": "PASS",
+    "source_pins": 3682,
+    "actual_originals": 10,
+    "cases": 1,
+    "negative_local_controls": 13,
+    "bash_steps": 43,
+    "fixture_and_probe_byte_exact_date2": true,
+    "business_assertions_retained": 65,
+    "limits_seconds": [
+      8,
+      300
+    ],
+    "observer": "read-only full stored rows of two jobs and one capture, after cron uninstall and cleanup; full column inventory checked",
+    "original_date2": "two jobs FAILED, capture FAILED, fixture1200SKU/3600variants+4baseline valid, nine posted tables unchanged; report omitted stored failure reasons",
+    "runtime_qualified": false,
+    "production_go": false
   }
 }

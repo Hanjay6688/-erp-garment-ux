@@ -31,13 +31,23 @@ teknis: butir mempunyai bobot berbeda, dan implementasi/uji tidak otomatis
 menjadi penerimaan independen. production_go=false; versi resmi dan hosted
 belum dipasang. Status run terbaru ada di ACTIVE_WRITER_A_20261025.json.
 
-Posisi eksekusi26Oktober: kandidat optimasi lulus keenam kelompok aktual;
-Native40 privat lulus40/40. Native45 keuangan resmi kini aktual PASS45/45,
-24metrik/3602target dan full22/rows/sequence pulih. Pabrik c17b56ed aktual
-INCOMPLETE karena generator memilih sibling fixture lama; guard riwayat benar
-menolak membership mundur. Fixture runtime daab yang benar kini dipasang persis
-pada5bf4e03a:3668pin/9Original,12kontrol negatif dan65assert. Run40236661942
-berjalan; runtime belum lulus. Native52 publik run40234978669 juga berjalan;
-factory778ac17e/run40234971454 masih antre dan hasilnya harus dipertahankan.
-[Estafet lengkap](../../handoff/WRITER_A_TAKEOVER_20261026.md) memuat kebutuhan,
-batas A/B, sebab koreksi dan langkah lanjut; bukan penutupan scope ERP.
+Posisi eksekusi26Oktober:
+**Native52 publik aktual PASS52/52**, termasuk 24 metrik keuangan resmi,
+3602 target dan pemulihan seluruh 22 kelompok katalog/baris/nomor urut.
+Original12618120246 sudah diverifikasi dan diarsipkan. Pabrik lama778ac17e
+tetap INCOMPLETE BF_HISTORY. Pabrik fixture benar5bf4e03a juga INCOMPLETE:
+dua pekerjaan dan satu capture berakhir FAILED; fixture1200SKU/3600varian,
+membership dan sembilan tabel posted benar. Penyebab terminal belum tersimpan
+pada laporan lama; tidak dianggap lulus atau ditebak sebagai masalah angka.
+
+Lima uji lanjutan publik sudah SOURCE-bound, full admission lokal PASS dan
+benar-benar berjalan dari71e15908: finance10/run40251589438,
+cron1/run40251591911, restore8/run40251594620, browser6/run40251596793,
+transport28/run40251598775. Browser/transport ini mempertahankan alur lama;
+bukan bukti layar keuangan frozen baru atau adopsi caller B terbaru.
+Diagnosis pabrik05d89067/run40251928378 menambah pembacaan read-only seluruh
+kolom dua jobs dan satu capture setelah jadwal dibersihkan; fixture/probe,
+65assert dan batas8s/300s tetap. Full admission3682pin/10Original PASS;
+hasil runtime belum tersedia. Formal5/16; production_go=false.
+
+[Estafet lengkap](../../handoff/WRITER_A_TAKEOVER_20261026.md) memuat kebutuhan, batas A/B dan langkah lanjut; scope ERP belum ditutup.

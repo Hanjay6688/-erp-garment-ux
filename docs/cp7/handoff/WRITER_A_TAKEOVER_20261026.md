@@ -8,6 +8,33 @@ Owner meminta sesi ini menggantikan chat Writer A yang penuh, memulihkan konteks
 ERP dan meneruskan A/integrasi. B boleh dibaca tetapi scope tidak ditukar. Ini
 penulis A, bukan auditor independen. Tidak ada subagent baru.
 
+## Status aktif sesudah intake tiga Original
+
+**Native52 publik aktual PASS52/52**, termasuk 24 metrik keuangan resmi,
+3602 target dan pemulihan seluruh 22 kelompok katalog/baris/nomor urut.
+Original12618120246 sudah diverifikasi dan diarsipkan. Pabrik lama778ac17e
+tetap INCOMPLETE BF_HISTORY. Pabrik fixture benar5bf4e03a juga INCOMPLETE:
+dua pekerjaan dan satu capture berakhir FAILED; fixture1200SKU/3600varian,
+membership dan sembilan tabel posted benar. Penyebab terminal belum tersimpan
+pada laporan lama; tidak dianggap lulus atau ditebak sebagai masalah angka.
+
+Lima uji lanjutan publik sudah SOURCE-bound, full admission lokal PASS dan
+benar-benar berjalan dari71e15908: finance10/run40251589438,
+cron1/run40251591911, restore8/run40251594620, browser6/run40251596793,
+transport28/run40251598775. Browser/transport ini mempertahankan alur lama;
+bukan bukti layar keuangan frozen baru atau adopsi caller B terbaru.
+Diagnosis pabrik05d89067/run40251928378 menambah pembacaan read-only seluruh
+kolom dua jobs dan satu capture setelah jadwal dibersihkan; fixture/probe,
+65assert dan batas8s/300s tetap. Full admission3682pin/10Original PASS;
+hasil runtime belum tersedia. Formal5/16; production_go=false.
+
+B dibaca sampai2c39dd09/koordinasi211. Bridge keuangan opsional B4826a666
+bertabrakan dengan reader yang sudah dipasang A dan memakai endpoint operasional
+untuk mode STAGED. Integrator menyiapkan adapter caller pada cabang A sendiri
+untuk dua RPC publik A; source B dan backend A yang qualified dipertahankan.
+Parser waktu mikrodetik B memerlukan nativePlanInstant.ts dan dependensi lengkap.
+Belum ada kredit UI keuangan baru. Catatan status lebih lama di bawah adalah riwayat.
+
 ## Kebutuhan yang dibawa
 
 Garment/manufaktur dan grosir; toko adalah customer eksternal dengan akses

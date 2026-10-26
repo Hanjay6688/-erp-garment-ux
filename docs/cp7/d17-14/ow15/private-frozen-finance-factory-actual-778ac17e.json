@@ -1,0 +1,28 @@
+{
+  "name": "CP7_CURRENT_FROZEN_PRIVATE_FACTORY_FINANCE1.json",
+  "status": "INCOMPLETE",
+  "head": "778ac17e0be417841ad144ff2f85367752341f69",
+  "run_id": 40234971454,
+  "job_id": 121294477378,
+  "artifact_id": 12617726099,
+  "zip_bytes": 2616203,
+  "zip_sha256": "d608efc39e81348cf502f0d81c6e855b9ae05bd8f6c67f4b2d09eabdda3a0d21",
+  "bytes": 3735747,
+  "sha256": "50a30cd3f5c716542d3449bebdbc586cde88002cdbb168b7ee972de0f414cc22",
+  "archive_member": "CP7_CURRENT_FROZEN_PRIVATE_FACTORY_FINANCE1.json",
+  "source_pins_verified": 3666,
+  "actual_prerequisites_verified": 8,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "production_go": false,
+  "independent_acceptance": false,
+  "first_failure_preserved": true,
+  "error_summary": "Actual runtime INCOMPLETE; exact private Original retained without PASS credit"
+}

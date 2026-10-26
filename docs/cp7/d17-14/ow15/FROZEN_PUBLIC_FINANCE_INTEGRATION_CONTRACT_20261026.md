@@ -14,14 +14,16 @@ bukan permintaan mengubah scope atau mengadopsi default sebelum bukti lengkap.
   dua RPC pada `scripts/cp7_current_frozen_public/bridge.sql` dan `render.py`.
 - Kandidat sumber Native52: **6dceb3d3530a2144217047360613808af3249e4a**,
   branch `astra-a/d17-14-frozen-public-native52-20261026`,
-  run40234978669/job121294499742. Saat penulisan masih berjalan; bukan PASS.
+  run40234978669/job121294499742. Complete Original12618120246 aktual
+  PASS52/52;3677pin/2prasyarat,24metrik/3602target/fullrestore diperiksa.
 - Pendahulu private finance: **a3088e214f5babc46e4016734cce11925acd34d8**,
   actual Native45 PASS45/45,24metrik resmi,3602target dan pemulihan penuh.
   Bukti ini tidak memberi kredit HTTP/browser/pabrik publik.
 - Auth3/races7, cron1, used restore8/42kontrol, browser6 dan transport28 disiapkan di branch
   `astra-a/d17-14-frozen-public-followups-prepared-20261026`,
-  **55e1e317a52f4838e3d1f34a7beea7cc64c41403**. Kelimanya belum SOURCE-bound
-  atau dieksekusi; wajib menerima complete Original Native52 yang tepat dahulu.
+  **71e15908972cd10b0b889988faa8d7d7d1ad3e40**. Kelimanya sudah SOURCE-bound
+  pada Original Native52, full admission PASS, dan berjalan pada run40251589438,
+  40251591911,40251594620,40251596793,40251598775. Belum kredit runtime.
 
 Versi resmi/main/hosted/default tetap terpisah. `production_go=false`,
 `independent_acceptance=false`, status formal keseluruhan5/16.
@@ -81,3 +83,24 @@ Saat integrasi akhir, uji UI/caller yang memakai kedua RPC di atas dengan source
 yang sama, termasuk replay, akses dicabut, microseconds, status keuangan resmi,
 restoration dan seluruh halaman. Regresi layar kebijakan/model/target lama pada
 composer baru bukan bukti caller finance frozen baru sudah terhubung.
+
+## Hasil pembacaan B4826a666/f843e4ce dan rencana adapter integrator
+
+B dibaca sampai koordinasi211/head2c39dd09. Caller nativeFrozenQuantity.ts
+memakai endpoint operasional v2 pada request, resume dan pembacaan ulang DONE,
+termasuk ketika finance_mode STAGED. A dengan sengaja menolak mode tersebut
+pada endpoint operasional; caller harus memilih endpoint finance v2 untuk
+ketiga jalur itu. UUID/payload/mode tersimpan harus tetap sama pada retry/reload.
+
+Bridge opsional B cp7_frozen_finance_bridge tidak dipasang di atas A terkini:
+namespace reader sudah ada pada komposisi A; predecessor fungsi berbeda;
+penambahan penanda STAGED sesudah source seal tidak sama dengan kontrak A yang
+menyegel penanda sebelum hash. Ini benturan komposisi, bukan alasan mengganti
+rumus atau melemahkan guard. Integrator menyiapkan adapter terisolasi A untuk
+caller B, mengambil parser waktu nativePlanInstant dan sidecar secara utuh,
+serta menjaga backend A dan seluruh bukti lama. Perubahan B-owned integrasi
+dicatat lebih dulu di KOORDINASI; cabang dan source asli B tetap utuh.
+
+B melaporkan quantityAuth2/art12618667843 dan controlledBrowser4/art12619095649.
+A belum intake kedua Original; controlled browser bukan full package Native.
+Tidak ada klaim UI finance baru, factoryPASS, default adoption atau produksi.
