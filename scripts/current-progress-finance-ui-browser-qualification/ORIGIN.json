@@ -1,0 +1,11 @@
+{
+  "prior_actual_UI_head": "389326f6d251499559f353638adc4fa1d5c76ffa",
+  "prior_runtime_source_files": {
+    "scripts/cp7_current_frozen_finance_ui/browser.mjs": "57a416ab0064eabef9d2574d5029259bf7b796abdf63d17e1a6340c2d9b706ec",
+    "scripts/cp7_current_frozen_finance_ui/browser_fixture.py": "be167320ad5884cb4f0fd1730a5fbb64ed3616a7e6b0bc3fff5f274cd7e95c4f"
+  },
+  "UI_host_head": "0f818812a79013c926fcb54e949b0923bf1622ea",
+  "status": "PREPARATION_ONLY_UNBOUND",
+  "actual_browser_executed": false,
+  "production_go": false
+}
