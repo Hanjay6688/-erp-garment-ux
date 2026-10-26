@@ -1,5 +1,5 @@
 {
-  "recorded_at_utc": "2026-10-26T03:30:23.623994+00:00",
+  "recorded_at_utc": "2026-10-26T04:14:57.194224+00:00",
   "role": "A finance writer/integrator replacing Claude; B remains separate production/planning writer",
   "slogan": [
     "VENI. VIDI. VICI. ERP. \u2014 I CONQUERED ERP.",
@@ -18,17 +18,17 @@
       "actual_runtime_outcome_pending": true
     },
     {
-      "id": 40263892853,
-      "job_id": 121381925600,
-      "head": "4d1d2cc0846946d921b6f106712a2d21ce8a8dfe",
+      "id": 40264118585,
+      "job_id": 121382633732,
+      "head": "54676bcc969b950dd1ec52eb7feba2d7e58a8cb4",
       "status": "in_progress",
       "conclusion": null,
       "actual_runtime_outcome_pending": true
     },
     {
-      "id": 40264118585,
-      "job_id": 121382633732,
-      "head": "54676bcc969b950dd1ec52eb7feba2d7e58a8cb4",
+      "id": 40267920853,
+      "job_id": 121394261076,
+      "head": "389326f6d251499559f353638adc4fa1d5c76ffa",
       "status": "in_progress",
       "conclusion": null,
       "actual_runtime_outcome_pending": true
@@ -4198,5 +4198,140 @@
     "generated_source_checks": "PASS_READERS_CHOICE_PREPARATION_ON_A_PARENT",
     "new_B_Originals_intaken_by_A": false,
     "full_composition_runtime": false
+  },
+  "previous_running_before_UI_readiness_intake": [
+    {
+      "id": 40263535654,
+      "job_id": 121380830712,
+      "head": "690783115765e677e0413d976d90489d86ab57e2",
+      "status": "in_progress",
+      "conclusion": null,
+      "actual_runtime_outcome_pending": true
+    },
+    {
+      "id": 40263892853,
+      "job_id": 121381925600,
+      "head": "4d1d2cc0846946d921b6f106712a2d21ce8a8dfe",
+      "status": "in_progress",
+      "conclusion": null,
+      "actual_runtime_outcome_pending": true
+    },
+    {
+      "id": 40264118585,
+      "job_id": 121382633732,
+      "head": "54676bcc969b950dd1ec52eb7feba2d7e58a8cb4",
+      "status": "in_progress",
+      "conclusion": null,
+      "actual_runtime_outcome_pending": true
+    }
+  ],
+  "actual_finance_UI_CLI_fixed": {
+    "name": "CP7_CURRENT_FROZEN_FINANCE_UI_BROWSER2.json",
+    "status": "INCOMPLETE",
+    "head": "4d1d2cc0846946d921b6f106712a2d21ce8a8dfe",
+    "run_id": 40263892853,
+    "job_id": 121381925600,
+    "artifact_id": 12626548657,
+    "zip_bytes": 3718413,
+    "zip_sha256": "d630ba301b55526bfaf93e68f16255c175b21b013bb545d0a06ce5484fefc844",
+    "bytes": 4362401,
+    "sha256": "81dc8467833b1757fe2412bc09da57369cff8bbc41bbd7367545aea55c3ddb0b",
+    "archive_member": "CP7_CURRENT_FROZEN_FINANCE_UI_BROWSER2.json",
+    "source_pins_verified": 3797,
+    "actual_prerequisites_verified": 2,
+    "package_gate": {
+      "installed": true,
+      "primary_unchanged": true,
+      "backup_restore_drill": true,
+      "security_advisors": true,
+      "writer_runtime": false
+    },
+    "cp6_restored": true,
+    "advisor_gate": true,
+    "production_go": false,
+    "independent_acceptance": false,
+    "first_failure_preserved": true,
+    "actual_Auth_HTTP_credit": false,
+    "error_summary": "Actual runtime INCOMPLETE; full Original retained"
+  },
+  "finance_UI_mobile_partial": {
+    "status": "PARTIAL_COMPONENT_OBSERVATION_ONLY",
+    "overall_status": "INCOMPLETE",
+    "head": "4d1d2cc0846946d921b6f106712a2d21ce8a8dfe",
+    "mobile_cases_pass": 1,
+    "desktop_cases_pass": 0,
+    "actual_HTTP_calls": 48,
+    "max_HTTP_millis": 121.08074599999964,
+    "BLOCKED_figures_withheld": true,
+    "current_revocation_hides_finance": true,
+    "full_bundle_qualified": false,
+    "source_modules": 54,
+    "visual_images_reviewed": false,
+    "production_go": false
+  },
+  "finance_UI_desktop_blockers": {
+    "reason": "BASELINE_OFFICIAL_REPORT_NOT_READY",
+    "status": "BLOCKED",
+    "blocker_count": 12,
+    "families": {
+      "ATTENDANCE_CELL_MISSING": 4,
+      "ATTENDANCE_POOL_NOT_ACTIVE": 4,
+      "PAYROLL_NOT_APPROVED": 1,
+      "PAYROLL_WORK_UNCOVERED": 3
+    },
+    "window_from": "2026-09-01",
+    "closed_through": "2026-08-31",
+    "calls_before_refusal": 0
+  },
+  "finance_UI_native_ready_candidate": {
+    "head": "389326f6d251499559f353638adc4fa1d5c76ffa",
+    "parent": "4d1d2cc0846946d921b6f106712a2d21ce8a8dfe",
+    "tree": "2d572b903b8986d5266f3ec7efd268d631cbf87c",
+    "local": "790bf39240531f62ca7c0ae2908bd66df5f4651d",
+    "branch": "astra-a/d17-14-frozen-finance-ui-browser2-20261026",
+    "files": [
+      "scripts/cp7_current_frozen_finance_ui/browser.mjs",
+      "scripts/cp7_current_frozen_finance_ui/browser_fixture.py",
+      "scripts/current-frozen-finance-ui-browser-qualification/LOCAL_PREFLIGHT.json",
+      "scripts/current-frozen-finance-ui-browser-qualification/SOURCE.json",
+      "scripts/current-frozen-finance-ui-browser-qualification/preflight.py",
+      "scripts/current-frozen-finance-ui-browser-qualification/source_guard.py"
+    ],
+    "preflight_guards": 22,
+    "admission_pins": 3797,
+    "admission_sha256": "d7731fc28e096cba17c0304afd11dd07e37597e094f4e27185ec2096e1a0d879",
+    "production_go": false
+  },
+  "choice_preparation_native6_prepared": {
+    "head": "5059a36573464d58d341187f2c851799760f2f2c",
+    "parent": "cd30bd7cddcbeea1df78c28e301d055041a8f581",
+    "tree": "63c3993096ec051b7d34b20a6e82a538a0d24693",
+    "local": "3753635573119d4d74f7447a35fc287cfd67d048",
+    "branch": "astra-a/d17-18-choice-preparation-native-prepared-20261026",
+    "files": [
+      ".github/workflows/cp7-d17-18-choice-preparation-native.yml",
+      ".github/workflows/cp7-d17-18-progress-native.yml",
+      "scripts/cp7_ow12b_choice_preparation_cases.py",
+      "scripts/cp7_ow12b_frozen_choice_cases.py",
+      "scripts/cp7_ow12b_frozen_reader_cases.py",
+      "scripts/current-choice-preparation-native-qualification/B_FIXTURE_SOURCE.json",
+      "scripts/current-choice-preparation-native-qualification/LOCAL_PREPARATION.json",
+      "scripts/current-choice-preparation-native-qualification/README.md",
+      "scripts/current-choice-preparation-native-qualification/admission.py",
+      "scripts/current-choice-preparation-native-qualification/bind_sources.py",
+      "scripts/current-choice-preparation-native-qualification/cases.py",
+      "scripts/current-choice-preparation-native-qualification/fetch_original.py",
+      "scripts/current-choice-preparation-native-qualification/probe.py",
+      "scripts/current-frozen-progress-native-qualification/README.md",
+      "scripts/current-frozen-progress-native-qualification/SOURCE.json",
+      "scripts/current-frozen-progress-native-qualification/admission.py",
+      "scripts/current-frozen-progress-native-qualification/cases.py",
+      "scripts/current-frozen-progress-native-qualification/fetch_original.py",
+      "scripts/current-frozen-progress-native-qualification/probe.py"
+    ],
+    "status": "PREPARED_UNBOUND_NO_DATABASE",
+    "focused_cases": 6,
+    "actual_predecessor_required": "54676bcc969b950dd1ec52eb7feba2d7e58a8cb4 PASS",
+    "production_go": false
   }
 }

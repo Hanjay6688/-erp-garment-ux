@@ -1,5 +1,34 @@
 # Status gabungan uang, model dan target — 26 Oktober 2026 WIB
 
+## Status terkini: UI mobile lulus sendiri; desktop dan analisis besar belum lulus
+
+UI2 4d1d2cc0/run40263892853/art12626548657 tetap **INCOMPLETE**. Mobile
+PASS satu kasus: 48 panggilan nyata, terlama121.081ms, laporan BLOCKED menahan
+angka, pencabutan akses menyembunyikan keuangan; bukan kelulusan paket.
+Desktop berhenti sebelum panggilan karena laporan resmi benar-benar BLOCKED:
+4 absensi kosong,4 pool absen/HPP belum aktif,1 payroll belum disetujui dan3
+hasil kerja belum masuk payroll. Seluruh3797pin, dua prasyarat, CP6 dan advisor
+sudah diperiksa; kegagalan asli disimpan.
+
+Kandidat389326f6/run40267920853 memakai jalur fixture Native yang sudah ada:
+pembukaan periode dengan alasan, penyelesaian sumber payroll, aktivasi pool,
+lalu absensi OFF hanya pada hari kosong. Tidak mengubah aturan READY/BLOCKED,
+angka laporan, produk, hak akses atau batas statement8detik. Baseline tanpa efek
+analisis diambil sesudah penyiapan sumber.22kontrol lokal dan admission3797pin
+lulus; hasil runtime masih menunggu.
+
+Diagnosis pabrik69078311/run40263535654 dan progres Native5
+54676bcc/run40264118585 masih berjalan, tanpa kesimpulan baru. Komposisi
+pilihan cd30bd7c sudah disiapkan; enam kasus lengkap dipublikasi5059a365
+sebagai PREPARED_UNBOUND. SOURCE belum diikat dan workflow belum dijalankan,
+karena wajib memakai Original Native5 aktual PASS. Uji pabrik asli B tidak
+diganti. Formal5/16, independent_acceptance=false, production_go=false.
+
+Uraian setelah bagian ini adalah riwayat per tahap. Untuk antrean terkini,
+lihat [catatan aktif A](ACTIVE_WRITER_A_20261025.json).
+
+## Riwayat status sebelumnya — dipertahankan sebagai bukti
+
 VENI. VIDI. VICI. ERP. — I CONQUERED ERP.
 Reliable data adalah dewa. Keuangan termasuk laporan, stok, dan HPP adalah raja.
 
