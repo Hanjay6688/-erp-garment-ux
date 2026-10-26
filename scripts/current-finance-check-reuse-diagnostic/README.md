@@ -1,5 +1,18 @@
 # Single snapshot-check diagnostic, no product adoption
 
+Actual6bc45a17/run40314220814/artifact12649917732 is INCOMPLETE: the diagnostic
+expected the pre-install Native owner body and refused the installed CP7 body
+before executing its candidate. SMALL official290.916ms was recorded; there is
+no candidate, PRICE_PERCENT, factory or speedup credit. Full22/data/sequence/CP6
+and advisor restoration passed. FIRST_RUNTIME_FAILURE_6BC.json preserves this.
+
+The successor derives its reference from the same retained Native definition
+through the existing official note lifecycle and account lookup installers,
+in that exact order. All source files and the entire derived body are pinned;
+live byte equality is still mandatory. Native raw body and old failure remain
+unchanged. A mismatch now records both hashes and byte counts; it is never
+normalized or accepted. The actual live body must match before any patch.
+
 Actual reader7caf proved entire-report equality and removed10,800 opening-item
 UPDATE attempts on the manual factory fixture. It only reduced26,189.214ms to
 24,800.666ms; SMALL283.237ms to284.047ms. The earlier unchanged profile was

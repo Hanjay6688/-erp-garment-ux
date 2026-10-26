@@ -1,0 +1,10 @@
+{
+  "status": "PASS_LOCAL_ONLY",
+  "transformation_tests": 5,
+  "negative_body_mutations": 7,
+  "Python_AST": 10,
+  "shell_steps": 47,
+  "actual_database": false,
+  "prior_failure_6bc_remains_INCOMPLETE": true,
+  "production_go": false
+}

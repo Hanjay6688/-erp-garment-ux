@@ -1,0 +1,8 @@
+{
+  "status": "LOCAL_SETUP_FAILURE",
+  "error": "Required original-snapshot-definition and COMPOSED_SNAPSHOT_SOURCE absent because extraction assumed unextracted SQL path",
+  "test_errors": 5,
+  "database_started": false,
+  "resolution": "Read exact SQL member from retained SHA-verified7caf ZIP; no relaxed source equality",
+  "production_go": false
+}
