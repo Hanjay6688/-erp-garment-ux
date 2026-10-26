@@ -19,11 +19,12 @@ const IDs=['FROZEN_WORK_REAL_TABS_SINGLE_DURABLE_CREATION','FROZEN_WORK_REAL_TAB
 const report={contract:'cp7.frozen-work-recovery-real-browser3.v1',head:execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim(),
  required_case_ids:IDs,cases:[],source_sha256:{},status:'INCOMPLETE',controlled_RPC_replies:true,
  actual_browser_locks_qualified:false,actual_Native:false,actual_Auth_HTTP_credit:false,production_UI_qualified:false,production_go:false}
-for(const p of[source,'src/nativeProductionPlanning.ts','scripts/cp7_frozen_analysis_facade_v2/client/nativeFrozenAnalysis.ts','scripts/cp7_ow12b_frozen_work_recovery_browser.mjs'])report.source_sha256[p]=createHash('sha256').update(await readFile(p)).digest('hex')
+for(const p of[source,'scripts/cp7_frozen_analysis_facade_v2/client/nativeFrozenWait.ts','src/nativeProductionPlanning.ts','scripts/cp7_frozen_analysis_facade_v2/client/nativeFrozenAnalysis.ts','scripts/cp7_ow12b_frozen_work_recovery_browser.mjs'])report.source_sha256[p]=createHash('sha256').update(await readFile(p)).digest('hex')
 const html=`<!doctype html><html><head><meta charset="utf-8"><title>Isolated request recovery proof</title></head><body><main>Request recovery test</main><script type="module">import * as api from '/${source}';window.api=api;window.ready=true;</script></body></html>`
+const served=new Set()
 let server,browser,context
 try{
- server=await createServer({configFile:false,root:process.cwd(),logLevel:'error',server:{host:'127.0.0.1',port:0},plugins:[{name:'isolated-frozen-recovery',configureServer(s){s.middlewares.use((req,res,next)=>{if(req.url!=='/frozen-recovery-proof'){next();return}res.setHeader('Content-Type','text/html;charset=utf-8');res.end(html)})}}]})
+ server=await createServer({configFile:false,root:process.cwd(),logLevel:'error',server:{host:'127.0.0.1',port:0},plugins:[{name:'isolated-frozen-recovery',transform(_code,id){const path=id.split('?')[0];if(path.startsWith(process.cwd()+'/')&&!path.includes('/node_modules/'))served.add(path.slice(process.cwd().length+1))},configureServer(s){s.middlewares.use((req,res,next)=>{if(req.url!=='/frozen-recovery-proof'){next();return}res.setHeader('Content-Type','text/html;charset=utf-8');res.end(html)})}}]})
  await server.listen();const url='http://127.0.0.1:'+server.httpServer.address().port+'/frozen-recovery-proof'
  const document=await fetch(url),module=await fetch(new URL('/'+source,url));assert.equal(document.status,200);assert.equal(module.status,200)
  assert.match(await module.text(),/erp_cp7_save_staged_production_schedule_v1/)
@@ -75,7 +76,7 @@ try{
   assert.equal(await b.evaluate(key=>localStorage.getItem(key),key),original)
   report.cases.push({id:IDs[2],status:'PASS',actual_reload:true,reply_loss_controlled:true,same_method_actor_UUID_payload_and_retained_bytes:true,no_Native_idempotency_credit:true})
   const remaining=await a.evaluate(()=>navigator.locks.query());assert.deepEqual(remaining,{held:[],pending:[]})
-  assert.deepEqual(report.cases.map(c=>c.id),IDs);report.status='PASS';report.actual_browser_locks_qualified=true;report.actual_tabs=2;report.no_remaining_locks=true
+  assert.deepEqual(report.cases.map(c=>c.id),IDs);assert.ok(served.has('scripts/cp7_frozen_analysis_facade_v2/client/nativeFrozenWait.ts'),'COMMON_WAIT_HELPER_NOT_SERVED');report.actual_served_module_graph=true;report.status='PASS';report.actual_browser_locks_qualified=true;report.actual_tabs=2;report.no_remaining_locks=true
  }
 }catch(error){report.error=String(error);report.stack=error.stack;process.exitCode=1}
-finally{await context?.close();await browser?.close();await server?.close();await mkdir(dirname(path),{recursive:true});await writeFile(path,JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify({status:report.status,counts:report.cases.reduce((r,c)=>(r[c.status]=(r[c.status]??0)+1,r),{}),actual_browser_locks_qualified:report.actual_browser_locks_qualified,error:report.error,report:path}))}
+finally{await context?.close();await browser?.close();await server?.close();report.served_source_paths=[...served].sort();report.served_source_sha256={};for(const p of report.served_source_paths){const hash=createHash('sha256').update(await readFile(p)).digest('hex');report.served_source_sha256[p]=hash;report.source_sha256[p]=hash}await mkdir(dirname(path),{recursive:true});await writeFile(path,JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify({status:report.status,counts:report.cases.reduce((r,c)=>(r[c.status]=(r[c.status]??0)+1,r),{}),actual_browser_locks_qualified:report.actual_browser_locks_qualified,error:report.error,report:path}))}

@@ -3,6 +3,7 @@ name: CP7 Frozen Schedule Recovery Real Browser3
   push:
     branches: [astra/d17-14-produksi]
     paths:
+      - scripts/cp7_frozen_analysis_facade_v2/client/nativeFrozenWait.ts
       - scripts/cp7_frozen_analysis_work_v2/client/**
       - scripts/cp7_ow12b_frozen_work_recovery_browser.mjs
       - .github/workflows/cp7-ow12b-frozen-work-recovery-browser.yml
