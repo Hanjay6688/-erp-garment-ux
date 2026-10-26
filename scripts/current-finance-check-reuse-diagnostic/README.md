@@ -1,41 +1,49 @@
-# Single snapshot-check diagnostic, no product adoption
+# Same-report official readiness diagnostic; no product adoption
 
-Actual6bc45a17/run40314220814/artifact12649917732 is INCOMPLETE: the diagnostic
-expected the pre-install Native owner body and refused the installed CP7 body
-before executing its candidate. SMALL official290.916ms was recorded; there is
-no candidate, PRICE_PERCENT, factory or speedup credit. Full22/data/sequence/CP6
-and advisor restoration passed. FIRST_RUNTIME_FAILURE_6BC.json preserves this.
+The first two runtime failures remain INCOMPLETE, preserved with exact Original
+hashes and tracebacks in FIRST_RUNTIME_FAILURE_6BC.json and FIRST_RUNTIME_FAILURE_F038.json.
+The f038 candidate refused the live body before it ran. SMALL official284.902ms
+was observed; no candidate, PRICE_PERCENT, factory or speedup credit exists.
+Full22/data/sequence/CP6 and advisor restoration passed.
 
-The successor derives its reference from the same retained Native definition
-through the existing official note lifecycle and account lookup installers,
-in that exact order. All source files and the entire derived body are pinned;
-live byte equality is still mandatory. Native raw body and old failure remain
-unchanged. A mismatch now records both hashes and byte counts; it is never
-normalized or accepted. The actual live body must match before any patch.
+Source inspection found the old reference was from the AB-era clone. The actual
+package installs AW and BA before the CP7 report transformers. The exact BA body,
+then cp7_note_report_bundle.patched_report and cp7_report_accounts_bundle.wrap,
+yields14417bytes and SHA5687c8b4805f73baa68197121f9a4a90f5f123d6ff7da683e88301a485e3aab2,
+matching the actual f038 refusal. The installed report has one readiness call and
+one warning-check call. The earlier proposed duplicate snapshot aggregate does
+not exist there; reuse.py/snapshot_source.py/test_reuse.py remain historical only.
 
-Actual reader7caf proved entire-report equality and removed10,800 opening-item
-UPDATE attempts on the manual factory fixture. It only reduced26,189.214ms to
-24,800.666ms; SMALL283.237ms to284.047ms. The earlier unchanged profile was
-11,679.017ms. The cross-run slowdown remains unexplained, not accepted or hidden.
-
-This experiment preserves the same full current product and rollback restoration.
-It combines only the two identical financial-check reads inside the official owner
-snapshot into one aggregate: critical/warning totals over all rows, and the same
-ordered positive-failure details. The separate close-preflight check still runs.
-Every byte outside that one aggregate stays exact. There is no cache, supplied
-check result, new public API, new privilege, product timeout, or posting change.
+The executable candidate is readiness_reuse.py. A private date-only sibling
+returns the exact snapshot plus the original preflight using readiness already
+calculated by that snapshot. All snapshot arithmetic, warnings and policy fields
+remain byte-identical. The nested preflight retains its owner/admin check,
+null-date guard, current close-state read and allowed-date rule. Both the helper
+and original workspace retain the finance.period_close.manage predicate.
+Native snapshot, Native preflight, close/reopen commands and posting resolver
+remain unchanged and are checked after patching. No caller supplies results.
+The helper is executable only by the existing private finance reader; browser,
+service-role and capture roles cannot execute it directly. Full live source and
+function attributes must match before any patch. STABLE readers use the same
+statement snapshot. No cache, public API, product installer or timeout is changed.
 
 The existing exact read-only opening candidate remains private and rollback-only.
-SMALL and real Native PRICE_PERCENT fixtures keep8s diagnostic calls. The same
-1200x3factory fixture keeps the existing30s diagnostic ceiling, no retries.
-Each pair requires entire official report equality except report.captured_at,
+SMALL and real Native PRICE_PERCENT fixtures retain8s diagnostic calls. The same
+1200x3factory fixture retains the existing30s diagnostic ceiling, no retries.
+Each pair requires whole official report equality except report.captured_at,
 identical row counts, zero candidate table writes, unchanged data/sequences before
-rollback, and all22catalog/data/sequence groups restored afterwards. Counts must
-fall from3official checks to2. PRICE_PERCENT uses ordinary Native master import,
-shared-SKU price writer and opening posting, with independent Decimal HPP and
-posted-stock/journal assertions; synthetic numbers are not owner policy.
+rollback and all22catalog/data/sequence groups restored afterwards. Observed
+readiness calls must fall2to1 and global checks3to2. PRICE_PERCENT uses Native
+master import, shared-SKU price writing and opening posting with independent
+Decimal HPP and posted-stock/journal assertions. Fixture numbers are not policy.
 
-This diagnostic is not factory completion, production adoption, independent
-acceptance, actual Auth/browser credit, or source-change-race qualification.
-Existing failures and the unexplained cross-run slowdown remain open. Final
-product adoption still requires source-race, full integration and measured budgets.
+Actual reader7caf already proved whole-report equality and removed10,800 opening
+UPDATE attempts; factory26,189.214ms became24,800.666ms, SMALL283.237ms became284.047ms.
+The earlier official profile11,679.017ms remains an unexplained cross-run slowdown.
+This successor does not claim to resolve that regression.
+
+Seven focused local checks prove source identity, reversible whole-body changes,
+retained access/date/size guards and refusal of changed or historical bodies.
+These do not replace actual runtime equality, ACL, source-race, browser/Auth,
+full integration, measured budgets or independent acceptance. Factory completion,
+product adoption and production_go remain false until their own evidence exists.
