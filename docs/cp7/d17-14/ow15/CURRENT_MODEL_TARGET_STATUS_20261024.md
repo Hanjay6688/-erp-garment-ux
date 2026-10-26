@@ -1,3 +1,26 @@
+## Pembaruan26 Oktober2026 — uji login dan benturan persiapan sudah disiapkan
+
+Cabang c07672ab menyimpan enam kasus terfokus:3Auth/PostgREST nyata dan3dua
+koneksi PostgreSQL. Cakupan: pekerjaan sama saat kirim ulang/buka kembali,
+READY tidak otomatis menyimpan, pembanding compiler lengkap, sumber stok
+berubah menolak SAVE, hak akses dicabut termasuk replay, enqueue/step serentak,
+dan pencabutan akses tepat sesudah kerja sebelum READY. Semua mengawasi efek
+saldo/stok/HPP dan jumlah pilihan/receipt. Ini persiapan, belum hasil runtime.
+
+10modul Python,46langkah shell dan enam IDkasus lulus pemeriksaan lokal;
+import komposisi penuh sama persis Native6 dan admission tanpa OriginalPASS
+menolak sebelum database. SOURCE tetap tidak ada, CONFIG.choice_head null.
+Workflow hanya pada cabang eksekusi khusus; cabang persiapan tidak menjalankan
+kasus. Tidak ada perubahan produk, API, payload, batas8s atau worktree B.
+
+Native6 a3ce9317/run40297810688 dan diagnosis pembaca HPP7caf6b84/
+run40300049475 masihIN_PROGRESS pada pengamatan ini. UI8cb06927 dan
+transport baru sama-sama menunggu OriginalNative6 yang benar-benarPASS.
+DiagnosisHPP belum memberi izin mengganti rumus/pembaca resmi. Status formal
+5/16; independent_acceptance=false; production_go=false; CP7C belum dimulai.
+
+---
+
 ## Pembaruan26 Oktober2026 — progres aktual lulus, persiapan pilihan sedang diuji
 
 Progress Native5 pada0c86d277 sudah PASS5: run40286627929/job121451709620,
