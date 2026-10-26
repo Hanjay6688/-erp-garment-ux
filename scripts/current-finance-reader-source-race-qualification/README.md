@@ -32,3 +32,11 @@ requires the exact f038 actual three-pair proof, including the percentage branch
 zero candidate writes, unchanged complete reports, actual3-to2 check calls and exact
 live composed source. It refuses an unbound invocation before database access.
 No SOURCE or workflow has been created yet. This preparation is not runtime proof.
+
+The small fixture must fit one journal chunk. Its first scan must reject the
+concurrent posting at unit1, before the final row-count seal; a count-only rejection
+does not satisfy the snapshot witness. Temporary DDL and its inverse also use the
+explicit8s statement/2s lock bounds after each commit resets local settings.
+The expected fixed report view follows PostgreSQL17's STABLE function snapshot
+rules (https://www.postgresql.org/docs/17/xfunc-volatility.html); the actual test
+must still observe both backend PIDs and prove every report byte and rejection.

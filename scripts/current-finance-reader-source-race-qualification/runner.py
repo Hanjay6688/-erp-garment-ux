@@ -79,19 +79,23 @@ def exercise(conn,cur,database_module,url,report):
     pins=json.loads((HERE/'SOURCE.json').read_bytes())
     assert pins['actual_reuse']['head']=='f038a6ecc5a71278554eab62ab7df4f4ced9b7bc'
     assert pins['actual_reuse']['status']=='PASS'
+    bounded(cur)
     granted,_=database_module._foundation(cur)
     today=cur.execute("select(statement_timestamp()at time zone'Asia/Jakarta')::date").fetchone()[0]
     base.setup(cur,today)
     report['price_percent_fixture']=retained.price_fixture.seed(cur,today)
     cid=capture.start(cur,capture.query(today));dates=capture_row(cur,cid)['dates']
+    chunk_rows=capture.call(cur,'select cp7_finance_capture.chunk_rows()')
     if granted:cur.execute('revoke usage on schema erp from authenticated')
     conn.commit()
     original,observed=measured_report(url,dates,False)
+    assert 0<original['rows']['journal']<=chunk_rows,'RACE_FIXTURE_REQUIRES_ONE_JOURNAL_CHUNK'
     report['unchanged_fresh_report']=observed
     key='CP7:FINANCE_READER_RACE:'+str(uuid.uuid4());state=None
     report.update(case_id=CASE,diagnostic_only=True,actual_cron_claim=False,manual_committed_steps=0,
         product_timeout_changed=False,production_go=False,previous_factory_failures_remain_INCOMPLETE=True)
     try:
+        bounded(cur)
         state=patch.install(cur,product.catalog,key);conn.commit()
         report['temporary_patch']=state['evidence']
         candidate,observed=measured_report(url,dates,True)
@@ -124,12 +128,15 @@ def exercise(conn,cur,database_module,url,report):
         assert first['state']=='RUNNING'and first['units_done']==1
         assert held['report_snapshot']is not None,'RACING_REPORT_SNAPSHOT_MISSING'
         assert normalized(held['report'])==normalized(original['report']),'RACING_REPORT_MIXED_NEW_SOURCE'
-        patch.remove_hold(cur,state);conn.commit()
+        bounded(cur);patch.remove_hold(cur,state);conn.commit()
         current,current_observed=measured_report(url,dates,True)
         assert current['rows']['journal']>original['rows']['journal']
         assert normalized(current['report'])!=normalized(original['report'])
         failed,sealed,trail=finish(url,cid,report,'failure_steps')
         assert failed['state']=='FAILED'and failed['failure_code']=='CP7_FINANCE_CAPTURE_SOURCE_CHANGED'
+        # The first journal scan must see the invisible-at-report-time Native
+        # posting. A rejection only at the final row-count seal is insufficient.
+        assert len(trail)==1 and failed['units_done']==1 and sealed['failure_unit']==1
         assert sealed['source_hash']is None and sealed['book_signature']is None
         repeated,same,again=fresh_step(url,cid);assert same==sealed and repeated==failed
         report['manual_committed_steps']+=1
@@ -155,6 +162,7 @@ def exercise(conn,cur,database_module,url,report):
         assert normalized(result['report'])==normalized(current['report'])
         report.update(actual_two_backend_pids=[holder_pid,*worker_pids],actual_blocking_PID_observed=waited,
             concurrent_Native_post=posted,held_before_change_report_exact=True,racing_report_snapshot=held['report_snapshot'],
+            snapshot_change_detected_before_count_seal=True,
             source_changed_failure=failed,failed_capture_immutable=True,failed_result_refused=True,
             old_capture_id=str(cid),fresh_capture_id=str(fresh),fresh_capture_ready=True,
             independent_book_signature=True,official_metrics_exact=24,unknown_never_zero=True,
@@ -164,6 +172,7 @@ def exercise(conn,cur,database_module,url,report):
     finally:
         conn.rollback()
         if state is not None:
+            bounded(cur)
             patch.restore(cur,product.catalog,state);conn.commit()
             report['temporary_patch_all22_catalog_restored']=True
     official,official_observed=measured_report(url,dates,False)
