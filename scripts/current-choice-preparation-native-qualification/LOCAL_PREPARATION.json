@@ -1,0 +1,9 @@
+{
+  "status": "PREPARED_UNBOUND_NO_DATABASE",
+  "focused_cases": 6,
+  "syntax_and_actual_module_import": true,
+  "bash_steps": 45,
+  "wrong_predecessor_refused": true,
+  "actual_predecessor_status": "PENDING",
+  "production_go": false
+}
