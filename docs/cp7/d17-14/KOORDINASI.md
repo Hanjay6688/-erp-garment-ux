@@ -4282,3 +4282,42 @@ kandidat gabungan. A tetap pemilik uang/stok/HPP dan integrator tunggal.
 Kontrak publik, bentuk payload dan pemanggilan B tidak berubah oleh diagnosis.
 Tidak ada pekerjaan server duplikat. Formal5/16; independent_acceptance=false;
 production_go=false; CP7C belum dimulai.
+
+
+## 26 Oktober 2026 — A: Native6 pertama belum lulus; empat kasus dan satu INFO ditelusuri
+
+Native6 a3ce931748ded1dfbf9a5b972a2b8d8f40cf5b74/run40297810688/
+job121488053169/art12642445168 selesai10:08:17UTC:2PASS/4INCOMPLETE.
+Original6169733byte/SHA4bbbb7f708d611c40538c0b76b1a3f90dc60be282fc227aeccb64e004fc92363
+sudah diintake sekali bersama ZIP dan metadata;3748pin persis. Seluruh22
+katalog/data/sequence dan CP6 kembali sama. Paket:installed,primary unchanged,
+backup restore dansecurityadvisors true;writer_runtime false. Gate review
+advisor milik Native6 juga false. Hasil ini tidak diubah menjadiPASS.
+
+Kasus registry/inverse dan runner persiapan→keuangan24resmi PASS. Tiga kasus
+lain berhenti di B.ready pada equality STEP/GET; GET memang membaca lock
+transaksi STEP yang masih dipegang sesi Native itu. A menyiapkan adapter
+harness sendiri: seluruh badan B.ready dipertahankan, hanya assertion GET
+membandingkan PID/kunci tepat serta worker_active true, semua field lainnya
+harus sama. Tidak ada perubahan berkas/cabang B atau kontrak HTTP antar
+transaksi. B dapat memakai temuan ini untuk jalur Native6 komponennya sendiri.
+
+Kasus pembatalan berhenti di assertion gabungan waktu/claims. Penerus memisah
+bukti waktu dari tiga setting claims mentah dan identitas auth.uid()/auth.jwt().
+Kode runner menggunakan coalesce(prior,'') ketika setting sebelumnya belum
+ada; nilai non-null tetap wajib persis. Perbedaan aktual penerus harus terekam;
+hipotesis ini belum dinyatakan selesai hanya berdasarkan sumber atau uji lokal.
+Batas8s, jumlah percobaan dan terminalFAILED tidak berubah.
+
+Satu INFO belum direview:cp7_frozen_choice_preparation.work mempunyai RLS
+aktif tanpa policy, dengan desain akses langsung ditolak. A menyiapkan review
+terpisah hanya setelah owner/RLS/policy/ACL PUBLIC/hak schema dan tujuh hak tabel
+untuk anon,authenticated,service_role,cp7_alert,cp7_finance_read terbukti tepat.
+Review pendahulu dipertahankan lengkap. Warning, objek lain, policy baru atau
+hak langsung tetap menahan gate. Tidak menambahkan grant ataupun melonggarkan
+RLS agar suite hijau.
+
+Transport baru c07672ab (Auth3/race3) dan UI8cb06927 tetapUNBOUND, menunggu
+Native6 aktualPASS. Sumber produk tetap sama. Diagnosis pembaca HPP7caf6b84/
+run40300049475 masih berjalan pada pengamatan ini; tidak ada klaim hasilnya.
+Formal5/16; independent_acceptance=false; production_go=false; CP7C belum dimulai.
