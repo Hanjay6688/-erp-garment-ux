@@ -42,6 +42,60 @@ def used_refused(cur):
         else:raise AssertionError('USED_FULL_COMPOSITION_INVERSE_ACCEPTED')
         assert product.catalog._catalog_rows(cur)==before and product.catalog._data(cur)==data
 
+def pre_step_cancellation(cur,today,f,observed):
+    """Inject only SQL57014 at the retained access entry; restore exact definition.
+
+    This exercises the real composed K4 and real work row on PostgreSQL. It is
+    fault injection, not a wall-clock timeout or process-loss measurement.
+    """
+    current=parent.fresh(cur,today,f,observed);reader.purge(cur,current);B.call(cur,'request',current,observed)
+    plan.b.api.admin(cur);before=B.work(cur,current)
+    sig='cp7_schedule_native.access_now(boolean)'
+    original=cur.execute('select pg_get_functiondef(%s::regprocedure)',(sig,)).fetchone()[0]
+    assert original.count('\nbegin\n')==1
+    faulted=original.replace('\nbegin\n',"\nbegin\n if current_setting('cp7_choice_probe.access_cancel',true)='true'then raise exception using errcode='57014',message='INJECTED_PRESTEP_CANCEL';end if;\n",1)
+    held=product.catalog._catalog_rows(cur);prior=cur.execute('show statement_timeout').fetchone()[0]
+    prior_fault=cur.execute("select current_setting('cp7_choice_probe.access_cancel',true)").fetchone()[0]
+    cur.execute("set local statement_timeout='8s'");cur.execute(faulted);ticks=[]
+    def tick():
+        plan.b.api.admin(cur);old_claims=claims(cur);start=monotonic()
+        answer=cur.execute('select cp7_ops.analysis_tick()').fetchone()[0]
+        elapsed=round((monotonic()-start)*1000,3)
+        assert elapsed<8000 and claims(cur)==old_claims
+        assert answer['family']=='CHOICE_PREPARATION'
+        ticks.append(dict(state=answer['state'],millis=elapsed))
+        return answer
+    try:
+        cur.execute("select set_config('cp7_choice_probe.access_cancel','true',true)")
+        assert tick()['state']=='QUEUED'
+        after=B.work(cur,current)
+        assert after['job_id']==before['job_id']and after['created_at']==before['created_at']
+        assert after['attempts']==1 and after['payload']is None
+        cur.execute("select set_config('cp7_choice_probe.access_cancel','false',true)")
+        assert tick()['state']=='READY'
+        after=B.work(cur,current)
+        assert after['attempts']==1 and after['payload']['inputs']==current['expected']
+        terminal=parent.fresh(cur,today,f,observed);reader.purge(cur,terminal);B.call(cur,'request',terminal,observed)
+        identity=B.work(cur,terminal)
+        cur.execute("select set_config('cp7_choice_probe.access_cancel','true',true)")
+        for attempt in range(1,4):
+            answer=tick();work=B.work(cur,terminal)
+            assert answer['state']==('QUEUED'if attempt<3 else'FAILED')
+            assert work['attempts']==attempt and work['payload']is None
+            assert work['job_id']==identity['job_id']and work['created_at']==identity['created_at']
+        assert work['failure_code']=='CP7_CHOICE_PREPARATION_TIME_LIMIT'and work['failure_sqlstate']=='57014'
+        cur.execute("select set_config('cp7_choice_probe.access_cancel','false',true)")
+        assert B.call(cur,'get',terminal,observed)['state']=='FAILED'
+    finally:
+        if cur.connection.info.transaction_status!=finance.finance.TransactionStatus.INERROR:
+            plan.b.api.admin(cur);cur.execute(original)
+            cur.execute("select set_config('cp7_choice_probe.access_cancel',%s,true)",(prior_fault or '',))
+            cur.execute("select set_config('statement_timeout',%s,true)",(prior,))
+    assert product.catalog._catalog_rows(cur)==held
+    return dict(actual_composed_K4_ticks=ticks,prestep_cancel_attempts_bounded=True,
+        same_work_recovers=True,third_cancel_terminal=True,claims_restored_every_tick=True,
+        injected_SQL57014_not_wall_clock_timeout=True,exact_access_definition_restored=True)
+
 def cases(cur,today):
     observed={}
     def catalog():
@@ -133,8 +187,11 @@ def cases(cur,today):
         unknown=B.call(cur,'step',third,observed)
         assert unknown['state']=='FAILED'and unknown['unit_attempts']==1 and unknown['failure_sqlstate']=='22012'
         assert unknown['failure_code']=='CP7_CHOICE_PREPARATION_FAILED'and 'PRIVATE_UNKNOWN_DETAIL'not in json.dumps(unknown)
+        plan.b.api.admin(cur);cur.execute('drop trigger current_choice_unknown on cp7_frozen_choice_preparation.work')
+        before_compiler=pre_step_cancellation(cur,today,f,observed)
         return dict(status='PASS',injected_SQL57014_not_wall_clock_timeout=True,same_work_recovers_after_one_cancel=True,
-            third_cancel_is_terminal=True,unknown_error_fails_without_timeout_reclassification=True,partial_payload_never_published=True)
+            third_cancel_is_terminal=True,unknown_error_fails_without_timeout_reclassification=True,partial_payload_never_published=True,
+            before_compiler_runner=before_compiler)
 
     def runner_finance():
         f=parent.prepare(cur,today,observed);reader.purge(cur,f);B.call(cur,'request',f,observed)

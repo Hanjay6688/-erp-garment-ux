@@ -4,7 +4,7 @@ from hashlib import sha256
 import argparse,ast,json,subprocess
 
 HERE=Path(__file__).resolve().parent;REPO=HERE.parents[1]
-PRODUCT_PARENT='cd30bd7cddcbeea1df78c28e301d055041a8f581'
+PRODUCT_PARENT='73b5ada8a6e1c6fbbfc53a3a4fe2b305def6657f'
 PROGRESS_HEAD='54676bcc969b950dd1ec52eb7feba2d7e58a8cb4'
 
 def main():

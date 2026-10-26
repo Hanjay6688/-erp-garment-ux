@@ -65,6 +65,21 @@ def work(cur,f):
  return cur.execute('select to_jsonb(w)from cp7_frozen_choice_preparation.work w where job_id=%s',(f['row']['id'],)).fetchone()[0]
 
 def ready(cur,f,observed):
+ # Reuse timings already collected by the real staged driver. No additional
+ # reads or compiler calls for instrumentation. These are unit-call durations
+ # (including fixture actor/setup overhead), not whole-analysis wall time.
+ calls=deepcopy(f['calls']);assert calls
+ by_stage={}
+ for row in calls:
+  group=by_stage.setdefault(row['stage'],dict(calls=0,total_millis=0,slowest_millis=0))
+  group['calls']+=1;group['total_millis']+=row['ms'];group['slowest_millis']=max(group['slowest_millis'],row['ms'])
+ for group in by_stage.values():group['total_millis']=round(group['total_millis'],3)
+ observed.setdefault('completed_analysis_unit_timings',[]).append(dict(
+  source_request=f['key'],run_id=f['done']['run_id'],targets=f['pages']['targets_total'],
+  units_done=f['done']['units_done'],unit_count=f['done']['unit_count'],calls=calls,by_stage=by_stage,
+  unit_calls_total_millis=round(sum(row['ms']for row in calls),3),
+  includes_fixture_role_setup_overhead=True,whole_analysis_wall_time=False,
+  added_database_calls=0,total8s_gate=False))
  before=plan.staged.job_row(cur,f['key'],f['subject'])
  first=call(cur,'request',f,observed);assert first['state']=='QUEUED'
  assert call(cur,'request',f,observed)==first and call(cur,'get',f,observed)==first

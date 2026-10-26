@@ -5,5 +5,9 @@
   "bash_steps": 45,
   "wrong_predecessor_refused": true,
   "actual_predecessor_status": "PENDING",
-  "production_go": false
+  "production_go": false,
+  "B_head": "b96e2f7402b3373f9ab5fa7ede30d34a7048aea3",
+  "product_parent": "73b5ada8a6e1c6fbbfc53a3a4fe2b305def6657f",
+  "actual_pre_step_cancellation_case_prepared": true,
+  "actual_pre_step_cancellation_runtime": false
 }

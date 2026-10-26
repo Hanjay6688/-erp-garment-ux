@@ -20,6 +20,12 @@ tanpa syarat total 8 detik dan tanpa menjadikannya ukuran satu operasi pengguna.
 Pembatalan 57014 disuntikkan untuk menguji pemulihan; itu bukan pengukuran
 timeout nyata. Pemanggilan K4 dari SQL bukan bukti pemicu cron per menit.
 
+Perbaikan B b96e2f74 juga diuji sebelum compiler: injeksi SQL57014 pada awal
+pemeriksaan akses harus dicatat pada baris kerja yang sama, pulih setelah satu
+gangguan, dan berhenti FAILED setelah tiga gangguan. Definisi pemeriksa akses
+dikembalikan persis, tanpa mengubah aturan hak akses produk. Ini tetap uji
+injeksi pada runner gabungan, bukan bukti penghentian proses server secara paksa.
+
 Belum membuktikan Auth/HTTP, browser, dua sesi, data pabrik penuh, penerimaan
 gabungan atau produksi. Kegagalan lama tetap INCOMPLETE. production_go=false.
 
