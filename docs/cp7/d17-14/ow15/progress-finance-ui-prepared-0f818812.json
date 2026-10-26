@@ -1,0 +1,16 @@
+{
+  "status": "PREPARED_LOCAL_PASS_ONLY",
+  "head": "0f818812a79013c926fcb54e949b0923bf1622ea",
+  "local": "fe4367e9f521d81e59c6bd1e04cd7ea09e4900cb",
+  "tree": "04b7233a33acd10757a8769cb15325409400d6d7",
+  "parent": "821a7e79354ffa1f3fc73b9690c372d38f235a27",
+  "branch": "astra-a/d17-18-progress-finance-ui-prepared-20261026",
+  "changed_files": 112,
+  "B_exact_files": 90,
+  "local_tests": 179,
+  "compiled_source_modules": 79,
+  "actual_Auth_HTTP_credit": false,
+  "actual_database_credit": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

@@ -1,5 +1,5 @@
 {
-  "recorded_at_utc": "2026-10-26T04:14:57.194224+00:00",
+  "recorded_at_utc": "2026-10-26T04:47:10.536282+00:00",
   "role": "A finance writer/integrator replacing Claude; B remains separate production/planning writer",
   "slogan": [
     "VENI. VIDI. VICI. ERP. \u2014 I CONQUERED ERP.",
@@ -4192,10 +4192,11 @@
     "run_id": 40264118585
   },
   "latest_B_readonly_review": {
-    "head": "9162d7e7051616bff95bd151f142a8106d1add31",
-    "shared_note": 214,
-    "exact_new_components_imported_to_isolated_A": 31,
-    "generated_source_checks": "PASS_READERS_CHOICE_PREPARATION_ON_A_PARENT",
+    "head": "c95428fbb73aeda64beeed008a99c0bd642f90ef",
+    "code_head": "b96e2f7402b3373f9ab5fa7ede30d34a7048aea3",
+    "shared_note": 217,
+    "ledger_Originals": 63,
+    "all_started_B_runs_finished": true,
     "new_B_Originals_intaken_by_A": false,
     "full_composition_runtime": false
   },
@@ -4303,6 +4304,33 @@
     "production_go": false
   },
   "choice_preparation_native6_prepared": {
+    "head": "821a7e79354ffa1f3fc73b9690c372d38f235a27",
+    "parent": "73b5ada8a6e1c6fbbfc53a3a4fe2b305def6657f",
+    "local": "9910b3fd0b053b6afcc1d54ffa019cf46ef0b72a",
+    "tree": "784af13ac9f8e0026387c62b416e225382032197",
+    "status": "PREPARED_UNBOUND_NO_DATABASE",
+    "focused_cases": 6,
+    "source_bound": false,
+    "production_go": false,
+    "actual_predecessor_required": "54676bcc969b950dd1ec52eb7feba2d7e58a8cb4 PASS"
+  },
+  "progress_finance_UI_prepared": {
+    "status": "PREPARED_LOCAL_PASS_ONLY",
+    "head": "0f818812a79013c926fcb54e949b0923bf1622ea",
+    "local": "fe4367e9f521d81e59c6bd1e04cd7ea09e4900cb",
+    "tree": "04b7233a33acd10757a8769cb15325409400d6d7",
+    "parent": "821a7e79354ffa1f3fc73b9690c372d38f235a27",
+    "branch": "astra-a/d17-18-progress-finance-ui-prepared-20261026",
+    "changed_files": 112,
+    "B_exact_files": 90,
+    "local_tests": 179,
+    "compiled_source_modules": 79,
+    "actual_Auth_HTTP_credit": false,
+    "actual_database_credit": false,
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "choice_preparation_native6_prepared_history": {
     "head": "5059a36573464d58d341187f2c851799760f2f2c",
     "parent": "cd30bd7cddcbeea1df78c28e301d055041a8f581",
     "tree": "63c3993096ec051b7d34b20a6e82a538a0d24693",
@@ -4333,5 +4361,13 @@
     "focused_cases": 6,
     "actual_predecessor_required": "54676bcc969b950dd1ec52eb7feba2d7e58a8cb4 PASS",
     "production_go": false
+  },
+  "latest_B_readonly_review_history": {
+    "head": "9162d7e7051616bff95bd151f142a8106d1add31",
+    "shared_note": 214,
+    "exact_new_components_imported_to_isolated_A": 31,
+    "generated_source_checks": "PASS_READERS_CHOICE_PREPARATION_ON_A_PARENT",
+    "new_B_Originals_intaken_by_A": false,
+    "full_composition_runtime": false
   }
 }

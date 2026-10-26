@@ -1,5 +1,37 @@
 # Status gabungan uang, model dan target — 26 Oktober 2026 WIB
 
+## Status terkini: host progres gabungan lulus lokal; pembuktian server belum selesai
+
+A0f818812 menyiapkan host opsional dengan90berkas B exactb96e2f74,
+telemetry server A dan panel angka resmi.179uji/16berkas, TypeScript,
+sourceguard dan build79modul lulus. Urutan keyJSON tidak lagi menolak
+permintaan identik; identitas semua nilai tetap wajib cocok. Pembukaan ulang,
+respons hilang, izin dicabut, pembacaan bersama dan unmount diuji terkendali.
+Ini belum bukti Auth/database/pabrik/pemulihan atau penerimaan gabungan.
+
+Komposisi pilihan821a7e79 sudah menyiapkan Native6 dan penanganan gangguan
+sebelum compiler. SOURCE belum diikat; wajib Original54676bcc Native5 aktual
+PASS. Kandidat0f818812 belum dipakai default dan belum dijalankan di server.
+
+Tiga run masih berjalan pada snapshot26Okt04:43UTC: diagnosis pabrik69078311/
+40263535654, progres54676bcc/40264118585, UI fixture NativeREADY389326f6/
+40267920853. Status runtime belum dapat disimpulkan. Native5 log sementara
+belum tersedia; tidak diulang tanpa perubahan. UI4d1d2cc0 tetapINCOMPLETE:
+mobile satu kasusPASS, desktop tertahan12kewajiban sumber.
+
+B c95428fb/catatan217 selesai memeriksa seluruh36run yang telah dimulai;
+ledger63Original belum seluruhnya diintake A. Scope B tetap belum selesai:
+SAVE jalur lama sesudahK3 masih gagal, prepared-route belum teruji gabungan.
+Tidak ada kelonggaran untuk SAVE kecil atau perubahan kegagalan lama menjadi
+PASS. Lanjutkan Native6, Auth/dua-sesi/cron/restore/factory dan UI gabungan.
+Formal5/16; independent_acceptance=false; production_go=false.
+
+Lihat catatan aktif A untuk kandidat; bagian berikut adalah riwayat.
+
+## Riwayat sebelum host progres gabungan
+
+# Status gabungan uang, model dan target — 26 Oktober 2026 WIB
+
 ## Status terkini: UI mobile lulus sendiri; desktop dan analisis besar belum lulus
 
 UI2 4d1d2cc0/run40263892853/art12626548657 tetap **INCOMPLETE**. Mobile
