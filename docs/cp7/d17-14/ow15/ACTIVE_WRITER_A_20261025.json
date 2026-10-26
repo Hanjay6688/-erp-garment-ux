@@ -1,5 +1,5 @@
 {
-  "recorded_at_utc": "2026-10-26T11:17:51.072989+00:00",
+  "recorded_at_utc": "2026-10-26T11:27:30.246577+00:00",
   "role": "A finance writer/integrator replacing Claude; B remains separate production/planning writer",
   "slogan": [
     "VENI. VIDI. VICI. ERP. \u2014 I CONQUERED ERP.",
@@ -14,6 +14,12 @@
       "run_id": 40308822607,
       "job_id": 121524549120,
       "scope": "corrected Native observations and exact private INFO review; focused full choice Native6"
+    },
+    {
+      "head": "6bc45a178b1e28ff0265ed42d0f93ea81714105a",
+      "run_id": 40314220814,
+      "job_id": 121542647741,
+      "scope": "rollback-only single snapshot check and real percentage-HPP small/factory whole-report diagnostic"
     }
   ],
   "actual_new_component": {
@@ -7939,6 +7945,116 @@
     ]
   ],
   "finance_check_reuse_diagnostic": {
+    "head": "6bc45a178b1e28ff0265ed42d0f93ea81714105a",
+    "parent": "7caf6b84a357ab670ac0e4c0c190fadb2738c2e7",
+    "tree": "0dc6665b86b9a4bbef85e55f8a3ed36feea79cdb",
+    "local": "8b578b85486e44247c7297e2d22c6b7105bfca26",
+    "branch": "astra-a/d17-18-finance-check-reuse-diagnostic-20261026",
+    "source_pins": 3716,
+    "files": [
+      {
+        "path": ".github/workflows/cp7-d17-18-finance-check-reuse-diagnostic.yml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "b473e321a2239260ce079f76708a87f9b2cd0f2c"
+      },
+      {
+        "path": "scripts/current-finance-check-reuse-diagnostic/NATIVE_SNAPSHOT_SOURCE.json",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "0cdec970a626e700dc86b9a13e6e82d6a91245fe"
+      },
+      {
+        "path": "scripts/current-finance-check-reuse-diagnostic/README.md",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "73162a2f925d446837b92edc8d91569fe8379ca9"
+      },
+      {
+        "path": "scripts/current-finance-check-reuse-diagnostic/SOURCE.json",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "7d982290eabde237bd3190f5641187849f596197"
+      },
+      {
+        "path": "scripts/current-finance-check-reuse-diagnostic/admission.py",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "d26dc6b0d9ca27e9a1508ab5af1121f91b906a56"
+      },
+      {
+        "path": "scripts/current-finance-check-reuse-diagnostic/bind_sources.py",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "0dd0e08bc3efb5dfa35e76395534a30b66911ede"
+      },
+      {
+        "path": "scripts/current-finance-check-reuse-diagnostic/evidence.py",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "fe89983b85bc501ea8096e1e1a90dbe20f93b283"
+      },
+      {
+        "path": "scripts/current-finance-check-reuse-diagnostic/fetch_reader.py",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "c2bff23ee4654d33c7f2f2beebe1453f2e456257"
+      },
+      {
+        "path": "scripts/current-finance-check-reuse-diagnostic/original-snapshot-body.sql",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "727324cc51cc59ba583b8ca1c294b3ddb17b61c6"
+      },
+      {
+        "path": "scripts/current-finance-check-reuse-diagnostic/price_fixture.py",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "bc10cdddd347a221b38ff3c1aa240de2b3f6669b"
+      },
+      {
+        "path": "scripts/current-finance-check-reuse-diagnostic/probe.py",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "20fdb0cf95757e985cc72d50f642b120842420bc"
+      },
+      {
+        "path": "scripts/current-finance-check-reuse-diagnostic/reuse.py",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "a00adc07e47035d1faf8e9746047dcb4bb2a8e87"
+      },
+      {
+        "path": "scripts/current-finance-check-reuse-diagnostic/runner.py",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "e9daf527a5de673e9eba46b2062154edd5c3cbfb"
+      },
+      {
+        "path": "scripts/current-finance-check-reuse-diagnostic/test_reuse.py",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "7097a9751aa052cac850d95da03d6558ed6c0088"
+      }
+    ],
+    "full_admission": {
+      "status": "PASS",
+      "source_pins": 3716,
+      "actual_originals": 10,
+      "bytes": 3902094,
+      "sha256": "f049fc256560fc48b2743a5f3fdfea9f7cc7874e88966ebe010b9020a4c06602"
+    },
+    "local_transformation_tests": 3,
+    "Python_AST": 9,
+    "shell_steps": 47,
+    "production_go": false,
+    "independent_acceptance": false,
+    "run_id": 40314220814,
+    "job_id": 121542647741,
+    "status": "ACTUAL_DIAGNOSTIC_RUNNING",
+    "local_source_checkout_after_admission": "Unchanged large evidence excluded again after successful full admission; rehydrate before rerunning full admission."
+  },
+  "finance_check_reuse_diagnostic_previous_local": {
     "local": "8b578b85486e44247c7297e2d22c6b7105bfca26",
     "status": "LOCAL_BOUND_COMPLETE_ADMISSION_RUNNING",
     "source_pins": 3716,

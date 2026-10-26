@@ -1,3 +1,20 @@
+## Pembaruan 26 Oktober2026 — percobaan pengurangan hitungan berjalan
+
+6bc45a17/run40314220814/job121542647741 sekarang berjalan di cabang eksekusi
+khusus. Penerimaan penuh3.716pin dan10Original lulus tanpa database; receipt
+3.902.094byte SHA256f049fc256560fc48b2743a5f3fdfea9f7cc7874e88966ebe010b9020a4c06602.
+Tiga uji transformasi termasuk empat penolakan drift,9modul Python dan47langkah
+shell lulus. Masalah checkout evidenceP00 hilang sudah dipulihkan dengan bytes
+asli, lalu admission diulang; tidak ada guard yang dilonggarkan.
+
+Ini baru uji server, belum hasil runtime/pemasangan. Pemeriksaan meliputi seluruh
+laporan pada SMALL, PRICE_PERCENT dan FACTORY1200x3, pengurangan panggilan3ke2,
+nol usahaDML dan pemulihan lengkap. Source-race tetap belum dikualifikasi.
+Native9a masih berjalan; UI dantransport tetap menunggu actualPASS6.
+Formal5/16; independent_acceptance=false; production_go=false; CP7C belum dimulai.
+
+---
+
 ## Pembaruan 26 Oktober2026 — pembaca tanpa UPDATE lulus diagnostik, waktu belum memadai
 
 7caf6b84/run40300049475/job121495423311/artifact12644706605 selesai PASS
@@ -14,7 +31,7 @@ A menyiapkan percobaan terpisah untuk menggabungkan dua agregasi pemeriksa yang
 sama di snapshot resmi, sehingga total3panggilan menjadi2. Semua rumus/body di
 luar satu blok tetap persis. Tidak ada cache atau hasil pemeriksa dari klien.
 Bukti PRICE_PERCENT melalui Native import/harga/posting serta HPP/stok/jurnal
-terpisah ditambahkan. Tiga uji penolakan perubahan kode,9modul Python dan47
+terpisah ditambahkan. Tiga uji transformasi (termasuk empat penolakan drift),9modul Python dan47
 langkah shell lulus; fulladmission3716pin sedang berlangsung setelah evidence
 checkout yang hilang dipulihkan tanpa mengubah guard. Belum ada runtime kandidatini.
 
