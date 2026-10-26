@@ -1,3 +1,10 @@
+Penerus fixture8dfe1a19: exact4 berkas Native6 diimpor. bfed tetap
+INCOMPLETE5PASS/1 karena jadwal memakai identitas sumber lama. Kandidat baru
+memakai perintah peninjauan jadwal frozen v2, konfigurasi sama, satu analisis
+penuh setelah review, dan pemeriksaan SCENARIO sebelum draf. Ini persiapan;
+CONFIG.choice_head tetap null dan SOURCE sendiri tidak ada sampai Native6
+PASS aktual terverifikasi. Tidak ada kredit browser/HTTP dari persiapan ini.
+
 ## Prepared against corrected Native observations, still unbound
 
 The ten Native6 harness/workflow changes are retained byte-for-byte from

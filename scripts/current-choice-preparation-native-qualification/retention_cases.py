@@ -4,7 +4,10 @@ Only ageing a finished job is synthetic; no document or reference is inserted
 by SQL. No delivery, production cron or real Auth HTTP claim is made here.
 """
 from datetime import timedelta
+from copy import deepcopy
+from decimal import Decimal
 from time import monotonic
+import uuid
 import cp7_k2_retention_cases as retention
 import cp7_p19_reminder_v2_cases as reminder
 from cp7_current_choice_preparation import retention_access
@@ -24,10 +27,62 @@ def tick(cur,plan,observed):
             cur.execute("select set_config('statement_timeout',%s,true)",(prior,))
 
 
+def reviewed_capture(cur,today,observed,plan,native,actor):
+    """Review the same calendar against v2 work identity through the public CAS.
+
+    The legacy fixture's calendar has a legacy source hash. A request-only
+    snapshot supplies the v2 review identity; no units are driven for that job.
+    Saving the review makes its old snapshot stale, so exactly one subsequent
+    full capture supplies the actual plan/reminder documents.
+    """
+    plan.b.api.admin(cur)
+    legacy=cur.execute('select revision,source_hash,config from cp7_schedule_native.plans order by revision desc limit 1').fetchone()
+    physical=plan.monetary_state(cur);key=str(uuid.uuid4())
+    initial=native.request(cur,plan.staged.query(today),key,actor,observed)
+    plan.staged.checked(initial,key,'RUNNING');assert initial['units_done']==0
+    work=native.bounded.work
+    before=work.get(cur,key,actor)
+    assert before['bounded_request_contract']=='cp7.bounded-analysis-request.v2'
+    assert before['source_state']=='UNCHANGED'and before['plan_state']=='SOURCE_CHANGED',before
+    assert before['source_hash']!=legacy[1]and before['revision']==str(legacy[0])
+    payload=dict(source_run=before['source_run'],source_hash=before['source_hash'],
+        expected_revision=before['revision'],config=deepcopy(legacy[2]),
+        reason='Retention qualification: review unchanged calendar against the exact frozen v2 source',
+        staged_review_contract='cp7.schedule-staged-review.v1')
+    request=str(uuid.uuid4());saved=work.save(cur,payload,request,actor)
+    assert saved['bounded_request_contract']=='cp7.bounded-analysis-request.v2'
+    assert saved['quality']=='SELECTED_ASSUMPTIONS'and saved['source_hash']==before['source_hash']
+    assert saved['revision']==str(legacy[0]+1)and work.save(cur,payload,request,actor)==saved
+    assert work.get(cur,key,actor)['source_state']=='ARCHIVED_STALE'
+    plan.b.api.admin(cur)
+    selected=cur.execute('select revision,source_hash,config from cp7_schedule_native.plans order by revision desc limit 1').fetchone()
+    assert selected==(legacy[0]+1,before['source_hash'],legacy[2]),selected
+    assert plan.monetary_state(cur)==physical
+    f=native.capture(cur,today,actor,observed)
+    current=work.get(cur,f['key'],actor)
+    assert current['source_state']=='UNCHANGED'and current['plan_state']=='SELECTED_ASSUMPTIONS',current
+    assert current['source_hash']==saved['source_hash']and current['revision']==saved['revision']
+    assert plan.staged.job_row(cur,key,actor)['units_done']==0
+    witness=dict(request_only_review_job=key,full_capture_job=f['key'],
+        legacy_source_hash=legacy[1],reviewed_v2_source_hash=saved['source_hash'],
+        revision_before=str(legacy[0]),revision_after=saved['revision'],
+        unchanged_calendar_config=True,public_review_CAS_and_UUID_replay=True,
+        old_review_snapshot_stale=True,fresh_capture_current=True,
+        review_job_units_executed=0,full_captures=1,no_money_stock_HPP_change=True)
+    observed['retention_schedule_review']=witness
+    return f,witness
+
+
 def documents(cur,today,observed,plan,native):
     x=plan.fixture(cur,today);actor=native.native.policy.master.role_actor(cur,'OWNER')
-    f=native.capture(cur,today,actor,observed);run=f['done']['run_id'];job=f['row']['id']
-    _,_,payload=plan.draft_payload(cur,x,run,actor)
+    f,review=reviewed_capture(cur,today,observed,plan,native,actor)
+    run=f['done']['run_id'];job=f['row']['id']
+    options,_,payload=plan.draft_payload(cur,x,run,actor)
+    plan.b.api.admin(cur)
+    scope=cur.execute('select scope from cp7_analysis_stage.plan_scope where job_id=%s',(job,)).fetchone()[0]
+    assert scope['alloc_status']=='SCENARIO'and scope['capacity']['status']=='SCENARIO',scope
+    assert options['production_state']=='ACTIVE'and options['needed_pcs']is not None and options['capacity_pcs']is not None,options
+    assert Decimal(options['needed_pcs'])>=2 and Decimal(options['capacity_pcs'])>=2,options
     draft=plan.save(cur,payload,subject=actor)
     ready,calls=reminder.ready_set(cur,run,actor)
     assert ready['state']=='DONE'and calls and max(calls)<8000
@@ -84,6 +139,7 @@ def documents(cur,today,observed,plan,native):
         plan.refused(cur,lambda q=statement:cur.execute(q,(job,)),'CP7_RUN_IMMUTABLE')
     assert plan.monetary_state(cur)==money
     return dict(actual_private_tick=True,synthetic_finished_at_aged_days=8,
+        frozen_v2_schedule_review=review,plan_allocation_and_capacity='SCENARIO',
         real_Native_plan_draft=True,real_Native_reminder_conditions=True,
         private_capture_reference_counts=counted,retained_documents=mine[0]['documents'],
         referenced_pages_and_document_contents_exact=True,draft_readable_preview_expired=True,
