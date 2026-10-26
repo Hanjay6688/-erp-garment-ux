@@ -1,4 +1,5 @@
 import {boundedFrozenReply,frozenProgressGuard} from './nativeFrozenProgress'
+import {boundedFrozenLock} from '../../cp7_frozen_analysis_facade_v2/client/nativeFrozenWait'
 import {FROZEN_ANALYSIS_REQUEST,frozenAnalysisRequestKey,frozenAnalysisRequestQuery,readFrozenAnalysisRequest,type FrozenAnalysisRequest} from '../../cp7_frozen_analysis_facade_v2/client/nativeFrozenAnalysis'
 import {driveStagedJob,parseStagedJob,type StagedDriveOptions,type StagedJob} from '../../../src/nativeStagedJob'
 import {parseAnalysisPageSet,parseAnalysisHeader,parseAnalysisPage,parseStagedSourceCheck,type StagedAnalysis} from '../../../src/nativeAnalysisPages'
@@ -26,9 +27,7 @@ function retained(s:FrozenQuantitySession){
 // Same actor/scope Web Lock as create/replace/recovery. In-flight reads and
 // units cannot accidentally follow a competing tab's replacement UUID.
 async function locked<T>(s:FrozenQuantitySession,action:(r:FrozenAnalysisRequest)=>Promise<T>):Promise<T>{
- const locks=globalThis.navigator?.locks
- if(!locks)throw Error('Penyimpanan permintaan belum dapat dikunci. Buka kembali aplikasi pada peramban yang mendukung penguncian.')
- return locks.request(frozenAnalysisRequestKey(s.actor,s.scope),{mode:'exclusive'},async()=>{
+ return boundedFrozenLock(frozenAnalysisRequestKey(s.actor,s.scope),async()=>{
   const original=key(s),r=retained(s),out=await action(r)
   if(key(s)!==original)fail();retained(s);return out
  })
@@ -68,20 +67,20 @@ export async function readFrozenQuantityPage(client:unknown,s:FrozenQuantitySess
  if(!Number.isSafeInteger(index)||index<0||index>=v.set.pageCount)throw Error('Halaman target tidak tersedia.')
  return locked(s,async()=>{
   checked(s,v)
-  const reply=await(client as Client).rpc('erp_cp7_read_staged_analysis_page_v1',{p_run:v.set.runId,p_index:index,p_access:v.set.accessEpoch})
+  const reply=await boundedFrozenReply(()=>(client as Client).rpc('erp_cp7_read_staged_analysis_page_v1',{p_run:v.set.runId,p_index:index,p_access:v.set.accessEpoch}))
   return parseAnalysisPage(data(reply),v.set,v.header,index)
  })
 }
 export async function checkFrozenQuantity(client:unknown,s:FrozenQuantitySession,v:StagedAnalysis){
  checked(s,v)
- return locked(s,async()=>{checked(s,v);return parseStagedSourceCheck(data(await(client as Client).rpc('erp_cp7_check_staged_analysis_source_v1',{p_run:v.set.runId})),v.set.runId)})
+ return locked(s,async()=>{checked(s,v);return parseStagedSourceCheck(data(await boundedFrozenReply(()=>(client as Client).rpc('erp_cp7_check_staged_analysis_source_v1',{p_run:v.set.runId}))),v.set.runId)})
 }
 export async function readFrozenQuantityFinanceStatus(client:unknown,s:FrozenQuantitySession,v:StagedAnalysis):Promise<Reply>{
  checked(s,v)
  if(s.request.finance!=='STAGED')throw Error('Permintaan tersimpan tidak menyertakan laporan keuangan.')
  return locked(s,async r=>{
   checked(s,v)
-  const raw=data(await(client as Client).rpc('erp_cp7_get_staged_analysis_v1',{p_request:r.id}))
+  const raw=data(await boundedFrozenReply(()=>(client as Client).rpc('erp_cp7_get_staged_analysis_v1',{p_request:r.id})))
   const current=parseStagedJob(raw,r.id,frozenQuantityStagedRequest(r))
   if(current.state!=='DONE'||current.runId!==v.set.runId||!sameBoundedReference(current.reference,v.set.reference)||current.retention?.state==='EXPIRED'||!current.financeCapture)fail()
   return{data:raw,error:null}

@@ -1,5 +1,6 @@
 // Prepared v2 transport only. No panel/default route adopts this module yet.
 import type {NativeDemandQuery} from '../../../src/nativeDemandHistory'
+import {boundedFrozenLock,boundedFrozenReply} from './nativeFrozenWait'
 
 export const FROZEN_ANALYSIS_REQUEST='cp7.bounded-analysis-request.v2'
 export const FROZEN_ANALYSIS_REFERENCE='cp7.bounded-analysis-reference.v2'
@@ -50,9 +51,7 @@ function replaceFrozenAnalysisRequestUnlocked(actor:string,scope:string,expected
 // lock across tabs. An in-flight send holds it until completion/rejection;
 // a queued recovery attempt then rereads the durable request under the lock.
 async function exclusive<T>(actor:string,scope:string,action:()=>T|PromiseLike<T>):Promise<T>{
- const key=frozenAnalysisRequestKey(actor,scope),locks=globalThis.navigator?.locks
- if(!locks)throw Error('Penyimpanan permintaan belum dapat dikunci. Buka kembali aplikasi pada peramban yang mendukung penguncian.')
- return await locks.request(key,{mode:'exclusive'},async()=>await action())
+ return await boundedFrozenLock(frozenAnalysisRequestKey(actor,scope),action)
 }
 export async function persistFrozenAnalysisRequest(actor:string,scope:string,request:FrozenAnalysisRequest){
  return await exclusive(actor,scope,()=>persistFrozenAnalysisRequestUnlocked(actor,scope,request))
@@ -70,6 +69,6 @@ export async function requestFrozenAnalysis(client:unknown,actor:string,scope:st
  const held=readFrozenAnalysisRequest(actor,scope)
  if(held.error||held.pending===null)throw Error('Permintaan belum tersimpan. Periksa penyimpanan sebelum mencoba lagi.')
  const checked=parse(held.pending,actor)
- return await(client as FrozenAnalysisClient).rpc('erp_cp7_request_bounded_staged_analysis_v2',{p_query:frozenAnalysisRequestQuery(checked),p_request:checked.id})
+ return await boundedFrozenReply(()=>(client as FrozenAnalysisClient).rpc('erp_cp7_request_bounded_staged_analysis_v2',{p_query:frozenAnalysisRequestQuery(checked),p_request:checked.id}))
  })
 }

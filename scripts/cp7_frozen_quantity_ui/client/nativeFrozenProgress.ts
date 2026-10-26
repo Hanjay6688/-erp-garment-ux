@@ -1,24 +1,12 @@
 import type {StagedJob} from '../../../src/nativeStagedJob'
+export {boundedFrozenReply,FROZEN_RPC_WAIT_MS,FROZEN_WAIT_MESSAGE} from '../../cp7_frozen_analysis_facade_v2/client/nativeFrozenWait'
 
 // Existing Native units are bounded at 8s. A 30s HTTP wait leaves transport
 // margin; it is NOT a deadline for the complete factory analysis. A two-minute
 // unchanged unit plan is a client observation requiring status recovery, not
 // a claim that the server transaction failed. Neither threshold changes SQL.
-export const FROZEN_RPC_WAIT_MS=30_000
 export const FROZEN_NO_PROGRESS_MS=120_000
-export const FROZEN_WAIT_MESSAGE='Server belum memberi jawaban. Hasil permintaan belum diketahui. Buka perhitungan tersimpan untuk memeriksa pekerjaan yang sama; jangan membuat ulang.'
 export const FROZEN_STALL_MESSAGE='Kemajuan belum berubah selama dua menit. Pemantauan dihentikan. Buka perhitungan tersimpan untuk memeriksa pekerjaan yang sama; proses server belum dinyatakan gagal.'
-
-type Abortable<T>=PromiseLike<T>&{abortSignal?:(signal:AbortSignal)=>PromiseLike<T>}
-export async function boundedFrozenReply<T>(start:()=>Abortable<T>,waitMs=FROZEN_RPC_WAIT_MS):Promise<T>{
- const controller=new AbortController()
- let timer:ReturnType<typeof setTimeout>|undefined
- try{
-  const request=start(),reply=request.abortSignal?request.abortSignal(controller.signal):request
-  const timeout=new Promise<never>((_,reject)=>{timer=setTimeout(()=>{reject(Error(FROZEN_WAIT_MESSAGE));controller.abort()},waitMs)})
-  return await Promise.race([reply,timeout])
- }finally{if(timer!==undefined)clearTimeout(timer)}
-}
 
 export function frozenProgressGuard(now:()=>number=()=>performance.now()){
  let signature:string|null=null,advancedAt=now()

@@ -17,7 +17,7 @@ beforeEach(async()=>{
  f=await stagedRun({targets:120,pageSizes:[60,60]});s={actor:f.actor,scope:'quantity',request:{id:f.pageSet.request_id,actor:f.actor,q:f.query,method:FROZEN_ANALYSIS_REQUEST}}
  await persistFrozenAnalysisRequest(s.actor,s.scope,s.request)
 })
-afterEach(()=>{localStorage.clear();vi.restoreAllMocks();vi.unstubAllGlobals()})
+afterEach(()=>{localStorage.clear();vi.useRealTimers();vi.restoreAllMocks();vi.unstubAllGlobals()})
 const done=()=>parseStagedJob(f.job('DONE'),s.request.id,{id:s.request.id,q:s.request.q})
 const route=async(name:string,args:{p_index:number})=>({data:name==='erp_cp7_request_bounded_staged_analysis_v2'?f.job('DONE'):name==='erp_cp7_read_staged_analysis_pages_v1'?f.pageSet:name==='erp_cp7_check_staged_analysis_source_v1'?{source_state:'ARCHIVED_STALE',checked_at:'2026-10-25T19:00:00.123456Z'}:f.page(args.p_index),error:null})
 
@@ -139,4 +139,26 @@ it('stops monitoring unchanged server work without discarding its UUID and resum
  expect(rpc).toHaveBeenCalledTimes(3);expect(localStorage.getItem(key)).toBe(bytes)
  rpc.mockResolvedValue({data:f.job('DONE'),error:null});await driveFrozenQuantity({rpc},s,{})
  expect(rpc.mock.calls.at(-1)).toEqual(['erp_cp7_request_bounded_staged_analysis_v2',{p_request:s.request.id,p_query:s.request.q}]);expect(localStorage.getItem(key)).toBe(bytes)
+})
+
+it.each(['page','source'])('bounds a never-delivered %s response and retains the exact source request',async kind=>{
+ const v=await readFrozenQuantity({rpc:vi.fn(route)},s,done()),key=frozenAnalysisRequestKey(s.actor,s.scope),bytes=localStorage.getItem(key)
+ vi.useFakeTimers();const rpc=vi.fn(()=>new Promise(()=>{}))
+ const pending=kind==='page'?readFrozenQuantityPage({rpc},s,v,0):checkFrozenQuantity({rpc},s,v)
+ const rejected=expect(pending).rejects.toThrow('Hasil permintaan belum diketahui')
+ await vi.advanceTimersByTimeAsync(30000);await rejected
+ expect(localStorage.getItem(key)).toBe(bytes);expect(rpc).toHaveBeenCalledOnce();expect(vi.getTimerCount()).toBe(0)
+})
+it('bounds a never-delivered finance status without discarding its chosen finance mode',async()=>{
+ localStorage.clear();s.request={...s.request,finance:'STAGED'};await persistFrozenAnalysisRequest(s.actor,s.scope,s.request)
+ const raw=f.job('DONE',{finance_capture:frozenFinanceFixture(f)}),rpc=vi.fn(async(name:string,args:any)=>name==='erp_cp7_request_bounded_staged_analysis_v2'?{data:raw,error:null}:route(name,args))
+ const source=await readFrozenQuantity({rpc},s,done()),key=frozenAnalysisRequestKey(s.actor,s.scope),bytes=localStorage.getItem(key)
+ vi.useFakeTimers();const never=vi.fn(()=>new Promise(()=>{})),pending=readFrozenQuantityFinanceStatus({rpc:never},s,source),rejected=expect(pending).rejects.toThrow('Hasil permintaan belum diketahui')
+ await vi.advanceTimersByTimeAsync(30000);await rejected;expect(localStorage.getItem(key)).toBe(bytes);expect(never).toHaveBeenCalledOnce()
+})
+it('stops a blocked cross-tab queue before network and keeps the same recovery record',async()=>{
+ const key=frozenAnalysisRequestKey(s.actor,s.scope),bytes=localStorage.getItem(key);vi.useFakeTimers()
+ vi.stubGlobal('navigator',{locks:{request:()=>new Promise(()=>{})}})
+ const rpc=vi.fn(),pending=driveFrozenQuantity({rpc},s,{}),rejected=expect(pending).rejects.toThrow('masih dikunci tab lain')
+ await vi.advanceTimersByTimeAsync(30000);await rejected;expect(rpc).not.toHaveBeenCalled();expect(localStorage.getItem(key)).toBe(bytes)
 })
