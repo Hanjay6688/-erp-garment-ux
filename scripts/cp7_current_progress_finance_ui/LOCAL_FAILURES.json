@@ -1,0 +1,9 @@
+{
+  "runtime_credit": false,
+  "preserved_failures": [
+    {"stage":"typecheck","error":"@testing-library/react unavailable","correction":"Use existing React createRoot/act; no dependency added."},
+    {"stage":"typecheck","error":"Fixture helper extra finance_capture field is not in its inferred return type","correction":"Explicitly construct the controlled status extra fields."},
+    {"stage":"controlled host integration","observed":"7/7 failed; zero RPC calls; durable identity refused before reading","cause":"A host fingerprint serialized whole objects, so equivalent query objects with different key order failed identity equality.","correction":"Bind actor, scope, UUID, method, each query field and finance mode explicitly; preserve strict payload equality. Publish pre-read refusal to retire stale progress."},
+    {"stage":"controlled host integration","observed":"6/7 passed; terminal-state expectation used COMPLETE","correction":"Use the existing contract's COMPLETED spelling. No product behavior changed."}
+  ]
+}

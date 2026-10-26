@@ -1,0 +1,6 @@
+{
+  "status": "LOCAL_SETUP_REFUSED_BEFORE_TESTS",
+  "reason": "git sparse-checkout add does not support --no-cone; consequently config generation did not run and TypeScript/Vitest had no config",
+  "correction": "Retain existing non-cone sparse mode and add only /tsconfig.app.json; generate configs before tests",
+  "product_runtime_executed": false
+}
