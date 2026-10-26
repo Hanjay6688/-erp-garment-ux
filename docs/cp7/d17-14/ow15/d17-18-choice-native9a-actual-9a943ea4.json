@@ -1,0 +1,42 @@
+{
+  "name": "CP7_D17_18_CHOICE_NATIVE6.json",
+  "status": "INCOMPLETE",
+  "head": "9a943ea4cc4d24a92a2af1c3e678bd3d0bddfc14",
+  "run_id": 40308822607,
+  "job_id": 121524549120,
+  "artifact_id": 12648237288,
+  "zip_bytes": 3006081,
+  "zip_sha256": "c5445a88a9512d8d45e3cd3d987458d722b094de6a00c08766c9994337ddb357",
+  "bytes": 6205094,
+  "sha256": "b52eb89d8150ffbf8d7e3692be693a339ff0daa9543790c5518eb8d5d4e1134c",
+  "archive_member": "CP7_D17_18_CHOICE_NATIVE6.json",
+  "source_pins_verified": 3752,
+  "exact_prior_original_verified": {
+    "name": "CP7_D17_18_PROGRESS_NATIVE5.json",
+    "status": "PASS",
+    "head": "0c86d27739ff74aba65967453465880d1c72e94c",
+    "run_id": 40286627929,
+    "job_id": 121451709620,
+    "artifact_id": 12637959084,
+    "zip_bytes": 2968325,
+    "zip_sha256": "33c1889449edde12aac63c3aba860919c135c77006f813f903e985e0c20e9ecc",
+    "bytes": 5878000,
+    "sha256": "dd72583a82175893be57e0ccdbe10a575e91135e9163951130f8596a7e46f393",
+    "archive_member": "CP7_D17_18_PROGRESS_NATIVE5.json"
+  },
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "production_go": false,
+  "independent_acceptance": false,
+  "first_failure_preserved": true,
+  "actual_Auth_HTTP_credit": false,
+  "performance_qualification": false,
+  "error_summary": "INCOMPLETE: full first failure retained, no widened runtime credit"
+}
