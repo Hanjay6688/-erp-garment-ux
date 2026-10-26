@@ -4123,3 +4123,56 @@ atau git state bersama. Library terakhir contextv108/archivev95, belum memuat
 hasil terbaru ini. Kode/UI dan catatan ini sudah di GitHub; tidak mengklaim
 percakapan terus bekerja setelah berhenti. Hanya jobserver UI yang terpisah
 masih berjalan. Formal5/16; independent_acceptance=false; production_go=false.
+
+
+## 26 Oktober 2026 WIB — A: pemulihan tiga Original; dua perbaikan uji siap lokal
+
+Catatan status5e2cbfdf sudah terverifikasi di remote. UI389326f6 aktualPASS2,
+3797pin,54modul,2full22copy,CP6/advisor/restore/lima gate paketPASS.24angka
+resmi desktop sama dengan sumber; mobileBLOCKED menahan angka dan pencabutan
+izin menyembunyikan data. Dua screenshot hasil akhir diperiksa. Host progres
+baru0f818812 belum menerima kredit dari UI lama ini.
+
+Profile690 tetapINCOMPLETE25006; progres546 tetap3PASS/2INCOMPLETE. Semua
+Original/ZIP dan kegagalan awal diarsipkan utuh. Kandidat lokal profile
+f7582147 hanya6berkas namespace alat uji: officialcall READ WRITE dengan
+rollback, batas30s diagnosis/2slock/8sstatus tetap. Empat tes lokalPASS.
+Kandidat lokal progres063f6b2b hanya5berkas namespace alat uji: pembanding
+kunci transaksi mengharuskan kunci sesi sendiri sesudah step, tidak ada
+pemegang lain, dan nilai endpoint persis cocok. Lima tes penolakan lokalPASS.
+3691/3698pin sumber tepat. Tidak ada rumus, ACL, jadwal atau kode B berubah.
+Kedua kandidat belum dijalankan server; hipotesis546 belum dinyatakan terbukti.
+
+Pembacaan sumber diagnosis690 menunjukkan biaya operasional besar pada
+unit_reference/history, tetapi itu waktu instrumentasi rollback. Optimasi
+produksi tetap milik B; A tidak mengubahnya atau menerima waktu itu sebagai
+bukti penerimaan pabrik. Angka laporan resmi lengkap masih menunggu diagnosis
+finance yang benar. Native6 pilihan821 tetapUNBOUND sampai Native5 aktualPASS.
+
+Pengiriman berikutnya tertahan pemeriksaan persetujuan otomatis: pengiriman
+catatan/bukti ERP ke repositori eksternal publik dinilai belum mendapat izin
+pengungkapan yang eksplisit. Tidak dicoba lewat jalur lain. Kode dan catatan
+ini disiapkan lokal; minta persetujuan untuk push perubahan uji dan ringkasan
+ke Hanjay6688/-erp-garment-ux lalu jalankan workflow khusus yang sudah ada.
+Formal5/16; CP7C belum dimulai; independent_acceptance=false; production_go=false.
+
+
+## 26 Oktober 2026 WIB — A: izin publikasi diberikan, dua pengujian penerus berjalan
+
+Owner menjawab "lanjut" setelah pertanyaan eksplisit tentang push perubahan
+A/integrasi dan ringkasan uji ke repo publik serta menjalankan tes server.
+Persetujuan ini berlaku untuk pekerjaan tersebut; tidak ada production_go.
+Hambatan izin pada catatan sebelumnya teratasi. Tidak ada worktree B diubah.
+
+Profile a569d322bb91162026c7f9cc162facf12f0dd7ea, tree
+2eff4f8f2645729f9044e52a47ec26a3fbedcc6f, run40286613815/job121451664270
+sedang berjalan. Progres0c86d27739ff74aba65967453465880d1c72e94c, tree
+5d652deadb5f279fb111acd13fab2edff9a4535b, run40286627929/job121451709620
+sedang berjalan. Masing-masing tepat satu workflow pada SHA penuh.
+Status ini baru bukti dimulainya pengujian, bukan hasil runtimePASS.
+
+Sambil menunggu, A menyiapkan kelanjutan Native6 pada komposisi821a7e79.
+Sumber induk546 yang gagal akan diganti dengan sumber tepat penerus0c86d277,
+namun SOURCE Native6 tetap tidak boleh terikat sebelum Original penerusPASS.
+Seluruh kegagalan lama tetapINCOMPLETE. Formal5/16; independent_acceptance=false;
+production_go=false; CP7C belum dimulai.
