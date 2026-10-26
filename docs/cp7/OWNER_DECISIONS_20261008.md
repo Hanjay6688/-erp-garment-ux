@@ -921,3 +921,28 @@ Catatan penerimaan Penulis B (Codex/Astra, 22 Okt2026): sumber kutipan dan pemba
 perencanaan ke B; pembagian OW06-Claude/OW07-Codex sebelumnya digantikan. B menyiapkan cabang astra/d17-14-produksi
 dari integrasi a255e48 (produk sama dengan01c5f856; hanya dokumen koordinasi lebih baru). Rincian di d17-14/KOORDINASI.md.
 Ini catatan pelaksanaan, bukan keputusan owner baru tentang angka kebijakan atau kepastian tanggal selesai.
+
+### D17-18 (owner ke A dan B, 26 Okt 2026 WIB, analisis besar bertahap dan progres nyata)
+
+Arahan lengkap owner disalin utuh di
+`docs/cp7/handoff/HANDOFF_ANALISIS_BESAR_PROGRES_20261026.md`.
+
+Owner (persis): "Batas total 8 detik tidak lagi menjadi syarat universal bagi analisis besar."
+
+Akibat pelaksanaan: analisis seluruh pabrik, ribuan SKU/ukuran, historis besar
+dan gabungan produksi dengan keuangan/HPP boleh lebih lama dengan progres
+berdasarkan pekerjaan nyata, tahap/status/waktu yang jelas, kelanjutan setelah
+halaman dibuka kembali dan pemulihan aman. Ini menggantikan pembacaan batas
+8 detik sebagai batas total universal untuk analisis besar pada catatan lama.
+Operasi harian tetap cepat; transaksi dan lock tetap pendek dan berbatas.
+Batas teknis setiap tahap ditentukan berdasarkan pengukuran, bukan otomatis
+dinaikkan. Optimasi tetap dipertahankan, tidak ada hitungan/tunggu tambahan
+untuk memanjangkan loading. Hasil operasional tidak menandai keseluruhan selesai
+ketika finance masih diproses. Kelayakan/hak/sumber terkini saat SAVE wajib.
+
+A tetap keuangan/stok/HPP dan integrator tunggal; B tetap produksi/perencanaan
+dan progres pada bagiannya. Gunakan mekanisme bertahap yang sudah ada. Bukti
+kegagalan lama dipertahankan sesuai kebijakan saat diuji; penerimaan dengan
+kebijakan baru diberi identitas kebijakan baru. Penyebab gagal yang belum
+diketahui tetap diselidiki. Tidak mengubah saldo, stok, HPP, hak, idempotensi,
+pemulihan, larangan WIP ganda, status scope/audit atau `production_go=false`.

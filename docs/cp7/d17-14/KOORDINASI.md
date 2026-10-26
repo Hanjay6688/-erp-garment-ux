@@ -3675,3 +3675,34 @@ Dokumen ini commit[bersama] tersendiri. Baris OW10/11/13/14/16, main/official,
 hosted dan WA nyata utuh. Formal5/16,independent_acceptance=false,
 production_go=false. Checkpoint adalah titik simpan; A meneruskan backlog.
 Reliable data adalah dewa; keuangan termasuk laporan, stok dan HPP adalah raja.
+
+##26Oktober2026 WIB — A: keputusan bersama D17-18, progres nyata analisis besar
+
+Owner mengirim HANDOFF BERSAMA A + B langsung di chat A. Kutipan lengkap ada
+di ../handoff/HANDOFF_ANALISIS_BESAR_PROGRES_20261026.md; indeks keputusan
+D17-18 pada OWNER_DECISIONS_20261008.md. Total8detik bukan batas universal
+analisis besar. Ini bukan kenaikan otomatis batas query/lock, bukan perubahan
+angka/akses/oracle, dan bukan izin memperlambat. Operasi kecil tetap cepat.
+
+Kontrak pelaksanaan A untuk B: tetap gunakan job/capture staged serta UUID,
+source seal dan statusread yang ada. Pisahkan progres operasional dan keuangan;
+operasionalDONE dengan financeRUNNING tidak disebut analisis gabungan selesai.
+CaptureREADY dengan reportBLOCKED bukan laporan lengkap. Total yang belum
+tersedia tidak diberi persentase; elapsed bukan dasar persentase. Status antre,
+berjalan, selesai, gagal, data/config tertahan, serta pemulihan/reopen harus
+berdasarkan fakta server. Perubahan interface bersama dikoordinasikan sebelum
+diterapkan; A tidak mengambil alih source/worktree B. B terakhir dibaca2c39dd09.
+
+Enam run pada71e15908/05d89067 tetap merupakan bukti kebijakan sebelumD17-18,
+tidak ditimpa, dihentikan atau diulang hanya demi hijau. Dua job/capture pabrik
+5bf yang FAILED tetap belum diketahui sebabnya; observer aktual masih berjalan.
+A tidak menganggapnya timeout. Batas tahap8s dan totalpabrik300s saat ini tetap
+nilai terukur kandidat lama, bukan syarat bisnis baru yang universal. Perubahan
+teknis berikut harus punya pengukuran/alasan/policy_id serta bukti gagal lama.
+
+Adapter integrator63d098a0 sudah125tesklien/54modul, UI2actual menunggufinance10.
+Tambahan D17-18 akan dikerjakan terpisah dari kandidat live: audit gap progres,
+waktu/status dan pemulihan keuangan; pertahankan source B exact dan validasi
+terkini. Suite fokus pada perubahan; pemeriksaan lengkap kandidat gabungan
+tetap wajib sebelum penerimaan. Formal5/16, independent_acceptance=false,
+production_go=false, main/official/hosted/WA nyata utuh.
