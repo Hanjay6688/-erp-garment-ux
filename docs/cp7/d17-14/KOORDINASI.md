@@ -4437,3 +4437,35 @@ Cutting Native6/Transport10 on4826 and cutting Auth/choice Native6 on f843e4ce
 remain pending; first failures and required8s/contrast/current-access/full-source
 oracles remain intact. A composition request209 stands. Formal5/16, B incomplete,
 independent_acceptance=false, production_go=false.
+
+
+## 212. [bersama] B26 Oktober2026 WIB — keputusan analisis besar dan kontrak sebelum perubahan
+
+Owner memberi arahan langsung: total analisis besar boleh lebih8detik dengan
+progres nyata, efisien, transaksi pendek dan pemulihan; simpan harian tetap cepat.
+Rincian `ow12b/LARGE_ANALYSIS_PROGRESS_20261026.md`, kutipan di OWNER_DECISIONS.
+B memakai jobs/units dan K4 yang ada. B terlebih dahulu memperbaiki progres pada
+host produksi milik B, tanpa mengganti RPC/status bersama atau rumus A. Bila
+rekonstruksi pembanding setelah K3 diperlukan, pekerjaan berat dipisah dari SAVE;
+dua freshness checks dan semua hak akses/idempotensi tetap wajib.
+
+Untuk A sebelum perubahan antarmuka bersama: gunakan request/query/clock/source
+yang sama dalam gabungan; pertahankan sidecar keuangan resmi dan pemulihan
+keseluruhan. Unit produksi tidak disamakan dengan unit keuangan untuk membuat
+persentase keseluruhan. Pertimbangkan status antre/tertahan eksplisit dan waktu
+awal/akhir resmi lewat kontrak versi bersama. B tidak mengubah default installer,
+Native/supabase, finance A, atau registri F05 bersama. Permintaan komposisi209
+tetap berlaku. A terakhir dibaca f898a71f.
+
+Empat run sudah selesai dan Original lengkap diperiksa:4826 cutting Native6
+PASS6/94pins, Transport10 PASS10/97pins; f843 cutting actualAuth PASS2/164pins,
+59actual modules. Tiga gambar actualAuth diperiksa: mobile uncertain, mobile
+access-revoked, desktop recovered. FullvisualZIP12618794509 cocok semua6JSON
+dengan completeJSON12618579861. Tidak ada default/wholefeature claim.
+
+Choice f843 Native6 tetap5PASS/1INCOMPLETE; K3 SQL57014 pada8029.112ms, ulang
+diagnostik trackingnone pada8003.031ms juga gagal. Semua efek diagnostik dibatalkan,
+originaltimeout tetap fatal. Penyebab tidak disederhanakan menjadi bataswaktu.
+22Originals:17Native/actualAuth paket diperiksa,4controlledUI tanpaNativegates,
+1interruptedTransport tanpa gerbang lengkap. Formal5/16; Bbelumselesai,
+independent_acceptance=false,production_go=false.

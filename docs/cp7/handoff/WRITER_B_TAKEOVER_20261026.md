@@ -4,7 +4,20 @@ Owner asked the new writer to recover the complete context of **Writer B** and
 continue without questions. This is the active B entrypoint. Earlier checkpoints
 in `HANDOFF_PRODUKSI_CLAUDE_20261023.md` remain history, with their failures intact.
 
-## Current verified position — read this before the historical updates
+## Latest owner direction — 26 October 2026
+
+Owner now permits large total analysis beyond8seconds with honest progress,
+short bounded stages, efficiency and safe recovery. Daily saves stay fast; heavy
+post-K3 reconstruction must be separated from choice SAVE. Read
+`../d17-14/ow12b/LARGE_ANALYSIS_PROGRESS_20261026.md` and coordination212.
+Cutting4826 Native6/Transport10 now PASS6/PASS10, f843 actualAuth PASS2; full
+Original/package/source checks complete. Choice f843 still5PASS/1INCOMPLETE:
+K3 8029.112ms and same-command trackingnone calibration8003.031ms timeout.
+22Originals:17Native/Auth package checks,4controlled,1interrupted. Previous
+failures stay unchanged under the new policy. B is implementing progress and
+separation of heavy preparation from SAVE; A composition/defaults remain open.
+
+## Earlier verified position — superseded by the latest update above
 
 - Latest B code: **f843e4ce4fee59ee3e953d032ceed21eeba84c99**, tree
   `189570e74f932bc96841fcbe8d34956ed90991dc`. Finance caller/UI and first fixture

@@ -906,3 +906,21 @@ Catatan penerimaan Penulis B (Codex/Astra, 22 Okt2026): sumber kutipan dan pemba
 perencanaan ke B; pembagian OW06-Claude/OW07-Codex sebelumnya digantikan. B menyiapkan cabang astra/d17-14-produksi
 dari integrasi a255e48 (produk sama dengan01c5f856; hanya dokumen koordinasi lebih baru). Rincian di d17-14/KOORDINASI.md.
 Ini catatan pelaksanaan, bukan keputusan owner baru tentang angka kebijakan atau kepastian tanggal selesai.
+
+
+### Arahan analisis besar A+B (owner langsung ke Writer B, 26 Oktober 2026 WIB)
+
+Owner (persis):
+
+> Keputusan Bos: analisis besar boleh memakan waktu lebih lama dari 8 detik, asalkan pengguna melihat progres yang jujur dan mengetahui apakah proses sedang berjalan, selesai, atau gagal. Kelonggaran ini khusus pekerjaan besar, bukan untuk semua operasi.
+
+> Jika penyimpanan pilihan memicu perhitungan seluruh pabrik, pisahkan perhitungan berat dari penyimpanannya. Pemeriksaan sumber, kelayakan, dan hak akses saat penyimpanan tetap wajib.
+
+> Hasil yang diterima berdasarkan kebijakan waktu baru harus dicatat sebagai kebijakan baru, bukan mengubah kegagalan lama menjadi keberhasilan.
+
+Pelaksanaan seluruh arahan, termasuk efisiensi, progres nyata, pemulihan, sumber
+konsisten, batas per tahap, operasi kecil cepat dan pembagian A/B, dicatat dalam
+`d17-14/ow12b/LARGE_ANALYSIS_PROGRESS_20261026.md`. Ini mengganti syarat total8detik
+universal untuk pekerjaan besar; tidak memperpanjang semua query atau lock dan
+tidak mengubah kegagalan lama menjadi PASS. A tetap integrator; tidak ada izin
+produksi atau penutupan scope otomatis.
