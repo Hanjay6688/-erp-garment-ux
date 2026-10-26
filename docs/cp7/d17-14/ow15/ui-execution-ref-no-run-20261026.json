@@ -1,0 +1,10 @@
+{
+  "observed_at_utc": "2026-10-26T15:51:31.562541+00:00",
+  "head": "3b06519aafc27fa335aec71de20852b46347ff45",
+  "execution_ref_exists": true,
+  "actions_api_total_count": 0,
+  "actual_runtime_started": false,
+  "resolution": "README-only exact-source successor push, fresh source admission before launch",
+  "old_admission_preserved": "ui-actual-native6-full-admission.json",
+  "production_go": false
+}

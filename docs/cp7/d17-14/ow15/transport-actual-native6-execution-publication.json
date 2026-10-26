@@ -1,0 +1,23 @@
+{
+  "head": "f088123ba44b68b09c88e30df04e19b312b8871d",
+  "parent": "461fcf0958df45bf97e9a81fd57d9f8a2070863a",
+  "local": "9ffccc5d9b1cfc8532af28ccf5b2b6878304fc18",
+  "tree": "79c0d7626dd93e1d987d3438a85a8f76c7fa8f1f",
+  "execution_branch": "astra-a/d17-18-choice-preparation-transport-20261026",
+  "source_pins": 3773,
+  "cases": 6,
+  "full_admission": {
+    "status": "PASS",
+    "bytes": 3935431,
+    "sha256": "dadde87bea2787a07edc3dcaf810ab4b167813a32ae57167d98ebc286dccf462"
+  },
+  "source_bound": true,
+  "execution_ref_advanced": true,
+  "runtime_status": "RUNNING_NOT_PASS",
+  "actual_runtime_qualified": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "run_id": 40354149723,
+  "job_id": 121681944860,
+  "started_at_utc": "2026-10-26T15:55:52Z"
+}

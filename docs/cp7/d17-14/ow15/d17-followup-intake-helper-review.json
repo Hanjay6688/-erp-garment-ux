@@ -1,0 +1,14 @@
+{
+  "recorded_at_utc": "2026-10-26T15:59:55.100228+00:00",
+  "status": "LOCAL_VALIDATOR_CHECKS_PASS",
+  "retained_actual_original": "389326f6d251499559f353638adc4fa1d5c76ffa",
+  "unchanged_retained_validation": true,
+  "negative_controls_refused": [
+    "old_runtime_report_with_new_source_graph",
+    "changed_finance_parity",
+    "missing_same_UUID_reopen"
+  ],
+  "new_UI_or_transport_runtime_credit": false,
+  "product_changed": false,
+  "production_go": false
+}

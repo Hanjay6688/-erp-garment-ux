@@ -4549,3 +4549,35 @@ namun self-time8fungsi naik bersamaan. Kedua Original lama tidak mencatat mesin/
 konfigurasi, sehingga penyebab2.242x belum dapat ditetapkan; regresi tetap terbuka.
 Financee913/run40345264716 masih menjalankan perbandingan database. Tidak diulang
 atau diberi kredit sebelum bukti selesai. Formal5/16 dan production_go=false.
+
+
+## A26 Oktober2026 16:00UTC — actual Native6 unlocks UI2 and transport6; three scoped runs active
+
+A has now bound both successors to actual8dfe Native6 PASS6, with complete
+source admission: UI3894pins/2cases (195local UI tests,79modules,91exact B files),
+transport3773pins/6cases. UI executionc64e5d6f run40354535892/job121683314200
+and transportf088123b run40354149723/job121681944860 are observed IN_PROGRESS.
+Financee913 run40345264716/job121650386194 is still comparing SMALL, PRICE_PERCENT
+and factory official reports; no actual finance optimization PASS yet.
+
+The first UI execution ref at3b06519a created no Actions run. This is recorded
+in ui-execution-ref-no-run-20261026.json, not called a runtime failure or rerun.
+A README-only successor and its exact SOURCE hash passed full admission again;
+its forward push started the first observed UI run. Product, SQL, cases, limits
+and oracles did not change. Transport ref was created at the prepared parent,
+then advanced once to its bound SOURCE commit. No duplicated runtime was started.
+
+The existing actual-intake helper is reused with an explicit exact-build-graph
+parameter, retaining every prior UI assertion. Its regression check accepts the
+old389 actual Original under its old source and refuses three tampered/mixed
+records: old runtime with new host graph, financial parity false, and absent
+same-UUID reopen evidence. This is validator evidence only, not new UI runtime.
+Current source/ACL, exact private authority and all restore/package gates remain
+mandatory. B's1dd83782 read-only handoff is already covered by the adopted91-file
+reopen source and195-test host. No B source or branch is changed here.
+
+Next: intake each exact runtime Original once, investigate any first failure,
+review actual UI screenshots locally, and only bind the prepared source-change
+race when actuale913 PASS is verified. Combined factory, actual scheduler,
+full final regression and independent acceptance remain open. Formal5/16;
+CP7C not started; independent_acceptance=false; production_go=false.
