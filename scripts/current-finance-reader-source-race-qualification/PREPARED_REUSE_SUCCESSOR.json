@@ -1,0 +1,22 @@
+{
+  "expected_reuse_head": "f038a6ecc5a71278554eab62ab7df4f4ced9b7bc",
+  "status": "RUNNING_NOT_PASS",
+  "run_id": 40327902313,
+  "job_id": 121589286821,
+  "previous_actual_head": "6bc45a178b1e28ff0265ed42d0f93ea81714105a",
+  "previous_actual_status": "INCOMPLETE_SOURCE_BODY_MISMATCH",
+  "imported_files": [
+    "scripts/current-finance-check-reuse-diagnostic/COMPOSED_LOCAL_PREFLIGHT.json",
+    "scripts/current-finance-check-reuse-diagnostic/COMPOSED_SNAPSHOT_SOURCE.json",
+    "scripts/current-finance-check-reuse-diagnostic/FIRST_LOCAL_COMPOSED_SOURCE_ISSUE.json",
+    "scripts/current-finance-check-reuse-diagnostic/FIRST_RUNTIME_FAILURE_6BC.json",
+    "scripts/current-finance-check-reuse-diagnostic/README.md",
+    "scripts/current-finance-check-reuse-diagnostic/SOURCE.json",
+    "scripts/current-finance-check-reuse-diagnostic/original-snapshot-definition.sql",
+    "scripts/current-finance-check-reuse-diagnostic/reuse.py",
+    "scripts/current-finance-check-reuse-diagnostic/snapshot_source.py",
+    "scripts/current-finance-check-reuse-diagnostic/test_reuse.py"
+  ],
+  "source_bound": false,
+  "production_go": false
+}

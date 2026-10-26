@@ -7,6 +7,8 @@ HERE=Path(__file__).resolve().parent
 ROOT=HERE.parents[1]
 spec=importlib.util.spec_from_file_location('retained_readonly_candidate',ROOT/'scripts/current-finance-reader-diagnostic/reader.py')
 reader=importlib.util.module_from_spec(spec);spec.loader.exec_module(reader)
+spec=importlib.util.spec_from_file_location('reuse_installed_snapshot_source',HERE/'snapshot_source.py')
+snapshot_source=importlib.util.module_from_spec(spec);spec.loader.exec_module(snapshot_source)
 SNAPSHOT='erp.get_owner_financial_snapshot_v2(date,date,date)'
 OLD="""  select coalesce(sum(issue_count) filter(where severity='CRITICAL'),0)::bigint,
          coalesce(sum(issue_count) filter(where severity='WARNING'),0)::bigint
@@ -25,11 +27,11 @@ NEW="""  select coalesce(sum(c.issue_count) filter(where c.severity='CRITICAL'),
   into v_critical,v_warning,v_failed_checks from erp.run_v268_financial_report_checks() c;"""
 
 def rewrite(body):
-    expected=(HERE/'original-snapshot-body.sql').read_text()
-    source=__import__('json').loads((HERE/'NATIVE_SNAPSHOT_SOURCE.json').read_text())
-    if sha256(expected.encode()).hexdigest()!=source['body_sha256']:
-        raise ValueError('SNAPSHOT_REUSE_EXPECTED_SOURCE_CHANGED')
-    if body!=expected:raise ValueError('SNAPSHOT_REUSE_LIVE_BODY_CHANGED')
+    expected,source=snapshot_source.expected()
+    if body!=expected:
+        raise ValueError('SNAPSHOT_REUSE_LIVE_BODY_CHANGED: expected='+source['installed_body_sha256']+
+            ' actual='+sha256(body.encode()).hexdigest()+' expected_bytes='+str(len(expected.encode()))+
+            ' actual_bytes='+str(len(body.encode())))
     if body.count(OLD)!=1 or body.count('erp.run_v268_financial_report_checks()')!=2:
         raise ValueError('SNAPSHOT_REUSE_CALL_SHAPE_CHANGED')
     result=body.replace(OLD,NEW,1)
@@ -52,6 +54,8 @@ def install_for_rollback(cur):
         'p.proconfig,pg_get_functiondef(p.oid) from pg_proc p where p.oid=%s::regprocedure',(SNAPSHOT,)).fetchone()
     assert after==(body,*before[1:5],changed)
     return dict(readonly_opening=patch,snapshot_original_body_sha256=sha256(before[0].encode()).hexdigest(),
+        exact_live_body_matches_composed_official_installers=True,
+        native_original_body_preserved=True,installed_source_derivation=snapshot_source.expected()[1],
         snapshot_rewritten_body_sha256=sha256(body.encode()).hexdigest(),
         snapshot_checks_before=2,snapshot_checks_after=1,
         exact_body_outside_one_aggregation_unchanged=True,authority_unchanged=True,
