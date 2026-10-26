@@ -262,5 +262,21 @@
     "branch": "astra-a/d17-14-model-target-integration-prepared-20261024",
     "status": "PREPARED_NOT_QUALIFIED",
     "new_client_adopted": false
+  },
+  "real_browser_reopen_followup": {
+    "source_head": "e94e80375ecf16919bed2f6d2f3d191f094875b8",
+    "run_id": 40288589994,
+    "artifact_id": 12635213241,
+    "PASS": 6,
+    "all_source_pins_verified": 51,
+    "actual_served_source_paths": 48,
+    "actual_Native": false,
+    "actual_Auth_HTTP_credit": false,
+    "actual_K4": false,
+    "actual_finance_HPP": false,
+    "factory_performance_credit": false,
+    "composed_restore_credit": false,
+    "default_adopted": false,
+    "receipt": "CHOICE_PREPARATION_BROWSER6_PASS.json"
   }
 }

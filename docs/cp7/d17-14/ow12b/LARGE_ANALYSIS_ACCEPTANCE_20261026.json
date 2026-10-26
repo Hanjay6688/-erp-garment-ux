@@ -9,40 +9,46 @@
     {
       "id": "REAL_PROGRESS_USABLE_PAGE",
       "status": "PARTIAL",
-      "proved": "Actual Auth quantity desktop/mobile reports acknowledged server units, unknown total without percentage, enabled Close while real STEP response held; production/finance progress separate.",
+      "proved": "Actual Auth quantity desktop/mobile reports acknowledged server units, unknown total without percentage, enabled Close while real STEP response held; production/finance progress separate. New prepared-choice real Chromium mobile390x844: editable other input and Close while STEP held; no overflow and no candidate read after close. Controlled HTTP RPC/identity only.",
       "evidence": [
         "b96e2f74-40265688210-takeover-original.json",
-        "9cddf475-40256759650-takeover-original.json"
+        "9cddf475-40256759650-takeover-original.json",
+        "CHOICE_PREPARATION_BROWSER6_PASS.json"
       ],
       "remaining": "Factory3602 end-to-end UI with combined official finance remains unqualified; separate factory Native and smaller UI proofs are not merged into this claim."
     },
     {
       "id": "REOPEN_SAME_WORK",
       "status": "PARTIAL",
-      "proved": "Actual Auth retained original query/method/UUID after loss/reload; optional preparation keyed to original job/source. Local prepared gate reloads same state. Local reopen regression now observes same queued/running work through GET only until terminal state; original6FAIL retained,42preparation/97related tests PASS (overlapping).",
+      "proved": "Actual Auth retained original query/method/UUID after loss/reload; optional preparation keyed to original job/source. Local prepared gate reloads same state. Local reopen regression now observes same queued/running work through GET only until terminal state; original6FAIL retained,42preparation/97related tests PASS (overlapping). Actual Chromium reload and two tabs now observe READY through GET only; lost enqueue reply/reload/explicit continuation retains exact source/access and one controlled work. This is client evidence, not actual server persistence/dedup.",
       "remaining": "A has prepared the K4/composed host at its own exact sources; actual composed runner and browser qualification, plus intake of B d6fad0d2, remain open. No proof here that new preparation advances with the page closed.",
       "evidence": [
-        "CHOICE_PREPARATION_REOPEN_20261026.json"
+        "CHOICE_PREPARATION_REOPEN_20261026.json",
+        "CHOICE_PREPARATION_BROWSER6_PASS.json"
       ]
     },
     {
       "id": "NO_DUPLICATION",
       "status": "PARTIAL",
-      "proved": "Original source and command persist under same browser lock; acquired lock not stolen, queued timeout callback cannot run; exact payload/UUID replay after response timeout tested. Existing source-bound Native/Auth receipts and same-UUID races preserved. Real two-tab browser reports now pin actual served modules including common wait helper (d43); RPC replies controlled, no Native dedup credit from these reports.",
+      "proved": "Original source and command persist under same browser lock; acquired lock not stolen, queued timeout callback cannot run; exact payload/UUID replay after response timeout tested. Existing source-bound Native/Auth receipts and same-UUID races preserved. Real two-tab browser reports now pin actual served modules including common wait helper (d43); RPC replies controlled, no Native dedup credit from these reports. New preparation Chromium cases verify zero enqueue on reopen and exactly two identical explicit requests after deterministic response loss, with one controlled work.",
       "remaining": "Actual two-session request/step/purge races for new preparation and combined A path remain open.",
       "evidence": [
         "d43f38a4-40264331563-takeover-original.json",
         "d43f38a4-40264331540-takeover-original.json",
         "d43f38a4-40264331541-takeover-original.json",
         "4d2d38d4-40261719673-takeover-original.json",
-        "4d2d38d4-40261719824-takeover-original.json"
+        "4d2d38d4-40261719824-takeover-original.json",
+        "CHOICE_PREPARATION_BROWSER6_PASS.json"
       ]
     },
     {
       "id": "FAILURE_STALL_RECOVERY",
       "status": "PARTIAL",
-      "proved": "Per-reply/queue waits bounded; unchanged-unit monitoring stops honestly without claiming server cancellation. Local preparation has bounded three attempts and terminal unknown-error failure. Retired caller sends no request/next unit. Optional runner also bounds injected SQL57014 before the step and restores all three caller claim settings; 18 local groups pass. No real wall-clock timeout/backend-loss credit. Reopened observer now stops on missing reply/progress, access loss or disappearance; late polls cannot override explicit same-work continuation. Local only.",
-      "remaining": "New preparation Native cancellation/session-loss/runner recovery and combined UI verification require separate registered route."
+      "proved": "Per-reply/queue waits bounded; unchanged-unit monitoring stops honestly without claiming server cancellation. Local preparation has bounded three attempts and terminal unknown-error failure. Retired caller sends no request/next unit. Optional runner also bounds injected SQL57014 before the step and restores all three caller claim settings; 18 local groups pass. No real wall-clock timeout/backend-loss credit. Reopened observer now stops on missing reply/progress, access loss or disappearance; late polls cannot override explicit same-work continuation. Local only. Prepared-choice Chromium now observes FAILED/EXPIRED/current403, stops reads, hides protected panel, and stops one held GET at the unchanged30s bound (29527ms after observation); no late result/candidate read. Other unchanged-progress120s proof remains local-clock only.",
+      "remaining": "New preparation Native cancellation/session-loss/runner recovery and combined UI verification require separate registered route.",
+      "evidence": [
+        "CHOICE_PREPARATION_BROWSER6_PASS.json"
+      ]
     },
     {
       "id": "OFFICIAL_RESULTS_FINANCE_HPP",
@@ -75,7 +81,8 @@
     "same-command calibration at8003.031ms",
     "all prior Original failures in evidence ledger",
     "choice9d K3 SQL57014 at8014.567ms; same-command calibration8019.57ms; full restore verified but writer_runtime false",
-    "choice4d Transport10 CI cancelled at60min; complete restore/package gates missing, no full qualification credit"
+    "choice4d Transport10 CI cancelled at60min; complete restore/package gates missing, no full qualification credit",
+    "Prepared-choice browser9ff853c3/40287295045:2PASS and case3 incomplete; later socket diagnostic explains ambiguous injection, Original remains INCOMPLETE."
   ],
   "A_boundary": {
     "shared_contract_requests": [
@@ -86,14 +93,33 @@
       215,
       216,
       217,
-      218
+      218,
+      219
     ],
-    "last_read_head": "613209db2bc46079fe8c576e71801cc6806bcc23",
+    "last_read_head": "993c4a208a0e429864e2c499de1d38b59bb0dcc0",
     "shared_F05_or_registry_edited": false,
     "default_install_or_supabase_edited": false,
     "previous_read_head": "f898a71fc13654d217f987949f126290083a0225",
     "active_branch": "astra-a/d17-14-model-target-integration-prepared-20261024",
-    "composition_status": "PREPARED_BY_A_NOT_QUALIFIED; Native6 UNBOUND pending Native5 actual PASS; new B observer intake open"
+    "composition_status": "A published two successor tests, observed IN_PROGRESS; Native6 still unbound awaiting qualified predecessor. B new observer not automatically adopted.",
+    "observed_runs": [
+      {
+        "run_id": 40286613815,
+        "source_head": "a569d322bb91162026c7f9cc162facf12f0dd7ea",
+        "status": "in_progress",
+        "conclusion": null,
+        "observed_at": "2026-10-26T07:55:20.083Z",
+        "Original_intaken_by_B": false
+      },
+      {
+        "run_id": 40286627929,
+        "source_head": "0c86d27739ff74aba65967453465880d1c72e94c",
+        "status": "in_progress",
+        "conclusion": null,
+        "observed_at": "2026-10-26T07:55:20.083Z",
+        "Original_intaken_by_B": false
+      }
+    ]
   },
   "production_go": false,
   "independent_acceptance": false,
@@ -152,5 +178,7 @@
       "optional_preparation_not_installed": true
     }
   ],
-  "new_client_runtime_qualified": false
+  "new_client_runtime_qualified": false,
+  "last_prepared_choice_browser_source": "e94e80375ecf16919bed2f6d2f3d191f094875b8",
+  "prepared_choice_browser_evidence": "CHOICE_PREPARATION_BROWSER6_PASS.json"
 }

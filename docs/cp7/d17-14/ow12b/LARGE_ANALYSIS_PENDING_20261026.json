@@ -1,9 +1,41 @@
 {
-  "observed_at": "2026-10-26T04:39:40.989652+00:00",
+  "observed_at": "2026-10-26T07:58:24.567990+00:00",
   "pending": [],
   "completed_without_receipt": [],
   "contract": "cp7.writer-b-live-run-snapshot.v1",
   "snapshot_not_acceptance": true,
   "production_go": false,
-  "all_36_started_runs_completed": true
+  "all_36_started_runs_completed": true,
+  "new_preparation_browser_runs": [
+    {
+      "run_id": 40287295045,
+      "conclusion": "failure",
+      "Original": "INCOMPLETE",
+      "receipt": "CHOICE_PREPARATION_BROWSER6_FIRST_FAILURE.json"
+    },
+    {
+      "run_id": 40288589994,
+      "conclusion": "success",
+      "Original": "PASS6",
+      "receipt": "CHOICE_PREPARATION_BROWSER6_PASS.json"
+    }
+  ],
+  "A_owned_running_snapshot": [
+    {
+      "run_id": 40286613815,
+      "source_head": "a569d322bb91162026c7f9cc162facf12f0dd7ea",
+      "status": "in_progress",
+      "conclusion": null,
+      "observed_at": "2026-10-26T07:55:20.083Z",
+      "Original_intaken_by_B": false
+    },
+    {
+      "run_id": 40286627929,
+      "source_head": "0c86d27739ff74aba65967453465880d1c72e94c",
+      "status": "in_progress",
+      "conclusion": null,
+      "observed_at": "2026-10-26T07:55:20.083Z",
+      "Original_intaken_by_B": false
+    }
+  ]
 }

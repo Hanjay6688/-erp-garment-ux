@@ -1,10 +1,10 @@
 {
   "contract": "cp7.writer-b-evidence-intake-ledger.v1",
-  "Originals_read_retained": 63,
+  "Originals_read_retained": 65,
   "evidence_type_counts": {
     "NATIVE_OR_ACTUAL_AUTH_PACKAGE_GATES_CHECKED": 43,
     "INTERRUPTED_NATIVE_NO_COMPLETE_PACKAGE_GATES": 2,
-    "REAL_BROWSER_LOCKS_CONTROLLED_RPC_NO_NATIVE_PACKAGE": 7,
+    "REAL_BROWSER_LOCKS_CONTROLLED_RPC_NO_NATIVE_PACKAGE": 9,
     "CONTROLLED_BROWSER_ONLY_NO_NATIVE_PACKAGE_GATES": 11
   },
   "package_checked_does_not_mean_writer_passed": true,
@@ -973,6 +973,40 @@
       "artifact_bytes": 210574,
       "artifact_sha256": "396258e148a70cda8c1c8ff1fd39d2e24a7d25d63ef56b127aaec46d61dbb46a",
       "receipt": "docs/cp7/d17-14/ow12b/ffc775d0-40227891855-takeover-original.json"
+    },
+    {
+      "artifact_id": 12634748141,
+      "source_head": "9ff853c33400ee506fd83e757f471cf9ebc1dc95",
+      "run_id": 40287295045,
+      "status": "INCOMPLETE",
+      "counts": {
+        "browser": {
+          "PASS": 2,
+          "INCOMPLETE": 1,
+          "NOT_RUN": 3
+        }
+      },
+      "counts_note": "First run stopped in case3; cases4-6 not reached. Complete report retained, not complete-suite PASS.",
+      "evidence_kind": "REAL_BROWSER_LOCKS_CONTROLLED_RPC_NO_NATIVE_PACKAGE",
+      "artifact_bytes": 4125,
+      "artifact_sha256": "19ce2cc8ecc7b2ef00f9b8aee6cdfb60fcae0b391d73012fd6868ce99fc32140",
+      "receipt": "docs/cp7/d17-14/ow12b/CHOICE_PREPARATION_BROWSER6_FIRST_FAILURE.json"
+    },
+    {
+      "artifact_id": 12635213241,
+      "source_head": "e94e80375ecf16919bed2f6d2f3d191f094875b8",
+      "run_id": 40288589994,
+      "status": "PASS",
+      "counts": {
+        "browser": {
+          "PASS": 6
+        }
+      },
+      "counts_note": "Six declared browser cases; controlled HTTP RPC/identity only.",
+      "evidence_kind": "REAL_BROWSER_LOCKS_CONTROLLED_RPC_NO_NATIVE_PACKAGE",
+      "artifact_bytes": 4451,
+      "artifact_sha256": "1b4be7894d3917ebb5cedb25edad04253a7168c0cab019472c0b076c6d120f5a",
+      "receipt": "docs/cp7/d17-14/ow12b/CHOICE_PREPARATION_BROWSER6_PASS.json"
     }
   ],
   "real_browser_locks_with_controlled_RPC_earn_no_Native_Auth_restore_credit": true

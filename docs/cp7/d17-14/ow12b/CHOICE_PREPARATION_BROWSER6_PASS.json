@@ -1,0 +1,207 @@
+{
+  "contract": "cp7.choice-preparation-browser6-intake.v1",
+  "source_head": "e94e80375ecf16919bed2f6d2f3d191f094875b8",
+  "product_source": "d6fad0d2303bfe39531afdbe62f6faec95f79046",
+  "run_id": 40288589994,
+  "job_id": 121458060644,
+  "artifact_id": 12635213241,
+  "artifact_bytes": 4451,
+  "artifact_sha256": "1b4be7894d3917ebb5cedb25edad04253a7168c0cab019472c0b076c6d120f5a",
+  "Original_bytes": 18196,
+  "Original_sha256": "14c196ce733c51829f6db4952ecf36bacd03816e44b45534a5f192d6a846e13d",
+  "status": "PASS",
+  "PASS": 6,
+  "required_case_ids": [
+    "PREPARATION_REOPEN_TWO_TABS_GET_ONLY",
+    "PREPARATION_MOBILE_HELD_STEP_CLOSE_USABLE",
+    "PREPARATION_LOST_ENQUEUE_RELOAD_SAME_WORK",
+    "PREPARATION_TERMINAL_FAILURE_AND_EXPIRY",
+    "PREPARATION_REVOKED_ACCESS_REDACTS",
+    "PREPARATION_HELD_STATUS_BOUNDED_RECOVERY"
+  ],
+  "case_observations": [
+    {
+      "id": "PREPARATION_REOPEN_TWO_TABS_GET_ONLY",
+      "status": "PASS",
+      "real_tabs": 2,
+      "real_reload": true,
+      "get_only": true,
+      "no_save": true,
+      "actual_server_dedup_credit": false,
+      "controlled_work_creations": 0
+    },
+    {
+      "id": "PREPARATION_MOBILE_HELD_STEP_CLOSE_USABLE",
+      "status": "PASS",
+      "viewport": [
+        390,
+        844
+      ],
+      "real_input_while_step_held": true,
+      "close_enabled": true,
+      "late_step_retired": true,
+      "no_document_overflow": true,
+      "controlled_work_creations": 1
+    },
+    {
+      "id": "PREPARATION_LOST_ENQUEUE_RELOAD_SAME_WORK",
+      "status": "PASS",
+      "controlled_network_abort_after_HTTP_enqueue": true,
+      "aborted_enqueue_responses": 1,
+      "real_reload": true,
+      "exact_request_reused": true,
+      "actual_Native_idempotency_credit": false,
+      "controlled_work_creations": 1
+    },
+    {
+      "id": "PREPARATION_TERMINAL_FAILURE_AND_EXPIRY",
+      "status": "PASS",
+      "failure_and_expiry_observed": true,
+      "no_automatic_restart": true,
+      "no_partial_success": true,
+      "controlled_work_creations": 0
+    },
+    {
+      "id": "PREPARATION_REVOKED_ACCESS_REDACTS",
+      "status": "PASS",
+      "controlled_403": true,
+      "protected_panel_removed": true,
+      "no_post_retirement_reads": true,
+      "controlled_work_creations": 0
+    },
+    {
+      "id": "PREPARATION_HELD_STATUS_BOUNDED_RECOVERY",
+      "status": "PASS",
+      "real_elapsed_after_held_reply_ms": 29527,
+      "single_outstanding_status_read": true,
+      "monitor_stopped_without_declaring_server_failed": true,
+      "no_timeout_increased": true,
+      "controlled_work_creations": 0
+    }
+  ],
+  "source_sha256": {
+    "scripts/cp7_frozen_choice_preparation/client/PreparedFrozenAnalogPanel.tsx": "c06bd4aa0dc134336cbf21def29a8933e3bb54b83beaac30e8146cdd9da84f0e",
+    "scripts/cp7_frozen_choice_ui/client/fixtures.ts": "2bd912342e0912c3579636a80fe5e4ce950e724ecc716a5003b99bcb0db53378",
+    "scripts/cp7_frozen_choice_preparation/client/preparationFixture.ts": "18330f17b31fedb321c05ba62a045ac74ec9c3e84d708501cb56632af00febdc",
+    "tests/fixtures/productionRecovery.ts": "cee25d2fc0660378448e986f4dc7c0ef6276bb627a1dbae9e8f74fdca89b27f1",
+    "scripts/cp7_frozen_choice_ui/client/NativeFrozenAnalogPanel.tsx": "d25574c76d65cdd85623a3f0866f0ad1a8331d7a59e514553278cebaf3c5cac4",
+    "scripts/cp7_frozen_choice_ui/client/NativeFrozenChoicePanel.tsx": "7b696c6cb94373fd2e95c8ba168162ddc0719a485b59e6aaab8d60789c977910",
+    "scripts/cp7_frozen_choice_preparation/client/PreparedFrozenChoicePanel.tsx": "1953c19ec41f85e50ab09f17fa2726dd0fb8c06a3a39e60a8f7737773da4e289",
+    "tests/fixtures/nativeProductAnalogChoice.ts": "cfd6cdb72350e0b3d7b1ece188c233781f63251a64cd3974f0f04e3d3ebe250c",
+    "tests/fixtures/nativeProductAnalog.ts": "be1404e3a7fe4bc69dda24d173aa7cfebe282f311c493d0b4723265505bdff1c",
+    "src/nativeProductAnalog.ts": "149277f173bbfcdc91a68157d973eb1ceffd08d66c0b44a1bdfa074f4d9befd9",
+    "tests/fixtures/nativeTargetDemandSql.json": "97aa5012e657d39c6554a7798dacf534f364c2dbd7e4be77b01299d6cb7074a7",
+    "scripts/cp7_frozen_analysis_choice_v2/client/nativeFrozenChoice.ts": "3f37d71022fa48773c10f66c90a6a9be076e590716c95ca9f9a7500084278875",
+    "src/cp6BusinessTime.ts": "d1681a2c28898c2bd772581bb4436cd1ca34bfa32e41af4b9096f2aaa0b834b7",
+    "src/lib/clientError.ts": "2dced6bcbd1dd81aabee729abfc2e0729789f10f9ea06474fc7bef428f167b96",
+    "src/native-production-planning.css": "9b2226d6e0654d6a2000cb21b43380f21470d78f772ef32d3a67e53e9f9ef775",
+    "scripts/cp7_frozen_analysis_readers_v2/client/nativeFrozenAnalog.ts": "436566225d1df160c19204639bda4cdc10de34e6909e781488f96c3e86dc77b5",
+    "scripts/cp7_frozen_choice_ui/client/frozen-choice.css": "5958d5b437662bde184691c6670665ec23ac4549e722d4031c348a71d3000229",
+    "src/TargetDemandDetails.tsx": "0bf3bf79d6c65356922a770909fa4561dd7f01680fc7cea3b04d9e44f6418589",
+    "scripts/cp7_frozen_quantity_ui/client/nativeFrozenProgress.ts": "5a832131e7f95edf589d38fa4a8836032ca12216664c89d90f7af5a67f89c53b",
+    "scripts/cp7_frozen_choice_preparation/client/nativeFrozenChoicePreparation.ts": "039ed68488e501eed6044d3ca8bfc4cb1aada43e85b1039f429d9804878bde8b",
+    "src/nativeProductAnalogChoice.ts": "63677e05b1946d277dd4f9f8046c4a15b307eddcf00782c87a7812b7f7bf5540",
+    "src/nativeAnalysisPages.ts": "5a409a8e54948cb2b5d8740722db99488a311149777d0753e203d9e028e1fa17",
+    "src/nativeBoundedQuantity.ts": "088a771abe0a82abc359dba5303da4c3443f356b0f002fc36c538cf911650bab",
+    "src/nativeTargetDemand.ts": "ab4a531f7e51ae82ddacf00079102f1bef8c0ea6f1be5f3462e9dec2e2fef685",
+    "scripts/cp7_frozen_analysis_facade_v2/client/nativeFrozenWait.ts": "f0aeed0eb29b8b1b31183b00e8af3005c5d69af58e95b6300da363d67ab6ebc2",
+    "src/lib/receiptCorrectionMessages.ts": "af15cdc7a3368eb7495e23f944a406c84aacb44fcd040208ddbc2b495ca318ff",
+    "src/lib/planV2Messages.ts": "77f7952f64fc4c5d0e1366f13d112a59ade86f2f8cf9d80875b4497368250504",
+    "src/lib/reportV2Messages.ts": "c0990d6c52d2809277b448be973bb68da483b053d30f02d18887f5730739e15a",
+    "src/lib/reminderV2Messages.ts": "47a24d0b424a5f902038d8f3fff64fff7e48badba239577230b554c3c3156431",
+    "src/lib/analysisRetentionMessages.ts": "b499245d7556c00021694a9a5736ef961872503dccdef6c10e1d9aa49ad5dd9c",
+    "src/lib/masterMessages.ts": "4815b8952d60da3f34fa451a29a1c1cf86ca0163da3bf817f9dfcfa0ae9ab25f",
+    "src/lib/mandorCorrectionMessages.ts": "91d78db933cfefd5de1f52732389423cf5208212690a2a9cba318792aa84ac8f",
+    "src/nativeModelTarget.ts": "63d4168738553dd99c4b2e0a9598478c9c7376e6107735e37f5b30ddbcc530e2",
+    "src/nativeBoundedAnalysis.ts": "fb2f37af014c750f2e856da7adc3e320c463954072999b08efa387a1086da357",
+    "src/nativeAnalysis.ts": "d8b3bba468a0c5e6cda14260ba90b73b9d0504578640e4e9f4723c19064197fa",
+    "src/nativeStagedJob.ts": "a48f98d068f94291d7dc4187dffd218da6bb0edea1f63e1bc8eba7d4c75b44e0",
+    "src/nativeModelPolicy.ts": "6fe2dee4884e0953048be6ebe222f2e3073d93a2c35b3f3d663de7581b41b964",
+    "src/cp7/native-analysis.schema.json": "c6e38f059d992c5916b7a799c153ad5a6cc4858dc8ffd6085bb8e5356ebc72a1",
+    "src/financeReportContract.ts": "54cbf2b591be338095c50b09b915d818bdc2621ca6c86240831385ada7432f7e",
+    "src/nativeAnalysisFinanceSidecar.ts": "1f32a4a8079c448c5dd9e8ce7be56b1fc2ecd34b9012963111b9abebb9a565d4",
+    "src/nativeAnalysisTransport.ts": "24d393c7fe8664a84dd6b7e612aeba6665afee3bbbf087c9a9d0c470ab857297",
+    "src/cp7/workspace.ts": "3dc3272128be0da2de9ca16d9e247d40c0b94c4999d36e8c08c097b6694d957a",
+    "src/nativePlanInstant.ts": "adc980769664b1fa8e83f0ab7152a2cb949cbefd2510ae66705a92fcf9bce45a",
+    "src/cp7/reasons.json": "55741fc4be42afe73a3b942b4af7f1839c53197599f0a605c63ec7db0533e551",
+    "src/nativePlanDraft.ts": "d1c45169dcbf4a119faf3224168f6a34bb243bdd9a88ac3ecc1f3609cb566807",
+    "src/cuttingPersistence.ts": "9d1e8d7ea6b57084a6ed6c528276d419ec903e969e839a23de8a388ec04b24d7",
+    "src/nativeHistoryYieldPolicy.ts": "87d167c14a45a620514075ba0f3fc0fbe312fb1875848cbee0989fd6f42c1f9b",
+    "src/quantityInput.ts": "1a8186356ad571a615b620836290b52fb9a2a18f414b0a5b021f011ef20821dc",
+    "scripts/cp7_ow12b_choice_preparation_browser.mjs": "7a387c9e2dbdd10d9c6222aa069c0204be9f8c272a419fb7da8279dbbff86f64",
+    "docs/cp7/d17-14/ow12b/CHOICE_PREPARATION_BROWSER6_CONTRACT.json": "2af587978cc1703a489bd45ef433f2e26582ec627a33281e8d5632b322cc1e7c",
+    ".github/workflows/cp7-ow12b-choice-preparation-browser.yml": "d72a42d519f78c6e81c812a460bdfd5e8132acaecb624db2dde5a09c3f5b583e"
+  },
+  "all_source_pins_verified": 51,
+  "actual_served_source_paths": 48,
+  "browser_version": "151.0.7922.34",
+  "TypeScript": "PASS",
+  "related_tests": "97 PASS/7 files, overlapping earlier 97 not added",
+  "first_failure_retained": "CHOICE_PREPARATION_BROWSER6_FIRST_FAILURE.json",
+  "socket_close_diagnostic": {
+    "outcome": "RESOLVED",
+    "reply": {
+      "data": {
+        "contract_version": "cp7.frozen-choice-preparation.v1",
+        "source_request": "00000000-0000-4000-8000-000000000002",
+        "run_id": "00000000-0000-4000-8000-000000000003",
+        "reference": {
+          "captured_at": "2026-01-20T12:00:00.123456Z",
+          "source_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        "state": "QUEUED",
+        "stage": "FROZEN_INPUTS",
+        "units_done": 0,
+        "unit_count": 1,
+        "created_at": "2026-10-26T01:00:00.123456Z",
+        "last_progress_at": "2026-10-26T01:00:01.123456Z",
+        "unit_attempts": 0,
+        "worker_active": false,
+        "failure_code": null,
+        "failure_sqlstate": null,
+        "choice_saved": false,
+        "production_go": false
+      },
+      "error": null
+    },
+    "calls": [
+      {
+        "name": "erp_cp7_get_frozen_choice_preparation_v1",
+        "args": {
+          "p_source_request": "00000000-0000-4000-8000-000000000002",
+          "p_access": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+        }
+      },
+      {
+        "name": "erp_cp7_request_frozen_choice_preparation_v1",
+        "args": {
+          "p_source_request": "00000000-0000-4000-8000-000000000002",
+          "p_access": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+        }
+      },
+      {
+        "name": "erp_cp7_request_frozen_choice_preparation_v1",
+        "args": {
+          "p_source_request": "00000000-0000-4000-8000-000000000002",
+          "p_access": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+        }
+      }
+    ],
+    "controlled_work_creations": 1,
+    "qualification_credit": false
+  },
+  "first_failure_resolution": "Same raw fetch socket-close mechanism reproduced transparent browser retry: two identical HTTP requests, one controlled work, fetch RESOLVED. The first fault did not reliably reach the UI. Successor aborts browser delivery only after real controlled HTTP enqueue; same two explicit request calls, original source/access and one work remain asserted. Product, six case IDs, time bounds and other oracles unchanged.",
+  "measurement": "29527ms measured after the held status request was observed; the original 30000ms reply bound starts earlier. Test polling observation is not a new deadline or analysis/report duration. No virtual clock.",
+  "scope": "Actual Chromium and actual prepared B modules; controlled identity and HTTP RPC, synthetic one-product fixture. Not official Auth/database/idempotency/factory/HPP/K4 or default application.",
+  "actual_Native": false,
+  "actual_Auth_HTTP_credit": false,
+  "actual_server_idempotency_credit": false,
+  "actual_K4": false,
+  "actual_finance_HPP": false,
+  "factory_performance_credit": false,
+  "composed_restore_credit": false,
+  "screenshots_visually_reviewed": false,
+  "default_adopted": false,
+  "independent_acceptance": false,
+  "production_go": false
+}
