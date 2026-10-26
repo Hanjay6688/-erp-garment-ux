@@ -4237,3 +4237,48 @@ Progres0c86d277/run40286627929 masih berjalan saat catatan ini dibuat.
 Setelah PASS aktual, A mengikat Native6 dan menguji komposisi penuh; setelah
 itu UI Auth/database baru dapat dijalankan. B tetap memeriksa perilaku produksi
 pada kandidat gabungan yang benar. Formal5/16; production_go=false.
+
+
+## 26 Oktober 2026 — A: Progress5 lulus, Native6 dan pembanding pembaca HPP sedang berjalan
+
+Original0c86d277/run40286627929/job121451709620/art12637959084 sudah
+PASS5 dan diintake sekali:3698pin,24ukuran keuangan resmi, progres produksi
+terpisah dari keuangan, sumber berubah gagal terlihat/permintaan baru pulih,
+seluruh22katalog/data/sequence/CP6/advisor pulih. Status4.779–11.814ms.
+Kegagalan546 tetapINCOMPLETE. Tidak ada kredit Auth/browser/pabrik dari Native5.
+
+Native6 kini terikat ke Original itu padaa3ce931748ded1dfbf9a5b972a2b8d8f40cf5b74,
+run40297810688/job121488053169, sedang menjalankan komposisi penuh sejak
+09:24:25UTC. Admission3748pin lengkap lulus tanpa database; enam kasus dan
+seluruh batas keuangan, sumber, izin, replay dan pemulihan tidak dilonggarkan.
+Browser8cb06927 tetap menunggu Native6 actualPASS sebelum binding.
+
+A membaca B1dd83782/koordinasi220/proposal1b53f80c. Sumber produk d6fad
+pada usulan itu sudah masuk host A6213baf1 dan deklarasi8cb06927:91berkas B
+persis,190tes/17file,79modul build, bukti A dihasilkan ulang sendiri. Usulan
+berdasar host lama0f/1b tidak diterapkan dua kali; bukti B bukan pengganti
+kualifikasi gabungan. Tidak ada cabang/worktree B yang ditulis A.
+
+Temuan profil ditelusuri lebih jauh: report checks memanggil resolver HPP
+stok awal yang mengunci dan menjalankan UPDATE snapshot;10.800panggilan
+fungsi audit bukan berarti10.800baris audit, karena audit trigger mengabaikan
+nilai yang tidak berubah. Pengurangan tiga pemeriksa ditunda sampai efek
+pembaca ini diuji. A tidak mengganti resolver posting atau rumus keuangan.
+
+Eksperimen terisolasi7caf6b84a357ab670ac0e4c0c190fadb2738c2e7,
+run40300049475/job121495423311, sedang berjalan. Sumber3702pin dan10Original
+prasyarat lulus admission lengkap tanpa database;4uji transformasi dan46
+langkah shell lulus lokal. Pada fixture kecil dan1200x3, bandingkan laporan
+lama dengan salinan pembaca privat tanpa lock/UPDATE. Seluruh hasil kecuali
+captured_at harus sama; kandidat harus nol percobaan tulis dan data/sequence
+tetap sama sebelum rollback, seluruh22katalog/data/sequence sama sesudahnya.
+Definisi percobaan hanya hidup dalam transaksi uji yang dibatalkan. Semua
+gerbang pasang/pulih lama tetap. Batas kecil8s/pabrik diagnostik30s/lock2s;
+tanpa retry, tanpa menaikkan batas produk. Belum ada hasil aktual/klaim cepat,
+PRICE_PERCENT, source-race, Auth/browser, analisis pabrik selesai atau adopsi.
+
+B tetap pemilik produksi/history/preparation dan pemeriksaan perilakunya pada
+kandidat gabungan. A tetap pemilik uang/stok/HPP dan integrator tunggal.
+Kontrak publik, bentuk payload dan pemanggilan B tidak berubah oleh diagnosis.
+Tidak ada pekerjaan server duplikat. Formal5/16; independent_acceptance=false;
+production_go=false; CP7C belum dimulai.
