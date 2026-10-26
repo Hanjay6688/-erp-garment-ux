@@ -43,3 +43,13 @@ explicit8s statement/2s lock bounds after each commit resets local settings.
 The expected fixed report view follows PostgreSQL17's STABLE function snapshot
 rules (https://www.postgresql.org/docs/17/xfunc-volatility.html); the actual test
 must still observe both backend PIDs and prove every report byte and rejection.
+
+Qualification observability: measured phase events now distinguish source admission,
+baseline verification, first full install, preuse removal, second full install,
+installed verification, actual source-change/recovery and baseline restoration.
+Every event comes from the actual operation; phase completion is not suite PASS,
+and no percentage or timer-driven progress is fabricated. Exceptions are recorded
+and re-raised unchanged. Three local controls and a stripped-AST equality check
+prove the instrumentation preserves previous operation order and all gates.
+The prior 3677.382-second quiet interval in e352 remains unexplained until actual
+phase timings are available. This instrumentation adds no runtime credit.

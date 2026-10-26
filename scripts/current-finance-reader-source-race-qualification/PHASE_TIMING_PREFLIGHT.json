@@ -1,0 +1,13 @@
+{
+  "status": "PREPARED_ONLY",
+  "required_actual_reuse_head": "d05c568cca01085f87f7e48fe85c8d15ca43bffd",
+  "phase_timing_tests": 3,
+  "phase_logging_stripped_AST_equal": true,
+  "unchanged_AST_sha256": "7c7176d64e97ed9382e2707e0d4a2e9af5adc5c1a50d883c8764d4baedf6a462",
+  "AST_files": 10,
+  "workflow_shell_steps": 49,
+  "actual_database_executed": false,
+  "runtime_qualification": false,
+  "product_SQL_or_timeouts_changed": false,
+  "production_go": false
+}
