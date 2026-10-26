@@ -93,8 +93,8 @@
     },
     {
       "path": "scripts/cp7_current_progress_finance_ui/CombinedProgress.tsx",
-      "bytes": 1593,
-      "sha256": "c1e2e56d219e34cc4698d3f47950f01ce4df20fe5a1317a3cb5751310fe58074"
+      "bytes": 2282,
+      "sha256": "28a697ffd55b970cb79ae846296e4706b03460181d804f9d4265837af67c7b0e"
     },
     {
       "path": "scripts/cp7_current_progress_finance_ui/Panel.tsx",

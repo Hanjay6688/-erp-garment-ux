@@ -42,11 +42,11 @@ def verify():
         raw = path.read_bytes()
         assert len(raw) == f['bytes'] and sha256(raw).hexdigest() == f['sha256'], f['path']
     tests = json.loads((HERE / 'LOCAL_TESTS.json').read_bytes())
-    assert tests['success'] and tests['numPassedTests'] == tests['numTotalTests'] == 190
+    assert tests['success'] and tests['numPassedTests'] == tests['numTotalTests'] == 195
     assert tests['numFailedTests'] == tests['numPendingTests'] == 0
     assert len(tests['testResults']) == 17 and all(t['status'] == 'passed' for t in tests['testResults'])
     return dict(B_exact_files=len(files), compiled_source_files=len(graph['files']),
-                local_tests=190, local_test_files=17, runtime_credit=False, production_go=False)
+                local_tests=195, local_test_files=17, runtime_credit=False, production_go=False)
 
 if __name__ == '__main__':
     print(json.dumps(verify()))

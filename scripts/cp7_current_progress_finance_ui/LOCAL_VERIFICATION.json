@@ -2,20 +2,20 @@
   "status": "PASS_LOCAL_ONLY",
   "typecheck_no_emit": true,
   "test_files": 17,
-  "tests": 190,
-  "vitest_wall_seconds": 14.826400146484374,
+  "tests": 195,
+  "vitest_wall_seconds": 7.765,
   "compiled_sources": 79,
   "unchanged_B_files": 91,
   "build_assets": [
     {
       "path": "current-progress-finance.html",
       "bytes": 466,
-      "sha256": "852b815d2a65c57200754d3b62a6d55001d58e92d8c33ac69187f6359c902c88"
+      "sha256": "567a6057be88494d4d04594e2b1e3cca94f82dfc21d4c62fd4ee4790c69215a9"
     },
     {
-      "path": "assets/current-progress-finance-BVHtAijh.js",
-      "bytes": 671805,
-      "sha256": "84258e2c0207a7e678b87becbef36dab65b3453f0b2fe04e0cfa7841afe81969"
+      "path": "assets/current-progress-finance-u29T9Bu5.js",
+      "bytes": 672453,
+      "sha256": "6ee52ac405189767cf216c248ed4038e15ff9ae99719443645d1a7f2da6d87c3"
     },
     {
       "path": "assets/current-progress-finance-UWpQGvK4.css",
@@ -36,6 +36,37 @@
     "late_response_retired": true,
     "real_progress_resets_stall_window": true,
     "new_dependencies": false,
-    "B_product_bytes_unchanged": true
-  }
+    "B_product_bytes_unchanged": true,
+    "pure_projection_no_new_effect": true,
+    "no_new_timer_or_fetch": true,
+    "alert_has_safe_same_job_recovery": true
+  },
+  "prior_checkpoint": {
+    "tests": 190,
+    "test_files": 17,
+    "vitest_wall_seconds": 14.826400146484374,
+    "build_assets": [
+      {
+        "path": "current-progress-finance.html",
+        "bytes": 466,
+        "sha256": "852b815d2a65c57200754d3b62a6d55001d58e92d8c33ac69187f6359c902c88"
+      },
+      {
+        "path": "assets/current-progress-finance-BVHtAijh.js",
+        "bytes": 671805,
+        "sha256": "84258e2c0207a7e678b87becbef36dab65b3453f0b2fe04e0cfa7841afe81969"
+      },
+      {
+        "path": "assets/current-progress-finance-UWpQGvK4.css",
+        "bytes": 45010,
+        "sha256": "5409c4b84b94c36a2aac253a5c30546b3e8a869ff116fd05551b4f12377adf01"
+      }
+    ]
+  },
+  "server_finance_activity_notice": true,
+  "notice_threshold_ms": 120000,
+  "threshold_source": "Unchanged B FROZEN_NO_PROGRESS_MS; display advisory only, no server failure/timeout inference",
+  "same_request_GET_recovery": true,
+  "new_RPC_calls": false,
+  "client_clock_does_not_create_progress": true
 }

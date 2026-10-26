@@ -1,9 +1,64 @@
 {
   "runtime_credit": false,
   "preserved_failures": [
-    {"stage":"typecheck","error":"@testing-library/react unavailable","correction":"Use existing React createRoot/act; no dependency added."},
-    {"stage":"typecheck","error":"Fixture helper extra finance_capture field is not in its inferred return type","correction":"Explicitly construct the controlled status extra fields."},
-    {"stage":"controlled host integration","observed":"7/7 failed; zero RPC calls; durable identity refused before reading","cause":"A host fingerprint serialized whole objects, so equivalent query objects with different key order failed identity equality.","correction":"Bind actor, scope, UUID, method, each query field and finance mode explicitly; preserve strict payload equality. Publish pre-read refusal to retire stale progress."},
-    {"stage":"controlled host integration","observed":"6/7 passed; terminal-state expectation used COMPLETE","correction":"Use the existing contract's COMPLETED spelling. No product behavior changed."}
+    {
+      "stage": "typecheck",
+      "error": "@testing-library/react unavailable",
+      "correction": "Use existing React createRoot/act; no dependency added."
+    },
+    {
+      "stage": "typecheck",
+      "error": "Fixture helper extra finance_capture field is not in its inferred return type",
+      "correction": "Explicitly construct the controlled status extra fields."
+    },
+    {
+      "stage": "controlled host integration",
+      "observed": "7/7 failed; zero RPC calls; durable identity refused before reading",
+      "cause": "A host fingerprint serialized whole objects, so equivalent query objects with different key order failed identity equality.",
+      "correction": "Bind actor, scope, UUID, method, each query field and finance mode explicitly; preserve strict payload equality. Publish pre-read refusal to retire stale progress."
+    },
+    {
+      "stage": "controlled host integration",
+      "observed": "6/7 passed; terminal-state expectation used COMPLETE",
+      "correction": "Use the existing contract's COMPLETED spelling. No product behavior changed."
+    },
+    {
+      "name": "finance-idle-ui-first-local-failure.json",
+      "bytes": 7468,
+      "sha256": "e545fe20b09e7838c70564e6129b5cc983dd1f28403539830dd9b9137f6934c0",
+      "counts": {
+        "numTotalTests": 15,
+        "numPassedTests": 11,
+        "numFailedTests": 4
+      },
+      "cases": [
+        {
+          "name": "explains old financial activity from server evidence without declaring the job failed",
+          "failure": [
+            "AssertionError: the given combination of arguments (undefined and string) is invalid for this assertion. You can use an array, a map, an object, a set, a string, or a weakset instead of a string\n    at Proxy.<anonymous> (file:///workspace/scratch/dd83da97e97c/erp-progress-finance-ui-qualification/node_modules/@vitest/expect/dist/index.js:1319:15)\n    at Proxy.<anonymous> (file:///workspace/scratch/dd83da97e97c/erp-progress-finance-ui-qualification/node_modules/@vitest/expect/dist/index.js:1156:15)\n    at Proxy.methodWrapper (file:///workspace/scratch/dd83da97e97c/erp-progress-finance-ui-qualification/node_modules/chai/index.js:1700:25)\n    at /workspace/scratch/dd83da97e97c/erp-progress-finance-ui-qualification/scripts/cp7_current_progress_finance_ui/CombinedProgress.dom.test.tsx:33:63\n    at file:///workspace/scratch/dd83da97e97c/erp-progress-finance-ui-qualification/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        },
+        {
+          "name": "keeps an observed active worker distinct from a stored advance",
+          "failure": [
+            "AssertionError: expected 'Kemajuan produksi dan laporan resmiPr\u2026' to contain 'Proses keuangan teramati aktif saat p\u2026'\n    at /workspace/scratch/dd83da97e97c/erp-progress-finance-ui-qualification/scripts/cp7_current_progress_finance_ui/CombinedProgress.dom.test.tsx:41:32\n    at file:///workspace/scratch/dd83da97e97c/erp-progress-finance-ui-qualification/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        },
+        {
+          "name": "clears the activity notice only when newer server activity is read",
+          "failure": [
+            "AssertionError: expected null not to be null\n    at /workspace/scratch/dd83da97e97c/erp-progress-finance-ui-qualification/scripts/cp7_current_progress_finance_ui/CombinedProgress.dom.test.tsx:46:108\n    at file:///workspace/scratch/dd83da97e97c/erp-progress-finance-ui-qualification/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        },
+        {
+          "name": "checks an idle financial capture through GET on the same durable request",
+          "failure": [
+            "AssertionError: expected 'Sertakan angka keuangan dari laporan \u2026' to contain 'Belum ada aktivitas keuangan baru'\n    at /workspace/scratch/dd83da97e97c/erp-progress-finance-ui-qualification/scripts/cp7_current_progress_finance_ui/Panel.dom.test.tsx:93:32\n    at file:///workspace/scratch/dd83da97e97c/erp-progress-finance-ui-qualification/node_modules/@vitest/runner/dist/chunk-artifact.js:1903:20"
+          ]
+        }
+      ],
+      "cause": "Existing A combined panel did not expose server financial last activity or safe same-job checking when activity remained old.",
+      "actual_runtime_credit": false
+    }
   ]
 }

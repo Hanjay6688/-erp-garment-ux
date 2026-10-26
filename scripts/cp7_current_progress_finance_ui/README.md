@@ -41,7 +41,7 @@ membuat atau memajukan pekerjaan otomatis. Kemajuan nyata mengatur batas
 pengamatan; perubahan lock saja tidak dianggap kemajuan. Tutup panel,
 kelanjutan eksplisit, atau pergantian identitas menghentikan pengamat lama.
 
-190 tes dalam 17 berkas, TypeScript, serta build79modul lulus pada salinan A.
+Checkpoint sebelumnya: 190 tes dalam 17 berkas, TypeScript, serta build79modul lulus pada salinan A.
 Angka ini menggantikan jumlah lokal179 terdahulu, bukan ditambahkan padanya.
 B mempunyai Original browser e94e8037 PASS6 dengan identity/RPC terkendali;
 A memeriksa kedua Original termasuk kegagalan9ff dan51pin masing-masing.
@@ -73,3 +73,20 @@ node_modules/.bin/tsc --noEmit -p scripts/cp7_current_progress_finance_ui/tsconf
 node_modules/.bin/vitest run --config scripts/cp7_current_progress_finance_ui/vitest.config.mjs
 python scripts/cp7_current_progress_finance_ui/source_guard.py
 ```
+
+
+## Aktivitas keuangan yang lama tidak berubah
+
+Panel A sekarang menampilkan waktu aktivitas keuangan terakhir dari server dan
+observasi proses aktif, terpisah dari jumlah langkah selesai. Setelah120detik
+tanpa aktivitas tercatat, tampil penjelasan dan arahan memeriksa pekerjaan yang
+sama. Ambang memakai konstanta B yang sudah ada; ini pemberitahuan tampilan,
+bukan perpanjangan/pengurangan batas database atau kesimpulan pekerjaan gagal.
+Tidak ada timer, RPC, antrean atau UUID baru. Lock teramati tidak dianggap
+kemajuan tersimpan; laporan selesai dan akses dicabut tidak memunculkan peringatan.
+Pemberitahuan pulih ketika pembacaan server menunjukkan aktivitas yang lebih baru.
+
+Empat kegagalan lokal sebelum perbaikan dipertahankan. Sesudahnya195tes/17berkas,
+TypeScript dan build79modul lulus;91berkas B masih persis. Lima pemeriksaan baru
+meliputi idle/aktif, pembaruan server, laporan selesai, serta tombol GET pada UUID
+yang sama tanpa angka parsial. Bukti ini tetap lokal, belum actualAuth/browser.

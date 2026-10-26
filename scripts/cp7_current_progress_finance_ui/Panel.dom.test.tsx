@@ -88,3 +88,14 @@ it('retires an unresolved read when the panel closes and does not poll from its 
  await act(async()=>{root.render(null);await flush();release({data:f.wire,error:null});await flush()})
  expect(container.textContent).toBe('');expect(vi.getTimerCount()).toBe(0)
 })
+it('checks an idle financial capture through GET on the same durable request',async()=>{
+ f.wire.observed_at='2026-10-07T10:06:00Z';await render()
+ expect(container.textContent).toContain('Belum ada aktivitas keuangan baru')
+ const key=frozenAnalysisRequestKey(state.session.actor,state.session.scope),before=localStorage.getItem(key)
+ f.wire.finance.last_activity_at='2026-10-07T10:05:30Z'
+ await click('Periksa kemajuan pekerjaan yang sama')
+ expect(container.textContent).not.toContain('Belum ada aktivitas keuangan baru')
+ expect(client.rpc.mock.calls).toEqual([[PROGRESS_RPC,{p_request:f.request.id}],[PROGRESS_RPC,{p_request:f.request.id}]])
+ expect(localStorage.getItem(key)).toBe(before)
+ expect(container.querySelectorAll('[data-finance-metric]')).toHaveLength(0)
+})
