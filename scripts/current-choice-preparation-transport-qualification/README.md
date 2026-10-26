@@ -63,3 +63,13 @@ Tidak ada perubahan host/UI/B atau klaim eksekusi dari persiapan ini.
 
 
 Actual8dfe1a19/run40338677390/job121627045376/artifact12663230440 is now verified PASS6:3758source pins, allpackage gates and exact full22/data/sequence/CP6/advisor restore. Previous failures remain unchanged. CONFIG now names this exact prerequisite; binding/admission and fresh execution still required.
+
+
+Actual f088/run40354149723/job121681944860 remains INCOMPLETE with zero of
+six cases executed. INSTALL_RETURNED was not a declared retained logger phase;
+installation transaction rolled back and full22/data/sequence/CP6/advisors restored.
+The successor uses the existing INSTALL_1_RETURNED, NATIVE_GROUP_STARTED/RETURNED
+and PREUSE_INVERSE_RETURNED phases. Separate group diagnostics retain the actual
+Auth/race group name. No product code, case/oracle, access, source or timeout changes.
+Three pre-database tests exercise every declared probe phase on the real logger,
+reject the exact failed predecessor, and reject unknown/dynamic phase names.

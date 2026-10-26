@@ -94,7 +94,7 @@ def run():
             try:
                 report['install_boundary_lock']=current_native.acquire_boundary(cur)
                 STATE=product.install(cur)
-                progress.mark('INSTALL_RETURNED')
+                progress.mark('INSTALL_1_RETURNED')
             except Exception:
                 # Keep the exact predecessor definitions for diagnosis of a changed anchor.
                 report['installation_failed_before_commit']=True
@@ -117,7 +117,8 @@ def run():
         with business.installed(STATE,verify) as source_binding:
             report['business_source_binding']=source_binding
             for name,ids in GROUPS.items():
-                progress.mark(name.upper()+'_STARTED')
+                progress.mark('NATIVE_GROUP_STARTED')
+                print(json.dumps(dict(diagnostic_only=True,transport_group=name,state='STARTED')),flush=True)
                 is_race=name.endswith('_races')
                 runner=modes.run_races if is_race else modes.run_http
                 group=runner(business,verify,'choice_preparation_'+name)
@@ -127,7 +128,8 @@ def run():
                 assert group.get('database_remaining')==0 and not group.get('cleanup_failures'),('CHOICE_TRANSPORT_COPY_NOT_CLEAN',name)
                 if not is_race:
                     assert (group.get('auth_counts') or {}).get('restored') and not group.get('auth_cleanup_failures'),'CHOICE_AUTH_NOT_CLEAN'
-                progress.mark(name.upper()+'_RETURNED')
+                progress.mark('NATIVE_GROUP_RETURNED')
+                print(json.dumps(dict(diagnostic_only=True,transport_group=name,state='RETURNED')),flush=True)
         report['copy_catalog_admissions']=copies.COPY_ADMISSIONS
         report['race_copy_catalog_admissions']=race_copies.COPY_ADMISSIONS
         with psycopg.connect(package.boundary.ADMIN) as conn,conn.cursor() as cur:
@@ -136,7 +138,7 @@ def run():
             report['source_database_all_rows_sequences_unchanged']=True
             report['complete_preuse_removal']=product.rollback_preuse(cur,STATE)
             conn.commit()
-        progress.mark('PRISTINE_SOURCE_INVERSE_RETURNED')
+        progress.mark('PREUSE_INVERSE_RETURNED')
     except Exception as error:
         progress.mark('WRITER_ERROR')
         report.update(error=str(error),traceback=traceback.format_exc())
