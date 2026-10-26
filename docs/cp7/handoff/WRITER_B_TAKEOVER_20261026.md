@@ -4,7 +4,35 @@ Owner asked the new writer to recover the complete context of **Writer B** and
 continue without questions. This is the active B entrypoint. Earlier checkpoints
 in `HANDOFF_PRODUKSI_CLAUDE_20261023.md` remain history, with their failures intact.
 
-## Latest evidence — coordination217, all started runs finished
+## Current continuation — coordination218, reopen fix and current A branch
+
+B client **d6fad0d2303bfe39531afdbe62f6faec95f79046** fixes stale preparation
+status after reopening. Six DOM failures reproduced the one-read defect.
+Read-only same-source polling now observes completion/failure/access loss,
+bounds missing progress/replies, and retires on Close or explicit continuation.
+42local preparation tests and97related tests pass (overlapping), plus prepared
+TypeScript. SQL/RPC/limits/SAVE/financial rules are byte-exact. No actual new
+Native/Auth/browser/factory or default qualification is claimed. Details and
+first failures: `../d17-14/ow12b/CHOICE_PREPARATION_REOPEN_20261026.json`.
+
+Active A is **astra-a/d17-14-model-target-integration-prepared-20261024** at
+**613209db2bc46079fe8c576e71801cc6806bcc23**, not archived Claudef898a71f.
+A records prepared composition73b5ada8 and combined host0f818812 importing B's
+b96 code; those do not include this newer client until A explicitly intakes it.
+Its Native6 candidate821a7e79 is still unbound because Native5546 did not pass.
+Diagnostic690 also INCOMPLETE; its partial finance time is not completed-report
+latency. Follow A's current official finance-facade contract, not the older
+optional B finance bridge. These are read A status records, not a new Original
+intake or combined acceptance by B.63 B Originals remain unchanged.
+
+Next: A must qualify its progress predecessor, composed preparation, actual
+Auth/two-session/K4/retention/after-use restore and full-factory official HPP,
+then intake the newer B observer into the combined host. Do not rerun unchanged
+legacy Native6 to test this optional UI. No B workflow started for this client
+push at observation; old36runs all ended. Scope5/16 remains open; independent
+acceptance and production_go remain false.
+
+## Previous evidence — coordination217, all started runs finished
 
 Latest B code **b96e2f7402b3373f9ab5fa7ede30d34a7048aea3** unchanged. All36 started runs on
 four source heads have finished; all63 unique Original artifacts read/retained.

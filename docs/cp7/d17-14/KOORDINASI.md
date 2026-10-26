@@ -4714,3 +4714,49 @@ then run full combined qualification. No shared interface/default/Native/finance
 change was made by B. A remainsf898a71f; old integration brancha255e48f is22Oct
 history, not approval of the new contract. Formal5/16; B scope incomplete;
 independent_acceptance=false; production_go=false.
+
+
+## 218. [bersama] B26 Oktober2026 WIB — reopen observes the same preparation; active A successor reconciled
+
+B productd6fad0d2/tree3ccec068 corrects a reproduced reopen defect in the
+optional preparation caller: mount read QUEUED/RUNNING once, then never observed
+completion, failure or current-access change. Six local DOM cases failed before
+product changes. Reopen now performs sequential get-only reads of the exact
+original source request/access; it never enqueues, steps or saves automatically.
+Terminal states stop immediately. Lost response, disappeared work after an
+observed state, and the existing120s unchanged-progress window stop with a clear
+recovery message. Real persisted attempt/progress resets that window; toggling
+a worker lock does not. Explicit same-work continuation retires the older
+observer. Closing or identity retirement ignores late responses and next reads.
+
+42preparation tests/4files PASS; related97tests/7files PASS including those42,
+not additional totals. Prepared TypeScript PASS. First6FAIL and the later mock
+type-declaration error retained. SQL preflight was not executed in the restored
+workspace because pglast is absent; exact source hashes prove work.sql,
+generatedSQL,render,PREPARATION.json and package manifests unchanged. No new SQL,
+Native/Auth/browser/factory/composed-restore credit. No backend/RPC/payload,
+SAVE source/feasibility/authorization guards, budgets, math or dependencies
+changed. New client pins are prepared only; the original Native6 route and its
+old failures remain unchanged. The current push started0 CI jobs at observation.
+See ow12b/CHOICE_PREPARATION_REOPEN_20261026.json for hashes and boundaries.
+
+Correction of the A baseline used in prior B notes: f898a71f is the archived
+Claude lane, not the active successor. Read-only current A branch is
+astra-a/d17-14-model-target-integration-prepared-20261024 at613209db. Its own
+coordination/handoff records prepared composition73b5ada8 importingb96e2f74,
+Native6 candidate821a7e79 awaiting actual Native5, and combined optional host
+0f818812 using90 byte-exact B files. This is A's recorded preparation, not a
+new independent intake of A Originals by B. The latest A interruption note
+reports Native5546 and diagnostic690 INCOMPLETE; Native6 stays UNBOUND. These
+failures are not waived or converted into acceptance. A must explicitly intake
+this newer B client into its copied host and refresh its source declarations.
+A's already-qualified finance facade remains authoritative; do not install the
+older optional B finance bridge over it or send STAGED to its operational RPC.
+
+Remaining concrete boundary: A corrects/qualifies its Native5 predecessor,
+then binds and qualifies composed preparation Native6, current Auth, two-user,
+K4/retention, after-use restore, factory timing/official24-metric HPP parity and
+the combined browser. B does not edit A's composer/registries/qualification or
+advance integration/default/production. Existing63Original B ledger unchanged;
+all36 previously started B jobs already ended. Formal5/16; full B scope remains
+open; independent_acceptance=false; production_go=false.

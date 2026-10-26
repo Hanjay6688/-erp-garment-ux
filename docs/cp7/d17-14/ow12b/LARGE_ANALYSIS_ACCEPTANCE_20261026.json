@@ -1,7 +1,7 @@
 {
   "contract": "cp7.large-analysis.owner-policy-acceptance.v1",
   "policy": "LARGE_ANALYSIS_PROGRESS_20261026",
-  "last_prepared_code": "b96e2f7402b3373f9ab5fa7ede30d34a7048aea3",
+  "last_prepared_code": "d6fad0d2303bfe39531afdbe62f6faec95f79046",
   "last_qualified_UI_source": "b96e2f7402b3373f9ab5fa7ede30d34a7048aea3",
   "overall": "OPEN",
   "new_policy_not_retroactive": true,
@@ -19,8 +19,11 @@
     {
       "id": "REOPEN_SAME_WORK",
       "status": "PARTIAL",
-      "proved": "Actual Auth retained original query/method/UUID after loss/reload; optional preparation keyed to original job/source. Local prepared gate reloads same state.",
-      "remaining": "A K4 hook must run optional preparation while page is closed; existing scheduler is reused, not replaced. No current claim that this new extension advances after closure."
+      "proved": "Actual Auth retained original query/method/UUID after loss/reload; optional preparation keyed to original job/source. Local prepared gate reloads same state. Local reopen regression now observes same queued/running work through GET only until terminal state; original6FAIL retained,42preparation/97related tests PASS (overlapping).",
+      "remaining": "A has prepared the K4/composed host at its own exact sources; actual composed runner and browser qualification, plus intake of B d6fad0d2, remain open. No proof here that new preparation advances with the page closed.",
+      "evidence": [
+        "CHOICE_PREPARATION_REOPEN_20261026.json"
+      ]
     },
     {
       "id": "NO_DUPLICATION",
@@ -38,7 +41,7 @@
     {
       "id": "FAILURE_STALL_RECOVERY",
       "status": "PARTIAL",
-      "proved": "Per-reply/queue waits bounded; unchanged-unit monitoring stops honestly without claiming server cancellation. Local preparation has bounded three attempts and terminal unknown-error failure. Retired caller sends no request/next unit. Optional runner also bounds injected SQL57014 before the step and restores all three caller claim settings; 18 local groups pass. No real wall-clock timeout/backend-loss credit.",
+      "proved": "Per-reply/queue waits bounded; unchanged-unit monitoring stops honestly without claiming server cancellation. Local preparation has bounded three attempts and terminal unknown-error failure. Retired caller sends no request/next unit. Optional runner also bounds injected SQL57014 before the step and restores all three caller claim settings; 18 local groups pass. No real wall-clock timeout/backend-loss credit. Reopened observer now stops on missing reply/progress, access loss or disappearance; late polls cannot override explicit same-work continuation. Local only.",
       "remaining": "New preparation Native cancellation/session-loss/runner recovery and combined UI verification require separate registered route."
     },
     {
@@ -82,11 +85,15 @@
       214,
       215,
       216,
-      217
+      217,
+      218
     ],
-    "last_read_head": "f898a71fc13654d217f987949f126290083a0225",
+    "last_read_head": "613209db2bc46079fe8c576e71801cc6806bcc23",
     "shared_F05_or_registry_edited": false,
-    "default_install_or_supabase_edited": false
+    "default_install_or_supabase_edited": false,
+    "previous_read_head": "f898a71fc13654d217f987949f126290083a0225",
+    "active_branch": "astra-a/d17-14-model-target-integration-prepared-20261024",
+    "composition_status": "PREPARED_BY_A_NOT_QUALIFIED; Native6 UNBOUND pending Native5 actual PASS; new B observer intake open"
   },
   "production_go": false,
   "independent_acceptance": false,
@@ -144,5 +151,6 @@
       "old_failures_retained": true,
       "optional_preparation_not_installed": true
     }
-  ]
+  ],
+  "new_client_runtime_qualified": false
 }
