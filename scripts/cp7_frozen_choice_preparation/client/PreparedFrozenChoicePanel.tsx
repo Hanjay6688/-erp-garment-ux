@@ -53,7 +53,7 @@ function Workspace({client,context,enabled,onAccessLost,children}:GateProps){
     <p>Acuan data: {formatCp6WibDateTime(context.reference.capturedAt)}.</p>
    </>:busy?<p role="status">Memeriksa persiapan tersimpan…</p>:null}
    {error?<p role="alert">{error}</p>:null}
-   {failed?<p>{state?.failure==='CP7_CHOICE_PREPARATION_TIME_LIMIT'?'Persiapan berhenti setelah tiga langkah melampaui batas. Acuan lama tetap tersimpan; periksa penyebab sebelum mencoba analisis baru.':'Periksa data dan konfigurasi analisis sebelum membuat perhitungan baru.'}</p>:null}
+   {failed?<p>{state?.failure==='CP7_CHOICE_PREPARATION_TIME_LIMIT'?'Persiapan berhenti setelah tiga percobaan pada langkah yang sama melampaui batas. Acuan lama tetap tersimpan; periksa penyebab sebelum mencoba analisis baru.':'Periksa data dan konfigurasi analisis sebelum membuat perhitungan baru.'}</p>:null}
    {!ready&&!failed?<button disabled={busy} onClick={()=>void prepare()}>{state?'Lanjutkan persiapan yang sama':'Siapkan pemeriksaan pilihan'}</button>:null}
    {running?<p>Anda boleh meninggalkan halaman. Buka analisis yang sama untuk membaca status dan melanjutkan. Kelanjutan otomatis di server belum dikonfirmasi.</p>:null}
   </section>:null}

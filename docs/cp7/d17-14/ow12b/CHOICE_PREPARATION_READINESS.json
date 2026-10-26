@@ -7,10 +7,10 @@
     "scripts/cp7_frozen_choice_preparation/__init__.py": "4226d3019755057f2131d239e33f7e5a81b36608e2ad6779ddc6faae87ee5a12",
     "scripts/cp7_frozen_choice_preparation/client/PreparedFrozenAnalogPanel.dom.test.tsx": "c067116f414109bca034fb181a6363dcf056d7c7a173c228c8e199c0d346633b",
     "scripts/cp7_frozen_choice_preparation/client/PreparedFrozenAnalogPanel.tsx": "c06bd4aa0dc134336cbf21def29a8933e3bb54b83beaac30e8146cdd9da84f0e",
-    "scripts/cp7_frozen_choice_preparation/client/PreparedFrozenChoicePanel.dom.test.tsx": "9d0dbea90612ff6defac25c4e28c93ae52d997d445a7a6d1502d933d89882f0d",
-    "scripts/cp7_frozen_choice_preparation/client/PreparedFrozenChoicePanel.tsx": "0dab10f91ca9d3ecaebe2d0d0a6ed376799b837f661585b465a796e35ddf4efa",
-    "scripts/cp7_frozen_choice_preparation/client/nativeFrozenChoicePreparation.test.ts": "138637be6ad738af53416727d0ca3b9842e41cf4fc4b58b96b48d8391fe5640b",
-    "scripts/cp7_frozen_choice_preparation/client/nativeFrozenChoicePreparation.ts": "e6088a52a1df5b3bd5d02cf5978ca3fcfabfa38aa2c3f9469a6844511e5dc98f",
+    "scripts/cp7_frozen_choice_preparation/client/PreparedFrozenChoicePanel.dom.test.tsx": "209226ef172608cace1e482e2f92c4f7082a0fd4aeccbbf35c5090d46bb4ad04",
+    "scripts/cp7_frozen_choice_preparation/client/PreparedFrozenChoicePanel.tsx": "bc4700de422f411820b0557848e9286264fad46157583745576247beb39dc6a2",
+    "scripts/cp7_frozen_choice_preparation/client/nativeFrozenChoicePreparation.test.ts": "4b7279329fa416113b92f6c07a452a8f0179245e4722348157eaa084cdc21cb2",
+    "scripts/cp7_frozen_choice_preparation/client/nativeFrozenChoicePreparation.ts": "6d25b9c5e8b869e0ccf89fa0576dd3b019e3ed7a6250d58bf2b6cbf54502c9e5",
     "scripts/cp7_frozen_choice_preparation/client/preparationFixture.ts": "18330f17b31fedb321c05ba62a045ac74ec9c3e84d708501cb56632af00febdc",
     "scripts/cp7_frozen_choice_preparation/client/tsconfig.json": "29784cccc26d8d879ab2073589eb7299082f0722fe741a3d1d88d084a56e3984",
     "scripts/cp7_frozen_choice_preparation/preparation.prepared.sql": "aa9d27260fbfd1fa3dfc90718df77f4e21ec05d0399713d73dfcf114690ba9c8",
@@ -101,7 +101,9 @@
   "client_tests": {
     "files": 6,
     "PASS": 81,
-    "typescript_no_emit": "PASS"
+    "typescript_no_emit": "PASS",
+    "source_head": "fa402436d74ab03f91c5aa4c3c7d95d90bc3c70d",
+    "historical_followup_below": true
   },
   "first_failures_retained": {
     "local_missing_parent_schema": "choice-preparation-first.log",
@@ -127,5 +129,16 @@
     "Factory1200x3 complete parity and per-phase timing with old failures retained",
     "actual Auth caller and full composed restore",
     "official A finance/HPP parity and combined qualification"
-  ]
+  ],
+  "client_retirement_followup": {
+    "PASS": 31,
+    "files": 3,
+    "typescript_no_emit": "PASS",
+    "retired_before_request_no_network": true,
+    "retired_during_status_no_next_step": true,
+    "timeout_text_identifies_same_unit_three_attempts": true,
+    "SQL_unchanged": true,
+    "actual_Auth_HTTP_credit": false,
+    "log_sha256": "6935d38f4fe90778f021a3709c90258cc135549c219144510a76914d7529ec15"
+  }
 }

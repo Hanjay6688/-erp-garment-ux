@@ -35,7 +35,7 @@ it('reopening displays same queued work and offers resumption without creating n
 })
 it('failed unit shows recovery explanation and cannot masquerade as saved or complete analysis',async()=>{
  rpc.mockImplementation(async(name:string)=>({data:name==='erp_cp7_get_product_analog_choices_v1'?f.raw:{...prepReply('FAILED'),failure_code:'CP7_CHOICE_PREPARATION_TIME_LIMIT',unit_attempts:3},error:null}))
- await mount();expect(container.textContent).toContain('Persiapan gagal. Pilihan belum disimpan.');expect(container.textContent).toContain('tiga langkah melampaui batas')
+ await mount();expect(container.textContent).toContain('Persiapan gagal. Pilihan belum disimpan.');expect(container.textContent).toContain('tiga percobaan pada langkah yang sama melampaui batas')
  expect(button('Simpan pilihan pembanding').disabled).toBe(true);expect(container.querySelectorAll('select option')).toHaveLength(1)
 })
 it('reader without management never starts preparation or receives write controls',async()=>{

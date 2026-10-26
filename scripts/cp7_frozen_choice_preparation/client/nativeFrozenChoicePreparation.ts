@@ -32,9 +32,11 @@ export async function choicePreparationRPC(client:unknown,verb:'request'|'get'|'
 }
 export async function driveChoicePreparation(client:unknown,c:AnalogReadContext,options:{current:()=>boolean;status:(s:ChoicePreparation)=>void;now?:()=>number;pause?:()=>Promise<void>}){
  const now=options.now??(()=>performance.now()),pause=options.pause??(()=>new Promise(resolve=>setTimeout(resolve,2000)))
+ if(!options.current())return null
  const started=now();let s=await choicePreparationRPC(client,'request',c)
  while(options.current()){
   options.status(s)
+  if(!options.current())return null
   if(['READY','FAILED','EXPIRED'].includes(s.state))return s
   if(now()-started>=FROZEN_NO_PROGRESS_MS)throw Error(FROZEN_STALL_MESSAGE)
   // This is one bounded preparation unit, not a total factory-analysis limit.

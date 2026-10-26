@@ -3,6 +3,16 @@ import {analogContext} from '../../../tests/fixtures/nativeProductAnalog'
 import {parseChoicePreparation,choicePreparationRPC,driveChoicePreparation} from './nativeFrozenChoicePreparation'
 const context=()=>({...analogContext(),sourceMethod:'FROZEN_V2' as const})
 import {prepReply} from './preparationFixture'
+it('does not enqueue work after the caller was retired',async()=>{
+ const rpc=vi.fn(),status=vi.fn()
+ expect(await driveChoicePreparation({rpc},context(),{current:()=>false,status})).toBeNull()
+ expect(rpc).not.toHaveBeenCalled();expect(status).not.toHaveBeenCalled()
+})
+it('does not start the next unit if displaying status retires the caller',async()=>{
+ let current=true;const rpc=vi.fn().mockResolvedValue({data:prepReply(),error:null})
+ expect(await driveChoicePreparation({rpc},context(),{current:()=>current,status:()=>{current=false}})).toBeNull()
+ expect(rpc).toHaveBeenCalledOnce();expect(rpc.mock.calls[0][0]).toBe('erp_cp7_request_frozen_choice_preparation_v1')
+})
 it('uses original source request and current access for request/get/step',async()=>{
  const rpc=vi.fn().mockResolvedValue({data:prepReply(),error:null}),c=context()
  for(const verb of['request','get','step']as const)await choicePreparationRPC({rpc},verb,c)
