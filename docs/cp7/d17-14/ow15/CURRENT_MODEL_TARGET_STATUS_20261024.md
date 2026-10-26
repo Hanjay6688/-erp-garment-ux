@@ -1,3 +1,19 @@
+## Pembaruan 26 Oktober 2026 — persiapan layar dan login mengikuti penerus Native6
+
+UI fd0ffe66 dan transport 8b3c49b3 menyimpan kesepuluh perubahan alat uji
+Native9a persis serta penelaahan INFO privat yang sama. Tidak ada perubahan
+produk, tampilan, kontrak, atau pemeriksa bisnis. SOURCE milik kedua suite
+belum ada dan CONFIG.choice_head tetap null: menunggu actual Native9a PASS6.
+
+UI: 5 uji pembanding, 5 kontrol penolakan, impor 2 kasus dan 47 langkah shell
+lulus. Transport: 10 modul Python/46 langkah shell lulus; sumber produk lengkap
+sama dengan Native6; admission tanpa OriginalPASS menolak sebelum database.
+Ini pemeriksaan persiapan, bukan hasil browser/login/benturan atau keuangan baru.
+Native9a/run40308822607 dan reader7caf/run40300049475 masih berjalan.
+Formal5/16; independent_acceptance=false; production_go=false; CP7C belum dimulai.
+
+---
+
 ## Pembaruan 26 Oktober 2026 — kegagalan Native6 tersimpan, penerus sedang diuji
 
 Native6 pertama a3ce9317 selesai INCOMPLETE: 2 PASS dan 4 INCOMPLETE pada

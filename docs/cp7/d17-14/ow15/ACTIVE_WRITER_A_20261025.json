@@ -1,5 +1,5 @@
 {
-  "recorded_at_utc": "2026-10-26T10:38:49.966444+00:00",
+  "recorded_at_utc": "2026-10-26T10:45:36.931021+00:00",
   "role": "A finance writer/integrator replacing Claude; B remains separate production/planning writer",
   "slogan": [
     "VENI. VIDI. VICI. ERP. \u2014 I CONQUERED ERP.",
@@ -4379,11 +4379,11 @@
     "actual_predecessor_required": "54676bcc969b950dd1ec52eb7feba2d7e58a8cb4 PASS"
   },
   "progress_finance_UI_browser_prepared": {
-    "head": "8cb0692794ce7ad70495fe2a6839fa23712c84b8",
-    "local": "69f25e51624b62ae0f27eba3a6a490801da57c0b",
-    "tree": "62da7b2b8502ec5ef16c743fe178036fcfd4dd15",
+    "head": "fd0ffe661e4bbc22a7b541f7422be91b3eec1fbd",
+    "local": "05257053af42926a200a2dad48cb2bb75812405f",
+    "tree": "f459f5042abf9133dfc012c1c846dd2dfbecf54d",
     "branch": "astra-a/d17-18-progress-finance-ui-browser-prepared-20261026",
-    "status": "PREPARED_UNBOUND_NO_DATABASE",
+    "status": "PREPARED_UNBOUND_NOT_EXECUTED",
     "host_exact_files": 113,
     "B_exact_files": 91,
     "fixture_exact_prior_UI_head": "389326f6d251499559f353638adc4fa1d5c76ffa",
@@ -4404,7 +4404,9 @@
     "host_tests": 190,
     "host_test_files": 17,
     "host_typecheck": "PASS",
-    "blocked_by": "Actual corrected Native6 PASS6 unavailable; a3ce first runtime INCOMPLETE"
+    "blocked_by": "Actual corrected Native6 PASS6 unavailable; a3ce first runtime INCOMPLETE",
+    "imported_Native6_harness_head": "9a943ea4cc4d24a92a2af1c3e678bd3d0bddfc14",
+    "current_private_info_live_review": true
   },
   "previous_running_before_corrected_profile_intake": [
     {
@@ -4620,8 +4622,8 @@
   },
   "choice_preparation_transport6": {
     "recorded_at_utc": "2026-10-26T10:04:30.854167+00:00",
-    "head": "c07672ab2a45f33e21662074e764e5213c147cb5",
-    "tree": "065fcba05de3cdb35662ca1ecfca97e5ef773888",
+    "head": "8b3c49b31b96ea9be3a628d2dad6f5f3028d7c93",
+    "tree": "ccb89f2a91d04365b21bcd12805411daa1e96bd2",
     "local_commit": "785f1ff7204c9addd936aad41ed4f688114e1e8c",
     "branch": "astra-a/d17-18-choice-transport-prepared-20261026",
     "status": "PREPARED_UNBOUND_NOT_EXECUTED",
@@ -4664,7 +4666,11 @@
     },
     "next": "Bind only to actual full choice Native6 PASS Original, admit all sources, then run scoped real Auth3/race3",
     "blocked_by": "Actual corrected Native6 PASS6 unavailable; a3ce first runtime INCOMPLETE",
-    "actual_predecessor_required": "9a943ea4cc4d24a92a2af1c3e678bd3d0bddfc14 actual PASS6"
+    "actual_predecessor_required": "9a943ea4cc4d24a92a2af1c3e678bd3d0bddfc14 actual PASS6",
+    "local": "0ef43259a07021f7ab8bfb669208af1f4e342d2e",
+    "imported_Native6_harness_head": "9a943ea4cc4d24a92a2af1c3e678bd3d0bddfc14",
+    "current_private_info_live_review": true,
+    "source_bound": false
   },
   "previous_running_before_choice_native6_first_failure": [
     {
@@ -5074,5 +5080,91 @@
       "first_failure_preserved": true,
       "error_summary": "Actual runtime INCOMPLETE; exact private Original retained without PASS credit"
     }
-  ]
+  ],
+  "progress_finance_UI_browser_prepared_before_native9a": {
+    "head": "8cb0692794ce7ad70495fe2a6839fa23712c84b8",
+    "local": "69f25e51624b62ae0f27eba3a6a490801da57c0b",
+    "tree": "62da7b2b8502ec5ef16c743fe178036fcfd4dd15",
+    "branch": "astra-a/d17-18-progress-finance-ui-browser-prepared-20261026",
+    "status": "PREPARED_UNBOUND_NO_DATABASE",
+    "host_exact_files": 113,
+    "B_exact_files": 91,
+    "fixture_exact_prior_UI_head": "389326f6d251499559f353638adc4fa1d5c76ffa",
+    "compiled_source_modules": 79,
+    "case_module_imports": 2,
+    "oracle_unit_tests": 5,
+    "new_guard_negative_controls": 5,
+    "total_business_guards": 27,
+    "shell_steps_checked": 47,
+    "source_bound": false,
+    "actual_predecessor_required": "9a943ea4cc4d24a92a2af1c3e678bd3d0bddfc14 actual PASS6",
+    "actual_browser": false,
+    "actual_database": false,
+    "production_go": false,
+    "independent_acceptance": false,
+    "host_head": "6213baf1d9226317f279e88f449889e1597c1486",
+    "B_source_head": "d6fad0d2303bfe39531afdbe62f6faec95f79046",
+    "host_tests": 190,
+    "host_test_files": 17,
+    "host_typecheck": "PASS",
+    "blocked_by": "Actual corrected Native6 PASS6 unavailable; a3ce first runtime INCOMPLETE"
+  },
+  "choice_preparation_transport6_before_native9a": {
+    "recorded_at_utc": "2026-10-26T10:04:30.854167+00:00",
+    "head": "c07672ab2a45f33e21662074e764e5213c147cb5",
+    "tree": "065fcba05de3cdb35662ca1ecfca97e5ef773888",
+    "local_commit": "785f1ff7204c9addd936aad41ed4f688114e1e8c",
+    "branch": "astra-a/d17-18-choice-transport-prepared-20261026",
+    "status": "PREPARED_UNBOUND_NOT_EXECUTED",
+    "preflight": {
+      "status": "SOURCE_PREFLIGHT_PASS",
+      "case_ids": [
+        "CURRENT_CHOICE_AUTH_COLD_REOPEN_PREPARE_SAVE_REPLAY",
+        "CURRENT_CHOICE_AUTH_CHANGED_SOURCE_REFUSES_SAVE",
+        "CURRENT_CHOICE_AUTH_FOREIGN_EPOCH_ANON_REVOKED",
+        "CURRENT_CHOICE_RACE_ENQUEUE_SAME_WORK",
+        "CURRENT_CHOICE_RACE_STEP_SAME_PAYLOAD",
+        "CURRENT_CHOICE_RACE_REVOKED_AFTER_WORK"
+      ],
+      "Python_AST_files": 10,
+      "shell_steps_parsed": 46,
+      "actual_Auth_HTTP_credit": false,
+      "actual_race_credit": false,
+      "bound": false,
+      "production_go": false
+    },
+    "complete_product_source_equal_Native6": true,
+    "unbound_admission_refused_before_database": true,
+    "actual_Auth_HTTP_credit": false,
+    "actual_race_credit": false,
+    "production_go": false,
+    "independent_acceptance": false,
+    "files": {
+      "scripts/current-choice-preparation-transport-qualification/cases.py": "76203e8f01179e91dd9d0e4d5a39873f4ba653d74ad764bc36e396ca18ae321e",
+      "scripts/current-choice-preparation-transport-qualification/admission.py": "1aa8f229e28b5d98b8923e08448904e789ebef551b025817fb2aada4abf6415b",
+      "scripts/current-choice-preparation-transport-qualification/race_cases.py": "1bb17d39d9c1aedc6f01de87f677d8d5e09b76d7a6579a818f488d56fea1265e",
+      "scripts/current-choice-preparation-transport-qualification/http_cases.py": "f9642239fdead839d930e25d37d7a81e3ebbf494bc5dd2f332199d1caefa60a2",
+      "scripts/current-choice-preparation-transport-qualification/evidence.py": "8cace2ba4dfe2ee8d84299affa38e3ce19e1fa14ed22ee6c61bf4c934f6e444a",
+      "scripts/current-choice-preparation-transport-qualification/CONFIG.json": "d8a1be39360f24905dac1828bb85010ded6faa85abf47a677f3ef8ffba57be09",
+      "scripts/current-choice-preparation-transport-qualification/README.md": "008469ffc8097a98c6e37497d06cc68a68e4f140390a94869a1c15c24daee022",
+      "scripts/current-choice-preparation-transport-qualification/probe.py": "a31b7b9a42e8b283459ee70e398488371cc3b720fdb3d637658ac45451d4a215",
+      "scripts/current-choice-preparation-transport-qualification/common.py": "486d42cd74c9f2b1f1aff9a258971afaec76df1d252ce38eba7e52d6e2ec480c",
+      "scripts/current-choice-preparation-transport-qualification/preflight.py": "52cf0c3c7583f927afcd27bce4fbdaf3ecb9804cc42812e6f910f1f89b6bf504",
+      "scripts/current-choice-preparation-transport-qualification/bind_source.py": "e90f0ab969390c6aa0ccf0fd39012119153b8ac7da4ceec07c18034b4edfc436",
+      "scripts/current-choice-preparation-transport-qualification/fetch_original.py": "cffaa000a1908cb44034cfdba358b88320c3c2521eee67d3a4271fc9c30bdf49"
+    },
+    "next": "Bind only to actual full choice Native6 PASS Original, admit all sources, then run scoped real Auth3/race3",
+    "blocked_by": "Actual corrected Native6 PASS6 unavailable; a3ce first runtime INCOMPLETE",
+    "actual_predecessor_required": "9a943ea4cc4d24a92a2af1c3e678bd3d0bddfc14 actual PASS6"
+  },
+  "latest_prepared_admission": {
+    "UI_oracle_tests": 5,
+    "UI_guard_negative_controls": 5,
+    "UI_shell_steps": 47,
+    "transport_Python_AST": 10,
+    "transport_shell_steps": 46,
+    "transport_product_source_equal_Native6": true,
+    "unbound_refused_before_database": true,
+    "actual_runtime": false
+  }
 }

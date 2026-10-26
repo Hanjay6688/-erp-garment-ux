@@ -1,0 +1,32 @@
+{
+  "ui": {
+    "head": "fd0ffe661e4bbc22a7b541f7422be91b3eec1fbd",
+    "parent": "8cb0692794ce7ad70495fe2a6839fa23712c84b8",
+    "tree": "f459f5042abf9133dfc012c1c846dd2dfbecf54d",
+    "local": "05257053af42926a200a2dad48cb2bb75812405f",
+    "branch": "astra-a/d17-18-progress-finance-ui-browser-prepared-20261026",
+    "status": "PREPARED_UNBOUND_NOT_EXECUTED",
+    "native_successor": "9a943ea4cc4d24a92a2af1c3e678bd3d0bddfc14",
+    "production_go": false
+  },
+  "transport": {
+    "head": "8b3c49b31b96ea9be3a628d2dad6f5f3028d7c93",
+    "parent": "c07672ab2a45f33e21662074e764e5213c147cb5",
+    "tree": "ccb89f2a91d04365b21bcd12805411daa1e96bd2",
+    "local": "0ef43259a07021f7ab8bfb669208af1f4e342d2e",
+    "branch": "astra-a/d17-18-choice-transport-prepared-20261026",
+    "status": "PREPARED_UNBOUND_NOT_EXECUTED",
+    "native_successor": "9a943ea4cc4d24a92a2af1c3e678bd3d0bddfc14",
+    "production_go": false
+  },
+  "checks": {
+    "UI_oracle_tests": 5,
+    "UI_guard_negative_controls": 5,
+    "UI_shell_steps": 47,
+    "transport_Python_AST": 10,
+    "transport_shell_steps": 46,
+    "transport_product_source_equal_Native6": true,
+    "unbound_refused_before_database": true,
+    "actual_runtime": false
+  }
+}
