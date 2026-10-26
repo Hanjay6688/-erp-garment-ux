@@ -1,0 +1,31 @@
+{
+  "name": "CP7_CURRENT_FROZEN_PUBLIC_CRON1.json",
+  "status": "PASS",
+  "head": "71e15908972cd10b0b889988faa8d7d7d1ad3e40",
+  "run_id": 40251591911,
+  "job_id": 121344490835,
+  "artifact_id": 12622738467,
+  "zip_bytes": 2824168,
+  "zip_sha256": "e641b0f000df45484e9837c47337feb3e0f72230a525d217048fcf8134e17952",
+  "bytes": 4481858,
+  "sha256": "cc92727219a3ee7753db9b4edfaa931f24cbd86b4232139e89e2d9e9890991bb",
+  "archive_member": "CP7_CURRENT_FROZEN_PUBLIC_CRON1.json",
+  "source_pins_verified": 3690,
+  "actual_prerequisites_verified": 2,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "production_go": false,
+  "independent_acceptance": false,
+  "actual_minute_cron": true,
+  "manual_steps": 0,
+  "changed_schedule": false,
+  "full_public_composition": true,
+  "default_adopted": false
+}

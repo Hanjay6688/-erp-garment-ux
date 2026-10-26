@@ -1,0 +1,57 @@
+{
+  "name": "CP7_CURRENT_FROZEN_PRIVATE_FACTORY_FINANCE1.json",
+  "status": "INCOMPLETE",
+  "head": "05d890676f7865896843f94095e65946354a505f",
+  "run_id": 40251928378,
+  "job_id": 121345520777,
+  "artifact_id": 12622604952,
+  "zip_bytes": 22939397,
+  "zip_sha256": "06e36b564f99c91859798a67a3490cf382cea93e95c964dfe3244fd049d52fd9",
+  "bytes": 154433619,
+  "sha256": "61d91fea217a83a12e84fba58a8d45d1a80ab3ee5f047ca258c341b8e8c999d1",
+  "archive_member": "CP7_CURRENT_FROZEN_PRIVATE_FACTORY_FINANCE1.json",
+  "source_pins_verified": 3682,
+  "actual_prerequisites_verified": 10,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "production_go": false,
+  "independent_acceptance": false,
+  "first_failure_preserved": true,
+  "error_summary": "Actual runtime INCOMPLETE; exact private Original retained without PASS credit",
+  "terminal_diagnostics_verified": true,
+  "observed_jobs": [
+    {
+      "state": "FAILED",
+      "units_done": 0,
+      "unit_count": 1,
+      "unit_attempts": 3,
+      "failure_unit": 0,
+      "failure_sqlstate": "57014",
+      "failure_code": "CP7_ANALYSIS_STAGE_STOPPED"
+    },
+    {
+      "state": "FAILED",
+      "units_done": 0,
+      "unit_count": 1,
+      "unit_attempts": 3,
+      "failure_unit": 0,
+      "failure_sqlstate": "57014",
+      "failure_code": "CP7_ANALYSIS_STAGE_STOPPED"
+    }
+  ],
+  "observed_finance": {
+    "state": "FAILED",
+    "units_done": 0,
+    "units_total": null,
+    "unit_attempts": 3,
+    "failure_unit": 0,
+    "failure_code": "CP7_FINANCE_REPORT_TIME_LIMIT"
+  }
+}

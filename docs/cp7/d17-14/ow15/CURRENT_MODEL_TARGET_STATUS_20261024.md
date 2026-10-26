@@ -305,3 +305,33 @@ Seluruh batas angka/akses/idempotensi/WIP/pemulihan utuh. A b048d3fd menyiapkan
 proyeksi progres gabungan15tes dan telemetry readonly9ujiSQL terisolasiPASS.
 Belum sourcegabungan/defaultadoption atau bukti factory. Formal5/16 dan
 production_go=false; pekerjaan diteruskan.
+
+
+## Pembaruan26Oktober — cron lulus, penyebab terminal pabrik terbukti
+
+Kelima lanjutan publik pada71e15908 kini memiliki Original terverifikasi:
+finance Auth3/race7, browser6, transport28, restore8, dan cron1. Cron aktual
+run40251591911/art12622738467 memakai jadwal menit asli, tanpa langkah manual;
+lima gerbang paket serta CP6/advisor lulus. Ini belum membuktikan UI keuangan
+baru; UI2 aec3fead/run40257369843 masih berjalan.
+
+Observer pabrik05d89067/run40251928378/art12622604952 tetap INCOMPLETE. Seluruh
+3682 pin dan10 prasyarat, dua baris job lengkap serta satu capture diverifikasi.
+Kedua job gagal unit0 setelah3 percobaan, SQL57014 statement timeout; capture
+keuangan gagal unit0 dengan CP7_FINANCE_REPORT_TIME_LIMIT. Pemulihan penuh dan
+advisor lulus. Kode penyebab kini diketahui; fungsi mahal di dalam tahap pertama
+masih perlu diukur, bukan dianggap selesai karena D17-18.
+
+Diagnosis baru a73af7d7 terikat3689 pin, memakai produk/fixture lama persis.
+Hanya unit pertama produksi, laporan resmi, dan status kecil diukur. Batas30s
+khusus dua panggilan diagnosis terisolasi, lock2s; produk/query/scheduler tetap.
+Setiap panggilan dibatalkan efeknya, tanpa menyelesaikan job atau menerbitkan
+hasil. Pengukuran dengan pencatat fungsi bukan kredit performa/kelulusan.
+
+Persiapan telemetry51d14424:28tes danTypeScript lulus, parser waktu server
+memisahkan durasi terminal dari jam pengamatan dan menolak metadata finance
+bila akses dicabut. Komposer satu RPC membaca status disiapkan; fullERP/inverse,
+Auth/browser, pemulihan macet serta factory parity belum lulus. B12d9411d
+dibaca saja: progres9cddf475 dan persiapan pilihanfa402436 menunggu komposisi
+A serta intake bukti aktual baru. Formal5/16, independent_acceptance=false,
+production_go=false; pekerjaan tetap berlanjut.
