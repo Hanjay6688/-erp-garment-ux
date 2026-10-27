@@ -1,0 +1,18 @@
+{
+  "head": "2b7c615abf2f8c5dcdc656043a0290224fcaed33",
+  "parent": "e5ecc9629eca3f7e5fc51dadad97b8b0bf1c7e51",
+  "tree": "7d062f41fc5de6ba9ea969fcc25dd1ed8a68fc01",
+  "branch": "astra-a/d17-18-readonly-finance-composition-prepared-20261027",
+  "source_merge": "f05447d5b3ba892cd498035cafb545856b766abe",
+  "merged_source_pins": 4061,
+  "source_race_prerequisite": "ACCEPTED_EXACT_ORIGINAL",
+  "status": "PREPARED_COMPOSITION_NOT_RUNTIME_QUALIFIED",
+  "local_boundary_tests": 8,
+  "local_boundary_tests_status": "PASS",
+  "unchanged_finance_case_inputs": 13,
+  "native_cases_executed": 0,
+  "focused_delta_inverse_does_not_claim_full_parent_inverse": true,
+  "recorded_at_utc": "2026-10-27T12:15:52.639330+00:00",
+  "production_go": false,
+  "independent_acceptance": false
+}

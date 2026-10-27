@@ -1,3 +1,35 @@
+## A / 27 Oktober 2026 — perubahan sumber keuangan PASS aktual
+
+bd3505f6 / run40491368228 / job122145853228 selesai sukses; Original
+artifact12732802191 sudah diperiksa terhadap3759sumber, admission lengkap,
+lima gate paket dan pemulihan all22/data/sequence/CP6/advisors. Ini hasil baru
+pada eksekusi27Oktober, terpisah dari perbaikan37,578% diagnostik d05 terdahulu.
+
+Dua backend nyata: kasbon900 masuk saat report membaca snapshot lama. Report
+tetap utuh; chunk jurnal pertama kemudian menolak SOURCE_CHANGED sebelum seal
+jumlah. Capture gagal tidak berubah dan hasilnya tidak dapat dibaca. UUID baru
+selesai;24metrik dan signature buku cocok dengan perhitungan resmi yang tidak
+diubah. Pembaca kandidat tidak menulis ERP dan tidak memperoleh transaction ID.
+Kasus gabungan perubahan/pemulihan11,363detik; langkah terukur maksimum772,775ms.
+Durasi pemasangan pertama1375,885detik, inverse642,932detik dan pemasangan kedua
+1356,117detik dicatat terpisah; itu biaya kualifikasi, bukan waktu analisis pengguna.
+Lihat `d17-18-source-race-bd350-actual-bd3505f6.json` untuk bukti lengkap.
+
+Sumber finance/current sudah true-merge pada f05447d5:4061sumber terikat,
+tanpa konflik overlap. Provider kualifikasi A pada2b7c615a mengikat Original
+source-race yang diterima, mempertahankan dua definisi pembaca hasil transformasi
+yang sama dan dua helper privat.8kontrol batas lulus;13skenario keuangan asli
+disiapkan tanpa mengubah angka harapan. Komposisi baru BELUM diuji runtime dan
+BELUM diadopsi produk. Jalur uji delta hanya mengklaim inverse delta; pemeriksaan
+penuh kandidat gabungan tetap wajib.
+
+Cron gabungan d3c84c16/run40495834374 masih berjalan. Kegagalan awal893cc8da
+tetap disimpan. Analisis seluruh pabrik, kualifikasi komposisi pembaca baru,
+integrasi browser pilihan terbaru dan penerimaan akhir masih terbuka.
+Formal5/16; production_go=false; independent_acceptance=false; CP7C belum mulai.
+
+Bagian berikut adalah riwayat checkpoint.
+
 ## A / 27 Oktober 2026 — kegagalan prasyarat cron dipertahankan, perbaikan dijalankan
 
 893cc8da/run40493674318/job122153598401 gagal sebelum startup database:
