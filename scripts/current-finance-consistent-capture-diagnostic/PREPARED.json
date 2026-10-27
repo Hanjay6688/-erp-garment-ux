@@ -1,14 +1,16 @@
 {
-  "status": "PREPARED_NOT_EXECUTED",
-  "allow_database_execution": false,
+  "status": "SOURCE_BOUND_RUNTIME_BASELINE_REQUIRED",
+  "allow_database_execution": true,
   "accepted_parent": "0bccf142f5dc2310226b183643d4ad56d01b23df",
   "accepted_parent_run": 40519853334,
   "actual_parent_cron_snapshot": null,
   "first_visibility_diagnostic_head": "05b6297171f71dcb3b4ba6f774ed82d0447a1f89",
   "first_visibility_diagnostic_run": 40532595788,
-  "first_visibility_diagnostic_status": "RUNNING_NOT_PASS",
+  "first_visibility_diagnostic_status": "ACTUAL_CHILD_CASE_PASS_PACKAGE_INCOMPLETE",
   "product_adoption": false,
   "production_go": false,
   "independent_acceptance": false,
-  "retained_infrastructure_only_run": 40528647314
+  "retained_infrastructure_only_run": 40528647314,
+  "runtime_patch_requires_first_null_snapshot_mixed_book_and_complete_restore": true,
+  "first_artifact_id": 12748819568
 }

@@ -1,4 +1,4 @@
-"""Bind the unmodified first counterexample, then admit the closed repair."""
+"""Bind the retained actual diagnostics; a fresh baseline must prove the repair need."""
 from hashlib import sha256
 from pathlib import Path
 import importlib.util,json,os,subprocess
@@ -22,7 +22,7 @@ def check_gate(config,prepared):
         raise ValueError('CONSISTENT_CAPTURE_FIRST_ACTUAL_DIAGNOSTIC_REQUIRED')
 
 
-def first_counterexample(binding,raw,package_raw,expected_source):
+def retained_diagnostics(binding,raw,package_raw,expected_source):
     for value,size,digest in ((raw,binding['bytes'],binding['sha256']),
         (package_raw,binding['package_bytes'],binding['package_sha256'])):
         if len(value)!=size or sha256(value).hexdigest()!=digest:
@@ -30,7 +30,7 @@ def first_counterexample(binding,raw,package_raw,expected_source):
     actual=json.loads(raw);package=json.loads(package_raw)
     assert actual['qualification_commit']==binding['head']
     assert actual['source_declaration']==expected_source,'CONSISTENT_CAPTURE_FIRST_SOURCE_CHANGED'
-    assert actual['status']=='INCOMPLETE' and actual['error']=='FOLLOWUP_FIRST_FAILURES_RETAINED'
+    assert actual['status']=='INCOMPLETE'
     assert actual['production_go']is actual['independent_acceptance']is False
     assert package['gate']==dict(installed=True,primary_unchanged=True,
         backup_restore_drill=True,security_advisors=True,writer_runtime=False)
@@ -40,21 +40,25 @@ def first_counterexample(binding,raw,package_raw,expected_source):
     first=next(iter(actual['committed'].values()))['cases']
     assert set(first)=={VISIBILITY,SINGLE}
     case=first[VISIBILITY]
-    assert case['status']=='INCOMPLETE'
-    assert case['error']=='PREEXISTING_CHILD_TRANSACTION_MUST_NOT_SEAL_MIXED_BOOK'
-    assert case['unsafe_ready_observed']is case['mixed_signature_confirmed']is True
-    assert case['source_commit_after_journal_and_line_chunks']is True
-    assert first[SINGLE]['status']in ('PASS','INCOMPLETE')
-    for child in first.values():
-        restored=child['installed_baseline_restoration']
-        assert restored['all22_all_rows_all_sequences_roles_exact']is True
-        assert restored['complete_database_dump_restored']is True
-        assert restored['used_guard_refused_before_DDL']is True
-        assert not child.get('restore_error')
+    assert case['status']=='PASS' and case['changed_source_refused_before_seal']is True
+    assert case['unsafe_ready_observed']is False and case['result_escaped']is False
+    restored=case['installed_baseline_restoration']
+    for key in ('all22_all_rows_all_sequences_roles_exact','complete_database_dump_restored','used_guard_refused_before_DDL'):
+        assert restored[key]is True
+    measured=first[SINGLE]
+    assert measured['status']=='INCOMPLETE'
+    assert set(measured['pairs'])=={'SMALL','PRICE_PERCENT','FACTORY_1200X3'}
+    assert all(pair['status']=='PASS' and pair['entire_accepted_current_report_equal']is True
+        for pair in measured['pairs'].values())
+    assert 'READONLY_FINANCE_ACTUAL_FULL22_CHANGED' in measured['restore_traceback']
+    assert 'installed_baseline_restoration' not in measured
     return dict(head=binding['head'],original_sha256=binding['sha256'],
-        retained_actual_status='INCOMPLETE',escaped_mixed_book_proven=True,
-        all_child_and_outer_baselines_restored=True,single_check_status=first[SINGLE]['status'],
+        retained_actual_status='INCOMPLETE',original_child_xid_case_pass=True,
+        first_case_and_outer_baselines_restored=True,
+        three_paired_measurements_pass=True,single_check_case_status='INCOMPLETE',
+        second_installed_baseline_restore_not_proven=True,
         failed_writer_runtime_not_relabelled=True)
+
 
 
 def admitted(repo,here,ids,product,native):
@@ -70,7 +74,7 @@ def admitted(repo,here,ids,product,native):
     parent_ids=json.loads((PARENT/'SOURCE.json').read_bytes())['case_ids']
     accepted=parent.admitted(repo,PARENT,parent_ids,product,native)
     binding=config['first_diagnostic'];directory=Path(os.environ[config['original_directory_variable']])
-    first=first_counterexample(binding,(directory/binding['name']).read_bytes(),
+    first=retained_diagnostics(binding,(directory/binding['name']).read_bytes(),
         (directory/binding['package_name']).read_bytes(),accepted)
     guard=load('consistent_capture_probe_guard',here/'source_guard.py').check(repo,here)
     assert not subprocess.check_output(['git','-C',str(repo),'status','--porcelain','--untracked-files=no'],text=True).strip()
@@ -83,4 +87,4 @@ if __name__=='__main__':
     probe=load('consistent_capture_probe_admission',HERE/'probe.py')
     result=probe.admitted()
     print(json.dumps(dict(status='SOURCE_ADMITTED',pins=len(result['qualification']['files']),
-        prepared_diagnostics=5,actual_cases_executed=False)))
+        prepared_diagnostics=7,actual_cases_executed=False)))

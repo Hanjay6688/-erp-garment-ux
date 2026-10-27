@@ -1,4 +1,4 @@
-"""Temporary same-snapshot report/book repair; five isolated diagnostics.
+"""Temporary same-snapshot report/book repair; seven isolated diagnostics.
 
 The original parent is installed once, with a complete dump restored between
 operations and a complete preinstallation restore afterward. No adoption.
@@ -27,7 +27,7 @@ from cp7_catalog_state import exact_public_catalog
 control=chain.helper.control
 previous,native,package,core,p09=chain.previous,control.native,chain.package,chain.core,chain.p09
 IDS=(runner.CASE,)
-LABEL='CP7_D17_18_FINANCE_REPORT_BOOK_CONSISTENCY_ISOLATED5'
+LABEL='CP7_D17_18_FINANCE_REPORT_BOOK_CONSISTENCY_ISOLATED7'
 PRE_DUMP='/tmp/current_consistent_capture_pre.dump'
 database,drill,dump=current_native.database,current_native.drill,current_native.dump
 sql=current_native.sql

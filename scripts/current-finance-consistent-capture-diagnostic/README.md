@@ -1,62 +1,74 @@
-# Prepared report and book consistency diagnostic — A
+# Report and book consistency qualification — A, disposable only
 
-The accepted0bccf142 Native13 plus actual cron run passed. Its stored cron
-report_snapshot was NULL. This proves absence of that snapshot on this path;
-it does not yet prove an escaped inconsistent result. The unchanged child-XID
-counterexample is running separately at05b62971 after two preserved HTTP503 failures before DB.
-Preserve its first actual outcome.
+VENI. VIDI. VICI. ERP. Reliable data adalah dewa.
+Keuangan termasuk laporan, stok, dan HPP adalah raja.
 
-This closed proposal computes the existing canonical book signature alongside
-the official report in one STABLE query snapshot, then requires the collected
-chunks to equal that signature before READY. It uses the unchanged book_chunk
-row serialization, family ordering and current10000-row chunk policy. Counts
-come from that same scan. A new private nullable column stores the expected
-signature. The internal NOLOGIN finance reader receives schema USAGE so its
-new definer helper can call the existing book_chunk; helper EXECUTE remains
-revoked from public, anon, authenticated, service_role and cp7_capture.
-No user-supplied token, persistent result reuse, added writer lock,
-long-running transaction, cron change or B source modification is involved.
+Accepted parent0bccf142 passed13 Native finance cases and real minute cron.
+The cron capture reached READY with report_snapshot=NULL. This is an observation,
+not proof of an escaped inconsistent report.
 
-Existing row-count and snapshot checks stay. The added comparison also works
-when heartbeat or report-job writes have already assigned a transaction ID.
-The public capture metadata reports ROW_COUNTS_AND_REPORT_BOOK_SIGNATURE;
-the original result keys, book digest format and source fingerprint stay.
-Installation refuses nonempty capture/chunk tables and requires the exact live
-parent bodies, roles and chunk size before any DDL. Only localhost cp6_rollback
-is permitted. This is a temporary diagnostic, not an upgrade for existing data.
+Actual followup05b62971/run40532595788/artifact12748819568 is INCOMPLETE.
+Its original child-XID case PASSED: snapshot7596:7596: did not expose child7597,
+and the changed book was refused. Do not reinterpret this as a counterexample.
+All SMALL/PRICE_PERCENT/1200x3 paired measurements passed, with whole reports
+identical except captured_at, two official checks reduced to one, and no ERP
+writes. The3600-variant diagnostic measured7366.441ms versus3690.749ms; this is
+one instrumented run, not product performance acceptance. The final installed-
+baseline restore stopped at the parent inverse's exact-catalog guard. The outer
+preinstallation catalog/data/sequences/roles/CP6/advisors were fully restored.
+The failed writer_runtime and incomplete second restoration remain unchanged.
 
-Evidence still required: old first visibility result, independent signature
-equality on empty/small/multichunk sources, no ERP writes, same report/24metrics,
-late child commit, committed same-count edits, actual scheduler and Business
-Report paths, successful fresh-UUID recovery, Native13, permissions, full
-catalog/data/sequence/role restoration, and measured factory overhead. The extra
-book scan has a real cost; no speedup, latency budget or product acceptance is
-claimed. The single-check experiment remains independent until it is measured.
+This qualification binds those exact first Original/package bytes. Before any
+repair DDL, it runs a new baseline Native kasbon case with an assigned worker
+transaction ID. It must observe report_snapshot=NULL and an escaped READY book
+whose signature matches neither the pre- nor post-commit book. The posting
+commits after journal/line scans while book/cash counts remain constant. The
+unchanged refusal expectation records that first outcome as INCOMPLETE. Only
+a full installed-baseline restore plus this exact observed counterexample opens
+the in-process candidate gate. Any other outcome stops before repair DDL.
 
-PostgreSQL17 describes STABLE commands as sharing the calling query snapshot:
+Seven operations then use separate complete-database restores:
+
+1. Independent direct-table canonical signature, empty dated families, size1
+   grouping, and the unchanged production10000-row chunk policy.
+2. The original child-XID case, unchanged.
+3. Assigned-XID NULL-snapshot source change, failed-result refusal, immutable
+   failure, and a new UUID recovery with an independent book signature.
+4. The original13 finance plus7 capture/Business Report cases, unchanged.
+5. Actual minute cron, unchanged, also requiring the stored and collected book
+   signatures to agree. No concurrent-cron claim is made.
+6. Paired cost of the added signature scan, SMALL/PRICE_PERCENT/1200x3, original
+   8s/30s diagnostic ceilings, whole report equality and zero ERP writes.
+7. The unchanged paired single-check diagnostic, repeated to qualify its full
+   installed-baseline restoration. It is not composed with the repair yet.
+
+The temporary repair calculates the existing canonical book signature in the
+same STABLE report query and compares it with collected chunks before READY.
+Existing count/snapshot checks, row serialization, family order,10000-row chunks
+and source fingerprint remain. It adds one private nullable column, one private
+function, three private function bodies, and schema USAGE for the internal
+NOLOGIN finance reader. The helper remains inaccessible to browser/service/worker
+roles. No Native money/stock/HPP definitions, B sources, schedules, timeouts,
+writer locks or default installation change. Installation refuses nonempty
+capture/chunk tables and changed parent bodies/roles/read volatility.
+
+The original parent's inverse is unchanged. After a dump, known SQL reparse
+spellings can differ from its raw seal even while the existing portable all22
+comparison proves equality. The runner records every such raw difference before
+each case and requires exact portable equality. Candidate cases additionally
+match their exact installed candidate catalog. An unexpected catalog change
+fails the case. The real parent inverse refusal reason is retained, without
+substituting a catalog or calling its catalog rejection a used-data rejection.
+Every full restore runs even when that guard check fails. The untouched initial
+baseline case separately must prove the actual used-data guard before DDL.
+The rollback-only Native20 group is not called a committed-data fixture.
+
+Eight local evidence/gate checks and imports with connections refused cover
+preparation only. SQL/runtime qualification is still pending. No production,
+default adoption, independent audit, overall factory acceptance or speedup claim.
+
+PostgreSQL17 STABLE snapshot semantics:
 https://www.postgresql.org/docs/17/xfunc-volatility.html
-Its snapshot visibility primitive is not reliable for subtransaction IDs:
+Snapshot subtransaction limitation:
 https://www.postgresql.org/docs/17/functions-info.html#FUNCTIONS-PG-SNAPSHOT
-These explain the design; they do not replace actual ERP qualification.
-
-Prepared operations in cases.py retain the first child-XID oracle,13original
-finance cases plus7original capture/Business Report cases, and the actual minute
-cron case unchanged. The independent reference reads all four source tables
-directly; chunk size1 exercises grouping without changing production10000.
-An additional paired diagnostic measures SMALL, PRICE_PERCENT and1200x3 with
-the original8s/30s diagnostic ceilings, requires full report equality except
-captured_at, zero data writes and exactly one new book scan. It assumes no speedup.
-The outer runner is prepared with a complete installed-baseline database dump
-restored between all five operations, then the retained preinstallation restore.
-The original parent's inverse is unchanged: candidate-schema cases must refuse
-at its exact-catalog guard before DDL; the unchanged-parent overhead fixture
-must refuse at its used-data guard. The rollback-only Native20 group is never
-claimed as a committed-data test. No selected schema projection or cleanup is
-allowed. The derived outer probe is bound to the unchanged first followup probe.
-
-Admission requires the exact first diagnostic Original and full package bytes,
-including its failed writer_runtime and all successful restoration proofs.
-No actual counterexample has been admitted yet. The gate and workflow remain
-closed until those first bytes prove the specific mixed-book escape. Six local
-evidence checks and complete imports with connections refused are preparation
-only; SQL has not yet been executed. Do not run a standalone operation.
+These sources explain the design; actual ERP evidence decides whether it works.

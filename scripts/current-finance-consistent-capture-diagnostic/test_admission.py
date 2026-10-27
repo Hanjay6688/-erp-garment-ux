@@ -4,7 +4,7 @@ import json,unittest
 import admission
 
 
-class RetainedCounterexample(unittest.TestCase):
+class RetainedDiagnostics(unittest.TestCase):
     def setUp(self):
         restored=dict(all22_all_rows_all_sequences_roles_exact=True,
             complete_database_dump_restored=True,used_guard_refused_before_DDL=True)
@@ -13,12 +13,13 @@ class RetainedCounterexample(unittest.TestCase):
             production_go=False,independent_acceptance=False,
             cp6_restored=True,advisor_gate=True,baseline_full22_all_rows_all_sequences_equal=True,
             baseline_advisors_equal=True,committed={'outer':{'cases':{
-                admission.VISIBILITY:dict(status='INCOMPLETE',
-                    error='PREEXISTING_CHILD_TRANSACTION_MUST_NOT_SEAL_MIXED_BOOK',
-                    unsafe_ready_observed=True,mixed_signature_confirmed=True,
-                    source_commit_after_journal_and_line_chunks=True,
+                admission.VISIBILITY:dict(status='PASS',changed_source_refused_before_seal=True,
+                    unsafe_ready_observed=False,result_escaped=False,
                     installed_baseline_restoration=deepcopy(restored)),
-                admission.SINGLE:dict(status='PASS',installed_baseline_restoration=deepcopy(restored))}}})
+                admission.SINGLE:dict(status='INCOMPLETE',
+                    restore_traceback='READONLY_FINANCE_ACTUAL_FULL22_CHANGED',
+                    pairs={key:dict(status='PASS',entire_accepted_current_report_equal=True)
+                        for key in ('SMALL','PRICE_PERCENT','FACTORY_1200X3')})}}})
         self.package={'gate':dict(installed=True,primary_unchanged=True,
             backup_restore_drill=True,security_advisors=True,writer_runtime=False)}
 
@@ -27,7 +28,7 @@ class RetainedCounterexample(unittest.TestCase):
         binding=dict(head='exact',bytes=len(raw),sha256=sha256(raw).hexdigest(),
             package_bytes=len(other),package_sha256=sha256(other).hexdigest())
         if alter:alter(binding)
-        return admission.first_counterexample(binding,raw,other,{'exact':'source'})
+        return admission.retained_diagnostics(binding,raw,other,{'exact':'source'})
 
     def test_first_failure_is_retained_and_never_called_pass(self):
         result=self.call()
@@ -52,11 +53,11 @@ class RetainedCounterexample(unittest.TestCase):
         package=deepcopy(self.package);package['gate']['writer_runtime']=True
         with self.assertRaises(AssertionError):self.call(package=package)
 
-    def test_changed_source_or_unproven_mixed_book_refused(self):
+    def test_changed_source_or_relabelled_first_case_refused(self):
         actual=deepcopy(self.actual);actual['source_declaration']={}
         with self.assertRaisesRegex(AssertionError,'FIRST_SOURCE_CHANGED'):self.call(actual)
         actual=deepcopy(self.actual)
-        actual['committed']['outer']['cases'][admission.VISIBILITY]['mixed_signature_confirmed']=False
+        actual['committed']['outer']['cases'][admission.VISIBILITY]['status']='INCOMPLETE'
         with self.assertRaises(AssertionError):self.call(actual)
 
     def test_outer_and_each_child_restore_required(self):
@@ -64,10 +65,15 @@ class RetainedCounterexample(unittest.TestCase):
             actual=deepcopy(self.actual);actual[key]=False
             with self.subTest(key=key),self.assertRaisesRegex(AssertionError,'FIRST_RESTORATION_MISSING'):
                 self.call(actual)
-        for key in (admission.VISIBILITY,admission.SINGLE):
+        for key in (admission.VISIBILITY,):
             actual=deepcopy(self.actual)
             actual['committed']['outer']['cases'][key]['installed_baseline_restoration']['complete_database_dump_restored']=False
             with self.subTest(child=key),self.assertRaises(AssertionError):self.call(actual)
+
+    def test_partial_second_restoration_not_promoted(self):
+        actual=deepcopy(self.actual)
+        actual['committed']['outer']['cases'][admission.SINGLE]['installed_baseline_restoration']={}
+        with self.assertRaises(AssertionError):self.call(actual)
 
 
 if __name__=='__main__':unittest.main()

@@ -4,7 +4,7 @@
   "changes": [
     {
       "old": "CP7_D17_18_FINANCE_FOLLOWUPS_ISOLATED2",
-      "new": "CP7_D17_18_FINANCE_REPORT_BOOK_CONSISTENCY_ISOLATED5",
+      "new": "CP7_D17_18_FINANCE_REPORT_BOOK_CONSISTENCY_ISOLATED7",
       "count": 1
     },
     {
@@ -24,7 +24,7 @@
     },
     {
       "old": "\"\"\"Isolated source-consistency and single-check diagnostics on an accepted parent.\n\nOne verified install; complete installed-baseline restoration between diagnostics\nand the complete preinstallation restoration afterward. No product adoption.\n\"\"\"",
-      "new": "\"\"\"Temporary same-snapshot report/book repair; five isolated diagnostics.\n\nThe original parent is installed once, with a complete dump restored between\noperations and a complete preinstallation restore afterward. No adoption.\n\"\"\"",
+      "new": "\"\"\"Temporary same-snapshot report/book repair; seven isolated diagnostics.\n\nThe original parent is installed once, with a complete dump restored between\noperations and a complete preinstallation restore afterward. No adoption.\n\"\"\"",
       "count": 1
     }
   ],

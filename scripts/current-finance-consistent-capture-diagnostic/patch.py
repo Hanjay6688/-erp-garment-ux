@@ -11,6 +11,19 @@ UNIT='cp7_finance_capture.run_unit(uuid)'
 RESULT='cp7_finance_capture.result(uuid)'
 CHUNK='cp7_finance_capture.book_chunk(text,date,text,integer,pg_snapshot)'
 HELPER='cp7_finance_capture.report_book_diagnostic_v1(date,integer)'
+RUNTIME_BASELINE=None
+
+
+def require_actual_baseline(proof):
+    if (not isinstance(proof,dict) or proof.get('status')!='INCOMPLETE'
+        or proof.get('error')!='ASSIGNED_TRANSACTION_MUST_NOT_SEAL_MIXED_BOOK'
+        or proof.get('unsafe_ready_observed')is not True
+        or proof.get('mixed_signature_confirmed')is not True
+        or proof.get('observed_report_snapshot','missing')is not None
+        or proof.get('source_commit_after_early_chunks')is not True
+        or proof.get('installed_baseline_restoration',{}).get('all22_all_rows_all_sequences_roles_exact')is not True
+        or proof.get('installed_baseline_restoration',{}).get('complete_database_dump_restored')is not True):
+        raise ValueError('CONSISTENT_CAPTURE_ACTUAL_NULL_SNAPSHOT_COUNTEREXAMPLE_REQUIRED')
 
 
 def extract(source,name):
@@ -72,6 +85,7 @@ def install_for_rollback(cur,catalog):
     import json
     gate=json.loads((HERE/'PREPARED.json').read_bytes())
     if not gate['allow_database_execution']:raise ValueError('CONSISTENT_CAPTURE_NOT_ADMITTED')
+    require_actual_baseline(RUNTIME_BASELINE)
     proposal=derived()
     before=catalog._catalog_rows(cur);data=catalog._data(cur)
     live={signature:row(cur,signature) for signature in proposal['original']}

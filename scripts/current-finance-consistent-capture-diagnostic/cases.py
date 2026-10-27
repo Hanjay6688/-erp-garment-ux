@@ -25,13 +25,16 @@ from cp7_finance_capture import cases as capture
 from cp7_catalog_state import exact_public_catalog
 product=single.product
 control=chain.helper.control
+EXPECTED_CATALOG=None
 
 
 def install(conn,cur,report):
+    global EXPECTED_CATALOG
     detail=patch.install_for_rollback(cur,product.catalog)
     # Complete original catalog/data are already kept by the outer dump and
     # assertions. Keep only the small candidate metadata in the case receipt.
     report['temporary_candidate']={k:v for k,v in detail.items()if k not in ('original_catalog','original_data')}
+    EXPECTED_CATALOG=product.catalog._portable(product.catalog._catalog_rows(cur))
     conn.commit()
 
 
@@ -62,6 +65,95 @@ def child_visibility(conn,cur,database,url,report):
     install(conn,cur,report)
     visibility.exercise(conn,cur,database,url,report)
     assert report['changed_source_refused_before_seal'] is True
+
+
+def _assigned_transaction_visibility(conn,cur,database,url,report,candidate):
+    """Exercise the NULL snapshot branch after assigning the worker an XID.
+
+    This is a controlled two-session Native posting, not a concurrent-cron claim.
+    The unchanged actual minute-cron operation remains separate.
+    """
+    if candidate:install(conn,cur,report)
+    race=visibility.race;race.bounded(cur)
+    granted,_=database._foundation(cur)
+    today=cur.execute("select(statement_timestamp()at time zone'Asia/Jakarta')::date").fetchone()[0]
+    seed=race.base.setup(cur,today);cid=capture.start(cur,capture.query(today))
+    dates=race.capture_row(cur,cid)['dates']
+    before_signature,before_counts=capture.independent_signature(cur,dates['as_of'])
+    if granted:cur.execute('revoke usage on schema erp from authenticated')
+    conn.commit()
+    report.update(status='INCOMPLETE',actual_cron_claim=False,manual_committed_steps=0,
+        capture_id=str(cid),before_signature=before_signature,before_counts=before_counts)
+    with psycopg.connect(url)as holder,holder.cursor()as h:
+        race.bounded(h);h.execute('select pg_current_xact_id()')
+        h.execute('savepoint consistent_capture_native_post')
+        grant=not h.execute("select has_schema_privilege('authenticated','erp','USAGE')").fetchone()[0]
+        if grant:h.execute('grant usage on schema erp to authenticated')
+        posted=capture.c17.kasbon_give(h,seed['contractor'],seed['bank'],'900.00',seed['day'])
+        capture.b.api.admin(h)
+        if grant:h.execute('revoke usage on schema erp from authenticated')
+        after_counts=visibility.family_counts(h,dates['as_of'])
+        assert all(after_counts[k]==before_counts[k]for k in ('book','cash'))
+        assert all(after_counts[k]>before_counts[k]for k in ('journal','line'))
+        h.execute('release savepoint consistent_capture_native_post')
+        with psycopg.connect(url)as worker,worker.cursor()as w:
+            race.bounded(w)
+            assigned=w.execute('select pg_current_xact_id()::text').fetchone()[0]
+            writes=single.table_writes(w)
+            first=capture.step(w,cid);stored=race.capture_row(w,cid)
+            assert first['state']=='RUNNING' and first['units_done']==1
+            assert stored['report_snapshot']is None,'ASSIGNED_WORKER_MUST_EXERCISE_NULL_SNAPSHOT'
+            if candidate:assert stored['report_book_signature']==before_signature
+            assert stored['plan']['journal']['chunks']==stored['plan']['line']['chunks']==1
+            assert not {k:v for k,v in single.writes_delta(writes,single.table_writes(w)).items()if k.startswith('erp.')}
+            worker.commit()
+        report.update(assigned_worker_xid=assigned,observed_report_snapshot=None,
+            expected_book_signature=stored.get('report_book_signature'),native_kasbon=posted['advance'])
+        report['manual_committed_steps']+=1
+        for units in (2,3):
+            state,stored,observed=race.fresh_step(url,cid)
+            assert state['state']=='RUNNING' and state['units_done']==units
+            assert stored['report_snapshot']is None
+            report.setdefault('early_chunks_before_commit',[]).append(observed)
+            report['manual_committed_steps']+=1
+        holder.commit()
+    state,stored,_=race.finish(url,cid,report,'steps_after_source_commit')
+    report.update(final_state=state,current_counts=after_counts,source_commit_after_early_chunks=True)
+    current=reference.signature(cur,dates['as_of'],10000)
+    if state['state']=='READY':
+        escaped=capture.call(cur,'select cp7_finance_capture.result(%s)',(cid,))
+        report.update(unsafe_ready_observed=True,result_escaped=True,
+            current_signature=current['signature'],stored_signature=escaped['book_signature'],
+            mixed_signature_confirmed=escaped['book_signature']not in (before_signature,current['signature']))
+        conn.rollback()
+        raise AssertionError('ASSIGNED_TRANSACTION_MUST_NOT_SEAL_MIXED_BOOK')
+    assert state['state']=='FAILED' and state['failure_code']=='CP7_FINANCE_CAPTURE_SOURCE_CHANGED',state
+    assert stored['source_hash']is stored['book_signature']is None
+    with psycopg.connect(url)as check,check.cursor()as c:
+        race.bounded(c)
+        try:
+            with check.transaction():capture.call(c,'select cp7_finance_capture.result(%s)',(cid,))
+        except psycopg.Error as error:
+            assert error.sqlstate=='P0001' and error.diag.message_primary=='CP7_FINANCE_CAPTURE_NOT_READY'
+        else:raise AssertionError('ASSIGNED_WORKER_FAILED_RESULT_ESCAPED')
+        fresh=capture.start(c,capture.query(today));assert str(fresh)!=str(cid);check.commit()
+    ready,recovered,_=race.finish(url,fresh,report,'fresh_uuid_recovery_steps')
+    assert ready['state']=='READY' and ready['failure_code']is None
+    expected=reference.signature(cur,dates['as_of'],10000)
+    assert recovered['report_book_signature']==recovered['book_signature']==expected['signature']
+    assert race.capture_row(cur,cid)==stored
+    conn.rollback()
+    report.update(status='PASS',null_snapshot_source_change_refused=True,
+        failed_result_refused=True,failed_capture_immutable=True,fresh_uuid_recovery_ready=True,
+        independent_recovery_signature_exact=True,actual_cron_claim=False)
+
+
+def baseline_assigned_transaction(conn,cur,database,url,report):
+    return _assigned_transaction_visibility(conn,cur,database,url,report,False)
+
+
+def assigned_transaction_visibility(conn,cur,database,url,report):
+    return _assigned_transaction_visibility(conn,cur,database,url,report,True)
 
 
 def native20(conn,cur,database,url,report):
@@ -151,6 +243,8 @@ def overhead(conn,cur,database,url,report):
 
 CHILDREN=(('REPORT_BOOK_INDEPENDENT_CANONICAL_SIGNATURE',independent),
           ('REPORT_BOOK_UNCHANGED_CHILD_VISIBILITY_COUNTEREXAMPLE',child_visibility),
+          ('REPORT_BOOK_ASSIGNED_TRANSACTION_NULL_SNAPSHOT_AND_RECOVERY',assigned_transaction_visibility),
           ('REPORT_BOOK_UNCHANGED_NATIVE20',native20),
           ('REPORT_BOOK_UNCHANGED_ACTUAL_MINUTE_CRON',actual_cron),
-          ('REPORT_BOOK_SMALL_PRICE_FACTORY_OVERHEAD',overhead))
+          ('REPORT_BOOK_SMALL_PRICE_FACTORY_OVERHEAD',overhead),
+          ('UNCHANGED_SINGLE_CHECK_DIAGNOSTIC_WITH_COMPLETE_RESTORATION',single.exercise))
