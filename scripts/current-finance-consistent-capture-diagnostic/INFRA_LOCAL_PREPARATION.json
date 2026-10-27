@@ -1,0 +1,14 @@
+{
+  "status": "PREPARED_INFRASTRUCTURE_SUCCESSOR_NOT_EXECUTED",
+  "parent": "faa5889faf622e4cb07b470aae26eadd750879c1",
+  "local_tests": 17,
+  "own_source_pins": 25,
+  "database_cases": 0,
+  "original_ERP_SQL_and_case_files_changed": false,
+  "original_probe_unchanged": true,
+  "old_workflow_retained_unchanged": true,
+  "first_and_retry_failures_preserved": true,
+  "same_source_retry_exhausted": true,
+  "production_go": false,
+  "independent_acceptance": false
+}

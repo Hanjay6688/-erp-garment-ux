@@ -1,0 +1,53 @@
+{
+  "parent_head": "faa5889faf622e4cb07b470aae26eadd750879c1",
+  "parent_workflow": ".github/workflows/cp7-d17-18-consistent-capture.yml",
+  "parent_workflow_sha256": "305f54fc7a56bea85041e8ca1d5ea09f7553703129401967594d971063940770",
+  "target_workflow": ".github/workflows/cp7-d17-18-consistent-capture-infra.yml",
+  "copied_helpers_from": "e7512bcd4ca2ac18f0234a63857e00cc9b63c05c",
+  "copied_helper_sha256": {
+    "scripts/cp7_disposable_qualification/disposable_start.py": "523ec29f0566852f56627c7c9be791de215d09b55d8669c071024fd92aa8e257",
+    "scripts/cp7_disposable_qualification/test_disposable_start.py": "ffa5aa9794be4f1f505da3e054f6afdef1b104d5a54e8535f4a6798c9867e468",
+    "scripts/cp7_disposable_qualification/materialize_sources.py": "cec3576f86bb93d79535b67b35188cd2e3f8a332dc45ceace5a5d7548177210c",
+    "scripts/cp7_disposable_qualification/test_materialize_sources.py": "e21d981a3a0ec52c80596b7c3b8bb920a9c75a12440460460bd5cdd785298a17",
+    "scripts/cp7_disposable_qualification/FROZEN_SOURCE_ROOTS.json": "684a8b08b54699861262f220eca025bb51a220e58856d53988ea337f81fe8bd7"
+  },
+  "first_failure": {
+    "head": "faa5889faf622e4cb07b470aae26eadd750879c1",
+    "run_id": 40540122775,
+    "job_id": 122315934147,
+    "artifact_id": 12752330518,
+    "status": "INFRASTRUCTURE_FAILURE_BEFORE_DATABASE",
+    "failed_step": "Start disposable database",
+    "reason": "Supabase image registry toomanyrequests Data limit exceeded",
+    "actual_cases_executed": 0,
+    "log_bytes": 1295144,
+    "log_sha256": "4bfafb5c2e9413dcd3f3c04fee772f20d35b1cb3563fcda299c44b3bea886aaa",
+    "first_failure_retained": true,
+    "maximum_same_source_retries": 1,
+    "production_go": false
+  },
+  "one_retry_failure": {
+    "head": "faa5889faf622e4cb07b470aae26eadd750879c1",
+    "run_id": 40540122775,
+    "job_id": 122328486189,
+    "status": "FAILED_BEFORE_DATABASE",
+    "artifact_id": 12754319379,
+    "zip_bytes": 48447,
+    "zip_sha256": "0636bab4af53a55e958bda8ceef2a81b9f56b43cc61e867af60a4c6b21374ab6",
+    "log_bytes": 1294912,
+    "log_sha256": "086373971f13019ebe1f8e8fff3c31e877195f70bc03a593f221fe25d7bb018c",
+    "actual_runtime_cases": 0,
+    "runtime_original_present": false,
+    "cause": "GHCR toomanyrequests, then all remaining ECR attempts Data limit exceeded",
+    "same_source_retry_number": 1,
+    "no_further_same_source_retry": true,
+    "source_and_local_checks": "PASS",
+    "first_failure_preserved": true,
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "scope": "INFRASTRUCTURE_ONLY_UNCHANGED_ERP_DIAGNOSTICS",
+  "ERP_SQL_and_business_case_changes": false,
+  "production_go": false,
+  "independent_acceptance": false
+}
