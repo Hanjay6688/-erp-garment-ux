@@ -2,6 +2,12 @@ from pathlib import Path
 from hashlib import sha256
 import io,json,os,subprocess,zipfile
 HERE=Path(__file__).resolve().parent
+from prerequisite_environment import bindings
+# The transport fetch above this step has already verified the identical Native6
+# Original. The UI admission uses a separate variable; bind its exact bytes too.
+with Path(os.environ['GITHUB_ENV']).open('a')as stream:
+    for name,value in bindings(HERE.parents[1],os.environ).items():
+        stream.write(name+'='+value+'\n')
 pins=json.loads((HERE/'SOURCE.json').read_bytes())
 for kind,proof in pins['actual_originals'].items():
     raw=subprocess.check_output(['gh','api','repos/Hanjay6688/-erp-garment-ux/actions/artifacts/'+str(proof['artifact_id'])+'/zip'])

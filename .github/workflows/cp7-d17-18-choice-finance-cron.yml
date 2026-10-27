@@ -392,7 +392,9 @@ jobs:
       working-directory: auditor
       run: 'python scripts/current-choice-finance-cron-qualification/test_source_guard.py
 
-        python scripts/current-choice-finance-cron-qualification/test_phase_timing.py'
+        python scripts/current-choice-finance-cron-qualification/test_phase_timing.py
+
+        python scripts/current-choice-finance-cron-qualification/test_prerequisite_environment.py'
     - name: Start disposable database
       working-directory: base
       shell: bash
