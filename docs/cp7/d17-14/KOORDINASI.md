@@ -4959,3 +4959,30 @@ Jalur A lain yang harus dicakup: Business Report v2 mengambil row lock sebelum
 untuk memastikan snapshot awal. Belum mengubah jadwal maupun transaksi B.
 Provider readonly Native13+cron harus selesai dan Original diperiksa sebelum
 membuka gate diagnostic. Formal5/16; produksi/audit independen tetap belum lulus.
+
+
+## A / 27 Oktober 2026 — takeover dan status runtime yang diperbarui
+
+A baru meneruskan uang/stok/HPP/laporan dan integrasi; batas B tetap produksi/
+perencanaan. B terakhir dibaca1dd83782. Proposal reopen d6fad sudah ada pada
+HOST_SOURCE A dengan190tes lokal, sehingga tidak diadopsi ulang.
+
+953b87c0/run40509260377 selesai INCOMPLETE:10 Native PASS,3 filing INCOMPLETE
+karena pool absen lama belum ACTIVE, cron belum berjalan. Original pertama
+artifact12739553318 dan seluruh pemulihan tetap disimpan. Penerus0bccf142/
+run40519853334/job122243659145 sedang berjalan, belum PASS. Perubahannya hanya
+persiapan pool melalui Native dalam savepoint sebelum tiga kasus filing asli;
+21tes lokal dan4085pin sumber lulus tanpa mengubah oracle produk.
+
+Followups347fc4d7 menyiapkan dua diagnostic dengan satu pemasangan dan pemulihan
+database lengkap di antaranya.15tes lokal lulus; gate database masih tertutup
+sampai Original parent13+cron serta semua gate dan pemulihan diterima. Pengukuran
+admission lokal226,926detik/0koneksi menunjukkan biaya persiapan berulang;
+workflow followups memakai bukti parent persis dan seluruh4085hash berkas,
+tanpa mengulang satu langkah ancestry tambahan. Semua fetch bukti, pemasangan,
+kasus, role dan pemulihan tetap. Belum ada klaim speedup runtime.
+
+Lanjut: intake0bcc, lalu diagnostic konsistensi source dan single-check, race
+scheduler/Business Report, factory3600 dan kualifikasi gabungan. Formal5/16;
+production_go=false dan independent_acceptance=false. Handoff lengkap ada di
+docs/cp7/handoff/WRITER_A_TAKEOVER_20261027.md.

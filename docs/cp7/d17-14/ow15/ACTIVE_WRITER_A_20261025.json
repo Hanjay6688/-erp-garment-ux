@@ -1,5 +1,5 @@
 {
-  "recorded_at_utc": "2026-10-27T13:51:37.438561+00:00",
+  "recorded_at_utc": "2026-10-27T14:48:07.646035+00:00",
   "role": "A finance writer/integrator replacing Claude; B remains separate production/planning writer",
   "slogan": [
     "VENI. VIDI. VICI. ERP. \u2014 I CONQUERED ERP.",
@@ -10,34 +10,28 @@
   "independent_acceptance": false,
   "running": [
     {
-      "scope": "Readonly finance composition Native13 plus actual choice/finance minute cron",
-      "head": "953b87c04af4fb9f11cde105e71ccd74d59a9472",
-      "code_head": "fc6749a85d4aa9fdb837d0f614a58f30170f7beb",
-      "run_id": 40509260377,
-      "job_id": 122206515921,
+      "scope": "Readonly finance Native13 plus actual choice/finance minute cron, Native attendance fixture preparation",
+      "head": "0bccf142f5dc2310226b183643d4ad56d01b23df",
+      "run_id": 40519853334,
+      "job_id": 122243659145,
       "status": "RUNNING_NOT_PASS",
-      "started_at_utc": "2026-10-27T13:07:12Z",
-      "prepared_branch": "astra-a/d17-18-readonly-finance-composition-prepared-20261027",
+      "started_at_utc": "2026-10-27T14:18:25Z",
       "execution_branch": "astra-a/d17-18-readonly-finance-composition-qualification-20261027",
-      "source_pins": 4082,
-      "full_source_admission": {
-        "status": "PASS_COMPLETE_SOURCE_ADMISSION",
-        "bytes": 4928519,
-        "sha256": "a87ef5a5355bc38be4ca2d335b5fca9a68f577b153031bc2a9a1b2465620572a",
-        "database_executed": false
-      },
-      "local_tests": 17,
+      "source_pins": 4085,
+      "local_tests": 21,
       "local_tests_status": "PASS",
-      "retained_choice_assertions": 15,
-      "retained_cron_assertions": 36,
       "native_cases_actual": 0,
       "cron_cases_actual": 0,
-      "branch_creation_observation": "Creating ref at fc6749a8 produced zero runs; execution-metadata-only push953b87c0 started first run. Code, source declaration and complete admission unchanged.",
+      "first_failure_preserved": true,
+      "full_source_admission": {
+        "status": "PASS_COMPLETE_SOURCE_ADMISSION",
+        "bytes": 4929414,
+        "sha256": "db20adf44245f502605b15682cf0fbab122c9615bbe769470f0f685ee396443e",
+        "database_executed": false
+      },
       "production_go": false,
       "independent_acceptance": false,
-      "formal_completed": "5/16",
-      "full_combined_final_qualification": false,
-      "concurrent_cron_source_change_qualified": false
+      "full_combined_final_qualification": false
     }
   ],
   "actual_new_component": {
@@ -16616,37 +16610,80 @@
   },
   "finance_followups_prepared": {
     "status": "PREPARED_CLOSED_DATABASE_GATE",
-    "head": "a66d1846278da6bedc6058442beecfdbba678dae",
+    "head": "347fc4d7e470e251543e22b2ef217fbf76a598d9",
+    "tree": "743130292f216d0441926efebbc7fea9e2bea611",
     "branch": "astra-a/d17-18-finance-followups-prepared-20261027",
-    "tree": "34b05f66491dea3eb018f60ab1afaac5f861892a",
-    "parent_head": "953b87c04af4fb9f11cde105e71ccd74d59a9472",
-    "parent_run": 40509260377,
-    "parent_job": 122206515921,
+    "parent_head": "0bccf142f5dc2310226b183643d4ad56d01b23df",
+    "parent_run": 40519853334,
+    "parent_job": 122243659145,
     "parent_status": "RUNNING_NOT_PASS",
-    "source_visibility_case_head": "5c3c1317f7b9e8b01e458797a40ecc320cfe0c6a",
-    "source_visibility_preparation": {
-      "status": "PREPARED_IMPORT_AND_CLOSED_EXECUTION_GATE_VERIFIED",
-      "actual_cases_executed": 0,
-      "source_pins": 8,
-      "database_connection_attempts": 0,
-      "parent_run": 40509260377,
-      "parent_runtime_status": "RUNNING_NOT_PASS"
-    },
-    "single_check_preparation": {
-      "status": "PREPARED_DERIVATION_AND_CLOSED_GATE_VERIFIED",
-      "actual_cases_executed": 0,
-      "financial_runtime_acceptance": false,
-      "measured_speedup": null,
-      "new_private_helpers": 2,
-      "existing_private_helper_replacements": 1,
-      "Native_product_functions_changed": 0
-    },
+    "isolated_diagnostics": 2,
+    "local_tests": 15,
+    "own_source_pins": 23,
+    "exact_parent_source_pins": 4085,
     "actual_new_cases_executed": 0,
+    "full_installed_baseline_restoration_between_cases": true,
+    "full_preinstallation_restoration_retained": true,
+    "preparation_timing": {
+      "status": "MEASURED_READONLY_SOURCE_ADMISSION_NOT_PRODUCT_LATENCY",
+      "parent_head": "0bccf142f5dc2310226b183643d4ad56d01b23df",
+      "observed_exact_tree_local_head": "72897354241be0f098a2729dcb5be41915b92b9f",
+      "source_pins": 4085,
+      "elapsed_seconds": 226.926,
+      "database_connection_attempts": 0,
+      "function_calls": 16173171,
+      "observed_frozen_admission_subprocess_seconds": 158.059,
+      "previous_native13_run": 40509260377,
+      "previous_full_install_seconds": 1588.790342,
+      "previous_native13_execution_seconds": 39.223094,
+      "change": "Only the new followup workflow uses its required exact accepted Native13/cron Original, all package/restore gates, current product.sources equality and all4085 parent file SHA256 checks instead of re-invoking the older whole ancestry preflight as an extra step. Original fetch verification and every database install/restore/business guard are retained. Current server candidate unchanged.",
+      "measured_followup_speedup": null,
+      "allow_database_execution": false,
+      "production_go": false
+    },
     "actual_new_speedup": null,
-    "ordinary_timeout_changed": false,
     "default_product_changed": false,
     "production_go": false,
     "independent_acceptance": false,
-    "recorded_at_utc": "2026-10-27T13:51:37.438561+00:00"
+    "recorded_at_utc": "2026-10-27T14:48:07.646035+00:00"
+  },
+  "retained_readonly_native13_953_failure": {
+    "name": "CP7_D17_18_READONLY_FINANCE_NATIVE13_CRON1.json",
+    "status": "INCOMPLETE",
+    "head": "953b87c04af4fb9f11cde105e71ccd74d59a9472",
+    "run_id": 40509260377,
+    "job_id": 122206515921,
+    "artifact_id": 12739553318,
+    "zip_bytes": 3423224,
+    "zip_sha256": "3291fe1b2d62414129a63ff056c32154e99440bbb7a8614029731e95748c2c9e",
+    "bytes": 8832726,
+    "sha256": "894ba127fa7056b4782c623220380b1811d2fd887d69da1d7b7e1b9f1cbe9cee",
+    "archive_member": "CP7_D17_18_READONLY_FINANCE_NATIVE13_CRON1.json",
+    "source_pins_verified": 4082,
+    "complete_prerequisite_chain_exact": true,
+    "package_gate": {
+      "installed": true,
+      "primary_unchanged": true,
+      "backup_restore_drill": true,
+      "security_advisors": true,
+      "writer_runtime": false
+    },
+    "cp6_restored": true,
+    "advisor_gate": true,
+    "production_go": false,
+    "independent_acceptance": false,
+    "first_failure_preserved": true,
+    "error": "COMPOSED_FINANCE_NATIVE13_FAILED",
+    "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/current-finance-readonly-integration-qualification/probe.py\", line 107, in run\n    assert report['native']['status']=='PASS' and report['native']['counts']=={'PASS':len(business.IDS)} and report['native']['complete_boundary_restored'] is True,'COMPOSED_FINANCE_NATIVE13_FAILED'\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: COMPOSED_FINANCE_NATIVE13_FAILED\n",
+    "restore_error": null,
+    "actual_cron_credit": false
+  },
+  "writer_A_takeover_20261027": {
+    "active_worktree": "/workspace/scratch/a4de608c9031/erp-a",
+    "main_prepared_branch": "astra-a/d17-14-model-target-integration-prepared-20261024",
+    "latest_B_inspected": "1dd83782dcaa4500bace7bf392a76f58be0271c3",
+    "B_reopen_d6fad_already_present_in_A": true,
+    "B_branch_changed": false,
+    "handoff": "docs/cp7/handoff/WRITER_A_TAKEOVER_20261027.md"
   }
 }
