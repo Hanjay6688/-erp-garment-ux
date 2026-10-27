@@ -48,3 +48,13 @@ transient GHCR limit followed by repeated ECR quota failures. Every complete
 attempt log and its digest is retained. Image tags, ordinary statement limits
 and business tests are unchanged. Artifact names include the run attempt so
 an earlier retained artifact does not need to be overwritten.
+
+Source preparation now uses one full-history auditor checkout and 13 detached
+worktrees at the exact original frozen commits. Every commit is preflighted
+before creating any source directory; every resulting HEAD, tree, top-level
+path and clean status is verified. A missing commit fails before DB startup.
+Mutable refs and outside paths are rejected. No alternate source or network
+fetch is performed by the materializer. Three real Git fixture tests cover
+distinct commits, shared history, refusal before partial creation and invalid
+refs/paths. This reduces repeated repository transfers; application latency
+and actual CI preparation time still require measurement.

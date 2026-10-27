@@ -45,68 +45,8 @@ jobs:
     steps:
     - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
       with:
-        path: writer
-        fetch-depth: 0
-        ref: ca7f09556397801c50a2277bdb65b1bf019f9a05
-        persist-credentials: 'false'
-    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-      with:
         path: auditor
         fetch-depth: 0
-        persist-credentials: 'false'
-    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-      with:
-        path: harness
-        fetch-depth: 0
-        ref: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
-        persist-credentials: 'false'
-    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-      with:
-        path: candidate
-        fetch-depth: 0
-        ref: 25fa4736329e5148dfdb3572bc169952cba23251
-        persist-credentials: 'false'
-    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-      with:
-        path: base
-        fetch-depth: 0
-        ref: 1bdca3766f7c9800d68295ff5122798060b8a05d
-        persist-credentials: 'false'
-    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-      with:
-        path: frozen
-        fetch-depth: 0
-        ref: 469ed1e8b2edf80f7988feba38162a5be7251b8c
-        persist-credentials: 'false'
-    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-      with:
-        path: finance-frozen
-        fetch-depth: 0
-        ref: 05bad4f465c61caabddfc0e8f4d5914b39aab22a
-        persist-credentials: 'false'
-    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-      with:
-        path: model-frozen
-        fetch-depth: 0
-        ref: 6d056959d33808dc59b8c38fb15ce8492db44523
-        persist-credentials: 'false'
-    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-      with:
-        path: target-frozen
-        fetch-depth: 0
-        ref: 3776a052ea97695dce95da018be182fdf21fe85b
-        persist-credentials: 'false'
-    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-      with:
-        path: history-frozen
-        fetch-depth: 0
-        ref: e3261d84ae217d1d37374990dec5804fd1970934
-        persist-credentials: 'false'
-    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-      with:
-        path: scoped-model-frozen
-        fetch-depth: 0
-        ref: ffa0b63dbb6f0b7888eeaec59d0f39347cd58e0e
         persist-credentials: 'false'
     - name: Select exact qualified prerequisite heads
       id: qualified_heads
@@ -114,24 +54,12 @@ jobs:
       run: "python - <<'PY'\nimport json,os\np=json.load(open('scripts/current-versioned-performance-native-qualification/SOURCE.json'))\n\
         with open(os.environ['GITHUB_OUTPUT'],'a')as f:\n f.write('native='+p['frozen_declaration']['head']+'\\\
         n')\n f.write('B='+p['B_frozen_head']+'\\n')\nPY\n"
-    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-      with:
-        path: versioned-target-frozen
-        fetch-depth: 0
-        ref: ${{ steps.qualified_heads.outputs.native }}
-        persist-credentials: 'false'
-    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-      with:
-        path: B-performance-frozen
-        fetch-depth: 0
-        ref: ${{ steps.qualified_heads.outputs.B }}
-        persist-credentials: 'false'
-    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-      with:
-        path: B-frozen-units-qualified
-        ref: 10a36e35b956febd9e34907f20fc5b782ec48dc1
-        fetch-depth: 0
-        persist-credentials: 'false'
+    - name: Materialize every exact frozen source from one full checkout
+      working-directory: auditor
+      env:
+        QUALIFIED_NATIVE_HEAD: ${{ steps.qualified_heads.outputs.native }}
+        QUALIFIED_B_HEAD: ${{ steps.qualified_heads.outputs.B }}
+      run: python scripts/current-finance-combined-composition/materialize_sources.py
     - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
       with:
         python-version: '3.12'

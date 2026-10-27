@@ -20,6 +20,19 @@ def expected(repo):
     value['on']['push']['paths']=[TARGET,'scripts/current-finance-combined-composition/**']
     value['concurrency']['group']='cp7-d17-18-combined-finance-${{ github.run_id }}'
     job=value['jobs']['p21'];job['name']=value['name'];steps=job['steps']
+    checkouts=[s for s in steps if s.get('uses','').startswith('actions/checkout@')]
+    roots={s['with']['path']:s['with']['ref']for s in checkouts if s['with']['path']!='auditor'}
+    assert roots==json.loads((HERE/'FROZEN_SOURCE_ROOTS.json').read_bytes())
+    auditor=[s for s in checkouts if s['with']['path']=='auditor']
+    assert len(auditor)==1 and auditor[0]['with']['fetch-depth']==0
+    steps[:]=[auditor[0],*[s for s in steps if not s.get('uses','').startswith('actions/checkout@')]]
+    selected=[s for s in steps if s.get('id')=='qualified_heads']
+    assert len(selected)==1 and steps[1]is selected[0]
+    steps.insert(2,dict(name='Materialize every exact frozen source from one full checkout',
+        **{'working-directory':'auditor'},env={
+            'QUALIFIED_NATIVE_HEAD':'${{ steps.qualified_heads.outputs.native }}',
+            'QUALIFIED_B_HEAD':'${{ steps.qualified_heads.outputs.B }}'},
+        run='python scripts/current-finance-combined-composition/materialize_sources.py'))
 
     def step(name):
         matches=[s for s in steps if s.get('name')==name]
@@ -60,6 +73,7 @@ def check(repo):
     return dict(exact_declared_derivation=True,source_and_DB_restore_steps_retained=True,
         startup_attempts_bounded_to_four=True,full_first_attempt_logs_retained=True,
         existing_ERP_test_not_retried=True,image_tags_and_timeouts_unchanged=True,
+        single_full_history_checkout=True,every_original_frozen_head_and_tree_verified=True,
         artifact_name_includes_attempt=True,previous_artifact_not_overwritten=True)
 
 
