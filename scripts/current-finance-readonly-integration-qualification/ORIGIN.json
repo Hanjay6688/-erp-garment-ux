@@ -14,11 +14,6 @@
         "count": 1
       },
       {
-        "old": "HERE/'runner.py'",
-        "new": "REPO/'scripts/current-choice-finance-cron-qualification/runner.py'",
-        "count": 1
-      },
-      {
         "old": "IDS=(runner.CASE,)",
         "new": "IDS=(*business.IDS,runner.CASE)",
         "count": 1
@@ -103,5 +98,43 @@
   "focused_probe_assertions": 12,
   "unchanged_cron_assertions": 36,
   "full_parent_inverse_repeated": false,
-  "full_final_qualification_claim": false
+  "full_final_qualification_claim": false,
+  "derived_helpers": {
+    "choice_fixture.py": {
+      "path": "scripts/current-choice-finance-cron-qualification/choice_fixture.py",
+      "sha256": "8c01f14c30bd14fe9a683232642f8a87388ae0ef24ed4dfe2cf66376dc1f117b",
+      "changes": [
+        {
+          "old": "B.work(cur,f)",
+          "new": "work_snapshot(cur,f,observations)",
+          "count": 3
+        },
+        {
+          "old": "import cp7_ow12b_choice_preparation_cases as B\n",
+          "new": "import cp7_ow12b_choice_preparation_cases as B\nfrom pathlib import Path\nimport importlib.util\n_spec=importlib.util.spec_from_file_location('readonly_choice_work_observer',Path(__file__).with_name('work_observer.py'))\nobserver=importlib.util.module_from_spec(_spec);_spec.loader.exec_module(observer)\n\n\ndef work_snapshot(cur,f,observations):\n    return observer.read(cur,lambda:B.work(cur,f),observations)\n",
+          "count": 1
+        },
+        {
+          "old": "money_stock_HPP_unchanged=True,calls=deepcopy(observations.get('calls',[])))",
+          "new": "money_stock_HPP_unchanged=True,calls=deepcopy(observations.get('calls',[])),\n        work_reads=deepcopy(observations['work_reads']))",
+          "count": 1
+        }
+      ],
+      "original_assertions": 15,
+      "current_assertions": 15
+    },
+    "runner.py": {
+      "path": "scripts/current-choice-finance-cron-qualification/runner.py",
+      "sha256": "a2b3fb1abac79e188a4b10c12a76d11bb6dd563ba871178f58e32fc72c48eeb2",
+      "changes": [
+        {
+          "old": "    prepared_choice=choice_fixture.prepare(cur,today)",
+          "new": "    prepared_choice=choice_fixture.prepare(cur,today)\n    report['choice_preparation_observations']=prepared_choice['observations']",
+          "count": 1
+        }
+      ],
+      "original_assertions": 36,
+      "current_assertions": 36
+    }
+  }
 }

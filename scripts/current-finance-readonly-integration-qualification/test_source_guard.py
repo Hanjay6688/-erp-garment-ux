@@ -24,6 +24,13 @@ class FocusedProbeGuard(unittest.TestCase):
         with self.assertRaisesRegex(AssertionError, 'UNDECLARED_PROBE'):
             source_guard.check(REPO, HERE, text.replace(anchor, 'full_parent_inverse_repeated=True', 1))
 
+    def test_removed_work_identity_assertion_refused(self):
+        text = (HERE / 'choice_fixture.py').read_text()
+        anchor = "assert work['job_id']==initial['job_id'] and work['created_at']==initial['created_at']"
+        self.assertEqual(text.count(anchor), 1)
+        with self.assertRaisesRegex(AssertionError, 'UNDECLARED_HELPER'):
+            source_guard.check(REPO, HERE, helper_overrides={'choice_fixture.py': text.replace(anchor, 'pass', 1)})
+
 
 if __name__ == '__main__':
     unittest.main()
