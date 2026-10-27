@@ -1,0 +1,39 @@
+{
+  "name": "CP7_D17_18_READONLY_FINANCE_NATIVE13_CRON1.json",
+  "status": "INCOMPLETE",
+  "head": "953b87c04af4fb9f11cde105e71ccd74d59a9472",
+  "run_id": 40509260377,
+  "job_id": 122206515921,
+  "artifact_id": 12739553318,
+  "zip_bytes": 3423224,
+  "zip_sha256": "3291fe1b2d62414129a63ff056c32154e99440bbb7a8614029731e95748c2c9e",
+  "bytes": 8832726,
+  "sha256": "894ba127fa7056b4782c623220380b1811d2fd887d69da1d7b7e1b9f1cbe9cee",
+  "archive_member": "CP7_D17_18_READONLY_FINANCE_NATIVE13_CRON1.json",
+  "source_pins_verified": 4082,
+  "complete_prerequisite_chain_exact": true,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "production_go": false,
+  "independent_acceptance": false,
+  "first_failure_preserved": true,
+  "error": "COMPOSED_FINANCE_NATIVE13_FAILED",
+  "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/current-finance-readonly-integration-qualification/probe.py\", line 107, in run\n    assert report['native']['status']=='PASS' and report['native']['counts']=={'PASS':len(business.IDS)} and report['native']['complete_boundary_restored'] is True,'COMPOSED_FINANCE_NATIVE13_FAILED'\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: COMPOSED_FINANCE_NATIVE13_FAILED\n",
+  "restore_error": null,
+  "actual_cron_credit": false,
+  "native_counts": {
+    "PASS": 10,
+    "INCOMPLETE": 3
+  },
+  "native_complete_boundary_restored": true,
+  "actual_cron_executed": false,
+  "failure": "Four old ATTENDANCE_POOL_NOT_ACTIVE seed groups prevent three Native report filing fixtures; existing Native HPP preparation not called. No timeout failure.",
+  "successor_change": "Call unchanged chain.prepare_attendance_pools only before the three unchanged filing cases inside each strict-group savepoint; no product or oracle changes."
+}

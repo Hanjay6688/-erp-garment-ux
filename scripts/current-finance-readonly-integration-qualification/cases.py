@@ -31,6 +31,7 @@ def source_binding():
             raise ValueError('READONLY_FINANCE_RETAINED_CASE_CHANGED:' + path)
     return dict(case_ids=list(IDS), exact_source_files=pins['files'],
                 retained_business_case_bodies_unchanged=True,
+                filing_fixture_preparation=pins['fixture_preparation'],
                 independent_ledger_and_HPP_expected_amounts=True,
                 real_Auth_browser_claim=False, factory3600_claim=False,
                 ordinary_staged_call_limit='8s', actual_cases_executed=False)
@@ -52,4 +53,11 @@ def cases(cur, today):
     result = reports.cases(cur, today) + public.cases(cur, today)
     if tuple(key for key, _ in result) != IDS:
         raise ValueError('READONLY_FINANCE_ACTUAL_CASE_SET_CHANGED')
-    return result
+    # OW07 correctly blocks old unallocated attendance in this aligned seed.
+    # Reuse its existing Native preparation before the three unchanged filing
+    # bodies, within their individual strict-group rollback boundaries.
+    import cp7_p21_current_chain_rehearsal_probe as chain
+    spec = importlib.util.spec_from_file_location('readonly_filing_fixture', HERE / 'filing_fixture.py')
+    fixture = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(fixture)
+    return fixture.wrap(result, cur, today, chain.prepare_attendance_pools)

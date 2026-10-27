@@ -1,8 +1,8 @@
 # Prepared source-visibility counterexample — Writer A
 
 Status: PREPARED, NOT EXECUTED. No product fix or runtime PASS is claimed.
-The currently running parent is953b87c0/run40509260377/job122206515921; this
-separate worktree does not change that frozen candidate.
+The first parent953b87c0 ended INCOMPLETE (three filing fixtures); successor
+0bccf142/run40519853334 is running. This preparation does not change that candidate.
 
 The accepted bd3505f6 race commits a Native kasbon created after the financial
 report snapshot. This case posts through the same Native writer inside an
