@@ -1,0 +1,26 @@
+{
+  "contract": "cp7.d17-18.consistent-capture-isolated.v1",
+  "case_ids": [
+    "FINANCE_REPORT_BOOK_CONSISTENCY_ISOLATED5"
+  ],
+  "files": {
+    "scripts/current-finance-consistent-capture-diagnostic/CONFIG.json": "dd188355b74862aaf410088e11bf397b95f0d16d14bce05dbacea44883f9f850",
+    "scripts/current-finance-consistent-capture-diagnostic/ORIGIN.json": "d00b97a42bc64f6463662fe0b941cdc4b6b85cc7efffcc8dd49b1022e185c9fc",
+    "scripts/current-finance-consistent-capture-diagnostic/PREPARED.json": "595c3763e927ef2fca4f4cd350e973f974ca2f98719f03ba65099fa59461c48c",
+    "scripts/current-finance-consistent-capture-diagnostic/README.md": "9d3894ed7379f697861364eede01571b2bc0eb4e4d43c35c16f6b71f07ec8e85",
+    "scripts/current-finance-consistent-capture-diagnostic/admission.py": "8be01178462d95cae7de3fd2f30bb5ce662c28a95688d57e742e088ebfbe5130",
+    "scripts/current-finance-consistent-capture-diagnostic/book_signature.sql": "0e3adda63f0190ac4a95677bf8a495b8e461fee643ddac229ada394e82f96ea0",
+    "scripts/current-finance-consistent-capture-diagnostic/cases.py": "fe4789dc1cc051373c35eaf402a20af2586f73c7af5e3dc3fbf83b4981ffa5f8",
+    "scripts/current-finance-consistent-capture-diagnostic/fetch_diagnostic.py": "8be856b69b067e176c583109438732c6e03c21d1aa49f42b687d3df632eecfcd",
+    "scripts/current-finance-consistent-capture-diagnostic/patch.py": "7c7b39f281d436c7a9249fdf24512fac576566cf0660183afb7ca76207a78fdd",
+    "scripts/current-finance-consistent-capture-diagnostic/probe.py": "f61c1b4be192ac5163256f1c13fa31bc8211474076294d747fbc4eda771790eb",
+    "scripts/current-finance-consistent-capture-diagnostic/runner.py": "e8d5a05721225c0d1df64558cb7ae29580947436f36cef4c75136ee27de09c4b",
+    "scripts/current-finance-consistent-capture-diagnostic/signature_reference.py": "bad6854677e8d18522e4864d643e9b169ca89a150463a5d343dd01876f9bb917",
+    "scripts/current-finance-consistent-capture-diagnostic/source_guard.py": "8ce44793317bfaa038e614ce2e345b4a399498e441fc5def5b38514751306d23",
+    "scripts/current-finance-consistent-capture-diagnostic/test_admission.py": "5da1e3681f39cc88725ade005ed743e2158f9913ba4b21951428d1cb49729a40",
+    ".github/workflows/cp7-d17-18-consistent-capture.yml": "3206c51112305f84141fefc0d440eee6c897aaf2038e8ceb4b22f87de5a88c7a"
+  },
+  "parent_source_sha256": "f2708dbfe3bc020bf2b7b93c0d29b3c5eb0f30700fa459fdfc0c01152672f3df",
+  "production_go": false,
+  "independent_acceptance": false
+}

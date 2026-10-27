@@ -1,0 +1,32 @@
+{
+  "path": "scripts/current-finance-followups-qualification/probe.py",
+  "sha256": "1559f45f235e91a19bf0031fa4efe954bb853aab13b9a4255bc1b56e814dd1d8",
+  "changes": [
+    {
+      "old": "CP7_D17_18_FINANCE_FOLLOWUPS_ISOLATED2",
+      "new": "CP7_D17_18_FINANCE_REPORT_BOOK_CONSISTENCY_ISOLATED5",
+      "count": 1
+    },
+    {
+      "old": "/tmp/current_finance_followups_pre.dump",
+      "new": "/tmp/current_consistent_capture_pre.dump",
+      "count": 1
+    },
+    {
+      "old": "manual_steps_scope='ISOLATED_DIAGNOSTICS_ONLY',native13_reused_from_exact_parent=True,",
+      "new": "manual_steps_scope='ISOLATED_CONSISTENCY_DIAGNOSTICS_ONLY',native20_repeated_unchanged=True,",
+      "count": 1
+    },
+    {
+      "old": "report['actual_cron_claim']=False\n            report['diagnostic_collection_completed']=True",
+      "new": "report['actual_cron_claim']=True\n            report['diagnostic_collection_completed']=True",
+      "count": 1
+    },
+    {
+      "old": "\"\"\"Isolated source-consistency and single-check diagnostics on an accepted parent.\n\nOne verified install; complete installed-baseline restoration between diagnostics\nand the complete preinstallation restoration afterward. No product adoption.\n\"\"\"",
+      "new": "\"\"\"Temporary same-snapshot report/book repair; five isolated diagnostics.\n\nThe original parent is installed once, with a complete dump restored between\noperations and a complete preinstallation restore afterward. No adoption.\n\"\"\"",
+      "count": 1
+    }
+  ],
+  "current_assertions": 9
+}

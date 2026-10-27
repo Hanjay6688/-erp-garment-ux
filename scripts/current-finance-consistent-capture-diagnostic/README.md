@@ -11,7 +11,10 @@ the official report in one STABLE query snapshot, then requires the collected
 chunks to equal that signature before READY. It uses the unchanged book_chunk
 row serialization, family ordering and current10000-row chunk policy. Counts
 come from that same scan. A new private nullable column stores the expected
-signature; no user-supplied token, persistent result reuse, added writer lock,
+signature. The internal NOLOGIN finance reader receives schema USAGE so its
+new definer helper can call the existing book_chunk; helper EXECUTE remains
+revoked from public, anon, authenticated, service_role and cp7_capture.
+No user-supplied token, persistent result reuse, added writer lock,
 long-running transaction, cron change or B source modification is involved.
 
 Existing row-count and snapshot checks stay. The added comparison also works
@@ -43,6 +46,17 @@ directly; chunk size1 exercises grouping without changing production10000.
 An additional paired diagnostic measures SMALL, PRICE_PERCENT and1200x3 with
 the original8s/30s diagnostic ceilings, requires full report equality except
 captured_at, zero data writes and exactly one new book scan. It assumes no speedup.
-These operations have only been imported with connections refused. The outer
-full-database isolation runner, exact first-result binding and runtime launch
-remain to be prepared; do not run an operation on a standalone database.
+The outer runner is prepared with a complete installed-baseline database dump
+restored between all five operations, then the retained preinstallation restore.
+The original parent's inverse is unchanged: candidate-schema cases must refuse
+at its exact-catalog guard before DDL; the unchanged-parent overhead fixture
+must refuse at its used-data guard. The rollback-only Native20 group is never
+claimed as a committed-data test. No selected schema projection or cleanup is
+allowed. The derived outer probe is bound to the unchanged first followup probe.
+
+Admission requires the exact first diagnostic Original and full package bytes,
+including its failed writer_runtime and all successful restoration proofs.
+No actual counterexample has been admitted yet. The gate and workflow remain
+closed until those first bytes prove the specific mixed-book escape. Six local
+evidence checks and complete imports with connections refused are preparation
+only; SQL has not yet been executed. Do not run a standalone operation.

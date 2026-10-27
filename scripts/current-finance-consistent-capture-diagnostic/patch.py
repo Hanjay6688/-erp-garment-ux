@@ -81,10 +81,23 @@ def install_for_rollback(cur,catalog):
     assert live[CHUNK][1:4]==('s',True,'cp7_finance_read')
     assert live[UNIT][1:4]==('v',False,'cp7_capture')
     assert live[RESULT][1:4]==('s',False,'cp7_capture')
+    # These readers must keep the calling statement's snapshot. Their exact
+    # bodies are already bound by the accepted parent's all-22 catalog proof.
+    readers=('cp7_finance.workspace(jsonb)',
+        'cp7_finance.read_snapshot_readiness_diagnostic_v1(date,date,date)',
+        'erp.period_readiness_v1(date,date)','erp.period_blockers_v1(date,date)',
+        'erp.run_v268_financial_report_checks()',
+        'cp7_finance.read_opening_hpp_diagnostic_v1(uuid,date)')
+    for signature in readers:
+        assert row(cur,signature)[1]=='s','CONSISTENT_CAPTURE_READER_NOT_STABLE:'+signature
     assert cur.execute('select cp7_finance_capture.chunk_rows()').fetchone()==(proposal['chunk_rows'],)
     assert cur.execute('select count(*)from cp7_finance_capture.captures').fetchone()==(0,)
     assert cur.execute('select count(*)from cp7_finance_capture.chunks').fetchone()==(0,)
     assert cur.execute('select to_regprocedure(%s)',(HELPER,)).fetchone()==(None,)
+    assert cur.execute("select has_schema_privilege('cp7_finance_read','cp7_finance_capture','USAGE')").fetchone()==(False,)
+    # The parent revoked this internal role's schema USAGE after installation.
+    # The new definer helper must resolve the unchanged book_chunk by name.
+    cur.execute('grant usage on schema cp7_finance_capture to cp7_finance_read')
     cur.execute('alter table cp7_finance_capture.captures add column report_book_signature text '
         "check(report_book_signature is null or report_book_signature~'^[0-9a-f]{64}$')")
     cur.execute((HERE/'book_signature.sql').read_text(),prepare=False)
@@ -100,5 +113,6 @@ def install_for_rollback(cur,catalog):
     return dict(parent_sha256=proposal['parent_sha256'],original_catalog=before,
         original_data=data,chunk_rows=proposal['chunk_rows'],new_private_functions=1,
         new_private_columns=1,changed_private_functions=3,public_rpcs_changed=0,
+        internal_finance_reader_schema_usage_added=True,
         Native_money_stock_HPP_definitions_unchanged=True,product_adoption=False,
         full_database_restore_required=True,production_go=False)
