@@ -1,0 +1,28 @@
+{
+  "head": "2e88289caea295be1cb5abca9042878aa1c1b402",
+  "tree": "785415177acdf2552e4b7ff1bbb97eb0797a5727",
+  "local": "3813dd72fbf6d3b89c2bc73d433e77c6adf30e9b",
+  "parents": [
+    "d1f4b529542aba443f3b92986da911db646053e1",
+    "064d471b971651e50d536121d4ac0cfaf7b4c8cf"
+  ],
+  "branch": "astra-a/d17-18-current-ui-transport-integration-prepared-20261027",
+  "status": "TRUE_MERGE_SOURCE_VERIFIED_NOT_FULL_RUNTIME_QUALIFIED",
+  "shared_changed_files": 19,
+  "shared_differences": 0,
+  "exact_UI_source_pins": 3895,
+  "exact_transport_source_pins": 3778,
+  "union_source_pins": 3914,
+  "overlap_source_pins": 3759,
+  "mismatches": [],
+  "B_vendored_files_exact": 91,
+  "compiled_UI_source_files_exact": 79,
+  "previous_local_UI_tests_result_verified": 195,
+  "UI_client_tests_rerun": false,
+  "default_application_adopted": false,
+  "new_combined_runtime_executed": false,
+  "finance_readiness_optimization_adopted": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "recorded_at_utc": "2026-10-27T10:51:21.938281+00:00"
+}

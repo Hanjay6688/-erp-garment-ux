@@ -1,0 +1,29 @@
+{
+  "head": "bd3505f624fb4e821ea9ef2ea039313abd850fd5",
+  "parent": "3986fba710d54f3963eb9a75dde0aa3046b7c11e",
+  "local": "4132d4613c08891752d831a9bc3f4463fec15fc0",
+  "tree": "01ee060474c08ce169efa4faeea2173d3a54c52e",
+  "status": "RUNNING_NOT_PASS",
+  "execution_branch": "astra-a/d17-18-finance-source-race-qualification-20261026",
+  "prepared_branch": "astra-a/d17-18-finance-source-race-prepared-20261026",
+  "source_admission": {
+    "status": "PASS",
+    "pins": 3759,
+    "bytes": 4070807,
+    "sha256": "62e1ab7757ddbfaeafbfdda79ca42ef0db90756e1c0305a654fc7902bb6c2e61",
+    "actual_database_executed": false
+  },
+  "local_tests": {
+    "role_restoration": 7,
+    "phase_timing": 5,
+    "nested_source_manifest": 5,
+    "status": "PASS"
+  },
+  "recorded_at_utc": "2026-10-27T10:48:47.593806+00:00",
+  "production_go": false,
+  "independent_acceptance": false,
+  "run_id": 40491368228,
+  "job_id": 122145853228,
+  "started_at_utc": "2026-10-27T10:48:50Z",
+  "observed_at_utc": "2026-10-27T10:49:38.596467+00:00"
+}

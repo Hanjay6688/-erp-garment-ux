@@ -1,5 +1,5 @@
 {
-  "recorded_at_utc": "2026-10-27T07:28:42.160299+00:00",
+  "recorded_at_utc": "2026-10-27T10:51:21.938281+00:00",
   "role": "A finance writer/integrator replacing Claude; B remains separate production/planning writer",
   "slogan": [
     "VENI. VIDI. VICI. ERP. \u2014 I CONQUERED ERP.",
@@ -8,7 +8,17 @@
   "formal_accepted": "5/16",
   "production_go": false,
   "independent_acceptance": false,
-  "running": [],
+  "running": [
+    {
+      "scope": "Fresh finance source-change and recovery qualification",
+      "head": "bd3505f624fb4e821ea9ef2ea039313abd850fd5",
+      "run_id": 40491368228,
+      "job_id": 122145853228,
+      "status": "RUNNING_NOT_PASS",
+      "started_at_utc": "2026-10-27T10:48:50Z",
+      "production_go": false
+    }
+  ],
   "actual_new_component": {
     "name": "CP7_OW11_MODEL_TARGET_SOURCE_V2.json",
     "status": "PASS",
@@ -8579,28 +8589,46 @@
     "production_go": false
   },
   "finance_source_race_prepared": {
-    "head": "5b1b5ebef2c54dab584c4a0e38f56019a721a160",
-    "parent": "88af70bc70a7b7c302dd46aaec1f3884d6f34d9f",
-    "local": "525ace187db22900beec321fd3a8982e1c05ba86",
-    "tree": "83bffce6433e9eeb86df7b9fd494e1f3cc0db2af",
-    "branch": "astra-a/d17-18-finance-source-race-prepared-20261026",
-    "status": "PREPARED_UNBOUND",
-    "required_actual_head": "d05c568cca01085f87f7e48fe85c8d15ca43bffd",
-    "source_bound": false,
-    "execution_branch_created": false,
+    "head": "bd3505f624fb4e821ea9ef2ea039313abd850fd5",
+    "parent": "3986fba710d54f3963eb9a75dde0aa3046b7c11e",
+    "local": "4132d4613c08891752d831a9bc3f4463fec15fc0",
+    "tree": "01ee060474c08ce169efa4faeea2173d3a54c52e",
+    "status": "RUNNING_NOT_PASS",
+    "execution_branch": "astra-a/d17-18-finance-source-race-qualification-20261026",
+    "prepared_branch": "astra-a/d17-18-finance-source-race-prepared-20261026",
+    "source_admission": {
+      "status": "PASS",
+      "pins": 3759,
+      "bytes": 4070807,
+      "sha256": "62e1ab7757ddbfaeafbfdda79ca42ef0db90756e1c0305a654fc7902bb6c2e61",
+      "actual_database_executed": false
+    },
+    "local_tests": {
+      "role_restoration": 7,
+      "phase_timing": 5,
+      "nested_source_manifest": 5,
+      "status": "PASS"
+    },
+    "recorded_at_utc": "2026-10-27T10:48:47.593806+00:00",
+    "production_go": false,
+    "independent_acceptance": false,
+    "run_id": 40491368228,
+    "job_id": 122145853228,
+    "started_at_utc": "2026-10-27T10:48:50Z",
+    "observed_at_utc": "2026-10-27T10:49:38.596467+00:00",
+    "source_bound": true,
+    "execution_branch_created": true,
     "actual_runtime_credit": false,
-    "phase_timing_tests": 5,
-    "first_local_io_failure_preserved": true,
-    "probe_operations_and_gates_unchanged": true,
-    "production_go": false
+    "required_actual_head": "d05c568cca01085f87f7e48fe85c8d15ca43bffd",
+    "same_known_role_failure_prevented_before_execution": true
   },
   "dependent_qualification_boundary": {
     "required_actual_native": "8dfe1a19c7b7c61558b25c00f1dd388c8565e3d1 PASS6 intaken",
-    "ui": "Full3894-source admission PASS; actual run40354535892 running, not yet qualified",
-    "transport": "Full3773-source admission PASS; actual run40354149723 running, not yet qualified",
-    "source_race": "Exact e913 readiness sources prepared; requires actual e913 PASS before binding",
+    "ui": "d1f4b529 actual PASS2, original verified; no full-factory or cron credit",
+    "transport": "064d471b actual PASS6 with all restoration gates; 40f remains INCOMPLETE",
+    "source_race": "bd3505f6 bound to actual d05 PASS3; full source admission3759 PASS; first actual run40491368228 in progress",
     "ui_and_transport_source_bound": true,
-    "source_race_source_bound": false,
+    "source_race_source_bound": true,
     "full_final_acceptance": false
   },
   "finance_check_reuse_diagnostic_before_composed_successor": {
@@ -11500,5 +11528,55 @@
     "previous_unsaved_local_source_profile_raw_files_unavailable": true,
     "published_profile_summaries_retained": true,
     "no_prior_unobserved_admission_claimed": true
+  },
+  "finance_source_race_before_first_actual_launch": {
+    "head": "5b1b5ebef2c54dab584c4a0e38f56019a721a160",
+    "parent": "88af70bc70a7b7c302dd46aaec1f3884d6f34d9f",
+    "local": "525ace187db22900beec321fd3a8982e1c05ba86",
+    "tree": "83bffce6433e9eeb86df7b9fd494e1f3cc0db2af",
+    "branch": "astra-a/d17-18-finance-source-race-prepared-20261026",
+    "status": "PREPARED_UNBOUND",
+    "required_actual_head": "d05c568cca01085f87f7e48fe85c8d15ca43bffd",
+    "source_bound": false,
+    "execution_branch_created": false,
+    "actual_runtime_credit": false,
+    "phase_timing_tests": 5,
+    "first_local_io_failure_preserved": true,
+    "probe_operations_and_gates_unchanged": true,
+    "production_go": false
+  },
+  "current_D17_UI_transport_true_merge": {
+    "head": "2e88289caea295be1cb5abca9042878aa1c1b402",
+    "tree": "785415177acdf2552e4b7ff1bbb97eb0797a5727",
+    "local": "3813dd72fbf6d3b89c2bc73d433e77c6adf30e9b",
+    "parents": [
+      "d1f4b529542aba443f3b92986da911db646053e1",
+      "064d471b971651e50d536121d4ac0cfaf7b4c8cf"
+    ],
+    "branch": "astra-a/d17-18-current-ui-transport-integration-prepared-20261027",
+    "status": "TRUE_MERGE_SOURCE_VERIFIED_NOT_FULL_RUNTIME_QUALIFIED",
+    "shared_changed_files": 19,
+    "shared_differences": 0,
+    "exact_UI_source_pins": 3895,
+    "exact_transport_source_pins": 3778,
+    "union_source_pins": 3914,
+    "overlap_source_pins": 3759,
+    "mismatches": [],
+    "B_vendored_files_exact": 91,
+    "compiled_UI_source_files_exact": 79,
+    "previous_local_UI_tests_result_verified": 195,
+    "UI_client_tests_rerun": false,
+    "default_application_adopted": false,
+    "new_combined_runtime_executed": false,
+    "finance_readiness_optimization_adopted": false,
+    "production_go": false,
+    "independent_acceptance": false,
+    "recorded_at_utc": "2026-10-27T10:51:21.938281+00:00"
+  },
+  "latest_B_readonly_20261027": {
+    "head": "1dd83782dcaa4500bace7bf392a76f58be0271c3",
+    "branch": "astra/d17-14-produksi",
+    "branch_written": false,
+    "recorded_at_utc": "2026-10-27T10:51:21.938281+00:00"
   }
 }
