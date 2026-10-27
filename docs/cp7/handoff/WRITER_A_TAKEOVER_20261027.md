@@ -1,3 +1,5 @@
+LATEST: followup05b62971/run40532595788/job122289153848 RUNNING. Previous2bfb attempts both HTTP503 beforeDB and preserved. New transport retry only;21local tests/full25+4085source admission PASS. Consistency35ef2760 is CLOSED, Python derivation only. Accepted0bcc Native13+cron1 remains PASS; cron snapshot NULL remains unqualified for concurrent source changes.
+
 CURRENT / 27 Oktober2026: Parent0bccf142 ACTUAL PASS13+cron1, artifact12745515328,
 all5package gates/full restoration exact. Cron report_snapshot=NULL; concurrency
 still unqualified. Followup2bfb3cc7/run40528647314 retry job122280909620 RUNNING,

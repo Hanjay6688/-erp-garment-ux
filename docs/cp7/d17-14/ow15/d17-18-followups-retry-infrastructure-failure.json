@@ -1,0 +1,16 @@
+{
+  "status": "INFRASTRUCTURE_BLOCKED_AFTER_ONE_RETRY",
+  "head": "2bfb3cc7eaa53b6e95d375daffbbe318127987f6",
+  "run_id": 40528647314,
+  "first_job_id": 122275034029,
+  "retry_job_id": 122280909620,
+  "retry_failed_step": 23,
+  "retry_artifact_requested": 12472787961,
+  "retry_reason": "HTTP503 before DB",
+  "actual_cases_executed": 0,
+  "database_started": false,
+  "log_bytes": 813833,
+  "log_sha256": "ad597a70cb0f64f79d9c96c6bed1d6d39f494aaefed24a6bae024317f44fab2f",
+  "same_source_retry_exhausted": true,
+  "next": "Prepare bounded artifact-GET-only transport retry; retain hash/size checks and all product oracles."
+}

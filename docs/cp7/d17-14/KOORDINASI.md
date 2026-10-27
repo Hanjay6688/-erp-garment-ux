@@ -5011,3 +5011,23 @@ SHA25650d4b14afead783752a618451cd189c9b20c93d33c13e0f0810c19f43f009c11.
 Satu retry infrastruktur sumber/oracle/timeout sama berjalan job122280909620.
 Jangan mengulang lagi tanpa penyebab dan perubahan yang konkret. Formal5/16,
 production_go=false,independent_acceptance=false; B dan kandidat server beku.
+
+
+## A / 27 Oktober2026 — dua kegagalan unduhan disimpan; transport diperbaiki
+
+Retry122280909620 pada2bfb3cc7 juga gagal sebelumDB, HTTP503 artifact12472787961.
+Tetap0kasus bisnis; tidak ada runtime Original. Log lengkap SHA256
+ad597a70cb0f64f79d9c96c6bed1d6d39f494aaefed24a6bae024317f44fab2f disimpan.
+Tidak mengulang sumber yang sama lagi. Penerus05b62971/run40532595788/
+job122289153848 menambah pengunduh khusus GET artifact: maksimal3attempt untuk
+502/503/504, jeda2/5detik, keluaran parsial tidak diteruskan, semua kegagalan awal
+disimpan. Seluruh hash/ukuran/member/Original dan kasus bisnis tidak berubah.
+21tes lokal dan admission lengkap25pin sendiri+4085parent lulus tanpaDB.
+
+Proposal konsistensi35ef2760 di cabang terpisah masih terkunci. Ia menghitung
+sidik buku kanonis dalam snapshot query STABLE yang sama dengan laporan, lalu
+menolak seal jika chunk berbeda.1helper+1kolom privat+3body privat disiapkan;
+fungsi Native uang/stok/HPP, B, default dan timeout tetap. Baru derivasiPython;
+belum parseSQL di DB, belum runtime dan belum penerimaan. Perlu independen
+signature/multichunk, race, jalur cron/Business Report, Native13 dan overhead
+factory sebelum adopsi. Tidak mengubah kandidat05b6 yang sedang berjalan.
