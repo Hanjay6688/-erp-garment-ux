@@ -4,7 +4,7 @@ This isolated backup branch is an archive index, not an application release or a
 
 ## Publication status
 
-**GitHub Release assets: PENDING PRIVACY DECISION — no public assets have been uploaded.** The archives are preserved privately. Because this repository is public, publishing the ZIPs is paused pending the owner's public/private destination choice. This index alone does not establish a completed GitHub binary backup. Verify exact bytes, size and SHA-256 after upload before marking preservation complete.
+**GitHub Release assets: intentionally NOT PUBLISHED.** Exact original archives are preserved privately, with prior checksum and archive-integrity verification. Bounded inspection could not confirm that all SQL, configuration, diagnostic state and screenshots are synthetic and non-sensitive. Under the owner's confidentiality condition, the original ZIPs therefore remain private rather than being published to this public repository. This is a precaution, not a finding of a confirmed leak or discovered secret. This public index is not a GitHub binary backup.
 
 Private preservation identifiers and storage locations are intentionally omitted because this repository is public.
 
@@ -19,13 +19,12 @@ The following identities were recorded from GitHub artifact metadata on 2026-10-
 
 ## Isolation
 
-Only the new `backup/f05-archive-20261027` ref is published. Its tree contains this archive documentation only, with no application source, workflows or deployment configuration. The connector requires a parent commit, so the documentation commit retains main snapshot `a58385e4182d653d0349208c89cff59284a7beac` as historical parent; this is not an orphan history. No existing branch ref is moved, no PR is opened, and no merge, workflow dispatch or deployment is requested.
+Only the new `backup/f05-archive-20261027` ref is published. Its tree contains this archive documentation only, with no application source, workflows or deployment configuration. The connector requires a parent commit, so the documentation commit retains main snapshot `a58385e4182d653d0349208c89cff59284a7beac` as historical parent; this is not an orphan history. No main or A/B branch ref is moved, no PR is opened, and no merge, workflow dispatch or deployment is requested. Documentation updates are confined to the isolated backup branch.
 
-## Completion checklist
+## Preservation and publication boundary
 
-- [ ] Upload both unchanged ZIP archives as assets of a dedicated archive Release (not an application release).
-- [ ] Record the exact Release and asset URLs.
-- [ ] Download/verify each asset's size and SHA-256 against the table above.
-- [ ] Preserve original provenance and validate any consumers separately; do not silently repoint A/B references.
+- Exact originals remain privately preserved; no public Release or ZIP assets are created.
+- Public distribution is not authorized by this index. Any future publication requires an appropriate non-sensitive deliverable and explicit authorization consistent with confidentiality.
+- Preserve original provenance and validate consumers separately; do not silently repoint A/B references.
 
 This backup does not change test results, qualification, production readiness, or A/B ownership.
