@@ -1,3 +1,35 @@
+## A / 27 Oktober 2026 — cron gagal terpelihara, kandidat pengamat diperbaiki
+
+Cron d3c84c16/run40495834374/job122160917483 selesai INCOMPLETE; Original
+artifact12735310804 diperiksa terhadap3947sumber dan admission lengkap.
+Empat gate lulus; writer_runtime gagal. Pemulihan CP6, seluruh22kelompok
+katalog/data/sequence, peran dan advisor lulus. Dua pekerjaan operasional DONE,
+finance READY dan choice READY tercapai48,038detik; status itu bukan PASS paket.
+Kegagalan tepat pada kesamaan job_id/created_at setelah buka kembali. Original
+tidak menyimpan pasangan baris pembanding; pengaruh zona waktu masih hipotesis.
+Kegagalan prasyarat893cc8da sudah teratasi pada run ini dan tetap disimpan.
+
+Kandidat 953b87c04af4fb9f11cde105e71ccd74d59a9472 mempertahankan15assertion fixture pilihan dan36assertion
+cron. Pengamat mencatat waktu asli/UTC, memeriksa job dan instant sama, lalu
+mengembalikan zona pemanggil.17tes lokal lulus, termasuk penolakan perubahan
+identitas dan penolakan pelemahan oracle. Produk B, angka harapan, jadwal dan
+batas waktu tidak diubah. Kandidat ini menggabungkan13kasus keuangan asli dengan
+1cron aktual pada provider pembaca read-only; inverse yang diulang hanya delta,
+baseline lengkap tetap harus dipulihkan. Status: RUNNING_NOT_PASS.
+Run berikutnya: 40509260377; job: 122206515921.
+
+Risiko tinjauan kode masih terbuka: heartbeat dispatcher dapat memberi transaction
+ID sebelum report sehingga report_snapshot kosong. Kandidat merekam hasil observasi;
+PASS source-race langsung bd3505f6 tidak otomatis membuktikan race melalui cron.
+Kebutuhan koordinasi A/B: bila terkonfirmasi, perubahan urutan heartbeat/dispatch
+harus dikontrakkan sebelum mengubah antarmuka bersama; jangan mengubah file B sepihak.
+
+Analisis seluruh pabrik3600, race scheduler, kualifikasi penuh gabungan, browser
+pilihan dan penerimaan akhir tetap terbuka. Formal5/16, production_go=false,
+independent_acceptance=false, CP7C belum dimulai.
+
+Bagian berikut adalah riwayat checkpoint.
+
 ## A / 27 Oktober 2026 — perubahan sumber keuangan PASS aktual
 
 bd3505f6 / run40491368228 / job122145853228 selesai sukses; Original

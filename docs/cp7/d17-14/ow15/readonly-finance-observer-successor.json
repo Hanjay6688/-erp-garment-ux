@@ -1,0 +1,30 @@
+{
+  "scope": "Readonly finance composition Native13 plus actual choice/finance minute cron",
+  "head": "953b87c04af4fb9f11cde105e71ccd74d59a9472",
+  "code_head": "fc6749a85d4aa9fdb837d0f614a58f30170f7beb",
+  "run_id": 40509260377,
+  "job_id": 122206515921,
+  "status": "RUNNING_NOT_PASS",
+  "started_at_utc": "2026-10-27T13:07:12Z",
+  "prepared_branch": "astra-a/d17-18-readonly-finance-composition-prepared-20261027",
+  "execution_branch": "astra-a/d17-18-readonly-finance-composition-qualification-20261027",
+  "source_pins": 4082,
+  "full_source_admission": {
+    "status": "PASS_COMPLETE_SOURCE_ADMISSION",
+    "bytes": 4928519,
+    "sha256": "a87ef5a5355bc38be4ca2d335b5fca9a68f577b153031bc2a9a1b2465620572a",
+    "database_executed": false
+  },
+  "local_tests": 17,
+  "local_tests_status": "PASS",
+  "retained_choice_assertions": 15,
+  "retained_cron_assertions": 36,
+  "native_cases_actual": 0,
+  "cron_cases_actual": 0,
+  "branch_creation_observation": "Creating ref at fc6749a8 produced zero runs; execution-metadata-only push953b87c0 started first run. Code, source declaration and complete admission unchanged.",
+  "production_go": false,
+  "independent_acceptance": false,
+  "formal_completed": "5/16",
+  "full_combined_final_qualification": false,
+  "concurrent_cron_source_change_qualified": false
+}
