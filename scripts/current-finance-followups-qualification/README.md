@@ -1,9 +1,9 @@
 # Writer A: isolated consistency and speed diagnostics
 
-PREPARED. Execution is closed until the exact Native13 + actual cron Original
-from the current readonly composition passes every package and restoration gate.
+BOUND FOR FIRST EXECUTION. The exact Native13 + actual cron Original
+from the current readonly composition passed every package and restoration gate.
 The first953b87c0 failure (10 PASS, 3 INCOMPLETE, cron not executed) remains
-preserved. The successor0bccf142 is running; it has no PASS credit yet.
+preserved. The successor0bccf142 passed13 Native cases and1actual cron; these diagnostics have not run yet.
 
 One current installation serves two diagnostics, separated by a complete
 installed-database dump/restore. A failed first diagnostic is retained and

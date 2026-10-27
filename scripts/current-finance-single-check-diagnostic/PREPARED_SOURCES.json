@@ -1,9 +1,9 @@
 {
   "contract": "cp7.d17-18.finance-single-check.prepared.v1",
   "parent_head": "0bccf142f5dc2310226b183643d4ad56d01b23df",
-  "parent_status": "RUNNING_NOT_PASS",
+  "parent_status": "PASS",
   "parent_run": 40519853334,
-  "allow_database_execution": false,
+  "allow_database_execution": true,
   "actual_cases_executed": 0,
   "files": {
     "supabase/dev/cp6_bf_t1_family.sql": "d5e66d221878db1ba34b0c159e05c13f6b12bac3acc2b3066fcff514ef876ffd",
@@ -18,8 +18,9 @@
     "scripts/current-finance-single-check-diagnostic/ORIGIN.json": "a8f3cb912dcd9a294af9e059f4a7f32258e6f5a2406f98f61909bec674d93a75",
     "scripts/current-finance-single-check-diagnostic/single_check.py": "041ee14f63a0cb150e507d59f879000b1e0eefe1bdffef185e9b7fbea6d082e2",
     "scripts/current-finance-single-check-diagnostic/runner.py": "03cf0714aab7f8d31e67e8ec8421bd1069aa2841f5548c2065c1632f78f697a5",
-    "scripts/current-finance-single-check-diagnostic/README.md": "f91002e041c04b6ef14760834d7a84a1e3f2a08be7c9d8992b00949335eb9e93"
+    "scripts/current-finance-single-check-diagnostic/README.md": "9c9fb6085eb2a3e0c30be4eb1f39e706d61d91a57c565e277cb614281daa304f"
   },
   "production_go": false,
-  "independent_acceptance": false
+  "independent_acceptance": false,
+  "parent_original_sha256": "c29a66fa26f1a92bacac3323c5e7dbda6465919366869cac916f1f5aa4b89810"
 }

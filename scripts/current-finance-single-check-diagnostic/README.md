@@ -1,9 +1,9 @@
 # Prepared single-check experiment — Writer A
 
-PREPARED, NOT EXECUTED. Database gate is closed. No speed improvement,
+PREPARED, NOT EXECUTED. Exact parent evidence is accepted; first diagnostic execution is admitted. No speed improvement,
 financial acceptance, timeout change, product adoption or factory completion
 is claimed. The first parent953b87c0 is INCOMPLETE; successor0bccf142/run40519853334
-is running. No successor PASS is claimed.
+passed13 Native cases and1actual cron. This diagnostic has not run yet.
 
 The existing accepted d05c568c diagnostic (artifact12684969367, Original
 SHA256 c9c9d9898126e205bbbf424e1106587c69e8e1517aecc6ac02bb938392ab9efb)

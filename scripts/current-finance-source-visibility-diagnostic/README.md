@@ -2,7 +2,7 @@
 
 Status: PREPARED, NOT EXECUTED. No product fix or runtime PASS is claimed.
 The first parent953b87c0 ended INCOMPLETE (three filing fixtures); successor
-0bccf142/run40519853334 is running. This preparation does not change that candidate.
+0bccf142/run40519853334 passed13 Native cases and1actual cron. This diagnostic has not run yet.
 
 The accepted bd3505f6 race commits a Native kasbon created after the financial
 report snapshot. This case posts through the same Native writer inside an

@@ -2,9 +2,9 @@
   "contract": "cp7.d17-18.finance-preexisting-child-visibility.prepared.v1",
   "parent_head": "0bccf142f5dc2310226b183643d4ad56d01b23df",
   "parent_run": 40519853334,
-  "parent_status": "RUNNING_NOT_PASS",
+  "parent_status": "PASS",
   "actual_cases_executed": 0,
-  "allow_database_execution": false,
+  "allow_database_execution": true,
   "files": {
     "scripts/current-finance-reader-source-race-qualification/runner.py": "6b6114319dbc61eda57a6697178a72bd33f3559834b49027858187bdb74a6120",
     "scripts/cp7_finance_capture/finance_capture.sql": "c6704e726c5fbc7a6e9b8ae266075ec6777e8b7f6bc6d7b10ddc074f3706d8bb",
@@ -13,8 +13,9 @@
     "scripts/cp7-src/planning/report-staged.sql": "846469775ffc5f3454e3d77236f4c419d0175d8a21aa7114f691f63d3cadf74a",
     "scripts/current-finance-readonly-integration-qualification/SOURCE.json": "efcd04e5ae78b391d8e6dcef18f733eff2daffaeba8175dc3ca111211da7a438",
     "scripts/current-finance-source-visibility-diagnostic/runner.py": "b7fcc0eb21bc1809c82722c5c35e4afa3b46bfd9de5a8ed161cf3f483d9d7c1e",
-    "scripts/current-finance-source-visibility-diagnostic/README.md": "36c2262a1fa53188dbfb56869e4c78b47773b7916e7549f85fc9bb8f86bfbb97"
+    "scripts/current-finance-source-visibility-diagnostic/README.md": "b15ade6b06defba7a783de9ed56468124e52ba8e14c8627334a924ad4e572d34"
   },
   "production_go": false,
-  "independent_acceptance": false
+  "independent_acceptance": false,
+  "parent_original_sha256": "c29a66fa26f1a92bacac3323c5e7dbda6465919366869cac916f1f5aa4b89810"
 }
