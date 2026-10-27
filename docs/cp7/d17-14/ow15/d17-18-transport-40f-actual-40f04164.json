@@ -1,0 +1,41 @@
+{
+  "name": "CP7_D17_18_CHOICE_TRANSPORT6.json",
+  "status": "INCOMPLETE",
+  "head": "40f041641ce336cac4be263297028172ac152202",
+  "run_id": 40363845158,
+  "job_id": 121789562898,
+  "artifact_id": 12686462342,
+  "zip_bytes": 2826988,
+  "zip_sha256": "f0d6f10c14c2ab16f676c83f379ddddf7f41cbd14e6de65e9f2a65dc0b338877",
+  "bytes": 4477215,
+  "sha256": "49e8b42a899c400a9c1b68d51a484fc76f9e8a4a50e27eb853c9a6c2cef54885",
+  "archive_member": "CP7_D17_18_CHOICE_TRANSPORT6.json",
+  "source_pins_verified": 3775,
+  "exact_native_predecessor": {
+    "name": "CP7_D17_18_CHOICE_NATIVE6.json",
+    "status": "PASS",
+    "head": "8dfe1a19c7b7c61558b25c00f1dd388c8565e3d1",
+    "run_id": 40338677390,
+    "job_id": 121627045376,
+    "artifact_id": 12663230440,
+    "zip_bytes": 3007799,
+    "zip_sha256": "9d8d24e9816562b2ff75b622c4da69d3d3cb34494f17cbee4d1b86280916d435",
+    "bytes": 6218156,
+    "sha256": "f2110cf6c2873c18679e3f6654d5232474e46decb5543e6d72b803f28b2d62a9",
+    "archive_member": "CP7_D17_18_CHOICE_NATIVE6.json"
+  },
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "cp6_restored": false,
+  "advisor_gate": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "first_failure_preserved": true,
+  "actual_Auth_HTTP_credit": false,
+  "error_summary": "Actual runtime INCOMPLETE; full Original retained"
+}

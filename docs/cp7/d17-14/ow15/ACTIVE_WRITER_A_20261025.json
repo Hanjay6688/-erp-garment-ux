@@ -1,5 +1,5 @@
 {
-  "recorded_at_utc": "2026-10-26T19:40:01.415169+00:00",
+  "recorded_at_utc": "2026-10-27T07:28:42.160299+00:00",
   "role": "A finance writer/integrator replacing Claude; B remains separate production/planning writer",
   "slogan": [
     "VENI. VIDI. VICI. ERP. \u2014 I CONQUERED ERP.",
@@ -8,20 +8,7 @@
   "formal_accepted": "5/16",
   "production_go": false,
   "independent_acceptance": false,
-  "running": [
-    {
-      "head": "d05c568cca01085f87f7e48fe85c8d15ca43bffd",
-      "run_id": 40381790093,
-      "job_id": 121779660598,
-      "scope": "Actual SMALL / PRICE_PERCENT / factory comparison with Native cent-price fixture"
-    },
-    {
-      "head": "40f041641ce336cac4be263297028172ac152202",
-      "run_id": 40363845158,
-      "job_id": 121789562898,
-      "scope": "Actual Auth3/race3 after manually bounded resume supported by two exact startup witnesses; prior2preDB failures preserved"
-    }
-  ],
+  "running": [],
   "actual_new_component": {
     "name": "CP7_OW11_MODEL_TARGET_SOURCE_V2.json",
     "status": "PASS",
@@ -2692,18 +2679,61 @@
   },
   "most_recent_completed": [
     {
-      "name": "CP7_D17_18_PROGRESS_FINANCE_UI_BROWSER2.json",
       "status": "PASS",
-      "head": "d1f4b529542aba443f3b92986da911db646053e1",
-      "run_id": 40376731797,
-      "job_id": 121766073244,
-      "artifact_id": 12681497673,
-      "zip_bytes": 4838798,
-      "zip_sha256": "0d13717464cdf9d32809c7963e0bfcc69ceeab1d1a9aac489d6155af5c79136e",
-      "bytes": 4531319,
-      "sha256": "e460c51e333c43beebecb99170984b2481804ba60e2076c412c4dc848f8564ab",
-      "archive_member": "CP7_D17_18_PROGRESS_FINANCE_UI_BROWSER2.json",
-      "source_pins_verified": 3895,
+      "head": "d05c568cca01085f87f7e48fe85c8d15ca43bffd",
+      "run_id": 40381790093,
+      "job_id": 121779660598,
+      "artifact_id": 12684969367,
+      "bytes": 5178783,
+      "sha256": "c9c9d9898126e205bbbf424e1106587c69e8e1517aecc6ac02bb938392ab9efb",
+      "source_pins_verified": 3731,
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "production_go": false,
+      "pairs": {
+        "SMALL": {
+          "before_ms": 296.35,
+          "after_ms": 215.62,
+          "entire_report_equal": true,
+          "candidate_write_attempts": {}
+        },
+        "PRICE_PERCENT": {
+          "before_ms": 282.879,
+          "after_ms": 226.414,
+          "entire_report_equal": true,
+          "candidate_write_attempts": {}
+        },
+        "FACTORY_1200X3": {
+          "before_ms": 22429.829,
+          "after_ms": 14001.089,
+          "entire_report_equal": true,
+          "candidate_write_attempts": {}
+        }
+      },
+      "product_adoption": false,
+      "full_factory_completion": false,
+      "source_race_qualified": false
+    },
+    {
+      "name": "CP7_D17_18_CHOICE_TRANSPORT6.json",
+      "status": "PASS",
+      "head": "064d471b971651e50d536121d4ac0cfaf7b4c8cf",
+      "run_id": 40430350590,
+      "job_id": 121946222900,
+      "artifact_id": 12704208060,
+      "zip_bytes": 2829206,
+      "zip_sha256": "e8117db7ced1ac47c58f0b55e61e19c9f8a02de51653d8cad0bb5f9e39ac9bbc",
+      "bytes": 4530109,
+      "sha256": "1288861c65976f0fd4c96b9cf1a53bd57f7b3010ee4032a249283ccf0c1e8c44",
+      "archive_member": "CP7_D17_18_CHOICE_TRANSPORT6.json",
+      "source_pins_verified": 3778,
       "exact_native_predecessor": {
         "name": "CP7_D17_18_CHOICE_NATIVE6.json",
         "status": "PASS",
@@ -2728,192 +2758,242 @@
       "advisor_gate": true,
       "production_go": false,
       "independent_acceptance": false,
-      "actual_Auth_HTTP_browser_credit": true,
-      "actual_finance_UI_cases": 2,
-      "exact_bundle_modules": 79,
-      "READY_figures_and_BLOCKED_suppression": true,
-      "full22_copy_admissions": 2,
-      "visual_screenshots_reviewed": false,
-      "default_adopted": false,
-      "host_exact_files": 113,
-      "actual_progress_observations": [
+      "actual_Auth_cases": 3,
+      "actual_two_backend_races": 3,
+      "actual_HTTP_timings": [
         {
-          "texts": [
-            "16 langkah selesai dari 16.",
-            "0 langkah selesai; jumlah akhir belum diketahui.",
-            "100% bagian produksi.",
-            "Status server diperiksa 27 Okt 2026, 02.16 WIB.",
-            "Waktu berjalan yang tercatat: 0 detik."
-          ],
-          "bars": [
-            {
-              "name": "produksi",
-              "done": 16,
-              "total": 16
-            }
-          ],
-          "percentages": [
-            "100% bagian produksi."
-          ],
-          "elapsedMs": 851,
-          "state": "RUNNING",
-          "request": "2d8e2a38-e41a-4d9c-b0ed-2c04a0c30ef8",
-          "observed_at": "2026-10-26T19:16:10.97426+00:00",
-          "real_RPC_response": true,
-          "DOM_counts_exact": true,
-          "extra_overall_progressbar": false
+          "method": "erp_cp7_get_frozen_choice_preparation_v1",
+          "millis": 43.945,
+          "status": 400,
+          "code": "P0001"
         },
         {
-          "texts": [
-            "16 langkah selesai dari 16.",
-            "6 langkah selesai dari 6.",
-            "100% bagian produksi.",
-            "100% bagian keuangan dan hpp.",
-            "Status server diperiksa 27 Okt 2026, 02.16 WIB.",
-            "Waktu pemrosesan: 8 detik."
-          ],
-          "bars": [
-            {
-              "name": "produksi",
-              "done": 16,
-              "total": 16
-            },
-            {
-              "name": "keuangan dan hpp",
-              "done": 6,
-              "total": 6
-            }
-          ],
-          "percentages": [
-            "100% bagian produksi.",
-            "100% bagian keuangan dan hpp."
-          ],
-          "elapsedMs": 8197,
-          "state": "COMPLETED",
-          "request": "2d8e2a38-e41a-4d9c-b0ed-2c04a0c30ef8",
-          "observed_at": "2026-10-26T19:16:18.698468+00:00",
-          "real_RPC_response": true,
-          "DOM_counts_exact": true,
-          "extra_overall_progressbar": false
+          "method": "erp_cp7_read_product_analog_candidates_v2",
+          "millis": 13.386,
+          "status": 400,
+          "code": "P0001"
         },
         {
-          "texts": [
-            "16 langkah selesai dari 16.",
-            "6 langkah selesai dari 6.",
-            "100% bagian produksi.",
-            "100% bagian keuangan dan hpp.",
-            "Status server diperiksa 27 Okt 2026, 02.16 WIB.",
-            "Waktu pemrosesan: 8 detik."
-          ],
-          "bars": [
-            {
-              "name": "produksi",
-              "done": 16,
-              "total": 16
-            },
-            {
-              "name": "keuangan dan hpp",
-              "done": 6,
-              "total": 6
-            }
-          ],
-          "percentages": [
-            "100% bagian produksi.",
-            "100% bagian keuangan dan hpp."
-          ],
-          "elapsedMs": 8197,
-          "state": "COMPLETED",
-          "request": "2d8e2a38-e41a-4d9c-b0ed-2c04a0c30ef8",
-          "observed_at": "2026-10-26T19:16:23.692355+00:00",
-          "real_RPC_response": true,
-          "DOM_counts_exact": true,
-          "extra_overall_progressbar": false
+          "method": "erp_cp7_save_product_analog_choice_v2",
+          "millis": 15.448,
+          "status": 400,
+          "code": "P0001"
         },
         {
-          "texts": [
-            "17 langkah selesai dari 17.",
-            "0 langkah selesai; jumlah akhir belum diketahui.",
-            "100% bagian produksi.",
-            "Status server diperiksa 27 Okt 2026, 02.17 WIB.",
-            "Waktu berjalan yang tercatat: 0 detik."
-          ],
-          "bars": [
-            {
-              "name": "produksi",
-              "done": 17,
-              "total": 17
-            }
-          ],
-          "percentages": [
-            "100% bagian produksi."
-          ],
-          "elapsedMs": 500,
-          "state": "RUNNING",
-          "request": "64e3e14e-3bcf-4c73-b5b3-3414de1f99fe",
-          "observed_at": "2026-10-26T19:17:05.213187+00:00",
-          "real_RPC_response": true,
-          "DOM_counts_exact": true,
-          "extra_overall_progressbar": false
+          "method": "erp_cp7_request_frozen_choice_preparation_v1",
+          "millis": 17.908,
+          "status": 200,
+          "code": null
         },
         {
-          "texts": [
-            "17 langkah selesai dari 17.",
-            "6 langkah selesai dari 6.",
-            "100% bagian produksi.",
-            "100% bagian keuangan dan hpp.",
-            "Status server diperiksa 27 Okt 2026, 02.17 WIB.",
-            "Waktu pemrosesan: 7 detik."
-          ],
-          "bars": [
-            {
-              "name": "produksi",
-              "done": 17,
-              "total": 17
-            },
-            {
-              "name": "keuangan dan hpp",
-              "done": 6,
-              "total": 6
-            }
-          ],
-          "percentages": [
-            "100% bagian produksi.",
-            "100% bagian keuangan dan hpp."
-          ],
-          "elapsedMs": 7557,
-          "state": "BLOCKED",
-          "request": "64e3e14e-3bcf-4c73-b5b3-3414de1f99fe",
-          "observed_at": "2026-10-26T19:17:12.6247+00:00",
-          "real_RPC_response": true,
-          "DOM_counts_exact": true,
-          "extra_overall_progressbar": false
+          "method": "erp_cp7_get_frozen_choice_preparation_v1",
+          "millis": 9.281,
+          "status": 200,
+          "code": null
         },
         {
-          "texts": [
-            "17 langkah selesai dari 17.",
-            "100% bagian produksi.",
-            "Status server diperiksa 27 Okt 2026, 02.17 WIB."
-          ],
-          "bars": [
-            {
-              "name": "produksi",
-              "done": 17,
-              "total": 17
-            }
-          ],
-          "percentages": [
-            "100% bagian produksi."
-          ],
-          "elapsedMs": null,
-          "state": "ACCESS_REVOKED",
-          "request": "64e3e14e-3bcf-4c73-b5b3-3414de1f99fe",
-          "observed_at": "2026-10-26T19:17:20.057262+00:00",
-          "real_RPC_response": true,
-          "DOM_counts_exact": true,
-          "extra_overall_progressbar": false
+          "method": "erp_cp7_request_frozen_choice_preparation_v1",
+          "millis": 15.961,
+          "status": 200,
+          "code": null
+        },
+        {
+          "method": "erp_cp7_step_frozen_choice_preparation_v1",
+          "millis": 111.266,
+          "status": 200,
+          "code": null
+        },
+        {
+          "method": "erp_cp7_get_frozen_choice_preparation_v1",
+          "millis": 9.54,
+          "status": 200,
+          "code": null
+        },
+        {
+          "method": "erp_cp7_step_frozen_choice_preparation_v1",
+          "millis": 16.794,
+          "status": 200,
+          "code": null
+        },
+        {
+          "method": "erp_cp7_request_frozen_choice_preparation_v1",
+          "millis": 15.843,
+          "status": 200,
+          "code": null
+        },
+        {
+          "method": "erp_cp7_read_product_analog_candidates_v2",
+          "millis": 26.792,
+          "status": 200,
+          "code": null
+        },
+        {
+          "method": "erp_cp7_save_product_analog_choice_v2",
+          "millis": 290.263,
+          "status": 200,
+          "code": null
+        },
+        {
+          "method": "erp_cp7_save_product_analog_choice_v2",
+          "millis": 3.409,
+          "status": 200,
+          "code": null
+        },
+        {
+          "method": "erp_cp7_save_product_analog_choice_v2",
+          "millis": 3.889,
+          "status": 400,
+          "code": "P0001"
+        },
+        {
+          "method": "erp_cp7_request_frozen_choice_preparation_v1",
+          "millis": 38.94,
+          "status": 200,
+          "code": null
+        },
+        {
+          "method": "erp_cp7_step_frozen_choice_preparation_v1",
+          "millis": 106.845,
+          "status": 200,
+          "code": null
+        },
+        {
+          "method": "erp_cp7_read_product_analog_candidates_v2",
+          "millis": 32.291,
+          "status": 200,
+          "code": null
+        },
+        {
+          "method": "erp_cp7_save_product_analog_choice_v2",
+          "millis": 151.56,
+          "status": 500,
+          "code": "40001"
+        },
+        {
+          "method": "erp_cp7_read_product_analog_candidates_v2",
+          "millis": 31.12,
+          "status": 200,
+          "code": null
+        },
+        {
+          "method": "erp_cp7_get_frozen_choice_preparation_v1",
+          "millis": 9.943,
+          "status": 200,
+          "code": null
+        },
+        {
+          "method": "erp_cp7_request_frozen_choice_preparation_v1",
+          "millis": 40.205,
+          "status": 200,
+          "code": null
+        },
+        {
+          "method": "erp_cp7_step_frozen_choice_preparation_v1",
+          "millis": 143.524,
+          "status": 200,
+          "code": null
+        },
+        {
+          "method": "erp_cp7_request_frozen_choice_preparation_v1",
+          "millis": 16.207,
+          "status": 403,
+          "code": "42501"
+        },
+        {
+          "method": "erp_cp7_get_frozen_choice_preparation_v1",
+          "millis": 2.247,
+          "status": 403,
+          "code": "42501"
+        },
+        {
+          "method": "erp_cp7_step_frozen_choice_preparation_v1",
+          "millis": 2.86,
+          "status": 403,
+          "code": "42501"
+        },
+        {
+          "method": "erp_cp7_read_product_analog_candidates_v2",
+          "millis": 2.225,
+          "status": 403,
+          "code": "42501"
+        },
+        {
+          "method": "erp_cp7_save_product_analog_choice_v2",
+          "millis": 4.322,
+          "status": 403,
+          "code": "42501"
+        },
+        {
+          "method": "erp_cp7_request_frozen_choice_preparation_v1",
+          "millis": 2.046,
+          "status": 403,
+          "code": "42501"
+        },
+        {
+          "method": "erp_cp7_get_frozen_choice_preparation_v1",
+          "millis": 2.036,
+          "status": 403,
+          "code": "42501"
+        },
+        {
+          "method": "erp_cp7_step_frozen_choice_preparation_v1",
+          "millis": 2.745,
+          "status": 403,
+          "code": "42501"
+        },
+        {
+          "method": "erp_cp7_read_product_analog_candidates_v2",
+          "millis": 2.12,
+          "status": 403,
+          "code": "42501"
+        },
+        {
+          "method": "erp_cp7_save_product_analog_choice_v2",
+          "millis": 3.122,
+          "status": 403,
+          "code": "42501"
+        },
+        {
+          "method": "erp_cp7_save_product_analog_choice_v2",
+          "millis": 303.438,
+          "status": 200,
+          "code": null
+        },
+        {
+          "method": "erp_cp7_request_frozen_choice_preparation_v1",
+          "millis": 2.333,
+          "status": 403,
+          "code": "42501"
+        },
+        {
+          "method": "erp_cp7_get_frozen_choice_preparation_v1",
+          "millis": 1.605,
+          "status": 403,
+          "code": "42501"
+        },
+        {
+          "method": "erp_cp7_step_frozen_choice_preparation_v1",
+          "millis": 2.127,
+          "status": 403,
+          "code": "42501"
+        },
+        {
+          "method": "erp_cp7_read_product_analog_candidates_v2",
+          "millis": 1.571,
+          "status": 403,
+          "code": "42501"
+        },
+        {
+          "method": "erp_cp7_save_product_analog_choice_v2",
+          "millis": 1.468,
+          "status": 403,
+          "code": "42501"
         }
       ],
-      "artifact_zip_local_only": "Browser screenshots are not requested deliverables"
+      "client_state_loss_replay": true,
+      "actual_network_reply_loss": false,
+      "real_browser_claim": false,
+      "full_factory_completion": false
     }
   ],
   "performance_factory_prepared": {
@@ -4815,129 +4895,18 @@
     "production_go": false
   },
   "choice_preparation_transport6": {
-    "head": "40f041641ce336cac4be263297028172ac152202",
-    "parent": "f088123ba44b68b09c88e30df04e19b312b8871d",
-    "local": "601b44bb5002db7fc21d82d1cc8f2af2f4f0546c",
-    "tree": "6c0f63f88448807193592307938875ab0169e3cd",
-    "execution_branch": "astra-a/d17-18-choice-preparation-transport-20261026",
-    "prepared_branch": "astra-a/d17-18-choice-transport-prepared-20261026",
-    "full_admission": {
-      "status": "PASS",
-      "source_pins": 3775,
-      "bytes": 3935750,
-      "sha256": "c24ceec9a1d8a058346bd3b221238b2b4b3b749b9e89ee1ac4489396cb7afea3"
-    },
-    "run_id": 40363845158,
-    "job_id": 121789562898,
-    "started_at_utc": "2026-10-26T16:56:02Z",
-    "status": "SECOND_MANUAL_RESUME_RUNNING_NOT_PASS",
-    "prior_failure": "f088123ba44b68b09c88e30df04e19b312b8871d",
-    "prior_actual_cases": 0,
-    "phase_contract_tests": 3,
-    "product_oracles_or_timeouts_changed": false,
-    "production_go": false,
-    "first_attempt": {
-      "head": "40f041641ce336cac4be263297028172ac152202",
-      "run_id": 40363845158,
-      "job_id": 121716085842,
-      "status": "INFRASTRUCTURE_FAILED_BEFORE_DATABASE",
-      "observed_at_utc": "2026-10-26T17:22:10.546Z",
-      "cause": "GHCR toomanyrequests and ECR Data limit exceeded; existing registry fallback exhausted before disposable DB startup",
-      "failed_step": 58,
-      "actual_business_cases": 0,
-      "expected_business_cases": 6,
-      "phase_contract_tests": {
-        "count": 3,
-        "status": "PASS",
-        "workflow_step": 57
-      },
-      "original_created": false,
-      "artifact_count": 0,
-      "raw_log": {
-        "path": "transport-40f-infrastructure-first-failure.log",
-        "bytes": 1177926,
-        "sha256": "e25e288a925a00ed25669fa82a16344556795c2a5a3704c9ddd46289f4f71f21"
-      },
-      "retry_requested": false,
-      "retry_policy": "Hold until the finance retry provides new registry availability evidence. No blind repeated retries.",
-      "production_go": false
-    },
-    "observed_at_utc": "2026-10-26T17:23:15.105059+00:00",
-    "retry_count": 2,
-    "actual_business_cases": 0,
-    "first_job_id": 121716085842,
-    "retry_decision": {
-      "head": "40f041641ce336cac4be263297028172ac152202",
-      "run_id": 40363845158,
-      "failed_job_id": 121716085842,
-      "reason": "The finance same-platform fresh-host retry job121725919259 now passed DB startup step58, supplying new registry availability evidence after the held transport retry. One fresh-host retry, unchanged source/platform/oracles/timeouts.",
-      "availability_evidence": {
-        "run_id": 40362500463,
-        "job_id": 121725919259,
-        "database_startup": "PASS",
-        "observed_at_utc": "2026-10-26T17:29:04.101Z"
-      },
-      "retry_count": 1,
-      "same_code_oracles_limits_and_platform": true,
-      "no_automatic_second_retry": true,
-      "business_cases_before_retry": 0,
-      "status": "RETRY_REQUESTED",
-      "requested_at_utc": "2026-10-26T17:29:15.837Z",
-      "result": {
-        "success": true
-      }
-    },
-    "retry_observed_at_utc": "2026-10-26T17:30:13.656022+00:00",
-    "latest_failure_receipt": "transport-40f-infrastructure-retry-failure.json",
-    "previous_status": "INFRASTRUCTURE_BLOCKED_AFTER_ONE_RETRY",
-    "second_manual_resume": {
-      "head": "40f041641ce336cac4be263297028172ac152202",
-      "run_id": 40363845158,
-      "failed_job_id": 121734510218,
-      "previous_failed_job_id": 121716085842,
-      "status": "SECOND_MANUAL_RESUME_RUNNING_NOT_PASS",
-      "retry_count": 2,
-      "reason": "Two independent subsequent jobs passed byte-identical Ubuntu24.04 / CLI2.116.0 / Postgres17.6.1.165 startup definitions at18:40:44 and19:07:28UTC, after transport retry failed17:45:42UTC. This new availability evidence justifies one manually bounded fresh-host resume; no source, oracle, platform or timeout change and no business case has yet run.",
-      "startup_definition_sha256": "6d53ef2cafa99752076b90121a07e784d19bf697142b33fe78cec423d666e8e3",
-      "startup_definitions_equal": true,
-      "availability_witnesses": [
-        {
-          "run_id": 40376731797,
-          "job_id": 121766073244,
-          "database_startup": {
-            "name": "Start disposable database",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 57,
-            "started_at": "2026-10-26T18:39:31Z",
-            "completed_at": "2026-10-26T18:40:44Z"
-          }
-        },
-        {
-          "run_id": 40381790093,
-          "job_id": 121779660598,
-          "database_startup": {
-            "name": "Start disposable database",
-            "status": "completed",
-            "conclusion": "success",
-            "number": 59,
-            "started_at": "2026-10-26T19:06:15Z",
-            "completed_at": "2026-10-26T19:07:28Z"
-          }
-        }
-      ],
-      "prior_business_cases": 0,
-      "prior_two_raw_logs_preserved": true,
-      "no_automatic_third_retry": true,
-      "recorded_at_utc": "2026-10-26T19:12:21.581Z",
-      "production_go": false,
-      "job_id": 121789562898,
-      "request_succeeded": true,
-      "observed_at_utc": "2026-10-26T19:14:35.451Z"
-    },
-    "no_automatic_third_retry": true,
-    "current_stage": "Actual Auth3/race3 execution; database startup passed; outcome pending",
-    "current_completed_business_cases": null
+    "head": "064d471b971651e50d536121d4ac0cfaf7b4c8cf",
+    "run_id": 40430350590,
+    "job_id": 121946222900,
+    "artifact_id": 12704208060,
+    "status": "ACTUAL_PASS6",
+    "source_pins": 3778,
+    "actual_Auth": 3,
+    "two_backend_races": 3,
+    "full_restoration": true,
+    "role_cleanup_controls": 7,
+    "source_proof_reference": "actual_transport_064d_pass",
+    "production_go": false
   },
   "previous_running_before_choice_native6_first_failure": [
     {
@@ -8362,7 +8331,7 @@
     "local": "e29c0caada6ab1a9709e1b657f0d8059fc3b8303",
     "tree": "5b0bbe14efff32f79583269b9bf5eadb9cddbcee",
     "execution_branch": "astra-a/d17-18-finance-check-reuse-diagnostic-20261026",
-    "status": "RUNNING_NOT_PASS",
+    "status": "ACTUAL_PAIRED_DIAGNOSTIC_PASS",
     "run_id": 40381790093,
     "job_id": 121779660598,
     "created_at_utc": "2026-10-26T18:53:39Z",
@@ -8386,7 +8355,11 @@
     "posted_value_2dp": "24.84",
     "product_arithmetic_unchanged": true,
     "statement_limits_unchanged": true,
-    "production_go": false
+    "production_go": false,
+    "previous_status": "RUNNING_NOT_PASS",
+    "artifact_id": 12684969367,
+    "actual_proof_reference": "actual_finance_d05_paired_pass",
+    "product_adoption": false
   },
   "finance_check_reuse_diagnostic_previous_local": {
     "local": "8b578b85486e44247c7297e2d22c6b7105bfca26",
@@ -11016,5 +10989,516 @@
     "e352_exact_gap_attribution": false,
     "factory_cross_run_regression_resolved": false,
     "production_go": false
+  },
+  "previous_running_before_finance_and_transport_completion": [
+    {
+      "head": "d05c568cca01085f87f7e48fe85c8d15ca43bffd",
+      "run_id": 40381790093,
+      "job_id": 121779660598,
+      "scope": "Actual SMALL / PRICE_PERCENT / factory comparison with Native cent-price fixture"
+    },
+    {
+      "head": "40f041641ce336cac4be263297028172ac152202",
+      "run_id": 40363845158,
+      "job_id": 121789562898,
+      "scope": "Actual Auth3/race3 after manually bounded resume supported by two exact startup witnesses; prior2preDB failures preserved"
+    }
+  ],
+  "actual_finance_d05_paired_pass": {
+    "status": "PASS",
+    "head": "d05c568cca01085f87f7e48fe85c8d15ca43bffd",
+    "run_id": 40381790093,
+    "job_id": 121779660598,
+    "artifact_id": 12684969367,
+    "bytes": 5178783,
+    "sha256": "c9c9d9898126e205bbbf424e1106587c69e8e1517aecc6ac02bb938392ab9efb",
+    "source_pins_verified": 3731,
+    "package_gate": {
+      "installed": true,
+      "primary_unchanged": true,
+      "backup_restore_drill": true,
+      "security_advisors": true,
+      "writer_runtime": true
+    },
+    "cp6_restored": true,
+    "advisor_gate": true,
+    "production_go": false,
+    "pairs": {
+      "SMALL": {
+        "before_ms": 296.35,
+        "after_ms": 215.62,
+        "entire_report_equal": true,
+        "candidate_write_attempts": {}
+      },
+      "PRICE_PERCENT": {
+        "before_ms": 282.879,
+        "after_ms": 226.414,
+        "entire_report_equal": true,
+        "candidate_write_attempts": {}
+      },
+      "FACTORY_1200X3": {
+        "before_ms": 22429.829,
+        "after_ms": 14001.089,
+        "entire_report_equal": true,
+        "candidate_write_attempts": {}
+      }
+    },
+    "product_adoption": false,
+    "full_factory_completion": false,
+    "source_race_qualified": false
+  },
+  "actual_transport_40f_restore_failure": {
+    "name": "CP7_D17_18_CHOICE_TRANSPORT6.json",
+    "status": "INCOMPLETE",
+    "head": "40f041641ce336cac4be263297028172ac152202",
+    "run_id": 40363845158,
+    "job_id": 121789562898,
+    "artifact_id": 12686462342,
+    "zip_bytes": 2826988,
+    "zip_sha256": "f0d6f10c14c2ab16f676c83f379ddddf7f41cbd14e6de65e9f2a65dc0b338877",
+    "bytes": 4477215,
+    "sha256": "49e8b42a899c400a9c1b68d51a484fc76f9e8a4a50e27eb853c9a6c2cef54885",
+    "archive_member": "CP7_D17_18_CHOICE_TRANSPORT6.json",
+    "source_pins_verified": 3775,
+    "exact_native_predecessor": {
+      "name": "CP7_D17_18_CHOICE_NATIVE6.json",
+      "status": "PASS",
+      "head": "8dfe1a19c7b7c61558b25c00f1dd388c8565e3d1",
+      "run_id": 40338677390,
+      "job_id": 121627045376,
+      "artifact_id": 12663230440,
+      "zip_bytes": 3007799,
+      "zip_sha256": "9d8d24e9816562b2ff75b622c4da69d3d3cb34494f17cbee4d1b86280916d435",
+      "bytes": 6218156,
+      "sha256": "f2110cf6c2873c18679e3f6654d5232474e46decb5543e6d72b803f28b2d62a9",
+      "archive_member": "CP7_D17_18_CHOICE_NATIVE6.json"
+    },
+    "package_gate": {
+      "installed": true,
+      "primary_unchanged": true,
+      "backup_restore_drill": true,
+      "security_advisors": true,
+      "writer_runtime": false
+    },
+    "cp6_restored": false,
+    "advisor_gate": false,
+    "production_go": false,
+    "independent_acceptance": false,
+    "first_failure_preserved": true,
+    "actual_Auth_HTTP_credit": false,
+    "error_summary": "Actual runtime INCOMPLETE; full Original retained"
+  },
+  "actual_transport_064d_pass": {
+    "name": "CP7_D17_18_CHOICE_TRANSPORT6.json",
+    "status": "PASS",
+    "head": "064d471b971651e50d536121d4ac0cfaf7b4c8cf",
+    "run_id": 40430350590,
+    "job_id": 121946222900,
+    "artifact_id": 12704208060,
+    "zip_bytes": 2829206,
+    "zip_sha256": "e8117db7ced1ac47c58f0b55e61e19c9f8a02de51653d8cad0bb5f9e39ac9bbc",
+    "bytes": 4530109,
+    "sha256": "1288861c65976f0fd4c96b9cf1a53bd57f7b3010ee4032a249283ccf0c1e8c44",
+    "archive_member": "CP7_D17_18_CHOICE_TRANSPORT6.json",
+    "source_pins_verified": 3778,
+    "exact_native_predecessor": {
+      "name": "CP7_D17_18_CHOICE_NATIVE6.json",
+      "status": "PASS",
+      "head": "8dfe1a19c7b7c61558b25c00f1dd388c8565e3d1",
+      "run_id": 40338677390,
+      "job_id": 121627045376,
+      "artifact_id": 12663230440,
+      "zip_bytes": 3007799,
+      "zip_sha256": "9d8d24e9816562b2ff75b622c4da69d3d3cb34494f17cbee4d1b86280916d435",
+      "bytes": 6218156,
+      "sha256": "f2110cf6c2873c18679e3f6654d5232474e46decb5543e6d72b803f28b2d62a9",
+      "archive_member": "CP7_D17_18_CHOICE_NATIVE6.json"
+    },
+    "package_gate": {
+      "installed": true,
+      "primary_unchanged": true,
+      "backup_restore_drill": true,
+      "security_advisors": true,
+      "writer_runtime": true
+    },
+    "cp6_restored": true,
+    "advisor_gate": true,
+    "production_go": false,
+    "independent_acceptance": false,
+    "actual_Auth_cases": 3,
+    "actual_two_backend_races": 3,
+    "actual_HTTP_timings": [
+      {
+        "method": "erp_cp7_get_frozen_choice_preparation_v1",
+        "millis": 43.945,
+        "status": 400,
+        "code": "P0001"
+      },
+      {
+        "method": "erp_cp7_read_product_analog_candidates_v2",
+        "millis": 13.386,
+        "status": 400,
+        "code": "P0001"
+      },
+      {
+        "method": "erp_cp7_save_product_analog_choice_v2",
+        "millis": 15.448,
+        "status": 400,
+        "code": "P0001"
+      },
+      {
+        "method": "erp_cp7_request_frozen_choice_preparation_v1",
+        "millis": 17.908,
+        "status": 200,
+        "code": null
+      },
+      {
+        "method": "erp_cp7_get_frozen_choice_preparation_v1",
+        "millis": 9.281,
+        "status": 200,
+        "code": null
+      },
+      {
+        "method": "erp_cp7_request_frozen_choice_preparation_v1",
+        "millis": 15.961,
+        "status": 200,
+        "code": null
+      },
+      {
+        "method": "erp_cp7_step_frozen_choice_preparation_v1",
+        "millis": 111.266,
+        "status": 200,
+        "code": null
+      },
+      {
+        "method": "erp_cp7_get_frozen_choice_preparation_v1",
+        "millis": 9.54,
+        "status": 200,
+        "code": null
+      },
+      {
+        "method": "erp_cp7_step_frozen_choice_preparation_v1",
+        "millis": 16.794,
+        "status": 200,
+        "code": null
+      },
+      {
+        "method": "erp_cp7_request_frozen_choice_preparation_v1",
+        "millis": 15.843,
+        "status": 200,
+        "code": null
+      },
+      {
+        "method": "erp_cp7_read_product_analog_candidates_v2",
+        "millis": 26.792,
+        "status": 200,
+        "code": null
+      },
+      {
+        "method": "erp_cp7_save_product_analog_choice_v2",
+        "millis": 290.263,
+        "status": 200,
+        "code": null
+      },
+      {
+        "method": "erp_cp7_save_product_analog_choice_v2",
+        "millis": 3.409,
+        "status": 200,
+        "code": null
+      },
+      {
+        "method": "erp_cp7_save_product_analog_choice_v2",
+        "millis": 3.889,
+        "status": 400,
+        "code": "P0001"
+      },
+      {
+        "method": "erp_cp7_request_frozen_choice_preparation_v1",
+        "millis": 38.94,
+        "status": 200,
+        "code": null
+      },
+      {
+        "method": "erp_cp7_step_frozen_choice_preparation_v1",
+        "millis": 106.845,
+        "status": 200,
+        "code": null
+      },
+      {
+        "method": "erp_cp7_read_product_analog_candidates_v2",
+        "millis": 32.291,
+        "status": 200,
+        "code": null
+      },
+      {
+        "method": "erp_cp7_save_product_analog_choice_v2",
+        "millis": 151.56,
+        "status": 500,
+        "code": "40001"
+      },
+      {
+        "method": "erp_cp7_read_product_analog_candidates_v2",
+        "millis": 31.12,
+        "status": 200,
+        "code": null
+      },
+      {
+        "method": "erp_cp7_get_frozen_choice_preparation_v1",
+        "millis": 9.943,
+        "status": 200,
+        "code": null
+      },
+      {
+        "method": "erp_cp7_request_frozen_choice_preparation_v1",
+        "millis": 40.205,
+        "status": 200,
+        "code": null
+      },
+      {
+        "method": "erp_cp7_step_frozen_choice_preparation_v1",
+        "millis": 143.524,
+        "status": 200,
+        "code": null
+      },
+      {
+        "method": "erp_cp7_request_frozen_choice_preparation_v1",
+        "millis": 16.207,
+        "status": 403,
+        "code": "42501"
+      },
+      {
+        "method": "erp_cp7_get_frozen_choice_preparation_v1",
+        "millis": 2.247,
+        "status": 403,
+        "code": "42501"
+      },
+      {
+        "method": "erp_cp7_step_frozen_choice_preparation_v1",
+        "millis": 2.86,
+        "status": 403,
+        "code": "42501"
+      },
+      {
+        "method": "erp_cp7_read_product_analog_candidates_v2",
+        "millis": 2.225,
+        "status": 403,
+        "code": "42501"
+      },
+      {
+        "method": "erp_cp7_save_product_analog_choice_v2",
+        "millis": 4.322,
+        "status": 403,
+        "code": "42501"
+      },
+      {
+        "method": "erp_cp7_request_frozen_choice_preparation_v1",
+        "millis": 2.046,
+        "status": 403,
+        "code": "42501"
+      },
+      {
+        "method": "erp_cp7_get_frozen_choice_preparation_v1",
+        "millis": 2.036,
+        "status": 403,
+        "code": "42501"
+      },
+      {
+        "method": "erp_cp7_step_frozen_choice_preparation_v1",
+        "millis": 2.745,
+        "status": 403,
+        "code": "42501"
+      },
+      {
+        "method": "erp_cp7_read_product_analog_candidates_v2",
+        "millis": 2.12,
+        "status": 403,
+        "code": "42501"
+      },
+      {
+        "method": "erp_cp7_save_product_analog_choice_v2",
+        "millis": 3.122,
+        "status": 403,
+        "code": "42501"
+      },
+      {
+        "method": "erp_cp7_save_product_analog_choice_v2",
+        "millis": 303.438,
+        "status": 200,
+        "code": null
+      },
+      {
+        "method": "erp_cp7_request_frozen_choice_preparation_v1",
+        "millis": 2.333,
+        "status": 403,
+        "code": "42501"
+      },
+      {
+        "method": "erp_cp7_get_frozen_choice_preparation_v1",
+        "millis": 1.605,
+        "status": 403,
+        "code": "42501"
+      },
+      {
+        "method": "erp_cp7_step_frozen_choice_preparation_v1",
+        "millis": 2.127,
+        "status": 403,
+        "code": "42501"
+      },
+      {
+        "method": "erp_cp7_read_product_analog_candidates_v2",
+        "millis": 1.571,
+        "status": 403,
+        "code": "42501"
+      },
+      {
+        "method": "erp_cp7_save_product_analog_choice_v2",
+        "millis": 1.468,
+        "status": 403,
+        "code": "42501"
+      }
+    ],
+    "client_state_loss_replay": true,
+    "actual_network_reply_loss": false,
+    "real_browser_claim": false,
+    "full_factory_completion": false
+  },
+  "choice_preparation_transport6_before_role_cleanup": {
+    "head": "40f041641ce336cac4be263297028172ac152202",
+    "parent": "f088123ba44b68b09c88e30df04e19b312b8871d",
+    "local": "601b44bb5002db7fc21d82d1cc8f2af2f4f0546c",
+    "tree": "6c0f63f88448807193592307938875ab0169e3cd",
+    "execution_branch": "astra-a/d17-18-choice-preparation-transport-20261026",
+    "prepared_branch": "astra-a/d17-18-choice-transport-prepared-20261026",
+    "full_admission": {
+      "status": "PASS",
+      "source_pins": 3775,
+      "bytes": 3935750,
+      "sha256": "c24ceec9a1d8a058346bd3b221238b2b4b3b749b9e89ee1ac4489396cb7afea3"
+    },
+    "run_id": 40363845158,
+    "job_id": 121789562898,
+    "started_at_utc": "2026-10-26T16:56:02Z",
+    "status": "SECOND_MANUAL_RESUME_RUNNING_NOT_PASS",
+    "prior_failure": "f088123ba44b68b09c88e30df04e19b312b8871d",
+    "prior_actual_cases": 0,
+    "phase_contract_tests": 3,
+    "product_oracles_or_timeouts_changed": false,
+    "production_go": false,
+    "first_attempt": {
+      "head": "40f041641ce336cac4be263297028172ac152202",
+      "run_id": 40363845158,
+      "job_id": 121716085842,
+      "status": "INFRASTRUCTURE_FAILED_BEFORE_DATABASE",
+      "observed_at_utc": "2026-10-26T17:22:10.546Z",
+      "cause": "GHCR toomanyrequests and ECR Data limit exceeded; existing registry fallback exhausted before disposable DB startup",
+      "failed_step": 58,
+      "actual_business_cases": 0,
+      "expected_business_cases": 6,
+      "phase_contract_tests": {
+        "count": 3,
+        "status": "PASS",
+        "workflow_step": 57
+      },
+      "original_created": false,
+      "artifact_count": 0,
+      "raw_log": {
+        "path": "transport-40f-infrastructure-first-failure.log",
+        "bytes": 1177926,
+        "sha256": "e25e288a925a00ed25669fa82a16344556795c2a5a3704c9ddd46289f4f71f21"
+      },
+      "retry_requested": false,
+      "retry_policy": "Hold until the finance retry provides new registry availability evidence. No blind repeated retries.",
+      "production_go": false
+    },
+    "observed_at_utc": "2026-10-26T17:23:15.105059+00:00",
+    "retry_count": 2,
+    "actual_business_cases": 0,
+    "first_job_id": 121716085842,
+    "retry_decision": {
+      "head": "40f041641ce336cac4be263297028172ac152202",
+      "run_id": 40363845158,
+      "failed_job_id": 121716085842,
+      "reason": "The finance same-platform fresh-host retry job121725919259 now passed DB startup step58, supplying new registry availability evidence after the held transport retry. One fresh-host retry, unchanged source/platform/oracles/timeouts.",
+      "availability_evidence": {
+        "run_id": 40362500463,
+        "job_id": 121725919259,
+        "database_startup": "PASS",
+        "observed_at_utc": "2026-10-26T17:29:04.101Z"
+      },
+      "retry_count": 1,
+      "same_code_oracles_limits_and_platform": true,
+      "no_automatic_second_retry": true,
+      "business_cases_before_retry": 0,
+      "status": "RETRY_REQUESTED",
+      "requested_at_utc": "2026-10-26T17:29:15.837Z",
+      "result": {
+        "success": true
+      }
+    },
+    "retry_observed_at_utc": "2026-10-26T17:30:13.656022+00:00",
+    "latest_failure_receipt": "transport-40f-infrastructure-retry-failure.json",
+    "previous_status": "INFRASTRUCTURE_BLOCKED_AFTER_ONE_RETRY",
+    "second_manual_resume": {
+      "head": "40f041641ce336cac4be263297028172ac152202",
+      "run_id": 40363845158,
+      "failed_job_id": 121734510218,
+      "previous_failed_job_id": 121716085842,
+      "status": "SECOND_MANUAL_RESUME_RUNNING_NOT_PASS",
+      "retry_count": 2,
+      "reason": "Two independent subsequent jobs passed byte-identical Ubuntu24.04 / CLI2.116.0 / Postgres17.6.1.165 startup definitions at18:40:44 and19:07:28UTC, after transport retry failed17:45:42UTC. This new availability evidence justifies one manually bounded fresh-host resume; no source, oracle, platform or timeout change and no business case has yet run.",
+      "startup_definition_sha256": "6d53ef2cafa99752076b90121a07e784d19bf697142b33fe78cec423d666e8e3",
+      "startup_definitions_equal": true,
+      "availability_witnesses": [
+        {
+          "run_id": 40376731797,
+          "job_id": 121766073244,
+          "database_startup": {
+            "name": "Start disposable database",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 57,
+            "started_at": "2026-10-26T18:39:31Z",
+            "completed_at": "2026-10-26T18:40:44Z"
+          }
+        },
+        {
+          "run_id": 40381790093,
+          "job_id": 121779660598,
+          "database_startup": {
+            "name": "Start disposable database",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 59,
+            "started_at": "2026-10-26T19:06:15Z",
+            "completed_at": "2026-10-26T19:07:28Z"
+          }
+        }
+      ],
+      "prior_business_cases": 0,
+      "prior_two_raw_logs_preserved": true,
+      "no_automatic_third_retry": true,
+      "recorded_at_utc": "2026-10-26T19:12:21.581Z",
+      "production_go": false,
+      "job_id": 121789562898,
+      "request_succeeded": true,
+      "observed_at_utc": "2026-10-26T19:14:35.451Z"
+    },
+    "no_automatic_third_retry": true,
+    "current_stage": "Actual Auth3/race3 execution; database startup passed; outcome pending",
+    "current_completed_business_cases": null
+  },
+  "source_race_workspace_recovery": {
+    "public_prepared_head": "5b1b5ebef2c54dab584c4a0e38f56019a721a160",
+    "actual_d05_prerequisite_verified": true,
+    "local_candidate_rebuilt": true,
+    "previous_local_admission_outcome_not_observed": true,
+    "execution_dispatched": false,
+    "production_go": false
+  },
+  "workspace_reset_20261027": {
+    "public_git_and_original_artifacts_recovered": true,
+    "previous_unsaved_local_source_profile_raw_files_unavailable": true,
+    "published_profile_summaries_retained": true,
+    "no_prior_unobserved_admission_claimed": true
   }
 }

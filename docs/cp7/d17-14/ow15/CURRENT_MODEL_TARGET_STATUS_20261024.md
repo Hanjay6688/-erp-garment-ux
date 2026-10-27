@@ -1,23 +1,32 @@
-## Posisi aktif27 Oktober2026 WIB
+## A / 27 Oktober 2026 WIB — keuangan tiga pasangan dan pemulihan akses lulus
 
-Gunakan [ACTIVE Writer A](ACTIVE_WRITER_A_20261025.json) untuk head/run/job
-terkini. Native52 publik6dceb3d3 PASS52, progres0c86d277 PASS5 dan pilihan/
-persiapan8dfe1a19 PASS6 sudah diverifikasi. Percobaan9a tetap INCOMPLETE5/6;
-catatan metadata yang sempat mencampur head penerus dengan nomor run lama
-dibetulkan melalui [rekonsiliasi](STATUS_EVIDENCE_LINK_RECONCILIATION_20261026.json),
-tanpa mengubah Original atau menambah kredit kasus.
+Keuangan d05c/run40381790093/job121779660598/artifact12684969367 PASS diagnostik.
+3731 sumber dan seluruh gerbang/pemulihan22kelompok/data/sequence/CP6/advisor
+terverifikasi. Seluruh laporan sama selain captured_at, kandidat nolDML.
+SMALL296,350→215,620ms; PRICE_PERCENT282,879→226,414ms; FACTORY1200x3
+22429,829→14001,089ms (37,578% lebih singkat pada pasangan run yang sama).
+Ini belum adopsi produk atau penerimaan seluruh analisis pabrik. Regresi
+lintasrun sebelumnya belum dijelaskan; tidak ada batas waktu yang dinaikkan.
 
-Keuangan e352 tetap INCOMPLETE; d05c menjalankan SMALL/PRICE_PERCENT/factory.
-UI d1f4 telah PASS2, termasuk respons hilang/buka ulang,24angka resmi,
-BLOCKED dan pencabutan akses;3895pin serta seluruh pemulihan terverifikasi.
-Enam gambar lokal ditelaah, kontras minimum6,579 dan108panggilan maksimum170,853ms.
-Lihat [bukti UI](d17-18-ui-d1f4-actual-d1f4b529.json) serta
-[penelaahan tampilan](UI_D1F4_VISUAL_RESTORATION_REVIEW_20261027.json).
-Transport40f sudah melewati startup dan menjalankan Auth3/race3, hasil belum ada.
-Source-race5b1b PREPARED_UNBOUND, lima kontrol tahap lulus, wajib actuald05cPASS
-ketiga pasangan. Pengukuran biaya pemasangan tersedia dari Original Native8dfe;
-regresi laporan lintasrun belum dijelaskan. Formal5/16, production_go=false,
-independent_acceptance=false; CP7C belum dimulai.
+Transport40f tetap INCOMPLETE:6kasus lulus tetapi pemulihan mencoba menghapus
+cp7_alert yang sudah dihapus inverse. Original dan status gagal tetap disimpan.
+Koreksi064d471b971651e50d536121d4ac0cfaf7b4c8cf selesai PASS6 pada
+run40430350590/job121946222900/artifact12704208060.3778sumber diverifikasi,
+Auth3/race3, seluruh22kelompok/baris/sequence, CP6/advisor dan5gerbang lulus.
+Pembersihan hanya memeriksa peran milik pengujian yang masih ada; peran dasar
+atau peran asing tidak dihapus. Ketujuh kontrol lokal dan seluruh oracle lama
+berlaku. Ini belum browser pilihan, cron menit nyata atau skala pabrik.
+
+UI d1f4 PASS2 sebelumnya tetap terverifikasi. Sesudah reset workspace,
+keempat Original diambil ulang dengan digest persis dan diverifikasi melalui
+seluruh assertion penerimaan yang sama. Arsip lama tidak hilang; screenshot
+browser tetap tidak disimpan. Profil mentah lokal yang belum tersimpan tidak
+tersedia lagi, tetapi ringkasan yang sudah dipublikasikan tetap ada.
+
+Source-race publik5b1b belum berjalan. Kandidat lokal direkonstruksi dan
+wajib pemeriksaan sumber penuh baru; hasil admission sebelum reset tidak
+sempat diamati, sehingga tidak diklaim PASS. Prasyarat actuald05 sudah sah.
+Formal5/16, production_go=false, independent_acceptance=false; CP7C belum mulai.
 
 Bagian berikut adalah riwayat checkpoint, bukan daftar pekerjaan aktif.
 

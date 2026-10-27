@@ -10,6 +10,38 @@ penulis A, bukan auditor independen. Tidak ada subagent baru.
 
 
 
+## A / 27 Oktober 2026 WIB — keuangan tiga pasangan dan pemulihan akses lulus
+
+Keuangan d05c/run40381790093/job121779660598/artifact12684969367 PASS diagnostik.
+3731 sumber dan seluruh gerbang/pemulihan22kelompok/data/sequence/CP6/advisor
+terverifikasi. Seluruh laporan sama selain captured_at, kandidat nolDML.
+SMALL296,350→215,620ms; PRICE_PERCENT282,879→226,414ms; FACTORY1200x3
+22429,829→14001,089ms (37,578% lebih singkat pada pasangan run yang sama).
+Ini belum adopsi produk atau penerimaan seluruh analisis pabrik. Regresi
+lintasrun sebelumnya belum dijelaskan; tidak ada batas waktu yang dinaikkan.
+
+Transport40f tetap INCOMPLETE:6kasus lulus tetapi pemulihan mencoba menghapus
+cp7_alert yang sudah dihapus inverse. Original dan status gagal tetap disimpan.
+Koreksi064d471b971651e50d536121d4ac0cfaf7b4c8cf selesai PASS6 pada
+run40430350590/job121946222900/artifact12704208060.3778sumber diverifikasi,
+Auth3/race3, seluruh22kelompok/baris/sequence, CP6/advisor dan5gerbang lulus.
+Pembersihan hanya memeriksa peran milik pengujian yang masih ada; peran dasar
+atau peran asing tidak dihapus. Ketujuh kontrol lokal dan seluruh oracle lama
+berlaku. Ini belum browser pilihan, cron menit nyata atau skala pabrik.
+
+UI d1f4 PASS2 sebelumnya tetap terverifikasi. Sesudah reset workspace,
+keempat Original diambil ulang dengan digest persis dan diverifikasi melalui
+seluruh assertion penerimaan yang sama. Arsip lama tidak hilang; screenshot
+browser tetap tidak disimpan. Profil mentah lokal yang belum tersimpan tidak
+tersedia lagi, tetapi ringkasan yang sudah dipublikasikan tetap ada.
+
+Source-race publik5b1b belum berjalan. Kandidat lokal direkonstruksi dan
+wajib pemeriksaan sumber penuh baru; hasil admission sebelum reset tidak
+sempat diamati, sehingga tidak diklaim PASS. Prasyarat actuald05 sudah sah.
+Formal5/16, production_go=false, independent_acceptance=false; CP7C belum mulai.
+
+Catatan berikut adalah riwayat.
+
 ## A / 27 Oktober 2026 WIB — progres browser aktual lulus, uji besar tetap berjalan
 
 UI d1f4b529542aba443f3b92986da911db646053e1 selesai PASS2 pada

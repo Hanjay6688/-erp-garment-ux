@@ -1,0 +1,274 @@
+{
+  "name": "CP7_D17_18_CHOICE_TRANSPORT6.json",
+  "status": "PASS",
+  "head": "064d471b971651e50d536121d4ac0cfaf7b4c8cf",
+  "run_id": 40430350590,
+  "job_id": 121946222900,
+  "artifact_id": 12704208060,
+  "zip_bytes": 2829206,
+  "zip_sha256": "e8117db7ced1ac47c58f0b55e61e19c9f8a02de51653d8cad0bb5f9e39ac9bbc",
+  "bytes": 4530109,
+  "sha256": "1288861c65976f0fd4c96b9cf1a53bd57f7b3010ee4032a249283ccf0c1e8c44",
+  "archive_member": "CP7_D17_18_CHOICE_TRANSPORT6.json",
+  "source_pins_verified": 3778,
+  "exact_native_predecessor": {
+    "name": "CP7_D17_18_CHOICE_NATIVE6.json",
+    "status": "PASS",
+    "head": "8dfe1a19c7b7c61558b25c00f1dd388c8565e3d1",
+    "run_id": 40338677390,
+    "job_id": 121627045376,
+    "artifact_id": 12663230440,
+    "zip_bytes": 3007799,
+    "zip_sha256": "9d8d24e9816562b2ff75b622c4da69d3d3cb34494f17cbee4d1b86280916d435",
+    "bytes": 6218156,
+    "sha256": "f2110cf6c2873c18679e3f6654d5232474e46decb5543e6d72b803f28b2d62a9",
+    "archive_member": "CP7_D17_18_CHOICE_NATIVE6.json"
+  },
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "production_go": false,
+  "independent_acceptance": false,
+  "actual_Auth_cases": 3,
+  "actual_two_backend_races": 3,
+  "actual_HTTP_timings": [
+    {
+      "method": "erp_cp7_get_frozen_choice_preparation_v1",
+      "millis": 43.945,
+      "status": 400,
+      "code": "P0001"
+    },
+    {
+      "method": "erp_cp7_read_product_analog_candidates_v2",
+      "millis": 13.386,
+      "status": 400,
+      "code": "P0001"
+    },
+    {
+      "method": "erp_cp7_save_product_analog_choice_v2",
+      "millis": 15.448,
+      "status": 400,
+      "code": "P0001"
+    },
+    {
+      "method": "erp_cp7_request_frozen_choice_preparation_v1",
+      "millis": 17.908,
+      "status": 200,
+      "code": null
+    },
+    {
+      "method": "erp_cp7_get_frozen_choice_preparation_v1",
+      "millis": 9.281,
+      "status": 200,
+      "code": null
+    },
+    {
+      "method": "erp_cp7_request_frozen_choice_preparation_v1",
+      "millis": 15.961,
+      "status": 200,
+      "code": null
+    },
+    {
+      "method": "erp_cp7_step_frozen_choice_preparation_v1",
+      "millis": 111.266,
+      "status": 200,
+      "code": null
+    },
+    {
+      "method": "erp_cp7_get_frozen_choice_preparation_v1",
+      "millis": 9.54,
+      "status": 200,
+      "code": null
+    },
+    {
+      "method": "erp_cp7_step_frozen_choice_preparation_v1",
+      "millis": 16.794,
+      "status": 200,
+      "code": null
+    },
+    {
+      "method": "erp_cp7_request_frozen_choice_preparation_v1",
+      "millis": 15.843,
+      "status": 200,
+      "code": null
+    },
+    {
+      "method": "erp_cp7_read_product_analog_candidates_v2",
+      "millis": 26.792,
+      "status": 200,
+      "code": null
+    },
+    {
+      "method": "erp_cp7_save_product_analog_choice_v2",
+      "millis": 290.263,
+      "status": 200,
+      "code": null
+    },
+    {
+      "method": "erp_cp7_save_product_analog_choice_v2",
+      "millis": 3.409,
+      "status": 200,
+      "code": null
+    },
+    {
+      "method": "erp_cp7_save_product_analog_choice_v2",
+      "millis": 3.889,
+      "status": 400,
+      "code": "P0001"
+    },
+    {
+      "method": "erp_cp7_request_frozen_choice_preparation_v1",
+      "millis": 38.94,
+      "status": 200,
+      "code": null
+    },
+    {
+      "method": "erp_cp7_step_frozen_choice_preparation_v1",
+      "millis": 106.845,
+      "status": 200,
+      "code": null
+    },
+    {
+      "method": "erp_cp7_read_product_analog_candidates_v2",
+      "millis": 32.291,
+      "status": 200,
+      "code": null
+    },
+    {
+      "method": "erp_cp7_save_product_analog_choice_v2",
+      "millis": 151.56,
+      "status": 500,
+      "code": "40001"
+    },
+    {
+      "method": "erp_cp7_read_product_analog_candidates_v2",
+      "millis": 31.12,
+      "status": 200,
+      "code": null
+    },
+    {
+      "method": "erp_cp7_get_frozen_choice_preparation_v1",
+      "millis": 9.943,
+      "status": 200,
+      "code": null
+    },
+    {
+      "method": "erp_cp7_request_frozen_choice_preparation_v1",
+      "millis": 40.205,
+      "status": 200,
+      "code": null
+    },
+    {
+      "method": "erp_cp7_step_frozen_choice_preparation_v1",
+      "millis": 143.524,
+      "status": 200,
+      "code": null
+    },
+    {
+      "method": "erp_cp7_request_frozen_choice_preparation_v1",
+      "millis": 16.207,
+      "status": 403,
+      "code": "42501"
+    },
+    {
+      "method": "erp_cp7_get_frozen_choice_preparation_v1",
+      "millis": 2.247,
+      "status": 403,
+      "code": "42501"
+    },
+    {
+      "method": "erp_cp7_step_frozen_choice_preparation_v1",
+      "millis": 2.86,
+      "status": 403,
+      "code": "42501"
+    },
+    {
+      "method": "erp_cp7_read_product_analog_candidates_v2",
+      "millis": 2.225,
+      "status": 403,
+      "code": "42501"
+    },
+    {
+      "method": "erp_cp7_save_product_analog_choice_v2",
+      "millis": 4.322,
+      "status": 403,
+      "code": "42501"
+    },
+    {
+      "method": "erp_cp7_request_frozen_choice_preparation_v1",
+      "millis": 2.046,
+      "status": 403,
+      "code": "42501"
+    },
+    {
+      "method": "erp_cp7_get_frozen_choice_preparation_v1",
+      "millis": 2.036,
+      "status": 403,
+      "code": "42501"
+    },
+    {
+      "method": "erp_cp7_step_frozen_choice_preparation_v1",
+      "millis": 2.745,
+      "status": 403,
+      "code": "42501"
+    },
+    {
+      "method": "erp_cp7_read_product_analog_candidates_v2",
+      "millis": 2.12,
+      "status": 403,
+      "code": "42501"
+    },
+    {
+      "method": "erp_cp7_save_product_analog_choice_v2",
+      "millis": 3.122,
+      "status": 403,
+      "code": "42501"
+    },
+    {
+      "method": "erp_cp7_save_product_analog_choice_v2",
+      "millis": 303.438,
+      "status": 200,
+      "code": null
+    },
+    {
+      "method": "erp_cp7_request_frozen_choice_preparation_v1",
+      "millis": 2.333,
+      "status": 403,
+      "code": "42501"
+    },
+    {
+      "method": "erp_cp7_get_frozen_choice_preparation_v1",
+      "millis": 1.605,
+      "status": 403,
+      "code": "42501"
+    },
+    {
+      "method": "erp_cp7_step_frozen_choice_preparation_v1",
+      "millis": 2.127,
+      "status": 403,
+      "code": "42501"
+    },
+    {
+      "method": "erp_cp7_read_product_analog_candidates_v2",
+      "millis": 1.571,
+      "status": 403,
+      "code": "42501"
+    },
+    {
+      "method": "erp_cp7_save_product_analog_choice_v2",
+      "millis": 1.468,
+      "status": 403,
+      "code": "42501"
+    }
+  ],
+  "client_state_loss_replay": true,
+  "actual_network_reply_loss": false,
+  "real_browser_claim": false,
+  "full_factory_completion": false
+}
