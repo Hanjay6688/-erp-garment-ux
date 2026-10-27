@@ -1,0 +1,60 @@
+{
+  "runner.py": {
+    "path": "scripts/current-finance-consistent-capture-diagnostic/runner.py",
+    "sha256": "99cc1b6c4726aed38e902f55968b2854e54cd6013dee100ffb684a09ed498fd3",
+    "changes": [
+      {
+        "old": "\"\"\"Seven diagnostic operations; restore the entire installed DB between each.\"\"\"",
+        "new": "\"\"\"Two focused groups; retain the entire installed DB restore between them.\"\"\"",
+        "count": 1
+      },
+      {
+        "old": "FINANCE_REPORT_BOOK_CONSISTENCY_ISOLATED7",
+        "new": "FINANCE_CONSISTENCY_FOCUSED_NATIVE20_CRON1",
+        "count": 1
+      },
+      {
+        "old": "/tmp/d17_18_consistent_capture_unused.dump",
+        "new": "/tmp/d17_18_consistency_focused_unused.dump",
+        "count": 1
+      },
+      {
+        "old": "assert len(proofs)==7",
+        "new": "assert len(proofs)==2",
+        "count": 1
+      }
+    ],
+    "assertions": 14
+  },
+  "probe.py": {
+    "path": "scripts/current-finance-consistent-capture-diagnostic/probe.py",
+    "sha256": "6737fffd13dbb0862eccab4234c057a75182ff85f07088b00c67660e6ed05352",
+    "changes": [
+      {
+        "old": "\"\"\"Temporary same-snapshot report/book repair; seven isolated diagnostics.\n\nThe original parent is installed once, with a complete dump restored between\noperations and a complete preinstallation restore afterward. No adoption.\n\"\"\"",
+        "new": "\"\"\"Focused Native20 and actual cron on the unchanged consistent reader.\n\nRetain the first actual84 failure and all its five restored PASS groups. Execute\nonly the two corrected input groups, with the complete original restorations.\n\"\"\"",
+        "count": 1
+      },
+      {
+        "old": "CP7_D17_18_FINANCE_REPORT_BOOK_CONSISTENCY_ISOLATED7",
+        "new": "CP7_D17_18_CONSISTENCY_FOCUSED_NATIVE20_CRON1",
+        "count": 1
+      },
+      {
+        "old": "/tmp/current_consistent_capture_pre.dump",
+        "new": "/tmp/current_consistency_focused_pre.dump",
+        "count": 1
+      },
+      {
+        "old": "manual_steps_scope='ISOLATED_CONSISTENCY_DIAGNOSTICS_ONLY'",
+        "new": "manual_steps_scope='FOCUSED_NATIVE20_CRON1_WITH_COMPLETE_RESTORATION'",
+        "count": 1
+      }
+    ],
+    "assertions": 9
+  },
+  "workflow": {
+    "parent": ".github/workflows/cp7-d17-18-consistent-capture-infra.yml",
+    "parent_sha256": "27825b0486d1287a68f8d2f33c661a5f0b3e2173e3ed53531f22e2372a873a69"
+  }
+}
