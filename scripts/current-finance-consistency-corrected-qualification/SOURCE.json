@@ -1,0 +1,35 @@
+{
+  "contract": "cp7.d17-18.consistency-corrected-native20-cron1.v1",
+  "case_ids": [
+    "FINANCE_CONSISTENCY_CORRECTED_NATIVE20_CRON1"
+  ],
+  "executed_groups": [
+    "REPORT_BOOK_UNCHANGED_NATIVE20",
+    "REPORT_BOOK_UNCHANGED_ACTUAL_MINUTE_CRON"
+  ],
+  "retained_prior_groups": 5,
+  "prior_whole_status": "INCOMPLETE",
+  "retained64_whole_status": "INCOMPLETE",
+  "manual_steps_scope": "CORRECTED_NATIVE20_CRON1_WITH_COMPLETE_RESTORATION",
+  "files": {
+    "scripts/current-finance-consistency-corrected-qualification/CONFIG.json": "78fdb58ab3615de372b0cf9d067eabf33fdff39070529dcbcd4a2dfce1885c9c",
+    "scripts/current-finance-consistency-corrected-qualification/ORIGIN.json": "c24df588989b7fab983b3cbc4c7ce7eca36de5450da7f3528c7bdbb1e92ef46a",
+    "scripts/current-finance-consistency-corrected-qualification/README.md": "4b21c91dc3054fba6ff42c1ea135d14abbadf58196f3d498c845c4451df5816f",
+    "scripts/current-finance-consistency-corrected-qualification/adapters.py": "78bff198ef27a17f5a07333166d9200d6ffff032ad1271b489f0be379d5b7b14",
+    "scripts/current-finance-consistency-corrected-qualification/admission.py": "cde561a0bbdcd39935f2c98f76c3646df2ff83a305f1a531324f4c394a6ded73",
+    "scripts/current-finance-consistency-corrected-qualification/cases.py": "55b716ddb5db20a08aae2c086403b62908a3b4415dfb1f8681e4817b046e5069",
+    "scripts/current-finance-consistency-corrected-qualification/evidence.py": "197a3980221b0ae246ccf59bf23cb9da2567af2421cd83bb15a44ae541b62283",
+    "scripts/current-finance-consistency-corrected-qualification/fetch_retained.py": "6467865872a873e8f4b9ce3cf420d3e511a0d6f7070e8f56f94629f5dbf24fb2",
+    "scripts/current-finance-consistency-corrected-qualification/probe.py": "7da56ed5a9eda2f68ac9d8bdae52f9a1ea5fb58c5b05e874dd28286b93b23417",
+    "scripts/current-finance-consistency-corrected-qualification/runner.py": "b470739bd1e2abe3547125f57fb5254da07fe89cbcc09461ba4a77ba4583b34d",
+    "scripts/current-finance-consistency-corrected-qualification/source_guard.py": "79c4b97c4e9a87d939e0b47de6e7d357c325980d2cb037eb602bc1cc9fba7c1d",
+    "scripts/current-finance-consistency-corrected-qualification/test_actual_dependency.py": "9fa14dadf78bf9b7a83a6334978ac203c7f641ba98c69c08793959a0eea71ce8",
+    "scripts/current-finance-consistency-corrected-qualification/test_adapters.py": "980e8906b697ae31bfc805a4199fc23f104c6532f670ad166c854f40e9320866",
+    "scripts/current-finance-consistency-corrected-qualification/test_boundaries.py": "b07f994aadb90d814d093e57bb5e2fa09f97c9a2825ee092fd6ab40087eb7915",
+    "scripts/current-finance-consistency-corrected-qualification/workflow_guard.py": "419440e347d24a4313802deaad3fec250dcae8f04a1782510010eca9ab0875cb",
+    ".github/workflows/cp7-d17-18-consistency-corrected.yml": "2c4321c2fa7094e950903a8f42e566a51a528ac1538090cfbefddb2c45b9d6d9"
+  },
+  "parent_source_sha256": "38a36213f61228e19561764ccbb248e74c7296ccbaa6ac9c5c3e628b1f0cec26",
+  "production_go": false,
+  "independent_acceptance": false
+}

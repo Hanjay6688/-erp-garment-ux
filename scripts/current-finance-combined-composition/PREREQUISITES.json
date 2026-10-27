@@ -2,9 +2,14 @@
   "contract": "cp7.current-consistent-single-check-finance.v1",
   "allow_database_execution": false,
   "accepted_consistency": null,
-  "acceptance_mode": "FIVE_RESTORED_ACTUAL84_COMPONENTS_PLUS_FOCUSED_NATIVE20_CRON1",
+  "acceptance_mode": "FIVE_RESTORED_ACTUAL84_COMPONENTS_PLUS_CORRECTED_NATIVE20_CRON1",
   "original_directory_variable": "D17_18_ACCEPTED_CONSISTENCY_DIRECTORY",
   "focused_directory_variable": "D17_18_ACCEPTED_CONSISTENCY_FOCUSED_DIRECTORY",
+  "retained64_directory_variable": "D17_18_RETAINED_FOCUSED64_DIRECTORY",
   "production_go": false,
-  "independent_acceptance": false
+  "independent_acceptance": false,
+  "retained_failure_heads": [
+    "84c2c9d962173c80a7630a857b708fe441f14e9b",
+    "64de326e819885f6982364a868a3fa11c8b9dd3d"
+  ]
 }

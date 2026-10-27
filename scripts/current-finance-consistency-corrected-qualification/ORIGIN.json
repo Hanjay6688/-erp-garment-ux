@@ -1,0 +1,72 @@
+{
+  "probe.py": {
+    "path": "scripts/current-finance-consistency-followup-qualification/probe.py",
+    "sha256": "52ede8bad62b7afc7a18a19c77a91cba76578052cc957f475ca988da7f9cc207",
+    "changes": [
+      {
+        "old": "Focused Native20 and actual cron on the unchanged consistent reader.",
+        "new": "Correct the actual64 Native helper reference; retain full runtime oracles.",
+        "count": 1
+      },
+      {
+        "old": "Retain the first actual84 failure and all its five restored PASS groups. Execute\nonly the two corrected input groups, with the complete original restorations.",
+        "new": "Retain the actual84 and actual64 failures, including the passed real cron.\nExecute the pair with the real attendance helper and complete restorations.",
+        "count": 1
+      },
+      {
+        "old": "CP7_D17_18_CONSISTENCY_FOCUSED_NATIVE20_CRON1",
+        "new": "CP7_D17_18_CONSISTENCY_CORRECTED_NATIVE20_CRON1",
+        "count": 1
+      },
+      {
+        "old": "/tmp/current_consistency_focused_pre.dump",
+        "new": "/tmp/current_consistency_corrected_pre.dump",
+        "count": 1
+      },
+      {
+        "old": "FOCUSED_NATIVE20_CRON1_WITH_COMPLETE_RESTORATION",
+        "new": "CORRECTED_NATIVE20_CRON1_WITH_COMPLETE_RESTORATION",
+        "count": 1
+      }
+    ],
+    "assertions": 9
+  },
+  "runner.py": {
+    "path": "scripts/current-finance-consistency-followup-qualification/runner.py",
+    "sha256": "beb99db84bf6cec2872eeb7bee454f1697961e8f072c159229d332475d3b0d58",
+    "changes": [
+      {
+        "old": "Two focused groups; retain the entire installed DB restore between them.",
+        "new": "Corrected Native helper and actual cron; complete installed DB restoration.",
+        "count": 1
+      },
+      {
+        "old": "FINANCE_CONSISTENCY_FOCUSED_NATIVE20_CRON1",
+        "new": "FINANCE_CONSISTENCY_CORRECTED_NATIVE20_CRON1",
+        "count": 1
+      },
+      {
+        "old": "/tmp/d17_18_consistency_focused_unused.dump",
+        "new": "/tmp/d17_18_consistency_corrected_unused.dump",
+        "count": 1
+      }
+    ],
+    "assertions": 14
+  },
+  "adapters.py": {
+    "path": "scripts/current-finance-consistency-followup-qualification/adapters.py",
+    "sha256": "233cb98396fc543e4bf32fae9424ac6e6c8c805694510a528b7a12c62a0ecc0c",
+    "changes": [
+      {
+        "old": "base.chain.prepare_attendance_seed",
+        "new": "base.chain.prepare_attendance_pools",
+        "count": 1
+      }
+    ],
+    "assertions": 0
+  },
+  "workflow": {
+    "parent": ".github/workflows/cp7-d17-18-consistency-native20-cron.yml",
+    "parent_sha256": "fd94d70b25de287e72169a929a786898602f74da259a9033022732a4b2f6516a"
+  }
+}

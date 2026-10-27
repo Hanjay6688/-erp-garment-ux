@@ -12,6 +12,7 @@ def gate(config):
     if (config.get('allow_database_execution')is not True or not accepted
         or accepted.get('status')!=COMPONENTS
         or accepted.get('retained84',{}).get('status')!='INCOMPLETE'
+        or accepted.get('retained64',{}).get('status')!='INCOMPLETE'
         or accepted.get('focused',{}).get('status')!='PASS'):
         raise ValueError('COMBINED_FINANCE_ACTUAL_CONSISTENCY_PASS_REQUIRED')
     assert config['production_go']is config['independent_acceptance']is False
@@ -41,26 +42,34 @@ def baseline(first):
     restored(first)
 
 
-def accepted_components(binding,retained_raw,retained_package,focused_raw,focused_package,
-                        retained_source,focused_source,current_installation,retained_evidence):
+def accepted_components(binding,retained_raw,retained_package,retained64_raw,retained64_package,focused_raw,focused_package,
+                        retained_source,retained64_source,focused_source,current_installation,retained_evidence,retained64_evidence):
     old,old_package=bound_original(binding['retained84'],retained_raw,retained_package)
+    middle,_=bound_original(binding['retained64'],retained64_raw,retained64_package)
     value,package=bound_original(binding['focused'],focused_raw,focused_package)
     old_source=old['source_declaration']
     assert old_source['qualification']==retained_source
     assert old_source['current_installation']==current_installation
     _,retained_summary=retained_evidence.retained(binding['retained84'],retained_raw,retained_package,old_source)
     assert old_package['gate']['writer_runtime']is False and old['status']=='INCOMPLETE'
+    middle_source=middle['source_declaration']
+    assert middle_source['qualification']==retained64_source
+    assert middle_source['current_installation']==current_installation
+    assert middle_source['unchanged_actual84_source']==old_source
+    assert middle_source['retained_actual84']==retained_summary
+    _,retained64_summary=retained64_evidence.retained(binding['retained64'],retained64_raw,retained64_package,middle_source)
     assert value['status']=='PASS' and value['qualification_commit']==binding['focused']['head']
     assert package['gate']=={k:True for k in ('installed','primary_unchanged','backup_restore_drill','security_advisors','writer_runtime')}
     source=value['source_declaration']
     assert source['qualification']==focused_source and source['current_installation']==current_installation
     assert source['unchanged_actual84_source']==old_source and source['retained_actual84']==retained_summary
+    assert source['unchanged_focused64_source']==middle_source and source['retained_focused64']==retained64_summary
     assert source['focused_execution_only']is True
     for key in ('cp6_restored','advisor_gate','baseline_full22_all_rows_all_sequences_equal',
         'baseline_advisors_equal','used_guard_refused_before_DDL','actual_cron_claim','required_case_ids_pass',
         'native20_repeated_unchanged','diagnostic_collection_completed'):
         assert value.get(key)is True,'COMBINED_FINANCE_ACCEPTANCE_MISSING:'+key
-    assert value['manual_steps_scope']=='FOCUSED_NATIVE20_CRON1_WITH_COMPLETE_RESTORATION'
+    assert value['manual_steps_scope']==focused_source['manual_steps_scope']=='CORRECTED_NATIVE20_CRON1_WITH_COMPLETE_RESTORATION'
     assert value['manual_steps']==0 and value['changed_schedule']is False
     assert value['production_go']is value['independent_acceptance']is value['default_adopted']is False
     assert value['performance_qualification']is value['full_combined_final_qualification']is False
@@ -100,10 +109,10 @@ def accepted_components(binding,retained_raw,retained_package,focused_raw,focuse
     assert cron['cron_runs'] and all(row['status']=='succeeded'and row['end']is not None for row in cron['cron_runs'])
     assert cron['manual_finance_or_operational_steps']==cron['page_or_test_ticks']==0
     assert cron['test_schedule_override']is None
-    return value,dict(status=COMPONENTS,retained84=retained_summary,
+    return value,dict(status=COMPONENTS,retained84=retained_summary,retained64=retained64_summary,
         focused_head=binding['focused']['head'],focused_original_sha256=binding['focused']['sha256'],
         focused_package_sha256=binding['focused']['package_sha256'],
         retained_restored_pass_groups=sorted(retained_evidence.PASSED),fresh_focused_pass_groups=sorted(cases),
         all_seven_components_and_full_restores=True,old_whole_status='INCOMPLETE',
-        fresh_groups_executed=2,whole_old_result_not_promoted_to_PASS=True,
+        fresh_groups_executed=2,whole_old_result_not_promoted_to_PASS=True,both_old_whole_results_remain_INCOMPLETE=True,
         combined_reader_not_yet_qualified=True,production_go=False,independent_acceptance=False)

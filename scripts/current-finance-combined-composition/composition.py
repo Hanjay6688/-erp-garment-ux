@@ -38,7 +38,8 @@ def qualification():
         assert sha256((ROOT/path).read_bytes()).hexdigest()==digest,'COMBINED_FINANCE_DERIVATION_CHANGED:'+path
     manifests=[]
     for path,key in (('scripts/current-finance-consistent-capture-diagnostic/SOURCE.json','expected_consistency_source_sha256'),
-        ('scripts/current-finance-consistency-followup-qualification/SOURCE.json','expected_focused_source_sha256')):
+        ('scripts/current-finance-consistency-followup-qualification/SOURCE.json','expected_retained_focused_source_sha256'),
+        ('scripts/current-finance-consistency-corrected-qualification/SOURCE.json','expected_focused_source_sha256')):
         raw=(ROOT/path).read_bytes()
         assert sha256(raw).hexdigest()==pins[key]
         source=json.loads(raw)
@@ -46,13 +47,15 @@ def qualification():
             assert sha256((ROOT/name).read_bytes()).hexdigest()==digest,name
         manifests.append(source)
     assert manifests[1]['parent_source_sha256']==pins['expected_consistency_source_sha256']
+    assert manifests[2]['parent_source_sha256']==pins['expected_retained_focused_source_sha256']
     parent,_,_,_,_=runtime()
-    directories=[Path(os.environ[config[key]])for key in ('original_directory_variable','focused_directory_variable')]
-    proofs=[binding[key]for key in ('retained84','focused')]
+    directories=[Path(os.environ[config[key]])for key in ('original_directory_variable','retained64_directory_variable','focused_directory_variable')]
+    proofs=[binding[key]for key in ('retained84','retained64','focused')]
     raw=[(directory/proof[name]).read_bytes()for directory,proof in zip(directories,proofs)
         for name in ('name','package_name')]
     retained_evidence=load('combined_retained84_evidence',ROOT/'scripts/current-finance-consistency-followup-qualification/evidence.py')
-    return evidence.accepted_components(binding,*raw,*manifests,parent.sources(),retained_evidence)
+    retained64_evidence=load('combined_retained64_evidence',ROOT/'scripts/current-finance-consistency-corrected-qualification/evidence.py')
+    return evidence.accepted_components(binding,*raw,*manifests,parent.sources(),retained_evidence,retained64_evidence)
 
 
 def sources():

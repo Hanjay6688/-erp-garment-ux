@@ -9,7 +9,10 @@ running on GitHub. Prerequisites stay closed until exact Original and package
 bytes bind five restored PASS groups from actual84 and two focused PASS
 groups for Native20 and actual cron. The whole actual84 result and both first
 NULL-snapshot counterexamples remain INCOMPLETE; only two groups are freshly
-executed by the focused prerequisite. Admission recomputes its complete source
+executed by the focused prerequisite. Actual64 also remains INCOMPLETE after
+its Native factory helper-name error; its cron PASS and full restorations are
+bound separately. The corrected pair must pass with the actual accepted helper.
+Admission recomputes its complete source
 declaration, including the retained failure, before any database connection.
 
 Even an accepted prerequisite proves the changes separately. This composition

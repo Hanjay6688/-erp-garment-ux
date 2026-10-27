@@ -42,7 +42,7 @@ def admitted(repo,here,ids,product,native):
     assert source['production_go']is source['independent_acceptance']is False
     for path,digest in source['files'].items():
         assert sha256((repo/path).read_bytes()).hexdigest()==digest,path
-    parent_dir=repo/'scripts/current-finance-consistency-followup-qualification'
+    parent_dir=repo/'scripts/current-finance-consistency-corrected-qualification'
     readonly=load('combined_acceptance_exact_readonly_parent',repo/'scripts/current-finance-readonly-integration-qualification/composition.py')
     admission=load('combined_acceptance_focused_component_admission',parent_dir/'admission.py')
     parent_source=json.loads((parent_dir/'SOURCE.json').read_bytes())

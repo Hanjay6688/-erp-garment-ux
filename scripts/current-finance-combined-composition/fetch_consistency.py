@@ -12,8 +12,11 @@ def fetch():
     config=json.loads((HERE/'PREREQUISITES.json').read_bytes());binding=evidence.gate(config)
     retained=json.loads((HERE.parent/'current-finance-consistency-followup-qualification/CONFIG.json').read_bytes())
     assert retained['retained84']==binding['retained84'],'COMBINED_RETAINED84_BINDING_CHANGED'
+    retained64=json.loads((HERE.parent/'current-finance-consistency-corrected-qualification/CONFIG.json').read_bytes())
+    assert retained64['retained64']==binding['retained64'],'COMBINED_RETAINED64_BINDING_CHANGED'
+    assert config['retained64_directory_variable']==retained64['original_directory_variable']
     directories=[]
-    for key,variable in (('retained84','original_directory_variable'),('focused','focused_directory_variable')):
+    for key,variable in (('retained84','original_directory_variable'),('retained64','retained64_directory_variable'),('focused','focused_directory_variable')):
         proof=binding[key]
         raw=subprocess.check_output(['gh','api',
             'repos/Hanjay6688/-erp-garment-ux/actions/artifacts/'+str(proof['artifact_id'])+'/zip'])
@@ -33,6 +36,7 @@ def fetch():
     with Path(os.environ['GITHUB_ENV']).open('a')as stream:
         for variable,directory in directories:stream.write(variable+'='+str(directory)+'\n')
     print(json.dumps(dict(retained_head=binding['retained84']['head'],retained_whole_status='INCOMPLETE',
+        retained64_head=binding['retained64']['head'],retained64_whole_status='INCOMPLETE',
         focused_head=binding['focused']['head'],accepted_bytes_fetched=True,
         full_source_and_runtime_acceptance_requires_admission=True)))
 

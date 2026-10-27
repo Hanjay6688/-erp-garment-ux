@@ -16,7 +16,7 @@ def load(name,path):
 
 product=load('combined_qualification_product',HERE/'composition.py')
 retained=load('combined_unchanged_consistency_operations',ROOT/'scripts/current-finance-consistent-capture-diagnostic/cases.py')
-inputs=load('combined_retained_focused_inputs',ROOT/'scripts/current-finance-consistency-followup-qualification/adapters.py')
+inputs=load('combined_retained_focused_inputs',ROOT/'scripts/current-finance-consistency-corrected-qualification/adapters.py')
 factory=load('combined_current_public_factory_cron',HERE/'qualification_factory.py')
 STATE=None
 

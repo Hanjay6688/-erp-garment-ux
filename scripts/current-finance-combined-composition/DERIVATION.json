@@ -5,5 +5,6 @@
     "scripts/current-finance-single-check-diagnostic/single_check.py": "041ee14f63a0cb150e507d59f879000b1e0eefe1bdffef185e9b7fbea6d082e2"
   },
   "expected_consistency_source_sha256": "8501a50e92d7808919bb622d8f97642d8fc1f7ec410eeb2cb9bdcc1c7988d9c6",
-  "expected_focused_source_sha256": "38a36213f61228e19561764ccbb248e74c7296ccbaa6ac9c5c3e628b1f0cec26"
+  "expected_focused_source_sha256": "df4c7102713069e33b61bcd89e9693f0fad9ac86a2d3d6076d0d11c6327b653a",
+  "expected_retained_focused_source_sha256": "38a36213f61228e19561764ccbb248e74c7296ccbaa6ac9c5c3e628b1f0cec26"
 }
