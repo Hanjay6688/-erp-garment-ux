@@ -5,9 +5,11 @@ finance predecessor, verifies that real installation, then applies the unchanged
 read-only opening-HPP and same-report readiness transformations from the paired
 diagnostic and source-race route. No new financial arithmetic is introduced.
 
-It is currently **unbound and unexecuted**. `PREREQUISITES.json` has no accepted
-source-race Original, so installation refuses before database access. The
-existing execution heads remain frozen. This is not a default product installer,
+The source-race prerequisite is now **accepted**, with exact Original bytes,
+3,759 source pins, all five package gates and full restoration checked. The new
+composition itself remains **unexecuted**. `PREREQUISITES.json` binds the accepted
+receipt; missing or failed race evidence still refuses before database access.
+The existing execution heads remain frozen. This is not a default product installer,
 a production migration, factory qualification, or independent acceptance.
 
 The delta permits exactly two function replacements with unchanged authority and
@@ -31,7 +33,14 @@ parent installation twice for every focused change. It is not evidence of a
 new complete-chain inverse. The full installation/inverse route remains available
 and the final combined candidate still needs full qualification.
 
-Next: bind the accepted Original only after complete source, case and restore
-checks; qualify this composition with official finance/HPP and close/readiness
-regressions. Actual large-factory completion, shared stage budget policy and the
+Next: qualify this composition with official finance/HPP and close/readiness
+regressions, admitting the accepted Originals again before database access. Actual large-factory completion, shared stage budget policy and the
 final combined qualification remain separate open work.
+
+`cases.py` selects eight unchanged P13 report cases and five unchanged public
+staged-finance cases. They cover independent expected cash/AR/COGS/HPP amounts,
+large decimal values, Native close/reopen and late corrections, private access,
+exact request replay, official metrics, source-change refusal and permission
+revocation. `CASE_SOURCES.json` binds their original files and exact 13 IDs.
+Selection and source admission are preparation only; no Native13 result is yet
+claimed, and these Native cases do not claim actual Auth/browser coverage.

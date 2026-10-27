@@ -1,9 +1,2414 @@
 {
   "contract": "cp7.current-choice-readonly-finance-qualification-prerequisites.v1",
   "merged_source_head": "f05447d5b3ba892cd498035cafb545856b766abe",
-  "source_race": null,
+  "source_race": {
+    "name": "CP7_D17_18_FINANCE_SOURCE_RACE1.json",
+    "status": "PASS",
+    "head": "bd3505f624fb4e821ea9ef2ea039313abd850fd5",
+    "run_id": 40491368228,
+    "job_id": 122145853228,
+    "artifact_id": 12732802191,
+    "zip_bytes": 2844452,
+    "zip_sha256": "7648f9c987403452db33114fb76b93310c05e5afaced02d713c45b644136b580",
+    "bytes": 4659116,
+    "sha256": "8e5778ae494477360ab2078b6a9bf9c562422f25cc000bd2f1a724ac902de2a8",
+    "archive_member": "CP7_D17_18_FINANCE_SOURCE_RACE1.json",
+    "source_pins_verified": 3759,
+    "exact_prior_original_verified": {
+      "name": "CP7_D17_18_FINANCE_CHECK_REUSE_DIAGNOSTIC1.json",
+      "status": "PASS",
+      "head": "d05c568cca01085f87f7e48fe85c8d15ca43bffd",
+      "run_id": 40381790093,
+      "job_id": 121779660598,
+      "artifact_id": 12684969367,
+      "zip_bytes": 2993530,
+      "zip_sha256": "4c0e090e1a588890ef14378f035c1b5d2aa305af3a1eca48c56c1af2a712e4a9",
+      "bytes": 5178783,
+      "sha256": "c9c9d9898126e205bbbf424e1106587c69e8e1517aecc6ac02bb938392ab9efb",
+      "archive_member": "CP7_D17_18_FINANCE_CHECK_REUSE_DIAGNOSTIC1.json",
+      "source_pins_verified": 3731,
+      "exact_prior_original_verified": {
+        "name": "CP7_D17_18_FINANCE_READER_DIAGNOSTIC1.json",
+        "status": "PASS",
+        "head": "7caf6b84a357ab670ac0e4c0c190fadb2738c2e7",
+        "run_id": 40300049475,
+        "job_id": 121495423311,
+        "artifact_id": 12644706605,
+        "zip_bytes": 2987699,
+        "zip_sha256": "a0fe9df8f66e188122347c37a9d58dfb0cea6814920bc1d5b3d73348631baa45",
+        "bytes": 5137654,
+        "sha256": "be866e88e095447c042fa9cdbf93ab225f3b95e1cf5ace8bf0f524de9f5bcdf4",
+        "archive_member": "CP7_D17_18_FINANCE_READER_DIAGNOSTIC1.json"
+      },
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
+      },
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "production_go": false,
+      "independent_acceptance": false,
+      "diagnostic_collection_only": true,
+      "paired_reports": {
+        "SMALL": {
+          "status": "PASS",
+          "unchanged_official": {
+            "candidate": false,
+            "status": "COMPLETED_DIAGNOSTIC",
+            "diagnostic_only": true,
+            "statement_limit_ms": 8000,
+            "retries": 0,
+            "elapsed_ms": 296.35,
+            "functions": [
+              {
+                "function": "erp.run_v267_financial_truth_checks()",
+                "calls": 5,
+                "total_ms": 135.470737,
+                "self_ms": 77.494524
+              },
+              {
+                "function": "erp.run_v268_financial_report_checks()",
+                "calls": 3,
+                "total_ms": 181.334222,
+                "self_ms": 61.279373
+              },
+              {
+                "function": "erp.period_blockers_v1(date,date)",
+                "calls": 2,
+                "total_ms": 238.481368,
+                "self_ms": 19.881273
+              },
+              {
+                "function": "erp._v268_financial_report_checks_pre_scope()",
+                "calls": 3,
+                "total_ms": 101.190319,
+                "self_ms": 14.203304
+              },
+              {
+                "function": "erp.initial_prepayment_checks_v1()",
+                "calls": 5,
+                "total_ms": 14.194852,
+                "self_ms": 14.194852
+              },
+              {
+                "function": "erp.material_purchase_final_ap_total(uuid)",
+                "calls": 21,
+                "total_ms": 14.148284,
+                "self_ms": 11.736528
+              },
+              {
+                "function": "cp7_hpp_close.blockers_v1(date)",
+                "calls": 2,
+                "total_ms": 14.740509,
+                "self_ms": 9.61826
+              },
+              {
+                "function": "erp.get_owner_financial_snapshot_v2(date,date,date)",
+                "calls": 1,
+                "total_ms": 206.07639,
+                "self_ms": 7.237015
+              },
+              {
+                "function": "erp.pocket_period_checks_v1()",
+                "calls": 5,
+                "total_ms": 12.737567,
+                "self_ms": 6.390466
+              },
+              {
+                "function": "erp.pocket_lot_cost_v1(uuid)",
+                "calls": 5,
+                "total_ms": 6.347101,
+                "self_ms": 6.347101
+              },
+              {
+                "function": "erp.material_purchase_posted_invoice_qty(uuid)",
+                "calls": 36,
+                "total_ms": 7.973536,
+                "self_ms": 5.423429
+              },
+              {
+                "function": "erp.compute_po_hpp_gl_book_v2620e(uuid)",
+                "calls": 3,
+                "total_ms": 5.608254,
+                "self_ms": 5.361931
+              },
+              {
+                "function": "erp.run_integrity_checks()",
+                "calls": 2,
+                "total_ms": 5.059673,
+                "self_ms": 5.04446
+              },
+              {
+                "function": "erp.compute_po_hpp_gl_targets_v2620d(uuid)",
+                "calls": 3,
+                "total_ms": 5.641235,
+                "self_ms": 4.972404
+              },
+              {
+                "function": "erp.pocket_fabric_checks_v1()",
+                "calls": 5,
+                "total_ms": 4.899269,
+                "self_ms": 4.899269
+              },
+              {
+                "function": "erp.compute_non_po_product_hpp_targets_v2620f(uuid)",
+                "calls": 3,
+                "total_ms": 4.603925,
+                "self_ms": 4.603925
+              },
+              {
+                "function": "cp7_finance.exact_numbers(jsonb)",
+                "calls": 738,
+                "total_ms": 3.722611,
+                "self_ms": 3.722611
+              },
+              {
+                "function": "erp._build_attendance_hpp_manifest_v1(date,date)",
+                "calls": 8,
+                "total_ms": 4.68127,
+                "self_ms": 2.78452
+              },
+              {
+                "function": "erp.material_purchase_grni_return_qty(uuid)",
+                "calls": 21,
+                "total_ms": 2.717009,
+                "self_ms": 2.717009
+              },
+              {
+                "function": "erp.bb_receipt_invoiced_qty_v1(uuid)",
+                "calls": 36,
+                "total_ms": 2.550107,
+                "self_ms": 2.550107
+              },
+              {
+                "function": "erp.material_purchase_grni_total(uuid)",
+                "calls": 16,
+                "total_ms": 9.568657,
+                "self_ms": 2.469554
+              },
+              {
+                "function": "erp.bf_supplier_credit_delta_v1(uuid,date)",
+                "calls": 21,
+                "total_ms": 2.411756,
+                "self_ms": 2.411756
+              },
+              {
+                "function": "erp.account_id(text)",
+                "calls": 94,
+                "total_ms": 2.724566,
+                "self_ms": 2.173865
+              },
+              {
+                "function": "cp7_finance.workspace(jsonb)",
+                "calls": 1,
+                "total_ms": 294.109516,
+                "self_ms": 1.733932
+              },
+              {
+                "function": "erp._cp3_business_date(timestamp with time zone)",
+                "calls": 270,
+                "total_ms": 1.723431,
+                "self_ms": 1.723431
+              },
+              {
+                "function": "erp.compute_non_po_product_hpp_book_v2620f(uuid)",
+                "calls": 3,
+                "total_ms": 1.701144,
+                "self_ms": 1.48741
+              },
+              {
+                "function": "erp.material_purchase_invoice_capacity(uuid)",
+                "calls": 21,
+                "total_ms": 4.169198,
+                "self_ms": 1.452189
+              },
+              {
+                "function": "cp7_laundry_unknown_wash.blockers_v1(date)",
+                "calls": 2,
+                "total_ms": 2.116632,
+                "self_ms": 1.286676
+              },
+              {
+                "function": "cp7_finance_capture.report_unit(jsonb)",
+                "calls": 1,
+                "total_ms": 295.366378,
+                "self_ms": 1.256862
+              },
+              {
+                "function": "erp.be_po_extra_v1(uuid)",
+                "calls": 6,
+                "total_ms": 1.255698,
+                "self_ms": 1.255698
+              },
+              {
+                "function": "cp7_note.report_lifecycle(date,date,text)",
+                "calls": 2,
+                "total_ms": 0.966863,
+                "self_ms": 0.966863
+              },
+              {
+                "function": "cp7_laundry_unknown_wash.unknown_v1()",
+                "calls": 2,
+                "total_ms": 0.829956,
+                "self_ms": 0.829956
+              },
+              {
+                "function": "erp.has_permission(text)",
+                "calls": 2,
+                "total_ms": 0.825149,
+                "self_ms": 0.825149
+              },
+              {
+                "function": "erp.period_readiness_v1(date,date)",
+                "calls": 2,
+                "total_ms": 239.262451,
+                "self_ms": 0.781083
+              },
+              {
+                "function": "erp._cp3_canonical_date(date)",
+                "calls": 26,
+                "total_ms": 0.683281,
+                "self_ms": 0.683281
+              },
+              {
+                "function": "erp.be_redye_po_cost_v1(uuid)",
+                "calls": 3,
+                "total_ms": 0.550754,
+                "self_ms": 0.550754
+              },
+              {
+                "function": "erp.require_internal()",
+                "calls": 94,
+                "total_ms": 0.550701,
+                "self_ms": 0.550701
+              },
+              {
+                "function": "erp.get_my_access_v1()",
+                "calls": 1,
+                "total_ms": 0.722152,
+                "self_ms": 0.408358
+              },
+              {
+                "function": "cp7_sales_return_correction.report_lifecycle(date,date)",
+                "calls": 1,
+                "total_ms": 0.405443,
+                "self_ms": 0.405443
+              },
+              {
+                "function": "erp.period_completeness_from_v1()",
+                "calls": 2,
+                "total_ms": 0.36346,
+                "self_ms": 0.36346
+              },
+              {
+                "function": "erp._cp3_epoch_microseconds(timestamp with time zone)",
+                "calls": 10,
+                "total_ms": 0.323999,
+                "self_ms": 0.323999
+              },
+              {
+                "function": "cp7_finance.access_now()",
+                "calls": 1,
+                "total_ms": 1.525287,
+                "self_ms": 0.320745
+              },
+              {
+                "function": "erp.role_permission_keys(uuid)",
+                "calls": 1,
+                "total_ms": 0.313794,
+                "self_ms": 0.313794
+              },
+              {
+                "function": "erp.accounting_close_preflight_v1(date)",
+                "calls": 1,
+                "total_ms": 80.708537,
+                "self_ms": 0.209956
+              },
+              {
+                "function": "erp.require_owner_admin()",
+                "calls": 10,
+                "total_ms": 0.119102,
+                "self_ms": 0.119102
+              }
+            ],
+            "table_write_attempts": {},
+            "all_data_and_sequences_unchanged_before_rollback": true,
+            "report_bytes": 24496,
+            "report_sha256": "7e78dce0d75b1d2d8bf29ef23062359cce536b94fb500e5edf252d4c35f3aaea",
+            "excluded_comparison_fields": [
+              "report.captured_at"
+            ],
+            "rows": {
+              "book": 24,
+              "cash": 2,
+              "line": 46,
+              "journal": 22
+            },
+            "server_report_ms": 295.1,
+            "all22_all_data_and_sequences_restored": true
+          },
+          "single_snapshot_check_candidate": {
+            "candidate": true,
+            "status": "COMPLETED_DIAGNOSTIC",
+            "diagnostic_only": true,
+            "statement_limit_ms": 8000,
+            "retries": 0,
+            "temporary_patch": {
+              "readonly_opening": {
+                "original_resolver_unchanged": true,
+                "private_helper_not_callable_by_browser_or_worker": true,
+                "original_body_sha256": "d82bdae08187b2121b7a777e0b3973f292318b195a148762f3ba5998407bf48a",
+                "report_before_sha256": "7652eb184974f4c2cd17cdc100b0fd028cefcc578486b56ffa44a75dcd68aa92",
+                "report_after_sha256": "11f7fbd69b605998a64cad2943841d99bce914756459f9b6290b9f917ae854e9",
+                "changed_report_call_count": 1,
+                "removed_lock_count": 1,
+                "removed_update_count": 2,
+                "product_installed": false,
+                "production_go": false
+              },
+              "strategy": "SAME_REPORT_OFFICIAL_READINESS",
+              "snapshot_original_body_sha256": "5687c8b4805f73baa68197121f9a4a90f5f123d6ff7da683e88301a485e3aab2",
+              "exact_live_body_matches_composed_official_installers": true,
+              "installed_source_derivation": {
+                "strategy": "SAME_REPORT_OFFICIAL_READINESS",
+                "sources": {
+                  "supabase/dev/cp6_ba_t1_family.sql": "3359a42fe93c35da481d164e5e6d70e79da41559621a65736418bfc8f32d93a7",
+                  "supabase/dev/cp6_aw_t1_family.sql": "db8ee8115b5a53dd9a7b154c96b764b8bee9e4a79c5adfa48050417bb756bd32",
+                  "scripts/cp7-src/finance/read.sql": "02ef8a3bc1c9d652b4fbf4505af2ce0c056e93fb26d8f7aa68657f48d3e05c57",
+                  "scripts/cp7_note_report_bundle.py": "f721095d1a3054a875c7682295fd0969848169f4124694a3f51f3f3302c3a439",
+                  "scripts/cp7_report_accounts_bundle.py": "d99e964b8c827dc027074a81cc0a44b8973bc41d445aa2e011a4e91d697c3797"
+                },
+                "derived": {
+                  "native_BA_body_sha256": "82e8812d4d1096ea817124e5995435464e810c18271f32ae851cc5e87f02f00b",
+                  "installed_snapshot_sha256": "5687c8b4805f73baa68197121f9a4a90f5f123d6ff7da683e88301a485e3aab2",
+                  "installed_snapshot_bytes": 14417,
+                  "preflight_sha256": "46cb2011e8c12d7f71bed033cb2180b8203cadef43781d45516a87344c588b65",
+                  "workspace_sha256": "944e6693688302a4d322708ba981c30baab54984f2ba2f5240b0125ce5517bb4"
+                },
+                "transform_order": [
+                  "cp7_note_report_bundle.patched_report",
+                  "cp7_report_accounts_bundle.wrap"
+                ],
+                "actual_f038_live_body_sha256": "5687c8b4805f73baa68197121f9a4a90f5f123d6ff7da683e88301a485e3aab2",
+                "actual_f038_head": "f038a6ecc5a71278554eab62ab7df4f4ced9b7bc",
+                "actual_f038_original_sha256": "06ff84cfea4908fb3433418dae618a7ecddbcd50264dec0d1a25c73e7e007df6",
+                "historical_AB_and_12004_body_remain_rejected": true,
+                "product_adoption": false,
+                "production_go": false
+              },
+              "original_Native_snapshot_and_preflight_unchanged": true,
+              "original_close_commands_unchanged": true,
+              "original_close_command_sha256": {
+                "erp.close_accounting_through(date,text)": "9bf5a5549d2e48c7a084ee84ca6b0776a79300b15833ec63a475f89dec3b6f59",
+                "erp.reopen_accounting_through(date,text)": "cba02940aceb945f448e144e003c1fc31bc365b93e261a64e8c296d9e6ac9725"
+              },
+              "private_date_only_helper": true,
+              "private_helper_only_finance_reader": true,
+              "original_preflight_permission_and_rules_preserved": true,
+              "no_cache_or_client_supplied_check_result": true,
+              "report_readiness_calls_before": 2,
+              "report_readiness_calls_after": 1,
+              "workspace_before_sha256": "944e6693688302a4d322708ba981c30baab54984f2ba2f5240b0125ce5517bb4",
+              "workspace_after_sha256": "f148695c50cdf56214c5d65296bdcc062157aed53968c3302534f32abeae158b",
+              "authority_unchanged": true,
+              "product_adoption": false,
+              "production_go": false
+            },
+            "elapsed_ms": 215.62,
+            "functions": [
+              {
+                "function": "erp.run_v268_financial_report_checks()",
+                "calls": 2,
+                "total_ms": 138.843928,
+                "self_ms": 55.829162
+              },
+              {
+                "function": "erp.run_v267_financial_truth_checks()",
+                "calls": 3,
+                "total_ms": 82.457934,
+                "self_ms": 46.816899
+              },
+              {
+                "function": "erp.period_blockers_v1(date,date)",
+                "calls": 1,
+                "total_ms": 155.700417,
+                "self_ms": 13.029562
+              },
+              {
+                "function": "erp._v268_financial_report_checks_pre_scope()",
+                "calls": 2,
+                "total_ms": 70.233101,
+                "self_ms": 11.745307
+              },
+              {
+                "function": "erp.initial_prepayment_checks_v1()",
+                "calls": 3,
+                "total_ms": 8.942687,
+                "self_ms": 8.942687
+              },
+              {
+                "function": "cp7_finance.read_snapshot_readiness_diagnostic_v1(date,date,date)",
+                "calls": 1,
+                "total_ms": 206.527692,
+                "self_ms": 8.338034
+              },
+              {
+                "function": "erp.material_purchase_final_ap_total(uuid)",
+                "calls": 13,
+                "total_ms": 9.087004,
+                "self_ms": 7.558502
+              },
+              {
+                "function": "cp7_hpp_close.blockers_v1(date)",
+                "calls": 1,
+                "total_ms": 9.309703,
+                "self_ms": 6.099747
+              },
+              {
+                "function": "erp.pocket_lot_cost_v1(uuid)",
+                "calls": 3,
+                "total_ms": 4.372233,
+                "self_ms": 4.372233
+              },
+              {
+                "function": "erp.run_integrity_checks()",
+                "calls": 1,
+                "total_ms": 4.31645,
+                "self_ms": 4.309359
+              },
+              {
+                "function": "erp.pocket_period_checks_v1()",
+                "calls": 3,
+                "total_ms": 8.289799,
+                "self_ms": 3.917566
+              },
+              {
+                "function": "erp.compute_po_hpp_gl_book_v2620e(uuid)",
+                "calls": 2,
+                "total_ms": 3.866519,
+                "self_ms": 3.703052
+              },
+              {
+                "function": "cp7_finance.exact_numbers(jsonb)",
+                "calls": 738,
+                "total_ms": 3.658705,
+                "self_ms": 3.658705
+              },
+              {
+                "function": "erp.compute_po_hpp_gl_targets_v2620d(uuid)",
+                "calls": 2,
+                "total_ms": 3.981764,
+                "self_ms": 3.477701
+              },
+              {
+                "function": "erp.material_purchase_posted_invoice_qty(uuid)",
+                "calls": 22,
+                "total_ms": 4.893753,
+                "self_ms": 3.341414
+              },
+              {
+                "function": "erp.pocket_fabric_checks_v1()",
+                "calls": 3,
+                "total_ms": 2.962563,
+                "self_ms": 2.962563
+              },
+              {
+                "function": "erp.compute_non_po_product_hpp_targets_v2620f(uuid)",
+                "calls": 2,
+                "total_ms": 2.946948,
+                "self_ms": 2.946948
+              },
+              {
+                "function": "erp._build_attendance_hpp_manifest_v1(date,date)",
+                "calls": 4,
+                "total_ms": 2.959416,
+                "self_ms": 1.949531
+              },
+              {
+                "function": "erp.material_purchase_grni_return_qty(uuid)",
+                "calls": 13,
+                "total_ms": 1.802376,
+                "self_ms": 1.802376
+              },
+              {
+                "function": "erp.account_id(text)",
+                "calls": 61,
+                "total_ms": 2.049035,
+                "self_ms": 1.594003
+              },
+              {
+                "function": "erp.bb_receipt_invoiced_qty_v1(uuid)",
+                "calls": 22,
+                "total_ms": 1.552339,
+                "self_ms": 1.552339
+              },
+              {
+                "function": "erp.material_purchase_grni_total(uuid)",
+                "calls": 10,
+                "total_ms": 6.032937,
+                "self_ms": 1.542515
+              },
+              {
+                "function": "erp.bf_supplier_credit_delta_v1(uuid,date)",
+                "calls": 13,
+                "total_ms": 1.528502,
+                "self_ms": 1.528502
+              },
+              {
+                "function": "cp7_finance.workspace(jsonb)",
+                "calls": 1,
+                "total_ms": 213.839332,
+                "self_ms": 1.483403
+              },
+              {
+                "function": "erp.has_permission(text)",
+                "calls": 3,
+                "total_ms": 1.284823,
+                "self_ms": 1.284823
+              },
+              {
+                "function": "cp7_note.report_lifecycle(date,date,text)",
+                "calls": 2,
+                "total_ms": 1.264994,
+                "self_ms": 1.264994
+              },
+              {
+                "function": "cp7_finance_capture.report_unit(jsonb)",
+                "calls": 1,
+                "total_ms": 214.812404,
+                "self_ms": 0.973072
+              },
+              {
+                "function": "erp.compute_non_po_product_hpp_book_v2620f(uuid)",
+                "calls": 2,
+                "total_ms": 1.104821,
+                "self_ms": 0.966021
+              },
+              {
+                "function": "erp._cp3_business_date(timestamp with time zone)",
+                "calls": 151,
+                "total_ms": 0.947659,
+                "self_ms": 0.947659
+              },
+              {
+                "function": "erp.be_po_extra_v1(uuid)",
+                "calls": 4,
+                "total_ms": 0.910157,
+                "self_ms": 0.910157
+              },
+              {
+                "function": "erp.material_purchase_invoice_capacity(uuid)",
+                "calls": 13,
+                "total_ms": 2.686474,
+                "self_ms": 0.884098
+              },
+              {
+                "function": "cp7_laundry_unknown_wash.blockers_v1(date)",
+                "calls": 1,
+                "total_ms": 1.09729,
+                "self_ms": 0.691607
+              },
+              {
+                "function": "cp7_sales_return_correction.report_lifecycle(date,date)",
+                "calls": 1,
+                "total_ms": 0.579928,
+                "self_ms": 0.579928
+              },
+              {
+                "function": "erp.period_readiness_v1(date,date)",
+                "calls": 1,
+                "total_ms": 156.161394,
+                "self_ms": 0.460977
+              },
+              {
+                "function": "erp.require_internal()",
+                "calls": 61,
+                "total_ms": 0.455032,
+                "self_ms": 0.455032
+              },
+              {
+                "function": "erp.get_my_access_v1()",
+                "calls": 1,
+                "total_ms": 0.809615,
+                "self_ms": 0.428779
+              },
+              {
+                "function": "cp7_laundry_unknown_wash.unknown_v1()",
+                "calls": 1,
+                "total_ms": 0.405683,
+                "self_ms": 0.405683
+              },
+              {
+                "function": "cp7_finance.access_now()",
+                "calls": 1,
+                "total_ms": 1.902338,
+                "self_ms": 0.393115
+              },
+              {
+                "function": "erp._cp3_canonical_date(date)",
+                "calls": 13,
+                "total_ms": 0.38235,
+                "self_ms": 0.38235
+              },
+              {
+                "function": "erp.role_permission_keys(uuid)",
+                "calls": 1,
+                "total_ms": 0.380836,
+                "self_ms": 0.380836
+              },
+              {
+                "function": "erp.be_redye_po_cost_v1(uuid)",
+                "calls": 2,
+                "total_ms": 0.356279,
+                "self_ms": 0.356279
+              },
+              {
+                "function": "erp.period_completeness_from_v1()",
+                "calls": 1,
+                "total_ms": 0.258581,
+                "self_ms": 0.258581
+              },
+              {
+                "function": "erp._cp3_epoch_microseconds(timestamp with time zone)",
+                "calls": 5,
+                "total_ms": 0.177188,
+                "self_ms": 0.177188
+              },
+              {
+                "function": "erp.require_owner_admin()",
+                "calls": 7,
+                "total_ms": 0.109115,
+                "self_ms": 0.109115
+              }
+            ],
+            "table_write_attempts": {},
+            "all_data_and_sequences_unchanged_before_rollback": true,
+            "report_bytes": 24496,
+            "report_sha256": "7e78dce0d75b1d2d8bf29ef23062359cce536b94fb500e5edf252d4c35f3aaea",
+            "excluded_comparison_fields": [
+              "report.captured_at"
+            ],
+            "rows": {
+              "book": 24,
+              "cash": 2,
+              "line": 46,
+              "journal": 22
+            },
+            "server_report_ms": 214.7,
+            "all22_all_data_and_sequences_restored": true
+          },
+          "official_check_calls_before": 3,
+          "official_check_calls_after": 2,
+          "official_readiness_calls_before": 2,
+          "official_readiness_calls_after": 1,
+          "no_result_cache": true,
+          "caller_supplied_check_results": false,
+          "entire_official_report_equal": true,
+          "elapsed_change_ms": -80.73,
+          "product_performance_qualification": false,
+          "full_factory_completion": false
+        },
+        "PRICE_PERCENT": {
+          "status": "PASS",
+          "unchanged_official": {
+            "candidate": false,
+            "status": "COMPLETED_DIAGNOSTIC",
+            "diagnostic_only": true,
+            "statement_limit_ms": 8000,
+            "retries": 0,
+            "elapsed_ms": 282.879,
+            "functions": [
+              {
+                "function": "erp.run_v267_financial_truth_checks()",
+                "calls": 5,
+                "total_ms": 121.898496,
+                "self_ms": 68.166312
+              },
+              {
+                "function": "erp.run_v268_financial_report_checks()",
+                "calls": 3,
+                "total_ms": 174.243304,
+                "self_ms": 59.065272
+              },
+              {
+                "function": "erp.period_blockers_v1(date,date)",
+                "calls": 2,
+                "total_ms": 225.428238,
+                "self_ms": 19.022485
+              },
+              {
+                "function": "erp._v268_financial_report_checks_pre_scope()",
+                "calls": 3,
+                "total_ms": 91.894945,
+                "self_ms": 13.897478
+              },
+              {
+                "function": "erp.initial_prepayment_checks_v1()",
+                "calls": 5,
+                "total_ms": 13.171673,
+                "self_ms": 13.171673
+              },
+              {
+                "function": "erp.material_purchase_final_ap_total(uuid)",
+                "calls": 21,
+                "total_ms": 13.198944,
+                "self_ms": 10.619733
+              },
+              {
+                "function": "cp7_hpp_close.blockers_v1(date)",
+                "calls": 2,
+                "total_ms": 14.348742,
+                "self_ms": 9.473337
+              },
+              {
+                "function": "erp.get_owner_financial_snapshot_v2(date,date,date)",
+                "calls": 1,
+                "total_ms": 203.796191,
+                "self_ms": 6.873186
+              },
+              {
+                "function": "erp.pocket_lot_cost_v1(uuid)",
+                "calls": 5,
+                "total_ms": 6.118243,
+                "self_ms": 6.118243
+              },
+              {
+                "function": "erp.pocket_period_checks_v1()",
+                "calls": 5,
+                "total_ms": 11.936865,
+                "self_ms": 5.818622
+              },
+              {
+                "function": "erp.compute_po_hpp_gl_book_v2620e(uuid)",
+                "calls": 3,
+                "total_ms": 5.630467,
+                "self_ms": 5.370161
+              },
+              {
+                "function": "erp.run_integrity_checks()",
+                "calls": 2,
+                "total_ms": 5.293397,
+                "self_ms": 5.279727
+              },
+              {
+                "function": "erp.compute_po_hpp_gl_targets_v2620d(uuid)",
+                "calls": 3,
+                "total_ms": 5.801605,
+                "self_ms": 5.144291
+              },
+              {
+                "function": "erp.material_purchase_posted_invoice_qty(uuid)",
+                "calls": 36,
+                "total_ms": 7.520583,
+                "self_ms": 5.119172
+              },
+              {
+                "function": "erp.compute_non_po_product_hpp_targets_v2620f(uuid)",
+                "calls": 6,
+                "total_ms": 4.781913,
+                "self_ms": 4.781913
+              },
+              {
+                "function": "erp.pocket_fabric_checks_v1()",
+                "calls": 5,
+                "total_ms": 4.69407,
+                "self_ms": 4.69407
+              },
+              {
+                "function": "cp7_finance.exact_numbers(jsonb)",
+                "calls": 798,
+                "total_ms": 3.855572,
+                "self_ms": 3.855572
+              },
+              {
+                "function": "erp._build_attendance_hpp_manifest_v1(date,date)",
+                "calls": 8,
+                "total_ms": 4.453196,
+                "self_ms": 2.719357
+              },
+              {
+                "function": "erp.bf_supplier_credit_delta_v1(uuid,date)",
+                "calls": 21,
+                "total_ms": 2.579211,
+                "self_ms": 2.579211
+              },
+              {
+                "function": "erp.material_purchase_grni_return_qty(uuid)",
+                "calls": 21,
+                "total_ms": 2.534012,
+                "self_ms": 2.534012
+              },
+              {
+                "function": "erp.bb_receipt_invoiced_qty_v1(uuid)",
+                "calls": 36,
+                "total_ms": 2.401411,
+                "self_ms": 2.401411
+              },
+              {
+                "function": "erp.account_id(text)",
+                "calls": 106,
+                "total_ms": 2.730035,
+                "self_ms": 2.211599
+              },
+              {
+                "function": "erp.material_purchase_grni_total(uuid)",
+                "calls": 16,
+                "total_ms": 8.548281,
+                "self_ms": 2.036924
+              },
+              {
+                "function": "erp.resolve_opening_fg_unit_hpp(uuid,date)",
+                "calls": 3,
+                "total_ms": 3.38563,
+                "self_ms": 1.795876
+              },
+              {
+                "function": "erp.compute_non_po_product_hpp_book_v2620f(uuid)",
+                "calls": 6,
+                "total_ms": 2.039375,
+                "self_ms": 1.670144
+              },
+              {
+                "function": "cp7_finance.workspace(jsonb)",
+                "calls": 1,
+                "total_ms": 280.755167,
+                "self_ms": 1.609442
+              },
+              {
+                "function": "erp._cp3_business_date(timestamp with time zone)",
+                "calls": 275,
+                "total_ms": 1.54317,
+                "self_ms": 1.54317
+              },
+              {
+                "function": "erp.material_purchase_invoice_capacity(uuid)",
+                "calls": 21,
+                "total_ms": 3.850673,
+                "self_ms": 1.316661
+              },
+              {
+                "function": "cp7_laundry_unknown_wash.blockers_v1(date)",
+                "calls": 2,
+                "total_ms": 2.142971,
+                "self_ms": 1.311624
+              },
+              {
+                "function": "erp.be_po_extra_v1(uuid)",
+                "calls": 6,
+                "total_ms": 1.307356,
+                "self_ms": 1.307356
+              },
+              {
+                "function": "cp7_finance_capture.report_unit(jsonb)",
+                "calls": 1,
+                "total_ms": 281.990024,
+                "self_ms": 1.234857
+              },
+              {
+                "function": "cp7_note.report_lifecycle(date,date,text)",
+                "calls": 2,
+                "total_ms": 0.949776,
+                "self_ms": 0.949776
+              },
+              {
+                "function": "cp7_laundry_unknown_wash.unknown_v1()",
+                "calls": 2,
+                "total_ms": 0.831347,
+                "self_ms": 0.831347
+              },
+              {
+                "function": "erp.has_permission(text)",
+                "calls": 2,
+                "total_ms": 0.807341,
+                "self_ms": 0.807341
+              },
+              {
+                "function": "erp.period_readiness_v1(date,date)",
+                "calls": 2,
+                "total_ms": 226.198574,
+                "self_ms": 0.770336
+              },
+              {
+                "function": "erp._cp3_canonical_date(date)",
+                "calls": 26,
+                "total_ms": 0.628204,
+                "self_ms": 0.628204
+              },
+              {
+                "function": "erp.require_internal()",
+                "calls": 115,
+                "total_ms": 0.541641,
+                "self_ms": 0.541641
+              },
+              {
+                "function": "erp.resolve_product_price_at(uuid,timestamp with time zone)",
+                "calls": 3,
+                "total_ms": 0.527828,
+                "self_ms": 0.520567
+              },
+              {
+                "function": "erp.be_redye_po_cost_v1(uuid)",
+                "calls": 3,
+                "total_ms": 0.497793,
+                "self_ms": 0.497793
+              },
+              {
+                "function": "erp.audit_row_change()",
+                "calls": 3,
+                "total_ms": 0.438142,
+                "self_ms": 0.438142
+              },
+              {
+                "function": "cp7_sales_return_correction.report_lifecycle(date,date)",
+                "calls": 1,
+                "total_ms": 0.422659,
+                "self_ms": 0.422659
+              },
+              {
+                "function": "erp.product_opening_physical_at(uuid,date)",
+                "calls": 3,
+                "total_ms": 0.429981,
+                "self_ms": 0.421759
+              },
+              {
+                "function": "erp.get_my_access_v1()",
+                "calls": 1,
+                "total_ms": 0.704075,
+                "self_ms": 0.417822
+              },
+              {
+                "function": "erp.period_completeness_from_v1()",
+                "calls": 2,
+                "total_ms": 0.326744,
+                "self_ms": 0.326744
+              },
+              {
+                "function": "cp7_finance.access_now()",
+                "calls": 1,
+                "total_ms": 1.503865,
+                "self_ms": 0.317441
+              },
+              {
+                "function": "erp._cp3_epoch_microseconds(timestamp with time zone)",
+                "calls": 10,
+                "total_ms": 0.297059,
+                "self_ms": 0.297059
+              },
+              {
+                "function": "erp.role_permission_keys(uuid)",
+                "calls": 1,
+                "total_ms": 0.286253,
+                "self_ms": 0.286253
+              },
+              {
+                "function": "erp.be_pocket_opening_extra_v1(uuid)",
+                "calls": 3,
+                "total_ms": 0.265281,
+                "self_ms": 0.265281
+              },
+              {
+                "function": "erp.accounting_close_preflight_v1(date)",
+                "calls": 1,
+                "total_ms": 69.665105,
+                "self_ms": 0.205661
+              },
+              {
+                "function": "erp.guard_child_by_parent_status()",
+                "calls": 3,
+                "total_ms": 0.186081,
+                "self_ms": 0.186081
+              },
+              {
+                "function": "erp.require_owner_admin()",
+                "calls": 10,
+                "total_ms": 0.115226,
+                "self_ms": 0.115226
+              }
+            ],
+            "table_write_attempts": {
+              "erp.opening_balance_items": [
+                0,
+                3,
+                0
+              ]
+            },
+            "all_data_and_sequences_unchanged_before_rollback": true,
+            "report_bytes": 25336,
+            "report_sha256": "c2666e4a29f305d3e15b251cf9f2b4c039c1b2b59100382c2e9a52eaf5df4ef8",
+            "excluded_comparison_fields": [
+              "report.captured_at"
+            ],
+            "rows": {
+              "book": 26,
+              "cash": 2,
+              "line": 48,
+              "journal": 23
+            },
+            "server_report_ms": 281.8,
+            "all22_all_data_and_sequences_restored": true
+          },
+          "single_snapshot_check_candidate": {
+            "candidate": true,
+            "status": "COMPLETED_DIAGNOSTIC",
+            "diagnostic_only": true,
+            "statement_limit_ms": 8000,
+            "retries": 0,
+            "temporary_patch": {
+              "readonly_opening": {
+                "original_resolver_unchanged": true,
+                "private_helper_not_callable_by_browser_or_worker": true,
+                "original_body_sha256": "d82bdae08187b2121b7a777e0b3973f292318b195a148762f3ba5998407bf48a",
+                "report_before_sha256": "7652eb184974f4c2cd17cdc100b0fd028cefcc578486b56ffa44a75dcd68aa92",
+                "report_after_sha256": "11f7fbd69b605998a64cad2943841d99bce914756459f9b6290b9f917ae854e9",
+                "changed_report_call_count": 1,
+                "removed_lock_count": 1,
+                "removed_update_count": 2,
+                "product_installed": false,
+                "production_go": false
+              },
+              "strategy": "SAME_REPORT_OFFICIAL_READINESS",
+              "snapshot_original_body_sha256": "5687c8b4805f73baa68197121f9a4a90f5f123d6ff7da683e88301a485e3aab2",
+              "exact_live_body_matches_composed_official_installers": true,
+              "installed_source_derivation": {
+                "strategy": "SAME_REPORT_OFFICIAL_READINESS",
+                "sources": {
+                  "supabase/dev/cp6_ba_t1_family.sql": "3359a42fe93c35da481d164e5e6d70e79da41559621a65736418bfc8f32d93a7",
+                  "supabase/dev/cp6_aw_t1_family.sql": "db8ee8115b5a53dd9a7b154c96b764b8bee9e4a79c5adfa48050417bb756bd32",
+                  "scripts/cp7-src/finance/read.sql": "02ef8a3bc1c9d652b4fbf4505af2ce0c056e93fb26d8f7aa68657f48d3e05c57",
+                  "scripts/cp7_note_report_bundle.py": "f721095d1a3054a875c7682295fd0969848169f4124694a3f51f3f3302c3a439",
+                  "scripts/cp7_report_accounts_bundle.py": "d99e964b8c827dc027074a81cc0a44b8973bc41d445aa2e011a4e91d697c3797"
+                },
+                "derived": {
+                  "native_BA_body_sha256": "82e8812d4d1096ea817124e5995435464e810c18271f32ae851cc5e87f02f00b",
+                  "installed_snapshot_sha256": "5687c8b4805f73baa68197121f9a4a90f5f123d6ff7da683e88301a485e3aab2",
+                  "installed_snapshot_bytes": 14417,
+                  "preflight_sha256": "46cb2011e8c12d7f71bed033cb2180b8203cadef43781d45516a87344c588b65",
+                  "workspace_sha256": "944e6693688302a4d322708ba981c30baab54984f2ba2f5240b0125ce5517bb4"
+                },
+                "transform_order": [
+                  "cp7_note_report_bundle.patched_report",
+                  "cp7_report_accounts_bundle.wrap"
+                ],
+                "actual_f038_live_body_sha256": "5687c8b4805f73baa68197121f9a4a90f5f123d6ff7da683e88301a485e3aab2",
+                "actual_f038_head": "f038a6ecc5a71278554eab62ab7df4f4ced9b7bc",
+                "actual_f038_original_sha256": "06ff84cfea4908fb3433418dae618a7ecddbcd50264dec0d1a25c73e7e007df6",
+                "historical_AB_and_12004_body_remain_rejected": true,
+                "product_adoption": false,
+                "production_go": false
+              },
+              "original_Native_snapshot_and_preflight_unchanged": true,
+              "original_close_commands_unchanged": true,
+              "original_close_command_sha256": {
+                "erp.close_accounting_through(date,text)": "9bf5a5549d2e48c7a084ee84ca6b0776a79300b15833ec63a475f89dec3b6f59",
+                "erp.reopen_accounting_through(date,text)": "cba02940aceb945f448e144e003c1fc31bc365b93e261a64e8c296d9e6ac9725"
+              },
+              "private_date_only_helper": true,
+              "private_helper_only_finance_reader": true,
+              "original_preflight_permission_and_rules_preserved": true,
+              "no_cache_or_client_supplied_check_result": true,
+              "report_readiness_calls_before": 2,
+              "report_readiness_calls_after": 1,
+              "workspace_before_sha256": "944e6693688302a4d322708ba981c30baab54984f2ba2f5240b0125ce5517bb4",
+              "workspace_after_sha256": "f148695c50cdf56214c5d65296bdcc062157aed53968c3302534f32abeae158b",
+              "authority_unchanged": true,
+              "product_adoption": false,
+              "production_go": false
+            },
+            "elapsed_ms": 226.414,
+            "functions": [
+              {
+                "function": "erp.run_v268_financial_report_checks()",
+                "calls": 2,
+                "total_ms": 147.187392,
+                "self_ms": 57.74942
+              },
+              {
+                "function": "erp.run_v267_financial_truth_checks()",
+                "calls": 3,
+                "total_ms": 89.134452,
+                "self_ms": 50.922599
+              },
+              {
+                "function": "erp.period_blockers_v1(date,date)",
+                "calls": 1,
+                "total_ms": 167.029513,
+                "self_ms": 13.031109
+              },
+              {
+                "function": "erp._v268_financial_report_checks_pre_scope()",
+                "calls": 2,
+                "total_ms": 73.462829,
+                "self_ms": 12.101894
+              },
+              {
+                "function": "erp.initial_prepayment_checks_v1()",
+                "calls": 3,
+                "total_ms": 10.313258,
+                "self_ms": 10.313258
+              },
+              {
+                "function": "cp7_finance.read_snapshot_readiness_diagnostic_v1(date,date,date)",
+                "calls": 1,
+                "total_ms": 217.324542,
+                "self_ms": 7.569819
+              },
+              {
+                "function": "erp.material_purchase_final_ap_total(uuid)",
+                "calls": 13,
+                "total_ms": 8.825218,
+                "self_ms": 7.284137
+              },
+              {
+                "function": "cp7_hpp_close.blockers_v1(date)",
+                "calls": 1,
+                "total_ms": 9.623194,
+                "self_ms": 6.198426
+              },
+              {
+                "function": "erp.compute_po_hpp_gl_book_v2620e(uuid)",
+                "calls": 2,
+                "total_ms": 4.729493,
+                "self_ms": 4.54909
+              },
+              {
+                "function": "erp.run_integrity_checks()",
+                "calls": 1,
+                "total_ms": 4.545024,
+                "self_ms": 4.534328
+              },
+              {
+                "function": "erp.pocket_lot_cost_v1(uuid)",
+                "calls": 3,
+                "total_ms": 4.330198,
+                "self_ms": 4.330198
+              },
+              {
+                "function": "erp.pocket_period_checks_v1()",
+                "calls": 3,
+                "total_ms": 8.524032,
+                "self_ms": 4.193834
+              },
+              {
+                "function": "cp7_finance.exact_numbers(jsonb)",
+                "calls": 798,
+                "total_ms": 3.834751,
+                "self_ms": 3.834751
+              },
+              {
+                "function": "erp.compute_po_hpp_gl_targets_v2620d(uuid)",
+                "calls": 2,
+                "total_ms": 4.249146,
+                "self_ms": 3.761588
+              },
+              {
+                "function": "erp.pocket_fabric_checks_v1()",
+                "calls": 3,
+                "total_ms": 3.522438,
+                "self_ms": 3.522438
+              },
+              {
+                "function": "erp.compute_non_po_product_hpp_targets_v2620f(uuid)",
+                "calls": 4,
+                "total_ms": 3.33874,
+                "self_ms": 3.33874
+              },
+              {
+                "function": "erp.material_purchase_posted_invoice_qty(uuid)",
+                "calls": 22,
+                "total_ms": 4.85145,
+                "self_ms": 3.309928
+              },
+              {
+                "function": "erp._build_attendance_hpp_manifest_v1(date,date)",
+                "calls": 4,
+                "total_ms": 3.133799,
+                "self_ms": 2.023286
+              },
+              {
+                "function": "erp.material_purchase_grni_return_qty(uuid)",
+                "calls": 13,
+                "total_ms": 1.783578,
+                "self_ms": 1.783578
+              },
+              {
+                "function": "erp.account_id(text)",
+                "calls": 69,
+                "total_ms": 2.1431,
+                "self_ms": 1.716071
+              },
+              {
+                "function": "erp.material_purchase_grni_total(uuid)",
+                "calls": 10,
+                "total_ms": 6.211456,
+                "self_ms": 1.631947
+              },
+              {
+                "function": "erp.bb_receipt_invoiced_qty_v1(uuid)",
+                "calls": 22,
+                "total_ms": 1.541522,
+                "self_ms": 1.541522
+              },
+              {
+                "function": "erp.bf_supplier_credit_delta_v1(uuid,date)",
+                "calls": 13,
+                "total_ms": 1.541081,
+                "self_ms": 1.541081
+              },
+              {
+                "function": "cp7_finance.workspace(jsonb)",
+                "calls": 1,
+                "total_ms": 224.51067,
+                "self_ms": 1.482109
+              },
+              {
+                "function": "erp.has_permission(text)",
+                "calls": 3,
+                "total_ms": 1.096159,
+                "self_ms": 1.096159
+              },
+              {
+                "function": "erp.compute_non_po_product_hpp_book_v2620f(uuid)",
+                "calls": 4,
+                "total_ms": 1.325614,
+                "self_ms": 1.073172
+              },
+              {
+                "function": "cp7_finance_capture.report_unit(jsonb)",
+                "calls": 1,
+                "total_ms": 225.577643,
+                "self_ms": 1.066973
+              },
+              {
+                "function": "erp._cp3_business_date(timestamp with time zone)",
+                "calls": 154,
+                "total_ms": 1.007055,
+                "self_ms": 1.007055
+              },
+              {
+                "function": "cp7_note.report_lifecycle(date,date,text)",
+                "calls": 2,
+                "total_ms": 1.006082,
+                "self_ms": 1.006082
+              },
+              {
+                "function": "erp.be_po_extra_v1(uuid)",
+                "calls": 4,
+                "total_ms": 0.905861,
+                "self_ms": 0.905861
+              },
+              {
+                "function": "erp.material_purchase_invoice_capacity(uuid)",
+                "calls": 13,
+                "total_ms": 2.674936,
+                "self_ms": 0.891358
+              },
+              {
+                "function": "cp7_laundry_unknown_wash.blockers_v1(date)",
+                "calls": 1,
+                "total_ms": 1.116008,
+                "self_ms": 0.713199
+              },
+              {
+                "function": "cp7_finance.read_opening_hpp_diagnostic_v1(uuid,date)",
+                "calls": 2,
+                "total_ms": 1.250612,
+                "self_ms": 0.502821
+              },
+              {
+                "function": "erp._cp3_canonical_date(date)",
+                "calls": 13,
+                "total_ms": 0.461628,
+                "self_ms": 0.461628
+              },
+              {
+                "function": "erp.get_my_access_v1()",
+                "calls": 1,
+                "total_ms": 0.750135,
+                "self_ms": 0.44919
+              },
+              {
+                "function": "erp.require_internal()",
+                "calls": 75,
+                "total_ms": 0.44239,
+                "self_ms": 0.44239
+              },
+              {
+                "function": "erp.period_readiness_v1(date,date)",
+                "calls": 1,
+                "total_ms": 167.465553,
+                "self_ms": 0.43604
+              },
+              {
+                "function": "cp7_sales_return_correction.report_lifecycle(date,date)",
+                "calls": 1,
+                "total_ms": 0.419114,
+                "self_ms": 0.419114
+              },
+              {
+                "function": "cp7_laundry_unknown_wash.unknown_v1()",
+                "calls": 1,
+                "total_ms": 0.402809,
+                "self_ms": 0.402809
+              },
+              {
+                "function": "erp.resolve_product_price_at(uuid,timestamp with time zone)",
+                "calls": 2,
+                "total_ms": 0.401397,
+                "self_ms": 0.396801
+              },
+              {
+                "function": "erp.be_redye_po_cost_v1(uuid)",
+                "calls": 2,
+                "total_ms": 0.367856,
+                "self_ms": 0.367856
+              },
+              {
+                "function": "cp7_finance.access_now()",
+                "calls": 1,
+                "total_ms": 1.609384,
+                "self_ms": 0.343649
+              },
+              {
+                "function": "erp.product_opening_physical_at(uuid,date)",
+                "calls": 2,
+                "total_ms": 0.341137,
+                "self_ms": 0.335629
+              },
+              {
+                "function": "erp.role_permission_keys(uuid)",
+                "calls": 1,
+                "total_ms": 0.300945,
+                "self_ms": 0.300945
+              },
+              {
+                "function": "erp.period_completeness_from_v1()",
+                "calls": 1,
+                "total_ms": 0.255716,
+                "self_ms": 0.255716
+              },
+              {
+                "function": "erp._cp3_epoch_microseconds(timestamp with time zone)",
+                "calls": 5,
+                "total_ms": 0.179642,
+                "self_ms": 0.179642
+              },
+              {
+                "function": "erp.be_pocket_opening_extra_v1(uuid)",
+                "calls": 2,
+                "total_ms": 0.154805,
+                "self_ms": 0.154805
+              },
+              {
+                "function": "erp.require_owner_admin()",
+                "calls": 7,
+                "total_ms": 0.103598,
+                "self_ms": 0.103598
+              }
+            ],
+            "table_write_attempts": {},
+            "all_data_and_sequences_unchanged_before_rollback": true,
+            "report_bytes": 25336,
+            "report_sha256": "c2666e4a29f305d3e15b251cf9f2b4c039c1b2b59100382c2e9a52eaf5df4ef8",
+            "excluded_comparison_fields": [
+              "report.captured_at"
+            ],
+            "rows": {
+              "book": 26,
+              "cash": 2,
+              "line": 48,
+              "journal": 23
+            },
+            "server_report_ms": 225.4,
+            "all22_all_data_and_sequences_restored": true
+          },
+          "official_check_calls_before": 3,
+          "official_check_calls_after": 2,
+          "official_readiness_calls_before": 2,
+          "official_readiness_calls_after": 1,
+          "no_result_cache": true,
+          "caller_supplied_check_results": false,
+          "entire_official_report_equal": true,
+          "elapsed_change_ms": -56.465,
+          "product_performance_qualification": false,
+          "full_factory_completion": false
+        },
+        "FACTORY_1200X3": {
+          "status": "PASS",
+          "unchanged_official": {
+            "candidate": false,
+            "status": "COMPLETED_DIAGNOSTIC",
+            "diagnostic_only": true,
+            "statement_limit_ms": 30000,
+            "retries": 0,
+            "elapsed_ms": 22429.829,
+            "functions": [
+              {
+                "function": "erp.run_v268_financial_report_checks()",
+                "calls": 3,
+                "total_ms": 22204.6941,
+                "self_ms": 13889.212327
+              },
+              {
+                "function": "erp.compute_non_po_product_hpp_targets_v2620f(uuid)",
+                "calls": 10806,
+                "total_ms": 5315.844257,
+                "self_ms": 5315.844257
+              },
+              {
+                "function": "erp.resolve_opening_fg_unit_hpp(uuid,date)",
+                "calls": 10803,
+                "total_ms": 1521.514995,
+                "self_ms": 1072.506235
+              },
+              {
+                "function": "erp.compute_non_po_product_hpp_book_v2620f(uuid)",
+                "calls": 10806,
+                "total_ms": 1053.525275,
+                "self_ms": 542.534202
+              },
+              {
+                "function": "erp.account_id(text)",
+                "calls": 43361,
+                "total_ms": 514.322408,
+                "self_ms": 435.962042
+              },
+              {
+                "function": "erp.audit_row_change()",
+                "calls": 10803,
+                "total_ms": 234.023757,
+                "self_ms": 234.023757
+              },
+              {
+                "function": "erp.product_opening_physical_at(uuid,date)",
+                "calls": 10803,
+                "total_ms": 163.291586,
+                "self_ms": 147.001787
+              },
+              {
+                "function": "erp.require_internal()",
+                "calls": 64970,
+                "total_ms": 119.337549,
+                "self_ms": 119.337549
+              },
+              {
+                "function": "erp.be_pocket_opening_extra_v1(uuid)",
+                "calls": 10803,
+                "total_ms": 103.78474,
+                "self_ms": 103.78474
+              },
+              {
+                "function": "erp.period_blockers_v1(date,date)",
+                "calls": 2,
+                "total_ms": 15138.345814,
+                "self_ms": 89.499589
+              },
+              {
+                "function": "erp.run_v267_financial_truth_checks()",
+                "calls": 5,
+                "total_ms": 143.20615,
+                "self_ms": 78.037597
+              },
+              {
+                "function": "erp._v268_financial_report_checks_pre_scope()",
+                "calls": 3,
+                "total_ms": 238.609565,
+                "self_ms": 76.809519
+              },
+              {
+                "function": "erp._cp7_current_credit_adjustment(uuid)",
+                "calls": 432,
+                "total_ms": 86.444934,
+                "self_ms": 52.779209
+              },
+              {
+                "function": "erp.run_integrity_checks()",
+                "calls": 2,
+                "total_ms": 38.64967,
+                "self_ms": 38.636541
+              },
+              {
+                "function": "cp7_credit.current_leaf_assignment(uuid)",
+                "calls": 432,
+                "total_ms": 33.665725,
+                "self_ms": 33.665725
+              },
+              {
+                "function": "erp.guard_child_by_parent_status()",
+                "calls": 10803,
+                "total_ms": 26.340527,
+                "self_ms": 26.340527
+              },
+              {
+                "function": "erp.sale_net_total(uuid)",
+                "calls": 648,
+                "total_ms": 25.723033,
+                "self_ms": 25.723033
+              },
+              {
+                "function": "cp7_report_credit.adjustment_v1(uuid)",
+                "calls": 432,
+                "total_ms": 105.330086,
+                "self_ms": 18.885152
+              },
+              {
+                "function": "erp.initial_prepayment_checks_v1()",
+                "calls": 5,
+                "total_ms": 15.188633,
+                "self_ms": 15.188633
+              },
+              {
+                "function": "erp.pocket_lot_cost_v1(uuid)",
+                "calls": 5,
+                "total_ms": 10.899256,
+                "self_ms": 10.899256
+              },
+              {
+                "function": "erp.material_purchase_final_ap_total(uuid)",
+                "calls": 21,
+                "total_ms": 13.106243,
+                "self_ms": 10.761187
+              },
+              {
+                "function": "cp7_hpp_close.blockers_v1(date)",
+                "calls": 2,
+                "total_ms": 15.098778,
+                "self_ms": 9.985463
+              },
+              {
+                "function": "erp.pocket_period_checks_v1()",
+                "calls": 5,
+                "total_ms": 19.671092,
+                "self_ms": 8.771836
+              },
+              {
+                "function": "erp.compute_po_hpp_gl_targets_v2620d(uuid)",
+                "calls": 3,
+                "total_ms": 9.325264,
+                "self_ms": 8.617192
+              },
+              {
+                "function": "erp.compute_po_hpp_gl_book_v2620e(uuid)",
+                "calls": 3,
+                "total_ms": 7.981453,
+                "self_ms": 7.664525
+              },
+              {
+                "function": "erp.get_owner_financial_snapshot_v2(date,date,date)",
+                "calls": 1,
+                "total_ms": 14854.972513,
+                "self_ms": 7.252151
+              },
+              {
+                "function": "erp.material_purchase_posted_invoice_qty(uuid)",
+                "calls": 36,
+                "total_ms": 7.890393,
+                "self_ms": 5.342025
+              },
+              {
+                "function": "cp7_finance.exact_numbers(jsonb)",
+                "calls": 810,
+                "total_ms": 5.131852,
+                "self_ms": 5.131852
+              },
+              {
+                "function": "erp.pocket_fabric_checks_v1()",
+                "calls": 5,
+                "total_ms": 5.045791,
+                "self_ms": 5.045791
+              },
+              {
+                "function": "cp7_finance_capture.report_unit(jsonb)",
+                "calls": 1,
+                "total_ms": 22428.935275,
+                "self_ms": 4.909535
+              },
+              {
+                "function": "erp._build_attendance_hpp_manifest_v1(date,date)",
+                "calls": 8,
+                "total_ms": 4.68033,
+                "self_ms": 2.852478
+              },
+              {
+                "function": "erp._cp3_business_date(timestamp with time zone)",
+                "calls": 695,
+                "total_ms": 2.712914,
+                "self_ms": 2.712914
+              },
+              {
+                "function": "erp.bb_receipt_invoiced_qty_v1(uuid)",
+                "calls": 36,
+                "total_ms": 2.548368,
+                "self_ms": 2.548368
+              },
+              {
+                "function": "erp.material_purchase_grni_return_qty(uuid)",
+                "calls": 21,
+                "total_ms": 2.535213,
+                "self_ms": 2.535213
+              },
+              {
+                "function": "erp.bf_supplier_credit_delta_v1(uuid,date)",
+                "calls": 21,
+                "total_ms": 2.345056,
+                "self_ms": 2.345056
+              },
+              {
+                "function": "erp.material_purchase_grni_total(uuid)",
+                "calls": 16,
+                "total_ms": 8.672006,
+                "self_ms": 2.076423
+              },
+              {
+                "function": "cp7_finance.workspace(jsonb)",
+                "calls": 1,
+                "total_ms": 22424.02574,
+                "self_ms": 1.821375
+              },
+              {
+                "function": "erp.be_po_extra_v1(uuid)",
+                "calls": 6,
+                "total_ms": 1.358755,
+                "self_ms": 1.358755
+              },
+              {
+                "function": "erp.material_purchase_invoice_capacity(uuid)",
+                "calls": 21,
+                "total_ms": 3.862512,
+                "self_ms": 1.327299
+              },
+              {
+                "function": "cp7_laundry_unknown_wash.blockers_v1(date)",
+                "calls": 2,
+                "total_ms": 2.132035,
+                "self_ms": 1.30206
+              },
+              {
+                "function": "cp7_note.report_lifecycle(date,date,text)",
+                "calls": 2,
+                "total_ms": 1.042948,
+                "self_ms": 1.042948
+              },
+              {
+                "function": "erp.has_permission(text)",
+                "calls": 2,
+                "total_ms": 0.963587,
+                "self_ms": 0.963587
+              },
+              {
+                "function": "cp7_laundry_unknown_wash.unknown_v1()",
+                "calls": 2,
+                "total_ms": 0.829975,
+                "self_ms": 0.829975
+              },
+              {
+                "function": "erp.period_readiness_v1(date,date)",
+                "calls": 2,
+                "total_ms": 15139.157783,
+                "self_ms": 0.811969
+              },
+              {
+                "function": "erp._cp3_canonical_date(date)",
+                "calls": 26,
+                "total_ms": 0.672185,
+                "self_ms": 0.672185
+              },
+              {
+                "function": "erp.resolve_product_price_at(uuid,timestamp with time zone)",
+                "calls": 3,
+                "total_ms": 0.671835,
+                "self_ms": 0.665506
+              },
+              {
+                "function": "erp.be_redye_po_cost_v1(uuid)",
+                "calls": 3,
+                "total_ms": 0.507638,
+                "self_ms": 0.507638
+              },
+              {
+                "function": "cp7_sales_return_correction.report_lifecycle(date,date)",
+                "calls": 1,
+                "total_ms": 0.440586,
+                "self_ms": 0.440586
+              },
+              {
+                "function": "erp.get_my_access_v1()",
+                "calls": 1,
+                "total_ms": 0.715542,
+                "self_ms": 0.440456
+              },
+              {
+                "function": "erp.period_completeness_from_v1()",
+                "calls": 2,
+                "total_ms": 0.342318,
+                "self_ms": 0.342318
+              },
+              {
+                "function": "cp7_finance.access_now()",
+                "calls": 1,
+                "total_ms": 1.658438,
+                "self_ms": 0.307676
+              },
+              {
+                "function": "erp._cp3_epoch_microseconds(timestamp with time zone)",
+                "calls": 10,
+                "total_ms": 0.29111,
+                "self_ms": 0.29111
+              },
+              {
+                "function": "erp.role_permission_keys(uuid)",
+                "calls": 1,
+                "total_ms": 0.275086,
+                "self_ms": 0.275086
+              },
+              {
+                "function": "erp.accounting_close_preflight_v1(date)",
+                "calls": 1,
+                "total_ms": 7560.113195,
+                "self_ms": 0.195065
+              },
+              {
+                "function": "erp.require_owner_admin()",
+                "calls": 10,
+                "total_ms": 0.115995,
+                "self_ms": 0.115995
+              }
+            ],
+            "table_write_attempts": {
+              "erp.opening_balance_items": [
+                0,
+                10803,
+                0
+              ]
+            },
+            "all_data_and_sequences_unchanged_before_rollback": true,
+            "report_bytes": 25539,
+            "report_sha256": "f3e568554d4809ed06476cffc12f6a12bf8bde61112ca8630362f0052b77711d",
+            "excluded_comparison_fields": [
+              "report.captured_at"
+            ],
+            "rows": {
+              "book": 35,
+              "cash": 2,
+              "line": 18204,
+              "journal": 107
+            },
+            "server_report_ms": 22428.7,
+            "all22_all_data_and_sequences_restored": true
+          },
+          "single_snapshot_check_candidate": {
+            "candidate": true,
+            "status": "COMPLETED_DIAGNOSTIC",
+            "diagnostic_only": true,
+            "statement_limit_ms": 30000,
+            "retries": 0,
+            "temporary_patch": {
+              "readonly_opening": {
+                "original_resolver_unchanged": true,
+                "private_helper_not_callable_by_browser_or_worker": true,
+                "original_body_sha256": "d82bdae08187b2121b7a777e0b3973f292318b195a148762f3ba5998407bf48a",
+                "report_before_sha256": "7652eb184974f4c2cd17cdc100b0fd028cefcc578486b56ffa44a75dcd68aa92",
+                "report_after_sha256": "11f7fbd69b605998a64cad2943841d99bce914756459f9b6290b9f917ae854e9",
+                "changed_report_call_count": 1,
+                "removed_lock_count": 1,
+                "removed_update_count": 2,
+                "product_installed": false,
+                "production_go": false
+              },
+              "strategy": "SAME_REPORT_OFFICIAL_READINESS",
+              "snapshot_original_body_sha256": "5687c8b4805f73baa68197121f9a4a90f5f123d6ff7da683e88301a485e3aab2",
+              "exact_live_body_matches_composed_official_installers": true,
+              "installed_source_derivation": {
+                "strategy": "SAME_REPORT_OFFICIAL_READINESS",
+                "sources": {
+                  "supabase/dev/cp6_ba_t1_family.sql": "3359a42fe93c35da481d164e5e6d70e79da41559621a65736418bfc8f32d93a7",
+                  "supabase/dev/cp6_aw_t1_family.sql": "db8ee8115b5a53dd9a7b154c96b764b8bee9e4a79c5adfa48050417bb756bd32",
+                  "scripts/cp7-src/finance/read.sql": "02ef8a3bc1c9d652b4fbf4505af2ce0c056e93fb26d8f7aa68657f48d3e05c57",
+                  "scripts/cp7_note_report_bundle.py": "f721095d1a3054a875c7682295fd0969848169f4124694a3f51f3f3302c3a439",
+                  "scripts/cp7_report_accounts_bundle.py": "d99e964b8c827dc027074a81cc0a44b8973bc41d445aa2e011a4e91d697c3797"
+                },
+                "derived": {
+                  "native_BA_body_sha256": "82e8812d4d1096ea817124e5995435464e810c18271f32ae851cc5e87f02f00b",
+                  "installed_snapshot_sha256": "5687c8b4805f73baa68197121f9a4a90f5f123d6ff7da683e88301a485e3aab2",
+                  "installed_snapshot_bytes": 14417,
+                  "preflight_sha256": "46cb2011e8c12d7f71bed033cb2180b8203cadef43781d45516a87344c588b65",
+                  "workspace_sha256": "944e6693688302a4d322708ba981c30baab54984f2ba2f5240b0125ce5517bb4"
+                },
+                "transform_order": [
+                  "cp7_note_report_bundle.patched_report",
+                  "cp7_report_accounts_bundle.wrap"
+                ],
+                "actual_f038_live_body_sha256": "5687c8b4805f73baa68197121f9a4a90f5f123d6ff7da683e88301a485e3aab2",
+                "actual_f038_head": "f038a6ecc5a71278554eab62ab7df4f4ced9b7bc",
+                "actual_f038_original_sha256": "06ff84cfea4908fb3433418dae618a7ecddbcd50264dec0d1a25c73e7e007df6",
+                "historical_AB_and_12004_body_remain_rejected": true,
+                "product_adoption": false,
+                "production_go": false
+              },
+              "original_Native_snapshot_and_preflight_unchanged": true,
+              "original_close_commands_unchanged": true,
+              "original_close_command_sha256": {
+                "erp.close_accounting_through(date,text)": "9bf5a5549d2e48c7a084ee84ca6b0776a79300b15833ec63a475f89dec3b6f59",
+                "erp.reopen_accounting_through(date,text)": "cba02940aceb945f448e144e003c1fc31bc365b93e261a64e8c296d9e6ac9725"
+              },
+              "private_date_only_helper": true,
+              "private_helper_only_finance_reader": true,
+              "original_preflight_permission_and_rules_preserved": true,
+              "no_cache_or_client_supplied_check_result": true,
+              "report_readiness_calls_before": 2,
+              "report_readiness_calls_after": 1,
+              "workspace_before_sha256": "944e6693688302a4d322708ba981c30baab54984f2ba2f5240b0125ce5517bb4",
+              "workspace_after_sha256": "f148695c50cdf56214c5d65296bdcc062157aed53968c3302534f32abeae158b",
+              "authority_unchanged": true,
+              "product_adoption": false,
+              "production_go": false
+            },
+            "elapsed_ms": 14001.089,
+            "functions": [
+              {
+                "function": "erp.run_v268_financial_report_checks()",
+                "calls": 2,
+                "total_ms": 13861.547911,
+                "self_ms": 9302.603637
+              },
+              {
+                "function": "erp.compute_non_po_product_hpp_targets_v2620f(uuid)",
+                "calls": 7204,
+                "total_ms": 3400.11129,
+                "self_ms": 3400.11129
+              },
+              {
+                "function": "erp.compute_non_po_product_hpp_book_v2620f(uuid)",
+                "calls": 7204,
+                "total_ms": 692.814642,
+                "self_ms": 350.572601
+              },
+              {
+                "function": "erp.account_id(text)",
+                "calls": 28901,
+                "total_ms": 344.621211,
+                "self_ms": 292.583712
+              },
+              {
+                "function": "cp7_finance.read_opening_hpp_diagnostic_v1(uuid,date)",
+                "calls": 7202,
+                "total_ms": 197.98196,
+                "self_ms": 91.526463
+              },
+              {
+                "function": "erp.product_opening_physical_at(uuid,date)",
+                "calls": 7202,
+                "total_ms": 94.124156,
+                "self_ms": 83.742232
+              },
+              {
+                "function": "erp.require_internal()",
+                "calls": 43307,
+                "total_ms": 74.313932,
+                "self_ms": 74.313932
+              },
+              {
+                "function": "erp.period_blockers_v1(date,date)",
+                "calls": 1,
+                "total_ms": 6915.339853,
+                "self_ms": 52.825005
+              },
+              {
+                "function": "erp._v268_financial_report_checks_pre_scope()",
+                "calls": 2,
+                "total_ms": 165.497628,
+                "self_ms": 50.965495
+              },
+              {
+                "function": "erp.run_v267_financial_truth_checks()",
+                "calls": 3,
+                "total_ms": 92.385234,
+                "self_ms": 50.887491
+              },
+              {
+                "function": "erp.be_pocket_opening_extra_v1(uuid)",
+                "calls": 7202,
+                "total_ms": 45.155844,
+                "self_ms": 45.155844
+              },
+              {
+                "function": "erp._cp7_current_credit_adjustment(uuid)",
+                "calls": 288,
+                "total_ms": 63.334004,
+                "self_ms": 39.402458
+              },
+              {
+                "function": "cp7_credit.current_leaf_assignment(uuid)",
+                "calls": 288,
+                "total_ms": 23.931546,
+                "self_ms": 23.931546
+              },
+              {
+                "function": "erp.run_integrity_checks()",
+                "calls": 1,
+                "total_ms": 19.140112,
+                "self_ms": 19.133221
+              },
+              {
+                "function": "erp.sale_net_total(uuid)",
+                "calls": 432,
+                "total_ms": 17.541503,
+                "self_ms": 17.541503
+              },
+              {
+                "function": "cp7_report_credit.adjustment_v1(uuid)",
+                "calls": 288,
+                "total_ms": 77.228538,
+                "self_ms": 13.894534
+              },
+              {
+                "function": "erp.initial_prepayment_checks_v1()",
+                "calls": 3,
+                "total_ms": 9.968584,
+                "self_ms": 9.968584
+              },
+              {
+                "function": "cp7_finance.read_snapshot_readiness_diagnostic_v1(date,date,date)",
+                "calls": 1,
+                "total_ms": 13989.128446,
+                "self_ms": 9.076413
+              },
+              {
+                "function": "erp.material_purchase_final_ap_total(uuid)",
+                "calls": 13,
+                "total_ms": 9.782272,
+                "self_ms": 8.005145
+              },
+              {
+                "function": "erp.pocket_lot_cost_v1(uuid)",
+                "calls": 3,
+                "total_ms": 6.752611,
+                "self_ms": 6.752611
+              },
+              {
+                "function": "cp7_hpp_close.blockers_v1(date)",
+                "calls": 1,
+                "total_ms": 9.698876,
+                "self_ms": 6.400927
+              },
+              {
+                "function": "erp.compute_po_hpp_gl_targets_v2620d(uuid)",
+                "calls": 2,
+                "total_ms": 5.963968,
+                "self_ms": 5.471865
+              },
+              {
+                "function": "erp.pocket_period_checks_v1()",
+                "calls": 3,
+                "total_ms": 11.770859,
+                "self_ms": 5.018248
+              },
+              {
+                "function": "erp.compute_po_hpp_gl_book_v2620e(uuid)",
+                "calls": 2,
+                "total_ms": 4.618393,
+                "self_ms": 4.466984
+              },
+              {
+                "function": "cp7_finance.exact_numbers(jsonb)",
+                "calls": 810,
+                "total_ms": 3.9155,
+                "self_ms": 3.9155
+              },
+              {
+                "function": "cp7_finance_capture.report_unit(jsonb)",
+                "calls": 1,
+                "total_ms": 14000.202421,
+                "self_ms": 3.626754
+              },
+              {
+                "function": "erp.material_purchase_posted_invoice_qty(uuid)",
+                "calls": 22,
+                "total_ms": 5.161336,
+                "self_ms": 3.487164
+              },
+              {
+                "function": "erp.pocket_fabric_checks_v1()",
+                "calls": 3,
+                "total_ms": 3.125757,
+                "self_ms": 3.125757
+              },
+              {
+                "function": "erp._build_attendance_hpp_manifest_v1(date,date)",
+                "calls": 4,
+                "total_ms": 3.052976,
+                "self_ms": 2.051133
+              },
+              {
+                "function": "erp.material_purchase_grni_return_qty(uuid)",
+                "calls": 13,
+                "total_ms": 1.827144,
+                "self_ms": 1.827144
+              },
+              {
+                "function": "erp.bf_supplier_credit_delta_v1(uuid,date)",
+                "calls": 13,
+                "total_ms": 1.777127,
+                "self_ms": 1.777127
+              },
+              {
+                "function": "erp.bb_receipt_invoiced_qty_v1(uuid)",
+                "calls": 22,
+                "total_ms": 1.674172,
+                "self_ms": 1.674172
+              },
+              {
+                "function": "erp._cp3_business_date(timestamp with time zone)",
+                "calls": 406,
+                "total_ms": 1.661118,
+                "self_ms": 1.661118
+              },
+              {
+                "function": "cp7_finance.workspace(jsonb)",
+                "calls": 1,
+                "total_ms": 13996.575667,
+                "self_ms": 1.558107
+              },
+              {
+                "function": "erp.material_purchase_grni_total(uuid)",
+                "calls": 10,
+                "total_ms": 6.188478,
+                "self_ms": 1.498004
+              },
+              {
+                "function": "cp7_note.report_lifecycle(date,date,text)",
+                "calls": 2,
+                "total_ms": 1.360968,
+                "self_ms": 1.360968
+              },
+              {
+                "function": "erp.has_permission(text)",
+                "calls": 3,
+                "total_ms": 1.315789,
+                "self_ms": 1.315789
+              },
+              {
+                "function": "erp.material_purchase_invoice_capacity(uuid)",
+                "calls": 13,
+                "total_ms": 2.79071,
+                "self_ms": 0.963566
+              },
+              {
+                "function": "erp.be_po_extra_v1(uuid)",
+                "calls": 4,
+                "total_ms": 0.900961,
+                "self_ms": 0.900961
+              },
+              {
+                "function": "cp7_sales_return_correction.report_lifecycle(date,date)",
+                "calls": 1,
+                "total_ms": 0.70111,
+                "self_ms": 0.70111
+              },
+              {
+                "function": "cp7_laundry_unknown_wash.blockers_v1(date)",
+                "calls": 1,
+                "total_ms": 1.052762,
+                "self_ms": 0.657104
+              },
+              {
+                "function": "erp.period_readiness_v1(date,date)",
+                "calls": 1,
+                "total_ms": 6915.885349,
+                "self_ms": 0.545496
+              },
+              {
+                "function": "erp.resolve_product_price_at(uuid,timestamp with time zone)",
+                "calls": 2,
+                "total_ms": 0.441979,
+                "self_ms": 0.436832
+              },
+              {
+                "function": "erp.get_my_access_v1()",
+                "calls": 1,
+                "total_ms": 0.738497,
+                "self_ms": 0.40994
+              },
+              {
+                "function": "cp7_laundry_unknown_wash.unknown_v1()",
+                "calls": 1,
+                "total_ms": 0.395658,
+                "self_ms": 0.395658
+              },
+              {
+                "function": "erp._cp3_canonical_date(date)",
+                "calls": 13,
+                "total_ms": 0.37775,
+                "self_ms": 0.37775
+              },
+              {
+                "function": "erp.period_completeness_from_v1()",
+                "calls": 1,
+                "total_ms": 0.334777,
+                "self_ms": 0.334777
+              },
+              {
+                "function": "erp.be_redye_po_cost_v1(uuid)",
+                "calls": 2,
+                "total_ms": 0.333084,
+                "self_ms": 0.333084
+              },
+              {
+                "function": "erp.role_permission_keys(uuid)",
+                "calls": 1,
+                "total_ms": 0.328557,
+                "self_ms": 0.328557
+              },
+              {
+                "function": "cp7_finance.access_now()",
+                "calls": 1,
+                "total_ms": 1.705939,
+                "self_ms": 0.29776
+              },
+              {
+                "function": "erp._cp3_epoch_microseconds(timestamp with time zone)",
+                "calls": 5,
+                "total_ms": 0.176065,
+                "self_ms": 0.176065
+              },
+              {
+                "function": "erp.require_owner_admin()",
+                "calls": 7,
+                "total_ms": 0.113283,
+                "self_ms": 0.113283
+              }
+            ],
+            "table_write_attempts": {},
+            "all_data_and_sequences_unchanged_before_rollback": true,
+            "report_bytes": 25539,
+            "report_sha256": "f3e568554d4809ed06476cffc12f6a12bf8bde61112ca8630362f0052b77711d",
+            "excluded_comparison_fields": [
+              "report.captured_at"
+            ],
+            "rows": {
+              "book": 35,
+              "cash": 2,
+              "line": 18204,
+              "journal": 107
+            },
+            "server_report_ms": 14000.0,
+            "all22_all_data_and_sequences_restored": true
+          },
+          "official_check_calls_before": 3,
+          "official_check_calls_after": 2,
+          "official_readiness_calls_before": 2,
+          "official_readiness_calls_after": 1,
+          "no_result_cache": true,
+          "caller_supplied_check_results": false,
+          "entire_official_report_equal": true,
+          "elapsed_change_ms": -8428.74,
+          "product_performance_qualification": false,
+          "full_factory_completion": false
+        }
+      },
+      "price_percent_fixture": {
+        "method": "PRICE_PERCENT",
+        "price": "20.12",
+        "percentage": "12.3456",
+        "qty": 10,
+        "independently_rounded_unit_hpp": "2.483935",
+        "independently_rounded_posted_value": "24.84",
+        "masters_import": "FRP4e5d0fbc8a",
+        "opening_batch": "ec64700e-633c-4dc0-ad91-784dd4842f45",
+        "opening_item": "0fb5bdef-db65-4e59-b215-f0698e99d006",
+        "product": "093c11bf-c6e5-412a-9c9c-a7bc882467f0",
+        "real_Native_import_and_shared_price_writer": true,
+        "posted_stock_and_journal_exact": true,
+        "fixture_contract": "SYNTHETIC_LEGACY_PRICE_NATIVE_CURRENT_AND_OPENING_V2",
+        "historical_price_fixture": {
+          "id": "aaa73cd8-0f40-40c2-ad80-e48cbd992523",
+          "effective_from": "2026-10-18T12:00:00+07:00",
+          "synthetic": true,
+          "direct_insert_rows": 1,
+          "guards_disabled": false,
+          "native_historical_price_writer_credit": false
+        },
+        "current_price": "25.99",
+        "current_price_effective_from": "2026-10-26T20:12:01.860845+00:00",
+        "current_price_native_version_id": "3fd9a1e3-c025-46af-8c09-09712a25d6ac",
+        "opening_physical_at": "2026-10-18T17:00:00+00:00",
+        "historical_price_selected_over_current": true,
+        "direct_business_DML": true,
+        "direct_DML_scope": "ONE_LEGACY_PRICE_FIXTURE_ROW_BEFORE_MEASUREMENTS",
+        "actual_Auth_HTTP_credit": false,
+        "source_change_race_qualification": false
+      },
+      "runtime_environment": {
+        "cpu_count": 4,
+        "machine": "x86_64",
+        "kernel": "6.17.0-1022-azure",
+        "postgres": "PostgreSQL 17.6 on x86_64-pc-linux-gnu, compiled by gcc (GCC) 15.2.0, 64-bit",
+        "postgres_settings": {
+          "jit": "on",
+          "max_parallel_workers_per_gather": "2",
+          "server_version_num": "170006",
+          "shared_buffers": "16384",
+          "work_mem": "4096"
+        },
+        "cpu_model": "AMD EPYC 9V74 80-Core Processor"
+      },
+      "candidate_zero_table_writes": true,
+      "official_check_calls_reduced_from3_to2": true,
+      "actual_factory_completion": false,
+      "performance_qualification": false,
+      "source_change_race_qualification": false,
+      "report_check_reuse_implemented": false,
+      "product_adoption": false
+    },
+    "package_gate": {
+      "installed": true,
+      "primary_unchanged": true,
+      "backup_restore_drill": true,
+      "security_advisors": true,
+      "writer_runtime": true
+    },
+    "cp6_restored": true,
+    "advisor_gate": true,
+    "production_go": false,
+    "independent_acceptance": false,
+    "source_change_race_qualification": true,
+    "actual_blocking_PIDs": [
+      3208,
+      3209
+    ],
+    "official_finance_metrics": 24,
+    "snapshot_change_detected_before_count_seal": true,
+    "fresh_snapshot_zero_DML": true,
+    "fresh_UUID_recovery": true,
+    "manual_committed_steps": 9,
+    "measured_step_ms": [
+      772.775,
+      11.395,
+      7.878,
+      264.762,
+      12.125,
+      12.616,
+      11.431,
+      10.978,
+      11.528
+    ],
+    "actual_factory_completion": false,
+    "performance_qualification": false,
+    "product_adoption": false,
+    "exact_preexecution_admission_equal": true,
+    "baseline_roles_exact": true,
+    "stage_timings": [
+      {
+        "phase": "SOURCE_ADMISSION",
+        "state": "COMPLETED",
+        "started_at_utc": "2026-10-27T11:07:16.943046+00:00",
+        "elapsed_ms": 208170.434,
+        "finished_at_utc": "2026-10-27T11:10:45.113578+00:00"
+      },
+      {
+        "phase": "BASELINE_ADVISORS",
+        "state": "COMPLETED",
+        "started_at_utc": "2026-10-27T11:10:45.115904+00:00",
+        "elapsed_ms": 1601.191,
+        "finished_at_utc": "2026-10-27T11:10:46.717153+00:00"
+      },
+      {
+        "phase": "BASELINE_NATIVE_VERIFY",
+        "state": "COMPLETED",
+        "started_at_utc": "2026-10-27T11:10:46.725564+00:00",
+        "elapsed_ms": 1790.527,
+        "finished_at_utc": "2026-10-27T11:10:48.516154+00:00"
+      },
+      {
+        "phase": "BASELINE_CAPTURE",
+        "state": "COMPLETED",
+        "started_at_utc": "2026-10-27T11:10:50.084911+00:00",
+        "elapsed_ms": 435.475,
+        "finished_at_utc": "2026-10-27T11:10:50.520465+00:00"
+      },
+      {
+        "phase": "BASELINE_DUMP",
+        "state": "COMPLETED",
+        "started_at_utc": "2026-10-27T11:10:51.119469+00:00",
+        "elapsed_ms": 1190.489,
+        "finished_at_utc": "2026-10-27T11:10:52.310050+00:00"
+      },
+      {
+        "phase": "INSTALL_BOUNDARY_LOCK",
+        "state": "COMPLETED",
+        "started_at_utc": "2026-10-27T11:10:52.317989+00:00",
+        "elapsed_ms": 9.054,
+        "finished_at_utc": "2026-10-27T11:10:52.327112+00:00"
+      },
+      {
+        "phase": "FIRST_FULL_INSTALL",
+        "state": "COMPLETED",
+        "started_at_utc": "2026-10-27T11:10:52.327177+00:00",
+        "elapsed_ms": 1375884.702,
+        "finished_at_utc": "2026-10-27T11:33:48.211903+00:00"
+      },
+      {
+        "phase": "PREUSE_REMOVAL",
+        "state": "COMPLETED",
+        "started_at_utc": "2026-10-27T11:33:48.211973+00:00",
+        "elapsed_ms": 642932.414,
+        "finished_at_utc": "2026-10-27T11:44:31.144417+00:00"
+      },
+      {
+        "phase": "SECOND_FULL_INSTALL",
+        "state": "COMPLETED",
+        "started_at_utc": "2026-10-27T11:44:31.144496+00:00",
+        "elapsed_ms": 1356117.376,
+        "finished_at_utc": "2026-10-27T12:07:07.261905+00:00"
+      },
+      {
+        "phase": "INSTALLED_VERIFY",
+        "state": "COMPLETED",
+        "started_at_utc": "2026-10-27T12:07:08.830438+00:00",
+        "elapsed_ms": 7004.309,
+        "finished_at_utc": "2026-10-27T12:07:15.834845+00:00"
+      },
+      {
+        "phase": "INSTALLED_ADVISORS",
+        "state": "COMPLETED",
+        "started_at_utc": "2026-10-27T12:07:15.944275+00:00",
+        "elapsed_ms": 2667.223,
+        "finished_at_utc": "2026-10-27T12:07:18.611593+00:00"
+      },
+      {
+        "phase": "ACTUAL_SOURCE_CHANGE_AND_RECOVERY",
+        "state": "COMPLETED",
+        "started_at_utc": "2026-10-27T12:07:18.619869+00:00",
+        "elapsed_ms": 11363.37,
+        "finished_at_utc": "2026-10-27T12:07:29.983300+00:00"
+      },
+      {
+        "phase": "BASELINE_RESTORE",
+        "state": "COMPLETED",
+        "started_at_utc": "2026-10-27T12:07:40.604333+00:00",
+        "elapsed_ms": 4151.801,
+        "finished_at_utc": "2026-10-27T12:07:44.756216+00:00"
+      },
+      {
+        "phase": "RESTORED_CP6_VERIFY",
+        "state": "COMPLETED",
+        "started_at_utc": "2026-10-27T12:07:46.790144+00:00",
+        "elapsed_ms": 426.634,
+        "finished_at_utc": "2026-10-27T12:07:47.216858+00:00"
+      },
+      {
+        "phase": "RESTORED_NATIVE_VERIFY",
+        "state": "COMPLETED",
+        "started_at_utc": "2026-10-27T12:07:47.218267+00:00",
+        "elapsed_ms": 1817.864,
+        "finished_at_utc": "2026-10-27T12:07:49.036179+00:00"
+      }
+    ]
+  },
   "source_race_run": 40491368228,
-  "status": "AWAITING_ACCEPTED_SOURCE_RACE_ORIGINAL",
+  "status": "SOURCE_RACE_ACCEPTED_COMPOSITION_UNEXECUTED",
   "default_adopted": false,
   "production_go": false
 }
