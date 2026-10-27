@@ -1,0 +1,23 @@
+{
+  "name": "CP7_D17_18_CHOICE_TRANSPORT6.json",
+  "status": "INCOMPLETE",
+  "head": "f088123ba44b68b09c88e30df04e19b312b8871d",
+  "run_id": 40354149723,
+  "job_id": 121681944860,
+  "artifact_id": 12669065730,
+  "zip_bytes": 2810051,
+  "zip_sha256": "f80f943154f4184151b90030f581655d541e0adf76d06e373786604bfa7c3ef1",
+  "bytes": 4172156,
+  "sha256": "6cd63ee0bfc2e0afb698bd0b746e2c521a432256f9ef215c481d97a62f2616ff",
+  "error": "UNDECLARED_QUALIFICATION_PHASE",
+  "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/current-choice-preparation-transport-qualification/probe.py\", line 97, in run\n    progress.mark('INSTALL_RETURNED')\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-frozen-public-native-qualification/progress.py\", line 25, in mark\n    raise ValueError('UNDECLARED_QUALIFICATION_PHASE')\nValueError: UNDECLARED_QUALIFICATION_PHASE\n",
+  "observed_case_count": 0,
+  "expected_case_count": 6,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "baseline_full22_all_rows_all_sequences_equal": true,
+  "baseline_advisors_equal": true,
+  "cause": "Probe used phase names outside the unchanged retained Progress.PHASES vocabulary; first refusal before any Auth/race case.",
+  "runtime_Auth_or_race_credit": false,
+  "production_go": false
+}
