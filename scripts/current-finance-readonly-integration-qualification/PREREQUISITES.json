@@ -1,0 +1,9 @@
+{
+  "contract": "cp7.current-choice-readonly-finance-qualification-prerequisites.v1",
+  "merged_source_head": "f05447d5b3ba892cd498035cafb545856b766abe",
+  "source_race": null,
+  "source_race_run": 40491368228,
+  "status": "AWAITING_ACCEPTED_SOURCE_RACE_ORIGINAL",
+  "default_adopted": false,
+  "production_go": false
+}
