@@ -58,3 +58,11 @@ fetch is performed by the materializer. Three real Git fixture tests cover
 distinct commits, shared history, refusal before partial creation and invalid
 refs/paths. This reduces repeated repository transfers; application latency
 and actual CI preparation time still require measurement.
+
+Each paired report also retains the live declarations of all functions seen
+by track_functions, including volatility, authority and exact definitions.
+An observed volatile financial reader prevents this group from passing and
+remains available for diagnosis. The unchanged void Native access guard is
+identified separately. This is evidence for the observed paths, not a complete
+transitive call graph or independent audit. Static source searches alone do
+not certify the installed function declarations.

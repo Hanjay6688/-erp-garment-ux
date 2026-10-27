@@ -78,6 +78,17 @@ def measure(url,dates,baseline,limit):
         calls={r['function']:r['calls']for r in functions}
         assert calls['erp.run_v268_financial_report_checks()']==(2 if baseline else 1)
         assert calls.get(patch.HELPER,0)==(0 if baseline else 1)
+        metadata=cur.execute('select p.oid::regprocedure::text,p.provolatile,p.prosecdef,'
+            'pg_get_userbyid(p.proowner),p.proconfig,p.prorettype::regtype::text,pg_get_functiondef(p.oid) '
+            'from pg_proc p where p.oid=any(%s::regprocedure[])order by 1',(list(calls),)).fetchall()
+        assert {row[0]for row in metadata}==set(calls),'COMBINED_OBSERVED_FUNCTION_METADATA_INCOMPLETE'
+        observed={row[0]:dict(volatility=row[1],security_definer=row[2],owner=row[3],config=row[4],
+            return_type=row[5],definition=row[6],definition_sha256=sha256(row[6].encode()).hexdigest())for row in metadata}
+        # The accepted Native access guard returns void and supplies no money
+        # value. Its permission observation is deliberately separate from the
+        # financial readers. Do not exempt any other volatile observed reader.
+        nonstable={name:row['volatility']for name,row in observed.items()
+            if row['volatility']not in ('s','i')and not(name=='erp.require_internal()'and row['return_type']=='void')}
         if not baseline:
             expected=retained.reference.signature(cur,dates['as_of'],10000)
             assert value['expected_book_signature']==expected['signature']
@@ -88,6 +99,8 @@ def measure(url,dates,baseline,limit):
         conn.rollback()
     return report,value['rows'],dict(elapsed_ms=elapsed,statement_limit_ms=limit,
         functions=functions,official_check_calls=2 if baseline else 1,book_signature_calls=0 if baseline else 1,
+        observed_reader_catalog=observed,observed_nonstable_financial_readers=nonstable,
+        observed_function_metadata_complete=True,complete_transitive_call_graph_verified=False,
         zero_table_write_attempts=True,all22_data_sequences_restored=True,
         temporary_original_reader_bodies_only=baseline,performance_qualification=False,
         report_sha256=sha256(json.dumps(report,sort_keys=True,default=str).encode()).hexdigest())
@@ -109,7 +122,9 @@ def paired_reports(conn,cur,database,url,report):
         left,left_rows,old=measure(url,dates,True,limit);evidence['accepted_reader_bodies']=old
         right,right_rows,new=measure(url,dates,False,limit);evidence['combined_reader']=new
         assert left==right and left_rows==right_rows,'COMBINED_WHOLE_OFFICIAL_REPORT_CHANGED'
+        assert not new['observed_nonstable_financial_readers'],('COMBINED_FINANCIAL_READER_VOLATILITY_REQUIRES_DIAGNOSIS',new['observed_nonstable_financial_readers'])
         evidence.update(status='PASS',entire_official_report_equal_except_captured_at=True,
+            observed_financial_readers_same_statement_snapshot=True,
             elapsed_change_ms=round(new['elapsed_ms']-old['elapsed_ms'],3))
     report.update(status='PASS',three_complete_report_pairs=True,performance_qualification=False,
         independent_signature_exact=True,zero_ERP_writes=True)
