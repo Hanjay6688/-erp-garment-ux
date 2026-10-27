@@ -380,6 +380,9 @@ jobs:
     - name: Admit exact actual Native6 source and focused Auth race cases before DB
       working-directory: auditor
       run: python scripts/current-choice-preparation-transport-qualification/admission.py
+    - name: Verify exact role restoration after preuse removal before DB
+      working-directory: auditor
+      run: python scripts/current-choice-preparation-transport-qualification/test_restore_roles.py
     - name: Verify every qualification phase against retained logger before DB
       working-directory: auditor
       run: python scripts/current-choice-preparation-transport-qualification/test_phases.py

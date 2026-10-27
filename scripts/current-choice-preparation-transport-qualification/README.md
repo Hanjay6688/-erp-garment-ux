@@ -1,3 +1,20 @@
+# Current recovery successor — first actual failure preserved
+
+Actual40f run40363845158/job121789562898/artifact12686462342 is INCOMPLETE.
+All Auth3/race3 cases passed but final restore attempted to drop cp7_alert after
+preuse removal had already removed it. CP6/advisor restoration remain unproven;
+none of the six observations substitutes for whole-suite PASS.
+
+The successor reconciles current role names with the captured baseline and the
+exact role set created by this test. Missing baseline or unexpected roles refuse
+before DDL. Only remaining created roles are dropped; exact baseline equality
+and every existing catalog/data/sequence/CP6/advisor gate remain mandatory.
+Seven local controls cover completed and partial inverse, missing/unexpected
+roles, DROP failure, final drift and baseline-role overlap. Source and business
+case code, permissions, timing limits and oracles are unchanged.
+
+Earlier preparation history follows.
+
 Penerus fixture8dfe1a19: exact4 berkas Native6 diimpor. bfed tetap
 INCOMPLETE5PASS/1 karena jadwal memakai identitas sumber lama. Kandidat baru
 memakai perintah peninjauan jadwal frozen v2, konfigurasi sama, satu analisis

@@ -42,6 +42,7 @@ progress=phase_diagnostics.Progress(OUT.with_name(LABEL+'_PROGRESS.jsonl'))
 
 
 current_advisor=load('current_choice_private_advisor_review',REPO/'scripts/current-choice-preparation-native-qualification/advisor_review.py')
+role_restore=load('current_choice_transport_role_restore',HERE/'restore_roles.py')
 
 
 def admitted():
@@ -156,7 +157,7 @@ def run():
                 report['baseline_restore']=restored
                 assert drill.data_hashes(database.SOURCE)==pre_data
                 with psycopg.connect(package.boundary.ADMIN)as conn,conn.cursor()as cur:
-                    for role in sorted(new_roles):cur.execute(sql.SQL('drop role {}').format(sql.Identifier(role)))
+                    report['baseline_role_cleanup']=role_restore.restore_roles(cur,before_roles,new_roles,database._roles)
                     conn.commit();assert database._roles(cur)==before_roles
                     assert product.catalog._portable(product.catalog._catalog_rows(cur))==baseline_catalog
                     assert product.catalog._data(cur)==baseline_data
