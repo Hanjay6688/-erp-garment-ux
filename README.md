@@ -1,80 +1,31 @@
-# Atelier Garment ERP UX
+# F05 archive backup — 2026-10-27
 
-Lightweight React + Vite prototype for the ERP Garment project.
+This isolated backup branch is an archive index, not an application release or an integration candidate. Do not merge it into `main` or any A/B working branch.
 
-## Current UX slice
+## Publication status
 
-- Owner dashboard focused on cash, receivables, HPP, finished-goods stock, WIP, and operational exceptions.
-- Responsive sidebar arranged by business flow: Produksi → Gudang → Penjualan → Keuangan → Master Data.
-- Penjualan & Invoice screen with visible stock per size, flexible dozen/PCS entry, editable size composition, and stock validation.
-- Kartu Stok FG as factual per-SKU chronology.
-- Mutasi Barang Jadi with owner-controlled display order while preserving factual stock/time data.
-- Responsive tablet/mobile layout with no heavy UI or chart framework.
+**GitHub Release assets: PENDING PRIVACY DECISION — no public assets have been uploaded.** The archives are preserved privately. Because this repository is public, publishing the ZIPs is paused pending the owner's public/private destination choice. This index alone does not establish a completed GitHub binary backup. Verify exact bytes, size and SHA-256 after upload before marking preservation complete.
 
-## Quantity convention
+Private preservation identifiers and storage locations are intentionally omitted because this repository is public.
 
-Backend/stock truth remains PCS. The UI accepts human-friendly input such as `2 lusin`, `18 pcs`, or `1 lusin 6 pcs`; one dozen equals 12 PCS. SKU defaults to three size slots unless configured otherwise.
+## Original artifact identity
 
-## Local development
+The following identities were recorded from GitHub artifact metadata on 2026-10-25. These are original metadata values, not a claim that this documentation operation has freshly downloaded or recomputed the archive hashes.
 
-```bash
-npm ci
-npm test
-npm run dev
-```
+| Original artifact ID | Source workflow run | Size (bytes) | SHA-256 | Recorded expiry (UTC) |
+|---|---|---:|---|---|
+| 11139828865 | [36811910029](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36811910029) | 132000390 | `ed3ec21ec77056086a61c8b242a914d86beadfa31ee4d4864cc81bbe1f3933c0` | 2026-10-31 04:02:37 |
+| 11141076740 | [36814071634](https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/36814071634) | 138502324 | `833cdecb6c70193aef9809b1191863f4feb4b8c317d70ef182a442ed26ac1347` | 2026-10-31 04:25:47 |
 
-## Runtime contract
+## Isolation
 
-- With no environment variables the app runs as `DEMO_SIMULATION`.
-- `UAT_AUTH_SIMULATION` connects Auth, access control, Master Pola, Potongan, Pickup/Distribusi, WIP, and Barang BS/Rework to ERP Enteng (`siimvrusnzxexizpyoib`). Laundry and QC remain explicitly labelled simulation until CP6 connects their canonical data paths.
-- The dedicated UAT release accepts the pinned browser-safe modern publishable key. A production project URL, secret key, service-role key, missing variable, or unknown mode blocks startup; there is no fallback.
-- The UAT gate resolves each active mapped user through canonical public facades and the permission catalog. The `erp` schema, domain tables, and private writer functions remain inaccessible from the browser; there is no in-app signup.
-- Browser traffic is limited to the source-owned canonical RPC allowlist. Connected reads and writes are server-authoritative, including server-side Pattern filters and optimistic row-version guards.
+Only the new `backup/f05-archive-20261027` ref is published. Its tree contains this archive documentation only, with no application source, workflows or deployment configuration. The connector requires a parent commit, so the documentation commit retains main snapshot `a58385e4182d653d0349208c89cff59284a7beac` as historical parent; this is not an orphan history. No existing branch ref is moved, no PR is opened, and no merge, workflow dispatch or deployment is requested.
 
-Copy `.env.example` for the UAT variable names. Do not commit environment files or any server credential.
+## Completion checklist
 
-### Build-time environments
+- [ ] Upload both unchanged ZIP archives as assets of a dedicated archive Release (not an application release).
+- [ ] Record the exact Release and asset URLs.
+- [ ] Download/verify each asset's size and SHA-256 against the table above.
+- [ ] Preserve original provenance and validate any consumers separately; do not silently repoint A/B references.
 
-`VITE_*` values are compiled into static client assets; they are not server runtime configuration. Build and retain separate artifacts for each mode:
-
-- Demo artifact: build with no Supabase variables and either omit `VITE_ERP_RUNTIME_MODE` or set it to `DEMO_SIMULATION`.
-- UAT Auth artifact: build with `VITE_ERP_RUNTIME_MODE=UAT_AUTH_SIMULATION`, the exact ERP Enteng URL, and one publishable/legacy-anon browser key.
-
-Never relabel or reuse a UAT artifact as a demo or production artifact. `vite.config.ts` explicitly loads and scans `.env*` plus process environment before bundling, so a forbidden secret/service-role name or server key cannot hide in a mode file. `postbuild` always scans `dist`; CI separately reruns the canary regression and output scan.
-
-See [docs/preconnect-security.md](docs/preconnect-security.md) before connecting any screen to backend strings or enabling an RPC. The binding cross-domain safety contract is documented in [ERP reliability invariants](docs/erp-reliability-invariants.md).
-
-## Source ownership
-
-CP3.5 validates the whole repository, not only the attendance candidate:
-
-- every production TypeScript, TSX, and CSS file is reachable from the app entry;
-- every stylesheet selector has an owning production component;
-- every migration, rollback, SQL regression, proof harness, and UAT provenance
-  file is classified and hash-bound;
-- recorded v2.6.10–v2.6.13 source filenames use their exact ERP Enteng ledger
-  versions, while the four reviewed CP3 migrations remain unchanged.
-
-Run `npm run check:source`, `npm run check:css`, and `npm run check:backend`.
-See [docs/cp3-5-code-ownership.md](docs/cp3-5-code-ownership.md) for the short
-source map and the migration replay boundary.
-
-## Production build
-
-```bash
-npm run build
-```
-
-Output directory: `dist`. A successful `npm run build` already includes the mandatory client-artifact secret scan; `npm run scan:dist` can be rerun independently.
-
-## Cloudflare Worker
-
-This repository is connected to the Cloudflare Workers build for the `erp-garment-ux` script. Pull-request branches receive preview deployments; a gated merge to `main` triggers the canonical production deployment at:
-
-`https://erp-garment-ux.zrpf6sbtjb.workers.dev/`
-
-- Framework preset: Vite
-- Build command: `npm run build`
-- Build output directory: `dist`
-
-`wrangler.jsonc` serves `dist` as static assets and uses SPA fallback for unknown routes.
+This backup does not change test results, qualification, production readiness, or A/B ownership.
