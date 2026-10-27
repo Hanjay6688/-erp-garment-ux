@@ -25,6 +25,12 @@ class CombinedQualificationBoundaries(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,'COMBINED_QUALIFICATION_NOT_ADMITTED'):
             runner.exercise(NoDatabase(),NoDatabase(),NoDatabase(),'no-url',{}, {})
 
+    def test_fetch_cannot_use_network_before_accepted_prerequisite(self):
+        fetch=admission.load('closed_combined_fetch',HERE/'fetch_consistency.py')
+        with patch.object(fetch.subprocess,'check_output',side_effect=AssertionError('UNADMITTED_NETWORK')):
+            with self.assertRaisesRegex(ValueError,'ACTUAL_CONSISTENCY_PASS_REQUIRED'):
+                fetch.fetch()
+
     def test_full_restore_and_factory_oracles_have_only_declared_changes(self):
         proof=admission.source_guard(ROOT,HERE)
         self.assertEqual(proof['qualification_factory.py']['unchanged_assertions'],36)

@@ -38,5 +38,13 @@ spellings are compared without changing the original raw installation seal.
 The first committed group must prove the actual combined USED guard; later
 raw-catalog refusals are recorded separately. Full restore remains mandatory
 even when an inverse assertion fails. Browser/Auth and final performance
-acceptance remain separate. No execution workflow has been created for this
-closed preparation and no new runtime result is claimed.
+acceptance remain separate. A closed execution workflow is prepared; its
+execution branch has not been created and no new runtime result is claimed.
+
+The workflow preserves the accepted source and restore steps. Before ERP
+tests it allows four bounded startup attempts, uses ECR only on attempt two,
+and returns to GHCR on attempts three/four. This addresses actual faa's
+transient GHCR limit followed by repeated ECR quota failures. Every complete
+attempt log and its digest is retained. Image tags, ordinary statement limits
+and business tests are unchanged. Artifact names include the run attempt so
+an earlier retained artifact does not need to be overwritten.

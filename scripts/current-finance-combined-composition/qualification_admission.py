@@ -29,6 +29,8 @@ def source_guard(repo,here):
         assert actual==expected,'COMBINED_UNDECLARED_QUALIFICATION_CHANGE:'+target
         assert sum(isinstance(n,ast.Assert)for n in ast.walk(ast.parse(actual)))==rule['assertions']
         proof[target]=dict(exact_declared_derivation=True,unchanged_assertions=rule['assertions'])
+    workflow=load('combined_qualification_workflow_guard',here/'workflow_guard.py')
+    proof['workflow']=workflow.check(repo)
     return proof
 
 
