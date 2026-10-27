@@ -30,10 +30,10 @@
     "scripts/current-finance-combined-composition/qualification_factory.py": "a77dda2b6683cab1e886ff1f4d5b7b87ecac66c664d259b478286cbd9bf77f7a",
     "scripts/current-finance-combined-composition/qualification_probe.py": "fe60bb69b1f6af4fd0265688c8d1fdf3a80f93f41d853437679bfc1212fddccf",
     "scripts/current-finance-combined-composition/qualification_runner.py": "9f6d0610349f43603c90ed1dd77b0bee7ed94d3b9c6174172d420698de059606",
-    "scripts/current-finance-combined-composition/test_closed_gate.py": "cd3082ff9c2c6eec98ec510ca255e9a3d2572e64c9eeede91e850068daac0a12",
+    "scripts/current-finance-combined-composition/test_closed_gate.py": "258b34b0d8f86d2ae69d975c20f9f8496175b69668152dd8f0ee75e15231d8b9",
     "scripts/current-finance-combined-composition/test_disposable_start.py": "ffa5aa9794be4f1f505da3e054f6afdef1b104d5a54e8535f4a6798c9867e468",
     "scripts/current-finance-combined-composition/test_materialize_sources.py": "e21d981a3a0ec52c80596b7c3b8bb920a9c75a12440460460bd5cdd785298a17",
-    "scripts/current-finance-combined-composition/test_qualification_boundaries.py": "a40ac60096cd7b3e176b0b3bcf59a5c6a150575695a3da5b1beae95037a27446",
+    "scripts/current-finance-combined-composition/test_qualification_boundaries.py": "7b36a0dc8e76146da7159bba0d919992a1af52322ed217f06c18e25757c6662e",
     "scripts/current-finance-combined-composition/workflow_guard.py": "09faba066b15d33c3f71534354ee79e0e9d30afe6571b86b15cf35196333b07a"
   },
   "qualification_prepared": true,
@@ -89,5 +89,7 @@
     "actual_CI_materialization": "NOT_STARTED",
     "source_refs_substituted": false,
     "application_performance_claim": false
-  }
+  },
+  "explicit_closed_guard_fixtures": true,
+  "repository_execution_gates_opened": false
 }

@@ -2,6 +2,9 @@ from copy import deepcopy
 from hashlib import sha256
 from pathlib import Path
 import importlib.util,json,unittest
+from tempfile import TemporaryDirectory
+from unittest.mock import patch
+import shutil
 import evidence
 
 
@@ -27,8 +30,15 @@ class IndependentAdmissionBoundaries(unittest.TestCase):
         module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
         class NoDatabase:
             def __getattr__(self,name):raise AssertionError('UNQUALIFIED_DATABASE_TOUCH:'+name)
-        for call in (lambda:module.install(NoDatabase()),lambda:module.install_delta(NoDatabase(),{})):
-            with self.assertRaisesRegex(ValueError,'ACTUAL_CONSISTENCY_PASS_REQUIRED'):call()
+        # These negative cases keep explicit closed inputs even after a real
+        # accepted prerequisite is later bound to the repository configuration.
+        with TemporaryDirectory()as folder:
+            closed=Path(folder)
+            shutil.copy2(path.with_name('evidence.py'),closed/'evidence.py')
+            (closed/'PREREQUISITES.json').write_text(json.dumps({'allow_database_execution':False,'accepted_consistency':None}))
+            with patch.object(module,'HERE',closed):
+                for call in (lambda:module.install(NoDatabase()),lambda:module.install_delta(NoDatabase(),{})):
+                    with self.assertRaisesRegex(ValueError,'ACTUAL_CONSISTENCY_PASS_REQUIRED'):call()
 
 
 if __name__=='__main__':unittest.main()
