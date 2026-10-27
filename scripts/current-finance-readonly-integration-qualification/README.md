@@ -44,3 +44,10 @@ exact request replay, official metrics, source-change refusal and permission
 revocation. `CASE_SOURCES.json` binds their original files and exact 13 IDs.
 Selection and source admission are preparation only; no Native13 result is yet
 claimed, and these Native cases do not claim actual Auth/browser coverage.
+
+The measured cron case also records its stored report snapshot without changing
+any data or prior oracle. A heartbeat write before the financial report may
+assign a transaction ID and prevent that snapshot. This is a code-review risk
+awaiting actual observation; the accepted direct fresh-transaction source race
+does not prove concurrent-source detection through the scheduler. Even a
+Native13/cron PASS does not close that separate worker consistency requirement.

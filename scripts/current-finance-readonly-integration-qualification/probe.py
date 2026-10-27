@@ -108,6 +108,9 @@ def run():
         case=report['committed'].setdefault(runner.CASE,dict(status='INCOMPLETE'))
         with psycopg.connect(package.boundary.ADMIN)as conn,conn.cursor()as cur:
             measured(timings,'ACTUAL_MINUTE_CRON_CHOICE_AND_FINANCE',runner.exercise,conn,cur,database,package.boundary.ADMIN,case)
+            snap,state,done,total=cur.execute('select report_snapshot::text,state,units_done,units_total from cp7_finance_capture.captures where id=%s',(case['finance_capture_id'],)).fetchone()
+            report['cron_snapshot_observation']=dict(capture_id=case['finance_capture_id'],snapshot=snap,state=state,units_done=done,units_total=total,has_report_snapshot=snap is not None,concurrent_source_change_qualified=False)
+            conn.rollback()
         with psycopg.connect(package.boundary.ADMIN)as conn,conn.cursor()as cur:
             report['post_cron_boundary_lock']=current_native.acquire_boundary(cur)
             held_catalog=predecessor.catalog._catalog_rows(cur);actual=predecessor.catalog._data(cur)

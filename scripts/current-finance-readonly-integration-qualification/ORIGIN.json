@@ -82,6 +82,11 @@
         "old": "\"\"\"Actual minute pg_cron completes explicit bounded finance on the full current chain.\n\nOne committed integration case, with a complete baseline dump restored after use.\nNo manual ticks, accelerated clock, hosted mutation or factory-scale claim.\n\"\"\"",
         "new": "\"\"\"Focused Native13 and actual cron on the readonly finance composition.\n\nThe exact installed parent is verified once; only the new delta inverse is\nrepeated here. Full baseline restoration and all business oracles remain.\n\"\"\"",
         "count": 1
+      },
+      {
+        "old": "            measured(timings,'ACTUAL_MINUTE_CRON_CHOICE_AND_FINANCE',runner.exercise,conn,cur,database,package.boundary.ADMIN,case)",
+        "new": "            measured(timings,'ACTUAL_MINUTE_CRON_CHOICE_AND_FINANCE',runner.exercise,conn,cur,database,package.boundary.ADMIN,case)\n            snap,state,done,total=cur.execute('select report_snapshot::text,state,units_done,units_total from cp7_finance_capture.captures where id=%s',(case['finance_capture_id'],)).fetchone()\n            report['cron_snapshot_observation']=dict(capture_id=case['finance_capture_id'],snapshot=snap,state=state,units_done=done,units_total=total,has_report_snapshot=snap is not None,concurrent_source_change_qualified=False)\n            conn.rollback()",
+        "count": 1
       }
     ]
   },
