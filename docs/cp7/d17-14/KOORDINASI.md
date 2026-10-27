@@ -5051,3 +5051,14 @@ Exact Original/proof hashes are in ow15/D17_18_FOLLOWUPS_05B_ACTUAL.json.
 The successor retains the unchanged parent inverse and records raw-versus-portable catalog
 differences. It never substitutes a catalog or calls catalog refusal a used-data refusal;
 full restoration runs even if that check fails. All used-data and exact source guards remain.
+
+
+## A / 27 Oktober2026 — image registry failure preserved, one retry
+
+LATEST INFRASTRUCTURE / 27 Oktober2026: faa5889f first job122315934147 FAILED beforeDB at image pulls.
+Artifact12752330518/ZIP48471bytes SHA2564d2fc0c82c870ecbddb28d2c8672722ce524d54c72010aeb3cb689091b7a2bca;
+log1295144bytes SHA2564bfafb5c2e9413dcd3f3c04fee772f20d35b1cb3563fcda299c44b3bea886aaa retained.
+Allsource admission/localchecks passed; zero ERPcases. GHCR transientrequestlimit, ECR Data limit exceeded.
+One same-source retry RUNNING: run40540122775/job122328486189. No further same-source retry after this.
+Closedcombinedcomposition7274445c prepared separately,3localgatechecks/completeimport/0DBcases.
+Current tests are not accepted runtime. Baselinecounterexample and repair remain unexecuted.

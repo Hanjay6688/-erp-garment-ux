@@ -1,3 +1,11 @@
+LATEST INFRASTRUCTURE / 27 Oktober2026: faa5889f first job122315934147 FAILED beforeDB at image pulls.
+Artifact12752330518/ZIP48471bytes SHA2564d2fc0c82c870ecbddb28d2c8672722ce524d54c72010aeb3cb689091b7a2bca;
+log1295144bytes SHA2564bfafb5c2e9413dcd3f3c04fee772f20d35b1cb3563fcda299c44b3bea886aaa retained.
+Allsource admission/localchecks passed; zero ERPcases. GHCR transientrequestlimit, ECR Data limit exceeded.
+One same-source retry RUNNING: run40540122775/job122328486189. No further same-source retry after this.
+Closedcombinedcomposition7274445c prepared separately,3localgatechecks/completeimport/0DBcases.
+Current tests are not accepted runtime. Baselinecounterexample and repair remain unexecuted.
+
 LATEST / 27 Oktober2026:05b62971/run40532595788/artifact12748819568 is ACTUAL INCOMPLETE.
 Original child-XID case PASS (snapshot7596:7596:, child7597 invisible, source change refused).
 Three single-check pairs PASS with identical reports and zero writes;3600variants7366.441→3690.749ms.

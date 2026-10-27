@@ -1,5 +1,5 @@
 {
-  "recorded_at_utc": "2026-10-27T16:24:10.392020+00:00",
+  "recorded_at_utc": "2026-10-27T16:45:51.420170+00:00",
   "role": "A finance writer/integrator replacing Claude; B remains separate production/planning writer",
   "slogan": [
     "VENI. VIDI. VICI. ERP. — I CONQUERED ERP.",
@@ -14,8 +14,8 @@
     "local_head": "adbf6cc34cd862edd03585f5ea036ddded76443c",
     "branch": "astra-a/d17-18-consistent-capture-qualification-20261027",
     "run_id": 40540122775,
-    "job_id": 122315934147,
-    "status": "RUNNING_NOT_PASS",
+    "job_id": 122328486189,
+    "status": "RETRY_RUNNING_NOT_PASS",
     "source_admission": {
       "status": "PASS",
       "own_pins": 16,
@@ -31,7 +31,10 @@
     "original_Native_cases": 20,
     "default_adopted": false,
     "production_go": false,
-    "independent_acceptance": false
+    "independent_acceptance": false,
+    "same_source_retry_number": 1,
+    "maximum_same_source_retries": 1,
+    "first_job_actual_cases": 0
   },
   "actual_new_component": {
     "name": "CP7_OW11_MODEL_TARGET_SOURCE_V2.json",
@@ -17036,5 +17039,61 @@
     "independent_acceptance": false,
     "performance_qualification": false,
     "product_adoption": false
+  },
+  "retained_consistent_faa_first_infrastructure_failure": {
+    "head": "faa5889faf622e4cb07b470aae26eadd750879c1",
+    "run_id": 40540122775,
+    "job_id": 122315934147,
+    "artifact_id": 12752330518,
+    "status": "INFRASTRUCTURE_FAILURE_BEFORE_DATABASE",
+    "failed_step": "Start disposable database",
+    "reason": "Supabase image registry toomanyrequests Data limit exceeded",
+    "actual_cases_executed": 0,
+    "log_bytes": 1295144,
+    "log_sha256": "4bfafb5c2e9413dcd3f3c04fee772f20d35b1cb3563fcda299c44b3bea886aaa",
+    "first_failure_retained": true,
+    "maximum_same_source_retries": 1,
+    "production_go": false
+  },
+  "previous_running_before_consistent_faa_retry": {
+    "sha": "faa5889faf622e4cb07b470aae26eadd750879c1",
+    "tree": "c8d3766732224c88a753364553c8f13dd21338c6",
+    "local_head": "adbf6cc34cd862edd03585f5ea036ddded76443c",
+    "branch": "astra-a/d17-18-consistent-capture-qualification-20261027",
+    "run_id": 40540122775,
+    "job_id": 122328486189,
+    "status": "RETRY_RUNNING_NOT_PASS",
+    "source_admission": {
+      "status": "PASS",
+      "own_pins": 16,
+      "unchanged_parent_pins": 25,
+      "accepted_ancestor_pins": 4085,
+      "seconds": 3.784,
+      "database_connection_attempts": 0
+    },
+    "local_gate_tests": 8,
+    "baseline_NULL_snapshot_case_before_any_patch": true,
+    "temporary_patch_requires_actual_mixed_book_and_complete_restore": true,
+    "diagnostic_operations_after_baseline": 7,
+    "original_Native_cases": 20,
+    "default_adopted": false,
+    "production_go": false,
+    "independent_acceptance": false,
+    "same_source_retry_number": 1,
+    "maximum_same_source_retries": 1,
+    "first_job_actual_cases": 0
+  },
+  "combined_finance_composition_prepared": {
+    "sha": "7274445cd869bea132e9c34e34b557ce3534d18e",
+    "tree": "045eda4729c34f3fed69db7f36cbc6b85c066990",
+    "local_head": "f38492be5de62985225a824db0d01bfaf90b54c0",
+    "branch": "astra-a/d17-18-combined-finance-prepared-20261027",
+    "gate": "CLOSED_PENDING_ACTUAL_CONSISTENCY_PASS",
+    "local_gate_tests": 3,
+    "complete_import": true,
+    "actual_database_cases": 0,
+    "default_adopted": false,
+    "production_go": false,
+    "independent_acceptance": false
   }
 }
