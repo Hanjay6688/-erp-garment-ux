@@ -1,0 +1,20 @@
+{
+  "contract": "cp7.d17-18.finance-preexisting-child-visibility.prepared.v1",
+  "parent_head": "953b87c04af4fb9f11cde105e71ccd74d59a9472",
+  "parent_run": 40509260377,
+  "parent_status": "RUNNING_NOT_PASS",
+  "actual_cases_executed": 0,
+  "allow_database_execution": false,
+  "files": {
+    "scripts/current-finance-reader-source-race-qualification/runner.py": "6b6114319dbc61eda57a6697178a72bd33f3559834b49027858187bdb74a6120",
+    "scripts/cp7_finance_capture/finance_capture.sql": "c6704e726c5fbc7a6e9b8ae266075ec6777e8b7f6bc6d7b10ddc074f3706d8bb",
+    "scripts/cp7_finance_capture/cases.py": "cdb9e0abd345a5247fb47413101d76fc037a64db926b413d31c1f9208be42840",
+    "scripts/cp7-src/ops/background.sql": "4c11082d248bdcef3a3c4f3e20be2c54c2ec575f6df723c23cfd6157f15d55d1",
+    "scripts/cp7-src/planning/report-staged.sql": "846469775ffc5f3454e3d77236f4c419d0175d8a21aa7114f691f63d3cadf74a",
+    "scripts/current-finance-readonly-integration-qualification/SOURCE.json": "7310f3455ba10d7b681eb7ece570ddcb4df579598d96e878538ff07a0633da17",
+    "scripts/current-finance-source-visibility-diagnostic/runner.py": "b7fcc0eb21bc1809c82722c5c35e4afa3b46bfd9de5a8ed161cf3f483d9d7c1e",
+    "scripts/current-finance-source-visibility-diagnostic/README.md": "23381b06dcfc0dd1226ab5f533df32022148f363ebf59315c6363c5ecd364eb2"
+  },
+  "production_go": false,
+  "independent_acceptance": false
+}
