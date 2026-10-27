@@ -5081,3 +5081,30 @@ Artifact names include runattempt, no deletion/overwrite of first evidence. Firs
 was corrected only by isolating unittest argv; original guard and first error retained in LOCAL_PREPARATION.
 Current consistency remains frozenfaa5889f/run40540122775/retryjob122328486189; no third unchanged retry.
 Formal5/16, production_go=false, independent_acceptance=false, CP7C not started. B scope unchanged.
+
+## A / 28 Oktober2026 WIB — retained infra retry failure and new exact-source successor
+
+LATEST A / 28 Oktober2026 WIB — actual faa retry also failed before DB; infrastructure successor running
+Current84c2c9d962173c80a7630a857b708fe441f14e9b/treea7927c413c91470185c7db41ff685fea454fa9d3,
+local916f1fccb910333d1e15e7031c21d41a2f398315; run40552075508/job122358193672 RUNNING, notPASS.
+Branchastra-a/d17-18-consistent-capture-infra-qualification-20261028; C/erp-infra frozen while CI runs.
+Fullsource25+unchangedparent25+ancestor4085 admissionPASS2.984s/0DB;17localtestsPASS.
+All15other originaldeclaredsources, actualprobe, ERP SQL/cases, oracles, appstatementlimits and fullrestore retained.
+Onlysourcepreparation/startup/upload evidence changes:1fullcheckout/13exactdetachedworktrees,
+4boundedstarts withGHCR,ECR,GHCR,GHCR; fullperattemptlogs+digests, artifactnamewithrunattempt.
+All13frozenheads/trees preflighted and reachable fromactualremote branches; no mutable ref or source fallback.
+BaselineNULLcase must still actually prove escaped mixedREADY and fullrestore before any temporary patch DDL.
+
+Previousfrozenfaa retryjob122328486189 alsoFAILED beforeDB atimagepull: GHCRtoomanyrequests thenECRquota.
+Artifact12754319379 ZIP48447 SHA0636bab4af53a55e958bda8ceef2a81b9f56b43cc61e867af60a4c6b21374ab6;
+log1294912bytes SHA086373971f13019ebe1f8e8fff3c31e877195f70bc03a593f221fe25d7bb018c.
+All90JSON+ZIP/log retained; no runtimeOriginal or T3package. Bothfaa failures retained; no third same-source retry.
+
+Closedcombined now0de4c760bd3870761f9d2fe88565d41208cd0fa3/treea1872e8a5b342e9e6e70e4cd81f44f3824c555b0,
+locala11aa0ed0b1c07a6beeae7a071652f4a23eda912;28sourcepins/13own+11infra guard testsPASS,0DB,7groups prepared.
+Closedguardtests use explicit closed fixtures so future real acceptedbinding does not turn negative tests into falsefailures.
+Bothgates stillclosed; executionbranchnotcreated. Exact84infrastructure/source admission changes are already
+staged in thisclosedprovider. Afteractual84PASS, bindexactOriginal/package, openqualificationgateswithfulladmission,
+andqualifycombineditself. No syntheticactualacceptance was supplied during thispreparation.
+OriginalFAAworkflow remainsbyteexact, preservingcombinedworkflow derivation. No defaultadoption/productiongo/auditacceptance.
+Formal5/16; CP7Cnotstarted. Bactualbranchastra/d17-14-produksi rechecked1dd83782 unchanged, no B writes.
