@@ -1,0 +1,7 @@
+{
+  "status": "LOCAL_PREFLIGHT_FAILED_BEFORE_DATABASE",
+  "failure": "Own diagnostic key prefix contains underscores, but its initial character guard refused underscores",
+  "correction": "Allow underscore alongside alphanumeric, colon and hyphen; SQL quoting characters still refused",
+  "runtime_executed": false,
+  "production_go": false
+}

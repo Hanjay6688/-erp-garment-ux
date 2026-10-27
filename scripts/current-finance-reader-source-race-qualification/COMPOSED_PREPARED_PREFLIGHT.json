@@ -1,0 +1,9 @@
+{
+  "status": "PREPARED_ONLY",
+  "AST_files": 8,
+  "unbound_refused_before_DB": true,
+  "wrong_failed_or_wrong_bytes_prerequisites_refused": 3,
+  "actual_runtime_credit": false,
+  "production_go": false,
+  "reviewed_followup": "Explicit8s/2s DDL bounds and first journal chunk snapshot refusal; AST rechecked, actualDB still pending"
+}
