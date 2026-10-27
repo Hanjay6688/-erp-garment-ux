@@ -1,3 +1,29 @@
+## A / 27 Oktober 2026 — kegagalan prasyarat cron dipertahankan, perbaikan dijalankan
+
+893cc8da/run40493674318/job122153598401 gagal sebelum startup database:
+workflow belum mengekspor D17_18_UI_CHOICE_NATIVE6_ORIGINAL yang diperlukan
+admission UI. Ini kesalahan sambungan kualifikasi A, bukan timeout atau
+kegagalan transaksi ERP. Tidak ada kredit penjadwal dari run tersebut.
+Log kegagalan dipertahankan. Pemeriksaan lokal terdahulu memasang variabel UI
+langsung sehingga tidak menangkap perbedaan lingkungan CI tersebut.
+
+Perbaikan d3c84c16 memverifikasi bahwa UI dan transport merujuk Original Native6
+yang persis sama, memeriksa ukuran/hash berkas yang sudah diambil, lalu
+mengikat variabel UI. Tidak ada pengambilan bukti ganda atau perubahan produk.
+Lima kontrol tambahan lulus, termasuk bytes berubah, bukti berbeda, variabel
+hilang dan binding bertentangan. Admission lengkap3947sumber lulus dengan
+lingkungan transport-only yang sama dengan CI, SHA
+1db070276885b5820e1d52cdd60b4d1852a2d08cf1145bdf65be59b412dfdf15.
+Run aktual40495834374/job122160917483 berjalan sejak11:23:52UTC; belum PASS.
+Jadwal, transaksi, batas waktu, oracle keuangan dan seluruh restore tetap.
+
+Source-race bd3505f6/run40491368228 tetap menjalankan runtime komposisi,
+belum ada hasil akhir. Formal5/16; production_go=false;
+independent_acceptance=false; CP7C belum mulai. Pabrik penuh, adopsi optimasi
+keuangan dan penerimaan kandidat gabungan masih terbuka.
+
+Bagian berikut adalah riwayat checkpoint.
+
 ## A / 27 Oktober 2026 — dua pengujian aktual aktif pada sumber terkunci
 
 Source-race bd3505f6/run40491368228/job122145853228 sudah melewati sumber,
