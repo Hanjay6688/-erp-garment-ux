@@ -1,0 +1,30 @@
+{
+  "contract": "cp7.d17-18.combined-finance-native-source-factory-cron.v1",
+  "case_ids": [
+    "COMBINED_FINANCE_NATIVE_SOURCE_REPORT_FACTORY_CRON7"
+  ],
+  "files": {
+    "scripts/current-finance-combined-composition/DERIVATION.json": "03304addcf4223c3e8e774f5c8da99a69cd8dcc95488aafed2770e6abc3dc518",
+    "scripts/current-finance-combined-composition/LOCAL_PREPARATION.json": "c9ea1d4035ede61fbc4cc5df740d5303d8e46ae3c7f197580b1f65634537c5fa",
+    "scripts/current-finance-combined-composition/PREREQUISITES.json": "3273bf7bdd9493e155db9189f8865f37258cf7b278d696ad8e8ad73c2d0ddbf8",
+    "scripts/current-finance-combined-composition/QUALIFICATION_CONFIG.json": "3cf99d48779f32bf2821e31f89c64bda80757a7b3353c1029e47a0fc78468216",
+    "scripts/current-finance-combined-composition/QUALIFICATION_ORIGIN.json": "25a47654afa8734a5d7ffb50bd2e37bf8b0d3c68679d633b86b2d8b7fb93aa1a",
+    "scripts/current-finance-combined-composition/README.md": "4d33c0a85dfdf5b21343a710db0a6ccf9ac9a19d5c9cb0f164162320d2e2042b",
+    "scripts/current-finance-combined-composition/composition.py": "3598cd7707dcad93d14edacdc1b23d5bb501bf5cade5b26aa57702d94ba7857a",
+    "scripts/current-finance-combined-composition/evidence.py": "e100e1f0840b9a5048b6c9baa5a6fe786044a05e1094904d66066347c0f800f1",
+    "scripts/current-finance-combined-composition/qualification_admission.py": "eb1278df553f7c6a71ed525e81c3e233fb08681b19db04f6c3f4a7a3982dc4f3",
+    "scripts/current-finance-combined-composition/qualification_cases.py": "e5c81a37114329132822e2463a20172231111ca6bef1fe4bc7d6e6858de3bb30",
+    "scripts/current-finance-combined-composition/qualification_factory.py": "a77dda2b6683cab1e886ff1f4d5b7b87ecac66c664d259b478286cbd9bf77f7a",
+    "scripts/current-finance-combined-composition/qualification_probe.py": "fe60bb69b1f6af4fd0265688c8d1fdf3a80f93f41d853437679bfc1212fddccf",
+    "scripts/current-finance-combined-composition/qualification_runner.py": "833887d89780eb3e9b9a6b17f88b398b44cb509309ee64846374eba33ee87257",
+    "scripts/current-finance-combined-composition/test_closed_gate.py": "cd3082ff9c2c6eec98ec510ca255e9a3d2572e64c9eeede91e850068daac0a12",
+    "scripts/current-finance-combined-composition/test_qualification_boundaries.py": "fce45ea06abe3d9955399e44ddb8c8cbbdb90606d989caf340770339db08e90b",
+    "scripts/current-frozen-finance-factory-observe-qualification/runner.py": "8ced7c77d747cab954712d27673a5a01b94362d5b48305b17fc03a1a6dddaa59",
+    "scripts/current-frozen-finance-factory-observe-qualification/fixture.py": "193197b3c288b382970250f2f3db4c38ea21e3fd45bb1729fe25f94ecbe5e3bd",
+    "scripts/current-frozen-finance-factory-observe-qualification/diagnostics.py": "142f983eaeae8eade2f7b57462af97c26202492e3ad9cf91b061c8a9a47369e6",
+    "scripts/current-frozen-public-native-qualification/public_finance_cases.py": "93ceccd87ab65dfc260b8634e0665c24504781254433242620d2ec0f4f9f26de",
+    "scripts/current-finance-followups-qualification/isolated_cases.py": "a72a100107485c725ab599009aa0f469af10018181534b90e489e09cee9b7bc3"
+  },
+  "production_go": false,
+  "independent_acceptance": false
+}

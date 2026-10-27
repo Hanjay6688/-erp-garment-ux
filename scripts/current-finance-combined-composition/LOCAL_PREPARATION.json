@@ -1,7 +1,7 @@
 {
   "status": "PREPARED_CLOSED_NOT_EXECUTED",
   "database_connections": 0,
-  "local_gate_tests": 3,
+  "local_gate_tests": 6,
   "full_dependency_import": true,
   "new_private_functions": 3,
   "changed_private_functions": 4,
@@ -20,5 +20,24 @@
     "scripts/current-finance-combined-composition/composition.py": "3598cd7707dcad93d14edacdc1b23d5bb501bf5cade5b26aa57702d94ba7857a",
     "scripts/current-finance-combined-composition/evidence.py": "e100e1f0840b9a5048b6c9baa5a6fe786044a05e1094904d66066347c0f800f1",
     "scripts/current-finance-combined-composition/test_closed_gate.py": "cd3082ff9c2c6eec98ec510ca255e9a3d2572e64c9eeede91e850068daac0a12"
-  }
+  },
+  "qualification_prepared": true,
+  "qualification_groups": 7,
+  "probe_import": "PASS",
+  "qualification_workflow_created": false,
+  "first_qualification_local_test": {
+    "status": "ERROR",
+    "tests": 6,
+    "passed": 5,
+    "errors": 1,
+    "error": "SystemExit: Current used-state restore accepts no arguments",
+    "cause": "unittest discovery arguments reached retained executable import guard",
+    "correction": "isolate sys.argv only during test import; retained command guard unchanged"
+  },
+  "final_qualification_local_tests": {
+    "status": "PASS",
+    "tests": 6,
+    "seconds": 1.008
+  },
+  "actual_qualification": "NOT_STARTED"
 }
