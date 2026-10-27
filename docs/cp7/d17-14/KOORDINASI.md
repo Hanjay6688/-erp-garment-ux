@@ -4924,3 +4924,38 @@ Analisis seluruh pabrik3600, race scheduler, kualifikasi penuh gabungan, browser
 pilihan dan penerimaan akhir tetap terbuka. Formal5/16, production_go=false,
 independent_acceptance=false, CP7C belum dimulai.
 
+
+
+## A / 27 Oktober 2026 — tindak lanjut terisolasi selama Native13+cron berjalan
+
+Kandidat953b87c0/run40509260377/job122206515921 tetap beku dan belum PASS.
+Cabang persiapan A `astra-a/d17-18-finance-followups-prepared-20261027`
+pada a66d1846 menambah dua diagnostic terisolasi, eksekusi database terkunci:
+
+- `scripts/current-finance-source-visibility-diagnostic`: Native kasbon di
+  savepoint sudah ditulis sebelum snapshot, commit setelah chunk jurnal/baris,
+  sebelum book/cash; jumlah baris book/cash tetap. Catat parent/child XID nyata
+  dan tolak hasil campuran. Ini belum dijalankan, belum membuktikan bug.
+- `scripts/current-finance-single-check-diagnostic`: turunkan pemeriksaan
+  global yang sama dari dua panggilan menjadi satu di dalam satu report melalui
+  dua helper privat. Semua rumus/bloker/tanggal/UNKNOWN/WIP/HPP tetap; fungsi
+  Native close/preflight/readiness/blockers tidak diganti. Comparator penuh dan
+  fixture small/PRICE_PERCENT/1200x3 dipertahankan. Belum ada hasil runtime atau
+  speedup. Batas eksperimen tetap8s kecil/30s factory seperti d05, bukan kebijakan
+  waktu produk baru. Angka14001,089ms dan dua panggilan berasal dari Original
+  d05/artifact12684969367 lama, bukan hasil baru.
+
+Koordinasi A/B (review, tanpa mengambil file B): PostgreSQL17 memperingatkan
+`pg_visible_in_snapshot` tidak tepat untuk subtransaction ID. A akan menguji
+`cp7_finance_capture.book_chunk`. B perlu menilai pola xmin pada
+`scripts/cp7-src/planning/analysis-stage-snapshot.sql`/`changes_since`, termasuk
+recording-time fallback, pada transaksi yang menulis sebelum batas lalu commit
+setelahnya. Jangan menganggap risiko primitive ini otomatis membuktikan seluruh
+jalur B gagal. Uji alur lengkap dan pertahankan Original pertama.
+https://www.postgresql.org/docs/17/functions-info.html#FUNCTIONS-PG-SNAPSHOT
+
+Jalur A lain yang harus dicakup: Business Report v2 mengambil row lock sebelum
+`for_report` memulai capture, sehingga memindahkan heartbeat saja tidak cukup
+untuk memastikan snapshot awal. Belum mengubah jadwal maupun transaksi B.
+Provider readonly Native13+cron harus selesai dan Original diperiksa sebelum
+membuka gate diagnostic. Formal5/16; produksi/audit independen tetap belum lulus.

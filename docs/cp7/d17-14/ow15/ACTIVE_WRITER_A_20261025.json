@@ -1,5 +1,5 @@
 {
-  "recorded_at_utc": "2026-10-27T13:08:24.118805+00:00",
+  "recorded_at_utc": "2026-10-27T13:51:37.438561+00:00",
   "role": "A finance writer/integrator replacing Claude; B remains separate production/planning writer",
   "slogan": [
     "VENI. VIDI. VICI. ERP. \u2014 I CONQUERED ERP.",
@@ -16613,5 +16613,40 @@
     "concurrent_cron_source_change_qualified": false,
     "required_next": "Observe stored report_snapshot during existing candidate cron, then qualify actual scheduler concurrency; never claim direct race proves scheduler MVCC",
     "production_go": false
+  },
+  "finance_followups_prepared": {
+    "status": "PREPARED_CLOSED_DATABASE_GATE",
+    "head": "a66d1846278da6bedc6058442beecfdbba678dae",
+    "branch": "astra-a/d17-18-finance-followups-prepared-20261027",
+    "tree": "34b05f66491dea3eb018f60ab1afaac5f861892a",
+    "parent_head": "953b87c04af4fb9f11cde105e71ccd74d59a9472",
+    "parent_run": 40509260377,
+    "parent_job": 122206515921,
+    "parent_status": "RUNNING_NOT_PASS",
+    "source_visibility_case_head": "5c3c1317f7b9e8b01e458797a40ecc320cfe0c6a",
+    "source_visibility_preparation": {
+      "status": "PREPARED_IMPORT_AND_CLOSED_EXECUTION_GATE_VERIFIED",
+      "actual_cases_executed": 0,
+      "source_pins": 8,
+      "database_connection_attempts": 0,
+      "parent_run": 40509260377,
+      "parent_runtime_status": "RUNNING_NOT_PASS"
+    },
+    "single_check_preparation": {
+      "status": "PREPARED_DERIVATION_AND_CLOSED_GATE_VERIFIED",
+      "actual_cases_executed": 0,
+      "financial_runtime_acceptance": false,
+      "measured_speedup": null,
+      "new_private_helpers": 2,
+      "existing_private_helper_replacements": 1,
+      "Native_product_functions_changed": 0
+    },
+    "actual_new_cases_executed": 0,
+    "actual_new_speedup": null,
+    "ordinary_timeout_changed": false,
+    "default_product_changed": false,
+    "production_go": false,
+    "independent_acceptance": false,
+    "recorded_at_utc": "2026-10-27T13:51:37.438561+00:00"
   }
 }
