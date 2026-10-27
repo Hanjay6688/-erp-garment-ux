@@ -1,0 +1,24 @@
+{
+  "status": "PREPARED_CLOSED_NOT_EXECUTED",
+  "database_connections": 0,
+  "local_gate_tests": 3,
+  "full_dependency_import": true,
+  "new_private_functions": 3,
+  "changed_private_functions": 4,
+  "new_private_columns": 1,
+  "internal_schema_usage_grants": 1,
+  "unchanged_Native_money_stock_HPP": true,
+  "prerequisite_expected_head": "faa5889faf622e4cb07b470aae26eadd750879c1",
+  "prerequisite_actual_status": "RUNNING_NOT_PASS",
+  "combined_runtime_qualified": false,
+  "default_adopted": false,
+  "production_go": false,
+  "files": {
+    "scripts/current-finance-combined-composition/DERIVATION.json": "03304addcf4223c3e8e774f5c8da99a69cd8dcc95488aafed2770e6abc3dc518",
+    "scripts/current-finance-combined-composition/PREREQUISITES.json": "3273bf7bdd9493e155db9189f8865f37258cf7b278d696ad8e8ad73c2d0ddbf8",
+    "scripts/current-finance-combined-composition/README.md": "1836f765253d1d8e7503c0b3a227b312e8ee52b325b28d6c7d420953588dccc6",
+    "scripts/current-finance-combined-composition/composition.py": "3598cd7707dcad93d14edacdc1b23d5bb501bf5cade5b26aa57702d94ba7857a",
+    "scripts/current-finance-combined-composition/evidence.py": "e100e1f0840b9a5048b6c9baa5a6fe786044a05e1094904d66066347c0f800f1",
+    "scripts/current-finance-combined-composition/test_closed_gate.py": "cd3082ff9c2c6eec98ec510ca255e9a3d2572e64c9eeede91e850068daac0a12"
+  }
+}
