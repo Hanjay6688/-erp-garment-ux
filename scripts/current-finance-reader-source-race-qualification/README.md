@@ -71,3 +71,6 @@ The first injected log-sink controls found two OSError failures before database
 use. FIRST_LOCAL_LOG_SINK_FAILURE.json preserves them. The logger now follows
 the retained Progress logger: an unavailable output sink cannot skip the business
 operation, replace its original exception, or prevent baseline restoration.
+
+
+Pre-execution restoration correction, 27 October 2026: exact role cleanup and seven controls imported from actual transport PASS `064d471b`. The old unconditional loop shares the retained `40f04164` failure. No source-race runtime has executed yet. Baseline role equality, catalog, full22/data/sequence, CP6 and advisor gates remain mandatory; the business scenario and timing limits are unchanged. See `ROLE_RESTORE_PREEXECUTION_REVIEW.json`.

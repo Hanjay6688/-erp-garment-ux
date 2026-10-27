@@ -388,6 +388,9 @@ jobs:
     - name: Verify nested installed-source manifest controls before database
       working-directory: auditor
       run: python scripts/current-finance-reader-source-race-qualification/test_source_manifest.py
+    - name: Verify role cleanup preserves exact baseline before database
+      working-directory: auditor
+      run: python scripts/current-finance-reader-source-race-qualification/test_restore_roles.py
     - name: Admit exact concurrent source-race qualification and actual reuse proof
       working-directory: auditor
       run: python scripts/current-finance-reader-source-race-qualification/admission.py

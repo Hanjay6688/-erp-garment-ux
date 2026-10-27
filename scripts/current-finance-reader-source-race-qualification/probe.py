@@ -14,6 +14,8 @@ runner=importlib.util.module_from_spec(_spec);_spec.loader.exec_module(runner)
 _spec=importlib.util.spec_from_file_location('finance_race_phase_timing',HERE/'phase_timing.py')
 phase_timing=importlib.util.module_from_spec(_spec);_spec.loader.exec_module(phase_timing)
 measured=phase_timing.measured
+_spec=importlib.util.spec_from_file_location('finance_race_restore_roles',HERE/'restore_roles.py')
+role_cleanup=importlib.util.module_from_spec(_spec);_spec.loader.exec_module(role_cleanup)
 _spec=importlib.util.spec_from_file_location('full_current_finance_model_native_admission',REPO/'scripts/current-frozen-finance-native-qualification/probe.py')
 qualified_native=importlib.util.module_from_spec(_spec);_spec.loader.exec_module(qualified_native)
 _spec=importlib.util.spec_from_file_location('bounded_finance_current_native',REPO/'scripts/current-analog-consumer-opening-qualification/probe.py')
@@ -116,7 +118,7 @@ def run():
                 report['baseline_restore']=restored
                 assert drill.data_hashes(database.SOURCE)==pre_data
                 with psycopg.connect(package.boundary.ADMIN)as conn,conn.cursor()as cur:
-                    for role in sorted(new_roles):cur.execute(sql.SQL('drop role {}').format(sql.Identifier(role)))
+                    report['baseline_role_cleanup']=role_cleanup.restore_roles(cur,before_roles,new_roles,database._roles)
                     conn.commit();assert database._roles(cur)==before_roles
                     assert product.catalog._portable(product.catalog._catalog_rows(cur))==baseline_catalog
                     assert product.catalog._data(cur)==baseline_data
