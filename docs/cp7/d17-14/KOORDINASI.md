@@ -5141,3 +5141,42 @@ All gatesclosed; noexecutionref. Nextupdateprivateacceptance toexactretained84fi
 withoutpromotingoldINCOMPLETE orclaiming7raninonehead. Combinedmuststillqualifyall7ownintegratedgroups,
 factory1200x3/20Native/twoactualcrons/fullrestores; realAuth/browser/finalperformance remainopen.
 Formal5/16; production_go=false; independent_acceptance=false; CP7Cnotstarted. Bscopeunchanged.
+
+## A / 28 Oktober2026 WIB — actual64 retained and real-helper successor
+
+LATEST A / 28 Oktober2026 WIB — actual64 adapter failure, corrected7e RUNNING
+Actual64de326e819885f6982364a868a3fa11c8b9dd3d/run40562870931/job122396295828
+finished INCOMPLETE. Native20 DID NOT EXECUTE: the new adapter used nonexistent
+chain.prepare_attendance_seed; accepted real helper is chain.prepare_attendance_pools.
+This is the writer's qualification adapter error, not a financial-oracle failure.
+Actual minute cron PASS: two jobsDONE, financeREADY/choiceREADY, sameUUID/official
+sections/24metrics/UNKNOWN/booksignature and report/booksignature match, 6.015s until
+observed completion. All installed and outer22/data/sequence/role/CP6/advisor restoresPASS.
+The NULLsnapshot mixedREADY counterexample was freshly proven and retainedINCOMPLETE.
+Package4gatestrue/writer_runtimefalse; WHOLE64STAYSINCOMPLETE. Actual84 remainsINCOMPLETE5PASS.
+98JSON+ZIP retained. Artifact12763033758 ZIP1819717 SHA965d408d4e116f8acb8d2c6b92283af2bcf5249ee0c7982ace9a5355bf9d5345;
+Original1436571 SHAa8102a4bf2ecdc1cf8497c79c4aa44f6e98972db908b09a6ff114ff3135d9acf;
+package360444 SHA04735c6d34d8169c15aae28bed8be41627fe48412aeeb6d3f21c4e47df7d3df4.
+Full joblog999818 SHAab7159aa6a42a0c92db8ae76a4f4ab422b34058c09533f2684dd107156eaf971 retained.
+
+CURRENT frozen7e56b69585413fd635183d3dfa96c871804bd136/tree71c4b9b38abe02dd026a8f97aa21e668da040dc5,
+local9240c88fd1182ec4ad77ee39b9705ecb92a1268c at C/erp-helper64;
+branchastra-a/d17-18-consistency-corrected-qualification-20261028;
+run40568945069/job122417638577 RUNNING_NOT_PASS. Eight local testsPASS, including
+loading the real dependency and building the actual capture7case factory with a
+NoDatabase sentinel. Full16+15+25+25+4085admissionPASS3.326s/0DB. Only helper-name
+reference corrected; exact64 namespace frozen. All9probe/14runner restore assertions,
+Native cases/amounts/READY/UUID/schedule/limits and unchanged ERP SQL remain exact.
+Both two-group qualification and fresh NULLbaseline/fullrestores run again on this
+corrected adapter pair. Old84 and64 source declarations, Originals and failures are admitted first.
+
+Closed combined32fe196482af0969ee6d733cae671667981b23f8/tree9ec8caa84b259856b09063aa4117774315ba55f7,
+local8b084523f502a5126d0d7d44c66ac271b86a57ab;13testsPASS and complete corrected
+dependency admissionPASS3.411s/0DB. Corrected Native adapter now used there too.
+Three exact Original/package pairs will bind old84, old64 and future successful7e;
+both oldwhole statuses stayINCOMPLETE. Own combined source28pins remainsclosed/null,
+noexecutionref: it still needs all7own groups/20Native/twoactualcrons/factory1200x3,
+complete restorations, laterrealAuth/browser andfinalperformance beforeadoption.
+Formal5/16; noCP7C, independent_acceptance=false, production_go=false. Bscope unchanged.
+Next: monitor7e, intake exactrawOriginal/package+log, update closed acceptance ONLY
+after actualPASS, then run isolated combined candidate. Never blindmerge diagnostic branch.

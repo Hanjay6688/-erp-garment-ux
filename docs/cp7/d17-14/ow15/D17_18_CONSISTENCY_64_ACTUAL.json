@@ -1,0 +1,117 @@
+{
+  "name": "CP7_D17_18_CONSISTENCY_FOCUSED_NATIVE20_CRON1.json",
+  "status": "INCOMPLETE",
+  "head": "64de326e819885f6982364a868a3fa11c8b9dd3d",
+  "run_id": 40562870931,
+  "job_id": 122396295828,
+  "artifact_id": 12763033758,
+  "zip_bytes": 1819717,
+  "zip_sha256": "965d408d4e116f8acb8d2c6b92283af2bcf5249ee0c7982ace9a5355bf9d5345",
+  "bytes": 1436571,
+  "sha256": "a8102a4bf2ecdc1cf8497c79c4aa44f6e98972db908b09a6ff114ff3135d9acf",
+  "archive_member": "CP7_D17_18_CONSISTENCY_FOCUSED_NATIVE20_CRON1.json",
+  "package_name": "T3_PACKAGE_INSTALL.json",
+  "package_member": "T3_PACKAGE_INSTALL.json",
+  "package_bytes": 360444,
+  "package_sha256": "04735c6d34d8169c15aae28bed8be41627fe48412aeeb6d3f21c4e47df7d3df4",
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "complete_source_declaration_exact": true,
+  "Native20_not_executed": true,
+  "Native_factory_error": "module 'cp7_p21_current_chain_rehearsal_probe' has no attribute 'prepare_attendance_seed'",
+  "actual_cron_component_status": "PASS",
+  "actual_cron_elapsed_seconds": 6.015,
+  "report_and_collected_book_signatures_equal": true,
+  "observed_job_states": {
+    "ad362166-1def-4d90-988c-761e9a86960a": "DONE",
+    "c58b1a75-16b7-4823-8221-edacc5d7e10b": "DONE"
+  },
+  "observed_finance_state": "READY",
+  "observed_choice_state": "READY",
+  "all_actual_cron_oracles_and_installed_restore_pass": true,
+  "baseline_first_NULL_mixed_ready_counterexample_proven": true,
+  "all_installed_and_preinstall_boundaries_restored": true,
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "whole_result_not_promoted_to_PASS": true,
+  "used_guard_refused_before_DDL": true,
+  "error": "FOLLOWUP_FIRST_FAILURES_RETAINED",
+  "stage_timings": [
+    {
+      "phase": "SOURCE_ADMISSION",
+      "state": "COMPLETED",
+      "started_at_utc": "2026-10-27T18:52:02.731023+00:00",
+      "elapsed_ms": 2614.056,
+      "finished_at_utc": "2026-10-27T18:52:05.345148+00:00"
+    },
+    {
+      "phase": "BASELINE_ADVISORS",
+      "state": "COMPLETED",
+      "started_at_utc": "2026-10-27T18:52:05.346994+00:00",
+      "elapsed_ms": 1559.527,
+      "finished_at_utc": "2026-10-27T18:52:06.906560+00:00"
+    },
+    {
+      "phase": "BASELINE_DUMP",
+      "state": "COMPLETED",
+      "started_at_utc": "2026-10-27T18:52:10.299008+00:00",
+      "elapsed_ms": 951.474,
+      "finished_at_utc": "2026-10-27T18:52:11.250549+00:00"
+    },
+    {
+      "phase": "SINGLE_FULL_PARENT_INSTALL",
+      "state": "COMPLETED",
+      "started_at_utc": "2026-10-27T18:52:11.263812+00:00",
+      "elapsed_ms": 1239704.905,
+      "finished_at_utc": "2026-10-27T19:12:50.968778+00:00"
+    },
+    {
+      "phase": "FIRST_FINANCE_DELTA",
+      "state": "COMPLETED",
+      "started_at_utc": "2026-10-27T19:12:50.968837+00:00",
+      "elapsed_ms": 23042.93,
+      "finished_at_utc": "2026-10-27T19:13:14.011792+00:00"
+    },
+    {
+      "phase": "FINANCE_DELTA_PREUSE_INVERSE",
+      "state": "COMPLETED",
+      "started_at_utc": "2026-10-27T19:13:14.011852+00:00",
+      "elapsed_ms": 14571.006,
+      "finished_at_utc": "2026-10-27T19:13:28.582885+00:00"
+    },
+    {
+      "phase": "SECOND_FINANCE_DELTA",
+      "state": "COMPLETED",
+      "started_at_utc": "2026-10-27T19:13:28.582951+00:00",
+      "elapsed_ms": 17359.008,
+      "finished_at_utc": "2026-10-27T19:13:45.941984+00:00"
+    },
+    {
+      "phase": "ISOLATED_DIAGNOSTICS",
+      "state": "FAILED",
+      "started_at_utc": "2026-10-27T19:13:53.401728+00:00",
+      "error_type": "AssertionError",
+      "elapsed_ms": 90156.943,
+      "finished_at_utc": "2026-10-27T19:15:23.558734+00:00"
+    },
+    {
+      "phase": "BASELINE_RESTORE",
+      "state": "COMPLETED",
+      "started_at_utc": "2026-10-27T19:15:23.578587+00:00",
+      "elapsed_ms": 3536.871,
+      "finished_at_utc": "2026-10-27T19:15:27.115528+00:00"
+    }
+  ],
+  "full_job_log": {
+    "bytes": 999818,
+    "sha256": "ab7159aa6a42a0c92db8ae76a4f4ab422b34058c09533f2684dd107156eaf971"
+  },
+  "production_go": false,
+  "independent_acceptance": false,
+  "default_adopted": false
+}
