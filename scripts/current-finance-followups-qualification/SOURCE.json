@@ -5,10 +5,11 @@
   ],
   "parent_source_sha256": "efcd04e5ae78b391d8e6dcef18f733eff2daffaeba8175dc3ca111211da7a438",
   "files": {
-    ".github/workflows/cp7-d17-18-finance-followups.yml": "473931990453440cb392118b043a94ffd4c94e2c06331682cbcb562b9fd39c26",
+    ".github/workflows/cp7-d17-18-finance-followups.yml": "3557562f102b5746ab673f14b995f7e42998b4cf1c2ca7804205a80e92a04151",
     "scripts/current-finance-followups-qualification/CONFIG.json": "f9d64345efa4bcf510238abf399d2dcbd0feb4fa900a0a60ecb4a27a0d497fb6",
     "scripts/current-finance-followups-qualification/ORIGIN.json": "8b2bca6b692f8b67580844bf43f2c23ee89d44b3fc0c1b6038842cef758ef913",
-    "scripts/current-finance-followups-qualification/README.md": "36ee23d1e72e94f848709e85d5776a6de8646b68fa2dff920524811fd92844ef",
+    "scripts/current-finance-followups-qualification/PREPARATION_TIMING.json": "104f62934cd2e70e7b28c0bd78a5e3266a406e04a83f6bdd9ef1e0f9680bb68a",
+    "scripts/current-finance-followups-qualification/README.md": "6971f98a177ad9a03a72fd014dad48406a2917773d7b3849e6ff5b66421b4804",
     "scripts/current-finance-followups-qualification/admission.py": "bfc8794e6d14c9a4d29f30181830f5b44fcd67e6616df769f3a3716687b92665",
     "scripts/current-finance-followups-qualification/evidence.py": "808d53af74e37c2d357e1a16b2ebd7b693c535637c4575360ef51f974f163ce6",
     "scripts/current-finance-followups-qualification/fetch_parent.py": "fc9e96a92ddc5a9e5a921fdf601b57e9c26487436e9eb9108a58a573d91d9e2f",

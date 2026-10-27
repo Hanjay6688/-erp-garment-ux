@@ -25,3 +25,13 @@ security advisors. This reuses installation work; it never shares fixture data.
 No product function, B source, default installer or ordinary timeout changes.
 The source-visibility risk through the scheduler and Business Report v2 still
 needs separate operational-path coverage even if the direct diagnostic passes.
+
+The local parent-admission profile measured226.926s with4085source pins and zero
+database connections;158.059s was spent waiting for a nested frozen-admission
+process. This is setup cost, not owner-facing report latency. The new followup
+workflow admits the exact accepted parent Original, current installation source
+equality and every parent file SHA256 before database use. It does not also
+repeat the older ancestry preflight as an extra workflow step. All artifact
+fetch checks and every actual installation, data, role and restoration guard
+remain. This route still refuses pending/failed parents; the current running
+qualification is untouched. No speedup from this change has yet been measured.
