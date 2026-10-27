@@ -4,6 +4,15 @@ from hashlib import sha256
 import json
 HEAD='d05c568cca01085f87f7e48fe85c8d15ca43bffd'
 
+def verify_installed_sources(repo,source,installed):
+    marker='scripts/current-finance-check-reuse-diagnostic/INSTALLED_REPORT_SOURCE.json'
+    raw=(repo/marker).read_bytes()
+    assert sha256(raw).hexdigest()==source['files'][marker],marker
+    assert json.loads(raw)==installed,marker
+    for path,digest in installed['sources'].items():
+        assert sha256((repo/path).read_bytes()).hexdigest()==digest,path
+        if path in source['files']:assert source['files'][path]==digest,path
+
 def validate(repo,proof,raw,product,parent):
     assert proof['head']==HEAD and proof['status']=='PASS'
     assert len(raw)==proof['bytes']and sha256(raw).hexdigest()==proof['sha256']
@@ -62,7 +71,7 @@ def checked_case(repo,d,source):
         assert installed['strategy']=='SAME_REPORT_OFFICIAL_READINESS'
         assert installed['derived']['installed_snapshot_bytes']==14417
         assert installed['derived']['installed_snapshot_sha256']==installed['actual_f038_live_body_sha256']=='5687c8b4805f73baa68197121f9a4a90f5f123d6ff7da683e88301a485e3aab2'
-        for path,digest in installed['sources'].items():assert source['files'][path]==digest,path
+        verify_installed_sources(repo,source,installed)
     marker='scripts/current-finance-check-reuse-diagnostic/COMPOSED_SNAPSHOT_SOURCE.json'
     if marker in source['files']:
         composed=json.loads((repo/marker).read_bytes())

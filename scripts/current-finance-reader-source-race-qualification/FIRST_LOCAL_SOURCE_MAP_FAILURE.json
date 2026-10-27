@@ -1,0 +1,15 @@
+{
+  "status": "FIRST_LOCAL_INTAKE_FAILURE_PRESERVED",
+  "head": "d05c568cca01085f87f7e48fe85c8d15ca43bffd",
+  "run_id": 40381790093,
+  "job_id": 121779660598,
+  "artifact_id": 12684969367,
+  "actual_original_status": "PASS",
+  "local_validator_error": "KeyError: 'supabase/dev/cp6_ba_t1_family.sql'",
+  "cause": "Nested installed-report Native SQL source pin is outside the flattened qualification map. Verify every manifest source against exact committed bytes.",
+  "original_changed": false,
+  "archive_mutated_by_failed_attempt": false,
+  "restored_from_conversation_after_workspace_reset": true,
+  "negative_controls": 5,
+  "production_go": false
+}

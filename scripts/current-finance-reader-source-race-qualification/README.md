@@ -1,3 +1,16 @@
+# Current source-race candidate
+
+Actual d05 run40381790093/job121779660598/artifact12684969367 passed all
+three diagnostic pairs with complete restoration. Whole report equality is
+preserved; 1200x3 factory22,429.829ms to14,001.089ms. This is not product adoption.
+The nested Native source-map validator correction and five controls are retained;
+no source bytes, arithmetic, permission or restoration gate is skipped.
+
+The previous local bound candidate was lost in a workspace reset before its full
+admission result was observed or published. This rebuild requires a fresh complete
+source admission. No prior unseen admission outcome is claimed. Earlier entries
+below remain preparation history.
+
 # Prepared finance source-change qualification
 
 This is a separate A qualification fixture, not product adoption. The exact paired
