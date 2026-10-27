@@ -4,5 +4,5 @@
     "scripts/current-finance-consistent-capture-diagnostic/book_signature.sql": "0e3adda63f0190ac4a95677bf8a495b8e461fee643ddac229ada394e82f96ea0",
     "scripts/current-finance-single-check-diagnostic/single_check.py": "041ee14f63a0cb150e507d59f879000b1e0eefe1bdffef185e9b7fbea6d082e2"
   },
-  "expected_consistency_source_sha256": "2404cecd743e9240687f6400fe718cf2d79e7e4a6336f9c4d73797bb25e3f748"
+  "expected_consistency_source_sha256": "8501a50e92d7808919bb622d8f97642d8fc1f7ec410eeb2cb9bdcc1c7988d9c6"
 }

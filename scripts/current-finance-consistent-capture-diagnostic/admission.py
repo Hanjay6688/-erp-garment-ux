@@ -77,10 +77,11 @@ def admitted(repo,here,ids,product,native):
     first=retained_diagnostics(binding,(directory/binding['name']).read_bytes(),
         (directory/binding['package_name']).read_bytes(),accepted)
     guard=load('consistent_capture_probe_guard',here/'source_guard.py').check(repo,here)
+    infrastructure=load('consistent_capture_infrastructure_guard',here/'infra_source_guard.py').check(repo,here)
     assert not subprocess.check_output(['git','-C',str(repo),'status','--porcelain','--untracked-files=no'],text=True).strip()
     return dict(qualification=source,current_installation=accepted['current_installation'],
         accepted_readonly_native13_cron1=accepted['accepted_readonly_native13_cron1'],
-        exact_first_followups=first,source_guard=guard,production_go=False,independent_acceptance=False)
+        exact_first_followups=first,source_guard=guard,infrastructure_guard=infrastructure,production_go=False,independent_acceptance=False)
 
 
 if __name__=='__main__':
