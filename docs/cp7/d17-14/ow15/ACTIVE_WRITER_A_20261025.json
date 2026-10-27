@@ -1,5 +1,5 @@
 {
-  "recorded_at_utc": "2026-10-27T10:51:21.938281+00:00",
+  "recorded_at_utc": "2026-10-27T11:08:26.505754+00:00",
   "role": "A finance writer/integrator replacing Claude; B remains separate production/planning writer",
   "slogan": [
     "VENI. VIDI. VICI. ERP. \u2014 I CONQUERED ERP.",
@@ -16,6 +16,15 @@
       "job_id": 122145853228,
       "status": "RUNNING_NOT_PASS",
       "started_at_utc": "2026-10-27T10:48:50Z",
+      "production_go": false
+    },
+    {
+      "scope": "Real minute cron on current choice progress and official finance",
+      "head": "893cc8daaa4f38659b514d0df5dc60101895e984",
+      "run_id": 40493674318,
+      "job_id": 122153598401,
+      "status": "RUNNING_NOT_PASS",
+      "started_at_utc": "2026-10-27T11:06:50Z",
       "production_go": false
     }
   ],
@@ -8620,7 +8629,8 @@
     "execution_branch_created": true,
     "actual_runtime_credit": false,
     "required_actual_head": "d05c568cca01085f87f7e48fe85c8d15ca43bffd",
-    "same_known_role_failure_prevented_before_execution": true
+    "same_known_role_failure_prevented_before_execution": true,
+    "current_stage": "Database startup and baseline alignment passed; full composed runtime step in progress, no final result"
   },
   "dependent_qualification_boundary": {
     "required_actual_native": "8dfe1a19c7b7c61558b25c00f1dd388c8565e3d1 PASS6 intaken",
@@ -11571,12 +11581,75 @@
     "finance_readiness_optimization_adopted": false,
     "production_go": false,
     "independent_acceptance": false,
-    "recorded_at_utc": "2026-10-27T10:51:21.938281+00:00"
+    "recorded_at_utc": "2026-10-27T10:51:21.938281+00:00",
+    "successor_cron_head": "893cc8daaa4f38659b514d0df5dc60101895e984",
+    "successor_cron_running": true
   },
   "latest_B_readonly_20261027": {
     "head": "1dd83782dcaa4500bace7bf392a76f58be0271c3",
     "branch": "astra/d17-14-produksi",
     "branch_written": false,
     "recorded_at_utc": "2026-10-27T10:51:21.938281+00:00"
+  },
+  "current_choice_finance_cron": {
+    "head": "893cc8daaa4f38659b514d0df5dc60101895e984",
+    "parent": "2e88289caea295be1cb5abca9042878aa1c1b402",
+    "local": "59b48f7c5928d76f7e55fee506801eeec3078749",
+    "tree": "3aadb37963b57844e9df4811dda028edb9fd5889",
+    "status": "RUNNING_NOT_PASS",
+    "execution_branch": "astra-a/d17-18-choice-finance-cron-qualification-20261027",
+    "prepared_branch": "astra-a/d17-18-current-ui-transport-integration-prepared-20261027",
+    "source_admission": {
+      "status": "PASS",
+      "pins": 3944,
+      "bytes": 4713260,
+      "sha256": "de0012bc8ee48c2c54f42e384e826af1ff4d448fc6d549cbb46085f074c72c7a",
+      "database_executed": false
+    },
+    "local_tests": {
+      "role_restoration": 7,
+      "phase_timing": 5,
+      "source_guards": 4,
+      "status": "PASS"
+    },
+    "prerequisites": {
+      "ui": {
+        "head": "d1f4b529542aba443f3b92986da911db646053e1",
+        "run_id": 40376731797,
+        "job_id": 121766073244,
+        "artifact_id": 12681497673,
+        "sha256": "e460c51e333c43beebecb99170984b2481804ba60e2076c412c4dc848f8564ab"
+      },
+      "transport": {
+        "head": "064d471b971651e50d536121d4ac0cfaf7b4c8cf",
+        "run_id": 40430350590,
+        "job_id": 121946222900,
+        "artifact_id": 12704208060,
+        "sha256": "1288861c65976f0fd4c96b9cf1a53bd57f7b3010ee4032a249283ccf0c1e8c44"
+      },
+      "prior_cron": {
+        "head": "71e15908972cd10b0b889988faa8d7d7d1ad3e40",
+        "run_id": 40251591911,
+        "job_id": 121344490835,
+        "artifact_id": 12622738467,
+        "sha256": "cc92727219a3ee7753db9b4edfaa931f24cbd86b4232139e89e2d9e9890991bb"
+      }
+    },
+    "retained_assertions": {
+      "runner": 36,
+      "probe": 10
+    },
+    "unchanged_observation_window_seconds": 300,
+    "unchanged_sixty_bounded_transactions": true,
+    "unchanged_production_minute_schedule": true,
+    "runtime_isolation_startup_baseline_cleanup_and_job_timeout_exact": true,
+    "actual_runtime_credit": false,
+    "recorded_at_utc": "2026-10-27T11:06:48.328242+00:00",
+    "production_go": false,
+    "independent_acceptance": false,
+    "run_id": 40493674318,
+    "job_id": 122153598401,
+    "started_at_utc": "2026-10-27T11:06:50Z",
+    "observed_at_utc": "2026-10-27T11:08:26.505754+00:00"
   }
 }

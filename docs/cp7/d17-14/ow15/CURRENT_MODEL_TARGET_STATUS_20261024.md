@@ -1,3 +1,27 @@
+## A / 27 Oktober 2026 — dua pengujian aktual aktif pada sumber terkunci
+
+Source-race bd3505f6/run40491368228/job122145853228 sudah melewati sumber,
+startup database dan baseline; langkah runtime komposisi sedang berjalan.
+Belum ada hasil akhir, tidak diklaim PASS.
+
+Uji jadwal menit nyata pada gabungan UI/transport kini berjalan pada893cc8da,
+run40493674318/job122153598401 sejak11:06:50UTC. Pemeriksaan lengkap3944sumber
+lulus (4713260byte/SHAde0012bc8ee48c2c54f42e384e826af1ff4d448fc6d549cbb46085f074c72c7a)
+dan16kontrol lokal lulus.36assertion runner serta10assertion pemulihan dipertahankan.
+Keuangan/produksi harus selesai bersama satu persiapan pilihan melalui pg_cron,
+tanpa langkah persiapan manual atau pemicu halaman. Sumber analisis pilihan
+yang diselesaikan manual sebelum pengukuran adalah fixture dan dilaporkan
+terpisah, bukan kredit penjadwal. Seluruh24angka resmi, signature buku, UNKNOWN,
+replay, dana/stok/HPP, jadwal lain dan pemulihan lengkap tetap diperiksa.
+
+Jadwal menit,60transaksi terpisah,jendela300detik,batas job,lingkungan,startup,
+baseline dan pembersihan tidak diubah. Kedua job berbeda tujuan dan bukan
+pengulangan kandidat untuk mencari hijau. Optimasi pembaca keuangan belum
+diadopsi; pabrik penuh dan penerimaan gabungan tetap terbuka. Formal5/16,
+production_go=false, independent_acceptance=false; CP7C belum mulai.
+
+Bagian berikut adalah riwayat checkpoint.
+
 ## A / 27 Oktober 2026 WIB — keuangan tiga pasangan dan pemulihan akses lulus
 
 Keuangan d05c/run40381790093/job121779660598/artifact12684969367 PASS diagnostik.
