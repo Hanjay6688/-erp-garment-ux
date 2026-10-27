@@ -60,7 +60,7 @@
       },
       {
         "old": "        case=report['committed'].setdefault(runner.CASE,dict(status='INCOMPLETE'))",
-        "new": "        with exact_public_catalog(native,retain_raw=True)as catalog:\n            report['native']=measured(timings,'UNCHANGED_FINANCE_NATIVE13',native.strict_group,LABEL,business.cases,verify)\n        report['native_public_catalog_comparison']=catalog\n        assert report['native']['counts']=={'PASS':len(business.IDS)},'COMPOSED_FINANCE_NATIVE13_FAILED'\n        case=report['committed'].setdefault(runner.CASE,dict(status='INCOMPLETE'))",
+        "new": "        with exact_public_catalog(native,retain_raw=True)as catalog:\n            report['native']=measured(timings,'UNCHANGED_FINANCE_NATIVE13',native.strict_group,LABEL,business.cases,verify)\n        report['native_public_catalog_comparison']=catalog\n        assert report['native']['status']=='PASS' and report['native']['counts']=={'PASS':len(business.IDS)} and report['native']['complete_boundary_restored'] is True,'COMPOSED_FINANCE_NATIVE13_FAILED'\n        case=report['committed'].setdefault(runner.CASE,dict(status='INCOMPLETE'))",
         "count": 1
       },
       {

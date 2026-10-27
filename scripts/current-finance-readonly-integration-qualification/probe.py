@@ -104,7 +104,7 @@ def run():
         with exact_public_catalog(native,retain_raw=True)as catalog:
             report['native']=measured(timings,'UNCHANGED_FINANCE_NATIVE13',native.strict_group,LABEL,business.cases,verify)
         report['native_public_catalog_comparison']=catalog
-        assert report['native']['counts']=={'PASS':len(business.IDS)},'COMPOSED_FINANCE_NATIVE13_FAILED'
+        assert report['native']['status']=='PASS' and report['native']['counts']=={'PASS':len(business.IDS)} and report['native']['complete_boundary_restored'] is True,'COMPOSED_FINANCE_NATIVE13_FAILED'
         case=report['committed'].setdefault(runner.CASE,dict(status='INCOMPLETE'))
         with psycopg.connect(package.boundary.ADMIN)as conn,conn.cursor()as cur:
             measured(timings,'ACTUAL_MINUTE_CRON_CHOICE_AND_FINANCE',runner.exercise,conn,cur,database,package.boundary.ADMIN,case)
