@@ -142,23 +142,33 @@ def verify(cur, state):
                 default_adopted=False, production_go=False)
 
 
-def install(cur):
-    pins = sources()  # Refuse missing actual race acceptance before any DDL.
-    predecessor, reuse, row, _ = runtime()
+def disposable(cur):
     if cur.connection.info.host not in ('localhost', '127.0.0.1') or cur.connection.info.port != 54322:
         raise ValueError('READONLY_FINANCE_DISPOSABLE_HOST_REQUIRED')
     if cur.execute('select current_database()').fetchone() != ('cp6_rollback',):
         raise ValueError('READONLY_FINANCE_DISPOSABLE_DATABASE_REQUIRED')
+
+
+def install_delta(cur, prior):
+    """Focused development route on an actually verified installed predecessor.
+
+    The qualification must bind its accepted parent Original separately. This
+    route never claims it repeated the parent's full preuse removal.
+    """
+    pins = sources()
+    predecessor, reuse, row, _ = runtime()
+    disposable(cur)
     with predecessor.atomic(cur):
         predecessor.predecessor.predecessor._locks(cur)
-        before, data = predecessor.catalog._catalog_rows(cur), predecessor.catalog._data(cur)
-        prior = predecessor.install(cur)
         proof = predecessor.verify(cur, prior)
+        if predecessor.catalog._data(cur) != prior['preuse_data_and_sequences']:
+            raise ValueError('READONLY_FINANCE_UNUSED_PREDECESSOR_REQUIRED')
         old = {signature: row(cur, signature) for signature in REPLACED}
         evidence = reuse.install_for_rollback(cur)
         if predecessor.catalog._data(cur) != prior['preuse_data_and_sequences']:
             raise ValueError('READONLY_FINANCE_INSTALL_CHANGED_ROWS_OR_SEQUENCES')
-        state = dict(sources=pins, before=before, preinstall_data_and_sequences=data, predecessor=prior,
+        state = dict(sources=pins, before=prior['before'],
+                     preinstall_data_and_sequences=prior['preinstall_data_and_sequences'], predecessor=prior,
                      predecessor_verified_before_delta=proof,
                      predecessor_binding_sha256=binding(predecessor, prior, proof),
                      original_rows=old, exact_reader_installation=evidence,
@@ -169,7 +179,18 @@ def install(cur):
         return state
 
 
-def rollback_preuse(cur, state):
+def install(cur):
+    sources()  # Refuse missing actual race acceptance before any database use.
+    predecessor, _, _, _ = runtime()
+    disposable(cur)
+    with predecessor.atomic(cur):
+        predecessor.predecessor.predecessor._locks(cur)
+        prior = predecessor.install(cur)
+        return install_delta(cur, prior)
+
+
+def rollback_delta_preuse(cur, state):
+    """Restore the exact installed parent; do not claim a full-chain inverse."""
     predecessor, _, _, _ = runtime()
     with predecessor.atomic(cur):
         predecessor.predecessor.predecessor._locks(cur)
@@ -182,9 +203,22 @@ def rollback_preuse(cur, state):
         for signature in sorted(ADDED):
             cur.execute('drop function ' + signature + ' restrict')
         predecessor.verify(cur, state['predecessor'])
+        if predecessor.catalog._data(cur) != state['predecessor']['preuse_data_and_sequences']:
+            raise ValueError('READONLY_FINANCE_DELTA_INVERSE_CHANGED_ROWS_OR_SEQUENCES')
+        return dict(contract=CONTRACT, status='EXACT_READONLY_FINANCE_DELTA_PREUSE_INVERSE',
+                    all22_installed_parent_equal=True, all_rows_and_sequences_equal=True,
+                    global_used_guard_before_any_DDL=True, full_parent_inverse_repeated=False,
+                    qualification_only=True, production_go=False)
+
+
+def rollback_preuse(cur, state):
+    predecessor, _, _, _ = runtime()
+    with predecessor.atomic(cur):
+        predecessor.predecessor.predecessor._locks(cur)
+        delta = rollback_delta_preuse(cur, state)
         removed = predecessor.rollback_preuse(cur, state['predecessor'])
         if predecessor.catalog._catalog_rows(cur) != state['before'] or predecessor.catalog._data(cur) != state['preinstall_data_and_sequences']:
             raise ValueError('READONLY_FINANCE_FULL_INVERSE_NOT_EXACT')
-        return dict(contract=CONTRACT, status='EXACT_READONLY_FINANCE_PREUSE_INVERSE', predecessor=removed,
+        return dict(contract=CONTRACT, status='EXACT_READONLY_FINANCE_PREUSE_INVERSE', delta=delta, predecessor=removed,
                     all22_preinstall_equal=True, all_rows_and_sequences_equal=True,
                     global_used_guard_before_any_DDL=True, qualification_only=True, production_go=False)

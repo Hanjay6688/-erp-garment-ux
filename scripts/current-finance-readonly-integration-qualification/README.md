@@ -22,6 +22,15 @@ existing full inverse. After any data use, the global guard refuses before DDL;
 recovery requires the full backup. Only the isolated local `cp6_rollback` host
 can be used. No schedule, timeout, public RPC, B source or default is changed.
 
+The focused development route can apply and reverse just this delta on an
+actually verified, unused current predecessor. It checks the complete installed
+parent catalog and all rows/sequences and refuses after use before DDL. Its
+receipt explicitly says `full_parent_inverse_repeated=false`; a prior accepted
+parent Original must be admitted separately. This avoids repeating the unchanged
+parent installation twice for every focused change. It is not evidence of a
+new complete-chain inverse. The full installation/inverse route remains available
+and the final combined candidate still needs full qualification.
+
 Next: bind the accepted Original only after complete source, case and restore
 checks; qualify this composition with official finance/HPP and close/readiness
 regressions. Actual large-factory completion, shared stage budget policy and the

@@ -56,6 +56,8 @@ class CompositionBoundary(unittest.TestCase):
             (root / 'PREREQUISITES.json').write_text(json.dumps({'source_race': None}))
             with patch.object(product, 'HERE', root), self.assertRaisesRegex(ValueError, 'ACCEPTED_ORIGINAL_REQUIRED'):
                 product.install(NoDatabase())
+            with patch.object(product, 'HERE', root), self.assertRaisesRegex(ValueError, 'ACCEPTED_ORIGINAL_REQUIRED'):
+                product.install_delta(NoDatabase(), {})
 
     def test_incomplete_or_empty_package_gates_refused(self):
         for gate in ({}, {'writer_runtime': True}, {k: k != 'security_advisors' for k in ('installed', 'primary_unchanged', 'backup_restore_drill', 'security_advisors', 'writer_runtime')}):
