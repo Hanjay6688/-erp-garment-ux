@@ -150,6 +150,19 @@ jobs:
         Components: main\nSigned-By: /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc\nEOF\nsudo apt-get update\
         \ -qq\nsudo apt-get install -y -qq postgresql-client-17\ntest -x /usr/lib/postgresql/17/bin/psql\necho '/usr/lib/postgresql/17/bin'\
         \ >> \"$GITHUB_PATH\"\n"
+    - name: Preserve transient artifact download failures and retry only bounded GETs
+      working-directory: auditor
+      shell: bash
+      run: |
+        set -euo pipefail
+        python -m unittest discover -s scripts/current-finance-followups-qualification -p 'test_artifact_gh.py'
+        artifact_gh_dir="$RUNNER_TEMP/d17-artifact-gh"
+        mkdir -p "$artifact_gh_dir" "$GITHUB_WORKSPACE/auditor/cp6-proof/t3/ARTIFACT_FETCH"
+        printf 'D17_REAL_GH=%s\n' "$(command -v gh)" >> "$GITHUB_ENV"
+        printf 'D17_ARTIFACT_FETCH_RECEIPTS=%s\n' "$GITHUB_WORKSPACE/auditor/cp6-proof/t3/ARTIFACT_FETCH" >> "$GITHUB_ENV"
+        cp scripts/current-finance-followups-qualification/artifact_gh.py "$artifact_gh_dir/gh"
+        chmod 755 "$artifact_gh_dir/gh"
+        printf '%s\n' "$artifact_gh_dir" >> "$GITHUB_PATH"
     - name: Fetch and verify immutable actual Native32 original before DB
       env:
         GH_TOKEN: ${{ github.token }}
