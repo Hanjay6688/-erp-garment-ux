@@ -41,7 +41,7 @@ def expected(repo):
 
     anchor=step('Admit exact retained first diagnostics and consistency candidate before database')
     additions=[
-        dict(name='Fetch exact accepted seven-case consistency and full package bytes',
+        dict(name='Fetch exact retained84 and focused Native20 cron component bytes',
             **{'working-directory':'auditor'},env={'GH_TOKEN':'${{ github.token }}'},
             run='python scripts/current-finance-combined-composition/fetch_consistency.py'),
         dict(name='Verify closed combined boundaries and retained pre-test retry logs',

@@ -337,7 +337,7 @@ jobs:
     - name: Admit exact retained first diagnostics and consistency candidate before database
       working-directory: auditor
       run: python scripts/current-finance-consistent-capture-diagnostic/admission.py
-    - name: Fetch exact accepted seven-case consistency and full package bytes
+    - name: Fetch exact retained84 and focused Native20 cron component bytes
       working-directory: auditor
       env:
         GH_TOKEN: ${{ github.token }}

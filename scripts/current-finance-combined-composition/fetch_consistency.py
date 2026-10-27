@@ -10,6 +10,8 @@ evidence=importlib.util.module_from_spec(spec);spec.loader.exec_module(evidence)
 
 def fetch():
     config=json.loads((HERE/'PREREQUISITES.json').read_bytes());binding=evidence.gate(config)
+    retained=json.loads((HERE.parent/'current-finance-consistency-followup-qualification/CONFIG.json').read_bytes())
+    assert retained['retained84']==binding['retained84'],'COMBINED_RETAINED84_BINDING_CHANGED'
     directories=[]
     for key,variable in (('retained84','original_directory_variable'),('focused','focused_directory_variable')):
         proof=binding[key]
@@ -27,6 +29,7 @@ def fetch():
                 data=archive.read(member);assert len(data)==size and sha256(data).hexdigest()==digest
                 (directory/name).write_bytes(data)
         directories.append((config[variable],directory))
+        if key=='retained84':directories.append((retained['original_directory_variable'],directory))
     with Path(os.environ['GITHUB_ENV']).open('a')as stream:
         for variable,directory in directories:stream.write(variable+'='+str(directory)+'\n')
     print(json.dumps(dict(retained_head=binding['retained84']['head'],retained_whole_status='INCOMPLETE',
