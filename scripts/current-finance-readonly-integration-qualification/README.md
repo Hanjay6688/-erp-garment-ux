@@ -7,7 +7,7 @@ diagnostic and source-race route. No new financial arithmetic is introduced.
 
 The source-race prerequisite is now **accepted**, with exact Original bytes,
 3,759 source pins, all five package gates and full restoration checked. The new
-composition itself remains **unexecuted**. `PREREQUISITES.json` binds the accepted
+composition first run is **INCOMPLETE** (953b87c0, run40509260377): 10 Native cases passed, three filing fixtures were blocked, and cron did not run. `PREREQUISITES.json` binds the accepted
 receipt; missing or failed race evidence still refuses before database access.
 The existing execution heads remain frozen. This is not a default product installer,
 a production migration, factory qualification, or independent acceptance.
@@ -53,3 +53,5 @@ does not prove concurrent-source detection through the scheduler. Even a
 Native13/cron PASS does not close that separate worker consistency requirement.
 
 The retained d3c84c16 cron Original is INCOMPLETE despite both operational jobs DONE, finance READY and choice READY in 48.038 seconds. The work identity/created_at assertion failed after those observations. Full baseline and CP6 restoration passed. The Original did not retain the compared work rows, so timezone rendering remains a hypothesis. This candidate derives the A-owned cron fixture and runner with all 15 fixture and 36 runner assertions preserved. Three work inspections record raw caller-zone and UTC-rendered timestamps, check the same job and instant, and restore the caller zone; this extra test-only read diagnoses the prior failure. No B product, schedule, financial arithmetic, timeout or result oracle is changed. Observation data remains in the report if verification fails. Local unit tests prove observer behavior only; Native13/cron1 still require actual execution.
+
+The 953b87c0 Original and failed package gate are retained. Four January–April seed attendance pools correctly block the three filing fixtures. This successor calls the unchanged P21 `prepare_attendance_pools` helper before only those three original case bodies, inside each strict-group savepoint. It uses Native reopen/preview/CREATE/ACTIVATE, refuses missing policy, and completes payroll before activating pools. It changes no business oracle, product, date rule, HPP amount or timeout. All ten other cases keep their original callable. Every case and the full group must still restore exactly. The helper receipt is retained in successful case results; a preparation or original assertion failure propagates. No successor runtime result is claimed yet.
