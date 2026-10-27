@@ -1,0 +1,31 @@
+{
+  "status": "PREPARED_UNBOUND_NOT_EXECUTED",
+  "contract": "cp7.current-combined-finance-real-auth-browser2.v1",
+  "case_ids": [
+    "A_PROGRESS_FINANCE_BROWSER_DESKTOP_REAL_AUTH_LOST_REPLY_REPLAY_OFFICIAL24",
+    "A_PROGRESS_FINANCE_BROWSER_MOBILE_REAL_AUTH_BLOCKED_REPORT_ACCESS_REVOKED"
+  ],
+  "unchanged_prior_UI_source_path": "scripts/current-progress-finance-ui-browser-qualification/SOURCE.json",
+  "unchanged_prior_UI_source_sha256": "6018313aa35f05ba03eddcf3a11e616e12dc2e994c9f6491e70aec5ecc9f92be",
+  "current_B_head": "1dd83782dcaa4500bace7bf392a76f58be0271c3",
+  "current_B_exact_files": 91,
+  "files": {
+    "scripts/current-finance-combined-browser-qualification/CONFIG.json": "8c851e7123dec6074d836f9f80bfbcbe36a0ad360bbb35a651335b666b7801ae",
+    "scripts/current-finance-combined-browser-qualification/README.md": "908679202f3476d27e5b19a5f1790779b39fef74fe400b7faa4cd16ae320c700",
+    "scripts/current-finance-combined-browser-qualification/UI_ORIGIN.json": "b817e3e65da467f4b4e0556ab8fc02bced254660d92b82ce8aca7567f2c01e25",
+    "scripts/current-finance-combined-browser-qualification/admission.py": "e50177210cb3bd5aa2dd907795bdfdda444c6ffc0d392a411597480b2d3b7e46",
+    "scripts/current-finance-combined-browser-qualification/browser.mjs": "99dcc0979f3964812819174922392270216f840af2ffbada638627ce629f2a58",
+    "scripts/current-finance-combined-browser-qualification/browser_fixture.py": "be167320ad5884cb4f0fd1730a5fbb64ed3616a7e6b0bc3fff5f274cd7e95c4f",
+    "scripts/current-finance-combined-browser-qualification/composition.py": "dc9fdfec4e70a3df8c1444f7cf79509ea54bce5864d9563be96b42eb988c36da",
+    "scripts/current-finance-combined-browser-qualification/desktop.mjs": "3847018fbcf8919826b8dcf387e1742905375409a4e39ff9100dbb54cddc39da",
+    "scripts/current-finance-combined-browser-qualification/evidence.py": "bb91fc2226474b2aed22735f2580a6d1ee2285f85072de01648b508400408b1d",
+    "scripts/current-finance-combined-browser-qualification/mobile.mjs": "4f83b0f8ab249a636e140f7d4c62f656e54b49b9dd780a24b17f73e931607cc6",
+    "scripts/current-finance-combined-browser-qualification/probe.py": "34cbf88f160ffd0febd41805fa6d9c11382a5212faee1be8e5fe3c7361ba5aeb",
+    "scripts/current-finance-combined-browser-qualification/progress_oracle.mjs": "d1cd9d380d8ccb3cf96512dd1aeabe7b5c33a7ec813a09069f4f27a892dd2edd",
+    "scripts/current-finance-combined-browser-qualification/source_guard.py": "d1e80f78f2849e718bd4663d7e9f03660ec7ef29200f38764e76b161967a824a",
+    "scripts/current-finance-combined-browser-qualification/test_closed_adapter.py": "81d532addcfa5bc5da068781ce6ab68e88183e6b961dce998723743340aa3170",
+    "scripts/current-finance-combined-browser-qualification/test_source_boundaries.py": "11833375964e5973773d97a5a7a01b8fa3b6f229268b7db15de4bb563ede0df9"
+  },
+  "production_go": false,
+  "independent_acceptance": false
+}

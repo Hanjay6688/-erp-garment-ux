@@ -1,19 +1,17 @@
 {
-  "status": "PREPARED_CLOSED_BACKEND_ADAPTER_ONLY",
-  "local_tests": 3,
+  "status": "PREPARED_CLOSED_REAL_AUTH_BROWSER2_SOURCE",
+  "local_tests": 6,
+  "full_actual_Python_probe_loaded": true,
+  "JavaScript_syntax_files": 4,
   "Auth_browser_cases_executed": 0,
   "workflow_prepared": false,
+  "final_SOURCE_bound": false,
   "accepted_combined_bound": false,
   "complete_source_recomputation_required": true,
+  "existing_host_files_exact": 113,
   "existing_host_B91_exact_to_current1dd": true,
   "original_ERP_SQL_changed": false,
   "production_go": false,
   "independent_acceptance": false,
-  "files": {
-    "scripts/current-finance-combined-browser-qualification/CONFIG.json": "c1a64005b5661ed6bc7c5e044f6ec9a000cb8f80c2896d27364f120d62b43d79",
-    "scripts/current-finance-combined-browser-qualification/README.md": "4cd92c51f37bb9df1bdb67d6d1c4dd4da52feaeae0779c05467501692115d3ee",
-    "scripts/current-finance-combined-browser-qualification/composition.py": "dc9fdfec4e70a3df8c1444f7cf79509ea54bce5864d9563be96b42eb988c36da",
-    "scripts/current-finance-combined-browser-qualification/evidence.py": "bb91fc2226474b2aed22735f2580a6d1ee2285f85072de01648b508400408b1d",
-    "scripts/current-finance-combined-browser-qualification/test_closed_adapter.py": "81d532addcfa5bc5da068781ce6ab68e88183e6b961dce998723743340aa3170"
-  }
+  "prepared_source_sha256": "7e03acb9cfeb68a31a916c6bca6dbf308cf62965834da2824e62810bb9487618"
 }
