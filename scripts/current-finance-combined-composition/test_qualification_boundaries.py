@@ -22,7 +22,7 @@ class CombinedQualificationBoundaries(unittest.TestCase):
             runner=admission.load('closed_combined_runner',HERE/'qualification_runner.py')
         class NoDatabase:
             def __getattr__(self,name):raise AssertionError('UNADMITTED_DATABASE_TOUCH:'+name)
-        with self.assertRaisesRegex(ValueError,'ACTUAL_CONSISTENCY_PASS_REQUIRED'):
+        with self.assertRaisesRegex(ValueError,'COMBINED_QUALIFICATION_NOT_ADMITTED'):
             runner.exercise(NoDatabase(),NoDatabase(),NoDatabase(),'no-url',{}, {})
 
     def test_full_restore_and_factory_oracles_have_only_declared_changes(self):

@@ -1,6 +1,6 @@
 """One combined install, seven separate fixtures, complete restoration each time."""
 from pathlib import Path
-import importlib.util,traceback
+import importlib.util,json,traceback
 import psycopg
 
 HERE=Path(__file__).resolve().parent;ROOT=HERE.parents[1]
@@ -14,6 +14,7 @@ def load(name,path):
 cases=load('combined_runtime_cases',HERE/'qualification_cases.py')
 parent=load('combined_unchanged_complete_restore',ROOT/'scripts/current-finance-followups-qualification/runner.py')
 product=cases.product
+admission=load('combined_runtime_admission_gate',HERE/'qualification_admission.py')
 isolated,retained,scheduler_quiet=parent.isolated,parent.retained,parent.scheduler_quiet
 CASE='COMBINED_FINANCE_NATIVE_SOURCE_REPORT_FACTORY_CRON7'
 INSTALLED_DUMP='/tmp/d17_18_combined_finance_unused.dump'
@@ -21,6 +22,7 @@ CATALOG_REFUSAL='COMBINED_FINANCE_ACTUAL_ALL22_CHANGED'
 
 
 def exercise(conn,cur,database,url,report,state):
+    admission.gate(json.loads((HERE/'QUALIFICATION_CONFIG.json').read_bytes()))
     product.sources()  # Accepted prerequisite required before any DB access.
     assert conn.info.host in ('localhost','127.0.0.1') and conn.info.port==54322
     assert cur.execute('select current_database()').fetchone()==('cp6_rollback',)
