@@ -1,0 +1,102 @@
+{
+  "probe": {
+    "path": "scripts/current-choice-finance-cron-qualification/probe.py",
+    "sha256": "84547b401d697ff2090807b964f0c8e404c246169365112ab15562557c024152",
+    "changes": [
+      {
+        "old": "import cp7_current_choice_preparation.installation as product",
+        "new": "import cp7_current_choice_preparation.installation as predecessor",
+        "count": 1
+      },
+      {
+        "old": "import importlib.util\n",
+        "new": "import importlib.util\n_spec=importlib.util.spec_from_file_location('readonly_finance_composition',HERE/'composition.py')\nproduct=importlib.util.module_from_spec(_spec);_spec.loader.exec_module(product)\n_spec=importlib.util.spec_from_file_location('readonly_finance_business13',HERE/'cases.py')\nbusiness=importlib.util.module_from_spec(_spec);_spec.loader.exec_module(business)\n",
+        "count": 1
+      },
+      {
+        "old": "HERE/'runner.py'",
+        "new": "REPO/'scripts/current-choice-finance-cron-qualification/runner.py'",
+        "count": 1
+      },
+      {
+        "old": "IDS=(runner.CASE,)",
+        "new": "IDS=(*business.IDS,runner.CASE)",
+        "count": 1
+      },
+      {
+        "old": "LABEL='CP7_D17_18_CHOICE_FINANCE_CRON1'",
+        "new": "LABEL='CP7_D17_18_READONLY_FINANCE_NATIVE13_CRON1'",
+        "count": 1
+      },
+      {
+        "old": "PRE_DUMP='/tmp/current_choice_finance_cron_pre.dump'",
+        "new": "PRE_DUMP='/tmp/current_readonly_finance_pre.dump'",
+        "count": 1
+      },
+      {
+        "old": "HERE/'phase_timing.py'",
+        "new": "REPO/'scripts/current-choice-finance-cron-qualification/phase_timing.py'",
+        "count": 1
+      },
+      {
+        "old": "HERE/'restore_roles.py'",
+        "new": "REPO/'scripts/current-choice-finance-cron-qualification/restore_roles.py'",
+        "count": 1
+      },
+      {
+        "old": "product.catalog",
+        "new": "predecessor.catalog",
+        "count": 10
+      },
+      {
+        "old": "committed={},actual_cron_claim=False,manual_steps=0,changed_schedule=False)",
+        "new": "committed={},native={},actual_cron_claim=False,manual_steps=0,changed_schedule=False,\n        full_parent_inverse_repeated=False,focused_preuse_delta_only=True)",
+        "count": 1
+      },
+      {
+        "old": "                STATE=measured(timings,'FIRST_FULL_INSTALL',product.install,cur)\n                report['complete_preuse_removal']=measured(timings,'PREUSE_REMOVAL',product.rollback_preuse,cur,STATE)\n                STATE=measured(timings,'SECOND_FULL_INSTALL',product.install,cur)",
+        "new": "                prior=measured(timings,'SINGLE_FULL_PARENT_INSTALL',predecessor.install,cur)\n                STATE=measured(timings,'FIRST_FINANCE_DELTA',product.install_delta,cur,prior)\n                report['focused_preuse_removal']=measured(timings,'FINANCE_DELTA_PREUSE_INVERSE',product.rollback_delta_preuse,cur,STATE)\n                assert report['focused_preuse_removal']['full_parent_inverse_repeated'] is False\n                STATE=measured(timings,'SECOND_FINANCE_DELTA',product.install_delta,cur,prior)",
+        "count": 1
+      },
+      {
+        "old": "        case=report['committed'].setdefault(runner.CASE,dict(status='INCOMPLETE'))",
+        "new": "        with exact_public_catalog(native,retain_raw=True)as catalog:\n            report['native']=measured(timings,'UNCHANGED_FINANCE_NATIVE13',native.strict_group,LABEL,business.cases,verify)\n        report['native_public_catalog_comparison']=catalog\n        assert report['native']['counts']=={'PASS':len(business.IDS)},'COMPOSED_FINANCE_NATIVE13_FAILED'\n        case=report['committed'].setdefault(runner.CASE,dict(status='INCOMPLETE'))",
+        "count": 1
+      },
+      {
+        "old": "        cases=report['committed']",
+        "new": "        cases={**report.get('native',{}).get('cases',{}),**report['committed']}",
+        "count": 1
+      },
+      {
+        "old": "report.get('complete_preuse_removal')",
+        "new": "report.get('focused_preuse_removal')",
+        "count": 1
+      },
+      {
+        "old": "            report['actual_cron_claim']=True",
+        "new": "            report['actual_cron_claim']=True\n            report['focused_composition_qualified']=True\n            report['full_combined_final_qualification']=False\n            report['default_adopted']=False",
+        "count": 1
+      },
+      {
+        "old": "\"\"\"Actual minute pg_cron completes explicit bounded finance on the full current chain.\n\nOne committed integration case, with a complete baseline dump restored after use.\nNo manual ticks, accelerated clock, hosted mutation or factory-scale claim.\n\"\"\"",
+        "new": "\"\"\"Focused Native13 and actual cron on the readonly finance composition.\n\nThe exact installed parent is verified once; only the new delta inverse is\nrepeated here. Full baseline restoration and all business oracles remain.\n\"\"\"",
+        "count": 1
+      }
+    ]
+  },
+  "exact_helpers": {
+    "scripts/current-choice-finance-cron-qualification/runner.py": "a2b3fb1abac79e188a4b10c12a76d11bb6dd563ba871178f58e32fc72c48eeb2",
+    "scripts/current-choice-finance-cron-qualification/choice_fixture.py": "8c01f14c30bd14fe9a683232642f8a87388ae0ef24ed4dfe2cf66376dc1f117b",
+    "scripts/current-choice-finance-cron-qualification/restore_roles.py": "c9d91b2acfbe33dcc750188427b3bc209a722d219f77f47dbf40ae685d0beefb",
+    "scripts/current-choice-finance-cron-qualification/phase_timing.py": "81918daef75b322b5340f72a2879ac0230e4e1fc2d4300a3f82aa19b7b72ced6",
+    "scripts/current-choice-finance-cron-qualification/evidence.py": "025e7cb50c97ee4581d9c560806b851f8548f77ab6e608bf4ae468fc59c59336",
+    "scripts/current-choice-finance-cron-qualification/fetch_originals.py": "ce544296f3477aef8fe362a989e12664055818e181dcde4373b4a0f764cf3077",
+    "scripts/current-choice-finance-cron-qualification/prerequisite_environment.py": "564c58c4857df4adfc0c493339e7c857e581fc8beee94b74f0eb8bce043621f5"
+  },
+  "original_probe_assertions": 10,
+  "focused_probe_assertions": 12,
+  "unchanged_cron_assertions": 36,
+  "full_parent_inverse_repeated": false,
+  "full_final_qualification_claim": false
+}
