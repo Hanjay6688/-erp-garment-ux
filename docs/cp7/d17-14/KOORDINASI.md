@@ -5108,3 +5108,36 @@ staged in thisclosedprovider. Afteractual84PASS, bindexactOriginal/package, open
 andqualifycombineditself. No syntheticactualacceptance was supplied during thispreparation.
 OriginalFAAworkflow remainsbyteexact, preservingcombinedworkflow derivation. No defaultadoption/productiongo/auditacceptance.
 Formal5/16; CP7Cnotstarted. Bactualbranchastra/d17-14-produksi rechecked1dd83782 unchanged, no B writes.
+
+## A / 28 Oktober2026 WIB — real mixed-book counterexample and targeted followup
+
+LATEST A / 28 Oktober2026 WIB — actual84 INCOMPLETE preserved, focused64 RUNNING
+CURRENT64de326e819885f6982364a868a3fa11c8b9dd3d/tree337b5cf52ab622a9fac137c9448ed1803bda7c2f,
+local5b6e1c06f4aabdae63282124edecfe8ad93c28d1; run40562870931/job122396295828 RUNNING, notPASS.
+Branchastra-a/d17-18-consistency-native20-cron-qualification-20261028; C/erp-followup84 frozen.
+7localtests, full15+25+25+4085source admissionPASS3.282s/0DB. Executeonlytwo previouslyincompletegroups:
+unchangedNative20 withacceptedNativeattendance seed before3BusinessReport operations, andactualminutecron
+withthealreadyacceptedreadonlyUTCworkobserver. NoNativebody,amount,READYoracle,policy,schedule,timeoutorBchanges.
+FullfreshNULLbaselinebeforepatch, bothinstalledDBrestores andallouter9/fullrunner14assertions retained.
+Thefivepreviouslypassedgroups remainexactprior evidence, notnewexecutions. EachwholeOriginal retainsitsrealstatus.
+
+ACTUAL84c2c9d9/run40552075508/job122358193672/artifact12758446701 INCOMPLETE:
+ZIP2739453 SHA500583d1d388796407315bc1613de5cb79f41ae1c7663805a9edf8b49b495bf9;
+Original9691482 SHA8069c2a5593d3f9dfa2aa9bf97c6d2494ade493870c7228dc928875bbc15267e;
+package360457 SHA75a734177263e772d07e45bcfc0623766bc95dda6db382139072db391c02da4b.
+97JSON+ZIP andfull2233147bytejoblog SHA c2acdfc2fc31e39f549995a6ed6cb39f8f957dbb55ca65e63482c38da4eb8b98 retained.
+RealNULLsnapshot mixedREADY escape PROVEN onunchangedparent; patchrefusal/recoveryPASS. Canonicalsignature,
+oldchildvisibility, signatureoverhead3pairs andunchangedsinglecheck3pairs+fullrestorePASS:5/7groups.
+Native17PASS/3INCOMPLETE, all3beforeBusinessReport onfourunpreparedlegacyattendancepools. GuardcorrectlyBLOCKED.
+ActualcronjobsDONE/financeREADY/choiceREADY butoldUTCrawidentityfixtureassertionfailed. Full7installedDB
+restores andouter22/data/sequences/roles/CP6/advisorsPASS. Package4gatestrue/writer_runtimefalse; wholeNOTaccepted.
+Old05bmissingrestore concern is nowclosed on itsunchanged3paircase; rawcatalogspellings afterdump recorded,
+withonlyexistingportable normalizations accepted. No money/catalog/usedguardoracle weakened.
+
+Closedcombined currentlyb0fd088c93f5ffc158ae5cae8956b07492182089/tree da1dc1269695ac29b8a0bf570023c868327a9cc5,
+local811b4fe8b8c18c7a443a90bde74529a77630dd59 published; extra64QAfiles cherrypickedlocallyf414eded butnotyetpublishedthere.
+28pins/13localtests,0DB; actualobservedfunctiondeclarations collector prepared(SQLnotexecuted).
+All gatesclosed; noexecutionref. Nextupdateprivateacceptance toexactretained84five+verifiedfocused64two,
+withoutpromotingoldINCOMPLETE orclaiming7raninonehead. Combinedmuststillqualifyall7ownintegratedgroups,
+factory1200x3/20Native/twoactualcrons/fullrestores; realAuth/browser/finalperformance remainopen.
+Formal5/16; production_go=false; independent_acceptance=false; CP7Cnotstarted. Bscopeunchanged.

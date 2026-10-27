@@ -1,0 +1,54 @@
+{
+  "name": "CP7_D17_18_FINANCE_REPORT_BOOK_CONSISTENCY_ISOLATED7.json",
+  "status": "INCOMPLETE",
+  "head": "84c2c9d962173c80a7630a857b708fe441f14e9b",
+  "run_id": 40552075508,
+  "job_id": 122358193672,
+  "artifact_id": 12758446701,
+  "zip_bytes": 2739453,
+  "zip_sha256": "500583d1d388796407315bc1613de5cb79f41ae1c7663805a9edf8b49b495bf9",
+  "bytes": 9691482,
+  "sha256": "8069c2a5593d3f9dfa2aa9bf97c6d2494ade493870c7228dc928875bbc15267e",
+  "archive_member": "CP7_D17_18_FINANCE_REPORT_BOOK_CONSISTENCY_ISOLATED7.json",
+  "package_name": "T3_PACKAGE_INSTALL.json",
+  "package_member": "T3_PACKAGE_INSTALL.json",
+  "package_bytes": 360457,
+  "package_sha256": "75a734177263e772d07e45bcfc0623766bc95dda6db382139072db391c02da4b",
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "pass_groups": 5,
+  "incomplete_groups": 2,
+  "Native_counts": {
+    "PASS": 17,
+    "INCOMPLETE": 3
+  },
+  "first_mixed_book_counterexample_proven": true,
+  "null_snapshot_refusal_and_fresh_UUID_recovery_pass": true,
+  "all7_installed_boundaries_and_outer_full_restore_pass": true,
+  "incomplete_Native_ids": [
+    "OW12A_REPORT_V2_FINANCE_THROUGH_CAPTURE",
+    "OW12A_REPORT_V2_DEFERRED_UNCHANGED",
+    "OW12A_REPORT_V2_PERIOD_COMPARISON"
+  ],
+  "Native_failure": "E01_REPORT_NOT_READY: four legacy ATTENDANCE_POOL_NOT_ACTIVE",
+  "cron_failure": "original choice work job_id/created_at assertion",
+  "cron_states": {
+    "observed_job_states": {
+      "929adbf9-5a39-4563-87a4-e9964a826e64": "DONE",
+      "e95795a9-3d31-4c58-b59b-eb1807266f74": "DONE"
+    },
+    "observed_finance_state": "READY",
+    "observed_choice_state": "READY",
+    "elapsed_seconds": 56.04,
+    "all_runs_recorded": true
+  },
+  "first_whole_status_not_promoted": true,
+  "whole_accepted": false,
+  "production_go": false,
+  "independent_acceptance": false
+}
