@@ -2,10 +2,12 @@
   "status": "PYTHON_DERIVATION_ONLY_NOT_DATABASE_QUALIFIED",
   "files": {
     "/workspace/scratch/a4de608c9031/erp-consistency/scripts/cp7_finance_capture/finance_capture.sql": "c6704e726c5fbc7a6e9b8ae266075ec6777e8b7f6bc6d7b10ddc074f3706d8bb",
-    "scripts/current-finance-consistent-capture-diagnostic/PREPARED.json": "ff6c2c414899720d6562fd78a7f2ea7f904051e00fb31e4bcae52819027c5776",
-    "scripts/current-finance-consistent-capture-diagnostic/README.md": "d2c2b62b740930f50db7419c10094797ff10f61e31aba0727e0a87111c344260",
+    "scripts/current-finance-consistent-capture-diagnostic/PREPARED.json": "595c3763e927ef2fca4f4cd350e973f974ca2f98719f03ba65099fa59461c48c",
+    "scripts/current-finance-consistent-capture-diagnostic/README.md": "741e5735d634390dcfb6c0b3c9e7ff2265b520ab0622f4153315fc6c16f659eb",
     "scripts/current-finance-consistent-capture-diagnostic/book_signature.sql": "0e3adda63f0190ac4a95677bf8a495b8e461fee643ddac229ada394e82f96ea0",
-    "scripts/current-finance-consistent-capture-diagnostic/patch.py": "d40472d8bab3a7a31108b4d4f15b6495d60b449f32c90c0859fbad27a5be7461"
+    "scripts/current-finance-consistent-capture-diagnostic/patch.py": "d40472d8bab3a7a31108b4d4f15b6495d60b449f32c90c0859fbad27a5be7461",
+    "scripts/current-finance-consistent-capture-diagnostic/cases.py": "fe4789dc1cc051373c35eaf402a20af2586f73c7af5e3dc3fbf83b4981ffa5f8",
+    "scripts/current-finance-consistent-capture-diagnostic/signature_reference.py": "bad6854677e8d18522e4864d643e9b169ca89a150463a5d343dd01876f9bb917"
   },
   "parent_head": "0bccf142f5dc2310226b183643d4ad56d01b23df",
   "parent_source_sha256": "efcd04e5ae78b391d8e6dcef18f733eff2daffaeba8175dc3ca111211da7a438",
@@ -16,5 +18,9 @@
   "database_connection_attempts": 0,
   "SQL_database_parse_checked": false,
   "allow_database_execution": false,
-  "production_go": false
+  "production_go": false,
+  "prepared_operations": 5,
+  "unchanged_Native_regression_cases": 20,
+  "complete_import_with_connections_refused": true,
+  "enclosing_runtime_qualification_prepared": false
 }

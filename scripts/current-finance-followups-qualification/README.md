@@ -35,3 +35,12 @@ repeat the older ancestry preflight as an extra workflow step. All artifact
 fetch checks and every actual installation, data, role and restoration guard
 remain. This route still refuses pending/failed parents; the current running
 qualification is untouched. No speedup from this change has yet been measured.
+
+The first2bfb3cc7 job122275034029 and its one infrastructure retry122280909620
+both stopped before database startup on GitHub HTTP503 artifact downloads.
+Their full logs and zero-case status are retained. The successor adds a narrow
+GET-only transport wrapper: at most3attempts for explicit502/503/504, delays2/5s,
+failed stdout/stderr retained separately, only complete successful bytes passed
+to the unchanged size/hash/member/Original checks. Other errors and commands
+are never retried by this wrapper. No business operation is retried. Every
+download attempt has a retained hash receipt, including failures before DB.

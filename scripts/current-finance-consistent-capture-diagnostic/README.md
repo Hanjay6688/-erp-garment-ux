@@ -3,7 +3,8 @@
 The accepted0bccf142 Native13 plus actual cron run passed. Its stored cron
 report_snapshot was NULL. This proves absence of that snapshot on this path;
 it does not yet prove an escaped inconsistent result. The unchanged child-XID
-counterexample is running separately at2bfb3cc7. Preserve that first outcome.
+counterexample is running separately at05b62971 after two preserved HTTP503 failures before DB.
+Preserve its first actual outcome.
 
 This closed proposal computes the existing canonical book signature alongside
 the official report in one STABLE query snapshot, then requires the collected
@@ -34,3 +35,14 @@ https://www.postgresql.org/docs/17/xfunc-volatility.html
 Its snapshot visibility primitive is not reliable for subtransaction IDs:
 https://www.postgresql.org/docs/17/functions-info.html#FUNCTIONS-PG-SNAPSHOT
 These explain the design; they do not replace actual ERP qualification.
+
+Prepared operations in cases.py retain the first child-XID oracle,13original
+finance cases plus7original capture/Business Report cases, and the actual minute
+cron case unchanged. The independent reference reads all four source tables
+directly; chunk size1 exercises grouping without changing production10000.
+An additional paired diagnostic measures SMALL, PRICE_PERCENT and1200x3 with
+the original8s/30s diagnostic ceilings, requires full report equality except
+captured_at, zero data writes and exactly one new book scan. It assumes no speedup.
+These operations have only been imported with connections refused. The outer
+full-database isolation runner, exact first-result binding and runtime launch
+remain to be prepared; do not run an operation on a standalone database.
