@@ -5031,3 +5031,23 @@ fungsi Native uang/stok/HPP, B, default dan timeout tetap. Baru derivasiPython;
 belum parseSQL di DB, belum runtime dan belum penerimaan. Perlu independen
 signature/multichunk, race, jalur cron/Business Report, Native13 dan overhead
 factory sebelum adopsi. Tidak mengubah kandidat05b6 yang sedang berjalan.
+
+
+## A / 27 Oktober2026 —05b actual, preserved failure, runtime-gated successor
+
+LATEST / 27 Oktober2026:05b62971/run40532595788/artifact12748819568 is ACTUAL INCOMPLETE.
+Original child-XID case PASS (snapshot7596:7596:, child7597 invisible, source change refused).
+Three single-check pairs PASS with identical reports and zero writes;3600variants7366.441→3690.749ms.
+Second installed restore stopped at raw parent catalog guard; full outer22/data/sequence/roles/CP6/advisors PASS.
+Do NOT claim the old child case proved a mixed-book escape, or call the whole package PASS.
+Newfaa5889f/run40540122775/job122315934147 RUNNING: one unchanged baseline NULL-snapshot case must
+actually escape mixed READY and be fully restored before temporary repair DDL; then7isolated operations,
+20unchanged Native/BusinessReport cases, actualcron, overhead and unchanged single-check rerun.
+Sources16+25+4085 admitted in3.784s with0DB connections;8localgate testsPASS. No runtime claim yet.
+Parent0bcc13+cron1PASS remains accepted. B actualbranchastra/d17-14-produksi still1dd83782, readonly.
+Formal5/16; production_go=false; independent_acceptance=false; default not adopted.
+
+Exact Original/proof hashes are in ow15/D17_18_FOLLOWUPS_05B_ACTUAL.json.
+The successor retains the unchanged parent inverse and records raw-versus-portable catalog
+differences. It never substitutes a catalog or calls catalog refusal a used-data refusal;
+full restoration runs even if that check fails. All used-data and exact source guards remain.

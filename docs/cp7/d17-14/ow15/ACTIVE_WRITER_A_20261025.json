@@ -1,39 +1,38 @@
 {
-  "recorded_at_utc": "2026-10-27T15:38:42.991523+00:00",
+  "recorded_at_utc": "2026-10-27T16:24:10.392020+00:00",
   "role": "A finance writer/integrator replacing Claude; B remains separate production/planning writer",
   "slogan": [
-    "VENI. VIDI. VICI. ERP. \u2014 I CONQUERED ERP.",
+    "VENI. VIDI. VICI. ERP. — I CONQUERED ERP.",
     "Reliable data adalah dewa. Keuangan termasuk laporan, stok, dan HPP adalah raja."
   ],
   "formal_accepted": "5/16",
   "production_go": false,
   "independent_acceptance": false,
-  "running": [
-    {
-      "scope": "Two unchanged isolated finance diagnostics with bounded artifact GET transport",
-      "status": "RUNNING_NOT_PASS",
-      "head": "05b6297171f71dcb3b4ba6f774ed82d0447a1f89",
-      "tree": "8960ad73f905b3b7c2e0a7d3d950c501054608c3",
-      "run_id": 40532595788,
-      "job_id": 122289153848,
-      "execution_branch": "astra-a/d17-18-finance-followups-qualification-20261027",
-      "started_at_utc": "2026-10-27T15:36:08Z",
-      "source_pins": 25,
-      "parent_source_pins": 4085,
-      "local_tests": 21,
-      "full_admission_seconds": 3.578,
-      "database_connection_attempts_in_admission": 0,
-      "retained_source_run": 40528647314,
-      "retained_first_job": 122275034029,
-      "retained_failed_retry_job": 122280909620,
-      "qualification_change": "Exact artifact GET only; max3attempts for explicit502/503/504; delays2/5s; first failure bytes retained; successful complete ZIP alone forwarded to unchanged hash/size/member/Original checks",
-      "business_cases_unchanged": true,
-      "Native_product_unchanged": true,
-      "timeout_unchanged": true,
-      "production_go": false,
-      "independent_acceptance": false
-    }
-  ],
+  "running": {
+    "sha": "faa5889faf622e4cb07b470aae26eadd750879c1",
+    "tree": "c8d3766732224c88a753364553c8f13dd21338c6",
+    "local_head": "adbf6cc34cd862edd03585f5ea036ddded76443c",
+    "branch": "astra-a/d17-18-consistent-capture-qualification-20261027",
+    "run_id": 40540122775,
+    "job_id": 122315934147,
+    "status": "RUNNING_NOT_PASS",
+    "source_admission": {
+      "status": "PASS",
+      "own_pins": 16,
+      "unchanged_parent_pins": 25,
+      "accepted_ancestor_pins": 4085,
+      "seconds": 3.784,
+      "database_connection_attempts": 0
+    },
+    "local_gate_tests": 8,
+    "baseline_NULL_snapshot_case_before_any_patch": true,
+    "temporary_patch_requires_actual_mixed_book_and_complete_restore": true,
+    "diagnostic_operations_after_baseline": 7,
+    "original_Native_cases": 20,
+    "default_adopted": false,
+    "production_go": false,
+    "independent_acceptance": false
+  },
   "actual_new_component": {
     "name": "CP7_OW11_MODEL_TARGET_SOURCE_V2.json",
     "status": "PASS",
@@ -11306,10 +11305,10 @@
     "successor_cron_running": true
   },
   "latest_B_readonly_20261027": {
-    "head": "1dd83782dcaa4500bace7bf392a76f58be0271c3",
     "branch": "astra/d17-14-produksi",
-    "branch_written": false,
-    "recorded_at_utc": "2026-10-27T10:51:21.938281+00:00"
+    "head": "1dd83782dcaa4500bace7bf392a76f58be0271c3",
+    "unchanged": true,
+    "no_writes": true
   },
   "current_choice_finance_cron": {
     "name": "CP7_D17_18_CHOICE_FINANCE_CRON1.json",
@@ -16919,15 +16918,123 @@
     "next": "Prepare bounded artifact-GET-only transport retry; retain hash/size checks and all product oracles."
   },
   "consistency_repair_prepared": {
-    "head": "35ef27609a6a93d7c1d45f402b1f738e59a257c4",
-    "branch": "astra-a/d17-18-consistent-capture-prepared-20261027",
-    "tree": "f6c2709bd493c380af63bc855c7e0f701b5a155c",
-    "status": "PYTHON_SOURCE_DERIVATION_ONLY",
-    "database_gate": false,
-    "SQL_database_parse_checked": false,
-    "actual_cases_executed": 0,
-    "product_adoption": false,
+    "sha": "faa5889faf622e4cb07b470aae26eadd750879c1",
+    "tree": "c8d3766732224c88a753364553c8f13dd21338c6",
+    "local_head": "adbf6cc34cd862edd03585f5ea036ddded76443c",
+    "branch": "astra-a/d17-18-consistent-capture-qualification-20261027",
+    "run_id": 40540122775,
+    "job_id": 122315934147,
+    "status": "RUNNING_NOT_PASS",
+    "source_admission": {
+      "status": "PASS",
+      "own_pins": 16,
+      "unchanged_parent_pins": 25,
+      "accepted_ancestor_pins": 4085,
+      "seconds": 3.784,
+      "database_connection_attempts": 0
+    },
+    "local_gate_tests": 8,
+    "baseline_NULL_snapshot_case_before_any_patch": true,
+    "temporary_patch_requires_actual_mixed_book_and_complete_restore": true,
+    "diagnostic_operations_after_baseline": 7,
+    "original_Native_cases": 20,
+    "default_adopted": false,
     "production_go": false,
-    "worktree": "/workspace/scratch/a4de608c9031/erp-consistency"
+    "independent_acceptance": false
+  },
+  "previous_running_before_actual_05b": [
+    {
+      "scope": "Two unchanged isolated finance diagnostics with bounded artifact GET transport",
+      "status": "RUNNING_NOT_PASS",
+      "head": "05b6297171f71dcb3b4ba6f774ed82d0447a1f89",
+      "tree": "8960ad73f905b3b7c2e0a7d3d950c501054608c3",
+      "run_id": 40532595788,
+      "job_id": 122289153848,
+      "execution_branch": "astra-a/d17-18-finance-followups-qualification-20261027",
+      "started_at_utc": "2026-10-27T15:36:08Z",
+      "source_pins": 25,
+      "parent_source_pins": 4085,
+      "local_tests": 21,
+      "full_admission_seconds": 3.578,
+      "database_connection_attempts_in_admission": 0,
+      "retained_source_run": 40528647314,
+      "retained_first_job": 122275034029,
+      "retained_failed_retry_job": 122280909620,
+      "qualification_change": "Exact artifact GET only; max3attempts for explicit502/503/504; delays2/5s; first failure bytes retained; successful complete ZIP alone forwarded to unchanged hash/size/member/Original checks",
+      "business_cases_unchanged": true,
+      "Native_product_unchanged": true,
+      "timeout_unchanged": true,
+      "production_go": false,
+      "independent_acceptance": false
+    }
+  ],
+  "actual_finance_followups_05b": {
+    "name": "CP7_D17_18_FINANCE_FOLLOWUPS_ISOLATED2.json",
+    "status": "INCOMPLETE",
+    "head": "05b6297171f71dcb3b4ba6f774ed82d0447a1f89",
+    "run_id": 40532595788,
+    "job_id": 122289153848,
+    "artifact_id": 12748819568,
+    "zip_bytes": 1904228,
+    "zip_sha256": "ecf0986180ed307049f5dd43b0fd67a9cc1386b0b21b94eb99832db29504848c",
+    "bytes": 1483332,
+    "sha256": "4b3209474c3ee99be4b367d361de1f96fc7d084e3f18a07a9990457efb204692",
+    "archive_member": "CP7_D17_18_FINANCE_FOLLOWUPS_ISOLATED2.json",
+    "package_gate": {
+      "installed": true,
+      "primary_unchanged": true,
+      "backup_restore_drill": true,
+      "security_advisors": true,
+      "writer_runtime": false
+    },
+    "outer_restoration": {
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "baseline_full22_all_rows_all_sequences_equal": true,
+      "baseline_advisors_equal": true
+    },
+    "first_child_case_status": "PASS",
+    "first_child_snapshot": "7596:7596:",
+    "first_child_xid": "7597",
+    "first_child_visible": false,
+    "first_child_unsafe_ready": false,
+    "first_child_full_restore": true,
+    "single_check_case_status": "INCOMPLETE",
+    "single_check_restore_error": "READONLY_FINANCE_ACTUAL_FULL22_CHANGED: exact parent catalog differs after full installed restore",
+    "second_installed_restore_completed": false,
+    "first_outcomes_preserved": true,
+    "pairs": {
+      "SMALL": {
+        "status": "PASS",
+        "whole_report_identical": true,
+        "before_ms": 134.714,
+        "after_ms": 120.911,
+        "official_check_calls_before": 2,
+        "official_check_calls_after": 1,
+        "table_write_attempts": {}
+      },
+      "PRICE_PERCENT": {
+        "status": "PASS",
+        "whole_report_identical": true,
+        "before_ms": 139.257,
+        "after_ms": 120.079,
+        "official_check_calls_before": 2,
+        "official_check_calls_after": 1,
+        "table_write_attempts": {}
+      },
+      "FACTORY_1200X3": {
+        "status": "PASS",
+        "whole_report_identical": true,
+        "before_ms": 7366.441,
+        "after_ms": 3690.749,
+        "official_check_calls_before": 2,
+        "official_check_calls_after": 1,
+        "table_write_attempts": {}
+      }
+    },
+    "production_go": false,
+    "independent_acceptance": false,
+    "performance_qualification": false,
+    "product_adoption": false
   }
 }

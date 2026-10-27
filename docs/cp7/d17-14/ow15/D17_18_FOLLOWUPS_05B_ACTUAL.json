@@ -1,0 +1,69 @@
+{
+  "name": "CP7_D17_18_FINANCE_FOLLOWUPS_ISOLATED2.json",
+  "status": "INCOMPLETE",
+  "head": "05b6297171f71dcb3b4ba6f774ed82d0447a1f89",
+  "run_id": 40532595788,
+  "job_id": 122289153848,
+  "artifact_id": 12748819568,
+  "zip_bytes": 1904228,
+  "zip_sha256": "ecf0986180ed307049f5dd43b0fd67a9cc1386b0b21b94eb99832db29504848c",
+  "bytes": 1483332,
+  "sha256": "4b3209474c3ee99be4b367d361de1f96fc7d084e3f18a07a9990457efb204692",
+  "archive_member": "CP7_D17_18_FINANCE_FOLLOWUPS_ISOLATED2.json",
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "outer_restoration": {
+    "cp6_restored": true,
+    "advisor_gate": true,
+    "baseline_full22_all_rows_all_sequences_equal": true,
+    "baseline_advisors_equal": true
+  },
+  "first_child_case_status": "PASS",
+  "first_child_snapshot": "7596:7596:",
+  "first_child_xid": "7597",
+  "first_child_visible": false,
+  "first_child_unsafe_ready": false,
+  "first_child_full_restore": true,
+  "single_check_case_status": "INCOMPLETE",
+  "single_check_restore_error": "READONLY_FINANCE_ACTUAL_FULL22_CHANGED: exact parent catalog differs after full installed restore",
+  "second_installed_restore_completed": false,
+  "first_outcomes_preserved": true,
+  "pairs": {
+    "SMALL": {
+      "status": "PASS",
+      "whole_report_identical": true,
+      "before_ms": 134.714,
+      "after_ms": 120.911,
+      "official_check_calls_before": 2,
+      "official_check_calls_after": 1,
+      "table_write_attempts": {}
+    },
+    "PRICE_PERCENT": {
+      "status": "PASS",
+      "whole_report_identical": true,
+      "before_ms": 139.257,
+      "after_ms": 120.079,
+      "official_check_calls_before": 2,
+      "official_check_calls_after": 1,
+      "table_write_attempts": {}
+    },
+    "FACTORY_1200X3": {
+      "status": "PASS",
+      "whole_report_identical": true,
+      "before_ms": 7366.441,
+      "after_ms": 3690.749,
+      "official_check_calls_before": 2,
+      "official_check_calls_after": 1,
+      "table_write_attempts": {}
+    }
+  },
+  "production_go": false,
+  "independent_acceptance": false,
+  "performance_qualification": false,
+  "product_adoption": false
+}
