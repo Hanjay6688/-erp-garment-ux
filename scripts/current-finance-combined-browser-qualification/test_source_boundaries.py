@@ -3,7 +3,7 @@ from tempfile import TemporaryDirectory
 import json,shutil,sys,unittest
 from unittest.mock import patch
 import psycopg
-import admission,source_guard
+import admission,source_guard,workflow_guard
 
 HERE=Path(__file__).resolve().parent;ROOT=HERE.parents[1]
 
@@ -36,6 +36,21 @@ class CombinedBrowserSourceBoundaries(unittest.TestCase):
                 (closed/'CONFIG.json').write_text(json.dumps(dict(allow_database_execution=False,accepted_combined=None)))
                 with patch.object(probe,'HERE',closed),self.assertRaisesRegex(ValueError,'ACTUAL_COMBINED_RUNTIME_REQUIRED'):
                     probe.admitted()
+
+    def test_runtime_original_fetch_refuses_before_network(self):
+        fetch=admission.load('closed_UI_combined_runtime_fetch',HERE/'fetch_combined.py')
+        with TemporaryDirectory()as name:
+            closed=Path(name);(closed/'CONFIG.json').write_text(json.dumps(dict(allow_database_execution=False,accepted_combined=None)))
+            with patch.object(fetch,'HERE',closed),patch.object(fetch.subprocess,'check_output',side_effect=AssertionError('UNADMITTED_NETWORK')):
+                with self.assertRaisesRegex(ValueError,'ACTUAL_COMBINED_RUNTIME_REQUIRED'):fetch.fetch()
+
+    def test_skipping_actual_Auth_browser_runtime_is_refused(self):
+        value=workflow_guard.expected(ROOT,HERE)
+        steps=value['jobs']['p21']['steps']
+        runtime=[step for step in steps if step.get('name')=='Run real Auth desktop and mobile on exact qualified combined backend']
+        self.assertEqual(len(runtime),1);runtime[0]['run']='true'
+        with self.assertRaisesRegex(AssertionError,'UNDECLARED_WORKFLOW_CHANGE'):
+            workflow_guard.check(ROOT,HERE,actual=value)
 
 
 if __name__=='__main__':unittest.main()

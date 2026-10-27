@@ -3,8 +3,8 @@
 VENI. VIDI. VICI. ERP. Reliable data adalah dewa.
 Keuangan termasuk laporan, stok, dan HPP adalah raja.
 
-The backend adapter and two-case suite source are prepared. The execution
-workflow and final SOURCE binding remain open; no new Auth/browser result is
+The backend adapter, two-case suite source and isolated execution workflow
+are prepared. The final SOURCE binding remains open; no new Auth/browser result is
 claimed. CONFIG remains false/null until the own
 combined seven-group Original and package pass and their exact bytes are bound.
 Passing separate consistency and single-check diagnostics cannot open this gate.
@@ -27,6 +27,13 @@ rechecks the prior host/business guards and compares all 91 vendored B files
 directly to the immutable current B commit. A mutation of the lost-reply oracle
 is refused. The full actual Python probe is imported and its explicit closed
 configuration must refuse before psycopg can connect.
+
+The workflow retains the combined qualification's source preparation and
+bounded startup, plus the original pinned Chromium/host setup and screenshot
+retention. It fetches the exact own combined runtime Original and the UI Native6
+prerequisite, then admits the complete source before starting the database.
+The execution branch has not been created. Removing the real browser runtime
+step or fetching before prerequisite acceptance is refused by local tests.
 
 Source admission must additionally recompute the complete accepted combined
 declaration. Its reader qualification remains independent_acceptance=false,

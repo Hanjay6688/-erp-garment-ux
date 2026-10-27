@@ -1,10 +1,10 @@
 {
-  "status": "PREPARED_CLOSED_REAL_AUTH_BROWSER2_SOURCE",
-  "local_tests": 6,
+  "status": "PREPARED_CLOSED_REAL_AUTH_BROWSER2_WORKFLOW",
+  "local_tests": 8,
   "full_actual_Python_probe_loaded": true,
   "JavaScript_syntax_files": 4,
   "Auth_browser_cases_executed": 0,
-  "workflow_prepared": false,
+  "workflow_prepared": true,
   "final_SOURCE_bound": false,
   "accepted_combined_bound": false,
   "complete_source_recomputation_required": true,
@@ -13,5 +13,6 @@
   "original_ERP_SQL_changed": false,
   "production_go": false,
   "independent_acceptance": false,
-  "prepared_source_sha256": "7e03acb9cfeb68a31a916c6bca6dbf308cf62965834da2824e62810bb9487618"
+  "prepared_source_sha256": "c8d311c69878cb3bf7923efbfcb342de6d29ef4ac33e059664e8a79fd4ef545d",
+  "execution_branch_created": false
 }

@@ -33,4 +33,7 @@ def check(repo,here,*,overrides=None):
         assert target==raw,'COMBINED_UI_CURRENT_B_SOURCE_CHANGED:'+entry['path']
     proof.update(host_exact_files=113,current_B_head=B_HEAD,current_B_exact_files=91,
         real_Auth_and_two_complete_copies_unchanged=True,actual_browser_executed=False)
+    spec=importlib.util.spec_from_file_location('combined_UI_exact_workflow',here/'workflow_guard.py')
+    workflow=importlib.util.module_from_spec(spec);spec.loader.exec_module(workflow)
+    proof['workflow']=workflow.check(repo,here)
     return proof
