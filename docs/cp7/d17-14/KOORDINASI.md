@@ -5062,3 +5062,22 @@ Allsource admission/localchecks passed; zero ERPcases. GHCR transientrequestlimi
 One same-source retry RUNNING: run40540122775/job122328486189. No further same-source retry after this.
 Closedcombinedcomposition7274445c prepared separately,3localgatechecks/completeimport/0DBcases.
 Current tests are not accepted runtime. Baselinecounterexample and repair remain unexecuted.
+
+
+## A / 28 Oktober2026 WIB — full combined qualification prepared closed
+
+LATEST A / 28 Oktober2026 WIB — combined qualification prepared, prerequisites closed
+Combined preparation now82797072e306638a403f214eb3c98089ff764846,
+tree86a05e84c1f64b63ecce0386ea44bfbd6d0f2258; 25sourcepins,10localtests/importPASS,0DBcases.
+Seven separate fully restored groups prepared: unchanged child-XID refusal, assigned-XID NULL refusal/recovery,
+Native20, independent signatures, current public minute cron, full-report3pairs, factory1200x3 public minute cron.
+Outer fullrestore9assertions and factory36assertions retained. Auth/browser/final performance remain open.
+Combined installer, direct runner and artifact fetch remain closed before DB/network until exact actual
+accepted consistency Original/package/source proves all7diagnostics plus full restoration.
+Workflow source prepared; executionbranchastra-a/d17-18-combined-finance-qualification-20261028 NOT CREATED.
+Startup successor preparation retains all4attemptlogs and returns to GHCR after one ECR attempt;
+mockstartup3casesPASS, no new actualstartup. Same image tags, business tests and application timeouts.
+Artifact names include runattempt, no deletion/overwrite of first evidence. First localtest import guard error
+was corrected only by isolating unittest argv; original guard and first error retained in LOCAL_PREPARATION.
+Current consistency remains frozenfaa5889f/run40540122775/retryjob122328486189; no third unchanged retry.
+Formal5/16, production_go=false, independent_acceptance=false, CP7C not started. B scope unchanged.

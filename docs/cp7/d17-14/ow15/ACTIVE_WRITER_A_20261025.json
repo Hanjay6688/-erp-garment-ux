@@ -1,5 +1,5 @@
 {
-  "recorded_at_utc": "2026-10-27T16:45:51.420170+00:00",
+  "recorded_at_utc": "2026-10-27T17:14:54.212179+00:00",
   "role": "A finance writer/integrator replacing Claude; B remains separate production/planning writer",
   "slogan": [
     "VENI. VIDI. VICI. ERP. — I CONQUERED ERP.",
@@ -17084,6 +17084,45 @@
     "first_job_actual_cases": 0
   },
   "combined_finance_composition_prepared": {
+    "head": "82797072e306638a403f214eb3c98089ff764846",
+    "local_head": "de01eebdbe0523943c8579477b5db6f3ee05a2d7",
+    "tree": "86a05e84c1f64b63ecce0386ea44bfbd6d0f2258",
+    "branch": "astra-a/d17-18-combined-finance-prepared-20261027",
+    "status": "PREPARED_CLOSED_NOT_EXECUTED",
+    "qualification_groups": 7,
+    "source_pins": 25,
+    "local_tests": 10,
+    "database_cases_executed": 0,
+    "workflow_source_prepared": true,
+    "execution_branch_created": false,
+    "previous_preparation": "31173c40c7c177e4c79ee20b519a79a4070214ca",
+    "default_adopted": false,
+    "production_go": false,
+    "independent_acceptance": false,
+    "real_Auth_browser_qualified": false,
+    "direct_runner_and_artifact_fetch_closed_before_database_or_network": true,
+    "first_local_test_import_argument_error_retained": true,
+    "startup_attempts": {
+      "maximum": 4,
+      "registries": [
+        "default_ghcr",
+        "public.ecr.aws",
+        "default_ghcr",
+        "default_ghcr"
+      ],
+      "simulated_tests": 3,
+      "actual_new_startup_executed": false
+    },
+    "unchanged_Native_cases": 20,
+    "whole_report_pairs": [
+      "SMALL",
+      "PRICE_PERCENT",
+      "FACTORY_1200X3"
+    ],
+    "real_minute_cron_groups_prepared": 2,
+    "combined_actual_runtime": "NOT_STARTED"
+  },
+  "previous_combined_provider_before_full_qualification_preparation": {
     "sha": "7274445cd869bea132e9c34e34b557ce3534d18e",
     "tree": "045eda4729c34f3fed69db7f36cbc6b85c066990",
     "local_head": "f38492be5de62985225a824db0d01bfaf90b54c0",
@@ -17095,5 +17134,6 @@
     "default_adopted": false,
     "production_go": false,
     "independent_acceptance": false
-  }
+  },
+  "recorded_at_wib": "2026-10-28T00:14:54.212332+07:00"
 }

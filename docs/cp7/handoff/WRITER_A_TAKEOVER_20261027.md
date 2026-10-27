@@ -1,3 +1,19 @@
+LATEST A / 28 Oktober2026 WIB — combined qualification prepared, prerequisites closed
+Combined preparation now82797072e306638a403f214eb3c98089ff764846,
+tree86a05e84c1f64b63ecce0386ea44bfbd6d0f2258; 25sourcepins,10localtests/importPASS,0DBcases.
+Seven separate fully restored groups prepared: unchanged child-XID refusal, assigned-XID NULL refusal/recovery,
+Native20, independent signatures, current public minute cron, full-report3pairs, factory1200x3 public minute cron.
+Outer fullrestore9assertions and factory36assertions retained. Auth/browser/final performance remain open.
+Combined installer, direct runner and artifact fetch remain closed before DB/network until exact actual
+accepted consistency Original/package/source proves all7diagnostics plus full restoration.
+Workflow source prepared; executionbranchastra-a/d17-18-combined-finance-qualification-20261028 NOT CREATED.
+Startup successor preparation retains all4attemptlogs and returns to GHCR after one ECR attempt;
+mockstartup3casesPASS, no new actualstartup. Same image tags, business tests and application timeouts.
+Artifact names include runattempt, no deletion/overwrite of first evidence. First localtest import guard error
+was corrected only by isolating unittest argv; original guard and first error retained in LOCAL_PREPARATION.
+Current consistency remains frozenfaa5889f/run40540122775/retryjob122328486189; no third unchanged retry.
+Formal5/16, production_go=false, independent_acceptance=false, CP7C not started. B scope unchanged.
+
 LATEST INFRASTRUCTURE / 27 Oktober2026: faa5889f first job122315934147 FAILED beforeDB at image pulls.
 Artifact12752330518/ZIP48471bytes SHA2564d2fc0c82c870ecbddb28d2c8672722ce524d54c72010aeb3cb689091b7a2bca;
 log1295144bytes SHA2564bfafb5c2e9413dcd3f3c04fee772f20d35b1cb3563fcda299c44b3bea886aaa retained.
