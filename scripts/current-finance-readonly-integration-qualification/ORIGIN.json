@@ -50,7 +50,7 @@
       },
       {
         "old": "committed={},actual_cron_claim=False,manual_steps=0,changed_schedule=False)",
-        "new": "committed={},native={},actual_cron_claim=False,manual_steps=0,changed_schedule=False,\n        full_parent_inverse_repeated=False,focused_preuse_delta_only=True)",
+        "new": "committed={},native={},actual_cron_claim=False,manual_steps=0,changed_schedule=False,\n        manual_steps_scope='MEASURED_CRON_ONLY',native_case_steps_before_cron=True,\n        full_parent_inverse_repeated=False,focused_preuse_delta_only=True)",
         "count": 1
       },
       {

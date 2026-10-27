@@ -66,6 +66,7 @@ def run():
         expected_case_count=len(IDS),required_case_ids=list(IDS),formal_CP7C_started=False,real_Auth_browser_claim=False,factory3600_claim=False,
         full_OW11_acceptance=False,production_go=False,independent_acceptance=False,
         committed={},native={},actual_cron_claim=False,manual_steps=0,changed_schedule=False,
+        manual_steps_scope='MEASURED_CRON_ONLY',native_case_steps_before_cron=True,
         full_parent_inverse_repeated=False,focused_preuse_delta_only=True)
     installed=False;pre_dumped=False;before=None;new_roles=set()
     try:
