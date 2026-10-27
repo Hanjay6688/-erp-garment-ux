@@ -1,0 +1,187 @@
+{
+  "name": "CP7_D17_18_READONLY_FINANCE_NATIVE13_CRON1.json",
+  "status": "PASS",
+  "head": "0bccf142f5dc2310226b183643d4ad56d01b23df",
+  "run_id": 40519853334,
+  "job_id": 122243659145,
+  "artifact_id": 12745515328,
+  "zip_bytes": 3431422,
+  "zip_sha256": "5998bba2a854eb0e4418ef116e87d8923f7b01b4b85e871f9226cc0df2f7710b",
+  "bytes": 8866887,
+  "sha256": "c29a66fa26f1a92bacac3323c5e7dbda6465919366869cac916f1f5aa4b89810",
+  "archive_member": "CP7_D17_18_READONLY_FINANCE_NATIVE13_CRON1.json",
+  "source_pins_verified": 4085,
+  "complete_prerequisite_chain_exact": true,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "cp6_restored": true,
+  "advisor_gate": true,
+  "production_go": false,
+  "independent_acceptance": false,
+  "actual_minute_cron_cases": 1,
+  "official_finance_metrics": 24,
+  "elapsed_seconds": 54.05,
+  "preparation_calls": [
+    {
+      "phase": "request",
+      "millis": 20.404,
+      "state": "QUEUED",
+      "units_done": 0
+    },
+    {
+      "phase": "request",
+      "millis": 17.724,
+      "state": "QUEUED",
+      "units_done": 0
+    },
+    {
+      "phase": "get",
+      "millis": 10.473,
+      "state": "QUEUED",
+      "units_done": 0
+    },
+    {
+      "phase": "get",
+      "millis": 12.023,
+      "state": "READY",
+      "units_done": 1
+    },
+    {
+      "phase": "request",
+      "millis": 18.247,
+      "state": "READY",
+      "units_done": 1
+    },
+    {
+      "phase": "get",
+      "millis": 10.303,
+      "state": "READY",
+      "units_done": 1
+    }
+  ],
+  "source_fixture_manual_steps_separate": 17,
+  "no_page_or_preparation_steps": true,
+  "exact_choice_payload_and_replay": true,
+  "full_money_stock_HPP_and_baseline_restored": true,
+  "stage_timings": [
+    {
+      "phase": "SOURCE_ADMISSION",
+      "state": "COMPLETED",
+      "started_at_utc": "2026-10-27T14:37:23.266055+00:00",
+      "elapsed_ms": 199741.879,
+      "finished_at_utc": "2026-10-27T14:40:43.008014+00:00"
+    },
+    {
+      "phase": "BASELINE_ADVISORS",
+      "state": "COMPLETED",
+      "started_at_utc": "2026-10-27T14:40:43.009872+00:00",
+      "elapsed_ms": 1648.018,
+      "finished_at_utc": "2026-10-27T14:40:44.657944+00:00"
+    },
+    {
+      "phase": "BASELINE_DUMP",
+      "state": "COMPLETED",
+      "started_at_utc": "2026-10-27T14:40:48.745483+00:00",
+      "elapsed_ms": 1038.381,
+      "finished_at_utc": "2026-10-27T14:40:49.783941+00:00"
+    },
+    {
+      "phase": "SINGLE_FULL_PARENT_INSTALL",
+      "state": "COMPLETED",
+      "started_at_utc": "2026-10-27T14:40:49.800070+00:00",
+      "elapsed_ms": 1460815.209,
+      "finished_at_utc": "2026-10-27T15:05:10.615343+00:00"
+    },
+    {
+      "phase": "FIRST_FINANCE_DELTA",
+      "state": "COMPLETED",
+      "started_at_utc": "2026-10-27T15:05:10.615405+00:00",
+      "elapsed_ms": 24809.542,
+      "finished_at_utc": "2026-10-27T15:05:35.424971+00:00"
+    },
+    {
+      "phase": "FINANCE_DELTA_PREUSE_INVERSE",
+      "state": "COMPLETED",
+      "started_at_utc": "2026-10-27T15:05:35.425022+00:00",
+      "elapsed_ms": 16958.707,
+      "finished_at_utc": "2026-10-27T15:05:52.383783+00:00"
+    },
+    {
+      "phase": "SECOND_FINANCE_DELTA",
+      "state": "COMPLETED",
+      "started_at_utc": "2026-10-27T15:05:52.383864+00:00",
+      "elapsed_ms": 20407.824,
+      "finished_at_utc": "2026-10-27T15:06:12.791719+00:00"
+    },
+    {
+      "phase": "UNCHANGED_FINANCE_NATIVE13",
+      "state": "COMPLETED",
+      "started_at_utc": "2026-10-27T15:06:21.302758+00:00",
+      "elapsed_ms": 40963.354,
+      "finished_at_utc": "2026-10-27T15:07:02.266177+00:00"
+    },
+    {
+      "phase": "ACTUAL_MINUTE_CRON_CHOICE_AND_FINANCE",
+      "state": "COMPLETED",
+      "started_at_utc": "2026-10-27T15:07:02.273892+00:00",
+      "elapsed_ms": 63714.802,
+      "finished_at_utc": "2026-10-27T15:08:05.988759+00:00"
+    },
+    {
+      "phase": "BASELINE_RESTORE",
+      "state": "COMPLETED",
+      "started_at_utc": "2026-10-27T15:08:16.573908+00:00",
+      "elapsed_ms": 3650.125,
+      "finished_at_utc": "2026-10-27T15:08:20.224111+00:00"
+    }
+  ],
+  "actual_factory_completion": false,
+  "finance_optimization_adopted": false,
+  "product_default_adopted": false,
+  "native_finance_cases": 13,
+  "readonly_composition_qualified": true,
+  "choice_work_timestamp_observations": [
+    {
+      "caller_timezone": "Asia/Jakarta",
+      "raw_job_id": "daaba2a1-4856-4565-9ae7-ff84bda12b03",
+      "raw_created_at": "2026-10-27T22:07:05.436432+07:00",
+      "observed_timezone": "UTC",
+      "job_id": "daaba2a1-4856-4565-9ae7-ff84bda12b03",
+      "created_at": "2026-10-27T15:07:05.436432+00:00"
+    },
+    {
+      "caller_timezone": "UTC",
+      "raw_job_id": "daaba2a1-4856-4565-9ae7-ff84bda12b03",
+      "raw_created_at": "2026-10-27T15:07:05.436432+00:00",
+      "observed_timezone": "UTC",
+      "job_id": "daaba2a1-4856-4565-9ae7-ff84bda12b03",
+      "created_at": "2026-10-27T15:07:05.436432+00:00"
+    },
+    {
+      "caller_timezone": "UTC",
+      "raw_job_id": "daaba2a1-4856-4565-9ae7-ff84bda12b03",
+      "raw_created_at": "2026-10-27T15:07:05.436432+00:00",
+      "observed_timezone": "UTC",
+      "job_id": "daaba2a1-4856-4565-9ae7-ff84bda12b03",
+      "created_at": "2026-10-27T15:07:05.436432+00:00"
+    }
+  ],
+  "cron_snapshot_observation": {
+    "capture_id": "15fb35b6-0e26-4b75-830b-45e9ac9feab7",
+    "snapshot": null,
+    "state": "READY",
+    "units_done": 6,
+    "units_total": 6,
+    "has_report_snapshot": false,
+    "concurrent_source_change_qualified": false
+  },
+  "full_parent_inverse_repeated": false,
+  "focused_preuse_delta_only": true,
+  "full_combined_final_qualification": false,
+  "manual_steps_scope": "MEASURED_CRON_ONLY"
+}

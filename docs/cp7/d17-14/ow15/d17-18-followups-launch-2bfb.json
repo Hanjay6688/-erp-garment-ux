@@ -1,0 +1,29 @@
+{
+  "scope": "Isolated source-visibility and single-check diagnostics",
+  "head": "2bfb3cc7eaa53b6e95d375daffbbe318127987f6",
+  "tree": "acfa7aa9f5ee6142e7e6d0a7bfa1a54f871e1c3d",
+  "run_id": 40528647314,
+  "job_id": 122280909620,
+  "status": "RUNNING_NOT_PASS_INFRASTRUCTURE_RETRY1",
+  "execution_branch": "astra-a/d17-18-finance-followups-qualification-20261027",
+  "first_job_id": 122275034029,
+  "first_job_actual_cases": 0,
+  "retry_reason": "HTTP503 fetching artifact12589761696 before DB",
+  "maximum_same_source_infrastructure_retries": 1,
+  "source_oracles_timeout_unchanged": true,
+  "actual_cases_executed": 0,
+  "source_pins": 23,
+  "accepted_parent_source_pins": 4085,
+  "full_local_source_admission": {
+    "status": "PASS",
+    "elapsed_seconds": 3.036,
+    "database_connection_attempts": 0,
+    "bytes": 303409,
+    "sha256": "78b919fa462e517e7476ef5ad142f8e68e1c0a8fbf5ff4420fe02c0f519f2059"
+  },
+  "parent_head": "0bccf142f5dc2310226b183643d4ad56d01b23df",
+  "parent_run": 40519853334,
+  "parent_artifact": 12745515328,
+  "production_go": false,
+  "independent_acceptance": false
+}

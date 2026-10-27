@@ -1,0 +1,17 @@
+{
+  "status": "INFRASTRUCTURE_FAILED_BEFORE_DATABASE",
+  "head": "2bfb3cc7eaa53b6e95d375daffbbe318127987f6",
+  "run_id": 40528647314,
+  "job_id": 122275034029,
+  "failed_step": 46,
+  "reason": "GitHub artifact download HTTP503",
+  "artifact_requested": 12589761696,
+  "actual_cases_executed": 0,
+  "database_started": false,
+  "artifact_produced": false,
+  "log_bytes": 986204,
+  "log_sha256": "50d4b14afead783752a618451cd189c9b20c93d33c13e0f0810c19f43f009c11",
+  "permitted_infrastructure_retry": 1,
+  "source_oracle_timeout_changed": false,
+  "production_go": false
+}
