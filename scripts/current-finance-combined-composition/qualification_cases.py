@@ -16,6 +16,7 @@ def load(name,path):
 
 product=load('combined_qualification_product',HERE/'composition.py')
 retained=load('combined_unchanged_consistency_operations',ROOT/'scripts/current-finance-consistent-capture-diagnostic/cases.py')
+inputs=load('combined_retained_focused_inputs',ROOT/'scripts/current-finance-consistency-followup-qualification/adapters.py')
 factory=load('combined_current_public_factory_cron',HERE/'qualification_factory.py')
 STATE=None
 
@@ -51,6 +52,14 @@ def factory_cron(conn,cur,database,url,report):
     assert expected is not None and expected==actual
     conn.rollback()
     report['report_and_collected_book_signatures_equal']=True
+
+
+def native20(conn,cur,database,url,report):
+    return inputs.native20(retained,conn,cur,database,url,report)
+
+
+def actual_cron(conn,cur,database,url,report):
+    return inputs.actual_cron(retained,conn,cur,database,url,report)
 
 
 def measure(url,dates,baseline,limit):
@@ -133,9 +142,9 @@ def paired_reports(conn,cur,database,url,report):
 CHILDREN=(
     ('COMBINED_UNCHANGED_CHILD_VISIBILITY',retained.child_visibility),
     ('COMBINED_NULL_SNAPSHOT_REFUSAL_AND_RECOVERY',retained.assigned_transaction_visibility),
-    ('COMBINED_UNCHANGED_NATIVE20',retained.native20),
+    ('COMBINED_UNCHANGED_NATIVE20',native20),
     ('COMBINED_INDEPENDENT_SIGNATURE',retained.independent),
-    ('COMBINED_CURRENT_PUBLIC_ACTUAL_CRON',retained.actual_cron),
+    ('COMBINED_CURRENT_PUBLIC_ACTUAL_CRON',actual_cron),
     ('COMBINED_SMALL_PRICE_FACTORY_REPORT_PAIRS',paired_reports),
     ('COMBINED_CURRENT_PUBLIC_FACTORY1200X3_ACTUAL_CRON',factory_cron),
 )

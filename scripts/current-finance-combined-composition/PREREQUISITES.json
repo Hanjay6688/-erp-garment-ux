@@ -2,7 +2,9 @@
   "contract": "cp7.current-consistent-single-check-finance.v1",
   "allow_database_execution": false,
   "accepted_consistency": null,
+  "acceptance_mode": "FIVE_RESTORED_ACTUAL84_COMPONENTS_PLUS_FOCUSED_NATIVE20_CRON1",
   "original_directory_variable": "D17_18_ACCEPTED_CONSISTENCY_DIRECTORY",
+  "focused_directory_variable": "D17_18_ACCEPTED_CONSISTENCY_FOCUSED_DIRECTORY",
   "production_go": false,
   "independent_acceptance": false
 }

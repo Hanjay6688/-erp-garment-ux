@@ -36,14 +36,23 @@ def qualification():
     pins=json.loads((HERE/'DERIVATION.json').read_bytes())
     for path,digest in pins['files'].items():
         assert sha256((ROOT/path).read_bytes()).hexdigest()==digest,'COMBINED_FINANCE_DERIVATION_CHANGED:'+path
-    source_path=ROOT/'scripts/current-finance-consistent-capture-diagnostic/SOURCE.json'
-    assert sha256(source_path.read_bytes()).hexdigest()==pins['expected_consistency_source_sha256']
-    source=json.loads(source_path.read_bytes())
-    for path,digest in source['files'].items():
-        assert sha256((ROOT/path).read_bytes()).hexdigest()==digest,path
-    parent,_,_,_,_=runtime();directory=Path(os.environ[config['original_directory_variable']])
-    return evidence.accepted(binding,(directory/binding['name']).read_bytes(),
-        (directory/binding['package_name']).read_bytes(),source,parent.sources())
+    manifests=[]
+    for path,key in (('scripts/current-finance-consistent-capture-diagnostic/SOURCE.json','expected_consistency_source_sha256'),
+        ('scripts/current-finance-consistency-followup-qualification/SOURCE.json','expected_focused_source_sha256')):
+        raw=(ROOT/path).read_bytes()
+        assert sha256(raw).hexdigest()==pins[key]
+        source=json.loads(raw)
+        for name,digest in source['files'].items():
+            assert sha256((ROOT/name).read_bytes()).hexdigest()==digest,name
+        manifests.append(source)
+    assert manifests[1]['parent_source_sha256']==pins['expected_consistency_source_sha256']
+    parent,_,_,_,_=runtime()
+    directories=[Path(os.environ[config[key]])for key in ('original_directory_variable','focused_directory_variable')]
+    proofs=[binding[key]for key in ('retained84','focused')]
+    raw=[(directory/proof[name]).read_bytes()for directory,proof in zip(directories,proofs)
+        for name in ('name','package_name')]
+    retained_evidence=load('combined_retained84_evidence',ROOT/'scripts/current-finance-consistency-followup-qualification/evidence.py')
+    return evidence.accepted_components(binding,*raw,*manifests,parent.sources(),retained_evidence)
 
 
 def sources():

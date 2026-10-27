@@ -5,9 +5,12 @@ Keuangan termasuk laporan, stok, dan HPP adalah raja.
 
 This is the next isolated integration of the report/book consistency repair and
 one official financial check per report. It is not the candidate currently
-running on GitHub. Prerequisites stay closed until all seven diagnostics,
-Native20, actual cron and complete restorations have exact accepted Original
-and package bytes. The first NULL-snapshot counterexample remains INCOMPLETE.
+running on GitHub. Prerequisites stay closed until exact Original and package
+bytes bind five restored PASS groups from actual84 and two focused PASS
+groups for Native20 and actual cron. The whole actual84 result and both first
+NULL-snapshot counterexamples remain INCOMPLETE; only two groups are freshly
+executed by the focused prerequisite. Admission recomputes its complete source
+declaration, including the retained failure, before any database connection.
 
 Even an accepted prerequisite proves the changes separately. This composition
 must have its own unchanged financial/BusinessReport regressions, concurrent
@@ -32,6 +35,12 @@ accepted reader bodies inside a rolled-back diagnostic transaction; this is
 not the product inverse and never erases posted or capture data. Comparisons
 omit only captured_at and require one official check plus one canonical scan
 on the combined reader, no table writes and the entire report unchanged.
+
+Native20 uses the exact focused input adapter for three BusinessReport cases:
+the accepted attendance preparation runs inside each case savepoint. Current
+public cron uses the accepted readonly runner and its UTC identity observer.
+Both scoped adapters restore their callbacks even if the operation fails.
+No report, amount, READY, UUID or timing assertion is replaced.
 
 Every group starts from a complete restored unused database. Portable catalog
 spellings are compared without changing the original raw installation seal.

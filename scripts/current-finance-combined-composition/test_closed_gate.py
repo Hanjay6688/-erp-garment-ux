@@ -12,7 +12,12 @@ class IndependentAdmissionBoundaries(unittest.TestCase):
     def test_prepared_or_incomplete_result_cannot_open_gate(self):
         for config in ({},{'allow_database_execution':True},
             {'allow_database_execution':True,'accepted_consistency':{'status':'INCOMPLETE'}},
-            {'allow_database_execution':False,'accepted_consistency':{'status':'PASS'}}):
+            {'allow_database_execution':False,'accepted_consistency':{'status':'PASS'}},
+            {'allow_database_execution':True,'accepted_consistency':{'status':'PASS'}},
+            {'allow_database_execution':True,'accepted_consistency':{'status':evidence.COMPONENTS,
+                'retained84':{'status':'PASS'},'focused':{'status':'PASS'}}},
+            {'allow_database_execution':True,'accepted_consistency':{'status':evidence.COMPONENTS,
+                'retained84':{'status':'INCOMPLETE'},'focused':{'status':'INCOMPLETE'}}}):
             with self.subTest(config=config),self.assertRaisesRegex(ValueError,'ACTUAL_CONSISTENCY_PASS_REQUIRED'):
                 evidence.gate(config)
 
@@ -22,7 +27,7 @@ class IndependentAdmissionBoundaries(unittest.TestCase):
         for key in binding:
             changed=deepcopy(binding);changed[key]='changed'
             with self.subTest(key=key),self.assertRaisesRegex(ValueError,'ORIGINAL_CHANGED'):
-                evidence.accepted(changed,raw,package,{},{} )
+                evidence.bound_original(changed,raw,package)
 
     def test_installer_and_delta_refuse_before_touching_cursor(self):
         path=Path(__file__).with_name('composition.py')
