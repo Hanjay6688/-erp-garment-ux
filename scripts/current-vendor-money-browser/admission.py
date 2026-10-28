@@ -30,6 +30,10 @@ def admitted(repo,here,product):
     root=Path(os.environ['CP7_VENDOR_BACKEND11_ORIGINALS'])
     raw=(root/pin['original']['name']).read_bytes();package=(root/pin['package']['name']).read_bytes()
     current=product.sources()
+    entry=cfg['current_installation_entrypoint']
+    assert entry==dict(module='cp7_vendor_receivable.composition',path='scripts/cp7_vendor_receivable/composition.py',
+        install='install',verify='verify',rollback_preuse='rollback_preuse')
+    assert all(callable(getattr(product,name,None))for name in ('install','verify','rollback_preuse'))
     parent_digest=sha256(json.dumps(current['predecessor'],sort_keys=True,separators=(',',':'),ensure_ascii=False).encode()).hexdigest()
     assert parent_digest==cfg['parent_backend_sha256']
     with tempfile.TemporaryDirectory(prefix='vendor-intake-verifier-')as directory:
@@ -45,6 +49,6 @@ def admitted(repo,here,product):
         if path==label_path:client_label(old.decode(),(repo/path).read_text())
         else:assert(repo/path).read_bytes()==old,path
     return dict(status='EXACT_COMPLETE_BACKEND11_AND_LABEL_SUCCESSOR_ADMITTED',prerequisite=prerequisite,
-        qualification=source,current_installation=current,parent_backend_sha256=parent_digest,
+        qualification=source,current_installation=current,current_installation_entrypoint=entry,parent_backend_sha256=parent_digest,
         actual_backend_cases_repeated=0,planned_browser_cases=2,B_combined_browser_repeated=False,
         production_go=False,independent_acceptance=False)

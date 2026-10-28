@@ -90,9 +90,10 @@ def run_inner():
         with psycopg.connect(package.boundary.ADMIN)as conn,conn.cursor()as cur:
             try:
                 report['install_boundary_lock']=current_native.acquire_boundary(cur)
-                prior=measured(timings,'SINGLE_FULL_READONLY_PARENT_INSTALL',readonly.install,cur)
-                prior=measured(timings,'EXACT_BACKEND3194_PARENT_INSTALL',product.parent().install_delta,cur,prior)
-                STATE=measured(timings,'FIRST_FINANCE_DELTA',product.install_delta,cur,prior)
+                # Exercise the existing complete candidate entry point directly.
+                # Its parent performs the same qualified readonly/3194 chain;
+                # legacy installation inventory remains inside that chain.
+                STATE=measured(timings,'EXACT_CURRENT_CANDIDATE_INSTALL',product.install,cur)
                 # Exact backend11/package admission already proves this identical
                 # delta's unused inverse. Reinstall only once on this new VM.
                 report['focused_preuse_removal']=dict(status='RETAINED_EXACT_BACKEND11_PREUSE_INVERSE',

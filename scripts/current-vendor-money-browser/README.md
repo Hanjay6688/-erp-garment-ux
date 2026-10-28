@@ -12,6 +12,14 @@ Komponen yang dipakai ulang: pemasang `cp7_vendor_receivable.composition`, mode
 scheduler, ledger atau mesin uang kedua. Paket analisis produksi/perencanaan B
 tidak diulang atau diubah.
 
+Probe memanggil `cp7_vendor_receivable.composition.install(cur)` secara langsung,
+bukan merakit ulang tiga langkah pemasangan di probe. Fungsi existing tersebut
+memasang rantai readonly/3194 dan delta vendor yang sama. `verify(cur,state)` dan
+`rollback_preuse(cur,state)` adalah kontrak existing. Registry entry point ada
+di CONFIG dan masuk deklarasi bukti; sumber installer historis tetap utuh karena
+masih dipakai sebagai fondasi rantai. Pengujian browser penerus akan menjadi
+saksi aktual panggilan pemasang lengkap ini; persiapan sumber belum meluluskannya.
+
 | Perjalanan | Bukti yang harus dibuat |
 |---|---|
 | Desktop OWNER | Refund 1.000,25 lewat layar; piutang 3.000 → 1.999,75; bank +1.000,25; pembatalan lewat layar memulihkan piutang/bank; pembayaran asal tetap utuh; bukti refund tetap ada berstatus dibatalkan |

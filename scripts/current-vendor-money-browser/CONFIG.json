@@ -23,5 +23,12 @@
   "backend_runtime_changed": false,
   "B_transferred_analysis_browser_touched": false,
   "production_go": false,
-  "independent_acceptance": false
+  "independent_acceptance": false,
+  "current_installation_entrypoint": {
+    "module": "cp7_vendor_receivable.composition",
+    "path": "scripts/cp7_vendor_receivable/composition.py",
+    "install": "install",
+    "verify": "verify",
+    "rollback_preuse": "rollback_preuse"
+  }
 }
