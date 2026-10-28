@@ -27,6 +27,36 @@
         "old": "auditor/scripts/current-progress-finance-ui-browser-qualification/browser_fixture.py",
         "new": "auditor/scripts/current-finance-combined-browser-qualification/browser_fixture.py",
         "count": 1
+      },
+      {
+        "old": "import {assertCombinedProgress,PROGRESS} from './progress_oracle.mjs'",
+        "new": "import {assertCombinedProgress,PROGRESS} from './progress_oracle.mjs'\nimport {observeConsole,requireConsoleEvidence} from './console_evidence.mjs'",
+        "count": 1
+      },
+      {
+        "old": "  const state=()=>fixture('state',{actor}),calls=[],shots=[],contrasts=[]",
+        "new": "  const state=()=>fixture('state',{actor}),calls=[],shots=[],contrasts=[]\n  const consoleCapture=observeConsole(page),expectedNetwork=[]",
+        "count": 1
+      },
+      {
+        "old": "      if(!mobile&&name===FIN&&!lost){lost=calls.at(-1);await route.abort('failed')}else await route.fulfill({response})",
+        "new": "      if(!mobile&&name===FIN&&!lost){\n        lost=calls.at(-1);expectedNetwork.push({url:route.request().url(),text:'Failed to load resource: net::ERR_FAILED',reason:'deliberately lost committed finance reply'});await route.abort('failed')\n      }else{\n        if(mobile&&revoked&&[FIN,GET,PROGRESS].includes(name)&&response.status()===403)expectedNetwork.push({url:route.request().url(),text:'Failed to load resource: the server responded with a status of 403 (Forbidden)',reason:'verified finance access revocation'})\n        await route.fulfill({response})\n      }",
+        "count": 1
+      },
+      {
+        "old": "    return{status:'PASS',actual_progress_RPC_and_DOM:progressChecks",
+        "new": "    const consoleEvidence=requireConsoleEvidence(consoleCapture.errors,expectedNetwork)\n    return{status:'PASS',console_evidence:consoleEvidence,actual_progress_RPC_and_DOM:progressChecks",
+        "count": 1
+      },
+      {
+        "old": "JSON.stringify({error:String(error),calls,alerts:",
+        "new": "JSON.stringify({error:String(error),calls,console_errors:consoleCapture.errors,expected_network_errors:expectedNetwork,alerts:",
+        "count": 1
+      },
+      {
+        "old": "  finally{if(revoked)",
+        "new": "  finally{consoleCapture.stop();if(revoked)",
+        "count": 1
       }
     ]
   },

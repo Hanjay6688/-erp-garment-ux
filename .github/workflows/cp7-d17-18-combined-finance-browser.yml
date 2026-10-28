@@ -2,7 +2,7 @@ name: CP7 D17-18 qualified combined finance real Auth desktop mobile
 'on':
   push:
     branches:
-    - astra-a/d17-18-combined-finance-browser-qualification-20261028
+    - astra-b/d17-18-combined-finance-browser-qualification-20261028
     paths:
     - .github/workflows/cp7-d17-18-combined-finance-browser.yml
     - scripts/current-finance-combined-browser-qualification/**
@@ -493,6 +493,10 @@ jobs:
         node --test scripts/current-progress-finance-ui-browser-qualification/progress_oracle.test.mjs
 
         node scripts/current-progress-finance-ui-browser-qualification/check-imports.mjs
+
+        node --check scripts/current-finance-combined-browser-qualification/browser.mjs
+
+        node --test scripts/current-finance-combined-browser-qualification/console_evidence.test.mjs
 
         '
     - name: Run real Auth desktop and mobile on exact qualified combined backend

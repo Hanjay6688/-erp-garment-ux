@@ -1,0 +1,12 @@
+✔ listener retains every console error and detaches at cleanup (1.667454ms)
+✔ only a recorded exact network failure is accepted and retained (0.277085ms)
+✔ application errors and a different failed URL cannot hide behind expected loss (2.224195ms)
+✔ one expected network event cannot excuse repeated console errors (0.971408ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 131.574454

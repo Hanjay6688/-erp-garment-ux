@@ -1,0 +1,47 @@
+test_all_database_interfaces_refuse_before_loading_backend (test_closed_adapter.ClosedCombinedBrowserAdapter.test_all_database_interfaces_refuse_before_loading_backend) ... ok
+test_both_original_and_package_bytes_are_bound (test_closed_adapter.ClosedCombinedBrowserAdapter.test_both_original_and_package_bytes_are_bound) ... ok
+test_incomplete_or_unbound_runtime_cannot_unlock_browser (test_closed_adapter.ClosedCombinedBrowserAdapter.test_incomplete_or_unbound_runtime_cannot_unlock_browser) ... ok
+test_deadline_and_original_schedule_remain_bounded (test_factory_progress_evidence.FactoryProgressAdmission.test_deadline_and_original_schedule_remain_bounded) ... ok
+test_financial_completion_cannot_certify_jobs (test_factory_progress_evidence.FactoryProgressAdmission.test_financial_completion_cannot_certify_jobs) ... ok
+test_legacy_cutoff_and_frame_deadline_are_observed (test_factory_progress_evidence.FactoryProgressAdmission.test_legacy_cutoff_and_frame_deadline_are_observed) ... ok
+test_long_analysis_requires_actual_terminal_state (test_factory_progress_evidence.FactoryProgressAdmission.test_long_analysis_requires_actual_terminal_state) ... ok
+test_progress_alone_or_incomplete_watch_does_not_unlock (test_factory_progress_evidence.FactoryProgressAdmission.test_progress_alone_or_incomplete_watch_does_not_unlock) ... ok
+test_regressing_or_missing_member_refuses (test_factory_progress_evidence.FactoryProgressAdmission.test_regressing_or_missing_member_refuses) ... ok
+test_complete_contract_requires_the_actual_large_regression (test_reader_stream_evidence.CorrectedReaderAdmission.test_complete_contract_requires_the_actual_large_regression) ... ok
+test_failed_observation_or_restore_cannot_be_relabelled (test_reader_stream_evidence.CorrectedReaderAdmission.test_failed_observation_or_restore_cannot_be_relabelled) ... ok
+test_native_or_opening_arithmetic_change_cannot_unlock_browser (test_reader_stream_evidence.CorrectedReaderAdmission.test_native_or_opening_arithmetic_change_cannot_unlock_browser) ... ok
+test_observed_native_volatile_reader_still_refuses (test_reader_stream_evidence.CorrectedReaderAdmission.test_observed_native_volatile_reader_still_refuses) ... ok
+test_actual_full_probe_loads_and_refuses_before_any_database_connection (test_source_boundaries.CombinedBrowserSourceBoundaries.test_actual_full_probe_loads_and_refuses_before_any_database_connection) ... ok
+test_original_ui_oracles_and_current_B_are_exact (test_source_boundaries.CombinedBrowserSourceBoundaries.test_original_ui_oracles_and_current_B_are_exact) ... ERROR
+test_runtime_original_fetch_refuses_before_network (test_source_boundaries.CombinedBrowserSourceBoundaries.test_runtime_original_fetch_refuses_before_network) ... ok
+test_skipping_actual_Auth_browser_runtime_is_refused (test_source_boundaries.CombinedBrowserSourceBoundaries.test_skipping_actual_Auth_browser_runtime_is_refused) ... ok
+test_unqualified_backend_refuses_before_source_or_native_access (test_source_boundaries.CombinedBrowserSourceBoundaries.test_unqualified_backend_refuses_before_source_or_native_access) ... ok
+test_invalid_unknown_and_false_ready_are_refused (test_unplanned_progress_evidence.UnplannedProgressEvidence.test_invalid_unknown_and_false_ready_are_refused) ... ok
+test_known_plan_cannot_return_to_unknown (test_unplanned_progress_evidence.UnplannedProgressEvidence.test_known_plan_cannot_return_to_unknown) ... ok
+test_unknown_total_is_preserved_before_plan_and_ready (test_unplanned_progress_evidence.UnplannedProgressEvidence.test_unknown_total_is_preserved_before_plan_and_ready) ... ok
+
+======================================================================
+ERROR: test_original_ui_oracles_and_current_B_are_exact (test_source_boundaries.CombinedBrowserSourceBoundaries.test_original_ui_oracles_and_current_B_are_exact)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/b6947bc7a657/erp-b-browser-20261028/scripts/current-finance-combined-browser-qualification/test_source_boundaries.py", line 22, in test_original_ui_oracles_and_current_B_are_exact
+    result=source_guard.check(ROOT,HERE)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/b6947bc7a657/erp-b-browser-20261028/scripts/current-finance-combined-browser-qualification/source_guard.py", line 26, in check
+    proof['original_host_and_business_guards']=guard.check(repo,old)
+                                               ^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/b6947bc7a657/erp-b-browser-20261028/scripts/current-progress-finance-ui-browser-qualification/source_guard.py", line 13, in check
+    exact=m.verify()
+          ^^^^^^^^^^
+  File "/workspace/scratch/b6947bc7a657/erp-b-browser-20261028/scripts/cp7_current_progress_finance_ui/source_guard.py", line 28, in verify
+    for f, original in zip(files, originals(declaration['B_source_head'], files), strict=True):
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/b6947bc7a657/erp-b-browser-20261028/scripts/cp7_current_progress_finance_ui/source_guard.py", line 15, in originals
+    _, kind, size = output[cursor:end].split()
+    ^^^^^^^^^^^^^
+ValueError: not enough values to unpack (expected 3, got 2)
+
+----------------------------------------------------------------------
+Ran 21 tests in 2.456s
+
+FAILED (errors=1)

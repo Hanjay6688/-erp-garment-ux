@@ -1,0 +1,50 @@
+{
+  "status": "B_PREPARED_CLOSED_NOT_ACTUAL_AUTH_BROWSER",
+  "base_sha": "e8fa6a9e26f2459b340c4b4c880cb1b226ce021a",
+  "base_tree": "36207182419262badafb87f34b9aedd93efde6d0",
+  "branch": "astra-b/d17-18-combined-browser-takeover-20261028",
+  "execution_branch": "astra-b/d17-18-combined-finance-browser-qualification-20261028",
+  "execution_branch_created": false,
+  "A_latest_read": "7657bbee5d55277855a0ab53126438c2e9c63118",
+  "A_latest_evidence_path": "docs/cp7/d17-14/ow15/A_B_ASSIGNMENT_AND_4AC_ACTUAL_20261028.json",
+  "backend_selected_by_A": null,
+  "backend_status": "4ac attempt2 FAILURE; A reports operational unit0 SQLSTATE57014, root cost not yet measured; no selected qualified successor",
+  "backend_original_independently_reintaken_by_B": false,
+  "source_host_files": 113,
+  "B_exact_files": 91,
+  "reopen_already_adopted": true,
+  "reopen_reapplied": false,
+  "backend_source_pins": 31,
+  "backend_source_declaration_unchanged": true,
+  "local_tests": {
+    "prepared_base_python": 21,
+    "successor_python": 21,
+    "console_recorder": 4,
+    "progress_oracle": 5,
+    "focused_host_DOM": 15,
+    "counts_are_separate_scopes_not_CI_total": true
+  },
+  "local_seconds": {
+    "base_python": 3.11,
+    "successor_python": 3.052,
+    "console_tests": 0.131574454,
+    "focused_host": 3.45,
+    "oracle_tests": 0.19088852
+  },
+  "module_case_ids": [
+    "A_PROGRESS_FINANCE_BROWSER_DESKTOP_REAL_AUTH_LOST_REPLY_REPLAY_OFFICIAL24",
+    "A_PROGRESS_FINANCE_BROWSER_MOBILE_REAL_AUTH_BLOCKED_REPORT_ACCESS_REVOKED"
+  ],
+  "actual_Auth_browser_cases": 0,
+  "current_candidate_visual_review_completed": false,
+  "chromium_install": "FAILED invalid ZIP from pinned Playwright download; original retained; no version change or browser claim",
+  "first_preparation_failure": "missing local d6fad Git object; 20 of21 tests passed, 1 infrastructure error; recovered exact object then21 PASS",
+  "allow_database_execution": false,
+  "accepted_combined": null,
+  "final_SOURCE_bound": false,
+  "prior_original_declarations_preserved": true,
+  "production_go": false,
+  "independent_acceptance": false,
+  "formal": "5/16",
+  "CP7C_started": false
+}

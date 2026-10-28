@@ -21,7 +21,7 @@ def expected(repo,here):
     browser=[s for s in old_steps if s.get('name')=='Install pinned browser runtime and check the exact current progress host']
     assert len(browser)==1
     value['name']='CP7 D17-18 qualified combined finance real Auth desktop mobile'
-    value['on']['push']['branches']=['astra-a/d17-18-combined-finance-browser-qualification-20261028']
+    value['on']['push']['branches']=['astra-b/d17-18-combined-finance-browser-qualification-20261028']
     value['on']['push']['paths']=[TARGET,FOLDER+'/**']
     value['concurrency']['group']='cp7-d17-18-combined-finance-browser-${{ github.run_id }}'
     job=value['jobs']['p21'];job['name']=value['name'];steps=job['steps']
@@ -39,7 +39,9 @@ def expected(repo,here):
             run='python '+FOLDER+'/admission.py')]
     index=steps.index(anchor)+1;steps[index:index]=additions
     runtime=step('Run all7 with unchanged D3 finance and read-only factory progress observation')
-    steps.insert(steps.index(runtime),deepcopy(browser[0]))
+    browser_step=deepcopy(browser[0])
+    browser_step['run']+='node --check '+FOLDER+'/browser.mjs\nnode --test '+FOLDER+'/console_evidence.test.mjs\n'
+    steps.insert(steps.index(runtime),browser_step)
     runtime['name']='Run real Auth desktop and mobile on exact qualified combined backend'
     runtime['run']="python '../auditor/"+FOLDER+"/probe.py'"
     logs=step('Preserve exact original JSON report bytes in a bounded compressed log receipt')

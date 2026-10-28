@@ -4,6 +4,7 @@ import {createHash} from 'node:crypto'
 import {mkdirSync,readFileSync,writeFileSync} from 'node:fs'
 import {buildCurrentProgressFinance} from '../cp7_current_progress_finance_ui/build.mjs'
 import {assertCombinedProgress,PROGRESS} from './progress_oracle.mjs'
+import {observeConsole,requireConsoleEvidence} from './console_evidence.mjs'
 const fixture=(op,p)=>JSON.parse(execFileSync('python',['../auditor/scripts/current-finance-combined-browser-qualification/browser_fixture.py',op],{input:JSON.stringify(p),cwd:'../writer',encoding:'utf8',maxBuffer:32*1024*1024}).trim())
 const OP='erp_cp7_request_bounded_staged_analysis_v2',FIN='erp_cp7_request_bounded_frozen_finance_analysis_v2',GET='erp_cp7_get_staged_analysis_v1',PAGES='erp_cp7_read_staged_analysis_pages_v1'
 export const IDS=['A_PROGRESS_FINANCE_BROWSER_DESKTOP_REAL_AUTH_LOST_REPLY_REPLAY_OFFICIAL24','A_PROGRESS_FINANCE_BROWSER_MOBILE_REAL_AUTH_BLOCKED_REPORT_ACCESS_REVOKED']
@@ -29,6 +30,7 @@ async function readable(panel){
 async function journey(ui,today,built,mobile){
   const user=await ui.login(mobile?'ADMIN':'OWNER',{label:'A-frozen-finance-'+mobile,mobile,timezoneId:mobile?'America/Los_Angeles':'Asia/Jakarta'}),page=user.page,actor=user.user.id
   const state=()=>fixture('state',{actor}),calls=[],shots=[],contrasts=[]
+  const consoleCapture=observeConsole(page),expectedNetwork=[]
   let f,before,lost=null,revoked=null,other=null
   const panel=page.getByRole('region',{name:'Analisis produksi dan laporan resmi',exact:true}),quantity=page.getByRole('region',{name:'Kebutuhan seluruh produk',exact:true}),finance=page.getByRole('region',{name:'Keuangan analisis dari laporan resmi',exact:true})
   const stored=()=>page.evaluate(()=>Object.entries(localStorage).filter(([k])=>k.startsWith('erp.cp7.bounded-analysis-request.v2:')).map(([key,bytes])=>({key,bytes,value:JSON.parse(bytes)})))
@@ -48,7 +50,12 @@ async function journey(ui,today,built,mobile){
       const name=new URL(route.request().url()).pathname.split('/').at(-1),args=route.request().postDataJSON(),started=performance.now(),response=await route.fetch(),body=await response.json(),millis=performance.now()-started
       calls.push({name,args,status:response.status(),body,millis})
       // Lose only delivery of the committed real finance response.
-      if(!mobile&&name===FIN&&!lost){lost=calls.at(-1);await route.abort('failed')}else await route.fulfill({response})
+      if(!mobile&&name===FIN&&!lost){
+        lost=calls.at(-1);expectedNetwork.push({url:route.request().url(),text:'Failed to load resource: net::ERR_FAILED',reason:'deliberately lost committed finance reply'});await route.abort('failed')
+      }else{
+        if(mobile&&revoked&&[FIN,GET,PROGRESS].includes(name)&&response.status()===403)expectedNetwork.push({url:route.request().url(),text:'Failed to load resource: the server responded with a status of 403 (Forbidden)',reason:'verified finance access revocation'})
+        await route.fulfill({response})
+      }
     })
     await page.goto(built.url+'?query='+encodeURIComponent(JSON.stringify(f.query)))
     await ui.expect(panel).toBeVisible()
@@ -118,9 +125,10 @@ async function journey(ui,today,built,mobile){
     assert.ok(calls.every(c=>c.millis<8000));assert.deepEqual(await page.evaluate(()=>navigator.locks.query()),{held:[],pending:[]})
     assert.ok(progressChecks.length>=3)
     assert.ok(calls.some(c=>c.name===PROGRESS&&c.status===200))
-    return{status:'PASS',actual_progress_RPC_and_DOM:progressChecks,progress_counts_from_server:true,no_overall_fake_percent:true,fixture_source_preparation:f.source_preparation,actual_AuthProvider:true,actual_AuthGate:true,actual_Auth_PostgREST_browser:true,actual_public_finance_RPC:true,actual_operational_DEFERRED_no_capture:true,operational_DONE_finance_RUNNING:true,official_sections_and_24_metrics_equal:true,official_readiness:result.readiness,all24_READY_figures_rendered:!mobile,BLOCKED_figures_withheld_UNKNOWN_not_zero:mobile,independent_book_signature:true,private_SQL_finance_advancement_not_cron:true,actual_lost_reply_same_UUID_reopen:!mobile,actual_mobile_finance_permission_revocation:mobile,one_finance_capture:true,sealed_operational_original_unchanged:true,no_stock_money_HPP_effect:true,viewport:mobile?390:1440,no_horizontal_overflow:true,visible_text_contrasts:contrasts,shots,source_paths:built.source_paths,source_sha256:built.source_sha256,actual_call_timings:calls.map(({name,status,millis})=>({name,status,millis})),full_factory_finance_qualified:false,new_B_analog_and_cutting_qualified:false,default_application_adopted:false,production_go:false}
-  }catch(error){mkdirSync('cp6-proof/t3',{recursive:true});writeFileSync(`cp6-proof/t3/A_PROGRESS_FINANCE_${mobile?'MOBILE':'DESKTOP'}_FAILURE.json`,JSON.stringify({error:String(error),calls,alerts:await page.getByRole('alert').allTextContents().catch(()=>[])},null,2));await shot('FAILURE').catch(()=>{});throw error}
-  finally{if(revoked)fixture('restore_finance',{actor,permission:revoked.permission});await other?.context.close();await user.context.close()}
+    const consoleEvidence=requireConsoleEvidence(consoleCapture.errors,expectedNetwork)
+    return{status:'PASS',console_evidence:consoleEvidence,actual_progress_RPC_and_DOM:progressChecks,progress_counts_from_server:true,no_overall_fake_percent:true,fixture_source_preparation:f.source_preparation,actual_AuthProvider:true,actual_AuthGate:true,actual_Auth_PostgREST_browser:true,actual_public_finance_RPC:true,actual_operational_DEFERRED_no_capture:true,operational_DONE_finance_RUNNING:true,official_sections_and_24_metrics_equal:true,official_readiness:result.readiness,all24_READY_figures_rendered:!mobile,BLOCKED_figures_withheld_UNKNOWN_not_zero:mobile,independent_book_signature:true,private_SQL_finance_advancement_not_cron:true,actual_lost_reply_same_UUID_reopen:!mobile,actual_mobile_finance_permission_revocation:mobile,one_finance_capture:true,sealed_operational_original_unchanged:true,no_stock_money_HPP_effect:true,viewport:mobile?390:1440,no_horizontal_overflow:true,visible_text_contrasts:contrasts,shots,source_paths:built.source_paths,source_sha256:built.source_sha256,actual_call_timings:calls.map(({name,status,millis})=>({name,status,millis})),full_factory_finance_qualified:false,new_B_analog_and_cutting_qualified:false,default_application_adopted:false,production_go:false}
+  }catch(error){mkdirSync('cp6-proof/t3',{recursive:true});writeFileSync(`cp6-proof/t3/A_PROGRESS_FINANCE_${mobile?'MOBILE':'DESKTOP'}_FAILURE.json`,JSON.stringify({error:String(error),calls,console_errors:consoleCapture.errors,expected_network_errors:expectedNetwork,alerts:await page.getByRole('alert').allTextContents().catch(()=>[])},null,2));await shot('FAILURE').catch(()=>{});throw error}
+  finally{consoleCapture.stop();if(revoked)fixture('restore_finance',{actor,permission:revoked.permission});await other?.context.close();await user.context.close()}
 }
 export async function cases(ui,today){
   // Keep case discovery free of build/DB work; build once when a case executes.
