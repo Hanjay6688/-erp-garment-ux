@@ -1,0 +1,72 @@
+name: Retain exact first D3 job log without rerunning ERP
+'on':
+  push:
+    branches:
+    - astra-a/d17-18-retain-d3-job-log-20261028
+    paths:
+    - .github/workflows/cp7-d17-18-retain-d3-job-log.yml
+permissions:
+  contents: read
+  actions: read
+jobs:
+  retain:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+    - name: Read exact completed D3 metadata and raw job log
+      env:
+        GH_TOKEN: ${{ github.token }}
+      shell: bash
+      run: 'set -euo pipefail
+
+        mkdir retained
+
+        repo=''Hanjay6688/-erp-garment-ux''
+
+        gh api "repos/$repo/actions/jobs/122569172127" > retained/job-metadata.json
+
+        gh api "repos/$repo/actions/runs/40613109071" > retained/run-metadata.json
+
+        python - <<''PYMETA''
+
+        import json
+
+        from pathlib import Path
+
+        j=json.loads(Path(''retained/job-metadata.json'').read_bytes());r=json.loads(Path(''retained/run-metadata.json'').read_bytes())
+
+        assert j[''id'']==122569172127 and j[''run_id'']==40613109071 and j[''status'']==''completed''and j[''conclusion'']==''failure''
+
+        assert r[''head_sha'']==''d36685a259087d9b83beb8fc4f410e4dac9502fd''and r[''id'']==40613109071
+
+        PYMETA
+
+        gh api "repos/$repo/actions/jobs/122569172127/logs" --allow-escape-sequences > retained/reader-stream-d3-job-122569172127.log
+
+        python - <<''PYRECEIPT''
+
+        from pathlib import Path
+
+        from hashlib import sha256
+
+        import json
+
+        p=Path(''retained/reader-stream-d3-job-122569172127.log'');b=p.read_bytes();assert b
+
+        b.decode(''UTF8'')
+
+        d=dict(source_run_id=40613109071,source_job_id=122569172127,source_head=''d36685a259087d9b83beb8fc4f410e4dac9502fd'',bytes=len(b),sha256=sha256(b).hexdigest(),source=''GitHub
+        Actions job logs raw API response'',database_connections=0,ERP_tests_rerun=False)
+
+        Path(''retained/receipt.json'').write_text(json.dumps(d,indent=2)+''\n'');print(json.dumps(d))
+
+        PYRECEIPT
+
+        '
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      with:
+        name: cp7-d17-18-d3-first-job-log-${{ github.run_attempt }}
+        path: retained
+        retention-days: 30
+        if-no-files-found: error
+      if: always()
