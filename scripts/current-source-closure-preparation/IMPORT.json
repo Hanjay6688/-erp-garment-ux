@@ -13,7 +13,7 @@
     "scripts/current-finance-readonly-integration-qualification/SOURCE.json": "efcd04e5ae78b391d8e6dcef18f733eff2daffaeba8175dc3ca111211da7a438",
     "scripts/current-finance-reader-stream-followup-qualification/SOURCE.json": "2bfb1dd2492c358cfbebaad9554d289726751a44179a5db2a4055ee26240432f"
   },
-  "required_exact_files": 4218,
+  "required_exact_files": 4220,
   "previously_exact": 3197,
   "changed": [
     "scripts/check-access-catalog.mjs",
@@ -1059,7 +1059,9 @@
     "src/NativeScopedModelPanel.tsx",
     "src/nativeModelTargetV2.test.ts",
     "src/nativeScopedModel.test.ts",
-    "src/nativeScopedModel.ts"
+    "src/nativeScopedModel.ts",
+    "tests/fixtures/nativeScopedModelSql.json",
+    "tests/fixtures/nativeModelTargetV2Sql.json"
   ],
   "B_files_reauthored": false,
   "shared_guards_change": "Only four explicitly owned scoped-model RPCs and their exact total are added; prior assertions retained.",
@@ -1079,5 +1081,41 @@
   "corrected_local_source_results": {
     "ownership": "PASS",
     "access": "PASS"
-  }
+  },
+  "frozen_manifest_exact_files": 4218,
+  "extra_test_fixture_files": {
+    "tests/fixtures/nativeScopedModelSql.json": "572e640f8342f12357af8e01aca801e4ac46bc7b1e85caf5973980da5c36c4a6",
+    "tests/fixtures/nativeModelTargetV2Sql.json": "77e49bfdf956abf4c5764461662fab8c11180342904164d33fa20003f9739516"
+  },
+  "first_CI_result": {
+    "status": "INCOMPLETE_CLIENT_TYPECHECK_MISSING_TWO_B_TEST_FIXTURES",
+    "head": "323f7bc48d05b67a7a439aefe8722dfe6c9cf922",
+    "run": 40616553377,
+    "job": 122580284072,
+    "artifact": 12785267320,
+    "zip_sha256": "17d5f2708188b3d0d6a6e9ab79905a07636797be736b12bb926643c84d757e82",
+    "source_files": 4218,
+    "source_ownership": "PASS_383_RUNTIME_326_RPC",
+    "access": "PASS_111_PERMISSIONS_47_NAV_48_ROUTES_21_ACTIONS_326_RPC",
+    "CSS": "PASS_64_STYLESHEETS",
+    "typecheck": "FAIL",
+    "client_suite_executed": false,
+    "actual_DB_Auth_browser_cases": 0,
+    "production_go": false,
+    "independent_acceptance": false,
+    "first_error_lines": [
+      "src/NativeScopedModelPanel.dom.test.tsx(6,18): error TS2307: Cannot find module '../tests/fixtures/nativeScopedModelSql.json' or its corresponding type declarations.",
+      "src/nativeModelTargetV2.test.ts(7,17): error TS2307: Cannot find module '../tests/fixtures/nativeModelTargetV2Sql.json' or its corresponding type declarations.",
+      "src/nativeModelTargetV2.test.ts(14,16): error TS18046: 'row' is of type 'unknown'.",
+      "src/nativeModelTargetV2.test.ts(16,30): error TS18046: 'row' is of type 'unknown'.",
+      "src/nativeModelTargetV2.test.ts(17,5): error TS18046: 'row' is of type 'unknown'.",
+      "src/nativeModelTargetV2.test.ts(19,44): error TS18046: 'row' is of type 'unknown'.",
+      "src/nativeModelTargetV2.test.ts(20,47): error TS18046: 'row' is of type 'unknown'.",
+      "src/nativeModelTargetV2.test.ts(21,49): error TS18046: 'row' is of type 'unknown'.",
+      "src/nativeModelTargetV2.test.ts(23,27): error TS18046: 'row' is of type 'unknown'.",
+      "src/nativeModelTargetV2.test.ts(23,38): error TS18046: 'row' is of type 'unknown'.",
+      "src/nativeScopedModel.test.ts(3,18): error TS2307: Cannot find module '../tests/fixtures/nativeScopedModelSql.json' or its corresponding type declarations."
+    ]
+  },
+  "followup_change": "Add two exact retained B/D3 SQL-result test fixtures; keep all test bodies, business oracles and seven frozen manifests unchanged."
 }

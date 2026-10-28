@@ -16,6 +16,10 @@ def check():
             assert name not in expected or expected[name]==pin,('CONFLICTING_PIN',name)
             expected[name]=pin
     expected.update(config['manifests'])
+    assert len(expected)==config['frozen_manifest_exact_files']
+    for path,digest in config['extra_test_fixture_files'].items():
+        assert path not in expected
+        expected[path]=digest
     assert len(expected)==config['required_exact_files']
     for path,digest in expected.items():assert sha256((ROOT/path).read_bytes()).hexdigest()==digest,path
     for path in config['current_B_exact_paths']:
