@@ -1,8 +1,8 @@
 {
   "contract": "cp7.vendor-selective-integration.v1",
-  "status": "PREPARED_BACKEND11_ACCEPTED_GRADIENT_BROWSER_SUCCESSOR_REQUIRED",
+  "status": "PREPARED_BACKEND11_ACCEPTED_LAYER_LIST_BROWSER_SUCCESSOR_REQUIRED",
   "base_head": "3a0c947d66c73dcb87be10cb6a543da6c234d92d",
-  "prepared_component": "9fde249ed0aef0000c3d17fde6a2a3f02a4dab86",
+  "prepared_component": "2d4ed56eb20187c00e63cd0a0774385d320f53be",
   "parent_backend_sha256": "193f4c18476a1e1abd5e05231d8d7755864b61e2998c4456f5a87459b17da59d",
   "imports": [
     {
@@ -117,9 +117,16 @@
     "full_browser_case_credit": 0
   },
   "money_browser_successor": {
+    "head": "2d4ed56eb20187c00e63cd0a0774385d320f53be",
+    "run_id": 40789668297,
+    "job_id": 123171442637,
+    "status": "RUNNING_NOT_ACCEPTED"
+  },
+  "money_browser_layer_list_failure": {
     "head": "9fde249ed0aef0000c3d17fde6a2a3f02a4dab86",
     "run_id": 40784374399,
-    "job_id": 123153769359,
-    "status": "RUNNING_NOT_ACCEPTED"
+    "status": "INCOMPLETE2_NORMAL_LIST_MEASUREMENT_TOOL",
+    "full_restore": true,
+    "full_browser_case_credit": 0
   }
 }

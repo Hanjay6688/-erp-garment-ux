@@ -37,3 +37,11 @@ threshold. The tenth selected file is the exact scoped vendor-payment
 disabled-button opacity1/dashed border rule in initial-import.css; native
 disabled semantics and financial handlers remain unchanged. Default intake
 is still CLOSED until the successor actual money browser2 and visual proof.
+
+
+Actual9fde/run40784374399 is INCOMPLETE2 because the instrument refused
+Chromium's normal, normal blend list. Full restore PASS, four package gates
+true, writer_runtime=false. Its successor2d4ed56/run40789668297 changes only
+the measuring/test harness, retaining all ten import bytes exactly. Intake
+remains CLOSED until the two actual full journeys, full restore and visual
+review pass. B is already accepted; owner C still means BOTH.
