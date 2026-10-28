@@ -1,0 +1,28 @@
+{
+  "head": "05c3e11381b9d6aa45da3c4f6509c54d599a7bc3",
+  "path": ".github/workflows/cp7-d17-18-backend-assembly.yml",
+  "sha256": "fa27a5d90ecfc3ae49b8abd9434666b1dfef82a5385abf4288e348670b32669a",
+  "target": ".github/workflows/cp7-d17-18-complete-components.yml",
+  "replacements": [
+    [
+      "backend-assembly",
+      "complete-components"
+    ],
+    [
+      "exact backend assembly",
+      "exact complete components"
+    ],
+    [
+      "Backend assembly CodeQL",
+      "Complete components CodeQL"
+    ],
+    [
+      "Verify exact complete components and scoped tooling sources",
+      "Verify exact backend plus A UI components and scoped source successors"
+    ],
+    [
+      "scripts/current-complete-components-preparation/check.py",
+      "scripts/current-complete-components-preparation/derivation.py"
+    ]
+  ]
+}

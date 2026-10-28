@@ -1,0 +1,229 @@
+{
+  "contract": "cp7.frozen-workflow-history-isolation.v1",
+  "base_head": "64c65e0d7b4d046a9d4da20a62d585ff927205ba",
+  "base_tree": "7ee301f5aa864d404622681c5eae7ec311c14417",
+  "files": [
+    {
+      "path": ".github/workflows/cp7-current-frozen-finance-factory-date2.yml",
+      "archive": "scripts/current-workflow-history-isolation/frozen-workflows/cp7-current-frozen-finance-factory-date2.yml.txt",
+      "bytes": 26758,
+      "sha256": "ebdf4c3e9cc345bc0873ab16d03ec91c24f1e5291735e54dbcbc64268bc1528e",
+      "frozen_manifests": [
+        "scripts/current-finance-readonly-integration-qualification/SOURCE.json"
+      ]
+    },
+    {
+      "path": ".github/workflows/cp7-current-frozen-finance-factory-observe.yml",
+      "archive": "scripts/current-workflow-history-isolation/frozen-workflows/cp7-current-frozen-finance-factory-observe.yml.txt",
+      "bytes": 26783,
+      "sha256": "2948fe6942bdd0791645698269cb06d09136a9e9dd43c344a2353f80e42dc14b",
+      "frozen_manifests": [
+        "scripts/current-finance-readonly-integration-qualification/SOURCE.json"
+      ]
+    },
+    {
+      "path": ".github/workflows/cp7-current-frozen-finance-native.yml",
+      "archive": "scripts/current-workflow-history-isolation/frozen-workflows/cp7-current-frozen-finance-native.yml.txt",
+      "bytes": 26389,
+      "sha256": "b3f7e4b5f88be6df6abb9ec1bd6f171d420cd5997e47b1f8e78f78cc15738970",
+      "frozen_manifests": [
+        "scripts/current-finance-readonly-integration-qualification/SOURCE.json"
+      ]
+    },
+    {
+      "path": ".github/workflows/cp7-current-frozen-public-cron.yml",
+      "archive": "scripts/current-workflow-history-isolation/frozen-workflows/cp7-current-frozen-public-cron.yml.txt",
+      "bytes": 26875,
+      "sha256": "cbd6ffb334d5b4f2d81909b18913037728145afc72608fae1afb86432778ef4a",
+      "frozen_manifests": [
+        "scripts/current-finance-readonly-integration-qualification/SOURCE.json"
+      ]
+    },
+    {
+      "path": ".github/workflows/cp7-current-frozen-public-native.yml",
+      "archive": "scripts/current-workflow-history-isolation/frozen-workflows/cp7-current-frozen-public-native.yml.txt",
+      "bytes": 26789,
+      "sha256": "d9fa5ad901531ec80cd18857bf6d454a98e3cd5026bbe2e0186c0e534ea00092",
+      "frozen_manifests": [
+        "scripts/current-finance-readonly-integration-qualification/SOURCE.json"
+      ]
+    },
+    {
+      "path": ".github/workflows/cp7-current-frozen-units-native.yml",
+      "archive": "scripts/current-workflow-history-isolation/frozen-workflows/cp7-current-frozen-units-native.yml.txt",
+      "bytes": 26074,
+      "sha256": "e9f1d9e1e1a851ab203ae25dc778dda4b364035732fa9c44edc8c5534786dcf3",
+      "frozen_manifests": [
+        "scripts/current-finance-readonly-integration-qualification/SOURCE.json"
+      ]
+    },
+    {
+      "path": ".github/workflows/cp7-current-versioned-performance-browser.yml",
+      "archive": "scripts/current-workflow-history-isolation/frozen-workflows/cp7-current-versioned-performance-browser.yml.txt",
+      "bytes": 26316,
+      "sha256": "f941b6f381e88010799dcb921328f097b99e5e447bfedaa705ddb2bd80a82bcb",
+      "frozen_manifests": [
+        "scripts/current-finance-readonly-integration-qualification/SOURCE.json"
+      ]
+    },
+    {
+      "path": ".github/workflows/cp7-current-versioned-performance-cron.yml",
+      "archive": "scripts/current-workflow-history-isolation/frozen-workflows/cp7-current-versioned-performance-cron.yml.txt",
+      "bytes": 25814,
+      "sha256": "b9ac4f9996e8d09cab9cade28084b49559dfcfbcb7adcf7af19c6294d60312ed",
+      "frozen_manifests": [
+        "scripts/current-finance-readonly-integration-qualification/SOURCE.json"
+      ]
+    },
+    {
+      "path": ".github/workflows/cp7-current-versioned-performance-finance.yml",
+      "archive": "scripts/current-workflow-history-isolation/frozen-workflows/cp7-current-versioned-performance-finance.yml.txt",
+      "bytes": 25836,
+      "sha256": "e39139ec3b2563dc3aa2648c79d8090202c225f48a77f9304bd90a2f90cfe1a0",
+      "frozen_manifests": [
+        "scripts/current-finance-readonly-integration-qualification/SOURCE.json"
+      ]
+    },
+    {
+      "path": ".github/workflows/cp7-current-versioned-performance-native.yml",
+      "archive": "scripts/current-workflow-history-isolation/frozen-workflows/cp7-current-versioned-performance-native.yml.txt",
+      "bytes": 25567,
+      "sha256": "bcd835a703e3d27624bd277d5fd26798b04d026fc10f75376d0469250106ecdd",
+      "frozen_manifests": [
+        "scripts/current-finance-readonly-integration-qualification/SOURCE.json"
+      ]
+    },
+    {
+      "path": ".github/workflows/cp7-current-versioned-performance-restore.yml",
+      "archive": "scripts/current-workflow-history-isolation/frozen-workflows/cp7-current-versioned-performance-restore.yml.txt",
+      "bytes": 25858,
+      "sha256": "db4dcf015d8ba7ee211a0bcdb1e184c67eb0810653e868a65dec78c7acb16c0d",
+      "frozen_manifests": [
+        "scripts/current-finance-readonly-integration-qualification/SOURCE.json"
+      ]
+    },
+    {
+      "path": ".github/workflows/cp7-current-versioned-performance-transport.yml",
+      "archive": "scripts/current-workflow-history-isolation/frozen-workflows/cp7-current-versioned-performance-transport.yml.txt",
+      "bytes": 25865,
+      "sha256": "79e391fefb8b845a310e776d00adbcb9058394e44c510674351130f163a976d6",
+      "frozen_manifests": [
+        "scripts/current-finance-readonly-integration-qualification/SOURCE.json"
+      ]
+    },
+    {
+      "path": ".github/workflows/cp7-d17-18-choice-finance-cron.yml",
+      "archive": "scripts/current-workflow-history-isolation/frozen-workflows/cp7-d17-18-choice-finance-cron.yml.txt",
+      "bytes": 28188,
+      "sha256": "b332179a4ff9bb71483a71a3d75a8c51fd2eadccab9a2b02f0df31c1fd670ad8",
+      "frozen_manifests": [
+        "scripts/current-finance-readonly-integration-qualification/SOURCE.json"
+      ]
+    },
+    {
+      "path": ".github/workflows/cp7-d17-18-choice-preparation-native.yml",
+      "archive": "scripts/current-workflow-history-isolation/frozen-workflows/cp7-d17-18-choice-preparation-native.yml.txt",
+      "bytes": 27522,
+      "sha256": "85f667e6a6657e8624a759e9b13b0ccfb2d4b7aa361b5919109e9859903a41e4",
+      "frozen_manifests": [
+        "scripts/current-finance-readonly-integration-qualification/SOURCE.json"
+      ]
+    },
+    {
+      "path": ".github/workflows/cp7-d17-18-choice-preparation-transport.yml",
+      "archive": "scripts/current-workflow-history-isolation/frozen-workflows/cp7-d17-18-choice-preparation-transport.yml.txt",
+      "bytes": 27733,
+      "sha256": "0815a329373320b32ed8093f31df224a792cc575afb847c1392d912c3a8c1aac",
+      "frozen_manifests": [
+        "scripts/current-finance-readonly-integration-qualification/SOURCE.json"
+      ]
+    },
+    {
+      "path": ".github/workflows/cp7-d17-18-consistent-capture.yml",
+      "archive": "scripts/current-workflow-history-isolation/frozen-workflows/cp7-d17-18-consistent-capture.yml.txt",
+      "bytes": 29663,
+      "sha256": "305f54fc7a56bea85041e8ca1d5ea09f7553703129401967594d971063940770",
+      "frozen_manifests": [
+        "scripts/current-finance-consistent-capture-diagnostic/SOURCE.json"
+      ]
+    },
+    {
+      "path": ".github/workflows/cp7-d17-18-factory-stage-profile.yml",
+      "archive": "scripts/current-workflow-history-isolation/frozen-workflows/cp7-d17-18-factory-stage-profile.yml.txt",
+      "bytes": 27078,
+      "sha256": "cf1f14d7a2aa1cd17d2f673b081e3a7dbb80d495064257b59fa21acee0b334c6",
+      "frozen_manifests": [
+        "scripts/current-finance-readonly-integration-qualification/SOURCE.json"
+      ]
+    },
+    {
+      "path": ".github/workflows/cp7-d17-18-finance-check-reuse-diagnostic.yml",
+      "archive": "scripts/current-workflow-history-isolation/frozen-workflows/cp7-d17-18-finance-check-reuse-diagnostic.yml.txt",
+      "bytes": 27881,
+      "sha256": "a8166a824f274ec4be16e08b0bfbea8dc003888a4ddb9611f118448561e30b8d",
+      "frozen_manifests": [
+        "scripts/current-finance-readonly-integration-qualification/SOURCE.json"
+      ]
+    },
+    {
+      "path": ".github/workflows/cp7-d17-18-finance-followups.yml",
+      "archive": "scripts/current-workflow-history-isolation/frozen-workflows/cp7-d17-18-finance-followups.yml.txt",
+      "bytes": 29412,
+      "sha256": "0fb499e1afd4a4e2d9a37cb77caeec841a10899e36e3e6ac80c2a50b54168083",
+      "frozen_manifests": [
+        "scripts/current-finance-followups-qualification/SOURCE.json"
+      ]
+    },
+    {
+      "path": ".github/workflows/cp7-d17-18-finance-reader-diagnostic.yml",
+      "archive": "scripts/current-workflow-history-isolation/frozen-workflows/cp7-d17-18-finance-reader-diagnostic.yml.txt",
+      "bytes": 27245,
+      "sha256": "ed75185fcf19c62a39ba69a93f62cbca447b0e8db5f4364966aeb40ade3fa2fb",
+      "frozen_manifests": [
+        "scripts/current-finance-readonly-integration-qualification/SOURCE.json"
+      ]
+    },
+    {
+      "path": ".github/workflows/cp7-d17-18-finance-reader-source-race.yml",
+      "archive": "scripts/current-workflow-history-isolation/frozen-workflows/cp7-d17-18-finance-reader-source-race.yml.txt",
+      "bytes": 28424,
+      "sha256": "a33b489cf0231f308ce3b855e7606dcccc2c75d8f22fc07d54dd1eb896f44829",
+      "frozen_manifests": [
+        "scripts/current-finance-readonly-integration-qualification/SOURCE.json"
+      ]
+    },
+    {
+      "path": ".github/workflows/cp7-d17-18-progress-finance-ui-browser.yml",
+      "archive": "scripts/current-workflow-history-isolation/frozen-workflows/cp7-d17-18-progress-finance-ui-browser.yml.txt",
+      "bytes": 28456,
+      "sha256": "fb79b494bafb2ebf9063891896229e3942adbae4c36324b402ac297580004c1f",
+      "frozen_manifests": [
+        "scripts/current-finance-readonly-integration-qualification/SOURCE.json"
+      ]
+    },
+    {
+      "path": ".github/workflows/cp7-d17-18-progress-native.yml",
+      "archive": "scripts/current-workflow-history-isolation/frozen-workflows/cp7-d17-18-progress-native.yml.txt",
+      "bytes": 27024,
+      "sha256": "e869ab6d3d34c2865a58f0aa3acb1137f9cf3718c1216ecead9db69c358ec1ee",
+      "frozen_manifests": [
+        "scripts/current-finance-readonly-integration-qualification/SOURCE.json"
+      ]
+    },
+    {
+      "path": ".github/workflows/cp7-d17-18-readonly-finance-composition.yml",
+      "archive": "scripts/current-workflow-history-isolation/frozen-workflows/cp7-d17-18-readonly-finance-composition.yml.txt",
+      "bytes": 28683,
+      "sha256": "54b741c037f8b00897bafc64cf2a446e3118642930863567e992c422021cac3d",
+      "frozen_manifests": [
+        "scripts/current-finance-readonly-integration-qualification/SOURCE.json"
+      ]
+    }
+  ],
+  "source_body_changes": 0,
+  "frozen_manifest_changes": 0,
+  "B_changes": 0,
+  "CodeQL_rules_or_exclusions_changed": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

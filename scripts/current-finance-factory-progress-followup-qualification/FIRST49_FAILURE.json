@@ -1,0 +1,54 @@
+{
+  "status": "INCOMPLETE_RUNTIME_ENTRY_BEFORE_ALL7",
+  "proof": {
+    "name": "CP7_D17_18_FACTORY_PROGRESS_NATIVE_SOURCE_CRON7.json",
+    "status": "INCOMPLETE",
+    "head": "49baddbd423da93a0cfe1a52c27801e763176fcf",
+    "run_id": 40620046004,
+    "job_id": 122591601001,
+    "artifact_id": 12787988302,
+    "zip_bytes": 2065861,
+    "zip_sha256": "4d642d16e3d6636091c61de27290bfd95a5c645994d206bfe3b61d0f82d6f80b",
+    "bytes": 2842118,
+    "sha256": "91cccc6f40149aa6cc7386714a8f08d0efbe163b1109980d13ba08054347b77c",
+    "archive_member": "CP7_D17_18_FACTORY_PROGRESS_NATIVE_SOURCE_CRON7.json",
+    "package_name": "T3_PACKAGE_INSTALL.json",
+    "package_member": "T3_PACKAGE_INSTALL.json",
+    "package_bytes": 360443,
+    "package_sha256": "b78939f9080789b48fc49ca76064f6de4ec6ee0544f6ef6cc4c4de34c1db2bcb"
+  },
+  "error": "module 'combined_runtime_admission_gate' has no attribute 'gate'",
+  "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/current-finance-factory-progress-followup-qualification/probe.py\", line 110, in run_inner\n    measured(timings,'ISOLATED_DIAGNOSTICS',runner.exercise,conn,cur,database,package.boundary.ADMIN,case,STATE)\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-choice-finance-cron-qualification/phase_timing.py\", line 22, in measured\n    result = operation(*args, **kwargs)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-finance-factory-progress-followup-qualification/runner.py\", line 26, in exercise\n    admission.gate(json.loads((HERE/'CONFIG.json').read_bytes()))\n    ^^^^^^^^^^^^^^\nAttributeError: module 'combined_runtime_admission_gate' has no attribute 'gate'\n",
+  "all7_child_cases_executed": 0,
+  "exact_streaming_data_validation": {
+    "status": "PASS",
+    "all_scoped_tables_and_sequences_exact": 416,
+    "old_hashes_equal_before_and_after": true,
+    "actual_old_array_limit_reproduced": true,
+    "old_SQLSTATE": "54000",
+    "large_rows": 1024,
+    "minimum_large_payload_bytes": 307200000,
+    "large_streamed_digest": [
+      1024,
+      "7b35402563bc8ffe5d65a4d75c29b6905b33401adb342ba6fb73901d51f5a1c6"
+    ],
+    "duplicate_multiplicity_preserved": true,
+    "excluded_tables": 0,
+    "skipped_rows_or_fields": 0,
+    "temporary_regression_fully_removed": true,
+    "ERP_rows_sequences_and_catalog_definitions_unchanged": true,
+    "ordinary_statement_limits_changed": false
+  },
+  "outer_full_restoration": true,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "correction": "Expose the unchanged retained AF gate on the new admission adapter; test the actual runner entry with both accepted and closed configurations before database access.",
+  "product_SQL_runner_factory_waiting_or_business_assertions_changed": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

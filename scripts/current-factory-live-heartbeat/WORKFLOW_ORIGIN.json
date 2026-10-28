@@ -1,0 +1,136 @@
+{
+  "path": ".github/workflows/cp7-d17-18-factory-initial-stage.yml",
+  "sha256": "c0378cca3cac657f9da0b13875e95aab2cc04876e395dd7ca6a78a7321ffef0c",
+  "changes": [
+    {
+      "kind": "replace",
+      "path": [
+        "name"
+      ],
+      "before": "CP7 D17-18 bounded factory initial stage and combined all7",
+      "after": "CP7 D17-18 factory live heartbeat closure with six retained groups"
+    },
+    {
+      "kind": "replace",
+      "path": [
+        "jobs",
+        "p21",
+        "name"
+      ],
+      "before": "CP7 D17-18 bounded factory initial stage and combined all7",
+      "after": "CP7 D17-18 factory live heartbeat closure with six retained groups"
+    },
+    {
+      "kind": "replace",
+      "path": [
+        "on",
+        "push",
+        "branches"
+      ],
+      "before": [
+        "astra-a/d17-18-factory-initial-stage-20261028"
+      ],
+      "after": [
+        "astra-a/d17-18-factory-live-heartbeat-20261028"
+      ]
+    },
+    {
+      "kind": "replace",
+      "path": [
+        "on",
+        "push",
+        "paths"
+      ],
+      "before": [
+        ".github/workflows/cp7-d17-18-factory-initial-stage.yml",
+        "scripts/current-factory-initial-stage/**"
+      ],
+      "after": [
+        ".github/workflows/cp7-d17-18-factory-live-heartbeat.yml",
+        "scripts/current-factory-live-heartbeat/**"
+      ]
+    },
+    {
+      "kind": "replace",
+      "path": [
+        "concurrency",
+        "group"
+      ],
+      "before": "cp7-d17-18-factory-initial-stage-${{ github.run_id }}",
+      "after": "cp7-d17-18-factory-live-heartbeat-${{ github.run_id }}"
+    },
+    {
+      "kind": "replace",
+      "path": [
+        "jobs",
+        "p21",
+        "steps",
+        68,
+        "name"
+      ],
+      "before": "Run bounded factory initial stage with all7 and complete restoration",
+      "after": "Run one fresh factory closure and complete restoration; retain six exact 11c groups"
+    },
+    {
+      "kind": "replace",
+      "path": [
+        "jobs",
+        "p21",
+        "steps",
+        68,
+        "run"
+      ],
+      "before": "python '../auditor/scripts/current-factory-initial-stage/probe.py'",
+      "after": "python '../auditor/scripts/current-factory-live-heartbeat/probe.py'"
+    },
+    {
+      "kind": "replace",
+      "path": [
+        "jobs",
+        "p21",
+        "steps",
+        69,
+        "run"
+      ],
+      "before": "python - <<'PY'\nimport base64,gzip,hashlib,json\nfrom pathlib import Path\nroot=Path('cp6-proof/t3')\nfor name in ('CP7_D17_18_FACTORY_INITIAL_STAGE_NATIVE_SOURCE_CRON7.json','T3_PACKAGE_INSTALL.json','T3_BACKUP_RESTORE_DRILL.json','T3_PACKAGE_FILES_INSTALL.json'):\n    path=root/name\n    if not path.is_file():\n        continue\n    raw=path.read_bytes();packed=gzip.compress(raw,mtime=0)\n    print(json.dumps(dict(ow04_original_report_bytes=True,name=name,raw_bytes=len(raw),\n        raw_sha256=hashlib.sha256(raw).hexdigest(),gzip_bytes=len(packed),\n        gzip_sha256=hashlib.sha256(packed).hexdigest(),\n        gzip_base64=base64.b64encode(packed).decode('ascii'))),flush=True)\nPY\n",
+      "after": "python - <<'PY'\nimport base64,gzip,hashlib,json\nfrom pathlib import Path\nroot=Path('cp6-proof/t3')\nfor name in ('CP7_D17_18_FACTORY_LIVE_HEARTBEAT_CLOSURE1.json','T3_PACKAGE_INSTALL.json','T3_BACKUP_RESTORE_DRILL.json','T3_PACKAGE_FILES_INSTALL.json'):\n    path=root/name\n    if not path.is_file():\n        continue\n    raw=path.read_bytes();packed=gzip.compress(raw,mtime=0)\n    print(json.dumps(dict(ow04_original_report_bytes=True,name=name,raw_bytes=len(raw),\n        raw_sha256=hashlib.sha256(raw).hexdigest(),gzip_bytes=len(packed),\n        gzip_sha256=hashlib.sha256(packed).hexdigest(),\n        gzip_base64=base64.b64encode(packed).decode('ascii'))),flush=True)\nPY\n"
+    },
+    {
+      "kind": "replace",
+      "path": [
+        "jobs",
+        "p21",
+        "steps",
+        71,
+        "with",
+        "name"
+      ],
+      "before": "cp7-d17-18-factory-initial-stage-${{ github.run_attempt }}",
+      "after": "cp7-d17-18-factory-live-heartbeat-${{ github.run_attempt }}"
+    },
+    {
+      "kind": "insert_steps",
+      "index": 64,
+      "steps": [
+        {
+          "name": "Fetch exact 11c failure and six retained PASS groups before DB",
+          "working-directory": "auditor",
+          "env": {
+            "GH_TOKEN": "${{ github.token }}"
+          },
+          "run": "python scripts/current-factory-live-heartbeat/fetch_retained.py"
+        },
+        {
+          "name": "Check liveness placement and unchanged business oracles",
+          "working-directory": "auditor",
+          "run": "python -m unittest discover -s scripts/current-factory-live-heartbeat -p \"test*.py\""
+        },
+        {
+          "name": "Admit exact unchanged backend and six actual retained groups",
+          "working-directory": "auditor",
+          "run": "python scripts/current-factory-live-heartbeat/admission.py"
+        }
+      ]
+    }
+  ]
+}

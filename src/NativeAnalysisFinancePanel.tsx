@@ -27,9 +27,14 @@ export function AnalysisFinanceSummary({data,allowed,progressOnly=false}:{data:A
  </>
 }
 type Props={request:StagedRequest;runId:string;reference:StagedReference;allowed:boolean;get:(id:string)=>Promise<StagedReply>}
+// Two minute-schedule opportunities plus the bounded initial stage and read
+// margin. This stops this page's observation only; it never fails/cancels a job.
+const FINANCE_NO_PROGRESS_MS=150_000
 export default function NativeAnalysisFinancePanel({request,runId,reference,allowed,get}:Props){
  const seq=useRef(0),busy=useRef(false),timer=useRef<ReturnType<typeof setTimeout>|null>(null)
+ const observed=useRef<{key:string;unitsDone:number;unitsTotal:number|null;reportReadAt:string|null;since:number}|null>(null)
  const[shown,setShown]=useState<{runId:string;data:AnalysisFinance}|null>(null),[loading,setLoading]=useState(false),[error,setError]=useState('')
+ const[monitorPaused,setMonitorPaused]=useState(false)
  const clearTimer=()=>{if(timer.current!==null){clearTimeout(timer.current);timer.current=null}}
  const load=useCallback(async():Promise<void>=>{
   if(!allowed||request.finance!=='STAGED'||busy.current)return
@@ -40,11 +45,19 @@ export default function NativeAnalysisFinancePanel({request,runId,reference,allo
    if(status.state!=='DONE'||status.runId!==runId||status.reference.sourceHash!==reference.sourceHash||Date.parse(status.reference.capturedAt)!==Date.parse(reference.capturedAt)||!status.financeCapture)throw Error('finance binding')
    if(status.retention?.state==='EXPIRED')throw Error('finance expired')
    setShown({runId,data:status.financeCapture})
-   if(status.financeCapture.state==='RUNNING')timer.current=setTimeout(()=>{void load()},5000)
+   if(status.financeCapture.state==='RUNNING'){
+    const c=status.financeCapture.capture;if(!c)throw Error('finance capture missing')
+    const key=[request.id,runId,reference.sourceHash,reference.capturedAt,c.id].join('|'),now=performance.now(),prior=observed.current
+    if(!prior||prior.key!==key||c.unitsDone>prior.unitsDone||prior.unitsTotal===null&&c.unitsTotal!==null||prior.reportReadAt===null&&c.reportReadAt!==null)
+     observed.current={key,unitsDone:c.unitsDone,unitsTotal:c.unitsTotal,reportReadAt:c.reportReadAt,since:now}
+    const paused=now-observed.current!.since>=FINANCE_NO_PROGRESS_MS
+    setMonitorPaused(paused)
+    if(!paused)timer.current=setTimeout(()=>{void load()},5000)
+   }else{observed.current=null;setMonitorPaused(false)}
   }catch(e){if(n===seq.current){setShown(null);const code=normalizeClientError(e).code;setError(code==='AUTH_REQUIRED'||code==='FORBIDDEN'?'Akun saat ini belum boleh membaca angka keuangan analisis.':e instanceof Error&&e.message==='finance expired'?'Analisis melewati masa simpannya. Mulai analisis baru.':'Status keuangan belum bisa dibaca. Muat ulang status untuk memeriksanya.')}}
   finally{if(n===seq.current){busy.current=false;setLoading(false)}}
  },[allowed,get,reference,request,runId])
- useEffect(()=>{busy.current=false;setShown(null);setError('');setLoading(false);void load();return()=>{++seq.current;busy.current=false;clearTimer()}},[load])
+ useEffect(()=>{busy.current=false;setShown(null);setError('');setLoading(false);if(!allowed){observed.current=null;setMonitorPaused(false)}void load();return()=>{++seq.current;busy.current=false;clearTimer()}},[load,allowed])
  useEffect(()=>{const focus=()=>{if(document.visibilityState==='visible')void load()};addEventListener('focus',focus);document.addEventListener('visibilitychange',focus);return()=>{removeEventListener('focus',focus);document.removeEventListener('visibilitychange',focus)}},[load])
  const data=shown?.runId===runId&&shown.data.requestId===request.id&&shown.data.reference.sourceHash===reference.sourceHash
   &&Date.parse(shown.data.reference.capturedAt)===Date.parse(reference.capturedAt)
@@ -55,7 +68,8 @@ export default function NativeAnalysisFinancePanel({request,runId,reference,allo
    {loading?<p role="status">Membaca kemajuan laporan keuangan…</p>:null}
    {error?<p role="alert">{error}</p>:null}
    {data?<AnalysisFinanceSummary data={data} allowed={allowed}/>:null}
-   <button type="button" disabled={loading} onClick={()=>{void load()}}>Muat ulang status keuangan</button>
+   {data?.state==='RUNNING'&&monitorPaused?<p role="alert">Belum ada kemajuan laporan keuangan yang teramati selama 2 menit 30 detik. Pemantauan otomatis dijeda; jeda ini tidak membatalkan pekerjaan. Muat ulang status keuangan untuk memeriksa pekerjaan yang sama.</p>:null}
+   <button type="button" disabled={loading} onClick={()=>{observed.current=null;setMonitorPaused(false);void load()}}>Muat ulang status keuangan</button>
   </>}
  </section>
 }
