@@ -1,36 +1,14 @@
 {
-  "recorded_at_utc": "2026-10-28T04:23:21.046776+00:00",
+  "recorded_at_utc": "2026-10-28T07:18:49.718424+00:00",
   "role": "A finance writer/integrator replacing Claude; B remains separate production/planning writer",
   "slogan": [
-    "VENI. VIDI. VICI. ERP. \u2014 I CONQUERED ERP.",
+    "VENI. VIDI. VICI. ERP. — I CONQUERED ERP.",
     "Reliable data adalah dewa. Keuangan termasuk laporan, stok, dan HPP adalah raja."
   ],
   "formal_accepted": "5/16",
   "production_go": false,
   "independent_acceptance": false,
-  "running": {
-    "head": "4ac681549d7ec664f504a71670c9035dd8f5944d",
-    "local_head": "f63b6dfc630b95a72b11980cd99137fe5ae15222",
-    "tree": "f4a5bafcab0ce3de6ad330e3ed4f69b36482e8ea",
-    "parent": "df7cbe8cc946862ade48c929a57b41a2608980ae",
-    "prepared_branch": "astra-a/d17-18-factory-progress-prepared-20261028",
-    "execution_branch": "astra-a/d17-18-factory-progress-qualification-20261028",
-    "status": "RUNNING_ALL7_NOT_PASS",
-    "local_tests": 26,
-    "source_pins": 31,
-    "source_admission_seconds": 50.522,
-    "database_connections": 0,
-    "unchanged_D3_declaration": true,
-    "product_SQL_changed": false,
-    "retained_DF_failure": true,
-    "production_go": false,
-    "independent_acceptance": false,
-    "run_id": 40629923288,
-    "job_id": 122626325986,
-    "run_attempt": 2,
-    "run_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/40629923288",
-    "first_attempt_infrastructure_failure_preserved": true
-  },
+  "running": null,
   "actual_new_component": {
     "name": "CP7_OW11_MODEL_TARGET_SOURCE_V2.json",
     "status": "PASS",
@@ -2701,35 +2679,74 @@
   },
   "most_recent_completed": [
     {
-      "name": "CP7_D17_18_CHOICE_FINANCE_CRON1.json",
-      "status": "INCOMPLETE",
-      "head": "d3c84c16c4d5d81515f3bcc238f3436b650335fe",
-      "run_id": 40495834374,
-      "job_id": 122160917483,
-      "artifact_id": 12735310804,
-      "zip_bytes": 3047192,
-      "zip_sha256": "9d01651885e0710e1b8e5ca41bd5a3a821531f1d444fa30f00fcbe7dec6f46ce",
-      "bytes": 5280024,
-      "sha256": "cb8ce13cb418a86e6c99e24426c8e10eb330e97855bb7953a28d95c54520518a",
-      "archive_member": "CP7_D17_18_CHOICE_FINANCE_CRON1.json",
-      "source_pins_verified": 3947,
-      "complete_prerequisite_chain_exact": true,
-      "package_gate": {
-        "installed": true,
-        "primary_unchanged": true,
-        "backup_restore_drill": true,
-        "security_advisors": true,
-        "writer_runtime": false
+      "proof": {
+        "name": "CP7_D17_18_FACTORY_PROGRESS_NATIVE_SOURCE_CRON7.json",
+        "status": "INCOMPLETE",
+        "head": "4ac681549d7ec664f504a71670c9035dd8f5944d",
+        "run_id": 40629923288,
+        "job_id": 122626325986,
+        "artifact_id": 12793826639,
+        "zip_bytes": 10605560,
+        "zip_sha256": "ca8c1b23fe279ee99736d506445011cf2fe656597a9b06b712dbaba3f305b042",
+        "bytes": 85273743,
+        "sha256": "c167387d6eff784aab1fc23d1305967671600b68c39b98a5633f6494710a2ba3",
+        "archive_member": "CP7_D17_18_FACTORY_PROGRESS_NATIVE_SOURCE_CRON7.json",
+        "package_name": "T3_PACKAGE_INSTALL.json",
+        "package_member": "T3_PACKAGE_INSTALL.json",
+        "package_bytes": 360443,
+        "package_sha256": "460024f04167f239daa94e311c0fcc7b10e874c8fc7083675207344dc966b92d"
       },
-      "cp6_restored": true,
-      "advisor_gate": true,
-      "production_go": false,
-      "independent_acceptance": false,
-      "first_failure_preserved": true,
-      "error": "",
-      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/current-choice-finance-cron-qualification/probe.py\", line 98, in run\n    measured(timings,'ACTUAL_MINUTE_CRON_CHOICE_AND_FINANCE',runner.exercise,conn,cur,database,package.boundary.ADMIN,case)\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-choice-finance-cron-qualification/phase_timing.py\", line 22, in measured\n    result = operation(*args, **kwargs)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-choice-finance-cron-qualification/runner.py\", line 150, in exercise\n    report['choice_preparation']=choice_fixture.verified(cur,prepared_choice)\n                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-choice-finance-cron-qualification/choice_fixture.py\", line 37, in verified\n    assert work['job_id']==initial['job_id'] and work['created_at']==initial['created_at']\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
-      "restore_error": null,
-      "actual_cron_credit": false
+      "terminal": {
+        "read_only": true,
+        "manual_steps": 0,
+        "job_or_capture_state_changed": false,
+        "job_rows": [
+          {
+            "request_id": "156291b6-33c1-4ee3-b5db-6b6c8298e77c",
+            "state": "FAILED",
+            "units_done": 0,
+            "unit_count": 1,
+            "plan_final": false,
+            "failure_unit": 0,
+            "unit_attempts": 3,
+            "failure_sqlstate": "57014",
+            "failure_code": "CP7_ANALYSIS_STAGE_STOPPED",
+            "failure_message": "canceling statement due to statement timeout"
+          },
+          {
+            "request_id": "c9ca2cd7-bdd5-4ec7-bdee-5b8477ad5672",
+            "state": "FAILED",
+            "units_done": 0,
+            "unit_count": 1,
+            "plan_final": false,
+            "failure_unit": 0,
+            "unit_attempts": 3,
+            "failure_sqlstate": "57014",
+            "failure_code": "CP7_ANALYSIS_STAGE_STOPPED",
+            "failure_message": "canceling statement due to statement timeout"
+          }
+        ],
+        "finance_capture_rows": [
+          {
+            "state": "READY",
+            "units_done": 7,
+            "units_total": 7,
+            "failure_code": null
+          }
+        ]
+      },
+      "whole_status": "INCOMPLETE",
+      "browser_prerequisite_satisfied": false,
+      "workflow_conclusion": "failure",
+      "run_attempt": 2,
+      "tree": "f4a5bafcab0ce3de6ad330e3ed4f69b36482e8ea",
+      "first_infrastructure_attempt_preserved": true,
+      "six_other_groups": "PASS",
+      "factory": "INCOMPLETE",
+      "all_seven_installed_full_restorations": true,
+      "outer_all22_rows_sequences_roles_CP6_advisors_restored": true,
+      "failure_class": "actual operational unit0 statement timeout, not NULL watcher or prerequisite download",
+      "current_root_cost_location": "not yet measured on exact combined source"
     }
   ],
   "performance_factory_prepared": {
@@ -17824,7 +17841,7 @@
       "4ac681549d7ec664f504a71670c9035dd8f5944d"
     ],
     "prepared_branch": "astra-a/d17-18-combined-finance-browser-prepared-20261028",
-    "status": "CLOSED_PENDING_ACTUAL_4AC_ALL7",
+    "status": "CLOSED_4AC_FAILED_REQUIRES_NEW_QUALIFIED_BACKEND",
     "local_tests": 21,
     "UI_pins": 23,
     "backend_pins": 31,
@@ -17833,7 +17850,10 @@
     "actual_Auth_browser_cases": 0,
     "execution_branch_created": false,
     "production_go": false,
-    "independent_acceptance": false
+    "independent_acceptance": false,
+    "owner": "B",
+    "selected_backend": null,
+    "execution_by": "B after A exact backend handoff"
   },
   "previous_combined_AF_running_before_actual": {
     "head": "af474fe365b83651dae096f988def69e3ef7e8d7",
@@ -18455,12 +18475,10 @@
     "actual_receipt": "docs/cp7/d17-14/ow15/D17_18_SOURCE_B7_ACTUAL.json"
   },
   "latest_next_steps_20261028": [
-    "Continue 4ac run40629923288 attempt2/job122626325986 to its exact all7 outcome. Preserve the first HTTP502 failure before DB and the recovered exact prerequisite GET that justified the retry.",
-    "Only actual 4ac all7 PASS, with every full restore and observed DONE/READY factory states, may unlock closed UI e8fa.",
-    "Bind e8fa with bind_next_browser_factory_4ac_actual.py; commit CONFIG/SOURCE, run admit_bound_next_factory_4ac_browser.py, publish the exact tree and execute two complete real Auth browser copies.",
-    "Retain and visually review the six browser images. Selectively integrate qualified sources with historical proof materialization. Source-only assembly does not imply default or official adoption.",
-    "History16d9 and assembled b4ed Actions analysis succeeded with zero findings. Preserve original b87 findings. The one B JavaScript tooling race remains open with its proposal unapplied.",
-    "Continue authorized A and integration work. Formal5/16, CP7C, historical CP6 boundaries, independent acceptance and production_go remain unchanged."
+    "A: measure current operational unit0 and frozen input compiler using unchanged 4ac SQL, rollback each call and verify full restoration; diagnostic does not qualify backend.",
+    "A: correct measured backend cause, qualify all seven groups and provide exact head/tree/run/job/Original/artifact/contracts/open boundaries to B.",
+    "B: send small JS patch and real test/CodeQL evidence first; continue e8fa preparation independently; actual browser requires A-qualified backend.",
+    "A: selectively integrate B result against current source, verify combined impact, finish auditor package."
   ],
   "previous_factory49_running_before_actual": {
     "head": "49baddbd423da93a0cfe1a52c27801e763176fcf",
@@ -18847,5 +18865,217 @@
     "exact_GET_recovered": true,
     "same_failed_job_retried": true,
     "receipt": "docs/cp7/d17-14/ow15/D17_18_FACTORY_DF_AND_ASSEMBLY_ACTUAL.json"
+  },
+  "previous_running_before_4ac_actual_and_owner_allocation": {
+    "head": "4ac681549d7ec664f504a71670c9035dd8f5944d",
+    "local_head": "f63b6dfc630b95a72b11980cd99137fe5ae15222",
+    "tree": "f4a5bafcab0ce3de6ad330e3ed4f69b36482e8ea",
+    "parent": "df7cbe8cc946862ade48c929a57b41a2608980ae",
+    "prepared_branch": "astra-a/d17-18-factory-progress-prepared-20261028",
+    "execution_branch": "astra-a/d17-18-factory-progress-qualification-20261028",
+    "status": "RUNNING_ALL7_NOT_PASS",
+    "local_tests": 26,
+    "source_pins": 31,
+    "source_admission_seconds": 50.522,
+    "database_connections": 0,
+    "unchanged_D3_declaration": true,
+    "product_SQL_changed": false,
+    "retained_DF_failure": true,
+    "production_go": false,
+    "independent_acceptance": false,
+    "run_id": 40629923288,
+    "job_id": 122626325986,
+    "run_attempt": 2,
+    "run_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/40629923288",
+    "first_attempt_infrastructure_failure_preserved": true
+  },
+  "previous_completed_before_4ac_actual_and_owner_allocation": [
+    {
+      "name": "CP7_D17_18_CHOICE_FINANCE_CRON1.json",
+      "status": "INCOMPLETE",
+      "head": "d3c84c16c4d5d81515f3bcc238f3436b650335fe",
+      "run_id": 40495834374,
+      "job_id": 122160917483,
+      "artifact_id": 12735310804,
+      "zip_bytes": 3047192,
+      "zip_sha256": "9d01651885e0710e1b8e5ca41bd5a3a821531f1d444fa30f00fcbe7dec6f46ce",
+      "bytes": 5280024,
+      "sha256": "cb8ce13cb418a86e6c99e24426c8e10eb330e97855bb7953a28d95c54520518a",
+      "archive_member": "CP7_D17_18_CHOICE_FINANCE_CRON1.json",
+      "source_pins_verified": 3947,
+      "complete_prerequisite_chain_exact": true,
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": false
+      },
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "production_go": false,
+      "independent_acceptance": false,
+      "first_failure_preserved": true,
+      "error": "",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/current-choice-finance-cron-qualification/probe.py\", line 98, in run\n    measured(timings,'ACTUAL_MINUTE_CRON_CHOICE_AND_FINANCE',runner.exercise,conn,cur,database,package.boundary.ADMIN,case)\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-choice-finance-cron-qualification/phase_timing.py\", line 22, in measured\n    result = operation(*args, **kwargs)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-choice-finance-cron-qualification/runner.py\", line 150, in exercise\n    report['choice_preparation']=choice_fixture.verified(cur,prepared_choice)\n                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-choice-finance-cron-qualification/choice_fixture.py\", line 37, in verified\n    assert work['job_id']==initial['job_id'] and work['created_at']==initial['created_at']\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "restore_error": null,
+      "actual_cron_credit": false
+    }
+  ],
+  "retained_factory_4ac_actual": {
+    "proof": {
+      "name": "CP7_D17_18_FACTORY_PROGRESS_NATIVE_SOURCE_CRON7.json",
+      "status": "INCOMPLETE",
+      "head": "4ac681549d7ec664f504a71670c9035dd8f5944d",
+      "run_id": 40629923288,
+      "job_id": 122626325986,
+      "artifact_id": 12793826639,
+      "zip_bytes": 10605560,
+      "zip_sha256": "ca8c1b23fe279ee99736d506445011cf2fe656597a9b06b712dbaba3f305b042",
+      "bytes": 85273743,
+      "sha256": "c167387d6eff784aab1fc23d1305967671600b68c39b98a5633f6494710a2ba3",
+      "archive_member": "CP7_D17_18_FACTORY_PROGRESS_NATIVE_SOURCE_CRON7.json",
+      "package_name": "T3_PACKAGE_INSTALL.json",
+      "package_member": "T3_PACKAGE_INSTALL.json",
+      "package_bytes": 360443,
+      "package_sha256": "460024f04167f239daa94e311c0fcc7b10e874c8fc7083675207344dc966b92d"
+    },
+    "terminal": {
+      "read_only": true,
+      "manual_steps": 0,
+      "job_or_capture_state_changed": false,
+      "job_rows": [
+        {
+          "request_id": "156291b6-33c1-4ee3-b5db-6b6c8298e77c",
+          "state": "FAILED",
+          "units_done": 0,
+          "unit_count": 1,
+          "plan_final": false,
+          "failure_unit": 0,
+          "unit_attempts": 3,
+          "failure_sqlstate": "57014",
+          "failure_code": "CP7_ANALYSIS_STAGE_STOPPED",
+          "failure_message": "canceling statement due to statement timeout"
+        },
+        {
+          "request_id": "c9ca2cd7-bdd5-4ec7-bdee-5b8477ad5672",
+          "state": "FAILED",
+          "units_done": 0,
+          "unit_count": 1,
+          "plan_final": false,
+          "failure_unit": 0,
+          "unit_attempts": 3,
+          "failure_sqlstate": "57014",
+          "failure_code": "CP7_ANALYSIS_STAGE_STOPPED",
+          "failure_message": "canceling statement due to statement timeout"
+        }
+      ],
+      "finance_capture_rows": [
+        {
+          "state": "READY",
+          "units_done": 7,
+          "units_total": 7,
+          "failure_code": null
+        }
+      ]
+    },
+    "whole_status": "INCOMPLETE",
+    "browser_prerequisite_satisfied": false,
+    "workflow_conclusion": "failure",
+    "run_attempt": 2,
+    "tree": "f4a5bafcab0ce3de6ad330e3ed4f69b36482e8ea",
+    "first_infrastructure_attempt_preserved": true,
+    "six_other_groups": "PASS",
+    "factory": "INCOMPLETE",
+    "all_seven_installed_full_restorations": true,
+    "outer_all22_rows_sequences_roles_CP6_advisors_restored": true,
+    "failure_class": "actual operational unit0 statement timeout, not NULL watcher or prerequisite download",
+    "current_root_cost_location": "not yet measured on exact combined source"
+  },
+  "latest_owner_allocation_20261028": {
+    "path": "docs/cp7/d17-14/ow15/A_B_ASSIGNMENT_AND_4AC_ACTUAL_20261028.json",
+    "A": {
+      "role": "sole integrator",
+      "owns": [
+        "factory backend failure investigation and correction",
+        "finance/HPP, snapshots, source consistency, scheduler and full restoration",
+        "all seven combined qualification groups",
+        "backend candidate declaration and evidence for B",
+        "selective integration and final auditor package",
+        "finance SQL, installers/inverse, public RPC contracts and registries"
+      ]
+    },
+    "B": {
+      "owns": [
+        "OW10 JavaScript first-failure exclusive write fix and focused tests/CodeQL",
+        "existing e8fa browser runner preparation, exact backend binding, actual Auth/browser execution, visual review and report",
+        "production/planning component fixes within B ownership"
+      ],
+      "first_package": {
+        "path": "scripts/cp7_ow10_statistical_local.mjs",
+        "proposal": "docs/cp7/d17-14/ow15/B_REVIEW_STATISTICAL_FIRST_FAILURE_ATOMIC_WRITE.patch",
+        "status": "ASSIGNED_TO_B_NOT_ADOPTED",
+        "requirements": [
+          "exclusive creation wx",
+          "ignore EEXIST only",
+          "retain other write errors",
+          "never replace first evidence",
+          "concurrent writers, existing file, non-EEXIST error tests",
+          "relevant JavaScript CodeQL",
+          "unchanged statistical formulas/oracles"
+        ]
+      },
+      "browser": {
+        "base": "e8fa6a9e26f2459b340c4b4c880cb1b226ce021a",
+        "status": "PREPARED_CLOSED_BACKEND_NOT_QUALIFIED",
+        "A_host_files": 113,
+        "B_files": 91,
+        "reopen_already_adopted": true,
+        "selected_backend": null,
+        "actual_new_backend_Auth_browser_cases": 0
+      }
+    }
+  },
+  "previous_browser_before_owner_allocation": {
+    "head": "e8fa6a9e26f2459b340c4b4c880cb1b226ce021a",
+    "local_head": "a91dafb6dfd4433e43c54ba46d6ced462380391c",
+    "tree": "36207182419262badafb87f34b9aedd93efde6d0",
+    "parents": [
+      "8dd3cad72ae80aa1a1fd25ede5acecba535e287a",
+      "4ac681549d7ec664f504a71670c9035dd8f5944d"
+    ],
+    "prepared_branch": "astra-a/d17-18-combined-finance-browser-prepared-20261028",
+    "status": "CLOSED_PENDING_ACTUAL_4AC_ALL7",
+    "local_tests": 21,
+    "UI_pins": 23,
+    "backend_pins": 31,
+    "source_admission_seconds": 53.098,
+    "backend_declaration_exact": true,
+    "actual_Auth_browser_cases": 0,
+    "execution_branch_created": false,
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "previous_next_steps_before_owner_allocation_20261028": [
+    "Continue 4ac run40629923288 attempt2/job122626325986 to its exact all7 outcome. Preserve the first HTTP502 failure before DB and the recovered exact prerequisite GET that justified the retry.",
+    "Only actual 4ac all7 PASS, with every full restore and observed DONE/READY factory states, may unlock closed UI e8fa.",
+    "Bind e8fa with bind_next_browser_factory_4ac_actual.py; commit CONFIG/SOURCE, run admit_bound_next_factory_4ac_browser.py, publish the exact tree and execute two complete real Auth browser copies.",
+    "Retain and visually review the six browser images. Selectively integrate qualified sources with historical proof materialization. Source-only assembly does not imply default or official adoption.",
+    "History16d9 and assembled b4ed Actions analysis succeeded with zero findings. Preserve original b87 findings. The one B JavaScript tooling race remains open with its proposal unapplied.",
+    "Continue authorized A and integration work. Formal5/16, CP7C, historical CP6 boundaries, independent acceptance and production_go remain unchanged."
+  ],
+  "B_OW10_first_failure_evidence_review_current": {
+    "path": "scripts/cp7_ow10_statistical_local.mjs",
+    "proposal": "docs/cp7/d17-14/ow15/B_REVIEW_STATISTICAL_FIRST_FAILURE_ATOMIC_WRITE.patch",
+    "status": "ASSIGNED_TO_B_NOT_ADOPTED",
+    "requirements": [
+      "exclusive creation wx",
+      "ignore EEXIST only",
+      "retain other write errors",
+      "never replace first evidence",
+      "concurrent writers, existing file, non-EEXIST error tests",
+      "relevant JavaScript CodeQL",
+      "unchanged statistical formulas/oracles"
+    ]
   }
 }

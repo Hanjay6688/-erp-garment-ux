@@ -5418,3 +5418,34 @@ B1dd, cabang resmi a255, sumber produk dan pemasang bawaan tidak berubah. Rincia
 workflow dan 144 deklarasi; ini peta statis, bukan jumlah suite wajib atau kelulusan.
 Kegagalan CP6 dan batas penerus historis tetap terbuka. Formal 5/16,
 independent_acceptance=false dan production_go=false. Lanjutkan setelah checkpoint.
+
+## 28 Oktober 2026 — pembagian terbaru Bos, actual 4ac selesai FAILURE
+
+A tetap integrator tunggal dan sekarang fokus backend pabrik, keuangan/HPP,
+snapshot, konsistensi, scheduler, pemulihan, all7 dan paket auditor. B mengambil
+perbaikan race penulisan bukti pertama JavaScript OW10 dan seluruh persiapan,
+pengikatan, pelaksanaan serta pemeriksaan visual browser gabungan e8fa. B mengirim
+patch JS kecil lebih dahulu. A tidak menjalankan paket browser yang sama.
+Ini dua chatbox yang sudah ada, tanpa tim subagen baru. Scope panel A, kontrak
+publik, installer/inverse, registri dan deklarasi backend tetap pada A.
+
+Hasil asli 4ac run40629923288 percobaan2/job122626325986 sudah FAILURE;
+catatan RUNNING di atas adalah snapshot historis. Artifact12793826639 dan Original
+85273743 byte diverifikasi persis. Enam kelompok PASS; factory INCOMPLETE:
+kedua job FAILED, unit0, tiga percobaan, SQLSTATE57014 statement timeout.
+Keuangan READY7/7. Tujuh pemulihan terpasang dan pemulihan luar seluruh data,
+sequence, role, CP6/advisor PASS. Ini kegagalan operasional aktual; masalah
+pemantau NULL telah teratasi. Kegagalan download percobaan1 tetap disimpan.
+
+A melanjutkan pengukuran unit0 dan compiler input pada SQL 4ac yang sama,
+dengan rollback tiap panggilan serta pemeriksaan pemulihan lengkap. Diagnosis
+tidak memberi kredit kelulusan backend. Kandidat backend untuk B belum tersedia;
+e8fa tetap PREPARED/CLOSED. Reopen B sudah diadopsi, jangan dipasang dua kali.
+Regresi b7 tetap PASS3253 + Node10 sesuai sumber/cakupannya; build dan browser
+fixture tidak membuktikan backend gabungan. B hanya membuka browser aktual
+setelah menerima head/tree dan bukti all7 dari A, lalu membuat deklarasi penerus.
+
+Rincian kepemilikan, identitas bukti asli dan langkah lanjut berada di
+ow15/A_B_ASSIGNMENT_AND_4AC_ACTUAL_20261028.json. Formal5/16,
+independent_acceptance=false, production_go=false, CP7C belum dimulai.
+Checkpoint disimpan lalu pekerjaan yang telah diotorisasi diteruskan.

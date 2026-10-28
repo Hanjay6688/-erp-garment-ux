@@ -1,0 +1,144 @@
+{
+  "recorded_at_utc": "2026-10-28T07:18:49.718424+00:00",
+  "owner_instruction": "HANDOFF BERSAMA A + B — 28 Oktober 2026",
+  "slogans": [
+    "VENI. VIDI. VICI. ERP — I CONQUERED ERP.",
+    "Reliable data adalah dewa.",
+    "Keuangan—termasuk laporan—stok, dan HPP adalah raja."
+  ],
+  "observed_heads": {
+    "A": "d24b7128cddbc79312a6058b17b56da047775c75",
+    "B": "1dd83782dcaa4500bace7bf392a76f58be0271c3",
+    "browser": "e8fa6a9e26f2459b340c4b4c880cb1b226ce021a"
+  },
+  "A": {
+    "role": "sole integrator",
+    "owns": [
+      "factory backend failure investigation and correction",
+      "finance/HPP, snapshots, source consistency, scheduler and full restoration",
+      "all seven combined qualification groups",
+      "backend candidate declaration and evidence for B",
+      "selective integration and final auditor package",
+      "finance SQL, installers/inverse, public RPC contracts and registries"
+    ]
+  },
+  "B": {
+    "owns": [
+      "OW10 JavaScript first-failure exclusive write fix and focused tests/CodeQL",
+      "existing e8fa browser runner preparation, exact backend binding, actual Auth/browser execution, visual review and report",
+      "production/planning component fixes within B ownership"
+    ],
+    "first_package": {
+      "path": "scripts/cp7_ow10_statistical_local.mjs",
+      "proposal": "docs/cp7/d17-14/ow15/B_REVIEW_STATISTICAL_FIRST_FAILURE_ATOMIC_WRITE.patch",
+      "status": "ASSIGNED_TO_B_NOT_ADOPTED",
+      "requirements": [
+        "exclusive creation wx",
+        "ignore EEXIST only",
+        "retain other write errors",
+        "never replace first evidence",
+        "concurrent writers, existing file, non-EEXIST error tests",
+        "relevant JavaScript CodeQL",
+        "unchanged statistical formulas/oracles"
+      ]
+    },
+    "browser": {
+      "base": "e8fa6a9e26f2459b340c4b4c880cb1b226ce021a",
+      "status": "PREPARED_CLOSED_BACKEND_NOT_QUALIFIED",
+      "A_host_files": 113,
+      "B_files": 91,
+      "reopen_already_adopted": true,
+      "selected_backend": null,
+      "actual_new_backend_Auth_browser_cases": 0
+    }
+  },
+  "actual_4ac": {
+    "proof": {
+      "name": "CP7_D17_18_FACTORY_PROGRESS_NATIVE_SOURCE_CRON7.json",
+      "status": "INCOMPLETE",
+      "head": "4ac681549d7ec664f504a71670c9035dd8f5944d",
+      "run_id": 40629923288,
+      "job_id": 122626325986,
+      "artifact_id": 12793826639,
+      "zip_bytes": 10605560,
+      "zip_sha256": "ca8c1b23fe279ee99736d506445011cf2fe656597a9b06b712dbaba3f305b042",
+      "bytes": 85273743,
+      "sha256": "c167387d6eff784aab1fc23d1305967671600b68c39b98a5633f6494710a2ba3",
+      "archive_member": "CP7_D17_18_FACTORY_PROGRESS_NATIVE_SOURCE_CRON7.json",
+      "package_name": "T3_PACKAGE_INSTALL.json",
+      "package_member": "T3_PACKAGE_INSTALL.json",
+      "package_bytes": 360443,
+      "package_sha256": "460024f04167f239daa94e311c0fcc7b10e874c8fc7083675207344dc966b92d"
+    },
+    "terminal": {
+      "read_only": true,
+      "manual_steps": 0,
+      "job_or_capture_state_changed": false,
+      "job_rows": [
+        {
+          "request_id": "156291b6-33c1-4ee3-b5db-6b6c8298e77c",
+          "state": "FAILED",
+          "units_done": 0,
+          "unit_count": 1,
+          "plan_final": false,
+          "failure_unit": 0,
+          "unit_attempts": 3,
+          "failure_sqlstate": "57014",
+          "failure_code": "CP7_ANALYSIS_STAGE_STOPPED",
+          "failure_message": "canceling statement due to statement timeout"
+        },
+        {
+          "request_id": "c9ca2cd7-bdd5-4ec7-bdee-5b8477ad5672",
+          "state": "FAILED",
+          "units_done": 0,
+          "unit_count": 1,
+          "plan_final": false,
+          "failure_unit": 0,
+          "unit_attempts": 3,
+          "failure_sqlstate": "57014",
+          "failure_code": "CP7_ANALYSIS_STAGE_STOPPED",
+          "failure_message": "canceling statement due to statement timeout"
+        }
+      ],
+      "finance_capture_rows": [
+        {
+          "state": "READY",
+          "units_done": 7,
+          "units_total": 7,
+          "failure_code": null
+        }
+      ]
+    },
+    "whole_status": "INCOMPLETE",
+    "browser_prerequisite_satisfied": false,
+    "workflow_conclusion": "failure",
+    "run_attempt": 2,
+    "tree": "f4a5bafcab0ce3de6ad330e3ed4f69b36482e8ea",
+    "first_infrastructure_attempt_preserved": true,
+    "six_other_groups": "PASS",
+    "factory": "INCOMPLETE",
+    "all_seven_installed_full_restorations": true,
+    "outer_all22_rows_sequences_roles_CP6_advisors_restored": true,
+    "failure_class": "actual operational unit0 statement timeout, not NULL watcher or prerequisite download",
+    "current_root_cost_location": "not yet measured on exact combined source"
+  },
+  "source_regression": {
+    "head": "b7d6b75add6883b7cfc5b162c05531a8d0ac2f23",
+    "tests_pass": 3253,
+    "node_tests_pass": 10,
+    "old_13_failures": "retained history; superseded for unchanged source and coverage"
+  },
+  "next": [
+    "A: measure current operational unit0 and frozen input compiler using unchanged 4ac SQL, rollback each call and verify full restoration; diagnostic does not qualify backend.",
+    "A: correct measured backend cause, qualify all seven groups and provide exact head/tree/run/job/Original/artifact/contracts/open boundaries to B.",
+    "B: send small JS patch and real test/CodeQL evidence first; continue e8fa preparation independently; actual browser requires A-qualified backend.",
+    "A: selectively integrate B result against current source, verify combined impact, finish auditor package."
+  ],
+  "formal_accepted": "5/16",
+  "production_go": false,
+  "independent_acceptance": false,
+  "CP7C_started": false,
+  "no_new_subagents": true,
+  "no_duplicate_heavy_database_or_browser_runs": true,
+  "no_hosted_or_Enteng_changes": true
+}
