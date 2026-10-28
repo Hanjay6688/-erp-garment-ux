@@ -1,8 +1,8 @@
 {
-  "recorded_at_utc": "2026-10-28T03:03:47.279311+00:00",
+  "recorded_at_utc": "2026-10-28T03:24:12.929579+00:00",
   "role": "A finance writer/integrator replacing Claude; B remains separate production/planning writer",
   "slogan": [
-    "VENI. VIDI. VICI. ERP. — I CONQUERED ERP.",
+    "VENI. VIDI. VICI. ERP. \u2014 I CONQUERED ERP.",
     "Reliable data adalah dewa. Keuangan termasuk laporan, stok, dan HPP adalah raja."
   ],
   "formal_accepted": "5/16",
@@ -17120,7 +17120,7 @@
     "production_go": false,
     "independent_acceptance": false
   },
-  "recorded_at_wib": "2026-10-28T10:03:47.279336+07:00",
+  "recorded_at_wib": "2026-10-28T10:24:12.929607+07:00",
   "retained_consistent_faa_retry_infrastructure_failure": {
     "head": "faa5889faf622e4cb07b470aae26eadd750879c1",
     "run_id": 40540122775,
@@ -17814,23 +17814,29 @@
     "real_Auth_browser_and_final_performance_still_required": true
   },
   "combined_finance_browser_prepared": {
-    "head": "a06a173f242b074aa0fbb9c52e33cedf27986336",
-    "local_head": "e2f951a61da2f9e1bdfd5620dfc00f31a9275def",
-    "tree": "a3366e1fa4aee57ae0aa7def1ece679a8c493c96",
-    "branch": "astra-a/d17-18-combined-finance-browser-prepared-20261028",
-    "parent": "1fd0f14ca1746172bb9b4634a5d475f90735a49c",
-    "status": "PREPARED_CLOSED_D3_READER_STREAM_REAL_AUTH_BROWSER",
-    "browser_tests": 12,
-    "reader_dependency_tests": 9,
-    "JS_syntax_files": 4,
+    "head": "8dd3cad72ae80aa1a1fd25ede5acecba535e287a",
+    "local_head": "bc9c50a23f82d2d802a729ccd3fe208342a2620f",
+    "tree": "b67f3573acea20e297ae9f75c58f92436f352b85",
+    "parent": "df7cbe8cc946862ade48c929a57b41a2608980ae",
+    "prepared_branch": "astra-a/d17-18-combined-finance-browser-prepared-20261028",
+    "worktree": "/workspace/scratch/a4de608c9031/erp-factory-browser-next",
+    "status": "PREPARED_CLOSED_WAITING_EXACT_DF_ALL7_PASS",
+    "UI_tests": 18,
+    "JavaScript_syntax_files": 4,
+    "UI_source_pins": 22,
+    "complete_DF_dependency_pins": 29,
+    "complete_DF_declaration_exact": true,
+    "dependency_admission_seconds": 53.758,
+    "source_admission_DB_connections": 0,
+    "host_exact_files": 113,
     "current_B_exact_files": 91,
-    "Auth_browser_cases_executed": 0,
+    "actual_Auth_browser_cases": 0,
+    "allow_database_execution": false,
+    "accepted_combined": null,
     "execution_branch_created": false,
     "final_SOURCE_bound": false,
-    "accepted_combined_bound": false,
     "production_go": false,
-    "independent_acceptance": false,
-    "next_binding": "Exact corrected DF all7 PASS Original/package and terminal factory progress before real Auth/browser; first49 had no all7 child execution and cannot unlock UI."
+    "independent_acceptance": false
   },
   "previous_combined_AF_running_before_actual": {
     "head": "af474fe365b83651dae096f988def69e3ef7e8d7",
@@ -18418,7 +18424,7 @@
     "local_head": "26cf9ae72167aad73217f814bafc978b362f75d9",
     "tree": "ee964a26fc7b9cd5da60a075f06bb3e8a8ca1d48",
     "parent": "8bcf667637c7ef6fcb667bc13032545bebea4e60",
-    "status": "RUNNING_NOT_PASS",
+    "status": "PASS_SOURCE_AND_COMPLETE_CLIENT_AND_KERNEL_SUITE_ONLY",
     "prepared_branch": "astra-a/d17-18-current-source-closure-prepared-20261028",
     "execution_branch": "astra-a/d17-18-current-source-closure-check-20261028",
     "source_pins": 4315,
@@ -18432,14 +18438,31 @@
     "production_go": false,
     "independent_acceptance": false,
     "run_id": 40624362425,
-    "job_id": 122605631471
+    "job_id": 122605631471,
+    "artifact_id": 12788939625,
+    "client_counts": {
+      "numTotalTestSuites": 514,
+      "numPassedTestSuites": 514,
+      "numFailedTestSuites": 0,
+      "numTotalTests": 3253,
+      "numPassedTests": 3253,
+      "numFailedTests": 0,
+      "numPendingTests": 0,
+      "numTodoTests": 0,
+      "success": true
+    },
+    "Node_tests_passed": 10,
+    "previous2941_and3253_assertions_retained": true,
+    "source_checker_database_connections": 0,
+    "isolated_test_Postgres_cases_included": true,
+    "actual_receipt": "docs/cp7/d17-14/ow15/D17_18_SOURCE_B7_ACTUAL.json"
   },
   "latest_next_steps_20261028": [
-    "Monitor frozenDF runtime-gate correction to exact Original/all7/full restore;19 tests passed incl actual runner entry.",
-    "Monitor frozenb7 full3253-assertion suite +10 Node; retain8bcf two-file/11failure outcome and all2941 prior assertions PASS.",
-    "After complete source suite PASS integrate qualified source deliberately with full source admission; previous two-parent merge plan targets failed8bcf and must be refreshed.",
-    "Only after ownDF all7 PASS prepare and bind exact real Auth desktop/mobile successor; old49-specific helpers must not run.",
-    "No default/official/hosted adoption, independent acceptance, CP7C or B scope closure."
+    "Continue frozen DF run40623586371 to actual all7 outcome; preserve exact Original/package and strict intake.",
+    "Only exact DF all7 PASS with full restoration and real terminal factory progress may open UI8dd.",
+    "Bind clean UI at erp-factory-browser-next using bind_next_browser_factory_df_actual.py; commit and admit_bound_next_factory_df_browser.py before actual desktop/mobile real Auth.",
+    "Selective qualified integration of factory/UI sources; no blind diagnostic merge, no default or official adoption.",
+    "Continue remaining authorized A/integration work; formal5/16, CP7C and independent/production acceptance unchanged."
   ],
   "previous_factory49_running_before_actual": {
     "head": "49baddbd423da93a0cfe1a52c27801e763176fcf",
@@ -18640,5 +18663,44 @@
     "default_adopted": false,
     "production_go": false,
     "independent_acceptance": false
+  },
+  "current_source_closure_integration": {
+    "status": "PASS_SOURCE_INTEGRATION_EXACT",
+    "local_head": "9a19ac1c19de5f7dd08573f9a1343ed34a0109c4",
+    "tree": "5a7824dabc2d6c9b396bff13c45e7f6d5a5398c1",
+    "remote_parent": "403680aeec39e532f051b6ef5a9dd4a9e9efe212",
+    "remote_additional_parent": "b7d6b75add6883b7cfc5b162c05531a8d0ac2f23",
+    "source_actual": "b7d6b75add6883b7cfc5b162c05531a8d0ac2f23",
+    "source_run": 40624362425,
+    "source_artifact": 12788939625,
+    "source_tests": 3253,
+    "Node_tests": 10,
+    "default_adopted": false,
+    "production_go": false,
+    "independent_acceptance": false,
+    "head": "e0fbdb9d765101f6383d9473e267bd9dd6a48ab7",
+    "complete_D3_declaration_exact": true,
+    "source_admission_seconds": 31.71,
+    "source_admission_database_connections": 0,
+    "branch": "astra-a/d17-14-model-target-integration-prepared-20261024"
+  },
+  "previous_combined_browser_before_DF_closed_preparation": {
+    "head": "a06a173f242b074aa0fbb9c52e33cedf27986336",
+    "local_head": "e2f951a61da2f9e1bdfd5620dfc00f31a9275def",
+    "tree": "a3366e1fa4aee57ae0aa7def1ece679a8c493c96",
+    "branch": "astra-a/d17-18-combined-finance-browser-prepared-20261028",
+    "parent": "1fd0f14ca1746172bb9b4634a5d475f90735a49c",
+    "status": "PREPARED_CLOSED_D3_READER_STREAM_REAL_AUTH_BROWSER",
+    "browser_tests": 12,
+    "reader_dependency_tests": 9,
+    "JS_syntax_files": 4,
+    "current_B_exact_files": 91,
+    "Auth_browser_cases_executed": 0,
+    "execution_branch_created": false,
+    "final_SOURCE_bound": false,
+    "accepted_combined_bound": false,
+    "production_go": false,
+    "independent_acceptance": false,
+    "next_binding": "Exact corrected DF all7 PASS Original/package and terminal factory progress before real Auth/browser; first49 had no all7 child execution and cannot unlock UI."
   }
 }
