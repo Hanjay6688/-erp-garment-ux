@@ -41,7 +41,7 @@ jobs:
 
         PYMETA
 
-        gh api "repos/$repo/actions/jobs/122444519274/logs" > retained/combined-af-job-122444519274.log
+        gh api "repos/$repo/actions/jobs/122444519274/logs" --allow-escape-sequences > retained/combined-af-job-122444519274.log
 
         python - <<''PYRECEIPT''
 
@@ -69,3 +69,4 @@ jobs:
         path: retained
         retention-days: 30
         if-no-files-found: error
+      if: always()
