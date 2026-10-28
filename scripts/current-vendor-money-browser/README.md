@@ -1,7 +1,7 @@
 # A — saksi layar uang OW08b, dua perjalanan
 
 Status awal **PREPARED/CLOSED**. Belum ada klaim browser aktual. Kandidat backend
-54b786f3 sedang diuji pada run40761955464; `accepted_backend11=null` menutup
+41caaaed sedang diuji pada run40769840440 (kegagalan fixture pertama54b tetap disimpan); `accepted_backend11=null` menutup
 pelaksanaan sebelum database. Isi pin hanya sesudah Original lengkap backend11
 dan kelima gate paket benar-benar diterima. Hasil Native7 lama atau job hijau
 tanpa Original tidak dapat membuka gate ini.
@@ -22,7 +22,7 @@ saksi aktual panggilan pemasang lengkap ini; persiapan sumber belum meluluskanny
 
 | Perjalanan | Bukti yang harus dibuat |
 |---|---|
-| Desktop OWNER | Refund 1.000,25 lewat layar; piutang 3.000 → 1.999,75; bank +1.000,25; pembatalan lewat layar memulihkan piutang/bank; pembayaran asal tetap utuh; bukti refund tetap ada berstatus dibatalkan |
+| Desktop OWNER | Refund 1.000,25 lewat layar; piutang 3.000 → 1.999,75; bank +1.000,25; respons transaksi yang benar-benar committed dihilangkan satu kali; reload dan reconcile memakai UUID/payload sama, baris refund tetap satu; pembatalan lewat layar memulihkan piutang/bank; pembayaran asal tetap utuh; bukti refund tetap ada berstatus dibatalkan |
 | Mobile ADMIN, 390 px | Refund 750,10 lewat layar; piutang 2.249,90; bank +750,10; pencabutan izin uang lalu muat ulang menyembunyikan angka dan kontrol; seluruh keadaan uang tetap sama |
 
 Periksa kontras teks, lebar halaman, console, Auth, salinan database, seluruh
@@ -31,7 +31,7 @@ hasil pertama. Tinjau screenshot hasil aktual sebelum menerima tampilan.
 
 Invoice dan koreksi awal dibuat oleh penulis Native existing di salinan lokal;
 ini **belum** membuktikan pembuatan invoice/koreksi melalui layar. Tidak ada
-klaim respons hilang, browser seluruh alur laundry, pengiriman atau produksi.
+klaim kelulusan respons hilang sebelum perjalanan aktual dijalankan; belum ada klaim browser seluruh alur laundry, pengiriman atau produksi. Console helper B dipakai persis tanpa perubahan: semua error disimpan, hanya satu pesan jaringan dari URL refund yang sengaja diputus yang boleh dikenali sebagai expected.
 Penjaga pencopotan setelah uang dipakai dan inverse sebelum pemakaian memakai
 bukti backend11 identik yang sudah lengkap, tidak diberi label pengujian baru.
 
