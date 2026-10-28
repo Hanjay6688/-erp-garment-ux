@@ -1,5 +1,5 @@
 {
-  "recorded_at_utc": "2026-10-28T10:04:11.447362+00:00",
+  "recorded_at_utc": "2026-10-28T10:28:56.213357+00:00",
   "role": "A finance writer/integrator replacing Claude; B remains separate production/planning writer",
   "slogan": [
     "VENI. VIDI. VICI. ERP. — I CONQUERED ERP.",
@@ -19218,5 +19218,17 @@
     "historical_admission_on_new_JS": "REFUSED_OLD_TOOL_DIGEST_PRESERVED",
     "historical_manifests_rewritten": 0,
     "backend_unlock": false
+  },
+  "A_finance_observer_prepared": {
+    "head": "2790a9e5726e7724070f2fa01a2468061f2bae98",
+    "tree": "d4d9d3d1a9c440f0d3615842ad14cdfa113d99fc",
+    "branch": "astra-a/d17-18-finance-progress-observer-prepared-20261028",
+    "path": "docs/cp7/d17-14/ow15/D17_18_A_FINANCE_OBSERVER_PREPARED_20261028.json",
+    "status": "PREPARED_LOCAL_TESTS_PASS_NOT_BROWSER_QUALIFIED",
+    "current_tests": 29,
+    "retained_frozen_tests": 66,
+    "new_controls": 4,
+    "main_product_adopted": false,
+    "B_browser_binding_pending": true
   }
 }

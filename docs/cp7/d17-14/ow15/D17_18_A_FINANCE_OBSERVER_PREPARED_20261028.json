@@ -1,0 +1,57 @@
+{
+  "head": "2790a9e5726e7724070f2fa01a2468061f2bae98",
+  "tree": "d4d9d3d1a9c440f0d3615842ad14cdfa113d99fc",
+  "branch": "astra-a/d17-18-finance-progress-observer-prepared-20261028",
+  "status": "PREPARED_LOCAL_TESTS_PASS_NOT_BROWSER_QUALIFIED",
+  "main_product_adopted": false,
+  "receipt": {
+    "contract": "cp7.a-finance-progress-observer.successor.v1",
+    "status": "PASS_LOCAL_UNIT_DOM_ONLY_PREPARED",
+    "base_head": "3a062d099739b4dc8758d71357f7ab1c4bba085b",
+    "files": {
+      "src/NativeAnalysisFinancePanel.tsx": {
+        "bytes": 7613,
+        "sha256": "9c03e2f868897f67dc6a2705229da995a7da4483f3ba0ab2086cbc76bead85e4"
+      },
+      "src/NativeAnalysisFinancePanel.progress.dom.test.tsx": {
+        "bytes": 4652,
+        "sha256": "d90d77e4985a4b83fcfc88cedaf1a287a7712720408a628611e26062ed11b296"
+      }
+    },
+    "previous_panel": {
+      "bytes": 6187,
+      "sha256": "c8490f5de4335a6d97e2f37e6523bc8c303f16cacbd9f3dab29b7481e65df149"
+    },
+    "observation_limit_ms": 150000,
+    "server_job_mutation": false,
+    "source_manifest_rewrites": 0,
+    "local_tests": {
+      "command": "vitest run src/NativeAnalysisFinancePanel.dom.test.tsx src/NativeAnalysisFinancePanel.progress.dom.test.tsx src/nativeAnalysisFinanceSidecar.test.ts",
+      "node": "24.22.1",
+      "vitest": "4.1.11",
+      "test_files": 7,
+      "passed": 95,
+      "failed": 0,
+      "skipped": 0,
+      "todo": 0,
+      "current_component_and_parser_tests": 29,
+      "retained_frozen_copy_tests": 66,
+      "new_controls": 4,
+      "report_bytes": 26994,
+      "report_sha256": "c99e3714ef89978cab64e9634a5d74bfc1f09f98cd39ab1f0aa5f83be83de57d",
+      "typecheck": "PASS",
+      "source_ownership": "Source ownership passed: 383 runtime files, 326 owned RPC boundaries, no orphan or direct table access."
+    },
+    "proof_scope": "Local React DOM/fixture tests only; no actual ERP/Auth/browser acceptance",
+    "actual_DB_Auth_browser_cases": 0,
+    "backend_runtime_eligible": false,
+    "B_browser_owner": true,
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "B_browser_host_binding_required": true,
+  "B_driver_stall_observation_remains_B_owned": true,
+  "backend_selected": null,
+  "production_go": false,
+  "independent_acceptance": false
+}

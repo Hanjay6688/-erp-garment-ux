@@ -5533,3 +5533,32 @@ ganda, angka total yang belum diketahui tetap unknown. A menyerahkan bukti asli
 backend terpilih hanya setelah seluruh all7 dan pemulihan lulus. Paket source05c
 belum diadopsi sebagai produk pada main; catatan dan receipt saja yang diterima.
 Formal5/16, production_go=false, independent_acceptance=false, CP7C belum dimulai.
+
++
++## 28 Oktober 2026 — panel keuangan A2790: pemantauan tanpa kemajuan dibatasi
++
++A menutup celah panel milik A: RUNNING tanpa kemajuan keuangan tidak lagi dipantau
++otomatis tanpa batas. Kandidat2790a9e5726e7724070f2fa01a2468061f2bae98,
++treed4d9d3d1a9c440f0d3615842ad14cdfa113d99fc, cabang
++astra-a/d17-18-finance-progress-observer-prepared-20261028. Satu berkas runtime
++NativeAnalysisFinancePanel.tsx berubah; empat kontrol baru pada berkas tes terpisah.
++Batas150detik memakai waktu monoton dan progres keuangan nyata; jeda pengamatan
++tidak membatalkan, menggagalkan, membuat ulang atau menyimpan pekerjaan server.
++Muat ulang tetap UUID yang sama. Unknown, nominal resmi dan pencabutan akses tetap.
++95tes lokal PASS:29komponen/parser saat ini +66salinan frozen yang tidak berubah;
++typecheck dan source ownership PASS.0kasus ERP/Auth/browser aktual.
++
++Receipt ow15/D17_18_A_FINANCE_OBSERVER_PREPARED_20261028.json; sumber/hasil asli
++dan HANDOFF pada docs/cp7/d17-18/a-finance-progress-observer-20261028 di kandidat.
++B harus mengikat host UI penerus ini pada kandidat browser barunya. Manifest lama
++yang mengikat panel lama tetap asli; bukan klaim bahwa bukti browser lama menguji
++panel baru. Backend beku dan deklarasi frontend penerus dipisahkan secara eksplisit.
++Panel2790 masih PREPARED, belum diadopsi pada produk main.
++
++Pemeriksaan driver B driveStagedJob menemukan belum ada batas pengamatan tanpa
++kemajuan. B yang menanganinya bersama55000 tahap awal besar; A tidak mengubah
++driver atau menjalankan browser B. Observer900/150detik milik perangkat kualifikasi
++bukan bukti batas tersebut sudah ada pada client. Kontrak draft diperjelas.
++Backend11c run40663882208/job122733390447 tetap berjalan; belum ada backend
++terpilih untuk B. Formal5/16, production_go=false, independent_acceptance=false.
++

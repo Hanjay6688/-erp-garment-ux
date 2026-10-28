@@ -18,7 +18,7 @@
     "attempt_not_charged": true,
     "existing_access_denial_takes_priority": true
   },
-  "B_client_action": "Continue polling existing get/status with the same UUID while a large initial unit is queued or after this refusal; preserve unknown totals, existing stall bound and retry identity. A owns backend; B owns its production/planning driver. Do not treat this draft as backend acceptance.",
+  "B_client_action": "Continue polling existing get/status with the same UUID during large initial work or after the explicit refusal. Implement a finite no-progress observation and safe same-request recovery; current driveStagedJob has no such bound. Preserve unknown totals and retry identity. A owns backend and its finance panel; B owns production/planning driver and actual browser. This draft is not backend acceptance.",
   "signatures_changed": 0,
   "new_public_RPC": 0,
   "selected_backend": null,
