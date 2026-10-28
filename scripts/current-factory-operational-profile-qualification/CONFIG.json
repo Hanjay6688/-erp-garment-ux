@@ -1,0 +1,28 @@
+{
+  "contract": "cp7.current-factory-operational-profile.v1",
+  "retained_4ac": {
+    "name": "CP7_D17_18_FACTORY_PROGRESS_NATIVE_SOURCE_CRON7.json",
+    "status": "INCOMPLETE",
+    "head": "4ac681549d7ec664f504a71670c9035dd8f5944d",
+    "run_id": 40629923288,
+    "job_id": 122626325986,
+    "artifact_id": 12793826639,
+    "zip_bytes": 10605560,
+    "zip_sha256": "ca8c1b23fe279ee99736d506445011cf2fe656597a9b06b712dbaba3f305b042",
+    "bytes": 85273743,
+    "sha256": "c167387d6eff784aab1fc23d1305967671600b68c39b98a5633f6494710a2ba3",
+    "archive_member": "CP7_D17_18_FACTORY_PROGRESS_NATIVE_SOURCE_CRON7.json",
+    "package_name": "T3_PACKAGE_INSTALL.json",
+    "package_member": "T3_PACKAGE_INSTALL.json",
+    "package_bytes": 360443,
+    "package_sha256": "460024f04167f239daa94e311c0fcc7b10e874c8fc7083675207344dc966b92d"
+  },
+  "original_directory_variable": "D17_18_RETAINED_FACTORY_4AC_DIRECTORY",
+  "allow_diagnostic_execution": true,
+  "diagnostic_statement_limit_ms": 30000,
+  "small_statement_limit_ms": 8000,
+  "lock_limit_ms": 2000,
+  "product_or_schedule_limits_changed": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

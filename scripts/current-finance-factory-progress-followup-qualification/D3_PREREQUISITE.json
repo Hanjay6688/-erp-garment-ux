@@ -1,0 +1,26 @@
+{
+  "allow_qualification_execution": true,
+  "retained_d3": {
+    "name": "CP7_D17_18_CONSISTENT_READERS_STREAM_NATIVE_FACTORY_CRON7.json",
+    "status": "INCOMPLETE",
+    "head": "d36685a259087d9b83beb8fc4f410e4dac9502fd",
+    "run_id": 40613109071,
+    "job_id": 122569172127,
+    "artifact_id": 12785049315,
+    "zip_bytes": 23580040,
+    "zip_sha256": "ae30939eca8c75cba99b8710259ffc66dc194f6940907e62e0f022904b22762f",
+    "bytes": 168464570,
+    "sha256": "f8dd56ef18469dffec7d003cc65e49aea514fa60e3c507e51e95f4de05b11af5",
+    "archive_member": "CP7_D17_18_CONSISTENT_READERS_STREAM_NATIVE_FACTORY_CRON7.json",
+    "package_name": "T3_PACKAGE_INSTALL.json",
+    "package_member": "T3_PACKAGE_INSTALL.json",
+    "package_bytes": 360465,
+    "package_sha256": "e95a598b0797478a6e48c6ba1756147c60b4dc6ecbbed7b5db3152935ec983b1"
+  },
+  "original_directory_variable": "D17_18_RETAINED_D3_FACTORY_TIMEOUT_DIRECTORY",
+  "max_wait_seconds": 900,
+  "stall_seconds": 150,
+  "legacy_wait_seconds": 300,
+  "production_go": false,
+  "independent_acceptance": false
+}

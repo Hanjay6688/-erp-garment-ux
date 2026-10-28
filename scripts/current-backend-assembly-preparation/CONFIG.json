@@ -1,0 +1,632 @@
+{
+  "contract": "cp7.current-backend-assembly-preparation.v1",
+  "base_head": "52df2dc9abcd08ab2e1f1c765150dd907a60a6e9",
+  "prior_assembly_head": "b4ed2a34ccf170f2fb412d6cb3337dbf1ae8d166",
+  "history_head": "16d9e49ac36d0f607d08c90d987aea5d8128cd8c",
+  "retained_factory_head": "4ac681549d7ec664f504a71670c9035dd8f5944d",
+  "profile_head": "5b32f4744eef66c2e9cc8619781faee446f360e7",
+  "proposed_backend_head": "11c95c4ee2c784247e1be22ce0a582f4d85632c5",
+  "proposed_backend_tree": "688a4ac63208e000602a30d406b4e080d2203a28",
+  "exact_files": {
+    ".github/workflows/cp7-d17-18-workflow-history-isolation.yml": {
+      "head": "16d9e49ac36d0f607d08c90d987aea5d8128cd8c",
+      "sha256": "9a155388937aa2c3a6c29f3e484d29d750c07b95d47c64d07a7ac705705b5cbe",
+      "bytes": 3027
+    },
+    "scripts/current-workflow-history-isolation/ARCHIVE.json": {
+      "head": "16d9e49ac36d0f607d08c90d987aea5d8128cd8c",
+      "sha256": "0abb7b292818d66e104d0174d790612049afe9efad099943744eb38b4daa7a8b",
+      "bytes": 10852
+    },
+    "scripts/current-workflow-history-isolation/README.md": {
+      "head": "16d9e49ac36d0f607d08c90d987aea5d8128cd8c",
+      "sha256": "3dea9950562281ec3e7c5d18da469a4b114dafcb66b07c04ac3ec77575a9dd5d",
+      "bytes": 1240
+    },
+    "scripts/current-workflow-history-isolation/check.py": {
+      "head": "16d9e49ac36d0f607d08c90d987aea5d8128cd8c",
+      "sha256": "f78af6145e469075275f9e96a4e8f9c589273a830a27f94cbe4386e06b13ddaa",
+      "bytes": 1874
+    },
+    "scripts/current-workflow-history-isolation/frozen-workflows/cp7-current-frozen-finance-factory-date2.yml.txt": {
+      "head": "16d9e49ac36d0f607d08c90d987aea5d8128cd8c",
+      "sha256": "ebdf4c3e9cc345bc0873ab16d03ec91c24f1e5291735e54dbcbc64268bc1528e",
+      "bytes": 26758
+    },
+    "scripts/current-workflow-history-isolation/frozen-workflows/cp7-current-frozen-finance-factory-observe.yml.txt": {
+      "head": "16d9e49ac36d0f607d08c90d987aea5d8128cd8c",
+      "sha256": "2948fe6942bdd0791645698269cb06d09136a9e9dd43c344a2353f80e42dc14b",
+      "bytes": 26783
+    },
+    "scripts/current-workflow-history-isolation/frozen-workflows/cp7-current-frozen-finance-native.yml.txt": {
+      "head": "16d9e49ac36d0f607d08c90d987aea5d8128cd8c",
+      "sha256": "b3f7e4b5f88be6df6abb9ec1bd6f171d420cd5997e47b1f8e78f78cc15738970",
+      "bytes": 26389
+    },
+    "scripts/current-workflow-history-isolation/frozen-workflows/cp7-current-frozen-public-cron.yml.txt": {
+      "head": "16d9e49ac36d0f607d08c90d987aea5d8128cd8c",
+      "sha256": "cbd6ffb334d5b4f2d81909b18913037728145afc72608fae1afb86432778ef4a",
+      "bytes": 26875
+    },
+    "scripts/current-workflow-history-isolation/frozen-workflows/cp7-current-frozen-public-native.yml.txt": {
+      "head": "16d9e49ac36d0f607d08c90d987aea5d8128cd8c",
+      "sha256": "d9fa5ad901531ec80cd18857bf6d454a98e3cd5026bbe2e0186c0e534ea00092",
+      "bytes": 26789
+    },
+    "scripts/current-workflow-history-isolation/frozen-workflows/cp7-current-frozen-units-native.yml.txt": {
+      "head": "16d9e49ac36d0f607d08c90d987aea5d8128cd8c",
+      "sha256": "e9f1d9e1e1a851ab203ae25dc778dda4b364035732fa9c44edc8c5534786dcf3",
+      "bytes": 26074
+    },
+    "scripts/current-workflow-history-isolation/frozen-workflows/cp7-current-versioned-performance-browser.yml.txt": {
+      "head": "16d9e49ac36d0f607d08c90d987aea5d8128cd8c",
+      "sha256": "f941b6f381e88010799dcb921328f097b99e5e447bfedaa705ddb2bd80a82bcb",
+      "bytes": 26316
+    },
+    "scripts/current-workflow-history-isolation/frozen-workflows/cp7-current-versioned-performance-cron.yml.txt": {
+      "head": "16d9e49ac36d0f607d08c90d987aea5d8128cd8c",
+      "sha256": "b9ac4f9996e8d09cab9cade28084b49559dfcfbcb7adcf7af19c6294d60312ed",
+      "bytes": 25814
+    },
+    "scripts/current-workflow-history-isolation/frozen-workflows/cp7-current-versioned-performance-finance.yml.txt": {
+      "head": "16d9e49ac36d0f607d08c90d987aea5d8128cd8c",
+      "sha256": "e39139ec3b2563dc3aa2648c79d8090202c225f48a77f9304bd90a2f90cfe1a0",
+      "bytes": 25836
+    },
+    "scripts/current-workflow-history-isolation/frozen-workflows/cp7-current-versioned-performance-native.yml.txt": {
+      "head": "16d9e49ac36d0f607d08c90d987aea5d8128cd8c",
+      "sha256": "bcd835a703e3d27624bd277d5fd26798b04d026fc10f75376d0469250106ecdd",
+      "bytes": 25567
+    },
+    "scripts/current-workflow-history-isolation/frozen-workflows/cp7-current-versioned-performance-restore.yml.txt": {
+      "head": "16d9e49ac36d0f607d08c90d987aea5d8128cd8c",
+      "sha256": "db4dcf015d8ba7ee211a0bcdb1e184c67eb0810653e868a65dec78c7acb16c0d",
+      "bytes": 25858
+    },
+    "scripts/current-workflow-history-isolation/frozen-workflows/cp7-current-versioned-performance-transport.yml.txt": {
+      "head": "16d9e49ac36d0f607d08c90d987aea5d8128cd8c",
+      "sha256": "79e391fefb8b845a310e776d00adbcb9058394e44c510674351130f163a976d6",
+      "bytes": 25865
+    },
+    "scripts/current-workflow-history-isolation/frozen-workflows/cp7-d17-18-choice-finance-cron.yml.txt": {
+      "head": "16d9e49ac36d0f607d08c90d987aea5d8128cd8c",
+      "sha256": "b332179a4ff9bb71483a71a3d75a8c51fd2eadccab9a2b02f0df31c1fd670ad8",
+      "bytes": 28188
+    },
+    "scripts/current-workflow-history-isolation/frozen-workflows/cp7-d17-18-choice-preparation-native.yml.txt": {
+      "head": "16d9e49ac36d0f607d08c90d987aea5d8128cd8c",
+      "sha256": "85f667e6a6657e8624a759e9b13b0ccfb2d4b7aa361b5919109e9859903a41e4",
+      "bytes": 27522
+    },
+    "scripts/current-workflow-history-isolation/frozen-workflows/cp7-d17-18-choice-preparation-transport.yml.txt": {
+      "head": "16d9e49ac36d0f607d08c90d987aea5d8128cd8c",
+      "sha256": "0815a329373320b32ed8093f31df224a792cc575afb847c1392d912c3a8c1aac",
+      "bytes": 27733
+    },
+    "scripts/current-workflow-history-isolation/frozen-workflows/cp7-d17-18-consistent-capture.yml.txt": {
+      "head": "16d9e49ac36d0f607d08c90d987aea5d8128cd8c",
+      "sha256": "305f54fc7a56bea85041e8ca1d5ea09f7553703129401967594d971063940770",
+      "bytes": 29663
+    },
+    "scripts/current-workflow-history-isolation/frozen-workflows/cp7-d17-18-factory-stage-profile.yml.txt": {
+      "head": "16d9e49ac36d0f607d08c90d987aea5d8128cd8c",
+      "sha256": "cf1f14d7a2aa1cd17d2f673b081e3a7dbb80d495064257b59fa21acee0b334c6",
+      "bytes": 27078
+    },
+    "scripts/current-workflow-history-isolation/frozen-workflows/cp7-d17-18-finance-check-reuse-diagnostic.yml.txt": {
+      "head": "16d9e49ac36d0f607d08c90d987aea5d8128cd8c",
+      "sha256": "a8166a824f274ec4be16e08b0bfbea8dc003888a4ddb9611f118448561e30b8d",
+      "bytes": 27881
+    },
+    "scripts/current-workflow-history-isolation/frozen-workflows/cp7-d17-18-finance-followups.yml.txt": {
+      "head": "16d9e49ac36d0f607d08c90d987aea5d8128cd8c",
+      "sha256": "0fb499e1afd4a4e2d9a37cb77caeec841a10899e36e3e6ac80c2a50b54168083",
+      "bytes": 29412
+    },
+    "scripts/current-workflow-history-isolation/frozen-workflows/cp7-d17-18-finance-reader-diagnostic.yml.txt": {
+      "head": "16d9e49ac36d0f607d08c90d987aea5d8128cd8c",
+      "sha256": "ed75185fcf19c62a39ba69a93f62cbca447b0e8db5f4364966aeb40ade3fa2fb",
+      "bytes": 27245
+    },
+    "scripts/current-workflow-history-isolation/frozen-workflows/cp7-d17-18-finance-reader-source-race.yml.txt": {
+      "head": "16d9e49ac36d0f607d08c90d987aea5d8128cd8c",
+      "sha256": "a33b489cf0231f308ce3b855e7606dcccc2c75d8f22fc07d54dd1eb896f44829",
+      "bytes": 28424
+    },
+    "scripts/current-workflow-history-isolation/frozen-workflows/cp7-d17-18-progress-finance-ui-browser.yml.txt": {
+      "head": "16d9e49ac36d0f607d08c90d987aea5d8128cd8c",
+      "sha256": "fb79b494bafb2ebf9063891896229e3942adbae4c36324b402ac297580004c1f",
+      "bytes": 28456
+    },
+    "scripts/current-workflow-history-isolation/frozen-workflows/cp7-d17-18-progress-native.yml.txt": {
+      "head": "16d9e49ac36d0f607d08c90d987aea5d8128cd8c",
+      "sha256": "e869ab6d3d34c2865a58f0aa3acb1137f9cf3718c1216ecead9db69c358ec1ee",
+      "bytes": 27024
+    },
+    "scripts/current-workflow-history-isolation/frozen-workflows/cp7-d17-18-readonly-finance-composition.yml.txt": {
+      "head": "16d9e49ac36d0f607d08c90d987aea5d8128cd8c",
+      "sha256": "54b741c037f8b00897bafc64cf2a446e3118642930863567e992c422021cac3d",
+      "bytes": 28683
+    },
+    "scripts/current-workflow-history-isolation/materialize.py": {
+      "head": "16d9e49ac36d0f607d08c90d987aea5d8128cd8c",
+      "sha256": "53fbfe1cc59c77f49f67fcf4a6ebaa39395c2ae833942270a408a9a82bd99519",
+      "bytes": 2153
+    },
+    ".github/workflows/cp7-d17-18-factory-progress.yml": {
+      "head": "4ac681549d7ec664f504a71670c9035dd8f5944d",
+      "sha256": "32f76e82aa2cd49ecd17c618f3d8e2b6f4345b50dd363f406420a68376d27680",
+      "bytes": 28517
+    },
+    "scripts/current-finance-factory-progress-followup-qualification/BINDING.json": {
+      "head": "4ac681549d7ec664f504a71670c9035dd8f5944d",
+      "sha256": "6120ecf132428222accfd65695bbce0d11ff22b6ab1301ef6e69a76094172f86",
+      "bytes": 5514
+    },
+    "scripts/current-finance-factory-progress-followup-qualification/CONFIG.json": {
+      "head": "4ac681549d7ec664f504a71670c9035dd8f5944d",
+      "sha256": "b87bb7e5b2e430b31952d372c619671eb1c8af2106dca09f3e28baa45df3728c",
+      "bytes": 963
+    },
+    "scripts/current-finance-factory-progress-followup-qualification/D3_PREREQUISITE.json": {
+      "head": "4ac681549d7ec664f504a71670c9035dd8f5944d",
+      "sha256": "aabeee434290f665bdaa98f37cadbc164dcfcbacecd355041753e1b6af812de5",
+      "bytes": 1061
+    },
+    "scripts/current-finance-factory-progress-followup-qualification/FIRST49_FAILURE.json": {
+      "head": "4ac681549d7ec664f504a71670c9035dd8f5944d",
+      "sha256": "a71b2916f71cff5bbca1c70faac26f8348e4c6dbb5d2b786acce4f1b9362a19b",
+      "bytes": 3082
+    },
+    "scripts/current-finance-factory-progress-followup-qualification/FIRST_DF_FAILURE.json": {
+      "head": "4ac681549d7ec664f504a71670c9035dd8f5944d",
+      "sha256": "4b4257385e5678ec17fa02e33b2691372d30a223c80548f49ea5042c5f4984ef",
+      "bytes": 3554
+    },
+    "scripts/current-finance-factory-progress-followup-qualification/ORIGIN.json": {
+      "head": "4ac681549d7ec664f504a71670c9035dd8f5944d",
+      "sha256": "9300449c69605c7e8ac07e391043088a8a037b4b22afc074367f6dc198e12407",
+      "bytes": 5359
+    },
+    "scripts/current-finance-factory-progress-followup-qualification/README.md": {
+      "head": "4ac681549d7ec664f504a71670c9035dd8f5944d",
+      "sha256": "2ab3d4d45da002212368606065014a831b03b138fe84a8f7608c42eaedd8b280",
+      "bytes": 2083
+    },
+    "scripts/current-finance-factory-progress-followup-qualification/SOURCE.json": {
+      "head": "4ac681549d7ec664f504a71670c9035dd8f5944d",
+      "sha256": "9c4dbbbaa0604a6741f8105178390416ff176f94509a28281798883146efa52e",
+      "bytes": 7079
+    },
+    "scripts/current-finance-factory-progress-followup-qualification/WORKFLOW_ORIGIN.json": {
+      "head": "4ac681549d7ec664f504a71670c9035dd8f5944d",
+      "sha256": "e011226b6992a7ceeafea376a847157d309475bf76d199993649f0bc6ad9a4b3",
+      "bytes": 163
+    },
+    "scripts/current-finance-factory-progress-followup-qualification/admission.py": {
+      "head": "4ac681549d7ec664f504a71670c9035dd8f5944d",
+      "sha256": "aaad30d3dc024dc85ec060695dbcd3552a6480a031fd78a434d634ed43e51569",
+      "bytes": 2430
+    },
+    "scripts/current-finance-factory-progress-followup-qualification/cases.py": {
+      "head": "4ac681549d7ec664f504a71670c9035dd8f5944d",
+      "sha256": "044a54a523a67ea85ffe1f13935a6dd09a5e96ec28b760010a402207e6c1c4ac",
+      "bytes": 8663
+    },
+    "scripts/current-finance-factory-progress-followup-qualification/composition.py": {
+      "head": "4ac681549d7ec664f504a71670c9035dd8f5944d",
+      "sha256": "21ef7bdd2dea3f8dc0bdb990e371ed32eeab5726662977d02c3c15b6a35ce139",
+      "bytes": 7082
+    },
+    "scripts/current-finance-factory-progress-followup-qualification/evidence.py": {
+      "head": "4ac681549d7ec664f504a71670c9035dd8f5944d",
+      "sha256": "d910798d36bd4b96b87fe5eb8b006d83580af0c60a05c069ff2b9e0da8c60b62",
+      "bytes": 4541
+    },
+    "scripts/current-finance-factory-progress-followup-qualification/factory.py": {
+      "head": "4ac681549d7ec664f504a71670c9035dd8f5944d",
+      "sha256": "d877e2d959dfee239070394a3a2c18bf28ced4264fdbc6c4a1cff78999a601e4",
+      "bytes": 9738
+    },
+    "scripts/current-finance-factory-progress-followup-qualification/fetch_d3.py": {
+      "head": "4ac681549d7ec664f504a71670c9035dd8f5944d",
+      "sha256": "bfac0ce2c75640ffda583ae84b5fe7169740ba74dd9a204dc246da68a032d3ae",
+      "bytes": 1552
+    },
+    "scripts/current-finance-factory-progress-followup-qualification/opening.py": {
+      "head": "4ac681549d7ec664f504a71670c9035dd8f5944d",
+      "sha256": "e4d010582a18d99e7b1c991969e247256bfc358596882187dcb19fcdde254ac5",
+      "bytes": 3978
+    },
+    "scripts/current-finance-factory-progress-followup-qualification/probe.py": {
+      "head": "4ac681549d7ec664f504a71670c9035dd8f5944d",
+      "sha256": "7de4b60740d5397cf00315967eef2b38efc66d2a71e6907f4e6b3d3596c35749",
+      "bytes": 12191
+    },
+    "scripts/current-finance-factory-progress-followup-qualification/restoration.py": {
+      "head": "4ac681549d7ec664f504a71670c9035dd8f5944d",
+      "sha256": "38332c6c30f01468881c66f24926c0c95c0bc869d4404e3c888eba5734d50ea1",
+      "bytes": 356
+    },
+    "scripts/current-finance-factory-progress-followup-qualification/retained_d3.py": {
+      "head": "4ac681549d7ec664f504a71670c9035dd8f5944d",
+      "sha256": "84228497130f26738042a9445f9e5c10c7f34fe2479914d8fc6828e1bd837968",
+      "bytes": 5778
+    },
+    "scripts/current-finance-factory-progress-followup-qualification/runner.py": {
+      "head": "4ac681549d7ec664f504a71670c9035dd8f5944d",
+      "sha256": "bf3c9e4af5abbfcc4175726bbea20035121bbe89f81b566cb65246dcb0432e85",
+      "bytes": 6438
+    },
+    "scripts/current-finance-factory-progress-followup-qualification/source_guard.py": {
+      "head": "4ac681549d7ec664f504a71670c9035dd8f5944d",
+      "sha256": "3b9e372c9c73c043a772abb4f866f7c07a44b42bb7e8318b660ce3066fb5331d",
+      "bytes": 1799
+    },
+    "scripts/current-finance-factory-progress-followup-qualification/stream_data.py": {
+      "head": "4ac681549d7ec664f504a71670c9035dd8f5944d",
+      "sha256": "5a07ae1409337424b4d2c1234f75148013a30a8652f451686fdb02cb0b2b483c",
+      "bytes": 4670
+    },
+    "scripts/current-finance-factory-progress-followup-qualification/test_boundaries.py": {
+      "head": "4ac681549d7ec664f504a71670c9035dd8f5944d",
+      "sha256": "05083839532fb2ca9605850a75e715d127e4a3d004ff2961b0c44382515771c7",
+      "bytes": 3320
+    },
+    "scripts/current-finance-factory-progress-followup-qualification/test_opening.py": {
+      "head": "4ac681549d7ec664f504a71670c9035dd8f5944d",
+      "sha256": "966831527c09bae8163101487d8af95f281a398857787541cf6a38377233dcb4",
+      "bytes": 965
+    },
+    "scripts/current-finance-factory-progress-followup-qualification/test_retained_d3.py": {
+      "head": "4ac681549d7ec664f504a71670c9035dd8f5944d",
+      "sha256": "adb91d9d2aee78b6ae747c10e24c6467c2361fd8c2b95be025be350772744ccc",
+      "bytes": 1096
+    },
+    "scripts/current-finance-factory-progress-followup-qualification/test_runtime_entry.py": {
+      "head": "4ac681549d7ec664f504a71670c9035dd8f5944d",
+      "sha256": "af375521fc295eeddacaf408f911d763df0134b7c211f6bb1fe2d88a35711e0c",
+      "bytes": 1913
+    },
+    "scripts/current-finance-factory-progress-followup-qualification/test_stream_data.py": {
+      "head": "4ac681549d7ec664f504a71670c9035dd8f5944d",
+      "sha256": "b442f0591dc3c09de10017a7ad705ed4940d072be09aa1e36b8674b7cd1f8529",
+      "bytes": 3114
+    },
+    "scripts/current-finance-factory-progress-followup-qualification/test_unplanned_finance.py": {
+      "head": "4ac681549d7ec664f504a71670c9035dd8f5944d",
+      "sha256": "7f387028af91d32af3d1ecab4828e487b111a56b79f6e36daa7f0a9051e9c80e",
+      "bytes": 2680
+    },
+    "scripts/current-finance-factory-progress-followup-qualification/test_waiting.py": {
+      "head": "4ac681549d7ec664f504a71670c9035dd8f5944d",
+      "sha256": "b304554b7a01b4344cd95b5b4457b4fd2fd6b4a6857fdc4f09e25504341cf162",
+      "bytes": 3048
+    },
+    "scripts/current-finance-factory-progress-followup-qualification/waiting.py": {
+      "head": "4ac681549d7ec664f504a71670c9035dd8f5944d",
+      "sha256": "a1e9151f15e9049b786ddfa5bbee12e1dbadba9bac64fd568c482e687926f3f9",
+      "bytes": 3885
+    },
+    "scripts/current-finance-factory-progress-followup-qualification/workflow_guard.py": {
+      "head": "4ac681549d7ec664f504a71670c9035dd8f5944d",
+      "sha256": "d69bf9fe8841b8fe716f8ea04a53931dea86b5664eee798c6a3e4743a2964dd2",
+      "bytes": 3559
+    },
+    ".github/workflows/cp7-d17-18-factory-operational-profile.yml": {
+      "head": "5b32f4744eef66c2e9cc8619781faee446f360e7",
+      "sha256": "e31bc61c8ab3c1935f988f6fca693a8d4d10f0afa2d40aa5945bb285e1a2fe76",
+      "bytes": 29149
+    },
+    "scripts/current-factory-operational-profile-qualification/CONFIG.json": {
+      "head": "5b32f4744eef66c2e9cc8619781faee446f360e7",
+      "sha256": "274e6be98007525ce487dfd72dd40544023915ca741c31be5898336169f6ffd7",
+      "bytes": 1160
+    },
+    "scripts/current-factory-operational-profile-qualification/FIRST_4AC_FAILURE.json": {
+      "head": "5b32f4744eef66c2e9cc8619781faee446f360e7",
+      "sha256": "b6fab1d644e4613a4b5ec9e7ea8b89636161bd0a6719324fd5c338c31e197659",
+      "bytes": 1947
+    },
+    "scripts/current-factory-operational-profile-qualification/ORIGIN.json": {
+      "head": "5b32f4744eef66c2e9cc8619781faee446f360e7",
+      "sha256": "0d6a06a97a8960015b6113c951d06d638d8eaad510fe212bc54b0704125540ab",
+      "bytes": 3303
+    },
+    "scripts/current-factory-operational-profile-qualification/README.md": {
+      "head": "5b32f4744eef66c2e9cc8619781faee446f360e7",
+      "sha256": "3a0f90caae7766b53508f756e8178caf8bb0b339f4c0238c2be5dc32d7ca71a7",
+      "bytes": 1363
+    },
+    "scripts/current-factory-operational-profile-qualification/SOURCE.json": {
+      "head": "5b32f4744eef66c2e9cc8619781faee446f360e7",
+      "sha256": "5c361135baa81465454391add13869c09080221d30f601b6006c0354cd719cfe",
+      "bytes": 3268
+    },
+    "scripts/current-factory-operational-profile-qualification/admission.py": {
+      "head": "5b32f4744eef66c2e9cc8619781faee446f360e7",
+      "sha256": "01ee975ae9baba6017693f1b968b0371bcc214baf96e8a9131d6d6cab220547f",
+      "bytes": 2082
+    },
+    "scripts/current-factory-operational-profile-qualification/cases.py": {
+      "head": "5b32f4744eef66c2e9cc8619781faee446f360e7",
+      "sha256": "a979a893d5b2fc3ce52e9686cd1d7245b9f678683c5ac4f6aeb23fbfa29aa60c",
+      "bytes": 769
+    },
+    "scripts/current-factory-operational-profile-qualification/evidence.py": {
+      "head": "5b32f4744eef66c2e9cc8619781faee446f360e7",
+      "sha256": "f6ccdffa766b6d808ad095e676b83b9b1bf05f0714903e75352478c3b54ef739",
+      "bytes": 2705
+    },
+    "scripts/current-factory-operational-profile-qualification/fetch_failure.py": {
+      "head": "5b32f4744eef66c2e9cc8619781faee446f360e7",
+      "sha256": "412dc24a366dbdc81c3016d6c1fecdf2eb984caab9d4ab73460bff334a9dcee0",
+      "bytes": 1357
+    },
+    "scripts/current-factory-operational-profile-qualification/measurements.py": {
+      "head": "5b32f4744eef66c2e9cc8619781faee446f360e7",
+      "sha256": "124662dff0aa538bbb2b716df7f207b3178ed659bd12830cebfdc7c92606dd34",
+      "bytes": 6718
+    },
+    "scripts/current-factory-operational-profile-qualification/probe.py": {
+      "head": "5b32f4744eef66c2e9cc8619781faee446f360e7",
+      "sha256": "482b06f6c20794f9cd2d23ef83372ae84525c90521b74b39a1ebf7f70b21addf",
+      "bytes": 12384
+    },
+    "scripts/current-factory-operational-profile-qualification/runner.py": {
+      "head": "5b32f4744eef66c2e9cc8619781faee446f360e7",
+      "sha256": "1933150f7213d4b9c0773f39f6966876e2f0b8c44eb53c82869f8e282b756586",
+      "bytes": 6685
+    },
+    "scripts/current-factory-operational-profile-qualification/source_guard.py": {
+      "head": "5b32f4744eef66c2e9cc8619781faee446f360e7",
+      "sha256": "b626d031355957cbdfdd2b9cffdc55f4904f8fa62c8e50a040da94800e462530",
+      "bytes": 974
+    },
+    "scripts/current-factory-operational-profile-qualification/test_evidence.py": {
+      "head": "5b32f4744eef66c2e9cc8619781faee446f360e7",
+      "sha256": "5cef6101c44e7ef659ded37d233addadaf6810b717df61686b96f6d280abcaf4",
+      "bytes": 1989
+    },
+    ".github/workflows/cp7-d17-18-factory-initial-stage.yml": {
+      "head": "11c95c4ee2c784247e1be22ce0a582f4d85632c5",
+      "sha256": "c0378cca3cac657f9da0b13875e95aab2cc04876e395dd7ca6a78a7321ffef0c",
+      "bytes": 29735
+    },
+    "scripts/current-factory-initial-stage/BINDING.json": {
+      "head": "11c95c4ee2c784247e1be22ce0a582f4d85632c5",
+      "sha256": "6120ecf132428222accfd65695bbce0d11ff22b6ab1301ef6e69a76094172f86",
+      "bytes": 5514
+    },
+    "scripts/current-factory-initial-stage/CONFIG.json": {
+      "head": "11c95c4ee2c784247e1be22ce0a582f4d85632c5",
+      "sha256": "92b6e92923d85b9c0237c6b530e6399f63dcd48c246ea6b133a7dd3248f7c10c",
+      "bytes": 1219
+    },
+    "scripts/current-factory-initial-stage/LOCAL_PREFLIGHT.json": {
+      "head": "11c95c4ee2c784247e1be22ce0a582f4d85632c5",
+      "sha256": "e3f6bdf80c8dcaa5f67127852b955353fcf4bef0a9c99664468aae1987c95cd8",
+      "bytes": 309
+    },
+    "scripts/current-factory-initial-stage/ORIGIN.json": {
+      "head": "11c95c4ee2c784247e1be22ce0a582f4d85632c5",
+      "sha256": "47e071247021529d26e58cd185b4517ef69599a17cc782c46bf33f9770f69cf3",
+      "bytes": 6414
+    },
+    "scripts/current-factory-initial-stage/README.md": {
+      "head": "11c95c4ee2c784247e1be22ce0a582f4d85632c5",
+      "sha256": "f54dbe47cdd2d5f46d464795fb363ecc43759af591bcba196a6e10715d4bc2d8",
+      "bytes": 3444
+    },
+    "scripts/current-factory-initial-stage/SOURCE.json": {
+      "head": "11c95c4ee2c784247e1be22ce0a582f4d85632c5",
+      "sha256": "2a367a963651c15291a2755883bc4219ce4e4a426c2d20d6ff3c395d1a01407f",
+      "bytes": 3112
+    },
+    "scripts/current-factory-initial-stage/WORKFLOW_ORIGIN.json": {
+      "head": "11c95c4ee2c784247e1be22ce0a582f4d85632c5",
+      "sha256": "de64ca1af52956567f5f59c440c265f8aa6e70e4565a24d953108290fc7e60e1",
+      "bytes": 166
+    },
+    "scripts/current-factory-initial-stage/admission.py": {
+      "head": "11c95c4ee2c784247e1be22ce0a582f4d85632c5",
+      "sha256": "d257f72267642fae0eb72f80fe75bfe6f1da64f0e831f728b845cab9935199a5",
+      "bytes": 2249
+    },
+    "scripts/current-factory-initial-stage/cases.py": {
+      "head": "11c95c4ee2c784247e1be22ce0a582f4d85632c5",
+      "sha256": "044a54a523a67ea85ffe1f13935a6dd09a5e96ec28b760010a402207e6c1c4ac",
+      "bytes": 8663
+    },
+    "scripts/current-factory-initial-stage/composition.py": {
+      "head": "11c95c4ee2c784247e1be22ce0a582f4d85632c5",
+      "sha256": "e81a4afa69355e2e946c9562f25e116e3246ce02b63c008a803e50b1e5ba7322",
+      "bytes": 6194
+    },
+    "scripts/current-factory-initial-stage/evidence.py": {
+      "head": "11c95c4ee2c784247e1be22ce0a582f4d85632c5",
+      "sha256": "94f7c8e8574702698979048e5c3177d36c6837c2c81f6d5ad0518dba6f112e4e",
+      "bytes": 2732
+    },
+    "scripts/current-factory-initial-stage/factory.py": {
+      "head": "11c95c4ee2c784247e1be22ce0a582f4d85632c5",
+      "sha256": "e42ca1a6bcafed8e15aaadef6f602284249972dfcaa0122649fcfed568d6d431",
+      "bytes": 10755
+    },
+    "scripts/current-factory-initial-stage/fetch_profile.py": {
+      "head": "11c95c4ee2c784247e1be22ce0a582f4d85632c5",
+      "sha256": "ea817be268e5b5b61dbf62071c109e559fdb3a8a8c38c07eadcef81ec4b14958",
+      "bytes": 1339
+    },
+    "scripts/current-factory-initial-stage/guard_cases.py": {
+      "head": "11c95c4ee2c784247e1be22ce0a582f4d85632c5",
+      "sha256": "cff25562c4009cbc52ab3971cda4c628dd69079f30d07a695dd4ed7441b96adf",
+      "bytes": 4987
+    },
+    "scripts/current-factory-initial-stage/probe.py": {
+      "head": "11c95c4ee2c784247e1be22ce0a582f4d85632c5",
+      "sha256": "d133605f8ba2193b216d2250538969e548ea9386f734fa6f22430a91e4d67075",
+      "bytes": 12256
+    },
+    "scripts/current-factory-initial-stage/restoration.py": {
+      "head": "11c95c4ee2c784247e1be22ce0a582f4d85632c5",
+      "sha256": "38332c6c30f01468881c66f24926c0c95c0bc869d4404e3c888eba5734d50ea1",
+      "bytes": 356
+    },
+    "scripts/current-factory-initial-stage/runner.py": {
+      "head": "11c95c4ee2c784247e1be22ce0a582f4d85632c5",
+      "sha256": "4eec61ecb3b329d3cd05548af7e4a3c371847ecd6899b1a0028c28c4554a3d11",
+      "bytes": 6415
+    },
+    "scripts/current-factory-initial-stage/source_guard.py": {
+      "head": "11c95c4ee2c784247e1be22ce0a582f4d85632c5",
+      "sha256": "40ae604ea93cec08b79ef4a34bcfb2ef812c7652a6f6c9931b4355d5b07bd858",
+      "bytes": 1500
+    },
+    "scripts/current-factory-initial-stage/stream_data.py": {
+      "head": "11c95c4ee2c784247e1be22ce0a582f4d85632c5",
+      "sha256": "5a07ae1409337424b4d2c1234f75148013a30a8652f451686fdb02cb0b2b483c",
+      "bytes": 4670
+    },
+    "scripts/current-factory-initial-stage/test_boundaries.py": {
+      "head": "11c95c4ee2c784247e1be22ce0a582f4d85632c5",
+      "sha256": "e87772419bb563e6bc6c872a0041bbce9399060ca4695a6cb843821a22fcd516",
+      "bytes": 2784
+    },
+    "scripts/current-factory-initial-stage/waiting.py": {
+      "head": "11c95c4ee2c784247e1be22ce0a582f4d85632c5",
+      "sha256": "3a9290523733efe64606c9640c6d0ac14c9073564dfd919279f724260301e06e",
+      "bytes": 3918
+    },
+    "scripts/current-factory-initial-stage/worker.py": {
+      "head": "11c95c4ee2c784247e1be22ce0a582f4d85632c5",
+      "sha256": "0af081c371b2cd0704e159d75de2889f8a42d4e48ef64aab89a7e75040d7b6a3",
+      "bytes": 8168
+    },
+    "scripts/current-factory-initial-stage/workflow_guard.py": {
+      "head": "11c95c4ee2c784247e1be22ce0a582f4d85632c5",
+      "sha256": "38b5d75814d6d7223bf937055fb75787baf79eac0c79fee10df91bd155e7730b",
+      "bytes": 2881
+    }
+  },
+  "deleted_workflows": [
+    ".github/workflows/cp7-current-frozen-finance-factory-date2.yml",
+    ".github/workflows/cp7-current-frozen-finance-factory-observe.yml",
+    ".github/workflows/cp7-current-frozen-finance-native.yml",
+    ".github/workflows/cp7-current-frozen-public-cron.yml",
+    ".github/workflows/cp7-current-frozen-public-native.yml",
+    ".github/workflows/cp7-current-frozen-units-native.yml",
+    ".github/workflows/cp7-current-versioned-performance-browser.yml",
+    ".github/workflows/cp7-current-versioned-performance-cron.yml",
+    ".github/workflows/cp7-current-versioned-performance-finance.yml",
+    ".github/workflows/cp7-current-versioned-performance-native.yml",
+    ".github/workflows/cp7-current-versioned-performance-restore.yml",
+    ".github/workflows/cp7-current-versioned-performance-transport.yml",
+    ".github/workflows/cp7-d17-18-choice-finance-cron.yml",
+    ".github/workflows/cp7-d17-18-choice-preparation-native.yml",
+    ".github/workflows/cp7-d17-18-choice-preparation-transport.yml",
+    ".github/workflows/cp7-d17-18-consistent-capture.yml",
+    ".github/workflows/cp7-d17-18-factory-stage-profile.yml",
+    ".github/workflows/cp7-d17-18-finance-check-reuse-diagnostic.yml",
+    ".github/workflows/cp7-d17-18-finance-followups.yml",
+    ".github/workflows/cp7-d17-18-finance-reader-diagnostic.yml",
+    ".github/workflows/cp7-d17-18-finance-reader-source-race.yml",
+    ".github/workflows/cp7-d17-18-progress-finance-ui-browser.yml",
+    ".github/workflows/cp7-d17-18-progress-native.yml",
+    ".github/workflows/cp7-d17-18-readonly-finance-composition.yml"
+  ],
+  "retained_actual_history_intake": {
+    "status": "PASS_EXACT_HISTORICAL_ISOLATION_ACTIONS_CODEQL",
+    "head": "16d9e49ac36d0f607d08c90d987aea5d8128cd8c",
+    "run_id": 40629158480,
+    "jobs": [
+      {
+        "id": 122621191697,
+        "name": "Historical workflow isolation CodeQL actions",
+        "conclusion": "success"
+      },
+      {
+        "id": 122621191994,
+        "name": "source",
+        "conclusion": "success"
+      }
+    ],
+    "proofs": [
+      {
+        "artifact_id": 12790084720,
+        "name": "workflow-history-isolation-source-1",
+        "zip_bytes": 663,
+        "zip_sha256": "0c3ce1ec82025f804283560c11ea5c75c58e710659a831aeaf6f43d655c53361"
+      },
+      {
+        "artifact_id": 12790563171,
+        "name": "workflow-history-isolation-codeql-actions",
+        "zip_bytes": 114716,
+        "zip_sha256": "5d276354413490c95ec14a411e9a3540409604793a0f4501d3d6333e117101b9"
+      }
+    ],
+    "source": {
+      "status": "PASS_UNCHANGED_SOURCE_WITH_HISTORICAL_WORKFLOWS_RETIRED",
+      "head": "16d9e49ac36d0f607d08c90d987aea5d8128cd8c",
+      "base_head": "64c65e0d7b4d046a9d4da20a62d585ff927205ba",
+      "materialization": {
+        "status": "EXACT_HISTORICAL_PROOF_INPUTS_ONLY",
+        "files": 24,
+        "all_bytes_equal_frozen_original": true,
+        "Git_workflow_entries_restored": 0,
+        "active_workflow_behavior_added": false
+      },
+      "source": {
+        "status": "PASS_EXACT_SOURCE_CLOSURE_ONLY",
+        "exact_files": 4315,
+        "frozen_manifests": 7,
+        "current_B_exact_files": 38,
+        "main_dispatch_App_and_package_unchanged": true,
+        "business_oracles_unchanged": true,
+        "actual_database_Auth_browser_cases": 0,
+        "default_adopted": false,
+        "production_go": false,
+        "independent_acceptance": false
+      },
+      "original_manifests_rewritten": 0,
+      "old_B_and_all_product_bodies_changed": false,
+      "CodeQL_finding_dismissal": false,
+      "actual_DB_Auth_browser_cases": 0,
+      "production_go": false,
+      "independent_acceptance": false
+    },
+    "CodeQL": [
+      {
+        "name": "actions.sarif",
+        "bytes": 1732108,
+        "sha256": "0df48abd49fbab2a3ef3bbbe74104dd53c104bb061df5d999856e752c1eb49b5",
+        "analysis_runs": 1,
+        "successful_invocations": 1,
+        "findings": 0
+      }
+    ],
+    "retained_JS_finding_head": "b87a8cd995ca7b09913ede43db9d6efa46ddffa7",
+    "retained_JS_findings": 1,
+    "JS_rerun": false,
+    "full_shell_acceptance": false,
+    "actual_DB_Auth_browser_cases": 0,
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "backend_runtime_eligible": false,
+  "backend_runtime_result": "PENDING_EXACT_11C_ALL7",
+  "browser_owner": "B",
+  "browser_files_imported": 0,
+  "actual_DB_Auth_browser_cases": 0,
+  "default_adopted": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "retained_frozen_source_admission": {
+    "bytes": 3159038,
+    "sha256": "3531a678fbc6380892e73bd3f5731852e99f2381f842821222681c012c5bb219",
+    "source": "full zero-DB admission of exact frozen11c source tree",
+    "head": "11c95c4ee2c784247e1be22ce0a582f4d85632c5",
+    "tree": "688a4ac63208e000602a30d406b4e080d2203a28",
+    "runtime_acceptance": false
+  }
+}

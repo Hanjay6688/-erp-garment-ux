@@ -1,0 +1,24 @@
+{
+  "head": "b4ed2a34ccf170f2fb412d6cb3337dbf1ae8d166",
+  "path": ".github/workflows/cp7-d17-18-integration-assembly.yml",
+  "sha256": "63537f03cb6c83de3e80f58a0d021bcbc57fc7fd13e086634a4302010f6723d1",
+  "target": ".github/workflows/cp7-d17-18-backend-assembly.yml",
+  "replacements": [
+    [
+      "integration-assembly",
+      "backend-assembly"
+    ],
+    [
+      "exact integration assembly",
+      "exact backend assembly"
+    ],
+    [
+      "Integration assembly CodeQL",
+      "Backend assembly CodeQL"
+    ],
+    [
+      "Verify exact assembly and closed browser boundaries",
+      "Verify exact backend assembly and scoped tooling sources"
+    ]
+  ]
+}
