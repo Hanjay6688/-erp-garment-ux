@@ -5806,3 +5806,17 @@ Main masih kandidat yang diterima bersama B f5e4; intake9berkasbeb1 belum diadop
 Berikut: selesaikan actual11, ikat browser uang pada runtime yang sama, lalu
 seleksi integrasi/registry dan audit. Formal5/16, production_go=false,
 independent_acceptance=false.
+
+
+## A — 29 Oktober2026: backend vendor11 PASS, money browser2 berjalan
+
+A menerima Original41c/run40769840440/job123103756460/artifact12854543326:
+Native7/race3/Auth1 PASS, empat detektor provenance, full22/data/sequence/
+role/CP6/advisor/Auth dan seluruh5gatepaket. Receipt ow08/vendor-combined41c-pass.json.
+Prefix fixture diperbaiki tanpa mengganti produk/oracle; first54b tetap utuh.
+A menjalankan kandidat uang18fb/run40777747825/job123131312444 satu kali,
+terpisah dari B. UI/fixture/log/hasil browser belum PASS. Pilihan C keduanya
+tertutup di backend; pembuktian layar keduanya sedang dikerjakan. Pemasang
+existing composition.install dipanggil langsung, tidak membuat installer baru.
+Intakecd834502 berisi9berkas uang ditambah checker, B graph79/driver tetap
+identik. Main belum mengadopsi runtime vendor/default. Formal5/16 dan no GO.

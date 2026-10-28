@@ -330,7 +330,13 @@
     "docs/cp7/d17-14/ow08/vendor-combined54b-first-incomplete/CP7_VENDOR_RECEIVABLE_COMBINED11.json.gz",
     "docs/cp7/d17-14/ow08/vendor-combined54b-first-incomplete/T3_PACKAGE_FILES_INSTALL.json.gz",
     "docs/cp7/d17-14/ow08/vendor-combined54b-first-incomplete/T3_BACKUP_RESTORE_DRILL.json.gz",
-    "docs/cp7/d17-14/ow08/vendor-combined54b-first-incomplete/T3_PACKAGE_INSTALL.json.gz"
+    "docs/cp7/d17-14/ow08/vendor-combined54b-first-incomplete/T3_PACKAGE_INSTALL.json.gz",
+    "docs/cp7/d17-14/ow08/vendor-combined41c-pass.json",
+    "docs/cp7/d17-14/ow08/vendor-combined41c-pass/ORIGINAL_MEMBERS.json",
+    "docs/cp7/d17-14/ow08/vendor-combined41c-pass/CP7_VENDOR_RECEIVABLE_COMBINED11.json.gz",
+    "docs/cp7/d17-14/ow08/vendor-combined41c-pass/T3_PACKAGE_FILES_INSTALL.json.gz",
+    "docs/cp7/d17-14/ow08/vendor-combined41c-pass/T3_BACKUP_RESTORE_DRILL.json.gz",
+    "docs/cp7/d17-14/ow08/vendor-combined41c-pass/T3_PACKAGE_INSTALL.json.gz"
   ],
   "production_go": false,
   "independent_acceptance": false

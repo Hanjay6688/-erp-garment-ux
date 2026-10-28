@@ -1,5 +1,5 @@
 {
-  "recorded_at_utc": "2026-10-28T17:05:40.240793+00:00",
+  "recorded_at_utc": "2026-10-28T22:11:45.076926+00:00",
   "role": "A finance writer/integrator replacing Claude; B remains separate production/planning writer",
   "slogan": [
     "VENI. VIDI. VICI. ERP. — I CONQUERED ERP.",
@@ -9,82 +9,47 @@
   "production_go": false,
   "independent_acceptance": false,
   "running": {
-    "status": "RUNNING_FIXTURE_LABEL_SUCCESSOR_NOT_ACCEPTED",
-    "head": "41caaaed02c0d89b122ecf1ff221f6647141c335",
-    "tree": "b8831a52531598c514f8199016dea6194d783833",
-    "run_id": 40769840440,
-    "job_id": 123103756460,
-    "branch": "astra-a/ow08b-vendor-combined-qualification-20261029",
-    "fresh_planned": {
-      "Native": 7,
-      "races": 3,
-      "Auth_HTTP": 1,
-      "browser": 0
-    },
-    "first_CI_failure": {
-      "run_id": 40760545510,
-      "head": "426dafd2ccf1ec90693e2c1640047fd9f2b3ca81",
-      "status": "INVALID_WORKFLOW_ZERO_JOBS_ZERO_DB",
-      "cause": "working_directory instead of working-directory",
-      "fixed": true
-    },
-    "parent_Native7": {
-      "head": "5dedbaae47eb4b3b23b54da94605f7d940f0ca22",
-      "tree": "4557e2ce213e0c2785deb0e90a3fe19eae7752a0",
-      "run_id": 40751542770,
-      "job_id": 123039250204,
-      "artifact_id": 12848155314,
-      "zip_bytes": 2016825,
-      "zip_sha256": "23dbfbac51e38773d0aae77a266fd6ff811f3a4dcbbf4080b48c01d401c332a1",
+    "status": "RUNNING_ACTUAL_MONEY_BROWSER2_NOT_ACCEPTED",
+    "head": "18fb0bd2aae65d880e28d7ec8a7f2930f77c9925",
+    "tree": "5c620d1e84eae2af8ae45cc462ccde9e089ff9f8",
+    "branch": "astra-a/ow08b-vendor-money-browser-qualification-20261029",
+    "run_id": 40777747825,
+    "job_id": 123131312444,
+    "backend": {
+      "head": "41caaaed02c0d89b122ecf1ff221f6647141c335",
+      "tree": "b8831a52531598c514f8199016dea6194d783833",
+      "run_id": 40769840440,
+      "job_id": 123103756460,
+      "artifact_id": 12854543326,
+      "zip_bytes": 2031933,
+      "zip_sha256": "9432cdd8bcea2df52ad8fb631122ce963b91bee32dea849a4337e4ec2c020eb0",
       "original": {
-        "name": "CP7_VENDOR_RECEIVABLE_NATIVE7.json",
-        "bytes": 3288623,
-        "sha256": "de6b3499b2232732f226b6b738caa3fb9f15e631136c6d6adff9f9b89d3c5483"
+        "name": "CP7_VENDOR_RECEIVABLE_COMBINED11.json",
+        "bytes": 3485711,
+        "sha256": "04e00f42862ddfec8346d41d4d6a2d6a285f041127cccf09d973ca929b307ea0"
       },
       "package": {
         "name": "T3_PACKAGE_INSTALL.json",
-        "bytes": 360415,
-        "sha256": "3e7b2e7b8c243f3d16a689b6dd4d5a10c2152993b0c92df445ac48db77baffe5"
+        "bytes": 360420,
+        "sha256": "48fc54072b4f3122d89f6a45faa93f0e8ebd05ecfde0b9370def8202755e0f43"
       }
     },
-    "stricter_provenance_SQL_sha256": "3b24728512e8be6af697f3234e591f7fe6b46331c68e3497ab71aedbcc9aa2ba",
-    "actual_new_case_PASS_claim": false,
-    "production_go": false,
-    "independent_acceptance": false,
-    "first_actual_failure": {
-      "status": "FIRST_ACTUAL_COMBINED11_INCOMPLETE_PRESERVED",
-      "pin": {
-        "head": "54b786f3e38ba41d362a23fd75fb0d5c0520150d",
-        "tree": "e211b0d169193c0f5e3df226b5aad173946bfff2",
-        "run_id": 40761955464,
-        "job_id": 123075935760,
-        "artifact_id": 12851481342,
-        "zip_bytes": 2029718,
-        "zip_sha256": "f8bf0f09eefc8387eec83b402a98be7c3a4a38353b69e63048db16c1586b8dfd",
-        "original": {
-          "name": "CP7_VENDOR_RECEIVABLE_COMBINED11.json",
-          "bytes": 3448411,
-          "sha256": "67e559071a8af412e972a8f892d58fec4086682a1051a4eed02a59a0961b9c67"
-        },
-        "package": {
-          "name": "T3_PACKAGE_INSTALL.json",
-          "bytes": 360427,
-          "sha256": "661794d6fc0a104549dcd2246be1481c4e8988881de5a064b1ab0876ca8b1ddf"
-        }
-      },
-      "classification": "WRITER_FIXTURE_SOURCE_TYPE_LABEL_EXCEEDS_NATIVE_VARCHAR50",
-      "counts": {
-        "PASS": 6,
-        "INCOMPLETE": 1
-      },
-      "full_restore": true,
-      "followup_started": false,
-      "receipt": "docs/cp7/d17-14/ow08/vendor-combined54b-first-incomplete.json"
+    "fresh_planned": {
+      "browser": 2,
+      "Native": 0,
+      "races": 0
     },
-    "runtime_identical_to_54b": true,
-    "local_controls_PASS": 18,
-    "source_admission": "PASS_NO_DB",
-    "change": "EXACTLY_ONE_NATIVE_FIXTURE_LABEL_PREFIX_NO_ORACLE_OR_PRODUCT_CHANGE"
+    "existing_complete_installation_entrypoint": "cp7_vendor_receivable.composition.install",
+    "source_admission": "PASS_EXACT_BACKEND11_CLIENT5_AND_PARENT193",
+    "local_controls": {
+      "admission": 3,
+      "opacity": 7,
+      "retained_console": 4
+    },
+    "B_browser_repeated": false,
+    "actual_browser_PASS_claim": false,
+    "production_go": false,
+    "independent_acceptance": false
   },
   "actual_new_component": {
     "name": "CP7_OW11_MODEL_TARGET_SOURCE_V2.json",
@@ -19423,7 +19388,7 @@
     "vendor_owner_decision": "BOTH_NEXT_INVOICE_AND_CASH_BANK_REFUND",
     "vendor_candidate": "41caaaed02c0d89b122ecf1ff221f6647141c335",
     "vendor_run": 40769840440,
-    "vendor_status": "RUNNING_FIXTURE_LABEL_SUCCESSOR_NOT_ACCEPTED",
+    "vendor_status": "PASS_ACTUAL_NATIVE7_RACES3_AUTH1_FULL_RESTORE_ALL5_GATES",
     "return_original_successor": "6b7dab37d58523865c9d6e724c87d5b10d4b1aa0",
     "return_retained_status": "PASS_2_BASELINE_2_CURRENT_ON_NAMED_SOURCE",
     "return3194_candidate": "3a366ed69752c81b43389440f92dd48135771e36",
@@ -19455,87 +19420,93 @@
     "return3194_receipt": "docs/cp7/d17-14/ow15/return-reverse3194-3a366ed6-pass.json",
     "return3194_artifact_id": 12839922675,
     "return3194_original_sha256": "392bfd10e6ddb21d07319da73405000d21a769287e4774af8e14cf3609e12153",
-    "vendor_receipt": "docs/cp7/d17-14/ow08/vendor-combined54b-first-incomplete.json",
+    "vendor_receipt": "docs/cp7/d17-14/ow08/vendor-combined41c-pass.json",
     "vendor_successor": {
-      "status": "RUNNING_FIXTURE_LABEL_SUCCESSOR_NOT_ACCEPTED",
-      "head": "41caaaed02c0d89b122ecf1ff221f6647141c335",
-      "tree": "b8831a52531598c514f8199016dea6194d783833",
-      "run_id": 40769840440,
-      "job_id": 123103756460,
-      "branch": "astra-a/ow08b-vendor-combined-qualification-20261029",
-      "fresh_planned": {
-        "Native": 7,
-        "races": 3,
-        "Auth_HTTP": 1,
-        "browser": 0
-      },
-      "first_CI_failure": {
-        "run_id": 40760545510,
-        "head": "426dafd2ccf1ec90693e2c1640047fd9f2b3ca81",
-        "status": "INVALID_WORKFLOW_ZERO_JOBS_ZERO_DB",
-        "cause": "working_directory instead of working-directory",
-        "fixed": true
-      },
-      "parent_Native7": {
-        "head": "5dedbaae47eb4b3b23b54da94605f7d940f0ca22",
-        "tree": "4557e2ce213e0c2785deb0e90a3fe19eae7752a0",
-        "run_id": 40751542770,
-        "job_id": 123039250204,
-        "artifact_id": 12848155314,
-        "zip_bytes": 2016825,
-        "zip_sha256": "23dbfbac51e38773d0aae77a266fd6ff811f3a4dcbbf4080b48c01d401c332a1",
+      "status": "PASS_ACTUAL_NATIVE7_RACES3_AUTH1_FULL_RESTORE_ALL5_GATES",
+      "pin": {
+        "head": "41caaaed02c0d89b122ecf1ff221f6647141c335",
+        "tree": "b8831a52531598c514f8199016dea6194d783833",
+        "run_id": 40769840440,
+        "job_id": 123103756460,
+        "artifact_id": 12854543326,
+        "zip_bytes": 2031933,
+        "zip_sha256": "9432cdd8bcea2df52ad8fb631122ce963b91bee32dea849a4337e4ec2c020eb0",
         "original": {
-          "name": "CP7_VENDOR_RECEIVABLE_NATIVE7.json",
-          "bytes": 3288623,
-          "sha256": "de6b3499b2232732f226b6b738caa3fb9f15e631136c6d6adff9f9b89d3c5483"
+          "name": "CP7_VENDOR_RECEIVABLE_COMBINED11.json",
+          "bytes": 3485711,
+          "sha256": "04e00f42862ddfec8346d41d4d6a2d6a285f041127cccf09d973ca929b307ea0"
         },
         "package": {
           "name": "T3_PACKAGE_INSTALL.json",
-          "bytes": 360415,
-          "sha256": "3e7b2e7b8c243f3d16a689b6dd4d5a10c2152993b0c92df445ac48db77baffe5"
+          "bytes": 360420,
+          "sha256": "48fc54072b4f3122d89f6a45faa93f0e8ebd05ecfde0b9370def8202755e0f43"
         }
       },
-      "stricter_provenance_SQL_sha256": "3b24728512e8be6af697f3234e591f7fe6b46331c68e3497ab71aedbcc9aa2ba",
-      "actual_new_case_PASS_claim": false,
+      "receipt": "docs/cp7/d17-14/ow08/vendor-combined41c-pass.json",
+      "actual_four_provenance_controls_PASS": true,
+      "actual_two_session_lock_observed": true,
+      "actual_browser": 0,
+      "default_adopted": false,
       "production_go": false,
-      "independent_acceptance": false,
-      "first_actual_failure": {
-        "status": "FIRST_ACTUAL_COMBINED11_INCOMPLETE_PRESERVED",
-        "pin": {
-          "head": "54b786f3e38ba41d362a23fd75fb0d5c0520150d",
-          "tree": "e211b0d169193c0f5e3df226b5aad173946bfff2",
-          "run_id": 40761955464,
-          "job_id": 123075935760,
-          "artifact_id": 12851481342,
-          "zip_bytes": 2029718,
-          "zip_sha256": "f8bf0f09eefc8387eec83b402a98be7c3a4a38353b69e63048db16c1586b8dfd",
-          "original": {
-            "name": "CP7_VENDOR_RECEIVABLE_COMBINED11.json",
-            "bytes": 3448411,
-            "sha256": "67e559071a8af412e972a8f892d58fec4086682a1051a4eed02a59a0961b9c67"
-          },
-          "package": {
-            "name": "T3_PACKAGE_INSTALL.json",
-            "bytes": 360427,
-            "sha256": "661794d6fc0a104549dcd2246be1481c4e8988881de5a064b1ab0876ca8b1ddf"
-          }
-        },
-        "classification": "WRITER_FIXTURE_SOURCE_TYPE_LABEL_EXCEEDS_NATIVE_VARCHAR50",
-        "counts": {
-          "PASS": 6,
-          "INCOMPLETE": 1
-        },
-        "full_restore": true,
-        "followup_started": false,
-        "receipt": "docs/cp7/d17-14/ow08/vendor-combined54b-first-incomplete.json"
-      },
-      "runtime_identical_to_54b": true,
-      "local_controls_PASS": 18,
-      "source_admission": "PASS_NO_DB",
-      "change": "EXACTLY_ONE_NATIVE_FIXTURE_LABEL_PREFIX_NO_ORACLE_OR_PRODUCT_CHANGE"
+      "independent_acceptance": false
     },
     "vendor_native7_status": "PASS_7_FULL_RESTORE_ALL5_GATES",
-    "vendor_native7_receipt": "docs/cp7/d17-14/ow15/vendor-native7-5ded-pass.json"
+    "vendor_native7_receipt": "docs/cp7/d17-14/ow15/vendor-native7-5ded-pass.json",
+    "vendor_money_browser": {
+      "status": "RUNNING_ACTUAL_MONEY_BROWSER2_NOT_ACCEPTED",
+      "head": "18fb0bd2aae65d880e28d7ec8a7f2930f77c9925",
+      "tree": "5c620d1e84eae2af8ae45cc462ccde9e089ff9f8",
+      "branch": "astra-a/ow08b-vendor-money-browser-qualification-20261029",
+      "run_id": 40777747825,
+      "job_id": 123131312444,
+      "backend": {
+        "head": "41caaaed02c0d89b122ecf1ff221f6647141c335",
+        "tree": "b8831a52531598c514f8199016dea6194d783833",
+        "run_id": 40769840440,
+        "job_id": 123103756460,
+        "artifact_id": 12854543326,
+        "zip_bytes": 2031933,
+        "zip_sha256": "9432cdd8bcea2df52ad8fb631122ce963b91bee32dea849a4337e4ec2c020eb0",
+        "original": {
+          "name": "CP7_VENDOR_RECEIVABLE_COMBINED11.json",
+          "bytes": 3485711,
+          "sha256": "04e00f42862ddfec8346d41d4d6a2d6a285f041127cccf09d973ca929b307ea0"
+        },
+        "package": {
+          "name": "T3_PACKAGE_INSTALL.json",
+          "bytes": 360420,
+          "sha256": "48fc54072b4f3122d89f6a45faa93f0e8ebd05ecfde0b9370def8202755e0f43"
+        }
+      },
+      "fresh_planned": {
+        "browser": 2,
+        "Native": 0,
+        "races": 0
+      },
+      "existing_complete_installation_entrypoint": "cp7_vendor_receivable.composition.install",
+      "source_admission": "PASS_EXACT_BACKEND11_CLIENT5_AND_PARENT193",
+      "local_controls": {
+        "admission": 3,
+        "opacity": 7,
+        "retained_console": 4
+      },
+      "B_browser_repeated": false,
+      "actual_browser_PASS_claim": false,
+      "production_go": false,
+      "independent_acceptance": false
+    },
+    "vendor_intake": {
+      "head": "cd83450225d9062b15b504aedb4f0be20fc8a76f",
+      "tree": "f9ca8426b7180c7c5433952381ed8523370c2fa9",
+      "branch": "astra-a/ow08b-vendor-final-intake-prepared-20261029",
+      "base_A": "3a0c947d66c73dcb87be10cb6a543da6c234d92d",
+      "selected_entries": 9,
+      "status": "PREPARED_CLOSED_MONEY_BROWSER2_REQUIRED_NOT_MAIN",
+      "source_controls": 7,
+      "old_B_graph79_unchanged": true,
+      "default_registration": false,
+      "requires_actual_backend11_AND_money_browser2": true
+    }
   },
   "actual_vendor_receivable_first_failure": {
     "status": "INCOMPLETE_ACTUAL_NATIVE6_PASS_1_ASSERTION_INCOMPLETE",
@@ -19815,94 +19786,45 @@
     "receipt": "docs/cp7/d17-14/ow15/vendor-native7-5ded-pass.json"
   },
   "vendor_combined11_qualification": {
-    "status": "RUNNING_FIXTURE_LABEL_SUCCESSOR_NOT_ACCEPTED",
-    "head": "41caaaed02c0d89b122ecf1ff221f6647141c335",
-    "tree": "b8831a52531598c514f8199016dea6194d783833",
-    "run_id": 40769840440,
-    "job_id": 123103756460,
-    "branch": "astra-a/ow08b-vendor-combined-qualification-20261029",
-    "fresh_planned": {
-      "Native": 7,
-      "races": 3,
-      "Auth_HTTP": 1,
-      "browser": 0
-    },
-    "first_CI_failure": {
-      "run_id": 40760545510,
-      "head": "426dafd2ccf1ec90693e2c1640047fd9f2b3ca81",
-      "status": "INVALID_WORKFLOW_ZERO_JOBS_ZERO_DB",
-      "cause": "working_directory instead of working-directory",
-      "fixed": true
-    },
-    "parent_Native7": {
-      "head": "5dedbaae47eb4b3b23b54da94605f7d940f0ca22",
-      "tree": "4557e2ce213e0c2785deb0e90a3fe19eae7752a0",
-      "run_id": 40751542770,
-      "job_id": 123039250204,
-      "artifact_id": 12848155314,
-      "zip_bytes": 2016825,
-      "zip_sha256": "23dbfbac51e38773d0aae77a266fd6ff811f3a4dcbbf4080b48c01d401c332a1",
+    "status": "PASS_ACTUAL_NATIVE7_RACES3_AUTH1_FULL_RESTORE_ALL5_GATES",
+    "pin": {
+      "head": "41caaaed02c0d89b122ecf1ff221f6647141c335",
+      "tree": "b8831a52531598c514f8199016dea6194d783833",
+      "run_id": 40769840440,
+      "job_id": 123103756460,
+      "artifact_id": 12854543326,
+      "zip_bytes": 2031933,
+      "zip_sha256": "9432cdd8bcea2df52ad8fb631122ce963b91bee32dea849a4337e4ec2c020eb0",
       "original": {
-        "name": "CP7_VENDOR_RECEIVABLE_NATIVE7.json",
-        "bytes": 3288623,
-        "sha256": "de6b3499b2232732f226b6b738caa3fb9f15e631136c6d6adff9f9b89d3c5483"
+        "name": "CP7_VENDOR_RECEIVABLE_COMBINED11.json",
+        "bytes": 3485711,
+        "sha256": "04e00f42862ddfec8346d41d4d6a2d6a285f041127cccf09d973ca929b307ea0"
       },
       "package": {
         "name": "T3_PACKAGE_INSTALL.json",
-        "bytes": 360415,
-        "sha256": "3e7b2e7b8c243f3d16a689b6dd4d5a10c2152993b0c92df445ac48db77baffe5"
+        "bytes": 360420,
+        "sha256": "48fc54072b4f3122d89f6a45faa93f0e8ebd05ecfde0b9370def8202755e0f43"
       }
     },
-    "stricter_provenance_SQL_sha256": "3b24728512e8be6af697f3234e591f7fe6b46331c68e3497ab71aedbcc9aa2ba",
-    "actual_new_case_PASS_claim": false,
+    "receipt": "docs/cp7/d17-14/ow08/vendor-combined41c-pass.json",
+    "actual_four_provenance_controls_PASS": true,
+    "actual_two_session_lock_observed": true,
+    "actual_browser": 0,
+    "default_adopted": false,
     "production_go": false,
-    "independent_acceptance": false,
-    "first_actual_failure": {
-      "status": "FIRST_ACTUAL_COMBINED11_INCOMPLETE_PRESERVED",
-      "pin": {
-        "head": "54b786f3e38ba41d362a23fd75fb0d5c0520150d",
-        "tree": "e211b0d169193c0f5e3df226b5aad173946bfff2",
-        "run_id": 40761955464,
-        "job_id": 123075935760,
-        "artifact_id": 12851481342,
-        "zip_bytes": 2029718,
-        "zip_sha256": "f8bf0f09eefc8387eec83b402a98be7c3a4a38353b69e63048db16c1586b8dfd",
-        "original": {
-          "name": "CP7_VENDOR_RECEIVABLE_COMBINED11.json",
-          "bytes": 3448411,
-          "sha256": "67e559071a8af412e972a8f892d58fec4086682a1051a4eed02a59a0961b9c67"
-        },
-        "package": {
-          "name": "T3_PACKAGE_INSTALL.json",
-          "bytes": 360427,
-          "sha256": "661794d6fc0a104549dcd2246be1481c4e8988881de5a064b1ab0876ca8b1ddf"
-        }
-      },
-      "classification": "WRITER_FIXTURE_SOURCE_TYPE_LABEL_EXCEEDS_NATIVE_VARCHAR50",
-      "counts": {
-        "PASS": 6,
-        "INCOMPLETE": 1
-      },
-      "full_restore": true,
-      "followup_started": false,
-      "receipt": "docs/cp7/d17-14/ow08/vendor-combined54b-first-incomplete.json"
-    },
-    "runtime_identical_to_54b": true,
-    "local_controls_PASS": 18,
-    "source_admission": "PASS_NO_DB",
-    "change": "EXACTLY_ONE_NATIVE_FIXTURE_LABEL_PREFIX_NO_ORACLE_OR_PRODUCT_CHANGE"
+    "independent_acceptance": false
   },
   "vendor_intake_prepared": {
-    "head": "beb1e6915edda75b82697c0993e80eac647b683a",
-    "tree": "986125bde4c70ee2a973572ab3496b4883abf616",
-    "base_A": "c5fd197a2bcec6d5cf83a05d9c0d0d743872bbac",
+    "head": "cd83450225d9062b15b504aedb4f0be20fc8a76f",
+    "tree": "f9ca8426b7180c7c5433952381ed8523370c2fa9",
+    "branch": "astra-a/ow08b-vendor-final-intake-prepared-20261029",
+    "base_A": "3a0c947d66c73dcb87be10cb6a543da6c234d92d",
     "selected_entries": 9,
-    "status": "PREPARED_CLOSED_NOT_MAIN",
-    "source_controls": 5,
+    "status": "PREPARED_CLOSED_MONEY_BROWSER2_REQUIRED_NOT_MAIN",
+    "source_controls": 7,
     "old_B_graph79_unchanged": true,
     "default_registration": false,
-    "actual_new_vendor_browser": false,
-    "money_label_successor_pending": "f6b52e8f545441f4f20dc62316e4a59839429dbb"
+    "requires_actual_backend11_AND_money_browser2": true
   },
   "vendor_combined11_first_actual_failure": {
     "status": "FIRST_ACTUAL_COMBINED11_INCOMPLETE_PRESERVED",
@@ -19935,17 +19857,81 @@
     "receipt": "docs/cp7/d17-14/ow08/vendor-combined54b-first-incomplete.json"
   },
   "vendor_money_browser_prepared": {
-    "head": "f6b52e8f545441f4f20dc62316e4a59839429dbb",
-    "tree": "fb05a6df697c3459db8e80434e9be457877b6739",
-    "branch": "astra-a/ow08b-vendor-money-browser-prepared-20261029",
-    "status": "PREPARED_CLOSED_COMPLETE_BACKEND11_REQUIRED",
-    "actual_browser_cases": 0,
-    "local_DOM_tests_PASS": 3,
-    "local_admission_controls_PASS": 3,
-    "typecheck": "PASS",
-    "backend_runtime_changed": false,
-    "B_analysis_browser_repeated": false,
-    "product_change": "VENDOR_RECONCILIATION_EXPLANATION_ONLY",
-    "source_declaration": "scripts/current-vendor-money-browser/SOURCE.json"
+    "head": "58cef64facfcd3ccb4e78141c3035a293c53064a",
+    "status": "SUPERSEDED_BY_ACTUAL_QUALIFICATION_18fb",
+    "qualification": "18fb0bd2aae65d880e28d7ec8a7f2930f77c9925",
+    "actual_case_PASS_claim": false
+  },
+  "vendor_backend11_accepted": {
+    "status": "PASS_ACTUAL_NATIVE7_RACES3_AUTH1_FULL_RESTORE_ALL5_GATES",
+    "pin": {
+      "head": "41caaaed02c0d89b122ecf1ff221f6647141c335",
+      "tree": "b8831a52531598c514f8199016dea6194d783833",
+      "run_id": 40769840440,
+      "job_id": 123103756460,
+      "artifact_id": 12854543326,
+      "zip_bytes": 2031933,
+      "zip_sha256": "9432cdd8bcea2df52ad8fb631122ce963b91bee32dea849a4337e4ec2c020eb0",
+      "original": {
+        "name": "CP7_VENDOR_RECEIVABLE_COMBINED11.json",
+        "bytes": 3485711,
+        "sha256": "04e00f42862ddfec8346d41d4d6a2d6a285f041127cccf09d973ca929b307ea0"
+      },
+      "package": {
+        "name": "T3_PACKAGE_INSTALL.json",
+        "bytes": 360420,
+        "sha256": "48fc54072b4f3122d89f6a45faa93f0e8ebd05ecfde0b9370def8202755e0f43"
+      }
+    },
+    "receipt": "docs/cp7/d17-14/ow08/vendor-combined41c-pass.json",
+    "actual_four_provenance_controls_PASS": true,
+    "actual_two_session_lock_observed": true,
+    "actual_browser": 0,
+    "default_adopted": false,
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "vendor_money_browser_qualification": {
+    "status": "RUNNING_ACTUAL_MONEY_BROWSER2_NOT_ACCEPTED",
+    "head": "18fb0bd2aae65d880e28d7ec8a7f2930f77c9925",
+    "tree": "5c620d1e84eae2af8ae45cc462ccde9e089ff9f8",
+    "branch": "astra-a/ow08b-vendor-money-browser-qualification-20261029",
+    "run_id": 40777747825,
+    "job_id": 123131312444,
+    "backend": {
+      "head": "41caaaed02c0d89b122ecf1ff221f6647141c335",
+      "tree": "b8831a52531598c514f8199016dea6194d783833",
+      "run_id": 40769840440,
+      "job_id": 123103756460,
+      "artifact_id": 12854543326,
+      "zip_bytes": 2031933,
+      "zip_sha256": "9432cdd8bcea2df52ad8fb631122ce963b91bee32dea849a4337e4ec2c020eb0",
+      "original": {
+        "name": "CP7_VENDOR_RECEIVABLE_COMBINED11.json",
+        "bytes": 3485711,
+        "sha256": "04e00f42862ddfec8346d41d4d6a2d6a285f041127cccf09d973ca929b307ea0"
+      },
+      "package": {
+        "name": "T3_PACKAGE_INSTALL.json",
+        "bytes": 360420,
+        "sha256": "48fc54072b4f3122d89f6a45faa93f0e8ebd05ecfde0b9370def8202755e0f43"
+      }
+    },
+    "fresh_planned": {
+      "browser": 2,
+      "Native": 0,
+      "races": 0
+    },
+    "existing_complete_installation_entrypoint": "cp7_vendor_receivable.composition.install",
+    "source_admission": "PASS_EXACT_BACKEND11_CLIENT5_AND_PARENT193",
+    "local_controls": {
+      "admission": 3,
+      "opacity": 7,
+      "retained_console": 4
+    },
+    "B_browser_repeated": false,
+    "actual_browser_PASS_claim": false,
+    "production_go": false,
+    "independent_acceptance": false
   }
 }

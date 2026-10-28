@@ -1,0 +1,56 @@
+{
+  "artifact": {
+    "head": "41caaaed02c0d89b122ecf1ff221f6647141c335",
+    "tree": "b8831a52531598c514f8199016dea6194d783833",
+    "run_id": 40769840440,
+    "job_id": 123103756460,
+    "artifact_id": 12854543326,
+    "zip_bytes": 2031933,
+    "zip_sha256": "9432cdd8bcea2df52ad8fb631122ce963b91bee32dea849a4337e4ec2c020eb0",
+    "original": {
+      "name": "CP7_VENDOR_RECEIVABLE_COMBINED11.json",
+      "bytes": 3485711,
+      "sha256": "04e00f42862ddfec8346d41d4d6a2d6a285f041127cccf09d973ca929b307ea0"
+    },
+    "package": {
+      "name": "T3_PACKAGE_INSTALL.json",
+      "bytes": 360420,
+      "sha256": "48fc54072b4f3122d89f6a45faa93f0e8ebd05ecfde0b9370def8202755e0f43"
+    }
+  },
+  "members": [
+    {
+      "name": "CP7_VENDOR_RECEIVABLE_COMBINED11.json",
+      "raw_bytes": 3485711,
+      "raw_sha256": "04e00f42862ddfec8346d41d4d6a2d6a285f041127cccf09d973ca929b307ea0",
+      "retained": "CP7_VENDOR_RECEIVABLE_COMBINED11.json.gz",
+      "gzip_bytes": 347533,
+      "gzip_sha256": "91bab345d1b41ca7fa8f57fab97a407377a2588b0d7298f57bb47ee01d3daade"
+    },
+    {
+      "name": "T3_PACKAGE_INSTALL.json",
+      "raw_bytes": 360420,
+      "raw_sha256": "48fc54072b4f3122d89f6a45faa93f0e8ebd05ecfde0b9370def8202755e0f43",
+      "retained": "T3_PACKAGE_INSTALL.json.gz",
+      "gzip_bytes": 11393,
+      "gzip_sha256": "9c651a5d5a38370a2f5f19f30543821ab8333eb267936b34681e9a27784bc2cb"
+    },
+    {
+      "name": "T3_BACKUP_RESTORE_DRILL.json",
+      "raw_bytes": 1470,
+      "raw_sha256": "c81b67bf21c5b6d5a32107d6fdfb861024b98c276b825f9f2b626d36f07307dd",
+      "retained": "T3_BACKUP_RESTORE_DRILL.json.gz",
+      "gzip_bytes": 645,
+      "gzip_sha256": "430e1a3396f479a756d457495dbf8aa7819a99b2ca49a3908391becfb64cc9ce"
+    },
+    {
+      "name": "T3_PACKAGE_FILES_INSTALL.json",
+      "raw_bytes": 1806,
+      "raw_sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "retained": "T3_PACKAGE_FILES_INSTALL.json.gz",
+      "gzip_bytes": 255,
+      "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7"
+    }
+  ],
+  "source": "Exact terminal GitHub artifact JSON members; compression only, no reserialization"
+}

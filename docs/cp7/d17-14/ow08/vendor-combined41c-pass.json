@@ -1,0 +1,115 @@
+{
+  "pin": {
+    "head": "41caaaed02c0d89b122ecf1ff221f6647141c335",
+    "tree": "b8831a52531598c514f8199016dea6194d783833",
+    "run_id": 40769840440,
+    "job_id": 123103756460,
+    "artifact_id": 12854543326,
+    "zip_bytes": 2031933,
+    "zip_sha256": "9432cdd8bcea2df52ad8fb631122ce963b91bee32dea849a4337e4ec2c020eb0",
+    "original": {
+      "name": "CP7_VENDOR_RECEIVABLE_COMBINED11.json",
+      "bytes": 3485711,
+      "sha256": "04e00f42862ddfec8346d41d4d6a2d6a285f041127cccf09d973ca929b307ea0"
+    },
+    "package": {
+      "name": "T3_PACKAGE_INSTALL.json",
+      "bytes": 360420,
+      "sha256": "48fc54072b4f3122d89f6a45faa93f0e8ebd05ecfde0b9370def8202755e0f43"
+    }
+  },
+  "status": "PASS",
+  "job_conclusions": {
+    "123103756460": "success"
+  },
+  "native": {
+    "PASS": 7
+  },
+  "races": {
+    "PASS": 3
+  },
+  "Auth_HTTP": {
+    "PASS": 1
+  },
+  "business_counts": {
+    "PASS": 11
+  },
+  "restoration": {
+    "cp6_restored": true,
+    "advisor_gate": true,
+    "baseline_full22_all_rows_all_sequences_equal": true,
+    "baseline_advisors_equal": true,
+    "used_guard_refused_before_DDL": true
+  },
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "first_failures": [],
+  "acceptance": {
+    "status": "EXACT_ACTUAL_COMBINED11_ACCEPTABLE_TO_INTEGRATOR",
+    "head": "41caaaed02c0d89b122ecf1ff221f6647141c335",
+    "fresh_Native": 7,
+    "fresh_races": 3,
+    "fresh_Auth_HTTP": 1,
+    "fresh_browser": 0
+  },
+  "actual_four_provenance_controls_PASS": true,
+  "actual_two_session_lock_observed": true,
+  "actual_browser": 0,
+  "production_go": false,
+  "independent_acceptance": false,
+  "stage_minutes": [
+    {
+      "phase": "SOURCE_ADMISSION",
+      "minutes": 0.42
+    },
+    {
+      "phase": "BASELINE_ADVISORS",
+      "minutes": 0.03
+    },
+    {
+      "phase": "BASELINE_DUMP",
+      "minutes": 0.02
+    },
+    {
+      "phase": "SINGLE_FULL_READONLY_PARENT_INSTALL",
+      "minutes": 26.62
+    },
+    {
+      "phase": "EXACT_BACKEND3194_PARENT_INSTALL",
+      "minutes": 2.51
+    },
+    {
+      "phase": "FIRST_FINANCE_DELTA",
+      "minutes": 1.21
+    },
+    {
+      "phase": "FINANCE_DELTA_PREUSE_INVERSE",
+      "minutes": 0.92
+    },
+    {
+      "phase": "SECOND_FINANCE_DELTA",
+      "minutes": 1.21
+    },
+    {
+      "phase": "ISOLATED_DIAGNOSTICS",
+      "minutes": 8.75
+    },
+    {
+      "phase": "BASELINE_RESTORE",
+      "minutes": 0.08
+    }
+  ],
+  "receipt": "docs/cp7/d17-14/ow08/vendor-combined41c-pass.json",
+  "original_members": "docs/cp7/d17-14/ow08/vendor-combined41c-pass/ORIGINAL_MEMBERS.json",
+  "raw_JSON_retained": 108,
+  "first_actual_failure_preserved": "docs/cp7/d17-14/ow08/vendor-combined54b-first-incomplete.json",
+  "parent_native7_scope": "5ded remains PASS on prior SQL; current strict provenance is proved by fresh41c Native7",
+  "boundary": "Writer component acceptance. New money browser, default adoption, final combined audit and full CP7 acceptance remain separate.",
+  "formal": "5/16",
+  "CP7C_started": false
+}
