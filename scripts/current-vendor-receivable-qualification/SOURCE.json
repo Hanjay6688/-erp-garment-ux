@@ -67,7 +67,7 @@
     "scripts/cp7_vendor_receivable/native_delta.py": "bd0f41be50fea0ab64b19c15d8a09fc7940782507c35482911dd86c36403a52b",
     "scripts/cp7_vendor_receivable/receivable.sql": "3b24728512e8be6af697f3234e591f7fe6b46331c68e3497ab71aedbcc9aa2ba",
     "scripts/cp7_vendor_receivable/test_derivation.py": "ce5b543cdbbaa85840cab86348be112946becd66565ac449a15e2ee66abc4e39",
-    "scripts/current-vendor-receivable-qualification/CONFIG.json": "66a1b9b8dbbe757238c9d25618221926475a85db34630fe1743b9ff11c03cfab",
+    "scripts/current-vendor-receivable-qualification/CONFIG.json": "bb20f61a2c5837e4a7d70c3794e76392cea583065800b9fe1f830f9ac2563997",
     "scripts/current-vendor-receivable-qualification/README.md": "380c21bca774d9be75e8cad5b2ca2047b58535405704c71cd30500a6a9c2caa8",
     "scripts/current-vendor-receivable-qualification/admission.py": "f1fe13d75be0667ea04f1474fe2faf93425801dbf7ea856583a9004fca5e56a1",
     "scripts/current-vendor-receivable-qualification/check_source.py": "0c4db4ed9fd8c5ac989aa20516ce93323614b359dda88fee0ea7cb5f1e79bf8b",
@@ -83,7 +83,7 @@
     "scripts/cp7_vendor_receivable/test_provenance_derivation.py": "91d38cc128796b9ef6f8a1dc5e0b98eb461d9377786b6ca9597af90607fc8f8b",
     "scripts/current-vendor-receivable-followup/cases.py": "1e4f7be181edb2787f8c2c2f0d5279da127e33fe96bba06ca60792ef0e17a2f3",
     "scripts/current-vendor-receivable-followup/gate.py": "bde0b15368f22e74f460c5cc222f9fc8cd5c48ba00eb6c383f50a1e215c1f549",
-    "scripts/current-vendor-receivable-followup/CONFIG.json": "f3bbaf5c4210fb1265064410d09e21cb799b7b0b36f95b09b6a05a8c49385ba5",
+    "scripts/current-vendor-receivable-followup/CONFIG.json": "3011ddf4be598ad8f62af78eef28d62499ef721dd579bf730629544043584196",
     "scripts/current-vendor-receivable-followup/runner.py": "24dfc13dc99d7f51c4b4320b2bc3bd941d1107aa4aa254aa7439184289e2f4cb",
     "scripts/current-vendor-receivable-followup/README.md": "8396d68a5ffb6dbb17d3765066d07b1e292566ffe654d7026566c0994a0bed81",
     "scripts/current-vendor-receivable-followup/fetch_native.py": "e6a72e7c1150bc1ff7cb7f58e58326787f87db7eb735cd9f73b2d39075b8ff63",
@@ -119,7 +119,8 @@
       "UNREGISTERED_VENDOR_ZERO_NET"
     ],
     "shared_registered_vendor_account_positive_control": true,
-    "Native_case_budget": 7
+    "Native_case_budget": 7,
+    "observer_actual_result": "PASS_NATIVE7_FULL22_RESTORE_AND_ALL5_PACKAGE_GATES"
   },
   "combined_business_case_counts": {
     "fresh_Native": 7,
@@ -127,5 +128,24 @@
     "fresh_Auth_HTTP": 1,
     "fresh_browser": 0,
     "total": 11
+  },
+  "complete_precursor_native7": {
+    "head": "5dedbaae47eb4b3b23b54da94605f7d940f0ca22",
+    "tree": "4557e2ce213e0c2785deb0e90a3fe19eae7752a0",
+    "run_id": 40751542770,
+    "job_id": 123039250204,
+    "artifact_id": 12848155314,
+    "zip_bytes": 2016825,
+    "zip_sha256": "23dbfbac51e38773d0aae77a266fd6ff811f3a4dcbbf4080b48c01d401c332a1",
+    "original": {
+      "name": "CP7_VENDOR_RECEIVABLE_NATIVE7.json",
+      "bytes": 3288623,
+      "sha256": "de6b3499b2232732f226b6b738caa3fb9f15e631136c6d6adff9f9b89d3c5483"
+    },
+    "package": {
+      "name": "T3_PACKAGE_INSTALL.json",
+      "bytes": 360415,
+      "sha256": "3e7b2e7b8c243f3d16a689b6dd4d5a10c2152993b0c92df445ac48db77baffe5"
+    }
   }
 }

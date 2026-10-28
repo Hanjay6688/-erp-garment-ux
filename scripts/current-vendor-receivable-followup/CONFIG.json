@@ -1,7 +1,25 @@
 {
   "contract": "cp7.vendor-receivable-race-auth-followup.v1",
-  "status": "PREPARED_CLOSED",
-  "accepted_native7": null,
+  "status": "COMPLETE_PRECURSOR_BOUND_FRESH_COMBINED_EXECUTION_PENDING",
+  "accepted_native7": {
+    "head": "5dedbaae47eb4b3b23b54da94605f7d940f0ca22",
+    "tree": "4557e2ce213e0c2785deb0e90a3fe19eae7752a0",
+    "run_id": 40751542770,
+    "job_id": 123039250204,
+    "artifact_id": 12848155314,
+    "zip_bytes": 2016825,
+    "zip_sha256": "23dbfbac51e38773d0aae77a266fd6ff811f3a4dcbbf4080b48c01d401c332a1",
+    "original": {
+      "name": "CP7_VENDOR_RECEIVABLE_NATIVE7.json",
+      "bytes": 3288623,
+      "sha256": "de6b3499b2232732f226b6b738caa3fb9f15e631136c6d6adff9f9b89d3c5483"
+    },
+    "package": {
+      "name": "T3_PACKAGE_INSTALL.json",
+      "bytes": 360415,
+      "sha256": "3e7b2e7b8c243f3d16a689b6dd4d5a10c2152993b0c92df445ac48db77baffe5"
+    }
+  },
   "production_go": false,
   "independent_acceptance": false,
   "actual_concurrent_or_Auth_claim": false,
