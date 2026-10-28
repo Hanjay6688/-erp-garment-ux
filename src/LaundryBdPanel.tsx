@@ -359,8 +359,12 @@ function Payables({ payables, locked, send }: { payables: BdPayables; locked: bo
       <div><dt>Sisa tagihan</dt><dd>{rupiah(l.documents_remaining)}</dd></div>
       <div><dt>Kredit klaim/koreksi belum dipakai</dt><dd>{rupiah(l.credit_available)}</dd></div>
       {l.receivable_balance !== undefined && <div><dt>Piutang ke vendor</dt><dd>{rupiah(l.receivable_balance)}</dd></div>}
-      <div><dt>Pencocokan</dt><dd role="status">{l.matches ? 'Cocok: saldo utang = sisa tagihan − kredit belum dipakai' : 'Tidak cocok: periksa pelunasan dan klaim vendor ini'}</dd></div>
+      <div><dt>Pencocokan</dt><dd role="status">{l.matches ? l.receivable_balance === undefined
+        ? 'Cocok: saldo utang = sisa tagihan − kredit belum dipakai'
+        : 'Cocok: saldo utang = sisa tagihan − kredit belum dipakai + piutang ke vendor'
+        : 'Tidak cocok: periksa pelunasan dan klaim vendor ini'}</dd></div>
     </dl>
+    {l.receivable_balance !== undefined && <p>Piutang ke vendor sudah termasuk dalam kredit belum dipakai. Angka itu bukan kredit tambahan.</p>}
     <table aria-label="Tagihan vendor"><thead><tr><th>Tagihan</th><th>Tanggal</th><th>Total</th><th>Dibayar kas</th><th>Kredit klaim</th><th>Kredit koreksi</th><th>Sisa</th><th>Status</th></tr></thead>
       <tbody>{payables.documents.map(d => <tr key={d.id}><td>{d.number}{d.kind === 'OPENING_PAYABLE' ? ' (saldo awal)' : ''}{d.corrects ? ` (koreksi naik atas ${d.corrects})` : ''}</td><td>{d.date}</td><td>{rupiah(d.total)}</td>
         <td>{rupiah(d.paid_cash)}</td><td>{rupiah(d.claim_credit)}</td><td>{rupiah(d.correction_credit)}</td><td>{rupiah(d.remaining)}</td><td>{cents(d.remaining) === 0 ? 'Lunas' : d.status}</td></tr>)}</tbody></table>

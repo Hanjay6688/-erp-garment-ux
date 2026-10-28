@@ -1,0 +1,43 @@
+{
+  "contract": "cp7.vendor-money-browser.v1",
+  "workflow": ".github/workflows/cp7-vendor-money-browser.yml",
+  "browser_case_ids": [
+    "VENDOR_MONEY_BROWSER_DESKTOP_REFUND_INVERSE_HISTORY",
+    "VENDOR_MONEY_BROWSER_MOBILE_REFUND_ACCESS_HIDDEN"
+  ],
+  "allowed_changes": [
+    ".github/workflows/cp7-vendor-money-browser.yml",
+    "scripts/current-vendor-money-browser/CONFIG.json",
+    "scripts/current-vendor-money-browser/README.md",
+    "scripts/current-vendor-money-browser/SOURCE.json",
+    "scripts/current-vendor-money-browser/admission.py",
+    "scripts/current-vendor-money-browser/browser_fixture.py",
+    "scripts/current-vendor-money-browser/cases.mjs",
+    "scripts/current-vendor-money-browser/check_source.py",
+    "scripts/current-vendor-money-browser/fetch_backend.py",
+    "scripts/current-vendor-money-browser/probe.py",
+    "scripts/current-vendor-money-browser/runner.py",
+    "scripts/current-vendor-money-browser/test_admission.py",
+    "scripts/current-vendor-money-browser/visual.mjs",
+    "src/LaundryBdPanel.tsx"
+  ],
+  "files": {
+    "scripts/current-vendor-money-browser/CONFIG.json": "f7878c96226da2dc017d44e226ce9753414af4098788e46f8a1fddc621a4caf3",
+    "scripts/current-vendor-money-browser/README.md": "6ce3ca440011a23e623b5d1abfd996f3e33c02949523b7446a8f40c7c1c3b727",
+    "scripts/current-vendor-money-browser/admission.py": "825b3bba6002ee519ee8880dd54a861d99909b1484f0e8f3421af38cf818f47c",
+    "scripts/current-vendor-money-browser/browser_fixture.py": "a22696168a6128ec29456c0540fd3a47325adfff1d81f2ab2d7ff6cd91aef84b",
+    "scripts/current-vendor-money-browser/cases.mjs": "e7b28cc34217881cf86ecc039961130f78a070b6cecad258581f97ff9b326ff0",
+    "scripts/current-vendor-money-browser/check_source.py": "f78805165af4b320d36cb405f92f9fc4eb890b3c060b4297a2ff00fc9c0437b4",
+    "scripts/current-vendor-money-browser/fetch_backend.py": "764c88f68343d607d6bcc91580204a9f5e2f658eef9222c4467621e7d86e45fa",
+    "scripts/current-vendor-money-browser/probe.py": "3e9abcf7f6172383956132c913c9d1758b78039733dd470097677ac3bdb291a2",
+    "scripts/current-vendor-money-browser/runner.py": "800cf5344e06c283afc4d6d3491c63ba44986e62eb9d0d410978f0b97cd8b1fd",
+    "scripts/current-vendor-money-browser/test_admission.py": "36941ac96005097899a8a620497c5a03377b4ed519e4e8cddbc88e28de6f6ceb",
+    "scripts/current-vendor-money-browser/visual.mjs": "e4ad96fa51801ac7293bce48d173b56f2dd1e5f6e7142231bd64ffebc85bc742",
+    ".github/workflows/cp7-vendor-money-browser.yml": "ab9316a9f3300591c5aff2e0be40895bca359ea0e884b1fed4011c9edd8134c9",
+    "src/LaundryBdPanel.tsx": "110dabd24e96a1d80669adf0851953158d9539932e683f4c1f2b96f9135075b4"
+  },
+  "actual_browser_cases": 0,
+  "status": "PREPARED_CLOSED_COMPLETE_BACKEND11_REQUIRED",
+  "production_go": false,
+  "independent_acceptance": false
+}
