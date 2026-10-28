@@ -394,6 +394,8 @@ jobs:
 
         node --check scripts/current-vendor-money-browser/cases.mjs
 
+        node --test scripts/current-vendor-money-browser/visual.test.mjs
+
         '
     - name: Check vendor qualification syntax
       working-directory: auditor

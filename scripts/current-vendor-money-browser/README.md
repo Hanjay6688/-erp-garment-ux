@@ -48,3 +48,13 @@ checkout persiapan ini tidak memulai CI/database.
 
 Penerimaan penulis tidak sama dengan audit independen. Formal CP7 tetap5/16;
 `production_go=false`, `independent_acceptance=false`, CP7C belum dimulai.
+
+
+Pemeriksa visual A meneruskan rumus luminance dan ambang4,5 existing, tanpa
+mengubah helper B. Adaptasi alpha/group-opacity diperlukan karena tombol
+nonaktif pada `initial-import.css` memakai opacity0,5. Semua teks terlihat
+tetap dicatat dan wajib4,5; tidak ada pengecualian tombol nonaktif atau angka.
+Foreground dan background dikomposisikan terpisah ke setiap ancestor. Tujuh
+kontrol matematika mencakup opaque, alpha, opacity bersarang, background
+transparan serta penolakan image yang benar-benar berkontribusi. Ini hanya
+bukti alat ukur lokal; kontras UI tetap harus dibuktikan pada browser aktual.

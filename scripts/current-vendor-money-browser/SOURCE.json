@@ -19,11 +19,12 @@
     "scripts/current-vendor-money-browser/runner.py",
     "scripts/current-vendor-money-browser/test_admission.py",
     "scripts/current-vendor-money-browser/visual.mjs",
-    "src/LaundryBdPanel.tsx"
+    "src/LaundryBdPanel.tsx",
+    "scripts/current-vendor-money-browser/visual.test.mjs"
   ],
   "files": {
     "scripts/current-vendor-money-browser/CONFIG.json": "47be675fa9beee0083bc9b0261fcb65e55b26a0ef555e1f5a33fa68dd30b16f1",
-    "scripts/current-vendor-money-browser/README.md": "faf50514c9e45e04dc63bc74b42f34daa6e96a25554e668d14aff1a9f2bd9312",
+    "scripts/current-vendor-money-browser/README.md": "f1dab3635f46c4ce6fd1f60b428503ddcc47ca459a971bb8f8b3d9c771b37d7b",
     "scripts/current-vendor-money-browser/admission.py": "0806647160d6bcd1816bb6d1d6f2b1c2626adb5efd0f1f184271c0c762bec204",
     "scripts/current-vendor-money-browser/browser_fixture.py": "a22696168a6128ec29456c0540fd3a47325adfff1d81f2ab2d7ff6cd91aef84b",
     "scripts/current-vendor-money-browser/cases.mjs": "5a4b68d359fc0afbb404370361efff0216b9391ae5accb0a58913e3f009a7482",
@@ -32,10 +33,11 @@
     "scripts/current-vendor-money-browser/probe.py": "3b28cac980c1043e42cde6e879c10fd02a7a43557570612b7b1826d7c77a8530",
     "scripts/current-vendor-money-browser/runner.py": "800cf5344e06c283afc4d6d3491c63ba44986e62eb9d0d410978f0b97cd8b1fd",
     "scripts/current-vendor-money-browser/test_admission.py": "36941ac96005097899a8a620497c5a03377b4ed519e4e8cddbc88e28de6f6ceb",
-    "scripts/current-vendor-money-browser/visual.mjs": "e4ad96fa51801ac7293bce48d173b56f2dd1e5f6e7142231bd64ffebc85bc742",
-    ".github/workflows/cp7-vendor-money-browser.yml": "ab9316a9f3300591c5aff2e0be40895bca359ea0e884b1fed4011c9edd8134c9",
+    "scripts/current-vendor-money-browser/visual.mjs": "c382b9bd245d5cbdb70e1cc54fcb1bba75e5f40d79aa84f00bae9ad255fbdcea",
+    ".github/workflows/cp7-vendor-money-browser.yml": "03177b8a72a51ae6f3b38b6cf150375fb6841d1e50b5d323b8239439cac2f42d",
     "src/LaundryBdPanel.tsx": "110dabd24e96a1d80669adf0851953158d9539932e683f4c1f2b96f9135075b4",
-    "scripts/current-finance-combined-browser-qualification/console_evidence.mjs": "83009dcba01aabb4e9bcf6eb5c4672924d1f288cfe3ff6fbbdbe123f19d67c73"
+    "scripts/current-finance-combined-browser-qualification/console_evidence.mjs": "83009dcba01aabb4e9bcf6eb5c4672924d1f288cfe3ff6fbbdbe123f19d67c73",
+    "scripts/current-vendor-money-browser/visual.test.mjs": "fa25a639c02f017854a67ab628bf98c7538c4707b5c0e99bed2d828bc1d996ee"
   },
   "actual_browser_cases": 0,
   "status": "PREPARED_CLOSED_COMPLETE_BACKEND11_REQUIRED",
