@@ -33,14 +33,16 @@ def exercise(conn,cur,database,url,report,state):
         def races(tools,today):
             plans=dict(legacy.races(tools,today));assert set(adapter.IDS)<=set(plans)
             return [(name,lambda n=name:adapter.execute(legacy,plans[n],n,tools,product,state,control))for name in adapter.IDS]
-    conn.rollback()
+    # PostgreSQL CREATE DATABASE ... TEMPLATE needs zero source sessions.
+    # This connection belongs only to the outer diagnostics wrapper.
+    conn.rollback();cur.close();conn.close()
     try:
         modes.copy_db=copies.copy_database
         result=modes.run_races(Selected,verify,'current_return_reverse_successor2')
     finally:modes.copy_db=original_copy
     report.update(races=result,copy_catalog_admissions=list(copies.COPY_ADMISSIONS),actual_two_session=True,
         real_Auth_browser_claim=False,production_go=False,independent_acceptance=False)
-    assert result['counts']=={'PASS':2}and set(result['races'])==set(adapter.IDS),result
+    assert result.get('counts')=={'PASS':2}and set(result['races'])==set(adapter.IDS),result
     assert result['database_remaining']==0 and not result.get('cleanup_failures')
     assert len(copies.COPY_ADMISSIONS)==2
     assert all(c['all22_groups_equal_original_install']is True for c in copies.COPY_ADMISSIONS)

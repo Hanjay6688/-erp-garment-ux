@@ -2,7 +2,7 @@ name: CP7 focused return reverse races on qualified backend
 'on':
   push:
     branches:
-    - astra-a/cp7-return-race-history-successor-20261028
+    - astra-a/cp7-return-race-clone-successor-20261029
     paths:
     - .github/workflows/cp7-current-cp6-return-race-followup.yml
     - scripts/current-cp6-return-race-followup/**
@@ -15,7 +15,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   p21:
-    name: CP7 D17-18 factory live heartbeat closure with six retained groups
+    name: CP7 two actual Native return reverse races and complete restore
     runs-on: ubuntu-24.04
     timeout-minutes: 120
     env:

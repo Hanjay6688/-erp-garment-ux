@@ -19,4 +19,8 @@ class WorkflowHistory(unittest.TestCase):
   self.assertEqual(len(positions),1);index=positions[0];self.assertEqual(steps[index]['working-directory'],'auditor')
   self.assertLess(index,next(i for i,s in enumerate(steps)if s.get('name')=='Admit whole unchanged3194 backend before database'))
   self.assertLess(index,next(i for i,s in enumerate(steps)if s.get('name')=='Start disposable database'))
+class SourceConnection(unittest.TestCase):
+ def test_source_session_closed_before_copy(self):
+  text=(HERE/'runner.py').read_text();self.assertLess(text.index('conn.close()'),text.index('modes.run_races('))
+  self.assertIn("result.get('counts')",text)
 if __name__=='__main__':unittest.main()
