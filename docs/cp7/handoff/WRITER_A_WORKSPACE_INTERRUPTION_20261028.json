@@ -1,0 +1,89 @@
+{
+  "recorded_at_utc": "2026-10-28T04:56:17.114Z",
+  "status": "WORKSPACE_SERVICE_UNAVAILABLE_GITHUB_RUNTIME_STILL_RUNNING",
+  "role": "Writer A and sole integrator",
+  "slogans": [
+    "VENI. VIDI. VICI. ERP.",
+    "Reliable data adalah dewa.",
+    "Keuangan termasuk laporan, stok, dan HPP adalah raja."
+  ],
+  "workspace_error": "No usable execution environment is available. Wait for an environment to become available before using this tool.",
+  "task_not_completed": true,
+  "production_go": false,
+  "independent_acceptance": false,
+  "formal_accepted": "5/16",
+  "integration_prepared": {
+    "head": "d24b7128cddbc79312a6058b17b56da047775c75",
+    "tree": "ba6d81b8288a27a8838422cfe16997b201ad9ff0",
+    "branch": "astra-a/d17-14-model-target-integration-prepared-20261024"
+  },
+  "factory": {
+    "head": "4ac681549d7ec664f504a71670c9035dd8f5944d",
+    "run_id": 40629923288,
+    "attempt": 2,
+    "job_id": 122626325986,
+    "status": "IN_PROGRESS_NOT_PASS",
+    "active_step": 64,
+    "expected_artifact": "cp7-d17-18-factory-progress-2",
+    "first_attempt": "Retained HTTP502 prerequisite GET failure before DB; exact prerequisite bytes recovered before same-head infrastructure retry."
+  },
+  "browser": {
+    "head": "e8fa6a9e26f2459b340c4b4c880cb1b226ce021a",
+    "status": "CLOSED_PENDING_EXACT_FACTORY_ALL7_PASS",
+    "actual_Auth_browser_cases": 0,
+    "execution_branch_created": false
+  },
+  "qualified": {
+    "source_b7": "3253 tests and Node10 PASS; full suite includes native PG16 kernels",
+    "history16d9": "Exact retired-workflow source and Actions analysis PASS",
+    "assemblyb4ed": "Exact closed source assembly and Actions analysis PASS; no runtime credit"
+  },
+  "B": {
+    "head": "1dd83782dcaa4500bace7bf392a76f58be0271c3",
+    "branch_unchanged": true,
+    "remaining_finding": "One js/file-system-race in B statistical tooling; review patch only, not applied"
+  },
+  "official_head": "a255e48f76ce502d9e571f2bfdd8a52a1a2b1306",
+  "last_durable_evidence": {
+    "context_version": 152,
+    "Originals_archive_version": 19,
+    "context_sha256": "354fdfc52866da9840702c72a842584f002db978e7782b298e565fcdc951a9d3",
+    "archive_sha256": "33b8bf5df22b86138f099fc0c1e4ae068a062eac014beeee48576420540e01f1"
+  },
+  "local_after_last_save": {
+    "new_helpers": [
+      "prepare_main_factory4ac_integration.py",
+      "admit_main_factory4ac.py"
+    ],
+    "state": "Syntax checked only; never executed; no integration ref moved. Recreate if scratch was lost.",
+    "additional_helpers_not_yet_in_last_archive": [
+      "prepare_bound_4ac_browser_publish.py"
+    ],
+    "reproducible_plan": "current-integration-mainD24-4ac-plan.json already retained in durable checkpoint; exact 32-path tree 678913f49ff2e9b049a426f16b3228d8d0355cf9"
+  },
+  "resume_in_order": [
+    "Restore workspace access and materialize latest context152/Originals19 if necessary; do not interpret this interruption as a failed ERP case.",
+    "Fetch actual latest run40629923288 attempt2 jobs and artifact cp7-d17-18-factory-progress-2; preserve exact ZIP, Original, package and metadata. Do not confuse attempt1 infrastructure artifact.",
+    "Run intake_factory_unplanned.py --kind d17-18-factory-unplanned-4ac. No browser unlock if any of all7, both cron terminal states, complete declarations, all22 restores or five package gates is incomplete.",
+    "Only actual PASS: bind_next_browser_factory_4ac_actual.py; commit CONFIG/SOURCE in clean e8fa browser worktree; run admit_bound_next_factory_4ac_browser.py.",
+    "Publish exact two-file bound tree with parent e8fa and prepared-ref lease; save combined-browser-factory-bound-published.json. Create execution branch at e8fa then fast-forward to bound commit.",
+    "Run two real Auth full-copy browser cases; strict intake_combined_4ac_browser.py and internal review of six PNG. Retain PNG privately, outside durable shared Original archive.",
+    "Selectively integrate qualified32 factory paths onto mainD24, exact plan tree678913f49ff2e9b049a426f16b3228d8d0355cf9, and verify full source declaration before publication. Retain explicit materialization for retired workflow proof inputs when composing history.",
+    "Continue remaining authorized integration and auditor preparation; checkpoint alone is not a stop. No hosted/Enteng, actual WA, B writes, default/official adoption, CP7C or independent/production claims."
+  ],
+  "current_jobs": [
+    {
+      "id": 122626325986,
+      "status": "in_progress",
+      "conclusion": null,
+      "active_steps": [
+        {
+          "name": "Run all7 with unchanged D3 finance and read-only factory progress observation",
+          "status": "in_progress",
+          "conclusion": null,
+          "number": 64
+        }
+      ]
+    }
+  ]
+}
