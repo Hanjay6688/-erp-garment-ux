@@ -5562,3 +5562,36 @@ Formal5/16, production_go=false, independent_acceptance=false, CP7C belum dimula
 +Backend11c run40663882208/job122733390447 tetap berjalan; belum ada backend
 +terpilih untuk B. Formal5/16, production_go=false, independent_acceptance=false.
 +
+
+## 28 Oktober 2026 — hasil asli11c: enamPASS, pabrikINCOMPLETE; pemeriksaan liveness diperbaiki A
+
+Run40663882208/job122733390447 attempt1 sudah FAILURE. Artifact12810096616
+ZIP10734684byte/SHA784f17255ae3756b418a89162cd416e58a014a21baea34bd17e151b168e24ddb
+telah diterima dan diverifikasi terhadap exact11c/tree688a4ac dan seluruh deklarasi.
+Enam kelompok PASS; pabrik INCOMPLETE di factory.py149, setelah jadwal dimatikan,
+ketika tes masih meminta server_runner.active=true. Liveness kontraknya dua menit.
+Kedua job sudah DONE97/97, financeREADY7/7, delapan panggilan tiap jadwal berhasil,
+observer selesai482.264detik dengan progres nyata. Delapan guard baru dan kontrol
+pekerjaan kecil PASS. Seluruh tujuh pemulihan lengkap serta CP6/all22/data/sequence/
+advisor luar PASS. Package writer_runtime=false; tidak ada kelulusan gabungan.
+Response gagal tidak direkam: jangan mengarang nilai operand/timestamp heartbeat
+yang tidak tersedia. Penempatan pemeriksaan setelah shutdown memang tidak valid.
+Receipt ow15/D17_18_FACTORY_INITIAL_11C_ACTUAL_20261028.json mempertahankan semua batas.
+
+A menyiapkan penerus uji pabrik terarah: periksa dua response publik DONE/active
+saat jadwal masih terpasang, simpan response asli, lalu matikan jadwal dan lanjutkan
+seluruh24 metrik resmi, signature, halaman/cakupan1200x3, units-once dan UUID sama.
+Backend SQL/installer/inverse/kontrak/batas waktu tidak diubah. EnamPASS11c tetap
+diatribusikan pada sumber aslinya; satu bukti pabrik baru wajib PASS dan pulih
+lengkap sebelum komposisi tujuh kelompok dapat dinyatakan memenuhi prasyarat B.
+Ini bukan pengubahan status11c menjadiPASS atau klaim tujuhtes baru.
+
+Penerus pemeriksaan sumber ace34c6f8a9bbad431b59ab9f2d7c0a6fdacc37f
+tree95ea2aa3317cdfde5a459ad20597f3e4b06207b6, parentA279, sudah PREPARED:
+4313 berkas lama persis, perbaikan JS B dan panel A279 dinyatakan eksplisit,
+empat kontrol penolakan/tamper PASS. Receipt ow15/D17_18_UI_TOOLING_SOURCE_SUCCESSOR_ACE34_PREPARED_20261028.json.
+Manifest historis utuh,0DB/Auth/browser; produk belum diadopsi main.
+B tetap pada51a9 saat diperiksa; B memiliki runner/browser/visual dan driver
+produksi. A279panel dan ace34source perlu masuk deklarasi host penerus B.
+Belum ada backend eligible; jangan membuka gate dari enamPASS atau fixture.
+Formal5/16; production_go=false; independent_acceptance=false; CP7C belum dimulai.

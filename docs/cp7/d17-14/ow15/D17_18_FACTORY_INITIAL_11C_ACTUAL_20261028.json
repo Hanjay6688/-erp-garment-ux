@@ -1,0 +1,394 @@
+{
+  "status": "INCOMPLETE_BACKEND_NOT_ELIGIBLE",
+  "head": "11c95c4ee2c784247e1be22ce0a582f4d85632c5",
+  "tree": "688a4ac63208e000602a30d406b4e080d2203a28",
+  "run_id": 40663882208,
+  "job_id": 122733390447,
+  "job_conclusion": "failure",
+  "artifact_id": 12810096616,
+  "artifact_name": "cp7-d17-18-factory-initial-stage-1",
+  "zip_bytes": 10734684,
+  "zip_sha256": "784f17255ae3756b418a89162cd416e58a014a21baea34bd17e151b168e24ddb",
+  "name": "CP7_D17_18_FACTORY_INITIAL_STAGE_NATIVE_SOURCE_CRON7.json",
+  "bytes": 86200383,
+  "sha256": "00f54997e358e91c3392073994b92b2d59f184678f01e4a2f63f2373106eb9a9",
+  "package_name": "T3_PACKAGE_INSTALL.json",
+  "package_bytes": 360442,
+  "package_sha256": "90586ffbb1327face6554b9a21d575c35bfcf33a06953cedfb3383db70f9bf90",
+  "source_pins": 22,
+  "whole_source_declaration_exact": true,
+  "original_status": "INCOMPLETE",
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "child_statuses": {
+    "COMBINED_UNCHANGED_CHILD_VISIBILITY": "PASS",
+    "COMBINED_NULL_SNAPSHOT_REFUSAL_AND_RECOVERY": "PASS",
+    "COMBINED_UNCHANGED_NATIVE20": "PASS",
+    "COMBINED_INDEPENDENT_SIGNATURE": "PASS",
+    "COMBINED_CURRENT_PUBLIC_ACTUAL_CRON": "PASS",
+    "COMBINED_SMALL_PRICE_FACTORY_REPORT_PAIRS": "PASS",
+    "COMBINED_CURRENT_PUBLIC_FACTORY1200X3_ACTUAL_CRON": "INCOMPLETE"
+  },
+  "stage_timings": [
+    {
+      "phase": "SOURCE_ADMISSION",
+      "state": "COMPLETED",
+      "started_at_utc": "2026-10-28T09:35:51.321720+00:00",
+      "elapsed_ms": 92973.048,
+      "finished_at_utc": "2026-10-28T09:37:24.294825+00:00"
+    },
+    {
+      "phase": "BASELINE_ADVISORS",
+      "state": "COMPLETED",
+      "started_at_utc": "2026-10-28T09:37:30.844920+00:00",
+      "elapsed_ms": 1752.097,
+      "finished_at_utc": "2026-10-28T09:37:32.597084+00:00"
+    },
+    {
+      "phase": "BASELINE_DUMP",
+      "state": "COMPLETED",
+      "started_at_utc": "2026-10-28T09:37:36.182474+00:00",
+      "elapsed_ms": 1028.373,
+      "finished_at_utc": "2026-10-28T09:37:37.210922+00:00"
+    },
+    {
+      "phase": "SINGLE_FULL_READONLY_PARENT_INSTALL",
+      "state": "COMPLETED",
+      "started_at_utc": "2026-10-28T09:37:37.226558+00:00",
+      "elapsed_ms": 1444841.219,
+      "finished_at_utc": "2026-10-28T10:01:42.067841+00:00"
+    },
+    {
+      "phase": "FIRST_FINANCE_DELTA",
+      "state": "COMPLETED",
+      "started_at_utc": "2026-10-28T10:01:42.067896+00:00",
+      "elapsed_ms": 141525.453,
+      "finished_at_utc": "2026-10-28T10:04:03.593373+00:00"
+    },
+    {
+      "phase": "FINANCE_DELTA_PREUSE_INVERSE",
+      "state": "COMPLETED",
+      "started_at_utc": "2026-10-28T10:04:03.593436+00:00",
+      "elapsed_ms": 101766.495,
+      "finished_at_utc": "2026-10-28T10:05:45.359956+00:00"
+    },
+    {
+      "phase": "SECOND_FINANCE_DELTA",
+      "state": "COMPLETED",
+      "started_at_utc": "2026-10-28T10:05:45.360030+00:00",
+      "elapsed_ms": 140805.64,
+      "finished_at_utc": "2026-10-28T10:08:06.165699+00:00"
+    },
+    {
+      "phase": "ISOLATED_DIAGNOSTICS",
+      "state": "FAILED",
+      "started_at_utc": "2026-10-28T10:08:38.699443+00:00",
+      "error_type": "AssertionError",
+      "elapsed_ms": 2445702.405,
+      "finished_at_utc": "2026-10-28T10:49:24.401917+00:00"
+    },
+    {
+      "phase": "BASELINE_RESTORE",
+      "state": "COMPLETED",
+      "started_at_utc": "2026-10-28T10:49:24.422849+00:00",
+      "elapsed_ms": 3461.155,
+      "finished_at_utc": "2026-10-28T10:49:27.884075+00:00"
+    }
+  ],
+  "error": "FOLLOWUP_FIRST_FAILURES_RETAINED",
+  "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/current-factory-initial-stage/probe.py\", line 110, in run_inner\n    measured(timings,'ISOLATED_DIAGNOSTICS',runner.exercise,conn,cur,database,package.boundary.ADMIN,case,STATE)\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-choice-finance-cron-qualification/phase_timing.py\", line 22, in measured\n    result = operation(*args, **kwargs)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-factory-initial-stage/runner.py\", line 104, in exercise\n    with cases.installed_operations(state):isolated.exercise(cases.CHILDREN,run,restore,report)\n                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-finance-followups-qualification/isolated_cases.py\", line 34, in exercise\n    raise AssertionError('FOLLOWUP_FIRST_FAILURES_RETAINED')\nAssertionError: FOLLOWUP_FIRST_FAILURES_RETAINED\n",
+  "restore_error": null,
+  "first_failed_cases": {
+    "COMBINED_CURRENT_PUBLIC_FACTORY1200X3_ACTUAL_CRON": {
+      "error": "",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-finance-followups-qualification/isolated_cases.py\", line 15, in exercise\n    run(operation, result)\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-factory-initial-stage/runner.py\", line 53, in run\n    current.rollback();operation(current,c,database,url,result)\n                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-factory-initial-stage/cases.py\", line 49, in factory_cron\n    factory.exercise(conn,cur,database,url,report)\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-factory-initial-stage/factory.py\", line 149, in exercise\n    assert job['state']=='DONE'and job['server_runner']['active']is True\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n"
+    }
+  },
+  "eligible_for_B_backend_binding": false,
+  "actual_Auth_browser_cases": 0,
+  "independent_acceptance": false,
+  "production_go": false,
+  "classification": "QUALIFICATION_LIVENESS_ASSERTION_AFTER_SCHEDULER_SHUTDOWN",
+  "classification_limit": "The failed conjunction did not retain its public response; the exact false operand and expiry timestamp cannot be recovered. The assertion placement is invalid for a two-minute heartbeat after scheduler shutdown.",
+  "observed_factory_states": {
+    "2258c9e7-c4b7-487f-b80b-9caa9dfaf3c7": "DONE",
+    "d0f446b5-92f9-4710-88bb-a924034cafeb": "DONE"
+  },
+  "observed_finance_state": "READY",
+  "factory_watch": {
+    "elapsed_seconds": 482.257,
+    "jobs": {
+      "2258c9e7-c4b7-487f-b80b-9caa9dfaf3c7": [
+        "DONE",
+        97,
+        97,
+        true
+      ],
+      "d0f446b5-92f9-4710-88bb-a924034cafeb": [
+        "DONE",
+        97,
+        97,
+        true
+      ],
+      "finance": [
+        "READY",
+        7,
+        7
+      ]
+    }
+  },
+  "factory_elapsed_seconds": 482.264,
+  "initial_worker_guards": {
+    "status": "PASS",
+    "checks": [
+      {
+        "case": "PUBLIC_8S_STEP_REFUSED_WITHOUT_ATTEMPT",
+        "request": "d0f446b5-92f9-4710-88bb-a924034cafeb"
+      },
+      {
+        "case": "PUBLIC_8S_STEP_REFUSED_WITHOUT_ATTEMPT",
+        "request": "2258c9e7-c4b7-487f-b80b-9caa9dfaf3c7"
+      },
+      {
+        "case": "PRIVATE_LIMIT_REFUSED",
+        "statement_limit_ms": 0
+      },
+      {
+        "case": "PRIVATE_LIMIT_REFUSED",
+        "statement_limit_ms": 8000
+      },
+      {
+        "case": "PRIVATE_LIMIT_REFUSED",
+        "statement_limit_ms": 16001
+      },
+      {
+        "case": "ORDINARY_WORKER_SKIPS_LARGE_INITIAL"
+      },
+      {
+        "case": "EXISTING_ACCESS_CHANGE_PRECEDES_INITIAL_LIMIT_REFUSAL",
+        "complete_savepoint_rollback": true
+      },
+      {
+        "case": "SECOND_CONNECTION_SKIPS_BOTH_LOCKED_JOBS",
+        "worker": {
+          "at": "2026-10-28T10:24:39.381648+00:00",
+          "ran": false,
+          "tick": "cp7-factory-initial-preparation",
+          "outcome": "IDLE",
+          "policy_id": "D17-18-20261026"
+        }
+      }
+    ],
+    "all22_all_rows_and_sequences_unchanged": true,
+    "ordinary_public_limit_ms": 8000,
+    "initial_private_limit_ms": 16000,
+    "committed_operational_steps": 0,
+    "actual_current_access_cases_retained_in_native20": true,
+    "real_Auth_browser_claim": false
+  },
+  "small_job_not_taken_by_initial_worker": {
+    "status": "PASS",
+    "targets": 4,
+    "worker": {
+      "at": "2026-10-28T10:20:34.680841+00:00",
+      "ran": false,
+      "tick": "cp7-factory-initial-preparation",
+      "outcome": "IDLE",
+      "policy_id": "D17-18-20261026"
+    },
+    "complete_savepoint_rollback": true
+  },
+  "cron_run_counts": {
+    "cp7-staged-runner": 8,
+    "cp7-factory-initial-preparation": 8
+  },
+  "all_cron_invocations_succeeded": true,
+  "restorations": {
+    "COMBINED_UNCHANGED_CHILD_VISIBILITY": {
+      "pre_restore_observation_complete": true,
+      "scheduler_quiet": true,
+      "inverse_refusal": "FACTORY_INITIAL_STAGE_AFTER_USE_REQUIRES_FULL_BACKUP_RESTORE",
+      "inverse_refused_before_DDL": true,
+      "used_guard_refused_before_DDL": true,
+      "committed_data_changed": true,
+      "raw_catalog_spelling_changed": false,
+      "unexpected_catalog_change": false,
+      "all22_all_rows_all_sequences_roles_exact": true,
+      "complete_database_dump_restored": true,
+      "restore": {
+        "exit": 1,
+        "error_count": 19,
+        "unexplained": [],
+        "only_pg_cron_errors": true,
+        "database_owner_acl_and_settings_preserved": true,
+        "platform_schema_authority_restored": [
+          "graphql",
+          "graphql_public"
+        ]
+      },
+      "selected_table_cleanup": false
+    },
+    "COMBINED_NULL_SNAPSHOT_REFUSAL_AND_RECOVERY": {
+      "pre_restore_observation_complete": true,
+      "scheduler_quiet": true,
+      "inverse_refusal": "FACTORY_INITIAL_STAGE_ACTUAL_ALL22_CHANGED",
+      "inverse_refused_before_DDL": true,
+      "used_guard_refused_before_DDL": false,
+      "committed_data_changed": true,
+      "raw_catalog_spelling_changed": true,
+      "unexpected_catalog_change": false,
+      "all22_all_rows_all_sequences_roles_exact": true,
+      "complete_database_dump_restored": true,
+      "restore": {
+        "exit": 1,
+        "error_count": 19,
+        "unexplained": [],
+        "only_pg_cron_errors": true,
+        "database_owner_acl_and_settings_preserved": true,
+        "platform_schema_authority_restored": [
+          "graphql",
+          "graphql_public"
+        ]
+      },
+      "selected_table_cleanup": false
+    },
+    "COMBINED_UNCHANGED_NATIVE20": {
+      "pre_restore_observation_complete": true,
+      "scheduler_quiet": true,
+      "inverse_refusal": "FACTORY_INITIAL_STAGE_ACTUAL_ALL22_CHANGED",
+      "inverse_refused_before_DDL": true,
+      "used_guard_refused_before_DDL": false,
+      "committed_data_changed": true,
+      "raw_catalog_spelling_changed": true,
+      "unexpected_catalog_change": false,
+      "all22_all_rows_all_sequences_roles_exact": true,
+      "complete_database_dump_restored": true,
+      "restore": {
+        "exit": 1,
+        "error_count": 19,
+        "unexplained": [],
+        "only_pg_cron_errors": true,
+        "database_owner_acl_and_settings_preserved": true,
+        "platform_schema_authority_restored": [
+          "graphql",
+          "graphql_public"
+        ]
+      },
+      "selected_table_cleanup": false
+    },
+    "COMBINED_INDEPENDENT_SIGNATURE": {
+      "pre_restore_observation_complete": true,
+      "scheduler_quiet": true,
+      "inverse_refusal": "FACTORY_INITIAL_STAGE_ACTUAL_ALL22_CHANGED",
+      "inverse_refused_before_DDL": true,
+      "used_guard_refused_before_DDL": false,
+      "committed_data_changed": true,
+      "raw_catalog_spelling_changed": true,
+      "unexpected_catalog_change": false,
+      "all22_all_rows_all_sequences_roles_exact": true,
+      "complete_database_dump_restored": true,
+      "restore": {
+        "exit": 1,
+        "error_count": 19,
+        "unexplained": [],
+        "only_pg_cron_errors": true,
+        "database_owner_acl_and_settings_preserved": true,
+        "platform_schema_authority_restored": [
+          "graphql",
+          "graphql_public"
+        ]
+      },
+      "selected_table_cleanup": false
+    },
+    "COMBINED_CURRENT_PUBLIC_ACTUAL_CRON": {
+      "pre_restore_observation_complete": true,
+      "scheduler_quiet": true,
+      "inverse_refusal": "FACTORY_INITIAL_STAGE_ACTUAL_ALL22_CHANGED",
+      "inverse_refused_before_DDL": true,
+      "used_guard_refused_before_DDL": false,
+      "committed_data_changed": true,
+      "raw_catalog_spelling_changed": true,
+      "unexpected_catalog_change": false,
+      "all22_all_rows_all_sequences_roles_exact": true,
+      "complete_database_dump_restored": true,
+      "restore": {
+        "exit": 1,
+        "error_count": 19,
+        "unexplained": [],
+        "only_pg_cron_errors": true,
+        "database_owner_acl_and_settings_preserved": true,
+        "platform_schema_authority_restored": [
+          "graphql",
+          "graphql_public"
+        ]
+      },
+      "selected_table_cleanup": false
+    },
+    "COMBINED_SMALL_PRICE_FACTORY_REPORT_PAIRS": {
+      "pre_restore_observation_complete": true,
+      "scheduler_quiet": true,
+      "inverse_refusal": "FACTORY_INITIAL_STAGE_ACTUAL_ALL22_CHANGED",
+      "inverse_refused_before_DDL": true,
+      "used_guard_refused_before_DDL": false,
+      "committed_data_changed": true,
+      "raw_catalog_spelling_changed": true,
+      "unexpected_catalog_change": false,
+      "all22_all_rows_all_sequences_roles_exact": true,
+      "complete_database_dump_restored": true,
+      "restore": {
+        "exit": 1,
+        "error_count": 19,
+        "unexplained": [],
+        "only_pg_cron_errors": true,
+        "database_owner_acl_and_settings_preserved": true,
+        "platform_schema_authority_restored": [
+          "graphql",
+          "graphql_public"
+        ]
+      },
+      "selected_table_cleanup": false
+    },
+    "COMBINED_CURRENT_PUBLIC_FACTORY1200X3_ACTUAL_CRON": {
+      "pre_restore_observation_complete": true,
+      "scheduler_quiet": true,
+      "inverse_refusal": "FACTORY_INITIAL_STAGE_ACTUAL_ALL22_CHANGED",
+      "inverse_refused_before_DDL": true,
+      "used_guard_refused_before_DDL": false,
+      "committed_data_changed": true,
+      "raw_catalog_spelling_changed": true,
+      "unexpected_catalog_change": false,
+      "all22_all_rows_all_sequences_roles_exact": true,
+      "complete_database_dump_restored": true,
+      "restore": {
+        "exit": 1,
+        "error_count": 19,
+        "unexplained": [],
+        "only_pg_cron_errors": true,
+        "database_owner_acl_and_settings_preserved": true,
+        "platform_schema_authority_restored": [
+          "graphql",
+          "graphql_public"
+        ]
+      },
+      "selected_table_cleanup": false
+    }
+  },
+  "outer_restoration": {
+    "cp6_restored": true,
+    "advisor_gate": true,
+    "baseline_full22_all_rows_all_sequences_equal": true,
+    "baseline_advisors_equal": true,
+    "scheduler_quiet_before_baseline_restore": true
+  },
+  "factory_checks_not_reached": [
+    "page equality and complete 1200x3 coverage",
+    "every unit once",
+    "same UUID no second effect"
+  ],
+  "next_action": "Fresh focused factory closure retaining all factory business oracles and full restoration; reuse six exact 11c PASS groups with explicit same-backend evidence composition. No backend is eligible yet."
+}

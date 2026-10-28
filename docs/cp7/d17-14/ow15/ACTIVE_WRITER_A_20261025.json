@@ -1,5 +1,5 @@
 {
-  "recorded_at_utc": "2026-10-28T10:28:56.213357+00:00",
+  "recorded_at_utc": "2026-10-28T11:01:28.020548+00:00",
   "role": "A finance writer/integrator replacing Claude; B remains separate production/planning writer",
   "slogan": [
     "VENI. VIDI. VICI. ERP. — I CONQUERED ERP.",
@@ -8,27 +8,7 @@
   "formal_accepted": "5/16",
   "production_go": false,
   "independent_acceptance": false,
-  "running": {
-    "status": "ACTUAL_ALL7_RUNNING_NOT_QUALIFIED",
-    "head": "11c95c4ee2c784247e1be22ce0a582f4d85632c5",
-    "tree": "688a4ac63208e000602a30d406b4e080d2203a28",
-    "run_id": 40663882208,
-    "job_id": 122733390447,
-    "branch": "astra-a/d17-18-factory-initial-stage-20261028",
-    "namespace": "scripts/current-factory-initial-stage",
-    "output": "CP7_D17_18_FACTORY_INITIAL_STAGE_NATIVE_SOURCE_CRON7.json",
-    "artifact_expected": "cp7-d17-18-factory-initial-stage-1",
-    "source_admission": {
-      "status": "PASS",
-      "own_pins": 22,
-      "seconds": 156.815,
-      "database_connection_attempts": 0
-    },
-    "selected_backend_for_B": null,
-    "browser_unlock": false,
-    "production_go": false,
-    "independent_acceptance": false
-  },
+  "running": null,
   "actual_new_component": {
     "name": "CP7_OW11_MODEL_TARGET_SOURCE_V2.json",
     "status": "PASS",
@@ -18563,9 +18543,9 @@
     "actual_receipt": "docs/cp7/d17-14/ow15/D17_18_SOURCE_B7_ACTUAL.json"
   },
   "latest_next_steps_20261028": [
-    "A: finish bounded large initial worker, full installer/inverse, guard cases and seven combined groups on one candidate; preserve first failure.",
-    "B: continue existing browser preparation and adapt owned client to explicit server-owned initial-stage contract; wait for qualified exact backend before real Auth/browser.",
-    "A: deliver exact backend head/tree/run/job/artifact and open gaps, selectively receive B browser result, finish independent-auditor package."
+    "A: complete fresh focused factory closure with live heartbeat observed before scheduler shutdown; retain six exact 11c PASS groups, full business checks and restoration. Backend SQL unchanged.",
+    "B: continue prepared browser and owned production driver changes including explicit initial-stage refusal and finite progress observation; backend binding remains CLOSED.",
+    "A: verify composed seven-group evidence on identical entire backend, provide source and Originals to B, selectively integrate B plus A279/ace34 successors, complete independent-auditor packet."
   ],
   "previous_factory49_running_before_actual": {
     "head": "49baddbd423da93a0cfe1a52c27801e763176fcf",
@@ -19230,5 +19210,44 @@
     "new_controls": 4,
     "main_product_adopted": false,
     "B_browser_binding_pending": true
+  },
+  "previous_running_before_initial11c_actual": {
+    "status": "ACTUAL_ALL7_RUNNING_NOT_QUALIFIED",
+    "head": "11c95c4ee2c784247e1be22ce0a582f4d85632c5",
+    "tree": "688a4ac63208e000602a30d406b4e080d2203a28",
+    "run_id": 40663882208,
+    "job_id": 122733390447,
+    "branch": "astra-a/d17-18-factory-initial-stage-20261028",
+    "namespace": "scripts/current-factory-initial-stage",
+    "output": "CP7_D17_18_FACTORY_INITIAL_STAGE_NATIVE_SOURCE_CRON7.json",
+    "artifact_expected": "cp7-d17-18-factory-initial-stage-1",
+    "source_admission": {
+      "status": "PASS",
+      "own_pins": 22,
+      "seconds": 156.815,
+      "database_connection_attempts": 0
+    },
+    "selected_backend_for_B": null,
+    "browser_unlock": false,
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "latest_factory_initial_outcome": {
+    "path": "docs/cp7/d17-14/ow15/D17_18_FACTORY_INITIAL_11C_ACTUAL_20261028.json",
+    "head": "11c95c4ee2c784247e1be22ce0a582f4d85632c5",
+    "tree": "688a4ac63208e000602a30d406b4e080d2203a28",
+    "run_id": 40663882208,
+    "job_id": 122733390447,
+    "artifact_id": 12810096616,
+    "status": "FAILURE_SIX_PASS_FACTORY_INCOMPLETE_RESTORE_EXACT",
+    "selected_backend_for_B": null,
+    "browser_unlock": false
+  },
+  "UI_tooling_source_successor_prepared": {
+    "path": "docs/cp7/d17-14/ow15/D17_18_UI_TOOLING_SOURCE_SUCCESSOR_ACE34_PREPARED_20261028.json",
+    "head": "ace34c6f8a9bbad431b59ab9f2d7c0a6fdacc37f",
+    "tree": "95ea2aa3317cdfde5a459ad20597f3e4b06207b6",
+    "status": "PREPARED_SOURCE_ONLY_PUBLISHED",
+    "main_product_adopted": false
   }
 }
