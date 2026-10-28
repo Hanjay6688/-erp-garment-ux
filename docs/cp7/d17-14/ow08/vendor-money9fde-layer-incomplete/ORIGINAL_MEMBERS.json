@@ -1,0 +1,52 @@
+{
+  "artifact": {
+    "head": "9fde249ed0aef0000c3d17fde6a2a3f02a4dab86",
+    "tree": "e086df00a3ec25c387ac465b94cf6882568fd669",
+    "run_id": 40784374399,
+    "job_id": 123153769359,
+    "artifact_id": 12861060676,
+    "zip_bytes": 2722109,
+    "zip_sha256": "9d9ca6a298b1c0a06c13d50f52840b7b9857402775064559639e1175ba68ed1c",
+    "original": {
+      "name": "CP7_VENDOR_MONEY_BROWSER2.json",
+      "bytes": 798477,
+      "sha256": "348bf8e28515056ca1ef5fee72d6b1af2d37bb7196defc9b4284a53ca4d75846"
+    },
+    "package": {
+      "name": "T3_PACKAGE_INSTALL.json",
+      "bytes": 360411,
+      "sha256": "521f26c19ff8648f7142ed28222b3b71028fe715ecdb3fad702a0554329f6dd4"
+    }
+  },
+  "members": [
+    {
+      "name": "CP7_VENDOR_MONEY_BROWSER2.json",
+      "raw_bytes": 798477,
+      "raw_sha256": "348bf8e28515056ca1ef5fee72d6b1af2d37bb7196defc9b4284a53ca4d75846",
+      "retained": "CP7_VENDOR_MONEY_BROWSER2.json.gz",
+      "gzip_sha256": "1a459fc5e6093fb6a4d40f2e371fa9ea98656e50fb6daa89f07803303415dcb4"
+    },
+    {
+      "name": "T3_PACKAGE_INSTALL.json",
+      "raw_bytes": 360411,
+      "raw_sha256": "521f26c19ff8648f7142ed28222b3b71028fe715ecdb3fad702a0554329f6dd4",
+      "retained": "T3_PACKAGE_INSTALL.json.gz",
+      "gzip_sha256": "b1d6db0e04a92b3a86fe9e00deaab3c27d24560b5383ad86eac698ad78c1a8dc"
+    },
+    {
+      "name": "T3_BACKUP_RESTORE_DRILL.json",
+      "raw_bytes": 1470,
+      "raw_sha256": "da40250fb8f4688bb9cc34a01558a725ca8ce9e6cb455e203676213c8ee41611",
+      "retained": "T3_BACKUP_RESTORE_DRILL.json.gz",
+      "gzip_sha256": "ad616df09785f2ec04669537b308d0c11f4f29abd4b820b969ccba1a54e5edfc"
+    },
+    {
+      "name": "T3_PACKAGE_FILES_INSTALL.json",
+      "raw_bytes": 1806,
+      "raw_sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "retained": "T3_PACKAGE_FILES_INSTALL.json.gz",
+      "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7"
+    }
+  ],
+  "method": "Exact original JSON bytes; screenshot-containing ZIP remains private"
+}

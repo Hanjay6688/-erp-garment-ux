@@ -1,0 +1,59 @@
+{
+  "pin": {
+    "head": "9fde249ed0aef0000c3d17fde6a2a3f02a4dab86",
+    "tree": "e086df00a3ec25c387ac465b94cf6882568fd669",
+    "run_id": 40784374399,
+    "job_id": 123153769359,
+    "artifact_id": 12861060676,
+    "zip_bytes": 2722109,
+    "zip_sha256": "9d9ca6a298b1c0a06c13d50f52840b7b9857402775064559639e1175ba68ed1c",
+    "original": {
+      "name": "CP7_VENDOR_MONEY_BROWSER2.json",
+      "bytes": 798477,
+      "sha256": "348bf8e28515056ca1ef5fee72d6b1af2d37bb7196defc9b4284a53ca4d75846"
+    },
+    "package": {
+      "name": "T3_PACKAGE_INSTALL.json",
+      "bytes": 360411,
+      "sha256": "521f26c19ff8648f7142ed28222b3b71028fe715ecdb3fad702a0554329f6dd4"
+    }
+  },
+  "status": "INCOMPLETE",
+  "browser_counts": {
+    "INCOMPLETE": 2
+  },
+  "host_status": "RUN_COMPLETE",
+  "host_exit": 0,
+  "restoration": {
+    "cp6_restored": true,
+    "advisor_gate": true,
+    "baseline_full22_all_rows_all_sequences_equal": true,
+    "baseline_advisors_equal": true,
+    "used_guard_refused_before_DDL": null
+  },
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "first_failures": [
+    {
+      "id": "VENDOR_MONEY_BROWSER_DESKTOP_REFUND_INVERSE_HISTORY",
+      "status": "INCOMPLETE",
+      "error": "locator.evaluate: Error: UNMEASURED_FINANCE_TEXT_SURFACE:{\"label\":\"Kredit klaim yang sudah disetujui boleh memotong tagihan vendor yang sama yang belum lunas\",\"tag\":\"BODY\",\"classes\":\"\",\"backgroundImage\":\"radial-gradient(circle at 76% -20%, rgba(98, 111, 221, 0.14), rgba(0, 0, 0, 0) 30%), none\",\"mixBlendMode\":\"normal\",\"filter\":\"none\",\"backgroundBlendMode\":\"normal, normal\"}\n    at eval (eval at evaluate (:311:30), <anonymous>:9:105)\n    at UtilityScript.evaluate (<anonymous>:313:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at readable (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-vendor-money-browser/visual.mjs:26:24)\n    at journey (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-vendor-money-browser/cases.mjs:103:115)\n    at async main (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:243:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:259:3"
+    },
+    {
+      "id": "VENDOR_MONEY_BROWSER_MOBILE_REFUND_ACCESS_HIDDEN",
+      "status": "INCOMPLETE",
+      "error": "locator.evaluate: Error: UNMEASURED_FINANCE_TEXT_SURFACE:{\"label\":\"Kredit klaim yang sudah disetujui boleh memotong tagihan vendor yang sama yang belum lunas\",\"tag\":\"BODY\",\"classes\":\"\",\"backgroundImage\":\"radial-gradient(circle at 76% -20%, rgba(98, 111, 221, 0.14), rgba(0, 0, 0, 0) 30%), none\",\"mixBlendMode\":\"normal\",\"filter\":\"none\",\"backgroundBlendMode\":\"normal, normal\"}\n    at eval (eval at evaluate (:311:30), <anonymous>:9:105)\n    at UtilityScript.evaluate (<anonymous>:313:16)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)\n    at readable (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-vendor-money-browser/visual.mjs:26:24)\n    at journey (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-vendor-money-browser/cases.mjs:103:115)\n    at async main (/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:243:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:259:3"
+    }
+  ],
+  "classification": "CONTRAST_INSTRUMENT_REFUSED_NORMAL_COMMA_NORMAL_BACKGROUND_LAYER_LIST",
+  "actual_full_case_credit": 0,
+  "partial_witness": "Both journeys stop at first contrast call after refund posting; desktop committed response-loss replay remains partial. No inverse/next-invoice-credit/mobile-revoke full-case credit.",
+  "remaining": "Accept the actual instrument successor and both complete journeys, restoration and visual review.",
+  "production_go": false,
+  "independent_acceptance": false
+}

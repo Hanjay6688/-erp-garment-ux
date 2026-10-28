@@ -5844,3 +5844,14 @@ pengukur gradasi konservatif, tetap4.5, dan CSS disabled hanya pembayaran vendor
 CLOSED sampai bukti aktual dan visual. Tidak menjalankan ulang browser B.
 Peta16OW/empat kebutuhan AI dari cabangb639 masuk sebagai pencocokan scope,
 tanpa produk atau kredit runtime baru. Main belum mengadopsi runtime vendor.
+
+
+## A — 29 Oktober2026: 9fde terminal, layer-list successor dan OW08 source6
+
+9fde/run40784374399 INCOMPLETE2 pada pemeriksa lapisan CSS; full restore PASS.
+2d4ed56/run40789668297/job123171442637 memperbaiki alat saja,19+4 kontrol
+lokal PASS, Chromium paint preflight sebelum DB. B tetap sudah diterima.
+Pada cabang A terpisah fd72ee2c,6 perjalanan kasbon/cuci gagal/FG-QC disiapkan
+dengan runner existing, tanpa perubahan produk dan tanpa klaim runtime.
+Rebind ke penerus uang yang akhirnya diterima sebelum menjalankan source6.
+Intake10 CLOSED; tidak mengubah kandidat beku, driver B atau produksi.
