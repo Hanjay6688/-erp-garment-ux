@@ -1,0 +1,10 @@
+{
+  "status": "LOCAL_WORKFLOW_SOURCE_PREPARATION_PASS",
+  "bash_steps_parsed": 42,
+  "case_ids": 45,
+  "SOURCE_absent": true,
+  "actual_Native40_head_required": "8de2ae694c6eda60a6724415eb60772c4f7a20b2",
+  "actual_Native40_run_required": 40216890593,
+  "qualification_runtime_dispatched": false,
+  "production_go": false
+}

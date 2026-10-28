@@ -1,0 +1,26 @@
+{
+  "contract": "cp7.current-frozen-private-official-factory-observe-qualification.v1",
+  "old_head": "daab807531816353e499d7842897320ce42e8949",
+  "fixture_sha256": "193197b3c288b382970250f2f3db4c38ea21e3fd45bb1729fe25f94ecbe5e3bd",
+  "runner_sha256": "f22634871853f2a523aaa83f17985fc89cf3406d19f2f7ff1863a2fca45e409e",
+  "native_variable": "CURRENT_VERSIONED_PERFORMANCE_NATIVE_ORIGINAL_REPORT",
+  "cron_variable": "CURRENT_VERSIONED_PERFORMANCE_CRON_ORIGINAL_REPORT",
+  "first_failure_variable": "PREVIOUS_FACTORY_DATE_CORRECTED_ORIGINAL_REPORT",
+  "followups": {
+    "native": "CURRENT_VERSIONED_PERFORMANCE_NATIVE_ORIGINAL_REPORT",
+    "restore": "CURRENT_VERSIONED_PERFORMANCE_RESTORE_ORIGINAL_REPORT",
+    "finance": "CURRENT_VERSIONED_PERFORMANCE_FINANCE_ORIGINAL_REPORT",
+    "cron": "CURRENT_VERSIONED_PERFORMANCE_CRON_ORIGINAL_REPORT",
+    "browser": "CURRENT_VERSIONED_PERFORMANCE_BROWSER_ORIGINAL_REPORT",
+    "transport": "CURRENT_VERSIONED_PERFORMANCE_TRANSPORT_ORIGINAL_REPORT"
+  },
+  "required_actual_originals": 10,
+  "retained_performance_config": "scripts/current-versioned-performance-factory-qualification/CONFIG.json",
+  "private_native_variable": "CURRENT_FROZEN_FINANCE_NATIVE_ORIGINAL_REPORT",
+  "fixture_path": "scripts/current-factory-finance-runtime-qualification/fixture.py",
+  "wrong_fixture_failure_variable": "PREVIOUS_FACTORY_MEMBERSHIP_SOURCE_ORIGINAL_REPORT",
+  "terminal_failure_variable": "PREVIOUS_FROZEN_FACTORY_TERMINAL_ORIGINAL_REPORT",
+  "terminal_failure_head": "5bf4e03a37418545655f07a52582103348b17cd4",
+  "terminal_source": "scripts/current-frozen-finance-factory-date2-qualification/SOURCE.json",
+  "diagnostics_sha256": "142f983eaeae8eade2f7b57462af97c26202492e3ad9cf91b061c8a9a47369e6"
+}

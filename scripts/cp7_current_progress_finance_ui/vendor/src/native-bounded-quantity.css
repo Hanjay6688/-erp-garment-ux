@@ -1,0 +1,117 @@
+.native-bounded-quantity {
+  --surface: #fff;
+  --text: #24352e;
+  --soft: #33473d;
+  --muted: #53655b;
+  --line: #cfd8d3;
+  --border: #cfd8d3;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #f8faf9;
+  color: var(--text);
+}
+.native-bounded-quantity > header,
+.native-bounded-quantity .native-production-actions,
+.native-bounded-quantity > nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-block: 12px;
+}
+.native-bounded-quantity p { overflow-wrap: anywhere; line-height: 1.6; }
+.native-bounded-quantity .target-demand-details { display: grid; gap: 6px; min-width: 0; margin-block: 14px; }
+.native-bounded-quantity .target-demand-details h5,
+.native-bounded-quantity .target-demand-details p { margin: 0; }
+.native-bounded-quantity button {
+  min-height: 40px;
+  padding: 8px 12px;
+  border: 1px solid #9aafa2;
+  border-radius: 8px;
+  background: #fff;
+  color: #24352e;
+  white-space: normal;
+}
+.native-bounded-quantity button:disabled { opacity: .6; cursor: default; }
+.native-bounded-quantity [role=alert] { color: #922b25; }
+.native-bounded-quantity .responsive-table { max-width: 100%; overflow: auto; }
+.native-bounded-quantity .responsive-table table {
+  width: 100%;
+  min-width: 1080px;
+  border-collapse: collapse;
+}
+.native-bounded-quantity .responsive-table th,
+.native-bounded-quantity .responsive-table td {
+  padding: 12px;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  vertical-align: top;
+  white-space: normal;
+  letter-spacing: normal;
+  text-transform: none;
+  font-size: 14px;
+  color: #24352e;
+  font-variant-numeric: tabular-nums;
+}
+.native-bounded-quantity .responsive-table th { font-size: 12px; color: #41564b; }
+@media (max-width: 680px) {
+  .native-bounded-quantity { padding: 12px; }
+  .native-bounded-quantity .responsive-table { overflow: visible; }
+  .native-bounded-quantity .responsive-table table,
+  .native-bounded-quantity .responsive-table tbody,
+  .native-bounded-quantity .responsive-table tr,
+  .native-bounded-quantity .responsive-table td { display: block; min-width: 0; }
+  .native-bounded-quantity .responsive-table thead { display: none; }
+  .native-bounded-quantity .responsive-table tr { margin-block: 12px; border-bottom: 1px solid var(--line); }
+  .native-bounded-quantity .responsive-table td { padding: 8px 0; border: 0; overflow-wrap: anywhere; font-size: 16px; }
+  .native-bounded-quantity .responsive-table td[data-label]::before {
+    content: attr(data-label);
+    display: block;
+    margin-bottom: 4px;
+    color: #41564b;
+    font-size: 13px;
+    font-weight: 700;
+  }
+}
+.native-bounded-quantity .native-analog-choice fieldset {
+  min-width: 0;
+  margin-block: 16px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+.native-bounded-quantity .native-analog-choice label {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+  margin-block: 12px;
+  line-height: 1.5;
+}
+.native-bounded-quantity .native-analog-choice input,
+.native-bounded-quantity .native-analog-choice select,
+.native-bounded-quantity .native-analog-choice textarea {
+  min-width: 0;
+  max-width: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px;
+  color: #24352e;
+  background: #fff;
+  border: 1px solid #9aafa2;
+  border-radius: 6px;
+}
+.native-bounded-quantity .native-analog-choice .native-analog-review {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+.native-bounded-quantity .native-analog-choice input[type=checkbox] {
+  width: 20px;
+  height: 20px;
+  flex: 0 0 20px;
+}

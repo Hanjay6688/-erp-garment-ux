@@ -1,0 +1,38 @@
+{
+  "scripts/check-source-ownership.mjs": {
+    "frozen_sha256": "4024633aa6304073078bdd787ecfc224a1b79c00daa51c68d75bc7e0f34577b8",
+    "current_sha256": "bba02cb2f7892c3f40ab88be4a887741362868bd34be2f2d80a1826cc9022649"
+  },
+  "scripts/cp7_ow11_model_scoped_dataset_cases.py": {
+    "frozen_sha256": "6071960109646588cfbfa6124285cdb388c8e8110023ad608183ed67227cf29a",
+    "current_sha256": "f77e47767ac6a6e6209476b3f2b5ceb7291ebf2bb1b681732201369311030d26"
+  },
+  "scripts/cp7_ow11_model_scoped_evaluation_local.mjs": {
+    "frozen_sha256": "3f4edc14509be9340378659590eec5642bd6e9ee4ed076c5a36fd79ead1411e5",
+    "current_sha256": "6ac93ed31034d677fc10c6a2e3e87b1636e030c023f5e885ac2b099775d11f71"
+  },
+  "src/NativeAnalysisPanel.pages.dom.test.tsx": {
+    "frozen_sha256": "5f01b890314670830b2a2ff1561be7a394c1b7ebb1bcd6d91a598235ecc0a516",
+    "current_sha256": "6f7b6a072d19027bdc25e7574854a921c50c8db8aab4972c5bd66b6d466c3291"
+  },
+  "src/NativeAnalysisPanel.tsx": {
+    "frozen_sha256": "a9ec67a08f74a29c6fd345369ce1b737436e518b038080ffef362ae362ab59ca",
+    "current_sha256": "ed1babe4025c6f62935f965f7b75b2d12958fffdd3d5d9a4f03ba810808faffe"
+  },
+  "src/NativeStagedAnalysisView.tsx": {
+    "frozen_sha256": "3e1a63670ef6e8e4494ba35dc81c7bec75a114369b84e21d88321001c1da8eed",
+    "current_sha256": "5518ee241507e1b198d3fd010f1ab08615410d4b6d6843d9ede30f58fc516e43"
+  },
+  "src/nativeAnalysisPages.test.ts": {
+    "frozen_sha256": "732e23fea09cedee2b9232129ee4ae20ee8fbf7d4befbf3bf5acb80ff20ae58f",
+    "current_sha256": "843829cf28b7d19b331cc209b74d56e0666be1c9c1781a6ac7d6779f868642a7"
+  },
+  "src/nativeAnalysisPages.ts": {
+    "frozen_sha256": "a413433bf654f5f9343a297ae8f7a53b7826d8f1e45dc261eeb548a5dbf963a5",
+    "current_sha256": "5a409a8e54948cb2b5d8740722db99488a311149777d0753e203d9e028e1fa17"
+  },
+  "src/nativeDemandHistory.ts": {
+    "frozen_sha256": "874a28d8bdee3813f7030e52b57733160426ffabd7fec20a86857bcc600027c5",
+    "current_sha256": "1b2b5f51e93c656f95668405ec1cee123680ddb0ce96ac251f3df220d5a5d9e2"
+  }
+}

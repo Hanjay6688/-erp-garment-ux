@@ -1,0 +1,34 @@
+{
+  "exact_date_corrected_fixture_head": "daab807531816353e499d7842897320ce42e8949",
+  "fixture_sha256": "6dceb87ae35bb87527eba3176f80b292e5ab9ef2a4a4b5a813bf6d3f3097724e",
+  "retained_assertions": {
+    "runner.py": 36,
+    "fixture.py": 17,
+    "probe.py": 10
+  },
+  "all_business_oracles_unchanged": true,
+  "all24_official_metrics_and_independent_signature_retained": true,
+  "original_300s_window_and60_bounded8s_transactions": true,
+  "new_factory_runtime_credit": false,
+  "production_go": false,
+  "status": "LOCAL_PREPARATION_PASS",
+  "required_actual_prerequisites": 7,
+  "six_current_PASS_suites_required": true,
+  "retained_first_INCOMPLETE_required": true,
+  "negative_controls": [
+    "deadline",
+    "official_metrics",
+    "money_stock_catalog",
+    "missing_followups",
+    "past_reports_not_current_performance"
+  ],
+  "python_files_parsed": 8,
+  "bash_steps_parsed": 42,
+  "global_names_resolved": true,
+  "actual_product_module_graph": true,
+  "actual_Original_receipt_label_verified": "CP7_CURRENT_VERSIONED_PERFORMANCE_FACTORY_FINANCE1.json",
+  "SOURCE_bound": false,
+  "actual_factory_runtime": false,
+  "full_factory3600_qualified": false,
+  "independent_acceptance": false
+}

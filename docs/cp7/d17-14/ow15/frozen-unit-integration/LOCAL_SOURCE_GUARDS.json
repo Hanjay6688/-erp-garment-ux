@@ -1,0 +1,40 @@
+{
+  "status": "LOCAL_SOURCE_AND_GUARD_PASS",
+  "exact_B_files": 20,
+  "qualified_B_head": "10a36e35b956febd9e34907f20fc5b782ec48dc1",
+  "A_parent": "4608b478ac50b52eba69e938488402b296a0f46e",
+  "unchanged_B_database_functions": [
+    "admit_catalog",
+    "declared",
+    "dependencies",
+    "install_delta",
+    "own_catalog",
+    "rollback_preuse",
+    "verify"
+  ],
+  "negative_controls": [
+    "retained_v1_changed",
+    "qualified_render_input_changed",
+    "binary_SQL_changed",
+    "binary_manifest_changed",
+    "capsule_SQL_changed",
+    "units_SQL_changed",
+    "undeclared_B_file",
+    "qualified_receipt_declaration_changed",
+    "existing_function_authority_changed",
+    "unrelated_object_changed",
+    "missing_replacement",
+    "missing_private_function_state",
+    "row_drift_before_inverse",
+    "sequence_drift_before_inverse"
+  ],
+  "negative_control_count": 14,
+  "global_used_guard_no_inverse_calls": true,
+  "entrypoint_sha256": "9f0774c61dce1c80d209302ec7c44d0ee11342b9ee8c0a87e869d11823171286",
+  "checker_sha256": "aef6cafc7b9fb49ad3e6f971041259d251d84d8dde31dae1bf4294fc7c49fcc9",
+  "local_mock_guard_test_only": true,
+  "database_executed": false,
+  "A_runtime_qualified": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

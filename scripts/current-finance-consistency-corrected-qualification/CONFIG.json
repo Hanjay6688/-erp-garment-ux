@@ -1,0 +1,23 @@
+{
+  "allow_database_execution": true,
+  "retained64": {
+    "name": "CP7_D17_18_CONSISTENCY_FOCUSED_NATIVE20_CRON1.json",
+    "status": "INCOMPLETE",
+    "head": "64de326e819885f6982364a868a3fa11c8b9dd3d",
+    "run_id": 40562870931,
+    "job_id": 122396295828,
+    "artifact_id": 12763033758,
+    "zip_bytes": 1819717,
+    "zip_sha256": "965d408d4e116f8acb8d2c6b92283af2bcf5249ee0c7982ace9a5355bf9d5345",
+    "bytes": 1436571,
+    "sha256": "a8102a4bf2ecdc1cf8497c79c4aa44f6e98972db908b09a6ff114ff3135d9acf",
+    "archive_member": "CP7_D17_18_CONSISTENCY_FOCUSED_NATIVE20_CRON1.json",
+    "package_name": "T3_PACKAGE_INSTALL.json",
+    "package_member": "T3_PACKAGE_INSTALL.json",
+    "package_bytes": 360444,
+    "package_sha256": "04735c6d34d8169c15aae28bed8be41627fe48412aeeb6d3f21c4e47df7d3df4"
+  },
+  "original_directory_variable": "D17_18_RETAINED_FOCUSED64_DIRECTORY",
+  "production_go": false,
+  "independent_acceptance": false
+}

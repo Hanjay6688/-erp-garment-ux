@@ -1,0 +1,38 @@
+{
+  "contract": "cp7.d17-18.combined-finance-native-source-factory-cron.v1",
+  "case_ids": [
+    "COMBINED_FINANCE_NATIVE_SOURCE_REPORT_FACTORY_CRON7"
+  ],
+  "files": {
+    "scripts/current-finance-combined-composition/DERIVATION.json": "0f5cab43e45429bf1e4816b03918c0c67a2ad84ee1e4fe47a22c0ed79e44996c",
+    "scripts/current-finance-combined-composition/FROZEN_SOURCE_ROOTS.json": "684a8b08b54699861262f220eca025bb51a220e58856d53988ea337f81fe8bd7",
+    "scripts/current-finance-combined-composition/LOCAL_PREPARATION.json": "3baeeeb0e45c3d12f2fa7d09db13e83f3faaa80da5e5c70ebbaeea09ff261017",
+    "scripts/current-finance-combined-composition/PREREQUISITES.json": "646476411216400bab631a6f85d1408beb36d0c42d6e7414cea1f7b8ccd026d6",
+    "scripts/current-finance-combined-composition/QUALIFICATION_CONFIG.json": "8da140fc607f13dcbf3b411ec59e147da0d7721b1a9536dafd4588c2444a4817",
+    "scripts/current-finance-combined-composition/QUALIFICATION_ORIGIN.json": "25a47654afa8734a5d7ffb50bd2e37bf8b0d3c68679d633b86b2d8b7fb93aa1a",
+    "scripts/current-finance-combined-composition/README.md": "7932f86e82e9a2cf3d28c41469074692044b377f0473cbe146e700ce40e02cff",
+    "scripts/current-finance-combined-composition/composition.py": "2f19a31266e479b0504c6ca3d45e7005aa29d12f621728108e38f92951591c26",
+    "scripts/current-finance-combined-composition/disposable_start.py": "523ec29f0566852f56627c7c9be791de215d09b55d8669c071024fd92aa8e257",
+    "scripts/current-finance-combined-composition/evidence.py": "6e6990a2dca1966fc67290a37ae6c97a34e8340498dcc775efceeb3c1c3f7653",
+    "scripts/current-finance-combined-composition/fetch_consistency.py": "11d7726c70485932f747af3aa1b50899181ebcde6b7bea5c4b5b6f511f413a63",
+    "scripts/current-finance-combined-composition/materialize_sources.py": "cec3576f86bb93d79535b67b35188cd2e3f8a332dc45ceace5a5d7548177210c",
+    "scripts/current-finance-combined-composition/qualification_admission.py": "7ea5db58bb7cbc260df056a79d43ead1a24aa3ebdeabccc9ec16e69b9e550673",
+    "scripts/current-finance-combined-composition/qualification_cases.py": "3f0190f08b4e19053e222d614467187c77e0661d2268ec659ab46d3b52d1f2d3",
+    "scripts/current-finance-combined-composition/qualification_factory.py": "a77dda2b6683cab1e886ff1f4d5b7b87ecac66c664d259b478286cbd9bf77f7a",
+    "scripts/current-finance-combined-composition/qualification_probe.py": "fe60bb69b1f6af4fd0265688c8d1fdf3a80f93f41d853437679bfc1212fddccf",
+    "scripts/current-finance-combined-composition/qualification_runner.py": "9f6d0610349f43603c90ed1dd77b0bee7ed94d3b9c6174172d420698de059606",
+    "scripts/current-finance-combined-composition/test_closed_gate.py": "7b3fae09deb86582d0dd91dd7d9148bfb3a9bc3a760c40d2c7b496f1ea7194fa",
+    "scripts/current-finance-combined-composition/test_disposable_start.py": "ffa5aa9794be4f1f505da3e054f6afdef1b104d5a54e8535f4a6798c9867e468",
+    "scripts/current-finance-combined-composition/test_materialize_sources.py": "e21d981a3a0ec52c80596b7c3b8bb920a9c75a12440460460bd5cdd785298a17",
+    "scripts/current-finance-combined-composition/test_qualification_boundaries.py": "7b36a0dc8e76146da7159bba0d919992a1af52322ed217f06c18e25757c6662e",
+    "scripts/current-finance-combined-composition/workflow_guard.py": "acd97490484b21f0fad5538c4825f9dee6b331730c87985099dd46597afcc3d6",
+    ".github/workflows/cp7-d17-18-combined-finance.yml": "487eef2e80ecbfe36f8b2bea632f6159ac82313726b0073d7af168c84f8354b4",
+    "scripts/current-frozen-finance-factory-observe-qualification/runner.py": "8ced7c77d747cab954712d27673a5a01b94362d5b48305b17fc03a1a6dddaa59",
+    "scripts/current-frozen-finance-factory-observe-qualification/fixture.py": "193197b3c288b382970250f2f3db4c38ea21e3fd45bb1729fe25f94ecbe5e3bd",
+    "scripts/current-frozen-finance-factory-observe-qualification/diagnostics.py": "142f983eaeae8eade2f7b57462af97c26202492e3ad9cf91b061c8a9a47369e6",
+    "scripts/current-frozen-public-native-qualification/public_finance_cases.py": "93ceccd87ab65dfc260b8634e0665c24504781254433242620d2ec0f4f9f26de",
+    "scripts/current-finance-followups-qualification/isolated_cases.py": "a72a100107485c725ab599009aa0f469af10018181534b90e489e09cee9b7bc3"
+  },
+  "production_go": false,
+  "independent_acceptance": false
+}

@@ -1,0 +1,13 @@
+{
+  "status": "PASS_LOCAL_PREPARATION_ONLY",
+  "negative_authority_tests": 4,
+  "retained_observation_tests": 9,
+  "Python_AST": 14,
+  "shell_steps": 47,
+  "changed_product_parent": "82f9f82ffdce4642c4243942f91f5c219875bf47",
+  "column_grants": 2,
+  "previous_Native9a_status": "INCOMPLETE_5_PASS_1_FAILURE",
+  "actual_database": false,
+  "actual_Auth_HTTP_credit": false,
+  "production_go": false
+}

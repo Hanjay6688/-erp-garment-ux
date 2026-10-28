@@ -1,0 +1,18 @@
+{
+  "status": "FULL_FROZEN_TARGET20_ADMISSION_PASS_NOT_NATIVE20_RUNTIME",
+  "frozen_head": "3776a052ea97695dce95da018be182fdf21fe85b",
+  "source_manifest_sha256": "6b84a44c4a5ae50226b6e9761afa49b58e871bec856b4a1b1dadd086235171b6",
+  "complete_admission_receipt_sha256": "341fb9e6150572bd97347fdf5f9a40909755dacc2a9cab4a1190bf37b6470651",
+  "explicit_current_source_changes": {
+    "scripts/cp7_ow11_model_history_runtime_transport_cases.py": {
+      "frozen_sha256": "9e0ea1b4f8d996016753b4c86a79df8fd75308406950e1dba1d5fdb1b1ee4ab8",
+      "current_sha256": "f4c5db2c8ad8988508fbf9195e821ee4aaec9fc89e800aa7dd9a7b041b98056a"
+    },
+    "scripts/cp7_ow11_model_history_runtime_transport_probe.py": {
+      "frozen_sha256": "f3d10cb3ca38c9f378208899e87afab4a6bc1740a97ee21aa581a4d31fd188f6",
+      "current_sha256": "e9c716a37d7672efc422b890fed6c52a2efacbd5fe11682826bb1ce8b3b1bcf2"
+    }
+  },
+  "actual_Original_prerequisite_still_required": true,
+  "production_go": false
+}

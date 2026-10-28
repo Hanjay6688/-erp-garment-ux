@@ -1,0 +1,48 @@
+{
+  "status": "PASS_LOCAL_PREPARATION_ONLY",
+  "source_guard": {
+    "retained_assertions": {
+      "runner.py": 36,
+      "probe.py": 10
+    },
+    "source_sha256": {
+      "runner.py": "09dc88d55eaf9061fef82f13166cafcbfe899b4f1cd6ff282d66c40531de0165",
+      "probe.py": "789763ae772d6ea627afd8fb9527968b244c9923013e25bacdc2689e73e19b0a"
+    },
+    "unchanged60_bounded_transactions": true,
+    "unchanged300_second_window": true,
+    "unchanged_production_minute_schedule": true,
+    "full22_all_rows_sequences_restore_guard_retained": true,
+    "actual_cron_claim": false,
+    "production_go": false
+  },
+  "rejected_controls": [
+    "private_request_helper",
+    "partial_composer",
+    "relaxed300s",
+    "metric_oracle_dropped",
+    "schedule_definition_changed",
+    "money_stock_HPP_check_dropped",
+    "restore_rows_dropped",
+    "used_guard_dropped"
+  ],
+  "request_routes_checked": 3,
+  "request_hook_restored": true,
+  "bash_steps": 44,
+  "case_ids": [
+    "CURRENT_FINANCE_MODEL_ACTUAL_MINUTE_CRON_BOUNDED_READY_AND_DEFERRED"
+  ],
+  "SOURCE_bound": false,
+  "actual_cron_claim": false,
+  "actual_Auth_HTTP_credit": false,
+  "database_executed": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "actual_prior_Original_validation": {
+    "head": "4608b478ac50b52eba69e938488402b296a0f46e",
+    "status": "PASS",
+    "actual_cron": true,
+    "official_metrics": 24,
+    "new_public_runtime_claim": false
+  }
+}

@@ -1,0 +1,219 @@
+{
+  "status": "PASS",
+  "scope": "LOCAL_SOURCE_IMPORT_AND_CATALOG_GUARDS_ONLY",
+  "case_count": 36,
+  "retained_business_assertion_sets": 25,
+  "unchanged_complete_retained_case_bodies": 24,
+  "versioned_cases": 5,
+  "unchanged_selected_contract_cases": 6,
+  "actual_original_prerequisites": 12,
+  "source_binding": {
+    "retained_scoped_source": {
+      "retained_current_target": {
+        "retained_current_target": {
+          "retained_finance_policy_v2": {
+            "retained": {
+              "finance": {
+                "path": "scripts/current-bounded-finance-native-qualification/cases.py",
+                "file_sha256": "c180f519190a63f2d21fc9b6465c1d7809220b07b2848a17cf987ccdfd9362c1",
+                "cases_body_sha256": "14cd23ac8ceec8b980d4a984fffbce73425f77644249fea2135c47f6daa6d57a"
+              },
+              "policy": {
+                "path": "scripts/cp7_ow11_model_policy_cases.py",
+                "file_sha256": "24d5ed6acf2974342348746c7c2b55bcd45acc68d2860bb4d7b1dec3c295a067",
+                "cases_body_sha256": "7ed8bf673c003f9eb85d20cb1a0a2a3ebe89982b739916f3f25973fc96853a74"
+              },
+              "evaluation_v2": {
+                "path": "scripts/cp7_ow11_model_evaluation_v2_cases.py",
+                "file_sha256": "e1388ceb90560fda08e75db68105e20a4bf23469e3e40710cd74bea3fe01b117",
+                "cases_body_sha256": "610154f7f5286fff3c03997214b8421705ef6bfb764e1ed5628c97214c7b7ecb"
+              }
+            },
+            "only_replaced_setup_hooks": [
+              "policy.install",
+              "evaluation.install"
+            ],
+            "excluded_original_catalog_case_ids": [
+              "OW11_MODEL_POLICY_CATALOG22_PREUSE_DEPENDENCY",
+              "OW11_MODEL_V2_CATALOG22_COMPOSED_PREUSE_DEPENDENCY"
+            ],
+            "original_business_assertions_unchanged": true
+          },
+          "target": {
+            "path": "scripts/cp7_ow11_model_target_consumer_cases.py",
+            "file_sha256": "c15dacc66d894f88365e5b8a0e0a77940775bd5629b92cccae09ddbb73777a26",
+            "cases_body_sha256": "dbebc69f877043b450adea47a20c17831871f5b0a2ed259d3e52106241457b52"
+          },
+          "excluded_target_catalog_anchor": "OW11_MODEL_TARGET_CATALOG22_COMPOSED_PREUSE",
+          "original_business_assertions_unchanged": true,
+          "baseline_fix_predecessor_regression_is_separate_component_proof": true
+        },
+        "history": {
+          "path": "scripts/cp7_ow11_model_history_runtime_cases.py",
+          "file_sha256": "9911806d440d1a1546476f494804753e50fbc8eebe32276e43e80e5c31bd950e",
+          "cases_body_sha256": "d99d4734172a8853f1a50ac6623990db9f1afcbf41c2a871be218d68b647c20f"
+        },
+        "excluded_history_catalog_anchor": "OW11_MODEL_HISTORY_RUNTIME_CATALOG22_COMPOSED_INVERSE",
+        "original_business_assertions_unchanged": true,
+        "full_composed_preuse_inverse_is_separate": true
+      },
+      "scoped_model": {
+        "path": "scripts/cp7_ow11_model_scoped_evaluation_cases.py",
+        "file_sha256": "23afa650f11f73bd0e52d47886ec193431724088f62d31f080ca552caed7ebe8",
+        "cases_body_sha256": "be60cf509d9208f301eeefdf17458be1f9d867b2b27518fe377a6672eaf213db"
+      },
+      "excluded_scoped_model_catalog_anchor": "OW11_SCOPED_EVALUATION_CATALOG22_COMPOSED_INVERSE",
+      "original_business_assertions_unchanged": true,
+      "full_composed_preuse_inverse_is_separate": true,
+      "explicit_history_replay_guard": {
+        "original_file_sha256": "9911806d440d1a1546476f494804753e50fbc8eebe32276e43e80e5c31bd950e",
+        "case_id": "OW11_MODEL_HISTORY_RUNTIME_ACTUAL_CAPTURE_REPLAY_IMMUTABLE",
+        "explicit_AST_changes": {
+          "rollback_calls": 1,
+          "refusal_constants": 1
+        },
+        "all_business_assertions_unchanged": true,
+        "real_complete_used_guard": true,
+        "predecessor_catalog_not_rewritten": true,
+        "production_go": false
+      }
+    },
+    "retained_case_ids": [
+      "OW12_BOUNDED_FINANCE_REQUEST_EXACT_ONCE",
+      "OW12_BOUNDED_FINANCE_OPERATIONAL_FIRST_OFFICIAL_FINANCE",
+      "OW12_BOUNDED_FINANCE_CHANGED_BOOK_REFUSED",
+      "OW12_BOUNDED_FINANCE_DEFERRED_NO_CAPTURE",
+      "OW12_BOUNDED_FINANCE_CURRENT_FINANCE_ACCESS",
+      "OW11_MODEL_POLICY_EXPLICIT_APPEND_SUSPEND_REACTIVATE_REPLAY",
+      "OW11_MODEL_POLICY_PROSPECTIVE_CLOCK_AND_IMMUTABLE_HISTORY",
+      "OW11_MODEL_POLICY_CURRENT_ACCESS_OWNER_ADMIN_AND_REPLAY",
+      "OW11_MODEL_POLICY_EXPLICIT_VALIDATION_CAS_TEMPLATE",
+      "OW11_MODEL_POLICY_ATOMIC_REGISTRY_POLICY_COMMAND",
+      "OW11_MODEL_V2_NATIVE_BASELINE_EXACT_REPLAY_V1_UNCHANGED",
+      "OW11_MODEL_V2_ACTUAL_POLICY_CLOCK_NO_POSTHOC_APPROVAL",
+      "OW11_MODEL_V2_NATIVE_POST_SOURCE_WITHDRAWAL_OLD_RESULT",
+      "OW11_MODEL_V2_CURRENT_ACCESS_FOREIGN_CLOSED_QUERY",
+      "OW11_MODEL_V2_IMMUTABLE_ATOMIC_LAST_ROW_AND_GUARD",
+      "OW11_MODEL_HISTORY_RUNTIME_ACTUAL_CAPTURE_REPLAY_IMMUTABLE",
+      "OW11_MODEL_HISTORY_RUNTIME_ACTUAL_POST_RETIRES_ARCHIVE",
+      "OW11_MODEL_HISTORY_RUNTIME_CURRENT_ACCESS_AND_FOREIGN_READ",
+      "OW11_MODEL_HISTORY_RUNTIME_DENSE2000_SINGLE_TARGET",
+      "OW11_MODEL_HISTORY_RUNTIME_ENGINE_AND_FINAL_FAULT",
+      "OW11_SCOPED_EVALUATION_ACTUAL_CAPTURE_REPLAY_IMMUTABLE",
+      "OW11_SCOPED_EVALUATION_PROSPECTIVE_POLICY_CLOCK",
+      "OW11_SCOPED_EVALUATION_ACTUAL_POST_CURRENT_ACCESS",
+      "OW11_SCOPED_EVALUATION_DENSE2000_SINGLE_TARGET",
+      "OW11_SCOPED_EVALUATION_FINAL_FAULT_AND_ENGINE"
+    ],
+    "omitted_obsolete_target_v1_business_ids": [
+      "OW11_MODEL_TARGET_NATIVE_BASELINE_REPLAY_IMMUTABLE",
+      "OW11_MODEL_TARGET_NATIVE_CURRENT_POLICY_AND_LATEST_V2",
+      "OW11_MODEL_TARGET_NATIVE_POST_PROFILE_ACCESS",
+      "OW11_MODEL_TARGET_NATIVE_WAREHOUSE_ONLY_READ",
+      "OW11_MODEL_TARGET_NATIVE_BOUNDED_ANALOG_PARITY"
+    ],
+    "versioned_case_ids": [
+      "OW11_MODEL_TARGET_V2_NATIVE_BASELINE_REPLAY_IMMUTABLE",
+      "OW11_MODEL_TARGET_V2_NATIVE_CURRENT_POLICY_AND_LATEST_NAMESPACED",
+      "OW11_MODEL_TARGET_V2_NATIVE_POST_PROFILE_ACCESS",
+      "OW11_MODEL_TARGET_V2_NATIVE_WAREHOUSE_ONLY_READ",
+      "OW11_MODEL_TARGET_V2_NATIVE_BOUNDED_ANALOG_PARITY"
+    ],
+    "B_original_sha256": "1cc4fedd0014593dab93a032fd88cef0fa9fdad89c86b640880a34ef30ba1a01",
+    "explicit_AST_changes": {
+      "rollback_calls": 3,
+      "refusal_constants": 3,
+      "case_list": 1,
+      "case_tuple": 1
+    },
+    "target_business_assertions_and_limits_unchanged": true,
+    "full_A_setup_and_real_full_guard": true,
+    "history_replay_guard": {
+      "original_file_sha256": "9911806d440d1a1546476f494804753e50fbc8eebe32276e43e80e5c31bd950e",
+      "case_id": "OW11_MODEL_HISTORY_RUNTIME_ACTUAL_CAPTURE_REPLAY_IMMUTABLE",
+      "explicit_AST_changes": {
+        "rollback_calls": 1,
+        "refusal_constants": 1
+      },
+      "all_business_assertions_unchanged": true,
+      "real_complete_used_guard": true,
+      "predecessor_catalog_not_rewritten": true,
+      "production_go": false
+    },
+    "unchanged_complete_retained_case_bodies": 24,
+    "selected_contract_case_ids": [
+      "UNPAYROLLED_PARTIAL_WORK_BLOCKS_REPORT",
+      "OWNER_WORK_REFERENCE_BLOCKS_UNTIL_PAYROLLED",
+      "OWNER_VENDOR_REFERENCE_BLOCKS_UNTIL_PAYROLLED",
+      "RETURN_REBOUND_SOURCE_ATOMIC_REFUSAL",
+      "RETURN_ALLOCATION_LIMIT_ATOMIC_REFUSAL",
+      "RETURN_REBOUND_CUSTOMER_ATOMIC_REFUSAL"
+    ],
+    "selected_contract_file_sha256": "b76ec7241c3c43121095b877dddcde76c8a88224508d13e0fd6a40be72875dab",
+    "selected_contract_business_source_unchanged": true,
+    "full_A_runtime_qualified": false,
+    "production_go": false
+  },
+  "recovery_source_sha256": "74e85627f6ac4efbe41321352a9f99ae705b5e725cbe19e4591c2ea5c61423d1",
+  "python_files": 9,
+  "shell_steps": 38,
+  "positive_catalog_stages": 4,
+  "negative_catalog_controls": 12,
+  "SOURCE_present": false,
+  "Native_runtime_qualified": false,
+  "production_go": false,
+  "frozen_Native30_full_source_admission": {
+    "status": "PASS",
+    "scope": "Exact frozen Native30 full source gate and explicit current differences only",
+    "frozen_head": "ffa0b63dbb6f0b7888eeaec59d0f39347cd58e0e",
+    "source_manifest_sha256": "d68cbbe76e96820e98857dd871a46f17329b46a5dcc9c15ac1c15e9055108e3f",
+    "complete_admission_receipt_sha256": "629f3604a6da7ccceeec78dca1c0e5bd1cf5b61b6ec3ed8c76ce0f35fb3fc98b",
+    "source_pins": 3302,
+    "actual_originals": 7,
+    "current_installation_equals_actual_predecessor": true,
+    "explicit_current_changes": {
+      "scripts/check-access-catalog.mjs": {
+        "frozen_sha256": "763a88ed2f9f34d3dc582dd06c78343ae2fa127c280389989dcfe18fdaee48f7",
+        "current_sha256": "6e277aa3e1dc9eb54e98a985f2b64359acce9e05afb246caebf6600c1a1aad14"
+      },
+      "scripts/cp7_ow11_analog_browser.mjs": {
+        "frozen_sha256": "773cb777430c6c5b0514325e6ba84ed7ae06937f79fdc3802bb47595db775087",
+        "current_sha256": "e0b28f3156e6036f4cb506d054bc13c37e631e397ae768f7d7749bf9f81c12b6"
+      },
+      "scripts/cp7_ow11_model_target_timeline_local.mjs": {
+        "frozen_sha256": "8f3b8a4f7e30e46aef32df63a8b4378b0da64901c4e814bcffbb3bff7e2ce37b",
+        "current_sha256": "21f8d3957415e87efe1893c81c6616fb7408fde6da009921ba7386709faa1684"
+      },
+      "src/fgReorderContract.ts": {
+        "frozen_sha256": "7e54dc7b2ca1a7659c15fb3cdbdb4087a19fc2bc77eb1234e4860d2c2cd564fb",
+        "current_sha256": "dffc377cd9b6e13fdbf66723d5aedf64f3dd0e6074293324904d56a6e2175b47"
+      },
+      "src/nativeModelTarget.ts": {
+        "frozen_sha256": "91f01d6f873c8080999614a231b9b52c492e3723ff373475c0bf215e337ff048",
+        "current_sha256": "63d4168738553dd99c4b2e0a9598478c9c7376e6107735e37f5b30ddbcc530e2"
+      },
+      "src/nativePlanningProfile.ts": {
+        "frozen_sha256": "e9503fbae7d5d843cfebd9baa3e41bdb075a7e2f7095de514c0f84a1c97df755",
+        "current_sha256": "d3b67194a4015eacc807e489f99591a04a3908aaf81493e11e5f49ec5f255781"
+      },
+      "src/nativeTargetDemand.ts": {
+        "frozen_sha256": "c203dacfa7b4f9b3aae6a678c49571356e89de5fee4cb5928384466cd8076128",
+        "current_sha256": "ab4a531f7e51ae82ddacf00079102f1bef8c0ea6f1be5f3462e9dec2e2fef685"
+      }
+    },
+    "first_local_setup_refusal_preserved": "versioned-native36-first-local-frozen-setup.json",
+    "Native36_SOURCE_bound": false,
+    "Native36_runtime_qualified": false,
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "first_local_frozen_setup_refusal": {
+    "status": "REFUSED_BEFORE_SOURCE_GATE",
+    "failure": "Clean-checkout assertion rejected a still-running new detached checkout",
+    "frozen_head": "ffa0b63dbb6f0b7888eeaec59d0f39347cd58e0e",
+    "database_touched": false,
+    "corrective_action": "Wait for worktree creation process completion and require clean exact HEAD before invoking the source gate",
+    "oracle_relaxed": false,
+    "production_go": false
+  }
+}

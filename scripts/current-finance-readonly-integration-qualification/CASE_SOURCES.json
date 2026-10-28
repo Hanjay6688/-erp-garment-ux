@@ -1,0 +1,33 @@
+{
+  "contract": "cp7.current-choice-readonly-finance-native13-inputs.v1",
+  "source_head": "f05447d5b3ba892cd498035cafb545856b766abe",
+  "case_ids": [
+    "P13_REPORT_LEDGER_LIFECYCLE",
+    "P13_REPORT_EXACT_LARGE",
+    "P13_REPORT_QUERY",
+    "P13_REPORT_ACCESS",
+    "P13_REPORT_FILED_LATE_CORRECTION",
+    "P13_REPORT_FILED_UNCHANGED_CONTROL",
+    "P13_REPORT_FILING_PAGES",
+    "P13_REPORT_READ_ONLY_PRIVATE",
+    "OW12_FROZEN_PUBLIC_FINANCE_REQUEST_EXACT_ONCE",
+    "OW12_FROZEN_PUBLIC_FINANCE_OPERATIONAL_FIRST_OFFICIAL_FINANCE",
+    "OW12_FROZEN_PUBLIC_FINANCE_CHANGED_BOOK_REFUSED",
+    "OW12_FROZEN_PUBLIC_FINANCE_DEFERRED_NO_CAPTURE",
+    "OW12_FROZEN_PUBLIC_FINANCE_CURRENT_FINANCE_ACCESS"
+  ],
+  "files": {
+    "scripts/cp7_finance_cases.py": "bd53d120b67e5fd5f39ea42f20271c1a3a054a62fa4cf8794f562bf8205dc593",
+    "scripts/current-frozen-public-native-qualification/public_finance_cases.py": "93ceccd87ab65dfc260b8634e0665c24504781254433242620d2ec0f4f9f26de",
+    "scripts/current-bounded-finance-native-qualification/cases.py": "c180f519190a63f2d21fc9b6465c1d7809220b07b2848a17cf987ccdfd9362c1",
+    "scripts/cp7_p21_current_chain_rehearsal_probe.py": "113bda42019a4617dd904e37af86ba7bc3cd6577baeefa741c51867bf7af24f0"
+  },
+  "actual_cases_executed": false,
+  "production_go": false,
+  "fixture_preparation": {
+    "scope": "three filing cases only, inside strict-group per-case savepoint",
+    "helper": "scripts/cp7_p21_current_chain_rehearsal_probe.py:prepare_attendance_pools",
+    "native_oracles_unchanged": true,
+    "product_changed": false
+  }
+}

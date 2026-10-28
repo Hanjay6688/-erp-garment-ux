@@ -1,0 +1,38 @@
+{
+  "status": "LOCAL_SOURCE_ADMISSION_PREFLIGHT_PASS",
+  "exact_component_fields_and_pins": {
+    "MODEL_SELECTION_ORIGINAL_REPORT": {
+      "selection_source_sha256": 7
+    },
+    "PHYSICAL_BINDING_ORIGINAL_REPORT": {
+      "binding_source_sha256": 6
+    },
+    "MODEL_TARGET_SOURCE_V2_ORIGINAL_REPORT": {
+      "source_v2_sha256": 19
+    },
+    "MODEL_TARGET_CONSUMER_V2_ORIGINAL_REPORT": {
+      "target_v2_source_sha256": 33
+    },
+    "MODEL_TARGET_BROWSER_V2_ORIGINAL_REPORT": {
+      "target_v2_source_sha256": 50
+    },
+    "MODEL_TARGET_TRANSPORT_V2_A_ORIGINAL_REPORT": {
+      "target_v2_source_sha256": 36,
+      "partition_source_sha256": 2
+    },
+    "MODEL_TARGET_TRANSPORT_V2_B_ORIGINAL_REPORT": {
+      "target_v2_source_sha256": 36,
+      "partition_source_sha256": 2
+    }
+  },
+  "negative_controls": [
+    "missing_field",
+    "wrong_field_name",
+    "wrong_digest",
+    "missing_pin"
+  ],
+  "product_SQL_changed": false,
+  "business_assertions_changed": false,
+  "database_started": false,
+  "production_go": false
+}

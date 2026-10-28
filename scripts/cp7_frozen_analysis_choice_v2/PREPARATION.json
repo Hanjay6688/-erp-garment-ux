@@ -1,0 +1,30 @@
+{
+  "contract": "cp7.frozen-analysis-choice.prepared.v2",
+  "parent_bodies_sha256": {
+    "cp7_product_analog_choice.apply(jsonb,uuid)": "dfaddb04a06d6202702976d0242b157341de4a2d8bc39eb867c2f2d92239c10a",
+    "cp7_product_analog_consumer.normalize_confirmed_delta(jsonb,jsonb,jsonb)": "d96bf1ed6dddd84423938fd4cdb97facde196d2a2992860d132a7922b12c12f7",
+    "cp7_frozen_analysis_readers_v2.read_candidates(uuid,text,integer,integer,text)": "fbc6fa9a6020a1c359ae5d8c6b082c77872278e454c978029b3caef2062cebe7",
+    "cp7_product_analog_choice.material(jsonb,text,text)": "461acf9f5f3e678290c90e9bc5d379546791ffb1db13eefbbfd9239eb0d41213"
+  },
+  "new_bodies_sha256": {
+    "cp7_frozen_analysis_choice_v2.review_context(uuid,text,integer,integer,text)": "b5ec3288b20b028a919100298c5f060834b9e95072c9b9c8228824d4fc294f44",
+    "cp7_frozen_analysis_choice_v2.material(jsonb,text,text,jsonb)": "aefde3b1c5ddb4214e8d370c6ceb43bd4f0a236298a3d793a0eba2c8cb236942",
+    "cp7_frozen_analysis_choice_v2.normalize_confirmed_delta(jsonb,jsonb,jsonb)": "858732d8a90fbe6caac5072c2730f1c8b268abe946f799f808b705c3ca21e760",
+    "cp7_frozen_analysis_choice_v2.apply(jsonb,uuid)": "a08fc973e1de615c1aa3841095c1e063988b4b253a9ffbdd2a5b7b97b165b5df"
+  },
+  "sql_sha256": "021a6e6c67cfb0f47073009c9089567ae0701b4e19e8058264934c317a92a4d1",
+  "private_functions": 4,
+  "new_public_rpcs": 1,
+  "new_tables": 0,
+  "existing_replacements": 0,
+  "single_frozen_reference_per_confirmation": true,
+  "same_reviewed_candidate_envelope_reused": true,
+  "actual_admitted_consumer_postwrite_delta_guard_retained": true,
+  "shared_append_only_choice_and_command_tables": true,
+  "exact_v2_command_and_outcome": true,
+  "global_FG_envelope_and_current_access_guards_unchanged": true,
+  "actual_Native_qualified": false,
+  "actual_Auth_HTTP_credit": false,
+  "default_adopted": false,
+  "production_go": false
+}

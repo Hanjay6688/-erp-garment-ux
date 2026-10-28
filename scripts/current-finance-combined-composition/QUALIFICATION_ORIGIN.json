@@ -1,0 +1,96 @@
+{
+  "qualification_factory.py": {
+    "path": "scripts/current-frozen-finance-factory-observe-qualification/runner.py",
+    "sha256": "8ced7c77d747cab954712d27673a5a01b94362d5b48305b17fc03a1a6dddaa59",
+    "changes": [
+      {
+        "old": "import cp7_current_frozen_finance_installation as product",
+        "new": "import cp7_current_choice_preparation.installation as product",
+        "count": 1
+      },
+      {
+        "old": "ROOT/'scripts/current-frozen-finance-native-qualification/finance_cases.py'",
+        "new": "ROOT/'scripts/current-frozen-public-native-qualification/public_finance_cases.py'",
+        "count": 1
+      },
+      {
+        "old": "CURRENT_FROZEN_PRIVATE_FACTORY_1200X3_ACTUAL_MINUTE_OFFICIAL_FINANCE",
+        "new": "COMBINED_CURRENT_PUBLIC_FACTORY1200X3_ACTUAL_CRON",
+        "count": 1
+      },
+      {
+        "old": "Path(__file__).with_name('fixture.py')",
+        "new": "ROOT/'scripts/current-frozen-finance-factory-observe-qualification/fixture.py'",
+        "count": 1
+      },
+      {
+        "old": "Path(__file__).with_name('diagnostics.py')",
+        "new": "ROOT/'scripts/current-frozen-finance-factory-observe-qualification/diagnostics.py'",
+        "count": 1
+      },
+      {
+        "old": "explicit_private_STAGED_and_operational_DEFERRED=True",
+        "new": "explicit_public_STAGED_and_operational_DEFERRED=True",
+        "count": 1
+      }
+    ],
+    "assertions": 36
+  },
+  "qualification_probe.py": {
+    "path": "scripts/current-finance-consistent-capture-diagnostic/probe.py",
+    "sha256": "6737fffd13dbb0862eccab4234c057a75182ff85f07088b00c67660e6ed05352",
+    "changes": [
+      {
+        "old": "\"\"\"Temporary same-snapshot report/book repair; seven isolated diagnostics.\n\nThe original parent is installed once, with a complete dump restored between\noperations and a complete preinstallation restore afterward. No adoption.\n\"\"\"",
+        "new": "\"\"\"Seven operations on one actual combined installation; full restoration.\n\nIncludes unchanged Native20, source-change/refusal/recovery, two real minute\ncron groups and whole-report comparison. Separate Auth/browser acceptance remains.\n\"\"\"",
+        "count": 1
+      },
+      {
+        "old": "REPO/'scripts/current-finance-readonly-integration-qualification/composition.py'",
+        "new": "HERE/'composition.py'",
+        "count": 1
+      },
+      {
+        "old": "product=importlib.util.module_from_spec(_spec);_spec.loader.exec_module(product)",
+        "new": "product=importlib.util.module_from_spec(_spec);_spec.loader.exec_module(product)\n_readonly_spec=importlib.util.spec_from_file_location('combined_readonly_installer',REPO/'scripts/current-finance-readonly-integration-qualification/composition.py')\nreadonly=importlib.util.module_from_spec(_readonly_spec);_readonly_spec.loader.exec_module(readonly)",
+        "count": 1
+      },
+      {
+        "old": "HERE/'runner.py'",
+        "new": "HERE/'qualification_runner.py'",
+        "count": 1
+      },
+      {
+        "old": "CP7_D17_18_FINANCE_REPORT_BOOK_CONSISTENCY_ISOLATED7",
+        "new": "CP7_D17_18_COMBINED_FINANCE_NATIVE_SOURCE_FACTORY_CRON7",
+        "count": 1
+      },
+      {
+        "old": "/tmp/current_consistent_capture_pre.dump",
+        "new": "/tmp/current_combined_finance_pre.dump",
+        "count": 1
+      },
+      {
+        "old": "HERE/'admission.py'",
+        "new": "HERE/'qualification_admission.py'",
+        "count": 1
+      },
+      {
+        "old": "manual_steps_scope='ISOLATED_CONSISTENCY_DIAGNOSTICS_ONLY',native20_repeated_unchanged=True,",
+        "new": "manual_steps_scope='ISOLATED_COMBINED_QUALIFICATION_ONLY',native20_repeated_unchanged=True,",
+        "count": 1
+      },
+      {
+        "old": "prior=measured(timings,'SINGLE_FULL_PARENT_INSTALL',predecessor.install,cur)",
+        "new": "prior=measured(timings,'SINGLE_FULL_READONLY_PARENT_INSTALL',readonly.install,cur)",
+        "count": 1
+      },
+      {
+        "old": "report['diagnostic_collection_completed']=True",
+        "new": "report['combined_component_qualified']=True",
+        "count": 1
+      }
+    ],
+    "assertions": 9
+  }
+}

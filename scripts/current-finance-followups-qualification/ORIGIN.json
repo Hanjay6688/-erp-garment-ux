@@ -1,0 +1,57 @@
+{
+  "path": "scripts/current-finance-readonly-integration-qualification/probe.py",
+  "sha256": "adcdfd169d2e84995897c32134676432e120fd6bbf48651d85bddd99976d7212",
+  "changes": [
+    {
+      "old": "HERE/'composition.py'",
+      "new": "REPO/'scripts/current-finance-readonly-integration-qualification/composition.py'",
+      "count": 1
+    },
+    {
+      "old": "_spec=importlib.util.spec_from_file_location('readonly_finance_business13',HERE/'cases.py')\nbusiness=importlib.util.module_from_spec(_spec);_spec.loader.exec_module(business)\n",
+      "new": "",
+      "count": 1
+    },
+    {
+      "old": "IDS=(*business.IDS,runner.CASE)",
+      "new": "IDS=(runner.CASE,)",
+      "count": 1
+    },
+    {
+      "old": "CP7_D17_18_READONLY_FINANCE_NATIVE13_CRON1",
+      "new": "CP7_D17_18_FINANCE_FOLLOWUPS_ISOLATED2",
+      "count": 1
+    },
+    {
+      "old": "/tmp/current_readonly_finance_pre.dump",
+      "new": "/tmp/current_finance_followups_pre.dump",
+      "count": 1
+    },
+    {
+      "old": "manual_steps_scope='MEASURED_CRON_ONLY',native_case_steps_before_cron=True,",
+      "new": "manual_steps_scope='ISOLATED_DIAGNOSTICS_ONLY',native13_reused_from_exact_parent=True,",
+      "count": 1
+    },
+    {
+      "old": "        with exact_public_catalog(native,retain_raw=True)as catalog:\n            report['native']=measured(timings,'UNCHANGED_FINANCE_NATIVE13',native.strict_group,LABEL,business.cases,verify)\n        report['native_public_catalog_comparison']=catalog\n        assert report['native']['status']=='PASS' and report['native']['counts']=={'PASS':len(business.IDS)} and report['native']['complete_boundary_restored'] is True,'COMPOSED_FINANCE_NATIVE13_FAILED'\n        case=report['committed'].setdefault(runner.CASE,dict(status='INCOMPLETE'))\n        with psycopg.connect(package.boundary.ADMIN)as conn,conn.cursor()as cur:\n            measured(timings,'ACTUAL_MINUTE_CRON_CHOICE_AND_FINANCE',runner.exercise,conn,cur,database,package.boundary.ADMIN,case)\n            snap,state,done,total=cur.execute('select report_snapshot::text,state,units_done,units_total from cp7_finance_capture.captures where id=%s',(case['finance_capture_id'],)).fetchone()\n            report['cron_snapshot_observation']=dict(capture_id=case['finance_capture_id'],snapshot=snap,state=state,units_done=done,units_total=total,has_report_snapshot=snap is not None,concurrent_source_change_qualified=False)\n            conn.rollback()\n        with psycopg.connect(package.boundary.ADMIN)as conn,conn.cursor()as cur:\n            report['post_cron_boundary_lock']=current_native.acquire_boundary(cur)\n            held_catalog=predecessor.catalog._catalog_rows(cur);actual=predecessor.catalog._data(cur)\n            changes={k:dict(before=STATE['preuse_data_and_sequences'].get(k),after=actual.get(k))\n                for k in set(actual)|set(STATE['preuse_data_and_sequences'])if actual.get(k)!=STATE['preuse_data_and_sequences'].get(k)}\n            report['post_cron_all_data_changes']=changes\n            assert changes,'COMMITTED_CRON_FIXTURE_MUST_BE_USED'\n            if changes:\n                try:product.rollback_preuse(cur,STATE)\n                except ValueError as error:assert str(error)==product.USED_ERROR\n                else:raise AssertionError('AFTER_USE_INVERSE_WAS_NOT_REFUSED')\n                assert predecessor.catalog._catalog_rows(cur)==held_catalog and predecessor.catalog._data(cur)==actual\n                report['used_guard_refused_before_DDL']=True\n            conn.rollback()",
+      "new": "        case=report['committed'].setdefault(runner.CASE,dict(status='INCOMPLETE'))\n        with psycopg.connect(package.boundary.ADMIN)as conn,conn.cursor()as cur:\n            measured(timings,'ISOLATED_DIAGNOSTICS',runner.exercise,conn,cur,database,package.boundary.ADMIN,case,STATE)\n        assert case['used_guard_refused_before_DDL'] is True\n        report['used_guard_refused_before_DDL']=True",
+      "count": 1
+    },
+    {
+      "old": "cases={**report.get('native',{}).get('cases',{}),**report['committed']}",
+      "new": "cases=report['committed']",
+      "count": 1
+    },
+    {
+      "old": "report['actual_cron_claim']=True\n            report['focused_composition_qualified']=True",
+      "new": "report['actual_cron_claim']=False\n            report['diagnostic_collection_completed']=True\n            report['performance_qualification']=False",
+      "count": 1
+    },
+    {
+      "old": "\"\"\"Focused Native13 and actual cron on the readonly finance composition.\n\nThe exact installed parent is verified once; only the new delta inverse is\nrepeated here. Full baseline restoration and all business oracles remain.\n\"\"\"",
+      "new": "\"\"\"Isolated source-consistency and single-check diagnostics on an accepted parent.\n\nOne verified install; complete installed-baseline restoration between diagnostics\nand the complete preinstallation restoration afterward. No product adoption.\n\"\"\"",
+      "count": 1
+    }
+  ],
+  "current_assertions": 9
+}

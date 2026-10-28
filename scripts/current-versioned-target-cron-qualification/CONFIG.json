@@ -1,0 +1,9 @@
+{
+  "kind": "cron",
+  "count": 1,
+  "helper": "runner.py",
+  "old_head": "390823868c5d4cf132005cba6f82d6c58a807697",
+  "old_variable": "CURRENT_MODEL_TARGET_CRON_ORIGINAL_REPORT",
+  "native_variable": "CURRENT_VERSIONED_TARGET_NATIVE_ORIGINAL_REPORT",
+  "contract": "cp7.current-versioned-target-cron1-qualification.v1"
+}

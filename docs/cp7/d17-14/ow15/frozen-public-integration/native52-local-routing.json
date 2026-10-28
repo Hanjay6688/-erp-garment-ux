@@ -1,0 +1,14 @@
+{
+  "status": "LOCAL_ROUTING_AND_SOURCE_PASS",
+  "closures": 52,
+  "retained_private_cases": 45,
+  "new_public_boundary_cases": 7,
+  "five_public_finance_business_bodies_exact": true,
+  "public_route_controls": 3,
+  "query_UUID_actor_timeout_unchanged": true,
+  "hook_state_restored": true,
+  "case_bodies_executed": 0,
+  "database_executed": false,
+  "actual_Auth_HTTP_credit": false,
+  "production_go": false
+}

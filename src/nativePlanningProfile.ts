@@ -48,7 +48,7 @@ export function checkPlanningOutcome(raw:unknown,r:PlanningRequest){
  const o=obj(raw);if(o.contract_version!=='cp7.planning-profile-outcome.v1'||o.request_id!==r.id||o.root_id!==r.payload.root_id||o.quality!=='SELECTED_ASSUMPTION'||BigInt(integer(o.revision))!==BigInt(r.payload.expected_revision)+1n)fail();id(o.profile_id)
 }
 export function parseNativeBaseline(raw:unknown,q:NativeDemandQuery):NativeBaseline{
- const v=obj(raw),modelContract=v.contract_version==='cp7.native-baseline.v3',modernPolicy=modelContract||v.contract_version==='cp7.native-baseline.v2';if(!modernPolicy&&v.contract_version!=='cp7.native-baseline.v1'||v.scope!=='GLOBAL_CURRENT_PHYSICAL_ROOTS'||v.apply_enabled!==false||v.production_go!==false||v.model_basis!==(modelContract?'CURRENT_POLICY_GATED_DATED_NATIVE_MODELS':'BASELINE_ADAPTIVE_PROMOTION_NOT_PROVEN')||v.target_basis!==(modernPolicy?'UNIFIED_TARGET_WITH_SELECTED_PROFILE_ASSUMPTIONS':'DAYS_WITH_SELECTED_PROFILE_ASSUMPTIONS'))fail()
+ const v=obj(raw),versionedModel=v.contract_version==='cp7.native-baseline.v4',modelContract=versionedModel||v.contract_version==='cp7.native-baseline.v3',modernPolicy=modelContract||v.contract_version==='cp7.native-baseline.v2';if(!modernPolicy&&v.contract_version!=='cp7.native-baseline.v1'||v.scope!=='GLOBAL_CURRENT_PHYSICAL_ROOTS'||v.apply_enabled!==false||v.production_go!==false||v.model_basis!==(modelContract?'CURRENT_POLICY_GATED_DATED_NATIVE_MODELS':'BASELINE_ADAPTIVE_PROMOTION_NOT_PROVEN')||v.target_basis!==(modernPolicy?'UNIFIED_TARGET_WITH_SELECTED_PROFILE_ASSUMPTIONS':'DAYS_WITH_SELECTED_PROFILE_ASSUMPTIONS'))fail()
  const run=id(v.run_id),request=id(v.request_id),hash=str(v.source_hash);if(!/^[0-9a-f]{64}$/.test(hash)||(v.source_state!=='UNCHANGED'&&v.source_state!=='ARCHIVED_STALE'))fail()
  const h=parseNativeDemandHistory({...obj(v.history_run_result),run_id:run,request_id:request,source_state:v.source_state})
  const rawRows=Array.isArray(v.rows)?v.rows:fail()
@@ -60,6 +60,7 @@ export function parseNativeBaseline(raw:unknown,q:NativeDemandQuery):NativeBasel
   if(r.final_gap_pcs!==null||['supply_state','capacity_state','timeline_state'].some(k=>r[k]!=='UNKNOWN'))fail()
   const targetDemand=modelContract?parseTargetDemand(r.demand_provenance,{targetKey:key,capturedAt:h.capturedAt,query:q}):undefined
   if(modelContract){
+   if(obj(r.demand_provenance).contract_version!==(versionedModel?'cp7.target-demand-provenance.v3':'cp7.target-demand-provenance.v2'))fail()
    if(!targetDemand?.model||targetDemand.ownAvailableDays!==String(native.availableDays)||targetDemand.basis!==(estimate.status==='UNKNOWN'?'UNKNOWN':estimate.basis))fail()
    assertModelTargetBinding(target,r.model_resolution,targetDemand.model)
    if(ei.own!==null){const own=obj(ei.own);if(own.available_total_pcs!==targetDemand.ownTotalPcs||own.available_days!==targetDemand.ownAvailableDays)fail()}

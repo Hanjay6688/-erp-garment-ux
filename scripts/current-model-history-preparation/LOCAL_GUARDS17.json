@@ -1,0 +1,33 @@
+{
+  "status": "LOCAL_STRUCTURAL_GUARDS_PASS_NOT_NATIVE",
+  "actual_backup_sha256": "7c6aa0e6a2a46ef1c4f47e549c8c208e5e071ed13be608130637b9ed79979593",
+  "actual_catalog_groups": 22,
+  "actual_data_keys": 686,
+  "positive_additive_transitions": 2,
+  "negative_controls": [
+    "cp7_model_history_scope:missing_catalog_group",
+    "cp7_model_history_scope:extra_public_function",
+    "cp7_model_history_scope:old_function_changed",
+    "cp7_model_history_scope:declared_function_missing",
+    "cp7_model_history_scope:old_sequence_changed",
+    "cp7_model_history_scope:old_money_or_access_row_changed",
+    "cp7_model_history_scope:old_table_missing",
+    "cp7_model_history_scope:undeclared_table",
+    "cp7_model_history_runtime:missing_catalog_group",
+    "cp7_model_history_runtime:extra_public_function",
+    "cp7_model_history_runtime:old_function_changed",
+    "cp7_model_history_runtime:declared_function_missing",
+    "cp7_model_history_runtime:old_sequence_changed",
+    "cp7_model_history_runtime:old_money_or_access_row_changed",
+    "cp7_model_history_runtime:old_table_missing",
+    "cp7_model_history_runtime:undeclared_table",
+    "cp7_model_history_runtime:new_history_table_nonempty"
+  ],
+  "private_functions": 9,
+  "public_rpcs": 2,
+  "new_tables": 1,
+  "model_caller_integrated": false,
+  "default_installation": false,
+  "actual_full_composed_install_restore_still_required": true,
+  "production_go": false
+}

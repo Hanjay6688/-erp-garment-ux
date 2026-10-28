@@ -1,0 +1,16 @@
+{
+  "source_head": "bd3505f624fb4e821ea9ef2ea039313abd850fd5",
+  "current_merge": "f05447d5b3ba892cd498035cafb545856b766abe",
+  "files": {
+    "scripts/cp7-src/finance/read.sql": "02ef8a3bc1c9d652b4fbf4505af2ce0c056e93fb26d8f7aa68657f48d3e05c57",
+    "scripts/cp7_note_report_bundle.py": "f721095d1a3054a875c7682295fd0969848169f4124694a3f51f3f3302c3a439",
+    "scripts/cp7_report_accounts_bundle.py": "d99e964b8c827dc027074a81cc0a44b8973bc41d445aa2e011a4e91d697c3797",
+    "scripts/current-finance-check-reuse-diagnostic/INSTALLED_REPORT_SOURCE.json": "4f992d039416313221908829cb402aab80cf309b39443e767006fd1c7bd895e8",
+    "scripts/current-finance-check-reuse-diagnostic/readiness_reuse.py": "b4b4d26608690154e47497e33dee05231fa1163e16595b20ab912e08764bda79",
+    "scripts/current-finance-check-reuse-diagnostic/readiness_source.py": "3447d0e13b3e1c348e7281edcd239f2170f25b21a61f6db251407ae5d1c1c099",
+    "scripts/current-finance-reader-diagnostic/original-opening-hpp-body.sql": "d82bdae08187b2121b7a777e0b3973f292318b195a148762f3ba5998407bf48a",
+    "scripts/current-finance-reader-diagnostic/reader.py": "157c1bfb0551090c50f4a08d7c280200ed6b6d9d79a18077e8db6eb8e2d6a657",
+    "supabase/dev/cp6_aw_t1_family.sql": "db8ee8115b5a53dd9a7b154c96b764b8bee9e4a79c5adfa48050417bb756bd32",
+    "supabase/dev/cp6_ba_t1_family.sql": "3359a42fe93c35da481d164e5e6d70e79da41559621a65736418bfc8f32d93a7"
+  }
+}

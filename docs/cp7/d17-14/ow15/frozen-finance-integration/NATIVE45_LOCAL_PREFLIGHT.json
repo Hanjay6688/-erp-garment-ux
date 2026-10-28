@@ -1,0 +1,204 @@
+{
+  "status": "LOCAL_NATIVE45_BUSINESS_PREPARATION_PASS",
+  "cases": 45,
+  "retained_A_cases": 36,
+  "retained_B_private_business_bodies": 3,
+  "finance_business_bodies": 5,
+  "new_full_catalog_dependency_guard": 1,
+  "source_binding": {
+    "retained_scoped_source": {
+      "retained_current_target": {
+        "retained_current_target": {
+          "retained_finance_policy_v2": {
+            "retained": {
+              "finance": {
+                "path": "scripts/current-bounded-finance-native-qualification/cases.py",
+                "file_sha256": "c180f519190a63f2d21fc9b6465c1d7809220b07b2848a17cf987ccdfd9362c1",
+                "cases_body_sha256": "14cd23ac8ceec8b980d4a984fffbce73425f77644249fea2135c47f6daa6d57a"
+              },
+              "policy": {
+                "path": "scripts/cp7_ow11_model_policy_cases.py",
+                "file_sha256": "24d5ed6acf2974342348746c7c2b55bcd45acc68d2860bb4d7b1dec3c295a067",
+                "cases_body_sha256": "7ed8bf673c003f9eb85d20cb1a0a2a3ebe89982b739916f3f25973fc96853a74"
+              },
+              "evaluation_v2": {
+                "path": "scripts/cp7_ow11_model_evaluation_v2_cases.py",
+                "file_sha256": "e1388ceb90560fda08e75db68105e20a4bf23469e3e40710cd74bea3fe01b117",
+                "cases_body_sha256": "610154f7f5286fff3c03997214b8421705ef6bfb764e1ed5628c97214c7b7ecb"
+              }
+            },
+            "only_replaced_setup_hooks": [
+              "policy.install",
+              "evaluation.install"
+            ],
+            "excluded_original_catalog_case_ids": [
+              "OW11_MODEL_POLICY_CATALOG22_PREUSE_DEPENDENCY",
+              "OW11_MODEL_V2_CATALOG22_COMPOSED_PREUSE_DEPENDENCY"
+            ],
+            "original_business_assertions_unchanged": true
+          },
+          "target": {
+            "path": "scripts/cp7_ow11_model_target_consumer_cases.py",
+            "file_sha256": "c15dacc66d894f88365e5b8a0e0a77940775bd5629b92cccae09ddbb73777a26",
+            "cases_body_sha256": "dbebc69f877043b450adea47a20c17831871f5b0a2ed259d3e52106241457b52"
+          },
+          "excluded_target_catalog_anchor": "OW11_MODEL_TARGET_CATALOG22_COMPOSED_PREUSE",
+          "original_business_assertions_unchanged": true,
+          "baseline_fix_predecessor_regression_is_separate_component_proof": true
+        },
+        "history": {
+          "path": "scripts/cp7_ow11_model_history_runtime_cases.py",
+          "file_sha256": "9911806d440d1a1546476f494804753e50fbc8eebe32276e43e80e5c31bd950e",
+          "cases_body_sha256": "d99d4734172a8853f1a50ac6623990db9f1afcbf41c2a871be218d68b647c20f"
+        },
+        "excluded_history_catalog_anchor": "OW11_MODEL_HISTORY_RUNTIME_CATALOG22_COMPOSED_INVERSE",
+        "original_business_assertions_unchanged": true,
+        "full_composed_preuse_inverse_is_separate": true
+      },
+      "scoped_model": {
+        "path": "scripts/cp7_ow11_model_scoped_evaluation_cases.py",
+        "file_sha256": "23afa650f11f73bd0e52d47886ec193431724088f62d31f080ca552caed7ebe8",
+        "cases_body_sha256": "be60cf509d9208f301eeefdf17458be1f9d867b2b27518fe377a6672eaf213db"
+      },
+      "excluded_scoped_model_catalog_anchor": "OW11_SCOPED_EVALUATION_CATALOG22_COMPOSED_INVERSE",
+      "original_business_assertions_unchanged": true,
+      "full_composed_preuse_inverse_is_separate": true,
+      "explicit_history_replay_guard": {
+        "original_file_sha256": "9911806d440d1a1546476f494804753e50fbc8eebe32276e43e80e5c31bd950e",
+        "case_id": "OW11_MODEL_HISTORY_RUNTIME_ACTUAL_CAPTURE_REPLAY_IMMUTABLE",
+        "explicit_AST_changes": {
+          "rollback_calls": 1,
+          "refusal_constants": 1
+        },
+        "all_business_assertions_unchanged": true,
+        "real_complete_used_guard": true,
+        "predecessor_catalog_not_rewritten": true,
+        "production_go": false
+      }
+    },
+    "retained_case_ids": [
+      "OW12_BOUNDED_FINANCE_REQUEST_EXACT_ONCE",
+      "OW12_BOUNDED_FINANCE_OPERATIONAL_FIRST_OFFICIAL_FINANCE",
+      "OW12_BOUNDED_FINANCE_CHANGED_BOOK_REFUSED",
+      "OW12_BOUNDED_FINANCE_DEFERRED_NO_CAPTURE",
+      "OW12_BOUNDED_FINANCE_CURRENT_FINANCE_ACCESS",
+      "OW11_MODEL_POLICY_EXPLICIT_APPEND_SUSPEND_REACTIVATE_REPLAY",
+      "OW11_MODEL_POLICY_PROSPECTIVE_CLOCK_AND_IMMUTABLE_HISTORY",
+      "OW11_MODEL_POLICY_CURRENT_ACCESS_OWNER_ADMIN_AND_REPLAY",
+      "OW11_MODEL_POLICY_EXPLICIT_VALIDATION_CAS_TEMPLATE",
+      "OW11_MODEL_POLICY_ATOMIC_REGISTRY_POLICY_COMMAND",
+      "OW11_MODEL_V2_NATIVE_BASELINE_EXACT_REPLAY_V1_UNCHANGED",
+      "OW11_MODEL_V2_ACTUAL_POLICY_CLOCK_NO_POSTHOC_APPROVAL",
+      "OW11_MODEL_V2_NATIVE_POST_SOURCE_WITHDRAWAL_OLD_RESULT",
+      "OW11_MODEL_V2_CURRENT_ACCESS_FOREIGN_CLOSED_QUERY",
+      "OW11_MODEL_V2_IMMUTABLE_ATOMIC_LAST_ROW_AND_GUARD",
+      "OW11_MODEL_HISTORY_RUNTIME_ACTUAL_CAPTURE_REPLAY_IMMUTABLE",
+      "OW11_MODEL_HISTORY_RUNTIME_ACTUAL_POST_RETIRES_ARCHIVE",
+      "OW11_MODEL_HISTORY_RUNTIME_CURRENT_ACCESS_AND_FOREIGN_READ",
+      "OW11_MODEL_HISTORY_RUNTIME_DENSE2000_SINGLE_TARGET",
+      "OW11_MODEL_HISTORY_RUNTIME_ENGINE_AND_FINAL_FAULT",
+      "OW11_SCOPED_EVALUATION_ACTUAL_CAPTURE_REPLAY_IMMUTABLE",
+      "OW11_SCOPED_EVALUATION_PROSPECTIVE_POLICY_CLOCK",
+      "OW11_SCOPED_EVALUATION_ACTUAL_POST_CURRENT_ACCESS",
+      "OW11_SCOPED_EVALUATION_DENSE2000_SINGLE_TARGET",
+      "OW11_SCOPED_EVALUATION_FINAL_FAULT_AND_ENGINE"
+    ],
+    "omitted_obsolete_target_v1_business_ids": [
+      "OW11_MODEL_TARGET_NATIVE_BASELINE_REPLAY_IMMUTABLE",
+      "OW11_MODEL_TARGET_NATIVE_CURRENT_POLICY_AND_LATEST_V2",
+      "OW11_MODEL_TARGET_NATIVE_POST_PROFILE_ACCESS",
+      "OW11_MODEL_TARGET_NATIVE_WAREHOUSE_ONLY_READ",
+      "OW11_MODEL_TARGET_NATIVE_BOUNDED_ANALOG_PARITY"
+    ],
+    "versioned_case_ids": [
+      "OW11_MODEL_TARGET_V2_NATIVE_BASELINE_REPLAY_IMMUTABLE",
+      "OW11_MODEL_TARGET_V2_NATIVE_CURRENT_POLICY_AND_LATEST_NAMESPACED",
+      "OW11_MODEL_TARGET_V2_NATIVE_POST_PROFILE_ACCESS",
+      "OW11_MODEL_TARGET_V2_NATIVE_WAREHOUSE_ONLY_READ",
+      "OW11_MODEL_TARGET_V2_NATIVE_BOUNDED_ANALOG_PARITY"
+    ],
+    "B_original_sha256": "1cc4fedd0014593dab93a032fd88cef0fa9fdad89c86b640880a34ef30ba1a01",
+    "explicit_AST_changes": {
+      "rollback_calls": 3,
+      "refusal_constants": 3,
+      "case_list": 1,
+      "case_tuple": 1
+    },
+    "target_business_assertions_and_limits_unchanged": true,
+    "full_A_setup_and_real_full_guard": true,
+    "history_replay_guard": {
+      "original_file_sha256": "9911806d440d1a1546476f494804753e50fbc8eebe32276e43e80e5c31bd950e",
+      "case_id": "OW11_MODEL_HISTORY_RUNTIME_ACTUAL_CAPTURE_REPLAY_IMMUTABLE",
+      "explicit_AST_changes": {
+        "rollback_calls": 1,
+        "refusal_constants": 1
+      },
+      "all_business_assertions_unchanged": true,
+      "real_complete_used_guard": true,
+      "predecessor_catalog_not_rewritten": true,
+      "production_go": false
+    },
+    "scoped_model_replay_guard": {
+      "original_file_sha256": "23afa650f11f73bd0e52d47886ec193431724088f62d31f080ca552caed7ebe8",
+      "case_id": "OW11_SCOPED_EVALUATION_ACTUAL_CAPTURE_REPLAY_IMMUTABLE",
+      "explicit_AST_changes": {
+        "rollback_calls": 1,
+        "refusal_constants": 1
+      },
+      "all_business_assertions_unchanged": true,
+      "real_complete_used_guard": true,
+      "predecessor_catalog_not_rewritten": true,
+      "production_go": false
+    },
+    "unchanged_complete_retained_case_bodies": 23,
+    "selected_contract_case_ids": [
+      "UNPAYROLLED_PARTIAL_WORK_BLOCKS_REPORT",
+      "OWNER_WORK_REFERENCE_BLOCKS_UNTIL_PAYROLLED",
+      "OWNER_VENDOR_REFERENCE_BLOCKS_UNTIL_PAYROLLED",
+      "RETURN_REBOUND_SOURCE_ATOMIC_REFUSAL",
+      "RETURN_ALLOCATION_LIMIT_ATOMIC_REFUSAL",
+      "RETURN_REBOUND_CUSTOMER_ATOMIC_REFUSAL"
+    ],
+    "selected_contract_file_sha256": "b76ec7241c3c43121095b877dddcde76c8a88224508d13e0fd6a40be72875dab",
+    "selected_contract_business_source_unchanged": true,
+    "private_business_source": {
+      "exact_B_original_sha256": "54f9e817f74724a33925dc5201f2438db03354a2c991ca8b91e7f2335c0b090c",
+      "exact_business_bodies": [
+        "flow",
+        "volume",
+        "stale"
+      ],
+      "explicit_AST_changes": {
+        "rollback_calls": 1,
+        "refusal_constants": 1
+      },
+      "original_component_catalog_case_replaced_by_actual_full_preuse_inverse_in_outer_runner": true,
+      "new_full_catalog_dependent_view_refusal_before_inverse": true,
+      "all_business_limits_and_assertions_unchanged": true,
+      "financial_factory_qualification": false,
+      "production_go": false
+    },
+    "finance_business_source": {
+      "original_source_sha256": "c180f519190a63f2d21fc9b6465c1d7809220b07b2848a17cf987ccdfd9362c1",
+      "five_business_case_bodies_unchanged": true,
+      "financial_oracles_and_fixtures_unchanged": true,
+      "explicit_private_transport_routes": 2,
+      "ordinary_call_limit": "8s",
+      "actual_capsule_hash_checked_after_each_request": true,
+      "mode_checked_in_sealed_base": true,
+      "no_fake_HTTP_claim": true,
+      "production_go": false
+    },
+    "full_A_runtime_qualified": false,
+    "production_go": false
+  },
+  "runner_assertions_unchanged": true,
+  "runner_assertions": 11,
+  "local_mock_routing_factory_only": true,
+  "no_case_body_executed": true,
+  "all_context_hooks_restored": true,
+  "database_executed": false,
+  "SOURCE_bound": false,
+  "parent_Native40_actual_required": true,
+  "production_go": false
+}

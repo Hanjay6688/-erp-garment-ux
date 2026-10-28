@@ -1,0 +1,26 @@
+{
+  "contract": "cp7.d17-18.finance-single-check.prepared.v1",
+  "parent_head": "0bccf142f5dc2310226b183643d4ad56d01b23df",
+  "parent_status": "PASS",
+  "parent_run": 40519853334,
+  "allow_database_execution": true,
+  "actual_cases_executed": 0,
+  "files": {
+    "supabase/dev/cp6_bf_t1_family.sql": "d5e66d221878db1ba34b0c159e05c13f6b12bac3acc2b3066fcff514ef876ffd",
+    "supabase/dev/cp6_aw_t1_family.sql": "db8ee8115b5a53dd9a7b154c96b764b8bee9e4a79c5adfa48050417bb756bd32",
+    "scripts/cp7_hpp_close/native_delta.py": "25f0769977070acfa641929d8310e4fae42ce0a69fc953472efa68699b4c05ea",
+    "scripts/cp7_laundry_unknown_wash/native_delta.py": "67f5a45f42fe18205a6d6387e0a825b8bdf12f7c8c7a4391b50a471af7f8780b",
+    "scripts/current-finance-check-reuse-diagnostic/readiness_source.py": "3447d0e13b3e1c348e7281edcd239f2170f25b21a61f6db251407ae5d1c1c099",
+    "scripts/current-finance-check-reuse-diagnostic/readiness_reuse.py": "b4b4d26608690154e47497e33dee05231fa1163e16595b20ab912e08764bda79",
+    "scripts/current-finance-check-reuse-diagnostic/runner.py": "4540d1e538e7a17f6f8945738f17920a4e44680685cf9ad3322860444b086c60",
+    "scripts/current-finance-check-reuse-diagnostic/price_fixture.py": "6a7c7a3e8fcc0916b3b402cd61732921fc5e3d81740cbe78f664c7470f48e9f2",
+    "scripts/current-finance-readonly-integration-qualification/SOURCE.json": "efcd04e5ae78b391d8e6dcef18f733eff2daffaeba8175dc3ca111211da7a438",
+    "scripts/current-finance-single-check-diagnostic/ORIGIN.json": "a8f3cb912dcd9a294af9e059f4a7f32258e6f5a2406f98f61909bec674d93a75",
+    "scripts/current-finance-single-check-diagnostic/single_check.py": "041ee14f63a0cb150e507d59f879000b1e0eefe1bdffef185e9b7fbea6d082e2",
+    "scripts/current-finance-single-check-diagnostic/runner.py": "03cf0714aab7f8d31e67e8ec8421bd1069aa2841f5548c2065c1632f78f697a5",
+    "scripts/current-finance-single-check-diagnostic/README.md": "9c9fb6085eb2a3e0c30be4eb1f39e706d61d91a57c565e277cb614281daa304f"
+  },
+  "production_go": false,
+  "independent_acceptance": false,
+  "parent_original_sha256": "c29a66fa26f1a92bacac3323c5e7dbda6465919366869cac916f1f5aa4b89810"
+}

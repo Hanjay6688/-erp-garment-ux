@@ -1,0 +1,18 @@
+{
+  "status": "PASS",
+  "scope": "LOCAL_STATE_ROUTING_AND_SOURCE_ONLY",
+  "actual_hierarchy_routed": true,
+  "policy_and_model_receive_their_own_states": true,
+  "target_receives_real_complete_state": true,
+  "three_full_checker_calls": 3,
+  "setup_hooks_restored": true,
+  "AST_changes": {
+    "rollback_calls": 3,
+    "refusal_constants": 3,
+    "case_list": 1,
+    "case_tuple": 1
+  },
+  "product_SQL_changed": false,
+  "Native_runtime_qualified": false,
+  "production_go": false
+}

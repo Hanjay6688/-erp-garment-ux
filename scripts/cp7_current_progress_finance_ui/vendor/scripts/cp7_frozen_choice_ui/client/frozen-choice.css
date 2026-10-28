@@ -1,0 +1,48 @@
+.frozen-choice-panel { min-width: 0; }
+.frozen-choice-panel header, .frozen-choice-panel nav { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; justify-content: space-between; }
+.frozen-choice-panel h4 { font-size: 1.15rem; }
+.frozen-choice-panel .responsive-table { overflow-x: auto; max-width: 100%; border: 1px solid #ccd8ce; border-radius: 8px; }
+.frozen-choice-panel table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+.frozen-choice-panel th, .frozen-choice-panel td { padding: 0.65rem; border-bottom: 1px solid #dce5de; text-align: left; vertical-align: top; }
+.frozen-choice-panel nav { margin: 0.75rem 0; }
+.frozen-choice-panel .native-analog-choice { margin-top: 1rem; padding: 1rem; border: 1px solid #ccd8ce; border-radius: 8px; background: #fff; }
+.frozen-choice-panel fieldset { display: grid; gap: 0.65rem; min-width: 0; border: 1px solid #ccd8ce; border-radius: 6px; }
+.frozen-choice-panel input, .frozen-choice-panel select, .frozen-choice-panel textarea { max-width: 100%; min-width: 0; padding: 0.6rem; font: inherit; }
+.frozen-choice-panel textarea { min-height: 5rem; resize: vertical; }
+.frozen-choice-panel .native-analog-review { display: flex; align-items: flex-start; gap: 0.5rem; }
+.frozen-choice-panel .native-analog-review input[type="checkbox"] { flex: 0 0 1.25rem; width: 1.25rem; min-width: 1.25rem; height: 1.25rem; padding: 0; margin: 0.15rem 0 0; accent-color: #1c6951; }
+.frozen-choice-panel button { max-width: 100%; overflow-wrap: anywhere; }
+.frozen-choice-panel [role="alert"] { color: #9b2525; }
+@media (max-width: 600px) {
+ .frozen-choice-panel .native-analog-choice { padding: 0.6rem; }
+ .frozen-choice-panel table, .frozen-choice-panel tbody, .frozen-choice-panel tr, .frozen-choice-panel td { display: block; width: 100%; }
+ .frozen-choice-panel thead { display: none; }
+ .frozen-choice-panel tr { border-bottom: 2px solid #ccd8ce; }
+ .frozen-choice-panel td { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 0.5rem; overflow-wrap: anywhere; }
+ .frozen-choice-panel td::before { content: attr(data-label); font-weight: 600; }
+}
+
+.frozen-choice-panel { color: #172c24; background: #f8fbf9; border: 1px solid #c5d4cb; padding: 1rem; border-radius: 10px; }
+.frozen-choice-panel button { color: #172c24; background: #d5e8dd; border: 1px solid #718f7e; border-radius: 6px; padding: 0.6rem 0.8rem; font: inherit; overflow-wrap: anywhere; }
+.frozen-choice-panel button:disabled { color: #46594e; background: #edf1ee; opacity: 1; cursor: not-allowed; }
+.native-bounded-quantity.frozen-choice-panel button:disabled { color: #46594e; background: #edf1ee; opacity: 1; cursor: not-allowed; }
+.frozen-choice-panel button:focus-visible { outline: 3px solid #1c6951; outline-offset: 2px; }
+.frozen-choice-panel input, .frozen-choice-panel select, .frozen-choice-panel textarea { color: #172c24; background: #fff; font: inherit; }
+.frozen-choice-panel input::placeholder, .frozen-choice-panel textarea::placeholder { color: #5a6b60; opacity: 1; }
+.frozen-choice-panel small, .frozen-choice-panel .eyebrow { color: #46594e; }
+.frozen-choice-panel [role="alert"] { color: #8d2020; }
+
+/* The prepared analog table must not inherit the global dark-table palette or
+   900px/quantity1080px minimum width, including when nested in quantity. */
+.native-product-analog.frozen-choice-panel .responsive-table table { min-width: 0; width: 100%; table-layout: fixed; }
+.native-product-analog.frozen-choice-panel .responsive-table th,
+.native-product-analog.frozen-choice-panel .responsive-table td { color: #172c24; font-size: 0.9rem; white-space: normal; overflow-wrap: anywhere; letter-spacing: normal; text-transform: none; }
+.native-product-analog.frozen-choice-panel .responsive-table th { color: #46594e; }
+@media (max-width: 680px) {
+ .native-product-analog.frozen-choice-panel .responsive-table table,
+ .native-product-analog.frozen-choice-panel .responsive-table tbody,
+ .native-product-analog.frozen-choice-panel .responsive-table tr { display: block; min-width: 0; width: 100%; }
+ .native-product-analog.frozen-choice-panel .responsive-table thead { display: none; }
+ .native-product-analog.frozen-choice-panel .responsive-table td { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 0.5rem; width: 100%; min-width: 0; box-sizing: border-box; font-size: 1rem; }
+ .native-product-analog.frozen-choice-panel .responsive-table td[data-label]::before { color: #46594e; font-size: 0.85rem; }
+}

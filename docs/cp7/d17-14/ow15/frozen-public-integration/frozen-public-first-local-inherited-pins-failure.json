@@ -1,0 +1,31 @@
+{
+  "cause": "Copied sparse patterns predated committed finance-preparation documents; materialize missing exact Git paths",
+  "source_or_oracles_changed": false,
+  "database_executed": false,
+  "worktrees": [
+    {
+      "worktree": "erp-frozen-finance-public",
+      "missing_inherited_paths_restored": [
+        "docs/cp7/d17-14/ow15/frozen-finance-integration/FIRST_LOCAL_CHECKER_FAILURE.json",
+        "docs/cp7/d17-14/ow15/frozen-finance-integration/LOCAL_SOURCE_CHECK.json",
+        "docs/cp7/d17-14/ow15/frozen-finance-integration/NATIVE45_FIRST_LOCAL_ROUTING_CHECK.json",
+        "docs/cp7/d17-14/ow15/frozen-finance-integration/NATIVE45_LOCAL_PREFLIGHT.json",
+        "docs/cp7/d17-14/ow15/frozen-finance-integration/NATIVE45_WORKFLOW_PREFLIGHT.json"
+      ],
+      "all_inherited_pins_verified": 3644,
+      "tracked_and_untracked_status_unchanged": true
+    },
+    {
+      "worktree": "erp-frozen-finance-followups",
+      "missing_inherited_paths_restored": [
+        "docs/cp7/d17-14/ow15/frozen-finance-integration/FIRST_LOCAL_CHECKER_FAILURE.json",
+        "docs/cp7/d17-14/ow15/frozen-finance-integration/LOCAL_SOURCE_CHECK.json",
+        "docs/cp7/d17-14/ow15/frozen-finance-integration/NATIVE45_FIRST_LOCAL_ROUTING_CHECK.json",
+        "docs/cp7/d17-14/ow15/frozen-finance-integration/NATIVE45_LOCAL_PREFLIGHT.json",
+        "docs/cp7/d17-14/ow15/frozen-finance-integration/NATIVE45_WORKFLOW_PREFLIGHT.json"
+      ],
+      "all_inherited_pins_verified": 3644,
+      "tracked_and_untracked_status_unchanged": true
+    }
+  ]
+}

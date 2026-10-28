@@ -1,0 +1,27 @@
+{
+  "strategy": "SAME_REPORT_OFFICIAL_READINESS",
+  "sources": {
+    "supabase/dev/cp6_ba_t1_family.sql": "3359a42fe93c35da481d164e5e6d70e79da41559621a65736418bfc8f32d93a7",
+    "supabase/dev/cp6_aw_t1_family.sql": "db8ee8115b5a53dd9a7b154c96b764b8bee9e4a79c5adfa48050417bb756bd32",
+    "scripts/cp7-src/finance/read.sql": "02ef8a3bc1c9d652b4fbf4505af2ce0c056e93fb26d8f7aa68657f48d3e05c57",
+    "scripts/cp7_note_report_bundle.py": "f721095d1a3054a875c7682295fd0969848169f4124694a3f51f3f3302c3a439",
+    "scripts/cp7_report_accounts_bundle.py": "d99e964b8c827dc027074a81cc0a44b8973bc41d445aa2e011a4e91d697c3797"
+  },
+  "derived": {
+    "native_BA_body_sha256": "82e8812d4d1096ea817124e5995435464e810c18271f32ae851cc5e87f02f00b",
+    "installed_snapshot_sha256": "5687c8b4805f73baa68197121f9a4a90f5f123d6ff7da683e88301a485e3aab2",
+    "installed_snapshot_bytes": 14417,
+    "preflight_sha256": "46cb2011e8c12d7f71bed033cb2180b8203cadef43781d45516a87344c588b65",
+    "workspace_sha256": "944e6693688302a4d322708ba981c30baab54984f2ba2f5240b0125ce5517bb4"
+  },
+  "transform_order": [
+    "cp7_note_report_bundle.patched_report",
+    "cp7_report_accounts_bundle.wrap"
+  ],
+  "actual_f038_live_body_sha256": "5687c8b4805f73baa68197121f9a4a90f5f123d6ff7da683e88301a485e3aab2",
+  "actual_f038_head": "f038a6ecc5a71278554eab62ab7df4f4ced9b7bc",
+  "actual_f038_original_sha256": "06ff84cfea4908fb3433418dae618a7ecddbcd50264dec0d1a25c73e7e007df6",
+  "historical_AB_and_12004_body_remain_rejected": true,
+  "product_adoption": false,
+  "production_go": false
+}

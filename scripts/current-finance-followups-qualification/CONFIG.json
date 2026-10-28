@@ -1,0 +1,24 @@
+{
+  "contract": "cp7.d17-18.finance-followups-isolated.v1",
+  "allow_database_execution": true,
+  "parent": {
+    "name": "CP7_D17_18_READONLY_FINANCE_NATIVE13_CRON1.json",
+    "status": "PASS",
+    "head": "0bccf142f5dc2310226b183643d4ad56d01b23df",
+    "run_id": 40519853334,
+    "job_id": 122243659145,
+    "artifact_id": 12745515328,
+    "zip_bytes": 3431422,
+    "zip_sha256": "5998bba2a854eb0e4418ef116e87d8923f7b01b4b85e871f9226cc0df2f7710b",
+    "bytes": 8866887,
+    "sha256": "c29a66fa26f1a92bacac3323c5e7dbda6465919366869cac916f1f5aa4b89810",
+    "archive_member": "CP7_D17_18_READONLY_FINANCE_NATIVE13_CRON1.json",
+    "package_member": "T3_PACKAGE_INSTALL.json",
+    "package_name": "T3_PACKAGE_INSTALL.json",
+    "package_bytes": 360457,
+    "package_sha256": "ec175b74b8f07a322d19b53f88d8ef1a904db7f2ac076eb7a634b0c474072b4d"
+  },
+  "original_directory_variable": "D17_18_ACCEPTED_READONLY_DIRECTORY",
+  "production_go": false,
+  "independent_acceptance": false
+}

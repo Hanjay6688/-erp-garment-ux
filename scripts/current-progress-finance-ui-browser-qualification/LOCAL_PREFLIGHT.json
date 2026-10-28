@@ -1,0 +1,36 @@
+{
+  "status": "PASS_LOCAL_PREPARATION_ONLY",
+  "source": {
+    "B_exact_files": 91,
+    "compiled_source_files": 79,
+    "local_tests": 190,
+    "local_test_files": 17,
+    "runtime_credit": false,
+    "production_go": false,
+    "host_exact_files": 113,
+    "business_guards": 27,
+    "separate_full_clones": 2,
+    "actual_browser_executed": false
+  },
+  "new_guard_negative_controls": [
+    "await assertCombinedProgress(ui,page,calls,request,'RUNNING')",
+    "await assertCombinedProgress(ui,page,calls,request,mobile?'BLOCKED':'COMPLETED')",
+    "await assertCombinedProgress(ui,page,calls,request,'ACCESS_REVOKED')",
+    "assert.equal(foreignProgress.status,400)",
+    "assert.ok([401,403].includes(anonymousProgress.status))"
+  ],
+  "oracle_unit_tests": 5,
+  "module_check": {
+    "status": "PASS",
+    "cases": 2,
+    "actual_ESM_modules_loaded": 2,
+    "browser_executed": false
+  },
+  "shell_steps_checked": 47,
+  "missing_actual_Native6_refused_before_binding": true,
+  "SOURCE_bound": false,
+  "actual_database": false,
+  "actual_browser": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

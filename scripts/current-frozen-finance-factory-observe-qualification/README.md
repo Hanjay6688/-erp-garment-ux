@@ -1,0 +1,3 @@
+# Exact factory failure diagnosis
+
+The complete date2 Original proves the corrected Native fixture (1200 commercial SKUs,3600 variants, nine posted-history tables unchanged), but both operational jobs and the finance capture failed. The original observer stored terminal states without failure details. This candidate adds a read-only snapshot of every stored column of those two jobs and one capture after scheduler quiescence. No product SQL, fixture, schedule, deadline, numerical oracle or restore assertion changes. The failed Original remains a required prerequisite. This is not a claim that the underlying failure is repaired.

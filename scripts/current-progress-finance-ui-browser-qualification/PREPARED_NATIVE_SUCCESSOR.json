@@ -1,0 +1,75 @@
+{
+  "expected_native6_head": "8dfe1a19c7b7c61558b25c00f1dd388c8565e3d1",
+  "imported_files": [
+    "scripts/current-choice-preparation-native-qualification/FIRST_RUNTIME_FAILURE_BFED.json",
+    "scripts/current-choice-preparation-native-qualification/README.md",
+    "scripts/current-choice-preparation-native-qualification/SOURCE.json",
+    "scripts/current-choice-preparation-native-qualification/retention_cases.py"
+  ],
+  "actual_prerequisite_status": "RUNNING_NOT_PASS",
+  "source_bound": false,
+  "previous_preparation": {
+    "expected_native6_head": "bfed0a81252e597842b9b9020ecc061cca936d54",
+    "imported_files": [
+      ".github/workflows/cp7-d17-18-choice-preparation-native.yml",
+      "scripts/cp7_current_choice_preparation/README.md",
+      "scripts/cp7_current_choice_preparation/installation.py",
+      "scripts/cp7_current_choice_preparation/retention_access.py",
+      "scripts/cp7_current_choice_preparation/test_retention_access.py",
+      "scripts/current-choice-preparation-native-qualification/FIRST_RUNTIME_FAILURE_9A.json",
+      "scripts/current-choice-preparation-native-qualification/README.md",
+      "scripts/current-choice-preparation-native-qualification/RETENTION_LOCAL_PREFLIGHT.json",
+      "scripts/current-choice-preparation-native-qualification/SOURCE.json",
+      "scripts/current-choice-preparation-native-qualification/bind_sources.py",
+      "scripts/current-choice-preparation-native-qualification/cases.py",
+      "scripts/current-choice-preparation-native-qualification/retention_cases.py"
+    ],
+    "actual_prerequisite_status": "INCOMPLETE_5_PASS_1_FEASIBILITY_FAILURE",
+    "run_id": 40324974838,
+    "job_id": 121579218692,
+    "source_bound": false,
+    "previous_preparation": {
+      "expected_native6_head": "9a943ea4cc4d24a92a2af1c3e678bd3d0bddfc14",
+      "imported_files": [
+        ".github/workflows/cp7-d17-18-choice-preparation-native.yml",
+        "scripts/current-choice-preparation-native-qualification/FIRST_RUNTIME_FAILURE_A3CE.json",
+        "scripts/current-choice-preparation-native-qualification/README.md",
+        "scripts/current-choice-preparation-native-qualification/SOURCE.json",
+        "scripts/current-choice-preparation-native-qualification/admission.py",
+        "scripts/current-choice-preparation-native-qualification/advisor_review.py",
+        "scripts/current-choice-preparation-native-qualification/cases.py",
+        "scripts/current-choice-preparation-native-qualification/native_observation.py",
+        "scripts/current-choice-preparation-native-qualification/probe.py",
+        "scripts/current-choice-preparation-native-qualification/test_native_observation.py"
+      ],
+      "actual_prerequisite_status": "RUNNING_NOT_PASS",
+      "run_id": 40308822607,
+      "source_bound": false,
+      "production_go": false,
+      "independent_acceptance": false
+    },
+    "previous_native9a_actual_status": "INCOMPLETE_5_PASS_1_RETENTION_FAILURE",
+    "production_go": false,
+    "independent_acceptance": false,
+    "artifact_id": 12655434029
+  },
+  "previous_bfed_actual_status": "INCOMPLETE_5_PASS_1_FEASIBILITY_FAILURE",
+  "production_go": false,
+  "independent_acceptance": false,
+  "run_id": 40338677390,
+  "job_id": 121627045376,
+  "actual_native_verified": {
+    "name": "CP7_D17_18_CHOICE_NATIVE6.json",
+    "status": "PASS",
+    "head": "8dfe1a19c7b7c61558b25c00f1dd388c8565e3d1",
+    "run_id": 40338677390,
+    "job_id": 121627045376,
+    "artifact_id": 12663230440,
+    "zip_bytes": 3007799,
+    "zip_sha256": "9d8d24e9816562b2ff75b622c4da69d3d3cb34494f17cbee4d1b86280916d435",
+    "bytes": 6218156,
+    "sha256": "f2110cf6c2873c18679e3f6654d5232474e46decb5543e6d72b803f28b2d62a9",
+    "archive_member": "CP7_D17_18_CHOICE_NATIVE6.json"
+  },
+  "status": "ACTUAL_NATIVE6_PASS_READY_TO_BIND"
+}

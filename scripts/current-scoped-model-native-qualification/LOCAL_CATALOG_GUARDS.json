@@ -1,0 +1,27 @@
+{
+  "status": "PASS",
+  "scope": "LOCAL_GUARD_ONLY_SYNTHETIC_NEW_CATALOG_ROWS",
+  "trusted_manifest_sha256": "8416231339c8ddbb99a0b58658980ec80317bf4a500b2c639e39a8baa16721ad",
+  "baseline_groups": 22,
+  "baseline_data_keys": 689,
+  "declared_parent_FK_additions": [
+    "cp7_model_history_runtime.runs:cp7_model_scoped_evaluation.runs:runs_history_run_id_fkey:\"RI_FKey_noaction_del\"():9",
+    "cp7_model_history_runtime.runs:cp7_model_scoped_evaluation.runs:runs_history_run_id_fkey:\"RI_FKey_noaction_upd\"():17",
+    "cp7_model_native.registry:cp7_model_scoped_evaluation.runs:runs_registry_id_fkey:\"RI_FKey_noaction_del\"():9",
+    "cp7_model_native.registry:cp7_model_scoped_evaluation.runs:runs_registry_id_fkey:\"RI_FKey_noaction_upd\"():17"
+  ],
+  "positive_catalog_and_data_controls": 2,
+  "negative_controls": [
+    "old_function_changed",
+    "declared_parent_FK_missing",
+    "undeclared_parent_trigger",
+    "catalog_dimension_missing",
+    "old_sequence_advanced",
+    "old_rows_changed",
+    "undeclared_table_added",
+    "new_table_not_empty",
+    "runtime_table_preexists"
+  ],
+  "Native_runtime_qualified": false,
+  "production_go": false
+}

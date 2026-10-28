@@ -1,0 +1,13 @@
+{
+  "status": "LOCAL_CONTROL_FAILURE_PRESERVED",
+  "candidate_head": "88af70bc70a7b7c302dd46aaec1f3884d6f34d9f",
+  "source_sha256": "c195e89c66214a25712c10d538cf993cddb45c463b774f7dc92109ef641d2d73",
+  "controls": 5,
+  "passed": 3,
+  "errors": 2,
+  "cause": "Injected OSError from the log sink prevented the wrapped operation and masked the original business exception. No database or ERP code was executed.",
+  "log_bytes": 3130,
+  "log_sha256": "4a3efeefca3f268f9aecbfdc21244588a345692fd3284b45938dc3181968c06a",
+  "actual_database_executed": false,
+  "production_go": false
+}

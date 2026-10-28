@@ -1,0 +1,69 @@
+{
+  "contract": "cp7.frozen-analysis-stage.v2",
+  "parent_compiler_body_sha256": "768a9671d0fac0c940e49b2c88c621851f906e4224af2551dc1c1b216c5e3cd7",
+  "dependencies": {
+    "cp7_analysis_stage.bounds()": {
+      "body_sha256": "aced99fa879da9258a6af894fb0e87789aaeb5a51b5d419fa3bb77cb1bea0bbe",
+      "owner": "cp7_capture"
+    },
+    "cp7_demand.instant(jsonb)": {
+      "body_sha256": "db2072aea9b5af8bef664a32c9636d8ddf87fe4e57797cbed4bb77de014896d7",
+      "owner": "cp7_capture"
+    },
+    "cp7_demand.day(jsonb)": {
+      "body_sha256": "d5b0cd68757625120961c091cd39d9a6ba97db3367b8d7c7869149729d2519cb",
+      "owner": "cp7_capture"
+    },
+    "cp7_demand.items(jsonb,integer)": {
+      "body_sha256": "8e10cc6f29a5c4142f63a49b0a62f0789b6a6887fe9497c4bb4677da55cc2b7d",
+      "owner": "cp7_capture"
+    },
+    "cp7_wip.fields(jsonb,text[])": {
+      "body_sha256": "5bd2582f80e097d1eeb9deca33459c591431a2a0ad80accb4c8cfed8d519b423",
+      "owner": "cp7_capture"
+    },
+    "cp7_planning.utc(timestamp with time zone)": {
+      "body_sha256": "d60e979df97243a1c582ca4fe3d73b3e36426bbfc7a5a25cf61b3074a1ae3715",
+      "owner": "cp7_capture"
+    },
+    "cp7_planning.history_query(jsonb)": {
+      "body_sha256": "2f93b2021e207cc84707c9139ad953dc499c9394314b04de12e263a4600c8956",
+      "owner": "cp7_capture"
+    },
+    "cp7_reorder_inputs.stock_summary(jsonb,timestamp with time zone,jsonb)": {
+      "body_sha256": "6ec94545b7c45cc108bcd2ee1b78e6a4d7ee05ed09b1e1db6ac4ed1fb6411d2a",
+      "owner": "cp7_capture"
+    },
+    "cp7_history_reference_binary_v2.stock_digest(jsonb,timestamp with time zone)": {
+      "body_sha256": "a002ef5162dbe4a4c930a407e894d270ebd23f7ee78a050ade61b9b5e6222846",
+      "owner": "cp7_capture"
+    },
+    "cp7_history_bounded.compile(jsonb,jsonb,jsonb,integer)": {
+      "body_sha256": "768a9671d0fac0c940e49b2c88c621851f906e4224af2551dc1c1b216c5e3cd7",
+      "owner": "cp7_capture"
+    },
+    "cp7_bounded_analysis_stage.analysis_source(integer,integer)": {
+      "body_sha256": "8a133cb54b36a79e0d53a63e98d9e6256d4519ac8e01565e8b17408f6b9c5688",
+      "owner": "cp7_capture"
+    },
+    "cp7_bounded_analysis_stage.native_work_fingerprint(jsonb)": {
+      "body_sha256": "86d8c08b5a08158f5e91800985166d7b2b01b216c9a614250168e302d4b5cd1d",
+      "owner": "cp7_capture"
+    },
+    "cp7_bounded_analysis_stage.producer_hash()": {
+      "body_sha256": "73126d0e5e40a275adcf4e5dacd832ca8cbbcada08e109e09ea353eac8af0124",
+      "owner": "cp7_capture"
+    }
+  },
+  "sql_sha256": "3d54d6623ce56686773bbfd1f8f5c033c0c7ac8ceb41b412f807cc148f89bb26",
+  "private_functions": 11,
+  "existing_replacements": 0,
+  "new_tables": 0,
+  "public_rpcs": 0,
+  "Native_ERP_DML": false,
+  "unchanged_compiler_called_only_by_prepare": true,
+  "request_or_unit_integration": false,
+  "actual_Native_qualified": false,
+  "full_factory_qualified": false,
+  "production_go": false
+}

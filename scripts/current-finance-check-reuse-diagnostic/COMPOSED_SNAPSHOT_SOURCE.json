@@ -1,0 +1,22 @@
+{
+  "base_artifact_id": 12644706605,
+  "base_archive_member": "CLONE_install.source-erp.sql",
+  "definition_sha256": "0db5c084eeda9172952253137181e0d09ff6d2b4fd9dad01b25a2a73449dedf3",
+  "base_body_sha256": "d8d46c707d7c8edd8500f4366c42a9b055513b8e5f842b6808489c276dfbd4d3",
+  "installed_body_bytes": 12004,
+  "installed_body_sha256": "3fa59773edf43a6f10a60b4fc08bbd1074097c6449b4b5c56f93ff2b64facd69",
+  "transformers": {
+    "scripts/cp7_note_report_bundle.py": "f721095d1a3054a875c7682295fd0969848169f4124694a3f51f3f3302c3a439",
+    "scripts/cp7_report_accounts_bundle.py": "d99e964b8c827dc027074a81cc0a44b8973bc41d445aa2e011a4e91d697c3797"
+  },
+  "transform_order": [
+    "cp7_note_report_bundle.patched_report",
+    "cp7_report_accounts_bundle.wrap"
+  ],
+  "note_lifecycle_calls": 2,
+  "return_lifecycle_calls": 1,
+  "account_subqueries": 11,
+  "live_body_must_equal_full_composed_body": true,
+  "prior_failure_stays_INCOMPLETE": true,
+  "production_go": false
+}

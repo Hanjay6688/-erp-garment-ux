@@ -1,0 +1,36 @@
+{
+  "contract": "cp7.d17-18.consistent-capture-isolated.v1",
+  "case_ids": [
+    "FINANCE_REPORT_BOOK_CONSISTENCY_ISOLATED7"
+  ],
+  "files": {
+    "scripts/current-finance-consistent-capture-diagnostic/CONFIG.json": "7968863d749bfe1963328c9efb749fbabc8b673eb3e3fb6f3a05df8de4c39f9e",
+    "scripts/current-finance-consistent-capture-diagnostic/ORIGIN.json": "3b776311291489fed36c798cdb8f64846f0c9be8191934fab3c8e02d2bcfcc0d",
+    "scripts/current-finance-consistent-capture-diagnostic/PREPARED.json": "384b56b86a96eb3bb7864c42b63e29a13f82e848c8a4a9fd670bf40106210def",
+    "scripts/current-finance-consistent-capture-diagnostic/README.md": "1eaed7eb660c92ef6e6aa5f31390ee7af238ecebfdb5d4855f4a207161533a8f",
+    "scripts/current-finance-consistent-capture-diagnostic/admission.py": "0428be4943b0b36584dea506253d991149b375857a8a598ed275136a594507c4",
+    "scripts/current-finance-consistent-capture-diagnostic/book_signature.sql": "0e3adda63f0190ac4a95677bf8a495b8e461fee643ddac229ada394e82f96ea0",
+    "scripts/current-finance-consistent-capture-diagnostic/cases.py": "d7aca36d3d9efc4df6b30f12ccdf507678852b2a929d0eaae89ce2b2734c7c78",
+    "scripts/current-finance-consistent-capture-diagnostic/fetch_diagnostic.py": "8be856b69b067e176c583109438732c6e03c21d1aa49f42b687d3df632eecfcd",
+    "scripts/current-finance-consistent-capture-diagnostic/patch.py": "4d15ddea8e03521f2306376b7196c450c75331ae760aaaa5bf72a1a9cdfaf6ea",
+    "scripts/current-finance-consistent-capture-diagnostic/probe.py": "6737fffd13dbb0862eccab4234c057a75182ff85f07088b00c67660e6ed05352",
+    "scripts/current-finance-consistent-capture-diagnostic/runner.py": "99cc1b6c4726aed38e902f55968b2854e54cd6013dee100ffb684a09ed498fd3",
+    "scripts/current-finance-consistent-capture-diagnostic/signature_reference.py": "bad6854677e8d18522e4864d643e9b169ca89a150463a5d343dd01876f9bb917",
+    "scripts/current-finance-consistent-capture-diagnostic/source_guard.py": "8ce44793317bfaa038e614ce2e345b4a399498e441fc5def5b38514751306d23",
+    "scripts/current-finance-consistent-capture-diagnostic/test_admission.py": "0ca38bbb6f74576b694e8419494d4745f2f7e3ae9e577c39a2189fce5709e9cd",
+    "scripts/current-finance-consistent-capture-diagnostic/test_runtime_gate.py": "f5e250b94429993ce201b736fb60bc8d19642e48aded7d47307777b0ae344f82",
+    ".github/workflows/cp7-d17-18-consistent-capture.yml": "305f54fc7a56bea85041e8ca1d5ea09f7553703129401967594d971063940770",
+    ".github/workflows/cp7-d17-18-consistent-capture-infra.yml": "27825b0486d1287a68f8d2f33c661a5f0b3e2173e3ed53531f22e2372a873a69",
+    "scripts/current-finance-consistent-capture-diagnostic/INFRA_DERIVATION.json": "2fb52f00cdd0ea8df0e86c419078f45439f7708f46d01fe7b8b9742b2e1137e6",
+    "scripts/current-finance-consistent-capture-diagnostic/infra_source_guard.py": "466a7c58e2692f13d0c2a880a54744a042fa44ee2670c1d624b45e911c5621fa",
+    "scripts/current-finance-consistent-capture-diagnostic/test_infra_source_guard.py": "4e25998225fd3b79b94d5c9ba401be3bb83d2ef64cbac79eb30cf9f9a0985924",
+    "scripts/cp7_disposable_qualification/materialize_sources.py": "cec3576f86bb93d79535b67b35188cd2e3f8a332dc45ceace5a5d7548177210c",
+    "scripts/cp7_disposable_qualification/test_disposable_start.py": "ffa5aa9794be4f1f505da3e054f6afdef1b104d5a54e8535f4a6798c9867e468",
+    "scripts/cp7_disposable_qualification/test_materialize_sources.py": "e21d981a3a0ec52c80596b7c3b8bb920a9c75a12440460460bd5cdd785298a17",
+    "scripts/cp7_disposable_qualification/FROZEN_SOURCE_ROOTS.json": "684a8b08b54699861262f220eca025bb51a220e58856d53988ea337f81fe8bd7",
+    "scripts/cp7_disposable_qualification/disposable_start.py": "523ec29f0566852f56627c7c9be791de215d09b55d8669c071024fd92aa8e257"
+  },
+  "parent_source_sha256": "f2708dbfe3bc020bf2b7b93c0d29b3c5eb0f30700fa459fdfc0c01152672f3df",
+  "production_go": false,
+  "independent_acceptance": false
+}

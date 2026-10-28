@@ -168,6 +168,11 @@ export async function parseAnalysisPage(v:unknown,m:AnalysisPageSet,h:AnalysisHe
  if(STATES.some(s=>actual[s]!==byState[s])||policyUnreviewed!==items.actions.filter(a=>a.primary_reason==='PRODUCTION_POLICY_UNREVIEWED').length)fail()
  if(recs.size!==items.recommendations.length||recs.size+policyUnreviewed!==targets||items.actions.length!==targets||unreviewed.length!==policyUnreviewed||unreviewed.length!==items.generation_warnings.length
   ||items.recommendations.some(r=>!labels.has(r.target.key)))fail()
+ // Unreviewed targets can open their own history/model without first inventing
+ // a production policy. Bind those actions to the server's verified page too.
+ const reviewKeys=unreviewed.map(w=>w.slice('PRODUCTION_POLICY_UNREVIEWED:'.length))
+ if(new Set(reviewKeys).size!==reviewKeys.length||reviewKeys.some(k=>!labels.has(k)||recs.has(k)
+  ||!items.actions.some(a=>a.key===`review-policy-${k}`&&a.primary_reason==='PRODUCTION_POLICY_UNREVIEWED'&&a.intent==='REVIEW_SOURCE'&&a.target_keys.length===0)))fail()
  if(new Set(items.actions.map(a=>a.key)).size!==items.actions.length||new Set(items.material_needs.map(x=>JSON.stringify([x.target_key,x.material_key]))).size!==items.material_needs.length)fail()
  const all=[...h.analysisHeader.assumptions,...items.assumptions],sources=new Set(h.analysisHeader.sources.map(s=>s.source_key))
  if(new Set(all.map(a=>a.id)).size!==all.length)fail()

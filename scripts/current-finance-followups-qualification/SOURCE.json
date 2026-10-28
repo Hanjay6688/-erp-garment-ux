@@ -1,0 +1,36 @@
+{
+  "contract": "cp7.d17-18.finance-followups-isolated.v1",
+  "case_ids": [
+    "FINANCE_CHILD_VISIBILITY_AND_SINGLE_CHECK_ISOLATED_DIAGNOSTICS"
+  ],
+  "parent_source_sha256": "efcd04e5ae78b391d8e6dcef18f733eff2daffaeba8175dc3ca111211da7a438",
+  "files": {
+    ".github/workflows/cp7-d17-18-finance-followups.yml": "0fb499e1afd4a4e2d9a37cb77caeec841a10899e36e3e6ac80c2a50b54168083",
+    "scripts/current-finance-followups-qualification/CONFIG.json": "37d2a6b34d39c95997fd9121a4814cb457cdba6ac179ec60b9b7ca9afd49ba44",
+    "scripts/current-finance-followups-qualification/ORIGIN.json": "8b2bca6b692f8b67580844bf43f2c23ee89d44b3fc0c1b6038842cef758ef913",
+    "scripts/current-finance-followups-qualification/PREPARATION_TIMING.json": "104f62934cd2e70e7b28c0bd78a5e3266a406e04a83f6bdd9ef1e0f9680bb68a",
+    "scripts/current-finance-followups-qualification/README.md": "ab342405681520e0d4a5d08e78093ed0887fb07a1309d2c68af0e18ec0e2b6f7",
+    "scripts/current-finance-followups-qualification/admission.py": "bfc8794e6d14c9a4d29f30181830f5b44fcd67e6616df769f3a3716687b92665",
+    "scripts/current-finance-followups-qualification/artifact_gh.py": "afd081cf03a4d12b07c7db142788d86fbc5ac5bda8597b843749a88572787285",
+    "scripts/current-finance-followups-qualification/evidence.py": "808d53af74e37c2d357e1a16b2ebd7b693c535637c4575360ef51f974f163ce6",
+    "scripts/current-finance-followups-qualification/fetch_parent.py": "fc9e96a92ddc5a9e5a921fdf601b57e9c26487436e9eb9108a58a573d91d9e2f",
+    "scripts/current-finance-followups-qualification/isolated_cases.py": "a72a100107485c725ab599009aa0f469af10018181534b90e489e09cee9b7bc3",
+    "scripts/current-finance-followups-qualification/probe.py": "1559f45f235e91a19bf0031fa4efe954bb853aab13b9a4255bc1b56e814dd1d8",
+    "scripts/current-finance-followups-qualification/runner.py": "5235c972fc376e33ad0e220098741f41996bf035e184e4b2ad385ba508c52fe7",
+    "scripts/current-finance-followups-qualification/source_guard.py": "e6ab85bc9317def8501e6401a1dd87a830340f849213213e296534758f3fe7a4",
+    "scripts/current-finance-followups-qualification/test_artifact_gh.py": "c914c4dcd2fce19b1e497e73d62a8b0d9e6a2a69b924037c3b236be3dfd22d56",
+    "scripts/current-finance-followups-qualification/test_evidence.py": "b31d74edbf10257d64c050645dc913b29edfa2a91a567180eb719324a9b38bf9",
+    "scripts/current-finance-followups-qualification/test_isolated_cases.py": "3068b1480fcbfcaa1642fc2d881253737c9cf074f812d3c17efaecd8535f757d",
+    "scripts/current-finance-followups-qualification/test_source_guard.py": "5a7db264df47057d2653df325a915ebc4a41f50d6381ad1f4eaeec0fe58c0b4d",
+    "scripts/current-finance-single-check-diagnostic/ORIGIN.json": "a8f3cb912dcd9a294af9e059f4a7f32258e6f5a2406f98f61909bec674d93a75",
+    "scripts/current-finance-single-check-diagnostic/PREPARED_SOURCES.json": "b6dd2ac7b72593954bab3992a0d16a0f81ca2db753001d73f5b927da99b7eda7",
+    "scripts/current-finance-single-check-diagnostic/README.md": "9c9fb6085eb2a3e0c30be4eb1f39e706d61d91a57c565e277cb614281daa304f",
+    "scripts/current-finance-single-check-diagnostic/runner.py": "03cf0714aab7f8d31e67e8ec8421bd1069aa2841f5548c2065c1632f78f697a5",
+    "scripts/current-finance-single-check-diagnostic/single_check.py": "041ee14f63a0cb150e507d59f879000b1e0eefe1bdffef185e9b7fbea6d082e2",
+    "scripts/current-finance-source-visibility-diagnostic/PREPARED_SOURCES.json": "3bc6993506e8dc8b9c810b020ade7f7b4cb136254ffb6d319adfddc3c49874b8",
+    "scripts/current-finance-source-visibility-diagnostic/README.md": "b15ade6b06defba7a783de9ed56468124e52ba8e14c8627334a924ad4e572d34",
+    "scripts/current-finance-source-visibility-diagnostic/runner.py": "b7fcc0eb21bc1809c82722c5c35e4afa3b46bfd9de5a8ed161cf3f483d9d7c1e"
+  },
+  "production_go": false,
+  "independent_acceptance": false
+}

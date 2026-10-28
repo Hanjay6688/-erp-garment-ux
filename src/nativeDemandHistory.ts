@@ -18,20 +18,22 @@ const array=(v:unknown,max:number)=>Array.isArray(v)&&v.length<=max?v:fail()
 const day=(v:unknown)=>typeof v==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(v)&&new Date(v+'T00:00:00Z').toISOString().slice(0,10)===v?v:fail()
 const instant=(v:unknown)=>typeof v==='string'&&/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{6}Z$/.test(v)&&Number.isFinite(Date.parse(v))?v:fail()
 const refs=(v:unknown)=>{for(const r of array(v,50000)){const x=object(r);text(x.kind);text(x.id);pcs(x.revision)}}
-export function parseNativeDemandHistory(value:unknown):NativeDemandHistory{
+export function parseNativeDemandHistory(value:unknown):NativeDemandHistory{return parseDemandHistory(value,false)}
+export function parseSingleTargetDemandHistory(value:unknown):NativeDemandHistory{return parseDemandHistory(value,true)}
+function parseDemandHistory(value:unknown,scoped:boolean):NativeDemandHistory{
  const v=object(value),h=object(v.history),versions=object(v.versions)
- if(v.contract_version!=='cp7.native-demand-history.v1'||v.scope!=='GLOBAL_CURRENT_PHYSICAL_ROOTS'||v.capture_complete!==true||v.production_go!==false
+ if(v.contract_version!==(scoped?'cp7.scoped-demand-history.v1':'cp7.native-demand-history.v1')||v.scope!==(scoped?'SINGLE_CURRENT_PHYSICAL_ROOT':'GLOBAL_CURRENT_PHYSICAL_ROOTS')||v.capture_complete!==true||v.production_go!==false
   ||v.availability_knowledge_basis!=='CURRENT_CAPTURE_RESTATED_LEDGER'||v.model_eligibility!=='HISTORICAL_AVAILABILITY_KNOWLEDGE_NOT_BACKFILLED'
-  ||versions.producer!=='native-demand-1'||versions.history!=='demand-1'||versions.availability!=='availability-1')fail()
+  ||versions.producer!==(scoped?'scoped-native-demand-1':'native-demand-1')||versions.history!=='demand-1'||versions.availability!=='availability-1')fail()
  const hash=text(v.source_hash);if(!/^[0-9a-f]{64}$/.test(hash))fail()
  const captured=instant(v.captured_at);if(v.training_known_at!==captured||h.known_as_of!==captured||h.effective_as_of!==captured||h.snapshot_id!==hash||h.scope_id!==v.scope
   ||h.contract_version!=='cp7.demand-result.v1'||h.kernel_version!=='demand-1'||h.status!=='CAPTURE_COMPLETE')fail()
  if(v.source_state!=='UNCHANGED'&&v.source_state!=='ARCHIVED_STALE')fail()
  if(h.group_mode!=='AS_SOLD'&&h.group_mode!=='RESTATED')fail()
  const from=day(h.from_date),through=day(h.through_date);if(from>through)fail()
- const days=(Date.parse(through)-Date.parse(from))/86400000+1;if(days>3661)fail()
+ const days=(Date.parse(through)-Date.parse(from))/86400000+1;if(days>(scoped?366:3661))fail()
  const histories=new Map<string,Record<string,unknown>>()
- for(const raw of array(h.rows,1000)){
+ for(const raw of array(h.rows,scoped?1:1000)){
   const r=object(raw),key=text(r.target_key);if(histories.has(key))fail();histories.set(key,r)
   uuid(r.size_id);pcs(r.gross_observed_pcs);pcs(r.draft_reserved_pcs);refs(r.refs)
   if(count(r.available_days)+count(r.unknown_days)+count(r.stockout_days)!==days)fail()
@@ -45,7 +47,7 @@ export function parseNativeDemandHistory(value:unknown):NativeDemandHistory{
   if(gross!==BigInt(pcs(r.gross_observed_pcs)))fail()
  }
  const seen=new Set<string>(),rows:NativeDemandRow[]=[]
- for(const raw of array(v.current_stock,1000)){
+ for(const raw of array(v.current_stock,scoped?1:1000)){
   const r=object(raw),root=uuid(r.root_id),size=uuid(r.size_id),key=text(r.target_key),a=object(r.availability),inputs=object(a.inputs)
   if(key!==root+':'+size||seen.has(key)||typeof r.is_active!=='boolean'||r.grade_basis!=='NATIVE_SELLABLE_GRADE_A_AND_B'||r.projection_basis!=='CURRENT_STOCK_ONLY_NO_FORECAST')fail();seen.add(key)
   if(a.status!=='KNOWN'||a.kernel_version!=='availability-1'||inputs.snapshot_id!==hash||inputs.scope_id!==v.scope||inputs.target_key!==key||inputs.size_id!==size||inputs.residual_future_pcs!=='0')fail()
@@ -56,7 +58,7 @@ export function parseNativeDemandHistory(value:unknown):NativeDemandHistory{
   rows.push({targetKey:key,rootId:root,sizeId:size,sku:text(r.sku),productName:text(r.product_name),active:r.is_active as boolean,physical,reserved,available,
    gross:pcs(hr.gross_observed_pcs),returns:returned.toString(),availableDays:count(hr.available_days),unknownDays:count(hr.unknown_days),stockoutDays:count(hr.stockout_days),trainingAvailable:count(hr.available_days)>0})
  }
- if(seen.size!==histories.size)fail()
+ if(seen.size!==histories.size||scoped&&(rows.length!==1||rows[0].targetKey!==v.target_key))fail()
  return {runId:uuid(v.run_id),requestId:uuid(v.request_id),capturedAt:captured,sourceHash:hash,state:v.source_state as NativeDemandHistory['state'],from,through,basis:h.group_mode as NativeDemandHistory['basis'],rows}
 }
 
