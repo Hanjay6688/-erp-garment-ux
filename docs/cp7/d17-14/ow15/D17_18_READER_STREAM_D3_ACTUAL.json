@@ -1,0 +1,173 @@
+{
+  "status": "INCOMPLETE",
+  "head": "d36685a259087d9b83beb8fc4f410e4dac9502fd",
+  "run": 40613109071,
+  "job": 122569172127,
+  "artifact": 12785049315,
+  "source_pins": 22,
+  "children": {
+    "COMBINED_UNCHANGED_CHILD_VISIBILITY": "PASS",
+    "COMBINED_NULL_SNAPSHOT_REFUSAL_AND_RECOVERY": "PASS",
+    "COMBINED_UNCHANGED_NATIVE20": "PASS",
+    "COMBINED_INDEPENDENT_SIGNATURE": "PASS",
+    "COMBINED_CURRENT_PUBLIC_ACTUAL_CRON": "PASS",
+    "COMBINED_SMALL_PRICE_FACTORY_REPORT_PAIRS": "PASS",
+    "COMBINED_CURRENT_PUBLIC_FACTORY1200X3_ACTUAL_CRON": "INCOMPLETE"
+  },
+  "all7_installed_restores_complete": true,
+  "outer_full_restoration": true,
+  "stream_validation": {
+    "status": "PASS",
+    "all_scoped_tables_and_sequences_exact": 416,
+    "old_hashes_equal_before_and_after": true,
+    "actual_old_array_limit_reproduced": true,
+    "old_SQLSTATE": "54000",
+    "large_rows": 1024,
+    "minimum_large_payload_bytes": 307200000,
+    "large_streamed_digest": [
+      1024,
+      "7b35402563bc8ffe5d65a4d75c29b6905b33401adb342ba6fb73901d51f5a1c6"
+    ],
+    "duplicate_multiplicity_preserved": true,
+    "excluded_tables": 0,
+    "skipped_rows_or_fields": 0,
+    "temporary_regression_fully_removed": true,
+    "ERP_rows_sequences_and_catalog_definitions_unchanged": true,
+    "ordinary_statement_limits_changed": false
+  },
+  "installed_verification": {
+    "contract": "cp7.current-consistent-finance-private-opening.v2",
+    "status": "EXACT_COMBINED_CONSISTENT_READERS_ALL22",
+    "actual_predecessor_verified": true,
+    "all22_transition_chain_verified": true,
+    "substituted_catalog_or_definitions": false,
+    "new_private_functions": 4,
+    "changed_private_functions": 5,
+    "new_private_columns": 1,
+    "internal_schema_usage_grants": 1,
+    "new_public_rpcs": 0,
+    "Native_money_stock_HPP_definitions_unchanged": true,
+    "opening": {
+      "private_STABLE_opening_reader": true,
+      "original_Native_body_and_metadata_unchanged": true,
+      "private_HPP_only_one_callee_replaced": true,
+      "opening_date_and_HPP_arithmetic_unchanged": true,
+      "new_public_rpcs": 0,
+      "broadened_role_privileges": 0
+    },
+    "schedules_changed": false,
+    "timeout_changed": false,
+    "qualification_only": true,
+    "default_adopted": false,
+    "production_go": false
+  },
+  "whole_not_promoted": true,
+  "production_go": false,
+  "independent_acceptance": false,
+  "factory_observation_cutoff": {
+    "elapsed_seconds": 300.148,
+    "observed_job_states": {
+      "6931e893-5b3f-4fa4-9461-c2bdc863fc5f": "RUNNING",
+      "7514510f-a8d6-4763-908c-d0cc527e9462": "RUNNING"
+    },
+    "finance_state": "READY"
+  },
+  "terminal_diagnostics_after_current_cron_quiet": {
+    "job_progress": [
+      {
+        "id": "b4ccc699-fefe-4d5b-8e33-bb7ead06eb59",
+        "request_id": "6931e893-5b3f-4fa4-9461-c2bdc863fc5f",
+        "state": "RUNNING",
+        "units_done": 86,
+        "unit_count": 97,
+        "unit_attempts": 0,
+        "failure_code": null,
+        "created_at": "2026-10-28T01:43:15.405872+00:00",
+        "updated_at": "2026-10-28T01:48:46.861119+00:00"
+      },
+      {
+        "id": "222b703b-4c32-49db-acc7-ff63f24535a4",
+        "request_id": "7514510f-a8d6-4763-908c-d0cc527e9462",
+        "state": "RUNNING",
+        "units_done": 87,
+        "unit_count": 97,
+        "unit_attempts": 0,
+        "failure_code": null,
+        "created_at": "2026-10-28T01:43:10.995454+00:00",
+        "updated_at": "2026-10-28T01:48:47.251688+00:00"
+      }
+    ],
+    "cron_runs": [
+      {
+        "runid": 2,
+        "status": "succeeded",
+        "message": "COMMIT",
+        "start": "2026-10-28 01:44:00.004679+00:00",
+        "end": "2026-10-28 01:45:33.126737+00:00"
+      },
+      {
+        "runid": 3,
+        "status": "succeeded",
+        "message": "COMMIT",
+        "start": "2026-10-28 01:45:33.130647+00:00",
+        "end": "2026-10-28 01:47:13.617855+00:00"
+      },
+      {
+        "runid": 4,
+        "status": "succeeded",
+        "message": "COMMIT",
+        "start": "2026-10-28 01:47:13.621601+00:00",
+        "end": "2026-10-28 01:48:47.284889+00:00"
+      }
+    ],
+    "counters_not_claimed_at_exact_300_second_cutoff": true
+  },
+  "immutable_original": {
+    "name": "CP7_D17_18_CONSISTENT_READERS_STREAM_NATIVE_FACTORY_CRON7.json",
+    "status": "INCOMPLETE",
+    "head": "d36685a259087d9b83beb8fc4f410e4dac9502fd",
+    "run_id": 40613109071,
+    "job_id": 122569172127,
+    "artifact_id": 12785049315,
+    "zip_bytes": 23580040,
+    "zip_sha256": "ae30939eca8c75cba99b8710259ffc66dc194f6940907e62e0f022904b22762f",
+    "bytes": 168464570,
+    "sha256": "f8dd56ef18469dffec7d003cc65e49aea514fa60e3c507e51e95f4de05b11af5",
+    "archive_member": "CP7_D17_18_CONSISTENT_READERS_STREAM_NATIVE_FACTORY_CRON7.json",
+    "package_name": "T3_PACKAGE_INSTALL.json",
+    "package_member": "T3_PACKAGE_INSTALL.json",
+    "package_bytes": 360465,
+    "package_sha256": "e95a598b0797478a6e48c6ba1756147c60b4dc6ecbbed7b5db3152935ec983b1"
+  },
+  "job_log_retention": {
+    "source_run_id": 40613109071,
+    "source_job_id": 122569172127,
+    "source_head": "d36685a259087d9b83beb8fc4f410e4dac9502fd",
+    "bytes": 30671726,
+    "sha256": "938ef879844a2849eeb751b9c59ce5dbed47c8ad8fb6eb6757b16ded75eddd1a",
+    "source": "GitHub Actions job logs raw API response",
+    "database_connections": 0,
+    "ERP_tests_rerun": false,
+    "retention_head": "cccbb80270af6b756d36242404c776a20de1141c",
+    "retention_run": 40619551159,
+    "retention_artifact": 12785949766,
+    "zip_bytes": 22449826,
+    "zip_sha256": "af48801ac4c1b4241d35ef1e9d046b6bddd143aa2e50b3e937d6131173960b77",
+    "first_connector_log_read": "Transport closed"
+  },
+  "all_original_assertions_retained": {
+    "factory": 36,
+    "probe": 9,
+    "runner": 14
+  },
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "real_Auth_browser_cases": 0,
+  "default_adopted": false,
+  "formal_CP7C_started": false
+}

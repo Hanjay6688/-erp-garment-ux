@@ -297,12 +297,26 @@
     }
   ],
   "job_log_retention": {
+    "source_run_id": 40576582149,
+    "source_job_id": 122444519274,
+    "source_head": "af474fe365b83651dae096f988def69e3ef7e8d7",
+    "bytes": 12255553,
+    "sha256": "dae840369a8e57d15c23a910ca49d13ed9c24c54ef9af87503817382d87c93c9",
+    "source": "GitHub Actions job logs raw API response",
+    "database_connections": 0,
+    "ERP_tests_rerun": false,
+    "retention_run": 40613675117,
+    "retention_artifact_id": 12784201571,
+    "retention_zip_bytes": 8644765,
+    "retention_zip_sha256": "4c83d1012a53eb46b37fec49665d45aef0778179f21c20c57a84c6135d5c05a7"
+  },
+  "production_go": false,
+  "independent_acceptance": false,
+  "default_adopted": false,
+  "previous_job_log_retention": {
     "first_two_connector_reads": "Transport closed",
     "public_raw_API_HTTP": 403,
     "read_only_retention_run": 40613315747,
     "ERP_tests_rerun": false
-  },
-  "production_go": false,
-  "independent_acceptance": false,
-  "default_adopted": false
+  }
 }

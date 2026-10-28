@@ -1,3 +1,37 @@
+## A / 28 Oktober 2026 WIB — D3 aktual 6/7; factory49 dan suite8bcf berjalan
+
+A tetap writer uang/stok/HPP dan integrator; B tetap pemilik produksi/perencanaan.
+VENI. VIDI. VICI. ERP. Reliable data adalah dewa. Keuangan termasuk laporan,
+stok, dan HPP adalah raja. Formal tetap **5/16**, `production_go=false`,
+`independent_acceptance=false`; CP7C belum dimulai.
+
+D3 `d36685a2` / run40613109071 selesai **INCOMPLETE, 6 dari 7 grup PASS**.
+Native20, cron publik nyata, seluruh tiga pasangan laporan resmi, private reader
+STABLE dan regresi hash307,2MB lulus. Semua tujuh pemulihan terpasang serta
+pemulihan awal22/data/sequence/role/CP6/advisor lulus. Factory berhenti pada
+batas observer300,148detik dengan dua job RUNNING dan finance READY. Counter86/97
+serta87/97 dicatat sesudah cron tenang, bukan dianggap sampel tepat detik300.
+Lihat `ow15/D17_18_READER_STREAM_D3_ACTUAL.json`; status D3 dan AF lama tidak dinaikkan.
+
+Penerus `49baddbd` / run40620046004 menjalankan ulang tujuh grup dengan **backend
+D3 identik**. Observer memakai koneksi read-only, progres nyata tiap job, batas
+macet150detik dan total900detik; tetap wajib dua DONE serta finance READY.
+17tes dan admisi lengkap27+22+28+16+15+25+25+4085 sumber lulus tanpa DB.
+Kandidat beku, belum PASS. Seluruh36 oracle factory,9 probe dan14 pemulihan tetap.
+
+Suite sumber pertama323 gagal dua fixture; f1be kemudian lulus typecheck tetapi
+suite lengkap mencatat2928PASS/13FAIL di19berkas (10dependensi,2runner,7fixtureSQL).
+Semua hasil asli disimpan. Penerus `8bcf6676` / run40622381199 kini menguji4315
+sumber persis,38berkas B persis dan7manifest beku. Dependensi dipulihkan dari
+commit B yang terikat, tiga fixture memuat helper produk asli, delapan tes Node
+memakai runner Node. Seluruh assertion lama tetap. Suite mencakup kernel
+PostgreSQL native terisolasi; bukan diklaim seluruhnya0DB atau NativeERP/Auth.
+
+UI `a06a173f` tetap **prepared tertutup**,12tesUI+9dependensi lulus,0kasusAuth/browser.
+Harus diikat ke hasil aktual49 yang lulus penuh sebelum uji gabungan desktop/mobile.
+Log lengkap AF dan D3 sudah disimpan lewat pembacaan log saja tanpa mengulang ERP.
+Default installer, integrasi resmi, hosted dan scope B tidak diadopsi atau ditutup.
+
 ## A / 25 Oktober 2026 WIB — label minimum kain lama
 
 Permintaan OW14b bagian06 diterapkan: fakta di detail Data Master memakai
