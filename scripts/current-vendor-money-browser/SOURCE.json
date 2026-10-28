@@ -24,10 +24,10 @@
   ],
   "files": {
     "scripts/current-vendor-money-browser/CONFIG.json": "47be675fa9beee0083bc9b0261fcb65e55b26a0ef555e1f5a33fa68dd30b16f1",
-    "scripts/current-vendor-money-browser/README.md": "7939ddd42c090a7c7343ee1c23fbcca38e62454261300f85405d3e5517037d5f",
+    "scripts/current-vendor-money-browser/README.md": "9b759ba39b5f1b3e82d9ce6d45b982f74e8a0fdc1c955189800f6ea3ccea2861",
     "scripts/current-vendor-money-browser/admission.py": "0806647160d6bcd1816bb6d1d6f2b1c2626adb5efd0f1f184271c0c762bec204",
-    "scripts/current-vendor-money-browser/browser_fixture.py": "6490624a3dd05c9bad64bc3057e64ab4329d17d96ed34b944568cd821b9ddde1",
-    "scripts/current-vendor-money-browser/cases.mjs": "bd45c53e39a32748365cc2f30dc8bd63286cf2a49e16d8683c3d31c4ab9b5c95",
+    "scripts/current-vendor-money-browser/browser_fixture.py": "073e532d3607728f61c7123135fcfbceac9007d84ede03e7bcc6c7356d327a1d",
+    "scripts/current-vendor-money-browser/cases.mjs": "5379984172b8856423a56448a155b90fa05020fdfd6810d455edd6d9136fff2f",
     "scripts/current-vendor-money-browser/check_source.py": "f78805165af4b320d36cb405f92f9fc4eb890b3c060b4297a2ff00fc9c0437b4",
     "scripts/current-vendor-money-browser/fetch_backend.py": "764c88f68343d607d6bcc91580204a9f5e2f658eef9222c4467621e7d86e45fa",
     "scripts/current-vendor-money-browser/probe.py": "3b28cac980c1043e42cde6e879c10fd02a7a43557570612b7b1826d7c77a8530",

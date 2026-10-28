@@ -58,3 +58,9 @@ Foreground dan background dikomposisikan terpisah ke setiap ancestor. Tujuh
 kontrol matematika mencakup opaque, alpha, opacity bersarang, background
 transparan serta penolakan image yang benar-benar berkontribusi. Ini hanya
 bukti alat ukur lokal; kontras UI tetap harus dibuktikan pada browser aktual.
+
+Pemeriksa keuangan/report Native v267+v268 existing juga dijalankan sesudah
+refund, inverse, pemakaian kredit dan revoke. Semua ID pemeriksa harus tetap
+sama dan tidak ada jumlah masalah yang bertambah dibanding fixture sebelum
+aksi layar. Seluruh counts asli disimpan; ini bukan klaim seluruh laporan
+READY atau penutupan kegagalan CP6 historis. Tidak ada pemeriksa yang dilewati.

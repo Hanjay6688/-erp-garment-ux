@@ -28,11 +28,13 @@ with psycopg.connect(url)as connection,connection.cursor()as cur:
             native.bd.api.admin(cur)
             if grant:cur.execute('revoke usage on schema erp from authenticated')
         if target:target['invoice_number']=cur.execute('select invoice_number from erp.bd_laundry_invoices_v1 where id=%s',(target['invoice_id'],)).fetchone()[0]
-        before=native.state(cur,fixture)
+        before=native.state(cur,fixture);truth_before=native.bd.all_truth(cur)
         number=cur.execute('select invoice_number from erp.bd_laundry_invoices_v1 where id=%s',(credit['invoice_id'],)).fetchone()[0]
         connection.commit()
-        result=dict(fixture=fixture,credit_id=credit['invoice_id'],credit_number=number,before=before,next_invoice=target,
+        result=dict(fixture=fixture,credit_id=credit['invoice_id'],credit_number=number,before=before,next_invoice=target,financial_truth_before=truth_before,
             fixture_source='EXISTING_NATIVE_WRITERS_NOT_SCREEN_CREATION',actual_browser_posting=False)
+    elif operation=='truth':
+        result=native.bd.all_truth(cur);connection.rollback()
     elif operation=='state':
         fixture=payload['fixture'];result=native.state(cur,fixture)
         rows=cur.execute("select r.id::text,r.amount::text,case when x.refund_id is null then 'POSTED'else 'REVERSED'end from cp7_vendor_receivable.refunds_v1 r left join cp7_vendor_receivable.reversals_v1 x on x.refund_id=r.id where r.correction_id=%s order by r.id",(payload['credit_id'],)).fetchall()

@@ -32,7 +32,8 @@ async function pricing(ui,user,vendor){
 
 async function journey(ui,today,mobile){
  const user=await ui.login(mobile?'ADMIN':'OWNER',{label:'A-vendor-money-'+mobile,mobile}),page=user.page
- let f;const state=()=>fixture('state',f),shots=[],contrasts=[]
+ let f;const state=()=>fixture('state',f),shots=[],contrasts=[],financialTruth=[]
+ const truth=label=>{const actual=fixture('truth',f);assert.deepEqual(Object.keys(actual).sort(),Object.keys(f.financial_truth_before).sort());for(const key of Object.keys(actual))assert.ok(actual[key]<=f.financial_truth_before[key],JSON.stringify({label,key,before:f.financial_truth_before[key],after:actual[key]}));financialTruth.push({label,counts:actual})}
  const consoleCapture=observeConsole(page),expectedNetwork=[],refundRequests=[],lostReplyTrace={}
  const writeRpc='erp_save_laundry_bd_action_v1'
  const isRefund=request=>request.url().endsWith('/rest/v1/rpc/'+writeRpc)&&request.method()==='POST'&&request.postDataJSON()?.p_action==='RECEIVE_VENDOR_REFUND'
@@ -99,21 +100,21 @@ async function journey(ui,today,mobile){
   const after=state();assert.equal(after.cash,amount);assert.equal(after.refunds.length,1);assert.equal(after.refunds[0].amount,amount);assert.deepEqual(after.origin,f.before.origin);assert.equal(after.ledger.matches,true)
   await ui.expect(value()).toHaveText(money(remaining).replace('Rp','Rp '))
   const row=refund.getByRole('table',{name:'Riwayat pengembalian vendor',exact:true}).locator('tbody tr').filter({hasText:f.credit_number})
-  await ui.expect(row).toContainText('Diposting');contrasts.push({state:'REFUND',rows:await readable(box)});await shot('REFUND')
+  truth('AFTER_REFUND');await ui.expect(row).toContainText('Diposting');contrasts.push({state:'REFUND',rows:await readable(box)});await shot('REFUND')
   let final,inverse=null,application=null,revocation=null
   if(mobile){
    revocation=fixture('revoke',{actor:user.user.id})
    await page.getByRole('button',{name:'Muat ulang harga',exact:true}).click()
    await ui.expect(page.getByText('Hak melihat nominal diperlukan untuk pembayaran vendor.',{exact:true})).toBeVisible()
    await ui.expect(page.getByRole('region',{name:'Pengembalian piutang vendor',exact:true})).not.toBeVisible()
-   await ui.expect(box).not.toBeVisible();final=state();assert.deepEqual(final,after);await shot('ACCESS_HIDDEN')
+   await ui.expect(box).not.toBeVisible();final=state();assert.deepEqual(final,after);truth('AFTER_ACCESS_REVOKE');await shot('ACCESS_HIDDEN')
   }else{
    await refund.getByLabel('Alasan pembatalan pengembalian vendor',{exact:true}).fill('Batal bukti penerimaan salah dari layar')
    await refund.getByRole('button',{name:'Batalkan pengembalian '+f.credit_number,exact:true}).click()
    await ui.expect.poll(()=>state().ar,{timeout:20000}).toBe('3000.00')
    await ui.expect(page.getByRole('button',{name:'Muat ulang harga',exact:true})).toBeEnabled({timeout:20000})
    final=state();assert.equal(final.cash,'0.00');assert.equal(final.refunds.length,1);assert.equal(final.refunds[0].status,'REVERSED');assert.deepEqual(final.origin,f.before.origin);assert.equal(final.ledger.matches,true)
-   await ui.expect(row).toContainText('Dibatalkan');contrasts.push({state:'INVERSE',rows:await readable(box)});await shot('INVERSE')
+   truth('AFTER_INVERSE');await ui.expect(row).toContainText('Dibatalkan');contrasts.push({state:'INVERSE',rows:await readable(box)});await shot('INVERSE')
    inverse=final;assert.equal(inverse.ap,'1000.25');assert.deepEqual(inverse.applications,[])
    await box.getByLabel('Tagihan dilunasi',{exact:true}).selectOption(f.next_invoice.invoice_id)
    await box.getByLabel('Kredit klaim dipakai',{exact:true}).selectOption(f.credit_id)
@@ -132,13 +133,13 @@ async function journey(ui,today,mobile){
    assert.equal(application.result.application_id,application.args.p_client_request_id)
    await ui.expect(value()).toHaveText(money('1999.75').replace('Rp','Rp '))
    const paid=box.getByRole('table',{name:'Tagihan vendor',exact:true}).locator('tbody tr').filter({hasText:f.next_invoice.invoice_number})
-   await ui.expect(paid).toContainText('Lunas');contrasts.push({state:'NEXT_INVOICE_APPLIED',rows:await readable(box)});await shot('NEXT_INVOICE_APPLIED')
+   truth('AFTER_NEXT_INVOICE_CREDIT');await ui.expect(paid).toContainText('Lunas');contrasts.push({state:'NEXT_INVOICE_APPLIED',rows:await readable(box)});await shot('NEXT_INVOICE_APPLIED')
   }
   const width=await page.evaluate(()=>({viewport:innerWidth,page:document.documentElement.scrollWidth}));assert.ok(width.page<=width.viewport,JSON.stringify(width))
   assert.equal(refundRequests.length,mobile?1:2)
   if(!mobile)assert.deepEqual(refundRequests[0],refundRequests[1])
   const consoleEvidence=requireConsoleEvidence(consoleCapture.errors,expectedNetwork)
-  return{status:'PASS',console_evidence:consoleEvidence,lost_reply_trace:lostReplyTrace,refund_requests:refundRequests,actual_Auth_login_and_public_RPC:true,actual_refund_posted_from_screen:true,actual_refund_inverse_from_screen:!mobile,actual_next_invoice_credit_from_screen:!mobile,actual_access_revoked_and_money_hidden:mobile,
+  return{status:'PASS',financial_truth_report_checks_no_new_issues:true,financial_truth_before:f.financial_truth_before,financial_truth_evidence:financialTruth,console_evidence:consoleEvidence,lost_reply_trace:lostReplyTrace,refund_requests:refundRequests,actual_Auth_login_and_public_RPC:true,actual_refund_posted_from_screen:true,actual_refund_inverse_from_screen:!mobile,actual_next_invoice_credit_from_screen:!mobile,actual_access_revoked_and_money_hidden:mobile,
    before:f.before,after,inverse,application,final,revocation,width,shots,visible_text_contrasts:contrasts,fixture_source:f.fixture_source,
    invoice_and_credit_creation_from_screen_claim:false,actual_committed_reply_lost_reload_same_UUID_once:!mobile,B_combined_analysis_browser_repeated:false,production_go:false}
  }catch(error){mkdirSync('cp6-proof/t3',{recursive:true});writeFileSync(`cp6-proof/t3/A_VENDOR_MONEY_${mobile?'MOBILE':'DESKTOP'}_FIRST_FAILURE.json`,JSON.stringify({error:String(error),lost_reply_trace:lostReplyTrace,refund_requests:refundRequests,console_errors:consoleCapture.errors,expected_network_errors:expectedNetwork,alerts:await page.getByRole('alert').allTextContents().catch(()=>[])},null,2));await shot('FAILURE').catch(()=>{});throw error}
