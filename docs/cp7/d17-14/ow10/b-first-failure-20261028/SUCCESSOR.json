@@ -1,0 +1,34 @@
+{
+  "status": "LOCAL_PASS_JAVASCRIPT_CODEQL_PENDING",
+  "owner": "B",
+  "base_sha": "1dd83782dcaa4500bace7bf392a76f58be0271c3",
+  "A_compared_sha": "d24b7128cddbc79312a6058b17b56da047775c75",
+  "branch": "astra-b/ow10-first-failure-exclusive-20261028",
+  "files": {
+    "scripts/cp7_ow10_statistical_local.mjs": "2f2d02ed883a3fa018f8bd422e7879b58bb6ab7e4076232df3c63c372e729f57",
+    "scripts/cp7_first_failure_evidence.mjs": "41b059ed810c57c97f2ee05f4722ad7c415b7828b1e24c9c098962ee9cd9f34d",
+    "scripts/cp7_first_failure_evidence.test.mjs": "f14383aa6966513256496a0871b0175809697e941720010a08d7787210453c21",
+    ".github/workflows/cp7-b-ow10-first-failure-codeql.yml": "e42166585a5793fdcfe622431792b81ed89887c7d85969303caae519924a7a0a"
+  },
+  "statistical_body_exact_to_base": true,
+  "A_target_exact_to_B_base": true,
+  "historical_first_failure_sha256": "faa12e77fd804a406fc84f8f7e459fe2997c7b84f8b8c9c812680b5954489fa8",
+  "local_filesystem_tests": {
+    "passed": 4,
+    "failed": 0,
+    "duration_ms": 450.5959,
+    "real_concurrent_processes": 2
+  },
+  "related_statistical": {
+    "passed": 5,
+    "failed": 0,
+    "catalog_groups": 22,
+    "classification": "LOCAL_ACTUAL_SQL_WITH_CONTROLLED_ERP_HISTORY_IDENTITY_NOT_NATIVE",
+    "first_setup_failure": "related-first.log",
+    "second_setup_failure": "related-second.log",
+    "passing_original": "related-third.log"
+  },
+  "production_go": false,
+  "independent_acceptance": false,
+  "formal": "5/16"
+}

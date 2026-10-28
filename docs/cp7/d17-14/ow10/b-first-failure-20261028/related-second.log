@@ -1,0 +1,50 @@
+file:///workspace/scratch/b6947bc7a657/erp-b-20261028/scripts/cp7_local_stage_audit.mjs:15
+ child.on('close',code=>{clearTimeout(timer);if(code!==0)fail(Error('Local stage audit failed: '+stderr));else if(!finished)fail(Error('Local stage audit ended without a result'))})
+                                                              ^
+
+Error: Local stage audit failed: Traceback (most recent call last):
+  File "/workspace/scratch/b6947bc7a657/ow10-related-output/scripts/cp7_local_stage_audit.py", line 14, in <module>
+    import cp7_ow04_restore_bundle as catalog
+  File "/workspace/scratch/b6947bc7a657/erp-b-20261028/scripts/cp7_ow04_restore_bundle.py", line 20, in <module>
+    import cp7_full_owning_install as product
+  File "/workspace/scratch/b6947bc7a657/erp-b-20261028/scripts/cp7_full_owning_install.py", line 24, in <module>
+    import cp7_p12_nota_probe as payroll
+  File "/workspace/scratch/b6947bc7a657/erp-b-20261028/scripts/cp7_p12_nota_probe.py", line 11, in <module>
+    import cp7_nota_cases as notes
+  File "/workspace/scratch/b6947bc7a657/erp-b-20261028/scripts/cp7_nota_cases.py", line 7, in <module>
+    import cp7_nota_source_cases as source
+  File "/workspace/scratch/b6947bc7a657/erp-b-20261028/scripts/cp7_nota_source_cases.py", line 4, in <module>
+    import cp7_fg_cases as fg
+  File "/workspace/scratch/b6947bc7a657/erp-b-20261028/scripts/cp7_fg_cases.py", line 5, in <module>
+    import cp6_ax_probe as ax
+  File "/workspace/scratch/b6947bc7a657/erp-b-20261028/scripts/cp6_ax_probe.py", line 21, in <module>
+    import cp6_aw_probe as awp
+  File "/workspace/scratch/b6947bc7a657/ow10-related-output/scripts/cp6_aw_probe.py", line 24, in <module>
+    import cp6_au_r1_probe as r1
+  File "/workspace/scratch/b6947bc7a657/ow10-related-output/scripts/cp6_au_r1_probe.py", line 28, in <module>
+    import cp6_au_trial as writer
+  File "/workspace/scratch/b6947bc7a657/ow10-related-output/scripts/cp6_au_trial.py", line 12, in <module>
+    import cp6_au_runtime as runtime
+  File "/workspace/scratch/b6947bc7a657/ow10-related-output/scripts/cp6_au_runtime.py", line 6, in <module>
+    import cp6_au_build as build
+  File "/workspace/scratch/b6947bc7a657/ow10-related-output/scripts/cp6_au_build.py", line 4, in <module>
+    import cp6_ao_ap_build as package
+  File "/workspace/scratch/b6947bc7a657/ow10-related-output/scripts/cp6_ao_ap_build.py", line 5, in <module>
+    import cp6_v2620ap_definitions as ap
+  File "/workspace/scratch/b6947bc7a657/ow10-related-output/scripts/cp6_v2620ap_definitions.py", line 5, in <module>
+    CATALOG = json.loads(Path('src/initialImportCatalog.json').read_text())
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py", line 1027, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'src/initialImportCatalog.json'
+
+    at ChildProcess.<anonymous> (file:///workspace/scratch/b6947bc7a657/erp-b-20261028/scripts/cp7_local_stage_audit.mjs:15:63)
+    at ChildProcess.emit (node:events:514:28)
+    at maybeClose (node:internal/child_process:1172:16)
+    at ChildProcess._handle.onexit (node:internal/child_process:335:5)
+
+Node.js v24.22.1
