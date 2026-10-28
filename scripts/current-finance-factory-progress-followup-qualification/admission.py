@@ -9,7 +9,13 @@ def load(name,path):
     module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module);return module
 
 
+def gate(config):
+    evidence=load('factory_progress_runtime_AF_gate',Path(__file__).with_name('evidence.py'))
+    return evidence.gate(config)
+
+
 def admitted(repo,here,ids,product,native):
+    gate(json.loads((here/'CONFIG.json').read_bytes()))
     evidence=load('factory_progress_retained_D3',here/'retained_d3.py')
     config=json.loads((here/'D3_PREREQUISITE.json').read_bytes());proof=evidence.gate(config)
     source=json.loads((here/'SOURCE.json').read_bytes());assert source['case_ids']==list(ids)
