@@ -30,5 +30,14 @@
     "OW08B_VENDOR_AMOUNT_DATE_ACCOUNT_REFUSALS",
     "OW08B_VENDOR_OPENING_APPLICATION_AND_INVERSE",
     "OW08B_VENDOR_UNLINKED_JOURNAL_DETECTED"
-  ]
+  ],
+  "first_failure_original": {
+    "name": "CP7_VENDOR_RECEIVABLE_NATIVE7.json",
+    "bytes": 3311395,
+    "sha256": "3c65d4249c43c7b1d3df3bf2c913a63f050aad488feb4deb5600208dd51129ce",
+    "artifact_id": 12842526926,
+    "run_id": 40741343738,
+    "job_id": 123003448565,
+    "head": "f30ffc8d7386d6b202c91e9f1b55e672af58c720"
+  }
 }

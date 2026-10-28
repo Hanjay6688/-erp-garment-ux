@@ -64,9 +64,17 @@ def use(cur,f,source,target,amount,kind='VENDOR_INVOICE',key=None):
 
 def state(cur,f):
     bd.api.admin(cur)
-    return dict(origin=cur.execute("select h.status,h.total_amount::text,(select jsonb_agg(to_jsonb(p)order by p.id)from erp.vendor_payments p where p.vendor_invoice_id=h.id)from erp.vendor_invoices h where h.id=%s",(f['invoice'],)).fetchone(),
-        ar=str(one(cur,"select coalesce(sum(l.debit-l.credit),0)from erp.journal_lines l join erp.journal_entries j on j.id=l.journal_entry_id where j.status in('POSTED','REVERSED')and l.account_id=%s",f['ar'])),
-        ap=bd.ap(cur,f['vendor']),cash=str(one(cur,"select coalesce(sum(l.debit-l.credit),0)from erp.journal_lines l join erp.journal_entries j on j.id=l.journal_entry_id where j.status in('POSTED','REVERSED')and l.account_id=%s",funding.coa(cur,f['cash']))))
+    # Retained refusal/boundary helpers select UTC. to_jsonb(timestamptz)
+    # follows that GUC, so compare every original field in one representation.
+    # No timestamp, column or business amount is removed or changed (E25z).
+    zone=cur.execute('show timezone').fetchone()[0]
+    try:
+        cur.execute("select set_config('TimeZone','UTC',true)")
+        return dict(origin=cur.execute("select h.status,h.total_amount::text,(select jsonb_agg(to_jsonb(p)order by p.id)from erp.vendor_payments p where p.vendor_invoice_id=h.id)from erp.vendor_invoices h where h.id=%s",(f['invoice'],)).fetchone(),
+            ar=str(one(cur,"select coalesce(sum(l.debit-l.credit),0)from erp.journal_lines l join erp.journal_entries j on j.id=l.journal_entry_id where j.status in('POSTED','REVERSED')and l.account_id=%s",f['ar'])),
+            ap=bd.ap(cur,f['vendor']),cash=str(one(cur,"select coalesce(sum(l.debit-l.credit),0)from erp.journal_lines l join erp.journal_entries j on j.id=l.journal_entry_id where j.status in('POSTED','REVERSED')and l.account_id=%s",funding.coa(cur,f['cash']))))
+    finally:
+        cur.execute("select set_config('TimeZone',%s,true)",(zone,))
 
 def cases(cur,today):
     def paid_hpp():
@@ -100,7 +108,7 @@ def cases(cur,today):
         return dict(status='PASS',refund=r,ledger=s['ledger'],double_use_refused=refused)
 
     def replay_inverse():
-        f=fixture(cur,today);origin=state(cur,f)['origin'];c=correction(cur,f);key=uuid.uuid4()
+        f=fixture(cur,today);before=state(cur,f);origin=before['origin'];c=correction(cur,f);key=uuid.uuid4()
         r=refund(cur,f,c['invoice_id'],key=key);again=refund(cur,f,c['invoice_id'],key=key)
         assert again['replayed']is True and again['refund_id']==r['refund_id']
         assert one(cur,'select count(*)from cp7_vendor_receivable.refunds_v1 where id=%s',str(key))==1
@@ -108,11 +116,15 @@ def cases(cur,today):
         version=str(one(cur,'select row_version from erp.bd_laundry_invoices_v1 where id=%s',c['invoice_id']))
         locked=bd.refused(cur,lambda:bd.bd(cur,'REVERSE_INVOICE',dict(invoice_id=c['invoice_id'],expected_version=version,reason='OW08b masih ada uang dikembalikan')),'BD_CLAIM_CREDIT_IN_USE');assert locked['ok'],locked
         inv=bd.bd(cur,'REVERSE_VENDOR_REFUND',dict(refund_id=r['refund_id'],reason='OW08b batal bukti pengembalian'))
-        assert state(cur,f)['ar']=='3000.00'and state(cur,f)['origin']==origin
+        after_refund_inverse=state(cur,f)
+        assert after_refund_inverse['ar']=='3000.00'and after_refund_inverse['origin']==origin,dict(expected_ar='3000.00',expected_origin=origin,observed=after_refund_inverse)
         assert one(cur,'select count(*)from cp7_vendor_receivable.refunds_v1 where id=%s',r['refund_id'])==1
         bd.bd(cur,'REVERSE_INVOICE',dict(invoice_id=c['invoice_id'],expected_version=version,reason='OW08b batal koreksi sesudah refund dibalik'))
-        assert state(cur,f)['ar']=='0.00'and state(cur,f)['origin']==origin
-        return dict(status='PASS',original_refund=r,replayed=again,reversal=inv,origin_history_immutable=True,source_reversed=True)
+        after_source_inverse=state(cur,f)
+        assert after_source_inverse['ar']=='0.00'and after_source_inverse['origin']==origin,dict(expected_ar='0.00',expected_origin=origin,observed=after_source_inverse)
+        return dict(status='PASS',original_refund=r,replayed=again,reversal=inv,before=before,
+            after_refund_inverse=after_refund_inverse,after_source_inverse=after_source_inverse,
+            origin_history_immutable=True,source_reversed=True,metadata_comparison_timezone='UTC')
 
     def refusals():
         f=fixture(cur,today)

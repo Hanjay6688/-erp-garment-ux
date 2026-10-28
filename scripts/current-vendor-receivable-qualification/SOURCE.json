@@ -37,27 +37,28 @@
     "src/LaundryVendorReceivable.dom.test.tsx",
     "src/laundryBd.test.ts",
     "src/laundryBd.ts",
-    "src/productionRecovery.ts"
+    "src/productionRecovery.ts",
+    "scripts/cp7_vendor_receivable/test_state_timezone.py"
   ],
   "files": {
-    ".github/workflows/cp7-current-vendor-receivable-native.yml": "323eb0b49807635c9cc340db4758f58427ffb65ccbe3e337b77c21a364a228ef",
+    ".github/workflows/cp7-current-vendor-receivable-native.yml": "ef98c1b46fed108ddc84b7b152a19aee373c9dbc4a0ff07f8b0249de29efa34f",
     "docs/cp7/OPEN_WORK_D17_14_20261020.md": "3442dfbf5059d242103ebced01e3cb62edb224ede22f17e71842ce26bdc88978",
     "docs/cp7/OWNER_VENDOR_RECEIVABLE_20261029.md": "d767eae7913a319ad6baf1f3964561936ec843b3a6cb23fa2970ffbabe255639",
     "docs/cp7/d17-14/ow08/OW08B.md": "7c5d0a0bea59c1f516b001a7e9ecfd3b8019f09554aa28eba535427352401939",
     "docs/cp7/d17-14/ow15/B_SCOPE_RECONCILIATION_REQUEST_20261029.md": "f26fbe1a2d3908fbfb32cf4e975d62e50cb24b6b6c156c83cbf28725987737c3",
     "docs/cp7/handoff/CP75_CP7C_CP8_SAMBUNGAN_PREPARED_20261028.md": "73bfbf11feb9a3f0965c0565006af0ace6c00670594b21eebfae8960bb0b042e",
-    "scripts/cp7_vendor_receivable/README.md": "2c90830016153f8af0544fe39fe9e71513142563400eb626f7bc1596b3f6d605",
+    "scripts/cp7_vendor_receivable/README.md": "7c3376daa225e3bf7e517295c5d6859f2eac2579274b9cddc6b241c2056fcb3d",
     "scripts/cp7_vendor_receivable/__init__.py": "4b6b3e2217cf6fe4045167cb8745e93eb42c637defed651ef94cd252ed0f08e2",
-    "scripts/cp7_vendor_receivable/cases.py": "e4349849c6fa6bb053a42d5f92cc1975cb47517f51516de2361c9cef863af2a2",
+    "scripts/cp7_vendor_receivable/cases.py": "950897dc788bad531811b6f2adfcefebe1d3373039f0b7a3822ebb55af8fa373",
     "scripts/cp7_vendor_receivable/composition.py": "b0bc106121932deb18a342299ec7ffb1a314abaca9d77879df29784261821df2",
     "scripts/cp7_vendor_receivable/local_contract_test.mjs": "eba3a1fa0b876d26413cbef9a6d1d9ec577f9bea4f06ea97c2af45c411285b72",
     "scripts/cp7_vendor_receivable/local_fixture.sql": "b71a0316e14234fca1e278737ae5caf16d21ef6e32e66db10584050ee15b1dfb",
     "scripts/cp7_vendor_receivable/native_delta.py": "bd0f41be50fea0ab64b19c15d8a09fc7940782507c35482911dd86c36403a52b",
     "scripts/cp7_vendor_receivable/receivable.sql": "c01bc92e3e6a59e76648a1ebb96546f21a81d3e00b21132881ab52fa5b96d6bf",
     "scripts/cp7_vendor_receivable/test_derivation.py": "ce5b543cdbbaa85840cab86348be112946becd66565ac449a15e2ee66abc4e39",
-    "scripts/current-vendor-receivable-qualification/CONFIG.json": "732a6a7016757a0ce4f0f4232162ca056b595a354799629f51e147675685d07c",
+    "scripts/current-vendor-receivable-qualification/CONFIG.json": "69af35896cc9e42d9c6c9d40d8e23020085669d813be8bdbdfceb79152bc4e16",
     "scripts/current-vendor-receivable-qualification/README.md": "380c21bca774d9be75e8cad5b2ca2047b58535405704c71cd30500a6a9c2caa8",
-    "scripts/current-vendor-receivable-qualification/admission.py": "474cff92220dfff0351654a1b2d568bb2d9f9c568bdb2bf62353ecc5135fb214",
+    "scripts/current-vendor-receivable-qualification/admission.py": "b54bf42a09cce452dab5ec98d653d535b36553ef13490e1d7d0cd43b8867be4f",
     "scripts/current-vendor-receivable-qualification/check_source.py": "0c4db4ed9fd8c5ac989aa20516ce93323614b359dda88fee0ea7cb5f1e79bf8b",
     "scripts/current-vendor-receivable-qualification/probe.py": "ed565a5ab7ad23de707a29480e30fa31b3460db56d0ebaf0ba24d8faa614d918",
     "scripts/current-vendor-receivable-qualification/runner.py": "debd69693dc444861aa193b644144eb3a6ee0e7eb0d279f671fcfad82aebdd0d",
@@ -65,8 +66,18 @@
     "src/LaundryVendorReceivable.dom.test.tsx": "f114f6a6f191de5dc9c1d62ff0fe8f535c0aa19cdc7bf2c1d69b23deb42e4747",
     "src/laundryBd.test.ts": "3dc032c9bdfc003c0a7acda9797b6192a861c4ad87c1a2eca9da6e9c1675acf5",
     "src/laundryBd.ts": "33b743aa5402f9ec349115ca7074230684119b157e2d51b557b610574ccec864",
-    "src/productionRecovery.ts": "468ade771b58b3b188a15a03f00c6625bbd1e5b6dd551d542cf424a7c2963b18"
+    "src/productionRecovery.ts": "468ade771b58b3b188a15a03f00c6625bbd1e5b6dd551d542cf424a7c2963b18",
+    "scripts/cp7_vendor_receivable/test_state_timezone.py": "a26c9c3176fa5b077ddfc1d25cb004a89993abbe44bd0bdbd90e95ebb364fffb"
   },
   "production_go": false,
-  "independent_acceptance": false
+  "independent_acceptance": false,
+  "predecessor_attempt": {
+    "head": "f30ffc8d7386d6b202c91e9f1b55e672af58c720",
+    "run_id": 40741343738,
+    "result": "6_PASS_1_INCOMPLETE",
+    "status": "RETAINED_UNCHANGED",
+    "runtime_changed": false,
+    "observer_change": "UTC_complete_rows_restore_previous_TimeZone",
+    "business_oracles_relaxed": false
+  }
 }

@@ -2,7 +2,7 @@ name: CP7 vendor receivable Native successor
 'on':
   push:
     branches:
-    - astra-a/ow08b-vendor-receivable-native-20261029
+    - astra-a/ow08b-vendor-native-utc-successor-20261029
     paths:
     - .github/workflows/cp7-current-vendor-receivable-native.yml
     - scripts/current-vendor-receivable-qualification/**
@@ -15,7 +15,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   p21:
-    name: CP7 vendor receivable Native7 and complete restore
+    name: CP7 vendor Native7 UTC observer and complete restore
     runs-on: ubuntu-24.04
     timeout-minutes: 120
     env:
@@ -365,7 +365,7 @@ jobs:
       working-directory: auditor
       run: "set -euo pipefail\npython - <<'INNER'\nfrom pathlib import Path\nfrom hashlib import sha256\nimport json,os,subprocess,zipfile,io\n\
         root=Path(os.environ['RUNNER_TEMP'])/'return-race-originals';root.mkdir()\ncfg=json.loads(Path('scripts/current-vendor-receivable-qualification/CONFIG.json').read_bytes())\n\
-        for kind in ('backend_original',):\n p=cfg[kind];prefix='repos/Hanjay6688/-erp-garment-ux/actions/artifacts/'+str(p['artifact_id'])\n\
+        for kind in ('backend_original','first_failure_original'):\n p=cfg[kind];prefix='repos/Hanjay6688/-erp-garment-ux/actions/artifacts/'+str(p['artifact_id'])\n\
         \ a=json.loads(subprocess.check_output(['gh','api',prefix]));assert a['workflow_run']['id']==p['run_id']and not a['expired']\n raw=subprocess.check_output(['gh','api',prefix+'/zip'])\n\
         \ assert len(raw)==a['size_in_bytes']and 'sha256:'+sha256(raw).hexdigest()==a['digest']\n (root/(str(p['artifact_id'])+'.zip')).write_bytes(raw)\n\
         \ with zipfile.ZipFile(io.BytesIO(raw))as z:\n  assert z.testzip()is None;data=z.read(p['name'])\n assert len(data)==p['bytes']and sha256(data).hexdigest()==p['sha256']\n\
