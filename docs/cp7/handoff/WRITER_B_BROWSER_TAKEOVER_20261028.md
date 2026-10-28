@@ -1,3 +1,9 @@
+# Latest B checkpoint — actual browser tooling verified, 28 October 2026
+
+Continue from the B browser preparation branch or `astra-b/d17-18-browser-runtime-check-20261028`. The small actual-Chromium tooling check is complete: source a9d0fb4a, run40658559666/job122715532407/artifact12802397171, desktop+mobile PASS with six checks each. Original, install logs, raw console events, full job log and source/byte receipts are in `docs/cp7/d17-18/b-browser-takeover-20261028/runtime/`. Same pinned Chromium151.0.7922.34 and unchanged console recorder; CI installation works. The old local download failure stays preserved and its root cause is not claimed solved.
+
+This is tooling-only browser proof, with zero ERP/Auth cases and zero DB connections. Existing113host/91B, official values, source admission and restoration gates remain unchanged. Actual combined Auth/browser and six visual screenshots still require A's eligible exact backend. No backend has been selected in latest checked A7657bbee. Do not rerun the passed tooling suite without a changed risk; bind the real ERP candidate only after A provides its full prerequisite evidence. Formal5/16, production_go=false, independent_acceptance=false, CP7C not started.
+
 # Writer B — active browser continuation, 28 October 2026
 
 VENI. VIDI. VICI. ERP — I CONQUERED ERP.

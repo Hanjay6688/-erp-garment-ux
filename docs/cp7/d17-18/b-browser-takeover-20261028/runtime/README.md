@@ -9,3 +9,9 @@ The server binds only127.0.0.1 and serves instrumentation fixtures. No ERP, Auth
 Latest checked A is7657bbee5d55277855a0ab53126438c2e9c63118; no backend is selected. After this diagnostic B still requires A's exact qualified backend and all7/restore Originals before the actual combined browser candidate can be bound. Formal5/16, production_go=false, independent_acceptance=false, CP7C not started.
 
 The source receipt is PREPARED.json; actual CI result will be appended separately. No success is claimed before inspecting the report and artifact.
+
+## Actual result
+
+Run40658559666/job122715532407 attempt1 SUCCESS on source a9d0fb4afc35a3540fcb0ecc7d1fd12c80e5a64f, tree91263d0e4a5365785b01de05a8875684473eafc5. Artifact12802397171 is retained in full; ZIP digest/CRC, exact report, source pins and both six-check case records were inspected. Chromium151.0.7922.34 installed and launched in CI with the unchanged package-lock. Desktop and mobile both PASS, with all12 intentionally generated console errors retained and listeners removed. Node suite910.665761ms; desktop384.836924ms and mobile86.963894ms. No timer-based delay, retry or limit increase was added.
+
+This removes the practical CI browser-runtime obstacle and validates the recorder against actual Chromium messages. It does not establish the cause of the earlier local invalidZIP download; that failure remains retained. The ERP/Auth browser candidate is still unbound and no new financial or visual acceptance is claimed. A's qualified backend remains the external dependency.

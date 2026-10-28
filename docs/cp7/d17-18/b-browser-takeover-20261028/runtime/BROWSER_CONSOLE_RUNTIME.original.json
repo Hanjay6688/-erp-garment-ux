@@ -1,0 +1,404 @@
+{
+  "classification": "ACTUAL_CHROMIUM_TOOLING_ONLY_NO_ERP_AUTH_OR_DATABASE",
+  "status": "PASS",
+  "candidate_commit": "a9d0fb4afc35a3540fcb0ecc7d1fd12c80e5a64f",
+  "cases": [
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "status": "PASS",
+      "observations": [
+        {
+          "case": "REAL_APPLICATION_CONSOLE_ERROR_REJECTED",
+          "errors": [
+            {
+              "text": "B_CONSOLE_TOOL_APPLICATION_ERROR",
+              "location": {
+                "url": "",
+                "line": 0,
+                "column": 12,
+                "lineNumber": 0,
+                "columnNumber": 12
+              }
+            }
+          ]
+        },
+        {
+          "case": "REAL_ABORT_MESSAGE_AND_URL_MATCH",
+          "proof": {
+            "observed": [
+              {
+                "text": "Failed to load resource: net::ERR_FAILED",
+                "location": {
+                  "url": "http://127.0.0.1:38165/lost",
+                  "line": 0,
+                  "column": 0,
+                  "lineNumber": 0,
+                  "columnNumber": 0
+                }
+              }
+            ],
+            "expected_network_errors": [
+              {
+                "text": "Failed to load resource: net::ERR_FAILED",
+                "location": {
+                  "url": "http://127.0.0.1:38165/lost",
+                  "line": 0,
+                  "column": 0,
+                  "lineNumber": 0,
+                  "columnNumber": 0
+                },
+                "reason": "deliberately aborted tooling response"
+              }
+            ],
+            "unexpected_errors": []
+          }
+        },
+        {
+          "case": "WRONG_EXPECTED_URL_REFUSED"
+        },
+        {
+          "case": "REAL_HTTP403_MESSAGE_AND_URL_MATCH",
+          "proof": {
+            "observed": [
+              {
+                "text": "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+                "location": {
+                  "url": "http://127.0.0.1:38165/denied",
+                  "line": 0,
+                  "column": 0,
+                  "lineNumber": 0,
+                  "columnNumber": 0
+                }
+              }
+            ],
+            "expected_network_errors": [
+              {
+                "text": "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+                "location": {
+                  "url": "http://127.0.0.1:38165/denied",
+                  "line": 0,
+                  "column": 0,
+                  "lineNumber": 0,
+                  "columnNumber": 0
+                },
+                "reason": "tooling server returns actual403"
+              }
+            ],
+            "unexpected_errors": []
+          }
+        },
+        {
+          "case": "REAL_UNEXPECTED_HTTP404_REJECTED",
+          "errors": [
+            {
+              "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+              "location": {
+                "url": "http://127.0.0.1:38165/missing",
+                "line": 0,
+                "column": 0,
+                "lineNumber": 0,
+                "columnNumber": 0
+              }
+            }
+          ]
+        },
+        {
+          "case": "ONE_ALLOWANCE_CANNOT_HIDE_TWO_REAL_ERRORS",
+          "errors": [
+            {
+              "text": "Failed to load resource: net::ERR_FAILED",
+              "location": {
+                "url": "http://127.0.0.1:38165/lost",
+                "line": 0,
+                "column": 0,
+                "lineNumber": 0,
+                "columnNumber": 0
+              }
+            },
+            {
+              "text": "Failed to load resource: net::ERR_FAILED",
+              "location": {
+                "url": "http://127.0.0.1:38165/lost",
+                "line": 0,
+                "column": 0,
+                "lineNumber": 0,
+                "columnNumber": 0
+              }
+            }
+          ]
+        }
+      ],
+      "listener_removed": true,
+      "all_console_errors": [
+        {
+          "text": "B_CONSOLE_TOOL_APPLICATION_ERROR",
+          "location": {
+            "url": "",
+            "line": 0,
+            "column": 12,
+            "lineNumber": 0,
+            "columnNumber": 12
+          }
+        },
+        {
+          "text": "Failed to load resource: net::ERR_FAILED",
+          "location": {
+            "url": "http://127.0.0.1:38165/lost",
+            "line": 0,
+            "column": 0,
+            "lineNumber": 0,
+            "columnNumber": 0
+          }
+        },
+        {
+          "text": "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+          "location": {
+            "url": "http://127.0.0.1:38165/denied",
+            "line": 0,
+            "column": 0,
+            "lineNumber": 0,
+            "columnNumber": 0
+          }
+        },
+        {
+          "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+          "location": {
+            "url": "http://127.0.0.1:38165/missing",
+            "line": 0,
+            "column": 0,
+            "lineNumber": 0,
+            "columnNumber": 0
+          }
+        },
+        {
+          "text": "Failed to load resource: net::ERR_FAILED",
+          "location": {
+            "url": "http://127.0.0.1:38165/lost",
+            "line": 0,
+            "column": 0,
+            "lineNumber": 0,
+            "columnNumber": 0
+          }
+        },
+        {
+          "text": "Failed to load resource: net::ERR_FAILED",
+          "location": {
+            "url": "http://127.0.0.1:38165/lost",
+            "line": 0,
+            "column": 0,
+            "lineNumber": 0,
+            "columnNumber": 0
+          }
+        }
+      ]
+    },
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "status": "PASS",
+      "observations": [
+        {
+          "case": "REAL_APPLICATION_CONSOLE_ERROR_REJECTED",
+          "errors": [
+            {
+              "text": "B_CONSOLE_TOOL_APPLICATION_ERROR",
+              "location": {
+                "url": "",
+                "line": 0,
+                "column": 12,
+                "lineNumber": 0,
+                "columnNumber": 12
+              }
+            }
+          ]
+        },
+        {
+          "case": "REAL_ABORT_MESSAGE_AND_URL_MATCH",
+          "proof": {
+            "observed": [
+              {
+                "text": "Failed to load resource: net::ERR_FAILED",
+                "location": {
+                  "url": "http://127.0.0.1:38165/lost",
+                  "line": 0,
+                  "column": 0,
+                  "lineNumber": 0,
+                  "columnNumber": 0
+                }
+              }
+            ],
+            "expected_network_errors": [
+              {
+                "text": "Failed to load resource: net::ERR_FAILED",
+                "location": {
+                  "url": "http://127.0.0.1:38165/lost",
+                  "line": 0,
+                  "column": 0,
+                  "lineNumber": 0,
+                  "columnNumber": 0
+                },
+                "reason": "deliberately aborted tooling response"
+              }
+            ],
+            "unexpected_errors": []
+          }
+        },
+        {
+          "case": "WRONG_EXPECTED_URL_REFUSED"
+        },
+        {
+          "case": "REAL_HTTP403_MESSAGE_AND_URL_MATCH",
+          "proof": {
+            "observed": [
+              {
+                "text": "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+                "location": {
+                  "url": "http://127.0.0.1:38165/denied",
+                  "line": 0,
+                  "column": 0,
+                  "lineNumber": 0,
+                  "columnNumber": 0
+                }
+              }
+            ],
+            "expected_network_errors": [
+              {
+                "text": "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+                "location": {
+                  "url": "http://127.0.0.1:38165/denied",
+                  "line": 0,
+                  "column": 0,
+                  "lineNumber": 0,
+                  "columnNumber": 0
+                },
+                "reason": "tooling server returns actual403"
+              }
+            ],
+            "unexpected_errors": []
+          }
+        },
+        {
+          "case": "REAL_UNEXPECTED_HTTP404_REJECTED",
+          "errors": [
+            {
+              "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+              "location": {
+                "url": "http://127.0.0.1:38165/missing",
+                "line": 0,
+                "column": 0,
+                "lineNumber": 0,
+                "columnNumber": 0
+              }
+            }
+          ]
+        },
+        {
+          "case": "ONE_ALLOWANCE_CANNOT_HIDE_TWO_REAL_ERRORS",
+          "errors": [
+            {
+              "text": "Failed to load resource: net::ERR_FAILED",
+              "location": {
+                "url": "http://127.0.0.1:38165/lost",
+                "line": 0,
+                "column": 0,
+                "lineNumber": 0,
+                "columnNumber": 0
+              }
+            },
+            {
+              "text": "Failed to load resource: net::ERR_FAILED",
+              "location": {
+                "url": "http://127.0.0.1:38165/lost",
+                "line": 0,
+                "column": 0,
+                "lineNumber": 0,
+                "columnNumber": 0
+              }
+            }
+          ]
+        }
+      ],
+      "listener_removed": true,
+      "all_console_errors": [
+        {
+          "text": "B_CONSOLE_TOOL_APPLICATION_ERROR",
+          "location": {
+            "url": "",
+            "line": 0,
+            "column": 12,
+            "lineNumber": 0,
+            "columnNumber": 12
+          }
+        },
+        {
+          "text": "Failed to load resource: net::ERR_FAILED",
+          "location": {
+            "url": "http://127.0.0.1:38165/lost",
+            "line": 0,
+            "column": 0,
+            "lineNumber": 0,
+            "columnNumber": 0
+          }
+        },
+        {
+          "text": "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+          "location": {
+            "url": "http://127.0.0.1:38165/denied",
+            "line": 0,
+            "column": 0,
+            "lineNumber": 0,
+            "columnNumber": 0
+          }
+        },
+        {
+          "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+          "location": {
+            "url": "http://127.0.0.1:38165/missing",
+            "line": 0,
+            "column": 0,
+            "lineNumber": 0,
+            "columnNumber": 0
+          }
+        },
+        {
+          "text": "Failed to load resource: net::ERR_FAILED",
+          "location": {
+            "url": "http://127.0.0.1:38165/lost",
+            "line": 0,
+            "column": 0,
+            "lineNumber": 0,
+            "columnNumber": 0
+          }
+        },
+        {
+          "text": "Failed to load resource: net::ERR_FAILED",
+          "location": {
+            "url": "http://127.0.0.1:38165/lost",
+            "line": 0,
+            "column": 0,
+            "lineNumber": 0,
+            "columnNumber": 0
+          }
+        }
+      ]
+    }
+  ],
+  "failures": [],
+  "ERP_cases": 0,
+  "Auth_cases": 0,
+  "database_connections": 0,
+  "production_go": false,
+  "independent_acceptance": false,
+  "backend_gate_closed": true,
+  "sources": {
+    "package-lock.json": "3f52c1eb326b53129977e78e7c95b14e0d0bebd8c8229e0cab96e88c85d88195",
+    "scripts/cp7_browser_console_runtime_test.mjs": "83fd292a123d96289294fec9039c014974bfd7c71b275e810c2d63049b0428fc",
+    "scripts/current-finance-combined-browser-qualification/console_evidence.mjs": "83009dcba01aabb4e9bcf6eb5c4672924d1f288cfe3ff6fbbdbe123f19d67c73"
+  },
+  "chromium_version": "151.0.7922.34"
+}
