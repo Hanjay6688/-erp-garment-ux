@@ -301,7 +301,18 @@
     "docs/cp7/d17-14/KOORDINASI.md",
     "docs/cp7/d17-14/ow15/A_B_DRIVER_BROWSER_3194_INTAKE_20261028.json",
     "docs/cp7/d17-14/ow15/ACTIVE_WRITER_A_20261025.json",
-    "docs/cp7/d17-14/ow15/CP7_AUDITOR_HANDOFF_INDEX_PREPARED_20261028.json"
+    "docs/cp7/d17-14/ow15/CP7_AUDITOR_HANDOFF_INDEX_PREPARED_20261028.json",
+    "docs/cp7/OWNER_VENDOR_RECEIVABLE_20261029.md",
+    "docs/cp7/d17-14/ow08/OW08B.md",
+    "docs/cp7/d17-14/ow15/B_SCOPE_RECONCILIATION_REQUEST_20261029.md",
+    "docs/cp7/d17-14/ow15/CP6_CURRENT_BOUNDARIES_20261024.md",
+    "docs/cp7/framework-v2/registries/closure_current_20261029.json",
+    "docs/cp7/d17-14/ow15/return-reverse3194-3a366ed6-pass.json",
+    "docs/cp7/d17-14/ow15/return-reverse3194-3a366ed6-pass/ORIGINAL_MEMBERS.json",
+    "docs/cp7/d17-14/ow15/return-reverse3194-3a366ed6-pass/T3_PACKAGE_FILES_INSTALL.json.gz",
+    "docs/cp7/d17-14/ow15/return-reverse3194-3a366ed6-pass/CP7_CURRENT_RETURN_REVERSE_RACES2.json.gz",
+    "docs/cp7/d17-14/ow15/return-reverse3194-3a366ed6-pass/T3_BACKUP_RESTORE_DRILL.json.gz",
+    "docs/cp7/d17-14/ow15/return-reverse3194-3a366ed6-pass/T3_PACKAGE_INSTALL.json.gz"
   ],
   "production_go": false,
   "independent_acceptance": false

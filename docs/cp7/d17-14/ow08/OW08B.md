@@ -22,3 +22,11 @@ Penelusuran lengkap (baris kode dan kutipan keputusan): ringkasan agen penelusur
   diproses" tidak bisa dicatat; layar mematikan tombol dengan "tarif authoritative belum cocok".
 - 2.21: "tidak didukung" di `QC_SOURCE_HANDOFF.md:7` adalah tautan sumber baris pembalik barang jadi (selain QC dan retur
   terkoreksi); penolakan batal QC (`erp.reverse_qc`) belum menyebut dokumen penghalang.
+
+## Penerus keputusan 29 Oktober 2026
+
+Butir 2.19 sudah dijawab owner C: **keduanya**, pemakaian pada tagihan berikut
+dan pengembalian kas/bank. Lihat `docs/cp7/OWNER_VENDOR_RECEIVABLE_20261029.md`.
+Catatan “belum dijawab” di atas adalah histori. Delta `cp7_vendor_receivable`
+sedang diimplementasikan pada cabang A terpisah; belum qualified dan belum ada
+kelulusan browser untuk delta itu. Tidak mengubah bukti 2.18/2.20/2.21.

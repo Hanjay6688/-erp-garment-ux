@@ -1,0 +1,504 @@
+{
+  "status": "PASS_ACTUAL_RETURN_REVERSE3194_COMPONENT",
+  "head": "3a366ed69752c81b43389440f92dd48135771e36",
+  "tree": "6a0a2ac761821d4fdc1451440c0f7389f84bd5a4",
+  "backend_head": "3194b9c56be7af86ee45ccb1c6605204a712f91b",
+  "whole_backend_sha256": "193f4c18476a1e1abd5e05231d8d7755864b61e2998c4456f5a87459b17da59d",
+  "run_id": 40738270496,
+  "job_id": 122992613691,
+  "artifact_id": 12839922675,
+  "zip_bytes": 1763893,
+  "zip_sha256": "1fc55be9db650799c23e8206b5d99ba50934de8890f3da830112e9b219040919",
+  "original": {
+    "name": "CP7_CURRENT_RETURN_REVERSE_RACES2.json",
+    "bytes": 883509,
+    "sha256": "392bfd10e6ddb21d07319da73405000d21a769287e4774af8e14cf3609e12153"
+  },
+  "counts": {
+    "fresh_current_races": 2,
+    "retained_baseline_races": 2,
+    "new_business_cases": 0
+  },
+  "case_ids": [
+    "SALE_REVERSE_COMMIT",
+    "SALE_REVERSE_ABORT"
+  ],
+  "case_results": {
+    "SALE_REVERSE_COMMIT": {
+      "status": "PASS",
+      "final_state": [
+        "REVERSED",
+        0,
+        0
+      ],
+      "second": {
+        "committed": false,
+        "sqlstate": "P0001",
+        "error": "CP7_NATIVE_EMPTY_ACTIVE_SOURCE_REQUIRED\nCONTEXT:  PL/pgSQL function cp7_credit.native_empty_enter_v1(uuid) line 26 at RAISE\nSQL statement \"SELECT cp7_credit.native_empty_enter_v1(p_return)\"\nPL/pgSQL function cp7_credit.native_return_enter(uuid) line 4 at PERFORM\nSQL statement \"SELECT cp7_credit.native_return_enter(p_return_id)\"\nPL/pgSQL function post_sales_return(uuid) line 29 at PERFORM"
+      },
+      "session_leaks": [],
+      "used_guard_refused_before_DDL": true
+    },
+    "SALE_REVERSE_ABORT": {
+      "status": "PASS",
+      "final_state": [
+        "POSTED",
+        2,
+        1
+      ],
+      "second": {
+        "committed": true,
+        "sqlstate": null
+      },
+      "session_leaks": [],
+      "used_guard_refused_before_DDL": true
+    }
+  },
+  "copy_catalog_admissions": [
+    {
+      "classification": "LOCAL_RACE_TEMPLATE_COPY_AUTHORITY_PRESERVATION",
+      "before_changed_catalog_members": {
+        "database_authority": [
+          "CURRENT"
+        ]
+      },
+      "source_database_authority": {
+        "CURRENT": [
+          "postgres",
+          "UTF8",
+          "en_US.UTF-8",
+          "en_US.UTF-8",
+          -1,
+          false,
+          true,
+          [
+            [
+              "PUBLIC",
+              "postgres",
+              "CONNECT",
+              false
+            ],
+            [
+              "PUBLIC",
+              "postgres",
+              "TEMPORARY",
+              false
+            ],
+            [
+              "dashboard_user",
+              "postgres",
+              "CONNECT",
+              false
+            ],
+            [
+              "dashboard_user",
+              "postgres",
+              "CREATE",
+              false
+            ],
+            [
+              "dashboard_user",
+              "postgres",
+              "TEMPORARY",
+              false
+            ],
+            [
+              "postgres",
+              "postgres",
+              "CONNECT",
+              false
+            ],
+            [
+              "postgres",
+              "postgres",
+              "CREATE",
+              false
+            ],
+            [
+              "postgres",
+              "postgres",
+              "TEMPORARY",
+              false
+            ],
+            [
+              "supabase_etl_admin",
+              "postgres",
+              "CREATE",
+              false
+            ],
+            [
+              "supabase_storage_admin",
+              "postgres",
+              "CREATE",
+              false
+            ]
+          ],
+          null
+        ]
+      },
+      "actual_copy_before_authority": {
+        "CURRENT": [
+          "supabase_admin",
+          "UTF8",
+          "en_US.UTF-8",
+          "en_US.UTF-8",
+          -1,
+          false,
+          true,
+          [
+            [
+              "PUBLIC",
+              "supabase_admin",
+              "CONNECT",
+              false
+            ],
+            [
+              "PUBLIC",
+              "supabase_admin",
+              "TEMPORARY",
+              false
+            ],
+            [
+              "supabase_admin",
+              "supabase_admin",
+              "CONNECT",
+              false
+            ],
+            [
+              "supabase_admin",
+              "supabase_admin",
+              "CREATE",
+              false
+            ],
+            [
+              "supabase_admin",
+              "supabase_admin",
+              "TEMPORARY",
+              false
+            ]
+          ],
+          null
+        ]
+      },
+      "full22_after_must_equal_original_install": true,
+      "product_state_modified": false,
+      "Native_or_schema_or_RPC_permissions_changed": false,
+      "actual_copy_after_authority": {
+        "CURRENT": [
+          "postgres",
+          "UTF8",
+          "en_US.UTF-8",
+          "en_US.UTF-8",
+          -1,
+          false,
+          true,
+          [
+            [
+              "PUBLIC",
+              "postgres",
+              "CONNECT",
+              false
+            ],
+            [
+              "PUBLIC",
+              "postgres",
+              "TEMPORARY",
+              false
+            ],
+            [
+              "dashboard_user",
+              "postgres",
+              "CONNECT",
+              false
+            ],
+            [
+              "dashboard_user",
+              "postgres",
+              "CREATE",
+              false
+            ],
+            [
+              "dashboard_user",
+              "postgres",
+              "TEMPORARY",
+              false
+            ],
+            [
+              "postgres",
+              "postgres",
+              "CONNECT",
+              false
+            ],
+            [
+              "postgres",
+              "postgres",
+              "CREATE",
+              false
+            ],
+            [
+              "postgres",
+              "postgres",
+              "TEMPORARY",
+              false
+            ],
+            [
+              "supabase_etl_admin",
+              "postgres",
+              "CREATE",
+              false
+            ],
+            [
+              "supabase_storage_admin",
+              "postgres",
+              "CREATE",
+              false
+            ]
+          ],
+          null
+        ]
+      },
+      "all22_groups_equal_original_install": true,
+      "exact_catalog_sha256": "96502be32c6919f77da608100e50aa1ce4450f8c5324a54b74d9276dd7fc6f8e"
+    },
+    {
+      "classification": "LOCAL_RACE_TEMPLATE_COPY_AUTHORITY_PRESERVATION",
+      "before_changed_catalog_members": {
+        "database_authority": [
+          "CURRENT"
+        ]
+      },
+      "source_database_authority": {
+        "CURRENT": [
+          "postgres",
+          "UTF8",
+          "en_US.UTF-8",
+          "en_US.UTF-8",
+          -1,
+          false,
+          true,
+          [
+            [
+              "PUBLIC",
+              "postgres",
+              "CONNECT",
+              false
+            ],
+            [
+              "PUBLIC",
+              "postgres",
+              "TEMPORARY",
+              false
+            ],
+            [
+              "dashboard_user",
+              "postgres",
+              "CONNECT",
+              false
+            ],
+            [
+              "dashboard_user",
+              "postgres",
+              "CREATE",
+              false
+            ],
+            [
+              "dashboard_user",
+              "postgres",
+              "TEMPORARY",
+              false
+            ],
+            [
+              "postgres",
+              "postgres",
+              "CONNECT",
+              false
+            ],
+            [
+              "postgres",
+              "postgres",
+              "CREATE",
+              false
+            ],
+            [
+              "postgres",
+              "postgres",
+              "TEMPORARY",
+              false
+            ],
+            [
+              "supabase_etl_admin",
+              "postgres",
+              "CREATE",
+              false
+            ],
+            [
+              "supabase_storage_admin",
+              "postgres",
+              "CREATE",
+              false
+            ]
+          ],
+          null
+        ]
+      },
+      "actual_copy_before_authority": {
+        "CURRENT": [
+          "supabase_admin",
+          "UTF8",
+          "en_US.UTF-8",
+          "en_US.UTF-8",
+          -1,
+          false,
+          true,
+          [
+            [
+              "PUBLIC",
+              "supabase_admin",
+              "CONNECT",
+              false
+            ],
+            [
+              "PUBLIC",
+              "supabase_admin",
+              "TEMPORARY",
+              false
+            ],
+            [
+              "supabase_admin",
+              "supabase_admin",
+              "CONNECT",
+              false
+            ],
+            [
+              "supabase_admin",
+              "supabase_admin",
+              "CREATE",
+              false
+            ],
+            [
+              "supabase_admin",
+              "supabase_admin",
+              "TEMPORARY",
+              false
+            ]
+          ],
+          null
+        ]
+      },
+      "full22_after_must_equal_original_install": true,
+      "product_state_modified": false,
+      "Native_or_schema_or_RPC_permissions_changed": false,
+      "actual_copy_after_authority": {
+        "CURRENT": [
+          "postgres",
+          "UTF8",
+          "en_US.UTF-8",
+          "en_US.UTF-8",
+          -1,
+          false,
+          true,
+          [
+            [
+              "PUBLIC",
+              "postgres",
+              "CONNECT",
+              false
+            ],
+            [
+              "PUBLIC",
+              "postgres",
+              "TEMPORARY",
+              false
+            ],
+            [
+              "dashboard_user",
+              "postgres",
+              "CONNECT",
+              false
+            ],
+            [
+              "dashboard_user",
+              "postgres",
+              "CREATE",
+              false
+            ],
+            [
+              "dashboard_user",
+              "postgres",
+              "TEMPORARY",
+              false
+            ],
+            [
+              "postgres",
+              "postgres",
+              "CONNECT",
+              false
+            ],
+            [
+              "postgres",
+              "postgres",
+              "CREATE",
+              false
+            ],
+            [
+              "postgres",
+              "postgres",
+              "TEMPORARY",
+              false
+            ],
+            [
+              "supabase_etl_admin",
+              "postgres",
+              "CREATE",
+              false
+            ],
+            [
+              "supabase_storage_admin",
+              "postgres",
+              "CREATE",
+              false
+            ]
+          ],
+          null
+        ]
+      },
+      "all22_groups_equal_original_install": true,
+      "exact_catalog_sha256": "96502be32c6919f77da608100e50aa1ce4450f8c5324a54b74d9276dd7fc6f8e"
+    }
+  ],
+  "cp6_restored": true,
+  "all22_data_sequences_roles_restored": true,
+  "advisor_gate": true,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "primary_unchanged": true,
+  "Auth_rows_restored": true,
+  "prior_attempts": [
+    {
+      "head": "1e6b38cc9e8dad36ff5b6f437ed0391c52467c68",
+      "run_id": 40700070209,
+      "status": "FAILURE_BEFORE_DB",
+      "cause": "Missing archived workflow materialization"
+    },
+    {
+      "head": "6be0d1bf9bac545343dcc92e8c6fc2f5e8647af1",
+      "run_id": 40732105326,
+      "status": "INCOMPLETE_ZERO_RACES",
+      "cause": "Own diagnostics source session prevented template copy; counts KeyError obscured original error",
+      "cp6_restored": true,
+      "advisor_gate": true
+    }
+  ],
+  "scope_limits": [
+    "Two named Native race cases on exact backend3194; not complete Race36 or twelve archive boundaries.",
+    "Earlier six retained contract cases and 6b7d race successor stay on original sources.",
+    "No Auth/browser claim; no independent acceptance."
+  ],
+  "production_go": false,
+  "independent_acceptance": false
+}

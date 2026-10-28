@@ -19333,5 +19333,50 @@
     "writer_component_accepted": true,
     "independent_acceptance": false,
     "production_go": false
+  },
+  "scope_closeout_20261029": {
+    "A_base": "70ed847e943a50252613b66ccf2e244f77046ae7",
+    "B_component_accepted": true,
+    "waiting_for_B_browser": false,
+    "scope_audit": {
+      "file": "Audit_Scope_Terbuka_ERP_20261029.txt",
+      "library_file_id": "libfile_02ca1f5d026c81918ff3745ccc8b0c21",
+      "fully_read": true
+    },
+    "vendor_owner_decision": "BOTH_NEXT_INVOICE_AND_CASH_BANK_REFUND",
+    "vendor_candidate": "f30ffc8d7386d6b202c91e9f1b55e672af58c720",
+    "vendor_run": 40741343738,
+    "vendor_status": "RUNNING_NOT_ACCEPTED",
+    "return_original_successor": "6b7dab37d58523865c9d6e724c87d5b10d4b1aa0",
+    "return_retained_status": "PASS_2_BASELINE_2_CURRENT_ON_NAMED_SOURCE",
+    "return3194_candidate": "3a366ed69752c81b43389440f92dd48135771e36",
+    "return3194_run": 40738270496,
+    "return3194_status": "PASS_ACTUAL_2_CURRENT_RACES_FULL_RESTORE",
+    "prior_return_run": 40732105326,
+    "prior_return_status": "INCOMPLETE_ZERO_RACES_SOURCE_CONNECTION_PREVENTED_TEMPLATE_CLONE",
+    "prior_restore": "CP6_FULL22_DATA_SEQUENCES_ROLES_ADVISORS_PASS",
+    "scope_index": "docs/cp7/framework-v2/registries/closure_current_20261029.json",
+    "counts": {
+      "requirements": 271,
+      "owner": 10,
+      "packets": 22,
+      "original_CP7": 35
+    },
+    "money_policy_remaining": [
+      "S01D/E_Q1_Q2_Q3",
+      "S03_ZERO_OUTPUT_FINAL_ALLOCATION",
+      "S04_CORRECTION_AGE"
+    ],
+    "other_scope_remaining": [
+      "S05_VARIANT_BOM_AND_CONTRACTOR_USAGE_REPORT",
+      "S06_STAFF_PERSONAL_REMINDER_RECIPIENT_ACCESS"
+    ],
+    "formal": "5/16",
+    "production_go": false,
+    "independent_acceptance": false,
+    "CP7C_started": false,
+    "return3194_receipt": "docs/cp7/d17-14/ow15/return-reverse3194-3a366ed6-pass.json",
+    "return3194_artifact_id": 12839922675,
+    "return3194_original_sha256": "392bfd10e6ddb21d07319da73405000d21a769287e4774af8e14cf3609e12153"
   }
 }

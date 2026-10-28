@@ -403,5 +403,18 @@
     "CP7C_started": false
   },
   "B_component_accepted_by_A": true,
-  "integrated_source_checker": "scripts/current-integrated-B3194-source/check.py"
+  "integrated_source_checker": "scripts/current-integrated-B3194-source/check.py",
+  "scope_closeout_20261029": {
+    "scope_index": "docs/cp7/framework-v2/registries/closure_current_20261029.json",
+    "owner_vendor_policy": "BOTH_AUTHORIZED",
+    "vendor_candidate": "f30ffc8d7386d6b202c91e9f1b55e672af58c720",
+    "vendor_run": 40741343738,
+    "vendor_status": "RUNNING_NOT_ACCEPTED",
+    "return3194_status": "PASS_ACTUAL_2_CURRENT_RACES_FULL_RESTORE",
+    "return3194_receipt": "docs/cp7/d17-14/ow15/return-reverse3194-3a366ed6-pass.json",
+    "source_index_is_not_runtime_acceptance": true,
+    "formal": "5/16",
+    "production_go": false,
+    "independent_acceptance": false
+  }
 }

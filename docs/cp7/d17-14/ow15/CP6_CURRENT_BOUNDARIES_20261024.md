@@ -63,3 +63,31 @@ Keempat Original memulihkan CP6 dan advisor. Tiga suite INCOMPLETE mempunyai
 writer_runtime=false; funded12 mempunyai kelima gate PASS. Hasil-hasil ini
 terikat ke sumber historisnya dan belum memberi kredit Native20, seluruh
 arsip CP6, empat browser baseline, atau penerimaan independen.
+
+## Penerus yang sudah ada dan status aktual — 29 Oktober 2026
+
+Empat perubahan AI135: selected-return contract6 PASS, e0a4721f/run40165877589.
+AI135 asli tetap INCOMPLETE. Crossflow: funded12 PASS tidak menutup18 kegagalan
+baseline lainnya. Jangan mengulang seluruh suite hanya karena status historis.
+
+Retur juga **sudah punya penerus khusus**: current-return-race2-first-pass-6b7dab37.json,
+run40082444870/job120838591345, dua baseline + dua current PASS. ID
+SALE_REVERSE_COMMIT_RETURN_ATOMIC_CURRENT_GUARD dan
+SALE_REVERSE_ABORT_RETURN_RETAINED_SUCCESS memetakan dua kasus Race36.
+Kontrolnya mencatat hash data/katalog sebelum-sesudah penolakan, exact22,
+lock serta keadaan akhir. Pertahankan kredit pada sumbernya; bukan dua kasus
+bisnis baru dan tidak mengubah Original Race36.
+
+Pengikatan keseluruhan backend3194: run40738270496, kandidat3a366ed69752c81b43389440f92dd48135771e36,
+sudah PASS2 race aktual; receipt `return-reverse3194-3a366ed6-pass.json`.
+Full22/data/sequence/roles/CP6/advisor, nol sesi/DB tersisa dan lima gate paket
+PASS. Kedua used-inverse ditolak sebelum DDL. Percobaan6be0d1bf/run40732105326
+berakhir INCOMPLETE: nol race berjalan karena koneksi diagnostics sendiri
+menahan CREATE DATABASE TEMPLATE; lalu KeyError counts menyamarkan sebab itu.
+CP6/full22/data/sequence/roles/advisor/restore lulus. Penerus menutup hanya
+koneksi itu sebelum clone; backend dan oracle tidak berubah.
+
+Dua belas batas arsip di atas masih dipetakan per admission/transaksi/maintenance/
+rollback/HTTP/browser. Kelulusan transaksi tidak menutup mode lain otomatis.
+21 kegagalan dan empat browser baseline tetap pada status asalnya; penerimaan
+pensiun SALES_MANUAL_13 tetap milik auditor independen.

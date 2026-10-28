@@ -1,0 +1,26 @@
+{
+  "CP7_CURRENT_RETURN_REVERSE_RACES2.json": {
+    "raw_bytes": 883509,
+    "raw_sha256": "392bfd10e6ddb21d07319da73405000d21a769287e4774af8e14cf3609e12153",
+    "gzip_bytes": 86872,
+    "gzip_sha256": "dfa6c8024e3cde550671dc173a2f29019667f1e63d81db4f30978c149d195a2a"
+  },
+  "T3_PACKAGE_INSTALL.json": {
+    "raw_bytes": 360430,
+    "raw_sha256": "0c300d8906a4474b07b6e9bc01e2896a4d3e805e2ba40c09e5fe5491616f8c80",
+    "gzip_bytes": 11396,
+    "gzip_sha256": "37eaaa5caa6b2a0af57f3a87855c0cc9873ab028a645ece296a70e63454e28d1"
+  },
+  "T3_BACKUP_RESTORE_DRILL.json": {
+    "raw_bytes": 1470,
+    "raw_sha256": "908c5a72c6d8694169e6f31121d7f92bb8abda6b9cdc5b53b772ebf7aebc978e",
+    "gzip_bytes": 645,
+    "gzip_sha256": "60302014b0c0c66c144d8db5e6d6f302f1375c32a8d132500646b7286aedac5b"
+  },
+  "T3_PACKAGE_FILES_INSTALL.json": {
+    "raw_bytes": 1806,
+    "raw_sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+    "gzip_bytes": 255,
+    "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7"
+  }
+}

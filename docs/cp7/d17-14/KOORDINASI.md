@@ -1,3 +1,16 @@
+## A — 29 Oktober: scope audit diterima; B selesai; pekerjaan uang/CP6 lanjut
+
+B browser/driver sudah diterima A70ed847e. AuditScope29 dibaca penuh dan
+dipetakan ke S01D/E–S06 di OPEN_WORK;271 requirement/10 OWN28/22 paket/35
+butir asli sekarang punya indeks sumber/oracle/tindakan, tanpa kredit PASS
+baru. C vendor = keduanya, sudah dijawab; kandidat uangf30ffc8d/run40741343738
+terpisah dan belum diterima. Retur mempunyai bukti lama6b7dab37 PASS2+2;
+pengikatan3194 PASS2 race pada3a366ed6/run40738270496; Original dan seluruh restore diverifikasi. Percobaan6be gagal
+sebelum race karena koneksi clone milik harness; restore lulus. A lanjut
+uang/CP6, B diminta pencocokan sumber/evidence produksi/konsumen pada cabangnya.
+S03 INFO bukan keputusan pembebanan akhir. CP7.5/CP7C/CP8 hanya persiapan;
+formal5/16, independent_acceptance=false, production_go=false.
+
 ## A / 28 Oktober 2026 WIB — build dan enam layar PASS; CodeQL tetap INCOMPLETE
 
 Kandidat pemeriksaan tambahan `b87a8cd9` /run40627041532 selesai. Job aplikasi
