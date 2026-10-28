@@ -1,8 +1,8 @@
 # A selective vendor intake — PREPARED / CLOSED
 
-Nine entries are selected from567ddc92990891b3eff81e6497572b9579a99036
+Ten entries are selected from9fde249ed0aef0000c3d17fde6a2a3f02a4dab86
 on current A3a0c947d66c73dcb87be10cb6a543da6c234d92d. Every original
-preimage is matched; only the two admitted explanatory money labels differ
+preimage is matched; the two admitted explanatory money labels and scoped disabled-button readability differ
 from prior prepared9e1be058. No B branch or reopen patch is merged twice.
 The79-file B browser graph and driver remain checked; B evidence retains
 its original source and coverage. Historical manifests are not rewritten.
@@ -29,3 +29,11 @@ and package preserved by A main148b. Native7/race3/Auth1 PASS11, all five packag
 gates and full restoration are accepted for this source. Default acceptance
 still refuses because actual money-browser2 is not yet available; run18fb/
 40777747825 is in progress. No default adoption is inferred from backend PASS.
+
+First money18/run40777747825 is terminal INCOMPLETE2 at the gradient contrast
+instrument, with full restoration. Successor9fde/run40784374399 retains that
+original and supports conservative gradient bounds at the unchanged4.5
+threshold. The tenth selected file is the exact scoped vendor-payment
+disabled-button opacity1/dashed border rule in initial-import.css; native
+disabled semantics and financial handlers remain unchanged. Default intake
+is still CLOSED until the successor actual money browser2 and visual proof.

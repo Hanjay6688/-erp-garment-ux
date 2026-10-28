@@ -1,8 +1,8 @@
 {
   "contract": "cp7.vendor-selective-integration.v1",
-  "status": "PREPARED_BACKEND11_ACCEPTED_MONEY_BROWSER2_REQUIRED",
+  "status": "PREPARED_BACKEND11_ACCEPTED_GRADIENT_BROWSER_SUCCESSOR_REQUIRED",
   "base_head": "3a0c947d66c73dcb87be10cb6a543da6c234d92d",
-  "prepared_component": "567ddc92990891b3eff81e6497572b9579a99036",
+  "prepared_component": "9fde249ed0aef0000c3d17fde6a2a3f02a4dab86",
   "parent_backend_sha256": "193f4c18476a1e1abd5e05231d8d7755864b61e2998c4456f5a87459b17da59d",
   "imports": [
     {
@@ -67,6 +67,13 @@
       "sha256": "3b24728512e8be6af697f3234e591f7fe6b46331c68e3497ab71aedbcc9aa2ba",
       "blob": "5c5802381382cd7030a3723003ca4da345f03556",
       "preimage_blob": null
+    },
+    {
+      "path": "src/initial-import.css",
+      "bytes": 3254,
+      "sha256": "03f6aff6d5d73e5f205a4e6a71e821fae2b87078872303d6e73253adbf550895",
+      "blob": "11153d8940abef762749df0b96074c6e0355fe6f",
+      "preimage_blob": "587e680e9148b4893c15a1a12f2526b1b4ca675e"
     }
   ],
   "qualified_combined11": {
@@ -101,5 +108,18 @@
     "install": "install",
     "verify": "verify",
     "rollback_preuse": "rollback_preuse"
+  },
+  "money_browser_first_failure": {
+    "head": "18fb0bd2aae65d880e28d7ec8a7f2930f77c9925",
+    "run_id": 40777747825,
+    "status": "INCOMPLETE2_GRADIENT_MEASUREMENT_TOOL",
+    "full_restore": true,
+    "full_browser_case_credit": 0
+  },
+  "money_browser_successor": {
+    "head": "9fde249ed0aef0000c3d17fde6a2a3f02a4dab86",
+    "run_id": 40784374399,
+    "job_id": 123153769359,
+    "status": "RUNNING_NOT_ACCEPTED"
   }
 }

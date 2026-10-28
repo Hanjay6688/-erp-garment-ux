@@ -1,7 +1,7 @@
 """Selective A money intake; static source matching never grants acceptance."""
 from pathlib import Path
 from hashlib import sha256
-import gzip,json,subprocess,sys
+import gzip,json,math,subprocess,sys
 
 HERE=Path(__file__).resolve().parent;ROOT=HERE.parents[1]
 RUNTIME=('scripts/cp7_vendor_receivable/receivable.sql','scripts/cp7_vendor_receivable/native_delta.py','scripts/cp7_vendor_receivable/composition.py')
@@ -88,6 +88,9 @@ def admit_browser(pin,original,package,backend_head,imports,runtime_files,entryp
     for row in (desktop,mobile):
         assert row['status']=='PASS'and row['actual_Auth_login_and_public_RPC']is True and row['actual_refund_posted_from_screen']is True
         assert row['console_evidence']['unexpected_errors']==[]and row['width']['page']<=row['width']['viewport']
+        assert row['visible_text_contrasts']
+        for state in row['visible_text_contrasts']:
+            assert state['rows']and all(isinstance(v.get('ratio'),(int,float))and math.isfinite(v['ratio'])and v['ratio']>=4.5 for v in state['rows'])
         assert row['financial_truth_report_checks_no_new_issues']is True and row['financial_truth_evidence']
         for observation in row['financial_truth_evidence']:
             assert set(observation['counts'])==set(row['financial_truth_before'])
