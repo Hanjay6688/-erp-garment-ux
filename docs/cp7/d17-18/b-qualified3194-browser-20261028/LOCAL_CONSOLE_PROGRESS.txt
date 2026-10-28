@@ -1,0 +1,17 @@
+✔ listener retains every console error and detaches at cleanup (11.183892ms)
+✔ only a recorded exact network failure is accepted and retained (2.461854ms)
+✔ application errors and a different failed URL cannot hide behind expected loss (10.538485ms)
+✔ one expected network event cannot excuse repeated console errors (0.664028ms)
+✔ unknown financial denominator produces no financial bar; fractional timestamps preserve 59 seconds (45.481584ms)
+✔ a finished production response cannot certify a complete financial report (3.087984ms)
+✔ an unrelated request or mismatched financial capture fails closed (0.986885ms)
+✔ revoked financial access requires removal of capture, result, metadata and duration (2.524803ms)
+✔ BLOCKED finished financial work remains separate from complete analysis (1.112192ms)
+ℹ tests 9
+ℹ suites 0
+ℹ pass 9
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 572.024392

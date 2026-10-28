@@ -1,0 +1,30 @@
+{
+  "browser.mjs": {
+    "head": "51a9e72a89b4576283fe30cb17b56dd26fc57668",
+    "path": "scripts/current-finance-combined-browser-qualification/browser.mjs",
+    "before_sha256": "79e2660655ff549c6e55b6bd844b4495abb24306749da1ad686a70350afcc7f7",
+    "after_sha256": "91fdfe2b4328661d92c6012079c6c8f74826f53d04225600b5d299988cbbda73",
+    "original_assertions": null
+  },
+  "browser_fixture.py": {
+    "head": "51a9e72a89b4576283fe30cb17b56dd26fc57668",
+    "path": "scripts/current-finance-combined-browser-qualification/browser_fixture.py",
+    "before_sha256": "be167320ad5884cb4f0fd1730a5fbb64ed3616a7e6b0bc3fff5f274cd7e95c4f",
+    "after_sha256": "3acd9ba7b5a6df6e3ca5cfc3ecc39f09950dbee3b937edd4c00d1d12f4c5b70c",
+    "original_assertions": 15
+  },
+  "probe.py": {
+    "head": "51a9e72a89b4576283fe30cb17b56dd26fc57668",
+    "path": "scripts/current-finance-combined-browser-qualification/probe.py",
+    "before_sha256": "34cbf88f160ffd0febd41805fa6d9c11382a5212faee1be8e5fe3c7361ba5aeb",
+    "after_sha256": "806bd491e6b1276b74a5b38726afb15ea2740a307eb49f6ac2d4d424f52b40b2",
+    "original_assertions": 2
+  },
+  "build_3194.mjs": {
+    "head": "51a9e72a89b4576283fe30cb17b56dd26fc57668",
+    "path": "scripts/cp7_current_progress_finance_ui/build.mjs",
+    "before_sha256": "51df555135dd5371d11f81a2175353bb48b6335772aa04d63c79d37a35e12dbf",
+    "after_sha256": "5928b790c7f845a75ac8f9da875c5cb19ca132268dbf926180f4704610b176e9",
+    "original_assertions": null
+  }
+}
