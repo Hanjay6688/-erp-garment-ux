@@ -5713,3 +5713,18 @@ patch driver dan pengikatan sumber B, hasil Auth/browser desktop/mobile beserta
 visual/console/pemulihan, lalu integrasi akhir A dan putusan auditor independen.
 Tidak ada pengujian browser ganda oleh A. Formal tetap 5/16,
 independent_acceptance=false, production_go=false; CP7C belum dimulai.
+
+
+## 28 Oktober 2026 — A menutup gap bukti race jual–retur secara terarah
+
+A menyiapkan dua schedule SALE_REVERSE_COMMIT/ABORT memakai runner Native
+dan copy-authority existing, pada backend3194 yang identik. Satu literal
+pesan penolakan lama dipetakan eksplisit ke CP7_NATIVE_EMPTY_ACTIVE_SOURCE_REQUIRED;
+semua assertion lock/state/qty/report tetap asli dan raw response dipertahankan.
+Kedua copy wajib menolak inverse sesudah dipakai sebelum DDL dan dibuang utuh;
+baseline CP6 dipakai dari Original Race36, tidak dilabel ulang. Lima kontrol
+derivasi lokal PASS; actual Native baru belum dijalankan. Tidak mengubah
+produk, driver/browser B, RPC, panel, installer, manifest historis atau angka.
+Empat selisih AI135 ternyata sudah mempunyai penerus contract6 PASS e0a4721f;
+peta penutupan diperbaiki, tidak mengulang keluarga yang sudah lolos.
+Cabang persiapan A tetap terpisah; B51a9 dan handoff3194 terlindungi.

@@ -1,0 +1,28 @@
+{
+  "contract": "cp7.current-return-reverse-race-successor.v1",
+  "base_head": "3efecab381578cb12b06b9bedd97b31b7a20b26a",
+  "backend_head": "3194b9c56be7af86ee45ccb1c6605204a712f91b",
+  "backend_tree": "dd98cd5bbbafb3f257668d22317ab4b237c2fea8",
+  "backend_original": {
+    "name": "CP7_D17_18_FACTORY_LIVE_HEARTBEAT_CLOSURE1.json",
+    "bytes": 77035513,
+    "sha256": "241adff1df19878a6bda9fd4b688cd609dd816e97080e860e1cc170f7c47b3c2",
+    "artifact_id": 12813599744,
+    "run_id": 40677173176
+  },
+  "retained": {
+    "name": "CP7_CURRENT_CP6_RACE36.json",
+    "bytes": 2817657,
+    "sha256": "a9a7360a6894660497d851a7043df96a7a59f3f2f3f1ef8ab99d7eaecba67269",
+    "artifact_id": 12554330089,
+    "run_id": 40076046451,
+    "head": "368ce8701f0649c8f18d33051b72969a6d26cc57"
+  },
+  "whole_backend_sha256": "193f4c18476a1e1abd5e05231d8d7755864b61e2998c4456f5a87459b17da59d",
+  "case_ids": [
+    "SALE_REVERSE_COMMIT",
+    "SALE_REVERSE_ABORT"
+  ],
+  "production_go": false,
+  "independent_acceptance": false
+}

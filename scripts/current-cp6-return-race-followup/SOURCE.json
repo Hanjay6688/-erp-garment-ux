@@ -1,0 +1,26 @@
+{
+  "contract": "cp7.current-return-reverse-race-successor.v1",
+  "case_ids": [
+    "SALE_REVERSE_COMMIT",
+    "SALE_REVERSE_ABORT"
+  ],
+  "workflow": ".github/workflows/cp7-current-cp6-return-race-followup.yml",
+  "files": {
+    ".github/workflows/cp7-current-cp6-return-race-followup.yml": "02e64c2e32842db1dd61f1b3e08d44d138322a526b65369eb046e1351c5b0792",
+    "scripts/cp6_auditor_modes.py": "d927c7491c72fe1eecfd1b4b8b4faf7e1710d6943fda601ede6a599fbc99209f",
+    "scripts/cp6_v2620ah_concurrency.py": "1e226efc0103cb3f4e67bfcc16001f4051f549f098e423623f390c875670499f",
+    "scripts/current-cp6-race-qualification/cases.py": "aead57816d030f6dcfe1743f9f1455de043ecc5ae69d3600887a74c7ff0c211a",
+    "scripts/current-cp6-return-race-followup/CONFIG.json": "4230f556b2ab11eb952f8ac877fd56607eb3460473e1d7c8c0cf970e37e41e50",
+    "scripts/current-cp6-return-race-followup/README.md": "5c4f4f7b570789fecb24df81332849bcdf44d5bbf8be2ca563c7228169005be9",
+    "scripts/current-cp6-return-race-followup/admission.py": "a879de32fc72bf2d5e0f206be5883f86ed0a8ee785bccf9d0fe7612ca537f681",
+    "scripts/current-cp6-return-race-followup/check_source.py": "c695b5d8e60e8986eed23ddcf5fd645e8d95e89b2d290fb927fac967be488fef",
+    "scripts/current-cp6-return-race-followup/probe.py": "b926b0288c371f55534aa7fce2aa2eed19c18407441833a366350d4eb662971b",
+    "scripts/current-cp6-return-race-followup/race.py": "2d243f317ef5d56e4118e8246d69eebec7652cc7cd0d17a25f6c58f41d5d7257",
+    "scripts/current-cp6-return-race-followup/runner.py": "6db25df45dcc1517ce1c8ca5ef0ed2ca582fb17d82defc89a9df0cb81e0959ee",
+    "scripts/current-cp6-return-race-followup/test_derivation.py": "49601b70ae679116de296563da7c178ab30e5bacf1dbf5115d9098936a18da9c",
+    "scripts/current-factory-live-heartbeat/probe.py": "49293d1d30f9b0f17abe5bf79d1e7e3611fc415634e816a22c08c5f960f1d96b",
+    "scripts/ow04-payment-current-races-qualification/copy_authority.py": "8723d0b445e5b52083f5e4068e930b05f819f53479551a14c556f0a129a8ff48"
+  },
+  "production_go": false,
+  "independent_acceptance": false
+}
