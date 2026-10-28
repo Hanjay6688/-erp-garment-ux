@@ -1,5 +1,5 @@
 {
-  "recorded_at_utc": "2026-10-28T22:11:45.076926+00:00",
+  "recorded_at_utc": "2026-10-28T23:06:07.291310+00:00",
   "role": "A finance writer/integrator replacing Claude; B remains separate production/planning writer",
   "slogan": [
     "VENI. VIDI. VICI. ERP. — I CONQUERED ERP.",
@@ -9,45 +9,22 @@
   "production_go": false,
   "independent_acceptance": false,
   "running": {
-    "status": "RUNNING_ACTUAL_MONEY_BROWSER2_NOT_ACCEPTED",
-    "head": "18fb0bd2aae65d880e28d7ec8a7f2930f77c9925",
-    "tree": "5c620d1e84eae2af8ae45cc462ccde9e089ff9f8",
-    "branch": "astra-a/ow08b-vendor-money-browser-qualification-20261029",
-    "run_id": 40777747825,
-    "job_id": 123131312444,
-    "backend": {
-      "head": "41caaaed02c0d89b122ecf1ff221f6647141c335",
-      "tree": "b8831a52531598c514f8199016dea6194d783833",
-      "run_id": 40769840440,
-      "job_id": 123103756460,
-      "artifact_id": 12854543326,
-      "zip_bytes": 2031933,
-      "zip_sha256": "9432cdd8bcea2df52ad8fb631122ce963b91bee32dea849a4337e4ec2c020eb0",
-      "original": {
-        "name": "CP7_VENDOR_RECEIVABLE_COMBINED11.json",
-        "bytes": 3485711,
-        "sha256": "04e00f42862ddfec8346d41d4d6a2d6a285f041127cccf09d973ca929b307ea0"
-      },
-      "package": {
-        "name": "T3_PACKAGE_INSTALL.json",
-        "bytes": 360420,
-        "sha256": "48fc54072b4f3122d89f6a45faa93f0e8ebd05ecfde0b9370def8202755e0f43"
-      }
-    },
-    "fresh_planned": {
-      "browser": 2,
-      "Native": 0,
-      "races": 0
-    },
-    "existing_complete_installation_entrypoint": "cp7_vendor_receivable.composition.install",
-    "source_admission": "PASS_EXACT_BACKEND11_CLIENT5_AND_PARENT193",
+    "status": "RUNNING_GRADIENT_MEASUREMENT_SUCCESSOR_NOT_ACCEPTED",
+    "head": "9fde249ed0aef0000c3d17fde6a2a3f02a4dab86",
+    "tree": "e086df00a3ec25c387ac465b94cf6882568fd669",
+    "branch": "astra-a/ow08b-money-browser-gradient-20261029",
+    "run_id": 40784374399,
+    "job_id": 123153769359,
+    "backend": "41caaaed02c0d89b122ecf1ff221f6647141c335",
+    "first_failure": "docs/cp7/d17-14/ow08/vendor-money18-first-incomplete.json",
     "local_controls": {
-      "admission": 3,
-      "opacity": 7,
-      "retained_console": 4
+      "contrast": 15,
+      "admission": 4
     },
-    "B_browser_repeated": false,
+    "source_admission": "PASS_EXACT_BACKEND11_CLIENT6_PARENT193_AND_FIRST18_ORIGINALS",
+    "product_delta": "Scoped vendor-payment disabled opacity1/dashed border only; all financial handlers and backend unchanged",
     "actual_browser_PASS_claim": false,
+    "B_browser_repeated": false,
     "production_go": false,
     "independent_acceptance": false
   },
@@ -19453,60 +19430,38 @@
     "vendor_native7_status": "PASS_7_FULL_RESTORE_ALL5_GATES",
     "vendor_native7_receipt": "docs/cp7/d17-14/ow15/vendor-native7-5ded-pass.json",
     "vendor_money_browser": {
-      "status": "RUNNING_ACTUAL_MONEY_BROWSER2_NOT_ACCEPTED",
-      "head": "18fb0bd2aae65d880e28d7ec8a7f2930f77c9925",
-      "tree": "5c620d1e84eae2af8ae45cc462ccde9e089ff9f8",
-      "branch": "astra-a/ow08b-vendor-money-browser-qualification-20261029",
-      "run_id": 40777747825,
-      "job_id": 123131312444,
-      "backend": {
-        "head": "41caaaed02c0d89b122ecf1ff221f6647141c335",
-        "tree": "b8831a52531598c514f8199016dea6194d783833",
-        "run_id": 40769840440,
-        "job_id": 123103756460,
-        "artifact_id": 12854543326,
-        "zip_bytes": 2031933,
-        "zip_sha256": "9432cdd8bcea2df52ad8fb631122ce963b91bee32dea849a4337e4ec2c020eb0",
-        "original": {
-          "name": "CP7_VENDOR_RECEIVABLE_COMBINED11.json",
-          "bytes": 3485711,
-          "sha256": "04e00f42862ddfec8346d41d4d6a2d6a285f041127cccf09d973ca929b307ea0"
-        },
-        "package": {
-          "name": "T3_PACKAGE_INSTALL.json",
-          "bytes": 360420,
-          "sha256": "48fc54072b4f3122d89f6a45faa93f0e8ebd05ecfde0b9370def8202755e0f43"
-        }
-      },
-      "fresh_planned": {
-        "browser": 2,
-        "Native": 0,
-        "races": 0
-      },
-      "existing_complete_installation_entrypoint": "cp7_vendor_receivable.composition.install",
-      "source_admission": "PASS_EXACT_BACKEND11_CLIENT5_AND_PARENT193",
+      "status": "RUNNING_GRADIENT_MEASUREMENT_SUCCESSOR_NOT_ACCEPTED",
+      "head": "9fde249ed0aef0000c3d17fde6a2a3f02a4dab86",
+      "tree": "e086df00a3ec25c387ac465b94cf6882568fd669",
+      "branch": "astra-a/ow08b-money-browser-gradient-20261029",
+      "run_id": 40784374399,
+      "job_id": 123153769359,
+      "backend": "41caaaed02c0d89b122ecf1ff221f6647141c335",
+      "first_failure": "docs/cp7/d17-14/ow08/vendor-money18-first-incomplete.json",
       "local_controls": {
-        "admission": 3,
-        "opacity": 7,
-        "retained_console": 4
+        "contrast": 15,
+        "admission": 4
       },
-      "B_browser_repeated": false,
+      "source_admission": "PASS_EXACT_BACKEND11_CLIENT6_PARENT193_AND_FIRST18_ORIGINALS",
+      "product_delta": "Scoped vendor-payment disabled opacity1/dashed border only; all financial handlers and backend unchanged",
       "actual_browser_PASS_claim": false,
+      "B_browser_repeated": false,
       "production_go": false,
       "independent_acceptance": false
     },
     "vendor_intake": {
-      "head": "cd83450225d9062b15b504aedb4f0be20fc8a76f",
-      "tree": "f9ca8426b7180c7c5433952381ed8523370c2fa9",
+      "head": "1f8c75566d0eee90086b31ae7bb7921b05502bdc",
+      "tree": "2ec31d95b765f040a4481d987ed1fc510811b793",
       "branch": "astra-a/ow08b-vendor-final-intake-prepared-20261029",
       "base_A": "3a0c947d66c73dcb87be10cb6a543da6c234d92d",
-      "selected_entries": 9,
-      "status": "PREPARED_CLOSED_MONEY_BROWSER2_REQUIRED_NOT_MAIN",
-      "source_controls": 7,
-      "old_B_graph79_unchanged": true,
+      "selected_entries": 10,
+      "status": "PREPARED_CLOSED_ACTUAL_MONEY_BROWSER_SUCCESSOR_REQUIRED_NOT_MAIN",
       "default_registration": false,
-      "requires_actual_backend11_AND_money_browser2": true
-    }
+      "old_B_graph79_unchanged": true,
+      "finite_text_contrast_at_least_4_5_required": true
+    },
+    "waiting_for_B": false,
+    "original_AI_scope_match": "framework-v2/registries/closure_current_20261029.json"
   },
   "actual_vendor_receivable_first_failure": {
     "status": "INCOMPLETE_ACTUAL_NATIVE6_PASS_1_ASSERTION_INCOMPLETE",
@@ -19815,16 +19770,15 @@
     "independent_acceptance": false
   },
   "vendor_intake_prepared": {
-    "head": "cd83450225d9062b15b504aedb4f0be20fc8a76f",
-    "tree": "f9ca8426b7180c7c5433952381ed8523370c2fa9",
+    "head": "1f8c75566d0eee90086b31ae7bb7921b05502bdc",
+    "tree": "2ec31d95b765f040a4481d987ed1fc510811b793",
     "branch": "astra-a/ow08b-vendor-final-intake-prepared-20261029",
     "base_A": "3a0c947d66c73dcb87be10cb6a543da6c234d92d",
-    "selected_entries": 9,
-    "status": "PREPARED_CLOSED_MONEY_BROWSER2_REQUIRED_NOT_MAIN",
-    "source_controls": 7,
-    "old_B_graph79_unchanged": true,
+    "selected_entries": 10,
+    "status": "PREPARED_CLOSED_ACTUAL_MONEY_BROWSER_SUCCESSOR_REQUIRED_NOT_MAIN",
     "default_registration": false,
-    "requires_actual_backend11_AND_money_browser2": true
+    "old_B_graph79_unchanged": true,
+    "finite_text_contrast_at_least_4_5_required": true
   },
   "vendor_combined11_first_actual_failure": {
     "status": "FIRST_ACTUAL_COMBINED11_INCOMPLETE_PRESERVED",
@@ -19857,9 +19811,8 @@
     "receipt": "docs/cp7/d17-14/ow08/vendor-combined54b-first-incomplete.json"
   },
   "vendor_money_browser_prepared": {
-    "head": "58cef64facfcd3ccb4e78141c3035a293c53064a",
-    "status": "SUPERSEDED_BY_ACTUAL_QUALIFICATION_18fb",
-    "qualification": "18fb0bd2aae65d880e28d7ec8a7f2930f77c9925",
+    "status": "SUPERSEDED_BY_9fde_AFTER_FIRST18_GRADIENT_TOOL_FAILURE",
+    "head": "9fde249ed0aef0000c3d17fde6a2a3f02a4dab86",
     "actual_case_PASS_claim": false
   },
   "vendor_backend11_accepted": {
@@ -19892,45 +19845,82 @@
     "independent_acceptance": false
   },
   "vendor_money_browser_qualification": {
-    "status": "RUNNING_ACTUAL_MONEY_BROWSER2_NOT_ACCEPTED",
-    "head": "18fb0bd2aae65d880e28d7ec8a7f2930f77c9925",
-    "tree": "5c620d1e84eae2af8ae45cc462ccde9e089ff9f8",
-    "branch": "astra-a/ow08b-vendor-money-browser-qualification-20261029",
-    "run_id": 40777747825,
-    "job_id": 123131312444,
-    "backend": {
-      "head": "41caaaed02c0d89b122ecf1ff221f6647141c335",
-      "tree": "b8831a52531598c514f8199016dea6194d783833",
-      "run_id": 40769840440,
-      "job_id": 123103756460,
-      "artifact_id": 12854543326,
-      "zip_bytes": 2031933,
-      "zip_sha256": "9432cdd8bcea2df52ad8fb631122ce963b91bee32dea849a4337e4ec2c020eb0",
+    "status": "RUNNING_GRADIENT_MEASUREMENT_SUCCESSOR_NOT_ACCEPTED",
+    "head": "9fde249ed0aef0000c3d17fde6a2a3f02a4dab86",
+    "tree": "e086df00a3ec25c387ac465b94cf6882568fd669",
+    "branch": "astra-a/ow08b-money-browser-gradient-20261029",
+    "run_id": 40784374399,
+    "job_id": 123153769359,
+    "backend": "41caaaed02c0d89b122ecf1ff221f6647141c335",
+    "first_failure": "docs/cp7/d17-14/ow08/vendor-money18-first-incomplete.json",
+    "local_controls": {
+      "contrast": 15,
+      "admission": 4
+    },
+    "source_admission": "PASS_EXACT_BACKEND11_CLIENT6_PARENT193_AND_FIRST18_ORIGINALS",
+    "product_delta": "Scoped vendor-payment disabled opacity1/dashed border only; all financial handlers and backend unchanged",
+    "actual_browser_PASS_claim": false,
+    "B_browser_repeated": false,
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "vendor_money_browser_first_actual_failure": {
+    "pin": {
+      "head": "18fb0bd2aae65d880e28d7ec8a7f2930f77c9925",
+      "tree": "5c620d1e84eae2af8ae45cc462ccde9e089ff9f8",
+      "run_id": 40777747825,
+      "job_id": 123131312444,
+      "artifact_id": 12856154695,
+      "zip_bytes": 2720137,
+      "zip_sha256": "23f6a463e04751dce862bd5ca1354d6ca2a2dd9968b5b8911cdee9bf0b2cebce",
       "original": {
-        "name": "CP7_VENDOR_RECEIVABLE_COMBINED11.json",
-        "bytes": 3485711,
-        "sha256": "04e00f42862ddfec8346d41d4d6a2d6a285f041127cccf09d973ca929b307ea0"
+        "name": "CP7_VENDOR_MONEY_BROWSER2.json",
+        "bytes": 796009,
+        "sha256": "eb62eb7a57d9eedbe111fee75883523a45401ba392b0a2f8512c90a474ec97e0"
       },
       "package": {
         "name": "T3_PACKAGE_INSTALL.json",
-        "bytes": 360420,
-        "sha256": "48fc54072b4f3122d89f6a45faa93f0e8ebd05ecfde0b9370def8202755e0f43"
+        "bytes": 360411,
+        "sha256": "effa1b493518651826102692f66a8ddc2ceaf435df29d1b5d1ecb756762ee01d"
       }
     },
-    "fresh_planned": {
-      "browser": 2,
-      "Native": 0,
-      "races": 0
+    "status": "INCOMPLETE",
+    "browser_counts": {
+      "INCOMPLETE": 2
     },
-    "existing_complete_installation_entrypoint": "cp7_vendor_receivable.composition.install",
-    "source_admission": "PASS_EXACT_BACKEND11_CLIENT5_AND_PARENT193",
-    "local_controls": {
-      "admission": 3,
-      "opacity": 7,
-      "retained_console": 4
+    "host_status": "RUN_COMPLETE",
+    "host_exit": 0,
+    "restoration": {
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "baseline_full22_all_rows_all_sequences_equal": true,
+      "baseline_advisors_equal": true,
+      "used_guard_refused_before_DDL": null
     },
-    "B_browser_repeated": false,
-    "actual_browser_PASS_claim": false,
+    "package_gates": {
+      "installed": true,
+      "primary_unchanged": true,
+      "backup_restore_drill": true,
+      "security_advisors": true,
+      "writer_runtime": false
+    },
+    "first_failures": [
+      {
+        "id": "VENDOR_MONEY_BROWSER_DESKTOP_REFUND_INVERSE_HISTORY",
+        "status": "INCOMPLETE",
+        "error": "Error: UNMEASURED_FINANCE_BACKGROUND_IMAGE\n    at renderedTextContrast (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-vendor-money-browser/visual.mjs:14:61)\n    at file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-vendor-money-browser/visual.mjs:40:56\n    at Array.map (<anonymous>)\n    at readable (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-vendor-money-browser/visual.mjs:40:17)\n    at async journey (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-vendor-money-browser/cases.mjs:103:109)\n    at async main (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:243:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:259:3"
+      },
+      {
+        "id": "VENDOR_MONEY_BROWSER_MOBILE_REFUND_ACCESS_HIDDEN",
+        "status": "INCOMPLETE",
+        "error": "Error: UNMEASURED_FINANCE_BACKGROUND_IMAGE\n    at renderedTextContrast (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-vendor-money-browser/visual.mjs:14:61)\n    at file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-vendor-money-browser/visual.mjs:40:56\n    at Array.map (<anonymous>)\n    at readable (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-vendor-money-browser/visual.mjs:40:17)\n    at async journey (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-vendor-money-browser/cases.mjs:103:109)\n    at async main (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:243:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:259:3"
+      }
+    ],
+    "receipt": "docs/cp7/d17-14/ow08/vendor-money18-first-incomplete.json",
+    "classification": "CONTRAST_INSTRUMENT_REFUSED_ACTUAL_CSS_GRADIENT",
+    "actual_full_case_credit": 0,
+    "partial_witness": "Actual refund posted on both screens; desktop retained committed response loss and exact same UUID replay with one refund. Both stop at first contrast call, before inverse/next-credit/mobile-revoke completion.",
+    "remaining": "Both full UI journeys and visual acceptance remain open. Full22/data/sequences/roles/CP6/advisors/Auth restored; writer_runtime=false.",
     "production_go": false,
     "independent_acceptance": false
   }

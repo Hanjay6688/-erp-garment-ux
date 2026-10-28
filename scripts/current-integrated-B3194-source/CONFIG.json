@@ -336,7 +336,13 @@
     "docs/cp7/d17-14/ow08/vendor-combined41c-pass/CP7_VENDOR_RECEIVABLE_COMBINED11.json.gz",
     "docs/cp7/d17-14/ow08/vendor-combined41c-pass/T3_PACKAGE_FILES_INSTALL.json.gz",
     "docs/cp7/d17-14/ow08/vendor-combined41c-pass/T3_BACKUP_RESTORE_DRILL.json.gz",
-    "docs/cp7/d17-14/ow08/vendor-combined41c-pass/T3_PACKAGE_INSTALL.json.gz"
+    "docs/cp7/d17-14/ow08/vendor-combined41c-pass/T3_PACKAGE_INSTALL.json.gz",
+    "docs/cp7/d17-14/ow08/vendor-money18-first-incomplete.json",
+    "docs/cp7/d17-14/ow08/vendor-money18-first-incomplete/ORIGINAL_MEMBERS.json",
+    "docs/cp7/d17-14/ow08/vendor-money18-first-incomplete/T3_PACKAGE_FILES_INSTALL.json.gz",
+    "docs/cp7/d17-14/ow08/vendor-money18-first-incomplete/CP7_VENDOR_MONEY_BROWSER2.json.gz",
+    "docs/cp7/d17-14/ow08/vendor-money18-first-incomplete/T3_BACKUP_RESTORE_DRILL.json.gz",
+    "docs/cp7/d17-14/ow08/vendor-money18-first-incomplete/T3_PACKAGE_INSTALL.json.gz"
   ],
   "production_go": false,
   "independent_acceptance": false

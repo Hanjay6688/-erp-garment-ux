@@ -1,0 +1,52 @@
+{
+  "artifact": {
+    "head": "18fb0bd2aae65d880e28d7ec8a7f2930f77c9925",
+    "tree": "5c620d1e84eae2af8ae45cc462ccde9e089ff9f8",
+    "run_id": 40777747825,
+    "job_id": 123131312444,
+    "artifact_id": 12856154695,
+    "zip_bytes": 2720137,
+    "zip_sha256": "23f6a463e04751dce862bd5ca1354d6ca2a2dd9968b5b8911cdee9bf0b2cebce",
+    "original": {
+      "name": "CP7_VENDOR_MONEY_BROWSER2.json",
+      "bytes": 796009,
+      "sha256": "eb62eb7a57d9eedbe111fee75883523a45401ba392b0a2f8512c90a474ec97e0"
+    },
+    "package": {
+      "name": "T3_PACKAGE_INSTALL.json",
+      "bytes": 360411,
+      "sha256": "effa1b493518651826102692f66a8ddc2ceaf435df29d1b5d1ecb756762ee01d"
+    }
+  },
+  "members": [
+    {
+      "name": "CP7_VENDOR_MONEY_BROWSER2.json",
+      "raw_bytes": 796009,
+      "raw_sha256": "eb62eb7a57d9eedbe111fee75883523a45401ba392b0a2f8512c90a474ec97e0",
+      "retained": "CP7_VENDOR_MONEY_BROWSER2.json.gz",
+      "gzip_sha256": "1644f0d31d0ce14eb3c8dcf2580e0978f5de7658a2659e6ecf34f7b3c91ac01a"
+    },
+    {
+      "name": "T3_PACKAGE_INSTALL.json",
+      "raw_bytes": 360411,
+      "raw_sha256": "effa1b493518651826102692f66a8ddc2ceaf435df29d1b5d1ecb756762ee01d",
+      "retained": "T3_PACKAGE_INSTALL.json.gz",
+      "gzip_sha256": "37cba00fd61ec46888bc946cc35433fb7a84610412c2fda1a69f16d6e12983cb"
+    },
+    {
+      "name": "T3_BACKUP_RESTORE_DRILL.json",
+      "raw_bytes": 1470,
+      "raw_sha256": "3394047f16ba7ca06d5c22ac435859126d3d63ec34deaf8ef52577570244d7c6",
+      "retained": "T3_BACKUP_RESTORE_DRILL.json.gz",
+      "gzip_sha256": "8060426936ae9f8edef02c2d39798227299ff4ec92ef71af9dd0292bf82317a7"
+    },
+    {
+      "name": "T3_PACKAGE_FILES_INSTALL.json",
+      "raw_bytes": 1806,
+      "raw_sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "retained": "T3_PACKAGE_FILES_INSTALL.json.gz",
+      "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7"
+    }
+  ],
+  "method": "Original raw JSON bytes, gzip only; screenshot-containing ZIP retained privately, not rewritten"
+}

@@ -1,0 +1,60 @@
+{
+  "pin": {
+    "head": "18fb0bd2aae65d880e28d7ec8a7f2930f77c9925",
+    "tree": "5c620d1e84eae2af8ae45cc462ccde9e089ff9f8",
+    "run_id": 40777747825,
+    "job_id": 123131312444,
+    "artifact_id": 12856154695,
+    "zip_bytes": 2720137,
+    "zip_sha256": "23f6a463e04751dce862bd5ca1354d6ca2a2dd9968b5b8911cdee9bf0b2cebce",
+    "original": {
+      "name": "CP7_VENDOR_MONEY_BROWSER2.json",
+      "bytes": 796009,
+      "sha256": "eb62eb7a57d9eedbe111fee75883523a45401ba392b0a2f8512c90a474ec97e0"
+    },
+    "package": {
+      "name": "T3_PACKAGE_INSTALL.json",
+      "bytes": 360411,
+      "sha256": "effa1b493518651826102692f66a8ddc2ceaf435df29d1b5d1ecb756762ee01d"
+    }
+  },
+  "status": "INCOMPLETE",
+  "browser_counts": {
+    "INCOMPLETE": 2
+  },
+  "host_status": "RUN_COMPLETE",
+  "host_exit": 0,
+  "restoration": {
+    "cp6_restored": true,
+    "advisor_gate": true,
+    "baseline_full22_all_rows_all_sequences_equal": true,
+    "baseline_advisors_equal": true,
+    "used_guard_refused_before_DDL": null
+  },
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "first_failures": [
+    {
+      "id": "VENDOR_MONEY_BROWSER_DESKTOP_REFUND_INVERSE_HISTORY",
+      "status": "INCOMPLETE",
+      "error": "Error: UNMEASURED_FINANCE_BACKGROUND_IMAGE\n    at renderedTextContrast (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-vendor-money-browser/visual.mjs:14:61)\n    at file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-vendor-money-browser/visual.mjs:40:56\n    at Array.map (<anonymous>)\n    at readable (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-vendor-money-browser/visual.mjs:40:17)\n    at async journey (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-vendor-money-browser/cases.mjs:103:109)\n    at async main (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:243:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:259:3"
+    },
+    {
+      "id": "VENDOR_MONEY_BROWSER_MOBILE_REFUND_ACCESS_HIDDEN",
+      "status": "INCOMPLETE",
+      "error": "Error: UNMEASURED_FINANCE_BACKGROUND_IMAGE\n    at renderedTextContrast (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-vendor-money-browser/visual.mjs:14:61)\n    at file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-vendor-money-browser/visual.mjs:40:56\n    at Array.map (<anonymous>)\n    at readable (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-vendor-money-browser/visual.mjs:40:17)\n    at async journey (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-vendor-money-browser/cases.mjs:103:109)\n    at async main (file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:243:13)\n    at async file:///home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_browser_host.mjs:259:3"
+    }
+  ],
+  "receipt": "docs/cp7/d17-14/ow08/vendor-money18-first-incomplete.json",
+  "classification": "CONTRAST_INSTRUMENT_REFUSED_ACTUAL_CSS_GRADIENT",
+  "actual_full_case_credit": 0,
+  "partial_witness": "Actual refund posted on both screens; desktop retained committed response loss and exact same UUID replay with one refund. Both stop at first contrast call, before inverse/next-credit/mobile-revoke completion.",
+  "remaining": "Both full UI journeys and visual acceptance remain open. Full22/data/sequences/roles/CP6/advisors/Auth restored; writer_runtime=false.",
+  "production_go": false,
+  "independent_acceptance": false
+}
