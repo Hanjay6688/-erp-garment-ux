@@ -1,0 +1,308 @@
+{
+  "name": "CP7_D17_18_COMBINED_FINANCE_NATIVE_SOURCE_FACTORY_CRON7.json",
+  "status": "INCOMPLETE",
+  "head": "af474fe365b83651dae096f988def69e3ef7e8d7",
+  "run_id": 40576582149,
+  "job_id": 122444519274,
+  "artifact_id": 12769642828,
+  "zip_bytes": 10204338,
+  "zip_sha256": "5e7741b1b7af4389e60943b432000335539dc3e91095c32560c493d3fe644c20",
+  "bytes": 83281688,
+  "sha256": "ff77efc2e8cbd2ff182c2af36b319aee06b35e62edf73acfbb2ab24c32cc846d",
+  "archive_member": "CP7_D17_18_COMBINED_FINANCE_NATIVE_SOURCE_FACTORY_CRON7.json",
+  "package_name": "T3_PACKAGE_INSTALL.json",
+  "package_member": "T3_PACKAGE_INSTALL.json",
+  "package_bytes": 360452,
+  "package_sha256": "119da071fc5fd336f5c1eb029202d61d9d421462a1d7e9722b99cd3b90a7dbd1",
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "whole_source_declaration_exact": true,
+  "pass_groups": 5,
+  "incomplete_groups": 2,
+  "Native_counts": {
+    "PASS": 20
+  },
+  "SMALL_report_pair_status": "PASS",
+  "PRICE_PERCENT_whole_reports_equal_but_not_qualified": true,
+  "live_volatile_reader": "erp.product_opening_physical_at(uuid,date)",
+  "volatile_live_definition_sha256": "a30d815ad4b833697b04f209422a7c36783041a138be728f70547665c5fca25a",
+  "factory_observed_jobs": "DONE",
+  "factory_observed_finance": "READY",
+  "factory_elapsed_seconds": 288.151,
+  "factory_readback_and_last_installed_restoration_not_proven": true,
+  "first_factory_error": "jsonb_agg exceeds 268435455-byte maximum",
+  "complete_outer_preinstall_restoration_pass": true,
+  "all22_rows_sequences_roles_CP6_advisors_restored": true,
+  "first_committed_group_USED_guard_pass": true,
+  "whole_result_not_promoted_to_PASS": true,
+  "errors": {
+    "COMBINED_UNCHANGED_CHILD_VISIBILITY": {
+      "status": "PASS",
+      "error": null,
+      "traceback": null,
+      "restore_error": null,
+      "restore_traceback": null,
+      "installed_baseline_restoration": {
+        "all22_all_rows_all_sequences_roles_exact": true,
+        "complete_database_dump_restored": true,
+        "scheduler_quiet": true,
+        "restore": {
+          "exit": 1,
+          "error_count": 19,
+          "unexplained": [],
+          "only_pg_cron_errors": true,
+          "database_owner_acl_and_settings_preserved": true,
+          "platform_schema_authority_restored": [
+            "graphql",
+            "graphql_public"
+          ]
+        },
+        "selected_table_cleanup": false,
+        "inverse_refusal": "COMBINED_FINANCE_AFTER_USE_REQUIRES_FULL_BACKUP_RESTORE",
+        "inverse_refused_before_DDL": true,
+        "used_guard_refused_before_DDL": true,
+        "committed_data_changed": true,
+        "raw_catalog_spelling_changed": false,
+        "unexpected_catalog_change": false
+      }
+    },
+    "COMBINED_NULL_SNAPSHOT_REFUSAL_AND_RECOVERY": {
+      "status": "PASS",
+      "error": null,
+      "traceback": null,
+      "restore_error": null,
+      "restore_traceback": null,
+      "installed_baseline_restoration": {
+        "all22_all_rows_all_sequences_roles_exact": true,
+        "complete_database_dump_restored": true,
+        "scheduler_quiet": true,
+        "restore": {
+          "exit": 1,
+          "error_count": 19,
+          "unexplained": [],
+          "only_pg_cron_errors": true,
+          "database_owner_acl_and_settings_preserved": true,
+          "platform_schema_authority_restored": [
+            "graphql",
+            "graphql_public"
+          ]
+        },
+        "selected_table_cleanup": false,
+        "inverse_refusal": "COMBINED_FINANCE_ACTUAL_ALL22_CHANGED",
+        "inverse_refused_before_DDL": true,
+        "used_guard_refused_before_DDL": false,
+        "committed_data_changed": true,
+        "raw_catalog_spelling_changed": true,
+        "unexpected_catalog_change": false
+      }
+    },
+    "COMBINED_UNCHANGED_NATIVE20": {
+      "status": "PASS",
+      "error": null,
+      "traceback": null,
+      "restore_error": null,
+      "restore_traceback": null,
+      "installed_baseline_restoration": {
+        "all22_all_rows_all_sequences_roles_exact": true,
+        "complete_database_dump_restored": true,
+        "scheduler_quiet": true,
+        "restore": {
+          "exit": 1,
+          "error_count": 19,
+          "unexplained": [],
+          "only_pg_cron_errors": true,
+          "database_owner_acl_and_settings_preserved": true,
+          "platform_schema_authority_restored": [
+            "graphql",
+            "graphql_public"
+          ]
+        },
+        "selected_table_cleanup": false,
+        "inverse_refusal": "COMBINED_FINANCE_ACTUAL_ALL22_CHANGED",
+        "inverse_refused_before_DDL": true,
+        "used_guard_refused_before_DDL": false,
+        "committed_data_changed": true,
+        "raw_catalog_spelling_changed": true,
+        "unexpected_catalog_change": false
+      }
+    },
+    "COMBINED_INDEPENDENT_SIGNATURE": {
+      "status": "PASS",
+      "error": null,
+      "traceback": null,
+      "restore_error": null,
+      "restore_traceback": null,
+      "installed_baseline_restoration": {
+        "all22_all_rows_all_sequences_roles_exact": true,
+        "complete_database_dump_restored": true,
+        "scheduler_quiet": true,
+        "restore": {
+          "exit": 1,
+          "error_count": 19,
+          "unexplained": [],
+          "only_pg_cron_errors": true,
+          "database_owner_acl_and_settings_preserved": true,
+          "platform_schema_authority_restored": [
+            "graphql",
+            "graphql_public"
+          ]
+        },
+        "selected_table_cleanup": false,
+        "inverse_refusal": "COMBINED_FINANCE_ACTUAL_ALL22_CHANGED",
+        "inverse_refused_before_DDL": true,
+        "used_guard_refused_before_DDL": false,
+        "committed_data_changed": true,
+        "raw_catalog_spelling_changed": true,
+        "unexpected_catalog_change": false
+      }
+    },
+    "COMBINED_CURRENT_PUBLIC_ACTUAL_CRON": {
+      "status": "PASS",
+      "error": null,
+      "traceback": null,
+      "restore_error": null,
+      "restore_traceback": null,
+      "installed_baseline_restoration": {
+        "all22_all_rows_all_sequences_roles_exact": true,
+        "complete_database_dump_restored": true,
+        "scheduler_quiet": true,
+        "restore": {
+          "exit": 1,
+          "error_count": 19,
+          "unexplained": [],
+          "only_pg_cron_errors": true,
+          "database_owner_acl_and_settings_preserved": true,
+          "platform_schema_authority_restored": [
+            "graphql",
+            "graphql_public"
+          ]
+        },
+        "selected_table_cleanup": false,
+        "inverse_refusal": "COMBINED_FINANCE_ACTUAL_ALL22_CHANGED",
+        "inverse_refused_before_DDL": true,
+        "used_guard_refused_before_DDL": false,
+        "committed_data_changed": true,
+        "raw_catalog_spelling_changed": true,
+        "unexpected_catalog_change": false
+      }
+    },
+    "COMBINED_SMALL_PRICE_FACTORY_REPORT_PAIRS": {
+      "status": "INCOMPLETE",
+      "error": "('COMBINED_FINANCIAL_READER_VOLATILITY_REQUIRES_DIAGNOSIS', {'erp.product_opening_physical_at(uuid,date)': 'v'})",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-finance-followups-qualification/isolated_cases.py\", line 15, in exercise\n    run(operation, result)\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-finance-combined-composition/qualification_runner.py\", line 52, in run\n    current.rollback();operation(current,c,database,url,result)\n                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-finance-combined-composition/qualification_cases.py\", line 134, in paired_reports\n    assert not new['observed_nonstable_financial_readers'],('COMBINED_FINANCIAL_READER_VOLATILITY_REQUIRES_DIAGNOSIS',new['observed_nonstable_financial_readers'])\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ('COMBINED_FINANCIAL_READER_VOLATILITY_REQUIRES_DIAGNOSIS', {'erp.product_opening_physical_at(uuid,date)': 'v'})\n",
+      "restore_error": null,
+      "restore_traceback": null,
+      "installed_baseline_restoration": {
+        "all22_all_rows_all_sequences_roles_exact": true,
+        "complete_database_dump_restored": true,
+        "scheduler_quiet": true,
+        "restore": {
+          "exit": 1,
+          "error_count": 19,
+          "unexplained": [],
+          "only_pg_cron_errors": true,
+          "database_owner_acl_and_settings_preserved": true,
+          "platform_schema_authority_restored": [
+            "graphql",
+            "graphql_public"
+          ]
+        },
+        "selected_table_cleanup": false,
+        "inverse_refusal": "COMBINED_FINANCE_ACTUAL_ALL22_CHANGED",
+        "inverse_refused_before_DDL": true,
+        "used_guard_refused_before_DDL": false,
+        "committed_data_changed": true,
+        "raw_catalog_spelling_changed": true,
+        "unexpected_catalog_change": false
+      }
+    },
+    "COMBINED_CURRENT_PUBLIC_FACTORY1200X3_ACTUAL_CRON": {
+      "status": "INCOMPLETE",
+      "error": "total size of jsonb array elements exceeds the maximum of 268435455 bytes",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-finance-followups-qualification/isolated_cases.py\", line 15, in exercise\n    run(operation, result)\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-finance-combined-composition/qualification_runner.py\", line 52, in run\n    current.rollback();operation(current,c,database,url,result)\n                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-finance-combined-composition/qualification_cases.py\", line 49, in factory_cron\n    factory.exercise(conn,cur,database,url,report)\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-finance-combined-composition/qualification_factory.py\", line 118, in exercise\n    assert erp_data(cur)==before and product.catalog._catalog_rows(cur)==before_catalog\n           ^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-finance-combined-composition/qualification_factory.py\", line 28, in erp_data\n    return {k:v for k,v in product.catalog._data(cur).items()\n                           ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow04_restore_bundle.py\", line 115, in _data\n    row=cur.execute(sql.SQL(\"select count(*),encode(sha256(convert_to(coalesce(jsonb_agg(to_jsonb(r)order by to_jsonb(r)::text),'[]'::jsonb)::text,'UTF8')),'hex')from {} r\").format(sql.Identifier(*name))).fetchone()\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.ProgramLimitExceeded: total size of jsonb array elements exceeds the maximum of 268435455 bytes\n",
+      "restore_error": "total size of jsonb array elements exceeds the maximum of 268435455 bytes",
+      "restore_traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-finance-followups-qualification/isolated_cases.py\", line 22, in exercise\n    proof = restore()\n            ^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-finance-combined-composition/qualification_runner.py\", line 57, in restore\n    held=catalog._catalog_rows(c);actual=catalog._data(c)\n                                         ^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow04_restore_bundle.py\", line 115, in _data\n    row=cur.execute(sql.SQL(\"select count(*),encode(sha256(convert_to(coalesce(jsonb_agg(to_jsonb(r)order by to_jsonb(r)::text),'[]'::jsonb)::text,'UTF8')),'hex')from {} r\").format(sql.Identifier(*name))).fetchone()\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.ProgramLimitExceeded: total size of jsonb array elements exceeds the maximum of 268435455 bytes\n",
+      "installed_baseline_restoration": null
+    }
+  },
+  "stage_timings": [
+    {
+      "phase": "SOURCE_ADMISSION",
+      "state": "COMPLETED",
+      "started_at_utc": "2026-10-27T20:23:14.519622+00:00",
+      "elapsed_ms": 8784.647,
+      "finished_at_utc": "2026-10-27T20:23:23.304358+00:00"
+    },
+    {
+      "phase": "BASELINE_ADVISORS",
+      "state": "COMPLETED",
+      "started_at_utc": "2026-10-27T20:23:23.306332+00:00",
+      "elapsed_ms": 1400.797,
+      "finished_at_utc": "2026-10-27T20:23:24.707188+00:00"
+    },
+    {
+      "phase": "BASELINE_DUMP",
+      "state": "COMPLETED",
+      "started_at_utc": "2026-10-27T20:23:27.546626+00:00",
+      "elapsed_ms": 800.207,
+      "finished_at_utc": "2026-10-27T20:23:28.346921+00:00"
+    },
+    {
+      "phase": "SINGLE_FULL_READONLY_PARENT_INSTALL",
+      "state": "COMPLETED",
+      "started_at_utc": "2026-10-27T20:23:28.360437+00:00",
+      "elapsed_ms": 1011766.137,
+      "finished_at_utc": "2026-10-27T20:40:20.126654+00:00"
+    },
+    {
+      "phase": "FIRST_FINANCE_DELTA",
+      "state": "COMPLETED",
+      "started_at_utc": "2026-10-27T20:40:20.126716+00:00",
+      "elapsed_ms": 20755.167,
+      "finished_at_utc": "2026-10-27T20:40:40.881925+00:00"
+    },
+    {
+      "phase": "FINANCE_DELTA_PREUSE_INVERSE",
+      "state": "COMPLETED",
+      "started_at_utc": "2026-10-27T20:40:40.882018+00:00",
+      "elapsed_ms": 19025.466,
+      "finished_at_utc": "2026-10-27T20:40:59.907511+00:00"
+    },
+    {
+      "phase": "SECOND_FINANCE_DELTA",
+      "state": "COMPLETED",
+      "started_at_utc": "2026-10-27T20:40:59.907587+00:00",
+      "elapsed_ms": 21621.686,
+      "finished_at_utc": "2026-10-27T20:41:21.529305+00:00"
+    },
+    {
+      "phase": "ISOLATED_DIAGNOSTICS",
+      "state": "FAILED",
+      "started_at_utc": "2026-10-27T20:41:30.395007+00:00",
+      "error_type": "ProgramLimitExceeded",
+      "elapsed_ms": 739336.347,
+      "finished_at_utc": "2026-10-27T20:53:49.731427+00:00"
+    },
+    {
+      "phase": "BASELINE_RESTORE",
+      "state": "COMPLETED",
+      "started_at_utc": "2026-10-27T20:53:49.771017+00:00",
+      "elapsed_ms": 3438.13,
+      "finished_at_utc": "2026-10-27T20:53:53.209223+00:00"
+    }
+  ],
+  "job_log_retention": {
+    "first_two_connector_reads": "Transport closed",
+    "public_raw_API_HTTP": 403,
+    "read_only_retention_run": 40613315747,
+    "ERP_tests_rerun": false
+  },
+  "production_go": false,
+  "independent_acceptance": false,
+  "default_adopted": false
+}

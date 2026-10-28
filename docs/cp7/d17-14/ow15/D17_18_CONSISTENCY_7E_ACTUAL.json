@@ -1,0 +1,179 @@
+{
+  "name": "CP7_D17_18_CONSISTENCY_CORRECTED_NATIVE20_CRON1.json",
+  "status": "PASS",
+  "head": "7e56b69585413fd635183d3dfa96c871804bd136",
+  "run_id": 40568945069,
+  "job_id": 122417638577,
+  "artifact_id": 12766592167,
+  "zip_bytes": 2492470,
+  "zip_sha256": "b8d393585952ff0b26d86cd7d135309a6050797881eeba7c9c6767e2f4113f38",
+  "bytes": 8349199,
+  "sha256": "51c70b426c95a2edc34808992001650dd5c9351c3a1321ce2dc01e225d8e7ae2",
+  "archive_member": "CP7_D17_18_CONSISTENCY_CORRECTED_NATIVE20_CRON1.json",
+  "package_name": "T3_PACKAGE_INSTALL.json",
+  "package_member": "T3_PACKAGE_INSTALL.json",
+  "package_bytes": 360445,
+  "package_sha256": "7e5fe52f982ad179a3e0bfe877444aebec8d985cc02d90985b948b6a076138ce",
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "Native_counts": {
+    "PASS": 20
+  },
+  "all_Native_cases_full_boundary_restored": true,
+  "three_BusinessReport_original_oracles_and_case_savepoint_preparation_pass": true,
+  "actual_minute_cron_status": "PASS",
+  "actual_minute_cron_elapsed_seconds": 12.02,
+  "actual_cron_job_states": {
+    "52b5c136-d154-4862-9159-fb4e2a794655": "DONE",
+    "ee7a7c92-acaf-4014-89a1-cf232d13d448": "DONE"
+  },
+  "observed_finance_state": "READY",
+  "observed_choice_state": "READY",
+  "report_and_collected_book_signatures_equal": true,
+  "all_installed_and_preinstall_full_boundaries_restored": true,
+  "used_guard_refused_before_DDL": true,
+  "baseline_first_NULL_mixed_ready_counterexample_status": "INCOMPLETE",
+  "original_ERP_SQL_and_Native_body_changes": false,
+  "whole84_and64_statuses_remain_INCOMPLETE": true,
+  "accepted_component_summary": {
+    "status": "QUALIFIED_COMPONENTS_FOR_COMBINED_QUALIFICATION",
+    "retained84": {
+      "head": "84c2c9d962173c80a7630a857b708fe441f14e9b",
+      "actual_whole_status": "INCOMPLETE",
+      "raw_original_sha256": "8069c2a5593d3f9dfa2aa9bf97c6d2494ade493870c7228dc928875bbc15267e",
+      "raw_package_sha256": "75a734177263e772d07e45bcfc0623766bc95dda6db382139072db391c02da4b",
+      "retained_pass_groups": [
+        "REPORT_BOOK_ASSIGNED_TRANSACTION_NULL_SNAPSHOT_AND_RECOVERY",
+        "REPORT_BOOK_INDEPENDENT_CANONICAL_SIGNATURE",
+        "REPORT_BOOK_SMALL_PRICE_FACTORY_OVERHEAD",
+        "REPORT_BOOK_UNCHANGED_CHILD_VISIBILITY_COUNTEREXAMPLE",
+        "UNCHANGED_SINGLE_CHECK_DIAGNOSTIC_WITH_COMPLETE_RESTORATION"
+      ],
+      "required_focused_groups": [
+        "REPORT_BOOK_UNCHANGED_ACTUAL_MINUTE_CRON",
+        "REPORT_BOOK_UNCHANGED_NATIVE20"
+      ],
+      "first_mixed_book_counterexample_proven": true,
+      "all_installed_and_preinstall_boundaries_restored": true,
+      "Native17_pass_3_input_failures_preserved": true,
+      "cron_completed_but_identity_assertion_failed": true,
+      "whole_old_result_not_promoted_to_PASS": true,
+      "production_go": false,
+      "independent_acceptance": false
+    },
+    "retained64": {
+      "head": "64de326e819885f6982364a868a3fa11c8b9dd3d",
+      "whole_status": "INCOMPLETE",
+      "original_sha256": "a8102a4bf2ecdc1cf8497c79c4aa44f6e98972db908b09a6ff114ff3135d9acf",
+      "package_sha256": "04735c6d34d8169c15aae28bed8be41627fe48412aeeb6d3f21c4e47df7d3df4",
+      "actual_cron_component_status": "PASS",
+      "Native20_not_executed": true,
+      "Native_factory_missing_helper_name_preserved": true,
+      "first_mixed_book_counterexample_proven": true,
+      "all_boundaries_restored": true,
+      "whole_old_result_not_promoted_to_PASS": true,
+      "production_go": false,
+      "independent_acceptance": false
+    },
+    "focused_head": "7e56b69585413fd635183d3dfa96c871804bd136",
+    "focused_original_sha256": "51c70b426c95a2edc34808992001650dd5c9351c3a1321ce2dc01e225d8e7ae2",
+    "focused_package_sha256": "7e5fe52f982ad179a3e0bfe877444aebec8d985cc02d90985b948b6a076138ce",
+    "retained_restored_pass_groups": [
+      "REPORT_BOOK_ASSIGNED_TRANSACTION_NULL_SNAPSHOT_AND_RECOVERY",
+      "REPORT_BOOK_INDEPENDENT_CANONICAL_SIGNATURE",
+      "REPORT_BOOK_SMALL_PRICE_FACTORY_OVERHEAD",
+      "REPORT_BOOK_UNCHANGED_CHILD_VISIBILITY_COUNTEREXAMPLE",
+      "UNCHANGED_SINGLE_CHECK_DIAGNOSTIC_WITH_COMPLETE_RESTORATION"
+    ],
+    "fresh_focused_pass_groups": [
+      "REPORT_BOOK_UNCHANGED_ACTUAL_MINUTE_CRON",
+      "REPORT_BOOK_UNCHANGED_NATIVE20"
+    ],
+    "all_seven_components_and_full_restores": true,
+    "old_whole_status": "INCOMPLETE",
+    "fresh_groups_executed": 2,
+    "whole_old_result_not_promoted_to_PASS": true,
+    "both_old_whole_results_remain_INCOMPLETE": true,
+    "combined_reader_not_yet_qualified": true,
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "stage_timings": [
+    {
+      "phase": "SOURCE_ADMISSION",
+      "state": "COMPLETED",
+      "started_at_utc": "2026-10-27T19:35:45.265872+00:00",
+      "elapsed_ms": 3272.946,
+      "finished_at_utc": "2026-10-27T19:35:48.538872+00:00"
+    },
+    {
+      "phase": "BASELINE_ADVISORS",
+      "state": "COMPLETED",
+      "started_at_utc": "2026-10-27T19:35:48.540688+00:00",
+      "elapsed_ms": 1830.535,
+      "finished_at_utc": "2026-10-27T19:35:50.371265+00:00"
+    },
+    {
+      "phase": "BASELINE_DUMP",
+      "state": "COMPLETED",
+      "started_at_utc": "2026-10-27T19:35:54.644525+00:00",
+      "elapsed_ms": 1165.644,
+      "finished_at_utc": "2026-10-27T19:35:55.810242+00:00"
+    },
+    {
+      "phase": "SINGLE_FULL_PARENT_INSTALL",
+      "state": "COMPLETED",
+      "started_at_utc": "2026-10-27T19:35:55.826015+00:00",
+      "elapsed_ms": 1546906.983,
+      "finished_at_utc": "2026-10-27T20:01:42.733050+00:00"
+    },
+    {
+      "phase": "FIRST_FINANCE_DELTA",
+      "state": "COMPLETED",
+      "started_at_utc": "2026-10-27T20:01:42.733115+00:00",
+      "elapsed_ms": 20732.115,
+      "finished_at_utc": "2026-10-27T20:02:03.465257+00:00"
+    },
+    {
+      "phase": "FINANCE_DELTA_PREUSE_INVERSE",
+      "state": "COMPLETED",
+      "started_at_utc": "2026-10-27T20:02:03.465315+00:00",
+      "elapsed_ms": 16940.833,
+      "finished_at_utc": "2026-10-27T20:02:20.406183+00:00"
+    },
+    {
+      "phase": "SECOND_FINANCE_DELTA",
+      "state": "COMPLETED",
+      "started_at_utc": "2026-10-27T20:02:20.406241+00:00",
+      "elapsed_ms": 20533.436,
+      "finished_at_utc": "2026-10-27T20:02:40.939703+00:00"
+    },
+    {
+      "phase": "ISOLATED_DIAGNOSTICS",
+      "state": "COMPLETED",
+      "started_at_utc": "2026-10-27T20:02:49.722402+00:00",
+      "elapsed_ms": 161765.641,
+      "finished_at_utc": "2026-10-27T20:05:31.488119+00:00"
+    },
+    {
+      "phase": "BASELINE_RESTORE",
+      "state": "COMPLETED",
+      "started_at_utc": "2026-10-27T20:05:31.498876+00:00",
+      "elapsed_ms": 4243.896,
+      "finished_at_utc": "2026-10-27T20:05:35.742827+00:00"
+    }
+  ],
+  "job_log": {
+    "bytes": 1967792,
+    "sha256": "d84f81dcbd53c2f963b49ccf261129d778a54bb3350ad38583584a257cea6c24"
+  },
+  "production_go": false,
+  "independent_acceptance": false,
+  "default_adopted": false,
+  "performance_qualification": false
+}

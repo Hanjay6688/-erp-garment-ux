@@ -1,3 +1,95 @@
+LATEST A / 28 Oktober2026 WIB — actualAF INCOMPLETE5PASS preserved, correctedD3 RUNNING
+ActualAFaf474fe365b83651dae096f988def69e3ef7e8d7/run40576582149/job122444519274
+INCOMPLETE: childvisibility, NULLrefusal/recovery, Native20/20, canonicalsignature,
+and publicactualcronPASS, all5installedrestoresPASS. SMALLreportpairPASS. PRICE_PERCENT
+old/newwholereportSHAequal andzeroDML, butlivecatalogrevealedNestedNative
+erp.product_opening_physical_at(uuid,date) VOLATILE (a30d815ad4b833697b04f209422a7c36783041a138be728f70547665c5fca25a).
+It suppliesopeningSKUvalidinstant usedbyprivateHPPPRICE_PERCENT; same-snapshotguard correctlyblocked.
+FACTORY1200x3 realminutejobs2DONE/financeREADY in288.151s, butreadbackandinstalledrestore
+bothhitwhole-data jsonb_agg256MiBarraylimit. NOTfactoryPASS. Lastinstalledrestoreunproven;
+outerfullpreinstallation22/allrows/seq/roles/CP6/advisorsPASS. Package4gatestrue/runtimefalse.
+WholeAF notpromoted. 100JSON+ZIP/artifact12769642828 retained; wholeSource28pins/fullparent
+declaration exact againstbeforeDBadmission. ZIP10204338 SHA5e7741b1b7af4389e60943b432000335539dc3e91095c32560c493d3fe644c20;
+Original83281688 SHA ff77efc2e8cbd2ff182c2af36b319aee06b35e62edf73acfbb2ab24c32cc846d;
+package360452 SHA119da071fc5fd336f5c1eb029202d61d9d421462a1d7e9722b99cd3b90a7dbd1.
+Joblogsconnector twiceTransportclosed/publicAPI403; readonlyretention40613315747 started,
+noERP rerun (dffbc94727319023b7b27a7a23216c2b9f208a52). Keepallfirsterrors/raws.
+
+CURRENT frozenD3d36685a259087d9b83beb8fc4f410e4dac9502fd
+tree6fe337a957fdf4c67edae4169143e43228852517, locald67e1be78949c8b812f6f8544d5244a8b811f3c6;
+C/erp-reader-stream-followup, namespace scripts/current-finance-reader-stream-followup-qualification,
+executionastra-a/d17-18-consistent-reader-stream-qualification-20261028;
+preparedastra-a/d17-18-consistent-reader-stream-prepared-20261028;
+run40613109071/job122569172127 RUNNING_NOT_PASS. Source22pins/9localtestsPASS;
+full22+28+16+15+25+25+4085admissionPASS30.959s/0DB. All36factory/9probe/14runnerassertions retained.
+NoNativepublicSQL/body/metadata orHPPformula/Bfiles changed. NewprivateSTABLEcopy ofexact
+observedNativeopeningbody, ownerpostgres/emptysearchpath/owner-onlyEXECUTE; oneprivate
+HPPcallredirected. WrapperinstallsAFdelta thennewprivatehelper+calleechange, independently
+attestsall22/rowauthority andpreservesoldAFstate/seal unmodified. GlobalusedguardbeforeDDL.
+Fullpreuseinverse testedbyworkflow; noadoption/defaultregistration. All7groupsrunagain.
+
+Qualificationonlyexact_data observer streamsoneSQL-sortedto_jsonb(row)::text atatime,
+hashessame '['+rowsjoined', '+']'UTF8bytes/count asoldjsonbarray; unchanged_catalog
+namespace/GUC/sequencecode, noexcludedtable/field/duplicate. Callbackrestoredafterrun.
+Realdependencytest provesfactoryandretainedoracles useSAMEcatalog object. Beforeparent
+install, PGmustcompareold/newhashofALLtables/sequences, reproducetheold256MiBarray
+failureon1024temporaryduplicates/307.2MBpayload, verifyindependentstreamdigest andremove
+alltempdata. ThisactualPGregressionhasNOTbeenclaimedPASSyet. Noordinarytimeout change.
+Restorewrapperalwaysattemptsfullinstalleddump evenifpre-restoreobservation/usedguard
+fails, verifies22/allrows/seq/roles thenrecords/rethrowsfirsterror. Nooracleweakening.
+
+Actual7eNative20+cron/fullrestores5gatesPASS remainsacceptedcomponentprereq; old84/64
+statuses unchanged. Auth/browser1fdworkflowstaysclosed (pointsAF; mustrebindtoqualified
+correctedcomposition ONLYafteractualfullPASS),0Auth/browsercases/8localtests;113Ahost
+and91Bfilesexactcurrent1dd unchanged. Formal5/16, noCP7C, independent_acceptance=false,
+production_go=false. Do notblindmerge diagnosticbranch todefault orwriteBscope.
+NextmonitorD3includingactualPGhashregressionthenall7cases/fullrestores; retainfirstfailure.
+
+LATEST A / 28 Oktober2026 WIB — corrected7e PASS verified, owncombinedAF RUNNING
+ACTUAL7e56b69585413fd635183d3dfa96c871804bd136/run40568945069/job122417638577
+PASS verified from99JSON+ZIP/artifact12766592167 and exact complete source declaration.
+Native20 PASS20/20 inclall3 originalBusinessReport bodies withacceptedNativepoolpreparation
+insideeachsavepoint; everyNativeboundary restored. RealminutecronPASS:2jobsDONE,
+finance/choiceREADY, reportbooksignature==collectedbooksignature, official24metrics,
+UNKNOWN/UUID/originalassertions intact. Completionobserved12.02s, NOTappperformancecredit.
+FreshNULLmixedREADY unchanged-parentcounterexample staysINCOMPLETE asrequired.
+Bothinstalledfullrestores +outer22/allrows/sequences/roles/CP6/advisorsPASS;5packagegatestrue.
+ZIP2492470 SHAb8d393585952ff0b26d86cd7d135309a6050797881eeba7c9c6767e2f4113f38;
+Original8349199 SHA51c70b426c95a2edc34808992001650dd5c9351c3a1321ce2dc01e225d8e7ae2;
+package360445 SHA7e5fe52f982ad179a3e0bfe877444aebec8d985cc02d90985b948b6a076138ce.
+Fulljoblog1967792 SHAd84f81dcbd53c2f963b49ccf261129d778a54bb3350ad38583584a257cea6c24 retained.
+Parentinstall1546906.983ms(25m47s), diagnostics161765.641ms, outerrestore4243.896ms;
+these are disposablequalification timings, noteverydayERP latency. NoNativeSQL/body/math changed.
+Actual84wholeINCOMPLETE5PASS and64wholeINCOMPLETE/Native20notrun/cronPASS stayexact.
+Five84restoredPASSgroups +twofresh7ePASSgroups qualify componentprerequisites only.
+
+CURRENT frozenAFaf474fe365b83651dae096f988def69e3ef7e8d7
+tree90a15a49bb2b41deca6f9e79c8ef386b25f8d124, local39deae8cbb18d2dd1fe8378f9b018b61747c4741;
+C/erp-finance-combined, executionastra-a/d17-18-combined-finance-qualification-20261028,
+preparedastra-a/d17-18-combined-finance-prepared-20261027.
+run40576582149/job122444519274 RUNNING_NOT_PASS, started20:16UTC. Do noteditfrozenAF.
+Only4configuration/sourceJSONfiles changed fromclosed32fe, nofinancialSQL/oraclechange.
+13own+8correcteddependencytestsPASS;3realZIPs/6Original+packagefiles exactintakePASS
+with0network/DBcalls. Full28+16+15+25+25+4085admissionPASS12.953s/0DBattempts.
+All6rawfiles bound to exact84/64/7e hashes, aliasesforancestoradmission useidenticalbytes.
+Own7groups mustnowrun together:childvisibility, assignedNULLrefusal/recovery, Native20,
+canonicalsignature, publicactualcron,3whole-reportpairs, publicfactory1200x3actualcron.
+Onefullparentinstallation, completeinstalledrestorebetweengroups, outerfullrestore;
+all9probe/36factoryassertions retained. Noownactualresultyet/defaultadoption.
+Newprivatecolumn/3newhelpers/4changedbodies/USAGEgrant metadata willbeobserved, notassumed.
+
+Prepared realAuth/browser1fd0f14ca1746172bb9b4634a5d475f90735a49c
+tree9b7aec071f2e0dabe9c1774f96529daf9e92e73a,
+local2afe0b1bbb05c34ef41ce2a9069cc80063ba438a atC/erp-combined-browser,
+remoteastra-a/d17-18-combined-finance-browser-prepared-20261028. 8tests/4JSsyntax
+checksPASS, realfullprobeimportedwithNoDBguard,0Auth/browsercases. Configfalse/null,
+SOURCEabsent/PREPARED_SOURCEonly; workflowprepared/executionrefNOTcreated. Parentstill
+closed32fe: afterownAFPASS importexactacceptedconfig/source, bindownrawproof thenfull
+admissionbeforeexecution. Existing113Ahost/91Bfiles unchanged andexactcurrentB1dd.
+UIbusinesscases/fixture exact; onlybackendimport/labels/fixturepathderived. NoBscopewrites.
+FullrealAuth/browser andfinalperformance remainopen; formal5/16, noCP7C,
+independent_acceptance=false/production_go=false. NextmonitorAFtoresult; no unchangedretry.
+
 LATEST A / 28 Oktober2026 WIB — actual64 adapter failure, corrected7e RUNNING
 Actual64de326e819885f6982364a868a3fa11c8b9dd3d/run40562870931/job122396295828
 finished INCOMPLETE. Native20 DID NOT EXECUTE: the new adapter used nonexistent
