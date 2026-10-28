@@ -1,0 +1,71 @@
+name: Retain exact first AF job log without rerunning ERP
+'on':
+  push:
+    branches:
+    - astra-a/d17-18-retain-af-job-log-20261028
+    paths:
+    - .github/workflows/cp7-d17-18-retain-af-job-log.yml
+permissions:
+  contents: read
+  actions: read
+jobs:
+  retain:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+    - name: Read exact completed AF metadata and raw job log
+      env:
+        GH_TOKEN: ${{ github.token }}
+      shell: bash
+      run: 'set -euo pipefail
+
+        mkdir retained
+
+        repo=''Hanjay6688/-erp-garment-ux''
+
+        gh api "repos/$repo/actions/jobs/122444519274" > retained/job-metadata.json
+
+        gh api "repos/$repo/actions/runs/40576582149" > retained/run-metadata.json
+
+        python - <<''PYMETA''
+
+        import json
+
+        from pathlib import Path
+
+        j=json.loads(Path(''retained/job-metadata.json'').read_bytes());r=json.loads(Path(''retained/run-metadata.json'').read_bytes())
+
+        assert j[''id'']==122444519274 and j[''run_id'']==40576582149 and j[''status'']==''completed''and j[''conclusion'']==''failure''
+
+        assert r[''head_sha'']==''af474fe365b83651dae096f988def69e3ef7e8d7''and r[''id'']==40576582149
+
+        PYMETA
+
+        gh api "repos/$repo/actions/jobs/122444519274/logs" > retained/combined-af-job-122444519274.log
+
+        python - <<''PYRECEIPT''
+
+        from pathlib import Path
+
+        from hashlib import sha256
+
+        import json
+
+        p=Path(''retained/combined-af-job-122444519274.log'');b=p.read_bytes();assert b
+
+        b.decode(''UTF8'')
+
+        d=dict(source_run_id=40576582149,source_job_id=122444519274,source_head=''af474fe365b83651dae096f988def69e3ef7e8d7'',bytes=len(b),sha256=sha256(b).hexdigest(),source=''GitHub
+        Actions job logs raw API response'',database_connections=0,ERP_tests_rerun=False)
+
+        Path(''retained/receipt.json'').write_text(json.dumps(d,indent=2)+''\n'');print(json.dumps(d))
+
+        PYRECEIPT
+
+        '
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      with:
+        name: cp7-d17-18-af-first-job-log-${{ github.run_attempt }}
+        path: retained
+        retention-days: 30
+        if-no-files-found: error
