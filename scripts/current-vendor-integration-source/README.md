@@ -11,7 +11,7 @@ its original source and coverage. Historical manifests are not rewritten.
 Default check requires BOTH exact complete backend11 and money browser2
 Original/package pairs. Backend11 requires Native7, actual races3/AuthHTTP1,
 full restoration and all five package gates. Money browser2 requires actual
-screen posting, inverse, lost committed response/reload/same UUID once,
+screen cash refund AND next-invoice credit posting, inverse, lost committed response/reload/same UUID once,
 mobile access revocation/hiding, Auth and console/copy/restoration checks.
 An older Native7 or B analysis-browser label cannot open either gate.
 

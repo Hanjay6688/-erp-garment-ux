@@ -89,12 +89,13 @@ def admit_browser(pin,original,package,backend_head,imports,runtime_files,entryp
         assert row['status']=='PASS'and row['actual_Auth_login_and_public_RPC']is True and row['actual_refund_posted_from_screen']is True
         assert row['console_evidence']['unexpected_errors']==[]and row['width']['page']<=row['width']['viewport']
     assert desktop['actual_refund_inverse_from_screen']is True and desktop['actual_committed_reply_lost_reload_same_UUID_once']is True
+    assert desktop['actual_next_invoice_credit_from_screen']is True
     assert mobile['actual_access_revoked_and_money_hidden']is True
     assert pkg['gate']=={key:True for key in ('installed','primary_unchanged','backup_restore_drill','security_advisors','writer_runtime')}
     assert pkg['run_identity']['tool_head']==pin['head']and pkg['writer_runtime']['status']=='PASS'
     assert pkg['auth_users_before']==pkg['auth_users_after']
     return dict(status='EXACT_ACTUAL_MONEY_BROWSER2_ACCEPTABLE_TO_INTEGRATOR',head=pin['head'],backend_head=backend_head,fresh_browser=2,
-        direct_existing_complete_installer=True,actual_refund_inverse_loss_recovery_and_access_revoke=True)
+        direct_existing_complete_installer=True,actual_both_credit_and_refund_inverse_loss_recovery_and_access_revoke=True)
 
 def check(sources_only=False):
     config,changed=verify_files()
