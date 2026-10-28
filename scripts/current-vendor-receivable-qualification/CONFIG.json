@@ -60,7 +60,7 @@
     "observer_actual_result": "PASS_NATIVE7_FULL22_RESTORE_AND_ALL5_PACKAGE_GATES"
   },
   "combined11": {
-    "status": "COMPLETE_PRECURSOR_ADMITTED_CURRENT_COMBINED11_NOT_EXECUTED",
+    "status": "LABEL_FIXTURE_SUCCESSOR_PREPARED_AFTER_FIRST_ACTUAL_INCOMPLETE",
     "accepted_observer_native7": {
       "head": "5dedbaae47eb4b3b23b54da94605f7d940f0ca22",
       "tree": "4557e2ce213e0c2785deb0e90a3fe19eae7752a0",
@@ -85,6 +85,35 @@
     "fresh_Auth_HTTP_cases": 1,
     "expected_business_cases": 11,
     "fresh_browser_cases": 0,
-    "partial_results_never_accept_backend": true
+    "partial_results_never_accept_backend": true,
+    "first_actual_failure": {
+      "receipt": "docs/cp7/d17-14/ow08/vendor-combined54b-first-incomplete.json",
+      "pin": {
+        "head": "54b786f3e38ba41d362a23fd75fb0d5c0520150d",
+        "tree": "e211b0d169193c0f5e3df226b5aad173946bfff2",
+        "run_id": 40761955464,
+        "job_id": 123075935760,
+        "artifact_id": 12851481342,
+        "zip_bytes": 2029718,
+        "zip_sha256": "f8bf0f09eefc8387eec83b402a98be7c3a4a38353b69e63048db16c1586b8dfd",
+        "original": {
+          "name": "CP7_VENDOR_RECEIVABLE_COMBINED11.json",
+          "bytes": 3448411,
+          "sha256": "67e559071a8af412e972a8f892d58fec4086682a1051a4eed02a59a0961b9c67"
+        },
+        "package": {
+          "name": "T3_PACKAGE_INSTALL.json",
+          "bytes": 360427,
+          "sha256": "661794d6fc0a104549dcd2246be1481c4e8988881de5a064b1ab0876ca8b1ddf"
+        }
+      },
+      "Native_counts": {
+        "PASS": 6,
+        "INCOMPLETE": 1
+      },
+      "followup_started": false,
+      "classification": "WRITER_FIXTURE_SOURCE_TYPE_LABEL_EXCEEDS_NATIVE_VARCHAR50",
+      "partial_backend_accepted": false
+    }
   }
 }

@@ -52,10 +52,17 @@
     "scripts/current-vendor-receivable-qualification/test_combined_runner.py",
     "docs/cp7/d17-14/ow08/vendor-combined426-first-workflow-refusal.json",
     "scripts/current-vendor-receivable-qualification/workflow_source.py",
-    "scripts/current-vendor-receivable-qualification/test_workflow_source.py"
+    "scripts/current-vendor-receivable-qualification/test_workflow_source.py",
+    "scripts/cp7_vendor_receivable/test_fixture_labels.py",
+    "docs/cp7/d17-14/ow08/vendor-combined54b-first-incomplete.json",
+    "docs/cp7/d17-14/ow08/vendor-combined54b-first-incomplete/ORIGINAL_MEMBERS.json",
+    "docs/cp7/d17-14/ow08/vendor-combined54b-first-incomplete/CP7_VENDOR_RECEIVABLE_COMBINED11.json.gz",
+    "docs/cp7/d17-14/ow08/vendor-combined54b-first-incomplete/T3_PACKAGE_FILES_INSTALL.json.gz",
+    "docs/cp7/d17-14/ow08/vendor-combined54b-first-incomplete/T3_BACKUP_RESTORE_DRILL.json.gz",
+    "docs/cp7/d17-14/ow08/vendor-combined54b-first-incomplete/T3_PACKAGE_INSTALL.json.gz"
   ],
   "files": {
-    ".github/workflows/cp7-current-vendor-receivable-native.yml": "c2e35cb1dc08ff179da9392a15a153ffd8f2e7c6479bb44f6cfae30891b4e095",
+    ".github/workflows/cp7-current-vendor-receivable-native.yml": "e013bfb64da3dc55299c7273cdf1de0ee5d75dfd4df3be3a2e8fabae5d6ecca1",
     "docs/cp7/OPEN_WORK_D17_14_20261020.md": "3442dfbf5059d242103ebced01e3cb62edb224ede22f17e71842ce26bdc88978",
     "docs/cp7/OWNER_VENDOR_RECEIVABLE_20261029.md": "d767eae7913a319ad6baf1f3964561936ec843b3a6cb23fa2970ffbabe255639",
     "docs/cp7/d17-14/ow08/OW08B.md": "7c5d0a0bea59c1f516b001a7e9ecfd3b8019f09554aa28eba535427352401939",
@@ -63,15 +70,15 @@
     "docs/cp7/handoff/CP75_CP7C_CP8_SAMBUNGAN_PREPARED_20261028.md": "73bfbf11feb9a3f0965c0565006af0ace6c00670594b21eebfae8960bb0b042e",
     "scripts/cp7_vendor_receivable/README.md": "19619214908778289c5c10f5a6ca9fa0a32d1048a3495d3400aa22e4ed7fee27",
     "scripts/cp7_vendor_receivable/__init__.py": "4b6b3e2217cf6fe4045167cb8745e93eb42c637defed651ef94cd252ed0f08e2",
-    "scripts/cp7_vendor_receivable/cases.py": "d92dea48580ef5443717292ad1b8e08462f00cf0161d4427ac764d06a312fdd7",
+    "scripts/cp7_vendor_receivable/cases.py": "93bd81bdb86ab523adf540c00cba3f758eabc458aaede7c47155f8e3ed1a2fd8",
     "scripts/cp7_vendor_receivable/composition.py": "b0bc106121932deb18a342299ec7ffb1a314abaca9d77879df29784261821df2",
     "scripts/cp7_vendor_receivable/local_contract_test.mjs": "00153cd6b66aa1d324e531574e90cfd3b737d78986d6c3e0e32720001306d974",
     "scripts/cp7_vendor_receivable/local_fixture.sql": "b71a0316e14234fca1e278737ae5caf16d21ef6e32e66db10584050ee15b1dfb",
     "scripts/cp7_vendor_receivable/native_delta.py": "bd0f41be50fea0ab64b19c15d8a09fc7940782507c35482911dd86c36403a52b",
     "scripts/cp7_vendor_receivable/receivable.sql": "3b24728512e8be6af697f3234e591f7fe6b46331c68e3497ab71aedbcc9aa2ba",
     "scripts/cp7_vendor_receivable/test_derivation.py": "ce5b543cdbbaa85840cab86348be112946becd66565ac449a15e2ee66abc4e39",
-    "scripts/current-vendor-receivable-qualification/CONFIG.json": "bb20f61a2c5837e4a7d70c3794e76392cea583065800b9fe1f830f9ac2563997",
-    "scripts/current-vendor-receivable-qualification/README.md": "380c21bca774d9be75e8cad5b2ca2047b58535405704c71cd30500a6a9c2caa8",
+    "scripts/current-vendor-receivable-qualification/CONFIG.json": "11fa4bf5d446f63ffca4d5ad80140b3573be14ce4f565e967911bf4fe19595a9",
+    "scripts/current-vendor-receivable-qualification/README.md": "bb805d6af7b81df1832bb37292cb49cb0ce6e5b76e1372a658c0ac8f7a60eb6e",
     "scripts/current-vendor-receivable-qualification/admission.py": "5e80384b2ef0479748e76b413604f37979dacbf012fc495e3a8eef0d86efb654",
     "scripts/current-vendor-receivable-qualification/check_source.py": "0c4db4ed9fd8c5ac989aa20516ce93323614b359dda88fee0ea7cb5f1e79bf8b",
     "scripts/current-vendor-receivable-qualification/probe.py": "c420d894f8d5f16bddefeae73addb621507170f372a28e7d6e33d88c7eeb0be9",
@@ -95,7 +102,14 @@
     "scripts/current-vendor-receivable-qualification/test_combined_runner.py": "f3b2ab9fb0c3dcb36d0104e9a1f30a8ea189d4256061ee74724cf0066aec9dc4",
     "docs/cp7/d17-14/ow08/vendor-combined426-first-workflow-refusal.json": "b46e3d611a2468cee696061fca6334efb440c3b28a8f3ac74aebe5a320ac7e13",
     "scripts/current-vendor-receivable-qualification/workflow_source.py": "b3af422776b5e0f200ac04ac9fd41a7bf283fa1890819b41df92ef6f31bf1910",
-    "scripts/current-vendor-receivable-qualification/test_workflow_source.py": "3da65714051c4cf9edb1c0708c94905e9f728eb9c1fc0432663cb81c831d2290"
+    "scripts/current-vendor-receivable-qualification/test_workflow_source.py": "3da65714051c4cf9edb1c0708c94905e9f728eb9c1fc0432663cb81c831d2290",
+    "scripts/cp7_vendor_receivable/test_fixture_labels.py": "8868a304828194fa3fa8645511fab4953154103a278006ccbb217ea6959b204c",
+    "docs/cp7/d17-14/ow08/vendor-combined54b-first-incomplete.json": "5f7340e59cb6a458fa8b3e0547ccc9bafc54794e752f1ba8441212e3ea149f98",
+    "docs/cp7/d17-14/ow08/vendor-combined54b-first-incomplete/ORIGINAL_MEMBERS.json": "2a1a35960e7007b5a0f8ae794458c771506873f1d1dd6eb6cd95ecc1c1afc21b",
+    "docs/cp7/d17-14/ow08/vendor-combined54b-first-incomplete/CP7_VENDOR_RECEIVABLE_COMBINED11.json.gz": "619374c7593b6cf0dd479fb34b1e936081fd3aa961b18c178bce74ff2caa8fa3",
+    "docs/cp7/d17-14/ow08/vendor-combined54b-first-incomplete/T3_PACKAGE_FILES_INSTALL.json.gz": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7",
+    "docs/cp7/d17-14/ow08/vendor-combined54b-first-incomplete/T3_BACKUP_RESTORE_DRILL.json.gz": "5fe1806ad69bfbf84e3f963cf0c9cce595b18e9ced715632e1e6508df009c278",
+    "docs/cp7/d17-14/ow08/vendor-combined54b-first-incomplete/T3_PACKAGE_INSTALL.json.gz": "5290bfc6eb7f54c7b5c199379ca0e7ed48a6ab3b079c0b24813ca3a445fffe56"
   },
   "production_go": false,
   "independent_acceptance": false,
@@ -172,5 +186,31 @@
     "prior_Native7_PASS_unchanged": true,
     "production_go": false,
     "independent_acceptance": false
+  },
+  "fixture_label_successor": {
+    "predecessor": {
+      "head": "54b786f3e38ba41d362a23fd75fb0d5c0520150d",
+      "tree": "e211b0d169193c0f5e3df226b5aad173946bfff2",
+      "run_id": 40761955464,
+      "job_id": 123075935760,
+      "artifact_id": 12851481342,
+      "zip_bytes": 2029718,
+      "zip_sha256": "f8bf0f09eefc8387eec83b402a98be7c3a4a38353b69e63048db16c1586b8dfd",
+      "original": {
+        "name": "CP7_VENDOR_RECEIVABLE_COMBINED11.json",
+        "bytes": 3448411,
+        "sha256": "67e559071a8af412e972a8f892d58fec4086682a1051a4eed02a59a0961b9c67"
+      },
+      "package": {
+        "name": "T3_PACKAGE_INSTALL.json",
+        "bytes": 360427,
+        "sha256": "661794d6fc0a104549dcd2246be1481c4e8988881de5a064b1ab0876ca8b1ddf"
+      }
+    },
+    "runtime_files_unchanged": true,
+    "only_fixture_prefix_changed": true,
+    "Native_ids_and_oracles_unchanged": true,
+    "first_actual_failure": "WRITER_FIXTURE_SOURCE_TYPE_LABEL_EXCEEDS_NATIVE_VARCHAR50",
+    "fresh_combined11_required": true
   }
 }

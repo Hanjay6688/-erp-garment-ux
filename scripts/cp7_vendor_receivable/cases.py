@@ -166,7 +166,7 @@ def cases(cur,today):
         for name,lines in plans:
             bd.api.admin(cur);cur.execute('savepoint vendor_ar_unlinked')
             try:
-                journal=journals.journal(cur,today,lines,'OW08b explicit unrelated sensitivity '+name)
+                journal=journals.journal(cur,today,lines,'OW08b_AR_SENS_'+name)
                 detected=bd.refused(cur,lambda:one(cur,'select cp7_vendor_receivable.prove_v1(%s)',f['vendor']),'CP7_VENDOR_RECEIVABLE_MATERIALIZATION_UNPROVEN')
                 assert detected['ok'],dict(control=name,observed=detected)
                 controls[name]=dict(detected,journal_id=journal)
