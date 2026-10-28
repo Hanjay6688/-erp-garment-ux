@@ -1,0 +1,205 @@
+{
+  "status": "ACCEPTED_BY_A_EXACT_B_DRIVER_AND_ACTUAL_BROWSER_COMPONENT",
+  "recorded_at_utc": "2026-10-28T17:05:40.240793+00:00",
+  "A_base": "3efecab381578cb12b06b9bedd97b31b7a20b26a",
+  "B_driver": "8a0ed68aed839684014a3f3756a8060608696921",
+  "B_qualified_candidate": "f5e4a0eb98f52c7615c3f4fb2459128bc76ed007",
+  "B_delivery": "b2492bdb647f075d613842a4a779879d88ca0ddd",
+  "backend_head": "3194b9c56be7af86ee45ccb1c6605204a712f91b",
+  "run_id": 40697846383,
+  "job_id": 122849290624,
+  "artifact_id": 12824760687,
+  "artifact_bytes": 4449681,
+  "artifact_sha256": "33b27ed1e46bb5a335fb119be03b40fcf1e9c2a14e97697f11c799f4072a40c5",
+  "original_verification": {
+    "status": "PASS_WRITER_EVIDENCE_VERIFICATION",
+    "candidate": "f5e4a0eb98f52c7615c3f4fb2459128bc76ed007",
+    "backend": "3194b9c56be7af86ee45ccb1c6605204a712f91b",
+    "archive_sha256": "33b27ed1e46bb5a335fb119be03b40fcf1e9c2a14e97697f11c799f4072a40c5",
+    "original_members": 122,
+    "browser_cases": {
+      "desktop": {
+        "status": "PASS",
+        "case_id": "A_PROGRESS_FINANCE_BROWSER_DESKTOP_REAL_AUTH_LOST_REPLY_REPLAY_OFFICIAL24",
+        "official_readiness": "READY",
+        "RPC_calls": 124,
+        "RPC_max_ms": 112.4470399999991,
+        "RPC_median_ms": 5.167474500000026,
+        "minimum_text_contrast": 6.579179808370011,
+        "unexpected_console_errors": 0,
+        "Auth_and_copy_restored": true,
+        "initial_observer_elapsed_ms": 121040.85441999999
+      },
+      "mobile": {
+        "status": "PASS",
+        "case_id": "A_PROGRESS_FINANCE_BROWSER_MOBILE_REAL_AUTH_BLOCKED_REPORT_ACCESS_REVOKED",
+        "official_readiness": "BLOCKED",
+        "RPC_calls": 50,
+        "RPC_max_ms": 133.01947699999982,
+        "RPC_median_ms": 10.182732500000384,
+        "minimum_text_contrast": 6.579179808370011,
+        "unexpected_console_errors": 0,
+        "Auth_and_copy_restored": true
+      }
+    },
+    "screenshots": 7,
+    "unique_screenshot_contents": 6,
+    "full22_copy_authority_and_CP6_restore": true,
+    "package_gates": {
+      "installed": true,
+      "primary_unchanged": true,
+      "backup_restore_drill": true,
+      "security_advisors": true,
+      "writer_runtime": true
+    },
+    "old_AC_expiry_failure_retained": true,
+    "actual_browser_reruns": 0,
+    "independent_acceptance": false,
+    "production_go": false
+  },
+  "source_admission": {
+    "status": "PASS_A_INTAKE_EXACT_B_PRODUCT_SOURCE_AND_BACKEND",
+    "base": "3efecab381578cb12b06b9bedd97b31b7a20b26a",
+    "B_delivery": "b2492bdb647f075d613842a4a779879d88ca0ddd",
+    "B_driver": "8a0ed68aed839684014a3f3756a8060608696921",
+    "local_head": "8398eb2b6b89f06ae2549e8ec0f6430adc5f0d15",
+    "local_tree": "2699aaae352df21ee6454f61c7d7bad56ae7807d",
+    "source": {
+      "host_exact_files": 113,
+      "current_B_exact_files": 91,
+      "current_B_head": "1dd83782dcaa4500bace7bf392a76f58be0271c3",
+      "original_host_guards": {
+        "B_exact_files": 91,
+        "compiled_source_files": 79,
+        "local_tests": 195,
+        "local_test_files": 17,
+        "runtime_credit": false,
+        "production_go": false,
+        "host_exact_files": 113,
+        "business_guards": 27,
+        "separate_full_clones": 2,
+        "actual_browser_executed": false
+      },
+      "A279_panel": {
+        "files": {
+          "src/NativeAnalysisFinancePanel.tsx": "9c03e2f868897f67dc6a2705229da995a7da4483f3ba0ab2086cbc76bead85e4",
+          "src/NativeAnalysisFinancePanel.progress.dom.test.tsx": "d90d77e4985a4b83fcfc88cedaf1a287a7712720408a628611e26062ed11b296"
+        },
+        "replaced_historical_path": "src/NativeAnalysisFinancePanel.tsx",
+        "old_digest": "c8490f5de4335a6d97e2f37e6523bc8c303f16cacbd9f3dab29b7481e65df149",
+        "tested_UI_head": "2790a9e5726e7724070f2fa01a2468061f2bae98",
+        "tested_UI_tree": "d4d9d3d1a9c440f0d3615842ad14cdfa113d99fc",
+        "B_preimage_exact": true,
+        "current_unit_DOM_tests": 29,
+        "retained_frozen_tests": 66,
+        "new_controls": 4,
+        "actual_ERP_Auth_browser_cases": 0,
+        "historical_manifests_rewritten": false,
+        "backend_or_browser_unlock": false
+      },
+      "driver_head": "8a0ed68aed839684014a3f3756a8060608696921",
+      "declared_runtime_replacements": [
+        "src/NativeAnalysisFinancePanel.tsx",
+        "src/nativeStagedJob.ts"
+      ],
+      "derivation": {
+        "browser.mjs": {
+          "exact_successor_sha256": true,
+          "before_sha256": "79e2660655ff549c6e55b6bd844b4495abb24306749da1ad686a70350afcc7f7",
+          "after_sha256": "91fdfe2b4328661d92c6012079c6c8f74826f53d04225600b5d299988cbbda73"
+        },
+        "browser_fixture.py": {
+          "exact_successor_sha256": true,
+          "before_sha256": "be167320ad5884cb4f0fd1730a5fbb64ed3616a7e6b0bc3fff5f274cd7e95c4f",
+          "after_sha256": "3acd9ba7b5a6df6e3ca5cfc3ecc39f09950dbee3b937edd4c00d1d12f4c5b70c"
+        },
+        "probe.py": {
+          "exact_successor_sha256": true,
+          "before_sha256": "34cbf88f160ffd0febd41805fa6d9c11382a5212faee1be8e5fe3c7361ba5aeb",
+          "after_sha256": "806bd491e6b1276b74a5b38726afb15ea2740a307eb49f6ac2d4d424f52b40b2"
+        },
+        "build_3194.mjs": {
+          "exact_successor_sha256": true,
+          "before_sha256": "51df555135dd5371d11f81a2175353bb48b6335772aa04d63c79d37a35e12dbf",
+          "after_sha256": "5928b790c7f845a75ac8f9da875c5cb19ca132268dbf926180f4704610b176e9"
+        }
+      },
+      "workflow": {
+        "exact_declared_derivation": true,
+        "entire_frozen_backend_checkout_required": true,
+        "complete_A_prerequisites_unchanged": true,
+        "same_pinned_browser_runtime": true,
+        "actual_Auth_desktop_mobile_cases_required": 2,
+        "raw_reports_and_screenshots_retained": true,
+        "heavy_backend_groups_repeated": false,
+        "production_go": false
+      },
+      "actual_browser_executed": false,
+      "historical_manifests_rewritten": false,
+      "production_go": false
+    },
+    "backend": {
+      "status": "PASS_BACKEND_COMPONENT_FOR_B_BINDING",
+      "selected_backend_head": "3194b9c56be7af86ee45ccb1c6605204a712f91b",
+      "selected_backend_tree": "dd98cd5bbbafb3f257668d22317ab4b237c2fea8",
+      "whole_backend_sha256": "193f4c18476a1e1abd5e05231d8d7755864b61e2998c4456f5a87459b17da59d",
+      "retained_groups": 6,
+      "fresh_groups": 1,
+      "seven_fresh_groups_claim": false,
+      "historical_11c_status": "INCOMPLETE",
+      "factory_fixture_readiness": "BLOCKED",
+      "factory_fixture_analysis_status": "PARTIAL",
+      "all_installed_and_outer_restorations_exact": true,
+      "frontend_or_Auth_browser_accepted": false,
+      "formal_accepted": "5/16",
+      "independent_acceptance": false,
+      "production_go": false
+    },
+    "preimage_checked": true,
+    "all_product_bytes_equal_B_tested_candidate": true,
+    "new_DB_or_Auth_browser_cases": 0,
+    "seconds": 23.497,
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "A_local_validation": {
+    "tests": 49,
+    "test_files": 5,
+    "failed": 0,
+    "test_report_sha256": "b0456efb8cc746259a59d8c4b232f2cd83fcaa8565a97439c5d2a4cff11cc062",
+    "typecheck": "PASS",
+    "full_application_build": "PASS",
+    "source_access_CSS_and_client_artifact_scan": "PASS",
+    "new_database_or_Auth_browser_runs": 0
+  },
+  "A_visual_review": {
+    "unique_images_inspected": 6,
+    "reopened_image_byte_identical": true,
+    "status": "PASS_WRITER_INTEGRATOR_VISUAL_REVIEW",
+    "observations": [
+      "Desktop stalled observer retains job and actionable same-UUID recovery.",
+      "Production and finance progress remain separate; unknown total stays unknown.",
+      "Desktop READY report shows all24 official metrics.",
+      "Mobile BLOCKED hides unavailable figures; access revocation removes financial values.",
+      "Wide desktop table scrolls locally; mobile cards fit390px, measured contrast6.579:1."
+    ]
+  },
+  "scope_limits": [
+    "Two small declared fixture browser journeys; not a fresh factory3604 browser run.",
+    "Initial-server refusal uses two labelled transport injections; actual factory guard remains A backend evidence.",
+    "Finance advancement is the declared private SQL fixture, not a new scheduler test.",
+    "B parallel local11fail retained; same183 tests passed with one worker; A49 focused tests passed.",
+    "Three inherited evidence whitespace warnings preserved byte-exact, product/new A files pass diff check.",
+    "First A verifier invocation lacked local ZIP link after inherited evidence whitespace check stopped setup; no product failure or browser rerun."
+  ],
+  "remaining": [
+    "Targeted CP6 return reverse successor qualification; first attempt failed source setup before DB.",
+    "Remaining CP6 archive case mapping and independent acceptance.",
+    "Vendor laundry receivable settlement policy remains unanswered; no policy invented.",
+    "Final whole-CP7 requirement/auditor/default-install acceptance."
+  ],
+  "formal_accepted": "5/16",
+  "independent_acceptance": false,
+  "production_go": false,
+  "CP7C_started": false
+}

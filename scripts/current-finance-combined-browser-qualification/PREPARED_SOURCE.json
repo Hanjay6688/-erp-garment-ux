@@ -1,0 +1,41 @@
+{
+  "status": "PREPARED_UNBOUND_FACTORY_4AC_NOT_EXECUTED",
+  "contract": "cp7.current-combined-finance-real-auth-browser2.v1",
+  "case_ids": [
+    "A_PROGRESS_FINANCE_BROWSER_DESKTOP_REAL_AUTH_LOST_REPLY_REPLAY_OFFICIAL24",
+    "A_PROGRESS_FINANCE_BROWSER_MOBILE_REAL_AUTH_BLOCKED_REPORT_ACCESS_REVOKED"
+  ],
+  "unchanged_prior_UI_source_path": "scripts/current-progress-finance-ui-browser-qualification/SOURCE.json",
+  "unchanged_prior_UI_source_sha256": "6018313aa35f05ba03eddcf3a11e616e12dc2e994c9f6491e70aec5ecc9f92be",
+  "current_B_head": "1dd83782dcaa4500bace7bf392a76f58be0271c3",
+  "current_B_exact_files": 91,
+  "files": {
+    ".github/workflows/cp7-d17-18-combined-finance-browser.yml": "3a57221610d1201d26db77e676f587f6aea24a5db3c975d3e7660cb8455466cf",
+    "scripts/current-finance-combined-browser-qualification/CONFIG.json": "8c851e7123dec6074d836f9f80bfbcbe36a0ad360bbb35a651335b666b7801ae",
+    "scripts/current-finance-combined-browser-qualification/LOCAL_PREPARATION.json": "1b09b881e7ce61b27464943a73a34d6890f6e4da1db76cce9e1747711bb61d42",
+    "scripts/current-finance-combined-browser-qualification/README.md": "6d1ab1ac1b7725424d83f3210a4b62deaf06dcc45a5c3fefeaeca92c51e207c0",
+    "scripts/current-finance-combined-browser-qualification/UI_ORIGIN.json": "b817e3e65da467f4b4e0556ab8fc02bced254660d92b82ce8aca7567f2c01e25",
+    "scripts/current-finance-combined-browser-qualification/WORKFLOW_ORIGIN.json": "ed2507c49ee8b767e861f1527c238244fd380cd50cd489d45e7b0b54cf206aef",
+    "scripts/current-finance-combined-browser-qualification/admission.py": "e50177210cb3bd5aa2dd907795bdfdda444c6ffc0d392a411597480b2d3b7e46",
+    "scripts/current-finance-combined-browser-qualification/browser.mjs": "99dcc0979f3964812819174922392270216f840af2ffbada638627ce629f2a58",
+    "scripts/current-finance-combined-browser-qualification/browser_fixture.py": "be167320ad5884cb4f0fd1730a5fbb64ed3616a7e6b0bc3fff5f274cd7e95c4f",
+    "scripts/current-finance-combined-browser-qualification/composition.py": "0d64ff3b850961bb66c9c1f444843184b191191c61d822468b6d4ee9b633064e",
+    "scripts/current-finance-combined-browser-qualification/desktop.mjs": "3847018fbcf8919826b8dcf387e1742905375409a4e39ff9100dbb54cddc39da",
+    "scripts/current-finance-combined-browser-qualification/evidence.py": "37052040dab974948248651f9399aa77c56710e3228d1abe7d8469450e2722ef",
+    "scripts/current-finance-combined-browser-qualification/fetch_combined.py": "a69a48404285e7b1962faae25979705140aae786c56b1628b4559d43865f0d79",
+    "scripts/current-finance-combined-browser-qualification/mobile.mjs": "4f83b0f8ab249a636e140f7d4c62f656e54b49b9dd780a24b17f73e931607cc6",
+    "scripts/current-finance-combined-browser-qualification/probe.py": "34cbf88f160ffd0febd41805fa6d9c11382a5212faee1be8e5fe3c7361ba5aeb",
+    "scripts/current-finance-combined-browser-qualification/progress_oracle.mjs": "d1cd9d380d8ccb3cf96512dd1aeabe7b5c33a7ec813a09069f4f27a892dd2edd",
+    "scripts/current-finance-combined-browser-qualification/source_guard.py": "65441a3007f19ab811a8bc53822af2863e481837364a832603db1f10aa79b42f",
+    "scripts/current-finance-combined-browser-qualification/test_closed_adapter.py": "81d532addcfa5bc5da068781ce6ab68e88183e6b961dce998723743340aa3170",
+    "scripts/current-finance-combined-browser-qualification/test_factory_progress_evidence.py": "841e431a6c4074722ca8750679a7863aed3d09d6596633be8b0106f11ba31a0d",
+    "scripts/current-finance-combined-browser-qualification/test_reader_stream_evidence.py": "c58a3c50068b7af5b5f4dda46c63c7df749dc2b43896d498298534991dfff4d9",
+    "scripts/current-finance-combined-browser-qualification/test_source_boundaries.py": "d0c5beb12e493942bcc1ac2c209a7f45c4197e7fdb6c71bd67bbb92321f0ed34",
+    "scripts/current-finance-combined-browser-qualification/workflow_guard.py": "e7b60910d906d1116051e57a757a1f571012089bb97fe7cac995a2b9bf9207c9",
+    "scripts/current-finance-combined-browser-qualification/test_unplanned_progress_evidence.py": "7c103a4f64ef3571db04472efd3ac1b5795a41ab936b52fb149e0fe326b7bb16"
+  },
+  "production_go": false,
+  "independent_acceptance": false,
+  "corrected_reader_head": "4ac681549d7ec664f504a71670c9035dd8f5944d",
+  "corrected_reader_source_sha256": "9c4dbbbaa0604a6741f8105178390416ff176f94509a28281798883146efa52e"
+}

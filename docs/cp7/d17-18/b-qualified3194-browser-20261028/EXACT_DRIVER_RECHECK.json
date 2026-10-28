@@ -1,0 +1,57 @@
+{
+  "status": "PASS_EXACT_DRIVER_SINGLE_WORKER_CONTROL_WITH_PARALLEL_FAILURE_RETAINED",
+  "driver_head": "8a0ed68aed839684014a3f3756a8060608696921",
+  "browser_candidate": "f5e4a0eb98f52c7615c3f4fb2459128bc76ed007",
+  "files": {
+    "src/nativeStagedJob.ts": "369bf0b398ac6c43de47016f56ea9645a1908252a59ca106c2c21392ad88ecb2",
+    "src/nativeStagedJob.initial.test.ts": "d8594e9edc3810ad0c1c31540fa7b7d9dea28f1f3407c03a65ae373fbdba8016"
+  },
+  "originals": [
+    {
+      "name": "LOCAL_PARALLEL_FIRST_FAILURE.json.gz",
+      "gzip_bytes": 7586,
+      "gzip_sha256": "411056bc5aef9336a48585ec5814ea590ef0548b6258ce08bf30380fd0ea1134",
+      "original_bytes": 67510,
+      "original_sha256": "6de1eb36d80dd227fee2f229b88b86bbc407d5e3b048de086dbfdacc85dcb3b3",
+      "passed": 172,
+      "failed": 11,
+      "test_files": 14,
+      "wall_span_ms": 58857.484375
+    },
+    {
+      "name": "LOCAL_SINGLE_WORKER_PASS.json.gz",
+      "gzip_bytes": 6621,
+      "gzip_sha256": "9789aac54e9edacb23d428c919e23974cd7cfb024860857770b44fbbe41ed26f",
+      "original_bytes": 58497,
+      "original_sha256": "822471d7588f35540126a68e4418b60da022e0c39db372a10394d1457235d614",
+      "passed": 183,
+      "failed": 0,
+      "test_files": 14,
+      "wall_span_ms": 72940.01293945312
+    }
+  ],
+  "first_parallel_failure": {
+    "count": 11,
+    "affected": "current quantity DOM tests and unchanged historical vendor quantity DOM tests",
+    "observation": "Parallel assertion durations reached 14.4s; the existing DOM wait is3s. Same183 tests pass with one worker, longest assertion3.26s (including other test work).",
+    "cause_limit": "Concurrency-sensitive local test execution; no inference that the large-analysis8s policy caused this. Detailed first failures remain available.",
+    "cpu_count": 9,
+    "cpu_quota": "800000/100000",
+    "memory_limit_bytes": 8589934592
+  },
+  "control": {
+    "maxWorkers": 1,
+    "passed": 183,
+    "test_files": 14,
+    "product_changes_between_runs": 0,
+    "oracle_changes": 0,
+    "timeout_changes": 0
+  },
+  "prior_prepublication_split_suites": {
+    "passed": 183,
+    "scope": "Before final TypeScript-only annotations; exact current source is established by the new single-worker control and successful typecheck."
+  },
+  "actual_Auth_browser_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

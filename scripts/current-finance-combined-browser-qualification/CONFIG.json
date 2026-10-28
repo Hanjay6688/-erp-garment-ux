@@ -1,0 +1,24 @@
+{
+  "contract": "cp7.current-combined-finance-real-auth-browser2.v2",
+  "allow_database_execution": true,
+  "production_go": false,
+  "independent_acceptance": false,
+  "case_ids": [
+    "A_PROGRESS_FINANCE_BROWSER_DESKTOP_REAL_AUTH_LOST_REPLY_REPLAY_OFFICIAL24",
+    "A_PROGRESS_FINANCE_BROWSER_MOBILE_REAL_AUTH_BLOCKED_REPORT_ACCESS_REVOKED"
+  ],
+  "groups": {
+    "desktop": [
+      "A_PROGRESS_FINANCE_BROWSER_DESKTOP_REAL_AUTH_LOST_REPLY_REPLAY_OFFICIAL24"
+    ],
+    "mobile": [
+      "A_PROGRESS_FINANCE_BROWSER_MOBILE_REAL_AUTH_BLOCKED_REPORT_ACCESS_REVOKED"
+    ]
+  },
+  "count": 2,
+  "backend_acceptance": "six-retained-one-fresh-3194",
+  "backend_head": "3194b9c56be7af86ee45ccb1c6605204a712f91b",
+  "backend_tree": "dd98cd5bbbafb3f257668d22317ab4b237c2fea8",
+  "driver_head": "8a0ed68aed839684014a3f3756a8060608696921",
+  "A_panel_head": "2790a9e5726e7724070f2fa01a2468061f2bae98"
+}

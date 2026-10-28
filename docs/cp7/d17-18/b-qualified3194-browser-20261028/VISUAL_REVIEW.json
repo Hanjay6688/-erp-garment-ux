@@ -1,0 +1,79 @@
+{
+  "status": "PASS_WRITER_VISUAL_REVIEW",
+  "candidate": "f5e4a0eb98f52c7615c3f4fb2459128bc76ed007",
+  "run_id": 40697846383,
+  "reviewer_role": "B writer, not independent auditor",
+  "screenshots": [
+    {
+      "file": "A_PROGRESS_FINANCE_DESKTOP_INITIAL_OBSERVER_STOPPED.png",
+      "bytes": 130043,
+      "sha256": "b61ca3767f365a1bef9545d26de381db0f64a989af2e0644d0173bea39f80438",
+      "width": 1440,
+      "height": 1000,
+      "review": "PASS_WRITER_VISUAL_REVIEW",
+      "observation": "Same retained job is visible; stopped observation explains safe recovery after the finite bound."
+    },
+    {
+      "file": "A_PROGRESS_FINANCE_DESKTOP_OFFICIAL_READY24.png",
+      "bytes": 397245,
+      "sha256": "8d28d486683be22e98266462d7565441319ab5c562b02fac1ba2b0d5f6ad90f5",
+      "width": 1440,
+      "height": 3203,
+      "review": "PASS_WRITER_VISUAL_REVIEW",
+      "observation": "READY financial report renders official figures and usable desktop table/report layout."
+    },
+    {
+      "file": "A_PROGRESS_FINANCE_DESKTOP_OPERATIONAL_DONE_FINANCE_RUNNING.png",
+      "bytes": 311896,
+      "sha256": "b08ea7e3ad6638b1015436f1ef60618e30a56d66f378b470fd07051452dfee17",
+      "width": 1440,
+      "height": 2144,
+      "review": "PASS_WRITER_VISUAL_REVIEW",
+      "observation": "Production is complete while finance remains in progress; unknown denominator stays unknown."
+    },
+    {
+      "file": "A_PROGRESS_FINANCE_DESKTOP_REOPENED_SAME_CAPTURE.png",
+      "bytes": 397245,
+      "sha256": "8d28d486683be22e98266462d7565441319ab5c562b02fac1ba2b0d5f6ad90f5",
+      "width": 1440,
+      "height": 3203,
+      "review": "PASS_WRITER_VISUAL_REVIEW",
+      "observation": "Byte-identical to visually inspected READY screenshot; same restored capture and figures."
+    },
+    {
+      "file": "A_PROGRESS_FINANCE_MOBILE_ACCESS_REVOKED.png",
+      "bytes": 326384,
+      "sha256": "46829ba5bb7c3d086a35043c34bfc3a76531555ffa2081d7ae58d8635440ec4a",
+      "width": 390,
+      "height": 3964,
+      "review": "PASS_WRITER_VISUAL_REVIEW",
+      "observation": "Revoked financial access removes financial figures and leaves a readable explanation."
+    },
+    {
+      "file": "A_PROGRESS_FINANCE_MOBILE_CAPTURE_COMPLETE_REPORT_BLOCKED.png",
+      "bytes": 349284,
+      "sha256": "dd53f542ecb3eae3208395375d18990129e2c59b8756664fe4ed9926b588093e",
+      "width": 390,
+      "height": 4241,
+      "review": "PASS_WRITER_VISUAL_REVIEW",
+      "observation": "Capture completion is separate from report BLOCKED; unavailable figures are withheld."
+    },
+    {
+      "file": "A_PROGRESS_FINANCE_MOBILE_OPERATIONAL_DONE_FINANCE_RUNNING.png",
+      "bytes": 360810,
+      "sha256": "09247d29395ac6639188ee6e8e9f8f7bcea19656bdac2a8a0fcadfcbe9f29559",
+      "width": 390,
+      "height": 4325,
+      "review": "PASS_WRITER_VISUAL_REVIEW",
+      "observation": "Mobile separates completed production from unfinished finance and remains usable."
+    }
+  ],
+  "unique_contents": 6,
+  "method": "Manual image inspection of six unique images; reopened screenshot verified byte-identical to the inspected READY image.",
+  "no_page_horizontal_overflow": true,
+  "minimum_measured_text_contrast": 6.579179808370011,
+  "desktop_note": "Wide result table scrolls locally; no page overflow or obstructive layout defect found.",
+  "unexpected_console_errors": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

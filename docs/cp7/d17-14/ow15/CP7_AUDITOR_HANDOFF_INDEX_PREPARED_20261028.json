@@ -1,6 +1,6 @@
 {
   "status": "PREPARED_NOT_FINAL_AUDITOR_ACCEPTANCE",
-  "recorded_at_utc": "2026-10-28T12:35:53.741424+00:00",
+  "recorded_at_utc": "2026-10-28T17:05:40.240793+00:00",
   "integrator": "A",
   "browser_writer": "B",
   "items": [
@@ -85,15 +85,18 @@
     },
     {
       "area": "B browser",
-      "status": "BACKEND_READY_NEW_BINDING_AND_B_EXECUTION_REQUIRED",
-      "head": "51a9e72a89b4576283fe30cb17b56dd26fc57668",
-      "limit": "A supplied qualified backend3194 plus exact source6d/A279 and machine-verifiable seven-group composition; B result still unavailable."
+      "status": "PASS_ACTUAL_B_COMPONENT_ACCEPTED_BY_A",
+      "head": "f5e4a0eb98f52c7615c3f4fb2459128bc76ed007",
+      "limit": "Two real Auth/browser desktop/mobile fixtures, exact backend3194 and A279 panel, driver8a0 adopted selectively. Labelled transport injection and private finance advancement remain explicit; not entire CP7 acceptance.",
+      "receipt": "docs/cp7/d17-14/ow15/A_B_DRIVER_BROWSER_3194_INTAKE_20261028.json",
+      "receipt_sha256": "14d33514cd88aea45899d9deaf59c25dbd109fac87020335ceb9ca0225eaf9dc"
     }
   ],
   "remaining": [
-    "B binds qualified backend SHA/tree/Originals and A279 UI in a new source declaration; handles exact55000 message, finite no-progress observation and sameUUID recovery.",
-    "B runs actual desktop/mobile Auth/browser once on that qualified candidate and reviews visuals/console/full restoration.",
-    "A selectively integrates exact B files against latest A tree and supplies independent auditor with final source/evidence boundary."
+    "Targeted CP6 return reverse successor qualification; first attempt failed source setup before DB.",
+    "Remaining CP6 archive case mapping and independent acceptance.",
+    "Vendor laundry receivable settlement policy remains unanswered; no policy invented.",
+    "Final whole-CP7 requirement/auditor/default-install acceptance."
   ],
   "formal_accepted": "5/16",
   "production_go": false,
@@ -398,5 +401,7 @@
     "independent_acceptance": false,
     "production_go": false,
     "CP7C_started": false
-  }
+  },
+  "B_component_accepted_by_A": true,
+  "integrated_source_checker": "scripts/current-integrated-B3194-source/check.py"
 }

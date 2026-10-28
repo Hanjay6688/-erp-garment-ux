@@ -1,0 +1,308 @@
+{
+  "base_head": "3efecab381578cb12b06b9bedd97b31b7a20b26a",
+  "B_driver": "8a0ed68aed839684014a3f3756a8060608696921",
+  "B_qualification": "f5e4a0eb98f52c7615c3f4fb2459128bc76ed007",
+  "B_delivery": "b2492bdb647f075d613842a4a779879d88ca0ddd",
+  "imports": [
+    {
+      "path": ".github/workflows/cp7-d17-18-combined-finance-browser.yml",
+      "blob": "43ae0ab459d3b8ee4fb5671b0ad66bb8f284c9d2",
+      "sha256": "8373a1de44e0b787a98fb33cee859c1b58be1dd6f5e4e144df2371f12e1a0970"
+    },
+    {
+      "path": "docs/cp7/d17-18/b-initial-driver-20261028/DRIVER_TESTS.txt",
+      "blob": "8bc141de3d39401f36c6588ea818128ac895d242",
+      "sha256": "b58367ca2eff1f3e586d5690d03a41d5d8431e6e6af6546d099e969eaa76ab45"
+    },
+    {
+      "path": "docs/cp7/d17-18/b-initial-driver-20261028/FIRST_TYPECHECK_FAILURE.txt",
+      "blob": "540012277d7c90bb1b6c9a2aef8eee71be9f71be",
+      "sha256": "a6ddae027c10ac28a58295449b1daa16b3ed866bef8e6d45955554e589ffaccd"
+    },
+    {
+      "path": "docs/cp7/d17-18/b-initial-driver-20261028/HANDOFF.md",
+      "blob": "7715279b17aa17b08be07378bdd99bc1a3029929",
+      "sha256": "6f6d060cbda9073ef632d11d738d5da59360c206008f23af5da20f907c2f7f58"
+    },
+    {
+      "path": "docs/cp7/d17-18/b-initial-driver-20261028/PANEL_TESTS.txt",
+      "blob": "2203c562ef3bfdf1a446accd050115d15e2bc7fa",
+      "sha256": "70f743e0ae5fb1754aa8da72e8a3e43f09dc4854c6746bf8f5f90a91c05fbfbc"
+    },
+    {
+      "path": "docs/cp7/d17-18/b-initial-driver-20261028/SOURCE_SUCCESSOR.json",
+      "blob": "de9cc17ac3a61f8e4307d168846139501afe6600",
+      "sha256": "03ad9b8d69f3b9a9e60d28b8ab4c2bb5692febaa3f6b70f28395f6e1b344a5b0"
+    },
+    {
+      "path": "docs/cp7/d17-18/b-initial-driver-20261028/TYPECHECK_PASS.txt",
+      "blob": "83b5f9d4df0d01aa0059b4e2ce67617225986b34",
+      "sha256": "7125f194612fcff2f454c05d848e7cb71facc1967b4d5017e25b34fdee3ba74f"
+    },
+    {
+      "path": "docs/cp7/d17-18/b-qualified3194-browser-20261028/ACTIONS_METADATA.json",
+      "blob": "4f8c3e4672480bb251893c00f9ce9b8163efd019",
+      "sha256": "e44213ba36e74fba2277a39e5b44940a816f7241f9676b791d9b6486a97e9689"
+    },
+    {
+      "path": "docs/cp7/d17-18/b-qualified3194-browser-20261028/ACTUAL_RESULT.json",
+      "blob": "527f11039d87f4a4c43143943df18ccf9b1f76c7",
+      "sha256": "86af22161661537e9ee9e6035f2b2ab002df869a275bb1d871e2074640b048b5"
+    },
+    {
+      "path": "docs/cp7/d17-18/b-qualified3194-browser-20261028/EXACT_DRIVER_RECHECK.json",
+      "blob": "0680652c637e45f2202a5d25dce8c01e6c11a30b",
+      "sha256": "b0c781eb196c4f421d250807238b1fbecda49f4632735a1a03b004b07c931646"
+    },
+    {
+      "path": "docs/cp7/d17-18/b-qualified3194-browser-20261028/HANDOFF_PREPARED.md",
+      "blob": "850abcb276b0d1dfbd3e71a662b57dd5c8ba79fb",
+      "sha256": "10fa401c88f3f179b5e7ba41e47ea877e310c522d78ef0d468f6aa1dc8974717"
+    },
+    {
+      "path": "docs/cp7/d17-18/b-qualified3194-browser-20261028/HANDOFF_READY.md",
+      "blob": "d48358fac55bbb811138c3cbe612ac4c8b9f77cd",
+      "sha256": "2f9fa13e1bc6b579f430dea50d2c30119061839aa168e8f1e732e74f90dde890"
+    },
+    {
+      "path": "docs/cp7/d17-18/b-qualified3194-browser-20261028/LOCAL_BOUNDARIES.txt",
+      "blob": "dae19c4dda482c9c36c8b591f418ea08c7e1fa3c",
+      "sha256": "93e4008b71b2dc47a499b60be6821d47b31952b55678221384c5dbf9bb0d3bda"
+    },
+    {
+      "path": "docs/cp7/d17-18/b-qualified3194-browser-20261028/LOCAL_CONSOLE_PROGRESS.txt",
+      "blob": "c127ba8aa853292761fe372155c058b48fcc95ba",
+      "sha256": "15d6005d831b245ceba17f0ccd139fb5613fa42d3f139338ebc67ad3dd5be3da"
+    },
+    {
+      "path": "docs/cp7/d17-18/b-qualified3194-browser-20261028/LOCAL_HOST_BUILD.txt",
+      "blob": "a3e80e0dde6ac409d2fef40769cab40e3cc7d5c0",
+      "sha256": "b94dc51f7e8ad7807a454879c4ac5020e2083479a71645a278c416d92a87a951"
+    },
+    {
+      "path": "docs/cp7/d17-18/b-qualified3194-browser-20261028/LOCAL_PARALLEL_FIRST_FAILURE.json.gz",
+      "blob": "794facfa26487e68cf78949858b1892ea6d05206",
+      "sha256": "411056bc5aef9336a48585ec5814ea590ef0548b6258ce08bf30380fd0ea1134"
+    },
+    {
+      "path": "docs/cp7/d17-18/b-qualified3194-browser-20261028/LOCAL_SINGLE_WORKER_PASS.json.gz",
+      "blob": "95d78196e2157b4714207bb3930a8964d19e61c2",
+      "sha256": "9789aac54e9edacb23d428c919e23974cd7cfb024860857770b44fbbe41ed26f"
+    },
+    {
+      "path": "docs/cp7/d17-18/b-qualified3194-browser-20261028/ORIGINAL_MEMBERS.json",
+      "blob": "2442b8865dc273201de2c43f52e93ede4e9f1df7",
+      "sha256": "876dc41f2c6a0a6374025dfdbcfc9a4a788acc7d74af90b3f67533ed7509cde5"
+    },
+    {
+      "path": "docs/cp7/d17-18/b-qualified3194-browser-20261028/ORIGINAL_VERIFICATION.json",
+      "blob": "04d80ca107e4f9ca3b42cc6134712d946b1a2893",
+      "sha256": "b2429c1543e76f3cac42a294d9ac6fd4678ab1d3f8796769b904a1766dc5ed8f"
+    },
+    {
+      "path": "docs/cp7/d17-18/b-qualified3194-browser-20261028/VISUAL_REVIEW.json",
+      "blob": "c000c12cd15523d41e42d9d554c81c5d52b6cd4a",
+      "sha256": "f3652d5a2a41b31f57c02e632c029da64b71c96239a9bc67634be2e2510b34d1"
+    },
+    {
+      "path": "docs/cp7/d17-18/b-qualified3194-browser-20261028/verify_original.py",
+      "blob": "6fea19f4bc9dc354cc0e7330f1313eb86f0909ab",
+      "sha256": "b854bc61907368a6bf0fb5a11ce26330cb24a3ba509f5eb29014fd9cab6f11ff"
+    },
+    {
+      "path": "scripts/current-finance-combined-browser-qualification/BUILD_SOURCE_3194.json",
+      "blob": "89d3ad77d361333843767c73334892a4057a68e9",
+      "sha256": "d3b4cd3389b296634881e1917c8f33280dae905d010e0013ea6aa7d736ae2a3d"
+    },
+    {
+      "path": "scripts/current-finance-combined-browser-qualification/B_PREPARED_SOURCE.json",
+      "blob": "d8fbe753c6d901fc472f387e96549b214d3ec5f6",
+      "sha256": "ea7c242990ba71ab7b173ce737245ad5a628baf8d3205ba2e4ae37007d60ccb2"
+    },
+    {
+      "path": "scripts/current-finance-combined-browser-qualification/CONFIG.json",
+      "blob": "73cbe75a646a68e0ef477741e9f75ce59bc1efce",
+      "sha256": "8c2e857e69f80dcb185d0228bf7b9daf9fc1ce0adda1fcb43fecd1b1ab5d057d"
+    },
+    {
+      "path": "scripts/current-finance-combined-browser-qualification/LOCAL_PREPARATION.json",
+      "blob": "6c4b99fb98c2e893abe85d5e24b552dfca204730",
+      "sha256": "1b09b881e7ce61b27464943a73a34d6890f6e4da1db76cce9e1747711bb61d42"
+    },
+    {
+      "path": "scripts/current-finance-combined-browser-qualification/PREPARED_SOURCE.json",
+      "blob": "7901ff7d58e086529c4a0a4bd1b0729088760d88",
+      "sha256": "5608568558703ba19b3220457a06389567fb73ba5d458b475a278232c74a867c"
+    },
+    {
+      "path": "scripts/current-finance-combined-browser-qualification/README.md",
+      "blob": "cc311fc8e257c8ad5f727c950af99ecb066cf51d",
+      "sha256": "dd0b256fd923f329909144f07b3d1de15b75e5c6ccf36a552db480a48e5a1e48"
+    },
+    {
+      "path": "scripts/current-finance-combined-browser-qualification/README_3194.md",
+      "blob": "86761ecf7c493193813706e37865571958f54b32",
+      "sha256": "f084a3a7b9da3970028f3fadb36f0ce585e06382ac603c4bde316923a3a34e3a"
+    },
+    {
+      "path": "scripts/current-finance-combined-browser-qualification/SOURCE.json",
+      "blob": "d9a902c31d238c4b7d28021ee422a3602107d3fd",
+      "sha256": "9ea707a259b055d81e893b09fe447ce585e8fa4e5e6a120e8a340f05c135a47d"
+    },
+    {
+      "path": "scripts/current-finance-combined-browser-qualification/SUCCESSOR.patch",
+      "blob": "592abcfafaf7cebfbbf8cfb47ce504b77f810c01",
+      "sha256": "3173a2ea7c7e8776d671133ad58ff4d834938fa6bfa3d0ad1b36090ddf3a1e17"
+    },
+    {
+      "path": "scripts/current-finance-combined-browser-qualification/SUCCESSOR_ORIGIN.json",
+      "blob": "1bb2fe1bcdee717616dbac14fb10cf7677003465",
+      "sha256": "505a0433e0c718415ae042d2d1dcd4dd8ad516af9b1f5b5c7acc3914ef035200"
+    },
+    {
+      "path": "scripts/current-finance-combined-browser-qualification/UI_ORIGIN.json",
+      "blob": "3330f1da98d247601868bf83e5337c9f9ef5e62b",
+      "sha256": "2ebbba4bc2ed60e282b0acee759f77a369200c89633afe8d8c8a1a590f450dc6"
+    },
+    {
+      "path": "scripts/current-finance-combined-browser-qualification/WORKFLOW_3194_ORIGIN.json",
+      "blob": "889fbce91a7262961e612814ec6cd73826956fe3",
+      "sha256": "39a56388a8a539e14a8d90d0d2fc4850c7d2082c2cb320b1c86764557e509989"
+    },
+    {
+      "path": "scripts/current-finance-combined-browser-qualification/WORKFLOW_ORIGIN.json",
+      "blob": "a7e5e5e80091ade01076c7c33e9c1b282b1e0ff3",
+      "sha256": "ed2507c49ee8b767e861f1527c238244fd380cd50cd489d45e7b0b54cf206aef"
+    },
+    {
+      "path": "scripts/current-finance-combined-browser-qualification/admission.py",
+      "blob": "07a1afb50e513bc4c380837d56e5452bdf56574c",
+      "sha256": "c07d08ad871da48be282ee8fada3295b346934794d73f26b9e920fe4a7c8c731"
+    },
+    {
+      "path": "scripts/current-finance-combined-browser-qualification/browser.mjs",
+      "blob": "b6ab042d7c6e4957ab24806b2a2ddb9534fe17e1",
+      "sha256": "91fdfe2b4328661d92c6012079c6c8f74826f53d04225600b5d299988cbbda73"
+    },
+    {
+      "path": "scripts/current-finance-combined-browser-qualification/browser_fixture.py",
+      "blob": "eac12a30d5cac06c308fcf1c8aa8a153bc0671f0",
+      "sha256": "3acd9ba7b5a6df6e3ca5cfc3ecc39f09950dbee3b937edd4c00d1d12f4c5b70c"
+    },
+    {
+      "path": "scripts/current-finance-combined-browser-qualification/build_3194.mjs",
+      "blob": "9d388197c8a6a3145465501f9545957a1ec49d20",
+      "sha256": "5928b790c7f845a75ac8f9da875c5cb19ca132268dbf926180f4704610b176e9"
+    },
+    {
+      "path": "scripts/current-finance-combined-browser-qualification/check_build_3194.mjs",
+      "blob": "c7ce8b8ab55c167cd7da97f7bfd2108f3060edb8",
+      "sha256": "44e4eb67a1cad8f0a78cc1d588fbd97cb1175a96e3db1a73a0b90d0a76dea26e"
+    },
+    {
+      "path": "scripts/current-finance-combined-browser-qualification/composition.py",
+      "blob": "3d9f223f9f03740b81c89130f1f2543ae2361352",
+      "sha256": "db65b0855ffec796b126fd4cd867f61e17945fb28348d56e4155becc4934597b"
+    },
+    {
+      "path": "scripts/current-finance-combined-browser-qualification/console_evidence.mjs",
+      "blob": "4d4cc4431bbbfb2f4cb19ba2eb0dfdd57342ef05",
+      "sha256": "83009dcba01aabb4e9bcf6eb5c4672924d1f288cfe3ff6fbbdbe123f19d67c73"
+    },
+    {
+      "path": "scripts/current-finance-combined-browser-qualification/console_evidence.test.mjs",
+      "blob": "0a73b8f666d697691640732e577fb6c06eaa44a9",
+      "sha256": "53d051a1223294d53a0e12969c8495a0b5fe6bf3d8758e31bae7fa8bafeba050"
+    },
+    {
+      "path": "scripts/current-finance-combined-browser-qualification/desktop.mjs",
+      "blob": "b50d0c20e1cfb141fbe54793bfc881efef965eee",
+      "sha256": "3847018fbcf8919826b8dcf387e1742905375409a4e39ff9100dbb54cddc39da"
+    },
+    {
+      "path": "scripts/current-finance-combined-browser-qualification/evidence.py",
+      "blob": "1cbbda4d92d72d799b3d15b77619a578c2a24036",
+      "sha256": "37052040dab974948248651f9399aa77c56710e3228d1abe7d8469450e2722ef"
+    },
+    {
+      "path": "scripts/current-finance-combined-browser-qualification/fetch_combined.py",
+      "blob": "9c7afbb719f00052223198eaed142cd03ca54ffd",
+      "sha256": "cf333da0a7f8e0d931275ff298ecd52580935577de5ae3557d5ce86f318df2ed"
+    },
+    {
+      "path": "scripts/current-finance-combined-browser-qualification/mobile.mjs",
+      "blob": "480753b66fec115c32db8087625dbf63b3ba3fc9",
+      "sha256": "4f83b0f8ab249a636e140f7d4c62f656e54b49b9dd780a24b17f73e931607cc6"
+    },
+    {
+      "path": "scripts/current-finance-combined-browser-qualification/probe.py",
+      "blob": "af98d8bd1d945ce56a7eb093f00e698506b43d44",
+      "sha256": "806bd491e6b1276b74a5b38726afb15ea2740a307eb49f6ac2d4d424f52b40b2"
+    },
+    {
+      "path": "scripts/current-finance-combined-browser-qualification/progress_oracle.mjs",
+      "blob": "173236f3a054f7e23abdcc83eb6b4a5488df24cc",
+      "sha256": "d1cd9d380d8ccb3cf96512dd1aeabe7b5c33a7ec813a09069f4f27a892dd2edd"
+    },
+    {
+      "path": "scripts/current-finance-combined-browser-qualification/source_guard.py",
+      "blob": "5c1c8158bb0d726908e7ce2964b95a438b6013a0",
+      "sha256": "487204fb3e114fa8c769bbaeee3b1ee018bfe151b1f4451c1809e9b863ccb4f3"
+    },
+    {
+      "path": "scripts/current-finance-combined-browser-qualification/test_3194_boundaries.py",
+      "blob": "a47835ab6e50ee0b4b742f158db871023e88fc33",
+      "sha256": "2f55c9c0641635db968753bd747147e14199d58d137503f270235b89fdab3316"
+    },
+    {
+      "path": "scripts/current-finance-combined-browser-qualification/test_closed_adapter.py",
+      "blob": "1fc5cbc18fe7f13134b9cbba5dcc926d103b628a",
+      "sha256": "81d532addcfa5bc5da068781ce6ab68e88183e6b961dce998723743340aa3170"
+    },
+    {
+      "path": "scripts/current-finance-combined-browser-qualification/test_factory_progress_evidence.py",
+      "blob": "d912b70ee71492113c9f81b05429b2a6fe6f626d",
+      "sha256": "841e431a6c4074722ca8750679a7863aed3d09d6596633be8b0106f11ba31a0d"
+    },
+    {
+      "path": "scripts/current-finance-combined-browser-qualification/test_reader_stream_evidence.py",
+      "blob": "0e38ab80fee5eb9731ba52941304471a50128bf1",
+      "sha256": "c58a3c50068b7af5b5f4dda46c63c7df749dc2b43896d498298534991dfff4d9"
+    },
+    {
+      "path": "scripts/current-finance-combined-browser-qualification/test_source_boundaries.py",
+      "blob": "f80c1fe2b8c0fe7160e68722eb803a0779c23acc",
+      "sha256": "d0c5beb12e493942bcc1ac2c209a7f45c4197e7fdb6c71bd67bbb92321f0ed34"
+    },
+    {
+      "path": "scripts/current-finance-combined-browser-qualification/test_unplanned_progress_evidence.py",
+      "blob": "68a09dd2ca889f8b243cf9d6646135e8346b8518",
+      "sha256": "7c103a4f64ef3571db04472efd3ac1b5795a41ab936b52fb149e0fe326b7bb16"
+    },
+    {
+      "path": "scripts/current-finance-combined-browser-qualification/workflow_guard.py",
+      "blob": "dfb260832cdf2f19fcd96756776e21a89ea0193d",
+      "sha256": "bea9d949500fdc2e7562de820a5e22e643d01acf75c9a8d2c4ff17b2752f6810"
+    },
+    {
+      "path": "src/nativeStagedJob.initial.test.ts",
+      "blob": "ea408612ea2e2d6cde73be55cafe693eba9e075a",
+      "sha256": "d8594e9edc3810ad0c1c31540fa7b7d9dea28f1f3407c03a65ae373fbdba8016"
+    },
+    {
+      "path": "src/nativeStagedJob.ts",
+      "blob": "3f9a54ad489cff5fd2065020f530ef8b3733a707",
+      "sha256": "369bf0b398ac6c43de47016f56ea9645a1908252a59ca106c2c21392ad88ecb2"
+    }
+  ],
+  "status_paths": [
+    "docs/cp7/OPEN_WORK_D17_14_20261020.md",
+    "docs/cp7/handoff/CP75_CP7C_CP8_SAMBUNGAN_PREPARED_20261028.md",
+    "docs/cp7/d17-14/KOORDINASI.md",
+    "docs/cp7/d17-14/ow15/A_B_DRIVER_BROWSER_3194_INTAKE_20261028.json",
+    "docs/cp7/d17-14/ow15/ACTIVE_WRITER_A_20261025.json",
+    "docs/cp7/d17-14/ow15/CP7_AUDITOR_HANDOFF_INDEX_PREPARED_20261028.json"
+  ],
+  "production_go": false,
+  "independent_acceptance": false
+}

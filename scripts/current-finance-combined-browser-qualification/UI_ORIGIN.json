@@ -1,0 +1,90 @@
+{
+  "desktop.mjs": {
+    "path": "scripts/current-progress-finance-ui-browser-qualification/desktop.mjs",
+    "sha256": "3847018fbcf8919826b8dcf387e1742905375409a4e39ff9100dbb54cddc39da",
+    "changes": []
+  },
+  "mobile.mjs": {
+    "path": "scripts/current-progress-finance-ui-browser-qualification/mobile.mjs",
+    "sha256": "4f83b0f8ab249a636e140f7d4c62f656e54b49b9dd780a24b17f73e931607cc6",
+    "changes": []
+  },
+  "browser_fixture.py": {
+    "path": "scripts/current-progress-finance-ui-browser-qualification/browser_fixture.py",
+    "sha256": "be167320ad5884cb4f0fd1730a5fbb64ed3616a7e6b0bc3fff5f274cd7e95c4f",
+    "changes": []
+  },
+  "progress_oracle.mjs": {
+    "path": "scripts/current-progress-finance-ui-browser-qualification/progress_oracle.mjs",
+    "sha256": "d1cd9d380d8ccb3cf96512dd1aeabe7b5c33a7ec813a09069f4f27a892dd2edd",
+    "changes": []
+  },
+  "browser.mjs": {
+    "path": "scripts/current-progress-finance-ui-browser-qualification/browser.mjs",
+    "sha256": "3500acf32c1ae08997489fa1dd62c9509c500888b06a358fe7bfe6a05ef61480",
+    "changes": [
+      {
+        "old": "auditor/scripts/current-progress-finance-ui-browser-qualification/browser_fixture.py",
+        "new": "auditor/scripts/current-finance-combined-browser-qualification/browser_fixture.py",
+        "count": 1
+      },
+      {
+        "old": "import {assertCombinedProgress,PROGRESS} from './progress_oracle.mjs'",
+        "new": "import {assertCombinedProgress,PROGRESS} from './progress_oracle.mjs'\nimport {observeConsole,requireConsoleEvidence} from './console_evidence.mjs'",
+        "count": 1
+      },
+      {
+        "old": "  const state=()=>fixture('state',{actor}),calls=[],shots=[],contrasts=[]",
+        "new": "  const state=()=>fixture('state',{actor}),calls=[],shots=[],contrasts=[]\n  const consoleCapture=observeConsole(page),expectedNetwork=[]",
+        "count": 1
+      },
+      {
+        "old": "      if(!mobile&&name===FIN&&!lost){lost=calls.at(-1);await route.abort('failed')}else await route.fulfill({response})",
+        "new": "      if(!mobile&&name===FIN&&!lost){\n        lost=calls.at(-1);expectedNetwork.push({url:route.request().url(),text:'Failed to load resource: net::ERR_FAILED',reason:'deliberately lost committed finance reply'});await route.abort('failed')\n      }else{\n        if(mobile&&revoked&&[FIN,GET,PROGRESS].includes(name)&&response.status()===403)expectedNetwork.push({url:route.request().url(),text:'Failed to load resource: the server responded with a status of 403 (Forbidden)',reason:'verified finance access revocation'})\n        await route.fulfill({response})\n      }",
+        "count": 1
+      },
+      {
+        "old": "    return{status:'PASS',actual_progress_RPC_and_DOM:progressChecks",
+        "new": "    const consoleEvidence=requireConsoleEvidence(consoleCapture.errors,expectedNetwork)\n    return{status:'PASS',console_evidence:consoleEvidence,actual_progress_RPC_and_DOM:progressChecks",
+        "count": 1
+      },
+      {
+        "old": "JSON.stringify({error:String(error),calls,alerts:",
+        "new": "JSON.stringify({error:String(error),calls,console_errors:consoleCapture.errors,expected_network_errors:expectedNetwork,alerts:",
+        "count": 1
+      },
+      {
+        "old": "  finally{if(revoked)",
+        "new": "  finally{consoleCapture.stop();if(revoked)",
+        "count": 1
+      }
+    ]
+  },
+  "probe.py": {
+    "path": "scripts/current-progress-finance-ui-browser-qualification/probe.py",
+    "sha256": "6b81fd977f14737fc2a9c58acbeae3a365cc3fc7802518a99bce4fbd4cb55595",
+    "changes": [
+      {
+        "old": "Actual finance UI on two separate complete public-composition clones.",
+        "new": "Actual combined finance UI on two complete clones with real Auth.",
+        "count": 1
+      },
+      {
+        "old": "import cp7_current_choice_preparation.installation as quote_capability",
+        "new": "_product_spec=importlib.util.spec_from_file_location('combined_browser_qualified_backend',HERE/'composition.py')\nquote_capability=importlib.util.module_from_spec(_product_spec);_product_spec.loader.exec_module(quote_capability)",
+        "count": 1
+      },
+      {
+        "old": "CP7_D17_18_PROGRESS_FINANCE_UI_BROWSER2",
+        "new": "CP7_D17_18_COMBINED_FINANCE_UI_BROWSER2",
+        "count": 1
+      },
+      {
+        "old": "current_progress_finance_ui_browser2_",
+        "new": "current_combined_finance_ui_browser2_",
+        "count": 1
+      }
+    ],
+    "assertions": 2
+  }
+}
