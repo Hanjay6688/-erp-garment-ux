@@ -1,0 +1,82 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+src/nativeStagedJob.initial.test.ts(18,32): error TS2322: Type '{ request: (r: typeof request) => Promise<StagedReply>; get: (i: string) => Promise<StagedReply>; step: (i: string) => Promise<StagedReply>; }' is not assignable to type 'StagedRpc'.
+  Types of property 'request' are incompatible.
+    Type '(r: typeof request) => Promise<StagedReply>' is not assignable to type '(r: StagedRequest) => Promise<StagedReply>'.
+      Types of parameters 'r' and 'r' are incompatible.
+        Type 'StagedRequest' is not assignable to type '{ id: string; q: { from_date: string; through_date: string; group_mode: 'AS_SOLD'; }; }'.
+          The types of 'q.group_mode' are incompatible between these types.
+            Type '"AS_SOLD" | "RESTATED"' is not assignable to type '"AS_SOLD"'.
+              Type '"RESTATED"' is not assignable to type '"AS_SOLD"'.
+src/nativeStagedJob.initial.test.ts(31,31): error TS2322: Type '{ request: (r: typeof request) => Promise<StagedReply>; get: (i: string) => Promise<StagedReply>; step: (i: string) => Promise<StagedReply>; }' is not assignable to type 'StagedRpc'.
+  Types of property 'request' are incompatible.
+    Type '(r: typeof request) => Promise<StagedReply>' is not assignable to type '(r: StagedRequest) => Promise<StagedReply>'.
+      Types of parameters 'r' and 'r' are incompatible.
+        Type 'StagedRequest' is not assignable to type '{ id: string; q: { from_date: string; through_date: string; group_mode: 'AS_SOLD'; }; }'.
+          The types of 'q.group_mode' are incompatible between these types.
+            Type '"AS_SOLD" | "RESTATED"' is not assignable to type '"AS_SOLD"'.
+              Type '"RESTATED"' is not assignable to type '"AS_SOLD"'.
+src/nativeStagedJob.initial.test.ts(37,32): error TS2322: Type '{ request: (r: typeof request) => Promise<StagedReply>; get: (i: string) => Promise<StagedReply>; step: (i: string) => Promise<StagedReply>; }' is not assignable to type 'StagedRpc'.
+  Types of property 'request' are incompatible.
+    Type '(r: typeof request) => Promise<StagedReply>' is not assignable to type '(r: StagedRequest) => Promise<StagedReply>'.
+      Types of parameters 'r' and 'r' are incompatible.
+        Type 'StagedRequest' is not assignable to type '{ id: string; q: { from_date: string; through_date: string; group_mode: 'AS_SOLD'; }; }'.
+          The types of 'q.group_mode' are incompatible between these types.
+            Type '"AS_SOLD" | "RESTATED"' is not assignable to type '"AS_SOLD"'.
+              Type '"RESTATED"' is not assignable to type '"AS_SOLD"'.
+src/nativeStagedJob.initial.test.ts(45,31): error TS2322: Type '{ request: (r: typeof request) => Promise<StagedReply>; get: (i: string) => Promise<StagedReply>; step: (i: string) => Promise<StagedReply>; }' is not assignable to type 'StagedRpc'.
+  Types of property 'request' are incompatible.
+    Type '(r: typeof request) => Promise<StagedReply>' is not assignable to type '(r: StagedRequest) => Promise<StagedReply>'.
+      Types of parameters 'r' and 'r' are incompatible.
+        Type 'StagedRequest' is not assignable to type '{ id: string; q: { from_date: string; through_date: string; group_mode: 'AS_SOLD'; }; }'.
+          The types of 'q.group_mode' are incompatible between these types.
+            Type '"AS_SOLD" | "RESTATED"' is not assignable to type '"AS_SOLD"'.
+              Type '"RESTATED"' is not assignable to type '"AS_SOLD"'.
+src/nativeStagedJob.initial.test.ts(48,32): error TS2322: Type '{ request: (r: typeof request) => Promise<StagedReply>; get: (i: string) => Promise<StagedReply>; step: (i: string) => Promise<StagedReply>; }' is not assignable to type 'StagedRpc'.
+  Types of property 'request' are incompatible.
+    Type '(r: typeof request) => Promise<StagedReply>' is not assignable to type '(r: StagedRequest) => Promise<StagedReply>'.
+      Types of parameters 'r' and 'r' are incompatible.
+        Type 'StagedRequest' is not assignable to type '{ id: string; q: { from_date: string; through_date: string; group_mode: 'AS_SOLD'; }; }'.
+          The types of 'q.group_mode' are incompatible between these types.
+            Type '"AS_SOLD" | "RESTATED"' is not assignable to type '"AS_SOLD"'.
+              Type '"RESTATED"' is not assignable to type '"AS_SOLD"'.
+src/nativeStagedJob.initial.test.ts(54,32): error TS2322: Type '{ request: (r: typeof request) => Promise<StagedReply>; get: (i: string) => Promise<StagedReply>; step: (i: string) => Promise<StagedReply>; }' is not assignable to type 'StagedRpc'.
+  Types of property 'request' are incompatible.
+    Type '(r: typeof request) => Promise<StagedReply>' is not assignable to type '(r: StagedRequest) => Promise<StagedReply>'.
+      Types of parameters 'r' and 'r' are incompatible.
+        Type 'StagedRequest' is not assignable to type '{ id: string; q: { from_date: string; through_date: string; group_mode: 'AS_SOLD'; }; }'.
+          The types of 'q.group_mode' are incompatible between these types.
+            Type '"AS_SOLD" | "RESTATED"' is not assignable to type '"AS_SOLD"'.
+              Type '"RESTATED"' is not assignable to type '"AS_SOLD"'.
+src/nativeStagedJob.initial.test.ts(60,31): error TS2322: Type '{ request: (r: typeof request) => Promise<StagedReply>; get: (i: string) => Promise<StagedReply>; step: (i: string) => Promise<StagedReply>; }' is not assignable to type 'StagedRpc'.
+  Types of property 'request' are incompatible.
+    Type '(r: typeof request) => Promise<StagedReply>' is not assignable to type '(r: StagedRequest) => Promise<StagedReply>'.
+      Types of parameters 'r' and 'r' are incompatible.
+        Type 'StagedRequest' is not assignable to type '{ id: string; q: { from_date: string; through_date: string; group_mode: 'AS_SOLD'; }; }'.
+          The types of 'q.group_mode' are incompatible between these types.
+            Type '"AS_SOLD" | "RESTATED"' is not assignable to type '"AS_SOLD"'.
+              Type '"RESTATED"' is not assignable to type '"AS_SOLD"'.
+src/nativeStagedJob.initial.test.ts(66,31): error TS2322: Type '{ request: (r: typeof request) => Promise<StagedReply>; get: (i: string) => Promise<StagedReply>; step: (i: string) => Promise<StagedReply>; }' is not assignable to type 'StagedRpc'.
+  Types of property 'request' are incompatible.
+    Type '(r: typeof request) => Promise<StagedReply>' is not assignable to type '(r: StagedRequest) => Promise<StagedReply>'.
+      Types of parameters 'r' and 'r' are incompatible.
+        Type 'StagedRequest' is not assignable to type '{ id: string; q: { from_date: string; through_date: string; group_mode: 'AS_SOLD'; }; }'.
+          The types of 'q.group_mode' are incompatible between these types.
+            Type '"AS_SOLD" | "RESTATED"' is not assignable to type '"AS_SOLD"'.
+              Type '"RESTATED"' is not assignable to type '"AS_SOLD"'.
+src/nativeStagedJob.initial.test.ts(68,31): error TS2322: Type '{ request: (r: typeof request) => Promise<StagedReply>; step: (i: string) => Promise<StagedReply>; get: () => Promise<never>; }' is not assignable to type 'StagedRpc'.
+  Types of property 'request' are incompatible.
+    Type '(r: typeof request) => Promise<StagedReply>' is not assignable to type '(r: StagedRequest) => Promise<StagedReply>'.
+      Types of parameters 'r' and 'r' are incompatible.
+        Type 'StagedRequest' is not assignable to type '{ id: string; q: { from_date: string; through_date: string; group_mode: 'AS_SOLD'; }; }'.
+          The types of 'q.group_mode' are incompatible between these types.
+            Type '"AS_SOLD" | "RESTATED"' is not assignable to type '"AS_SOLD"'.
+              Type '"RESTATED"' is not assignable to type '"AS_SOLD"'.
+src/nativeStagedJob.initial.test.ts(73,31): error TS2322: Type '{ request: (r: typeof request) => Promise<StagedReply>; get: (i: string) => Promise<StagedReply>; step: (i: string) => Promise<StagedReply>; }' is not assignable to type 'StagedRpc'.
+  Types of property 'request' are incompatible.
+    Type '(r: typeof request) => Promise<StagedReply>' is not assignable to type '(r: StagedRequest) => Promise<StagedReply>'.
+      Types of parameters 'r' and 'r' are incompatible.
+        Type 'StagedRequest' is not assignable to type '{ id: string; q: { from_date: string; through_date: string; group_mode: 'AS_SOLD'; }; }'.
+          The types of 'q.group_mode' are incompatible between these types.
+            Type '"AS_SOLD" | "RESTATED"' is not assignable to type '"AS_SOLD"'.
+              Type '"RESTATED"' is not assignable to type '"AS_SOLD"'.
+src/nativeStagedJob.ts(164,9): error TS7022: 'polling' implicitly has type 'any' because it does not have a type annotation and is referenced directly or indirectly in its own initializer.

@@ -1,0 +1,56 @@
+{
+  "status": "PASS_LOCAL_DRIVER_AND_PANEL_TESTS_BROWSER_PENDING",
+  "base_head": "3efecab381578cb12b06b9bedd97b31b7a20b26a",
+  "owner": "B",
+  "backend_contract_head": "3194b9c56be7af86ee45ccb1c6605204a712f91b",
+  "changed_product_files": [
+    "src/nativeStagedJob.ts"
+  ],
+  "new_tests": [
+    "src/nativeStagedJob.initial.test.ts"
+  ],
+  "tests": [
+    {
+      "command": "npx vitest run src/nativeStagedJob.test.ts src/nativeStagedJob.initial.test.ts scripts/cp7_frozen_quantity_ui/client/nativeFrozenProgress.test.ts",
+      "files": 6,
+      "passed": 57,
+      "seconds": 2.48,
+      "log": "DRIVER_TESTS.txt"
+    },
+    {
+      "command": "npx vitest run scripts/cp7_frozen_quantity_ui/client/NativeFrozenQuantityPanel.dom.test.tsx scripts/cp7_frozen_quantity_ui/client/nativeFrozenQuantity.test.ts scripts/cp7_frozen_quantity_ui/client/NativeFrozenProgress.dom.test.tsx",
+      "files": 8,
+      "passed": 126,
+      "seconds": 27.59,
+      "log": "PANEL_TESTS.txt"
+    }
+  ],
+  "first_failure": {
+    "file": "FIRST_TYPECHECK_FAILURE.txt",
+    "cause": "New test RPC parameter was narrower than StagedRequest; TypeScript required explicit boolean inference for polling. Corrected annotations only.",
+    "product_runtime_failure": false
+  },
+  "observation_limit_ms": 120000,
+  "server_statement_limit_changed": false,
+  "historical_manifest_rewrites": 0,
+  "actual_Auth_browser_cases": 0,
+  "formal_accepted": "5/16",
+  "production_go": false,
+  "independent_acceptance": false,
+  "files": {
+    "src/nativeStagedJob.ts": {
+      "bytes": 17518,
+      "sha256": "369bf0b398ac6c43de47016f56ea9645a1908252a59ca106c2c21392ad88ecb2"
+    },
+    "src/nativeStagedJob.initial.test.ts": {
+      "bytes": 5977,
+      "sha256": "d8594e9edc3810ad0c1c31540fa7b7d9dea28f1f3407c03a65ae373fbdba8016"
+    }
+  },
+  "driver_preimage_sha256": "a48f98d068f94291d7dc4187dffd218da6bb0edea1f63e1bc8eba7d4c75b44e0",
+  "typecheck": {
+    "command": "npx tsc --noEmit --project tsconfig.app.json",
+    "status": "PASS",
+    "log": "TYPECHECK_PASS.txt"
+  }
+}

@@ -133,24 +133,50 @@ export const STAGED_CAP_HINT='Analisis tunggal ditolak karena jumlah target mela
 
 export type StagedReply={data:unknown;error:unknown}
 export type StagedRpc={request:(r:StagedRequest)=>Promise<StagedReply>;step:(id:string)=>Promise<StagedReply>;get:(id:string)=>Promise<StagedReply>}
-export type StagedDriveOptions={rpc:StagedRpc;request:StagedRequest;start:boolean;aborted?:()=>boolean;sleep?:(ms:number)=>Promise<void>;onStatus?:(s:StagedJob)=>void;workerBackoffMs?:number}
+export type StagedDriveOptions={rpc:StagedRpc;request:StagedRequest;start:boolean;aborted?:()=>boolean;sleep?:(ms:number)=>Promise<void>;onStatus?:(s:StagedJob)=>void;workerBackoffMs?:number;now?:()=>number}
 export const STAGED_WORKER_BACKOFF_MS=2000
+export const STAGED_NO_PROGRESS_MS=120_000
+export const STAGED_STALL_MESSAGE='Kemajuan belum berubah selama dua menit. Pemantauan dihentikan. Buka perhitungan tersimpan untuk memeriksa pekerjaan yang sama; proses server belum dinyatakan gagal.'
+const progressSignature=(s:StagedJob)=>JSON.stringify([s.state,s.stage,s.stageIndex,s.unitsDone,s.unitCount,s.planFinal,s.targetsDoneInStage,s.targetsTotal])
+const initialServerRequired=(error:unknown)=>error!==null&&typeof error==='object'
+ &&(error as {code?:unknown}).code==='55000'
+ &&(error as {message?:unknown}).message==='CP7_LARGE_INITIAL_PREPARATION_SERVER_REQUIRED'
 // Returns the final status (DONE or FAILED), or null once aborted; a server
 // refusal or a lost reply is thrown with the last known status already
 // reported through onStatus, so the caller can show "paused since".
 export async function driveStagedJob(o:StagedDriveOptions):Promise<StagedJob|null>{
- const aborted=o.aborted??(()=>false),sleep=o.sleep??(ms=>new Promise<void>(r=>setTimeout(r,ms))),backoff=o.workerBackoffMs??STAGED_WORKER_BACKOFF_MS
- const read=(r:StagedReply)=>{if(r.error)throw r.error;const s=parseStagedJob(r.data,o.request.id,o.request);o.onStatus?.(s);return s}
+ const aborted=o.aborted??(()=>false),sleep=o.sleep??(ms=>new Promise<void>(r=>setTimeout(r,ms))),backoff=o.workerBackoffMs??STAGED_WORKER_BACKOFF_MS,now=o.now??(()=>performance.now())
+ let signature:string|null=null,advancedAt=now(),serverInitial=false,pollUnchanged=false
+ const read=(r:StagedReply)=>{
+  if(r.error)throw r.error
+  const s=parseStagedJob(r.data,o.request.id,o.request),next=progressSignature(s)
+  o.onStatus?.(s)
+  if(next!==signature){signature=next;advancedAt=now()}
+  else if(s.state==='RUNNING'&&now()-advancedAt>=STAGED_NO_PROGRESS_MS)throw Error(STAGED_STALL_MESSAGE)
+  return s
+ }
  if(aborted())return null
  const first=await(o.start?o.rpc.request(o.request):o.rpc.get(o.request.id));if(aborted())return null
  let status=read(first)
  while(status.state==='RUNNING'){
   if(aborted())return null
   let reply:StagedReply
-  if(status.workerActive){await sleep(backoff);if(aborted())return null;reply=await o.rpc.get(o.request.id)}
-  else reply=await o.rpc.step(o.request.id)
+  const polling:boolean=status.workerActive||serverInitial||pollUnchanged
+  if(polling){await sleep(backoff);if(aborted())return null;reply=await o.rpc.get(o.request.id)}
+  else{
+   reply=await o.rpc.step(o.request.id)
+   if(aborted())return null
+   // Only this exact step refusal delegates the initial unit to A's server
+   // worker. Never swallow access failures, other 55000 errors, or a get error.
+   if(status.unitsDone===0&&initialServerRequired(reply.error)){serverInitial=true;continue}
+  }
   if(aborted())return null
+  const before=signature
   status=read(reply)
+  if(status.unitsDone>0)serverInitial=false
+  // An unchanged step is observed after a backoff; advancing small jobs do
+  // not acquire a delay. Heartbeats/lock flags do not reset the 120s window.
+  pollUnchanged=!polling&&signature===before
  }
  return status
 }
