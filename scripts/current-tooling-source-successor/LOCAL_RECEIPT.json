@@ -1,0 +1,37 @@
+{
+  "status": "PASS_SCOPED_TOOLING_SUCCESSOR_SOURCE_ONLY",
+  "unchanged_exact_files": 4314,
+  "replaced_tooling_files": 1,
+  "new_tested_helper_files": 2,
+  "successor": {
+    "files": {
+      "scripts/cp7_ow10_statistical_local.mjs": "2f2d02ed883a3fa018f8bd422e7879b58bb6ab7e4076232df3c63c372e729f57",
+      "scripts/cp7_first_failure_evidence.mjs": "41b059ed810c57c97f2ee05f4722ad7c415b7828b1e24c9c098962ee9cd9f34d",
+      "scripts/cp7_first_failure_evidence.test.mjs": "f14383aa6966513256496a0871b0175809697e941720010a08d7787210453c21"
+    },
+    "replaced_historical_path": "scripts/cp7_ow10_statistical_local.mjs",
+    "old_digest": "e14024bd85397aa0eb06f61354dc3400fd57fa6318e83bdbb4c00df3aa5d7685",
+    "A_qualified_head": "a6bb16bd898ade9cf5cf3588e6f39d4ecabef8a8",
+    "B_qualified_head": "4fcc1adc2b219304c73e2de6dc6df2b7810106d9",
+    "actual_JS_receipt_verified": true,
+    "historical_manifests_rewritten": false,
+    "backend_or_browser_unlock": false
+  },
+  "frozen_manifests": 7,
+  "current_B_exact_files": 38,
+  "main_dispatch_App_and_package_unchanged": true,
+  "business_oracles_unchanged": true,
+  "actual_database_Auth_browser_cases": 0,
+  "default_adopted": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "local_only": true,
+  "negative_boundary_tests": 4,
+  "code_source_sha256": {
+    "check.py": "60b63ff91fed56da1f6a4d64679e63d978965c010605ccf4d5a789c3150aad12",
+    "tooling.py": "ae462060c9d2f2d3171024d7a1d644daba8316b137bb7ebe5306e1d51f5e2afc",
+    "ORIGIN.json": "7ea2d066e7a12fdd987a5744345fa158dc10731c6b1866f85d4fde82bddb0a22",
+    "README.md": "bfb1f3d059962f30c03b8554712df6f03b9198fd57d9e77c2b1a60f64d563193",
+    "test_successor.py": "163c5c29fe529060bba0143200ef78109a7863870350ff4fd7a7ea3dbbef5441"
+  }
+}

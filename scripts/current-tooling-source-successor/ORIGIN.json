@@ -1,0 +1,26 @@
+{
+  "path": "scripts/current-source-closure-preparation/check.py",
+  "sha256": "e2d9d23697fe4a001cb36ad5fa94d12a87bea41e86004fd4e8f21c95ae64d10a",
+  "changes": [
+    {
+      "old": "from pathlib import Path",
+      "new": "import importlib.util\nfrom pathlib import Path"
+    },
+    {
+      "old": "    config=json.loads((HERE/'IMPORT.json').read_bytes());expected={}",
+      "new": "    spec=importlib.util.spec_from_file_location('scoped_tooling_successor',HERE/'tooling.py');tooling=importlib.util.module_from_spec(spec);spec.loader.exec_module(tooling)\n    tooling.derivation();successor=tooling.checked()\n    config=json.loads((ROOT/'scripts/current-source-closure-preparation/IMPORT.json').read_bytes());expected={}"
+    },
+    {
+      "old": "    for path,digest in expected.items():assert sha256((ROOT/path).read_bytes()).hexdigest()==digest,path",
+      "new": "    assert expected[tooling.SCRIPT]==tooling.OLD\n    for path,digest in expected.items():\n        declared=successor['files'][path]if path==tooling.SCRIPT else digest\n        assert sha256((ROOT/path).read_bytes()).hexdigest()==declared,path"
+    },
+    {
+      "old": "status='PASS_EXACT_SOURCE_CLOSURE_ONLY',exact_files=len(expected),",
+      "new": "status='PASS_SCOPED_TOOLING_SUCCESSOR_SOURCE_ONLY',unchanged_exact_files=len(expected)-1,\n        replaced_tooling_files=1,new_tested_helper_files=2,successor=successor,"
+    },
+    {
+      "old": "cp6-proof/current-source-closure/SOURCE_CLOSURE.json",
+      "new": "cp6-proof/current-tooling-source-successor/SOURCE_CLOSURE.json"
+    }
+  ]
+}

@@ -1,5 +1,5 @@
 {
-  "recorded_at_utc": "2026-10-28T09:01:18.160475+00:00",
+  "recorded_at_utc": "2026-10-28T09:38:23.859956+00:00",
   "role": "A finance writer/integrator replacing Claude; B remains separate production/planning writer",
   "slogan": [
     "VENI. VIDI. VICI. ERP. — I CONQUERED ERP.",
@@ -8,7 +8,27 @@
   "formal_accepted": "5/16",
   "production_go": false,
   "independent_acceptance": false,
-  "running": null,
+  "running": {
+    "status": "ACTUAL_ALL7_RUNNING_NOT_QUALIFIED",
+    "head": "11c95c4ee2c784247e1be22ce0a582f4d85632c5",
+    "tree": "688a4ac63208e000602a30d406b4e080d2203a28",
+    "run_id": 40663882208,
+    "job_id": 122733390447,
+    "branch": "astra-a/d17-18-factory-initial-stage-20261028",
+    "namespace": "scripts/current-factory-initial-stage",
+    "output": "CP7_D17_18_FACTORY_INITIAL_STAGE_NATIVE_SOURCE_CRON7.json",
+    "artifact_expected": "cp7-d17-18-factory-initial-stage-1",
+    "source_admission": {
+      "status": "PASS",
+      "own_pins": 22,
+      "seconds": 156.815,
+      "database_connection_attempts": 0
+    },
+    "selected_backend_for_B": null,
+    "browser_unlock": false,
+    "production_go": false,
+    "independent_acceptance": false
+  },
   "actual_new_component": {
     "name": "CP7_OW11_MODEL_TARGET_SOURCE_V2.json",
     "status": "PASS",
@@ -19150,5 +19170,21 @@
     "status": "PASS_DIAGNOSTIC_ONLY",
     "backend_unlock": false
   },
-  "large_initial_stage_contract_prepared": "docs/cp7/d17-14/ow15/D17_18_LARGE_INITIAL_STAGE_CONTRACT_PREPARED.json"
+  "large_initial_stage_contract_prepared": "docs/cp7/d17-14/ow15/D17_18_LARGE_INITIAL_STAGE_CONTRACT_PREPARED.json",
+  "tooling_source_successor": {
+    "path": "scripts/current-tooling-source-successor/LOCAL_RECEIPT.json",
+    "status": "PASS_SCOPED_TOOLING_SUCCESSOR_SOURCE_ONLY",
+    "unchanged_exact_files": 4314,
+    "replaced_tooling_files": 1,
+    "new_tested_helper_files": 2,
+    "historical_manifests_rewritten": false,
+    "backend_unlock": false
+  },
+  "B_browser_latest_observed": {
+    "head": "51a9e72a89b4576283fe30cb17b56dd26fc57668",
+    "tooling_status": "PASS_DESKTOP_MOBILE_CHROMIUM_ONLY",
+    "tooling_run_id": 40658559666,
+    "tooling_job_id": 122715532407,
+    "actual_ERP_Auth_cases": 0
+  }
 }
