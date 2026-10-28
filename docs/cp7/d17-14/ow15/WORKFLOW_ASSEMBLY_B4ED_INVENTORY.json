@@ -1,0 +1,670 @@
+{
+  "status": "STATIC_INVENTORY_ONLY",
+  "base": "a255e48f76ce502d9e571f2bfdd8a52a1a2b1306",
+  "candidate": "b4ed2a34ccf170f2fb412d6cb3337dbf1ae8d166",
+  "candidate_tree": "32b36d2caa4eba837f8b7fbc8dd43a1557d9006f",
+  "branch": "astra/d17-14-integrasi",
+  "commit_count": 948,
+  "changed_file_count": 3222,
+  "workflow_file_count": 331,
+  "complete_local_diff_matches": 61,
+  "source_declaration_count": 144,
+  "source_declarations_with_drift": 107,
+  "automatic_push_coverage_reliable": false,
+  "qualified_case_count": 0,
+  "retired_workflows": 24,
+  "historical_declarations_only_missing_retired_proof_paths": [
+    {
+      "path": "scripts/current-choice-finance-cron-qualification/SOURCE.json",
+      "differences": 10,
+      "retired_paths": 10,
+      "other_differences": 0
+    },
+    {
+      "path": "scripts/current-choice-preparation-native-qualification/SOURCE.json",
+      "differences": 6,
+      "retired_paths": 6,
+      "other_differences": 0
+    },
+    {
+      "path": "scripts/current-choice-preparation-transport-qualification/SOURCE.json",
+      "differences": 7,
+      "retired_paths": 7,
+      "other_differences": 0
+    },
+    {
+      "path": "scripts/current-finance-check-reuse-diagnostic/SOURCE.json",
+      "differences": 13,
+      "retired_paths": 13,
+      "other_differences": 0
+    },
+    {
+      "path": "scripts/current-finance-consistent-capture-diagnostic/SOURCE.json",
+      "differences": 1,
+      "retired_paths": 1,
+      "other_differences": 0
+    },
+    {
+      "path": "scripts/current-finance-followups-qualification/SOURCE.json",
+      "differences": 1,
+      "retired_paths": 1,
+      "other_differences": 0
+    },
+    {
+      "path": "scripts/current-finance-reader-diagnostic/SOURCE.json",
+      "differences": 12,
+      "retired_paths": 12,
+      "other_differences": 0
+    },
+    {
+      "path": "scripts/current-finance-reader-source-race-qualification/SOURCE.json",
+      "differences": 14,
+      "retired_paths": 14,
+      "other_differences": 0
+    },
+    {
+      "path": "scripts/current-finance-readonly-integration-qualification/SOURCE.json",
+      "differences": 22,
+      "retired_paths": 22,
+      "other_differences": 0
+    },
+    {
+      "path": "scripts/current-frozen-finance-factory-date2-qualification/SOURCE.json",
+      "differences": 9,
+      "retired_paths": 9,
+      "other_differences": 0
+    },
+    {
+      "path": "scripts/current-frozen-finance-factory-observe-qualification/SOURCE.json",
+      "differences": 10,
+      "retired_paths": 10,
+      "other_differences": 0
+    },
+    {
+      "path": "scripts/current-frozen-finance-native-qualification/SOURCE.json",
+      "differences": 3,
+      "retired_paths": 3,
+      "other_differences": 0
+    },
+    {
+      "path": "scripts/current-frozen-finance-stage-profile/SOURCE.json",
+      "differences": 11,
+      "retired_paths": 11,
+      "other_differences": 0
+    },
+    {
+      "path": "scripts/current-frozen-progress-native-qualification/SOURCE.json",
+      "differences": 5,
+      "retired_paths": 5,
+      "other_differences": 0
+    },
+    {
+      "path": "scripts/current-frozen-public-cron-qualification/SOURCE.json",
+      "differences": 5,
+      "retired_paths": 5,
+      "other_differences": 0
+    },
+    {
+      "path": "scripts/current-frozen-public-native-qualification/SOURCE.json",
+      "differences": 4,
+      "retired_paths": 4,
+      "other_differences": 0
+    },
+    {
+      "path": "scripts/current-frozen-units-native-qualification/SOURCE.json",
+      "differences": 2,
+      "retired_paths": 2,
+      "other_differences": 0
+    },
+    {
+      "path": "scripts/current-progress-finance-ui-browser-qualification/SOURCE.json",
+      "differences": 7,
+      "retired_paths": 7,
+      "other_differences": 0
+    },
+    {
+      "path": "scripts/current-versioned-performance-browser-qualification/SOURCE.json",
+      "differences": 2,
+      "retired_paths": 2,
+      "other_differences": 0
+    },
+    {
+      "path": "scripts/current-versioned-performance-cron-qualification/SOURCE.json",
+      "differences": 2,
+      "retired_paths": 2,
+      "other_differences": 0
+    },
+    {
+      "path": "scripts/current-versioned-performance-finance-qualification/SOURCE.json",
+      "differences": 2,
+      "retired_paths": 2,
+      "other_differences": 0
+    },
+    {
+      "path": "scripts/current-versioned-performance-native-qualification/SOURCE.json",
+      "differences": 1,
+      "retired_paths": 1,
+      "other_differences": 0
+    },
+    {
+      "path": "scripts/current-versioned-performance-transport-qualification/SOURCE.json",
+      "differences": 2,
+      "retired_paths": 2,
+      "other_differences": 0
+    },
+    {
+      "path": "scripts/current-versioned-performance-used-restore-qualification/SOURCE.json",
+      "differences": 2,
+      "retired_paths": 2,
+      "other_differences": 0
+    }
+  ],
+  "historical_declarations_with_other_differences": [
+    {
+      "path": "scripts/ab-bounded-browser-qualification/SOURCE.json",
+      "differences": 19,
+      "retired_paths": 0,
+      "other_differences": 19
+    },
+    {
+      "path": "scripts/ab-bounded-native-qualification/SOURCE.json",
+      "differences": 16,
+      "retired_paths": 0,
+      "other_differences": 16
+    },
+    {
+      "path": "scripts/ab-bounded-restore-qualification/SOURCE.json",
+      "differences": 16,
+      "retired_paths": 0,
+      "other_differences": 16
+    },
+    {
+      "path": "scripts/ab-owner-auth-qualification/SOURCE.json",
+      "differences": 16,
+      "retired_paths": 0,
+      "other_differences": 16
+    },
+    {
+      "path": "scripts/ab-owner-browser-qualification/SOURCE.json",
+      "differences": 19,
+      "retired_paths": 0,
+      "other_differences": 19
+    },
+    {
+      "path": "scripts/ab-owner-families-qualification/SOURCE.json",
+      "differences": 16,
+      "retired_paths": 0,
+      "other_differences": 16
+    },
+    {
+      "path": "scripts/ab-quote-browser-qualification/SOURCE.json",
+      "differences": 26,
+      "retired_paths": 0,
+      "other_differences": 26
+    },
+    {
+      "path": "scripts/ab-quote-chain-qualification/SOURCE.json",
+      "differences": 2,
+      "retired_paths": 0,
+      "other_differences": 2
+    },
+    {
+      "path": "scripts/b-extension-chain-qualification/SOURCE.json",
+      "differences": 4,
+      "retired_paths": 0,
+      "other_differences": 4
+    },
+    {
+      "path": "scripts/cp7_contractor_guidance/SOURCE.json",
+      "differences": 1,
+      "retired_paths": 0,
+      "other_differences": 1
+    },
+    {
+      "path": "scripts/current-analog-auth-qualification/SOURCE.json",
+      "differences": 22,
+      "retired_paths": 0,
+      "other_differences": 22
+    },
+    {
+      "path": "scripts/current-analog-choice-browser-qualification/SOURCE.json",
+      "differences": 23,
+      "retired_paths": 0,
+      "other_differences": 23
+    },
+    {
+      "path": "scripts/current-analog-consumer-browser-qualification/SOURCE.json",
+      "differences": 21,
+      "retired_paths": 0,
+      "other_differences": 21
+    },
+    {
+      "path": "scripts/current-analog-consumer-opening-qualification/SOURCE.json",
+      "differences": 21,
+      "retired_paths": 0,
+      "other_differences": 21
+    },
+    {
+      "path": "scripts/current-analog-consumer-qualification/SOURCE.json",
+      "differences": 21,
+      "retired_paths": 0,
+      "other_differences": 21
+    },
+    {
+      "path": "scripts/current-analog-consumer-transport-qualification/SOURCE.json",
+      "differences": 21,
+      "retired_paths": 0,
+      "other_differences": 21
+    },
+    {
+      "path": "scripts/current-analog-installation-qualification/SOURCE.json",
+      "differences": 6,
+      "retired_paths": 0,
+      "other_differences": 6
+    },
+    {
+      "path": "scripts/current-analog-installation-utc-qualification/SOURCE.json",
+      "differences": 6,
+      "retired_paths": 0,
+      "other_differences": 6
+    },
+    {
+      "path": "scripts/current-analog-native-fixture-qualification/SOURCE.json",
+      "differences": 6,
+      "retired_paths": 0,
+      "other_differences": 6
+    },
+    {
+      "path": "scripts/current-bounded-finance-native-qualification/SOURCE.json",
+      "differences": 21,
+      "retired_paths": 0,
+      "other_differences": 21
+    },
+    {
+      "path": "scripts/current-bounded-finance-restored-native-qualification/SOURCE.json",
+      "differences": 21,
+      "retired_paths": 0,
+      "other_differences": 21
+    },
+    {
+      "path": "scripts/current-cash-fixture-diagnostic/SOURCE.json",
+      "differences": 16,
+      "retired_paths": 0,
+      "other_differences": 16
+    },
+    {
+      "path": "scripts/current-cash-ready-qualification/SOURCE.json",
+      "differences": 16,
+      "retired_paths": 0,
+      "other_differences": 16
+    },
+    {
+      "path": "scripts/current-cp6-ai-native-qualification/SOURCE.json",
+      "differences": 16,
+      "retired_paths": 0,
+      "other_differences": 16
+    },
+    {
+      "path": "scripts/current-cp6-contract-qualification/SOURCE.json",
+      "differences": 16,
+      "retired_paths": 0,
+      "other_differences": 16
+    },
+    {
+      "path": "scripts/current-cp6-crossflow-qualification/SOURCE.json",
+      "differences": 16,
+      "retired_paths": 0,
+      "other_differences": 16
+    },
+    {
+      "path": "scripts/current-cp6-funded-qualification/SOURCE.json",
+      "differences": 16,
+      "retired_paths": 0,
+      "other_differences": 16
+    },
+    {
+      "path": "scripts/current-cp6-race-qualification/SOURCE.json",
+      "differences": 16,
+      "retired_paths": 0,
+      "other_differences": 16
+    },
+    {
+      "path": "scripts/current-finance-model-browser-qualification/SOURCE.json",
+      "differences": 18,
+      "retired_paths": 0,
+      "other_differences": 18
+    },
+    {
+      "path": "scripts/current-finance-model-cron-qualification/SOURCE.json",
+      "differences": 18,
+      "retired_paths": 0,
+      "other_differences": 18
+    },
+    {
+      "path": "scripts/current-finance-model-qualification/SOURCE.json",
+      "differences": 19,
+      "retired_paths": 0,
+      "other_differences": 19
+    },
+    {
+      "path": "scripts/current-finance-model-registry-qualification/SOURCE.json",
+      "differences": 18,
+      "retired_paths": 0,
+      "other_differences": 18
+    },
+    {
+      "path": "scripts/current-finance-model-transport-qualification/SOURCE.json",
+      "differences": 18,
+      "retired_paths": 0,
+      "other_differences": 18
+    },
+    {
+      "path": "scripts/current-finance-model-transport-utc-qualification/SOURCE.json",
+      "differences": 18,
+      "retired_paths": 0,
+      "other_differences": 18
+    },
+    {
+      "path": "scripts/current-finance-model-used-restore-qualification/SOURCE.json",
+      "differences": 18,
+      "retired_paths": 0,
+      "other_differences": 18
+    },
+    {
+      "path": "scripts/current-full-money-qualification/SOURCE.json",
+      "differences": 19,
+      "retired_paths": 0,
+      "other_differences": 19
+    },
+    {
+      "path": "scripts/current-installation-qualification/SOURCE.json",
+      "differences": 16,
+      "retired_paths": 0,
+      "other_differences": 16
+    },
+    {
+      "path": "scripts/current-invoice-history-browser/SOURCE.json",
+      "differences": 19,
+      "retired_paths": 0,
+      "other_differences": 19
+    },
+    {
+      "path": "scripts/current-legacy-ui-browser/SOURCE.json",
+      "differences": 19,
+      "retired_paths": 0,
+      "other_differences": 19
+    },
+    {
+      "path": "scripts/current-mandor-native-qualification/SOURCE.json",
+      "differences": 16,
+      "retired_paths": 0,
+      "other_differences": 16
+    },
+    {
+      "path": "scripts/current-model-history-native-qualification/SOURCE.json",
+      "differences": 16,
+      "retired_paths": 0,
+      "other_differences": 16
+    },
+    {
+      "path": "scripts/current-model-retained-transport-qualification/SOURCE.json",
+      "differences": 18,
+      "retired_paths": 0,
+      "other_differences": 18
+    },
+    {
+      "path": "scripts/current-model-target-contract-qualification/SOURCE.json",
+      "differences": 17,
+      "retired_paths": 0,
+      "other_differences": 17
+    },
+    {
+      "path": "scripts/current-model-target-native-qualification/SOURCE.json",
+      "differences": 16,
+      "retired_paths": 0,
+      "other_differences": 16
+    },
+    {
+      "path": "scripts/current-opening-replay-qualification/SOURCE.json",
+      "differences": 16,
+      "retired_paths": 0,
+      "other_differences": 16
+    },
+    {
+      "path": "scripts/current-opening-replay-ready-qualification/SOURCE.json",
+      "differences": 16,
+      "retired_paths": 0,
+      "other_differences": 16
+    },
+    {
+      "path": "scripts/current-owner-lists-browser/SOURCE.json",
+      "differences": 19,
+      "retired_paths": 0,
+      "other_differences": 19
+    },
+    {
+      "path": "scripts/current-retained-native-qualification/SOURCE.json",
+      "differences": 16,
+      "retired_paths": 0,
+      "other_differences": 16
+    },
+    {
+      "path": "scripts/current-return-auth-bounded-qualification/SOURCE.json",
+      "differences": 16,
+      "retired_paths": 0,
+      "other_differences": 16
+    },
+    {
+      "path": "scripts/current-return-auth-qualification/SOURCE.json",
+      "differences": 16,
+      "retired_paths": 0,
+      "other_differences": 16
+    },
+    {
+      "path": "scripts/current-return-auth-ready-qualification/SOURCE.json",
+      "differences": 16,
+      "retired_paths": 0,
+      "other_differences": 16
+    },
+    {
+      "path": "scripts/current-return-browser-bounded-qualification/SOURCE.json",
+      "differences": 16,
+      "retired_paths": 0,
+      "other_differences": 16
+    },
+    {
+      "path": "scripts/current-return-browser-qualification/SOURCE.json",
+      "differences": 16,
+      "retired_paths": 0,
+      "other_differences": 16
+    },
+    {
+      "path": "scripts/current-return-installation-qualification/SOURCE.json",
+      "differences": 16,
+      "retired_paths": 0,
+      "other_differences": 16
+    },
+    {
+      "path": "scripts/current-return-race-qualification/SOURCE.json",
+      "differences": 16,
+      "retired_paths": 0,
+      "other_differences": 16
+    },
+    {
+      "path": "scripts/current-runner-qualification/SOURCE.json",
+      "differences": 16,
+      "retired_paths": 0,
+      "other_differences": 16
+    },
+    {
+      "path": "scripts/current-scoped-model-native-qualification/SOURCE.json",
+      "differences": 7,
+      "retired_paths": 0,
+      "other_differences": 7
+    },
+    {
+      "path": "scripts/current-scoped-model-used-restore-qualification/SOURCE.json",
+      "differences": 8,
+      "retired_paths": 0,
+      "other_differences": 8
+    },
+    {
+      "path": "scripts/current-selected-return-contract-qualification/SOURCE.json",
+      "differences": 18,
+      "retired_paths": 0,
+      "other_differences": 18
+    },
+    {
+      "path": "scripts/current-selected-return-native-qualification/SOURCE.json",
+      "differences": 19,
+      "retired_paths": 0,
+      "other_differences": 19
+    },
+    {
+      "path": "scripts/current-selected-return-used-restore-qualification/SOURCE.json",
+      "differences": 20,
+      "retired_paths": 0,
+      "other_differences": 20
+    },
+    {
+      "path": "scripts/current-transfer-pages-browser/SOURCE.json",
+      "differences": 19,
+      "retired_paths": 0,
+      "other_differences": 19
+    },
+    {
+      "path": "scripts/current-transfer-restore-qualification/SOURCE.json",
+      "differences": 16,
+      "retired_paths": 0,
+      "other_differences": 16
+    },
+    {
+      "path": "scripts/current-work-payroll-child9-qualification/SOURCE.json",
+      "differences": 23,
+      "retired_paths": 0,
+      "other_differences": 23
+    },
+    {
+      "path": "scripts/current-work-payroll-race-qualification/SOURCE.json",
+      "differences": 23,
+      "retired_paths": 0,
+      "other_differences": 23
+    },
+    {
+      "path": "scripts/draft-return-closure-qualification/SOURCE.json",
+      "differences": 16,
+      "retired_paths": 0,
+      "other_differences": 16
+    },
+    {
+      "path": "scripts/draft-return-isolation-qualification/SOURCE.json",
+      "differences": 16,
+      "retired_paths": 0,
+      "other_differences": 16
+    },
+    {
+      "path": "scripts/draft-return-regression-qualification/SOURCE.json",
+      "differences": 16,
+      "retired_paths": 0,
+      "other_differences": 16
+    },
+    {
+      "path": "scripts/draft-return-restore-qualification/SOURCE.json",
+      "differences": 16,
+      "retired_paths": 0,
+      "other_differences": 16
+    },
+    {
+      "path": "scripts/draft-return-restored-qualification/SOURCE.json",
+      "differences": 16,
+      "retired_paths": 0,
+      "other_differences": 16
+    },
+    {
+      "path": "scripts/finance-bridge-chain-qualification/SOURCE.json",
+      "differences": 2,
+      "retired_paths": 0,
+      "other_differences": 2
+    },
+    {
+      "path": "scripts/ow04-final-qualification/SOURCE.json",
+      "differences": 2,
+      "retired_paths": 0,
+      "other_differences": 2
+    },
+    {
+      "path": "scripts/ow04-payment-continuation-qualification/SOURCE.json",
+      "differences": 4,
+      "retired_paths": 0,
+      "other_differences": 4
+    },
+    {
+      "path": "scripts/ow04-payment-current-qualification/SOURCE.json",
+      "differences": 2,
+      "retired_paths": 0,
+      "other_differences": 2
+    },
+    {
+      "path": "scripts/ow04-payment-positive-qualification/SOURCE.json",
+      "differences": 2,
+      "retired_paths": 0,
+      "other_differences": 2
+    },
+    {
+      "path": "scripts/ow04-payment-source-qualification/SOURCE.json",
+      "differences": 5,
+      "retired_paths": 0,
+      "other_differences": 5
+    },
+    {
+      "path": "scripts/ow04-source-inverse-ui-qualification/SOURCE.json",
+      "differences": 2,
+      "retired_paths": 0,
+      "other_differences": 2
+    },
+    {
+      "path": "scripts/ow05-browser-qualification/SOURCE.json",
+      "differences": 5,
+      "retired_paths": 0,
+      "other_differences": 5
+    },
+    {
+      "path": "scripts/ow05b-browser-qualification/SOURCE.json",
+      "differences": 2,
+      "retired_paths": 0,
+      "other_differences": 2
+    },
+    {
+      "path": "scripts/ow06-browser-qualification/SOURCE.json",
+      "differences": 1,
+      "retired_paths": 0,
+      "other_differences": 1
+    },
+    {
+      "path": "scripts/ow09-chain-browser-qualification/SOURCE.json",
+      "differences": 45,
+      "retired_paths": 0,
+      "other_differences": 45
+    },
+    {
+      "path": "scripts/ow14b-installation-qualification/SOURCE.json",
+      "differences": 16,
+      "retired_paths": 0,
+      "other_differences": 16
+    },
+    {
+      "path": "scripts/production-chain-qualification/SOURCE.json",
+      "differences": 4,
+      "retired_paths": 0,
+      "other_differences": 4
+    }
+  ],
+  "retired_proof_inputs_materialized_exact_by_actual_assembly": true,
+  "original_inventory_unchanged": true,
+  "actual_suite_count_not_inferred": true,
+  "GitHub_documentation_checked_utc": "2026-10-28T04:23:21.046776+00:00",
+  "GitHub_documentation_url": "https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#git-diff-comparisons",
+  "GitHub_documented_path_diff_limit": 3000,
+  "independent_acceptance": false,
+  "production_go": false
+}

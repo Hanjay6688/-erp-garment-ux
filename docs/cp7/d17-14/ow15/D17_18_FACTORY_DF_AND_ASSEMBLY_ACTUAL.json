@@ -1,0 +1,1344 @@
+{
+  "recorded_at_utc": "2026-10-28T04:23:21.046776+00:00",
+  "main_before_docs": "64c65e0d7b4d046a9d4da20a62d585ff927205ba",
+  "actual_DF": {
+    "name": "CP7_D17_18_FACTORY_PROGRESS_NATIVE_SOURCE_CRON7.json",
+    "status": "INCOMPLETE",
+    "head": "df7cbe8cc946862ade48c929a57b41a2608980ae",
+    "run_id": 40623586371,
+    "job_id": 122603131075,
+    "artifact_id": 12790194475,
+    "zip_bytes": 10608045,
+    "zip_sha256": "91a5f56e555d40d505cb50dc42cb80bc49edb420873c59a6d8d0ef0b2bcd25e2",
+    "bytes": 85221970,
+    "sha256": "39f3f70536742a6293b2355908f4bdf46792a6a06b175877d006cf91408f5145",
+    "archive_member": "CP7_D17_18_FACTORY_PROGRESS_NATIVE_SOURCE_CRON7.json",
+    "package_name": "T3_PACKAGE_INSTALL.json",
+    "package_member": "T3_PACKAGE_INSTALL.json",
+    "package_bytes": 360443,
+    "package_sha256": "a7a651ea021238f11769c2be15998d316d6979b48baaa827b1ab7387a78030d0",
+    "source_pins_verified": 29,
+    "whole_source_declaration_exact": true,
+    "package_gate": {
+      "installed": true,
+      "primary_unchanged": true,
+      "backup_restore_drill": true,
+      "security_advisors": true,
+      "writer_runtime": false
+    },
+    "outer_restoration": {
+      "cp6_restored": true,
+      "advisor_gate": true,
+      "baseline_full22_all_rows_all_sequences_equal": true,
+      "baseline_advisors_equal": true
+    },
+    "children": {
+      "COMBINED_UNCHANGED_CHILD_VISIBILITY": {
+        "status": "PASS",
+        "error": null,
+        "traceback": null,
+        "restore_error": null,
+        "restore_traceback": null,
+        "installed_baseline_restoration": {
+          "pre_restore_observation_complete": true,
+          "scheduler_quiet": true,
+          "inverse_refusal": "CONSISTENT_FINANCE_READER_AFTER_USE_REQUIRES_FULL_BACKUP_RESTORE",
+          "inverse_refused_before_DDL": true,
+          "used_guard_refused_before_DDL": true,
+          "committed_data_changed": true,
+          "raw_catalog_spelling_changed": false,
+          "unexpected_catalog_change": false,
+          "all22_all_rows_all_sequences_roles_exact": true,
+          "complete_database_dump_restored": true,
+          "restore": {
+            "exit": 1,
+            "error_count": 19,
+            "unexplained": [],
+            "only_pg_cron_errors": true,
+            "database_owner_acl_and_settings_preserved": true,
+            "platform_schema_authority_restored": [
+              "graphql",
+              "graphql_public"
+            ]
+          },
+          "selected_table_cleanup": false
+        },
+        "factory_progress_observation": null
+      },
+      "COMBINED_NULL_SNAPSHOT_REFUSAL_AND_RECOVERY": {
+        "status": "PASS",
+        "error": null,
+        "traceback": null,
+        "restore_error": null,
+        "restore_traceback": null,
+        "installed_baseline_restoration": {
+          "pre_restore_observation_complete": true,
+          "scheduler_quiet": true,
+          "inverse_refusal": "CONSISTENT_FINANCE_READER_ACTUAL_ALL22_CHANGED",
+          "inverse_refused_before_DDL": true,
+          "used_guard_refused_before_DDL": false,
+          "committed_data_changed": true,
+          "raw_catalog_spelling_changed": true,
+          "unexpected_catalog_change": false,
+          "all22_all_rows_all_sequences_roles_exact": true,
+          "complete_database_dump_restored": true,
+          "restore": {
+            "exit": 1,
+            "error_count": 19,
+            "unexplained": [],
+            "only_pg_cron_errors": true,
+            "database_owner_acl_and_settings_preserved": true,
+            "platform_schema_authority_restored": [
+              "graphql",
+              "graphql_public"
+            ]
+          },
+          "selected_table_cleanup": false
+        },
+        "factory_progress_observation": null
+      },
+      "COMBINED_UNCHANGED_NATIVE20": {
+        "status": "PASS",
+        "error": null,
+        "traceback": null,
+        "restore_error": null,
+        "restore_traceback": null,
+        "installed_baseline_restoration": {
+          "pre_restore_observation_complete": true,
+          "scheduler_quiet": true,
+          "inverse_refusal": "CONSISTENT_FINANCE_READER_ACTUAL_ALL22_CHANGED",
+          "inverse_refused_before_DDL": true,
+          "used_guard_refused_before_DDL": false,
+          "committed_data_changed": true,
+          "raw_catalog_spelling_changed": true,
+          "unexpected_catalog_change": false,
+          "all22_all_rows_all_sequences_roles_exact": true,
+          "complete_database_dump_restored": true,
+          "restore": {
+            "exit": 1,
+            "error_count": 19,
+            "unexplained": [],
+            "only_pg_cron_errors": true,
+            "database_owner_acl_and_settings_preserved": true,
+            "platform_schema_authority_restored": [
+              "graphql",
+              "graphql_public"
+            ]
+          },
+          "selected_table_cleanup": false
+        },
+        "factory_progress_observation": null
+      },
+      "COMBINED_INDEPENDENT_SIGNATURE": {
+        "status": "PASS",
+        "error": null,
+        "traceback": null,
+        "restore_error": null,
+        "restore_traceback": null,
+        "installed_baseline_restoration": {
+          "pre_restore_observation_complete": true,
+          "scheduler_quiet": true,
+          "inverse_refusal": "CONSISTENT_FINANCE_READER_ACTUAL_ALL22_CHANGED",
+          "inverse_refused_before_DDL": true,
+          "used_guard_refused_before_DDL": false,
+          "committed_data_changed": true,
+          "raw_catalog_spelling_changed": true,
+          "unexpected_catalog_change": false,
+          "all22_all_rows_all_sequences_roles_exact": true,
+          "complete_database_dump_restored": true,
+          "restore": {
+            "exit": 1,
+            "error_count": 19,
+            "unexplained": [],
+            "only_pg_cron_errors": true,
+            "database_owner_acl_and_settings_preserved": true,
+            "platform_schema_authority_restored": [
+              "graphql",
+              "graphql_public"
+            ]
+          },
+          "selected_table_cleanup": false
+        },
+        "factory_progress_observation": null
+      },
+      "COMBINED_CURRENT_PUBLIC_ACTUAL_CRON": {
+        "status": "PASS",
+        "error": null,
+        "traceback": null,
+        "restore_error": null,
+        "restore_traceback": null,
+        "installed_baseline_restoration": {
+          "pre_restore_observation_complete": true,
+          "scheduler_quiet": true,
+          "inverse_refusal": "CONSISTENT_FINANCE_READER_ACTUAL_ALL22_CHANGED",
+          "inverse_refused_before_DDL": true,
+          "used_guard_refused_before_DDL": false,
+          "committed_data_changed": true,
+          "raw_catalog_spelling_changed": true,
+          "unexpected_catalog_change": false,
+          "all22_all_rows_all_sequences_roles_exact": true,
+          "complete_database_dump_restored": true,
+          "restore": {
+            "exit": 1,
+            "error_count": 19,
+            "unexplained": [],
+            "only_pg_cron_errors": true,
+            "database_owner_acl_and_settings_preserved": true,
+            "platform_schema_authority_restored": [
+              "graphql",
+              "graphql_public"
+            ]
+          },
+          "selected_table_cleanup": false
+        },
+        "factory_progress_observation": null
+      },
+      "COMBINED_SMALL_PRICE_FACTORY_REPORT_PAIRS": {
+        "status": "PASS",
+        "error": null,
+        "traceback": null,
+        "restore_error": null,
+        "restore_traceback": null,
+        "installed_baseline_restoration": {
+          "pre_restore_observation_complete": true,
+          "scheduler_quiet": true,
+          "inverse_refusal": "CONSISTENT_FINANCE_READER_ACTUAL_ALL22_CHANGED",
+          "inverse_refused_before_DDL": true,
+          "used_guard_refused_before_DDL": false,
+          "committed_data_changed": true,
+          "raw_catalog_spelling_changed": true,
+          "unexpected_catalog_change": false,
+          "all22_all_rows_all_sequences_roles_exact": true,
+          "complete_database_dump_restored": true,
+          "restore": {
+            "exit": 1,
+            "error_count": 19,
+            "unexplained": [],
+            "only_pg_cron_errors": true,
+            "database_owner_acl_and_settings_preserved": true,
+            "platform_schema_authority_restored": [
+              "graphql",
+              "graphql_public"
+            ]
+          },
+          "selected_table_cleanup": false
+        },
+        "factory_progress_observation": null
+      },
+      "COMBINED_CURRENT_PUBLIC_FACTORY1200X3_ACTUAL_CRON": {
+        "status": "INCOMPLETE",
+        "error": {
+          "bytes": 60,
+          "sha256": "3a0c6987dce7e2e8cc77aa1e50b6fc5d1ead932e235fd92a429fabb56f455ff5",
+          "prefix": "'<=' not supported between instances of 'int' and 'NoneType'",
+          "full_original_preserved": true
+        },
+        "traceback": {
+          "bytes": 1378,
+          "sha256": "14a39822989978720f5ab22450ca61557d8680f58658e8a0109dd55c2b958eb0",
+          "prefix": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-finance-followups-qualification/isolated_cases.py\", line 15, in exercise\n    run(operation, result)\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-finance-factory-progress-followup-qualification/runner.py\", line 53, in run\n    current.rollback();operation(current,c,database,url,result)\n                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-finance-factory",
+          "full_original_preserved": true
+        },
+        "restore_error": null,
+        "restore_traceback": null,
+        "installed_baseline_restoration": {
+          "pre_restore_observation_complete": true,
+          "scheduler_quiet": true,
+          "inverse_refusal": "CONSISTENT_FINANCE_READER_ACTUAL_ALL22_CHANGED",
+          "inverse_refused_before_DDL": true,
+          "used_guard_refused_before_DDL": false,
+          "committed_data_changed": true,
+          "raw_catalog_spelling_changed": true,
+          "unexpected_catalog_change": false,
+          "all22_all_rows_all_sequences_roles_exact": true,
+          "complete_database_dump_restored": true,
+          "restore": {
+            "exit": 1,
+            "error_count": 19,
+            "unexplained": [],
+            "only_pg_cron_errors": true,
+            "database_owner_acl_and_settings_preserved": true,
+            "platform_schema_authority_restored": [
+              "graphql",
+              "graphql_public"
+            ]
+          },
+          "selected_table_cleanup": false
+        },
+        "factory_progress_observation": {
+          "read_only": true,
+          "qualification_observation_only": true,
+          "total_limit_seconds": 900,
+          "no_progress_limit_seconds": 150,
+          "legacy_limit_seconds": 300,
+          "extended_past_legacy_limit": false,
+          "frames": [],
+          "manual_steps": 0,
+          "minute_schedule_changed": false,
+          "ordinary_statement_limits_changed": false
+        }
+      }
+    },
+    "acceptance": null,
+    "error": {
+      "bytes": 32,
+      "sha256": "d52cbfad416d2b924beca88f1afbbddea1b944a20c3e4a462e3f1a2faee1af11",
+      "prefix": "FOLLOWUP_FIRST_FAILURES_RETAINED",
+      "full_original_preserved": true
+    },
+    "traceback": {
+      "bytes": 1178,
+      "sha256": "c647fe9bee6ae7a7f67453ed1b0cc2dea35b48ab6993e06094616dae1ad26e3f",
+      "prefix": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/writer/../auditor/scripts/current-finance-factory-progress-followup-qualification/probe.py\", line 110, in run_inner\n    measured(timings,'ISOLATED_DIAGNOSTICS',runner.exercise,conn,cur,database,package.boundary.ADMIN,case,STATE)\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-choice-finance-cron-qualification/phase_timing.py\", line 22, in measured\n    result = operation(*args, **kwargs)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-",
+      "full_original_preserved": true
+    },
+    "restore_error": null,
+    "stage_timings": [
+      {
+        "phase": "SOURCE_ADMISSION",
+        "state": "COMPLETED",
+        "started_at_utc": "2026-10-28T03:04:21.935765+00:00",
+        "elapsed_ms": 61304.54,
+        "finished_at_utc": "2026-10-28T03:05:23.240378+00:00"
+      },
+      {
+        "phase": "BASELINE_ADVISORS",
+        "state": "COMPLETED",
+        "started_at_utc": "2026-10-28T03:05:28.845341+00:00",
+        "elapsed_ms": 1739.291,
+        "finished_at_utc": "2026-10-28T03:05:30.584721+00:00"
+      },
+      {
+        "phase": "BASELINE_DUMP",
+        "state": "COMPLETED",
+        "started_at_utc": "2026-10-28T03:05:34.037894+00:00",
+        "elapsed_ms": 1118.078,
+        "finished_at_utc": "2026-10-28T03:05:35.156056+00:00"
+      },
+      {
+        "phase": "SINGLE_FULL_READONLY_PARENT_INSTALL",
+        "state": "COMPLETED",
+        "started_at_utc": "2026-10-28T03:05:35.172757+00:00",
+        "elapsed_ms": 1525235.884,
+        "finished_at_utc": "2026-10-28T03:31:00.408721+00:00"
+      },
+      {
+        "phase": "FIRST_FINANCE_DELTA",
+        "state": "COMPLETED",
+        "started_at_utc": "2026-10-28T03:31:00.408794+00:00",
+        "elapsed_ms": 83489.243,
+        "finished_at_utc": "2026-10-28T03:32:23.898069+00:00"
+      },
+      {
+        "phase": "FINANCE_DELTA_PREUSE_INVERSE",
+        "state": "COMPLETED",
+        "started_at_utc": "2026-10-28T03:32:23.898170+00:00",
+        "elapsed_ms": 56325.621,
+        "finished_at_utc": "2026-10-28T03:33:20.223820+00:00"
+      },
+      {
+        "phase": "SECOND_FINANCE_DELTA",
+        "state": "COMPLETED",
+        "started_at_utc": "2026-10-28T03:33:20.223893+00:00",
+        "elapsed_ms": 83631.797,
+        "finished_at_utc": "2026-10-28T03:34:43.855721+00:00"
+      },
+      {
+        "phase": "ISOLATED_DIAGNOSTICS",
+        "state": "FAILED",
+        "started_at_utc": "2026-10-28T03:35:07.239042+00:00",
+        "error_type": "AssertionError",
+        "elapsed_ms": 1003525.74,
+        "finished_at_utc": "2026-10-28T03:51:50.764858+00:00"
+      },
+      {
+        "phase": "BASELINE_RESTORE",
+        "state": "COMPLETED",
+        "started_at_utc": "2026-10-28T03:51:50.786726+00:00",
+        "elapsed_ms": 4259.733,
+        "finished_at_utc": "2026-10-28T03:51:55.046569+00:00"
+      }
+    ],
+    "first_outcomes_preserved": true,
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "corrected_factory_pending": {
+    "head": "4ac681549d7ec664f504a71670c9035dd8f5944d",
+    "local_head": "f63b6dfc630b95a72b11980cd99137fe5ae15222",
+    "tree": "f4a5bafcab0ce3de6ad330e3ed4f69b36482e8ea",
+    "parent": "df7cbe8cc946862ade48c929a57b41a2608980ae",
+    "prepared_branch": "astra-a/d17-18-factory-progress-prepared-20261028",
+    "execution_branch": "astra-a/d17-18-factory-progress-qualification-20261028",
+    "status": "RUNNING_ALL7_NOT_PASS",
+    "local_tests": 26,
+    "source_pins": 31,
+    "source_admission_seconds": 50.522,
+    "database_connections": 0,
+    "unchanged_D3_declaration": true,
+    "product_SQL_changed": false,
+    "retained_DF_failure": true,
+    "production_go": false,
+    "independent_acceptance": false,
+    "run_id": 40629923288,
+    "job_id": 122626325986,
+    "run_attempt": 2,
+    "run_url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/40629923288",
+    "first_attempt_infrastructure_failure_preserved": true
+  },
+  "retained_4ac_infrastructure_first": {
+    "status": "INCOMPLETE_PREREQUISITE_HTTP502_BEFORE_DATABASE",
+    "head": "4ac681549d7ec664f504a71670c9035dd8f5944d",
+    "run_id": 40629923288,
+    "first_job_id": 122623667979,
+    "artifact": {
+      "id": 12791106739,
+      "name": "cp7-d17-18-factory-progress-1",
+      "size_in_bytes": 33979,
+      "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12791106739",
+      "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12791106739/zip",
+      "expired": false,
+      "created_at": "2026-10-28T04:03:38Z",
+      "expires_at": "2026-11-27T04:03:37Z",
+      "updated_at": "2026-10-28T04:03:38Z",
+      "digest": "sha256:0822c28d60565d01777153fc98f89f93554d0cc05e18b01775f2c59a2efc6943",
+      "workflow_run": {
+        "id": 40629923288,
+        "repository_id": 1348063690,
+        "head_repository_id": 1348063690,
+        "head_branch": "astra-a/d17-18-factory-progress-qualification-20261028",
+        "head_sha": "4ac681549d7ec664f504a71670c9035dd8f5944d"
+      }
+    },
+    "failed_prerequisite": 12574910914,
+    "failed_GET_attempts": 3,
+    "fetch_receipts": [
+      {
+        "artifact_id": 12574910914,
+        "attempt": 1,
+        "exit_code": 1,
+        "http_status": 502,
+        "recorded_at_utc": "2026-10-28T04:03:08.877563+00:00",
+        "elapsed_seconds": 10.806,
+        "stdout_bytes": 32,
+        "stdout_sha256": "66f94f66a4663eb2a43d552b17609a828166862b7c5dba75b425301de772f858",
+        "stderr_bytes": 28,
+        "stderr_sha256": "a23c9f20796b2fda2921413c8762d2cdea7b84b24e72cec1bf59ad8b3ee27c7d",
+        "retry": true,
+        "delay_seconds": 2,
+        "partial_stdout_forwarded": false,
+        "downstream_original_hash_and_size_checks_unchanged": true
+      },
+      {
+        "artifact_id": 12574910914,
+        "attempt": 2,
+        "exit_code": 1,
+        "http_status": 502,
+        "recorded_at_utc": "2026-10-28T04:03:21.366390+00:00",
+        "elapsed_seconds": 10.488,
+        "stdout_bytes": 32,
+        "stdout_sha256": "66f94f66a4663eb2a43d552b17609a828166862b7c5dba75b425301de772f858",
+        "stderr_bytes": 28,
+        "stderr_sha256": "a23c9f20796b2fda2921413c8762d2cdea7b84b24e72cec1bf59ad8b3ee27c7d",
+        "retry": true,
+        "delay_seconds": 5,
+        "partial_stdout_forwarded": false,
+        "downstream_original_hash_and_size_checks_unchanged": true
+      },
+      {
+        "artifact_id": 12574910914,
+        "attempt": 3,
+        "exit_code": 1,
+        "http_status": 502,
+        "recorded_at_utc": "2026-10-28T04:03:37.144818+00:00",
+        "elapsed_seconds": 10.778,
+        "stdout_bytes": 32,
+        "stdout_sha256": "66f94f66a4663eb2a43d552b17609a828166862b7c5dba75b425301de772f858",
+        "stderr_bytes": 28,
+        "stderr_sha256": "a23c9f20796b2fda2921413c8762d2cdea7b84b24e72cec1bf59ad8b3ee27c7d",
+        "retry": false,
+        "delay_seconds": null,
+        "partial_stdout_forwarded": false,
+        "downstream_original_hash_and_size_checks_unchanged": true
+      }
+    ],
+    "log_bytes": 333303,
+    "log_sha256": "a79fb325d6d2613788902a865a28b0d95c688f449005f6c2b01c374a63e76ae8",
+    "database_started": false,
+    "actual_ERP_cases": 0,
+    "prerequisite_recovered_exact": {
+      "status": "RECOVERED_EXACT_PREREQUISITE_GET",
+      "artifact_id": 12574910914,
+      "zip_bytes": 158852,
+      "zip_sha256": "c402171c72f249f5f32a84ba4a0ddc3d8552579286cb18af0c28fc03b744eb90",
+      "original_sha256": "9c515232c35c07a3c33fa20afe0b889ce5b2308d5680b13823ee8be4991add00",
+      "database_started": false
+    },
+    "rerun_same_failed_job_requested": true,
+    "retry_reason": "Exact prerequisite GET recovered after three recorded HTTP502 failures; initial attempt never reached DB or runtime.",
+    "product_or_tests_changed_for_retry": false,
+    "first_attempt_preserved": true,
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "actual_history_isolation": {
+    "status": "PASS_EXACT_HISTORICAL_ISOLATION_ACTIONS_CODEQL",
+    "head": "16d9e49ac36d0f607d08c90d987aea5d8128cd8c",
+    "run_id": 40629158480,
+    "jobs": [
+      {
+        "id": 122621191697,
+        "name": "Historical workflow isolation CodeQL actions",
+        "conclusion": "success"
+      },
+      {
+        "id": 122621191994,
+        "name": "source",
+        "conclusion": "success"
+      }
+    ],
+    "proofs": [
+      {
+        "artifact_id": 12790084720,
+        "name": "workflow-history-isolation-source-1",
+        "zip_bytes": 663,
+        "zip_sha256": "0c3ce1ec82025f804283560c11ea5c75c58e710659a831aeaf6f43d655c53361"
+      },
+      {
+        "artifact_id": 12790563171,
+        "name": "workflow-history-isolation-codeql-actions",
+        "zip_bytes": 114716,
+        "zip_sha256": "5d276354413490c95ec14a411e9a3540409604793a0f4501d3d6333e117101b9"
+      }
+    ],
+    "source": {
+      "status": "PASS_UNCHANGED_SOURCE_WITH_HISTORICAL_WORKFLOWS_RETIRED",
+      "head": "16d9e49ac36d0f607d08c90d987aea5d8128cd8c",
+      "base_head": "64c65e0d7b4d046a9d4da20a62d585ff927205ba",
+      "materialization": {
+        "status": "EXACT_HISTORICAL_PROOF_INPUTS_ONLY",
+        "files": 24,
+        "all_bytes_equal_frozen_original": true,
+        "Git_workflow_entries_restored": 0,
+        "active_workflow_behavior_added": false
+      },
+      "source": {
+        "status": "PASS_EXACT_SOURCE_CLOSURE_ONLY",
+        "exact_files": 4315,
+        "frozen_manifests": 7,
+        "current_B_exact_files": 38,
+        "main_dispatch_App_and_package_unchanged": true,
+        "business_oracles_unchanged": true,
+        "actual_database_Auth_browser_cases": 0,
+        "default_adopted": false,
+        "production_go": false,
+        "independent_acceptance": false
+      },
+      "original_manifests_rewritten": 0,
+      "old_B_and_all_product_bodies_changed": false,
+      "CodeQL_finding_dismissal": false,
+      "actual_DB_Auth_browser_cases": 0,
+      "production_go": false,
+      "independent_acceptance": false
+    },
+    "CodeQL": [
+      {
+        "name": "actions.sarif",
+        "bytes": 1732108,
+        "sha256": "0df48abd49fbab2a3ef3bbbe74104dd53c104bb061df5d999856e752c1eb49b5",
+        "analysis_runs": 1,
+        "successful_invocations": 1,
+        "findings": 0
+      }
+    ],
+    "retained_JS_finding_head": "b87a8cd995ca7b09913ede43db9d6efa46ddffa7",
+    "retained_JS_findings": 1,
+    "JS_rerun": false,
+    "full_shell_acceptance": false,
+    "actual_DB_Auth_browser_cases": 0,
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "actual_assembly_source_Actions": {
+    "status": "PASS_EXACT_ASSEMBLY_SOURCE_ACTIONS_CODEQL",
+    "head": "b4ed2a34ccf170f2fb412d6cb3337dbf1ae8d166",
+    "run_id": 40630991064,
+    "jobs": [
+      {
+        "id": 122627060980,
+        "name": "source",
+        "conclusion": "success"
+      },
+      {
+        "id": 122627061220,
+        "name": "Integration assembly CodeQL actions",
+        "conclusion": "success"
+      }
+    ],
+    "proofs": [
+      {
+        "artifact_id": 12790559911,
+        "name": "integration-assembly-source-1",
+        "zip_bytes": 726,
+        "zip_sha256": "19a3e12aa2262410a7bed3a8dcbecf88156f490fba8a4bb139476b4cf6e4becb"
+      },
+      {
+        "artifact_id": 12791950783,
+        "name": "integration-assembly-codeql-actions",
+        "zip_bytes": 116010,
+        "zip_sha256": "f3560fbf28838264477e6c91ea0b95437c1781d163424133927442181e9826b0"
+      }
+    ],
+    "source": {
+      "status": "PASS_EXACT_ASSEMBLY_SOURCE_ONLY",
+      "head": "b4ed2a34ccf170f2fb412d6cb3337dbf1ae8d166",
+      "base_head": "64c65e0d7b4d046a9d4da20a62d585ff927205ba",
+      "exact_component_files": 85,
+      "retired_workflows": 24,
+      "history": {
+        "status": "EXACT_HISTORICAL_PROOF_INPUTS_ONLY",
+        "files": 24,
+        "all_bytes_equal_frozen_original": true,
+        "Git_workflow_entries_restored": 0,
+        "active_workflow_behavior_added": false
+      },
+      "source": {
+        "status": "PASS_EXACT_SOURCE_CLOSURE_ONLY",
+        "exact_files": 4315,
+        "frozen_manifests": 7,
+        "current_B_exact_files": 38,
+        "main_dispatch_App_and_package_unchanged": true,
+        "business_oracles_unchanged": true,
+        "actual_database_Auth_browser_cases": 0,
+        "default_adopted": false,
+        "production_go": false,
+        "independent_acceptance": false
+      },
+      "UI_host_files": 113,
+      "B_UI_exact_files": 91,
+      "factory_pins": 31,
+      "closed_UI_pins": 23,
+      "backend_runtime_head": "4ac681549d7ec664f504a71670c9035dd8f5944d",
+      "backend_runtime_qualified": false,
+      "browser_configuration_closed": true,
+      "actual_DB_Auth_browser_cases": 0,
+      "full_shell_acceptance": false,
+      "production_go": false,
+      "independent_acceptance": false
+    },
+    "CodeQL": [
+      {
+        "name": "actions.sarif",
+        "bytes": 1753203,
+        "sha256": "c1ba6731ad1722835b33aa6181fbc216efb0ff171579b5cabd47ec26002f3954",
+        "analysis_runs": 1,
+        "successful_invocations": 1,
+        "findings": 0
+      }
+    ],
+    "retained_JS_finding_head": "b87a8cd995ca7b09913ede43db9d6efa46ddffa7",
+    "retained_JS_findings": 1,
+    "JS_rerun": false,
+    "full_shell_acceptance": false,
+    "actual_DB_Auth_browser_cases": 0,
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "closed_UI": {
+    "head": "e8fa6a9e26f2459b340c4b4c880cb1b226ce021a",
+    "local_head": "a91dafb6dfd4433e43c54ba46d6ced462380391c",
+    "tree": "36207182419262badafb87f34b9aedd93efde6d0",
+    "parents": [
+      "8dd3cad72ae80aa1a1fd25ede5acecba535e287a",
+      "4ac681549d7ec664f504a71670c9035dd8f5944d"
+    ],
+    "prepared_branch": "astra-a/d17-18-combined-finance-browser-prepared-20261028",
+    "status": "CLOSED_PENDING_ACTUAL_4AC_ALL7",
+    "local_tests": 21,
+    "UI_pins": 23,
+    "backend_pins": 31,
+    "source_admission_seconds": 53.098,
+    "backend_declaration_exact": true,
+    "actual_Auth_browser_cases": 0,
+    "execution_branch_created": false,
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "current_static_inventory_summary": {
+    "status": "STATIC_INVENTORY_ONLY",
+    "base": "a255e48f76ce502d9e571f2bfdd8a52a1a2b1306",
+    "candidate": "b4ed2a34ccf170f2fb412d6cb3337dbf1ae8d166",
+    "candidate_tree": "32b36d2caa4eba837f8b7fbc8dd43a1557d9006f",
+    "branch": "astra/d17-14-integrasi",
+    "commit_count": 948,
+    "changed_file_count": 3222,
+    "workflow_file_count": 331,
+    "complete_local_diff_matches": 61,
+    "source_declaration_count": 144,
+    "source_declarations_with_drift": 107,
+    "automatic_push_coverage_reliable": false,
+    "qualified_case_count": 0,
+    "retired_workflows": 24,
+    "historical_declarations_only_missing_retired_proof_paths": [
+      {
+        "path": "scripts/current-choice-finance-cron-qualification/SOURCE.json",
+        "differences": 10,
+        "retired_paths": 10,
+        "other_differences": 0
+      },
+      {
+        "path": "scripts/current-choice-preparation-native-qualification/SOURCE.json",
+        "differences": 6,
+        "retired_paths": 6,
+        "other_differences": 0
+      },
+      {
+        "path": "scripts/current-choice-preparation-transport-qualification/SOURCE.json",
+        "differences": 7,
+        "retired_paths": 7,
+        "other_differences": 0
+      },
+      {
+        "path": "scripts/current-finance-check-reuse-diagnostic/SOURCE.json",
+        "differences": 13,
+        "retired_paths": 13,
+        "other_differences": 0
+      },
+      {
+        "path": "scripts/current-finance-consistent-capture-diagnostic/SOURCE.json",
+        "differences": 1,
+        "retired_paths": 1,
+        "other_differences": 0
+      },
+      {
+        "path": "scripts/current-finance-followups-qualification/SOURCE.json",
+        "differences": 1,
+        "retired_paths": 1,
+        "other_differences": 0
+      },
+      {
+        "path": "scripts/current-finance-reader-diagnostic/SOURCE.json",
+        "differences": 12,
+        "retired_paths": 12,
+        "other_differences": 0
+      },
+      {
+        "path": "scripts/current-finance-reader-source-race-qualification/SOURCE.json",
+        "differences": 14,
+        "retired_paths": 14,
+        "other_differences": 0
+      },
+      {
+        "path": "scripts/current-finance-readonly-integration-qualification/SOURCE.json",
+        "differences": 22,
+        "retired_paths": 22,
+        "other_differences": 0
+      },
+      {
+        "path": "scripts/current-frozen-finance-factory-date2-qualification/SOURCE.json",
+        "differences": 9,
+        "retired_paths": 9,
+        "other_differences": 0
+      },
+      {
+        "path": "scripts/current-frozen-finance-factory-observe-qualification/SOURCE.json",
+        "differences": 10,
+        "retired_paths": 10,
+        "other_differences": 0
+      },
+      {
+        "path": "scripts/current-frozen-finance-native-qualification/SOURCE.json",
+        "differences": 3,
+        "retired_paths": 3,
+        "other_differences": 0
+      },
+      {
+        "path": "scripts/current-frozen-finance-stage-profile/SOURCE.json",
+        "differences": 11,
+        "retired_paths": 11,
+        "other_differences": 0
+      },
+      {
+        "path": "scripts/current-frozen-progress-native-qualification/SOURCE.json",
+        "differences": 5,
+        "retired_paths": 5,
+        "other_differences": 0
+      },
+      {
+        "path": "scripts/current-frozen-public-cron-qualification/SOURCE.json",
+        "differences": 5,
+        "retired_paths": 5,
+        "other_differences": 0
+      },
+      {
+        "path": "scripts/current-frozen-public-native-qualification/SOURCE.json",
+        "differences": 4,
+        "retired_paths": 4,
+        "other_differences": 0
+      },
+      {
+        "path": "scripts/current-frozen-units-native-qualification/SOURCE.json",
+        "differences": 2,
+        "retired_paths": 2,
+        "other_differences": 0
+      },
+      {
+        "path": "scripts/current-progress-finance-ui-browser-qualification/SOURCE.json",
+        "differences": 7,
+        "retired_paths": 7,
+        "other_differences": 0
+      },
+      {
+        "path": "scripts/current-versioned-performance-browser-qualification/SOURCE.json",
+        "differences": 2,
+        "retired_paths": 2,
+        "other_differences": 0
+      },
+      {
+        "path": "scripts/current-versioned-performance-cron-qualification/SOURCE.json",
+        "differences": 2,
+        "retired_paths": 2,
+        "other_differences": 0
+      },
+      {
+        "path": "scripts/current-versioned-performance-finance-qualification/SOURCE.json",
+        "differences": 2,
+        "retired_paths": 2,
+        "other_differences": 0
+      },
+      {
+        "path": "scripts/current-versioned-performance-native-qualification/SOURCE.json",
+        "differences": 1,
+        "retired_paths": 1,
+        "other_differences": 0
+      },
+      {
+        "path": "scripts/current-versioned-performance-transport-qualification/SOURCE.json",
+        "differences": 2,
+        "retired_paths": 2,
+        "other_differences": 0
+      },
+      {
+        "path": "scripts/current-versioned-performance-used-restore-qualification/SOURCE.json",
+        "differences": 2,
+        "retired_paths": 2,
+        "other_differences": 0
+      }
+    ],
+    "historical_declarations_with_other_differences": [
+      {
+        "path": "scripts/ab-bounded-browser-qualification/SOURCE.json",
+        "differences": 19,
+        "retired_paths": 0,
+        "other_differences": 19
+      },
+      {
+        "path": "scripts/ab-bounded-native-qualification/SOURCE.json",
+        "differences": 16,
+        "retired_paths": 0,
+        "other_differences": 16
+      },
+      {
+        "path": "scripts/ab-bounded-restore-qualification/SOURCE.json",
+        "differences": 16,
+        "retired_paths": 0,
+        "other_differences": 16
+      },
+      {
+        "path": "scripts/ab-owner-auth-qualification/SOURCE.json",
+        "differences": 16,
+        "retired_paths": 0,
+        "other_differences": 16
+      },
+      {
+        "path": "scripts/ab-owner-browser-qualification/SOURCE.json",
+        "differences": 19,
+        "retired_paths": 0,
+        "other_differences": 19
+      },
+      {
+        "path": "scripts/ab-owner-families-qualification/SOURCE.json",
+        "differences": 16,
+        "retired_paths": 0,
+        "other_differences": 16
+      },
+      {
+        "path": "scripts/ab-quote-browser-qualification/SOURCE.json",
+        "differences": 26,
+        "retired_paths": 0,
+        "other_differences": 26
+      },
+      {
+        "path": "scripts/ab-quote-chain-qualification/SOURCE.json",
+        "differences": 2,
+        "retired_paths": 0,
+        "other_differences": 2
+      },
+      {
+        "path": "scripts/b-extension-chain-qualification/SOURCE.json",
+        "differences": 4,
+        "retired_paths": 0,
+        "other_differences": 4
+      },
+      {
+        "path": "scripts/cp7_contractor_guidance/SOURCE.json",
+        "differences": 1,
+        "retired_paths": 0,
+        "other_differences": 1
+      },
+      {
+        "path": "scripts/current-analog-auth-qualification/SOURCE.json",
+        "differences": 22,
+        "retired_paths": 0,
+        "other_differences": 22
+      },
+      {
+        "path": "scripts/current-analog-choice-browser-qualification/SOURCE.json",
+        "differences": 23,
+        "retired_paths": 0,
+        "other_differences": 23
+      },
+      {
+        "path": "scripts/current-analog-consumer-browser-qualification/SOURCE.json",
+        "differences": 21,
+        "retired_paths": 0,
+        "other_differences": 21
+      },
+      {
+        "path": "scripts/current-analog-consumer-opening-qualification/SOURCE.json",
+        "differences": 21,
+        "retired_paths": 0,
+        "other_differences": 21
+      },
+      {
+        "path": "scripts/current-analog-consumer-qualification/SOURCE.json",
+        "differences": 21,
+        "retired_paths": 0,
+        "other_differences": 21
+      },
+      {
+        "path": "scripts/current-analog-consumer-transport-qualification/SOURCE.json",
+        "differences": 21,
+        "retired_paths": 0,
+        "other_differences": 21
+      },
+      {
+        "path": "scripts/current-analog-installation-qualification/SOURCE.json",
+        "differences": 6,
+        "retired_paths": 0,
+        "other_differences": 6
+      },
+      {
+        "path": "scripts/current-analog-installation-utc-qualification/SOURCE.json",
+        "differences": 6,
+        "retired_paths": 0,
+        "other_differences": 6
+      },
+      {
+        "path": "scripts/current-analog-native-fixture-qualification/SOURCE.json",
+        "differences": 6,
+        "retired_paths": 0,
+        "other_differences": 6
+      },
+      {
+        "path": "scripts/current-bounded-finance-native-qualification/SOURCE.json",
+        "differences": 21,
+        "retired_paths": 0,
+        "other_differences": 21
+      },
+      {
+        "path": "scripts/current-bounded-finance-restored-native-qualification/SOURCE.json",
+        "differences": 21,
+        "retired_paths": 0,
+        "other_differences": 21
+      },
+      {
+        "path": "scripts/current-cash-fixture-diagnostic/SOURCE.json",
+        "differences": 16,
+        "retired_paths": 0,
+        "other_differences": 16
+      },
+      {
+        "path": "scripts/current-cash-ready-qualification/SOURCE.json",
+        "differences": 16,
+        "retired_paths": 0,
+        "other_differences": 16
+      },
+      {
+        "path": "scripts/current-cp6-ai-native-qualification/SOURCE.json",
+        "differences": 16,
+        "retired_paths": 0,
+        "other_differences": 16
+      },
+      {
+        "path": "scripts/current-cp6-contract-qualification/SOURCE.json",
+        "differences": 16,
+        "retired_paths": 0,
+        "other_differences": 16
+      },
+      {
+        "path": "scripts/current-cp6-crossflow-qualification/SOURCE.json",
+        "differences": 16,
+        "retired_paths": 0,
+        "other_differences": 16
+      },
+      {
+        "path": "scripts/current-cp6-funded-qualification/SOURCE.json",
+        "differences": 16,
+        "retired_paths": 0,
+        "other_differences": 16
+      },
+      {
+        "path": "scripts/current-cp6-race-qualification/SOURCE.json",
+        "differences": 16,
+        "retired_paths": 0,
+        "other_differences": 16
+      },
+      {
+        "path": "scripts/current-finance-model-browser-qualification/SOURCE.json",
+        "differences": 18,
+        "retired_paths": 0,
+        "other_differences": 18
+      },
+      {
+        "path": "scripts/current-finance-model-cron-qualification/SOURCE.json",
+        "differences": 18,
+        "retired_paths": 0,
+        "other_differences": 18
+      },
+      {
+        "path": "scripts/current-finance-model-qualification/SOURCE.json",
+        "differences": 19,
+        "retired_paths": 0,
+        "other_differences": 19
+      },
+      {
+        "path": "scripts/current-finance-model-registry-qualification/SOURCE.json",
+        "differences": 18,
+        "retired_paths": 0,
+        "other_differences": 18
+      },
+      {
+        "path": "scripts/current-finance-model-transport-qualification/SOURCE.json",
+        "differences": 18,
+        "retired_paths": 0,
+        "other_differences": 18
+      },
+      {
+        "path": "scripts/current-finance-model-transport-utc-qualification/SOURCE.json",
+        "differences": 18,
+        "retired_paths": 0,
+        "other_differences": 18
+      },
+      {
+        "path": "scripts/current-finance-model-used-restore-qualification/SOURCE.json",
+        "differences": 18,
+        "retired_paths": 0,
+        "other_differences": 18
+      },
+      {
+        "path": "scripts/current-full-money-qualification/SOURCE.json",
+        "differences": 19,
+        "retired_paths": 0,
+        "other_differences": 19
+      },
+      {
+        "path": "scripts/current-installation-qualification/SOURCE.json",
+        "differences": 16,
+        "retired_paths": 0,
+        "other_differences": 16
+      },
+      {
+        "path": "scripts/current-invoice-history-browser/SOURCE.json",
+        "differences": 19,
+        "retired_paths": 0,
+        "other_differences": 19
+      },
+      {
+        "path": "scripts/current-legacy-ui-browser/SOURCE.json",
+        "differences": 19,
+        "retired_paths": 0,
+        "other_differences": 19
+      },
+      {
+        "path": "scripts/current-mandor-native-qualification/SOURCE.json",
+        "differences": 16,
+        "retired_paths": 0,
+        "other_differences": 16
+      },
+      {
+        "path": "scripts/current-model-history-native-qualification/SOURCE.json",
+        "differences": 16,
+        "retired_paths": 0,
+        "other_differences": 16
+      },
+      {
+        "path": "scripts/current-model-retained-transport-qualification/SOURCE.json",
+        "differences": 18,
+        "retired_paths": 0,
+        "other_differences": 18
+      },
+      {
+        "path": "scripts/current-model-target-contract-qualification/SOURCE.json",
+        "differences": 17,
+        "retired_paths": 0,
+        "other_differences": 17
+      },
+      {
+        "path": "scripts/current-model-target-native-qualification/SOURCE.json",
+        "differences": 16,
+        "retired_paths": 0,
+        "other_differences": 16
+      },
+      {
+        "path": "scripts/current-opening-replay-qualification/SOURCE.json",
+        "differences": 16,
+        "retired_paths": 0,
+        "other_differences": 16
+      },
+      {
+        "path": "scripts/current-opening-replay-ready-qualification/SOURCE.json",
+        "differences": 16,
+        "retired_paths": 0,
+        "other_differences": 16
+      },
+      {
+        "path": "scripts/current-owner-lists-browser/SOURCE.json",
+        "differences": 19,
+        "retired_paths": 0,
+        "other_differences": 19
+      },
+      {
+        "path": "scripts/current-retained-native-qualification/SOURCE.json",
+        "differences": 16,
+        "retired_paths": 0,
+        "other_differences": 16
+      },
+      {
+        "path": "scripts/current-return-auth-bounded-qualification/SOURCE.json",
+        "differences": 16,
+        "retired_paths": 0,
+        "other_differences": 16
+      },
+      {
+        "path": "scripts/current-return-auth-qualification/SOURCE.json",
+        "differences": 16,
+        "retired_paths": 0,
+        "other_differences": 16
+      },
+      {
+        "path": "scripts/current-return-auth-ready-qualification/SOURCE.json",
+        "differences": 16,
+        "retired_paths": 0,
+        "other_differences": 16
+      },
+      {
+        "path": "scripts/current-return-browser-bounded-qualification/SOURCE.json",
+        "differences": 16,
+        "retired_paths": 0,
+        "other_differences": 16
+      },
+      {
+        "path": "scripts/current-return-browser-qualification/SOURCE.json",
+        "differences": 16,
+        "retired_paths": 0,
+        "other_differences": 16
+      },
+      {
+        "path": "scripts/current-return-installation-qualification/SOURCE.json",
+        "differences": 16,
+        "retired_paths": 0,
+        "other_differences": 16
+      },
+      {
+        "path": "scripts/current-return-race-qualification/SOURCE.json",
+        "differences": 16,
+        "retired_paths": 0,
+        "other_differences": 16
+      },
+      {
+        "path": "scripts/current-runner-qualification/SOURCE.json",
+        "differences": 16,
+        "retired_paths": 0,
+        "other_differences": 16
+      },
+      {
+        "path": "scripts/current-scoped-model-native-qualification/SOURCE.json",
+        "differences": 7,
+        "retired_paths": 0,
+        "other_differences": 7
+      },
+      {
+        "path": "scripts/current-scoped-model-used-restore-qualification/SOURCE.json",
+        "differences": 8,
+        "retired_paths": 0,
+        "other_differences": 8
+      },
+      {
+        "path": "scripts/current-selected-return-contract-qualification/SOURCE.json",
+        "differences": 18,
+        "retired_paths": 0,
+        "other_differences": 18
+      },
+      {
+        "path": "scripts/current-selected-return-native-qualification/SOURCE.json",
+        "differences": 19,
+        "retired_paths": 0,
+        "other_differences": 19
+      },
+      {
+        "path": "scripts/current-selected-return-used-restore-qualification/SOURCE.json",
+        "differences": 20,
+        "retired_paths": 0,
+        "other_differences": 20
+      },
+      {
+        "path": "scripts/current-transfer-pages-browser/SOURCE.json",
+        "differences": 19,
+        "retired_paths": 0,
+        "other_differences": 19
+      },
+      {
+        "path": "scripts/current-transfer-restore-qualification/SOURCE.json",
+        "differences": 16,
+        "retired_paths": 0,
+        "other_differences": 16
+      },
+      {
+        "path": "scripts/current-work-payroll-child9-qualification/SOURCE.json",
+        "differences": 23,
+        "retired_paths": 0,
+        "other_differences": 23
+      },
+      {
+        "path": "scripts/current-work-payroll-race-qualification/SOURCE.json",
+        "differences": 23,
+        "retired_paths": 0,
+        "other_differences": 23
+      },
+      {
+        "path": "scripts/draft-return-closure-qualification/SOURCE.json",
+        "differences": 16,
+        "retired_paths": 0,
+        "other_differences": 16
+      },
+      {
+        "path": "scripts/draft-return-isolation-qualification/SOURCE.json",
+        "differences": 16,
+        "retired_paths": 0,
+        "other_differences": 16
+      },
+      {
+        "path": "scripts/draft-return-regression-qualification/SOURCE.json",
+        "differences": 16,
+        "retired_paths": 0,
+        "other_differences": 16
+      },
+      {
+        "path": "scripts/draft-return-restore-qualification/SOURCE.json",
+        "differences": 16,
+        "retired_paths": 0,
+        "other_differences": 16
+      },
+      {
+        "path": "scripts/draft-return-restored-qualification/SOURCE.json",
+        "differences": 16,
+        "retired_paths": 0,
+        "other_differences": 16
+      },
+      {
+        "path": "scripts/finance-bridge-chain-qualification/SOURCE.json",
+        "differences": 2,
+        "retired_paths": 0,
+        "other_differences": 2
+      },
+      {
+        "path": "scripts/ow04-final-qualification/SOURCE.json",
+        "differences": 2,
+        "retired_paths": 0,
+        "other_differences": 2
+      },
+      {
+        "path": "scripts/ow04-payment-continuation-qualification/SOURCE.json",
+        "differences": 4,
+        "retired_paths": 0,
+        "other_differences": 4
+      },
+      {
+        "path": "scripts/ow04-payment-current-qualification/SOURCE.json",
+        "differences": 2,
+        "retired_paths": 0,
+        "other_differences": 2
+      },
+      {
+        "path": "scripts/ow04-payment-positive-qualification/SOURCE.json",
+        "differences": 2,
+        "retired_paths": 0,
+        "other_differences": 2
+      },
+      {
+        "path": "scripts/ow04-payment-source-qualification/SOURCE.json",
+        "differences": 5,
+        "retired_paths": 0,
+        "other_differences": 5
+      },
+      {
+        "path": "scripts/ow04-source-inverse-ui-qualification/SOURCE.json",
+        "differences": 2,
+        "retired_paths": 0,
+        "other_differences": 2
+      },
+      {
+        "path": "scripts/ow05-browser-qualification/SOURCE.json",
+        "differences": 5,
+        "retired_paths": 0,
+        "other_differences": 5
+      },
+      {
+        "path": "scripts/ow05b-browser-qualification/SOURCE.json",
+        "differences": 2,
+        "retired_paths": 0,
+        "other_differences": 2
+      },
+      {
+        "path": "scripts/ow06-browser-qualification/SOURCE.json",
+        "differences": 1,
+        "retired_paths": 0,
+        "other_differences": 1
+      },
+      {
+        "path": "scripts/ow09-chain-browser-qualification/SOURCE.json",
+        "differences": 45,
+        "retired_paths": 0,
+        "other_differences": 45
+      },
+      {
+        "path": "scripts/ow14b-installation-qualification/SOURCE.json",
+        "differences": 16,
+        "retired_paths": 0,
+        "other_differences": 16
+      },
+      {
+        "path": "scripts/production-chain-qualification/SOURCE.json",
+        "differences": 4,
+        "retired_paths": 0,
+        "other_differences": 4
+      }
+    ],
+    "retired_proof_inputs_materialized_exact_by_actual_assembly": true,
+    "original_inventory_unchanged": true,
+    "actual_suite_count_not_inferred": true,
+    "GitHub_documentation_checked_utc": "2026-10-28T04:23:21.046776+00:00",
+    "GitHub_documentation_url": "https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#git-diff-comparisons",
+    "GitHub_documented_path_diff_limit": 3000,
+    "independent_acceptance": false,
+    "production_go": false
+  },
+  "main_product_or_qualification_source_changed": false,
+  "qualified_candidates_not_yet_adopted_into_main": true,
+  "full_shell_acceptance": false,
+  "current_JS_finding_still_open": true,
+  "formal_accepted": "5/16",
+  "production_go": false,
+  "independent_acceptance": false
+}

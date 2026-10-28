@@ -460,3 +460,30 @@ penjualan/retur → upah/pelunasan → HPP, kas/bank, AP/AR dan laporan.
 Formal masih5/16; bukan persentase kerja aktual. CP7C belum dimulai,
 production_go=false, independent_acceptance=false. Catatan ini titik simpan,
 bukan alasan berhenti; pekerjaan yang tidak bergantung hasil server dilanjutkan.
+
+## 28 Oktober 2026 — A, hasil DF dan susunan gabungan b4ed
+
+DF `df7cbe8c` selesai dengan enam dari tujuh kelompok lulus. Factory tertahan
+oleh alat pemantau yang membandingkan angka dengan total `NULL` sebelum rencana
+capture terbentuk. Seluruh tujuh pemulihan terpasang dan pemulihan CP6/advisor
+lulus; Original tetap INCOMPLETE. Perbaikan `4ac68154` hanya menyentuh pemantau
+baca-saja. Sebanyak 26 uji lokal dan pemeriksaan sumber lengkap tanpa DB lulus.
+Percobaan pertamanya berhenti sebelum DB karena tiga HTTP 502 saat mengunduh
+bukti. Unduhan kemudian pulih dan cocok persis, sehingga hanya job terhenti itu
+dijalankan ulang. Run40629923288, percobaan2/job122626325986, masih menjalankan
+all7; belum diberi kredit PASS.
+
+Pemisahan 24 workflow historis di `16d9e49a` dan susunan tepat `b4ed2a34`
+sama-sama lulus pemeriksaan sumber dan CodeQL Actions dengan nol temuan.
+Isi arsip dan seluruh manifest lama tetap persis. Input bukti lama dimaterialisasi
+sebagai berkas tidak terlacak sebelum dibaca, tanpa mengaktifkan kembali workflow.
+Susunan b4ed membuktikan 4.315 sumber, 85 berkas komponen, 113 host UI dan 91
+berkas B1dd. Ini kredit sumber/Actions, belum runtime atau Auth. Browser `e8fa6a9e`
+masih tertutup; dua salinan DB penuh dengan login asli menunggu actual4ac all7 PASS.
+
+Temuan JavaScript pada alat OW10 B tetap terbuka dan patch usulan belum diterapkan.
+B1dd, cabang resmi a255, sumber produk dan pemasang bawaan tidak berubah. Rincian:
+`ow15/D17_18_FACTORY_DF_AND_ASSEMBLY_ACTUAL.json`. Inventaris b4ed berisi 331
+workflow dan 144 deklarasi; ini peta statis, bukan jumlah suite wajib atau kelulusan.
+Kegagalan CP6 dan batas penerus historis tetap terbuka. Formal 5/16,
+independent_acceptance=false dan production_go=false. Lanjutkan setelah checkpoint.
