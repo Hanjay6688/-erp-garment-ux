@@ -1,0 +1,8 @@
+{
+  "contract": "cp7.vendor-receivable-race-auth-followup.v1",
+  "status": "PREPARED_CLOSED",
+  "accepted_native7": null,
+  "production_go": false,
+  "independent_acceptance": false,
+  "actual_concurrent_or_Auth_claim": false
+}
