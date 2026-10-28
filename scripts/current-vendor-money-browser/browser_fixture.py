@@ -19,21 +19,26 @@ with psycopg.connect(url)as connection,connection.cursor()as cur:
         grant=not cur.execute("select has_schema_privilege('authenticated','erp','USAGE')").fetchone()[0]
         if grant:cur.execute('grant usage on schema erp to authenticated')
         try:
-            fixture=native.fixture(cur,day);credit=native.correction(cur,fixture)
+            fixture=native.fixture(cur,day);credit=native.correction(cur,fixture);target=None
+            if payload.get('next_invoice')is True:
+                _,target=native.bd.correction(cur,fixture,fixture['line'],'1000.25',fixture['invoice'],day)
         except Exception:
             connection.rollback();raise
         finally:
             native.bd.api.admin(cur)
             if grant:cur.execute('revoke usage on schema erp from authenticated')
+        if target:target['invoice_number']=cur.execute('select invoice_number from erp.bd_laundry_invoices_v1 where id=%s',(target['invoice_id'],)).fetchone()[0]
         before=native.state(cur,fixture)
         number=cur.execute('select invoice_number from erp.bd_laundry_invoices_v1 where id=%s',(credit['invoice_id'],)).fetchone()[0]
         connection.commit()
-        result=dict(fixture=fixture,credit_id=credit['invoice_id'],credit_number=number,before=before,
+        result=dict(fixture=fixture,credit_id=credit['invoice_id'],credit_number=number,before=before,next_invoice=target,
             fixture_source='EXISTING_NATIVE_WRITERS_NOT_SCREEN_CREATION',actual_browser_posting=False)
     elif operation=='state':
         fixture=payload['fixture'];result=native.state(cur,fixture)
         rows=cur.execute("select r.id::text,r.amount::text,case when x.refund_id is null then 'POSTED'else 'REVERSED'end from cp7_vendor_receivable.refunds_v1 r left join cp7_vendor_receivable.reversals_v1 x on x.refund_id=r.id where r.correction_id=%s order by r.id",(payload['credit_id'],)).fetchall()
         result['refunds']=[dict(id=key,amount=amount,status=status)for key,amount,status in rows]
+        applications=cur.execute("select a.id::text,a.amount::text from erp.bd_claim_credit_applications_v1 a join erp.vendor_payments p on p.id=a.vendor_payment_id where a.correction_invoice_id=%s and p.status='POSTED'order by a.id",(payload['credit_id'],)).fetchall()
+        result['applications']=[dict(id=key,amount=amount)for key,amount in applications]
         result['ledger']=native.screen(cur,fixture)['ledger'];connection.rollback()
     elif operation=='revoke':
         actor=str(uuid.UUID(payload['actor']))

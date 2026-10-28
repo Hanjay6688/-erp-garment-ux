@@ -22,14 +22,14 @@ saksi aktual panggilan pemasang lengkap ini; persiapan sumber belum meluluskanny
 
 | Perjalanan | Bukti yang harus dibuat |
 |---|---|
-| Desktop OWNER | Refund 1.000,25 lewat layar; piutang 3.000 → 1.999,75; bank +1.000,25; respons transaksi yang benar-benar committed dihilangkan satu kali; reload dan reconcile memakai UUID/payload sama, baris refund tetap satu; pembatalan lewat layar memulihkan piutang/bank; pembayaran asal tetap utuh; bukti refund tetap ada berstatus dibatalkan |
+| Desktop OWNER | Refund 1.000,25 lewat layar; piutang 3.000 → 1.999,75; bank +1.000,25; respons transaksi yang benar-benar committed dihilangkan satu kali; reload dan reconcile memakai UUID/payload sama, baris refund tetap satu; pembatalan lewat layar memulihkan piutang/bank; pembayaran asal tetap utuh; bukti refund tetap ada berstatus dibatalkan; kredit1.000,25 dipakai lewat layar untuk tagihan berikutnya, piutang menjadi1.999,75/AP0/kas0 dengan satu aplikasi aktif |
 | Mobile ADMIN, 390 px | Refund 750,10 lewat layar; piutang 2.249,90; bank +750,10; pencabutan izin uang lalu muat ulang menyembunyikan angka dan kontrol; seluruh keadaan uang tetap sama |
 
 Periksa kontras teks, lebar halaman, console, Auth, salinan database, seluruh
 22 kelompok katalog, data/sequence/role/CP6/advisor dan pemulihan penuh. Simpan
 hasil pertama. Tinjau screenshot hasil aktual sebelum menerima tampilan.
 
-Invoice dan koreksi awal dibuat oleh penulis Native existing di salinan lokal;
+Invoice sumber, koreksi awal dan tagihan berikut berupa koreksi naik1000,25 dibuat oleh penulis Native existing di salinan lokal;
 ini **belum** membuktikan pembuatan invoice/koreksi melalui layar. Tidak ada
 klaim kelulusan respons hilang sebelum perjalanan aktual dijalankan; belum ada klaim browser seluruh alur laundry, pengiriman atau produksi. Console helper B dipakai persis tanpa perubahan: semua error disimpan, hanya satu pesan jaringan dari URL refund yang sengaja diputus yang boleh dikenali sebagai expected.
 Penjaga pencopotan setelah uang dipakai dan inverse sebelum pemakaian memakai
