@@ -1,0 +1,62 @@
+name: A Selective B OW10 Integration JavaScript Qualification
+'on':
+  push:
+    branches: [astra-a/ow10-first-failure-integration-20261028]
+    paths:
+      - scripts/cp7_ow10_statistical_local.mjs
+      - scripts/cp7_first_failure_evidence.mjs
+      - scripts/cp7_first_failure_evidence.test.mjs
+      - .github/workflows/cp7-a-ow10-integration-codeql.yml
+permissions:
+  contents: read
+concurrency:
+  group: cp7-a-ow10-integration-evidence-${{ github.run_id }}
+  cancel-in-progress: false
+jobs:
+  javascript:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22'
+      - name: Actual filesystem races and error propagation
+        run: |
+          mkdir -p cp7-a-ow10-integration-evidence
+          node --check scripts/cp7_ow10_statistical_local.mjs
+          node --test --test-reporter=tap scripts/cp7_first_failure_evidence.test.mjs | tee cp7-a-ow10-integration-evidence/filesystem-tests.tap
+      - uses: github/codeql-action/init@b96794f015dfd88f77b49b1c93e0fa7110f94c63
+        with:
+          languages: javascript-typescript
+          build-mode: none
+          queries: security-extended
+      - uses: github/codeql-action/analyze@b96794f015dfd88f77b49b1c93e0fa7110f94c63
+        with:
+          output: cp7-a-ow10-integration-evidence/sarif
+          upload: never
+          upload-database: false
+      - name: Reject findings and incomplete JavaScript analysis
+        run: |
+          python3 - <<'PY'
+          import json, pathlib
+          files = list(pathlib.Path('cp7-a-ow10-integration-evidence/sarif').glob('*.sarif'))
+          assert files, 'No SARIF produced'
+          for path in files:
+              report = json.loads(path.read_text())
+              assert report.get('runs'), 'No analysis runs'
+              for run in report['runs']:
+                  assert not run.get('results'), 'CodeQL findings require resolution'
+                  assert run.get('invocations'), 'No invocation evidence'
+                  assert all(i.get('executionSuccessful') is True for i in run['invocations']), 'Incomplete CodeQL'
+          print('Complete JavaScript analysis: zero findings; no query suppression')
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: a-ow10-first-failure-integration-original
+          path: cp7-a-ow10-integration-evidence
+          if-no-files-found: error
+          retention-days: 30

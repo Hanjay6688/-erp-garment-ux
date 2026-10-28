@@ -1,0 +1,78 @@
+{
+  "status": "B_ORIGINAL_VERIFIED_AND_THREE_FILES_APPLIED_A_INTEGRATION_PENDING",
+  "A_base": "7657bbee5d55277855a0ab53126438c2e9c63118",
+  "B_base": "1dd83782dcaa4500bace7bf392a76f58be0271c3",
+  "B_head": "e3442f4563311734b6dd68d632dfadf3d708d023",
+  "B_tested_head": "4fcc1adc2b219304c73e2de6dc6df2b7810106d9",
+  "files": {
+    "scripts/cp7_ow10_statistical_local.mjs": "2f2d02ed883a3fa018f8bd422e7879b58bb6ab7e4076232df3c63c372e729f57",
+    "scripts/cp7_first_failure_evidence.mjs": "41b059ed810c57c97f2ee05f4722ad7c415b7828b1e24c9c098962ee9cd9f34d",
+    "scripts/cp7_first_failure_evidence.test.mjs": "f14383aa6966513256496a0871b0175809697e941720010a08d7787210453c21"
+  },
+  "B_actual": {
+    "status": "PASS_FOCUSED_JAVASCRIPT_WRITER_QUALIFICATION",
+    "base_sha": "1dd83782dcaa4500bace7bf392a76f58be0271c3",
+    "tested_commit": "4fcc1adc2b219304c73e2de6dc6df2b7810106d9",
+    "tested_tree": "5a6a4a02fdbdd772840e4d8243d3934c00cff100",
+    "run_id": 40648709228,
+    "job_id": 122683491213,
+    "attempt": 1,
+    "conclusion": "success",
+    "job_seconds": 259,
+    "artifact_id": 12799290246,
+    "artifact_name": "b-ow10-first-failure-complete-original",
+    "zip_bytes": 163250,
+    "zip_sha256": "414d80b697752a272f2dc9f2d600163a6f4c512f603a2517cc09217bf4ea87d2",
+    "sarif_bytes": 2064327,
+    "sarif_sha256": "2dbf1e13096e3357bf8738a9d088f83025011968987e779da519e770c284e21d",
+    "javascript_queries": 103,
+    "race_query_present": true,
+    "results": 0,
+    "execution_successful": true,
+    "query_suppressions_added": 0,
+    "ci_filesystem_tests": {
+      "passed": 4,
+      "failed": 0,
+      "duration_ms": 93.71136,
+      "concurrent_two_process_case_ms": 38.243846
+    },
+    "local_statistical_cases": 5,
+    "local_catalog_groups": 22,
+    "previous_first_failures_preserved": true,
+    "integrated_by_A": false,
+    "production_go": false,
+    "independent_acceptance": false,
+    "formal": "5/16",
+    "job_log_bytes": 730132,
+    "job_log_sha256": "126b66123b4da19b08a6a4b210fe8faf7b431697e084c883df639fcedb4f3774"
+  },
+  "exact_A_preimage_equal_B_base": true,
+  "exact_B_tested_three_files": true,
+  "whole_B_branch_merged": false,
+  "actual_CodeQL_rules": 103,
+  "actual_CodeQL_race_rule_present": true,
+  "actual_CodeQL_results": 0,
+  "query_execution_log_lines": [
+    "2026-10-28T07:16:17.7582595Z [90/105] Loaded /opt/hostedtoolcache/CodeQL/2.27.0/x64/codeql/qlpacks/codeql/javascript-queries/2.4.5/Security/CWE-367/FileSystemRace.qlx.",
+    "2026-10-28T07:17:16.3849982Z Starting evaluation of codeql/javascript-queries/Security/CWE-367/FileSystemRace.ql.",
+    "2026-10-28T07:17:28.0319038Z Interpreting /opt/hostedtoolcache/CodeQL/2.27.0/x64/codeql/qlpacks/codeql/javascript-queries/2.4.5/Security/CWE-367/FileSystemRace.ql...",
+    "2026-10-28T07:17:28.2196885Z Interpreted problem query \"Potential file system race condition\" (js/file-system-race) at path /home/runner/work/_temp/codeql_databases/javascript/results/codeql/javascript-queries/Security/CWE-367/FileSystemRace.bqrs."
+  ],
+  "first_A_intake_refusal": {
+    "classification": "A_TOOLING_ASSUMPTION_CORRECTED",
+    "reason": "SARIF query rules are in tool.extensions, not tool.driver; initial strict check refused before applying any patch",
+    "no_B_product_failure": true
+  },
+  "historical_manifests_rewritten": false,
+  "retained_old_source_pins": "Historical manifests still describe original script; this successor is the scoped authority for the three changed tooling files. No inherited whole-source backend acceptance is claimed.",
+  "backend_source_candidate_unchanged": true,
+  "browser_unlocked": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "A_local_filesystem_tests": {
+    "passed": 4,
+    "failed": 0,
+    "original": "B-js-intake/A-filesystem-tests.tap",
+    "actual_combined_JavaScript_CodeQL": "PREPARED_NOT_RUN"
+  }
+}

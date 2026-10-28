@@ -1,10 +1,11 @@
 // Actual four product bodies and kernels, controlled ERP/history/identity.
 // This proves adapter arithmetic and closed writes, not Native/Auth/restore.
-import {readFile,writeFile,mkdir,access} from 'node:fs/promises'
+import {readFile,writeFile,mkdir} from 'node:fs/promises'
 import {createHash,randomUUID} from 'node:crypto'
 import {execFileSync} from 'node:child_process'
 import assert from 'node:assert/strict'
 import {beginLocalStageAudit} from './cp7_local_stage_audit.mjs'
+import {writeFirstFailure} from './cp7_first_failure_evidence.mjs'
 const {PGlite}=await import(process.env.CP7_PGLITE_MODULE??'@electric-sql/pglite')
 const db=new PGlite(),dir='scripts/cp7_target_policy_stage/sql/'
 const read=path=>readFile(path,'utf8'),block=(s,name)=>{const start=s.search(new RegExp('create(?: or replace)? function '+name.replaceAll('.','\\.')+'\\('));assert.ok(start>=0,name);return s.slice(start,s.indexOf('$$;',s.indexOf('as $$',start))+3)}
@@ -121,5 +122,5 @@ const catalog=await stageAudit.afterUse()
 const report={classification:'LOCAL_ACTUAL_FOUR_PRODUCT_BODIES_WITH_CONTROLLED_ERP_HISTORY_IDENTITY_NOT_NATIVE',status:results.every(r=>r.status==='PASS')?'PASS':'FAIL',catalog,
  sources:Object.fromEntries(await Promise.all(files.map(async file=>[file,createHash('sha256').update(await read(dir+file)).digest('hex')]))),cases:results,OW10_complete:false,full_A_chain_qualified:false,production_go:false}
 await mkdir('docs/cp7/d17-14/ow10',{recursive:true});const out='docs/cp7/d17-14/ow10/statistical-local.json'
-await writeFile(out,JSON.stringify(report,null,2)+'\n');if(report.status!=='PASS'){const first=out.replace('.json','-first-failure.json');try{await access(first)}catch{await writeFile(first,JSON.stringify(report,null,2)+'\n')}}
+await writeFile(out,JSON.stringify(report,null,2)+'\n');if(report.status!=='PASS'){const first=out.replace('.json','-first-failure.json');await writeFirstFailure(first,JSON.stringify(report,null,2)+'\n')}
 console.log(JSON.stringify(report,null,2));await db.close();if(report.status!=='PASS')process.exitCode=1
