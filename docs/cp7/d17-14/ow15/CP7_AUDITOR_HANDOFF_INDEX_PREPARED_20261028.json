@@ -418,12 +418,54 @@
     "independent_acceptance": false
   },
   "vendor_receivable_20261029": {
-    "status": "FIRST_NATIVE_6_PASS_1_INCOMPLETE_SUCCESSOR_RUNNING_NOT_ACCEPTED",
-    "receipt": "docs/cp7/d17-14/ow15/vendor-receivable-f30-first-incomplete.json",
+    "status": "NATIVE7_PASS_NEW_GUARD_COMBINED11_RUNNING_NOT_ACCEPTED",
+    "native7_receipt": "docs/cp7/d17-14/ow15/vendor-native7-5ded-pass.json",
+    "combined11": {
+      "status": "RUNNING_NOT_ACCEPTED",
+      "head": "54b786f3e38ba41d362a23fd75fb0d5c0520150d",
+      "tree": "e211b0d169193c0f5e3df226b5aad173946bfff2",
+      "run_id": 40761955464,
+      "job_id": 123075935760,
+      "branch": "astra-a/ow08b-vendor-combined-qualification-20261029",
+      "fresh_planned": {
+        "Native": 7,
+        "races": 3,
+        "Auth_HTTP": 1,
+        "browser": 0
+      },
+      "first_CI_failure": {
+        "run_id": 40760545510,
+        "head": "426dafd2ccf1ec90693e2c1640047fd9f2b3ca81",
+        "status": "INVALID_WORKFLOW_ZERO_JOBS_ZERO_DB",
+        "cause": "working_directory instead of working-directory",
+        "fixed": true
+      },
+      "parent_Native7": {
+        "head": "5dedbaae47eb4b3b23b54da94605f7d940f0ca22",
+        "tree": "4557e2ce213e0c2785deb0e90a3fe19eae7752a0",
+        "run_id": 40751542770,
+        "job_id": 123039250204,
+        "artifact_id": 12848155314,
+        "zip_bytes": 2016825,
+        "zip_sha256": "23dbfbac51e38773d0aae77a266fd6ff811f3a4dcbbf4080b48c01d401c332a1",
+        "original": {
+          "name": "CP7_VENDOR_RECEIVABLE_NATIVE7.json",
+          "bytes": 3288623,
+          "sha256": "de6b3499b2232732f226b6b738caa3fb9f15e631136c6d6adff9f9b89d3c5483"
+        },
+        "package": {
+          "name": "T3_PACKAGE_INSTALL.json",
+          "bytes": 360415,
+          "sha256": "3e7b2e7b8c243f3d16a689b6dd4d5a10c2152993b0c92df445ac48db77baffe5"
+        }
+      },
+      "stricter_provenance_SQL_sha256": "3b24728512e8be6af697f3234e591f7fe6b46331c68e3497ab71aedbcc9aa2ba",
+      "actual_new_case_PASS_claim": false,
+      "production_go": false,
+      "independent_acceptance": false
+    },
+    "intake_prepared": "beb1e6915edda75b82697c0993e80eac647b683a",
     "current_A_product_includes_vendor_receivable": false,
-    "B_combined_browser_still_accepted_on_backend3194": true,
-    "successor_head": "5dedbaae47eb4b3b23b54da94605f7d940f0ca22",
-    "successor_run": 40751542770,
     "formal": "5/16",
     "production_go": false,
     "independent_acceptance": false

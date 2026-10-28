@@ -9,10 +9,48 @@
   "production_go": false,
   "independent_acceptance": false,
   "running": {
-    "head": "5dedbaae47eb4b3b23b54da94605f7d940f0ca22",
-    "run_id": 40751542770,
-    "kind": "VENDOR_RECEIVABLE_NATIVE7_UTC_OBSERVER_SUCCESSOR",
-    "status": "RUNNING_NOT_ACCEPTED"
+    "status": "RUNNING_NOT_ACCEPTED",
+    "head": "54b786f3e38ba41d362a23fd75fb0d5c0520150d",
+    "tree": "e211b0d169193c0f5e3df226b5aad173946bfff2",
+    "run_id": 40761955464,
+    "job_id": 123075935760,
+    "branch": "astra-a/ow08b-vendor-combined-qualification-20261029",
+    "fresh_planned": {
+      "Native": 7,
+      "races": 3,
+      "Auth_HTTP": 1,
+      "browser": 0
+    },
+    "first_CI_failure": {
+      "run_id": 40760545510,
+      "head": "426dafd2ccf1ec90693e2c1640047fd9f2b3ca81",
+      "status": "INVALID_WORKFLOW_ZERO_JOBS_ZERO_DB",
+      "cause": "working_directory instead of working-directory",
+      "fixed": true
+    },
+    "parent_Native7": {
+      "head": "5dedbaae47eb4b3b23b54da94605f7d940f0ca22",
+      "tree": "4557e2ce213e0c2785deb0e90a3fe19eae7752a0",
+      "run_id": 40751542770,
+      "job_id": 123039250204,
+      "artifact_id": 12848155314,
+      "zip_bytes": 2016825,
+      "zip_sha256": "23dbfbac51e38773d0aae77a266fd6ff811f3a4dcbbf4080b48c01d401c332a1",
+      "original": {
+        "name": "CP7_VENDOR_RECEIVABLE_NATIVE7.json",
+        "bytes": 3288623,
+        "sha256": "de6b3499b2232732f226b6b738caa3fb9f15e631136c6d6adff9f9b89d3c5483"
+      },
+      "package": {
+        "name": "T3_PACKAGE_INSTALL.json",
+        "bytes": 360415,
+        "sha256": "3e7b2e7b8c243f3d16a689b6dd4d5a10c2152993b0c92df445ac48db77baffe5"
+      }
+    },
+    "stricter_provenance_SQL_sha256": "3b24728512e8be6af697f3234e591f7fe6b46331c68e3497ab71aedbcc9aa2ba",
+    "actual_new_case_PASS_claim": false,
+    "production_go": false,
+    "independent_acceptance": false
   },
   "actual_new_component": {
     "name": "CP7_OW11_MODEL_TARGET_SOURCE_V2.json",
@@ -19349,9 +19387,9 @@
       "fully_read": true
     },
     "vendor_owner_decision": "BOTH_NEXT_INVOICE_AND_CASH_BANK_REFUND",
-    "vendor_candidate": "f30ffc8d7386d6b202c91e9f1b55e672af58c720",
-    "vendor_run": 40741343738,
-    "vendor_status": "FAILURE_INCOMPLETE_6_PASS_1_ASSERTION",
+    "vendor_candidate": "54b786f3e38ba41d362a23fd75fb0d5c0520150d",
+    "vendor_run": 40761955464,
+    "vendor_status": "RUNNING_COMBINED11_STRICTER_PROVENANCE_NOT_ACCEPTED",
     "return_original_successor": "6b7dab37d58523865c9d6e724c87d5b10d4b1aa0",
     "return_retained_status": "PASS_2_BASELINE_2_CURRENT_ON_NAMED_SOURCE",
     "return3194_candidate": "3a366ed69752c81b43389440f92dd48135771e36",
@@ -19385,13 +19423,51 @@
     "return3194_original_sha256": "392bfd10e6ddb21d07319da73405000d21a769287e4774af8e14cf3609e12153",
     "vendor_receipt": "docs/cp7/d17-14/ow15/vendor-receivable-f30-first-incomplete.json",
     "vendor_successor": {
-      "head": "5dedbaae47eb4b3b23b54da94605f7d940f0ca22",
-      "tree": "4557e2ce213e0c2785deb0e90a3fe19eae7752a0",
-      "branch": "astra-a/ow08b-vendor-native-utc-successor-20261029",
-      "run_id": 40751542770,
       "status": "RUNNING_NOT_ACCEPTED",
-      "fresh_planned_cases": 7
-    }
+      "head": "54b786f3e38ba41d362a23fd75fb0d5c0520150d",
+      "tree": "e211b0d169193c0f5e3df226b5aad173946bfff2",
+      "run_id": 40761955464,
+      "job_id": 123075935760,
+      "branch": "astra-a/ow08b-vendor-combined-qualification-20261029",
+      "fresh_planned": {
+        "Native": 7,
+        "races": 3,
+        "Auth_HTTP": 1,
+        "browser": 0
+      },
+      "first_CI_failure": {
+        "run_id": 40760545510,
+        "head": "426dafd2ccf1ec90693e2c1640047fd9f2b3ca81",
+        "status": "INVALID_WORKFLOW_ZERO_JOBS_ZERO_DB",
+        "cause": "working_directory instead of working-directory",
+        "fixed": true
+      },
+      "parent_Native7": {
+        "head": "5dedbaae47eb4b3b23b54da94605f7d940f0ca22",
+        "tree": "4557e2ce213e0c2785deb0e90a3fe19eae7752a0",
+        "run_id": 40751542770,
+        "job_id": 123039250204,
+        "artifact_id": 12848155314,
+        "zip_bytes": 2016825,
+        "zip_sha256": "23dbfbac51e38773d0aae77a266fd6ff811f3a4dcbbf4080b48c01d401c332a1",
+        "original": {
+          "name": "CP7_VENDOR_RECEIVABLE_NATIVE7.json",
+          "bytes": 3288623,
+          "sha256": "de6b3499b2232732f226b6b738caa3fb9f15e631136c6d6adff9f9b89d3c5483"
+        },
+        "package": {
+          "name": "T3_PACKAGE_INSTALL.json",
+          "bytes": 360415,
+          "sha256": "3e7b2e7b8c243f3d16a689b6dd4d5a10c2152993b0c92df445ac48db77baffe5"
+        }
+      },
+      "stricter_provenance_SQL_sha256": "3b24728512e8be6af697f3234e591f7fe6b46331c68e3497ab71aedbcc9aa2ba",
+      "actual_new_case_PASS_claim": false,
+      "production_go": false,
+      "independent_acceptance": false
+    },
+    "vendor_native7_status": "PASS_7_FULL_RESTORE_ALL5_GATES",
+    "vendor_native7_receipt": "docs/cp7/d17-14/ow15/vendor-native7-5ded-pass.json"
   },
   "actual_vendor_receivable_first_failure": {
     "status": "INCOMPLETE_ACTUAL_NATIVE6_PASS_1_ASSERTION_INCOMPLETE",
@@ -19512,5 +19588,217 @@
     ],
     "production_go": false,
     "independent_acceptance": false
+  },
+  "actual_vendor_receivable_native7": {
+    "status": "PASS_ACTUAL_NATIVE7_AND_FULL_PACKAGE_VERIFIED",
+    "pin": {
+      "head": "5dedbaae47eb4b3b23b54da94605f7d940f0ca22",
+      "tree": "4557e2ce213e0c2785deb0e90a3fe19eae7752a0",
+      "run_id": 40751542770,
+      "job_id": 123039250204,
+      "artifact_id": 12848155314,
+      "zip_bytes": 2016825,
+      "zip_sha256": "23dbfbac51e38773d0aae77a266fd6ff811f3a4dcbbf4080b48c01d401c332a1",
+      "original": {
+        "name": "CP7_VENDOR_RECEIVABLE_NATIVE7.json",
+        "bytes": 3288623,
+        "sha256": "de6b3499b2232732f226b6b738caa3fb9f15e631136c6d6adff9f9b89d3c5483"
+      },
+      "package": {
+        "name": "T3_PACKAGE_INSTALL.json",
+        "bytes": 360415,
+        "sha256": "3e7b2e7b8c243f3d16a689b6dd4d5a10c2152993b0c92df445ac48db77baffe5"
+      }
+    },
+    "case_ids": [
+      "OW08B_VENDOR_PAID_CORRECTION_AR_HPP_EXACT",
+      "OW08B_VENDOR_UNPAID_ORIGIN_AUTO_APPLICATION",
+      "OW08B_VENDOR_NEXT_INVOICE_AND_CASH_REFUND",
+      "OW08B_VENDOR_REFUND_REPLAY_INVERSE_HISTORY",
+      "OW08B_VENDOR_AMOUNT_DATE_ACCOUNT_REFUSALS",
+      "OW08B_VENDOR_OPENING_APPLICATION_AND_INVERSE",
+      "OW08B_VENDOR_UNLINKED_JOURNAL_DETECTED"
+    ],
+    "counts": {
+      "PASS": 7
+    },
+    "refund_inverse": {
+      "before": {
+        "origin": [
+          "PAID",
+          "70000.00",
+          [
+            {
+              "id": "2effaa1c-8f04-4223-8aa2-95d60771b6dd",
+              "notes": "OW08b bayar invoice sumber",
+              "amount": 70000.0,
+              "status": "POSTED",
+              "created_at": "2026-10-28T19:58:29.532405+00:00",
+              "created_by": "c8c00000-0000-4000-8000-000000000001",
+              "payment_date": "2026-10-24T05:00:00+00:00",
+              "payment_method": "CASH",
+              "payment_number": "VP-2EFFAA1C8F044223",
+              "cash_account_id": "1e5d41fb-8b07-46a0-8a7f-4afdc1533343",
+              "reference_number": null,
+              "vendor_invoice_id": "82a6ec59-b47d-4db1-a3b3-80a01172e042"
+            }
+          ]
+        ],
+        "ar": "0",
+        "ap": "0.00",
+        "cash": "0.00"
+      },
+      "after_refund_inverse": {
+        "origin": [
+          "PAID",
+          "70000.00",
+          [
+            {
+              "id": "2effaa1c-8f04-4223-8aa2-95d60771b6dd",
+              "notes": "OW08b bayar invoice sumber",
+              "amount": 70000.0,
+              "status": "POSTED",
+              "created_at": "2026-10-28T19:58:29.532405+00:00",
+              "created_by": "c8c00000-0000-4000-8000-000000000001",
+              "payment_date": "2026-10-24T05:00:00+00:00",
+              "payment_method": "CASH",
+              "payment_number": "VP-2EFFAA1C8F044223",
+              "cash_account_id": "1e5d41fb-8b07-46a0-8a7f-4afdc1533343",
+              "reference_number": null,
+              "vendor_invoice_id": "82a6ec59-b47d-4db1-a3b3-80a01172e042"
+            }
+          ]
+        ],
+        "ar": "3000.00",
+        "ap": "0.00",
+        "cash": "0.00"
+      },
+      "after_source_inverse": {
+        "origin": [
+          "PAID",
+          "70000.00",
+          [
+            {
+              "id": "2effaa1c-8f04-4223-8aa2-95d60771b6dd",
+              "notes": "OW08b bayar invoice sumber",
+              "amount": 70000.0,
+              "status": "POSTED",
+              "created_at": "2026-10-28T19:58:29.532405+00:00",
+              "created_by": "c8c00000-0000-4000-8000-000000000001",
+              "payment_date": "2026-10-24T05:00:00+00:00",
+              "payment_method": "CASH",
+              "payment_number": "VP-2EFFAA1C8F044223",
+              "cash_account_id": "1e5d41fb-8b07-46a0-8a7f-4afdc1533343",
+              "reference_number": null,
+              "vendor_invoice_id": "82a6ec59-b47d-4db1-a3b3-80a01172e042"
+            }
+          ]
+        ],
+        "ar": "0.00",
+        "ap": "0.00",
+        "cash": "0.00"
+      },
+      "original_refund": {
+        "action": "RECEIVE_VENDOR_REFUND",
+        "amount": "1000.00",
+        "status": "SAVED",
+        "refund_id": "aadaae11-ee0b-4503-8086-57d21c8fbc05",
+        "remaining": "2000.00",
+        "source_id": "4f9083fd-2d36-491f-937d-2fb688eb22d6",
+        "journal_id": "09bdd18f-68db-45ee-98b7-aa412079c077",
+        "request_id": "aadaae11-ee0b-4503-8086-57d21c8fbc05"
+      },
+      "replayed": {
+        "action": "RECEIVE_VENDOR_REFUND",
+        "amount": "1000.00",
+        "status": "SAVED",
+        "replayed": true,
+        "refund_id": "aadaae11-ee0b-4503-8086-57d21c8fbc05",
+        "remaining": "2000.00",
+        "source_id": "4f9083fd-2d36-491f-937d-2fb688eb22d6",
+        "journal_id": "09bdd18f-68db-45ee-98b7-aa412079c077",
+        "request_id": "aadaae11-ee0b-4503-8086-57d21c8fbc05"
+      },
+      "reversal": {
+        "action": "REVERSE_VENDOR_REFUND",
+        "status": "SAVED",
+        "refund_id": "aadaae11-ee0b-4503-8086-57d21c8fbc05",
+        "source_id": "4f9083fd-2d36-491f-937d-2fb688eb22d6",
+        "request_id": "e9830891-2a5e-4d0d-8406-8166c9a66e76",
+        "reversal_journal_id": "1785afe7-8ad6-4e1f-9e5c-aba72299a28e"
+      }
+    },
+    "baseline_full22_data_sequences_roles_CP6_advisors_restored": true,
+    "preuse_inverse": true,
+    "used_guard_refused_before_DDL": true,
+    "all_5_package_gates": true,
+    "prior_f30_failure_preserved": true,
+    "limits": [
+      "Writer verification not independent acceptance",
+      "No actual races/Auth/browser on this qualifier",
+      "No orphan/NULL-vendor provenance coverage; stricter successor remains pending",
+      "No main/default vendor adoption or production GO"
+    ],
+    "production_go": false,
+    "independent_acceptance": false,
+    "original_members": "docs/cp7/d17-14/ow15/vendor-native7-5ded-pass/ORIGINAL_MEMBERS.json",
+    "owner_C": "BOTH_NEXT_INVOICE_AND_CASH_BANK_VENDOR_REFUND",
+    "Native_runtime": "IDENTICAL_TO_FIRST_F30_ATTEMPT_NOT_THE_STRICTER_PROVENANCE_SUCCESSOR",
+    "receipt": "docs/cp7/d17-14/ow15/vendor-native7-5ded-pass.json"
+  },
+  "vendor_combined11_qualification": {
+    "status": "RUNNING_NOT_ACCEPTED",
+    "head": "54b786f3e38ba41d362a23fd75fb0d5c0520150d",
+    "tree": "e211b0d169193c0f5e3df226b5aad173946bfff2",
+    "run_id": 40761955464,
+    "job_id": 123075935760,
+    "branch": "astra-a/ow08b-vendor-combined-qualification-20261029",
+    "fresh_planned": {
+      "Native": 7,
+      "races": 3,
+      "Auth_HTTP": 1,
+      "browser": 0
+    },
+    "first_CI_failure": {
+      "run_id": 40760545510,
+      "head": "426dafd2ccf1ec90693e2c1640047fd9f2b3ca81",
+      "status": "INVALID_WORKFLOW_ZERO_JOBS_ZERO_DB",
+      "cause": "working_directory instead of working-directory",
+      "fixed": true
+    },
+    "parent_Native7": {
+      "head": "5dedbaae47eb4b3b23b54da94605f7d940f0ca22",
+      "tree": "4557e2ce213e0c2785deb0e90a3fe19eae7752a0",
+      "run_id": 40751542770,
+      "job_id": 123039250204,
+      "artifact_id": 12848155314,
+      "zip_bytes": 2016825,
+      "zip_sha256": "23dbfbac51e38773d0aae77a266fd6ff811f3a4dcbbf4080b48c01d401c332a1",
+      "original": {
+        "name": "CP7_VENDOR_RECEIVABLE_NATIVE7.json",
+        "bytes": 3288623,
+        "sha256": "de6b3499b2232732f226b6b738caa3fb9f15e631136c6d6adff9f9b89d3c5483"
+      },
+      "package": {
+        "name": "T3_PACKAGE_INSTALL.json",
+        "bytes": 360415,
+        "sha256": "3e7b2e7b8c243f3d16a689b6dd4d5a10c2152993b0c92df445ac48db77baffe5"
+      }
+    },
+    "stricter_provenance_SQL_sha256": "3b24728512e8be6af697f3234e591f7fe6b46331c68e3497ab71aedbcc9aa2ba",
+    "actual_new_case_PASS_claim": false,
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "vendor_intake_prepared": {
+    "head": "beb1e6915edda75b82697c0993e80eac647b683a",
+    "tree": "986125bde4c70ee2a973572ab3496b4883abf616",
+    "base_A": "c5fd197a2bcec6d5cf83a05d9c0d0d743872bbac",
+    "selected_entries": 9,
+    "status": "PREPARED_CLOSED_NOT_MAIN",
+    "source_controls": 5,
+    "old_B_graph79_unchanged": true,
+    "default_registration": false,
+    "actual_new_vendor_browser": false
   }
 }

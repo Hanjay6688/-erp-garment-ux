@@ -1,3 +1,27 @@
+## A — 29 Oktober: Native vendor7 PASS; gabungan11 lanjut, B sudah diterima
+
+5dedbaae/run40751542770/job123039250204 PASS7 Native dan seluruh5 gate.
+Pembatalan refund mengembalikanAR3000; pembatalan koreksiAR0. Semua kolom
+riwayat pembayaran asal sama. Exact22/data/sequence/roles/CP6/advisor,
+inverse pre-use serta penolakan inverse sesudah uang dipakai terbukti.
+Original byte persis pada ow15/vendor-native7-5ded-pass/ dan receipt.
+Kegagalan pertamaf30 6/7 tetap utuh; UTC memperbaiki alat pembandingnya.
+
+Pemeriksaan lokal kemudian menemukan baris akunAR tanpa vendor tertaut tidak
+masuk detektor. Predicate private diperketat;14 leaf SQL/15Node dan13 kontrol
+observer/derivasi lulus. Ini belum Native atas guard baru. Kandidat gabungan
+54b786f3/run40761955464/job123075935760 menjalankan7Nativefresh,3race dan1Auth
+melalui satu pemasangan; seluruhnya/pemulihan/paket harus lulus sebelum diterima.
+Peluncuran426/run40760545510 gagal konfigurasi sebelumjob/DB: nama isian
+working_directory. Sudah diperbaiki; dua kontrol kunci workflow lulus dan
+penolakan pertama tetap disimpan. Bukan kegagalan produk atau infrastruktur.
+
+Intakebeb1e691 terpisah menyeleksi9 berkas setelah preimage diperiksa; graph79
+serta driverB tidak berubah,5kontrol sumber lulus. Belum masukA main; default
+registry dan saksi browser uang baru masih penutup. Paket B3194 sebelumnya
+sudah diterima; A tidak menunggu atau menggandakan browserB. Formal5/16,
+independent_acceptance=false, production_go=false; CP7C belum dimulai.
+
 ## A — 29 Oktober: hasil Native laundry pertama 6/7; penerus pembanding UTC berjalan
 
 Run40741343738/job123003448565 selesai FAILURE/INCOMPLETE, bukan RUNNING.
