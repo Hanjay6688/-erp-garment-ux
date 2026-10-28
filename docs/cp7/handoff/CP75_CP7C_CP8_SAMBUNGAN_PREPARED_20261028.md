@@ -97,3 +97,19 @@ refusal existing tetap dihormati. Ini rencana; belum ada cutover/UAT cleanup/hos
 
 Sumber dasar: framework-v2/01,02,06; automation-seam.md; OFFSITE_BACKUP.md;
 OWNER_DECISIONS_20261008.md D13-7/8/9a, D14-9, D17-7/14/16/18.
+
+## Kepemilikan dan batas tambahan — 29 Oktober 2026
+
+A: integrasi/schema/installer/equivalence CP7.5; worker, jadwal, outbox, ACL, backup
+serta comparator restore CP7C; paket latihan cutover CP8. B: pencocokan kebutuhan
+produksi/model/reminder/konsumen, verifikasi UI/equivalence pada kontrak yang
+disepakati; tidak mengambil SQL uang atau memberi verdict independen. Auditor
+menilai bukti; owner memutuskan perpindahan tahap dan GO. Penanggung jawab
+operasional manusia dan akses nyata dipastikan saat CP7C diotorisasi.
+
+Drive nyata belum terbukti. Pembanding yang dibawa backup harus cukup untuk
+memverifikasi pemulihan ketika database sumber **tidak tersedia**; comparator
+ke sumber hidup saja tidak memenuhi itu. Watermark/outbox harus dipulihkan
+dengan egress tetap nonaktif sebelum rekonsiliasi. Tidak membuka R2/proyek
+produksi kedua atau scorecard opsional. Persiapan ini tidak memindahkan S01–S06
+ke tahap lain; penutupan scope CP7 didahulukan dari backbone tambahan.

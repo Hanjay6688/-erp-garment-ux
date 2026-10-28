@@ -11,7 +11,8 @@ export const LAU_POLICY_LABEL: Record<LauPolicyKey, string> = {
   'LAU-DEC05': 'Tarif khusus model / ukuran / warna', 'LAU-DEC06': 'Selisih invoice dan koreksi sesudah bayar' }
 export const BD_ACTIONS = ['SET_POLICY', 'SAVE_VENDOR_TERMS', 'SAVE_COMPONENT', 'SAVE_COMPONENT_RATE', 'SAVE_PACKAGE', 'SAVE_PACKAGE_RATE',
   'SAVE_PROCESS_RATE', 'SAVE_SCOPED_RATE', 'POST_PRICED_DELIVERY', 'SET_CHARGE_PRICE', 'SAVE_INVOICE_DRAFT', 'CANCEL_INVOICE_DRAFT', 'POST_INVOICE',
-  'REVERSE_INVOICE', 'SET_REDYE_PRICE', 'SET_OPENING_ESTIMATE', 'APPLY_CLAIM_CREDIT', 'PAY_VENDOR_DOCUMENT', 'REVERSE_VENDOR_SETTLEMENT', 'SET_FAILED_WASH_PRICE'] as const
+  'REVERSE_INVOICE', 'SET_REDYE_PRICE', 'SET_OPENING_ESTIMATE', 'APPLY_CLAIM_CREDIT', 'PAY_VENDOR_DOCUMENT', 'REVERSE_VENDOR_SETTLEMENT', 'SET_FAILED_WASH_PRICE',
+  'RECEIVE_VENDOR_REFUND', 'REVERSE_VENDOR_REFUND'] as const
 export type BdAction = typeof BD_ACTIONS[number]
 export const CATEGORY_LABEL = { GOOD: 'Hasil baik', BS: 'BS laundry', FAILED_ATTEMPT: 'Cuci gagal' } as const
 export type Category = keyof typeof CATEGORY_LABEL
@@ -53,7 +54,9 @@ export type BdPayableSettlement = { id: string; number: string; date: string; am
 export type BdPayableDocument = { kind: 'VENDOR_INVOICE' | 'OPENING_PAYABLE'; id: string; number: string; date: string; total: string; paid_cash: string
   claim_credit: string; correction_credit: string; corrects: string | null; remaining: string; status: string; settlements: BdPayableSettlement[] }
 export type BdClaimCredit = { kind: 'DAILY_CLAIM' | 'OPENING_CLAIM' | 'INVOICE_CORRECTION'; id: string; number: string; approved_date: string; amount: string
-  applied: string; available: string; corrects: string | null }
+  applied: string; available: string; corrects: string | null; receivable?: string; refunded?: string }
+export type BdVendorRefund = { id: string; source_id: string; source_number: string; date: string; amount: string; cash_account_id: string
+  journal_id: string; recorded_at: string; status: 'POSTED' | 'REVERSED' }
 /** Owner decision no. 11 (LAU-DEC04 ALLOW_PENDING): goods and sales whose HPP is not final while a laundry price is unknown. */
 export type BdPendingGood = { lot_id: string; lot_number: string; po_number: string; sku: string; product_name: string; qty_now: number; qty_sold: number
   hpp_per_pcs_so_far: string | null }
@@ -61,7 +64,8 @@ export type BdPendingSale = { id: string; sale_id: string; sale_number: string; 
   policy_version: string; recorded_at: string; hpp_state: 'NOT_FINAL' | 'RECOSTED'; unit_hpp_at_sale: string | null }
 /** D12: the payment screen of one vendor; the ledger check is AP on the ledger = remaining of the documents - credit not yet used. */
 export type BdPayables = { documents: BdPayableDocument[]; credits: BdClaimCredit[]; cash_accounts: { id: string; code: string; name: string }[]
-  ledger: { ap_balance: string; documents_remaining: string; credit_available: string; matches: boolean } }
+  vendor_receivable_contract?: 'cp7.vendor-receivable.v1'; refunds?: BdVendorRefund[]
+  ledger: { ap_balance: string; documents_remaining: string; credit_available: string; matches: boolean; receivable_balance?: string; receivable_gl?: string } }
 export type BdRedye = { id: string; number: string; vendor_id: string; po_number: string; status: string; qty: number; good: number; bs: number; billed_good: number; billed_bs: number; process: string; price_known: boolean; rate: string | null; cost: string | null }
 /** OW-08b (LAU-DEC04): a paid failed wash recorded while the vendor price was unknown. Its cost is not zero but not yet counted, the HPP of
  * its PO is not final and the period through its date cannot close until the owner/admin sets the price, once (KNOWN, or FREE/WAIVED = 0). */
@@ -72,6 +76,7 @@ export type BdFailedWashPrice = { attempt_id: string; receipt_id: string; receip
 export type BdPageKind = 'invoices' | 'receipts'
 export type BdPagination = { as_of: string; invoice_next: string | null; receipt_next: string | null }
 export type LaundryBdWorkspace = { pagination: BdPagination; money_visible: boolean; can_manage_master: boolean; can_set_price: boolean; is_owner: boolean
+  vendor_receivable_accounts?: { id: string; code: string; name: string }[] | null
   policies: BdPolicy[]; vendors: BdVendor[]; processes: { id: string; code: string; name: string }[]; components: BdComponent[]; packages: BdPackage[]
   process_rates: BdProcessRate[]; scoped_rates: BdScopedRate[]; priced_deliveries: BdPricedDelivery[]; opening_uninvoiced: BdOpening[]
   invoices: BdInvoice[] | null; billable_receipts: BdBillable[] | null; accounts: { id: string; code: string; name: string; type: 'ASSET' | 'EXPENSE' }[] | null
@@ -220,6 +225,12 @@ export function parseLaundryBdWorkspace(value: unknown): LaundryBdWorkspace {
     type: oneOf(a.type, ['ASSET', 'EXPENSE'] as const, 'Jenis akun') })) ?? null
   const payables = r.payables === null || r.payables === undefined ? null : parsePayables(r.payables)
   if (payables && !money_visible) throw new Error('Pembayaran vendor tampil tanpa hak melihat nominal.')
+  const receivableEnabled = r.vendor_receivable_contract !== undefined
+  if (receivableEnabled && r.vendor_receivable_contract !== 'cp7.vendor-receivable.v1') throw new Error('Versi piutang vendor tidak dikenal.')
+  if (!money_visible && r.vendor_receivable_accounts != null) throw new Error('Akun piutang vendor tampil tanpa hak melihat nominal.')
+  if (payables && receivableEnabled !== (payables.vendor_receivable_contract !== undefined)) throw new Error('Kontrak piutang vendor tidak lengkap.')
+  const vendor_receivable_accounts = !receivableEnabled || !money_visible ? null
+    : list(r.vendor_receivable_accounts, 'Akun piutang vendor').map(a => ({ id: id(a.id, 'Akun piutang vendor'), code: text(a.code, 'Kode akun piutang'), name: text(a.name, 'Nama akun piutang') }))
   const pc = object(r.pending_cost, 'HPP belum final')
   const pending_cost = {
     goods: list(pc.goods, 'Barang HPP belum final').map((g): BdPendingGood => {
@@ -240,7 +251,7 @@ export function parseLaundryBdWorkspace(value: unknown): LaundryBdWorkspace {
   const pagination = { as_of, invoice_next: nullableId(page.invoice_next, 'Invoice berikutnya'), receipt_next: nullableId(page.receipt_next, 'Penerimaan berikutnya') }
   if (!money_visible && (pagination.invoice_next || pagination.receipt_next)) throw new Error('Penanda nominal tampil tanpa izin.')
   return { pagination, money_visible, can_manage_master: bool(r.can_manage_master, 'Hak master'), can_set_price: bool(r.can_set_price, 'Hak harga'), is_owner: bool(r.is_owner, 'Owner'),
-    policies, vendors, processes, components, packages, process_rates, scoped_rates, priced_deliveries, opening_uninvoiced, invoices, billable_receipts, accounts, payables,
+    policies, vendors, processes, components, packages, process_rates, scoped_rates, priced_deliveries, opening_uninvoiced, invoices, billable_receipts, accounts, payables, vendor_receivable_accounts,
     pending_cost, redye_services: r.redye_services === undefined ? [] : list(r.redye_services, 'Jasa celup ulang').map((x): BdRedye => ({
       id: id(x.id, 'Jasa'), number: text(x.number, 'Order'), vendor_id: id(x.vendor_id, 'Vendor'), po_number: text(x.po_number, 'PO'), status: text(x.status, 'Status'),
       qty: count(x.qty, 'Dikirim'), good: count(x.good, 'Good'), bs: count(x.bs, 'BS'), billed_good: count(x.billed_good, 'Ditagih Good'), billed_bs: count(x.billed_bs, 'Ditagih BS'),
@@ -279,7 +290,14 @@ function correctionOf(i: Record<string, unknown>): Pick<BdInvoice, 'document_kin
 
 function parsePayables(value: unknown): BdPayables {
   const p = object(value, 'Pembayaran vendor'), l = object(p.ledger, 'Cocokkan buku besar')
+  const enabled = p.vendor_receivable_contract !== undefined
+  if (enabled && p.vendor_receivable_contract !== 'cp7.vendor-receivable.v1') throw new Error('Versi piutang vendor tidak dikenal.')
   return {
+    ...(enabled ? { vendor_receivable_contract: 'cp7.vendor-receivable.v1' as const,
+      refunds: list(p.refunds, 'Pengembalian vendor').map((r): BdVendorRefund => ({ id: id(r.id, 'Pengembalian'), source_id: id(r.source_id, 'Koreksi asal'),
+        source_number: text(r.source_number, 'Nomor koreksi'), date: day(r.date, 'Tanggal pengembalian'), amount: money(r.amount, 'Nominal pengembalian'),
+        cash_account_id: id(r.cash_account_id, 'Rekening pengembalian'), journal_id: id(r.journal_id, 'Jurnal pengembalian'),
+        recorded_at: text(r.recorded_at, 'Waktu pencatatan'), status: oneOf(r.status, ['POSTED', 'REVERSED'] as const, 'Status pengembalian') })) } : {}),
     documents: list(p.documents, 'Tagihan vendor').map((d): BdPayableDocument => ({ kind: oneOf(d.kind, ['VENDOR_INVOICE', 'OPENING_PAYABLE'] as const, 'Jenis tagihan'),
       id: id(d.id, 'Tagihan'), number: text(d.number, 'Nomor tagihan'), date: day(d.date, 'Tanggal tagihan'), total: money(d.total, 'Total tagihan'),
       paid_cash: money(d.paid_cash, 'Dibayar kas'), claim_credit: money(d.claim_credit, 'Kredit klaim'), correction_credit: money(d.correction_credit, 'Kredit koreksi'),
@@ -292,11 +310,13 @@ function parsePayables(value: unknown): BdPayables {
       const kind = oneOf(c.kind, ['DAILY_CLAIM', 'OPENING_CLAIM', 'INVOICE_CORRECTION'] as const, 'Jenis kredit')
       return { kind, id: id(c.id, 'Kredit'), number: text(c.number, 'Nomor kredit'), approved_date: day(c.approved_date, 'Tanggal kredit'),
         amount: money(c.amount, 'Kredit'), applied: money(c.applied, 'Kredit terpakai'), available: money(c.available, 'Kredit tersedia'),
-        corrects: kind === 'INVOICE_CORRECTION' ? text(c.corrects, 'Invoice asal koreksi') : null }
+        corrects: kind === 'INVOICE_CORRECTION' ? text(c.corrects, 'Invoice asal koreksi') : null,
+        ...(enabled ? { receivable: money(c.receivable, 'Piutang vendor tersedia'), refunded: money(c.refunded, 'Sudah dikembalikan vendor') } : {}) }
     }),
     cash_accounts: list(p.cash_accounts, 'Rekening kas').map(a => ({ id: id(a.id, 'Rekening kas'), code: text(a.code, 'Kode rekening'), name: text(a.name, 'Nama rekening') })),
     ledger: { ap_balance: money(l.ap_balance, 'Saldo utang'), documents_remaining: money(l.documents_remaining, 'Sisa tagihan'),
-      credit_available: money(l.credit_available, 'Kredit belum dipakai'), matches: bool(l.matches, 'Cocok buku besar') } }
+      credit_available: money(l.credit_available, 'Kredit belum dipakai'), matches: bool(l.matches, 'Cocok buku besar'),
+      ...(enabled ? { receivable_balance: money(l.receivable_balance, 'Saldo piutang vendor'), receivable_gl: money(l.receivable_gl, 'Piutang buku besar') } : {}) } }
 }
 
 /** Append only the requested page; current authorization replaces cached authority and hidden data. */
@@ -316,10 +336,19 @@ export function mergeLaundryBdPage(previous: LaundryBdWorkspace, next: LaundryBd
 }
 
 /** The facade echoes the request; a priced delivery answers with the laundry writer's own POST_DELIVERY response. */
-export function validateBdResult(value: unknown, action: string, request: string) {
+export function validateBdResult(value: unknown, action: string, request: string, expectedPayload?: Json) {
   const r = object(value, 'Respons harga laundry')
+  const payload = action === 'RECEIVE_VENDOR_REFUND' || action === 'REVERSE_VENDOR_REFUND' ? object(expectedPayload, 'Permintaan pengembalian vendor') : null
   const echoed = action === 'POST_PRICED_DELIVERY' ? r.action === 'POST_DELIVERY' && r.client_request_id === request : r.action === action
   if (r.request_id !== request || !echoed) throw new Error('Respons harga laundry tidak cocok; pulihkan transaksi yang sama.')
+  if (action === 'RECEIVE_VENDOR_REFUND') {
+    if (!payload || r.refund_id !== request || r.source_id !== payload.source_id || r.amount !== payload.amount) throw new Error('Respons pengembalian vendor tidak cocok; pulihkan transaksi yang sama.')
+    id(r.journal_id, 'Jurnal pengembalian'); money(r.amount, 'Nominal pengembalian')
+    if (money(r.remaining, 'Sisa piutang').startsWith('-')) throw new Error('Sisa piutang vendor negatif.')
+  } else if (action === 'REVERSE_VENDOR_REFUND') {
+    if (!payload || r.refund_id !== payload.refund_id) throw new Error('Respons pembatalan pengembalian vendor tidak cocok.')
+    id(r.reversal_journal_id, 'Jurnal pembalik pengembalian'); id(r.source_id, 'Sumber piutang')
+  }
 }
 
 // ---------------------------------------------------------------- input helpers (exact text)
