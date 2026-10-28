@@ -23,8 +23,8 @@
     "scripts/current-vendor-money-browser/visual.test.mjs"
   ],
   "files": {
-    "scripts/current-vendor-money-browser/CONFIG.json": "47be675fa9beee0083bc9b0261fcb65e55b26a0ef555e1f5a33fa68dd30b16f1",
-    "scripts/current-vendor-money-browser/README.md": "9b759ba39b5f1b3e82d9ce6d45b982f74e8a0fdc1c955189800f6ea3ccea2861",
+    "scripts/current-vendor-money-browser/CONFIG.json": "aba6cf86a027c7d13271fdadd6ca4913b82f0b943c547581cfddb7de004231f5",
+    "scripts/current-vendor-money-browser/README.md": "f0e6486c0216d823d9a72601a0a557570f885778897cbe3971e998e2db94ca73",
     "scripts/current-vendor-money-browser/admission.py": "0806647160d6bcd1816bb6d1d6f2b1c2626adb5efd0f1f184271c0c762bec204",
     "scripts/current-vendor-money-browser/browser_fixture.py": "073e532d3607728f61c7123135fcfbceac9007d84ede03e7bcc6c7356d327a1d",
     "scripts/current-vendor-money-browser/cases.mjs": "5379984172b8856423a56448a155b90fa05020fdfd6810d455edd6d9136fff2f",
@@ -40,7 +40,7 @@
     "scripts/current-vendor-money-browser/visual.test.mjs": "fa25a639c02f017854a67ab628bf98c7538c4707b5c0e99bed2d828bc1d996ee"
   },
   "actual_browser_cases": 0,
-  "status": "PREPARED_CLOSED_COMPLETE_BACKEND11_REQUIRED",
+  "status": "QUALIFICATION_READY_COMPLETE_BACKEND11_ACCEPTED_BROWSER_NOT_RUN",
   "production_go": false,
   "independent_acceptance": false,
   "current_installation_entrypoint": {

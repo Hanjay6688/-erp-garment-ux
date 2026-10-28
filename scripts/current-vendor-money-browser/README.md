@@ -1,10 +1,11 @@
 # A — saksi layar uang OW08b, dua perjalanan
 
-Status awal **PREPARED/CLOSED**. Belum ada klaim browser aktual. Kandidat backend
-41caaaed sedang diuji pada run40769840440 (kegagalan fixture pertama54b tetap disimpan); `accepted_backend11=null` menutup
-pelaksanaan sebelum database. Isi pin hanya sesudah Original lengkap backend11
-dan kelima gate paket benar-benar diterima. Hasil Native7 lama atau job hijau
-tanpa Original tidak dapat membuka gate ini.
+Backend41caaaed/run40769840440/job123103756460 diterima dari Original:
+Native7/race3/Auth1 PASS11, seluruh22/data/sequence/role/CP6/advisor/Auth pulih,
+kelima gate paket PASS. Artifact12854543326 dan hash/byte kedua Original
+terikat tepat pada `accepted_backend11`. Kegagalan pertama54b tetap historis.
+Status kandidat ini **READY FOR ACTUAL BROWSER**, belum PASS browser atau
+adopsi default. Browser hanya dijalankan satu kali untuk SHA penerus ini.
 
 Komponen yang dipakai ulang: pemasang `cp7_vendor_receivable.composition`, mode
 `cp6_auditor_modes.run_browser`, host Auth/Playwright CP6 dan adapter salinan
