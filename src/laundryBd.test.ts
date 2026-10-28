@@ -813,3 +813,54 @@ describe('OW-08b failed wash with an unknown vendor price', () => {
     expect(() => validateBdResult({ action: 'SET_CHARGE_PRICE', request_id: 'r' }, 'SET_FAILED_WASH_PRICE', 'r')).toThrow()
   })
 })
+
+// OW08b vendor AR successor: synthetic contract fields over the retained Native shape.
+describe('vendor receivable successor contract', () => {
+  const uid = (n: number) => `00000000-0000-4000-8000-${String(n).padStart(12, '0')}`
+  const current = () => {
+    const ws = clone()
+    ws.vendor_receivable_contract = 'cp7.vendor-receivable.v1'
+    ws.vendor_receivable_accounts = [{ id: uid(1), code: 'ARV', name: 'Piutang vendor' }]
+    ws.payables = { vendor_receivable_contract: ws.vendor_receivable_contract, documents: [], cash_accounts: [],
+      credits: [{ kind: 'INVOICE_CORRECTION', id: uid(2), number: 'KOR-1', approved_date: '2026-10-01', amount: '100.00',
+        applied: '20.00', available: '80.00', receivable: '80.00', refunded: '20.00', corrects: 'INV-1' }],
+      refunds: [{ id: uid(3), source_id: uid(2), source_number: 'KOR-1', date: '2026-10-02', amount: '20.00', cash_account_id: uid(4),
+        journal_id: uid(5), recorded_at: '2026-10-02T08:00:00Z', status: 'POSTED' }],
+      ledger: { ap_balance: '0.00', documents_remaining: '0.00', credit_available: '80.00', receivable_balance: '80.00', receivable_gl: '80.00', matches: true } }
+    return ws
+  }
+  it('reads remaining AR, refunds and the two ledger balances without changing old contracts', () => {
+    const r = parseLaundryBdWorkspace(current())
+    expect(r.vendor_receivable_accounts).toHaveLength(1)
+    expect(r.payables!.credits[0].receivable).toBe('80.00')
+    expect(r.payables!.refunds![0].source_number).toBe('KOR-1')
+    expect(parseLaundryBdWorkspace(clone()).vendor_receivable_accounts).toBeNull()
+  })
+  it('refuses missing AR amounts rather than substituting zero', () => {
+    const ws = current(); delete ws.payables.credits[0].receivable
+    expect(() => parseLaundryBdWorkspace(ws)).toThrow(/Piutang vendor tersedia/)
+  })
+  it('refuses partial capability binding, missing refunds, and unknown versions', () => {
+    for (const field of ['vendor_receivable_contract', 'refunds']) {
+      const ws = current(); delete ws.payables[field]
+      expect(() => parseLaundryBdWorkspace(ws)).toThrow()
+    }
+    const ws = current(); ws.vendor_receivable_contract = 'unknown'
+    expect(() => parseLaundryBdWorkspace(ws)).toThrow(/Versi/)
+  })
+  it('refuses a numeric money field and an unknown refund status', () => {
+    const ws = current(); ws.payables.refunds[0].amount = 20
+    expect(() => parseLaundryBdWorkspace(ws)).toThrow(/nominal/)
+    const other = current(); other.payables.refunds[0].status = 'DONE'
+    expect(() => parseLaundryBdWorkspace(other)).toThrow(/Status pengembalian/)
+  })
+  it('validates exact refund source, amount, request and journal before acknowledgement', () => {
+    const payload = { source_id: uid(2), amount: '20.00' }
+    const reply = { action: 'RECEIVE_VENDOR_REFUND', request_id: uid(3), refund_id: uid(3), source_id: uid(2),
+      amount: '20.00', remaining: '80.00', journal_id: uid(5) }
+    expect(() => validateBdResult(reply, reply.action, uid(3), payload)).not.toThrow()
+    expect(() => validateBdResult({ ...reply, source_id: uid(9) }, reply.action, uid(3), payload)).toThrow()
+    expect(() => validateBdResult({ ...reply, amount: '21.00' }, reply.action, uid(3), payload)).toThrow()
+    expect(() => validateBdResult({ ...reply, remaining: '-1.00' }, reply.action, uid(3), payload)).toThrow()
+  })
+})
