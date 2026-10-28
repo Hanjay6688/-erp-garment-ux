@@ -18,7 +18,15 @@ copy authority and complete restoration will be reused after actual9fde is
 resolved and a separate exact source/prerequisite declaration is prepared.
 There is no runnable workflow or qualifying SOURCE declaration yet.
 
-Other explicit OW08 screen gaps remain: failed wash without a vendor rate,
-one-time pricing/held-close behavior; and FG inverse/QC blocker navigation.
-Their existing Native11/Native9/P21 proofs remain valid on their own sources.
+The second targeted pair prepares only an existing Native delivery, then posts
+the unknown-price failed attempt through the real screen and sets its price
+through the real screen. Check NULL/PENDING (not zero), the exact private
+period blocker, unchanged physical custody, cost/accrual +30.00 for ten pieces
+at 3.00, one price row with actor/time, and no second pricing control after
+reopen. The stored cost remains ESTIMATED_UNBILLED until invoicing; this does
+not claim a posted invoice, finalized existing-lot HPP, or successful closing
+of the whole period. Retain Native11 for those distinct backend boundaries.
+
+FG inverse/QC blocker navigation still needs its targeted screen journey.
+Existing Native9/P21 proofs remain valid on their own sources.
 Formal5/16, production_go=false, independent_acceptance=false; CP7C not started.
