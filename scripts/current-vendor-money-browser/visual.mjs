@@ -2,6 +2,7 @@
 // visible text record, but measure actual alpha/opacity instead of refusing all
 // disabled buttons. The qualified B comparator file is not changed.
 import assert from 'node:assert/strict'
+import {boundedTextContrast} from './gradient.mjs'
 
 export function renderedTextContrast(foreground,layers){
  const rgba=c=>c.length===3?[...c,1]:c
@@ -30,14 +31,14 @@ export async function readable(panel){
    const layers=[]
    for(let p=el;p;p=p.parentElement){
     const style=getComputedStyle(p)
-    if(style.mixBlendMode!=='normal'||style.filter!=='none')throw Error('UNMEASURED_FINANCE_TEXT_SURFACE:'+JSON.stringify({label:label.slice(0,90),tag:p.tagName,classes:p.className,backgroundImage:style.backgroundImage,mixBlendMode:style.mixBlendMode,filter:style.filter}))
+    if(style.mixBlendMode!=='normal'||style.filter!=='none'||style.backgroundBlendMode!=='normal')throw Error('UNMEASURED_FINANCE_TEXT_SURFACE:'+JSON.stringify({label:label.slice(0,90),tag:p.tagName,classes:p.className,backgroundImage:style.backgroundImage,mixBlendMode:style.mixBlendMode,filter:style.filter,backgroundBlendMode:style.backgroundBlendMode}))
     layers.push({color:rgb(style.backgroundColor),opacity:Number(style.opacity),backgroundImage:style.backgroundImage})
    }
    out.push({label:label.slice(0,90),color:rgb(s.color),layers})
    if(el.hasAttribute('data-label')){const pseudo=getComputedStyle(el,'::before');if(pseudo.display!=='none'&&pseudo.content!=='none')out.push({label:el.getAttribute('data-label'),color:rgb(pseudo.color),layers:[{color:rgb(pseudo.backgroundColor),opacity:Number(pseudo.opacity),backgroundImage:pseudo.backgroundImage},...layers]})}
   }return out
  })
- const rows=raw.map(({label,color,layers})=>({label,...renderedTextContrast(color,layers)}))
+ const rows=raw.map(({label,color,layers})=>{try{return{label,color,layers,...boundedTextContrast(color,layers,renderedTextContrast)}}catch(error){throw Error(String(error)+':'+JSON.stringify({label,color,layers}))}})
  assert.ok(rows.length>0&&rows.every(x=>x.ratio>=4.5),JSON.stringify(rows.filter(x=>x.ratio<4.5)))
  return rows
 }

@@ -36,5 +36,14 @@ class AdmissionControls(unittest.TestCase):
         text=(HERE/'cases.mjs').read_text()
         self.assertIn('export const IDS='+json.dumps(list(ids),separators=(',',':')).replace('"',"'"),text)
 
+    def test_disabled_style_cannot_change_other_screens_or_guards(self):
+        before=subprocess.check_output(['git','-C',str(ROOT),'show','41caaaed02c0d89b122ecf1ff221f6647141c335:src/initial-import.css']).decode()
+        after=(ROOT/'src/initial-import.css').read_text()
+        admission.client_style(before,after)
+        for changed in (after.replace('opacity: 1; border-style', 'opacity: .5; border-style'),
+                        after.replace('[aria-label="Pembayaran vendor laundry"] ', ''),before):
+            with self.assertRaisesRegex(ValueError,'ONLY_SCOPED_DISABLED_READABILITY'):
+                admission.client_style(before,changed)
+
 
 if __name__=='__main__':unittest.main()

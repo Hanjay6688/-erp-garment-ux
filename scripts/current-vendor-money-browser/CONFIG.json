@@ -1,6 +1,6 @@
 {
   "contract": "cp7.vendor-money-browser.v1",
-  "status": "READY_FOR_ACTUAL_BROWSER_COMPLETE_BACKEND11_ACCEPTED",
+  "status": "SUCCESSOR_AFTER_FIRST_GRADIENT_MEASUREMENT_INCOMPLETE",
   "base_head": "54b786f3e38ba41d362a23fd75fb0d5c0520150d",
   "accepted_backend11": {
     "head": "41caaaed02c0d89b122ecf1ff221f6647141c335",
@@ -32,7 +32,8 @@
     "src/laundryBd.ts",
     "src/productionRecovery.ts",
     "src/LaundryVendorReceivable.dom.test.tsx",
-    "src/laundryBd.test.ts"
+    "src/laundryBd.test.ts",
+    "src/initial-import.css"
   ],
   "browser_case_ids": [
     "VENDOR_MONEY_BROWSER_DESKTOP_REFUND_INVERSE_HISTORY",
@@ -48,5 +49,31 @@
     "install": "install",
     "verify": "verify",
     "rollback_preuse": "rollback_preuse"
+  },
+  "first_browser_failure": {
+    "head": "18fb0bd2aae65d880e28d7ec8a7f2930f77c9925",
+    "tree": "5c620d1e84eae2af8ae45cc462ccde9e089ff9f8",
+    "run_id": 40777747825,
+    "job_id": 123131312444,
+    "artifact_id": 12856154695,
+    "zip_bytes": 2720137,
+    "zip_sha256": "23f6a463e04751dce862bd5ca1354d6ca2a2dd9968b5b8911cdee9bf0b2cebce",
+    "original": {
+      "name": "CP7_VENDOR_MONEY_BROWSER2.json",
+      "bytes": 796009,
+      "sha256": "eb62eb7a57d9eedbe111fee75883523a45401ba392b0a2f8512c90a474ec97e0",
+      "path": "FIRST18_CP7_VENDOR_MONEY_BROWSER2.json.gz"
+    },
+    "package": {
+      "name": "T3_PACKAGE_INSTALL.json",
+      "bytes": 360411,
+      "sha256": "effa1b493518651826102692f66a8ddc2ceaf435df29d1b5d1ecb756762ee01d",
+      "path": "FIRST18_T3_PACKAGE_INSTALL.json.gz"
+    }
+  },
+  "style_successor": {
+    "path": "src/initial-import.css",
+    "before_sha256": "29c7316c759fcf2ae017056d32a208e27df37c37967dc7ee3dc4e45b1f043eb9",
+    "scope": "Only vendor-payment disabled opacity and dashed border; native disabled guards and financial handlers untouched"
   }
 }

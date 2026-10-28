@@ -65,3 +65,18 @@ refund, inverse, pemakaian kredit dan revoke. Semua ID pemeriksa harus tetap
 sama dan tidak ada jumlah masalah yang bertambah dibanding fixture sebelum
 aksi layar. Seluruh counts asli disimpan; ini bukan klaim seluruh laporan
 READY atau penutupan kegagalan CP6 historis. Tidak ada pemeriksa yang dilewati.
+
+
+First actual18fb/run40777747825 is INCOMPLETE2 at the contrast instrument:
+it rejected the actual CSS gradient. Original/package gzip bytes are pinned,
+full restoration and4package gates PASS; writer_runtime=false. Partial refund
+and desktop loss/replay witnesses are retained, not counted as full-case PASS.
+The successor encloses every legacy RGB gradient stop and nested alpha/opacity
+with a conservative contrast lower bound, including paint-rounding allowance.
+It still requires every measured text ratio>=4.5, rejects unknown images/colors
+and never exempts disabled controls. The only new product delta is a scoped
+vendor-payment disabled-button opacity1/dashed border rule; click guards stay
+unchanged. Six client hashes now include that CSS. All backend bytes are exact41c.
+Math references: https://www.w3.org/TR/css-images-3/#color-stop-syntax and
+https://www.w3.org/TR/2026/CRD-css-color-4-20261008/#interpolation .
+These are local mathematical controls, not new actual browser or money proof.

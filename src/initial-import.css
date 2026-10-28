@@ -30,3 +30,6 @@
 .initial-import-advances label { display: grid; gap: 6px; }
 .initial-import-advances li { padding: 6px 0; }
 .initial-import-advances li button { margin-left: 12px; }
+
+/* Vendor money actions remain legible while native disabled guards prevent submission. */
+.initial-import [aria-label="Pembayaran vendor laundry"] button:disabled { opacity: 1; border-style: dashed; }

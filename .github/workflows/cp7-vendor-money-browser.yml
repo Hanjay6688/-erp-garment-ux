@@ -2,11 +2,12 @@ name: CP7 A vendor money browser2
 'on':
   push:
     branches:
-    - astra-a/ow08b-vendor-money-browser-qualification-20261029
+    - astra-a/ow08b-money-browser-gradient-20261029
     paths:
     - .github/workflows/cp7-vendor-money-browser.yml
     - scripts/current-vendor-money-browser/**
     - src/LaundryBdPanel.tsx
+    - src/initial-import.css
   workflow_dispatch: {}
 permissions:
   contents: read
@@ -394,13 +395,13 @@ jobs:
 
         node --check scripts/current-vendor-money-browser/cases.mjs
 
-        node --test scripts/current-vendor-money-browser/visual.test.mjs
+        node --test scripts/current-vendor-money-browser/visual.test.mjs scripts/current-vendor-money-browser/gradient.test.mjs
 
         '
     - name: Check vendor qualification syntax
       working-directory: auditor
       run: python -c "import ast,pathlib;[ast.parse(p.read_text()) for p in pathlib.Path('scripts/cp7_vendor_receivable').glob('*.py')]"
-    - name: Admit exact backend11 and money-label-only client source before database
+    - name: Admit exact backend11 and money labels and scoped readability source before database
       working-directory: writer
       run: python '../auditor/scripts/current-vendor-money-browser/check_source.py'
     - name: Start disposable database
