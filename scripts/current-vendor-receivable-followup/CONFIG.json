@@ -1,0 +1,18 @@
+{
+  "contract": "cp7.vendor-receivable-race-auth-followup.v1",
+  "status": "PREPARED_CLOSED",
+  "accepted_native7": null,
+  "production_go": false,
+  "independent_acceptance": false,
+  "actual_concurrent_or_Auth_claim": false,
+  "base_head": "5dedbaae47eb4b3b23b54da94605f7d940f0ca22",
+  "whole_backend_sha256": "193f4c18476a1e1abd5e05231d8d7755864b61e2998c4456f5a87459b17da59d",
+  "race_ids": [
+    "VENDOR_AR_REFUND_COMMIT_APPLY_CAPACITY_REFUSED",
+    "VENDOR_AR_APPLY_COMMIT_REFUND_CAPACITY_REFUSED",
+    "VENDOR_AR_SAME_UUID_REFUND_ONCE_AFTER_LOCK"
+  ],
+  "http_ids": [
+    "VENDOR_AR_REAL_AUTH_REFUND_REPLAY_CURRENT_REVOKE"
+  ]
+}

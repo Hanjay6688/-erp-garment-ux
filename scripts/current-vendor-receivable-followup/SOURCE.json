@@ -1,0 +1,39 @@
+{
+  "contract": "cp7.vendor-receivable-race-auth-followup.v1",
+  "status": "PREPARED_CLOSED",
+  "base_head": "5dedbaae47eb4b3b23b54da94605f7d940f0ca22",
+  "allowed_changes": [
+    ".github/workflows/cp7-vendor-receivable-followup.yml",
+    "scripts/current-vendor-receivable-followup/CONFIG.json",
+    "scripts/current-vendor-receivable-followup/README.md",
+    "scripts/current-vendor-receivable-followup/SOURCE.json",
+    "scripts/current-vendor-receivable-followup/admission.py",
+    "scripts/current-vendor-receivable-followup/cases.py",
+    "scripts/current-vendor-receivable-followup/check_source.py",
+    "scripts/current-vendor-receivable-followup/fetch_native.py",
+    "scripts/current-vendor-receivable-followup/gate.py",
+    "scripts/current-vendor-receivable-followup/probe.py",
+    "scripts/current-vendor-receivable-followup/runner.py",
+    "scripts/current-vendor-receivable-followup/test_gate.py"
+  ],
+  "files": {
+    ".github/workflows/cp7-vendor-receivable-followup.yml": "bcca364eccc8cf0b8a8ccad6798966f40285e4578f6693914eaf6c7111c471b7",
+    "scripts/current-vendor-receivable-followup/CONFIG.json": "f3bbaf5c4210fb1265064410d09e21cb799b7b0b36f95b09b6a05a8c49385ba5",
+    "scripts/current-vendor-receivable-followup/README.md": "d49c5776cda66f8012706f7b179269c43e414f760b59f832410b4ba941242db2",
+    "scripts/current-vendor-receivable-followup/admission.py": "1cbe6e63e060c538461d35ac46895aba80e0b64c9bb0b35ffd9f3cd1a4f60535",
+    "scripts/current-vendor-receivable-followup/cases.py": "df59c7180b84d8b7fec340a5bc90f0ca6f91eab24e046885d766820fbdbd9018",
+    "scripts/current-vendor-receivable-followup/check_source.py": "90cc738f7b857ffaee96c96d1ca9c1ce5a2d494b406bd7ddcefb2ecf23f7cf6f",
+    "scripts/current-vendor-receivable-followup/fetch_native.py": "e6a72e7c1150bc1ff7cb7f58e58326787f87db7eb735cd9f73b2d39075b8ff63",
+    "scripts/current-vendor-receivable-followup/gate.py": "bde0b15368f22e74f460c5cc222f9fc8cd5c48ba00eb6c383f50a1e215c1f549",
+    "scripts/current-vendor-receivable-followup/probe.py": "cd1f6e46b2a757e924d7d9b53c761b330e67662d8598490fd7bffdc85833a3ff",
+    "scripts/current-vendor-receivable-followup/runner.py": "24dfc13dc99d7f51c4b4320b2bc3bd941d1107aa4aa254aa7439184289e2f4cb",
+    "scripts/current-vendor-receivable-followup/test_gate.py": "f58574a669ec7e2dbb9ef7b8164cdbeab96dae36006424a9b5d4c2a931a0091c"
+  },
+  "retained_native_cases": 7,
+  "fresh_planned_races": 3,
+  "fresh_planned_Auth_HTTP": 1,
+  "fresh_planned_browser": 0,
+  "product_runtime_changed": false,
+  "production_go": false,
+  "independent_acceptance": false
+}
