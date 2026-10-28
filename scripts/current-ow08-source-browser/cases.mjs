@@ -8,10 +8,11 @@ import {fileURLToPath}from 'node:url'
 import {readable}from '../current-vendor-money-browser/visual.mjs'
 import {observeConsole,requireConsoleEvidence}from '../current-finance-combined-browser-qualification/console_evidence.mjs'
 import {IDS as WASH_IDS,cases as washCases}from './wash.mjs'
+import {IDS as FG_IDS,cases as fgCases}from './fg.mjs'
 const ROOT=resolve(dirname(fileURLToPath(import.meta.url)),'../..')
 const fixture=(op,p)=>JSON.parse(execFileSync('python',['-B',resolve(ROOT,'scripts/current-ow08-source-browser/fixture.py'),op],{input:JSON.stringify(p),cwd:ROOT,encoding:'utf8',maxBuffer:16*1024*1024}).trim())
 const KASBON_IDS=['OW08_KASBON_JOURNAL_SOURCE_DESKTOP','OW08_KASBON_JOURNAL_SOURCE_MOBILE']
-export const IDS=[...KASBON_IDS,...WASH_IDS]
+export const IDS=[...KASBON_IDS,...WASH_IDS,...FG_IDS]
 async function journalPage(ui,page){
  const menu=page.getByRole('button',{name:'Buka menu',exact:true});if(await menu.isVisible())await menu.click()
  const link=page.getByRole('button',{name:'• Jurnal & Transaksi Lain',exact:true})
@@ -56,4 +57,4 @@ async function kasbonSources(ui,today,mobile){
  }catch(error){mkdirSync('cp6-proof/t3',{recursive:true});writeFileSync(`cp6-proof/t3/OW08_KASBON_${suffix}_FIRST_FAILURE.json`,JSON.stringify({error:String(error),observed:opened,console:observed.errors,fixture:fixtureData},null,2));await page.screenshot({path:`cp6-proof/t3/OW08_KASBON_${suffix}_FAILURE.png`,fullPage:true}).catch(()=>{});throw error}
  finally{observed.stop();await user.context.close()}
 }
-export async function cases(ui,today){return[...KASBON_IDS.map((id,i)=>[id,()=>kasbonSources(ui,today,Boolean(i))]),...await washCases(ui,today)]}
+export async function cases(ui,today){return[...KASBON_IDS.map((id,i)=>[id,()=>kasbonSources(ui,today,Boolean(i))]),...await washCases(ui,today),...await fgCases(ui,today)]}

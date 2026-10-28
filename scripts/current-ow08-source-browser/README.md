@@ -27,6 +27,11 @@ reopen. The stored cost remains ESTIMATED_UNBILLED until invoicing; this does
 not claim a posted invoice, finalized existing-lot HPP, or successful closing
 of the whole period. Retain Native11 for those distinct backend boundaries.
 
-FG inverse/QC blocker navigation still needs its targeted screen journey.
-Existing Native9/P21 proofs remain valid on their own sources.
+The third targeted pair reads QC with a real downstream sale and adjustment,
+checks the exact server blocker including document names and menu instructions,
+and checks that reversal stays disabled. A different Native fixture contains a
+reversed FG adjustment; clicking its inverse movement from Kartu Stok FG must
+open that exact reversed document. These are navigation witnesses, not screen
+creation or QC reversal proof. The complete data/sequence comparison stays
+unchanged. Existing Native9/P21 proofs remain valid on their own sources.
 Formal5/16, production_go=false, independent_acceptance=false; CP7C not started.
