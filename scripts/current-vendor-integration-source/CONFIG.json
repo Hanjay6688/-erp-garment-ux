@@ -1,6 +1,6 @@
 {
   "contract": "cp7.vendor-selective-integration.v1",
-  "status": "PREPARED_CLOSED_NOT_A_MAIN",
+  "status": "PREPARED_BACKEND11_ACCEPTED_MONEY_BROWSER2_REQUIRED",
   "base_head": "3a0c947d66c73dcb87be10cb6a543da6c234d92d",
   "prepared_component": "567ddc92990891b3eff81e6497572b9579a99036",
   "parent_backend_sha256": "193f4c18476a1e1abd5e05231d8d7755864b61e2998c4456f5a87459b17da59d",
@@ -69,7 +69,27 @@
       "preimage_blob": null
     }
   ],
-  "qualified_combined11": null,
+  "qualified_combined11": {
+    "head": "41caaaed02c0d89b122ecf1ff221f6647141c335",
+    "tree": "b8831a52531598c514f8199016dea6194d783833",
+    "run_id": 40769840440,
+    "job_id": 123103756460,
+    "artifact_id": 12854543326,
+    "zip_bytes": 2031933,
+    "zip_sha256": "9432cdd8bcea2df52ad8fb631122ce963b91bee32dea849a4337e4ec2c020eb0",
+    "original": {
+      "name": "CP7_VENDOR_RECEIVABLE_COMBINED11.json",
+      "bytes": 3485711,
+      "sha256": "04e00f42862ddfec8346d41d4d6a2d6a285f041127cccf09d973ca929b307ea0",
+      "path": "docs/cp7/d17-14/ow08/vendor-combined41c-pass/CP7_VENDOR_RECEIVABLE_COMBINED11.json.gz"
+    },
+    "package": {
+      "name": "T3_PACKAGE_INSTALL.json",
+      "bytes": 360420,
+      "sha256": "48fc54072b4f3122d89f6a45faa93f0e8ebd05ecfde0b9370def8202755e0f43",
+      "path": "docs/cp7/d17-14/ow08/vendor-combined41c-pass/T3_PACKAGE_INSTALL.json.gz"
+    }
+  },
   "B_browser_qualified_on_old_source": "f5e4a0eb98f52c7615c3f4fb2459128bc76ed007",
   "fresh_browser_claim": false,
   "production_go": false,
