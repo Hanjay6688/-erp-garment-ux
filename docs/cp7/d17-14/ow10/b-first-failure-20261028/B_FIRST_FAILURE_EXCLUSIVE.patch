@@ -1,0 +1,100 @@
+diff --git a/scripts/cp7_first_failure_evidence.mjs b/scripts/cp7_first_failure_evidence.mjs
+new file mode 100644
+index 00000000..ac6e8660
+--- /dev/null
++++ b/scripts/cp7_first_failure_evidence.mjs
+@@ -0,0 +1,7 @@
++import {writeFile} from 'node:fs/promises'
++
++// Exclusive creation preserves the first writer. Other write errors stay visible.
++export async function writeFirstFailure(path,bytes){
++ try{await writeFile(path,bytes,{flag:'wx'});return true}
++ catch(error){if(error?.code==='EEXIST')return false;throw error}
++}
+diff --git a/scripts/cp7_first_failure_evidence.test.mjs b/scripts/cp7_first_failure_evidence.test.mjs
+new file mode 100644
+index 00000000..38436a76
+--- /dev/null
++++ b/scripts/cp7_first_failure_evidence.test.mjs
+@@ -0,0 +1,57 @@
++import assert from 'node:assert/strict'
++import {test} from 'node:test'
++import {mkdtemp,readFile,writeFile,rm} from 'node:fs/promises'
++import {tmpdir} from 'node:os'
++import {join} from 'node:path'
++import {fileURLToPath} from 'node:url'
++import {fork} from 'node:child_process'
++import {writeFirstFailure} from './cp7_first_failure_evidence.mjs'
++
++const payload=label=>JSON.stringify({writer:label,evidence:label.repeat(128*1024)})+'\n'
++if(process.argv[2]==='writer'){
++ process.on('message',async message=>{
++  if(message!=='start')return
++  try{const created=await writeFirstFailure(process.argv[3],payload(process.argv[4]));process.send({created,pid:process.pid});process.disconnect()}
++  catch(error){process.send({error:String(error)});process.exitCode=1;process.disconnect()}
++ })
++ process.send('ready')
++}else{
++ const directory=async t=>{const dir=await mkdtemp(join(tmpdir(),'cp7-first-evidence-'));t.after(()=>rm(dir,{recursive:true,force:true}));return dir}
++ test('a new first failure is written completely',async t=>{
++  const path=join(await directory(t),'first.json'),bytes=payload('A')
++  assert.equal(await writeFirstFailure(path,bytes),true)
++  assert.equal(await readFile(path,'utf8'),bytes)
++ })
++ test('an existing first failure is preserved byte for byte',async t=>{
++  const path=join(await directory(t),'first.json'),original=Buffer.from([0,1,255,2,10])
++  await writeFile(path,original)
++  assert.equal(await writeFirstFailure(path,payload('B')),false)
++  assert.deepEqual(await readFile(path),original)
++ })
++ test('two independent processes released together create exactly one first record',{timeout:15000},async t=>{
++  const path=join(await directory(t),'first.json')
++  const start=label=>{
++   const child=fork(fileURLToPath(import.meta.url),['writer',path,label],{execArgv:[],stdio:['ignore','ignore','pipe','ipc']})
++   t.after(()=>{if(child.exitCode===null)child.kill()})
++   let readyResolve,doneResolve,doneReject,result,stderr=''
++   const ready=new Promise(resolve=>{readyResolve=resolve})
++   const done=new Promise((resolve,reject)=>{doneResolve=resolve;doneReject=reject})
++   child.stderr.on('data',chunk=>{stderr+=chunk})
++   child.on('message',message=>{if(message==='ready')readyResolve();else result=message})
++   child.on('error',doneReject)
++   child.on('exit',code=>{if(code===0&&result&&!result.error)doneResolve({...result,label});else doneReject(Error(stderr||result?.error||'Writer exited without result'))})
++   return{child,ready,done}
++  }
++  const writers=[start('A'),start('B')]
++  await Promise.all(writers.map(w=>w.ready));for(const w of writers)w.child.send('start')
++  const results=await Promise.all(writers.map(w=>w.done))
++  assert.equal(new Set(results.map(r=>r.pid)).size,2)
++  assert.deepEqual(results.map(r=>r.created).sort(),[false,true])
++  const winner=results.find(r=>r.created)
++  assert.equal(await readFile(path,'utf8'),payload(winner.label))
++ })
++ test('a real write error other than EEXIST propagates',async t=>{
++  const path=join(await directory(t),'missing-parent','first.json')
++  await assert.rejects(writeFirstFailure(path,payload('A')),{code:'ENOENT'})
++ })
++}
+diff --git a/scripts/cp7_ow10_statistical_local.mjs b/scripts/cp7_ow10_statistical_local.mjs
+index 4d974f5f..d11f96e5 100644
+--- a/scripts/cp7_ow10_statistical_local.mjs
++++ b/scripts/cp7_ow10_statistical_local.mjs
+@@ -1,10 +1,11 @@
+ // Actual four product bodies and kernels, controlled ERP/history/identity.
+ // This proves adapter arithmetic and closed writes, not Native/Auth/restore.
+-import {readFile,writeFile,mkdir,access} from 'node:fs/promises'
++import {readFile,writeFile,mkdir} from 'node:fs/promises'
+ import {createHash,randomUUID} from 'node:crypto'
+ import {execFileSync} from 'node:child_process'
+ import assert from 'node:assert/strict'
+ import {beginLocalStageAudit} from './cp7_local_stage_audit.mjs'
++import {writeFirstFailure} from './cp7_first_failure_evidence.mjs'
+ const {PGlite}=await import(process.env.CP7_PGLITE_MODULE??'@electric-sql/pglite')
+ const db=new PGlite(),dir='scripts/cp7_target_policy_stage/sql/'
+ const read=path=>readFile(path,'utf8'),block=(s,name)=>{const start=s.search(new RegExp('create(?: or replace)? function '+name.replaceAll('.','\\.')+'\\('));assert.ok(start>=0,name);return s.slice(start,s.indexOf('$$;',s.indexOf('as $$',start))+3)}
+@@ -121,5 +122,5 @@ const catalog=await stageAudit.afterUse()
+ const report={classification:'LOCAL_ACTUAL_FOUR_PRODUCT_BODIES_WITH_CONTROLLED_ERP_HISTORY_IDENTITY_NOT_NATIVE',status:results.every(r=>r.status==='PASS')?'PASS':'FAIL',catalog,
+  sources:Object.fromEntries(await Promise.all(files.map(async file=>[file,createHash('sha256').update(await read(dir+file)).digest('hex')]))),cases:results,OW10_complete:false,full_A_chain_qualified:false,production_go:false}
+ await mkdir('docs/cp7/d17-14/ow10',{recursive:true});const out='docs/cp7/d17-14/ow10/statistical-local.json'
+-await writeFile(out,JSON.stringify(report,null,2)+'\n');if(report.status!=='PASS'){const first=out.replace('.json','-first-failure.json');try{await access(first)}catch{await writeFile(first,JSON.stringify(report,null,2)+'\n')}}
++await writeFile(out,JSON.stringify(report,null,2)+'\n');if(report.status!=='PASS'){const first=out.replace('.json','-first-failure.json');await writeFirstFailure(first,JSON.stringify(report,null,2)+'\n')}
+ console.log(JSON.stringify(report,null,2));await db.close();if(report.status!=='PASS')process.exitCode=1
