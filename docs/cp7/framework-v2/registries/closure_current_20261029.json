@@ -262,16 +262,48 @@
     },
     "P17": {
       "title": "Tanya AI V1",
-      "owner": "B_SOURCE_EVIDENCE_RECONCILIATION_A_INTEGRATION",
+      "owner": "B_PRODUCT_AND_BROWSER_A_SCOPE_RECONCILIATION_AND_INTEGRATION",
       "implementation_refs": [
         "src/NativeStagedAiPanel.tsx",
         "src/nativeStagedAi.ts",
-        "src/NativeStagedAiPanel.dom.test.tsx"
+        "scripts/cp7-src/planning/ai-staged.sql"
       ],
-      "retained_component_evidence_refs": [],
-      "next_action": "Reconcile exact required behavior/case IDs, source hashes and final-candidate scope; use existing evidence when unchanged. No automatic PASS from this link.",
+      "retained_component_evidence_refs": [
+        "docs/cp7/d17-14/ow03/CI_39420750772_AI.json",
+        "docs/cp7/evidence/finisher-regression/qualified-a306/provider-fault-actual-log/RECEIPT.json",
+        "docs/cp7/evidence/finisher-regression/qualified-a306/provider-fault-actual-log/ACTUAL_P17_CASES_FROM_UNEDITED_LOG.json"
+      ],
+      "next_action": "Reuse AI9 within its exact scope. B reconciles or supplies focused staged-panel clipboard denial/manual copy/static-link and permission-change evidence; A checks shared backend dependency binding at final integration. Do not rerun the nine unchanged cases solely to increment totals.",
       "original_preparation_status": "PLANNED_NOT_STARTED",
-      "current_runtime_status": "NOT_INFERRED_FROM_SEPTEMBER_STATUS"
+      "current_runtime_status": "RETAINED_AI9_PASS_IDENTICAL_FOUR_LEAVES_FULL_FINAL_SCOPE_NOT_INFERRED",
+      "retained_evidence_match": {
+        "checked_against_A": "148b236f105326f64c9bffabbf978e3dc6df277c",
+        "qualified_candidate": "2ad56e147a180c3fb2c433aed53cadb6a421f434",
+        "run_id": 39420750772,
+        "job_id": 118620792932,
+        "receipt_sha256": "e14b7cc846ab32a062fabfcb5b93a99c8261b75e5559b4ea20e017d5c93d5177",
+        "actual_unique_case_ids": [
+          "P19A_ACCESS_AND_NO_FINANCE",
+          "P19A_BRIEF_EQUALS_INDEX",
+          "P19A_BROWSER_DESKTOP_AI",
+          "P19A_BROWSER_MOBILE_AI",
+          "P19A_FIELDS_AND_BOUNDS",
+          "P19A_HTTP_FLOW",
+          "P19A_HTTP_REVOKED",
+          "P19A_RACE_BRIEF_WHILE_STOCK_COMMITS",
+          "P19A_STALE_SNAPSHOT_LABELLED"
+        ],
+        "retained_actual_cases": 9,
+        "new_actual_case_credit": 0,
+        "unchanged_leaf_sha256": {
+          "src/NativeStagedAiPanel.tsx": "583def2cfd04607a9af2daf319b4d44c0cbd579f8dfc32de61a1f22645cfe4e4",
+          "src/nativeStagedAi.ts": "e439525ec3e4b3039aa7c4a52c8a8a0839f2fda0c2faa3fc7e988c3f2df477ba",
+          "scripts/cp7-src/planning/ai-staged.sql": "1571b328f3205a8f3470510c47053a94f2480ad0b84c1d6661c92f25e4e049b9",
+          "scripts/cp7_p19_ai_v2_browser.mjs": "0eb89d65d678a688bc307ad4c7a48ccd68f5e0b1b6f77dc49e2cc94cc193b3d0"
+        },
+        "boundary": "Existing receipt reports actual Native/race/Auth/browser PASS and restored CP6/advisors. Four exact leaf matches preserve source-level reuse; they do not prove all transitive dependencies or final integrated runtime unchanged.",
+        "historical_fallback_boundary": "a306 P17 contains four actual browser witnesses with declared clipboard/popup/provider fault injection on the earlier full Native handoff. It is not evidence that the staged panel exercised those branches, real provider outage, owner physical mobile device, or full E18 acceptance."
+      }
     },
     "P18": {
       "title": "Full dummy-flow dan predecessor",
@@ -3456,9 +3488,23 @@
         "E18"
       ],
       "unresolved_original_case_refs": [],
-      "disposition": "IMPLEMENTATION_LOCATED_EXACT_FINAL_EVIDENCE_MATCH_PENDING",
-      "next_action": "Map this exact requirement to retained Original case(s) and source; run only changed/unproven coverage. This row is not a runtime verdict.",
-      "original_preparation_status": "NOT_RUN"
+      "disposition": "PARTIAL_RETAINED_ACTUAL_EVIDENCE_MATCHED_REMAINING_SCOPE_EXPLICIT",
+      "next_action": "Bind final transitive backend dependencies and verify the current staged manual handoff remains usable during denied clipboard/provider navigation. Earlier full-Native provider-fault witnesses cannot close this staged-panel branch.",
+      "original_preparation_status": "NOT_RUN",
+      "evidence_match": {
+        "receipt": "docs/cp7/d17-14/ow03/CI_39420750772_AI.json",
+        "case_ids": [
+          "P19A_BRIEF_EQUALS_INDEX",
+          "P19A_FIELDS_AND_BOUNDS",
+          "P19A_STALE_SNAPSHOT_LABELLED",
+          "P19A_BROWSER_DESKTOP_AI",
+          "P19A_BROWSER_MOBILE_AI"
+        ],
+        "proven_scope": "Retained actual staged brief is bounded, bound to run/time/scope and immutable when stale; desktop/mobile label analysis time and optional finance read at question time. Current prompt/UI/SQL/browser leaves match the qualified source.",
+        "same_source_leaf_binding": "packets.P17.retained_evidence_match"
+      },
+      "remaining_gap": "Bind final transitive backend dependencies and verify the current staged manual handoff remains usable during denied clipboard/provider navigation. Earlier full-Native provider-fault witnesses cannot close this staged-panel branch.",
+      "closure_owner": "B_PRODUCT_BROWSER_A_BACKEND_BINDING_AND_ACCEPTANCE"
     },
     {
       "id": "CP7-16",
@@ -3519,9 +3565,20 @@
         "E19"
       ],
       "unresolved_original_case_refs": [],
-      "disposition": "IMPLEMENTATION_LOCATED_EXACT_FINAL_EVIDENCE_MATCH_PENDING",
-      "next_action": "Map this exact requirement to retained Original case(s) and source; run only changed/unproven coverage. This row is not a runtime verdict.",
-      "original_preparation_status": "NOT_RUN"
+      "disposition": "PARTIAL_RETAINED_ACTUAL_EVIDENCE_MATCHED_REMAINING_SCOPE_EXPLICIT",
+      "next_action": "Staged actual browser proof does not exercise clipboard rejection, blocked/open-failed navigation or subsequent manual recovery. Historical a306 witnesses exercise the different full-Native panel. Owner physical-device evidence also remains distinct from mobile viewport emulation.",
+      "original_preparation_status": "NOT_RUN",
+      "evidence_match": {
+        "receipt": "docs/cp7/d17-14/ow03/CI_39420750772_AI.json",
+        "case_ids": [
+          "P19A_BROWSER_DESKTOP_AI",
+          "P19A_BROWSER_MOBILE_AI"
+        ],
+        "proven_scope": "Retained actual desktop/mobile staged UI prepares a prompt; source contains caught clipboard rejection, preserved manual textarea and a static https://chatgpt.com/ link with no ERP URL payload.",
+        "same_source_leaf_binding": "packets.P17.retained_evidence_match"
+      },
+      "remaining_gap": "Staged actual browser proof does not exercise clipboard rejection, blocked/open-failed navigation or subsequent manual recovery. Historical a306 witnesses exercise the different full-Native panel. Owner physical-device evidence also remains distinct from mobile viewport emulation.",
+      "closure_owner": "B_PRODUCT_BROWSER_A_BACKEND_BINDING_AND_ACCEPTANCE"
     },
     {
       "id": "CP7-19",
@@ -3870,9 +3927,21 @@
         "E22"
       ],
       "unresolved_original_case_refs": [],
-      "disposition": "IMPLEMENTATION_LOCATED_EXACT_FINAL_EVIDENCE_MATCH_PENDING",
-      "next_action": "Map this exact requirement to retained Original case(s) and source; run only changed/unproven coverage. This row is not a runtime verdict.",
-      "original_preparation_status": "NOT_RUN"
+      "disposition": "PARTIAL_RETAINED_ACTUAL_EVIDENCE_MATCHED_REMAINING_SCOPE_EXPLICIT",
+      "next_action": "Map calculator, popup, drill-down and filter no-DML evidence independently to P02/P14; bind current final dependency source. The AI-only evidence cannot close all FG/WIP/HPP/journal/invoice/cut/reservation UI paths.",
+      "original_preparation_status": "NOT_RUN",
+      "evidence_match": {
+        "receipt": "docs/cp7/d17-14/ow03/CI_39420750772_AI.json",
+        "case_ids": [
+          "P19A_BRIEF_EQUALS_INDEX",
+          "P19A_ACCESS_AND_NO_FINANCE",
+          "P19A_RACE_BRIEF_WHILE_STOCK_COMMITS"
+        ],
+        "proven_scope": "Retained Native brief reads without business writes, rejects permission loss and retains snapshot values while concurrent legitimate stock commits occur. This is the AI-brief subset of the requirement.",
+        "same_source_leaf_binding": "packets.P17.retained_evidence_match"
+      },
+      "remaining_gap": "Map calculator, popup, drill-down and filter no-DML evidence independently to P02/P14; bind current final dependency source. The AI-only evidence cannot close all FG/WIP/HPP/journal/invoice/cut/reservation UI paths.",
+      "closure_owner": "B_PRODUCT_BROWSER_A_BACKEND_BINDING_AND_ACCEPTANCE"
     },
     {
       "id": "CROSS-T01",
@@ -5447,9 +5516,21 @@
         "E18"
       ],
       "unresolved_original_case_refs": [],
-      "disposition": "IMPLEMENTATION_LOCATED_EXACT_FINAL_EVIDENCE_MATCH_PENDING",
-      "next_action": "Map this exact requirement to retained Original case(s) and source; run only changed/unproven coverage. This row is not a runtime verdict.",
-      "original_preparation_status": "NOT_RUN"
+      "disposition": "PARTIAL_RETAINED_ACTUAL_EVIDENCE_MATCHED_REMAINING_SCOPE_EXPLICIT",
+      "next_action": "Match the owner-approved staged successor contract to original prompt V1 and retain focused staged hostile-note + clipboard/manual recovery evidence; do not infer provider model obedience or successful external delivery.",
+      "original_preparation_status": "NOT_RUN",
+      "evidence_match": {
+        "receipt": "docs/cp7/d17-14/ow03/CI_39420750772_AI.json",
+        "case_ids": [
+          "P19A_FIELDS_AND_BOUNDS",
+          "P19A_BROWSER_DESKTOP_AI",
+          "P19A_BROWSER_MOBILE_AI"
+        ],
+        "proven_scope": "Current prompt quotes user text as JSON, escapes angle brackets, labels source/time and keeps data apart from prompt instructions; existing nativeStagedAi.test.ts covers escaping. This static/local assertion is separate from retained actual AI9.",
+        "same_source_leaf_binding": "packets.P17.retained_evidence_match"
+      },
+      "remaining_gap": "Match the owner-approved staged successor contract to original prompt V1 and retain focused staged hostile-note + clipboard/manual recovery evidence; do not infer provider model obedience or successful external delivery.",
+      "closure_owner": "B_PRODUCT_BROWSER_A_BACKEND_BINDING_AND_ACCEPTANCE"
     },
     {
       "id": "RMD-T33",
