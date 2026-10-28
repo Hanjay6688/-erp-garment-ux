@@ -1,0 +1,72 @@
+{
+  "status": "PASS",
+  "scope": "LOCAL_GUARD_ONLY_SYNTHETIC_NEW_CATALOG_ROWS",
+  "trusted_manifest_sha256": "8416231339c8ddbb99a0b58658980ec80317bf4a500b2c639e39a8baa16721ad",
+  "baseline_groups": 22,
+  "baseline_data_keys": 689,
+  "positive_stages": [
+    "MODEL_SELECTION",
+    "PHYSICAL_BINDING",
+    "VERSIONED_TARGET",
+    "SELECTED_RETURN_CUSTOMER"
+  ],
+  "negative_controls": [
+    {
+      "id": "legacy_projection_changed",
+      "refusal": "CURRENT_VERSIONED_TARGET_DELTA_UNDECLARED"
+    },
+    {
+      "id": "legacy_consumer_removed",
+      "refusal": "CURRENT_VERSIONED_TARGET_DELTA_UNDECLARED"
+    },
+    {
+      "id": "unchanged_hook_changed",
+      "refusal": "CURRENT_VERSIONED_TARGET_DELTA_UNDECLARED"
+    },
+    {
+      "id": "undeclared_schema_added",
+      "refusal": "CURRENT_VERSIONED_TARGET_DELTA_UNDECLARED"
+    },
+    {
+      "id": "catalog_group_missing",
+      "refusal": "CURRENT_VERSIONED_TARGET_DELTA_CATALOG_GROUPS_CHANGED"
+    },
+    {
+      "id": "required_function_missing",
+      "refusal": "CURRENT_VERSIONED_TARGET_DELTA_INCOMPLETE"
+    },
+    {
+      "id": "new_function_preexists",
+      "refusal": "CURRENT_VERSIONED_TARGET_DELTA_UNDECLARED"
+    },
+    {
+      "id": "old_row_changed",
+      "refusal": "CURRENT_VERSIONED_TARGET_INSTALL_CHANGED_ROWS_OR_SEQUENCES"
+    },
+    {
+      "id": "old_sequence_advanced",
+      "refusal": "CURRENT_VERSIONED_TARGET_INSTALL_CHANGED_ROWS_OR_SEQUENCES"
+    },
+    {
+      "id": "undeclared_data_key",
+      "refusal": "CURRENT_VERSIONED_TARGET_INSTALL_CHANGED_ROWS_OR_SEQUENCES"
+    },
+    {
+      "id": "selected_customer_authority_changed",
+      "refusal": "CURRENT_VERSIONED_SELECTED_RETURN_UNDECLARED_CATALOG_DELTA"
+    },
+    {
+      "id": "selected_customer_delta_omitted",
+      "refusal": "CURRENT_VERSIONED_SELECTED_RETURN_UNDECLARED_CATALOG_DELTA"
+    }
+  ],
+  "new_private_functions": 13,
+  "new_schemas": 4,
+  "hook_bodies_changed": 14,
+  "hook_bodies_retained": 7,
+  "legacy_source_projection_consumer_retained": true,
+  "selected_customer_refusal_body_changes": 1,
+  "Native_runtime_qualified": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

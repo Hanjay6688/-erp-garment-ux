@@ -1,0 +1,28 @@
+{
+  "policy_id": "D17-18-20261026",
+  "status": "PASS_LOCAL_PREPARATION_ONLY",
+  "tests": 15,
+  "TypeScript": "PASS",
+  "SQLandPLpgSQLparse": "PASS",
+  "bash_steps": 2,
+  "actual_SQL": false,
+  "actual_browser": false,
+  "production_go": false,
+  "first_failure": {
+    "tests": 14,
+    "passed": 13,
+    "failed": 1,
+    "cause": "Controlled RUNNING fixture inherited1200 completed targets while test scope120. Corrected test fixture only; exact B parser unchanged.",
+    "sha256": "686dd8c49732f6c1bd91b331638f0e050facd0078a5d995491dcfbdff1691964"
+  },
+  "prepared_sources": {
+    "scripts/cp7_current_analysis_progress/controlled_reader.py": "cb247e378fde99d825f0816dc55a7f38b07109bcb1a78e8ac224b991b2dc2775",
+    "scripts/cp7_current_analysis_progress/vitest.config.mjs": "b6fa6f307765df2de14240931f2e21ae1629555ddaf2fe1a9445bf20910f12c4",
+    "scripts/cp7_current_analysis_progress/progress.ts": "aa61640b1a11d4b3cd5c5d9d2a9a223917741772e45f7c16e5efe94b2f3a34ce",
+    "scripts/cp7_current_analysis_progress/progress.prepared.sql": "5ff00e38457ce325f6f33e89d94ed31c9681a91f786b2c903eb99d57f4da5bfb",
+    "scripts/cp7_current_analysis_progress/tsconfig.json": "4adcb87fd3d96974ffab83099607963063eba6918e3d4189a71dc58183c85f28",
+    "scripts/cp7_current_analysis_progress/README.md": "e75e60a40ce56c38fa633a1eb957d6220dc5a9f5b55f4127554b923414d284c1",
+    "scripts/cp7_current_analysis_progress/TELEMETRY_CONTRACT.md": "ce8ced6f77e511468eceef70ef2a290de8be821b0fc6a6d458202f281e5b4fbc",
+    "scripts/cp7_current_analysis_progress/progress.test.ts": "37d696d15e8755c19a1725952accec0fbb5404e4143153cfb679a0ec7731f22b"
+  }
+}

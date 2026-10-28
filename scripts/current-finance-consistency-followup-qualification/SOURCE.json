@@ -1,0 +1,32 @@
+{
+  "contract": "cp7.d17-18.consistency-focused-native20-cron1.v1",
+  "case_ids": [
+    "FINANCE_CONSISTENCY_FOCUSED_NATIVE20_CRON1"
+  ],
+  "executed_groups": [
+    "REPORT_BOOK_UNCHANGED_NATIVE20",
+    "REPORT_BOOK_UNCHANGED_ACTUAL_MINUTE_CRON"
+  ],
+  "retained_prior_groups": 5,
+  "prior_whole_status": "INCOMPLETE",
+  "files": {
+    "scripts/current-finance-consistency-followup-qualification/CONFIG.json": "00f3c7aa3734fada5e1fd3826f6c2cbde5fd7cdc29a2a474924e62cbceba887c",
+    "scripts/current-finance-consistency-followup-qualification/ORIGIN.json": "ddf04e8cda5fe6a4a3d7cf2cb48a5c8f1db572d92722ba5ebf673c9a973e6568",
+    "scripts/current-finance-consistency-followup-qualification/README.md": "d598e1c6e75de084661b7d577be2219d3475e78c7c1555dbb63372fbf2ff0f95",
+    "scripts/current-finance-consistency-followup-qualification/adapters.py": "233cb98396fc543e4bf32fae9424ac6e6c8c805694510a528b7a12c62a0ecc0c",
+    "scripts/current-finance-consistency-followup-qualification/admission.py": "73a6e0a2e33f7cfbc6aa7c79f7d7441a8d9c448580f484e88caaec4a9ebd33f6",
+    "scripts/current-finance-consistency-followup-qualification/cases.py": "55b716ddb5db20a08aae2c086403b62908a3b4415dfb1f8681e4817b046e5069",
+    "scripts/current-finance-consistency-followup-qualification/evidence.py": "eb37eeabf81bf353806fd6bb3afe3e80691d3fb6b61e26c4cc5845fbc9d0225d",
+    "scripts/current-finance-consistency-followup-qualification/fetch_retained.py": "ea90160323c62a56d0d1968b107d83b0925dab52d8833ec6f26052c05f8c5815",
+    "scripts/current-finance-consistency-followup-qualification/probe.py": "52ede8bad62b7afc7a18a19c77a91cba76578052cc957f475ca988da7f9cc207",
+    "scripts/current-finance-consistency-followup-qualification/runner.py": "beb99db84bf6cec2872eeb7bee454f1697961e8f072c159229d332475d3b0d58",
+    "scripts/current-finance-consistency-followup-qualification/source_guard.py": "096bd26d8945fe468a39e24319a6a01e773101a60a5bc4013aa9fb995b2c4806",
+    "scripts/current-finance-consistency-followup-qualification/test_adapters.py": "b83d01d011cea9cdbfeb88106553c8fd9d07e70078ec53f4557d9daaa227a8f8",
+    "scripts/current-finance-consistency-followup-qualification/test_boundaries.py": "6ec3b034a662a43ed08c82c420bb1885590ac36db74501e3d09e564125b6f44d",
+    "scripts/current-finance-consistency-followup-qualification/workflow_guard.py": "3ab9a8a86ee7c9a6a3f5a34d270269b23eb39321103d054638cb62e9ee1e0abb",
+    ".github/workflows/cp7-d17-18-consistency-native20-cron.yml": "fd94d70b25de287e72169a929a786898602f74da259a9033022732a4b2f6516a"
+  },
+  "parent_source_sha256": "8501a50e92d7808919bb622d8f97642d8fc1f7ec410eeb2cb9bdcc1c7988d9c6",
+  "production_go": false,
+  "independent_acceptance": false
+}

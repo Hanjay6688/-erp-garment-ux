@@ -1,0 +1,24 @@
+{
+  "status": "LOCAL_PREPARATION_ONLY_NOT_RUNTIME",
+  "case_count": 6,
+  "planned_executions": 12,
+  "exact_ids": [
+    "UNPAYROLLED_PARTIAL_WORK_BLOCKS_REPORT",
+    "OWNER_WORK_REFERENCE_BLOCKS_UNTIL_PAYROLLED",
+    "OWNER_VENDOR_REFERENCE_BLOCKS_UNTIL_PAYROLLED",
+    "RETURN_REBOUND_SOURCE_ATOMIC_REFUSAL",
+    "RETURN_ALLOCATION_LIMIT_ATOMIC_REFUSAL",
+    "RETURN_REBOUND_CUSTOMER_ATOMIC_REFUSAL"
+  ],
+  "original_business_case_file_sha256": "b76ec7241c3c43121095b877dddcde76c8a88224508d13e0fd6a40be72875dab",
+  "first_failed_Original_source_exact": true,
+  "all3213_Native20_pins_unchanged": true,
+  "actual_imports_pass": true,
+  "python_AST_pass": true,
+  "workflow_steps": 47,
+  "bash_syntax_blocks": 36,
+  "SOURCE_bound": false,
+  "database_cases_executed": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

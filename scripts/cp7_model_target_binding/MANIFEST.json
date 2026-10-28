@@ -1,0 +1,21 @@
+{
+  "contract": "cp7.model-target-physical-binding-private.v1",
+  "private_functions": 2,
+  "new_public_rpcs": 0,
+  "new_tables": 0,
+  "existing_replacements": 0,
+  "sql_sha256": "c9c4624bb6362a483f9c9cf9e7c46f9141aa660b6cb8402d25188410d0b193aa",
+  "dependencies_sha256": {
+    "cp7_reorder_inputs/capture.sql": "a4921aa90111709dfbde026e6b98beb6d977dcd46d212d3cc0fbd97a159f7e78",
+    "cp7_model_history_scope/identity.sql": "271afb029f0dfbdf0889055b4d830e1f26e95c1b7800caf2310d3aa6b8555123",
+    "cp7_history_reference/digest.sql": "cc61d676da2d1777b3e22af361c8ba33d1913ad48d644c682c93478e96ed41f5"
+  },
+  "maximum_targets": 5000,
+  "requires_actual_server_target_stock_digest_at_capture_clock": true,
+  "global_non_stock_completeness_required": true,
+  "raw_native_capture_status_overridden": false,
+  "target_caller_integrated": false,
+  "actual_Native": false,
+  "actual_Auth_HTTP_credit": false,
+  "production_go": false
+}

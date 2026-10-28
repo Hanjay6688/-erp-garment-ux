@@ -1,0 +1,12 @@
+{
+  "status": "LOCAL_IMPORT_AND_BINDING_PASS",
+  "steps": 8,
+  "unchanged_fixture_files": 5,
+  "workflow_bash_steps": 38,
+  "source_guard_signatures": [
+    "ow04_source_proposal.locked_source_family(uuid)",
+    "cp7_credit.native_empty_enter_v1(uuid)"
+  ],
+  "Native_runtime_qualified": false,
+  "production_go": false
+}

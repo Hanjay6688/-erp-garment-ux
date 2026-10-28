@@ -1,0 +1,9 @@
+{
+  "status": "LOCAL_PREPARATION_REFUSED",
+  "error": "CURRENT_FROZEN_BINARY_UNDECLARED_PARENT_DERIVATION",
+  "cause": "First A derivation anchor omitted the leading space on the second line.",
+  "correction": "Use exact qualified two-line CTE/comment replacement including both leading spaces.",
+  "B_files_modified": false,
+  "retained_A_source_modified": false,
+  "database_executed": false
+}

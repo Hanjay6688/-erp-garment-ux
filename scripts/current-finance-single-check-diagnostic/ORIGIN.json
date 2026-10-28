@@ -1,0 +1,99 @@
+{
+  "path": "scripts/current-finance-check-reuse-diagnostic/runner.py",
+  "sha256": "4540d1e538e7a17f6f8945738f17920a4e44680685cf9ad3322860444b086c60",
+  "changes": [
+    {
+      "old": "Paired rollback-only same-report readiness reuse; no product adoption.",
+      "new": "Prepared paired current-readonly two-check baseline versus single-check reuse; no adoption.",
+      "count": 1
+    },
+    {
+      "old": "HERE/'readiness_reuse.py'",
+      "new": "HERE/'single_check.py'",
+      "count": 1
+    },
+    {
+      "old": "HERE/'price_fixture.py'",
+      "new": "ROOT/'scripts/current-finance-check-reuse-diagnostic/price_fixture.py'",
+      "count": 1
+    },
+    {
+      "old": "CASE='FINANCE_SINGLE_SNAPSHOT_CHECK_SMALL_PRICE_PERCENT_FACTORY_DIAGNOSTIC'",
+      "new": "CASE='FINANCE_CURRENT_TWO_CHECK_TO_SINGLE_CHECK_SMALL_PRICE_FACTORY_DIAGNOSTIC'",
+      "count": 1
+    },
+    {
+      "old": "reader.install_for_rollback(cur)",
+      "new": "reader.install_for_rollback(cur,product.catalog)",
+      "count": 1
+    },
+    {
+      "old": "variant='UNCHANGED_OFFICIAL'",
+      "new": "variant='ACCEPTED_CURRENT_READONLY'",
+      "count": 1
+    },
+    {
+      "old": "variant='SINGLE_SNAPSHOT_CHECK_CANDIDATE'",
+      "new": "variant='SINGLE_OFFICIAL_CHECK_CANDIDATE'",
+      "count": 1
+    },
+    {
+      "old": "evidence['unchanged_official']",
+      "new": "evidence['accepted_current_readonly']",
+      "count": 1
+    },
+    {
+      "old": "evidence['single_snapshot_check_candidate']",
+      "new": "evidence['single_official_check_candidate']",
+      "count": 1
+    },
+    {
+      "old": "assert old_calls['erp.run_v268_financial_report_checks()']==3",
+      "new": "assert old_calls['erp.run_v268_financial_report_checks()']==2",
+      "count": 1
+    },
+    {
+      "old": "assert new_calls['erp.run_v268_financial_report_checks()']==2",
+      "new": "assert new_calls['erp.run_v268_financial_report_checks()']==1",
+      "count": 1
+    },
+    {
+      "old": "assert old_calls['erp.period_readiness_v1(date,date)']==2",
+      "new": "assert old_calls['erp.period_readiness_v1(date,date)']==1",
+      "count": 1
+    },
+    {
+      "old": "assert new_calls['erp.period_readiness_v1(date,date)']==1",
+      "new": "assert new_calls.get('erp.period_readiness_v1(date,date)',0)==0\n    assert new_calls['cp7_finance.read_readiness_checks_diagnostic_v1(date,date,jsonb)']==1\n    assert new_calls['cp7_finance.read_blockers_checks_diagnostic_v1(date,date,jsonb)']==1",
+      "count": 1
+    },
+    {
+      "old": "official_check_calls_before=3,official_check_calls_after=2,\n        official_readiness_calls_before=2,official_readiness_calls_after=1,",
+      "new": "official_check_calls_before=2,official_check_calls_after=1,\n        Native_readiness_calls_before=1,Native_readiness_calls_after=0,private_readiness_calls=1,",
+      "count": 1
+    },
+    {
+      "old": "entire_official_report_equal=True",
+      "new": "entire_accepted_current_report_equal=True",
+      "count": 1
+    },
+    {
+      "old": "report['pairs']['FACTORY_1200X3']['unchanged_official']",
+      "new": "report['pairs']['FACTORY_1200X3']['accepted_current_readonly']",
+      "count": 1
+    },
+    {
+      "old": "assert old['table_write_attempts'].get('erp.opening_balance_items',[0,0,0])[1]>=3600,'OLD_OPENING_WRITE_NOT_OBSERVED'",
+      "new": "assert old['table_write_attempts']=={},'ACCEPTED_READONLY_PARENT_CHANGED_ERP'",
+      "count": 1
+    },
+    {
+      "old": "    assert conn.info.host in('localhost','127.0.0.1')and cur.execute('select current_database()').fetchone()==('cp6_rollback',)",
+      "new": "    gate=json.loads((HERE/'PREPARED_SOURCES.json').read_bytes())\n    assert gate['allow_database_execution'] is True,'PREPARED_SINGLE_CHECK_EXECUTION_NOT_ADMITTED'\n    assert conn.info.host in('localhost','127.0.0.1')and cur.execute('select current_database()').fetchone()==('cp6_rollback',)",
+      "count": 1
+    }
+  ],
+  "original_assertions": 16,
+  "current_assertions": 19,
+  "all_other_measurement_restore_and_whole_report_checks_retained": true
+}

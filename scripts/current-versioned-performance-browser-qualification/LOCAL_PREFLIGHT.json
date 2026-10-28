@@ -1,0 +1,31 @@
+{
+  "status": "LOCAL_PREPARATION_PASS",
+  "cases": 6,
+  "python_files_parsed": 4,
+  "global_names_resolved": true,
+  "actual_product_module_graph": true,
+  "prior_actual_source_identity_verified": {
+    "name": "CP7_CURRENT_MODEL_TARGET_BROWSER6.json",
+    "status": "PASS",
+    "head": "f88c4ee99fb5d18cf11caada5fab86ad161b007a",
+    "run_id": 40129468846,
+    "job_id": 120977882239,
+    "artifact_id": 12575297063,
+    "zip_bytes": 15474033,
+    "zip_sha256": "5eb188cb033eb533652f60b2300261d39d300f9c04a2d3541728797767073126",
+    "bytes": 1539916,
+    "sha256": "6076ef5d3b53d50d3ce302b63c1e75757d7d5c78aeb0301e00b43d353e754c51",
+    "archive_member": "CP7_CURRENT_MODEL_TARGET_BROWSER6.json"
+  },
+  "actual_runtime": false,
+  "SOURCE_bound": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "exact_browser_proxies": 3,
+  "actual_ESM_modules_loaded": 3,
+  "browser_cases_registered": 6,
+  "B_browser_business_sources_equal": true,
+  "bash_steps_parsed": 43,
+  "actual_Original_receipt_label_verified": "CP7_CURRENT_VERSIONED_PERFORMANCE_BROWSER6.json",
+  "actual_probe_entrypoints_verified": true
+}

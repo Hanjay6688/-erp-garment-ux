@@ -1,0 +1,6 @@
+{
+  "allow_database_execution": true,
+  "qualification": "PREPARED_CLOSED_NOT_EXECUTED",
+  "production_go": false,
+  "independent_acceptance": false
+}

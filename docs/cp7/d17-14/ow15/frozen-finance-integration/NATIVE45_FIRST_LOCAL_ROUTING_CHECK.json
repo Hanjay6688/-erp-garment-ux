@@ -1,0 +1,7 @@
+{
+  "status": "LOCAL_ROUTING_SETUP_REFUSED",
+  "error": "model.install is setup_model assertion",
+  "cause": "First factory-only local check omitted the required installed(state,checker) context.",
+  "correction": "Use explicit local mock routing state and installed context; do not execute case bodies or change product guards.",
+  "database_executed": false
+}

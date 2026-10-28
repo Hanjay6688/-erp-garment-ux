@@ -1,0 +1,104 @@
+{
+  "classification": "PREEXECUTION_REVIEW_PREVENTS_KNOWN_RESTORE_FAILURE",
+  "source_race_runtime_executed": false,
+  "prior_prepared_head": "3986fba710d54f3963eb9a75dde0aa3046b7c11e",
+  "helper_import_head": "064d471b971651e50d536121d4ac0cfaf7b4c8cf",
+  "helper_sha256": {
+    "scripts/current-choice-preparation-transport-qualification/restore_roles.py": "c9d91b2acfbe33dcc750188427b3bc209a722d219f77f47dbf40ae685d0beefb",
+    "scripts/current-choice-preparation-transport-qualification/test_restore_roles.py": "e1f010c14a1e875357f161ca9383906069ba1fe36b16cff42142d2bc2dd28588"
+  },
+  "retained_actual_transport_proofs": [
+    {
+      "name": "CP7_D17_18_CHOICE_TRANSPORT6.json",
+      "status": "INCOMPLETE",
+      "head": "40f041641ce336cac4be263297028172ac152202",
+      "run_id": 40363845158,
+      "job_id": 121789562898,
+      "artifact_id": 12686462342,
+      "zip_bytes": 2826988,
+      "zip_sha256": "f0d6f10c14c2ab16f676c83f379ddddf7f41cbd14e6de65e9f2a65dc0b338877",
+      "bytes": 4477215,
+      "sha256": "49e8b42a899c400a9c1b68d51a484fc76f9e8a4a50e27eb853c9a6c2cef54885",
+      "archive_member": "CP7_D17_18_CHOICE_TRANSPORT6.json",
+      "preserved_files": [
+        {
+          "path": "12686462342/T3_PACKAGE_FILES_INSTALL.json",
+          "bytes": 1806,
+          "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+        },
+        {
+          "path": "12686462342/T3_PACKAGE_INSTALL.json",
+          "bytes": 360421,
+          "sha256": "322deff288ae1c43b952a3b589f1c777e2ba6e7e5b68c333b11ea5491f128ef1"
+        },
+        {
+          "path": "12686462342/ALIGNED_CHAIN.json",
+          "bytes": 17536,
+          "sha256": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b"
+        },
+        {
+          "path": "12686462342/CP7_D17_18_CHOICE_TRANSPORT6.json",
+          "bytes": 4477215,
+          "sha256": "49e8b42a899c400a9c1b68d51a484fc76f9e8a4a50e27eb853c9a6c2cef54885"
+        },
+        {
+          "path": "12686462342/T3_BACKUP_RESTORE_DRILL.json",
+          "bytes": 1470,
+          "sha256": "70bc175241324950c322f1132edf5f45e4584e7575da6ff50f75ca74be142292"
+        },
+        {
+          "path": "12686462342/artifact.zip",
+          "bytes": 2826988,
+          "sha256": "f0d6f10c14c2ab16f676c83f379ddddf7f41cbd14e6de65e9f2a65dc0b338877"
+        }
+      ]
+    },
+    {
+      "name": "CP7_D17_18_CHOICE_TRANSPORT6.json",
+      "status": "PASS",
+      "head": "064d471b971651e50d536121d4ac0cfaf7b4c8cf",
+      "run_id": 40430350590,
+      "job_id": 121946222900,
+      "artifact_id": 12704208060,
+      "zip_bytes": 2829206,
+      "zip_sha256": "e8117db7ced1ac47c58f0b55e61e19c9f8a02de51653d8cad0bb5f9e39ac9bbc",
+      "bytes": 4530109,
+      "sha256": "1288861c65976f0fd4c96b9cf1a53bd57f7b3010ee4032a249283ccf0c1e8c44",
+      "archive_member": "CP7_D17_18_CHOICE_TRANSPORT6.json",
+      "preserved_files": [
+        {
+          "path": "12704208060/T3_PACKAGE_FILES_INSTALL.json",
+          "bytes": 1806,
+          "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+        },
+        {
+          "path": "12704208060/T3_PACKAGE_INSTALL.json",
+          "bytes": 360414,
+          "sha256": "e378ecc7c51343f23d95aefa70b5c04cab3712cec6140ee2a3fc95c72c415c35"
+        },
+        {
+          "path": "12704208060/ALIGNED_CHAIN.json",
+          "bytes": 17536,
+          "sha256": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b"
+        },
+        {
+          "path": "12704208060/CP7_D17_18_CHOICE_TRANSPORT6.json",
+          "bytes": 4530109,
+          "sha256": "1288861c65976f0fd4c96b9cf1a53bd57f7b3010ee4032a249283ccf0c1e8c44"
+        },
+        {
+          "path": "12704208060/T3_BACKUP_RESTORE_DRILL.json",
+          "bytes": 1470,
+          "sha256": "ed9fe2f40ff9ff4869240b07ae8f78fff0d7a91011f287c9d95be0264ac82ad7"
+        },
+        {
+          "path": "12704208060/artifact.zip",
+          "bytes": 2829206,
+          "sha256": "e8117db7ced1ac47c58f0b55e61e19c9f8a02de51653d8cad0bb5f9e39ac9bbc"
+        }
+      ]
+    }
+  ],
+  "reason": "Source-race restoration used the same unconditional DROP ROLE loop that failed in actual transport 40f. Import exact baseline-preserving helper from actual PASS 064d before first source-race execution. No exceptions ignored; missing baseline or unexpected roles refuse before DDL. Business case and limits unchanged.",
+  "production_go": false
+}

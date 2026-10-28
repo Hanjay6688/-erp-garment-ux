@@ -1,0 +1,14 @@
+{
+  "contract": "cp7.history-reference-stage.v2",
+  "version": 2,
+  "sql_sha256": "5eb3bf0fa0bfe204a103187bed8981b1ec145eb4e867b22816d982eeff153bde",
+  "parent_v1_SQL_sha256": "fe4c1b7c930fe73b7a6cc79b21edaff592490d52818f925c6a2b3930033fe89f",
+  "postgres_major": 17,
+  "server_encoding": "UTF8",
+  "field_count": 15,
+  "encoding": "POSTGRES17_RECORD_SEND_TEXT_AS_UTF8_BYTEA_V1",
+  "layout_sha256": "9fa5d22b53d337a6472898a5eec99ae7b221aea93313d693588e69cc6e83f32a",
+  "actual_Native": false,
+  "caller_integrated": false,
+  "production_go": false
+}

@@ -1,0 +1,29 @@
+{
+  "contract": "cp7.d17-18.choice-preparation-transport6-qualification.v1",
+  "case_ids": [
+    "CURRENT_CHOICE_AUTH_COLD_REOPEN_PREPARE_SAVE_REPLAY",
+    "CURRENT_CHOICE_AUTH_CHANGED_SOURCE_REFUSES_SAVE",
+    "CURRENT_CHOICE_AUTH_FOREIGN_EPOCH_ANON_REVOKED",
+    "CURRENT_CHOICE_RACE_ENQUEUE_SAME_WORK",
+    "CURRENT_CHOICE_RACE_STEP_SAME_PAYLOAD",
+    "CURRENT_CHOICE_RACE_REVOKED_AFTER_WORK"
+  ],
+  "groups": {
+    "choice_http": [
+      "CURRENT_CHOICE_AUTH_COLD_REOPEN_PREPARE_SAVE_REPLAY",
+      "CURRENT_CHOICE_AUTH_CHANGED_SOURCE_REFUSES_SAVE",
+      "CURRENT_CHOICE_AUTH_FOREIGN_EPOCH_ANON_REVOKED"
+    ],
+    "choice_races": [
+      "CURRENT_CHOICE_RACE_ENQUEUE_SAME_WORK",
+      "CURRENT_CHOICE_RACE_STEP_SAME_PAYLOAD",
+      "CURRENT_CHOICE_RACE_REVOKED_AFTER_WORK"
+    ]
+  },
+  "choice_head": "8dfe1a19c7b7c61558b25c00f1dd388c8565e3d1",
+  "choice_declaration": "scripts/current-choice-preparation-native-qualification/SOURCE.json",
+  "choice_variable": "D17_18_TRANSPORT_CHOICE_NATIVE6_ORIGINAL",
+  "count": 6,
+  "production_go": false,
+  "independent_acceptance": false
+}

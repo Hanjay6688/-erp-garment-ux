@@ -1,0 +1,17 @@
+{
+  "status": "MEASURED_READONLY_SOURCE_ADMISSION_NOT_PRODUCT_LATENCY",
+  "parent_head": "0bccf142f5dc2310226b183643d4ad56d01b23df",
+  "observed_exact_tree_local_head": "72897354241be0f098a2729dcb5be41915b92b9f",
+  "source_pins": 4085,
+  "elapsed_seconds": 226.926,
+  "database_connection_attempts": 0,
+  "function_calls": 16173171,
+  "observed_frozen_admission_subprocess_seconds": 158.059,
+  "previous_native13_run": 40509260377,
+  "previous_full_install_seconds": 1588.790342,
+  "previous_native13_execution_seconds": 39.223094,
+  "change": "Only the new followup workflow uses its required exact accepted Native13/cron Original, all package/restore gates, current product.sources equality and all4085 parent file SHA256 checks instead of re-invoking the older whole ancestry preflight as an extra step. Original fetch verification and every database install/restore/business guard are retained. Current server candidate unchanged.",
+  "measured_followup_speedup": null,
+  "allow_database_execution": false,
+  "production_go": false
+}

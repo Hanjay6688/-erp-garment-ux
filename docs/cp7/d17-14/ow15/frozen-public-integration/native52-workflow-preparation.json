@@ -1,0 +1,12 @@
+{
+  "status": "LOCAL_WORKFLOW_PREPARATION_PASS",
+  "bash_steps_checked": 43,
+  "existing_steps_unchanged_except_four_execution_and_name_paths": true,
+  "new_original_fetch_steps": 1,
+  "A_Native45_actual_outcome_pending": true,
+  "B_facade_actual_PASS_intaken": true,
+  "SOURCE_bound": false,
+  "runtime_dispatched": false,
+  "database_executed": false,
+  "production_go": false
+}

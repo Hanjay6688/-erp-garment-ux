@@ -1,0 +1,15 @@
+{
+  "status": "PREPARED_ONLY",
+  "expected_actual_head": "d05c568cca01085f87f7e48fe85c8d15ca43bffd",
+  "exact_paired_source_pins": 3731,
+  "AST_files": 8,
+  "workflow_shell_steps": 48,
+  "unbound_refused_before_DB": true,
+  "wrong_failed_or_wrong_bytes_prerequisites_refused": 3,
+  "paired_source_transformation_tests": 7,
+  "price_contract_tests": 4,
+  "fixture_contract": "SYNTHETIC_LEGACY_PRICE_NATIVE_CURRENT_AND_OPENING_V2",
+  "actual_database_executed": false,
+  "actual_runtime_credit": false,
+  "production_go": false
+}

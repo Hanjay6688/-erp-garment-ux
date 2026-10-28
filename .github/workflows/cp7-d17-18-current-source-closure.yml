@@ -1,0 +1,62 @@
+name: CP7 D17-18 current integration source closure and complete test checks
+on:
+  push:
+    branches: [astra-a/d17-18-current-source-closure-check-20261028]
+    paths:
+      - .github/workflows/cp7-d17-18-current-source-closure.yml
+      - scripts/current-source-closure-preparation/**
+permissions:
+  contents: read
+concurrency:
+  group: cp7-d17-18-source-closure-${{ github.run_id }}
+  cancel-in-progress: false
+jobs:
+  source-and-client:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Verify exact seven manifests and unchanged B originals without DB
+        run: python scripts/current-source-closure-preparation/check.py
+      - name: Install exact locked client dependencies
+        run: |
+          set -o pipefail
+          npm ci --no-audit --no-fund 2>&1 | tee cp6-proof/current-source-closure/npm-ci.log
+      - name: Check complete main source ownership
+        run: |
+          set -o pipefail
+          npm run check:source 2>&1 | tee cp6-proof/current-source-closure/source.log
+      - name: Check complete access ownership
+        run: |
+          set -o pipefail
+          npm run check:access 2>&1 | tee cp6-proof/current-source-closure/access.log
+      - name: Check complete CSS ownership
+        run: |
+          set -o pipefail
+          npm run check:css 2>&1 | tee cp6-proof/current-source-closure/css.log
+      - name: Typecheck the complete integrated app
+        run: |
+          set -o pipefail
+          npx --no-install tsc -b --pretty false 2>&1 | tee cp6-proof/current-source-closure/typecheck.log
+      - name: Run all eight unchanged Node tests and two dependency boundary tests
+        run: |
+          set -o pipefail
+          node --test --test-reporter=tap scripts/cp7_ow11_analog_browser_helper.test.mjs scripts/current-progress-finance-ui-browser-qualification/progress_oracle.test.mjs scripts/current-source-closure-preparation/test_resolution.test.mjs 2>&1 | tee cp6-proof/current-source-closure/node.log
+      - name: Run complete remaining client and isolated PostgreSQL kernel suite
+        run: |
+          set -o pipefail
+          npm test -- --config scripts/current-source-closure-preparation/vitest.config.mjs --exclude scripts/cp7_ow11_analog_browser_helper.test.mjs --exclude scripts/current-progress-finance-ui-browser-qualification/progress_oracle.test.mjs --exclude scripts/current-source-closure-preparation/test_resolution.test.mjs --maxWorkers=2 --reporter=json --outputFile=cp6-proof/current-source-closure/unit.json 2>&1 | tee cp6-proof/current-source-closure/unit.log
+      - name: Retain exact first source and client results
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: cp7-d17-18-current-source-closure-${{ github.run_attempt }}
+          path: cp6-proof/current-source-closure/
+          if-no-files-found: error
+          retention-days: 30

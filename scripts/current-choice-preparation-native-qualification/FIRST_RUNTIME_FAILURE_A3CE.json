@@ -1,0 +1,73 @@
+{
+  "name": "CP7_D17_18_CHOICE_NATIVE6.json",
+  "status": "INCOMPLETE",
+  "head": "a3ce931748ded1dfbf9a5b972a2b8d8f40cf5b74",
+  "run_id": 40297810688,
+  "job_id": 121488053169,
+  "artifact_id": 12642445168,
+  "zip_bytes": 3001595,
+  "zip_sha256": "a95c2babc48cdcbaa7ba97f867fcc8c70b98a8929dfe2e1da6b71ba3e849ac9a",
+  "bytes": 6169733,
+  "sha256": "4bbbb7f708d611c40538c0b76b1a3f90dc60be282fc227aeccb64e004fc92363",
+  "archive_member": "CP7_D17_18_CHOICE_NATIVE6.json",
+  "previous_failure_remains_INCOMPLETE": true,
+  "counts": {
+    "PASS": 2,
+    "INCOMPLETE": 4
+  },
+  "failed_cases": {
+    "CURRENT_CHOICE_COLD_PREPARE_READ_SAVE_REPLAY": {
+      "status": "INCOMPLETE",
+      "error": "",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py\", line 165, in _strict_group_once\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-choice-preparation-native-qualification/cases.py\", line 235, in run\n    observed.clear();start=monotonic();result=fn()\n                                              ^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-choice-preparation-native-qualification/cases.py\", line 123, in lifecycle\n    B.ready(cur,f,observed);before=B.work(cur,f)\n    ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_choice_preparation_cases.py\", line 88, in ready\n    assert call(cur,'step',f,observed)==result and call(cur,'get',f,observed)==result\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true
+    },
+    "CURRENT_CHOICE_CURRENT_ACCESS_AND_CHANGED_SOURCE": {
+      "status": "INCOMPLETE",
+      "error": "",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py\", line 165, in _strict_group_once\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-choice-preparation-native-qualification/cases.py\", line 235, in run\n    observed.clear();start=monotonic();result=fn()\n                                              ^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-choice-preparation-native-qualification/cases.py\", line 132, in access\n    f=parent.prepare(cur,today,observed);B.ready(cur,f,observed)\n                                         ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_choice_preparation_cases.py\", line 88, in ready\n    assert call(cur,'step',f,observed)==result and call(cur,'get',f,observed)==result\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true
+    },
+    "CURRENT_CHOICE_ATOMIC_SAVE_RETENTION_RECEIPT_USED_GUARD": {
+      "status": "INCOMPLETE",
+      "error": "",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py\", line 165, in _strict_group_once\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-choice-preparation-native-qualification/cases.py\", line 235, in run\n    observed.clear();start=monotonic();result=fn()\n                                              ^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-choice-preparation-native-qualification/cases.py\", line 147, in atomic_retention\n    f=parent.prepare(cur,today,observed);B.ready(cur,f,observed);plan.b.api.admin(cur)\n                                         ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_ow12b_choice_preparation_cases.py\", line 88, in ready\n    assert call(cur,'step',f,observed)==result and call(cur,'get',f,observed)==result\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true
+    },
+    "CURRENT_CHOICE_CANCELLATION_RECOVERY_AND_UNKNOWN_FAILURE": {
+      "status": "INCOMPLETE",
+      "error": "",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py\", line 165, in _strict_group_once\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-choice-preparation-native-qualification/cases.py\", line 235, in run\n    observed.clear();start=monotonic();result=fn()\n                                              ^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-choice-preparation-native-qualification/cases.py\", line 191, in cancellation\n    before_compiler=pre_step_cancellation(cur,today,f,observed)\n                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-choice-preparation-native-qualification/cases.py\", line 70, in pre_step_cancellation\n    assert tick()['state']=='QUEUED'\n           ^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-choice-preparation-native-qualification/cases.py\", line 64, in tick\n    assert elapsed<8000 and claims(cur)==old_claims\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true
+    }
+  },
+  "cp6_restored": true,
+  "baseline_full22_all_rows_all_sequences_equal": true,
+  "baseline_advisors_equal": true,
+  "advisor_gate": false,
+  "unexplained_advisors": [
+    {
+      "name": "rls_enabled_no_policy",
+      "title": "RLS Enabled No Policy",
+      "level": "INFO",
+      "facing": "EXTERNAL",
+      "categories": [
+        "SECURITY"
+      ],
+      "description": "Detects cases where row level security (RLS) has been enabled on a table but no RLS policies have been created.",
+      "detail": "Table `cp7_frozen_choice_preparation.work` has RLS enabled, but no policies exist",
+      "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy",
+      "metadata": {
+        "name": "work",
+        "type": "table",
+        "schema": "cp7_frozen_choice_preparation"
+      },
+      "cache_key": "rls_enabled_no_policy_cp7_frozen_choice_preparation_work"
+    }
+  ],
+  "production_go": false
+}

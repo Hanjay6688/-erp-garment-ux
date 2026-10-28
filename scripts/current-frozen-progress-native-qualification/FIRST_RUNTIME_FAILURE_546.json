@@ -1,0 +1,33 @@
+{
+  "head": "54676bcc969b950dd1ec52eb7feba2d7e58a8cb4",
+  "run_id": 40264118585,
+  "artifact_id": 12628665713,
+  "status": "INCOMPLETE",
+  "production_go": false,
+  "previous_failure_remains_INCOMPLETE": true,
+  "counts": {
+    "PASS": 3,
+    "INCOMPLETE": 2
+  },
+  "failed_cases": {
+    "PROGRESS_OPERATIONAL_DONE_FINANCE_PENDING_THEN_OFFICIAL_RESULT": {
+      "status": "INCOMPLETE",
+      "error": "",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py\", line 165, in _strict_group_once\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-frozen-progress-native-qualification/cases.py\", line 104, in completed\n    final,t2=read(cur,key);reopened,t3=read(cur,key)\n             ^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-frozen-progress-native-qualification/cases.py\", line 61, in read\n    assert m['worker_observation']=='NO_LOCK_OBSERVED'  # no scheduler/worker in this single-connection case\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true
+    },
+    "PROGRESS_CHANGED_BOOK_FAILURE_VISIBLE_AND_FRESH_REQUEST_RECOVERY": {
+      "status": "INCOMPLETE",
+      "error": "",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py\", line 165, in _strict_group_once\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-frozen-progress-native-qualification/cases.py\", line 140, in changed_source\n    observed,t1=read(cur,key)\n                ^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-frozen-progress-native-qualification/cases.py\", line 61, in read\n    assert m['worker_observation']=='NO_LOCK_OBSERVED'  # no scheduler/worker in this single-connection case\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true
+    }
+  },
+  "original": {
+    "name": "CP7_D17_18_PROGRESS_NATIVE5.json",
+    "bytes": 5877819,
+    "sha256": "8b7720f97d5d122aaa6828390e0683e67d6771e4098b98d2ac422adef7dc8f52"
+  }
+}

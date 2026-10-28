@@ -1,0 +1,13 @@
+{
+  "status": "PREPARED_SOURCE_ABSENT",
+  "python_files_parsed": 10,
+  "bash_steps_parsed": 38,
+  "unchanged_predecessor_fixtures": 6,
+  "required_steps": 8,
+  "retained_negative_controls": 18,
+  "added_negative_controls": 4,
+  "expected_scoped_model_restore_checks": 8,
+  "imports_and_source_chain_paths": "PASS",
+  "Native_credit": false,
+  "production_go": false
+}

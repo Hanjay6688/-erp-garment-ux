@@ -1,0 +1,10 @@
+{
+  "status": "PREPARED_ONLY",
+  "source_transform_round_trip": true,
+  "negative_drift_and_key_guards": 3,
+  "PLpgsql_alias_check": "functions 1",
+  "instrumented_SQL_sha256": "5281cea011d179dec7a296eca4a4af9af0d01d11aabe383979497edad0e4e6a0",
+  "database_compilation": "NOT_AVAILABLE_LOCALLY",
+  "runtime_qualified": false,
+  "production_go": false
+}

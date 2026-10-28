@@ -159,7 +159,7 @@ export async function installStagedControls(db, { bounds: b = null } = {}) {
     begin raise exception using errcode='55000',message='CP7_RUN_IMMUTABLE';end $$;
    create schema cp7_analysis_native authorization cp7_capture;create schema cp7_fabric_native;create schema cp7_supply_native;
    grant usage on schema cp7_private,cp7_planning,cp7_schedule_native,cp7_netting_native,cp7_fabric_native,cp7_supply_native,extensions to cp7_capture;
-   ${pick(analysis, 'cp7_analysis_native.fact', 'cp7_analysis_native.fingerprint')}
+   ${pick(analysis, 'cp7_analysis_native.fact', 'cp7_analysis_native.rounded_suggestion', 'cp7_analysis_native.fingerprint')}
    ${pick(analysis, 'cp7_analysis_native.build').replace('create function cp7_analysis_native.build(', 'create function cp7_analysis_native.build_operational(')}
    ${pick(finance, 'cp7_analysis_native.finance_apply', 'cp7_analysis_native.finance_overlay')}
    ${[...functionBlocks(finance)].filter(([name]) => name === 'cp7_analysis_native.build').map(([, b]) => b).join('')}

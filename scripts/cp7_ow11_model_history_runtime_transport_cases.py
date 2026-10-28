@@ -33,7 +33,8 @@ CAPTURE, READ = 'erp_cp7_capture_model_history_v1', 'erp_cp7_read_model_history_
 
 def sources():
     return {p.name: sha256(p.read_bytes()).hexdigest()
-            for p in (Path(__file__), Path(native.__file__))}
+            for p in (Path(__file__), Path(native.__file__),
+                      Path(__file__).with_name('cp7_ow11_model_history_runtime_transport_probe.py'))}
 
 
 def cases(cur, today):

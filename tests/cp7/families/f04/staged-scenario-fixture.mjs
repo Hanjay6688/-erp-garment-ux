@@ -52,7 +52,7 @@ export function chainSql() {
    ${pick(read('scripts/cp7-src/planning/schedule-scenario.sql'), 'cp7_schedule_native.fingerprint', 'cp7_schedule_native.build')}
    ${pick(netting, 'cp7_netting_native.fingerprint', 'cp7_netting_native.bound_product', 'cp7_netting_native.matching_models_within', 'cp7_netting_native.matching_models',
      'cp7_netting_native.matching', 'cp7_netting_native.matches', 'cp7_netting_native.timeline', 'cp7_netting_native.build')}
-   ${pick(analysis, 'cp7_analysis_native.fact', 'cp7_analysis_native.fingerprint')}
+   ${pick(analysis, 'cp7_analysis_native.fact', 'cp7_analysis_native.rounded_suggestion', 'cp7_analysis_native.fingerprint')}
    ${pick(fabric, 'cp7_fabric_native.material_hash', 'cp7_fabric_native.index', 'cp7_fabric_native.recipe_state', 'cp7_fabric_native.plan', 'cp7_fabric_native.needs')}
    ${pick(material, 'cp7_analysis_native.material_needs')}
    ${pick(analysis, 'cp7_analysis_native.build').replace('create function cp7_analysis_native.build(', 'create function cp7_analysis_native.build_operational(')}

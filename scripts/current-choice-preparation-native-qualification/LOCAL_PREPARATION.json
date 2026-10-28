@@ -1,0 +1,17 @@
+{
+  "status": "PREPARED_UNBOUND_NO_DATABASE",
+  "focused_cases": 6,
+  "syntax_and_actual_module_import": true,
+  "bash_steps": 45,
+  "wrong_predecessor_refused": true,
+  "actual_predecessor_status": "RUNNING_UNBOUND",
+  "production_go": false,
+  "B_head": "b96e2f7402b3373f9ab5fa7ede30d34a7048aea3",
+  "product_parent": "73b5ada8a6e1c6fbbfc53a3a4fe2b305def6657f",
+  "actual_pre_step_cancellation_case_prepared": true,
+  "actual_pre_step_cancellation_runtime": false,
+  "prepared_progress_head": "0c86d27739ff74aba65967453465880d1c72e94c",
+  "exact_progress_harness_files": 9,
+  "first_failed_546_Original_refused": true,
+  "runtime_credit": false
+}

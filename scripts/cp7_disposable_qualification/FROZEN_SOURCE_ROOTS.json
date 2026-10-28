@@ -1,0 +1,15 @@
+{
+  "writer": "ca7f09556397801c50a2277bdb65b1bf019f9a05",
+  "harness": "c6b0e4fb119c4e91fecea66ebf2d789426b22c2b",
+  "candidate": "25fa4736329e5148dfdb3572bc169952cba23251",
+  "base": "1bdca3766f7c9800d68295ff5122798060b8a05d",
+  "frozen": "469ed1e8b2edf80f7988feba38162a5be7251b8c",
+  "finance-frozen": "05bad4f465c61caabddfc0e8f4d5914b39aab22a",
+  "model-frozen": "6d056959d33808dc59b8c38fb15ce8492db44523",
+  "target-frozen": "3776a052ea97695dce95da018be182fdf21fe85b",
+  "history-frozen": "e3261d84ae217d1d37374990dec5804fd1970934",
+  "scoped-model-frozen": "ffa0b63dbb6f0b7888eeaec59d0f39347cd58e0e",
+  "versioned-target-frozen": "${{ steps.qualified_heads.outputs.native }}",
+  "B-performance-frozen": "${{ steps.qualified_heads.outputs.B }}",
+  "B-frozen-units-qualified": "10a36e35b956febd9e34907f20fc5b782ec48dc1"
+}

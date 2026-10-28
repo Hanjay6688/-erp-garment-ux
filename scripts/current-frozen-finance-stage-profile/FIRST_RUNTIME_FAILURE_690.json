@@ -1,0 +1,42 @@
+{
+  "head": "690783115765e677e0413d976d90489d86ab57e2",
+  "run_id": 40263535654,
+  "artifact_id": 12627926948,
+  "status": "INCOMPLETE",
+  "production_go": false,
+  "previous_failure_remains_INCOMPLETE": true,
+  "measurements": [
+    {
+      "name": "FIRST_OPERATIONAL_UNIT",
+      "status": "COMPLETED_DIAGNOSTIC",
+      "elapsed_ms": 11120.77,
+      "sqlstate": null,
+      "message": null,
+      "read_only": false,
+      "all_measured_effects_rolled_back": true
+    },
+    {
+      "name": "OFFICIAL_FINANCE_REPORT_UNIT",
+      "status": "ERROR_DIAGNOSTIC",
+      "elapsed_ms": 2593.979,
+      "sqlstate": "25006",
+      "message": "cannot execute SELECT FOR UPDATE in a read-only transaction",
+      "read_only": true,
+      "all_measured_effects_rolled_back": true
+    },
+    {
+      "name": "SMALL_STATUS_READ",
+      "status": "COMPLETED_DIAGNOSTIC",
+      "elapsed_ms": 48.276,
+      "sqlstate": null,
+      "message": null,
+      "read_only": true,
+      "all_measured_effects_rolled_back": true
+    }
+  ],
+  "original": {
+    "name": "CP7_D17_18_FACTORY_STAGE_PROFILE1.json",
+    "bytes": 4953515,
+    "sha256": "0d6bd887d69a06dc9337b6383a8844f73016e83b826c0bf4c9470f8beba6a19b"
+  }
+}

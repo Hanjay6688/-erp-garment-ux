@@ -1,0 +1,15 @@
+{
+  "contract": "cp7.current-versioned-target-native36.execution-readiness.v1",
+  "source_bound_parent": "28ee2157d97c065587db50df5b022ceff3dbb5cd",
+  "qualified_parent_tree": "1f3334a55c4e704756158d622479f3ee1028a385",
+  "qualified_parent_source_sha256": "d1b69d9804b9e58b249c920387a0be8fb20eb5d87c2605b3133a41ef7ef07cb7",
+  "complete_parent_admission_sha256": "f9a769182457fa6bc52de7266a018a7866836561d8fa6d4a257cfac84e916346",
+  "prior_source_pins": 3471,
+  "actual_prerequisites": 12,
+  "cases": 36,
+  "first_execution_branch": "astra-a/d17-14-versioned-target-native36-20261025",
+  "reason": "branch creation produced no workflow run; this committed readiness record supplies a first push event",
+  "runtime_executed": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

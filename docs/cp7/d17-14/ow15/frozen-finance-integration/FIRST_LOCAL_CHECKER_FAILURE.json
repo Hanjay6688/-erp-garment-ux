@@ -1,0 +1,9 @@
+{
+  "status": "LOCAL_CHECKER_CONTROL_FAILED",
+  "error": "CHANGED_SOURCE_ACCEPTED:MANIFEST.json",
+  "cause": "The negative control appended JSON whitespace; fresh source admission intentionally compares manifest semantics, while installed state and qualification SOURCE bind exact bytes.",
+  "correction": "Mutate finance_mode from STAGED to DEFERRED to test a material declaration change. Do not tighten or weaken product code for a whitespace-only preparation control.",
+  "first_checker_sha256": "6aece9a71b72665dab65e4dbc811ff357837c3c60db7a9e3c97983d1b182043f",
+  "database_executed": false,
+  "production_code_changed_for_control": false
+}

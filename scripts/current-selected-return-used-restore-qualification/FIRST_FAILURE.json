@@ -1,0 +1,17 @@
+{
+  "head": "e127aebf1a69ea3af7f3727287bf3f922b60c731",
+  "run": 40176745608,
+  "job": 121118943586,
+  "artifact": 12593961498,
+  "original_sha256": "99d5070250d48192b5a0e1fa65173bbe6a6628857bc789a2982e5fc0c10a51bb",
+  "status": "INCOMPLETE",
+  "steps_completed": 1,
+  "observed_sqlstate": "P0001",
+  "observed_named_refusal": "OW04_SOURCE_CUSTOMER_MISMATCH",
+  "incorrect_retained_harness_expectation": "CP7_NATIVE_EMPTY_ACTIVE_SOURCE_REQUIRED",
+  "observed_business_changed": 0,
+  "complete_baseline_restored": true,
+  "first_failure_preserved": true,
+  "product_SQL_changed": false,
+  "production_go": false
+}

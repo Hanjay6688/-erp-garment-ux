@@ -1,0 +1,30 @@
+{
+  "contract": "cp7.current-frozen-official-finance-private.v1",
+  "original_sql_sha256": {
+    "cp7_frozen_analysis_units_v2.request(jsonb,uuid)": "1378296c40a3e4304b3426ebfc2eeaf9f38238d562d3eb7f1578d2e60d8e2e5f",
+    "cp7_frozen_analysis_units_v2.producer_hash()": "5fdbe79e7488a57d6973fec3021d83dd3329842ff6516ac31d7789c409259a1e"
+  },
+  "generated_sql_sha256": "528d2142487c52581b9603d1dcd0efff944c8e25395e528336942d46238774a3",
+  "A_finance_patcher_sha256": "aff34b118681994b8f081f6cd7652015e3c369d40310f5d4dd3e19892bebfe67",
+  "B_capsule_renderer_sha256": "c88490cb1343774b2a4503f6dc932b92616389c5a7f9f527bae2a6d0e71da261",
+  "old_replacements": [
+    "cp7_frozen_analysis_units_v2.request(jsonb,uuid)",
+    "cp7_frozen_analysis_units_v2.producer_hash()"
+  ],
+  "new_private_functions": [
+    "cp7_current_frozen_finance.source(jsonb,boolean)",
+    "cp7_current_frozen_finance.request_finance(jsonb,uuid)"
+  ],
+  "new_schemas": 1,
+  "new_tables": 0,
+  "new_public_rpcs": 0,
+  "finance_mode": "STAGED",
+  "finance_mode_bound_before_first_seal": true,
+  "source_sealed_once": true,
+  "official_source": "cp7_finance_capture",
+  "financial_math_added": false,
+  "Native40_actual_predecessor_required": true,
+  "factory_finance_qualified": false,
+  "default_adopted": false,
+  "production_go": false
+}

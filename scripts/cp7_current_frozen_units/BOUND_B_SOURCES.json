@@ -1,0 +1,151 @@
+{
+  "contract": "cp7.current-frozen-units-exact-B-inputs.v1",
+  "B_head": "10a36e35b956febd9e34907f20fc5b782ec48dc1",
+  "A_prepared_parent": "4608b478ac50b52eba69e938488402b296a0f46e",
+  "files": {
+    "scripts/cp7_frozen_analysis_units_v2/PREPARATION.json": {
+      "sha256": "b99055d313ff33a5e7e44a5dd9d624c6896ed092c89343320edb05ea185bfca9",
+      "bytes": 2986,
+      "B_blob": "ade9224fba8545e6a73b58d7829143fc3e32488c"
+    },
+    "scripts/cp7_frozen_analysis_units_v2/README.md": {
+      "sha256": "dc5bf9d13870e3bae5f10e1b7124afacf7a25e8f5ac4db227e64ee1b0e45cd07",
+      "bytes": 3550,
+      "B_blob": "bf5660b50ada3df228c0bcd352fdd5daa88e4958"
+    },
+    "scripts/cp7_frozen_analysis_units_v2/__init__.py": {
+      "sha256": "a860947513ba204f2060fc0bc52e928f5c6318778f9674cec52357cc3189679f",
+      "bytes": 7281,
+      "B_blob": "38358adf3c17fabbacbd1e50ebc333f716226c0e"
+    },
+    "scripts/cp7_frozen_analysis_units_v2/cache.sql": {
+      "sha256": "0cd9486ef2b0e53c8784e37ee72d78681f667c1e60397bf51fccf51f63d032de",
+      "bytes": 4732,
+      "B_blob": "837aa087e596c2a61a25599ad2e7b4907dcd6078"
+    },
+    "scripts/cp7_frozen_analysis_units_v2/hooks.prepared.sql": {
+      "sha256": "c6df2a58f8db405035200bf5ce73f5b6e1562ce381c1bb8260300e128ca0ca54",
+      "bytes": 65035,
+      "B_blob": "59f5eee519a0e4a02e6b976bf0151bb426fd048b"
+    },
+    "scripts/cp7_frozen_analysis_units_v2/render.py": {
+      "sha256": "00af3b484d6b344a84e98fa9581d059e089bb91b5550b25f847c4580bb4f82a1",
+      "bytes": 7408,
+      "B_blob": "e22919d7eb13c37ece4120fec628c2409050fe8b"
+    },
+    "scripts/cp7_frozen_analysis_units_v2/request.prepared.sql": {
+      "sha256": "e8221fd102a332ba35c3aa3dd72fc3e582e08f8b4fead1a43c2f7c9be8f10678",
+      "bytes": 2939,
+      "B_blob": "8a9c31dc67bd5c32980e6233c9e6e727c7fc93b8"
+    },
+    "scripts/cp7_frozen_analysis_units_v2/run-hook.prepared.sql": {
+      "sha256": "ea412844c67a02f03f809f459f8a380320d37241b357901fe454bec017f541a9",
+      "bytes": 29354,
+      "B_blob": "fab8d0fc7ea387c6b4f9a862f5129f0c7d4b5f48"
+    },
+    "scripts/cp7_frozen_analysis_units_v2/source.prepared.sql": {
+      "sha256": "c03415395bbe26fd32d634f93b9a462bf14178ef6d9a244adf939c3b23cee4fb",
+      "bytes": 3305,
+      "B_blob": "eaeaedf16a23bcfd7b3786061a7e4a9b079b3f09"
+    },
+    "scripts/cp7_frozen_analysis_v2/MANIFEST.json": {
+      "sha256": "3f2c362db86af91ad47127887353f2f7d68824d662d590225538b0620c2ef6d7",
+      "bytes": 2891,
+      "B_blob": "d1b5b7b019236475f272751725efdaba94dae905"
+    },
+    "scripts/cp7_frozen_analysis_v2/README.md": {
+      "sha256": "de903731ed1f933dada2fe64c1d2c7da4937ba09714293066513a6e5d7dbd4cf",
+      "bytes": 1665,
+      "B_blob": "d0a5f670862b17e513f3794806dd8e94dc89ece9"
+    },
+    "scripts/cp7_frozen_analysis_v2/__init__.py": {
+      "sha256": "080fce3edad9384e9be174b02548c15ea65bf929ba23f54548f0e307394f1d28",
+      "bytes": 5087,
+      "B_blob": "bb024869e93282dd5f3ffcc5fca1bdefaf943641"
+    },
+    "scripts/cp7_frozen_analysis_v2/capsule.sql": {
+      "sha256": "3d54d6623ce56686773bbfd1f8f5c033c0c7ac8ceb41b412f807cc148f89bb26",
+      "bytes": 17732,
+      "B_blob": "a7aa1bbf73365e5d5dc55220ea4ffd79fb3c68c2"
+    },
+    "scripts/cp7_frozen_analysis_v2/capsule.template.sql": {
+      "sha256": "5010b2646821e6a292a775eeda593ef290ec3fb789287e6ecff52ee0aa07ddc9",
+      "bytes": 13175,
+      "B_blob": "a4caaffbfa74e42bf8816fb3840360339a01825b"
+    },
+    "scripts/cp7_frozen_analysis_v2/render.py": {
+      "sha256": "c88490cb1343774b2a4503f6dc932b92616389c5a7f9f527bae2a6d0e71da261",
+      "bytes": 5039,
+      "B_blob": "0667274adf97ebedba4470284d4bba61e83a3920"
+    },
+    "scripts/cp7_history_reference_binary_v2/MANIFEST.json": {
+      "sha256": "ce072915434546aa26ffc121fe2f350063b0ace5fb598c8a843c51d45302e8d6",
+      "bytes": 550,
+      "B_blob": "cef249985eaf7d82e4a42b56862e211d21cd4e6c"
+    },
+    "scripts/cp7_history_reference_binary_v2/README.md": {
+      "sha256": "1603d6c4c520e39f21d7ca795ef42f5d0200c8a0eaab32dc05e62f6fc0b13eb0",
+      "bytes": 2066,
+      "B_blob": "17a70ce35f005e30c6c991cb2cd993d1125080c9"
+    },
+    "scripts/cp7_history_reference_binary_v2/__init__.py": {
+      "sha256": "7159b74bd64f089e4000fbcc4988c8b188035c6a8c9afb6fa7b9c02227f108f9",
+      "bytes": 5942,
+      "B_blob": "bb7109493759d962ea7f11c317f4f3a17e2633ed"
+    },
+    "scripts/cp7_history_reference_binary_v2/digest.sql": {
+      "sha256": "5eb3bf0fa0bfe204a103187bed8981b1ec145eb4e867b22816d982eeff153bde",
+      "bytes": 3775,
+      "B_blob": "e02c44a20e252dec01741c600833decc0250efb9"
+    },
+    "scripts/cp7_history_reference_binary_v2/render.py": {
+      "sha256": "ef8320bddebe27a1b64a222a39da84c9bdcf7095fc1afeb8ed3688d180579b76",
+      "bytes": 2722,
+      "B_blob": "1689a523ba85aca5445599d7cdadcd3120dd4ef9"
+    }
+  },
+  "qualified_component_originals": {
+    "B-binary-e33-native4": {
+      "name": "CP7_OW12B_STOCK_BINARY.json",
+      "status": "PASS",
+      "head": "e33f3095612d7274b2780b1a3ee18c68a4d14533",
+      "run_id": 40206240916,
+      "job_id": 121207674132,
+      "artifact_id": 12604405073,
+      "zip_bytes": 158735,
+      "zip_sha256": "29de2bca13e5071d897e3ceba99bfcac4528c49b841b211ef006417f40a415b5",
+      "bytes": 1387675,
+      "sha256": "569261e3543f9227a50b77a7e35eee43186458e15cb767b0bf4f56470f3d40de",
+      "archive_member": "CP7_OW12B_STOCK_BINARY.json"
+    },
+    "B-frozen-capsule-e33-native4": {
+      "name": "CP7_OW12B_FROZEN_CAPSULE.json",
+      "status": "PASS",
+      "head": "e33f3095612d7274b2780b1a3ee18c68a4d14533",
+      "run_id": 40206240919,
+      "job_id": 121207674048,
+      "artifact_id": 12604112580,
+      "zip_bytes": 162442,
+      "zip_sha256": "7fa3be5f54bfbe0d2c1583edffff1d0edcffd648cb50daffd3fdb7139adf069f",
+      "bytes": 1422041,
+      "sha256": "2e8acc5a1ef0df263d94c5dea3a8ead38cafa74175676245cbafe0c7a5cba37a",
+      "archive_member": "CP7_OW12B_FROZEN_CAPSULE.json"
+    },
+    "B-frozen-units-10a-native4": {
+      "name": "CP7_OW12B_FROZEN_UNITS.json",
+      "status": "PASS",
+      "head": "10a36e35b956febd9e34907f20fc5b782ec48dc1",
+      "run_id": 40209309494,
+      "job_id": 121216934173,
+      "artifact_id": 12605623860,
+      "zip_bytes": 163545,
+      "zip_sha256": "2884bee24d56ef2909ed9eb5dc640b0668e20aada351c67eea98c58d595c5bb9",
+      "bytes": 1429739,
+      "sha256": "a9b3e3f07c6248399f986d400ac5572a333526d5e7d3ebc31f3c184caad19ae6",
+      "archive_member": "CP7_OW12B_FROZEN_UNITS.json"
+    }
+  },
+  "public_facade_copied": false,
+  "A_runtime_qualified": false,
+  "production_go": false
+}

@@ -18,13 +18,14 @@ export async function installAssemblyControls(db) {
  const current = readFileSync(path, 'utf8')
  const old = execFileSync('git', ['show', `${assemblyBase}:${path}`], { encoding: 'utf8', maxBuffer: 1024 * 1024 })
  const fact = extractFunction(current, 'cp7_analysis_native.fact')
+ const rounding = extractFunction(current, 'cp7_analysis_native.rounded_suggestion')
  const ref = extractFunction(readFileSync('scripts/cp7-src/wip/normalize.sql', 'utf8'), 'cp7_wip.ref')
  // Explicit precomputed source stand-ins isolate the assembler. These are
  // kernel comparisons, never Native Auth/business lifecycle qualification.
  await db.execute(`create schema extensions;create schema cp7_analysis_native;
   create schema cp7_netting_native;create schema cp7_fabric_native;create schema cp7_supply_native;
   create function extensions.digest(b bytea,kind text)returns bytea language sql immutable as $$select pg_catalog.sha256(b)$$;
-  ${fact}${ref}
+  ${fact}${rounding}${ref}
   create function cp7_netting_native.build(c jsonb,q jsonb)returns jsonb language sql immutable as $$select c->'test_netting'$$;
   create function cp7_fabric_native.plan(c jsonb,n jsonb)returns jsonb language sql immutable as $$select '{}'::jsonb$$;
   create function cp7_fabric_native.needs(c jsonb,r jsonb,a jsonb,p jsonb)returns jsonb language sql immutable as $$select case when r?'sql_null_fabric'then null else coalesce(r->'test_fabric','[]'::jsonb)end$$;

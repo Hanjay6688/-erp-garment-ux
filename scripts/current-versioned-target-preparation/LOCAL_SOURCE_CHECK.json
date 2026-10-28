@@ -1,0 +1,12 @@
+{
+  "status": "PASS",
+  "new_private_functions": 13,
+  "new_schemas": 4,
+  "named_hooks_verified": 21,
+  "changed_bodies": 14,
+  "retained_bodies": 7,
+  "exact_B_sources_verified": true,
+  "syntax_verified": true,
+  "Native_credit": false,
+  "production_go": false
+}

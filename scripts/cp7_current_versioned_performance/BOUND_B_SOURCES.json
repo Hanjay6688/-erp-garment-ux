@@ -1,0 +1,34 @@
+{
+  "contract": "cp7.exact-B-context-path-inputs.v1",
+  "B_head": "c7f06b855512e0c8d450522c36e84f4cab570a2a",
+  "actual_component_proof": {
+    "name": "CP7_OW11_MODEL_TARGET_V2_SCALE.json",
+    "status": "PASS",
+    "head": "c7f06b855512e0c8d450522c36e84f4cab570a2a",
+    "run_id": 40177861698,
+    "job_id": 121122357646,
+    "artifact_id": 12593480203,
+    "zip_bytes": 120103,
+    "zip_sha256": "a9558c161e17ac09dfbdd090b40ff25410b7dca97364fcb3f2c4d24d9850f9db",
+    "bytes": 993942,
+    "sha256": "0f4d90b4ceadd0c85ecc1768da288aaf26b88d0a60c8a90ed3ca4ace885242a9",
+    "archive_member": "CP7_OW11_MODEL_TARGET_V2_SCALE.json"
+  },
+  "files": {
+    "qualified-kernel.sql": {
+      "qualified_path": "scripts/cp7_product_analog_consumer/kernel.sql",
+      "qualified_sha256": "1c6d227993758b9670150f326c3cb9b24bc0c7000b2c906544d9c179d5b25561",
+      "retained_path": "scripts/cp7_product_analog_consumer/kernel.sql",
+      "retained_sha256": "26885f7d83c4ad4301f3e81727c6bc3555903e65598941f726bd24e395fa2992"
+    },
+    "qualified-provenance-hooks.sql": {
+      "qualified_path": "scripts/cp7_product_analog_provenance_stage/hooks.sql",
+      "qualified_sha256": "73f591d3ecd4d8977ab39c26be65290abe5b6201a6a5f1ee2ba8a515a2aabd87",
+      "retained_path": "scripts/cp7_product_analog_provenance_stage/hooks.sql",
+      "retained_sha256": "22d732d58456635bff9e2c546f32081c0564fed54a75a57d513b224354c0c02f"
+    }
+  },
+  "actual_A_runtime": false,
+  "production_go": false,
+  "independent_acceptance": false
+}
