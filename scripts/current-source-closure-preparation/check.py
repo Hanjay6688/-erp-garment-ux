@@ -40,7 +40,16 @@ def check():
         restored=restored.replace(b'${fact}${rounding}${ref}',b'${fact}${ref}')
         restored=restored.replace(b"'cp7_analysis_native.fact', 'cp7_analysis_native.rounded_suggestion',",b"'cp7_analysis_native.fact',")
         assert restored==before,('ONLY_ADD_EXACT_PRODUCT_DEPENDENCY',path)
-    for path in ('src/App.tsx','package.json','package-lock.json',
+    resolution=config['qualification_test_resolution']
+    for path,digest in resolution['files'].items():
+        assert sha256((ROOT/path).read_bytes()).hexdigest()==digest,path
+    raw=(ROOT/resolution['provider_path']).read_bytes()
+    assert sha256(raw).hexdigest()==resolution['provider_sha256']
+    assert raw==subprocess.check_output(['git','-C',str(ROOT),'show',
+        resolution['provider_head']+':'+resolution['provider_source_path']])
+    assert sha256((ROOT/resolution['unchanged_default_parser']).read_bytes()).hexdigest()==resolution['unchanged_default_parser_sha256']
+    assert resolution['product_or_existing_test_bodies_changed']is resolution['default_Vite_configuration_changed']is False
+    for path in ('src/App.tsx','package.json','package-lock.json','vite.config.ts',
         'scripts/cp6_t3_aligned_install.py','scripts/cp7_p21_current_chain_rehearsal_probe.py'):
         assert(ROOT/path).read_bytes()==subprocess.check_output(
             ['git','-C',str(ROOT),'show',config['base_head']+':'+path]),path

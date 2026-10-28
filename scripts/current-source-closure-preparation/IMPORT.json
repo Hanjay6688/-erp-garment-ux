@@ -1229,7 +1229,7 @@
       "src/nativeScopedModel.test.ts(3,18): error TS2307: Cannot find module '../tests/fixtures/nativeScopedModelSql.json' or its corresponding type declarations."
     ]
   },
-  "followup_change": "Restore exact missing current B and pinned older vendored test dependencies; load exact product helper in three SQL test fixtures; run eight unchanged Node tests in Node and the complete remaining suite in Vitest. Frozen manifests, product SQL and all assertion bodies unchanged.",
+  "followup_change": "Use the exact frozen parser already pinned and executed by the qualified UI host for nine explicit frozen capsule importers only. Default application/parser and all retained vendor graphs resolve unchanged. All3253 existing assertions stay byte-identical; eight original plus two new boundary Node tests execute explicitly. No global alias, oracle change or production adoption.",
   "test_dependency_provenance": [
     {
       "path": "scripts/cp7_frozen_analysis_facade_v2/client/nativeFrozenAnalysis.test.ts",
@@ -1938,11 +1938,14 @@
   "node_test_runner": {
     "files": [
       "scripts/cp7_ow11_analog_browser_helper.test.mjs",
-      "scripts/current-progress-finance-ui-browser-qualification/progress_oracle.test.mjs"
+      "scripts/current-progress-finance-ui-browser-qualification/progress_oracle.test.mjs",
+      "scripts/current-source-closure-preparation/test_resolution.test.mjs"
     ],
-    "expected_tests": 8,
+    "expected_tests": 10,
     "same_tests_must_pass_node_before_Vitest": true,
-    "Vitest_excludes_only_these_Node_files_and_existing_browser_exclusion": true
+    "Vitest_excludes_only_these_Node_files_and_existing_browser_exclusion": true,
+    "unchanged_original_tests": 8,
+    "new_test_dependency_boundary_tests": 2
   },
   "local_dependency_admission_refusal": {
     "status": "RETAINED_SOURCE_DECLARATION_REFUSAL",
@@ -1950,5 +1953,41 @@
     "reason": "Restoring a redundant root copy would enlarge the frozen preparation glob. Original test remains byte-identical in its already-retained vendor path and executes there.",
     "retained_test_path": "scripts/cp7_current_progress_finance_ui/vendor/scripts/cp7_frozen_choice_preparation/client/ChoicePreparationReopen.dom.test.tsx",
     "product_source_and_source_guard_changed": false
+  },
+  "third_CI_result": {
+    "status": "INCOMPLETE_TWO_FROZEN_CAPSULE_FILES_WRONG_PARSER_VERSION",
+    "head": "8bcf667637c7ef6fcb667bc13032545bebea4e60",
+    "run": 40622381199,
+    "job": 122599229114,
+    "artifact": 12788711054,
+    "zip_sha256": "5a4bb34e5268d5a85f6c84bbfee19add7a22e4244c66239031f862ea25f6e47d",
+    "exact_source_files": 4315,
+    "typecheck_source_access_CSS": "PASS",
+    "Node_tests": 8,
+    "Vitest_tests": 3253,
+    "passed": 3242,
+    "failed": 11,
+    "failed_files": 2,
+    "all_previous_P19_and_import_failures_closed": true,
+    "failed_paths": [
+      "scripts/cp7_frozen_analysis_readers_v2/client/nativeFrozenAnalog.test.ts",
+      "scripts/cp7_frozen_choice_preparation/client/PreparedFrozenAnalogPanel.dom.test.tsx"
+    ]
+  },
+  "qualification_test_resolution": {
+    "contract": "FROZEN_V2_READERS_USE_EXACT_CURRENT_B_PARSER_ONLY",
+    "provider_path": "scripts/cp7_current_progress_finance_ui/vendor/src/nativeProductAnalog.ts",
+    "provider_source_path": "src/nativeProductAnalog.ts",
+    "provider_head": "1dd83782dcaa4500bace7bf392a76f58be0271c3",
+    "provider_sha256": "149277f173bbfcdc91a68157d973eb1ceffd08d66c0b44a1bdfa074f4d9befd9",
+    "unchanged_default_parser": "src/nativeProductAnalog.ts",
+    "unchanged_default_parser_sha256": "964da041a7386d541983bb6dd28f10fef26bba1174315d96d09834dbdb099e20",
+    "product_or_existing_test_bodies_changed": false,
+    "default_Vite_configuration_changed": false,
+    "files": {
+      "scripts/current-source-closure-preparation/test_resolution.mjs": "8bef2dd9aa54e7378994aee306aef42e60ccad00a71d1d89da8fcdd9d1757573",
+      "scripts/current-source-closure-preparation/test_resolution.test.mjs": "b0b2d46cf7af69638b9c94e7146d1c770be0f74c658080063ab3331c62e657c3",
+      "scripts/current-source-closure-preparation/vitest.config.mjs": "f2392e0b3c78dddc736cf578f29dffcbe11dd606df7f9d0bf7fab0defb931b21"
+    }
   }
 }
