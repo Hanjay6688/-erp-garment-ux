@@ -1,3 +1,32 @@
+## A / 28 Oktober 2026 WIB — factoryDF dan suiteb7 berjalan; hasil49/8bcf dipertahankan
+
+A tetap writer uang/stok/HPP dan integrator; B tetap pemilik produksi/perencanaan.
+VENI. VIDI. VICI. ERP. Reliable data adalah dewa. Keuangan termasuk laporan,
+stok, dan HPP adalah raja. Formal5/16, CP7C belum dimulai;
+`production_go=false`, `independent_acceptance=false`.
+
+Factory49 /run40620046004 **INCOMPLETE sebelum tujuh grup berjalan**: adapter
+admisi kehilangan `gate`. Regresi streaming307,2MB, pemasangan, inverse pra-pakai
+serta pemulihan awal22/data/sequence/role/CP6/advisor lulus. Ini tidak menambah
+kasus factory. Original102JSON+ZIP serta log lengkap dipertahankan. Penerus
+`df7cbe8c` /run40623586371 mengembalikan pemeriksaan awal yang sama dan menambah
+dua tes runner asli:19tes,29pin dan admisi lengkap56,541detik/0DB lulus.
+Produk, observer900/150detik, runner dan seluruh oracle bisnis tetap identik.
+
+Suite8bcf /run40622381199 **INCOMPLETE 3242PASS/11FAIL dari3253 tes**: hanya dua
+berkas frozen yang tersambung ke parser versi lama. Semua2941 assertion dari
+suite f1be kini hadir dan PASS; delapan tes Node juga PASS. Penerus `b7d6b75a`
+/run40624362425 mengikat sembilan importer frozen ke parser B persis yang sudah
+terpakai di host UI terkualifikasi. Parser/default Vite aplikasi utama dan semua
+assertion lama tidak berubah; tiada alias global.4315sumber/7manifest/38berkas B
+persis,10tes Node dan admisi lengkapD3/0DB lulus. Suite lengkap sedang berjalan;
+termasuk kernel PostgreSQL native terisolasi, bukan bukti NativeERP/Auth/browser.
+
+D3 tetap aktual6/7 dan seluruh pemulihanPASS. UIa06 tetap tertutup/0Auth-browser;
+harus diikat ke Original/paket **DF lengkap PASS** sebelum uji dua salinan nyata.
+Lihat `ow15/D17_18_FACTORY49_AND_SOURCE8BCF_ACTUAL.json` dan posisi A aktif.
+Default, integrasi resmi, hosted, audit independen serta scope B belum diadopsi/ditutup.
+
 ## A / 28 Oktober 2026 WIB — D3 aktual 6/7; factory49 dan suite8bcf berjalan
 
 A tetap writer uang/stok/HPP dan integrator; B tetap pemilik produksi/perencanaan.
