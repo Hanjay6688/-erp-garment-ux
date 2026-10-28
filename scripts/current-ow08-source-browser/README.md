@@ -14,9 +14,13 @@ remain identical after every read journey. Console, width, contrast and focused
 screenshots remain required.
 
 No new host/installer/ledger is created. The existing current money/CP6 runner,
-copy authority and complete restoration will be reused after actual9fde is
-resolved and a separate exact source/prerequisite declaration is prepared.
-There is no runnable workflow or qualifying SOURCE declaration yet.
+copy authority and complete restoration are reused through a small second
+caller. The old runner still defaults to exactly its two money cases; this
+caller selects six different cases and labels them separately. Its declaration
+keeps every historical manifest intact. Admission is CLOSED until actual9fde
+and its complete package are accepted, pinned and read using the frozen intake
+checker. The workflow triggers only on a separate qualification branch, not
+this prepared branch. No database work has been run for these six cases.
 
 The second targeted pair prepares only an existing Native delivery, then posts
 the unknown-price failed attempt through the real screen and sets its price

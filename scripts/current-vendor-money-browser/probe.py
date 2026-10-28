@@ -66,7 +66,7 @@ def run_inner():
         expected_case_count=len(IDS),required_case_ids=list(IDS),formal_CP7C_started=False,real_Auth_browser_claim=False,real_Auth_HTTP_qualified=False,factory3600_claim=False,
         full_OW11_acceptance=False,production_go=False,independent_acceptance=False,
         committed={},native={},actual_cron_claim=False,manual_steps=0,changed_schedule=False,additional_initial_schedule=False,
-        manual_steps_scope='ACTUAL_AUTH_MONEY_UI_ON_ISOLATED_COMMITTED_BROWSER_COPY',native20_repeated_unchanged=False,retained_race_baseline=True,
+        manual_steps_scope=getattr(runner,'MANUAL_STEPS_SCOPE','ACTUAL_AUTH_MONEY_UI_ON_ISOLATED_COMMITTED_BROWSER_COPY'),native20_repeated_unchanged=False,retained_race_baseline=True,
         full_parent_inverse_repeated=False,focused_preuse_delta_only=True)
     installed=False;pre_dumped=False;before=None;new_roles=set()
     try:
@@ -157,9 +157,9 @@ def run_inner():
             report['actual_Auth_HTTP_cases']=0
             report['actual_Native_cases']=0
             report['retained_backend11_cases']=11
-            report['actual_browser_cases']=2
+            report['actual_browser_cases']=getattr(runner,'BROWSER_CASE_COUNT',2)
             report['real_Auth_browser_claim']=True
-            report['new_vendor_money_UI_qualified']=True
+            report['new_vendor_money_UI_qualified']=getattr(runner,'NEW_VENDOR_MONEY_UI',True)
             report['used_guard_evidence']='RETAINED_EXACT_COMPLETE_BACKEND11_NOT_RERUN'
             report['combined_component_qualified']=False
             report['focused_factory_closure']=False
