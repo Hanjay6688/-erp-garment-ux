@@ -36,6 +36,16 @@ def admitted(repo,here,product):
     assert all('UNMEASURED_FINANCE_BACKGROUND_IMAGE'in v['error']for v in failed['committed']['VENDOR_MONEY_BROWSER2']['browser']['cases'].values())
     assert failed['baseline_full22_all_rows_all_sequences_equal']is True and failed['cp6_restored']is True
     assert failed_package['gate']==dict(installed=True,primary_unchanged=True,backup_restore_drill=True,security_advisors=True,writer_runtime=False)
+    layer_first=cfg['layer_list_first_failure']
+    layer_raw={k:gzip.decompress((here/layer_first[k]['path']).read_bytes())for k in ('original','package')}
+    for k,raw in layer_raw.items():assert len(raw)==layer_first[k]['bytes']and sha256(raw).hexdigest()==layer_first[k]['sha256']
+    layer_failed=json.loads(layer_raw['original']);layer_package=json.loads(layer_raw['package'])
+    assert layer_failed['qualification_commit']==layer_first['head']and layer_failed['status']=='INCOMPLETE'
+    layer_browser=layer_failed['committed']['VENDOR_MONEY_BROWSER2']['browser']
+    assert layer_browser['counts']=={'INCOMPLETE':2}
+    assert all('UNMEASURED_FINANCE_TEXT_SURFACE'in v['error']and 'normal, normal'in v['error']for v in layer_browser['cases'].values())
+    assert layer_failed['baseline_full22_all_rows_all_sequences_equal']is True and layer_failed['cp6_restored']is True
+    assert layer_package['gate']==dict(installed=True,primary_unchanged=True,backup_restore_drill=True,security_advisors=True,writer_runtime=False)
     changed=subprocess.check_output(['git','-C',str(repo),'diff','--name-only',cfg['base_head'],'HEAD'],text=True).splitlines()
     assert set(changed)<=set(source['allowed_changes']),'UNDECLARED_VENDOR_BROWSER_CHANGE'
     assert not subprocess.check_output(['git','-C',str(repo),'status','--porcelain','--untracked-files=no']).strip()

@@ -31,7 +31,7 @@ export async function readable(panel){
    const layers=[]
    for(let p=el;p;p=p.parentElement){
     const style=getComputedStyle(p)
-    if(style.mixBlendMode!=='normal'||style.filter!=='none'||style.backgroundBlendMode!=='normal')throw Error('UNMEASURED_FINANCE_TEXT_SURFACE:'+JSON.stringify({label:label.slice(0,90),tag:p.tagName,classes:p.className,backgroundImage:style.backgroundImage,mixBlendMode:style.mixBlendMode,filter:style.filter,backgroundBlendMode:style.backgroundBlendMode}))
+    if(style.mixBlendMode!=='normal'||style.filter!=='none'||!style.backgroundBlendMode.split(',').every(mode=>mode.trim()==='normal'))throw Error('UNMEASURED_FINANCE_TEXT_SURFACE:'+JSON.stringify({label:label.slice(0,90),tag:p.tagName,classes:p.className,backgroundImage:style.backgroundImage,mixBlendMode:style.mixBlendMode,filter:style.filter,backgroundBlendMode:style.backgroundBlendMode}))
     layers.push({color:rgb(style.backgroundColor),opacity:Number(style.opacity),backgroundImage:style.backgroundImage})
    }
    out.push({label:label.slice(0,90),color:rgb(s.color),layers})

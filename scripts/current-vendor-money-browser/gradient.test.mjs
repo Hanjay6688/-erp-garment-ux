@@ -33,3 +33,17 @@ test('gradient enclosures contain dense independent exact nested-opacity samples
  }
 })
 test('opaque disabled button text stays readable without changing native disabled behavior',()=>assert.ok(bound([233,239,248],[{color:[32,51,79],opacity:1},panel,body]).ratio>=4.5))
+test('exact first9fde body gradient plus none is transparent-layer equivalent',()=>{
+ const actual='radial-gradient(circle at 76% -20%, rgba(98, 111, 221, 0.14), rgba(0, 0, 0, 0) 30%)'
+ assert.deepEqual(bound([244,246,251],[panel,{...body,backgroundImage:actual+', none'}]),bound([244,246,251],[panel,{...body,backgroundImage:actual}]))
+})
+test('multiple gradient layers preserve top-first CSS painting order',()=>{
+ const top='linear-gradient(rgb(20, 40, 60), rgb(20, 40, 60))',bottom='linear-gradient(rgb(90, 100, 110), rgb(90, 100, 110))'
+ const a=bound([255,255,255],[{...black,backgroundImage:top+', '+bottom}]),b=bound([255,255,255],[{...black,backgroundImage:bottom+', '+top}])
+ assert.deepEqual(a.background_range,{min:[19,39,59],max:[21,41,61]});assert.deepEqual(b.background_range,{min:[89,99,109],max:[91,101,111]})
+ assert.equal(a.contributing_gradients,2);assert.ok(a.ratio>b.ratio)
+})
+test('unknown image in any contributing layer is still refused',()=>{
+ for(const image of[body.backgroundImage+', url(example.png)','url(example.png), '+body.backgroundImage,'none,'])assert.throws(()=>bound([255,255,255],[{...body,backgroundImage:image}]),/UNMEASURED/)
+})
+test('an all-none image list remains the exact solid surface',()=>assert.deepEqual(bound([255,255,255],[{...black,backgroundImage:'none, none'}]),renderedTextContrast([255,255,255],[black])))
