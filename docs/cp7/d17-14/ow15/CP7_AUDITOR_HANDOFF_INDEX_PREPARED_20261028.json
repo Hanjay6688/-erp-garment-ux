@@ -1,6 +1,6 @@
 {
   "status": "PREPARED_NOT_FINAL_AUDITOR_ACCEPTANCE",
-  "recorded_at_utc": "2026-10-28T12:16:56.180561+00:00",
+  "recorded_at_utc": "2026-10-28T12:35:53.741424+00:00",
   "integrator": "A",
   "browser_writer": "B",
   "items": [
@@ -99,5 +99,304 @@
   "production_go": false,
   "independent_acceptance": false,
   "CP7C_started": false,
-  "backend_handoff": "docs/cp7/d17-14/ow15/B_BACKEND_READY_3194_20261028.json"
+  "backend_handoff": "docs/cp7/d17-14/ow15/B_BACKEND_READY_3194_20261028.json",
+  "evidence_preflight": {
+    "status": "PASS_A_EVIDENCE_PREFLIGHT_NOT_INDEPENDENT_ACCEPTANCE",
+    "recorded_at_utc": "2026-10-28T12:35:53.741424+00:00",
+    "integration_head": "7906a68dd7aa68d9be35eba36b15edce4dad2514",
+    "integration_tree": "f13893480dca47d0f810ce03cecfd22cad35d8c3",
+    "scope": "A CP7 D17-18 backend/source/JS/panel closure evidence; not all CP7 requirements or actual combined browser acceptance",
+    "receipt_count": 9,
+    "receipts": [
+      {
+        "area": "unchanged regression coverage",
+        "path": "docs/cp7/d17-14/ow15/D17_18_SOURCE_B7_ACTUAL.json",
+        "bytes": 3781,
+        "sha256": "10dcd5a05e9b6986e0e0add82f915777eef13a7ffb35c0a9c950331a5dde5f7f",
+        "indexed_head": "b7d6b75add6883b7cfc5b162c05531a8d0ac2f23",
+        "recorded_status": "PASS_RETAINED_SAME_SOURCE_SCOPE",
+        "limit": "New JS and A panel files are separately qualified; old thirteen failures are retained history, not reopened."
+      },
+      {
+        "area": "B JavaScript adopted by A",
+        "path": "docs/cp7/d17-14/ow15/A_B_OW10_FIRST_FAILURE_INTAKE_20261028.json",
+        "bytes": 5677,
+        "sha256": "e4475c7667fe72565a26ea97dcaa48149c1bbc15acab55ae0ba43ae60c006a35",
+        "indexed_head": "a6bb16bd898ade9cf5cf3588e6f39d4ecabef8a8",
+        "recorded_status": "PASS_ADOPTED_MAIN",
+        "limit": "Three exact files; formulas and historical manifests unchanged."
+      },
+      {
+        "area": "factory first product failure",
+        "path": "docs/cp7/d17-14/ow15/A_B_ASSIGNMENT_AND_4AC_ACTUAL_20261028.json",
+        "bytes": 5806,
+        "sha256": "afbc450de921455e65ca8d683a4c3d2a20a48e4094617c0395927aebad64e8c8",
+        "indexed_head": "4ac681549d7ec664f504a71670c9035dd8f5944d",
+        "recorded_status": "FAILURE_RETAINED",
+        "limit": "Unit zero cancelled three times at8s; six other groups and full restores passed. First HTTP502 prerequisite failure also preserved."
+      },
+      {
+        "area": "measurement that justifies bounded initial worker",
+        "path": "docs/cp7/d17-14/ow15/D17_18_FACTORY_PROFILE_5B32_ACTUAL.json",
+        "bytes": 23058,
+        "sha256": "0e49d0c3116224e6e3a3b8518a3aed78f4d8519805ba5de8b7e75658bc426a8f",
+        "indexed_head": "5b32f4744eef66c2e9cc8619781faee446f360e7",
+        "recorded_status": "PASS_DIAGNOSTIC_ONLY",
+        "limit": "Not runtime qualification; every measured call rolled back."
+      },
+      {
+        "area": "six current backend groups and first observer failure",
+        "path": "docs/cp7/d17-14/ow15/D17_18_FACTORY_INITIAL_11C_ACTUAL_20261028.json",
+        "bytes": 15514,
+        "sha256": "151043e4251ccd968ba678d50ca8aea881b3f570b54622284c2e1d03a85e3b28",
+        "indexed_head": "11c95c4ee2c784247e1be22ce0a582f4d85632c5",
+        "recorded_status": "SIX_PASS_FACTORY_INCOMPLETE",
+        "limit": "BothDONE97/97 and financeREADY7/7; post-shutdown liveness assertion failed. Factory pages/idempotency checks not reached. All seven full restores exact. Not backend eligible."
+      },
+      {
+        "area": "fresh factory closure",
+        "path": "docs/cp7/d17-14/ow15/D17_18_FACTORY_LIVE_3194_ACTUAL_20261028.json",
+        "bytes": 9737,
+        "sha256": "c46657ec37d09965bae1bfe6286b47af6f990ee5fc0ac64a704f8399ba973f30",
+        "indexed_head": "3194b9c56be7af86ee45ccb1c6605204a712f91b",
+        "recorded_status": "PASS_COMPOSED_BACKEND_SIX_RETAINED_PLUS_ONE_FRESH",
+        "limit": "One fresh factory PASS plus six retained11c PASS on the identical backend; complete restoration. Backend component eligible for B new binding, not Auth/browser acceptance."
+      },
+      {
+        "area": "A finance panel observation bound",
+        "path": "docs/cp7/d17-14/ow15/D17_18_A_FINANCE_OBSERVER_PREPARED_20261028.json",
+        "bytes": 2274,
+        "sha256": "383d570bbaf2304032b5f59d531807e21006ce8a92bea0e3f1567b4bc31c75aa",
+        "indexed_head": "2790a9e5726e7724070f2fa01a2468061f2bae98",
+        "recorded_status": "PASS_LOCAL_UNIT_DOM_PREPARED",
+        "limit": "No current backend Auth/browser credit; A panel only, B production driver separate."
+      },
+      {
+        "area": "explicit UI and tooling source successor",
+        "path": "docs/cp7/d17-14/ow15/D17_18_UI_TOOLING_SOURCE_SUCCESSOR_ACE34_PREPARED_20261028.json",
+        "bytes": 3758,
+        "sha256": "4202bdfe8555bad514252dee0819885d5ac9e96c4bac2eecb448788d79213773",
+        "indexed_head": "ace34c6f8a9bbad431b59ab9f2d7c0a6fdacc37f",
+        "recorded_status": "PASS_SOURCE_ONLY_PREPARED",
+        "limit": "4313 unchanged files plus exact tested JS and A panel exceptions, four tamper controls. No historical manifest rewritten."
+      },
+      {
+        "area": "selective complete components",
+        "path": "docs/cp7/d17-14/ow15/D17_18_COMPLETE_COMPONENTS_6D_ACTUAL_20261028.json",
+        "bytes": 11685,
+        "sha256": "86fb853c2ff796deb44a396a67bb6c444905549eb22f8ad02a07d7c6dfe94540",
+        "indexed_head": "6d966d6e3074ae3a7b5f11a4dd46d986131d6fcd",
+        "recorded_status": "PASS_EXACT_COMPLETE_COMPONENTS_SOURCE_AND_ACTIONS",
+        "limit": "Exact bytes selectively adopted on A prepared integration branch, preserving B driver/browser; source and Actions proof retained6d. Not default/production or Auth/browser acceptance."
+      }
+    ],
+    "exact_archive_count": 8,
+    "archives": [
+      {
+        "label": "retained source regression",
+        "artifact_id": 12788939625,
+        "run_id": 40624362425,
+        "head": "b7d6b75add6883b7cfc5b162c05531a8d0ac2f23",
+        "zip_bytes": 159705,
+        "zip_sha256": "afe9efb8392122111e75fe4f2ca5530fb3a6e7c04b523d2ac2ccc4968cf810d2",
+        "members": [
+          {
+            "name": "unit.json",
+            "bytes": 1144777,
+            "sha256": "379cd86dabc974f06be56ed62a0fd68b0112461bafda1539dc886c49eb94ffc6"
+          },
+          {
+            "name": "node.log",
+            "bytes": 2398,
+            "sha256": "3e06a29a04584f008a612dce1ccdfd8d8c9765835b3ee7ab29e0e3bdeda4f6e6"
+          },
+          {
+            "name": "SOURCE_CLOSURE.json",
+            "bytes": 349,
+            "sha256": "6d119c3ccfe7ae7a27ef67efa1ff4edabe3d9c987a2b8ca09e88bb0b764b8dbb"
+          }
+        ]
+      },
+      {
+        "label": "B JavaScript on A source",
+        "artifact_id": 12802737997,
+        "run_id": 40658882798,
+        "head": "a6bb16bd898ade9cf5cf3588e6f39d4ecabef8a8",
+        "zip_bytes": 194001,
+        "zip_sha256": "893fe8ea1573775f257f464604f3187a558e2e7a08a3e3739dff1a4ef43a3ae3",
+        "members": [
+          {
+            "name": "filesystem-tests.tap",
+            "bytes": 833,
+            "sha256": "9fd8f6e84a3ccbee7db1c97b192ada086b47387476ade56a7be7786c17c4b0ba"
+          },
+          {
+            "name": "sarif/javascript.sarif",
+            "bytes": 2608019,
+            "sha256": "05b58f217cc8cf1b3b1373e61c15ba3d164389bd614ce9bb1fccb0a0ebe97189"
+          }
+        ]
+      },
+      {
+        "label": "4ac first product failure",
+        "artifact_id": 12793826639,
+        "run_id": 40629923288,
+        "head": "4ac681549d7ec664f504a71670c9035dd8f5944d",
+        "zip_bytes": 10605560,
+        "zip_sha256": "ca8c1b23fe279ee99736d506445011cf2fe656597a9b06b712dbaba3f305b042",
+        "members": [
+          {
+            "name": "CP7_D17_18_FACTORY_PROGRESS_NATIVE_SOURCE_CRON7.json",
+            "bytes": 85273743,
+            "sha256": "c167387d6eff784aab1fc23d1305967671600b68c39b98a5633f6494710a2ba3"
+          },
+          {
+            "name": "T3_PACKAGE_INSTALL.json",
+            "bytes": 360443,
+            "sha256": "460024f04167f239daa94e311c0fcc7b10e874c8fc7083675207344dc966b92d"
+          }
+        ]
+      },
+      {
+        "label": "5b bounded worker measurement",
+        "artifact_id": 12800202603,
+        "run_id": 40649572471,
+        "head": "5b32f4744eef66c2e9cc8619781faee446f360e7",
+        "zip_bytes": 2290453,
+        "zip_sha256": "dbbe85a234912471dcf9a08db1e4ac4fb98c5003622865542620f38cdb30fd3f",
+        "members": [
+          {
+            "name": "CP7_D17_18_CURRENT_FACTORY_OPERATIONAL_PROFILE1.json",
+            "bytes": 3928342,
+            "sha256": "7df5e2e8e6d7a6b89244a523d34ee23af61160bb8a6c1b1789ead95e503d6877"
+          },
+          {
+            "name": "T3_PACKAGE_INSTALL.json",
+            "bytes": 360428,
+            "sha256": "572f6068df1a47cc8e5645ede89f181681130a8d5070934f7fd6fee17a36f584"
+          }
+        ]
+      },
+      {
+        "label": "11c retained six groups and observer failure",
+        "artifact_id": 12810096616,
+        "run_id": 40663882208,
+        "head": "11c95c4ee2c784247e1be22ce0a582f4d85632c5",
+        "zip_bytes": 10734684,
+        "zip_sha256": "784f17255ae3756b418a89162cd416e58a014a21baea34bd17e151b168e24ddb",
+        "members": [
+          {
+            "name": "CP7_D17_18_FACTORY_INITIAL_STAGE_NATIVE_SOURCE_CRON7.json",
+            "bytes": 86200383,
+            "sha256": "00f54997e358e91c3392073994b92b2d59f184678f01e4a2f63f2373106eb9a9"
+          },
+          {
+            "name": "T3_PACKAGE_INSTALL.json",
+            "bytes": 360442,
+            "sha256": "90586ffbb1327face6554b9a21d575c35bfcf33a06953cedfb3383db70f9bf90"
+          }
+        ]
+      },
+      {
+        "label": "3194 fresh factory closure",
+        "artifact_id": 12813599744,
+        "run_id": 40677173176,
+        "head": "3194b9c56be7af86ee45ccb1c6605204a712f91b",
+        "zip_bytes": 9645478,
+        "zip_sha256": "4134df462dc0f05ff53ab5318b280322a8e489b5e65a069a7ac32f7356b9be91",
+        "members": [
+          {
+            "name": "CP7_D17_18_FACTORY_LIVE_HEARTBEAT_CLOSURE1.json",
+            "bytes": 77035513,
+            "sha256": "241adff1df19878a6bda9fd4b688cd609dd816e97080e860e1cc170f7c47b3c2"
+          },
+          {
+            "name": "T3_PACKAGE_INSTALL.json",
+            "bytes": 360443,
+            "sha256": "f45977ad11e476ce02433db264d3bd6fe7cfcb943401ab4c1f841f107485da5b"
+          }
+        ]
+      },
+      {
+        "label": "complete component actions.sarif",
+        "artifact_id": 12812030255,
+        "run_id": 40678032573,
+        "head": "6d966d6e3074ae3a7b5f11a4dd46d986131d6fcd",
+        "zip_bytes": 116854,
+        "zip_sha256": "cd9e291317bd4b6d3510b72cee4dac8dd54c7205c0f1cc8db521a3993795db1e",
+        "members": [
+          {
+            "name": "actions.sarif",
+            "bytes": 1766889,
+            "sha256": "d85917075fb8fb44ad969bde4867b730c9fa8227102c9356a8af85d243e93bfe"
+          }
+        ]
+      },
+      {
+        "label": "complete component SOURCE.json",
+        "artifact_id": 12811213116,
+        "run_id": 40678032573,
+        "head": "6d966d6e3074ae3a7b5f11a4dd46d986131d6fcd",
+        "zip_bytes": 1479,
+        "zip_sha256": "fda7621948b0c1565d03c4e961327d097c0452ede993ba710d07ad4de08f2f74",
+        "members": [
+          {
+            "name": "SOURCE.json",
+            "bytes": 3010,
+            "sha256": "8267699ab8fd60c53992a82ad7942dea6535466f19db94176ac15679473b130f"
+          }
+        ]
+      }
+    ],
+    "local_UI_tests": {
+      "passed": 95,
+      "current_tests": 29,
+      "retained_frozen_tests": 66,
+      "new_controls": 4,
+      "report_sha256": "c99e3714ef89978cab64e9634a5d74bfc1f09f98cd39ab1f0aa5f83be83de57d"
+    },
+    "source_successor_controls": {
+      "count": 4,
+      "test_log_sha256": "0b30c76334e5ad4ed69e66d137db90320ecb8d759f06da3df5388208ba0c0714"
+    },
+    "qualified_backend": {
+      "status": "PASS_BACKEND_COMPONENT_FOR_B_BINDING",
+      "selected_backend_head": "3194b9c56be7af86ee45ccb1c6605204a712f91b",
+      "selected_backend_tree": "dd98cd5bbbafb3f257668d22317ab4b237c2fea8",
+      "whole_backend_sha256": "193f4c18476a1e1abd5e05231d8d7755864b61e2998c4456f5a87459b17da59d",
+      "retained_groups": 6,
+      "fresh_groups": 1,
+      "seven_fresh_groups_claim": false,
+      "historical_11c_status": "INCOMPLETE",
+      "factory_fixture_readiness": "BLOCKED",
+      "factory_fixture_analysis_status": "PARTIAL",
+      "all_installed_and_outer_restorations_exact": true,
+      "frontend_or_Auth_browser_accepted": false,
+      "formal_accepted": "5/16",
+      "independent_acceptance": false,
+      "production_go": false
+    },
+    "source_admission_retained": {
+      "path": "scripts/current-integrated-backend3194-source/LOCAL_RECEIPT.json",
+      "sha256": "f3a88cf106796877b523e745c116f72a24035514f74dacd182910a3633ddb1f6",
+      "product_and_verifier_bytes_unchanged": true
+    },
+    "handoff": {
+      "path": "docs/cp7/d17-14/ow15/B_BACKEND_READY_3194_20261028.json",
+      "sha256": "b84f30f1fd0ed0bd69ec5c9e4037568e4759b6c17aeed3232245d160d913231c"
+    },
+    "B_observed_head": "51a9e72a89b4576283fe30cb17b56dd26fc57668",
+    "unavailable": [
+      "B production driver patch and exact source binding",
+      "B actual desktop/mobile Auth/browser and visual/console/restoration evidence",
+      "A final selective integration of B result",
+      "Independent auditor verdict"
+    ],
+    "new_database_tests": 0,
+    "new_Auth_browser_tests": 0,
+    "formal_accepted": "5/16",
+    "independent_acceptance": false,
+    "production_go": false,
+    "CP7C_started": false
+  }
 }
