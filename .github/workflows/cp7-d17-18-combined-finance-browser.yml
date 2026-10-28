@@ -359,6 +359,17 @@ jobs:
     - name: Admit complete AF first outcome and corrected reader stream source
       working-directory: auditor
       run: python scripts/current-finance-reader-stream-followup-qualification/admission.py
+    - name: Fetch exact retained D3 sixPASS factory cutoff and package bytes
+      working-directory: auditor
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: python scripts/current-finance-factory-progress-followup-qualification/fetch_d3.py
+    - name: Verify unchanged D3 readers and bounded progress watcher before DB
+      working-directory: auditor
+      run: python -m unittest discover -s scripts/current-finance-factory-progress-followup-qualification -p "test*.py"
+    - name: Admit exact D3 first outcome and factory progress all7 source
+      working-directory: auditor
+      run: python scripts/current-finance-factory-progress-followup-qualification/admission.py
     - name: Fetch exact own combined seven-group Original and package
       working-directory: auditor
       env:

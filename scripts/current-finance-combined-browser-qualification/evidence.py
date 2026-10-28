@@ -61,6 +61,44 @@ def consistent_validation(value,cases):
         private_STABLE_opening_reader_observed=True,Native_opening_and_HPP_arithmetic_unchanged=True)
 
 
+def require_factory_progress(proof):
+    assert proof['status'] == 'TERMINAL_DONE_AND_READY'
+    for key in ('read_only', 'qualification_observation_only', 'actual_terminal_states_observed'):
+        assert proof[key] is True, key
+    assert proof['total_limit_seconds'] == 900 and proof['no_progress_limit_seconds'] == 150
+    assert proof['legacy_limit_seconds'] == 300 and 0 <= proof['elapsed_seconds'] < 900
+    assert proof['manual_steps'] == 0 and proof['minute_schedule_changed'] is proof['ordinary_statement_limits_changed'] is False
+    states = proof['observed_job_states']
+    assert len(states) == 2 and set(states.values()) == {'DONE'}
+    assert proof['observed_finance_state'] == 'READY'
+    expected = set(states) | {'finance'}
+    previous = {}
+    elapsed = -1
+    changed_at = {}
+    for frame in proof['frames']:
+        at = frame['elapsed_seconds']
+        assert elapsed <= at < 900
+        elapsed = at
+        rows = frame['jobs']
+        assert set(rows) == expected
+        for key, row in rows.items():
+            assert 0 <= row[1] <= row[2] and row[0] in ('RUNNING', 'READY' if key == 'finance' else 'DONE')
+            if key in previous:
+                assert row[1] >= previous[key][1]
+            if key not in previous or row != previous[key]:
+                changed_at[key] = at
+            if row[0] == 'RUNNING':
+                assert at - changed_at[key] < 150.002
+        previous = rows
+    assert previous and previous['finance'][0] == 'READY'
+    assert all((previous[key][0] == 'DONE' for key in states))
+    if proof['extended_past_legacy_limit']:
+        assert 300 <= proof['legacy_cutoff_observation']['elapsed_seconds'] < 900
+    else:
+        assert proof['elapsed_seconds'] < 300
+    return dict(status='PASS_TERMINAL_FACTORY_PROGRESS', elapsed_seconds=proof['elapsed_seconds'], frames=len(proof['frames']), extended_past_300=proof['extended_past_legacy_limit'], read_only=True, manual_steps=0, ordinary_statement_limits_changed=False)
+
+
 def accepted(proof,raw,package_raw,expected_source,current_installation):
     value,package=bind(proof,raw,package_raw)
     assert value['qualification_commit']==proof['head'] and value['status']=='PASS'
@@ -107,7 +145,8 @@ def accepted(proof,raw,package_raw,expected_source,current_installation):
     factory=cases['COMBINED_CURRENT_PUBLIC_FACTORY1200X3_ACTUAL_CRON']
     assert factory['exact_1200_commercial_skus_three_sizes']is factory['factory_native_finance_qualified']is True
     consistent=consistent_validation(value,cases)
+    progress=require_factory_progress(factory['factory_progress_observation'])
     return value,dict(head=proof['head'],original_sha256=proof['sha256'],package_sha256=proof['package_sha256'],
         all_seven_combined_groups_and_restorations=True,Native20=True,actual_cron_groups=2,
-        factory1200x3=True,consistent_reader_and_streaming=consistent,
+        factory1200x3=True,consistent_reader_and_streaming=consistent,factory_progress_observation=progress,
         real_Auth_browser_still_required=True,production_go=False,independent_acceptance=False)

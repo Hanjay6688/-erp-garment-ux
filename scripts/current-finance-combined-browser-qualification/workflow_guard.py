@@ -5,7 +5,7 @@ from pathlib import Path
 import json,yaml
 
 HERE=Path(__file__).resolve().parent;ROOT=HERE.parents[1]
-PARENT='.github/workflows/cp7-d17-18-consistent-reader-stream.yml'
+PARENT='.github/workflows/cp7-d17-18-factory-progress.yml'
 OLD_UI='.github/workflows/cp7-d17-18-progress-finance-ui-browser.yml'
 TARGET='.github/workflows/cp7-d17-18-combined-finance-browser.yml'
 FOLDER='scripts/current-finance-combined-browser-qualification'
@@ -27,7 +27,7 @@ def expected(repo,here):
     job=value['jobs']['p21'];job['name']=value['name'];steps=job['steps']
     def step(name):
         found=[s for s in steps if s.get('name')==name];assert len(found)==1,name;return found[0]
-    anchor=step('Admit complete AF first outcome and corrected reader stream source')
+    anchor=step('Admit exact D3 first outcome and factory progress all7 source')
     additions=[
         dict(name='Fetch exact own combined seven-group Original and package',**{'working-directory':'auditor'},
             env={'GH_TOKEN':'${{ github.token }}'},run='python '+FOLDER+'/fetch_combined.py'),
@@ -38,12 +38,12 @@ def expected(repo,here):
         dict(name='Admit full combined backend and unchanged UI sources before DB',**{'working-directory':'auditor'},
             run='python '+FOLDER+'/admission.py')]
     index=steps.index(anchor)+1;steps[index:index]=additions
-    runtime=step('Run same7 with private stable opening reader and exact streaming data restoration')
+    runtime=step('Run all7 with unchanged D3 finance and read-only factory progress observation')
     steps.insert(steps.index(runtime),deepcopy(browser[0]))
     runtime['name']='Run real Auth desktop and mobile on exact qualified combined backend'
     runtime['run']="python '../auditor/"+FOLDER+"/probe.py'"
     logs=step('Preserve exact original JSON report bytes in a bounded compressed log receipt')
-    prior='CP7_D17_18_CONSISTENT_READERS_STREAM_NATIVE_FACTORY_CRON7'
+    prior='CP7_D17_18_FACTORY_PROGRESS_NATIVE_SOURCE_CRON7'
     assert logs['run'].count(prior)==1;logs['run']=logs['run'].replace(prior,LABEL)
     upload=[s for s in steps if s.get('uses','').startswith('actions/upload-artifact@')]
     old_upload=[s for s in old_steps if s.get('uses','').startswith('actions/upload-artifact@')]
