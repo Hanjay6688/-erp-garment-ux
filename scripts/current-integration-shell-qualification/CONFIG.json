@@ -1,0 +1,68 @@
+{
+  "contract": "cp7.current-integrated-build-security-shell.v1",
+  "base_head": "c3a7dc88a633c188948a45ff98ffc00e621942f8",
+  "base_tree": "c06c211331bcc4208fb1927ec1e1ed7c4d00fc74",
+  "accepted_source_suite": {
+    "status": "PASS_SOURCE_AND_COMPLETE_CLIENT_AND_KERNEL_SUITE_ONLY",
+    "head": "b7d6b75add6883b7cfc5b162c05531a8d0ac2f23",
+    "run_id": 40624362425,
+    "job_id": 122605631471,
+    "artifact_id": 12788939625,
+    "zip_bytes": 159705,
+    "zip_sha256": "afe9efb8392122111e75fe4f2ca5530fb3a6e7c04b523d2ac2ccc4968cf810d2",
+    "exact_source": {
+      "status": "PASS_EXACT_SOURCE_CLOSURE_ONLY",
+      "exact_files": 4315,
+      "frozen_manifests": 7,
+      "current_B_exact_files": 38,
+      "main_dispatch_App_and_package_unchanged": true,
+      "business_oracles_unchanged": true,
+      "actual_database_Auth_browser_cases": 0,
+      "default_adopted": false,
+      "production_go": false,
+      "independent_acceptance": false
+    },
+    "client_counts": {
+      "numTotalTestSuites": 514,
+      "numPassedTestSuites": 514,
+      "numFailedTestSuites": 0,
+      "numTotalTests": 3253,
+      "numPassedTests": 3253,
+      "numFailedTests": 0,
+      "numPendingTests": 0,
+      "numTodoTests": 0,
+      "success": true
+    },
+    "failed": [],
+    "first_failed_head": "323f7bc48d05b67a7a439aefe8722dfe6c9cf922",
+    "first_failed_run": 40616553377,
+    "first_failed_artifact": 12785267320,
+    "first_failure_preserved": true,
+    "existing_test_bodies_changed": false,
+    "Node_tests_passed": 10,
+    "prior_f1be_first_full_suite_failure_preserved": true,
+    "source_checker_database_connections": 0,
+    "isolated_test_Postgres_cases_included": true,
+    "full_current_Supabase_Native_runtime_cases": 0,
+    "real_Auth_browser_cases": 0,
+    "default_adopted": false,
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "allowed_new_paths": [
+    ".github/workflows/cp7-d17-18-integration-shell.yml",
+    "scripts/current-integration-shell-qualification/CONFIG.json",
+    "scripts/current-integration-shell-qualification/check.py"
+  ],
+  "unchanged_existing_commands": [
+    "npm run test:security",
+    "npm run build",
+    "npx --no-install playwright test --config playwright.cp7.config.ts"
+  ],
+  "fixture_browser_expected": 6,
+  "real_Auth_browser_cases": 0,
+  "actual_database_runtime_cases": 0,
+  "default_adopted": false,
+  "production_go": false,
+  "independent_acceptance": false
+}
