@@ -1,0 +1,135 @@
+{
+  "probe.py": {
+    "path": "scripts/current-finance-factory-progress-followup-qualification/probe.py",
+    "sha256": "7de4b60740d5397cf00315967eef2b38efc66d2a71e6907f4e6b3d3596c35749",
+    "changes": [
+      {
+        "old": "LABEL='CP7_D17_18_FACTORY_PROGRESS_NATIVE_SOURCE_CRON7'",
+        "new": "LABEL='CP7_D17_18_FACTORY_INITIAL_STAGE_NATIVE_SOURCE_CRON7'",
+        "count": 1
+      },
+      {
+        "old": "PRE_DUMP='/tmp/current_factory_progress_pre.dump'",
+        "new": "PRE_DUMP='/tmp/current_factory_initial_pre.dump'",
+        "count": 1
+      },
+      {
+        "old": "manual_steps=0,changed_schedule=False,",
+        "new": "manual_steps=0,changed_schedule=True,additional_initial_schedule=True,",
+        "count": 1
+      },
+      {
+        "old": "manual_steps_scope='READ_ONLY_FACTORY_PROGRESS_OBSERVATION_ALL7'",
+        "new": "manual_steps_scope='NO_COMMITTED_FACTORY_MANUAL_STEPS; ROLLED_BACK_REFUSAL_AND_IDLE_CONTROLS'",
+        "count": 1
+      }
+    ],
+    "original_assertions": 9,
+    "assertions": 9
+  },
+  "runner.py": {
+    "path": "scripts/current-finance-factory-progress-followup-qualification/runner.py",
+    "sha256": "bf3c9e4af5abbfcc4175726bbea20035121bbe89f81b566cb65246dcb0432e85",
+    "changes": [
+      {
+        "old": "CASE='FACTORY_PROGRESS_NATIVE_SOURCE_CRON7'",
+        "new": "CASE='FACTORY_INITIAL_STAGE_NATIVE_SOURCE_CRON7'",
+        "count": 1
+      },
+      {
+        "old": "INSTALLED_DUMP='/tmp/d17_18_factory_progress_unused.dump'",
+        "new": "INSTALLED_DUMP='/tmp/d17_18_factory_initial_unused.dump'",
+        "count": 1
+      },
+      {
+        "old": "CATALOG_REFUSAL='CONSISTENT_FINANCE_READER_ACTUAL_ALL22_CHANGED'",
+        "new": "CATALOG_REFUSAL=product.CATALOG_ERROR",
+        "count": 1
+      }
+    ],
+    "original_assertions": 14,
+    "assertions": 14
+  },
+  "cases.py": {
+    "path": "scripts/current-finance-factory-progress-followup-qualification/cases.py",
+    "sha256": "044a54a523a67ea85ffe1f13935a6dd09a5e96ec28b760010a402207e6c1c4ac",
+    "changes": [],
+    "original_assertions": 16,
+    "assertions": 16
+  },
+  "restoration.py": {
+    "path": "scripts/current-finance-factory-progress-followup-qualification/restoration.py",
+    "sha256": "38332c6c30f01468881c66f24926c0c95c0bc869d4404e3c888eba5734d50ea1",
+    "changes": [],
+    "original_assertions": 0,
+    "assertions": 0
+  },
+  "stream_data.py": {
+    "path": "scripts/current-finance-factory-progress-followup-qualification/stream_data.py",
+    "sha256": "5a07ae1409337424b4d2c1234f75148013a30a8652f451686fdb02cb0b2b483c",
+    "changes": [],
+    "original_assertions": 12,
+    "assertions": 12
+  },
+  "waiting.py": {
+    "path": "scripts/current-finance-factory-progress-followup-qualification/waiting.py",
+    "sha256": "a1e9151f15e9049b786ddfa5bbee12e1dbadba9bac64fd568c482e687926f3f9",
+    "changes": [
+      {
+        "old": "minute_schedule_changed=False,ordinary_statement_limits_changed=False)",
+        "new": "minute_schedule_changed=False,additional_initial_schedule=True,ordinary_statement_limits_changed=False)",
+        "count": 1
+      }
+    ],
+    "original_assertions": 12,
+    "assertions": 12
+  },
+  "factory.py": {
+    "path": "scripts/current-finance-factory-progress-followup-qualification/factory.py",
+    "sha256": "d877e2d959dfee239070394a3a2c18bf28ced4264fdbc6c4a1cff78999a601e4",
+    "changes": [
+      {
+        "old": "waiting=importlib.util.module_from_spec(_waiting_spec);_waiting_spec.loader.exec_module(waiting)",
+        "new": "waiting=importlib.util.module_from_spec(_waiting_spec);_waiting_spec.loader.exec_module(waiting)\n_worker_spec=importlib.util.spec_from_file_location('factory_initial_worker_definition',Path(__file__).with_name('worker.py'))\ninitial_worker=importlib.util.module_from_spec(_worker_spec);_worker_spec.loader.exec_module(initial_worker)\n_guards_spec=importlib.util.spec_from_file_location('factory_initial_runtime_guards',Path(__file__).with_name('guard_cases.py'))\nguards=importlib.util.module_from_spec(_guards_spec);_guards_spec.loader.exec_module(guards)",
+        "count": 1
+      },
+      {
+        "old": "    finance.setup(cur,today)\n",
+        "new": "    finance.setup(cur,today)\n    guards.small(cur,today,finance,product.catalog,report)\n",
+        "count": 1
+      },
+      {
+        "old": "    defs=[d for d in schedule.definitions(cur)if d['name']==k4.RUNNER['name']]\n    assert defs==[k4.RUNNER],('CURRENT_CRON_DEFINITION_CHANGED',defs)",
+        "new": "    defs=[d for d in schedule.definitions(cur)if d['name']in(k4.RUNNER['name'],initial_worker.NAME)]\n    assert defs==[k4.RUNNER,initial_worker.DEFINITION],('CURRENT_CRON_DEFINITION_CHANGED',defs)",
+        "count": 1
+      },
+      {
+        "old": "    conn.commit()\n    before=erp_data(cur)",
+        "new": "    conn.commit()\n    guards.large(conn,cur,[finance_key,bounded_key],finance,product.catalog,admin_url,report)\n    before=erp_data(cur)",
+        "count": 1
+      },
+      {
+        "old": "status='INCOMPLETE',definition=defs[0],test_schedule_override=None,",
+        "new": "status='INCOMPLETE',definition=defs[0],initial_definition=defs[1],test_schedule_override=None,",
+        "count": 1
+      },
+      {
+        "old": "                runs=schedule.runs(cc,ids[k4.RUNNER['name']],since)\n                report.update(cron_runs=runs,all_runs_recorded=recorded,removed=removed)",
+        "new": "                by_schedule={name:schedule.runs(cc,job_id,since)for name,job_id in ids.items()}\n                runs=[run for entries in by_schedule.values()for run in entries]\n                report.update(cron_runs=runs,cron_runs_by_schedule=by_schedule,all_runs_recorded=recorded,removed=removed)",
+        "count": 1
+      },
+      {
+        "old": "    assert report['all_runs_recorded']and report['cron_runs']",
+        "new": "    assert report['all_runs_recorded']and report['cron_runs']\n    assert set(report['cron_runs_by_schedule'])=={k4.RUNNER['name'],initial_worker.NAME}\n    assert all(report['cron_runs_by_schedule'].values())",
+        "count": 1
+      },
+      {
+        "old": "unchanged_production_minute_schedule=True,manual_finance_or_operational_steps=0,",
+        "new": "existing_production_minute_schedule_unchanged=True,additional_initial_schedule=True,manual_finance_or_operational_steps=0,",
+        "count": 1
+      }
+    ],
+    "original_assertions": 36,
+    "assertions": 38
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "contract": "cp7.current-factory-initial-stage.v1",
+  "parent_head": "5b32f4744eef66c2e9cc8619781faee446f360e7",
+  "parent_tree": "0d4fc30267b61ae333508a3fef8f7e7a7c402fef",
+  "case_ids": [
+    "FACTORY_INITIAL_STAGE_NATIVE_SOURCE_CRON7"
+  ],
+  "files": {
+    ".github/workflows/cp7-d17-18-factory-initial-stage.yml": "c0378cca3cac657f9da0b13875e95aab2cc04876e395dd7ca6a78a7321ffef0c",
+    "scripts/current-factory-initial-stage/BINDING.json": "6120ecf132428222accfd65695bbce0d11ff22b6ab1301ef6e69a76094172f86",
+    "scripts/current-factory-initial-stage/CONFIG.json": "92b6e92923d85b9c0237c6b530e6399f63dcd48c246ea6b133a7dd3248f7c10c",
+    "scripts/current-factory-initial-stage/ORIGIN.json": "47e071247021529d26e58cd185b4517ef69599a17cc782c46bf33f9770f69cf3",
+    "scripts/current-factory-initial-stage/README.md": "f54dbe47cdd2d5f46d464795fb363ecc43759af591bcba196a6e10715d4bc2d8",
+    "scripts/current-factory-initial-stage/WORKFLOW_ORIGIN.json": "de64ca1af52956567f5f59c440c265f8aa6e70e4565a24d953108290fc7e60e1",
+    "scripts/current-factory-initial-stage/admission.py": "d257f72267642fae0eb72f80fe75bfe6f1da64f0e831f728b845cab9935199a5",
+    "scripts/current-factory-initial-stage/cases.py": "044a54a523a67ea85ffe1f13935a6dd09a5e96ec28b760010a402207e6c1c4ac",
+    "scripts/current-factory-initial-stage/composition.py": "e81a4afa69355e2e946c9562f25e116e3246ce02b63c008a803e50b1e5ba7322",
+    "scripts/current-factory-initial-stage/evidence.py": "94f7c8e8574702698979048e5c3177d36c6837c2c81f6d5ad0518dba6f112e4e",
+    "scripts/current-factory-initial-stage/factory.py": "e42ca1a6bcafed8e15aaadef6f602284249972dfcaa0122649fcfed568d6d431",
+    "scripts/current-factory-initial-stage/fetch_profile.py": "ea817be268e5b5b61dbf62071c109e559fdb3a8a8c38c07eadcef81ec4b14958",
+    "scripts/current-factory-initial-stage/guard_cases.py": "cff25562c4009cbc52ab3971cda4c628dd69079f30d07a695dd4ed7441b96adf",
+    "scripts/current-factory-initial-stage/probe.py": "d133605f8ba2193b216d2250538969e548ea9386f734fa6f22430a91e4d67075",
+    "scripts/current-factory-initial-stage/restoration.py": "38332c6c30f01468881c66f24926c0c95c0bc869d4404e3c888eba5734d50ea1",
+    "scripts/current-factory-initial-stage/runner.py": "4eec61ecb3b329d3cd05548af7e4a3c371847ecd6899b1a0028c28c4554a3d11",
+    "scripts/current-factory-initial-stage/source_guard.py": "40ae604ea93cec08b79ef4a34bcfb2ef812c7652a6f6c9931b4355d5b07bd858",
+    "scripts/current-factory-initial-stage/stream_data.py": "5a07ae1409337424b4d2c1234f75148013a30a8652f451686fdb02cb0b2b483c",
+    "scripts/current-factory-initial-stage/test_boundaries.py": "e87772419bb563e6bc6c872a0041bbce9399060ca4695a6cb843821a22fcd516",
+    "scripts/current-factory-initial-stage/waiting.py": "3a9290523733efe64606c9640c6d0ac14c9073564dfd919279f724260301e06e",
+    "scripts/current-factory-initial-stage/worker.py": "0af081c371b2cd0704e159d75de2889f8a42d4e48ef64aab89a7e75040d7b6a3",
+    "scripts/current-factory-initial-stage/workflow_guard.py": "38b5d75814d6d7223bf937055fb75787baf79eac0c79fee10df91bd155e7730b"
+  },
+  "production_go": false,
+  "independent_acceptance": false
+}
