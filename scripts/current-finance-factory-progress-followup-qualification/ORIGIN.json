@@ -1,0 +1,103 @@
+{
+  "factory.py": {
+    "path": "scripts/current-finance-reader-stream-followup-qualification/factory.py",
+    "sha256": "a77dda2b6683cab1e886ff1f4d5b7b87ecac66c664d259b478286cbd9bf77f7a",
+    "changes": [
+      {
+        "old": "diagnostics=importlib.util.module_from_spec(_diag_spec);_diag_spec.loader.exec_module(diagnostics)",
+        "new": "diagnostics=importlib.util.module_from_spec(_diag_spec);_diag_spec.loader.exec_module(diagnostics)\n_waiting_spec=importlib.util.spec_from_file_location('factory_progress_readonly_watch',Path(__file__).with_name('waiting.py'))\nwaiting=importlib.util.module_from_spec(_waiting_spec);_waiting_spec.loader.exec_module(waiting)",
+        "count": 1
+      },
+      {
+        "old": "            started=monotonic();deadline=started+300;states=None\n            with psycopg.connect(admin_url,autocommit=True)as watch,watch.cursor()as wc:\n                while monotonic()<deadline:\n                    states=wc.execute(\"select request_id::text,state from cp7_analysis_stage.jobs where request_id=any(%s::uuid[])order by request_id\",([finance_key,bounded_key],)).fetchall()\n                    financial=wc.execute('select state from cp7_finance_capture.captures where id=%s',(capture,)).fetchone()[0]\n                    assert len(states)==2\n                    if all(x[1]!='RUNNING'for x in states)and financial!='RUNNING':break\n                    sleep(2)\n            report.update(observed_job_states=dict(states or []),observed_finance_state=financial,\n                elapsed_seconds=round(monotonic()-started,3))\n            assert states and all(x[1]=='DONE'for x in states)and financial=='READY',report",
+        "new": "            started=monotonic()\n            with psycopg.connect(admin_url,autocommit=True,options='-c default_transaction_read_only=on')as watch,watch.cursor()as wc:\n                states,financial=waiting.observe(wc,[finance_key,bounded_key],capture,report)\n            report.update(observed_job_states=dict(states or []),observed_finance_state=financial,\n                elapsed_seconds=round(monotonic()-started,3))\n            assert len(states)==2\n            assert states and all(x[1]=='DONE'for x in states)and financial=='READY','FACTORY_CURRENT_PUBLIC_CRON_NOT_TERMINAL'",
+        "count": 1
+      }
+    ],
+    "original_assertions": 36,
+    "assertions": 36
+  },
+  "cases.py": {
+    "path": "scripts/current-finance-reader-stream-followup-qualification/cases.py",
+    "sha256": "044a54a523a67ea85ffe1f13935a6dd09a5e96ec28b760010a402207e6c1c4ac",
+    "changes": [],
+    "original_assertions": 16,
+    "assertions": 16
+  },
+  "runner.py": {
+    "path": "scripts/current-finance-reader-stream-followup-qualification/runner.py",
+    "sha256": "164e345b8af685f8ff4d13517a000b0154dd29520aeef9a098641280552650b2",
+    "changes": [
+      {
+        "old": "CONSISTENT_READERS_STREAM_NATIVE_SOURCE_FACTORY_CRON7",
+        "new": "FACTORY_PROGRESS_NATIVE_SOURCE_CRON7",
+        "count": 1
+      },
+      {
+        "old": "/tmp/d17_18_consistent_readers_stream_unused.dump",
+        "new": "/tmp/d17_18_factory_progress_unused.dump",
+        "count": 1
+      }
+    ],
+    "original_assertions": 14,
+    "assertions": 14
+  },
+  "probe.py": {
+    "path": "scripts/current-finance-reader-stream-followup-qualification/probe.py",
+    "sha256": "4d0426569a0025161e97497f8d1366c23c64ddbcbc80cb091f95bfe8507952f0",
+    "changes": [
+      {
+        "old": "CP7_D17_18_CONSISTENT_READERS_STREAM_NATIVE_FACTORY_CRON7",
+        "new": "CP7_D17_18_FACTORY_PROGRESS_NATIVE_SOURCE_CRON7",
+        "count": 1
+      },
+      {
+        "old": "/tmp/current_consistent_readers_stream_pre.dump",
+        "new": "/tmp/current_factory_progress_pre.dump",
+        "count": 1
+      },
+      {
+        "old": "manual_steps_scope='CONSISTENT_READERS_STREAM_FINGERPRINT_ALL7'",
+        "new": "manual_steps_scope='READ_ONLY_FACTORY_PROGRESS_OBSERVATION_ALL7'",
+        "count": 1
+      }
+    ],
+    "original_assertions": 9,
+    "assertions": 9
+  },
+  "composition.py": {
+    "path": "scripts/current-finance-reader-stream-followup-qualification/composition.py",
+    "sha256": "21ef7bdd2dea3f8dc0bdb990e371ed32eeab5726662977d02c3c15b6a35ce139",
+    "changes": [],
+    "original_assertions": 18,
+    "assertions": 18
+  },
+  "opening.py": {
+    "path": "scripts/current-finance-reader-stream-followup-qualification/opening.py",
+    "sha256": "e4d010582a18d99e7b1c991969e247256bfc358596882187dcb19fcdde254ac5",
+    "changes": [],
+    "original_assertions": 13,
+    "assertions": 13
+  },
+  "evidence.py": {
+    "path": "scripts/current-finance-reader-stream-followup-qualification/evidence.py",
+    "sha256": "d910798d36bd4b96b87fe5eb8b006d83580af0c60a05c069ff2b9e0da8c60b62",
+    "changes": [],
+    "original_assertions": 28,
+    "assertions": 28
+  },
+  "stream_data.py": {
+    "path": "scripts/current-finance-reader-stream-followup-qualification/stream_data.py",
+    "sha256": "5a07ae1409337424b4d2c1234f75148013a30a8652f451686fdb02cb0b2b483c",
+    "changes": [],
+    "original_assertions": 12,
+    "assertions": 12
+  },
+  "restoration.py": {
+    "path": "scripts/current-finance-reader-stream-followup-qualification/restoration.py",
+    "sha256": "38332c6c30f01468881c66f24926c0c95c0bc869d4404e3c888eba5734d50ea1",
+    "changes": [],
+    "original_assertions": 0,
+    "assertions": 0
+  }
+}
