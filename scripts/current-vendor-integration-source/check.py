@@ -88,6 +88,10 @@ def admit_browser(pin,original,package,backend_head,imports,runtime_files,entryp
     for row in (desktop,mobile):
         assert row['status']=='PASS'and row['actual_Auth_login_and_public_RPC']is True and row['actual_refund_posted_from_screen']is True
         assert row['console_evidence']['unexpected_errors']==[]and row['width']['page']<=row['width']['viewport']
+        assert row['financial_truth_report_checks_no_new_issues']is True and row['financial_truth_evidence']
+        for observation in row['financial_truth_evidence']:
+            assert set(observation['counts'])==set(row['financial_truth_before'])
+            assert all(v<=row['financial_truth_before'][k]for k,v in observation['counts'].items())
     assert desktop['actual_refund_inverse_from_screen']is True and desktop['actual_committed_reply_lost_reload_same_UUID_once']is True
     assert desktop['actual_next_invoice_credit_from_screen']is True
     assert mobile['actual_access_revoked_and_money_hidden']is True

@@ -12,7 +12,7 @@ Default check requires BOTH exact complete backend11 and money browser2
 Original/package pairs. Backend11 requires Native7, actual races3/AuthHTTP1,
 full restoration and all five package gates. Money browser2 requires actual
 screen cash refund AND next-invoice credit posting, inverse, lost committed response/reload/same UUID once,
-mobile access revocation/hiding, Auth and console/copy/restoration checks.
+mobile access revocation/hiding, official v267/v268 report/truth checks without new issues, Auth and console/copy/restoration checks.
 An older Native7 or B analysis-browser label cannot open either gate.
 
 Reuse the existing complete `cp7_vendor_receivable.composition.install`,
