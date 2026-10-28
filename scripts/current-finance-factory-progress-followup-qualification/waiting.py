@@ -23,8 +23,17 @@ def observe(cur,requests,capture,report,*,now=monotonic,pause=sleep,total=900,st
             assert state in('RUNNING','DONE'),'FACTORY_PROGRESS_JOB_TERMINAL_FAILURE'
             frame[request]=(state,done,count,final);states.append((request,state))
         financial,done,count,failure=finance
-        assert 0<=done<=count,'FACTORY_PROGRESS_FINANCE_COUNTER_INVALID'
         assert financial in('RUNNING','READY'),'FACTORY_PROGRESS_FINANCE_TERMINAL_FAILURE'
+        # The unchanged capture schema leaves total NULL until the report plan exists.
+        # Keep NULL in the evidence; it is neither zero nor a completed capture.
+        assert type(done)is int and done>=0,'FACTORY_PROGRESS_FINANCE_COUNTER_INVALID'
+        if count is None:
+            assert financial=='RUNNING'and done==0,'FACTORY_PROGRESS_FINANCE_COUNTER_INVALID'
+        else:
+            assert type(count)is int and count>=2 and done<=count,'FACTORY_PROGRESS_FINANCE_COUNTER_INVALID'
+            assert financial!='READY'or done==count,'FACTORY_PROGRESS_FINANCE_COUNTER_INVALID'
+        if 'finance'in last and last['finance'][2]is not None:
+            assert count==last['finance'][2],'FACTORY_PROGRESS_FINANCE_PLAN_CHANGED'
         frame['finance']=(financial,done,count)
         for key,current in frame.items():
             if key in last:assert current[1]>=last[key][1],'FACTORY_PROGRESS_COUNTER_REGRESSED'
