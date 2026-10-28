@@ -1,0 +1,23 @@
+{
+  "status": "PREPARED_ACTUAL_CHROMIUM_TOOLING_CHECK_NOT_ERP",
+  "base_sha": "fdea191e65014a5c7b86d3ce56fb3b1d01958581",
+  "base_tree": "a19519d34c6fc9e037a01e70dda99e70e966d044",
+  "branch": "astra-b/d17-18-browser-runtime-check-20261028",
+  "sources": {
+    "scripts/cp7_browser_console_runtime_test.mjs": "83fd292a123d96289294fec9039c014974bfd7c71b275e810c2d63049b0428fc",
+    ".github/workflows/cp7-b-browser-console-runtime.yml": "b9b38a1d3ef2deefcb2709571978a71638210b25789c4dd7ada8c5688bdb8439",
+    "scripts/current-finance-combined-browser-qualification/console_evidence.mjs": "83009dcba01aabb4e9bcf6eb5c4672924d1f288cfe3ff6fbbdbe123f19d67c73",
+    "scripts/current-finance-combined-browser-qualification/CONFIG.json": "8c851e7123dec6074d836f9f80bfbcbe36a0ad360bbb35a651335b666b7801ae",
+    "package-lock.json": "3f52c1eb326b53129977e78e7c95b14e0d0bebd8c8229e0cab96e88c85d88195"
+  },
+  "unchanged_recorder": true,
+  "unchanged_lockfile": true,
+  "expected_cases": 2,
+  "checks_per_case": 6,
+  "ERP_cases": 0,
+  "Auth_cases": 0,
+  "database_connections": 0,
+  "backend_gate_closed": true,
+  "production_go": false,
+  "independent_acceptance": false
+}

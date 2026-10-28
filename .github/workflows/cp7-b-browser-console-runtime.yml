@@ -1,0 +1,45 @@
+name: B actual Chromium console instrumentation only
+'on':
+  push:
+    branches: [astra-b/d17-18-browser-runtime-check-20261028]
+    paths:
+      - .github/workflows/cp7-b-browser-console-runtime.yml
+      - scripts/cp7_browser_console_runtime_test.mjs
+permissions:
+  contents: read
+concurrency:
+  group: cp7-b-browser-console-${{ github.run_id }}
+  cancel-in-progress: false
+jobs:
+  tooling:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      B_BROWSER_EVIDENCE_DIRECTORY: test-results/b-browser-console-runtime
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22'
+      - name: Install the unchanged locked browser runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$B_BROWSER_EVIDENCE_DIRECTORY"
+          npm ci --no-audit --no-fund 2>&1 | tee "$B_BROWSER_EVIDENCE_DIRECTORY/npm-install.log"
+          npx --no-install playwright install --with-deps chromium 2>&1 | tee "$B_BROWSER_EVIDENCE_DIRECTORY/chromium-install.log"
+      - name: Check actual desktop and mobile console messages with no database
+        shell: bash
+        run: |
+          set -euo pipefail
+          node --check scripts/cp7_browser_console_runtime_test.mjs
+          node --test --test-reporter=tap scripts/cp7_browser_console_runtime_test.mjs 2>&1 | tee "$B_BROWSER_EVIDENCE_DIRECTORY/runtime-tests.tap"
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: b-browser-console-runtime-complete-original
+          path: test-results/b-browser-console-runtime
+          if-no-files-found: error
+          retention-days: 30
