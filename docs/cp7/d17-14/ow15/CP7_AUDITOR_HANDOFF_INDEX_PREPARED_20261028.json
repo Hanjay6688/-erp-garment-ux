@@ -1,0 +1,104 @@
+{
+  "status": "PREPARED_NOT_FINAL_AUDITOR_ACCEPTANCE",
+  "recorded_at_utc": "2026-10-28T11:16:26.547250+00:00",
+  "integrator": "A",
+  "browser_writer": "B",
+  "items": [
+    {
+      "area": "unchanged regression coverage",
+      "receipt": "docs/cp7/d17-14/ow15/D17_18_SOURCE_B7_ACTUAL.json",
+      "status": "PASS_RETAINED_SAME_SOURCE_SCOPE",
+      "head": "b7d6b75add6883b7cfc5b162c05531a8d0ac2f23",
+      "tests": 3253,
+      "node_tests": 10,
+      "limit": "New JS and A panel files are separately qualified; old thirteen failures are retained history, not reopened.",
+      "receipt_sha256": "10dcd5a05e9b6986e0e0add82f915777eef13a7ffb35c0a9c950331a5dde5f7f"
+    },
+    {
+      "area": "B JavaScript adopted by A",
+      "receipt": "docs/cp7/d17-14/ow15/A_B_OW10_FIRST_FAILURE_INTAKE_20261028.json",
+      "status": "PASS_ADOPTED_MAIN",
+      "head": "a6bb16bd898ade9cf5cf3588e6f39d4ecabef8a8",
+      "filesystem_controls": 4,
+      "CodeQL_queries": 103,
+      "CodeQL_findings": 0,
+      "limit": "Three exact files; formulas and historical manifests unchanged.",
+      "receipt_sha256": "e4475c7667fe72565a26ea97dcaa48149c1bbc15acab55ae0ba43ae60c006a35"
+    },
+    {
+      "area": "factory first product failure",
+      "receipt": "docs/cp7/d17-14/ow15/A_B_ASSIGNMENT_AND_4AC_ACTUAL_20261028.json",
+      "status": "FAILURE_RETAINED",
+      "head": "4ac681549d7ec664f504a71670c9035dd8f5944d",
+      "limit": "Unit zero cancelled three times at8s; six other groups and full restores passed. First HTTP502 prerequisite failure also preserved.",
+      "receipt_sha256": "afbc450de921455e65ca8d683a4c3d2a20a48e4094617c0395927aebad64e8c8"
+    },
+    {
+      "area": "measurement that justifies bounded initial worker",
+      "receipt": "docs/cp7/d17-14/ow15/D17_18_FACTORY_PROFILE_5B32_ACTUAL.json",
+      "status": "PASS_DIAGNOSTIC_ONLY",
+      "head": "5b32f4744eef66c2e9cc8619781faee446f360e7",
+      "limit": "Not runtime qualification; every measured call rolled back.",
+      "receipt_sha256": "0e49d0c3116224e6e3a3b8518a3aed78f4d8519805ba5de8b7e75658bc426a8f"
+    },
+    {
+      "area": "six current backend groups and first observer failure",
+      "receipt": "docs/cp7/d17-14/ow15/D17_18_FACTORY_INITIAL_11C_ACTUAL_20261028.json",
+      "status": "SIX_PASS_FACTORY_INCOMPLETE",
+      "head": "11c95c4ee2c784247e1be22ce0a582f4d85632c5",
+      "limit": "BothDONE97/97 and financeREADY7/7; post-shutdown liveness assertion failed. Factory pages/idempotency checks not reached. All seven full restores exact. Not backend eligible.",
+      "receipt_sha256": "151043e4251ccd968ba678d50ca8aea881b3f570b54622284c2e1d03a85e3b28"
+    },
+    {
+      "area": "fresh factory closure",
+      "receipt": "docs/cp7/d17-14/ow15/D17_18_FACTORY_LIVE_3194_RUNNING_20261028.json",
+      "status": "ACTUAL_FOCUSED_FACTORY_RUNNING_NOT_QUALIFIED",
+      "head": "3194b9c56be7af86ee45ccb1c6605204a712f91b",
+      "limit": "Await exact Original and all factory oracles, package gates and complete restore. Combine with six retained11c only after entire backend equality verified.",
+      "receipt_sha256": "ce8d6094a178e26bbd5a8f31735818f4d382b18ab9ceb288c19022887b7b6bc1"
+    },
+    {
+      "area": "A finance panel observation bound",
+      "receipt": "docs/cp7/d17-14/ow15/D17_18_A_FINANCE_OBSERVER_PREPARED_20261028.json",
+      "status": "PASS_LOCAL_UNIT_DOM_PREPARED",
+      "head": "2790a9e5726e7724070f2fa01a2468061f2bae98",
+      "tests": 95,
+      "new_controls": 4,
+      "limit": "No current backend Auth/browser credit; A panel only, B production driver separate.",
+      "receipt_sha256": "383d570bbaf2304032b5f59d531807e21006ce8a92bea0e3f1567b4bc31c75aa"
+    },
+    {
+      "area": "explicit UI and tooling source successor",
+      "receipt": "docs/cp7/d17-14/ow15/D17_18_UI_TOOLING_SOURCE_SUCCESSOR_ACE34_PREPARED_20261028.json",
+      "status": "PASS_SOURCE_ONLY_PREPARED",
+      "head": "ace34c6f8a9bbad431b59ab9f2d7c0a6fdacc37f",
+      "limit": "4313 unchanged files plus exact tested JS and A panel exceptions, four tamper controls. No historical manifest rewritten.",
+      "receipt_sha256": "4202bdfe8555bad514252dee0819885d5ac9e96c4bac2eecb448788d79213773"
+    },
+    {
+      "area": "selective complete components",
+      "receipt": "docs/cp7/d17-14/ow15/D17_18_COMPLETE_COMPONENTS_6D_ACTUAL_20261028.json",
+      "status": "PASS_EXACT_COMPLETE_COMPONENTS_SOURCE_AND_ACTIONS",
+      "head": "6d966d6e3074ae3a7b5f11a4dd46d986131d6fcd",
+      "limit": "127exact imported files,24 historical workflow entries retired,23Actions queries0findings; entire backend equal to actual11c. No current backend runtime/Auth/browser acceptance.",
+      "receipt_sha256": "86fb853c2ff796deb44a396a67bb6c444905549eb22f8ad02a07d7c6dfe94540"
+    },
+    {
+      "area": "B browser",
+      "status": "PREPARED_BACKEND_BINDING_CLOSED",
+      "head": "51a9e72a89b4576283fe30cb17b56dd26fc57668",
+      "limit": "Actual desktop/mobile Chromium tooling only. No current ERP Auth/backend case; B owns runner, binding, actual execution, visuals and production-driver fix."
+    }
+  ],
+  "remaining": [
+    "Exact fresh factory3194 Original intake; all pages, official values, units-once, idempotency and full restoration PASS.",
+    "Explicit same-backend composition: six retained11c PASS plus one fresh3194 PASS; retain failed historical originals.",
+    "B binds qualified backend SHA/tree/Originals and A279 UI in a new source declaration; handles exact55000 message, finite no-progress observation and sameUUID recovery.",
+    "B runs actual desktop/mobile Auth/browser once on that qualified candidate and reviews visuals/console/full restoration.",
+    "A selectively integrates exact B files against latest A tree and supplies independent auditor with final source/evidence boundary."
+  ],
+  "formal_accepted": "5/16",
+  "production_go": false,
+  "independent_acceptance": false,
+  "CP7C_started": false
+}

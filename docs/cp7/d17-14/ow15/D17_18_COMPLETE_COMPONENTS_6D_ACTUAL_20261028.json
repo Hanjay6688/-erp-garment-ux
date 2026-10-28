@@ -1,0 +1,301 @@
+{
+  "actual": {
+    "status": "PASS_EXACT_COMPLETE_COMPONENTS_SOURCE_AND_ACTIONS",
+    "head": "6d966d6e3074ae3a7b5f11a4dd46d986131d6fcd",
+    "tree": "0cf0a5a686c1fbbc80d019f11f08fc76cd5491b3",
+    "run_id": 40678032573,
+    "jobs": [
+      {
+        "id": 122781325870,
+        "name": "Complete components CodeQL actions",
+        "status": "completed",
+        "conclusion": "success",
+        "run_id": 40678032573,
+        "logs_url": null,
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2
+          },
+          {
+            "name": "Run github/codeql-action/init@b96794f015dfd88f77b49b1c93e0fa7110f94c63",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3
+          },
+          {
+            "name": "Run github/codeql-action/analyze@b96794f015dfd88f77b49b1c93e0fa7110f94c63",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4
+          },
+          {
+            "name": "Reject CodeQL findings or incomplete runs",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5
+          },
+          {
+            "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6
+          },
+          {
+            "name": "Post Run github/codeql-action/analyze@b96794f015dfd88f77b49b1c93e0fa7110f94c63",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 10
+          },
+          {
+            "name": "Post Run github/codeql-action/init@b96794f015dfd88f77b49b1c93e0fa7110f94c63",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 11
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 12
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 13
+          }
+        ]
+      },
+      {
+        "id": 122781326223,
+        "name": "source",
+        "status": "completed",
+        "conclusion": "success",
+        "run_id": 40678032573,
+        "logs_url": null,
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2
+          },
+          {
+            "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3
+          },
+          {
+            "name": "Install pinned YAML parser",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4
+          },
+          {
+            "name": "Verify exact backend plus A UI components and scoped source successors",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5
+          },
+          {
+            "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6
+          },
+          {
+            "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 11
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 12
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 13
+          }
+        ]
+      }
+    ],
+    "artifacts": [
+      {
+        "artifact": {
+          "id": 12812030255,
+          "name": "complete-components-codeql-actions",
+          "size_in_bytes": 116854,
+          "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12812030255",
+          "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12812030255/zip",
+          "expired": false,
+          "created_at": "2026-10-28T11:14:14Z",
+          "expires_at": "2026-11-27T11:14:13Z",
+          "updated_at": "2026-10-28T11:14:14Z",
+          "digest": "sha256:cd9e291317bd4b6d3510b72cee4dac8dd54c7205c0f1cc8db521a3993795db1e",
+          "workflow_run": {
+            "id": 40678032573,
+            "repository_id": 1348063690,
+            "head_repository_id": 1348063690,
+            "head_branch": "astra-a/d17-18-complete-components-check-20261028",
+            "head_sha": "6d966d6e3074ae3a7b5f11a4dd46d986131d6fcd"
+          }
+        },
+        "zip_bytes": 116854,
+        "zip_sha256": "cd9e291317bd4b6d3510b72cee4dac8dd54c7205c0f1cc8db521a3993795db1e",
+        "member": "actions.sarif",
+        "member_bytes": 1766889,
+        "member_sha256": "d85917075fb8fb44ad969bde4867b730c9fa8227102c9356a8af85d243e93bfe"
+      },
+      {
+        "artifact": {
+          "id": 12811213116,
+          "name": "complete-components-source-1",
+          "size_in_bytes": 1479,
+          "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12811213116",
+          "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12811213116/zip",
+          "expired": false,
+          "created_at": "2026-10-28T11:12:02Z",
+          "expires_at": "2026-11-27T11:12:02Z",
+          "updated_at": "2026-10-28T11:12:02Z",
+          "digest": "sha256:fda7621948b0c1565d03c4e961327d097c0452ede993ba710d07ad4de08f2f74",
+          "workflow_run": {
+            "id": 40678032573,
+            "repository_id": 1348063690,
+            "head_repository_id": 1348063690,
+            "head_branch": "astra-a/d17-18-complete-components-check-20261028",
+            "head_sha": "6d966d6e3074ae3a7b5f11a4dd46d986131d6fcd"
+          }
+        },
+        "zip_bytes": 1479,
+        "zip_sha256": "fda7621948b0c1565d03c4e961327d097c0452ede993ba710d07ad4de08f2f74",
+        "member": "SOURCE.json",
+        "member_bytes": 3010,
+        "member_sha256": "8267699ab8fd60c53992a82ad7942dea6535466f19db94176ac15679473b130f"
+      }
+    ],
+    "source": {
+      "status": "PASS_EXACT_COMPLETE_COMPONENTS_SOURCE_ONLY",
+      "head": "6d966d6e3074ae3a7b5f11a4dd46d986131d6fcd",
+      "base_head": "0be07f6a4dbb17e88046daf43dbbf349c32dbf02",
+      "exact_component_files": 127,
+      "retired_workflows": 24,
+      "history": {
+        "status": "EXACT_HISTORICAL_PROOF_INPUTS_ONLY",
+        "files": 24,
+        "all_bytes_equal_frozen_original": true,
+        "Git_workflow_entries_restored": 0,
+        "active_workflow_behavior_added": false
+      },
+      "source": {
+        "status": "PASS_SCOPED_JS_UI_SUCCESSORS_SOURCE_ONLY",
+        "unchanged_exact_files": 4313,
+        "replaced_A_UI_files": 1,
+        "new_UI_test_files": 1,
+        "frontend_successor": {
+          "files": {
+            "src/NativeAnalysisFinancePanel.tsx": "9c03e2f868897f67dc6a2705229da995a7da4483f3ba0ab2086cbc76bead85e4",
+            "src/NativeAnalysisFinancePanel.progress.dom.test.tsx": "d90d77e4985a4b83fcfc88cedaf1a287a7712720408a628611e26062ed11b296"
+          },
+          "replaced_historical_path": "src/NativeAnalysisFinancePanel.tsx",
+          "old_digest": "c8490f5de4335a6d97e2f37e6523bc8c303f16cacbd9f3dab29b7481e65df149",
+          "tested_UI_head": "2790a9e5726e7724070f2fa01a2468061f2bae98",
+          "tested_UI_tree": "d4d9d3d1a9c440f0d3615842ad14cdfa113d99fc",
+          "B_preimage_exact": true,
+          "current_unit_DOM_tests": 29,
+          "retained_frozen_tests": 66,
+          "new_controls": 4,
+          "actual_ERP_Auth_browser_cases": 0,
+          "historical_manifests_rewritten": false,
+          "backend_or_browser_unlock": false
+        },
+        "replaced_tooling_files": 1,
+        "new_tested_helper_files": 2,
+        "successor": {
+          "files": {
+            "scripts/cp7_ow10_statistical_local.mjs": "2f2d02ed883a3fa018f8bd422e7879b58bb6ab7e4076232df3c63c372e729f57",
+            "scripts/cp7_first_failure_evidence.mjs": "41b059ed810c57c97f2ee05f4722ad7c415b7828b1e24c9c098962ee9cd9f34d",
+            "scripts/cp7_first_failure_evidence.test.mjs": "f14383aa6966513256496a0871b0175809697e941720010a08d7787210453c21"
+          },
+          "replaced_historical_path": "scripts/cp7_ow10_statistical_local.mjs",
+          "old_digest": "e14024bd85397aa0eb06f61354dc3400fd57fa6318e83bdbb4c00df3aa5d7685",
+          "A_qualified_head": "a6bb16bd898ade9cf5cf3588e6f39d4ecabef8a8",
+          "B_qualified_head": "4fcc1adc2b219304c73e2de6dc6df2b7810106d9",
+          "actual_JS_receipt_verified": true,
+          "historical_manifests_rewritten": false,
+          "backend_or_browser_unlock": false
+        },
+        "frozen_manifests": 7,
+        "current_B_exact_files": 38,
+        "main_dispatch_App_and_package_unchanged": true,
+        "business_oracles_unchanged": true,
+        "actual_database_Auth_browser_cases": 0,
+        "default_adopted": false,
+        "production_go": false,
+        "independent_acceptance": false
+      },
+      "proposed_backend_head": "3194b9c56be7af86ee45ccb1c6605204a712f91b",
+      "backend_runtime_eligible": false,
+      "browser_owner": "B",
+      "browser_files_imported": 0,
+      "original_manifests_rewritten": 0,
+      "actual_DB_Auth_browser_cases": 0,
+      "default_adopted": false,
+      "production_go": false,
+      "independent_acceptance": false
+    },
+    "codeql": {
+      "name": "actions.sarif",
+      "bytes": 1766889,
+      "sha256": "d85917075fb8fb44ad969bde4867b730c9fa8227102c9356a8af85d243e93bfe",
+      "analysis_runs": 1,
+      "query_count": 23,
+      "findings": 0,
+      "successful_invocations": true
+    },
+    "JS_rerun": false,
+    "backend_runtime_eligible": false,
+    "actual_DB_Auth_browser_cases": 0,
+    "default_adopted": false,
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "entire_backend_equivalence": {
+    "status": "PASS_ENTIRE_BACKEND_SOURCE_EQUAL_TO_ACTUAL11C",
+    "assembly_head": "6d966d6e3074ae3a7b5f11a4dd46d986131d6fcd",
+    "assembly_tree": "0cf0a5a686c1fbbc80d019f11f08fc76cd5491b3",
+    "backend_source_head": "11c95c4ee2c784247e1be22ce0a582f4d85632c5",
+    "backend_source_tree": "688a4ac63208e000602a30d406b4e080d2203a28",
+    "fresh_qualification_head": "3194b9c56be7af86ee45ccb1c6605204a712f91b",
+    "fresh_qualification_tree": "dd98cd5bbbafb3f257668d22317ab4b237c2fea8",
+    "actual11c_original_sha256": "00f54997e358e91c3392073994b92b2d59f184678f01e4a2f63f2373106eb9a9",
+    "entire_current_installation_exact": true,
+    "database_connection_attempts": 0,
+    "elapsed_seconds": 24.533,
+    "backend_runtime_eligible": false,
+    "actual_ERP_Auth_browser_cases": 0,
+    "independent_acceptance": false,
+    "production_go": false
+  },
+  "main_product_adopted": false
+}

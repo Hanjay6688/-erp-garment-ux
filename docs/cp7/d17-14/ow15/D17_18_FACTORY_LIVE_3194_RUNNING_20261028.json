@@ -1,0 +1,29 @@
+{
+  "status": "ACTUAL_FOCUSED_FACTORY_RUNNING_NOT_QUALIFIED",
+  "head": "3194b9c56be7af86ee45ccb1c6605204a712f91b",
+  "tree": "dd98cd5bbbafb3f257668d22317ab4b237c2fea8",
+  "run_id": 40677173176,
+  "job_id": 122778446042,
+  "branch": "astra-a/d17-18-factory-live-heartbeat-20261028",
+  "namespace": "scripts/current-factory-live-heartbeat",
+  "output": "CP7_D17_18_FACTORY_LIVE_HEARTBEAT_CLOSURE1.json",
+  "artifact_expected": "cp7-d17-18-factory-live-heartbeat-1",
+  "scope": {
+    "fresh_factory_groups": 1,
+    "retained_PASS_groups": 6,
+    "retained_head": "11c95c4ee2c784247e1be22ce0a582f4d85632c5",
+    "seven_fresh_groups_claim": false
+  },
+  "source_admission": {
+    "status": "PASS",
+    "own_pins": 15,
+    "seconds": 176.891,
+    "database_connection_attempts": 0,
+    "whitespace_successor_explicit": true
+  },
+  "local_controls_PASS": 5,
+  "selected_backend_for_B": null,
+  "browser_unlock": false,
+  "production_go": false,
+  "independent_acceptance": false
+}
