@@ -1,0 +1,28 @@
+{
+  "status": "PREPARED_NOT_BACKEND_QUALIFIED",
+  "owner": "A",
+  "client_owner": "B",
+  "parent": "5b32f4744eef66c2e9cc8619781faee446f360e7",
+  "path": "scripts/current-factory-initial-stage/worker.py",
+  "eligible": {
+    "units_done": 0,
+    "minimum_targets": 1000,
+    "bounded_request_contract": "cp7.bounded-analysis-request.v2"
+  },
+  "initial_server_statement_max_ms": 16000,
+  "ordinary_statement_max_ms": 8000,
+  "lock_max_ms": 2000,
+  "public_step_refusal": {
+    "sqlstate": "55000",
+    "message": "CP7_LARGE_INITIAL_PREPARATION_SERVER_REQUIRED",
+    "attempt_not_charged": true,
+    "existing_access_denial_takes_priority": true
+  },
+  "B_client_action": "Continue polling existing get/status with the same UUID while a large initial unit is queued or after this refusal; preserve unknown totals, existing stall bound and retry identity. A owns backend; B owns its production/planning driver. Do not treat this draft as backend acceptance.",
+  "signatures_changed": 0,
+  "new_public_RPC": 0,
+  "selected_backend": null,
+  "browser_unlock": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

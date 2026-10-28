@@ -1,5 +1,5 @@
 {
-  "status": "B_ORIGINAL_VERIFIED_AND_THREE_FILES_APPLIED_A_INTEGRATION_PENDING",
+  "status": "PASS_A_SELECTIVE_B_JAVASCRIPT_INTEGRATION",
   "A_base": "7657bbee5d55277855a0ab53126438c2e9c63118",
   "B_base": "1dd83782dcaa4500bace7bf392a76f58be0271c3",
   "B_head": "e3442f4563311734b6dd68d632dfadf3d708d023",
@@ -74,5 +74,47 @@
     "failed": 0,
     "original": "B-js-intake/A-filesystem-tests.tap",
     "actual_combined_JavaScript_CodeQL": "PREPARED_NOT_RUN"
+  },
+  "A_actual": {
+    "status": "PASS_A_SELECTIVE_B_JAVASCRIPT_INTEGRATION",
+    "head": "a6bb16bd898ade9cf5cf3588e6f39d4ecabef8a8",
+    "tree": "ceb6ab8fe20c55a323042fd10a79edae52a68e97",
+    "run_id": 40658882798,
+    "job_id": 122716611807,
+    "attempt": 1,
+    "artifact": {
+      "id": 12802737997,
+      "name": "a-ow10-first-failure-integration-original",
+      "size_in_bytes": 194001,
+      "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12802737997",
+      "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12802737997/zip",
+      "expired": false,
+      "created_at": "2026-10-28T08:48:35Z",
+      "expires_at": "2026-11-27T08:48:35Z",
+      "updated_at": "2026-10-28T08:48:35Z",
+      "digest": "sha256:893fe8ea1573775f257f464604f3187a558e2e7a08a3e3739dff1a4ef43a3ae3",
+      "workflow_run": {
+        "id": 40658882798,
+        "repository_id": 1348063690,
+        "head_repository_id": 1348063690,
+        "head_branch": "astra-a/ow10-first-failure-integration-20261028",
+        "head_sha": "a6bb16bd898ade9cf5cf3588e6f39d4ecabef8a8"
+      }
+    },
+    "zip_bytes": 194001,
+    "zip_sha256": "893fe8ea1573775f257f464604f3187a558e2e7a08a3e3739dff1a4ef43a3ae3",
+    "sarif_bytes": 2608019,
+    "sarif_sha256": "05b58f217cc8cf1b3b1373e61c15ba3d164389bd614ce9bb1fccb0a0ebe97189",
+    "filesystem_tests_passed": 4,
+    "filesystem_tests_failed": 0,
+    "codeql_queries": 103,
+    "file_system_race_query_present": true,
+    "codeql_results": 0,
+    "analysis_successful": true,
+    "scope": "Three exact B tooling files on the A integration source; original historical manifests remain unchanged.",
+    "backend_qualification": false,
+    "browser_qualification": false,
+    "independent_acceptance": false,
+    "production_go": false
   }
 }

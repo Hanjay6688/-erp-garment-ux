@@ -1,5 +1,5 @@
 {
-  "recorded_at_utc": "2026-10-28T07:18:49.718424+00:00",
+  "recorded_at_utc": "2026-10-28T09:01:18.160475+00:00",
   "role": "A finance writer/integrator replacing Claude; B remains separate production/planning writer",
   "slogan": [
     "VENI. VIDI. VICI. ERP. — I CONQUERED ERP.",
@@ -2679,74 +2679,142 @@
   },
   "most_recent_completed": [
     {
-      "proof": {
-        "name": "CP7_D17_18_FACTORY_PROGRESS_NATIVE_SOURCE_CRON7.json",
-        "status": "INCOMPLETE",
-        "head": "4ac681549d7ec664f504a71670c9035dd8f5944d",
-        "run_id": 40629923288,
-        "job_id": 122626325986,
-        "artifact_id": 12793826639,
-        "zip_bytes": 10605560,
-        "zip_sha256": "ca8c1b23fe279ee99736d506445011cf2fe656597a9b06b712dbaba3f305b042",
-        "bytes": 85273743,
-        "sha256": "c167387d6eff784aab1fc23d1305967671600b68c39b98a5633f6494710a2ba3",
-        "archive_member": "CP7_D17_18_FACTORY_PROGRESS_NATIVE_SOURCE_CRON7.json",
-        "package_name": "T3_PACKAGE_INSTALL.json",
-        "package_member": "T3_PACKAGE_INSTALL.json",
-        "package_bytes": 360443,
-        "package_sha256": "460024f04167f239daa94e311c0fcc7b10e874c8fc7083675207344dc966b92d"
+      "status": "PASS_A_SELECTIVE_B_JAVASCRIPT_INTEGRATION",
+      "head": "a6bb16bd898ade9cf5cf3588e6f39d4ecabef8a8",
+      "tree": "ceb6ab8fe20c55a323042fd10a79edae52a68e97",
+      "run_id": 40658882798,
+      "job_id": 122716611807,
+      "attempt": 1,
+      "artifact": {
+        "id": 12802737997,
+        "name": "a-ow10-first-failure-integration-original",
+        "size_in_bytes": 194001,
+        "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12802737997",
+        "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12802737997/zip",
+        "expired": false,
+        "created_at": "2026-10-28T08:48:35Z",
+        "expires_at": "2026-11-27T08:48:35Z",
+        "updated_at": "2026-10-28T08:48:35Z",
+        "digest": "sha256:893fe8ea1573775f257f464604f3187a558e2e7a08a3e3739dff1a4ef43a3ae3",
+        "workflow_run": {
+          "id": 40658882798,
+          "repository_id": 1348063690,
+          "head_repository_id": 1348063690,
+          "head_branch": "astra-a/ow10-first-failure-integration-20261028",
+          "head_sha": "a6bb16bd898ade9cf5cf3588e6f39d4ecabef8a8"
+        }
       },
-      "terminal": {
-        "read_only": true,
-        "manual_steps": 0,
-        "job_or_capture_state_changed": false,
-        "job_rows": [
-          {
-            "request_id": "156291b6-33c1-4ee3-b5db-6b6c8298e77c",
-            "state": "FAILED",
-            "units_done": 0,
-            "unit_count": 1,
-            "plan_final": false,
-            "failure_unit": 0,
-            "unit_attempts": 3,
-            "failure_sqlstate": "57014",
-            "failure_code": "CP7_ANALYSIS_STAGE_STOPPED",
-            "failure_message": "canceling statement due to statement timeout"
-          },
-          {
-            "request_id": "c9ca2cd7-bdd5-4ec7-bdee-5b8477ad5672",
-            "state": "FAILED",
-            "units_done": 0,
-            "unit_count": 1,
-            "plan_final": false,
-            "failure_unit": 0,
-            "unit_attempts": 3,
-            "failure_sqlstate": "57014",
-            "failure_code": "CP7_ANALYSIS_STAGE_STOPPED",
-            "failure_message": "canceling statement due to statement timeout"
-          }
-        ],
-        "finance_capture_rows": [
-          {
-            "state": "READY",
-            "units_done": 7,
-            "units_total": 7,
-            "failure_code": null
-          }
-        ]
+      "zip_bytes": 194001,
+      "zip_sha256": "893fe8ea1573775f257f464604f3187a558e2e7a08a3e3739dff1a4ef43a3ae3",
+      "sarif_bytes": 2608019,
+      "sarif_sha256": "05b58f217cc8cf1b3b1373e61c15ba3d164389bd614ce9bb1fccb0a0ebe97189",
+      "filesystem_tests_passed": 4,
+      "filesystem_tests_failed": 0,
+      "codeql_queries": 103,
+      "file_system_race_query_present": true,
+      "codeql_results": 0,
+      "analysis_successful": true,
+      "scope": "Three exact B tooling files on the A integration source; original historical manifests remain unchanged.",
+      "backend_qualification": false,
+      "browser_qualification": false,
+      "independent_acceptance": false,
+      "production_go": false
+    },
+    {
+      "name": "CP7_D17_18_CURRENT_FACTORY_OPERATIONAL_PROFILE1.json",
+      "status": "PASS",
+      "head": "5b32f4744eef66c2e9cc8619781faee446f360e7",
+      "tree": "0d4fc30267b61ae333508a3fef8f7e7a7c402fef",
+      "run_id": 40649572471,
+      "job_id": 122686231433,
+      "artifact_id": 12800202603,
+      "zip_bytes": 2290453,
+      "zip_sha256": "dbbe85a234912471dcf9a08db1e4ac4fb98c5003622865542620f38cdb30fd3f",
+      "bytes": 3928342,
+      "sha256": "7df5e2e8e6d7a6b89244a523d34ee23af61160bb8a6c1b1789ead95e503d6877",
+      "package_bytes": 360428,
+      "package_sha256": "572f6068df1a47cc8e5645ede89f181681130a8d5070934f7fd6fee17a36f584",
+      "source_pins": 14,
+      "whole_source_declaration_exact": true,
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
       },
-      "whole_status": "INCOMPLETE",
-      "browser_prerequisite_satisfied": false,
-      "workflow_conclusion": "failure",
-      "run_attempt": 2,
-      "tree": "f4a5bafcab0ce3de6ad330e3ed4f69b36482e8ea",
-      "first_infrastructure_attempt_preserved": true,
-      "six_other_groups": "PASS",
-      "factory": "INCOMPLETE",
-      "all_seven_installed_full_restorations": true,
-      "outer_all22_rows_sequences_roles_CP6_advisors_restored": true,
-      "failure_class": "actual operational unit0 statement timeout, not NULL watcher or prerequisite download",
-      "current_root_cost_location": "not yet measured on exact combined source"
+      "stage_timings": [
+        {
+          "phase": "SOURCE_ADMISSION",
+          "state": "COMPLETED",
+          "started_at_utc": "2026-10-28T07:30:01.515019+00:00",
+          "elapsed_ms": 50218.909,
+          "finished_at_utc": "2026-10-28T07:30:51.734076+00:00"
+        },
+        {
+          "phase": "BASELINE_ADVISORS",
+          "state": "COMPLETED",
+          "started_at_utc": "2026-10-28T07:30:55.534844+00:00",
+          "elapsed_ms": 1199.34,
+          "finished_at_utc": "2026-10-28T07:30:56.734270+00:00"
+        },
+        {
+          "phase": "BASELINE_DUMP",
+          "state": "COMPLETED",
+          "started_at_utc": "2026-10-28T07:30:58.895368+00:00",
+          "elapsed_ms": 751.957,
+          "finished_at_utc": "2026-10-28T07:30:59.647408+00:00"
+        },
+        {
+          "phase": "SINGLE_FULL_READONLY_PARENT_INSTALL",
+          "state": "COMPLETED",
+          "started_at_utc": "2026-10-28T07:30:59.659160+00:00",
+          "elapsed_ms": 946088.779,
+          "finished_at_utc": "2026-10-28T07:46:45.747988+00:00"
+        },
+        {
+          "phase": "FIRST_FINANCE_DELTA",
+          "state": "COMPLETED",
+          "started_at_utc": "2026-10-28T07:46:45.748044+00:00",
+          "elapsed_ms": 48191.607,
+          "finished_at_utc": "2026-10-28T07:47:33.939675+00:00"
+        },
+        {
+          "phase": "FINANCE_DELTA_PREUSE_INVERSE",
+          "state": "COMPLETED",
+          "started_at_utc": "2026-10-28T07:47:33.939740+00:00",
+          "elapsed_ms": 27808.877,
+          "finished_at_utc": "2026-10-28T07:48:01.748641+00:00"
+        },
+        {
+          "phase": "SECOND_FINANCE_DELTA",
+          "state": "COMPLETED",
+          "started_at_utc": "2026-10-28T07:48:01.748717+00:00",
+          "elapsed_ms": 48593.238,
+          "finished_at_utc": "2026-10-28T07:48:50.341980+00:00"
+        },
+        {
+          "phase": "ISOLATED_DIAGNOSTICS",
+          "state": "COMPLETED",
+          "started_at_utc": "2026-10-28T07:49:03.462113+00:00",
+          "elapsed_ms": 203749.714,
+          "finished_at_utc": "2026-10-28T07:52:27.211907+00:00"
+        },
+        {
+          "phase": "BASELINE_RESTORE",
+          "state": "COMPLETED",
+          "started_at_utc": "2026-10-28T07:52:27.220413+00:00",
+          "elapsed_ms": 2712.605,
+          "finished_at_utc": "2026-10-28T07:52:29.933061+00:00"
+        }
+      ],
+      "error": null,
+      "traceback": null,
+      "restore_error": null,
+      "factory_qualified": false,
+      "browser_unlocked": false,
+      "production_go": false,
+      "independent_acceptance": false
     }
   ],
   "performance_factory_prepared": {
@@ -18475,10 +18543,9 @@
     "actual_receipt": "docs/cp7/d17-14/ow15/D17_18_SOURCE_B7_ACTUAL.json"
   },
   "latest_next_steps_20261028": [
-    "A: measure current operational unit0 and frozen input compiler using unchanged 4ac SQL, rollback each call and verify full restoration; diagnostic does not qualify backend.",
-    "A: correct measured backend cause, qualify all seven groups and provide exact head/tree/run/job/Original/artifact/contracts/open boundaries to B.",
-    "B: send small JS patch and real test/CodeQL evidence first; continue e8fa preparation independently; actual browser requires A-qualified backend.",
-    "A: selectively integrate B result against current source, verify combined impact, finish auditor package."
+    "A: finish bounded large initial worker, full installer/inverse, guard cases and seven combined groups on one candidate; preserve first failure.",
+    "B: continue existing browser preparation and adapt owned client to explicit server-owned initial-stage contract; wait for qualified exact backend before real Auth/browser.",
+    "A: deliver exact backend head/tree/run/job/artifact and open gaps, selectively receive B browser result, finish independent-auditor package."
   ],
   "previous_factory49_running_before_actual": {
     "head": "49baddbd423da93a0cfe1a52c27801e763176fcf",
@@ -19065,17 +19132,23 @@
     "Continue authorized A and integration work. Formal5/16, CP7C, historical CP6 boundaries, independent acceptance and production_go remain unchanged."
   ],
   "B_OW10_first_failure_evidence_review_current": {
-    "path": "scripts/cp7_ow10_statistical_local.mjs",
-    "proposal": "docs/cp7/d17-14/ow15/B_REVIEW_STATISTICAL_FIRST_FAILURE_ATOMIC_WRITE.patch",
-    "status": "ASSIGNED_TO_B_NOT_ADOPTED",
-    "requirements": [
-      "exclusive creation wx",
-      "ignore EEXIST only",
-      "retain other write errors",
-      "never replace first evidence",
-      "concurrent writers, existing file, non-EEXIST error tests",
-      "relevant JavaScript CodeQL",
-      "unchanged statistical formulas/oracles"
-    ]
-  }
+    "status": "PASS_A_SELECTIVE_B_JAVASCRIPT_INTEGRATION",
+    "receipt": "docs/cp7/d17-14/ow15/A_B_OW10_FIRST_FAILURE_INTAKE_20261028.json",
+    "A_head": "a6bb16bd898ade9cf5cf3588e6f39d4ecabef8a8",
+    "run_id": 40658882798,
+    "job_id": 122716611807,
+    "files": [
+      "scripts/cp7_ow10_statistical_local.mjs",
+      "scripts/cp7_first_failure_evidence.mjs",
+      "scripts/cp7_first_failure_evidence.test.mjs"
+    ],
+    "historical_manifests_rewritten": false
+  },
+  "factory_profile_current": {
+    "path": "docs/cp7/d17-14/ow15/D17_18_FACTORY_PROFILE_5B32_ACTUAL.json",
+    "head": "5b32f4744eef66c2e9cc8619781faee446f360e7",
+    "status": "PASS_DIAGNOSTIC_ONLY",
+    "backend_unlock": false
+  },
+  "large_initial_stage_contract_prepared": "docs/cp7/d17-14/ow15/D17_18_LARGE_INITIAL_STAGE_CONTRACT_PREPARED.json"
 }

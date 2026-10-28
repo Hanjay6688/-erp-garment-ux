@@ -5449,3 +5449,32 @@ Rincian kepemilikan, identitas bukti asli dan langkah lanjut berada di
 ow15/A_B_ASSIGNMENT_AND_4AC_ACTUAL_20261028.json. Formal5/16,
 independent_acceptance=false, production_go=false, CP7C belum dimulai.
 Checkpoint disimpan lalu pekerjaan yang telah diotorisasi diteruskan.
+
+## 28 Oktober 2026 — patch JavaScript B diterima A; diagnosis pabrik aktual selesai
+
+Tiga berkas JavaScript B dari 4fcc1adc/e3442f45 diterapkan selektif pada A7657.
+Kandidat A a6bb16bd, tree ceb6ab8fe20c55a323042fd10a79edae52a68e97,
+run40658882798/job122716611807 PASS: 4 tes filesystem termasuk dua proses,
+103 query CodeQL JavaScript termasuk js/file-system-race, nol temuan, analisis
+lengkap. Artifact12802737997 diverifikasi byte/hash dan SARIF asli. Rumus/oracle
+tidak berubah, bukti pertama tidak ditimpa, hanya EEXIST diabaikan. Manifest
+historis tetap utuh; receipt penerus scoped, bukan klaim backend lama menguji kode
+alat baru. Rincian A_B_OW10_FIRST_FAILURE_INTAKE_20261028.json.
+
+Diagnosis 5b32f474/run40649572471/job122686231433 PASS dengan pemulihan lengkap.
+Unit awal saja 7324,137 ms, keluaran 3.531.545 byte; compiler input 5575,020 ms,
+40.085.532 byte; status kecil 45,341 ms. Pengukuran unit belum mencakup seluruh
+penyimpanan/progres step. Ini bukti diagnosis, bukan kelulusan factory/backend.
+Original dan artifact12800202603 cocok persis; kegagalan 4ac tetap dipertahankan.
+
+A menyiapkan tahap awal server untuk frozen-v2, units_done=0, targets>=1000,
+batas 16 detik terukur, lock2 detik; operasi biasa dan empat jadwal lama tetap
+8 detik. Tambahan jadwal terbatas, tanpa angka progres palsu. Kontrak draft
+ada di ow15/D17_18_LARGE_INITIAL_STAGE_CONTRACT_PREPARED.json. B melanjutkan
+get/status dengan UUID sama pada tahap awal besar; step biasa ditolak 55000
+CP7_LARGE_INITIAL_PREPARATION_SERVER_REQUIRED sebelum percobaan dibebankan.
+Pemeriksaan akses tetap mendahului penolakan ini. B mengerjakan driver miliknya;
+A tidak menjalankan atau mengimplementasikan paket browser B.
+
+Belum ada backend baru yang memenuhi all7. Browser tetap CLOSED, formal5/16,
+independent_acceptance=false, production_go=false dan CP7C belum dimulai.
