@@ -49,6 +49,7 @@ def admitted(repo,here,product):
         if path==label_path:client_label(old.decode(),(repo/path).read_text())
         else:assert(repo/path).read_bytes()==old,path
     return dict(status='EXACT_COMPLETE_BACKEND11_AND_LABEL_SUCCESSOR_ADMITTED',prerequisite=prerequisite,
-        qualification=source,current_installation=current,current_installation_entrypoint=entry,parent_backend_sha256=parent_digest,
+        qualification=source,client_sources={p:sha256((repo/p).read_bytes()).hexdigest()for p in cfg['client_files']},
+        current_installation=current,current_installation_entrypoint=entry,parent_backend_sha256=parent_digest,
         actual_backend_cases_repeated=0,planned_browser_cases=2,B_combined_browser_repeated=False,
         production_go=False,independent_acceptance=False)
