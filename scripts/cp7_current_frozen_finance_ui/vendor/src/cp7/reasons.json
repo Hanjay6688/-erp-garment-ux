@@ -1,0 +1,82 @@
+[
+  {
+    "code": "DIRECTED_WIP_COVERS",
+    "label": "Tertutup proyeksi WIP terarah",
+    "guard": "Tujuan, jumlah unik, ETA dan size valid; bukan actual FG"
+  },
+  {
+    "code": "CANDIDATE_NEEDS_CONFIRMATION",
+    "label": "Periksa kecocokan dan ETA batch",
+    "guard": "Gap bersyarat; capacity bersama tidak diulang per SKU"
+  },
+  {
+    "code": "EARLY_GAP",
+    "label": "Kebutuhan lebih cepat daripada pasokan",
+    "guard": "Gap bertanggal tidak ditutup arrival terlambat"
+  },
+  {
+    "code": "SIZE_GAP",
+    "label": "Ukuran tertentu masih kurang",
+    "guard": "Surplus size lain bukan substitusi otomatis"
+  },
+  {
+    "code": "SOURCE_INCOMPLETE",
+    "label": "Data sumber belum lengkap",
+    "guard": "Tidak menampilkan nol atau cukup"
+  },
+  {
+    "code": "COST_PENDING",
+    "label": "Biaya belum final",
+    "guard": "Qty tetap ditampilkan jika sah; margin final ditahan"
+  },
+  {
+    "code": "PRODUCTION_STOPPED",
+    "label": "Produksi dihentikan",
+    "guard": "Start baru nol; stok/WIP tetap terlihat"
+  },
+  {
+    "code": "PRODUCTION_PAUSED",
+    "label": "Produksi ditunda",
+    "guard": "Review date tidak auto-reactivate"
+  },
+  {
+    "code": "BASELINE_RETAINED",
+    "label": "Metode dasar dipertahankan",
+    "guard": "Data/evaluasi challenger belum membuktikan manfaat"
+  },
+  {
+    "code": "FEASIBILITY_NOT_PROVEN",
+    "label": "Kelayakan bahan/kapasitas belum dapat dipastikan",
+    "guard": "Scenario angka tidak menjadi perintah potong"
+  },
+  {
+    "code": "STALE_SOURCE",
+    "label": "Data berubah, perbarui analisis",
+    "guard": "Apply memerlukan review dan revalidation"
+  },
+  {
+    "code": "SCOPE_RESTRICTED",
+    "label": "Perlu tinjauan pengguna berwenang",
+    "guard": "Tidak membocorkan kapasitas/angka scope lain"
+  },
+  {
+    "code": "MATERIAL_REMAINING_UNKNOWN",
+    "label": "Kebutuhan bahan tersisa belum dapat dipastikan",
+    "guard": "Issue bukan bukti pemasangan"
+  },
+  {
+    "code": "ROUNDING_EXTRA",
+    "label": "Ada tambahan karena kelipatan produksi",
+    "guard": "Qty net/suggested/extra dan size distribution terlihat"
+  },
+  {
+    "code": "AS_KNOWN_UNAVAILABLE",
+    "label": "Histori pengetahuan belum tersedia",
+    "guard": "Current restatement bukan historical as-known"
+  },
+  {
+    "code": "ACTUAL_LOW_PROJECTED_COVERED",
+    "label": "Stok nyata rendah, ada proyeksi WIP",
+    "guard": "Dua status benar bersamaan; bukan FG bertambah"
+  }
+]

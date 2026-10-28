@@ -25,6 +25,21 @@ def check():
     for path in config['current_B_exact_paths']:
         assert(ROOT/path).read_bytes()==subprocess.check_output(
             ['git','-C',str(ROOT),'show',config['current_B_head']+':'+path]),path
+    for item in config['test_dependency_provenance']:
+        raw=(ROOT/item['path']).read_bytes()
+        assert len(raw)==item['bytes'] and sha256(raw).hexdigest()==item['sha256'],item['path']
+        assert raw==subprocess.check_output(['git','-C',str(ROOT),'show',
+            item['source_head']+':'+item['source_path']]),item['path']
+    fixture_changes=config['fixture_setup_changes']
+    for path,item in fixture_changes.items():
+        raw=(ROOT/path).read_bytes()
+        assert sha256(raw).hexdigest()==item['after_sha256'],path
+        before=subprocess.check_output(['git','-C',str(ROOT),'show',config['base_head']+':'+path])
+        assert sha256(before).hexdigest()==item['before_sha256'],path
+        restored=raw.replace(b"\n const rounding = extractFunction(current, 'cp7_analysis_native.rounded_suggestion')",b'')
+        restored=restored.replace(b'${fact}${rounding}${ref}',b'${fact}${ref}')
+        restored=restored.replace(b"'cp7_analysis_native.fact', 'cp7_analysis_native.rounded_suggestion',",b"'cp7_analysis_native.fact',")
+        assert restored==before,('ONLY_ADD_EXACT_PRODUCT_DEPENDENCY',path)
     for path in ('src/App.tsx','package.json','package-lock.json',
         'scripts/cp6_t3_aligned_install.py','scripts/cp7_p21_current_chain_rehearsal_probe.py'):
         assert(ROOT/path).read_bytes()==subprocess.check_output(

@@ -13,7 +13,7 @@
     "scripts/current-finance-readonly-integration-qualification/SOURCE.json": "efcd04e5ae78b391d8e6dcef18f733eff2daffaeba8175dc3ca111211da7a438",
     "scripts/current-finance-reader-stream-followup-qualification/SOURCE.json": "2bfb1dd2492c358cfbebaad9554d289726751a44179a5db2a4055ee26240432f"
   },
-  "required_exact_files": 4220,
+  "required_exact_files": 4315,
   "previously_exact": 3197,
   "changed": [
     "scripts/check-access-catalog.mjs",
@@ -1061,7 +1061,24 @@
     "src/nativeScopedModel.test.ts",
     "src/nativeScopedModel.ts",
     "tests/fixtures/nativeScopedModelSql.json",
-    "tests/fixtures/nativeModelTargetV2Sql.json"
+    "tests/fixtures/nativeModelTargetV2Sql.json",
+    "scripts/cp7_frozen_analysis_facade_v2/client/nativeFrozenAnalysis.test.ts",
+    "scripts/cp7_frozen_analysis_facade_v2/client/nativeFrozenAnalysis.ts",
+    "scripts/cp7_frozen_analysis_facade_v2/client/nativeFrozenWait.test.ts",
+    "scripts/cp7_frozen_analysis_facade_v2/client/nativeFrozenWait.ts",
+    "scripts/cp7_frozen_choice_ui/client/NativeFrozenAnalogPanel.tsx",
+    "scripts/cp7_frozen_choice_ui/client/NativeFrozenChoicePanel.tsx",
+    "scripts/cp7_frozen_choice_ui/client/fixtures.ts",
+    "scripts/cp7_frozen_choice_ui/client/frozen-choice.css",
+    "scripts/cp7_frozen_quantity_ui/client/NativeFrozenProgress.dom.test.tsx",
+    "scripts/cp7_frozen_quantity_ui/client/NativeFrozenProgress.tsx",
+    "scripts/cp7_frozen_quantity_ui/client/NativeFrozenQuantityPanel.dom.test.tsx",
+    "scripts/cp7_frozen_quantity_ui/client/NativeFrozenQuantityPanel.tsx",
+    "scripts/cp7_frozen_quantity_ui/client/nativeFrozenProgress.test.ts",
+    "scripts/cp7_frozen_quantity_ui/client/nativeFrozenProgress.ts",
+    "scripts/cp7_frozen_quantity_ui/client/nativeFrozenQuantity.test.ts",
+    "scripts/cp7_frozen_quantity_ui/client/nativeFrozenQuantity.ts",
+    "tests/fixtures/frozenAnalysisFinance.ts"
   ],
   "B_files_reauthored": false,
   "shared_guards_change": "Only four explicitly owned scoped-model RPCs and their exact total are added; prior assertions retained.",
@@ -1085,7 +1102,102 @@
   "frozen_manifest_exact_files": 4218,
   "extra_test_fixture_files": {
     "tests/fixtures/nativeScopedModelSql.json": "572e640f8342f12357af8e01aca801e4ac46bc7b1e85caf5973980da5c36c4a6",
-    "tests/fixtures/nativeModelTargetV2Sql.json": "77e49bfdf956abf4c5764461662fab8c11180342904164d33fa20003f9739516"
+    "tests/fixtures/nativeModelTargetV2Sql.json": "77e49bfdf956abf4c5764461662fab8c11180342904164d33fa20003f9739516",
+    "scripts/cp7_frozen_analysis_facade_v2/client/nativeFrozenAnalysis.test.ts": "28b579b4a2e302e69e6a6bff929b11cb12e67ebd6b05843afc9dc7eedd8a7364",
+    "scripts/cp7_frozen_analysis_facade_v2/client/nativeFrozenAnalysis.ts": "00b1bd7e34aca4f1a72145c438ea9f6b1b53d87d630567de9e5e40288e345c8d",
+    "scripts/cp7_frozen_analysis_facade_v2/client/nativeFrozenWait.test.ts": "4f7e58aed9154313e091bbb10bf621ca5a98eeb8662026605f582743d79f76c6",
+    "scripts/cp7_frozen_analysis_facade_v2/client/nativeFrozenWait.ts": "f0aeed0eb29b8b1b31183b00e8af3005c5d69af58e95b6300da363d67ab6ebc2",
+    "scripts/cp7_frozen_choice_ui/client/NativeFrozenAnalogPanel.tsx": "d25574c76d65cdd85623a3f0866f0ad1a8331d7a59e514553278cebaf3c5cac4",
+    "scripts/cp7_frozen_choice_ui/client/NativeFrozenChoicePanel.tsx": "7b696c6cb94373fd2e95c8ba168162ddc0719a485b59e6aaab8d60789c977910",
+    "scripts/cp7_frozen_choice_ui/client/fixtures.ts": "2bd912342e0912c3579636a80fe5e4ce950e724ecc716a5003b99bcb0db53378",
+    "scripts/cp7_frozen_choice_ui/client/frozen-choice.css": "5958d5b437662bde184691c6670665ec23ac4549e722d4031c348a71d3000229",
+    "scripts/cp7_frozen_quantity_ui/client/NativeFrozenProgress.dom.test.tsx": "b7c8222259311664179f42854961a925b5145106c84fc274e7c8e57eac6f82b3",
+    "scripts/cp7_frozen_quantity_ui/client/NativeFrozenProgress.tsx": "90e8f26d633f7c9dec3b53dcea9c1e529a9b03522684c36da239f650f1f479d8",
+    "scripts/cp7_frozen_quantity_ui/client/NativeFrozenQuantityPanel.dom.test.tsx": "67c27ace800798d48c5f7a4f9932d8ee62bf714cccf2893429a78a2238d0a203",
+    "scripts/cp7_frozen_quantity_ui/client/NativeFrozenQuantityPanel.tsx": "fd98a4f63e92d543c3da84b16f6a36cc715841901ac49a84579a726e2d88a547",
+    "scripts/cp7_frozen_quantity_ui/client/nativeFrozenProgress.test.ts": "9f01adc26527a53838a3da50eeab1b84fae212730175b2e164251783bdd8117f",
+    "scripts/cp7_frozen_quantity_ui/client/nativeFrozenProgress.ts": "5a832131e7f95edf589d38fa4a8836032ca12216664c89d90f7af5a67f89c53b",
+    "scripts/cp7_frozen_quantity_ui/client/nativeFrozenQuantity.test.ts": "4cca41fabb2580c3dfd97fce7a71d5126413c541c23850d05d72c4fcd9ab13e9",
+    "scripts/cp7_frozen_quantity_ui/client/nativeFrozenQuantity.ts": "11d6ffd99199da5eabe4e544e7938d63b962261afa824388b1d98421843f557d",
+    "tests/fixtures/frozenAnalysisFinance.ts": "a0b8dcb827e29097cfb6df2e6761e80b6f9324aeebe7d840e6076bef27e830e1",
+    "scripts/cp7_current_frozen_finance_ui/vendor/scripts/cp7-src/planning/analysis-stages.sql": "df00590019a580c36efb585e3b0cbb2582c9f5690b7b951ba6bb3836f2cc884d",
+    "scripts/cp7_current_frozen_finance_ui/vendor/scripts/cp7_frozen_analysis_choice_v2/client/nativeFrozenChoice.ts": "31e38f42560f1a52daa041833dce3bf791a295250f45bfdbe5a39669668e383f",
+    "scripts/cp7_current_frozen_finance_ui/vendor/scripts/cp7_frozen_analysis_facade_v2/client/nativeFrozenAnalysis.test.ts": "28b579b4a2e302e69e6a6bff929b11cb12e67ebd6b05843afc9dc7eedd8a7364",
+    "scripts/cp7_current_frozen_finance_ui/vendor/scripts/cp7_frozen_analysis_facade_v2/client/nativeFrozenAnalysis.ts": "933dbab45d434380b61598d5160f6002248927a267c8acd8d1a612871000f195",
+    "scripts/cp7_current_frozen_finance_ui/vendor/scripts/cp7_frozen_analysis_readers_v2/client/nativeFrozenAnalog.ts": "230790df7fd7260e1742e803caa6fa0e3d4d16c106d7a1d6f3655c164e838e33",
+    "scripts/cp7_current_frozen_finance_ui/vendor/scripts/cp7_frozen_choice_ui/client/NativeFrozenAnalogPanel.tsx": "d25574c76d65cdd85623a3f0866f0ad1a8331d7a59e514553278cebaf3c5cac4",
+    "scripts/cp7_current_frozen_finance_ui/vendor/scripts/cp7_frozen_choice_ui/client/NativeFrozenChoicePanel.tsx": "7b696c6cb94373fd2e95c8ba168162ddc0719a485b59e6aaab8d60789c977910",
+    "scripts/cp7_current_frozen_finance_ui/vendor/scripts/cp7_frozen_choice_ui/client/frozen-choice.css": "5958d5b437662bde184691c6670665ec23ac4549e722d4031c348a71d3000229",
+    "scripts/cp7_current_frozen_finance_ui/vendor/scripts/cp7_frozen_finance_ui/client/NativeFrozenFinancePanel.dom.test.tsx": "c5a3fe893b78fb9ed3b0263468f0a75d0180287cf25068d82c198e90d8e6c4db",
+    "scripts/cp7_current_frozen_finance_ui/vendor/scripts/cp7_frozen_finance_ui/client/NativeFrozenFinancePanel.tsx": "5ad60241a7b9ca2d0bfbbb5ee8f257546b69e62db43acf4ca09fa150d4554da0",
+    "scripts/cp7_current_frozen_finance_ui/vendor/scripts/cp7_frozen_finance_ui/client/frozen-finance.css": "6a3119e4b7ef86de35219b992aa6e0999a85588c5243349c1c76690aa894ed69",
+    "scripts/cp7_current_frozen_finance_ui/vendor/scripts/cp7_frozen_quantity_ui/client/NativeFrozenQuantityPanel.dom.test.tsx": "67c27ace800798d48c5f7a4f9932d8ee62bf714cccf2893429a78a2238d0a203",
+    "scripts/cp7_current_frozen_finance_ui/vendor/scripts/cp7_frozen_quantity_ui/client/NativeFrozenQuantityPanel.tsx": "255e2536a59dc280a4fc7fe1c4452777c1702441c15a5a0b1ef63c8575992259",
+    "scripts/cp7_current_frozen_finance_ui/vendor/scripts/cp7_frozen_quantity_ui/client/nativeFrozenQuantity.test.ts": "394d8d4870da980bb311d5748763e069031f00629807c5f24ede2f0e582706a8",
+    "scripts/cp7_current_frozen_finance_ui/vendor/scripts/cp7_frozen_quantity_ui/client/nativeFrozenQuantity.ts": "e0d82fa266684e587fced4101eec63e59e6430416f9e1142fc079b2a45087081",
+    "scripts/cp7_current_frozen_finance_ui/vendor/src/NativeAnalysisFinancePanel.dom.test.tsx": "d9813c061bfee4ef9f305dc2e68a67eb4c187345e4383e7401b61ca223154530",
+    "scripts/cp7_current_frozen_finance_ui/vendor/src/NativeAnalysisFinancePanel.tsx": "5b27d21d8362428ee841329b95c1c5a3e26defaf91f1d885d69d321c0c87865f",
+    "scripts/cp7_current_frozen_finance_ui/vendor/src/TargetDemandDetails.tsx": "0bf3bf79d6c65356922a770909fa4561dd7f01680fc7cea3b04d9e44f6418589",
+    "scripts/cp7_current_frozen_finance_ui/vendor/src/auth/AuthGate.tsx": "54dcd2c2a921aa39833b39d6731c1dda7d5340298058ebdc54ca27605823083a",
+    "scripts/cp7_current_frozen_finance_ui/vendor/src/auth/AuthProvider.tsx": "d1ee2b58fb8ba4f9d416c84b5f461b28141fc123c6efc6ee89604160b79b2736",
+    "scripts/cp7_current_frozen_finance_ui/vendor/src/auth/accessCatalog.ts": "d40c22da4a4fdf30a37e03e02b16901e13995979e899015aa5e963c60b4ae7a8",
+    "scripts/cp7_current_frozen_finance_ui/vendor/src/auth/auth.css": "f5a5e9db66292c5134483d3d429d99e2af8a4fdf09aafb1b17b3a10472b6b2e1",
+    "scripts/cp7_current_frozen_finance_ui/vendor/src/auth/authPolicy.ts": "95642becba9117fb1fda596a853a0b845773db146c5f307dfcef554961fe43b0",
+    "scripts/cp7_current_frozen_finance_ui/vendor/src/config/runtime.ts": "79461aed0e20de4608c92ddddf3b477fb40e7abe997187f8cea8086d12460fb9",
+    "scripts/cp7_current_frozen_finance_ui/vendor/src/cp6BusinessTime.ts": "d1681a2c28898c2bd772581bb4436cd1ca34bfa32e41af4b9096f2aaa0b834b7",
+    "scripts/cp7_current_frozen_finance_ui/vendor/src/cp7/contract.ts": "16a320a188d1fafe3912c33ac6e07de26bda2a506654f05e20a57195ed846ddf",
+    "scripts/cp7_current_frozen_finance_ui/vendor/src/cp7/fixture.ts": "380681e083291326a1bfe71603f9dbc05071a3b55616d6dfe6fdc50ed01585f0",
+    "scripts/cp7_current_frozen_finance_ui/vendor/src/cp7/native-analysis.schema.json": "c6e38f059d992c5916b7a799c153ad5a6cc4858dc8ffd6085bb8e5356ebc72a1",
+    "scripts/cp7_current_frozen_finance_ui/vendor/src/cp7/reasons.json": "55741fc4be42afe73a3b942b4af7f1839c53197599f0a605c63ec7db0533e551",
+    "scripts/cp7_current_frozen_finance_ui/vendor/src/cp7/workspace.ts": "3dc3272128be0da2de9ca16d9e247d40c0b94c4999d36e8c08c097b6694d957a",
+    "scripts/cp7_current_frozen_finance_ui/vendor/src/cuttingPersistence.ts": "9d1e8d7ea6b57084a6ed6c528276d419ec903e969e839a23de8a388ec04b24d7",
+    "scripts/cp7_current_frozen_finance_ui/vendor/src/fgReorderContract.ts": "dffc377cd9b6e13fdbf66723d5aedf64f3dd0e6074293324904d56a6e2175b47",
+    "scripts/cp7_current_frozen_finance_ui/vendor/src/financeReportContract.ts": "54cbf2b591be338095c50b09b915d818bdc2621ca6c86240831385ada7432f7e",
+    "scripts/cp7_current_frozen_finance_ui/vendor/src/lib/analysisRetentionMessages.ts": "b499245d7556c00021694a9a5736ef961872503dccdef6c10e1d9aa49ad5dd9c",
+    "scripts/cp7_current_frozen_finance_ui/vendor/src/lib/clientError.ts": "2dced6bcbd1dd81aabee729abfc2e0729789f10f9ea06474fc7bef428f167b96",
+    "scripts/cp7_current_frozen_finance_ui/vendor/src/lib/mandorCorrectionMessages.ts": "91d78db933cfefd5de1f52732389423cf5208212690a2a9cba318792aa84ac8f",
+    "scripts/cp7_current_frozen_finance_ui/vendor/src/lib/masterMessages.ts": "4815b8952d60da3f34fa451a29a1c1cf86ca0163da3bf817f9dfcfa0ae9ab25f",
+    "scripts/cp7_current_frozen_finance_ui/vendor/src/lib/planV2Messages.ts": "77f7952f64fc4c5d0e1366f13d112a59ade86f2f8cf9d80875b4497368250504",
+    "scripts/cp7_current_frozen_finance_ui/vendor/src/lib/receiptCorrectionMessages.ts": "af15cdc7a3368eb7495e23f944a406c84aacb44fcd040208ddbc2b495ca318ff",
+    "scripts/cp7_current_frozen_finance_ui/vendor/src/lib/reminderV2Messages.ts": "47a24d0b424a5f902038d8f3fff64fff7e48badba239577230b554c3c3156431",
+    "scripts/cp7_current_frozen_finance_ui/vendor/src/lib/reportV2Messages.ts": "c0990d6c52d2809277b448be973bb68da483b053d30f02d18887f5730739e15a",
+    "scripts/cp7_current_frozen_finance_ui/vendor/src/lib/supabase.ts": "51dc62a3f5d85fd0aa618a6cbb78bbbd20b063aad4ef64e84da933c3c21bfc28",
+    "scripts/cp7_current_frozen_finance_ui/vendor/src/native-bounded-quantity.css": "b3836d66bcc396e24ce9ae8bb2f65112bd87e99fe7ba3e5ce09a5fa4ab3614b8",
+    "scripts/cp7_current_frozen_finance_ui/vendor/src/native-production-planning.css": "9b2226d6e0654d6a2000cb21b43380f21470d78f772ef32d3a67e53e9f9ef775",
+    "scripts/cp7_current_frozen_finance_ui/vendor/src/nativeAnalysis.ts": "d8b3bba468a0c5e6cda14260ba90b73b9d0504578640e4e9f4723c19064197fa",
+    "scripts/cp7_current_frozen_finance_ui/vendor/src/nativeAnalysisFinanceSidecar.test.ts": "34e8c7b7b5d47a533b2f8f1f9ebdb2f32ddfa4b1458c85797101c2e2ee0f277e",
+    "scripts/cp7_current_frozen_finance_ui/vendor/src/nativeAnalysisFinanceSidecar.ts": "1f32a4a8079c448c5dd9e8ce7be56b1fc2ecd34b9012963111b9abebb9a565d4",
+    "scripts/cp7_current_frozen_finance_ui/vendor/src/nativeAnalysisPages.ts": "5a409a8e54948cb2b5d8740722db99488a311149777d0753e203d9e028e1fa17",
+    "scripts/cp7_current_frozen_finance_ui/vendor/src/nativeAnalysisTransport.ts": "24d393c7fe8664a84dd6b7e612aeba6665afee3bbbf087c9a9d0c470ab857297",
+    "scripts/cp7_current_frozen_finance_ui/vendor/src/nativeBoundedAnalysis.ts": "fb2f37af014c750f2e856da7adc3e320c463954072999b08efa387a1086da357",
+    "scripts/cp7_current_frozen_finance_ui/vendor/src/nativeBoundedQuantity.test.ts": "cfe638c295c38688e4e046e2cf1d1d78307579551455a29504de85194935f59a",
+    "scripts/cp7_current_frozen_finance_ui/vendor/src/nativeBoundedQuantity.ts": "088a771abe0a82abc359dba5303da4c3443f356b0f002fc36c538cf911650bab",
+    "scripts/cp7_current_frozen_finance_ui/vendor/src/nativeDemandHistory.ts": "1b2b5f51e93c656f95668405ec1cee123680ddb0ce96ac251f3df220d5a5d9e2",
+    "scripts/cp7_current_frozen_finance_ui/vendor/src/nativeHistoryYieldPolicy.ts": "87d167c14a45a620514075ba0f3fc0fbe312fb1875848cbee0989fd6f42c1f9b",
+    "scripts/cp7_current_frozen_finance_ui/vendor/src/nativeModelPolicy.ts": "6fe2dee4884e0953048be6ebe222f2e3073d93a2c35b3f3d663de7581b41b964",
+    "scripts/cp7_current_frozen_finance_ui/vendor/src/nativeModelTarget.ts": "63d4168738553dd99c4b2e0a9598478c9c7376e6107735e37f5b30ddbcc530e2",
+    "scripts/cp7_current_frozen_finance_ui/vendor/src/nativePlanDraft.ts": "d1c45169dcbf4a119faf3224168f6a34bb243bdd9a88ac3ecc1f3609cb566807",
+    "scripts/cp7_current_frozen_finance_ui/vendor/src/nativePlanInstant.ts": "adc980769664b1fa8e83f0ab7152a2cb949cbefd2510ae66705a92fcf9bce45a",
+    "scripts/cp7_current_frozen_finance_ui/vendor/src/nativeProductAnalog.ts": "149277f173bbfcdc91a68157d973eb1ceffd08d66c0b44a1bdfa074f4d9befd9",
+    "scripts/cp7_current_frozen_finance_ui/vendor/src/nativeStagedJob.test.ts": "9e74b2a9c36ef0e2536ee3c87f43da008ab92090704069b6f408f8cdb8465656",
+    "scripts/cp7_current_frozen_finance_ui/vendor/src/nativeStagedJob.ts": "a48f98d068f94291d7dc4187dffd218da6bb0edea1f63e1bc8eba7d4c75b44e0",
+    "scripts/cp7_current_frozen_finance_ui/vendor/src/nativeTargetDemand.ts": "ab4a531f7e51ae82ddacf00079102f1bef8c0ea6f1be5f3462e9dec2e2fef685",
+    "scripts/cp7_current_frozen_finance_ui/vendor/src/procurementContract.ts": "9e2d22fafd6c4f93d975deb6c04e848af5e42608bacd9ca6da67ac5678669c2a",
+    "scripts/cp7_current_frozen_finance_ui/vendor/src/productionRecovery.ts": "01968f866ea59b30caad33c5ebbb0201fe9cf7f69c923e985ae80da1fd44b24f",
+    "scripts/cp7_current_frozen_finance_ui/vendor/src/quantityInput.ts": "1a8186356ad571a615b620836290b52fb9a2a18f414b0a5b021f011ef20821dc",
+    "scripts/cp7_current_frozen_finance_ui/vendor/src/styles.css": "924f150bd2f2b18d7df850db1be035a547321cf32b66a6fb3a97569739635eb6",
+    "scripts/cp7_current_frozen_finance_ui/vendor/src/types/database.preconnect.ts": "10e34d4fb1e17a41824e0b04e9b27898cc1f125fc6001df30680ca5fb8641190",
+    "scripts/cp7_current_frozen_finance_ui/vendor/src/vite-env.d.ts": "b7bdbff0f37be089c184baf43982f2d7591722feae71ad74820715e0d361a7b7",
+    "scripts/cp7_current_frozen_finance_ui/vendor/tests/fixtures/analysisFinanceSidecar.json": "2b451d25eadcbba13bad9098bbbb021402bbfdeda4af36f709ae49e66b6344a6",
+    "scripts/cp7_current_frozen_finance_ui/vendor/tests/fixtures/frozenAnalysisFinance.ts": "a0b8dcb827e29097cfb6df2e6761e80b6f9324aeebe7d840e6076bef27e830e1",
+    "scripts/cp7_current_frozen_finance_ui/vendor/tests/fixtures/nativeAnalysisPages.ts": "5537e6ecbdeb6cf4ddad31e05743438c839ce5c08d2ee27d3ebe97c59e3258e7",
+    "scripts/cp7_current_frozen_finance_ui/vendor/tests/fixtures/nativeAnalysisStandin.json": "c0b15bdb620ddffb5bedb80f85528052b619ebb16366d87243f338d6a878aef0",
+    "scripts/cp7_current_frozen_finance_ui/vendor/tests/fixtures/nativeAnalysisTransport.ts": "4d0a2e5d190b798e1d8e0cbbe189dc5e29c872f1bdd2ade86529da7612bbaba0",
+    "scripts/cp7_current_frozen_finance_ui/vendor/tests/fixtures/nativeDemandHistory.ts": "b0471d3b882c5eb0ab1c45a08e84c8d7cfe894adbdfe8a248cbaba2c43859a72",
+    "scripts/cp7_current_frozen_finance_ui/vendor/tests/fixtures/nativePlanningProfile.ts": "3a29b282e472f1aae99dd7076a52c8d665d2009f9c8209da2d941ae23011e0a1",
+    "scripts/cp7_current_frozen_finance_ui/vendor/tests/fixtures/nativeProductionPlanning.ts": "0889e91658f43446f745f18b9c5ac7e9ab1bf73038fa5051ef54430941ec3e1e",
+    "scripts/cp7_current_frozen_finance_ui/vendor/tests/fixtures/productionRecovery.ts": "cee25d2fc0660378448e986f4dc7c0ef6276bb627a1dbae9e8f74fdca89b27f1",
+    "scripts/cp7_current_frozen_finance_ui/B_SOURCE.json": "93a85f3df1217a76533f62dd332b590062710ae09f8b31fbf9d1cc8d8a81aaae"
   },
   "first_CI_result": {
     "status": "INCOMPLETE_CLIENT_TYPECHECK_MISSING_TWO_B_TEST_FIXTURES",
@@ -1117,5 +1229,726 @@
       "src/nativeScopedModel.test.ts(3,18): error TS2307: Cannot find module '../tests/fixtures/nativeScopedModelSql.json' or its corresponding type declarations."
     ]
   },
-  "followup_change": "Add two exact retained B/D3 SQL-result test fixtures; keep all test bodies, business oracles and seven frozen manifests unchanged."
+  "followup_change": "Restore exact missing current B and pinned older vendored test dependencies; load exact product helper in three SQL test fixtures; run eight unchanged Node tests in Node and the complete remaining suite in Vitest. Frozen manifests, product SQL and all assertion bodies unchanged.",
+  "test_dependency_provenance": [
+    {
+      "path": "scripts/cp7_frozen_analysis_facade_v2/client/nativeFrozenAnalysis.test.ts",
+      "source_path": "scripts/cp7_frozen_analysis_facade_v2/client/nativeFrozenAnalysis.test.ts",
+      "source_head": "1dd83782dcaa4500bace7bf392a76f58be0271c3",
+      "bytes": 9212,
+      "sha256": "28b579b4a2e302e69e6a6bff929b11cb12e67ebd6b05843afc9dc7eedd8a7364"
+    },
+    {
+      "path": "scripts/cp7_frozen_analysis_facade_v2/client/nativeFrozenAnalysis.ts",
+      "source_path": "scripts/cp7_frozen_analysis_facade_v2/client/nativeFrozenAnalysis.ts",
+      "source_head": "1dd83782dcaa4500bace7bf392a76f58be0271c3",
+      "bytes": 6474,
+      "sha256": "00b1bd7e34aca4f1a72145c438ea9f6b1b53d87d630567de9e5e40288e345c8d"
+    },
+    {
+      "path": "scripts/cp7_frozen_analysis_facade_v2/client/nativeFrozenWait.test.ts",
+      "source_path": "scripts/cp7_frozen_analysis_facade_v2/client/nativeFrozenWait.test.ts",
+      "source_head": "1dd83782dcaa4500bace7bf392a76f58be0271c3",
+      "bytes": 2438,
+      "sha256": "4f7e58aed9154313e091bbb10bf621ca5a98eeb8662026605f582743d79f76c6"
+    },
+    {
+      "path": "scripts/cp7_frozen_analysis_facade_v2/client/nativeFrozenWait.ts",
+      "source_path": "scripts/cp7_frozen_analysis_facade_v2/client/nativeFrozenWait.ts",
+      "source_head": "1dd83782dcaa4500bace7bf392a76f58be0271c3",
+      "bytes": 2098,
+      "sha256": "f0aeed0eb29b8b1b31183b00e8af3005c5d69af58e95b6300da363d67ab6ebc2"
+    },
+    {
+      "path": "scripts/cp7_frozen_choice_ui/client/NativeFrozenAnalogPanel.tsx",
+      "source_path": "scripts/cp7_frozen_choice_ui/client/NativeFrozenAnalogPanel.tsx",
+      "source_head": "1dd83782dcaa4500bace7bf392a76f58be0271c3",
+      "bytes": 6631,
+      "sha256": "d25574c76d65cdd85623a3f0866f0ad1a8331d7a59e514553278cebaf3c5cac4"
+    },
+    {
+      "path": "scripts/cp7_frozen_choice_ui/client/NativeFrozenChoicePanel.tsx",
+      "source_path": "scripts/cp7_frozen_choice_ui/client/NativeFrozenChoicePanel.tsx",
+      "source_head": "1dd83782dcaa4500bace7bf392a76f58be0271c3",
+      "bytes": 7977,
+      "sha256": "7b696c6cb94373fd2e95c8ba168162ddc0719a485b59e6aaab8d60789c977910"
+    },
+    {
+      "path": "scripts/cp7_frozen_choice_ui/client/fixtures.ts",
+      "source_path": "scripts/cp7_frozen_choice_ui/client/fixtures.ts",
+      "source_head": "1dd83782dcaa4500bace7bf392a76f58be0271c3",
+      "bytes": 2207,
+      "sha256": "2bd912342e0912c3579636a80fe5e4ce950e724ecc716a5003b99bcb0db53378"
+    },
+    {
+      "path": "scripts/cp7_frozen_choice_ui/client/frozen-choice.css",
+      "source_path": "scripts/cp7_frozen_choice_ui/client/frozen-choice.css",
+      "source_head": "1dd83782dcaa4500bace7bf392a76f58be0271c3",
+      "bytes": 4502,
+      "sha256": "5958d5b437662bde184691c6670665ec23ac4549e722d4031c348a71d3000229"
+    },
+    {
+      "path": "scripts/cp7_frozen_quantity_ui/client/NativeFrozenProgress.dom.test.tsx",
+      "source_path": "scripts/cp7_frozen_quantity_ui/client/NativeFrozenProgress.dom.test.tsx",
+      "source_head": "1dd83782dcaa4500bace7bf392a76f58be0271c3",
+      "bytes": 3730,
+      "sha256": "b7c8222259311664179f42854961a925b5145106c84fc274e7c8e57eac6f82b3"
+    },
+    {
+      "path": "scripts/cp7_frozen_quantity_ui/client/NativeFrozenProgress.tsx",
+      "source_path": "scripts/cp7_frozen_quantity_ui/client/NativeFrozenProgress.tsx",
+      "source_head": "1dd83782dcaa4500bace7bf392a76f58be0271c3",
+      "bytes": 3324,
+      "sha256": "90e8f26d633f7c9dec3b53dcea9c1e529a9b03522684c36da239f650f1f479d8"
+    },
+    {
+      "path": "scripts/cp7_frozen_quantity_ui/client/NativeFrozenQuantityPanel.dom.test.tsx",
+      "source_path": "scripts/cp7_frozen_quantity_ui/client/NativeFrozenQuantityPanel.dom.test.tsx",
+      "source_head": "1dd83782dcaa4500bace7bf392a76f58be0271c3",
+      "bytes": 13444,
+      "sha256": "67c27ace800798d48c5f7a4f9932d8ee62bf714cccf2893429a78a2238d0a203"
+    },
+    {
+      "path": "scripts/cp7_frozen_quantity_ui/client/NativeFrozenQuantityPanel.tsx",
+      "source_path": "scripts/cp7_frozen_quantity_ui/client/NativeFrozenQuantityPanel.tsx",
+      "source_head": "1dd83782dcaa4500bace7bf392a76f58be0271c3",
+      "bytes": 18743,
+      "sha256": "fd98a4f63e92d543c3da84b16f6a36cc715841901ac49a84579a726e2d88a547"
+    },
+    {
+      "path": "scripts/cp7_frozen_quantity_ui/client/nativeFrozenProgress.test.ts",
+      "source_path": "scripts/cp7_frozen_quantity_ui/client/nativeFrozenProgress.test.ts",
+      "source_head": "1dd83782dcaa4500bace7bf392a76f58be0271c3",
+      "bytes": 3052,
+      "sha256": "9f01adc26527a53838a3da50eeab1b84fae212730175b2e164251783bdd8117f"
+    },
+    {
+      "path": "scripts/cp7_frozen_quantity_ui/client/nativeFrozenProgress.ts",
+      "source_path": "scripts/cp7_frozen_quantity_ui/client/nativeFrozenProgress.ts",
+      "source_head": "1dd83782dcaa4500bace7bf392a76f58be0271c3",
+      "bytes": 2649,
+      "sha256": "5a832131e7f95edf589d38fa4a8836032ca12216664c89d90f7af5a67f89c53b"
+    },
+    {
+      "path": "scripts/cp7_frozen_quantity_ui/client/nativeFrozenQuantity.test.ts",
+      "source_path": "scripts/cp7_frozen_quantity_ui/client/nativeFrozenQuantity.test.ts",
+      "source_head": "1dd83782dcaa4500bace7bf392a76f58be0271c3",
+      "bytes": 14332,
+      "sha256": "4cca41fabb2580c3dfd97fce7a71d5126413c541c23850d05d72c4fcd9ab13e9"
+    },
+    {
+      "path": "scripts/cp7_frozen_quantity_ui/client/nativeFrozenQuantity.ts",
+      "source_path": "scripts/cp7_frozen_quantity_ui/client/nativeFrozenQuantity.ts",
+      "source_head": "1dd83782dcaa4500bace7bf392a76f58be0271c3",
+      "bytes": 7766,
+      "sha256": "11d6ffd99199da5eabe4e544e7938d63b962261afa824388b1d98421843f557d"
+    },
+    {
+      "path": "tests/fixtures/frozenAnalysisFinance.ts",
+      "source_path": "tests/fixtures/frozenAnalysisFinance.ts",
+      "source_head": "1dd83782dcaa4500bace7bf392a76f58be0271c3",
+      "bytes": 1191,
+      "sha256": "a0b8dcb827e29097cfb6df2e6761e80b6f9324aeebe7d840e6076bef27e830e1"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/vendor/scripts/cp7-src/planning/analysis-stages.sql",
+      "source_path": "scripts/cp7-src/planning/analysis-stages.sql",
+      "source_head": "f843e4ce4fee59ee3e953d032ceed21eeba84c99",
+      "bytes": 212887,
+      "sha256": "df00590019a580c36efb585e3b0cbb2582c9f5690b7b951ba6bb3836f2cc884d"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/vendor/scripts/cp7_frozen_analysis_choice_v2/client/nativeFrozenChoice.ts",
+      "source_path": "scripts/cp7_frozen_analysis_choice_v2/client/nativeFrozenChoice.ts",
+      "source_head": "f843e4ce4fee59ee3e953d032ceed21eeba84c99",
+      "bytes": 16409,
+      "sha256": "31e38f42560f1a52daa041833dce3bf791a295250f45bfdbe5a39669668e383f"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/vendor/scripts/cp7_frozen_analysis_facade_v2/client/nativeFrozenAnalysis.test.ts",
+      "source_path": "scripts/cp7_frozen_analysis_facade_v2/client/nativeFrozenAnalysis.test.ts",
+      "source_head": "f843e4ce4fee59ee3e953d032ceed21eeba84c99",
+      "bytes": 9212,
+      "sha256": "28b579b4a2e302e69e6a6bff929b11cb12e67ebd6b05843afc9dc7eedd8a7364"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/vendor/scripts/cp7_frozen_analysis_facade_v2/client/nativeFrozenAnalysis.ts",
+      "source_path": "scripts/cp7_frozen_analysis_facade_v2/client/nativeFrozenAnalysis.ts",
+      "source_head": "f843e4ce4fee59ee3e953d032ceed21eeba84c99",
+      "bytes": 6591,
+      "sha256": "933dbab45d434380b61598d5160f6002248927a267c8acd8d1a612871000f195"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/vendor/scripts/cp7_frozen_analysis_readers_v2/client/nativeFrozenAnalog.ts",
+      "source_path": "scripts/cp7_frozen_analysis_readers_v2/client/nativeFrozenAnalog.ts",
+      "source_head": "f843e4ce4fee59ee3e953d032ceed21eeba84c99",
+      "bytes": 948,
+      "sha256": "230790df7fd7260e1742e803caa6fa0e3d4d16c106d7a1d6f3655c164e838e33"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/vendor/scripts/cp7_frozen_choice_ui/client/NativeFrozenAnalogPanel.tsx",
+      "source_path": "scripts/cp7_frozen_choice_ui/client/NativeFrozenAnalogPanel.tsx",
+      "source_head": "f843e4ce4fee59ee3e953d032ceed21eeba84c99",
+      "bytes": 6631,
+      "sha256": "d25574c76d65cdd85623a3f0866f0ad1a8331d7a59e514553278cebaf3c5cac4"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/vendor/scripts/cp7_frozen_choice_ui/client/NativeFrozenChoicePanel.tsx",
+      "source_path": "scripts/cp7_frozen_choice_ui/client/NativeFrozenChoicePanel.tsx",
+      "source_head": "f843e4ce4fee59ee3e953d032ceed21eeba84c99",
+      "bytes": 7977,
+      "sha256": "7b696c6cb94373fd2e95c8ba168162ddc0719a485b59e6aaab8d60789c977910"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/vendor/scripts/cp7_frozen_choice_ui/client/frozen-choice.css",
+      "source_path": "scripts/cp7_frozen_choice_ui/client/frozen-choice.css",
+      "source_head": "f843e4ce4fee59ee3e953d032ceed21eeba84c99",
+      "bytes": 4502,
+      "sha256": "5958d5b437662bde184691c6670665ec23ac4549e722d4031c348a71d3000229"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/vendor/scripts/cp7_frozen_finance_ui/client/NativeFrozenFinancePanel.dom.test.tsx",
+      "source_path": "scripts/cp7_frozen_finance_ui/client/NativeFrozenFinancePanel.dom.test.tsx",
+      "source_head": "f843e4ce4fee59ee3e953d032ceed21eeba84c99",
+      "bytes": 7723,
+      "sha256": "c5a3fe893b78fb9ed3b0263468f0a75d0180287cf25068d82c198e90d8e6c4db"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/vendor/scripts/cp7_frozen_finance_ui/client/NativeFrozenFinancePanel.tsx",
+      "source_path": "scripts/cp7_frozen_finance_ui/client/NativeFrozenFinancePanel.tsx",
+      "source_head": "f843e4ce4fee59ee3e953d032ceed21eeba84c99",
+      "bytes": 3593,
+      "sha256": "5ad60241a7b9ca2d0bfbbb5ee8f257546b69e62db43acf4ca09fa150d4554da0"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/vendor/scripts/cp7_frozen_finance_ui/client/frozen-finance.css",
+      "source_path": "scripts/cp7_frozen_finance_ui/client/frozen-finance.css",
+      "source_head": "f843e4ce4fee59ee3e953d032ceed21eeba84c99",
+      "bytes": 1066,
+      "sha256": "6a3119e4b7ef86de35219b992aa6e0999a85588c5243349c1c76690aa894ed69"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/vendor/scripts/cp7_frozen_quantity_ui/client/NativeFrozenQuantityPanel.dom.test.tsx",
+      "source_path": "scripts/cp7_frozen_quantity_ui/client/NativeFrozenQuantityPanel.dom.test.tsx",
+      "source_head": "f843e4ce4fee59ee3e953d032ceed21eeba84c99",
+      "bytes": 13444,
+      "sha256": "67c27ace800798d48c5f7a4f9932d8ee62bf714cccf2893429a78a2238d0a203"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/vendor/scripts/cp7_frozen_quantity_ui/client/NativeFrozenQuantityPanel.tsx",
+      "source_path": "scripts/cp7_frozen_quantity_ui/client/NativeFrozenQuantityPanel.tsx",
+      "source_head": "f843e4ce4fee59ee3e953d032ceed21eeba84c99",
+      "bytes": 18700,
+      "sha256": "255e2536a59dc280a4fc7fe1c4452777c1702441c15a5a0b1ef63c8575992259"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/vendor/scripts/cp7_frozen_quantity_ui/client/nativeFrozenQuantity.test.ts",
+      "source_path": "scripts/cp7_frozen_quantity_ui/client/nativeFrozenQuantity.test.ts",
+      "source_head": "f843e4ce4fee59ee3e953d032ceed21eeba84c99",
+      "bytes": 11332,
+      "sha256": "394d8d4870da980bb311d5748763e069031f00629807c5f24ede2f0e582706a8"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/vendor/scripts/cp7_frozen_quantity_ui/client/nativeFrozenQuantity.ts",
+      "source_path": "scripts/cp7_frozen_quantity_ui/client/nativeFrozenQuantity.ts",
+      "source_head": "f843e4ce4fee59ee3e953d032ceed21eeba84c99",
+      "bytes": 7484,
+      "sha256": "e0d82fa266684e587fced4101eec63e59e6430416f9e1142fc079b2a45087081"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/vendor/src/NativeAnalysisFinancePanel.dom.test.tsx",
+      "source_path": "src/NativeAnalysisFinancePanel.dom.test.tsx",
+      "source_head": "f843e4ce4fee59ee3e953d032ceed21eeba84c99",
+      "bytes": 6144,
+      "sha256": "d9813c061bfee4ef9f305dc2e68a67eb4c187345e4383e7401b61ca223154530"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/vendor/src/NativeAnalysisFinancePanel.tsx",
+      "source_path": "src/NativeAnalysisFinancePanel.tsx",
+      "source_head": "f843e4ce4fee59ee3e953d032ceed21eeba84c99",
+      "bytes": 6219,
+      "sha256": "5b27d21d8362428ee841329b95c1c5a3e26defaf91f1d885d69d321c0c87865f"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/vendor/src/TargetDemandDetails.tsx",
+      "source_path": "src/TargetDemandDetails.tsx",
+      "source_head": "f843e4ce4fee59ee3e953d032ceed21eeba84c99",
+      "bytes": 2028,
+      "sha256": "0bf3bf79d6c65356922a770909fa4561dd7f01680fc7cea3b04d9e44f6418589"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/vendor/src/auth/AuthGate.tsx",
+      "source_path": "src/auth/AuthGate.tsx",
+      "source_head": "f843e4ce4fee59ee3e953d032ceed21eeba84c99",
+      "bytes": 5256,
+      "sha256": "54dcd2c2a921aa39833b39d6731c1dda7d5340298058ebdc54ca27605823083a"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/vendor/src/auth/AuthProvider.tsx",
+      "source_path": "src/auth/AuthProvider.tsx",
+      "source_head": "f843e4ce4fee59ee3e953d032ceed21eeba84c99",
+      "bytes": 9894,
+      "sha256": "d1ee2b58fb8ba4f9d416c84b5f461b28141fc123c6efc6ee89604160b79b2736"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/vendor/src/auth/accessCatalog.ts",
+      "source_path": "src/auth/accessCatalog.ts",
+      "source_head": "f843e4ce4fee59ee3e953d032ceed21eeba84c99",
+      "bytes": 6344,
+      "sha256": "d40c22da4a4fdf30a37e03e02b16901e13995979e899015aa5e963c60b4ae7a8"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/vendor/src/auth/auth.css",
+      "source_path": "src/auth/auth.css",
+      "source_head": "f843e4ce4fee59ee3e953d032ceed21eeba84c99",
+      "bytes": 4042,
+      "sha256": "f5a5e9db66292c5134483d3d429d99e2af8a4fdf09aafb1b17b3a10472b6b2e1"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/vendor/src/auth/authPolicy.ts",
+      "source_path": "src/auth/authPolicy.ts",
+      "source_head": "f843e4ce4fee59ee3e953d032ceed21eeba84c99",
+      "bytes": 7460,
+      "sha256": "95642becba9117fb1fda596a853a0b845773db146c5f307dfcef554961fe43b0"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/vendor/src/config/runtime.ts",
+      "source_path": "src/config/runtime.ts",
+      "source_head": "f843e4ce4fee59ee3e953d032ceed21eeba84c99",
+      "bytes": 9233,
+      "sha256": "79461aed0e20de4608c92ddddf3b477fb40e7abe997187f8cea8086d12460fb9"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/vendor/src/cp6BusinessTime.ts",
+      "source_path": "src/cp6BusinessTime.ts",
+      "source_head": "f843e4ce4fee59ee3e953d032ceed21eeba84c99",
+      "bytes": 2093,
+      "sha256": "d1681a2c28898c2bd772581bb4436cd1ca34bfa32e41af4b9096f2aaa0b834b7"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/vendor/src/cp7/contract.ts",
+      "source_path": "src/cp7/contract.ts",
+      "source_head": "f843e4ce4fee59ee3e953d032ceed21eeba84c99",
+      "bytes": 25059,
+      "sha256": "16a320a188d1fafe3912c33ac6e07de26bda2a506654f05e20a57195ed846ddf"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/vendor/src/cp7/fixture.ts",
+      "source_path": "src/cp7/fixture.ts",
+      "source_head": "f843e4ce4fee59ee3e953d032ceed21eeba84c99",
+      "bytes": 45259,
+      "sha256": "380681e083291326a1bfe71603f9dbc05071a3b55616d6dfe6fdc50ed01585f0"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/vendor/src/cp7/native-analysis.schema.json",
+      "source_path": "src/cp7/native-analysis.schema.json",
+      "source_head": "f843e4ce4fee59ee3e953d032ceed21eeba84c99",
+      "bytes": 244543,
+      "sha256": "c6e38f059d992c5916b7a799c153ad5a6cc4858dc8ffd6085bb8e5356ebc72a1"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/vendor/src/cp7/reasons.json",
+      "source_path": "src/cp7/reasons.json",
+      "source_head": "f843e4ce4fee59ee3e953d032ceed21eeba84c99",
+      "bytes": 2413,
+      "sha256": "55741fc4be42afe73a3b942b4af7f1839c53197599f0a605c63ec7db0533e551"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/vendor/src/cp7/workspace.ts",
+      "source_path": "src/cp7/workspace.ts",
+      "source_head": "f843e4ce4fee59ee3e953d032ceed21eeba84c99",
+      "bytes": 10966,
+      "sha256": "3dc3272128be0da2de9ca16d9e247d40c0b94c4999d36e8c08c097b6694d957a"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/vendor/src/cuttingPersistence.ts",
+      "source_path": "src/cuttingPersistence.ts",
+      "source_head": "f843e4ce4fee59ee3e953d032ceed21eeba84c99",
+      "bytes": 21641,
+      "sha256": "9d1e8d7ea6b57084a6ed6c528276d419ec903e969e839a23de8a388ec04b24d7"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/vendor/src/fgReorderContract.ts",
+      "source_path": "src/fgReorderContract.ts",
+      "source_head": "f843e4ce4fee59ee3e953d032ceed21eeba84c99",
+      "bytes": 41817,
+      "sha256": "dffc377cd9b6e13fdbf66723d5aedf64f3dd0e6074293324904d56a6e2175b47"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/vendor/src/financeReportContract.ts",
+      "source_path": "src/financeReportContract.ts",
+      "source_head": "f843e4ce4fee59ee3e953d032ceed21eeba84c99",
+      "bytes": 12436,
+      "sha256": "54cbf2b591be338095c50b09b915d818bdc2621ca6c86240831385ada7432f7e"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/vendor/src/lib/analysisRetentionMessages.ts",
+      "source_path": "src/lib/analysisRetentionMessages.ts",
+      "source_head": "f843e4ce4fee59ee3e953d032ceed21eeba84c99",
+      "bytes": 1216,
+      "sha256": "b499245d7556c00021694a9a5736ef961872503dccdef6c10e1d9aa49ad5dd9c"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/vendor/src/lib/clientError.ts",
+      "source_path": "src/lib/clientError.ts",
+      "source_head": "f843e4ce4fee59ee3e953d032ceed21eeba84c99",
+      "bytes": 15102,
+      "sha256": "2dced6bcbd1dd81aabee729abfc2e0729789f10f9ea06474fc7bef428f167b96"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/vendor/src/lib/mandorCorrectionMessages.ts",
+      "source_path": "src/lib/mandorCorrectionMessages.ts",
+      "source_head": "f843e4ce4fee59ee3e953d032ceed21eeba84c99",
+      "bytes": 1597,
+      "sha256": "91d78db933cfefd5de1f52732389423cf5208212690a2a9cba318792aa84ac8f"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/vendor/src/lib/masterMessages.ts",
+      "source_path": "src/lib/masterMessages.ts",
+      "source_head": "f843e4ce4fee59ee3e953d032ceed21eeba84c99",
+      "bytes": 5270,
+      "sha256": "4815b8952d60da3f34fa451a29a1c1cf86ca0163da3bf817f9dfcfa0ae9ab25f"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/vendor/src/lib/planV2Messages.ts",
+      "source_path": "src/lib/planV2Messages.ts",
+      "source_head": "f843e4ce4fee59ee3e953d032ceed21eeba84c99",
+      "bytes": 3050,
+      "sha256": "77f7952f64fc4c5d0e1366f13d112a59ade86f2f8cf9d80875b4497368250504"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/vendor/src/lib/receiptCorrectionMessages.ts",
+      "source_path": "src/lib/receiptCorrectionMessages.ts",
+      "source_head": "f843e4ce4fee59ee3e953d032ceed21eeba84c99",
+      "bytes": 8476,
+      "sha256": "af15cdc7a3368eb7495e23f944a406c84aacb44fcd040208ddbc2b495ca318ff"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/vendor/src/lib/reminderV2Messages.ts",
+      "source_path": "src/lib/reminderV2Messages.ts",
+      "source_head": "f843e4ce4fee59ee3e953d032ceed21eeba84c99",
+      "bytes": 2411,
+      "sha256": "47a24d0b424a5f902038d8f3fff64fff7e48badba239577230b554c3c3156431"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/vendor/src/lib/reportV2Messages.ts",
+      "source_path": "src/lib/reportV2Messages.ts",
+      "source_head": "f843e4ce4fee59ee3e953d032ceed21eeba84c99",
+      "bytes": 1306,
+      "sha256": "c0990d6c52d2809277b448be973bb68da483b053d30f02d18887f5730739e15a"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/vendor/src/lib/supabase.ts",
+      "source_path": "src/lib/supabase.ts",
+      "source_head": "f843e4ce4fee59ee3e953d032ceed21eeba84c99",
+      "bytes": 2639,
+      "sha256": "51dc62a3f5d85fd0aa618a6cbb78bbbd20b063aad4ef64e84da933c3c21bfc28"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/vendor/src/native-bounded-quantity.css",
+      "source_path": "src/native-bounded-quantity.css",
+      "source_head": "f843e4ce4fee59ee3e953d032ceed21eeba84c99",
+      "bytes": 3633,
+      "sha256": "b3836d66bcc396e24ce9ae8bb2f65112bd87e99fe7ba3e5ce09a5fa4ab3614b8"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/vendor/src/native-production-planning.css",
+      "source_path": "src/native-production-planning.css",
+      "source_head": "f843e4ce4fee59ee3e953d032ceed21eeba84c99",
+      "bytes": 1977,
+      "sha256": "9b2226d6e0654d6a2000cb21b43380f21470d78f772ef32d3a67e53e9f9ef775"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/vendor/src/nativeAnalysis.ts",
+      "source_path": "src/nativeAnalysis.ts",
+      "source_head": "f843e4ce4fee59ee3e953d032ceed21eeba84c99",
+      "bytes": 24308,
+      "sha256": "d8b3bba468a0c5e6cda14260ba90b73b9d0504578640e4e9f4723c19064197fa"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/vendor/src/nativeAnalysisFinanceSidecar.test.ts",
+      "source_path": "src/nativeAnalysisFinanceSidecar.test.ts",
+      "source_head": "f843e4ce4fee59ee3e953d032ceed21eeba84c99",
+      "bytes": 4358,
+      "sha256": "34e8c7b7b5d47a533b2f8f1f9ebdb2f32ddfa4b1458c85797101c2e2ee0f277e"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/vendor/src/nativeAnalysisFinanceSidecar.ts",
+      "source_path": "src/nativeAnalysisFinanceSidecar.ts",
+      "source_head": "f843e4ce4fee59ee3e953d032ceed21eeba84c99",
+      "bytes": 8805,
+      "sha256": "1f32a4a8079c448c5dd9e8ce7be56b1fc2ecd34b9012963111b9abebb9a565d4"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/vendor/src/nativeAnalysisPages.ts",
+      "source_path": "src/nativeAnalysisPages.ts",
+      "source_head": "f843e4ce4fee59ee3e953d032ceed21eeba84c99",
+      "bytes": 24985,
+      "sha256": "5a409a8e54948cb2b5d8740722db99488a311149777d0753e203d9e028e1fa17"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/vendor/src/nativeAnalysisTransport.ts",
+      "source_path": "src/nativeAnalysisTransport.ts",
+      "source_head": "f843e4ce4fee59ee3e953d032ceed21eeba84c99",
+      "bytes": 10956,
+      "sha256": "24d393c7fe8664a84dd6b7e612aeba6665afee3bbbf087c9a9d0c470ab857297"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/vendor/src/nativeBoundedAnalysis.ts",
+      "source_path": "src/nativeBoundedAnalysis.ts",
+      "source_head": "f843e4ce4fee59ee3e953d032ceed21eeba84c99",
+      "bytes": 4378,
+      "sha256": "fb2f37af014c750f2e856da7adc3e320c463954072999b08efa387a1086da357"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/vendor/src/nativeBoundedQuantity.test.ts",
+      "source_path": "src/nativeBoundedQuantity.test.ts",
+      "source_head": "f843e4ce4fee59ee3e953d032ceed21eeba84c99",
+      "bytes": 5354,
+      "sha256": "cfe638c295c38688e4e046e2cf1d1d78307579551455a29504de85194935f59a"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/vendor/src/nativeBoundedQuantity.ts",
+      "source_path": "src/nativeBoundedQuantity.ts",
+      "source_head": "f843e4ce4fee59ee3e953d032ceed21eeba84c99",
+      "bytes": 3402,
+      "sha256": "088a771abe0a82abc359dba5303da4c3443f356b0f002fc36c538cf911650bab"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/vendor/src/nativeDemandHistory.ts",
+      "source_path": "src/nativeDemandHistory.ts",
+      "source_head": "f843e4ce4fee59ee3e953d032ceed21eeba84c99",
+      "bytes": 8664,
+      "sha256": "1b2b5f51e93c656f95668405ec1cee123680ddb0ce96ac251f3df220d5a5d9e2"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/vendor/src/nativeHistoryYieldPolicy.ts",
+      "source_path": "src/nativeHistoryYieldPolicy.ts",
+      "source_head": "f843e4ce4fee59ee3e953d032ceed21eeba84c99",
+      "bytes": 11606,
+      "sha256": "87d167c14a45a620514075ba0f3fc0fbe312fb1875848cbee0989fd6f42c1f9b"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/vendor/src/nativeModelPolicy.ts",
+      "source_path": "src/nativeModelPolicy.ts",
+      "source_head": "f843e4ce4fee59ee3e953d032ceed21eeba84c99",
+      "bytes": 11442,
+      "sha256": "6fe2dee4884e0953048be6ebe222f2e3073d93a2c35b3f3d663de7581b41b964"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/vendor/src/nativeModelTarget.ts",
+      "source_path": "src/nativeModelTarget.ts",
+      "source_head": "f843e4ce4fee59ee3e953d032ceed21eeba84c99",
+      "bytes": 14821,
+      "sha256": "63d4168738553dd99c4b2e0a9598478c9c7376e6107735e37f5b30ddbcc530e2"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/vendor/src/nativePlanDraft.ts",
+      "source_path": "src/nativePlanDraft.ts",
+      "source_head": "f843e4ce4fee59ee3e953d032ceed21eeba84c99",
+      "bytes": 15621,
+      "sha256": "d1c45169dcbf4a119faf3224168f6a34bb243bdd9a88ac3ecc1f3609cb566807"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/vendor/src/nativePlanInstant.ts",
+      "source_path": "src/nativePlanInstant.ts",
+      "source_head": "f843e4ce4fee59ee3e953d032ceed21eeba84c99",
+      "bytes": 630,
+      "sha256": "adc980769664b1fa8e83f0ab7152a2cb949cbefd2510ae66705a92fcf9bce45a"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/vendor/src/nativeProductAnalog.ts",
+      "source_path": "src/nativeProductAnalog.ts",
+      "source_head": "f843e4ce4fee59ee3e953d032ceed21eeba84c99",
+      "bytes": 8991,
+      "sha256": "149277f173bbfcdc91a68157d973eb1ceffd08d66c0b44a1bdfa074f4d9befd9"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/vendor/src/nativeStagedJob.test.ts",
+      "source_path": "src/nativeStagedJob.test.ts",
+      "source_head": "f843e4ce4fee59ee3e953d032ceed21eeba84c99",
+      "bytes": 15622,
+      "sha256": "9e74b2a9c36ef0e2536ee3c87f43da008ab92090704069b6f408f8cdb8465656"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/vendor/src/nativeStagedJob.ts",
+      "source_path": "src/nativeStagedJob.ts",
+      "source_head": "f843e4ce4fee59ee3e953d032ceed21eeba84c99",
+      "bytes": 15942,
+      "sha256": "a48f98d068f94291d7dc4187dffd218da6bb0edea1f63e1bc8eba7d4c75b44e0"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/vendor/src/nativeTargetDemand.ts",
+      "source_path": "src/nativeTargetDemand.ts",
+      "source_head": "f843e4ce4fee59ee3e953d032ceed21eeba84c99",
+      "bytes": 9342,
+      "sha256": "ab4a531f7e51ae82ddacf00079102f1bef8c0ea6f1be5f3462e9dec2e2fef685"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/vendor/src/procurementContract.ts",
+      "source_path": "src/procurementContract.ts",
+      "source_head": "f843e4ce4fee59ee3e953d032ceed21eeba84c99",
+      "bytes": 12388,
+      "sha256": "9e2d22fafd6c4f93d975deb6c04e848af5e42608bacd9ca6da67ac5678669c2a"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/vendor/src/productionRecovery.ts",
+      "source_path": "src/productionRecovery.ts",
+      "source_head": "f843e4ce4fee59ee3e953d032ceed21eeba84c99",
+      "bytes": 13043,
+      "sha256": "01968f866ea59b30caad33c5ebbb0201fe9cf7f69c923e985ae80da1fd44b24f"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/vendor/src/quantityInput.ts",
+      "source_path": "src/quantityInput.ts",
+      "source_head": "f843e4ce4fee59ee3e953d032ceed21eeba84c99",
+      "bytes": 1226,
+      "sha256": "1a8186356ad571a615b620836290b52fb9a2a18f414b0a5b021f011ef20821dc"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/vendor/src/styles.css",
+      "source_path": "src/styles.css",
+      "source_head": "f843e4ce4fee59ee3e953d032ceed21eeba84c99",
+      "bytes": 35955,
+      "sha256": "924f150bd2f2b18d7df850db1be035a547321cf32b66a6fb3a97569739635eb6"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/vendor/src/types/database.preconnect.ts",
+      "source_path": "src/types/database.preconnect.ts",
+      "source_head": "f843e4ce4fee59ee3e953d032ceed21eeba84c99",
+      "bytes": 31192,
+      "sha256": "10e34d4fb1e17a41824e0b04e9b27898cc1f125fc6001df30680ca5fb8641190"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/vendor/src/vite-env.d.ts",
+      "source_path": "src/vite-env.d.ts",
+      "source_head": "f843e4ce4fee59ee3e953d032ceed21eeba84c99",
+      "bytes": 396,
+      "sha256": "b7bdbff0f37be089c184baf43982f2d7591722feae71ad74820715e0d361a7b7"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/vendor/tests/fixtures/analysisFinanceSidecar.json",
+      "source_path": "tests/fixtures/analysisFinanceSidecar.json",
+      "source_head": "f843e4ce4fee59ee3e953d032ceed21eeba84c99",
+      "bytes": 5658,
+      "sha256": "2b451d25eadcbba13bad9098bbbb021402bbfdeda4af36f709ae49e66b6344a6"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/vendor/tests/fixtures/frozenAnalysisFinance.ts",
+      "source_path": "tests/fixtures/frozenAnalysisFinance.ts",
+      "source_head": "f843e4ce4fee59ee3e953d032ceed21eeba84c99",
+      "bytes": 1191,
+      "sha256": "a0b8dcb827e29097cfb6df2e6761e80b6f9324aeebe7d840e6076bef27e830e1"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/vendor/tests/fixtures/nativeAnalysisPages.ts",
+      "source_path": "tests/fixtures/nativeAnalysisPages.ts",
+      "source_head": "f843e4ce4fee59ee3e953d032ceed21eeba84c99",
+      "bytes": 11340,
+      "sha256": "5537e6ecbdeb6cf4ddad31e05743438c839ce5c08d2ee27d3ebe97c59e3258e7"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/vendor/tests/fixtures/nativeAnalysisStandin.json",
+      "source_path": "tests/fixtures/nativeAnalysisStandin.json",
+      "source_head": "f843e4ce4fee59ee3e953d032ceed21eeba84c99",
+      "bytes": 445175,
+      "sha256": "c0b15bdb620ddffb5bedb80f85528052b619ebb16366d87243f338d6a878aef0"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/vendor/tests/fixtures/nativeAnalysisTransport.ts",
+      "source_path": "tests/fixtures/nativeAnalysisTransport.ts",
+      "source_head": "f843e4ce4fee59ee3e953d032ceed21eeba84c99",
+      "bytes": 2010,
+      "sha256": "4d0a2e5d190b798e1d8e0cbbe189dc5e29c872f1bdd2ade86529da7612bbaba0"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/vendor/tests/fixtures/nativeDemandHistory.ts",
+      "source_path": "tests/fixtures/nativeDemandHistory.ts",
+      "source_head": "f843e4ce4fee59ee3e953d032ceed21eeba84c99",
+      "bytes": 2212,
+      "sha256": "b0471d3b882c5eb0ab1c45a08e84c8d7cfe894adbdfe8a248cbaba2c43859a72"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/vendor/tests/fixtures/nativePlanningProfile.ts",
+      "source_path": "tests/fixtures/nativePlanningProfile.ts",
+      "source_head": "f843e4ce4fee59ee3e953d032ceed21eeba84c99",
+      "bytes": 3467,
+      "sha256": "3a29b282e472f1aae99dd7076a52c8d665d2009f9c8209da2d941ae23011e0a1"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/vendor/tests/fixtures/nativeProductionPlanning.ts",
+      "source_path": "tests/fixtures/nativeProductionPlanning.ts",
+      "source_head": "f843e4ce4fee59ee3e953d032ceed21eeba84c99",
+      "bytes": 9133,
+      "sha256": "0889e91658f43446f745f18b9c5ac7e9ab1bf73038fa5051ef54430941ec3e1e"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/vendor/tests/fixtures/productionRecovery.ts",
+      "source_path": "tests/fixtures/productionRecovery.ts",
+      "source_head": "f843e4ce4fee59ee3e953d032ceed21eeba84c99",
+      "bytes": 6686,
+      "sha256": "cee25d2fc0660378448e986f4dc7c0ef6276bb627a1dbae9e8f74fdca89b27f1"
+    },
+    {
+      "path": "scripts/cp7_current_frozen_finance_ui/B_SOURCE.json",
+      "source_path": "scripts/cp7_current_frozen_finance_ui/B_SOURCE.json",
+      "source_head": "a06a173f242b074aa0fbb9c52e33cedf27986336",
+      "bytes": 19106,
+      "sha256": "93a85f3df1217a76533f62dd332b590062710ae09f8b31fbf9d1cc8d8a81aaae"
+    }
+  ],
+  "fixture_setup_changes": {
+    "tests/cp7/families/f04/analysis-assembly-fixture.mjs": {
+      "before_sha256": "00e984206d4e90abec0051a609c60e4b798dade67bc0c09676675647a4565e06",
+      "after_sha256": "f1f5fbac7e574b69ceeb5e851cc2dd31333889a831bee635e4826a69c6efefbc",
+      "change": "Load unchanged product rounded_suggestion helper. No fixture values, predecessor comparison or test assertions changed."
+    },
+    "tests/cp7/families/f04/staged-analysis-fixture.mjs": {
+      "before_sha256": "d356da40f67e75534a4d1987eb8071775501ebd6781204bd9d56ef7bc0c89018",
+      "after_sha256": "559bffbc95dfd8f46605b4a44e8e02a2f2cf2ac2f587238fad5808c7b8a58163",
+      "change": "Load unchanged product rounded_suggestion helper. No fixture values, predecessor comparison or test assertions changed."
+    },
+    "tests/cp7/families/f04/staged-scenario-fixture.mjs": {
+      "before_sha256": "0d58aed6e1416fb24dbdc54a935c73f023d71d783908c0cb79033c4abae46c98",
+      "after_sha256": "cc99dff6540501cd58e0b98f3889ed6db3af24a21175861e3d665dd464053a35",
+      "change": "Load unchanged product rounded_suggestion helper. No fixture values, predecessor comparison or test assertions changed."
+    }
+  },
+  "second_CI_result": {
+    "status": "INCOMPLETE_FULL_SUITE",
+    "head": "f1be1994e68b9c3c04164fb59585aea8c0eed477",
+    "run": 40616869033,
+    "job": 122581299109,
+    "artifact": 12785374028,
+    "zip_sha256": "1248b760092d6a8a54d01378c152ac8a5233cf3eeca3d9de3a011b024b18a5e6",
+    "source_and_access_and_CSS_and_typecheck": "PASS",
+    "tests": 2941,
+    "passed_tests": 2928,
+    "failed_tests": 13,
+    "failed_files": 19,
+    "breakdown": {
+      "missing_capsule_import_files": 10,
+      "wrong_node_runner_files": 2,
+      "P19_fixture_files": 7
+    },
+    "isolated_native_Postgres_kernel_included": true,
+    "full_current_Supabase_Native_runtime_cases": 0,
+    "real_Auth_browser_cases": 0
+  },
+  "node_test_runner": {
+    "files": [
+      "scripts/cp7_ow11_analog_browser_helper.test.mjs",
+      "scripts/current-progress-finance-ui-browser-qualification/progress_oracle.test.mjs"
+    ],
+    "expected_tests": 8,
+    "same_tests_must_pass_node_before_Vitest": true,
+    "Vitest_excludes_only_these_Node_files_and_existing_browser_exclusion": true
+  },
+  "local_dependency_admission_refusal": {
+    "status": "RETAINED_SOURCE_DECLARATION_REFUSAL",
+    "path": "scripts/cp7_frozen_choice_preparation/client/ChoicePreparationReopen.dom.test.tsx",
+    "reason": "Restoring a redundant root copy would enlarge the frozen preparation glob. Original test remains byte-identical in its already-retained vendor path and executes there.",
+    "retained_test_path": "scripts/cp7_current_progress_finance_ui/vendor/scripts/cp7_frozen_choice_preparation/client/ChoicePreparationReopen.dom.test.tsx",
+    "product_source_and_source_guard_changed": false
+  }
 }
