@@ -1,0 +1,22 @@
+{
+  "status": "PREPARED_CLOSED_EXACT_FACTORY_4AC_REAL_AUTH_BROWSER2",
+  "local_tests": 21,
+  "full_actual_Python_probe_loaded": true,
+  "JavaScript_syntax_files": 4,
+  "Auth_browser_cases_executed": 0,
+  "workflow_prepared": true,
+  "final_SOURCE_bound": false,
+  "accepted_combined_bound": false,
+  "complete_source_recomputation_required": true,
+  "existing_host_files_exact": 113,
+  "existing_host_B91_exact_to_current1dd": true,
+  "original_ERP_SQL_changed": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "execution_branch_created": false,
+  "intended_backend_head": "4ac681549d7ec664f504a71670c9035dd8f5944d",
+  "backend_runtime_result": "PENDING_NOT_PASS",
+  "closed_database_interfaces_verified": true,
+  "original_host_files_exact": 113,
+  "current_B_exact_files": 91
+}

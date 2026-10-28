@@ -1,0 +1,45 @@
+{
+  "actual_AF": {
+    "name": "CP7_D17_18_COMBINED_FINANCE_NATIVE_SOURCE_FACTORY_CRON7.json",
+    "status": "INCOMPLETE",
+    "head": "af474fe365b83651dae096f988def69e3ef7e8d7",
+    "run_id": 40576582149,
+    "job_id": 122444519274,
+    "artifact_id": 12769642828,
+    "zip_bytes": 10204338,
+    "zip_sha256": "5e7741b1b7af4389e60943b432000335539dc3e91095c32560c493d3fe644c20",
+    "bytes": 83281688,
+    "sha256": "ff77efc2e8cbd2ff182c2af36b319aee06b35e62edf73acfbb2ab24c32cc846d",
+    "archive_member": "CP7_D17_18_COMBINED_FINANCE_NATIVE_SOURCE_FACTORY_CRON7.json",
+    "package_name": "T3_PACKAGE_INSTALL.json",
+    "package_member": "T3_PACKAGE_INSTALL.json",
+    "package_bytes": 360452,
+    "package_sha256": "119da071fc5fd336f5c1eb029202d61d9d421462a1d7e9722b99cd3b90a7dbd1"
+  },
+  "native_opening": {
+    "volatility": "v",
+    "security_definer": true,
+    "owner": "postgres",
+    "config": [
+      "search_path=erp, public, pg_temp"
+    ],
+    "return_type": "timestamp with time zone",
+    "definition": "CREATE OR REPLACE FUNCTION erp.product_opening_physical_at(p_product_id uuid, p_opening_date date)\n RETURNS timestamp with time zone\n LANGUAGE plpgsql\n SECURITY DEFINER\n SET search_path TO 'erp', 'public', 'pg_temp'\nAS $function$\ndeclare\n  p erp.products%rowtype;\n  v_day_start timestamptz;\n  v_day_end timestamptz;\n  v_at timestamptz;\nbegin\n  perform erp.require_internal();\n  if p_opening_date is null then raise exception 'Tanggal opening wajib diisi'; end if;\n  select * into p from erp.products where id=p_product_id;\n  if p.id is null then raise exception 'SKU opening tidak ditemukan'; end if;\n  v_day_start:=p_opening_date::timestamp at time zone 'Asia/Jakarta';\n  v_day_end:=(p_opening_date+1)::timestamp at time zone 'Asia/Jakarta';\n\n  -- Legacy physical stock may remain after identity expiry, so effective_to does\n  -- not invalidate the old SKU for opening. But a version cannot be placed before\n  -- the first instant it ever became effective on the opening day.\n  v_at:=greatest(v_day_start,p.effective_from);\n  if v_at>=v_day_end then\n    raise exception 'Versi SKU % belum pernah berlaku pada tanggal opening %. Pilih SKU yang sudah berlaku sebelum/di tanggal opening tersebut.',p.sku,p_opening_date;\n  end if;\n  return v_at;\nend$function$\n",
+    "definition_sha256": "a30d815ad4b833697b04f209422a7c36783041a138be728f70547665c5fca25a"
+  },
+  "private_hpp": {
+    "volatility": "s",
+    "security_definer": true,
+    "owner": "postgres",
+    "config": [
+      "search_path=\"\""
+    ],
+    "return_type": "numeric",
+    "definition": "CREATE OR REPLACE FUNCTION cp7_finance.read_opening_hpp_diagnostic_v1(p_item_id uuid, p_opening_date date)\n RETURNS numeric\n LANGUAGE plpgsql\n STABLE SECURITY DEFINER\n SET search_path TO ''\nAS $function$\ndeclare\n  i erp.opening_balance_items%rowtype;\n  v_price numeric(20,6);\n  v_hpp numeric(20,6);\n  v_asof timestamptz;\nbegin\n  perform erp.require_internal();\n  select * into i from erp.opening_balance_items where id=p_item_id;\n  if i.id is null or i.balance_type<>'FINISHED_GOODS' then raise exception 'Opening FG item tidak ditemukan'; end if;\n\n  -- Opening date is a business date, while versioned SKU identity is timestamped.\n  -- Use the first valid instant for this SKU on that opening date so a same-day\n  -- effective identity is not incorrectly treated as 'not yet existing at midnight'.\n  v_asof:=erp.product_opening_physical_at(i.product_id,p_opening_date);\n\n  if i.hpp_input_method='PRICE_PERCENT' then\n    if i.hpp_percent_of_price is null or i.hpp_percent_of_price<=0 or i.hpp_percent_of_price>1000 then\n      raise exception 'Persentase HPP dari harga jual wajib >0 dan masuk akal untuk opening FG';\n    end if;\n    v_price:=erp.resolve_product_price_at(i.product_id,v_asof);\n    if v_price is null then\n      raise exception 'Harga jual produk belum tersedia pada waktu opening %. Isi harga jual historis/cutover atau gunakan HPP manual.',v_asof;\n    end if;\n    v_hpp:=round(v_price*i.hpp_percent_of_price/100.0,6);\n    return v_hpp;\n  end if;\n\n  v_hpp:=coalesce(i.unit_cost_snapshot,0);\n  return v_hpp;\nend;\n$function$\n",
+    "definition_sha256": "62e0a1e89a19d3f80bf4a358df25d0eab888c88aeb0020d622b1b19ee2445bab"
+  },
+  "catalog_source_path": "scripts/cp7_ow04_restore_bundle.py",
+  "catalog_source_sha256": "a1605193347cf5b3321a7bdbf8ff6c634df4f4c0a5113eb295e8c3ce44428e00",
+  "catalog_data_source": "def _data(cur):\n    result={}\n    with _catalog(cur):\n        tables=cur.execute(\"select n.nspname,c.relname from pg_class c join pg_namespace n on n.oid=c.relnamespace where c.relkind in('r','p','m')and \"+NAMESPACE+\" order by 1,2\").fetchall()\n        for name in tables:\n            row=cur.execute(sql.SQL(\"select count(*),encode(sha256(convert_to(coalesce(jsonb_agg(to_jsonb(r)order by to_jsonb(r)::text),'[]'::jsonb)::text,'UTF8')),'hex')from {} r\").format(sql.Identifier(*name))).fetchone()\n            result['.'.join(name)]=list(row)\n        sequences=cur.execute(\"select n.nspname,c.relname from pg_class c join pg_namespace n on n.oid=c.relnamespace where c.relkind='S'and \"+NAMESPACE+\" order by 1,2\").fetchall()\n        for name in sequences:\n            result['sequence:'+'.'.join(name)]=list(cur.execute(sql.SQL('select last_value::text,is_called from {}').format(sql.Identifier(*name))).fetchone())\n    return result\n",
+  "catalog_data_source_sha256": "088d259187916716aebcf3473306ae04192bc953ffa90ecb10fc060f7f776487"
+}

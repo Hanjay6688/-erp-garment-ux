@@ -1,0 +1,4 @@
+{
+  "parent": ".github/workflows/cp7-d17-18-consistent-reader-stream.yml",
+  "parent_sha256": "e1fe230d547740a4d15c2d8745864cd854c526ab9352eac9b79d4879a00a24dd"
+}

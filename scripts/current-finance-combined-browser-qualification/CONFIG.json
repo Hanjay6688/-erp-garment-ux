@@ -1,0 +1,21 @@
+{
+  "contract": "cp7.current-combined-finance-real-auth-browser2.v1",
+  "allow_database_execution": false,
+  "accepted_combined": null,
+  "original_directory_variable": "D17_18_ACCEPTED_COMBINED_FINANCE_DIRECTORY",
+  "production_go": false,
+  "independent_acceptance": false,
+  "case_ids": [
+    "A_PROGRESS_FINANCE_BROWSER_DESKTOP_REAL_AUTH_LOST_REPLY_REPLAY_OFFICIAL24",
+    "A_PROGRESS_FINANCE_BROWSER_MOBILE_REAL_AUTH_BLOCKED_REPORT_ACCESS_REVOKED"
+  ],
+  "groups": {
+    "desktop": [
+      "A_PROGRESS_FINANCE_BROWSER_DESKTOP_REAL_AUTH_LOST_REPLY_REPLAY_OFFICIAL24"
+    ],
+    "mobile": [
+      "A_PROGRESS_FINANCE_BROWSER_MOBILE_REAL_AUTH_BLOCKED_REPORT_ACCESS_REVOKED"
+    ]
+  },
+  "count": 2
+}
