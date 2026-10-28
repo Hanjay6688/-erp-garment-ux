@@ -1,0 +1,46 @@
+{
+  "status": "PASS_WRITER_EVIDENCE_VERIFICATION",
+  "candidate": "f5e4a0eb98f52c7615c3f4fb2459128bc76ed007",
+  "backend": "3194b9c56be7af86ee45ccb1c6605204a712f91b",
+  "archive_sha256": "33b27ed1e46bb5a335fb119be03b40fcf1e9c2a14e97697f11c799f4072a40c5",
+  "original_members": 122,
+  "browser_cases": {
+    "desktop": {
+      "status": "PASS",
+      "case_id": "A_PROGRESS_FINANCE_BROWSER_DESKTOP_REAL_AUTH_LOST_REPLY_REPLAY_OFFICIAL24",
+      "official_readiness": "READY",
+      "RPC_calls": 124,
+      "RPC_max_ms": 112.4470399999991,
+      "RPC_median_ms": 5.167474500000026,
+      "minimum_text_contrast": 6.579179808370011,
+      "unexpected_console_errors": 0,
+      "Auth_and_copy_restored": true,
+      "initial_observer_elapsed_ms": 121040.85441999999
+    },
+    "mobile": {
+      "status": "PASS",
+      "case_id": "A_PROGRESS_FINANCE_BROWSER_MOBILE_REAL_AUTH_BLOCKED_REPORT_ACCESS_REVOKED",
+      "official_readiness": "BLOCKED",
+      "RPC_calls": 50,
+      "RPC_max_ms": 133.01947699999982,
+      "RPC_median_ms": 10.182732500000384,
+      "minimum_text_contrast": 6.579179808370011,
+      "unexpected_console_errors": 0,
+      "Auth_and_copy_restored": true
+    }
+  },
+  "screenshots": 7,
+  "unique_screenshot_contents": 6,
+  "full22_copy_authority_and_CP6_restore": true,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "old_AC_expiry_failure_retained": true,
+  "actual_browser_reruns": 0,
+  "independent_acceptance": false,
+  "production_go": false
+}

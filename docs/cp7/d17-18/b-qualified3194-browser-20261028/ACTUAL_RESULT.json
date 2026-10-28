@@ -1,0 +1,263 @@
+{
+  "status": "PASS_B_DRIVER_AND_ACTUAL_COMBINED_AUTH_BROWSER_READY_FOR_A_INTEGRATION",
+  "recorded_at_utc": "2026-10-28T14:55:26.894951+00:00",
+  "owner": "B",
+  "integrator": "A",
+  "base": {
+    "head": "3efecab381578cb12b06b9bedd97b31b7a20b26a",
+    "tree": "c27e220d2e92d6732faf70c95b51c598103738b4",
+    "A_latest_rechecked": "3efecab381578cb12b06b9bedd97b31b7a20b26a"
+  },
+  "driver": {
+    "head": "8a0ed68aed839684014a3f3756a8060608696921",
+    "tree": "cba39855c8aa45620a6533214bb5252dc3e7e198",
+    "branch": "astra-b/d17-18-initial-driver-20261028",
+    "files": [
+      "docs/cp7/d17-18/b-initial-driver-20261028/DRIVER_TESTS.txt",
+      "docs/cp7/d17-18/b-initial-driver-20261028/FIRST_TYPECHECK_FAILURE.txt",
+      "docs/cp7/d17-18/b-initial-driver-20261028/HANDOFF.md",
+      "docs/cp7/d17-18/b-initial-driver-20261028/PANEL_TESTS.txt",
+      "docs/cp7/d17-18/b-initial-driver-20261028/SOURCE_SUCCESSOR.json",
+      "docs/cp7/d17-18/b-initial-driver-20261028/TYPECHECK_PASS.txt",
+      "src/nativeStagedJob.initial.test.ts",
+      "src/nativeStagedJob.ts"
+    ],
+    "product_files": [
+      "src/nativeStagedJob.ts"
+    ],
+    "test_files": [
+      "src/nativeStagedJob.initial.test.ts"
+    ],
+    "preimage_sha256": "a48f98d068f94291d7dc4187dffd218da6bb0edea1f63e1bc8eba7d4c75b44e0",
+    "initial_observation_bound_ms": 120000,
+    "server_statement_limits_changed": false
+  },
+  "browser_candidate": {
+    "head": "f5e4a0eb98f52c7615c3f4fb2459128bc76ed007",
+    "tree": "e87574604412f12c69fc4dbfea5bd08c643b0b9a",
+    "branch": "astra-b/d17-18-qualified-backend3194-browser-qualification-20261028",
+    "frozen": true,
+    "parent": "8a0ed68aed839684014a3f3756a8060608696921",
+    "files": [
+      ".github/workflows/cp7-d17-18-combined-finance-browser.yml",
+      "docs/cp7/d17-18/b-qualified3194-browser-20261028/HANDOFF_PREPARED.md",
+      "docs/cp7/d17-18/b-qualified3194-browser-20261028/LOCAL_BOUNDARIES.txt",
+      "docs/cp7/d17-18/b-qualified3194-browser-20261028/LOCAL_CONSOLE_PROGRESS.txt",
+      "docs/cp7/d17-18/b-qualified3194-browser-20261028/LOCAL_HOST_BUILD.txt",
+      "scripts/current-finance-combined-browser-qualification/BUILD_SOURCE_3194.json",
+      "scripts/current-finance-combined-browser-qualification/B_PREPARED_SOURCE.json",
+      "scripts/current-finance-combined-browser-qualification/CONFIG.json",
+      "scripts/current-finance-combined-browser-qualification/LOCAL_PREPARATION.json",
+      "scripts/current-finance-combined-browser-qualification/PREPARED_SOURCE.json",
+      "scripts/current-finance-combined-browser-qualification/README.md",
+      "scripts/current-finance-combined-browser-qualification/README_3194.md",
+      "scripts/current-finance-combined-browser-qualification/SOURCE.json",
+      "scripts/current-finance-combined-browser-qualification/SUCCESSOR.patch",
+      "scripts/current-finance-combined-browser-qualification/SUCCESSOR_ORIGIN.json",
+      "scripts/current-finance-combined-browser-qualification/UI_ORIGIN.json",
+      "scripts/current-finance-combined-browser-qualification/WORKFLOW_3194_ORIGIN.json",
+      "scripts/current-finance-combined-browser-qualification/WORKFLOW_ORIGIN.json",
+      "scripts/current-finance-combined-browser-qualification/admission.py",
+      "scripts/current-finance-combined-browser-qualification/browser.mjs",
+      "scripts/current-finance-combined-browser-qualification/browser_fixture.py",
+      "scripts/current-finance-combined-browser-qualification/build_3194.mjs",
+      "scripts/current-finance-combined-browser-qualification/check_build_3194.mjs",
+      "scripts/current-finance-combined-browser-qualification/composition.py",
+      "scripts/current-finance-combined-browser-qualification/console_evidence.mjs",
+      "scripts/current-finance-combined-browser-qualification/console_evidence.test.mjs",
+      "scripts/current-finance-combined-browser-qualification/desktop.mjs",
+      "scripts/current-finance-combined-browser-qualification/evidence.py",
+      "scripts/current-finance-combined-browser-qualification/fetch_combined.py",
+      "scripts/current-finance-combined-browser-qualification/mobile.mjs",
+      "scripts/current-finance-combined-browser-qualification/probe.py",
+      "scripts/current-finance-combined-browser-qualification/progress_oracle.mjs",
+      "scripts/current-finance-combined-browser-qualification/source_guard.py",
+      "scripts/current-finance-combined-browser-qualification/test_3194_boundaries.py",
+      "scripts/current-finance-combined-browser-qualification/test_closed_adapter.py",
+      "scripts/current-finance-combined-browser-qualification/test_factory_progress_evidence.py",
+      "scripts/current-finance-combined-browser-qualification/test_reader_stream_evidence.py",
+      "scripts/current-finance-combined-browser-qualification/test_source_boundaries.py",
+      "scripts/current-finance-combined-browser-qualification/test_unplanned_progress_evidence.py",
+      "scripts/current-finance-combined-browser-qualification/workflow_guard.py"
+    ],
+    "runner_origin": "e8fa6a9e26f2459b340c4b4c880cb1b226ce021a -> 51a9e72a89b4576283fe30cb17b56dd26fc57668",
+    "source_pins": 43,
+    "compiled_graph_files": 79,
+    "host_files_retained_on_disk": 113,
+    "B_vendor_files_retained_on_disk": 91,
+    "compiled_replacements": [
+      "src/nativeStagedJob.ts",
+      "src/NativeAnalysisFinancePanel.tsx"
+    ]
+  },
+  "backend": {
+    "head": "3194b9c56be7af86ee45ccb1c6605204a712f91b",
+    "tree": "dd98cd5bbbafb3f257668d22317ab4b237c2fea8",
+    "whole_backend_sha256": "193f4c18476a1e1abd5e05231d8d7755864b61e2998c4456f5a87459b17da59d",
+    "fresh_run": 40677173176,
+    "fresh_job": 122778446042,
+    "fresh_artifact": 12813599744,
+    "retained_head": "11c95c4ee2c784247e1be22ce0a582f4d85632c5",
+    "retained_artifact": 12810096616,
+    "retained_groups": 6,
+    "fresh_groups": 1,
+    "seven_fresh_groups_claim": false,
+    "A_finance_panel_head": "2790a9e5726e7724070f2fa01a2468061f2bae98",
+    "actual_selected_source_admitted": true,
+    "historical_11c_status": "INCOMPLETE"
+  },
+  "actual_run": {
+    "id": 40697846383,
+    "job": 122849290624,
+    "attempt": 1,
+    "conclusion": "success",
+    "url": "https://github.com/Hanjay6688/-erp-garment-ux/actions/runs/40697846383",
+    "started_at": "2026-10-28T13:35:37Z",
+    "completed_at": "2026-10-28T14:33:23Z",
+    "job_elapsed_seconds": 3466.0,
+    "runtime_step_elapsed_seconds": 2690.0,
+    "metadata": "ACTIONS_METADATA.json",
+    "reruns": 0
+  },
+  "original_archive": {
+    "artifact_id": 12824760687,
+    "artifact_name": "cp7-B-qualified3194-browser-1",
+    "path": "ORIGINAL_BROWSER_ARTIFACT.zip",
+    "bytes": 4449681,
+    "sha256": "33b27ed1e46bb5a335fb119be03b40fcf1e9c2a14e97697f11c799f4072a40c5",
+    "git_blob_sha": "19bfda07941daca24bf1a213fc32a5792192ef3d",
+    "member_count": 122,
+    "all_member_hashes": "ORIGINAL_MEMBERS.json",
+    "key_originals": {
+      "CP7_D17_18_COMBINED_FINANCE_UI_BROWSER2.json": {
+        "bytes": 4650825,
+        "sha256": "24499308e50aa065606e7b84f5e250f1a7eb77cb3fbfe0049230a1c1621b0d70"
+      },
+      "T3_PACKAGE_INSTALL.json": {
+        "bytes": 360460,
+        "sha256": "cf0c23e7e4aa91e153019079d4a7f39f0126b88ac2c58cd19cf8330dc4086020"
+      },
+      "T3_BACKUP_RESTORE_DRILL.json": {
+        "bytes": 10524,
+        "sha256": "0cf87b80dc0de9c8be36299c080874ae8d0f7b7e9fad93397fa341098c0d3a1c"
+      }
+    }
+  },
+  "cases": {
+    "desktop": {
+      "status": "PASS",
+      "case_id": "A_PROGRESS_FINANCE_BROWSER_DESKTOP_REAL_AUTH_LOST_REPLY_REPLAY_OFFICIAL24",
+      "official_readiness": "READY",
+      "RPC_calls": 124,
+      "RPC_max_ms": 112.4470399999991,
+      "RPC_median_ms": 5.167474500000026,
+      "minimum_text_contrast": 6.579179808370011,
+      "unexpected_console_errors": 0,
+      "Auth_and_copy_restored": true,
+      "initial_observer_elapsed_ms": 121040.85441999999
+    },
+    "mobile": {
+      "status": "PASS",
+      "case_id": "A_PROGRESS_FINANCE_BROWSER_MOBILE_REAL_AUTH_BLOCKED_REPORT_ACCESS_REVOKED",
+      "official_readiness": "BLOCKED",
+      "RPC_calls": 50,
+      "RPC_max_ms": 133.01947699999982,
+      "RPC_median_ms": 10.182732500000384,
+      "minimum_text_contrast": 6.579179808370011,
+      "unexpected_console_errors": 0,
+      "Auth_and_copy_restored": true
+    }
+  },
+  "initial_observer_recovery": {
+    "label": "TRANSPORT_FAULT_WITH_REAL_AUTH_JOB_AND_STATUS",
+    "actual_large_server_refusal_claim": false,
+    "synthetic_exact_initial_refusals": 2,
+    "request": "a0e3a4e9-7e22-4dd9-bce5-cf2cc41d92f0",
+    "actual_status_reads": 62,
+    "elapsed_ms": 121040.85441999999,
+    "same_UUID_reload": true,
+    "safe_same_UUID_recovery": true
+  },
+  "restoration": {
+    "full22_catalog_authority_equal": true,
+    "product_state_or_RPC_permissions_modified": false,
+    "CP6_restored": true,
+    "raw_public_equal": true,
+    "Auth_restored": true,
+    "remaining_copy_databases": 0,
+    "cleanup_failures": 0,
+    "session_leaks": 0,
+    "package_gates": {
+      "installed": true,
+      "primary_unchanged": true,
+      "backup_restore_drill": true,
+      "security_advisors": true,
+      "writer_runtime": true
+    }
+  },
+  "local_validation": {
+    "exact_driver_control": "EXACT_DRIVER_RECHECK.json",
+    "single_worker_pass": 183,
+    "files": 14,
+    "parallel_pass": 172,
+    "parallel_fail": 11,
+    "parallel_failure_preserved": "LOCAL_PARALLEL_FIRST_FAILURE.json.gz",
+    "single_worker_original": "LOCAL_SINGLE_WORKER_PASS.json.gz",
+    "classification": "Concurrency-sensitive local test execution. Same code, assertions and timeouts; single-worker control passes. No claim of default parallel-suite closure.",
+    "typecheck": "PASS",
+    "first_typecheck_failure": "../b-initial-driver-20261028/FIRST_TYPECHECK_FAILURE.txt",
+    "source_boundary_controls": 9,
+    "Node_console_progress_controls": 9,
+    "compiled_graph_build": "PASS_79_FILES"
+  },
+  "preserved_first_outcomes": [
+    {
+      "type": "local typecheck",
+      "evidence": "../b-initial-driver-20261028/FIRST_TYPECHECK_FAILURE.txt",
+      "resolution": "Type annotations corrected; no runtime workaround."
+    },
+    {
+      "type": "local parallel DOM execution",
+      "evidence": "LOCAL_PARALLEL_FIRST_FAILURE.json.gz",
+      "resolution": "Single-worker control passes; parallel execution limitation retained."
+    },
+    {
+      "type": "historical prerequisite infrastructure",
+      "artifact_id": 10392910720,
+      "http_status": 410,
+      "receipt": "ARTIFACT_FETCH/fefa8c73f04849a791d7bbf28e990107-1.json",
+      "resolution": "Unmodified A workflow pre-authorized pre-U inventory fallback; no retry or new gate relaxation."
+    }
+  ],
+  "measurement_limits": [
+    "RPC max 133.019477ms is measured on these two browser fixtures, not an all-factory latency guarantee.",
+    "The 2690-second runtime step includes installation, two isolated copies, browser work and complete restoration; it is not UI response time.",
+    "No like-for-like prior qualified browser measurement is claimed; old fixture runs differ in source and scope. No sleeps were added to advancing small jobs."
+  ],
+  "claim_limits": [
+    "Real Auth/PostgREST/official finance RPC and current 24 metric equality are exercised on small browser fixtures.",
+    "The initial server-refusal response is labelled transport fault injection; real job, polling, clock, reload and UUID recovery are retained.",
+    "Finance advancement uses the existing private SQL fixture; actual scheduler and large-factory evidence remain A backend3194 scope.",
+    "The A factory fixture remains report BLOCKED / analysis PARTIAL where data requires it; browser READY is a different declared fixture.",
+    "Default application adoption and final selective integration remain with A.",
+    "B is writer/tester, not independent auditor."
+  ],
+  "evidence_verification": "ORIGINAL_VERIFICATION.json",
+  "visual_review": "VISUAL_REVIEW.json",
+  "resolved_B_dependencies": [
+    "production initial-stage driver patch",
+    "exact selected backend/source browser binding",
+    "actual desktop/mobile Auth/browser result",
+    "visual, console, same UUID recovery and complete restoration evidence"
+  ],
+  "remaining": [
+    "A selective integration and impact checks on final combined candidate",
+    "A updated final auditor package",
+    "Independent auditor decision"
+  ],
+  "historical_evidence_rewritten": false,
+  "formal_accepted": "5/16",
+  "production_go": false,
+  "independent_acceptance": false,
+  "CP7C_started": false
+}
