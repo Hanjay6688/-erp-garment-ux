@@ -82,7 +82,16 @@ def require_factory_progress(proof):
         rows = frame['jobs']
         assert set(rows) == expected
         for key, row in rows.items():
-            assert 0 <= row[1] <= row[2] and row[0] in ('RUNNING', 'READY' if key == 'finance' else 'DONE')
+            assert row[0] in ('RUNNING', 'READY' if key == 'finance' else 'DONE')
+            assert type(row[1]) is int and row[1] >= 0
+            if key == 'finance' and row[2] is None:
+                assert row[0] == 'RUNNING' and row[1] == 0
+            else:
+                assert type(row[2]) is int and row[1] <= row[2]
+                if key == 'finance':
+                    assert row[2] >= 2 and (row[0] != 'READY' or row[1] == row[2])
+            if key == 'finance' and key in previous and previous[key][2] is not None:
+                assert row[2] == previous[key][2]
             if key in previous:
                 assert row[1] >= previous[key][1]
             if key not in previous or row != previous[key]:

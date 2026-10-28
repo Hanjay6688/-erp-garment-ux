@@ -11,7 +11,8 @@
     "max_total_seconds": 900,
     "stall_seconds": 150,
     "read_only": true,
-    "actual_DONE_and_READY_required": true
+    "actual_DONE_and_READY_required": true,
+    "pre_plan_finance_total": "Preserve NULL only while RUNNING with zero completed units; never coerce to zero or count as completion."
   },
   "files": {
     "scripts/current-finance-factory-progress-followup-qualification/BINDING.json": "6120ecf132428222accfd65695bbce0d11ff22b6ab1301ef6e69a76094172f86",
@@ -38,11 +39,13 @@
     "scripts/current-finance-factory-progress-followup-qualification/test_retained_d3.py": "adb91d9d2aee78b6ae747c10e24c6467c2361fd8c2b95be025be350772744ccc",
     "scripts/current-finance-factory-progress-followup-qualification/test_stream_data.py": "b442f0591dc3c09de10017a7ad705ed4940d072be09aa1e36b8674b7cd1f8529",
     "scripts/current-finance-factory-progress-followup-qualification/test_waiting.py": "b304554b7a01b4344cd95b5b4457b4fd2fd6b4a6857fdc4f09e25504341cf162",
-    "scripts/current-finance-factory-progress-followup-qualification/waiting.py": "520b5d1a470ed2dc9060dd0dce56dee54849b173c4592d290b89a1a65fb2ddcf",
+    "scripts/current-finance-factory-progress-followup-qualification/waiting.py": "a1e9151f15e9049b786ddfa5bbee12e1dbadba9bac64fd568c482e687926f3f9",
     "scripts/current-finance-factory-progress-followup-qualification/workflow_guard.py": "d69bf9fe8841b8fe716f8ea04a53931dea86b5664eee798c6a3e4743a2964dd2",
     ".github/workflows/cp7-d17-18-factory-progress.yml": "32f76e82aa2cd49ecd17c618f3d8e2b6f4345b50dd363f406420a68376d27680",
     "scripts/current-finance-factory-progress-followup-qualification/test_runtime_entry.py": "af375521fc295eeddacaf408f911d763df0134b7c211f6bb1fe2d88a35711e0c",
-    "scripts/current-finance-factory-progress-followup-qualification/FIRST49_FAILURE.json": "a71b2916f71cff5bbca1c70faac26f8348e4c6dbb5d2b786acce4f1b9362a19b"
+    "scripts/current-finance-factory-progress-followup-qualification/FIRST49_FAILURE.json": "a71b2916f71cff5bbca1c70faac26f8348e4c6dbb5d2b786acce4f1b9362a19b",
+    "scripts/current-finance-factory-progress-followup-qualification/test_unplanned_finance.py": "7f387028af91d32af3d1ecab4828e487b111a56b79f6e36daa7f0a9051e9c80e",
+    "scripts/current-finance-factory-progress-followup-qualification/FIRST_DF_FAILURE.json": "4b4257385e5678ec17fa02e33b2691372d30a223c80548f49ea5042c5f4984ef"
   },
   "production_go": false,
   "independent_acceptance": false,
@@ -62,5 +65,22 @@
     "package_member": "T3_PACKAGE_INSTALL.json",
     "package_bytes": 360443,
     "package_sha256": "b78939f9080789b48fc49ca76064f6de4ec6ee0544f6ef6cc4c4de34c1db2bcb"
+  },
+  "retained_DF_observer_failure": {
+    "name": "CP7_D17_18_FACTORY_PROGRESS_NATIVE_SOURCE_CRON7.json",
+    "status": "INCOMPLETE",
+    "head": "df7cbe8cc946862ade48c929a57b41a2608980ae",
+    "run_id": 40623586371,
+    "job_id": 122603131075,
+    "artifact_id": 12790194475,
+    "zip_bytes": 10608045,
+    "zip_sha256": "91a5f56e555d40d505cb50dc42cb80bc49edb420873c59a6d8d0ef0b2bcd25e2",
+    "bytes": 85221970,
+    "sha256": "39f3f70536742a6293b2355908f4bdf46792a6a06b175877d006cf91408f5145",
+    "archive_member": "CP7_D17_18_FACTORY_PROGRESS_NATIVE_SOURCE_CRON7.json",
+    "package_name": "T3_PACKAGE_INSTALL.json",
+    "package_member": "T3_PACKAGE_INSTALL.json",
+    "package_bytes": 360443,
+    "package_sha256": "a7a651ea021238f11769c2be15998d316d6979b48baaa827b1ab7387a78030d0"
   }
 }
