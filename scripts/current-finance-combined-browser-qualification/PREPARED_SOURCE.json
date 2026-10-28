@@ -1,5 +1,5 @@
 {
-  "status": "PREPARED_UNBOUND_NOT_EXECUTED",
+  "status": "PREPARED_UNBOUND_READER_STREAM_NOT_EXECUTED",
   "contract": "cp7.current-combined-finance-real-auth-browser2.v1",
   "case_ids": [
     "A_PROGRESS_FINANCE_BROWSER_DESKTOP_REAL_AUTH_LOST_REPLY_REPLAY_OFFICIAL24",
@@ -11,25 +11,29 @@
   "current_B_exact_files": 91,
   "files": {
     "scripts/current-finance-combined-browser-qualification/CONFIG.json": "8c851e7123dec6074d836f9f80bfbcbe36a0ad360bbb35a651335b666b7801ae",
-    "scripts/current-finance-combined-browser-qualification/README.md": "9545b3d85ae263b509b87e17782769f1424fa9acf46869ed699b839ba7d6a7ff",
+    "scripts/current-finance-combined-browser-qualification/LOCAL_PREPARATION.json": "4edcaf13590fb2fed43cfef0d7433c89181f43b0a9494cc29b9b8cacc22f5008",
+    "scripts/current-finance-combined-browser-qualification/README.md": "ec11a1c92b86df440011955b4df276f5661dc366efd5145c7240df6945366cd0",
     "scripts/current-finance-combined-browser-qualification/UI_ORIGIN.json": "b817e3e65da467f4b4e0556ab8fc02bced254660d92b82ce8aca7567f2c01e25",
-    "scripts/current-finance-combined-browser-qualification/WORKFLOW_ORIGIN.json": "db9d28dcc50d4efe3f1b1a8f75becdf7c81070d6a82b4f1d9366e9f93dd66a4c",
+    "scripts/current-finance-combined-browser-qualification/WORKFLOW_ORIGIN.json": "77ec70681785558fafc3e7091e6be587dcee309734af183fc5e826e2e5d1dbf6",
     "scripts/current-finance-combined-browser-qualification/admission.py": "e50177210cb3bd5aa2dd907795bdfdda444c6ffc0d392a411597480b2d3b7e46",
     "scripts/current-finance-combined-browser-qualification/browser.mjs": "99dcc0979f3964812819174922392270216f840af2ffbada638627ce629f2a58",
     "scripts/current-finance-combined-browser-qualification/browser_fixture.py": "be167320ad5884cb4f0fd1730a5fbb64ed3616a7e6b0bc3fff5f274cd7e95c4f",
-    "scripts/current-finance-combined-browser-qualification/composition.py": "dc9fdfec4e70a3df8c1444f7cf79509ea54bce5864d9563be96b42eb988c36da",
+    "scripts/current-finance-combined-browser-qualification/composition.py": "28fae12263c28ce717dbf99953143875120c30e4ef5fe4234a38d471338b05e5",
     "scripts/current-finance-combined-browser-qualification/desktop.mjs": "3847018fbcf8919826b8dcf387e1742905375409a4e39ff9100dbb54cddc39da",
-    "scripts/current-finance-combined-browser-qualification/evidence.py": "bb91fc2226474b2aed22735f2580a6d1ee2285f85072de01648b508400408b1d",
+    "scripts/current-finance-combined-browser-qualification/evidence.py": "4c2230eec8466247c432c048a27a1db88740c49a442ef54343e1eb3b5a40ccf6",
     "scripts/current-finance-combined-browser-qualification/fetch_combined.py": "a69a48404285e7b1962faae25979705140aae786c56b1628b4559d43865f0d79",
     "scripts/current-finance-combined-browser-qualification/mobile.mjs": "4f83b0f8ab249a636e140f7d4c62f656e54b49b9dd780a24b17f73e931607cc6",
     "scripts/current-finance-combined-browser-qualification/probe.py": "34cbf88f160ffd0febd41805fa6d9c11382a5212faee1be8e5fe3c7361ba5aeb",
     "scripts/current-finance-combined-browser-qualification/progress_oracle.mjs": "d1cd9d380d8ccb3cf96512dd1aeabe7b5c33a7ec813a09069f4f27a892dd2edd",
     "scripts/current-finance-combined-browser-qualification/source_guard.py": "65441a3007f19ab811a8bc53822af2863e481837364a832603db1f10aa79b42f",
     "scripts/current-finance-combined-browser-qualification/test_closed_adapter.py": "81d532addcfa5bc5da068781ce6ab68e88183e6b961dce998723743340aa3170",
+    "scripts/current-finance-combined-browser-qualification/test_reader_stream_evidence.py": "c58a3c50068b7af5b5f4dda46c63c7df749dc2b43896d498298534991dfff4d9",
     "scripts/current-finance-combined-browser-qualification/test_source_boundaries.py": "d0c5beb12e493942bcc1ac2c209a7f45c4197e7fdb6c71bd67bbb92321f0ed34",
-    "scripts/current-finance-combined-browser-qualification/workflow_guard.py": "69950616ead5cc8ceec8011d5fb340dc5d95a4a537008ffc518d45da786570d7",
-    ".github/workflows/cp7-d17-18-combined-finance-browser.yml": "598cf5d0a6780ee81ed87477451b2dc298119db66241174ac35e50f0e94a3c46"
+    "scripts/current-finance-combined-browser-qualification/workflow_guard.py": "bed7c9fd5a33c09af11f67450f05ee2303e7be154ea9d5f725163790c57c413c",
+    ".github/workflows/cp7-d17-18-combined-finance-browser.yml": "c5e77f0fdea024a78e5b06b3f911e44b99aa665211184d8af1a4cd7a1c4bea77"
   },
   "production_go": false,
-  "independent_acceptance": false
+  "independent_acceptance": false,
+  "corrected_reader_head": "d36685a259087d9b83beb8fc4f410e4dac9502fd",
+  "corrected_reader_source_sha256": "2bfb1dd2492c358cfbebaad9554d289726751a44179a5db2a4055ee26240432f"
 }

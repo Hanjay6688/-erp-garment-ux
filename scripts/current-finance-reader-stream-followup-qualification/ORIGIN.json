@@ -1,0 +1,123 @@
+{
+  "factory.py": {
+    "path": "scripts/current-finance-combined-composition/qualification_factory.py",
+    "sha256": "a77dda2b6683cab1e886ff1f4d5b7b87ecac66c664d259b478286cbd9bf77f7a",
+    "changes": [],
+    "original_assertions": 36,
+    "assertions": 36
+  },
+  "cases.py": {
+    "path": "scripts/current-finance-combined-composition/qualification_cases.py",
+    "sha256": "3f0190f08b4e19053e222d614467187c77e0661d2268ec659ab46d3b52d1f2d3",
+    "changes": [
+      {
+        "old": "HERE/'qualification_factory.py'",
+        "new": "HERE/'factory.py'",
+        "count": 1
+      }
+    ],
+    "original_assertions": 16,
+    "assertions": 16
+  },
+  "probe.py": {
+    "path": "scripts/current-finance-combined-composition/qualification_probe.py",
+    "sha256": "fe60bb69b1f6af4fd0265688c8d1fdf3a80f93f41d853437679bfc1212fddccf",
+    "changes": [
+      {
+        "old": "HERE/'qualification_runner.py'",
+        "new": "HERE/'runner.py'",
+        "count": 1
+      },
+      {
+        "old": "HERE/'qualification_admission.py'",
+        "new": "HERE/'admission.py'",
+        "count": 1
+      },
+      {
+        "old": "CP7_D17_18_COMBINED_FINANCE_NATIVE_SOURCE_FACTORY_CRON7",
+        "new": "CP7_D17_18_CONSISTENT_READERS_STREAM_NATIVE_FACTORY_CRON7",
+        "count": 1
+      },
+      {
+        "old": "/tmp/current_combined_finance_pre.dump",
+        "new": "/tmp/current_consistent_readers_stream_pre.dump",
+        "count": 1
+      },
+      {
+        "old": "manual_steps_scope='ISOLATED_COMBINED_QUALIFICATION_ONLY'",
+        "new": "manual_steps_scope='CONSISTENT_READERS_STREAM_FINGERPRINT_ALL7'",
+        "count": 1
+      },
+      {
+        "old": "def run():",
+        "new": "def run_inner():",
+        "count": 1
+      },
+      {
+        "old": "        assert drill.SOURCE==database.SOURCE=='cp6_rollback'and drill.CONTAINER=='supabase_db_cp5-local'",
+        "new": "        assert drill.SOURCE==database.SOURCE=='cp6_rollback'and drill.CONTAINER=='supabase_db_cp5-local'\n        with psycopg.connect(package.boundary.ADMIN)as check,check.cursor()as cursor:\n            report['exact_streaming_data_validation']=stream_data.validate(cursor,STREAM_CONTEXT)\n            check.rollback()\n        report['streaming_data_source_guard']={k:v for k,v in STREAM_CONTEXT.items()if k not in ('original','candidate')}",
+        "count": 1
+      },
+      {
+        "old": "if __name__=='__main__':",
+        "new": "_stream_spec=importlib.util.spec_from_file_location('exact_streamed_whole_data_guard',HERE/'stream_data.py')\nstream_data=importlib.util.module_from_spec(_stream_spec);_stream_spec.loader.exec_module(stream_data)\nSTREAM_CONTEXT=None\n\n\ndef run():\n    global STREAM_CONTEXT\n    _,_,_,_,catalog=product.runtime()\n    with stream_data.bound(catalog)as context:\n        STREAM_CONTEXT=context\n        try:return run_inner()\n        finally:STREAM_CONTEXT=None\n\n\nif __name__=='__main__':",
+        "count": 1
+      }
+    ],
+    "original_assertions": 9,
+    "assertions": 9
+  },
+  "runner.py": {
+    "path": "scripts/current-finance-combined-composition/qualification_runner.py",
+    "sha256": "9f6d0610349f43603c90ed1dd77b0bee7ed94d3b9c6174172d420698de059606",
+    "changes": [
+      {
+        "old": "One combined install, seven separate fixtures, complete restoration each time.",
+        "new": "Seven corrected-reader groups; full restore survives observer failures.",
+        "count": 1
+      },
+      {
+        "old": "HERE/'qualification_cases.py'",
+        "new": "HERE/'cases.py'",
+        "count": 1
+      },
+      {
+        "old": "HERE/'qualification_admission.py'",
+        "new": "HERE/'admission.py'",
+        "count": 1
+      },
+      {
+        "old": "product=cases.product",
+        "new": "restoration=load('mandatory_full_restore_after_observer_failure',HERE/'restoration.py')\nproduct=cases.product",
+        "count": 1
+      },
+      {
+        "old": "COMBINED_FINANCE_NATIVE_SOURCE_REPORT_FACTORY_CRON7",
+        "new": "CONSISTENT_READERS_STREAM_NATIVE_SOURCE_FACTORY_CRON7",
+        "count": 1
+      },
+      {
+        "old": "/tmp/d17_18_combined_finance_unused.dump",
+        "new": "/tmp/d17_18_consistent_readers_stream_unused.dump",
+        "count": 1
+      },
+      {
+        "old": "COMBINED_FINANCE_ACTUAL_ALL22_CHANGED",
+        "new": "CONSISTENT_FINANCE_READER_ACTUAL_ALL22_CHANGED",
+        "count": 1
+      },
+      {
+        "old": "HERE/'QUALIFICATION_CONFIG.json'",
+        "new": "HERE/'CONFIG.json'",
+        "count": 1
+      },
+      {
+        "old": "    def restore():\n        quiet=scheduler_quiet(url);guard_error=None\n        with psycopg.connect(url)as current,current.cursor()as c:\n            held=catalog._catalog_rows(c);actual=catalog._data(c)\n            undeclared=catalog._portable(held)!=before\n            raw_changed=held!=state['after'];data_changed=actual!=data\n            reason=CATALOG_REFUSAL if raw_changed else product.USED_ERROR if data_changed else None\n            if reason is not None:\n                try:\n                    try:product.rollback_preuse(c,state)\n                    except (AssertionError,ValueError)as error:assert str(error)==reason,str(error)\n                    else:raise AssertionError('COMBINED_AFTER_USE_INVERSE_NOT_REFUSED')\n                    assert catalog._catalog_rows(c)==held and catalog._data(c)==actual\n                except Exception as error:guard_error=(error,traceback.format_exc())\n            current.rollback()\n        restored=database._restore(INSTALLED_DUMP,database.SOURCE,profile)\n        assert restored['only_pg_cron_errors']\n        assert retained.drill.data_hashes(database.SOURCE)==hashes\n        with psycopg.connect(url)as current,current.cursor()as c:\n            assert catalog._portable(catalog._catalog_rows(c))==before\n            assert catalog._data(c)==data and database._roles(c)==roles\n            current.rollback()\n        proof=dict(all22_all_rows_all_sequences_roles_exact=True,complete_database_dump_restored=True,\n            scheduler_quiet=quiet,restore=restored,selected_table_cleanup=False,\n            inverse_refusal=reason,inverse_refused_before_DDL=reason is not None,\n            used_guard_refused_before_DDL=reason==product.USED_ERROR,\n            committed_data_changed=data_changed,raw_catalog_spelling_changed=raw_changed,\n            unexpected_catalog_change=undeclared)\n        active['installed_baseline_restoration']=proof\n        if guard_error:\n            proof.update(guard_error=str(guard_error[0]),guard_traceback=guard_error[1]);raise guard_error[0]\n        assert not undeclared,'COMBINED_UNDECLARED_CATALOG_CHANGE_BEFORE_RESTORE'\n        return proof\n",
+        "new": "    def restore():\n        observed=dict(pre_restore_observation_complete=False,scheduler_quiet=None,\n            inverse_refusal=None,inverse_refused_before_DDL=False,used_guard_refused_before_DDL=False,\n            committed_data_changed=None,raw_catalog_spelling_changed=None,unexpected_catalog_change=None)\n\n        def observe():\n            observed['scheduler_quiet']=scheduler_quiet(url)\n            with psycopg.connect(url)as current,current.cursor()as c:\n                held=catalog._catalog_rows(c);actual=catalog._data(c)\n                undeclared=catalog._portable(held)!=before\n                raw_changed=held!=state['after'];data_changed=actual!=data\n                reason=CATALOG_REFUSAL if raw_changed else product.USED_ERROR if data_changed else None\n                observed.update(inverse_refusal=reason,inverse_refused_before_DDL=reason is not None,\n                    used_guard_refused_before_DDL=reason==product.USED_ERROR,\n                    committed_data_changed=data_changed,raw_catalog_spelling_changed=raw_changed,\n                    unexpected_catalog_change=undeclared)\n                if reason is not None:\n                    try:product.rollback_preuse(c,state)\n                    except (AssertionError,ValueError)as error:assert str(error)==reason,str(error)\n                    else:raise AssertionError('CONSISTENT_READER_AFTER_USE_INVERSE_NOT_REFUSED')\n                    assert catalog._catalog_rows(c)==held and catalog._data(c)==actual\n                current.rollback()\n            observed['pre_restore_observation_complete']=True\n            return observed\n\n        def complete_restore():\n            restored=database._restore(INSTALLED_DUMP,database.SOURCE,profile)\n            assert restored['only_pg_cron_errors']\n            return restored\n\n        def verify_restore(restored):\n            assert retained.drill.data_hashes(database.SOURCE)==hashes\n            with psycopg.connect(url)as current,current.cursor()as c:\n                assert catalog._portable(catalog._catalog_rows(c))==before\n                assert catalog._data(c)==data and database._roles(c)==roles\n                current.rollback()\n            return True\n\n        _,restored,verified,failure=restoration.always(observe,complete_restore,verify_restore)\n        proof=dict(observed,all22_all_rows_all_sequences_roles_exact=verified,\n            complete_database_dump_restored=verified,restore=restored,selected_table_cleanup=False)\n        active['installed_baseline_restoration']=proof\n        if failure:\n            proof.update(guard_error=str(failure[0]),guard_traceback=failure[1])\n            raise failure[0]\n        assert not observed['unexpected_catalog_change'],'CONSISTENT_READER_UNDECLARED_CATALOG_CHANGE_BEFORE_RESTORE'\n        return proof\n",
+        "count": 1
+      }
+    ],
+    "original_assertions": 14,
+    "assertions": 14
+  }
+}

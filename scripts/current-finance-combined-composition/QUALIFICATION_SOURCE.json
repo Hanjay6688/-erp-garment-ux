@@ -6,9 +6,9 @@
   "files": {
     "scripts/current-finance-combined-composition/DERIVATION.json": "0f5cab43e45429bf1e4816b03918c0c67a2ad84ee1e4fe47a22c0ed79e44996c",
     "scripts/current-finance-combined-composition/FROZEN_SOURCE_ROOTS.json": "684a8b08b54699861262f220eca025bb51a220e58856d53988ea337f81fe8bd7",
-    "scripts/current-finance-combined-composition/LOCAL_PREPARATION.json": "e26e80555583eae0088e51a473c7f996ac4d5780d771c029b78a57f5d916a559",
-    "scripts/current-finance-combined-composition/PREREQUISITES.json": "2380d908bac36076e43982cf6d15efa1403b6b9abdab824673b15a6f491f886d",
-    "scripts/current-finance-combined-composition/QUALIFICATION_CONFIG.json": "3cf99d48779f32bf2821e31f89c64bda80757a7b3353c1029e47a0fc78468216",
+    "scripts/current-finance-combined-composition/LOCAL_PREPARATION.json": "3baeeeb0e45c3d12f2fa7d09db13e83f3faaa80da5e5c70ebbaeea09ff261017",
+    "scripts/current-finance-combined-composition/PREREQUISITES.json": "646476411216400bab631a6f85d1408beb36d0c42d6e7414cea1f7b8ccd026d6",
+    "scripts/current-finance-combined-composition/QUALIFICATION_CONFIG.json": "8da140fc607f13dcbf3b411ec59e147da0d7721b1a9536dafd4588c2444a4817",
     "scripts/current-finance-combined-composition/QUALIFICATION_ORIGIN.json": "25a47654afa8734a5d7ffb50bd2e37bf8b0d3c68679d633b86b2d8b7fb93aa1a",
     "scripts/current-finance-combined-composition/README.md": "7932f86e82e9a2cf3d28c41469074692044b377f0473cbe146e700ce40e02cff",
     "scripts/current-finance-combined-composition/composition.py": "2f19a31266e479b0504c6ca3d45e7005aa29d12f621728108e38f92951591c26",

@@ -348,6 +348,17 @@ jobs:
     - name: Admit exact accepted consistency and complete combined source before database
       working-directory: auditor
       run: python scripts/current-finance-combined-composition/qualification_admission.py
+    - name: Fetch exact retained AF incomplete Original and package bytes
+      working-directory: auditor
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: python scripts/current-finance-reader-stream-followup-qualification/fetch_retained.py
+    - name: Verify exact private reader and streaming restore boundaries before DB
+      working-directory: auditor
+      run: python -m unittest discover -s scripts/current-finance-reader-stream-followup-qualification -p "test*.py"
+    - name: Admit complete AF first outcome and corrected reader stream source
+      working-directory: auditor
+      run: python scripts/current-finance-reader-stream-followup-qualification/admission.py
     - name: Fetch exact own combined seven-group Original and package
       working-directory: auditor
       env:

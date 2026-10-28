@@ -8,6 +8,11 @@ are prepared. The final SOURCE binding remains open; no new Auth/browser result 
 claimed. CONFIG remains false/null until the own
 combined seven-group Original and package pass and their exact bytes are bound.
 Passing separate consistency and single-check diagnostics cannot open this gate.
+The adapter now points to the frozen D3 correction, whose own runtime is still
+in progress. The AF outcome remains INCOMPLETE and cannot qualify this browser.
+Acceptance additionally requires D3's actual 307.2MB exact streaming regression,
+every complete pre-restore observation, the observed private STABLE opening
+reader, unchanged Native definitions, opening-date semantics and HPP arithmetic.
 
 The adapter supplies install, verify, preuse inverse and the same complete
 catalog authority required by the existing two-copy real-Auth browser harness.
@@ -28,9 +33,10 @@ directly to the immutable current B commit. A mutation of the lost-reply oracle
 is refused. The full actual Python probe is imported and its explicit closed
 configuration must refuse before psycopg can connect.
 
-The workflow retains the combined qualification's source preparation and
+The workflow retains the corrected reader qualification's source preparation and
 bounded startup, plus the original pinned Chromium/host setup and screenshot
-retention. It fetches the exact own combined runtime Original and the UI Native6
+retention. It fetches the exact retained first AF failure before admitting the
+corrected reader source, then the own combined runtime Original and UI Native6
 prerequisite, then admits the complete source before starting the database.
 The execution branch has not been created. Removing the real browser runtime
 step or fetching before prerequisite acceptance is refused by local tests.

@@ -23,6 +23,44 @@ def bind(proof,raw,package_raw):
     return json.loads(raw),json.loads(package_raw)
 
 
+def consistent_validation(value,cases):
+    stream=value['exact_streaming_data_validation']
+    assert stream['status']=='PASS' and stream['old_SQLSTATE']=='54000'
+    for key in ('old_hashes_equal_before_and_after','actual_old_array_limit_reproduced',
+        'duplicate_multiplicity_preserved','temporary_regression_fully_removed',
+        'ERP_rows_sequences_and_catalog_definitions_unchanged'):
+        assert stream[key]is True,key
+    assert stream['large_rows']==1024 and stream['minimum_large_payload_bytes']==307200000
+    assert stream['large_streamed_digest'][0]==1024 and len(stream['large_streamed_digest'][1])==64
+    assert stream['excluded_tables']==stream['skipped_rows_or_fields']==0
+    assert stream['ordinary_statement_limits_changed']is False
+    guard=value['streaming_data_source_guard']
+    for key in ('old_jsonb_array_text_hash_algorithm_unchanged',
+        'namespace_table_selection_authority_GUC_and_all_sequences_unchanged','qualified_role_oracles_unchanged'):
+        assert guard[key]is True,key
+    assert guard['excluded_tables_added']==guard['rows_or_fields_skipped']==0
+    installed=value['complete_installed_verification']
+    assert installed['status']=='EXACT_COMBINED_CONSISTENT_READERS_ALL22'
+    assert installed['Native_money_stock_HPP_definitions_unchanged']is True
+    assert installed['new_private_functions']==4 and installed['changed_private_functions']==5
+    for key in ('private_STABLE_opening_reader','original_Native_body_and_metadata_unchanged',
+        'private_HPP_only_one_callee_replaced','opening_date_and_HPP_arithmetic_unchanged'):
+        assert installed['opening'][key]is True,key
+    assert installed['opening']['new_public_rpcs']==installed['opening']['broadened_role_privileges']==0
+    for case in cases.values():
+        restored=case['installed_baseline_restoration']
+        assert restored['pre_restore_observation_complete']is True and not restored.get('guard_error')
+    pairs=cases['COMBINED_SMALL_PRICE_FACTORY_REPORT_PAIRS']['pairs']
+    price=pairs['PRICE_PERCENT']['combined_reader']
+    assert price['observed_nonstable_financial_readers']=={}
+    observed=price['observed_reader_catalog']
+    assert 'erp.product_opening_physical_at(uuid,date)'not in observed
+    helper=observed['cp7_finance.read_opening_physical_at_consistent_v1(uuid,date)']
+    assert helper['volatility']=='s'and helper['owner']=='postgres'and helper['config']==['search_path=""']
+    return dict(actual_307MB_exact_hash_regression=True,complete_observations_and_restorations=True,
+        private_STABLE_opening_reader_observed=True,Native_opening_and_HPP_arithmetic_unchanged=True)
+
+
 def accepted(proof,raw,package_raw,expected_source,current_installation):
     value,package=bind(proof,raw,package_raw)
     assert value['qualification_commit']==proof['head'] and value['status']=='PASS'
@@ -68,6 +106,8 @@ def accepted(proof,raw,package_raw,expected_source,current_installation):
     assert all(pair['status']=='PASS'and pair['entire_official_report_equal_except_captured_at']is True for pair in pairs.values())
     factory=cases['COMBINED_CURRENT_PUBLIC_FACTORY1200X3_ACTUAL_CRON']
     assert factory['exact_1200_commercial_skus_three_sizes']is factory['factory_native_finance_qualified']is True
+    consistent=consistent_validation(value,cases)
     return value,dict(head=proof['head'],original_sha256=proof['sha256'],package_sha256=proof['package_sha256'],
         all_seven_combined_groups_and_restorations=True,Native20=True,actual_cron_groups=2,
-        factory1200x3=True,real_Auth_browser_still_required=True,production_go=False,independent_acceptance=False)
+        factory1200x3=True,consistent_reader_and_streaming=consistent,
+        real_Auth_browser_still_required=True,production_go=False,independent_acceptance=False)

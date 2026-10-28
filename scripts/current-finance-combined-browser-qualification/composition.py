@@ -14,7 +14,7 @@ def load(name,path):
 
 def parent():
     global _PARENT
-    if _PARENT is None:_PARENT=load('browser_exact_combined_product',ROOT/'scripts/current-finance-combined-composition/composition.py')
+    if _PARENT is None:_PARENT=load('browser_exact_combined_product',ROOT/'scripts/current-finance-reader-stream-followup-qualification/composition.py')
     return _PARENT
 
 
@@ -22,11 +22,11 @@ def qualification():
     evidence=load('browser_exact_combined_runtime_evidence',HERE/'evidence.py')
     config=json.loads((HERE/'CONFIG.json').read_bytes());proof=evidence.gate(config)
     directory=Path(os.environ[config['original_directory_variable']])
-    source=json.loads((ROOT/'scripts/current-finance-combined-composition/QUALIFICATION_SOURCE.json').read_bytes())
+    source=json.loads((ROOT/'scripts/current-finance-reader-stream-followup-qualification/SOURCE.json').read_bytes())
     for name,digest in source['files'].items():assert sha256((ROOT/name).read_bytes()).hexdigest()==digest,name
     value,accepted=evidence.accepted(proof,(directory/proof['name']).read_bytes(),
         (directory/proof['package_name']).read_bytes(),source,parent().sources())
-    probe=load('browser_complete_combined_source_admission',ROOT/'scripts/current-finance-combined-composition/qualification_probe.py')
+    probe=load('browser_complete_combined_source_admission',ROOT/'scripts/current-finance-reader-stream-followup-qualification/probe.py')
     assert value['source_declaration']==probe.admitted(),'COMBINED_BROWSER_COMPLETE_SOURCE_CHANGED'
     return value,accepted
 
