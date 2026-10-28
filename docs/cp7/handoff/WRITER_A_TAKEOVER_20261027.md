@@ -1,3 +1,29 @@
+## A / 28 Oktober 2026 WIB — build dan enam layar PASS; CodeQL tetap INCOMPLETE
+
+Kandidat pemeriksaan tambahan `b87a8cd9` /run40627041532 selesai. Job aplikasi
+122614356643 lulus pemeriksaan keamanan bawaan, build+scan artefak serta keenam
+kasus fixture desktop/mobile tanpa retry/skip. Ini melengkapi3253+Node10 pada
+b7, bukan bukti Auth/NativeERP baru. Original JSON, log dan tiga ZIP diperiksa.
+
+CodeQL menjalankan kedua analisis sampai selesai, lalu guard temuan menolak:
+Actions818 lokasi pada24workflow beku (770cache-poisoning,48untrusted-checkout),
+JavaScript1 pada `scripts/cp7_ow10_statistical_local.mjs:124`. Semua24workflow
+membaca dua ref dari SOURCE.json yang sama, memakai push/dispatch tanpa input,
+permission read dan checkout tanpa kredensial tersimpan; tidak ditemukan input
+PR/dispatch pada kedua ref. Ini hasil penelusuran sumber, **bukan penutupan atau
+penghapusan temuan**. Tidak ada query dikecualikan maupun guard dilonggarkan.
+
+Untuk B: helper OW10 saat ini sama persis dengan head1dd. Cek-keberadaan lalu
+tulis dapat menimpa bukti kegagalan pertama ketika proses bersamaan. Usulan
+`B_REVIEW_STATISTICAL_FIRST_FAILURE_ATOMIC_WRITE.patch` memakai create eksklusif
+`wx`, mempertahankan EEXIST dan meneruskan galat lain. **Usulan belum diterapkan**;
+file/cabang B serta seluruh kasus bisnis tetap. Receipt dan batas lengkap ada di
+`D17_18_SHELL_B87_ACTUAL_AND_TRIAGE.json` dalam ow15.
+
+FactoryDF/run40623586371 masih berjalan; UI8dd masih tertutup menunggu seluruh
+Original DF PASS dan pemulihan. Putus lingkungan singkat03:37UTC telah pulih,
+file dan kandidat tidak hilang. Formal5/16, CP7C belum mulai, production_go=false.
+
 ## A / 28 Oktober 2026 WIB — seluruh 3.253 tes dan Node10 PASS, sumber sudah digabung
 
 Sumber `b7d6b75a` /run40624362425 /job122605631471 telah selesai **PASS**:

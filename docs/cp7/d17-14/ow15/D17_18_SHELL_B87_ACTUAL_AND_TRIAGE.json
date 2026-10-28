@@ -1,0 +1,781 @@
+{
+  "status": "INCOMPLETE_CODEQL_FINDINGS_RETAINED_NOT_DISMISSED",
+  "actual": {
+    "status": "INCOMPLETE_CODEQL_FINDINGS_APP_SECURITY_BUILD_BROWSER6_PASS",
+    "head": "b87a8cd995ca7b09913ede43db9d6efa46ddffa7",
+    "run_id": 40627041532,
+    "jobs": [
+      {
+        "id": 122614356643,
+        "name": "app",
+        "conclusion": "success"
+      },
+      {
+        "id": 122614356811,
+        "name": "Current integration CodeQL actions",
+        "conclusion": "failure"
+      },
+      {
+        "id": 122614356859,
+        "name": "Current integration CodeQL javascript-typescript",
+        "conclusion": "failure"
+      }
+    ],
+    "app_proof": {
+      "artifact_id": 12789752096,
+      "zip_bytes": 493991,
+      "zip_sha256": "fdcbbf5b949911e5319cb4b8fd9a35ad5035571b32f4ba727c3b958bc3f29be3",
+      "name": "current-integration-shell-1"
+    },
+    "source_boundary": {
+      "status": "PASS_EXACT_INTEGRATED_SOURCE_ONLY",
+      "head": "b87a8cd995ca7b09913ede43db9d6efa46ddffa7",
+      "base_head": "c3a7dc88a633c188948a45ff98ffc00e621942f8",
+      "base_tree": "c06c211331bcc4208fb1927ec1e1ed7c4d00fc74",
+      "only_new_paths": [
+        ".github/workflows/cp7-d17-18-integration-shell.yml",
+        "scripts/current-integration-shell-qualification/CONFIG.json",
+        "scripts/current-integration-shell-qualification/check.py"
+      ],
+      "retained_suite_head": "b7d6b75add6883b7cfc5b162c05531a8d0ac2f23",
+      "source": {
+        "status": "PASS_EXACT_SOURCE_CLOSURE_ONLY",
+        "exact_files": 4315,
+        "frozen_manifests": 7,
+        "current_B_exact_files": 38,
+        "main_dispatch_App_and_package_unchanged": true,
+        "business_oracles_unchanged": true,
+        "actual_database_Auth_browser_cases": 0,
+        "default_adopted": false,
+        "production_go": false,
+        "independent_acceptance": false
+      },
+      "source_admission_database_connections": 0,
+      "actual_browser_cases": 0,
+      "production_go": false,
+      "independent_acceptance": false
+    },
+    "browser_stats": {
+      "startTime": "2026-10-28T03:31:50.083Z",
+      "duration": 9936.487000000001,
+      "expected": 6,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "browser_case_ids": [
+      [
+        "six consumers share the fixture, remain isolated, and retain caveats",
+        "desktop"
+      ],
+      [
+        "partial/error/stale and access changes cannot masquerade as ready output",
+        "desktop"
+      ],
+      [
+        "clipboard rejection keeps selectable text, benchmark links and old app remain reachable",
+        "desktop"
+      ],
+      [
+        "six consumers share the fixture, remain isolated, and retain caveats",
+        "mobile"
+      ],
+      [
+        "partial/error/stale and access changes cannot masquerade as ready output",
+        "mobile"
+      ],
+      [
+        "clipboard rejection keeps selectable text, benchmark links and old app remain reachable",
+        "mobile"
+      ]
+    ],
+    "CodeQL": [
+      {
+        "language": "actions",
+        "proof": {
+          "artifact_id": 12790001797,
+          "zip_bytes": 259662,
+          "zip_sha256": "aab6f486961cfcabbe3e966b02a15ada09cc3dc726ae34ab6821ac54b6831a08",
+          "name": "current-integration-codeql-actions"
+        },
+        "analysis_runs": 1,
+        "successful_invocations": 1,
+        "findings": 818,
+        "finding_rules": {
+          "actions/cache-poisoning/poisonable-step": 770,
+          "actions/untrusted-checkout/medium": 48
+        },
+        "files": [
+          {
+            "name": "actions.sarif",
+            "bytes": 13451437,
+            "sha256": "683ccd69a1525c98f014bea788918451555055f7c14e288b412302266640e2d9"
+          }
+        ]
+      },
+      {
+        "language": "javascript-typescript",
+        "proof": {
+          "artifact_id": 12789788177,
+          "zip_bytes": 194471,
+          "zip_sha256": "b5608cfc01c46c42732080884a9c9f07209d71bdfe40983d16555bc141919ea8",
+          "name": "current-integration-codeql-javascript-typescript"
+        },
+        "analysis_runs": 1,
+        "successful_invocations": 1,
+        "findings": 1,
+        "finding_rules": {
+          "js/file-system-race": 1
+        },
+        "files": [
+          {
+            "name": "javascript.sarif",
+            "bytes": 2607718,
+            "sha256": "be715bfae2ff9c27aa768c93c64869480dc6a89d60415794347a4113caa19fb0"
+          }
+        ]
+      }
+    ],
+    "retained_source_suite_head": "b7d6b75add6883b7cfc5b162c05531a8d0ac2f23",
+    "retained_source_suite_tests": 3253,
+    "retained_Node_tests": 10,
+    "source_suite_rerun": false,
+    "actual_Auth_browser_cases": 0,
+    "full_current_ERP_Native_cases": 0,
+    "fixture_browser_cases": 6,
+    "full_ERP_acceptance": false,
+    "default_adopted": false,
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "Actions": {
+    "results": 818,
+    "rules": {
+      "actions/cache-poisoning/poisonable-step": 770,
+      "actions/untrusted-checkout/medium": 48
+    },
+    "source_review": [
+      {
+        "path": ".github/workflows/cp7-current-frozen-finance-factory-date2.yml",
+        "sha256": "ebdf4c3e9cc345bc0873ab16d03ec91c24f1e5291735e54dbcbc64268bc1528e",
+        "frozen_manifests": [
+          "scripts/current-finance-readonly-integration-qualification/SOURCE.json"
+        ],
+        "events": [
+          "push",
+          "workflow_dispatch"
+        ],
+        "dispatch_inputs": 0,
+        "permissions": {
+          "contents": "read",
+          "actions": "read"
+        },
+        "checkout_credentials_persisted": false,
+        "dynamic_refs": [
+          "${{ steps.qualified_heads.outputs.native }}",
+          "${{ steps.qualified_heads.outputs.B }}"
+        ],
+        "resolved_local_SOURCE_refs": {
+          "native": "014019a612260525e9c3b9459e354a86209336c1",
+          "B": "c7f06b855512e0c8d450522c36e84f4cab570a2a"
+        }
+      },
+      {
+        "path": ".github/workflows/cp7-current-frozen-finance-factory-observe.yml",
+        "sha256": "2948fe6942bdd0791645698269cb06d09136a9e9dd43c344a2353f80e42dc14b",
+        "frozen_manifests": [
+          "scripts/current-finance-readonly-integration-qualification/SOURCE.json"
+        ],
+        "events": [
+          "push",
+          "workflow_dispatch"
+        ],
+        "dispatch_inputs": 0,
+        "permissions": {
+          "contents": "read",
+          "actions": "read"
+        },
+        "checkout_credentials_persisted": false,
+        "dynamic_refs": [
+          "${{ steps.qualified_heads.outputs.native }}",
+          "${{ steps.qualified_heads.outputs.B }}"
+        ],
+        "resolved_local_SOURCE_refs": {
+          "native": "014019a612260525e9c3b9459e354a86209336c1",
+          "B": "c7f06b855512e0c8d450522c36e84f4cab570a2a"
+        }
+      },
+      {
+        "path": ".github/workflows/cp7-current-frozen-finance-native.yml",
+        "sha256": "b3f7e4b5f88be6df6abb9ec1bd6f171d420cd5997e47b1f8e78f78cc15738970",
+        "frozen_manifests": [
+          "scripts/current-finance-readonly-integration-qualification/SOURCE.json"
+        ],
+        "events": [
+          "push",
+          "workflow_dispatch"
+        ],
+        "dispatch_inputs": 0,
+        "permissions": {
+          "contents": "read",
+          "actions": "read"
+        },
+        "checkout_credentials_persisted": false,
+        "dynamic_refs": [
+          "${{ steps.qualified_heads.outputs.native }}",
+          "${{ steps.qualified_heads.outputs.B }}"
+        ],
+        "resolved_local_SOURCE_refs": {
+          "native": "014019a612260525e9c3b9459e354a86209336c1",
+          "B": "c7f06b855512e0c8d450522c36e84f4cab570a2a"
+        }
+      },
+      {
+        "path": ".github/workflows/cp7-current-frozen-public-cron.yml",
+        "sha256": "cbd6ffb334d5b4f2d81909b18913037728145afc72608fae1afb86432778ef4a",
+        "frozen_manifests": [
+          "scripts/current-finance-readonly-integration-qualification/SOURCE.json"
+        ],
+        "events": [
+          "push",
+          "workflow_dispatch"
+        ],
+        "dispatch_inputs": 0,
+        "permissions": {
+          "contents": "read",
+          "actions": "read"
+        },
+        "checkout_credentials_persisted": false,
+        "dynamic_refs": [
+          "${{ steps.qualified_heads.outputs.native }}",
+          "${{ steps.qualified_heads.outputs.B }}"
+        ],
+        "resolved_local_SOURCE_refs": {
+          "native": "014019a612260525e9c3b9459e354a86209336c1",
+          "B": "c7f06b855512e0c8d450522c36e84f4cab570a2a"
+        }
+      },
+      {
+        "path": ".github/workflows/cp7-current-frozen-public-native.yml",
+        "sha256": "d9fa5ad901531ec80cd18857bf6d454a98e3cd5026bbe2e0186c0e534ea00092",
+        "frozen_manifests": [
+          "scripts/current-finance-readonly-integration-qualification/SOURCE.json"
+        ],
+        "events": [
+          "push",
+          "workflow_dispatch"
+        ],
+        "dispatch_inputs": 0,
+        "permissions": {
+          "contents": "read",
+          "actions": "read"
+        },
+        "checkout_credentials_persisted": false,
+        "dynamic_refs": [
+          "${{ steps.qualified_heads.outputs.native }}",
+          "${{ steps.qualified_heads.outputs.B }}"
+        ],
+        "resolved_local_SOURCE_refs": {
+          "native": "014019a612260525e9c3b9459e354a86209336c1",
+          "B": "c7f06b855512e0c8d450522c36e84f4cab570a2a"
+        }
+      },
+      {
+        "path": ".github/workflows/cp7-current-frozen-units-native.yml",
+        "sha256": "e9f1d9e1e1a851ab203ae25dc778dda4b364035732fa9c44edc8c5534786dcf3",
+        "frozen_manifests": [
+          "scripts/current-finance-readonly-integration-qualification/SOURCE.json"
+        ],
+        "events": [
+          "push",
+          "workflow_dispatch"
+        ],
+        "dispatch_inputs": 0,
+        "permissions": {
+          "contents": "read",
+          "actions": "read"
+        },
+        "checkout_credentials_persisted": false,
+        "dynamic_refs": [
+          "${{ steps.qualified_heads.outputs.native }}",
+          "${{ steps.qualified_heads.outputs.B }}"
+        ],
+        "resolved_local_SOURCE_refs": {
+          "native": "014019a612260525e9c3b9459e354a86209336c1",
+          "B": "c7f06b855512e0c8d450522c36e84f4cab570a2a"
+        }
+      },
+      {
+        "path": ".github/workflows/cp7-current-versioned-performance-browser.yml",
+        "sha256": "f941b6f381e88010799dcb921328f097b99e5e447bfedaa705ddb2bd80a82bcb",
+        "frozen_manifests": [
+          "scripts/current-finance-readonly-integration-qualification/SOURCE.json"
+        ],
+        "events": [
+          "push",
+          "workflow_dispatch"
+        ],
+        "dispatch_inputs": 0,
+        "permissions": {
+          "contents": "read",
+          "actions": "read"
+        },
+        "checkout_credentials_persisted": false,
+        "dynamic_refs": [
+          "${{ steps.qualified_heads.outputs.native }}",
+          "${{ steps.qualified_heads.outputs.B }}"
+        ],
+        "resolved_local_SOURCE_refs": {
+          "native": "014019a612260525e9c3b9459e354a86209336c1",
+          "B": "c7f06b855512e0c8d450522c36e84f4cab570a2a"
+        }
+      },
+      {
+        "path": ".github/workflows/cp7-current-versioned-performance-cron.yml",
+        "sha256": "b9ac4f9996e8d09cab9cade28084b49559dfcfbcb7adcf7af19c6294d60312ed",
+        "frozen_manifests": [
+          "scripts/current-finance-readonly-integration-qualification/SOURCE.json"
+        ],
+        "events": [
+          "push",
+          "workflow_dispatch"
+        ],
+        "dispatch_inputs": 0,
+        "permissions": {
+          "contents": "read",
+          "actions": "read"
+        },
+        "checkout_credentials_persisted": false,
+        "dynamic_refs": [
+          "${{ steps.qualified_heads.outputs.native }}",
+          "${{ steps.qualified_heads.outputs.B }}"
+        ],
+        "resolved_local_SOURCE_refs": {
+          "native": "014019a612260525e9c3b9459e354a86209336c1",
+          "B": "c7f06b855512e0c8d450522c36e84f4cab570a2a"
+        }
+      },
+      {
+        "path": ".github/workflows/cp7-current-versioned-performance-finance.yml",
+        "sha256": "e39139ec3b2563dc3aa2648c79d8090202c225f48a77f9304bd90a2f90cfe1a0",
+        "frozen_manifests": [
+          "scripts/current-finance-readonly-integration-qualification/SOURCE.json"
+        ],
+        "events": [
+          "push",
+          "workflow_dispatch"
+        ],
+        "dispatch_inputs": 0,
+        "permissions": {
+          "contents": "read",
+          "actions": "read"
+        },
+        "checkout_credentials_persisted": false,
+        "dynamic_refs": [
+          "${{ steps.qualified_heads.outputs.native }}",
+          "${{ steps.qualified_heads.outputs.B }}"
+        ],
+        "resolved_local_SOURCE_refs": {
+          "native": "014019a612260525e9c3b9459e354a86209336c1",
+          "B": "c7f06b855512e0c8d450522c36e84f4cab570a2a"
+        }
+      },
+      {
+        "path": ".github/workflows/cp7-current-versioned-performance-native.yml",
+        "sha256": "bcd835a703e3d27624bd277d5fd26798b04d026fc10f75376d0469250106ecdd",
+        "frozen_manifests": [
+          "scripts/current-finance-readonly-integration-qualification/SOURCE.json"
+        ],
+        "events": [
+          "push",
+          "workflow_dispatch"
+        ],
+        "dispatch_inputs": 0,
+        "permissions": {
+          "contents": "read",
+          "actions": "read"
+        },
+        "checkout_credentials_persisted": false,
+        "dynamic_refs": [
+          "${{ steps.qualified_heads.outputs.native }}",
+          "${{ steps.qualified_heads.outputs.B }}"
+        ],
+        "resolved_local_SOURCE_refs": {
+          "native": "014019a612260525e9c3b9459e354a86209336c1",
+          "B": "c7f06b855512e0c8d450522c36e84f4cab570a2a"
+        }
+      },
+      {
+        "path": ".github/workflows/cp7-current-versioned-performance-restore.yml",
+        "sha256": "db4dcf015d8ba7ee211a0bcdb1e184c67eb0810653e868a65dec78c7acb16c0d",
+        "frozen_manifests": [
+          "scripts/current-finance-readonly-integration-qualification/SOURCE.json"
+        ],
+        "events": [
+          "push",
+          "workflow_dispatch"
+        ],
+        "dispatch_inputs": 0,
+        "permissions": {
+          "contents": "read",
+          "actions": "read"
+        },
+        "checkout_credentials_persisted": false,
+        "dynamic_refs": [
+          "${{ steps.qualified_heads.outputs.native }}",
+          "${{ steps.qualified_heads.outputs.B }}"
+        ],
+        "resolved_local_SOURCE_refs": {
+          "native": "014019a612260525e9c3b9459e354a86209336c1",
+          "B": "c7f06b855512e0c8d450522c36e84f4cab570a2a"
+        }
+      },
+      {
+        "path": ".github/workflows/cp7-current-versioned-performance-transport.yml",
+        "sha256": "79e391fefb8b845a310e776d00adbcb9058394e44c510674351130f163a976d6",
+        "frozen_manifests": [
+          "scripts/current-finance-readonly-integration-qualification/SOURCE.json"
+        ],
+        "events": [
+          "push",
+          "workflow_dispatch"
+        ],
+        "dispatch_inputs": 0,
+        "permissions": {
+          "contents": "read",
+          "actions": "read"
+        },
+        "checkout_credentials_persisted": false,
+        "dynamic_refs": [
+          "${{ steps.qualified_heads.outputs.native }}",
+          "${{ steps.qualified_heads.outputs.B }}"
+        ],
+        "resolved_local_SOURCE_refs": {
+          "native": "014019a612260525e9c3b9459e354a86209336c1",
+          "B": "c7f06b855512e0c8d450522c36e84f4cab570a2a"
+        }
+      },
+      {
+        "path": ".github/workflows/cp7-d17-18-choice-finance-cron.yml",
+        "sha256": "b332179a4ff9bb71483a71a3d75a8c51fd2eadccab9a2b02f0df31c1fd670ad8",
+        "frozen_manifests": [
+          "scripts/current-finance-readonly-integration-qualification/SOURCE.json"
+        ],
+        "events": [
+          "push",
+          "workflow_dispatch"
+        ],
+        "dispatch_inputs": 0,
+        "permissions": {
+          "contents": "read",
+          "actions": "read"
+        },
+        "checkout_credentials_persisted": false,
+        "dynamic_refs": [
+          "${{ steps.qualified_heads.outputs.native }}",
+          "${{ steps.qualified_heads.outputs.B }}"
+        ],
+        "resolved_local_SOURCE_refs": {
+          "native": "014019a612260525e9c3b9459e354a86209336c1",
+          "B": "c7f06b855512e0c8d450522c36e84f4cab570a2a"
+        }
+      },
+      {
+        "path": ".github/workflows/cp7-d17-18-choice-preparation-native.yml",
+        "sha256": "85f667e6a6657e8624a759e9b13b0ccfb2d4b7aa361b5919109e9859903a41e4",
+        "frozen_manifests": [
+          "scripts/current-finance-readonly-integration-qualification/SOURCE.json"
+        ],
+        "events": [
+          "push",
+          "workflow_dispatch"
+        ],
+        "dispatch_inputs": 0,
+        "permissions": {
+          "contents": "read",
+          "actions": "read"
+        },
+        "checkout_credentials_persisted": false,
+        "dynamic_refs": [
+          "${{ steps.qualified_heads.outputs.native }}",
+          "${{ steps.qualified_heads.outputs.B }}"
+        ],
+        "resolved_local_SOURCE_refs": {
+          "native": "014019a612260525e9c3b9459e354a86209336c1",
+          "B": "c7f06b855512e0c8d450522c36e84f4cab570a2a"
+        }
+      },
+      {
+        "path": ".github/workflows/cp7-d17-18-choice-preparation-transport.yml",
+        "sha256": "0815a329373320b32ed8093f31df224a792cc575afb847c1392d912c3a8c1aac",
+        "frozen_manifests": [
+          "scripts/current-finance-readonly-integration-qualification/SOURCE.json"
+        ],
+        "events": [
+          "push",
+          "workflow_dispatch"
+        ],
+        "dispatch_inputs": 0,
+        "permissions": {
+          "contents": "read",
+          "actions": "read"
+        },
+        "checkout_credentials_persisted": false,
+        "dynamic_refs": [
+          "${{ steps.qualified_heads.outputs.native }}",
+          "${{ steps.qualified_heads.outputs.B }}"
+        ],
+        "resolved_local_SOURCE_refs": {
+          "native": "014019a612260525e9c3b9459e354a86209336c1",
+          "B": "c7f06b855512e0c8d450522c36e84f4cab570a2a"
+        }
+      },
+      {
+        "path": ".github/workflows/cp7-d17-18-consistent-capture.yml",
+        "sha256": "305f54fc7a56bea85041e8ca1d5ea09f7553703129401967594d971063940770",
+        "frozen_manifests": [
+          "scripts/current-finance-consistent-capture-diagnostic/SOURCE.json"
+        ],
+        "events": [
+          "push",
+          "workflow_dispatch"
+        ],
+        "dispatch_inputs": 0,
+        "permissions": {
+          "contents": "read",
+          "actions": "read"
+        },
+        "checkout_credentials_persisted": false,
+        "dynamic_refs": [
+          "${{ steps.qualified_heads.outputs.native }}",
+          "${{ steps.qualified_heads.outputs.B }}"
+        ],
+        "resolved_local_SOURCE_refs": {
+          "native": "014019a612260525e9c3b9459e354a86209336c1",
+          "B": "c7f06b855512e0c8d450522c36e84f4cab570a2a"
+        }
+      },
+      {
+        "path": ".github/workflows/cp7-d17-18-factory-stage-profile.yml",
+        "sha256": "cf1f14d7a2aa1cd17d2f673b081e3a7dbb80d495064257b59fa21acee0b334c6",
+        "frozen_manifests": [
+          "scripts/current-finance-readonly-integration-qualification/SOURCE.json"
+        ],
+        "events": [
+          "push",
+          "workflow_dispatch"
+        ],
+        "dispatch_inputs": 0,
+        "permissions": {
+          "contents": "read",
+          "actions": "read"
+        },
+        "checkout_credentials_persisted": false,
+        "dynamic_refs": [
+          "${{ steps.qualified_heads.outputs.native }}",
+          "${{ steps.qualified_heads.outputs.B }}"
+        ],
+        "resolved_local_SOURCE_refs": {
+          "native": "014019a612260525e9c3b9459e354a86209336c1",
+          "B": "c7f06b855512e0c8d450522c36e84f4cab570a2a"
+        }
+      },
+      {
+        "path": ".github/workflows/cp7-d17-18-finance-check-reuse-diagnostic.yml",
+        "sha256": "a8166a824f274ec4be16e08b0bfbea8dc003888a4ddb9611f118448561e30b8d",
+        "frozen_manifests": [
+          "scripts/current-finance-readonly-integration-qualification/SOURCE.json"
+        ],
+        "events": [
+          "push",
+          "workflow_dispatch"
+        ],
+        "dispatch_inputs": 0,
+        "permissions": {
+          "contents": "read",
+          "actions": "read"
+        },
+        "checkout_credentials_persisted": false,
+        "dynamic_refs": [
+          "${{ steps.qualified_heads.outputs.native }}",
+          "${{ steps.qualified_heads.outputs.B }}"
+        ],
+        "resolved_local_SOURCE_refs": {
+          "native": "014019a612260525e9c3b9459e354a86209336c1",
+          "B": "c7f06b855512e0c8d450522c36e84f4cab570a2a"
+        }
+      },
+      {
+        "path": ".github/workflows/cp7-d17-18-finance-followups.yml",
+        "sha256": "0fb499e1afd4a4e2d9a37cb77caeec841a10899e36e3e6ac80c2a50b54168083",
+        "frozen_manifests": [
+          "scripts/current-finance-followups-qualification/SOURCE.json"
+        ],
+        "events": [
+          "push",
+          "workflow_dispatch"
+        ],
+        "dispatch_inputs": 0,
+        "permissions": {
+          "contents": "read",
+          "actions": "read"
+        },
+        "checkout_credentials_persisted": false,
+        "dynamic_refs": [
+          "${{ steps.qualified_heads.outputs.native }}",
+          "${{ steps.qualified_heads.outputs.B }}"
+        ],
+        "resolved_local_SOURCE_refs": {
+          "native": "014019a612260525e9c3b9459e354a86209336c1",
+          "B": "c7f06b855512e0c8d450522c36e84f4cab570a2a"
+        }
+      },
+      {
+        "path": ".github/workflows/cp7-d17-18-finance-reader-diagnostic.yml",
+        "sha256": "ed75185fcf19c62a39ba69a93f62cbca447b0e8db5f4364966aeb40ade3fa2fb",
+        "frozen_manifests": [
+          "scripts/current-finance-readonly-integration-qualification/SOURCE.json"
+        ],
+        "events": [
+          "push",
+          "workflow_dispatch"
+        ],
+        "dispatch_inputs": 0,
+        "permissions": {
+          "contents": "read",
+          "actions": "read"
+        },
+        "checkout_credentials_persisted": false,
+        "dynamic_refs": [
+          "${{ steps.qualified_heads.outputs.native }}",
+          "${{ steps.qualified_heads.outputs.B }}"
+        ],
+        "resolved_local_SOURCE_refs": {
+          "native": "014019a612260525e9c3b9459e354a86209336c1",
+          "B": "c7f06b855512e0c8d450522c36e84f4cab570a2a"
+        }
+      },
+      {
+        "path": ".github/workflows/cp7-d17-18-finance-reader-source-race.yml",
+        "sha256": "a33b489cf0231f308ce3b855e7606dcccc2c75d8f22fc07d54dd1eb896f44829",
+        "frozen_manifests": [
+          "scripts/current-finance-readonly-integration-qualification/SOURCE.json"
+        ],
+        "events": [
+          "push",
+          "workflow_dispatch"
+        ],
+        "dispatch_inputs": 0,
+        "permissions": {
+          "contents": "read",
+          "actions": "read"
+        },
+        "checkout_credentials_persisted": false,
+        "dynamic_refs": [
+          "${{ steps.qualified_heads.outputs.native }}",
+          "${{ steps.qualified_heads.outputs.B }}"
+        ],
+        "resolved_local_SOURCE_refs": {
+          "native": "014019a612260525e9c3b9459e354a86209336c1",
+          "B": "c7f06b855512e0c8d450522c36e84f4cab570a2a"
+        }
+      },
+      {
+        "path": ".github/workflows/cp7-d17-18-progress-finance-ui-browser.yml",
+        "sha256": "fb79b494bafb2ebf9063891896229e3942adbae4c36324b402ac297580004c1f",
+        "frozen_manifests": [
+          "scripts/current-finance-readonly-integration-qualification/SOURCE.json"
+        ],
+        "events": [
+          "push",
+          "workflow_dispatch"
+        ],
+        "dispatch_inputs": 0,
+        "permissions": {
+          "contents": "read",
+          "actions": "read"
+        },
+        "checkout_credentials_persisted": false,
+        "dynamic_refs": [
+          "${{ steps.qualified_heads.outputs.native }}",
+          "${{ steps.qualified_heads.outputs.B }}"
+        ],
+        "resolved_local_SOURCE_refs": {
+          "native": "014019a612260525e9c3b9459e354a86209336c1",
+          "B": "c7f06b855512e0c8d450522c36e84f4cab570a2a"
+        }
+      },
+      {
+        "path": ".github/workflows/cp7-d17-18-progress-native.yml",
+        "sha256": "e869ab6d3d34c2865a58f0aa3acb1137f9cf3718c1216ecead9db69c358ec1ee",
+        "frozen_manifests": [
+          "scripts/current-finance-readonly-integration-qualification/SOURCE.json"
+        ],
+        "events": [
+          "push",
+          "workflow_dispatch"
+        ],
+        "dispatch_inputs": 0,
+        "permissions": {
+          "contents": "read",
+          "actions": "read"
+        },
+        "checkout_credentials_persisted": false,
+        "dynamic_refs": [
+          "${{ steps.qualified_heads.outputs.native }}",
+          "${{ steps.qualified_heads.outputs.B }}"
+        ],
+        "resolved_local_SOURCE_refs": {
+          "native": "014019a612260525e9c3b9459e354a86209336c1",
+          "B": "c7f06b855512e0c8d450522c36e84f4cab570a2a"
+        }
+      },
+      {
+        "path": ".github/workflows/cp7-d17-18-readonly-finance-composition.yml",
+        "sha256": "54b741c037f8b00897bafc64cf2a446e3118642930863567e992c422021cac3d",
+        "frozen_manifests": [
+          "scripts/current-finance-readonly-integration-qualification/SOURCE.json"
+        ],
+        "events": [
+          "push",
+          "workflow_dispatch"
+        ],
+        "dispatch_inputs": 0,
+        "permissions": {
+          "contents": "read",
+          "actions": "read"
+        },
+        "checkout_credentials_persisted": false,
+        "dynamic_refs": [
+          "${{ steps.qualified_heads.outputs.native }}",
+          "${{ steps.qualified_heads.outputs.B }}"
+        ],
+        "resolved_local_SOURCE_refs": {
+          "native": "014019a612260525e9c3b9459e354a86209336c1",
+          "B": "c7f06b855512e0c8d450522c36e84f4cab570a2a"
+        }
+      }
+    ],
+    "selector_source": "python - <<'PY'\nimport json,os\np=json.load(open('scripts/current-versioned-performance-native-qualification/SOURCE.json'))\nwith open(os.environ['GITHUB_OUTPUT'],'a')as f:\n f.write('native='+p['frozen_declaration']['head']+'\\n')\n f.write('B='+p['B_frozen_head']+'\\n')\nPY\n",
+    "finding_classification": "24 frozen workflows derive both refs from one checked-in SOURCE declaration; no dispatch inputs, PR triggers, write token permissions or secret expressions found. This is source review, not a security acceptance or suppression.",
+    "proposed_next": "Keep every frozen workflow and manifest byte intact. Prepare a separately qualified successor with literal prerequisite refs or safe materialization; do not hide findings, exclude files, loosen zero-finding gates, or relabel original scan."
+  },
+  "JavaScript": {
+    "results": 1,
+    "rule": "js/file-system-race",
+    "path": "scripts/cp7_ow10_statistical_local.mjs",
+    "line": 124,
+    "source_sha256": "e14024bd85397aa0eb06f61354dc3400fd57fa6318e83bdbb4c00df3aa5d7685",
+    "current_B_head": "1dd83782dcaa4500bace7bf392a76f58be0271c3",
+    "matches_current_B": true,
+    "owner": "Writer B / OW10 statistical tooling",
+    "effect": "A concurrent create between access() and writeFile() can overwrite the first failure evidence.",
+    "proposal_path": "docs/cp7/d17-14/ow15/B_REVIEW_STATISTICAL_FIRST_FAILURE_ATOMIC_WRITE.patch",
+    "proposal_applied": false,
+    "proposal": "Use exclusive create flag wx, preserve EEXIST without overwriting, propagate other filesystem errors; remove access import only if no other uses remain.",
+    "business_test_bodies_and_B_branch_changed": false
+  },
+  "formal_accepted": "5/16",
+  "production_go": false,
+  "independent_acceptance": false
+}

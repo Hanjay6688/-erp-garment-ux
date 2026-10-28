@@ -1,5 +1,5 @@
 {
-  "recorded_at_utc": "2026-10-28T03:24:12.929579+00:00",
+  "recorded_at_utc": "2026-10-28T03:43:30.322586+00:00",
   "role": "A finance writer/integrator replacing Claude; B remains separate production/planning writer",
   "slogan": [
     "VENI. VIDI. VICI. ERP. \u2014 I CONQUERED ERP.",
@@ -18462,7 +18462,8 @@
     "Only exact DF all7 PASS with full restoration and real terminal factory progress may open UI8dd.",
     "Bind clean UI at erp-factory-browser-next using bind_next_browser_factory_df_actual.py; commit and admit_bound_next_factory_df_browser.py before actual desktop/mobile real Auth.",
     "Selective qualified integration of factory/UI sources; no blind diagnostic merge, no default or official adoption.",
-    "Continue remaining authorized A/integration work; formal5/16, CP7C and independent/production acceptance unchanged."
+    "Continue remaining authorized A/integration work; formal5/16, CP7C and independent/production acceptance unchanged.",
+    "CodeQL b87 remains INCOMPLETE. Preserve all 818 Actions findings and one B tooling race. No query suppression, file exclusions, unchanged rerun or frozen manifest repinning; B proposal is not applied."
   ],
   "previous_factory49_running_before_actual": {
     "head": "49baddbd423da93a0cfe1a52c27801e763176fcf",
@@ -18702,5 +18703,34 @@
     "production_go": false,
     "independent_acceptance": false,
     "next_binding": "Exact corrected DF all7 PASS Original/package and terminal factory progress before real Auth/browser; first49 had no all7 child execution and cannot unlock UI."
+  },
+  "current_integrated_shell": {
+    "head": "b87a8cd995ca7b09913ede43db9d6efa46ddffa7",
+    "run_id": 40627041532,
+    "status": "INCOMPLETE_CODEQL_FINDINGS_APP_SECURITY_BUILD_BROWSER6_PASS",
+    "app_job": 122614356643,
+    "fixture_browser_cases": 6,
+    "build": true,
+    "package_security_checks": true,
+    "CodeQL_actions_findings": 818,
+    "CodeQL_actions_paths": 24,
+    "CodeQL_javascript_findings": 1,
+    "source_suite_reused_from_b7": true,
+    "source_suite_cases": 3253,
+    "Node_tests": 10,
+    "receipt": "docs/cp7/d17-14/ow15/D17_18_SHELL_B87_ACTUAL_AND_TRIAGE.json",
+    "actual_Auth_browser_cases": 0,
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "B_OW10_first_failure_evidence_review": {
+    "path": "scripts/cp7_ow10_statistical_local.mjs",
+    "current_B": "1dd83782dcaa4500bace7bf392a76f58be0271c3",
+    "line": 124,
+    "rule": "js/file-system-race",
+    "source_equals_B": true,
+    "proposal": "docs/cp7/d17-14/ow15/B_REVIEW_STATISTICAL_FIRST_FAILURE_ATOMIC_WRITE.patch",
+    "applied": false,
+    "original_B_untouched": true
   }
 }
