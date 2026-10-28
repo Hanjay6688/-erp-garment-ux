@@ -376,7 +376,7 @@ jobs:
         \ None;data=z.read(p['name'])\n assert len(data)==p['bytes']and sha256(data).hexdigest()==p['sha256']\n (root/p['name']).write_bytes(data)\n\
         with open(os.environ['GITHUB_ENV'],'a')as f:f.write('CP7_VENDOR_BACKEND_ORIGINALS='+str(root)+'\\n')\nINNER\n"
     - name: Bind complete actual observer Native7 and all five package gates before database
-      working_directory: auditor
+      working-directory: auditor
       env:
         GH_TOKEN: ${{ github.token }}
       run: python scripts/current-vendor-receivable-followup/fetch_native.py

@@ -1,0 +1,19 @@
+{
+  "status": "INVALID_WORKFLOW_BEFORE_ANY_JOB_OR_DB",
+  "head": "426dafd2ccf1ec90693e2c1640047fd9f2b3ca81",
+  "run_id": 40760545510,
+  "check_suite_id": 110487740323,
+  "jobs": [],
+  "actual_Native_cases": 0,
+  "actual_races": 0,
+  "actual_Auth_HTTP": 0,
+  "actual_DB_calls": 0,
+  "observation": "PUBLIC_GITHUB_RUN_UI_ANNOTATION",
+  "annotation": "(Line: 379, Col: 7): Unexpected value 'working_directory'",
+  "cause": "writer test-device configuration key typo; not an ERP product or infrastructure result",
+  "fix": "working-directory",
+  "first_failure_preserved": true,
+  "prior_Native7_PASS_unchanged": true,
+  "production_go": false,
+  "independent_acceptance": false
+}

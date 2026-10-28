@@ -49,10 +49,13 @@
     "scripts/current-vendor-receivable-followup/fetch_native.py",
     "scripts/current-vendor-receivable-followup/test_gate.py",
     "scripts/current-vendor-receivable-qualification/native_runner.py",
-    "scripts/current-vendor-receivable-qualification/test_combined_runner.py"
+    "scripts/current-vendor-receivable-qualification/test_combined_runner.py",
+    "docs/cp7/d17-14/ow08/vendor-combined426-first-workflow-refusal.json",
+    "scripts/current-vendor-receivable-qualification/workflow_source.py",
+    "scripts/current-vendor-receivable-qualification/test_workflow_source.py"
   ],
   "files": {
-    ".github/workflows/cp7-current-vendor-receivable-native.yml": "452d3bfdf4f2608b4bee3beb4b86a0d5ce7bd8613adad079b2079e646ffc362f",
+    ".github/workflows/cp7-current-vendor-receivable-native.yml": "c2e35cb1dc08ff179da9392a15a153ffd8f2e7c6479bb44f6cfae30891b4e095",
     "docs/cp7/OPEN_WORK_D17_14_20261020.md": "3442dfbf5059d242103ebced01e3cb62edb224ede22f17e71842ce26bdc88978",
     "docs/cp7/OWNER_VENDOR_RECEIVABLE_20261029.md": "d767eae7913a319ad6baf1f3964561936ec843b3a6cb23fa2970ffbabe255639",
     "docs/cp7/d17-14/ow08/OW08B.md": "7c5d0a0bea59c1f516b001a7e9ecfd3b8019f09554aa28eba535427352401939",
@@ -69,7 +72,7 @@
     "scripts/cp7_vendor_receivable/test_derivation.py": "ce5b543cdbbaa85840cab86348be112946becd66565ac449a15e2ee66abc4e39",
     "scripts/current-vendor-receivable-qualification/CONFIG.json": "bb20f61a2c5837e4a7d70c3794e76392cea583065800b9fe1f830f9ac2563997",
     "scripts/current-vendor-receivable-qualification/README.md": "380c21bca774d9be75e8cad5b2ca2047b58535405704c71cd30500a6a9c2caa8",
-    "scripts/current-vendor-receivable-qualification/admission.py": "f1fe13d75be0667ea04f1474fe2faf93425801dbf7ea856583a9004fca5e56a1",
+    "scripts/current-vendor-receivable-qualification/admission.py": "5e80384b2ef0479748e76b413604f37979dacbf012fc495e3a8eef0d86efb654",
     "scripts/current-vendor-receivable-qualification/check_source.py": "0c4db4ed9fd8c5ac989aa20516ce93323614b359dda88fee0ea7cb5f1e79bf8b",
     "scripts/current-vendor-receivable-qualification/probe.py": "c420d894f8d5f16bddefeae73addb621507170f372a28e7d6e33d88c7eeb0be9",
     "scripts/current-vendor-receivable-qualification/runner.py": "318fabe010586301205519c3b648f96496f5d80a651e7be955a0cd6d7a2c5b68",
@@ -89,7 +92,10 @@
     "scripts/current-vendor-receivable-followup/fetch_native.py": "e6a72e7c1150bc1ff7cb7f58e58326787f87db7eb735cd9f73b2d39075b8ff63",
     "scripts/current-vendor-receivable-followup/test_gate.py": "f58574a669ec7e2dbb9ef7b8164cdbeab96dae36006424a9b5d4c2a931a0091c",
     "scripts/current-vendor-receivable-qualification/native_runner.py": "debd69693dc444861aa193b644144eb3a6ee0e7eb0d279f671fcfad82aebdd0d",
-    "scripts/current-vendor-receivable-qualification/test_combined_runner.py": "f3b2ab9fb0c3dcb36d0104e9a1f30a8ea189d4256061ee74724cf0066aec9dc4"
+    "scripts/current-vendor-receivable-qualification/test_combined_runner.py": "f3b2ab9fb0c3dcb36d0104e9a1f30a8ea189d4256061ee74724cf0066aec9dc4",
+    "docs/cp7/d17-14/ow08/vendor-combined426-first-workflow-refusal.json": "b46e3d611a2468cee696061fca6334efb440c3b28a8f3ac74aebe5a320ac7e13",
+    "scripts/current-vendor-receivable-qualification/workflow_source.py": "b3af422776b5e0f200ac04ac9fd41a7bf283fa1890819b41df92ef6f31bf1910",
+    "scripts/current-vendor-receivable-qualification/test_workflow_source.py": "3da65714051c4cf9edb1c0708c94905e9f728eb9c1fc0432663cb81c831d2290"
   },
   "production_go": false,
   "independent_acceptance": false,
@@ -147,5 +153,24 @@
       "bytes": 360415,
       "sha256": "3e7b2e7b8c243f3d16a689b6dd4d5a10c2152993b0c92df445ac48db77baffe5"
     }
+  },
+  "first_combined_CI_failure": {
+    "status": "INVALID_WORKFLOW_BEFORE_ANY_JOB_OR_DB",
+    "head": "426dafd2ccf1ec90693e2c1640047fd9f2b3ca81",
+    "run_id": 40760545510,
+    "check_suite_id": 110487740323,
+    "jobs": [],
+    "actual_Native_cases": 0,
+    "actual_races": 0,
+    "actual_Auth_HTTP": 0,
+    "actual_DB_calls": 0,
+    "observation": "PUBLIC_GITHUB_RUN_UI_ANNOTATION",
+    "annotation": "(Line: 379, Col: 7): Unexpected value 'working_directory'",
+    "cause": "writer test-device configuration key typo; not an ERP product or infrastructure result",
+    "fix": "working-directory",
+    "first_failure_preserved": true,
+    "prior_Native7_PASS_unchanged": true,
+    "production_go": false,
+    "independent_acceptance": false
   }
 }

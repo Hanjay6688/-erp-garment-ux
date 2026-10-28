@@ -18,6 +18,9 @@ def exact_provenance_guard(before,after):
         after_sha256=sha256(after).hexdigest(),Native_money_or_date_or_HPP_calculation_changed=False)
 
 def admitted(repo,here,product):
+    validation_spec=importlib.util.spec_from_file_location('vendor_workflow_source_keys',here/'workflow_source.py')
+    validation=importlib.util.module_from_spec(validation_spec);validation_spec.loader.exec_module(validation)
+    validation.checked((repo/'.github/workflows/cp7-current-vendor-receivable-native.yml').read_text())
     cfg=json.loads((here/'CONFIG.json').read_bytes());source=json.loads((here/'SOURCE.json').read_bytes())
     assert cfg['contract']=='cp7.vendor-receivable-native.v1'
     assert cfg['production_go']is cfg['independent_acceptance']is False
