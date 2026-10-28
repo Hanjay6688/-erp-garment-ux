@@ -5785,3 +5785,24 @@ Riwayat gagal paralel lokal B11 tetap disimpan. Penghambat B untuk paket ini
 sudah tertutup; sisa CP7 adalah tugas A/integrasi/auditor dan kebijakan vendor
 yang belum dijawab. Peta16 OPEN_WORK dan sambungan tahap berikutnya ikut
 disimpan. Formal5/16, independent_acceptance=false, production_go=false.
+
+
+### A — 29 Oktober 2026: fixture gabungan penerus, B tetap sudah diterima
+
+54b786f3/run40761955464 selesai FAILURE:6Native PASS/1INCOMPLETE karena source
+label fixture melewati varchar(50); race/Auth0. Seluruh baseline dipulihkan,
+4gate paket PASS dan writer_runtime=false. Original pertama/ZIP dipertahankan;
+receipt ow08/vendor-combined54b-first-incomplete.json memuat pin dan4gzip asli.
+Penerus41caaaed/treeb8831a52/run40769840440/job123103756460 RUNNING. Perubahan
+produk0; tepat satu prefix fixture diperpendek,18kontrol lokal/admission PASS.
+Native7fresh tetap wajib sebelum3race+1Auth; hasil parsial tidak membuka intake.
+
+Paket A layar uang f6b52e8f/treefb05a6df disimpan pada cabang persiapan sendiri:
+host/mode/copy adapter existing,2perjalanan desktop/mobile; backend gate CLOSED.
+Teks pencocokan menambahkan piutang yang memang dihitung server, tanpa mengubah
+angka.3DOM/3kontrol admission/typecheck PASS lokal;0browser aktual. Paket ini
+untuk uang OW08b milik A; browser analisis produksi/perencanaan B tidak diulang.
+Main masih kandidat yang diterima bersama B f5e4; intake9berkasbeb1 belum diadopsi.
+Berikut: selesaikan actual11, ikat browser uang pada runtime yang sama, lalu
+seleksi integrasi/registry dan audit. Formal5/16, production_go=false,
+independent_acceptance=false.

@@ -407,25 +407,26 @@
   "scope_closeout_20261029": {
     "scope_index": "docs/cp7/framework-v2/registries/closure_current_20261029.json",
     "owner_vendor_policy": "BOTH_AUTHORIZED",
-    "vendor_candidate": "f30ffc8d7386d6b202c91e9f1b55e672af58c720",
-    "vendor_run": 40741343738,
-    "vendor_status": "RUNNING_NOT_ACCEPTED",
+    "vendor_candidate": "41caaaed02c0d89b122ecf1ff221f6647141c335",
+    "vendor_run": 40769840440,
+    "vendor_status": "RUNNING_FIXTURE_LABEL_SUCCESSOR_NOT_ACCEPTED",
     "return3194_status": "PASS_ACTUAL_2_CURRENT_RACES_FULL_RESTORE",
     "return3194_receipt": "docs/cp7/d17-14/ow15/return-reverse3194-3a366ed6-pass.json",
     "source_index_is_not_runtime_acceptance": true,
     "formal": "5/16",
     "production_go": false,
-    "independent_acceptance": false
+    "independent_acceptance": false,
+    "vendor_first_actual_combined_failure": "docs/cp7/d17-14/ow08/vendor-combined54b-first-incomplete.json"
   },
   "vendor_receivable_20261029": {
-    "status": "NATIVE7_PASS_NEW_GUARD_COMBINED11_RUNNING_NOT_ACCEPTED",
+    "status": "NATIVE7_PRIOR_PASS_FIRST_COMBINED_INCOMPLETE_FIXTURE_SUCCESSOR_RUNNING",
     "native7_receipt": "docs/cp7/d17-14/ow15/vendor-native7-5ded-pass.json",
     "combined11": {
-      "status": "RUNNING_NOT_ACCEPTED",
-      "head": "54b786f3e38ba41d362a23fd75fb0d5c0520150d",
-      "tree": "e211b0d169193c0f5e3df226b5aad173946bfff2",
-      "run_id": 40761955464,
-      "job_id": 123075935760,
+      "status": "RUNNING_FIXTURE_LABEL_SUCCESSOR_NOT_ACCEPTED",
+      "head": "41caaaed02c0d89b122ecf1ff221f6647141c335",
+      "tree": "b8831a52531598c514f8199016dea6194d783833",
+      "run_id": 40769840440,
+      "job_id": 123103756460,
       "branch": "astra-a/ow08b-vendor-combined-qualification-20261029",
       "fresh_planned": {
         "Native": 7,
@@ -462,12 +463,90 @@
       "stricter_provenance_SQL_sha256": "3b24728512e8be6af697f3234e591f7fe6b46331c68e3497ab71aedbcc9aa2ba",
       "actual_new_case_PASS_claim": false,
       "production_go": false,
-      "independent_acceptance": false
+      "independent_acceptance": false,
+      "first_actual_failure": {
+        "status": "FIRST_ACTUAL_COMBINED11_INCOMPLETE_PRESERVED",
+        "pin": {
+          "head": "54b786f3e38ba41d362a23fd75fb0d5c0520150d",
+          "tree": "e211b0d169193c0f5e3df226b5aad173946bfff2",
+          "run_id": 40761955464,
+          "job_id": 123075935760,
+          "artifact_id": 12851481342,
+          "zip_bytes": 2029718,
+          "zip_sha256": "f8bf0f09eefc8387eec83b402a98be7c3a4a38353b69e63048db16c1586b8dfd",
+          "original": {
+            "name": "CP7_VENDOR_RECEIVABLE_COMBINED11.json",
+            "bytes": 3448411,
+            "sha256": "67e559071a8af412e972a8f892d58fec4086682a1051a4eed02a59a0961b9c67"
+          },
+          "package": {
+            "name": "T3_PACKAGE_INSTALL.json",
+            "bytes": 360427,
+            "sha256": "661794d6fc0a104549dcd2246be1481c4e8988881de5a064b1ab0876ca8b1ddf"
+          }
+        },
+        "classification": "WRITER_FIXTURE_SOURCE_TYPE_LABEL_EXCEEDS_NATIVE_VARCHAR50",
+        "counts": {
+          "PASS": 6,
+          "INCOMPLETE": 1
+        },
+        "full_restore": true,
+        "followup_started": false,
+        "receipt": "docs/cp7/d17-14/ow08/vendor-combined54b-first-incomplete.json"
+      },
+      "runtime_identical_to_54b": true,
+      "local_controls_PASS": 18,
+      "source_admission": "PASS_NO_DB",
+      "change": "EXACTLY_ONE_NATIVE_FIXTURE_LABEL_PREFIX_NO_ORACLE_OR_PRODUCT_CHANGE"
     },
     "intake_prepared": "beb1e6915edda75b82697c0993e80eac647b683a",
     "current_A_product_includes_vendor_receivable": false,
     "formal": "5/16",
     "production_go": false,
-    "independent_acceptance": false
+    "independent_acceptance": false,
+    "first_actual_combined_failure": {
+      "status": "FIRST_ACTUAL_COMBINED11_INCOMPLETE_PRESERVED",
+      "pin": {
+        "head": "54b786f3e38ba41d362a23fd75fb0d5c0520150d",
+        "tree": "e211b0d169193c0f5e3df226b5aad173946bfff2",
+        "run_id": 40761955464,
+        "job_id": 123075935760,
+        "artifact_id": 12851481342,
+        "zip_bytes": 2029718,
+        "zip_sha256": "f8bf0f09eefc8387eec83b402a98be7c3a4a38353b69e63048db16c1586b8dfd",
+        "original": {
+          "name": "CP7_VENDOR_RECEIVABLE_COMBINED11.json",
+          "bytes": 3448411,
+          "sha256": "67e559071a8af412e972a8f892d58fec4086682a1051a4eed02a59a0961b9c67"
+        },
+        "package": {
+          "name": "T3_PACKAGE_INSTALL.json",
+          "bytes": 360427,
+          "sha256": "661794d6fc0a104549dcd2246be1481c4e8988881de5a064b1ab0876ca8b1ddf"
+        }
+      },
+      "classification": "WRITER_FIXTURE_SOURCE_TYPE_LABEL_EXCEEDS_NATIVE_VARCHAR50",
+      "counts": {
+        "PASS": 6,
+        "INCOMPLETE": 1
+      },
+      "full_restore": true,
+      "followup_started": false,
+      "receipt": "docs/cp7/d17-14/ow08/vendor-combined54b-first-incomplete.json"
+    },
+    "money_browser_prepared": {
+      "head": "f6b52e8f545441f4f20dc62316e4a59839429dbb",
+      "tree": "fb05a6df697c3459db8e80434e9be457877b6739",
+      "branch": "astra-a/ow08b-vendor-money-browser-prepared-20261029",
+      "status": "PREPARED_CLOSED_COMPLETE_BACKEND11_REQUIRED",
+      "actual_browser_cases": 0,
+      "local_DOM_tests_PASS": 3,
+      "local_admission_controls_PASS": 3,
+      "typecheck": "PASS",
+      "backend_runtime_changed": false,
+      "B_analysis_browser_repeated": false,
+      "product_change": "VENDOR_RECONCILIATION_EXPLANATION_ONLY",
+      "source_declaration": "scripts/current-vendor-money-browser/SOURCE.json"
+    }
   }
 }
