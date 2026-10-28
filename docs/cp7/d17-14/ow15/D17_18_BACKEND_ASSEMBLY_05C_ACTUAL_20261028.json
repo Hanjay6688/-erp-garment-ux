@@ -1,0 +1,262 @@
+{
+  "status": "PASS_EXACT_BACKEND_ASSEMBLY_SOURCE_AND_ACTIONS",
+  "head": "05c3e11381b9d6aa45da3c4f6509c54d599a7bc3",
+  "tree": "8cd1a7c73eee11b8e09465a9ae96ea6640874f06",
+  "run_id": 40668340972,
+  "jobs": [
+    {
+      "id": 122748489016,
+      "name": "Backend assembly CodeQL actions",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 40668340972,
+      "logs_url": null,
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1
+        },
+        {
+          "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2
+        },
+        {
+          "name": "Run github/codeql-action/init@b96794f015dfd88f77b49b1c93e0fa7110f94c63",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3
+        },
+        {
+          "name": "Run github/codeql-action/analyze@b96794f015dfd88f77b49b1c93e0fa7110f94c63",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4
+        },
+        {
+          "name": "Reject CodeQL findings or incomplete runs",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5
+        },
+        {
+          "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6
+        },
+        {
+          "name": "Post Run github/codeql-action/analyze@b96794f015dfd88f77b49b1c93e0fa7110f94c63",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10
+        },
+        {
+          "name": "Post Run github/codeql-action/init@b96794f015dfd88f77b49b1c93e0fa7110f94c63",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 11
+        },
+        {
+          "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 12
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 13
+        }
+      ]
+    },
+    {
+      "id": 122748489524,
+      "name": "source",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 40668340972,
+      "logs_url": null,
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1
+        },
+        {
+          "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2
+        },
+        {
+          "name": "Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3
+        },
+        {
+          "name": "Install pinned YAML parser",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4
+        },
+        {
+          "name": "Verify exact backend assembly and scoped tooling sources",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5
+        },
+        {
+          "name": "Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6
+        },
+        {
+          "name": "Post Run actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 11
+        },
+        {
+          "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 12
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 13
+        }
+      ]
+    }
+  ],
+  "artifacts": [
+    {
+      "artifact": {
+        "id": 12807381365,
+        "name": "backend-assembly-codeql-actions",
+        "size_in_bytes": 116358,
+        "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12807381365",
+        "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12807381365/zip",
+        "expired": false,
+        "created_at": "2026-10-28T10:00:44Z",
+        "expires_at": "2026-11-27T10:00:43Z",
+        "updated_at": "2026-10-28T10:00:44Z",
+        "digest": "sha256:b3f7def13f15dd1596963d23585f680a926640844bfc49c8bab9442ae9a43dfe",
+        "workflow_run": {
+          "id": 40668340972,
+          "repository_id": 1348063690,
+          "head_repository_id": 1348063690,
+          "head_branch": "astra-a/d17-18-backend-assembly-check-20261028",
+          "head_sha": "05c3e11381b9d6aa45da3c4f6509c54d599a7bc3"
+        }
+      },
+      "zip_bytes": 116358,
+      "zip_sha256": "b3f7def13f15dd1596963d23585f680a926640844bfc49c8bab9442ae9a43dfe",
+      "member": "actions.sarif",
+      "member_bytes": 1760159,
+      "member_sha256": "d736bdf261c4abab4c3c3b5bc2008f7429fbf0b7faa072f2530b8cf79973371d"
+    },
+    {
+      "artifact": {
+        "id": 12806976823,
+        "name": "backend-assembly-source-1",
+        "size_in_bytes": 1153,
+        "url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12806976823",
+        "archive_download_url": "https://api.github.com/repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12806976823/zip",
+        "expired": false,
+        "created_at": "2026-10-28T09:58:26Z",
+        "expires_at": "2026-11-27T09:58:25Z",
+        "updated_at": "2026-10-28T09:58:26Z",
+        "digest": "sha256:787d01e262538eed5985838fcfa0797f0096eb83b5e53b561455859b92b62758",
+        "workflow_run": {
+          "id": 40668340972,
+          "repository_id": 1348063690,
+          "head_repository_id": 1348063690,
+          "head_branch": "astra-a/d17-18-backend-assembly-check-20261028",
+          "head_sha": "05c3e11381b9d6aa45da3c4f6509c54d599a7bc3"
+        }
+      },
+      "zip_bytes": 1153,
+      "zip_sha256": "787d01e262538eed5985838fcfa0797f0096eb83b5e53b561455859b92b62758",
+      "member": "SOURCE.json",
+      "member_bytes": 2090,
+      "member_sha256": "cb1347984e2396bf591d3557dd963c3015786fa879aa4f87d18249135d5ff3b5"
+    }
+  ],
+  "source": {
+    "status": "PASS_EXACT_BACKEND_ASSEMBLY_SOURCE_ONLY",
+    "head": "05c3e11381b9d6aa45da3c4f6509c54d599a7bc3",
+    "base_head": "52df2dc9abcd08ab2e1f1c765150dd907a60a6e9",
+    "exact_component_files": 100,
+    "retired_workflows": 24,
+    "history": {
+      "status": "EXACT_HISTORICAL_PROOF_INPUTS_ONLY",
+      "files": 24,
+      "all_bytes_equal_frozen_original": true,
+      "Git_workflow_entries_restored": 0,
+      "active_workflow_behavior_added": false
+    },
+    "source": {
+      "status": "PASS_SCOPED_TOOLING_SUCCESSOR_SOURCE_ONLY",
+      "unchanged_exact_files": 4314,
+      "replaced_tooling_files": 1,
+      "new_tested_helper_files": 2,
+      "successor": {
+        "files": {
+          "scripts/cp7_ow10_statistical_local.mjs": "2f2d02ed883a3fa018f8bd422e7879b58bb6ab7e4076232df3c63c372e729f57",
+          "scripts/cp7_first_failure_evidence.mjs": "41b059ed810c57c97f2ee05f4722ad7c415b7828b1e24c9c098962ee9cd9f34d",
+          "scripts/cp7_first_failure_evidence.test.mjs": "f14383aa6966513256496a0871b0175809697e941720010a08d7787210453c21"
+        },
+        "replaced_historical_path": "scripts/cp7_ow10_statistical_local.mjs",
+        "old_digest": "e14024bd85397aa0eb06f61354dc3400fd57fa6318e83bdbb4c00df3aa5d7685",
+        "A_qualified_head": "a6bb16bd898ade9cf5cf3588e6f39d4ecabef8a8",
+        "B_qualified_head": "4fcc1adc2b219304c73e2de6dc6df2b7810106d9",
+        "actual_JS_receipt_verified": true,
+        "historical_manifests_rewritten": false,
+        "backend_or_browser_unlock": false
+      },
+      "frozen_manifests": 7,
+      "current_B_exact_files": 38,
+      "main_dispatch_App_and_package_unchanged": true,
+      "business_oracles_unchanged": true,
+      "actual_database_Auth_browser_cases": 0,
+      "default_adopted": false,
+      "production_go": false,
+      "independent_acceptance": false
+    },
+    "proposed_backend_head": "11c95c4ee2c784247e1be22ce0a582f4d85632c5",
+    "backend_runtime_eligible": false,
+    "browser_owner": "B",
+    "browser_files_imported": 0,
+    "original_manifests_rewritten": 0,
+    "actual_DB_Auth_browser_cases": 0,
+    "default_adopted": false,
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "codeql": {
+    "name": "actions.sarif",
+    "bytes": 1760159,
+    "sha256": "d736bdf261c4abab4c3c3b5bc2008f7429fbf0b7faa072f2530b8cf79973371d",
+    "analysis_runs": 1,
+    "query_count": 23,
+    "findings": 0,
+    "successful_invocations": true
+  },
+  "JS_rerun": false,
+  "backend_runtime_eligible": false,
+  "actual_DB_Auth_browser_cases": 0,
+  "default_adopted": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

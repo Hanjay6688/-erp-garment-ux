@@ -5501,3 +5501,35 @@ berasal dari pemeriksa lama secara tepat. Tidak ada manifest historis diubah,
 atau klaim sumber lama menguji alat baru. Ini kredit sumber saja; actualbackend
 masih harus berasal dari kandidat11c yang tepat, lalu actualbrowser milik B.
 Formal5/16, independent_acceptance=false, production_go=false, CP7C belum dimulai.
+
+
+## 28 Oktober 2026 — assembly backend05c sumber dan Actions PASS; backend11c tetap menunggu hasil asli
+
+A menyiapkan penggabungan selektif pada05c3e11381b9d6aa45da3c4f6509c54d599a7bc3
+(tree8cd1a7c73eee11b8e09465a9ae96ea6640874f06), cabang
+astra-a/d17-18-backend-assembly-prepared-20261028. Seratus berkas komponen
+history16d9/factory4ac/profile5b32/initial11c cocok persis;24 entrypoint historis
+tetap diarsipkan byte-exact. Tidak ada berkas browser lama ditimpa ke pekerjaan B.
+App/src, SQL dasar, package dan installer default tetap sama dengan A52df.
+Run40668340972: sourcejob122748489524 PASS, CodeQLactionsjob122748489016 PASS.
+Artifact12806976823 dan12807381365 sudah diperiksa byte/hash/SARIF:23 query,
+0temuan, invocation berhasil. Receipt ow15/D17_18_BACKEND_ASSEMBLY_05C_ACTUAL_20261028.json.
+Ini bukti sumber/workflow,0DB/ERPAuth/browser; backend11c run40663882208 belum
+memiliki hasil akhir yang diterima A. Tidak ada backend terpilih untuk B.
+
+Temuan integrasi yang harus dipertahankan: admission historis di pohon gabungan
+menolak scripts/cp7_ow10_statistical_local.mjs karena manifest lama menunjuk
+versi sebelum perbaikan B. Bukan alasan membatalkan patch B atau mengubah manifest.
+Penolakan pertama tersimpan. Penerus sumber eksplisit kini memverifikasi digest
+admission lengkap dari checkout beku11c dan kesamaan SELURUH current_installation
+produk pada gabungan baru; alat JavaScript baru dibuktikan terpisah lewat A6bb.
+Bridge lokal PASS/0koneksiDB, receipt ow15/D17_18_BACKEND_TOOLING_SOURCE_BRIDGE_20261028.json.
+Tidak ada penggantian byte lama di pohon aktif atau pemeriksaan historis dimatikan.
+
+B tetap memiliki pengikatan/runner/visual/actualAuth browser dan driver produksi.
+Kontrak tahap awal besar55000 CP7_LARGE_INITIAL_PREPARATION_SERVER_REQUIRED
+tetap PREPARED: lanjut get/status UUID sama, tanpa percobaan atau penyimpanan
+ganda, angka total yang belum diketahui tetap unknown. A menyerahkan bukti asli
+backend terpilih hanya setelah seluruh all7 dan pemulihan lulus. Paket source05c
+belum diadopsi sebagai produk pada main; catatan dan receipt saja yang diterima.
+Formal5/16, production_go=false, independent_acceptance=false, CP7C belum dimulai.

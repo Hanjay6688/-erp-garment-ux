@@ -1,5 +1,5 @@
 {
-  "recorded_at_utc": "2026-10-28T09:38:23.859956+00:00",
+  "recorded_at_utc": "2026-10-28T10:04:11.447362+00:00",
   "role": "A finance writer/integrator replacing Claude; B remains separate production/planning writer",
   "slogan": [
     "VENI. VIDI. VICI. ERP. — I CONQUERED ERP.",
@@ -19186,5 +19186,37 @@
     "tooling_run_id": 40658559666,
     "tooling_job_id": 122715532407,
     "actual_ERP_Auth_cases": 0
+  },
+  "backend_assembly_source_current": {
+    "path": "docs/cp7/d17-14/ow15/D17_18_BACKEND_ASSEMBLY_05C_ACTUAL_20261028.json",
+    "head": "05c3e11381b9d6aa45da3c4f6509c54d599a7bc3",
+    "tree": "8cd1a7c73eee11b8e09465a9ae96ea6640874f06",
+    "run_id": 40668340972,
+    "jobs": [
+      {
+        "id": 122748489016,
+        "conclusion": "success"
+      },
+      {
+        "id": 122748489524,
+        "conclusion": "success"
+      }
+    ],
+    "status": "PASS_EXACT_BACKEND_ASSEMBLY_SOURCE_AND_ACTIONS",
+    "source_only": true,
+    "backend_runtime_eligible": false,
+    "imported_component_files": 100,
+    "browser_files_imported": 0,
+    "prepared_branch": "astra-a/d17-18-backend-assembly-prepared-20261028",
+    "main_product_adopted": false
+  },
+  "backend_tooling_source_bridge": {
+    "path": "docs/cp7/d17-14/ow15/D17_18_BACKEND_TOOLING_SOURCE_BRIDGE_20261028.json",
+    "status": "PASS_SCOPED_TOOLING_AND_EXACT_FROZEN_BACKEND_SOURCE_ONLY",
+    "entire_current_installation_exact": true,
+    "database_connection_attempts": 0,
+    "historical_admission_on_new_JS": "REFUSED_OLD_TOOL_DIGEST_PRESERVED",
+    "historical_manifests_rewritten": 0,
+    "backend_unlock": false
   }
 }
