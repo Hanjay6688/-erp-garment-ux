@@ -39,5 +39,33 @@
     "run_id": 40741343738,
     "job_id": 123003448565,
     "head": "f30ffc8d7386d6b202c91e9f1b55e672af58c720"
+  },
+  "provenance_successor": {
+    "predecessor": "f30ffc8d7386d6b202c91e9f1b55e672af58c720",
+    "changed_runtime": [
+      "scripts/cp7_vendor_receivable/receivable.sql"
+    ],
+    "changed_function": "cp7_vendor_receivable.prove_v1(uuid)",
+    "observer_successor": "5dedbaae47eb4b3b23b54da94605f7d940f0ca22",
+    "observer_run": 40751542770,
+    "observer_status_at_preparation": "RUNNING_NOT_ACCEPTED",
+    "fresh_provenance_controls": [
+      "SAME_VENDOR_ZERO_NET",
+      "NO_VENDOR_NONZERO",
+      "NO_VENDOR_ZERO_NET",
+      "UNREGISTERED_VENDOR_ZERO_NET"
+    ],
+    "shared_registered_vendor_account_positive_control": true,
+    "Native_case_budget": 7
+  },
+  "combined11": {
+    "status": "PREPARED_CLOSED",
+    "accepted_observer_native7": null,
+    "fresh_Native_cases": 7,
+    "fresh_races": 3,
+    "fresh_Auth_HTTP_cases": 1,
+    "expected_business_cases": 11,
+    "fresh_browser_cases": 0,
+    "partial_results_never_accept_backend": true
   }
 }

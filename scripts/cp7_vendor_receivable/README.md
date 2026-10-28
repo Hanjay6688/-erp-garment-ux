@@ -32,3 +32,55 @@ seven derived business functions and frontend source are byte-identical to f30.
 The exact first incomplete Original is admitted before DB work, and all seven
 cases run afresh because each uses the corrected observer. No fresh race,
 Auth/browser, independent acceptance or production GO is claimed.
+
+
+## Unassigned vendor provenance successor (PREPARED, 29 October)
+
+Local execution of the real provenance function reproduced a gap: a new
+AR posting with vendor_id NULL was ignored, while its account balance became
+101.00 and the vendor source remained100.00. This uses a Native journal
+DOUBLE and is not an actual Native qualification. The first result is
+`docs/cp7/d17-14/ow08/vendor-ar-provenance-local-first.json`.
+
+Only the observed-vendor predicate in private prove_v1 is strengthened.
+Assigned-account rows without any registered vendor source now participate
+in the existing full provenance comparison. Valid other registered vendors
+sharing the account remain scoped to their own proof; unrelated accounts
+remain outside this detector. No amount/date/HPP formula or Native poster
+changes. The exact one-predicate derivation from f30 is enforced before DB.
+
+Local SQL execution:14 leaf scenarios/15 Node test nodes PASS, including
+NULL/nonzero, NULL/zero-net, unregistered vendor, valid shared account and
+unrelated account. Observer/derivation controls13 PASS. Native case7 keeps
+its original same-vendor zero-net oracle and adds three orphan controls plus
+the valid shared-account control. The seven Native case IDs remain the same;
+all seven must run afresh on this changed provider. Earlier six passes and
+the running5ded observer qualification are not relabeled for this guard.
+
+This prepared branch does not launch CI. Wait for the current5ded run to
+finish, preserve its actual result, then run one qualified successor. The
+prepared race/Auth driver540df1ba stays CLOSED and must bind the final exact
+Native7/package/source. No parallel database run or browser duplication.
+
+
+## Combined11 prepared successor — one installation
+
+The next qualifier combines seven fresh Native cases (including all four
+provenance controls and the shared-account positive), three real-lock schedules
+and one real Auth/HTTP journey. It reuses the exact Native runner plus the
+prepared540df followup runner/case bodies. The full actual5ded Native7/package
+precursor is required before DB startup. It qualifies the old provider only.
+The changed provider must independently PASS all seven fresh Native cases
+before followup execution. No acceptance exists until combined11/full baseline
+restore/advisors/Auth cleanup and all five package gates PASS.
+
+The small Native-to-copy adapter removes only the explicitly declared test
+ERP USAGE grant left by the Native committed witness, proves all22 equal the
+installed product and all business data unchanged, and closes the connection
+before TEMPLATE copies. Direct HTTP fixture setup temporarily grants/revokes
+that same harness access within one transaction; actual Auth requests use the
+unmodified product permissions. No second installer or ledger is created.
+
+The prior standalone followup stays prepared; it is not claimed as executed.
+This combined continuation avoids a second full 30-minute installation.
+No duplicate B browser job is introduced.

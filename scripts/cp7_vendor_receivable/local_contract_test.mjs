@@ -35,11 +35,11 @@ for (const [id, code] of [[ar, 'ARV'], [cashCoa, 'BANK'], [ap, 'AP'], [cost, 'CO
 }
 await q(`insert into erp.cash_accounts values($1,$2,'BANK','Bank',true)`, [cash, cashCoa])
 await q(`insert into erp.accounting_account_mappings values('AP_VENDOR',$1),('WIP',$2)`, [ap, cost])
-const createSource = async amount => {
+const createSource = async (amount, sourceVendor = vendor) => {
  const id = randomUUID()
- await q(`insert into erp.bd_laundry_invoices_v1 values($1,$2,'DRAFT',-$3::numeric,$4,current_date-5,$5,null,null)`, [id, vendor, amount, randomUUID(), 'COR-' + id])
+ await q(`insert into erp.bd_laundry_invoices_v1 values($1,$2,'DRAFT',-$3::numeric,$4,current_date-5,$5,null,null)`, [id, sourceVendor, amount, randomUUID(), 'COR-' + id])
  const line = await one(`select cp7_vendor_receivable.register_v1($1,$2)`, [id, ar])
- const jid = await one(`select erp.post_journal('BD_LAUNDRY_CORRECTION_CREDIT',$1,current_date-5,'fixture',$2)`, [id, JSON.stringify([line, { account_id: cost, debit: 0, credit: amount, vendor_id: vendor }])])
+ const jid = await one(`select erp.post_journal('BD_LAUNDRY_CORRECTION_CREDIT',$1,current_date-5,'fixture',$2)`, [id, JSON.stringify([line, { account_id: cost, debit: 0, credit: amount, vendor_id: sourceVendor }])])
  await q(`update erp.bd_laundry_invoices_v1 set status='POSTED',journal_id=$2 where id=$1`, [id, jid])
  return id
 }
@@ -117,6 +117,43 @@ await test('local SQL contract with Native test doubles', async t => {
   await q(`insert into erp.journal_entries values($1,'UNLINKED',$2,'POSTED',current_date,current_date,null)`, [id, randomUUID()])
   await q(`insert into erp.journal_lines(journal_entry_id,account_id,vendor_id,debit,credit)values($1,$2,$3,1,0),($1,$2,$3,0,1)`, [id, ar, vendor])
   await assert.rejects(one('select cp7_vendor_receivable.prove_v1($1)', [vendor]), /MATERIALIZATION_UNPROVEN/)
+ }))
+ await t.test('assigned AR account rejects an unassigned vendor journal even when the vendor total matches', () => isolated(async () => {
+  await createSource('100.00')
+  await one(`select erp.post_journal('MANUAL',$1,current_date,'unassigned vendor',$2)`, [randomUUID(), JSON.stringify([
+   { account_id: ar, debit: '1.00', credit: '0.00' }, { account_id: cost, debit: '0.00', credit: '1.00' },
+  ])])
+  assert.equal(await one('select sum(debit-credit)::text from erp.journal_lines where account_id=$1', [ar]), '101.00')
+  await assert.rejects(one('select cp7_vendor_receivable.prove_v1($1)', [vendor]), /MATERIALIZATION_UNPROVEN/)
+ }))
+ await t.test('zero-net unassigned vendor lines still fail provenance', () => isolated(async () => {
+  await createSource('100.00')
+  await one(`select erp.post_journal('MANUAL',$1,current_date,'zero net unassigned vendor',$2)`, [randomUUID(), JSON.stringify([
+   { account_id: ar, debit: '1.00', credit: '0.00' }, { account_id: ar, debit: '0.00', credit: '1.00' },
+  ])])
+  assert.equal(await one('select sum(debit-credit)::text from erp.journal_lines where account_id=$1', [ar]), '100.00')
+  await assert.rejects(one('select cp7_vendor_receivable.prove_v1($1)', [vendor]), /MATERIALIZATION_UNPROVEN/)
+ }))
+ await t.test('vendor without an account source cannot hide an unrelated AR posting', () => isolated(async () => {
+  await createSource('100.00')
+  await one(`select erp.post_journal('MANUAL',$1,current_date,'unregistered vendor',$2)`, [randomUUID(), JSON.stringify([
+   { account_id: ar, vendor_id: randomUUID(), debit: '1.00', credit: '0.00' }, { account_id: cost, debit: '0.00', credit: '1.00' },
+  ])])
+  await assert.rejects(one('select cp7_vendor_receivable.prove_v1($1)', [vendor]), /MATERIALIZATION_UNPROVEN/)
+ }))
+ await t.test('two registered vendors can share one dedicated AR account', () => isolated(async () => {
+  const otherVendor = randomUUID()
+  await createSource('100.00'); await createSource('50.00', otherVendor)
+  await one('select cp7_vendor_receivable.prove_v1($1)', [vendor])
+  await one('select cp7_vendor_receivable.prove_v1($1)', [otherVendor])
+  assert.equal(await one('select sum(debit-credit)::text from erp.journal_lines where account_id=$1', [ar]), '150.00')
+ }))
+ await t.test('unrelated postings outside assigned AR accounts remain outside this detector', () => isolated(async () => {
+  await createSource('100.00')
+  await one(`select erp.post_journal('MANUAL',$1,current_date,'unrelated account',$2)`, [randomUUID(), JSON.stringify([
+   { account_id: cost, debit: '1.00', credit: '0.00' }, { account_id: cost, debit: '0.00', credit: '1.00' },
+  ])])
+  await one('select cp7_vendor_receivable.prove_v1($1)', [vendor])
  }))
 })
 await db.close()

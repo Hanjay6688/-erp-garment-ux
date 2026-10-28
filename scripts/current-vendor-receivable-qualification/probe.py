@@ -1,4 +1,4 @@
-"""Vendor receivable Native successor over exact backend3194; full restoration.
+"""Vendor combined11: fresh Native7, race3, AuthHTTP1; full restoration.
 
 Six earlier PASS groups remain explicitly retained, never relabeled as fresh.
 """
@@ -27,7 +27,7 @@ from cp7_catalog_state import exact_public_catalog
 control=chain.helper.control
 previous,native,package,core,p09=chain.previous,control.native,chain.package,chain.core,chain.p09
 IDS=(runner.CASE,)
-LABEL='CP7_VENDOR_RECEIVABLE_NATIVE7'
+LABEL='CP7_VENDOR_RECEIVABLE_COMBINED11'
 PRE_DUMP='/tmp/current_vendor_receivable_pre.dump'
 database,drill,dump=current_native.database,current_native.drill,current_native.dump
 sql=current_native.sql
@@ -150,8 +150,12 @@ def run_inner():
         if not report.get('error')and report.get('cp6_restored')and report.get('advisor_gate')and report.get('baseline_full22_all_rows_all_sequences_equal')and report.get('focused_preuse_removal')and report['required_case_ids_pass']and report.get('used_guard_refused_before_DDL'):
             report['status']='PASS'
             report['actual_cron_claim']=False
-            report['actual_two_session_races']=0
+            report['actual_two_session_races']=3
             report['actual_Native_cases']=7
+            report['actual_Auth_HTTP_cases']=1
+            report['actual_browser_cases']=0
+            report['actual_business_cases']=11
+            report['real_Auth_HTTP_qualified']=True
             report['combined_component_qualified']=False
             report['focused_factory_closure']=False
             report['performance_qualification']=False

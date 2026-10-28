@@ -150,14 +150,30 @@ def cases(cur,today):
 
     def provenance():
         f=fixture(cur,today);correction(cur,f)
-        bd.api.admin(cur);cur.execute('savepoint vendor_ar_unlinked')
-        try:
-            import cp7_finance_analysis_cases as journals
-            journals.journal(cur,today,[dict(account_id=f['ar'],vendor_id=f['vendor'],debit='1.00'),dict(account_id=f['ar'],vendor_id=f['vendor'],credit='1.00')],'OW08b explicit unrelated zero-net sensitivity')
-            detected=bd.refused(cur,lambda:one(cur,'select cp7_vendor_receivable.prove_v1(%s)',f['vendor']),'CP7_VENDOR_RECEIVABLE_MATERIALIZATION_UNPROVEN')
-            assert detected['ok'],detected
-        finally:cur.execute('rollback to vendor_ar_unlinked');bd.api.admin(cur)
-        assert screen(cur,f)['ledger']['matches']
-        return dict(status='PASS',zero_net_unrelated_lines_detected=detected,control_rolled_back=True)
+        # A shared dedicated account remains valid for two registered vendors.
+        other=fixture(cur,today);other['ar']=f['ar'];correction(cur,other)
+        assert screen(cur,f)['ledger']['matches']and screen(cur,other)['ledger']['matches']
+        bd.api.admin(cur);orphan_vendor=str(uuid.uuid4())
+        cur.execute("insert into erp.laundry_vendors(id,vendor_code,vendor_name,is_active)values(%s,%s,'OW08b unregistered AR source vendor',true)",(orphan_vendor,'VAR'+uuid.uuid4().hex[:12]))
+        plans=[
+            ('SAME_VENDOR_ZERO_NET',[dict(account_id=f['ar'],vendor_id=f['vendor'],debit='1.00'),dict(account_id=f['ar'],vendor_id=f['vendor'],credit='1.00')]),
+            ('NO_VENDOR_NONZERO',[dict(account_id=f['ar'],debit='1.00'),dict(mapping_key='WIP',credit='1.00')]),
+            ('NO_VENDOR_ZERO_NET',[dict(account_id=f['ar'],debit='1.00'),dict(account_id=f['ar'],credit='1.00')]),
+            ('UNREGISTERED_VENDOR_ZERO_NET',[dict(account_id=f['ar'],vendor_id=orphan_vendor,debit='1.00'),dict(account_id=f['ar'],vendor_id=orphan_vendor,credit='1.00')]),
+        ]
+        import cp7_finance_analysis_cases as journals
+        controls={}
+        for name,lines in plans:
+            bd.api.admin(cur);cur.execute('savepoint vendor_ar_unlinked')
+            try:
+                journal=journals.journal(cur,today,lines,'OW08b explicit unrelated sensitivity '+name)
+                detected=bd.refused(cur,lambda:one(cur,'select cp7_vendor_receivable.prove_v1(%s)',f['vendor']),'CP7_VENDOR_RECEIVABLE_MATERIALIZATION_UNPROVEN')
+                assert detected['ok'],dict(control=name,observed=detected)
+                controls[name]=dict(detected,journal_id=journal)
+            finally:
+                cur.execute('rollback to vendor_ar_unlinked');cur.execute('release savepoint vendor_ar_unlinked');bd.api.admin(cur)
+            assert screen(cur,f)['ledger']['matches']and screen(cur,other)['ledger']['matches']
+        return dict(status='PASS',zero_net_unrelated_lines_detected=controls['SAME_VENDOR_ZERO_NET'],
+            unlinked_controls=controls,shared_registered_account_remains_valid=True,control_rolled_back=True)
 
     return list(zip(IDS,(paid_hpp,unpaid,next_invoice,replay_inverse,refusals,opening,provenance)))

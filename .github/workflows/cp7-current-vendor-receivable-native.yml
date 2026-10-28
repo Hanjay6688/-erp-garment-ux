@@ -1,8 +1,8 @@
-name: CP7 vendor receivable Native successor
+name: CP7 vendor combined Native7 race3 AuthHTTP1
 'on':
   push:
     branches:
-    - astra-a/ow08b-vendor-native-utc-successor-20261029
+    - astra-a/ow08b-vendor-combined-qualification-20261029
     paths:
     - .github/workflows/cp7-current-vendor-receivable-native.yml
     - scripts/current-vendor-receivable-qualification/**
@@ -15,7 +15,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   p21:
-    name: CP7 vendor Native7 UTC observer and complete restore
+    name: CP7 vendor combined11 and complete restore
     runs-on: ubuntu-24.04
     timeout-minutes: 120
     env:
@@ -51,8 +51,8 @@ jobs:
     - name: Select exact qualified prerequisite heads
       id: qualified_heads
       working-directory: auditor
-      run: "python - <<'PY'\nimport json,os\np=json.load(open('scripts/current-versioned-performance-native-qualification/SOURCE.json'))\nwith\
-        \ open(os.environ['GITHUB_OUTPUT'],'a')as f:\n f.write('native='+p['frozen_declaration']['head']+'\\n')\n f.write('B='+p['B_frozen_head']+'\\\
+      run: "python - <<'PY'\nimport json,os\np=json.load(open('scripts/current-versioned-performance-native-qualification/SOURCE.json'))\n\
+        with open(os.environ['GITHUB_OUTPUT'],'a')as f:\n f.write('native='+p['frozen_declaration']['head']+'\\n')\n f.write('B='+p['B_frozen_head']+'\\\
         n')\nPY\n"
     - name: Materialize every exact frozen source from one full checkout
       working-directory: auditor
@@ -68,15 +68,16 @@ jobs:
         python-version: '3.12'
     - name: Install pinned disposable runtime
       shell: bash
-      run: "set -euo pipefail\npython -m pip install --quiet 'psycopg[binary]==3.2.10' 'PyYAML==6.0.2' 'jsonschema==4.25.1'\nsudo apt-get update\
-        \ -qq\nsudo apt-get install -y -qq ca-certificates curl gnupg\nsudo install -d /usr/share/postgresql-common/pgdg\nsudo curl --fail --silent\
-        \ --show-error \\\n  -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc \\\n  https://www.postgresql.org/media/keys/ACCC4CF8.asc\n\
-        key_fingerprint=\"$(gpg --show-keys --with-colons \\\n  /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc \\\n  | awk -F: '$1 ==\
-        \ \"fpr\" { print $10; exit }')\"\ntest \"$key_fingerprint\" = 'B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8'\n. /etc/os-release\narchitecture=\"\
-        $(dpkg --print-architecture)\"\nsudo tee /etc/apt/sources.list.d/pgdg.sources >/dev/null <<EOF\nTypes: deb\nURIs: https://apt.postgresql.org/pub/repos/apt\n\
-        Suites: ${VERSION_CODENAME}-pgdg\nArchitectures: ${architecture}\nComponents: main\nSigned-By: /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc\n\
-        EOF\nsudo apt-get update -qq\nsudo apt-get install -y -qq postgresql-client-17\ntest -x /usr/lib/postgresql/17/bin/psql\necho '/usr/lib/postgresql/17/bin'\
-        \ >> \"$GITHUB_PATH\"\n"
+      run: "set -euo pipefail\npython -m pip install --quiet 'psycopg[binary]==3.2.10' 'PyYAML==6.0.2' 'jsonschema==4.25.1'\n\
+        sudo apt-get update -qq\nsudo apt-get install -y -qq ca-certificates curl gnupg\nsudo install -d /usr/share/postgresql-common/pgdg\n\
+        sudo curl --fail --silent --show-error \\\n  -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc \\\n  https://www.postgresql.org/media/keys/ACCC4CF8.asc\n\
+        key_fingerprint=\"$(gpg --show-keys --with-colons \\\n  /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc \\\
+        \n  | awk -F: '$1 == \"fpr\" { print $10; exit }')\"\ntest \"$key_fingerprint\" = 'B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8'\n\
+        . /etc/os-release\narchitecture=\"$(dpkg --print-architecture)\"\nsudo tee /etc/apt/sources.list.d/pgdg.sources >/dev/null\
+        \ <<EOF\nTypes: deb\nURIs: https://apt.postgresql.org/pub/repos/apt\nSuites: ${VERSION_CODENAME}-pgdg\nArchitectures:\
+        \ ${architecture}\nComponents: main\nSigned-By: /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc\nEOF\nsudo\
+        \ apt-get update -qq\nsudo apt-get install -y -qq postgresql-client-17\ntest -x /usr/lib/postgresql/17/bin/psql\n\
+        echo '/usr/lib/postgresql/17/bin' >> \"$GITHUB_PATH\"\n"
     - name: Preserve transient artifact download failures and retry only bounded GETs
       working-directory: auditor
       shell: bash
@@ -184,37 +185,40 @@ jobs:
       working-directory: auditor
       env:
         GH_TOKEN: ${{ github.token }}
-      run: "set -euo pipefail\npython - <<'PYCODE'\nimport hashlib,io,json,os,subprocess,zipfile\nfrom pathlib import Path\nraw=subprocess.check_output(['gh','api','repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12554390190/zip'])\n\
-        assert len(raw)==1943043 and hashlib.sha256(raw).hexdigest()=='bfa2b2384ea5628c63822eb2d43b981c1b4a11d30802e5496ddbd5f504a59896'\nwith\
-        \ zipfile.ZipFile(io.BytesIO(raw))as z:\n names=[n for n in z.namelist()if n=='CP7_CURRENT_CP6_CONTRACT_NATIVE6.json']\n assert len(names)==1\n\
-        \ original=z.read(names[0])\nassert len(original)==2741967 and hashlib.sha256(original).hexdigest()=='25be83a8e79dc1073da1daeb1c47c39d987838932c8405ff11ccd9b78336b55a'\n\
+      run: "set -euo pipefail\npython - <<'PYCODE'\nimport hashlib,io,json,os,subprocess,zipfile\nfrom pathlib import Path\n\
+        raw=subprocess.check_output(['gh','api','repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12554390190/zip'])\nassert\
+        \ len(raw)==1943043 and hashlib.sha256(raw).hexdigest()=='bfa2b2384ea5628c63822eb2d43b981c1b4a11d30802e5496ddbd5f504a59896'\n\
+        with zipfile.ZipFile(io.BytesIO(raw))as z:\n names=[n for n in z.namelist()if n=='CP7_CURRENT_CP6_CONTRACT_NATIVE6.json']\n\
+        \ assert len(names)==1\n original=z.read(names[0])\nassert len(original)==2741967 and hashlib.sha256(original).hexdigest()=='25be83a8e79dc1073da1daeb1c47c39d987838932c8405ff11ccd9b78336b55a'\n\
         d=json.loads(original)\nassert d['status']=='INCOMPLETE' and d['baseline']['counts']=={'PASS':6} and d['native']['counts']=={'PASS':5,'INCOMPLETE':1}\n\
         out=Path(os.environ['RUNNER_TEMP'])/'DRAFT_RETURN_COUNTEREXAMPLE_ORIGINAL.json';out.write_bytes(original)\nwith open(os.environ['GITHUB_ENV'],'a')as\
-        \ f:f.write('DRAFT_RETURN_COUNTEREXAMPLE_ORIGINAL_REPORT='+str(out)+'\\n')\nprint('Actual immutable draft-return counterexample Original\
-        \ verified')\nPYCODE\n"
+        \ f:f.write('DRAFT_RETURN_COUNTEREXAMPLE_ORIGINAL_REPORT='+str(out)+'\\n')\nprint('Actual immutable draft-return counterexample\
+        \ Original verified')\nPYCODE\n"
     - name: Verify actual Native32 closure and used restore8 PASS Originals before DB
       working-directory: auditor
       env:
         GH_TOKEN: ${{ github.token }}
-      run: "set -euo pipefail\npython - <<'PYCODE'\nimport hashlib,io,json,os,subprocess,zipfile\nfrom pathlib import Path\nproofs={'DRAFT_RETURN_CLOSURE_ORIGINAL_REPORT':\
-        \ {'artifact': 12555491670, 'zip_bytes': 3341211, 'zip_sha256': 'a19f9aa888529783737f4418df10330ba555f3447340a0e1684ac4c0aa9c928c', 'name':\
-        \ 'CP7_DRAFT_RETURN_CLOSURE_NATIVE32.json', 'bytes': 16090323, 'sha256': '7085322d357c37c776015a718a06b2859dd6f38ffdf75b6d28d9a88631f2e066'},\
+      run: "set -euo pipefail\npython - <<'PYCODE'\nimport hashlib,io,json,os,subprocess,zipfile\nfrom pathlib import Path\n\
+        proofs={'DRAFT_RETURN_CLOSURE_ORIGINAL_REPORT': {'artifact': 12555491670, 'zip_bytes': 3341211, 'zip_sha256': 'a19f9aa888529783737f4418df10330ba555f3447340a0e1684ac4c0aa9c928c',\
+        \ 'name': 'CP7_DRAFT_RETURN_CLOSURE_NATIVE32.json', 'bytes': 16090323, 'sha256': '7085322d357c37c776015a718a06b2859dd6f38ffdf75b6d28d9a88631f2e066'},\
         \ 'DRAFT_RETURN_RESTORED_ORIGINAL_REPORT': {'artifact': 12555745676, 'zip_bytes': 3722714, 'zip_sha256': 'aebab9db100cca395dd900160bd05ede3f05328c85346a99dbe2750fdfeffb0f',\
         \ 'name': 'CP7_DRAFT_RETURN_RESTORED.json', 'bytes': 855544, 'sha256': '503536b4d282052aa6e99906db5bb95821e528746a29dadc3e938b8c5e785681'}}\n\
         for variable,p in proofs.items():\n raw=subprocess.check_output(['gh','api',f\"repos/Hanjay6688/-erp-garment-ux/actions/artifacts/{p['artifact']}/zip\"\
-        ])\n assert len(raw)==p['zip_bytes']and hashlib.sha256(raw).hexdigest()==p['zip_sha256']\n with zipfile.ZipFile(io.BytesIO(raw))as z:original=z.read(p['name'])\n\
-        \ assert len(original)==p['bytes']and hashlib.sha256(original).hexdigest()==p['sha256']\n d=json.loads(original);assert d['status']=='PASS'and\
-        \ d['cp6_restored']and d['baseline_advisors_equal']\n out=Path(os.environ['RUNNER_TEMP'])/p['name'];out.write_bytes(original)\n with open(os.environ['GITHUB_ENV'],'a')as\
-        \ f:f.write(variable+'='+str(out)+'\\n')\n print(variable+' actual raw PASS Original verified')\nPYCODE\n"
+        ])\n assert len(raw)==p['zip_bytes']and hashlib.sha256(raw).hexdigest()==p['zip_sha256']\n with zipfile.ZipFile(io.BytesIO(raw))as\
+        \ z:original=z.read(p['name'])\n assert len(original)==p['bytes']and hashlib.sha256(original).hexdigest()==p['sha256']\n\
+        \ d=json.loads(original);assert d['status']=='PASS'and d['cp6_restored']and d['baseline_advisors_equal']\n out=Path(os.environ['RUNNER_TEMP'])/p['name'];out.write_bytes(original)\n\
+        \ with open(os.environ['GITHUB_ENV'],'a')as f:f.write(variable+'='+str(out)+'\\n')\n print(variable+' actual raw PASS\
+        \ Original verified')\nPYCODE\n"
     - name: Verify actual composed return8 and B choice6 PASS Original bytes before DB
       env:
         GH_TOKEN: ${{ github.token }}
       run: "python - <<'PYFETCH'\nimport os,subprocess,hashlib,zipfile,io,pathlib\nproofs=[('COMPOSED_RETURN_ORIGINAL_REPORT',12556450449,3814659,'bfb45063e0f008f1662158d30526d35337b155dc3259e909484f5e7f5ec8f06f','CP7_CURRENT_RETURN_INSTALLATION_RESTORE.json',1133688,'8cd8d526218c2e6336c4d3c60cc540767469a13617ed610d05536001a787c59f'),('ANALOG_CHOICE_ORIGINAL_REPORT',12557970850,203858,'fad982ba07a86f471bd6118b17c59f21d1555007d1a19d2a24f6d5d696e40696','CP7_OW11_ANALOG_CHOICE.json',1824516,'34b3d68b042069d4248719952e883a858ddcab342146cfd543298be8ccab7fbf')]\n\
         for variable,artifact,size,digest,name,raw_size,raw_digest in proofs:\n data=subprocess.check_output(['gh','api',f'repos/Hanjay6688/-erp-garment-ux/actions/artifacts/{artifact}/zip'])\n\
-        \ assert len(data)==size and hashlib.sha256(data).hexdigest()==digest\n with zipfile.ZipFile(io.BytesIO(data))as z:\n  assert z.testzip()is\
-        \ None\n  paths=[n for n in z.namelist()if n.rsplit('/',1)[-1]==name];assert len(paths)==1\n  raw=z.read(paths[0])\n assert len(raw)==raw_size\
-        \ and hashlib.sha256(raw).hexdigest()==raw_digest\n path=pathlib.Path(os.environ['RUNNER_TEMP'])/name;path.write_bytes(raw)\n with open(os.environ['GITHUB_ENV'],'a')as\
-        \ env:env.write(variable+'='+str(path)+'\\n')\n print(variable,artifact,raw_size,raw_digest,flush=True)\nPYFETCH\n"
+        \ assert len(data)==size and hashlib.sha256(data).hexdigest()==digest\n with zipfile.ZipFile(io.BytesIO(data))as z:\n\
+        \  assert z.testzip()is None\n  paths=[n for n in z.namelist()if n.rsplit('/',1)[-1]==name];assert len(paths)==1\n\
+        \  raw=z.read(paths[0])\n assert len(raw)==raw_size and hashlib.sha256(raw).hexdigest()==raw_digest\n path=pathlib.Path(os.environ['RUNNER_TEMP'])/name;path.write_bytes(raw)\n\
+        \ with open(os.environ['GITHUB_ENV'],'a')as env:env.write(variable+'='+str(path)+'\\n')\n print(variable,artifact,raw_size,raw_digest,flush=True)\n\
+        PYFETCH\n"
     - name: Admit first failed analog Original before DB
       working-directory: auditor
       env:
@@ -366,11 +370,16 @@ jobs:
       run: "set -euo pipefail\npython - <<'INNER'\nfrom pathlib import Path\nfrom hashlib import sha256\nimport json,os,subprocess,zipfile,io\n\
         root=Path(os.environ['RUNNER_TEMP'])/'return-race-originals';root.mkdir()\ncfg=json.loads(Path('scripts/current-vendor-receivable-qualification/CONFIG.json').read_bytes())\n\
         for kind in ('backend_original','first_failure_original'):\n p=cfg[kind];prefix='repos/Hanjay6688/-erp-garment-ux/actions/artifacts/'+str(p['artifact_id'])\n\
-        \ a=json.loads(subprocess.check_output(['gh','api',prefix]));assert a['workflow_run']['id']==p['run_id']and not a['expired']\n raw=subprocess.check_output(['gh','api',prefix+'/zip'])\n\
-        \ assert len(raw)==a['size_in_bytes']and 'sha256:'+sha256(raw).hexdigest()==a['digest']\n (root/(str(p['artifact_id'])+'.zip')).write_bytes(raw)\n\
-        \ with zipfile.ZipFile(io.BytesIO(raw))as z:\n  assert z.testzip()is None;data=z.read(p['name'])\n assert len(data)==p['bytes']and sha256(data).hexdigest()==p['sha256']\n\
-        \ (root/p['name']).write_bytes(data)\nwith open(os.environ['GITHUB_ENV'],'a')as f:f.write('CP7_VENDOR_BACKEND_ORIGINALS='+str(root)+'\\\
-        n')\nINNER\n"
+        \ a=json.loads(subprocess.check_output(['gh','api',prefix]));assert a['workflow_run']['id']==p['run_id']and not a['expired']\n\
+        \ raw=subprocess.check_output(['gh','api',prefix+'/zip'])\n assert len(raw)==a['size_in_bytes']and 'sha256:'+sha256(raw).hexdigest()==a['digest']\n\
+        \ (root/(str(p['artifact_id'])+'.zip')).write_bytes(raw)\n with zipfile.ZipFile(io.BytesIO(raw))as z:\n  assert z.testzip()is\
+        \ None;data=z.read(p['name'])\n assert len(data)==p['bytes']and sha256(data).hexdigest()==p['sha256']\n (root/p['name']).write_bytes(data)\n\
+        with open(os.environ['GITHUB_ENV'],'a')as f:f.write('CP7_VENDOR_BACKEND_ORIGINALS='+str(root)+'\\n')\nINNER\n"
+    - name: Bind complete actual observer Native7 and all five package gates before database
+      working_directory: auditor
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: python scripts/current-vendor-receivable-followup/fetch_native.py
     - name: Check vendor qualification syntax
       working-directory: auditor
       run: python -c "import ast,pathlib;[ast.parse(p.read_text()) for p in pathlib.Path('scripts/cp7_vendor_receivable').glob('*.py')]"
@@ -424,43 +433,47 @@ jobs:
         GH_TOKEN: ${{ github.token }}
       shell: bash
       run: "set -euo pipefail\nexport CP6_AC_WRITER_ARTIFACT=\"$RUNNER_TEMP/ac-native200.zip\"\ngh api repos/Hanjay6688/-erp-garment-ux/actions/artifacts/10392910720/zip\
-        \ \\\n  > \"$CP6_AC_WRITER_ARTIFACT\" || { rm -f \"$CP6_AC_WRITER_ARTIFACT\"; echo 'AC writer artifact 10392910720 unavailable (kept 30\
-        \ days, expired 15 Oct 2026, owner D14-17); cp6_pre_u_inventory captures the pre-U table set before U'; }\nmkdir -p ../auditor/cp6-proof/t3\n\
-        status=0\nPYTHONPATH=scripts python ../auditor/scripts/cp6_t3_aligned_chain.py ../auditor/cp6-proof/t3/ALIGNED_CHAIN.json --stop-after-ab\
-        \ || status=$?\npython - <<'PY'\nimport json\nd=json.load(open('../auditor/cp6-proof/t3/ALIGNED_CHAIN.json'))\nprint(json.dumps({k:d.get(k)\
-        \ for k in ('status','refused_step','alignment')},default=str)[:6000])\nprint(json.dumps([(s['name'],s['exit_code'],s['after_alignment'])\
+        \ \\\n  > \"$CP6_AC_WRITER_ARTIFACT\" || { rm -f \"$CP6_AC_WRITER_ARTIFACT\"; echo 'AC writer artifact 10392910720\
+        \ unavailable (kept 30 days, expired 15 Oct 2026, owner D14-17); cp6_pre_u_inventory captures the pre-U table set\
+        \ before U'; }\nmkdir -p ../auditor/cp6-proof/t3\nstatus=0\nPYTHONPATH=scripts python ../auditor/scripts/cp6_t3_aligned_chain.py\
+        \ ../auditor/cp6-proof/t3/ALIGNED_CHAIN.json --stop-after-ab || status=$?\npython - <<'PY'\nimport json\nd=json.load(open('../auditor/cp6-proof/t3/ALIGNED_CHAIN.json'))\n\
+        print(json.dumps({k:d.get(k) for k in ('status','refused_step','alignment')},default=str)[:6000])\nprint(json.dumps([(s['name'],s['exit_code'],s['after_alignment'])\
         \ for s in d['steps']])[:6000])\nPY\nexit \"$status\"\n"
     - name: Provision isolated rollback authority
       working-directory: writer
       shell: bash
       run: "set -euo pipefail\nmaintenance_password=\"$(openssl rand -hex 32)\"\nmaintenance_pgurl=\"postgresql://cp6_maintenance_admission:${maintenance_password}@127.0.0.1:54322/template1\"\
-        \necho \"::add-mask::$maintenance_password\"\necho \"::add-mask::$maintenance_pgurl\"\ndocker exec -i \"$CP6_DATABASE_CONTAINER\" \\\n\
-        \  psql -U supabase_admin -d template1 -X -v ON_ERROR_STOP=1 \\\n    -v cp6_password=\"$maintenance_password\" <<'SQL'\ncreate role cp6_maintenance_admission\n\
-        \  login superuser noinherit nocreatedb nocreaterole noreplication\n  connection limit 4 password :'cp6_password';\nSQL\nprintf 'CP6_ADMISSION_CONTROL_PGURL=%s\\\
-        n' \"$maintenance_pgurl\" >> \"$GITHUB_ENV\"\n"
+        \necho \"::add-mask::$maintenance_password\"\necho \"::add-mask::$maintenance_pgurl\"\ndocker exec -i \"$CP6_DATABASE_CONTAINER\"\
+        \ \\\n  psql -U supabase_admin -d template1 -X -v ON_ERROR_STOP=1 \\\n    -v cp6_password=\"$maintenance_password\"\
+        \ <<'SQL'\ncreate role cp6_maintenance_admission\n  login superuser noinherit nocreatedb nocreaterole noreplication\n\
+        \  connection limit 4 password :'cp6_password';\nSQL\nprintf 'CP6_ADMISSION_CONTROL_PGURL=%s\\n' \"$maintenance_pgurl\"\
+        \ >> \"$GITHUB_ENV\"\n"
     - name: Clone the aligned AB state for install
       working-directory: writer
       run: "set -euo pipefail\nmkdir -p '../auditor/cp6-proof/t3'\nbash scripts/clone-cp6-disposable-database.sh \\\n  'postgresql://postgres:postgres@127.0.0.1:54322/postgres'\
         \ \\\n  'postgresql://postgres:postgres@127.0.0.1:54322/template1' \\\n  'postgresql://postgres:postgres@127.0.0.1:54322/cp6_rollback'\
         \ \\\n  cp6_rollback supabase_db_cp5-local '../auditor/cp6-proof/t3/CLONE_install'\n"
-    - name: Run Native vendor receivable cases and complete restoration
+    - name: Run fresh Native7 then actual race3 AuthHTTP1 and complete restoration
       working-directory: writer
       run: python '../auditor/scripts/current-vendor-receivable-qualification/probe.py'
     - name: Preserve exact original JSON report bytes in a bounded compressed log receipt
       if: always()
       working-directory: auditor
-      run: "python - <<'PY'\nimport base64,gzip,hashlib,json\nfrom pathlib import Path\nroot=Path('cp6-proof/t3')\nfor name in ('CP7_VENDOR_RECEIVABLE_NATIVE7.json','T3_PACKAGE_INSTALL.json','T3_BACKUP_RESTORE_DRILL.json','T3_PACKAGE_FILES_INSTALL.json'):\n\
-        \    path=root/name\n    if not path.is_file():\n        continue\n    raw=path.read_bytes();packed=gzip.compress(raw,mtime=0)\n    print(json.dumps(dict(ow04_original_report_bytes=True,name=name,raw_bytes=len(raw),\n\
-        \        raw_sha256=hashlib.sha256(raw).hexdigest(),gzip_bytes=len(packed),\n        gzip_sha256=hashlib.sha256(packed).hexdigest(),\n\
-        \        gzip_base64=base64.b64encode(packed).decode('ascii'))),flush=True)\nPY\n"
+      run: "python - <<'PY'\nimport base64,gzip,hashlib,json\nfrom pathlib import Path\nroot=Path('cp6-proof/t3')\nfor name\
+        \ in ('CP7_VENDOR_RECEIVABLE_COMBINED11.json','T3_PACKAGE_INSTALL.json','T3_BACKUP_RESTORE_DRILL.json','T3_PACKAGE_FILES_INSTALL.json'):\n\
+        \    path=root/name\n    if not path.is_file():\n        continue\n    raw=path.read_bytes();packed=gzip.compress(raw,mtime=0)\n\
+        \    print(json.dumps(dict(ow04_original_report_bytes=True,name=name,raw_bytes=len(raw),\n        raw_sha256=hashlib.sha256(raw).hexdigest(),gzip_bytes=len(packed),\n\
+        \        gzip_sha256=hashlib.sha256(packed).hexdigest(),\n        gzip_base64=base64.b64encode(packed).decode('ascii'))),flush=True)\n\
+        PY\n"
     - name: Remove disposable database
       if: always()
       working-directory: base
-      run: if command -v supabase >/dev/null 2>&1 && test -d cp5-local; then supabase stop --workdir cp5-local --no-backup; fi
+      run: if command -v supabase >/dev/null 2>&1 && test -d cp5-local; then supabase stop --workdir cp5-local --no-backup;
+        fi
     - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
       if: always()
       with:
-        name: cp7-vendor-receivable-native7-${{ github.run_attempt }}
+        name: cp7-vendor-receivable-combined11-${{ github.run_attempt }}
         path: auditor/cp6-proof/t3
         retention-days: 30
         if-no-files-found: error

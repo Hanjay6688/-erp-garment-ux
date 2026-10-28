@@ -1,0 +1,13 @@
+{
+  "scope": "LOCAL_REAL_PROVENANCE_FUNCTION_WITH_NATIVE_WRITER_DOUBLE_NOT_NATIVE_QUALIFICATION",
+  "orphan_journal": "f053e5f9-b67f-4938-b9c8-a5bb5474a43c",
+  "fullAccountBalance": "101.00",
+  "eligibleAfter": false,
+  "orphanVendorProvenanceRefused": false,
+  "error": null,
+  "status": "LOCAL_DETECTOR_GAP_REPRODUCED_NOT_NATIVE",
+  "expectation": "Assigned AR posting without a registered vendor source must be refused by provenance proof",
+  "first_failure_preserved": true,
+  "production_go": false,
+  "independent_acceptance": false
+}

@@ -142,7 +142,10 @@ begin
   select e.account_id,e.vendor_id,j.id,-e.delta from expected e join erp.journal_entries j on j.reversal_of_id=e.journal_id),
  observed as(select l.account_id,l.vendor_id,l.journal_entry_id,sum(l.debit-l.credit)delta,count(*)n
   from erp.journal_lines l join erp.journal_entries j on j.id=l.journal_entry_id
-  where l.vendor_id=p_vendor and j.status in('POSTED','REVERSED')
+  where (l.vendor_id=p_vendor or not exists(
+    select 1 from cp7_vendor_receivable.sources_v1 owner_source
+    where owner_source.account_id=l.account_id and owner_source.vendor_id=l.vendor_id))
+   and j.status in('POSTED','REVERSED')
    and l.account_id in(select account_id from cp7_vendor_receivable.sources_v1 where vendor_id=p_vendor)
   group by l.account_id,l.vendor_id,l.journal_entry_id)
  select 1 from expanded e full join observed o on o.account_id=e.account_id and o.vendor_id=e.vendor_id and o.journal_entry_id=e.journal_id
