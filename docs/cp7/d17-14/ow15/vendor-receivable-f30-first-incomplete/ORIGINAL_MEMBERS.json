@@ -1,0 +1,34 @@
+{
+  "status": "ORIGINAL_BYTES_PRESERVED",
+  "artifact_id": 12842526926,
+  "members": [
+    {
+      "name": "CP7_VENDOR_RECEIVABLE_NATIVE7.json",
+      "bytes": 3311395,
+      "sha256": "3c65d4249c43c7b1d3df3bf2c913a63f050aad488feb4deb5600208dd51129ce",
+      "gzip_bytes": 338889,
+      "gzip_sha256": "aeee2bdef21803246abfac474ada1e17be1b5d7a57dd51114e280f9b5deef916"
+    },
+    {
+      "name": "T3_PACKAGE_INSTALL.json",
+      "bytes": 360422,
+      "sha256": "c19c357173eaad64e6dc676d36a02f9b72d541ecce3336495e3fb8aaeed49e1e",
+      "gzip_bytes": 11365,
+      "gzip_sha256": "c9f23a45dfd3aba3bb6efb1e18ac58b4c2e5a299ab0c06637f96f1c38392c9fa"
+    },
+    {
+      "name": "T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 1470,
+      "sha256": "e0a9ca82a273b1e8eb37e4bccc080fd2e7df8042d6eee9b4eed8b6585d457e47",
+      "gzip_bytes": 646,
+      "gzip_sha256": "c80c58807c93dc71bea35a877d87114b796c2269b7f91af50b12fea9a21a1318"
+    },
+    {
+      "name": "T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "gzip_bytes": 255,
+      "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7"
+    }
+  ]
+}

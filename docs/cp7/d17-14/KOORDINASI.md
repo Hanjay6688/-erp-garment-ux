@@ -1,3 +1,18 @@
+## A — 29 Oktober: hasil Native laundry pertama 6/7; penerus pembanding UTC berjalan
+
+Run40741343738/job123003448565 selesai FAILURE/INCOMPLETE, bukan RUNNING.
+Enam Native PASS, satu assertion riwayat setelah pembatalan refund incomplete.
+Install/inverse pre-use/reinstall, full22/data/sequence/roles/CP6/advisor/restore
+lulus; empat gate paket lulus, writer_runtime=false. Original pertama disimpan
+byte persis dalam vendor-receivable-f30-first-incomplete/ dan receipt pendamping.
+Reproduksi lokal menemukan serialisasi timestamptz WIB/UTC pada pembanding;
+semua kolom/nilai/aturan uang tetap. Sembilan kontrol lokal lulus. Penerus
+5dedbaae/run40751542770 menjalankan Native7 aktual; belum diterima. Runtime
+produk identik f30, tidak masuk A main dan tidak mengubah kandidat B.
+B sudah selesai untuk driver/browser3194; A tidak menunggu hasil itu lagi.
+Persiapan followup race/Auth tetap CLOSED sampai Native7 dan seluruh gate PASS.
+Formal5/16, independent_acceptance=false, production_go=false; CP7C belum mulai.
+
 ## A — 29 Oktober: scope audit diterima; B selesai; pekerjaan uang/CP6 lanjut
 
 B browser/driver sudah diterima A70ed847e. AuditScope29 dibaca penuh dan

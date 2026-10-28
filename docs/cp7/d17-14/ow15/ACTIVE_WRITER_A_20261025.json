@@ -8,7 +8,12 @@
   "formal_accepted": "5/16",
   "production_go": false,
   "independent_acceptance": false,
-  "running": null,
+  "running": {
+    "head": "5dedbaae47eb4b3b23b54da94605f7d940f0ca22",
+    "run_id": 40751542770,
+    "kind": "VENDOR_RECEIVABLE_NATIVE7_UTC_OBSERVER_SUCCESSOR",
+    "status": "RUNNING_NOT_ACCEPTED"
+  },
   "actual_new_component": {
     "name": "CP7_OW11_MODEL_TARGET_SOURCE_V2.json",
     "status": "PASS",
@@ -19346,7 +19351,7 @@
     "vendor_owner_decision": "BOTH_NEXT_INVOICE_AND_CASH_BANK_REFUND",
     "vendor_candidate": "f30ffc8d7386d6b202c91e9f1b55e672af58c720",
     "vendor_run": 40741343738,
-    "vendor_status": "RUNNING_NOT_ACCEPTED",
+    "vendor_status": "FAILURE_INCOMPLETE_6_PASS_1_ASSERTION",
     "return_original_successor": "6b7dab37d58523865c9d6e724c87d5b10d4b1aa0",
     "return_retained_status": "PASS_2_BASELINE_2_CURRENT_ON_NAMED_SOURCE",
     "return3194_candidate": "3a366ed69752c81b43389440f92dd48135771e36",
@@ -19377,6 +19382,135 @@
     "CP7C_started": false,
     "return3194_receipt": "docs/cp7/d17-14/ow15/return-reverse3194-3a366ed6-pass.json",
     "return3194_artifact_id": 12839922675,
-    "return3194_original_sha256": "392bfd10e6ddb21d07319da73405000d21a769287e4774af8e14cf3609e12153"
+    "return3194_original_sha256": "392bfd10e6ddb21d07319da73405000d21a769287e4774af8e14cf3609e12153",
+    "vendor_receipt": "docs/cp7/d17-14/ow15/vendor-receivable-f30-first-incomplete.json",
+    "vendor_successor": {
+      "head": "5dedbaae47eb4b3b23b54da94605f7d940f0ca22",
+      "tree": "4557e2ce213e0c2785deb0e90a3fe19eae7752a0",
+      "branch": "astra-a/ow08b-vendor-native-utc-successor-20261029",
+      "run_id": 40751542770,
+      "status": "RUNNING_NOT_ACCEPTED",
+      "fresh_planned_cases": 7
+    }
+  },
+  "actual_vendor_receivable_first_failure": {
+    "status": "INCOMPLETE_ACTUAL_NATIVE6_PASS_1_ASSERTION_INCOMPLETE",
+    "head": "f30ffc8d7386d6b202c91e9f1b55e672af58c720",
+    "tree": "befe02c27b47a88944153f1edd59242c4e69b397",
+    "run_id": 40741343738,
+    "job_id": 123003448565,
+    "artifact_id": 12842526926,
+    "zip_bytes": 2018963,
+    "zip_sha256": "7a293d6b0580ec5eaefa5bdffc95e870079849da43763e296e822e79f53acc2b",
+    "original": {
+      "name": "CP7_VENDOR_RECEIVABLE_NATIVE7.json",
+      "bytes": 3311395,
+      "sha256": "3c65d4249c43c7b1d3df3bf2c913a63f050aad488feb4deb5600208dd51129ce",
+      "gzip_bytes": 338889,
+      "gzip_sha256": "aeee2bdef21803246abfac474ada1e17be1b5d7a57dd51114e280f9b5deef916"
+    },
+    "counts": {
+      "PASS": 6,
+      "INCOMPLETE": 1
+    },
+    "case_results": {
+      "OW08B_VENDOR_PAID_CORRECTION_AR_HPP_EXACT": {
+        "status": "PASS",
+        "error": null,
+        "full_boundary_restored": true
+      },
+      "OW08B_VENDOR_UNPAID_ORIGIN_AUTO_APPLICATION": {
+        "status": "PASS",
+        "error": null,
+        "full_boundary_restored": true
+      },
+      "OW08B_VENDOR_NEXT_INVOICE_AND_CASH_REFUND": {
+        "status": "PASS",
+        "error": null,
+        "full_boundary_restored": true
+      },
+      "OW08B_VENDOR_REFUND_REPLAY_INVERSE_HISTORY": {
+        "status": "INCOMPLETE",
+        "error": "",
+        "full_boundary_restored": true
+      },
+      "OW08B_VENDOR_AMOUNT_DATE_ACCOUNT_REFUSALS": {
+        "status": "PASS",
+        "error": null,
+        "full_boundary_restored": true
+      },
+      "OW08B_VENDOR_OPENING_APPLICATION_AND_INVERSE": {
+        "status": "PASS",
+        "error": null,
+        "full_boundary_restored": true
+      },
+      "OW08B_VENDOR_UNLINKED_JOURNAL_DETECTED": {
+        "status": "PASS",
+        "error": null,
+        "full_boundary_restored": true
+      }
+    },
+    "first_failure": {
+      "OW08B_VENDOR_REFUND_REPLAY_INVERSE_HISTORY": {
+        "status": "INCOMPLETE",
+        "error": "",
+        "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py\", line 165, in _strict_group_once\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_vendor_receivable/cases.py\", line 111, in replay_inverse\n    assert state(cur,f)['ar']=='3000.00'and state(cur,f)['origin']==origin\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n",
+        "full_boundary_restored": true,
+        "public_schema_unchanged": true,
+        "session_leaks": {
+          "advisory_locks": 0,
+          "advisory_lock_keys": [],
+          "other_sessions": []
+        },
+        "business_day": {
+          "planned": "2026-10-29",
+          "before": "2026-10-29",
+          "after": "2026-10-29"
+        }
+      }
+    },
+    "facts": {
+      "exact_parent_install_PASS": true,
+      "preuse_inverse_PASS": true,
+      "second_install_PASS": true,
+      "committed_used_inverse_executed": false,
+      "baseline_full22_data_sequences_roles_CP6_advisors_restore_PASS": true,
+      "package_gate": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": false
+      }
+    },
+    "diagnosis": {
+      "status": "LOCAL_COMPARATOR_REPRODUCTION_CONFIRMED_NATIVE_SUCCESSOR_PENDING",
+      "reason": "Retained refusal snapshot selects UTC; complete payment to_jsonb(timestamptz) previously serialized under Asia/Jakarta. Identical row differs in text representation.",
+      "source": [
+        "scripts/cp6_at_probe.py:56",
+        "scripts/cp6_ao_ap_inventory.py:82",
+        "scripts/cp7_vendor_receivable/cases.py:65"
+      ],
+      "business_oracles_relaxed": false,
+      "product_runtime_changed": false,
+      "local_scope": "PGLITE_SERIALIZATION_REPRODUCTION_AND_3_OBSERVER_6_DERIVATION_CONTROLS_NOT_NATIVE"
+    },
+    "successor": {
+      "head": "5dedbaae47eb4b3b23b54da94605f7d940f0ca22",
+      "tree": "4557e2ce213e0c2785deb0e90a3fe19eae7752a0",
+      "branch": "astra-a/ow08b-vendor-native-utc-successor-20261029",
+      "run_id": 40751542770,
+      "status": "RUNNING_NOT_ACCEPTED",
+      "fresh_planned_cases": 7
+    },
+    "limits": [
+      "No acceptance from six partial Native passes",
+      "No actual race/Auth/browser claim",
+      "B combined browser remains accepted only on its named source",
+      "New vendor money implementation not adopted into A main",
+      "Formal 5/16; independent_acceptance=false; production_go=false; CP7C not started"
+    ],
+    "production_go": false,
+    "independent_acceptance": false
   }
 }

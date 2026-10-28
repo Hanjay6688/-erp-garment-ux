@@ -416,5 +416,16 @@
     "formal": "5/16",
     "production_go": false,
     "independent_acceptance": false
+  },
+  "vendor_receivable_20261029": {
+    "status": "FIRST_NATIVE_6_PASS_1_INCOMPLETE_SUCCESSOR_RUNNING_NOT_ACCEPTED",
+    "receipt": "docs/cp7/d17-14/ow15/vendor-receivable-f30-first-incomplete.json",
+    "current_A_product_includes_vendor_receivable": false,
+    "B_combined_browser_still_accepted_on_backend3194": true,
+    "successor_head": "5dedbaae47eb4b3b23b54da94605f7d940f0ca22",
+    "successor_run": 40751542770,
+    "formal": "5/16",
+    "production_go": false,
+    "independent_acceptance": false
   }
 }
