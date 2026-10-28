@@ -17,7 +17,7 @@ No new host/installer/ledger is created. The existing current money/CP6 runner,
 copy authority and complete restoration are reused through a small second
 caller. The old runner still defaults to exactly its two money cases; this
 caller selects six different cases and labels them separately. Its declaration
-keeps every historical manifest intact. Admission is CLOSED until actual9fde
+keeps every historical manifest intact. Admission is CLOSED until the actual money successor
 and its complete package are accepted, pinned and read using the frozen intake
 checker. The workflow triggers only on a separate qualification branch, not
 this prepared branch. No database work has been run for these six cases.
@@ -39,3 +39,9 @@ open that exact reversed document. These are navigation witnesses, not screen
 creation or QC reversal proof. The complete data/sequence comparison stays
 unchanged. Existing Native9/P21 proofs remain valid on their own sources.
 Formal5/16, production_go=false, independent_acceptance=false; CP7C not started.
+
+
+Source successor2d4ed56 changes only the paint instrument and its evidence.
+Its real Chromium preflight passed before DB; full money2 remains pending.
+This preparation now uses its exact measurement source, with unchanged
+client6/backend and a new explicit base. It cannot qualify from partial9fde.

@@ -28,8 +28,8 @@
     "scripts/current-vendor-money-browser/runner.py"
   ],
   "files": {
-    "scripts/current-ow08-source-browser/CONFIG.json": "2e572a5b17e4e3ef46aa1a2fa77054ddb45311be31029e15f9e4c620932213e7",
-    "scripts/current-ow08-source-browser/README.md": "512ff07b5fcc8366512acbba890a1127d9f4af3d6cd6302a78c97e975bc38d07",
+    "scripts/current-ow08-source-browser/CONFIG.json": "936db18045754f1efc7a03ec4cabdf3162e5bdc6196a9a079a1798dda13da5ae",
+    "scripts/current-ow08-source-browser/README.md": "5380afaf081dbb7cf70845e84f1878618b54cb396dabb059bbb29500f5522d99",
     "scripts/current-ow08-source-browser/admission.py": "cd07249586be183840d2246811a15bdef878b5be2cc00d3fceb1f10c7d0c371a",
     "scripts/current-ow08-source-browser/cases.mjs": "7fc01bd287bdf30f4278aab1ae35c280f5322f01e690517a6e329964505595d3",
     "scripts/current-ow08-source-browser/check_source.py": "353268c9ad1b2ae9a5ea75aa580d281d3949572f6dd2958e713b7330c6102310",
@@ -42,6 +42,6 @@
     "scripts/current-ow08-source-browser/wash_fixture.py": "67fbf1390af34b5f099379a159ae6740b00110074627d90b6b5e789c7614bb30",
     "scripts/current-vendor-money-browser/probe.py": "c6f83b0c6bfe20df65fcddb2bd3b414db8c9306d0d508a0ad4c857898d98546b",
     "scripts/current-vendor-money-browser/runner.py": "471e5b9e62755fe6bd96d3c28f44254ecd83a6ba9b8324ea54469a7555cc9fd3",
-    ".github/workflows/cp7-ow08-source-browser.yml": "b3dffb5769feb27d7bb4bbefeeeaf69f62f8ee9c18e7c4d04e80b702f8c9228f"
+    ".github/workflows/cp7-ow08-source-browser.yml": "cae3c2a3d3518fdc59449a96c1d9a9e403cce8cd3c76e246fa0ae5033dc1ea53"
   }
 }

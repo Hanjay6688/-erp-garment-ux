@@ -80,3 +80,24 @@ unchanged. Six client hashes now include that CSS. All backend bytes are exact41
 Math references: https://www.w3.org/TR/css-images-3/#color-stop-syntax and
 https://www.w3.org/TR/2026/CRD-css-color-4-20261008/#interpolation .
 These are local mathematical controls, not new actual browser or money proof.
+
+
+## Layer-list successor after actual9fde refusal
+
+9fde/run40784374399/job123153769359 ended INCOMPLETE2 before the first
+contrast sample: Chromium reports background-blend-mode `normal, normal` for
+BODY's radial-gradient + none. Full22/data/sequences/roles/CP6/advisors/Auth
+restored, four package gates true and writer_runtime=false. All first Original
+bytes remain pinned; this is not a new money backend defect or a full UI PASS.
+
+The successor recognizes only lists made entirely of normal blend modes and
+composes each gradient top-first, with none as a transparent layer. Unknown
+contributing images, non-normal blends, filters, low contrast and unsupported
+color syntax still fail. Backend, client6, money formulas and case IDs are
+byte-identical to9fde. Node19 controls include the actual body string, all-none
+lists, layer order and refusals. A real Chromium paint-fixture preflight runs
+before the database installer; it is instrument proof, never an Auth/backend
+money journey. The two full actual journeys still have to finish.
+
+Primary layering definitions: https://www.w3.org/TR/css-backgrounds-3/#layering
+and https://www.w3.org/TR/compositing-1/#background-blend-mode .

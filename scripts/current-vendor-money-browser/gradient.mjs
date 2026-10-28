@@ -33,12 +33,16 @@ export function boundedTextContrast(foreground,layers,solid){
  for(const {color,opacity,backgroundImage='none'}of layers){
   if(!Number.isFinite(opacity)||opacity<0||opacity>1)throw Error('INVALID_TEXT_SURFACE_OPACITY')
   let surface=box(color)
-  if(backgroundImage!=='none'&&(fg.lo[3]!==1||bg.lo[3]!==1)){surface=over(gradientBounds(backgroundImage),surface);gradients++}
+  if(backgroundImage!=='none'&&(fg.lo[3]!==1||bg.lo[3]!==1)){
+   // CSS paints the first listed image on top; `none` occupies one transparent
+   // image layer. Preserve order and refuse every unknown contributing image.
+   for(const image of split(backgroundImage).reverse())if(image!=='none'){surface=over(gradientBounds(image),surface);gradients++}
+  }
   fg=over(fg,surface);bg=over(bg,surface)
   for(const v of[fg,bg])for(const key of['lo','hi'])v[key]=v[key].map(x=>x*opacity)
  }
  if(fg.lo[3]!==1||fg.hi[3]!==1||bg.lo[3]!==1||bg.hi[3]!==1)throw Error('MISSING_OPAQUE_FINANCE_CANVAS')
- if(!gradients)return solid(foreground,layers)
+ if(!gradients)return solid(foreground,layers.map(layer=>({...layer,backgroundImage:split(layer.backgroundImage??'none').every(image=>image==='none')?'none':layer.backgroundImage})))
  // Account conservatively for 8-bit paint rounding at each contributing layer.
  const widen=v=>({min:v.lo.slice(0,3).map(x=>Math.max(0,x-layers.length)),max:v.hi.slice(0,3).map(x=>Math.min(255,x+layers.length))})
  const f=widen(fg),b=widen(bg),fl=lum(f.min),fh=lum(f.max),bl=lum(b.min),bh=lum(b.max)

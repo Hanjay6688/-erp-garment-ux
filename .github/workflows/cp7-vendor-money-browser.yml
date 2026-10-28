@@ -2,7 +2,7 @@ name: CP7 A vendor money browser2
 'on':
   push:
     branches:
-    - astra-a/ow08b-money-browser-gradient-20261029
+    - astra-a/ow08b-money-browser-layers-20261029
     paths:
     - .github/workflows/cp7-vendor-money-browser.yml
     - scripts/current-vendor-money-browser/**
@@ -383,7 +383,7 @@ jobs:
       env:
         GH_TOKEN: ${{ github.token }}
       run: python scripts/current-vendor-money-browser/fetch_backend.py
-    - name: Install locked browser dependencies for A money UI only
+    - name: Validate actual Chromium CSS instrument before any database installation
       working-directory: auditor
       run: 'set -euo pipefail
 
@@ -396,6 +396,10 @@ jobs:
         node --check scripts/current-vendor-money-browser/cases.mjs
 
         node --test scripts/current-vendor-money-browser/visual.test.mjs scripts/current-vendor-money-browser/gradient.test.mjs
+        scripts/current-vendor-money-browser/surface.chromium.test.mjs
+
+
+        python -B -m unittest discover -s scripts/current-vendor-money-browser -p ''test_admission.py''
 
         '
     - name: Check vendor qualification syntax
