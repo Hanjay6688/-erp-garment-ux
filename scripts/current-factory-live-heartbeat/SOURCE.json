@@ -1,0 +1,27 @@
+{
+  "contract": "cp7.factory-live-heartbeat-closure.v1",
+  "parent_head": "11c95c4ee2c784247e1be22ce0a582f4d85632c5",
+  "parent_tree": "688a4ac63208e000602a30d406b4e080d2203a28",
+  "case_ids": [
+    "FACTORY_LIVE_HEARTBEAT_CLOSURE1"
+  ],
+  "files": {
+    ".github/workflows/cp7-d17-18-factory-live-heartbeat.yml": "1fee75a4f81c32cf340948227b8fe598c9692fd837bb2317d7de4e91260dc4e3",
+    "scripts/current-factory-live-heartbeat/CONFIG.json": "f20889e53137ecd220d1e750c31b1b1d0e5e24097a1ca81831f1f0cab91418a5",
+    "scripts/current-factory-live-heartbeat/ORIGIN.json": "d7f10fa17c24f14a39041812cbb08c9854881c2cf00f391917a31b524ca47538",
+    "scripts/current-factory-live-heartbeat/README.md": "ca4cfcd39ff203af297bac2c89ac5723dae1fcd3cc7e44f7b00124f1bd7f96c4",
+    "scripts/current-factory-live-heartbeat/WORKFLOW_ORIGIN.json": "80e939a37ef78fc677c784967d6954fb977cd9b645b17a391f247bf03a630252",
+    "scripts/current-factory-live-heartbeat/admission.py": "fd51c0d0caaf938e6f78020db2ca057d7dea914436cb7a807b8c0ac62bc043db",
+    "scripts/current-factory-live-heartbeat/cases.py": "0c61b4af820df111b955a1ddbd2d8e35dba3c17c3266180610a864bfc6f29296",
+    "scripts/current-factory-live-heartbeat/factory.py": "21985f7ccd8294504f76eef4be308778b47a3926ef91880c3bad978d74a6714b",
+    "scripts/current-factory-live-heartbeat/fetch_retained.py": "0a340f41b8a023251562d8beee3e228b2a6c188d69f10567fa7a08d40183927d",
+    "scripts/current-factory-live-heartbeat/heartbeat.py": "9dbcf6209ef2513111bb364817fb047d93dcc6ee98544980e6f4380e329242ed",
+    "scripts/current-factory-live-heartbeat/probe.py": "49293d1d30f9b0f17abe5bf79d1e7e3611fc415634e816a22c08c5f960f1d96b",
+    "scripts/current-factory-live-heartbeat/retained.py": "e691a2556828795a3c6ead1ce45872f20ac3fdedca44751920dd0957a02e3605",
+    "scripts/current-factory-live-heartbeat/runner.py": "3b50e224a1d914340cb74b59696defd3a799cd282d027f327ed0276cdca700d4",
+    "scripts/current-factory-live-heartbeat/source_guard.py": "509766564caddede2fda7ebb02e1d28c65fd3198c9e0d51c93051aaa1f735836",
+    "scripts/current-factory-live-heartbeat/test_heartbeat.py": "6935fc5d8f414461a5b3a65a7609e065ba470b18e9bfc91ca2094c8097cb34d9"
+  },
+  "production_go": false,
+  "independent_acceptance": false
+}

@@ -1,0 +1,46 @@
+{
+  "contract": "cp7.current-factory-operational-profile.v1",
+  "case_ids": [
+    "CURRENT_FACTORY_OPERATIONAL_PROFILE1"
+  ],
+  "parent_head": "4ac681549d7ec664f504a71670c9035dd8f5944d",
+  "parent_source_sha256": "9c4dbbbaa0604a6741f8105178390416ff176f94509a28281798883146efa52e",
+  "retained_4ac": {
+    "name": "CP7_D17_18_FACTORY_PROGRESS_NATIVE_SOURCE_CRON7.json",
+    "status": "INCOMPLETE",
+    "head": "4ac681549d7ec664f504a71670c9035dd8f5944d",
+    "run_id": 40629923288,
+    "job_id": 122626325986,
+    "artifact_id": 12793826639,
+    "zip_bytes": 10605560,
+    "zip_sha256": "ca8c1b23fe279ee99736d506445011cf2fe656597a9b06b712dbaba3f305b042",
+    "bytes": 85273743,
+    "sha256": "c167387d6eff784aab1fc23d1305967671600b68c39b98a5633f6494710a2ba3",
+    "archive_member": "CP7_D17_18_FACTORY_PROGRESS_NATIVE_SOURCE_CRON7.json",
+    "package_name": "T3_PACKAGE_INSTALL.json",
+    "package_member": "T3_PACKAGE_INSTALL.json",
+    "package_bytes": 360443,
+    "package_sha256": "460024f04167f239daa94e311c0fcc7b10e874c8fc7083675207344dc966b92d"
+  },
+  "files": {
+    "scripts/current-factory-operational-profile-qualification/CONFIG.json": "274e6be98007525ce487dfd72dd40544023915ca741c31be5898336169f6ffd7",
+    "scripts/current-factory-operational-profile-qualification/FIRST_4AC_FAILURE.json": "b6fab1d644e4613a4b5ec9e7ea8b89636161bd0a6719324fd5c338c31e197659",
+    "scripts/current-factory-operational-profile-qualification/ORIGIN.json": "0d6a06a97a8960015b6113c951d06d638d8eaad510fe212bc54b0704125540ab",
+    "scripts/current-factory-operational-profile-qualification/README.md": "3a0f90caae7766b53508f756e8178caf8bb0b339f4c0238c2be5dc32d7ca71a7",
+    "scripts/current-factory-operational-profile-qualification/admission.py": "01ee975ae9baba6017693f1b968b0371bcc214baf96e8a9131d6d6cab220547f",
+    "scripts/current-factory-operational-profile-qualification/cases.py": "a979a893d5b2fc3ce52e9686cd1d7245b9f678683c5ac4f6aeb23fbfa29aa60c",
+    "scripts/current-factory-operational-profile-qualification/evidence.py": "f6ccdffa766b6d808ad095e676b83b9b1bf05f0714903e75352478c3b54ef739",
+    "scripts/current-factory-operational-profile-qualification/fetch_failure.py": "412dc24a366dbdc81c3016d6c1fecdf2eb984caab9d4ab73460bff334a9dcee0",
+    "scripts/current-factory-operational-profile-qualification/measurements.py": "124662dff0aa538bbb2b716df7f207b3178ed659bd12830cebfdc7c92606dd34",
+    "scripts/current-factory-operational-profile-qualification/probe.py": "482b06f6c20794f9cd2d23ef83372ae84525c90521b74b39a1ebf7f70b21addf",
+    "scripts/current-factory-operational-profile-qualification/runner.py": "1933150f7213d4b9c0773f39f6966876e2f0b8c44eb53c82869f8e282b756586",
+    "scripts/current-factory-operational-profile-qualification/source_guard.py": "b626d031355957cbdfdd2b9cffdc55f4904f8fa62c8e50a040da94800e462530",
+    "scripts/current-factory-operational-profile-qualification/test_evidence.py": "5cef6101c44e7ef659ded37d233addadaf6810b717df61686b96f6d280abcaf4",
+    ".github/workflows/cp7-d17-18-factory-operational-profile.yml": "e31bc61c8ab3c1935f988f6fca693a8d4d10f0afa2d40aa5945bb285e1a2fe76"
+  },
+  "diagnostic_only": true,
+  "actual_cron_claim": false,
+  "full_factory_acceptance": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

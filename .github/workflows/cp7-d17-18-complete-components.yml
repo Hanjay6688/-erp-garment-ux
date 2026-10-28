@@ -1,0 +1,81 @@
+name: CP7 D17-18 exact complete components
+on:
+  push:
+    branches: [astra-a/d17-18-complete-components-check-20261028]
+    paths:
+      - .github/workflows/cp7-d17-18-complete-components.yml
+      - scripts/current-complete-components-preparation/**
+permissions:
+  contents: read
+concurrency:
+  group: cp7-d17-18-complete-components-${{ github.run_id }}
+  cancel-in-progress: false
+jobs:
+  source:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12'
+      - name: Install pinned YAML parser
+        run: python -m pip install 'PyYAML==6.0.2'
+      - name: Verify exact backend plus A UI components and scoped source successors
+        run: python scripts/current-complete-components-preparation/derivation.py
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: complete-components-source-${{ github.run_attempt }}
+          path: cp6-proof/current-complete-components/
+          if-no-files-found: error
+          retention-days: 30
+  codeql:
+    name: Complete components CodeQL ${{ matrix.language }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        language: [actions]
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          persist-credentials: false
+      - uses: github/codeql-action/init@b96794f015dfd88f77b49b1c93e0fa7110f94c63
+        with:
+          languages: ${{ matrix.language }}
+          build-mode: none
+          queries: security-extended
+      - uses: github/codeql-action/analyze@b96794f015dfd88f77b49b1c93e0fa7110f94c63
+        with:
+          output: complete-components-codeql
+          upload: never
+          upload-database: false
+      - name: Reject CodeQL findings or incomplete runs
+        run: |
+          python3 - <<'PY'
+          import json, pathlib
+          files = list(pathlib.Path('complete-components-codeql').glob('*.sarif'))
+          assert files, 'No SARIF produced'
+          for f in files:
+              report = json.loads(f.read_text())
+              assert report.get('runs'), 'No analysis runs'
+              for run in report['runs']:
+                  assert not run.get('results'), 'CodeQL findings need review'
+                  assert run.get('invocations'), 'No invocation evidence'
+                  for invocation in run['invocations']:
+                      assert invocation.get('executionSuccessful') is True, 'Incomplete CodeQL'
+          print('CodeQL completed with zero findings')
+          PY
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: complete-components-codeql-${{ matrix.language }}
+          path: complete-components-codeql
+          if-no-files-found: error
+          retention-days: 30

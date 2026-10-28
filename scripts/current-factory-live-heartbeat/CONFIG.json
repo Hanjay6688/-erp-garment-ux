@@ -1,0 +1,24 @@
+{
+  "contract": "cp7.factory-live-heartbeat-closure.v1",
+  "allow_database_execution": true,
+  "backend_head": "11c95c4ee2c784247e1be22ce0a582f4d85632c5",
+  "backend_tree": "688a4ac63208e000602a30d406b4e080d2203a28",
+  "retained": {
+    "head": "11c95c4ee2c784247e1be22ce0a582f4d85632c5",
+    "tree": "688a4ac63208e000602a30d406b4e080d2203a28",
+    "run_id": 40663882208,
+    "job_id": 122733390447,
+    "artifact_id": 12810096616,
+    "zip_bytes": 10734684,
+    "zip_sha256": "784f17255ae3756b418a89162cd416e58a014a21baea34bd17e151b168e24ddb",
+    "name": "CP7_D17_18_FACTORY_INITIAL_STAGE_NATIVE_SOURCE_CRON7.json",
+    "bytes": 86200383,
+    "sha256": "00f54997e358e91c3392073994b92b2d59f184678f01e4a2f63f2373106eb9a9",
+    "package_name": "T3_PACKAGE_INSTALL.json",
+    "package_bytes": 360442,
+    "package_sha256": "90586ffbb1327face6554b9a21d575c35bfcf33a06953cedfb3383db70f9bf90"
+  },
+  "original_directory_variable": "D17_18_RETAINED_INITIAL11C_DIRECTORY",
+  "production_go": false,
+  "independent_acceptance": false
+}

@@ -1,0 +1,121 @@
+{
+  "factory.py": {
+    "path": "scripts/current-factory-initial-stage/factory.py",
+    "sha256": "e42ca1a6bcafed8e15aaadef6f602284249972dfcaa0122649fcfed568d6d431",
+    "changes": [
+      {
+        "old": "Path(__file__).with_name('waiting.py')",
+        "new": "ROOT/'scripts/current-factory-initial-stage/waiting.py'",
+        "count": 1
+      },
+      {
+        "old": "Path(__file__).with_name('worker.py')",
+        "new": "ROOT/'scripts/current-factory-initial-stage/worker.py'",
+        "count": 1
+      },
+      {
+        "old": "Path(__file__).with_name('guard_cases.py')",
+        "new": "ROOT/'scripts/current-factory-initial-stage/guard_cases.py'",
+        "count": 1
+      },
+      {
+        "old": "guards=importlib.util.module_from_spec(_guards_spec);_guards_spec.loader.exec_module(guards)",
+        "new": "guards=importlib.util.module_from_spec(_guards_spec);_guards_spec.loader.exec_module(guards)\n_live_spec=importlib.util.spec_from_file_location('factory_live_heartbeat',Path(__file__).with_name('heartbeat.py'))\nlive=importlib.util.module_from_spec(_live_spec);_live_spec.loader.exec_module(live)",
+        "count": 1
+      },
+      {
+        "old": "            assert states and all(x[1]=='DONE'for x in states)and financial=='READY','FACTORY_CURRENT_PUBLIC_CRON_NOT_TERMINAL'",
+        "new": "            assert states and all(x[1]=='DONE'for x in states)and financial=='READY','FACTORY_CURRENT_PUBLIC_CRON_NOT_TERMINAL'\n            # Liveness belongs to the scheduled phase, before deliberately stopping it.\n            live.capture(cur,[finance_key,bounded_key],finance.staged.status,report)",
+        "count": 1
+      },
+      {
+        "old": "        assert job['state']=='DONE'and job['server_runner']['active']is True",
+        "new": "        report.setdefault('post_stop_public_status',{})[key]=job\n        assert job['state']=='DONE','FACTORY_TERMINAL_STATE_CHANGED_AFTER_STOP'\n        assert report['live_runner_observation']['jobs'][key]['state']=='DONE'and report['live_runner_observation']['jobs'][key]['server_runner']['active']is True",
+        "count": 1
+      }
+    ],
+    "original_assertions": 38,
+    "assertions": 39
+  },
+  "runner.py": {
+    "path": "scripts/current-factory-initial-stage/runner.py",
+    "sha256": "4eec61ecb3b329d3cd05548af7e4a3c371847ecd6899b1a0028c28c4554a3d11",
+    "changes": [
+      {
+        "old": "\"\"\"Seven corrected-reader groups; full restore survives observer failures.\"\"\"",
+        "new": "\"\"\"One fresh factory closure; unchanged full restore survives observer failures.\"\"\"",
+        "count": 1
+      },
+      {
+        "old": "HERE/'restoration.py'",
+        "new": "ROOT/'scripts/current-factory-initial-stage/restoration.py'",
+        "count": 1
+      },
+      {
+        "old": "CASE='FACTORY_INITIAL_STAGE_NATIVE_SOURCE_CRON7'",
+        "new": "CASE='FACTORY_LIVE_HEARTBEAT_CLOSURE1'",
+        "count": 1
+      },
+      {
+        "old": "INSTALLED_DUMP='/tmp/d17_18_factory_initial_unused.dump'",
+        "new": "INSTALLED_DUMP='/tmp/d17_18_factory_live_unused.dump'",
+        "count": 1
+      },
+      {
+        "old": "actual_minute_cron_groups=2,unchanged_native_cases=20",
+        "new": "actual_minute_cron_groups=1,unchanged_native_cases=0",
+        "count": 1
+      },
+      {
+        "old": "factory_current_public_jobs_completed=True,combined_component_qualified=True",
+        "new": "factory_current_public_jobs_completed=True,combined_component_qualified=False,focused_factory_closure=True",
+        "count": 1
+      }
+    ],
+    "original_assertions": 14,
+    "assertions": 14
+  },
+  "probe.py": {
+    "path": "scripts/current-factory-initial-stage/probe.py",
+    "sha256": "d133605f8ba2193b216d2250538969e548ea9386f734fa6f22430a91e4d67075",
+    "changes": [
+      {
+        "old": "\"\"\"Seven operations on one actual combined installation; full restoration.\n\nIncludes unchanged Native20, source-change/refusal/recovery, two real minute\ncron groups and whole-report comparison. Separate Auth/browser acceptance remains.\n\"\"\"",
+        "new": "\"\"\"Fresh factory closure on unchanged 11c backend; full restoration.\n\nSix earlier PASS groups remain explicitly retained, never relabeled as fresh.\n\"\"\"",
+        "count": 1
+      },
+      {
+        "old": "HERE/'composition.py'",
+        "new": "REPO/'scripts/current-factory-initial-stage/composition.py'",
+        "count": 1
+      },
+      {
+        "old": "LABEL='CP7_D17_18_FACTORY_INITIAL_STAGE_NATIVE_SOURCE_CRON7'",
+        "new": "LABEL='CP7_D17_18_FACTORY_LIVE_HEARTBEAT_CLOSURE1'",
+        "count": 1
+      },
+      {
+        "old": "PRE_DUMP='/tmp/current_factory_initial_pre.dump'",
+        "new": "PRE_DUMP='/tmp/current_factory_live_pre.dump'",
+        "count": 1
+      },
+      {
+        "old": "native20_repeated_unchanged=True",
+        "new": "native20_repeated_unchanged=False,retained_six_groups_from_11c=True",
+        "count": 1
+      },
+      {
+        "old": "report['combined_component_qualified']=True",
+        "new": "report['combined_component_qualified']=False\n            report['focused_factory_closure']=True",
+        "count": 1
+      },
+      {
+        "old": "HERE/'stream_data.py'",
+        "new": "REPO/'scripts/current-factory-initial-stage/stream_data.py'",
+        "count": 1
+      }
+    ],
+    "original_assertions": 9,
+    "assertions": 9
+  }
+}

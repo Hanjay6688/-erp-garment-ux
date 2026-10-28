@@ -1,0 +1,30 @@
+{
+  "contract": "cp7.current-factory-initial-stage.v1",
+  "allow_database_execution": true,
+  "retained_profile": {
+    "name": "CP7_D17_18_CURRENT_FACTORY_OPERATIONAL_PROFILE1.json",
+    "status": "PASS",
+    "head": "5b32f4744eef66c2e9cc8619781faee446f360e7",
+    "tree": "0d4fc30267b61ae333508a3fef8f7e7a7c402fef",
+    "run_id": 40649572471,
+    "job_id": 122686231433,
+    "artifact_id": 12800202603,
+    "zip_bytes": 2290453,
+    "zip_sha256": "dbbe85a234912471dcf9a08db1e4ac4fb98c5003622865542620f38cdb30fd3f",
+    "bytes": 3928342,
+    "sha256": "7df5e2e8e6d7a6b89244a523d34ee23af61160bb8a6c1b1789ead95e503d6877",
+    "package_bytes": 360428,
+    "package_sha256": "572f6068df1a47cc8e5645ede89f181681130a8d5070934f7fd6fee17a36f584",
+    "archive_member": "CP7_D17_18_CURRENT_FACTORY_OPERATIONAL_PROFILE1.json",
+    "package_name": "T3_PACKAGE_INSTALL.json",
+    "package_member": "T3_PACKAGE_INSTALL.json"
+  },
+  "original_directory_variable": "D17_18_RETAINED_FACTORY_PROFILE5B_DIRECTORY",
+  "initial_statement_limit_ms": 16000,
+  "ordinary_statement_limit_ms": 8000,
+  "lock_limit_ms": 2000,
+  "minimum_targets": 1000,
+  "added_schedule_count": 1,
+  "production_go": false,
+  "independent_acceptance": false
+}

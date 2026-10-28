@@ -1,0 +1,279 @@
+{
+  "status": "PASS_COMPOSED_BACKEND_SIX_RETAINED_PLUS_ONE_FRESH",
+  "head": "3194b9c56be7af86ee45ccb1c6605204a712f91b",
+  "tree": "dd98cd5bbbafb3f257668d22317ab4b237c2fea8",
+  "run_id": 40677173176,
+  "job_id": 122778446042,
+  "job_conclusion": "success",
+  "artifact_id": 12813599744,
+  "artifact_name": "cp7-d17-18-factory-live-heartbeat-1",
+  "zip_bytes": 9645478,
+  "zip_sha256": "4134df462dc0f05ff53ab5318b280322a8e489b5e65a069a7ac32f7356b9be91",
+  "name": "CP7_D17_18_FACTORY_LIVE_HEARTBEAT_CLOSURE1.json",
+  "bytes": 77035513,
+  "sha256": "241adff1df19878a6bda9fd4b688cd609dd816e97080e860e1cc170f7c47b3c2",
+  "package_name": "T3_PACKAGE_INSTALL.json",
+  "package_bytes": 360443,
+  "package_sha256": "f45977ad11e476ce02433db264d3bd6fe7cfcb943401ab4c1f841f107485da5b",
+  "source_pins": 15,
+  "whole_source_declaration_exact": true,
+  "entire_backend_same_as_11c": true,
+  "original_status": "PASS",
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "child_statuses": {
+    "COMBINED_CURRENT_PUBLIC_FACTORY1200X3_ACTUAL_CRON": "PASS"
+  },
+  "stage_timings": [
+    {
+      "phase": "SOURCE_ADMISSION",
+      "state": "COMPLETED",
+      "started_at_utc": "2026-10-28T11:18:54.521433+00:00",
+      "elapsed_ms": 98459.964,
+      "finished_at_utc": "2026-10-28T11:20:32.981458+00:00"
+    },
+    {
+      "phase": "BASELINE_ADVISORS",
+      "state": "COMPLETED",
+      "started_at_utc": "2026-10-28T11:20:38.248043+00:00",
+      "elapsed_ms": 1586.535,
+      "finished_at_utc": "2026-10-28T11:20:39.834667+00:00"
+    },
+    {
+      "phase": "BASELINE_DUMP",
+      "state": "COMPLETED",
+      "started_at_utc": "2026-10-28T11:20:42.839590+00:00",
+      "elapsed_ms": 1005.076,
+      "finished_at_utc": "2026-10-28T11:20:43.844752+00:00"
+    },
+    {
+      "phase": "SINGLE_FULL_READONLY_PARENT_INSTALL",
+      "state": "COMPLETED",
+      "started_at_utc": "2026-10-28T11:20:43.858953+00:00",
+      "elapsed_ms": 1367420.774,
+      "finished_at_utc": "2026-10-28T11:43:31.279795+00:00"
+    },
+    {
+      "phase": "FIRST_FINANCE_DELTA",
+      "state": "COMPLETED",
+      "started_at_utc": "2026-10-28T11:43:31.279852+00:00",
+      "elapsed_ms": 136424.861,
+      "finished_at_utc": "2026-10-28T11:45:47.704742+00:00"
+    },
+    {
+      "phase": "FINANCE_DELTA_PREUSE_INVERSE",
+      "state": "COMPLETED",
+      "started_at_utc": "2026-10-28T11:45:47.704823+00:00",
+      "elapsed_ms": 102899.317,
+      "finished_at_utc": "2026-10-28T11:47:30.604167+00:00"
+    },
+    {
+      "phase": "SECOND_FINANCE_DELTA",
+      "state": "COMPLETED",
+      "started_at_utc": "2026-10-28T11:47:30.604236+00:00",
+      "elapsed_ms": 134612.97,
+      "finished_at_utc": "2026-10-28T11:49:45.217234+00:00"
+    },
+    {
+      "phase": "ISOLATED_DIAGNOSTICS",
+      "state": "COMPLETED",
+      "started_at_utc": "2026-10-28T11:50:12.716192+00:00",
+      "elapsed_ms": 878165.504,
+      "finished_at_utc": "2026-10-28T12:04:50.881768+00:00"
+    },
+    {
+      "phase": "BASELINE_RESTORE",
+      "state": "COMPLETED",
+      "started_at_utc": "2026-10-28T12:04:50.893082+00:00",
+      "elapsed_ms": 3716.14,
+      "finished_at_utc": "2026-10-28T12:04:54.609319+00:00"
+    }
+  ],
+  "error": null,
+  "traceback": null,
+  "restore_error": null,
+  "first_failed_cases": {},
+  "retained": {
+    "head": "11c95c4ee2c784247e1be22ce0a582f4d85632c5",
+    "tree": "688a4ac63208e000602a30d406b4e080d2203a28",
+    "run_id": 40663882208,
+    "job_id": 122733390447,
+    "artifact_id": 12810096616,
+    "original_sha256": "00f54997e358e91c3392073994b92b2d59f184678f01e4a2f63f2373106eb9a9",
+    "historical_status": "INCOMPLETE",
+    "retained_pass_case_ids": [
+      "COMBINED_UNCHANGED_CHILD_VISIBILITY",
+      "COMBINED_NULL_SNAPSHOT_REFUSAL_AND_RECOVERY",
+      "COMBINED_UNCHANGED_NATIVE20",
+      "COMBINED_INDEPENDENT_SIGNATURE",
+      "COMBINED_CURRENT_PUBLIC_ACTUAL_CRON",
+      "COMBINED_SMALL_PRICE_FACTORY_REPORT_PAIRS"
+    ],
+    "factory_status": "INCOMPLETE",
+    "factory_rerun_required": true,
+    "all_seven_restores_exact": true,
+    "source_declaration_exact": true,
+    "package_gate": {
+      "installed": true,
+      "primary_unchanged": true,
+      "backup_restore_drill": true,
+      "security_advisors": true,
+      "writer_runtime": false
+    },
+    "eligible_for_browser": false
+  },
+  "fresh_group_count": 1,
+  "retained_group_count": 6,
+  "seven_fresh_groups_claim": false,
+  "eligible_for_B_backend_binding": true,
+  "frontend_qualification_included": false,
+  "actual_Auth_browser_cases": 0,
+  "independent_acceptance": false,
+  "production_go": false,
+  "live_runner_observation": {
+    "phase": "SCHEDULE_INSTALLED_BEFORE_UNINSTALL",
+    "jobs": {
+      "e59cb0b4-ab78-4891-9172-992ccca54884": {
+        "observed_at": "2026-10-28T12:02:27.198712+00:00",
+        "state": "DONE",
+        "request_id": "e59cb0b4-ab78-4891-9172-992ccca54884",
+        "run_id": "f0ae50d6-f739-484b-b67d-d475292e855b",
+        "server_runner": {
+          "active": true,
+          "last_tick_at": "2026-10-28T12:02:20.548333+00:00"
+        }
+      },
+      "60f7b82b-4932-43fa-a67c-f9e319790fa8": {
+        "observed_at": "2026-10-28T12:02:27.245142+00:00",
+        "state": "DONE",
+        "request_id": "60f7b82b-4932-43fa-a67c-f9e319790fa8",
+        "run_id": "560a8d50-abb9-4b25-a98c-fb2f5ebacbe9",
+        "server_runner": {
+          "active": true,
+          "last_tick_at": "2026-10-28T12:02:20.548333+00:00"
+        }
+      }
+    },
+    "clock": "UTC",
+    "manual_ticks": 0,
+    "status": "PASS"
+  },
+  "post_stop_runner_observations": {
+    "e59cb0b4-ab78-4891-9172-992ccca54884": {
+      "active": true,
+      "last_tick_at": "2026-10-28T12:02:20.548333+00:00"
+    },
+    "60f7b82b-4932-43fa-a67c-f9e319790fa8": {
+      "active": true,
+      "last_tick_at": "2026-10-28T12:02:20.548333+00:00"
+    }
+  },
+  "factory_elapsed_seconds": 482.268,
+  "pages": {
+    "e59cb0b4-ab78-4891-9172-992ccca54884": {
+      "run_id": "f0ae50d6-f739-484b-b67d-d475292e855b",
+      "page_meta": {
+        "page_count": 19,
+        "targets_total": 3604,
+        "header_utf8_bytes": 609663,
+        "page_utf8_bytes_max": 7969392,
+        "page_utf8_bytes_total": 148725467,
+        "uneven_ranges": true
+      },
+      "identity_hash": "2300bacfed305c8a1f2184e2416b5b7bccdd86abdb26183705783657a84ab1e9",
+      "factory_coverage": {
+        "expected_targets": 3604,
+        "source_targets": 3604,
+        "recommended_targets": 3602,
+        "unreviewed_named_targets": 2,
+        "analysis_status": "PARTIAL",
+        "source_equals_current_targets": true,
+        "recommendations_unique_and_known": true,
+        "every_target_recommended_or_named": true,
+        "complete": true,
+        "factory_variants": 3600,
+        "all_pages_verified": true,
+        "factory_target_keys_sha256": "5074ce6fa81a73abc02a077b10fe38edd6676b5952a0145a5feb4720b8c3e374"
+      },
+      "units": 97
+    },
+    "60f7b82b-4932-43fa-a67c-f9e319790fa8": {
+      "run_id": "560a8d50-abb9-4b25-a98c-fb2f5ebacbe9",
+      "page_meta": {
+        "page_count": 19,
+        "targets_total": 3604,
+        "header_utf8_bytes": 609663,
+        "page_utf8_bytes_max": 7969392,
+        "page_utf8_bytes_total": 148725467,
+        "uneven_ranges": true
+      },
+      "identity_hash": "407fae9866e46a3733a44baa0cea1149fbc49f253d1b7d0d89c455f30e7754c8",
+      "factory_coverage": {
+        "expected_targets": 3604,
+        "source_targets": 3604,
+        "recommended_targets": 3602,
+        "unreviewed_named_targets": 2,
+        "analysis_status": "PARTIAL",
+        "source_equals_current_targets": true,
+        "recommendations_unique_and_known": true,
+        "every_target_recommended_or_named": true,
+        "complete": true,
+        "factory_variants": 3600,
+        "all_pages_verified": true,
+        "factory_target_keys_sha256": "5074ce6fa81a73abc02a077b10fe38edd6676b5952a0145a5feb4720b8c3e374"
+      },
+      "units": 97
+    }
+  },
+  "metric_count": 24,
+  "fixture_readiness": "BLOCKED",
+  "unknown_metric_ids": [
+    "NATIVE_FINANCE:performance:net_profit",
+    "NATIVE_FINANCE:performance:gross_profit",
+    "NATIVE_FINANCE:financial_position:assets",
+    "NATIVE_FINANCE:financial_position:liabilities",
+    "NATIVE_FINANCE:financial_position:fg_inventory",
+    "NATIVE_FINANCE:financial_position:wip_inventory",
+    "NATIVE_FINANCE:financial_position:recorded_equity",
+    "NATIVE_FINANCE:financial_position:current_earnings",
+    "NATIVE_FINANCE:financial_position:balance_difference",
+    "NATIVE_FINANCE:financial_position:material_inventory",
+    "NATIVE_FINANCE:financial_position:liabilities_plus_equity"
+  ],
+  "restoration": {
+    "pre_restore_observation_complete": true,
+    "scheduler_quiet": true,
+    "inverse_refusal": "FACTORY_INITIAL_STAGE_AFTER_USE_REQUIRES_FULL_BACKUP_RESTORE",
+    "inverse_refused_before_DDL": true,
+    "used_guard_refused_before_DDL": true,
+    "committed_data_changed": true,
+    "raw_catalog_spelling_changed": false,
+    "unexpected_catalog_change": false,
+    "all22_all_rows_all_sequences_roles_exact": true,
+    "complete_database_dump_restored": true,
+    "restore": {
+      "exit": 1,
+      "error_count": 19,
+      "unexplained": [],
+      "only_pg_cron_errors": true,
+      "database_owner_acl_and_settings_preserved": true,
+      "platform_schema_authority_restored": [
+        "graphql",
+        "graphql_public"
+      ]
+    },
+    "selected_table_cleanup": false
+  },
+  "outer_restoration": {
+    "cp6_restored": true,
+    "advisor_gate": true,
+    "baseline_full22_all_rows_all_sequences_equal": true,
+    "baseline_advisors_equal": true
+  },
+  "actual_application_Auth_browser_acceptance": false
+}

@@ -1,6 +1,6 @@
 {
   "status": "PREPARED_NOT_FINAL_AUDITOR_ACCEPTANCE",
-  "recorded_at_utc": "2026-10-28T11:16:26.547250+00:00",
+  "recorded_at_utc": "2026-10-28T12:16:56.180561+00:00",
   "integrator": "A",
   "browser_writer": "B",
   "items": [
@@ -51,11 +51,11 @@
     },
     {
       "area": "fresh factory closure",
-      "receipt": "docs/cp7/d17-14/ow15/D17_18_FACTORY_LIVE_3194_RUNNING_20261028.json",
-      "status": "ACTUAL_FOCUSED_FACTORY_RUNNING_NOT_QUALIFIED",
+      "receipt": "docs/cp7/d17-14/ow15/D17_18_FACTORY_LIVE_3194_ACTUAL_20261028.json",
+      "status": "PASS_COMPOSED_BACKEND_SIX_RETAINED_PLUS_ONE_FRESH",
       "head": "3194b9c56be7af86ee45ccb1c6605204a712f91b",
-      "limit": "Await exact Original and all factory oracles, package gates and complete restore. Combine with six retained11c only after entire backend equality verified.",
-      "receipt_sha256": "ce8d6094a178e26bbd5a8f31735818f4d382b18ab9ceb288c19022887b7b6bc1"
+      "limit": "One fresh factory PASS plus six retained11c PASS on the identical backend; complete restoration. Backend component eligible for B new binding, not Auth/browser acceptance.",
+      "receipt_sha256": "c46657ec37d09965bae1bfe6286b47af6f990ee5fc0ac64a704f8399ba973f30"
     },
     {
       "area": "A finance panel observation bound",
@@ -80,19 +80,17 @@
       "receipt": "docs/cp7/d17-14/ow15/D17_18_COMPLETE_COMPONENTS_6D_ACTUAL_20261028.json",
       "status": "PASS_EXACT_COMPLETE_COMPONENTS_SOURCE_AND_ACTIONS",
       "head": "6d966d6e3074ae3a7b5f11a4dd46d986131d6fcd",
-      "limit": "127exact imported files,24 historical workflow entries retired,23Actions queries0findings; entire backend equal to actual11c. No current backend runtime/Auth/browser acceptance.",
+      "limit": "Exact bytes selectively adopted on A prepared integration branch, preserving B driver/browser; source and Actions proof retained6d. Not default/production or Auth/browser acceptance.",
       "receipt_sha256": "86fb853c2ff796deb44a396a67bb6c444905549eb22f8ad02a07d7c6dfe94540"
     },
     {
       "area": "B browser",
-      "status": "PREPARED_BACKEND_BINDING_CLOSED",
+      "status": "BACKEND_READY_NEW_BINDING_AND_B_EXECUTION_REQUIRED",
       "head": "51a9e72a89b4576283fe30cb17b56dd26fc57668",
-      "limit": "Actual desktop/mobile Chromium tooling only. No current ERP Auth/backend case; B owns runner, binding, actual execution, visuals and production-driver fix."
+      "limit": "A supplied qualified backend3194 plus exact source6d/A279 and machine-verifiable seven-group composition; B result still unavailable."
     }
   ],
   "remaining": [
-    "Exact fresh factory3194 Original intake; all pages, official values, units-once, idempotency and full restoration PASS.",
-    "Explicit same-backend composition: six retained11c PASS plus one fresh3194 PASS; retain failed historical originals.",
     "B binds qualified backend SHA/tree/Originals and A279 UI in a new source declaration; handles exact55000 message, finite no-progress observation and sameUUID recovery.",
     "B runs actual desktop/mobile Auth/browser once on that qualified candidate and reviews visuals/console/full restoration.",
     "A selectively integrates exact B files against latest A tree and supplies independent auditor with final source/evidence boundary."
@@ -100,5 +98,6 @@
   "formal_accepted": "5/16",
   "production_go": false,
   "independent_acceptance": false,
-  "CP7C_started": false
+  "CP7C_started": false,
+  "backend_handoff": "docs/cp7/d17-14/ow15/B_BACKEND_READY_3194_20261028.json"
 }

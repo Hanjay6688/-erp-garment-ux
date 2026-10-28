@@ -1,0 +1,56 @@
+{
+  "status": "INCOMPLETE_SIX_PASS_FACTORY_OBSERVER_NULL_TOTAL",
+  "proof": {
+    "name": "CP7_D17_18_FACTORY_PROGRESS_NATIVE_SOURCE_CRON7.json",
+    "status": "INCOMPLETE",
+    "head": "df7cbe8cc946862ade48c929a57b41a2608980ae",
+    "run_id": 40623586371,
+    "job_id": 122603131075,
+    "artifact_id": 12790194475,
+    "zip_bytes": 10608045,
+    "zip_sha256": "91a5f56e555d40d505cb50dc42cb80bc49edb420873c59a6d8d0ef0b2bcd25e2",
+    "bytes": 85221970,
+    "sha256": "39f3f70536742a6293b2355908f4bdf46792a6a06b175877d006cf91408f5145",
+    "archive_member": "CP7_D17_18_FACTORY_PROGRESS_NATIVE_SOURCE_CRON7.json",
+    "package_name": "T3_PACKAGE_INSTALL.json",
+    "package_member": "T3_PACKAGE_INSTALL.json",
+    "package_bytes": 360443,
+    "package_sha256": "a7a651ea021238f11769c2be15998d316d6979b48baaa827b1ab7387a78030d0"
+  },
+  "case_error": "'<=' not supported between instances of 'int' and 'NoneType'",
+  "case_traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-finance-followups-qualification/isolated_cases.py\", line 15, in exercise\n    run(operation, result)\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-finance-factory-progress-followup-qualification/runner.py\", line 53, in run\n    current.rollback();operation(current,c,database,url,result)\n                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-finance-factory-progress-followup-qualification/cases.py\", line 49, in factory_cron\n    factory.exercise(conn,cur,database,url,report)\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-finance-factory-progress-followup-qualification/factory.py\", line 97, in exercise\n    states,financial=waiting.observe(wc,[finance_key,bounded_key],capture,report)\n                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-finance-factory-progress-followup-qualification/waiting.py\", line 26, in observe\n    assert 0<=done<=count,'FACTORY_PROGRESS_FINANCE_COUNTER_INVALID'\n           ^^^^^^^^^^^^^^\nTypeError: '<=' not supported between instances of 'int' and 'NoneType'\n",
+  "observed_initial_finance": {
+    "state": "RUNNING",
+    "units_done": 0,
+    "units_total": null,
+    "failure_code": null
+  },
+  "children": {
+    "COMBINED_UNCHANGED_CHILD_VISIBILITY": "PASS",
+    "COMBINED_NULL_SNAPSHOT_REFUSAL_AND_RECOVERY": "PASS",
+    "COMBINED_UNCHANGED_NATIVE20": "PASS",
+    "COMBINED_INDEPENDENT_SIGNATURE": "PASS",
+    "COMBINED_CURRENT_PUBLIC_ACTUAL_CRON": "PASS",
+    "COMBINED_SMALL_PRICE_FACTORY_REPORT_PAIRS": "PASS",
+    "COMBINED_CURRENT_PUBLIC_FACTORY1200X3_ACTUAL_CRON": "INCOMPLETE"
+  },
+  "all_seven_installed_restorations_exact": true,
+  "outer_restoration": {
+    "cp6_restored": true,
+    "advisor_gate": true,
+    "baseline_full22_all_rows_all_sequences_equal": true,
+    "baseline_advisors_equal": true
+  },
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "correction": "Preserve NULL total only for RUNNING zero-done pre-plan capture; retain finite progress watch and all terminal/data oracles.",
+  "product_SQL_changed": false,
+  "original_business_assertions_changed": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

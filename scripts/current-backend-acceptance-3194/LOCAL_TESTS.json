@@ -1,0 +1,14 @@
+{
+  "status": "PASS",
+  "tests": 5,
+  "actual_original_pair_verified": true,
+  "changed_retained_original_refused": true,
+  "changed_fresh_original_refused": true,
+  "missing_fresh_package_refused": true,
+  "different_current_backend_refused": true,
+  "log_bytes": 103,
+  "log_sha256": "c55b0161b5710efd432c363c5f08ab08c22819b2fe7913b40fd22e9a96f77832",
+  "new_database_or_Auth_browser_cases": 0,
+  "independent_acceptance": false,
+  "production_go": false
+}

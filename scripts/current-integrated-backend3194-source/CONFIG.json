@@ -1,0 +1,814 @@
+{
+  "base_head": "142b408f9d7a36f4ccd188af3770c58f63ca964f",
+  "qualified_component_head": "6d966d6e3074ae3a7b5f11a4dd46d986131d6fcd",
+  "qualified_component_tree": "0cf0a5a686c1fbbc80d019f11f08fc76cd5491b3",
+  "imports": [
+    {
+      "path": ".github/workflows/cp7-current-frozen-finance-factory-date2.yml",
+      "status": "D",
+      "blob": null
+    },
+    {
+      "path": ".github/workflows/cp7-current-frozen-finance-factory-observe.yml",
+      "status": "D",
+      "blob": null
+    },
+    {
+      "path": ".github/workflows/cp7-current-frozen-finance-native.yml",
+      "status": "D",
+      "blob": null
+    },
+    {
+      "path": ".github/workflows/cp7-current-frozen-public-cron.yml",
+      "status": "D",
+      "blob": null
+    },
+    {
+      "path": ".github/workflows/cp7-current-frozen-public-native.yml",
+      "status": "D",
+      "blob": null
+    },
+    {
+      "path": ".github/workflows/cp7-current-frozen-units-native.yml",
+      "status": "D",
+      "blob": null
+    },
+    {
+      "path": ".github/workflows/cp7-current-versioned-performance-browser.yml",
+      "status": "D",
+      "blob": null
+    },
+    {
+      "path": ".github/workflows/cp7-current-versioned-performance-cron.yml",
+      "status": "D",
+      "blob": null
+    },
+    {
+      "path": ".github/workflows/cp7-current-versioned-performance-finance.yml",
+      "status": "D",
+      "blob": null
+    },
+    {
+      "path": ".github/workflows/cp7-current-versioned-performance-native.yml",
+      "status": "D",
+      "blob": null
+    },
+    {
+      "path": ".github/workflows/cp7-current-versioned-performance-restore.yml",
+      "status": "D",
+      "blob": null
+    },
+    {
+      "path": ".github/workflows/cp7-current-versioned-performance-transport.yml",
+      "status": "D",
+      "blob": null
+    },
+    {
+      "path": ".github/workflows/cp7-d17-18-choice-finance-cron.yml",
+      "status": "D",
+      "blob": null
+    },
+    {
+      "path": ".github/workflows/cp7-d17-18-choice-preparation-native.yml",
+      "status": "D",
+      "blob": null
+    },
+    {
+      "path": ".github/workflows/cp7-d17-18-choice-preparation-transport.yml",
+      "status": "D",
+      "blob": null
+    },
+    {
+      "path": ".github/workflows/cp7-d17-18-complete-components.yml",
+      "status": "A",
+      "blob": "1eb8237dd1122947121d931825f3f1da6c2c6c84"
+    },
+    {
+      "path": ".github/workflows/cp7-d17-18-consistent-capture.yml",
+      "status": "D",
+      "blob": null
+    },
+    {
+      "path": ".github/workflows/cp7-d17-18-factory-initial-stage.yml",
+      "status": "A",
+      "blob": "f648c9ea040258dbdb5552e01a5808f98a40f214"
+    },
+    {
+      "path": ".github/workflows/cp7-d17-18-factory-live-heartbeat.yml",
+      "status": "A",
+      "blob": "ffc0f75057f441ed445d50e55a3c4e9d532d0a66"
+    },
+    {
+      "path": ".github/workflows/cp7-d17-18-factory-operational-profile.yml",
+      "status": "A",
+      "blob": "ea404d68aa1f8148a2a53a838754d8a184c5d618"
+    },
+    {
+      "path": ".github/workflows/cp7-d17-18-factory-progress.yml",
+      "status": "A",
+      "blob": "f95a6ee2ff928b31f6ecd462b86ca4ad11588e86"
+    },
+    {
+      "path": ".github/workflows/cp7-d17-18-factory-stage-profile.yml",
+      "status": "D",
+      "blob": null
+    },
+    {
+      "path": ".github/workflows/cp7-d17-18-finance-check-reuse-diagnostic.yml",
+      "status": "D",
+      "blob": null
+    },
+    {
+      "path": ".github/workflows/cp7-d17-18-finance-followups.yml",
+      "status": "D",
+      "blob": null
+    },
+    {
+      "path": ".github/workflows/cp7-d17-18-finance-reader-diagnostic.yml",
+      "status": "D",
+      "blob": null
+    },
+    {
+      "path": ".github/workflows/cp7-d17-18-finance-reader-source-race.yml",
+      "status": "D",
+      "blob": null
+    },
+    {
+      "path": ".github/workflows/cp7-d17-18-progress-finance-ui-browser.yml",
+      "status": "D",
+      "blob": null
+    },
+    {
+      "path": ".github/workflows/cp7-d17-18-progress-native.yml",
+      "status": "D",
+      "blob": null
+    },
+    {
+      "path": ".github/workflows/cp7-d17-18-readonly-finance-composition.yml",
+      "status": "D",
+      "blob": null
+    },
+    {
+      "path": ".github/workflows/cp7-d17-18-workflow-history-isolation.yml",
+      "status": "A",
+      "blob": "fe722a3cc84e43a26484dae53de7200f280b78f9"
+    },
+    {
+      "path": "docs/cp7/d17-18/a-finance-progress-observer-20261028/HANDOFF.md",
+      "status": "A",
+      "blob": "05b8679bc1f9e019274d27e44bf190afde0407f7"
+    },
+    {
+      "path": "docs/cp7/d17-18/a-finance-progress-observer-20261028/LOCAL_TEST_RESULTS.json",
+      "status": "A",
+      "blob": "4a4e4e0cd7ae9d26664e47d3bd1cb42e0d19431f"
+    },
+    {
+      "path": "docs/cp7/d17-18/a-finance-progress-observer-20261028/SOURCE_SUCCESSOR.json",
+      "status": "A",
+      "blob": "082ae2c7fc890da7e6eb9b14503c269e2fa94b68"
+    },
+    {
+      "path": "scripts/current-complete-components-preparation/CONFIG.json",
+      "status": "A",
+      "blob": "d4936577dc971b69fd7a6661551092cd708c827b"
+    },
+    {
+      "path": "scripts/current-complete-components-preparation/LOCAL_RECEIPT.json",
+      "status": "A",
+      "blob": "f8c78d25d9361a4603e63a8d85a2de9fa0035138"
+    },
+    {
+      "path": "scripts/current-complete-components-preparation/ORIGIN.json",
+      "status": "A",
+      "blob": "2f3154db12cd4fc078dd46d1795c68892610ca38"
+    },
+    {
+      "path": "scripts/current-complete-components-preparation/README.md",
+      "status": "A",
+      "blob": "b95a5344c6e72ca82baf8f4eef7a61138af5ed07"
+    },
+    {
+      "path": "scripts/current-complete-components-preparation/WORKFLOW_ORIGIN.json",
+      "status": "A",
+      "blob": "f7774ebd0cfac13d0eb6746e0147c802381d7976"
+    },
+    {
+      "path": "scripts/current-complete-components-preparation/check.py",
+      "status": "A",
+      "blob": "3686478aebcfbb3b6bce7a61e2f74b04f92904b3"
+    },
+    {
+      "path": "scripts/current-complete-components-preparation/derivation.py",
+      "status": "A",
+      "blob": "d4eed2ee449992dba080237873b2f2d52a42364a"
+    },
+    {
+      "path": "scripts/current-factory-initial-stage/BINDING.json",
+      "status": "A",
+      "blob": "c6503c0dfd794d1d8bef0723cb6bd5d4a6b585d3"
+    },
+    {
+      "path": "scripts/current-factory-initial-stage/CONFIG.json",
+      "status": "A",
+      "blob": "59b95209ad97842186b52a829408dfff8f3e45a9"
+    },
+    {
+      "path": "scripts/current-factory-initial-stage/LOCAL_PREFLIGHT.json",
+      "status": "A",
+      "blob": "a4151afbaa77831ef65c74a384396a2deb2afc97"
+    },
+    {
+      "path": "scripts/current-factory-initial-stage/ORIGIN.json",
+      "status": "A",
+      "blob": "8abcac307e3a71387721758a6046dba5a3465f1a"
+    },
+    {
+      "path": "scripts/current-factory-initial-stage/README.md",
+      "status": "A",
+      "blob": "842696e2c93b1e10b3af57644e8b6d2440d7609d"
+    },
+    {
+      "path": "scripts/current-factory-initial-stage/SOURCE.json",
+      "status": "A",
+      "blob": "f54ed0c12b975c2a0adcdef68646253efc8b5767"
+    },
+    {
+      "path": "scripts/current-factory-initial-stage/WORKFLOW_ORIGIN.json",
+      "status": "A",
+      "blob": "1493a02326b6f7a1728d18b2a19202f16a836cb1"
+    },
+    {
+      "path": "scripts/current-factory-initial-stage/admission.py",
+      "status": "A",
+      "blob": "5699566172ee43a776c301a6fbfb96fb7ab2fa1e"
+    },
+    {
+      "path": "scripts/current-factory-initial-stage/cases.py",
+      "status": "A",
+      "blob": "f22abbd2f61ead7d4430a410d28a673406a028b4"
+    },
+    {
+      "path": "scripts/current-factory-initial-stage/composition.py",
+      "status": "A",
+      "blob": "05a4d34f507659291b6dff7920d2be3f99b47313"
+    },
+    {
+      "path": "scripts/current-factory-initial-stage/evidence.py",
+      "status": "A",
+      "blob": "498db7494fb273e345129f6b525a403df66777b2"
+    },
+    {
+      "path": "scripts/current-factory-initial-stage/factory.py",
+      "status": "A",
+      "blob": "61ef7c6dcf57fa121ee82003e4382aa330c70d36"
+    },
+    {
+      "path": "scripts/current-factory-initial-stage/fetch_profile.py",
+      "status": "A",
+      "blob": "a9fc8cc733a67fd4b85fe86982d9670eead8f69a"
+    },
+    {
+      "path": "scripts/current-factory-initial-stage/guard_cases.py",
+      "status": "A",
+      "blob": "eca835a16db20af7b307f470dda194ca9491907e"
+    },
+    {
+      "path": "scripts/current-factory-initial-stage/probe.py",
+      "status": "A",
+      "blob": "bdbfb8679b8c0db890bff141110941d9a47fa3ed"
+    },
+    {
+      "path": "scripts/current-factory-initial-stage/restoration.py",
+      "status": "A",
+      "blob": "bb016482f6d924b9172275683e51c18f47284f2d"
+    },
+    {
+      "path": "scripts/current-factory-initial-stage/runner.py",
+      "status": "A",
+      "blob": "7d9dfe8f1f146116d1c5ebad2786a795fa05ea96"
+    },
+    {
+      "path": "scripts/current-factory-initial-stage/source_guard.py",
+      "status": "A",
+      "blob": "7964b7442d1a967ff25530f664d8b8dfb0bafecc"
+    },
+    {
+      "path": "scripts/current-factory-initial-stage/stream_data.py",
+      "status": "A",
+      "blob": "bcf5eb9d144ca768b8e8e77d8c58a919b73fc3bc"
+    },
+    {
+      "path": "scripts/current-factory-initial-stage/test_boundaries.py",
+      "status": "A",
+      "blob": "240ae8ea47e44469cc94c63ab9add9720300c471"
+    },
+    {
+      "path": "scripts/current-factory-initial-stage/waiting.py",
+      "status": "A",
+      "blob": "db388d8bdd03e73de1ca10a22ea2aab827c5639c"
+    },
+    {
+      "path": "scripts/current-factory-initial-stage/worker.py",
+      "status": "A",
+      "blob": "84f0d76f89eb0163413c2ad9ebf902fbc9f2f2b1"
+    },
+    {
+      "path": "scripts/current-factory-initial-stage/workflow_guard.py",
+      "status": "A",
+      "blob": "ed3930e57d90b01a9af96f831a131fd6c8deeaeb"
+    },
+    {
+      "path": "scripts/current-factory-live-heartbeat/CONFIG.json",
+      "status": "A",
+      "blob": "3cc5284df19fff026641ecf1f9331314283ad90a"
+    },
+    {
+      "path": "scripts/current-factory-live-heartbeat/ORIGIN.json",
+      "status": "A",
+      "blob": "3e30f4fcc6574cb3f1231b94d95d81d4b856682f"
+    },
+    {
+      "path": "scripts/current-factory-live-heartbeat/README.md",
+      "status": "A",
+      "blob": "3a311df159cfdea7ffdc3e8ced9d077caf44d249"
+    },
+    {
+      "path": "scripts/current-factory-live-heartbeat/SOURCE.json",
+      "status": "A",
+      "blob": "da46bc33c86e212088959c97feaa3d087f5de6f2"
+    },
+    {
+      "path": "scripts/current-factory-live-heartbeat/WORKFLOW_ORIGIN.json",
+      "status": "A",
+      "blob": "82815557a7fba52e267a408f637c19d89f994cab"
+    },
+    {
+      "path": "scripts/current-factory-live-heartbeat/admission.py",
+      "status": "A",
+      "blob": "caf3c33921602baa051073f482d5166eadab0362"
+    },
+    {
+      "path": "scripts/current-factory-live-heartbeat/cases.py",
+      "status": "A",
+      "blob": "97bff70a8cc5fc0ad281a81d7cd70c03e282d429"
+    },
+    {
+      "path": "scripts/current-factory-live-heartbeat/factory.py",
+      "status": "A",
+      "blob": "da33a564f6652d83da9bfcda7b8dca50d0954873"
+    },
+    {
+      "path": "scripts/current-factory-live-heartbeat/fetch_retained.py",
+      "status": "A",
+      "blob": "5d5e37bd13b89edf5972e450e9f69e9ff4b9c19f"
+    },
+    {
+      "path": "scripts/current-factory-live-heartbeat/heartbeat.py",
+      "status": "A",
+      "blob": "e6c55ca9dbe592408f3b124cac47c825ce705b23"
+    },
+    {
+      "path": "scripts/current-factory-live-heartbeat/probe.py",
+      "status": "A",
+      "blob": "a023bd346a321c33227fe684dc8dbf527b9b2ebe"
+    },
+    {
+      "path": "scripts/current-factory-live-heartbeat/retained.py",
+      "status": "A",
+      "blob": "37b6c3a21cf1a15762d2e5065ba698c4b2a7b327"
+    },
+    {
+      "path": "scripts/current-factory-live-heartbeat/runner.py",
+      "status": "A",
+      "blob": "a37b5228c5cb5e5e395605192ccef211b5862b70"
+    },
+    {
+      "path": "scripts/current-factory-live-heartbeat/source_guard.py",
+      "status": "A",
+      "blob": "f666fe043e22ee6fa1cb3aecc5c6ee3a6347b0d4"
+    },
+    {
+      "path": "scripts/current-factory-live-heartbeat/test_heartbeat.py",
+      "status": "A",
+      "blob": "12ff4ce865a3ca6ad9e7936eb105a7efef52db8d"
+    },
+    {
+      "path": "scripts/current-factory-operational-profile-qualification/CONFIG.json",
+      "status": "A",
+      "blob": "70f4cf86bc7105fc6f6244d8ab8ca8f02b78d898"
+    },
+    {
+      "path": "scripts/current-factory-operational-profile-qualification/FIRST_4AC_FAILURE.json",
+      "status": "A",
+      "blob": "cc3b14a4bc9704a6bbfcc070d71f6bdea8dc5067"
+    },
+    {
+      "path": "scripts/current-factory-operational-profile-qualification/ORIGIN.json",
+      "status": "A",
+      "blob": "6c77533dbc5b7da08935b6ff89916b7499a727a4"
+    },
+    {
+      "path": "scripts/current-factory-operational-profile-qualification/README.md",
+      "status": "A",
+      "blob": "9d20fabafd0f68f5616a55b1f1e65130d6500510"
+    },
+    {
+      "path": "scripts/current-factory-operational-profile-qualification/SOURCE.json",
+      "status": "A",
+      "blob": "2f00b74ab72ea06b9a0def9437325886c5eab673"
+    },
+    {
+      "path": "scripts/current-factory-operational-profile-qualification/admission.py",
+      "status": "A",
+      "blob": "97513a8b95985896da8818bad6d40fec44f04f87"
+    },
+    {
+      "path": "scripts/current-factory-operational-profile-qualification/cases.py",
+      "status": "A",
+      "blob": "1a99796e1d712e1fbbb1e662f8ab8e302a765ace"
+    },
+    {
+      "path": "scripts/current-factory-operational-profile-qualification/evidence.py",
+      "status": "A",
+      "blob": "a4bfb824e9ada9a77dfef5fa8d58d9159a63cd65"
+    },
+    {
+      "path": "scripts/current-factory-operational-profile-qualification/fetch_failure.py",
+      "status": "A",
+      "blob": "778cbee38714e3b329eb9b030779c2c940374227"
+    },
+    {
+      "path": "scripts/current-factory-operational-profile-qualification/measurements.py",
+      "status": "A",
+      "blob": "9fe67774e9b1546e8a5b29e6d35ae852ab84963c"
+    },
+    {
+      "path": "scripts/current-factory-operational-profile-qualification/probe.py",
+      "status": "A",
+      "blob": "b9aeedbbac8a1c44692d3ed8070a7051a5e06cb1"
+    },
+    {
+      "path": "scripts/current-factory-operational-profile-qualification/runner.py",
+      "status": "A",
+      "blob": "4b503cc4739039d8011628e22bec7d31a401a1cc"
+    },
+    {
+      "path": "scripts/current-factory-operational-profile-qualification/source_guard.py",
+      "status": "A",
+      "blob": "831377b2eb9efc13cd8440feedd57f0264f26adb"
+    },
+    {
+      "path": "scripts/current-factory-operational-profile-qualification/test_evidence.py",
+      "status": "A",
+      "blob": "ac72cb7cad6906d3b9c248a0de53cf41c3ba53d0"
+    },
+    {
+      "path": "scripts/current-finance-factory-progress-followup-qualification/BINDING.json",
+      "status": "A",
+      "blob": "c6503c0dfd794d1d8bef0723cb6bd5d4a6b585d3"
+    },
+    {
+      "path": "scripts/current-finance-factory-progress-followup-qualification/CONFIG.json",
+      "status": "A",
+      "blob": "e343191d075299b593c7b3a658f9277b529c928d"
+    },
+    {
+      "path": "scripts/current-finance-factory-progress-followup-qualification/D3_PREREQUISITE.json",
+      "status": "A",
+      "blob": "3c57c2ebf587455ee541efec6fe87178b0a77bac"
+    },
+    {
+      "path": "scripts/current-finance-factory-progress-followup-qualification/FIRST49_FAILURE.json",
+      "status": "A",
+      "blob": "3e4f60a39fd1bbc2ace0317bdb11379630f9df96"
+    },
+    {
+      "path": "scripts/current-finance-factory-progress-followup-qualification/FIRST_DF_FAILURE.json",
+      "status": "A",
+      "blob": "cad7bb5298d6d0b1cdf8f2fe63b818ed7d2d144d"
+    },
+    {
+      "path": "scripts/current-finance-factory-progress-followup-qualification/ORIGIN.json",
+      "status": "A",
+      "blob": "e333dbff3b5c8cc080ee7883813c684e20d228f5"
+    },
+    {
+      "path": "scripts/current-finance-factory-progress-followup-qualification/README.md",
+      "status": "A",
+      "blob": "87eeece8588d3e4bfae437633aa94c7158448e2a"
+    },
+    {
+      "path": "scripts/current-finance-factory-progress-followup-qualification/SOURCE.json",
+      "status": "A",
+      "blob": "90aed37768e916b1f2633c6b53c3227e15e2c2b2"
+    },
+    {
+      "path": "scripts/current-finance-factory-progress-followup-qualification/WORKFLOW_ORIGIN.json",
+      "status": "A",
+      "blob": "595d3cef2fb7d97686fb4972270456f0756360a3"
+    },
+    {
+      "path": "scripts/current-finance-factory-progress-followup-qualification/admission.py",
+      "status": "A",
+      "blob": "8533641f176f4746baeddeb347c38a5b65607a1d"
+    },
+    {
+      "path": "scripts/current-finance-factory-progress-followup-qualification/cases.py",
+      "status": "A",
+      "blob": "f22abbd2f61ead7d4430a410d28a673406a028b4"
+    },
+    {
+      "path": "scripts/current-finance-factory-progress-followup-qualification/composition.py",
+      "status": "A",
+      "blob": "6b1ec1874d419f99644d43e8154a2c9222ce8897"
+    },
+    {
+      "path": "scripts/current-finance-factory-progress-followup-qualification/evidence.py",
+      "status": "A",
+      "blob": "d97340f07fa5032a5df9981b78a8659abb664b20"
+    },
+    {
+      "path": "scripts/current-finance-factory-progress-followup-qualification/factory.py",
+      "status": "A",
+      "blob": "035478269cd5d38dfa6dd7d1636cea0b41659293"
+    },
+    {
+      "path": "scripts/current-finance-factory-progress-followup-qualification/fetch_d3.py",
+      "status": "A",
+      "blob": "6838461953002d7837e589dd0d9718ae782835b7"
+    },
+    {
+      "path": "scripts/current-finance-factory-progress-followup-qualification/opening.py",
+      "status": "A",
+      "blob": "35caf29dcfea1f99b6edff91213f57111f893e5c"
+    },
+    {
+      "path": "scripts/current-finance-factory-progress-followup-qualification/probe.py",
+      "status": "A",
+      "blob": "d2ee7f13bec1dc00d9a30a91bc105affab59dfde"
+    },
+    {
+      "path": "scripts/current-finance-factory-progress-followup-qualification/restoration.py",
+      "status": "A",
+      "blob": "bb016482f6d924b9172275683e51c18f47284f2d"
+    },
+    {
+      "path": "scripts/current-finance-factory-progress-followup-qualification/retained_d3.py",
+      "status": "A",
+      "blob": "31d0477a0ed83d66beb70fb186d8f631b0afbecf"
+    },
+    {
+      "path": "scripts/current-finance-factory-progress-followup-qualification/runner.py",
+      "status": "A",
+      "blob": "6422e61e2dcd9a0d05b60f1fa48859c57d055881"
+    },
+    {
+      "path": "scripts/current-finance-factory-progress-followup-qualification/source_guard.py",
+      "status": "A",
+      "blob": "c8e2c07d85672511aabb0600b1191d2d05e68c68"
+    },
+    {
+      "path": "scripts/current-finance-factory-progress-followup-qualification/stream_data.py",
+      "status": "A",
+      "blob": "bcf5eb9d144ca768b8e8e77d8c58a919b73fc3bc"
+    },
+    {
+      "path": "scripts/current-finance-factory-progress-followup-qualification/test_boundaries.py",
+      "status": "A",
+      "blob": "472f3752cc4a8f900c52d77b66addc3ded5f36e4"
+    },
+    {
+      "path": "scripts/current-finance-factory-progress-followup-qualification/test_opening.py",
+      "status": "A",
+      "blob": "c6444371214c27002e5aa20f4586fa5fe99e850d"
+    },
+    {
+      "path": "scripts/current-finance-factory-progress-followup-qualification/test_retained_d3.py",
+      "status": "A",
+      "blob": "0d2fb695c60f4f613b267b3c778822ef71d757e4"
+    },
+    {
+      "path": "scripts/current-finance-factory-progress-followup-qualification/test_runtime_entry.py",
+      "status": "A",
+      "blob": "42e8489e06313ff04ddf9a1da7f775adc4bbf540"
+    },
+    {
+      "path": "scripts/current-finance-factory-progress-followup-qualification/test_stream_data.py",
+      "status": "A",
+      "blob": "f8561c93b2fa4351f4016e90073eb4f3a3259e1d"
+    },
+    {
+      "path": "scripts/current-finance-factory-progress-followup-qualification/test_unplanned_finance.py",
+      "status": "A",
+      "blob": "40a59ed4ec201e78dafd67c777328baaec4ec783"
+    },
+    {
+      "path": "scripts/current-finance-factory-progress-followup-qualification/test_waiting.py",
+      "status": "A",
+      "blob": "39bc8c0e68bf291447f1f866cc4f58b54f67378b"
+    },
+    {
+      "path": "scripts/current-finance-factory-progress-followup-qualification/waiting.py",
+      "status": "A",
+      "blob": "a825cce2e69a81c99ccdbf0229e93b6b1bcca706"
+    },
+    {
+      "path": "scripts/current-finance-factory-progress-followup-qualification/workflow_guard.py",
+      "status": "A",
+      "blob": "8e76e5b387b4c65dc47ce60d9fbeb335b1953926"
+    },
+    {
+      "path": "scripts/current-ui-tooling-source-successor/LOCAL_RECEIPT.json",
+      "status": "A",
+      "blob": "ee051018188eb4e336ed3900634711977cf69ee9"
+    },
+    {
+      "path": "scripts/current-ui-tooling-source-successor/ORIGIN.json",
+      "status": "A",
+      "blob": "ea83137a9a556f2c51e34b721a69d9f3c6132ed0"
+    },
+    {
+      "path": "scripts/current-ui-tooling-source-successor/README.md",
+      "status": "A",
+      "blob": "53b0c630ef5c5cc92e09c1a8a0cd78e8833c83a2"
+    },
+    {
+      "path": "scripts/current-ui-tooling-source-successor/check.py",
+      "status": "A",
+      "blob": "48a67ffa4c91ec6af751ddc8a651b1f428f58e76"
+    },
+    {
+      "path": "scripts/current-ui-tooling-source-successor/test_successor.py",
+      "status": "A",
+      "blob": "03714853d53dd005d43cad23494bca000c1da839"
+    },
+    {
+      "path": "scripts/current-ui-tooling-source-successor/ui_binding.py",
+      "status": "A",
+      "blob": "fbbb0806683d130790dba7f8dbb1ba5fd0f4639b"
+    },
+    {
+      "path": "scripts/current-workflow-history-isolation/ARCHIVE.json",
+      "status": "A",
+      "blob": "55279d41191a71a65b20dd2a79501b6807554496"
+    },
+    {
+      "path": "scripts/current-workflow-history-isolation/README.md",
+      "status": "A",
+      "blob": "825b7e4c47912ba470d17211f449a9b3e430de2a"
+    },
+    {
+      "path": "scripts/current-workflow-history-isolation/check.py",
+      "status": "A",
+      "blob": "ec627076600d6f863ce238e975c0f8a954f1ce8c"
+    },
+    {
+      "path": "scripts/current-workflow-history-isolation/frozen-workflows/cp7-current-frozen-finance-factory-date2.yml.txt",
+      "status": "A",
+      "blob": "dafce7fb7ca343cd3c69c4217b11ff770692fcf2"
+    },
+    {
+      "path": "scripts/current-workflow-history-isolation/frozen-workflows/cp7-current-frozen-finance-factory-observe.yml.txt",
+      "status": "A",
+      "blob": "a15ff24bd2a3cc7356210ec326ac71dd53e327bf"
+    },
+    {
+      "path": "scripts/current-workflow-history-isolation/frozen-workflows/cp7-current-frozen-finance-native.yml.txt",
+      "status": "A",
+      "blob": "d5618826674f9602f37ff57f02cf76920f885371"
+    },
+    {
+      "path": "scripts/current-workflow-history-isolation/frozen-workflows/cp7-current-frozen-public-cron.yml.txt",
+      "status": "A",
+      "blob": "1666552357241e76b70d6af3531744f2eced7997"
+    },
+    {
+      "path": "scripts/current-workflow-history-isolation/frozen-workflows/cp7-current-frozen-public-native.yml.txt",
+      "status": "A",
+      "blob": "695f8f3dc027d653ef3cc988068738067fc1f16c"
+    },
+    {
+      "path": "scripts/current-workflow-history-isolation/frozen-workflows/cp7-current-frozen-units-native.yml.txt",
+      "status": "A",
+      "blob": "4c47c1390075ec57ec0dee9b5e42e51a7db7d890"
+    },
+    {
+      "path": "scripts/current-workflow-history-isolation/frozen-workflows/cp7-current-versioned-performance-browser.yml.txt",
+      "status": "A",
+      "blob": "a2b9bfbe4510bd8c130367c97365fb81457dbbef"
+    },
+    {
+      "path": "scripts/current-workflow-history-isolation/frozen-workflows/cp7-current-versioned-performance-cron.yml.txt",
+      "status": "A",
+      "blob": "f833971db0ddf6fd4dfd13fead678a8ee885fc46"
+    },
+    {
+      "path": "scripts/current-workflow-history-isolation/frozen-workflows/cp7-current-versioned-performance-finance.yml.txt",
+      "status": "A",
+      "blob": "736698c05cf3d2510145fda170921f6a1cebf302"
+    },
+    {
+      "path": "scripts/current-workflow-history-isolation/frozen-workflows/cp7-current-versioned-performance-native.yml.txt",
+      "status": "A",
+      "blob": "e27a65599619da389f2b6e7422e2592060331193"
+    },
+    {
+      "path": "scripts/current-workflow-history-isolation/frozen-workflows/cp7-current-versioned-performance-restore.yml.txt",
+      "status": "A",
+      "blob": "0d1e20acfd81a9c5c1b3dffedffef9785ed04f6a"
+    },
+    {
+      "path": "scripts/current-workflow-history-isolation/frozen-workflows/cp7-current-versioned-performance-transport.yml.txt",
+      "status": "A",
+      "blob": "5acf891f40e016e5946d6ef7465c1c605dc9a1c7"
+    },
+    {
+      "path": "scripts/current-workflow-history-isolation/frozen-workflows/cp7-d17-18-choice-finance-cron.yml.txt",
+      "status": "A",
+      "blob": "a45a65a6352c4831138647b814190d0e637c71ce"
+    },
+    {
+      "path": "scripts/current-workflow-history-isolation/frozen-workflows/cp7-d17-18-choice-preparation-native.yml.txt",
+      "status": "A",
+      "blob": "3ef29c92a3e4b6325a3c990262cf35652431abf9"
+    },
+    {
+      "path": "scripts/current-workflow-history-isolation/frozen-workflows/cp7-d17-18-choice-preparation-transport.yml.txt",
+      "status": "A",
+      "blob": "80a55d4f7d589bfc934baf6f8e013ae22bcb022c"
+    },
+    {
+      "path": "scripts/current-workflow-history-isolation/frozen-workflows/cp7-d17-18-consistent-capture.yml.txt",
+      "status": "A",
+      "blob": "72c3b8ae1381b6546c2f41295c489fb3942b4762"
+    },
+    {
+      "path": "scripts/current-workflow-history-isolation/frozen-workflows/cp7-d17-18-factory-stage-profile.yml.txt",
+      "status": "A",
+      "blob": "1e8f675c5609915e4a8c300eefdfa127788b2843"
+    },
+    {
+      "path": "scripts/current-workflow-history-isolation/frozen-workflows/cp7-d17-18-finance-check-reuse-diagnostic.yml.txt",
+      "status": "A",
+      "blob": "06ea340b5b185feb1eb42cdd6defd4ee23f244ce"
+    },
+    {
+      "path": "scripts/current-workflow-history-isolation/frozen-workflows/cp7-d17-18-finance-followups.yml.txt",
+      "status": "A",
+      "blob": "989545c8f26ae1b399694da933af1950180cafdb"
+    },
+    {
+      "path": "scripts/current-workflow-history-isolation/frozen-workflows/cp7-d17-18-finance-reader-diagnostic.yml.txt",
+      "status": "A",
+      "blob": "ba7876645d5a02808ba395a126f951dafe765258"
+    },
+    {
+      "path": "scripts/current-workflow-history-isolation/frozen-workflows/cp7-d17-18-finance-reader-source-race.yml.txt",
+      "status": "A",
+      "blob": "b01c64ebaa48474d05f968aa2200646a0c6dbc8a"
+    },
+    {
+      "path": "scripts/current-workflow-history-isolation/frozen-workflows/cp7-d17-18-progress-finance-ui-browser.yml.txt",
+      "status": "A",
+      "blob": "ef0ba7b691b2d05011ce0ac4ed5ebc06a5c00598"
+    },
+    {
+      "path": "scripts/current-workflow-history-isolation/frozen-workflows/cp7-d17-18-progress-native.yml.txt",
+      "status": "A",
+      "blob": "ae0af8eba362178a9ef3e2f7220aecf85e2c9c16"
+    },
+    {
+      "path": "scripts/current-workflow-history-isolation/frozen-workflows/cp7-d17-18-readonly-finance-composition.yml.txt",
+      "status": "A",
+      "blob": "b36232710e3e6e24be48aa29fb409ab8527be791"
+    },
+    {
+      "path": "scripts/current-workflow-history-isolation/materialize.py",
+      "status": "A",
+      "blob": "49b0cdba7c07948b4d3466067d70faa9213331af"
+    },
+    {
+      "path": "src/NativeAnalysisFinancePanel.progress.dom.test.tsx",
+      "status": "A",
+      "blob": "d39728cee649965133b7fffaef408bb19e3d8af5"
+    },
+    {
+      "path": "src/NativeAnalysisFinancePanel.tsx",
+      "status": "M",
+      "blob": "e73d56efeab5b2c80f6420fd1cde00c848feecd9"
+    }
+  ],
+  "status_paths": [
+    "docs/cp7/d17-14/ow15/D17_18_FACTORY_LIVE_3194_ACTUAL_20261028.json",
+    "docs/cp7/d17-14/ow15/B_BACKEND_READY_3194_20261028.json",
+    "docs/cp7/d17-14/ow15/CP7_AUDITOR_HANDOFF_INDEX_PREPARED_20261028.json",
+    "docs/cp7/d17-14/ow15/ACTIVE_WRITER_A_20261025.json",
+    "docs/cp7/d17-14/KOORDINASI.md"
+  ],
+  "backend_qualification_head": "3194b9c56be7af86ee45ccb1c6605204a712f91b",
+  "frontend_Auth_browser_accepted": false,
+  "default_adopted": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

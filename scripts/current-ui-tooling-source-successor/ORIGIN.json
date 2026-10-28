@@ -1,0 +1,30 @@
+{
+  "path": "scripts/current-tooling-source-successor/check.py",
+  "sha256": "60b63ff91fed56da1f6a4d64679e63d978965c010605ccf4d5a789c3150aad12",
+  "changes": [
+    {
+      "old": "HERE/'tooling.py'",
+      "new": "ROOT/'scripts/current-tooling-source-successor/tooling.py'"
+    },
+    {
+      "old": "    tooling.derivation();successor=tooling.checked()",
+      "new": "    tooling.derivation();successor=tooling.checked()\n    spec=importlib.util.spec_from_file_location('scoped_A_UI_successor',HERE/'ui_binding.py');ui=importlib.util.module_from_spec(spec);spec.loader.exec_module(ui)\n    ui.derivation();frontend=ui.checked()"
+    },
+    {
+      "old": "    assert expected[tooling.SCRIPT]==tooling.OLD",
+      "new": "    assert expected[tooling.SCRIPT]==tooling.OLD\n    assert expected[ui.PANEL]==ui.OLD"
+    },
+    {
+      "old": "declared=successor['files'][path]if path==tooling.SCRIPT else digest",
+      "new": "declared=successor['files'][path]if path==tooling.SCRIPT else frontend['files'][path]if path==ui.PANEL else digest"
+    },
+    {
+      "old": "status='PASS_SCOPED_TOOLING_SUCCESSOR_SOURCE_ONLY',unchanged_exact_files=len(expected)-1,",
+      "new": "status='PASS_SCOPED_JS_UI_SUCCESSORS_SOURCE_ONLY',unchanged_exact_files=len(expected)-2,\n        replaced_A_UI_files=1,new_UI_test_files=1,frontend_successor=frontend,"
+    },
+    {
+      "old": "cp6-proof/current-tooling-source-successor/SOURCE_CLOSURE.json",
+      "new": "cp6-proof/current-ui-tooling-source-successor/SOURCE_CLOSURE.json"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "contract": "cp7.backend-acceptance-verifier-source.v1",
+  "files": {
+    "scripts/current-backend-acceptance-3194/CONFIG.json": "4eabce28655e92c31c5dffed2ddc22e642ece225cbf7cfc16da3d96144ab0331",
+    "scripts/current-backend-acceptance-3194/LOCAL_TESTS.json": "d13be717012f1e9af5dabe6cd42c4719abe301c14070625aafe3b6dc7a386d0e",
+    "scripts/current-backend-acceptance-3194/README.md": "b227fd42c3d82e35a1d73f88656a1ea2061590dd9d352b04166e91f63496d40a",
+    "scripts/current-backend-acceptance-3194/test_acceptance.py": "17da6808fbe044504de312aa3d0e8f6d454dd3c6ec27587bade129404345266c",
+    "scripts/current-backend-acceptance-3194/verify.py": "a503ef568c2f5932397656e7946c74e5e43a94cc99ba58e8f35b3cf54704a71c"
+  },
+  "backend_qualification_head": "3194b9c56be7af86ee45ccb1c6605204a712f91b",
+  "production_go": false,
+  "independent_acceptance": false
+}

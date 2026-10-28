@@ -1,0 +1,125 @@
+{
+  "status": "READY_FOR_B_NEW_BACKEND_BINDING",
+  "recorded_at_utc": "2026-10-28T12:16:56.180561+00:00",
+  "integrator": "A",
+  "browser_writer": "B",
+  "selected_backend": {
+    "head": "3194b9c56be7af86ee45ccb1c6605204a712f91b",
+    "tree": "dd98cd5bbbafb3f257668d22317ab4b237c2fea8",
+    "run_id": 40677173176,
+    "job_id": 122778446042,
+    "artifact_id": 12813599744,
+    "artifact_name": "cp7-d17-18-factory-live-heartbeat-1",
+    "name": "CP7_D17_18_FACTORY_LIVE_HEARTBEAT_CLOSURE1.json",
+    "bytes": 77035513,
+    "sha256": "241adff1df19878a6bda9fd4b688cd609dd816e97080e860e1cc170f7c47b3c2",
+    "package_name": "T3_PACKAGE_INSTALL.json",
+    "package_bytes": 360443,
+    "package_sha256": "f45977ad11e476ce02433db264d3bd6fe7cfcb943401ab4c1f841f107485da5b",
+    "zip_bytes": 9645478,
+    "zip_sha256": "4134df462dc0f05ff53ab5318b280322a8e489b5e65a069a7ac32f7356b9be91"
+  },
+  "retained_backend": {
+    "head": "11c95c4ee2c784247e1be22ce0a582f4d85632c5",
+    "tree": "688a4ac63208e000602a30d406b4e080d2203a28",
+    "run_id": 40663882208,
+    "job_id": 122733390447,
+    "artifact_id": 12810096616,
+    "name": "CP7_D17_18_FACTORY_INITIAL_STAGE_NATIVE_SOURCE_CRON7.json",
+    "bytes": 86200383,
+    "sha256": "00f54997e358e91c3392073994b92b2d59f184678f01e4a2f63f2373106eb9a9",
+    "package_name": "T3_PACKAGE_INSTALL.json",
+    "package_bytes": 360442,
+    "package_sha256": "90586ffbb1327face6554b9a21d575c35bfcf33a06953cedfb3383db70f9bf90",
+    "zip_bytes": 10734684,
+    "zip_sha256": "784f17255ae3756b418a89162cd416e58a014a21baea34bd17e151b168e24ddb"
+  },
+  "qualification_composition": {
+    "retained_pass_groups": [
+      "COMBINED_UNCHANGED_CHILD_VISIBILITY",
+      "COMBINED_NULL_SNAPSHOT_REFUSAL_AND_RECOVERY",
+      "COMBINED_UNCHANGED_NATIVE20",
+      "COMBINED_INDEPENDENT_SIGNATURE",
+      "COMBINED_CURRENT_PUBLIC_ACTUAL_CRON",
+      "COMBINED_SMALL_PRICE_FACTORY_REPORT_PAIRS"
+    ],
+    "fresh_pass_groups": [
+      "COMBINED_CURRENT_PUBLIC_FACTORY1200X3_ACTUAL_CRON"
+    ],
+    "entire_backend_equal": true,
+    "seven_fresh_groups_claim": false,
+    "historical_11c_status": "INCOMPLETE"
+  },
+  "source_host": {
+    "head": "6d966d6e3074ae3a7b5f11a4dd46d986131d6fcd",
+    "tree": "0cf0a5a686c1fbbc80d019f11f08fc76cd5491b3",
+    "runtime_and_workflow_bytes_adopted_exactly_on_A_integration_branch": true,
+    "A_panel_head": "2790a9e5726e7724070f2fa01a2468061f2bae98",
+    "UI_JS_source_successor_head": "ace34c6f8a9bbad431b59ab9f2d7c0a6fdacc37f",
+    "A_integration_source_checker": "scripts/current-integrated-backend3194-source/check.py"
+  },
+  "backend_contract": {
+    "status": "QUALIFIED_BACKEND_COMPONENT_FOR_B_BINDING",
+    "owner": "A",
+    "client_owner": "B",
+    "parent": "5b32f4744eef66c2e9cc8619781faee446f360e7",
+    "path": "scripts/current-factory-initial-stage/worker.py",
+    "eligible": {
+      "units_done": 0,
+      "minimum_targets": 1000,
+      "bounded_request_contract": "cp7.bounded-analysis-request.v2"
+    },
+    "initial_server_statement_max_ms": 16000,
+    "ordinary_statement_max_ms": 8000,
+    "lock_max_ms": 2000,
+    "public_step_refusal": {
+      "sqlstate": "55000",
+      "message": "CP7_LARGE_INITIAL_PREPARATION_SERVER_REQUIRED",
+      "attempt_not_charged": true,
+      "existing_access_denial_takes_priority": true
+    },
+    "B_client_action": "Continue polling existing get/status with the same UUID during large initial work or after the explicit refusal. Implement a finite no-progress observation and safe same-request recovery; current driveStagedJob has no such bound. Preserve unknown totals and retry identity. A owns backend and its finance panel; B owns production/planning driver and actual browser. This draft is not backend acceptance.",
+    "signatures_changed": 0,
+    "new_public_RPC": 0,
+    "selected_backend": "3194b9c56be7af86ee45ccb1c6605204a712f91b",
+    "browser_unlock": "BACKEND_PREREQUISITE_ONLY; NEW_B_SOURCE_BINDING_REQUIRED",
+    "production_go": false,
+    "independent_acceptance": false,
+    "initial_schedule_name": "cp7-factory-initial-preparation",
+    "four_existing_schedules_unchanged": true
+  },
+  "verifier": {
+    "path": "scripts/current-backend-acceptance-3194/verify.py",
+    "source_manifest": "scripts/current-backend-acceptance-3194/SOURCE.json",
+    "source_manifest_sha256": "bd51267b454b3255a006002cae31988302334ede1027cc1600aa95286346dea6",
+    "call": "checked(retained_raw, retained_package_raw, fresh_raw, fresh_package_raw, actual_product_sources)",
+    "local_controls": 5,
+    "new_DB_Auth_browser_cases": 0
+  },
+  "B_current_observed_head": "51a9e72a89b4576283fe30cb17b56dd26fc57668",
+  "B_required_actions": [
+    "Use the existing e8fa-derived browser package on B own branch; do not duplicate adopted reopen files.",
+    "Implement the exact initial-stage refusal handling, finite no-progress observation and safe same-UUID recovery in B production driver. Match the exact message, not every55000/access error.",
+    "Bind both immutable backend Originals/packages, exact SHA/tree and current product.sources() through A verifier; preserve all historical statuses and source manifests.",
+    "Bind A279 panel/ace34 source successor and the exact current B changes into a new host/browser source declaration.",
+    "Run actual Auth/browser once on the fully bound candidate, desktop/mobile and full visual/console/restoration checks; return base/result commits, files, actual evidence, limits and adoption instructions."
+  ],
+  "required_display_semantics": {
+    "unknown_final_total": "remain unknown; unit_count before plan_final is provisional",
+    "factory_fixture_analysis": "PARTIAL; two explicitly named unreviewed targets",
+    "factory_fixture_finance_capture": "READY",
+    "factory_fixture_metric_readiness": "BLOCKED",
+    "unknown_metric_count": 11,
+    "unknown_is_not_zero": true
+  },
+  "not_yet_accepted": [
+    "B new driver patch",
+    "actual combined ERP Auth/browser and visuals",
+    "final integrated B result",
+    "independent acceptance"
+  ],
+  "formal_accepted": "5/16",
+  "production_go": false,
+  "independent_acceptance": false,
+  "CP7C_started": false
+}

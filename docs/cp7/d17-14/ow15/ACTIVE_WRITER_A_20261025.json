@@ -1,5 +1,5 @@
 {
-  "recorded_at_utc": "2026-10-28T11:16:26.547250+00:00",
+  "recorded_at_utc": "2026-10-28T12:16:56.180561+00:00",
   "role": "A finance writer/integrator replacing Claude; B remains separate production/planning writer",
   "slogan": [
     "VENI. VIDI. VICI. ERP. — I CONQUERED ERP.",
@@ -8,35 +8,7 @@
   "formal_accepted": "5/16",
   "production_go": false,
   "independent_acceptance": false,
-  "running": {
-    "status": "ACTUAL_FOCUSED_FACTORY_RUNNING_NOT_QUALIFIED",
-    "head": "3194b9c56be7af86ee45ccb1c6605204a712f91b",
-    "tree": "dd98cd5bbbafb3f257668d22317ab4b237c2fea8",
-    "run_id": 40677173176,
-    "job_id": 122778446042,
-    "branch": "astra-a/d17-18-factory-live-heartbeat-20261028",
-    "namespace": "scripts/current-factory-live-heartbeat",
-    "output": "CP7_D17_18_FACTORY_LIVE_HEARTBEAT_CLOSURE1.json",
-    "artifact_expected": "cp7-d17-18-factory-live-heartbeat-1",
-    "scope": {
-      "fresh_factory_groups": 1,
-      "retained_PASS_groups": 6,
-      "retained_head": "11c95c4ee2c784247e1be22ce0a582f4d85632c5",
-      "seven_fresh_groups_claim": false
-    },
-    "source_admission": {
-      "status": "PASS",
-      "own_pins": 15,
-      "seconds": 176.891,
-      "database_connection_attempts": 0,
-      "whitespace_successor_explicit": true
-    },
-    "local_controls_PASS": 5,
-    "selected_backend_for_B": null,
-    "browser_unlock": false,
-    "production_go": false,
-    "independent_acceptance": false
-  },
+  "running": null,
   "actual_new_component": {
     "name": "CP7_OW11_MODEL_TARGET_SOURCE_V2.json",
     "status": "PASS",
@@ -18571,9 +18543,8 @@
     "actual_receipt": "docs/cp7/d17-14/ow15/D17_18_SOURCE_B7_ACTUAL.json"
   },
   "latest_next_steps_20261028": [
-    "A: complete fresh focused factory closure with live heartbeat observed before scheduler shutdown; retain six exact 11c PASS groups, full business checks and restoration. Backend SQL unchanged.",
-    "B: continue prepared browser and owned production driver changes including explicit initial-stage refusal and finite progress observation; backend binding remains CLOSED.",
-    "A: verify composed seven-group evidence on identical entire backend, provide source and Originals to B, selectively integrate B plus A279/ace34 successors, complete independent-auditor packet."
+    "B: implement owned driver changes, bind exact qualified3194/retained11c backend evidence and A279 panel, then run actual Auth/browser once with visuals and complete restoration.",
+    "A: selectively accept B result against current integrated sources, verify combined impact and finalize the independent-auditor package. No duplicate A browser run."
   ],
   "previous_factory49_running_before_actual": {
     "head": "49baddbd423da93a0cfe1a52c27801e763176fcf",
@@ -19286,7 +19257,50 @@
     "status": "PASS_EXACT_COMPLETE_COMPONENTS_SOURCE_AND_ACTIONS",
     "source_only": true,
     "backend_runtime_eligible": false,
-    "main_product_adopted": false
+    "main_product_adopted": true,
+    "adoption_scope": "A prepared integration branch only; default_adopted=false"
   },
-  "auditor_handoff_index_prepared": "docs/cp7/d17-14/ow15/CP7_AUDITOR_HANDOFF_INDEX_PREPARED_20261028.json"
+  "auditor_handoff_index_prepared": "docs/cp7/d17-14/ow15/CP7_AUDITOR_HANDOFF_INDEX_PREPARED_20261028.json",
+  "previous_running_before_factory3194_actual": {
+    "status": "ACTUAL_FOCUSED_FACTORY_RUNNING_NOT_QUALIFIED",
+    "head": "3194b9c56be7af86ee45ccb1c6605204a712f91b",
+    "tree": "dd98cd5bbbafb3f257668d22317ab4b237c2fea8",
+    "run_id": 40677173176,
+    "job_id": 122778446042,
+    "branch": "astra-a/d17-18-factory-live-heartbeat-20261028",
+    "namespace": "scripts/current-factory-live-heartbeat",
+    "output": "CP7_D17_18_FACTORY_LIVE_HEARTBEAT_CLOSURE1.json",
+    "artifact_expected": "cp7-d17-18-factory-live-heartbeat-1",
+    "scope": {
+      "fresh_factory_groups": 1,
+      "retained_PASS_groups": 6,
+      "retained_head": "11c95c4ee2c784247e1be22ce0a582f4d85632c5",
+      "seven_fresh_groups_claim": false
+    },
+    "source_admission": {
+      "status": "PASS",
+      "own_pins": 15,
+      "seconds": 176.891,
+      "database_connection_attempts": 0,
+      "whitespace_successor_explicit": true
+    },
+    "local_controls_PASS": 5,
+    "selected_backend_for_B": null,
+    "browser_unlock": false,
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "qualified_backend_for_B": {
+    "path": "docs/cp7/d17-14/ow15/B_BACKEND_READY_3194_20261028.json",
+    "head": "3194b9c56be7af86ee45ccb1c6605204a712f91b",
+    "tree": "dd98cd5bbbafb3f257668d22317ab4b237c2fea8",
+    "run_id": 40677173176,
+    "job_id": 122778446042,
+    "artifact_id": 12813599744,
+    "status": "PASS_COMPOSED_BACKEND_SIX_RETAINED_PLUS_ONE_FRESH",
+    "backend_prerequisite_qualified": true,
+    "actual_Auth_browser_accepted": false
+  },
+  "latest_factory_live_actual": "docs/cp7/d17-14/ow15/D17_18_FACTORY_LIVE_3194_ACTUAL_20261028.json",
+  "large_initial_stage_contract_qualified": "docs/cp7/d17-14/ow15/B_BACKEND_READY_3194_20261028.json"
 }

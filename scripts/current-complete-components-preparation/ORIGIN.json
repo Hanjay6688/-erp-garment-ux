@@ -1,0 +1,47 @@
+{
+  "head": "05c3e11381b9d6aa45da3c4f6509c54d599a7bc3",
+  "path": "scripts/current-backend-assembly-preparation/check.py",
+  "sha256": "e02982a700938b993b93cb8b65347ff2bb0d54ffd28a4e161011405ac77d73df",
+  "changes": [
+    {
+      "old": "'cp7.current-backend-assembly-preparation.v1'",
+      "new": "'cp7.current-complete-components-preparation.v1'",
+      "count": 1
+    },
+    {
+      "old": "path.startswith('scripts/current-backend-assembly-preparation/')",
+      "new": "path.startswith('scripts/current-complete-components-preparation/')",
+      "count": 1
+    },
+    {
+      "old": "        if path not in deleted:assert status=='A',('EXISTING_SOURCE_CHANGED',path)",
+      "new": "        if path not in deleted:\n            assert status==('M'if path in cfg['existing_replacements']else'A'),('EXISTING_SOURCE_CHANGED',path)\n            if path in cfg['existing_replacements']:\n                assert sha256(git('show',cfg['base_head']+':'+path)).hexdigest()==cfg['existing_replacements'][path]['old_sha256']",
+      "count": 1
+    },
+    {
+      "old": "ROOT/'scripts/current-tooling-source-successor/check.py'",
+      "new": "ROOT/'scripts/current-ui-tooling-source-successor/check.py'",
+      "count": 1
+    },
+    {
+      "old": "'current-factory-initial-stage'):",
+      "new": "'current-factory-initial-stage','current-factory-live-heartbeat'):",
+      "count": 1
+    },
+    {
+      "old": "    assert not git('diff',cfg['base_head'],'HEAD','--','src','supabase','package.json','package-lock.json','vite.config.ts','scripts/cp6_t3_aligned_install.py').strip()",
+      "new": "    assert set(git('diff','--name-only',cfg['base_head'],'HEAD','--','src').decode().splitlines())=={'src/NativeAnalysisFinancePanel.tsx','src/NativeAnalysisFinancePanel.progress.dom.test.tsx'}\n    assert not git('diff',cfg['base_head'],'HEAD','--','supabase','package.json','package-lock.json','vite.config.ts','scripts/cp6_t3_aligned_install.py').strip()",
+      "count": 1
+    },
+    {
+      "old": "'PASS_EXACT_BACKEND_ASSEMBLY_SOURCE_ONLY'",
+      "new": "'PASS_EXACT_COMPLETE_COMPONENTS_SOURCE_ONLY'",
+      "count": 1
+    },
+    {
+      "old": "out=ROOT/'cp6-proof/current-backend-assembly/SOURCE.json'",
+      "new": "out=ROOT/'cp6-proof/current-complete-components/SOURCE.json'",
+      "count": 1
+    }
+  ]
+}

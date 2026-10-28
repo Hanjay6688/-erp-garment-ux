@@ -1,0 +1,45 @@
+{
+  "contract": "cp7.backend-acceptance-six-retained-one-fresh.v1",
+  "retained": {
+    "head": "11c95c4ee2c784247e1be22ce0a582f4d85632c5",
+    "tree": "688a4ac63208e000602a30d406b4e080d2203a28",
+    "run_id": 40663882208,
+    "job_id": 122733390447,
+    "artifact_id": 12810096616,
+    "name": "CP7_D17_18_FACTORY_INITIAL_STAGE_NATIVE_SOURCE_CRON7.json",
+    "bytes": 86200383,
+    "sha256": "00f54997e358e91c3392073994b92b2d59f184678f01e4a2f63f2373106eb9a9",
+    "package_name": "T3_PACKAGE_INSTALL.json",
+    "package_bytes": 360442,
+    "package_sha256": "90586ffbb1327face6554b9a21d575c35bfcf33a06953cedfb3383db70f9bf90",
+    "zip_bytes": 10734684,
+    "zip_sha256": "784f17255ae3756b418a89162cd416e58a014a21baea34bd17e151b168e24ddb"
+  },
+  "fresh": {
+    "head": "3194b9c56be7af86ee45ccb1c6605204a712f91b",
+    "tree": "dd98cd5bbbafb3f257668d22317ab4b237c2fea8",
+    "run_id": 40677173176,
+    "job_id": 122778446042,
+    "artifact_id": 12813599744,
+    "name": "CP7_D17_18_FACTORY_LIVE_HEARTBEAT_CLOSURE1.json",
+    "bytes": 77035513,
+    "sha256": "241adff1df19878a6bda9fd4b688cd609dd816e97080e860e1cc170f7c47b3c2",
+    "package_name": "T3_PACKAGE_INSTALL.json",
+    "package_bytes": 360443,
+    "package_sha256": "f45977ad11e476ce02433db264d3bd6fe7cfcb943401ab4c1f841f107485da5b",
+    "zip_bytes": 9645478,
+    "zip_sha256": "4134df462dc0f05ff53ab5318b280322a8e489b5e65a069a7ac32f7356b9be91"
+  },
+  "whole_backend_sha256": "193f4c18476a1e1abd5e05231d8d7755864b61e2998c4456f5a87459b17da59d",
+  "retained_case_ids": [
+    "COMBINED_UNCHANGED_CHILD_VISIBILITY",
+    "COMBINED_NULL_SNAPSHOT_REFUSAL_AND_RECOVERY",
+    "COMBINED_UNCHANGED_NATIVE20",
+    "COMBINED_INDEPENDENT_SIGNATURE",
+    "COMBINED_CURRENT_PUBLIC_ACTUAL_CRON",
+    "COMBINED_SMALL_PRICE_FACTORY_REPORT_PAIRS"
+  ],
+  "fresh_case_id": "COMBINED_CURRENT_PUBLIC_FACTORY1200X3_ACTUAL_CRON",
+  "production_go": false,
+  "independent_acceptance": false
+}

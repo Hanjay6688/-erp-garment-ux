@@ -1,0 +1,74 @@
+{
+  "probe.py": {
+    "path": "scripts/current-finance-factory-progress-followup-qualification/probe.py",
+    "sha256": "7de4b60740d5397cf00315967eef2b38efc66d2a71e6907f4e6b3d3596c35749",
+    "changes": [
+      {
+        "old": "HERE/'composition.py'",
+        "new": "REPO/'scripts/current-finance-factory-progress-followup-qualification/composition.py'",
+        "count": 1
+      },
+      {
+        "old": "LABEL='CP7_D17_18_FACTORY_PROGRESS_NATIVE_SOURCE_CRON7'",
+        "new": "LABEL='CP7_D17_18_CURRENT_FACTORY_OPERATIONAL_PROFILE1'",
+        "count": 1
+      },
+      {
+        "old": "PRE_DUMP='/tmp/current_factory_progress_pre.dump'",
+        "new": "PRE_DUMP='/tmp/current_factory_profile_pre.dump'",
+        "count": 1
+      },
+      {
+        "old": "manual_steps_scope='READ_ONLY_FACTORY_PROGRESS_OBSERVATION_ALL7',native20_repeated_unchanged=True,",
+        "new": "manual_steps_scope='DIAGNOSTIC_CALLS_ROLLED_BACK_NO_COMMITTED_STEPS',native20_repeated_unchanged=False,",
+        "count": 1
+      },
+      {
+        "old": "report['actual_cron_claim']=True\n            report['combined_component_qualified']=True",
+        "new": "report['actual_cron_claim']=False\n            report['combined_component_qualified']=False\n            report['diagnostic_collection_completed']=True",
+        "count": 1
+      },
+      {
+        "old": "HERE/'stream_data.py'",
+        "new": "REPO/'scripts/current-finance-factory-progress-followup-qualification/stream_data.py'",
+        "count": 1
+      }
+    ]
+  },
+  "runner.py": {
+    "path": "scripts/current-finance-factory-progress-followup-qualification/runner.py",
+    "sha256": "bf3c9e4af5abbfcc4175726bbea20035121bbe89f81b566cb65246dcb0432e85",
+    "changes": [
+      {
+        "old": "HERE/'restoration.py'",
+        "new": "ROOT/'scripts/current-finance-factory-progress-followup-qualification/restoration.py'",
+        "count": 1
+      },
+      {
+        "old": "HERE/'admission.py'",
+        "new": "ROOT/'scripts/current-finance-factory-progress-followup-qualification/admission.py'",
+        "count": 1
+      },
+      {
+        "old": "CASE='FACTORY_PROGRESS_NATIVE_SOURCE_CRON7'",
+        "new": "CASE='CURRENT_FACTORY_OPERATIONAL_PROFILE1'",
+        "count": 1
+      },
+      {
+        "old": "INSTALLED_DUMP='/tmp/d17_18_factory_progress_unused.dump'",
+        "new": "INSTALLED_DUMP='/tmp/d17_18_current_factory_profile_unused.dump'",
+        "count": 1
+      },
+      {
+        "old": "admission.gate(json.loads((HERE/'CONFIG.json').read_bytes()))",
+        "new": "admission.gate(json.loads((ROOT/'scripts/current-finance-factory-progress-followup-qualification/CONFIG.json').read_bytes()))",
+        "count": 1
+      },
+      {
+        "old": "report.update(status='PASS',used_guard_refused_before_DDL=True,actual_cron_claim=True,\n        actual_minute_cron_groups=2,unchanged_native_cases=20,\n        factory_current_public_jobs_completed=True,combined_component_qualified=True,",
+        "new": "report.update(status='PASS',used_guard_refused_before_DDL=True,actual_cron_claim=False,\n        actual_minute_cron_groups=0,unchanged_native_cases=0,\n        factory_current_public_jobs_completed=False,combined_component_qualified=False,\n        diagnostic_collection_completed=True,",
+        "count": 1
+      }
+    ]
+  }
+}
