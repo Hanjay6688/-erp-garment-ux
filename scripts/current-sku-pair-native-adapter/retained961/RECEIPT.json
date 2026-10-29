@@ -1,0 +1,50 @@
+{
+  "head": "961c22f8d3fa6fd2c16a8932a23b6d3a347d0c98",
+  "tree": "63b22c8b764ec02f3aa4842b2309338e32e306b5",
+  "run_id": 40876528064,
+  "job_id": 123456663484,
+  "artifact_id": 12900878682,
+  "zip_bytes": 1980302,
+  "zip_sha256": "3f52365f226860f6082dbf866f9b0889a0835ab5f47d5a070b6c789b5fae04c7",
+  "status": "INCOMPLETE",
+  "case_counts": {
+    "PASS": 6,
+    "INCOMPLETE": 1
+  },
+  "failed_case_ids": [
+    "SKU29_MIXED_PO_NONPO_NATIVE_LINEAGE_VALUE_CONSERVATION"
+  ],
+  "full22_data_sequences_roles_CP6_advisors_restored": true,
+  "writer_runtime": false,
+  "used_inverse_guard_NOT_observed": true,
+  "first_failure_preserved": true,
+  "production_go": false,
+  "independent_acceptance": false,
+  "files": {
+    "CP7_SKU_PAIR_CONVERSION_NATIVE7.json": {
+      "raw_bytes": 22108,
+      "raw_sha256": "4316b706648de6af8953d170bbc61013d17ea9a25154294ad5c8a577514a30c1",
+      "gzip_sha256": "34c3c12b3d99d8111c4dff9c4a6d728a85db04086a92ec6967e7b1903309a60e"
+    },
+    "CP7_SKU_PAIR_CONVERSION_NATIVE.json": {
+      "raw_bytes": 2995509,
+      "raw_sha256": "8fee22b067735577eb0f5699838d0f2db8f0bfe83628b616f513dba0244d497b",
+      "gzip_sha256": "e8467ae86927411b3ee8ec08646ebc7e6002e0ee4d4518effd4a7a918f71b231"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "raw_bytes": 360420,
+      "raw_sha256": "ffa22c578b30618c5cb60f0eb1818c9f75764d6deb15f092ce1c583bb5230b1a",
+      "gzip_sha256": "c6f351f055908f0c1439c6172bd68377416f5de4ab4115b613b8fe29811cd1e7"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "raw_bytes": 1470,
+      "raw_sha256": "747db5998ceaf28f42bc9eb3944258e9fd17af1538bf2501cb86178051e1ee75",
+      "gzip_sha256": "229b1ccc5f22693fe9e1fbbacaa2df1deee0a246713cb87a3bdca3e6dec39891"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "raw_bytes": 1806,
+      "raw_sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7"
+    }
+  }
+}

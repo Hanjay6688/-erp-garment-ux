@@ -106,6 +106,32 @@ beforeEach(async () => {
 })
 afterEach(async () => { await db?.close() })
 
+test('preview revision is canonical across caller timezones and the reviewed request posts under UTC', async () => {
+  const before = await snapshot()
+  await db.execute("set timezone='UTC'")
+  const canonical = await preview()
+  for (const zone of ['Asia/Jakarta', 'UTC', 'Asia/Tokyo', 'Pacific/Kiritimati', 'Etc/GMT+12']) {
+    await db.execute(`set timezone='${zone}'`)
+    const reviewed = await preview()
+    expect(reviewed.source_revision).toBe(canonical.source_revision)
+    expect(reviewed.allocations).toEqual(canonical.allocations)
+    expect(new Date(reviewed.physical_at).getTime()).toBe(new Date(canonical.physical_at).getTime())
+    expect(await queryValue("current_setting('TimeZone')")).toBe(zone)
+    // Compare the complete timestamp-bearing rows in the same serialization
+    // zone; the call above must still restore its original caller setting.
+    await db.execute("set timezone='UTC'")
+    expect(await snapshot()).toEqual(before)
+    await db.execute(`set timezone='${zone}'`)
+  }
+  await db.execute("set timezone='Asia/Jakarta'")
+  const reviewed = await preview()
+  const made = await queryValue(`cp7_sku_conversion.action_v1('POST',${jsonArg({ ...payload(), expected_version: reviewed.source_revision })},'${u(190)}')`)
+  expect(made.status).toBe('POSTED')
+  expect(made.conversion_ids).toHaveLength(2)
+  expect(made.cost.source_value).toBe('60.06')
+  expect(await queryValue("current_setting('TimeZone')")).toBe('Asia/Jakarta')
+})
+
 test('commercial groups have one bidirectional pair, reversed input is canonical, replacement removes both old partners and has no ledger effects', async () => {
   const before = await snapshot()
   await pair(group1, group2, u(101)); expect(await queryValue(`cp7_sku_conversion.partner_v1('${group2}')`)).toBe(group1)

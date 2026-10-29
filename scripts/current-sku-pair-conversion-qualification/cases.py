@@ -150,6 +150,18 @@ def mixed(cur,today):
       physical_at=po['payload']['physical_at'],reason='Owner29 mixed opening and production sources')
     source_cost=D(f.one(cur,'select hpp_per_pcs from erp.v_current_hpp where lot_id=%s',po['lot']))
     expected=D('30.03')+2*source_cost;truth=f.b.all_truth(cur);before=f.books(cur)
+    # A production fixture may leave WIB as caller timezone while the posting
+    # coordinator runs in UTC. Compare the same untouched source in all five
+    # retained business-day zones; a timezone change must never fake staleness.
+    zones=('Asia/Jakarta','UTC','Asia/Tokyo','Pacific/Kiritimati','Etc/GMT+12')
+    reviewed=[];ledger_before=f.native_ledgers(cur)
+    for zone in zones:
+        cur.execute("select set_config('TimeZone',%s,true)",(zone,))
+        frozen,v=f.review(cur,p);reviewed.append(v)
+        assert f.one(cur,"select current_setting('TimeZone')")==zone
+        assert f.native_ledgers(cur)==ledger_before
+    assert all(row==reviewed[0]for row in reviewed),reviewed
+    cur.execute("set local timezone='Asia/Jakarta'")
     frozen,v=f.review(cur,p);made=f.action(cur,'POST',frozen);rows=f.allocations(cur,made)
     assert [(a['source_lot_id'],a['qty_pcs'])for a in rows]==[(early,3),(po['lot'],2)],rows
     assert sum(D(a['destination_value'])for a in rows)==expected
@@ -160,7 +172,9 @@ def mixed(cur,today):
     assert f.be.qty(cur,early)==3 and f.be.qty(cur,po['lot'])==10
     return dict(status='PASS',Native_PO_and_non_PO_sources=True,allocations=rows,
       expected_source_value=str(expected),existing_PO_source_unit_hpp=str(source_cost),
-      quantity_and_exact_lot_value_conserved=True,Native_financial_detectors_unchanged=True)
+      quantity_and_exact_lot_value_conserved=True,Native_financial_detectors_unchanged=True,
+      preview_caller_zones_checked=list(zones),all_preview_fields_equal_across_zones=True,
+      preview_caller_setting_restored=True,posting_function_timezone='UTC')
 
 def legacy_accessories(cur,today):
     result=f.be.actual_usage(cur,today)

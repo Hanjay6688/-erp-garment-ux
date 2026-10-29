@@ -2,7 +2,7 @@ name: CP7 A SKU pair and conversion Native
 'on':
   push:
     branches:
-    - astra-a/sku-pair-native-successor-20261029
+    - astra-a/sku-utc-fingerprint-native7-20261029
     paths:
     - .github/workflows/cp7-sku-pair-native.yml
     - scripts/current-sku-pair-native-adapter/**
@@ -504,4 +504,4 @@ jobs:
         path: auditor/cp6-proof/t3
         retention-days: 30
         if-no-files-found: error
-    if: github.ref == 'refs/heads/astra-a/sku-pair-native-successor-20261029'
+    if: github.ref == 'refs/heads/astra-a/sku-utc-fingerprint-native7-20261029'

@@ -1,0 +1,31 @@
+npm warn Unknown env config "http-proxy". This will stop working in the next major version of npm.
+
+ RUN  v4.1.11 /workspace/scratch/ef468a447ac6/erp-sku-native
+
+ ❯ tests/cp7/families/sku-pair-conversion.test.ts (15 tests | 1 failed | 14 skipped) 4838ms
+   × preview revision is canonical across caller timezones and the reviewed request posts under UTC 4837ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/cp7/families/sku-pair-conversion.test.ts > preview revision is canonical across caller timezones and the reviewed request posts under UTC
+AssertionError: expected '1ab1f4a74011d418414a932accf52bef' to be '4095879f716624201e606114ea403f51' // Object.is equality
+
+Expected: "4095879f716624201e606114ea403f51"
+Received: "1ab1f4a74011d418414a932accf52bef"
+
+ ❯ tests/cp7/families/sku-pair-conversion.test.ts:116:38
+    114|     await db.execute(`set timezone='${zone}'`)
+    115|     const reviewed = await preview()
+    116|     expect(reviewed.source_revision).toBe(canonical.source_revision)
+       |                                      ^
+    117|     expect(reviewed.allocations).toEqual(canonical.allocations)
+    118|     expect(new Date(reviewed.physical_at).getTime()).toBe(new Date(can…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 14 skipped (15)
+   Start at  00:40:17
+   Duration  5.27s (transform 103ms, setup 0ms, import 139ms, tests 4.84s, environment 0ms)
+

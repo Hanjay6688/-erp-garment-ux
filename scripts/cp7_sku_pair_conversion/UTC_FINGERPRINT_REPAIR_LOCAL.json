@@ -1,0 +1,28 @@
+{
+  "classification": "LOCAL_PGLITE_ORIGINAL_NEW_SQL_WITH_DECLARED_NATIVE_AUTH_JOURNAL_DOUBLES_NOT_ACTUAL_NATIVE",
+  "old_head": "961c22f8d3fa6fd2c16a8932a23b6d3a347d0c98",
+  "actual_old_counts": {
+    "PASS": 6,
+    "INCOMPLETE": 1
+  },
+  "old_error": "Mixed PO/nonPO conversion preview immediately POST refuses STALE_VERSION",
+  "reproduced": "Same unchanged timestamp-bearing facts hash differently under UTC and Asia/Jakarta",
+  "repair": "UTC function configuration on revision_v1 and preview_v1; no ignored fields, no weakened stale or costing guard",
+  "local_tests": 15,
+  "local_pass": 15,
+  "local_fail": 0,
+  "local_pending": 0,
+  "caller_zones": [
+    "Asia/Jakarta",
+    "UTC",
+    "Asia/Tokyo",
+    "Pacific/Kiritimati",
+    "Etc/GMT+12"
+  ],
+  "Native_same_mixed_case_strengthened": true,
+  "Native_value_quantity_and_detector_oracles_unchanged": true,
+  "setup_limit_note": "Default 10s cold Wasm beforeEach setup timed out in one case on two full runs; targeted canonical+actual-change controls passed. Final full run bounds ONLY setup at30s via CLI. Test assertion timeouts unchanged. No production/RPC timeout altered.",
+  "original_local_failure_preserved": true,
+  "production_go": false,
+  "independent_acceptance": false
+}

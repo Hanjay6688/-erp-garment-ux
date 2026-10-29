@@ -37,3 +37,25 @@ partial log rows never count as a completed seven-case group.
 `retained805/` contains four exact Original reports, digest-checked archive
 receipt and four per-case log JSON rows. No source failure is relabeled PASS.
 Real Native, races, permissions, Auth and browser remain separate evidence.
+
+## Native961 six PASS, one false-stale failure
+
+The exact original group and full outer report are in retained961. Its six
+PASS rows do not unlock followup qualification; the whole group is INCOMPLETE,
+writer_runtime=false, used inverse unobserved. Full22/data/sequences/roles/CP6/
+advisors and backup recovery succeeded. Mixed PO/nonPO preview immediately
+POST refused STALE_VERSION with no external data change.
+
+The new revision hashes timestamp-bearing product/movement/HPP/lot JSON without
+a fixed timezone; preview inherited its caller timezone while POST explicitly
+uses UTC. Reproduced with unchanged facts in the local SQL test. Both new
+revision and preview functions now use UTC; every field and real-change guard
+stays. The same actual mixed case reviews in five zones, checks every returned
+field and caller setting, then posts from WIB through the UTC coordinator.
+All previous quantity, source-cost, Native detector and inverse oracles remain.
+
+Local15 passes on PGlite with declared Native/Auth/journal doubles. Only the
+cold Wasm setup limit is30s in the final CLI run after the default10s setup
+hook timed out; SQL assertion limits and product/RPC timeouts are unchanged.
+Both the original timezone failure and the setup failure report remain. This
+is still not actual Native7 or browser qualification on the repaired source.

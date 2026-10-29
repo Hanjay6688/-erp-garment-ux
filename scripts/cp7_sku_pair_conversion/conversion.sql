@@ -47,8 +47,10 @@ language sql stable security definer set search_path=''as $$
  and m.physical_at<=statement_timestamp())
  select jsonb_build_object('available',available,'reserved',reserved,'physical',available+reserved)from s
 $$;
+-- Timestamp-bearing facts must have the same canonical serialization for a
+-- preview caller and the UTC posting coordinator. No field is excluded.
 create function cp7_sku_conversion.revision_v1(p_source uuid,p_target uuid,p_location uuid)returns text
-language sql stable security definer set search_path=''as $$
+language sql stable security definer set search_path=''set timezone='UTC'as $$
  select md5(jsonb_build_object('source',p_source,'target',p_target,'location',p_location,
  'products',(select jsonb_agg(to_jsonb(p)order by p.id)from erp.products p where p.id in(p_source,p_target)),
  'location_row',(select to_jsonb(l)from erp.locations l where l.id=p_location),
@@ -61,7 +63,7 @@ language sql stable security definer set search_path=''as $$
 $$;
 
 create function cp7_sku_conversion.preview_v1(p_payload jsonb)returns jsonb
-language plpgsql volatile security definer set search_path=''as $$
+language plpgsql volatile security definer set search_path=''set timezone='UTC'as $$
 declare src erp.products%rowtype;dst erp.products%rowtype;loc erp.locations%rowtype;qty int;at_time timestamptz;
  need int;take_qty int;r record;allocation jsonb:='[]'::jsonb;source_stock jsonb;target_stock jsonb;revision text;value numeric:=0;money boolean;
 begin

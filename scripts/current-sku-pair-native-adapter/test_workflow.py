@@ -9,7 +9,7 @@ ROOT = Path(__file__).resolve().parents[2]
 class WorkflowBoundaries(unittest.TestCase):
     def test_exact_qualification_branch_and_single_native_entrypoint(self):
         value = yaml.safe_load((ROOT / '.github/workflows/cp7-sku-pair-native.yml').read_text())
-        branch = 'astra-a/sku-pair-native-successor-20261029'
+        branch = 'astra-a/sku-utc-fingerprint-native7-20261029'
         self.assertEqual(value['on']['push']['branches'], [branch])
         self.assertEqual(set(value['jobs']), {'p21'})
         job = value['jobs']['p21']

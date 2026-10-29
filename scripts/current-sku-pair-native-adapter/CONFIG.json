@@ -28,7 +28,7 @@
   },
   "runtime_files": {
     "scripts/cp7_sku_pair_conversion/pairs.sql": "05c7b67222b2a003ee4180872216a0837c747fcb145db88157317bad25b281c2",
-    "scripts/cp7_sku_pair_conversion/conversion.sql": "71211f85eae538e96886bc401e4357dc54259f4783c938d3fa4ab4b1c66deff5",
+    "scripts/cp7_sku_pair_conversion/conversion.sql": "4b26a65beae5defc877589dae756ce2adc9ecb19b3b9a3b68c86765a4c434961",
     "scripts/cp7_sku_pair_conversion/native_delta.py": "ff479d17a8f039693723307088551a0eb6876e2bdd772da2b6dc6f60c55d82f8",
     "scripts/cp7_sku_pair_conversion/composition.py": "dbc2f01afd97ef2b9a231611d4510da623cb1cebf5455da67c52dd3df7130849",
     "scripts/cp7_sku_pair_conversion/ri_catalog.py": "aa30eff7c258de3ced78067ed7fbe660bef4570c291946f9291d6363881a4f3e"
