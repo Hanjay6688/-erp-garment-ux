@@ -61,3 +61,21 @@ these declared appends; the new CSS receives only paint-fixture evidence until
 the six actual Auth journeys pass. No historical source manifest is changed.
 
 Money2d4/run40789668297 now PASS2 with full restoration/five gates, exact Original and five PNGs inspected. The six distinct source journeys bind those bytes. Paint643/run40793063143 PASS4 remains paint-only; financial handlers/backend are unchanged.
+
+## Source6 6c89 terminal and mobile test successor
+
+Run40794662199/job123188077475 ended FAILURE: four PASS and two INCOMPLETE.
+Data/sequences/advisors/Auth restored; writer_runtime=false, used-guard outer
+field absent. FIRST_SOURCE6_RECEIPT and both exact first failures retain this
+result. This successor changes only test navigation/actor, not the ERP.
+
+Wash reload must await the authorized shell before sampling the mobile menu.
+FG mobile retains an actual ADMIN screen click returning 403/42501 with
+no document or business changes, then opens the same inverse source as OWNER.
+The ADMIN template expressly excludes warehouse.stock.adjust; both the owning
+route and source reader require it. No grants or access rules are altered.
+
+The same six cases are rerun through the existing isolated host and complete
+restoration: their enclosing source declaration changes and a new Auth actor
+participates in the shared browser database. The four old PASS remain attributed
+to 6c89. Backend11 and money2 remain reused, not rerun or credited anew.

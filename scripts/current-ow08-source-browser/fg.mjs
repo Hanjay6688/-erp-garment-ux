@@ -16,11 +16,34 @@ async function navigate(ui,page,section,item,heading){
  await link.click();await ui.expect(page.getByRole('heading',{name:heading,exact:true})).toBeVisible()
 }
 async function journey(ui,today,mobile){
- const user=await ui.login(mobile?'ADMIN':'OWNER',{label:'ow08-fg-source-'+mobile,mobile}),page=user.page,observed=observeConsole(page)
- const suffix=mobile?'MOBILE':'DESKTOP',shots=[],contrasts=[];let f,answer
+ // ADMIN deliberately lacks warehouse.stock.adjust. Keep that refusal as a
+ // negative witness; the positive owning-document journey requires OWNER.
+ const user=await ui.login('OWNER',{label:'ow08-fg-source-'+mobile,mobile}),page=user.page,observed=observeConsole(page)
+ const suffix=mobile?'MOBILE':'DESKTOP',shots=[],contrasts=[];let f,answer,admin,adminObserved,denial
  const shot=async(label,box)=>{mkdirSync('cp6-proof/t3',{recursive:true});await box.scrollIntoViewIfNeeded();for(const[scope,target]of[['PAGE',page],['FOCUS',box]]){const path=`cp6-proof/t3/OW08_FG_${suffix}_${label}_${scope}.png`;await target.screenshot({path,...(scope==='PAGE'?{fullPage:true}:{})});shots.push(path)}}
  try{
+  if(mobile){admin=await ui.login('ADMIN',{label:'ow08-fg-source-denied',mobile});adminObserved=observeConsole(admin.page)}
   f=fixture('prepare',{today});const before=fixture('state',{})
+  if(admin){
+   const deniedPage=admin.page
+   await navigate(ui,deniedPage,'Gudang','Kartu Stok FG','Kartu stok barang jadi')
+   await deniedPage.getByLabel('Cari barang jadi',{exact:true}).fill(f.inverse.lot_number)
+   await deniedPage.getByRole('button',{name:'Cari stok',exact:true}).click()
+   const position=deniedPage.locator('.cfg-position').filter({hasText:f.inverse.lot_number});await ui.expect(position).toHaveCount(1)
+   await position.getByRole('button',{name:/^Lihat mutasi /}).click()
+   const movement=deniedPage.locator('[data-fg-movement-id="'+f.inverse.movement_id+'"]');await ui.expect(movement).toBeVisible()
+   const responseReady=deniedPage.waitForResponse(r=>r.url().endsWith('/rest/v1/rpc/erp_cp7_resolve_transaction_source_v1')&&r.request().method()==='POST')
+   await movement.getByRole('button',{name:'Buka transaksi asal',exact:true}).click()
+   const response=await responseReady,body=await response.json()
+   assert.equal(response.status(),403);assert.equal(body.code,'42501');assert.equal(body.message,'CP7_TRANSACTION_SOURCE_ACCESS_DENIED')
+   assert.deepEqual(response.request().postDataJSON(),{p_source:{source_type:f.inverse.source_type,source_id:f.inverse.source_id}})
+   assert.equal(body.document,undefined);await ui.expect(movement.getByRole('alert')).toContainText(body.message)
+   await ui.expect(deniedPage.locator('aside.cfga-detail')).toHaveCount(0)
+   await ui.expect(deniedPage.getByRole('heading',{name:'Kartu stok barang jadi',exact:true})).toBeVisible()
+   assert.deepEqual(fixture('state',{}),before,'Denied source navigation must not alter business rows or sequences')
+   const path='cp6-proof/t3/OW08_FG_MOBILE_ADMIN_DENIED_FOCUS.png';await movement.screenshot({path});shots.push(path)
+   denial={role:'ADMIN',http_status:response.status(),body,business_unchanged:true,console_evidence:requireConsoleEvidence(adminObserved.errors,[{url:response.url(),text:'Failed to load resource: the server responded with a status of 403 (Forbidden)',reason:'Actual ADMIN source denial: unchanged warehouse.stock.adjust permission'}])}
+  }
   await navigate(ui,page,'Produksi','QC & Final SKU','QC & Final SKU')
   await page.getByPlaceholder('Cari PO, Potongan, receipt, atau histori…',{exact:true}).fill(f.blocked.qc_number)
   await page.getByRole('button',{name:'Riwayat & koreksi',exact:true}).click()
@@ -50,9 +73,9 @@ async function journey(ui,today,mobile){
   contrasts.push({state:'FG_INVERSE_SOURCE',rows:await readable(detail)});await shot('FG_INVERSE_SOURCE',detail)
   const width=await page.evaluate(()=>({viewport:innerWidth,page:document.documentElement.scrollWidth}));assert.ok(width.page<=width.viewport)
   return{status:'PASS',actual_QC_screen_names_sale_and_adjustment:true,blocked_QC_action_disabled:true,actual_inverse_FG_click_opens_same_reversed_adjustment:true,
-   all_business_rows_and_sequences_unchanged:true,screen_creation_or_QC_inverse_claim:false,fixture_source:f.fixture_source,source_response:answer,
+   all_business_rows_and_sequences_unchanged:true,screen_creation_or_QC_inverse_claim:false,fixture_source:f.fixture_source,source_response:answer,positive_actor_role:'OWNER',admin_denial:denial??null,
    visible_text_contrasts:contrasts,shots,width,console_evidence:requireConsoleEvidence(observed.errors,[]),production_go:false}
- }catch(error){mkdirSync('cp6-proof/t3',{recursive:true});writeFileSync(`cp6-proof/t3/OW08_FG_${suffix}_FIRST_FAILURE.json`,JSON.stringify({error:String(error),fixture:f,source_response:answer,console:observed.errors},null,2));await page.screenshot({path:`cp6-proof/t3/OW08_FG_${suffix}_FAILURE.png`,fullPage:true}).catch(()=>{});throw error}
- finally{observed.stop();await user.context.close()}
+ }catch(error){mkdirSync('cp6-proof/t3',{recursive:true});writeFileSync(`cp6-proof/t3/OW08_FG_${suffix}_FIRST_FAILURE.json`,JSON.stringify({error:String(error),fixture:f,source_response:answer,admin_denial:denial,admin_console:adminObserved?.errors,console:observed.errors},null,2));await page.screenshot({path:`cp6-proof/t3/OW08_FG_${suffix}_FAILURE.png`,fullPage:true}).catch(()=>{});if(admin)await admin.page.screenshot({path:'cp6-proof/t3/OW08_FG_MOBILE_ADMIN_FAILURE.png',fullPage:true}).catch(()=>{});throw error}
+ finally{observed.stop();adminObserved?.stop();if(admin)await admin.context.close();await user.context.close()}
 }
 export async function cases(ui,today){return IDS.map((id,i)=>[id,()=>journey(ui,today,Boolean(i))])}

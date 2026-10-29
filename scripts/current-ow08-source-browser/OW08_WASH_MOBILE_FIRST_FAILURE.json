@@ -1,0 +1,369 @@
+{
+  "error": "TimeoutError: locator.click: Timeout 20000ms exceeded.\nCall log:\n  - waiting for locator('.sidebar .nav-main').filter({ hasText: 'Produksi' })\n    - locator resolved to <button class=\"nav-main \">…</button>\n  - attempting click action\n    2 × waiting for element to be visible, enabled and stable\n      - element is visible, enabled and stable\n      - scrolling into view if needed\n      - done scrolling\n      - element is outside of the viewport\n    - retrying click action\n    - waiting 20ms\n    2 × waiting for element to be visible, enabled and stable\n      - element is visible, enabled and stable\n      - scrolling into view if needed\n      - done scrolling\n      - element is outside of the viewport\n    - retrying click action\n      - waiting 100ms\n    38 × waiting for element to be visible, enabled and stable\n       - element is visible, enabled and stable\n       - scrolling into view if needed\n       - done scrolling\n       - element is outside of the viewport\n     - retrying click action\n       - waiting 500ms\n",
+  "writes": [
+    {
+      "request": {
+        "p_action": "POST_FAILED_WASH",
+        "p_payload": {
+          "delivery_id": "bb2a72bb-81cb-42d1-8104-0838e7ee4800",
+          "wash_process_id": "9e8caf85-dc29-4263-ba78-1734c4917653",
+          "custody_outcome": "RETRY_AT_VENDOR",
+          "physical_at": "2026-10-24T05:00:00.000Z",
+          "reason": "Tagihan jasa gagal nyata, tarif vendor menyusul",
+          "lines": [
+            {
+              "delivery_batch_size_line_id": "f2ad5ac9-a663-40bd-92cf-1a87ffd3979e",
+              "qty_attempted_pcs": 10
+            }
+          ],
+          "price_status": "UNKNOWN"
+        },
+        "p_client_request_id": "3ca64b20-1488-4dd1-939e-52f235d395c5",
+        "p_expected_version": 2
+      },
+      "response": {
+        "action": "POST_FAILED_WASH",
+        "committed": true,
+        "hpp_effect": "FAILED_WASH_COST_UNKNOWN_HPP_NOT_FINAL",
+        "receipt_id": "3e033ae1-fb55-4e22-8058-a166ffdfeb7c",
+        "actual_cost": null,
+        "cost_status": "PRICE_UNKNOWN",
+        "delivery_id": "bb2a72bb-81cb-42d1-8104-0838e7ee4800",
+        "rate_per_pcs": null,
+        "stock_effect": "PHYSICAL_STAYS_AT_LAUNDRY",
+        "receipt_number": "LFW-261024-3E033AE1FB554E228058A166FFDFEB7C",
+        "receipt_status": "POSTED",
+        "custody_outcome": "RETRY_AT_VENDOR",
+        "delivery_status": "SENT",
+        "contract_version": "CP6_V2620",
+        "client_request_id": "3ca64b20-1488-4dd1-939e-52f235d395c5",
+        "qty_attempted_pcs": 10,
+        "receipt_row_version": 2,
+        "delivery_row_version": 3,
+        "failed_wash_attempt_id": "edb71a5c-dab8-489b-8f53-ec32b15d2e4a"
+      }
+    },
+    {
+      "request": {
+        "p_action": "SET_FAILED_WASH_PRICE",
+        "p_payload": {
+          "failed_wash_attempt_id": "edb71a5c-dab8-489b-8f53-ec32b15d2e4a",
+          "rate_status": "KNOWN",
+          "rate_per_pcs": "3.00",
+          "reason": "Invoice vendor memastikan tarif tiga rupiah per PCS"
+        },
+        "p_client_request_id": "e93a6554-0bc6-4b13-8821-d1b51aef7c88"
+      },
+      "response": {
+        "po_id": "a218e8df-2cf8-4ef8-bba7-ec516ab47cc9",
+        "action": "SET_FAILED_WASH_PRICE",
+        "status": "SAVED",
+        "receipt_id": "3e033ae1-fb55-4e22-8058-a166ffdfeb7c",
+        "request_id": "e93a6554-0bc6-4b13-8821-d1b51aef7c88",
+        "actual_cost": "30.00",
+        "cost_status": "ESTIMATED_UNBILLED",
+        "delivery_id": "bb2a72bb-81cb-42d1-8104-0838e7ee4800",
+        "rate_status": "KNOWN",
+        "rate_per_pcs": "3.00",
+        "economic_date": "2026-10-24",
+        "receipt_number": "LFW-261024-3E033AE1FB554E228058A166FFDFEB7C",
+        "failed_wash_attempt_id": "edb71a5c-dab8-489b-8f53-ec32b15d2e4a"
+      }
+    }
+  ],
+  "unknown": {
+    "receipt_number": "LFW-261024-3E033AE1FB554E228058A166FFDFEB7C",
+    "line": [
+      null,
+      null,
+      "PENDING"
+    ],
+    "money": {
+      "desired": "20.00",
+      "accrued": "20.00",
+      "journal": [
+        [
+          "1200",
+          "2026-10-24",
+          "-100.00"
+        ],
+        [
+          "1300",
+          "2026-10-24",
+          "120.00"
+        ],
+        [
+          "2050",
+          "2026-10-24",
+          "-20.00"
+        ]
+      ],
+      "hpp": []
+    },
+    "physical": {
+      "attempt": [
+        "RETRY_AT_VENDOR",
+        10,
+        false
+      ],
+      "sizes": [
+        [
+          "c8c10000-0000-4000-8000-000000000002",
+          10
+        ]
+      ],
+      "line": [
+        0,
+        0,
+        0,
+        0,
+        "9e8caf85-dc29-4263-ba78-1734c4917653",
+        "POSTED"
+      ],
+      "delivery": [
+        "SENT",
+        3
+      ],
+      "group": "LAUNDRY",
+      "po": [
+        "LAUNDRY",
+        "LAUNDRY"
+      ],
+      "wip": [
+        [
+          "LAUNDRY_DELIVERY_LINE",
+          "SEWING",
+          "LAUNDRY",
+          "10",
+          1
+        ]
+      ],
+      "view": {
+        "status": "SENT",
+        "physical_outstanding_qty_pcs": 10,
+        "returned_qty_pcs": 0,
+        "returned_unprocessed_qty_pcs": 0,
+        "active_claim_qty_pcs": 0,
+        "sizes": [
+          {
+            "qty_sent_pcs": 10,
+            "good_returned_qty_pcs": 0,
+            "bs_returned_qty_pcs": 0,
+            "outstanding_qty_pcs": 10
+          }
+        ],
+        "receipts": [
+          {
+            "event_kind": "FAILED_WASH_ATTEMPT",
+            "custody_outcome": "RETRY_AT_VENDOR",
+            "attempted_qty_pcs": 10,
+            "status": "POSTED",
+            "reversible": true
+          }
+        ]
+      },
+      "response": {
+        "custody_outcome": "RETRY_AT_VENDOR",
+        "qty_attempted_pcs": 10,
+        "delivery_status": "SENT",
+        "receipt_status": "POSTED",
+        "stock_effect": "PHYSICAL_STAYS_AT_LAUNDRY"
+      }
+    },
+    "price_rows": [
+      [
+        "UNKNOWN",
+        null,
+        null,
+        false,
+        false
+      ]
+    ],
+    "own_close_blockers": [
+      {
+        "code": "LAUNDRY_FAILED_WASH_PRICE_UNKNOWN",
+        "scope": "AS_OF",
+        "family": "LAUNDRY",
+        "reason": "Harga cuci gagal LFW-261024-3E033AE1FB554E228058A166FFDFEB7C (kiriman LDR-261024-BB2A72BB81CB42D181040838E7EE4800, PO AA-INV-PO-a218e8df-2cf8-4ef8-bba7-ec516ab47cc9, 10 pcs, tanggal 2026-10-24) belum diketahui: biayanya belum dihitung dan HPP PO itu belum final. Isi harganya di Produksi › Laundry › Harga & tagihan › Harga belum diketahui.",
+        "severity": "POLICY",
+        "reference": {
+          "po_id": "a218e8df-2cf8-4ef8-bba7-ec516ab47cc9",
+          "po_number": "AA-INV-PO-a218e8df-2cf8-4ef8-bba7-ec516ab47cc9",
+          "receipt_id": "3e033ae1-fb55-4e22-8058-a166ffdfeb7c",
+          "delivery_id": "bb2a72bb-81cb-42d1-8104-0838e7ee4800",
+          "receipt_number": "LFW-261024-3E033AE1FB554E228058A166FFDFEB7C",
+          "custody_outcome": "RETRY_AT_VENDOR",
+          "delivery_number": "LDR-261024-BB2A72BB81CB42D181040838E7EE4800",
+          "qty_attempted_pcs": "10",
+          "failed_wash_attempt_id": "edb71a5c-dab8-489b-8f53-ec32b15d2e4a"
+        },
+        "impact_date": "2026-10-24"
+      }
+    ]
+  },
+  "priced": {
+    "receipt_number": "LFW-261024-3E033AE1FB554E228058A166FFDFEB7C",
+    "line": [
+      "3.00",
+      "30.00",
+      "ESTIMATED"
+    ],
+    "money": {
+      "desired": "50.00",
+      "accrued": "50.00",
+      "journal": [
+        [
+          "1200",
+          "2026-10-24",
+          "-100.00"
+        ],
+        [
+          "1300",
+          "2026-10-24",
+          "150.00"
+        ],
+        [
+          "2050",
+          "2026-10-24",
+          "-50.00"
+        ]
+      ],
+      "hpp": []
+    },
+    "physical": {
+      "attempt": [
+        "RETRY_AT_VENDOR",
+        10,
+        false
+      ],
+      "sizes": [
+        [
+          "c8c10000-0000-4000-8000-000000000002",
+          10
+        ]
+      ],
+      "line": [
+        0,
+        0,
+        0,
+        0,
+        "9e8caf85-dc29-4263-ba78-1734c4917653",
+        "POSTED"
+      ],
+      "delivery": [
+        "SENT",
+        3
+      ],
+      "group": "LAUNDRY",
+      "po": [
+        "LAUNDRY",
+        "LAUNDRY"
+      ],
+      "wip": [
+        [
+          "LAUNDRY_DELIVERY_LINE",
+          "SEWING",
+          "LAUNDRY",
+          "10",
+          1
+        ]
+      ],
+      "view": {
+        "status": "SENT",
+        "physical_outstanding_qty_pcs": 10,
+        "returned_qty_pcs": 0,
+        "returned_unprocessed_qty_pcs": 0,
+        "active_claim_qty_pcs": 0,
+        "sizes": [
+          {
+            "qty_sent_pcs": 10,
+            "good_returned_qty_pcs": 0,
+            "bs_returned_qty_pcs": 0,
+            "outstanding_qty_pcs": 10
+          }
+        ],
+        "receipts": [
+          {
+            "event_kind": "FAILED_WASH_ATTEMPT",
+            "custody_outcome": "RETRY_AT_VENDOR",
+            "attempted_qty_pcs": 10,
+            "status": "POSTED",
+            "reversible": true
+          }
+        ]
+      },
+      "response": {
+        "custody_outcome": "RETRY_AT_VENDOR",
+        "qty_attempted_pcs": 10,
+        "delivery_status": "SENT",
+        "receipt_status": "POSTED",
+        "stock_effect": "PHYSICAL_STAYS_AT_LAUNDRY"
+      }
+    },
+    "price_rows": [
+      [
+        "KNOWN",
+        "3.00",
+        "Invoice vendor memastikan tarif tiga rupiah per PCS",
+        true,
+        true
+      ]
+    ],
+    "own_close_blockers": []
+  },
+  "fixture": {
+    "fixture": {
+      "fx": {
+        "f": {
+          "snapshot": "aa943963-dcdf-4d71-b122-537c962611f6",
+          "po": "a218e8df-2cf8-4ef8-bba7-ec516ab47cc9",
+          "component": "a4000000-0000-0000-0000-000000000001",
+          "rate": "0",
+          "completion": "a6b5b235-4eb8-4ef2-aca4-1c531ab163c2",
+          "group": "3d9841cf-7bf5-4429-9152-1a9194c84ed6"
+        },
+        "day": "2026-10-24",
+        "batch": "6c786166-ad23-4511-9795-7a22c62d2add",
+        "model": "a2000000-0000-0000-0000-000000000001",
+        "vendor": "41924483-4409-4a45-ab67-92a68686a711",
+        "process": "7beaa08a-e3c4-4882-8d74-b2c8f7288a55",
+        "group": "3d9841cf-7bf5-4429-9152-1a9194c84ed6",
+        "po": "a218e8df-2cf8-4ef8-bba7-ec516ab47cc9",
+        "start": "2026-10-24 00:00:00+07:00",
+        "send": "2026-10-24 11:00:00+07:00"
+      },
+      "po": "a218e8df-2cf8-4ef8-bba7-ec516ab47cc9",
+      "vendor": "41924483-4409-4a45-ab67-92a68686a711",
+      "day": "2026-10-24",
+      "failed": "9e8caf85-dc29-4263-ba78-1734c4917653",
+      "delivery": "bb2a72bb-81cb-42d1-8104-0838e7ee4800",
+      "size": "f2ad5ac9-a663-40bd-92cf-1a87ffd3979e"
+    },
+    "number": "LDR-261024-BB2A72BB81CB42D181040838E7EE4800",
+    "physical_local": "2026-10-24T12:00",
+    "money_before": {
+      "desired": "20.00",
+      "accrued": "20.00",
+      "journal": [
+        [
+          "1200",
+          "2026-10-24",
+          "-100.00"
+        ],
+        [
+          "1300",
+          "2026-10-24",
+          "120.00"
+        ],
+        [
+          "2050",
+          "2026-10-24",
+          "-20.00"
+        ]
+      ],
+      "hpp": []
+    },
+    "fixture_source": "EXISTING_NATIVE_DELIVERY_ONLY_FAILED_ATTEMPT_AND_PRICE_MUST_BE_UI"
+  },
+  "console": []
+}

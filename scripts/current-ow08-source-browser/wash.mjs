@@ -11,7 +11,12 @@ const fixture=(op,p)=>JSON.parse(execFileSync('python',['-B',resolve(ROOT,'scrip
 const cents=v=>{assert.match(v,/^-?\d+\.\d{2}$/);return BigInt(v.replace('.',''))}
 export const IDS=['OW08_UNKNOWN_WASH_SCREEN_PRICE_DESKTOP','OW08_UNKNOWN_WASH_SCREEN_PRICE_MOBILE']
 async function laundry(ui,page){
- const menu=page.getByRole('button',{name:'Buka menu',exact:true});if(await menu.isVisible())await menu.click()
+ // reload() can finish while Auth is still restoring. Do not sample the
+ // responsive menu until the authorized application shell has returned.
+ await ui.expect(page.locator('.top-title strong')).toBeVisible()
+ const menu=page.getByRole('button',{name:'Buka menu',exact:true});if(await menu.isVisible()){
+  await menu.click();await ui.expect(page.locator('.sidebar')).toHaveClass(/sidebar-open/)
+ }
  const link=page.getByRole('button',{name:'• Laundry',exact:true})
  if(!await link.isVisible())await page.locator('.sidebar .nav-main').filter({hasText:'Produksi'}).click()
  await link.click();await ui.expect(page.getByRole('heading',{name:'Laundry',exact:true})).toBeVisible()

@@ -1,0 +1,34 @@
+{
+  "error": "AssertionError [ERR_ASSERTION]: {\"code\":\"42501\",\"details\":null,\"hint\":null,\"message\":\"CP7_TRANSACTION_SOURCE_ACCESS_DENIED\"}\n\n403 !== 200\n",
+  "fixture": {
+    "blocked": {
+      "qc_id": "61533fec-5fda-4acc-b1c9-3c9adc80dee3",
+      "qc_number": "FGP-261024-D128ED15B9F548EA8331EED71245374D",
+      "blocker": "FG hasil QC masih dipakai transaksi downstream aktif. Yang harus dibetulkan dulu: 1) Penyesuaian barang jadi P10-ADJ-24fb0e181c mengubah lot FGP-261024-D128ED15B9F548EA8331EED71245374D-CP6EBD16130c44-b0a8f1c1: di Gudang › Stock Adjustment, bagian Barang jadi, pilih Batalkan koreksi FG. 2) Draft invoice P10-e60be61998 memesan barang dari lot FGP-261024-D128ED15B9F548EA8331EED71245374D-CP6EBD16130c44-b0a8f1c1: di Penjualan › Penjualan & Invoice ubah drafnya atau pilih Batalkan draft invoice.",
+      "sale": "P10-e60be61998",
+      "adjustment": "P10-ADJ-24fb0e181c"
+    },
+    "inverse": {
+      "lot_id": "0695e7f8-a88f-4ef1-b384-1e670a50a25f",
+      "lot_number": "FGP-261024-4CC5E03D78634FF0A29210B1F17C7212-CP6EBDe7b85a3f-c0bac401",
+      "movement_id": "d85ffe2d-ba1f-4a96-b966-571da41c9f14",
+      "source_type": "FG_MOVEMENT_REVERSAL",
+      "source_id": "deb1e8fc-e261-47ff-8c37-112cdfa0ad89",
+      "adjustment_id": "cb22d4de-2cb1-40f4-86a9-0010720f4b66",
+      "number": "P10-ADJ-0662ebb9df"
+    },
+    "fixture_source": "EXISTING_NATIVE_CHAIN_ADJUSTMENT_AND_INVERSE_NOT_SCREEN_CREATION"
+  },
+  "console": [
+    {
+      "text": "Failed to load resource: the server responded with a status of 403 (Forbidden)",
+      "location": {
+        "url": "http://127.0.0.1:39027/rest/v1/rpc/erp_cp7_resolve_transaction_source_v1",
+        "line": 0,
+        "column": 0,
+        "lineNumber": 0,
+        "columnNumber": 0
+      }
+    }
+  ]
+}
