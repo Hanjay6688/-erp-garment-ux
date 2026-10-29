@@ -24,6 +24,13 @@
       "bytes": 860,
       "sha256": "f9d45a86caf6aa1feef14d9477f5a8c9793eb19645f62588369f51b15e8f23a7",
       "detail": "Real recovery hook refuses SAVE_PAIR before RPC until the shared SKU action allowlist is extended; caught by the master form test, not mocked away."
+    },
+    {
+      "name": "sku-pair-delete-original805-first.log",
+      "bytes": 1967,
+      "sha256": "a5ed3b38477cab90dce80e1b461605f7f5725390fc52734b95de573ef9409883",
+      "status": "2_FAIL_12_SKIPPED",
+      "detail": "Old805 pair SQL with exact original Native validator rejects intended explicit-null deletion; reproduces actual first failure before product patch."
     }
   ]
 }

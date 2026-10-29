@@ -58,8 +58,11 @@ declare src uuid;dst uuid;prior cp7_sku_conversion.pair_events_v1%rowtype;answer
 begin
  perform erp.require_owner_admin();perform erp.require_permission('master.product.manage');
  if p_request is null then raise exception 'CP7_SKU_PAIR_REQUEST_REQUIRED';end if;
- perform erp._cp3_assert_closed_json_object(p_payload,array['source_group_id','target_group_id','expected_version','reason'],
+ perform erp._cp3_assert_closed_json_object(p_payload,array['source_group_id','expected_version','reason'],
  array['source_group_id','target_group_id','expected_version','reason'],'padanan SKU');
+ -- The screen sends an explicit JSON null to delete. The shared validator's
+ -- required list means NON-NULL, so require target-key presence separately.
+ if not(p_payload?'target_group_id')then raise exception 'CP7_SKU_PAIR_TARGET_KEY_REQUIRED: kirim SKU tujuan atau null untuk menghapus padanan';end if;
  perform erp.bc_text_v1(p_payload,'reason',true,1000);
  src:=erp.bd_uuid_v1(p_payload,'source_group_id',true);dst:=erp.bd_uuid_v1(p_payload,'target_group_id',false);
  perform pg_advisory_xact_lock(hashtextextended('CP7_SKU_PAIR_MASTER_V1',0));

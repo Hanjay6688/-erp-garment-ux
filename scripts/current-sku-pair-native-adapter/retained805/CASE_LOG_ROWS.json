@@ -1,0 +1,226 @@
+{
+  "run_id": 40868545238,
+  "head": "805922690d85818d3146966e6bcc9295d97b0f84",
+  "note": "Exact parsed per-case log JSON. This is partial evidence; no complete strict-group report or Native7 PASS.",
+  "cases": [
+    {
+      "group": "CP7_SKU_PAIR_CONVERSION_NATIVE7",
+      "case": "SKU29_PAIR_BIDIRECTIONAL_REPLACE_DELETE_NO_LEDGER",
+      "status": "INCOMPLETE",
+      "error": "padanan SKU requires non-null key target_group_id\nCONTEXT:  PL/pgSQL function _cp3_assert_closed_json_object(jsonb,text[],text[],text) line 13 at RAISE\nSQL statement \"SELECT erp._cp3_assert_closed_json_object(p_payload,array['source_group_id','target_group_id','expected_version','reason'],\n array['source_group_id','target_group_id','expected_version','reason'],'padanan SKU')\"\nPL/pgSQL function cp7_sku_conversion.save_pair_v1(jsonb,uuid) line 6 at PERFORM\nPL/pgSQL function cp7_sku_conversion.sku_action_v1(text,jsonb,uuid) line 3 at RETURN\nSQL function \"erp_save_sku_action_v1\" statement 1",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py\", line 165, in _strict_group_once\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-sku-pair-conversion-qualification/cases.py\", line 172, in <lambda>\n    return [(name,lambda operation=operation:operation(cur,today))for name,operation in zip(IDS,\n                                             ^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-sku-pair-conversion-qualification/cases.py\", line 41, in pairs\n    f.pair(cur,ids[2],None)\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-sku-pair-conversion-qualification/fixture.py\", line 46, in pair\n    return public(cur,'erp_save_sku_action_v1','SAVE_PAIR',json.dumps(p),str(key or uuid.uuid4())),p\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-sku-pair-conversion-qualification/fixture.py\", line 22, in public\n    result=cur.execute('select public.'+name+'('+','.join(['%s']*len(args))+')',args).fetchone()[0]\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.RaiseException: padanan SKU requires non-null key target_group_id\nCONTEXT:  PL/pgSQL function _cp3_assert_closed_json_object(jsonb,text[],text[],text) line 13 at RAISE\nSQL statement \"SELECT erp._cp3_assert_closed_json_object(p_payload,array['source_group_id','target_group_id','expected_version','reason'],\n array['source_group_id','target_group_id','expected_version','reason'],'padanan SKU')\"\nPL/pgSQL function cp7_sku_conversion.save_pair_v1(jsonb,uuid) line 6 at PERFORM\nPL/pgSQL function cp7_sku_conversion.sku_action_v1(text,jsonb,uuid) line 3 at RETURN\nSQL function \"erp_save_sku_action_v1\" statement 1\n",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-29",
+        "before": "2026-10-29",
+        "after": "2026-10-29"
+      }
+    },
+    {
+      "group": "CP7_SKU_PAIR_CONVERSION_NATIVE7",
+      "case": "SKU29_NONPO_MULTILOT_FIFO_RESERVATION_VALUE_REPLAY",
+      "status": "PASS",
+      "request_id": "7e9fca91-6fd6-4ec3-9fd0-a9688b5c534d",
+      "allocations": [
+        {
+          "conversion_id": "7e9fca91-6fd6-4ec3-9fd0-a9688b5c534d",
+          "source_lot_id": "400aaa72-c32e-4e17-99d3-8fdb278a6e6e",
+          "destination_lot_id": "2a3ae7fb-9b81-468c-9d86-7e679dd51d50",
+          "qty_pcs": 2,
+          "unit_hpp": "10.010000",
+          "destination_value": "20.020000"
+        },
+        {
+          "conversion_id": "747258d8-54c3-43ec-923b-0c7e6fb53a65",
+          "source_lot_id": "49d00bd0-365a-4e3b-bcd3-0addff96ab87",
+          "destination_lot_id": "85511171-c5bc-4203-9075-d6b8110264b0",
+          "qty_pcs": 2,
+          "unit_hpp": "20.020000",
+          "destination_value": "40.040000"
+        }
+      ],
+      "source_before": {
+        "physical": 10,
+        "reserved": 1,
+        "available": 9
+      },
+      "source_after": {
+        "physical": 6,
+        "reserved": 1,
+        "available": 5
+      },
+      "target_before": {
+        "physical": 4,
+        "reserved": 0,
+        "available": 4
+      },
+      "target_after": {
+        "physical": 8,
+        "reserved": 0,
+        "available": 8
+      },
+      "source_target_exact_value": "60.06",
+      "Native_books": {
+        "8588d551-b9b5-4ae8-8a0a-e259ef530370": [
+          "110.11",
+          "110.11",
+          "0.00",
+          "0.00"
+        ],
+        "c16ea7b9-06a9-4a2c-8090-c27d2fb57635": [
+          "180.18",
+          "180.18",
+          "0.00",
+          "0.00"
+        ]
+      },
+      "replay_no_new_ledger_rows": true,
+      "active_sales_reservation_preserved": true,
+      "new_FG_average_created": false,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-29",
+        "before": "2026-10-29",
+        "after": "2026-10-29"
+      }
+    },
+    {
+      "group": "CP7_SKU_PAIR_CONVERSION_NATIVE7",
+      "case": "SKU29_ANY_ACTIVE_MODEL_SIZE_MANUAL_BACK_CURRENT_SOURCE_COST",
+      "status": "PASS",
+      "counterpart_not_required": true,
+      "actual_different_model": true,
+      "actual_different_size": true,
+      "manual_back_source_lot": "c3ab69db-fda5-40b0-9603-d10eaa81b7f6",
+      "manual_back_current_source_value": "30.03",
+      "batch_pairing_not_required": true,
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-29",
+        "before": "2026-10-29",
+        "after": "2026-10-29"
+      }
+    },
+    {
+      "group": "CP7_SKU_PAIR_CONVERSION_NATIVE7",
+      "case": "SKU29_STALE_SOURCE_TARGET_RESERVATIONS_REFUSE_ZERO_EFFECT",
+      "status": "PASS",
+      "controls": {
+        "SOURCE_RESERVATION": {
+          "code": "STALE_VERSION",
+          "refusal": {
+            "sqlstate": "P0001",
+            "message": "STALE_VERSION: stok, reservasi atau HPP berubah; periksa pratinjau terbaru"
+          },
+          "result": null,
+          "ok": true
+        },
+        "TARGET_STOCK": {
+          "code": "STALE_VERSION",
+          "refusal": {
+            "sqlstate": "P0001",
+            "message": "STALE_VERSION: stok, reservasi atau HPP berubah; periksa pratinjau terbaru"
+          },
+          "result": null,
+          "ok": true
+        },
+        "RESERVATION_TO_POSTED_SALE": {
+          "code": "STALE_VERSION",
+          "refusal": {
+            "sqlstate": "P0001",
+            "message": "STALE_VERSION: stok, reservasi atau HPP berubah; periksa pratinjau terbaru"
+          },
+          "result": null,
+          "ok": true
+        }
+      },
+      "same_SKU_zero_effect": {
+        "code": "CP7_SKU_SAME_PRODUCT",
+        "refusal": {
+          "sqlstate": "P0001",
+          "message": "CP7_SKU_SAME_PRODUCT: SKU asal dan tujuan harus berbeda"
+        },
+        "result": null,
+        "ok": true
+      },
+      "insufficient_available_zero_effect": {
+        "code": "CP7_SKU_INSUFFICIENT",
+        "refusal": {
+          "sqlstate": "P0001",
+          "message": "CP7_SKU_INSUFFICIENT: stok tersedia pada lokasi/tanggal tidak cukup, kurang 1 PCS"
+        },
+        "result": null,
+        "ok": true
+      },
+      "changed_source_target_or_reservation_requires_new_review": true,
+      "NULL_blank_unknown_public_commands_existing_group_zero_effect": [
+        {
+          "action": null,
+          "refusal": {
+            "code": "BE_ACTION_UNKNOWN",
+            "refusal": {
+              "sqlstate": "P0001",
+              "message": "BE_ACTION_UNKNOWN: tindakan tidak dikenal"
+            },
+            "result": null,
+            "ok": true
+          }
+        },
+        {
+          "action": "",
+          "refusal": {
+            "code": "BE_ACTION_UNKNOWN",
+            "refusal": {
+              "sqlstate": "P0001",
+              "message": "BE_ACTION_UNKNOWN: tindakan tidak dikenal"
+            },
+            "result": null,
+            "ok": true
+          }
+        },
+        {
+          "action": "UNKNOWN_ACTION",
+          "refusal": {
+            "code": "BE_ACTION_UNKNOWN",
+            "refusal": {
+              "sqlstate": "P0001",
+              "message": "BE_ACTION_UNKNOWN: tindakan tidak dikenal"
+            },
+            "result": null,
+            "ok": true
+          }
+        }
+      ],
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-29",
+        "before": "2026-10-29",
+        "after": "2026-10-29"
+      }
+    }
+  ]
+}

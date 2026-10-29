@@ -1,0 +1,81 @@
+{
+  "scope": "SKU_PAIR_DELETE_REQUIRED_NULLABLE_TARGET_REPAIR",
+  "base_commit": "805922690d85818d3146966e6bcc9295d97b0f84",
+  "status": "LOCAL_GREEN_ACTUAL_SUCCESSOR_NOT_EXECUTED",
+  "original_actual_run": "40868545238",
+  "original_backend_package_digest": "e6f8104cdf4f46e2ef80ffae6544160747f49df6c3565d3fb37d33a0087a4bb1",
+  "original_report": {
+    "name": "CP7_SKU_PAIR_CONVERSION_NATIVE.json",
+    "bytes": 799023,
+    "sha256": "46aa5ca8031724899d757f8afdb86222a53c7c68a4c8320a97de44d26541db33",
+    "retained_by_root": true,
+    "copied_or_edited_here": false,
+    "native_field_empty_due_to_separate_logger_crash": true
+  },
+  "exact_original_error": "padanan SKU requires non-null key target_group_id",
+  "local_before": {
+    "tests_selected": 2,
+    "failed": 2,
+    "skipped": 12,
+    "actual_helpers": [
+      {
+        "path": "supabase/migrations/20260901023000_erp_v2_6_14_attendance_hpp_sewing_terminal_foundation.sql",
+        "function": "create or replace function erp._cp3_assert_closed_json_object",
+        "exact_original_function_sha256": "d99514d7d3d933d4da5c24d4f590970a152750c5efbe6ea75f1ab7d6de5c4c6a"
+      },
+      {
+        "path": "scripts/cp6_bd_objects_policy.sql",
+        "function": "CREATE OR REPLACE FUNCTION erp.bd_uuid_v1",
+        "exact_original_function_sha256": "3513f9cd06ee4d8e76f272bb4d4f4631596c62c12837b6e362b7be46f1124af0"
+      }
+    ]
+  },
+  "local_after": {
+    "SQL": 14,
+    "client": 25,
+    "source_metadata": 4,
+    "typecheck": "PASS",
+    "git_diff_check": "PASS"
+  },
+  "reason": "The shared required list forbids JSON null. UI deletion explicitly includes target_group_id:null. Keep source/revision/reason required nonnull, target key present separately, allowed keys closed, and original Native UUID-or-null parsing.",
+  "refusal_controls": [
+    "missing target key",
+    "empty/numeric/object/array/non-UUID target",
+    "null revision or reason",
+    "unexpected key",
+    "stale version",
+    "same UUID changed payload"
+  ],
+  "original_local_double_gap": "Key-existence-only helper masked Native nonnull semantics; exact original Native required-key and UUID bodies now replace those doubles.",
+  "other_Native_Auth_journal_doubles_remain": true,
+  "actual_Native_successor_pass": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "logs": [
+    {
+      "name": "sku-pair-delete-original805-first.log",
+      "bytes": 1967,
+      "sha256": "a5ed3b38477cab90dce80e1b461605f7f5725390fc52734b95de573ef9409883"
+    },
+    {
+      "name": "sku-pair-delete-fixed14.log",
+      "bytes": 234,
+      "sha256": "cbe9bc554007e901003ffb450fde3d367da512b593d084385627b4a797a05e3a"
+    },
+    {
+      "name": "sku-pair-delete-client25.log",
+      "bytes": 235,
+      "sha256": "eb1e1835de2bb675ba0ae4ef79f73607e9da83a502768c7d380d8308befa8487"
+    },
+    {
+      "name": "sku-pair-delete-source4.log",
+      "bytes": 102,
+      "sha256": "5d8a174d448d59185fd227bcbab9c964e39b10a9c2e28965972cfb0c833dd854"
+    },
+    {
+      "name": "sku-pair-delete-typecheck.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}

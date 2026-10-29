@@ -20,6 +20,12 @@ const post = async (request = u(100), p: Record<string, unknown> = payload()) =>
 }
 const pair = async (a: string, b: string | null, request: string) => queryValue(`cp7_sku_conversion.save_pair_v1(${jsonArg({ source_group_id: a, target_group_id: b, reason: 'Padanan owner', expected_version: await queryValue('cp7_sku_conversion.pair_revision_v1()') })},'${request}')`)
 const snapshot = () => queryValue(`jsonb_build_object('movements',(select jsonb_agg(to_jsonb(x)order by id)from erp.fg_stock_movements x),'hpp',(select jsonb_agg(to_jsonb(x)order by lot_id)from erp.current_hpp x),'journals',(select jsonb_agg(to_jsonb(x)order by id)from erp.test_journals x))`)
+const pairSnapshot = () => queryValue(`jsonb_build_object('pairs',(select jsonb_agg(to_jsonb(p)order by left_id,right_id)from cp7_sku_conversion.pairs_v1 p),'events',(select jsonb_agg(to_jsonb(e)order by request_id)from cp7_sku_conversion.pair_events_v1 e))`)
+const nativeFunction = (path: string, declaration: string) => {
+  const sql = readFileSync(path, 'utf8'), start = sql.indexOf(declaration), end = sql.indexOf('$function$;', start)
+  if (start < 0 || end < 0) throw new Error(`Pinned Native function not found: ${declaration}`)
+  return sql.slice(start, end + '$function$;'.length)
+}
 
 beforeEach(async () => {
   db = await openRuntime()
@@ -33,9 +39,6 @@ beforeEach(async () => {
     create function erp.require_owner_admin()returns void language plpgsql as $$begin if erp.current_app_role()not in('OWNER','ADMIN')then raise exception 'OWNER_ADMIN_REQUIRED';end if;end$$;
     create function erp.require_internal()returns void language plpgsql as $$begin if erp.current_app_user_id()is null then raise exception 'AUTH_REQUIRED';end if;end$$;
     create function erp.pocket_period_lock_v1()returns void language sql as $$select$$;
-    create function erp._cp3_assert_closed_json_object(p jsonb,required text[],allowed text[],label text)returns void language plpgsql as $$begin
-      if jsonb_typeof(p)is distinct from 'object'or exists(select 1 from unnest(required)k where not(p?k))or exists(select 1 from jsonb_object_keys(p)k where not(k=any(allowed)))then raise exception 'CLOSED_OBJECT %',label;end if;end$$;
-    create function erp.bd_uuid_v1(p jsonb,k text,required boolean)returns uuid language plpgsql as $$begin if required and nullif(p->>k,'')is null then raise exception 'UUID_REQUIRED';end if;return nullif(p->>k,'')::uuid;end$$;
     create function erp.bc_text_v1(p jsonb,k text,required boolean,max_length int)returns text language plpgsql as $$begin if required and nullif(btrim(p->>k),'')is null or length(p->>k)>max_length then raise exception 'TEXT_REQUIRED';end if;return p->>k;end$$;
     create function erp.bd_qty_v1(p jsonb,k text)returns int language plpgsql as $$begin if p#>>'{}'!~'^[1-9][0-9]{0,8}$'then raise exception 'QTY_INVALID';end if;return(p#>>'{}')::int;end$$;
     create function erp.bd_at_v1(p text,k text)returns timestamptz language plpgsql as $$begin if p::timestamptz>statement_timestamp()then raise exception 'FUTURE';end if;return p::timestamptz;end$$;
@@ -67,6 +70,11 @@ beforeEach(async () => {
     create function erp.save_sku_action_v1(a text,p jsonb,r uuid)returns jsonb language sql as $$select jsonb_build_object('legacy',true)$$;
     create function erp.get_product_conversion_workspace_v1(p jsonb)returns jsonb language sql as $$select jsonb_build_object('lots','[]'::jsonb,'targets','[]'::jsonb,'documents','[]'::jsonb,'page',1,'target_page',1,'page_size',25,'total',0,'targets_total',0,'documents_total',0,'document_page',1)$$;
   `)
+  // The original required-key validator rejects JSON null, unlike the former
+  // key-existence-only local double. Use both exact Native validators so a
+  // nullable endpoint cannot pass locally and fail on the real stack again.
+  await db.execute(nativeFunction('supabase/migrations/20260901023000_erp_v2_6_14_attendance_hpp_sewing_terminal_foundation.sql', 'create or replace function erp._cp3_assert_closed_json_object('))
+  await db.execute(nativeFunction('scripts/cp6_bd_objects_policy.sql', 'CREATE OR REPLACE FUNCTION erp.bd_uuid_v1('))
   await db.execute(readFileSync('scripts/cp7_sku_pair_conversion/pairs.sql', 'utf8') + '\n' + readFileSync('scripts/cp7_sku_pair_conversion/conversion.sql', 'utf8'))
   const beSource = readFileSync('scripts/cp6_be_objects_conversion.sql', 'utf8')
   const start = beSource.indexOf('CREATE OR REPLACE FUNCTION erp.be_conversion_preview_v1(')
@@ -117,6 +125,36 @@ test('pair replay is exact, stale master state and crossing duplicate endpoints 
   await expect(db.execute(`insert into cp7_sku_conversion.pairs_v1 values('${group2}','${group3}')`)).rejects.toThrow('ALREADY_LINKED')
   await db.execute("update erp.test_actor set permissions=array['master.product.view']")
   await expect(queryValue(`cp7_sku_conversion.save_pair_v1(${jsonArg(p)},'${u(110)}')`)).rejects.toThrow('ACCESS_DENIED')
+})
+test('explicit nullable target deletes from either endpoint with the original Native validators; missing, malformed, stale and reused requests refuse without effects', async () => {
+  const before = await snapshot()
+  for (const [index, endpoint] of [group1, group2].entries()) {
+    await pair(group1, group2, u(210 + index * 3))
+    const request = u(211 + index * 3), deletion = { source_group_id: endpoint, target_group_id: null, reason: 'Hapus padanan owner', expected_version: await queryValue('cp7_sku_conversion.pair_revision_v1()') }
+    const saved = await queryValue(`cp7_sku_conversion.save_pair_v1(${jsonArg(deletion)},'${request}')`)
+    expect(saved.target_group_id).toBe(null); expect(saved.removed).toHaveLength(1)
+    expect(await queryValue(`cp7_sku_conversion.partner_v1('${group1}')`)).toBe(null)
+    expect(await queryValue(`cp7_sku_conversion.partner_v1('${group2}')`)).toBe(null)
+    const exact = await pairSnapshot()
+    expect(await queryValue(`cp7_sku_conversion.save_pair_v1(${jsonArg(deletion)},'${request}')`)).toEqual({ ...saved, replayed: true })
+    expect(await pairSnapshot()).toEqual(exact)
+    await expect(queryValue(`cp7_sku_conversion.save_pair_v1(${jsonArg({ ...deletion, target_group_id: group3 })},'${request}')`)).rejects.toThrow('CP7_SKU_PAIR_REQUEST_REUSED')
+    expect(await pairSnapshot()).toEqual(exact)
+  }
+  await pair(group1, group2, u(220))
+  const current = { source_group_id: group1, target_group_id: null, reason: 'Hapus dengan pemeriksaan', expected_version: await queryValue('cp7_sku_conversion.pair_revision_v1()') }
+  const { target_group_id: _target, ...missing } = current
+  const invalid: [unknown, string][] = [[missing, 'CP7_SKU_PAIR_TARGET_KEY_REQUIRED'],
+    ...['', 7, {}, [], 'null'].map(target_group_id => [{ ...current, target_group_id }, 'BD_FIELD_INVALID'] as [unknown, string]),
+    [{ ...current, expected_version: null }, 'requires non-null key expected_version'],
+    [{ ...current, reason: null }, 'requires non-null key reason'],
+    [{ ...current, extra: true }, 'contains unexpected key extra'],
+    [{ ...current, expected_version: 'stale-review' }, 'STALE_VERSION']]
+  const exact = await pairSnapshot()
+  for (const [index, [bad, message]] of invalid.entries()) {
+    await expect(queryValue(`cp7_sku_conversion.save_pair_v1(${jsonArg(bad)},'${u(230 + index)}')`)).rejects.toThrow(message)
+    expect(await pairSnapshot()).toEqual(exact); expect(await snapshot()).toEqual(before)
+  }
 })
 test('FIFO preview separates physical/available/reserved and carries each lot cost into a different model and size', async () => {
   const before = await snapshot(), v = await preview()

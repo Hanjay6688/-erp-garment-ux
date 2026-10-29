@@ -2,7 +2,7 @@ name: CP7 A SKU pair and conversion Native
 'on':
   push:
     branches:
-    - astra-a/sku-pair-native-qualified-20261029
+    - astra-a/sku-pair-native-successor-20261029
     paths:
     - .github/workflows/cp7-sku-pair-native.yml
     - scripts/current-sku-pair-native-adapter/**
@@ -487,7 +487,7 @@ jobs:
       if: always()
       working-directory: auditor
       run: "python - <<'PY'\nimport base64,gzip,hashlib,json\nfrom pathlib import Path\nroot=Path('cp6-proof/t3')\nfor name\
-        \ in ('CP7_SKU_PAIR_CONVERSION_NATIVE.json','T3_PACKAGE_INSTALL.json','T3_BACKUP_RESTORE_DRILL.json','T3_PACKAGE_FILES_INSTALL.json'):\n\
+        \ in ('CP7_SKU_PAIR_CONVERSION_NATIVE.json','CP7_SKU_PAIR_CONVERSION_NATIVE7.json','CP7_SKU_PAIR_CONVERSION_NATIVE7_BUSINESS_DAY_FIRST_ATTEMPT.json','T3_PACKAGE_INSTALL.json','T3_BACKUP_RESTORE_DRILL.json','T3_PACKAGE_FILES_INSTALL.json'):\n\
         \    path=root/name\n    if not path.is_file():\n        continue\n    raw=path.read_bytes();packed=gzip.compress(raw,mtime=0)\n\
         \    print(json.dumps(dict(ow04_original_report_bytes=True,name=name,raw_bytes=len(raw),\n        raw_sha256=hashlib.sha256(raw).hexdigest(),gzip_bytes=len(packed),\n\
         \        gzip_sha256=hashlib.sha256(packed).hexdigest(),\n        gzip_base64=base64.b64encode(packed).decode('ascii'))),flush=True)\n\
@@ -504,4 +504,4 @@ jobs:
         path: auditor/cp6-proof/t3
         retention-days: 30
         if-no-files-found: error
-    if: github.ref == 'refs/heads/astra-a/sku-pair-native-qualified-20261029'
+    if: github.ref == 'refs/heads/astra-a/sku-pair-native-successor-20261029'

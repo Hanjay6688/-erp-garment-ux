@@ -27,7 +27,7 @@
     "sha256": "78ad89e2a0e9433c3acedd5ad0d081799ef3b3fb8fdd7cc5a38f64877591d65a"
   },
   "runtime_files": {
-    "scripts/cp7_sku_pair_conversion/pairs.sql": "099722c9f6b357d18b30f78dea25ee877722c97d2ef68d9b1bab44c2a2829d20",
+    "scripts/cp7_sku_pair_conversion/pairs.sql": "05c7b67222b2a003ee4180872216a0837c747fcb145db88157317bad25b281c2",
     "scripts/cp7_sku_pair_conversion/conversion.sql": "71211f85eae538e96886bc401e4357dc54259f4783c938d3fa4ab4b1c66deff5",
     "scripts/cp7_sku_pair_conversion/native_delta.py": "ff479d17a8f039693723307088551a0eb6876e2bdd772da2b6dc6f60c55d82f8",
     "scripts/cp7_sku_pair_conversion/composition.py": "dbc2f01afd97ef2b9a231611d4510da623cb1cebf5455da67c52dd3df7130849",

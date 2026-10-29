@@ -81,3 +81,13 @@ advisory, idempotency, serta baris SKU/produk sebelum replay atau DML. Uji lokal
 injeksi perubahan hak setelah batas idempotency bukan klaim race dua sesi.
 Pencarian/paging tujuan dan padanan menghapus pilihan belum tersimpan yang
 tidak terlihat; penulis tidak dapat memakai ID tersembunyi.
+
+Actual Native805 pertama menolak hapus padanan karena validator bersama
+memaknai daftar required sebagai key bernilai non-null. Layar memang mengirim
+`target_group_id:null` sebagai perintah hapus. Target kini tetap wajib hadir
+secara eksplisit, tetapi boleh JSON null; tujuan lain tetap melalui parser UUID
+Native. Key hilang tidak menjadi penghapusan diam-diam. Uji lokal memakai body
+validator key dan UUID Native asli, sehingga tidak lagi bergantung pada double
+lama yang hanya mengecek keberadaan key. Penolakan lama direproduksi sebelum
+patch; hapus dari kedua sisi, replay dan malformed/stale zero-effect diuji.
+Ini belum merupakan Native805 successor PASS; Original disimpan integrator.

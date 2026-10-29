@@ -6,6 +6,7 @@ Nothing here starts hosted work, browser Auth, a scheduler or a workflow.
 """
 from pathlib import Path
 import importlib.util,json
+from hashlib import sha256
 import psycopg
 from cp7_sku_pair_conversion import composition as product
 from cp7_p21_current_chain_rehearsal_probe import helper
@@ -28,8 +29,22 @@ def exercise(conn,cur,database,url,report,state):
     conn.rollback();cur.close();conn.close()
     def verify(cursor):
         with control.product_catalog(cursor):return product.verify(cursor,state)
-    with exact_public_catalog(native,retain_raw=True)as public:
-        actual=native.strict_group(LABEL,business.cases,verify)
+    try:
+        with exact_public_catalog(native,retain_raw=True)as public:
+            actual=native.strict_group(LABEL,business.cases,verify)
+    finally:
+        # The strict runner saves each original before printing. Preserve those
+        # exact bytes even if a later diagnostic itself raises; do not rewrite
+        # the auditor runner or synthesize a completed group from partial rows.
+        destination=HERE.parents[1]/'cp6-proof/t3'
+        destination.mkdir(parents=True,exist_ok=True)
+        retained=[]
+        for name in (LABEL+'.json',LABEL+'_BUSINESS_DAY_FIRST_ATTEMPT.json'):
+            original=native.r1.OUT/name
+            if original.is_file():
+                raw=original.read_bytes();(destination/name).write_bytes(raw)
+                retained.append(dict(name=name,bytes=len(raw),sha256=sha256(raw).hexdigest()))
+        report['strict_group_originals']=retained
     report.update(native=actual,public_catalog_observation=public,actual_Native_cases=0,
       actual_Auth_browser=False,actual_two_session_races=0,qualification_scope='NATIVE_COMPONENT_ONLY',
       full_manual_group_accessory_recovery_claim=False,production_go=False,independent_acceptance=False)

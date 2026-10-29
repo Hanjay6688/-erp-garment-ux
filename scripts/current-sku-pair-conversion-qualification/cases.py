@@ -139,7 +139,7 @@ def inverse(cur,today):
     assert f.stocks(cur,fixture['target'],fixture['location'])==dict(physical=4,reserved=0,available=4)
     statuses=cur.execute('select status from erp.product_conversions where id=any(%s::uuid[])',(made['conversion_ids'],)).fetchall()
     assert statuses==[('REVERSED',),('REVERSED',)]
-    return dict(status='PASS',group=made['conversion_id'],active_downstream_refusal=refusal,
+    return dict(status='PASS',conversion_group_id=made['conversion_id'],active_downstream_refusal=refusal,
       Native_direct_partial_inverse_refused=direct,whole_group_reversed_after_real_sale_draft_cancel=True,
       zero_partial_ledger_on_refusal=True,blocked_Native_part_numbers=blocked_new,original_source_reservation_preserved=True)
 

@@ -3,11 +3,11 @@
   "base_commit": "39f8a0840d50fcd94d7301eaa2cebab23097b562",
   "status": "LOCAL_GREEN_PREPARED_ACTUAL_NATIVE_NOT_ACCEPTED",
   "new_SQL_with_Native_Auth_journal_doubles": {
-    "tests": 12,
-    "passed": 12,
+    "tests": 14,
+    "passed": 14,
     "failed": 0,
-    "original_business_tests": 9,
-    "counter_review_tests": 3
+    "actual_original_required_key_and_UUID_helpers": true,
+    "Native_posting_Auth_journal_doubles_still_declared": true
   },
   "source_metadata_controls": {
     "tests": 4,
@@ -89,6 +89,31 @@
       "name": "sku-review-build-final.log",
       "bytes": 14228,
       "sha256": "d70359a56f0309cebce8d136972cef6c99bed12254b469a2b149cabf88724590"
+    },
+    {
+      "name": "sku-pair-delete-original805-first.log",
+      "bytes": 1967,
+      "sha256": "a5ed3b38477cab90dce80e1b461605f7f5725390fc52734b95de573ef9409883"
+    },
+    {
+      "name": "sku-pair-delete-fixed14.log",
+      "bytes": 234,
+      "sha256": "cbe9bc554007e901003ffb450fde3d367da512b593d084385627b4a797a05e3a"
+    },
+    {
+      "name": "sku-pair-delete-client25.log",
+      "bytes": 235,
+      "sha256": "eb1e1835de2bb675ba0ae4ef79f73607e9da83a502768c7d380d8308befa8487"
+    },
+    {
+      "name": "sku-pair-delete-source4.log",
+      "bytes": 102,
+      "sha256": "5d8a174d448d59185fd227bcbab9c964e39b10a9c2e28965972cfb0c833dd854"
+    },
+    {
+      "name": "sku-pair-delete-typecheck.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     }
   ],
   "production_build": "PASS",
@@ -107,5 +132,6 @@
     "executed": false
   },
   "python_compile": "PASS",
-  "git_diff_check": "PASS"
+  "git_diff_check": "PASS",
+  "pair_delete_actual_first_failure_reproduced_and_local_repaired": true
 }
