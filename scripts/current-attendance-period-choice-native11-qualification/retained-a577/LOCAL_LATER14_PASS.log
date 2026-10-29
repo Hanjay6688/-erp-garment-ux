@@ -1,0 +1,22 @@
+test_all_exact_output_classes_admit_in_progress_package_without_claiming_final_pass (test_generated_later.Later.test_all_exact_output_classes_admit_in_progress_package_without_claiming_final_pass) ... ok
+test_bounded_actual_startup_producer_retry_double_is_admitted (test_generated_later.Later.test_bounded_actual_startup_producer_retry_double_is_admitted) ... EXACT PRODUCER LOCAL COMMAND DOUBLE
+
+{"disposable_startup": "PASS", "attempt": 2, "registry": "public.ecr.aws"}
+ok
+test_changed_clone_diagnostic_or_acl_refuses (test_generated_later.Later.test_changed_clone_diagnostic_or_acl_refuses) ... ok
+test_changed_startup_log_refuses (test_generated_later.Later.test_changed_startup_log_refuses) ... ok
+test_clone_identity_tamper_refuses (test_generated_later.Later.test_clone_identity_tamper_refuses) ... ok
+test_duplicate_json_key_refuses (test_generated_later.Later.test_duplicate_json_key_refuses) ... ok
+test_false_to_integer_zero_metadata_counter_refuses_all_fixed_documents (test_generated_later.Later.test_false_to_integer_zero_metadata_counter_refuses_all_fixed_documents) ... ok
+test_package_source_key_or_tool_head_tamper_refuses (test_generated_later.Later.test_package_source_key_or_tool_head_tamper_refuses) ... ok
+test_producer_source_tamper_refuses (test_generated_later.Later.test_producer_source_tamper_refuses) ... ok
+test_source_declared_manual_dispatch_accepts_and_other_workflow_refuses (test_generated_later.Later.test_source_declared_manual_dispatch_accepts_and_other_workflow_refuses) ... ok
+test_startup_wrong_registry_or_boolean_attempt_refuses (test_generated_later.Later.test_startup_wrong_registry_or_boolean_attempt_refuses) ... ok
+test_symlink_and_frozen_producer_tamper_refuse (test_generated_later.Later.test_symlink_and_frozen_producer_tamper_refuse) ... ok
+test_unknown_source_and_extra_clone_output_remain_unaccepted (test_generated_later.Later.test_unknown_source_and_extra_clone_output_remain_unaccepted) ... ok
+test_wrong_aligned_source_hash_refuses (test_generated_later.Later.test_wrong_aligned_source_hash_refuses) ... ok
+
+----------------------------------------------------------------------
+Ran 14 tests in 0.122s
+
+OK

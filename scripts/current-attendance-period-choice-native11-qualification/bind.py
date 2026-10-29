@@ -20,6 +20,10 @@ def bind():
     files.update(item['archive'] for item in archive['files'])
     files.update(('scripts/current-workflow-history-isolation/ARCHIVE.json',
                   'scripts/current-workflow-history-isolation/materialize.py'))
+    generated = json.loads((HERE / 'GENERATED_RECEIPTS.json').read_bytes())
+    files.update(generated['producer_files'])
+    later = json.loads((HERE / 'LATER_GENERATED_RECEIPTS.json').read_bytes())
+    files.update(later['producer_files'])
     pins = {}
     for name in sorted(files):
         raw = (ROOT / name).read_bytes()

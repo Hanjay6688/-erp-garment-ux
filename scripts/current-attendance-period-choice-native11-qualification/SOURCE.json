@@ -10,9 +10,45 @@
       "bytes": 29845,
       "sha256": "8359b8a5f05c4d8371429e71ba87ff36d2391d6f1108840a805bd8f81452c963"
     },
+    "docs/cp7/d17-14/ow05/native28-current-pass.json": {
+      "bytes": 6791,
+      "sha256": "1d25fbbdcdeea6791a7d04b45ac0bb1a17f3629a29a727284fc6796248c08308"
+    },
+    "docs/cp7/d17-14/ow06/CHECKPOINT.json": {
+      "bytes": 12301,
+      "sha256": "25f5c94de0f6d86fc1d0afcd42e3884280b09e501f3d781f84719c0e8dbbbb4c"
+    },
+    "scripts/chain-p21-qualification/SOURCE.json": {
+      "bytes": 2600,
+      "sha256": "bdc430061c7298da8b623038772dbe281a108d96d6a38246409fa2c52b3eceac"
+    },
+    "scripts/clone-cp6-disposable-database.sh": {
+      "bytes": 7381,
+      "sha256": "c786ad04009547e2e78baf56f93c5dd6dd5847befdb16e721e01909a592285da"
+    },
     "scripts/cp6_auditor_runner.py": {
       "bytes": 14911,
       "sha256": "2c74439f7e919e2adb2484bc774bef4881e71237124f2e6b6dabdab141348ea7"
+    },
+    "scripts/cp6_g01_align.py": {
+      "bytes": 10339,
+      "sha256": "023a9542037b9ad1bc7860b9fabb42d8062173371fb8af728ac2c9bae376c458"
+    },
+    "scripts/cp6_run_identity.py": {
+      "bytes": 1869,
+      "sha256": "4876539c2ed0cffc674522f2a24ae73f2f52253f434bf949a53a3744018f2279"
+    },
+    "scripts/cp6_t3_aligned_chain.py": {
+      "bytes": 6197,
+      "sha256": "4e043ad5257a2ed93600e3bb745c96a7d2c702ff4b163abaa79548acd5d5a3b9"
+    },
+    "scripts/cp6_t3_package_run.py": {
+      "bytes": 17087,
+      "sha256": "952bbf1b99652dadf69ab0e1291979a4e7227182631baaab6af7a7eabcb80ab0"
+    },
+    "scripts/cp6_t3_release_package.py": {
+      "bytes": 23429,
+      "sha256": "29c207f3a3db70194fe3e45ec24c650b6534a5598525588b284df895f41e1358"
     },
     "scripts/cp7_attendance_period_choice/NEW_CATALOG_IDENTITIES.json": {
       "bytes": 17936,
@@ -314,9 +350,53 @@
       "bytes": 6336,
       "sha256": "f3cbfe6e0925f9706a566c7ea0f1353ae7395abf0bfd5479f7cf99171c47676d"
     },
+    "scripts/cp7_contractor_guidance/SOURCE.json": {
+      "bytes": 1921,
+      "sha256": "99a7c6275c866a3e5e315faad943674c6d9bde81f92384fbb439497a38906f97"
+    },
+    "scripts/cp7_credit_followups/SOURCE.json": {
+      "bytes": 2743,
+      "sha256": "437b12a3f8c22dddfa342ae273184cab55239b07a5f4ba947f96f5fe9fd674c1"
+    },
+    "scripts/cp7_credit_incoming/SOURCE.json": {
+      "bytes": 2760,
+      "sha256": "fde6ea88465cb3e4767191e430edbf8f08237d4dacbc69537157c12b296aa5d8"
+    },
+    "scripts/cp7_credit_multi/SOURCE.json": {
+      "bytes": 2693,
+      "sha256": "ea45e42f68db8bd42a090aae8756ad660e35ced1de1b55085ab99a3d5a12801a"
+    },
+    "scripts/cp7_credit_remaining/SOURCE.json": {
+      "bytes": 2569,
+      "sha256": "3449be9061e6d9d3b1820869c40f6c9324e3aa84af127285e7728cfed8cea8b4"
+    },
+    "scripts/cp7_fg_correction_source/SOURCE.json": {
+      "bytes": 2456,
+      "sha256": "18d0a4852c45ea691863e5adde094e9a9ad31de95744c6bc4e1a79e1186cd484"
+    },
+    "scripts/cp7_finance_capture/SOURCE.json": {
+      "bytes": 1994,
+      "sha256": "2c4b2ff736397721ae3ba8bd744ced999a0f14b5e15900152e5c9d5ebdb19f2b"
+    },
+    "scripts/cp7_hpp_close/SOURCE.json": {
+      "bytes": 1868,
+      "sha256": "c64d968972f9bb6b8cba9d38c265a5e8f58464f66afe85061fe5df53150e51f9"
+    },
+    "scripts/cp7_laundry_unknown_wash/SOURCE.json": {
+      "bytes": 2080,
+      "sha256": "1db76ec98057ac161dc06c618aa9aa2053cb41b64d692801f5037cfb1dbe1567"
+    },
     "scripts/cp7_ow04_restore_bundle.py": {
       "bytes": 19828,
       "sha256": "a1605193347cf5b3321a7bdbf8ff6c634df4f4c0a5113eb295e8c3ce44428e00"
+    },
+    "scripts/cp7_ow09_lists/SOURCE.json": {
+      "bytes": 1731,
+      "sha256": "b56eb356b880704d60be3f00644e34af9ad83afbdab2a10bdcd3d934d9290e33"
+    },
+    "scripts/cp7_report_credit/SOURCE.json": {
+      "bytes": 1820,
+      "sha256": "e615913013d12335d16db9b9111d7fb34de39afe67dd5b16e5520b4698116311"
     },
     "scripts/cp7_vendor_receivable/cases.py": {
       "bytes": 12879,
@@ -334,6 +414,26 @@
       "bytes": 20188,
       "sha256": "3b24728512e8be6af697f3234e591f7fe6b46331c68e3497ab71aedbcc9aa2ba"
     },
+    "scripts/current-analog-auth-qualification/SOURCE.json": {
+      "bytes": 135024,
+      "sha256": "2b8bc9aa24fdf9d4f70866b45e3562ac1398fd5cc819b70dd303102fb330ea28"
+    },
+    "scripts/current-analog-choice-browser-qualification/SOURCE.json": {
+      "bytes": 145516,
+      "sha256": "7c227044c0f90e38293cc537114aea7a02bca3936767953da54212894692dcc3"
+    },
+    "scripts/current-analog-consumer-opening-qualification/SOURCE.json": {
+      "bytes": 153266,
+      "sha256": "265870a609583ec161bf28b3c405a4959b00ca253eddcbb68ae8fee191fd5d3e"
+    },
+    "scripts/current-analog-consumer-qualification/SOURCE.json": {
+      "bytes": 151494,
+      "sha256": "cad270ea1881bb15834a4cb8470db36d7e0d874a3c9dac7c4dc68a12c794749c"
+    },
+    "scripts/current-analog-native-fixture-qualification/SOURCE.json": {
+      "bytes": 8213,
+      "sha256": "7c38234e15d2aadb6f8eb7872971acbb806bc9a5918a04f04bcd7045dba651d0"
+    },
     "scripts/current-attendance-period-choice-native11-qualification/.gitignore": {
       "bytes": 19,
       "sha256": "862263fa1f46c20f0d1e4dac5ffcc75abd55c08211b2c3864c5f8764b9d87793"
@@ -341,6 +441,14 @@
     "scripts/current-attendance-period-choice-native11-qualification/CONFIG.json": {
       "bytes": 5622,
       "sha256": "4231aa7cda7049e90245b8c562d0fffab56303a69f91124a76da8d50cfd6d98c"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/GENERATED_RECEIPTS.json": {
+      "bytes": 57118,
+      "sha256": "a62fbd5a3413b9a6512e336ba57d73da85a0523d0d696c2ffa4c6d040d5cd1c8"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/LATER_GENERATED_RECEIPTS.json": {
+      "bytes": 28385,
+      "sha256": "6f94bfe3008634ad6d3a717c4dca84dfd8e276faab4bba38bdc9c19cfdcd1472"
     },
     "scripts/current-attendance-period-choice-native11-qualification/LOCAL_RECEIPT.json": {
       "bytes": 2632,
@@ -351,8 +459,12 @@
       "sha256": "f4cd92dc52e95cb564b61ff6ea536b0658976314cc7b4b21b6ba651fcc0c06ec"
     },
     "scripts/current-attendance-period-choice-native11-qualification/README.md": {
-      "bytes": 5231,
-      "sha256": "0030742ca317052ed81a34928805cff860128f3f144b9975453eb013332253af"
+      "bytes": 7355,
+      "sha256": "d8ddb65c069a35f85699bf6847ca9a82964029813e916d3076b7c383dc61865d"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/SUCCESSOR_LOCAL_RECEIPT.json": {
+      "bytes": 3142,
+      "sha256": "f233e67e325195448e734c7939f0d472c2fdabfcb6e37020a92264f73d2ad3a7"
     },
     "scripts/current-attendance-period-choice-native11-qualification/admission.py": {
       "bytes": 2561,
@@ -363,8 +475,8 @@
       "sha256": "34994ef5bd70ec495ba104be3c58a9143f8f1eaef64040cf024da01c7e165d46"
     },
     "scripts/current-attendance-period-choice-native11-qualification/bind.py": {
-      "bytes": 2681,
-      "sha256": "940547848b5ae1cf4e580b8755e9a30b72217961cb1a8f314d67b53b809ed66b"
+      "bytes": 2923,
+      "sha256": "338bb44d06e74dde58b11f4c36c2c8b37513fd81075d7015a6b4c04aaecd85db"
     },
     "scripts/current-attendance-period-choice-native11-qualification/check.py": {
       "bytes": 962,
@@ -398,6 +510,14 @@
       "bytes": 1808,
       "sha256": "e942ce8e3edbe383f845deb572fbec5e44700bfd3d0f8611a9627afd75e8e898"
     },
+    "scripts/current-attendance-period-choice-native11-qualification/generated_later.py": {
+      "bytes": 10525,
+      "sha256": "7bf35d85d9f7ec19da34c5626f24af908f3691a4e3ed7251dbc4958e59b4bea3"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/generated_receipts.py": {
+      "bytes": 9466,
+      "sha256": "a569138a5b6d4c0d1ce542ab45af98ee156f47e6d772766c214bbae3366ffc7e"
+    },
     "scripts/current-attendance-period-choice-native11-qualification/native_runner.py": {
       "bytes": 8284,
       "sha256": "c2124f5371c529ecbf7767381b55f4c799a2fe0829577d80aa3fbd443c4c9512"
@@ -413,6 +533,54 @@
     "scripts/current-attendance-period-choice-native11-qualification/result_gate.py": {
       "bytes": 3293,
       "sha256": "69f0531bea9fdae02c0bb4468ee99b999a05e2214e754205d1f29c836f1619df"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/retained-a577/LOCAL_ALL_PHASE44_PASS.log": {
+      "bytes": 7394,
+      "sha256": "002e0cfa91f1074558ad2e11e4a59cecaaed40695b712a08a2f5f4ac20644156"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/retained-a577/LOCAL_ALL_PHASE_FIXTURE_PROVENANCE.json": {
+      "bytes": 3056,
+      "sha256": "b286fbb1f40314fd11e2cfa382091fe5666a4d9a4dff2bc9f2b3141160f91edf"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/retained-a577/LOCAL_DIRECT_RECEIPT12_PASS.log": {
+      "bytes": 2121,
+      "sha256": "96249fd8637a5ce45b86a910e7d6a4afc3471ac5295632da858b79db92221e9d"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/retained-a577/LOCAL_FINAL47_PASS.log": {
+      "bytes": 7936,
+      "sha256": "d06189cae504b9e49fc00e30728385d7cc837ebdba10184eead401fb3952ea90"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/retained-a577/LOCAL_FIRST_UNTRACKED_REPRODUCTION.json": {
+      "bytes": 21535,
+      "sha256": "de19a458eecff683f338b9cd2f5005e58d3382f7bd8e93b7cda272244e6f1ada"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/retained-a577/LOCAL_LATER14_PASS.log": {
+      "bytes": 2165,
+      "sha256": "6ca582f9d8e5c456606df7a6381977e449920cf534a9d6b2af485aaedc5868e8"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/retained-a577/LOCAL_LATER_BOOL_INTEGER_FIRST_COUNTER.json": {
+      "bytes": 434,
+      "sha256": "f62748c3b56ac19c2f141e4868a78834e36c9b2431aba7ff873ea9df139e3088"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/retained-a577/LOCAL_P0_FULL30_PASS.log": {
+      "bytes": 5328,
+      "sha256": "c15848ad0f166578aa6399c442ee341f060be722ef43cc283c0208d69e935156"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/retained-a577/LOCAL_REAL_ALL_PHASE_SOURCE_ADMISSION_STDERR.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/retained-a577/LOCAL_REAL_ALL_PHASE_SOURCE_ADMISSION_SUMMARY.json": {
+      "bytes": 2840,
+      "sha256": "ebce2e9cb1c39fd1d9e614566a3773bfe98bbc670254f9e386191e6e2d172210"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/retained-a577/PREDB_FIRST_ARTIFACT.zip": {
+      "bytes": 54682,
+      "sha256": "8e13006583fab982def0bfbf808d9dec11648c0e3b77f35d11d7ab47005315f0"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/retained-a577/S03_NATIVE11_FINAL_GATE.json": {
+      "bytes": 282,
+      "sha256": "682005b65b128ac3b28252e488ba97ec011e06f88d61a16c41340b9d17c1f25c"
     },
     "scripts/current-attendance-period-choice-native11-qualification/retained41c/CP7_VENDOR_RECEIVABLE_COMBINED11.json.gz": {
       "bytes": 347533,
@@ -431,12 +599,24 @@
       "sha256": "9c651a5d5a38370a2f5f19f30543821ab8333eb267936b34681e9a27784bc2cb"
     },
     "scripts/current-attendance-period-choice-native11-qualification/source_check.py": {
-      "bytes": 5618,
-      "sha256": "25b2960b1faee2735fd3775a68261cde5f25a4d840b4c0af2b069cf4ea2b0905"
+      "bytes": 6219,
+      "sha256": "0509c74a031163156fea3dec587c5d475d3f1563d6504840e5564e159b3b3fe4"
     },
     "scripts/current-attendance-period-choice-native11-qualification/test_contract.py": {
       "bytes": 16081,
       "sha256": "229cdad63a2f5659c6cf5fa0a0298096a2ccc81345c0ce403e776c3432050cdc"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/test_full_generated_gate.py": {
+      "bytes": 2044,
+      "sha256": "a2df51debb8801b8bfc97b28d7a4d6db37740a25acc18c9cd8d5b3a0a0a76d65"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/test_generated_later.py": {
+      "bytes": 8963,
+      "sha256": "c8b826affc64b971151a348673919a29aa3111fd4febc7a4a91189b53abdd779"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/test_generated_receipts.py": {
+      "bytes": 9877,
+      "sha256": "632017de958bcea5354c4bbd3ef6ec74ecd0871b62542888ccf0482633f4119d"
     },
     "scripts/current-attendance-period-choice-native11-qualification/workflow.py": {
       "bytes": 3039,
@@ -466,9 +646,133 @@
       "bytes": 7100,
       "sha256": "be3dd7d8e7e273d2730bc44b5e52bf2e14939ee02fd3f422b892876d893e1f5f"
     },
+    "scripts/current-backend-acceptance-3194/CONFIG.json": {
+      "bytes": 1922,
+      "sha256": "4eabce28655e92c31c5dffed2ddc22e642ece225cbf7cfc16da3d96144ab0331"
+    },
+    "scripts/current-bounded-finance-native-qualification/SOURCE.json": {
+      "bytes": 150962,
+      "sha256": "c3e447504d5e37023abd320b8b6a0506eb39347960f119708f937ce67fc0a14c"
+    },
+    "scripts/current-bounded-finance-restored-native-qualification/SOURCE.json": {
+      "bytes": 152419,
+      "sha256": "dfece812177307f29d90b5d97f7dfc3e05d87e89f3e5a0c137c544c1ed4685b7"
+    },
+    "scripts/current-choice-finance-cron-qualification/SOURCE.json": {
+      "bytes": 487983,
+      "sha256": "f3a3aed3f3950da5b591c118538686305983a21ad763e3f4e64e94a35fdcfd30"
+    },
+    "scripts/current-choice-preparation-native-qualification/SOURCE.json": {
+      "bytes": 455726,
+      "sha256": "3cd8f662ebaa6133b891786109e2eec37ef2ad0edbb87c1f4cc6bbbe07bc31e7"
+    },
+    "scripts/current-factory-initial-stage/CONFIG.json": {
+      "bytes": 1219,
+      "sha256": "92b6e92923d85b9c0237c6b530e6399f63dcd48c246ea6b133a7dd3248f7c10c"
+    },
     "scripts/current-factory-initial-stage/stream_data.py": {
       "bytes": 4670,
       "sha256": "5a07ae1409337424b4d2c1234f75148013a30a8652f451686fdb02cb0b2b483c"
+    },
+    "scripts/current-factory-live-heartbeat/CONFIG.json": {
+      "bytes": 1028,
+      "sha256": "f20889e53137ecd220d1e750c31b1b1d0e5e24097a1ca81831f1f0cab91418a5"
+    },
+    "scripts/current-factory-operational-profile-qualification/CONFIG.json": {
+      "bytes": 1160,
+      "sha256": "274e6be98007525ce487dfd72dd40544023915ca741c31be5898336169f6ffd7"
+    },
+    "scripts/current-finance-combined-composition/FROZEN_SOURCE_ROOTS.json": {
+      "bytes": 825,
+      "sha256": "684a8b08b54699861262f220eca025bb51a220e58856d53988ea337f81fe8bd7"
+    },
+    "scripts/current-finance-combined-composition/PREREQUISITES.json": {
+      "bytes": 3117,
+      "sha256": "646476411216400bab631a6f85d1408beb36d0c42d6e7414cea1f7b8ccd026d6"
+    },
+    "scripts/current-finance-combined-composition/disposable_start.py": {
+      "bytes": 2688,
+      "sha256": "523ec29f0566852f56627c7c9be791de215d09b55d8669c071024fd92aa8e257"
+    },
+    "scripts/current-finance-combined-composition/materialize_sources.py": {
+      "bytes": 3533,
+      "sha256": "cec3576f86bb93d79535b67b35188cd2e3f8a332dc45ceace5a5d7548177210c"
+    },
+    "scripts/current-finance-consistency-corrected-qualification/CONFIG.json": {
+      "bytes": 938,
+      "sha256": "78fdb58ab3615de372b0cf9d067eabf33fdff39070529dcbcd4a2dfce1885c9c"
+    },
+    "scripts/current-finance-consistency-followup-qualification/CONFIG.json": {
+      "bytes": 956,
+      "sha256": "00f3c7aa3734fada5e1fd3826f6c2cbde5fd7cdc29a2a474924e62cbceba887c"
+    },
+    "scripts/current-finance-consistent-capture-diagnostic/CONFIG.json": {
+      "bytes": 986,
+      "sha256": "7968863d749bfe1963328c9efb749fbabc8b673eb3e3fb6f3a05df8de4c39f9e"
+    },
+    "scripts/current-finance-factory-progress-followup-qualification/D3_PREREQUISITE.json": {
+      "bytes": 1061,
+      "sha256": "aabeee434290f665bdaa98f37cadbc164dcfcbacecd355041753e1b6af812de5"
+    },
+    "scripts/current-finance-followups-qualification/CONFIG.json": {
+      "bytes": 979,
+      "sha256": "37d2a6b34d39c95997fd9121a4814cb457cdba6ac179ec60b9b7ca9afd49ba44"
+    },
+    "scripts/current-finance-followups-qualification/artifact_gh.py": {
+      "bytes": 3244,
+      "sha256": "afd081cf03a4d12b07c7db142788d86fbc5ac5bda8597b843749a88572787285"
+    },
+    "scripts/current-finance-model-cron-qualification/SOURCE.json": {
+      "bytes": 359631,
+      "sha256": "1b24c5e9d83021081350a001b7789b13bdd837b23b536ea1a623d973e6b2a8b6"
+    },
+    "scripts/current-finance-model-qualification/SOURCE.json": {
+      "bytes": 356878,
+      "sha256": "e60077bf138fb4e11eedeca1f542590fd281ddc983fc85249f52fd6033e23344"
+    },
+    "scripts/current-finance-model-registry-qualification/SOURCE.json": {
+      "bytes": 359313,
+      "sha256": "a60e0b3b50231120ca4fb1d3881570a8bff5b8f1a27e9c754e7ee04fc288d65f"
+    },
+    "scripts/current-finance-reader-stream-followup-qualification/CONFIG.json": {
+      "bytes": 963,
+      "sha256": "b87bb7e5b2e430b31952d372c619671eb1c8af2106dca09f3e28baa45df3728c"
+    },
+    "scripts/current-finance-readonly-integration-qualification/SOURCE.json": {
+      "bytes": 592231,
+      "sha256": "efcd04e5ae78b391d8e6dcef18f733eff2daffaeba8175dc3ca111211da7a438"
+    },
+    "scripts/current-frozen-finance-native-qualification/SOURCE.json": {
+      "bytes": 440953,
+      "sha256": "ffe45956333f3c9865485b5223d7dc8c261ce6436551ec6ae0081934adecf1ce"
+    },
+    "scripts/current-frozen-public-native-qualification/SOURCE.json": {
+      "bytes": 446524,
+      "sha256": "08df423368c245524fe2feeb4e3dd6ab6cffbd6f9749c2f47ae5731f733dc698"
+    },
+    "scripts/current-frozen-units-native-qualification/SOURCE.json": {
+      "bytes": 438835,
+      "sha256": "7c106526eba90f607fd67960c7e1c66eabb1f7791c5d0c5c25ed19bc12026d87"
+    },
+    "scripts/current-model-history-native-qualification/SOURCE.json": {
+      "bytes": 388033,
+      "sha256": "85cc75fd7366ad4733f5afc185e97bf84892edeaea1c7cc5897c1f4e9ee9ed1e"
+    },
+    "scripts/current-model-target-native-qualification/SOURCE.json": {
+      "bytes": 384111,
+      "sha256": "6b84a44c4a5ae50226b6e9761afa49b58e871bec856b4a1b1dadd086235171b6"
+    },
+    "scripts/current-progress-finance-ui-browser-qualification/SOURCE.json": {
+      "bytes": 475419,
+      "sha256": "6018313aa35f05ba03eddcf3a11e616e12dc2e994c9f6491e70aec5ecc9f92be"
+    },
+    "scripts/current-scoped-model-native-qualification/SOURCE.json": {
+      "bytes": 397315,
+      "sha256": "d68cbbe76e96820e98857dd871a46f17329b46a5dcc9c15ac1c15e9055108e3f"
+    },
+    "scripts/current-selected-return-native-qualification/SOURCE.json": {
+      "bytes": 384268,
+      "sha256": "7d5e1cfbe2f97c4cbe27b927e4603eb38b30318446214305d356db1ac6660d95"
     },
     "scripts/current-vendor-receivable-followup/CONFIG.json": {
       "bytes": 1343,
@@ -541,6 +845,14 @@
     "scripts/current-vendor-receivable-qualification/workflow_source.py": {
       "bytes": 680,
       "sha256": "b3af422776b5e0f200ac04ac9fd41a7bf283fa1890819b41df92ef6f31bf1910"
+    },
+    "scripts/current-versioned-performance-native-qualification/SOURCE.json": {
+      "bytes": 434168,
+      "sha256": "e2b04cc8aff1b7dcf943333aab627b85dcfa213c0bc2517f0b132c1f1a08a223"
+    },
+    "scripts/current-versioned-target-native-qualification/SOURCE.json": {
+      "bytes": 426893,
+      "sha256": "372d491987e6f1e348784fdb40b9f380a9dfe112a7304181715794068c163c76"
     },
     "scripts/current-workflow-history-isolation/ARCHIVE.json": {
       "bytes": 10852,
@@ -653,6 +965,14 @@
     "scripts/ow04-payment-source-qualification/source_probe.py": {
       "bytes": 8226,
       "sha256": "fe8faa04ba6445fc54ff6daeee05753e78a6a73212b24b9d240f4d1fe58d3dad"
+    },
+    "scripts/verify-cp6-disposable-clone.sh": {
+      "bytes": 4447,
+      "sha256": "b9912f689bbccba172fbbdd7f2f7853bbec29e642307debca56fd6f416aee317"
+    },
+    "supabase/release/cp6-t3/MANIFEST.json": {
+      "bytes": 68647,
+      "sha256": "40795c3fce619c5795b427e9aa31836777b687f82eba4ab5654264d57564879f"
     }
   },
   "allowed_changes": [
@@ -733,10 +1053,13 @@
     "scripts/cp7_attendance_period_choice/test_source.py",
     "scripts/current-attendance-period-choice-native11-qualification/.gitignore",
     "scripts/current-attendance-period-choice-native11-qualification/CONFIG.json",
+    "scripts/current-attendance-period-choice-native11-qualification/GENERATED_RECEIPTS.json",
+    "scripts/current-attendance-period-choice-native11-qualification/LATER_GENERATED_RECEIPTS.json",
     "scripts/current-attendance-period-choice-native11-qualification/LOCAL_RECEIPT.json",
     "scripts/current-attendance-period-choice-native11-qualification/ORIGIN.json",
     "scripts/current-attendance-period-choice-native11-qualification/README.md",
     "scripts/current-attendance-period-choice-native11-qualification/SOURCE.json",
+    "scripts/current-attendance-period-choice-native11-qualification/SUCCESSOR_LOCAL_RECEIPT.json",
     "scripts/current-attendance-period-choice-native11-qualification/admission.py",
     "scripts/current-attendance-period-choice-native11-qualification/argv_boundary.py",
     "scripts/current-attendance-period-choice-native11-qualification/bind.py",
@@ -748,16 +1071,33 @@
     "scripts/current-attendance-period-choice-native11-qualification/evidence/LOCAL_FIRST_REAL_SOURCE_ADMISSION_SUMMARY.json",
     "scripts/current-attendance-period-choice-native11-qualification/evidence/LOCAL_UNCHANGED_PREP7_PASS.log",
     "scripts/current-attendance-period-choice-native11-qualification/evidence/LOCAL_UNCHANGED_SOURCE10_PASS.log",
+    "scripts/current-attendance-period-choice-native11-qualification/generated_later.py",
+    "scripts/current-attendance-period-choice-native11-qualification/generated_receipts.py",
     "scripts/current-attendance-period-choice-native11-qualification/native_runner.py",
     "scripts/current-attendance-period-choice-native11-qualification/probe.py",
     "scripts/current-attendance-period-choice-native11-qualification/proof_inputs.py",
     "scripts/current-attendance-period-choice-native11-qualification/result_gate.py",
+    "scripts/current-attendance-period-choice-native11-qualification/retained-a577/LOCAL_ALL_PHASE44_PASS.log",
+    "scripts/current-attendance-period-choice-native11-qualification/retained-a577/LOCAL_ALL_PHASE_FIXTURE_PROVENANCE.json",
+    "scripts/current-attendance-period-choice-native11-qualification/retained-a577/LOCAL_DIRECT_RECEIPT12_PASS.log",
+    "scripts/current-attendance-period-choice-native11-qualification/retained-a577/LOCAL_FINAL47_PASS.log",
+    "scripts/current-attendance-period-choice-native11-qualification/retained-a577/LOCAL_FIRST_UNTRACKED_REPRODUCTION.json",
+    "scripts/current-attendance-period-choice-native11-qualification/retained-a577/LOCAL_LATER14_PASS.log",
+    "scripts/current-attendance-period-choice-native11-qualification/retained-a577/LOCAL_LATER_BOOL_INTEGER_FIRST_COUNTER.json",
+    "scripts/current-attendance-period-choice-native11-qualification/retained-a577/LOCAL_P0_FULL30_PASS.log",
+    "scripts/current-attendance-period-choice-native11-qualification/retained-a577/LOCAL_REAL_ALL_PHASE_SOURCE_ADMISSION_STDERR.log",
+    "scripts/current-attendance-period-choice-native11-qualification/retained-a577/LOCAL_REAL_ALL_PHASE_SOURCE_ADMISSION_SUMMARY.json",
+    "scripts/current-attendance-period-choice-native11-qualification/retained-a577/PREDB_FIRST_ARTIFACT.zip",
+    "scripts/current-attendance-period-choice-native11-qualification/retained-a577/S03_NATIVE11_FINAL_GATE.json",
     "scripts/current-attendance-period-choice-native11-qualification/retained41c/CP7_VENDOR_RECEIVABLE_COMBINED11.json.gz",
     "scripts/current-attendance-period-choice-native11-qualification/retained41c/T3_BACKUP_RESTORE_DRILL.json.gz",
     "scripts/current-attendance-period-choice-native11-qualification/retained41c/T3_PACKAGE_FILES_INSTALL.json.gz",
     "scripts/current-attendance-period-choice-native11-qualification/retained41c/T3_PACKAGE_INSTALL.json.gz",
     "scripts/current-attendance-period-choice-native11-qualification/source_check.py",
     "scripts/current-attendance-period-choice-native11-qualification/test_contract.py",
+    "scripts/current-attendance-period-choice-native11-qualification/test_full_generated_gate.py",
+    "scripts/current-attendance-period-choice-native11-qualification/test_generated_later.py",
+    "scripts/current-attendance-period-choice-native11-qualification/test_generated_receipts.py",
     "scripts/current-attendance-period-choice-native11-qualification/workflow.py",
     "scripts/current-attendance-period-choice-qualification/README.md",
     "scripts/current-attendance-period-choice-qualification/SOURCE.json",

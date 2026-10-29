@@ -52,7 +52,14 @@ def check(root=ROOT, here=HERE):
             raw = target.read_bytes()
             if len(raw) != pin['bytes'] or sha256(raw).hexdigest() != pin['sha256']:
                 raise ValueError('S03_NATIVE11_INHERITED_WORKFLOW_PROOF_CHANGED:' + name)
-    if not set(git('ls-files', '--others', '--exclude-standard').splitlines()) <= allowed_untracked:
+    untracked = set(git('ls-files', '--others', '--exclude-standard').splitlines())
+    generated = load('s03_native11_bounded_generated_receipts', here / 'generated_receipts.py')
+    generated_files, generated_proof = generated.admit(root, here, untracked - allowed_untracked)
+    allowed_untracked.update(generated_files)
+    later = load('s03_native11_bounded_later_generated_receipts', here / 'generated_later.py')
+    later_files, later_proof = later.admit(root, here, untracked - allowed_untracked)
+    allowed_untracked.update(later_files)
+    if not untracked <= allowed_untracked:
         raise ValueError('S03_NATIVE11_UNDECLARED_UNTRACKED_SOURCE')
     proof = load('s03_native11_offline_proof_inputs', here / 'proof_inputs.py')
     docs = proof.documents(here)
@@ -91,4 +98,6 @@ def check(root=ROOT, here=HERE):
         Native_case_ids=cfg['Native_case_ids'], engine_substitutions=6,
         source_derived_local_ABI_is_installed_proof=False, Native_executed=False,
         inherited_archived_workflow_inputs=24, restored_Git_workflow_triggers=0,
+        generated_non_source_receipts=generated_proof,
+        later_generated_non_source_receipts=later_proof,
         production_go=False, independent_acceptance=False)

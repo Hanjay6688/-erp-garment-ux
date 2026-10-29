@@ -1,0 +1,7 @@
+{
+  "status": "INCOMPLETE",
+  "error": "[Errno 2] No such file or directory: '/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/cp6-proof/t3/CP7_S03_ATTENDANCE_CHOICE_NATIVE11.json'",
+  "actual_Native_cases": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

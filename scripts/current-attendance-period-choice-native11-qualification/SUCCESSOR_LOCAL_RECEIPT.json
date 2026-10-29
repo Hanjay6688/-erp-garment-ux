@@ -1,0 +1,82 @@
+{
+  "version": "cp7.s03.generated-receipts-successor.local.v1",
+  "status": "LOCAL47_AND_REAL_FULL_SOURCE_ADMISSION_PASS_NOT_NATIVE",
+  "public_failed_predecessor": "a5774f59ce67fd18427a9aa700ee5e34fdece5b3",
+  "first_actual_failure": {
+    "phase": "BEFORE_DATABASE_STARTUP",
+    "local_controls": {
+      "PASS": 17,
+      "ERROR": 1
+    },
+    "DB_Native_cases": 0,
+    "refused_generated_paths": 101,
+    "original_artifact_id": 12929870525,
+    "original_zip_bytes": 54682,
+    "original_zip_sha256": "8e13006583fab982def0bfbf808d9dec11648c0e3b77f35d11d7ab47005315f0",
+    "retained_losslessly": true,
+    "secondary_missing_report_gate_is_negative": true
+  },
+  "new_controls": {
+    "retained_qualifier": 18,
+    "P0_receipt_rules": 12,
+    "later_output_rules": 14,
+    "full_actual_source_caller_negative_controls": 3,
+    "PASS": 47,
+    "FAIL": 0
+  },
+  "local_materialization": {
+    "P0_actual_a577_unchanged_files": 101,
+    "optional_AC_original_failed_output_files": 3,
+    "P1_historical_baseline_output_files": 10,
+    "P1_package_is_explicit_derived_pre_writer_fixture_not_S03_observation": true,
+    "archive_Originals_overwritten": false
+  },
+  "runtime_source_admission": {
+    "status": "EXACT_VENDOR41C_AND_PREPARED_S03_NATIVE11_ADMITTED",
+    "actual_runtime_and_Original_sources_evaluated_without_mocks": true,
+    "DB_connections_forbidden": true,
+    "source_files_at_observation": 239,
+    "final_source_envelope_adds_only_receipts_after_this_check": true
+  },
+  "unchanged": {
+    "author_component_and_preparation_files": 80,
+    "original_case_ids": 11,
+    "actual_source_capture_required": 13,
+    "clones_required": 2,
+    "original_workflow": true,
+    "complete_vendor_engine_six_substitutions": true,
+    "full_Original_readers": true,
+    "all_financial_and_quantity_oracles": true,
+    "all22_allrows_allsequences_roles_Auth_CP6_advisors_backup_and_package5": true
+  },
+  "metadata_policy": {
+    "generic_P0_sha256": "a569138a5b6d4c0d1ce542ab45af98ee156f47e6d772766c214bbae3366ffc7e",
+    "generic_later_sha256": "7bf35d85d9f7ec19da34c5626f24af908f3691a4e3ed7251dbc4958e59b4bea3",
+    "fixed_total_artifact_request_count": null,
+    "global_output_folder_ignore": false,
+    "source_or_Original_authority_from_receipts": false,
+    "arbitrary_source_symlink_tampered_metadata_rejected": true,
+    "counter_false_equals_zero_fixed": true,
+    "manual_dispatch_matches_declared_workflow": true
+  },
+  "evidence": {
+    "LOCAL_FINAL47_PASS.log": {
+      "bytes": 7936,
+      "sha256": "d06189cae504b9e49fc00e30728385d7cc837ebdba10184eead401fb3952ea90"
+    },
+    "LOCAL_REAL_ALL_PHASE_SOURCE_ADMISSION_SUMMARY.json": {
+      "bytes": 2840,
+      "sha256": "ebce2e9cb1c39fd1d9e614566a3773bfe98bbc670254f9e386191e6e2d172210"
+    },
+    "LOCAL_REAL_ALL_PHASE_SOURCE_ADMISSION_STDERR.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "Native_executed": false,
+  "DB_server_executed": false,
+  "Auth_HTTP_browser_races_executed": false,
+  "remote_CI_hosted_executed": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

@@ -78,3 +78,34 @@ by root. Real Auth/desktop/mobile journeys, concurrency/permission waits,
 descendant/conversion costing, historical/import sources and explicit midnight
 facts remain separate open gates. Full S03 acceptance, independent acceptance and
 production go remain false.
+
+The first actual a577/tree364c workflow stopped before database startup:
+17 local controls passed and the full-source control refused101 untracked
+generated outputs (one frozen-worktree receipt and100 artifact GET receipts).
+It ran zero DB/Native cases. retained-a577 keeps the exact54682-byte artifact,
+the secondary missing-main-report gate and the exact local first reproduction.
+That failure never qualifies S03 or becomes a successful runtime prerequisite.
+
+Generated outputs receive no blanket folder exception. generated_receipts.py
+recognizes only producer-pinned closed metadata: the exact13 source head/tree
+declarations, UUID4 artifact request/attempt receipts, source-backed artifact IDs,
+retained success-ZIP hash/size provenance, and hash-bound failed stream companions.
+It preserves the original maximum3 transient attempts and permits only the
+frozen optional expired AC-bootstrap terminal failure. No exact100 total is
+required. Unknown names, source files, symlinks, changed producer/metadata/hash,
+extra or duplicate JSON fields and inconsistent retry chains remain refusals.
+These are non-authoritative output receipts; all Original readers retain their
+own immutable full-byte verification.
+
+Repeated admission after startup, alignment, cloning and package installation
+uses a separate exact shared helper, generated_later.py (7bf35d85), copied
+byte-for-byte. It recognizes only hash-bound bounded startup logs, the frozen AB
+alignment document, five linked clone diagnostics (including both equal SQL
+extracts), and two package metadata outputs. SQL diagnostics are never executed.
+The package report is legitimately INCOMPLETE while the writer is about to run;
+this output allowance neither requires nor confers final package PASS. Exact
+producer, file/stage, raw identity/ACL, source/tool head and declared caller
+bindings remain required. Both push and workflow_dispatch are accepted only
+because this unchanged workflow declares them. Reference metadata is historical
+and provides no new S03 execution or prerequisite credit. Unknown outputs stay
+refused; no output directory is globally ignored.
