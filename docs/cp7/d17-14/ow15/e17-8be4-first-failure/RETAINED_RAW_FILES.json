@@ -1,0 +1,39 @@
+{
+  "recorded_at_utc": "2026-10-29T22:30:49.724424+00:00",
+  "source": "exact verified current root ZIP members, lossless gzip only",
+  "files": [
+    {
+      "path": "CP7_CREDIT_E1_NATIVE17.json.gz",
+      "raw_bytes": 6193192,
+      "raw_sha256": "3272cd56303e4c265dd93ebf0dde9bb444083a0aa18a774de8831c664c689891",
+      "gzip_sha256": "dab3a085474d2194e497acf3e67913f25268922b4d28c95453c1f1dd8481ae6c"
+    },
+    {
+      "path": "CP7_CREDIT_E1_NATIVE17_CASES.json.gz",
+      "raw_bytes": 34500,
+      "raw_sha256": "ed8459e9d694394f5fe8777b324b4bd0afafd74b9eb139465499e7ce56d32818",
+      "gzip_sha256": "68000833d0ca812365931fcb1b415f6b49c58189aa02caf5412d3cc3ea681844"
+    },
+    {
+      "path": "T3_PACKAGE_INSTALL.json.gz",
+      "raw_bytes": 360446,
+      "raw_sha256": "67d0e04ecf832606c60aaf7d8f7252a9f7bf2d1f6ec1fb029d262ddc21990432",
+      "gzip_sha256": "03324904d2365dcbc2f9c68a734814f49909d55e5ad41fc1211fe4ae5a06931f"
+    },
+    {
+      "path": "T3_PACKAGE_FILES_INSTALL.json.gz",
+      "raw_bytes": 1806,
+      "raw_sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7"
+    },
+    {
+      "path": "T3_BACKUP_RESTORE_DRILL.json.gz",
+      "raw_bytes": 1470,
+      "raw_sha256": "4802bff8204aa8ece0af4e8c59725221a1a246232cb047382cbe6dae041b0eb5",
+      "gzip_sha256": "6aa2a7f6e9ce3ec325d2ca35da85630abc039fcba2ae4c4711c5a1a7bcbf3592"
+    }
+  ],
+  "new_runtime_credit": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

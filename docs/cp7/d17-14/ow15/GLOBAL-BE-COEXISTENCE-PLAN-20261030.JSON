@@ -1,0 +1,220 @@
+{
+  "contract": "cp7.global-nonpo-native-graph.coexistence-plan.v1",
+  "classification": "READONLY_BOUNDED_DESIGN_FOR_ROOT_REVIEW_NOT_IMPLEMENTATION_OR_ACCEPTANCE",
+  "sealed_at_UTC": "2026-10-29T22:50:39.920365+00:00",
+  "source_review": {
+    "path": "erp-future-composition-current-review-20261030.json",
+    "bytes": 40678,
+    "sha256": "4c5f38062d52f8723ad5c9b3c74f0f2a8f3704c449b2589a5e89f09db6508e85"
+  },
+  "initial_assessment": {
+    "path": "/workspace/scratch/ef468a447ac6/global-be-coexistence-initial-20261030.json",
+    "bytes": 1425,
+    "sha256": "cebc3ee910279eb5bc435edc1d99600d7d8c20c32d57015ff5b20ef5aeb17fb8"
+  },
+  "source_pins": {
+    "path": "/workspace/scratch/ef468a447ac6/global-be-coexistence-source-pins-20261030.json",
+    "bytes": 8841,
+    "sha256": "034e00ec2ef8495d246a9c8514d19a29bf7bd836e775b722f65bc67e5af757ae",
+    "files": 9,
+    "source_functions": 23,
+    "source_function_hashes_are_not_actual_pg_getfunctiondef_hashes": true
+  },
+  "recommendation": "First expansion permits only disjoint outside graph whose complete Native global visit is proven quiescent. Keep all relevant-class/financial guards. Build read-only inspector first; keep runtime adapter CLOSED until exact writer/lock closure is reviewed. Do not change E17 phase repair or frozen Native14.",
+  "existing_three_sites": [
+    {
+      "signature": "cp7_credit_correction_de.quote_v1(jsonb)",
+      "path": "scripts/cp7_credit_correction_de/owning.sql",
+      "line": 134,
+      "message": "STOCK_HPP_CLASS_ADAPTER_REQUIRED"
+    },
+    {
+      "signature": "cp7_credit_note_carry_de.basis_v1(uuid)",
+      "path": "scripts/cp7_credit_correction_de/note_carry/04_basis.sql",
+      "line": 36,
+      "message": "NOTE_HPP_CLASS_ADAPTER_REQUIRED"
+    },
+    {
+      "signature": "cp7_credit.source_request_enter_v1(text,jsonb,uuid,text)",
+      "path": "scripts/cp7_customer_credit/reconciliation/03_source_requests.sql",
+      "line": 159,
+      "message": "CP7_CREDIT_SOURCE_GLOBAL_HPP_GRAPH_UNQUALIFIED",
+      "installed_current_body_is_composed": "Capture actual body after current source_history/payment/remaining adapters; replace only exact global predicate. Never overwrite with this historical whole file."
+    }
+  ],
+  "scope_partition": {
+    "relevant_R": "Start with exact owning D1 sale or complete E current dependency/current-source sale graph, then existing source_hpp_lot_ids product/PO domain, all source/destination and fg_lots.source_lot_id identity closure, and mixed financial-support/journal links. Any shared product or mixed touched journal is relevant/unsupported; an unallocated sibling lot is not automatically unrelated.",
+    "global_G": "Preserve exact Native domains separately: global guard all BE sources on nonPO lots regardless of conversion status; propagate all nonPO nonvoided lots and rooted posted allocation walk; transfer every posted conversion allocation with nonPO source and currentHPP; sync every distinct product of every nonPO lot, including products represented only by voided/historical lots.",
+    "outside_O": "G outside R only after a proven disjoint cut. Capture historical/reversed sources too. No EXISTS filtered to current allocations/products, no dropping global members, no pretending a private projection is product.sources or actual catalog.",
+    "retained_relevant_refusals": [
+      "PO/opening states/opening correction/recost/multiple or missing current HPP",
+      "conversion/recursive identity lineage or shared products",
+      "D1 flat current base, refund caps, positive/signed-component policy, incoming funding and active/historical consumer guards",
+      "E first revision, no payments/return family, incoming80 floor, exact current assignment and immutable old APPLY/receipts",
+      "all existing generic source context/consumer all-undone/payment adapter branches",
+      "FIFO produced_at plus lotid, selected lot/current-at-physical quantity, location/grade/reservation and immutable original HPP",
+      "both economic/book dates, accounting floor/current period, current permissions after waits"
+    ]
+  },
+  "read_only_reuse": [
+    {
+      "signature": "erp.be_nonpo_admitted_v1(uuid)",
+      "purpose": "Exact sourced-workflow predicate on every posted edge/transfer row; no broad truthy fallback."
+    },
+    {
+      "signature": "erp.be_allocation_extra_v1(uuid)",
+      "purpose": "Read actual allocated conversion cost plus complete cost-event delta, not caller cost or reimbursement."
+    },
+    {
+      "signature": "erp.compute_non_po_product_hpp_targets_v2620f(uuid)",
+      "purpose": "Reuse exact per-lot rounded Native target calculator."
+    },
+    {
+      "signature": "erp.compute_non_po_product_hpp_book_v2620f(uuid)",
+      "purpose": "Native journal/status/product/PO and PRODUCT_CONVERSION admission treatment."
+    },
+    {
+      "signature": "cp7_credit.source_first_nonpo_hpp_alignment_v1(jsonb)",
+      "path": "scripts/cp7_customer_credit/reconciliation/03_native_inverse_proof.sql:130",
+      "purpose": "Preferred smallest book proof: actual current mappings plus NEW explicitly named outside-global snapshot; requires exact target==book. This is stronger than tolerance and implies zero Native sync deltas. Do not relabel the new snapshot as a sale Native Original."
+    },
+    {
+      "signature": "cp7_credit.initial_hpp_support_v1(uuid,uuid)",
+      "purpose": "Reuse canonical identity/row hashes for lots/HPP/stock/sales/returns/conversions/cost/journals. Extend with omitted transfer events, HPP components, global keyset/inventory and required outside facts; existing support hash alone is incomplete."
+    }
+  ],
+  "three_noop_obligations": [
+    {
+      "stage": "PROPAGATE",
+      "Native_path": "BE release3124-3224",
+      "require": "First validate exact rooted/128-depth/source/destination/orphan/cycle predicate before invoking Native. Every reachable posted edge has unique present finite current source/destination HPP, qty>0, nonnegative desired. Compute desired with same numeric(18,6) assignments and be_allocation_extra. Require current destination exists and abs(current-desired)<=0.000001 for EVERY visit. No proposed HPP version/component writes. Conservatively refuse missing/nonfinite/nondeterministic profile."
+    },
+    {
+      "stage": "TRANSFER",
+      "Native_path": "BE release600-631",
+      "require": "For EVERY Native posted nonPO allocation r, old=round(qty*original_hpp,2)+sum(all transfer target-previous by conversion), new=round(qty*current_source_hpp,2), require new-old EXACT0. Do not aggregate allocations differently: Native sums prior events by conversion for each visited allocation. All-zero rows imply no prior-event mutation during loop, including multiple allocations."
+    },
+    {
+      "stage": "BOOK",
+      "Native_path": "BE release633-650/3225-3461",
+      "require": "For EVERY outside product in global sync loop require existing strict source_first_nonpo_hpp_alignment exact target==book under same actual mappings. This proves source-total equality, rounded FG/COGS/OTHER zero, conservation and no sync journal/event. Preserve Native global execution; never set syncing_nonpo to bypass recursion or skip outside products."
+    }
+  ],
+  "important_counterexample": {
+    "classification": "SYMBOLIC_NUMERIC_SOURCE_COUNTEREXAMPLE_NOT_SQL_OR_NATIVE_EXECUTION",
+    "basis": "assert_non_po_product_hpp_target_book compares raw component abs(delta)>0.005; sync rounds each delta2 then checks abs(rounded)<=0.005.",
+    "values": {
+      "raw_fg_delta": "+0.005",
+      "raw_cogs_delta": "-0.005",
+      "raw_other_delta": "0",
+      "total_delta": "0"
+    },
+    "consequence": "At numeric half-cent boundaries a tolerance-only assertion can pass while rounded sync demands a +/-0.01 journal. Use exact equality for first scope or explicitly prove exact Native rounded branch; do not infer no-op from assertion success."
+  },
+  "proposed_future_allocation": {
+    "new_runtime_namespace": "scripts/cp7_global_nonpo_native_graph_adapter/**",
+    "new_qualification_namespace": "scripts/current-global-nonpo-native-graph-qualification/**",
+    "new_private_contract": "inspect_v1(root_sale_ids)->actual global/relevant/outside source+Native profile+proposed writes[]+basisSHA; read-only/no nextval/no gen_random/no context writes. lock/enter binds root domain/backend/tx/actor/request/operation/review/phase; finish proves full outside equality and clears scope after immutable own completion.",
+    "existing_function_touch_candidates": [
+      {
+        "path": "scripts/cp7_credit_correction_de/owning.sql",
+        "functions": [
+          "quote_v1",
+          "prepare_v1"
+        ],
+        "changes": "Exact global guard to shared inspector; global basis SHA in private review binding. Preflight outside locks before existing fresh quote/authority/CAS then bind actual owned work before Native."
+      },
+      {
+        "path": "scripts/cp7_credit_correction_de/materialize.sql",
+        "functions": [
+          "finish_v1"
+        ],
+        "changes": "One bounded completion hook before immutable operation closes; keep all existing money/materialize/receipt checks and phase logic."
+      },
+      {
+        "path": "scripts/cp7_credit_correction_de/note_carry/04_basis.sql",
+        "functions": [
+          "basis_v1"
+        ],
+        "changes": "Exact global guard to shared inspector; retain private global basis in basis SHA; public_basis exposes no unrelated finance rows."
+      },
+      {
+        "path": "scripts/cp7_credit_correction_de/note_carry/06_owning.sql",
+        "functions": [
+          "prepare_v1",
+          "finish_v1"
+        ],
+        "changes": "Fresh lock/review/source/access binding before effects; outside completion before original receipt/operations closure; preserve E repaired phase body/oracles."
+      },
+      {
+        "path": "scripts/cp7_customer_credit/reconciliation/03_source_requests.sql",
+        "functions": [
+          "source_request_enter_v1"
+        ],
+        "changes": "Capture actual CURRENT composed function, replace only global guard/enter anchor; keep all consumer/history/payment transforms, all relevant guards and original readers."
+      },
+      {
+        "path": "scripts/cp7_customer_credit/reconciliation/06_source_coordinator.sql",
+        "functions": [
+          "source_request_finish_v1"
+        ],
+        "changes": "Outside actual equality bound to original Native-complete pending request before clearing work/receipt closure."
+      }
+    ],
+    "touch_count": "8 existing functions in6 existing files, plus isolated new helpers/catalog/manifest; counted derivation only after exact final parent capture. Three guard edits alone are insufficient.",
+    "Native_changes": "No changes to Native propagation, transfers, global loop, FIFO, cost, journal or stock writers; no global monkeypatch; no Native no-op executed speculatively.",
+    "catalog_authority": "New postgres-owned private schema/helpers/work+immutable proof only if approved. No public RPC, application EXECUTE, role, membership or ambient privilege expansion. All22/raw ACL/rows/sequence/source closure plus uninstall/reinstall/used guard remain required."
+  },
+  "locking_and_staleness": {
+    "existing_order": "Keep existing caller order: request/CAS/current FG and E FGBOOK; SKU/pocket producers retain pocket TRY before FG. Preserve every existing relevant sorted lock. Do not add a new blocking pocket lock under FG.",
+    "unproven_critical_bound": "FG advisory lock is cooperative. Current row locks do not by themselves close global lot/product/HPP/cost/journal/return membership phantoms or non-FG general journal writers. A complete exact writer/function/trigger/FK/permission census is necessary before claiming a narrow cooperative-lock route.",
+    "conservative_root_review_option": "Explicit approved NOWAIT write barrier on exact global input/proof relations plus all Native-visited nonPO nonvoided lot rows FOR UPDATE NOWAIT in native ID order. Barrier modes must also prevent a later write-upgrade cycle (candidate SHARE ROW EXCLUSIVE, not shared-then-upgrade by concurrent adapters). Existing FG is acquired first; on contention refuse before Native/effects. This globally contends with finance/stock writers and is not an implicit production recommendation.",
+    "barrier_relation_categories": [
+      "fg_lots/HPP versions+components",
+      "product conversions/allocations/BE sources/cost+transfer facts",
+      "stock movements/inventory balances",
+      "sale headers/items/allocations/returns/items",
+      "journal entries+complete lines and global HPP events",
+      "source opening/PO state and mappings/accounts/period as required by actual capture"
+    ],
+    "after_every_new_wait": "Recompute exact set/row hashes and three no-op predicates; compare reviewed D1 token/E basis; rerun original current access/period/source/CAS checks before effects. No old captured permission accepted.",
+    "generic_source_token_bound": "Generic source_request has no pre-existing global UI review token. Its new basis can be honestly fresh at exact owned enter and checked at Native entry/reconcile/finish. Claiming global UI-review staleness for that path would require a separately reviewed token/reader change; do not silently claim it.",
+    "before_after": "Persist actual outside full identity sets/rows/HPP versions+components/stock/inventory/transfer/cost facts/journals+lines/status/source/date and account/period/profile source. Finish requires exact same outside facts and no new outside identities; Native ephemeral BE context must return quiet. Do not exclude unexpected rows or use savepoint rollback/sequence reseed as evidence."
+  },
+  "first_safe_independent_slice": "Implement only source-pinned read-only inspect_v1 plus local structural/source/numeric controls in isolated new namespace after root review. Runtime three-site adapter remains CLOSED until chosen lock profile and exact composed parent are frozen. No live command permission is opened by a model/source PASS.",
+  "actual_coexistence_sequence": [
+    "Install actual reviewed composite parent; complete preuse undo/reinstall and source/all22 envelope. Commit real shared SKU POST used witness FIRST; retain whole graph/source/HPP/stock/GL baseline and exact used guard.",
+    "With that SKU graph persisted, execute existing lawful D1 positive correction and E carry80 positive on disjoint financial graphs; retain unchanged Native financial/cost/stock/history/date assertions and outside SKU equality after EACH actual command.",
+    "Execute legitimate owning D1/source inverse and E UNDO80/allowed inverse sequence using existing accepted paths; repeat positives on lawful fresh D1/E fixtures where existing revision guards require fresh invoice. Do not relax E second-revision/later-Native denial.",
+    "Commit legitimate SKU inverse; immutable BE source/allocation/history remain. Execute new unrelated D1/E positives again; confirm history is admitted by full no-op proof rather than removed/status-filtered.",
+    "Use relevant same-product sibling/recursive descendant/identity/mixed support linkage; existing public quote and actual command must truthfully refuse before stock/journal/history/sequence effects.",
+    "Make external source/HPP/transfer/book dirty or change same-value source fact/review while waiting; actual command must refuse early with full_data/allsequence equality. Test current permission/period changes while waiting. No Native global recost is used as an alignment fix.",
+    "Complete full current truth checks per committed step, final full outer22/allrows/allseq/roles/rawACL/CP6/advisors/primary/Auth backup restore and all5 package gates. Strict savepoints do not prove sequence restoration."
+  ],
+  "targeted_future_controls": [
+    "Zero-write inspector: all source helpers exact+no DML/context writes/nextval/random UUID; no planner calls to be_nonpo_prepare/sync/propagate writers.",
+    "Pure propagation: numeric18,6 and strict1e-6 boundary, extra recovery, negative/nonfinite/missing current HPP, 128-depth/cycle/orphan/destination/source/qty profile, dirty ancestor with apparently clean child.",
+    "Transfer: exact cents, all immutable previous->target events, zero vs nonzero, repeated/multiple allocations using Native per-conversion sum, reversed-history retention.",
+    "Book: Native per-lot rounding vs product pooling, STATUS POSTED/REVERSED journals and original PRODUCT_CONVERSION admission, sale reserve/reversal, POSTED returns, half-cent counterexample, exactzero first-scope refusal outside equality.",
+    "Source identity: same numeric totals but changed cost/source rows, new global product/lot/event/journal phantom, wrong Native body/owner/ACL/trigger or outside keyset.",
+    "Actual source/import/parser tests self-contained with current producer receipts; no ambient UUID or historical tree dependency, no projected source/catalog or fake acceptance.",
+    "Actual Native ordered persisted SKU then D1/E both positive/inverse/positive; relevant/dirty/stale/permission-wait no-effect controls after shared used witness; original existing assertions unchanged."
+  ],
+  "remaining_gates": [
+    "root review/explicit allocation before any implementation",
+    "actual final accepted D1/E/SKU source/tree and complete Native function/trigger authority profile; E17 phase fix remains independent",
+    "choose and prove global writer/lock/phantom profile",
+    "new private catalog/source transition and meaningful local controls",
+    "fresh actual composite ordered Native/races/fullrestore5; no standalone PASS implies composite acceptance"
+  ],
+  "limits": {
+    "product_code_edits": 0,
+    "Git_branch_or_ref_mutations": 0,
+    "DB_or_Native_calls": 0,
+    "remote_calls": 0,
+    "new_runtime_tests_executed": 0,
+    "new_acceptance": false,
+    "production_go": false,
+    "independent_acceptance": false
+  }
+}

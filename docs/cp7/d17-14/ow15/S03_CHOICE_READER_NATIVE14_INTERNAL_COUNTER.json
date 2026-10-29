@@ -1,0 +1,272 @@
+{
+  "contract": "hansen-erp.s03-native14.locked-internal-counter.v1",
+  "classification": "INTERNAL_SOURCE_AND_LOCAL_CONTROL_REVIEW_ONLY",
+  "candidate": {
+    "repository": "/workspace/scratch/ef468a447ac6/erp-credit-d1-product-cap",
+    "branch_at_initial_pin": "qualification/a-s03-choice-reader-native14-20261030",
+    "head": "dd62d5f3fb82e1367f332a1342b5845e886f4d06",
+    "tree": "49591433899ef13c70e3cd94fc0c43894ea182df",
+    "tracked_status_at_initial_pin": "CLEAN",
+    "inherited_untracked_observation": "Historical proof workflows and vendor41c proof directory existed; no review edits were made."
+  },
+  "review_scope": {
+    "included": [
+      "scripts/current-attendance-choice-reader-native14-qualification/**",
+      ".github/workflows/cp7-s03-choice-reader-native14.yml",
+      "scripts/cp7_attendance_period_choice/**",
+      "scripts/current-attendance-period-choice-qualification/**",
+      "scripts/current-attendance-period-choice-readers-qualification/**"
+    ],
+    "excluded": [
+      "Remote or network operations",
+      "Database operations",
+      "Native execution",
+      "Auth or browser execution",
+      "Product or source edits",
+      "Owner questions",
+      "External independent audit or acceptance"
+    ],
+    "root_is_sole_publisher": true
+  },
+  "required_rules_read": [
+    "AGENTS.md",
+    "CLAUDE.md",
+    "docs/ERP_BEST_PRACTICES.md",
+    "docs/cp7/PEMBAGIAN_DUA_PENULIS_20261022.md",
+    "docs/AUDIT_PANDUAN_PRO_MAX.md",
+    "docs/erp-reliability-invariants.md"
+  ],
+  "initial_assessment": {
+    "locked_before_receiving_other_reviewer_or_author_conclusions": true,
+    "pin": {
+      "head": "dd62d5f3fb82e1367f332a1342b5845e886f4d06",
+      "tree": "49591433899ef13c70e3cd94fc0c43894ea182df"
+    },
+    "status": "NO_SOURCE_BLOCKER_OBSERVED_YET_VERIFICATION_IN_PROGRESS",
+    "scenarios": [
+      {
+        "scenario": "NULL backend, source/API or runtime-parent binding",
+        "expected": "Fail closed before ERP imports, Original materialization, GET or DB.",
+        "observed": "gate.selected rejects NULL and probe.runtime calls the pure gate first.",
+        "evidence": [
+          {
+            "path": "scripts/current-attendance-choice-reader-native14-qualification/gate.py",
+            "lines": "14-20",
+            "finding": "Reject NULL before dependent operations."
+          },
+          {
+            "path": "scripts/current-attendance-choice-reader-native14-qualification/probe.py",
+            "lines": "20-24",
+            "finding": "Pure gate and source check precede Original materialization and ERP imports."
+          }
+        ]
+      },
+      {
+        "scenario": "Fresh original11 followed by new Reader3 and unchanged committed used witness",
+        "expected": "Preserve original financial case bodies, callbacks and oracles; run strict3 only after actual strict11 ALLPASS; count14 as aggregate metadata.",
+        "observed": "Five reversible private runner changes insert Reader3 after original11 rejection and before committed ALLOCATE; reader group first checks actual fresh11. Financial byte comparison remained pending at initial lock.",
+        "evidence": [
+          {
+            "path": "scripts/current-attendance-choice-reader-native14-qualification/derive.py",
+            "lines": "40-59",
+            "finding": "Counted private insertions and metadata updates only."
+          },
+          {
+            "path": "scripts/current-attendance-choice-reader-native14-qualification/reader_group.py",
+            "lines": "40-66",
+            "finding": "Validate original11 before factory import and run separate strict3."
+          }
+        ]
+      },
+      {
+        "scenario": "Current source and old source-history separation",
+        "expected": "Check actual runtime7 and every authored prefix file against frozen alias; retain old251/80 with explicit bounded transitions; do not project actual product sources or installed catalog.",
+        "observed": "Outer current binding checks all authored files, current runtime pins and every old80 transition before private historical intake. No product-source projection found in initial read.",
+        "evidence": [
+          {
+            "path": "scripts/current-attendance-choice-reader-native14-qualification/source_check.py",
+            "lines": "63-116",
+            "finding": "Actual frozen alias closure, financial original body hash and Original reader function checks."
+          },
+          {
+            "path": "scripts/current-attendance-choice-reader-native14-qualification/admission.py",
+            "lines": "14-22",
+            "finding": "Current closure precedes byte-exact parameterized Original intake."
+          }
+        ]
+      },
+      {
+        "scenario": "Separate raw strict groups and full package restoration",
+        "expected": "Keep actual raw11/raw3 groups and require both exact embedded groups, full boundaries, used refusal and all five package gates.",
+        "observed": "Result gate compares each raw-loaded group with its unprojected embedded group and requires all five gates; full component and workflow coherence remained under review at initial lock.",
+        "evidence": [
+          {
+            "path": "scripts/current-attendance-choice-reader-native14-qualification/result_gate.py",
+            "lines": "15-77",
+            "finding": "Both groups, used witness, runtime7, restore and five package gates required."
+          }
+        ]
+      }
+    ]
+  },
+  "final_assessment": {
+    "status": "NO_BLOCKING_SOURCE_DEFECT_FOUND_IN_BOUNDED_SCOPE",
+    "pin": {
+      "head": "dd62d5f3fb82e1367f332a1342b5845e886f4d06",
+      "tree": "49591433899ef13c70e3cd94fc0c43894ea182df"
+    },
+    "blocking_findings": [],
+    "evidence": [
+      {
+        "path": "scripts/current-attendance-period-choice-qualification/cases.py",
+        "lines": "1-293",
+        "finding": "Entire file independently byte-compared equal to original9a0; SHA25615fe990cccb82ff4c1dcd9ca40dc17fe93ac26a3a359a37361e6d8780b1f16e2."
+      },
+      {
+        "path": "scripts/current-attendance-choice-reader-native14-qualification/derive.py",
+        "lines": "40-59",
+        "finding": "Exactly five reversible runner changes preserve original11 factory, callbacks, assertions and committed ALLOCATE witness; aggregate count14 and actual capture15 are metadata, with no strict14 fabrication."
+      },
+      {
+        "path": "scripts/current-attendance-choice-reader-native14-qualification/reader_group.py",
+        "lines": "12-20,23-37,40-66",
+        "finding": "Actual strict11 ALLPASS and per-case boundaries checked before Reader3 factory import; strict3 has separate raw retention and exact ID/PASS/boundary checks."
+      },
+      {
+        "path": "scripts/current-attendance-choice-reader-native14-qualification/result_gate.py",
+        "lines": "15-77",
+        "finding": "Both raw-loaded groups must equal unprojected embedded groups; actual15 captures/two clones/all22, committed witness, before/after used refusal data+sequences, runtime7, full restoration, primary/Auth, all30 package files, drill and all5 gates including writer_runtime=true are mandatory."
+      },
+      {
+        "path": "scripts/current-attendance-choice-reader-native14-qualification/source_check.py",
+        "lines": "63-116,138-178",
+        "finding": "Checks all118 actual alias files, runtime7,14 explicit old80 transitions, original financial body and Original readers; historical manifests retained; unknown files/symlinks fail closed through pinning/producer validators."
+      },
+      {
+        "path": "scripts/current-attendance-choice-reader-native14-qualification/admission.py",
+        "lines": "14-22",
+        "finding": "Full actual current source closure precedes unchanged parameterized Original intake."
+      },
+      {
+        "path": "scripts/current-attendance-period-choice-native11-qualification/admission.py",
+        "lines": "18-46",
+        "finding": "Reads actual product.sources/current_installation and exact vendor parent; actual product is not projected."
+      },
+      {
+        "path": "scripts/cp7_attendance_period_choice/installer_ddl.py",
+        "lines": "29-81",
+        "finding": "Bounded owner-to-postgres temporary CREATE/revoke; pre-existing USAGE and lawful session SET authority required; raw NULL ACL fails closed; exact inventory restored before exposure."
+      },
+      {
+        "path": "scripts/cp7_attendance_period_choice/composition.py",
+        "lines": "22-24,30-60,62-98",
+        "finding": "Runtime sources include readers.sql and installer_ddl.py; actual installed15 definitions captured; atomic installation/preuse removal uses full catalog/data checks."
+      },
+      {
+        "path": ".github/workflows/cp7-s03-choice-reader-native14.yml",
+        "lines": "54-68,404-413,481-503",
+        "finding": "First NULL binding gate precedes external prerequisites; full current admission precedes DB; complete runtime, final gate, raw retention, cleanup and artifact retention preserved."
+      },
+      {
+        "path": "scripts/current-attendance-choice-reader-native14-qualification/proof_inputs.py",
+        "lines": "12-24,28-49",
+        "finding": "Exactly four immutable vendor41c gzip/raw Originals are validated and materialized without overwriting different bytes."
+      },
+      {
+        "path": "scripts/current-attendance-choice-reader-native14-qualification/README.md",
+        "lines": "3-10,76-81",
+        "finding": "Failed9a0 Native0 remains source history/negative evidence; vendor41c remains actual runtime parent. Documentation is not runtime acceptance."
+      }
+    ]
+  },
+  "independent_local_git_comparisons": {
+    "prepared_backend_alias": {
+      "head": "73ad6d323099e1d5384a94477043c01db8989106",
+      "tree": "87c289b65362d1d29f7c44a620bd83220f6e7df5",
+      "parent": "9a0ca1de04723717c9d6635b8d3a6bd094233b97",
+      "changed_paths_vs_parent": 52,
+      "changed_paths_outside_three_prefixes": []
+    },
+    "exact_subtrees": {
+      "scripts/cp7_attendance_period_choice": "2044467b57fb11073698e88dcbf7b3c4254bd017",
+      "scripts/current-attendance-period-choice-qualification": "8b18f999bb34fe491b624b3cec297384781c5245",
+      "scripts/current-attendance-period-choice-readers-qualification": "b3789951ac547fb91cc414f9524e29f7dfcf8d48"
+    },
+    "candidate_subtrees_equal_prepared_alias": true,
+    "original11_cases_byteequal_9a0": true,
+    "original11_cases_sha256": "15fe990cccb82ff4c1dcd9ca40dc17fe93ac26a3a359a37361e6d8780b1f16e2",
+    "authored_files": 118,
+    "runtime_files": 7,
+    "explicit_old80_transitions": 14
+  },
+  "local_verification": {
+    "environment": {
+      "GIT_NO_LAZY_FETCH": "1",
+      "PYTHONDONTWRITEBYTECODE": "1",
+      "python_flag": "-B",
+      "execution_root": "/tmp/native14-counter-dd62-6rpt4ng0",
+      "execution_root_kind": "Isolated local shared-object clone at immutable detached candidate; no registered git worktree",
+      "temporary_clone_removed": true,
+      "shared_source_worktree_modified": false
+    },
+    "commands": [
+      {
+        "command": "python -B -m unittest discover -s scripts/current-attendance-choice-reader-native14-qualification -p 'test_*.py'",
+        "exit_code": 0,
+        "observed_tests": 49,
+        "passed_tests": 49,
+        "failed_tests": 0,
+        "scope": "Labelled source/parser/unit controls; no database or Native evidence."
+      },
+      {
+        "command": "python -B scripts/current-attendance-choice-reader-native14-qualification/check.py --offline",
+        "exit_code": 0,
+        "observed_status": "EXACT_CURRENT_SOURCE15_FRESH_NATIVE11_PLUS_READER3_PLAN",
+        "source_pins_checked": 425,
+        "actual_authored_files": 118,
+        "exact_runtime_files": 7,
+        "captured_originals_plan": 15,
+        "private_clones_plan": 2,
+        "groups_plan": [
+          11,
+          3
+        ],
+        "Native_executed": false,
+        "production_go": false,
+        "independent_acceptance": false
+      }
+    ],
+    "execution_counts": {
+      "database_operations": 0,
+      "Native_cases": 0,
+      "Auth_HTTP_cases": 0,
+      "two_session_races": 0,
+      "browser_cases": 0,
+      "remote_or_network_operations": 0,
+      "external_CI_dispatches": 0,
+      "source_edits": 0
+    }
+  },
+  "acceptance_limits": {
+    "formal_progress": "5/16 unchanged",
+    "financial_runtime_PASS_claimed": false,
+    "actual_Native14_PASS_claimed": false,
+    "external_independent_audit_claimed": false,
+    "independent_acceptance": false,
+    "production_go": false,
+    "source_only_result_does_not_close_runtime_acceptance": true
+  },
+  "later_root_publication_notice": {
+    "reported_by_root_only": true,
+    "head_prefix": "9ac9",
+    "same_exact_tree_parent_reported": "73ad6d323099e1d5384a94477043c01db8989106",
+    "actual_runtime_reported": "PENDING",
+    "review_repin_performed": false
+  },
+  "worktree_safety": {
+    "read_only_source_review": true,
+    "no_new_tests_in_followup": true,
+    "no_new_copies_in_followup": true,
+    "no_source_changes_in_followup": true
+  }
+}

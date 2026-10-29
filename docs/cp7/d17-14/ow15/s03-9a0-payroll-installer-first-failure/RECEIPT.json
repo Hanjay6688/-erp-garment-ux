@@ -1,0 +1,59 @@
+{
+  "status": "ACTUAL_FIRST_DELTA_INSTALLER_SCHEMA_CREATE_REFUSAL_NATIVE0",
+  "head": "9a0ca1de04723717c9d6635b8d3a6bd094233b97",
+  "tree": "9b13113d5ec63afb95874d41f06699e0016744b3",
+  "run_id": 40954866687,
+  "job_id": 123732218148,
+  "artifact_id": 12933923714,
+  "zip_bytes": 1742807,
+  "zip_sha256": "b7d7712c7fdb54d314106f4caad2369d0319920b5a871b78ee646add1d0720f5",
+  "zip_members": 117,
+  "originals": {
+    "CP7_S03_ATTENDANCE_CHOICE_NATIVE11.json": {
+      "bytes": 540064,
+      "sha256": "da816a0bfa8c096fcb3780fcaf2d226a9bce183e100276e4ee932bbf365c915c",
+      "gzip_sha256": "e1c0193cce5d275c164e83efbc3419fb9581c7b7fe2ae9d0e4ee8731c44d89a6"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360420,
+      "sha256": "06890ef77cff3ca5af7743750f98cb941ccfe2107c82a6546c9459914e01a15b",
+      "gzip_sha256": "dbbf3eb8f65921d85788ef80f12356611dd31b3faf07a9908ab1578ae96f6c6a"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 1470,
+      "sha256": "987c7087ba303ee3bf9f13f283d57f95a6e952b03ed9d2376e4320e0307d165f",
+      "gzip_sha256": "5623a284f324ba37be26978675384d79364284f47a0cbb51ffca085a792923f5"
+    },
+    "S03_NATIVE11_FINAL_GATE.json": {
+      "bytes": 195,
+      "sha256": "a1478f5e30247b199e2b2457d6ad212e26f7c5a3e9693b1cc6c68c82457175a1",
+      "gzip_sha256": "161a318b8801c1eedbce7af04d611a78875b6c9811ca1caa482d9d14d784d0a0"
+    }
+  },
+  "error": "permission denied for schema cp7_payroll",
+  "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-vendor-receivable-qualification/probe.py\", line 94, in run_inner\n    prior=measured(timings,'EXACT_BACKEND3194_PARENT_INSTALL',product.parent().install_delta,cur,prior)\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-choice-finance-cron-qualification/phase_timing.py\", line 22, in measured\n    result = operation(*args, **kwargs)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_attendance_period_choice/composition.py\", line 74, in install_delta\n    for definition in patched.values():cur.execute(definition,prepare=False)\n                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.InsufficientPrivilege: permission denied for schema cp7_payroll\n",
+  "actual_Native_business_cases": 0,
+  "committed_group_count": 0,
+  "used_guard": "NOT_REACHED_NO_QUALIFICATION_CLAIM",
+  "full22_allrows_allseq_roles_rawschema_CP6_advisors_backup_Auth_restored": true,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "actual_installer_role_or_schema_ACL_row_in_original": false,
+  "source_derived_cause": "postgres owns apply_settlement and has existing USAGE on cp7_payroll, whose owner is cp7_payroll_read; function replacement requires schema CREATE that source did not grant",
+  "planned_fix": "Existing schema owner grants only CREATE temporarily to postgres, then revokes before exposing installed state; exact original raw ACL/roles/defaults preserved. Reader successor needs the same bounded envelope for cp7_hpp_pool.",
+  "financial_native_hooks_changed": false,
+  "first_failure_preserved": true,
+  "usable_prerequisite": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

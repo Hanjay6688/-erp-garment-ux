@@ -1,0 +1,18 @@
+{
+  "repository": "Hanjay6688/-erp-garment-ux",
+  "branch": "astra-a/s03-mounted-ui-prepared-20261030",
+  "head": "598dfe935e97ab7a43d63cd34d9b3b6abd7c7496",
+  "tree": "95d2abc716e0f9af12f5d0a55df29b6a50082868",
+  "parent": "a5774f59ce67fd18427a9aa700ee5e34fdece5b3",
+  "local_head": "3b73c18ce542b76cfe370782b8ad896341db4e90",
+  "paths": 82,
+  "exact_local_tree": true,
+  "prepared_UI_only": true,
+  "actual_Native": 0,
+  "actual_Auth": 0,
+  "actual_browser": 0,
+  "execution_closed": true,
+  "default_adopted": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

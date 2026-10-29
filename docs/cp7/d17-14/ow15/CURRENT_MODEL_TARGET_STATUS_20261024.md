@@ -1,3 +1,73 @@
+## A / 30 Oktober 2026 — D1 lanjutan3 terverifikasi; recovery SKU gagal; S03 dan S05 diuji
+
+E17 publik8be4/run40955967062 mencapai17 skenario aktual:15 PASS dan2
+INCOMPLETE. UNDO80 tertahan pemeriksaan status di fase sebelum pembaruan
+header; revisi kedua menangkap dokumen historis karena graph yang diteruskan
+ke pembaca kehilangan current leaf. Seluruh oracle tetap, witness terpisah
+belum tercapai. Kelima raw asli, Source282 dan seluruh pemulihan diperiksa;
+empat gate true, writer_runtime=false. Bukti ada di `e17-8be4-first-failure/`.
+Perbaikan dibatasi ke bukti transisi milik operasi dan ABI graph yang lengkap.
+
+S03 publik9a0/run40954866687 berhenti pada pemasangan facade payroll:
+izin CREATE schema kurang, Native0. Raw tidak merekam identitas actor/ACL;
+counter peran lokal dan analisis sumber dicatat terpisah. Pemulihan penuh
+lulus, writer_runtime=false. Bukti ada di `s03-9a0-payroll-installer-first-failure/`.
+Backend prepared publik73ad6d32/tree87c289b6 mengambil tepat tiga subtree
+penulis37b, mempertahankan semua byte9a0 lain. Izin CREATE bersifat sementara
+dan dipulihkan persis, termasuk ACL/peran.15 capture fungsi mencakup dua
+pembaca HPP baru, bukan15 kasus Native. Framework berikut mempertahankan
+strict11 asli lalu strict3 pembaca terpisah; aggregate14 hanya metadata.
+Alias ini sendiri Native/Auth/browser0 dan belum diadopsi pemasang bawaan.
+Qualifier publik9ac9c8bd/run40967080539 kini menjalankan strict11 lalu Reader3
+dan pemulihan penuh, sesudah49 kontrol dan425 pin sumber lulus serta counter
+internal tidak menemukan penghalang sumber. Hasil runtime masih pending.
+
+S05 publikcdbdea/run40959735086: seluruh10 INCOMPLETE sebelum Native editor
+karena guard fixture masih mengunci body CP45/AB. Sumber AC yang diwajibkan
+mengganti satu ekspresi label waktu ke WIB. Tidak ada cacat hitungan produk
+yang terbukti. Lima raw asli, CRC114 anggota dan pemulihan penuh lulus;
+writer_runtime=false. Bukti di `s05-cdbd-lawful-master-first-failure/`.
+Perbaikan hanya prasyarat ABI/premise fixture; sepuluh callback, body Native,
+FIFO, guard tanggal dan oracle uang tetap.
+
+D1 continuation3 publikcde78/run40958135976 kini terverifikasi3/3 Native.
+Source245 aktual cocok dengan raw; kelima gate true, witness250/APPLY220/UNDO
+dan seluruh pemulihan lengkap lulus.70 snapshot penuh membuktikan22 pasangan
+tanpa efek dan13 perintah positif, masing-masing22 katalog/685 tabel/15 sequence.
+Riwayat bertanda tetap immutable; sequence positif dicatat, tidak direset.
+Bukti ada di `../ow08/d1-cde78-continuation3-qualified/`. Ini kualifikasi sempit
+tiga skenario tambahan;13 kasus parent tidak diulang dan D/E penuh belum tutup. Original671127620 byte
+melewati batas unduhan konektor. Utility read-only publik209056/run40965557709
+berhasil mempertahankan arsip persis sebagai dua bagian335563810 byte dan
+manifest urutan/SHA. Tidak ada transaksi atau kredit Native baru. Pemeriksaan
+raw memakai gabungan virtual, CRC dan seluruh gate, tanpa mengekstrak seluruh
+census. Native13 D1 sebelumnya tetap terverifikasi pada sumbernya sendiri.
+
+SKU23 publik602b4e64/run40961419818 selesai INCOMPLETE:7 Native inti dan2
+biaya PASS, satu biaya gagal karena penolakan recovery di atas bagian pertama
+masih menaikkan sequence audit.3 race/6 tunggu izin/4 browser belum tercapai.
+Raw Original27MB dan census lengkap tersimpan; penelusuran sebab berjalan.
+Perbaikan inverse semua anggota sebelumnya lulus skenario biayanya. Kelima
+gate belum lulus karena writer_runtime=false.
+
+S05 koreksi ABI current AC publik52eedc88/run40969679183 kini menjalankan
+ulang10 Native/fullrestore.24 kontrol Python/8 SQL model dan counter sumber
+aktual242 lulus; ini belum bukti Native atau penerimaan produk. UI S03 prepared publik598/153 uji lokal juga belum
+menjadi bukti browser nyata; qualifier4 terpisah menunggu backend14 aktual.
+
+Review sumber komposisi menemukan batas global nonPO BE pada D1, E dan source
+request. Native BE sendiri dapat mengunjungi graph nonPO global; mempersempit
+filter eligibility saja belum cukup. Adapter komposisi harus membuktikan
+jejak baca/tulis global dan penolakan stale, lalu menguji D1/E setelah SKU
+POST maupun inverse yang tetap tersimpan. Rinciannya ada di
+`CURRENT_COMPOSITION_INTERNAL_SOURCE_REVIEW.json`.
+
+Formal5/16; production_go=false; independent_acceptance=false. Semua kegagalan
+pertama disimpan. B diterima, main, hosted dan CP7C mengikuti batas semula.
+Checkpoint merupakan titik simpan; pekerjaan berlanjut.
+
+Bagian berikut adalah riwayat checkpoint.
+
 ## A / 30 Oktober 2026 — D1 Native13 terverifikasi; E17 dan S03 berjalan; S05 tertahan fixture tanggal
 
 D1 publik17ac1eeb/run40942995096/job123690939357 lulus13/13 skenario Native.

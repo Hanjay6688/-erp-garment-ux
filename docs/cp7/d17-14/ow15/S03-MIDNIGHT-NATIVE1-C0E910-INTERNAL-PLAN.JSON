@@ -1,0 +1,148 @@
+{
+  "contract": "hansen-erp.s03-midnight-native1.internal-source-plan.v1",
+  "status": "PLAN_ONLY_CLOSED_NOT_IMPLEMENTED",
+  "pins": {
+    "midnight_head": "c0e91078cb42b3523f2186cbd7972548aab71e15",
+    "midnight_tree": "b596b1d6b5f0d2166b4edb8438335b0051273593",
+    "current_local_read_head": "dd62d5f3fb82e1367f332a1342b5845e886f4d06",
+    "current_local_read_tree": "49591433899ef13c70e3cd94fc0c43894ea182df",
+    "future_public_base_reported_by_root": "9ac9c8bd1bfb7d64a1e735067083c68acbff02ef",
+    "public_base_same_tree_reported_by_root": true,
+    "public_base_locally_fetched_or_reverified": false,
+    "cases.py": {
+      "bytes": 12384,
+      "sha256": "7cdfd006c4dfb2f3c35dc9557366f601fd2d0a6748505c40f2ee8b66373b2506"
+    },
+    "oracle.py": {
+      "bytes": 5433,
+      "sha256": "9f866f07083477ea338649fed88d9f92a71559c173bbbce88885ebf906b77a1d"
+    },
+    "admission.py": {
+      "bytes": 6190,
+      "sha256": "a27baa9e5f927bd781ce01868390c68fb0c031cfb640095a3ca2ca64c12b05ff"
+    },
+    "SOURCE.json": {
+      "bytes": 14825,
+      "sha256": "d7bb90974374feb0316dc5d465d21d39cdda42a7b103d04e4615d1d3d1fb23b2"
+    },
+    "test_preparation.py": {
+      "bytes": 14339,
+      "sha256": "eec913c8ab5270e82775e71504ae5db188d9389187dbd9d8a85ca89cb020188e"
+    }
+  },
+  "exact_case": {
+    "namespace": "scripts/current-s03-midnight-output-augmentation",
+    "ID": "S03_NATIVE_MIDNIGHT_OUTPUT_UTC17_SAME_SOURCE_CID_5_5_10",
+    "factory": "cases(cur,today,*,state,evidence,fresh_original11,retained_original)",
+    "factory_lines": "cases.py:211-218",
+    "callback": "lambda: run_boundary(cur,today,original)",
+    "callback_lines": "cases.py:144-208",
+    "preserve_case_and_oracle_bytes": true,
+    "fixed_output_days": "D=actual Native business today-3; D+1=today-2; one quiet-pair precheck; occupied/refused means INCOMPLETE, no shift/retry.",
+    "fixed_instants": "B=(D+1)00:00+07=D17:00Z; B-1 microsecond and B; same UTC date D, distinct WIB dates D/D+1.",
+    "source_identity": "One same exact contractor binds original approved100003-cent attendance source/policy and both Native5PCS work+terminal facts on one10PCS cutting group.",
+    "read_oracle": "Native manifest membership before/after/both exactly1/1/2 events and denominator5/5/10; Native output numerator0; carry/public previews use original100003 cents once; exact source/policy binding; public economic_date=output_end; no actual allocation.",
+    "no_effect_oracle": "Full owning business-row+sequence census equal before/after all reads; original accrual and approval audit unchanged; contractor unassigned WIP1000.03; no WORK_COMPLETION journal, second payroll, carry allocation or expense journal.",
+    "restore_local_context": "UTC asserted at all4 Native work/terminal calls and reads; savepoint-scoped real entering timezone restored on success/error and original error rethrown; fixture CONTRACTOR global restored in finally."
+  },
+  "three_time_axes": [
+    {
+      "axis": "Attendance source period",
+      "contract": "attendance_date is DATE; original source day is strictly before fixed D. No fabricated attendance/posting instant.",
+      "evidence": "cases.py:152-159; README.md:88-91"
+    },
+    {
+      "axis": "Original recognition and book/economic dates",
+      "contract": "Native APPROVED creates original WIP/payable1000.03 once; original journal/approval audit unchanged. Carry output must satisfy both max_source_book_date and max_source_economic_date. Actual server approval time is not moved.",
+      "evidence": "current original cases.py:39-52; current choice.sql:691-696"
+    },
+    {
+      "axis": "Physical output instant and business-day membership",
+      "contract": "Actual work/terminal epoch microseconds equal at B-1us/B under UTC caller; Native WIB membership is D/D+1; public output economic_date is period end.",
+      "evidence": "cases.py:131-141,178-197; oracle.py:17-28,31-47,50-90"
+    }
+  ],
+  "actual_native_operations": [
+    "Existing source fixture: roster create, attendance period save/post, payroll PREPARE/APPROVE and audited CARRY choice.",
+    "Existing two_size_fixture: Native estimated material receipt10@10=100, ordinary roll consumption, cutting POST7+3=10PCS and pickup POST.",
+    "DRAFT work headers/lines and zero-rate snapshot are administrative fixtures; erp.post_work_completion and public.erp_record_sewing_terminal_v1 each run twice for5PCS at the exact instants.",
+    "Actual Native manifest, private carry-preview and public ALLOCATE-preview reads; no ALLOCATE save in this boundary case."
+  ],
+  "compatibility": {
+    "source_level_only": true,
+    "current_runtime_files": 7,
+    "actual_installed_capture_target": 15,
+    "private_clones": 2,
+    "product_changes_required": 0,
+    "current_original11_cases_and_fixtures_byteequal_c0": true,
+    "midnight_imported_helper_bodies_checked_equal_c0_and_dd62": [
+      "scripts/cp6_bd_probe.py",
+      "scripts/cp6_auditor_runner.py",
+      "scripts/cp6_auditor_business_day.py",
+      "scripts/cp7_r3_hpp_pool_cases.py"
+    ],
+    "old80_changed_in_current": 14,
+    "old_capture_metadata": 13,
+    "old_runtime_files": 5,
+    "old_admission_is_not_directly_compatible": "admission.py:26-43 hardcodes old80 graph;93-117 expects retained outer count11 and only native/package pins. Current parent is outer14 plus separate strict11/Reader3 and six Originals. Merely filling old NULL pins cannot open this safely.",
+    "bounded_adaptation": "Retain original midnight sources/history unchanged; a new outer admission adapter validates actual current runtime7/capture15 source and the explicit fourteen old80 transitions, then supplies the exact existing factory ABI. Never project actual product.sources or installed state. Explicitly freeze imported helper closure as part of the new source allocation."
+  },
+  "smallest_closed_qualifier_plan": [
+    "New owned namespace/workflow from public9ac tree; preserve current Native14 namespace/backend bytes and original midnight case/oracle. Root is sole publisher. No implementation in this review.",
+    "NULL actual14-parent binding closes before ERP imports, Original materialization, GET or DB. Opening waits for six exact raw Originals: strict11, Reader3, outer14, package, package-files and backup-drill. Validate exact9ac head/source/group equality, full boundaries and all5 package gates including writer_runtime=true.",
+    "Reuse the complete current installation/preuse-reinstall/full-restore/package engine. A thin new component wrapper can run unchanged current14 exercise into its own fresh_parent14 report, then run the standalone midnight1 once on that same installed15 state with that actual fresh11 passed to the untouched factory.",
+    "Keep fresh parent14 and midnight1 separate groups/raw Originals and ID lists. If the unchanged current14 component is rerun, report14 fresh prerequisite cases +1 additional case =15 total executed, while additional midnight credit remains1; never fabricate a strict15 or relabel old14/raw11. No browser4/Auth/race credit follows from this case.",
+    "For ONLY midnight1 call unchanged cp6_auditor_runner._strict_group_once under the accepted physical exact-public/catalog context. Keep day guard and every boundary check. Retain first raw bytes; reject retry metadata. This avoids the shared strict_group automatic day retry without editing that shared runner.",
+    "Preserve the original committed ALLOCATE used witness separately; midnight1 is previews only and cannot replace it. Require exact before/after all22+all rows+all sequences and refusal before inverse DDL. Repeat full actual installed verification around the new1.",
+    "Require full outer22 catalog/rawACL/defaults/roles/memberships/sessionGUC, all business rows/sequences, primary/Auth/CP6/advisors, backup drill, all30 package files and all5 package gates covering this new run. Savepoint rollback is not full sequence restoration.",
+    "New source closure explicitly allows only new namespace/workflow plus exact frozen midnight files; keeps current source active and unknown-source/generated-output/symlink refusal. Any inherited producer descriptors need only bounded workflow identity/name deltas with frozen validators."
+  ],
+  "concrete_adapter_constraint": {
+    "path": "scripts/cp6_auditor_runner.py",
+    "retry_wrapper_lines": "130-136",
+    "once_body_lines": "139-214",
+    "day_guard_line": 191,
+    "finding": "strict_group uses business_day.with_retry and can rerun on a new WIB day. Naive reuse conflicts with Native1 no-dayretry. Use the unchanged single-attempt body for the new1; rollover remains INCOMPLETE."
+  },
+  "local_controls": {
+    "historical_receipt": "c0e910 current-s03-midnight-output-augmentation/LOCAL_CHECK_RECEIPT.json reports15 pure/model controls PASS,0FAIL,0SKIP. Read only; not rerun in this review.",
+    "inspected_groups": [
+      "microsecond/year-month/date typing",
+      "sameCID/POSTED/qty/epoch facts",
+      "5/5/10 membership, policy/source/UTC truncation counterexamples",
+      "public budget/dates/private-context refusal",
+      "timezone success/error and contractor restoration",
+      "occupied fixed days no retry",
+      "NULL retained pins before cursor/product import",
+      "one callable factory",
+      "exact11 IDs/integer counts/status/boundaries",
+      "old80/own-source tamper controls",
+      "labelled raw/package models"
+    ],
+    "new_tests_executed": 0
+  },
+  "remaining_unknowns": [
+    "Actual14 is not accepted by this review: six terminal raw pins, exact hashes/bytes/head/source and all5 gates remain pending; no binding can be invented.",
+    "Actual Native helper/date/cutover/closed-period eligibility and fixed D/D+1 quiet availability remain runtime questions; first refusal must be retained, not solved by clock changes or shifting days.",
+    "Public9ac was not locally fetched/reverified here; only exact localdd62 same tree as reported by root was read.",
+    "Future wrapper single-attempt/raw-retention/physical-overlay and new-source/producer controls require implementation and local verification before any root-run proposal."
+  ],
+  "review_execution": {
+    "immutable_git_reads_only": true,
+    "new_clones": 0,
+    "temp_worktrees": 0,
+    "source_copies": 0,
+    "source_edits": 0,
+    "new_tests": 0,
+    "DB": 0,
+    "Native": 0,
+    "network": 0,
+    "remote_mutations": 0,
+    "browser": 0,
+    "Auth": 0
+  },
+  "production_go": false,
+  "independent_acceptance": false,
+  "external_independent_audit": false,
+  "formal_progress": "5/16 unchanged"
+}

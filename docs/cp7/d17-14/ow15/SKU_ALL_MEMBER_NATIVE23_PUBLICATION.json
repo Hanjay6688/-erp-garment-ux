@@ -1,0 +1,21 @@
+{
+  "repository": "Hanjay6688/-erp-garment-ux",
+  "branch": "astra-a/sku-all-member-native23-20261030",
+  "head": "602b4e642a0afbb1acdcfd858b9f403dc14ec336",
+  "tree": "2b86a81b9f3b14ff1ca775825ac01bb96afaa50d",
+  "parent": "c05e3d689e0e4b770af40b6a6b7d7e5cd659a12b",
+  "local_head": "be70b55aa7841376a555874c13a7feb0cd5a6e0b",
+  "paths": 92,
+  "exact_local_tree": true,
+  "source_pins": 99,
+  "required_fresh": {
+    "Native": 10,
+    "two_session_race": 3,
+    "Native_permission_wait": 6,
+    "real_Auth_full_App_browser": 4,
+    "total": 23
+  },
+  "actual_successor_at_publication": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

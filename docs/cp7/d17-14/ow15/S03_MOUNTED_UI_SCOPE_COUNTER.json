@@ -1,0 +1,30 @@
+{
+  "classification": "THREE_LOCAL_SOURCE_GATE_CONTROLS_USING_EXACT_FROZEN_TEST_WITH_LABELLED_GIT_DIFF_DOUBLES",
+  "frozen_ref": "913fd00437b9d965f34a1cc7005adfb07f631675",
+  "test_path": "scripts/current-attendance-choice-mount-ui/test_ui_source.py",
+  "controls": [
+    {
+      "control": "FROZEN_SCOPE_BASELINE",
+      "expected": "PASS_FROZEN_SCOPE",
+      "observed": "PASS"
+    },
+    {
+      "control": "NEW_NAMESPACE_CONTROL",
+      "expected": "REFUSE_ADDED_PATH",
+      "observed": "AssertionError",
+      "added_path": "scripts/current-attendance-choice-browser-qualification/new_source.py",
+      "detail": "Lists differ: ['scripts/current-attendance-choice-browser-qualification/new_source.py'] != []\n\nFirst list contains 1 additional elements.\nFirst extra element 0:\n'scripts/current-attendance-choice-browser-qualification/new_source.py'\n\n- ['scripts/current-attendance-choice-browser-qualification/new_source.py']\n+ []"
+    },
+    {
+      "control": "NEW_WORKFLOW_CONTROL",
+      "expected": "REFUSE_ADDED_PATH",
+      "observed": "AssertionError",
+      "added_path": ".github/workflows/cp7-current-attendance-choice-browser.yml",
+      "detail": "Lists differ: ['.github/workflows/cp7-current-attendance-choice-browser.yml'] != []\n\nFirst list contains 1 additional elements.\nFirst extra element 0:\n'.github/workflows/cp7-current-attendance-choice-browser.yml'\n\n- ['.github/workflows/cp7-current-attendance-choice-browser.yml']\n+ []"
+    }
+  ],
+  "abdbc_is_ancestor_of_frozen_mount": false,
+  "CI_abdbc_object_availability": "NOT_CHECKED_NO_REMOTE; mustbeexplicitbecauseoldtestusesgitshow",
+  "worktree_edits": 0,
+  "actual_Native_Auth_browser": 0
+}

@@ -1,0 +1,243 @@
+{
+  "status": "PASS_READ_ONLY_PREPUBLICATION_SOURCE_COUNTER_NO_CONCRETE_LAUNCH_BLOCKER",
+  "identity": {
+    "head": "985b9b722a58cb3ea55c6641a6a4155946812b23",
+    "tree": "df8970c1c19d19b17c6a870d30adc535170725cc",
+    "parent": "cdbdea26ef8e4d15bfc16a362c6fad636d961ef2"
+  },
+  "source": {
+    "path": "scripts/current-s05-current-ac-editor-qualification/SOURCE.json",
+    "bytes": 36246,
+    "sha256": "cd2744c98c49e28c66a5ea30de6ee6567e06fe45df42b2deb3836e7bc3f6211c",
+    "files": 242,
+    "all_242_public_Git_and_physical_bytes_match": true,
+    "diff_only_34_added_paths": [
+      "A\t.github/workflows/cp7-current-s05-current-ac-editor.yml",
+      "A\tscripts/current-s05-current-ac-editor-qualification/CURRENT_AC_EDITOR_DEFINITION.sql",
+      "A\tscripts/current-s05-current-ac-editor-qualification/CURRENT_AC_EDITOR_PREMISE.json",
+      "A\tscripts/current-s05-current-ac-editor-qualification/LOCAL_CHECKS.json",
+      "A\tscripts/current-s05-current-ac-editor-qualification/README.md",
+      "A\tscripts/current-s05-current-ac-editor-qualification/SOURCE.json",
+      "A\tscripts/current-s05-current-ac-editor-qualification/WORKFLOW_DERIVATION.json",
+      "A\tscripts/current-s05-current-ac-editor-qualification/admission.py",
+      "A\tscripts/current-s05-current-ac-editor-qualification/binding.py",
+      "A\tscripts/current-s05-current-ac-editor-qualification/check.py",
+      "A\tscripts/current-s05-current-ac-editor-qualification/evidence/FIRST_LOCAL_SETUP_FAILURE.json",
+      "A\tscripts/current-s05-current-ac-editor-qualification/evidence/LOCAL_CURRENT_AC_SQL8_FIRST.json",
+      "A\tscripts/current-s05-current-ac-editor-qualification/evidence/LOCAL_CURRENT_AC_SQL8_FIRST.stderr",
+      "A\tscripts/current-s05-current-ac-editor-qualification/evidence/LOCAL_FINAL24_PASS.log",
+      "A\tscripts/current-s05-current-ac-editor-qualification/evidence/LOCAL_SOURCE_PREVIOUS23_PASS.log",
+      "A\tscripts/current-s05-current-ac-editor-qualification/evidence/REAL_CLI_RUNTIME_CODE_FINAL_BEFORE_METADATA_SEAL_PASS.json",
+      "A\tscripts/current-s05-current-ac-editor-qualification/evidence/REAL_CLI_RUNTIME_CODE_FINAL_BEFORE_METADATA_SEAL_PASS.stderr",
+      "A\tscripts/current-s05-current-ac-editor-qualification/evidence/REAL_IMPORT_FIRST_NO_AF_ENV.json",
+      "A\tscripts/current-s05-current-ac-editor-qualification/evidence/REAL_IMPORT_FIRST_NO_AF_ENV.stderr",
+      "A\tscripts/current-s05-current-ac-editor-qualification/evidence/REAL_IMPORT_SECOND_MISSING_CONSISTENCY_ENV.json",
+      "A\tscripts/current-s05-current-ac-editor-qualification/evidence/REAL_IMPORT_SECOND_MISSING_CONSISTENCY_ENV.stderr",
+      "A\tscripts/current-s05-current-ac-editor-qualification/evidence/REAL_IMPORT_THIRD_ALL_REAL_ORIGINALS_PASS.json",
+      "A\tscripts/current-s05-current-ac-editor-qualification/evidence/REAL_IMPORT_THIRD_ALL_REAL_ORIGINALS_PASS.stderr",
+      "A\tscripts/current-s05-current-ac-editor-qualification/evidence/REAL_PROBE_CHECK_BEFORE_FINAL_EVIDENCE_SEAL.json.gz",
+      "A\tscripts/current-s05-current-ac-editor-qualification/evidence/REAL_PROBE_CHECK_BEFORE_FINAL_EVIDENCE_SEAL.stderr",
+      "A\tscripts/current-s05-current-ac-editor-qualification/factory.py",
+      "A\tscripts/current-s05-current-ac-editor-qualification/first_failure.py",
+      "A\tscripts/current-s05-current-ac-editor-qualification/local_premise.mjs",
+      "A\tscripts/current-s05-current-ac-editor-qualification/probe.py",
+      "A\tscripts/current-s05-current-ac-editor-qualification/recipe.py",
+      "A\tscripts/current-s05-current-ac-editor-qualification/retained-cdbdea/ORIGINAL.zip",
+      "A\tscripts/current-s05-current-ac-editor-qualification/retained-cdbdea/ROOT_CAUSAL_FIRST_ASSESSMENT.json",
+      "A\tscripts/current-s05-current-ac-editor-qualification/test_controls.py",
+      "A\tscripts/current-s05-current-ac-editor-qualification/workflow_source.py"
+    ],
+    "all_other_base_tracked_bytes_unchanged": true
+  },
+  "current_AC_editor_premise": {
+    "status": "EXACT_CURRENT_AC_SOURCE_PREMISE_NOT_RUNTIME_CAPTURE",
+    "migration": "supabase/release/cp6-t3/20260915031500_erp_v2_6_20ac_cp6_temporal_surface_closure.sql",
+    "migration_sha256": "871fb32b1d4a1e7f9aedfef684b0f2c766092732c38552620eb394061f6240d1",
+    "old_prosrc_sha256": "6c8c701395ab74874e7cb2f3e78f9912f7380a5a3199cba069b1aec6db09cd85",
+    "current_prosrc_sha256": "3f468d69475ebd199c7a0af7b4ee4486e6b71a5287a0ee63ac0e3dac24f15364",
+    "counted_WIB_label_expression_changes": 1,
+    "all_other_Native_editor_body_bytes_equal": true,
+    "Native_function_rewrites": 0,
+    "actual_current_catalog_capture": false,
+    "actual_Native_credit": 0
+  },
+  "ABI_transition": {
+    "old_recipe_sha256": "0740c5e18470d8fe2fcd9115887b63e7804fad12a6ab4213840f539bccf07262",
+    "derived_recipe_sha256": "9744c92e8b124befae1d4baf99267d5113711df208c12dc025a2ffc53c8653ef",
+    "exact_reversible_constant_changes": 1,
+    "initial_unused_editor_and_BF_successor_code_otherwise_exact": true,
+    "parent_all22_verify_and_actual_functiondef_owner_prosrc_before_fixture": true,
+    "repeat_guard_before_each_edit": true
+  },
+  "frozen_business": {
+    "original_cases_sha256": "e025be1280630dfb89f62261163194ce072b6f6ad6d909b56ff6c82f75778e98",
+    "callback_source_substitutions": 0,
+    "Native_case_ids": [
+      "S05_NATIVE_CATEGORY_VARIANTS_PO",
+      "S05_NATIVE_HISTORICAL_BOM",
+      "S05_NATIVE_LATE_INVOICE_COST_REVISIONS",
+      "S05_NATIVE_ZERO_REIMBURSEMENT",
+      "S05_NATIVE_EMPTY_AND_NO_OUTPUT",
+      "S05_NATIVE_WIB_COHORTS",
+      "S05_NATIVE_NOTE_DRAFT_INVERSE",
+      "S05_NATIVE_QC_INVERSE",
+      "S05_NATIVE_REWORK_NONE_RECORDED_RECIPIENT",
+      "S05_NATIVE_CURRENT_ACCESS_PRIVATE_ACL"
+    ],
+    "unchanged_dates_FIFO_money_report_and_installer_source": true,
+    "new_component_business_import_bindings": 1,
+    "four_frozen_vendor_files": {
+      "scripts/current-s05-native10-qualification/frozen_vendor/probe.py": "c420d894f8d5f16bddefeae73addb621507170f372a28e7d6e33d88c7eeb0be9",
+      "scripts/current-s05-native10-qualification/frozen_vendor/runner.py": "318fabe010586301205519c3b648f96496f5d80a651e7be955a0cd6d7a2c5b68",
+      "scripts/current-s05-native10-qualification/frozen_vendor/native_runner.py": "debd69693dc444861aa193b644144eb3a6ee0e7eb0d279f671fcfad82aebdd0d",
+      "scripts/current-s05-native10-qualification/frozen_vendor/workflow.yml": "e013bfb64da3dc55299c7273cdf1de0ee5d75dfd4df3be3a2e8fabae5d6ecca1"
+    },
+    "exact_six_engine_bindings": {
+      "original_sha256": "c420d894f8d5f16bddefeae73addb621507170f372a28e7d6e33d88c7eeb0be9",
+      "derived_sha256": "a671b387eca972f3dab6af985973732b70aaf2779a763acf5df482850c184396",
+      "counted_changes": 6,
+      "unchanged_install_preuse_reinstall_and_full_restore": true,
+      "unchanged_all22_rows_sequences_roles_CP6_advisors_and_package_engine": true,
+      "fresh_Auth_HTTP_races_browser_claim": false
+    }
+  },
+  "workflow": {
+    "path": ".github/workflows/cp7-current-s05-current-ac-editor.yml",
+    "sha256": "e08a3a2cd84600214c41af8de1347ff7e12207eac9672f5213d4fc2f8c936a37",
+    "parent_steps": 64,
+    "current_steps": 64,
+    "changed_steps": [
+      {
+        "index": 53,
+        "old_name": "Admit exact 911 failure, lawful master premise and retained vendor11 before database",
+        "new_name": "Admit exact cdbdea failure, current AC editor and retained vendor11 before database"
+      },
+      {
+        "index": 54,
+        "old_name": "Check unchanged ACL source and lawful master-date source controls",
+        "new_name": "Check unchanged ACL and current AC editor source controls"
+      },
+      {
+        "index": 55,
+        "old_name": "Admit exact vendor41c and lawful S05 fixture source before database",
+        "new_name": "Admit exact vendor41c and current AC editor source before database"
+      },
+      {
+        "index": 60,
+        "old_name": "Run exact S05 Native10 with lawful master dates and complete restore",
+        "new_name": "Run unchanged S05 Native10 with exact current AC editor and complete restore"
+      },
+      {
+        "index": 63,
+        "old_name": "actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+        "new_name": "actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02"
+      }
+    ],
+    "all_other_step_dictionaries_equal": true,
+    "no_old_branch_job_if": true,
+    "repeated_admission": "probe.admitted wrapper reused by frozen run_inner SOURCE_ADMISSION after CLONE, before Native; current242+workflowchecked and inherited actualproduct.sources/Original readers execute again.",
+    "generated_producers": "startup/aligned/clone/package/source-worktree/artifact fetch producers unchanged outside exact new namespace; GITHUB_WORKFLOW is runtime identity recorded by unchanged cp6_run_identity and package evidence only, no old-name allowlist found.",
+    "no_new_JSON_suffix_or_symlink_blanket_waiver": true,
+    "own_source_file_set_exact_and_parent_symlink_checks_retained": true
+  },
+  "real_source_runtime": {
+    "status": "PASS_REAL_CURRENT_S05_SOURCE_CLI_RUNTIME_WITH_DB_NETWORK_MUTATIONS_FORBIDDEN",
+    "head": "985b9b722a58cb3ea55c6641a6a4155946812b23",
+    "tree": "df8970c1c19d19b17c6a870d30adc535170725cc",
+    "source_files": 242,
+    "Native_case_ids": [
+      "S05_NATIVE_CATEGORY_VARIANTS_PO",
+      "S05_NATIVE_HISTORICAL_BOM",
+      "S05_NATIVE_LATE_INVOICE_COST_REVISIONS",
+      "S05_NATIVE_ZERO_REIMBURSEMENT",
+      "S05_NATIVE_EMPTY_AND_NO_OUTPUT",
+      "S05_NATIVE_WIB_COHORTS",
+      "S05_NATIVE_NOTE_DRAFT_INVERSE",
+      "S05_NATIVE_QC_INVERSE",
+      "S05_NATIVE_REWORK_NONE_RECORDED_RECIPIENT",
+      "S05_NATIVE_CURRENT_ACCESS_PRIVATE_ACL"
+    ],
+    "current_AC_premise": {
+      "status": "EXACT_CURRENT_AC_SOURCE_PREMISE_NOT_RUNTIME_CAPTURE",
+      "migration": "supabase/release/cp6-t3/20260915031500_erp_v2_6_20ac_cp6_temporal_surface_closure.sql",
+      "migration_sha256": "871fb32b1d4a1e7f9aedfef684b0f2c766092732c38552620eb394061f6240d1",
+      "old_prosrc_sha256": "6c8c701395ab74874e7cb2f3e78f9912f7380a5a3199cba069b1aec6db09cd85",
+      "current_prosrc_sha256": "3f468d69475ebd199c7a0af7b4ee4486e6b71a5287a0ee63ac0e3dac24f15364",
+      "counted_WIB_label_expression_changes": 1,
+      "all_other_Native_editor_body_bytes_equal": true,
+      "Native_function_rewrites": 0,
+      "actual_current_catalog_capture": false,
+      "actual_Native_credit": 0
+    },
+    "runtime_source_imports_checked": true,
+    "actual_unprojected_product_sources_sha256": "1b29b7029499a9ca0778effc89bd651502c6047be336ad887c556188611e3743",
+    "actual_vendor_runtime_files": {
+      "scripts/cp7_vendor_receivable/receivable.sql": "3b24728512e8be6af697f3234e591f7fe6b46331c68e3497ab71aedbcc9aa2ba",
+      "scripts/cp7_vendor_receivable/native_delta.py": "bd0f41be50fea0ab64b19c15d8a09fc7940782507c35482911dd86c36403a52b",
+      "scripts/cp7_vendor_receivable/composition.py": "b0bc106121932deb18a342299ec7ffb1a314abaca9d77879df29784261821df2"
+    },
+    "actual_backend3194_sha256": "193f4c18476a1e1abd5e05231d8d7755864b61e2998c4456f5a87459b17da59d",
+    "expected_backend3194_sha256": "193f4c18476a1e1abd5e05231d8d7755864b61e2998c4456f5a87459b17da59d",
+    "first_cdbdea_failure": {
+      "status": "EXACT_CDBDEA_TEN_ABI_INCOMPLETE_RETAINED_NOT_ACCEPTED",
+      "run_id": 40959735086,
+      "job_id": 123749056356,
+      "artifact_id": 12936299484,
+      "archive_bytes": 2064935,
+      "archive_sha256": "8416f603ed401076293b1f91a9ff3db21f1bf0477147efb7cf012b45e244c0fc",
+      "members": 114,
+      "CRC_verified": true,
+      "counts": {
+        "INCOMPLETE": 10
+      },
+      "Native_PASS": 0,
+      "actual_editor_observed_digest_retained": false,
+      "actual_fixture_master_events": 0,
+      "used_witness_reached": false,
+      "full_outer_restore": true,
+      "package_gates": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": false
+      },
+      "success_prerequisite": false,
+      "production_go": false,
+      "independent_acceptance": false
+    },
+    "blocked_attempts": [],
+    "readonly_git_commands": [
+      "diff",
+      "diff",
+      "diff",
+      "diff",
+      "diff",
+      "diff"
+    ],
+    "Native_executions": 0,
+    "DB_connections": 0,
+    "network_calls": 0,
+    "elapsed_seconds": 40.906,
+    "first_reviewer_setup_issue": "Initial scratch CWD lacked frozen ancestor relative docs; rerun in correct repository/CI-source CWD without any file mutation."
+  },
+  "local_CWD_equivalence": {
+    "relative_input": "docs/evidence/cp6-ao-predecessor-input.json",
+    "exact_sha256_by_CWD": {
+      "/workspace/scratch/ef468a447ac6/erp-cp6-review": "d29324b7fa41343a9cefcf878cee082e74f555c712dfa9912da1fff88bb5982b",
+      "/workspace/scratch/ef468a447ac6/erp": "d29324b7fa41343a9cefcf878cee082e74f555c712dfa9912da1fff88bb5982b"
+    },
+    "first_scratch_CWD_failure_is_reviewer_setup_only": true
+  },
+  "admission_limitations": {
+    "after_clone_install_SQL_not_executed_by_counter": true,
+    "Native10": "PREPARED_NOT_ACTUAL_PASS",
+    "current_installed_editor_observation": "WILL_BE_REQUIRED_BY_ACTUAL_RUN_NOT_SOURCE_INFERENCE",
+    "retained_cdbdea": "EXACT_0_PASS_10_INCOMPLETE_NEGATIVE_ONLY_NOT_SUCCESS_PREREQUISITE",
+    "DB_calls": 0,
+    "network_calls": 0,
+    "source_ref_edits": 0,
+    "production_go": false,
+    "independent_acceptance": false
+  }
+}

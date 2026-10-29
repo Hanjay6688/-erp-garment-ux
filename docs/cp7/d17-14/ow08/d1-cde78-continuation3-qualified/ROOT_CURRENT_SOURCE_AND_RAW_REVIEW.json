@@ -1,0 +1,75 @@
+{
+  "status": "ROOT_QUALIFIED_NARROW_CURRENT_PARENT_D1_CONTINUATION_NATIVE3",
+  "recorded_at_utc": "2026-10-29T22:48:39.174199+00:00",
+  "identity": {
+    "head": "cde78b2cc82e0a286174098458dab9815fdfd072",
+    "tree": "915103541d247f544c4492db25953b4268d9c2e3",
+    "run_id": 40958135976,
+    "job_id": 123743552217,
+    "artifact_id": 12937065328,
+    "archive_bytes": 671127620,
+    "archive_sha256": "609ebff9739f359d39239d0e502aad20d4613f5a037a4e0e83f31b04b4b7652e"
+  },
+  "SOURCE245_sha256": "a166d5267bb7fba995ac8256fcaccb4952bebef09aba02aa3660527c794d2e34",
+  "all245_actual_Git_blobs_verified": true,
+  "raw_current_qualification_equals_actual_public_SOURCE245": true,
+  "root_preexecution_real_full_current_product_source_admission": "d1-continuation-current-final-source-admission.json",
+  "strict_three_raw_equals_embedded_group": true,
+  "exact_case_ids": [
+    "D1_CONT_ADDED_CAPACITY_APPLY220_NAMED_UNDO",
+    "D1_CONT_MANUAL_REFUND230_NAMED_UNDO",
+    "D1_CONT_SECOND_INCREASE275_AFTER_SIGNED_HISTORY"
+  ],
+  "actual_fresh_Native_cases": 3,
+  "committed_witness": "actual D1 250.00, APPLY220.00 then named UNDO; used inverse refused before DDL",
+  "committed_witness_extra_cases": 0,
+  "separate_internal_raw_review_sha256": "6780d014cf5d06dae81e26e3e712683601aadaae87e88a1142ebcc4f93e5f5db",
+  "internal_review_is_not_external_independent_acceptance": true,
+  "full70_snapshots_35_pairs_verified_by_internal_reviewer": true,
+  "exact_no_effect_pairs": 22,
+  "positive_command_prefixes": 13,
+  "raw_full_snapshot_dimensions": {
+    "catalog_groups": 22,
+    "tables": 685,
+    "sequences": 15
+  },
+  "positive_sequence_advances_retained_and_accounted": true,
+  "package_gate": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "full_outer_restored": true,
+  "Auth_before_after": [
+    0,
+    0
+  ],
+  "baseline_restore": {
+    "exit": 1,
+    "error_count": 19,
+    "unexplained": [],
+    "only_pg_cron_errors": true,
+    "database_owner_acl_and_settings_preserved": true,
+    "platform_schema_authority_restored": [
+      "graphql",
+      "graphql_public"
+    ]
+  },
+  "backup_drill_restore_errors": 0,
+  "source_parent_Native13_reexecuted": false,
+  "limitations": {
+    "actual_Auth_HTTP": 0,
+    "actual_browser": 0,
+    "actual_two_session_races": 0,
+    "fresh_Native13": 0,
+    "D_complete": false,
+    "E_complete": false,
+    "default_adopted": false,
+    "production_go": false,
+    "release_evidence": false,
+    "independent_acceptance": false
+  },
+  "Originals_durable_receipt": "LIBRARY_ORIGINALS_RECONSTRUCTION_RECEIPT.json"
+}

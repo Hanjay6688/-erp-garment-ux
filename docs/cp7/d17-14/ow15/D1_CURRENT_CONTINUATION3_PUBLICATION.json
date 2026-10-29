@@ -1,0 +1,16 @@
+{
+  "repository": "Hanjay6688/-erp-garment-ux",
+  "branch": "astra-a/credit-d1-current-parent-continuation3-20261030",
+  "head": "cde78b2cc82e0a286174098458dab9815fdfd072",
+  "tree": "915103541d247f544c4492db25953b4268d9c2e3",
+  "parent": "17ac1eeb5833cbf2a786194fe3bfbba6628a1ff8",
+  "local_head": "b1e120704d3e5ccfd3ed9da79c5144788f58a115",
+  "paths": 71,
+  "exact_local_tree": true,
+  "accepted_D1_run": 40942995096,
+  "fresh_Native_case_ids": 3,
+  "actual_Native_at_publication": 0,
+  "parent13_reexecuted_or_counted_as_fresh": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

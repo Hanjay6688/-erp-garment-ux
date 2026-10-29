@@ -1,0 +1,27 @@
+{
+  "classification": "REAL_UNPROJECTED_FULL_CURRENT_SOURCE_AND_EXACT_FOUR_ORIGINAL_ADMISSION_WITH_DB_NETWORK_FORBIDDEN",
+  "status": "PASS",
+  "qualification_head": "dd62d5f3fb82e1367f332a1342b5845e886f4d06",
+  "backend_alias": "73ad6d323099e1d5384a94477043c01db8989106",
+  "SOURCE_sha256": "a6efa90aa23107a2facdd55d285677bbf60731432543455dcd844b3d2a0a56c1",
+  "actual_admission_status": "EXACT_VENDOR41C_CURRENT_SOURCE15_AND_FRESH_NATIVE11_PLUS_READER3_ADMITTED",
+  "historical_inner_label": "EXACT_VENDOR41C_AND_PREPARED_S03_NATIVE11_ADMITTED",
+  "current_source_files": 425,
+  "actual_full_product_matches_admission": true,
+  "current_runtime_files": 7,
+  "qualified_vendor_sources_sha256": "1b29b7029499a9ca0778effc89bd651502c6047be336ad887c556188611e3743",
+  "current_full_product_source_sha256": "67567ce692a513954235c93f0659ed0d6297a62002a69ab67d62d26c57c1dc8b",
+  "full_admission_sha256": "c7cbce6859e42517dc3e4ad50182f5298c482520655abf03569e1019a95867cf",
+  "strict_group_plan": [
+    11,
+    3
+  ],
+  "current_capture_plan": 15,
+  "actual_Native_cases": 0,
+  "blocked_calls": [],
+  "DB_calls": 0,
+  "network_GET_calls": 0,
+  "elapsed_seconds": 79.196,
+  "production_go": false,
+  "independent_acceptance": false
+}

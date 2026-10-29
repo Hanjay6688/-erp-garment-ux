@@ -1,0 +1,171 @@
+{
+  "status": "CLOSED_INDEPENDENT_RAW_NATIVE3_AND_FULL_RESTORATION_REVIEW_PASS",
+  "head": "cde78b2cc82e0a286174098458dab9815fdfd072",
+  "tree": "915103541d247f544c4492db25953b4268d9c2e3",
+  "run_id": 40958135976,
+  "job_id": 123743552217,
+  "artifact_id": 12937065328,
+  "original": {
+    "parts": [
+      {
+        "filename": "original-artifact.zip.part-001",
+        "bytes": 335563810,
+        "sha256": "a97416382e7a4dc75372c33d977c985b01c684201e1d21cf52ba1afddd3508a8"
+      },
+      {
+        "filename": "original-artifact.zip.part-002",
+        "bytes": 335563810,
+        "sha256": "f92d4a342568cd5cb9e5b1b521d6fd21be013cd6eb3b19df4ee3671f8e275680"
+      }
+    ],
+    "whole": {
+      "bytes": 671127620,
+      "sha256": "609ebff9739f359d39239d0e502aad20d4613f5a037a4e0e83f31b04b4b7652e"
+    },
+    "recombined_copy_created": false
+  },
+  "original_inventory": {
+    "members": 206,
+    "uncompressed_bytes_streamed": 4245434508,
+    "CRC_SHA_paths_all_verified": true
+  },
+  "source": {
+    "actual245_equals_public_source": true,
+    "SOURCE245_sha256": "a166d5267bb7fba995ac8256fcaccb4952bebef09aba02aa3660527c794d2e34",
+    "current174_sha256": "eeb47a301fd3241677bbae8c2a6189179cf8b5c82d6114561b2b47d52031a3e5",
+    "actual_nine_D1_files_match": true
+  },
+  "actual_three_ids": [
+    "D1_CONT_ADDED_CAPACITY_APPLY220_NAMED_UNDO",
+    "D1_CONT_MANUAL_REFUND230_NAMED_UNDO",
+    "D1_CONT_SECOND_INCREASE275_AFTER_SIGNED_HISTORY"
+  ],
+  "strict_counts": {
+    "PASS": 3
+  },
+  "independent_raw_checks": {
+    "full_snapshots": 70,
+    "command_pairs": 35,
+    "each_catalogue_classes": 22,
+    "each_raw_tables": 685,
+    "each_raw_sequences": 15,
+    "full_no_effect_pairs": 22,
+    "duplicate_UNDO_refusals": 4,
+    "positive_prefixes": 13,
+    "literal_monetary_ties": 35,
+    "exact_UUID_response_ties": 14,
+    "signed_event_inverse_journal_ties": 4,
+    "stock_cost_HPP_sale_payment_prior_history_conserved": true
+  },
+  "money": {
+    "APPLY220": {
+      "source_I": "250.00",
+      "available": "30.00",
+      "source_AR": "0.00",
+      "target_AR": "280.00",
+      "cash": "1000.00"
+    },
+    "APPLY_named_UNDO": {
+      "available": "250.00",
+      "target_AR": "500.00",
+      "cash": "1000.00"
+    },
+    "explicit_manual_REFUND230": {
+      "available": "20.00",
+      "target_AR": "500.00",
+      "cash": "770.00"
+    },
+    "REFUND_named_UNDO": {
+      "available": "250.00",
+      "cash": "1000.00"
+    },
+    "second_increase275": {
+      "ordinal": 2,
+      "source_I": "275.00",
+      "available": "275.00",
+      "source_net": "725.00",
+      "source_AR": "0.00",
+      "target_AR": "500.00",
+      "cash": "1000.00"
+    }
+  },
+  "committed_witness": {
+    "status": "ACTUAL_D1_AND_SIGNED_APPLY220_UNDO_COMMITTED",
+    "additional_case_credit": 0,
+    "exact_used_guard": "CREDIT_DE_AFTER_USE_REQUIRES_FULL_BACKUP_RESTORE",
+    "financial_truth_before_after_all_zero": true
+  },
+  "restore": {
+    "full_outer_all22_rawdata_all_sequences_roles_CP6_advisors_Auth": true,
+    "Auth_users_before": 0,
+    "Auth_users_after": 0,
+    "outer_restore_exit": 1,
+    "outer_restore_known_pg_cron_errors": 19,
+    "outer_restore_unexplained_errors": 0,
+    "separate_backup_drill": "RESTORED_IDENTICAL_ZERO_ERRORS",
+    "all_five_package_gates": {
+      "installed": true,
+      "primary_unchanged": true,
+      "backup_restore_drill": true,
+      "security_advisors": true,
+      "writer_runtime": true
+    },
+    "writer_runtime_status": "PASS"
+  },
+  "truth_limits": {
+    "actual_Auth_HTTP": 0,
+    "actual_browser": 0,
+    "actual_two_session_races": 0,
+    "fresh_Native13": 0,
+    "D_complete": false,
+    "E_complete": false,
+    "default_adopted": false,
+    "production_go": false,
+    "release_evidence": false,
+    "independent_acceptance": false,
+    "positive_sequence_allocations_rolled_back_by_savepoint": false,
+    "complete_sequence_restore_only_full_outer_backup": true,
+    "preDB_failed_artifact_fetch_receipts_retained": 1,
+    "startup_attempts": 1,
+    "ERP_tests_retried": false
+  },
+  "current_five_raws": [
+    {
+      "path": "CP7_CREDIT_D1_CONTINUATION_NATIVE3.json",
+      "bytes": 2482702,
+      "sha256": "2d7df185c70c0acd7f94e7a00e7391f2916e85a171d8f9282ee05da1400d2cbc",
+      "local_path": "/workspace/scratch/ef468a447ac6/evidence-private/d1-cde78-continuation3/raw/CP7_CREDIT_D1_CONTINUATION_NATIVE3.json"
+    },
+    {
+      "path": "CP7_CREDIT_D1_CONTINUATION_NATIVE3_CASES.json",
+      "bytes": 52096,
+      "sha256": "03feaad7538eb53d7dec5526c8df818a8dfc501cb886931ac009f646b05b3fc7",
+      "local_path": "/workspace/scratch/ef468a447ac6/evidence-private/d1-cde78-continuation3/raw/CP7_CREDIT_D1_CONTINUATION_NATIVE3_CASES.json"
+    },
+    {
+      "path": "T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 1470,
+      "sha256": "41326bbb3586a54cad9e33df54c1dd1af9cd2863103844c74ab12f457ff2354a",
+      "local_path": "/workspace/scratch/ef468a447ac6/evidence-private/d1-cde78-continuation3/raw/T3_BACKUP_RESTORE_DRILL.json"
+    },
+    {
+      "path": "T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "local_path": "/workspace/scratch/ef468a447ac6/evidence-private/d1-cde78-continuation3/raw/T3_PACKAGE_FILES_INSTALL.json"
+    },
+    {
+      "path": "T3_PACKAGE_INSTALL.json",
+      "bytes": 360448,
+      "sha256": "52551e81dbfc55a1db124de740969ed9419f5731d64528e4256529ef3e7decd4",
+      "local_path": "/workspace/scratch/ef468a447ac6/evidence-private/d1-cde78-continuation3/raw/T3_PACKAGE_INSTALL.json"
+    }
+  ],
+  "full_review": {
+    "path": "/workspace/scratch/ef468a447ac6/evidence-private/d1-cde78-continuation3/FINAL_INDEPENDENT_NATIVE3_RECEIPT.json",
+    "bytes": 139103,
+    "sha256": "a13f69076cde92725252fb79ec0f13476b6ca7f00db9250b842237e92628a21a"
+  },
+  "reviewer_DB_ERP_Native_source_ref_changes": 0,
+  "Originals_Library_reconstruction_receipt": "/workspace/scratch/ef468a447ac6/evidence-private/d1-cde78-continuation3/LIBRARY_ORIGINALS_RECONSTRUCTION_RECEIPT.json"
+}

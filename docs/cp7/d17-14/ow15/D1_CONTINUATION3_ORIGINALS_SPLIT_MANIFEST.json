@@ -1,0 +1,53 @@
+{
+  "contract": "cp7.readonly-originals-consecutive-parts.v1",
+  "status": "EXACT_ORIGINAL_ARCHIVE_SHA256_VERIFIED",
+  "source_original": {
+    "repository": "Hanjay6688/-erp-garment-ux",
+    "run_id": 40958135976,
+    "run_attempt": 1,
+    "workflow_path": ".github/workflows/cp7-credit-d1-current-parent-continuation3.yml",
+    "head_branch": "astra-a/credit-d1-current-parent-continuation3-20261030",
+    "head_sha": "cde78b2cc82e0a286174098458dab9815fdfd072",
+    "tree_sha": "915103541d247f544c4492db25953b4268d9c2e3",
+    "job_id": 123743552217,
+    "job_name": "D1 continuation3 above exact current Native13; complete restore",
+    "artifact_id": 12937065328,
+    "artifact_name": "cp7-a-credit-d1-current-parent-continuation3-1",
+    "archive_bytes": 671127620,
+    "archive_sha256": "609ebff9739f359d39239d0e502aad20d4613f5a037a4e0e83f31b04b4b7652e",
+    "part_bytes": [
+      335563810,
+      335563810
+    ]
+  },
+  "reconstruction": {
+    "operation": "concatenate raw part bytes in order; no headers or separators",
+    "archive_bytes": 671127620,
+    "archive_sha256": "609ebff9739f359d39239d0e502aad20d4613f5a037a4e0e83f31b04b4b7652e",
+    "original_archive_unchanged": true,
+    "parts": [
+      {
+        "order": 1,
+        "filename": "original-artifact.zip.part-001",
+        "transport_artifact_name": "cp7-d1-continuation3-original-12937065328-part-001",
+        "offset": 0,
+        "bytes": 335563810,
+        "sha256": "a97416382e7a4dc75372c33d977c985b01c684201e1d21cf52ba1afddd3508a8"
+      },
+      {
+        "order": 2,
+        "filename": "original-artifact.zip.part-002",
+        "transport_artifact_name": "cp7-d1-continuation3-original-12937065328-part-002",
+        "offset": 335563810,
+        "bytes": 335563810,
+        "sha256": "f92d4a342568cd5cb9e5b1b521d6fd21be013cd6eb3b19df4ee3671f8e275680"
+      }
+    ]
+  },
+  "transport_wrappers_are_not_original_archive": true,
+  "wrapper_digests_must_be_verified_before_extracting_exact_part": true,
+  "new_ERP_DB_Native_Auth_browser_execution_credit": 0,
+  "financial_acceptance": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

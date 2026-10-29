@@ -1,0 +1,71 @@
+{
+  "whole_original_bytes": 671127620,
+  "whole_original_sha256": "609ebff9739f359d39239d0e502aad20d4613f5a037a4e0e83f31b04b4b7652e",
+  "unmodified_consecutive_raw_parts": true,
+  "files": [
+    {
+      "local_path": "/workspace/scratch/ef468a447ac6/context/ERP_Originals_D1_Continuation3_cde78_20261030.zip.part-001",
+      "operation": "create_library_file",
+      "status": "succeeded",
+      "path": "/ERP_Originals_D1_Continuation3_cde78_20261030.zip.part-001",
+      "file_id": "file_00000000fc4082078164e4c5ddb0f744",
+      "library_file_id": "libfile_8757074a09108191a59c89a262130b85",
+      "file_name": "ERP_Originals_D1_Continuation3_cde78_20261030.zip.part-001",
+      "current_version_number": 0,
+      "restored_from_version_number": null,
+      "xattrs": [
+        {
+          "name": "user.library-file-version",
+          "value": "0"
+        }
+      ],
+      "directory_id": "libdir_2e507cb8fe148191a4c052c241b72f5e",
+      "mime_type": "application/zip",
+      "library_artifact_type": "other",
+      "file_size_bytes": 335563810
+    },
+    {
+      "local_path": "/workspace/scratch/ef468a447ac6/context/ERP_Originals_D1_Continuation3_cde78_20261030.zip.part-002",
+      "operation": "create_library_file",
+      "status": "succeeded",
+      "path": "/ERP_Originals_D1_Continuation3_cde78_20261030.zip.part-002",
+      "file_id": "file_0000000008d08207bdcb7e022d8ed2ea",
+      "library_file_id": "libfile_3abad54e9bb88191aa2632286274ccc2",
+      "file_name": "ERP_Originals_D1_Continuation3_cde78_20261030.zip.part-002",
+      "current_version_number": 0,
+      "restored_from_version_number": null,
+      "xattrs": [
+        {
+          "name": "user.library-file-version",
+          "value": "0"
+        }
+      ],
+      "directory_id": "libdir_2e507cb8fe148191a4c052c241b72f5e",
+      "mime_type": "application/zip",
+      "library_artifact_type": "other",
+      "file_size_bytes": 335563810
+    },
+    {
+      "local_path": "/workspace/scratch/ef468a447ac6/context/ERP_Originals_D1_Continuation3_cde78_20261030_manifest.json",
+      "operation": "create_library_file",
+      "status": "succeeded",
+      "path": "/ERP_Originals_D1_Continuation3_cde78_20261030_manifest.json",
+      "file_id": "file_00000000e0d482079e5a8b135adf5556",
+      "library_file_id": "libfile_36c94e87b43c8191a58f4134eb05c4ec",
+      "file_name": "ERP_Originals_D1_Continuation3_cde78_20261030_manifest.json",
+      "current_version_number": 0,
+      "restored_from_version_number": null,
+      "xattrs": [
+        {
+          "name": "user.library-file-version",
+          "value": "0"
+        }
+      ],
+      "directory_id": "libdir_2e507cb8fe148191a4c052c241b72f5e",
+      "mime_type": "application/json",
+      "library_artifact_type": "other",
+      "file_size_bytes": 2130
+    }
+  ],
+  "new_financial_execution_credit": 0
+}

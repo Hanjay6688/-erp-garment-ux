@@ -1,0 +1,91 @@
+{
+  "kind": "FINAL_METADATA_COMMIT_REAL_COMPLETE_SOURCE_GATE_NOT_REPEATED_NATIVE_OR_RUNTIME",
+  "status": "PASS",
+  "head": "be70b55aa7841376a555874c13a7feb0cd5a6e0b",
+  "tree": "2b86a81b9f3b14ff1ca775825ac01bb96afaa50d",
+  "SOURCE_sha256": "40fd65cc62ec57a91c8687d2a5cc85338ac1d422fe0a6fa56dcbf47ed0f8a034",
+  "source_pins": 99,
+  "allowed_changes": 100,
+  "diff_paths_above_public_c05": 92,
+  "metadata_only_paths_since_complete_runtime_proof": [
+    "scripts/current-sku-all-member-native23-qualification/FINAL_LOCAL_CHECK_RECEIPT.json",
+    "scripts/current-sku-all-member-native23-qualification/README.md",
+    "scripts/current-sku-all-member-native23-qualification/SOURCE.json",
+    "scripts/current-sku-all-member-native23-qualification/evidence/ISOLATED_FULL_SOURCE_ADMISSION_NO_DB.json.gz",
+    "scripts/current-sku-all-member-native23-qualification/evidence/ISOLATED_SOURCE_CONTEXT.json",
+    "scripts/current-sku-all-member-native23-qualification/evidence/SOURCE_3A0_CHECKED.json.gz"
+  ],
+  "complete_runtime_proof_checked_head": "3a0e3e53c47a28d0d8aa848c4a5947112d52b87e",
+  "whole_source_negatives": {
+    "status": "PASS",
+    "complete_real_source_gate_controls": {
+      "unknown_source": "SKU23_UNDECLARED_UNTRACKED_SOURCE",
+      "unknown_output_JSON": "SKU23_UNDECLARED_UNTRACKED_SOURCE",
+      "known_output_symlink": "GENERATED_OUTPUT_SYMLINK:cp6-proof/t3/SKU_TARGETED_CLIENT.json",
+      "known_output_symlink_ancestor": "SKU23_UNDECLARED_UNTRACKED_SOURCE"
+    },
+    "source_and_output_restored_byte_exact": true,
+    "source_status": "SKU23_EXACT_BD2_AND_ONE_FUNCTION_TRANSITION_ADMITTED",
+    "client_report_sha256": "61cb061f1bb1f38857cab99f6cd40e5a3ab1447906822eb1f442727165215b43",
+    "actual_Native_credit": 0,
+    "actual_DB_calls": 0,
+    "actual_network_calls": 0
+  },
+  "post_restore_source_status": "SKU23_EXACT_BD2_AND_ONE_FUNCTION_TRANSITION_ADMITTED",
+  "generated_output_classes": {
+    "preDB": {
+      "classification": "BOUNDED_GENERATED_NON_SOURCE_RECEIPTS",
+      "files": 112,
+      "frozen_worktree_receipts": 1,
+      "artifact_requests": 103,
+      "artifact_attempts": 105,
+      "expected_total_request_count": null,
+      "arbitrary_source_allowed": false,
+      "authoritative_Original_readers_unchanged": true,
+      "Native_qualification_credit": 0
+    },
+    "SKU": {
+      "classification": "SKU_GENERATED_NON_SOURCE_OUTPUTS_ONLY",
+      "accepted": 5,
+      "authoritative_Native21_reader_unchanged": true,
+      "client_scope": "EXACT_ORIGINAL8_SRC_FILES_72_CASES",
+      "Native_credit": 0
+    },
+    "later": {
+      "status": "GENERATED_OUTPUT_PROVENANCE_ONLY_NOT_NATIVE_PASS",
+      "classes": {
+        "startup": 2,
+        "aligned": 1,
+        "clone": 5,
+        "package": 2
+      },
+      "accepted": 10,
+      "SQL_diagnostics_executed": false,
+      "financial_oracles_changed": false,
+      "actual_Native_credit": 0
+    }
+  },
+  "before": {
+    "tracked_files": 13710,
+    "total_raw_bytes": 1008447387,
+    "all_actual_Git_blobs_and_modes_exact": true,
+    "inventory_sha256": "ba43ea678d71a58d7e9a982dd03a384ab934ab8292073925d95822a86b0b4e59",
+    "SOURCE_sha256": "40fd65cc62ec57a91c8687d2a5cc85338ac1d422fe0a6fa56dcbf47ed0f8a034"
+  },
+  "after": {
+    "tracked_files": 13710,
+    "total_raw_bytes": 1008447387,
+    "all_actual_Git_blobs_and_modes_exact": true,
+    "inventory_sha256": "ba43ea678d71a58d7e9a982dd03a384ab934ab8292073925d95822a86b0b4e59",
+    "SOURCE_sha256": "40fd65cc62ec57a91c8687d2a5cc85338ac1d422fe0a6fa56dcbf47ed0f8a034"
+  },
+  "forbidden_operations": [],
+  "runtime_imports_forbidden": true,
+  "physical_worktree": "/tmp/sku23-native23-final-be70b55aa784",
+  "actual_Native": 0,
+  "actual_Auth": 0,
+  "actual_browser": 0,
+  "actual_remote": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

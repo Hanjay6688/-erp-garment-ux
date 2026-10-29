@@ -1,0 +1,93 @@
+{
+  "contract": "cp7.s05.cdbdea-first-failure-causal-assessment.v1",
+  "classification": "READ_ONLY_ACTUAL_ORIGINAL_REVIEW_AND_SOURCE_DERIVATION_NOT_NEW_NATIVE_EXECUTION",
+  "run_id": 40959735086,
+  "job_id": 123749056356,
+  "workflow_conclusion": "failure",
+  "head": "cdbdea26ef8e4d15bfc16a362c6fad636d961ef2",
+  "tree": "2fa0ece14a460c3a68b6f8c717b51a5d710e973f",
+  "local_byte_equal_source_head": "bfed7e1a416597b13288ee2076436f7b686bd254",
+  "artifact_id": 12936299484,
+  "archive_bytes": 2064935,
+  "archive_sha256": "8416f603ed401076293b1f91a9ff3db21f1bf0477147efb7cf012b45e244c0fc",
+  "ZIP_CRC_all_members_pass": true,
+  "ZIP_member_count": 114,
+  "duplicate_names": false,
+  "strict_group_status": "INCOMPLETE",
+  "strict_counts": {
+    "INCOMPLETE": 10
+  },
+  "exact_case_ids": [
+    "S05_NATIVE_CATEGORY_VARIANTS_PO",
+    "S05_NATIVE_HISTORICAL_BOM",
+    "S05_NATIVE_LATE_INVOICE_COST_REVISIONS",
+    "S05_NATIVE_ZERO_REIMBURSEMENT",
+    "S05_NATIVE_EMPTY_AND_NO_OUTPUT",
+    "S05_NATIVE_WIB_COHORTS",
+    "S05_NATIVE_NOTE_DRAFT_INVERSE",
+    "S05_NATIVE_QC_INVERSE",
+    "S05_NATIVE_REWORK_NONE_RECORDED_RECIPIENT",
+    "S05_NATIVE_CURRENT_ACCESS_PRIVATE_ACL"
+  ],
+  "all_ten_first_errors": "S05_EXACT_NATIVE_LEGACY_EDITOR_BODY_REQUIRED",
+  "first_traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py\", line 165, in _strict_group_once\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-s05-native10-qualification/component.py\", line 130, in run\n    return operation()\n           ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_accessory_standard_report/cases.py\", line 126, in variants\n    f = fixture(cur, today); traces = []\n        ^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_accessory_standard_report/cases.py\", line 71, in fixture\n    recipe(cur, f, rate=rate, empty=empty, method=method)\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-s05-lawful-master-dates-qualification/recipe.py\", line 59, in __call__\n    raise ValueError('S05_EXACT_NATIVE_LEGACY_EDITOR_BODY_REQUIRED')\nValueError: S05_EXACT_NATIVE_LEGACY_EDITOR_BODY_REQUIRED\n",
+  "actual_fixture_master_events": [],
+  "actual_Native_business_cases_passed": 0,
+  "committed_used_witness_reached": false,
+  "all_ten_case_boundary_restored": true,
+  "group_complete_boundary_restored": true,
+  "outer_full22_allrows_allseq_equal": true,
+  "outer_raw_public_equal": true,
+  "outer_restore_components": {
+    "erp_platform_auth_schema_acl": true,
+    "all_public_catalog_members_and_row_hashes": true,
+    "erp_public_auth_function_definitions_owners_acls": true
+  },
+  "outer_baseline_roles_exact": true,
+  "CP6_restored": true,
+  "advisors_equal": true,
+  "advisor_gate": true,
+  "Auth_users_before": 0,
+  "Auth_users_after": 0,
+  "primary_unchanged": true,
+  "package_status": "ALL_STAGES_INSTALLED",
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "backup_drill_status": "RESTORED_IDENTICAL",
+  "source_definitions": {
+    "old_CP45_AB_editor": {
+      "path": "scripts/current-s05-lawful-master-dates-qualification/native-premise/save_accessory_bom_edit.sql",
+      "start_line": 1,
+      "source_file_sha256": "c64ea9d49be0dd994a0a7bbadef142a3ad74f2e2aed6d924d1cbdf2d87ed5fd0",
+      "source_derived_prosrc_sha256": "6c8c701395ab74874e7cb2f3e78f9912f7380a5a3199cba069b1aec6db09cd85",
+      "source_derived_prosrc_bytes": 3905,
+      "actual_current_runtime_capture": false
+    },
+    "current_AC_editor": {
+      "path": "supabase/release/cp6-t3/20260915031500_erp_v2_6_20ac_cp6_temporal_surface_closure.sql",
+      "start_line": 8136,
+      "source_file_sha256": "871fb32b1d4a1e7f9aedfef684b0f2c766092732c38552620eb394061f6240d1",
+      "source_derived_prosrc_sha256": "3f468d69475ebd199c7a0af7b4ee4486e6b71a5287a0ee63ac0e3dac24f15364",
+      "source_derived_prosrc_bytes": 3935,
+      "actual_current_runtime_capture": false
+    }
+  },
+  "exact_bounded_source_difference": {
+    "old": "to_char(v_eff,'YYYYMMDD-HH24MI')",
+    "new": "to_char((v_eff AT TIME ZONE 'Asia/Jakarta'),'YYYYMMDD-HH24MI')",
+    "occurrences": 1,
+    "all_other_body_bytes_equal": true
+  },
+  "source_cause": "The fixture ABI guard pins the old CP45/AB editor body, while the qualified AC source has the mandatory WIB version-label expression. Current installed editor guard check fails before every Native editor invocation. Failed query did not retain its observed digest; current AC hash is source-derived, not a captured runtime row.",
+  "product_financial_defect_demonstrated": false,
+  "proposed_scope": "qualification-only successor with exact current AC ABI/premise and current installed-parent authority; no product SQL/native/date/FIFO/money/assertion edits",
+  "old_Native10_callback_sha256": "e025be1280630dfb89f62261163194ce072b6f6ad6d909b56ff6c82f75778e98",
+  "new_Native_Auth_browser_executions": 0,
+  "independent_acceptance": false,
+  "production_go": false
+}

@@ -1,0 +1,618 @@
+{
+  "artifact_id": 12937998996,
+  "bytes": 27564211,
+  "sha256": "698b90b0bc3dfa52a8339d0b30464c2d98721594e56abdd53b07c959223f2bcc",
+  "members": 132,
+  "root_selected": [
+    {
+      "path": "ALIGNED_CHAIN.json",
+      "bytes": 17536,
+      "sha256": "105c58c9f8fd8d8422012ad1bd3ee03ca19498cdf9a92a316e5babada90faf8b"
+    },
+    {
+      "path": "CP7_SKU_ALL_MEMBER_NATIVE23.json",
+      "bytes": 5143295,
+      "sha256": "8564282e94e04aa9eb522b2c1657722e66eb1cdcdcc82be1a5f3648827e15ec7"
+    },
+    {
+      "path": "CP7_SKU_GROUP_COST_NATIVE3.json",
+      "bytes": 13716,
+      "sha256": "f7310091e6962f9e6e61c37179d7a7c5e3f5cdf0598085555345d8fbb732f87e"
+    },
+    {
+      "path": "CP7_SKU_PAIR_CONVERSION_NATIVE7.json",
+      "bytes": 20819,
+      "sha256": "4c3ff3f49908863eb4c959fd7a8c37d9d73e1b17f78ba73502b094b258a21166"
+    },
+    {
+      "path": "FROZEN_SOURCE_WORKTREES.json",
+      "bytes": 2291,
+      "sha256": "fcfd46f56915951f56384722477fef48967e1239cf63293d285fe12182cd4a78"
+    },
+    {
+      "path": "SKU_COST_ARTIFACT_COPY_RECEIPT.json",
+      "bytes": 4924,
+      "sha256": "712537aa803bef06360b658cdc80e0ce7419ce8d5947f653a239831140912b78"
+    },
+    {
+      "path": "SKU_COST_DIRECT_PARTIAL_INVERSE_REFUSAL_8deb1f71c5b2_FULL_CURRENT_CENSUS.json",
+      "bytes": 43056002,
+      "sha256": "b559695cc9769d326d6b61c977f0934fca6b0e256c46bd0fd95fb414d7184683"
+    },
+    {
+      "path": "SKU_COST_GROUP_INVERSE_FIRST_PART_ACTIVE_USAGE_75da1839f6ed_FULL_CURRENT_CENSUS.json",
+      "bytes": 43056002,
+      "sha256": "b559695cc9769d326d6b61c977f0934fca6b0e256c46bd0fd95fb414d7184683"
+    },
+    {
+      "path": "SKU_COST_LATE_INVOICE_SAME_UUID_REPLAY_0fac73825f2b_FULL_CURRENT_CENSUS.json",
+      "bytes": 43056004,
+      "sha256": "80d3e9f37c4c26be13f6418ded756a0d669bb50e78f291789ed794400489330a"
+    },
+    {
+      "path": "SKU_COST_PART_1_USAGE_SAME_UUID_REPLAY_6340d3f23de2_FULL_CURRENT_CENSUS.json",
+      "bytes": 43056002,
+      "sha256": "0677a07af36975d982a8cd7a1e9d1a0c7e19a0d86bd214a00ccd46cb24e01bea"
+    },
+    {
+      "path": "SKU_COST_PART_2_USAGE_SAME_UUID_REPLAY_9a566d134162_FULL_CURRENT_CENSUS.json",
+      "bytes": 43056002,
+      "sha256": "1ee0837a6c8a06a21e14db4b708f56e7fb9b62b656304789083f9e266343e4a3"
+    },
+    {
+      "path": "SKU_COST_RECOVERY_OVER_FIRST_PART_REFUSAL_37fb87d4a2e1_FULL_CURRENT_CENSUS.json",
+      "bytes": 43056004,
+      "sha256": "1081c288694965278468de28ef65831909bf52dd5461e6d682a00a6ff0418fa0"
+    },
+    {
+      "path": "SKU_TARGETED_CLIENT.json",
+      "bytes": 28277,
+      "sha256": "3a64ec31796939df6107a2d128f970f9203779a163b4b079960b1cdba32059cb"
+    },
+    {
+      "path": "T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 1470,
+      "sha256": "fd8f87f122905eadd900cded6f867d1104380a0c7edf4fa77251ff950db0daab"
+    },
+    {
+      "path": "T3_PACKAGE_INSTALL.json",
+      "bytes": 360429,
+      "sha256": "aa926c698576fd1a66ef818739f50c87517386a0be13580d2069c5a3a0730add"
+    },
+    {
+      "path": "T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    }
+  ],
+  "all_member_index": [
+    {
+      "path": "ALIGNED_CHAIN.json",
+      "size": 17536
+    },
+    {
+      "path": "ARTIFACT_FETCH/02e38ddedab1471f8200282ebd23e8a1-1.json",
+      "size": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/05b11727e99140cc8255c2a5e3c15054-1.json",
+      "size": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/06e2d9ff281543e4850064aa01f04134-1.json",
+      "size": 538
+    },
+    {
+      "path": "ARTIFACT_FETCH/07a7303c591749c2b9c803587ef21e5a-1.json",
+      "size": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/0c6838218676474a9ee2440fc5055e7b-1.json",
+      "size": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/09d39eebdcdc4341b4bc3a1f5d1a181e-1.json",
+      "size": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/0fdb42e99fd04a21bb32ade8d8b6b779-1.json",
+      "size": 540
+    },
+    {
+      "path": "ARTIFACT_FETCH/11d24a42a2224b86988e0d466a9b04f4-1.json",
+      "size": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/14109900b4704c5797bb3702e4a9b181-1.json",
+      "size": 538
+    },
+    {
+      "path": "ARTIFACT_FETCH/15e572c8336349e082ad52fca40498b2-1.json",
+      "size": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/1685fbcf5cca4102bf9fb8304e1273a7-1.json",
+      "size": 536
+    },
+    {
+      "path": "ARTIFACT_FETCH/168a82e37c2c4ad1a6301698847874ff-1.json",
+      "size": 537
+    },
+    {
+      "path": "ARTIFACT_FETCH/16f0fee3d2c44226810344b88aecca4f-1.json",
+      "size": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/1dfaf87614ec403db0e517c9c3ce592d-1.json",
+      "size": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/1e97af2daabd476793a48221135ec6f1-1.json",
+      "size": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/2052fd9e448f4fc1aea08f97cd809116-1.json",
+      "size": 538
+    },
+    {
+      "path": "ARTIFACT_FETCH/20a789a314e7499fb8da946050de7376-1.json",
+      "size": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/2bae2b280513412293b493e0acb2fe53-1.json",
+      "size": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/2f165ee8c6b74de19e7dc83e52e93ee7-1.json",
+      "size": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/32fc0994066f44b2a9a550f7504d60c4-1.json",
+      "size": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/3363f2b4a1a94812940e391a5e9a995e-1.json",
+      "size": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/337b012a792c448982851a525bf9162d-1.json",
+      "size": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/33f3c1a5e1934255b9d4713de5aa5cdb-1.json",
+      "size": 538
+    },
+    {
+      "path": "ARTIFACT_FETCH/372451fc108b46f5b683b5970de4de65-1.json",
+      "size": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/3724896f6c9d4ee5893c4e0aaa6ea074-1.json",
+      "size": 538
+    },
+    {
+      "path": "ARTIFACT_FETCH/372b7e9e0b9e49e29c75b819e1d0049d-1.json",
+      "size": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/3900e4bcc5e24943ad32e3c1eb0bf02e-1.json",
+      "size": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/3914c64eb0c14068bcaf8203ad28b25d-1.json",
+      "size": 537
+    },
+    {
+      "path": "ARTIFACT_FETCH/3c055cf48aca4ef9b827b96cf3312fad-1.json",
+      "size": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/3ced8229bbab4c1c916460c551c4d995-1.json",
+      "size": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/3d2d85c59d824909ab8d1dd5fc912c5e-1.json",
+      "size": 537
+    },
+    {
+      "path": "ARTIFACT_FETCH/42bf67395853401eb6e418e45b169207-1.json",
+      "size": 538
+    },
+    {
+      "path": "ARTIFACT_FETCH/481b313c0dcf418fbd0cda87f98370cf-1.json",
+      "size": 537
+    },
+    {
+      "path": "ARTIFACT_FETCH/4859e7b267714bdf8a2b349769454796-1.json",
+      "size": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/48aa5735fb9a4dff9ce9e0b787c15efd-1.json",
+      "size": 537
+    },
+    {
+      "path": "ARTIFACT_FETCH/4a3e1a5438eb4b93a7245facba7db599-1.json",
+      "size": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/4bd3910c982249c7a5eac8d31810142f-1.json",
+      "size": 537
+    },
+    {
+      "path": "ARTIFACT_FETCH/4d28f6e8f74a41308458cd95459d378b-1.json",
+      "size": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/4f61943c1cb5401f89df78408ba92f44-1.json",
+      "size": 540
+    },
+    {
+      "path": "ARTIFACT_FETCH/4ff080b07a354634aad73114804ea12a-1.json",
+      "size": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/57597bd38c5f4444b9ffaba7be6a25ae-1.json",
+      "size": 538
+    },
+    {
+      "path": "ARTIFACT_FETCH/602527152fbf498ab96056fe8cdc3337-1.json",
+      "size": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/59fdac67f9624870905af68f5c5928f8-1.json",
+      "size": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/63f7f3bc937e4140bc9e5fdcdaf98df9-1.json",
+      "size": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/68f9fa0d84da4a91ba25ec244bfe162b-1.json",
+      "size": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/707df9fb7ca34c9cba0fa7d23d1e895d-1.json",
+      "size": 536
+    },
+    {
+      "path": "ARTIFACT_FETCH/707df9fb7ca34c9cba0fa7d23d1e895d-1.stderr.txt",
+      "size": 36
+    },
+    {
+      "path": "ARTIFACT_FETCH/707df9fb7ca34c9cba0fa7d23d1e895d-1.stdout.txt",
+      "size": 139
+    },
+    {
+      "path": "ARTIFACT_FETCH/73e6ccecfee0442b9f8913023c7bac04-1.json",
+      "size": 538
+    },
+    {
+      "path": "ARTIFACT_FETCH/74db951e4c284dc3bb5ae6c667f88cf1-1.json",
+      "size": 538
+    },
+    {
+      "path": "ARTIFACT_FETCH/7571783bb5344e6e9f84a104736f8d46-1.json",
+      "size": 538
+    },
+    {
+      "path": "ARTIFACT_FETCH/774aadad7af04b95b7571983c160cbee-1.json",
+      "size": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/78605b147c1c46848c6e6d9885c84775-1.json",
+      "size": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/7c19801463a04ff3a9a3d3b6d4eaf4fc-1.json",
+      "size": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/7ddd89d41f8148268a3213d3c304f4ac-1.json",
+      "size": 537
+    },
+    {
+      "path": "ARTIFACT_FETCH/7f5622d86ab9432baf206850b38aa5d2-1.json",
+      "size": 538
+    },
+    {
+      "path": "ARTIFACT_FETCH/82db9807d87a4058a4077d8293a2bd25-1.json",
+      "size": 538
+    },
+    {
+      "path": "ARTIFACT_FETCH/8343d5f065404cfe977adfdac3ff627e-1.json",
+      "size": 538
+    },
+    {
+      "path": "ARTIFACT_FETCH/8c3d3dbc9e2c40f9b8a8e8d2bc6493ea-1.json",
+      "size": 538
+    },
+    {
+      "path": "ARTIFACT_FETCH/9717b28323c14cc9907db82bd534cce9-1.json",
+      "size": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/9a86f93afb254b0da0bf04bef5a22324-1.json",
+      "size": 538
+    },
+    {
+      "path": "ARTIFACT_FETCH/9cf8bffaf1564abab6b46aa27eded170-1.json",
+      "size": 537
+    },
+    {
+      "path": "ARTIFACT_FETCH/9d9cf8db87b44f8db25dae8e1c981cc0-1.json",
+      "size": 538
+    },
+    {
+      "path": "ARTIFACT_FETCH/a03a990c2e8848c498afe23a3d0012e5-1.json",
+      "size": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/a3baad842bc44dad827aec915b249f62-1.json",
+      "size": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/a3bc748a581846578f4345b88bfb7ab4-1.json",
+      "size": 538
+    },
+    {
+      "path": "ARTIFACT_FETCH/a48acbd9fd374151b0f4079f55691b7d-1.json",
+      "size": 537
+    },
+    {
+      "path": "ARTIFACT_FETCH/a6746c7d95d345449a2a5c962d38c4c0-1.json",
+      "size": 538
+    },
+    {
+      "path": "ARTIFACT_FETCH/a7569c89f735482090169fb168d65b3f-1.json",
+      "size": 540
+    },
+    {
+      "path": "ARTIFACT_FETCH/a814a101d4a148acb8a9caa272fcc961-1.json",
+      "size": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/a89f20ffb8974b6090ce83cfd0f075d3-1.json",
+      "size": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/aa746f4d50e945b6b376e901697118a7-1.json",
+      "size": 536
+    },
+    {
+      "path": "ARTIFACT_FETCH/ae466957018c49fc97a5d72cb34f773d-1.json",
+      "size": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/b1b1901d93ce40cf96333cd9cac21824-1.json",
+      "size": 537
+    },
+    {
+      "path": "ARTIFACT_FETCH/b5fd2341d5b24224ba35d2dc21db2c99-1.json",
+      "size": 537
+    },
+    {
+      "path": "ARTIFACT_FETCH/c015a3a763c64fdea060dc8233249a10-1.json",
+      "size": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/c5bb5257ed774838b615497c9c685d0a-1.json",
+      "size": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/c5d3c762597146bf8aed5babfe9598dc-1.json",
+      "size": 537
+    },
+    {
+      "path": "ARTIFACT_FETCH/c920e62383a9470c9d8144806a2fc2f1-1.json",
+      "size": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/cd5c6ebdc11949ca860600bd51deb279-1.json",
+      "size": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/cf86aa5111614c848fd62058ebb09f17-1.json",
+      "size": 537
+    },
+    {
+      "path": "ARTIFACT_FETCH/d23d1be0c0984dbf9ef045ba0a4359ee-1.json",
+      "size": 537
+    },
+    {
+      "path": "ARTIFACT_FETCH/d2523e5bd1884bcc95e50ff1c25fe28a-1.json",
+      "size": 538
+    },
+    {
+      "path": "ARTIFACT_FETCH/d29affe73cc646c39ba00ce8fb55ca1d-1.json",
+      "size": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/d3ec0ea41d1d45a9a33e617bf57b6a7f-1.json",
+      "size": 540
+    },
+    {
+      "path": "ARTIFACT_FETCH/d55e38961f9745f085f79a12a7a3e56b-1.json",
+      "size": 537
+    },
+    {
+      "path": "ARTIFACT_FETCH/d6514f5db96d40ca87944c4fb8562446-1.json",
+      "size": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/dd84859e80454e09bc2939edbd5e3d4e-1.json",
+      "size": 538
+    },
+    {
+      "path": "ARTIFACT_FETCH/e0cf1f4adcb8438cbeae3c4923b5c721-1.json",
+      "size": 538
+    },
+    {
+      "path": "ARTIFACT_FETCH/e291de93c07a44188d6b66643dc772e7-1.json",
+      "size": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/e43a3000ad4f44f1ad6d3965beceeb4d-1.json",
+      "size": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/e74dea3f436f47c1a429507d0cb3fbbb-1.json",
+      "size": 538
+    },
+    {
+      "path": "ARTIFACT_FETCH/ed0b4eb0024b453cacc2e49f6275bcbe-1.json",
+      "size": 538
+    },
+    {
+      "path": "ARTIFACT_FETCH/ee480670b9e84d1bb7b41e12db112f3c-1.json",
+      "size": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/ee7adea623e84ff0a0f65c7c0a73e880-1.json",
+      "size": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/f1927aa379494ff39b141603ee9d0f12-1.json",
+      "size": 538
+    },
+    {
+      "path": "ARTIFACT_FETCH/f399e341209e4ec7aa2a31389941c22c-1.json",
+      "size": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/f9097d04b8314ee8b36130100337a9d8-1.json",
+      "size": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/f91d293bf99442b8bf7f19338800c28e-1.json",
+      "size": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/f95722ad357146fa86b58b5a5e694b7c-1.json",
+      "size": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/fb7274b0892a4a0c9618fe29961d1e64-1.json",
+      "size": 537
+    },
+    {
+      "path": "ARTIFACT_FETCH/fc75ba4ab8b3448187d6a4da11d86170-1.json",
+      "size": 538
+    },
+    {
+      "path": "ARTIFACT_FETCH/fe72e26bffd74490afd18e16f64cbb7c-1.json",
+      "size": 539
+    },
+    {
+      "path": "ARTIFACT_FETCH/ff24ae7310dc44c4916e6c68d88656e8-1.json",
+      "size": 538
+    },
+    {
+      "path": "ARTIFACT_FETCH/ffa600cac5f949098205296b8208eb5c-1.json",
+      "size": 539
+    },
+    {
+      "path": "CLONE_install.clone-erp.sql",
+      "size": 5385623
+    },
+    {
+      "path": "CLONE_install.connection-fence.txt",
+      "size": 494
+    },
+    {
+      "path": "CLONE_install.database-identity.txt",
+      "size": 3074
+    },
+    {
+      "path": "CLONE_install.source-erp.sql",
+      "size": 5385623
+    },
+    {
+      "path": "CLONE_install.txt",
+      "size": 291
+    },
+    {
+      "path": "CP7_SKU_ALL_MEMBER_NATIVE23.json",
+      "size": 5143295
+    },
+    {
+      "path": "CP7_SKU_GROUP_COST_NATIVE3.json",
+      "size": 13716
+    },
+    {
+      "path": "CP7_SKU_PAIR_CONVERSION_NATIVE7.json",
+      "size": 20819
+    },
+    {
+      "path": "FROZEN_SOURCE_WORKTREES.json",
+      "size": 2291
+    },
+    {
+      "path": "RETAINED_SKU21C/CP7_SKU_PAIR_CONVERSION_NATIVE.json",
+      "size": 2963678
+    },
+    {
+      "path": "RETAINED_SKU21C/FETCH_RECEIPT.json",
+      "size": 851
+    },
+    {
+      "path": "RETAINED_SKU21C/ORIGINAL.zip",
+      "size": 1975884
+    },
+    {
+      "path": "RETAINED_SKU21C/T3_PACKAGE_INSTALL.json",
+      "size": 360413
+    },
+    {
+      "path": "SKU_COST_ARTIFACT_COPY_RECEIPT.json",
+      "size": 4924
+    },
+    {
+      "path": "SKU_COST_DIRECT_PARTIAL_INVERSE_REFUSAL_8deb1f71c5b2_FULL_CURRENT_CENSUS.json",
+      "size": 43056002
+    },
+    {
+      "path": "SKU_COST_GROUP_INVERSE_FIRST_PART_ACTIVE_USAGE_75da1839f6ed_FULL_CURRENT_CENSUS.json",
+      "size": 43056002
+    },
+    {
+      "path": "SKU_COST_LATE_INVOICE_SAME_UUID_REPLAY_0fac73825f2b_FULL_CURRENT_CENSUS.json",
+      "size": 43056004
+    },
+    {
+      "path": "SKU_COST_PART_1_USAGE_SAME_UUID_REPLAY_6340d3f23de2_FULL_CURRENT_CENSUS.json",
+      "size": 43056002
+    },
+    {
+      "path": "SKU_COST_PART_2_USAGE_SAME_UUID_REPLAY_9a566d134162_FULL_CURRENT_CENSUS.json",
+      "size": 43056002
+    },
+    {
+      "path": "SKU_COST_RECOVERY_OVER_FIRST_PART_REFUSAL_37fb87d4a2e1_FULL_CURRENT_CENSUS.json",
+      "size": 43056004
+    },
+    {
+      "path": "SKU_TARGETED_CLIENT.json",
+      "size": 28277
+    },
+    {
+      "path": "T3_BACKUP_RESTORE_DRILL.json",
+      "size": 1470
+    },
+    {
+      "path": "T3_PACKAGE_INSTALL.json",
+      "size": 360429
+    },
+    {
+      "path": "T3_PACKAGE_FILES_INSTALL.json",
+      "size": 1806
+    },
+    {
+      "path": "disposable-startup-attempts/STARTUP_ATTEMPTS.json",
+      "size": 525
+    },
+    {
+      "path": "disposable-startup-attempts/attempt-1-start.log",
+      "size": 17722
+    }
+  ]
+}

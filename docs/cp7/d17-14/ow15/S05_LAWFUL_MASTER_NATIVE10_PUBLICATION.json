@@ -1,0 +1,15 @@
+{
+  "repository": "Hanjay6688/-erp-garment-ux",
+  "branch": "astra-a/s05-lawful-master-dates-20261030",
+  "head": "cdbdea26ef8e4d15bfc16a362c6fad636d961ef2",
+  "tree": "2fa0ece14a460c3a68b6f8c717b51a5d710e973f",
+  "parent": "911a08e04f741ead342d6436a2f4b003434c0070",
+  "local_head": "bfed7e1a416597b13288ee2076436f7b686bd254",
+  "paths": 42,
+  "exact_local_tree": true,
+  "Native_case_ids": 10,
+  "actual_Native_at_publication": 0,
+  "failed911_is_runtime_prerequisite": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

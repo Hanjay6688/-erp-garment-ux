@@ -1,0 +1,2925 @@
+{
+  "status": "CLOSED_INDEPENDENT_RAW_NATIVE3_AND_FULL_RESTORATION_REVIEW_PASS",
+  "identity": {
+    "head": "cde78b2cc82e0a286174098458dab9815fdfd072",
+    "tree": "915103541d247f544c4492db25953b4268d9c2e3",
+    "run_id": 40958135976,
+    "job_id": 123743552217,
+    "artifact_id": 12937065328,
+    "archive_bytes": 671127620,
+    "archive_sha256": "609ebff9739f359d39239d0e502aad20d4613f5a037a4e0e83f31b04b4b7652e"
+  },
+  "transport": {
+    "parts": [
+      {
+        "filename": "original-artifact.zip.part-001",
+        "bytes": 335563810,
+        "sha256": "a97416382e7a4dc75372c33d977c985b01c684201e1d21cf52ba1afddd3508a8"
+      },
+      {
+        "filename": "original-artifact.zip.part-002",
+        "bytes": 335563810,
+        "sha256": "f92d4a342568cd5cb9e5b1b521d6fd21be013cd6eb3b19df4ee3671f8e275680"
+      }
+    ],
+    "whole": {
+      "bytes": 671127620,
+      "sha256": "609ebff9739f359d39239d0e502aad20d4613f5a037a4e0e83f31b04b4b7652e"
+    },
+    "recombined_copy_created": false
+  },
+  "source": {
+    "actual_qualification_equals_public_SOURCE245": true,
+    "SOURCE245_sha256": "a166d5267bb7fba995ac8256fcaccb4952bebef09aba02aa3660527c794d2e34",
+    "retained_current_SOURCE174_sha256": "eeb47a301fd3241677bbae8c2a6189179cf8b5c82d6114561b2b47d52031a3e5",
+    "actual_current_D1_nine_business_files_match_public_head": {
+      "review.sql": "88681bf674a6b6e8aeda46830a4a27b18bdda84cfcba6868bbb08e3f84fdc382",
+      "facts.sql": "ddfcf8583cf86a916e04aa5630d6262a32e48919dbd0a4c913a09166ca2f8334",
+      "owning.sql": "410afb540f455ce6781d8bf09ee6bd6f66420a2f17d3c5474720a642fdcc9cae",
+      "proof.sql": "8d81f2d8d9384c08eda28eb0b86a6c96b97f2ef8178adbe4b7d1dab01b8cf7ef",
+      "posting.sql": "e200a62d91c7975e67a88eb37c47d89dd739eb8f63fc0a1ee7063aaec0f9ce5b",
+      "materialize.sql": "206c18b517aef54ddc5757fd156a6c7d8d4a2c3240f62779773a4fff74fe6154",
+      "closure.sql": "e21744ba0d98e963ccba9ca916247b797cb2c930b889e2eb41288a12f1888972",
+      "native_delta.py": "d6157ad24dd22ca4810df12668090eb74a3382e6ceb3e4c0954a037a7016c664",
+      "composition.py": "4f7086c157e977cacf5f4281d6a2748113029fd7c2c441837e254c9fca9422af"
+    },
+    "retained_Native13_not_reexecuted": true,
+    "fresh_Native13_credit": 0
+  },
+  "actual_three_IDs": [
+    "D1_CONT_ADDED_CAPACITY_APPLY220_NAMED_UNDO",
+    "D1_CONT_MANUAL_REFUND230_NAMED_UNDO",
+    "D1_CONT_SECOND_INCREASE275_AFTER_SIGNED_HISTORY"
+  ],
+  "strict_status": "PASS",
+  "strict_counts": {
+    "PASS": 3
+  },
+  "exact_strict_original_matches_embedded_native": true,
+  "actual_Native_cases": 3,
+  "raw_snapshot_independent_checks": {
+    "snapshots": 70,
+    "command_pairs": 35,
+    "full_no_effect_pairs": 22,
+    "refusals": 4,
+    "positive_prefixes": 13,
+    "each_has_catalogue_classes": 22,
+    "each_has_tables": 685,
+    "each_has_sequences": 15,
+    "all_raw_PG_JSON_SHA_and_row_counts_match_data_census": true,
+    "dropped_fields": [],
+    "pairs": [
+      {
+        "before_original": "D1_CONT_APPLY220_NAMED_UNDO_2784EBB45F694B68AEB326C90C71626B_BEFORE.json",
+        "after_original": "D1_CONT_APPLY220_NAMED_UNDO_2784EBB45F694B68AEB326C90C71626B_RESULT.json",
+        "referenced_in_main": true,
+        "catalogue_classes": 22,
+        "tables": 685,
+        "sequences": 15,
+        "raw_rows_before": 2562,
+        "raw_rows_after": 2573,
+        "before_native_digest": "f332793e3d8d43ccc9f853664838f52bb8afc41943ce797bad5a50a5e58284b3",
+        "after_native_digest": "f87c10fbe24d1a886fa372c78bc23fbcc52e23212f846b1827e399957a8af9c7",
+        "exact_full_no_effect": false,
+        "refusal": false,
+        "before_financial": {
+          "source": {
+            "I": "250.00",
+            "available": "30.00",
+            "net": "750.00",
+            "AR": "0.00"
+          },
+          "target": {
+            "net": "500.00",
+            "P": "0.00",
+            "U": "220.00",
+            "I": "0.00",
+            "E": "220.00",
+            "AR": "280.00"
+          },
+          "cash": "1000.00"
+        },
+        "after_financial": {
+          "source": {
+            "I": "250.00",
+            "available": "250.00",
+            "net": "750.00",
+            "AR": "0.00"
+          },
+          "target": {
+            "net": "500.00",
+            "P": "0.00",
+            "U": "0.00",
+            "I": "0.00",
+            "E": "0.00",
+            "AR": "500.00"
+          },
+          "cash": "1000.00"
+        },
+        "static_stock_HPP_sale_payment_retained": true,
+        "immutable_prior_history_retained": true
+      },
+      {
+        "before_original": "D1_CONT_APPLY220_NAMED_UNDO_REVIEW_A31783679F0B4D8C87A50F1FE487BC3A_BEFORE.json",
+        "after_original": "D1_CONT_APPLY220_NAMED_UNDO_REVIEW_A31783679F0B4D8C87A50F1FE487BC3A_RESULT.json",
+        "referenced_in_main": true,
+        "catalogue_classes": 22,
+        "tables": 685,
+        "sequences": 15,
+        "raw_rows_before": 2562,
+        "raw_rows_after": 2562,
+        "before_native_digest": "f332793e3d8d43ccc9f853664838f52bb8afc41943ce797bad5a50a5e58284b3",
+        "after_native_digest": "f332793e3d8d43ccc9f853664838f52bb8afc41943ce797bad5a50a5e58284b3",
+        "exact_full_no_effect": true,
+        "refusal": false,
+        "before_financial": {
+          "source": {
+            "I": "250.00",
+            "available": "30.00",
+            "net": "750.00",
+            "AR": "0.00"
+          },
+          "target": {
+            "net": "500.00",
+            "P": "0.00",
+            "U": "220.00",
+            "I": "0.00",
+            "E": "220.00",
+            "AR": "280.00"
+          },
+          "cash": "1000.00"
+        },
+        "after_financial": {
+          "source": {
+            "I": "250.00",
+            "available": "30.00",
+            "net": "750.00",
+            "AR": "0.00"
+          },
+          "target": {
+            "net": "500.00",
+            "P": "0.00",
+            "U": "220.00",
+            "I": "0.00",
+            "E": "220.00",
+            "AR": "280.00"
+          },
+          "cash": "1000.00"
+        },
+        "static_stock_HPP_sale_payment_retained": true,
+        "immutable_prior_history_retained": true
+      },
+      {
+        "before_original": "D1_CONT_APPLY220_OLD_D1_SAME_UUID_333E3FB1530B4A8D9167F654B63982BE_BEFORE.json",
+        "after_original": "D1_CONT_APPLY220_OLD_D1_SAME_UUID_333E3FB1530B4A8D9167F654B63982BE_RESULT.json",
+        "referenced_in_main": true,
+        "catalogue_classes": 22,
+        "tables": 685,
+        "sequences": 15,
+        "raw_rows_before": 2573,
+        "raw_rows_after": 2573,
+        "before_native_digest": "f87c10fbe24d1a886fa372c78bc23fbcc52e23212f846b1827e399957a8af9c7",
+        "after_native_digest": "f87c10fbe24d1a886fa372c78bc23fbcc52e23212f846b1827e399957a8af9c7",
+        "exact_full_no_effect": true,
+        "refusal": false,
+        "before_financial": {
+          "source": {
+            "I": "250.00",
+            "available": "250.00",
+            "net": "750.00",
+            "AR": "0.00"
+          },
+          "target": {
+            "net": "500.00",
+            "P": "0.00",
+            "U": "0.00",
+            "I": "0.00",
+            "E": "0.00",
+            "AR": "500.00"
+          },
+          "cash": "1000.00"
+        },
+        "after_financial": {
+          "source": {
+            "I": "250.00",
+            "available": "250.00",
+            "net": "750.00",
+            "AR": "0.00"
+          },
+          "target": {
+            "net": "500.00",
+            "P": "0.00",
+            "U": "0.00",
+            "I": "0.00",
+            "E": "0.00",
+            "AR": "500.00"
+          },
+          "cash": "1000.00"
+        },
+        "static_stock_HPP_sale_payment_retained": true,
+        "immutable_prior_history_retained": true
+      },
+      {
+        "before_original": "D1_CONT_APPLY220_POST_734F85E352764FE0880EC00D42642328_BEFORE.json",
+        "after_original": "D1_CONT_APPLY220_POST_734F85E352764FE0880EC00D42642328_RESULT.json",
+        "referenced_in_main": true,
+        "catalogue_classes": 22,
+        "tables": 685,
+        "sequences": 15,
+        "raw_rows_before": 2551,
+        "raw_rows_after": 2562,
+        "before_native_digest": "83d623ac77223e263c35107a80415f0d26b30c1d837c894307005a12c20ab46b",
+        "after_native_digest": "f332793e3d8d43ccc9f853664838f52bb8afc41943ce797bad5a50a5e58284b3",
+        "exact_full_no_effect": false,
+        "refusal": false,
+        "before_financial": {
+          "source": {
+            "I": "250.00",
+            "available": "250.00",
+            "net": "750.00",
+            "AR": "0.00"
+          },
+          "target": {
+            "net": "500.00",
+            "P": "0.00",
+            "U": "0.00",
+            "I": "0.00",
+            "E": "0.00",
+            "AR": "500.00"
+          },
+          "cash": "1000.00"
+        },
+        "after_financial": {
+          "source": {
+            "I": "250.00",
+            "available": "30.00",
+            "net": "750.00",
+            "AR": "0.00"
+          },
+          "target": {
+            "net": "500.00",
+            "P": "0.00",
+            "U": "220.00",
+            "I": "0.00",
+            "E": "220.00",
+            "AR": "280.00"
+          },
+          "cash": "1000.00"
+        },
+        "static_stock_HPP_sale_payment_retained": true,
+        "immutable_prior_history_retained": true
+      },
+      {
+        "before_original": "D1_CONT_APPLY220_POST_SAME_UUID_7290EB13FFA446F8BFADA8147B24D0A8_BEFORE.json",
+        "after_original": "D1_CONT_APPLY220_POST_SAME_UUID_7290EB13FFA446F8BFADA8147B24D0A8_RESULT.json",
+        "referenced_in_main": true,
+        "catalogue_classes": 22,
+        "tables": 685,
+        "sequences": 15,
+        "raw_rows_before": 2562,
+        "raw_rows_after": 2562,
+        "before_native_digest": "f332793e3d8d43ccc9f853664838f52bb8afc41943ce797bad5a50a5e58284b3",
+        "after_native_digest": "f332793e3d8d43ccc9f853664838f52bb8afc41943ce797bad5a50a5e58284b3",
+        "exact_full_no_effect": true,
+        "refusal": false,
+        "before_financial": {
+          "source": {
+            "I": "250.00",
+            "available": "30.00",
+            "net": "750.00",
+            "AR": "0.00"
+          },
+          "target": {
+            "net": "500.00",
+            "P": "0.00",
+            "U": "220.00",
+            "I": "0.00",
+            "E": "220.00",
+            "AR": "280.00"
+          },
+          "cash": "1000.00"
+        },
+        "after_financial": {
+          "source": {
+            "I": "250.00",
+            "available": "30.00",
+            "net": "750.00",
+            "AR": "0.00"
+          },
+          "target": {
+            "net": "500.00",
+            "P": "0.00",
+            "U": "220.00",
+            "I": "0.00",
+            "E": "220.00",
+            "AR": "280.00"
+          },
+          "cash": "1000.00"
+        },
+        "static_stock_HPP_sale_payment_retained": true,
+        "immutable_prior_history_retained": true
+      },
+      {
+        "before_original": "D1_CONT_APPLY220_SECOND_UNDO_NEW_UUID_C3A336F0EDA44F77BF0D1832F3549464_BEFORE.json",
+        "after_original": "D1_CONT_APPLY220_SECOND_UNDO_NEW_UUID_C3A336F0EDA44F77BF0D1832F3549464_REFUSAL.json",
+        "referenced_in_main": true,
+        "catalogue_classes": 22,
+        "tables": 685,
+        "sequences": 15,
+        "raw_rows_before": 2573,
+        "raw_rows_after": 2573,
+        "before_native_digest": "f87c10fbe24d1a886fa372c78bc23fbcc52e23212f846b1827e399957a8af9c7",
+        "after_native_digest": "f87c10fbe24d1a886fa372c78bc23fbcc52e23212f846b1827e399957a8af9c7",
+        "exact_full_no_effect": true,
+        "refusal": true,
+        "before_financial": {
+          "source": {
+            "I": "250.00",
+            "available": "250.00",
+            "net": "750.00",
+            "AR": "0.00"
+          },
+          "target": {
+            "net": "500.00",
+            "P": "0.00",
+            "U": "0.00",
+            "I": "0.00",
+            "E": "0.00",
+            "AR": "500.00"
+          },
+          "cash": "1000.00"
+        },
+        "after_financial": {
+          "source": {
+            "I": "250.00",
+            "available": "250.00",
+            "net": "750.00",
+            "AR": "0.00"
+          },
+          "target": {
+            "net": "500.00",
+            "P": "0.00",
+            "U": "0.00",
+            "I": "0.00",
+            "E": "0.00",
+            "AR": "500.00"
+          },
+          "cash": "1000.00"
+        },
+        "static_stock_HPP_sale_payment_retained": true,
+        "immutable_prior_history_retained": true
+      },
+      {
+        "before_original": "D1_CONT_APPLY220_UNDO_SAME_UUID_26F3A8E92E4A406B98962DA673A235E4_BEFORE.json",
+        "after_original": "D1_CONT_APPLY220_UNDO_SAME_UUID_26F3A8E92E4A406B98962DA673A235E4_RESULT.json",
+        "referenced_in_main": true,
+        "catalogue_classes": 22,
+        "tables": 685,
+        "sequences": 15,
+        "raw_rows_before": 2573,
+        "raw_rows_after": 2573,
+        "before_native_digest": "f87c10fbe24d1a886fa372c78bc23fbcc52e23212f846b1827e399957a8af9c7",
+        "after_native_digest": "f87c10fbe24d1a886fa372c78bc23fbcc52e23212f846b1827e399957a8af9c7",
+        "exact_full_no_effect": true,
+        "refusal": false,
+        "before_financial": {
+          "source": {
+            "I": "250.00",
+            "available": "250.00",
+            "net": "750.00",
+            "AR": "0.00"
+          },
+          "target": {
+            "net": "500.00",
+            "P": "0.00",
+            "U": "0.00",
+            "I": "0.00",
+            "E": "0.00",
+            "AR": "500.00"
+          },
+          "cash": "1000.00"
+        },
+        "after_financial": {
+          "source": {
+            "I": "250.00",
+            "available": "250.00",
+            "net": "750.00",
+            "AR": "0.00"
+          },
+          "target": {
+            "net": "500.00",
+            "P": "0.00",
+            "U": "0.00",
+            "I": "0.00",
+            "E": "0.00",
+            "AR": "500.00"
+          },
+          "cash": "1000.00"
+        },
+        "static_stock_HPP_sale_payment_retained": true,
+        "immutable_prior_history_retained": true
+      },
+      {
+        "before_original": "D1_CONT_APPLY_D1_250_C2BDB97967674E5993673EF96C33465D_BEFORE.json",
+        "after_original": "D1_CONT_APPLY_D1_250_C2BDB97967674E5993673EF96C33465D_RESULT.json",
+        "referenced_in_main": true,
+        "catalogue_classes": 22,
+        "tables": 685,
+        "sequences": 15,
+        "raw_rows_before": 2487,
+        "raw_rows_after": 2551,
+        "before_native_digest": "847a232b0863791ca43db37950e85352cbc29df3a9001905e280c8906dac698f",
+        "after_native_digest": "83d623ac77223e263c35107a80415f0d26b30c1d837c894307005a12c20ab46b",
+        "exact_full_no_effect": false,
+        "refusal": false,
+        "before_financial": {
+          "source": {
+            "I": "200.00",
+            "available": "200.00",
+            "net": "800.00",
+            "AR": "0.00"
+          },
+          "target": {
+            "net": "500.00",
+            "P": "0.00",
+            "U": "0.00",
+            "I": "0.00",
+            "E": "0.00",
+            "AR": "500.00"
+          },
+          "cash": "1000.00"
+        },
+        "after_financial": {
+          "source": {
+            "I": "250.00",
+            "available": "250.00",
+            "net": "750.00",
+            "AR": "0.00"
+          },
+          "target": {
+            "net": "500.00",
+            "P": "0.00",
+            "U": "0.00",
+            "I": "0.00",
+            "E": "0.00",
+            "AR": "500.00"
+          },
+          "cash": "1000.00"
+        },
+        "static_stock_HPP_sale_payment_retained": true,
+        "immutable_prior_history_retained": true
+      },
+      {
+        "before_original": "D1_CONT_COMMITTED_APPLY220_NAMED_UNDO_E5C3C1AE2CE842A6B02BB651347568EA_BEFORE.json",
+        "after_original": "D1_CONT_COMMITTED_APPLY220_NAMED_UNDO_E5C3C1AE2CE842A6B02BB651347568EA_RESULT.json",
+        "referenced_in_main": true,
+        "catalogue_classes": 22,
+        "tables": 685,
+        "sequences": 15,
+        "raw_rows_before": 2562,
+        "raw_rows_after": 2573,
+        "before_native_digest": "3ba8586ff88a9c6a233226e5dccc91763341dc1ffc388d910b99099bfbdb3eb8",
+        "after_native_digest": "8f5b92214b0072a7bb1f1a7f8be5e8373935fcea99a00ecb3661794c66f2ec98",
+        "exact_full_no_effect": false,
+        "refusal": false,
+        "before_financial": {
+          "source": {
+            "I": "250.00",
+            "available": "30.00",
+            "net": "750.00",
+            "AR": "0.00"
+          },
+          "target": {
+            "net": "500.00",
+            "P": "0.00",
+            "U": "220.00",
+            "I": "0.00",
+            "E": "220.00",
+            "AR": "280.00"
+          },
+          "cash": "1000.00"
+        },
+        "after_financial": {
+          "source": {
+            "I": "250.00",
+            "available": "250.00",
+            "net": "750.00",
+            "AR": "0.00"
+          },
+          "target": {
+            "net": "500.00",
+            "P": "0.00",
+            "U": "0.00",
+            "I": "0.00",
+            "E": "0.00",
+            "AR": "500.00"
+          },
+          "cash": "1000.00"
+        },
+        "static_stock_HPP_sale_payment_retained": true,
+        "immutable_prior_history_retained": true
+      },
+      {
+        "before_original": "D1_CONT_COMMITTED_APPLY220_NAMED_UNDO_REVIEW_77FF8E7F81184C9981DC98C2B4D4F8BD_BEFORE.json",
+        "after_original": "D1_CONT_COMMITTED_APPLY220_NAMED_UNDO_REVIEW_77FF8E7F81184C9981DC98C2B4D4F8BD_RESULT.json",
+        "referenced_in_main": true,
+        "catalogue_classes": 22,
+        "tables": 685,
+        "sequences": 15,
+        "raw_rows_before": 2562,
+        "raw_rows_after": 2562,
+        "before_native_digest": "3ba8586ff88a9c6a233226e5dccc91763341dc1ffc388d910b99099bfbdb3eb8",
+        "after_native_digest": "3ba8586ff88a9c6a233226e5dccc91763341dc1ffc388d910b99099bfbdb3eb8",
+        "exact_full_no_effect": true,
+        "refusal": false,
+        "before_financial": {
+          "source": {
+            "I": "250.00",
+            "available": "30.00",
+            "net": "750.00",
+            "AR": "0.00"
+          },
+          "target": {
+            "net": "500.00",
+            "P": "0.00",
+            "U": "220.00",
+            "I": "0.00",
+            "E": "220.00",
+            "AR": "280.00"
+          },
+          "cash": "1000.00"
+        },
+        "after_financial": {
+          "source": {
+            "I": "250.00",
+            "available": "30.00",
+            "net": "750.00",
+            "AR": "0.00"
+          },
+          "target": {
+            "net": "500.00",
+            "P": "0.00",
+            "U": "220.00",
+            "I": "0.00",
+            "E": "220.00",
+            "AR": "280.00"
+          },
+          "cash": "1000.00"
+        },
+        "static_stock_HPP_sale_payment_retained": true,
+        "immutable_prior_history_retained": true
+      },
+      {
+        "before_original": "D1_CONT_COMMITTED_APPLY220_OLD_D1_SAME_UUID_16FB8F38EADC4F8E9316F274D8D43D3C_BEFORE.json",
+        "after_original": "D1_CONT_COMMITTED_APPLY220_OLD_D1_SAME_UUID_16FB8F38EADC4F8E9316F274D8D43D3C_RESULT.json",
+        "referenced_in_main": true,
+        "catalogue_classes": 22,
+        "tables": 685,
+        "sequences": 15,
+        "raw_rows_before": 2573,
+        "raw_rows_after": 2573,
+        "before_native_digest": "8f5b92214b0072a7bb1f1a7f8be5e8373935fcea99a00ecb3661794c66f2ec98",
+        "after_native_digest": "8f5b92214b0072a7bb1f1a7f8be5e8373935fcea99a00ecb3661794c66f2ec98",
+        "exact_full_no_effect": true,
+        "refusal": false,
+        "before_financial": {
+          "source": {
+            "I": "250.00",
+            "available": "250.00",
+            "net": "750.00",
+            "AR": "0.00"
+          },
+          "target": {
+            "net": "500.00",
+            "P": "0.00",
+            "U": "0.00",
+            "I": "0.00",
+            "E": "0.00",
+            "AR": "500.00"
+          },
+          "cash": "1000.00"
+        },
+        "after_financial": {
+          "source": {
+            "I": "250.00",
+            "available": "250.00",
+            "net": "750.00",
+            "AR": "0.00"
+          },
+          "target": {
+            "net": "500.00",
+            "P": "0.00",
+            "U": "0.00",
+            "I": "0.00",
+            "E": "0.00",
+            "AR": "500.00"
+          },
+          "cash": "1000.00"
+        },
+        "static_stock_HPP_sale_payment_retained": true,
+        "immutable_prior_history_retained": true
+      },
+      {
+        "before_original": "D1_CONT_COMMITTED_APPLY220_POST_EDED1D13634D49C2B7117681B56A484C_BEFORE.json",
+        "after_original": "D1_CONT_COMMITTED_APPLY220_POST_EDED1D13634D49C2B7117681B56A484C_RESULT.json",
+        "referenced_in_main": true,
+        "catalogue_classes": 22,
+        "tables": 685,
+        "sequences": 15,
+        "raw_rows_before": 2551,
+        "raw_rows_after": 2562,
+        "before_native_digest": "2bfbce882fdff8266fe93d9a35263ac27680504aa98e1716abc0d943bf93a0e0",
+        "after_native_digest": "3ba8586ff88a9c6a233226e5dccc91763341dc1ffc388d910b99099bfbdb3eb8",
+        "exact_full_no_effect": false,
+        "refusal": false,
+        "before_financial": {
+          "source": {
+            "I": "250.00",
+            "available": "250.00",
+            "net": "750.00",
+            "AR": "0.00"
+          },
+          "target": {
+            "net": "500.00",
+            "P": "0.00",
+            "U": "0.00",
+            "I": "0.00",
+            "E": "0.00",
+            "AR": "500.00"
+          },
+          "cash": "1000.00"
+        },
+        "after_financial": {
+          "source": {
+            "I": "250.00",
+            "available": "30.00",
+            "net": "750.00",
+            "AR": "0.00"
+          },
+          "target": {
+            "net": "500.00",
+            "P": "0.00",
+            "U": "220.00",
+            "I": "0.00",
+            "E": "220.00",
+            "AR": "280.00"
+          },
+          "cash": "1000.00"
+        },
+        "static_stock_HPP_sale_payment_retained": true,
+        "immutable_prior_history_retained": true
+      },
+      {
+        "before_original": "D1_CONT_COMMITTED_APPLY220_POST_SAME_UUID_41611FB80ECE408A8F551369B9F31EEE_BEFORE.json",
+        "after_original": "D1_CONT_COMMITTED_APPLY220_POST_SAME_UUID_41611FB80ECE408A8F551369B9F31EEE_RESULT.json",
+        "referenced_in_main": true,
+        "catalogue_classes": 22,
+        "tables": 685,
+        "sequences": 15,
+        "raw_rows_before": 2562,
+        "raw_rows_after": 2562,
+        "before_native_digest": "3ba8586ff88a9c6a233226e5dccc91763341dc1ffc388d910b99099bfbdb3eb8",
+        "after_native_digest": "3ba8586ff88a9c6a233226e5dccc91763341dc1ffc388d910b99099bfbdb3eb8",
+        "exact_full_no_effect": true,
+        "refusal": false,
+        "before_financial": {
+          "source": {
+            "I": "250.00",
+            "available": "30.00",
+            "net": "750.00",
+            "AR": "0.00"
+          },
+          "target": {
+            "net": "500.00",
+            "P": "0.00",
+            "U": "220.00",
+            "I": "0.00",
+            "E": "220.00",
+            "AR": "280.00"
+          },
+          "cash": "1000.00"
+        },
+        "after_financial": {
+          "source": {
+            "I": "250.00",
+            "available": "30.00",
+            "net": "750.00",
+            "AR": "0.00"
+          },
+          "target": {
+            "net": "500.00",
+            "P": "0.00",
+            "U": "220.00",
+            "I": "0.00",
+            "E": "220.00",
+            "AR": "280.00"
+          },
+          "cash": "1000.00"
+        },
+        "static_stock_HPP_sale_payment_retained": true,
+        "immutable_prior_history_retained": true
+      },
+      {
+        "before_original": "D1_CONT_COMMITTED_APPLY220_SECOND_UNDO_NEW_UUID_7F8CA4EB4ADC4D7E853353FD2E8C7A00_BEFORE.json",
+        "after_original": "D1_CONT_COMMITTED_APPLY220_SECOND_UNDO_NEW_UUID_7F8CA4EB4ADC4D7E853353FD2E8C7A00_REFUSAL.json",
+        "referenced_in_main": true,
+        "catalogue_classes": 22,
+        "tables": 685,
+        "sequences": 15,
+        "raw_rows_before": 2573,
+        "raw_rows_after": 2573,
+        "before_native_digest": "8f5b92214b0072a7bb1f1a7f8be5e8373935fcea99a00ecb3661794c66f2ec98",
+        "after_native_digest": "8f5b92214b0072a7bb1f1a7f8be5e8373935fcea99a00ecb3661794c66f2ec98",
+        "exact_full_no_effect": true,
+        "refusal": true,
+        "before_financial": {
+          "source": {
+            "I": "250.00",
+            "available": "250.00",
+            "net": "750.00",
+            "AR": "0.00"
+          },
+          "target": {
+            "net": "500.00",
+            "P": "0.00",
+            "U": "0.00",
+            "I": "0.00",
+            "E": "0.00",
+            "AR": "500.00"
+          },
+          "cash": "1000.00"
+        },
+        "after_financial": {
+          "source": {
+            "I": "250.00",
+            "available": "250.00",
+            "net": "750.00",
+            "AR": "0.00"
+          },
+          "target": {
+            "net": "500.00",
+            "P": "0.00",
+            "U": "0.00",
+            "I": "0.00",
+            "E": "0.00",
+            "AR": "500.00"
+          },
+          "cash": "1000.00"
+        },
+        "static_stock_HPP_sale_payment_retained": true,
+        "immutable_prior_history_retained": true
+      },
+      {
+        "before_original": "D1_CONT_COMMITTED_APPLY220_UNDO_SAME_UUID_AB0E42F9FB24423985D404A86C4450A1_BEFORE.json",
+        "after_original": "D1_CONT_COMMITTED_APPLY220_UNDO_SAME_UUID_AB0E42F9FB24423985D404A86C4450A1_RESULT.json",
+        "referenced_in_main": true,
+        "catalogue_classes": 22,
+        "tables": 685,
+        "sequences": 15,
+        "raw_rows_before": 2573,
+        "raw_rows_after": 2573,
+        "before_native_digest": "8f5b92214b0072a7bb1f1a7f8be5e8373935fcea99a00ecb3661794c66f2ec98",
+        "after_native_digest": "8f5b92214b0072a7bb1f1a7f8be5e8373935fcea99a00ecb3661794c66f2ec98",
+        "exact_full_no_effect": true,
+        "refusal": false,
+        "before_financial": {
+          "source": {
+            "I": "250.00",
+            "available": "250.00",
+            "net": "750.00",
+            "AR": "0.00"
+          },
+          "target": {
+            "net": "500.00",
+            "P": "0.00",
+            "U": "0.00",
+            "I": "0.00",
+            "E": "0.00",
+            "AR": "500.00"
+          },
+          "cash": "1000.00"
+        },
+        "after_financial": {
+          "source": {
+            "I": "250.00",
+            "available": "250.00",
+            "net": "750.00",
+            "AR": "0.00"
+          },
+          "target": {
+            "net": "500.00",
+            "P": "0.00",
+            "U": "0.00",
+            "I": "0.00",
+            "E": "0.00",
+            "AR": "500.00"
+          },
+          "cash": "1000.00"
+        },
+        "static_stock_HPP_sale_payment_retained": true,
+        "immutable_prior_history_retained": true
+      },
+      {
+        "before_original": "D1_CONT_COMMITTED_CONTINUATION_D1_250_634D81D5CAAC45BB8D331A579A6F0D25_BEFORE.json",
+        "after_original": "D1_CONT_COMMITTED_CONTINUATION_D1_250_634D81D5CAAC45BB8D331A579A6F0D25_RESULT.json",
+        "referenced_in_main": false,
+        "catalogue_classes": 22,
+        "tables": 685,
+        "sequences": 15,
+        "raw_rows_before": 2487,
+        "raw_rows_after": 2551,
+        "before_native_digest": "9f0cf50e6ce5e61b3697913ce75af82d4147d0cf06a10a4396826e871136e0e4",
+        "after_native_digest": "2bfbce882fdff8266fe93d9a35263ac27680504aa98e1716abc0d943bf93a0e0",
+        "exact_full_no_effect": false,
+        "refusal": false,
+        "before_financial": {
+          "source": {
+            "I": "200.00",
+            "available": "200.00",
+            "net": "800.00",
+            "AR": "0.00"
+          },
+          "target": {
+            "net": "500.00",
+            "P": "0.00",
+            "U": "0.00",
+            "I": "0.00",
+            "E": "0.00",
+            "AR": "500.00"
+          },
+          "cash": "1000.00"
+        },
+        "after_financial": {
+          "source": {
+            "I": "250.00",
+            "available": "250.00",
+            "net": "750.00",
+            "AR": "0.00"
+          },
+          "target": {
+            "net": "500.00",
+            "P": "0.00",
+            "U": "0.00",
+            "I": "0.00",
+            "E": "0.00",
+            "AR": "500.00"
+          },
+          "cash": "1000.00"
+        },
+        "static_stock_HPP_sale_payment_retained": true,
+        "immutable_prior_history_retained": true
+      },
+      {
+        "before_original": "D1_CONT_FIRST_D1_REPLAY_AFTER_SECOND_REVISION_84E6347A47E04E35B0A70DFDF9CB63E1_BEFORE.json",
+        "after_original": "D1_CONT_FIRST_D1_REPLAY_AFTER_SECOND_REVISION_84E6347A47E04E35B0A70DFDF9CB63E1_RESULT.json",
+        "referenced_in_main": true,
+        "catalogue_classes": 22,
+        "tables": 685,
+        "sequences": 15,
+        "raw_rows_before": 2637,
+        "raw_rows_after": 2637,
+        "before_native_digest": "d8b1d9c593b2f64da97a4a5f63ff51430441e7d01a650eeaaef63efb5a82d143",
+        "after_native_digest": "d8b1d9c593b2f64da97a4a5f63ff51430441e7d01a650eeaaef63efb5a82d143",
+        "exact_full_no_effect": true,
+        "refusal": false,
+        "before_financial": {
+          "source": {
+            "I": "275.00",
+            "available": "275.00",
+            "net": "725.00",
+            "AR": "0.00"
+          },
+          "target": {
+            "net": "500.00",
+            "P": "0.00",
+            "U": "0.00",
+            "I": "0.00",
+            "E": "0.00",
+            "AR": "500.00"
+          },
+          "cash": "1000.00"
+        },
+        "after_financial": {
+          "source": {
+            "I": "275.00",
+            "available": "275.00",
+            "net": "725.00",
+            "AR": "0.00"
+          },
+          "target": {
+            "net": "500.00",
+            "P": "0.00",
+            "U": "0.00",
+            "I": "0.00",
+            "E": "0.00",
+            "AR": "500.00"
+          },
+          "cash": "1000.00"
+        },
+        "static_stock_HPP_sale_payment_retained": true,
+        "immutable_prior_history_retained": true
+      },
+      {
+        "before_original": "D1_CONT_REFUND230_NAMED_UNDO_4584C60D522545148C158CEB9223E688_BEFORE.json",
+        "after_original": "D1_CONT_REFUND230_NAMED_UNDO_4584C60D522545148C158CEB9223E688_RESULT.json",
+        "referenced_in_main": true,
+        "catalogue_classes": 22,
+        "tables": 685,
+        "sequences": 15,
+        "raw_rows_before": 2562,
+        "raw_rows_after": 2572,
+        "before_native_digest": "40bf3b0384222b6ecad8610f99dc1cb97b2b52a7990b971d11e0a7e2986bc982",
+        "after_native_digest": "597af6e141a86d5b0833ca2048efa730406446ba16a8014e4c5d6f307b552481",
+        "exact_full_no_effect": false,
+        "refusal": false,
+        "before_financial": {
+          "source": {
+            "I": "250.00",
+            "available": "20.00",
+            "net": "750.00",
+            "AR": "0.00"
+          },
+          "target": {
+            "net": "500.00",
+            "P": "0.00",
+            "U": "0.00",
+            "I": "0.00",
+            "E": "0.00",
+            "AR": "500.00"
+          },
+          "cash": "770.00"
+        },
+        "after_financial": {
+          "source": {
+            "I": "250.00",
+            "available": "250.00",
+            "net": "750.00",
+            "AR": "0.00"
+          },
+          "target": {
+            "net": "500.00",
+            "P": "0.00",
+            "U": "0.00",
+            "I": "0.00",
+            "E": "0.00",
+            "AR": "500.00"
+          },
+          "cash": "1000.00"
+        },
+        "static_stock_HPP_sale_payment_retained": true,
+        "immutable_prior_history_retained": true
+      },
+      {
+        "before_original": "D1_CONT_REFUND230_NAMED_UNDO_REVIEW_90F4E3AF6182482E8C67776C1BB8C299_BEFORE.json",
+        "after_original": "D1_CONT_REFUND230_NAMED_UNDO_REVIEW_90F4E3AF6182482E8C67776C1BB8C299_RESULT.json",
+        "referenced_in_main": true,
+        "catalogue_classes": 22,
+        "tables": 685,
+        "sequences": 15,
+        "raw_rows_before": 2562,
+        "raw_rows_after": 2562,
+        "before_native_digest": "40bf3b0384222b6ecad8610f99dc1cb97b2b52a7990b971d11e0a7e2986bc982",
+        "after_native_digest": "40bf3b0384222b6ecad8610f99dc1cb97b2b52a7990b971d11e0a7e2986bc982",
+        "exact_full_no_effect": true,
+        "refusal": false,
+        "before_financial": {
+          "source": {
+            "I": "250.00",
+            "available": "20.00",
+            "net": "750.00",
+            "AR": "0.00"
+          },
+          "target": {
+            "net": "500.00",
+            "P": "0.00",
+            "U": "0.00",
+            "I": "0.00",
+            "E": "0.00",
+            "AR": "500.00"
+          },
+          "cash": "770.00"
+        },
+        "after_financial": {
+          "source": {
+            "I": "250.00",
+            "available": "20.00",
+            "net": "750.00",
+            "AR": "0.00"
+          },
+          "target": {
+            "net": "500.00",
+            "P": "0.00",
+            "U": "0.00",
+            "I": "0.00",
+            "E": "0.00",
+            "AR": "500.00"
+          },
+          "cash": "770.00"
+        },
+        "static_stock_HPP_sale_payment_retained": true,
+        "immutable_prior_history_retained": true
+      },
+      {
+        "before_original": "D1_CONT_REFUND230_OLD_D1_SAME_UUID_B1AB6310C8B145DFA10CE40BD36F1065_BEFORE.json",
+        "after_original": "D1_CONT_REFUND230_OLD_D1_SAME_UUID_B1AB6310C8B145DFA10CE40BD36F1065_RESULT.json",
+        "referenced_in_main": true,
+        "catalogue_classes": 22,
+        "tables": 685,
+        "sequences": 15,
+        "raw_rows_before": 2572,
+        "raw_rows_after": 2572,
+        "before_native_digest": "597af6e141a86d5b0833ca2048efa730406446ba16a8014e4c5d6f307b552481",
+        "after_native_digest": "597af6e141a86d5b0833ca2048efa730406446ba16a8014e4c5d6f307b552481",
+        "exact_full_no_effect": true,
+        "refusal": false,
+        "before_financial": {
+          "source": {
+            "I": "250.00",
+            "available": "250.00",
+            "net": "750.00",
+            "AR": "0.00"
+          },
+          "target": {
+            "net": "500.00",
+            "P": "0.00",
+            "U": "0.00",
+            "I": "0.00",
+            "E": "0.00",
+            "AR": "500.00"
+          },
+          "cash": "1000.00"
+        },
+        "after_financial": {
+          "source": {
+            "I": "250.00",
+            "available": "250.00",
+            "net": "750.00",
+            "AR": "0.00"
+          },
+          "target": {
+            "net": "500.00",
+            "P": "0.00",
+            "U": "0.00",
+            "I": "0.00",
+            "E": "0.00",
+            "AR": "500.00"
+          },
+          "cash": "1000.00"
+        },
+        "static_stock_HPP_sale_payment_retained": true,
+        "immutable_prior_history_retained": true
+      },
+      {
+        "before_original": "D1_CONT_REFUND230_POST_73E6B325E5344C2CB52FEBD5D6E796D1_BEFORE.json",
+        "after_original": "D1_CONT_REFUND230_POST_73E6B325E5344C2CB52FEBD5D6E796D1_RESULT.json",
+        "referenced_in_main": true,
+        "catalogue_classes": 22,
+        "tables": 685,
+        "sequences": 15,
+        "raw_rows_before": 2551,
+        "raw_rows_after": 2562,
+        "before_native_digest": "68743dbe0b08ba158ce08299c56bb55e11547c2536472c673acec6b01fd11a65",
+        "after_native_digest": "40bf3b0384222b6ecad8610f99dc1cb97b2b52a7990b971d11e0a7e2986bc982",
+        "exact_full_no_effect": false,
+        "refusal": false,
+        "before_financial": {
+          "source": {
+            "I": "250.00",
+            "available": "250.00",
+            "net": "750.00",
+            "AR": "0.00"
+          },
+          "target": {
+            "net": "500.00",
+            "P": "0.00",
+            "U": "0.00",
+            "I": "0.00",
+            "E": "0.00",
+            "AR": "500.00"
+          },
+          "cash": "1000.00"
+        },
+        "after_financial": {
+          "source": {
+            "I": "250.00",
+            "available": "20.00",
+            "net": "750.00",
+            "AR": "0.00"
+          },
+          "target": {
+            "net": "500.00",
+            "P": "0.00",
+            "U": "0.00",
+            "I": "0.00",
+            "E": "0.00",
+            "AR": "500.00"
+          },
+          "cash": "770.00"
+        },
+        "static_stock_HPP_sale_payment_retained": true,
+        "immutable_prior_history_retained": true
+      },
+      {
+        "before_original": "D1_CONT_REFUND230_POST_SAME_UUID_A5924FC011D4416281A2A5CDA691474C_BEFORE.json",
+        "after_original": "D1_CONT_REFUND230_POST_SAME_UUID_A5924FC011D4416281A2A5CDA691474C_RESULT.json",
+        "referenced_in_main": true,
+        "catalogue_classes": 22,
+        "tables": 685,
+        "sequences": 15,
+        "raw_rows_before": 2562,
+        "raw_rows_after": 2562,
+        "before_native_digest": "40bf3b0384222b6ecad8610f99dc1cb97b2b52a7990b971d11e0a7e2986bc982",
+        "after_native_digest": "40bf3b0384222b6ecad8610f99dc1cb97b2b52a7990b971d11e0a7e2986bc982",
+        "exact_full_no_effect": true,
+        "refusal": false,
+        "before_financial": {
+          "source": {
+            "I": "250.00",
+            "available": "20.00",
+            "net": "750.00",
+            "AR": "0.00"
+          },
+          "target": {
+            "net": "500.00",
+            "P": "0.00",
+            "U": "0.00",
+            "I": "0.00",
+            "E": "0.00",
+            "AR": "500.00"
+          },
+          "cash": "770.00"
+        },
+        "after_financial": {
+          "source": {
+            "I": "250.00",
+            "available": "20.00",
+            "net": "750.00",
+            "AR": "0.00"
+          },
+          "target": {
+            "net": "500.00",
+            "P": "0.00",
+            "U": "0.00",
+            "I": "0.00",
+            "E": "0.00",
+            "AR": "500.00"
+          },
+          "cash": "770.00"
+        },
+        "static_stock_HPP_sale_payment_retained": true,
+        "immutable_prior_history_retained": true
+      },
+      {
+        "before_original": "D1_CONT_REFUND230_SECOND_UNDO_NEW_UUID_ACC85B379E3F4890822125619589BEDC_BEFORE.json",
+        "after_original": "D1_CONT_REFUND230_SECOND_UNDO_NEW_UUID_ACC85B379E3F4890822125619589BEDC_REFUSAL.json",
+        "referenced_in_main": true,
+        "catalogue_classes": 22,
+        "tables": 685,
+        "sequences": 15,
+        "raw_rows_before": 2572,
+        "raw_rows_after": 2572,
+        "before_native_digest": "597af6e141a86d5b0833ca2048efa730406446ba16a8014e4c5d6f307b552481",
+        "after_native_digest": "597af6e141a86d5b0833ca2048efa730406446ba16a8014e4c5d6f307b552481",
+        "exact_full_no_effect": true,
+        "refusal": true,
+        "before_financial": {
+          "source": {
+            "I": "250.00",
+            "available": "250.00",
+            "net": "750.00",
+            "AR": "0.00"
+          },
+          "target": {
+            "net": "500.00",
+            "P": "0.00",
+            "U": "0.00",
+            "I": "0.00",
+            "E": "0.00",
+            "AR": "500.00"
+          },
+          "cash": "1000.00"
+        },
+        "after_financial": {
+          "source": {
+            "I": "250.00",
+            "available": "250.00",
+            "net": "750.00",
+            "AR": "0.00"
+          },
+          "target": {
+            "net": "500.00",
+            "P": "0.00",
+            "U": "0.00",
+            "I": "0.00",
+            "E": "0.00",
+            "AR": "500.00"
+          },
+          "cash": "1000.00"
+        },
+        "static_stock_HPP_sale_payment_retained": true,
+        "immutable_prior_history_retained": true
+      },
+      {
+        "before_original": "D1_CONT_REFUND230_UNDO_SAME_UUID_9CDA6EF5E4AF4BFFA9BF18C1A1737BAF_BEFORE.json",
+        "after_original": "D1_CONT_REFUND230_UNDO_SAME_UUID_9CDA6EF5E4AF4BFFA9BF18C1A1737BAF_RESULT.json",
+        "referenced_in_main": true,
+        "catalogue_classes": 22,
+        "tables": 685,
+        "sequences": 15,
+        "raw_rows_before": 2572,
+        "raw_rows_after": 2572,
+        "before_native_digest": "597af6e141a86d5b0833ca2048efa730406446ba16a8014e4c5d6f307b552481",
+        "after_native_digest": "597af6e141a86d5b0833ca2048efa730406446ba16a8014e4c5d6f307b552481",
+        "exact_full_no_effect": true,
+        "refusal": false,
+        "before_financial": {
+          "source": {
+            "I": "250.00",
+            "available": "250.00",
+            "net": "750.00",
+            "AR": "0.00"
+          },
+          "target": {
+            "net": "500.00",
+            "P": "0.00",
+            "U": "0.00",
+            "I": "0.00",
+            "E": "0.00",
+            "AR": "500.00"
+          },
+          "cash": "1000.00"
+        },
+        "after_financial": {
+          "source": {
+            "I": "250.00",
+            "available": "250.00",
+            "net": "750.00",
+            "AR": "0.00"
+          },
+          "target": {
+            "net": "500.00",
+            "P": "0.00",
+            "U": "0.00",
+            "I": "0.00",
+            "E": "0.00",
+            "AR": "500.00"
+          },
+          "cash": "1000.00"
+        },
+        "static_stock_HPP_sale_payment_retained": true,
+        "immutable_prior_history_retained": true
+      },
+      {
+        "before_original": "D1_CONT_REFUND_D1_250_DA431C7389E04A82B241D7F413A015E0_BEFORE.json",
+        "after_original": "D1_CONT_REFUND_D1_250_DA431C7389E04A82B241D7F413A015E0_RESULT.json",
+        "referenced_in_main": true,
+        "catalogue_classes": 22,
+        "tables": 685,
+        "sequences": 15,
+        "raw_rows_before": 2487,
+        "raw_rows_after": 2551,
+        "before_native_digest": "2e0781ddeb007b3e6592bf4dbf61752838a01713356e7ae171e5043eab38f60f",
+        "after_native_digest": "68743dbe0b08ba158ce08299c56bb55e11547c2536472c673acec6b01fd11a65",
+        "exact_full_no_effect": false,
+        "refusal": false,
+        "before_financial": {
+          "source": {
+            "I": "200.00",
+            "available": "200.00",
+            "net": "800.00",
+            "AR": "0.00"
+          },
+          "target": {
+            "net": "500.00",
+            "P": "0.00",
+            "U": "0.00",
+            "I": "0.00",
+            "E": "0.00",
+            "AR": "500.00"
+          },
+          "cash": "1000.00"
+        },
+        "after_financial": {
+          "source": {
+            "I": "250.00",
+            "available": "250.00",
+            "net": "750.00",
+            "AR": "0.00"
+          },
+          "target": {
+            "net": "500.00",
+            "P": "0.00",
+            "U": "0.00",
+            "I": "0.00",
+            "E": "0.00",
+            "AR": "500.00"
+          },
+          "cash": "1000.00"
+        },
+        "static_stock_HPP_sale_payment_retained": true,
+        "immutable_prior_history_retained": true
+      },
+      {
+        "before_original": "D1_CONT_SECOND_APPLY220_NAMED_UNDO_BFDC7708FB5346858BCD280F3767F63C_BEFORE.json",
+        "after_original": "D1_CONT_SECOND_APPLY220_NAMED_UNDO_BFDC7708FB5346858BCD280F3767F63C_RESULT.json",
+        "referenced_in_main": true,
+        "catalogue_classes": 22,
+        "tables": 685,
+        "sequences": 15,
+        "raw_rows_before": 2562,
+        "raw_rows_after": 2573,
+        "before_native_digest": "ebdc78a030a763a6208536750f405d1cd301cec2b2933b7b401a17e3be5d8f3c",
+        "after_native_digest": "939bfd5b21766c72be1e4b4a63208991312e30ca58bb2398b60bb9b4c18e5538",
+        "exact_full_no_effect": false,
+        "refusal": false,
+        "before_financial": {
+          "source": {
+            "I": "250.00",
+            "available": "30.00",
+            "net": "750.00",
+            "AR": "0.00"
+          },
+          "target": {
+            "net": "500.00",
+            "P": "0.00",
+            "U": "220.00",
+            "I": "0.00",
+            "E": "220.00",
+            "AR": "280.00"
+          },
+          "cash": "1000.00"
+        },
+        "after_financial": {
+          "source": {
+            "I": "250.00",
+            "available": "250.00",
+            "net": "750.00",
+            "AR": "0.00"
+          },
+          "target": {
+            "net": "500.00",
+            "P": "0.00",
+            "U": "0.00",
+            "I": "0.00",
+            "E": "0.00",
+            "AR": "500.00"
+          },
+          "cash": "1000.00"
+        },
+        "static_stock_HPP_sale_payment_retained": true,
+        "immutable_prior_history_retained": true
+      },
+      {
+        "before_original": "D1_CONT_SECOND_APPLY220_NAMED_UNDO_REVIEW_13648E3E3ECB4509BC389EE6B15A3EFB_BEFORE.json",
+        "after_original": "D1_CONT_SECOND_APPLY220_NAMED_UNDO_REVIEW_13648E3E3ECB4509BC389EE6B15A3EFB_RESULT.json",
+        "referenced_in_main": true,
+        "catalogue_classes": 22,
+        "tables": 685,
+        "sequences": 15,
+        "raw_rows_before": 2562,
+        "raw_rows_after": 2562,
+        "before_native_digest": "ebdc78a030a763a6208536750f405d1cd301cec2b2933b7b401a17e3be5d8f3c",
+        "after_native_digest": "ebdc78a030a763a6208536750f405d1cd301cec2b2933b7b401a17e3be5d8f3c",
+        "exact_full_no_effect": true,
+        "refusal": false,
+        "before_financial": {
+          "source": {
+            "I": "250.00",
+            "available": "30.00",
+            "net": "750.00",
+            "AR": "0.00"
+          },
+          "target": {
+            "net": "500.00",
+            "P": "0.00",
+            "U": "220.00",
+            "I": "0.00",
+            "E": "220.00",
+            "AR": "280.00"
+          },
+          "cash": "1000.00"
+        },
+        "after_financial": {
+          "source": {
+            "I": "250.00",
+            "available": "30.00",
+            "net": "750.00",
+            "AR": "0.00"
+          },
+          "target": {
+            "net": "500.00",
+            "P": "0.00",
+            "U": "220.00",
+            "I": "0.00",
+            "E": "220.00",
+            "AR": "280.00"
+          },
+          "cash": "1000.00"
+        },
+        "static_stock_HPP_sale_payment_retained": true,
+        "immutable_prior_history_retained": true
+      },
+      {
+        "before_original": "D1_CONT_SECOND_APPLY220_OLD_D1_SAME_UUID_61ED90E58E334C17A1213330D94D6A19_BEFORE.json",
+        "after_original": "D1_CONT_SECOND_APPLY220_OLD_D1_SAME_UUID_61ED90E58E334C17A1213330D94D6A19_RESULT.json",
+        "referenced_in_main": true,
+        "catalogue_classes": 22,
+        "tables": 685,
+        "sequences": 15,
+        "raw_rows_before": 2573,
+        "raw_rows_after": 2573,
+        "before_native_digest": "939bfd5b21766c72be1e4b4a63208991312e30ca58bb2398b60bb9b4c18e5538",
+        "after_native_digest": "939bfd5b21766c72be1e4b4a63208991312e30ca58bb2398b60bb9b4c18e5538",
+        "exact_full_no_effect": true,
+        "refusal": false,
+        "before_financial": {
+          "source": {
+            "I": "250.00",
+            "available": "250.00",
+            "net": "750.00",
+            "AR": "0.00"
+          },
+          "target": {
+            "net": "500.00",
+            "P": "0.00",
+            "U": "0.00",
+            "I": "0.00",
+            "E": "0.00",
+            "AR": "500.00"
+          },
+          "cash": "1000.00"
+        },
+        "after_financial": {
+          "source": {
+            "I": "250.00",
+            "available": "250.00",
+            "net": "750.00",
+            "AR": "0.00"
+          },
+          "target": {
+            "net": "500.00",
+            "P": "0.00",
+            "U": "0.00",
+            "I": "0.00",
+            "E": "0.00",
+            "AR": "500.00"
+          },
+          "cash": "1000.00"
+        },
+        "static_stock_HPP_sale_payment_retained": true,
+        "immutable_prior_history_retained": true
+      },
+      {
+        "before_original": "D1_CONT_SECOND_APPLY220_POST_1A916978B596490BBBA8DF781805D3D1_BEFORE.json",
+        "after_original": "D1_CONT_SECOND_APPLY220_POST_1A916978B596490BBBA8DF781805D3D1_RESULT.json",
+        "referenced_in_main": true,
+        "catalogue_classes": 22,
+        "tables": 685,
+        "sequences": 15,
+        "raw_rows_before": 2551,
+        "raw_rows_after": 2562,
+        "before_native_digest": "e8eeb6dd31ee60fa66c2d86ca5d94533d92879b221052e8ac205d65c5b8c5ef2",
+        "after_native_digest": "ebdc78a030a763a6208536750f405d1cd301cec2b2933b7b401a17e3be5d8f3c",
+        "exact_full_no_effect": false,
+        "refusal": false,
+        "before_financial": {
+          "source": {
+            "I": "250.00",
+            "available": "250.00",
+            "net": "750.00",
+            "AR": "0.00"
+          },
+          "target": {
+            "net": "500.00",
+            "P": "0.00",
+            "U": "0.00",
+            "I": "0.00",
+            "E": "0.00",
+            "AR": "500.00"
+          },
+          "cash": "1000.00"
+        },
+        "after_financial": {
+          "source": {
+            "I": "250.00",
+            "available": "30.00",
+            "net": "750.00",
+            "AR": "0.00"
+          },
+          "target": {
+            "net": "500.00",
+            "P": "0.00",
+            "U": "220.00",
+            "I": "0.00",
+            "E": "220.00",
+            "AR": "280.00"
+          },
+          "cash": "1000.00"
+        },
+        "static_stock_HPP_sale_payment_retained": true,
+        "immutable_prior_history_retained": true
+      },
+      {
+        "before_original": "D1_CONT_SECOND_APPLY220_POST_SAME_UUID_2919EF6DA75042A28A45F8868CFF286E_BEFORE.json",
+        "after_original": "D1_CONT_SECOND_APPLY220_POST_SAME_UUID_2919EF6DA75042A28A45F8868CFF286E_RESULT.json",
+        "referenced_in_main": true,
+        "catalogue_classes": 22,
+        "tables": 685,
+        "sequences": 15,
+        "raw_rows_before": 2562,
+        "raw_rows_after": 2562,
+        "before_native_digest": "ebdc78a030a763a6208536750f405d1cd301cec2b2933b7b401a17e3be5d8f3c",
+        "after_native_digest": "ebdc78a030a763a6208536750f405d1cd301cec2b2933b7b401a17e3be5d8f3c",
+        "exact_full_no_effect": true,
+        "refusal": false,
+        "before_financial": {
+          "source": {
+            "I": "250.00",
+            "available": "30.00",
+            "net": "750.00",
+            "AR": "0.00"
+          },
+          "target": {
+            "net": "500.00",
+            "P": "0.00",
+            "U": "220.00",
+            "I": "0.00",
+            "E": "220.00",
+            "AR": "280.00"
+          },
+          "cash": "1000.00"
+        },
+        "after_financial": {
+          "source": {
+            "I": "250.00",
+            "available": "30.00",
+            "net": "750.00",
+            "AR": "0.00"
+          },
+          "target": {
+            "net": "500.00",
+            "P": "0.00",
+            "U": "220.00",
+            "I": "0.00",
+            "E": "220.00",
+            "AR": "280.00"
+          },
+          "cash": "1000.00"
+        },
+        "static_stock_HPP_sale_payment_retained": true,
+        "immutable_prior_history_retained": true
+      },
+      {
+        "before_original": "D1_CONT_SECOND_APPLY220_SECOND_UNDO_NEW_UUID_76B9184070DB4AEEA3582FD0A0739189_BEFORE.json",
+        "after_original": "D1_CONT_SECOND_APPLY220_SECOND_UNDO_NEW_UUID_76B9184070DB4AEEA3582FD0A0739189_REFUSAL.json",
+        "referenced_in_main": true,
+        "catalogue_classes": 22,
+        "tables": 685,
+        "sequences": 15,
+        "raw_rows_before": 2573,
+        "raw_rows_after": 2573,
+        "before_native_digest": "939bfd5b21766c72be1e4b4a63208991312e30ca58bb2398b60bb9b4c18e5538",
+        "after_native_digest": "939bfd5b21766c72be1e4b4a63208991312e30ca58bb2398b60bb9b4c18e5538",
+        "exact_full_no_effect": true,
+        "refusal": true,
+        "before_financial": {
+          "source": {
+            "I": "250.00",
+            "available": "250.00",
+            "net": "750.00",
+            "AR": "0.00"
+          },
+          "target": {
+            "net": "500.00",
+            "P": "0.00",
+            "U": "0.00",
+            "I": "0.00",
+            "E": "0.00",
+            "AR": "500.00"
+          },
+          "cash": "1000.00"
+        },
+        "after_financial": {
+          "source": {
+            "I": "250.00",
+            "available": "250.00",
+            "net": "750.00",
+            "AR": "0.00"
+          },
+          "target": {
+            "net": "500.00",
+            "P": "0.00",
+            "U": "0.00",
+            "I": "0.00",
+            "E": "0.00",
+            "AR": "500.00"
+          },
+          "cash": "1000.00"
+        },
+        "static_stock_HPP_sale_payment_retained": true,
+        "immutable_prior_history_retained": true
+      },
+      {
+        "before_original": "D1_CONT_SECOND_APPLY220_UNDO_SAME_UUID_E0231A6BBA0F431EA804EBEB7240F80A_BEFORE.json",
+        "after_original": "D1_CONT_SECOND_APPLY220_UNDO_SAME_UUID_E0231A6BBA0F431EA804EBEB7240F80A_RESULT.json",
+        "referenced_in_main": true,
+        "catalogue_classes": 22,
+        "tables": 685,
+        "sequences": 15,
+        "raw_rows_before": 2573,
+        "raw_rows_after": 2573,
+        "before_native_digest": "939bfd5b21766c72be1e4b4a63208991312e30ca58bb2398b60bb9b4c18e5538",
+        "after_native_digest": "939bfd5b21766c72be1e4b4a63208991312e30ca58bb2398b60bb9b4c18e5538",
+        "exact_full_no_effect": true,
+        "refusal": false,
+        "before_financial": {
+          "source": {
+            "I": "250.00",
+            "available": "250.00",
+            "net": "750.00",
+            "AR": "0.00"
+          },
+          "target": {
+            "net": "500.00",
+            "P": "0.00",
+            "U": "0.00",
+            "I": "0.00",
+            "E": "0.00",
+            "AR": "500.00"
+          },
+          "cash": "1000.00"
+        },
+        "after_financial": {
+          "source": {
+            "I": "250.00",
+            "available": "250.00",
+            "net": "750.00",
+            "AR": "0.00"
+          },
+          "target": {
+            "net": "500.00",
+            "P": "0.00",
+            "U": "0.00",
+            "I": "0.00",
+            "E": "0.00",
+            "AR": "500.00"
+          },
+          "cash": "1000.00"
+        },
+        "static_stock_HPP_sale_payment_retained": true,
+        "immutable_prior_history_retained": true
+      },
+      {
+        "before_original": "D1_CONT_SECOND_D1_250_0507EB8962E54FC49EBC1B2C7AA3D087_BEFORE.json",
+        "after_original": "D1_CONT_SECOND_D1_250_0507EB8962E54FC49EBC1B2C7AA3D087_RESULT.json",
+        "referenced_in_main": true,
+        "catalogue_classes": 22,
+        "tables": 685,
+        "sequences": 15,
+        "raw_rows_before": 2487,
+        "raw_rows_after": 2551,
+        "before_native_digest": "a49742626f4b743537f7b8a815e94e7e298c5bb16c7dcc0340fd4b22b19ab1d6",
+        "after_native_digest": "e8eeb6dd31ee60fa66c2d86ca5d94533d92879b221052e8ac205d65c5b8c5ef2",
+        "exact_full_no_effect": false,
+        "refusal": false,
+        "before_financial": {
+          "source": {
+            "I": "200.00",
+            "available": "200.00",
+            "net": "800.00",
+            "AR": "0.00"
+          },
+          "target": {
+            "net": "500.00",
+            "P": "0.00",
+            "U": "0.00",
+            "I": "0.00",
+            "E": "0.00",
+            "AR": "500.00"
+          },
+          "cash": "1000.00"
+        },
+        "after_financial": {
+          "source": {
+            "I": "250.00",
+            "available": "250.00",
+            "net": "750.00",
+            "AR": "0.00"
+          },
+          "target": {
+            "net": "500.00",
+            "P": "0.00",
+            "U": "0.00",
+            "I": "0.00",
+            "E": "0.00",
+            "AR": "500.00"
+          },
+          "cash": "1000.00"
+        },
+        "static_stock_HPP_sale_payment_retained": true,
+        "immutable_prior_history_retained": true
+      },
+      {
+        "before_original": "D1_CONT_SECOND_D1_275_81FB3466D18747A5B96C76CCB62B8450_BEFORE.json",
+        "after_original": "D1_CONT_SECOND_D1_275_81FB3466D18747A5B96C76CCB62B8450_RESULT.json",
+        "referenced_in_main": true,
+        "catalogue_classes": 22,
+        "tables": 685,
+        "sequences": 15,
+        "raw_rows_before": 2573,
+        "raw_rows_after": 2637,
+        "before_native_digest": "939bfd5b21766c72be1e4b4a63208991312e30ca58bb2398b60bb9b4c18e5538",
+        "after_native_digest": "d8b1d9c593b2f64da97a4a5f63ff51430441e7d01a650eeaaef63efb5a82d143",
+        "exact_full_no_effect": false,
+        "refusal": false,
+        "before_financial": {
+          "source": {
+            "I": "250.00",
+            "available": "250.00",
+            "net": "750.00",
+            "AR": "0.00"
+          },
+          "target": {
+            "net": "500.00",
+            "P": "0.00",
+            "U": "0.00",
+            "I": "0.00",
+            "E": "0.00",
+            "AR": "500.00"
+          },
+          "cash": "1000.00"
+        },
+        "after_financial": {
+          "source": {
+            "I": "275.00",
+            "available": "275.00",
+            "net": "725.00",
+            "AR": "0.00"
+          },
+          "target": {
+            "net": "500.00",
+            "P": "0.00",
+            "U": "0.00",
+            "I": "0.00",
+            "E": "0.00",
+            "AR": "500.00"
+          },
+          "cash": "1000.00"
+        },
+        "static_stock_HPP_sale_payment_retained": true,
+        "immutable_prior_history_retained": true
+      },
+      {
+        "before_original": "D1_CONT_SECOND_D1_SAME_UUID_C070305DE8504468BBEC91C03A7654C1_BEFORE.json",
+        "after_original": "D1_CONT_SECOND_D1_SAME_UUID_C070305DE8504468BBEC91C03A7654C1_RESULT.json",
+        "referenced_in_main": true,
+        "catalogue_classes": 22,
+        "tables": 685,
+        "sequences": 15,
+        "raw_rows_before": 2637,
+        "raw_rows_after": 2637,
+        "before_native_digest": "d8b1d9c593b2f64da97a4a5f63ff51430441e7d01a650eeaaef63efb5a82d143",
+        "after_native_digest": "d8b1d9c593b2f64da97a4a5f63ff51430441e7d01a650eeaaef63efb5a82d143",
+        "exact_full_no_effect": true,
+        "refusal": false,
+        "before_financial": {
+          "source": {
+            "I": "275.00",
+            "available": "275.00",
+            "net": "725.00",
+            "AR": "0.00"
+          },
+          "target": {
+            "net": "500.00",
+            "P": "0.00",
+            "U": "0.00",
+            "I": "0.00",
+            "E": "0.00",
+            "AR": "500.00"
+          },
+          "cash": "1000.00"
+        },
+        "after_financial": {
+          "source": {
+            "I": "275.00",
+            "available": "275.00",
+            "net": "725.00",
+            "AR": "0.00"
+          },
+          "target": {
+            "net": "500.00",
+            "P": "0.00",
+            "U": "0.00",
+            "I": "0.00",
+            "E": "0.00",
+            "AR": "500.00"
+          },
+          "cash": "1000.00"
+        },
+        "static_stock_HPP_sale_payment_retained": true,
+        "immutable_prior_history_retained": true
+      }
+    ]
+  },
+  "sequence_observations": [
+    {
+      "prefix": "D1_CONT_APPLY220_NAMED_UNDO_2784EBB45F694B68AEB326C90C71626B",
+      "changes": {
+        "sequence:erp.audit_logs_id_seq": {
+          "before": [
+            "260",
+            true
+          ],
+          "after": [
+            "262",
+            true
+          ]
+        }
+      }
+    },
+    {
+      "prefix": "D1_CONT_APPLY220_NAMED_UNDO_REVIEW_A31783679F0B4D8C87A50F1FE487BC3A",
+      "changes": {}
+    },
+    {
+      "prefix": "D1_CONT_APPLY220_OLD_D1_SAME_UUID_333E3FB1530B4A8D9167F654B63982BE",
+      "changes": {}
+    },
+    {
+      "prefix": "D1_CONT_APPLY220_POST_734F85E352764FE0880EC00D42642328",
+      "changes": {
+        "sequence:erp.audit_logs_id_seq": {
+          "before": [
+            "258",
+            true
+          ],
+          "after": [
+            "260",
+            true
+          ]
+        }
+      }
+    },
+    {
+      "prefix": "D1_CONT_APPLY220_POST_SAME_UUID_7290EB13FFA446F8BFADA8147B24D0A8",
+      "changes": {}
+    },
+    {
+      "prefix": "D1_CONT_APPLY220_SECOND_UNDO_NEW_UUID_C3A336F0EDA44F77BF0D1832F3549464",
+      "changes": {}
+    },
+    {
+      "prefix": "D1_CONT_APPLY220_UNDO_SAME_UUID_26F3A8E92E4A406B98962DA673A235E4",
+      "changes": {}
+    },
+    {
+      "prefix": "D1_CONT_APPLY_D1_250_C2BDB97967674E5993673EF96C33465D",
+      "changes": {
+        "sequence:erp.audit_logs_id_seq": {
+          "before": [
+            "251",
+            true
+          ],
+          "after": [
+            "258",
+            true
+          ]
+        },
+        "sequence:erp.fg_stock_book_order_seq": {
+          "before": [
+            "5",
+            true
+          ],
+          "after": [
+            "7",
+            true
+          ]
+        }
+      }
+    },
+    {
+      "prefix": "D1_CONT_COMMITTED_APPLY220_NAMED_UNDO_E5C3C1AE2CE842A6B02BB651347568EA",
+      "changes": {
+        "sequence:erp.audit_logs_id_seq": {
+          "before": [
+            "607",
+            true
+          ],
+          "after": [
+            "609",
+            true
+          ]
+        }
+      }
+    },
+    {
+      "prefix": "D1_CONT_COMMITTED_APPLY220_NAMED_UNDO_REVIEW_77FF8E7F81184C9981DC98C2B4D4F8BD",
+      "changes": {}
+    },
+    {
+      "prefix": "D1_CONT_COMMITTED_APPLY220_OLD_D1_SAME_UUID_16FB8F38EADC4F8E9316F274D8D43D3C",
+      "changes": {}
+    },
+    {
+      "prefix": "D1_CONT_COMMITTED_APPLY220_POST_EDED1D13634D49C2B7117681B56A484C",
+      "changes": {
+        "sequence:erp.audit_logs_id_seq": {
+          "before": [
+            "605",
+            true
+          ],
+          "after": [
+            "607",
+            true
+          ]
+        }
+      }
+    },
+    {
+      "prefix": "D1_CONT_COMMITTED_APPLY220_POST_SAME_UUID_41611FB80ECE408A8F551369B9F31EEE",
+      "changes": {}
+    },
+    {
+      "prefix": "D1_CONT_COMMITTED_APPLY220_SECOND_UNDO_NEW_UUID_7F8CA4EB4ADC4D7E853353FD2E8C7A00",
+      "changes": {}
+    },
+    {
+      "prefix": "D1_CONT_COMMITTED_APPLY220_UNDO_SAME_UUID_AB0E42F9FB24423985D404A86C4450A1",
+      "changes": {}
+    },
+    {
+      "prefix": "D1_CONT_COMMITTED_CONTINUATION_D1_250_634D81D5CAAC45BB8D331A579A6F0D25",
+      "changes": {
+        "sequence:erp.audit_logs_id_seq": {
+          "before": [
+            "598",
+            true
+          ],
+          "after": [
+            "605",
+            true
+          ]
+        },
+        "sequence:erp.fg_stock_book_order_seq": {
+          "before": [
+            "28",
+            true
+          ],
+          "after": [
+            "30",
+            true
+          ]
+        }
+      }
+    },
+    {
+      "prefix": "D1_CONT_FIRST_D1_REPLAY_AFTER_SECOND_REVISION_84E6347A47E04E35B0A70DFDF9CB63E1",
+      "changes": {}
+    },
+    {
+      "prefix": "D1_CONT_REFUND230_NAMED_UNDO_4584C60D522545148C158CEB9223E688",
+      "changes": {
+        "sequence:erp.audit_logs_id_seq": {
+          "before": [
+            "299",
+            true
+          ],
+          "after": [
+            "300",
+            true
+          ]
+        }
+      }
+    },
+    {
+      "prefix": "D1_CONT_REFUND230_NAMED_UNDO_REVIEW_90F4E3AF6182482E8C67776C1BB8C299",
+      "changes": {}
+    },
+    {
+      "prefix": "D1_CONT_REFUND230_OLD_D1_SAME_UUID_B1AB6310C8B145DFA10CE40BD36F1065",
+      "changes": {}
+    },
+    {
+      "prefix": "D1_CONT_REFUND230_POST_73E6B325E5344C2CB52FEBD5D6E796D1",
+      "changes": {
+        "sequence:erp.audit_logs_id_seq": {
+          "before": [
+            "298",
+            true
+          ],
+          "after": [
+            "299",
+            true
+          ]
+        }
+      }
+    },
+    {
+      "prefix": "D1_CONT_REFUND230_POST_SAME_UUID_A5924FC011D4416281A2A5CDA691474C",
+      "changes": {}
+    },
+    {
+      "prefix": "D1_CONT_REFUND230_SECOND_UNDO_NEW_UUID_ACC85B379E3F4890822125619589BEDC",
+      "changes": {}
+    },
+    {
+      "prefix": "D1_CONT_REFUND230_UNDO_SAME_UUID_9CDA6EF5E4AF4BFFA9BF18C1A1737BAF",
+      "changes": {}
+    },
+    {
+      "prefix": "D1_CONT_REFUND_D1_250_DA431C7389E04A82B241D7F413A015E0",
+      "changes": {
+        "sequence:erp.audit_logs_id_seq": {
+          "before": [
+            "291",
+            true
+          ],
+          "after": [
+            "298",
+            true
+          ]
+        },
+        "sequence:erp.fg_stock_book_order_seq": {
+          "before": [
+            "12",
+            true
+          ],
+          "after": [
+            "14",
+            true
+          ]
+        }
+      }
+    },
+    {
+      "prefix": "D1_CONT_SECOND_APPLY220_NAMED_UNDO_BFDC7708FB5346858BCD280F3767F63C",
+      "changes": {
+        "sequence:erp.audit_logs_id_seq": {
+          "before": [
+            "338",
+            true
+          ],
+          "after": [
+            "340",
+            true
+          ]
+        }
+      }
+    },
+    {
+      "prefix": "D1_CONT_SECOND_APPLY220_NAMED_UNDO_REVIEW_13648E3E3ECB4509BC389EE6B15A3EFB",
+      "changes": {}
+    },
+    {
+      "prefix": "D1_CONT_SECOND_APPLY220_OLD_D1_SAME_UUID_61ED90E58E334C17A1213330D94D6A19",
+      "changes": {}
+    },
+    {
+      "prefix": "D1_CONT_SECOND_APPLY220_POST_1A916978B596490BBBA8DF781805D3D1",
+      "changes": {
+        "sequence:erp.audit_logs_id_seq": {
+          "before": [
+            "336",
+            true
+          ],
+          "after": [
+            "338",
+            true
+          ]
+        }
+      }
+    },
+    {
+      "prefix": "D1_CONT_SECOND_APPLY220_POST_SAME_UUID_2919EF6DA75042A28A45F8868CFF286E",
+      "changes": {}
+    },
+    {
+      "prefix": "D1_CONT_SECOND_APPLY220_SECOND_UNDO_NEW_UUID_76B9184070DB4AEEA3582FD0A0739189",
+      "changes": {}
+    },
+    {
+      "prefix": "D1_CONT_SECOND_APPLY220_UNDO_SAME_UUID_E0231A6BBA0F431EA804EBEB7240F80A",
+      "changes": {}
+    },
+    {
+      "prefix": "D1_CONT_SECOND_D1_250_0507EB8962E54FC49EBC1B2C7AA3D087",
+      "changes": {
+        "sequence:erp.audit_logs_id_seq": {
+          "before": [
+            "329",
+            true
+          ],
+          "after": [
+            "336",
+            true
+          ]
+        },
+        "sequence:erp.fg_stock_book_order_seq": {
+          "before": [
+            "19",
+            true
+          ],
+          "after": [
+            "21",
+            true
+          ]
+        }
+      }
+    },
+    {
+      "prefix": "D1_CONT_SECOND_D1_275_81FB3466D18747A5B96C76CCB62B8450",
+      "changes": {
+        "sequence:erp.audit_logs_id_seq": {
+          "before": [
+            "340",
+            true
+          ],
+          "after": [
+            "347",
+            true
+          ]
+        },
+        "sequence:erp.fg_stock_book_order_seq": {
+          "before": [
+            "21",
+            true
+          ],
+          "after": [
+            "23",
+            true
+          ]
+        }
+      }
+    },
+    {
+      "prefix": "D1_CONT_SECOND_D1_SAME_UUID_C070305DE8504468BBEC91C03A7654C1",
+      "changes": {}
+    }
+  ],
+  "sequence_scope": {
+    "refusals_replay_reviews_have_exact_no_change": true,
+    "positive_commands_can_allocate_sequences": true,
+    "isolated_savepoint_rollbacks_do_not_restore_sequences": true,
+    "complete_sequence_restore_only_full_outer_database_backup_and_package_gate": true,
+    "sequences_reset_by_reviewer": false
+  },
+  "history_originals": [
+    {
+      "path": "D1_CONT_APPLY220_A0511C7E59C54BDEB51B64A8D7E99DBA_SIGNED_HISTORY.json",
+      "sha256": "26ea2a6311bebb627c9167b04f9b452b7206c25eda0bca75f7084fe2660bfa5e",
+      "all_nested_raw_JSON_hashes_and_documents_match": true,
+      "signed_amounts": [
+        "-220.00",
+        "220.00"
+      ],
+      "operations": 2,
+      "completions": 2
+    },
+    {
+      "path": "D1_CONT_COMMITTED_APPLY220_B76B6C1B7C514492B15121577ADCF44D_SIGNED_HISTORY.json",
+      "sha256": "b2a3611c99fcaeed813ff619787f34b385114e4e23956dd0385e3f081cb085b5",
+      "all_nested_raw_JSON_hashes_and_documents_match": true,
+      "signed_amounts": [
+        "-220.00",
+        "220.00"
+      ],
+      "operations": 2,
+      "completions": 2
+    },
+    {
+      "path": "D1_CONT_REFUND230_9D88A19FBB5C48BBBB507B73BBA47396_SIGNED_HISTORY.json",
+      "sha256": "01b6d20dd96dd209e0533f27713fcb1e77d3a70facc4684f4d930f2c3475b4f7",
+      "all_nested_raw_JSON_hashes_and_documents_match": true,
+      "signed_amounts": [
+        "-230.00",
+        "230.00"
+      ],
+      "operations": 2,
+      "completions": 2
+    },
+    {
+      "path": "D1_CONT_SECOND_8128C484307841418438F9B75918F122_IMMUTABLE_CHAIN.json",
+      "sha256": "3253679a325bd11b59e2cc0a327f3f31eccf5e4322924be4669daaf2114efc26",
+      "all_nested_raw_JSON_hashes_and_documents_match": true,
+      "signed_amounts": [
+        "-220.00",
+        "220.00"
+      ],
+      "operations": 2,
+      "completions": 2
+    },
+    {
+      "path": "D1_CONT_SECOND_APPLY220_5F00C5FCD7B045B3B99C2EA26A0061C2_SIGNED_HISTORY.json",
+      "sha256": "f87973f75a6dc4425632ddf1e41f0a7812e64de4137ea7b47c1007775137d105",
+      "all_nested_raw_JSON_hashes_and_documents_match": true,
+      "signed_amounts": [
+        "-220.00",
+        "220.00"
+      ],
+      "operations": 2,
+      "completions": 2
+    }
+  ],
+  "used_witness": {
+    "status": "ACTUAL_D1_AND_SIGNED_APPLY220_UNDO_COMMITTED",
+    "scope": "SEPARATE_COMMITTED_CONTINUATION_USED_INVERSE_WITNESS_ZERO_NATIVE3_CREDIT",
+    "committed_D1": {
+      "kind": "COMMITTED_OUTCOME",
+      "link": {
+        "id": "20a6a7d9-8faf-4856-975f-ab7e3d9f5d74",
+        "reason": "Nilai retur dan tambahan kredit customer sudah diperiksa",
+        "sale_id": "4af1b11c-b37e-4015-9008-a24c10fcae5d",
+        "request_id": "2b620df1-6bc8-4c66-8c92-cea8d33fc229",
+        "original_id": "8ffe55e4-21bc-4cf2-9fa9-ab7040b06dd9",
+        "recorded_at": "2026-10-29T21:58:25.528633+00:00",
+        "actor_scope_id": "c8c00000-0000-4000-8000-000000000101",
+        "replacement_id": "962c59d1-6186-4f24-aeb0-7806e399d793",
+        "time_restatement": {
+          "source_journal_id": "b8a67c50-5178-4609-b04f-45cc708444da",
+          "inverse_journal_id": "46f1b46f-f51f-4542-be7d-2b3b0066a0b1",
+          "neutral_journal_id": "ce2d618f-07a4-47e9-8a6c-05d6bbd6d0c3",
+          "effective_journal_id": "19933a78-bdc5-4e48-80d7-aa9e09c6022f",
+          "native_economic_date": "2026-10-30",
+          "corrected_economic_date": "2026-10-29"
+        }
+      },
+      "action": "RETURN_CORRECT",
+      "status": "PAID",
+      "sale_id": "4af1b11c-b37e-4015-9008-a24c10fcae5d",
+      "return_id": "962c59d1-6186-4f24-aeb0-7806e399d793",
+      "request_id": "2b620df1-6bc8-4c66-8c92-cea8d33fc229",
+      "row_version": "6",
+      "production_go": false,
+      "return_status": "POSTED",
+      "contract_version": "cp7.sales-return-correction.v1",
+      "original_return_id": "8ffe55e4-21bc-4cf2-9fa9-ab7040b06dd9",
+      "return_page_offset": 0,
+      "original_return_status": "REVERSED"
+    },
+    "signed_events": [
+      {
+        "kind": "COMMITTED_OUTCOME",
+        "action": "APPLY",
+        "amount": "220.00",
+        "cohort_id": "afce5cdf-f7ec-4afe-8655-c30dc1f42c7c",
+        "event_kind": "APPLY",
+        "journal_id": "9bfd17ff-d059-4750-bebf-675ee52d9ae4",
+        "request_id": "7e09d5ab-9d72-491d-88bb-461e318d7512",
+        "physical_at": "2026-10-29T05:05:00.123456Z",
+        "operation_id": "ed91e54c-c4bf-494b-8f47-ecbc50d3e0bc",
+        "economic_date": "2026-10-29",
+        "source_sale_id": "4af1b11c-b37e-4015-9008-a24c10fcae5d",
+        "target_sale_id": "625cd35e-5bad-48c3-984e-8ca522e6de95",
+        "cash_account_id": null,
+        "available_credit": "30.00",
+        "contract_version": "cp7.customer-credit-outcome.v1",
+        "invoice_versions": {
+          "4af1b11c-b37e-4015-9008-a24c10fcae5d": "7",
+          "625cd35e-5bad-48c3-984e-8ca522e6de95": "3"
+        },
+        "transaction_date": "2026-10-29",
+        "restores_event_id": null,
+        "consumption_event_id": "ed91e54c-c4bf-494b-8f47-ecbc50d3e0bc"
+      },
+      {
+        "kind": "COMMITTED_OUTCOME",
+        "action": "UNDO",
+        "amount": "-220.00",
+        "cohort_id": "afce5cdf-f7ec-4afe-8655-c30dc1f42c7c",
+        "event_kind": "APPLY",
+        "journal_id": "9b74b22e-196f-49a8-b40a-0b41c41e9b77",
+        "request_id": "e5db4e2f-9fea-4d64-9849-4c6247dc29aa",
+        "physical_at": "2026-10-29T05:05:00.123456Z",
+        "operation_id": "07c357bf-b87c-4c6d-bb59-746f9d8de426",
+        "economic_date": "2026-10-29",
+        "source_sale_id": "4af1b11c-b37e-4015-9008-a24c10fcae5d",
+        "target_sale_id": "625cd35e-5bad-48c3-984e-8ca522e6de95",
+        "cash_account_id": null,
+        "available_credit": "250.00",
+        "contract_version": "cp7.customer-credit-outcome.v1",
+        "invoice_versions": {
+          "4af1b11c-b37e-4015-9008-a24c10fcae5d": "8",
+          "625cd35e-5bad-48c3-984e-8ca522e6de95": "4"
+        },
+        "transaction_date": "2026-10-29",
+        "restores_event_id": "ed91e54c-c4bf-494b-8f47-ecbc50d3e0bc",
+        "consumption_event_id": "07c357bf-b87c-4c6d-bb59-746f9d8de426"
+      }
+    ],
+    "actual_profile": {
+      "source": {
+        "I": "250.00",
+        "available": "250.00",
+        "net": "750.00",
+        "AR": "0.00"
+      },
+      "target": {
+        "net": "500.00",
+        "P": "0.00",
+        "U": "0.00",
+        "I": "0.00",
+        "E": "0.00",
+        "AR": "500.00"
+      },
+      "cash": "1000.00"
+    },
+    "raw_signed_history": {
+      "path": "cp6-proof/t3/D1_CONT_COMMITTED_APPLY220_B76B6C1B7C514492B15121577ADCF44D_SIGNED_HISTORY.json",
+      "bytes": 1528338,
+      "sha256": "b2a3611c99fcaeed813ff619787f34b385114e4e23956dd0385e3f081cb085b5"
+    },
+    "complete_prefixes": {
+      "post": {
+        "before": {
+          "path": "cp6-proof/t3/D1_CONT_COMMITTED_APPLY220_POST_EDED1D13634D49C2B7117681B56A484C_BEFORE.json",
+          "bytes": 56964606,
+          "sha256": "d781132236ef1b73768ae0861df65ee4eedd48a31c62ceed358c89309b806db7"
+        },
+        "result": {
+          "path": "cp6-proof/t3/D1_CONT_COMMITTED_APPLY220_POST_EDED1D13634D49C2B7117681B56A484C_RESULT.json",
+          "bytes": 58566220,
+          "sha256": "c4618bd04dcb62bd265cd388ea7eec806f36607e8bea6a640ab6b7cac1e8c567"
+        },
+        "before_sha256": "2bfbce882fdff8266fe93d9a35263ac27680504aa98e1716abc0d943bf93a0e0",
+        "after_sha256": "3ba8586ff88a9c6a233226e5dccc91763341dc1ffc388d910b99099bfbdb3eb8",
+        "all22_observed": true,
+        "all_current_rows_and_sequences_observed": true,
+        "exact_no_effect_checked": false,
+        "dropped_fields": []
+      },
+      "post_replay": {
+        "before": {
+          "path": "cp6-proof/t3/D1_CONT_COMMITTED_APPLY220_POST_SAME_UUID_41611FB80ECE408A8F551369B9F31EEE_BEFORE.json",
+          "bytes": 57261638,
+          "sha256": "76882696966593b851a0446e46733b01bf67756e32acf082d892fcfa5ba98d74"
+        },
+        "result": {
+          "path": "cp6-proof/t3/D1_CONT_COMMITTED_APPLY220_POST_SAME_UUID_41611FB80ECE408A8F551369B9F31EEE_RESULT.json",
+          "bytes": 58565465,
+          "sha256": "0564d792b3d9d1097e04d9b508487f24ce9a139c90ac5fe17f6a5f9026ee2024"
+        },
+        "before_sha256": "3ba8586ff88a9c6a233226e5dccc91763341dc1ffc388d910b99099bfbdb3eb8",
+        "after_sha256": "3ba8586ff88a9c6a233226e5dccc91763341dc1ffc388d910b99099bfbdb3eb8",
+        "all22_observed": true,
+        "all_current_rows_and_sequences_observed": true,
+        "exact_no_effect_checked": true,
+        "dropped_fields": []
+      },
+      "undo_review": {
+        "before": {
+          "path": "cp6-proof/t3/D1_CONT_COMMITTED_APPLY220_NAMED_UNDO_REVIEW_77FF8E7F81184C9981DC98C2B4D4F8BD_BEFORE.json",
+          "bytes": 57261638,
+          "sha256": "76882696966593b851a0446e46733b01bf67756e32acf082d892fcfa5ba98d74"
+        },
+        "result": {
+          "path": "cp6-proof/t3/D1_CONT_COMMITTED_APPLY220_NAMED_UNDO_REVIEW_77FF8E7F81184C9981DC98C2B4D4F8BD_RESULT.json",
+          "bytes": 58565110,
+          "sha256": "f51d32c3ba707aea265569125e5837f35ecc1a8b1a21a4840618ebc08bc56c29"
+        },
+        "before_sha256": "3ba8586ff88a9c6a233226e5dccc91763341dc1ffc388d910b99099bfbdb3eb8",
+        "after_sha256": "3ba8586ff88a9c6a233226e5dccc91763341dc1ffc388d910b99099bfbdb3eb8",
+        "all22_observed": true,
+        "all_current_rows_and_sequences_observed": true,
+        "exact_no_effect_checked": true,
+        "dropped_fields": []
+      },
+      "undo": {
+        "before": {
+          "path": "cp6-proof/t3/D1_CONT_COMMITTED_APPLY220_NAMED_UNDO_E5C3C1AE2CE842A6B02BB651347568EA_BEFORE.json",
+          "bytes": 57261638,
+          "sha256": "76882696966593b851a0446e46733b01bf67756e32acf082d892fcfa5ba98d74"
+        },
+        "result": {
+          "path": "cp6-proof/t3/D1_CONT_COMMITTED_APPLY220_NAMED_UNDO_E5C3C1AE2CE842A6B02BB651347568EA_RESULT.json",
+          "bytes": 58880001,
+          "sha256": "1ad82dd597a65ec0fe6530d35ce17fcdebd941eb48c34eea567ef8e133eaf12f"
+        },
+        "before_sha256": "3ba8586ff88a9c6a233226e5dccc91763341dc1ffc388d910b99099bfbdb3eb8",
+        "after_sha256": "8f5b92214b0072a7bb1f1a7f8be5e8373935fcea99a00ecb3661794c66f2ec98",
+        "all22_observed": true,
+        "all_current_rows_and_sequences_observed": true,
+        "exact_no_effect_checked": false,
+        "dropped_fields": []
+      },
+      "undo_replay": {
+        "before": {
+          "path": "cp6-proof/t3/D1_CONT_COMMITTED_APPLY220_UNDO_SAME_UUID_AB0E42F9FB24423985D404A86C4450A1_BEFORE.json",
+          "bytes": 57576143,
+          "sha256": "c77d4174a1ed8d7dde0cb168a743f32ba3a293c1fdbb8b768d2ae602689540eb"
+        },
+        "result": {
+          "path": "cp6-proof/t3/D1_CONT_COMMITTED_APPLY220_UNDO_SAME_UUID_AB0E42F9FB24423985D404A86C4450A1_RESULT.json",
+          "bytes": 58880005,
+          "sha256": "2bcee110789f84754b7422b88145a3e9083ee5625cbf1c8872aa2dacd6df24b1"
+        },
+        "before_sha256": "8f5b92214b0072a7bb1f1a7f8be5e8373935fcea99a00ecb3661794c66f2ec98",
+        "after_sha256": "8f5b92214b0072a7bb1f1a7f8be5e8373935fcea99a00ecb3661794c66f2ec98",
+        "all22_observed": true,
+        "all_current_rows_and_sequences_observed": true,
+        "exact_no_effect_checked": true,
+        "dropped_fields": []
+      },
+      "duplicate_undo_refusal": {
+        "error": {
+          "type": "RaiseException",
+          "text": "CP7_CREDIT_CONSUMER_ORIGINAL_ALREADY_UNDONE\nCONTEXT:  PL/pgSQL function cp7_credit.consumer_selection_v1(jsonb) line 11 at RAISE\nPL/pgSQL function cp7_credit.consumer_lock_sources_v1(jsonb) line 6 at assignment\nPL/pgSQL function cp7_credit.consumer_execute_v1(uuid) line 16 at assignment\nPL/pgSQL function cp7_credit.consumer_command_v1(jsonb,uuid,jsonb) line 40 at assignment\nSQL function \"erp_cp7_customer_credit_command_v1\" statement 1",
+          "sqlstate": "P0001",
+          "message": "CP7_CREDIT_CONSUMER_ORIGINAL_ALREADY_UNDONE",
+          "detail": null,
+          "hint": null,
+          "context": "PL/pgSQL function cp7_credit.consumer_selection_v1(jsonb) line 11 at RAISE\nPL/pgSQL function cp7_credit.consumer_lock_sources_v1(jsonb) line 6 at assignment\nPL/pgSQL function cp7_credit.consumer_execute_v1(uuid) line 16 at assignment\nPL/pgSQL function cp7_credit.consumer_command_v1(jsonb,uuid,jsonb) line 40 at assignment\nSQL function \"erp_cp7_customer_credit_command_v1\" statement 1"
+        },
+        "original": {
+          "path": "cp6-proof/t3/D1_CONT_COMMITTED_APPLY220_SECOND_UNDO_NEW_UUID_7F8CA4EB4ADC4D7E853353FD2E8C7A00_FIRST_ERROR.json",
+          "bytes": 1014,
+          "sha256": "84e69e5cff5404ebe380b4b7cd16b41349af9a2ec4313effb6e139f4401bed6a"
+        },
+        "before": {
+          "path": "cp6-proof/t3/D1_CONT_COMMITTED_APPLY220_SECOND_UNDO_NEW_UUID_7F8CA4EB4ADC4D7E853353FD2E8C7A00_BEFORE.json",
+          "bytes": 57576143,
+          "sha256": "c77d4174a1ed8d7dde0cb168a743f32ba3a293c1fdbb8b768d2ae602689540eb"
+        },
+        "result": {
+          "path": "cp6-proof/t3/D1_CONT_COMMITTED_APPLY220_SECOND_UNDO_NEW_UUID_7F8CA4EB4ADC4D7E853353FD2E8C7A00_REFUSAL.json",
+          "bytes": 58880059,
+          "sha256": "c43f9f9e5394c37043dbf40feb9e2d26ae01f0f436889c12ae0e87a0e090c203"
+        },
+        "all22_all_rows_and_sequences_unchanged": true,
+        "dropped_fields": []
+      },
+      "old_d1_replay": {
+        "before": {
+          "path": "cp6-proof/t3/D1_CONT_COMMITTED_APPLY220_OLD_D1_SAME_UUID_16FB8F38EADC4F8E9316F274D8D43D3C_BEFORE.json",
+          "bytes": 57576143,
+          "sha256": "c77d4174a1ed8d7dde0cb168a743f32ba3a293c1fdbb8b768d2ae602689540eb"
+        },
+        "result": {
+          "path": "cp6-proof/t3/D1_CONT_COMMITTED_APPLY220_OLD_D1_SAME_UUID_16FB8F38EADC4F8E9316F274D8D43D3C_RESULT.json",
+          "bytes": 58880490,
+          "sha256": "224b2b7e188a83918412c15c5954686a83f294246102957e1120d2e1c9c2db96"
+        },
+        "before_sha256": "8f5b92214b0072a7bb1f1a7f8be5e8373935fcea99a00ecb3661794c66f2ec98",
+        "after_sha256": "8f5b92214b0072a7bb1f1a7f8be5e8373935fcea99a00ecb3661794c66f2ec98",
+        "all22_observed": true,
+        "all_current_rows_and_sequences_observed": true,
+        "exact_no_effect_checked": true,
+        "dropped_fields": []
+      }
+    },
+    "immutable_old_D1_sale_payment_HPP_stock_cost_and_money_oracles_retained": true,
+    "financial_truth_before": {
+      "V267_GRNI_MAPPING_INVALID": 0,
+      "V267_MISSING_GRNI_MAPPING": 0,
+      "V267_ESTIMATED_RECEIPT_MISSING_GRNI_RECLASS": 0,
+      "V267_POSTED_INVOICE_MISSING_JOURNAL": 0,
+      "V267_INVOICE_MATCH_OVER_RECEIPT": 0,
+      "V267_PAYMENT_EXCEEDS_FINAL_AP": 0,
+      "V267_LEGACY_CORRECTION_ON_GRNI": 0,
+      "V267_POSTED_RETURN_MISSING_LIABILITY_SNAPSHOT": 0,
+      "V267_GRNI_GL_SUBLEDGER_MISMATCH": 0,
+      "V267_AP_GL_SUBLEDGER_MISMATCH": 0,
+      "V267_BROWSER_ROLE_DIRECT_INVOICE_WRITE": 0,
+      "V2620M_SUPPLIER_PAYMENT_EXACT_STATUS": 0,
+      "V2620M_OPENING_SUBLEDGER_STATE": 0,
+      "V2620M_PAYMENT_SOURCE_JOURNAL_MISMATCH": 0,
+      "V2620M_ORPHAN_PAYMENT_JOURNAL": 0,
+      "V2620P_SUPPLIER_RETURN_MATCH_STATE": 0,
+      "V2620O_SUPPLIER_RETURN_ALLOCATION": 0,
+      "V2620R_SUPPLIER_INVOICE_SOURCE_STATE": 0,
+      "V2620Y_OPENING_SETTLEMENT_BUSINESS_DATE": 0,
+      "V2620Y_VENDOR_PAYMENT_BUSINESS_DATE": 0,
+      "V2620Y_SALES_PAYMENT_BUSINESS_DATE": 0,
+      "V2620W_SCRAP_BUSINESS_DATE": 0,
+      "V2620V_MISC_FINANCE_BUSINESS_DATE": 0,
+      "V2620U_MATERIAL_ADJUSTMENT_BUSINESS_DATE": 0,
+      "V2620U_JOURNAL_REVERSAL_BUSINESS_DATE": 0,
+      "V2620U_MATERIAL_RECEIPT_BUSINESS_DATE": 0,
+      "V2620T_JOURNAL_FUTURE_BUSINESS_DATE": 0,
+      "V2620T_MATERIAL_ADJUSTMENT_REVALUATION": 0,
+      "V2620T_MATERIAL_ADJUSTMENT_FACT_LEDGER": 0,
+      "V2620S_SUPPLIER_PAYMENT_BUSINESS_DATE": 0,
+      "V2620N_SUPPLIER_CENT_FACT_LEDGER": 0,
+      "AP_OPENING_RECEIPT_SOURCE_DRIFT": 0,
+      "AP_OPENING_RECEIPT_JOURNAL_DRIFT": 0,
+      "AP_CASH_ADVANCE_CAPACITY": 0,
+      "AP_CASH_ADVANCE_SOURCE": 0,
+      "AP_CASH_ADVANCE_PAYROLL_JOURNAL": 0,
+      "AP_PREPAYMENT_CAPACITY": 0,
+      "AP_PREPAYMENT_PAYMENT_SOURCE": 0,
+      "AP_PREPAYMENT_PAYMENT_JOURNAL": 0,
+      "AP_PREPAYMENT_OPENING_JOURNAL": 0,
+      "AP_PREPAYMENT_EVENT_JOURNAL": 0,
+      "AP_PREPAYMENT_GL_SUBLEDGER": 0,
+      "AP_PERIOD_POCKET_LEDGER": 0,
+      "AP_PERIOD_POCKET_SOURCES": 0,
+      "AP_PERIOD_POCKET_OVERLAP": 0,
+      "AP_PERIOD_POCKET_HPP": 0,
+      "AP_POCKET_SOURCE": 0,
+      "AP_POCKET_EXPENSE_LEDGER": 0,
+      "AP_POCKET_NO_CUTTING": 0,
+      "OW06_SUPPLIER_TRANSFER_FACTS": 0,
+      "OW06_SUPPLIER_TRANSFER_CORRECTION": 0,
+      "V268_DAILY_BALANCE_LEDGER_MISMATCH": 0,
+      "V268_UNBALANCED_POSTED_JOURNAL": 0,
+      "V268_BALANCE_SHEET_EQUATION": 0,
+      "V2620L_NONFINITE_LEDGER_MONEY": 0,
+      "V2620L_NEGATIVE_VENDOR_AP": 0,
+      "V268_AR_GL_SUBLEDGER_MISMATCH": 0,
+      "V268_POSTED_CUSTOMER_PAYMENT_MISSING_JOURNAL": 0,
+      "V268_PRODUCTION_FG_WITHOUT_CURRENT_HPP": 0,
+      "V268_COST_RECALC_EXHAUSTED": 0,
+      "V268_COST_RECALC_PENDING": 0,
+      "V268_LIABILITY_VIEW_HELPER_PRIVILEGE": 0,
+      "V268_BROWSER_DIRECT_LEDGER_OR_INVOICE_WRITE": 0,
+      "V2620C_PO_HPP_TARGET_STATE_MISMATCH": 0,
+      "V2620C_HPP_COMPONENT_SUM_MISMATCH": 0,
+      "V2620C_PO_HPP_BOOK_MISMATCH": 0,
+      "V2620C_WIP_SOURCE_CONSERVATION_MISMATCH": 0,
+      "V2620C_SALE_REVENUE_REPORT_INPUT_MISMATCH": 0,
+      "V2620C_SALES_RETURN_REPORT_INPUT_MISMATCH": 0,
+      "V2620C_DRAFT_SALE_VALUE_LEAK": 0,
+      "V2620C_VENDOR_PAYMENT_EXACT_STATUS_MISMATCH": 0,
+      "V2620C_HPP_STATE_HAS_SUBCENT": 0,
+      "V2620D_REDISPATCH_PARTICIPANT_LINEAGE_MISMATCH": 0,
+      "V268_ACTIVE_SALE_MISSING_JOURNAL": 0,
+      "V268_POSTED_SALES_RETURN_MISSING_JOURNAL": 0,
+      "V2620F_NON_PO_PRODUCT_HPP_BOOK_MISMATCH": 0,
+      "V2620E_SALES_RETURN_VALUE_EXCEEDS_SALE": 0,
+      "V2620E_OPENING_HPP_LINEAGE_MISMATCH": 0,
+      "V2620E_OPENING_FG_GL_MISMATCH": 0,
+      "V2620I_SALES_PAYMENT_JOURNAL_LINEAGE_MISMATCH": 0,
+      "V2620K_PAYMENT_ALLOCATION_DATE_MISMATCH": 0,
+      "V2620J_SALES_PAYMENT_IMMUTABLE_FACT_MISMATCH": 0,
+      "V2620H_FAILED_WASH_RETURN_TIME_MISMATCH": 0,
+      "V2620H_CUSTOMER_AR_STATUS_MISMATCH": 0,
+      "V2620H_CUSTOMER_AR_BY_CUSTOMER_MISMATCH": 0,
+      "CP7_CUSTOMER_CREDIT_REPORT_UNPROVEN": 0,
+      "V2620G_LAUNDRY_WIP_CUSTODY_MISMATCH": 0,
+      "V2620E_REDISPATCH_EVENT_MISMATCH": 0,
+      "V2620F_CONVERSION_VALUE_LINEAGE_MISMATCH": 0,
+      "V2620D_SALE_LIFECYCLE_HPP_DIMENSION_MISMATCH": 0,
+      "V2620AD_OPENING_MATERIAL_TIMELINE_MISMATCH": 0,
+      "V2620AE_OPENING_MATERIAL_ROLL_INTEGRITY": 0,
+      "V2620AF_OPENING_SOURCE_LINEAGE_MISMATCH": 0,
+      "V2620AG_SALE_RESERVATION_LINEAGE_MISMATCH": 0,
+      "V2620AH_RETURN_ALLOCATION_LINEAGE_MISMATCH": 0,
+      "V2620AI_WORK_SOURCE_LINEAGE_MISMATCH": 0
+    },
+    "financial_truth_after": {
+      "V267_GRNI_MAPPING_INVALID": 0,
+      "V267_MISSING_GRNI_MAPPING": 0,
+      "V267_ESTIMATED_RECEIPT_MISSING_GRNI_RECLASS": 0,
+      "V267_POSTED_INVOICE_MISSING_JOURNAL": 0,
+      "V267_INVOICE_MATCH_OVER_RECEIPT": 0,
+      "V267_PAYMENT_EXCEEDS_FINAL_AP": 0,
+      "V267_LEGACY_CORRECTION_ON_GRNI": 0,
+      "V267_POSTED_RETURN_MISSING_LIABILITY_SNAPSHOT": 0,
+      "V267_GRNI_GL_SUBLEDGER_MISMATCH": 0,
+      "V267_AP_GL_SUBLEDGER_MISMATCH": 0,
+      "V267_BROWSER_ROLE_DIRECT_INVOICE_WRITE": 0,
+      "V2620M_SUPPLIER_PAYMENT_EXACT_STATUS": 0,
+      "V2620M_OPENING_SUBLEDGER_STATE": 0,
+      "V2620M_PAYMENT_SOURCE_JOURNAL_MISMATCH": 0,
+      "V2620M_ORPHAN_PAYMENT_JOURNAL": 0,
+      "V2620P_SUPPLIER_RETURN_MATCH_STATE": 0,
+      "V2620O_SUPPLIER_RETURN_ALLOCATION": 0,
+      "V2620R_SUPPLIER_INVOICE_SOURCE_STATE": 0,
+      "V2620Y_OPENING_SETTLEMENT_BUSINESS_DATE": 0,
+      "V2620Y_VENDOR_PAYMENT_BUSINESS_DATE": 0,
+      "V2620Y_SALES_PAYMENT_BUSINESS_DATE": 0,
+      "V2620W_SCRAP_BUSINESS_DATE": 0,
+      "V2620V_MISC_FINANCE_BUSINESS_DATE": 0,
+      "V2620U_MATERIAL_ADJUSTMENT_BUSINESS_DATE": 0,
+      "V2620U_JOURNAL_REVERSAL_BUSINESS_DATE": 0,
+      "V2620U_MATERIAL_RECEIPT_BUSINESS_DATE": 0,
+      "V2620T_JOURNAL_FUTURE_BUSINESS_DATE": 0,
+      "V2620T_MATERIAL_ADJUSTMENT_REVALUATION": 0,
+      "V2620T_MATERIAL_ADJUSTMENT_FACT_LEDGER": 0,
+      "V2620S_SUPPLIER_PAYMENT_BUSINESS_DATE": 0,
+      "V2620N_SUPPLIER_CENT_FACT_LEDGER": 0,
+      "AP_OPENING_RECEIPT_SOURCE_DRIFT": 0,
+      "AP_OPENING_RECEIPT_JOURNAL_DRIFT": 0,
+      "AP_CASH_ADVANCE_CAPACITY": 0,
+      "AP_CASH_ADVANCE_SOURCE": 0,
+      "AP_CASH_ADVANCE_PAYROLL_JOURNAL": 0,
+      "AP_PREPAYMENT_CAPACITY": 0,
+      "AP_PREPAYMENT_PAYMENT_SOURCE": 0,
+      "AP_PREPAYMENT_PAYMENT_JOURNAL": 0,
+      "AP_PREPAYMENT_OPENING_JOURNAL": 0,
+      "AP_PREPAYMENT_EVENT_JOURNAL": 0,
+      "AP_PREPAYMENT_GL_SUBLEDGER": 0,
+      "AP_PERIOD_POCKET_LEDGER": 0,
+      "AP_PERIOD_POCKET_SOURCES": 0,
+      "AP_PERIOD_POCKET_OVERLAP": 0,
+      "AP_PERIOD_POCKET_HPP": 0,
+      "AP_POCKET_SOURCE": 0,
+      "AP_POCKET_EXPENSE_LEDGER": 0,
+      "AP_POCKET_NO_CUTTING": 0,
+      "OW06_SUPPLIER_TRANSFER_FACTS": 0,
+      "OW06_SUPPLIER_TRANSFER_CORRECTION": 0,
+      "V268_DAILY_BALANCE_LEDGER_MISMATCH": 0,
+      "V268_UNBALANCED_POSTED_JOURNAL": 0,
+      "V268_BALANCE_SHEET_EQUATION": 0,
+      "V2620L_NONFINITE_LEDGER_MONEY": 0,
+      "V2620L_NEGATIVE_VENDOR_AP": 0,
+      "V268_AR_GL_SUBLEDGER_MISMATCH": 0,
+      "V268_POSTED_CUSTOMER_PAYMENT_MISSING_JOURNAL": 0,
+      "V268_PRODUCTION_FG_WITHOUT_CURRENT_HPP": 0,
+      "V268_COST_RECALC_EXHAUSTED": 0,
+      "V268_COST_RECALC_PENDING": 0,
+      "V268_LIABILITY_VIEW_HELPER_PRIVILEGE": 0,
+      "V268_BROWSER_DIRECT_LEDGER_OR_INVOICE_WRITE": 0,
+      "V2620C_PO_HPP_TARGET_STATE_MISMATCH": 0,
+      "V2620C_HPP_COMPONENT_SUM_MISMATCH": 0,
+      "V2620C_PO_HPP_BOOK_MISMATCH": 0,
+      "V2620C_WIP_SOURCE_CONSERVATION_MISMATCH": 0,
+      "V2620C_SALE_REVENUE_REPORT_INPUT_MISMATCH": 0,
+      "V2620C_SALES_RETURN_REPORT_INPUT_MISMATCH": 0,
+      "V2620C_DRAFT_SALE_VALUE_LEAK": 0,
+      "V2620C_VENDOR_PAYMENT_EXACT_STATUS_MISMATCH": 0,
+      "V2620C_HPP_STATE_HAS_SUBCENT": 0,
+      "V2620D_REDISPATCH_PARTICIPANT_LINEAGE_MISMATCH": 0,
+      "V268_ACTIVE_SALE_MISSING_JOURNAL": 0,
+      "V268_POSTED_SALES_RETURN_MISSING_JOURNAL": 0,
+      "V2620F_NON_PO_PRODUCT_HPP_BOOK_MISMATCH": 0,
+      "V2620E_SALES_RETURN_VALUE_EXCEEDS_SALE": 0,
+      "V2620E_OPENING_HPP_LINEAGE_MISMATCH": 0,
+      "V2620E_OPENING_FG_GL_MISMATCH": 0,
+      "V2620I_SALES_PAYMENT_JOURNAL_LINEAGE_MISMATCH": 0,
+      "V2620K_PAYMENT_ALLOCATION_DATE_MISMATCH": 0,
+      "V2620J_SALES_PAYMENT_IMMUTABLE_FACT_MISMATCH": 0,
+      "V2620H_FAILED_WASH_RETURN_TIME_MISMATCH": 0,
+      "V2620H_CUSTOMER_AR_STATUS_MISMATCH": 0,
+      "V2620H_CUSTOMER_AR_BY_CUSTOMER_MISMATCH": 0,
+      "CP7_CUSTOMER_CREDIT_REPORT_UNPROVEN": 0,
+      "V2620G_LAUNDRY_WIP_CUSTODY_MISMATCH": 0,
+      "V2620E_REDISPATCH_EVENT_MISMATCH": 0,
+      "V2620F_CONVERSION_VALUE_LINEAGE_MISMATCH": 0,
+      "V2620D_SALE_LIFECYCLE_HPP_DIMENSION_MISMATCH": 0,
+      "V2620AD_OPENING_MATERIAL_TIMELINE_MISMATCH": 0,
+      "V2620AE_OPENING_MATERIAL_ROLL_INTEGRITY": 0,
+      "V2620AF_OPENING_SOURCE_LINEAGE_MISMATCH": 0,
+      "V2620AG_SALE_RESERVATION_LINEAGE_MISMATCH": 0,
+      "V2620AH_RETURN_ALLOCATION_LINEAGE_MISMATCH": 0,
+      "V2620AI_WORK_SOURCE_LINEAGE_MISMATCH": 0
+    },
+    "Native_case_credit": 0,
+    "actual_Auth": false,
+    "actual_used_inverse_error": "CREDIT_DE_AFTER_USE_REQUIRES_FULL_BACKUP_RESTORE"
+  },
+  "full_outer_restore": {
+    "used_guard_refused_before_DDL": true,
+    "baseline_restore": {
+      "exit": 1,
+      "error_count": 19,
+      "unexplained": [],
+      "only_pg_cron_errors": true,
+      "database_owner_acl_and_settings_preserved": true,
+      "platform_schema_authority_restored": [
+        "graphql",
+        "graphql_public"
+      ]
+    },
+    "baseline_role_cleanup": {
+      "already_removed_by_preuse": [],
+      "removed_remaining": [
+        "cp7_alert",
+        "cp7_attendance_read",
+        "cp7_attendance_write",
+        "cp7_audit_read",
+        "cp7_capture",
+        "cp7_credit_visible_read",
+        "cp7_credit_write",
+        "cp7_customer_history_read",
+        "cp7_cutover_read",
+        "cp7_cutover_write",
+        "cp7_cutting_read",
+        "cp7_cutting_write",
+        "cp7_erp_settings_read",
+        "cp7_fg_read",
+        "cp7_fg_write",
+        "cp7_finance_read",
+        "cp7_guard",
+        "cp7_hpp_pool_read",
+        "cp7_hpp_pool_write",
+        "cp7_installment_read",
+        "cp7_installment_write",
+        "cp7_invoice_read",
+        "cp7_invoice_write",
+        "cp7_journal_read",
+        "cp7_kasbon_read",
+        "cp7_kasbon_write",
+        "cp7_master_read",
+        "cp7_master_write",
+        "cp7_material_read",
+        "cp7_material_write",
+        "cp7_misc_read",
+        "cp7_misc_write",
+        "cp7_nota_write",
+        "cp7_obligation_read",
+        "cp7_payable_read",
+        "cp7_payroll_header",
+        "cp7_payroll_read",
+        "cp7_payroll_write",
+        "cp7_period_read",
+        "cp7_period_write",
+        "cp7_plan_writer",
+        "cp7_policy",
+        "cp7_procure_read",
+        "cp7_procure_write",
+        "cp7_public_routes",
+        "cp7_recost_read",
+        "cp7_recost_write",
+        "cp7_reminder",
+        "cp7_reminders_read",
+        "cp7_reminders_write",
+        "cp7_return_read",
+        "cp7_return_write",
+        "cp7_roster_write",
+        "cp7_sales_read",
+        "cp7_sales_write",
+        "cp7_transaction_source_read",
+        "cp7_warehouse_summary_read"
+      ],
+      "baseline_roles_exact": true
+    },
+    "baseline_full22_all_rows_all_sequences_equal": true,
+    "restore_components": {
+      "erp_platform_auth_schema_acl": true,
+      "all_public_catalog_members_and_row_hashes": true,
+      "erp_public_auth_function_definitions_owners_acls": true
+    },
+    "restore_raw_public_equal": true,
+    "cp6_restored": true,
+    "baseline_advisors_equal": true,
+    "advisor_gate": true
+  },
+  "actual_package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "writer_runtime": {
+    "status": "PASS",
+    "full_OW11_acceptance": false,
+    "production_go": false,
+    "independent_acceptance": false,
+    "schema_profile": "HOSTED_USAGE_UNCHANGED"
+  },
+  "backup_drill": {
+    "label": "T3_PREP_BACKUP_RESTORE_DRILL",
+    "status": "RESTORED_IDENTICAL",
+    "source": "cp6_rollback",
+    "target": "cp6_restore_drill",
+    "installed_stages": [
+      "PACKAGE",
+      "AW_AX_AY_AZ_VERIFY"
+    ],
+    "production_go": false,
+    "release_evidence": false,
+    "dump": {
+      "exit": 0,
+      "stderr": "",
+      "seconds": "0.7",
+      "bytes": 10636149
+    },
+    "restore": {
+      "exit": 0,
+      "seconds": "3.7",
+      "error_count": 0,
+      "ignored_reported": 0,
+      "unexplained": [],
+      "errors": []
+    },
+    "catalog": {
+      "match": [
+        "app_ledger",
+        "config_hash",
+        "constraint",
+        "default_acl",
+        "extension",
+        "function",
+        "function_owner_acl",
+        "index",
+        "platform_ledger",
+        "policy",
+        "relation",
+        "relation_owner_acl",
+        "schema",
+        "sequence",
+        "trigger",
+        "view"
+      ],
+      "differ": {},
+      "objects": {}
+    },
+    "data": {
+      "tables": 407,
+      "rows": 1860,
+      "schemas": [
+        "_realtime",
+        "auth",
+        "erp",
+        "realtime",
+        "storage",
+        "supabase_functions",
+        "supabase_migrations",
+        "vault"
+      ],
+      "differ": {}
+    },
+    "engine": {
+      "day": "2026-10-29",
+      "equal": true,
+      "source_status": "READY",
+      "restored_status": "READY"
+    },
+    "source_cron_jobs": null,
+    "checks": {
+      "restore_errors_only_pg_cron": true,
+      "catalog_explained": true,
+      "data_identical": true,
+      "engine_answer_present": true,
+      "engine_equal": true
+    }
+  },
+  "auth_users": {
+    "before": 0,
+    "after": 0
+  },
+  "current_five_raws": [
+    {
+      "path": "CP7_CREDIT_D1_CONTINUATION_NATIVE3.json",
+      "bytes": 2482702,
+      "compressed_bytes": 278259,
+      "crc32": "6123855e",
+      "compression": 8,
+      "is_directory": false,
+      "sha256": "2d7df185c70c0acd7f94e7a00e7391f2916e85a171d8f9282ee05da1400d2cbc",
+      "local_path": "/workspace/scratch/ef468a447ac6/evidence-private/d1-cde78-continuation3/raw/CP7_CREDIT_D1_CONTINUATION_NATIVE3.json"
+    },
+    {
+      "path": "CP7_CREDIT_D1_CONTINUATION_NATIVE3_CASES.json",
+      "bytes": 52096,
+      "compressed_bytes": 8497,
+      "crc32": "4b6f7a08",
+      "compression": 8,
+      "is_directory": false,
+      "sha256": "03feaad7538eb53d7dec5526c8df818a8dfc501cb886931ac009f646b05b3fc7",
+      "local_path": "/workspace/scratch/ef468a447ac6/evidence-private/d1-cde78-continuation3/raw/CP7_CREDIT_D1_CONTINUATION_NATIVE3_CASES.json"
+    },
+    {
+      "path": "T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 1470,
+      "compressed_bytes": 626,
+      "crc32": "fc21a6db",
+      "compression": 8,
+      "is_directory": false,
+      "sha256": "41326bbb3586a54cad9e33df54c1dd1af9cd2863103844c74ab12f457ff2354a",
+      "local_path": "/workspace/scratch/ef468a447ac6/evidence-private/d1-cde78-continuation3/raw/T3_BACKUP_RESTORE_DRILL.json"
+    },
+    {
+      "path": "T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "compressed_bytes": 238,
+      "crc32": "cfb01269",
+      "compression": 8,
+      "is_directory": false,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "local_path": "/workspace/scratch/ef468a447ac6/evidence-private/d1-cde78-continuation3/raw/T3_PACKAGE_FILES_INSTALL.json"
+    },
+    {
+      "path": "T3_PACKAGE_INSTALL.json",
+      "bytes": 360448,
+      "compressed_bytes": 11495,
+      "crc32": "670b4852",
+      "compression": 8,
+      "is_directory": false,
+      "sha256": "52551e81dbfc55a1db124de740969ed9419f5731d64528e4256529ef3e7decd4",
+      "local_path": "/workspace/scratch/ef468a447ac6/evidence-private/d1-cde78-continuation3/raw/T3_PACKAGE_INSTALL.json"
+    }
+  ],
+  "limitations": {
+    "actual_Auth_HTTP": 0,
+    "actual_browser": 0,
+    "actual_two_session_races": 0,
+    "fresh_Native13": 0,
+    "D_complete": false,
+    "E_complete": false,
+    "default_adopted": false,
+    "production_go": false,
+    "release_evidence": false,
+    "independent_acceptance": false
+  },
+  "reviewer": {
+    "DB_connections": 0,
+    "ERP_Native_executions": 0,
+    "source_or_ref_changes": 0,
+    "full_archive_recombined": false,
+    "full_census_extracted": false,
+    "Decimal_raw_reader": "parse_float=str"
+  },
+  "elapsed_seconds": 124.238
+}

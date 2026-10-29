@@ -1,0 +1,21 @@
+{
+  "operation": "create_library_file",
+  "status": "succeeded",
+  "path": "/ERP_Originals_SKU_602_Native23_First_Failure_20261030.zip",
+  "file_id": "file_000000006c94820797fe52eaa32ec5a9",
+  "library_file_id": "libfile_d2e388bf3f1081919710f344d8c2ecfb",
+  "file_name": "ERP_Originals_SKU_602_Native23_First_Failure_20261030.zip",
+  "current_version_number": 0,
+  "restored_from_version_number": null,
+  "xattrs": [
+    {
+      "name": "user.library-file-version",
+      "value": "0"
+    }
+  ],
+  "directory_id": "libdir_2e507cb8fe148191a4c052c241b72f5e",
+  "mime_type": "application/zip",
+  "library_artifact_type": "other",
+  "file_size_bytes": 27564211,
+  "external_connectors_accessed": false
+}

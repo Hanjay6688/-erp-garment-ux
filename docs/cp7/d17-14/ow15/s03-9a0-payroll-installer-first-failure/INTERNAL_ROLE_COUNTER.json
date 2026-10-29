@@ -1,0 +1,146 @@
+{
+  "actual_observation": {
+    "Auth_after": 0,
+    "Auth_before": 0,
+    "CP6": true,
+    "advisors": true,
+    "all22_all_rows_all_sequences": true,
+    "backup": "RESTORED_IDENTICAL",
+    "baseline_restore": {
+      "database_owner_acl_and_settings_preserved": true,
+      "error_count": 19,
+      "exit": 1,
+      "only_pg_cron_errors": true,
+      "platform_schema_authority_restored": [
+        "graphql",
+        "graphql_public"
+      ],
+      "unexplained": []
+    },
+    "committed": {},
+    "error": "permission denied for schema cp7_payroll",
+    "failed_phase": "FIRST_FINANCE_DELTA",
+    "installation_failed_before_commit": true,
+    "native": {},
+    "observed_case_count": 0,
+    "package_gates": {
+      "backup_restore_drill": true,
+      "installed": true,
+      "primary_unchanged": true,
+      "security_advisors": true,
+      "writer_runtime": false
+    },
+    "raw_public": true,
+    "roles": true,
+    "status": "INCOMPLETE",
+    "trace_line": "cp7_attendance_period_choice/composition.py:74 patched.values() cur.execute",
+    "used_guard_field_present": false
+  },
+  "artifact_id": 12933923714,
+  "backend_source_edits": 0,
+  "classification": "READ_ONLY_SOURCE_AND_ACTUAL_ARTIFACT_REVIEW_WITH_LOCAL_ROLE_DDL_CONTROL_NOT_NATIVE_FINANCE",
+  "exact_originals": {
+    "CP7_S03_ATTENDANCE_CHOICE_NATIVE11.json": {
+      "artifact_member": "CP7_S03_ATTENDANCE_CHOICE_NATIVE11.json",
+      "bytes": 540064,
+      "sha256": "da816a0bfa8c096fcb3780fcaf2d226a9bce183e100276e4ee932bbf365c915c"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "artifact_member": "T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 1470,
+      "sha256": "987c7087ba303ee3bf9f13f283d57f95a6e952b03ed9d2376e4320e0307d165f"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "artifact_member": "T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "artifact_member": "T3_PACKAGE_INSTALL.json",
+      "bytes": 360420,
+      "sha256": "06890ef77cff3ca5af7743750f98cb941ccfe2107c82a6546c9459914e01a15b"
+    }
+  },
+  "head": "9a0ca1de04723717c9d6635b8d3a6bd094233b97",
+  "independent_acceptance": false,
+  "initial_independent_counter_was_sent_before_author_plan_received": true,
+  "job_id": 123732218148,
+  "local_role_control": {
+    "NULL_rawACL_directgrantrevoke_materialization_counter_retained": true,
+    "actual_Native_financial_cases": 0,
+    "bootstrap_rename_is_local_fixture_only": true,
+    "both_schema_42501_reproduced": true,
+    "controls": 6,
+    "currentCanSET": false,
+    "external_DB_calls": 0,
+    "first_setup_0A000_demote_bootstrap_limitation_retained": "LOCAL_ROLE_FIRST.json",
+    "late_SQL_error_atomic_rollback_restores_all_profile_fields": true,
+    "literal_NS_postgres_under_SU_session": true,
+    "runtime": "@electric-sql/pglite@0.3.14",
+    "sessionCanSET": true,
+    "status": "PASS",
+    "temporary_CREATE_replaces_functions_then_preserves_schema_rawACL_function_owner_ACL_roles_memberships_defaults": true
+  },
+  "minimum_fix": {
+    "CREATE_grant_revoke_and_raw_ACL_owner_flags_must_match_before": true,
+    "NULL_unqualified_profile_must_refuse_or_atomic_rollback": true,
+    "apply_symmetrically_install_and_preuse_inverse_after_used_guard": true,
+    "authority_for_SET_ROLE_is_session_user_not_current_user": true,
+    "existing_trusted_postgres_only_temporary_CREATE": true,
+    "fixed_verified_schema_owners_only": true,
+    "no_new_role_membership_default_ACL_persistent_permission_or_native_financial_code": true,
+    "schema_USAGE_must_preexist": true
+  },
+  "production_go": false,
+  "remote_CI_hosted_calls": 0,
+  "run_id": 40954866687,
+  "source_proof": {
+    "exact_9a0_current_installation_file_map_matched": true,
+    "files": {
+      "scripts/cp7-src/hpp-pool/pool.sql": {
+        "bytes": 29786,
+        "sha256": "3d8cb15a19d7eb07f803517730f65e8d475d6168075db9fdf2de68f5d307bb61"
+      },
+      "scripts/cp7-src/payroll/settlement-write.sql": {
+        "bytes": 13555,
+        "sha256": "9db8cabaaaf40c79398449f073d7dc9a27834abb09bf7f070181845773ad68d5"
+      },
+      "scripts/cp7-src/payroll/source.sql": {
+        "bytes": 8637,
+        "sha256": "756da76b060162bc9ba710d798d8c4576ba4fb3a76f329402d8bbf73efdb88b1"
+      },
+      "scripts/cp7_attendance_period_choice/composition.py": {
+        "bytes": 7018,
+        "sha256": "1fd29c8c4cf736241347b6619242096edb409cb6a9d1dbb80533be5fdb45a49e"
+      },
+      "scripts/cp7_attendance_period_choice/native_delta.py": {
+        "bytes": 9804,
+        "sha256": "7a9576e136089b487920fe5c38088977491d342f87384c8e2e82ad128fcf6b90"
+      },
+      "scripts/cp7_contractor_correction/composition.py": {
+        "bytes": 12972,
+        "sha256": "9b7c7de7758f333f9ee75f0601bdbf68b6f4a13a61fd659af4f3038d1ee25438"
+      },
+      "scripts/cp7_customer_credit/consumer/composition.py": {
+        "bytes": 26338,
+        "sha256": "224a3435afc299b57ee9f8a2170131d0913224aa30c04338c2898a1f046dfe21"
+      }
+    },
+    "original13_required_schema_CREATE_envelopes": {
+      "cp7_payroll": "cp7_payroll_read"
+    },
+    "payroll_current_USAGEmandate": "scripts/cp7-src/payroll/settlement-write.sql:151",
+    "payroll_function_owner": "postgres",
+    "reader15_additional_source_only_CREATE_envelope": {
+      "cp7_hpp_pool": "cp7_hpp_pool_read"
+    },
+    "schema_current_raw_ACL_and_current_user_not_directly_recorded_in_actual_report": true
+  },
+  "status": "CLOSED_INDEPENDENT_CAUSAL_COUNTER_CONFIRMED",
+  "zip": {
+    "all_path_CRC_size_SHA_checks": true,
+    "bytes": 1742807,
+    "members": 117,
+    "sha256": "b7d7712c7fdb54d314106f4caad2369d0319920b5a871b78ee646add1d0720f5"
+  }
+}

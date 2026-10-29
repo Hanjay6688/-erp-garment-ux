@@ -1,0 +1,208 @@
+{
+  "classification": "FINAL_INTERNAL_READ_ONLY_UI_SOURCE_COUNTER_NOT_INDEPENDENT_AUDIT",
+  "frozen_UI_head": "913fd00437b9d965f34a1cc7005adfb07f631675",
+  "frozen_UI_tree": "5f0960def6c673e666fa38f6920821f692cc6c5a",
+  "observation_head": "3b73c18ce542b76cfe370782b8ad896341db4e90",
+  "source38_sha256": "c2d38cd2b006f247bf3b7ab2257e1693de56715aa19b8f5815a635433e64ec60",
+  "source38_all_bytes_hashes_verified": true,
+  "observation_same_source38": true,
+  "frozen8_body_exact_abdbc": true,
+  "initial_assessment": {
+    "path": "/workspace/scratch/ef468a447ac6/s03-hpp-ui-913-initial-counter.json",
+    "sha256": "5008950291d64e005c4549f723c3d67309d5ea184a79e4176a79b736d34da16a",
+    "locked_before_other_conclusions": true
+  },
+  "conclusion": "NO_CONCRETE_FROZEN_UI_FUNCTIONAL_SOURCE_BLOCKER_IDENTIFIED",
+  "counter_rows": [
+    {
+      "case": "Closed reader8+4 DTO",
+      "expected": "Oneexactattendance_choice8 orperiod_hold4; rejectunknown/null/simultaneous metadata",
+      "observed": "PASS_SOURCE: metadataKeys+exactnestedkeys; output/source dates andclosure flags crosschecked",
+      "source": [
+        "src/hppPoolContract.ts:62",
+        "src/hppPoolContract.ts:97",
+        "src/hppPoolContract.ts:102",
+        "src/hppPoolContract.ts:146"
+      ],
+      "evidence": "AttendanceHppPoolPanel.dom.test.tsx ownershipmalformed9table+heldpreview controls; rawFINAL_UI153PASS"
+    },
+    {
+      "case": "P1closed/P2open vsP2closed",
+      "expected": "Sourceclosure mustnot imply outputclosure; carrycancellation followsoutputP2; ordinaryP2 unaffected",
+      "observed": "PASS_SOURCE: separate periodClosed/outputPeriodClosed; ownpoolgenericclosurewarning suppressed; ownChoiceactions checksallocationoutputEnd; ordinaryP2 keepsserveractions",
+      "source": [
+        "src/hppPoolContract.ts:102",
+        "src/AttendanceHppPoolPanel.tsx:223",
+        "src/AttendanceHppPoolPanel.tsx:230",
+        "src/attendancePeriodChoiceContract.ts:attendanceChoiceActions"
+      ],
+      "evidence": "permanentmetadata/sourceclosed-outputopen andAdminordinaryP2CANCEL controls in32HppDOM tests"
+    },
+    {
+      "case": "Lifetime owned CANCELLED pool",
+      "expected": "Aftercancel/reverse retainowninglink andnoordinaryREPLACE",
+      "observed": "PASS_SOURCE: metadataacceptedACTIVE/CANCELLED regardlesscurrentchoice; actionsmustempty; viewexplainspermanenthistory; CTArouteonlysourceperiod",
+      "source": [
+        "src/hppPoolContract.ts:146",
+        "src/AttendanceHppPoolPanel.tsx:223",
+        "src/AttendanceHppPoolPanel.tsx:231"
+      ],
+      "evidence": "CANCELLEDownershiphistory+outputclosedtest; backendlifetimemetadataactualNative14stillpending"
+    },
+    {
+      "case": "Stale forms andUUIDreview retirement",
+      "expected": "Source/period/input/permission change retiresoldreview andordinaryform; do notsilentlyreuselegacy32token",
+      "observed": "PASS_SOURCE: Hppfreshreadclosesheldforms; refreshclearsreason/review; Source routepassesonlystart/end; S03fresh64token tiedsignature/readticket/previewserial; pendingreplay preservesoldUUID",
+      "source": [
+        "src/AttendanceHppPoolPanel.tsx:75",
+        "src/AttendanceHppPoolPanel.tsx:84",
+        "src/AttendancePeriodChoicePanel.tsx:79",
+        "src/AttendancePeriodChoicePanel.tsx:103"
+      ],
+      "evidence": "replacementformretirement+stalesourcepreview+permissionrevocation+malformedreceipt controls"
+    },
+    {
+      "case": "Owner/viewonly/Adminpermissions",
+      "expected": "Owneractive+viewcanread; manage+servercan_manageforwrites; AdminordinarypoolbutnoSourceChoice route",
+      "observed": "PASS_SOURCE: parentandpanelOwnerchecks; noS03mountforADMIN/STAFF/KEUANGAN; viewonlyOwnerrouteallowedwithoutordinarywrite; noextraRPCgrants",
+      "source": [
+        "src/ConnectedSkuHppPage.tsx:62",
+        "src/AttendancePeriodChoicePanel.tsx:25",
+        "src/AttendanceHppPoolPanel.tsx:55",
+        "src/AttendanceHppPoolPanel.tsx:106"
+      ],
+      "evidence": "mount9+Hppviewonly/Admincases+choiceauthoritativecan_manage control"
+    },
+    {
+      "case": "Owncommit crossrefresh andlostreply/doubleclick/remountP2",
+      "expected": "Refreshotherwriterswithoutselfcontextinvalidation; sameUUIDretry; oldP1receiptmustnotclaimP2success",
+      "observed": "PASS_SOURCE: ownchoicecounterexcludedfromchoicekey/refresh; matchedpendingid/fingerprint/context/form beforevisibleretirement; mismatchedperiod getsseparatehistoricaloutcome andskipsreload/onCommitted; submittingref+hookbusy+WebLock",
+      "source": [
+        "src/ConnectedSkuHppPage.tsx:32",
+        "src/ConnectedSkuHppPage.tsx:69",
+        "src/AttendancePeriodChoicePanel.tsx:90",
+        "src/AttendancePeriodChoicePanel.tsx:96",
+        "src/AttendancePeriodChoicePanel.tsx:100",
+        "src/useProductionMutation.ts:103",
+        "src/useProductionMutation.ts:146"
+      ],
+      "evidence": "realparent+realChoice/hookintegration2 localRPCdoublecases; choice30standalonecases; noactualbrowserclaim"
+    },
+    {
+      "case": "Bounded3RPCcatalog",
+      "expected": "OnlythreeexistingexactwireRPCmemberinsertions; preservealloldassertions",
+      "observed": "PASS_SOURCE: ownershipdiffexact3lines; accesscensusexact3memberblock+countterm; noApp/menu/hook changes",
+      "source": [
+        "scripts/check-source-ownership.mjs:293",
+        "scripts/check-access-catalog.mjs:325"
+      ],
+      "evidence": "Source38hashes+rawFROZEN_ACCESS_CATALOG/OWNERSHIPhashverified"
+    }
+  ],
+  "integration_counterexample": {
+    "classification": "EXPECTED_FUTURE_JOINED_SCOPE_TEST_REFUSAL_NOT_UI_FUNCTIONAL_BUG",
+    "path": "/workspace/scratch/ef468a447ac6/s03-hpp-ui-913-scope-counter-controls.json",
+    "sha256": "e8b82235c243dd2fdfca6f1b54c1d698a39c49ffae224f3305a8e31e5f00f598",
+    "line": "scripts/current-attendance-choice-mount-ui/test_ui_source.py:43",
+    "expected": "Frozen80pathscopepasses; addednewqualificationnamespace/workflowrequiresnewexplicitouterclosure",
+    "observed": "Exactoldtestpassesfrozenbaselineandrefusesaddednamespaceorworkflowin3labelledlocalGitdiffcontrols",
+    "required": "Newbrowserwriterownsboundedhistoricaltest/sourceorphysicalbaseline; no blanketignore",
+    "abdbc_nonancestor": true,
+    "remote_CI_object_availability": "NOT_CHECKED_NO_REMOTE"
+  },
+  "verified_original_receipts": [
+    {
+      "metadata": "scripts/current-attendance-choice-mount-ui/evidence/FROZEN_UI.json",
+      "raw_gzip": "scripts/current-attendance-choice-mount-ui/evidence/FROZEN_UI.log.gz",
+      "exit_code": 0,
+      "raw_bytes": 32757,
+      "raw_sha256": "73f2e6cf11f676e9d92e46e6dc360b0486d11e98fd356a3162aa8c742ab1bbcb",
+      "gzip_sha256": "472e6a21f656afcbcb2a6123e7ad917d484a094c3c016f7b673f56ec5572896c"
+    },
+    {
+      "metadata": "scripts/current-attendance-choice-mount-ui/evidence/FINAL_UI.json",
+      "raw_gzip": "scripts/current-attendance-choice-mount-ui/evidence/FINAL_UI.log.gz",
+      "exit_code": 0,
+      "raw_bytes": 32763,
+      "raw_sha256": "9d3efc36d284680cda2ca85db98c3d886171d965d3843dc255f7abf0662d98ae",
+      "gzip_sha256": "d576a89940f9b37aca73a64dca29a2c75894f06a617df36168feeb3a5caac90b"
+    },
+    {
+      "metadata": "scripts/current-attendance-choice-mount-ui/evidence/FROZEN_PREPARATION_SOURCE.json",
+      "raw_gzip": "scripts/current-attendance-choice-mount-ui/evidence/FROZEN_PREPARATION_SOURCE.log.gz",
+      "exit_code": 0,
+      "raw_bytes": 2535,
+      "raw_sha256": "a2486ff8546139b52dfc9c742d16b8553482b9dcdd694c9e73ebd5035910f458",
+      "gzip_sha256": "9acbad781d9370dd1b0fe133e0fb994a4944ee1bf02993452efe29f3c3416ae9"
+    },
+    {
+      "metadata": "scripts/current-attendance-choice-mount-ui/evidence/FROZEN_CLOSED_PROBE.json",
+      "raw_gzip": "scripts/current-attendance-choice-mount-ui/evidence/FROZEN_CLOSED_PROBE.log.gz",
+      "exit_code": 0,
+      "raw_bytes": 381,
+      "raw_sha256": "51b4987f1617f1932e913afea05d76c8a49e80dd0ac2085219801b0708675407",
+      "gzip_sha256": "e1481cc226de5a4d2d6874b2bfd8937bf0dd96b944fe71f1109bc9605cde69ec"
+    },
+    {
+      "metadata": "scripts/current-attendance-choice-mount-ui/evidence/FROZEN_ACCESS_CATALOG.json",
+      "raw_gzip": "scripts/current-attendance-choice-mount-ui/evidence/FROZEN_ACCESS_CATALOG.log.gz",
+      "exit_code": 0,
+      "raw_bytes": 433,
+      "raw_sha256": "310accf3ae52f3a56ac81928751066f94bd6e799357c4b78f73c88fda832a11d",
+      "gzip_sha256": "fc3028a09d325f8af2b629e0936e398db0cf8da265f91c98e83a173eef505915"
+    },
+    {
+      "metadata": "scripts/current-attendance-choice-mount-ui/evidence/FROZEN_SOURCE_OWNERSHIP.json",
+      "raw_gzip": "scripts/current-attendance-choice-mount-ui/evidence/FROZEN_SOURCE_OWNERSHIP.log.gz",
+      "exit_code": 0,
+      "raw_bytes": 104,
+      "raw_sha256": "970d68b72f59cdb9f4c8f1c3ffb31fddb30e7af352cc56809d8bebe402459f5d",
+      "gzip_sha256": "91633aa5f1fdbdd26d555226df4ae395fca8d7e6aa075808e3c039eb28d89d6b"
+    },
+    {
+      "metadata": "scripts/current-attendance-choice-mount-ui/evidence/FROZEN_CSS_OWNERSHIP.json",
+      "raw_gzip": "scripts/current-attendance-choice-mount-ui/evidence/FROZEN_CSS_OWNERSHIP.log.gz",
+      "exit_code": 0,
+      "raw_bytes": 72,
+      "raw_sha256": "cdda7299f27298ecdd555eaa9370dfca4852a39e1348052e5cf88f7452718f71",
+      "gzip_sha256": "071f32ac773b5ec05a789e2e7d88d3282e420efe8c3b081e86686faa8a9ec9fe"
+    },
+    {
+      "metadata": "scripts/current-attendance-choice-mount-ui/evidence/FROZEN_TYPECHECK.json",
+      "raw_gzip": "scripts/current-attendance-choice-mount-ui/evidence/FROZEN_TYPECHECK.log.gz",
+      "exit_code": 0,
+      "raw_bytes": 0,
+      "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzip_sha256": "f61f27bd17de546264aa58f40f3aafaac7021e0ef69c17f6b1b4cd7664a037ec"
+    },
+    {
+      "metadata": "scripts/current-attendance-choice-mount-ui/evidence/FINAL_PREPARATION_SOURCE_AFTER_LINK_CLEANUP.json",
+      "raw_gzip": "scripts/current-attendance-choice-mount-ui/evidence/FINAL_PREPARATION_SOURCE_AFTER_LINK_CLEANUP.log.gz",
+      "exit_code": 0,
+      "raw_bytes": 2535,
+      "raw_sha256": "d160fdf2533bcbd8f2a5d6d1acd101db2d611df9024655e4398e6285a3765282",
+      "gzip_sha256": "88e792af5106381fe0cfd610d81255cf4d59ce22d7551b1140ca92fdf58efc24"
+    }
+  ],
+  "latest_source_observation": {
+    "path": "scripts/current-attendance-choice-mount-ui/evidence/POST_FREEZE_FRESH_SCOPE.json",
+    "raw_sha256": "617640a31bc39af301b6f4193a244680a5a8c423ada890fb232746fa26c94cec",
+    "gzip_sha256": "398e8019c03f2cae9e8e0d6bfb499f13b0ca2ba60628ab6559fe5de80748cbb3",
+    "local_source_controls": 16,
+    "actual_Native_Auth_browser": 0
+  },
+  "historical_failure_preserved": "FINAL_LOCAL_CHECKS.all_pass=false andprepEXIT1remainhistorical; laterfrozen/freshSource16PASSsame38sourcebytes; no relabelling",
+  "tests_not_rerun_for_counts": true,
+  "actual_counter_controls": 3,
+  "retained_author_UI_local_tests": 153,
+  "retained_author_source_local_tests": 16,
+  "read_only_worktree_edits": 0,
+  "DB_remote_hosted_CI_calls": 0,
+  "actual_Native_Auth_browser": 0,
+  "remaining": [
+    "accepted_reader15_successor_source andexecutionproofgatesremainNULL in frozen913 declaration; Native14/fullrestoreall5proofstillrequiredbyroot",
+    "RealAuth/browser mountedflow remainsunexecuted; RPC/JSDOMmodeltestsare notbrowserqualification"
+  ],
+  "production_go": false,
+  "independent_acceptance": false
+}

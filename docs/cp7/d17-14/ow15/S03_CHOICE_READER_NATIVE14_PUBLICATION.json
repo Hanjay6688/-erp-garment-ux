@@ -1,0 +1,31 @@
+{
+  "repository": "Hanjay6688/-erp-garment-ux",
+  "branch": "astra-a/s03-choice-reader-native14-20261030",
+  "head": "9ac9c8bd1bfb7d64a1e735067083c68acbff02ef",
+  "tree": "49591433899ef13c70e3cd94fc0c43894ea182df",
+  "parent": "73ad6d323099e1d5384a94477043c01db8989106",
+  "local_head": "dd62d5f3fb82e1367f332a1342b5845e886f4d06",
+  "paths_vs_public_prepared_backend": 136,
+  "paths_vs_failed9a0_source_base": 188,
+  "exact_local_tree": true,
+  "exact_prepared_backend_three_subtrees": true,
+  "actual_required_groups": [
+    11,
+    3
+  ],
+  "strict14_fabricated": false,
+  "expected_existing_function_captures": 15,
+  "private_Native_clones": 2,
+  "current_runtime_files": 7,
+  "source_pins": 425,
+  "source_sha256": "a6efa90aa23107a2facdd55d285677bbf60731432543455dcd844b3d2a0a56c1",
+  "local_controls": 49,
+  "real_current_source_admission_without_DB": "PASS",
+  "internal_counter_no_blocking_source_defect": true,
+  "actual_Native_at_publication": 0,
+  "actual_Auth_HTTP_at_publication": 0,
+  "actual_browser_at_publication": 0,
+  "default_adopted": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

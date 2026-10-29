@@ -1,0 +1,191 @@
+{
+  "classification": "ROOT_CURRENT_FAILURE_RAW_FACTS_CAUSAL_REVIEW_CONTINUES",
+  "recorded_at_utc": "2026-10-29T23:03:17.305810+00:00",
+  "head": "602b4e642a0afbb1acdcfd858b9f403dc14ec336",
+  "tree": "2b86a81b9f3b14ff1ca775825ac01bb96afaa50d",
+  "run_id": 40961419818,
+  "job_id": 123754856235,
+  "artifact_id": 12937998996,
+  "artifact_bytes": 27564211,
+  "artifact_sha256": "698b90b0bc3dfa52a8339d0b30464c2d98721594e56abdd53b07c959223f2bcc",
+  "exact_selected_raws": [
+    {
+      "name": "CP7_SKU_ALL_MEMBER_NATIVE23.json",
+      "bytes": 5143295,
+      "sha256": "8564282e94e04aa9eb522b2c1657722e66eb1cdcdcc82be1a5f3648827e15ec7"
+    },
+    {
+      "name": "CP7_SKU_PAIR_CONVERSION_NATIVE7.json",
+      "bytes": 20819,
+      "sha256": "4c3ff3f49908863eb4c959fd7a8c37d9d73e1b17f78ba73502b094b258a21166"
+    },
+    {
+      "name": "CP7_SKU_GROUP_COST_NATIVE3.json",
+      "bytes": 13716,
+      "sha256": "f7310091e6962f9e6e61c37179d7a7c5e3f5cdf0598085555345d8fbb732f87e"
+    },
+    {
+      "name": "T3_PACKAGE_INSTALL.json",
+      "bytes": 360429,
+      "sha256": "aa926c698576fd1a66ef818739f50c87517386a0be13580d2069c5a3a0730add"
+    },
+    {
+      "name": "T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    {
+      "name": "T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 1470,
+      "sha256": "fd8f87f122905eadd900cded6f867d1104380a0c7edf4fa77251ff950db0daab"
+    }
+  ],
+  "strict_Native7": {
+    "PASS": 7
+  },
+  "strict_cost3": {
+    "INCOMPLETE": 1,
+    "PASS": 2
+  },
+  "failed_case": "SKU29_COST_GROUP_RETURN_OVER_FIRST_PART_SAFETY_REFUSAL_ONLY",
+  "reported_failure": "SKU_COST_CURRENT_CENSUS_CHANGED",
+  "observed_audit_sequence_before_after": [
+    1317,
+    1322
+  ],
+  "raw_catalogue_changes": [],
+  "raw_table_rowhash_changes": [],
+  "changed_sequence_only": "erp.audit_logs_id_seq",
+  "Native_refusal_substring_caught_by_frozen_callback": "BE_RECOVERY_EXCEEDS_VALUE",
+  "full_Native_error_message_not_retained": true,
+  "remaining_races3_waits6_browser4": "NOT_REACHED",
+  "outer_field_presence": {
+    "actual_Native_cases": {
+      "present": false,
+      "value": null
+    },
+    "actual_two_session_races": {
+      "present": false,
+      "value": null
+    },
+    "actual_Auth_HTTP_cases": {
+      "present": false,
+      "value": null
+    },
+    "actual_browser_cases": {
+      "present": false,
+      "value": null
+    },
+    "used_guard_refused_before_DDL": {
+      "present": false,
+      "value": null
+    },
+    "baseline_full22_all_rows_all_sequences_equal": {
+      "present": true,
+      "value": true
+    },
+    "restore_raw_public_equal": {
+      "present": true,
+      "value": true
+    },
+    "cp6_restored": {
+      "present": true,
+      "value": true
+    },
+    "baseline_advisors_equal": {
+      "present": true,
+      "value": true
+    },
+    "advisor_gate": {
+      "present": true,
+      "value": true
+    },
+    "baseline_role_cleanup": {
+      "present": true,
+      "value": {
+        "already_removed_by_preuse": [],
+        "removed_remaining": [
+          "cp7_alert",
+          "cp7_attendance_read",
+          "cp7_attendance_write",
+          "cp7_audit_read",
+          "cp7_capture",
+          "cp7_credit_visible_read",
+          "cp7_credit_write",
+          "cp7_customer_history_read",
+          "cp7_cutover_read",
+          "cp7_cutover_write",
+          "cp7_cutting_read",
+          "cp7_cutting_write",
+          "cp7_erp_settings_read",
+          "cp7_fg_read",
+          "cp7_fg_write",
+          "cp7_finance_read",
+          "cp7_guard",
+          "cp7_hpp_pool_read",
+          "cp7_hpp_pool_write",
+          "cp7_installment_read",
+          "cp7_installment_write",
+          "cp7_invoice_read",
+          "cp7_invoice_write",
+          "cp7_journal_read",
+          "cp7_kasbon_read",
+          "cp7_kasbon_write",
+          "cp7_master_read",
+          "cp7_master_write",
+          "cp7_material_read",
+          "cp7_material_write",
+          "cp7_misc_read",
+          "cp7_misc_write",
+          "cp7_nota_write",
+          "cp7_obligation_read",
+          "cp7_payable_read",
+          "cp7_payroll_header",
+          "cp7_payroll_read",
+          "cp7_payroll_write",
+          "cp7_period_read",
+          "cp7_period_write",
+          "cp7_plan_writer",
+          "cp7_policy",
+          "cp7_procure_read",
+          "cp7_procure_write",
+          "cp7_public_routes",
+          "cp7_recost_read",
+          "cp7_recost_write",
+          "cp7_reminder",
+          "cp7_reminders_read",
+          "cp7_reminders_write",
+          "cp7_return_read",
+          "cp7_return_write",
+          "cp7_roster_write",
+          "cp7_sales_read",
+          "cp7_sales_write",
+          "cp7_transaction_source_read",
+          "cp7_warehouse_summary_read"
+        ],
+        "baseline_roles_exact": true
+      }
+    },
+    "restore_components": {
+      "present": true,
+      "value": {
+        "erp_platform_auth_schema_acl": true,
+        "all_public_catalog_members_and_row_hashes": true,
+        "erp_public_auth_function_definitions_owners_acls": true
+      }
+    }
+  },
+  "inner_Native7_used_guard_is_separate_not_outer_witness": true,
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "Original_Library_id": "libfile_d2e388bf3f1081919710f344d8c2ecfb",
+  "Original_Library_version": 0,
+  "product_qualification": false,
+  "production_go": false,
+  "independent_acceptance": false
+}
