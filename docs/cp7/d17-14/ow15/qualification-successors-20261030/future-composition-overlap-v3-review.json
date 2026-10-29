@@ -1,0 +1,1077 @@
+{
+  "contract": "cp7.future-composition-readonly-overlap-review.v1",
+  "observed_at_UTC": "2026-10-29T17:39:14.533153+00:00",
+  "root_current_default": "cp7_vendor_receivable.composition",
+  "review_scope": "STATIC_READONLY_SOURCE_INTERFACE_AND_OVERLAP_MAP_NO_IMPLEMENTATION_OR_RUNTIME",
+  "sources": {
+    "SKU21": {
+      "path": "/workspace/scratch/ef468a447ac6/erp-sku-native",
+      "head": "4572e065a2243a647a612c2ce0025adcb89070c5",
+      "tree": "a0d2c0da83bf5dc29f2c6b2e02abe6d7ed68f89e",
+      "source_state": "ACTUAL_NATIVE7_PASS_RETAINED_NOT_COMPOSITE_QUALIFICATION",
+      "dirty_paths": [],
+      "currently_declared_parent": "cp7_vendor_receivable.composition",
+      "schema": "cp7_sku_conversion",
+      "existing_functions_changed": [
+        "public.erp_get_sku_workspace_v1(jsonb)",
+        "public.erp_save_sku_action_v1(text,jsonb,uuid)",
+        "public.erp_get_product_conversion_workspace_v1(jsonb)",
+        "public.erp_save_product_conversion_action_v1(text,jsonb,uuid)",
+        "erp.be_conversion_preview_v1(jsonb)",
+        "erp.reverse_product_conversion(uuid,text)"
+      ],
+      "existing_functions_captured": [
+        "public.erp_get_sku_workspace_v1(jsonb)",
+        "public.erp_save_sku_action_v1(text,jsonb,uuid)",
+        "public.erp_get_product_conversion_workspace_v1(jsonb)",
+        "public.erp_save_product_conversion_action_v1(text,jsonb,uuid)",
+        "erp.be_conversion_preview_v1(jsonb)",
+        "erp.reverse_product_conversion(uuid,text)"
+      ],
+      "new_functions": [
+        "cp7_sku_conversion.action_v1(text,jsonb,uuid)",
+        "cp7_sku_conversion.assert_group_reverse_v1(uuid)",
+        "cp7_sku_conversion.group_v1(uuid)",
+        "cp7_sku_conversion.guard_pair_v1()",
+        "cp7_sku_conversion.immutable_v1()",
+        "cp7_sku_conversion.manual_allocation_v1(uuid,uuid,uuid,int,timestamptz)",
+        "cp7_sku_conversion.pair_revision_v1()",
+        "cp7_sku_conversion.partner_v1(uuid)",
+        "cp7_sku_conversion.preview_v1(jsonb)",
+        "cp7_sku_conversion.revision_v1(uuid,uuid,uuid)",
+        "cp7_sku_conversion.save_pair_v1(jsonb,uuid)",
+        "cp7_sku_conversion.sku_action_v1(text,jsonb,uuid)",
+        "cp7_sku_conversion.sku_workspace_v1(jsonb)",
+        "cp7_sku_conversion.stock_v1(uuid,uuid)",
+        "cp7_sku_conversion.workspace_v1(jsonb)"
+      ],
+      "new_tables": [
+        "cp7_sku_conversion.pairs_v1",
+        "cp7_sku_conversion.pair_events_v1",
+        "cp7_sku_conversion.groups_v1",
+        "cp7_sku_conversion.members_v1",
+        "cp7_sku_conversion.execution_v1"
+      ],
+      "new_public_functions": [],
+      "private_native_copies": {},
+      "private_native_clones": [],
+      "observed_existing_change_count": 6,
+      "observed_new_function_count": 15,
+      "observed_new_table_count": 5,
+      "interface_anchors": {
+        "parent": {
+          "line": 27,
+          "arguments": ""
+        },
+        "runtime": {
+          "line": 29,
+          "arguments": ""
+        },
+        "sources": {
+          "line": 31,
+          "arguments": ""
+        },
+        "transition": {
+          "line": 37,
+          "arguments": "before, after, definitions"
+        },
+        "binding": {
+          "line": 55,
+          "arguments": "catalog, prior, proof"
+        },
+        "verify": {
+          "line": 59,
+          "arguments": "cur, state"
+        },
+        "install_delta": {
+          "line": 87,
+          "arguments": "cur, prior"
+        },
+        "install": {
+          "line": 112,
+          "arguments": "cur"
+        },
+        "rollback_delta_preuse": {
+          "line": 116,
+          "arguments": "cur, state"
+        },
+        "rollback_preuse": {
+          "line": 129,
+          "arguments": "cur, state"
+        }
+      },
+      "source_hashes": {
+        "scripts/cp7_sku_pair_conversion/composition.py": {
+          "bytes": 9372,
+          "sha256": "dbc2f01afd97ef2b9a231611d4510da623cb1cebf5455da67c52dd3df7130849"
+        },
+        "scripts/cp7_sku_pair_conversion/native_delta.py": {
+          "bytes": 2224,
+          "sha256": "ff479d17a8f039693723307088551a0eb6876e2bdd772da2b6dc6f60c55d82f8"
+        },
+        "scripts/cp7_sku_pair_conversion/pairs.sql": {
+          "bytes": 9421,
+          "sha256": "05c7b67222b2a003ee4180872216a0837c747fcb145db88157317bad25b281c2"
+        },
+        "scripts/cp7_sku_pair_conversion/conversion.sql": {
+          "bytes": 20061,
+          "sha256": "4b26a65beae5defc877589dae756ce2adc9ecb19b3b9a3b68c86765a4c434961"
+        },
+        "scripts/cp7_sku_pair_conversion/ri_catalog.py": {
+          "bytes": 1501,
+          "sha256": "aa30eff7c258de3ced78067ed7fbe660bef4570c291946f9291d6363881a4f3e"
+        }
+      },
+      "changed_after_read": [],
+      "actual_execution_performed_by_this_review": false,
+      "parent_RI_edges": [
+        [
+          "cp7_sku_conversion.pairs_v1",
+          "pairs_v1_left_id_fkey",
+          "erp.bf_skus_v1",
+          "left_id",
+          "erp.bf_skus_v1_pkey"
+        ],
+        [
+          "cp7_sku_conversion.pairs_v1",
+          "pairs_v1_right_id_fkey",
+          "erp.bf_skus_v1",
+          "right_id",
+          "erp.bf_skus_v1_pkey"
+        ],
+        [
+          "cp7_sku_conversion.members_v1",
+          "members_v1_conversion_id_fkey",
+          "erp.product_conversions",
+          "conversion_id",
+          "erp.product_conversions_pkey"
+        ]
+      ],
+      "exact_new_parent_RI_triggers": 6,
+      "new_roles": []
+    },
+    "D1_CAP_DRAFT": {
+      "path": "/workspace/scratch/ef468a447ac6/erp-credit-d1-cap-successor",
+      "head": "78847fbb9bc987a7dfc1759c4384872d117b9d5a",
+      "tree": "d719a58734b00e75e438646f7978763f6b4f14d8",
+      "source_state": "UNFROZEN_REPAIR_AFTER_A994_5PASS8INCOMPLETE_NOT_QUALIFIED",
+      "dirty_paths": [
+        "M scripts/cp7_credit_correction_de/cases.py",
+        " M scripts/cp7_credit_correction_de/local_cap_check.mjs",
+        " M scripts/cp7_credit_correction_de/owning.sql",
+        " M src/SalesReturnCorrectionPanel.tsx",
+        " M src/salesReturnCorrectionContract.ts",
+        "?? scripts/cp7_credit_correction_de/evidence/native_cap_successor/CAP_SQL_STATUS.json",
+        "?? scripts/cp7_credit_correction_de/evidence/native_cap_successor/SOURCE_STATUS.json",
+        "?? scripts/cp7_credit_correction_de/evidence/native_cap_successor/UI_STATUS.json",
+        "?? scripts/cp7_credit_correction_de/local_cap_source_check.py",
+        "?? scripts/cp7_credit_correction_de/native_fixture.py"
+      ],
+      "currently_declared_parent": "cp7_vendor_receivable.composition",
+      "schema": "cp7_credit_correction_de",
+      "existing_functions_changed": [
+        "cp7_credit.initial_base_events_v1(uuid,uuid)",
+        "cp7_credit.initial_ordinal_input_v1(uuid,uuid)",
+        "cp7_credit._consumer_root_source_profile_v1(uuid,uuid,uuid,jsonb)",
+        "cp7_credit.assert_financial_materialization_provenance(jsonb)",
+        "cp7_credit.enforce_initial_return_closure_v1()",
+        "public.erp_cp7_correct_sales_return_v1(jsonb,uuid,text)",
+        "public.erp_cp7_get_sales_return_correction_v1(jsonb)"
+      ],
+      "existing_functions_captured": [
+        "cp7_sales_return_correction.command(jsonb,uuid,text)",
+        "cp7_sales_return_correction.reverse_sales_return(uuid,text)",
+        "erp.post_sales_return(uuid)",
+        "cp7_credit._post_journal_bound(text,uuid,date,text,jsonb)",
+        "cp7_credit.assert_simple_native_base_v1(uuid)",
+        "cp7_credit.initial_base_events_v1(uuid,uuid)",
+        "cp7_credit.initial_ordinal_input_v1(uuid,uuid)",
+        "cp7_credit._consumer_root_source_profile_v1(uuid,uuid,uuid,jsonb)",
+        "cp7_credit.assert_financial_materialization_provenance(jsonb)",
+        "cp7_credit.enforce_initial_return_closure_v1()",
+        "public.erp_cp7_correct_sales_return_v1(jsonb,uuid,text)",
+        "public.erp_cp7_get_sales_return_correction_v1(jsonb)"
+      ],
+      "new_functions": [
+        "cp7_credit_correction_de._post_journal_v1(text,uuid,date,text,jsonb)",
+        "cp7_credit_correction_de.active_consumers_v1(uuid)",
+        "cp7_credit_correction_de.active_v1()",
+        "cp7_credit_correction_de.assert_bound_post_v1(text,uuid,date,jsonb)",
+        "cp7_credit_correction_de.assert_closed_v1(uuid)",
+        "cp7_credit_correction_de.assert_marker_v1(uuid)",
+        "cp7_credit_correction_de.assert_native_base_v1(uuid)",
+        "cp7_credit_correction_de.assert_nonopening_v1(uuid)",
+        "cp7_credit_correction_de.assert_owned_links_v1(uuid)",
+        "cp7_credit_correction_de.assert_plan_set_v1(uuid)",
+        "cp7_credit_correction_de.assert_profile_v1(uuid,uuid,uuid,jsonb)",
+        "cp7_credit_correction_de.assert_source_change_v1(jsonb,jsonb,uuid,uuid)",
+        "cp7_credit_correction_de.assert_work_v1()",
+        "cp7_credit_correction_de.bound_audit_context_v1()",
+        "cp7_credit_correction_de.bound_book_date_v1(text,uuid,date,jsonb)",
+        "cp7_credit_correction_de.close_fact_v1(text,jsonb)",
+        "cp7_credit_correction_de.command_v1(jsonb,uuid,text)",
+        "cp7_credit_correction_de.dispatch_v1(jsonb,uuid,text)",
+        "cp7_credit_correction_de.enforce_closed_v1()",
+        "cp7_credit_correction_de.extra_events_v1(uuid,uuid)",
+        "cp7_credit_correction_de.finish_v1(jsonb)",
+        "cp7_credit_correction_de.has_source_v1(uuid)",
+        "cp7_credit_correction_de.immutable_v1()",
+        "cp7_credit_correction_de.input_without_own_v1(uuid)",
+        "cp7_credit_correction_de.marker_owned_v1(uuid)",
+        "cp7_credit_correction_de.materialize_v1(uuid)",
+        "cp7_credit_correction_de.native_return_complete_v1(uuid,numeric,numeric)",
+        "cp7_credit_correction_de.native_return_enter_v1(uuid)",
+        "cp7_credit_correction_de.native_return_guard_v1(uuid,numeric,numeric,numeric)",
+        "cp7_credit_correction_de.native_return_leave_v1(uuid)",
+        "cp7_credit_correction_de.participates_v1(uuid)",
+        "cp7_credit_correction_de.post_return_journal_v1(text,uuid,date,text,jsonb)",
+        "cp7_credit_correction_de.post_return_v1(uuid)",
+        "cp7_credit_correction_de.prepare_v1(jsonb,uuid,text,jsonb)",
+        "cp7_credit_correction_de.proof_v1(uuid)",
+        "cp7_credit_correction_de.quote_v1(jsonb)",
+        "cp7_credit_correction_de.reverse_complete_v1(text,uuid)",
+        "cp7_credit_correction_de.reverse_enter_v1(text,uuid)",
+        "cp7_credit_correction_de.reverse_reconciled_v1(text,uuid)",
+        "cp7_credit_correction_de.reverse_return_v1(uuid,text)",
+        "cp7_credit_correction_de.review_vectors_v1(jsonb,jsonb)",
+        "cp7_credit_correction_de.temporary_paid_v1(uuid,boolean)",
+        "cp7_credit_correction_de.vector_v1(jsonb)",
+        "cp7_credit_correction_de.workspace_v1(jsonb)"
+      ],
+      "new_tables": [
+        "cp7_credit_correction_de.work_v1",
+        "cp7_credit_correction_de.operations_v1",
+        "cp7_credit_correction_de.plans_v1",
+        "cp7_credit_correction_de.parts_v1",
+        "cp7_credit_correction_de.posting_v1"
+      ],
+      "new_public_functions": [],
+      "private_native_copies": {
+        "cp7_sales_return_correction.command(jsonb,uuid,text)": "cp7_credit_correction_de.command_v1(jsonb,uuid,text)",
+        "cp7_sales_return_correction.reverse_sales_return(uuid,text)": "cp7_credit_correction_de.reverse_return_v1(uuid,text)",
+        "erp.post_sales_return(uuid)": "cp7_credit_correction_de.post_return_v1(uuid)",
+        "cp7_credit._post_journal_bound(text,uuid,date,text,jsonb)": "cp7_credit_correction_de._post_journal_v1(text,uuid,date,text,jsonb)",
+        "cp7_credit.assert_simple_native_base_v1(uuid)": "cp7_credit_correction_de.assert_native_base_v1(uuid)"
+      },
+      "private_native_clones": [],
+      "observed_existing_change_count": 7,
+      "observed_new_function_count": 44,
+      "observed_new_table_count": 5,
+      "interface_anchors": {
+        "public_function_ddl": {
+          "line": 25,
+          "arguments": "cur, signature, captured"
+        },
+        "runtime": {
+          "line": 60,
+          "arguments": ""
+        },
+        "sources": {
+          "line": 73,
+          "arguments": ""
+        },
+        "transition": {
+          "line": 80,
+          "arguments": "before, after, definitions"
+        },
+        "binding": {
+          "line": 95,
+          "arguments": "catalog, prior, proof"
+        },
+        "verify": {
+          "line": 99,
+          "arguments": "cur, state"
+        },
+        "install_delta": {
+          "line": 126,
+          "arguments": "cur, prior"
+        },
+        "install": {
+          "line": 153,
+          "arguments": "cur"
+        },
+        "rollback_delta_preuse": {
+          "line": 157,
+          "arguments": "cur, state"
+        },
+        "rollback_preuse": {
+          "line": 172,
+          "arguments": "cur, state"
+        }
+      },
+      "source_hashes": {
+        "scripts/cp7_credit_correction_de/composition.py": {
+          "bytes": 12384,
+          "sha256": "4f7086c157e977cacf5f4281d6a2748113029fd7c2c441837e254c9fca9422af"
+        },
+        "scripts/cp7_credit_correction_de/native_delta.py": {
+          "bytes": 7494,
+          "sha256": "d6157ad24dd22ca4810df12668090eb74a3382e6ceb3e4c0954a037a7016c664"
+        },
+        "scripts/cp7_credit_correction_de/review.sql": {
+          "bytes": 3722,
+          "sha256": "88681bf674a6b6e8aeda46830a4a27b18bdda84cfcba6868bbb08e3f84fdc382"
+        },
+        "scripts/cp7_credit_correction_de/facts.sql": {
+          "bytes": 5073,
+          "sha256": "ddfcf8583cf86a916e04aa5630d6262a32e48919dbd0a4c913a09166ca2f8334"
+        },
+        "scripts/cp7_credit_correction_de/owning.sql": {
+          "bytes": 21503,
+          "sha256": "76eb5d7ff2ff14c6bae829ae53ce06abb5c7bc661aa25916afaec565df3da405"
+        },
+        "scripts/cp7_credit_correction_de/proof.sql": {
+          "bytes": 15975,
+          "sha256": "8d81f2d8d9384c08eda28eb0b86a6c96b97f2ef8178adbe4b7d1dab01b8cf7ef"
+        },
+        "scripts/cp7_credit_correction_de/posting.sql": {
+          "bytes": 13878,
+          "sha256": "e200a62d91c7975e67a88eb37c47d89dd739eb8f63fc0a1ee7063aaec0f9ce5b"
+        },
+        "scripts/cp7_credit_correction_de/materialize.sql": {
+          "bytes": 14978,
+          "sha256": "f0bd81d3a80ad1f465ee5cc424b63009776fb65b9f6a23cbaae80ea331a8e4a4"
+        },
+        "scripts/cp7_credit_correction_de/closure.sql": {
+          "bytes": 6259,
+          "sha256": "e21744ba0d98e963ccba9ca916247b797cb2c930b889e2eb41288a12f1888972"
+        },
+        "scripts/cp7_credit_correction_de/native_fixture.py": {
+          "bytes": 7703,
+          "sha256": "4fbe56583ffc63473c12195ddaae6ff3e0cd0ad46b358bf7eef7b5175c67e829"
+        },
+        "scripts/cp7_credit_correction_de/cases.py": {
+          "bytes": 21115,
+          "sha256": "5267e85751aa543ca62ed30c0766a0a5f5daafcc595b9a844aacd2a98211aa88"
+        }
+      },
+      "changed_after_read": [],
+      "actual_execution_performed_by_this_review": false,
+      "public_function_owners": {
+        "public.erp_cp7_correct_sales_return_v1(jsonb,uuid,text)": "cp7_sales_write",
+        "public.erp_cp7_get_sales_return_correction_v1(jsonb)": "cp7_sales_read"
+      },
+      "new_roles": [],
+      "strict_composition_SQL_header_declarations_observed": 39
+    },
+    "E1": {
+      "path": "/workspace/scratch/ef468a447ac6/erp-credit-e1-qualification",
+      "head": "b14b3230901abdc9ac29181407d45a29f12c685e",
+      "tree": "0f54938eea7893327456cbc8d850ae85ea9c6e58",
+      "source_state": "FROZEN_CLOSED_PREPARATION_NATIVE17_NOT_RUN",
+      "dirty_paths": [],
+      "currently_declared_parent": "cp7_credit_correction_de.composition",
+      "schema": "cp7_credit_note_carry_de",
+      "existing_functions_changed": [
+        "public.erp_cp7_correct_note_v1(jsonb,uuid,text)",
+        "public.erp_cp7_get_note_correction_v2(uuid)",
+        "erp._cp7_current_credit_adjustment(uuid)",
+        "cp7_credit.current_materialized_objects(uuid,uuid,uuid)",
+        "cp7_credit.assert_current_source_plan_profile(uuid,uuid,uuid,jsonb)",
+        "cp7_credit.initial_base_events_v1(uuid,uuid)",
+        "cp7_credit.initial_ordinal_input_v1(uuid,uuid)",
+        "cp7_credit.consumer_incoming_funding_v1(uuid)",
+        "cp7_credit_incoming.incoming_applied_v1(uuid)",
+        "cp7_credit.consumer_selection_v1(jsonb)",
+        "cp7_credit.consumer_capture_sources_v1(jsonb)",
+        "cp7_credit.consumer_projection_v1(jsonb,jsonb)",
+        "cp7_credit.consumer_execute_v1(uuid)",
+        "cp7_credit.assert_consumer_closed_v1(uuid)",
+        "cp7_credit.consumer_native_invariant_v1(uuid)",
+        "cp7_credit.consumer_invoice_profile_v1(uuid)",
+        "cp7_credit.consumer_event_data_v1(uuid)",
+        "cp7_credit.consumer_quote_v1(jsonb)",
+        "cp7_credit.native_source_enter(text,uuid)"
+      ],
+      "existing_functions_captured": [
+        "cp7_note.command(jsonb,uuid,text)",
+        "cp7_note.reverse_sale(uuid,text)",
+        "cp7_credit.source_native_snapshot_v1(uuid)",
+        "public.erp_cp7_correct_note_v1(jsonb,uuid,text)",
+        "public.erp_cp7_get_note_correction_v2(uuid)",
+        "erp._cp7_current_credit_adjustment(uuid)",
+        "cp7_credit.current_materialized_objects(uuid,uuid,uuid)",
+        "cp7_credit.assert_current_source_plan_profile(uuid,uuid,uuid,jsonb)",
+        "cp7_credit.initial_base_events_v1(uuid,uuid)",
+        "cp7_credit.initial_ordinal_input_v1(uuid,uuid)",
+        "cp7_credit.consumer_incoming_funding_v1(uuid)",
+        "cp7_credit_incoming.incoming_applied_v1(uuid)",
+        "cp7_credit.consumer_selection_v1(jsonb)",
+        "cp7_credit.consumer_capture_sources_v1(jsonb)",
+        "cp7_credit.consumer_projection_v1(jsonb,jsonb)",
+        "cp7_credit.consumer_execute_v1(uuid)",
+        "cp7_credit.assert_consumer_closed_v1(uuid)",
+        "cp7_credit.consumer_native_invariant_v1(uuid)",
+        "cp7_credit.consumer_invoice_profile_v1(uuid)",
+        "cp7_credit.consumer_event_data_v1(uuid)",
+        "cp7_credit.consumer_quote_v1(jsonb)",
+        "cp7_credit.native_source_enter(text,uuid)"
+      ],
+      "new_functions": [
+        "cp7_credit_note_carry_de.active_sales_v1(jsonb)",
+        "cp7_credit_note_carry_de.assert_chain_v1(uuid)",
+        "cp7_credit_note_carry_de.assert_closed_v1(uuid)",
+        "cp7_credit_note_carry_de.assert_effect_v1(jsonb,jsonb,uuid,uuid,numeric)",
+        "cp7_credit_note_carry_de.assert_historical_v1(uuid)",
+        "cp7_credit_note_carry_de.assert_price_only_v1(jsonb)",
+        "cp7_credit_note_carry_de.assert_profile_v1(uuid,uuid,uuid,jsonb)",
+        "cp7_credit_note_carry_de.assert_work_v1()",
+        "cp7_credit_note_carry_de.basis_v1(uuid)",
+        "cp7_credit_note_carry_de.command_v1(jsonb,uuid,text)",
+        "cp7_credit_note_carry_de.current_events_v1(uuid)",
+        "cp7_credit_note_carry_de.dispatch_v1(jsonb,uuid,text)",
+        "cp7_credit_note_carry_de.effective_target_v1(uuid)",
+        "cp7_credit_note_carry_de.enforce_closed_v1()",
+        "cp7_credit_note_carry_de.finish_v1(jsonb)",
+        "cp7_credit_note_carry_de.guard_later_native_source_v1(text,uuid)",
+        "cp7_credit_note_carry_de.has_root_v1(uuid)",
+        "cp7_credit_note_carry_de.immutable_v1()",
+        "cp7_credit_note_carry_de.invoice_profile_v1(uuid)",
+        "cp7_credit_note_carry_de.is_current_v1(uuid)",
+        "cp7_credit_note_carry_de.materialize_v1(uuid)",
+        "cp7_credit_note_carry_de.minimum_net_v1(jsonb)",
+        "cp7_credit_note_carry_de.native_events_v1(uuid)",
+        "cp7_credit_note_carry_de.operation_v1(uuid)",
+        "cp7_credit_note_carry_de.ordinal_v1(uuid)",
+        "cp7_credit_note_carry_de.plan_v1(jsonb,text)",
+        "cp7_credit_note_carry_de.prepare_v1(jsonb,uuid,text,uuid,jsonb)",
+        "cp7_credit_note_carry_de.proof_v1(uuid)",
+        "cp7_credit_note_carry_de.public_basis_v1(jsonb)",
+        "cp7_credit_note_carry_de.raw_document_v1(uuid)",
+        "cp7_credit_note_carry_de.raw_native_snapshot_v1(uuid)",
+        "cp7_credit_note_carry_de.reverse_complete_v1(text,uuid)",
+        "cp7_credit_note_carry_de.reverse_enter_v1(text,uuid)",
+        "cp7_credit_note_carry_de.reverse_sale_v1(uuid,text)",
+        "cp7_credit_note_carry_de.review_payload_v1(jsonb)",
+        "cp7_credit_note_carry_de.root_v1(uuid)",
+        "cp7_credit_note_carry_de.same_target_v1(uuid,uuid)",
+        "cp7_credit_note_carry_de.target_assignment_v1(jsonb)",
+        "cp7_credit_note_carry_de.validate_current_v1(uuid)",
+        "cp7_credit_note_carry_de.workspace_v1(uuid)"
+      ],
+      "new_tables": [
+        "cp7_credit_note_carry_de.work_v1",
+        "cp7_credit_note_carry_de.operations_v1",
+        "cp7_credit_note_carry_de.assignments_v1"
+      ],
+      "new_public_functions": [],
+      "private_native_copies": {
+        "cp7_note.command(jsonb,uuid,text)": "cp7_credit_note_carry_de.command_v1(jsonb,uuid,text)",
+        "cp7_note.reverse_sale(uuid,text)": "cp7_credit_note_carry_de.reverse_sale_v1(uuid,text)",
+        "cp7_credit.source_native_snapshot_v1(uuid)": "cp7_credit_note_carry_de.raw_native_snapshot_v1(uuid)"
+      },
+      "private_native_clones": [],
+      "observed_existing_change_count": 19,
+      "observed_new_function_count": 40,
+      "observed_new_table_count": 3,
+      "interface_anchors": {
+        "public_function_ddl": {
+          "line": 25,
+          "arguments": "cur, signature, captured"
+        },
+        "runtime": {
+          "line": 61,
+          "arguments": ""
+        },
+        "sources": {
+          "line": 74,
+          "arguments": ""
+        },
+        "transition": {
+          "line": 81,
+          "arguments": "before, after, definitions"
+        },
+        "binding": {
+          "line": 96,
+          "arguments": "catalog, prior, proof"
+        },
+        "verify": {
+          "line": 100,
+          "arguments": "cur, state"
+        },
+        "install_delta": {
+          "line": 127,
+          "arguments": "cur, prior"
+        },
+        "install": {
+          "line": 154,
+          "arguments": "cur"
+        },
+        "rollback_delta_preuse": {
+          "line": 158,
+          "arguments": "cur, state"
+        },
+        "rollback_preuse": {
+          "line": 173,
+          "arguments": "cur, state"
+        }
+      },
+      "source_hashes": {
+        "scripts/cp7_credit_correction_de/e_composition.py": {
+          "bytes": 12376,
+          "sha256": "6e690d12e30cb3a6463283dc62f269f5e3e77e2e59f37e45cdd0b5ec1f6a46d6"
+        },
+        "scripts/cp7_credit_correction_de/e_native_delta.py": {
+          "bytes": 11997,
+          "sha256": "314742c922fc82145f7caa8d4217296bf3f2408ceacbc4738d50d3b866d2bfe0"
+        },
+        "scripts/cp7_credit_correction_de/note_carry/01_facts.sql": {
+          "bytes": 3885,
+          "sha256": "ebf128127e6bcab8fe1c52b98f46ede1492356386312fe2f744e3e65ddb1d415"
+        },
+        "scripts/cp7_credit_correction_de/note_carry/02_plan.sql": {
+          "bytes": 2297,
+          "sha256": "17c9028606298e7d66681deb3c0a1f3260a1ec829d9ba501a647231b358981f3"
+        },
+        "scripts/cp7_credit_correction_de/note_carry/03_readers.sql": {
+          "bytes": 9250,
+          "sha256": "940200b5320189bd424a99ccef9cc92846dd576a6c6d4bd2e8f1e25afd3325d8"
+        },
+        "scripts/cp7_credit_correction_de/note_carry/04_basis.sql": {
+          "bytes": 7444,
+          "sha256": "cdd49e1c5f9a78f4c2c27ce0ae055907a485475c0020720c9e18a0f80e68c222"
+        },
+        "scripts/cp7_credit_correction_de/note_carry/05_effect.sql": {
+          "bytes": 9816,
+          "sha256": "cd77c5ab9427223e1c67b93d8631a1808b8ddc593fc0c97d12e9c069a2950710"
+        },
+        "scripts/cp7_credit_correction_de/note_carry/06_owning.sql": {
+          "bytes": 13462,
+          "sha256": "8864996e824655766022bafa277ac046beba35794b678eedc388b1093fb38575"
+        },
+        "scripts/cp7_credit_correction_de/note_carry/07_profile_closure.sql": {
+          "bytes": 10706,
+          "sha256": "7b7c1467176fefb0f564169ab0903c3d93defc88cce97a16a7ad37629ad84ac3"
+        },
+        "scripts/cp7_credit_correction_de/cases.py": {
+          "bytes": 16624,
+          "sha256": "011b89a5b39aba71fb0164569d28758d7e2ca82a81a95ade5c7041830920857d"
+        },
+        "scripts/cp7_credit_correction_de/e_cases.py": {
+          "bytes": 16359,
+          "sha256": "68b29fd16cf4f832e96ee14ea6befda904015bc706847a293bb72cf9d2af56a3"
+        }
+      },
+      "changed_after_read": [],
+      "actual_execution_performed_by_this_review": false,
+      "public_function_owners": {
+        "public.erp_cp7_correct_note_v1(jsonb,uuid,text)": "cp7_sales_write",
+        "public.erp_cp7_get_note_correction_v2(uuid)": "cp7_sales_write"
+      },
+      "new_roles": [],
+      "strict_composition_SQL_header_declarations_observed": 37
+    },
+    "S03_DRAFT": {
+      "path": "/workspace/scratch/ef468a447ac6/erp-attendance-zero",
+      "head": "e72cfafd3286b887489c831602a6074d6e0d59e4",
+      "tree": "502628ee0dc0c1f65addf8c113cfa981972bb1a6",
+      "source_state": "UNFROZEN_DRAFT_LOCAL_ONLY_NOT_ACTUAL_NATIVE_QUALIFIED",
+      "dirty_paths": [
+        "M scripts/cp7_attendance_period_choice/choice.sql",
+        " M scripts/cp7_attendance_period_choice/local.test.ts",
+        "?? scripts/cp7_attendance_period_choice/evidence/LOCAL_SECOND7_5PASS_2FAIL.json",
+        "?? scripts/cp7_attendance_period_choice/evidence/LOCAL_SECOND7_5PASS_2FAIL.log",
+        "?? scripts/cp7_attendance_period_choice/evidence/LOCAL_THIRD7_6PASS_1FAIL.json",
+        "?? scripts/cp7_attendance_period_choice/evidence/LOCAL_THIRD7_6PASS_1FAIL.log"
+      ],
+      "currently_declared_parent": "cp7_vendor_receivable.composition",
+      "schema": "cp7_attendance_choice",
+      "existing_functions_changed": [
+        "erp.create_attendance_hpp_pool_v1(jsonb,uuid)",
+        "erp.validate_attendance_hpp_pool_v1(uuid)",
+        "erp.activate_attendance_hpp_pool_v1(uuid,text,uuid,bigint)",
+        "erp.cancel_attendance_hpp_pool_v1(uuid,text,uuid,bigint)",
+        "erp.approve_payroll(uuid)",
+        "erp.cancel_unpaid_payroll(uuid,text)",
+        "erp.reverse_paid_payroll(uuid,text)",
+        "erp._cp3_r4_active_pool_affects_contractor(uuid,date,date)",
+        "erp.set_contractor_hpp_policy_v1(jsonb,uuid,uuid)",
+        "erp.reverse_journal(uuid,text)",
+        "erp.record_sewing_terminal_v1(jsonb,uuid)",
+        "erp.period_blockers_v1(date,date)"
+      ],
+      "existing_functions_captured": [
+        "erp.create_attendance_hpp_pool_v1(jsonb,uuid)",
+        "erp.validate_attendance_hpp_pool_v1(uuid)",
+        "erp.activate_attendance_hpp_pool_v1(uuid,text,uuid,bigint)",
+        "erp.cancel_attendance_hpp_pool_v1(uuid,text,uuid,bigint)",
+        "erp.approve_payroll(uuid)",
+        "erp.cancel_unpaid_payroll(uuid,text)",
+        "erp.reverse_paid_payroll(uuid,text)",
+        "erp._cp3_r4_active_pool_affects_contractor(uuid,date,date)",
+        "erp.set_contractor_hpp_policy_v1(jsonb,uuid,uuid)",
+        "erp.reverse_journal(uuid,text)",
+        "erp.record_sewing_terminal_v1(jsonb,uuid)",
+        "erp.period_blockers_v1(date,date)"
+      ],
+      "new_functions": [
+        "cp7_attendance_choice.access_v1(boolean)",
+        "cp7_attendance_choice.assert_cancel_context_v1(uuid,text,uuid,bigint)",
+        "cp7_attendance_choice.assert_carry_manifest_v1(jsonb)",
+        "cp7_attendance_choice.assert_held_bindings_v1(uuid)",
+        "cp7_attendance_choice.assert_journal_unowned_v1(uuid)",
+        "cp7_attendance_choice.assert_output_unclaimed_v1(timestamptz)",
+        "cp7_attendance_choice.assert_payroll_unclaimed_v1(uuid)",
+        "cp7_attendance_choice.assert_period_unclaimed_v1(date,date)",
+        "cp7_attendance_choice.assert_policy_mutation_v1(uuid,date,date)",
+        "cp7_attendance_choice.blockers_v1(date)",
+        "cp7_attendance_choice.capture_v1(date,date,boolean)",
+        "cp7_attendance_choice.carry_preview_v1(uuid,date,date)",
+        "cp7_attendance_choice.choose_v1(date,date,text,text,uuid,jsonb,uuid)",
+        "cp7_attendance_choice.command_v1(text,jsonb,uuid)",
+        "cp7_attendance_choice.current_allocation_v1(uuid)",
+        "cp7_attendance_choice.current_v1(date,date)",
+        "cp7_attendance_choice.immutable_v1()",
+        "cp7_attendance_choice.inner_uuid_v1(uuid,uuid,text)",
+        "cp7_attendance_choice.native_create_carry_pool_v1(jsonb,uuid)",
+        "cp7_attendance_choice.native_validate_carry_pool_v1(uuid)",
+        "cp7_attendance_choice.parse_v1(text,jsonb)",
+        "cp7_attendance_choice.planned_v1(jsonb,integer,date,date)",
+        "cp7_attendance_choice.policy_consumed_v1(uuid,date,date)",
+        "cp7_attendance_choice.pool_date_v1(uuid,date)",
+        "cp7_attendance_choice.pool_manifest_v1(uuid)",
+        "cp7_attendance_choice.reverse_choice_v1(uuid,text,uuid,jsonb)",
+        "cp7_attendance_choice.review_v1(text,jsonb)",
+        "cp7_attendance_choice.wip_check_v1(jsonb,jsonb)",
+        "cp7_attendance_choice.workspace_v1(date,date)",
+        "public.erp_cp7_get_attendance_choice_v1(date,date)",
+        "public.erp_cp7_preview_attendance_choice_v1(text,jsonb)",
+        "public.erp_cp7_save_attendance_choice_v1(text,jsonb,uuid)"
+      ],
+      "new_tables": [
+        "cp7_attendance_choice.decisions_v1",
+        "cp7_attendance_choice.sources_v1",
+        "cp7_attendance_choice.reversals_v1",
+        "cp7_attendance_choice.allocations_v1",
+        "cp7_attendance_choice.allocation_reversals_v1",
+        "cp7_attendance_choice.requests_v1",
+        "cp7_attendance_choice.cancel_context_v1"
+      ],
+      "new_public_functions": [
+        "public.erp_cp7_get_attendance_choice_v1(date,date)",
+        "public.erp_cp7_preview_attendance_choice_v1(text,jsonb)",
+        "public.erp_cp7_save_attendance_choice_v1(text,jsonb,uuid)"
+      ],
+      "private_native_copies": {},
+      "private_native_clones": [
+        "cp7_attendance_choice.native_create_carry_pool_v1(jsonb,uuid)",
+        "cp7_attendance_choice.native_validate_carry_pool_v1(uuid)"
+      ],
+      "observed_existing_change_count": 12,
+      "observed_new_function_count": 32,
+      "observed_new_table_count": 7,
+      "interface_anchors": {
+        "parent": {
+          "line": 23,
+          "arguments": ""
+        },
+        "runtime": {
+          "line": 24,
+          "arguments": ""
+        },
+        "sources": {
+          "line": 25,
+          "arguments": ""
+        },
+        "transition": {
+          "line": 36,
+          "arguments": "before, after, definitions"
+        },
+        "binding": {
+          "line": 52,
+          "arguments": "catalog, prior, proof"
+        },
+        "verify": {
+          "line": 56,
+          "arguments": "cur, state"
+        },
+        "install_delta": {
+          "line": 80,
+          "arguments": "cur, prior"
+        },
+        "install": {
+          "line": 100,
+          "arguments": "cur"
+        },
+        "rollback_delta_preuse": {
+          "line": 104,
+          "arguments": "cur, state"
+        },
+        "rollback_preuse": {
+          "line": 116,
+          "arguments": "cur, state"
+        }
+      },
+      "source_hashes": {
+        "scripts/cp7_attendance_period_choice/composition.py": {
+          "bytes": 8113,
+          "sha256": "fa30f919d412125ce1e55dceb07a5938a0e19618a8af0ad0a2c86489d4709250"
+        },
+        "scripts/cp7_attendance_period_choice/native_delta.py": {
+          "bytes": 7591,
+          "sha256": "03d2eba0a66ac0bfef3607ab8f77cc3007962098c6fe7c28f0f4c8168b878637"
+        },
+        "scripts/cp7_attendance_period_choice/choice.sql": {
+          "bytes": 55490,
+          "sha256": "ab428ae270cbd3a2496eeab0d989a748a8ca30e19ccc446e5dffdb061107d8c1"
+        }
+      },
+      "changed_after_read": [],
+      "actual_execution_performed_by_this_review": false,
+      "declaration_note": "native_delta SIGNATURES currently12 although docstring says11",
+      "new_roles": [],
+      "later_readonly_counter": {
+        "receipt": "/workspace/scratch/ef468a447ac6/review-s03-native-prep-20261029/FIRST_LOCKED_ASSESSMENT.json",
+        "sha256": "7b961fac65d5f65e8d81746943277c0b238a03cde6bb9947e9be1dc94a8163ff",
+        "state": "FIRST_LOCKED_BEFORE_AUTHOR_COUNTER_UNFROZEN",
+        "head": "161d98fd379b19c69eb642e92fbb75b5ddc62e1b",
+        "Native_callback_count": 11,
+        "new_function_identities": 33,
+        "actual_current_existing_function_hooks": 12,
+        "private_carry_clones": 2,
+        "actual_Native_cases": 0
+      }
+    },
+    "S05_PERMISSION_DRAFT": {
+      "path": "/workspace/scratch/ef468a447ac6/erp-s05-reader-ownerfix",
+      "head": "20092281416c5c9beffea53a10c02d72aeab7ae1",
+      "tree": "4c7df845bf2ec5b2ecf33925b106d4455c1e0860",
+      "source_state": "HISTORICAL_SUPERSEDED_COMPLEX_DRAFT_PRESERVED_CURRENT_FROZEN_FOLLOWUP_BELOW",
+      "dirty_paths": [
+        "M scripts/cp7_accessory_standard_report/report.sql",
+        " M scripts/cp7_accessory_standard_report/stage.py",
+        " M scripts/current-s05-native10-qualification/component.py",
+        " M scripts/current-s05-native10-qualification/test_component.py",
+        "?? scripts/cp7_accessory_standard_report/owner_ddl.py",
+        "?? scripts/current-s05-native10-qualification/owner_transfer/"
+      ],
+      "currently_declared_parent": "cp7_vendor_receivable.composition",
+      "schema": "cp7_accessory_standard_report",
+      "existing_functions_changed": [],
+      "existing_functions_captured": [],
+      "new_functions": [
+        "cp7_accessory_standard_report.access_now()",
+        "cp7_accessory_standard_report.iso(timestamptz)",
+        "cp7_accessory_standard_report.period_data(date,date,uuid,uuid)",
+        "cp7_accessory_standard_report.workspace(date,date,uuid,uuid,text,integer,integer)",
+        "public.erp_cp7_get_accessory_standard_report_v1(date,date,uuid,uuid,text,integer,integer)"
+      ],
+      "new_tables": [],
+      "new_public_functions": [
+        "public.erp_cp7_get_accessory_standard_report_v1(date,date,uuid,uuid,text,integer,integer)"
+      ],
+      "private_native_copies": {},
+      "private_native_clones": [],
+      "observed_existing_change_count": 0,
+      "observed_new_function_count": 5,
+      "observed_new_table_count": 0,
+      "interface_anchors": {
+        "parent": {
+          "line": 29,
+          "arguments": ""
+        },
+        "sources": {
+          "line": 34,
+          "arguments": ""
+        },
+        "transition": {
+          "line": 51,
+          "arguments": "before, after"
+        },
+        "verify": {
+          "line": 71,
+          "arguments": "cur, state"
+        },
+        "install_delta": {
+          "line": 113,
+          "arguments": "cur, qualified_parent"
+        },
+        "uninstall_delta": {
+          "line": 134,
+          "arguments": "cur, state, qualified_parent"
+        },
+        "reader_only": {
+          "line": 149,
+          "arguments": "cur, qualified_parent"
+        }
+      },
+      "source_hashes": {
+        "scripts/cp7_accessory_standard_report/stage.py": {
+          "bytes": 8329,
+          "sha256": "3f2397df402b9e142e2b46fd636880f4804add8cfd7954619fdd0e7f854b0a6e"
+        },
+        "scripts/cp7_accessory_standard_report/report.sql": {
+          "bytes": 23142,
+          "sha256": "403d472bf3ee3a45593a3202ef8e0b8dd12ef8684f210f2e6f1132208f7aef05"
+        },
+        "scripts/cp7_accessory_standard_report/owner_ddl.py": {
+          "bytes": 7198,
+          "sha256": "3d6e6dd955c970b8e0981d1d867a09ca4a63b8ed47d3278b67aaa8927319003b"
+        },
+        "scripts/cp7_accessory_standard_report/cases.py": {
+          "bytes": 19581,
+          "sha256": "e025be1280630dfb89f62261163194ce072b6f6ad6d909b56ff6c82f75778e98"
+        },
+        "scripts/cp7_accessory_standard_report/SOURCE.json": {
+          "bytes": 4760,
+          "sha256": "2f13ad4ddcd5a3213fe13d4059aa7ab1061b60416e7bbe58efe88164e8380058"
+        }
+      },
+      "changed_after_read": [],
+      "actual_execution_performed_by_this_review": false,
+      "new_roles": [
+        "cp7_accessory_standard_read"
+      ],
+      "reader_parent_proof_status_required": "VENDOR_RECEIVABLE_EXACT_SOURCE_AND_ALL22",
+      "DDL_profile": "outer current user superuser; DDL creator postgres; exact temporary new-role creator edges/public CREATE; raw owner/ACL/GUC restored; NULL public ACL refused before DDL",
+      "later_owner_notice": {
+        "from_agent": "/root/cp6_boundary_review",
+        "statement": "Root approved running whole original report.sql as verified outer superuser, explicit private postgres/public reader ownership; uninstall as outer superuser; complex uncommitted owner_ddl envelope superseded and being removed. Final repaired snapshot not supplied yet.",
+        "static_function_overlap_unchanged": "S05 remains additive5 functions/1 role, no existing function replacement",
+        "current_frozen_successor_verified": false
+      },
+      "current_frozen_followup": {
+        "observed_at_UTC": "2026-10-29T18:43:05.807776+00:00",
+        "path": "/workspace/scratch/ef468a447ac6/erp-s05-import-argv-successor",
+        "head": "23c7a0a4c760ddd6b9671697caa4615e3a8a25e5",
+        "tree": "3820c7348167fc750cc3f3f36645f14f76286e44",
+        "source_state": "FROZEN_LOCAL_SUCCESSOR_ONLY_NOT_ACTUAL_NATIVE_QUALIFIED",
+        "source_hashes": {
+          "scripts/cp7_accessory_standard_report/stage.py": {
+            "bytes": 11218,
+            "sha256": "a30e254ddf5cba7f3f74524b2be98ce4a34c5008b4e775c25d79849f5eaa7d87"
+          },
+          "scripts/cp7_accessory_standard_report/report.sql": {
+            "bytes": 23015,
+            "sha256": "44e26f9144cff011bf2fb9935d1a448955f8179a9ffaa6884557d8391651c5ab"
+          },
+          "scripts/cp7_accessory_standard_report/cases.py": {
+            "bytes": 19581,
+            "sha256": "e025be1280630dfb89f62261163194ce072b6f6ad6d909b56ff6c82f75778e98"
+          },
+          "scripts/current-s05-native10-qualification/probe.py": {
+            "bytes": 2764,
+            "sha256": "11f38fd137e10ff887837a26c8deeb26cf0175115b947136eb2d6d8073e04e06"
+          },
+          "scripts/current-s05-native10-qualification/SOURCE.json": {
+            "bytes": 20234,
+            "sha256": "2c37637f62c3a0a1386099241d8b5f823e67328e3821268b3c351788006b7752"
+          }
+        },
+        "interface_anchors": {
+          "parent": {
+            "line": 29,
+            "arguments": ""
+          },
+          "sources": {
+            "line": 34,
+            "arguments": ""
+          },
+          "function_sources": {
+            "line": 44,
+            "arguments": ""
+          },
+          "transition": {
+            "line": 51,
+            "arguments": "before, after"
+          },
+          "verify": {
+            "line": 71,
+            "arguments": "cur, state"
+          },
+          "installer_identity": {
+            "line": 113,
+            "arguments": "cur"
+          },
+          "installer_function_grants": {
+            "line": 134,
+            "arguments": "cur"
+          },
+          "install_delta": {
+            "line": 155,
+            "arguments": "cur, qualified_parent"
+          },
+          "uninstall_delta": {
+            "line": 179,
+            "arguments": "cur, state, qualified_parent"
+          },
+          "reader_only": {
+            "line": 196,
+            "arguments": "cur, qualified_parent"
+          }
+        },
+        "product_stage_base": "2834c9ada13a1f70f79bf67c62f5c7d3554e2cb5",
+        "zero_existing_Native_functions_changed": true,
+        "original_SQL_cases_UI_unchanged": true,
+        "DDL_profile": "Run entire original report.sql and inverse as already current verified administrative superuser in inherited atomic; explicit private owners postgres/public owner reader; no temporary schema CREATE/member/GUC changes; unexpected function default grants rejected.",
+        "argv_successor": "Only probe.check scopes inherited module imports plus lazy admitted under temporary argv list; finally restores caller object/content; public parsers/runtime/execute unchanged.",
+        "helper_reported_local_controls": {
+          "role_DDL": 8,
+          "offline_total": 27,
+          "source_pins": 125,
+          "actual_Native_cases": 0
+        },
+        "retained_first_launch_negative": "Root b874 runtime CLI failed before DB on old inherited no-argument guard; frozen argv successor addresses this launch ABI only. No later actual PASS observed by this review."
+      }
+    }
+  },
+  "direct_existing_definition_overlaps": [
+    {
+      "left": "D1_CAP_DRAFT",
+      "right": "E1",
+      "shared_existing_functions": [
+        "cp7_credit.initial_base_events_v1(uuid,uuid)",
+        "cp7_credit.initial_ordinal_input_v1(uuid,uuid)"
+      ],
+      "required_order": "D1 then E; E captures D1-transformed definitions and keeps both branches"
+    }
+  ],
+  "suggested_minimal_future_order": [
+    "qualified vendor",
+    "qualified D1 cap successor",
+    "qualified E1",
+    "explicit SKU parent successor",
+    "explicit S03 parent successor",
+    "explicit S05 composite-reader successor"
+  ],
+  "ordering_status": "SUGGESTED_SOURCE_ADAPTER_ORDER_NOT_IMPLEMENTED_OR_QUALIFIED",
+  "common_runtime_requirement": "Preserve existing5-element runtime tuple and actual shared base/catalog/atomic lock capability. Deep base.predecessor lock aliases are core-runtime interfaces, not a reason to adjust depths according to new feature count.",
+  "source_binding_rule": "Hash actual executable successor module and exact whole parent source tuple, actual captured definitions/owners/ACL/config and preinstall/preuse data/sequence originals. Preserve all whole22 checks and global after-use restore boundary.",
+  "integration_blockers": [
+    {
+      "id": "COMPOSE01",
+      "finding": "SKU, D1 and S03 are independent children of vendor, not a chain. Each install_delta verifies the exact current parent catalog before any DDL.",
+      "action": "Freeze/qualify component repairs first; make explicit source-bound successor parents. Reusing the vendor state after another child installs must fail, not be projected into the old parent."
+    },
+    {
+      "id": "COMPOSE02",
+      "finding": "D1/E share two actual function definitions. Current E parent is D1 and exact anchors must derive from installed post-D1 bytes.",
+      "action": "Keep D1\u2192E order. Rebind E dependencies explicitly after the lawful D1 cap/fixture successor, retain a994 negative; actual E17 source capture must pass. Installing D1 after E would overwrite current receiving-note routing."
+    },
+    {
+      "id": "COMPOSE03",
+      "finding": "Every verify checks complete catalog22 equality to its own state.after. A lower layer verifier cannot succeed against a later child-installed catalog.",
+      "action": "Top-layer verification must close its actual catalog and recursively sealed parent source/state bindings; call each lower actual verifier only before adding its child or after removing that child. Never strip child objects, reseal state or monkeypatch catalog output."
+    },
+    {
+      "id": "COMPOSE04",
+      "finding": "S05 hardcodes vendor parent/proof-status and lacks the same full installer/rollback signature shape as posting layers.",
+      "action": "S05 simple outer-superuser stage2834 and scoped-argv23c7 are now frozen locally (Native0). Still prepare an explicit declared S05 successor over the actual composite parent, retaining its qualified-parent state/proof contract for uninstall_delta. Current parent/status hardcodes vendor; no component result can qualify combined ERP. Original report/cases/UI and role/ACL inverse remain exact."
+    },
+    {
+      "id": "COMPOSE05",
+      "finding": "Copying a composition into a new filename while leaving its sources() hardcoded to composition.py/stage.py would bind the wrong executable source.",
+      "action": "New successor modules must hash the actual executed module path and every approved SQL/helper, and explicitly declare the new parent tuple. Keep historical manifests/actuals frozen; do not change module globals at runtime."
+    },
+    {
+      "id": "COMPOSE06",
+      "finding": "S03 adds3 public RPCs and S05 adds1 public read plus1 new NOLOGIN role. Component Native administrative sessions do not prove full real Auth/public surface behavior.",
+      "action": "Carry fresh complete public-function census, role/ACL/RLS checks and real owner/Admin/staff/anon/service denials on the final composite. S05 must finish exact permission profile and preuse/inverse/reinstall before incorporation."
+    }
+  ],
+  "callgraph_couplings": [
+    {
+      "relation": "S03 HPP lifecycle \u2192 SKU source fingerprint/cost lineage",
+      "fact": "S03 delegates Native activation/cancel, HPP rebuild/propagation. SKU revision hashes actual HPP/current lot source revisions and locks FG_HPP_SALES_V2620C; source costing is not changed by SKU.",
+      "risk": "A pool activation/cancel between preview and POST must retire SKU review. Late S03 cost on converted/sold descendants is additional integration coverage, not proven by standalone accessory cost3."
+    },
+    {
+      "relation": "S03 ERP reverse_journal hook vs frozen note/return private reversers",
+      "fact": "S03 patches erp.reverse_journal(uuid,text). The original note/return installers copy ERP journal reversal helpers into cp7_note/cp7_sales_return_correction with owning context and source checks; those frozen copies do not automatically receive a later ERP wrapper hook.",
+      "risk": "Do not assert a universal S03 journal guard across copied helpers. Keep owning-context/source restrictions and prove legitimate D1/E inverse paths coexist while S03-owned expense inverse remains denied through allowed generic/public paths."
+    },
+    {
+      "relation": "S05 report cohorts after SKU conversion / S03 HPP allocation",
+      "fact": "S05 standards read PRODUCTION lot initial GOOD/snapshots; CONVERSION output is excluded. Historical standard is not current remaining stock. Attendance HPP and accessory snapshot HPP are different costs.",
+      "risk": "Converting/selling source production stock must not erase or duplicate S05 standards. Attendance-only cost change must not turn accessory comparison into invented total cost/variance."
+    },
+    {
+      "relation": "D1/E static nonPO admission vs S03 production and SKU conversion sources",
+      "fact": "Current admitted D1/E slices explicitly exclude general PO/opening/conversion/recost HPP classes.",
+      "risk": "New source histories must remain explicit refusal/UNKNOWN where unsupported; isolated D1/E positives cannot be stretched to production/carry/conversion histories."
+    }
+  ],
+  "mandatory_combined_regression_oracles": [
+    "One full composite install\u2192preuse inverse\u2192reinstall on exact admitted source, reverse layer removal S05\u2192S03\u2192SKU\u2192E\u2192D1\u2192vendor, then separate committed used-data refusal before DDL and complete preinstall dump/roles/catalog22/all rows/sequences/CP6/advisor/Auth/primary/backup recovery with all five package gates.",
+    "Retain SKU Native7 all-field five-caller-zone preview equality/UTC post, pair reverse/replace/delete no ledger, any active model/size, FIFO multi-lot exact value, stale reservation/HPP refusal, downstream sale blocks group inverse then legitimate release. Carry cost3/races3/Native-admin-waits6/realAuth-browser4 results at their actual scopes; no group-recovery claim.",
+    "Fresh lawful D1 Native13 plus continuation3 on the final parent: issued200\u2192250/275 within Native per-return cap, APPLY220/UNDO and manual REFUND230/UNDO exact cash/AR/available, named live blockers, immutable ordinals/recognitions/journals/original physical/HPP facts, lost response and changed intent, current permission/refusal, detector/financial truth.",
+    "E17 actual on the composed D1 definitions: incoming80 atomically assigned to550/100/80, shortfall refusal, immutable APPLY/journal and old completion leaf provenance, laterAPPLY/UNDO, historic peak200 vs current120 minimum150 refusal, current source/permissions/closed book/second revision/late-error rollback, later ordinary source guard and legitimate same-lot sale. Real UI/Auth remains separate.",
+    "S03 owner choice: zero-output unresolved close blocker; CARRY waiting vs expense, APPROVED once/PAID settlement and legitimate E05 reopen, source P1 vs output P2, unchanged output denominator under unrelated P2 payroll/normal pool, held policy boundary guard, active late-output refusal, exact owning CANCEL context before cache/row wait, lawful two-axis WIP restoration dates, generic inverse denials and concurrent post-wait permission/replay checks.",
+    "Cross S03\u00d7SKU: lawful activated-pool/current HPP before conversion, stale preview after pool/HPP/reservation change, no physical/money duplication, exact child cost conservation/descendant alignment or honest unsupported safety refusal; inverse/cancel ordering releases only lawful dependencies.",
+    "S05 Native10 read-only intervals on the composite: posted issue variants/category/PO and unlinked rows, retained GOOD/BOM/UOM provenance, late invoice source/revision cost, zero vs UNKNOWN, WIB cohorts, DRAFT/inverse/QC/rework recipient, private ACL/current permission. Add conversion source-cohort nonduplication and attendance-only cost separation. Afui/source-hole/unallocated/UOM-loss/browser gaps remain explicit until separately tested.",
+    "Final normal full-App build, current-source admission, fresh public API authorization/session cleanup, actual writer and lost-response replay, desktop/mobile overflow and text contrast. No synthetic JWT, privileged UI grant, hosted mutation, independent acceptance or production-go inference."
+  ],
+  "formal": "5/16",
+  "actual_DB_calls": 0,
+  "actual_test_executions": 0,
+  "remote_calls": 0,
+  "source_files_changed_by_review": 0,
+  "independent_acceptance": false,
+  "production_go": false,
+  "receipt_revision": 3,
+  "prior_receipt_sha256": "79ef94c8cc6d5b35eaa775cbb651bb265069a78bdf9e0a1bbbaed3a9aa75ab38",
+  "review_updated_at_UTC": "2026-10-29T18:43:05.807882+00:00",
+  "source_anchor_and_fixture_risks": [
+    {
+      "id": "ANCHOR01",
+      "feature": "E1 Native failure injection",
+      "source": "scripts/cp7_credit_correction_de/e_cases.py",
+      "lines": [
+        142,
+        149
+      ],
+      "observed": "E late_failure computes intent, then creates a private trigger function plus BEFORE INSERT trigger on erp.journal_entries and expects E_TEST_ACTUAL_NATIVE_POST_FAILURE.",
+      "risk": "Actual a994 D1 showed its analogous ERP journal-trigger injection rejected by exact source-trigger census before the intended late failure. E may similarly fail/stale before reaching its injected exception. No actual E run has observed this yet.",
+      "action": "Root must review and qualify an E fixture successor at a lawful intended failure point if needed; retain original E case/raw failure and atomic no-effect oracle. Do not relax source-trigger validation."
+    },
+    {
+      "id": "ANCHOR02",
+      "feature": "D1 legacy E-unimplemented label in final combined plan",
+      "source": "scripts/cp7_credit_correction_de/cases.py",
+      "lines": [
+        186,
+        196
+      ],
+      "observed": "incoming_guard submits the old note.edit payload without credit_carry_review; it checks a CP7-prefixed refusal and whole no-DML, not one old exact message.",
+      "implication": "After E is implemented this remains meaningful unreviewed-command denial, while E17 supplies reviewed positives. Do not interpret the legacy ID E_UNIMPLEMENTED_INCOMING_CORRECTION_STAYS_GUARDED as a requirement to disable implemented reviewed E. Keep historical result/ID, label its scope accurately in the new composite receipt."
+    },
+    {
+      "id": "ANCHOR03",
+      "feature": "D1/E shared source anchors",
+      "source": "e_native_delta.py EVENTS/ORDINAL",
+      "observed": "E adds its current receiving-leaf branches at BEGIN; D1 already extends extra financial events/restatement legs in the same two definitions.",
+      "implication": "The counted derivations must capture installed D1 definitions in the approved order. Existing E local e_delta_check explicitly uses static source-format stand-ins and does not prove actual installed post-D1 source compatibility."
+    }
+  ],
+  "followup_qualification_preparations": {
+    "E_private_late_failure": {
+      "head": "feba8a245aa13d91a86809328acf89d31641cc89",
+      "tree": "9bd34bb0b62b922bfe65b0f7b9ce84ad8e1db7ae",
+      "state": "FROZEN_LOCAL_CLOSED_SUCCESSOR_CASE_ONLY",
+      "unchanged_E9_runtime": true,
+      "unchanged_other16callbacks": true,
+      "actual_Native_cases": 0
+    },
+    "D1_continuation3": {
+      "head": "7e020327a2ca2a8183a67f83ac8c6c6c0bc416b3",
+      "tree": "bd587e72310b114a76e6b1f0e10d6d99c2a28fa1",
+      "state": "FROZEN_LOCAL_CLOSED_GATE_NULL",
+      "source_pins": 137,
+      "frozen_parent_files": 88,
+      "actual_Native_cases": 0
+    },
+    "D1_d902_root_notice": {
+      "head": "d902e4d2e65cf5b382af1ab041120611f9a61078",
+      "run_id": 40926602777,
+      "status": "INCOMPLETE",
+      "counts": {
+        "PASS": 4,
+        "INCOMPLETE": 9
+      },
+      "writer_runtime_gate": false,
+      "root_reported_full_restore": true,
+      "usable_prerequisite": false,
+      "reason": "Actual materialize variable phase/column ambiguity; root retains originals and prepares explicit successor. This reviewer did not execute/fetch it."
+    }
+  }
+}

@@ -1,5 +1,5 @@
 {
-  "recorded_at_utc": "2026-10-29T18:35:09.509179+00:00",
+  "recorded_at_utc": "2026-10-29T19:34:45.145718+00:00",
   "role": "A finance writer/integrator replacing Claude; B remains separate production/planning writer",
   "slogan": [
     "VENI. VIDI. VICI. ERP. — I CONQUERED ERP.",
@@ -8,24 +8,7 @@
   "formal_accepted": "5/16",
   "production_go": false,
   "independent_acceptance": false,
-  "running": [
-    {
-      "scope": "SKU_UNIQUE_FIXTURE_COMBINED23",
-      "head": "bd2cd02c0b724f87f6f1d8628f8227dd30c513a4",
-      "tree": "cac694e11f5ab9f02476336b9ef42c20bd832894",
-      "run_id": 40928155690,
-      "job_id": 123639136778,
-      "status": "IN_PROGRESS_NOT_PASS"
-    },
-    {
-      "scope": "S05_NATIVE10_IMPORT_ARGV_SUCCESSOR",
-      "head": "b0e5ac05e2024d5673126b6fe7759591293b9b96",
-      "tree": "3820c7348167fc750cc3f3f36645f14f76286e44",
-      "run_id": 40931612668,
-      "job_id": 123651202210,
-      "status": "IN_PROGRESS_NOT_PASS"
-    }
-  ],
+  "running": [],
   "actual_new_component": {
     "name": "CP7_OW11_MODEL_TARGET_SOURCE_V2.json",
     "status": "PASS",
@@ -20476,12 +20459,12 @@
     "default_product_adopted": false
   },
   "SKU_combined23_current": {
-    "head": "c163c1e9ff8f00b8dd8859c32aee0c2069766ad6",
-    "tree": "c986f32ad995d69ff1d0a5fba63689b543172f77",
-    "branch": "astra-a/sku-utc-combined-followup-20261029",
-    "run_id": 40915783203,
-    "job_id": 123595497083,
-    "status": "TERMINAL_INCOMPLETE_7_PASS_3_COST_INCOMPLETE_13_NOT_REACHED",
+    "head": "bd2cd02c0b724f87f6f1d8628f8227dd30c513a4",
+    "tree": "cac694e11f5ab9f02476336b9ef42c20bd832894",
+    "branch": "astra-a/sku-combined-unique-fixture-20261029",
+    "run_id": 40928155690,
+    "job_id": 123639136778,
+    "status": "TERMINAL_7_CORE_PASS_1_COST_PASS_2_COST_INCOMPLETE_13_NOT_REACHED",
     "prerequisite_head": "21c69cf25defcee854beb08e998062d7e883d968",
     "prerequisite_run_id": 40906383684,
     "source_files": 786,
@@ -20501,7 +20484,8 @@
     "production_go": false,
     "independent_acceptance": false,
     "observed_fresh_base_Native_PASS": 7,
-    "full23_qualification_accepted": false
+    "full23_qualification_accepted": false,
+    "observed_fresh_cost_PASS": 1
   },
   "S05_qualification_prelaunch": {
     "local_head": "20092281416c5c9beffea53a10c02d72aeab7ae1",
@@ -20809,7 +20793,11 @@
     "wire_contract": "7e91ec5e6",
     "UI": "standalone own files plus explicit new ATTENDANCE_PERIOD_CHOICE recovery domain / exact5actions; tsc/shared recovery PASS, DOM in progress",
     "additional_review": "full E05 payroll reversal may allocate audit sequence on cash inverse before source guard; actual source proof in progress; individual PAID settlement/reopen must stay allowed",
-    "Native_executions": 0
+    "Native_executions": 0,
+    "local_faithful22_pass": true,
+    "source_13_hooks_2_clones_controls": 10,
+    "prepared_Native11_controls": 7,
+    "backend_final_freeze_pending": true
   },
   "E1_fixture_successor_20261030": {
     "base": "f5b085a2bf3a34397616e9a9a3326af5119d19c4",
@@ -20969,19 +20957,23 @@
     "head": "b0e5ac05e2024d5673126b6fe7759591293b9b96",
     "tree": "3820c7348167fc750cc3f3f36645f14f76286e44",
     "local_head": "23c7a0a4c760ddd6b9671697caa4615e3a8a25e5",
-    "status": "ACTUAL_NATIVE10_RUNNING_NOT_PASS",
+    "status": "TERMINAL_INSTALLER_ACL_INCOMPLETE_ZERO_NATIVE_BUSINESS_CASES",
     "offline_controls": 27,
     "source_files": 125,
     "component_files": 27,
     "scope": "Own checked import arguments boundary only; exact caller list restored for all exits; unknown outer flags still denied. Lazy source admission covered.",
-    "product_stage_report_SQL_10cases_UI_frozenengine_unchanged": true
+    "product_stage_report_SQL_10cases_UI_frozenengine_unchanged": true,
+    "actual_case_credit": 0,
+    "receipt_path": "docs/cp7/d17-14/ow15/s05-b0-installer-first-incomplete/RECEIPT.json"
   },
   "D1_materialize_successor_preparing": {
     "worktree": "/workspace/scratch/ef468a447ac6/erp-credit-d1-materialize-phase",
-    "status": "ROOT_FOUR_TOKEN_RENAME_LOCAL_RUNTIME_PROOF_IN_PROGRESS",
+    "status": "FROZEN_COMPLETE_FUNCTION_LOCAL_TYPED_PROOF_PASS5_SOURCE4",
     "scope": "phase local variable to support_phase in materialize_v1 only; no column/phase literal/guard/algorithm change",
     "after_sha256": "206c18b517aef54ddc5757fd156a6c7d8d4a2c3240f62779773a4fff74fe6154",
-    "Native_executions": 0
+    "Native_executions": 0,
+    "local_head": "77b72c6044133ad5ffd298b61343503af34f7c75",
+    "actual_Native": 0
   },
   "closed_E_and_continuation_preparation": {
     "E_late_failure": {
@@ -21009,5 +21001,197 @@
     },
     "production_go": false,
     "independent_acceptance": false
+  },
+  "previous_running_before_bd2_b0_terminal": [
+    {
+      "scope": "SKU_UNIQUE_FIXTURE_COMBINED23",
+      "head": "bd2cd02c0b724f87f6f1d8628f8227dd30c513a4",
+      "tree": "cac694e11f5ab9f02476336b9ef42c20bd832894",
+      "run_id": 40928155690,
+      "job_id": 123639136778,
+      "status": "IN_PROGRESS_NOT_PASS"
+    },
+    {
+      "scope": "S05_NATIVE10_IMPORT_ARGV_SUCCESSOR",
+      "head": "b0e5ac05e2024d5673126b6fe7759591293b9b96",
+      "tree": "3820c7348167fc750cc3f3f36645f14f76286e44",
+      "run_id": 40931612668,
+      "job_id": 123651202210,
+      "status": "IN_PROGRESS_NOT_PASS"
+    }
+  ],
+  "actual_SKU_bd2_combined_cost_first_failure": {
+    "head": "bd2cd02c0b724f87f6f1d8628f8227dd30c513a4",
+    "tree": "cac694e11f5ab9f02476336b9ef42c20bd832894",
+    "run_id": 40928155690,
+    "job_id": 123639136778,
+    "artifact_id": 12924775397,
+    "zip_bytes": 4485191,
+    "zip_sha256": "014400fd25c7134055a73a761a5c7079f29d0eed686964d8fc077fc221b32196",
+    "status": "INCOMPLETE",
+    "outer_observed_wrapper_case_count": 1,
+    "error": "SKU_COMBINED_FRESH_NATIVE_GROUP_OR_BOUNDARY_FAILED",
+    "complete_outer22_rows_sequences_roles_CP6_advisors_and_backup_restored": true,
+    "Auth_before_after": [
+      0,
+      0
+    ],
+    "five_package_gates": {
+      "installed": true,
+      "primary_unchanged": true,
+      "backup_restore_drill": true,
+      "security_advisors": true,
+      "writer_runtime": false
+    },
+    "used_inverse_guard_observed": false,
+    "usable_as_current_prerequisite": false,
+    "first_failure_preserved": true,
+    "files": {
+      "CP7_SKU_COMBINED_FOLLOWUP23.json": {
+        "raw_bytes": 5145083,
+        "raw_sha256": "cc03f9880bd03504464784c5589a6880ba99056df34a7532f2791cbe02a5e61d",
+        "gzip_sha256": "1a8a563d61bbe9f7fd035c3682cd439cd6934f739166cfe097c6cc5860e07efa"
+      },
+      "CP7_SKU_PAIR_CONVERSION_NATIVE7.json": {
+        "raw_bytes": 20827,
+        "raw_sha256": "74e51900e44b68207bc0ecc672a1f3bcc7f54d33e2fdc5300d44e61c691595e5",
+        "gzip_sha256": "2b6be2e954bfc81503bb498e4541a8fc26b79e2ecb963811127b9b1db1411f19"
+      },
+      "CP7_SKU_GROUP_COST_NATIVE3.json": {
+        "raw_bytes": 14373,
+        "raw_sha256": "37622713b3e75d8d61dd8d9cc3f29340bb3d947ef91244d0653337dd90d8c5c5",
+        "gzip_sha256": "e3a14da64c084e8999014853f52c040450fa110a687d243591c196fec3b7e633"
+      },
+      "T3_PACKAGE_INSTALL.json": {
+        "raw_bytes": 360434,
+        "raw_sha256": "0a8b0cb64c9b05c8d9a5ae7662d1fc23b87f9456bec4fb57e32bf2482fee7038",
+        "gzip_sha256": "2f80e4122b7859d6db1616c9e3ffc78f25a02885afc9891f7598e177e859fc72"
+      },
+      "T3_BACKUP_RESTORE_DRILL.json": {
+        "raw_bytes": 1470,
+        "raw_sha256": "d19c7e8e5f3ed29602f685754b88498fa3361137d3d7a065c19745eb6950badc",
+        "gzip_sha256": "170be4dc4c716274314c57e7a761d99d060c9fcfea14c9d76fc0a9ffa24f11c1"
+      },
+      "T3_PACKAGE_FILES_INSTALL.json": {
+        "raw_bytes": 1806,
+        "raw_sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+        "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7"
+      }
+    },
+    "production_go": false,
+    "independent_acceptance": false,
+    "fresh_core7_counts": {
+      "PASS": 7
+    },
+    "fresh_cost3_counts": {
+      "INCOMPLETE": 2,
+      "PASS": 1
+    },
+    "race3_permission_wait6_Auth_browser4": "NOT_REACHED",
+    "actual_fresh_runtime_passes": 8,
+    "expected_fresh_callbacks": 23,
+    "case_boundary_raw_flags": [
+      {
+        "name": "CP7_SKU_PAIR_CONVERSION_NATIVE7.json",
+        "all_full_boundary_restored_flags": true
+      },
+      {
+        "name": "CP7_SKU_GROUP_COST_NATIVE3.json",
+        "all_full_boundary_restored_flags": true
+      }
+    ],
+    "case_boundary_interpretation": "Original catalog/rows/session flags after rollback; NOT complete per-case sequence restoration. Known refused command census explicitly found two advanced sequences; outer full backup restores every original sequence.",
+    "first_census_raw_archive_gap": "The actual strict3 original records audit_logs_id_seq and fg_stock_book_order_seq changes, but its separately referenced FULL_CURRENT_CENSUS.json was not uploaded in the131-member artifact. Preserve original error and add explicit census globs only in new successor workflow.",
+    "repair_scope": "One action_v1 all-member Native/BE guard preflight before child inverse; separate three BC fixture callsite formatting conversions and honest report metadata in new qualifier. Original money/qty/assertions unchanged.",
+    "group_recovery_supported": false,
+    "receipt_path": "docs/cp7/d17-14/ow08/sku-bd2-combined-first-incomplete/RECEIPT.json"
+  },
+  "actual_S05_b0_installer_first_failure": {
+    "head": "b0e5ac05e2024d5673126b6fe7759591293b9b96",
+    "tree": "3820c7348167fc750cc3f3f36645f14f76286e44",
+    "run_id": 40931612668,
+    "job_id": 123651202210,
+    "artifact_id": 12926615012,
+    "zip_bytes": 1755564,
+    "zip_sha256": "f9838846b72f590d4b5a9cae100845cbaaa20f327b424fc465de4fde68bdb15a",
+    "status": "INCOMPLETE",
+    "outer_observed_wrapper_case_count": 1,
+    "error": "S05_UNEXPECTED_INSTALLER_FUNCTION_GRANT: public.erp_cp7_get_accessory_standard_report_v1(date,date,uuid,uuid,text,integer,integer)",
+    "complete_outer22_rows_sequences_roles_CP6_advisors_and_backup_restored": true,
+    "Auth_before_after": [
+      0,
+      0
+    ],
+    "five_package_gates": {
+      "installed": true,
+      "primary_unchanged": true,
+      "backup_restore_drill": true,
+      "security_advisors": true,
+      "writer_runtime": false
+    },
+    "used_inverse_guard_observed": false,
+    "usable_as_current_prerequisite": false,
+    "first_failure_preserved": true,
+    "files": {
+      "CP7_S05_ACCESSORY_STANDARD_NATIVE10.json": {
+        "raw_bytes": 805672,
+        "raw_sha256": "56408d4a2708c9fc66689ae660df6594c961774d101dc70f95801aaeb21bc728",
+        "gzip_sha256": "b2aef45fcda3f1298e99e11a19383cda5d8ecec67043c0168c673f8dd72116a8"
+      },
+      "T3_PACKAGE_INSTALL.json": {
+        "raw_bytes": 360447,
+        "raw_sha256": "12b497782d737e7be38882bbe2b1322f4aa893d83a99804c782be89358c4d624",
+        "gzip_sha256": "803704e88d218162d9950e138cc0fc9d5555d6735adf0293d16c0951ad23b6ff"
+      },
+      "T3_BACKUP_RESTORE_DRILL.json": {
+        "raw_bytes": 1470,
+        "raw_sha256": "3e0aeb67ceffef567251893cd2db37dea95fc53019a4db8c7c621c6bd82baafe",
+        "gzip_sha256": "7721aacb7ab0a2dc276279f3fe323156b3ced5c6ab3c72359f846524303f3935"
+      },
+      "T3_PACKAGE_FILES_INSTALL.json": {
+        "raw_bytes": 1806,
+        "raw_sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+        "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7"
+      }
+    },
+    "production_go": false,
+    "independent_acceptance": false,
+    "actual_fresh_Native_business_callbacks": 0,
+    "expected_fresh_Native_business_callbacks": 10,
+    "actual_Auth_HTTP": 0,
+    "actual_browser": 0,
+    "cause": "Installer function ACL verification stopped before the Native10 runner: unexpected explicit function grant on S05 report public RPC.",
+    "repair_scope": "Read-only diagnosis underway; preserve exact function/table/schema effective grant policy and raw original restoration controls. No successful current Native business observation.",
+    "receipt_path": "docs/cp7/d17-14/ow15/s05-b0-installer-first-incomplete/RECEIPT.json"
+  },
+  "SKU_all_member_preflight_prepared_20261030": {
+    "local_head": "e8a22138dd46d75339cd8a12bad423303e2d4a79",
+    "source_sha256": "30c307146424d2cb4b0174cd205473f4c47a6b48edbbf4a8ae93938f8e057c28",
+    "conversion_sha256": "eece6fbed8cb13b73a49ec2e051478d6ba2a8b1002f6745b8c682db318595d72",
+    "changed_product_functions": 1,
+    "local_declared_double_checks": 10,
+    "actual_successor_Native": 0,
+    "group_recovery_supported": false,
+    "default_adopted": false
+  },
+  "D1_quote_product_cap_and_Native_augmentation_20261030": {
+    "quote_head": "7df27c31ca2deefc4d0f18fc3f474d98c4846bb2",
+    "owning_sha256": "410afb540f455ce6781d8bf09ee6bd6f66420a2f17d3c5474720a642fdcc9cae",
+    "augmentation_head": "0d59d96b4e72d233721c1f92c83c9774820ed91b",
+    "augmentation_source_sha256": "79cf8ca8ca72de93fba2c2da29e3777bc64ee0cf84bd1bdf71256d203589790d",
+    "same_original_ids": 13,
+    "original_callback_identities_preserved": 12,
+    "actual_new_Native": 0,
+    "local_augmentation_controls": 10,
+    "real_module_import_registration_without_DB": true,
+    "combined_qualifier_preparing": true,
+    "default_adopted": false
+  },
+  "sequence_restoration_precision_20261030": {
+    "original_strict_group_flags": "Catalog, rows and sessions after rollback; savepoint/connection rollback does not restore allocated sequences.",
+    "full_sequence_restore": "Complete outer backup restore plus package gate",
+    "refused_known_commands_and_exact_replay": "Immediate full22/all-row/all-sequence equality still required",
+    "original_oracles_changed": false,
+    "sequence_reseed": false
   }
 }

@@ -1,3 +1,44 @@
+## A / 30 Oktober 2026 — kegagalan gabungan SKU dan pemasang S05 dipertahankan
+
+SKU bd2/run40928155690: tujuh Native inti dan satu biaya PASS; dua biaya
+INCOMPLETE, tiga race/enam tunggu izin/empat browser belum tercapai. Satu
+fixture BC memakai format tanggal yang tidak diterima. Satu penolakan inverse
+grup baru terjadi setelah anggota kedua mengalokasikan sequence audit dan
+stock-book; rollback baris tidak memulihkan sequence. Seluruh database termasuk
+sequence berhasil dipulihkan lewat backup luar. Enam Original dan receipt
+ada di `ow08/sku-bd2-combined-first-incomplete/`.
+
+Perbaikan lokal e8a22138d memeriksa semua anggota dengan guard BE/Native yang
+sama sebelum inverse pertama, mempertahankan guard asli dan urutan inverse.
+Sepuluh kontrol lokal dengan doubles eksplisit PASS, termasuk reproduksi celah
+lama, penolakan tanpa efek dan replay. Belum ada Native23 baru. Oracle uang,
+kuantitas, census lengkap dan sumber Native tidak dilonggarkan. Berkas census
+terpisah yang dirujuk error bd2 tidak ada di artifact; ketidakhadiran itu dicatat,
+dan workflow pengganti harus menyimpannya.
+
+S05 b0/run40931612668 berhasil melewati impor/startup database tetapi pemasang
+menolak ACL fungsi publik sebelum sepuluh callback bisnis. Kredit Native baru0.
+Empat Original dan receipt ada di `s05-b0-installer-first-incomplete/`; full22,
+baris, sequence, peran, CP6, advisor, backup dan Auth0→0 kembali sama. Empat gate
+paket PASS, writer_runtime=false. ACL yang gagal belum merekam tuple aktual;
+penyebab role tertentu masih hipotesis dan sedang direproduksi secara terpisah.
+
+D1 quote per-produk dan rename materialize kini terpisah terkunci. Augmentasi
+Native mempertahankan13 ID/12 callback utuh, menguji penolakan400.01, batas400,
+replay dan token lama sesudah koreksi peer;10 kontrol lokal/import nyata tanpa
+DB lulus. Qualifier gabungan sedang mengikat keduanya, bukan memakai d902 yang
+gagal sebagai prasyarat. S03 faithful22/source13hooks+2clones10/prep11kontrol7
+lulus lokal; persetujuan payroll kini diperiksa sebelum rebuild yang diaudit.
+Semua itu menunggu pembuktian Native lengkap dan komposisi yang disengaja.
+
+Penjelasan bukti diperketat: flag strict_group sesudah rollback bukan bukti
+pemulihan sequence. Sequence lengkap dibuktikan oleh backup luar/gate paket;
+perintah yang ditolak dan replay tetap wajib langsung tanpa perubahan sequence.
+Formal5/16, production_go=false, independent_acceptance=false. Pemasang bawaan,
+B yang diterima, main, hosted dan CP7C tetap mengikuti batas otorisasi semula.
+
+Bagian berikut adalah riwayat checkpoint.
+
 ## A / 27 Oktober 2026 — cron gagal terpelihara, kandidat pengamat diperbaiki
 
 Cron d3c84c16/run40495834374/job122160917483 selesai INCOMPLETE; Original

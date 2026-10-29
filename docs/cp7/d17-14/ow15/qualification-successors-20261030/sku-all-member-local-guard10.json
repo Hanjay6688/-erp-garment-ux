@@ -1,0 +1,120 @@
+{
+  "status": "PASS",
+  "count": 10,
+  "proof_kind": "PGLITE_DECLARED_LOCAL_DOUBLES_NOT_NATIVE_MONEY_AUTH_OR_FULL_RESTORE",
+  "source": {
+    "before_conversion": "4b26a65beae5defc877589dae756ce2adc9ecb19b3b9a3b68c86765a4c434961",
+    "conversion": "eece6fbed8cb13b73a49ec2e051478d6ba2a8b1002f6745b8c682db318595d72",
+    "unchanged_BE_reverse": "d5fe49077c8cceca7dbdc07978338bfe6945fa3454528829a8c8625a765092ad",
+    "unchanged_BE_dispatcher": "d224b848be73b5a2cf0409dd509e0b91527a69fb03d2e84b48bf23060d508e91"
+  },
+  "cases": [
+    {
+      "id": "BEFORE_FIRST_MEMBER_ACTIVE_COST",
+      "status": "PASS",
+      "expected_first_failure": true,
+      "error": "BE_REVERSE_DEPENDANTS: batalkan dahulu sumber biaya/pemulihan",
+      "rows_restored": true,
+      "session_restored": true,
+      "sequences_restored": false,
+      "before": {
+        "audit": {
+          "is_called": false,
+          "last_value": 1
+        },
+        "stock": {
+          "is_called": true,
+          "last_value": 4
+        }
+      },
+      "after": {
+        "audit": {
+          "is_called": true,
+          "last_value": 1
+        },
+        "stock": {
+          "is_called": true,
+          "last_value": 6
+        }
+      }
+    },
+    {
+      "id": "ALL_MEMBER_ACTIVE_COST",
+      "status": "PASS",
+      "message": "BE_REVERSE_DEPENDANTS: batalkan dahulu sumber biaya/pemulihan",
+      "complete_local_census_equal": true,
+      "before_sha256": "9f7419dc613ab58ac707d1747206a33194cfd1afba5d6975821bb815f5b75970",
+      "after_sha256": "9f7419dc613ab58ac707d1747206a33194cfd1afba5d6975821bb815f5b75970"
+    },
+    {
+      "id": "ALL_MEMBER_ACTIVE_RETURN",
+      "status": "PASS",
+      "message": "BE_REVERSE_DEPENDANTS: batalkan dahulu penerimaan bongkaran",
+      "complete_local_census_equal": true,
+      "before_sha256": "83148ae65b350e616b920f8fa1c2a3a348a7912bc7579583591bc922083c143b",
+      "after_sha256": "83148ae65b350e616b920f8fa1c2a3a348a7912bc7579583591bc922083c143b"
+    },
+    {
+      "id": "ALL_MEMBER_ACTIVE_DOWNSTREAM",
+      "status": "PASS",
+      "message": "Hasil conversion/rebrand masih dipakai transaksi downstream aktif. Reverse transaksi downstream terlebih dahulu.",
+      "complete_local_census_equal": true,
+      "before_sha256": "3f69bee1e8e016f66024210f6d23453e07fc821a648c487622b19fae3dbbc37d",
+      "after_sha256": "3f69bee1e8e016f66024210f6d23453e07fc821a648c487622b19fae3dbbc37d"
+    },
+    {
+      "id": "ALL_MEMBER_MISSING_BE_SOURCE",
+      "status": "PASS",
+      "message": "BE_DOCUMENT_NOT_FOUND",
+      "complete_local_census_equal": true,
+      "before_sha256": "2be38e23c5a2a48410c9b9d633b5278786344f00f2c7d107368ab6dde235ffc2",
+      "after_sha256": "2be38e23c5a2a48410c9b9d633b5278786344f00f2c7d107368ab6dde235ffc2"
+    },
+    {
+      "id": "ALL_MEMBER_INVALID_NATIVE_STATUS",
+      "status": "PASS",
+      "message": "Hanya conversion/rebrand POSTED yang dapat direverse",
+      "complete_local_census_equal": true,
+      "before_sha256": "111d029e0908d1ac890ac5894daf98c65faca10592d1e715147a0409f28ac115",
+      "after_sha256": "111d029e0908d1ac890ac5894daf98c65faca10592d1e715147a0409f28ac115"
+    },
+    {
+      "id": "ALL_MEMBER_MISSING_NATIVE_JOURNAL",
+      "status": "PASS",
+      "message": "Jurnal conversion/rebrand tidak ditemukan; reversal dibatalkan agar nilai persediaan tidak rusak",
+      "complete_local_census_equal": true,
+      "before_sha256": "8e9167d32bf59da4010049ce576e0b1c63838b2894a343cf19b27d568a768cd9",
+      "after_sha256": "8e9167d32bf59da4010049ce576e0b1c63838b2894a343cf19b27d568a768cd9"
+    },
+    {
+      "id": "RELEASED_DEPENDENCIES_ALLOW_WHOLE_GROUP",
+      "status": "PASS",
+      "response": {
+        "action": "REVERSE",
+        "status": "REVERSED",
+        "request_id": "10000000-0000-4000-8000-000000000071",
+        "conversion_id": "10000000-0000-4000-8000-000000000011",
+        "conversion_ids": [
+          "10000000-0000-4000-8000-000000000012",
+          "10000000-0000-4000-8000-000000000011"
+        ]
+      },
+      "real_local_inverse_rows": 4,
+      "local_pcs_net": 0,
+      "native_implementation": "UNCHANGED_BE_AND_DISPATCHER_WITH_DECLARED_STOCK_INVERSE_DOUBLE"
+    },
+    {
+      "id": "EXACT_UUID_REPLAY",
+      "status": "PASS",
+      "all_local_rows_sequences_session_equal": true
+    },
+    {
+      "id": "DIRECT_MEMBER_REVERSE_REMAINS_REFUSED",
+      "status": "PASS",
+      "all_local_rows_sequences_session_equal": true,
+      "error": "CP7_SKU_GROUP_REVERSE_REQUIRED: batalkan seluruh konversi dari riwayat Ganti Merek / SKU"
+    }
+  ],
+  "production_go": false,
+  "independent_acceptance": false
+}

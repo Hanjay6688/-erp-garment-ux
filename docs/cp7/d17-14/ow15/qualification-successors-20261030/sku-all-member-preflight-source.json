@@ -1,0 +1,98 @@
+{
+  "status": "LOCAL_GUARD_PASS10_PENDING_FRESH_NATIVE23",
+  "base_head": "bd2cd02c0b724f87f6f1d8628f8227dd30c513a4",
+  "base_tree": "cac694e11f5ab9f02476336b9ef42c20bd832894",
+  "product_changed_functions": [
+    "cp7_sku_conversion.action_v1(text,jsonb,uuid)"
+  ],
+  "unchanged_captured_Native_function_count": 6,
+  "before_product_files": {
+    "scripts/cp7_sku_pair_conversion/pairs.sql": {
+      "bytes": 9421,
+      "sha256": "05c7b67222b2a003ee4180872216a0837c747fcb145db88157317bad25b281c2"
+    },
+    "scripts/cp7_sku_pair_conversion/conversion.sql": {
+      "bytes": 20061,
+      "sha256": "4b26a65beae5defc877589dae756ce2adc9ecb19b3b9a3b68c86765a4c434961"
+    },
+    "scripts/cp7_sku_pair_conversion/native_delta.py": {
+      "bytes": 2224,
+      "sha256": "ff479d17a8f039693723307088551a0eb6876e2bdd772da2b6dc6f60c55d82f8"
+    },
+    "scripts/cp7_sku_pair_conversion/composition.py": {
+      "bytes": 9372,
+      "sha256": "dbc2f01afd97ef2b9a231611d4510da623cb1cebf5455da67c52dd3df7130849"
+    },
+    "scripts/cp7_sku_pair_conversion/ri_catalog.py": {
+      "bytes": 1501,
+      "sha256": "aa30eff7c258de3ced78067ed7fbe660bef4570c291946f9291d6363881a4f3e"
+    }
+  },
+  "added_block_sha256": "7ccbd98e443bdd3a72e7077e83a53862c89a7d2c3c8d5170f413801a0c7cd5e7",
+  "files": {
+    "scripts/cp7_sku_pair_conversion/pairs.sql": {
+      "bytes": 9421,
+      "sha256": "05c7b67222b2a003ee4180872216a0837c747fcb145db88157317bad25b281c2"
+    },
+    "scripts/cp7_sku_pair_conversion/conversion.sql": {
+      "bytes": 22975,
+      "sha256": "eece6fbed8cb13b73a49ec2e051478d6ba2a8b1002f6745b8c682db318595d72"
+    },
+    "scripts/cp7_sku_pair_conversion/native_delta.py": {
+      "bytes": 2224,
+      "sha256": "ff479d17a8f039693723307088551a0eb6876e2bdd772da2b6dc6f60c55d82f8"
+    },
+    "scripts/cp7_sku_pair_conversion/composition.py": {
+      "bytes": 9372,
+      "sha256": "dbc2f01afd97ef2b9a231611d4510da623cb1cebf5455da67c52dd3df7130849"
+    },
+    "scripts/cp7_sku_pair_conversion/ri_catalog.py": {
+      "bytes": 1501,
+      "sha256": "aa30eff7c258de3ced78067ed7fbe660bef4570c291946f9291d6363881a4f3e"
+    },
+    "scripts/cp6_be_objects_rework.sql": {
+      "bytes": 7553,
+      "sha256": "22a3c3d9d91c529f21513f61e486c3525d26688d2e700ee87c5c97289c9d8073"
+    },
+    "scripts/cp6_be_objects_conversion.sql": {
+      "bytes": 17983,
+      "sha256": "d1f50e29639b473bd988c4f791aaec126796fec4bec76fe5ac219fa49f7c7438"
+    },
+    "supabase/migrations/20260915031500_erp_v2_6_20ac_cp6_temporal_surface_closure.sql": {
+      "bytes": 685655,
+      "sha256": "7b5690a2eddf618833d352dc75eb95aa1ef4dbcfb25d39b30374b733d33dadbc"
+    },
+    "supabase/migrations/20260901023000_erp_v2_6_14_attendance_hpp_sewing_terminal_foundation.sql": {
+      "bytes": 67598,
+      "sha256": "68e5a8f81ac364be6a8ec01c5bffdfe4ec587f91d61a03dc9f44a4670cadb821"
+    },
+    "scripts/current-sku-all-member-preflight/README.md": {
+      "bytes": 3265,
+      "sha256": "88bab459f6b43badcd0bb50523b3be4afdd46773e4b196d5184a0fe77e374917"
+    },
+    "scripts/current-sku-all-member-preflight/evidence/BEFORE_conversion.sql": {
+      "bytes": 20061,
+      "sha256": "4b26a65beae5defc877589dae756ce2adc9ecb19b3b9a3b68c86765a4c434961"
+    },
+    "scripts/current-sku-all-member-preflight/evidence/FIRST_LOCAL_CENSUS_SETUP_ERROR.log.gz": {
+      "bytes": 8100,
+      "sha256": "eb0b67c0543dfdaaccdeaa0d157f610f610922e31133d043b48f4b56f7bbe004"
+    },
+    "scripts/current-sku-all-member-preflight/evidence/LOCAL_GUARD.json": {
+      "bytes": 4609,
+      "sha256": "9eefe36d98570151f3f1a8df3f41ecf82333c2c9b693ae5f416faa1bac2e02af"
+    },
+    "scripts/current-sku-all-member-preflight/local_check.mjs": {
+      "bytes": 16242,
+      "sha256": "a894ae6e86ee55af91a7e62391f4311a74f5144b1749f2bd9d6e57d116d1c5fe"
+    },
+    "scripts/current-sku-all-member-preflight/source_check.py": {
+      "bytes": 1858,
+      "sha256": "2bab93361f71cfb6b106e0e1e12838faec8be647ae3bd1244acb4d3fcf87a108"
+    }
+  },
+  "actual_Native_credit": 0,
+  "group_recovery_supported": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

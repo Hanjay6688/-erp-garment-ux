@@ -1,0 +1,85 @@
+{
+  "head": "bd2cd02c0b724f87f6f1d8628f8227dd30c513a4",
+  "tree": "cac694e11f5ab9f02476336b9ef42c20bd832894",
+  "run_id": 40928155690,
+  "job_id": 123639136778,
+  "artifact_id": 12924775397,
+  "zip_bytes": 4485191,
+  "zip_sha256": "014400fd25c7134055a73a761a5c7079f29d0eed686964d8fc077fc221b32196",
+  "status": "INCOMPLETE",
+  "outer_observed_wrapper_case_count": 1,
+  "error": "SKU_COMBINED_FRESH_NATIVE_GROUP_OR_BOUNDARY_FAILED",
+  "complete_outer22_rows_sequences_roles_CP6_advisors_and_backup_restored": true,
+  "Auth_before_after": [
+    0,
+    0
+  ],
+  "five_package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "used_inverse_guard_observed": false,
+  "usable_as_current_prerequisite": false,
+  "first_failure_preserved": true,
+  "files": {
+    "CP7_SKU_COMBINED_FOLLOWUP23.json": {
+      "raw_bytes": 5145083,
+      "raw_sha256": "cc03f9880bd03504464784c5589a6880ba99056df34a7532f2791cbe02a5e61d",
+      "gzip_sha256": "1a8a563d61bbe9f7fd035c3682cd439cd6934f739166cfe097c6cc5860e07efa"
+    },
+    "CP7_SKU_PAIR_CONVERSION_NATIVE7.json": {
+      "raw_bytes": 20827,
+      "raw_sha256": "74e51900e44b68207bc0ecc672a1f3bcc7f54d33e2fdc5300d44e61c691595e5",
+      "gzip_sha256": "2b6be2e954bfc81503bb498e4541a8fc26b79e2ecb963811127b9b1db1411f19"
+    },
+    "CP7_SKU_GROUP_COST_NATIVE3.json": {
+      "raw_bytes": 14373,
+      "raw_sha256": "37622713b3e75d8d61dd8d9cc3f29340bb3d947ef91244d0653337dd90d8c5c5",
+      "gzip_sha256": "e3a14da64c084e8999014853f52c040450fa110a687d243591c196fec3b7e633"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "raw_bytes": 360434,
+      "raw_sha256": "0a8b0cb64c9b05c8d9a5ae7662d1fc23b87f9456bec4fb57e32bf2482fee7038",
+      "gzip_sha256": "2f80e4122b7859d6db1616c9e3ffc78f25a02885afc9891f7598e177e859fc72"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "raw_bytes": 1470,
+      "raw_sha256": "d19c7e8e5f3ed29602f685754b88498fa3361137d3d7a065c19745eb6950badc",
+      "gzip_sha256": "170be4dc4c716274314c57e7a761d99d060c9fcfea14c9d76fc0a9ffa24f11c1"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "raw_bytes": 1806,
+      "raw_sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7"
+    }
+  },
+  "production_go": false,
+  "independent_acceptance": false,
+  "fresh_core7_counts": {
+    "PASS": 7
+  },
+  "fresh_cost3_counts": {
+    "INCOMPLETE": 2,
+    "PASS": 1
+  },
+  "race3_permission_wait6_Auth_browser4": "NOT_REACHED",
+  "actual_fresh_runtime_passes": 8,
+  "expected_fresh_callbacks": 23,
+  "case_boundary_raw_flags": [
+    {
+      "name": "CP7_SKU_PAIR_CONVERSION_NATIVE7.json",
+      "all_full_boundary_restored_flags": true
+    },
+    {
+      "name": "CP7_SKU_GROUP_COST_NATIVE3.json",
+      "all_full_boundary_restored_flags": true
+    }
+  ],
+  "case_boundary_interpretation": "Original catalog/rows/session flags after rollback; NOT complete per-case sequence restoration. Known refused command census explicitly found two advanced sequences; outer full backup restores every original sequence.",
+  "first_census_raw_archive_gap": "The actual strict3 original records audit_logs_id_seq and fg_stock_book_order_seq changes, but its separately referenced FULL_CURRENT_CENSUS.json was not uploaded in the131-member artifact. Preserve original error and add explicit census globs only in new successor workflow.",
+  "repair_scope": "One action_v1 all-member Native/BE guard preflight before child inverse; separate three BC fixture callsite formatting conversions and honest report metadata in new qualifier. Original money/qty/assertions unchanged.",
+  "group_recovery_supported": false
+}
