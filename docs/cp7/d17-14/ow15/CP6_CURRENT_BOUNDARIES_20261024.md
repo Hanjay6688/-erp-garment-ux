@@ -91,3 +91,16 @@ Dua belas batas arsip di atas masih dipetakan per admission/transaksi/maintenanc
 rollback/HTTP/browser. Kelulusan transaksi tidak menutup mode lain otomatis.
 21 kegagalan dan empat browser baseline tetap pada status asalnya; penerimaan
 pensiun SALES_MANUAL_13 tetap milik auditor independen.
+
+
+## Pemeriksaan pemulihan klien yang relevan — 29 Oktober
+
+Pada sumber vendor yang kini diadopsi A39f8,
+scripts/check-production-recovery.mjs lulus pemeriksaan shared envelope,
+exclusive lock, stale-read generation dan UUID/versi tepat, termasuk
+procurement dan batas penyimpanan WA. Integrasi juga lulus 67 tes terarah
+pada empat berkas laundry/recovery, typecheck dan build; receipt
+ow08/vendor-money2d4-pass.json mengikat sumbernya. Ini kontrol lokal, bukan
+Native/AP HTTP/import trial baru. Bagian checker pada baris initial-import-review terpetakan; cp6_initial_import_trial.py dan sebelas keluarga arsip
+lain tetap memiliki batas di atas. Status 21 kegagalan/empat browser baseline
+tidak berubah.

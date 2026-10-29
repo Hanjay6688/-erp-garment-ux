@@ -1,22 +1,24 @@
 # Sambungan CP7.5 → CP7C → CP8 — persiapan 28 Oktober 2026
 
-Basis A3efecab / backend3194. Desain dan pemeriksaan sumber saja;
-formal5/16, independent_acceptance=false, production_go=false.
+Pencocokan 29 Oktober: A39f8, backend vendor41c di atas parent3194;
+browser uang2d4 dan Bf5e4 sudah diterima. Peta desain memakai bukti komponen
+tersebut; belum kelulusan CP7.5/CP7C/CP8;
+formal 5/16, independent_acceptance=false, production_go=false.
 Rancangan September tetap arsip kontrak; implementasi Oktober di bawah dipakai ulang.
 
 ## Backbone yang tersedia
 
 | Sambungan nyata | Input → output / izin / kegagalan | Bukti dan gap |
 |---|---|---|
-| src/nativeStagedJob.ts: persistStagedRequest, parseStagedJob, driveStagedJob | UUID+payload+versi+sumber → status/unit/hasil; akses terkini; respons hilang dibaca dengan UUID sama | Backend3194 qualified; driver dan browser baru milik B. unit_count sebelum plan_final sementara |
+| src/nativeStagedJob.ts: persistStagedRequest, parseStagedJob, driveStagedJob | UUID+payload+versi+sumber → status/unit/hasil; akses terkini; respons hilang dibaca dengan UUID sama | Backend3194 qualified; driver8a0e/browser f5e4 sudah diterima A. unit_count sebelum plan_final sementara |
 | scripts/cp7_frozen_analysis_units_v2/cache.sql: binding/pack/unpack/unit_reference | Referensi frozen job → unit terikat sumber; metadata privat | Cache bukan ledger kedua; pergantian sumber/izin wajib menolak hasil current |
-| scripts/current-factory-initial-stage/composition.py: sources/install/verify/rollback_preuse | Deklarasi sumber+cursor admin → rantai delta terverifikasi | All22, data/sequence/roles dan restore3194 PASS; dipakai sebagai sumber upgrade, bukan installer bersih baru |
+| scripts/cp7_vendor_receivable/composition.py: sources/install/verify/rollback_preuse; parent current-factory-initial-stage/composition.py | Deklarasi sumber+cursor admin → rantai3194+vendor; parent diperiksa sebelum delta; penggunaan menolak inverse sebelum DDL | Backend41c PASS11 + money2d4 PASS2 langsung memakai entrypoint ini; exact22/data/sequence/roles/advisors/Auth dan lima gate pulih. Jalur upgrade existing, bukan pemasangan bersih baru |
 | scripts/current-factory-initial-stage/worker.py: definitions | Unit0 frozen-v2 >=1000 target → worker privat16s; biasa8s; akses diperiksa dahulu | Cron aktual PASS. Pesan CP7_LARGE_INITIAL_PREPARATION_SERVER_REQUIRED ditangani tepat oleh B |
 | scripts/cp7-src/ops/schedule.sql: schedules/analysis_tick/cleanup_tick/retention_tick/proof_tick; scripts/cp7_schedule.py: install/matches/uninstall | Definisi → jadwal target eksplisit; admin; konflik jadwal asing ditolak | Empat jadwal lama + satu initial dari delta; jangan membuat scheduler kedua |
 | scripts/cp7-src/planning/report-staged.sql: report_request/report_status/report_document/report_section | Job/periode/request → laporan/arsip sesuai hak; financial readiness terpisah | Gunakan reader resmi dalam cp7_current_frozen_finance_installation dan successor consistency. DONE produksi tidak berarti finance READY |
-| src/NativeAnalysisFinancePanel.tsx; src/nativeAnalysisFinanceSidecar.ts: parseAnalysisFinance | Respons server → progres/status/angka; akses dicabut menyembunyikan nilai | A279 95 tes lokal; backend3194 24 metrik; browser gabungan masih B |
+| src/NativeAnalysisFinancePanel.tsx; src/nativeAnalysisFinanceSidecar.ts: parseAnalysisFinance | Respons server → progres/status/angka; akses dicabut menyembunyikan nilai | A279 95 tes lokal; backend3194 24 metrik; Bf5e4 actual desktop/mobile READY/BLOCKED/cabut akses diterima dengan batas private finance advancement |
 | scripts/cp7-src/alerts/alerts.sql: collect_tick/send_tick/reconcile/wa_post/schedules | Reminder authorized → outbox → request provider → hasil transport | WA99 sink palsu; ACCEPTED/hasil HTTP bukan DELIVERED. Jangan menghitung uang/stok ulang di adapter |
-| scripts/cp7_current_installation.py + cp7_install_legacy_inventory | Referensi minimum lama → receipt aturan aktif; admin; sumber/receipt berubah ditolak | Native4/inventory dan restore historis tersedia; default final harus mengikat seluruh delta terbaru |
+| scripts/cp7_current_installation.py + cp7_install_legacy_inventory | Referensi minimum lama → receipt aturan aktif; admin; sumber/receipt berubah ditolak | Native4/inventory tetap sumbernya. Entry point kini cp7_vendor_receivable.composition; checker current-vendor-integration-source mengikat runtime3/parent193/10 berkas impor dan 79 graph B. Dependency historis tidak diubah menjadi wrapper |
 | scripts/cp7_access_inventory.py: inventory/exposure_gate | ACL+declared schemas/search path+role overrides → gate | Inventaris 82 historis tidak diasumsikan tetap82; baca kondisi aktual sebelum aktivasi |
 | scripts/cp7_offsite_backup.py: read_source/backup/Remote/prune; cp7_supabase_restore_drill.py: fetch_night/drill | Snapshot → encrypted dump → fetch → scratch restore → comparison | Folder/S3-local dan local Supabase terbukti historis; Drive nyata dan comparator mandiri dari backup belum terbukti |
 
@@ -113,3 +115,20 @@ ke sumber hidup saja tidak memenuhi itu. Watermark/outbox harus dipulihkan
 dengan egress tetap nonaktif sebelum rekonsiliasi. Tidak membuka R2/proyek
 produksi kedua atau scorecard opsional. Persiapan ini tidak memindahkan S01–S06
 ke tahap lain; penutupan scope CP7 didahulukan dari backbone tambahan.
+
+
+## Sambungan installer yang sudah diterima — 29 Oktober
+
+Receipt `d17-14/ow08/vendor-money2d4-pass.json` dan
+`d17-14/ow08/vendor-combined41c-pass.json` menutup subset upgrade/pemulihan
+komponen terbaru. Pakai kembali sources(), verify(), pembanding 22 dan
+penjaga preuse; jangan menulis installer kedua. Source6 yang sedang diuji
+hanya menambah dua aturan CSS dan alat uji; backend tetap41c. Adopsi CSS
+menunggu bukti source6 dan deklarasi penerus.
+
+Pekerjaan ulang yang dihindari: menyusun ulang parent3194, delta vendor,
+komparator katalog, atau browser B/uang yang sudah lulus. Bukti yang masih
+harus dibuat: kesetaraan fresh-versus-upgrade CP7.5; scheduler/send-watermark/
+Drive dan comparator tanpa sumber hidup CP7C; lingkungan tujuan/saldo/alur
+dan pemulihan transaksi baru CP8. Full restore disposable CP7 tidak memberi
+kelulusan itu. Owner GO tetap terpisah.

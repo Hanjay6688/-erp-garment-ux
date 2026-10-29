@@ -1,0 +1,25 @@
+{
+  "contract": "cp7.ow08-source-selective-integration.v1",
+  "base_head": "39f8a0840d50fcd94d7301eaa2cebab23097b562",
+  "component_head": "6c89ddb46b471b8b5235913666b1410ad3f26c6a",
+  "component_tree": "78143b260e9e0191f73bd6fada2c8c72b83736a2",
+  "qualified_source6": null,
+  "scoped_paint_overlays": [
+    {
+      "path": "src/initial-import.css",
+      "before_sha256": "03f6aff6d5d73e5f205a4e6a71e821fae2b87078872303d6e73253adbf550895",
+      "after_sha256": "21acc1b66a62137b307b9eed4871cd3ceac540ecc12fd96be7e58e13677bb65d",
+      "exact_append": "\n/* Unknown-price actions remain legible while disabled; pricing still requires explicit review. */\n.initial-import [aria-label=\"Cuci gagal harga belum diketahui\"] button:disabled { opacity: 1; border-style: dashed; }\n"
+    },
+    {
+      "path": "src/connected-laundry-qc.css",
+      "before_sha256": "e70faf90cf2986dc76b2f784f7d2f8abf5a3ec1e7a639cb2a55e7002ab1b9366",
+      "after_sha256": "6490b285c59a93c5c6a2ca583a73e4610d25ce8f5c2ce1f35b8ca0a7a172517b",
+      "exact_append": "\n/* A blocked QC inverse remains readable without enabling the authoritative action. */\n.clq-history [data-qc-inspection-id] .clq-reversal button:disabled { opacity: 1; border-style: dashed; }\n"
+    }
+  ],
+  "retained_money_client_scope": "EXACT_BASE_BEFORE_DECLARED_CSS_APPENDS_NOT_NEW_MONEY_BROWSER_CREDIT",
+  "formal": "5/16",
+  "production_go": false,
+  "independent_acceptance": false
+}

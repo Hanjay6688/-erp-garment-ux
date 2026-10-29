@@ -97,13 +97,22 @@
       "receipt_sha256": "42dc733e9adbff0f43d3d09f2f09dc3359d3369d402650d6b7e7f22c20b10705",
       "status": "PASS_ACTUAL_MONEY_BROWSER2_ACCEPTED_BY_A",
       "head": "2d4ed56eb20187c00e63cd0a0774385d320f53be"
+    },
+    {
+      "area": "Current return reversal races",
+      "receipt": "docs/cp7/d17-14/ow15/return-reverse3194-3a366ed6-pass.json",
+      "receipt_sha256": "d2904170a5e120218bf1f1c4f7c7a0ae2bb8ca04e6c24ad2deaf4207a1517b77",
+      "status": "PASS_ACTUAL_RETURN_REVERSE3194_COMPONENT",
+      "head": "3a366ed69752c81b43389440f92dd48135771e36",
+      "run_id": 40738270496,
+      "fresh_cases": 2,
+      "limit": "Two named races on backend3194 with full restoration; earlier source-setup failures retained. Not all Race36/archive modes or return D/E."
     }
   ],
   "remaining": [
-    "Targeted CP6 return reverse successor qualification; first attempt failed source setup before DB.",
-    "Remaining CP6 archive case mapping and independent acceptance.",
-    "Vendor laundry receivable settlement policy remains unanswered; no policy invented.",
-    "Final whole-CP7 requirement/auditor/default-install acceptance."
+    "Complete exact OW08 source6 qualification and selective CSS integration; current run40794662199 is not accepted while running.",
+    "Match remaining CP6 archive modes and original CP7 requirements to valid retained evidence or focused successor work; retain unresolved S01-D/E, S03-S06 policy boundaries.",
+    "Final whole-CP7 requirement, default installation and independent auditor acceptance; formal remains5/16."
   ],
   "formal_accepted": "5/16",
   "production_go": false,
