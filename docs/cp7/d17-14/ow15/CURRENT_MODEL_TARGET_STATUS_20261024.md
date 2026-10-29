@@ -1,3 +1,52 @@
+## A / 30 Oktober 2026 — D1 Native13 terverifikasi; E17 dan S03 berjalan; S05 tertahan fixture tanggal
+
+D1 publik17ac1eeb/run40942995096/job123690939357 lulus13/13 skenario Native.
+Original aktual, sumber174 dan komposisi sekarang cocok; empat pasangan raw
+penolakan/replay tetap identik termasuk sequence. Dua prelude positif memakai
+Native sungguhan dan mencatat kenaikan sequence tanpa reseed, tanpa kredit kasus
+baru. Witness250, penolakan inverse setelah dipakai, full22/data/semua sequence,
+peran, CP6, advisor, backup dan Auth0→0 dipulihkan; kelima gate paket true.
+Bukti lima raw dan review ada di `../ow08/d1-17ac-native13-qualified/`.
+ZIP lengkap131 anggota juga disimpan permanen. Ini prasyarat sempit D1, belum
+seluruh D/E atau adopsi pemasang bawaan.
+
+E17 publik8be4c15a/run40955967062/job123736034880 mulai dari D1 yang sudah
+terverifikasi. Raw/prasyarat diikat eksplisit; sembilan leaf uang dan17callback
+asli tetap persis.13 kontrol lokal serta admission sumber nyata tanpa koneksi
+DB lulus. Runtime17 baru masih IN_PROGRESS, bukan PASS.
+
+S03 e74/run40953086425 berhenti sebelum DB:46/47 kontrol lulus, satu tes
+mencari UUID berkas run pertama yang tidak dimaterialisasi. Bukti kegagalan
+utuh ada di `s03-e74-historical-replay-first-failure/`. Perbaikan membuat replay
+kedua ZIP aktual berdiri sendiri di direktori sementara, tanpa mengubah guard
+admission, produk80file,11callback,13capture atau2clone.48kontrol lulus dengan
+101 keluaran aktual run kedua dan tanpa sisa keluaran lama. Sumber251/admission
+Original nyata tanpa DB lulus. Publik9a0ca1de/run40954866687/job123732218148
+kini melewati prasyarat dan menjalankan Native11 serta pemulihan lengkap.
+
+S05 publik911a08e0/run40946437335/job123702921140 melewati pemasangan dan
+preuse/reinstall reader, tetapi seluruh10callback INCOMPLETE pada pembuatan
+master awal bertanggal mundur: guard Native BF membatasi master baru ke waktu
+sekarang/mendatang. Belum ada pembacaan laporan S05 atau witness terpisah yang
+lulus. Full22/data/semua sequence/peran/CP6/advisor/backup/Auth kembali sama;
+empat gate true, writer_runtime=false. Lima raw dan receipt ada di
+`s05-911-master-date-first-incomplete/`. Pengganti memakai master legacy kosong
+yang memang disiapkan fixture, edit Native selagi belum dipakai, GOOD Native,
+lalu successor BF sah saat sekarang. Tanggal guard, seluruh oracle uang dan
+sepuluh callback tetap harus utuh; belum ada klaim PASS pengganti.
+
+Perbaikan pembaca/UI S03 juga berjalan terpisah: metadata kepemilikan immutable,
+periode sumber/output, serta hold hanya pada periode sumber persis.15capture
+fungsi bukan15kasus Native; proposal baru mempertahankan11kasus uang dan
+menambah3kasus pembaca. UI lokal153 lulus, bukan bukti browser/login nyata.
+SKU23 masih disegel sesudah counter sumber; main72/8suite tetap utuh dan
+supplemental15 PGlite diberi label terpisah. Midnight1 juga tetap terpisah.
+
+Formal5/16; production_go=false; independent_acceptance=false. Semua kegagalan
+pertama tersimpan. Tidak ada perubahan main, hosted, B diterima atau CP7C.
+
+Bagian berikut adalah riwayat checkpoint.
+
 ## A / 30 Oktober 2026 — D1 dan S05 berjalan; S03 berhenti pada bukti sumber sebelum DB
 
 D1 publik17ac1eeb/run40942995096/job123690939357 menjalankan Native13+full restore.

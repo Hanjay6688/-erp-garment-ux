@@ -1,0 +1,32 @@
+{
+  "proof": {
+    "status": "EXACT_SUCCESSFUL_D1_NATIVE13_AND_FIVE_PACKAGE_GATES_ADMITTED",
+    "head": "17ac1eeb5833cbf2a786194fe3bfbba6628a1ff8",
+    "retained_Native_cases": 13,
+    "fresh_E_cases_credited": 0,
+    "original_sha256": "6b5eb3f481e1d36e8fbca64590a8ef83197f3e4e3725d9dfa3964c92cdbafa4c",
+    "native_group_sha256": "3129479dde1805e58fbd3a96cba4653c8da7a0b0f471be65c4182fd772f87d47",
+    "package_sha256": "84d20d0e7ec045d8496174c25437b3005c158ee517e1d1c014b75175410e8056",
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "full_five_raw_gate": {
+    "status": "EXACT_TERMINAL_D1_NATIVE13_COMPLETE_PACKAGE_AND_RESTORE_ADMITTED",
+    "head": "17ac1eeb5833cbf2a786194fe3bfbba6628a1ff8",
+    "tree": "52870c467cb37c328fd6ff73fe8484f8d6798953",
+    "run_id": 40942995096,
+    "job_id": 123690939357,
+    "retained_Native_cases": 13,
+    "fresh_cases_credited": 0,
+    "original_sha256": "6b5eb3f481e1d36e8fbca64590a8ef83197f3e4e3725d9dfa3964c92cdbafa4c",
+    "strict_native13_sha256": "3129479dde1805e58fbd3a96cba4653c8da7a0b0f471be65c4182fd772f87d47",
+    "package_sha256": "84d20d0e7ec045d8496174c25437b3005c158ee517e1d1c014b75175410e8056",
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "actual_current_product_sources_matched": true,
+  "actual_source174_matched": true,
+  "DB_connections_forbidden": true,
+  "blocked_attempts": [],
+  "root_review_did_not_reexecute_Native": true
+}

@@ -1,0 +1,25 @@
+2026-10-29T20:56:16.2812470Z ERROR: test_real_first101_metadata_passes_real_frozen_producer_pins_without_original_substitution (test_generated_receipts.ReceiptControls.test_real_first101_metadata_passes_real_frozen_producer_pins_without_original_substitution)
+2026-10-29T20:56:16.2814142Z ----------------------------------------------------------------------
+2026-10-29T20:56:16.2814693Z Traceback (most recent call last):
+2026-10-29T20:56:16.2825107Z   File "/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-attendance-period-choice-native11-qualification/test_generated_receipts.py", line 70, in test_real_first101_metadata_passes_real_frozen_producer_pins_without_original_substitution
+2026-10-29T20:56:16.2826953Z     accepted, receipt = helper.admit(ROOT, HERE, names)
+2026-10-29T20:56:16.2827458Z                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-29T20:56:16.2828756Z   File "/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-attendance-period-choice-native11-qualification/generated_receipts.py", line 185, in admit
+2026-10-29T20:56:16.2830101Z     request, value, files = artifact(root, name, match, cfg)
+2026-10-29T20:56:16.2830616Z                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-29T20:56:16.2832168Z   File "/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-attendance-period-choice-native11-qualification/generated_receipts.py", line 108, in artifact
+2026-10-29T20:56:16.2833436Z     value = document(root, relative)
+2026-10-29T20:56:16.2833816Z             ^^^^^^^^^^^^^^^^^^^^^^^^
+2026-10-29T20:56:16.2835267Z   File "/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-attendance-period-choice-native11-qualification/generated_receipts.py", line 71, in document
+2026-10-29T20:56:16.2836490Z     target = path(root, relative)
+2026-10-29T20:56:16.2836859Z              ^^^^^^^^^^^^^^^^^^^^
+2026-10-29T20:56:16.2838260Z   File "/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-attendance-period-choice-native11-qualification/generated_receipts.py", line 45, in path
+2026-10-29T20:56:16.2839506Z     fail('REGULAR_FILE_REQUIRED:' + relative)
+2026-10-29T20:56:16.2840826Z   File "/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/current-attendance-period-choice-native11-qualification/generated_receipts.py", line 30, in fail
+2026-10-29T20:56:16.2842236Z     raise ValueError('S03_GENERATED_RECEIPT_' + label)
+2026-10-29T20:56:16.2843185Z ValueError: S03_GENERATED_RECEIPT_REGULAR_FILE_REQUIRED:cp6-proof/t3/ARTIFACT_FETCH/0284d7fee9f446ccb3ed36519d7cbf3c-1.json
+2026-10-29T20:56:16.2843959Z 
+2026-10-29T20:56:16.2844188Z ----------------------------------------------------------------------
+2026-10-29T20:56:16.2844709Z Ran 47 tests in 1.295s
+2026-10-29T20:56:16.2845195Z 
+2026-10-29T20:56:16.2845327Z FAILED (errors=1)

@@ -1,0 +1,55 @@
+{
+  "status": "ROOT_VERIFIED_EXACT_NARROW_D1_NATIVE13_AND_COMPLETE_PACKAGE_PASS",
+  "head": "17ac1eeb5833cbf2a786194fe3bfbba6628a1ff8",
+  "tree": "52870c467cb37c328fd6ff73fe8484f8d6798953",
+  "run_id": 40942995096,
+  "job_id": 123690939357,
+  "artifact_id": 12929784527,
+  "zip_bytes": 157902568,
+  "zip_sha256": "2d4acbb051ce4ec55f3eb84d9bb4ee7cacd02aa330a4ae6c86cb1f5d107bc180",
+  "complete_zip_durable_library_file_id": "libfile_1398a89ecbe08191b1e16e4691e16300",
+  "zip_members": 131,
+  "originals": {
+    "CP7_CREDIT_DE_NATIVE13.json": {
+      "bytes": 4835820,
+      "sha256": "6b5eb3f481e1d36e8fbca64590a8ef83197f3e4e3725d9dfa3964c92cdbafa4c",
+      "gzip_sha256": "1585dd808fdaef0a8c2d216035718cb30a3a5e5bab9f0e26d4fbac733518d5d3"
+    },
+    "CP7_CREDIT_DE_NATIVE13_CASES.json": {
+      "bytes": 231613,
+      "sha256": "3129479dde1805e58fbd3a96cba4653c8da7a0b0f471be65c4182fd772f87d47",
+      "gzip_sha256": "aff166c8513ee0940ca049fbe61752751014dae9d1ecf92da712a4946538f932"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "bytes": 1470,
+      "sha256": "15fe0304a8bf0764722e78ad88cf92e8ed7f87c413b177cedc8e93dd22e31eba",
+      "gzip_sha256": "0eefd1839797b085edab2c3d6e9d82fb32274a9bc67157e3bf46d26a26894f88"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "bytes": 360428,
+      "sha256": "84d20d0e7ec045d8496174c25437b3005c158ee517e1d1c014b75175410e8056",
+      "gzip_sha256": "5e0cab1b48ad8ce179229f469e9ca32ebf1cbff8d511dd477ab914d8ef0afd3f"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7"
+    }
+  },
+  "actual_Native": {
+    "PASS": 13
+  },
+  "extra_qualification_credit_for_two_preludes": 0,
+  "actual_Auth_HTTP": 0,
+  "actual_browser": 0,
+  "actual_races": 0,
+  "full_restoration_and_package5": true,
+  "positive_preludes_may_allocate_sequences": true,
+  "refused_and_exact_UUID_replay_four_full_pairs_equal": true,
+  "used_guard_before_DDL": true,
+  "default_adopted": false,
+  "D_complete": false,
+  "E_complete": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

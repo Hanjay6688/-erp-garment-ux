@@ -1,0 +1,1241 @@
+{
+  "Native": {
+    "all_statuses_and_boundaries_PASS": true,
+    "committed_source_truth": {
+      "AR": "0.00",
+      "I": "250.00",
+      "available": "250.00",
+      "net": "750.00"
+    },
+    "counts": {
+      "PASS": 13
+    },
+    "exact_case_ids": [
+      "D_POSITIVE_CREDIT_INCREMENT",
+      "D_AFTER_ACTIVE_APPLY",
+      "D_AFTER_REFUND_EXTRA_STAYS_CREDIT",
+      "D_MULTIFAMILY_ORDINAL",
+      "D_REPLAY_EXACT_UUID",
+      "D_STALE_REVIEW_NO_EFFECT",
+      "D_ACCESS_REVOKED_NO_EFFECT",
+      "D_SHORTFALL_NAMES_UNDO",
+      "D_ROOT_BOOK_FLOOR_REFUSAL",
+      "D_ATOMIC_POST_FAILURE_RESTORE",
+      "D_SECOND_REVISION_ORDINAL_HISTORY",
+      "D_AFTER_NAMED_UNDO_NO_FALSE_BLOCKER",
+      "E_UNIMPLEMENTED_INCOMING_CORRECTION_STAYS_GUARDED"
+    ],
+    "exact_used_guard_enforced_by_executed_source": true,
+    "injected_after_Native_journal_failure": {
+      "message": "CP7_CREDIT_DE_TEST_PART_FAILURE",
+      "proof": {
+        "Native_trigger_census_unchanged": true,
+        "actual_Native_credit_journal_inserted": true,
+        "actual_Native_inverse_replacement_validated": true,
+        "component_journal_link_inserted": true,
+        "new_recognition": "50.00",
+        "old_initial_credit": "200.00",
+        "old_recognition_immutable": true,
+        "phase": "RECONCILING",
+        "private_part_inserted": true
+      }
+    },
+    "new_Auth_HTTP_cases": 0,
+    "new_browser_cases": 0,
+    "new_two_session_races": 0,
+    "strict_original_equal_to_embedded_group": true,
+    "used_guard_source_message": "CREDIT_DE_AFTER_USE_REQUIRES_FULL_BACKUP_RESTORE",
+    "used_witness_committed": true
+  },
+  "ZIP": {
+    "all_members_streamed_CRC_size_SHA256_verified": true,
+    "all_paths_confined": true,
+    "bytes": 157902568,
+    "members": 131,
+    "path": "/workspace/scratch/ef468a447ac6/evidence-private/d1-17ac-native13/ORIGINAL.zip",
+    "sha256": "2d4acbb051ce4ec55f3eb84d9bb4ee7cacd02aa330a4ae6c86cb1f5d107bc180"
+  },
+  "artifact_id": 12929784527,
+  "artifact_name": "cp7-a-credit-d1-product-phase-native13-1",
+  "classification": "READ_ONLY_ARTIFACT_REVIEW_NOT_NEW_EXECUTION_OR_FORMAL_ACCEPTANCE",
+  "conclusion": {
+    "D_complete": false,
+    "E17_or_continuation_executed_by_this_review": false,
+    "E_complete": false,
+    "database_calls_or_source_mutations_by_reviewer": 0,
+    "default_adopted": false,
+    "exact_narrow_D1_Native13_prerequisite_supported": true,
+    "independent_acceptance": false,
+    "production_go": false,
+    "release_evidence": false,
+    "scope": "D1_FINANCIAL_INCREASE_IDENTICAL_PHYSICAL_AND_STATIC_NONPO_HPP"
+  },
+  "current_source": {
+    "augmentation_SOURCE_sha256": "79cf8ca8ca72de93fba2c2da29e3777bc64ee0cf84bd1bdf71256d203589790d",
+    "bytes": 39279,
+    "complete_engine_six_substitutions": true,
+    "exact_174_file_pins_against_public_git_head": true,
+    "exact_current_installation_9_leaves": true,
+    "exact_raw_source_declaration_equality": true,
+    "materialize_sha256": "206c18b517aef54ddc5757fd156a6c7d8d4a2c3240f62779773a4fff74fe6154",
+    "owning_sha256": "410afb540f455ce6781d8bf09ee6bd6f66420a2f17d3c5474720a642fdcc9cae",
+    "path": "scripts/current-credit-d1-product-phase-native13-qualification/SOURCE.json",
+    "phase_exact_four_token_delta": true,
+    "private_native_import_one_substitution": true,
+    "quote_other_13_function_bodies_retained": true,
+    "sha256": "eeb47a301fd3241677bbae8c2a6189179cf8b5c82d6114561b2b47d52031a3e5"
+  },
+  "full_outer_restore": {
+    "CP6": true,
+    "all22_all_rows_all_sequences": true,
+    "all_five_package_gates": {
+      "backup_restore_drill": true,
+      "installed": true,
+      "primary_unchanged": true,
+      "security_advisors": true,
+      "writer_runtime": true
+    },
+    "auth_users_after": 0,
+    "auth_users_before": 0,
+    "backup_drill_restore_exit": 0,
+    "baseline_advisors_equal": true,
+    "baseline_roles_exact": true,
+    "final_advisor_gate": true,
+    "independent_live_database_recomparison": false,
+    "known_original_outer_restore_exit": {
+      "database_owner_acl_and_settings_preserved": true,
+      "error_count": 19,
+      "exit": 1,
+      "only_pg_cron_errors": true,
+      "platform_schema_authority_restored": [
+        "graphql",
+        "graphql_public"
+      ],
+      "unexplained": []
+    },
+    "observation_basis": "EXACT_ORIGINAL_REPORT_AND_BYTE_PINNED_EXECUTED_ASSERTIONS_NO_INDEPENDENT_DATABASE_RERUN",
+    "original_backup_drill": "RESTORED_IDENTICAL",
+    "raw_public": true,
+    "removed_remaining_roles": 57,
+    "report_advisor_delta_added": 31,
+    "writer_runtime_status": "PASS"
+  },
+  "head": "17ac1eeb5833cbf2a786194fe3bfbba6628a1ff8",
+  "instruction_correction": {
+    "expected_and_observed_production_go_release_evidence_independent_acceptance": false,
+    "observed_gate_writer_runtime": true,
+    "root_shorthand_writerfalse_was_incorrect": true
+  },
+  "job_id": 123690939357,
+  "local_review_checker_correction": "LOCAL_REVIEW_CHECKER_FIRST_PARSE_CORRECTION.json",
+  "mismatches": [],
+  "originals": {
+    "CP7_CREDIT_DE_NATIVE13.json": {
+      "artifact_member": "CP7_CREDIT_DE_NATIVE13.json",
+      "bytes": 4835820,
+      "local_path": "/workspace/scratch/ef468a447ac6/evidence-private/d1-17ac-native13/raw/CP7_CREDIT_DE_NATIVE13.json",
+      "sha256": "6b5eb3f481e1d36e8fbca64590a8ef83197f3e4e3725d9dfa3964c92cdbafa4c"
+    },
+    "CP7_CREDIT_DE_NATIVE13_CASES.json": {
+      "artifact_member": "CP7_CREDIT_DE_NATIVE13_CASES.json",
+      "bytes": 231613,
+      "local_path": "/workspace/scratch/ef468a447ac6/evidence-private/d1-17ac-native13/raw/CP7_CREDIT_DE_NATIVE13_CASES.json",
+      "sha256": "3129479dde1805e58fbd3a96cba4653c8da7a0b0f471be65c4182fd772f87d47"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "artifact_member": "T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 1470,
+      "local_path": "/workspace/scratch/ef468a447ac6/evidence-private/d1-17ac-native13/raw/T3_BACKUP_RESTORE_DRILL.json",
+      "sha256": "15fe0304a8bf0764722e78ad88cf92e8ed7f87c413b177cedc8e93dd22e31eba"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "artifact_member": "T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "local_path": "/workspace/scratch/ef468a447ac6/evidence-private/d1-17ac-native13/raw/T3_PACKAGE_FILES_INSTALL.json",
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "artifact_member": "T3_PACKAGE_INSTALL.json",
+      "bytes": 360428,
+      "local_path": "/workspace/scratch/ef468a447ac6/evidence-private/d1-17ac-native13/raw/T3_PACKAGE_INSTALL.json",
+      "sha256": "84d20d0e7ec045d8496174c25437b3005c158ee517e1d1c014b75175410e8056"
+    }
+  },
+  "product_cap": {
+    "actual_preludes": 2,
+    "complete_sequence_restore_owner": "FULL_OUTER_DATABASE_BACKUP_RESTORE_ONLY",
+    "equality_400_actual_post_exact_replay": true,
+    "fresh_400_after_peer_change_REFUSE_before_token": true,
+    "independently_verified_12_full_raw_catalog_rows_sequences_snapshots": {
+      "D1_PRODUCT_CAP_AGGREGATE_40001_AFTER_d66d63bcfeca4aceaee72a1db83077ef.json": {
+        "advisory_locks_hash": "76d83cc68faf99100ce1b59d8af69da8f86c13391bdf8a6db379985d93189450",
+        "all_rows_hash": "013b281e312997ebaf1b31c3edebebb93e11791c2b5fdc86c0c5e38706c7eef7",
+        "bytes": 101886591,
+        "catalog_groups": 22,
+        "catalog_hash": "201aace9204177ae065fcaa3a2b5a0eb8ce88ef79ffd0d1f6203ef1cce11ad8a",
+        "identity_hash": "a720536923b30cc62bcc59c7b267d69c43d81066928cc2b778bfc95fd318aeab",
+        "non_sequence_data_hash": "013b281e312997ebaf1b31c3edebebb93e11791c2b5fdc86c0c5e38706c7eef7",
+        "sequence_keys": 15,
+        "sequences": {
+          "sequence:auth.refresh_tokens_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:cp7_alert_native.dispatches_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:cp7_alert_native.key_events_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:cp7_alert_native.outbox_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:cp7_analysis_stage.source_checks_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:cp7_contractor_correction.history_v1_generation_no_seq": [
+            "1",
+            false
+          ],
+          "sequence:cp7_master.history_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:erp.app_access_audit_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:erp.audit_logs_id_seq": [
+            "429",
+            true
+          ],
+          "sequence:erp.cost_recalc_queue_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:erp.cutting_qty_correction_seq": [
+            "1",
+            false
+          ],
+          "sequence:erp.fg_stock_book_order_seq": [
+            "39",
+            true
+          ],
+          "sequence:erp.production_pattern_audit_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:realtime.subscription_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:supabase_functions.hooks_id_seq": [
+            "1",
+            false
+          ]
+        },
+        "sha256": "3bd08c662eb7bcc64e9b9181b0405b48d6e91049738656dc0d67f173537c5ef6",
+        "tables": 685
+      },
+      "D1_PRODUCT_CAP_AGGREGATE_40001_BEFORE_b5510c07ef3c4009bbf39a6dd1007bf3.json": {
+        "advisory_locks_hash": "76d83cc68faf99100ce1b59d8af69da8f86c13391bdf8a6db379985d93189450",
+        "all_rows_hash": "013b281e312997ebaf1b31c3edebebb93e11791c2b5fdc86c0c5e38706c7eef7",
+        "bytes": 101886591,
+        "catalog_groups": 22,
+        "catalog_hash": "201aace9204177ae065fcaa3a2b5a0eb8ce88ef79ffd0d1f6203ef1cce11ad8a",
+        "identity_hash": "a720536923b30cc62bcc59c7b267d69c43d81066928cc2b778bfc95fd318aeab",
+        "non_sequence_data_hash": "013b281e312997ebaf1b31c3edebebb93e11791c2b5fdc86c0c5e38706c7eef7",
+        "sequence_keys": 15,
+        "sequences": {
+          "sequence:auth.refresh_tokens_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:cp7_alert_native.dispatches_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:cp7_alert_native.key_events_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:cp7_alert_native.outbox_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:cp7_analysis_stage.source_checks_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:cp7_contractor_correction.history_v1_generation_no_seq": [
+            "1",
+            false
+          ],
+          "sequence:cp7_master.history_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:erp.app_access_audit_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:erp.audit_logs_id_seq": [
+            "429",
+            true
+          ],
+          "sequence:erp.cost_recalc_queue_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:erp.cutting_qty_correction_seq": [
+            "1",
+            false
+          ],
+          "sequence:erp.fg_stock_book_order_seq": [
+            "39",
+            true
+          ],
+          "sequence:erp.production_pattern_audit_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:realtime.subscription_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:supabase_functions.hooks_id_seq": [
+            "1",
+            false
+          ]
+        },
+        "sha256": "3bd08c662eb7bcc64e9b9181b0405b48d6e91049738656dc0d67f173537c5ef6",
+        "tables": 685
+      },
+      "D1_PRODUCT_CAP_BOUNDARY_AND_EQUALITY_ISOLATION_AFTER_47f01d7c67064a0584cd2d69d066b732.json": {
+        "advisory_locks_hash": "ff73f3d954cd44d2c4fb16f6da78ba3602407ca153d34a09421c6e3f0d7333f0",
+        "all_rows_hash": "93199e06768d4dbb84dd774dd99c6a5388dcbf24e2e5ad8a559dd2eee82dd7f0",
+        "bytes": 101135341,
+        "catalog_groups": 22,
+        "catalog_hash": "201aace9204177ae065fcaa3a2b5a0eb8ce88ef79ffd0d1f6203ef1cce11ad8a",
+        "identity_hash": "a720536923b30cc62bcc59c7b267d69c43d81066928cc2b778bfc95fd318aeab",
+        "non_sequence_data_hash": "93199e06768d4dbb84dd774dd99c6a5388dcbf24e2e5ad8a559dd2eee82dd7f0",
+        "sequence_keys": 15,
+        "sequences": {
+          "sequence:auth.refresh_tokens_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:cp7_alert_native.dispatches_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:cp7_alert_native.key_events_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:cp7_alert_native.outbox_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:cp7_analysis_stage.source_checks_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:cp7_contractor_correction.history_v1_generation_no_seq": [
+            "1",
+            false
+          ],
+          "sequence:cp7_master.history_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:erp.app_access_audit_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:erp.audit_logs_id_seq": [
+            "436",
+            true
+          ],
+          "sequence:erp.cost_recalc_queue_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:erp.cutting_qty_correction_seq": [
+            "1",
+            false
+          ],
+          "sequence:erp.fg_stock_book_order_seq": [
+            "41",
+            true
+          ],
+          "sequence:erp.production_pattern_audit_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:realtime.subscription_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:supabase_functions.hooks_id_seq": [
+            "1",
+            false
+          ]
+        },
+        "sha256": "44c013cfead45f121e356ecc93090ec2e871adb0019746bb6e6e977c1a77c594",
+        "tables": 685
+      },
+      "D1_PRODUCT_CAP_BOUNDARY_AND_EQUALITY_ISOLATION_BEFORE_a21151b08d6c4102adbc3927322f4652.json": {
+        "advisory_locks_hash": "ff73f3d954cd44d2c4fb16f6da78ba3602407ca153d34a09421c6e3f0d7333f0",
+        "all_rows_hash": "93199e06768d4dbb84dd774dd99c6a5388dcbf24e2e5ad8a559dd2eee82dd7f0",
+        "bytes": 101135341,
+        "catalog_groups": 22,
+        "catalog_hash": "201aace9204177ae065fcaa3a2b5a0eb8ce88ef79ffd0d1f6203ef1cce11ad8a",
+        "identity_hash": "a720536923b30cc62bcc59c7b267d69c43d81066928cc2b778bfc95fd318aeab",
+        "non_sequence_data_hash": "93199e06768d4dbb84dd774dd99c6a5388dcbf24e2e5ad8a559dd2eee82dd7f0",
+        "sequence_keys": 15,
+        "sequences": {
+          "sequence:auth.refresh_tokens_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:cp7_alert_native.dispatches_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:cp7_alert_native.key_events_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:cp7_alert_native.outbox_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:cp7_analysis_stage.source_checks_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:cp7_contractor_correction.history_v1_generation_no_seq": [
+            "1",
+            false
+          ],
+          "sequence:cp7_master.history_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:erp.app_access_audit_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:erp.audit_logs_id_seq": [
+            "397",
+            true
+          ],
+          "sequence:erp.cost_recalc_queue_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:erp.cutting_qty_correction_seq": [
+            "1",
+            false
+          ],
+          "sequence:erp.fg_stock_book_order_seq": [
+            "33",
+            true
+          ],
+          "sequence:erp.production_pattern_audit_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:realtime.subscription_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:supabase_functions.hooks_id_seq": [
+            "1",
+            false
+          ]
+        },
+        "sha256": "72b221d0535249b5d122ebeff6ffee2f834fe69d6da5e3caf2770e99f42b1695",
+        "tables": 685
+      },
+      "D1_PRODUCT_CAP_EQUALITY_REPLAY_AFTER_7968ab8f07874795831bb94ebf6450db.json": {
+        "advisory_locks_hash": "76d83cc68faf99100ce1b59d8af69da8f86c13391bdf8a6db379985d93189450",
+        "all_rows_hash": "870050ec6283799a5c2b6c273c708dbdd1302747fb3bd03e5ec8f717465bc9d6",
+        "bytes": 102376852,
+        "catalog_groups": 22,
+        "catalog_hash": "201aace9204177ae065fcaa3a2b5a0eb8ce88ef79ffd0d1f6203ef1cce11ad8a",
+        "identity_hash": "a720536923b30cc62bcc59c7b267d69c43d81066928cc2b778bfc95fd318aeab",
+        "non_sequence_data_hash": "870050ec6283799a5c2b6c273c708dbdd1302747fb3bd03e5ec8f717465bc9d6",
+        "sequence_keys": 15,
+        "sequences": {
+          "sequence:auth.refresh_tokens_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:cp7_alert_native.dispatches_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:cp7_alert_native.key_events_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:cp7_alert_native.outbox_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:cp7_analysis_stage.source_checks_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:cp7_contractor_correction.history_v1_generation_no_seq": [
+            "1",
+            false
+          ],
+          "sequence:cp7_master.history_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:erp.app_access_audit_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:erp.audit_logs_id_seq": [
+            "436",
+            true
+          ],
+          "sequence:erp.cost_recalc_queue_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:erp.cutting_qty_correction_seq": [
+            "1",
+            false
+          ],
+          "sequence:erp.fg_stock_book_order_seq": [
+            "41",
+            true
+          ],
+          "sequence:erp.production_pattern_audit_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:realtime.subscription_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:supabase_functions.hooks_id_seq": [
+            "1",
+            false
+          ]
+        },
+        "sha256": "76e6a4b6270c3381de6cae3b4a64f1fb4e2d04571b9fe7d378e5adb6ad00efb1",
+        "tables": 685
+      },
+      "D1_PRODUCT_CAP_EQUALITY_REPLAY_BEFORE_3666174d6c424684ac92d17175912008.json": {
+        "advisory_locks_hash": "76d83cc68faf99100ce1b59d8af69da8f86c13391bdf8a6db379985d93189450",
+        "all_rows_hash": "870050ec6283799a5c2b6c273c708dbdd1302747fb3bd03e5ec8f717465bc9d6",
+        "bytes": 102376852,
+        "catalog_groups": 22,
+        "catalog_hash": "201aace9204177ae065fcaa3a2b5a0eb8ce88ef79ffd0d1f6203ef1cce11ad8a",
+        "identity_hash": "a720536923b30cc62bcc59c7b267d69c43d81066928cc2b778bfc95fd318aeab",
+        "non_sequence_data_hash": "870050ec6283799a5c2b6c273c708dbdd1302747fb3bd03e5ec8f717465bc9d6",
+        "sequence_keys": 15,
+        "sequences": {
+          "sequence:auth.refresh_tokens_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:cp7_alert_native.dispatches_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:cp7_alert_native.key_events_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:cp7_alert_native.outbox_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:cp7_analysis_stage.source_checks_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:cp7_contractor_correction.history_v1_generation_no_seq": [
+            "1",
+            false
+          ],
+          "sequence:cp7_master.history_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:erp.app_access_audit_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:erp.audit_logs_id_seq": [
+            "436",
+            true
+          ],
+          "sequence:erp.cost_recalc_queue_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:erp.cutting_qty_correction_seq": [
+            "1",
+            false
+          ],
+          "sequence:erp.fg_stock_book_order_seq": [
+            "41",
+            true
+          ],
+          "sequence:erp.production_pattern_audit_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:realtime.subscription_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:supabase_functions.hooks_id_seq": [
+            "1",
+            false
+          ]
+        },
+        "sha256": "76e6a4b6270c3381de6cae3b4a64f1fb4e2d04571b9fe7d378e5adb6ad00efb1",
+        "tables": 685
+      },
+      "D1_PRODUCT_CAP_PEER_OVER_PRODUCT_CAP_AFTER_4f3d76f21a874439b4cda0469811d2d0.json": {
+        "advisory_locks_hash": "4d21db80b42487a5d4ea2770f8c3690bc3964e30273784ec1c1440d31ea8bf91",
+        "all_rows_hash": "081715af27e1ff8725f911c3b5b7b90f604d1034f03aa18180b6cadb81b8238a",
+        "bytes": 102379488,
+        "catalog_groups": 22,
+        "catalog_hash": "201aace9204177ae065fcaa3a2b5a0eb8ce88ef79ffd0d1f6203ef1cce11ad8a",
+        "identity_hash": "a720536923b30cc62bcc59c7b267d69c43d81066928cc2b778bfc95fd318aeab",
+        "non_sequence_data_hash": "081715af27e1ff8725f911c3b5b7b90f604d1034f03aa18180b6cadb81b8238a",
+        "sequence_keys": 15,
+        "sequences": {
+          "sequence:auth.refresh_tokens_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:cp7_alert_native.dispatches_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:cp7_alert_native.key_events_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:cp7_alert_native.outbox_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:cp7_analysis_stage.source_checks_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:cp7_contractor_correction.history_v1_generation_no_seq": [
+            "1",
+            false
+          ],
+          "sequence:cp7_master.history_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:erp.app_access_audit_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:erp.audit_logs_id_seq": [
+            "475",
+            true
+          ],
+          "sequence:erp.cost_recalc_queue_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:erp.cutting_qty_correction_seq": [
+            "1",
+            false
+          ],
+          "sequence:erp.fg_stock_book_order_seq": [
+            "49",
+            true
+          ],
+          "sequence:erp.production_pattern_audit_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:realtime.subscription_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:supabase_functions.hooks_id_seq": [
+            "1",
+            false
+          ]
+        },
+        "sha256": "d79f1c06f1486512002416639647f72fac4e5552436d21edad19e642b76cce12",
+        "tables": 685
+      },
+      "D1_PRODUCT_CAP_PEER_OVER_PRODUCT_CAP_BEFORE_b94151ceecf14d4fa27287c810f4e7e8.json": {
+        "advisory_locks_hash": "4d21db80b42487a5d4ea2770f8c3690bc3964e30273784ec1c1440d31ea8bf91",
+        "all_rows_hash": "081715af27e1ff8725f911c3b5b7b90f604d1034f03aa18180b6cadb81b8238a",
+        "bytes": 102379488,
+        "catalog_groups": 22,
+        "catalog_hash": "201aace9204177ae065fcaa3a2b5a0eb8ce88ef79ffd0d1f6203ef1cce11ad8a",
+        "identity_hash": "a720536923b30cc62bcc59c7b267d69c43d81066928cc2b778bfc95fd318aeab",
+        "non_sequence_data_hash": "081715af27e1ff8725f911c3b5b7b90f604d1034f03aa18180b6cadb81b8238a",
+        "sequence_keys": 15,
+        "sequences": {
+          "sequence:auth.refresh_tokens_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:cp7_alert_native.dispatches_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:cp7_alert_native.key_events_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:cp7_alert_native.outbox_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:cp7_analysis_stage.source_checks_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:cp7_contractor_correction.history_v1_generation_no_seq": [
+            "1",
+            false
+          ],
+          "sequence:cp7_master.history_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:erp.app_access_audit_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:erp.audit_logs_id_seq": [
+            "475",
+            true
+          ],
+          "sequence:erp.cost_recalc_queue_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:erp.cutting_qty_correction_seq": [
+            "1",
+            false
+          ],
+          "sequence:erp.fg_stock_book_order_seq": [
+            "49",
+            true
+          ],
+          "sequence:erp.production_pattern_audit_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:realtime.subscription_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:supabase_functions.hooks_id_seq": [
+            "1",
+            false
+          ]
+        },
+        "sha256": "d79f1c06f1486512002416639647f72fac4e5552436d21edad19e642b76cce12",
+        "tables": 685
+      },
+      "D1_PRODUCT_CAP_PEER_READY_INNER_STALE_ISOLATION_AFTER_c2ad8920e38c4c158f3b1a0f5f5c808b.json": {
+        "advisory_locks_hash": "ff73f3d954cd44d2c4fb16f6da78ba3602407ca153d34a09421c6e3f0d7333f0",
+        "all_rows_hash": "93199e06768d4dbb84dd774dd99c6a5388dcbf24e2e5ad8a559dd2eee82dd7f0",
+        "bytes": 101135341,
+        "catalog_groups": 22,
+        "catalog_hash": "201aace9204177ae065fcaa3a2b5a0eb8ce88ef79ffd0d1f6203ef1cce11ad8a",
+        "identity_hash": "a720536923b30cc62bcc59c7b267d69c43d81066928cc2b778bfc95fd318aeab",
+        "non_sequence_data_hash": "93199e06768d4dbb84dd774dd99c6a5388dcbf24e2e5ad8a559dd2eee82dd7f0",
+        "sequence_keys": 15,
+        "sequences": {
+          "sequence:auth.refresh_tokens_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:cp7_alert_native.dispatches_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:cp7_alert_native.key_events_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:cp7_alert_native.outbox_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:cp7_analysis_stage.source_checks_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:cp7_contractor_correction.history_v1_generation_no_seq": [
+            "1",
+            false
+          ],
+          "sequence:cp7_master.history_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:erp.app_access_audit_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:erp.audit_logs_id_seq": [
+            "475",
+            true
+          ],
+          "sequence:erp.cost_recalc_queue_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:erp.cutting_qty_correction_seq": [
+            "1",
+            false
+          ],
+          "sequence:erp.fg_stock_book_order_seq": [
+            "49",
+            true
+          ],
+          "sequence:erp.production_pattern_audit_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:realtime.subscription_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:supabase_functions.hooks_id_seq": [
+            "1",
+            false
+          ]
+        },
+        "sha256": "91d3fa3a12d69b0b782a7e4d516df21c3981d503d2c0dc876af6605989811afb",
+        "tables": 685
+      },
+      "D1_PRODUCT_CAP_PEER_READY_INNER_STALE_ISOLATION_BEFORE_e53e9189aa254070a38ffbd1cb33f3b7.json": {
+        "advisory_locks_hash": "ff73f3d954cd44d2c4fb16f6da78ba3602407ca153d34a09421c6e3f0d7333f0",
+        "all_rows_hash": "93199e06768d4dbb84dd774dd99c6a5388dcbf24e2e5ad8a559dd2eee82dd7f0",
+        "bytes": 101135341,
+        "catalog_groups": 22,
+        "catalog_hash": "201aace9204177ae065fcaa3a2b5a0eb8ce88ef79ffd0d1f6203ef1cce11ad8a",
+        "identity_hash": "a720536923b30cc62bcc59c7b267d69c43d81066928cc2b778bfc95fd318aeab",
+        "non_sequence_data_hash": "93199e06768d4dbb84dd774dd99c6a5388dcbf24e2e5ad8a559dd2eee82dd7f0",
+        "sequence_keys": 15,
+        "sequences": {
+          "sequence:auth.refresh_tokens_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:cp7_alert_native.dispatches_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:cp7_alert_native.key_events_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:cp7_alert_native.outbox_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:cp7_analysis_stage.source_checks_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:cp7_contractor_correction.history_v1_generation_no_seq": [
+            "1",
+            false
+          ],
+          "sequence:cp7_master.history_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:erp.app_access_audit_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:erp.audit_logs_id_seq": [
+            "436",
+            true
+          ],
+          "sequence:erp.cost_recalc_queue_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:erp.cutting_qty_correction_seq": [
+            "1",
+            false
+          ],
+          "sequence:erp.fg_stock_book_order_seq": [
+            "41",
+            true
+          ],
+          "sequence:erp.production_pattern_audit_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:realtime.subscription_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:supabase_functions.hooks_id_seq": [
+            "1",
+            false
+          ]
+        },
+        "sha256": "44c013cfead45f121e356ecc93090ec2e871adb0019746bb6e6e977c1a77c594",
+        "tables": 685
+      },
+      "D1_PRODUCT_CAP_READY_PEER_STALE_INNER_AFTER_f51cb6b537b348d79b537974e1bea770.json": {
+        "advisory_locks_hash": "4d21db80b42487a5d4ea2770f8c3690bc3964e30273784ec1c1440d31ea8bf91",
+        "all_rows_hash": "081715af27e1ff8725f911c3b5b7b90f604d1034f03aa18180b6cadb81b8238a",
+        "bytes": 102379488,
+        "catalog_groups": 22,
+        "catalog_hash": "201aace9204177ae065fcaa3a2b5a0eb8ce88ef79ffd0d1f6203ef1cce11ad8a",
+        "identity_hash": "a720536923b30cc62bcc59c7b267d69c43d81066928cc2b778bfc95fd318aeab",
+        "non_sequence_data_hash": "081715af27e1ff8725f911c3b5b7b90f604d1034f03aa18180b6cadb81b8238a",
+        "sequence_keys": 15,
+        "sequences": {
+          "sequence:auth.refresh_tokens_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:cp7_alert_native.dispatches_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:cp7_alert_native.key_events_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:cp7_alert_native.outbox_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:cp7_analysis_stage.source_checks_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:cp7_contractor_correction.history_v1_generation_no_seq": [
+            "1",
+            false
+          ],
+          "sequence:cp7_master.history_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:erp.app_access_audit_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:erp.audit_logs_id_seq": [
+            "475",
+            true
+          ],
+          "sequence:erp.cost_recalc_queue_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:erp.cutting_qty_correction_seq": [
+            "1",
+            false
+          ],
+          "sequence:erp.fg_stock_book_order_seq": [
+            "49",
+            true
+          ],
+          "sequence:erp.production_pattern_audit_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:realtime.subscription_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:supabase_functions.hooks_id_seq": [
+            "1",
+            false
+          ]
+        },
+        "sha256": "d79f1c06f1486512002416639647f72fac4e5552436d21edad19e642b76cce12",
+        "tables": 685
+      },
+      "D1_PRODUCT_CAP_READY_PEER_STALE_INNER_BEFORE_eae7114bbd8148548cd64706956395b6.json": {
+        "advisory_locks_hash": "4d21db80b42487a5d4ea2770f8c3690bc3964e30273784ec1c1440d31ea8bf91",
+        "all_rows_hash": "081715af27e1ff8725f911c3b5b7b90f604d1034f03aa18180b6cadb81b8238a",
+        "bytes": 102379488,
+        "catalog_groups": 22,
+        "catalog_hash": "201aace9204177ae065fcaa3a2b5a0eb8ce88ef79ffd0d1f6203ef1cce11ad8a",
+        "identity_hash": "a720536923b30cc62bcc59c7b267d69c43d81066928cc2b778bfc95fd318aeab",
+        "non_sequence_data_hash": "081715af27e1ff8725f911c3b5b7b90f604d1034f03aa18180b6cadb81b8238a",
+        "sequence_keys": 15,
+        "sequences": {
+          "sequence:auth.refresh_tokens_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:cp7_alert_native.dispatches_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:cp7_alert_native.key_events_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:cp7_alert_native.outbox_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:cp7_analysis_stage.source_checks_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:cp7_contractor_correction.history_v1_generation_no_seq": [
+            "1",
+            false
+          ],
+          "sequence:cp7_master.history_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:erp.app_access_audit_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:erp.audit_logs_id_seq": [
+            "475",
+            true
+          ],
+          "sequence:erp.cost_recalc_queue_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:erp.cutting_qty_correction_seq": [
+            "1",
+            false
+          ],
+          "sequence:erp.fg_stock_book_order_seq": [
+            "49",
+            true
+          ],
+          "sequence:erp.production_pattern_audit_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:realtime.subscription_id_seq": [
+            "1",
+            false
+          ],
+          "sequence:supabase_functions.hooks_id_seq": [
+            "1",
+            false
+          ]
+        },
+        "sha256": "d79f1c06f1486512002416639647f72fac4e5552436d21edad19e642b76cce12",
+        "tables": 685
+      }
+    },
+    "no_sequence_reseed": true,
+    "observed_positive_sequence_prefixes": {
+      "BOUNDARY_AND_EQUALITY": {
+        "sequence:erp.audit_logs_id_seq": {
+          "after": [
+            "436",
+            true
+          ],
+          "before": [
+            "397",
+            true
+          ]
+        },
+        "sequence:erp.fg_stock_book_order_seq": {
+          "after": [
+            "41",
+            true
+          ],
+          "before": [
+            "33",
+            true
+          ]
+        }
+      },
+      "PEER_READY_INNER_STALE": {
+        "sequence:erp.audit_logs_id_seq": {
+          "after": [
+            "475",
+            true
+          ],
+          "before": [
+            "436",
+            true
+          ]
+        },
+        "sequence:erp.fg_stock_book_order_seq": {
+          "after": [
+            "49",
+            true
+          ],
+          "before": [
+            "41",
+            true
+          ]
+        }
+      }
+    },
+    "over_40001_REFUSE": true,
+    "peer_600_to_60001_then_old_READY250_inner_token_STALE": true,
+    "refusal_and_replay_four_pairs_exact_full_raw_bytes_equal": true
+  },
+  "run_id": 40942995096,
+  "startup": {
+    "ERP_tests_retried": false,
+    "attempts": 1,
+    "exact_start_log_hash_and_size": true,
+    "exit_code": 0,
+    "registry": "default_ghcr"
+  },
+  "status": "PASS_INDEPENDENT_EXACT_NATIVE13_EVIDENCE_REVIEW",
+  "synthetic_gzip_exact_originals": [
+    {
+      "bytes": 469706,
+      "path": "/workspace/scratch/ef468a447ac6/evidence-private/d1-17ac-native13/rawgz/CP7_CREDIT_DE_NATIVE13.json.gz",
+      "sha256": "6ef0028ca06f161f6af76fe8519f034bf49b16ceb80bd2073e963874c3e26469",
+      "uncompressed_bytes": 4835820,
+      "uncompressed_sha256": "6b5eb3f481e1d36e8fbca64590a8ef83197f3e4e3725d9dfa3964c92cdbafa4c"
+    },
+    {
+      "bytes": 26416,
+      "path": "/workspace/scratch/ef468a447ac6/evidence-private/d1-17ac-native13/rawgz/CP7_CREDIT_DE_NATIVE13_CASES.json.gz",
+      "sha256": "1853fba97f80d8c01f9a542510b3236f449515bec1df1dad4d2b5a2f29190cdf",
+      "uncompressed_bytes": 231613,
+      "uncompressed_sha256": "3129479dde1805e58fbd3a96cba4653c8da7a0b0f471be65c4182fd772f87d47"
+    },
+    {
+      "bytes": 12935859,
+      "path": "/workspace/scratch/ef468a447ac6/evidence-private/d1-17ac-native13/rawgz/D1_PRODUCT_CAP_AGGREGATE_40001_AFTER_d66d63bcfeca4aceaee72a1db83077ef.json.gz",
+      "sha256": "7e3f9e9dc8ab5a6068a9d097465628ef5fff333d6c2d0f1f5a1390dc869a140b",
+      "uncompressed_bytes": 101886591,
+      "uncompressed_sha256": "3bd08c662eb7bcc64e9b9181b0405b48d6e91049738656dc0d67f173537c5ef6"
+    },
+    {
+      "bytes": 12935860,
+      "path": "/workspace/scratch/ef468a447ac6/evidence-private/d1-17ac-native13/rawgz/D1_PRODUCT_CAP_AGGREGATE_40001_BEFORE_b5510c07ef3c4009bbf39a6dd1007bf3.json.gz",
+      "sha256": "5103bf402aae04f85b1b2be38dd3d8f424cef467db9166c2c2c09b6bba2cb6a2",
+      "uncompressed_bytes": 101886591,
+      "uncompressed_sha256": "3bd08c662eb7bcc64e9b9181b0405b48d6e91049738656dc0d67f173537c5ef6"
+    },
+    {
+      "bytes": 12842279,
+      "path": "/workspace/scratch/ef468a447ac6/evidence-private/d1-17ac-native13/rawgz/D1_PRODUCT_CAP_BOUNDARY_AND_EQUALITY_ISOLATION_AFTER_47f01d7c67064a0584cd2d69d066b732.json.gz",
+      "sha256": "d0394f383688eb6ee814faf0815eb922b617beeade0b94e7f110db5221ca941e",
+      "uncompressed_bytes": 101135341,
+      "uncompressed_sha256": "44c013cfead45f121e356ecc93090ec2e871adb0019746bb6e6e977c1a77c594"
+    },
+    {
+      "bytes": 12842281,
+      "path": "/workspace/scratch/ef468a447ac6/evidence-private/d1-17ac-native13/rawgz/D1_PRODUCT_CAP_BOUNDARY_AND_EQUALITY_ISOLATION_BEFORE_a21151b08d6c4102adbc3927322f4652.json.gz",
+      "sha256": "6bef026a2573e7a91d03c3e999f7b2a20bf87467d5902a0a0e6cad756e6c9c9f",
+      "uncompressed_bytes": 101135341,
+      "uncompressed_sha256": "72b221d0535249b5d122ebeff6ffee2f834fe69d6da5e3caf2770e99f42b1695"
+    },
+    {
+      "bytes": 12984066,
+      "path": "/workspace/scratch/ef468a447ac6/evidence-private/d1-17ac-native13/rawgz/D1_PRODUCT_CAP_EQUALITY_REPLAY_AFTER_7968ab8f07874795831bb94ebf6450db.json.gz",
+      "sha256": "2f7600229c8c621e2c60be46ed4e9954e7c1fc6d86026f0546bdb3b130765bce",
+      "uncompressed_bytes": 102376852,
+      "uncompressed_sha256": "76e6a4b6270c3381de6cae3b4a64f1fb4e2d04571b9fe7d378e5adb6ad00efb1"
+    },
+    {
+      "bytes": 12984067,
+      "path": "/workspace/scratch/ef468a447ac6/evidence-private/d1-17ac-native13/rawgz/D1_PRODUCT_CAP_EQUALITY_REPLAY_BEFORE_3666174d6c424684ac92d17175912008.json.gz",
+      "sha256": "7ba57d79dba528ad76d682ee1be3c2a7ac1d64d04eb4d5c10fa14151a44cdcd1",
+      "uncompressed_bytes": 102376852,
+      "uncompressed_sha256": "76e6a4b6270c3381de6cae3b4a64f1fb4e2d04571b9fe7d378e5adb6ad00efb1"
+    },
+    {
+      "bytes": 12984195,
+      "path": "/workspace/scratch/ef468a447ac6/evidence-private/d1-17ac-native13/rawgz/D1_PRODUCT_CAP_PEER_OVER_PRODUCT_CAP_AFTER_4f3d76f21a874439b4cda0469811d2d0.json.gz",
+      "sha256": "2a74e05ec59164469a31cc7018c6731b18618407d6df932a5943a5c966116167",
+      "uncompressed_bytes": 102379488,
+      "uncompressed_sha256": "d79f1c06f1486512002416639647f72fac4e5552436d21edad19e642b76cce12"
+    },
+    {
+      "bytes": 12984196,
+      "path": "/workspace/scratch/ef468a447ac6/evidence-private/d1-17ac-native13/rawgz/D1_PRODUCT_CAP_PEER_OVER_PRODUCT_CAP_BEFORE_b94151ceecf14d4fa27287c810f4e7e8.json.gz",
+      "sha256": "5539585bd242cf607ef3365224c29d11cb91b6fb6015d90049e962777b73a290",
+      "uncompressed_bytes": 102379488,
+      "uncompressed_sha256": "d79f1c06f1486512002416639647f72fac4e5552436d21edad19e642b76cce12"
+    },
+    {
+      "bytes": 12842280,
+      "path": "/workspace/scratch/ef468a447ac6/evidence-private/d1-17ac-native13/rawgz/D1_PRODUCT_CAP_PEER_READY_INNER_STALE_ISOLATION_AFTER_c2ad8920e38c4c158f3b1a0f5f5c808b.json.gz",
+      "sha256": "2be7f18f393e901ec02582501c08875b6858032b52cfc8631d4424aadaed5d93",
+      "uncompressed_bytes": 101135341,
+      "uncompressed_sha256": "91d3fa3a12d69b0b782a7e4d516df21c3981d503d2c0dc876af6605989811afb"
+    },
+    {
+      "bytes": 12842281,
+      "path": "/workspace/scratch/ef468a447ac6/evidence-private/d1-17ac-native13/rawgz/D1_PRODUCT_CAP_PEER_READY_INNER_STALE_ISOLATION_BEFORE_e53e9189aa254070a38ffbd1cb33f3b7.json.gz",
+      "sha256": "416375f74a30a224767756fc5f6183ce6dbc71141b095a98d2e2c0bea293fbcf",
+      "uncompressed_bytes": 101135341,
+      "uncompressed_sha256": "44c013cfead45f121e356ecc93090ec2e871adb0019746bb6e6e977c1a77c594"
+    },
+    {
+      "bytes": 12984196,
+      "path": "/workspace/scratch/ef468a447ac6/evidence-private/d1-17ac-native13/rawgz/D1_PRODUCT_CAP_READY_PEER_STALE_INNER_AFTER_f51cb6b537b348d79b537974e1bea770.json.gz",
+      "sha256": "cbc72f16e8f7399498dd1ff5e841608011b025241b3ec7a138878ff9f2781f8b",
+      "uncompressed_bytes": 102379488,
+      "uncompressed_sha256": "d79f1c06f1486512002416639647f72fac4e5552436d21edad19e642b76cce12"
+    },
+    {
+      "bytes": 12984197,
+      "path": "/workspace/scratch/ef468a447ac6/evidence-private/d1-17ac-native13/rawgz/D1_PRODUCT_CAP_READY_PEER_STALE_INNER_BEFORE_eae7114bbd8148548cd64706956395b6.json.gz",
+      "sha256": "803cd850ea190bf24d671eb184929dda1329a70f3d64002bc1fe78250639e0b2",
+      "uncompressed_bytes": 102379488,
+      "uncompressed_sha256": "d79f1c06f1486512002416639647f72fac4e5552436d21edad19e642b76cce12"
+    },
+    {
+      "bytes": 674,
+      "path": "/workspace/scratch/ef468a447ac6/evidence-private/d1-17ac-native13/rawgz/T3_BACKUP_RESTORE_DRILL.json.gz",
+      "sha256": "adda25c25795a40d19f407b1b95e6318d7f09d28bf79a2ff89d3e2a75445d33b",
+      "uncompressed_bytes": 1470,
+      "uncompressed_sha256": "15fe0304a8bf0764722e78ad88cf92e8ed7f87c413b177cedc8e93dd22e31eba"
+    },
+    {
+      "bytes": 285,
+      "path": "/workspace/scratch/ef468a447ac6/evidence-private/d1-17ac-native13/rawgz/T3_PACKAGE_FILES_INSTALL.json.gz",
+      "sha256": "6d7d32af01093676463ec613643ead494d84e700be45da6c9a331ca18f24f623",
+      "uncompressed_bytes": 1806,
+      "uncompressed_sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    {
+      "bytes": 11424,
+      "path": "/workspace/scratch/ef468a447ac6/evidence-private/d1-17ac-native13/rawgz/T3_PACKAGE_INSTALL.json.gz",
+      "sha256": "546d0a8b13c8ad125824688e4f92ab0e5a5dd8ed8f8005a404b91e598851e141",
+      "uncompressed_bytes": 360428,
+      "uncompressed_sha256": "84d20d0e7ec045d8496174c25437b3005c158ee517e1d1c014b75175410e8056"
+    }
+  ],
+  "tree": "52870c467cb37c328fd6ff73fe8484f8d6798953"
+}

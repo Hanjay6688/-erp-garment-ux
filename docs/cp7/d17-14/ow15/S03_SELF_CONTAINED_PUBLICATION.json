@@ -1,0 +1,14 @@
+{
+  "repository": "Hanjay6688/-erp-garment-ux",
+  "branch": "astra-a/s03-attendance-native11-20261030",
+  "head": "9a0ca1de04723717c9d6635b8d3a6bd094233b97",
+  "tree": "9b13113d5ec63afb95874d41f06699e0016744b3",
+  "parent": "e74d1cb99b7a8df6e8d0f5f7499063ab420a977c",
+  "local_head": "820485ccfdd3505226db15cc5cae838ff74675eb",
+  "paths": 11,
+  "exact_local_tree": true,
+  "force": false,
+  "actualNative_at_publication": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

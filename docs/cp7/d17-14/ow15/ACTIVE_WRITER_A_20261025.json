@@ -1,5 +1,5 @@
 {
-  "recorded_at_utc": "2026-10-29T20:25:55.476037+00:00",
+  "recorded_at_utc": "2026-10-29T21:16:50.650546+00:00",
   "role": "A finance writer/integrator replacing Claude; B remains separate production/planning writer",
   "slogan": [
     "VENI. VIDI. VICI. ERP. — I CONQUERED ERP.",
@@ -10,37 +10,48 @@
   "independent_acceptance": false,
   "running": [
     {
-      "head": "17ac1eeb5833cbf2a786194fe3bfbba6628a1ff8",
-      "tree": "52870c467cb37c328fd6ff73fe8484f8d6798953",
-      "parent": "d902e4d2e65cf5b382af1ab041120611f9a61078",
-      "branch": "astra-a/credit-d1-product-phase-native13-20261030",
-      "local_head": "b5193f70ac0d7490f69570ce6838f454deb707e6",
-      "paths": 93,
-      "exact_API_local_tree": true,
-      "source_pins": 174,
-      "root_actual_vendor_AF_consistency_source_admission": true,
-      "status": "IN_PROGRESS_NOT_PASS",
-      "actual_new_Native": 0,
+      "repository": "Hanjay6688/-erp-garment-ux",
+      "branch": "astra-a/s03-attendance-native11-20261030",
+      "head": "9a0ca1de04723717c9d6635b8d3a6bd094233b97",
+      "tree": "9b13113d5ec63afb95874d41f06699e0016744b3",
+      "parent": "e74d1cb99b7a8df6e8d0f5f7499063ab420a977c",
+      "local_head": "820485ccfdd3505226db15cc5cae838ff74675eb",
+      "paths": 11,
+      "exact_local_tree": true,
+      "force": false,
+      "actualNative_at_publication": 0,
       "production_go": false,
       "independent_acceptance": false,
-      "run_id": 40942995096,
-      "job_id": 123690939357
+      "run_id": 40954866687,
+      "job_id": 123732218148,
+      "status": "IN_PROGRESS_NOT_PASS",
+      "source_pins": 251,
+      "source_sha256": "cc2dc65b6f73b288a34fc7dc9ad5e745f18b0f066595b02572e31804956cd438",
+      "local_controls": 48,
+      "actual_Native": 0,
+      "stage": "ACTUAL_NATIVE11_AND_COMPLETE_RESTORATION"
     },
     {
-      "head": "911a08e04f741ead342d6436a2f4b003434c0070",
-      "tree": "2b002a04f7453b3366da426746988472b9faa2c9",
-      "parent": "b0e5ac05e2024d5673126b6fe7759591293b9b96",
-      "local_head": "aeb57cb9bfdcd3da894a3cdbba8665f994c258cd",
-      "branch": "astra-a/s05-native10-public-default-acl-20261029",
-      "run_id": 40946437335,
-      "job_id": 123702921140,
-      "status": "IN_PROGRESS_NOT_PASS",
-      "paths": 40,
-      "exact_API_local_tree": true,
-      "source_files": 162,
-      "actual_Native": 0,
+      "repository": "Hanjay6688/-erp-garment-ux",
+      "branch": "astra-a/credit-e1-current-d1-native17-20261030",
+      "head": "8be4c15a37dcfc6186e32f396df78291ff1b957c",
+      "tree": "b48fb750bd6d0eeba8a2207665c6a0ba22f2780c",
+      "parent": "17ac1eeb5833cbf2a786194fe3bfbba6628a1ff8",
+      "local_head": "15972795d4477a7abae8b93f8b1d77c13186627c",
+      "paths": 105,
+      "exact_local_tree": true,
+      "prepared_E_case_ids": 17,
+      "actual_E_cases_at_publication": 0,
+      "accepted_D1_run": 40942995096,
       "production_go": false,
-      "independent_acceptance": false
+      "independent_acceptance": false,
+      "run_id": 40955967062,
+      "job_id": 123736034880,
+      "status": "IN_PROGRESS_NOT_PASS",
+      "source_pins": 282,
+      "source_sha256": "7a92b13976bd8cc24d19bc9f3ccb379f8a582bf7370ded4b23739296603d14fc",
+      "local_controls": 13,
+      "actual_Native": 0
     }
   ],
   "actual_new_component": {
@@ -21286,13 +21297,26 @@
     "receipt_path": "docs/cp7/d17-14/ow15/s03-a577-admission-first-failure/RECEIPT.json"
   },
   "S03_native11_generated_receipts_successor": {
-    "status": "PREPARING_BOUNDED_GENERATED_OUTPUT_VALIDATION",
-    "base": "a5774f59ce67fd18427a9aa700ee5e34fdece5b3",
-    "first101_reproduction": true,
+    "repository": "Hanjay6688/-erp-garment-ux",
+    "branch": "astra-a/s03-attendance-native11-20261030",
+    "head": "9a0ca1de04723717c9d6635b8d3a6bd094233b97",
+    "tree": "9b13113d5ec63afb95874d41f06699e0016744b3",
+    "parent": "e74d1cb99b7a8df6e8d0f5f7499063ab420a977c",
+    "local_head": "820485ccfdd3505226db15cc5cae838ff74675eb",
+    "paths": 11,
+    "exact_local_tree": true,
+    "force": false,
+    "actualNative_at_publication": 0,
+    "production_go": false,
+    "independent_acceptance": false,
+    "run_id": 40954866687,
+    "job_id": 123732218148,
+    "status": "IN_PROGRESS_NOT_PASS",
+    "source_pins": 251,
+    "source_sha256": "cc2dc65b6f73b288a34fc7dc9ad5e745f18b0f066595b02572e31804956cd438",
+    "local_controls": 48,
     "actual_Native": 0,
-    "old80_product_files_changed": false,
-    "original11_callbacks_changed": false,
-    "complete_engine_changed": false
+    "stage": "ACTUAL_NATIVE11_AND_COMPLETE_RESTORATION"
   },
   "S03_old_pool_reader_UI_integration_gap": {
     "status": "OPEN_CONCRETE_READER_ROUTING_GAP",
@@ -21322,5 +21346,236 @@
     "actual_Native": 0,
     "unchanged_E_financial_leaves": 9,
     "original17_ids_retained": true
+  },
+  "previous_running_before_17ac_qualified_911_e74_failures": [
+    {
+      "head": "17ac1eeb5833cbf2a786194fe3bfbba6628a1ff8",
+      "tree": "52870c467cb37c328fd6ff73fe8484f8d6798953",
+      "parent": "d902e4d2e65cf5b382af1ab041120611f9a61078",
+      "branch": "astra-a/credit-d1-product-phase-native13-20261030",
+      "local_head": "b5193f70ac0d7490f69570ce6838f454deb707e6",
+      "paths": 93,
+      "exact_API_local_tree": true,
+      "source_pins": 174,
+      "root_actual_vendor_AF_consistency_source_admission": true,
+      "status": "IN_PROGRESS_NOT_PASS",
+      "actual_new_Native": 0,
+      "production_go": false,
+      "independent_acceptance": false,
+      "run_id": 40942995096,
+      "job_id": 123690939357
+    },
+    {
+      "head": "911a08e04f741ead342d6436a2f4b003434c0070",
+      "tree": "2b002a04f7453b3366da426746988472b9faa2c9",
+      "parent": "b0e5ac05e2024d5673126b6fe7759591293b9b96",
+      "local_head": "aeb57cb9bfdcd3da894a3cdbba8665f994c258cd",
+      "branch": "astra-a/s05-native10-public-default-acl-20261029",
+      "run_id": 40946437335,
+      "job_id": 123702921140,
+      "status": "IN_PROGRESS_NOT_PASS",
+      "paths": 40,
+      "exact_API_local_tree": true,
+      "source_files": 162,
+      "actual_Native": 0,
+      "production_go": false,
+      "independent_acceptance": false
+    }
+  ],
+  "actual_D1_17ac_Native13_qualified": {
+    "status": "ROOT_VERIFIED_EXACT_NARROW_D1_NATIVE13_AND_COMPLETE_PACKAGE_PASS",
+    "head": "17ac1eeb5833cbf2a786194fe3bfbba6628a1ff8",
+    "tree": "52870c467cb37c328fd6ff73fe8484f8d6798953",
+    "run_id": 40942995096,
+    "job_id": 123690939357,
+    "artifact_id": 12929784527,
+    "zip_bytes": 157902568,
+    "zip_sha256": "2d4acbb051ce4ec55f3eb84d9bb4ee7cacd02aa330a4ae6c86cb1f5d107bc180",
+    "complete_zip_durable_library_file_id": "libfile_1398a89ecbe08191b1e16e4691e16300",
+    "zip_members": 131,
+    "originals": {
+      "CP7_CREDIT_DE_NATIVE13.json": {
+        "bytes": 4835820,
+        "sha256": "6b5eb3f481e1d36e8fbca64590a8ef83197f3e4e3725d9dfa3964c92cdbafa4c",
+        "gzip_sha256": "1585dd808fdaef0a8c2d216035718cb30a3a5e5bab9f0e26d4fbac733518d5d3"
+      },
+      "CP7_CREDIT_DE_NATIVE13_CASES.json": {
+        "bytes": 231613,
+        "sha256": "3129479dde1805e58fbd3a96cba4653c8da7a0b0f471be65c4182fd772f87d47",
+        "gzip_sha256": "aff166c8513ee0940ca049fbe61752751014dae9d1ecf92da712a4946538f932"
+      },
+      "T3_BACKUP_RESTORE_DRILL.json": {
+        "bytes": 1470,
+        "sha256": "15fe0304a8bf0764722e78ad88cf92e8ed7f87c413b177cedc8e93dd22e31eba",
+        "gzip_sha256": "0eefd1839797b085edab2c3d6e9d82fb32274a9bc67157e3bf46d26a26894f88"
+      },
+      "T3_PACKAGE_INSTALL.json": {
+        "bytes": 360428,
+        "sha256": "84d20d0e7ec045d8496174c25437b3005c158ee517e1d1c014b75175410e8056",
+        "gzip_sha256": "5e0cab1b48ad8ce179229f469e9ca32ebf1cbff8d511dd477ab914d8ef0afd3f"
+      },
+      "T3_PACKAGE_FILES_INSTALL.json": {
+        "bytes": 1806,
+        "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+        "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7"
+      }
+    },
+    "actual_Native": {
+      "PASS": 13
+    },
+    "extra_qualification_credit_for_two_preludes": 0,
+    "actual_Auth_HTTP": 0,
+    "actual_browser": 0,
+    "actual_races": 0,
+    "full_restoration_and_package5": true,
+    "positive_preludes_may_allocate_sequences": true,
+    "refused_and_exact_UUID_replay_four_full_pairs_equal": true,
+    "used_guard_before_DDL": true,
+    "default_adopted": false,
+    "D_complete": false,
+    "E_complete": false,
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "actual_S05_911_initial_master_date_failure": {
+    "status": "ACTUAL_NATIVE10_ALL_INCOMPLETE_AT_INITIAL_MASTER_DATE",
+    "head": "911a08e04f741ead342d6436a2f4b003434c0070",
+    "tree": "2b002a04f7453b3366da426746988472b9faa2c9",
+    "run_id": 40946437335,
+    "job_id": 123702921140,
+    "artifact_id": 12932227136,
+    "zip_bytes": 2052468,
+    "zip_sha256": "88235e4cf5d9be8f2c7e1cb7e2bf331e8c9f367955a2236296ba558029c0a1ae",
+    "originals": {
+      "CP7_S05_ACCESSORY_STANDARD_NATIVE10.json": {
+        "bytes": 3805611,
+        "sha256": "8985a5ee4b7c063bdf77a0817eea397302e597fe2f3a36f7f462e8bfce92e01f",
+        "gzip_sha256": "4b546de3792fbda5adf96fee6b82bcd081e5b87850d29f09448a8a1dbfb7c951"
+      },
+      "CP7_S05_ACCESSORY_STANDARD_NATIVE10_CASES.json": {
+        "bytes": 42027,
+        "sha256": "cbeea59981ac17c5bc99121c226f1e46cee6cbfc265664bb65988f88a20ba2f1",
+        "gzip_sha256": "c2efe0c127414a08d8f4b128f436ad4fc3d4d6d8f131dd12c706a04266c434b4"
+      },
+      "T3_PACKAGE_INSTALL.json": {
+        "bytes": 360450,
+        "sha256": "176c2855f8f0075e91aabb0a7792ba07dc27991d78cb79850d5842ae14dfb590",
+        "gzip_sha256": "ebb015cb258a5be9cd71c2d422ca78edb3bc96e598cc359b8fe5e8c11f2cd44a"
+      },
+      "T3_PACKAGE_FILES_INSTALL.json": {
+        "bytes": 1806,
+        "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+        "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7"
+      },
+      "T3_BACKUP_RESTORE_DRILL.json": {
+        "bytes": 1470,
+        "sha256": "fc1c7ee2a26b5b04d1007b20b434ca35ce88c70ec7685524153279822422758a",
+        "gzip_sha256": "f91a8bfd3e7728e7c969fc0effd9b3a6e8d9d2cb89d10535d085df5fb806e41c"
+      }
+    },
+    "strict_counts": {
+      "INCOMPLETE": 10
+    },
+    "actual_Native_callbacks_attempted": 10,
+    "actual_Native_pass": 0,
+    "actual_report_reads": 0,
+    "reader_preuse_reinstall": {
+      "status": "PASS",
+      "all22_data_sequences_parent_equal": true,
+      "phases": [
+        "INSTALL_AND_PREUSE_INVERSE",
+        "REINSTALL_AND_INVERSE"
+      ],
+      "new_business_DML": false
+    },
+    "case_error": "BF_HISTORY: master baru hanya mulai sekarang atau mendatang",
+    "cause": "Initial Native shared-master SAVE_GROUPS uses quiet historical fixture day; unchanged Native function requires a new master effective_from within five minutes of actual statement time.",
+    "installer_and_reader_preuse_reinstall_passed": true,
+    "separate_committed_used_witness_reached": false,
+    "full22_rows_allsequences_roles_CP6_advisors_backup_Auth_restored": true,
+    "package_gate": {
+      "installed": true,
+      "primary_unchanged": true,
+      "backup_restore_drill": true,
+      "security_advisors": true,
+      "writer_runtime": false
+    },
+    "first_failure_preserved": true,
+    "usable_prerequisite": false,
+    "production_go": false,
+    "independent_acceptance": false,
+    "used_guard_result_in_actual_raw": "ABSENT_NOT_QUALIFIED",
+    "separate_committed_witness_in_actual_raw": "ABSENT_AFTER_NATIVE10_FAILED"
+  },
+  "actual_S03_e74_historical_replay_first_failure": {
+    "head": "e74d1cb99b7a8df6e8d0f5f7499063ab420a977c",
+    "tree": "4fca9aefd99cfe8c5b323d83440d495e65d17bfe",
+    "run_id": 40953086425,
+    "job_id": 123726035569,
+    "artifact_id": 12932501933,
+    "zip_bytes": 54688,
+    "zip_sha256": "6bc5213ec3ed8e9b6079c8e26da508bc193c1d863b34620e6121130c199088f1",
+    "status": "BEFORE_DATABASE_46_PASS_1_ERROR_NATIVE0",
+    "error": "S03_GENERATED_RECEIPT_REGULAR_FILE_REQUIRED",
+    "cause": "Historical replay test passed original archive filenames to the real workspace without materializing their original bytes; fresh CI generates different UUID paths. The earlier local47 PASS depended on ambient retained outputs.",
+    "source_guard_weakened": false,
+    "helper_oracle_changed": false,
+    "Native_credit": 0,
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "S03_native11_generated_receipts_successor_before_self_contained": {
+    "status": "PREPARING_BOUNDED_GENERATED_OUTPUT_VALIDATION",
+    "base": "a5774f59ce67fd18427a9aa700ee5e34fdece5b3",
+    "first101_reproduction": true,
+    "actual_Native": 0,
+    "old80_product_files_changed": false,
+    "original11_callbacks_changed": false,
+    "complete_engine_changed": false
+  },
+  "E1_current_D1_terminal_bound_execution": {
+    "repository": "Hanjay6688/-erp-garment-ux",
+    "branch": "astra-a/credit-e1-current-d1-native17-20261030",
+    "head": "8be4c15a37dcfc6186e32f396df78291ff1b957c",
+    "tree": "b48fb750bd6d0eeba8a2207665c6a0ba22f2780c",
+    "parent": "17ac1eeb5833cbf2a786194fe3bfbba6628a1ff8",
+    "local_head": "15972795d4477a7abae8b93f8b1d77c13186627c",
+    "paths": 105,
+    "exact_local_tree": true,
+    "prepared_E_case_ids": 17,
+    "actual_E_cases_at_publication": 0,
+    "accepted_D1_run": 40942995096,
+    "production_go": false,
+    "independent_acceptance": false,
+    "run_id": 40955967062,
+    "job_id": 123736034880,
+    "status": "IN_PROGRESS_NOT_PASS",
+    "source_pins": 282,
+    "source_sha256": "7a92b13976bd8cc24d19bc9f3ccb379f8a582bf7370ded4b23739296603d14fc",
+    "local_controls": 13,
+    "actual_Native": 0
+  },
+  "S03_reader_UI_successor_in_progress": {
+    "source_basis": "f265ba2691ad03a2b7405806dc3aa4c5788b62fd",
+    "existing_function_captures": 15,
+    "private_Native_clones": 2,
+    "original_business_callbacks": 11,
+    "additional_predeclared_reader_callbacks": 3,
+    "Native_executed": false,
+    "actual_Native_count_is_not_capture_count": true,
+    "immutable_owned_pool_metadata": true,
+    "exact_source_period_hold": true,
+    "ordinary_P2_unaffected_required": true,
+    "UI_targeted_local_PASS": 153,
+    "UI_runtime_acceptance": false,
+    "production_go": false
+  },
+  "S05_lawful_master_fixture_successor_in_progress": {
+    "initial_recipe": "Native edit of asserted pre-existing uncommitted legacy BOM master",
+    "historical_successor": "Native BF SAVE_GROUPS at actual statement time after actual GOOD",
+    "old_ten_callbacks_and_money_oracles_unchanged_required": true,
+    "Native_date_guard_unchanged_required": true,
+    "actual_Native_PASS": 0,
+    "production_go": false
   }
 }

@@ -1,0 +1,10 @@
+{
+  "status": "EXACT_VENDOR41C_AND_PREPARED_S03_NATIVE11_ADMITTED",
+  "source_files": 251,
+  "Original_inputs_hash_checked": true,
+  "DB_connections_forbidden": true,
+  "blocked_attempts": [],
+  "Native_executed": false,
+  "production_go": false,
+  "independent_acceptance": false
+}
