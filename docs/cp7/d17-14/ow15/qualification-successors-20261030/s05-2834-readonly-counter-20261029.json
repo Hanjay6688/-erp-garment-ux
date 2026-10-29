@@ -1,0 +1,51 @@
+{
+  "status": "NO_CONCRETE_SOURCE_LAUNCH_BLOCKER_FOUND_NOT_INDEPENDENT_ACCEPTANCE",
+  "head": "2834c9ada13a1f70f79bf67c62f5c7d3554e2cb5",
+  "tree": "7f78cf2488afeca9d90a0d281a873c556dee082e",
+  "reviewer": "sku_features",
+  "read_only": true,
+  "source_pins": {
+    "scripts/cp7_accessory_standard_report/stage.py": "a30e254ddf5cba7f3f74524b2be98ce4a34c5008b4e775c25d79849f5eaa7d87",
+    "scripts/cp7_accessory_standard_report/SOURCE.json": "1a2e3a0e72de364afb472b86a59907465d224a750889292f5095014619dd86dd",
+    "scripts/cp7_accessory_standard_report/report.sql": "44e26f9144cff011bf2fb9935d1a448955f8179a9ffaa6884557d8391651c5ab",
+    "scripts/cp7_accessory_standard_report/cases.py": "e025be1280630dfb89f62261163194ce072b6f6ad6d909b56ff6c82f75778e98",
+    "scripts/current-s05-native10-qualification/SOURCE.json": "5327ae751656ed0f3836313fa6f633c9881c817ecf154373962180ac20b0d1b8",
+    "scripts/current-s05-native10-qualification/component.py": "c699ad2f5c7a7dbdad40ad7803ceaec066945c56a3ca125ad0d6aabe5574207a",
+    "scripts/current-s05-native10-qualification/admission.py": "39a8d11a3c8763992973bf87c2e99851de5aed0d817ad0960f70f42a3d9d29cb",
+    "scripts/current-s05-native10-qualification/owner_transfer/transition.py": "7b30653ac9e23a88e1a8de47a07345d9d5ed38326bd22f41812ade460e73e187",
+    "scripts/current-s05-native10-qualification/owner_transfer/LOCAL_ROLE_RECEIPTS.json": "ed331fae3c750edbd5ed62ff73a7dd9677f5d43a59fa4ee12e83abf6a1dbc772",
+    ".github/workflows/cp7-current-s05-native10.yml": "8efa3f01aabd93c1362020cab013a0959db0e255c968b87c23027de42ec0ce91"
+  },
+  "verified": [
+    "current_user named postgres/supabase_admin and current pg_roles.rolsuper required before DDL; session role recorded only",
+    "whole original report.sql unchanged; no temporary schema grant, role membership or GUC mutation",
+    "complete install and inverse under inherited atomic; default function ACL checked exactly and unexpected grants rejected",
+    "old verify/transition/source readers/reader_only unchanged AST; only stage differs among27 prior component files; manifest only updated for stage and declared metadata",
+    "original10 cases, financial oracles, UI, frozen vendor files and workflow unchanged",
+    "14 retained local role receipt entries verified exact raw and compressed hashes; SEVENTH8PASS_LOCAL_ONLY, explicit NULL/role/defaultACL/late install/inverse failures preserved",
+    "independent rerun offline19 PASS and112 qualifier plus27 component pins PASS; no DB runtime imported",
+    "historical200922/e290 objects not runtime dependencies: transition uses exact retained original bytes/hashes, admission has no Git or remote call"
+  ],
+  "role_ddl_evidence": {
+    "source": "retained OUTER_SU_SEVENTH",
+    "status": "PASS_LOCAL_ONLY",
+    "cases": 8,
+    "Native": 0,
+    "ERP_function_calls": 0,
+    "check_function_bodies": "off_LOCAL_ONLY",
+    "parent": "explicit local orchestration stub",
+    "independently_rerun": false
+  },
+  "actual_candidate_Native": 0,
+  "actual_candidate_Auth_HTTP_browser": 0,
+  "remaining": [
+    "actual Native current installer role/rolsuper/GUC profile still must be observed by root run; source consistent ADMIN supabase_admin is not runtime PASS",
+    "actual report body compilation, Native10, real used witness and complete outer restoration/five gates still pending",
+    "hosted/non-superuser installation unqualified; Afui positive-HPP zero-reimbursement and broader family coverage unchanged/open"
+  ],
+  "product_edits": false,
+  "database_opened": false,
+  "remote_calls": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

@@ -1,0 +1,20 @@
+{
+  "public_head": "b874783f57be809a867ce4d0806553a17c03243e",
+  "public_branch": "astra-a/s05-native10-qualification-20261029",
+  "public_parent": "ab50668b848a49e5544aed7f1b8ce981395175d8",
+  "local_head": "2834c9ada13a1f70f79bf67c62f5c7d3554e2cb5",
+  "tree": "7f78cf2488afeca9d90a0d281a873c556dee082e",
+  "tree_exactly_matches_local": true,
+  "workflow": ".github/workflows/cp7-current-s05-native10.yml",
+  "status": "BRANCH_CREATED_AWAITING_RUN",
+  "actual_qualified": false,
+  "expected_actual_S05_cases": 10,
+  "historical_vendor_counts": {
+    "Native": 7,
+    "races": 3,
+    "Auth_HTTP": 1
+  },
+  "fresh_S05_credit_from_historical": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

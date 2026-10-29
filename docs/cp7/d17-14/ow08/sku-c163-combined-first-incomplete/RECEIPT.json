@@ -1,0 +1,77 @@
+{
+  "head": "c163c1e9ff8f00b8dd8859c32aee0c2069766ad6",
+  "tree": "c986f32ad995d69ff1d0a5fba63689b543172f77",
+  "run_id": 40915783203,
+  "job_id": 123595497083,
+  "artifact_id": 12918725781,
+  "zip_bytes": 4422255,
+  "zip_sha256": "9954499c21b8b4416e781a8785812296761b217000fa55b0d199f106eaf67aa2",
+  "status": "INCOMPLETE",
+  "expected_fresh_cases": 23,
+  "observed_fresh_cases": 10,
+  "passed_fresh_Native7": 7,
+  "incomplete_cost_Native3": 3,
+  "not_reached": 13,
+  "not_reached_breakdown": {
+    "conversion_races": 3,
+    "Native_admin_permission_waits": 6,
+    "real_Auth_browser": 4
+  },
+  "fresh_Native7_used_inverse_guard_observed": true,
+  "complete_outer_used_inverse_guard_NOT_observed": true,
+  "full22_catalog_data_sequences_roles_CP6_advisors_restored": true,
+  "all_ten_case_boundaries_restored": true,
+  "five_package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": false
+  },
+  "Auth_before_after": [
+    0,
+    0
+  ],
+  "actual_Auth_HTTP": 0,
+  "actual_browser": 0,
+  "actual_two_session_races": 0,
+  "usable_as_full23_prerequisite": false,
+  "usable_core7_prerequisite": "UNCHANGED_PREVIOUS_TERMINAL21_ORIGINAL_ONLY",
+  "first_failure_preserved": true,
+  "cause": "Committed real Native7 used witness leaves SKU29 different brand; subsequent private cost fixtures create same fixed brand_name and hit correct unique constraint before cost posting",
+  "repair_scope": "New explicitly counted unique administrative brand name plus scoped fixture wiring for all followups. Preserve all oldNative21/c163 source bytes, witness facts, all23oracles/Nativeguards/fullrestore. No product change.",
+  "production_go": false,
+  "independent_acceptance": false,
+  "files": {
+    "CP7_SKU_COMBINED_FOLLOWUP23.json": {
+      "raw_bytes": 4748461,
+      "raw_sha256": "e646d0543599a81a5a76527996b2fde0af2adae80315e33eb7849073fd392daa",
+      "gzip_sha256": "51c53486a1c24511f06a6023dba64183a7d898f2cdf2c1c672c60f7084740d32"
+    },
+    "CP7_SKU_PAIR_CONVERSION_NATIVE7.json": {
+      "raw_bytes": 20821,
+      "raw_sha256": "536d6f8a502f7cd7c4aab4e38e159a8683d65d7214b4ac60676b56e282f2cf3e",
+      "gzip_sha256": "a46a2fb40067786a6586fcfefb01f62603ac64e879fb39f1f8908e5156787aff"
+    },
+    "CP7_SKU_GROUP_COST_NATIVE3.json": {
+      "raw_bytes": 13193,
+      "raw_sha256": "b412f56167f0985d1268b09c8b90fb2a5c91aa9a21a80316267b47f0e46c05a1",
+      "gzip_sha256": "42abd335e7378bc5b14777dd7c1b18b76fff8e9367276f51de53f7c9754f0c9c"
+    },
+    "T3_PACKAGE_INSTALL.json": {
+      "raw_bytes": 360443,
+      "raw_sha256": "e84b15966b575a47d08c302f3461a1603337553c1173ef64e4b82113664f924e",
+      "gzip_sha256": "88e132854efcd5c6052f96fb8d3e96016e5847f8cfdb390cab5a4e6f785aa49d"
+    },
+    "T3_BACKUP_RESTORE_DRILL.json": {
+      "raw_bytes": 1470,
+      "raw_sha256": "9cadba1d85aefdf6f9bbaa287c774dac48c58f1f2b6ba0517bc1957dbad6342a",
+      "gzip_sha256": "96d3e567e10b788517f821d2098c151303f1d9c8dd6fdb4a78b1b67a749ae01d"
+    },
+    "T3_PACKAGE_FILES_INSTALL.json": {
+      "raw_bytes": 1806,
+      "raw_sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7"
+    }
+  }
+}

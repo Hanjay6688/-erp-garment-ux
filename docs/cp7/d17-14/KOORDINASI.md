@@ -6043,3 +6043,69 @@ Kandidat a994 tetap INCOMPLETE dan tidak boleh membuka gate E17 atau
 continuation3. Helper menelusuri perbaikan terisolasi sebelum mengubah sumber;
 Original077 maupun a994 tetap utuh. Status checkpoint lama “D1 berjalan”
 bersifat historis. Formal5/16 dan seluruh batas produksi tetap.
+
+
+## A — gabungan SKU c163 terhenti pada benturan master fixture
+
+run40915783203/job123595497083 terminal INCOMPLETE. FreshNative7 lulus utuh,
+termasuk committed used-inverse witness. Ketiga kasus biaya belum masuk aksi
+biaya: masing-masing menabrak unique brand_name karena fixture memakai nama
+merek tetap yang sudah ada dari witness committed.7PASS/3INCOMPLETE dari10
+teramati;13race/izin/browser belum tercapai. Seluruh batas10kasus dan pemulihan
+22katalog/data/sequence/roles/CP6/advisors/backup/Auth lulus; writer_runtime=false.
+Enam JSON root persis dipertahankan di ow08/sku-c163-combined-first-incomplete;
+package dari subfolder prasyarat tidak tertukar dengan package run ini.
+
+Penerus dipersiapkan hanya namespace/wiring fixture baru dengan nama master
+unik per tag. Tidak menghapus witness, memakai ulang master sebagai akal-akalan,
+menghapus constraint, atau mengubah costing/guard/oracle. Seluruh berkas Native21
+dan c163 dibekukan. Native21 awal tetap prasyarat inti yang sah; gabungan23
+belum lulus dan belum mengizinkan adopsi default.
+
+E17 dibekukan dan dipublikasikan PREPAREDONLY f5b085a2/tree0f54938e, cabang
+credit-e1-native17-prepared (bukan execution).15kontrol/120pin lulus; gate null,
+a9945/13 ditolak eksplisit, actualE0. D1cap/fixture dan S05izin masih perbaikan
+lokal sebelum penerus aktual; tidak ada job aktual yang berjalan pada checkpoint
+ini. Formal5/16, production_go=false, independent_acceptance=false.
+
+
+## A — tiga penerus aktual berjalan, 30 Oktober 2026 WIB
+
+D1 cap d902e4d2/tree6f931e63 run40926602777/job123633679142 menjalankan
+Native13. Hanya quote yang berubah di antara sembilan runtime bisnis;13fungsi
+owning lain dan delapan leaf lainnya tetap persis. Fixture milik qualifier
+menggunakan retur2PCS/refund200 yang sah dengan seluruh angka kredit tetap;
+injeksi failure sesudah jurnal Native pindah ke parts privat, census utuh.
+Hasil belum PASS. Reviewer menemukan kandidat celah preview lain: cap agregat
+per produk pada Native post tidak memakai toleransi0.01. Reproduksi terisolasi
+dan penerus quote dialokasikan; guard Native tetap, kandidat berjalan dibekukan.
+
+SKU bd2cd02c/treecac694e1 run40928155690/job123639136778 menjalankan23 kasus.
+42path baru saja di atas c163; nama fixture unik dan16 wiring eksplisit,
+12derivasi/17substitusi,134assert AST lama persis. Seluruh13.569berkas parent
+(1.002.753.461byte) ditutup hash. Kontrol lokal70 dan counter sumber internal
+lulus, bukan penerimaan independen. Tujuh Native21 tetap prasyarat lama;
+23kasus segar belum dikreditkan sebelum terminal/fullrestore/lima gate.
+
+S05 b874783f/tree7f78cf24 run40928511140/job123640384388 menjalankan10 Native
+pembaca. Pemasangan memakai superuser administratif yang sudah current,
+menjalankan SQL asli lengkap secara atomik; tanpa member/grant/GUC sementara.
+Raw NULL dan zeroMembership utuh, defaultACL asing ditolak. SQL laporan,
+sepuluh kasus, UI dan pemeriksa lama persis.8kontrol role lokal/19offline/
+112pin/27komponen lulus dan counter internal bersih. Profil hosted nonSU
+serta jalur Afui HPP positif tanpa penggantian belum qualified.
+
+S03 backend3b3a93ed9 memperbaiki dua defect nyata pada19kontrol (ID inverse
+dan kelayakan kontraktor P2), lokal19+source8 lulus. Wire7e91 tetap. UI
+standalone memakai domain recovery baru yang dialokasikan eksplisit; tsc dan
+recovery lokal lulus, DOM masih dikerjakan. E17 gate tetap null/tertutup;
+fixture late_failure dipindah ke operations privat setelah Native nyata,
+14vektor structural doubles saja,0Native. E05/S03 full payroll reverse
+sedang ditelusuri supaya refusal terjadi sebelum efek sequence tanpa
+menghalangi settlement PAID/reopen yang sah.
+
+Receipt publikasi/counter/peta overlap di ow15/qualification-successors-20261030.
+Peta vendor→D1→E→SKU→S03→S05 hanya rencana reparent terukur, belum gabungan
+qualified. Default vendor dan B tetap; formal5/16, production_go=false,
+independent_acceptance=false. Tiga job server benar-benar berjalan pada
+checkpoint ini; teruskan intake terminal dan pekerjaan sah setelah simpan.

@@ -1,0 +1,14 @@
+{
+  "public_head": "bd2cd02c0b724f87f6f1d8628f8227dd30c513a4",
+  "public_branch": "astra-a/sku-combined-unique-fixture-20261029",
+  "public_parent": "c163c1e9ff8f00b8dd8859c32aee0c2069766ad6",
+  "local_head": "4aef98f943ad19272a473da287fb91c254dcf0eb",
+  "tree": "cac694e11f5ab9f02476336b9ef42c20bd832894",
+  "tree_exactly_matches_local": true,
+  "workflow": ".github/workflows/cp7-sku-combined-unique-fixture.yml",
+  "status": "BRANCH_CREATED_AWAITING_RUN",
+  "actual_qualified": false,
+  "previous_run": 40915783203,
+  "previous_status": "7 PASS / 3 INCOMPLETE / 13 NOT_REACHED",
+  "product_runtime_unchanged_from_qualified_sku21": true
+}

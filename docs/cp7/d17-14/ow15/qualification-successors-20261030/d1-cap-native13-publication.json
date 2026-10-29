@@ -1,0 +1,10 @@
+{
+  "base": "a99463ca3ea2f1a71b22f0354df83f1b5a42b71b",
+  "base_tree": "6ee5f681a9266aa851b9638beec6d586ddae0937",
+  "local_head": "568e57d5bdd1452ed7d62392879f6d5b738dfadd",
+  "expected_tree": "6f931e639bd8996378ff65b8a7be2a1ed8590b45",
+  "branch": "astra-a/credit-d1-cap-native13-20261029",
+  "remote_head": "d902e4d2e65cf5b382af1ab041120611f9a61078",
+  "source_files": 70,
+  "status": "PUBLISHED_EXACT_TREE_WAIT_ACTUAL_NATIVE13"
+}

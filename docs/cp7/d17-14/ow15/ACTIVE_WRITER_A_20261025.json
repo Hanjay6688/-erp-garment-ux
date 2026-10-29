@@ -1,5 +1,5 @@
 {
-  "recorded_at_utc": "2026-10-29T17:06:37.510763+00:00",
+  "recorded_at_utc": "2026-10-29T18:14:16.950664+00:00",
   "role": "A finance writer/integrator replacing Claude; B remains separate production/planning writer",
   "slogan": [
     "VENI. VIDI. VICI. ERP. — I CONQUERED ERP.",
@@ -10,11 +10,27 @@
   "independent_acceptance": false,
   "running": [
     {
-      "scope": "SKU_COMBINED23_EXACT_NATIVE21_PREREQUISITE_BOUND",
-      "head": "c163c1e9ff8f00b8dd8859c32aee0c2069766ad6",
-      "tree": "c986f32ad995d69ff1d0a5fba63689b543172f77",
-      "run_id": 40915783203,
-      "job_id": 123595497083,
+      "scope": "D1_CAP_NATIVE13",
+      "head": "d902e4d2e65cf5b382af1ab041120611f9a61078",
+      "tree": "6f931e639bd8996378ff65b8a7be2a1ed8590b45",
+      "run_id": 40926602777,
+      "job_id": 123633679142,
+      "status": "IN_PROGRESS_NOT_PASS"
+    },
+    {
+      "scope": "SKU_UNIQUE_FIXTURE_COMBINED23",
+      "head": "bd2cd02c0b724f87f6f1d8628f8227dd30c513a4",
+      "tree": "cac694e11f5ab9f02476336b9ef42c20bd832894",
+      "run_id": 40928155690,
+      "job_id": 123639136778,
+      "status": "IN_PROGRESS_NOT_PASS"
+    },
+    {
+      "scope": "S05_ACCESSORY_STANDARD_NATIVE10",
+      "head": "b874783f57be809a867ce4d0806553a17c03243e",
+      "tree": "7f78cf2488afeca9d90a0d281a873c556dee082e",
+      "run_id": 40928511140,
+      "job_id": 123640384388,
       "status": "IN_PROGRESS_NOT_PASS"
     }
   ],
@@ -17216,7 +17232,7 @@
     "production_go": false,
     "independent_acceptance": false
   },
-  "recorded_at_wib": "2026-10-28T10:24:12.929607+07:00",
+  "recorded_at_wib": "2026-10-30T01:14:16.950696+07:00",
   "retained_consistent_faa_retry_infrastructure_failure": {
     "head": "faa5889faf622e4cb07b470aae26eadd750879c1",
     "run_id": 40540122775,
@@ -20070,7 +20086,7 @@
     "full_data_and_Auth_restored": true,
     "writer_runtime": false
   },
-  "active_priority": "Preserve D1a994 actual5PASS/8INCOMPLETE and repair lawful fixture, exact Native-cap preview and private failure injection before successor Native13. Monitor SKUcombined23 actual to terminal. S05 new-role adapter repair before launch. E17/continuation3 remain CLOSED; S03 design counters before actual qualification.",
+  "active_priority": "No current actual run. Fix/freeze D1cap+lawfulfixture+late-failure proof and S05 installer envelope, review/source-bind and launch actual successors. Prepare SKU unique-master fixture successor with full old proof preservation then actual23; E17/continuation3 remain closed until actualD1. S03 local failures/Native cases still required.",
   "actual_source6_20261029": {
     "status": "EXACT_ACTUAL_OW08_SOURCE6_ACCEPTABLE_TO_INTEGRATOR",
     "head": "42760534906c330353f9bb0f53d27db65b134626",
@@ -20473,7 +20489,7 @@
     "branch": "astra-a/sku-utc-combined-followup-20261029",
     "run_id": 40915783203,
     "job_id": 123595497083,
-    "status": "ACTUAL_RUNNING_NOT_PASS",
+    "status": "TERMINAL_INCOMPLETE_7_PASS_3_COST_INCOMPLETE_13_NOT_REACHED",
     "prerequisite_head": "21c69cf25defcee854beb08e998062d7e883d968",
     "prerequisite_run_id": 40906383684,
     "source_files": 786,
@@ -20491,7 +20507,9 @@
     },
     "group_recovery_supported": false,
     "production_go": false,
-    "independent_acceptance": false
+    "independent_acceptance": false,
+    "observed_fresh_base_Native_PASS": 7,
+    "full23_qualification_accepted": false
   },
   "S05_qualification_prelaunch": {
     "local_head": "20092281416c5c9beffea53a10c02d72aeab7ae1",
@@ -20636,5 +20654,177 @@
       }
     },
     "receipt_path": "docs/cp7/d17-14/ow08/credit-a994-native13-first-incomplete/RECEIPT.json"
+  },
+  "previous_running_before_SKU_c163_actual": [
+    {
+      "scope": "SKU_COMBINED23_EXACT_NATIVE21_PREREQUISITE_BOUND",
+      "head": "c163c1e9ff8f00b8dd8859c32aee0c2069766ad6",
+      "tree": "c986f32ad995d69ff1d0a5fba63689b543172f77",
+      "run_id": 40915783203,
+      "job_id": 123595497083,
+      "status": "IN_PROGRESS_NOT_PASS"
+    }
+  ],
+  "actual_SKU_c163_combined_first_failure": {
+    "head": "c163c1e9ff8f00b8dd8859c32aee0c2069766ad6",
+    "tree": "c986f32ad995d69ff1d0a5fba63689b543172f77",
+    "run_id": 40915783203,
+    "job_id": 123595497083,
+    "artifact_id": 12918725781,
+    "zip_bytes": 4422255,
+    "zip_sha256": "9954499c21b8b4416e781a8785812296761b217000fa55b0d199f106eaf67aa2",
+    "status": "INCOMPLETE",
+    "expected_fresh_cases": 23,
+    "observed_fresh_cases": 10,
+    "passed_fresh_Native7": 7,
+    "incomplete_cost_Native3": 3,
+    "not_reached": 13,
+    "not_reached_breakdown": {
+      "conversion_races": 3,
+      "Native_admin_permission_waits": 6,
+      "real_Auth_browser": 4
+    },
+    "fresh_Native7_used_inverse_guard_observed": true,
+    "complete_outer_used_inverse_guard_NOT_observed": true,
+    "full22_catalog_data_sequences_roles_CP6_advisors_restored": true,
+    "all_ten_case_boundaries_restored": true,
+    "five_package_gates": {
+      "installed": true,
+      "primary_unchanged": true,
+      "backup_restore_drill": true,
+      "security_advisors": true,
+      "writer_runtime": false
+    },
+    "Auth_before_after": [
+      0,
+      0
+    ],
+    "actual_Auth_HTTP": 0,
+    "actual_browser": 0,
+    "actual_two_session_races": 0,
+    "usable_as_full23_prerequisite": false,
+    "usable_core7_prerequisite": "UNCHANGED_PREVIOUS_TERMINAL21_ORIGINAL_ONLY",
+    "first_failure_preserved": true,
+    "cause": "Committed real Native7 used witness leaves SKU29 different brand; subsequent private cost fixtures create same fixed brand_name and hit correct unique constraint before cost posting",
+    "repair_scope": "New explicitly counted unique administrative brand name plus scoped fixture wiring for all followups. Preserve all oldNative21/c163 source bytes, witness facts, all23oracles/Nativeguards/fullrestore. No product change.",
+    "production_go": false,
+    "independent_acceptance": false,
+    "files": {
+      "CP7_SKU_COMBINED_FOLLOWUP23.json": {
+        "raw_bytes": 4748461,
+        "raw_sha256": "e646d0543599a81a5a76527996b2fde0af2adae80315e33eb7849073fd392daa",
+        "gzip_sha256": "51c53486a1c24511f06a6023dba64183a7d898f2cdf2c1c672c60f7084740d32"
+      },
+      "CP7_SKU_PAIR_CONVERSION_NATIVE7.json": {
+        "raw_bytes": 20821,
+        "raw_sha256": "536d6f8a502f7cd7c4aab4e38e159a8683d65d7214b4ac60676b56e282f2cf3e",
+        "gzip_sha256": "a46a2fb40067786a6586fcfefb01f62603ac64e879fb39f1f8908e5156787aff"
+      },
+      "CP7_SKU_GROUP_COST_NATIVE3.json": {
+        "raw_bytes": 13193,
+        "raw_sha256": "b412f56167f0985d1268b09c8b90fb2a5c91aa9a21a80316267b47f0e46c05a1",
+        "gzip_sha256": "42abd335e7378bc5b14777dd7c1b18b76fff8e9367276f51de53f7c9754f0c9c"
+      },
+      "T3_PACKAGE_INSTALL.json": {
+        "raw_bytes": 360443,
+        "raw_sha256": "e84b15966b575a47d08c302f3461a1603337553c1173ef64e4b82113664f924e",
+        "gzip_sha256": "88e132854efcd5c6052f96fb8d3e96016e5847f8cfdb390cab5a4e6f785aa49d"
+      },
+      "T3_BACKUP_RESTORE_DRILL.json": {
+        "raw_bytes": 1470,
+        "raw_sha256": "9cadba1d85aefdf6f9bbaa287c774dac48c58f1f2b6ba0517bc1957dbad6342a",
+        "gzip_sha256": "96d3e567e10b788517f821d2098c151303f1d9c8dd6fdb4a78b1b67a749ae01d"
+      },
+      "T3_PACKAGE_FILES_INSTALL.json": {
+        "raw_bytes": 1806,
+        "raw_sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+        "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7"
+      }
+    },
+    "receipt_path": "docs/cp7/d17-14/ow08/sku-c163-combined-first-incomplete/RECEIPT.json"
+  },
+  "E1_qualification_prepared_public": {
+    "head": "f5b085a2bf3a34397616e9a9a3326af5119d19c4",
+    "tree": "0f54938eea7893327456cbc8d850ae85ea9c6e58",
+    "branch": "astra-a/credit-e1-native17-prepared-20261029",
+    "status": "CLOSED_NO_DISPATCH",
+    "local_controls": 15,
+    "source_files": 120,
+    "frozen_D1_source_files_unchanged": 48,
+    "required_qualified_parent": null,
+    "accepted_D1": null,
+    "known_a994_failure_negative_retained": true,
+    "Native_cases_prepared": 17,
+    "actual_E": 0
+  },
+  "SKU_fixture_successor_preparing": {
+    "status": "PUBLISHED_ACTUAL_COMBINED23_RUNNING_NOT_PASS",
+    "head": "bd2cd02c0b724f87f6f1d8628f8227dd30c513a4",
+    "tree": "cac694e11f5ab9f02476336b9ef42c20bd832894",
+    "local_head": "4aef98f943ad19272a473da287fb91c254dcf0eb",
+    "base": "c163c1e9ff8f00b8dd8859c32aee0c2069766ad6",
+    "scope": "42 NEW paths only; one unique brand_name parameter plus16 explicit private call-chain routings; all old sources remain exact",
+    "source_closure_files": 13569,
+    "parent_total_bytes": 1002753461,
+    "private_derivations": 12,
+    "counted_substitutions": 17,
+    "retained_assertion_ASTs_exact": 134,
+    "local_followup_controls": 13,
+    "frozen_suite_controls": 57,
+    "internal_counter": "NO_SOURCE_LAUNCH_BLOCKER_NOT_INDEPENDENT_ACCEPTANCE",
+    "qualified_fresh_cases": 0,
+    "product_runtime_unchanged": true,
+    "full_restore_and_all5gates_required": true
+  },
+  "previous_running_before_successor_launch_20261030": [],
+  "D1_cap_successor_20261030": {
+    "head": "d902e4d2e65cf5b382af1ab041120611f9a61078",
+    "local_head": "568e57d5bdd1452ed7d62392879f6d5b738dfadd",
+    "business_change": "quote_v1 only; original per-line Native numeric24,6 cap plus0.01 refusal and token-bound factual basis",
+    "other_13_owning_functions_unchanged": true,
+    "other_8_business_leaves_unchanged": true,
+    "fixture": "5 private functions / 10 reversible substitutions; lawful2PCS200 return; all monetary oracles unchanged",
+    "atomic_failure": "owned parts_v1 AFTER INSERT after actual Native credit journal; ERP trigger census unchanged",
+    "known_additional_source_review_gap": "Native post_sales_return per-product aggregate across peer POSTED returns has no .01 tolerance. Reviewer reproduction/source proof pending; active Native13 not interrupted, new isolated quote successor allocated.",
+    "default_adopted": false,
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "S05_qualification_successor_20261030": {
+    "status": "PUBLISHED_ACTUAL_NATIVE10_RUNNING_NOT_PASS",
+    "head": "b874783f57be809a867ce4d0806553a17c03243e",
+    "tree": "7f78cf2488afeca9d90a0d281a873c556dee082e",
+    "local_head": "2834c9ada13a1f70f79bf67c62f5c7d3554e2cb5",
+    "old_200922_held": true,
+    "installer": "already-current named administrative superuser before DDL; entire original report SQL under inherited atomic; no memberships/GUC/schema grants; raw NULL preserved; unexpected default ACL refuses atomically",
+    "report_SQL_10cases_UI_original_verifier_unchanged": true,
+    "local_role_DDL_controls": 8,
+    "offline_controls": 19,
+    "source_pins": 112,
+    "component_pins": 27,
+    "actual_case_credit": 0,
+    "hosted_non_superuser_profile_supported": false,
+    "Afui_positive_HPP_zero_reimbursement_actual_qualified": false
+  },
+  "S03_parallel_20261030": {
+    "backend_head": "3b3a93ed9",
+    "local19_pass": true,
+    "source8_pass": true,
+    "real_defects_repaired": [
+      "REVERSE receipt event_id names actual owning inverse",
+      "P2 excluded contractor later eligible: pre-audit source manifest refusal"
+    ],
+    "wire_contract": "7e91ec5e6",
+    "UI": "standalone own files plus explicit new ATTENDANCE_PERIOD_CHOICE recovery domain / exact5actions; tsc/shared recovery PASS, DOM in progress",
+    "additional_review": "full E05 payroll reversal may allocate audit sequence on cash inverse before source guard; actual source proof in progress; individual PAID settlement/reopen must stay allowed",
+    "Native_executions": 0
+  },
+  "E1_fixture_successor_20261030": {
+    "base": "f5b085a2bf3a34397616e9a9a3326af5119d19c4",
+    "status": "CLOSED_PRECISE_PRIVATE_FAILURE_POINT_FIX_PREPARING",
+    "scope": "late_failure only; own operations_v1 AFTER INSERT after actual posting/materialization, unchanged Native census; other16 callbacks/E9runtime unchanged",
+    "local_structural_double_vectors": 14,
+    "Native_executions": 0,
+    "accepted_D1": null
   }
 }
