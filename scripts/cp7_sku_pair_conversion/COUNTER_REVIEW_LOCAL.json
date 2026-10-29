@@ -1,0 +1,44 @@
+{
+  "scope": "OWNER_20261029_SKU_COUNTER_REVIEW_LOCAL_CLOSURE",
+  "reviewed_head": "acf3b573",
+  "status": "LOCAL_GREEN_ACTUAL_RUNTIME_NOT_EXECUTED",
+  "actual_Native": false,
+  "actual_two_session_auth": false,
+  "actual_browser": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "findings": [
+    {
+      "id": "EXACT_PARENT_RI_EDGES",
+      "old_behavior": "Original transition refuses declared FK parent internal RI triggers on ERP tables.",
+      "proof": "Original catalog22 queries against local PostgreSQL catalog semantics; original transition refusal retained in test; exact six edge metadata accepted; real rogue ERP trigger rejected.",
+      "scope": "PGlite PostgreSQL catalog semantics only; not actual full chain installer or Supabase runtime"
+    },
+    {
+      "id": "VISIBLE_TARGET_SEARCH_PAGE",
+      "proof": "Real React components and recovery hook; target search and page exclude prior destination; old ID cleared; new explicit destination selected before preview. Master pair candidate resets visibly to saved partner on search/page."
+    },
+    {
+      "id": "NULL_COMMAND_FAIL_CLOSED",
+      "proof": "Existing real new group SQL with declared Native doubles; NULL/blank/unknown commands refuse before dispatch and preserve ledger/status. Public Native case prepared."
+    },
+    {
+      "id": "FRESH_AUTH_AFTER_WAIT",
+      "proof": "Fresh guards after pair advisory, SKU row shares, conversion idempotency, FG/period and product/location waits. Directed real new SQL injects revocation at idempotency boundary before replay.",
+      "limit": "Local boundary injection is not a two-session wait; six real pg_blocking_pids race callbacks prepared, not run."
+    }
+  ],
+  "unchanged_oracles": [
+    "FIFO order",
+    "per-source lot cost and cent conservation",
+    "source and target physical/reserved/available",
+    "Native direct partial inverse refusal"
+  ],
+  "remaining": [
+    "actual full install and all22 catalogs",
+    "actual Native7 + race3 + auth-wait6",
+    "actual Auth/PostgREST + browser desktop/390px",
+    "all-part accessory recovery/recost including expected_returns first child",
+    "full data/sequence/role/backup restore"
+  ]
+}

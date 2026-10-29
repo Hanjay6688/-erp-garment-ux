@@ -1,0 +1,111 @@
+{
+  "scope": "OWNER_20261029_SKU_PAIR_CONVERSION_PREPARED",
+  "base_commit": "39f8a0840d50fcd94d7301eaa2cebab23097b562",
+  "status": "LOCAL_GREEN_PREPARED_ACTUAL_NATIVE_NOT_ACCEPTED",
+  "new_SQL_with_Native_Auth_journal_doubles": {
+    "tests": 12,
+    "passed": 12,
+    "failed": 0,
+    "original_business_tests": 9,
+    "counter_review_tests": 3
+  },
+  "source_metadata_controls": {
+    "tests": 4,
+    "passed": 4,
+    "failed": 0
+  },
+  "client": {
+    "tests": 25,
+    "passed": 25,
+    "failed": 0,
+    "new_DOM_tests": 9,
+    "new_parser_tests": 5,
+    "legacy_regression_tests": 10,
+    "new_recovery_tests": 1
+  },
+  "typecheck": "PASS",
+  "source_access_css": "PASS",
+  "actual_Native_proof": false,
+  "real_Auth_PostgREST_proof": false,
+  "actual_browser_visual_proof": false,
+  "complete_install_restore_proof": false,
+  "independent_acceptance": false,
+  "production_go": false,
+  "default_installer_adopted": false,
+  "gates_remaining": [
+    "actual parent installation and six-definition delta with all22 catalog",
+    "actual multi-lot PO/nonPO source-target quantity and HPP/journal conservation",
+    "actual concurrent stale/idempotency/access revocation/refused partial inverse",
+    "actual recost/accessory and active sales-reservation dependencies",
+    "Auth/PostgREST desktop390px and full restoration"
+  ],
+  "logs": [
+    {
+      "name": "sku-sql-ordered-final.log",
+      "bytes": 226,
+      "sha256": "56b64c3c633f14d59ffc28de11582739e9392f7ff4b8bd6864f1bc5ecaa82fc4"
+    },
+    {
+      "name": "sku-build.log",
+      "bytes": 14228,
+      "sha256": "d659328bdbd57749fd3fc400e4d572b2afe36bd1f9e1e2592881c733f3bbc527"
+    },
+    {
+      "name": "sku-client-green.log",
+      "bytes": 228,
+      "sha256": "ff685df629ea4376e32b3ceef4d84392b05e9b3827f3c06a72731942a21b6c12"
+    },
+    {
+      "name": "sku-sql-green.log",
+      "bytes": 224,
+      "sha256": "d44a22f205b62a8e033f879e2212ac95a6ab5bbf04084d188086b6ccf83a0a6c"
+    },
+    {
+      "name": "sku-controls-green.log",
+      "bytes": 101,
+      "sha256": "869ea8047d0ae89dddb808470175fa3bdce5d6007a92e195f2d7e7e762e1f49f"
+    },
+    {
+      "name": "sku-client-final25.log",
+      "bytes": 228,
+      "sha256": "1c2424b88f40ae35ababc77e5298b9286069ecbd810a34fc57e7ac9010a3a784"
+    },
+    {
+      "name": "sku-sql-final12.log",
+      "bytes": 228,
+      "sha256": "477c2fe9809a52f81212a576e4c7cee928ebfab2bcded679aba80c9072ea4f2a"
+    },
+    {
+      "name": "sku-source-final4.log",
+      "bytes": 102,
+      "sha256": "120fcf1e1b1ef6883b716f1b33b4fbea79c7089f1d1ff950e98c9608d82abb42"
+    },
+    {
+      "name": "sku-plan-final4.log",
+      "bytes": 102,
+      "sha256": "3b0dbb90387b342ccecc50446a0fb5e4385d86a3f467e5b97d63f8924fc08aff"
+    },
+    {
+      "name": "sku-review-build-final.log",
+      "bytes": 14228,
+      "sha256": "d70359a56f0309cebce8d136972cef6c99bed12254b469a2b149cabf88724590"
+    }
+  ],
+  "production_build": "PASS",
+  "client_artifact_secret_scan": "PASS",
+  "shared_recovery_action_wiring": "APPLIED_EXACT_SINGLE_LINE_WITH_INTEGRATOR_ALLOCATION",
+  "prepared_actual_source_controls": {
+    "tests": 4,
+    "passed": 4,
+    "failed": 0,
+    "actual_runtime_credit": false
+  },
+  "prepared_actual_cases": {
+    "Native": 7,
+    "two_session_idempotency_stale": 3,
+    "two_session_auth_withdrawal": 6,
+    "executed": false
+  },
+  "python_compile": "PASS",
+  "git_diff_check": "PASS"
+}

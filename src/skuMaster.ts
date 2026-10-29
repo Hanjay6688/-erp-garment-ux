@@ -5,10 +5,12 @@ export type SkuWork = { contractor_id?: string | null; work_component_id: string
 export type SkuLaundry = { vendor_id: string; kind: string; ref_id: string; rate_status: string; rate: string | number | null; reason: string | null }
 export type SkuSettings = { price: string | number | null; bom: SkuBom[] | null; work_rates: SkuWork[]; laundry_rates: SkuLaundry[] }
 export type SkuMember = { id: string; size_id: string; size: string }
-export type SkuGroup = { id: string; sku: string; brand_id: string; brand_name: string; model_id: string; model_name: string; color_name: string; revision: string; effective_from: string; members: SkuMember[]; settings: SkuSettings | null }
+export type SkuPairOption = { id: string; sku: string; brand_name: string; model_name: string; members: { id: string; size: string }[] }
+export type SkuPairing = { revision: string; source: SkuPairOption | null; current: SkuPairOption | null; options: SkuPairOption[]; total: number; page: number; page_size: number; can_edit: boolean }
+export type SkuGroup = { id: string; sku: string; brand_id: string; brand_name: string; model_id: string; model_name: string; color_name: string; revision: string; effective_from: string; members: SkuMember[]; settings: SkuSettings | null; counterpart?: SkuPairOption | null }
 export type SkuProduct = SkuMember & { sku: string; brand_id: string; brand_name: string; model_id: string; model_name: string; color_name: string; group_id: string | null }
 export type SkuLookup = { id: string; name: string; unit?: string; category?: string; kind?: string; vendor_id?: string | null }
-export type SkuMasterWorkspace = { at: string; page: number; page_size: number; groups_total: number; products_total: number; can_edit: boolean; groups: SkuGroup[]; related_groups: SkuGroup[]; products: SkuProduct[]; selected_products: SkuProduct[]; legacy_basis: Json[] | null; lookups: { accessories: SkuLookup[]; work: SkuLookup[]; contractors: SkuLookup[]; vendors: SkuLookup[]; laundry: SkuLookup[] } | null }
+export type SkuMasterWorkspace = { at: string; page: number; page_size: number; groups_total: number; products_total: number; can_edit: boolean; groups: SkuGroup[]; related_groups: SkuGroup[]; products: SkuProduct[]; selected_products: SkuProduct[]; legacy_basis: Json[] | null; lookups: { accessories: SkuLookup[]; work: SkuLookup[]; contractors: SkuLookup[]; vendors: SkuLookup[]; laundry: SkuLookup[] } | null; pairing?: SkuPairing }
 export const emptySkuSettings = (): SkuSettings => ({ price: null, bom: null, work_rates: [], laundry_rates: [] })
 export function parseSkuMaster(v: unknown): SkuMasterWorkspace {
   const w = skuObject(v)
@@ -31,7 +33,29 @@ export function parseSkuMaster(v: unknown): SkuMasterWorkspace {
   }
   if (w.legacy_basis !== null && !Array.isArray(w.legacy_basis)) throw new Error('Dasar harga/resep tidak valid.')
   if (w.lookups !== null) { const l = skuObject(w.lookups); for (const k of ['accessories','work','contractors','vendors','laundry']) if (!Array.isArray(l[k])) throw new Error('Pilihan master tidak lengkap.') }
+  if (w.pairing !== undefined) {
+    const p = skuObject(w.pairing)
+    if (typeof p.revision !== 'string' || !p.revision || typeof p.can_edit !== 'boolean' || !Array.isArray(p.options)
+      || !Number.isSafeInteger(p.total) || Number(p.total) < 0 || !Number.isSafeInteger(p.page) || Number(p.page) < 1 || p.page_size !== 50) throw new Error('Padanan SKU tidak lengkap.')
+    for (const value of [...p.options, p.source, p.current].filter(v => v !== null)) validatePairOption(value)
+    if (new Set(p.options.map(value => String(skuObject(value).id))).size !== p.options.length) throw new Error('Pilihan padanan SKU ganda.')
+    for (const group of w.groups as unknown[]) { const g = skuObject(group); if (g.counterpart !== null) validatePairOption(g.counterpart) }
+  }
   return w as SkuMasterWorkspace
+}
+function validatePairOption(value: unknown) {
+  const p = skuObject(value)
+  if (!['id','sku','brand_name','model_name'].every(k => typeof p[k] === 'string' && Boolean(p[k])) || !Array.isArray(p.members)) throw new Error('Identitas padanan SKU tidak lengkap.')
+  for (const member of p.members) { const m = skuObject(member); if (typeof m.id !== 'string' || typeof m.size !== 'string') throw new Error('Ukuran padanan SKU tidak lengkap.') }
+}
+export function skuPairPayload(source: string, target: string, revision: string, reason: string): Record<string, Json> {
+  if (!source || source === target || !revision || !reason.trim()) throw new Error('Pilih SKU lain dan isi alasan padanan.')
+  return { source_group_id: source, target_group_id: target || null, expected_version: revision, reason: reason.trim() }
+}
+export function validateSkuPairResult(value: unknown, request: string, payload: Json) {
+  const r = skuObject(value), p = skuObject(payload)
+  if (r.request_id !== request || r.action !== 'SAVE_PAIR' || r.status !== 'SAVED' || r.source_group_id !== p.source_group_id
+    || r.target_group_id !== p.target_group_id || typeof r.revision !== 'string' || !Array.isArray(r.removed)) throw new Error('Respons padanan SKU tidak cocok; pulihkan request yang sama.')
 }
 /** Exact text conversion; no floating-point rounding or removal of an ambiguous separator. */
 function moneyText(value: string | number): string {

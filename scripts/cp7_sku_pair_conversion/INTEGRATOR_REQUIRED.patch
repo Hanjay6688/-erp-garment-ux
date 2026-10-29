@@ -1,0 +1,6 @@
+diff --git a/src/productionRecovery.ts b/src/productionRecovery.ts
+--- a/src/productionRecovery.ts
++++ b/src/productionRecovery.ts
+@@ -88,1 +88,1 @@
+-  SKU: ['SAVE_GROUPS', 'BIND_WAVE'],
++  SKU: ['SAVE_GROUPS', 'BIND_WAVE', 'SAVE_PAIR'],

@@ -1,0 +1,62 @@
+{
+  "contract": "cp7.sku-pair-native.v1",
+  "base_head": "42760534906c330353f9bb0f53d27db65b134626",
+  "qualified_parent": {
+    "head": "41caaaed02c0d89b122ecf1ff221f6647141c335",
+    "tree": "b8831a52531598c514f8199016dea6194d783833",
+    "run_id": 40769840440,
+    "job_id": 123103756460,
+    "artifact_id": 12854543326,
+    "zip_bytes": 2031933,
+    "zip_sha256": "9432cdd8bcea2df52ad8fb631122ce963b91bee32dea849a4337e4ec2c020eb0",
+    "original": {
+      "name": "CP7_VENDOR_RECEIVABLE_COMBINED11.json",
+      "bytes": 3485711,
+      "sha256": "04e00f42862ddfec8346d41d4d6a2d6a285f041127cccf09d973ca929b307ea0"
+    },
+    "package": {
+      "name": "T3_PACKAGE_INSTALL.json",
+      "bytes": 360420,
+      "sha256": "48fc54072b4f3122d89f6a45faa93f0e8ebd05ecfde0b9370def8202755e0f43"
+    }
+  },
+  "parent_backend_sha256": "193f4c18476a1e1abd5e05231d8d7755864b61e2998c4456f5a87459b17da59d",
+  "frozen_parent_verifier": {
+    "head": "1f8c75566d0eee90086b31ae7bb7921b05502bdc",
+    "path": "scripts/current-vendor-integration-source/check.py",
+    "sha256": "78ad89e2a0e9433c3acedd5ad0d081799ef3b3fb8fdd7cc5a38f64877591d65a"
+  },
+  "runtime_files": {
+    "scripts/cp7_sku_pair_conversion/pairs.sql": "099722c9f6b357d18b30f78dea25ee877722c97d2ef68d9b1bab44c2a2829d20",
+    "scripts/cp7_sku_pair_conversion/conversion.sql": "71211f85eae538e96886bc401e4357dc54259f4783c938d3fa4ab4b1c66deff5",
+    "scripts/cp7_sku_pair_conversion/native_delta.py": "ff479d17a8f039693723307088551a0eb6876e2bdd772da2b6dc6f60c55d82f8",
+    "scripts/cp7_sku_pair_conversion/composition.py": "dbc2f01afd97ef2b9a231611d4510da623cb1cebf5455da67c52dd3df7130849",
+    "scripts/cp7_sku_pair_conversion/ri_catalog.py": "aa30eff7c258de3ced78067ed7fbe660bef4570c291946f9291d6363881a4f3e"
+  },
+  "native_case_ids": [
+    "SKU29_PAIR_BIDIRECTIONAL_REPLACE_DELETE_NO_LEDGER",
+    "SKU29_NONPO_MULTILOT_FIFO_RESERVATION_VALUE_REPLAY",
+    "SKU29_ANY_ACTIVE_MODEL_SIZE_MANUAL_BACK_CURRENT_SOURCE_COST",
+    "SKU29_STALE_SOURCE_TARGET_RESERVATIONS_REFUSE_ZERO_EFFECT",
+    "SKU29_GROUP_REVERSE_ACTIVE_SALE_REFUSAL_THEN_RELEASE",
+    "SKU29_MIXED_PO_NONPO_NATIVE_LINEAGE_VALUE_CONSERVATION",
+    "SKU29_LEGACY_ACCESSORY_COST_AND_INVERSE_PRESERVED"
+  ],
+  "unchanged_parent_files": [
+    "scripts/current-vendor-receivable-qualification/probe.py",
+    "scripts/cp7_vendor_receivable/receivable.sql",
+    "scripts/cp7_vendor_receivable/native_delta.py",
+    "scripts/cp7_vendor_receivable/composition.py"
+  ],
+  "runner_derivation": {
+    "original_sha256": "c420d894f8d5f16bddefeae73addb621507170f372a28e7d6e33d88c7eeb0be9",
+    "derived_sha256": "1b994775a24d21e25b4788670d961344be9bee88a6e23a2db9d91173174b160e",
+    "counted_changes": 6,
+    "unchanged_install_preuse_used_guard_backup_restore_roles_data_sequences_advisors": true,
+    "fresh_Auth_HTTP_races_browser_claim": false
+  },
+  "production_go": false,
+  "independent_acceptance": false,
+  "targeted_client_tests": 72,
+  "client_proof_scope": "JSDOM_AND_PARSER_NOT_AUTH_BROWSER"
+}

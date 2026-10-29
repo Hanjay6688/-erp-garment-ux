@@ -1,0 +1,507 @@
+name: CP7 A SKU pair and conversion Native
+'on':
+  push:
+    branches:
+    - astra-a/sku-pair-native-qualified-20261029
+    paths:
+    - .github/workflows/cp7-sku-pair-native.yml
+    - scripts/current-sku-pair-native-adapter/**
+    - scripts/cp7_sku_pair_conversion/**
+    - scripts/current-sku-pair-conversion-qualification/**
+  workflow_dispatch: {}
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: cp7-sku-pair-native-${{ github.run_id }}
+  cancel-in-progress: false
+jobs:
+  p21:
+    name: SKU Native cases and complete restore
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      CURRENT_ANALOG_FROZEN_SOURCE_ROOT: ${{ github.workspace }}/frozen
+      CURRENT_FINANCE_FROZEN_SOURCE_ROOT: ${{ github.workspace }}/finance-frozen
+      PGURL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
+      CP6_AC_INDEPENDENT_CONFIRM: postgres
+      CP6_AF_INDEPENDENT_CONFIRM: postgres
+      CP6_AH_CONFIRM: postgres
+      CP6_AI_CONFIRM: postgres
+      CP6_AH_INDEPENDENT_CONFIRM: postgres
+      CP6_AI_INDEPENDENT_CONFIRM: postgres
+      CP6_AUDIT_HARNESS_HEAD: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
+      CP6_AF_HARNESS_HEAD: c6b0e4fb119c4e91fecea66ebf2d789426b22c2b
+      CP6_DATABASE_CONTAINER: supabase_db_cp5-local
+      CP6_MAINTENANCE_CONFIRM_DATABASE: cp6_rollback
+      CP6_AR_CONFIRM: cp6_rollback
+      CP6_AU_BROWSER_CONFIRM: cp6_rollback
+      CURRENT_MODEL_FROZEN_SOURCE_ROOT: ${{ github.workspace }}/model-frozen
+      CURRENT_TARGET_FROZEN_SOURCE_ROOT: ${{ github.workspace }}/target-frozen
+      CURRENT_HISTORY_FROZEN_SOURCE_ROOT: ${{ github.workspace }}/history-frozen
+      CURRENT_SCOPED_MODEL_FROZEN_SOURCE_ROOT: ${{ github.workspace }}/scoped-model-frozen
+      CURRENT_VERSIONED_TARGET_FROZEN_SOURCE_ROOT: ${{ github.workspace }}/versioned-target-frozen
+      B_PERFORMANCE_FROZEN_SOURCE_ROOT: ${{ github.workspace }}/B-performance-frozen
+      B_FROZEN_UNITS_SOURCE_ROOT: ${{ github.workspace }}/B-frozen-units-qualified
+      AUDITOR_UI_MODE: DISPOSABLE
+    steps:
+    - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      with:
+        path: auditor
+        fetch-depth: 0
+        persist-credentials: 'false'
+    - name: Select exact qualified prerequisite heads
+      id: qualified_heads
+      working-directory: auditor
+      run: "python - <<'PY'\nimport json,os\np=json.load(open('scripts/current-versioned-performance-native-qualification/SOURCE.json'))\n\
+        with open(os.environ['GITHUB_OUTPUT'],'a')as f:\n f.write('native='+p['frozen_declaration']['head']+'\\n')\n f.write('B='+p['B_frozen_head']+'\\\
+        n')\nPY\n"
+    - name: Materialize every exact frozen source from one full checkout
+      working-directory: auditor
+      env:
+        QUALIFIED_NATIVE_HEAD: ${{ steps.qualified_heads.outputs.native }}
+        QUALIFIED_B_HEAD: ${{ steps.qualified_heads.outputs.B }}
+      run: python scripts/current-finance-combined-composition/materialize_sources.py
+    - name: Materialize exact archived workflow proof inputs before source admission
+      working-directory: auditor
+      run: python scripts/current-workflow-history-isolation/materialize.py
+    - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+      with:
+        python-version: '3.12'
+    - name: Install pinned disposable runtime
+      shell: bash
+      run: "set -euo pipefail\npython -m pip install --quiet 'psycopg[binary]==3.2.10' 'PyYAML==6.0.2' 'jsonschema==4.25.1'\n\
+        sudo apt-get update -qq\nsudo apt-get install -y -qq ca-certificates curl gnupg\nsudo install -d /usr/share/postgresql-common/pgdg\n\
+        sudo curl --fail --silent --show-error \\\n  -o /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc \\\n  https://www.postgresql.org/media/keys/ACCC4CF8.asc\n\
+        key_fingerprint=\"$(gpg --show-keys --with-colons \\\n  /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc \\\
+        \n  | awk -F: '$1 == \"fpr\" { print $10; exit }')\"\ntest \"$key_fingerprint\" = 'B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8'\n\
+        . /etc/os-release\narchitecture=\"$(dpkg --print-architecture)\"\nsudo tee /etc/apt/sources.list.d/pgdg.sources >/dev/null\
+        \ <<EOF\nTypes: deb\nURIs: https://apt.postgresql.org/pub/repos/apt\nSuites: ${VERSION_CODENAME}-pgdg\nArchitectures:\
+        \ ${architecture}\nComponents: main\nSigned-By: /usr/share/postgresql-common/pgdg/apt.postgresql.org.asc\nEOF\nsudo\
+        \ apt-get update -qq\nsudo apt-get install -y -qq postgresql-client-17\ntest -x /usr/lib/postgresql/17/bin/psql\n\
+        echo '/usr/lib/postgresql/17/bin' >> \"$GITHUB_PATH\"\n"
+    - name: Preserve transient artifact download failures and retry only bounded GETs
+      working-directory: auditor
+      shell: bash
+      run: 'set -euo pipefail
+
+        python -m unittest discover -s scripts/current-finance-followups-qualification -p ''test_artifact_gh.py''
+
+        artifact_gh_dir="$RUNNER_TEMP/d17-artifact-gh"
+
+        mkdir -p "$artifact_gh_dir" "$GITHUB_WORKSPACE/auditor/cp6-proof/t3/ARTIFACT_FETCH"
+
+        printf ''D17_REAL_GH=%s\n'' "$(command -v gh)" >> "$GITHUB_ENV"
+
+        printf ''D17_ARTIFACT_FETCH_RECEIPTS=%s\n'' "$GITHUB_WORKSPACE/auditor/cp6-proof/t3/ARTIFACT_FETCH" >> "$GITHUB_ENV"
+
+        cp scripts/current-finance-followups-qualification/artifact_gh.py "$artifact_gh_dir/gh"
+
+        chmod 755 "$artifact_gh_dir/gh"
+
+        printf ''%s\n'' "$artifact_gh_dir" >> "$GITHUB_PATH"
+
+        '
+    - name: Fetch and verify immutable actual Native32 original before DB
+      env:
+        GH_TOKEN: ${{ github.token }}
+      shell: bash
+      run: "set -euo pipefail\n gh api repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12407224140/zip > \"$RUNNER_TEMP/accepted-native32.zip\"\
+        \n python - <<'PY'\nimport hashlib,os,zipfile\nfrom pathlib import Path\np=Path(os.environ['RUNNER_TEMP']);rawzip=(p/'accepted-native32.zip').read_bytes()\n\
+        assert len(rawzip)==2460112 and hashlib.sha256(rawzip).hexdigest()=='46db3ad31ef447a073a24630a7af5a87c667b545d797ef612b0a1b4598f2e100'\n\
+        with zipfile.ZipFile(p/'accepted-native32.zip')as z:\n names=[n for n in z.namelist()if Path(n).name=='CP7_OW04_CONSUMER_CLOSURE_NATIVE32.json'];assert\
+        \ len(names)==1;raw=z.read(names[0])\nassert len(raw)==8166263 and hashlib.sha256(raw).hexdigest()=='9a66b07743087e107e3d7d9298d9e517b786077f848cee79ffc326a8246c3a50'\n\
+        target=p/'ow04-native32-original.json';target.write_bytes(raw)\nwith open(os.environ['GITHUB_ENV'],'a')as f:f.write('OW04_NATIVE32_ORIGINAL_REPORT='+str(target)+'\\\
+        n')\nprint('ACTUAL_NATIVE32_ORIGINAL_BYTES_VERIFIED_NO_PRODUCT_EXECUTION')\nPY\n"
+    - name: Fetch and verify qualified actual Native28 original before DB
+      env:
+        GH_TOKEN: ${{ github.token }}
+      working-directory: auditor
+      run: python scripts/ow05_native_original.py
+    - name: Fetch and verify qualified actual OW06 Native10 original before DB
+      env:
+        GH_TOKEN: ${{ github.token }}
+      working-directory: auditor
+      run: python scripts/ow06_native_original.py
+    - name: Fetch and verify qualified actual OW08b kasbon Native4 original before DB
+      env:
+        GH_TOKEN: ${{ github.token }}
+      working-directory: auditor
+      run: python scripts/ow08b_kasbon_native_original.py
+    - name: Fetch and verify qualified actual OW08b fgqc Native9 original before DB
+      env:
+        GH_TOKEN: ${{ github.token }}
+      working-directory: auditor
+      run: python scripts/ow08b_fgqc_native_original.py
+    - name: Fetch and verify qualified actual OW05b chain Native6 original before DB
+      env:
+        GH_TOKEN: ${{ github.token }}
+      working-directory: auditor
+      run: python scripts/cp7_ab_ow05b_original.py
+    - name: Fetch and verify qualified actual OW08a chain Native6 original before DB
+      env:
+        GH_TOKEN: ${{ github.token }}
+      working-directory: auditor
+      run: python scripts/ow08a_native_original.py
+    - name: Fetch and verify qualified actual OW12a chain Native7 original before DB
+      env:
+        GH_TOKEN: ${{ github.token }}
+      working-directory: auditor
+      run: python scripts/ow12a_native_original.py
+    - name: Fetch and verify qualified actual OW09 chain Native8 original before DB
+      env:
+        GH_TOKEN: ${{ github.token }}
+      working-directory: auditor
+      run: python scripts/ow09_native_original.py
+    - name: Fetch and verify qualified actual OW07 chain Native7 original before DB
+      env:
+        GH_TOKEN: ${{ github.token }}
+      working-directory: auditor
+      run: PYTHONDONTWRITEBYTECODE=1 python scripts/cp7_laundry_unknown_wash/ow07_original.py
+    - name: Fetch and verify qualified actual OW08b wash chain Native11 original before DB
+      env:
+        GH_TOKEN: ${{ github.token }}
+      working-directory: auditor
+      run: python scripts/ow08b_wash_native_original.py
+    - name: Fetch and verify qualified actual OW04b followups chain Native9+Race3 original before DB
+      env:
+        GH_TOKEN: ${{ github.token }}
+      working-directory: auditor
+      run: python scripts/ow04b_followups_native_original.py
+    - name: Fetch and verify qualified actual OW04b slice A chain Native6+Race2 original before DB
+      env:
+        GH_TOKEN: ${{ github.token }}
+      working-directory: auditor
+      run: python scripts/ow04ba_native_original.py
+    - name: Fetch and verify qualified actual OW04b slice B chain Native6+Race1 original before DB
+      env:
+        GH_TOKEN: ${{ github.token }}
+      working-directory: auditor
+      run: python scripts/ow04bb_native_original.py
+    - name: Fetch and verify qualified actual OW04b slice C chain Native7+Race1 original before DB
+      env:
+        GH_TOKEN: ${{ github.token }}
+      working-directory: auditor
+      run: python scripts/ow04bc_native_original.py
+    - name: Verify actual draft return counterexample before DB
+      working-directory: auditor
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: "set -euo pipefail\npython - <<'PYCODE'\nimport hashlib,io,json,os,subprocess,zipfile\nfrom pathlib import Path\n\
+        raw=subprocess.check_output(['gh','api','repos/Hanjay6688/-erp-garment-ux/actions/artifacts/12554390190/zip'])\nassert\
+        \ len(raw)==1943043 and hashlib.sha256(raw).hexdigest()=='bfa2b2384ea5628c63822eb2d43b981c1b4a11d30802e5496ddbd5f504a59896'\n\
+        with zipfile.ZipFile(io.BytesIO(raw))as z:\n names=[n for n in z.namelist()if n=='CP7_CURRENT_CP6_CONTRACT_NATIVE6.json']\n\
+        \ assert len(names)==1\n original=z.read(names[0])\nassert len(original)==2741967 and hashlib.sha256(original).hexdigest()=='25be83a8e79dc1073da1daeb1c47c39d987838932c8405ff11ccd9b78336b55a'\n\
+        d=json.loads(original)\nassert d['status']=='INCOMPLETE' and d['baseline']['counts']=={'PASS':6} and d['native']['counts']=={'PASS':5,'INCOMPLETE':1}\n\
+        out=Path(os.environ['RUNNER_TEMP'])/'DRAFT_RETURN_COUNTEREXAMPLE_ORIGINAL.json';out.write_bytes(original)\nwith open(os.environ['GITHUB_ENV'],'a')as\
+        \ f:f.write('DRAFT_RETURN_COUNTEREXAMPLE_ORIGINAL_REPORT='+str(out)+'\\n')\nprint('Actual immutable draft-return counterexample\
+        \ Original verified')\nPYCODE\n"
+    - name: Verify actual Native32 closure and used restore8 PASS Originals before DB
+      working-directory: auditor
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: "set -euo pipefail\npython - <<'PYCODE'\nimport hashlib,io,json,os,subprocess,zipfile\nfrom pathlib import Path\n\
+        proofs={'DRAFT_RETURN_CLOSURE_ORIGINAL_REPORT': {'artifact': 12555491670, 'zip_bytes': 3341211, 'zip_sha256': 'a19f9aa888529783737f4418df10330ba555f3447340a0e1684ac4c0aa9c928c',\
+        \ 'name': 'CP7_DRAFT_RETURN_CLOSURE_NATIVE32.json', 'bytes': 16090323, 'sha256': '7085322d357c37c776015a718a06b2859dd6f38ffdf75b6d28d9a88631f2e066'},\
+        \ 'DRAFT_RETURN_RESTORED_ORIGINAL_REPORT': {'artifact': 12555745676, 'zip_bytes': 3722714, 'zip_sha256': 'aebab9db100cca395dd900160bd05ede3f05328c85346a99dbe2750fdfeffb0f',\
+        \ 'name': 'CP7_DRAFT_RETURN_RESTORED.json', 'bytes': 855544, 'sha256': '503536b4d282052aa6e99906db5bb95821e528746a29dadc3e938b8c5e785681'}}\n\
+        for variable,p in proofs.items():\n raw=subprocess.check_output(['gh','api',f\"repos/Hanjay6688/-erp-garment-ux/actions/artifacts/{p['artifact']}/zip\"\
+        ])\n assert len(raw)==p['zip_bytes']and hashlib.sha256(raw).hexdigest()==p['zip_sha256']\n with zipfile.ZipFile(io.BytesIO(raw))as\
+        \ z:original=z.read(p['name'])\n assert len(original)==p['bytes']and hashlib.sha256(original).hexdigest()==p['sha256']\n\
+        \ d=json.loads(original);assert d['status']=='PASS'and d['cp6_restored']and d['baseline_advisors_equal']\n out=Path(os.environ['RUNNER_TEMP'])/p['name'];out.write_bytes(original)\n\
+        \ with open(os.environ['GITHUB_ENV'],'a')as f:f.write(variable+'='+str(out)+'\\n')\n print(variable+' actual raw PASS\
+        \ Original verified')\nPYCODE\n"
+    - name: Verify actual composed return8 and B choice6 PASS Original bytes before DB
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: "python - <<'PYFETCH'\nimport os,subprocess,hashlib,zipfile,io,pathlib\nproofs=[('COMPOSED_RETURN_ORIGINAL_REPORT',12556450449,3814659,'bfb45063e0f008f1662158d30526d35337b155dc3259e909484f5e7f5ec8f06f','CP7_CURRENT_RETURN_INSTALLATION_RESTORE.json',1133688,'8cd8d526218c2e6336c4d3c60cc540767469a13617ed610d05536001a787c59f'),('ANALOG_CHOICE_ORIGINAL_REPORT',12557970850,203858,'fad982ba07a86f471bd6118b17c59f21d1555007d1a19d2a24f6d5d696e40696','CP7_OW11_ANALOG_CHOICE.json',1824516,'34b3d68b042069d4248719952e883a858ddcab342146cfd543298be8ccab7fbf')]\n\
+        for variable,artifact,size,digest,name,raw_size,raw_digest in proofs:\n data=subprocess.check_output(['gh','api',f'repos/Hanjay6688/-erp-garment-ux/actions/artifacts/{artifact}/zip'])\n\
+        \ assert len(data)==size and hashlib.sha256(data).hexdigest()==digest\n with zipfile.ZipFile(io.BytesIO(data))as z:\n\
+        \  assert z.testzip()is None\n  paths=[n for n in z.namelist()if n.rsplit('/',1)[-1]==name];assert len(paths)==1\n\
+        \  raw=z.read(paths[0])\n assert len(raw)==raw_size and hashlib.sha256(raw).hexdigest()==raw_digest\n path=pathlib.Path(os.environ['RUNNER_TEMP'])/name;path.write_bytes(raw)\n\
+        \ with open(os.environ['GITHUB_ENV'],'a')as env:env.write(variable+'='+str(path)+'\\n')\n print(variable,artifact,raw_size,raw_digest,flush=True)\n\
+        PYFETCH\n"
+    - name: Admit first failed analog Original before DB
+      working-directory: auditor
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: python scripts/current-analog-installation-utc-qualification/fetch_first.py
+    - name: Admit seven-step UTC INCOMPLETE Original before DB
+      working-directory: auditor
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: python scripts/current-analog-native-fixture-qualification/fetch_utc.py
+    - name: Fetch exact composed used restore8 and all three browser2 PASS Originals before DB
+      working-directory: auditor
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: python scripts/current-analog-choice-browser-qualification/fetch_originals.py
+    - name: Fetch exact consumer6, provenance3, transport10 and first current failure Originals
+      working-directory: auditor
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: python scripts/current-analog-consumer-opening-qualification/fetch_originals.py
+    - name: Fetch exact current consumer Native restore8 PASS prerequisite
+      env:
+        GH_TOKEN: ${{ github.token }}
+      working-directory: auditor
+      run: python scripts/current-bounded-finance-restored-native-qualification/fetch_originals.py
+    - name: Fetch exact finance Native5 and model policy-v2 Native6 PASS prerequisites
+      env:
+        GH_TOKEN: ${{ github.token }}
+      working-directory: auditor
+      run: python scripts/current-finance-model-registry-qualification/fetch_originals.py
+    - name: Fetch exact full-model Native15 and current B target prerequisites
+      env:
+        GH_TOKEN: ${{ github.token }}
+      working-directory: auditor
+      run: python scripts/current-model-target-native-qualification/fetch_originals.py
+    - name: Fetch exact Native20 and scoped-history component Originals including first failure
+      env:
+        GH_TOKEN: ${{ github.token }}
+      working-directory: auditor
+      run: python scripts/current-model-history-native-qualification/fetch_originals.py
+    - name: Fetch actual complete history and scoped model component Originals
+      env:
+        GH_TOKEN: ${{ github.token }}
+      working-directory: auditor
+      run: python scripts/current-scoped-model-native-qualification/fetch_originals.py
+    - name: Fetch actual scoped-model and selected-return regressions, both restores and seven B component Originals
+      env:
+        GH_TOKEN: ${{ github.token }}
+      working-directory: auditor
+      run: python scripts/current-versioned-target-native-qualification/fetch_originals.py
+    - name: Fetch exact full Native36 restore8 and five B performance Originals
+      env:
+        GH_TOKEN: ${{ github.token }}
+      working-directory: auditor
+      run: python scripts/current-versioned-performance-native-qualification/fetch_originals.py
+    - name: Fetch exact actual A Native36 and three B private component PASS Originals before DB
+      working-directory: auditor
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: python scripts/current-frozen-units-native-qualification/fetch_originals.py
+    - name: Fetch exact actual full A private frozen Native40 PASS Original before DB
+      working-directory: auditor
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: python scripts/current-frozen-finance-native-qualification/fetch_originals.py
+    - name: Fetch exact actual A Native45 and B facade8 raw PASS Originals before DB
+      working-directory: auditor
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: python scripts/current-frozen-public-native-qualification/fetch_originals.py
+    - name: Install pinned Supabase CLI
+      uses: supabase/setup-cli@ab058987d8d6c725971f6cf9d0b5c98467e30bd1
+      with:
+        version: 2.116.0
+    - name: Record proposed source and prepare isolated proof paths
+      id: source_scope
+      working-directory: writer
+      run: 'set -euo pipefail
+
+        PYTHONPATH=scripts python -c "import cp6_au_trial; cp6_au_trial.source()"
+
+        mkdir -p ../candidate/cp6-proof/writer-{ae,af,ah,ai,aj,ak,al,am,an}
+
+        '
+    - name: Admit exact Progress Native5 predecessor and focused choice sources before DB
+      working-directory: auditor
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: python scripts/current-choice-preparation-native-qualification/fetch_original.py
+    - name: Verify actual full choice Native6 Original before DB
+      working-directory: auditor
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: python scripts/current-choice-preparation-transport-qualification/fetch_original.py
+    - name: Verify exact accepted UI, transport and prior cron Originals before database
+      working-directory: auditor
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: python scripts/current-choice-finance-cron-qualification/fetch_originals.py
+    - name: Verify accepted actual finance source race and all package gates before database
+      working-directory: auditor
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: python scripts/current-finance-readonly-integration-qualification/fetch_race.py
+    - name: Fetch exact accepted Native13 cron and full package Original bytes
+      working-directory: auditor
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: python scripts/current-finance-followups-qualification/fetch_parent.py
+    - name: Fetch exact retained first diagnostics Original bytes
+      working-directory: auditor
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: python scripts/current-finance-consistent-capture-diagnostic/fetch_diagnostic.py
+    - name: Fetch exact retained84 and focused Native20 cron component bytes
+      working-directory: auditor
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: python scripts/current-finance-combined-composition/fetch_consistency.py
+    - name: Fetch exact retained AF incomplete Original and package bytes
+      working-directory: auditor
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: python scripts/current-finance-reader-stream-followup-qualification/fetch_retained.py
+    - name: Fetch exact retained D3 sixPASS factory cutoff and package bytes
+      working-directory: auditor
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: python scripts/current-finance-factory-progress-followup-qualification/fetch_d3.py
+    - name: Fetch exact failed 4ac Original before DB
+      working-directory: auditor
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: python scripts/current-factory-operational-profile-qualification/fetch_failure.py
+    - name: Fetch exact 5b32 measured profile and complete restoration evidence
+      working-directory: auditor
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: python scripts/current-factory-initial-stage/fetch_profile.py
+    - name: Fetch exact 11c failure and six retained PASS groups before DB
+      working-directory: auditor
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: python scripts/current-factory-live-heartbeat/fetch_retained.py
+    - name: Bind exact qualified backend3194 Original
+      env:
+        GH_TOKEN: ${{ github.token }}
+      working-directory: auditor
+      run: "set -euo pipefail\npython - <<'INNER'\nfrom pathlib import Path\nfrom hashlib import sha256\nimport json,os,subprocess,zipfile,io\n\
+        root=Path(os.environ['RUNNER_TEMP'])/'return-race-originals';root.mkdir()\ncfg=json.loads(Path('scripts/current-vendor-receivable-qualification/CONFIG.json').read_bytes())\n\
+        for kind in ('backend_original','first_failure_original'):\n p=cfg[kind];prefix='repos/Hanjay6688/-erp-garment-ux/actions/artifacts/'+str(p['artifact_id'])\n\
+        \ a=json.loads(subprocess.check_output(['gh','api',prefix]));assert a['workflow_run']['id']==p['run_id']and not a['expired']\n\
+        \ raw=subprocess.check_output(['gh','api',prefix+'/zip'])\n assert len(raw)==a['size_in_bytes']and 'sha256:'+sha256(raw).hexdigest()==a['digest']\n\
+        \ (root/(str(p['artifact_id'])+'.zip')).write_bytes(raw)\n with zipfile.ZipFile(io.BytesIO(raw))as z:\n  assert z.testzip()is\
+        \ None;data=z.read(p['name'])\n assert len(data)==p['bytes']and sha256(data).hexdigest()==p['sha256']\n (root/p['name']).write_bytes(data)\n\
+        with open(os.environ['GITHUB_ENV'],'a')as f:f.write('CP7_VENDOR_BACKEND_ORIGINALS='+str(root)+'\\n')\nINNER\n"
+    - name: Bind complete actual backend11 and all package gates before browser database
+      working-directory: auditor
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: python scripts/current-vendor-money-browser/fetch_backend.py
+    - name: Bind exact accepted money browser and full package originals
+      env:
+        GH_TOKEN: ${{ github.token }}
+      run: python scripts/current-ow08-source-browser/fetch_money.py
+      working-directory: auditor
+    - name: Run exact targeted SKU and AI client controls before database
+      working-directory: auditor
+      run: 'set -euo pipefail
+
+        node --version
+
+        npm ci --ignore-scripts --no-audit --no-fund
+
+        mkdir -p cp6-proof/t3
+
+        npx vitest run src/ConnectedSkuConversion.dom.test.tsx src/skuPairConversion.test.ts src/productConversion.test.ts
+        src/skuMaster.test.ts src/productionRecovery.test.ts src/NativeStagedAiPanel.fallback.dom.test.tsx src/NativeStagedAiPanel.dom.test.tsx
+        src/nativeStagedAi.test.ts --maxWorkers=1 --reporter=json --outputFile=cp6-proof/t3/SKU_TARGETED_CLIENT.json
+
+        npx tsc -b --pretty false'
+    - name: Check SKU delta and unchanged runner derivation before database
+      working-directory: auditor
+      run: 'python -B -m unittest discover -s scripts/cp7_sku_pair_conversion -p test_delta.py
+
+        python -B -m unittest discover -s scripts/current-sku-pair-conversion-qualification -p test_plan.py
+
+        python -B -m unittest discover -s scripts/current-sku-pair-native-adapter -p test_derive.py'
+    - name: Admit exact vendor parent and declared SKU child before database
+      working-directory: auditor
+      run: python -B scripts/current-sku-pair-native-adapter/check.py
+    - name: Start disposable database
+      working-directory: base
+      shell: bash
+      env:
+        GHCR_TOKEN: ${{ github.token }}
+      run: 'set -euo pipefail
+
+        test "$(git rev-parse HEAD)" = 1bdca3766f7c9800d68295ff5122798060b8a05d
+
+        test "$(git rev-parse HEAD^{tree})" = 334629c626257b8b713826f491cdf62385d5299b
+
+        test -z "$(git status --porcelain)"
+
+        supabase --help >/dev/null
+
+        supabase init --help >/dev/null
+
+        supabase start --help >/dev/null
+
+        # Authenticated pulls: anonymous ghcr.io/public.ecr.aws pulls were refused (toomanyrequests,
+
+        # Data limit exceeded) before any test ran (OW12a run 39847548230).
+
+        printf ''%s'' "$GHCR_TOKEN" | docker login ghcr.io -u "$GITHUB_ACTOR" --password-stdin
+
+        mkdir cp5-local
+
+        supabase init --force --workdir cp5-local
+
+        mkdir -p cp5-local/supabase/.temp
+
+        echo ''17.6.1.165'' > cp5-local/supabase/.temp/postgres-version
+
+        sed -i ''0,/^enable_signup = true$/s//enable_signup = false/'' cp5-local/supabase/config.toml
+
+        # Retain every startup attempt; ECR is used once before returning to GHCR.
+
+        python ../auditor/scripts/current-finance-combined-composition/disposable_start.py
+
+        '
+    - name: Rebuild to v2.6.20, align with hosted, continue the frozen path to AB
+      working-directory: base
+      env:
+        GITHUB_SHA: 1bdca3766f7c9800d68295ff5122798060b8a05d
+        GH_TOKEN: ${{ github.token }}
+      shell: bash
+      run: "set -euo pipefail\nexport CP6_AC_WRITER_ARTIFACT=\"$RUNNER_TEMP/ac-native200.zip\"\ngh api repos/Hanjay6688/-erp-garment-ux/actions/artifacts/10392910720/zip\
+        \ \\\n  > \"$CP6_AC_WRITER_ARTIFACT\" || { rm -f \"$CP6_AC_WRITER_ARTIFACT\"; echo 'AC writer artifact 10392910720\
+        \ unavailable (kept 30 days, expired 15 Oct 2026, owner D14-17); cp6_pre_u_inventory captures the pre-U table set\
+        \ before U'; }\nmkdir -p ../auditor/cp6-proof/t3\nstatus=0\nPYTHONPATH=scripts python ../auditor/scripts/cp6_t3_aligned_chain.py\
+        \ ../auditor/cp6-proof/t3/ALIGNED_CHAIN.json --stop-after-ab || status=$?\npython - <<'PY'\nimport json\nd=json.load(open('../auditor/cp6-proof/t3/ALIGNED_CHAIN.json'))\n\
+        print(json.dumps({k:d.get(k) for k in ('status','refused_step','alignment')},default=str)[:6000])\nprint(json.dumps([(s['name'],s['exit_code'],s['after_alignment'])\
+        \ for s in d['steps']])[:6000])\nPY\nexit \"$status\"\n"
+    - name: Provision isolated rollback authority
+      working-directory: writer
+      shell: bash
+      run: "set -euo pipefail\nmaintenance_password=\"$(openssl rand -hex 32)\"\nmaintenance_pgurl=\"postgresql://cp6_maintenance_admission:${maintenance_password}@127.0.0.1:54322/template1\"\
+        \necho \"::add-mask::$maintenance_password\"\necho \"::add-mask::$maintenance_pgurl\"\ndocker exec -i \"$CP6_DATABASE_CONTAINER\"\
+        \ \\\n  psql -U supabase_admin -d template1 -X -v ON_ERROR_STOP=1 \\\n    -v cp6_password=\"$maintenance_password\"\
+        \ <<'SQL'\ncreate role cp6_maintenance_admission\n  login superuser noinherit nocreatedb nocreaterole noreplication\n\
+        \  connection limit 4 password :'cp6_password';\nSQL\nprintf 'CP6_ADMISSION_CONTROL_PGURL=%s\\n' \"$maintenance_pgurl\"\
+        \ >> \"$GITHUB_ENV\"\n"
+    - name: Clone the aligned AB state for install
+      working-directory: writer
+      run: "set -euo pipefail\nmkdir -p '../auditor/cp6-proof/t3'\nbash scripts/clone-cp6-disposable-database.sh \\\n  'postgresql://postgres:postgres@127.0.0.1:54322/postgres'\
+        \ \\\n  'postgresql://postgres:postgres@127.0.0.1:54322/template1' \\\n  'postgresql://postgres:postgres@127.0.0.1:54322/cp6_rollback'\
+        \ \\\n  cp6_rollback supabase_db_cp5-local '../auditor/cp6-proof/t3/CLONE_install'\n"
+    - name: Run actual SKU Native cases and complete restoration
+      working-directory: writer
+      run: python '../auditor/scripts/current-sku-pair-native-adapter/probe.py'
+    - name: Preserve exact original JSON report bytes in a bounded compressed log receipt
+      if: always()
+      working-directory: auditor
+      run: "python - <<'PY'\nimport base64,gzip,hashlib,json\nfrom pathlib import Path\nroot=Path('cp6-proof/t3')\nfor name\
+        \ in ('CP7_SKU_PAIR_CONVERSION_NATIVE.json','T3_PACKAGE_INSTALL.json','T3_BACKUP_RESTORE_DRILL.json','T3_PACKAGE_FILES_INSTALL.json'):\n\
+        \    path=root/name\n    if not path.is_file():\n        continue\n    raw=path.read_bytes();packed=gzip.compress(raw,mtime=0)\n\
+        \    print(json.dumps(dict(ow04_original_report_bytes=True,name=name,raw_bytes=len(raw),\n        raw_sha256=hashlib.sha256(raw).hexdigest(),gzip_bytes=len(packed),\n\
+        \        gzip_sha256=hashlib.sha256(packed).hexdigest(),\n        gzip_base64=base64.b64encode(packed).decode('ascii'))),flush=True)\n\
+        PY\n"
+    - name: Remove disposable database
+      if: always()
+      working-directory: base
+      run: if command -v supabase >/dev/null 2>&1 && test -d cp5-local; then supabase stop --workdir cp5-local --no-backup;
+        fi
+    - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      if: always()
+      with:
+        name: cp7-a-sku-pair-native-${{ github.run_attempt }}
+        path: auditor/cp6-proof/t3
+        retention-days: 30
+        if-no-files-found: error
+    if: github.ref == 'refs/heads/astra-a/sku-pair-native-qualified-20261029'

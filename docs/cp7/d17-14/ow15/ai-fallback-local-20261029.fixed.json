@@ -1,0 +1,92 @@
+{
+  "status": "PASS_LOCAL_DOM_16_TYPECHECK_NOT_NATIVE_AUTH_BROWSER_OR_INDEPENDENT_ACCEPTANCE",
+  "recorded_date": "2026-10-29",
+  "base": "93a238d230eefedb052553c0e804b1ef320a2dc1",
+  "first_failure_commit": "a348ed2bc2c20bd044d250de265e3d3ace2feb14",
+  "source_sha256": {
+    "src/NativeStagedAiPanel.tsx": "3273b0f38425cf28b236a856335ba9061dfdee70bf738e95434b941aaee5773b",
+    "src/NativeStagedAiPanel.fallback.dom.test.tsx": "eb542ff883604e6d3ee1bc08d9a4abcae2ba635260df19c6dd1923e12490872c",
+    "src/NativeStagedAiPanel.dom.test.tsx": "b751cd100de3c0a04be739c2d659ca8813248190f19c0b13cbc77440e2d36ebd",
+    "src/nativeStagedAi.test.ts": "89871285588ca252ae0bd279e372d667925bf5fdcc4ceb71110cde618dc82420",
+    "src/nativeStagedAi.ts": "e439525ec3e4b3039aa7c4a52c8a8a0839f2fda0c2faa3fc7e988c3f2df477ba"
+  },
+  "runtime": {
+    "node": "v24.22.1",
+    "vitest": "4.1.11",
+    "workers": 1
+  },
+  "unchanged_original_eleven_tests": {
+    "total": 11,
+    "passed": 11,
+    "failed": 0,
+    "skipped": 0
+  },
+  "final_tests": {
+    "total": 16,
+    "passed": 16,
+    "failed": 0,
+    "skipped": 0,
+    "new_tests": 11,
+    "existing_tests": 5
+  },
+  "typecheck": {
+    "command": "node node_modules/typescript/bin/tsc -b --pretty false",
+    "exit_code": 0
+  },
+  "reports": [
+    {
+      "path": "docs/cp7/d17-14/ow15/ai-fallback-local-20261029.first-result.json",
+      "bytes": 5027,
+      "sha256": "45e43f2f1cf6e7d85fb64130d8c9ca2a06190d18e466cfbc1b18300334711597",
+      "total": 11,
+      "passed": 10,
+      "failed": 1,
+      "skipped": 0
+    },
+    {
+      "path": "docs/cp7/d17-14/ow15/ai-fallback-local-20261029.expanded-result.json",
+      "bytes": 5073,
+      "sha256": "ccd7837b93fcf2d9cf2f9a72212ed1ce17903bb219552f70afe734086fc7f75e",
+      "total": 11,
+      "passed": 10,
+      "failed": 1,
+      "skipped": 0
+    },
+    {
+      "path": "docs/cp7/d17-14/ow15/ai-fallback-local-20261029.counterexample-result.json",
+      "bytes": 3175,
+      "sha256": "98389c33e02e0adebe5057a3bc7c491df26b4d820f4c3561e329f8d90e09ddc4",
+      "total": 6,
+      "passed": 0,
+      "failed": 1,
+      "skipped": 5
+    },
+    {
+      "path": "docs/cp7/d17-14/ow15/ai-fallback-local-20261029.first-fix-result.json",
+      "bytes": 4725,
+      "sha256": "6e91ea8a1bea25276a8247f6617ed9abd3898cb2c6a1e4f72e7319ae095a15d3",
+      "total": 11,
+      "passed": 11,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "path": "docs/cp7/d17-14/ow15/ai-fallback-local-20261029.final-result.json",
+      "bytes": 6280,
+      "sha256": "42be33160ae134061b63ceb1fef4f304863943e4a6506a98b1b7ba4e024b77b2",
+      "total": 16,
+      "passed": 16,
+      "failed": 0,
+      "skipped": 0
+    }
+  ],
+  "changed_product_paths": [
+    "src/NativeStagedAiPanel.tsx"
+  ],
+  "backend_SQL_or_permission_changes": false,
+  "real_Auth_browser_cases": 0,
+  "DB_calls": 0,
+  "workflow_triggered": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

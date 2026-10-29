@@ -1,0 +1,29 @@
+{
+  "scope": "OWNER_20261029_SKU_PAIR_CONVERSION_LOCAL_FIRST_FAILURES",
+  "actual_Native_claim": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "runs": [
+    {
+      "name": "sku-sql-first.log",
+      "status": "2_PASS_6_FAIL",
+      "bytes": 5726,
+      "sha256": "268eb28e28b9f53d52a782ad65da8a6f1a93af0b78c4adaaa77cb3335765a408",
+      "detail": "Test helper appended alias after FROM and Native idempotency double used a custom setting segment starting with a number; business assertions preserved."
+    },
+    {
+      "name": "sku-sql-second.log",
+      "status": "8_PASS",
+      "bytes": 222,
+      "sha256": "983363ae955fd27e05862b7a408e718d0737873ed11116e913843f3163e03fe9",
+      "detail": "Corrected the two declared test helpers; no product oracle relaxed."
+    },
+    {
+      "name": "sku-dom-first.log",
+      "status": "19_PASS_1_FAIL",
+      "bytes": 860,
+      "sha256": "f9d45a86caf6aa1feef14d9477f5a8c9793eb19645f62588369f51b15e8f23a7",
+      "detail": "Real recovery hook refuses SAVE_PAIR before RPC until the shared SKU action allowlist is extended; caught by the master form test, not mocked away."
+    }
+  ]
+}

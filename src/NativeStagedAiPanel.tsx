@@ -1,4 +1,4 @@
-import {useEffect,useMemo,useRef,useState} from 'react'
+import {useLayoutEffect,useMemo,useRef,useState} from 'react'
 import {useAuth} from './auth/AuthProvider'
 import {getUatSupabaseClient} from './lib/supabase'
 import {normalizeClientError} from './lib/clientError'
@@ -22,21 +22,27 @@ function Ai({staged,selected,labels,onClear,blocked:outer,financeAccess,actor}:P
  const client=useMemo(()=>getUatSupabaseClient(runtime),[runtime]),seq=useRef(0),mounted=useRef(true)
  const[question,setQuestion]=useState('Apa yang perlu diperiksa lebih dulu dari analisis ini?'),[withFinance,setWithFinance]=useState(false)
  const[text,setText]=useState(''),[busy,setBusy]=useState(false),[error,setError]=useState(''),[message,setMessage]=useState('')
- useEffect(()=>{mounted.current=true;return()=>{mounted.current=false;++seq.current}},[])
- useEffect(()=>{setText('');setMessage('')},[staged.set.runId,selected.join('|'),question,withFinance])
+ useLayoutEffect(()=>{mounted.current=true;return()=>{mounted.current=false;++seq.current}},[])
+ // A new parent selection can arrive while this panel's brief is pending.
+ // Retire it before the changed context is painted; its late response must
+ // not publish a prompt, copy it or release a newer request's busy state.
+ useLayoutEffect(()=>{++seq.current;setText('');setMessage('');setError('');setBusy(false)},[
+  actor,outer,staged.set.runId,staged.set.requestId,staged.set.identityHash,staged.set.reference.capturedAt,
+  staged.header.query.from_date,staged.header.query.through_date,staged.header.query.group_mode,
+  selected.join('|'),question,withFinance,financeAccess.ownerReports,financeAccess.preflight])
  const blocked=outer||busy
- const prepare=async()=>{const n=++seq.current;setBusy(true);setError('');setMessage('');setText('');try{
+ const prepare=async()=>{const n=++seq.current,current=()=>n===seq.current&&mounted.current;setBusy(true);setError('');setMessage('');setText('');try{
   const keys=[...selected];if(keys.length>STAGED_AI_SELECTED)throw Error(`Pilih paling banyak ${STAGED_AI_SELECTED} target untuk AI.`)
-  const r=await client.rpc('erp_cp7_get_staged_ai_brief_v1',{p_run:staged.set.runId,p_targets:keys});if(n!==seq.current)return;if(r.error)throw r.error
+  const r=await client.rpc('erp_cp7_get_staged_ai_brief_v1',{p_run:staged.set.runId,p_targets:keys});if(!current())return;if(r.error)throw r.error
   const brief=parseStagedAiBrief(r.data,actor,staged.set,staged.header.query,keys)
   let finance:FinanceReport|null=null
   if(withFinance&&financeAccess.ownerReports){const dates=stagedAiFinanceDates(staged.header.query)
-   const f=await client.rpc('erp_cp7_get_finance_report_v1',{p_query:{...dates,filing_id:null,offset:0,limit:25}});if(n!==seq.current)return;if(f.error)throw f.error
+   const f=await client.rpc('erp_cp7_get_finance_report_v1',{p_query:{...dates,filing_id:null,offset:0,limit:25}});if(!current())return;if(f.error)throw f.error
    finance=parseFinanceReport(f.data,dates,null,0,financeAccess.preflight)}
   const prompt=stagedAiPrompt(brief,question,finance);setText(prompt)
-  try{await navigator.clipboard.writeText(prompt);if(n===seq.current)setMessage('Pertanyaan dan ringkasan analisis disalin; siap ditinjau di AI pilihanmu.')}
-  catch{if(n===seq.current)setMessage('Salin otomatis gagal. Pilih teks di bawah dan salin manual.')}
- }catch(e){if(n===seq.current&&mounted.current)setError(normalizeClientError(e).message)}finally{if(n===seq.current&&mounted.current)setBusy(false)}}
+  try{await navigator.clipboard.writeText(prompt);if(current())setMessage('Pertanyaan dan ringkasan analisis disalin; siap ditinjau di AI pilihanmu.')}
+  catch{if(current())setMessage('Salin otomatis gagal. Pilih teks di bawah dan salin manual.')}
+ }catch(e){if(current())setError(normalizeClientError(e).message)}finally{if(current())setBusy(false)}}
  return<section className="panel" role="region" aria-label="Tanya AI dari analisis bertahap">
   <h3>Tanya AI dari analisis bertahap</h3>
   <p>Pertanyaan disalin bersama ringkasan analisis per {formatCp6WibDateTime(staged.set.reference.capturedAt)}: total seluruh target, 25 target dengan kekurangan terbesar, target yang kamu pilih (paling banyak {STAGED_AI_SELECTED}), dan perubahan sejak data diambil. Angka analisis adalah keadaan pada waktu itu, bukan angka saat ini.</p>

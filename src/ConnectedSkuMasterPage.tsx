@@ -6,7 +6,7 @@ import { normalizeClientError } from './lib/clientError'
 import { useProductionMutation, type ProductionMutationHandlers } from './useProductionMutation'
 import ProductionRecoveryNotice from './ProductionRecoveryNotice'
 import { cp6WibDateTimeInput, cp6WibPhysicalTimeToIso, formatCp6WibDateTime } from './cp6BusinessTime'
-import { emptySkuSettings, parseSkuMaster, skuGroupChanges, type SkuGroup, type SkuMasterWorkspace, type SkuProduct } from './skuMaster'
+import { emptySkuSettings, parseSkuMaster, skuGroupChanges, skuPairPayload, validateSkuPairResult, type SkuGroup, type SkuMasterWorkspace, type SkuProduct } from './skuMaster'
 import { skuMoney, skuObject } from './skuHpp'
 import SkuSettingsFields from './SkuSettingsFields'
 import type { Json } from './types/database.preconnect'
@@ -24,7 +24,8 @@ function Workspace() {
   const client = useMemo(() => getUatSupabaseClient(runtime), [runtime])
   const recovery = useProductionMutation('SKU'), { beginRead, finishRead, isReadCurrent, run, reconcile } = recovery
   const [data, setData] = useState<SkuMasterWorkspace | null>(null), [error, setError] = useState(''), [busy, setBusy] = useState(false)
-  const [query, setQuery] = useState(''), filters = useRef({ query: '', page: 1 }), sequence = useRef(0)
+  const [query, setQuery] = useState(''), filters = useRef<Record<string, Json>>({ query: '', page: 1 }), sequence = useRef(0)
+  const [pairSource, setPairSource] = useState(''), [pairTarget, setPairTarget] = useState(''), [pairQuery, setPairQuery] = useState(''), [pairReason, setPairReason] = useState('')
   const [draft, setDraft] = useState<SkuGroup | null>(null), [date, setDate] = useState(cp6WibDateTimeInput), [reason, setReason] = useState('')
   const [preview, setPreview] = useState<{ payload: Json; groups: ReturnType<typeof skuGroupChanges>; basis: Json[]; members: SkuProduct[] } | null>(null)
   const [approved, setApproved] = useState(false)
@@ -42,6 +43,7 @@ function Workspace() {
     finally { if (seq === sequence.current) setBusy(false) }
   }, [client, beginRead, finishRead, isReadCurrent])
   useEffect(() => { void load(); return () => { ++sequence.current } }, [load])
+  useEffect(() => { if (data?.pairing?.source?.id === pairSource) setPairTarget(data.pairing.current?.id ?? '') }, [data?.pairing?.revision, data?.pairing?.source?.id, pairSource])
   const edit = (g: SkuGroup) => { setDraft(structuredClone(g)); setPreview(null); setApproved(false); setDate(cp6WibDateTimeInput()); setReason('') }
   const create = (p: SkuProduct) => edit({ id: crypto.randomUUID(), sku: p.sku, brand_id: p.brand_id, brand_name: p.brand_name, model_id: p.model_id, model_name: p.model_name, color_name: p.color_name, revision: '0', effective_from: '', members: [p], settings: emptySkuSettings() })
   const review = async () => {
@@ -68,6 +70,7 @@ function Workspace() {
   const handlers: ProductionMutationHandlers = {
     send: envelope => client.rpc('erp_save_sku_action_v1', { p_action: envelope.action, p_payload: envelope.payload, p_client_request_id: envelope.id }),
     validate: (data, envelope) => {
+      if (envelope.action === 'SAVE_PAIR') { validateSkuPairResult(data, envelope.id, envelope.payload); return }
       const r = skuObject(data), p = skuObject(envelope.payload)
       if (r.request_id !== envelope.id || r.action !== envelope.action || r.status !== 'SAVED' || !Array.isArray(r.groups) || !Array.isArray(p.groups) || r.groups.length !== p.groups.length) throw new Error('Respons SKU tidak cocok.')
       for (const x of p.groups) { const requested = skuObject(x), saved = r.groups.map(skuObject).filter(g => g.id === requested.id); if (saved.length !== 1 || saved[0].revision !== (BigInt(String(requested.expected_version)) + 1n).toString() || typeof saved[0].version_id !== 'string') throw new Error('Revisi SKU tidak cocok.') }
@@ -75,14 +78,25 @@ function Workspace() {
     retire: () => { setDraft(null); setPreview(null); setApproved(false) }, reload: load,
   }
   const locked = busy || recovery.writerLocked
+  const pairTargetVisible = !pairTarget || Boolean(data?.pairing?.options.some(p => p.id === pairTarget) || data?.pairing?.current?.id === pairTarget)
+  const browsePairs = (patch: Record<string, Json>) => {
+    setPairTarget(data?.pairing?.current?.id ?? ''); setPairReason('')
+    filters.current = { ...filters.current, ...patch }; void load()
+  }
   return <section className="initial-import sku-workspace">
     <header className="panel"><h1>Produk & SKU</h1><p>Satu SKU memiliki satu harga jual, resep aksesori, dan pengaturan tarif jasa. Stok tetap dicatat per ukuran.</p></header>
     <ProductionRecoveryNotice recovery={recovery} onReconcile={() => reconcile(handlers)} className="initial-import-message"/>
     {error && <p role="alert">{error}</p>}
     <form className="panel initial-import-toolbar" onSubmit={e => { e.preventDefault(); filters.current = { query: query.trim(), page: 1 }; void load() }}><label>Cari SKU atau merek<input value={query} maxLength={120} onChange={e => setQuery(e.target.value)}/></label><button disabled={busy || recovery.busy}>Cari / muat ulang</button></form>
-    {data && <><section className="panel"><h2>SKU bersama</h2><table><thead><tr><th>SKU</th><th>Model · warna</th><th>Ukuran anggota</th><th>Harga / PCS</th><th>Mulai berlaku</th><th>Pengaturan</th></tr></thead><tbody>{data.groups.map(g => <tr key={g.id}><td>{g.brand_name} · {g.sku}</td><td>{g.model_name} · {g.color_name}</td><td>{g.members.map(m => m.size).join(', ') || 'Sudah dipindah'}</td><td>{g.settings ? skuMoney(g.settings.price === null ? null : String(g.settings.price)) : 'Terbatas'}</td><td>{formatCp6WibDateTime(g.effective_from)}</td><td><button disabled={!data.can_edit || locked} onClick={() => edit(g)}>Ubah SKU {g.sku}</button></td></tr>)}</tbody></table>{data.groups.length === 0 && <p>Belum ada SKU bersama yang cocok.</p>}</section>
+    {data && <><section className="panel"><h2>SKU bersama</h2><table><thead><tr><th>SKU</th><th>Model · warna</th><th>Ukuran anggota</th><th>Padanan</th><th>Harga / PCS</th><th>Mulai berlaku</th><th>Pengaturan</th></tr></thead><tbody>{data.groups.map(g => <tr key={g.id}><td>{g.brand_name} · {g.sku}</td><td>{g.model_name} · {g.color_name}</td><td>{g.members.map(m => m.size).join(', ') || 'Sudah dipindah'}</td><td>{g.counterpart ? `${g.counterpart.brand_name} · ${g.counterpart.sku}` : 'Belum ada'}{data.pairing?.can_edit && <button disabled={locked} onClick={() => { setPairSource(g.id); setPairTarget(g.counterpart?.id ?? ''); setPairReason(''); setPairQuery(''); filters.current = { ...filters.current, pair_source_id: g.id, pair_query: '', pair_page: 1 }; void load() }}>Atur padanan {g.sku}</button>}</td><td>{g.settings ? skuMoney(g.settings.price === null ? null : String(g.settings.price)) : 'Terbatas'}</td><td>{formatCp6WibDateTime(g.effective_from)}</td><td><button disabled={!data.can_edit || locked} onClick={() => edit(g)}>Ubah SKU {g.sku}</button></td></tr>)}</tbody></table>{data.groups.length === 0 && <p>Belum ada SKU bersama yang cocok.</p>}</section>
+      {pairSource && data.pairing?.source?.id === pairSource && <section className="panel"><h2>Padanan {data.pairing.source.brand_name} · {data.pairing.source.sku}</h2><p>Satu hubungan berlaku dua arah untuk seluruh ukuran SKU. Mengganti atau menghapus padanan memperbarui kedua sisi. Stok dan nilai persediaan tetap.</p>
+        <form className="initial-import-toolbar" onSubmit={e => { e.preventDefault(); browsePairs({ pair_query: pairQuery.trim(), pair_page: 1 }) }}><label>Cari padanan<input value={pairQuery} onChange={e => setPairQuery(e.target.value)}/></label><button disabled={locked}>Cari padanan</button></form>
+        <label>SKU padanan<select value={pairTarget} disabled={locked || !data.pairing.can_edit} onChange={e => setPairTarget(e.target.value)}><option value="">Tanpa padanan</option>{data.pairing.current && !data.pairing.options.some(p => p.id === data.pairing?.current?.id) && <option value={data.pairing.current.id}>{data.pairing.current.brand_name} · {data.pairing.current.sku}</option>}{data.pairing.options.map(p => <option key={p.id} value={p.id}>{p.brand_name} · {p.sku} · ukuran {p.members.map(m => m.size).join(', ')}</option>)}</select></label>
+        <p>{data.pairing.total} pilihan · halaman {data.pairing.page} <button disabled={locked || data.pairing.page <= 1} onClick={() => { browsePairs({ pair_page: data.pairing!.page - 1 }) }}>Padanan sebelumnya</button><button disabled={locked || data.pairing.page * 50 >= data.pairing.total} onClick={() => { browsePairs({ pair_page: data.pairing!.page + 1 }) }}>Padanan berikutnya</button></p>
+        <p>Jika tujuan sudah mempunyai padanan, hubungan lamanya ikut diganti.</p><label>Alasan padanan<input value={pairReason} maxLength={1000} disabled={locked} onChange={e => setPairReason(e.target.value)}/></label><button disabled={locked || !data.pairing.can_edit || !pairReason.trim() || !pairTargetVisible} onClick={() => { try { if (!pairTargetVisible) throw new Error('Pilih kembali padanan yang terlihat sebelum menyimpan.'); void run('SAVE_PAIR', skuPairPayload(pairSource, pairTarget, data.pairing!.revision, pairReason), null, handlers) } catch (e) { setError(e instanceof Error ? e.message : 'Padanan belum lengkap.') } }}>Simpan padanan dua arah</button><button disabled={locked} onClick={() => setPairSource('')}>Tutup padanan</button>
+      </section>}
       {data.can_edit && <section className="panel"><h2>Anggota fisik tersedia</h2><p>Pilih ukuran yang sudah terdaftar untuk membuat SKU baru atau menambah anggota. Ukuran khusus 27 dapat dibuat menjadi SKU tersendiri.</p><table><thead><tr><th>Produk</th><th>Model · warna</th><th>Ukuran</th><th>Pilih</th></tr></thead><tbody>{data.products.map(p => <tr key={p.id}><td>{p.brand_name} · {p.sku}</td><td>{p.model_name} · {p.color_name}</td><td>{p.size}</td><td>{draft ? <button disabled={locked || Boolean(preview) || p.brand_id !== draft.brand_id || p.model_id !== draft.model_id || p.color_name !== draft.color_name || draft.members.some(m => m.size_id === p.size_id)} onClick={() => setDraft({ ...draft, members: [...draft.members, p] })}>Tambah ukuran {p.size}</button> : <button disabled={locked} onClick={() => create(p)}>Buat SKU dari ukuran {p.size}</button>}</td></tr>)}</tbody></table></section>}
-      <div className="panel"><button disabled={busy || data.page <= 1} onClick={() => { filters.current.page--; void load() }}>Sebelumnya</button> Halaman {data.page} · {data.groups_total} SKU / {data.products_total} ukuran <button disabled={busy || data.page * 50 >= Math.max(data.groups_total, data.products_total)} onClick={() => { filters.current.page++; void load() }}>Berikutnya</button></div>
+      <div className="panel"><button disabled={busy || data.page <= 1} onClick={() => { filters.current.page = data.page - 1; void load() }}>Sebelumnya</button> Halaman {data.page} · {data.groups_total} SKU / {data.products_total} ukuran <button disabled={busy || data.page * 50 >= Math.max(data.groups_total, data.products_total)} onClick={() => { filters.current.page = data.page + 1; void load() }}>Berikutnya</button></div>
     </>}
     {draft && data?.lookups && <section className="panel"><h2>{draft.revision === '0' ? 'Buat SKU' : `Revisi ${draft.sku}`}</h2><fieldset disabled={locked || Boolean(preview)}>
       <label>Kode SKU<input value={draft.sku} disabled={draft.revision !== '0'} maxLength={100} onChange={e => setDraft({ ...draft, sku: e.target.value })}/></label><p>{draft.brand_name} · {draft.model_name} · {draft.color_name}</p>
