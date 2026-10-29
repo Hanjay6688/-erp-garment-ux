@@ -47,3 +47,5 @@ This preparation now uses its exact measurement source, with unchanged
 client6/backend and a new explicit base. It cannot qualify from partial9fde.
 
 The existing actual-Chromium instrument preflight is also run before the source6 database starts. This only qualifies the paint tool, not these six Auth journeys. Case syntax is checked at the same cheap boundary.
+
+Prepared-branch pushes run only a cheap Chromium paint diagnostic with compiled application CSS and copied QC/pricing markup. No database job runs there. This measures the observed disabled-button concern before a costly full installation; its report is neither Auth nor product-journey acceptance.
