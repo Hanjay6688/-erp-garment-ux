@@ -5855,3 +5855,25 @@ Pada cabang A terpisah fd72ee2c,6 perjalanan kasbon/cuci gagal/FG-QC disiapkan
 dengan runner existing, tanpa perubahan produk dan tanpa klaim runtime.
 Rebind ke penerus uang yang akhirnya diterima sebelum menjalankan source6.
 Intake10 CLOSED; tidak mengubah kandidat beku, driver B atau produksi.
+
+
+## A — money2d4 diterima, selective intake10; sumber OW08 dan lingkup asli
+
+Backend41c PASS11 + actual2d4/run40789668297 PASS2 lengkap diterima A sesudah
+Original, lima gate, full restore dan visual diperiksa. Sepuluh preimage A
+01d3 cocok; hanya sepuluh sumber vendor dan checker penerusnya diadopsi.
+Current entrypoint cp7_vendor_receivable.composition tetap installer yang
+sama dengan tes; dependency cp7_current_installation historis tidak diubah.
+B sudah diterima. C tetap kedua cara. Formal5/16 dan production_go=false.
+
+Source6 pada64353f4 memiliki dua append CSS terbatas; paint4 desktop/mobile
+PASS (run40793063143), native disabled tetap. Original paint4c8 retained.
+Ini belum Auth6. Paket harus mengikat actual2d4 dan menjalankan enam alur
+kasbon/cuci gagal/FG-QC sendiri. Kandidat uang2d4 tidak disentuh.
+
+P02/P14 dan CP7-14/23/35 kini memakai bukti B yang sudah diterima pada sumber
+identik. Comparator no-DML B membandingkan lima tabel; bukan seluruh HPP,
+invoice, cutting, reservation atau WIP. Calculator/popup/drill/filter tetap
+butuh bukti tepat, tanpa mengulang dua browser B hanya untuk menambah angka.
+
+Validasi integrasi A:67 tes/4 berkas,9 kontrol bukti, typecheck/build/source/access/CSS/scan PASS. Source6 penerus6c89ddb/run40794662199/job123188077475 sedang diuji, tanpa mengulang uang2 atau B2.

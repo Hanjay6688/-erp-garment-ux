@@ -73,7 +73,7 @@ export default function LaundryBdPanel({ laundry, onPosted }: { laundry: Laundry
       ? client.rpc('erp_save_product_conversion_action_v1', { p_action: envelope.action, p_payload: envelope.payload, p_client_request_id: envelope.id })
       : client.rpc('erp_save_laundry_bd_action_v1', { p_action: envelope.action, p_payload: envelope.payload, p_client_request_id: envelope.id }),
     validate: (value, envelope) => envelope.action === 'SET_REDYE_PRICE'
-      ? validateConversionResult(value, envelope.action, envelope.id, envelope.payload) : validateBdResult(value, envelope.action, envelope.id),
+      ? validateConversionResult(value, envelope.action, envelope.id, envelope.payload) : validateBdResult(value, envelope.action, envelope.id, envelope.payload),
     retire: () => { setData(null) },
     reload: async () => {
       const refreshed = await load()
@@ -358,8 +358,13 @@ function Payables({ payables, locked, send }: { payables: BdPayables; locked: bo
       <div><dt>Saldo utang (buku besar)</dt><dd>{rupiah(l.ap_balance)}</dd></div>
       <div><dt>Sisa tagihan</dt><dd>{rupiah(l.documents_remaining)}</dd></div>
       <div><dt>Kredit klaim/koreksi belum dipakai</dt><dd>{rupiah(l.credit_available)}</dd></div>
-      <div><dt>Pencocokan</dt><dd role="status">{l.matches ? 'Cocok: saldo utang = sisa tagihan − kredit belum dipakai' : 'Tidak cocok: periksa pelunasan dan klaim vendor ini'}</dd></div>
+      {l.receivable_balance !== undefined && <div><dt>Piutang ke vendor</dt><dd>{rupiah(l.receivable_balance)}</dd></div>}
+      <div><dt>Pencocokan</dt><dd role="status">{l.matches ? l.receivable_balance === undefined
+        ? 'Cocok: saldo utang = sisa tagihan − kredit belum dipakai'
+        : 'Cocok: saldo utang = sisa tagihan − kredit belum dipakai + piutang ke vendor'
+        : 'Tidak cocok: periksa pelunasan dan klaim vendor ini'}</dd></div>
     </dl>
+    {l.receivable_balance !== undefined && <p>Piutang ke vendor sudah termasuk dalam kredit belum dipakai. Angka itu bukan kredit tambahan.</p>}
     <table aria-label="Tagihan vendor"><thead><tr><th>Tagihan</th><th>Tanggal</th><th>Total</th><th>Dibayar kas</th><th>Kredit klaim</th><th>Kredit koreksi</th><th>Sisa</th><th>Status</th></tr></thead>
       <tbody>{payables.documents.map(d => <tr key={d.id}><td>{d.number}{d.kind === 'OPENING_PAYABLE' ? ' (saldo awal)' : ''}{d.corrects ? ` (koreksi naik atas ${d.corrects})` : ''}</td><td>{d.date}</td><td>{rupiah(d.total)}</td>
         <td>{rupiah(d.paid_cash)}</td><td>{rupiah(d.claim_credit)}</td><td>{rupiah(d.correction_credit)}</td><td>{rupiah(d.remaining)}</td><td>{cents(d.remaining) === 0 ? 'Lunas' : d.status}</td></tr>)}</tbody></table>
@@ -383,6 +388,7 @@ function Payables({ payables, locked, send }: { payables: BdPayables; locked: bo
       <label>Nominal kas<input aria-label="Nominal bayar kas" value={cashAmount} disabled={locked} onChange={e => setCashAmount(e.target.value)}/></label>
       <button type="button" disabled={!base || !cash || !moneyInput(cashAmount)} onClick={() => doc && send('PAY_VENDOR_DOCUMENT', {
         target_kind: doc.kind, target_id: doc.id, amount: normalizeMoney(cashAmount), date, cash_account_id: cash, reason: reason.trim() })}>Bayar kas</button></div>
+    {payables.vendor_receivable_contract === 'cp7.vendor-receivable.v1' && <VendorRefunds payables={payables} locked={locked} send={send}/>}
     <h4>Riwayat pelunasan</h4>
     <Reason value={undoReason} set={setUndoReason} locked={locked} label="Alasan pembatalan"/>
     <table aria-label="Riwayat pelunasan vendor"><thead><tr><th>Tagihan</th><th>Tanggal</th><th>Cara</th><th>Nominal</th><th>Rujukan</th><th>Status</th><th></th></tr></thead>
@@ -390,6 +396,36 @@ function Payables({ payables, locked, send }: { payables: BdPayables; locked: bo
         <td>{x.reference ?? '—'}</td><td>{x.status === 'POSTED' ? 'Diposting' : 'Dibatalkan'}</td>
         <td>{x.status === 'POSTED' && x.method !== 'CREDIT' && <button type="button" disabled={locked || undoReason.trim().length < 4} onClick={() => send('REVERSE_VENDOR_SETTLEMENT', {
           target_kind: d.kind, settlement_id: x.id, reason: undoReason.trim() })}>Batalkan {x.number}</button>}</td></tr>))}</tbody></table>
+  </section>
+}
+
+function VendorRefunds({ payables, locked, send }: { payables: BdPayables; locked: boolean; send: Send }) {
+  const [source, setSource] = useState(''), [cash, setCash] = useState(''), [amount, setAmount] = useState('')
+  const [date, setDate] = useState(today()), [reason, setReason] = useState(''), [undoReason, setUndoReason] = useState('')
+  const eligible = payables.credits.filter(c => c.receivable !== undefined && cents(c.receivable) > 0)
+  const selected = eligible.find(c => c.id === source)
+  const valid = !locked && selected && cash && date && reason.trim().length >= 4 && moneyInput(amount)
+    && cents(normalizeMoney(amount)) > 0 && cents(normalizeMoney(amount)) <= cents(selected.receivable!)
+  return <section aria-label="Pengembalian piutang vendor">
+    <h4>Pengembalian uang dari vendor</h4>
+    <p>Sisa piutang bisa dipakai melalui tombol kredit untuk tagihan vendor yang sama, atau dicatat saat uang benar-benar diterima di kas/bank. Pengembalian bukan pendapatan dan tidak mengubah pembayaran asal.</p>
+    <div className="initial-import-toolbar">
+      <label>Piutang asal<select aria-label="Piutang vendor dikembalikan" value={source} disabled={locked} onChange={e => setSource(e.target.value)}>
+        <option value="">Pilih dokumen koreksi…</option>{eligible.map(c => <option key={c.id} value={c.id}>{creditName(c)} · sisa {rupiah(c.receivable!)}</option>)}</select></label>
+      <label>Rekening penerima<select aria-label="Rekening penerima pengembalian vendor" value={cash} disabled={locked} onChange={e => setCash(e.target.value)}>
+        <option value="">Pilih kas/bank…</option>{payables.cash_accounts.map(c => <option key={c.id} value={c.id}>{c.code} · {c.name}</option>)}</select></label>
+      <label>Nominal diterima<input aria-label="Nominal pengembalian vendor" value={amount} disabled={locked} onChange={e => setAmount(e.target.value)}/></label>
+      <label>Tanggal diterima<input aria-label="Tanggal pengembalian vendor" type="date" value={date} disabled={locked} onChange={e => setDate(e.target.value)}/></label>
+      <Reason value={reason} set={setReason} locked={locked} label="Alasan pengembalian vendor"/>
+      <button type="button" disabled={!valid} onClick={() => selected && send('RECEIVE_VENDOR_REFUND', {
+        source_id: selected.id, cash_account_id: cash, amount: normalizeMoney(amount), date, reason: reason.trim(),
+      })}>Catat uang diterima dari vendor</button>
+    </div>
+    <Reason value={undoReason} set={setUndoReason} locked={locked} label="Alasan pembatalan pengembalian vendor"/>
+    <table aria-label="Riwayat pengembalian vendor"><thead><tr><th>Koreksi asal</th><th>Tanggal</th><th>Nominal</th><th>Status</th><th/></tr></thead>
+      <tbody>{payables.refunds!.map(r => <tr key={r.id}><td>{r.source_number}</td><td>{r.date}</td><td>{rupiah(r.amount)}</td>
+        <td>{r.status === 'POSTED' ? 'Diposting' : 'Dibatalkan'}</td><td>{r.status === 'POSTED' && <button type="button" disabled={locked || undoReason.trim().length < 4}
+          onClick={() => send('REVERSE_VENDOR_REFUND', { refund_id: r.id, reason: undoReason.trim() })}>Batalkan pengembalian {r.source_number}</button>}</td></tr>)}</tbody></table>
   </section>
 }
 
@@ -458,6 +494,7 @@ function PendingCost({ data }: { data: LaundryBdWorkspace }) {
 type DraftLine = { key: string; kind: 'BILL' | 'CORRECTION'; source: string; category: Category; qty: string; amount: string }
 function Invoices({ data, vendor, locked, send, loadMore, canSetRedye }: { data: LaundryBdWorkspace; vendor: string; locked: boolean; send: Send; loadMore: (kind: BdPageKind) => void; canSetRedye: boolean }) {
   const [redyeRates, setRedyeRates] = useState<Record<string, string>>({})
+  const [receivableAccounts, setReceivableAccounts] = useState<Record<string, string>>({})
   const [invoiceSearch, setInvoiceSearch] = useState(''), [receiptSearch, setReceiptSearch] = useState('')
   const redye = data.redye_services ?? []
   const [editing, setEditing] = useState<BdInvoice | null>(null)
@@ -506,7 +543,13 @@ function Invoices({ data, vendor, locked, send, loadMore, canSetRedye }: { data:
     <table><thead><tr><th>Invoice</th><th>Vendor</th><th>Tanggal</th><th>Total</th><th>Dibayar</th><th>Status</th><th/></tr></thead><tbody>{visibleInvoices.map(i => <tr key={i.invoice_id}>
       <td>{i.invoice_number}{i.document_kind !== 'INVOICE' ? ` · koreksi ${i.document_kind === 'CORRECTION_UP' ? 'naik' : 'turun'} atas ${i.corrects_invoice_number}` : ''}</td><td>{i.vendor_code}</td><td>{i.invoice_date}</td><td>{rupiah(i.header_total)}</td><td>{rupiah(i.paid)}</td><td>{i.status}{i.variance_mode ? ` · selisih ${i.variance_mode === 'PRODUCT_COST' ? 'ke biaya produk' : 'ke akun selisih'}` : ''}</td>
       <td>{i.status === 'DRAFT' && <><button type="button" disabled={locked} onClick={() => edit(i)}>Ubah draf {i.invoice_number}</button>
-        <button type="button" disabled={locked} onClick={() => send('POST_INVOICE', { invoice_id: i.invoice_id, expected_version: i.row_version })}>Posting {i.invoice_number}</button>
+        {i.document_kind === 'CORRECTION_DOWN' && data.vendor_receivable_accounts && <label>Akun piutang vendor
+          <select aria-label={`Akun piutang vendor ${i.invoice_number}`} value={receivableAccounts[i.invoice_id] ?? ''} disabled={locked}
+            onChange={e => setReceivableAccounts(v => ({ ...v, [i.invoice_id]: e.target.value }))}>
+            <option value="">Kurangi utang yang masih ada</option>{data.vendor_receivable_accounts.map(a => <option key={a.id} value={a.id}>{a.code} · {a.name}</option>)}</select></label>}
+        <button type="button" disabled={locked} onClick={() => send('POST_INVOICE', { invoice_id: i.invoice_id, expected_version: i.row_version,
+          ...(i.document_kind === 'CORRECTION_DOWN' && receivableAccounts[i.invoice_id] ? { vendor_receivable_account_id: receivableAccounts[i.invoice_id] } : {}),
+        })}>Posting {i.invoice_number}</button>
         <button type="button" disabled={locked} onClick={() => send('CANCEL_INVOICE_DRAFT', { invoice_id: i.invoice_id, expected_version: i.row_version })}>Batalkan draf {i.invoice_number}</button></>}
         {i.status === 'POSTED' && <button type="button" disabled={locked || !reason.trim() || i.paid !== '0.00'} onClick={() => send('REVERSE_INVOICE', { invoice_id: i.invoice_id,
           expected_version: i.row_version, reason: reason.trim() })}>Batalkan invoice {i.invoice_number}</button>}</td></tr>)}</tbody></table>
@@ -543,6 +586,7 @@ function Invoices({ data, vendor, locked, send, loadMore, canSetRedye }: { data:
         {editing && <button type="button" disabled={locked} onClick={() => edit(null)}>Draf baru</button>}</div>
       <p>Total invoice harus sama dengan baris − diskon + pembulatan + pajak. Posting memeriksa kebijakan LAU-DEC02/03/06, kapasitas tiap sumber, dan harga yang belum diketahui.</p>
       <p>Koreksi harga dibuat sebagai dokumen koreksi tersendiri yang tertaut ke invoice asal: pilih invoice asalnya, isi baris koreksi (qty 0) untuk sumber yang ditagih invoice itu, dan total bertanda. Plus menambah tagihan; minus menurunkan utang dan menjadi kredit yang lebih dulu melunasi sisa invoice asal. Invoice asal dan pembayarannya tidak diubah.</p>
+      {data.vendor_receivable_accounts && <p>Jika koreksi turun melebihi utang, pilih akun aset khusus piutang vendor saat memposting draf. Sisa invoice asal dilunasi dahulu; sisanya menjadi piutang yang dapat dipakai ke tagihan berikut atau dikembalikan vendor ke kas/bank. Akun dibuat melalui Master Data, lalu dipilih di sini.</p>}
     </>}
   </section>
 }

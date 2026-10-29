@@ -1,6 +1,6 @@
 {
   "status": "PREPARED_NOT_FINAL_AUDITOR_ACCEPTANCE",
-  "recorded_at_utc": "2026-10-28T23:49:42.036591+00:00",
+  "recorded_at_utc": "2026-10-29T00:29:47.610069+00:00",
   "integrator": "A",
   "browser_writer": "B",
   "items": [
@@ -90,6 +90,13 @@
       "limit": "Two real Auth/browser desktop/mobile fixtures, exact backend3194 and A279 panel, driver8a0 adopted selectively. Labelled transport injection and private finance advancement remain explicit; not entire CP7 acceptance.",
       "receipt": "docs/cp7/d17-14/ow15/A_B_DRIVER_BROWSER_3194_INTAKE_20261028.json",
       "receipt_sha256": "14d33514cd88aea45899d9deaf59c25dbd109fac87020335ceb9ca0225eaf9dc"
+    },
+    {
+      "area": "OW08 vendor both settlement paths actual money UI",
+      "receipt": "docs/cp7/d17-14/ow08/vendor-money2d4-pass.json",
+      "receipt_sha256": "42dc733e9adbff0f43d3d09f2f09dc3359d3369d402650d6b7e7f22c20b10705",
+      "status": "PASS_ACTUAL_MONEY_BROWSER2_ACCEPTED_BY_A",
+      "head": "2d4ed56eb20187c00e63cd0a0774385d320f53be"
     }
   ],
   "remaining": [
@@ -403,7 +410,7 @@
     "CP7C_started": false
   },
   "B_component_accepted_by_A": true,
-  "integrated_source_checker": "scripts/current-integrated-B3194-source/check.py",
+  "integrated_source_checker": "scripts/current-vendor-integration-source/check.py",
   "scope_closeout_20261029": {
     "scope_index": "docs/cp7/framework-v2/registries/closure_current_20261029.json",
     "owner_vendor_policy": "BOTH_AUTHORIZED",
@@ -419,42 +426,41 @@
     "vendor_first_actual_combined_failure": "docs/cp7/d17-14/ow08/vendor-combined54b-first-incomplete.json",
     "vendor_receipt": "docs/cp7/d17-14/ow08/vendor-combined41c-pass.json",
     "money_browser": {
-      "status": "RUNNING_LAYER_LIST_MEASUREMENT_SUCCESSOR_NOT_ACCEPTED",
+      "status": "PASS_ACTUAL_MONEY_BROWSER2_ACCEPTED_BY_A",
       "head": "2d4ed56eb20187c00e63cd0a0774385d320f53be",
       "tree": "173e0429c0220805cbee980579137c988c5d030d",
-      "branch": "astra-a/ow08b-money-browser-layers-20261029",
       "run_id": 40789668297,
       "job_id": 123171442637,
+      "artifact_id": 12863121496,
+      "receipt": "docs/cp7/d17-14/ow08/vendor-money2d4-pass.json",
       "backend": "41caaaed02c0d89b122ecf1ff221f6647141c335",
-      "first_failure": "docs/cp7/d17-14/ow08/vendor-money9fde-layer-incomplete.json",
-      "local_controls": {
-        "contrast": 19,
-        "admission": 4
+      "complete_cases": 2,
+      "owner_C": "BOTH_CREDIT_NEXT_INVOICE_AND_CASH_BANK_REFUND",
+      "full_restoration": true,
+      "package_gates": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
       },
-      "source_admission": "PASS_EXACT_BACKEND11_CLIENT6_PARENT193_FIRST18_AND_FIRST9FDE",
-      "product_delta": "NONE_VS_9fde_CLIENT6_AND_RUNTIME_UNCHANGED",
-      "real_Chromium_paint_preflight": "RUN_BEFORE_DATABASE_NOT_AUTH_OR_MONEY_EVIDENCE",
-      "actual_browser_PASS_claim": false,
-      "B_browser_repeated": false,
       "production_go": false,
       "independent_acceptance": false
     },
     "waiting_for_B": false,
     "ow08_source_browser": {
-      "head": "fd72ee2c565bab91b7a6cde5fbda73a27b84925d",
-      "tree": "2e5e41733ab2c40c342de3a117a33b0191fe098a",
-      "branch": "astra-a/ow08b-source-journeys-prepared-20261029",
-      "status": "PREPARED_CLOSED_NO_ACTUAL_BROWSER6_CREDIT",
-      "cases": 6,
-      "scope": [
-        "Kasbon GIVEN/cancelled source from journal desktop/mobile",
-        "Failed wash unknown-price posting and one-time price desktop/mobile",
-        "QC named blockers and inverse FG source desktop/mobile"
-      ],
-      "existing_complete_runner_reused": true,
-      "complete_restore_block_unchanged": true,
-      "requires": "Rebind accepted money successor and exact source before separate one-time run",
-      "product_changes": 0
+      "status": "RUNNING_ACTUAL_OW08_SOURCE6_NOT_ACCEPTED",
+      "head": "6c89ddb46b471b8b5235913666b1410ad3f26c6a",
+      "tree": "78143b260e9e0191f73bd6fada2c8c72b83736a2",
+      "branch": "astra-a/ow08b-source-browser-qualified-20261029",
+      "run_id": 40794662199,
+      "job_id": 123188077475,
+      "backend": "41caaaed02c0d89b122ecf1ff221f6647141c335",
+      "accepted_money": "2d4ed56eb20187c00e63cd0a0774385d320f53be",
+      "case_count": 6,
+      "paint4": "PASS_DIAGNOSTIC_ONLY_64353F4",
+      "production_go": false,
+      "independent_acceptance": false
     }
   },
   "vendor_receivable_20261029": {
@@ -488,40 +494,60 @@
       "independent_acceptance": false
     },
     "money_browser": {
-      "status": "RUNNING_LAYER_LIST_MEASUREMENT_SUCCESSOR_NOT_ACCEPTED",
+      "status": "PASS_ACTUAL_MONEY_BROWSER2_ACCEPTED_BY_A",
       "head": "2d4ed56eb20187c00e63cd0a0774385d320f53be",
       "tree": "173e0429c0220805cbee980579137c988c5d030d",
-      "branch": "astra-a/ow08b-money-browser-layers-20261029",
       "run_id": 40789668297,
       "job_id": 123171442637,
+      "artifact_id": 12863121496,
+      "receipt": "docs/cp7/d17-14/ow08/vendor-money2d4-pass.json",
       "backend": "41caaaed02c0d89b122ecf1ff221f6647141c335",
-      "first_failure": "docs/cp7/d17-14/ow08/vendor-money9fde-layer-incomplete.json",
-      "local_controls": {
-        "contrast": 19,
-        "admission": 4
+      "complete_cases": 2,
+      "owner_C": "BOTH_CREDIT_NEXT_INVOICE_AND_CASH_BANK_REFUND",
+      "full_restoration": true,
+      "package_gates": {
+        "installed": true,
+        "primary_unchanged": true,
+        "backup_restore_drill": true,
+        "security_advisors": true,
+        "writer_runtime": true
       },
-      "source_admission": "PASS_EXACT_BACKEND11_CLIENT6_PARENT193_FIRST18_AND_FIRST9FDE",
-      "product_delta": "NONE_VS_9fde_CLIENT6_AND_RUNTIME_UNCHANGED",
-      "real_Chromium_paint_preflight": "RUN_BEFORE_DATABASE_NOT_AUTH_OR_MONEY_EVIDENCE",
-      "actual_browser_PASS_claim": false,
-      "B_browser_repeated": false,
       "production_go": false,
       "independent_acceptance": false
     },
     "selective_intake": {
-      "head": "eebc24857f4e756740cff3fc366d1301eeb4e797",
-      "tree": "cd2faa6600485679699687d1c6897543a0d74431",
-      "branch": "astra-a/ow08b-vendor-final-intake-prepared-20261029",
-      "base_A": "3a0c947d66c73dcb87be10cb6a543da6c234d92d",
+      "status": "ADOPTED_QUALIFIED_COMPONENT_TEN_SELECTIVE_ENTRIES",
+      "base_A": "01d3bff1142a28351c70a5cc9a6c751cfa2a5523",
       "selected_entries": 10,
-      "status": "PREPARED_CLOSED_ACTUAL_LAYER_LIST_BROWSER_SUCCESSOR_REQUIRED_NOT_MAIN",
-      "default_registration": false,
-      "old_B_graph79_unchanged": true,
-      "finite_text_contrast_at_least_4_5_required": true
+      "source_checker": "scripts/current-vendor-integration-source/check.py",
+      "current_installation_entrypoint": {
+        "module": "cp7_vendor_receivable.composition",
+        "path": "scripts/cp7_vendor_receivable/composition.py",
+        "install": "install",
+        "verify": "verify",
+        "rollback_preuse": "rollback_preuse"
+      },
+      "backend_head": "41caaaed02c0d89b122ecf1ff221f6647141c335",
+      "browser_head": "2d4ed56eb20187c00e63cd0a0774385d320f53be",
+      "formal_acceptance_unchanged": true
     },
     "formal": "5/16",
     "production_go": false,
     "first_browser_failure": "docs/cp7/d17-14/ow08/vendor-money18-first-incomplete.json",
-    "layer_list_failure": "docs/cp7/d17-14/ow08/vendor-money9fde-layer-incomplete.json"
+    "layer_list_failure": "docs/cp7/d17-14/ow08/vendor-money9fde-layer-incomplete.json",
+    "local_integration_validation": {
+      "tested_local_head": "9ddd8a18e7101d80fbae90bf3cc6c8cdf0fa5a27",
+      "test_files": 4,
+      "tests": 67,
+      "failures": 0,
+      "test_report_sha256": "895d21c6bec26c77e45805257c9ee54fb2b83a579cd5283cfd0c6e3412d419f5",
+      "admission_controls": 9,
+      "source_admission": "PASS_QUALIFIED_SELECTIVE_VENDOR_INTEGRATION",
+      "B_graph79_unchanged": true,
+      "B_driver_unchanged": true,
+      "typecheck_full_build_source_access_CSS_secret_scan": "PASS",
+      "build_log_sha256": "d5fc08b381993ecdc021d6f33d3b315c8b0885ce6175374a377e7e346a7e4a31",
+      "new_Auth_or_DB_runs": 0
+    }
   }
 }

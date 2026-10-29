@@ -67,10 +67,53 @@
         "scripts/cp7-src/snapshot/facades.sql",
         "src/nativeStagedJob.ts"
       ],
-      "retained_component_evidence_refs": [],
-      "next_action": "Reconcile exact required behavior/case IDs, source hashes and final-candidate scope; use existing evidence when unchanged. No automatic PASS from this link.",
+      "retained_component_evidence_refs": [
+        "docs/cp7/d17-14/ow15/A_B_DRIVER_BROWSER_3194_INTAKE_20261028.json"
+      ],
+      "next_action": "Reuse accepted staged request/progress/finance/reopen/access evidence. B owns remaining calculator/popup/drill/filter screen reconciliation; A binds final backend and the complete business-table/sequence no-DML comparator for the distinct remaining paths. Do not repeat the accepted pair or close the whole packet from its label.",
       "original_preparation_status": "PLANNED_NOT_STARTED",
-      "current_runtime_status": "NOT_INFERRED_FROM_SEPTEMBER_STATUS"
+      "current_runtime_status": "RETAINED_ANALYSIS_BROWSER2_PARTIAL_SCOPE_MATCHED_NOT_ALL_PACKET",
+      "retained_evidence_match": {
+        "checked_against_A": "01d3bff1142a28351c70a5cc9a6c751cfa2a5523",
+        "qualified_candidate": "f5e4a0eb98f52c7615c3f4fb2459128bc76ed007",
+        "backend_head": "3194b9c56be7af86ee45ccb1c6605204a712f91b",
+        "run_id": 40697846383,
+        "job_id": 122849290624,
+        "artifact_id": 12824760687,
+        "receipt_sha256": "14d33514cd88aea45899d9deaf59c25dbd109fac87020335ceb9ca0225eaf9dc",
+        "actual_original": {
+          "name": "CP7_D17_18_COMBINED_FINANCE_UI_BROWSER2.json",
+          "bytes": 4650825,
+          "sha256": "24499308e50aa065606e7b84f5e250f1a7eb77cb3fbfe0049230a1c1621b0d70"
+        },
+        "actual_unique_case_ids": [
+          "A_PROGRESS_FINANCE_BROWSER_DESKTOP_REAL_AUTH_LOST_REPLY_REPLAY_OFFICIAL24",
+          "A_PROGRESS_FINANCE_BROWSER_MOBILE_REAL_AUTH_BLOCKED_REPORT_ACCESS_REVOKED"
+        ],
+        "retained_actual_cases": 2,
+        "new_actual_case_credit": 0,
+        "unchanged_leaf_sha256": {
+          "src/NativeAnalysisPanel.tsx": "ed1babe4025c6f62935f965f7b75b2d12958fffdd3d5d9a4f03ba810808faffe",
+          "src/NativeAnalysisFinancePanel.tsx": "9c03e2f868897f67dc6a2705229da995a7da4483f3ba0ab2086cbc76bead85e4",
+          "src/nativeStagedJob.ts": "369bf0b398ac6c43de47016f56ea9645a1908252a59ca106c2c21392ad88ecb2",
+          "scripts/current-finance-combined-browser-qualification/browser.mjs": "91fdfe2b4328661d92c6012079c6c8f74826f53d04225600b5d299988cbbda73",
+          "scripts/current-finance-combined-browser-qualification/browser_fixture.py": "3acd9ba7b5a6df6e3ca5cfc3ecc39f09950dbee3b937edd4c00d1d12f4c5b70c"
+        },
+        "physical_comparator": {
+          "path": "scripts/cp7_plan_native_cases.py",
+          "function": "monetary_state",
+          "sha256": "25d066c8468e914f5f0d8b0f9b7f75c296d7079930372bf59d98929914f5a080",
+          "exact_tables": [
+            "material_stock_movements",
+            "fg_stock_movements",
+            "journal_entries",
+            "journal_lines",
+            "materials"
+          ]
+        },
+        "proven_scope": "Two accepted real-Auth desktop/mobile staged-analysis journeys compare complete rows in the five listed tables before/after requests, progress, finance completion, reload and permission withdrawal; sealed operational original/pages/metadata remain unchanged. Official finance sections and 24 metrics match the retained independent book signature.",
+        "boundary": "The five-table comparator does not independently cover all HPP versions, invoices, cutting documents, reservations or WIP tables. An official result equality check is not a before/after no-DML proof for those tables. These journeys do not click the calculator, popup, drill-down or filter paths. Private SQL finance advancement and initial transport injections remain labelled; this is not new cron/factory acceptance."
+      }
     },
     "P03": {
       "title": "Identity, status produksi, lineage",
@@ -230,10 +273,53 @@
         "src/NativeAnalysisFinancePanel.tsx",
         "src/nativeStagedJob.ts"
       ],
-      "retained_component_evidence_refs": [],
-      "next_action": "Reconcile exact required behavior/case IDs, source hashes and final-candidate scope; use existing evidence when unchanged. No automatic PASS from this link.",
+      "retained_component_evidence_refs": [
+        "docs/cp7/d17-14/ow15/A_B_DRIVER_BROWSER_3194_INTAKE_20261028.json"
+      ],
+      "next_action": "Reuse accepted staged request/progress/finance/reopen/access evidence. B owns remaining calculator/popup/drill/filter screen reconciliation; A binds final backend and the complete business-table/sequence no-DML comparator for the distinct remaining paths. Do not repeat the accepted pair or close the whole packet from its label.",
       "original_preparation_status": "PLANNED_NOT_STARTED",
-      "current_runtime_status": "NOT_INFERRED_FROM_SEPTEMBER_STATUS"
+      "current_runtime_status": "RETAINED_ANALYSIS_BROWSER2_PARTIAL_SCOPE_MATCHED_NOT_ALL_PACKET",
+      "retained_evidence_match": {
+        "checked_against_A": "01d3bff1142a28351c70a5cc9a6c751cfa2a5523",
+        "qualified_candidate": "f5e4a0eb98f52c7615c3f4fb2459128bc76ed007",
+        "backend_head": "3194b9c56be7af86ee45ccb1c6605204a712f91b",
+        "run_id": 40697846383,
+        "job_id": 122849290624,
+        "artifact_id": 12824760687,
+        "receipt_sha256": "14d33514cd88aea45899d9deaf59c25dbd109fac87020335ceb9ca0225eaf9dc",
+        "actual_original": {
+          "name": "CP7_D17_18_COMBINED_FINANCE_UI_BROWSER2.json",
+          "bytes": 4650825,
+          "sha256": "24499308e50aa065606e7b84f5e250f1a7eb77cb3fbfe0049230a1c1621b0d70"
+        },
+        "actual_unique_case_ids": [
+          "A_PROGRESS_FINANCE_BROWSER_DESKTOP_REAL_AUTH_LOST_REPLY_REPLAY_OFFICIAL24",
+          "A_PROGRESS_FINANCE_BROWSER_MOBILE_REAL_AUTH_BLOCKED_REPORT_ACCESS_REVOKED"
+        ],
+        "retained_actual_cases": 2,
+        "new_actual_case_credit": 0,
+        "unchanged_leaf_sha256": {
+          "src/NativeAnalysisPanel.tsx": "ed1babe4025c6f62935f965f7b75b2d12958fffdd3d5d9a4f03ba810808faffe",
+          "src/NativeAnalysisFinancePanel.tsx": "9c03e2f868897f67dc6a2705229da995a7da4483f3ba0ab2086cbc76bead85e4",
+          "src/nativeStagedJob.ts": "369bf0b398ac6c43de47016f56ea9645a1908252a59ca106c2c21392ad88ecb2",
+          "scripts/current-finance-combined-browser-qualification/browser.mjs": "91fdfe2b4328661d92c6012079c6c8f74826f53d04225600b5d299988cbbda73",
+          "scripts/current-finance-combined-browser-qualification/browser_fixture.py": "3acd9ba7b5a6df6e3ca5cfc3ecc39f09950dbee3b937edd4c00d1d12f4c5b70c"
+        },
+        "physical_comparator": {
+          "path": "scripts/cp7_plan_native_cases.py",
+          "function": "monetary_state",
+          "sha256": "25d066c8468e914f5f0d8b0f9b7f75c296d7079930372bf59d98929914f5a080",
+          "exact_tables": [
+            "material_stock_movements",
+            "fg_stock_movements",
+            "journal_entries",
+            "journal_lines",
+            "materials"
+          ]
+        },
+        "proven_scope": "Two accepted real-Auth desktop/mobile staged-analysis journeys compare complete rows in the five listed tables before/after requests, progress, finance completion, reload and permission withdrawal; sealed operational original/pages/metadata remain unchanged. Official finance sections and 24 metrics match the retained independent book signature.",
+        "boundary": "The five-table comparator does not independently cover all HPP versions, invoices, cutting documents, reservations or WIP tables. An official result equality check is not a before/after no-DML proof for those tables. These journeys do not click the calculator, popup, drill-down or filter paths. Private SQL finance advancement and initial transport injections remain labelled; this is not new cron/factory acceptance."
+      }
     },
     "P15": {
       "title": "Business Report on-demand",
@@ -3468,9 +3554,22 @@
         "E18"
       ],
       "unresolved_original_case_refs": [],
-      "disposition": "IMPLEMENTATION_LOCATED_EXACT_FINAL_EVIDENCE_MATCH_PENDING",
-      "next_action": "Map this exact requirement to retained Original case(s) and source; run only changed/unproven coverage. This row is not a runtime verdict.",
-      "original_preparation_status": "NOT_RUN"
+      "disposition": "PARTIAL_RETAINED_ACTUAL_EVIDENCE_MATCHED_REMAINING_SCOPE_EXPLICIT",
+      "next_action": "Policy changes, plan confirmation and exports outside actor scope require their own exact evidence; this read/replay subset does not close those writes.",
+      "original_preparation_status": "NOT_RUN",
+      "additional_evidence_matches": [
+        {
+          "receipt": "docs/cp7/d17-14/ow15/A_B_DRIVER_BROWSER_3194_INTAKE_20261028.json",
+          "case_ids": [
+            "A_PROGRESS_FINANCE_BROWSER_DESKTOP_REAL_AUTH_LOST_REPLY_REPLAY_OFFICIAL24",
+            "A_PROGRESS_FINANCE_BROWSER_MOBILE_REAL_AUTH_BLOCKED_REPORT_ACCESS_REVOKED"
+          ],
+          "same_source_leaf_binding": "packets.P14.retained_evidence_match",
+          "proven_scope": "Actual foreign/anonymous read rejection and mobile finance permission withdrawal hide the result; current role required on saved-UUID replay."
+        }
+      ],
+      "remaining_gap": "Policy changes, plan confirmation and exports outside actor scope require their own exact evidence; this read/replay subset does not close those writes.",
+      "closure_owner": "B_PRODUCT_BROWSER_A_BACKEND_BINDING_AND_ACCEPTANCE"
     },
     {
       "id": "CP7-15",
@@ -3679,9 +3778,22 @@
         "E10"
       ],
       "unresolved_original_case_refs": [],
-      "disposition": "IMPLEMENTATION_LOCATED_EXACT_FINAL_EVIDENCE_MATCH_PENDING",
-      "next_action": "Map this exact requirement to retained Original case(s) and source; run only changed/unproven coverage. This row is not a runtime verdict.",
-      "original_preparation_status": "NOT_RUN"
+      "disposition": "PARTIAL_RETAINED_ACTUAL_EVIDENCE_MATCHED_REMAINING_SCOPE_EXPLICIT",
+      "next_action": "Calculator/popup/drill/filter and plan-apply source revalidation remain separate. For no-DML acceptance, cover every required business table/sequence including HPP, invoices, cutting, reservations and WIP, not only the retained five-table helper. Preserve the accepted staged/AI subsets without rerunning them for totals.",
+      "original_preparation_status": "NOT_RUN",
+      "additional_evidence_matches": [
+        {
+          "receipt": "docs/cp7/d17-14/ow15/A_B_DRIVER_BROWSER_3194_INTAKE_20261028.json",
+          "case_ids": [
+            "A_PROGRESS_FINANCE_BROWSER_DESKTOP_REAL_AUTH_LOST_REPLY_REPLAY_OFFICIAL24",
+            "A_PROGRESS_FINANCE_BROWSER_MOBILE_REAL_AUTH_BLOCKED_REPORT_ACCESS_REVOKED"
+          ],
+          "same_source_leaf_binding": "packets.P14.retained_evidence_match",
+          "proven_scope": "Two accepted real-Auth desktop/mobile staged-analysis journeys compare complete rows in the five listed tables before/after requests, progress, finance completion, reload and permission withdrawal; sealed operational original/pages/metadata remain unchanged. Official finance sections and 24 metrics match the retained independent book signature."
+        }
+      ],
+      "remaining_gap": "Calculator/popup/drill/filter and plan-apply source revalidation remain separate. For no-DML acceptance, cover every required business table/sequence including HPP, invoices, cutting, reservations and WIP, not only the retained five-table helper. Preserve the accepted staged/AI subsets without rerunning them for totals.",
+      "closure_owner": "B_PRODUCT_BROWSER_A_BACKEND_BINDING_AND_ACCEPTANCE"
     },
     {
       "id": "CP7-24",
@@ -3928,7 +4040,7 @@
       ],
       "unresolved_original_case_refs": [],
       "disposition": "PARTIAL_RETAINED_ACTUAL_EVIDENCE_MATCHED_REMAINING_SCOPE_EXPLICIT",
-      "next_action": "Map calculator, popup, drill-down and filter no-DML evidence independently to P02/P14; bind current final dependency source. The AI-only evidence cannot close all FG/WIP/HPP/journal/invoice/cut/reservation UI paths.",
+      "next_action": "Calculator/popup/drill/filter and plan-apply source revalidation remain separate. For no-DML acceptance, cover every required business table/sequence including HPP, invoices, cutting, reservations and WIP, not only the retained five-table helper. Preserve the accepted staged/AI subsets without rerunning them for totals.",
       "original_preparation_status": "NOT_RUN",
       "evidence_match": {
         "receipt": "docs/cp7/d17-14/ow03/CI_39420750772_AI.json",
@@ -3940,8 +4052,19 @@
         "proven_scope": "Retained Native brief reads without business writes, rejects permission loss and retains snapshot values while concurrent legitimate stock commits occur. This is the AI-brief subset of the requirement.",
         "same_source_leaf_binding": "packets.P17.retained_evidence_match"
       },
-      "remaining_gap": "Map calculator, popup, drill-down and filter no-DML evidence independently to P02/P14; bind current final dependency source. The AI-only evidence cannot close all FG/WIP/HPP/journal/invoice/cut/reservation UI paths.",
-      "closure_owner": "B_PRODUCT_BROWSER_A_BACKEND_BINDING_AND_ACCEPTANCE"
+      "remaining_gap": "Calculator/popup/drill/filter and plan-apply source revalidation remain separate. For no-DML acceptance, cover every required business table/sequence including HPP, invoices, cutting, reservations and WIP, not only the retained five-table helper. Preserve the accepted staged/AI subsets without rerunning them for totals.",
+      "closure_owner": "B_PRODUCT_BROWSER_A_BACKEND_BINDING_AND_ACCEPTANCE",
+      "additional_evidence_matches": [
+        {
+          "receipt": "docs/cp7/d17-14/ow15/A_B_DRIVER_BROWSER_3194_INTAKE_20261028.json",
+          "case_ids": [
+            "A_PROGRESS_FINANCE_BROWSER_DESKTOP_REAL_AUTH_LOST_REPLY_REPLAY_OFFICIAL24",
+            "A_PROGRESS_FINANCE_BROWSER_MOBILE_REAL_AUTH_BLOCKED_REPORT_ACCESS_REVOKED"
+          ],
+          "same_source_leaf_binding": "packets.P14.retained_evidence_match",
+          "proven_scope": "Two accepted real-Auth desktop/mobile staged-analysis journeys compare complete rows in the five listed tables before/after requests, progress, finance completion, reload and permission withdrawal; sealed operational original/pages/metadata remain unchanged. Official finance sections and 24 metrics match the retained independent book signature."
+        }
+      ]
     },
     {
       "id": "CROSS-T01",

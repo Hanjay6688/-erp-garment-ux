@@ -1,0 +1,233 @@
+{
+  "pin": {
+    "head": "2d4ed56eb20187c00e63cd0a0774385d320f53be",
+    "tree": "173e0429c0220805cbee980579137c988c5d030d",
+    "run_id": 40789668297,
+    "job_id": 123171442637,
+    "artifact_id": 12863121496,
+    "zip_bytes": 4258622,
+    "zip_sha256": "81f17358ca56f92c8bec4610e2b6d3978667624970e892d2c2c0c5728196f58d",
+    "original": {
+      "name": "CP7_VENDOR_MONEY_BROWSER2.json",
+      "bytes": 2621520,
+      "sha256": "7439d670aab99bdf2fa59f82f1b91cb16bca4fbbb10ccba3baa94af805f5d47c",
+      "path": "docs/cp7/d17-14/ow08/vendor-money2d4-pass/CP7_VENDOR_MONEY_BROWSER2.json.gz"
+    },
+    "package": {
+      "name": "T3_PACKAGE_INSTALL.json",
+      "bytes": 360404,
+      "sha256": "b7614b84e89537a6913b64a141e51f5396e61e3123197ce0212698baa822a30a",
+      "path": "docs/cp7/d17-14/ow08/vendor-money2d4-pass/T3_PACKAGE_INSTALL.json.gz"
+    }
+  },
+  "status": "PASS_ACTUAL_MONEY_BROWSER2_ACCEPTED_BY_A",
+  "job_conclusions": {
+    "123171442637": "success"
+  },
+  "browser_counts": {
+    "PASS": 2
+  },
+  "host_status": "RUN_COMPLETE",
+  "host_exit": 0,
+  "restoration": {
+    "cp6_restored": true,
+    "advisor_gate": true,
+    "baseline_full22_all_rows_all_sequences_equal": true,
+    "baseline_advisors_equal": true,
+    "used_guard_refused_before_DDL": true
+  },
+  "package_gates": {
+    "installed": true,
+    "primary_unchanged": true,
+    "backup_restore_drill": true,
+    "security_advisors": true,
+    "writer_runtime": true
+  },
+  "cases": {
+    "VENDOR_MONEY_BROWSER_DESKTOP_REFUND_INVERSE_HISTORY": {
+      "status": "PASS",
+      "actual_refund_posted_from_screen": true,
+      "actual_refund_inverse_from_screen": true,
+      "actual_next_invoice_credit_from_screen": true,
+      "actual_committed_reply_lost_reload_same_UUID_once": true,
+      "actual_access_revoked_and_money_hidden": false,
+      "financial_truth_report_checks_no_new_issues": true,
+      "width": {
+        "viewport": 1440,
+        "page": 1440
+      },
+      "shots": [
+        "cp6-proof/t3/A_VENDOR_MONEY_DESKTOP_REFUND.png",
+        "cp6-proof/t3/A_VENDOR_MONEY_DESKTOP_INVERSE.png",
+        "cp6-proof/t3/A_VENDOR_MONEY_DESKTOP_NEXT_INVOICE_APPLIED.png"
+      ]
+    },
+    "VENDOR_MONEY_BROWSER_MOBILE_REFUND_ACCESS_HIDDEN": {
+      "status": "PASS",
+      "actual_refund_posted_from_screen": true,
+      "actual_refund_inverse_from_screen": false,
+      "actual_next_invoice_credit_from_screen": false,
+      "actual_committed_reply_lost_reload_same_UUID_once": false,
+      "actual_access_revoked_and_money_hidden": true,
+      "financial_truth_report_checks_no_new_issues": true,
+      "width": {
+        "viewport": 390,
+        "page": 390
+      },
+      "shots": [
+        "cp6-proof/t3/A_VENDOR_MONEY_MOBILE_REFUND.png",
+        "cp6-proof/t3/A_VENDOR_MONEY_MOBILE_ACCESS_HIDDEN.png"
+      ]
+    }
+  },
+  "first_failures": [],
+  "acceptance": {
+    "status": "EXACT_ACTUAL_MONEY_BROWSER2_ACCEPTABLE_TO_INTEGRATOR",
+    "head": "2d4ed56eb20187c00e63cd0a0774385d320f53be",
+    "backend_head": "41caaaed02c0d89b122ecf1ff221f6647141c335",
+    "fresh_browser": 2,
+    "direct_existing_complete_installer": true,
+    "actual_both_credit_and_refund_inverse_loss_recovery_and_access_revoke": true
+  },
+  "actual_browser": 2,
+  "retained_backend11": 11,
+  "visual_review": {
+    "status": "PASS_WRITER_VISUAL_REVIEW",
+    "head": "2d4ed56eb20187c00e63cd0a0774385d320f53be",
+    "run_id": 40789668297,
+    "images_inspected": [
+      {
+        "member": "A_VENDOR_MONEY_DESKTOP_REFUND.png",
+        "local_path": "/workspace/scratch/a4de608c9031/vendor-money2d4-visual-review/A_VENDOR_MONEY_DESKTOP_REFUND.png",
+        "sha256": "df51514a7bcc3efe4119b8ebfc573ea5f7f1d1f23b3444300011bb0d955f1339",
+        "width": 1440,
+        "height": 1806
+      },
+      {
+        "member": "A_VENDOR_MONEY_DESKTOP_INVERSE.png",
+        "local_path": "/workspace/scratch/a4de608c9031/vendor-money2d4-visual-review/A_VENDOR_MONEY_DESKTOP_INVERSE.png",
+        "sha256": "a5bcf0aa4f93fe53db98cddfb02a5245b34c47e3b50d256c991608a0d46fefd9",
+        "width": 1440,
+        "height": 1859
+      },
+      {
+        "member": "A_VENDOR_MONEY_DESKTOP_NEXT_INVOICE_APPLIED.png",
+        "local_path": "/workspace/scratch/a4de608c9031/vendor-money2d4-visual-review/A_VENDOR_MONEY_DESKTOP_NEXT_INVOICE_APPLIED.png",
+        "sha256": "190e7d221acfda1174331c0d485104387ccdba253bc06b4e725ca98a4bc83a72",
+        "width": 1440,
+        "height": 1859
+      },
+      {
+        "member": "A_VENDOR_MONEY_MOBILE_REFUND.png",
+        "local_path": "/workspace/scratch/a4de608c9031/vendor-money2d4-visual-review/A_VENDOR_MONEY_MOBILE_REFUND.png",
+        "sha256": "cce79a88447b6dce9d39dc7dd24878accb365c95f9bf16b26b67e9c857910788",
+        "width": 390,
+        "height": 3060
+      },
+      {
+        "member": "A_VENDOR_MONEY_MOBILE_ACCESS_HIDDEN.png",
+        "local_path": "/workspace/scratch/a4de608c9031/vendor-money2d4-visual-review/A_VENDOR_MONEY_MOBILE_ACCESS_HIDDEN.png",
+        "sha256": "22234f58eac81d0205e400acbb7e48be1dba05fdfd3cfb4d26fe07353cdf9991",
+        "width": 390,
+        "height": 2539
+      }
+    ],
+    "numeric_review": {
+      "VENDOR_MONEY_BROWSER_DESKTOP_REFUND_INVERSE_HISTORY": {
+        "minimum_contrast": 11.024551861224253,
+        "text_measurements": 269,
+        "width": {
+          "viewport": 1440,
+          "page": 1440
+        },
+        "unexpected_console_errors": 0,
+        "financial_checks": [
+          {
+            "label": "AFTER_REFUND",
+            "detectors": 96,
+            "nonzero": {}
+          },
+          {
+            "label": "AFTER_INVERSE",
+            "detectors": 96,
+            "nonzero": {}
+          },
+          {
+            "label": "AFTER_NEXT_INVOICE_CREDIT",
+            "detectors": 96,
+            "nonzero": {}
+          }
+        ]
+      },
+      "VENDOR_MONEY_BROWSER_MOBILE_REFUND_ACCESS_HIDDEN": {
+        "minimum_contrast": 11.024551861224253,
+        "text_measurements": 80,
+        "width": {
+          "viewport": 390,
+          "page": 390
+        },
+        "unexpected_console_errors": 0,
+        "financial_checks": [
+          {
+            "label": "AFTER_REFUND",
+            "detectors": 96,
+            "nonzero": {}
+          },
+          {
+            "label": "AFTER_ACCESS_REVOKE",
+            "detectors": 96,
+            "nonzero": {}
+          }
+        ]
+      }
+    },
+    "observations": [
+      "Desktop refund leaves receivable1999.75; inverse restores3000.00; next-invoice credit leaves1999.75 and invoice balance0.00 with paid status.",
+      "Mobile refund shows2249.90; access withdrawal removes monetary section and shows permission-required text.",
+      "Captured desktop1440/mobile390 layouts remain within page width; long tables use local scrolling. All measured money text is >=4.5 and console has no unexpected error."
+    ],
+    "limits": [
+      "Full-page PNGs show balances/invoice and revoked-access states; controls/history below internal scrolling are not all pictured. Actual click/RPC/DOM assertions, not those PNGs alone, prove refund/inverse/credit controls.",
+      "Fixed navigation appears at the retained scroll position in full-page PNGs; no new full-site visual or physical-device acceptance claim.",
+      "Fixture setup creates invoice/credit through retained Native writers; not screen creation or production acceptance."
+    ],
+    "extraction_note": "First local screenshot lookup expected a directory prefix; artifact images are root members. Exact filename lookup corrected without changing originals or rerunning browser.",
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "production_go": false,
+  "independent_acceptance": false,
+  "integration": {
+    "base_A": "01d3bff1142a28351c70a5cc9a6c751cfa2a5523",
+    "selective_source_entries": 10,
+    "config": "scripts/current-vendor-integration-source/CONFIG.json",
+    "old_B_browser_repeated": false,
+    "old_B_branch_merged": false,
+    "current_installation_entrypoint": {
+      "module": "cp7_vendor_receivable.composition",
+      "path": "scripts/cp7_vendor_receivable/composition.py",
+      "install": "install",
+      "verify": "verify",
+      "rollback_preuse": "rollback_preuse"
+    }
+  },
+  "limits": [
+    "Retained Native invoice/credit fixture creation is not screen creation.",
+    "Private disposable Auth browser only; no hosted change or delivery claim.",
+    "Source6 and all-parent CP7/CP6/auditor acceptance remain separate."
+  ],
+  "A_selective_integration_validation": {
+    "tested_local_head": "9ddd8a18e7101d80fbae90bf3cc6c8cdf0fa5a27",
+    "test_files": 4,
+    "tests": 67,
+    "failures": 0,
+    "test_report_sha256": "895d21c6bec26c77e45805257c9ee54fb2b83a579cd5283cfd0c6e3412d419f5",
+    "admission_controls": 9,
+    "source_admission": "PASS_QUALIFIED_SELECTIVE_VENDOR_INTEGRATION",
+    "B_graph79_unchanged": true,
+    "B_driver_unchanged": true,
+    "typecheck_full_build_source_access_CSS_secret_scan": "PASS",
+    "build_log_sha256": "d5fc08b381993ecdc021d6f33d3b315c8b0885ce6175374a377e7e346a7e4a31",
+    "new_Auth_or_DB_runs": 0
+  }
+}
