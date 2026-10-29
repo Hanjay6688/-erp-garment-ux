@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "<string>", line 5, in <module>
+  File "/workspace/scratch/ef468a447ac6/erp-attendance-zero/scripts/cp7_attendance_period_choice/installer_ddl.py", line 54, in plan_inventory
+    raise ValueError('CP7_S03_PRIVATE_SCHEMA_RAW_NULL_GRANT_NOT_ADMITTED:'+row['schema'])
+ValueError: CP7_S03_PRIVATE_SCHEMA_RAW_NULL_GRANT_NOT_ADMITTED:cp7_hpp_pool
+JSON report written to /tmp/s03-installer-causal-first5.json

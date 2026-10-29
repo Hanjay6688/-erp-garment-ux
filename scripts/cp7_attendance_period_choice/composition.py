@@ -9,6 +9,7 @@ from hashlib import sha256
 from cp7_vendor_receivable import composition as predecessor
 from cp7_laundry_unknown_wash.composition import as_owner
 from . import native_delta
+from .installer_ddl import existing_schema_ddl
 from .catalog_contract import SCHEMA,TABLES,PUBLIC,declared_functions,transition
 
 HERE=Path(__file__).resolve().parent;ROOT=HERE.parents[1]
@@ -20,7 +21,7 @@ def parent():return predecessor
 def runtime():return predecessor.runtime()
 def sources():
     return dict(contract=CONTRACT,predecessor=predecessor.sources(),files={str((HERE/name).relative_to(ROOT)):sha256((HERE/name).read_bytes()).hexdigest()
-        for name in('choice.sql','native_delta.py','catalog_contract.py','NEW_CATALOG_IDENTITIES.json','composition.py')},new_public_RPC=len(PUBLIC),qualification_only=True,production_go=False,independent_acceptance=False)
+        for name in('choice.sql','readers.sql','native_delta.py','catalog_contract.py','NEW_CATALOG_IDENTITIES.json','composition.py','installer_ddl.py')},new_public_RPC=len(PUBLIC),qualification_only=True,production_go=False,independent_acceptance=False)
 
 def binding(catalog,prior,proof):
     return catalog.digest(dict(sources=prior['sources'],before=prior['before'],after=prior['after'],proof=proof,
@@ -52,7 +53,8 @@ def verify(cur,state):
             if cur.execute("select has_function_privilege(%s,%s,'EXECUTE')",(role,signature)).fetchone()[0]!=allowed:raise ValueError('CP7_S03_FUNCTION_EXPOSED:'+role+':'+signature)
     return dict(status='CP7_S03_EXACT_SOURCE_ACTUAL_ALL22',actual_parent_verified_before_delta=True,projected_catalog=False,
         Native_changed_functions=list(native_delta.NATIVE_SIGNATURES),existing_private_facade_changed=native_delta.FACADE,
-        actual_captured_originals=13,Native_source_manifest_builder_unchanged=True,
+        existing_private_readers_changed=list(native_delta.READER_SIGNATURES),
+        actual_captured_originals=15,Native_source_manifest_builder_unchanged=True,
         Native_HPP_and_journal_primitives_unchanged=True,source_and_output_periods_separate=True,
         payroll_recognition_at_APPROVED_unchanged=True,PAID_and_E05_reopen_remain_settlement=True,
         local_qualification_is_not_Native_Auth_or_browser_PASS=True,production_go=False,independent_acceptance=False)
@@ -67,12 +69,14 @@ def install_delta(cur,prior):
         if any(before['functions'][sig][1]!='postgres'for sig in originals):raise ValueError('CP7_S03_NATIVE_OWNER_CHANGED')
         CAPTURED.clear();CAPTURED.update(originals)
         patched=native_delta.patched(originals);clones=native_delta.clones(originals)
-        with as_owner(cur,'postgres'):
+        with as_owner(cur,'postgres'),existing_schema_ddl(cur)as ddl_authority:
             cur.execute((HERE/'choice.sql').read_text(),prepare=False)
+            cur.execute((HERE/'readers.sql').read_text(),prepare=False)
             for definition in clones.values():cur.execute(definition,prepare=False)
             cur.execute('revoke all on all functions in schema '+SCHEMA+' from public,anon,authenticated,service_role',prepare=False)
             for definition in patched.values():cur.execute(definition,prepare=False)
         state=dict(sources=sources(),predecessor=prior,parent_proof=proof,parent_binding=binding(catalog,prior,proof),
+            private_schema_ddl_inventory=ddl_authority['before'],
             before=before,before_data=data,originals=originals,definitions=patched,clones=clones,after=catalog._catalog_rows(cur),
             preuse_data_and_sequences=catalog._data(cur),preinstall_data_and_sequences=prior['preinstall_data_and_sequences'])
         transition(before,state['after'],patched);verify(cur,state);return state
@@ -86,7 +90,7 @@ def rollback_delta_preuse(cur,state):
     with base.atomic(cur):
         base.predecessor.predecessor._locks(cur);verify(cur,state);catalog._lock_tables(cur)
         if catalog._data(cur)!=state['preuse_data_and_sequences']:raise ValueError(USED_ERROR)
-        with as_owner(cur,'postgres'):
+        with as_owner(cur,'postgres'),existing_schema_ddl(cur):
             for original in state['originals'].values():cur.execute(original,prepare=False)
             for signature in PUBLIC:cur.execute('drop function '+signature)
             cur.execute('drop schema '+SCHEMA+' cascade')

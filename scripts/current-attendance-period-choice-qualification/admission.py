@@ -8,10 +8,10 @@ RETAINED=ROOT/'docs/cp7/d17-14/ow08/vendor-combined41c-pass'
 HEAD='41caaaed02c0d89b122ecf1ff221f6647141c335'
 WIRE_SHA='931e62848f6861e24190e76cb0efbd8aa032cb514bf0f0b5af362d62cbe12bbd'
 OWN_FILES=tuple('scripts/cp7_attendance_period_choice/'+name for name in(
- 'choice.sql','native_delta.py','catalog_contract.py','NEW_CATALOG_IDENTITIES.json','composition.py',
+ 'choice.sql','readers.sql','native_delta.py','catalog_contract.py','NEW_CATALOG_IDENTITIES.json','composition.py','installer_ddl.py',
  'WIRE_CONTRACT.md','SOURCE_DERIVED_NATIVE_ABI.json','local.test.ts','local_fixture.sql','local_catalog.py','render_local.py','test_source.py'))+tuple(
  'scripts/current-attendance-period-choice-qualification/'+name for name in('admission.py','fixtures.py','cases.py','test_plan.py'))
-COUNTS=dict(existing_native=12,existing_private_facade=1,captured_originals=13,private_native_clones=2,
+COUNTS=dict(existing_native=12,existing_private_facade=1,existing_private_readers=2,captured_originals=15,private_native_clones=2,
  prepared_native=11,actual_s03_native=0,actual_s03_real_Auth=0,actual_s03_browser=0)
 NATIVE_IDS=(
  'S03_NATIVE_OWNER_FIELDS_READ_FULL_NO_EFFECT',

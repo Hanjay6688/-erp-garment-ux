@@ -1,0 +1,42 @@
+{
+  "classification": "LOCAL_SOURCE_DERIVED_NATIVE_FUNCTIONS_ON_DECLARED_MODELS_NOT_ACTUAL_NATIVE_AUTH",
+  "first28": {
+    "PASS": 22,
+    "FAIL": 6,
+    "SKIP": 0,
+    "missing_model_dependency": "Five reader calls require app_users, absent from earlier local model",
+    "concrete_reader_failure": "Late exact-source P1 legacy preview READY despite current S03 hold"
+  },
+  "second28": {
+    "PASS": 23,
+    "FAIL": 5,
+    "SKIP": 0,
+    "all_original_financial22_assertions_unchanged": true,
+    "failures": [
+      "owned ACTIVE still advertises CANCEL",
+      "owned CANCELLED still advertises REPLACE",
+      "stale composite returns success instead of READ_CHANGED",
+      "ordinary exact-held historical pool still advertises REPLACE",
+      "late P1 output makes legacy preview READY/can_create despite exact S03 hold"
+    ]
+  },
+  "ordinary_disjoint_P2_json_and_preview_equal_old_reference": true,
+  "model_dependency_repair": "Exact retained P00 app_users column model only; no real Auth/Native schema claim",
+  "repair_applied": false,
+  "actual_Native_credit": 0,
+  "actual_Auth_credit": 0,
+  "production_go": false,
+  "independent_acceptance": false,
+  "fixed_old13_source_binding": "READER15_FROZEN13_SOURCE_BINDING.json",
+  "files": {
+    "choice.sql": "44499c6d6a06d1effc2be4f066168f5fa2fe9608b2ccb80d1d2d0b1dac0a8212",
+    "native_delta.py": "7a9576e136089b487920fe5c38088977491d342f87384c8e2e82ad128fcf6b90",
+    "local.test.ts": "e39ae2a40bbc8d99d702873b21df5d2d7dbdd4e8ba650dafd3a54edb93b52a41",
+    "local_fixture.sql": "f6b0c9f5d24c310b60a1fa857ec759ebddcfc503fd8e7757f34a01421237c572",
+    "SOURCE_DERIVED_NATIVE_ABI.json": "8116f9c8ca13852f74b945117f94cca210250f860b5b3d46ca3806dd51e444cf"
+  },
+  "originals": {
+    "LOCAL_READER28_FIRST_22PASS_6FAIL.json": "eb242f68acf7985c404674f6aaabd0751f13e013ba50a31ea7709621288f9fd3",
+    "LOCAL_READER28_SECOND_23PASS_5READER_FAIL.json": "78816a173afd85931a87fa96672632c22108aac194658b219918dbae3af45475"
+  }
+}

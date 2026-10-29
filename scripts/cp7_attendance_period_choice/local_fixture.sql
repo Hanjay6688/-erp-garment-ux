@@ -3,6 +3,7 @@
 create role anon;create role authenticated;create role service_role;
 create schema erp;create schema auth;create schema extensions;create schema local_s03;
 create schema cp7_hpp_close;
+create schema cp7_hpp_pool;
 create schema cp7_payroll;
 create table cp7_payroll.settlement_context(backend_pid integer not null,transaction_id bigint not null,actor uuid not null,
  payroll_id uuid not null,action text not null,primary key(backend_pid,transaction_id));

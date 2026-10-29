@@ -1,111 +1,77 @@
 {
-  "version": "cp7.s03.local-freeze.v1",
-  "created_at": "2026-10-29T19:33:58.056781+00:00",
-  "classification": "LOCAL_SOURCE_DERIVED_NATIVE_ROUTINES_ON_DECLARED_MODELS_NOT_ACTUAL_NATIVE_AUTH_BROWSER",
-  "candidate_parent_commit": "d8ce5b1fa1f259ddc116d5d8e879ee8bc79d7954",
-  "actual_S03_Native_original": null,
-  "production_go": false,
-  "independent_acceptance": false,
+  "version": "cp7.s03.reader15-installer7-local-freeze.v1",
+  "created_at": "2026-10-29T22:04:37.622831+00:00",
+  "classification": "LOCAL_PGLITE_SQL_ROLE_CAUSALITY_AND_PYTHON_SOURCE_API_CONTROLS_NOT_ACTUAL_NATIVE_AUTH_BROWSER",
   "counts": {
-    "local_SQL": {
-      "PASS": 22,
-      "FAIL": 0,
-      "SKIP": 0,
-      "TODO": 0
-    },
-    "local_source_catalog_undo": {
-      "PASS": 10,
-      "FAIL": 0,
-      "SKIP": 0
-    },
-    "local_preparation_admission": {
-      "PASS": 7,
-      "FAIL": 0,
-      "SKIP": 0
-    },
-    "existing_Native_hooks": 12,
-    "existing_private_settlement_facade_hook": 1,
-    "private_Native_clones": 2,
-    "declared_new_functions": 33,
-    "public_RPC": 3,
-    "prepared_Native_cases": 11,
-    "actual_Native_cases": 0,
-    "actual_Auth": 0,
-    "actual_browser": 0,
-    "declared_installer_captures": 13
-  },
-  "commands": [
-    "PYTHONDONTWRITEBYTECODE=1 node node_modules/vitest/vitest.mjs run scripts/cp7_attendance_period_choice/local.test.ts --maxWorkers=1 --no-file-parallelism --reporter=json --outputFile=/tmp/s03-freeze22.json",
-    "PYTHONDONTWRITEBYTECODE=1 python -B -m unittest discover -s scripts/cp7_attendance_period_choice -p test_source.py -v",
-    "PYTHONDONTWRITEBYTECODE=1 python -B -m unittest discover -s scripts/current-attendance-period-choice-qualification -p test_plan.py -v",
-    "python -B: compile(read_text(), file_path, exec) for all eleven own Python files; no bytecode files"
-  ],
-  "compiled_Python": [
-    "scripts/cp7_attendance_period_choice/__init__.py",
-    "scripts/cp7_attendance_period_choice/catalog_contract.py",
-    "scripts/cp7_attendance_period_choice/composition.py",
-    "scripts/cp7_attendance_period_choice/local_catalog.py",
-    "scripts/cp7_attendance_period_choice/native_delta.py",
-    "scripts/cp7_attendance_period_choice/render_local.py",
-    "scripts/cp7_attendance_period_choice/test_source.py",
-    "scripts/current-attendance-period-choice-qualification/admission.py",
-    "scripts/current-attendance-period-choice-qualification/cases.py",
-    "scripts/current-attendance-period-choice-qualification/fixtures.py",
-    "scripts/current-attendance-period-choice-qualification/test_plan.py"
-  ],
-  "source_manifest_sha256": "4b3ed812b18826d83086acfafb822321ea2c92a3d639678e9f8c04155de676b3",
-  "source_files": {
-    "scripts/cp7_attendance_period_choice/choice.sql": "44499c6d6a06d1effc2be4f066168f5fa2fe9608b2ccb80d1d2d0b1dac0a8212",
-    "scripts/cp7_attendance_period_choice/native_delta.py": "7a9576e136089b487920fe5c38088977491d342f87384c8e2e82ad128fcf6b90",
-    "scripts/cp7_attendance_period_choice/catalog_contract.py": "0f0c1266ddefc5133cd693ee208f61f8ea71e5a09ab1ba43b1b52afb910f6764",
-    "scripts/cp7_attendance_period_choice/NEW_CATALOG_IDENTITIES.json": "ef2f99de5ec4104b53f28121d923a44350e80354c67217b70d32231f955fce71",
-    "scripts/cp7_attendance_period_choice/composition.py": "1fd29c8c4cf736241347b6619242096edb409cb6a9d1dbb80533be5fdb45a49e",
-    "scripts/cp7_attendance_period_choice/WIRE_CONTRACT.md": "931e62848f6861e24190e76cb0efbd8aa032cb514bf0f0b5af362d62cbe12bbd",
-    "scripts/cp7_attendance_period_choice/SOURCE_DERIVED_NATIVE_ABI.json": "fd401799313a1a8938d08e226f235461b4425992ffa0d8936327d39cf6571fb3",
-    "scripts/cp7_attendance_period_choice/local.test.ts": "5e88b862eece1ac41c5c80bc7c579b0faea24fc03d65462b2b9fdb48e051ddfb",
-    "scripts/cp7_attendance_period_choice/local_fixture.sql": "47c8718eac2633a4c0e4027ec9d91205c03dba2be5fa1d83c5c9a3f7bf370663",
-    "scripts/cp7_attendance_period_choice/local_catalog.py": "6a09eab11b0f8378069b39c40d0134d5cd85333af9d301b6849d9327fb28ca37",
-    "scripts/cp7_attendance_period_choice/render_local.py": "dce54f00ed45c9763c76bf6c0a816ca606cbb784c3ba59adcabc31dc968544b7",
-    "scripts/cp7_attendance_period_choice/test_source.py": "d6f9f7e85ffb4334c2df8d4862959fa1e6ad1b2aae3268a07384e15d8c04681d",
-    "scripts/current-attendance-period-choice-qualification/admission.py": "06778d6d2f9c7077f05cf3728505c625c8519a809b107c8594bcd9524becb023",
-    "scripts/current-attendance-period-choice-qualification/fixtures.py": "cdb482b56048200f13da5893e119b0b301f54a600888da5252cea2fceaee4258",
-    "scripts/current-attendance-period-choice-qualification/cases.py": "15fe990cccb82ff4c1dcd9ca40dc17fe93ac26a3a359a37361e6d8780b1f16e2",
-    "scripts/current-attendance-period-choice-qualification/test_plan.py": "be3dd7d8e7e273d2730bc44b5e52bf2e14939ee02fd3f422b892876d893e1f5f"
-  },
-  "wire": {
-    "base": "7e91ec5e6",
-    "unchanged": true,
-    "sha256": "931e62848f6861e24190e76cb0efbd8aa032cb514bf0f0b5af362d62cbe12bbd"
-  },
-  "first_failure": {
-    "report": "LOCAL_FAITHFUL22_FIRST_21PASS_1CLAIM_ORDER_FAILURE.json",
-    "PASS": 21,
-    "FAIL": 1,
+    "existing_function_captures": 15,
+    "Native_functions": 12,
+    "existing_private_functions": 3,
+    "Native_clones": 2,
+    "new_declared_functions": 36,
+    "new_public_RPC": 3,
+    "local_business_SQL": 30,
+    "local_literal_role_DDL": 5,
+    "local_source_and_context": 19,
+    "local_original_preparation": 7,
+    "local_reader_preparation": 6,
+    "total_local_PASS": 67,
+    "FAIL": 0,
     "SKIP": 0,
-    "original_receipt": "FAITHFUL22_FIRST_APPROVAL_ORDER_RECEIPT.json",
-    "exact_census_difference": "LOCAL_FAITHFUL_CLAIM_FIRST_CENSUS_DIFF.json",
-    "observed": "Public APPROVE raised PERIOD_CLAIMED only after audit sequence10->12; all other user rows/sequences remained equal.",
-    "fixed": "Captured private facade APPROVE-only raw-contractor->period->fresh settlement access->claim before child/rebuild, plus direct Native row->period->fresh original OWNER/ADMIN->claim before audited recalculate; original later checks retained."
+    "unchanged_original_Native_cases_prepared": 11,
+    "additional_reader_Native_cases_prepared": 3,
+    "total_target_Native_business_cases": 14,
+    "actual_new_Native_credit": 0,
+    "actual_Auth_HTTP_credit": 0,
+    "actual_browser_credit": 0
   },
-  "proof_limits": [
-    "PGlite in-memory declared table/Auth/calendar/access/nonwork/HPP models, not owning full Native installation",
-    "retained recalculate/bump/audit expose first-audited-effect boundary; full Native child rebuild eligibility requires actual qualification",
-    "late HPP dependency failure has exact one Native CREATE audit sequence allocation; not absolute no-DML",
-    "current source-derived ABI13 and local additive identities are provenance, not actual current catalogue capture",
-    "old retained vendor Combined11=Native7+races3+realAuthHTTP1 gives zero new S03 credit",
-    "Native11 callbacks are PREPARED; actual fullrestore/backup/package/advisor/usedguard gates, races, Auth/browser, descendant conversions and explicit midnight boundary remain open"
+  "runtime7": {
+    "scripts/cp7_attendance_period_choice/choice.sql": "44499c6d6a06d1effc2be4f066168f5fa2fe9608b2ccb80d1d2d0b1dac0a8212",
+    "scripts/cp7_attendance_period_choice/readers.sql": "4ab82ff58033f4357251930504e6e9e75ecce9d8f1cc5b4e10f689940ce749e2",
+    "scripts/cp7_attendance_period_choice/native_delta.py": "a49242327798a59407739c2999fcf92408aeef9d88a1ae94fccc82bd189ac9ce",
+    "scripts/cp7_attendance_period_choice/catalog_contract.py": "f312de61b3c75087a51d7df712896627c02bb5d6473803bf6d2c90ad506d7c64",
+    "scripts/cp7_attendance_period_choice/NEW_CATALOG_IDENTITIES.json": "e49e4cb9c794d6ed98b831ae318e6d3c401a110d420cf932ee7011f7c971a578",
+    "scripts/cp7_attendance_period_choice/composition.py": "51b3d53dccd69688438287bee338e7a86a37afe57aa963cc2dee24b2e43470f1",
+    "scripts/cp7_attendance_period_choice/installer_ddl.py": "e002ea2dd938fef5913c76974909f70de8bcb47874b7fd958c0aeef0e2993514"
+  },
+  "original18_source_manifest_sha256": "5ecab817f56b892717995a25711b62e74ad3746cc4729a7c84c3bc49895436b0",
+  "reader3_source_manifest_sha256": "85de4a6aaca8ad53e179ba4c398e55c554a67b6fe8f325cb9b5ae225c4697d9f",
+  "frozen_financial13_and_clones_and_choice_SQL_and_original11_exact": true,
+  "frozen_financial_binding_sha256": "e3fe91e8ad735efa0054a0b1dc631ac51027f38bda21308341b61e544b4447e8",
+  "original11_case_sha256": "15fe990cccb82ff4c1dcd9ca40dc17fe93ac26a3a359a37361e6d8780b1f16e2",
+  "read_original_and_admit_documents_bodies_unchanged": true,
+  "old_S03_wire_sha256": "931e62848f6861e24190e76cb0efbd8aa032cb514bf0f0b5af362d62cbe12bbd",
+  "closed_reader_wire_sha256": "977a973fc9d641dc8699bc445ed2c73167aee403a1a78f666fc34e9c5be4cb6c",
+  "parent_runtime": "accepted vendor41c actualruntimeparent; failed9a0 never prerequisite",
+  "actual_failure_reference": "ACTUAL_9A0_INSTALLER_FAILURE_HANDOFF.json (root-retained originals authoritative)",
+  "installer_scope": {
+    "actor": "postgres",
+    "schema_owners": {
+      "cp7_payroll": "cp7_payroll_read",
+      "cp7_hpp_pool": "cp7_hpp_pool_read"
+    },
+    "temporary_privilege": "CREATE only, existingUSAGE, session-user SETauthority, exactrawACL/role restored beforestateexpose",
+    "no_new_roles_membership_USAGE_or_persistent_privileges": true,
+    "same_install_and_preuse_undo_context": true,
+    "local_profile": "literalnonSUpostgres/SUsession; deliberately isolated role/DDL doubles, not actual9a0 role observation",
+    "success_and_late_SQLerror_full22_rawACL_rows_sequences_equal": true,
+    "raw_NULL_no_op_preserved_and_required_NULLgrant_refused": true
+  },
+  "failure_history": [
+    "first28 22PASS6FAIL: five missing localapp_users model dependency plus heldpreviewREADY",
+    "second28 23PASS5readerFAIL retained beforefix",
+    "firstreader15 full28 27PASS1 localreinstallomittedreaders.sql; assertion preserved and fixturefixed",
+    "selectedDateStyle1failure retained: finallymasked abortedtransaction; no claim of capturedprimarySQLerror; Nativecanonicaldatefix/regressionincluded",
+    "actual9a0 beforebusiness0 permissiondeniedschema; root-retained firstoriginals and failuremetadata preserved"
   ],
-  "evidence_files": {
-    "FAITHFUL22_FIRST_APPROVAL_ORDER_RECEIPT.json": "9c6a687bc0bd398396a0891a50c5100a7ddc5047433af54edbd265e024e1b560",
-    "LOCAL_CAPTURE13_PREP6_FIRST_PASS.log": "a19147c3089c3dfcade7f0515a0a65147ae94b7a83e22c5eafba36af9a43fe6f",
-    "LOCAL_CAPTURE13_SOURCE10_FIRST_PASS.log": "f462a7337ff5299c915b94188f492a82779ba8dd7093d9a184fc5dad329aea93",
-    "LOCAL_FAITHFUL22_FIRST_21PASS_1CLAIM_ORDER_FAILURE.json": "7804c1fc8fd5f5ba361a1087c39e225f9b88a0a6bad3dab93bcedea82b2c1baf",
-    "LOCAL_FAITHFUL22_REPAIRED_PASS.json": "d79d7574305f9e55b9e301e3b43e03360dc3e674620e07dfc19a3040fa437d85",
-    "LOCAL_FAITHFUL22_REPAIRED_PASS.log": "0e92a9356f0bb55f3e98b02b40e51c6bfcb0aa6b5eae5b24ee7799b27247c5b6",
-    "LOCAL_FAITHFUL_CLAIM_FIRST_CENSUS_DIFF.json": "881df8cfb0a0cb86b015f8ad0a50bb2f1689ceb894ee6c3425b6b15a0787a1cb",
-    "LOCAL_FREEZE22_PASS.json": "19a1a8f188280d05d13f161ae484dc8b94d936f4e2e37faf765a44ac516d4eb1",
-    "LOCAL_FREEZE22_PASS.log": "8006e6a2351bc76d83e9660b33ed7c11ec290ffe5a8708621dbab25661e2b676",
-    "LOCAL_FREEZE_PREP7_PASS.log": "595687a50002361c205fa06204d8252c662237fa16e1c7943a58ccbc28078a75",
-    "LOCAL_FREEZE_SOURCE10_PASS.log": "b39d707e803bcf171e1c14327fd23723b14b1000a710db15e89a2c67aa1f56ee"
-  }
+  "commands": [
+    "PYTHONDONTWRITEBYTECODE=1 node node_modules/vitest/vitest.mjs run scripts/cp7_attendance_period_choice/local.test.ts --maxWorkers=1 --no-file-parallelism --reporter=json --outputFile=/tmp/s03-reader15-final30.json",
+    "PYTHONDONTWRITEBYTECODE=1 node node_modules/vitest/vitest.mjs run scripts/cp7_attendance_period_choice/installer.test.ts --maxWorkers=1 --no-file-parallelism --reporter=json --outputFile=/tmp/s03-installer-causal-first5.json",
+    "PYTHONDONTWRITEBYTECODE=1 python -B -m unittest discover -s scripts/cp7_attendance_period_choice -p 'test_*.py' -v",
+    "PYTHONDONTWRITEBYTECODE=1 python -B -m unittest discover -s scripts/current-attendance-period-choice-qualification -p test_plan.py -v",
+    "PYTHONDONTWRITEBYTECODE=1 python -B -m unittest discover -s scripts/current-attendance-period-choice-readers-qualification -p test_plan.py -v"
+  ],
+  "actual_reader_successor_original": null,
+  "required_next": "Root wholefresh vendor/install/reinstall/preuse Native11unchanged+Reader3, committedvalidusedwitness/fullouter restore/role/Auth/CP6/advisors/package5 then realAuthbrowser4; no localsuccess substitutes",
+  "production_go": false,
+  "independent_acceptance": false
 }

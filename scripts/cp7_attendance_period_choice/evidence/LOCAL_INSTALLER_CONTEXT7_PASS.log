@@ -1,0 +1,12 @@
+test_SQL_aborted_transaction_does_not_issue_cleanup_or_hide_original_error (test_installer.InstallerContext.test_SQL_aborted_transaction_does_not_issue_cleanup_or_hide_original_error) ... ok
+test_changed_raw_acl_owner_or_existing_privilege_refuses_not_normalizes (test_installer.InstallerContext.test_changed_raw_acl_owner_or_existing_privilege_refuses_not_normalizes) ... ok
+test_no_new_set_authority_owner_actor_or_usage_is_invented (test_installer.InstallerContext.test_no_new_set_authority_owner_actor_or_usage_is_invented) ... ok
+test_preexisting_CREATE_including_raw_NULL_is_never_granted_or_revoked (test_installer.InstallerContext.test_preexisting_CREATE_including_raw_NULL_is_never_granted_or_revoked) ... ok
+test_python_error_cleans_usable_transaction_and_preserves_original_error (test_installer.InstallerContext.test_python_error_cleans_usable_transaction_and_preserves_original_error) ... ok
+test_session_authority_not_current_actor_membership_and_CREATE_only (test_installer.InstallerContext.test_session_authority_not_current_actor_membership_and_CREATE_only) ... ok
+test_success_restores_exact_inventory_before_exposing_state (test_installer.InstallerContext.test_success_restores_exact_inventory_before_exposing_state) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.002s
+
+OK

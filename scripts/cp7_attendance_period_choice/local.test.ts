@@ -133,7 +133,12 @@ beforeAll(async()=>{
   'erp.bump_row_version()','erp.audit_row_change()','erp.recalculate_payroll(uuid)',
   'erp._build_attendance_hpp_manifest_v1(date,date)','erp._assert_attendance_hpp_manifest_v1(jsonb)',
   'erp.preview_attendance_hpp_pool_v1(date,date)','erp.post_journal(text,uuid,date,text,jsonb)',
-  'erp._cp3_r4_reverse_journal_internal(uuid,text)','erp.post_payroll_payment(uuid)']
+  'erp._cp3_r4_reverse_journal_internal(uuid,text)','erp.post_payroll_payment(uuid)',
+  'erp.reverse_sewing_terminal_v1(uuid,text,uuid,bigint)',
+  'cp7_hpp_pool.iso(timestamp with time zone)','cp7_hpp_pool.pool_token(erp.attendance_hpp_pools)',
+  'cp7_hpp_pool.preview_token(date,date,text,text,bigint,text)','cp7_hpp_pool.access_now(boolean)',
+  'cp7_hpp_pool.preview(date,date,date)','cp7_hpp_pool.pool_json(erp.attendance_hpp_pools,date)',
+  'cp7_hpp_pool.workspace(integer,integer,date,date)']
  for(const key of helperOrder)await run(refs[key].definition)
  for(const definition of abi.local_payroll_audit_triggers)await run(definition)
  // The facade source is exact. Access/context/token/document and nonwork
@@ -151,6 +156,10 @@ beforeAll(async()=>{
  await run(`create function public.erp_cp7_save_payroll_v1(p_action text,p_payload jsonb,p_request uuid,p_expected text)returns jsonb
  language sql volatile security definer set search_path=''as $$select cp7_payroll.settlement_command(p_action,p_payload,p_request,p_expected)$$;`)
  for(const definition of Object.values(derived.originals)as string[])await run(definition)
+ // Explicit local-only old-reader references compare unaffected JSON exactly.
+ // They exist before the catalog baseline, never as installed product clones.
+ await run(refs['cp7_hpp_pool.pool_json(erp.attendance_hpp_pools,date)'].definition.replace('FUNCTION cp7_hpp_pool.pool_json(', 'FUNCTION local_s03.reference_pool_json_v1('))
+ await run(refs['cp7_hpp_pool.preview(date,date,date)'].definition.replace('FUNCTION cp7_hpp_pool.preview(', 'FUNCTION local_s03.reference_preview_v1('))
  // Explicit old-policy reader double: no pocket/other Native close proof.
  await run(`create function cp7_hpp_close.blockers_v1(p_through date)returns table(family text,code text,severity text,scope text,impact_date date,reference jsonb,reason text)
  language plpgsql stable as $$declare r record;m jsonb;begin
@@ -164,6 +173,7 @@ beforeAll(async()=>{
  end loop;end$$;`)
  catalogBefore=await catalog()
  await run(readFileSync(resolve(HERE,'choice.sql'),'utf8'))
+ await run(readFileSync(resolve(HERE,'readers.sql'),'utf8'))
  for(const definition of Object.values(derived.clones)as string[])await run(definition)
  await run('revoke all on all functions in schema cp7_attendance_choice from public,anon,authenticated,service_role')
  for(const definition of Object.values(derived.patched)as string[])await run(definition)
@@ -369,6 +379,7 @@ test('all22 installed catalog matches exact additive identities; preuse removal 
  const old=Object.fromEntries(Object.entries(data).filter(([key])=>!key.startsWith('cp7_attendance_choice.')))
  expect(await census()).toEqual(old)
  await run(readFileSync(resolve(HERE,'choice.sql'),'utf8'))
+ await run(readFileSync(resolve(HERE,'readers.sql'),'utf8'))
  for(const definition of Object.values(derived.clones)as string[])await run(definition)
  await run('revoke all on all functions in schema cp7_attendance_choice from public,anon,authenticated,service_role')
  for(const definition of Object.values(derived.patched)as string[])await run(definition)
@@ -462,4 +473,124 @@ test('additional CALCULATED payroll existing before choice refuses public and di
  await save('REVERSE',payload(f.f))
  const approved=await one(command);expect(approved.status).toBe('APPROVED')
  expect(await one(`select count(*)::text from erp.journal_entries where source_type='PAYROLL_ATTENDANCE_ACCRUAL'and source_id='${pending}'`)).toBe('1')
+})
+
+async function poolRead(id:string,closed:string|null=null){
+ return one(`select cp7_hpp_pool.pool_json(p,${closed?lit(closed):'null'}::date)from erp.attendance_hpp_pools p where id='${id}'`)
+}
+async function ordinaryPool(f:{f:string},activate=true){
+ const p=await one(`select erp.create_attendance_hpp_pool_v1(${js({period_start:f.f,period_end:f.f,reason:'Ordinary Native pool for independent reader controls'})},'${randomUUID()}')`)
+ if(activate)await one(`select erp.activate_attendance_hpp_pool_v1('${p.pool_id}','Ordinary Native activation for reader controls','${randomUUID()}',${p.row_version})`)
+ return p.pool_id as string
+}
+async function ordinaryCancelledThenHeld(){
+ const f=await fixture(),e=await sewn(f.m,f.f,3),id=await ordinaryPool(f)
+ const version=await one(`select row_version from erp.attendance_hpp_pools where id='${id}'`)
+ await one(`select erp.cancel_attendance_hpp_pool_v1('${id}','Ordinary inverse before zero-output choice','${randomUUID()}',${version})`)
+ const eventVersion=await one(`select row_version from erp.sewing_terminal_events where id='${e.event}'`)
+ await one(`select erp.reverse_sewing_terminal_v1('${e.event}','Lawful terminal inverse after ordinary pool cancellation','${randomUUID()}',${eventVersion})`)
+ const choice=await save('CHOOSE',payload(f.f,'CARRY'))
+ return {...f,id,choice}
+}
+
+test('reader leaves disjoint ordinary P2 pool and preview JSON byte-exact while P1 is carried to P2',async()=>{
+ const f=await fixture(),out=await day(-1)
+ await save('CHOOSE',payload(f.f,'CARRY'));await sewn(f.m,out,10)
+ await save('ALLOCATE',payload(f.f,null,out));await payroll(f.m,out,'20.02')
+ const ordinary=await ordinaryPool({f:out})
+ const before=await census()
+ const pair=await one(`select jsonb_build_array(cp7_hpp_pool.pool_json(p,null),local_s03.reference_pool_json_v1(p,null))from erp.attendance_hpp_pools p where id='${ordinary}'`)
+ expect(pair[0]).toEqual(pair[1]);expect(pair[0].actions).toEqual(['CANCEL'])
+ expect(pair[0]).not.toHaveProperty('attendance_choice');expect(pair[0]).not.toHaveProperty('period_hold')
+ const previews=await one(`select jsonb_build_array(cp7_hpp_pool.preview('${out}','${out}',null),local_s03.reference_preview_v1('${out}','${out}',null))`)
+ expect(previews[0]).toEqual(previews[1]);expect(await census()).toEqual(before)
+})
+
+test('owned ACTIVE reader exposes exact P1 source and P2 output, closes legacy actions, and respects output rather than source closure',async()=>{
+ const f=await fixture(),out=await day(-1),choice=await save('CHOOSE',payload(f.f,'CARRY'))
+ await sewn(f.m,out,10);const made=await save('ALLOCATE',payload(f.f,null,out))
+ const before=await census(),open=await poolRead(made.pool_id)
+ expect(open.actions).toEqual([])
+ expect(open.attendance_choice).toEqual({domain:'ATTENDANCE_PERIOD_CHOICE',decision_id:choice.decision_id,
+  allocation_id:made.event_id,source_period_start:f.f,source_period_end:f.f,output_period_start:out,output_period_end:out,output_period_closed:false})
+ expect(open).not.toHaveProperty('period_hold');expect(await census()).toEqual(before)
+ await run(`update erp.accounting_period_control set closed_through='${f.f}'`)
+ const closed=await poolRead(made.pool_id,f.f)
+ expect(closed.period_start).toBe(f.f);expect(closed.period_end).toBe(f.f);expect(closed.period_closed).toBe(true)
+ expect(closed.attendance_choice.output_period_closed).toBe(false);expect(closed.actions).toEqual([])
+ await run(`update erp.accounting_period_control set closed_through='${out}'`)
+ expect((await poolRead(made.pool_id,out)).attendance_choice.output_period_closed).toBe(true)
+})
+
+test('owned CANCELLED pool retains permanent S03 identity after inverse and decision correction then reversal',async()=>{
+ const f=await fixture(),choice=await save('CHOOSE',payload(f.f,'CARRY'))
+ await sewn(f.m,today,10);const made=await save('ALLOCATE',payload(f.f,null,today))
+ await save('CANCEL_ALLOCATION',payload(f.f))
+ const first=await poolRead(made.pool_id)
+ expect(first.status).toBe('CANCELLED');expect(first.actions).toEqual([])
+ expect(first.attendance_choice.decision_id).toBe(choice.decision_id)
+ const next=await save('CORRECT',payload(f.f,'CARRY'));expect(next.decision_id).not.toBe(choice.decision_id)
+ expect((await poolRead(made.pool_id)).attendance_choice).toEqual(first.attendance_choice)
+ await save('REVERSE',payload(f.f));const before=await census(),historical=await poolRead(made.pool_id)
+ expect(historical.attendance_choice).toEqual(first.attendance_choice);expect(historical.actions).toEqual([])
+ expect(historical).not.toHaveProperty('period_hold');expect(await census()).toEqual(before)
+})
+
+test('stale owned Native composite refuses with READ_CHANGED after an owning inverse and changes no rows or sequences',async()=>{
+ const f=await fixture();await save('CHOOSE',payload(f.f,'CARRY'));await sewn(f.m,today,10)
+ const made=await save('ALLOCATE',payload(f.f,null,today))
+ const old=await one(`select to_jsonb(p)from erp.attendance_hpp_pools p where id='${made.pool_id}'`)
+ await save('CANCEL_ALLOCATION',payload(f.f))
+ await refused(`select cp7_hpp_pool.pool_json(jsonb_populate_record(null::erp.attendance_hpp_pools,${js(old)}),null)`,/CP7_S03_HPP_READ_CHANGED/)
+})
+
+test('ordinary historical pool in an exactly held P1 has period_hold with no false S03 ownership or replacement action',async()=>{
+ const f=await ordinaryCancelledThenHeld(),before=await census(),row=await poolRead(f.id)
+ expect(row.actions).toEqual([]);expect(row).not.toHaveProperty('attendance_choice')
+ expect(row.period_hold).toEqual({domain:'ATTENDANCE_PERIOD_CHOICE',decision_id:f.choice.decision_id,source_period_start:f.f,source_period_end:f.f})
+ const adjacent=await day(-2)
+ const pair=await one(`select jsonb_build_array(cp7_hpp_pool.preview('${adjacent}','${adjacent}',null),local_s03.reference_preview_v1('${adjacent}','${adjacent}',null))`)
+ expect(pair[0]).toEqual(pair[1]);expect(pair[0]).not.toHaveProperty('period_hold')
+ expect(await census()).toEqual(before)
+})
+
+test('late P1 output leaves Native preview READY but held legacy preview BLOCKED without figures or a usable create token',async()=>{
+ const f=await ordinaryCancelledThenHeld();await sewn(f.m,f.f,4,3)
+ const before=await census(),native=await one(`select erp.preview_attendance_hpp_pool_v1('${f.f}','${f.f}')`)
+ expect(native.status).toBe('READY');expect(native.denominator_qty).toBe(4)
+ const result=await one(`select cp7_hpp_pool.preview('${f.f}','${f.f}',null)`)
+ expect(result.status).toBe('BLOCKED');expect(result.can_create).toBe(false)
+ expect(result.blocker.code).toBe('CP7_S03_PERIOD_HELD')
+ expect(result.period_hold.decision_id).toBe(f.choice.decision_id)
+ for(const key of ['numerator_amount','denominator_qty','unit_cost_per_sewn_pcs','source_count','destination_count','po_count','manifest_sha256','review_token'])expect(result[key]).toBeNull()
+ expect(result.pos).toEqual([]);expect(await census()).toEqual(before)
+ await refused(`select erp.create_attendance_hpp_pool_v1(${js({period_start:f.f,period_end:f.f,reason:'Direct Native route still honors exact current S03 period claim'})},'${randomUUID()}')`,/CP7_S03_PERIOD_CLAIMED/)
+})
+
+test('ordinary reader JSON is unaffected by caller DateStyle while its exact Native composite stays current',async()=>{
+ const f=await fixture();await sewn(f.m,f.f,3);const id=await ordinaryPool(f)
+ const previous=await one('show DateStyle')
+ await run('savepoint reader_datestyle')
+ try{
+  await run("set DateStyle='German, DMY'")
+  const before=await census()
+  const pair=await one(`select jsonb_build_array(cp7_hpp_pool.pool_json(p,null),local_s03.reference_pool_json_v1(p,null))from erp.attendance_hpp_pools p where id='${id}'`)
+  expect(pair[0]).toEqual(pair[1]);expect(await census()).toEqual(before)
+ }catch(error){await run('rollback to savepoint reader_datestyle');throw error}
+ finally{await run(`select set_config('DateStyle',${lit(previous)},false);release savepoint reader_datestyle`)}
+})
+
+test('existing Admin HPP view can read owned metadata but gains no Owner-only S03 action',async()=>{
+ const f=await fixture();await save('CHOOSE',payload(f.f,'CARRY'));await sewn(f.m,today,10)
+ const made=await save('ALLOCATE',payload(f.f,null,today)),adminActor=randomUUID()
+ await run(`insert into local_s03.identity(actor,role_code,can_view,can_manage)values('${adminActor}','ADMIN',true,false)`)
+ await run(`select set_config('local_s03.actor','${adminActor}',false)`)
+ try{
+  const before=await census(),workspace=await one(`select cp7_hpp_pool.workspace(0,25,'${f.f}','${f.f}')`)
+  const row=workspace.pools.find((p:any)=>p.id===made.pool_id)
+  expect(row.attendance_choice.domain).toBe('ATTENDANCE_PERIOD_CHOICE');expect(row.actions).toEqual([])
+  expect(workspace.can_manage).toBe(false);expect(workspace.preview.blocker.code).toBe('CP7_S03_PERIOD_HELD')
+  expect(await census()).toEqual(before)
+  await refused(`select public.erp_cp7_preview_attendance_choice_v1('CANCEL_ALLOCATION',${js(payload(f.f))})`,/CP7_S03_OWNER_REQUIRED/)
+ }finally{await run(`select set_config('local_s03.actor','${owner}',false)`)}
 })

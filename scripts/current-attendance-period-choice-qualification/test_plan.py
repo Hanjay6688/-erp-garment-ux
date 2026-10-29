@@ -21,9 +21,9 @@ class Preparation(unittest.TestCase):
         result=admission.admit_documents(self.original,self.package,self.sources)
         self.assertEqual((result['historical_native'],result['historical_races'],result['historical_real_Auth_HTTP']),(7,3,1))
         self.assertEqual(result['S03_new_qualification_credit'],0)
-    def test_own_exact16_files_counts_and_frozen_wire_refuse_mutation(self):
+    def test_own_exact18_files_counts_and_frozen_wire_refuse_mutation(self):
         manifest=admission.admit_prepared_sources()
-        self.assertEqual(len(manifest['files']),16)
+        self.assertEqual(len(manifest['files']),18)
         with TemporaryDirectory()as directory:
             root=Path(directory)
             for name in admission.OWN_FILES:

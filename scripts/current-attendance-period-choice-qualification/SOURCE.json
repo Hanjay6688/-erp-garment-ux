@@ -15,7 +15,8 @@
   "counts": {
     "existing_native": 12,
     "existing_private_facade": 1,
-    "captured_originals": 13,
+    "existing_private_readers": 2,
+    "captured_originals": 15,
     "private_native_clones": 2,
     "prepared_native": 11,
     "actual_s03_native": 0,
@@ -61,23 +62,25 @@
   "production_go": false,
   "files": {
     "scripts/cp7_attendance_period_choice/choice.sql": "44499c6d6a06d1effc2be4f066168f5fa2fe9608b2ccb80d1d2d0b1dac0a8212",
-    "scripts/cp7_attendance_period_choice/native_delta.py": "7a9576e136089b487920fe5c38088977491d342f87384c8e2e82ad128fcf6b90",
-    "scripts/cp7_attendance_period_choice/catalog_contract.py": "0f0c1266ddefc5133cd693ee208f61f8ea71e5a09ab1ba43b1b52afb910f6764",
-    "scripts/cp7_attendance_period_choice/NEW_CATALOG_IDENTITIES.json": "ef2f99de5ec4104b53f28121d923a44350e80354c67217b70d32231f955fce71",
-    "scripts/cp7_attendance_period_choice/composition.py": "1fd29c8c4cf736241347b6619242096edb409cb6a9d1dbb80533be5fdb45a49e",
+    "scripts/cp7_attendance_period_choice/readers.sql": "4ab82ff58033f4357251930504e6e9e75ecce9d8f1cc5b4e10f689940ce749e2",
+    "scripts/cp7_attendance_period_choice/native_delta.py": "a49242327798a59407739c2999fcf92408aeef9d88a1ae94fccc82bd189ac9ce",
+    "scripts/cp7_attendance_period_choice/catalog_contract.py": "f312de61b3c75087a51d7df712896627c02bb5d6473803bf6d2c90ad506d7c64",
+    "scripts/cp7_attendance_period_choice/NEW_CATALOG_IDENTITIES.json": "e49e4cb9c794d6ed98b831ae318e6d3c401a110d420cf932ee7011f7c971a578",
+    "scripts/cp7_attendance_period_choice/composition.py": "51b3d53dccd69688438287bee338e7a86a37afe57aa963cc2dee24b2e43470f1",
+    "scripts/cp7_attendance_period_choice/installer_ddl.py": "e002ea2dd938fef5913c76974909f70de8bcb47874b7fd958c0aeef0e2993514",
     "scripts/cp7_attendance_period_choice/WIRE_CONTRACT.md": "931e62848f6861e24190e76cb0efbd8aa032cb514bf0f0b5af362d62cbe12bbd",
-    "scripts/cp7_attendance_period_choice/SOURCE_DERIVED_NATIVE_ABI.json": "fd401799313a1a8938d08e226f235461b4425992ffa0d8936327d39cf6571fb3",
-    "scripts/cp7_attendance_period_choice/local.test.ts": "5e88b862eece1ac41c5c80bc7c579b0faea24fc03d65462b2b9fdb48e051ddfb",
-    "scripts/cp7_attendance_period_choice/local_fixture.sql": "47c8718eac2633a4c0e4027ec9d91205c03dba2be5fa1d83c5c9a3f7bf370663",
+    "scripts/cp7_attendance_period_choice/SOURCE_DERIVED_NATIVE_ABI.json": "609032c301a97bc32d43c274fcb5cc1f2ddbf33dd9fbc104ebc876641fe20176",
+    "scripts/cp7_attendance_period_choice/local.test.ts": "cebb720019bcf4c3a58c00cd37720d2824cf5f7c0fe8972ba978607fb002e0ed",
+    "scripts/cp7_attendance_period_choice/local_fixture.sql": "f6b0c9f5d24c310b60a1fa857ec759ebddcfc503fd8e7757f34a01421237c572",
     "scripts/cp7_attendance_period_choice/local_catalog.py": "6a09eab11b0f8378069b39c40d0134d5cd85333af9d301b6849d9327fb28ca37",
     "scripts/cp7_attendance_period_choice/render_local.py": "dce54f00ed45c9763c76bf6c0a816ca606cbb784c3ba59adcabc31dc968544b7",
-    "scripts/cp7_attendance_period_choice/test_source.py": "d6f9f7e85ffb4334c2df8d4862959fa1e6ad1b2aae3268a07384e15d8c04681d",
-    "scripts/current-attendance-period-choice-qualification/admission.py": "06778d6d2f9c7077f05cf3728505c625c8519a809b107c8594bcd9524becb023",
+    "scripts/cp7_attendance_period_choice/test_source.py": "f4ce4d11e84858faa13f46a56011c5ee16df5b1e7a34fd975bbdd400718ff0ea",
+    "scripts/current-attendance-period-choice-qualification/admission.py": "fa6a2f578fda9856bdc5f011e7d6175929b80c5072102dc26bf528ea6923a4f5",
     "scripts/current-attendance-period-choice-qualification/fixtures.py": "cdb482b56048200f13da5893e119b0b301f54a600888da5252cea2fceaee4258",
     "scripts/current-attendance-period-choice-qualification/cases.py": "15fe990cccb82ff4c1dcd9ca40dc17fe93ac26a3a359a37361e6d8780b1f16e2",
-    "scripts/current-attendance-period-choice-qualification/test_plan.py": "be3dd7d8e7e273d2730bc44b5e52bf2e14939ee02fd3f422b892876d893e1f5f"
+    "scripts/current-attendance-period-choice-qualification/test_plan.py": "14237b3db53ce2d01852eae0fa9d7b524fe85f5ea0de075607c0811fb51bb962"
   },
-  "reviewed_source_change": "Twelve Native hooks plus a thirteenth capture of the existing private settlement facade: APPROVE-only row/raw-contractor/period/access/claim before audited child rebuild; direct Native approval row/period/current original authority/claim before retained audited recalculate. Every original later step remains; no ACTIVATE/CANCEL global envelope added.",
+  "reviewed_source_change": "Successor15 existing captures: prior13 financial/access derived bodies and2Native clones byteexactf265; two private HPP reader returns decorated, with3private SECURITY INVOKER metadata helpers. choice.sql and original11casebody unchanged. Runtime source adds readers.sql; no new money/role/grant/Nativebusinessguard.",
   "unchanged_wire": true,
   "source_derived_ABI_is_actual_runtime_capture": false,
   "installer": {
@@ -105,5 +108,28 @@
     "historical/import attendance-exempt Native source coverage",
     "explicit UTC17:00/WIB-midnight actual fact pair"
   ],
-  "administrative_fixture_caveat": "Masters and DRAFT headers plus declared accounting-control reopen are fixture creation, not screen creation; valid Native writers own attendance, approval, work, sewing, pools, journals, stock and sales."
+  "administrative_fixture_caveat": "Masters and DRAFT headers plus declared accounting-control reopen are fixture creation, not screen creation; valid Native writers own attendance, approval, work, sewing, pools, journals, stock and sales.",
+  "existing_private_readers": [
+    "cp7_hpp_pool.pool_json(erp.attendance_hpp_pools,date)",
+    "cp7_hpp_pool.preview(date,date,date)"
+  ],
+  "reader_successor_additional_cases": {
+    "prepared": 3,
+    "total_with_unchanged11": 14,
+    "namespace": "scripts/current-attendance-period-choice-readers-qualification",
+    "actual_Native_credit": 0
+  },
+  "installer_schema_CREATE_fix": {
+    "runtime_file": "scripts/cp7_attendance_period_choice/installer_ddl.py",
+    "source_reference": "qualified OW05 revision_schema_ddl",
+    "known_schema_owners": {
+      "cp7_payroll": "cp7_payroll_read",
+      "cp7_hpp_pool": "cp7_hpp_pool_read"
+    },
+    "temporary_privilege": "CREATE only, exactrawACL restored beforestate exposed",
+    "preexisting_USAGE": true,
+    "existing_SESSION_SET_authority_required": true,
+    "persistent_grants_roles_memberships_changed": false,
+    "failed9a0_is_prerequisite": false
+  }
 }

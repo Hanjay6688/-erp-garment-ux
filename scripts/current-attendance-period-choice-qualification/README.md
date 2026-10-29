@@ -22,7 +22,7 @@ The owner runner must reuse its frozen vendor package/full-parent adapter:
    local CLI without that environment fails closed, as retained in evidence.
 2. Install the full current parent once using its existing complete envelope.
    Install `cp7_attendance_period_choice.composition.install_delta(cur,prior)`.
-   Actual current13 existing definitions (12 Native+1 private settlement facade)
+   Actual current15 existing definitions (12 Native+1 private settlement facade+2 private HPP readers)
    are captured, bounded hooks and2 clones are
    derived from those bytes, all22 metadata transition is verified. The local
    `SOURCE_DERIVED_NATIVE_ABI.json` is never installed as current Native proof.
@@ -98,6 +98,13 @@ boundaries and one declared HPP dependency failure; that is zero Native credit.
 The three public RPCs need root source registry/type integration. Wire shape is
 frozen in `scripts/cp7_attendance_period_choice/WIRE_CONTRACT.md` at7e91ec5e6.
 Full CP7 acceptance5/16, independent_acceptance=false, production_go=false.
+
+This reader successor preserves every original eleven callback body/financial
+assertion and adds three separate Native reader cases in
+`scripts/current-attendance-period-choice-readers-qualification`. Captures15
+does not mean Native15: the proposed fresh complete Native group is11+3=14,
+with all current source/install/backup/restore/package gates repeated. The
+original thirteen-capture candidate's actual proof gives zero reader acceptance.
 
 Local commands (no DB):
 

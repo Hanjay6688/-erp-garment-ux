@@ -1,0 +1,86 @@
+{
+  "classification": "LOCAL_LITERAL_NON_SU_POSTGRES_AND_SESSION_SU_DDL_MODEL_NOT_ACTUAL_NATIVE_AUTH",
+  "actual_Native_financial_cases": 0,
+  "external_DB_calls": 0,
+  "source_generated_plan": true,
+  "observations": [
+    {
+      "id": "LITERAL_NS_POSTGRES_FIRST_REPRO_BOTH_SCHEMAS",
+      "failures": [
+        {
+          "signature": "cp7_payroll.apply_settlement(text,jsonb,text)",
+          "sqlstate": "42501",
+          "message": "permission denied for schema cp7_payroll"
+        },
+        {
+          "signature": "cp7_hpp_pool.preview(date,date,date)",
+          "sqlstate": "42501",
+          "message": "permission denied for schema cp7_hpp_pool"
+        },
+        {
+          "signature": "cp7_hpp_pool.pool_json(erp.attendance_hpp_pools,date)",
+          "sqlstate": "42501",
+          "message": "permission denied for schema cp7_hpp_pool"
+        }
+      ],
+      "inventory": [
+        {
+          "schema": "cp7_hpp_pool",
+          "actor": "postgres",
+          "session_actor": "s03_local_qualified_outer",
+          "role_setting": "postgres",
+          "owner": "cp7_hpp_pool_read",
+          "raw_acl": "{cp7_hpp_pool_read=UC/cp7_hpp_pool_read,postgres=U/cp7_hpp_pool_read}",
+          "usage": true,
+          "create": false,
+          "actor_can_set_owner": false,
+          "session_can_set_owner": true,
+          "actor_superuser": false,
+          "session_superuser": true
+        },
+        {
+          "schema": "cp7_payroll",
+          "actor": "postgres",
+          "session_actor": "s03_local_qualified_outer",
+          "role_setting": "postgres",
+          "owner": "cp7_payroll_read",
+          "raw_acl": "{cp7_payroll_read=UC/cp7_payroll_read,postgres=U/cp7_payroll_read}",
+          "usage": true,
+          "create": false,
+          "actor_can_set_owner": false,
+          "session_can_set_owner": true,
+          "actor_superuser": false,
+          "session_superuser": true
+        }
+      ],
+      "full22_rawACL_rows_sequences_equal": true
+    },
+    {
+      "id": "SOURCE_PLAN_SUCCESS_RESTORES_FULL22_RAW_ACL_AND_DATA",
+      "temporary_CREATE_schemas": [
+        "cp7_hpp_pool",
+        "cp7_payroll"
+      ],
+      "full22_equal": true,
+      "all_rows_sequences_equal": true
+    },
+    {
+      "id": "SQL_ERROR_OUTER_ATOMIC_RESTORES_EVERYTHING",
+      "sqlstate": "22012",
+      "full22_equal": true,
+      "rawACL_equal": true,
+      "rows_sequences_equal": true,
+      "no_manual_catalog_write": true
+    },
+    {
+      "id": "PREEXISTING_CREATE_NO_OP",
+      "full22_equal": true,
+      "rawACL_equal": true
+    },
+    {
+      "id": "RAW_NULL_NO_OP_AND_UNADMITTED_NULL_GRANT",
+      "actual_raw_null_preserved": true,
+      "malformed_profile_refused": true
+    }
+  ]
+}

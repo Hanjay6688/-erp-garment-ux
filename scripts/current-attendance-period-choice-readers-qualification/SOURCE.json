@@ -1,0 +1,64 @@
+{
+  "version": "cp7.s03.reader-native3-after-financial11.v1",
+  "status": "PREPARED",
+  "counts": {
+    "existing_captures": 15,
+    "Native_functions": 12,
+    "private_functions": 3,
+    "Native_clones": 2,
+    "original_financial_Native_cases": 11,
+    "additional_reader_Native_cases": 3,
+    "total_prepared_Native_cases": 14,
+    "actual_Native_credit": 0
+  },
+  "original11_case_ids": [
+    "S03_NATIVE_OWNER_FIELDS_READ_FULL_NO_EFFECT",
+    "S03_NATIVE_EXPENSE_APPROVAL_ONCE_PAID_E05_REOPEN",
+    "S03_NATIVE_TWO_EXACT_PERIODS_CENTS_AND_NATIVE_HPP",
+    "S03_NATIVE_P2_PAYROLL_POOL_COEXIST_AND_POLICY_FENCES",
+    "S03_NATIVE_OWNING_CANCEL_LATE_OUTPUT_AND_RESTORATION_FLOOR",
+    "S03_NATIVE_BOTH_CORRECTIONS_LINKED_INVERSES_NO_RECOGNITION",
+    "S03_NATIVE_STALE_REVIEW_UUID_RECOVERY_AND_APPEND_ONLY",
+    "S03_NATIVE_CLOSED_SOURCE_OPEN_OUTPUT_AND_CLOSED_CORRECTION",
+    "S03_NATIVE_ZERO_OUTPUT_SUCCESSOR_POLICY_RETAINS_OLD_INFO",
+    "S03_NATIVE_FINISHED_PO_FG_COGS_COST_AND_CANCEL_EXACT",
+    "S03_NATIVE_OLD_ACCRUAL_LATER_BOOK_REOPEN_DATE_FLOOR"
+  ],
+  "additional_reader_case_ids": [
+    "S03_READER_NATIVE_OWNED_ACTIVE_PERIODS_AND_DISJOINT_P2_UNCHANGED",
+    "S03_READER_NATIVE_CANCELLED_LIFETIME_AND_STALE_COMPOSITE_NO_EFFECT",
+    "S03_READER_NATIVE_EXACT_HELD_P1_BLOCKS_LEGACY_REPLACE_AND_CREATE"
+  ],
+  "product_files": {
+    "scripts/cp7_attendance_period_choice/choice.sql": "44499c6d6a06d1effc2be4f066168f5fa2fe9608b2ccb80d1d2d0b1dac0a8212",
+    "scripts/cp7_attendance_period_choice/readers.sql": "4ab82ff58033f4357251930504e6e9e75ecce9d8f1cc5b4e10f689940ce749e2",
+    "scripts/cp7_attendance_period_choice/native_delta.py": "a49242327798a59407739c2999fcf92408aeef9d88a1ae94fccc82bd189ac9ce",
+    "scripts/cp7_attendance_period_choice/catalog_contract.py": "f312de61b3c75087a51d7df712896627c02bb5d6473803bf6d2c90ad506d7c64",
+    "scripts/cp7_attendance_period_choice/NEW_CATALOG_IDENTITIES.json": "e49e4cb9c794d6ed98b831ae318e6d3c401a110d420cf932ee7011f7c971a578",
+    "scripts/cp7_attendance_period_choice/composition.py": "51b3d53dccd69688438287bee338e7a86a37afe57aa963cc2dee24b2e43470f1",
+    "scripts/cp7_attendance_period_choice/installer_ddl.py": "e002ea2dd938fef5913c76974909f70de8bcb47874b7fd958c0aeef0e2993514",
+    "scripts/cp7_attendance_period_choice/SOURCE_DERIVED_NATIVE_ABI.json": "609032c301a97bc32d43c274fcb5cc1f2ddbf33dd9fbc104ebc876641fe20176",
+    "scripts/cp7_attendance_period_choice/WIRE_CONTRACT.md": "931e62848f6861e24190e76cb0efbd8aa032cb514bf0f0b5af362d62cbe12bbd",
+    "scripts/cp7_attendance_period_choice/READER_WIRE_CONTRACT.md": "977a973fc9d641dc8699bc445ed2c73167aee403a1a78f666fc34e9c5be4cb6c",
+    "scripts/cp7_attendance_period_choice/evidence/READER15_FROZEN13_SOURCE_BINDING.json": "e3fe91e8ad735efa0054a0b1dc631ac51027f38bda21308341b61e544b4447e8",
+    "scripts/current-attendance-period-choice-qualification/cases.py": "15fe990cccb82ff4c1dcd9ca40dc17fe93ac26a3a359a37361e6d8780b1f16e2",
+    "scripts/current-attendance-period-choice-qualification/SOURCE.json": "5ecab817f56b892717995a25711b62e74ad3746cc4729a7c84c3bc49895436b0"
+  },
+  "own_files": {
+    "admission.py": "387f0915bf9cedd5508faeccfd3cc03486f30772556d2ecff094aa605fc75527",
+    "cases.py": "eebe27396c93d4b2b14062f778a4f6a4a9c9ae840bed164e11196d90bc603630",
+    "test_plan.py": "f72539b4a4327bb358f28a22a95fbef4d743b9a0d791da8d0ac611c4ecb56f49",
+    "README.md": "dd800e4a4cbe8ecc3ace8f9739a0da466c3448437d3f57feb69eedcbf2301b9f"
+  },
+  "original_financial_base": "f265ba2691ad03a2b7405806dc3aa4c5788b62fd",
+  "original11_callback_body_unchanged": true,
+  "captures15_are_not_Native15_cases": true,
+  "original13_current_baseline_qualification_is_not_reader_successor_acceptance": true,
+  "accepted_reader_successor_original": null,
+  "required_outer_envelope": "unchanged owning full installation/reinstall/preuse/usedwitness/fullrestore/CP6/rawACL/roles/Auth/advisor/package5; fresh financial11 followed by separate reader3; no percase fullseqrestore claim from savepoint",
+  "actual_current_runtime_capture": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "runtime_file_count": 7,
+  "failed9a0_is_prerequisite": false
+}

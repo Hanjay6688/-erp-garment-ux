@@ -54,16 +54,48 @@ Root separately owns the standalone panel, source/type registration, recovery
 integration, mounting and actual qualification. This namespace adds no roles.
 
 Twelve installed Native function bodies and one existing private payroll
-settlement facade receive counted hooks: thirteen captured originals total.
+settlement facade keep their frozen financial/access hooks. Two existing private
+HPP readers receive counted return decorators: fifteen captured originals total.
 Two private Native CREATE/VALIDATE clones preserve their
 source/cents/ownership/HPP checks.
-Thirty-three new functions include three authenticated public RPCs. Every new
+Thirty-six new functions include three authenticated public RPCs. Every new
 catalogue identity is declared explicitly, with no blanket schema prefix
-allowance. Actual current13 definitions, owners/metadata, immutable captured
+allowance. Actual current15 definitions, owners/metadata, immutable captured
 originals and clone derivation are checked against the actual22 catalogue;
 preuse restores every old catalogue/data/sequence value exactly. After use,
 the guard refuses before inverse DDL and requires the full backup boundary.
 The Native source builder, journal arithmetic and HPP engines stay unchanged.
+
+Actual baseline9a0 failed before any business callback: replacing the existing
+postgres-owned payroll facade still required CREATE on its cp7_payroll schema,
+owned by cp7_payroll_read. The two HPP readers have the same schema pattern.
+`installer_ddl.py` now inventories only these two known schemas, actual owner,
+raw nspacl, preexisting USAGE/CREATE, current/session actor and SET authority.
+Actor stays postgres; SET ROLE authority is session-user based, as in the
+qualified OW05 envelope. Needed CREATE alone is granted by the existing schema
+owner and revoked before exposing state; install and preuse undo share the exact
+context. No new role, membership, USAGE, persistent grant or default privilege.
+Existing CREATE is preserved, including raw NULL no-op profiles; a NULL profile
+requiring a grant refuses instead of normalization. A usable-transaction error
+cleans/verifies; an aborted SQL transaction is restored by the owning outer
+atomic rollback. Actual9a0 role rows were not retained, so source-derived owner
+facts and local literal non-SU postgres/SU-session controls remain distinct from
+an actual installed profile. The next qualification repeats the whole14-case
+successor/all5 envelope; failed9a0 is never a prerequisite PASS.
+
+Reader compatibility is additive in `readers.sql`; `choice.sql`, all thirteen
+earlier financial/access derivations and both Native clones remain byte-exact
+atf265. Immutable allocation.pool_id gives a carried pool permanent ownership
+metadata and removes legacy CANCEL/REPLACE, including after inverse/correction/
+decision reversal. Separate exact-source `period_hold` metadata blocks ordinary
+replacement/create while a CARRY or EXPENSE decision holds that same period.
+No broad overlap or output-P2 hold is added; ordinary P2 pools remain unchanged.
+Native header/period_closed stay sourceP1 while owned metadata shows real outputP2
+and its closed flag. One current Native composite/ownership/inverse snapshot
+refuses stale data with READ_CHANGED. The existing BLOCKED contract has no
+figures/token/can_create; READY is never weakened. Three new helpers are private
+SECURITY INVOKER under the existing postgres-definer HPP reader authority, with
+no new roles, persistent grants, RPCs or financial guards. See `READER_WIRE_CONTRACT.md`.
 
 Carry's live identity binds only actual eligible destination facts and quantity
 from P2; its full initial P2 manifest remains immutable provenance. P2 payroll
@@ -93,7 +125,7 @@ their provenance/failures remain unchanged. Owning install always captures and
 verifies current definitions; it never installs this local ABI as Native proof.
 See `evidence/LOCAL_CHECK_RECEIPT.json` for final commands/counts/source hashes.
 
-The complete local suite has22 controls. Its audited APPROVE control uses the
+The audited APPROVE control uses the
 retained Native recalculate, unconditional row-version bump and payroll audit
 trigger definitions; access/context/token/document and nonwork eligibility
 remain explicit local doubles. The first run correctly refused a second
@@ -135,3 +167,15 @@ with explicit reasons. Local results never confer independent acceptance,
 CP7 closure or production go. The explicit UTC17:00/WIB-midnight fact pair is
 not covered: local caller-timezone invariance and lawful actual-day fixture
 timestamps do not qualify that boundary.
+
+The reader successor adds three PREPARED Native cases in
+`scripts/current-attendance-period-choice-readers-qualification`. Fresh unchanged
+financial11 plus reader3 means14 business cases; function captures15 is a
+different count. The source13 baseline's eventual qualification does not accept
+this new reader source. Reader first-failure controls are preserved: old23PASS/
+5readerFAIL after declaring a missing local name-table dependency, then the
+first new-reader full28 run27PASS/1 local reinstall omission. A selected
+DateStyle diagnostic retained its finally-masked aborted-transaction failure;
+the new date comparison now uses Native canonical dates, not caller DateStyle.
+All complete-suite assertions remain; selected diagnostics are not full-suite
+or Native evidence. Final commands/counts live in the current local receipt.
