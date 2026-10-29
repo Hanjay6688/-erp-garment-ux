@@ -438,15 +438,38 @@
       "title": "Release package dan next-CP receipt",
       "owner": "A",
       "implementation_refs": [
+        "scripts/cp7_vendor_receivable/composition.py",
+        "scripts/current-vendor-integration-source/check.py",
         "scripts/cp7_current_installation.py",
         "docs/cp7/handoff/CP75_CP7C_CP8_SAMBUNGAN_PREPARED_20261028.md"
       ],
       "retained_component_evidence_refs": [
-        "docs/cp7/d17-14/ow15/CP7_AUDITOR_HANDOFF_INDEX_PREPARED_20261028.json"
+        "docs/cp7/d17-14/ow15/CP7_AUDITOR_HANDOFF_INDEX_PREPARED_20261028.json",
+        "docs/cp7/d17-14/ow08/vendor-combined41c-pass.json",
+        "docs/cp7/d17-14/ow08/vendor-money2d4-pass.json"
       ],
-      "next_action": "Reconcile exact required behavior/case IDs, source hashes and final-candidate scope; use existing evidence when unchanged. No automatic PASS from this link.",
+      "next_action": "Reuse current cp7_vendor_receivable.composition entrypoint. Keep historical cp7_current_installation as a frozen dependency, not a circular wrapper. Bind source6 CSS separately. CP7.5 still needs both installation origins and business/data/ACL/sequence equivalence; CP7C/CP8 gates stay separate.",
       "original_preparation_status": "PLANNED_NOT_STARTED",
-      "current_runtime_status": "NOT_INFERRED_FROM_SEPTEMBER_STATUS"
+      "current_runtime_status": "RETAINED_ACTUAL_UPGRADE_AND_RESTORE_COMPONENT_ACCEPTED_FRESH_INSTALL_EQUIVALENCE_OPEN",
+      "retained_evidence_match": {
+        "checked_against_A": "39f8a0840d50fcd94d7301eaa2cebab23097b562",
+        "current_entrypoint": {
+          "module": "cp7_vendor_receivable.composition",
+          "path": "scripts/cp7_vendor_receivable/composition.py",
+          "install": "install",
+          "verify": "verify",
+          "rollback_preuse": "rollback_preuse"
+        },
+        "backend_head": "41caaaed02c0d89b122ecf1ff221f6647141c335",
+        "money_browser_head": "2d4ed56eb20187c00e63cd0a0774385d320f53be",
+        "money_receipt_sha256": "42dc733e9adbff0f43d3d09f2f09dc3359d3369d402650d6b7e7f22c20b10705",
+        "parent_backend_sha256": "193f4c18476a1e1abd5e05231d8d7755864b61e2998c4456f5a87459b17da59d",
+        "retained_backend_cases": 11,
+        "retained_money_cases": 2,
+        "new_actual_case_credit": 0,
+        "proven_scope": "The existing full vendor-capable installer was directly exercised; exact22/catalog/data/sequences/roles/advisors/Auth restoration and all five package gates passed. Used inverse refused before DDL. Ten source entries matched A preimages and79 B graph files remain exact.",
+        "boundary": "Upgrade of the qualified CP6 baseline through the retained chain; not fresh-install equivalence, Drive restore without live source, new send-watermark proof, final independent CP7 acceptance or cutover."
+      }
     }
   },
   "requirements": [
@@ -3244,9 +3267,18 @@
         "E14"
       ],
       "unresolved_original_case_refs": [],
-      "disposition": "IMPLEMENTATION_LOCATED_EXACT_FINAL_EVIDENCE_MATCH_PENDING",
-      "next_action": "Map this exact requirement to retained Original case(s) and source; run only changed/unproven coverage. This row is not a runtime verdict.",
-      "original_preparation_status": "NOT_RUN"
+      "disposition": "PARTIAL_RETAINED_ACTUAL_EVIDENCE_MATCHED_REMAINING_SCOPE_EXPLICIT",
+      "next_action": "Keep qualified install/restore subset. Match scheduler/send-watermark and secrets/log/cache separately; prove external backup restoration without live source at authorized CP7C.",
+      "original_preparation_status": "NOT_RUN",
+      "additional_evidence_matches": [
+        {
+          "receipt": "docs/cp7/d17-14/ow08/vendor-money2d4-pass.json",
+          "same_source_leaf_binding": "packets.P21.retained_evidence_match",
+          "proven_scope": "Exact upgrade/full package restore subset; no new send-watermark, external backup or complete secrets/log/cache qualification."
+        }
+      ],
+      "closure_owner": "A_INTEGRATION_AND_OPERATIONS_INDEPENDENT_AUDITOR_ACCEPTANCE",
+      "remaining_gap": "Keep qualified install/restore subset. Match scheduler/send-watermark and secrets/log/cache separately; prove external backup restoration without live source at authorized CP7C."
     },
     {
       "id": "BR-T40",
@@ -5731,9 +5763,18 @@
         "E21"
       ],
       "unresolved_original_case_refs": [],
-      "disposition": "IMPLEMENTATION_LOCATED_EXACT_FINAL_EVIDENCE_MATCH_PENDING",
-      "next_action": "Map this exact requirement to retained Original case(s) and source; run only changed/unproven coverage. This row is not a runtime verdict.",
-      "original_preparation_status": "NOT_RUN"
+      "disposition": "PARTIAL_RETAINED_ACTUAL_EVIDENCE_MATCHED_REMAINING_SCOPE_EXPLICIT",
+      "next_action": "Keep qualified install/restore subset. Match scheduler/send-watermark and secrets/log/cache separately; prove external backup restoration without live source at authorized CP7C.",
+      "original_preparation_status": "NOT_RUN",
+      "additional_evidence_matches": [
+        {
+          "receipt": "docs/cp7/d17-14/ow08/vendor-money2d4-pass.json",
+          "same_source_leaf_binding": "packets.P21.retained_evidence_match",
+          "proven_scope": "Exact upgrade/full package restore subset; no new send-watermark, external backup or complete secrets/log/cache qualification."
+        }
+      ],
+      "closure_owner": "A_INTEGRATION_AND_OPERATIONS_INDEPENDENT_AUDITOR_ACCEPTANCE",
+      "remaining_gap": "Keep qualified install/restore subset. Match scheduler/send-watermark and secrets/log/cache separately; prove external backup restoration without live source at authorized CP7C."
     },
     {
       "id": "UX32-T01",
