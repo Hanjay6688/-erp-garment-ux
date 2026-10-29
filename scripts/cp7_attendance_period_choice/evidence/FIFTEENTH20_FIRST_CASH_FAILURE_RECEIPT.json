@@ -1,0 +1,17 @@
+{
+  "classification": "LOCAL_RETAINED_NATIVE_JOURNAL_INVERSE_WITH_DECLARED_ADMIN_E05_CONTEXT_NOT_ACTUAL_FULL_E05_NATIVE_AUTH",
+  "counts": {
+    "PASS": 19,
+    "FAIL": 1,
+    "SKIP": 0
+  },
+  "observed": "First generic Native cash inverse returned a real inverse journal under modeled E05 REVERSE_PAYROLL context while S03 expense still claims source payroll. Actual full E05 would later hit Native source claim after its cash loop; sequence allocations would not roll back. Full-E05 qualification still PREPARED.",
+  "earlier_dependency_failure_retained": "LOCAL_FOURTEENTH20_19PASS_1MODEL_DEPENDENCY_FAILURE.json",
+  "repair_applied": false,
+  "files": {
+    "choice.sql": "d7891cfbd3f408735e611c905a4c861829d481f268128d456dd486be2f620e56",
+    "local_fixture.sql": "9188b543df7cca3fcf1d6d06554845b10a59218625cf5c40a874918ba4cafebf",
+    "local.test.ts": "279532793c90baedb797f398c597b3c1c968a65b4e6dcebed55ef0dd400a3c1c",
+    "SOURCE_DERIVED_NATIVE_ABI.json": "5f25181d6326def54ccbbbe5a0abe910d7cb24fe462db0dc02a2fbc9f846c2ed"
+  }
+}

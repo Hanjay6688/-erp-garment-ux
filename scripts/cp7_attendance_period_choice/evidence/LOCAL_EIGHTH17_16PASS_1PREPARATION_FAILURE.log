@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "/workspace/scratch/ef468a447ac6/erp-attendance-zero/scripts/cp7_attendance_period_choice/local_catalog.py", line 39, in <module>
+    transition(capture['before'],capture['after'],capture['definitions'])
+  File "/workspace/scratch/ef468a447ac6/erp-attendance-zero/scripts/cp7_attendance_period_choice/catalog_contract.py", line 26, in transition
+    identities=json.loads((HERE/'NEW_CATALOG_IDENTITIES.json').read_bytes())['objects']
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py", line 1019, in read_bytes
+    with self.open(mode='rb') as f:
+         ^^^^^^^^^^^^^^^^^^^^
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/workspace/scratch/ef468a447ac6/erp-attendance-zero/scripts/cp7_attendance_period_choice/NEW_CATALOG_IDENTITIES.json'
+JSON report written to /tmp/s03-local-eighth.json

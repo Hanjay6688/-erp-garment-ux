@@ -1,0 +1,48 @@
+{
+  "status": "EXACT_VENDOR41C_AND_PREPARED_S03_NATIVE11_ADMITTED",
+  "source_declaration": {
+    "status": "EXACT_PREPARED_S03_NATIVE11_SOURCE",
+    "files": 156,
+    "source_base": "d902e4d2e65cf5b382af1ab041120611f9a61078",
+    "source_base_is_runtime_prerequisite": false,
+    "frozen_S03_files": 80,
+    "existing_captures": 13,
+    "private_clones": 2,
+    "Native_case_ids": [
+      "S03_NATIVE_OWNER_FIELDS_READ_FULL_NO_EFFECT",
+      "S03_NATIVE_EXPENSE_APPROVAL_ONCE_PAID_E05_REOPEN",
+      "S03_NATIVE_TWO_EXACT_PERIODS_CENTS_AND_NATIVE_HPP",
+      "S03_NATIVE_P2_PAYROLL_POOL_COEXIST_AND_POLICY_FENCES",
+      "S03_NATIVE_OWNING_CANCEL_LATE_OUTPUT_AND_RESTORATION_FLOOR",
+      "S03_NATIVE_BOTH_CORRECTIONS_LINKED_INVERSES_NO_RECOGNITION",
+      "S03_NATIVE_STALE_REVIEW_UUID_RECOVERY_AND_APPEND_ONLY",
+      "S03_NATIVE_CLOSED_SOURCE_OPEN_OUTPUT_AND_CLOSED_CORRECTION",
+      "S03_NATIVE_ZERO_OUTPUT_SUCCESSOR_POLICY_RETAINS_OLD_INFO",
+      "S03_NATIVE_FINISHED_PO_FG_COGS_COST_AND_CANCEL_EXACT",
+      "S03_NATIVE_OLD_ACCRUAL_LATER_BOOK_REOPEN_DATE_FLOOR"
+    ],
+    "engine_substitutions": 6,
+    "source_derived_local_ABI_is_installed_proof": false,
+    "Native_executed": false,
+    "inherited_archived_workflow_inputs": 24,
+    "restored_Git_workflow_triggers": 0,
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "qualified_parent": {
+    "status": "RETAINED_VENDOR41C_ADMITTED",
+    "backend_commit": "41caaaed02c0d89b122ecf1ff221f6647141c335",
+    "original_sha256": "04e00f42862ddfec8346d41d4d6a2d6a285f041127cccf09d973ca929b307ea0",
+    "historical_native": 7,
+    "historical_races": 3,
+    "historical_real_Auth_HTTP": 1,
+    "historical_browser": 0,
+    "S03_new_qualification_credit": 0,
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "source_only_base_failedD1_not_prerequisite": true,
+  "actual_Native_cases": 0,
+  "DB_connections_forbidden": true,
+  "production_go": false
+}

@@ -1,0 +1,15 @@
+test_business_row_or_sequence_use_refuses_before_any_inverse_ddl (test_source.PreuseGuard.test_business_row_or_sequence_use_refuses_before_any_inverse_ddl) ... ok
+test_mutated_capture_or_derivation_refuses_before_catalog_read_or_inverse_ddl (test_source.PreuseGuard.test_mutated_capture_or_derivation_refuses_before_catalog_read_or_inverse_ddl) ... ok
+test_pristine_undo_restores13_originals_and_only3_public_rpcs_then_schema (test_source.PreuseGuard.test_pristine_undo_restores13_originals_and_only3_public_rpcs_then_schema) ... ok
+test_counted_native_anchors_and_distinct_clone_operation_are_fail_closed (test_source.SourceBoundary.test_counted_native_anchors_and_distinct_clone_operation_are_fail_closed) ... ok
+test_early_approval_guards_preserve_lock_order_fresh_access_and_later_native_steps (test_source.SourceBoundary.test_early_approval_guards_preserve_lock_order_fresh_access_and_later_native_steps) ... ok
+test_existing_rows_deletion_or_acl_metadata_mutation_fail (test_source.SourceBoundary.test_existing_rows_deletion_or_acl_metadata_mutation_fail) ... ok
+test_full22_exact_additive_inventory_and_all13_captures (test_source.SourceBoundary.test_full22_exact_additive_inventory_and_all13_captures) ... ok
+test_missing_native_delta_or_only21_groups_refuses (test_source.SourceBoundary.test_missing_native_delta_or_only21_groups_refuses) ... ok
+test_rogue_addition_in_every_catalog_group_fails_including_own_schema (test_source.SourceBoundary.test_rogue_addition_in_every_catalog_group_fails_including_own_schema) ... ok
+test_source_derived_abi_provenance_is_exact_and_is_not_runtime_capture (test_source.SourceBoundary.test_source_derived_abi_provenance_is_exact_and_is_not_runtime_capture) ... ok
+
+----------------------------------------------------------------------
+Ran 10 tests in 2.287s
+
+OK

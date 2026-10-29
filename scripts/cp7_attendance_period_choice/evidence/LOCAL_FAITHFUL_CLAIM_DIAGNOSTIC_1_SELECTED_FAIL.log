@@ -1,0 +1,40 @@
+
+ RUN  v4.1.11 /workspace/scratch/ef468a447ac6/erp-attendance-zero
+
+ ❯ scripts/cp7_attendance_period_choice/local.test.ts (22 tests | 1 failed | 21 skipped) 3314ms
+   × additional CALCULATED payroll existing before choice refuses public and direct APPROVE before audited rebuild or recalculate 517ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  scripts/cp7_attendance_period_choice/local.test.ts > additional CALCULATED payroll existing before choice refuses public and direct APPROVE before audited rebuild or recalculate
+AssertionError: expected { …(53) } to deeply equal { …(53) }
+
+- Expected
++ Received
+
+@@ -551,11 +551,11 @@
+        },
+        "old_data": null,
+      },
+    ],
+    "erp.audit_logs_id_seq": [
+-     "10",
++     "12",
+      true,
+    ],
+    "erp.bs_case_components": [],
+    "erp.bs_cases": [],
+    "erp.cash_accounts": [],
+
+ ❯ refused scripts/cp7_attendance_period_choice/local.test.ts:48:16
+
+ ❯ scripts/cp7_attendance_period_choice/local.test.ts:459:2
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 21 skipped (22)
+   Start at  04:01:38
+   Duration  3.91s (transform 159ms, setup 0ms, import 336ms, tests 3.31s, environment 0ms)
+

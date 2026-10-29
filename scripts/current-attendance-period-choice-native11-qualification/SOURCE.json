@@ -1,0 +1,896 @@
+{
+  "contract": "cp7.attendance-period-choice-native11.v1",
+  "status": "PREPARED_CURRENT_S03_NATIVE11_NOT_EXECUTED",
+  "files": {
+    ".github/workflows/cp7-current-vendor-receivable-native.yml": {
+      "bytes": 28846,
+      "sha256": "c2e35cb1dc08ff179da9392a15a153ffd8f2e7c6479bb44f6cfae30891b4e095"
+    },
+    ".github/workflows/cp7-s03-attendance-native11.yml": {
+      "bytes": 29845,
+      "sha256": "8359b8a5f05c4d8371429e71ba87ff36d2391d6f1108840a805bd8f81452c963"
+    },
+    "scripts/cp6_auditor_runner.py": {
+      "bytes": 14911,
+      "sha256": "2c74439f7e919e2adb2484bc774bef4881e71237124f2e6b6dabdab141348ea7"
+    },
+    "scripts/cp7_attendance_period_choice/NEW_CATALOG_IDENTITIES.json": {
+      "bytes": 17936,
+      "sha256": "ef2f99de5ec4104b53f28121d923a44350e80354c67217b70d32231f955fce71"
+    },
+    "scripts/cp7_attendance_period_choice/README.md": {
+      "bytes": 9189,
+      "sha256": "4b0254beb3e317d8c8df9077b35ea42c0b8b8f1764cede62750c4865a91d9044"
+    },
+    "scripts/cp7_attendance_period_choice/SOURCE_DERIVED_NATIVE_ABI.json": {
+      "bytes": 228645,
+      "sha256": "fd401799313a1a8938d08e226f235461b4425992ffa0d8936327d39cf6571fb3"
+    },
+    "scripts/cp7_attendance_period_choice/WIRE_CONTRACT.md": {
+      "bytes": 6821,
+      "sha256": "931e62848f6861e24190e76cb0efbd8aa032cb514bf0f0b5af362d62cbe12bbd"
+    },
+    "scripts/cp7_attendance_period_choice/__init__.py": {
+      "bytes": 75,
+      "sha256": "7078a6a88cf48a6fc9f9de2a06c7367b3b264613682d9cdbb6dce37fe18f34ea"
+    },
+    "scripts/cp7_attendance_period_choice/catalog_contract.py": {
+      "bytes": 2436,
+      "sha256": "0f0c1266ddefc5133cd693ee208f61f8ea71e5a09ab1ba43b1b52afb910f6764"
+    },
+    "scripts/cp7_attendance_period_choice/choice.sql": {
+      "bytes": 61490,
+      "sha256": "44499c6d6a06d1effc2be4f066168f5fa2fe9608b2ccb80d1d2d0b1dac0a8212"
+    },
+    "scripts/cp7_attendance_period_choice/composition.py": {
+      "bytes": 7018,
+      "sha256": "1fd29c8c4cf736241347b6619242096edb409cb6a9d1dbb80533be5fdb45a49e"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/ELEVENTH19_FIRST_REVERSAL_POLICY_FAILURE_RECEIPT.json": {
+      "bytes": 1388,
+      "sha256": "b5ac41178565478f883a9cc3dc9a5d6ada0e814267fd7af13f00ba3a6fa7a8c8"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/FAITHFUL22_FIRST_APPROVAL_ORDER_RECEIPT.json": {
+      "bytes": 1938,
+      "sha256": "9c6a687bc0bd398396a0891a50c5100a7ddc5047433af54edbd265e024e1b560"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/FIFTEENTH20_FIRST_CASH_FAILURE_RECEIPT.json": {
+      "bytes": 1037,
+      "sha256": "b3c128cb12a9ea27c374cb48698eb2c805d7f29db8f318d5630c8930e211fbba"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/FIFTH15_FIRST_MAPPING_FAILURE_RECEIPT.json": {
+      "bytes": 1061,
+      "sha256": "f091696b918310b0b470c698acd4a3a2aab3e52acac8a698aa8d66d225a599be"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/FIRST_FAILURE_RECEIPT.json": {
+      "bytes": 1729,
+      "sha256": "e7ca817d0dc8bcb8fe54abafdb9461ca98dfbdfe6893b82073b1404233755edb"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_CAPTURE13_PREP6_FIRST_PASS.log": {
+      "bytes": 1156,
+      "sha256": "a19147c3089c3dfcade7f0515a0a65147ae94b7a83e22c5eafba36af9a43fe6f"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_CAPTURE13_SOURCE10_FIRST_PASS.log": {
+      "bytes": 1808,
+      "sha256": "f462a7337ff5299c915b94188f492a82779ba8dd7093d9a184fc5dad329aea93"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_CHECK_RECEIPT.json": {
+      "bytes": 7467,
+      "sha256": "3d8115f552edeaaa25846ad887179cb4be9ca98547db5ed5a0764d4eb3653e66"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_EIGHTEENTH21_PASS.json": {
+      "bytes": 8289,
+      "sha256": "8a17afa09c9c4da2a89239ac811ff0f144b4ab2f19ad4c7ce05cff85caa76ffd"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_EIGHTEENTH21_PASS.log": {
+      "bytes": 54,
+      "sha256": "b631e07ae3e075486eae37a3666316bfa3e4bcf1d5a78d46e7e200272160c3f5"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_EIGHTH17_16PASS_1PREPARATION_FAILURE.json": {
+      "bytes": 9038,
+      "sha256": "2fdc104aa0a8ef95c416e7df47bcb081dd1ecb14382c68a815d0515cf18e10f0"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_EIGHTH17_16PASS_1PREPARATION_FAILURE.log": {
+      "bytes": 1221,
+      "sha256": "9e0782dd94e61c9143a89622cfd5cb641db6ac2035b0d49cd37c84055f5d9762"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_ELEVENTH19_17PASS_2FAIL.json": {
+      "bytes": 8695,
+      "sha256": "62fc24af7f7e31417aec13689de459c3a9901adea80ccfb72eeb26f321840479"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_ELEVENTH19_17PASS_2FAIL.log": {
+      "bytes": 52,
+      "sha256": "fd02ddf78a665ae9d40052bacfdbf27d83a6f156b3a2e89e06ed497d248e0f13"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_FAITHFUL22_FIRST_21PASS_1CLAIM_ORDER_FAILURE.json": {
+      "bytes": 9125,
+      "sha256": "7804c1fc8fd5f5ba361a1087c39e225f9b88a0a6bad3dab93bcedea82b2c1baf"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_FAITHFUL22_FIRST_21PASS_1CLAIM_ORDER_FAILURE.log": {
+      "bytes": 60,
+      "sha256": "cc4dc4fda3c4963c613bc21c6adcf59b382370538ff6711dd3606a532da66cea"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_FAITHFUL22_REPAIRED_PASS.json": {
+      "bytes": 8690,
+      "sha256": "d79d7574305f9e55b9e301e3b43e03360dc3e674620e07dfc19a3040fa437d85"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_FAITHFUL22_REPAIRED_PASS.log": {
+      "bytes": 60,
+      "sha256": "0e92a9356f0bb55f3e98b02b40e51c6bfcb0aa6b5eae5b24ee7799b27247c5b6"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_FAITHFUL_CLAIM_DIAGNOSTIC_1_SELECTED_FAIL.log": {
+      "bytes": 1273,
+      "sha256": "12df39375d4403ee7b5fdcfbccb8513a6d7902cbb0563d2281fe03c90eb94047"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_FAITHFUL_CLAIM_FIRST_CENSUS_DIFF.json": {
+      "bytes": 280,
+      "sha256": "881df8cfb0a0cb86b015f8ad0a50bb2f1689ceb894ee6c3425b6b15a0787a1cb"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_FIFTEENTH20_19PASS_1FIRST_CASH_FAILURE.json": {
+      "bytes": 8732,
+      "sha256": "14fe362a94d0d913c8237518f880a6301989620fe9ea5a637fd1f0fae2bc6121"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_FIFTEENTH20_19PASS_1FIRST_CASH_FAILURE.log": {
+      "bytes": 53,
+      "sha256": "699a0fbb0e8351eade15d4a49b4eeddc0b9499a23e0a7c5a4b6aab65021cd1c0"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_FIFTH15_12PASS_3FAIL.json": {
+      "bytes": 8879,
+      "sha256": "2fcfae5ba6d9fa286c6737deb3081f443cd719e109f5ccc74cb88005b4d7f562"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_FIFTH15_12PASS_3FAIL.log": {
+      "bytes": 49,
+      "sha256": "e4bcf39cc0f464e8709543e2d95caed6051cdee0a0293e43b8fb14e50a2dab5b"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_FIRST7_INCOMPLETE.json": {
+      "bytes": 10361,
+      "sha256": "1b1f0662fc440883a43cf0befa740649c5a12e6077b1875b9f403ccb3daaf17a"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_FIRST7_INCOMPLETE.log": {
+      "bytes": 49,
+      "sha256": "45fa2749bd36163c00ea7f4e6cc62956cb0ae9abdc0373582a2fb5ade5436d94"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_FOURTEENTH20_19PASS_1MODEL_DEPENDENCY_FAILURE.json": {
+      "bytes": 8787,
+      "sha256": "9b5f252f32d7ab60c0ee8ef97a82c56c655b2ef823e912b8ff9eb213f97c3553"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_FOURTEENTH20_19PASS_1MODEL_DEPENDENCY_FAILURE.log": {
+      "bytes": 54,
+      "sha256": "5c76eb7335d27cc0797fb5ff8a4c1ec0ef7c97b1f1b4c44d0bbe46c3092e2bc4"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_FOURTH7_PASS.json": {
+      "bytes": 3387,
+      "sha256": "3c3ebfcf91a3c110f8c84f37f5ae00f33134ccc165b100addac152a9c9fcc54e"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_FOURTH7_PASS.log": {
+      "bytes": 50,
+      "sha256": "1f797ba6c1834f492afc9ba5ffc09d1be35f48b10a1bf86d87eb731869c15540"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_FREEZE22_PASS.json": {
+      "bytes": 8696,
+      "sha256": "19a1a8f188280d05d13f161ae484dc8b94d936f4e2e37faf765a44ac516d4eb1"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_FREEZE22_PASS.log": {
+      "bytes": 46,
+      "sha256": "8006e6a2351bc76d83e9660b33ed7c11ec290ffe5a8708621dbab25661e2b676"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_FREEZE_PREP7_PASS.log": {
+      "bytes": 1311,
+      "sha256": "595687a50002361c205fa06204d8252c662237fa16e1c7943a58ccbc28078a75"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_FREEZE_SOURCE10_PASS.log": {
+      "bytes": 1808,
+      "sha256": "b39d707e803bcf171e1c14327fd23723b14b1000a710db15e89a2c67aa1f56ee"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_ISOLATED_RUNTIME_DIAGNOSIS_2_SELECTED.log": {
+      "bytes": 250,
+      "sha256": "5e799ef14e9bd2854174be8973642334e0c0815276bf24ffaaa014787adee7c1"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_NINTH17_16PASS_1CATALOG_FAILURE.json": {
+      "bytes": 8525,
+      "sha256": "dcabdd3cc1ccb3b4e8b5f754cc10675d003596fdf8002830628b82f25f0a15fa"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_NINTH17_16PASS_1CATALOG_FAILURE.log": {
+      "bytes": 713,
+      "sha256": "346deb4749141ca98860f44cfe3d58dd62eeb981ef0106e73e58d9e8f86e216d"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_PARENT_ENV_MISSING_FIRST.log": {
+      "bytes": 1480,
+      "sha256": "d64f5ced5aafa61dc7a542ce533357157decbaa65322c02774d8bac61468cb5a"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_PREPARED_FIRST6_4PASS_2FAIL.log": {
+      "bytes": 3488,
+      "sha256": "499e1c9d1383063a100b223b50f5c017b5fd3aa808164f5702f8d039c24a1f3d"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_SECOND7_5PASS_2FAIL.json": {
+      "bytes": 4713,
+      "sha256": "965d5381d8f314e5d5dd0ba20332bab5bd0b7b34c8926d8badb213be2f829110"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_SECOND7_5PASS_2FAIL.log": {
+      "bytes": 50,
+      "sha256": "7e406785bec2bbba431c56e9034708dde4cfa46edee5db45b0a264624ed3cf97"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_SEVENTEENTH20_PASS.json": {
+      "bytes": 7895,
+      "sha256": "47f9e28b68612fdf8023a313249ff7cbb11a3c6223cedac3ca88e3e456787801"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_SEVENTEENTH20_PASS.log": {
+      "bytes": 55,
+      "sha256": "d2c41437b6d3e4160cb49a291aa2fb887dcd08174d97fd18dc1bb0fe9ee2bdba"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_SEVENTH15_PASS.json": {
+      "bytes": 6095,
+      "sha256": "a95db8c841942dd3566135d6e7de2480f509ba42a0961f5163ef6deae6e6b650"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_SEVENTH15_PASS.log": {
+      "bytes": 51,
+      "sha256": "5ad279f7c2644972031dc973837be8504644915819143940546a81743ac45adb"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_SIXTEENTH20_19PASS_1UNRESOLVED_RUNTIME_FAILURE.json": {
+      "bytes": 9152,
+      "sha256": "516449f79ef674cef7a0fb23223805cf91d816a722a37f2b1a0056f5642af2d3"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_SIXTEENTH20_19PASS_1UNRESOLVED_RUNTIME_FAILURE.log": {
+      "bytes": 53,
+      "sha256": "96e8681d5ce61d1257c162f7ec228df0420af9fe4422205213a19d277546860b"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_SIXTH15_0PASS_15FAIL.json": {
+      "bytes": 20852,
+      "sha256": "0974a9c0a8eadb469c17ee34e5cc0cf674c68b3776d127bc6f0476706b197bd5"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_SIXTH15_0PASS_15FAIL.log": {
+      "bytes": 49,
+      "sha256": "c5c645da029465fe3353c57c8135fcf9feb3cd496e95baa0d95b68af43b8e76f"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_SOURCE_FIRST8_PASS.log": {
+      "bytes": 1410,
+      "sha256": "c4de974d156e42c780d3e0257bbfda27936ebe50189ce8fad2c95705c42ea2fe"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_SOURCE_SECOND8_PASS.log": {
+      "bytes": 1410,
+      "sha256": "cd9dbb5ddc8d89d6b9c0261b58d06c15bcfa43fedbc89562c496dfea593e3de3"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_SOURCE_THIRD8_PASS.log": {
+      "bytes": 1410,
+      "sha256": "cb966804ae5b209d4a1318e58c1d8f74e96541fab9aaed599ad28168a03cf5f8"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_TENTH17_PASS.json": {
+      "bytes": 6850,
+      "sha256": "52e07e3dd8b92ddd8de1dfbb787db819d4e2f0eb891635678255d5b75fca680e"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_TENTH17_PASS.log": {
+      "bytes": 49,
+      "sha256": "01c4a8ccfc56ac0bf6725329624d7da70733e4e38974461d02380f5906418d95"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_THIRD7_6PASS_1FAIL.json": {
+      "bytes": 4385,
+      "sha256": "78282789028a827fcca14fe2613030b78db2ac1c47015f896c9d67ca6ab3c1bd"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_THIRD7_6PASS_1FAIL.log": {
+      "bytes": 49,
+      "sha256": "8ca7c3bb7470638dd647ee70d1ed44fee0caf91a736dd4e0233a73002918b18f"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_THIRTEENTH19_PASS.json": {
+      "bytes": 7494,
+      "sha256": "f8b8b0931172757977819d6b0735fd97e7118b1948ac8f95ac109b95cebfd52b"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_THIRTEENTH19_PASS.log": {
+      "bytes": 54,
+      "sha256": "97ab62afc73a7f8d937711cb2830bbef3aa9715c98b2977febff68609e8e7fd2"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_TWELFTH19_18PASS_1EXPECTATION_FAILURE.json": {
+      "bytes": 8341,
+      "sha256": "02aed1aecccc2397db4a95aa6d54f03a208b0d4d37768dd19077fb31730ce431"
+    },
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_TWELFTH19_18PASS_1EXPECTATION_FAILURE.log": {
+      "bytes": 51,
+      "sha256": "93bbf506ed0c354eb8657589c47c61a561f7b0126ee30664a49991c4579a52af"
+    },
+    "scripts/cp7_attendance_period_choice/local.test.ts": {
+      "bytes": 42445,
+      "sha256": "5e88b862eece1ac41c5c80bc7c579b0faea24fc03d65462b2b9fdb48e051ddfb"
+    },
+    "scripts/cp7_attendance_period_choice/local_catalog.py": {
+      "bytes": 2050,
+      "sha256": "6a09eab11b0f8378069b39c40d0134d5cd85333af9d301b6849d9327fb28ca37"
+    },
+    "scripts/cp7_attendance_period_choice/local_fixture.sql": {
+      "bytes": 3930,
+      "sha256": "47c8718eac2633a4c0e4027ec9d91205c03dba2be5fa1d83c5c9a3f7bf370663"
+    },
+    "scripts/cp7_attendance_period_choice/native_delta.py": {
+      "bytes": 9804,
+      "sha256": "7a9576e136089b487920fe5c38088977491d342f87384c8e2e82ad128fcf6b90"
+    },
+    "scripts/cp7_attendance_period_choice/render_local.py": {
+      "bytes": 698,
+      "sha256": "dce54f00ed45c9763c76bf6c0a816ca606cbb784c3ba59adcabc31dc968544b7"
+    },
+    "scripts/cp7_attendance_period_choice/test_source.py": {
+      "bytes": 10837,
+      "sha256": "d6f9f7e85ffb4334c2df8d4862959fa1e6ad1b2aae3268a07384e15d8c04681d"
+    },
+    "scripts/cp7_catalog_state.py": {
+      "bytes": 6336,
+      "sha256": "f3cbfe6e0925f9706a566c7ea0f1353ae7395abf0bfd5479f7cf99171c47676d"
+    },
+    "scripts/cp7_ow04_restore_bundle.py": {
+      "bytes": 19828,
+      "sha256": "a1605193347cf5b3321a7bdbf8ff6c634df4f4c0a5113eb295e8c3ce44428e00"
+    },
+    "scripts/cp7_vendor_receivable/cases.py": {
+      "bytes": 12879,
+      "sha256": "d92dea48580ef5443717292ad1b8e08462f00cf0161d4427ac764d06a312fdd7"
+    },
+    "scripts/cp7_vendor_receivable/composition.py": {
+      "bytes": 8287,
+      "sha256": "b0bc106121932deb18a342299ec7ffb1a314abaca9d77879df29784261821df2"
+    },
+    "scripts/cp7_vendor_receivable/native_delta.py": {
+      "bytes": 5293,
+      "sha256": "bd0f41be50fea0ab64b19c15d8a09fc7940782507c35482911dd86c36403a52b"
+    },
+    "scripts/cp7_vendor_receivable/receivable.sql": {
+      "bytes": 20188,
+      "sha256": "3b24728512e8be6af697f3234e591f7fe6b46331c68e3497ab71aedbcc9aa2ba"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/.gitignore": {
+      "bytes": 19,
+      "sha256": "862263fa1f46c20f0d1e4dac5ffcc75abd55c08211b2c3864c5f8764b9d87793"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/CONFIG.json": {
+      "bytes": 5622,
+      "sha256": "4231aa7cda7049e90245b8c562d0fffab56303a69f91124a76da8d50cfd6d98c"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/LOCAL_RECEIPT.json": {
+      "bytes": 2632,
+      "sha256": "754cd4d0d7028baa9ca9d40d75726dbdd8dc01ba7b0becd0bd6ee1f8715a30bb"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/ORIGIN.json": {
+      "bytes": 16904,
+      "sha256": "f4cd92dc52e95cb564b61ff6ea536b0658976314cc7b4b21b6ba651fcc0c06ec"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/README.md": {
+      "bytes": 5231,
+      "sha256": "0030742ca317052ed81a34928805cff860128f3f144b9975453eb013332253af"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/admission.py": {
+      "bytes": 2561,
+      "sha256": "23fd3704191b4d68f515331a293c77cb97af4e0870b1d613b68d9482fb816ee6"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/argv_boundary.py": {
+      "bytes": 338,
+      "sha256": "34994ef5bd70ec495ba104be3c58a9143f8f1eaef64040cf024da01c7e165d46"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/bind.py": {
+      "bytes": 2681,
+      "sha256": "940547848b5ae1cf4e580b8755e9a30b72217961cb1a8f314d67b53b809ed66b"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/check.py": {
+      "bytes": 962,
+      "sha256": "fffb62d11d9debf0b131f5d51faac178efafd07b26e04e6162042b53b8fe28db"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/derive.py": {
+      "bytes": 1505,
+      "sha256": "ad2de7c6cc1b2ebc31ce678a41f52e4c4cf25ff76bf93abe4b66d762bcfc253c"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/evidence/LOCAL_FINAL18_PASS.log": {
+      "bytes": 3306,
+      "sha256": "60b7a4b6375086315d0c0ba0a618706e94862f0a91a1410a3e9cdbec163b99be"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/evidence/LOCAL_FIRST16_PASS.log": {
+      "bytes": 2924,
+      "sha256": "1ffd0049d6481f01c00944e12f4c630f74ce88fad503250c63b336b43f60305d"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/evidence/LOCAL_FIRST_REAL_SOURCE_ADMISSION_STDERR.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/evidence/LOCAL_FIRST_REAL_SOURCE_ADMISSION_SUMMARY.json": {
+      "bytes": 1952,
+      "sha256": "1a6759c1b0d8677fa8cd92e86b3b5ea3935a0d3a5a2f5a482f9aeaca823920d9"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/evidence/LOCAL_UNCHANGED_PREP7_PASS.log": {
+      "bytes": 1311,
+      "sha256": "771df314ccc725c4189dc6a05cea6d50af20a67fc7e129a5fadf4d484303355c"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/evidence/LOCAL_UNCHANGED_SOURCE10_PASS.log": {
+      "bytes": 1808,
+      "sha256": "e942ce8e3edbe383f845deb572fbec5e44700bfd3d0f8611a9627afd75e8e898"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/native_runner.py": {
+      "bytes": 8284,
+      "sha256": "c2124f5371c529ecbf7767381b55f4c799a2fe0829577d80aa3fbd443c4c9512"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/probe.py": {
+      "bytes": 3225,
+      "sha256": "d72bbae586e6b30231bc597adde06303f97c08aac0c8e091d42b88e413bb6f2d"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/proof_inputs.py": {
+      "bytes": 2224,
+      "sha256": "c1496301182f50cbf050077f62620ac96330b5d93355e616823de4c4225f09af"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/result_gate.py": {
+      "bytes": 3293,
+      "sha256": "69f0531bea9fdae02c0bb4468ee99b999a05e2214e754205d1f29c836f1619df"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/retained41c/CP7_VENDOR_RECEIVABLE_COMBINED11.json.gz": {
+      "bytes": 347533,
+      "sha256": "91bab345d1b41ca7fa8f57fab97a407377a2588b0d7298f57bb47ee01d3daade"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/retained41c/T3_BACKUP_RESTORE_DRILL.json.gz": {
+      "bytes": 645,
+      "sha256": "430e1a3396f479a756d457495dbf8aa7819a99b2ca49a3908391becfb64cc9ce"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/retained41c/T3_PACKAGE_FILES_INSTALL.json.gz": {
+      "bytes": 255,
+      "sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/retained41c/T3_PACKAGE_INSTALL.json.gz": {
+      "bytes": 11393,
+      "sha256": "9c651a5d5a38370a2f5f19f30543821ab8333eb267936b34681e9a27784bc2cb"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/source_check.py": {
+      "bytes": 5618,
+      "sha256": "25b2960b1faee2735fd3775a68261cde5f25a4d840b4c0af2b069cf4ea2b0905"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/test_contract.py": {
+      "bytes": 16081,
+      "sha256": "229cdad63a2f5659c6cf5fa0a0298096a2ccc81345c0ce403e776c3432050cdc"
+    },
+    "scripts/current-attendance-period-choice-native11-qualification/workflow.py": {
+      "bytes": 3039,
+      "sha256": "90d9e037c09ffdfbe7eca83b3ca954ba8869aa28988984ed3013e6f3310ab070"
+    },
+    "scripts/current-attendance-period-choice-qualification/README.md": {
+      "bytes": 8442,
+      "sha256": "aa524118b13978d76dfe9d625cb29a9e1e38444dcdbdb91f272edf4e5f7af165"
+    },
+    "scripts/current-attendance-period-choice-qualification/SOURCE.json": {
+      "bytes": 6868,
+      "sha256": "4b3ed812b18826d83086acfafb822321ea2c92a3d639678e9f8c04155de676b3"
+    },
+    "scripts/current-attendance-period-choice-qualification/admission.py": {
+      "bytes": 7252,
+      "sha256": "06778d6d2f9c7077f05cf3728505c625c8519a809b107c8594bcd9524becb023"
+    },
+    "scripts/current-attendance-period-choice-qualification/cases.py": {
+      "bytes": 28885,
+      "sha256": "15fe990cccb82ff4c1dcd9ca40dc17fe93ac26a3a359a37361e6d8780b1f16e2"
+    },
+    "scripts/current-attendance-period-choice-qualification/fixtures.py": {
+      "bytes": 11212,
+      "sha256": "cdb482b56048200f13da5893e119b0b301f54a600888da5252cea2fceaee4258"
+    },
+    "scripts/current-attendance-period-choice-qualification/test_plan.py": {
+      "bytes": 7100,
+      "sha256": "be3dd7d8e7e273d2730bc44b5e52bf2e14939ee02fd3f422b892876d893e1f5f"
+    },
+    "scripts/current-factory-initial-stage/stream_data.py": {
+      "bytes": 4670,
+      "sha256": "5a07ae1409337424b4d2c1234f75148013a30a8652f451686fdb02cb0b2b483c"
+    },
+    "scripts/current-vendor-receivable-followup/CONFIG.json": {
+      "bytes": 1343,
+      "sha256": "3011ddf4be598ad8f62af78eef28d62499ef721dd579bf730629544043584196"
+    },
+    "scripts/current-vendor-receivable-followup/README.md": {
+      "bytes": 787,
+      "sha256": "8396d68a5ffb6dbb17d3765066d07b1e292566ffe654d7026566c0994a0bed81"
+    },
+    "scripts/current-vendor-receivable-followup/cases.py": {
+      "bytes": 8066,
+      "sha256": "1e4f7be181edb2787f8c2c2f0d5279da127e33fe96bba06ca60792ef0e17a2f3"
+    },
+    "scripts/current-vendor-receivable-followup/fetch_native.py": {
+      "bytes": 1696,
+      "sha256": "e6a72e7c1150bc1ff7cb7f58e58326787f87db7eb735cd9f73b2d39075b8ff63"
+    },
+    "scripts/current-vendor-receivable-followup/gate.py": {
+      "bytes": 2783,
+      "sha256": "bde0b15368f22e74f460c5cc222f9fc8cd5c48ba00eb6c383f50a1e215c1f549"
+    },
+    "scripts/current-vendor-receivable-followup/runner.py": {
+      "bytes": 4679,
+      "sha256": "24dfc13dc99d7f51c4b4320b2bc3bd941d1107aa4aa254aa7439184289e2f4cb"
+    },
+    "scripts/current-vendor-receivable-followup/test_gate.py": {
+      "bytes": 3659,
+      "sha256": "f58574a669ec7e2dbb9ef7b8164cdbeab96dae36006424a9b5d4c2a931a0091c"
+    },
+    "scripts/current-vendor-receivable-qualification/CONFIG.json": {
+      "bytes": 3502,
+      "sha256": "bb20f61a2c5837e4a7d70c3794e76392cea583065800b9fe1f830f9ac2563997"
+    },
+    "scripts/current-vendor-receivable-qualification/README.md": {
+      "bytes": 446,
+      "sha256": "380c21bca774d9be75e8cad5b2ca2047b58535405704c71cd30500a6a9c2caa8"
+    },
+    "scripts/current-vendor-receivable-qualification/SOURCE.json": {
+      "bytes": 10974,
+      "sha256": "3ee29dfac8a83743e125ae9915aa27b01723d688b16b045fa126f1acb147ebfa"
+    },
+    "scripts/current-vendor-receivable-qualification/admission.py": {
+      "bytes": 6058,
+      "sha256": "5e80384b2ef0479748e76b413604f37979dacbf012fc495e3a8eef0d86efb654"
+    },
+    "scripts/current-vendor-receivable-qualification/check_source.py": {
+      "bytes": 347,
+      "sha256": "0c4db4ed9fd8c5ac989aa20516ce93323614b359dda88fee0ea7cb5f1e79bf8b"
+    },
+    "scripts/current-vendor-receivable-qualification/native_runner.py": {
+      "bytes": 2547,
+      "sha256": "debd69693dc444861aa193b644144eb3a6ee0e7eb0d279f671fcfad82aebdd0d"
+    },
+    "scripts/current-vendor-receivable-qualification/probe.py": {
+      "bytes": 12667,
+      "sha256": "c420d894f8d5f16bddefeae73addb621507170f372a28e7d6e33d88c7eeb0be9"
+    },
+    "scripts/current-vendor-receivable-qualification/runner.py": {
+      "bytes": 2952,
+      "sha256": "318fabe010586301205519c3b648f96496f5d80a651e7be955a0cd6d7a2c5b68"
+    },
+    "scripts/current-vendor-receivable-qualification/test_combined_runner.py": {
+      "bytes": 2849,
+      "sha256": "f3b2ab9fb0c3dcb36d0104e9a1f30a8ea189d4256061ee74724cf0066aec9dc4"
+    },
+    "scripts/current-vendor-receivable-qualification/test_workflow_source.py": {
+      "bytes": 830,
+      "sha256": "3da65714051c4cf9edb1c0708c94905e9f728eb9c1fc0432663cb81c831d2290"
+    },
+    "scripts/current-vendor-receivable-qualification/workflow_source.py": {
+      "bytes": 680,
+      "sha256": "b3af422776b5e0f200ac04ac9fd41a7bf283fa1890819b41df92ef6f31bf1910"
+    },
+    "scripts/current-workflow-history-isolation/ARCHIVE.json": {
+      "bytes": 10852,
+      "sha256": "0abb7b292818d66e104d0174d790612049afe9efad099943744eb38b4daa7a8b"
+    },
+    "scripts/current-workflow-history-isolation/frozen-workflows/cp7-current-frozen-finance-factory-date2.yml.txt": {
+      "bytes": 26758,
+      "sha256": "ebdf4c3e9cc345bc0873ab16d03ec91c24f1e5291735e54dbcbc64268bc1528e"
+    },
+    "scripts/current-workflow-history-isolation/frozen-workflows/cp7-current-frozen-finance-factory-observe.yml.txt": {
+      "bytes": 26783,
+      "sha256": "2948fe6942bdd0791645698269cb06d09136a9e9dd43c344a2353f80e42dc14b"
+    },
+    "scripts/current-workflow-history-isolation/frozen-workflows/cp7-current-frozen-finance-native.yml.txt": {
+      "bytes": 26389,
+      "sha256": "b3f7e4b5f88be6df6abb9ec1bd6f171d420cd5997e47b1f8e78f78cc15738970"
+    },
+    "scripts/current-workflow-history-isolation/frozen-workflows/cp7-current-frozen-public-cron.yml.txt": {
+      "bytes": 26875,
+      "sha256": "cbd6ffb334d5b4f2d81909b18913037728145afc72608fae1afb86432778ef4a"
+    },
+    "scripts/current-workflow-history-isolation/frozen-workflows/cp7-current-frozen-public-native.yml.txt": {
+      "bytes": 26789,
+      "sha256": "d9fa5ad901531ec80cd18857bf6d454a98e3cd5026bbe2e0186c0e534ea00092"
+    },
+    "scripts/current-workflow-history-isolation/frozen-workflows/cp7-current-frozen-units-native.yml.txt": {
+      "bytes": 26074,
+      "sha256": "e9f1d9e1e1a851ab203ae25dc778dda4b364035732fa9c44edc8c5534786dcf3"
+    },
+    "scripts/current-workflow-history-isolation/frozen-workflows/cp7-current-versioned-performance-browser.yml.txt": {
+      "bytes": 26316,
+      "sha256": "f941b6f381e88010799dcb921328f097b99e5e447bfedaa705ddb2bd80a82bcb"
+    },
+    "scripts/current-workflow-history-isolation/frozen-workflows/cp7-current-versioned-performance-cron.yml.txt": {
+      "bytes": 25814,
+      "sha256": "b9ac4f9996e8d09cab9cade28084b49559dfcfbcb7adcf7af19c6294d60312ed"
+    },
+    "scripts/current-workflow-history-isolation/frozen-workflows/cp7-current-versioned-performance-finance.yml.txt": {
+      "bytes": 25836,
+      "sha256": "e39139ec3b2563dc3aa2648c79d8090202c225f48a77f9304bd90a2f90cfe1a0"
+    },
+    "scripts/current-workflow-history-isolation/frozen-workflows/cp7-current-versioned-performance-native.yml.txt": {
+      "bytes": 25567,
+      "sha256": "bcd835a703e3d27624bd277d5fd26798b04d026fc10f75376d0469250106ecdd"
+    },
+    "scripts/current-workflow-history-isolation/frozen-workflows/cp7-current-versioned-performance-restore.yml.txt": {
+      "bytes": 25858,
+      "sha256": "db4dcf015d8ba7ee211a0bcdb1e184c67eb0810653e868a65dec78c7acb16c0d"
+    },
+    "scripts/current-workflow-history-isolation/frozen-workflows/cp7-current-versioned-performance-transport.yml.txt": {
+      "bytes": 25865,
+      "sha256": "79e391fefb8b845a310e776d00adbcb9058394e44c510674351130f163a976d6"
+    },
+    "scripts/current-workflow-history-isolation/frozen-workflows/cp7-d17-18-choice-finance-cron.yml.txt": {
+      "bytes": 28188,
+      "sha256": "b332179a4ff9bb71483a71a3d75a8c51fd2eadccab9a2b02f0df31c1fd670ad8"
+    },
+    "scripts/current-workflow-history-isolation/frozen-workflows/cp7-d17-18-choice-preparation-native.yml.txt": {
+      "bytes": 27522,
+      "sha256": "85f667e6a6657e8624a759e9b13b0ccfb2d4b7aa361b5919109e9859903a41e4"
+    },
+    "scripts/current-workflow-history-isolation/frozen-workflows/cp7-d17-18-choice-preparation-transport.yml.txt": {
+      "bytes": 27733,
+      "sha256": "0815a329373320b32ed8093f31df224a792cc575afb847c1392d912c3a8c1aac"
+    },
+    "scripts/current-workflow-history-isolation/frozen-workflows/cp7-d17-18-consistent-capture.yml.txt": {
+      "bytes": 29663,
+      "sha256": "305f54fc7a56bea85041e8ca1d5ea09f7553703129401967594d971063940770"
+    },
+    "scripts/current-workflow-history-isolation/frozen-workflows/cp7-d17-18-factory-stage-profile.yml.txt": {
+      "bytes": 27078,
+      "sha256": "cf1f14d7a2aa1cd17d2f673b081e3a7dbb80d495064257b59fa21acee0b334c6"
+    },
+    "scripts/current-workflow-history-isolation/frozen-workflows/cp7-d17-18-finance-check-reuse-diagnostic.yml.txt": {
+      "bytes": 27881,
+      "sha256": "a8166a824f274ec4be16e08b0bfbea8dc003888a4ddb9611f118448561e30b8d"
+    },
+    "scripts/current-workflow-history-isolation/frozen-workflows/cp7-d17-18-finance-followups.yml.txt": {
+      "bytes": 29412,
+      "sha256": "0fb499e1afd4a4e2d9a37cb77caeec841a10899e36e3e6ac80c2a50b54168083"
+    },
+    "scripts/current-workflow-history-isolation/frozen-workflows/cp7-d17-18-finance-reader-diagnostic.yml.txt": {
+      "bytes": 27245,
+      "sha256": "ed75185fcf19c62a39ba69a93f62cbca447b0e8db5f4364966aeb40ade3fa2fb"
+    },
+    "scripts/current-workflow-history-isolation/frozen-workflows/cp7-d17-18-finance-reader-source-race.yml.txt": {
+      "bytes": 28424,
+      "sha256": "a33b489cf0231f308ce3b855e7606dcccc2c75d8f22fc07d54dd1eb896f44829"
+    },
+    "scripts/current-workflow-history-isolation/frozen-workflows/cp7-d17-18-progress-finance-ui-browser.yml.txt": {
+      "bytes": 28456,
+      "sha256": "fb79b494bafb2ebf9063891896229e3942adbae4c36324b402ac297580004c1f"
+    },
+    "scripts/current-workflow-history-isolation/frozen-workflows/cp7-d17-18-progress-native.yml.txt": {
+      "bytes": 27024,
+      "sha256": "e869ab6d3d34c2865a58f0aa3acb1137f9cf3718c1216ecead9db69c358ec1ee"
+    },
+    "scripts/current-workflow-history-isolation/frozen-workflows/cp7-d17-18-readonly-finance-composition.yml.txt": {
+      "bytes": 28683,
+      "sha256": "54b741c037f8b00897bafc64cf2a446e3118642930863567e992c422021cac3d"
+    },
+    "scripts/current-workflow-history-isolation/materialize.py": {
+      "bytes": 2153,
+      "sha256": "53fbfe1cc59c77f49f67fcf4a6ebaa39395c2ae833942270a408a9a82bd99519"
+    },
+    "scripts/ow04-composed-qualification/composed_probe.py": {
+      "bytes": 14672,
+      "sha256": "7241fec3caec31525d4cc7c70855648edb55768fa225543389bebc43e59d2e56"
+    },
+    "scripts/ow04-payment-source-qualification/source_probe.py": {
+      "bytes": 8226,
+      "sha256": "fe8faa04ba6445fc54ff6daeee05753e78a6a73212b24b9d240f4d1fe58d3dad"
+    }
+  },
+  "allowed_changes": [
+    ".github/workflows/cp7-s03-attendance-native11.yml",
+    "scripts/cp7_attendance_period_choice/NEW_CATALOG_IDENTITIES.json",
+    "scripts/cp7_attendance_period_choice/README.md",
+    "scripts/cp7_attendance_period_choice/SOURCE_DERIVED_NATIVE_ABI.json",
+    "scripts/cp7_attendance_period_choice/WIRE_CONTRACT.md",
+    "scripts/cp7_attendance_period_choice/__init__.py",
+    "scripts/cp7_attendance_period_choice/catalog_contract.py",
+    "scripts/cp7_attendance_period_choice/choice.sql",
+    "scripts/cp7_attendance_period_choice/composition.py",
+    "scripts/cp7_attendance_period_choice/evidence/ELEVENTH19_FIRST_REVERSAL_POLICY_FAILURE_RECEIPT.json",
+    "scripts/cp7_attendance_period_choice/evidence/FAITHFUL22_FIRST_APPROVAL_ORDER_RECEIPT.json",
+    "scripts/cp7_attendance_period_choice/evidence/FIFTEENTH20_FIRST_CASH_FAILURE_RECEIPT.json",
+    "scripts/cp7_attendance_period_choice/evidence/FIFTH15_FIRST_MAPPING_FAILURE_RECEIPT.json",
+    "scripts/cp7_attendance_period_choice/evidence/FIRST_FAILURE_RECEIPT.json",
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_CAPTURE13_PREP6_FIRST_PASS.log",
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_CAPTURE13_SOURCE10_FIRST_PASS.log",
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_CHECK_RECEIPT.json",
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_EIGHTEENTH21_PASS.json",
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_EIGHTEENTH21_PASS.log",
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_EIGHTH17_16PASS_1PREPARATION_FAILURE.json",
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_EIGHTH17_16PASS_1PREPARATION_FAILURE.log",
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_ELEVENTH19_17PASS_2FAIL.json",
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_ELEVENTH19_17PASS_2FAIL.log",
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_FAITHFUL22_FIRST_21PASS_1CLAIM_ORDER_FAILURE.json",
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_FAITHFUL22_FIRST_21PASS_1CLAIM_ORDER_FAILURE.log",
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_FAITHFUL22_REPAIRED_PASS.json",
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_FAITHFUL22_REPAIRED_PASS.log",
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_FAITHFUL_CLAIM_DIAGNOSTIC_1_SELECTED_FAIL.log",
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_FAITHFUL_CLAIM_FIRST_CENSUS_DIFF.json",
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_FIFTEENTH20_19PASS_1FIRST_CASH_FAILURE.json",
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_FIFTEENTH20_19PASS_1FIRST_CASH_FAILURE.log",
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_FIFTH15_12PASS_3FAIL.json",
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_FIFTH15_12PASS_3FAIL.log",
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_FIRST7_INCOMPLETE.json",
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_FIRST7_INCOMPLETE.log",
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_FOURTEENTH20_19PASS_1MODEL_DEPENDENCY_FAILURE.json",
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_FOURTEENTH20_19PASS_1MODEL_DEPENDENCY_FAILURE.log",
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_FOURTH7_PASS.json",
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_FOURTH7_PASS.log",
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_FREEZE22_PASS.json",
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_FREEZE22_PASS.log",
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_FREEZE_PREP7_PASS.log",
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_FREEZE_SOURCE10_PASS.log",
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_ISOLATED_RUNTIME_DIAGNOSIS_2_SELECTED.log",
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_NINTH17_16PASS_1CATALOG_FAILURE.json",
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_NINTH17_16PASS_1CATALOG_FAILURE.log",
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_PARENT_ENV_MISSING_FIRST.log",
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_PREPARED_FIRST6_4PASS_2FAIL.log",
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_SECOND7_5PASS_2FAIL.json",
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_SECOND7_5PASS_2FAIL.log",
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_SEVENTEENTH20_PASS.json",
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_SEVENTEENTH20_PASS.log",
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_SEVENTH15_PASS.json",
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_SEVENTH15_PASS.log",
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_SIXTEENTH20_19PASS_1UNRESOLVED_RUNTIME_FAILURE.json",
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_SIXTEENTH20_19PASS_1UNRESOLVED_RUNTIME_FAILURE.log",
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_SIXTH15_0PASS_15FAIL.json",
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_SIXTH15_0PASS_15FAIL.log",
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_SOURCE_FIRST8_PASS.log",
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_SOURCE_SECOND8_PASS.log",
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_SOURCE_THIRD8_PASS.log",
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_TENTH17_PASS.json",
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_TENTH17_PASS.log",
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_THIRD7_6PASS_1FAIL.json",
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_THIRD7_6PASS_1FAIL.log",
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_THIRTEENTH19_PASS.json",
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_THIRTEENTH19_PASS.log",
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_TWELFTH19_18PASS_1EXPECTATION_FAILURE.json",
+    "scripts/cp7_attendance_period_choice/evidence/LOCAL_TWELFTH19_18PASS_1EXPECTATION_FAILURE.log",
+    "scripts/cp7_attendance_period_choice/local.test.ts",
+    "scripts/cp7_attendance_period_choice/local_catalog.py",
+    "scripts/cp7_attendance_period_choice/local_fixture.sql",
+    "scripts/cp7_attendance_period_choice/native_delta.py",
+    "scripts/cp7_attendance_period_choice/render_local.py",
+    "scripts/cp7_attendance_period_choice/test_source.py",
+    "scripts/current-attendance-period-choice-native11-qualification/.gitignore",
+    "scripts/current-attendance-period-choice-native11-qualification/CONFIG.json",
+    "scripts/current-attendance-period-choice-native11-qualification/LOCAL_RECEIPT.json",
+    "scripts/current-attendance-period-choice-native11-qualification/ORIGIN.json",
+    "scripts/current-attendance-period-choice-native11-qualification/README.md",
+    "scripts/current-attendance-period-choice-native11-qualification/SOURCE.json",
+    "scripts/current-attendance-period-choice-native11-qualification/admission.py",
+    "scripts/current-attendance-period-choice-native11-qualification/argv_boundary.py",
+    "scripts/current-attendance-period-choice-native11-qualification/bind.py",
+    "scripts/current-attendance-period-choice-native11-qualification/check.py",
+    "scripts/current-attendance-period-choice-native11-qualification/derive.py",
+    "scripts/current-attendance-period-choice-native11-qualification/evidence/LOCAL_FINAL18_PASS.log",
+    "scripts/current-attendance-period-choice-native11-qualification/evidence/LOCAL_FIRST16_PASS.log",
+    "scripts/current-attendance-period-choice-native11-qualification/evidence/LOCAL_FIRST_REAL_SOURCE_ADMISSION_STDERR.log",
+    "scripts/current-attendance-period-choice-native11-qualification/evidence/LOCAL_FIRST_REAL_SOURCE_ADMISSION_SUMMARY.json",
+    "scripts/current-attendance-period-choice-native11-qualification/evidence/LOCAL_UNCHANGED_PREP7_PASS.log",
+    "scripts/current-attendance-period-choice-native11-qualification/evidence/LOCAL_UNCHANGED_SOURCE10_PASS.log",
+    "scripts/current-attendance-period-choice-native11-qualification/native_runner.py",
+    "scripts/current-attendance-period-choice-native11-qualification/probe.py",
+    "scripts/current-attendance-period-choice-native11-qualification/proof_inputs.py",
+    "scripts/current-attendance-period-choice-native11-qualification/result_gate.py",
+    "scripts/current-attendance-period-choice-native11-qualification/retained41c/CP7_VENDOR_RECEIVABLE_COMBINED11.json.gz",
+    "scripts/current-attendance-period-choice-native11-qualification/retained41c/T3_BACKUP_RESTORE_DRILL.json.gz",
+    "scripts/current-attendance-period-choice-native11-qualification/retained41c/T3_PACKAGE_FILES_INSTALL.json.gz",
+    "scripts/current-attendance-period-choice-native11-qualification/retained41c/T3_PACKAGE_INSTALL.json.gz",
+    "scripts/current-attendance-period-choice-native11-qualification/source_check.py",
+    "scripts/current-attendance-period-choice-native11-qualification/test_contract.py",
+    "scripts/current-attendance-period-choice-native11-qualification/workflow.py",
+    "scripts/current-attendance-period-choice-qualification/README.md",
+    "scripts/current-attendance-period-choice-qualification/SOURCE.json",
+    "scripts/current-attendance-period-choice-qualification/admission.py",
+    "scripts/current-attendance-period-choice-qualification/cases.py",
+    "scripts/current-attendance-period-choice-qualification/fixtures.py",
+    "scripts/current-attendance-period-choice-qualification/test_plan.py"
+  ],
+  "untracked_historical_proof_inputs": [
+    "docs/cp7/d17-14/ow08/vendor-combined41c-pass/CP7_VENDOR_RECEIVABLE_COMBINED11.json.gz",
+    "docs/cp7/d17-14/ow08/vendor-combined41c-pass/T3_PACKAGE_INSTALL.json.gz",
+    "docs/cp7/d17-14/ow08/vendor-combined41c-pass/T3_BACKUP_RESTORE_DRILL.json.gz",
+    "docs/cp7/d17-14/ow08/vendor-combined41c-pass/T3_PACKAGE_FILES_INSTALL.json.gz"
+  ],
+  "inherited_untracked_workflow_proof_inputs": {
+    ".github/workflows/cp7-current-frozen-finance-factory-date2.yml": {
+      "bytes": 26758,
+      "sha256": "ebdf4c3e9cc345bc0873ab16d03ec91c24f1e5291735e54dbcbc64268bc1528e"
+    },
+    ".github/workflows/cp7-current-frozen-finance-factory-observe.yml": {
+      "bytes": 26783,
+      "sha256": "2948fe6942bdd0791645698269cb06d09136a9e9dd43c344a2353f80e42dc14b"
+    },
+    ".github/workflows/cp7-current-frozen-finance-native.yml": {
+      "bytes": 26389,
+      "sha256": "b3f7e4b5f88be6df6abb9ec1bd6f171d420cd5997e47b1f8e78f78cc15738970"
+    },
+    ".github/workflows/cp7-current-frozen-public-cron.yml": {
+      "bytes": 26875,
+      "sha256": "cbd6ffb334d5b4f2d81909b18913037728145afc72608fae1afb86432778ef4a"
+    },
+    ".github/workflows/cp7-current-frozen-public-native.yml": {
+      "bytes": 26789,
+      "sha256": "d9fa5ad901531ec80cd18857bf6d454a98e3cd5026bbe2e0186c0e534ea00092"
+    },
+    ".github/workflows/cp7-current-frozen-units-native.yml": {
+      "bytes": 26074,
+      "sha256": "e9f1d9e1e1a851ab203ae25dc778dda4b364035732fa9c44edc8c5534786dcf3"
+    },
+    ".github/workflows/cp7-current-versioned-performance-browser.yml": {
+      "bytes": 26316,
+      "sha256": "f941b6f381e88010799dcb921328f097b99e5e447bfedaa705ddb2bd80a82bcb"
+    },
+    ".github/workflows/cp7-current-versioned-performance-cron.yml": {
+      "bytes": 25814,
+      "sha256": "b9ac4f9996e8d09cab9cade28084b49559dfcfbcb7adcf7af19c6294d60312ed"
+    },
+    ".github/workflows/cp7-current-versioned-performance-finance.yml": {
+      "bytes": 25836,
+      "sha256": "e39139ec3b2563dc3aa2648c79d8090202c225f48a77f9304bd90a2f90cfe1a0"
+    },
+    ".github/workflows/cp7-current-versioned-performance-native.yml": {
+      "bytes": 25567,
+      "sha256": "bcd835a703e3d27624bd277d5fd26798b04d026fc10f75376d0469250106ecdd"
+    },
+    ".github/workflows/cp7-current-versioned-performance-restore.yml": {
+      "bytes": 25858,
+      "sha256": "db4dcf015d8ba7ee211a0bcdb1e184c67eb0810653e868a65dec78c7acb16c0d"
+    },
+    ".github/workflows/cp7-current-versioned-performance-transport.yml": {
+      "bytes": 25865,
+      "sha256": "79e391fefb8b845a310e776d00adbcb9058394e44c510674351130f163a976d6"
+    },
+    ".github/workflows/cp7-d17-18-choice-finance-cron.yml": {
+      "bytes": 28188,
+      "sha256": "b332179a4ff9bb71483a71a3d75a8c51fd2eadccab9a2b02f0df31c1fd670ad8"
+    },
+    ".github/workflows/cp7-d17-18-choice-preparation-native.yml": {
+      "bytes": 27522,
+      "sha256": "85f667e6a6657e8624a759e9b13b0ccfb2d4b7aa361b5919109e9859903a41e4"
+    },
+    ".github/workflows/cp7-d17-18-choice-preparation-transport.yml": {
+      "bytes": 27733,
+      "sha256": "0815a329373320b32ed8093f31df224a792cc575afb847c1392d912c3a8c1aac"
+    },
+    ".github/workflows/cp7-d17-18-consistent-capture.yml": {
+      "bytes": 29663,
+      "sha256": "305f54fc7a56bea85041e8ca1d5ea09f7553703129401967594d971063940770"
+    },
+    ".github/workflows/cp7-d17-18-factory-stage-profile.yml": {
+      "bytes": 27078,
+      "sha256": "cf1f14d7a2aa1cd17d2f673b081e3a7dbb80d495064257b59fa21acee0b334c6"
+    },
+    ".github/workflows/cp7-d17-18-finance-check-reuse-diagnostic.yml": {
+      "bytes": 27881,
+      "sha256": "a8166a824f274ec4be16e08b0bfbea8dc003888a4ddb9611f118448561e30b8d"
+    },
+    ".github/workflows/cp7-d17-18-finance-followups.yml": {
+      "bytes": 29412,
+      "sha256": "0fb499e1afd4a4e2d9a37cb77caeec841a10899e36e3e6ac80c2a50b54168083"
+    },
+    ".github/workflows/cp7-d17-18-finance-reader-diagnostic.yml": {
+      "bytes": 27245,
+      "sha256": "ed75185fcf19c62a39ba69a93f62cbca447b0e8db5f4364966aeb40ade3fa2fb"
+    },
+    ".github/workflows/cp7-d17-18-finance-reader-source-race.yml": {
+      "bytes": 28424,
+      "sha256": "a33b489cf0231f308ce3b855e7606dcccc2c75d8f22fc07d54dd1eb896f44829"
+    },
+    ".github/workflows/cp7-d17-18-progress-finance-ui-browser.yml": {
+      "bytes": 28456,
+      "sha256": "fb79b494bafb2ebf9063891896229e3942adbae4c36324b402ac297580004c1f"
+    },
+    ".github/workflows/cp7-d17-18-progress-native.yml": {
+      "bytes": 27024,
+      "sha256": "e869ab6d3d34c2865a58f0aa3acb1137f9cf3718c1216ecead9db69c358ec1ee"
+    },
+    ".github/workflows/cp7-d17-18-readonly-finance-composition.yml": {
+      "bytes": 28683,
+      "sha256": "54b741c037f8b00897bafc64cf2a446e3118642930863567e992c422021cac3d"
+    }
+  },
+  "source_base": "d902e4d2e65cf5b382af1ab041120611f9a61078",
+  "source_base_is_runtime_prerequisite": false,
+  "exact_copied_S03_files": 80,
+  "expected_existing_capture": 13,
+  "expected_private_clones": 2,
+  "Native_case_ids": [
+    "S03_NATIVE_OWNER_FIELDS_READ_FULL_NO_EFFECT",
+    "S03_NATIVE_EXPENSE_APPROVAL_ONCE_PAID_E05_REOPEN",
+    "S03_NATIVE_TWO_EXACT_PERIODS_CENTS_AND_NATIVE_HPP",
+    "S03_NATIVE_P2_PAYROLL_POOL_COEXIST_AND_POLICY_FENCES",
+    "S03_NATIVE_OWNING_CANCEL_LATE_OUTPUT_AND_RESTORATION_FLOOR",
+    "S03_NATIVE_BOTH_CORRECTIONS_LINKED_INVERSES_NO_RECOGNITION",
+    "S03_NATIVE_STALE_REVIEW_UUID_RECOVERY_AND_APPEND_ONLY",
+    "S03_NATIVE_CLOSED_SOURCE_OPEN_OUTPUT_AND_CLOSED_CORRECTION",
+    "S03_NATIVE_ZERO_OUTPUT_SUCCESSOR_POLICY_RETAINS_OLD_INFO",
+    "S03_NATIVE_FINISHED_PO_FG_COGS_COST_AND_CANCEL_EXACT",
+    "S03_NATIVE_OLD_ACCRUAL_LATER_BOOK_REOPEN_DATE_FLOOR"
+  ],
+  "Native_executed": false,
+  "old_cases_and_oracles_modified": false,
+  "old_parent_profile_modified": false,
+  "independent_acceptance": false,
+  "production_go": false
+}

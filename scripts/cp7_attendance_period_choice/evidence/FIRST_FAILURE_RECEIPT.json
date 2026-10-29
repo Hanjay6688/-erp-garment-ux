@@ -1,0 +1,50 @@
+{
+  "classification": "LOCAL_PGLITE_SOURCE_DERIVED_NATIVE_WITH_DECLARED_AUTH_TABLE_CALENDAR_HPP_DEPENDENCIES_NOT_ACTUAL_NATIVE",
+  "status": "FAILED_BEFORE_REPAIR",
+  "counts": {
+    "PASS": 0,
+    "FAIL": 7,
+    "SKIP": 0
+  },
+  "error": "Native closed-object helper rejects required non-null output_start although the S03 action contract deliberately permits null for CHOOSE/REVERSE",
+  "repair_not_yet_applied": true,
+  "files": {
+    "choice.sql": {
+      "bytes": 55381,
+      "sha256": "96a8e466053c6c9cfa14fd81ac543e85bcea67c25dca4baa188762c7b2fe41a6"
+    },
+    "native_delta.py": {
+      "bytes": 7591,
+      "sha256": "03d2eba0a66ac0bfef3607ab8f77cc3007962098c6fe7c28f0f4c8168b878637"
+    },
+    "composition.py": {
+      "bytes": 8113,
+      "sha256": "fa30f919d412125ce1e55dceb07a5938a0e19618a8af0ad0a2c86489d4709250"
+    },
+    "SOURCE_DERIVED_NATIVE_ABI.json": {
+      "bytes": 193422,
+      "sha256": "445fdd2310e2a3087c1eae558f9422b12b7515bc7506a327702b61b16ed676d2"
+    },
+    "local.test.ts": {
+      "bytes": 20618,
+      "sha256": "24d802aaa8502e85d65982c11c5602c28459ed7cd9851ecfe4b2e55ddbe1a145"
+    },
+    "local_fixture.sql": {
+      "bytes": 2620,
+      "sha256": "ce440b4c3fc94892d2251a1d2fd0c66dc0d25c14a2cd9c544f787b70a7cded72"
+    },
+    "evidence/LOCAL_FIRST7_INCOMPLETE.json": {
+      "bytes": 10361,
+      "sha256": "1b1f0662fc440883a43cf0befa740649c5a12e6077b1875b9f403ccb3daaf17a"
+    },
+    "evidence/LOCAL_FIRST7_INCOMPLETE.log": {
+      "bytes": 49,
+      "sha256": "45fa2749bd36163c00ea7f4e6cc62956cb0ae9abdc0373582a2fb5ade5436d94"
+    }
+  },
+  "actual_Native_credit": 0,
+  "actual_Auth_credit": 0,
+  "actual_browser_credit": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

@@ -1,0 +1,25 @@
+test_argv_object_and_contents_return_on_baseexception (test_contract.Contract.test_argv_object_and_contents_return_on_baseexception) ... ok
+test_changed_stored_original_gzip_is_not_accepted (test_contract.Contract.test_changed_stored_original_gzip_is_not_accepted) ... ok
+test_cli_unknown_flags_refuse_before_runtime_import_or_materialization (test_contract.Contract.test_cli_unknown_flags_refuse_before_runtime_import_or_materialization) ... usage: python -m unittest [-h] [--check]
+python -m unittest: error: unrecognized arguments: --unknown-do-not-ignore
+usage: python -m unittest [-h] (--offline | --runtime)
+python -m unittest: error: one of the arguments --offline --runtime is required
+ok
+test_disposable_host_port_and_database_are_exact (test_contract.Contract.test_disposable_host_port_and_database_are_exact) ... ok
+test_exact_six_whole_engine_derivation_is_reversible (test_contract.Contract.test_exact_six_whole_engine_derivation_is_reversible) ... ok
+test_four_raw_and_compressed_originals_are_actual_exact41c_inputs (test_contract.Contract.test_four_raw_and_compressed_originals_are_actual_exact41c_inputs) ... ok
+test_full_source_and_exact80_frozen_component_admit_no_native_claim (test_contract.Contract.test_full_source_and_exact80_frozen_component_admit_no_native_claim) ... ok
+test_materializer_only_creates_missing_or_preserves_exact_existing_inputs (test_contract.Contract.test_materializer_only_creates_missing_or_preserves_exact_existing_inputs) ... ok
+test_missing_or_repeated_engine_anchor_refuses (test_contract.Contract.test_missing_or_repeated_engine_anchor_refuses) ... ok
+test_no_writer_or_oracle_seed_and_no_reseal_in_runtime_workflow (test_contract.Contract.test_no_writer_or_oracle_seed_and_no_reseal_in_runtime_workflow) ... ok
+test_positive_sequence_prefix_is_recorded_without_row_or_keyset_exclusion (test_contract.Contract.test_positive_sequence_prefix_is_recorded_without_row_or_keyset_exclusion) ... ok
+test_result_gate_requires_every_native_id_outer_restore_and_exact_boolean_package (test_contract.Contract.test_result_gate_requires_every_native_id_outer_restore_and_exact_boolean_package) ... ok
+test_source_hash_tamper_refuses_before_git_or_runtime_import (test_contract.Contract.test_source_hash_tamper_refuses_before_git_or_runtime_import) ... ok
+test_workflow_admission_precedes_database_and_cleanup_is_unconditional (test_contract.Contract.test_workflow_admission_precedes_database_and_cleanup_is_unconditional) ... ok
+test_workflow_is_exact_declared_derivative_with_all_other_steps_preserved (test_contract.Contract.test_workflow_is_exact_declared_derivative_with_all_other_steps_preserved) ... ok
+test_wrong_existing_historical_input_refuses_before_creating_other_files (test_contract.Contract.test_wrong_existing_historical_input_refuses_before_creating_other_files) ... ok
+
+----------------------------------------------------------------------
+Ran 16 tests in 0.425s
+
+OK
