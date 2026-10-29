@@ -436,6 +436,15 @@ jobs:
 
         node --check scripts/current-ow08-source-browser/fg.mjs
 
+
+        python -B -m unittest discover -s scripts/current-ow08-source-browser -p test_paint_binding.py
+
+        node scripts/check-css-ownership.mjs
+
+        npx vite build --outDir cp7-paint-preflight-build
+
+        node scripts/current-ow08-source-browser/paint-preflight.mjs
+
         '
     - name: Start disposable database
       working-directory: base
@@ -544,6 +553,10 @@ jobs:
         npm ci --no-audit --no-fund
 
         npx playwright install --with-deps chromium
+
+        python -B -m unittest discover -s scripts/current-ow08-source-browser -p test_paint_binding.py
+
+        node scripts/check-css-ownership.mjs
 
         npx vite build --outDir cp7-paint-preflight-build
 

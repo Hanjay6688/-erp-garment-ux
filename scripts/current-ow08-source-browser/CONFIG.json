@@ -50,5 +50,20 @@
     "run_id": 40784374399,
     "status": "INCOMPLETE2_CSS_NORMAL_LIST_INSTRUMENT",
     "full_restore": true
-  }
+  },
+  "scoped_paint_overlays": [
+    {
+      "path": "src/initial-import.css",
+      "before_sha256": "03f6aff6d5d73e5f205a4e6a71e821fae2b87078872303d6e73253adbf550895",
+      "after_sha256": "21acc1b66a62137b307b9eed4871cd3ceac540ecc12fd96be7e58e13677bb65d",
+      "exact_append": "\n/* Unknown-price actions remain legible while disabled; pricing still requires explicit review. */\n.initial-import [aria-label=\"Cuci gagal harga belum diketahui\"] button:disabled { opacity: 1; border-style: dashed; }\n"
+    },
+    {
+      "path": "src/connected-laundry-qc.css",
+      "before_sha256": "e70faf90cf2986dc76b2f784f7d2f8abf5a3ec1e7a639cb2a55e7002ab1b9366",
+      "after_sha256": "6490b285c59a93c5c6a2ca583a73e4610d25ce8f5c2ce1f35b8ca0a7a172517b",
+      "exact_append": "\n/* A blocked QC inverse remains readable without enabling the authoritative action. */\n.clq-history [data-qc-inspection-id] .clq-reversal button:disabled { opacity: 1; border-style: dashed; }\n"
+    }
+  ],
+  "retained_money_browser_client_binding": "BASE_SOURCE_BEFORE_TWO_DECLARED_CSS_APPEND_ONLY_OVERLAYS_NO_FRESH_MONEY_CREDIT"
 }

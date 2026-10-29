@@ -49,3 +49,13 @@ client6/backend and a new explicit base. It cannot qualify from partial9fde.
 The existing actual-Chromium instrument preflight is also run before the source6 database starts. This only qualifies the paint tool, not these six Auth journeys. Case syntax is checked at the same cheap boundary.
 
 Prepared-branch pushes run only a cheap Chromium paint diagnostic with compiled application CSS and copied QC/pricing markup. No database job runs there. This measures the observed disabled-button concern before a costly full installation; its report is neither Auth nor product-journey acceptance.
+
+Actual paint4c8/run40792552223 measured the disabled QC/pricing text at
+3.7699/4.0277 on both widths. These satisfy the owner general-text2.0 floor,
+but not this package's stricter4.5 check. The exact original is retained.
+The source6 successor therefore appends only two scoped opacity1/dashed-border
+rules, preserving native disabled state and every handler/financial rule.
+`paint_binding.py` refuses any change to the old CSS or any other product
+file. Retained money2 remains attributed to exact base2d4 client bytes before
+these declared appends; the new CSS receives only paint-fixture evidence until
+the six actual Auth journeys pass. No historical source manifest is changed.

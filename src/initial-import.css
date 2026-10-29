@@ -33,3 +33,6 @@
 
 /* Vendor money actions remain legible while native disabled guards prevent submission. */
 .initial-import [aria-label="Pembayaran vendor laundry"] button:disabled { opacity: 1; border-style: dashed; }
+
+/* Unknown-price actions remain legible while disabled; pricing still requires explicit review. */
+.initial-import [aria-label="Cuci gagal harga belum diketahui"] button:disabled { opacity: 1; border-style: dashed; }

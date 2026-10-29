@@ -1,0 +1,15 @@
+{
+  "head": "4c8a52902c3744fd4fbd589475fcfd443f737a0d",
+  "run_id": 40792552223,
+  "job_id": 123181049577,
+  "artifact_id": 12861768190,
+  "artifact_sha256": "b1a8c07745ad9bee753418112ced0291476992f06dc2834b83e69f74d9105735",
+  "original": {
+    "path": "scripts/current-ow08-source-browser/FIRST_PAINT4C8.json",
+    "bytes": 20793,
+    "sha256": "6b68b362a768b4f41c9959b8d7dc2788a0fa86c4544200976ea3b5e43abe779f"
+  },
+  "status": "ACTUAL_PAINT_FIXTURE_4_OF_4_BELOW_PREPARED_4_5_THRESHOLD",
+  "owner_text_minimum_2_0_not_claimed_breached": true,
+  "actual_Auth_or_business_journey_credit": 0
+}
