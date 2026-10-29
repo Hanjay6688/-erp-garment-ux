@@ -1,3 +1,4 @@
+import {parseNoteCreditCarryBasis,type NoteCreditCarryBasis} from './noteCreditCarryContract'
 import {parseSalesRead,type SalesRead} from './salesReadContract'
 const fail=():never=>{throw Error('Pembetulan nota belum cocok dengan sumber yang diperiksa. Muat ulang nota.')}
 const object=(v:unknown)=>{if(!v||typeof v!=='object'||Array.isArray(v))return fail();return v as Record<string,unknown>}
@@ -11,9 +12,9 @@ function instantMicros(v:unknown):bigint|null{
 const at=(v:unknown):v is string=>instantMicros(v)!==null
 function closed(v:unknown,keys:string[]){const r=object(v);if(keys.some(k=>!(k in r))||Object.keys(r).some(k=>!keys.includes(k)))fail();return r}
 export type NoteCorrectionHistory={revision_id:string;revision:string;previous_sale_id:string;replacement_sale_id:string;effective_at:string;recorded_at:string;reason:string;actor_id:string;actor_display_name:string|null;actor_name_basis:'CURRENT_PROFILE'}
-export type NoteCorrectionWorkspace={contract_version:'cp7.note-correction-workspace.v2';read_at:string;root_sale_id:string;current_sale_id:string;history:NoteCorrectionHistory[];current:SalesRead;original_note_number:string;production_go:false}
+export type NoteCorrectionWorkspace={contract_version:'cp7.note-correction-workspace.v2';read_at:string;root_sale_id:string;current_sale_id:string;history:NoteCorrectionHistory[];current:SalesRead;original_note_number:string;production_go:false;credit_carry?:NoteCreditCarryBasis}
 export function parseNoteCorrectionWorkspace(v:unknown,requested:string):NoteCorrectionWorkspace{
- const r=closed(v,['contract_version','read_at','root_sale_id','current_sale_id','history','current','original_note_number','production_go'])
+ const hasCredit=!!v&&typeof v==='object'&&Object.hasOwn(v,'credit_carry'),r=closed(v,['contract_version','read_at','root_sale_id','current_sale_id','history','current','original_note_number','production_go',...(hasCredit?['credit_carry']:[])])
  if(r.contract_version!=='cp7.note-correction-workspace.v2'||!at(r.read_at)||!id(r.root_sale_id)||!id(r.current_sale_id)||!Array.isArray(r.history)||typeof r.original_note_number!=='string'||r.production_go!==false)return fail()
  let previous=r.root_sale_id;const seen=new Set<string>([previous]);let revision=0n
  for(const value of r.history){
@@ -23,6 +24,7 @@ export function parseNoteCorrectionWorkspace(v:unknown,requested:string):NoteCor
  }
  if(previous!==r.current_sale_id||!seen.has(requested))return fail()
  const current=parseSalesRead(r.current,true);if(current.detail?.id!==r.current_sale_id)return fail()
+ if(hasCredit)parseNoteCreditCarryBasis(r.credit_carry,current.detail)
  return {...r,current}as NoteCorrectionWorkspace
 }
 export function parseNoteCorrectionOutcome(v:unknown,request:string,source:string,effectiveAt:string){

@@ -6,7 +6,7 @@ import {afterEach,beforeEach,describe,expect,it,vi} from 'vitest'
 import ConnectedSalesPage from './ConnectedSalesPage'
 import {readProductionRecovery} from './productionRecovery'
 import {recoveryIdentity} from '../tests/fixtures/productionRecovery'
-import {creditActor,creditBank,creditCohort,creditEvent,creditOutcome,creditReview,creditSale,creditSource,creditTarget,creditTargetRow,creditVersion,creditWorkspace} from '../tests/fixtures/customerCredit'
+import {creditActor,creditBank,creditId,creditCohort,creditEvent,creditOutcome,creditReview,creditSale,creditSource,creditTarget,creditTargetRow,creditVersion,creditWorkspace} from '../tests/fixtures/customerCredit'
 import type {CreditPayload,CreditQuery} from './customerCreditContract'
 
 const auth=vi.hoisted(()=>({current:null as unknown}))
@@ -83,6 +83,23 @@ async function prepare(action:'APPLY'|'REFUND'|'UNDO'='APPLY',quote=true){
 }
 
 describe('consumer UI parent/recovery with declared server contracts',()=>{
+  it('names the replacement on an original APPLY undo and carries the exact current version through the owning facade',async()=>{
+    await prepare('UNDO',false)
+    const usual=client.rpc.getMockImplementation()!,current=creditId(83)
+    const checked=()=>{const q=creditReview({...creditPayloadForUi(),action:'UNDO',cohort_id:null,target_sale_id:null,restores_event_id:original.id,amount:null},original)
+      return {...q,selection:{...q.selection,target_sale_id:current,target_root_sale_id:creditTarget,target_current_leaf_id:current},expected_versions:{[creditSale]:creditVersion,[current]:'17'},
+        target_assignment:{contract_version:'cp7.note-credit-target-assignment.v1' as const,root_sale_id:creditTarget,historical_target_id:creditTarget,current_sale_id:current,current_number:'INV-TARGET-R1',revision_id:creditId(84),original_event_id:original.id,proof_sha256:'d'.repeat(64)}}}
+    client.rpc.mockImplementation(async(name,args)=>{
+      if(name==='erp_cp7_get_customer_credit_review_v1')return {data:checked(),error:null}
+      if(name==='erp_cp7_customer_credit_command_v1'){++commits;return {data:creditOutcome(args.p_request,checked()),error:null}}
+      return usual(name,args)
+    })
+    await click(button('Periksa transaksi kredit'));expect(summary()?.textContent).toContain('invoice pengganti INV-TARGET-R1')
+    await click(input('Transaksi kredit sudah diperiksa'));await click(button('Simpan transaksi kredit'))
+    expect(sends()).toHaveLength(1);expect(sends()[0][1].p_expected_versions).toEqual({[creditSale]:creditVersion,[current]:'17'})
+    expect(sends()[0][1].p_payload).toMatchObject({restores_event_id:original.id,target_sale_id:null,amount:null})
+    expect(commits).toBe(1);expect(readProductionRecovery(scope()).pending.SALES).toBeUndefined()
+  })
   it.each(['APPLY','REFUND','UNDO']as const)('sends %s once through its owning facade, retains exact versions and retires the form',async action=>{
     await prepare(action);await click(button('Simpan transaksi kredit'))
     expect(sends()).toHaveLength(1);const sent=sends()[0][1]

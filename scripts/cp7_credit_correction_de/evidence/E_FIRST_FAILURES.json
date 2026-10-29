@@ -1,0 +1,9 @@
+{
+  "scope": "E1 independent local preparation over frozen D1 897ed6de; no actual Native/Auth/browser run",
+  "client_first_failure": "noteCreditCarryContract module absent; new exact-cent source/remainder tests cannot load",
+  "structural_compile_first_failure": "declared compile fixture omitted existing cp7_capture/cp7_sales roles; fixture corrected, no product role introduced",
+  "pure_SQL_plan_and_historical_leaf_set_checks": "9 PASS with supplied vectors only",
+  "static_counted_derivations": "21 PASS with source-format stand-ins, not installed captures",
+  "D1_sources_changed": false,
+  "production_go": false
+}

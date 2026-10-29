@@ -41,6 +41,23 @@ describe('bounded credit client contracts, not database qualification',()=>{
     expect(()=>parseCreditReview(q,p,{source:creditSource(),original:{...original,undone_by:creditId(63)}})).toThrow()
     expect(()=>parseCreditReview({...q,selection:{...q.selection,amount:'-80.00'}},p,{source:creditSource(),original})).toThrow()
   })
+  it.each(['APPLY','UNDO'] as const)('binds %s to an explicit replacement assignment without changing the original event',action=>{
+    const current=creditId(83),original=creditEvent(),p={...creditPayload(action),...(action==='APPLY'?{target_sale_id:current}:{})},base=creditReview(p)
+    const review={...base,selection:{...base.selection,target_sale_id:current,target_root_sale_id:creditTarget,target_current_leaf_id:current},
+      expected_versions:{[creditSale]:base.expected_versions[creditSale],[current]:'17'},target_assignment:{contract_version:'cp7.note-credit-target-assignment.v1' as const,
+        root_sale_id:creditTarget,historical_target_id:action==='UNDO'?creditTarget:current,current_sale_id:current,current_number:'INV-TARGET-R1',revision_id:creditId(84),
+        original_event_id:action==='UNDO'?original.id:null,proof_sha256:'d'.repeat(64)}}
+    const context={source:creditSource(),original,target:{...creditTargetRow,id:current,number:'INV-TARGET-R1',row_version:'17'}}
+    expect(parseCreditReview(review,p,context)).toEqual(review)
+    const recovery={document:{...p,quote_sha256:review.quote_sha256},review}
+    expect(parseCreditRecovery(recovery)).toEqual(recovery)
+    expect(parseCreditOutcome(creditOutcome(creditId(60),review),creditId(60),recovery).target_sale_id).toBe(current)
+    const {target_assignment:omitted,...without}=review;void omitted
+    expect(()=>parseCreditReview(without,p,context)).toThrow()
+    for(const change of [{root_sale_id:creditId(85)},{current_sale_id:creditTarget},{historical_target_id:creditId(86)},
+      {original_event_id:action==='UNDO'?creditId(87):original.id},{proof_sha256:'bad'},{unexpected:true}])expect(()=>parseCreditReview({...review,target_assignment:{...review.target_assignment,...change}},p,context)).toThrow()
+    expect(()=>parseCreditReview({...base,target_assignment:review.target_assignment},creditPayload(action),context)).toThrow()
+  })
   it('refuses a crossed actor, source, target customer, query, page receipt or non-boolean capability',()=>{
     const source=creditSource(),query=creditQuery('TARGETS',source),data=creditWorkspace('TARGETS')
     expect(parseCreditWorkspace(data,query,source,creditActor)).toEqual(data)

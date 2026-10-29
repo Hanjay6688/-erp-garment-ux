@@ -1,0 +1,23 @@
+{
+  "status": "PASS",
+  "scope": "CLIENT_DOM_AND_CONTRACTS_WITH_DECLARED_TRANSPORT_AND_READ_FENCE_DOUBLES",
+  "files": 8,
+  "tests": 109,
+  "passed": 109,
+  "failed": 0,
+  "Native_execution": false,
+  "Auth_browser_execution": false,
+  "command": [
+    "./node_modules/.bin/vitest",
+    "run",
+    "src/NoteCreditCarrySection.dom.test.tsx",
+    "src/noteCreditCarryContract.test.ts",
+    "src/customerCreditContract.test.ts",
+    "src/SalesDraftPanel.dom.test.tsx",
+    "src/ConnectedSalesPage.dom.test.tsx",
+    "src/ConnectedCustomerCredit.dom.test.tsx",
+    "src/SalesReturnCorrectionPanel.dom.test.tsx",
+    "src/lib/clientError.test.ts",
+    "--reporter=json"
+  ]
+}

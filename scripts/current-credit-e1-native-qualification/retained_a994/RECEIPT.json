@@ -1,0 +1,20 @@
+{
+  "head": "a99463ca3ea2f1a71b22f0354df83f1b5a42b71b",
+  "tree": "6ee5f681a9266aa851b9638beec6d586ddae0937",
+  "run_id": 40910406598,
+  "job_id": 123576520573,
+  "status": "INCOMPLETE",
+  "case_counts": {
+    "PASS": 5,
+    "INCOMPLETE": 8
+  },
+  "usable_prerequisite": false,
+  "raw_bytes": 44099,
+  "raw_sha256": "3274ce4c5684b77a82a8761638e3f78406ea164c503047446452c8eb3ea43525",
+  "path": "scripts/current-credit-e1-native-qualification/retained_a994/CP7_CREDIT_DE_NATIVE13_CASES.json.gz",
+  "gzip_sha256": "27e7c7e46aaa24900931f936fc927dfc2c3794b7aaeb78487f9832d8b84cf707",
+  "source_classification": "EXACT_ROOT_MATERIALIZED_ORIGINAL_NOT_DOWNLOADED_BY_THIS_CHILD",
+  "actual_E_executions": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

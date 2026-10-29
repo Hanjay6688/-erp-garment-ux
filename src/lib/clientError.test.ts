@@ -2,6 +2,16 @@ import { describe, expect, it } from 'vitest'
 import { isUnansweredFailure, normalizeClientError } from './clientError'
 
 describe('backend conflict messages', () => {
+  it.each([
+    ['CP7_CREDIT_NOTE_CARRY_STALE_REVIEW','periksa lagi nominal kredit dan sisa piutang'],
+    ['CP7_CREDIT_NOTE_CARRY_REVIEW_REFUSED','periksa nilai minimum nota pengganti'],
+    ['CP7_CREDIT_NOTE_CARRY_PRICE_ONLY_REQUIRED','Pertahankan barang, jumlah, gudang, dan waktu invoice'],
+    ['CP7_CREDIT_NOTE_CARRY_LATER_NATIVE_MUTATION_ADAPTER_REQUIRED','Pembatalan nota atau perubahan pembayaran biasa belum tersedia'],
+  ])('explains %s without claiming a credit transfer or automatic retry', (message,step) => {
+    const result=normalizeClientError({code:'P0001',message})
+    expect(result.code).toBe('REJECTED');expect(result.retryable).toBe(false)
+    expect(result.message).toContain(step);expect(result.message).not.toContain('CP7_')
+  })
   it('explains note corrections refused for a re-priced returned line or a reallocated payment', () => {
     expect(normalizeClientError({ code: 'P0001', message: 'CP7_NOTE_RETURNED_LINE_PRICE_CHANGED' }).message).toContain('Betulkan atau batalkan returnya dulu')
     expect(normalizeClientError({ code: 'P0001', message: 'CP7_NOTE_REALLOCATED_PAYMENT_REVIEW_REQUIRED' }).message).toContain('koreksi pembayaran')

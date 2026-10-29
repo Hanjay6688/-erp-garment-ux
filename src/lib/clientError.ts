@@ -92,6 +92,10 @@ export function normalizeClientError(error: unknown): ClientAppError {
   }
 
   const creditMessages: Record<string,string> = {
+    cp7_credit_note_carry_stale_review: 'Saldo kredit atau riwayat invoice berubah. Tutup formulir, muat ulang invoice, lalu periksa lagi nominal kredit dan sisa piutang nota pengganti.',
+    cp7_credit_note_carry_review_refused: 'Pemindahan kredit pada pembetulan nota ini belum dapat disimpan. Muat ulang invoice, lalu periksa nilai minimum nota pengganti dan riwayat pemakaian kredit sebelum mencoba lagi.',
+    cp7_credit_note_carry_price_only_required: 'Nota ini memakai saldo kredit. Pertahankan barang, jumlah, gudang, dan waktu invoice saat membetulkan harganya, lalu periksa kembali pemindahan kredit dan sisa piutang.',
+    cp7_credit_note_carry_later_native_mutation_adapter_required: 'Nota pengganti ini membawa riwayat kredit. Pembatalan nota atau perubahan pembayaran biasa belum tersedia untuk riwayat ini. Pertahankan nota, lalu minta admin meninjau riwayat pembetulannya.',
     cp7_credit_source_consumers_require_undo: 'Masih ada pemakaian saldo kredit atau pengembalian uang yang aktif. Tutup formulir transaksi, lalu buka Saldo kredit pelanggan → Periksa riwayat kredit, batalkan transaksi terkait, dan muat ulang invoice sebelum memeriksa pembatalan dokumen asal.',
     cp7_credit_consumer_review_changed: 'Saldo, invoice tujuan, rekening, atau hak akses berubah. Muat ulang invoice lalu periksa kembali transaksi kredit.',
     cp7_credit_workspace_source_changed: 'Invoice sumber berubah. Muat ulang invoice sebelum memeriksa saldo kredit.',
