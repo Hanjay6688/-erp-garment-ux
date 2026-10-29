@@ -1,0 +1,110 @@
+{
+  "contract": "cp7.credit-e1-native-qualification.v1",
+  "status": "EXACT_TERMINAL_CURRENT_D1_PARENT_BOUND_E17_NOT_EXECUTED",
+  "source_base_head": "a99463ca3ea2f1a71b22f0354df83f1b5a42b71b",
+  "frozen_parent_head": "17ac1eeb5833cbf2a786194fe3bfbba6628a1ff8",
+  "frozen_parent_tree": "52870c467cb37c328fd6ff73fe8484f8d6798953",
+  "parent_status": "ROOT_VERIFIED_TERMINAL_NATIVE13_AND_COMPLETE_PACKAGE_PASS",
+  "required_qualified_parent": {
+    "status": "ROOT_VERIFIED_TERMINAL_NATIVE13_AND_COMPLETE_PACKAGE_PASS",
+    "head": "17ac1eeb5833cbf2a786194fe3bfbba6628a1ff8",
+    "tree": "52870c467cb37c328fd6ff73fe8484f8d6798953"
+  },
+  "accepted_D1": {
+    "head": "17ac1eeb5833cbf2a786194fe3bfbba6628a1ff8",
+    "tree": "52870c467cb37c328fd6ff73fe8484f8d6798953",
+    "run_id": 40942995096,
+    "job_id": 123690939357,
+    "artifact_id": 12929784527,
+    "zip_bytes": 157902568,
+    "zip_sha256": "2d4acbb051ce4ec55f3eb84d9bb4ee7cacd02aa330a4ae6c86cb1f5d107bc180",
+    "original": {
+      "name": "CP7_CREDIT_DE_NATIVE13.json",
+      "bytes": 4835820,
+      "sha256": "6b5eb3f481e1d36e8fbca64590a8ef83197f3e4e3725d9dfa3964c92cdbafa4c"
+    },
+    "native_group": {
+      "name": "CP7_CREDIT_DE_NATIVE13_CASES.json",
+      "bytes": 231613,
+      "sha256": "3129479dde1805e58fbd3a96cba4653c8da7a0b0f471be65c4182fd772f87d47"
+    },
+    "package": {
+      "name": "T3_PACKAGE_INSTALL.json",
+      "bytes": 360428,
+      "sha256": "84d20d0e7ec045d8496174c25437b3005c158ee517e1d1c014b75175410e8056"
+    },
+    "package_files": {
+      "name": "T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "backup_drill": {
+      "name": "T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 1470,
+      "sha256": "15fe0304a8bf0764722e78ad88cf92e8ed7f87c413b177cedc8e93dd22e31eba"
+    }
+  },
+  "required_parent_workflow": ".github/workflows/cp7-credit-d1-product-phase-native13.yml",
+  "branch": "astra-a/credit-e1-current-d1-native17-20261030",
+  "retained_failed_D1": {
+    "head": "a99463ca3ea2f1a71b22f0354df83f1b5a42b71b",
+    "tree": "6ee5f681a9266aa851b9638beec6d586ddae0937",
+    "run_id": 40910406598,
+    "job_id": 123576520573,
+    "status": "INCOMPLETE",
+    "case_counts": {
+      "PASS": 5,
+      "INCOMPLETE": 8
+    },
+    "usable_prerequisite": false,
+    "raw_bytes": 44099,
+    "raw_sha256": "3274ce4c5684b77a82a8761638e3f78406ea164c503047446452c8eb3ea43525",
+    "path": "scripts/current-credit-e1-native-qualification/retained_a994/CP7_CREDIT_DE_NATIVE13_CASES.json.gz"
+  },
+  "actual_Native_E_cases": 0,
+  "actual_Auth_HTTP_cases": 0,
+  "actual_browser_cases": 0,
+  "actual_races": 0,
+  "D_complete": false,
+  "E_complete": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "E_runtime_files": {
+    "note_carry/01_facts.sql": "ebf128127e6bcab8fe1c52b98f46ede1492356386312fe2f744e3e65ddb1d415",
+    "note_carry/02_plan.sql": "17c9028606298e7d66681deb3c0a1f3260a1ec829d9ba501a647231b358981f3",
+    "note_carry/03_readers.sql": "940200b5320189bd424a99ccef9cc92846dd576a6c6d4bd2e8f1e25afd3325d8",
+    "note_carry/04_basis.sql": "cdd49e1c5f9a78f4c2c27ce0ae055907a485475c0020720c9e18a0f80e68c222",
+    "note_carry/05_effect.sql": "cd77c5ab9427223e1c67b93d8631a1808b8ddc593fc0c97d12e9c069a2950710",
+    "note_carry/06_owning.sql": "8864996e824655766022bafa277ac046beba35794b678eedc388b1093fb38575",
+    "note_carry/07_profile_closure.sql": "7b7c1467176fefb0f564169ab0903c3d93defc88cce97a16a7ad37629ad84ac3",
+    "e_native_delta.py": "314742c922fc82145f7caa8d4217296bf3f2408ceacbc4738d50d3b866d2bfe0",
+    "e_composition.py": "6e690d12e30cb3a6463283dc62f269f5e3e77e2e59f37e45cdd0b5ec1f6a46d6"
+  },
+  "runner_derivation": {
+    "original_sha256": "c420d894f8d5f16bddefeae73addb621507170f372a28e7d6e33d88c7eeb0be9",
+    "derived_sha256": "18748a833cf9a0a37b575b7f436272d8c49bae046d1e48f6142c75d9956cc8bf",
+    "counted_changes": 6,
+    "unchanged_install_preuse_used_guard_backup_restore_roles_data_sequences_advisors": true,
+    "fresh_Auth_HTTP_races_browser_claim": false
+  },
+  "accepted_raw_parent": {
+    "original": {
+      "name": "CP7_CREDIT_DE_NATIVE13.json",
+      "bytes": 4835820,
+      "sha256": "6b5eb3f481e1d36e8fbca64590a8ef83197f3e4e3725d9dfa3964c92cdbafa4c"
+    },
+    "native_group": {
+      "name": "CP7_CREDIT_DE_NATIVE13_CASES.json",
+      "bytes": 231613,
+      "sha256": "3129479dde1805e58fbd3a96cba4653c8da7a0b0f471be65c4182fd772f87d47"
+    },
+    "package": {
+      "name": "T3_PACKAGE_INSTALL.json",
+      "bytes": 360428,
+      "sha256": "84d20d0e7ec045d8496174c25437b3005c158ee517e1d1c014b75175410e8056"
+    }
+  },
+  "current_D1_source_path": "scripts/current-credit-d1-product-phase-native13-qualification/SOURCE.json",
+  "current_D1_source_sha256": "eeb47a301fd3241677bbae8c2a6189179cf8b5c82d6114561b2b47d52031a3e5",
+  "current_D1_source_files": 174
+}

@@ -1,0 +1,18 @@
+test_actual_default_and_fetch_runtime_closed_without_product_or_GET (test_closed.ClosedControls.test_actual_default_and_fetch_runtime_closed_without_product_or_GET) ... ok
+test_all_BaseException_paths_restore_caller_argv_identity_and_contents (test_closed.ClosedControls.test_all_BaseException_paths_restore_caller_argv_identity_and_contents) ... ok
+test_every_missing_or_half_pin_refuses_before_original_gate (test_closed.ClosedControls.test_every_missing_or_half_pin_refuses_before_original_gate) ... ok
+test_retained_actual_failed_a994_never_becomes_current_qualified_parent (test_closed.ClosedControls.test_retained_actual_failed_a994_never_becomes_current_qualified_parent) ... ok
+test_unknown_flags_refuse_before_any_import_boundary (test_closed.ClosedControls.test_unknown_flags_refuse_before_any_import_boundary) ... ok
+test_API_exact_argument_and_body_reject_drift_without_import (test_closed.SourceControls.test_API_exact_argument_and_body_reject_drift_without_import) ... ok
+test_feba_callback_exact_seventeen_IDs_and_other_sixteen_bodies (test_closed.SourceControls.test_feba_callback_exact_seventeen_IDs_and_other_sixteen_bodies) ... ok
+test_full_current_child_closure_precedes_any_historical_scope_intake (test_closed.SourceControls.test_full_current_child_closure_precedes_any_historical_scope_intake) ... ok
+test_new_source_closes_every_parent_and_child_file_without_runtime_credit (test_closed.SourceControls.test_new_source_closes_every_parent_and_child_file_without_runtime_credit) ... ok
+test_nine_E_leaves_and_lawful_two_PCS_alias_preserve_money_oracles (test_closed.SourceControls.test_nine_E_leaves_and_lawful_two_PCS_alias_preserve_money_oracles) ... ok
+test_private_old_admission_exactly_two_routes_and_one_historical_endpoint (test_closed.SourceControls.test_private_old_admission_exactly_two_routes_and_one_historical_endpoint) ... ok
+test_unchanged_complete_six_change_engine_and_real_carry80_used_witness (test_closed.SourceControls.test_unchanged_complete_six_change_engine_and_real_carry80_used_witness) ... ok
+test_workflow_null_gate_precedes_setup_fetch_database_and_cleanup_remains (test_closed.SourceControls.test_workflow_null_gate_precedes_setup_fetch_database_and_cleanup_remains) ... ok
+
+----------------------------------------------------------------------
+Ran 13 tests in 1.802s
+
+OK

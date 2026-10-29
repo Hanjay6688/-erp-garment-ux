@@ -1,0 +1,107 @@
+{
+  "classification": "SOURCE_AST_ONLY_NO_PRODUCT_IMPORT_OR_NATIVE_EXECUTION",
+  "files": {
+    "scripts/cp7_credit_correction_de/e_cases.py": {
+      "sha256": "058a9c29b991b30ca4da6467cfeb2629179d3ce8f25b8dba09d6ea45f419e2ad",
+      "functions": {
+        "observe": {
+          "arguments": "arguments(posonlyargs=[], args=[arg(arg='cur'), arg(arg='pair')], kwonlyargs=[], kw_defaults=[], defaults=[])",
+          "function_sha256": "ca4f3ae190799ca1cb34bc331a0f0a289418eba68b93beaa623864d5e12bb0fe"
+        },
+        "refusal": {
+          "arguments": "arguments(posonlyargs=[], args=[arg(arg='cur'), arg(arg='pair'), arg(arg='fn'), arg(arg='message')], kwonlyargs=[], kw_defaults=[], defaults=[])",
+          "function_sha256": "cf1706303e7618cec99ad00ab20bff1cb7a59a386b0de8931f1fa5baa4ebbb55"
+        },
+        "intent": {
+          "arguments": "arguments(posonlyargs=[], args=[arg(arg='cur'), arg(arg='pair'), arg(arg='price'), arg(arg='subject')], kwonlyargs=[], kw_defaults=[], defaults=[Constant(value='110.00'), Constant(value=None)])",
+          "function_sha256": "01f344b6511f45bbd7071d76198227059056cf858b73467dcbdaacbb93c08331"
+        },
+        "physical": {
+          "arguments": "arguments(posonlyargs=[], args=[arg(arg='cur'), arg(arg='pair')], kwonlyargs=[], kw_defaults=[], defaults=[])",
+          "function_sha256": "e82f4b45292d2ffcf9b64b09abc6eb666b4d7b9ca9624a24587bcfa2e9f10b35"
+        },
+        "profile": {
+          "arguments": "arguments(posonlyargs=[], args=[arg(arg='cur'), arg(arg='pair'), arg(arg='original'), arg(arg='current'), arg(arg='net'), arg(arg='incoming'), arg(arg='available')], kwonlyargs=[], kw_defaults=[], defaults=[])",
+          "function_sha256": "399bab12f903c8e1fd96f8ec69b7700b39c4d6331f90157f7c67cc8fd92768a9"
+        },
+        "post": {
+          "arguments": "arguments(posonlyargs=[], args=[arg(arg='cur'), arg(arg='pair'), arg(arg='price')], kwonlyargs=[], kw_defaults=[], defaults=[Constant(value='110.00')])",
+          "function_sha256": "66e72bc343eed25c590a1c3676cf6b4de9c8bc255b38d114201ee3a560a04920"
+        },
+        "cases": {
+          "arguments": "arguments(posonlyargs=[], args=[arg(arg='cur'), arg(arg='today')], kwonlyargs=[], kw_defaults=[], defaults=[])",
+          "function_sha256": "9b01292a0aa1c63a75dba9ccb54a2bf1f78b4325087266cf2e9bb65eaf8b24ce"
+        }
+      }
+    },
+    "scripts/cp7_credit_correction_de/cases.py": {
+      "sha256": "c530bb87f72ee6091e032d15efdb2b2e55cf9c9632b64c9e781665b70325bbdb",
+      "functions": {
+        "observe": {
+          "arguments": "arguments(posonlyargs=[], args=[arg(arg='cur'), arg(arg='pair')], kwonlyargs=[], kw_defaults=[], defaults=[])",
+          "function_sha256": "e1b09924d9a7d6dd42b68eda4d0cfef7b79b07727fb0eab775bdf2107a369886"
+        },
+        "payload": {
+          "arguments": "arguments(posonlyargs=[], args=[arg(arg='cur'), arg(arg='pair'), arg(arg='amount'), arg(arg='return_id'), arg(arg='subject')], kwonlyargs=[], kw_defaults=[], defaults=[Constant(value='250.00'), Constant(value=None), Constant(value=None)])",
+          "function_sha256": "0ec8c351270fc65b92102d70437a7045f4b34a7df8b6ba56fdcba30026ac1bb0"
+        },
+        "post": {
+          "arguments": "arguments(posonlyargs=[], args=[arg(arg='cur'), arg(arg='pair'), arg(arg='amount'), arg(arg='return_id'), arg(arg='subject')], kwonlyargs=[], kw_defaults=[], defaults=[Constant(value='250.00'), Constant(value=None), Constant(value=None)])",
+          "function_sha256": "ef9d24053902d797db8a48c0b37f30d527d308c9952c078da3ee966b6996b340"
+        },
+        "profile": {
+          "arguments": "arguments(posonlyargs=[], args=[arg(arg='cur'), arg(arg='pair'), arg(arg='expected_i'), arg(arg='expected_available')], kwonlyargs=[], kw_defaults=[], defaults=[])",
+          "function_sha256": "f174e28e2c01bd2f0406d05868352e4ac013b4cc7e5dcbe1ba7c8db13cd5fef1"
+        }
+      }
+    },
+    "scripts/cp7_credit_correction_de/native_fixture.py": {
+      "sha256": "4fbe56583ffc63473c12195ddaae6ff3e0cd0ad46b358bf7eef7b5175c67e829",
+      "functions": {
+        "derived_sources": {
+          "arguments": "arguments(posonlyargs=[], args=[], kwonlyargs=[], kw_defaults=[], defaults=[])",
+          "function_sha256": "2c573963764ce270012f8be40d1a293409e4e371a9eac988be5387ff1207249c"
+        },
+        "inventory": {
+          "arguments": "arguments(posonlyargs=[], args=[], kwonlyargs=[], kw_defaults=[], defaults=[])",
+          "function_sha256": "cb17e5ca9513bb5c29be4de165df7df1ea6a7511506043d971601a02235cde24"
+        },
+        "_private_module": {
+          "arguments": "arguments(posonlyargs=[], args=[arg(arg='module'), arg(arg='source_key'), arg(arg='sources')], kwonlyargs=[], kw_defaults=[], kwarg=arg(arg='overrides'), defaults=[])",
+          "function_sha256": "f15c992498b4ebecb6cfb3eeb66bca3976233fa98b3bcfebd8d36e5b36c94556"
+        },
+        "prepare": {
+          "arguments": "arguments(posonlyargs=[], args=[arg(arg='cur'), arg(arg='today'), arg(arg='initial_mode')], kwonlyargs=[], kw_defaults=[], defaults=[Constant(value='CREDIT')])",
+          "function_sha256": "5bb4371ba7937f5e2386b4316ba474252e686a202f8b4704d4ad5a6868c14dad"
+        }
+      }
+    },
+    "scripts/cp7_customer_credit/consumer/native_basic_cases.py": {
+      "sha256": "24ba3f79cc01905d1289b0db08552ed2c0593138e3c83f4551b88a025ae6a567",
+      "functions": {
+        "payload": {
+          "arguments": "arguments(posonlyargs=[], args=[arg(arg='pair'), arg(arg='action'), arg(arg='amount'), arg(arg='original')], kwonlyargs=[], kw_defaults=[], defaults=[Constant(value='APPLY'), Constant(value='80.00'), Constant(value=None)])",
+          "function_sha256": "feb2bb3f30fb623002994e5492b32db7cb658f9d642d5a35bb1d3ba34db876db"
+        },
+        "review": {
+          "arguments": "arguments(posonlyargs=[], args=[arg(arg='cur'), arg(arg='p')], kwonlyargs=[], kw_defaults=[], defaults=[])",
+          "function_sha256": "f0a183d4bd426d5e147e7ad94b06151a1d24aebc67802e98e09b8b400d1b91e7"
+        },
+        "command": {
+          "arguments": "arguments(posonlyargs=[], args=[arg(arg='cur'), arg(arg='envelope'), arg(arg='request')], kwonlyargs=[], kw_defaults=[], defaults=[])",
+          "function_sha256": "1da701f2eb77fa7daf3cc66fe86667454e51a7d0123e9a857a34514b6c44a5ce"
+        },
+        "apply": {
+          "arguments": "arguments(posonlyargs=[], args=[arg(arg='cur'), arg(arg='pair'), arg(arg='amount')], kwonlyargs=[], kw_defaults=[], defaults=[])",
+          "function_sha256": "2d876e6cb47b0f0c03f150ae7a388a4c08c272f5a1090598a776c86847eaecaa"
+        },
+        "observation": {
+          "arguments": "arguments(posonlyargs=[], args=[arg(arg='cur'), arg(arg='pair')], kwonlyargs=[], kw_defaults=[], defaults=[])",
+          "function_sha256": "a4954a5561c2d36a4a93deb8b282902d7850b4beefcd759ed07b62215fa1a98d"
+        }
+      }
+    }
+  },
+  "Native_executed": false,
+  "production_go": false
+}

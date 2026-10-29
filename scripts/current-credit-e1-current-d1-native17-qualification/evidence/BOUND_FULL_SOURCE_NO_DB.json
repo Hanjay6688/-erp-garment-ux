@@ -1,0 +1,11 @@
+{
+  "status": "EXACT_QUALIFIED_D1_AND_CLOSED_SOURCE_E1_CHILD_ADMITTED",
+  "parent_raw_and_source_bound": true,
+  "actual_current_Original_inputs_checked": true,
+  "DB_connections_forbidden": true,
+  "blocked_attempts": [],
+  "caller_argv_identity_and_contents_restored": true,
+  "Native_E_executed": false,
+  "production_go": false,
+  "independent_acceptance": false
+}

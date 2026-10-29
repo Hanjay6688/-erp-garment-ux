@@ -1,0 +1,26 @@
+{
+  "classification": "LOCAL_NEW_TEST_HARNESS_INTERFACE_ERROR_NOT_NATIVE_OR_PRODUCT_FAILURE",
+  "first_complete_suite": {
+    "tests": 12,
+    "PASS": 11,
+    "ERROR": 1
+  },
+  "initial_preparation_commit": "5415c14b3",
+  "error_type": "AttributeError",
+  "exact_error": "module 'e1_test_retained_vendor_derive' has no attribute 'REPLACEMENTS'",
+  "source_finding": "Retained E derive delegates to the exact oldD1 derive; REPLACEMENTS belongs to that oldD1 module. New test must read its correct existing interface, preserving every engine byte/assertion.",
+  "targeted_reproduction_command": [
+    "python",
+    "-B",
+    "-m",
+    "unittest",
+    "test_closed.SourceControls.test_unchanged_complete_six_change_engine_and_real_carry80_used_witness",
+    "-v"
+  ],
+  "targeted_reproduction_exit_code": 1,
+  "reproduction_is_complete_suite": false,
+  "test_oracle_or_financial_body_changed": false,
+  "Native_executions": 0,
+  "DB_executions": 0,
+  "production_go": false
+}

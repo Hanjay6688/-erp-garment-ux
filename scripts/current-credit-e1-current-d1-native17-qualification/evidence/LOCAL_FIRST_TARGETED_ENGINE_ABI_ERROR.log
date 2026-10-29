@@ -1,0 +1,15 @@
+test_unchanged_complete_six_change_engine_and_real_carry80_used_witness (test_closed.SourceControls.test_unchanged_complete_six_change_engine_and_real_carry80_used_witness) ... ERROR
+
+======================================================================
+ERROR: test_unchanged_complete_six_change_engine_and_real_carry80_used_witness (test_closed.SourceControls.test_unchanged_complete_six_change_engine_and_real_carry80_used_witness)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/ef468a447ac6/erp-credit-e1-qualification/scripts/current-credit-e1-current-d1-native17-qualification/test_closed.py", line 103, in test_unchanged_complete_six_change_engine_and_real_carry80_used_witness
+    for before, after in reversed(module.REPLACEMENTS):
+                                  ^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'e1_test_retained_vendor_derive' has no attribute 'REPLACEMENTS'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.004s
+
+FAILED (errors=1)

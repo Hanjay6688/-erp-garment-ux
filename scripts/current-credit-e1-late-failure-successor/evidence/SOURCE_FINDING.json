@@ -1,0 +1,48 @@
+{
+  "contract": "cp7.e1-private-late-failure-source-finding.v1",
+  "classification": "SOURCE_REVIEW_WITH_RETAINED_ACTUAL_D1_ANALOG_NOT_ACTUAL_E_FAILURE",
+  "base_head": "f5b085a2bf3a34397616e9a9a3326af5119d19c4",
+  "base_tree": "0f54938eea7893327456cbc8d850ae85ea9c6e58",
+  "original_E_cases_sha256": "68b29fd16cf4f832e96ee14ea6befda904015bc706847a293bb72cf9d2af56a3",
+  "original_E_late_callback_sha256": "6028479019edbaea8c0793c99cc3099c338ed621d355437a99530b3f3b0b46da",
+  "original_E_callback_retained": "BEFORE_late_failure.py.txt",
+  "E_source_finding": "Old E callback adds a BEFORE INSERT trigger on Native erp.journal_entries, changing the exact source-trigger census before command admission can reach Native posting.",
+  "actual_E_execution": false,
+  "actual_E_failure_observed": false,
+  "retained_D1_analog": {
+    "head": "a99463ca3ea2f1a71b22f0354df83f1b5a42b71b",
+    "run": "40910406598",
+    "job": "123576520573",
+    "group_raw_bytes": 44099,
+    "group_raw_sha256": "3274ce4c5684b77a82a8761638e3f78406ea164c503047446452c8eb3ea43525",
+    "frozen_group_gzip": "scripts/current-credit-e1-native-qualification/retained_a994/CP7_CREDIT_DE_NATIVE13_CASES.json.gz",
+    "counts": {
+      "INCOMPLETE": 8,
+      "PASS": 5
+    },
+    "case_id": "D_ATOMIC_POST_FAILURE_RESTORE",
+    "raw_case": {
+      "status": "INCOMPLETE",
+      "error": "{'sqlstate': 'P0001', 'message': 'CP7_CREDIT_SOURCE_NATIVE_TRIGGER_CENSUS_CHANGED', 'detail': ''}",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_credit_correction_de/cases.py\", line 32, in refusal\n    try:fn()\n        ^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_credit_correction_de/cases.py\", line 169, in <lambda>\n    outcome=refusal(cur,pair,lambda:correction.correct(cur,p,v),'CP7_CREDIT_DE_TEST_PART_FAILURE')\n                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_sales_return_correction_cases.py\", line 31, in correct\n    r=cur.execute('select public.erp_cp7_correct_sales_return_v1(%s,%s,%s)',(json.dumps(p),key or uuid.uuid4(),version)).fetchone()[0]\n      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/hostedtoolcache/Python/3.12.15/x64/lib/python3.12/site-packages/psycopg/cursor.py\", line 97, in execute\n    raise ex.with_traceback(None)\npsycopg.errors.RaiseException: CP7_CREDIT_SOURCE_NATIVE_TRIGGER_CENSUS_CHANGED\nCONTEXT:  PL/pgSQL function cp7_credit.assert_source_native_trigger_census_v1() line 90 at RAISE\nSQL statement \"SELECT cp7_credit.assert_source_native_trigger_census_v1()\"\nPL/pgSQL function cp7_credit_correction_de.prepare_v1(jsonb,uuid,text,jsonb) line 11 at PERFORM\nSQL statement \"SELECT cp7_credit_correction_de.prepare_v1(p,p_request,p_expected,a)\"\nPL/pgSQL function cp7_credit_correction_de.command_v1(jsonb,uuid,text) line 45 at PERFORM\nSQL expression \"cp7_credit_correction_de.command_v1(p,p_request,p_expected)\"\nPL/pgSQL function cp7_credit_correction_de.dispatch_v1(jsonb,uuid,text) line 6 at RETURN\nSQL function \"erp_cp7_correct_sales_return_v1\" statement 1\n\nDuring handling of the above exception, another exception occurred:\n\nTraceback (most recent call last):\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp6_auditor_runner.py\", line 165, in _strict_group_once\n    row=operation()\n        ^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_credit_correction_de/cases.py\", line 169, in post_failure\n    outcome=refusal(cur,pair,lambda:correction.correct(cur,p,v),'CP7_CREDIT_DE_TEST_PART_FAILURE')\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/runner/work/-erp-garment-ux/-erp-garment-ux/auditor/scripts/cp7_credit_correction_de/cases.py\", line 36, in refusal\n    assert result['message']==message,result\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: {'sqlstate': 'P0001', 'message': 'CP7_CREDIT_SOURCE_NATIVE_TRIGGER_CENSUS_CHANGED', 'detail': ''}\n",
+      "full_boundary_restored": true,
+      "public_schema_unchanged": true,
+      "session_leaks": {
+        "advisory_locks": 0,
+        "advisory_lock_keys": [],
+        "other_sessions": []
+      },
+      "business_day": {
+        "planned": "2026-10-30",
+        "before": "2026-10-30",
+        "after": "2026-10-30"
+      }
+    }
+  },
+  "corrected_failure_point": "AFTER_NATIVE_POST_DURING_E_FINISH",
+  "original_failure_token_preserved": true,
+  "original_no_effect_oracle_preserved": true,
+  "no_change_to_Native_trigger_census": true,
+  "no_product_hook_added": true,
+  "Native_credit": 0
+}

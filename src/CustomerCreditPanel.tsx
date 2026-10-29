@@ -169,6 +169,7 @@ export default function CustomerCreditPanel(props:Props) {
       <p>{checked.review.selection.action==='UNDO'?'Pembatalan':checked.review.selection.event_kind==='APPLY'?'Pemakaian saldo':'Pengembalian uang'} {money(checked.review.selection.amount)}</p>
       <p>{formatCp6WibDateTime(checked.review.physical_at)} · tanggal transaksi {checked.review.economic_date} · tanggal buku {checked.review.transaction_date}</p>
       <p>Saldo sesudah transaksi ini: <strong>{money(checked.review.available_credit_after)}</strong></p>
+      {checked.review.target_assignment?<p>Pemakaian kredit mengikuti invoice pengganti {checked.review.target_assignment.current_number}. Transaksi asal tetap tersimpan. <TransactionSourceLink sourceType="SALE" sourceId={checked.review.target_assignment.current_sale_id} label={`Buka invoice pengganti ${checked.review.target_assignment.current_number}`} disabled={disabled}/></p>:null}
       {targetCurrent?<p>Invoice tujuan {target!.number}</p>:null}{cashCurrent?<p>Rekening {cash!.name}</p>:null}
       <label className="cproc-check"><input type="checkbox" aria-label="Transaksi kredit sudah diperiksa" checked={confirmed} disabled={disabled} onChange={e=>setConfirmed(e.target.checked)}/>Nominal, sumber saldo, tujuan, dan waktu transaksi sudah saya periksa.</label>
       <button type="button" className="primary-btn" disabled={disabled||!confirmed||!inputReady} onClick={save}>Simpan transaksi kredit</button>

@@ -1,3 +1,6 @@
+import NoteCreditCarrySection,{type NoteCarryState} from './NoteCreditCarrySection'
+import {noteCreditAmount} from './noteCreditCarryContract'
+import type {useProductionMutation} from './useProductionMutation'
 import {useEffect,useMemo,useRef,useState} from 'react'
 import {useAuth} from './auth/AuthProvider'
 import {isConnectedRuntime} from './config/runtime'
@@ -20,10 +23,11 @@ const seriesKey=(brand:string,sku:string)=>`${sku} · ${brand}`
 const seriesGroups=(lines:Line[])=>{const groups=new Map<string,{line:Line;index:number}[]>();lines.forEach((line,index)=>groups.set(line.series,[...(groups.get(line.series)??[]),{line,index}]));return [...groups.entries()]}
 type Form={customer:SalesCustomerOption|null;location:{id:string;name:string}|null;number:string;at:string;originalAt:string|null;due:string;terms:string;notes:string;reason:string;lines:Line[]}
 type Kind='CUSTOMER'|'STOCK'
-export default function SalesDraftPanel({initial,locked,stale,onSave,onClose,correction=false}:{initial:Detail|null;locked:boolean;stale:boolean;correction?:boolean;onSave:(action:'CREATE'|'EDIT',document:Json,version:string|null)=>void;onClose:()=>void}){
+export default function SalesDraftPanel({initial,locked,stale,onSave,onClose,correction=false,readFence,onInvalid}:{initial:Detail|null;locked:boolean;stale:boolean;correction?:boolean;readFence?:Pick<ReturnType<typeof useProductionMutation>,'currentReadTicket'|'isReadCurrent'>;onInvalid?:(message:string)=>void;onSave:(action:'CREATE'|'EDIT',document:Json,version:string|null)=>void;onClose:()=>void}){
  const {runtime}=useAuth();if(!isConnectedRuntime(runtime))throw Error('Sesi penjualan belum siap.')
  const client=useMemo(()=>getUatSupabaseClient(runtime),[runtime])
  const [form,setForm]=useState<Form>(()=>({customer:initial?{id:initial.customer_id,code:'',name:initial.customer_name}:null,location:initial?.location_id?{id:initial.location_id,name:initial.location_name??''}:null,number:initial?.number??'',at:cp6WibDateTimeInput(initial?.physical_at),originalAt:initial?.physical_at??null,due:initial?.due_date??'',terms:initial?.payment_terms??'',notes:initial?.notes??'',reason:'',lines:initial?.items.map(i=>({key:i.id,product_id:i.product_id,sku:i.product_sku,series:seriesKey(i.brand_name,i.commercial_sku),size:i.size_code,qty:i.qty_pcs,price:i.financial?.unit_price??'',discount:i.financial?.discount??'',notes:i.notes,dozens:'',pieces:'',available:null}))??[]}))
+ const [carryState,setCarryState]=useState<NoteCarryState>({kind:'PENDING',isCurrent:()=>false})
  const [seriesInput,setSeriesInput]=useState<Record<string,SeriesInput>>({})
  const [reviewed,setReviewed]=useState(false),[options,setOptions]=useState<Partial<Record<Kind,SalesFormOptions>>>({}),[query,setQuery]=useState({CUSTOMER:'',STOCK:''}),[loading,setLoading]=useState({CUSTOMER:false,STOCK:false}),[error,setError]=useState('')
  const sequences=useRef({CUSTOMER:0,STOCK:0}),queryUsed=useRef({CUSTOMER:'',STOCK:''}),seriesSeq=useRef(0),formRef=useRef(form);formRef.current=form
@@ -59,10 +63,15 @@ export default function SalesDraftPanel({initial,locked,stale,onSave,onClose,cor
  }
  const amounts=form.lines.map(l=>salesLineTotal(l.qty,l.price,l.discount)),valid=!!at&&!!form.customer&&!!form.location&&form.number.trim().length>0&&form.reason.trim().length>=5&&form.lines.length>0&&form.lines.length<=100&&amounts.every(a=>a!==null)&&!seriesBusy
  const total=form.lines.length>0&&amounts.every(a=>a!==null)?amounts.reduce((n,a)=>n+BigInt(a!.replace('.','')),0n):null
- const blocked=locked||stale
+ // Even zero current U may retain earlier APPLY/UNDO cuts. The workspace
+ // decides from actual history whether this correction needs a carry review.
+ const blocked=locked||stale,carryNeeded=correction&&!!initial?.financial
+ const carryFingerprint=JSON.stringify([form.number,at,form.customer?.id,location,form.due,form.terms,form.notes,form.reason,form.lines.map(l=>[l.key,l.product_id,l.qty,l.price,l.discount,l.notes])])
+ const priceOnly=!!initial&&form.lines.length===initial.items.length&&form.lines.every(l=>initial.items.some(i=>i.id===l.key&&i.product_id===l.product_id&&salesQtyInput(l.qty)===i.qty_pcs))
+ const carryReady=!carryNeeded||carryState.isCurrent()&&(carryState.kind==='NONE'||carryState.kind==='REVIEWED'&&carryState.fingerprint===carryFingerprint)
  function save(){
-  if(!valid||blocked||!reviewed)return
-  onSave(initial?'EDIT':'CREATE',{...(initial?{sale_id:initial.id,review_token:initial.review_token!}:{}),...(correction&&initial?{item_lineage:form.lines.map(l=>initial.items.some(i=>i.id===l.key)?l.key:null)}:{}),sale_number:form.number.trim(),customer_id:form.customer!.id,source_location_id:form.location!.id,sale_date:at!,due_date:form.due||null,payment_terms:form.terms||null,notes:form.notes||null,change_reason:form.reason.trim(),items:form.lines.map(l=>({product_id:l.product_id,qty_pcs:salesQtyInput(l.qty)!,unit_price_snapshot:salesMoneyInput(l.price)!,discount_amount:salesMoneyInput(l.discount)!,notes:l.notes}))},initial?.row_version??null)
+  if(!valid||blocked||!reviewed||!carryReady)return
+  onSave(initial?'EDIT':'CREATE',{...(initial?{sale_id:initial.id,review_token:initial.review_token!}:{}),...(correction&&initial?{item_lineage:form.lines.map(l=>initial.items.some(i=>i.id===l.key)?l.key:null)}:{}),...(carryNeeded&&carryState.kind==='REVIEWED'?{credit_carry_review:carryState.review}:{}),sale_number:form.number.trim(),customer_id:form.customer!.id,source_location_id:form.location!.id,sale_date:at!,due_date:form.due||null,payment_terms:form.terms||null,notes:form.notes||null,change_reason:form.reason.trim(),items:form.lines.map(l=>({product_id:l.product_id,qty_pcs:salesQtyInput(l.qty)!,unit_price_snapshot:salesMoneyInput(l.price)!,discount_amount:salesMoneyInput(l.discount)!,notes:l.notes}))},initial?.row_version??null)
  }
  const picker=(kind:Kind)=>{const candidate=options[kind],o=candidate&&at&&Date.parse(candidate.physical_at)===Date.parse(at)&&candidate.location_id===(kind==='STOCK'?location:null)?candidate:undefined;return <section className="cproc-line" aria-label={kind==='CUSTOMER'?'Pilih pelanggan invoice':'Pilih barang invoice'}>
   <div className="cproc-inline"><label>{kind==='CUSTOMER'?'Cari pelanggan':'Cari SKU, ukuran, atau gudang'}<input aria-label={kind==='CUSTOMER'?'Cari pelanggan draft':'Cari barang draft'} value={query[kind]} maxLength={120} onChange={e=>setQuery(v=>({...v,[kind]:e.target.value}))} onKeyDown={e=>{if(e.key==='Enter'){e.preventDefault();void search(kind)}}}/></label><button type="button" disabled={loading[kind]||!at} onClick={()=>void search(kind)}>{kind==='CUSTOMER'?'Cari pelanggan draft':'Cari barang draft'}</button></div>
@@ -98,7 +107,8 @@ export default function SalesDraftPanel({initial,locked,stale,onSave,onClose,cor
    </section>})}
    <label>Catatan invoice<input aria-label="Catatan draft invoice" maxLength={4000} value={form.notes} onChange={e=>update({notes:e.target.value})}/></label><label>Alasan penyimpanan<input aria-label="Alasan simpan invoice" required minLength={5} maxLength={1000} value={form.reason} onChange={e=>update({reason:e.target.value})}/></label>
    <div className="cproc-total"><span>{correction?'Nilai nota setelah dibetulkan':'Nilai draft'}</span><strong>{total===null?'Belum lengkap':`Rp${numberText(`${total/100n}.${String(total%100n).padStart(2,'0')}`)}`}</strong><p>{correction?'Pembetulan memperbarui nota, stok, piutang dan HPP bersama. Periode keuangan yang ditutup tetap dilindungi.':'Menyimpan draft memesan stok siap jual. Piutang belum dibukukan sampai invoice disahkan.'}</p></div>
-   <label className="cproc-check"><input type="checkbox" aria-label={correction?'Pembetulan nota sudah diperiksa':'Draft invoice sudah diperiksa'} checked={reviewed} disabled={!!seriesBusy} onChange={e=>setReviewed(e.target.checked)}/>Pelanggan, tanggal, jumlah, harga, dan potongan sudah saya periksa.</label><button className="primary-btn" disabled={!valid||!reviewed}>{correction?'Simpan pembetulan nota':'Simpan draft invoice'}</button>
+   {carryNeeded&&initial?<NoteCreditCarrySection source={initial} newNet={total===null?null:noteCreditAmount(total)} priceOnly={priceOnly} fingerprint={carryFingerprint} locked={locked} stale={stale} readFence={readFence} onChange={setCarryState} onInvalid={onInvalid}/>:null}
+   <label className="cproc-check"><input type="checkbox" aria-label={correction?'Pembetulan nota sudah diperiksa':'Draft invoice sudah diperiksa'} checked={reviewed} disabled={!!seriesBusy} onChange={e=>setReviewed(e.target.checked)}/>Pelanggan, tanggal, jumlah, harga, dan potongan sudah saya periksa.</label><button className="primary-btn" disabled={!valid||!reviewed||!carryReady}>{correction?'Simpan pembetulan nota':'Simpan draft invoice'}</button>
   </fieldset>
  </form>
 }

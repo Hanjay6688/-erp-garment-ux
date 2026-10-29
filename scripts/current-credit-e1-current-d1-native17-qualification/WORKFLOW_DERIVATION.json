@@ -1,0 +1,10 @@
+{
+  "parent_workflow": ".github/workflows/cp7-credit-d1-product-phase-native13.yml",
+  "retained_E_deriver_sha256": "73554289071ebd7e633fb7a79ec9b492a9a102a58bac2fbced705da2bf858048",
+  "private_routing_substitutions": 2,
+  "six_change_complete_engine_unchanged": true,
+  "current_D1_setup_and_restore_preserved": true,
+  "null_gate_before_setup_GET_DB": true,
+  "parent_sha256": "cda5788102bc7dc2de51ebc0646d9cc392bbca2d05c335f8e319ea23ebb07622",
+  "derived_sha256": "6771fa52702491f6939dd4c0b1c745e6aa198f50fbb9c577a20380cce8de31ad"
+}

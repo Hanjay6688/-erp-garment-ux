@@ -1,0 +1,24 @@
+{
+  "scope": "E1 local client contract; declared transport/source stand-ins only",
+  "replacement_apply_undo_first_failure": {
+    "command": "vitest run src/customerCreditContract.test.ts",
+    "result": "2 FAIL / 9 PASS",
+    "cause": "Existing closed credit review parser rejects the new explicit target_assignment field and flat target/root requirement; both APPLY and named UNDO need the assignment contract.",
+    "original_event_target_must_remain_immutable": true
+  },
+  "Native_execution": false,
+  "Auth_browser_execution": false,
+  "production_go": false,
+  "test_typing_first_failure": "New target_assignment test literal inferred string instead of its contract-version literal; test annotation fixed.",
+  "UI_control_first_failure": "DOM test expected generic source rejection wording, but the current parent source correctly emits the more specific Nota berubah. Muat ulang invoice. assertion corrected; no amount/date/financial expectation changed.",
+  "existing_note_DOM_first_failure": {
+    "result": "2 FAIL from new source-history read missing in old transport doubles",
+    "fix": "Add only the existing note workspace RPC route to the transport harness, returning original unchanged source/header/items with empty history. All original date, quantity, price, receipt, UUID, and AR assertions stay exact."
+  },
+  "replacement_UI_control_first_failure": "New test omitted creditId fixture import; fixed import only.",
+  "replacement_name_UI_bug": "The replacement name appeared only inside TransactionSourceLink, which intentionally renders nothing without its navigation provider. Display the invoice number as plain reviewed text and retain a separate named navigation link. Directed parent/recovery test caught the missing label.",
+  "source_review_upstream_binding_gap": "Target U and immutable APPLY can remain unchanged when the source D1 return credit changes. E basis now includes the complete joined graph and captured active source Native/materialized contexts. Actual stale-source case is prepared, not run.",
+  "source_review_later_native_escape": "Retained native_source_enter checks participation through the family but its raw target UUID test can miss carried original APPLY, leaving had_families=false on an ordinary replacement reversal. A counted entry guard now refuses later unqualified Native mutation on the E-owned family. Directed SQL guard checks pass with declared structural/source doubles; actual no-effect case is prepared.",
+  "read_boundary_403": "Source review found that the new note child workspace needed to notify the existing owning invalidation boundary on current read failure. Added onInvalid propagation and a directed current-403 case; existing localized403 mapping stays unchanged.",
+  "local_recursive_parent_binding": "Assembly attempted the real nested product.sources() and correctly required D17_18_RETAINED_COMBINED_AF_DIRECTORY. The local dependency file records only actual E/runtime/helper file hashes; root must supply the unchanged signed predecessor artifact context. No projected parent digest or source binding is used."
+}

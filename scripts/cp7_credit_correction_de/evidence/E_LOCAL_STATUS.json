@@ -1,0 +1,50 @@
+{
+  "status": "PREPARED_LOCAL_PASS_ACTUAL_NATIVE_PENDING",
+  "client": {
+    "status": "PASS",
+    "scope": "CLIENT_DOM_AND_CONTRACTS_WITH_DECLARED_TRANSPORT_AND_READ_FENCE_DOUBLES",
+    "files": 8,
+    "tests": 109,
+    "passed": 109,
+    "failed": 0,
+    "Native_execution": false,
+    "Auth_browser_execution": false,
+    "command": [
+      "./node_modules/.bin/vitest",
+      "run",
+      "src/NoteCreditCarrySection.dom.test.tsx",
+      "src/noteCreditCarryContract.test.ts",
+      "src/customerCreditContract.test.ts",
+      "src/SalesDraftPanel.dom.test.tsx",
+      "src/ConnectedSalesPage.dom.test.tsx",
+      "src/ConnectedCustomerCredit.dom.test.tsx",
+      "src/SalesReturnCorrectionPanel.dom.test.tsx",
+      "src/lib/clientError.test.ts",
+      "--reporter=json"
+    ]
+  },
+  "app_tsc": {
+    "status": "PASS",
+    "command": "./node_modules/.bin/tsc --noEmit -p tsconfig.app.json"
+  },
+  "local_SQL": {
+    "pure_plan_and_captured_leaf_vectors": 9,
+    "assignment_price_and_later_guard": 10,
+    "declaration_body_compile": "PASS",
+    "counted_static_derivations": 22,
+    "duplicate_predecessors_refused": 22,
+    "E_owner_cursor_controls": 9,
+    "Native_execution": false,
+    "financial_writer_proven": false,
+    "deferred_closure_proven": false,
+    "declared_doubles": "Structural Native/private columns, source/current-leaf/journal/authority signatures and supplied graphs/vectors only; see each check source"
+  },
+  "D1_runtime_core_exact_except_explicit_owner_repair": true,
+  "E_Native_cases_prepared": 17,
+  "E_Native_cases_observed": 0,
+  "Auth_browser_cases_observed": 0,
+  "concurrency_cases_observed": 0,
+  "production_go": false,
+  "D_complete": false,
+  "E_complete": false
+}

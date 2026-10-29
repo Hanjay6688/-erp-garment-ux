@@ -1,0 +1,8 @@
+{
+  "original_sha256": "e27064d57660c3704db1d93bb3dec562d89551a9c613586447ce011676e3e256",
+  "derived_sha256": "6491807365260c2c85b82e451b15428114eafe441a2b749ee73fb7f364c28bf1",
+  "counted_source_routing_changes": 2,
+  "private_HERE_relocated": true,
+  "retained_historical_D1_diff_endpoint_changes": 1,
+  "all_original_current_hash_financial_parent_raw_checks_preserved": true
+}

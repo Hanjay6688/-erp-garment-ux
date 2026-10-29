@@ -15,10 +15,15 @@ export type CreditSelection = {
   target_sale_id: string|null; target_root_sale_id: string|null; target_current_leaf_id: string|null
   cash_account_id: string|null; restores_event_id: string|null; amount: string
 }
+export type CreditTargetAssignment = {
+  contract_version:'cp7.note-credit-target-assignment.v1';root_sale_id:string;historical_target_id:string
+  current_sale_id:string;current_number:string;revision_id:string;original_event_id:string|null;proof_sha256:string
+}
 export type CreditReview = {
   contract_version: 'cp7.customer-credit-review.v1'; read_only: true; selection: CreditSelection
   physical_at: string; economic_date: string; transaction_date: string; book_basis: {[key:string]: Json}
   available_credit_after: string; expected_versions: Record<string,string>; quote_sha256: string
+  target_assignment?:CreditTargetAssignment
 }
 export type CreditRecovery = {document: CreditCommand; review: CreditReview}
 export type CreditCohort = {id:string;return_id:string;return_number:string;available_credit:string;credit_account:{id:string;code:string;name:string}}
@@ -112,7 +117,8 @@ export function parseCreditPayload(value:unknown,command=false):CreditPayload|Cr
 }
 
 export function parseCreditReview(value:unknown,payload:CreditPayload,context?:{source:CreditSource;original?:CreditEvent;target?:CreditTarget}):CreditReview {
-  const p=parseCreditPayload(payload),r=closed(value,['contract_version','read_only','selection','physical_at','economic_date','transaction_date','book_basis','available_credit_after','expected_versions','quote_sha256'])
+  const carried=!!value&&typeof value==='object'&&Object.hasOwn(value,'target_assignment')
+  const p=parseCreditPayload(payload),r=closed(value,['contract_version','read_only','selection','physical_at','economic_date','transaction_date','book_basis','available_credit_after','expected_versions','quote_sha256',...(carried?['target_assignment']:[])])
   const s=closed(r.selection,['action','event_kind','cohort_id','customer_id','source_sale_id','source_root_sale_id','source_current_leaf_id',
     'target_sale_id','target_root_sale_id','target_current_leaf_id','cash_account_id','restores_event_id','amount'])
   const map=versions(r.expected_versions)
@@ -124,8 +130,18 @@ export function parseCreditReview(value:unknown,payload:CreditPayload,context?:{
   for(const key of ['target_sale_id','target_root_sale_id','target_current_leaf_id','cash_account_id','restores_event_id'])if(s[key]!==null && !uuid(s[key]))fail()
   if(s.source_sale_id!==s.source_root_sale_id || s.source_sale_id!==s.source_current_leaf_id || !version(map[String(s.source_sale_id)])
     || (s.event_kind==='APPLY')!==(s.target_sale_id!==null) || (s.event_kind==='REFUND')!==(s.cash_account_id!==null)
-    || s.target_sale_id===s.source_sale_id || s.target_root_sale_id!==s.target_sale_id || s.target_current_leaf_id!==s.target_sale_id
+    || s.target_sale_id===s.source_sale_id || s.target_root_sale_id===s.source_root_sale_id || s.target_current_leaf_id!==s.target_sale_id
     || s.target_sale_id!==null && !version(map[String(s.target_sale_id)]) || s.restores_event_id!==p.restores_event_id)fail()
+  let assignment:Record<string,unknown>|null=null
+  if(carried){
+    assignment=closed(r.target_assignment,['contract_version','root_sale_id','historical_target_id','current_sale_id','current_number','revision_id','original_event_id','proof_sha256'])
+    if(s.event_kind!=='APPLY'||s.target_root_sale_id===s.target_sale_id||assignment.contract_version!=='cp7.note-credit-target-assignment.v1'
+      || ![assignment.root_sale_id,assignment.historical_target_id,assignment.current_sale_id,assignment.revision_id].every(uuid)
+      || assignment.root_sale_id!==s.target_root_sale_id||assignment.current_sale_id!==s.target_sale_id||!label(assignment.current_number)||!hash(assignment.proof_sha256)
+      || assignment.original_event_id!==p.restores_event_id
+      || p.action==='UNDO'&&![assignment.root_sale_id,assignment.current_sale_id].includes(assignment.historical_target_id)
+      || p.action!=='UNDO'&&assignment.historical_target_id!==s.target_sale_id)fail()
+  }else if(s.target_root_sale_id!==s.target_sale_id)fail()
   if(p.action==='UNDO') {if(creditCents(s.amount)>=0n)fail()}
   else if(s.event_kind!==p.action || s.cohort_id!==p.cohort_id || s.target_sale_id!==p.target_sale_id || s.cash_account_id!==p.cash_account_id || s.amount!==p.amount)fail()
   if(!r.book_basis || typeof r.book_basis!=='object' || Array.isArray(r.book_basis) || (r.book_basis as Record<string,unknown>).selected_book_date!==r.transaction_date)fail()
@@ -134,8 +150,9 @@ export function parseCreditReview(value:unknown,payload:CreditPayload,context?:{
     if(s.source_sale_id!==source.id || s.customer_id!==source.customer_id || map[source.id]!==source.row_version)fail()
     if(p.action==='UNDO' && (!original || original.id!==p.restores_event_id || original.restores_event_id!==null || original.undone_by!==null
       || s.cohort_id!==original.cohort_id || s.event_kind!==original.kind || creditCents(s.amount)!==-creditCents(original.amount)
-      || s.target_sale_id!==original.target_sale_id || s.cash_account_id!==original.cash_account_id))fail()
+      || (assignment?assignment.historical_target_id!==original.target_sale_id:s.target_sale_id!==original.target_sale_id) || s.cash_account_id!==original.cash_account_id))fail()
     if(p.action==='APPLY' && (!target || target.id!==p.target_sale_id || target.customer_id!==source.customer_id || map[target.id]!==target.row_version))fail()
+    if(p.action==='APPLY'&&assignment&&assignment.current_number!==target?.number)fail()
   }
   return r as unknown as CreditReview
 }

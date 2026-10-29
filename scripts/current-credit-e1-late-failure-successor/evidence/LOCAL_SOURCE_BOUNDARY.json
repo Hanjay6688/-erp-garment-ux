@@ -1,0 +1,47 @@
+{
+  "status": "PASS_OFFLINE_SOURCE_BOUNDARIES_ONLY",
+  "command": "python3 -B scripts/current-credit-e1-late-failure-successor/test_source_boundary.py",
+  "counts": {
+    "PASS": 8
+  },
+  "controls": [
+    {
+      "name": "test_exact_one_callback_derivation_preserves_seventeen_ids",
+      "status": "PASS"
+    },
+    {
+      "name": "test_change_before_callback_is_rejected",
+      "status": "PASS"
+    },
+    {
+      "name": "test_change_after_callback_is_rejected",
+      "status": "PASS"
+    },
+    {
+      "name": "test_case_id_mutation_is_rejected",
+      "status": "PASS"
+    },
+    {
+      "name": "test_absent_or_duplicate_callback_is_rejected",
+      "status": "PASS"
+    },
+    {
+      "name": "test_native_journal_target_is_rejected",
+      "status": "PASS"
+    },
+    {
+      "name": "test_frozen_product_runtime_mutation_is_rejected_without_writing",
+      "status": "PASS"
+    },
+    {
+      "name": "test_bind_refuses_ci_without_mutating_source",
+      "status": "PASS"
+    }
+  ],
+  "product_or_DB_imported": false,
+  "Native_execution": false,
+  "actual_E_cases": 0,
+  "remote_calls": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

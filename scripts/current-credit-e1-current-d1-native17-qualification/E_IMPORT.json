@@ -1,0 +1,52 @@
+{
+  "status": "EXACT_REVIEWED_E_IMPORT_AND_EXPLICIT_CURRENT_D1_METADATA_REBIND_NOT_NATIVE_PASS",
+  "private_preparation_provenance": [
+    "2966fb97c",
+    "23db523ba",
+    "a202a5baa"
+  ],
+  "CI_requires_private_commit_objects": false,
+  "files": {
+    "scripts/cp7_credit_correction_de/E_DEPENDENCIES.json": "002134b3b496b3ab46571b0500fd3c873377c877b8b407f62ad4f6caa8eb68d6",
+    "scripts/cp7_credit_correction_de/E_QUALIFICATION.md": "a91bb3a781cb78d25da9519e6a18632dd891f00c7e15fd501c22cb8af88916e1",
+    "scripts/cp7_credit_correction_de/e_binding_check.mjs": "2d1cf879971f8a01e6b646e57c8aae915e81a6ede15cbe75659cc562ef8888ae",
+    "scripts/cp7_credit_correction_de/e_cases.py": "058a9c29b991b30ca4da6467cfeb2629179d3ce8f25b8dba09d6ea45f419e2ad",
+    "scripts/cp7_credit_correction_de/e_compile_check.mjs": "a15c9e8e59825959b07f9ce20ec9910f8b1d029d194b64da281750765de4970d",
+    "scripts/cp7_credit_correction_de/e_compile_fixture.py": "3a3d7339c28671e46fdad80f434cd479cf87700b8606237532b69c5e0b7984e7",
+    "scripts/cp7_credit_correction_de/e_composition.py": "6e690d12e30cb3a6463283dc62f269f5e3e77e2e59f37e45cdd0b5ec1f6a46d6",
+    "scripts/cp7_credit_correction_de/e_delta_check.py": "7140d39d32d2334af5a645e92ee0c95febcf348ac341bd5d85e6f48ab8d9455e",
+    "scripts/cp7_credit_correction_de/e_native_delta.py": "314742c922fc82145f7caa8d4217296bf3f2408ceacbc4738d50d3b866d2bfe0",
+    "scripts/cp7_credit_correction_de/e_owner_check.py": "153c616f1714e4d91362b3488301d8ae16cb8d298d2cffe0b235cdead368e3a4",
+    "scripts/cp7_credit_correction_de/e_plan_check.mjs": "5eacdfbec76609b5c68a4276abb6c51c2141c51513ab0215ed085df80a380e4c",
+    "scripts/cp7_credit_correction_de/evidence/E_CLIENT_STATUS.json": "5a5e52cba69b7b623ad82c710a413ceeaf0eef7613e12e8e603b8383455ce09b",
+    "scripts/cp7_credit_correction_de/evidence/E_FIRST_FAILURES.json": "e373228d80fe07ea59fae50eda136edc8998a12555d1afa008a6b80da9014e91",
+    "scripts/cp7_credit_correction_de/evidence/E_FOLLOWUP_FAILURES.json": "7069480412e5e3f01ff1b56839b4d7ffa16b41d150aadccc92b8bc31bf5b7f77",
+    "scripts/cp7_credit_correction_de/evidence/E_LOCAL_STATUS.json": "b776cf83d3ba45fc8bd8aa37cd5a1f03d760c933d704d9e59524886dc53f731a",
+    "scripts/cp7_credit_correction_de/note_carry/01_facts.sql": "ebf128127e6bcab8fe1c52b98f46ede1492356386312fe2f744e3e65ddb1d415",
+    "scripts/cp7_credit_correction_de/note_carry/02_plan.sql": "17c9028606298e7d66681deb3c0a1f3260a1ec829d9ba501a647231b358981f3",
+    "scripts/cp7_credit_correction_de/note_carry/03_readers.sql": "940200b5320189bd424a99ccef9cc92846dd576a6c6d4bd2e8f1e25afd3325d8",
+    "scripts/cp7_credit_correction_de/note_carry/04_basis.sql": "cdd49e1c5f9a78f4c2c27ce0ae055907a485475c0020720c9e18a0f80e68c222",
+    "scripts/cp7_credit_correction_de/note_carry/05_effect.sql": "cd77c5ab9427223e1c67b93d8631a1808b8ddc593fc0c97d12e9c069a2950710",
+    "scripts/cp7_credit_correction_de/note_carry/06_owning.sql": "8864996e824655766022bafa277ac046beba35794b678eedc388b1093fb38575",
+    "scripts/cp7_credit_correction_de/note_carry/07_profile_closure.sql": "7b7c1467176fefb0f564169ab0903c3d93defc88cce97a16a7ad37629ad84ac3",
+    "src/ConnectedCustomerCredit.dom.test.tsx": "a332ab0ffb8149c01569fcaddf4dfcc2743762f804f3b23757914f1e35fe3910",
+    "src/ConnectedSalesPage.dom.test.tsx": "5cfd2a26cc5889e83600e811e4f0ee3ffcc3e76dea277e716a00fef49e87c8ee",
+    "src/ConnectedSalesPage.tsx": "872decb1462738c8482aa34d7054ba6b2894218a17a36c8a63293559b4a2d49f",
+    "src/CustomerCreditPanel.tsx": "1c316df4c06fdf80b467beb4934a23850f2873f8c8625980605fd614b3250311",
+    "src/NoteCreditCarrySection.dom.test.tsx": "2f99042607ee2223cdd9fe716a08f00246f0dab923acb600be4444f7251c04f9",
+    "src/NoteCreditCarrySection.tsx": "566516b042ce9198f4cf45334b2b045a97b4019fdece1724e9b766f2856bf271",
+    "src/SalesDraftPanel.tsx": "13b72ff3ffe473e1ba81d9cc8861dab381167632d242aaf3d2ba6d9451a4f4a5",
+    "src/customerCreditContract.test.ts": "383dbc49dd3bf7e4757178a3c33f6c9a8d8b873e8759efff64f541c853701663",
+    "src/customerCreditContract.ts": "117d2135a8cb9f14d69e9755db32ebce5d5e75396d1d384626d0650e2d2d9064",
+    "src/lib/clientError.test.ts": "212ecc4e40b4cffc69e1989ff68922009b31b2f4090b7be5fc1cbc2fa5d8d787",
+    "src/lib/clientError.ts": "d88cc317f169abb74d48ec96b4de89a71ce409a463e8978ccf7b2921a9bd2e89",
+    "src/noteCorrectionContract.ts": "c568adf589b52fe7aa61920ea3914eb9d7e10dbac618bf4c645663af5700b58f",
+    "src/noteCreditCarryContract.test.ts": "e259287079834abf99493694db4d8a5235c04e5ed125de262dce0f488c9a0e59",
+    "src/noteCreditCarryContract.ts": "d9fb1e33756ef668304b3d3e3769eb0ba94d3cc3751fb251a78a01f81cbc265e"
+  },
+  "original_manifest_sha256": "3423833c759edfb2b68ba78e381482e41c664395315c99f9d802fb9a86710331",
+  "changed_paths_explicit": [
+    "scripts/cp7_credit_correction_de/E_DEPENDENCIES.json",
+    "scripts/cp7_credit_correction_de/e_cases.py"
+  ]
+}

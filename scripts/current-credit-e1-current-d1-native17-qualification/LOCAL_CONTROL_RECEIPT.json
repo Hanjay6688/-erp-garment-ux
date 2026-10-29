@@ -1,0 +1,32 @@
+{
+  "classification": "CLOSED_LOCAL_SOURCE_API_IMPORT_CONTROL_RESULTS_ONLY",
+  "local_controls_PASS": 13,
+  "local_controls_FAIL": 0,
+  "first_full_suite_before_test_lookup_fix": {
+    "PASS": 11,
+    "ERROR": 1
+  },
+  "source_API_modules": 4,
+  "source_API_function_bodies": 20,
+  "current_D1_parent_source_files": 174,
+  "frozen_parent_blob_pins": 175,
+  "nine_E_financial_runtime_leaves_changed": false,
+  "seventeen_E_IDs_and_financial_oracles_unchanged": true,
+  "only_reviewed_late_failure_callback_feba": true,
+  "old_E_admission_private_source_routes": 2,
+  "old_D1_admission_historical_endpoint_changes": 1,
+  "complete_vendor_engine_substitutions": 6,
+  "direct_real_CLI_controls": 5,
+  "accepted_D1": null,
+  "accepted_raw_parent": null,
+  "required_qualified_parent": null,
+  "new_actual_Native_E_cases": 0,
+  "DB_executions": 0,
+  "remote_actions": 0,
+  "CI_dispatch": false,
+  "independent_acceptance": false,
+  "production_go": false,
+  "CI_private_preparation_Git_objects_required": false,
+  "retained_before_feba_case_sha256": "68b29fd16cf4f832e96ee14ea6befda904015bc706847a293bb72cf9d2af56a3",
+  "private_object_lookup_removed_from_new_test_only": true
+}

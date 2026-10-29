@@ -1,0 +1,65 @@
+{
+  "classification": "LOCAL_REAL_NEW_CLI_REFUSALS_BEFORE_PRODUCT_GET_DB",
+  "commands": [
+    {
+      "entrypoint": "check.py",
+      "arguments": [],
+      "exit_code": 1,
+      "terminal": "ValueError: E1_CURRENT_D1_CLOSED_ROOT_TERMINAL_NATIVE13_FULL_RESTORE_PACKAGE5_REQUIRED",
+      "stderr_bytes": 1200,
+      "stderr_sha256": "89f018c33e1b75635fc324b8997694afdbed04a3f4a25fe424867fb320906cbf",
+      "stdout_bytes": 0,
+      "actual_Native_cases": 0
+    },
+    {
+      "entrypoint": "check.py",
+      "arguments": [
+        "--runtime"
+      ],
+      "exit_code": 1,
+      "terminal": "ValueError: E1_CURRENT_D1_CLOSED_ROOT_TERMINAL_NATIVE13_FULL_RESTORE_PACKAGE5_REQUIRED",
+      "stderr_bytes": 1200,
+      "stderr_sha256": "89f018c33e1b75635fc324b8997694afdbed04a3f4a25fe424867fb320906cbf",
+      "stdout_bytes": 0,
+      "actual_Native_cases": 0
+    },
+    {
+      "entrypoint": "probe.py",
+      "arguments": [
+        "--check"
+      ],
+      "exit_code": 1,
+      "terminal": "ValueError: E1_CURRENT_D1_CLOSED_ROOT_TERMINAL_NATIVE13_FULL_RESTORE_PACKAGE5_REQUIRED",
+      "stderr_bytes": 967,
+      "stderr_sha256": "493ac4c1e944731dfe460c7b969097f848d32efb8769f80b2f23214907c4a0c5",
+      "stdout_bytes": 0,
+      "actual_Native_cases": 0
+    },
+    {
+      "entrypoint": "fetch_prerequisite.py",
+      "arguments": [],
+      "exit_code": 1,
+      "terminal": "ValueError: E1_CURRENT_D1_CLOSED_ROOT_TERMINAL_NATIVE13_FULL_RESTORE_PACKAGE5_REQUIRED",
+      "stderr_bytes": 730,
+      "stderr_sha256": "d680d31ef8d01ff0e0ffb3b9624ad29b1b8156c723ab22c40d70bcac0af7fccf",
+      "stdout_bytes": 0,
+      "actual_Native_cases": 0
+    },
+    {
+      "entrypoint": "check.py",
+      "arguments": [
+        "--unknown"
+      ],
+      "exit_code": 2,
+      "terminal": "check.py: error: unrecognized arguments: --unknown",
+      "stderr_bytes": 100,
+      "stderr_sha256": "0d9846cd23e0539fe8761f3c1a2ded9ef51df185893f0e7b64774654fac09dc0",
+      "stdout_bytes": 0,
+      "actual_Native_cases": 0
+    }
+  ],
+  "GET_performed": false,
+  "DB_executions": 0,
+  "Native_executions": 0,
+  "production_go": false
+}

@@ -1,0 +1,123 @@
+{
+  "status": "PASS_LOCAL_DOUBLES_ONLY",
+  "scope": "LOCAL_STRUCTURAL_SQL_TRIGGER_DOUBLES_NOT_NATIVE",
+  "trigger_source": "EXACT_LITERAL_EXTRACTED_FROM_SUCCESSOR_LATE_FAILURE_ONLY",
+  "trigger_sha256": "49b16be321dd05ecfa2abf74dd156f5e9fa28a49044c63b2828529cd7a594d39",
+  "controls": [
+    {
+      "name": "exact_literal_compiles_and_attaches_only_private_AFTER_INSERT",
+      "status": "PASS",
+      "targets": [
+        {
+          "nspname": "cp7_credit_note_carry_de",
+          "relname": "operations_v1",
+          "tgtype": 5
+        }
+      ],
+      "ERP_trigger_rows_equal": true
+    },
+    {
+      "name": "structural_late_facts_reach_old_token_with_observed_DETAIL",
+      "status": "PASS",
+      "message": "E_TEST_ACTUAL_NATIVE_POST_FAILURE",
+      "detail": "{\"request_id\": \"00000000-0000-0000-0000-000000000005\", \"work_phase\": \"MATERIALIZED\", \"revision_id\": \"00000000-0000-0000-0000-000000000006\", \"operation_id\": \"00000000-0000-0000-0000-000000000004\", \"failure_point\": \"AFTER_NATIVE_POST_DURING_E_FINISH\", \"carried_amount\": \"80\", \"source_sale_id\": \"00000000-0000-0000-0000-000000000002\", \"assignment_count\": 1, \"replacement_sale_id\": \"00000000-0000-0000-0000-000000000003\", \"actual_guards_returned\": [\"assert_source_native_trigger_census_v1\", \"assert_historical_v1\", \"assert_current_materialized_profile\"], \"replacement_native_net\": \"550\", \"original_APPLY_event_id\": \"00000000-0000-0000-0000-000000000007\", \"original_APPLY_target_id\": \"00000000-0000-0000-0000-000000000002\", \"original_APPLY_journal_id\": \"00000000-0000-0000-0000-000000000008\", \"owning_contexts_remaining\": 0, \"original_APPLY_event_sha256\": \"51ab8d94ad5874e3c063d7ce30e902f29946524d00166b17c69555b49fdf89eb\", \"replacement_sale_journal_id\": \"00000000-0000-0000-0000-000000000009\", \"original_APPLY_journal_sha256\": \"fdda2567f2a9f37e9e07c6570f70dd7c7315c72b2e7ed42d140f6b2c50a8f580\", \"replacement_sale_journal_status\": \"POSTED\"}",
+      "local_rows_sequences_equal_after_refusal": true,
+      "ERP_trigger_rows_equal": true
+    },
+    {
+      "name": "missing_posted_replacement_journal_cannot_fake_late_point",
+      "status": "PASS",
+      "message": "E_TEST_LATE_POINT_SETUP_FAILED",
+      "detail": "actual posted replacement SALE journal, net550, price-only effect or receiving status missing",
+      "local_rows_sequences_equal_after_refusal": true,
+      "ERP_trigger_rows_equal": true
+    },
+    {
+      "name": "unposted_replacement_journal_cannot_fake_late_point",
+      "status": "PASS",
+      "message": "E_TEST_LATE_POINT_SETUP_FAILED",
+      "detail": "actual posted replacement SALE journal, net550, price-only effect or receiving status missing",
+      "local_rows_sequences_equal_after_refusal": true,
+      "ERP_trigger_rows_equal": true
+    },
+    {
+      "name": "wrong_phase_cannot_fake_late_point",
+      "status": "PASS",
+      "message": "E_TEST_LATE_POINT_SETUP_FAILED",
+      "detail": "actual MATERIALIZED work, revision, final response or cleared owning context missing",
+      "local_rows_sequences_equal_after_refusal": true,
+      "ERP_trigger_rows_equal": true
+    },
+    {
+      "name": "owning_context_not_cleared_cannot_fake_late_point",
+      "status": "PASS",
+      "message": "E_TEST_LATE_POINT_SETUP_FAILED",
+      "detail": "actual MATERIALIZED work, revision, final response or cleared owning context missing",
+      "local_rows_sequences_equal_after_refusal": true,
+      "ERP_trigger_rows_equal": true
+    },
+    {
+      "name": "missing_assignment_cannot_fake_carried80",
+      "status": "PASS",
+      "message": "E_TEST_LATE_POINT_SETUP_FAILED",
+      "detail": "actual carried80 assignment or immutable original APPLY/event/journal/basis proof missing",
+      "local_rows_sequences_equal_after_refusal": true,
+      "ERP_trigger_rows_equal": true
+    },
+    {
+      "name": "changed_original_APPLY_cannot_fake_immutability",
+      "status": "PASS",
+      "message": "E_TEST_LATE_POINT_SETUP_FAILED",
+      "detail": "actual carried80 assignment or immutable original APPLY/event/journal/basis proof missing",
+      "local_rows_sequences_equal_after_refusal": true,
+      "ERP_trigger_rows_equal": true
+    },
+    {
+      "name": "changed_original_APPLY_journal_cannot_fake_immutability",
+      "status": "PASS",
+      "message": "E_TEST_LATE_POINT_SETUP_FAILED",
+      "detail": "actual carried80 assignment or immutable original APPLY/event/journal/basis proof missing",
+      "local_rows_sequences_equal_after_refusal": true,
+      "ERP_trigger_rows_equal": true
+    },
+    {
+      "name": "changed_actual_revision_cannot_fake_link",
+      "status": "PASS",
+      "message": "E_TEST_LATE_POINT_SETUP_FAILED",
+      "detail": "actual MATERIALIZED work, revision, final response or cleared owning context missing",
+      "local_rows_sequences_equal_after_refusal": true,
+      "ERP_trigger_rows_equal": true
+    },
+    {
+      "name": "changed_final_response_cannot_fake_finish",
+      "status": "PASS",
+      "message": "E_TEST_LATE_POINT_SETUP_FAILED",
+      "detail": "actual MATERIALIZED work, revision, final response or cleared owning context missing",
+      "local_rows_sequences_equal_after_refusal": true,
+      "ERP_trigger_rows_equal": true
+    },
+    {
+      "name": "actual_native_census_call_is_not_a_literal_success_marker",
+      "status": "PASS",
+      "message": "LOCAL_STRUCTURAL_NATIVE_CENSUS_REFUSAL",
+      "detail": null,
+      "local_rows_sequences_equal_after_refusal": true,
+      "ERP_trigger_rows_equal": true
+    }
+  ],
+  "declared_doubles": [
+    "minimal ERP/work/request/revision/event/journal tables",
+    "fixed local auth.uid",
+    "materialized journal JSON/hash helper signatures",
+    "three Native/historical/profile guard stand-ins"
+  ],
+  "Native_execution": false,
+  "actual_E_cases": 0,
+  "actual_Auth": false,
+  "remote_calls": 0,
+  "production_go": false,
+  "independent_acceptance": false,
+  "counts": {
+    "PASS": 12
+  }
+}

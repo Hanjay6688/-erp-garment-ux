@@ -1,0 +1,77 @@
+{
+  "proof": {
+    "status": "EXACT_SUCCESSFUL_D1_NATIVE13_AND_FIVE_PACKAGE_GATES_ADMITTED",
+    "head": "17ac1eeb5833cbf2a786194fe3bfbba6628a1ff8",
+    "retained_Native_cases": 13,
+    "fresh_E_cases_credited": 0,
+    "original_sha256": "6b5eb3f481e1d36e8fbca64590a8ef83197f3e4e3725d9dfa3964c92cdbafa4c",
+    "native_group_sha256": "3129479dde1805e58fbd3a96cba4653c8da7a0b0f471be65c4182fd772f87d47",
+    "package_sha256": "84d20d0e7ec045d8496174c25437b3005c158ee517e1d1c014b75175410e8056",
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "full_five_raw_gate": {
+    "status": "EXACT_TERMINAL_D1_NATIVE13_COMPLETE_PACKAGE_AND_RESTORE_ADMITTED",
+    "head": "17ac1eeb5833cbf2a786194fe3bfbba6628a1ff8",
+    "tree": "52870c467cb37c328fd6ff73fe8484f8d6798953",
+    "run_id": 40942995096,
+    "job_id": 123690939357,
+    "retained_Native_cases": 13,
+    "fresh_cases_credited": 0,
+    "original_sha256": "6b5eb3f481e1d36e8fbca64590a8ef83197f3e4e3725d9dfa3964c92cdbafa4c",
+    "strict_native13_sha256": "3129479dde1805e58fbd3a96cba4653c8da7a0b0f471be65c4182fd772f87d47",
+    "package_sha256": "84d20d0e7ec045d8496174c25437b3005c158ee517e1d1c014b75175410e8056",
+    "production_go": false,
+    "independent_acceptance": false
+  },
+  "actual_current_product_sources_matched": true,
+  "actual_source174_matched": true,
+  "DB_connections_forbidden": true,
+  "blocked_attempts": [],
+  "root_review_did_not_reexecute_Native": true,
+  "status": "ROOT_CURRENT_D1_TERMINAL_RAW_SOURCE_AND_COMPLETE_RESTORE_BOUND_NOT_E17_PASS",
+  "parent": {
+    "head": "17ac1eeb5833cbf2a786194fe3bfbba6628a1ff8",
+    "tree": "52870c467cb37c328fd6ff73fe8484f8d6798953",
+    "run_id": 40942995096,
+    "job_id": 123690939357,
+    "artifact_id": 12929784527,
+    "zip_bytes": 157902568,
+    "zip_sha256": "2d4acbb051ce4ec55f3eb84d9bb4ee7cacd02aa330a4ae6c86cb1f5d107bc180",
+    "original": {
+      "name": "CP7_CREDIT_DE_NATIVE13.json",
+      "bytes": 4835820,
+      "sha256": "6b5eb3f481e1d36e8fbca64590a8ef83197f3e4e3725d9dfa3964c92cdbafa4c"
+    },
+    "native_group": {
+      "name": "CP7_CREDIT_DE_NATIVE13_CASES.json",
+      "bytes": 231613,
+      "sha256": "3129479dde1805e58fbd3a96cba4653c8da7a0b0f471be65c4182fd772f87d47"
+    },
+    "package": {
+      "name": "T3_PACKAGE_INSTALL.json",
+      "bytes": 360428,
+      "sha256": "84d20d0e7ec045d8496174c25437b3005c158ee517e1d1c014b75175410e8056"
+    },
+    "package_files": {
+      "name": "T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7"
+    },
+    "backup_drill": {
+      "name": "T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 1470,
+      "sha256": "15fe0304a8bf0764722e78ad88cf92e8ed7f87c413b177cedc8e93dd22e31eba"
+    }
+  },
+  "pre_binding_source_commit": "9711169ae22e15d2a69295f319db3cf2a5d71794",
+  "pre_binding_metadata_retained_losslessly": true,
+  "unchanged_E_financial_leaves": 9,
+  "unchanged_E_case_ids": 17,
+  "new_E_Native_cases": 0,
+  "new_Auth_HTTP": 0,
+  "new_browser": 0,
+  "new_races": 0,
+  "production_go": false,
+  "independent_acceptance": false
+}

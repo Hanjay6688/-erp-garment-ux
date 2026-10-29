@@ -1,0 +1,7 @@
+    def late_failure():
+        with native.isolated(cur):
+            pair=fixture.prepare(cur,today);basic.apply(cur,pair,'80.00');p,v,b=intent(cur,pair);native.b.api.admin(cur)
+            cur.execute("""create function cp7_credit_note_carry_de.test_post_failure()returns trigger language plpgsql as $$begin
+             if new.source_type='SALE'and exists(select 1 from cp7_credit_note_carry_de.work_v1 where phase='REVERSED')then raise exception 'E_TEST_ACTUAL_NATIVE_POST_FAILURE';end if;return new;end$$;
+             create trigger test_e_post_failure before insert on erp.journal_entries for each row execute function cp7_credit_note_carry_de.test_post_failure();""",prepare=False)
+            return dict(status='PASS',actual_refusal=refusal(cur,pair,lambda:note.correct(cur,p,v),'E_TEST_ACTUAL_NATIVE_POST_FAILURE'),full_inverse_draft_stock_HPP_and_money_atomic=True)
