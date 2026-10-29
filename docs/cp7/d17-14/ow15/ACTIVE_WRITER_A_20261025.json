@@ -1,5 +1,5 @@
 {
-  "recorded_at_utc": "2026-10-29T00:33:53.484078+00:00",
+  "recorded_at_utc": "2026-10-29T01:38:33.030096+00:00",
   "role": "A finance writer/integrator replacing Claude; B remains separate production/planning writer",
   "slogan": [
     "VENI. VIDI. VICI. ERP. — I CONQUERED ERP.",
@@ -9,16 +9,16 @@
   "production_go": false,
   "independent_acceptance": false,
   "running": {
-    "status": "RUNNING_ACTUAL_OW08_SOURCE6_NOT_ACCEPTED",
-    "head": "6c89ddb46b471b8b5235913666b1410ad3f26c6a",
-    "tree": "78143b260e9e0191f73bd6fada2c8c72b83736a2",
-    "branch": "astra-a/ow08b-source-browser-qualified-20261029",
-    "run_id": 40794662199,
-    "job_id": 123188077475,
+    "status": "RUNNING_MOBILE_TEST_REPAIR_SOURCE6_NOT_ACCEPTED",
+    "head": "7042fbfd3082b5887ac71332b85e564c39bdd3b1",
+    "tree": "cc580bfe41f7563b6cfdb27974dbfbc252db64fa",
+    "branch": "astra-a/ow08-source6-mobile-repair-qualified-20261029",
+    "run_id": 40800438909,
+    "job_id": 123206984684,
     "backend": "41caaaed02c0d89b122ecf1ff221f6647141c335",
     "accepted_money": "2d4ed56eb20187c00e63cd0a0774385d320f53be",
     "case_count": 6,
-    "paint4": "PASS_DIAGNOSTIC_ONLY_64353F4",
+    "product_changes_from_failed6c89": false,
     "production_go": false,
     "independent_acceptance": false
   },
@@ -19464,16 +19464,16 @@
     "waiting_for_B": false,
     "original_AI_scope_match": "framework-v2/registries/closure_current_20261029.json",
     "ow08_source_browser": {
-      "status": "RUNNING_ACTUAL_OW08_SOURCE6_NOT_ACCEPTED",
-      "head": "6c89ddb46b471b8b5235913666b1410ad3f26c6a",
-      "tree": "78143b260e9e0191f73bd6fada2c8c72b83736a2",
-      "branch": "astra-a/ow08b-source-browser-qualified-20261029",
-      "run_id": 40794662199,
-      "job_id": 123188077475,
+      "status": "RUNNING_MOBILE_TEST_REPAIR_SOURCE6_NOT_ACCEPTED",
+      "head": "7042fbfd3082b5887ac71332b85e564c39bdd3b1",
+      "tree": "cc580bfe41f7563b6cfdb27974dbfbc252db64fa",
+      "branch": "astra-a/ow08-source6-mobile-repair-qualified-20261029",
+      "run_id": 40800438909,
+      "job_id": 123206984684,
       "backend": "41caaaed02c0d89b122ecf1ff221f6647141c335",
       "accepted_money": "2d4ed56eb20187c00e63cd0a0774385d320f53be",
       "case_count": 6,
-      "paint4": "PASS_DIAGNOSTIC_ONLY_64353F4",
+      "product_changes_from_failed6c89": false,
       "production_go": false,
       "independent_acceptance": false
     }
@@ -20007,16 +20007,16 @@
     "independent_acceptance": false
   },
   "ow08_source_browser_prepared": {
-    "status": "RUNNING_ACTUAL_OW08_SOURCE6_NOT_ACCEPTED",
-    "head": "6c89ddb46b471b8b5235913666b1410ad3f26c6a",
-    "tree": "78143b260e9e0191f73bd6fada2c8c72b83736a2",
-    "branch": "astra-a/ow08b-source-browser-qualified-20261029",
-    "run_id": 40794662199,
-    "job_id": 123188077475,
+    "status": "RUNNING_MOBILE_TEST_REPAIR_SOURCE6_NOT_ACCEPTED",
+    "head": "7042fbfd3082b5887ac71332b85e564c39bdd3b1",
+    "tree": "cc580bfe41f7563b6cfdb27974dbfbc252db64fa",
+    "branch": "astra-a/ow08-source6-mobile-repair-qualified-20261029",
+    "run_id": 40800438909,
+    "job_id": 123206984684,
     "backend": "41caaaed02c0d89b122ecf1ff221f6647141c335",
     "accepted_money": "2d4ed56eb20187c00e63cd0a0774385d320f53be",
     "case_count": 6,
-    "paint4": "PASS_DIAGNOSTIC_ONLY_64353F4",
+    "product_changes_from_failed6c89": false,
     "production_go": false,
     "independent_acceptance": false
   },
@@ -20056,5 +20056,23 @@
     "typecheck_full_build_source_access_CSS_secret_scan": "PASS",
     "build_log_sha256": "d5fc08b381993ecdc021d6f33d3b315c8b0885ce6175374a377e7e346a7e4a31",
     "new_Auth_or_DB_runs": 0
-  }
+  },
+  "ow08_source_browser_first_failure": {
+    "status": "FAILURE_ACTUAL_4_PASS_2_INCOMPLETE_NOT_ACCEPTED",
+    "head": "6c89ddb46b471b8b5235913666b1410ad3f26c6a",
+    "tree": "78143b260e9e0191f73bd6fada2c8c72b83736a2",
+    "branch": "astra-a/ow08b-source-browser-qualified-20261029",
+    "run_id": 40794662199,
+    "job_id": 123188077475,
+    "backend": "41caaaed02c0d89b122ecf1ff221f6647141c335",
+    "accepted_money": "2d4ed56eb20187c00e63cd0a0774385d320f53be",
+    "case_count": 6,
+    "paint4": "PASS_DIAGNOSTIC_ONLY_64353F4",
+    "production_go": false,
+    "independent_acceptance": false,
+    "receipt": "docs/cp7/d17-14/ow08/source6-6c89-first-incomplete.json",
+    "full_data_and_Auth_restored": true,
+    "writer_runtime": false
+  },
+  "active_priority": "Accept actual source6 successor and complete selective final integration; reuse qualified money/B/return and matched procurement evidence. No new framework or activation."
 }
