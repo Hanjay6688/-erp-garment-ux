@@ -1,14 +1,15 @@
 """Predeclared D1 actual Native qualifier. Importing performs no SQL.
 
 Root owns running/publication on the signed disposable predecessor. Literal
-amounts and unchanged retained source fixtures/oracles are used. No Auth/browser
+financial amounts and retained assertions are preserved by the explicit lawful
+two-piece fixture adapter. No Auth/browser
 claim: the retained actor fixture is authenticated SQL only.
 """
 from copy import deepcopy
 from decimal import Decimal as D
 import json,uuid
 import psycopg
-import cp7_ow04_consumer_fixture as fixture
+from cp7_credit_correction_de import native_fixture as fixture
 import native_basic_cases as basic
 import cp7_sales_return_correction_cases as correction
 from cp7_credit_multi import cases as multi
@@ -88,6 +89,24 @@ def profile(cur,pair,expected_i,expected_available):
 
 def cases(cur,today):
     def increased():
+        cap_controls={}
+        # The retained one-piece fixture is a real negative control: 200.02
+        # must refuse, while Native's exact +0.01 tolerance still accepts.
+        with native.isolated(cur):
+            pair=fixture.retained.prepare(cur,today)
+            p,v,q=payload(cur,pair,'200.02')
+            assert q['state']=='REFUSE'and 'REFUND_EXCEEDS_ORIGINAL_NET_SALES_CAP'in q['issues'],q
+            cap_controls['one_piece_200_02_refusal']=refusal(cur,pair,lambda:correction.correct(cur,p,v),'CP7_CREDIT_DE_REVIEW_REFUSED')
+            post(cur,pair,'200.01')
+            cap_controls['one_piece_200_01_actual']=profile(cur,pair,'200.01','200.01')
+        with native.isolated(cur):
+            pair=fixture.prepare(cur,today)
+            p,v,q=payload(cur,pair,'400.02')
+            assert q['state']=='REFUSE'and 'REFUND_EXCEEDS_ORIGINAL_NET_SALES_CAP'in q['issues'],q
+            cap_controls['two_piece_400_02_refusal']=refusal(cur,pair,lambda:correction.correct(cur,p,v),'CP7_CREDIT_DE_REVIEW_REFUSED')
+            _,_,tolerance=payload(cur,pair,'400.01')
+            assert tolerance['state']=='READY',tolerance
+            cap_controls['two_piece_400_01_preview_ready']=True
         with native.isolated(cur):
             pair=fixture.prepare(cur,today);old=correction.original_fact(cur,pair['initial_result']['return_id']);native.b.api.admin(cur)
             bank=native.payments.bank_account(cur,pair['source']['f']);cash=cur.execute('select coalesce(sum(debit-credit),0)from erp.journal_lines where account_id=%s',(bank,)).fetchone()[0]
@@ -97,7 +116,7 @@ def cases(cur,today):
             assert cur.execute('select coalesce(sum(debit-credit),0)from erp.journal_lines where account_id=%s',(bank,)).fetchone()[0]==cash
             native.b.api.admin(cur);assert cur.execute('select count(*)from cp7_credit.return_families where family_root_sale_id=%s',(p['sale_id'],)).fetchone()[0]==1
             assert not cur.execute('select exists(select 1 from cp7_credit.initial_refund_operations where actor=auth.uid()and request_id=%s)',(key,)).fetchone()[0]
-            return dict(status='PASS',source=actual,extra_credit='50.00',same_customer=True,old_return_immutable=True,new_family_created=False,outcome=out)
+            return dict(status='PASS',source=actual,extra_credit='50.00',same_customer=True,old_return_immutable=True,new_family_created=False,outcome=out,cap_controls=cap_controls)
     def used():
         with native.isolated(cur):
             pair=fixture.prepare(cur,today);applied,_,_=basic.apply(cur,pair,'180.00');post(cur,pair)
@@ -128,7 +147,11 @@ def cases(cur,today):
         with native.isolated(cur):
             pair=fixture.prepare(cur,today);p,v,q=payload(cur,pair);p['replacement']['items'][0]['refund_amount']='251.00'
             outcome=refusal(cur,pair,lambda:correction.correct(cur,p,v),'CP7_CREDIT_DE_STALE_REVIEW')
-            return dict(status='PASS',actual_refusal=outcome,complete_no_effect=True)
+            p,v,_=payload(cur,pair);post(cur,pair)
+            # A lawful competing correction retires the old source. Posted
+            # allocation/item cap facts are never mutated to manufacture stale.
+            competing=refusal(cur,pair,lambda:correction.correct(cur,p,v),'CP7_RETURN_CORRECTION_STALE_REVIEW')
+            return dict(status='PASS',actual_refusal=outcome,competing_source_refusal=competing,complete_no_effect=True)
     def revoked():
         with native.isolated(cur):
             pair=fixture.prepare(cur,today);subject,_=native.auth.custom_actor(cur);native.b.api.admin(cur)
@@ -162,12 +185,41 @@ def cases(cur,today):
     def post_failure():
         with native.isolated(cur):
             pair=fixture.prepare(cur,today);p,v,q=payload(cur,pair);native.b.api.admin(cur)
-            cur.execute("""create function cp7_credit_correction_de.test_part_failure()returns trigger language plpgsql as $$begin
-             if new.source_type='CP7_CUSTOMER_CREDIT_RECOGNITION'and exists(select 1 from cp7_credit_correction_de.work_v1 where phase='RECONCILING')then
-              raise exception 'CP7_CREDIT_DE_TEST_PART_FAILURE';end if;return new;end$$;
-             create trigger test_de_part_failure before insert on erp.journal_entries for each row execute function cp7_credit_correction_de.test_part_failure();""",prepare=False)
+            cur.execute("""create function cp7_credit_correction_de.test_part_failure()returns trigger
+             language plpgsql security invoker set search_path=''as $$
+             declare w cp7_credit_correction_de.work_v1;j erp.journal_entries;old_credit numeric;detail jsonb;begin
+              select *into strict w from cp7_credit_correction_de.work_v1 where operation_id=new.operation_id and phase='RECONCILING';
+              perform cp7_credit.assert_source_native_trigger_census_v1();
+              perform cp7_credit_correction_de.assert_source_change_v1(w.before_source,w.actual_source,w.return_id,w.replacement_id);
+              perform cp7_credit_correction_de.assert_plan_set_v1(w.operation_id);
+              select *into strict j from erp.journal_entries where id=new.journal_id;
+              select coalesce(sum(q.amount),0)into old_credit from cp7_credit.component_parts q
+               join cp7_credit.recognition_components c on c.id=q.component_id join cp7_credit.recognition_plans p on p.id=c.plan_id
+               join cp7_credit.cohorts h on h.id=p.cohort_id join cp7_credit.return_families f on f.id=h.family_id
+               where f.family_root_sale_id=w.sale_id and p.plan_kind='INITIAL';
+              if old_credit<>200 or j.status<>'POSTED'or j.source_type<>'CP7_CUSTOMER_CREDIT_RECOGNITION'or j.source_id<>new.part_id
+               or not exists(select 1 from cp7_credit.component_journals l where l.part_id=new.part_id and l.journal_id=j.id)
+               or not exists(select 1 from cp7_credit_correction_de.parts_v1 s where s.part_id=new.part_id and s.journal_id=j.id)
+               or not exists(select 1 from cp7_credit.component_parts q where q.id=new.part_id and q.amount=50)
+               or(select coalesce(sum(l.debit),0)from erp.journal_lines l where l.journal_entry_id=j.id)<>50
+               or(select coalesce(sum(l.credit),0)from erp.journal_lines l where l.journal_entry_id=j.id)<>50
+               or not exists(select 1 from erp.sales_returns r where r.id=w.return_id and r.status='REVERSED')
+               or not exists(select 1 from erp.sales_returns r where r.id=w.replacement_id and r.status='POSTED')then
+               raise exception 'CP7_CREDIT_DE_TEST_FAILURE_POINT_NOT_PROVEN';end if;
+              detail:=jsonb_build_object('phase',w.phase,'actual_Native_credit_journal_inserted',true,
+               'component_journal_link_inserted',true,'private_part_inserted',true,'new_recognition','50.00','old_initial_credit','200.00',
+               'old_recognition_immutable',true,'actual_Native_inverse_replacement_validated',true,'Native_trigger_census_unchanged',true);
+              raise exception 'CP7_CREDIT_DE_TEST_PART_FAILURE'using detail=detail::text;
+             end$$;
+             create trigger test_de_part_failure after insert on cp7_credit_correction_de.parts_v1
+              for each row execute function cp7_credit_correction_de.test_part_failure();""",prepare=False)
             outcome=refusal(cur,pair,lambda:correction.correct(cur,p,v),'CP7_CREDIT_DE_TEST_PART_FAILURE')
-            return dict(status='PASS',failure_inside_actual_Native_journal_insert=True,actual_refusal=outcome,complete_reverse_repost_credit_restore=True)
+            proof=json.loads(outcome['detail'])
+            assert proof==dict(phase='RECONCILING',actual_Native_credit_journal_inserted=True,component_journal_link_inserted=True,
+                private_part_inserted=True,new_recognition='50.00',old_initial_credit='200.00',old_recognition_immutable=True,
+                actual_Native_inverse_replacement_validated=True,Native_trigger_census_unchanged=True),proof
+            return dict(status='PASS',failure_AFTER_actual_Native_journal_insert_before_private_completion=True,
+                actual_refusal=outcome,failure_point_proof=proof,complete_reverse_repost_credit_restore=True)
     def second_revision():
         with native.isolated(cur):
             pair=fixture.prepare(cur,today);first,p,v,q,key=post(cur,pair);old=deepcopy(first);second,*_=post(cur,pair,'275.00',first['return_id'])

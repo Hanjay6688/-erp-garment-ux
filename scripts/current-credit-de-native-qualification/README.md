@@ -1,3 +1,25 @@
+# D1 Native13 — cap and lawful fixture successor
+
+This actual qualification candidate is based on root-reviewed helper d4299c137.
+Nativea994 ended5PASS/8INCOMPLETE and is not a successful prerequisite. Exact
+five first-failure Originals remain in product evidence/native_cap_successor.
+CAP_SUCCESSOR_TRANSITION.json binds its precise source transition: only quote_v1
+changes among9 runtime leaves; eight other leaves, Native cap and trigger census
+remain exact. The lawful2PCS/200 fixture derives5 helpers with10 reversible
+substitutions and all70 old assertions. Same13 IDs/money oracles remain; .01/.02
+cap/source refusal, genuine current-source stale and late own-parts failure proof
+strengthen those cases. This is not broader D/E, Auth or browser qualification.
+
+The six-count complete engine, native_runner and all install/preuse/reinstall,
+committed correction/used inverse, full22/catalog/data/sequences/roles/CP6/advisor/
+Auth/backup and five package gates remain unchanged. Client20 controls precede DB.
+Execution leaf: astra-a/credit-d1-cap-native13-20261029. No actual successor result
+is claimed until terminal originals and all gates are reviewed. Formal5/16,
+production_go=false; independent_acceptance=false.
+
+The following description is historical: through897/byte-identical077 statements
+apply to the original qualification before the explicit cap successor.
+
 # D1 actual Native13 qualifier
 
 The scope is the exact D1 candidate through commit897ed6de, over the qualified

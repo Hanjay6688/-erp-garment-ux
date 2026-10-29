@@ -26,6 +26,8 @@ language plpgsql volatile security definer set search_path=''set timezone='UTC'a
 declare sale uuid:=(p->>'sale_id')::uuid;ret uuid:=(p->>'return_id')::uuid;r erp.sales_returns;
  inp jsonb;after_inp jsonb;families jsonb:='[]';f jsonb;events jsonb;review jsonb;active jsonb;issues jsonb:='[]';old_total numeric;new_total numeric;
  j erp.journal_entries;family uuid;delta numeric;source jsonb;authority jsonb;profile jsonb;binding jsonb;physical jsonb;proposed jsonb;
+ cap_inputs jsonb:='[]';cap_line jsonb;cap_allocation jsonb;cap_item jsonb;cap_count int;max_refund numeric(24,6);
+ cap_source_unavailable boolean:=false;cap_exceeded boolean:=false;
 begin
  authority:=cp7_sales_return_correction.access_now();perform cp7_sales_return_correction.validate(p-'credit_review_token');
  select *into strict r from erp.sales_returns where id=ret and sale_id=sale;
@@ -43,6 +45,35 @@ begin
  select jsonb_agg(v-array['refund_amount','notes']order by v->>'allocation_id')into proposed from jsonb_array_elements(p#>'{replacement,items}')v;
  if physical is distinct from proposed or r.physical_at is distinct from(p#>>'{replacement,physical_at}')::timestamptz then
   issues:=issues||'"PHYSICAL_OR_QUANTITY_CHANGE_ADAPTER_REQUIRED"'::jsonb;end if;
+ -- One current factual snapshot supplies both the Native cap inputs and token.
+ -- prepare_v1 calls this same reader after the original source/allocation locks.
+ source:=cp7_credit.source_native_snapshot_v1(sale);
+ if jsonb_typeof(source->'sale')is distinct from'object'or source#>>'{sale,id}'is distinct from sale::text
+  or source#>>'{sale,customer_id}'is distinct from r.customer_id::text
+  or jsonb_typeof(source->'allocations')is distinct from'array'or jsonb_typeof(source->'items')is distinct from'array'then
+  cap_source_unavailable:=true;
+ else
+  for cap_line in select value from jsonb_array_elements(p#>'{replacement,items}')loop
+   select count(*)into cap_count from jsonb_array_elements(source->'allocations')a where a->>'id'=cap_line->>'allocation_id';
+   if cap_count<>1 then cap_source_unavailable:=true;continue;end if;
+   select a into strict cap_allocation from jsonb_array_elements(source->'allocations')a where a->>'id'=cap_line->>'allocation_id';
+   select count(*)into cap_count from jsonb_array_elements(source->'items')i where i->>'id'=cap_allocation->>'sale_item_id';
+   if cap_count<>1 then cap_source_unavailable:=true;continue;end if;
+   select i into strict cap_item from jsonb_array_elements(source->'items')i where i->>'id'=cap_allocation->>'sale_item_id';
+   if cap_item->>'sale_id'is distinct from sale::text or coalesce((cap_item->>'qty_pcs')::integer,0)<=0
+    or cap_item->>'line_total'is null or coalesce((cap_allocation->>'qty_pcs')::integer,0)<(cap_line->>'qty_pcs')::integer then
+    cap_source_unavailable:=true;continue;end if;
+   -- Exact erp.normalize_sales_return_item_from_allocation arithmetic: its
+   -- numeric(24,6) assignment precedes the 0.01 tolerance, never cent rounding.
+   max_refund:=case when(cap_item->>'qty_pcs')::integer>0 then
+    ((cap_item->>'line_total')::numeric(24,6)/(cap_item->>'qty_pcs')::integer)*(cap_line->>'qty_pcs')::integer else 0 end;
+   cap_exceeded:=cap_exceeded or (cap_line->>'refund_amount')::numeric>max_refund+0.01;
+   cap_inputs:=cap_inputs||jsonb_build_array(jsonb_build_object('allocation',cap_allocation,'sale_item',cap_item,
+    'qty_pcs',cap_line->'qty_pcs','max_refund_native_numeric24_6',max_refund::text));
+  end loop;
+ end if;
+ if cap_source_unavailable then issues:=issues||'"REFUND_CAP_SOURCE_UNAVAILABLE"'::jsonb;end if;
+ if cap_exceeded then issues:=issues||'"REFUND_EXCEEDS_ORIGINAL_NET_SALES_CAP"'::jsonb;end if;
  if cp7_credit_incoming.incoming_applied_v1(sale)<>0 or exists(select 1 from cp7_credit.consumption_events where event_kind='APPLY'and target_sale_id=sale)then
   issues:=issues||'"INCOMING_CREDIT_CORRECTION_ADAPTER_REQUIRED"'::jsonb;end if;
  if erp.resolve_accounting_transaction_date(j.economic_date)is distinct from j.transaction_date then
@@ -73,8 +104,7 @@ begin
  if exists(select 1 from jsonb_array_elements(review->'families')ff where(ff->>'needs_cohort_configuration')::boolean
   or exists(select 1 from jsonb_array_elements(ff->'vector')v where(v->>'amount')::numeric<0))then
   issues:=issues||'"SIGNED_COMPONENT_ADAPTER_REQUIRED"'::jsonb;end if;
- source:=cp7_credit.source_native_snapshot_v1(sale);
- binding:=jsonb_build_object('payload',p-'credit_review_token','authority',authority,'source',source,'profile',profile,'input',inp,'review',review);
+ binding:=jsonb_build_object('payload',p-'credit_review_token','authority',authority,'source',source,'refund_cap_basis',cap_inputs,'profile',profile,'input',inp,'review',review);
  return jsonb_build_object('contract_version','cp7.credit-correction-de.v1','state',case when issues='[]'::jsonb then'READY'else'REFUSE'end,
   'review_token',ow04_source_proposal.sha(binding),'credit_delta',review->'credit_delta','before_available',review->'before_available',
   'after_available',review->'after_available','issues',issues,'active_consumers',active,

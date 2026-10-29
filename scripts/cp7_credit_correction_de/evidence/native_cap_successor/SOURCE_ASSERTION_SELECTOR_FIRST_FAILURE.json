@@ -1,0 +1,59 @@
+{
+  "status": "FAIL",
+  "tests": 9,
+  "failures": 1,
+  "errors": 0,
+  "Native_execution": false,
+  "actual_Native_case_credit": 0,
+  "fixture": {
+    "contract": "cp7.credit-d1-two-piece-fixture.v1",
+    "classification": "PREPARED_ACTUAL_NATIVE_FIXTURE_NOT_EXECUTED_BY_IMPORT",
+    "Native_execution": false,
+    "frozen_sources": {
+      "scripts/cp7_customer_credit/native/cp7_ow04_native_source_fixture.py": "4984926b221df459e6e88c2f282da3e553d4810d177208ea489c9c3b1d264497",
+      "scripts/cp7_customer_credit/initial-settlement/cp7_ow04_initial_settlement_cases.py": "6d4e2389e0090333ae076fc3091ec4333492e886e08fc1a96c4eea9282f93602",
+      "scripts/cp7_customer_credit/reconciliation/native/cp7_ow04_signed_source_cases.py": "82831d767c85199ab182c21aa5a56fe46e7cba0c7e70ccba6c89477b755de640",
+      "scripts/cp7_customer_credit/consumer/cp7_ow04_consumer_fixture.py": "75a6d5d573de0827a2efa712d49059a14e1ee83e3ee2635598e005b4bc1afeed"
+    },
+    "functions": {
+      "native.assert_first_settlement_gl": {
+        "original_sha256": "1477abdfc911646cc180c38d2fe4e23e6507d948164e3c1aafd5a99c39ce4966",
+        "derived_sha256": "10d514a40b86370902141040781da26ce37c52b1ca91f7d81ab45524c4faf989",
+        "substitutions": 4,
+        "original_assertions": 8,
+        "derived_assertions": 8
+      },
+      "initial._assert_quote": {
+        "original_sha256": "532fee82bfe2c016d7209619a0a37abbacbb1ca32b6daa51176b4002dd3cc4db",
+        "derived_sha256": "b227da510cccf4d4b86222a5dc3046da9093b6d4c11ce8cddc79d68924a36e95",
+        "substitutions": 1,
+        "original_assertions": 20,
+        "derived_assertions": 20
+      },
+      "initial._assert_actual": {
+        "original_sha256": "4e4628cdbf4c405d5a3fff5155f8441eea6cc5b4379582cf3353e2049726bf3b",
+        "derived_sha256": "9c181b88628fd1b5eb245277c2935f3e11bed1cb73ff12c11ed2d644e04bd099",
+        "substitutions": 4,
+        "original_assertions": 36,
+        "derived_assertions": 36
+      },
+      "signed._setup": {
+        "original_sha256": "c53892d11d3e6608bad324a002596722c7ac682e7e399661f760768942b67f21",
+        "derived_sha256": "cfd2f73192024fc6095310015d8ec85a7c685519f4a32ade41f20185843e6ef0",
+        "substitutions": 1,
+        "original_assertions": 1,
+        "derived_assertions": 4
+      },
+      "consumer.prepare": {
+        "original_sha256": "ba9f52c8b088497ec0136083d82fdcffdda2910fc9e7f9a99b9101a66105b13c",
+        "derived_sha256": "ba9f52c8b088497ec0136083d82fdcffdda2910fc9e7f9a99b9101a66105b13c",
+        "substitutions": 0,
+        "original_assertions": 5,
+        "derived_assertions": 5
+      }
+    },
+    "substitutions": 10,
+    "preserved": "all monetary/history/source/period/journal assertions; unitHPP10; no posted seeding or module monkeypatch"
+  },
+  "diagnosis": "New source-control selector matched the word assertions in an added fixture comment; complete original payload/assertion tail was already byte-identical. Fix selector to executable assert()/assert.* syntax, retain unchanged old code/oracles."
+}

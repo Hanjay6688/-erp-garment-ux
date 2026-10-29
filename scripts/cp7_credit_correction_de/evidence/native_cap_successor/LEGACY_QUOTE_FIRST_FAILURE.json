@@ -1,0 +1,10 @@
+{
+  "status": "EXPECTED_LOCAL_DOUBLE_INCOMPATIBILITY_BEFORE_FIX",
+  "old_helper_sha256": "59b965cbfc95bb0022562ec7d629febe6505625597a8a0308319020f9f925a97",
+  "exit_code": 1,
+  "stdout": "",
+  "stderr": "{\n  \"status\": \"FAIL\",\n  \"message\": \"Expected values to be strictly equal:\\n\\n'REFUSE' !== 'READY'\\n\",\n  \"sqlstate\": \"ERR_ASSERTION\",\n  \"Native_execution\": false\n}\n",
+  "Native_execution": false,
+  "reason": "Existing declared source double omits current sale/items/allocations; cap/source reader correctly refuses.",
+  "oracles_will_remain_exact": true
+}

@@ -1,0 +1,145 @@
+{
+  "status": "PASS",
+  "tests": 30,
+  "checks": [
+    {
+      "name": "1pcs exact limit",
+      "cap_exceeded": false,
+      "unchanged_Native_cap_allowed": true
+    },
+    {
+      "name": "1pcs tolerance .01",
+      "cap_exceeded": false,
+      "unchanged_Native_cap_allowed": true
+    },
+    {
+      "name": "1pcs above tolerance .02",
+      "cap_exceeded": true,
+      "unchanged_Native_cap_allowed": false
+    },
+    {
+      "name": "2pcs exact limit",
+      "cap_exceeded": false,
+      "unchanged_Native_cap_allowed": true
+    },
+    {
+      "name": "2pcs tolerance .01",
+      "cap_exceeded": false,
+      "unchanged_Native_cap_allowed": true
+    },
+    {
+      "name": "2pcs above tolerance .02",
+      "cap_exceeded": true,
+      "unchanged_Native_cap_allowed": false
+    },
+    {
+      "name": "discount uses net not gross .01",
+      "cap_exceeded": false,
+      "unchanged_Native_cap_allowed": true
+    },
+    {
+      "name": "discount uses net not gross .02",
+      "cap_exceeded": true,
+      "unchanged_Native_cap_allowed": false
+    },
+    {
+      "name": "discount prevents gross price over-refund",
+      "cap_exceeded": true,
+      "unchanged_Native_cap_allowed": false
+    },
+    {
+      "name": "proportional third .34",
+      "cap_exceeded": false,
+      "unchanged_Native_cap_allowed": true
+    },
+    {
+      "name": "proportional third .35",
+      "cap_exceeded": true,
+      "unchanged_Native_cap_allowed": false
+    },
+    {
+      "name": "never round half cent to whole cent before tolerance",
+      "cap_exceeded": true,
+      "unchanged_Native_cap_allowed": false
+    },
+    {
+      "name": "same half-cent .01 lawful",
+      "cap_exceeded": false,
+      "unchanged_Native_cap_allowed": true
+    },
+    {
+      "name": "numeric24_6 assignment rounds before tolerance",
+      "cap_exceeded": false,
+      "unchanged_Native_cap_allowed": true
+    },
+    {
+      "name": "numeric24_6 next cent refused",
+      "cap_exceeded": true,
+      "unchanged_Native_cap_allowed": false
+    },
+    {
+      "name": "reset ordinary lawful basis",
+      "cap_exceeded": false,
+      "unchanged_Native_cap_allowed": true
+    },
+    {
+      "name": "current source refresh changes token; local double mutation only"
+    },
+    {
+      "name": "missing allocation cannot vanish",
+      "source_unavailable": true
+    },
+    {
+      "name": "duplicate allocation cannot vanish",
+      "source_unavailable": true
+    },
+    {
+      "name": "missing source item cannot vanish",
+      "source_unavailable": true
+    },
+    {
+      "name": "duplicate source item cannot vanish",
+      "source_unavailable": true
+    },
+    {
+      "name": "foreign source item refuses",
+      "source_unavailable": true
+    },
+    {
+      "name": "foreign customer refuses",
+      "source_unavailable": true
+    },
+    {
+      "name": "foreign sale refuses",
+      "source_unavailable": true
+    },
+    {
+      "name": "allocation quantity below return refuses",
+      "source_unavailable": true
+    },
+    {
+      "name": "missing net basis refuses",
+      "source_unavailable": true
+    },
+    {
+      "name": "zero sale qty cannot fabricate cap",
+      "source_unavailable": true
+    },
+    {
+      "name": "missing source structure refuses",
+      "source_unavailable": true
+    },
+    {
+      "name": "per-line limit never pooled across allocations"
+    },
+    {
+      "name": "private AFTER INSERT failure hook declarations compile; not executed"
+    }
+  ],
+  "actual_quote_SQL": true,
+  "unchanged_Native_cap_trigger_SQL": true,
+  "normalizer_sha256": "1ca83d0e1728833c1fff2d3a285b142f8b1064e85afd3560573f885fedfd92bc",
+  "Native_financial_execution": false,
+  "actual_Native_case_credit": 0,
+  "standins": "structural schema, authority/validation/source/profile/account/HPP/input journals; mutation controls are local doubles, never posted Native edits; no money writer/Auth/full restore claim"
+}

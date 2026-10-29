@@ -1,0 +1,62 @@
+{
+  "status": "PREPARED_SUCCESSOR_ACTUAL_NATIVE13_CLOSED",
+  "base_head": "a99463ca3ea2f1a71b22f0354df83f1b5a42b71b",
+  "base_actual_result": "5 PASS / 8 INCOMPLETE; never admitted",
+  "accepted_native13": null,
+  "business_runtime_files": {
+    "scripts/cp7_credit_correction_de/review.sql": "88681bf674a6b6e8aeda46830a4a27b18bdda84cfcba6868bbb08e3f84fdc382",
+    "scripts/cp7_credit_correction_de/facts.sql": "ddfcf8583cf86a916e04aa5630d6262a32e48919dbd0a4c913a09166ca2f8334",
+    "scripts/cp7_credit_correction_de/owning.sql": "76eb5d7ff2ff14c6bae829ae53ce06abb5c7bc661aa25916afaec565df3da405",
+    "scripts/cp7_credit_correction_de/proof.sql": "8d81f2d8d9384c08eda28eb0b86a6c96b97f2ef8178adbe4b7d1dab01b8cf7ef",
+    "scripts/cp7_credit_correction_de/posting.sql": "e200a62d91c7975e67a88eb37c47d89dd739eb8f63fc0a1ee7063aaec0f9ce5b",
+    "scripts/cp7_credit_correction_de/materialize.sql": "f0bd81d3a80ad1f465ee5cc424b63009776fb65b9f6a23cbaae80ea331a8e4a4",
+    "scripts/cp7_credit_correction_de/closure.sql": "e21744ba0d98e963ccba9ca916247b797cb2c930b889e2eb41288a12f1888972",
+    "scripts/cp7_credit_correction_de/native_delta.py": "d6157ad24dd22ca4810df12668090eb74a3382e6ceb3e4c0954a037a7016c664",
+    "scripts/cp7_credit_correction_de/composition.py": "4f7086c157e977cacf5f4281d6a2748113029fd7c2c441837e254c9fca9422af"
+  },
+  "qualification_dependency_files": {
+    "scripts/cp7_credit_correction_de/cases.py": "c530bb87f72ee6091e032d15efdb2b2e55cf9c9632b64c9e781665b70325bbdb",
+    "scripts/cp7_credit_correction_de/native_fixture.py": "4fbe56583ffc63473c12195ddaae6ff3e0cd0ad46b358bf7eef7b5175c67e829",
+    "scripts/cp7_customer_credit/native/cp7_ow04_native_source_fixture.py": "4984926b221df459e6e88c2f282da3e553d4810d177208ea489c9c3b1d264497",
+    "scripts/cp7_customer_credit/initial-settlement/cp7_ow04_initial_settlement_cases.py": "6d4e2389e0090333ae076fc3091ec4333492e886e08fc1a96c4eea9282f93602",
+    "scripts/cp7_customer_credit/reconciliation/native/cp7_ow04_signed_source_cases.py": "82831d767c85199ab182c21aa5a56fe46e7cba0c7e70ccba6c89477b755de640",
+    "scripts/cp7_customer_credit/consumer/cp7_ow04_consumer_fixture.py": "75a6d5d573de0827a2efa712d49059a14e1ee83e3ee2635598e005b4bc1afeed"
+  },
+  "UI_files": {
+    "src/salesReturnCorrectionContract.ts": "30b8bc2669b52df7016c61cc742e02015d5b6711c04a0664d7a1e110ead6d814",
+    "src/SalesReturnCorrectionPanel.tsx": "8d12c23adecea2618e47a7768047cbc20a3415bd96915b81b1df75995fbf8509",
+    "src/SalesReturnCorrectionPanel.dom.test.tsx": "62ff4479728754b9f91721569da14ab0169d7d8d43e114d605931bea9841666e"
+  },
+  "required_case_ids": [
+    "D_POSITIVE_CREDIT_INCREMENT",
+    "D_AFTER_ACTIVE_APPLY",
+    "D_AFTER_REFUND_EXTRA_STAYS_CREDIT",
+    "D_MULTIFAMILY_ORDINAL",
+    "D_REPLAY_EXACT_UUID",
+    "D_STALE_REVIEW_NO_EFFECT",
+    "D_ACCESS_REVOKED_NO_EFFECT",
+    "D_SHORTFALL_NAMES_UNDO",
+    "D_ROOT_BOOK_FLOOR_REFUSAL",
+    "D_ATOMIC_POST_FAILURE_RESTORE",
+    "D_SECOND_REVISION_ORDINAL_HISTORY",
+    "D_AFTER_NAMED_UNDO_NO_FALSE_BLOCKER",
+    "E_UNIMPLEMENTED_INCOMING_CORRECTION_STAYS_GUARDED"
+  ],
+  "required_actual_cases": 13,
+  "additional_Native_case_credit": 0,
+  "source_changes": {
+    "runtime": [
+      "owning.sql: quote_v1 only; same Native numeric24_6 formula/tolerance, fail-closed cap source, exact source/cap token binding"
+    ],
+    "cases": "Same13 IDs and old financial literals; lawful2pcs fixture, original1pcs .01/.02 control, legitimate competing-source stale, AFTER own part failure proof",
+    "fixture": "New explicit qualification dependency, not a tenth business runtime leaf; five private-global copies, ten reversible substitutions"
+  },
+  "downstream": "E cases using de.fixture.prepare inherit the lawful fixture; old continuation helper imports retained one-piece fixture directly and must explicitly rebind in its own successor after a successful Native13. Continuation wrapper remains CLOSED.",
+  "production_go": false,
+  "independent_acceptance": false,
+  "D_complete": false,
+  "E_complete": false,
+  "local_test_fixture_files": {
+    "scripts/cp7_credit_correction_de/local_quote_check.mjs": "126e15cc7a48a485333fd4d5a9c61c410b99df5b6096cc9e2e3220b43a3aee36"
+  }
+}

@@ -2,7 +2,7 @@ name: CP7 A credit correction D1 Native13
 'on':
   push:
     branches:
-    - astra-a/credit-d1-owner-native13-20261029
+    - astra-a/credit-d1-cap-native13-20261029
     paths:
     - .github/workflows/cp7-credit-de-native.yml
     - scripts/current-credit-de-native-qualification/**
@@ -499,4 +499,4 @@ jobs:
         path: auditor/cp6-proof/t3
         retention-days: 30
         if-no-files-found: error
-    if: github.ref == 'refs/heads/astra-a/credit-d1-owner-native13-20261029'
+    if: github.ref == 'refs/heads/astra-a/credit-d1-cap-native13-20261029'

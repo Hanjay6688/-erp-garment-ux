@@ -26,6 +26,16 @@ def admitted(repo, here, product, derivation):
         assert (repo / path).read_bytes() == git('show', cfg['base_head'] + ':' + path), path
     for path, digest in cfg['signed_dependencies'].items():
         assert sha256((repo / path).read_bytes()).hexdigest() == digest, path
+    cap = cfg['cap_successor_transition']
+    raw_cap = (repo / cap['path']).read_bytes()
+    assert sha256(raw_cap).hexdigest() == cap['sha256'], 'D1_CAP_REVIEWED_TRANSITION_CHANGED'
+    reviewed_cap = json.loads(raw_cap)
+    assert reviewed_cap['base_head'] == cap['base_head'] and cap['base_is_failed_not_prerequisite'] is True
+    assert reviewed_cap['base_actual_result'] == dict(PASS=5, INCOMPLETE=8, usable_prerequisite=False)
+    assert reviewed_cap['changed_runtime_leaves'] == ['owning.sql']
+    assert reviewed_cap['changed_SQL_functions'] == ['cp7_credit_correction_de.quote_v1']
+    for path, digest in cfg['cap_fixture_dependencies'].items():
+        assert sha256((repo / path).read_bytes()).hexdigest() == digest, path
     assert derivation == cfg['runner_derivation']
     tree = ast.parse((repo / 'scripts/cp7_credit_correction_de/cases.py').read_text())
     declarations = [ast.literal_eval(node.value) for node in tree.body

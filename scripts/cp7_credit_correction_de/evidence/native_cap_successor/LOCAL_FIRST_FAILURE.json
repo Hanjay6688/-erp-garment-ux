@@ -1,0 +1,23 @@
+{
+  "status": "EXPECTED_FIRST_FAILURES_BEFORE_FIX",
+  "Native_execution": false,
+  "Auth_browser_execution": false,
+  "cap_quote": {
+    "state_observed": "READY",
+    "state_required": "REFUSE",
+    "amount": "400.02",
+    "lawful_max": "400.00",
+    "quantity": 2,
+    "precision": "numeric(24,6)",
+    "message": "invalid Native cap400.02 must never be READY: READY !== REFUSE",
+    "declared_doubles": "Structural schema, source/authority/profile/account/HPP/input journals; no financial writer exercised"
+  },
+  "UI": {
+    "total": 20,
+    "passed": 18,
+    "failed": 2,
+    "report": "UI_FIRST_FAILURE.json"
+  },
+  "original_Native13_qualification": "5 PASS / 8 INCOMPLETE retained separately; never accepted",
+  "production_go": false
+}

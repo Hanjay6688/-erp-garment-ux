@@ -1,0 +1,35 @@
+{
+  "status": "LOCAL_CONTROLS_PASS_ACTUAL_QUALIFICATION_NOT_RUN",
+  "first_failure_commit": "78847fbb9",
+  "cap_SQL_controls": 30,
+  "UI_tests": {
+    "passed": 20,
+    "total": 20
+  },
+  "source_controls": 9,
+  "typescript": "tsc -p tsconfig.app.json --noEmit: PASS",
+  "SQL_compilation": "local_compile_check.mjs: PASS; structural/helper declarations only",
+  "counted_Native_derivation": "local_delta_check.py: 12 derivations + 12 duplicated-anchor refusals PASS; static source-format stand-ins",
+  "Native_financial_execution": false,
+  "Auth_browser_execution": false,
+  "actual_two_session_races": 0,
+  "actual_Native_case_credit": 0,
+  "full_actual_restore": "NOT RUN for successor; a994 originals retained with full restoration but not accepted",
+  "security_and_ownership": "a994 owner helper exact; no owner/ACL/Native SQL/census changes",
+  "scope_checks": {
+    "only_quote_changes_inside_owning": true,
+    "other_eight_runtime_leaves_exact_a994": true,
+    "frozen_fixture_files_exact": true,
+    "all_old_fixture_assertions_preserved": true,
+    "all_thirteen_IDs_unchanged": true,
+    "closed_UI_contract_and_no_save": true
+  },
+  "remaining": [
+    "Root must bind new exact source/fixture leaves in actual Native13 qualifier and preserve first failures/full original five-gate restoration receipts.",
+    "The AFTER-private-part failure point and complete financial/source/physical/permission/replay oracles are prepared, not locally claimed executed.",
+    "E actual qualification and continuation3 remain closed until a successful Native13 successor."
+  ],
+  "production_go": false,
+  "retained_quote_plan_controls": 10,
+  "legacy_quote_fixture": "Only lawful current sale/items/allocation double added; original first failure/hash retained and all old payloads/assertions byte-identical."
+}

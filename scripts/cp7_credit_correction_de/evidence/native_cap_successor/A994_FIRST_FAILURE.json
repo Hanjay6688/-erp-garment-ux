@@ -1,0 +1,135 @@
+{
+  "status": "RETAINED_ORIGINAL_A994_5_PASS_8_INCOMPLETE",
+  "head": "a99463ca3ea2f1a71b22f0354df83f1b5a42b71b",
+  "run_id": 40910406598,
+  "job_id": 123576520573,
+  "counts": {
+    "INCOMPLETE": 8,
+    "PASS": 5
+  },
+  "complete_boundary_restored": true,
+  "original_status": "INCOMPLETE",
+  "actual_Native13_success": false,
+  "production_go": false,
+  "independent_acceptance": false,
+  "originals": [
+    {
+      "name": "CP7_CREDIT_DE_NATIVE13.json",
+      "bytes": 4662808,
+      "sha256": "7a9ebc7fcccd81e0496f15b2b86b53bae8743302159b4012431d2d789b805b24",
+      "retained": "CP7_CREDIT_DE_NATIVE13.json.gz",
+      "gzip_bytes": 446673,
+      "gzip_sha256": "f5dcd4bd1078a8b0e0097827ec7969241444024db100842b8b86353ef062f9bf"
+    },
+    {
+      "name": "CP7_CREDIT_DE_NATIVE13_CASES.json",
+      "bytes": 44099,
+      "sha256": "3274ce4c5684b77a82a8761638e3f78406ea164c503047446452c8eb3ea43525",
+      "retained": "CP7_CREDIT_DE_NATIVE13_CASES.json.gz",
+      "gzip_bytes": 4994,
+      "gzip_sha256": "27e7c7e46aaa24900931f936fc927dfc2c3794b7aaeb78487f9832d8b84cf707"
+    },
+    {
+      "name": "T3_PACKAGE_INSTALL.json",
+      "bytes": 360419,
+      "sha256": "477a83e5d01e922b71eacbe3897c4be9d1d93e1daa8862029102387452bf2382",
+      "retained": "T3_PACKAGE_INSTALL.json.gz",
+      "gzip_bytes": 11389,
+      "gzip_sha256": "84885dcbe5820686112778fc8c987a2de4596948126f4cabedec278d87620d21"
+    },
+    {
+      "name": "T3_PACKAGE_FILES_INSTALL.json",
+      "bytes": 1806,
+      "sha256": "14007d43dd9b8e1acfa2b91e35d59047f553b248e2fc06e8362e8ad813003ba7",
+      "retained": "T3_PACKAGE_FILES_INSTALL.json.gz",
+      "gzip_bytes": 255,
+      "gzip_sha256": "a1c8a1ca1ae654997ead274c2d51fa04a6b55916b9b23f4339741c81760083e7"
+    },
+    {
+      "name": "T3_BACKUP_RESTORE_DRILL.json",
+      "bytes": 1470,
+      "sha256": "e4c8471e519dd03a0ae900383089450552a99b6c9594af9ba6e69b0e0e404e6f",
+      "retained": "T3_BACKUP_RESTORE_DRILL.json.gz",
+      "gzip_bytes": 645,
+      "gzip_sha256": "fa11d64b6ab5f241b94e2f17ecc53e3740bfbfd95d049ec5a40c2749874ca6c4"
+    }
+  ],
+  "business_before_sha256": {
+    "review.sql": "88681bf674a6b6e8aeda46830a4a27b18bdda84cfcba6868bbb08e3f84fdc382",
+    "facts.sql": "ddfcf8583cf86a916e04aa5630d6262a32e48919dbd0a4c913a09166ca2f8334",
+    "owning.sql": "c33266e5b128eec47ae1f46e2b0f700a4980e0002fe03776cc2b671517ac33d5",
+    "proof.sql": "8d81f2d8d9384c08eda28eb0b86a6c96b97f2ef8178adbe4b7d1dab01b8cf7ef",
+    "posting.sql": "e200a62d91c7975e67a88eb37c47d89dd739eb8f63fc0a1ee7063aaec0f9ce5b",
+    "materialize.sql": "f0bd81d3a80ad1f465ee5cc424b63009776fb65b9f6a23cbaae80ea331a8e4a4",
+    "closure.sql": "e21744ba0d98e963ccba9ca916247b797cb2c930b889e2eb41288a12f1888972",
+    "native_delta.py": "d6157ad24dd22ca4810df12668090eb74a3382e6ceb3e4c0954a037a7016c664",
+    "composition.py": "4f7086c157e977cacf5f4281d6a2748113029fd7c2c441837e254c9fca9422af"
+  },
+  "observed": [
+    {
+      "id": "D_POSITIVE_CREDIT_INCREMENT",
+      "status": "INCOMPLETE",
+      "error": "Refund amount 250.00 exceeds original net sales value 200.00 for returned qty\nCONTEXT:  PL/pgSQL function erp.normalize_sales_return_item_from_allocation() line 41 at RAISE\nSQL statement \"insert into erp.sales_return_items(return_id,sale_stock_allocation_id,product_id,lot_id,location_id,qty_pcs,quality_grade,refund_amount,notes)\n  values(replacement,allocation.id,allocation.product_id,allocation.lot_id,(line->>'location_id')::uuid,\n   (line->>'qty_pcs')::integer,line->>'quality_grade',(line->>'refund_amount')::numeric,line->>'notes')\"\nPL/pgSQL function cp7_credit_correction_de.command_v1(jsonb,uuid,text) line 69 at SQL statement\nPL/pgSQL function cp7_credit_correction_de.dispatch_v1(jsonb,uuid,text) line 6 at RETURN\nSQL function \"erp_cp7_correct_sales_return_v1\" statement 1"
+    },
+    {
+      "id": "D_AFTER_ACTIVE_APPLY",
+      "status": "INCOMPLETE",
+      "error": "Refund amount 250.00 exceeds original net sales value 200.00 for returned qty\nCONTEXT:  PL/pgSQL function erp.normalize_sales_return_item_from_allocation() line 41 at RAISE\nSQL statement \"insert into erp.sales_return_items(return_id,sale_stock_allocation_id,product_id,lot_id,location_id,qty_pcs,quality_grade,refund_amount,notes)\n  values(replacement,allocation.id,allocation.product_id,allocation.lot_id,(line->>'location_id')::uuid,\n   (line->>'qty_pcs')::integer,line->>'quality_grade',(line->>'refund_amount')::numeric,line->>'notes')\"\nPL/pgSQL function cp7_credit_correction_de.command_v1(jsonb,uuid,text) line 69 at SQL statement\nSQL expression \"cp7_credit_correction_de.command_v1(p,p_request,p_expected)\"\nPL/pgSQL function cp7_credit_correction_de.dispatch_v1(jsonb,uuid,text) line 6 at RETURN\nSQL function \"erp_cp7_correct_sales_return_v1\" statement 1"
+    },
+    {
+      "id": "D_AFTER_REFUND_EXTRA_STAYS_CREDIT",
+      "status": "INCOMPLETE",
+      "error": "Refund amount 250.00 exceeds original net sales value 200.00 for returned qty\nCONTEXT:  PL/pgSQL function erp.normalize_sales_return_item_from_allocation() line 41 at RAISE\nSQL statement \"insert into erp.sales_return_items(return_id,sale_stock_allocation_id,product_id,lot_id,location_id,qty_pcs,quality_grade,refund_amount,notes)\n  values(replacement,allocation.id,allocation.product_id,allocation.lot_id,(line->>'location_id')::uuid,\n   (line->>'qty_pcs')::integer,line->>'quality_grade',(line->>'refund_amount')::numeric,line->>'notes')\"\nPL/pgSQL function cp7_credit_correction_de.command_v1(jsonb,uuid,text) line 69 at SQL statement\nSQL expression \"cp7_credit_correction_de.command_v1(p,p_request,p_expected)\"\nPL/pgSQL function cp7_credit_correction_de.dispatch_v1(jsonb,uuid,text) line 6 at RETURN\nSQL function \"erp_cp7_correct_sales_return_v1\" statement 1"
+    },
+    {
+      "id": "D_MULTIFAMILY_ORDINAL",
+      "status": "INCOMPLETE",
+      "error": "Refund amount 250.00 exceeds original net sales value 200.00 for returned qty\nCONTEXT:  PL/pgSQL function erp.normalize_sales_return_item_from_allocation() line 41 at RAISE\nSQL statement \"insert into erp.sales_return_items(return_id,sale_stock_allocation_id,product_id,lot_id,location_id,qty_pcs,quality_grade,refund_amount,notes)\n  values(replacement,allocation.id,allocation.product_id,allocation.lot_id,(line->>'location_id')::uuid,\n   (line->>'qty_pcs')::integer,line->>'quality_grade',(line->>'refund_amount')::numeric,line->>'notes')\"\nPL/pgSQL function cp7_credit_correction_de.command_v1(jsonb,uuid,text) line 69 at SQL statement\nSQL expression \"cp7_credit_correction_de.command_v1(p,p_request,p_expected)\"\nPL/pgSQL function cp7_credit_correction_de.dispatch_v1(jsonb,uuid,text) line 6 at RETURN\nSQL function \"erp_cp7_correct_sales_return_v1\" statement 1"
+    },
+    {
+      "id": "D_REPLAY_EXACT_UUID",
+      "status": "INCOMPLETE",
+      "error": "Refund amount 250.00 exceeds original net sales value 200.00 for returned qty\nCONTEXT:  PL/pgSQL function erp.normalize_sales_return_item_from_allocation() line 41 at RAISE\nSQL statement \"insert into erp.sales_return_items(return_id,sale_stock_allocation_id,product_id,lot_id,location_id,qty_pcs,quality_grade,refund_amount,notes)\n  values(replacement,allocation.id,allocation.product_id,allocation.lot_id,(line->>'location_id')::uuid,\n   (line->>'qty_pcs')::integer,line->>'quality_grade',(line->>'refund_amount')::numeric,line->>'notes')\"\nPL/pgSQL function cp7_credit_correction_de.command_v1(jsonb,uuid,text) line 69 at SQL statement\nSQL expression \"cp7_credit_correction_de.command_v1(p,p_request,p_expected)\"\nPL/pgSQL function cp7_credit_correction_de.dispatch_v1(jsonb,uuid,text) line 6 at RETURN\nSQL function \"erp_cp7_correct_sales_return_v1\" statement 1"
+    },
+    {
+      "id": "D_STALE_REVIEW_NO_EFFECT",
+      "status": "PASS",
+      "error": ""
+    },
+    {
+      "id": "D_ACCESS_REVOKED_NO_EFFECT",
+      "status": "PASS",
+      "error": ""
+    },
+    {
+      "id": "D_SHORTFALL_NAMES_UNDO",
+      "status": "PASS",
+      "error": ""
+    },
+    {
+      "id": "D_ROOT_BOOK_FLOOR_REFUSAL",
+      "status": "PASS",
+      "error": ""
+    },
+    {
+      "id": "D_ATOMIC_POST_FAILURE_RESTORE",
+      "status": "INCOMPLETE",
+      "error": "{'sqlstate': 'P0001', 'message': 'CP7_CREDIT_SOURCE_NATIVE_TRIGGER_CENSUS_CHANGED', 'detail': ''}"
+    },
+    {
+      "id": "D_SECOND_REVISION_ORDINAL_HISTORY",
+      "status": "INCOMPLETE",
+      "error": "Refund amount 250.00 exceeds original net sales value 200.00 for returned qty\nCONTEXT:  PL/pgSQL function erp.normalize_sales_return_item_from_allocation() line 41 at RAISE\nSQL statement \"insert into erp.sales_return_items(return_id,sale_stock_allocation_id,product_id,lot_id,location_id,qty_pcs,quality_grade,refund_amount,notes)\n  values(replacement,allocation.id,allocation.product_id,allocation.lot_id,(line->>'location_id')::uuid,\n   (line->>'qty_pcs')::integer,line->>'quality_grade',(line->>'refund_amount')::numeric,line->>'notes')\"\nPL/pgSQL function cp7_credit_correction_de.command_v1(jsonb,uuid,text) line 69 at SQL statement\nSQL expression \"cp7_credit_correction_de.command_v1(p,p_request,p_expected)\"\nPL/pgSQL function cp7_credit_correction_de.dispatch_v1(jsonb,uuid,text) line 6 at RETURN\nSQL function \"erp_cp7_correct_sales_return_v1\" statement 1"
+    },
+    {
+      "id": "D_AFTER_NAMED_UNDO_NO_FALSE_BLOCKER",
+      "status": "INCOMPLETE",
+      "error": "Refund amount 250.00 exceeds original net sales value 200.00 for returned qty\nCONTEXT:  PL/pgSQL function erp.normalize_sales_return_item_from_allocation() line 41 at RAISE\nSQL statement \"insert into erp.sales_return_items(return_id,sale_stock_allocation_id,product_id,lot_id,location_id,qty_pcs,quality_grade,refund_amount,notes)\n  values(replacement,allocation.id,allocation.product_id,allocation.lot_id,(line->>'location_id')::uuid,\n   (line->>'qty_pcs')::integer,line->>'quality_grade',(line->>'refund_amount')::numeric,line->>'notes')\"\nPL/pgSQL function cp7_credit_correction_de.command_v1(jsonb,uuid,text) line 69 at SQL statement\nSQL expression \"cp7_credit_correction_de.command_v1(p,p_request,p_expected)\"\nPL/pgSQL function cp7_credit_correction_de.dispatch_v1(jsonb,uuid,text) line 6 at RETURN\nSQL function \"erp_cp7_correct_sales_return_v1\" statement 1"
+    },
+    {
+      "id": "E_UNIMPLEMENTED_INCOMING_CORRECTION_STAYS_GUARDED",
+      "status": "PASS",
+      "error": ""
+    }
+  ]
+}

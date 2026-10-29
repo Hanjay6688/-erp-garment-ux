@@ -15,7 +15,12 @@ try{
  create function cp7_sales_return_correction.validate(jsonb)returns void language plpgsql as $$begin null;end$$;
  create function cp7_credit.assert_current_materialized_profile(uuid,uuid,uuid)returns void language plpgsql stable as $$begin null;end$$;
  create function cp7_credit.inspect_current_materialized_profile(uuid,uuid,uuid)returns jsonb language sql stable as $$select '{"I":"200.00","actual_objects":[]}'::jsonb$$;
- create function cp7_credit.source_native_snapshot_v1(uuid)returns jsonb language sql stable as $$select '{"declared_source_double":true}'::jsonb$$;
+ -- Declared current-source double only: no Native ownership/finance proof.
+ create function cp7_credit.source_native_snapshot_v1(uuid)returns jsonb language sql stable as $$select jsonb_build_object(
+  'declared_source_double',true,'sale',(select to_jsonb(h)from erp.sales_headers h where h.id=$1),
+  'items',(select coalesce(jsonb_agg(to_jsonb(i)order by i.id),'[]')from erp.sales_items i where i.sale_id=$1),
+  'allocations',(select coalesce(jsonb_agg(to_jsonb(a)order by a.id),'[]')from erp.sale_stock_allocations a
+   join erp.sales_items i on i.id=a.sale_item_id where i.sale_id=$1))$$;
  create function cp7_credit.source_hpp_lot_ids_v1(uuid)returns uuid[]language sql stable as $$select '{}'::uuid[]$$;
  create function cp7_credit.consumer_event_data_v1(uuid)returns jsonb language sql stable as $$select '{"declared_consumer_provenance_double":true}'::jsonb$$;
  create or replace function ow04_source_proposal.sha(jsonb)returns text language sql immutable as $$select encode(sha256(convert_to($1::text,'UTF8')),'hex')$$;
@@ -35,6 +40,10 @@ try{
  await db.query('insert into erp.sales_headers(id,customer_id,status)values($1,$2,\'PAID\')',[sale,customer])
  await db.query('insert into erp.sales_returns(id,sale_id,customer_id,status,physical_at)values($1,$2,$3,\'POSTED\',\'2026-10-02T05:00:00Z\')',[ret,sale,customer])
  await db.query('insert into erp.sales_return_items(id,return_id,sale_stock_allocation_id,location_id,qty_pcs,quality_grade,refund_amount)values($1,$2,$3,$4,2,\'GRADE_A\',200)',[id(41),ret,allocation,location])
+ // Lawful local cap basis: 5pcs sold net1000, this allocation2pcs. Existing
+ // monetary/journal/refusal assertions below stay exact; no writer is modelled.
+ await db.query('insert into erp.sales_items(id,sale_id,qty_pcs,line_total)values($1,$2,5,1000)',[id(48),sale])
+ await db.query('insert into erp.sale_stock_allocations(id,sale_item_id,qty_pcs,unit_hpp_snapshot)values($1,$2,2,10)',[allocation,id(48)])
  await db.query('insert into erp.accounting_account_mappings(mapping_key,account_id)values(\'AR_CUSTOMER\',$1)',[ar])
  for(const [n,type,source,debit,credit,date]of [[21,'SALE',sale,1000,0,'2026-10-01'],[22,'SALES_PAYMENT',id(43),0,1000,'2026-10-01'],[23,'SALES_RETURN',ret,0,200,'2026-10-02']]){
   await db.query('insert into erp.journal_entries(id,source_type,source_id,status,economic_date,transaction_date)values($1,$2,$3,\'POSTED\',$4,$4)',[id(n),type,source,date])

@@ -1,0 +1,8 @@
+{
+  "status": "PASS",
+  "tests": 10,
+  "actual_D_quote_and_plan_set_SQL_and_retained_collectors_kernel": true,
+  "Native_execution": false,
+  "financial_writer_tested": false,
+  "standins": "authority, validation, source/profile/account provenance, Native journal rows, HPP eligibility, consumer-event provenance; owning work rolls back without deferred completion; no Native accounting or Auth claim"
+}
